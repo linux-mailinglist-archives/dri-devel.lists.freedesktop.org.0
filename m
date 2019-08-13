@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88B038BCE0
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 17:18:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECFBF8BCEB
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 17:20:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AA556E179;
-	Tue, 13 Aug 2019 15:18:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A880889A72;
+	Tue, 13 Aug 2019 15:20:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDF4D6E179
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 15:18:42 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi
- [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B3A532B2;
- Tue, 13 Aug 2019 17:18:40 +0200 (CEST)
-Date: Tue, 13 Aug 2019 18:18:37 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH 28/60] drm/omap: Factor out display type to connector
- type conversion
-Message-ID: <20190813151837.GJ5009@pendragon.ideasonboard.com>
-References: <20190707180852.5512-1-laurent.pinchart@ideasonboard.com>
- <20190707181937.6250-1-laurent.pinchart@ideasonboard.com>
- <20190707181937.6250-25-laurent.pinchart@ideasonboard.com>
- <89eb9d64-3375-568a-6f0a-9e4cbe5896cc@ti.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 83D3C89DD3
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 15:20:05 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 808677215A; Tue, 13 Aug 2019 15:20:05 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
+Date: Tue, 13 Aug 2019 15:20:05 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: tom@r.je
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110674-502-Y8w4aUoyPz@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
+References: <bug-110674-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <89eb9d64-3375-568a-6f0a-9e4cbe5896cc@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1565709520;
- bh=Pw7/bbe42TMdUm8X13tQbBGJjIgNYWT3I/ZPDeYrH9s=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=a6+WlP9Eeq8HPzX8fHfVLKFEP9scAws8xnlrUanplyMJwo4EpFdIp6XGnAg+qyBeT
- w7Vwdu/QxfEvO1vy5dXLMNqPQGpkd1oYmNwu3TNgnl3hmk4ICDurolO7Y78wORjESV
- rBah9dcZjZId3AuFQ7A4h36F+e22E0yVvChDZyn4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,54 +52,305 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- dri-devel@lists.freedesktop.org, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1327086478=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgVG9taSwKCk9uIFR1ZSwgQXVnIDEzLCAyMDE5IGF0IDEwOjMyOjEwQU0gKzAzMDAsIFRvbWkg
-VmFsa2VpbmVuIHdyb3RlOgo+IE9uIDA3LzA3LzIwMTkgMjE6MTksIExhdXJlbnQgUGluY2hhcnQg
-d3JvdGU6Cj4gPiBNb3ZlIHRoZSBjb2RlIHRoYXQgY29tcHV0ZXMgdGhlIERSTSBjb25uZWN0b3Ig
-dHlwZSBmb3IgdGhlCj4gPiBvbWFwZHNzX2RldmljZSBkaXNwbGF5IHR5cGUgdG8gYSBuZXcgb21h
-cGRzc19kZXZpY2VfY29ubmVjdG9yX3R5cGUoKQo+ID4gZnVuY3Rpb24gZm9yIGxhdGVyIHJldXNl
-Lgo+ID4gCj4gPiBTaWduZWQtb2ZmLWJ5OiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNo
-YXJ0QGlkZWFzb25ib2FyZC5jb20+Cj4gPiAtLS0KPiA+ICAgZHJpdmVycy9ncHUvZHJtL29tYXBk
-cm0vZHNzL2Jhc2UuYyAgICAgICB8IDIzICsrKysrKysrKysrKysrKysrKysrKysrCj4gPiAgIGRy
-aXZlcnMvZ3B1L2RybS9vbWFwZHJtL2Rzcy9vbWFwZHNzLmggICAgfCAgMSArCj4gPiAgIGRyaXZl
-cnMvZ3B1L2RybS9vbWFwZHJtL29tYXBfY29ubmVjdG9yLmMgfCAxOSArLS0tLS0tLS0tLS0tLS0t
-LS0tCj4gPiAgIDMgZmlsZXMgY2hhbmdlZCwgMjUgaW5zZXJ0aW9ucygrKSwgMTggZGVsZXRpb25z
-KC0pCj4gPiAKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vb21hcGRybS9kc3MvYmFz
-ZS5jIGIvZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vZHNzL2Jhc2UuYwo+ID4gaW5kZXggYTE5NzBi
-OWRiNmFiLi5jYWU1Njg3ODIyZTIgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vb21h
-cGRybS9kc3MvYmFzZS5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vb21hcGRybS9kc3MvYmFz
-ZS5jCj4gPiBAQCAtMjg1LDYgKzI4NSwyOSBAQCB2b2lkIG9tYXBkc3NfZGV2aWNlX3Bvc3RfZGlz
-YWJsZShzdHJ1Y3Qgb21hcF9kc3NfZGV2aWNlICpkc3NkZXYpCj4gPiAgIH0KPiA+ICAgRVhQT1JU
-X1NZTUJPTF9HUEwob21hcGRzc19kZXZpY2VfcG9zdF9kaXNhYmxlKTsKPiA+ICAgCj4gPiArdW5z
-aWduZWQgaW50IG9tYXBkc3NfZGV2aWNlX2Nvbm5lY3Rvcl90eXBlKGVudW0gb21hcF9kaXNwbGF5
-X3R5cGUgdHlwZSkKPiA+ICt7Cj4gPiArCXN3aXRjaCAodHlwZSkgewo+ID4gKwljYXNlIE9NQVBf
-RElTUExBWV9UWVBFX0hETUk6Cj4gPiArCQlyZXR1cm4gRFJNX01PREVfQ09OTkVDVE9SX0hETUlB
-Owo+ID4gKwljYXNlIE9NQVBfRElTUExBWV9UWVBFX0RWSToKPiA+ICsJCXJldHVybiBEUk1fTU9E
-RV9DT05ORUNUT1JfRFZJRDsKPiA+ICsJY2FzZSBPTUFQX0RJU1BMQVlfVFlQRV9EU0k6Cj4gPiAr
-CQlyZXR1cm4gRFJNX01PREVfQ09OTkVDVE9SX0RTSTsKPiA+ICsJY2FzZSBPTUFQX0RJU1BMQVlf
-VFlQRV9EUEk6Cj4gPiArCWNhc2UgT01BUF9ESVNQTEFZX1RZUEVfREJJOgo+ID4gKwkJcmV0dXJu
-IERSTV9NT0RFX0NPTk5FQ1RPUl9EUEk7Cj4gPiArCWNhc2UgT01BUF9ESVNQTEFZX1RZUEVfVkVO
-QzoKPiA+ICsJCS8qIFRPRE86IFRoaXMgY291bGQgYWxzbyBiZSBjb21wb3NpdGUgKi8KPiA+ICsJ
-CXJldHVybiBEUk1fTU9ERV9DT05ORUNUT1JfU1ZJREVPOwo+ID4gKwljYXNlIE9NQVBfRElTUExB
-WV9UWVBFX1NESToKPiA+ICsJCXJldHVybiBEUk1fTU9ERV9DT05ORUNUT1JfTFZEUzsKPiA+ICsJ
-ZGVmYXVsdDoKPiA+ICsJCXJldHVybiBEUk1fTU9ERV9DT05ORUNUT1JfVW5rbm93bjsKPiA+ICsJ
-fQo+ID4gK30KPiA+ICtFWFBPUlRfU1lNQk9MX0dQTChvbWFwZHNzX2RldmljZV9jb25uZWN0b3Jf
-dHlwZSk7Cj4gCj4gV2h5IGRvIHdlIG5lZWQgdG8gZXhwb3J0IHRoaXM/IEluIHRoZSBlbmQgZW51
-bSBvbWFwX2Rpc3BsYXlfdHlwZSBzaG91bGQgCj4gZ28gYXdheSBvciBiZSBwcml2YXRlIHRvIG9t
-YXBkcm0sIHJpZ2h0PwoKRXZlbnR1YWxseSA6LSkgVGhlIGZ1bmN0aW9uIGlzIGltcGxlbWVudGVk
-IGluIGRzcy9iYXNlLmMgYW5kIHVzZWQgaW4Kb21hcF9jb25uZWN0b3IuYyBpbiB0aGlzIHBhdGNo
-LCBzbyBpdCBoYXMgdG8gYmUgZXhwb3J0ZWQuIEhvd2V2ZXIsIHBhdGNoCiJkcm0vb21hcDogU2lt
-cGxpZnkgY29ubmVjdG9yIGltcGxlbWVudGF0aW9uIiB0aGVuIHJlbW92ZXMgdGhlIG5lZWQgdG8K
-ZXhwb3J0IHRoZSBmdW5jdGlvbiwgc28gSSdsbCByZW1vdmUgdGhlIEVYUE9SVF9TWU1CT0xfR1BM
-IGluIHRoYXQgcGF0Y2guCgo+IFJldmlld2VkLWJ5OiBUb21pIFZhbGtlaW5lbiA8dG9taS52YWxr
-ZWluZW5AdGkuY29tPgoKLS0gClJlZ2FyZHMsCgpMYXVyZW50IFBpbmNoYXJ0Cl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1327086478==
+Content-Type: multipart/alternative; boundary="15657096053.df7B.22309"
+Content-Transfer-Encoding: 7bit
+
+
+--15657096053.df7B.22309
+Date: Tue, 13 Aug 2019 15:20:05 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
+
+--- Comment #96 from Tom B <tom@r.je> ---
+Created attachment 145047
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145047&action=3Dedit
+logging anywhere the number of screens is set
+
+Again, no closer to a fix but another thing to rule out. In addition to
+SMU_MSG_NumOfDisplays, PPSMC_MSG_NumOfDisplays is also used.
+
+I put a debug message anywhere PPSMC_MSG_NumOfDisplays or SMU_MSG_NumOfDisp=
+lays
+is set end put else blocks in places where it may have been set:
+
+        if ((data->water_marks_bitmap & WaterMarksExist) &&
+            data->smu_features[GNLD_DPM_DCEFCLK].supported &&
+            data->smu_features[GNLD_DPM_SOCCLK].supported) {
+
+                pr_err("vega20_display_configuration_changed_task setting
+PPSMC_MSG_NumOfDisplays to %d\n", hwmgr->display_config->num_display);
+
+                result =3D smum_send_msg_to_smc_with_parameter(hwmgr,
+                        PPSMC_MSG_NumOfDisplays,
+                        hwmgr->display_config->num_display);
+        }
+        else {
+                pr_err("vega20_display_configuration_changed_task not setti=
+ng
+PPSMC_MSG_NumOfDisplays\n");
+        }
+
+        return result;
+}
+
+
+Here's what I found:
+
+- The functions dealing with screesn in vega20_ppt.c are never used (
+vega20_display_config_changed, vega20_pre_display_config_changed) and can be
+ignored for our further tests
+
+- The line:=20
+
+result =3D smum_send_msg_to_smc_with_parameter(hwmgr,=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+PPSMC_MSG_NumOfDisplays, hwmgr->display_config->num_display);
+
+Is never executed, it always triggers the else block so PPSMC_MSG_NumOfDisp=
+lays
+is never set using num_display.
+
+- The same thing happens in 5.0.13, when I saw the above result I had hoped
+that the problem was that  smum_send_msg_to_smc_with_parameter(hwmgr,=20=20=
+=20=20=20=20=20=20=20=20=20
+PPSMC_MSG_NumOfDisplays, hwmgr->display_config->num_display); was never cal=
+led
+with the correct number of displays. Unfortunately the behaviour is the sam=
+e on
+5.0.13, PPSMC_MSG_NumOfDisplays is only ever set to zero in both versions of
+the kernel.
+
+
+Unfortunately this doesn't get us any closer.
+
+
+The instruction is sent a lot more in 5.0.13 though.=20
+
+5.0.13:
+
+[    3.475471] amdgpu 0000:44:00.0: ring vce1 uses VM inv eng 13 on hub 1
+[    3.475472] amdgpu 0000:44:00.0: ring vce2 uses VM inv eng 14 on hub 1
+[    3.475508] amdgpu: [powerplay] vega20_display_configuration_changed_task
+not setting PPSMC_MSG_NumOfDisplays
+[    3.794037] amdgpu: [powerplay]
+vega20_pre_display_configuration_changed_task setting PPSMC_MSG_NumOfDispla=
+ys
+to 0
+[    3.800180] amdgpu: [powerplay] vega20_display_configuration_changed_task
+not setting PPSMC_MSG_NumOfDisplays
+[    3.833502] amdgpu: [powerplay]
+vega20_pre_display_configuration_changed_task setting PPSMC_MSG_NumOfDispla=
+ys
+to 0
+[    3.833647] amdgpu: [powerplay] vega20_display_configuration_changed_task
+not setting PPSMC_MSG_NumOfDisplays
+[    4.153232] [drm] Initialized amdgpu 3.27.0 20150101 for 0000:44:00.0 on
+minor 0
+[    4.664044] amdgpu: [powerplay]
+vega20_pre_display_configuration_changed_task setting PPSMC_MSG_NumOfDispla=
+ys
+to 0
+
+
+5.2.7
+[    3.711028] amdgpu 0000:44:00.0: ring vce1 uses VM inv eng 13 on hub 1
+[    3.711028] amdgpu 0000:44:00.0: ring vce2 uses VM inv eng 14 on hub 1
+[    4.086310] amdgpu: [powerplay]
+vega20_pre_display_configuration_changed_task setting PPSMC_MSG_NumOfDispla=
+ys
+to 0
+[    4.385470] [drm] Initialized amdgpu 3.32.0 20150101 for 0000:44:00.0 on
+minor 0
+[    4.522398] amdgpu: [powerplay] Failed to send message 0x28, response 0x0
+
+Notice that vega20_pre_display_configuration_changed_task is run 5 times
+between the ring lines and initilization line in 5.0.13 and only once in 5.=
+2.7.
+
+This might not mean anything, but it could be another clue that initilizati=
+on
+is happening before the card is really ready.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15657096053.df7B.22309
+Date: Tue, 13 Aug 2019 15:20:05 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c96">Comme=
+nt # 96</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+tom&#64;r.je" title=3D"Tom B &lt;tom&#64;r.je&gt;"> <span class=3D"fn">Tom =
+B</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145047=
+" name=3D"attach_145047" title=3D"logging anywhere the number of screens is=
+ set">attachment 145047</a> <a href=3D"attachment.cgi?id=3D145047&amp;actio=
+n=3Dedit" title=3D"logging anywhere the number of screens is set">[details]=
+</a></span>
+logging anywhere the number of screens is set
+
+Again, no closer to a fix but another thing to rule out. In addition to
+SMU_MSG_NumOfDisplays, PPSMC_MSG_NumOfDisplays is also used.
+
+I put a debug message anywhere PPSMC_MSG_NumOfDisplays or SMU_MSG_NumOfDisp=
+lays
+is set end put else blocks in places where it may have been set:
+
+        if ((data-&gt;water_marks_bitmap &amp; WaterMarksExist) &amp;&amp;
+            data-&gt;smu_features[GNLD_DPM_DCEFCLK].supported &amp;&amp;
+            data-&gt;smu_features[GNLD_DPM_SOCCLK].supported) {
+
+                pr_err(&quot;vega20_display_configuration_changed_task sett=
+ing
+PPSMC_MSG_NumOfDisplays to %d\n&quot;, hwmgr-&gt;display_config-&gt;num_dis=
+play);
+
+                result =3D smum_send_msg_to_smc_with_parameter(hwmgr,
+                        PPSMC_MSG_NumOfDisplays,
+                        hwmgr-&gt;display_config-&gt;num_display);
+        }
+        else {
+                pr_err(&quot;vega20_display_configuration_changed_task not =
+setting
+PPSMC_MSG_NumOfDisplays\n&quot;);
+        }
+
+        return result;
+}
+
+
+Here's what I found:
+
+- The functions dealing with screesn in vega20_ppt.c are never used (
+vega20_display_config_changed, vega20_pre_display_config_changed) and can be
+ignored for our further tests
+
+- The line:=20
+
+result =3D smum_send_msg_to_smc_with_parameter(hwmgr,=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+PPSMC_MSG_NumOfDisplays, hwmgr-&gt;display_config-&gt;num_display);
+
+Is never executed, it always triggers the else block so PPSMC_MSG_NumOfDisp=
+lays
+is never set using num_display.
+
+- The same thing happens in 5.0.13, when I saw the above result I had hoped
+that the problem was that  smum_send_msg_to_smc_with_parameter(hwmgr,=20=20=
+=20=20=20=20=20=20=20=20=20
+PPSMC_MSG_NumOfDisplays, hwmgr-&gt;display_config-&gt;num_display); was nev=
+er called
+with the correct number of displays. Unfortunately the behaviour is the sam=
+e on
+5.0.13, PPSMC_MSG_NumOfDisplays is only ever set to zero in both versions of
+the kernel.
+
+
+Unfortunately this doesn't get us any closer.
+
+
+The instruction is sent a lot more in 5.0.13 though.=20
+
+5.0.13:
+
+[    3.475471] amdgpu 0000:44:00.0: ring vce1 uses VM inv eng 13 on hub 1
+[    3.475472] amdgpu 0000:44:00.0: ring vce2 uses VM inv eng 14 on hub 1
+[    3.475508] amdgpu: [powerplay] vega20_display_configuration_changed_task
+not setting PPSMC_MSG_NumOfDisplays
+[    3.794037] amdgpu: [powerplay]
+vega20_pre_display_configuration_changed_task setting PPSMC_MSG_NumOfDispla=
+ys
+to 0
+[    3.800180] amdgpu: [powerplay] vega20_display_configuration_changed_task
+not setting PPSMC_MSG_NumOfDisplays
+[    3.833502] amdgpu: [powerplay]
+vega20_pre_display_configuration_changed_task setting PPSMC_MSG_NumOfDispla=
+ys
+to 0
+[    3.833647] amdgpu: [powerplay] vega20_display_configuration_changed_task
+not setting PPSMC_MSG_NumOfDisplays
+[    4.153232] [drm] Initialized amdgpu 3.27.0 20150101 for 0000:44:00.0 on
+minor 0
+[    4.664044] amdgpu: [powerplay]
+vega20_pre_display_configuration_changed_task setting PPSMC_MSG_NumOfDispla=
+ys
+to 0
+
+
+5.2.7
+[    3.711028] amdgpu 0000:44:00.0: ring vce1 uses VM inv eng 13 on hub 1
+[    3.711028] amdgpu 0000:44:00.0: ring vce2 uses VM inv eng 14 on hub 1
+[    4.086310] amdgpu: [powerplay]
+vega20_pre_display_configuration_changed_task setting PPSMC_MSG_NumOfDispla=
+ys
+to 0
+[    4.385470] [drm] Initialized amdgpu 3.32.0 20150101 for 0000:44:00.0 on
+minor 0
+[    4.522398] amdgpu: [powerplay] Failed to send message 0x28, response 0x0
+
+Notice that vega20_pre_display_configuration_changed_task is run 5 times
+between the ring lines and initilization line in 5.0.13 and only once in 5.=
+2.7.
+
+This might not mean anything, but it could be another clue that initilizati=
+on
+is happening before the card is really ready.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15657096053.df7B.22309--
+
+--===============1327086478==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1327086478==--
