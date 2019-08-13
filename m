@@ -2,60 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B856B8B425
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 11:32:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AF8A8B430
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 11:33:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77DF36E0CD;
-	Tue, 13 Aug 2019 09:32:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BE3A6E0D3;
+	Tue, 13 Aug 2019 09:33:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 361466E0CD
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 09:32:10 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id 207so848753wma.1
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 02:32:10 -0700 (PDT)
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+ [209.85.210.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E5CC6E0D2;
+ Tue, 13 Aug 2019 09:33:44 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id b1so1864438otp.6;
+ Tue, 13 Aug 2019 02:33:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=UcvInRPxhVPxd4rLj2PRIjLeuLAuo1BMJomTbF71gp0=;
- b=IH9/3KtFRPhn3NzlX8sPNZZx75n1Zct2cMAau6T2cN0d1RshKfSkfGDODmMCASZvru
- B9cyljOFA5yxKpOdEDaukkhQR17u8+16Niado+pgtIYHWQRow7PiTW+JUWlIdttTGgm9
- 6FDh8SJNUf90+MkPdsaLwAQnvplEg+P5DVgYIoLaeNp7xTUu61l7pbqBRxMHmsfB+Cge
- SIsIq9Uf6ZjCPI2Eah+Tg6VBeQQqb7ZkAeYb6rx+4op8nSKjfXdfeo4ji2qQN2dsarQ9
- j8K7+mnuZ/EEEw6RFw/Ju7JEuq0mPy/tvOHD2OUP6N3Kesc9G42ifLT0ED+BRukYUTFW
- CSsA==
-X-Gm-Message-State: APjAAAUAdkWWSJULK7KKh1CdzqH2FmadG23bt0M+lq8oyZ0plS9QqXM4
- LASP/riD5HNDu/DnNvUf74E=
-X-Google-Smtp-Source: APXvYqxSWRdEetOO9rdBh6dwRIvS0TwUFNsmxGHFF/xMjwa0NsNE/kuxg6NHv39XUHNbV8/+EtklfA==
-X-Received: by 2002:a7b:c1c1:: with SMTP id a1mr2147847wmj.31.1565688728671;
- Tue, 13 Aug 2019 02:32:08 -0700 (PDT)
-Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
- by smtp.gmail.com with ESMTPSA id 7sm764396wmj.46.2019.08.13.02.32.07
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 13 Aug 2019 02:32:07 -0700 (PDT)
-Date: Tue, 13 Aug 2019 11:32:06 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v2 4/4] drm/arm: drop use of drmP.h
-Message-ID: <20190813093206.GD1137@ulmo>
-References: <20190804094132.29463-1-sam@ravnborg.org>
- <20190804094132.29463-5-sam@ravnborg.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=fe2+dAApvC1/VPt5qF5G9PQvhNevUg8+Cv3+qUMDu8o=;
+ b=JSUzXkypSgWfGW9XaWCnkDZD5BQTU2H1xpoNyTzv/9LscQOjMR1dU/MGr2+tlnzKKo
+ WGBjwtJH6FN1+VfEFwX3OEc2EUhfxULHzKXa+qC7USwafKV+WtRW+oVl8AzR4SBpW21e
+ 8YcRc2JEaF2OmDuTiiaeYFI9wEFAsg/PHnK3ixvMkBlF2OB4g02J4X6bNmu4ORqCnaV/
+ lFjzamf6KPiB7iZVmrfbDnjBu/tIozwBLGW/ZsKBWYnSEQsO92xH10pNfQcMSLmSg2Jh
+ 7wg+KYyslFulMuD/fmJ2Oib+eKjs8RTUeJU9Dzl/wyWsW8hTPqQ/Mp1gzey9xoyc3NbM
+ aXsQ==
+X-Gm-Message-State: APjAAAUbduH/nFO9TdyltTOTCLcfpwNUhEdI57GobOeJ6ZutJ9jSvpdS
+ GiqDAmlrnOL/rbfEuQe1ppNJmixw/fuFtq4IEd0=
+X-Google-Smtp-Source: APXvYqwEtEvl7H6vDy32xA+A2TjXiepeEmCEppGcjO6tLj2iPxuIL4+T4ZepBvzdNwRLEXhv/kpaoXuvNsmrqAGDsHI=
+X-Received: by 2002:a9d:68c5:: with SMTP id i5mr73710oto.250.1565688823565;
+ Tue, 13 Aug 2019 02:33:43 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190804094132.29463-5-sam@ravnborg.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=UcvInRPxhVPxd4rLj2PRIjLeuLAuo1BMJomTbF71gp0=;
- b=UQYFCXAQF7p1dgQT6EY8fMt10Q9O3ss5xWgZ0QfTqrCTfnH1XijhdaAz7WwfC514uR
- XB0ZSNJQgIeocNKhpPmIFVNkVPVfraZYyq7dxV9J4kGK5c9aFEV0/lWL8i1smOGOeJaL
- 2PcXYdJTMqxYcxuttzuSZTf60E6OwMVwPA1YV8NrPhHT3WA/B29Hv4eJEvWjo60uU2xz
- tbMAQT20yKXYy2lPbjHyn9zSKvaCTmUeSuaXR2EDOUxGx6J9GZdWLZ+F0IuHWIjxJDdr
- bOvRjddB598UfY+DjzQRfGVR1eKvafG01QuqMeFNv9HltUFvYbLRolkCK1MSMW+1aMGm
- yFkA==
+References: <cover.1564161140.git.andrzej.p@collabora.com>
+ <ebb75e71b8b7c8d65d54a947a03fd21b8969fb3a.1564161140.git.andrzej.p@collabora.com>
+ <20190808034208.GA31284@roeck-us.net>
+In-Reply-To: <20190808034208.GA31284@roeck-us.net>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 13 Aug 2019 11:33:32 +0200
+Message-ID: <CAMuHMdXyGtogEfyFP1RnG2kM504WZ=nzfN_3z6rk4wJZqHaJQw@mail.gmail.com>
+Subject: Re: [PATCH v6 19/24] drm/bridge: dumb-vga-dac: Provide ddc symlink in
+ connector sysfs directory
+To: Guenter Roeck <linux@roeck-us.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,82 +54,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
- Russell King <linux@armlinux.org.uk>, dri-devel@lists.freedesktop.org,
- Jonathan Hunter <jonathanh@nvidia.com>, malidp@foss.arm.com,
- linux-tegra@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============1182468209=="
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
+ Sam Ravnborg <sam@ravnborg.org>, linux-samsung-soc@vger.kernel.org,
+ Vincent Abriou <vincent.abriou@st.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Chen-Yu Tsai <wens@csie.org>, Kukjin Kim <kgene@kernel.org>,
+ NXP Linux Team <linux-imx@nxp.com>, Dave Airlie <airlied@redhat.com>,
+ freedreno@lists.freedesktop.org,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Jyri Sarha <jsarha@ti.com>, Mamta Shukla <mamtashukla555@gmail.com>,
+ linux-mediatek@lists.infradead.org, Maxime Ripard <mripard@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Sean Paul <sean@poorly.run>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, amd-gfx@lists.freedesktop.org,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Enrico Weigelt <info@metux.net>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ Todor Tomov <todor.tomov@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Huang Rui <ray.huang@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Shawn Guo <shawnguo@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1182468209==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="d01dLTUuW90fS44H"
-Content-Disposition: inline
-
-
---d01dLTUuW90fS44H
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sun, Aug 04, 2019 at 11:41:32AM +0200, Sam Ravnborg wrote:
-> Drop use of the deprecated drmP.h header file.
->=20
-> While touching the list of include files divide them
-> into blocks and sort within each block.
-> Fix fallout.
->=20
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Liviu Dudau <liviu.dudau@arm.com>
-> Cc: Brian Starkey <brian.starkey@arm.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: malidp@foss.arm.com
-> ---
->  drivers/gpu/drm/arm/hdlcd_crtc.c    | 12 +++++++-----
->  drivers/gpu/drm/arm/hdlcd_drv.c     |  7 ++++++-
->  drivers/gpu/drm/arm/malidp_crtc.c   | 11 +++++++----
->  drivers/gpu/drm/arm/malidp_drv.c    |  8 +++++---
->  drivers/gpu/drm/arm/malidp_drv.h    |  7 ++++---
->  drivers/gpu/drm/arm/malidp_hw.c     |  7 ++++++-
->  drivers/gpu/drm/arm/malidp_mw.c     |  5 +++--
->  drivers/gpu/drm/arm/malidp_planes.c |  4 +++-
->  8 files changed, 41 insertions(+), 20 deletions(-)
-
-Reviewed-by: Thierry Reding <treding@nvidia.com>
-
---d01dLTUuW90fS44H
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl1Sg5YACgkQ3SOs138+
-s6Fs2xAAqLGJmyz6F+rOaFcn9Ez+mhclecpsSlv5Esq/+fgT4K0trcLiSRWYDXf4
-bJ495+LE3FIUcH4pZNSoz448NUmtf8+xjn7oWKCmDwdLiapDlmTWlj51N7OkXwz9
-AJhEbO9GjMKLQE5assDzuCQvM2j28trJtWdgAVRdM1LR6Fmk+htTerRtMDZ+M8v1
-0QSpU/LUgLIZkEJro3QfTZJ2fykspIx867EdXzQj8pNPQn099/Hfp0PKgP/80wby
-fwFUm4ogYkSQhLPloAPPAMYdi7rQ0qM0ljBMVG6zJJ60xlkImB52ELMLekGj+gUo
-1T/l9nYvArCXDty0yh0kTHldGT944tovU7qzU/0NJXequ8CxNAmWtUoiEPODcuEJ
-aAE6ZVbWod16u0QEUoxA862+LwKawuCizJVx3J0ZIUPaRuwLdkx/XBk8UY0kY9En
-CKrIG8IADXCf64mH+5QDHDMuBP/cgozrkmMe3n8plvv/I4Cs9dtXQS7Zj160zuTs
-MAdXv4k1s7GD3BaHWWU6at1Silpr33Mo2K778HNz2fn7XDq1Tz7YVxSxP6JkMaCa
-9+39azA9OoOaJkmv9QeprmtuOKMG8ZtpOe7C/LcsvWosuGbCGdPxWMXWYiylfnxr
-w957JO8qHNKa6JTjNpF01wJgi/dFmQrebaY5BE5WwPOIiXtTHaI=
-=IV8Y
------END PGP SIGNATURE-----
-
---d01dLTUuW90fS44H--
-
---===============1182468209==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1182468209==--
+SGkgR8O8bnRlciwKCk9uIFRodSwgQXVnIDgsIDIwMTkgYXQgNTo0MiBBTSBHdWVudGVyIFJvZWNr
+IDxsaW51eEByb2Vjay11cy5uZXQ+IHdyb3RlOgo+IE9uIEZyaSwgSnVsIDI2LCAyMDE5IGF0IDA3
+OjIzOjEzUE0gKzAyMDAsIEFuZHJ6ZWogUGlldHJhc2lld2ljeiB3cm90ZToKPiA+IFVzZSB0aGUg
+ZGRjIHBvaW50ZXIgcHJvdmlkZWQgYnkgdGhlIGdlbmVyaWMgY29ubmVjdG9yLgo+ID4KPiA+IFNp
+Z25lZC1vZmYtYnk6IEFuZHJ6ZWogUGlldHJhc2lld2ljeiA8YW5kcnplai5wQGNvbGxhYm9yYS5j
+b20+Cj4gPiBSZXZpZXdlZC1ieTogTmVpbCBBcm1zdHJvbmcgPG5hcm1zdHJvbmdAYmF5bGlicmUu
+Y29tPgo+Cj4gVGhpcyBwYXRjaCByZXN1bHRzIGluIGEgY3Jhc2ggd2hlbiBydW5uaW5nIHFlbXU6
+dmVyc2F0aWxlcGIuCj4KPiBVbmFibGUgdG8gaGFuZGxlIGtlcm5lbCBOVUxMIHBvaW50ZXIgZGVy
+ZWZlcmVuY2UgYXQgdmlydHVhbCBhZGRyZXNzIDAwMDAwMGM1Cj4gcGdkID0gKHB0cnZhbCkKPiBb
+MDAwMDAwYzVdICpwZ2Q9MDAwMDAwMDAKPiBJbnRlcm5hbCBlcnJvcjogT29wczogNSBbIzFdIEFS
+TQo+IE1vZHVsZXMgbGlua2VkIGluOgo+IENQVTogMCBQSUQ6IDEgQ29tbTogc3dhcHBlciBOb3Qg
+dGFpbnRlZCA1LjMuMC1yYzErICMxCj4gSGFyZHdhcmUgbmFtZTogQVJNLVZlcnNhdGlsZSAoRGV2
+aWNlIFRyZWUgU3VwcG9ydCkKPiBQQyBpcyBhdCBzeXNmc19kb19jcmVhdGVfbGlua19zZCsweDM4
+LzB4ZDgKPiBMUiBpcyBhdCBzeXNmc19kb19jcmVhdGVfbGlua19zZCsweDM4LzB4ZDgKCj4gWzxj
+MDFhYzk0Yz5dIChzeXNmc19kb19jcmVhdGVfbGlua19zZCkgZnJvbSBbPGMwNGM3ZmMwPl0gKGRy
+bV9jb25uZWN0b3JfcmVnaXN0ZXIucGFydC4xKzB4NDAvMHhhMCkKPiBbPGMwNGM3ZmMwPl0gKGRy
+bV9jb25uZWN0b3JfcmVnaXN0ZXIucGFydC4xKSBmcm9tIFs8YzA0Yzg3ZTA+XSAoZHJtX2Nvbm5l
+Y3Rvcl9yZWdpc3Rlcl9hbGwrMHg5MC8weGI4KQo+IFs8YzA0Yzg3ZTA+XSAoZHJtX2Nvbm5lY3Rv
+cl9yZWdpc3Rlcl9hbGwpIGZyb20gWzxjMDRjZWZjYz5dIChkcm1fbW9kZXNldF9yZWdpc3Rlcl9h
+bGwrMHg0NC8weDZjKQo+IFs8YzA0Y2VmY2M+XSAoZHJtX21vZGVzZXRfcmVnaXN0ZXJfYWxsKSBm
+cm9tIFs8YzA0YjRlYmM+XSAoZHJtX2Rldl9yZWdpc3RlcisweDE1Yy8weDFjMCkKPiBbPGMwNGI0
+ZWJjPl0gKGRybV9kZXZfcmVnaXN0ZXIpIGZyb20gWzxjMDRkZjJmOD5dIChwbDExMV9hbWJhX3By
+b2JlKzB4MmUwLzB4NGFjKQo+IFs8YzA0ZGYyZjg+XSAocGwxMTFfYW1iYV9wcm9iZSkgZnJvbSBb
+PGMwNDVlOGQ4Pl0gKGFtYmFfcHJvYmUrMHg5Yy8weDExOCkKClNlZWluZyB0aGUgc2FtZSB0aGlu
+ZyBvbiBTYWx2YXRvci1YUywgZHVlIHRvIHZnYS0+ZGRjIGJlaW5nIC1FTk9ERVYuCgo+ICMgZmly
+c3QgYmFkIGNvbW1pdDogW2E0ZjkwODdlODVkZTE0MWU0ZTZkMjFhYzJjNTgzYWUwOTZjYzlhYmFd
+IGRybS9icmlkZ2U6IGR1bWItdmdhLWRhYzogUHJvdmlkZSBkZGMgc3ltbGluayBpbiBjb25uZWN0
+b3Igc3lzZnMgZGlyZWN0b3J5CgpGaXggc2VudApodHRwczovL2xvcmUua2VybmVsLm9yZy9sa21s
+LzIwMTkwODEzMDkzMDQ2LjQ5NzYtMS1nZWVydCtyZW5lc2FzQGdsaWRlci5iZS8KCkdye29ldGpl
+LGVldGluZ31zLAoKICAgICAgICAgICAgICAgICAgICAgICAgR2VlcnQKCi0tIApHZWVydCBVeXR0
+ZXJob2V2ZW4gLS0gVGhlcmUncyBsb3RzIG9mIExpbnV4IGJleW9uZCBpYTMyIC0tIGdlZXJ0QGxp
+bnV4LW02OGsub3JnCgpJbiBwZXJzb25hbCBjb252ZXJzYXRpb25zIHdpdGggdGVjaG5pY2FsIHBl
+b3BsZSwgSSBjYWxsIG15c2VsZiBhIGhhY2tlci4gQnV0CndoZW4gSSdtIHRhbGtpbmcgdG8gam91
+cm5hbGlzdHMgSSBqdXN0IHNheSAicHJvZ3JhbW1lciIgb3Igc29tZXRoaW5nIGxpa2UgdGhhdC4K
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLSBMaW51cyBUb3J2YWxkcwpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
