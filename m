@@ -2,44 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECFBF8BCEB
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 17:20:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA028BD05
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 17:27:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A880889A72;
-	Tue, 13 Aug 2019 15:20:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F88D6E186;
+	Tue, 13 Aug 2019 15:27:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 83D3C89DD3
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 15:20:05 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 808677215A; Tue, 13 Aug 2019 15:20:05 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Tue, 13 Aug 2019 15:20:05 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: tom@r.je
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110674-502-Y8w4aUoyPz@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 233246E182;
+ Tue, 13 Aug 2019 15:27:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by honk.sigxcpu.org (Postfix) with ESMTP id 5101DFB03;
+ Tue, 13 Aug 2019 17:27:02 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
+Received: from honk.sigxcpu.org ([127.0.0.1])
+ by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id wQai2YFlbS6w; Tue, 13 Aug 2019 17:27:00 +0200 (CEST)
+Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
+ id 76684416CC; Tue, 13 Aug 2019 17:27:00 +0200 (CEST)
+Date: Tue, 13 Aug 2019 17:27:00 +0200
+From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: Re: [PATCH v2 4/8] drm/etnaviv: replace MMU flush marker with flush
+ sequence
+Message-ID: <20190813152700.GB22471@bogon.m.sigxcpu.org>
+References: <20190705171727.27501-1-l.stach@pengutronix.de>
+ <20190705171727.27501-4-l.stach@pengutronix.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190705171727.27501-4-l.stach@pengutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,305 +45,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1327086478=="
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ Russell King <linux+etnaviv@armlinux.org.uk>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1327086478==
-Content-Type: multipart/alternative; boundary="15657096053.df7B.22309"
-Content-Transfer-Encoding: 7bit
-
-
---15657096053.df7B.22309
-Date: Tue, 13 Aug 2019 15:20:05 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
-
---- Comment #96 from Tom B <tom@r.je> ---
-Created attachment 145047
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145047&action=3Dedit
-logging anywhere the number of screens is set
-
-Again, no closer to a fix but another thing to rule out. In addition to
-SMU_MSG_NumOfDisplays, PPSMC_MSG_NumOfDisplays is also used.
-
-I put a debug message anywhere PPSMC_MSG_NumOfDisplays or SMU_MSG_NumOfDisp=
-lays
-is set end put else blocks in places where it may have been set:
-
-        if ((data->water_marks_bitmap & WaterMarksExist) &&
-            data->smu_features[GNLD_DPM_DCEFCLK].supported &&
-            data->smu_features[GNLD_DPM_SOCCLK].supported) {
-
-                pr_err("vega20_display_configuration_changed_task setting
-PPSMC_MSG_NumOfDisplays to %d\n", hwmgr->display_config->num_display);
-
-                result =3D smum_send_msg_to_smc_with_parameter(hwmgr,
-                        PPSMC_MSG_NumOfDisplays,
-                        hwmgr->display_config->num_display);
-        }
-        else {
-                pr_err("vega20_display_configuration_changed_task not setti=
-ng
-PPSMC_MSG_NumOfDisplays\n");
-        }
-
-        return result;
-}
-
-
-Here's what I found:
-
-- The functions dealing with screesn in vega20_ppt.c are never used (
-vega20_display_config_changed, vega20_pre_display_config_changed) and can be
-ignored for our further tests
-
-- The line:=20
-
-result =3D smum_send_msg_to_smc_with_parameter(hwmgr,=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-PPSMC_MSG_NumOfDisplays, hwmgr->display_config->num_display);
-
-Is never executed, it always triggers the else block so PPSMC_MSG_NumOfDisp=
-lays
-is never set using num_display.
-
-- The same thing happens in 5.0.13, when I saw the above result I had hoped
-that the problem was that  smum_send_msg_to_smc_with_parameter(hwmgr,=20=20=
-=20=20=20=20=20=20=20=20=20
-PPSMC_MSG_NumOfDisplays, hwmgr->display_config->num_display); was never cal=
-led
-with the correct number of displays. Unfortunately the behaviour is the sam=
-e on
-5.0.13, PPSMC_MSG_NumOfDisplays is only ever set to zero in both versions of
-the kernel.
-
-
-Unfortunately this doesn't get us any closer.
-
-
-The instruction is sent a lot more in 5.0.13 though.=20
-
-5.0.13:
-
-[    3.475471] amdgpu 0000:44:00.0: ring vce1 uses VM inv eng 13 on hub 1
-[    3.475472] amdgpu 0000:44:00.0: ring vce2 uses VM inv eng 14 on hub 1
-[    3.475508] amdgpu: [powerplay] vega20_display_configuration_changed_task
-not setting PPSMC_MSG_NumOfDisplays
-[    3.794037] amdgpu: [powerplay]
-vega20_pre_display_configuration_changed_task setting PPSMC_MSG_NumOfDispla=
-ys
-to 0
-[    3.800180] amdgpu: [powerplay] vega20_display_configuration_changed_task
-not setting PPSMC_MSG_NumOfDisplays
-[    3.833502] amdgpu: [powerplay]
-vega20_pre_display_configuration_changed_task setting PPSMC_MSG_NumOfDispla=
-ys
-to 0
-[    3.833647] amdgpu: [powerplay] vega20_display_configuration_changed_task
-not setting PPSMC_MSG_NumOfDisplays
-[    4.153232] [drm] Initialized amdgpu 3.27.0 20150101 for 0000:44:00.0 on
-minor 0
-[    4.664044] amdgpu: [powerplay]
-vega20_pre_display_configuration_changed_task setting PPSMC_MSG_NumOfDispla=
-ys
-to 0
-
-
-5.2.7
-[    3.711028] amdgpu 0000:44:00.0: ring vce1 uses VM inv eng 13 on hub 1
-[    3.711028] amdgpu 0000:44:00.0: ring vce2 uses VM inv eng 14 on hub 1
-[    4.086310] amdgpu: [powerplay]
-vega20_pre_display_configuration_changed_task setting PPSMC_MSG_NumOfDispla=
-ys
-to 0
-[    4.385470] [drm] Initialized amdgpu 3.32.0 20150101 for 0000:44:00.0 on
-minor 0
-[    4.522398] amdgpu: [powerplay] Failed to send message 0x28, response 0x0
-
-Notice that vega20_pre_display_configuration_changed_task is run 5 times
-between the ring lines and initilization line in 5.0.13 and only once in 5.=
-2.7.
-
-This might not mean anything, but it could be another clue that initilizati=
-on
-is happening before the card is really ready.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15657096053.df7B.22309
-Date: Tue, 13 Aug 2019 15:20:05 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c96">Comme=
-nt # 96</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tom&#64;r.je" title=3D"Tom B &lt;tom&#64;r.je&gt;"> <span class=3D"fn">Tom =
-B</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145047=
-" name=3D"attach_145047" title=3D"logging anywhere the number of screens is=
- set">attachment 145047</a> <a href=3D"attachment.cgi?id=3D145047&amp;actio=
-n=3Dedit" title=3D"logging anywhere the number of screens is set">[details]=
-</a></span>
-logging anywhere the number of screens is set
-
-Again, no closer to a fix but another thing to rule out. In addition to
-SMU_MSG_NumOfDisplays, PPSMC_MSG_NumOfDisplays is also used.
-
-I put a debug message anywhere PPSMC_MSG_NumOfDisplays or SMU_MSG_NumOfDisp=
-lays
-is set end put else blocks in places where it may have been set:
-
-        if ((data-&gt;water_marks_bitmap &amp; WaterMarksExist) &amp;&amp;
-            data-&gt;smu_features[GNLD_DPM_DCEFCLK].supported &amp;&amp;
-            data-&gt;smu_features[GNLD_DPM_SOCCLK].supported) {
-
-                pr_err(&quot;vega20_display_configuration_changed_task sett=
-ing
-PPSMC_MSG_NumOfDisplays to %d\n&quot;, hwmgr-&gt;display_config-&gt;num_dis=
-play);
-
-                result =3D smum_send_msg_to_smc_with_parameter(hwmgr,
-                        PPSMC_MSG_NumOfDisplays,
-                        hwmgr-&gt;display_config-&gt;num_display);
-        }
-        else {
-                pr_err(&quot;vega20_display_configuration_changed_task not =
-setting
-PPSMC_MSG_NumOfDisplays\n&quot;);
-        }
-
-        return result;
-}
-
-
-Here's what I found:
-
-- The functions dealing with screesn in vega20_ppt.c are never used (
-vega20_display_config_changed, vega20_pre_display_config_changed) and can be
-ignored for our further tests
-
-- The line:=20
-
-result =3D smum_send_msg_to_smc_with_parameter(hwmgr,=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-PPSMC_MSG_NumOfDisplays, hwmgr-&gt;display_config-&gt;num_display);
-
-Is never executed, it always triggers the else block so PPSMC_MSG_NumOfDisp=
-lays
-is never set using num_display.
-
-- The same thing happens in 5.0.13, when I saw the above result I had hoped
-that the problem was that  smum_send_msg_to_smc_with_parameter(hwmgr,=20=20=
-=20=20=20=20=20=20=20=20=20
-PPSMC_MSG_NumOfDisplays, hwmgr-&gt;display_config-&gt;num_display); was nev=
-er called
-with the correct number of displays. Unfortunately the behaviour is the sam=
-e on
-5.0.13, PPSMC_MSG_NumOfDisplays is only ever set to zero in both versions of
-the kernel.
-
-
-Unfortunately this doesn't get us any closer.
-
-
-The instruction is sent a lot more in 5.0.13 though.=20
-
-5.0.13:
-
-[    3.475471] amdgpu 0000:44:00.0: ring vce1 uses VM inv eng 13 on hub 1
-[    3.475472] amdgpu 0000:44:00.0: ring vce2 uses VM inv eng 14 on hub 1
-[    3.475508] amdgpu: [powerplay] vega20_display_configuration_changed_task
-not setting PPSMC_MSG_NumOfDisplays
-[    3.794037] amdgpu: [powerplay]
-vega20_pre_display_configuration_changed_task setting PPSMC_MSG_NumOfDispla=
-ys
-to 0
-[    3.800180] amdgpu: [powerplay] vega20_display_configuration_changed_task
-not setting PPSMC_MSG_NumOfDisplays
-[    3.833502] amdgpu: [powerplay]
-vega20_pre_display_configuration_changed_task setting PPSMC_MSG_NumOfDispla=
-ys
-to 0
-[    3.833647] amdgpu: [powerplay] vega20_display_configuration_changed_task
-not setting PPSMC_MSG_NumOfDisplays
-[    4.153232] [drm] Initialized amdgpu 3.27.0 20150101 for 0000:44:00.0 on
-minor 0
-[    4.664044] amdgpu: [powerplay]
-vega20_pre_display_configuration_changed_task setting PPSMC_MSG_NumOfDispla=
-ys
-to 0
-
-
-5.2.7
-[    3.711028] amdgpu 0000:44:00.0: ring vce1 uses VM inv eng 13 on hub 1
-[    3.711028] amdgpu 0000:44:00.0: ring vce2 uses VM inv eng 14 on hub 1
-[    4.086310] amdgpu: [powerplay]
-vega20_pre_display_configuration_changed_task setting PPSMC_MSG_NumOfDispla=
-ys
-to 0
-[    4.385470] [drm] Initialized amdgpu 3.32.0 20150101 for 0000:44:00.0 on
-minor 0
-[    4.522398] amdgpu: [powerplay] Failed to send message 0x28, response 0x0
-
-Notice that vega20_pre_display_configuration_changed_task is run 5 times
-between the ring lines and initilization line in 5.0.13 and only once in 5.=
-2.7.
-
-This might not mean anything, but it could be another clue that initilizati=
-on
-is happening before the card is really ready.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15657096053.df7B.22309--
-
---===============1327086478==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1327086478==--
+SGksCk9uIEZyaSwgSnVsIDA1LCAyMDE5IGF0IDA3OjE3OjIzUE0gKzAyMDAsIEx1Y2FzIFN0YWNo
+IHdyb3RlOgo+IElmIGEgTU1VIGlzIHNoYXJlZCBiZXR3ZWVuIG11bHRpcGxlIEdQVXMsIGFsbCBv
+ZiB0aGVtIG5lZWQgdG8gZmx1c2ggdGhlaXIKPiBUTEJzLCBzbyBhIHNpbmdsZSBtYXJrZXIgdGhh
+dCBnZXRzIHJlc2V0IG9uIHRoZSBmaXJzdCBmbHVzaCB3b24ndCBkby4KPiBSZXBsYWNlIHRoZSBm
+bHVzaCBtYXJrZXIgd2l0aCBhIHNlcXVlbmNlIG51bWJlciwgc28gdGhhdCBpdCdzIHBvc3NpYmxl
+IHRvCj4gY2hlY2sgaWYgdGhlIFRMQiBpcyBpbiBzeW5jIHdpdGggdGhlIGN1cnJlbnQgcGFnZSB0
+YWJsZSBzdGF0ZSBmb3IgZWFjaCBHUFUuCj4gCj4gU2lnbmVkLW9mZi1ieTogTHVjYXMgU3RhY2gg
+PGwuc3RhY2hAcGVuZ3V0cm9uaXguZGU+CgpSZXZpZXdlZC1ieTogR3VpZG8gR8O8bnRoZXIgPGFn
+eEBzaWd4Y3B1Lm9yZz4KCj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZf
+YnVmZmVyLmMgfCA5ICsrKysrLS0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2
+X2dwdS5oICAgIHwgMSArCj4gIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfbW11LmMg
+ICAgfCA2ICsrKy0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X21tdS5oICAg
+IHwgMiArLQo+ICA0IGZpbGVzIGNoYW5nZWQsIDEwIGluc2VydGlvbnMoKyksIDggZGVsZXRpb25z
+KC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfYnVm
+ZmVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2J1ZmZlci5jCj4gaW5kZXgg
+NjQwMGE4OGNkNzc4Li41MzJkYjc3NjI0ZGEgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L2V0bmF2aXYvZXRuYXZpdl9idWZmZXIuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2
+L2V0bmF2aXZfYnVmZmVyLmMKPiBAQCAtMzE1LDYgKzMxNSw3IEBAIHZvaWQgZXRuYXZpdl9idWZm
+ZXJfcXVldWUoc3RydWN0IGV0bmF2aXZfZ3B1ICpncHUsIHUzMiBleGVjX3N0YXRlLAo+ICAJdTMy
+IHJldHVybl90YXJnZXQsIHJldHVybl9kd29yZHM7Cj4gIAl1MzIgbGlua190YXJnZXQsIGxpbmtf
+ZHdvcmRzOwo+ICAJYm9vbCBzd2l0Y2hfY29udGV4dCA9IGdwdS0+ZXhlY19zdGF0ZSAhPSBleGVj
+X3N0YXRlOwo+ICsJYm9vbCBuZWVkX2ZsdXNoID0gZ3B1LT5mbHVzaF9zZXEgIT0gZ3B1LT5tbXUt
+PmZsdXNoX3NlcTsKPiAgCj4gIAlsb2NrZGVwX2Fzc2VydF9oZWxkKCZncHUtPmxvY2spOwo+ICAK
+PiBAQCAtMzI5LDE0ICszMzAsMTQgQEAgdm9pZCBldG5hdml2X2J1ZmZlcl9xdWV1ZShzdHJ1Y3Qg
+ZXRuYXZpdl9ncHUgKmdwdSwgdTMyIGV4ZWNfc3RhdGUsCj4gIAkgKiBuZWVkIHRvIGFwcGVuZCBh
+IG1tdSBmbHVzaCBsb2FkIHN0YXRlLCBmb2xsb3dlZCBieSBhIG5ldwo+ICAJICogbGluayB0byB0
+aGlzIGJ1ZmZlciAtIGEgdG90YWwgb2YgZm91ciBhZGRpdGlvbmFsIHdvcmRzLgo+ICAJICovCj4g
+LQlpZiAoZ3B1LT5tbXUtPm5lZWRfZmx1c2ggfHwgc3dpdGNoX2NvbnRleHQpIHsKPiArCWlmIChu
+ZWVkX2ZsdXNoIHx8IHN3aXRjaF9jb250ZXh0KSB7Cj4gIAkJdTMyIHRhcmdldCwgZXh0cmFfZHdv
+cmRzOwo+ICAKPiAgCQkvKiBsaW5rIGNvbW1hbmQgKi8KPiAgCQlleHRyYV9kd29yZHMgPSAxOwo+
+ICAKPiAgCQkvKiBmbHVzaCBjb21tYW5kICovCj4gLQkJaWYgKGdwdS0+bW11LT5uZWVkX2ZsdXNo
+KSB7Cj4gKwkJaWYgKG5lZWRfZmx1c2gpIHsKPiAgCQkJaWYgKGdwdS0+bW11LT52ZXJzaW9uID09
+IEVUTkFWSVZfSU9NTVVfVjEpCj4gIAkJCQlleHRyYV9kd29yZHMgKz0gMTsKPiAgCQkJZWxzZQo+
+IEBAIC0zNDksNyArMzUwLDcgQEAgdm9pZCBldG5hdml2X2J1ZmZlcl9xdWV1ZShzdHJ1Y3QgZXRu
+YXZpdl9ncHUgKmdwdSwgdTMyIGV4ZWNfc3RhdGUsCj4gIAo+ICAJCXRhcmdldCA9IGV0bmF2aXZf
+YnVmZmVyX3Jlc2VydmUoZ3B1LCBidWZmZXIsIGV4dHJhX2R3b3Jkcyk7Cj4gIAo+IC0JCWlmIChn
+cHUtPm1tdS0+bmVlZF9mbHVzaCkgewo+ICsJCWlmIChuZWVkX2ZsdXNoKSB7Cj4gIAkJCS8qIEFk
+ZCB0aGUgTU1VIGZsdXNoICovCj4gIAkJCWlmIChncHUtPm1tdS0+dmVyc2lvbiA9PSBFVE5BVklW
+X0lPTU1VX1YxKSB7Cj4gIAkJCQlDTURfTE9BRF9TVEFURShidWZmZXIsIFZJVlNfR0xfRkxVU0hf
+TU1VLAo+IEBAIC0zNjksNyArMzcwLDcgQEAgdm9pZCBldG5hdml2X2J1ZmZlcl9xdWV1ZShzdHJ1
+Y3QgZXRuYXZpdl9ncHUgKmdwdSwgdTMyIGV4ZWNfc3RhdGUsCj4gIAkJCQkJU1lOQ19SRUNJUElF
+TlRfUEUpOwo+ICAJCQl9Cj4gIAo+IC0JCQlncHUtPm1tdS0+bmVlZF9mbHVzaCA9IGZhbHNlOwo+
+ICsJCQlncHUtPmZsdXNoX3NlcSA9IGdwdS0+bW11LT5mbHVzaF9zZXE7Cj4gIAkJfQo+ICAKPiAg
+CQlpZiAoc3dpdGNoX2NvbnRleHQpIHsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2V0
+bmF2aXYvZXRuYXZpdl9ncHUuaCBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ3B1
+LmgKPiBpbmRleCA5MzNjOGQwMTZmMTEuLjk2MzgwOTQyY2Q4YyAxMDA2NDQKPiAtLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dwdS5oCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L2V0bmF2aXYvZXRuYXZpdl9ncHUuaAo+IEBAIC0xMzcsNiArMTM3LDcgQEAgc3RydWN0IGV0bmF2
+aXZfZ3B1IHsKPiAgCWludCBpcnE7Cj4gIAo+ICAJc3RydWN0IGV0bmF2aXZfaW9tbXUgKm1tdTsK
+PiArCXVuc2lnbmVkIGludCBmbHVzaF9zZXE7Cj4gIAo+ICAJLyogUG93ZXIgQ29udHJvbDogKi8K
+PiAgCXN0cnVjdCBjbGsgKmNsa19idXM7Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9l
+dG5hdml2L2V0bmF2aXZfbW11LmMgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X21t
+dS5jCj4gaW5kZXggZGQ4MTM3NjcyNGQ3Li4zMzQ4ZDk5NjIxNzcgMTAwNjQ0Cj4gLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9tbXUuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9ldG5hdml2L2V0bmF2aXZfbW11LmMKPiBAQCAtMjYzLDcgKzI2Myw3IEBAIGludCBldG5hdml2
+X2lvbW11X21hcF9nZW0oc3RydWN0IGV0bmF2aXZfaW9tbXUgKm1tdSwKPiAgCX0KPiAgCj4gIAls
+aXN0X2FkZF90YWlsKCZtYXBwaW5nLT5tbXVfbm9kZSwgJm1tdS0+bWFwcGluZ3MpOwo+IC0JbW11
+LT5uZWVkX2ZsdXNoID0gdHJ1ZTsKPiArCW1tdS0+Zmx1c2hfc2VxKys7Cj4gIHVubG9jazoKPiAg
+CW11dGV4X3VubG9jaygmbW11LT5sb2NrKTsKPiAgCj4gQEAgLTI4Miw3ICsyODIsNyBAQCB2b2lk
+IGV0bmF2aXZfaW9tbXVfdW5tYXBfZ2VtKHN0cnVjdCBldG5hdml2X2lvbW11ICptbXUsCj4gIAkJ
+ZXRuYXZpdl9pb21tdV9yZW1vdmVfbWFwcGluZyhtbXUsIG1hcHBpbmcpOwo+ICAKPiAgCWxpc3Rf
+ZGVsKCZtYXBwaW5nLT5tbXVfbm9kZSk7Cj4gLQltbXUtPm5lZWRfZmx1c2ggPSB0cnVlOwo+ICsJ
+bW11LT5mbHVzaF9zZXErKzsKPiAgCW11dGV4X3VubG9jaygmbW11LT5sb2NrKTsKPiAgfQo+ICAK
+PiBAQCAtMzcxLDcgKzM3MSw3IEBAIGludCBldG5hdml2X2lvbW11X2dldF9zdWJhbGxvY192YShz
+dHJ1Y3QgZXRuYXZpdl9pb21tdSAqbW11LAo+ICAJCX0KPiAgCj4gIAkJbGlzdF9hZGRfdGFpbCgm
+bWFwcGluZy0+bW11X25vZGUsICZtbXUtPm1hcHBpbmdzKTsKPiAtCQltbXUtPm5lZWRfZmx1c2gg
+PSB0cnVlOwo+ICsJCW1tdS0+Zmx1c2hfc2VxKys7Cj4gIAl9Cj4gIAo+ICAJbWFwcGluZy0+dXNl
+ID0gMTsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9tbXUu
+aCBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfbW11LmgKPiBpbmRleCBmZTFjOWQ2
+YjkzMzQuLjM0YWZlMjVkZjljYSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZp
+di9ldG5hdml2X21tdS5oCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9t
+bXUuaAo+IEBAIC00OCw3ICs0OCw3IEBAIHN0cnVjdCBldG5hdml2X2lvbW11IHsKPiAgCXN0cnVj
+dCBtdXRleCBsb2NrOwo+ICAJc3RydWN0IGxpc3RfaGVhZCBtYXBwaW5nczsKPiAgCXN0cnVjdCBk
+cm1fbW0gbW07Cj4gLQlib29sIG5lZWRfZmx1c2g7Cj4gKwl1bnNpZ25lZCBpbnQgZmx1c2hfc2Vx
+Owo+ICB9Owo+ICAKPiAgc3RydWN0IGV0bmF2aXZfZ2VtX29iamVjdDsKPiAtLSAKPiAyLjIwLjEK
+PiAKPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGV0
+bmF2aXYgbWFpbGluZyBsaXN0Cj4gZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2V0bmF2aXYKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
