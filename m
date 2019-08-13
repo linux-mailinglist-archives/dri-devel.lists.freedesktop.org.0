@@ -2,41 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 208578BF4E
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 19:07:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EE4B8BF70
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 19:11:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 136066E1FB;
-	Tue, 13 Aug 2019 17:07:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 850076E200;
+	Tue, 13 Aug 2019 17:11:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B3336E1F2
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 17:07:13 +0000 (UTC)
-Received: from kernel.org (unknown [104.132.0.74])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C89CA20679;
- Tue, 13 Aug 2019 17:07:12 +0000 (UTC)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B035C6E200
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 17:11:35 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id A61DF7215A; Tue, 13 Aug 2019 17:11:35 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
+Date: Tue, 13 Aug 2019 17:11:35 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: tom@r.je
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110674-502-Q1iwrrBV1a@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
+References: <bug-110674-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <CAFd5g44Es4emKyQSxUkqckGJ02_o3sAcDLwUCW8ZFGX14j5=xg@mail.gmail.com>
-References: <20190812182421.141150-1-brendanhiggins@google.com>
- <20190812182421.141150-13-brendanhiggins@google.com>
- <20190813043140.67FF320644@mail.kernel.org>
- <CAFd5g44Es4emKyQSxUkqckGJ02_o3sAcDLwUCW8ZFGX14j5=xg@mail.gmail.com>
-Subject: Re: [PATCH v12 12/18] kunit: test: add tests for KUnit managed
- resources
-From: Stephen Boyd <sboyd@kernel.org>
-To: Brendan Higgins <brendanhiggins@google.com>
-User-Agent: alot/0.8.1
-Date: Tue, 13 Aug 2019 10:07:12 -0700
-Message-Id: <20190813170712.C89CA20679@mail.kernel.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1565716032;
- bh=fgW6Va1LDRwdq/a+4YEJkeWaGkuqaoxvU1J721UrWZU=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=treWSrq2kr/VcJofxmrL4w25Mma1xe0c8v1GBc5/aXPXBX/Qh1u42KfGgRAMZ0E7B
- JnDwwQ837FHdqo8RQtK1lGQzBKI6OSJ9LmUHBI9Mkjtg2i718ItycmKZiAhZvxCmXX
- sM2LnPO88BoqSh26Dp8VQGdXD9L0EbFEm7nrZp44=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,48 +52,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Petr Mladek <pmladek@suse.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Amir Goldstein <amir73il@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Sasha Levin <Alexander.Levin@microsoft.com>,
- Masahiro Yamada <yamada.masahiro@socionext.com>,
- Michael Ellerman <mpe@ellerman.id.au>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- shuah <shuah@kernel.org>, linux-nvdimm <linux-nvdimm@lists.01.org>,
- Frank Rowand <frowand.list@gmail.com>, Knut Omang <knut.omang@oracle.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>, wfg@linux.intel.com,
- Joel Stanley <joel@jms.id.au>, David Rientjes <rientjes@google.com>,
- Jeff Dike <jdike@addtoit.com>, Dan Carpenter <dan.carpenter@oracle.com>,
- devicetree <devicetree@vger.kernel.org>,
- linux-kbuild <linux-kbuild@vger.kernel.org>, "Bird,
- Timothy" <Tim.Bird@sony.com>, Avinash Kondareddy <akndr41@gmail.com>,
- linux-um@lists.infradead.org, Steven Rostedt <rostedt@goodmis.org>,
- Julia Lawall <julia.lawall@lip6.fr>, Josh Poimboeuf <jpoimboe@redhat.com>,
- kunit-dev@googlegroups.com, Theodore Ts'o <tytso@mit.edu>,
- Richard Weinberger <richard@nod.at>, Greg KH <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <keescook@google.com>,
- linux-fsdevel@vger.kernel.org, Logan Gunthorpe <logang@deltatee.com>,
- Kevin Hilman <khilman@baylibre.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0155961645=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBCcmVuZGFuIEhpZ2dpbnMgKDIwMTktMDgtMTMgMDA6NTc6MzMpCj4gT24gTW9uLCBB
-dWcgMTIsIDIwMTkgYXQgOTozMSBQTSBTdGVwaGVuIEJveWQgPHNib3lkQGtlcm5lbC5vcmc+IHdy
-b3RlOgo+ID4KPiA+IEJUVywgbWF5YmUga3VuaXQgYWxsb2NhdGlvbiBBUElzIHNob3VsZAo+ID4g
-ZmFpbCB0aGUgdGVzdCBpZiB0aGV5IGZhaWwgdG8gYWxsb2NhdGUgaW4gZ2VuZXJhbC4gVW5sZXNz
-IHdlJ3JlIHVuaXQKPiA+IHRlc3RpbmcgZmFpbHVyZSB0byBhbGxvY2F0ZSBwcm9ibGVtcy4KPiAK
-PiBZZWFoLCBJIHRob3VnaHQgYWJvdXQgdGhhdC4gSSB3YXNuJ3Qgc3VyZSBob3cgcGVvcGxlIHdv
-dWxkIGZlZWwgYWJvdXQKPiBpdCwgYW5kIEkgdGhvdWdodCBpdCB3b3VsZCBiZSBhIHBhaW4gdG8g
-dGVhc2Ugb3V0IGFsbCB0aGUgaXNzdWVzCj4gYXJpc2luZyBmcm9tIGFib3J0aW5nIGluIGRpZmZl
-cmVudCBjb250ZXh0cyB3aGVuIHNvbWVvbmUgbWlnaHQgbm90Cj4gZXhwZWN0IGl0Lgo+IAo+IEkg
-YW0gdGhpbmtpbmcgbGF0ZXIgd2UgY2FuIGhhdmUga3VuaXRfa21hbGxvY19vcl9hYm9ydCB2YXJp
-YW50cz8gQW5kCj4gdGhlbiB3ZSBjYW4gcHVudCB0aGlzIGlzc3VlIHRvIGEgbGF0ZXIgdGltZT8K
-PiAKClN1cmUuIFNvdW5kcyBnb29kLgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVs
+
+--===============0155961645==
+Content-Type: multipart/alternative; boundary="15657162950.C3Ac7d5BC.11267"
+Content-Transfer-Encoding: 7bit
+
+
+--15657162950.C3Ac7d5BC.11267
+Date: Tue, 13 Aug 2019 17:11:35 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
+
+--- Comment #97 from Tom B <tom@r.je> ---
+I've been investigating this:
+
+https://github.com/torvalds/linux/commit/94ed6d0cfdb867be9bf05f03d682980bce=
+5d0036
+
+Because vega20 doesn't export display_configuration_change, it jumps to the
+newly added else block and calls smu_display_configuration_change. This did=
+n't
+happen in 5.0.13. It's not the cause of this as I commented it out and it s=
+till
+breaks.=20
+I'll also note that pp_display_cfg->display_count is correct at this point,=
+ it
+shows 2 for me with 2 screens connected. But why doesn't vega20 export
+display_configuration_change? It has display_config_changed and I can't find
+where that's called from so I wonder if display_config_changed should be be=
+ing
+called at this point.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15657162950.C3Ac7d5BC.11267
+Date: Tue, 13 Aug 2019 17:11:35 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c97">Comme=
+nt # 97</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+tom&#64;r.je" title=3D"Tom B &lt;tom&#64;r.je&gt;"> <span class=3D"fn">Tom =
+B</span></a>
+</span></b>
+        <pre>I've been investigating this:
+
+<a href=3D"https://github.com/torvalds/linux/commit/94ed6d0cfdb867be9bf05f0=
+3d682980bce5d0036">https://github.com/torvalds/linux/commit/94ed6d0cfdb867b=
+e9bf05f03d682980bce5d0036</a>
+
+Because vega20 doesn't export display_configuration_change, it jumps to the
+newly added else block and calls smu_display_configuration_change. This did=
+n't
+happen in 5.0.13. It's not the cause of this as I commented it out and it s=
+till
+breaks.=20
+I'll also note that pp_display_cfg-&gt;display_count is correct at this poi=
+nt, it
+shows 2 for me with 2 screens connected. But why doesn't vega20 export
+display_configuration_change? It has display_config_changed and I can't find
+where that's called from so I wonder if display_config_changed should be be=
+ing
+called at this point.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15657162950.C3Ac7d5BC.11267--
+
+--===============0155961645==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0155961645==--
