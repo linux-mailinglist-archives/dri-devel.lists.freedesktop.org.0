@@ -2,62 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAD378CFBF
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2019 11:35:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 841508D010
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2019 11:50:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D0396E48B;
-	Wed, 14 Aug 2019 09:35:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EC9A6E48E;
+	Wed, 14 Aug 2019 09:50:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A05A789FC5;
- Wed, 14 Aug 2019 09:35:28 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id e8so2911597wme.1;
- Wed, 14 Aug 2019 02:35:28 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BEA26E48E
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 09:50:56 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id 31so110512278wrm.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 02:50:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=nwU80v4JKPMaMUbaYZZjsQS5d6owvxjLBz4fx7T/RRQ=;
- b=AlJQrBXKlKMQIdGfwAu1pitQRpaP8r1ESaIjRtdXItZGz/ilA31P1hAAUaSv4KcrEI
- +pZXJgbBsBHcmfQfpfYGAtfhb+p49H2jFl/SQYViHCeZsLdvaUrmemlLBt3fPtb/AcGT
- 8zXAkdp5JENm7nZ4Cae/Ri9JP45DtqYs68RLW/5tybcjD3Kp5rtaoGfN5Gx+6azSlkub
- VkEPwBVR8zXN7ovNUTWVHz/H87O/sx/apiqO0JxMhNczWd2TH4Yt0Goa4WtzdOcCa9YE
- sHdwF1HWIslQoZgnlETeELiNJ82GQRKxEDh/PBUEumgx4/k096YwHF3CdK5jnqONpUw9
- 0SmA==
-X-Gm-Message-State: APjAAAX+9WiaP/SOQAlyNjWdyZceLjoINAvof4zcN3CK3L9DQ0q6f/1B
- 6wY2oF8sktWAIxoLrVl1byU=
-X-Google-Smtp-Source: APXvYqxD/TroAt10O6EVVgR+RdDAw1P+WUQVi2UtWdFE9Qvtt5492UZS76a+yyP5+xqyKX/P0TM8LQ==
-X-Received: by 2002:a7b:c118:: with SMTP id w24mr7660942wmi.100.1565775327087; 
- Wed, 14 Aug 2019 02:35:27 -0700 (PDT)
-Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
- by smtp.gmail.com with ESMTPSA id c65sm6431829wma.44.2019.08.14.02.35.25
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 14 Aug 2019 02:35:25 -0700 (PDT)
-Date: Wed, 14 Aug 2019 11:35:24 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [Intel-gfx] [PATCH v6 08/17] drm/ttm: use gem vma_node
-Message-ID: <20190814093524.GA31345@ulmo>
-References: <20190805140119.7337-1-kraxel@redhat.com>
- <20190805140119.7337-9-kraxel@redhat.com>
- <20190813151115.GA29955@ulmo>
- <20190814055827.6hrxj6daovxxnnvw@sirius.home.kraxel.org>
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+ :organization:message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=tL4/UuF4+63m9CQYYLn+PG0A1RH5ZO8b6mYLJjgGmNQ=;
+ b=kvxh+yPs27IrMbYOO9Ad8LVQiv5XOYp121Vyr5EZJnyz5SiKKbOSzSMc9BkxRfK7xU
+ 4AmX0RX2bEq8xKNkmisdunH07V17yX2V7QzaqN2DntueF2fVuEAZ6wwfsiSCmOlRaH7C
+ 9xhV1KHvnmXc1Tgo4TGbL5p61QyXXu8Vw9ACcDBKGX/AOPssdCgBhG7FZGF6jyWwbVu7
+ PIzvGNzviPF/sHHwHb4f029WHNAFoA9GC2P6aWRoU3w1KUAVqiZHGttxfWuuEAvgO2Wr
+ S6TkXB1Ypi1iap5qaSn9PX3OwKkGZaavZC4tqUI2ecEOM9dj5R+CbrvQQ+nbye3WkGcr
+ 9XKg==
+X-Gm-Message-State: APjAAAVsHaDAnm8lSHDzSk/OlxBloEdbSyF5RkQw8EyDR/P9TGJnZqFc
+ ikMObnLHViZ5h6HM37Xb6utdttp2pOv/FA==
+X-Google-Smtp-Source: APXvYqyaxKGf6TR7FpBS5QiA9sOkje2LVQRO5mZ5RlpIfV8hcTlkwkthf5WdfavD3KyNm2MI+28ByQ==
+X-Received: by 2002:a5d:66c5:: with SMTP id k5mr4172513wrw.304.1565776254088; 
+ Wed, 14 Aug 2019 02:50:54 -0700 (PDT)
+Received: from [10.1.2.12] (lmontsouris-657-1-212-31.w90-63.abo.wanadoo.fr.
+ [90.63.244.31])
+ by smtp.gmail.com with ESMTPSA id t14sm17119632wrv.12.2019.08.14.02.50.52
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 14 Aug 2019 02:50:53 -0700 (PDT)
+Subject: Re: [PATCH] drm/bridge: ti-tfp410: Update
+ drm_connector_init_with_ddc() error message
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ Andrzej Hajda <a.hajda@samsung.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20190814092357.13198-1-geert+renesas@glider.be>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ ZaTUOEkgIor5losDrePdPgE=
+Organization: Baylibre
+Message-ID: <2226b176-a3f7-57aa-d6d0-99a465bae4f5@baylibre.com>
+Date: Wed, 14 Aug 2019 11:50:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190814055827.6hrxj6daovxxnnvw@sirius.home.kraxel.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20190814092357.13198-1-geert+renesas@glider.be>
+Content-Language: en-US
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=nwU80v4JKPMaMUbaYZZjsQS5d6owvxjLBz4fx7T/RRQ=;
- b=QS55lw0ij7PvfXdioktNwqhhsxjDgeKtMPHqLVruJJW9/lhb7cutH1iAktvO3jQ46Y
- qeYdZ+/WU6ZZi39/fa6CG46ZZePmFjg5VvJkkCfMbXWntxh8VHKQ/f4qB8CEpgw/Gm7+
- HTOyV8EK6NuLVOEIl09ba5q8iqdP7BImoy5NhHcxElEv2yIMWlcHzY7mTrbp/KA/f9YB
- eLk2r1jwpYxKChGhexDpPCKZiwFlqctzAJflfghf86WrOoJlX58Mteo7LekOGufYcl8S
- 78Xh9ruaPnwyIYks7pfNZo6TsMxrXsBvE0f9wREO+OqE8ynCR3NEXL8/lGv3sjbRhg2J
- BuMw==
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:openpgp:autocrypt:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=tL4/UuF4+63m9CQYYLn+PG0A1RH5ZO8b6mYLJjgGmNQ=;
+ b=gay/8jQ/mdkmy2bj8n5DBTZ5h4LE/kRUrkYchi+uyz30cxE7vc/kjyMQWfw9gJabM+
+ PwTaYtHnHqVaVT1x12t+a2TF5h7UbjaH5qPlHKdoW9yYLPTBKVRMO9NpmFqZjYFcTrRa
+ MHeZ2p/M3G0mcG7oL9UOvaevv6xz/S6QdfgjvdU6jAn9eD5wsIOiaJLfwmkEQS0NJWqS
+ 1x3c78KEpRrY77uMiA7E7V3/7SWwr3ejyW7xY7v8gkAGtLrhkl9f6fakFR4hWghgvaMy
+ YS7kL8NmPf2lVNNiB8VtNKEA/vTv3JMJVevWmtCEB76QiwWfJmIxMQK9h2bZMjf977Ki
+ o9DQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,388 +127,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linux-graphics-maintainer@vmware.com,
- Ben Skeggs <bskeggs@redhat.com>, spice-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0791486690=="
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0791486690==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="2JFBq9zoW8cOFH7v"
-Content-Disposition: inline
-
-
---2JFBq9zoW8cOFH7v
-Content-Type: multipart/mixed; boundary="eJnRUKwClWJh1Khz"
-Content-Disposition: inline
-
-
---eJnRUKwClWJh1Khz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Aug 14, 2019 at 07:58:27AM +0200, Gerd Hoffmann wrote:
-> > Hi Gerd,
-> >=20
-> > I've been seeing a regression on Nouveau with recent linux-next releases
-> > and git bisect points at this commit as the first bad one. If I revert
-> > it (there's a tiny conflict with a patch that was merged subsequently),
-> > things are back to normal.
-> >=20
-> > I think the reason for this issue is that Nouveau doesn't use GEM
-> > objects for all buffer objects,
->=20
-> That shouldn't be a problem ...
->=20
-> > and even when it uses GEM objects, the
-> > code will not initialize the GEM object until after the buffer objects
-> > and the backing TTM objects have been created.
->=20
-> ... but the initialization order is.
->=20
-> ttm_bo_uses_embedded_gem_object() assumes gem gets initialized first.
->=20
-> drm_gem_object_init() init calling drm_vma_node_reset() again is
-> probably the root cause for the breakage.
->=20
-> > I tried to fix that by making sure drm_gem_object_init() gets called by
-> > Nouveau before ttm_bo_init(), but the changes are fairly involved and I
-> > was unable to get the GEM reference counting right. I can look into the
-> > proper fix some more, but it might be worth reverting this patch for
-> > now to get Nouveau working again.
->=20
-> Changing the order doesn't look hard.  Patch attached (untested, have no
-> test hardware).  But maybe I missed some detail ...
->=20
-> The other patch attached works around the issue with a flag, to avoid
-> drm_vma_node_reset() being called twice.
-
-I came up with something very similar by splitting up nouveau_bo_new()
-into allocation and initialization steps, so that when necessary the GEM
-object can be initialized in between. I think that's slightly more
-flexible and easier to understand than a boolean flag.
-
-Thierry
-
---eJnRUKwClWJh1Khz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline;
-	filename="0001-drm-nouveau-Initialize-GEM-object-before-TTM-object.patch"
-Content-Transfer-Encoding: quoted-printable
-
-=46rom a1130a6affcb7c00133e89f3e498cb6757f5bb51 Mon Sep 17 00:00:00 2001
-=46rom: Thierry Reding <treding@nvidia.com>
-Date: Wed, 14 Aug 2019 11:00:48 +0200
-Subject: [PATCH] drm/nouveau: Initialize GEM object before TTM object
-
-TTM assumes that drivers initialize the embedded GEM object before
-calling the ttm_bo_init() function. This is not currently the case
-in the Nouveau driver. Fix this by splitting up nouveau_bo_new()
-into nouveau_bo_alloc() and nouveau_bo_init() so that the GEM can
-be initialized before TTM BO initialization when necessary.
-
-Fixes: b96f3e7c8069 ("drm/ttm: use gem vma_node")
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/gpu/drm/nouveau/nouveau_bo.c    | 69 ++++++++++++++++---------
- drivers/gpu/drm/nouveau/nouveau_bo.h    |  4 ++
- drivers/gpu/drm/nouveau/nouveau_gem.c   | 29 ++++++-----
- drivers/gpu/drm/nouveau/nouveau_prime.c | 16 ++++--
- 4 files changed, 77 insertions(+), 41 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau=
-/nouveau_bo.c
-index 99e391be9370..b3d3e07de1af 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -185,31 +185,24 @@ nouveau_bo_fixup_align(struct nouveau_bo *nvbo, u32 f=
-lags,
- 	*size =3D roundup_64(*size, PAGE_SIZE);
- }
-=20
--int
--nouveau_bo_new(struct nouveau_cli *cli, u64 size, int align,
--	       uint32_t flags, uint32_t tile_mode, uint32_t tile_flags,
--	       struct sg_table *sg, struct reservation_object *robj,
--	       struct nouveau_bo **pnvbo)
-+struct nouveau_bo *
-+nouveau_bo_alloc(struct nouveau_cli *cli, u64 size, u32 flags, u32 tile_mo=
-de,
-+		 u32 tile_flags)
- {
- 	struct nouveau_drm *drm =3D cli->drm;
- 	struct nouveau_bo *nvbo;
- 	struct nvif_mmu *mmu =3D &cli->mmu;
- 	struct nvif_vmm *vmm =3D cli->svm.cli ? &cli->svm.vmm : &cli->vmm.vmm;
--	size_t acc_size;
--	int type =3D ttm_bo_type_device;
--	int ret, i, pi =3D -1;
-+	int i, pi =3D -1;
-=20
- 	if (!size) {
- 		NV_WARN(drm, "skipped size %016llx\n", size);
--		return -EINVAL;
-+		return ERR_PTR(-EINVAL);
- 	}
-=20
--	if (sg)
--		type =3D ttm_bo_type_sg;
--
- 	nvbo =3D kzalloc(sizeof(struct nouveau_bo), GFP_KERNEL);
- 	if (!nvbo)
--		return -ENOMEM;
-+		return ERR_PTR(-ENOMEM);
- 	INIT_LIST_HEAD(&nvbo->head);
- 	INIT_LIST_HEAD(&nvbo->entry);
- 	INIT_LIST_HEAD(&nvbo->vma_list);
-@@ -231,7 +224,7 @@ nouveau_bo_new(struct nouveau_cli *cli, u64 size, int a=
-lign,
- 		nvbo->kind =3D (tile_flags & 0x0000ff00) >> 8;
- 		if (!nvif_mmu_kind_valid(mmu, nvbo->kind)) {
- 			kfree(nvbo);
--			return -EINVAL;
-+			return ERR_PTR(-EINVAL);
- 		}
-=20
- 		nvbo->comp =3D mmu->kind[nvbo->kind] !=3D nvbo->kind;
-@@ -241,7 +234,7 @@ nouveau_bo_new(struct nouveau_cli *cli, u64 size, int a=
-lign,
- 		nvbo->comp =3D (tile_flags & 0x00030000) >> 16;
- 		if (!nvif_mmu_kind_valid(mmu, nvbo->kind)) {
- 			kfree(nvbo);
--			return -EINVAL;
-+			return ERR_PTR(-EINVAL);
- 		}
- 	} else {
- 		nvbo->zeta =3D (tile_flags & 0x00000007);
-@@ -278,7 +271,7 @@ nouveau_bo_new(struct nouveau_cli *cli, u64 size, int a=
-lign,
- 	}
-=20
- 	if (WARN_ON(pi < 0))
--		return -EINVAL;
-+		return ERR_PTR(-EINVAL);
-=20
- 	/* Disable compression if suitable settings couldn't be found. */
- 	if (nvbo->comp && !vmm->page[pi].comp) {
-@@ -288,23 +281,51 @@ nouveau_bo_new(struct nouveau_cli *cli, u64 size, int=
- align,
- 	}
- 	nvbo->page =3D vmm->page[pi].shift;
-=20
-+	return nvbo;
-+}
-+
-+int
-+nouveau_bo_init(struct nouveau_bo *nvbo, u64 size, int align, u32 flags,
-+		struct sg_table *sg, struct reservation_object *robj)
-+{
-+	int type =3D sg ? ttm_bo_type_sg : ttm_bo_type_device;
-+	size_t acc_size;
-+	int ret;
-+
-+	acc_size =3D ttm_bo_dma_acc_size(nvbo->bo.bdev, size, sizeof(*nvbo));
-+
- 	nouveau_bo_fixup_align(nvbo, flags, &align, &size);
- 	nvbo->bo.mem.num_pages =3D size >> PAGE_SHIFT;
- 	nouveau_bo_placement_set(nvbo, flags, 0);
-=20
--	acc_size =3D ttm_bo_dma_acc_size(&drm->ttm.bdev, size,
--				       sizeof(struct nouveau_bo));
--
--	ret =3D ttm_bo_init(&drm->ttm.bdev, &nvbo->bo, size,
--			  type, &nvbo->placement,
--			  align >> PAGE_SHIFT, false, acc_size, sg,
--			  robj, nouveau_bo_del_ttm);
--
-+	ret =3D ttm_bo_init(nvbo->bo.bdev, &nvbo->bo, size, type,
-+			  &nvbo->placement, align >> PAGE_SHIFT, false,
-+			  acc_size, sg, robj, nouveau_bo_del_ttm);
- 	if (ret) {
- 		/* ttm will call nouveau_bo_del_ttm if it fails.. */
- 		return ret;
- 	}
-=20
-+	return 0;
-+}
-+
-+int
-+nouveau_bo_new(struct nouveau_cli *cli, u64 size, int align,
-+	       uint32_t flags, uint32_t tile_mode, uint32_t tile_flags,
-+	       struct sg_table *sg, struct reservation_object *robj,
-+	       struct nouveau_bo **pnvbo)
-+{
-+	struct nouveau_bo *nvbo;
-+	int ret;
-+
-+	nvbo =3D nouveau_bo_alloc(cli, size, flags, tile_mode, tile_flags);
-+	if (IS_ERR(nvbo))
-+		return PTR_ERR(nvbo);
-+
-+	ret =3D nouveau_bo_init(nvbo, size, align, flags, sg, robj);
-+	if (ret)
-+		return ret;
-+
- 	*pnvbo =3D nvbo;
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.h b/drivers/gpu/drm/nouveau=
-/nouveau_bo.h
-index d675efe8e7f9..7529035b971f 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.h
-@@ -71,6 +71,10 @@ nouveau_bo_ref(struct nouveau_bo *ref, struct nouveau_bo=
- **pnvbo)
- extern struct ttm_bo_driver nouveau_bo_driver;
-=20
- void nouveau_bo_move_init(struct nouveau_drm *);
-+struct nouveau_bo *nouveau_bo_alloc(struct nouveau_cli *, u64 size, u32 fl=
-ags,
-+				    u32 tile_mode, u32 tile_flags);
-+int  nouveau_bo_init(struct nouveau_bo *, u64 size, int align, u32 flags,
-+		     struct sg_table *sg, struct reservation_object *robj);
- int  nouveau_bo_new(struct nouveau_cli *, u64 size, int align, u32 flags,
- 		    u32 tile_mode, u32 tile_flags, struct sg_table *sg,
- 		    struct reservation_object *robj,
-diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouvea=
-u/nouveau_gem.c
-index c7368aa0bdec..e9c772e07789 100644
---- a/drivers/gpu/drm/nouveau/nouveau_gem.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
-@@ -188,11 +188,23 @@ nouveau_gem_new(struct nouveau_cli *cli, u64 size, in=
-t align, uint32_t domain,
- 	if (domain & NOUVEAU_GEM_DOMAIN_COHERENT)
- 		flags |=3D TTM_PL_FLAG_UNCACHED;
-=20
--	ret =3D nouveau_bo_new(cli, size, align, flags, tile_mode,
--			     tile_flags, NULL, NULL, pnvbo);
--	if (ret)
-+	nvbo =3D nouveau_bo_alloc(cli, size, flags, tile_mode, tile_flags);
-+	if (IS_ERR(nvbo))
-+		return PTR_ERR(nvbo);
-+
-+	/* Initialize the embedded gem-object. We return a single gem-reference
-+	 * to the caller, instead of a normal nouveau_bo ttm reference. */
-+	ret =3D drm_gem_object_init(drm->dev, &nvbo->bo.base, size);
-+	if (ret) {
-+		nouveau_bo_ref(NULL, &nvbo);
-+		return ret;
-+	}
-+
-+	ret =3D nouveau_bo_init(nvbo, size, align, flags, NULL, NULL);
-+	if (ret) {
-+		nouveau_bo_ref(NULL, &nvbo);
- 		return ret;
--	nvbo =3D *pnvbo;
-+	}
-=20
- 	/* we restrict allowed domains on nv50+ to only the types
- 	 * that were requested at creation time.  not possibly on
-@@ -203,15 +215,8 @@ nouveau_gem_new(struct nouveau_cli *cli, u64 size, int=
- align, uint32_t domain,
- 	if (drm->client.device.info.family >=3D NV_DEVICE_INFO_V0_TESLA)
- 		nvbo->valid_domains &=3D domain;
-=20
--	/* Initialize the embedded gem-object. We return a single gem-reference
--	 * to the caller, instead of a normal nouveau_bo ttm reference. */
--	ret =3D drm_gem_object_init(drm->dev, &nvbo->bo.base, nvbo->bo.mem.size);
--	if (ret) {
--		nouveau_bo_ref(NULL, pnvbo);
--		return -ENOMEM;
--	}
--
- 	nvbo->bo.persistent_swap_storage =3D nvbo->bo.base.filp;
-+	*pnvbo =3D nvbo;
- 	return 0;
- }
-=20
-diff --git a/drivers/gpu/drm/nouveau/nouveau_prime.c b/drivers/gpu/drm/nouv=
-eau/nouveau_prime.c
-index e86ad7ae622b..0ca71a84e23a 100644
---- a/drivers/gpu/drm/nouveau/nouveau_prime.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_prime.c
-@@ -63,28 +63,34 @@ struct drm_gem_object *nouveau_gem_prime_import_sg_tabl=
-e(struct drm_device *dev,
- 	struct nouveau_drm *drm =3D nouveau_drm(dev);
- 	struct nouveau_bo *nvbo;
- 	struct reservation_object *robj =3D attach->dmabuf->resv;
-+	size_t size =3D attach->dmabuf->size;
- 	u32 flags =3D 0;
- 	int ret;
-=20
- 	flags =3D TTM_PL_FLAG_TT;
-=20
- 	reservation_object_lock(robj, NULL);
--	ret =3D nouveau_bo_new(&drm->client, attach->dmabuf->size, 0, flags, 0, 0,
--			     sg, robj, &nvbo);
-+	nvbo =3D nouveau_bo_alloc(&drm->client, size, flags, 0, 0);
- 	reservation_object_unlock(robj);
--	if (ret)
--		return ERR_PTR(ret);
-+	if (IS_ERR(nvbo))
-+		return ERR_CAST(nvbo);
-=20
- 	nvbo->valid_domains =3D NOUVEAU_GEM_DOMAIN_GART;
-=20
- 	/* Initialize the embedded gem-object. We return a single gem-reference
- 	 * to the caller, instead of a normal nouveau_bo ttm reference. */
--	ret =3D drm_gem_object_init(dev, &nvbo->bo.base, nvbo->bo.mem.size);
-+	ret =3D drm_gem_object_init(dev, &nvbo->bo.base, size);
- 	if (ret) {
- 		nouveau_bo_ref(NULL, &nvbo);
- 		return ERR_PTR(-ENOMEM);
- 	}
-=20
-+	ret =3D nouveau_bo_init(nvbo, size, 0, flags, sg, robj);
-+	if (ret) {
-+		nouveau_bo_ref(NULL, &nvbo);
-+		return ERR_PTR(ret);
-+	}
-+
- 	return &nvbo->bo.base;
- }
-=20
---=20
-2.22.0
-
-
---eJnRUKwClWJh1Khz--
-
---2JFBq9zoW8cOFH7v
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl1T1dkACgkQ3SOs138+
-s6GGPg//XrgyQzQlwug5SUgtNlNC+x2OZkmflw6fqA4ajzFtTrxZZ2o9oZrwNYL0
-TWT6d78UxZLN9Hcw6bMpgvw/bA86regVkJv+F0EqyB/F7ykTNiI0z+WtmLbf1+KY
-J4PLnrNrxO9P/b/ZLhl04nw+SwIiedvMKvRDgEDTMPzJlul6S99BexcjtEavJ+lD
-RIMq02ZbVbWoJuAyY2DxEl72/DWutHrrCo4esVnm+23zJtHZ5HdKJHCN2FKT04x8
-U7XdFr7XFOJz15vra21kOcKWGAX2WwXRPrZkXnby60zTuGsqmrsJmSxlgDD+cwmi
-PlWW2k38ZaQ2s/QVzsxwbw5at6F8oa8dDqzt/bvzqcTyjpyFglsR91HdrhFrLo1Y
-yvLPoXE00wDMGIIAFC25LX4azoMx6sqVsTnN4lBRJvD5HpLbXTs6uNOaptTFkm/n
-2ZV+032RA2DUen+o7dOeOn3v/GEL4LjW/pYfKn1YN6aguzTNLyrpD2zb0+jiPtcj
-7P8f2Wb+ba1B20xysHmK66aIot5lBhjVFi/XNIHwwLp0pVGyHAnW6dCARdtjxNC8
-tLwE+83WXMUrmpEekPP74nioj6ogMlKwjbuSmMS2k3/NhpHDJpZsraxbDxjR68oC
-BAzl/fJQAGquwEHfx3gXQDWj+gJqGMaXw74xbawhS3fJQOr7k7g=
-=q93D
------END PGP SIGNATURE-----
-
---2JFBq9zoW8cOFH7v--
-
---===============0791486690==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0791486690==--
+T24gMTQvMDgvMjAxOSAxMToyMywgR2VlcnQgVXl0dGVyaG9ldmVuIHdyb3RlOgo+IFRoZSBjb2Rl
+IHdhcyBjaGFuZ2VkIHRvIGNhbGwgZHJtX2Nvbm5lY3Rvcl9pbml0X3dpdGhfZGRjKCkgaW5zdGVh
+ZCBvZgo+IGRybV9jb25uZWN0b3JfaW5pdCgpLCBidXQgdGhlIGNvcnJlc3BvbmRpbmcgZXJyb3Ig
+bWVzc2FnZSB3YXMgbm90Cj4gdXBkYXRlZC4KPiAKPiBGaXhlczogY2ZiNDQ0NTUyOTI2OTg5ZiAo
+ImRybS9icmlkZ2U6IHRpLXRmcDQxMDogUHJvdmlkZSBkZGMgc3ltbGluayBpbiBjb25uZWN0b3Ig
+c3lzZnMgZGlyZWN0b3J5IikKPiBTaWduZWQtb2ZmLWJ5OiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdl
+ZXJ0K3JlbmVzYXNAZ2xpZGVyLmJlPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3Rp
+LXRmcDQxMC5jIHwgMyArKy0KPiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBk
+ZWxldGlvbigtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RpLXRm
+cDQxMC5jIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90aS10ZnA0MTAuYwo+IGluZGV4IDYxY2My
+MzU0ZWYxYmZlN2UuLmJlNmM5OWNhYzQxOTUzZTkgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL2JyaWRnZS90aS10ZnA0MTAuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGkt
+dGZwNDEwLmMKPiBAQCAtMTM5LDcgKzEzOSw4IEBAIHN0YXRpYyBpbnQgdGZwNDEwX2F0dGFjaChz
+dHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlKQo+ICAJCQkJCSAgZHZpLT5jb25uZWN0b3JfdHlwZSwK
+PiAgCQkJCQkgIGR2aS0+ZGRjKTsKPiAgCWlmIChyZXQpIHsKPiAtCQlkZXZfZXJyKGR2aS0+ZGV2
+LCAiZHJtX2Nvbm5lY3Rvcl9pbml0KCkgZmFpbGVkOiAlZFxuIiwgcmV0KTsKPiArCQlkZXZfZXJy
+KGR2aS0+ZGV2LCAiZHJtX2Nvbm5lY3Rvcl9pbml0X3dpdGhfZGRjKCkgZmFpbGVkOiAlZFxuIiwK
+PiArCQkJcmV0KTsKPiAgCQlyZXR1cm4gcmV0Owo+ICAJfQo+ICAKPiAKClJldmlld2VkLWJ5OiBO
+ZWlsIEFybXN0cm9uZyA8bmFybXN0cm9uZ0BiYXlsaWJyZS5jb20+Cl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
