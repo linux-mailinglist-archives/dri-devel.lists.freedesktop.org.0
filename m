@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFCAD8D685
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2019 16:48:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DE918D694
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2019 16:50:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E71216E5DE;
-	Wed, 14 Aug 2019 14:48:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D812A89DE1;
+	Wed, 14 Aug 2019 14:50:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08A2D6E5F0
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 14:48:40 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id k18so50815910otr.3
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 07:48:39 -0700 (PDT)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA13489DE1;
+ Wed, 14 Aug 2019 14:50:37 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id 207so4852381wma.1;
+ Wed, 14 Aug 2019 07:50:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TuidyYaeRyKNuzkufRgN6Ec9LRr2Ifgbce3UwZKDqAk=;
- b=Ard/mGa4IfVlZ0O6zwzFG61od5y7LjjlkDpmptgKd7PCNtrjdZ++nPY+k3co/L4q8L
- g4UnBNsNA7RiXuAs136tZCADyiRS1CMXNW2E61E9FqchPXyQWtCJvcbIFcCzUY64V+RT
- lltv3g1ZwPEkoMlsTB4YJIiZaKDPjJ0G1w0GvYR8i1W44YLvlUTe8y+ySHuPNsNEMYIF
- y1KORODZ27FuFOAj4hSysezfOLLi6H89tvcbb+dRCWS13RjdZCRwl19blqY4O3fWz4ss
- mB2nfoMsYOfNKYMiA9FwEEflBZeyCbSFleLjubehY526UASH6pyhIngGih5eHRdk40mS
- g3fw==
-X-Gm-Message-State: APjAAAXC1oDtptE9vv5fRIG74rDAO8i5iBEYJMirwtnfvJJRxErYk5H3
- +CMj7R17WfbbzSG2S1MTc5fzCOb3G2Eo6EsSaQipZg==
-X-Google-Smtp-Source: APXvYqz7zm4exw86gTxj/ItuLHdqDfdPZkzMbuPMtbbm6xwrB+umcFhlOUSiQC4HRsH79R5rtenZdkZ3lrgt5XcFI70=
-X-Received: by 2002:a9d:6b96:: with SMTP id b22mr2732383otq.363.1565794118373; 
- Wed, 14 Aug 2019 07:48:38 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:user-agent;
+ bh=/DXlUZnAnppcVmvRaCvG45NAF6K209fxQvIeSZzOmy4=;
+ b=It6A9P95gKxOebkJqP7BHoS8ZZYb9j4v64tOf6sxyrWlyHZS+RCqqfJYCsWjqJsDQg
+ gbe6EEREvP8LGo56BWqbkOEEQSnApwCDlV4IYFMHWqDPf4bMYV3xjLt8F9kpOO6zXJjD
+ k1KftbxuQHsmC8l/bCLSEpriz/TDSHpqBcEh3jIBoI1hdwk5xO7NuIy7hPyT5fjktiN2
+ o3cLrqsYmcpVyyR6P21R432ichaJPKKBz/KpvbYcKXzFB94Nc7sLLGnf4yRa9RhP0oRg
+ TIZPnbLy0jdNelDry/NjBJpQf2mYpOP8t4V/amN/fuvm3vJcrrVkhSLFEubnfWIw2eo4
+ tSEg==
+X-Gm-Message-State: APjAAAWiz4/Ggu3QXxzJzIcParkBfDiT9My0Lev8lrtP3s8am6fNowgr
+ 0kX+7wUCDDGDmAs9eQ6Ej4Y=
+X-Google-Smtp-Source: APXvYqzoe9W3VA/sAzPxBxLK/CY1XdtfCqCC8uiIxtC44+YlxqrDtNJOaniUqy9vvtFN3+P4u+PPwA==
+X-Received: by 2002:a7b:cbcf:: with SMTP id n15mr9053044wmi.48.1565794236524; 
+ Wed, 14 Aug 2019 07:50:36 -0700 (PDT)
+Received: from Red ([2a01:cb1d:147:7200:2e56:dcff:fed2:c6d6])
+ by smtp.googlemail.com with ESMTPSA id t198sm7911434wmt.39.2019.08.14.07.50.35
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 14 Aug 2019 07:50:35 -0700 (PDT)
+Date: Wed, 14 Aug 2019 16:50:33 +0200
+From: Corentin Labbe <clabbe.montjoie@gmail.com>
+To: bskeggs@redhat.com, airlied@linux.ie, daniel@ffwll.ch, hch@lst.de,
+ m.szyprowski@samsung.com, robin.murphy@arm.com
+Subject: DMA-API: cacheline tracking ENOMEM, dma-debug disabled due to
+ nouveau ?
+Message-ID: <20190814145033.GA11190@Red>
 MIME-Version: 1.0
-References: <20190806160554.14046-1-hch@lst.de>
- <20190806160554.14046-5-hch@lst.de>
- <20190807174548.GJ1571@mellanox.com>
- <CAPcyv4hPCuHBLhSJgZZEh0CbuuJNPLFDA3f-79FX5uVOO0yubA@mail.gmail.com>
- <20190808065933.GA29382@lst.de>
- <CAPcyv4hMUzw8vyXFRPe2pdwef0npbMm9tx9wiZ9MWkHGhH1V6w@mail.gmail.com>
- <20190814073854.GA27249@lst.de> <20190814132746.GE13756@mellanox.com>
-In-Reply-To: <20190814132746.GE13756@mellanox.com>
-From: Dan Williams <dan.j.williams@intel.com>
-Date: Wed, 14 Aug 2019 07:48:28 -0700
-Message-ID: <CAPcyv4g8usp8prJ+1bMtyV1xuedp5FKErBp-N8+KzR=rJ-v0QQ@mail.gmail.com>
-Subject: Re: [PATCH 04/15] mm: remove the pgmap field from struct hmm_vma_walk
-To: Jason Gunthorpe <jgg@mellanox.com>
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=intel-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=TuidyYaeRyKNuzkufRgN6Ec9LRr2Ifgbce3UwZKDqAk=;
- b=VGmsuSutDmh/CjlBsd4sxqgbi8um+dCHzh+K0g76f30mKTKa4vnjEUi5IghOvDT2TU
- IiuduD1hp/FbpMVaMr/e7wBsaqMWdJ6XHtQ/1mBsBItSP4Wnk6xfU27TabVrZ7CxNxNQ
- xk36x4tWlqqM3zgQ+imkzsVY04ipeNiKK+QA1YnFVauQbb2Je88bjQTJ7UYiJXdobeSQ
- 8yXovyKKvS5GfjCCiA8ng2LVaXxNaFUycGFOD1MJp5B3wtPnD6SMS1YSM8AN/j0ewy4K
- 946ksv8AZDHbxIlpfzizsK/Ykelqs/5V6AZKhURom457TIKDaqNjmkxGJQw/75l6BLCF
- rGkA==
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+ :user-agent;
+ bh=/DXlUZnAnppcVmvRaCvG45NAF6K209fxQvIeSZzOmy4=;
+ b=pcnVgWDPpVIKvEGcoQm5OxaoBVqYZbMOQiqkZ3wTAZr8Y6ocDyeakMLA8Im1Y+g99D
+ POTgttsWlFnHPGAOzmL9x63nQingz9nYI4tmdXIrqRiCxn+kPG3T16a2nvIYG8GQ2Vzs
+ Wce7Jnayh7CiIlLHBB2wEP03uzF21zbs288aBwspAfbTH7jE/zAGLwIiABldEZ0t2MFl
+ 7g+sqkueLUfkGGO7etvOXVSscsbkaSLTKp6TuYRkN4eneuKFf/g2q7u1xTmiXRL4QSi9
+ 08axMg8aBPXjCpcOkD6x6gdVVXu3E7WHEH7t0kz1SSsDjvHpa4CY59KwF9g2UEt0zSR3
+ HS0g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,41 +68,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ralph Campbell <rcampbell@nvidia.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Ben Skeggs <bskeggs@redhat.com>, Christoph Hellwig <hch@lst.de>
+Cc: nouveau@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBBdWcgMTQsIDIwMTkgYXQgNjoyOCBBTSBKYXNvbiBHdW50aG9ycGUgPGpnZ0BtZWxs
-YW5veC5jb20+IHdyb3RlOgo+Cj4gT24gV2VkLCBBdWcgMTQsIDIwMTkgYXQgMDk6Mzg6NTRBTSAr
-MDIwMCwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6Cj4gPiBPbiBUdWUsIEF1ZyAxMywgMjAxOSBh
-dCAwNjozNjozM1BNIC0wNzAwLCBEYW4gV2lsbGlhbXMgd3JvdGU6Cj4gPiA+IFNlY3Rpb24gYWxp
-Z25tZW50IGNvbnN0cmFpbnRzIHNvbWV3aGF0IHNhdmUgdXMgaGVyZS4gVGhlIG9ubHkgZXhhbXBs
-ZQo+ID4gPiBJIGNhbiB0aGluayBvZiBhIFBNRCBub3QgY29udGFpbmluZyBhIHVuaWZvcm0gcGdt
-YXAgYXNzb2NpYXRpb24gZm9yCj4gPiA+IGVhY2ggcHRlIGlzIHRoZSBjYXNlIHdoZW4gdGhlIHBn
-bWFwIG92ZXJsYXBzIG5vcm1hbCBkcmFtLCBpLmUuIHNoYXJlcwo+ID4gPiB0aGUgc2FtZSAnc3Ry
-dWN0IG1lbW9yeV9zZWN0aW9uJyBmb3IgYSBnaXZlbiBzcGFuLiBPdGhlcndpc2UsIGRpc3RpbmN0
-Cj4gPiA+IHBnbWFwcyBhcnJhbmdlIHRvIG1hbmFnZSB0aGVpciBvd24gZXhjbHVzaXZlIHNlY3Rp
-b25zIChhbmQgbm93Cj4gPiA+IHN1YnNlY3Rpb25zIGFzIG9mIHY1LjMpLiBPdGhlcndpc2UgdGhl
-IGltcGxlbWVudGF0aW9uIGNvdWxkIG5vdAo+ID4gPiBndWFyYW50ZWUgZGlmZmVyZW50IG1hcHBp
-bmcgbGlmZXRpbWVzLgo+ID4gPgo+ID4gPiBUaGF0IHNhaWQsIHRoaXMgc2VlbXMgdG8gd2FudCBh
-IGJldHRlciBtZWNoYW5pc20gdG8gZGV0ZXJtaW5lICJwZm4gaXMKPiA+ID4gWk9ORV9ERVZJQ0Ui
-Lgo+ID4KPiA+IFNvIEkgZ3Vlc3MgdGhpcyBwYXRjaCBpcyBmaW5lIGZvciBub3csIGFuZCBvbmNl
-IHlvdSBwcm92aWRlIGEgYmV0dGVyCj4gPiBtZWNoYW5pc20gd2UgY2FuIHN3aXRjaCBvdmVyIHRv
-IGl0Pwo+Cj4gV2hhdCBhYm91dCB0aGUgdmVyc2lvbiBJIHNlbnQgdG8ganVzdCBnZXQgcmlkIG9m
-IGFsbCB0aGUgc3RyYW5nZQo+IHB1dF9kZXZfcGFnZW1hcHMgd2hpbGUgc2Nhbm5pbmc/IE9kZHMg
-YXJlIGdvb2Qgd2Ugd2lsbCB3b3JrIHdpdGggb25seQo+IGEgc2luZ2xlIHBhZ2VtYXAsIHNvIGl0
-IG1ha2VzIHNvbWUgc2Vuc2UgdG8gY2FjaGUgaXQgb25jZSB3ZSBmaW5kIGl0PwoKWWVzLCBpZiB0
-aGUgc2NhbiBpcyBvdmVyIGEgc2luZ2xlIHBtZCB0aGVuIGNhY2hpbmcgaXQgbWFrZXMgc2Vuc2Uu
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+SGVsbG8KClNpbmNlIGxvdCBvZiByZWxlYXNlIChhdCBsZWFzdCBzaW5jZSA0LjE5KSwgSSBoaXQg
+dGhlIGZvbGxvd2luZyBlcnJvciBtZXNzYWdlOgpETUEtQVBJOiBjYWNoZWxpbmUgdHJhY2tpbmcg
+RU5PTUVNLCBkbWEtZGVidWcgZGlzYWJsZWQKCkFmdGVyIGhpdHRpbmcgdGhhdCwgSSB0cnkgdG8g
+Y2hlY2sgd2hvIGlzIGNyZWF0aW5nIHNvIG1hbnkgRE1BIG1hcHBpbmcgYW5kIHNlZToKY2F0IC9z
+eXMva2VybmVsL2RlYnVnL2RtYS1hcGkvZHVtcCB8IGN1dCAtZCcgJyAtZjIgfCBzb3J0IHwgdW5p
+cSAtYwogICAgICA2IGFoY2kKICAgIDI1NyBlMTAwMGUKICAgICAgNiBlaGNpLXBjaQogICA1ODkx
+IG5vdXZlYXUKICAgICAyNCB1aGNpX2hjZAoKRG9lcyBub3V2ZWF1IGhhdmluZyB0aGlzIGhpZ2gg
+bnVtYmVyIG9mIERNQSBtYXBwaW5nIGlzIG5vcm1hbCA/CgpSZWdhcmRzCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
