@@ -2,63 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 334108D74B
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2019 17:39:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D23228D763
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2019 17:44:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F5096E621;
-	Wed, 14 Aug 2019 15:39:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 165A889228;
+	Wed, 14 Aug 2019 15:44:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDC4A6E621
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 15:39:12 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id r12so7469278edo.5
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 08:39:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to:user-agent;
- bh=paO9kISuz7X1Nwb3djsS/gzgLaSFZ+LcxhfLypAHPpY=;
- b=RVZfsmI6fneTne21UwmqgOXm2E/VCLy+gnH/nfIqN/dDXpWy5B62FbtUSJSbLYzwxZ
- 1tpSFrlrFm33dCoU/hxviK76Nmbe1SnCmDaZbJmli6rjmwj/EpPNNqhsRbzMMY+/kFS0
- T8AZdq3O6XC4xwm6AdnwJ0G0U3IQqoATJ720a4EsVW376eT7oywvxiw1oT5+is2G8YTW
- L3odUpU60str2Po5/PFmT+Zy0PEzTVgCsOtBnQGQcBpGxS1z1SIvr5v6mhHpvxOTGM7n
- 8MEiB+5lxQdEOhkkSHcwzxCHK2nYAMgcs8f9AqDLThhN6Zp6NekHko4kbGICNc0eZrs3
- cQ+Q==
-X-Gm-Message-State: APjAAAVSXcIAJHEMn/3OBAqAG8p3ySVWISMsORvHo7i+AxKm4BugzOih
- QUnkbySh938Znf6RDHWXAu5qEg==
-X-Google-Smtp-Source: APXvYqw+3SCk3k3VDFRkP7sEDeSSwkr6vMTjZTi+5lWQGr5QSCrpPHXCxNh035K1TIz0Oo3U1IAj8Q==
-X-Received: by 2002:a50:eaca:: with SMTP id u10mr262288edp.42.1565797151418;
- Wed, 14 Aug 2019 08:39:11 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
- by smtp.gmail.com with ESMTPSA id f6sm26977edv.30.2019.08.14.08.39.10
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 14 Aug 2019 08:39:10 -0700 (PDT)
-Date: Wed, 14 Aug 2019 17:39:08 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: christian.koenig@amd.com
-Subject: Re: [PATCH 4/4] dma-buf: nuke reservation_object seq number
-Message-ID: <20190814153908.GI7444@phenom.ffwll.local>
-References: <20190807135312.1730-1-christian.koenig@amd.com>
- <20190807135312.1730-4-christian.koenig@amd.com>
- <156518744066.6198.17572013738158664135@skylake-alporthouse-com>
- <ccc20434-0380-c0b8-1ccb-1f7d9ae1a4a5@gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3425A89228
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 15:44:46 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 3088A7215A; Wed, 14 Aug 2019 15:44:46 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
+Date: Wed, 14 Aug 2019 15:44:45 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: tom@r.je
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110674-502-KOkMOp4Cwq@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
+References: <bug-110674-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <ccc20434-0380-c0b8-1ccb-1f7d9ae1a4a5@gmail.com>
-X-Operating-System: Linux phenom 4.19.0-5-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent;
- bh=paO9kISuz7X1Nwb3djsS/gzgLaSFZ+LcxhfLypAHPpY=;
- b=bq1dkJGVdi6QP2B6zc1X7KcfGs+kMKbmvhY+Ten3EhpF+1NTZylYgkv7smKVpjGX7v
- JpFSMHPV3d/huMAk27GflXn55acBPgFTyW1tH+8f2xYQFL7aBvOgN5+n1bLLcn1hJdOe
- 5Chv7kB+S2p2nPZb+JbhDjMmiZP4y/kEDyGI0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,133 +52,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1927573160=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-U29ycnkgSSBidXJyaWVkIG15c2VsZiBpbiBzb21lIG90aGVyIHN0dWZmIC4uLgoKT24gU2F0LCBB
-dWcgMTAsIDIwMTkgYXQgMTI6NTE6MDBQTSArMDIwMCwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToK
-PiBBbSAwNy4wOC4xOSB1bSAxNjoxNyBzY2hyaWViIENocmlzIFdpbHNvbjoKPiA+IFF1b3Rpbmcg
-Q2hyaXN0aWFuIEvDtm5pZyAoMjAxOS0wOC0wNyAxNDo1MzoxMikKPiA+ID4gVGhlIG9ubHkgcmVt
-YWluaW5nIHVzZSBmb3IgdGhpcyBpcyB0byBwcm90ZWN0IGFnYWluc3Qgc2V0dGluZyBhIG5ldyBl
-eGNsdXNpdmUKPiA+ID4gZmVuY2Ugd2hpbGUgd2UgZ3JhYiBib3RoIGV4Y2x1c2l2ZSBhbmQgc2hh
-cmVkLiBUaGF0IGNhbiBhbHNvIGJlIGFyY2hpdmVkIGJ5Cj4gPiA+IGxvb2tpbmcgaWYgdGhlIGV4
-Y2x1c2l2ZSBmZW5jZSBoYXMgY2hhbmdlZCBvciBub3QgYWZ0ZXIgY29tcGxldGluZyB0aGUKPiA+
-ID4gb3BlcmF0aW9uLgo+ID4gPiAKPiA+ID4gdjI6IHN3aXRjaCBzZXR0aW5nIGV4Y2wgZmVuY2Ug
-dG8gcmN1X2Fzc2lnbl9wb2ludGVyCj4gPiA+IAo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3Rp
-YW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gPiA+IC0tLQo+ID4gPiAgIGRy
-aXZlcnMvZG1hLWJ1Zi9yZXNlcnZhdGlvbi5jIHwgMjQgKysrKystLS0tLS0tLS0tLS0tLS0tLS0t
-Cj4gPiA+ICAgaW5jbHVkZS9saW51eC9yZXNlcnZhdGlvbi5oICAgfCAgOSArKy0tLS0tLS0KPiA+
-ID4gICAyIGZpbGVzIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygrKSwgMjYgZGVsZXRpb25zKC0pCj4g
-PiA+IAo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9kbWEtYnVmL3Jlc2VydmF0aW9uLmMgYi9k
-cml2ZXJzL2RtYS1idWYvcmVzZXJ2YXRpb24uYwo+ID4gPiBpbmRleCA5MGJjNmVmMDM1OTguLmY3
-ZjRhMDg1OGMyYSAxMDA2NDQKPiA+ID4gLS0tIGEvZHJpdmVycy9kbWEtYnVmL3Jlc2VydmF0aW9u
-LmMKPiA+ID4gKysrIGIvZHJpdmVycy9kbWEtYnVmL3Jlc2VydmF0aW9uLmMKPiA+ID4gQEAgLTQ5
-LDEyICs0OSw2IEBACj4gPiA+ICAgREVGSU5FX1dEX0NMQVNTKHJlc2VydmF0aW9uX3d3X2NsYXNz
-KTsKPiA+ID4gICBFWFBPUlRfU1lNQk9MKHJlc2VydmF0aW9uX3d3X2NsYXNzKTsKPiA+ID4gLXN0
-cnVjdCBsb2NrX2NsYXNzX2tleSByZXNlcnZhdGlvbl9zZXFjb3VudF9jbGFzczsKPiA+ID4gLUVY
-UE9SVF9TWU1CT0wocmVzZXJ2YXRpb25fc2VxY291bnRfY2xhc3MpOwo+ID4gPiAtCj4gPiA+IC1j
-b25zdCBjaGFyIHJlc2VydmF0aW9uX3NlcWNvdW50X3N0cmluZ1tdID0gInJlc2VydmF0aW9uX3Nl
-cWNvdW50IjsKPiA+ID4gLUVYUE9SVF9TWU1CT0wocmVzZXJ2YXRpb25fc2VxY291bnRfc3RyaW5n
-KTsKPiA+ID4gLQo+ID4gPiAgIC8qKgo+ID4gPiAgICAqIHJlc2VydmF0aW9uX29iamVjdF9saXN0
-X2FsbG9jIC0gYWxsb2NhdGUgZmVuY2UgbGlzdAo+ID4gPiAgICAqIEBzaGFyZWRfbWF4OiBudW1i
-ZXIgb2YgZmVuY2VzIHdlIG5lZWQgc3BhY2UgZm9yCj4gPiA+IEBAIC0xMDMsOSArOTcsNiBAQCBz
-dGF0aWMgdm9pZCByZXNlcnZhdGlvbl9vYmplY3RfbGlzdF9mcmVlKHN0cnVjdCByZXNlcnZhdGlv
-bl9vYmplY3RfbGlzdCAqbGlzdCkKPiA+ID4gICB2b2lkIHJlc2VydmF0aW9uX29iamVjdF9pbml0
-KHN0cnVjdCByZXNlcnZhdGlvbl9vYmplY3QgKm9iaikKPiA+ID4gICB7Cj4gPiA+ICAgICAgICAg
-IHd3X211dGV4X2luaXQoJm9iai0+bG9jaywgJnJlc2VydmF0aW9uX3d3X2NsYXNzKTsKPiA+ID4g
-LQo+ID4gPiAtICAgICAgIF9fc2VxY291bnRfaW5pdCgmb2JqLT5zZXEsIHJlc2VydmF0aW9uX3Nl
-cWNvdW50X3N0cmluZywKPiA+ID4gLSAgICAgICAgICAgICAgICAgICAgICAgJnJlc2VydmF0aW9u
-X3NlcWNvdW50X2NsYXNzKTsKPiA+ID4gICAgICAgICAgUkNVX0lOSVRfUE9JTlRFUihvYmotPmZl
-bmNlLCBOVUxMKTsKPiA+ID4gICAgICAgICAgUkNVX0lOSVRfUE9JTlRFUihvYmotPmZlbmNlX2V4
-Y2wsIE5VTEwpOwo+ID4gPiAgIH0KPiA+ID4gQEAgLTI4MiwxMiArMjczLDEwIEBAIHZvaWQgcmVz
-ZXJ2YXRpb25fb2JqZWN0X2FkZF9leGNsX2ZlbmNlKHN0cnVjdCByZXNlcnZhdGlvbl9vYmplY3Qg
-Km9iaiwKPiA+ID4gICAgICAgICAgICAgICAgICBkbWFfZmVuY2VfZ2V0KGZlbmNlKTsKPiA+ID4g
-ICAgICAgICAgcHJlZW1wdF9kaXNhYmxlKCk7Cj4gPiA+IC0gICAgICAgd3JpdGVfc2VxY291bnRf
-YmVnaW4oJm9iai0+c2VxKTsKPiA+ID4gLSAgICAgICAvKiB3cml0ZV9zZXFjb3VudF9iZWdpbiBw
-cm92aWRlcyB0aGUgbmVjZXNzYXJ5IG1lbW9yeSBiYXJyaWVyICovCj4gPiA+IC0gICAgICAgUkNV
-X0lOSVRfUE9JTlRFUihvYmotPmZlbmNlX2V4Y2wsIGZlbmNlKTsKPiA+ID4gKyAgICAgICByY3Vf
-YXNzaWduX3BvaW50ZXIob2JqLT5mZW5jZV9leGNsLCBmZW5jZSk7Cj4gPiA+ICsgICAgICAgLyog
-cG9pbnRlciB1cGRhdGUgbXVzdCBiZSB2aXNpYmxlIGJlZm9yZSB3ZSBtb2RpZnkgdGhlIHNoYXJl
-ZF9jb3VudCAqLwoKUGxzIGFkZCBhICJzZWUgcmVzZXJ2YXRpb25fb2JqZWN0X2ZlbmNlKCkiIGhl
-cmUgb3Igc2ltaWxhci4KCj4gPiA+ICAgICAgICAgIGlmIChvbGQpCj4gPiA+IC0gICAgICAgICAg
-ICAgICBvbGQtPnNoYXJlZF9jb3VudCA9IDA7Cj4gPiA+IC0gICAgICAgd3JpdGVfc2VxY291bnRf
-ZW5kKCZvYmotPnNlcSk7Cj4gPiA+ICsgICAgICAgICAgICAgICBzbXBfc3RvcmVfbWIob2xkLT5z
-aGFyZWRfY291bnQsIDApOwoKU28geW91ciBjb21tZW50IGFuZCB0aGUga2VybmVsZG9jIGRvbid0
-IG1hdGNoIHVwLiBRdW90aW5nCkRvY3VtZW50YXRpb24vbWVtb3J5LWJhcnJpZXJzLnR4dDoKCiAg
-ICAgVGhpcyBhc3NpZ25zIHRoZSB2YWx1ZSB0byB0aGUgdmFyaWFibGUgYW5kIHRoZW4gaW5zZXJ0
-cyBhIGZ1bGwgbWVtb3J5CiAgICAgYmFycmllciBhZnRlciBpdC4gIEl0IGlzbid0IGd1YXJhbnRl
-ZWQgdG8gaW5zZXJ0IGFueXRoaW5nIG1vcmUgdGhhbiBhCiAgICAgY29tcGlsZXIgYmFycmllciBp
-biBhIFVQIGNvbXBpbGF0aW9uLgoKU28gb3JkZXIgaXMgMS4gc3RvcmUgMi4gZmVuY2UsIGJ1dCB5
-b3VyIGNvbW1lbnQgc3VnZ2VzdHMgeW91IHdhbnQgaXQgdGhlCm90aGVyIHdheSByb3VuZC4KCj4g
-PiA+ICAgICAgICAgIHByZWVtcHRfZW5hYmxlKCk7Cj4gPiA+ICAgICAgICAgIC8qIGlucGxhY2Ug
-dXBkYXRlLCBubyBzaGFyZWQgZmVuY2VzICovCj4gPiA+IEBAIC0zNjgsMTEgKzM1Nyw4IEBAIGlu
-dCByZXNlcnZhdGlvbl9vYmplY3RfY29weV9mZW5jZXMoc3RydWN0IHJlc2VydmF0aW9uX29iamVj
-dCAqZHN0LAo+ID4gPiAgICAgICAgICBvbGQgPSByZXNlcnZhdGlvbl9vYmplY3RfZ2V0X2V4Y2wo
-ZHN0KTsKPiA+ID4gICAgICAgICAgcHJlZW1wdF9kaXNhYmxlKCk7Cj4gPiA+IC0gICAgICAgd3Jp
-dGVfc2VxY291bnRfYmVnaW4oJmRzdC0+c2VxKTsKPiA+ID4gLSAgICAgICAvKiB3cml0ZV9zZXFj
-b3VudF9iZWdpbiBwcm92aWRlcyB0aGUgbmVjZXNzYXJ5IG1lbW9yeSBiYXJyaWVyICovCj4gPiA+
-IC0gICAgICAgUkNVX0lOSVRfUE9JTlRFUihkc3QtPmZlbmNlX2V4Y2wsIG5ldyk7Cj4gPiA+IC0g
-ICAgICAgUkNVX0lOSVRfUE9JTlRFUihkc3QtPmZlbmNlLCBkc3RfbGlzdCk7Cj4gPiA+IC0gICAg
-ICAgd3JpdGVfc2VxY291bnRfZW5kKCZkc3QtPnNlcSk7Cj4gPiA+ICsgICAgICAgcmN1X2Fzc2ln
-bl9wb2ludGVyKGRzdC0+ZmVuY2VfZXhjbCwgbmV3KTsKPiA+ID4gKyAgICAgICByY3VfYXNzaWdu
-X3BvaW50ZXIoZHN0LT5mZW5jZSwgZHN0X2xpc3QpOwo+ID4gPiAgICAgICAgICBwcmVlbXB0X2Vu
-YWJsZSgpOwo+ID4gPiAgICAgICAgICByZXNlcnZhdGlvbl9vYmplY3RfbGlzdF9mcmVlKHNyY19s
-aXN0KTsKPiA+ID4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvcmVzZXJ2YXRpb24uaCBiL2lu
-Y2x1ZGUvbGludXgvcmVzZXJ2YXRpb24uaAo+ID4gPiBpbmRleCAwNDRhNWNkNGFmNTAuLmZkMjli
-YWFkMGJlMyAxMDA2NDQKPiA+ID4gLS0tIGEvaW5jbHVkZS9saW51eC9yZXNlcnZhdGlvbi5oCj4g
-PiA+ICsrKyBiL2luY2x1ZGUvbGludXgvcmVzZXJ2YXRpb24uaAo+ID4gPiBAQCAtNDYsOCArNDYs
-NiBAQAo+ID4gPiAgICNpbmNsdWRlIDxsaW51eC9yY3VwZGF0ZS5oPgo+ID4gPiAgIGV4dGVybiBz
-dHJ1Y3Qgd3dfY2xhc3MgcmVzZXJ2YXRpb25fd3dfY2xhc3M7Cj4gPiA+IC1leHRlcm4gc3RydWN0
-IGxvY2tfY2xhc3Nfa2V5IHJlc2VydmF0aW9uX3NlcWNvdW50X2NsYXNzOwo+ID4gPiAtZXh0ZXJu
-IGNvbnN0IGNoYXIgcmVzZXJ2YXRpb25fc2VxY291bnRfc3RyaW5nW107Cj4gPiA+ICAgLyoqCj4g
-PiA+ICAgICogc3RydWN0IHJlc2VydmF0aW9uX29iamVjdF9saXN0IC0gYSBsaXN0IG9mIHNoYXJl
-ZCBmZW5jZXMKPiA+ID4gQEAgLTcxLDcgKzY5LDYgQEAgc3RydWN0IHJlc2VydmF0aW9uX29iamVj
-dF9saXN0IHsKPiA+ID4gICAgKi8KPiA+ID4gICBzdHJ1Y3QgcmVzZXJ2YXRpb25fb2JqZWN0IHsK
-PiA+ID4gICAgICAgICAgc3RydWN0IHd3X211dGV4IGxvY2s7Cj4gPiA+IC0gICAgICAgc2VxY291
-bnRfdCBzZXE7Cj4gPiA+ICAgICAgICAgIHN0cnVjdCBkbWFfZmVuY2UgX19yY3UgKmZlbmNlX2V4
-Y2w7Cj4gPiA+ICAgICAgICAgIHN0cnVjdCByZXNlcnZhdGlvbl9vYmplY3RfbGlzdCBfX3JjdSAq
-ZmVuY2U7Cj4gPiA+IEBAIC0xNTYsMTQgKzE1MywxMiBAQCByZXNlcnZhdGlvbl9vYmplY3RfZmVu
-Y2VzKHN0cnVjdCByZXNlcnZhdGlvbl9vYmplY3QgKm9iaiwKPiA+ID4gICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgc3RydWN0IHJlc2VydmF0aW9uX29iamVjdF9saXN0ICoqbGlzdCwKPiA+ID4g
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgdTMyICpzaGFyZWRfY291bnQpCj4gPiA+ICAgewo+
-ID4gPiAtICAgICAgIHVuc2lnbmVkIGludCBzZXE7Cj4gPiA+IC0KPiA+ID4gICAgICAgICAgZG8g
-ewo+ID4gPiAtICAgICAgICAgICAgICAgc2VxID0gcmVhZF9zZXFjb3VudF9iZWdpbigmb2JqLT5z
-ZXEpOwo+ID4gPiAgICAgICAgICAgICAgICAgICpleGNsID0gcmN1X2RlcmVmZXJlbmNlKG9iai0+
-ZmVuY2VfZXhjbCk7CgpJIHRoaW5rIHlvdSBuZWVkIGEgYmFycmllciBiZXR3ZWVuIHRoaXMgYW5k
-IHRoZSByZWFkIG9mIHNoYXJlZF9jb3VudApiZWxvdy4gQnV0IHJjdV9kZXJlZmVuY2Ugb25seSBn
-aXZlcyB5b3UgYSBkZXBlbmRlbnQgYmFycmllciwgaS5lLiBvbmx5CnN0dWZmIHRoYXQncyBhY2Nl
-c3NlcyB0aHJvdWdoIHRoaXMgcG9pbnRlciBpcyBvcmRlcmVkLiBXaGljaCBtZWFucyB0aGUKYWNj
-ZXNzIHRvIC0+c2hhcmVkX2NvdW50LCB3aGljaCBnb2VzIHRocm91Z2ggYW5vdGhlciBwb2ludGVy
-LCBpc24ndAphY3R1YWxseSBvcmRlcmVkLgoKSSB0aGluayB0aGUgaW1wbGVtZW50YXRpb24gaXMg
-dGhhdCBpdCBpcyBhbiB1bmNvbmRpdGlvbmFsIGNvbXBpbGVyIGJhcnJpZXIKKGJ1dCB0aGF0IG1p
-Z2h0IGNoYW5nZSksIGJ1dCB5b3UncmUgZGVmaW5pdGVseSBtaXNzaW5nIHRoZSBjcHUgYmFycmll
-ciwgc28KYSBjcHVlIG1pZ2h0IHNwZWN1bGF0ZSB0aGUgZW50aXJlIHRoaW5nIG91dCBvZiBvcmRl
-ci4KCkkgdGhpbmsgeW91IG5lZWQgYW5vdGhlciBzbWJfcm1iKCk7IGhlcmUKCgo+ID4gPiAgICAg
-ICAgICAgICAgICAgICpsaXN0ID0gcmN1X2RlcmVmZXJlbmNlKG9iai0+ZmVuY2UpOwo+ID4gPiAg
-ICAgICAgICAgICAgICAgICpzaGFyZWRfY291bnQgPSAqbGlzdCA/ICgqbGlzdCktPnNoYXJlZF9j
-b3VudCA6IDA7Cj4gPiA+IC0gICAgICAgfSB3aGlsZSAocmVhZF9zZXFjb3VudF9yZXRyeSgmb2Jq
-LT5zZXEsIHNlcSkpOwo+ID4gPiArICAgICAgICAgICAgICAgc21wX3JtYigpOyAvKiBTZWUgcmVz
-ZXJ2YXRpb25fb2JqZWN0X2FkZF9leGNsX2ZlbmNlICovCgpUaGlzIGZlbmNlIGhlcmUgSSB0aGlu
-ayBwcmV2ZW50cyB0aGUgcmUtcmVhZGluZyBvZiAtPmZlbmNlX2V4Y2wgZnJvbQpnZXR0aW5nIGhv
-aXN0ZWQgYWJvdmUgdGhlIGNyaXRpY2FsIHJlYWRzLiBTbyB0aGlzIGlzIGp1c3QgdGhlIG9wZW4t
-Y29kZWQKc2VxbG9jayByZXRyeSBsb29wLgoKPiA+ID4gKyAgICAgICB9IHdoaWxlIChyY3VfYWNj
-ZXNzX3BvaW50ZXIob2JqLT5mZW5jZV9leGNsKSAhPSAqZXhjbCk7CgpXaGF0IGlmIHNvbWVvbmUg
-aXMgcmVhbCBmYXN0IChsaWtlIHJlYWxseSByZWFsIGZhc3QpIGFuZCByZWN5Y2xlcyB0aGUKZXhj
-bHVzaXZlIGZlbmNlIHNvIHlvdSByZWFkIHRoZSBzYW1lIHBvaW50ZXIgdHdpY2UsIGJ1dCBldmVy
-eXRoaW5nIGVsc2UKY2hhbmdlZD8gcmV1c2VkIGZlbmNlIHBvaW50ZXIgaXMgYSBsb3QgbW9yZSBs
-aWtlbHkgdGhhbiBzZXFsb2NrIHdyYXBwaW5nCmFyb3VuZC4KCj4gPiA+ICAgfQo+ID4gUmV2aWV3
-ZWQtYnk6IENocmlzIFdpbHNvbiA8Y2hyaXNAY2hyaXMtd2lsc29uLmNvLnVrPgo+ID4gCj4gPiBJ
-IHRoaW5rIHRoaXMgaXMgY29ycmVjdC4gTm93IHNlZSBpZiB3ZSBjYW4gY29udmluY2UgRGFuaWVs
-IQo+IAo+IERhbmllbCBhbnkgb2JqZWN0aW9ucyB0byB0aGlzPyBJR1RzIGxvb2sgZ29vZCBhcyB3
-ZWxsLCBzbyBpZiBub3QgSSdtIGdvaW5nCj4gdG8gcHVzaCBpdC4KCk5vdCByZWFsbHkgY29udmlu
-Y2VkLiBBbHNvIGhhdmVuJ3QgbG9va2VkIGF0IHRoZSBlbnRpcmUgdGhpbmcgeWV0LCB0aGlzIGlz
-Cmp1c3QgZnJvbSBzdGFyaW5nIGF0IHRoaXMgcGF0Y2ggaW4gaXNvbGF0aW9uIGFuZCBwb2tpbmcg
-YXQgaXQuCi1EYW5pZWwKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVs
-IENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1927573160==
+Content-Type: multipart/alternative; boundary="15657974861.A10423b9.2052"
+Content-Transfer-Encoding: 7bit
+
+
+--15657974861.A10423b9.2052
+Date: Wed, 14 Aug 2019 15:44:46 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
+
+--- Comment #99 from Tom B <tom@r.je> ---
+Created attachment 145062
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145062&action=3Dedit
+a list of commits 5.0.13 - 5.1.0
+
+Attached is a list of all amdgpu and powerplay commits from 5.0.13 - 5.1.0.=
+=20
+
+I have tried reverting the following which looked most likely culprits:
+
+919a94d8101ebc29868940b580fe9e9811b7dc86 drm/amdgpu: fix CPDMA hang in PRT =
+mode
+for VEGA20
+
+f7b1844bacecca96dd8d813675e4d8adec02cd66 drm/amdgpu: Update gc golden setti=
+ng
+for vega family
+
+d25689760b747287c6ca03cfe0729da63e0717f4 drm/amdgpu/display:
+drm/amdgpu/display: Keep malloc ref to MST port  -- A change to the way
+displayport connectors are handled, looked promising.
+
+db64a2f43c1bc22c5ff2d22606000b8c3587d0ec drm/amd/powerplay: fix possible ha=
+ng
+with 3+ 4K monitors
+
+
+I also looked at that last one in detail as it seems very close to this bug.
+Nothing in the code looks for 3+ monitors or even 4k. It only actually looks
+for > 1 monitor.
+
+Although it's based on disable_mclk_switching, I also tried forcing
+disable_fclk_switching to true and false, neither had any affect. The resul=
+t is
+that mclk would be calculated based on screens but fclk would be forced on/=
+off.
+ It didn't help but I can't help think that this commit is a little too clo=
+se
+to this issue to be irrelevant.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15657974861.A10423b9.2052
+Date: Wed, 14 Aug 2019 15:44:46 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c99">Comme=
+nt # 99</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+tom&#64;r.je" title=3D"Tom B &lt;tom&#64;r.je&gt;"> <span class=3D"fn">Tom =
+B</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145062=
+" name=3D"attach_145062" title=3D"a list of commits 5.0.13 - 5.1.0">attachm=
+ent 145062</a> <a href=3D"attachment.cgi?id=3D145062&amp;action=3Dedit" tit=
+le=3D"a list of commits 5.0.13 - 5.1.0">[details]</a></span>
+a list of commits 5.0.13 - 5.1.0
+
+Attached is a list of all amdgpu and powerplay commits from 5.0.13 - 5.1.0.=
+=20
+
+I have tried reverting the following which looked most likely culprits:
+
+919a94d8101ebc29868940b580fe9e9811b7dc86 drm/amdgpu: fix CPDMA hang in PRT =
+mode
+for VEGA20
+
+f7b1844bacecca96dd8d813675e4d8adec02cd66 drm/amdgpu: Update gc golden setti=
+ng
+for vega family
+
+d25689760b747287c6ca03cfe0729da63e0717f4 drm/amdgpu/display:
+drm/amdgpu/display: Keep malloc ref to MST port  -- A change to the way
+displayport connectors are handled, looked promising.
+
+db64a2f43c1bc22c5ff2d22606000b8c3587d0ec drm/amd/powerplay: fix possible ha=
+ng
+with 3+ 4K monitors
+
+
+I also looked at that last one in detail as it seems very close to this bug.
+Nothing in the code looks for 3+ monitors or even 4k. It only actually looks
+for &gt; 1 monitor.
+
+Although it's based on disable_mclk_switching, I also tried forcing
+disable_fclk_switching to true and false, neither had any affect. The resul=
+t is
+that mclk would be calculated based on screens but fclk would be forced on/=
+off.
+ It didn't help but I can't help think that this commit is a little too clo=
+se
+to this issue to be irrelevant.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15657974861.A10423b9.2052--
+
+--===============1927573160==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1927573160==--
