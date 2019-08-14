@@ -1,55 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A778CFA0
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2019 11:31:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 947FF8CFAE
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2019 11:33:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 939916E270;
-	Wed, 14 Aug 2019 09:31:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FF746E486;
+	Wed, 14 Aug 2019 09:33:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
- [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB1036E270
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 09:31:39 +0000 (UTC)
-Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 3034028739
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 09:31:39 +0000 (UTC)
-Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id 206D12874F; Wed, 14 Aug 2019 09:31:39 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
- pdx-wl-mail.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
- NO_RELAYS autolearn=ham version=3.3.1
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 74A6F6E486
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 09:33:03 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 6E7957215A; Wed, 14 Aug 2019 09:33:03 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204575] New: Connect a thunderbolt/usb-c dock hang the laptop
- after resume
-Date: Wed, 14 Aug 2019 09:31:38 +0000
-X-Bugzilla-Reason: None
+Subject: [Bug 111399] Freeze after suspend/resume with kernel 5.0
+Date: Wed, 14 Aug 2019 09:33:02 +0000
+X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: zioalex@gmail.com
+X-Bugzilla-Who: vl4d1m1r37@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-204575-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ attachments.created
+Message-ID: <bug-111399-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,73 +52,219 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0306748015=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQ1NzUKCiAgICAg
-ICAgICAgIEJ1ZyBJRDogMjA0NTc1CiAgICAgICAgICAgU3VtbWFyeTogQ29ubmVjdCBhIHRodW5k
-ZXJib2x0L3VzYi1jIGRvY2sgaGFuZyB0aGUgbGFwdG9wIGFmdGVyCiAgICAgICAgICAgICAgICAg
-ICAgcmVzdW1lCiAgICAgICAgICAgUHJvZHVjdDogRHJpdmVycwogICAgICAgICAgIFZlcnNpb246
-IDIuNQogICAgS2VybmVsIFZlcnNpb246IDUuMC4wLTIzLWdlbmVyaWMKICAgICAgICAgIEhhcmR3
-YXJlOiBBbGwKICAgICAgICAgICAgICAgIE9TOiBMaW51eAogICAgICAgICAgICAgIFRyZWU6IE1h
-aW5saW5lCiAgICAgICAgICAgIFN0YXR1czogTkVXCiAgICAgICAgICBTZXZlcml0eTogbm9ybWFs
-CiAgICAgICAgICBQcmlvcml0eTogUDEKICAgICAgICAgQ29tcG9uZW50OiBWaWRlbyhEUkkgLSBu
-b24gSW50ZWwpCiAgICAgICAgICBBc3NpZ25lZTogZHJpdmVyc192aWRlby1kcmlAa2VybmVsLWJ1
-Z3Mub3NkbC5vcmcKICAgICAgICAgIFJlcG9ydGVyOiB6aW9hbGV4QGdtYWlsLmNvbQogICAgICAg
-IFJlZ3Jlc3Npb246IE5vCgpDcmVhdGVkIGF0dGFjaG1lbnQgMjg0MzgxCiAgLS0+IGh0dHBzOi8v
-YnVnemlsbGEua2VybmVsLm9yZy9hdHRhY2htZW50LmNnaT9pZD0yODQzODEmYWN0aW9uPWVkaXQK
-S2VybmVsIHRyYWNlCgpJIGFtIGV4cGVyaWVuY2luZyBhIHByb2JsZW0gd2hlbiBJIGNvbm5lY3Qg
-YSBDYWJsZSBtYXR0ZXJzIFVTQi1DL1RodW5kZXJib2x0CmRvY2sgdG8gbXkgcmVzdW1lZCBsYXB0
-b3AuCgpJIHNlZSBpbiB0aGUgbG9ncyB0aGUgZm9sbG93IHRyYWNlOgpBdWcgMTQgMDk6Mjk6MDUg
-YXN1cmFjZS1zaWduYXZpbyBrZXJuZWw6IEJVRzogdW5hYmxlIHRvIGhhbmRsZSBrZXJuZWwgTlVM
-TApwb2ludGVyIGRlcmVmZXJlbmNlIGF0IDAwMDAwMDAwMDAwMDAzMTgKQXVnIDE0IDA5OjI5OjA1
-IGFzdXJhY2Utc2lnbmF2aW8ga2VybmVsOiAjUEYgZXJyb3I6IFtXUklURV0KQXVnIDE0IDA5OjI5
-OjA1IGFzdXJhY2Utc2lnbmF2aW8ga2VybmVsOiBQR0QgMCBQNEQgMCAKQXVnIDE0IDA5OjI5OjA1
-IGFzdXJhY2Utc2lnbmF2aW8ga2VybmVsOiBPb3BzOiAwMDAyIFsjMV0gU01QIE5PUFRJCkF1ZyAx
-NCAwOToyOTowNSBhc3VyYWNlLXNpZ25hdmlvIGtlcm5lbDogQ1BVOiA0IFBJRDogMjEzNjUgQ29t
-bToga3dvcmtlci80OjIKVGFpbnRlZDogRyAgICAgICAgICAgTyAgICAgIDUuMC4wLTIzLWdlbmVy
-aWMgIzI0fjE4LjA0LjEtVWJ1bnR1CkF1ZyAxNCAwOToyOTowNSBhc3VyYWNlLXNpZ25hdmlvIGtl
-cm5lbDogSGFyZHdhcmUgbmFtZTogTEVOT1ZPCjIwTjJTME03MDAvMjBOMlMwTTcwMCwgQklPUyBO
-MklFVDcxVyAoMS40OSApIDA3LzAzLzIwMTkKQXVnIDE0IDA5OjI5OjA1IGFzdXJhY2Utc2lnbmF2
-aW8ga2VybmVsOiBXb3JrcXVldWU6IGV2ZW50c19sb25nCmRybV9kcF9tc3RfbGlua19wcm9iZV93
-b3JrIFtkcm1fa21zX2hlbHBlcl0KQXVnIDE0IDA5OjI5OjA1IGFzdXJhY2Utc2lnbmF2aW8ga2Vy
-bmVsOiBSSVA6IDAwMTA6bXV0ZXhfbG9jaysweDFkLzB4NDAKQXVnIDE0IDA5OjI5OjA1IGFzdXJh
-Y2Utc2lnbmF2aW8ga2VybmVsOiBDb2RlOiA1ZCBjMyA5MCA2NiAyZSAwZiAxZiA4NCAwMCAwMCAw
-MAowMCAwMCAwZiAxZiA0NCAwMCAwMCA1NSA0OCA4OSBlNSA1MyA0OCA4OSBmYiBlOCBjZSBlNiBm
-ZiBmZiA2NSA0OCA4YiAxNCAyNSAwMAo1YyAwMSAwMCAzMSBjMCA8ZjA+IDQ4IDBmIGIxIDEzIDc1
-IDAzIDViIDVkIGMzIDQ4IDg5IGRmIGU4IGIxIGZmIGZmIGZmIDViIDVkIGMzCjBmCkF1ZyAxNCAw
-OToyOTowNSBhc3VyYWNlLXNpZ25hdmlvIGtlcm5lbDogUlNQOiAwMDE4OmZmZmZiYzM4NDhhZGZi
-ZjAgRUZMQUdTOgowMDAxMDI0NgpBdWcgMTQgMDk6Mjk6MDUgYXN1cmFjZS1zaWduYXZpbyBrZXJu
-ZWw6IFJBWDogMDAwMDAwMDAwMDAwMDAwMCBSQlg6CjAwMDAwMDAwMDAwMDAzMTggUkNYOiBmZmZm
-YmMzODQ0MDk3ODk4CkF1ZyAxNCAwOToyOTowNSBhc3VyYWNlLXNpZ25hdmlvIGtlcm5lbDogUkRY
-OiBmZmZmOTU1NDI0ZjlkZTAwIFJTSToKMDAwMDAwMDAwMDAwMDIxNiBSREk6IDAwMDAwMDAwMDAw
-MDAzMTgKQXVnIDE0IDA5OjI5OjA1IGFzdXJhY2Utc2lnbmF2aW8ga2VybmVsOiBSQlA6IGZmZmZi
-YzM4NDhhZGZiZjggUjA4OgpmZmZmOTU1NGJlNTFhYjcwIFIwOTogMDAwMDAwMDAwMDAwMDAwMApB
-dWcgMTQgMDk6Mjk6MDUgYXN1cmFjZS1zaWduYXZpbyBrZXJuZWw6IFIxMDogMDAwMDAwMDAwMDAw
-MDAwMCBSMTE6CjAwMDAwMDAwMDAwMDAwMDggUjEyOiAwMDAwMDAwMDAwMDAwM2RiCkF1ZyAxNCAw
-OToyOTowNSBhc3VyYWNlLXNpZ25hdmlvIGtlcm5lbDogUjEzOiBmZmZmOTU1NGFlNGU1N2I4IFIx
-NDoKZmZmZjk1NTRiOTIyMjA2MCBSMTU6IDAwMDAwMDAwMDAwMDAzZGIKQXVnIDE0IDA5OjI5OjA1
-IGFzdXJhY2Utc2lnbmF2aW8ga2VybmVsOiBGUzogIDAwMDAwMDAwMDAwMDAwMDAoMDAwMCkKR1M6
-ZmZmZjk1NTRiZTUwMDAwMCgwMDAwKSBrbmxHUzowMDAwMDAwMDAwMDAwMDAwCkF1ZyAxNCAwOToy
-OTowNSBhc3VyYWNlLXNpZ25hdmlvIGtlcm5lbDogQ1M6ICAwMDEwIERTOiAwMDAwIEVTOiAwMDAw
-IENSMDoKMDAwMDAwMDA4MDA1MDAzMwpBdWcgMTQgMDk6Mjk6MDUgYXN1cmFjZS1zaWduYXZpbyBr
-ZXJuZWw6IENSMjogMDAwMDAwMDAwMDAwMDMxOCBDUjM6CjAwMDAwMDA0MDVjMGUwMDQgQ1I0OiAw
-MDAwMDAwMDAwMzYyNmUwCkF1ZyAxNCAwOToyOTowNSBhc3VyYWNlLXNpZ25hdmlvIGtlcm5lbDog
-Q2FsbCBUcmFjZToKQXVnIDE0IDA5OjI5OjA1IGFzdXJhY2Utc2lnbmF2aW8ga2VybmVsOiAgZHJt
-X2RwX21zdF93YWl0X3R4X3JlcGx5KzB4MTU1LzB4MWYwCltkcm1fa21zX2hlbHBlcl0KCkZ1bGwg
-bG9nIGluIGF0dGFjaG1lbnQuClRoZSBkb2NrIGlzIHRoZSBmb2xsb3c6CkF1ZyAwNSAxMDo1MDo1
-NSBhc3VyYWNlLXNpZ25hdmlvIGtlcm5lbDogdXNiIDEtNS4yOiBNYW51ZmFjdHVyZXI6IENhYmxl
-IE1hdHRlcnMKSW5jCkF1ZyAwNSAxMDo1MDo1NSBhc3VyYWNlLXNpZ25hdmlvIGtlcm5lbDogdXNi
-IDEtNS4yOiBTZXJpYWxOdW1iZXI6CjExQUQxRDA5RTAzMDQ4MTIxOTFGMEIwMApBdWcgMDUgMTA6
-NTA6NTUgYXN1cmFjZS1zaWduYXZpbyBrZXJuZWw6IHVzYiAxLTUuMzogbmV3IGxvdy1zcGVlZCBV
-U0IgZGV2aWNlCm51bWJlciA4IHVzaW5nIHhoY2lfaGNkCkF1ZyAwNSAxMDo1MDo1NSBhc3VyYWNl
-LXNpZ25hdmlvIGtlcm5lbDogdXNiIDEtNS4zOiBOZXcgVVNCIGRldmljZSBmb3VuZCwKaWRWZW5k
-b3I9MDQ2ZCwgaWRQcm9kdWN0PWMzMWMsIGJjZERldmljZT02NC4wMAoKCmh0dHBzOi8va2IuY2Fi
-bGVtYXR0ZXJzLmNvbS9pbmRleC5waHA/Vmlldz1lbnRyeSZFbnRyeUlEPTg0CgotLSAKWW91IGFy
-ZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2ln
-bmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbA==
+
+--===============0306748015==
+Content-Type: multipart/alternative; boundary="15657751831.CEeE06CBC.30513"
+Content-Transfer-Encoding: 7bit
+
+
+--15657751831.CEeE06CBC.30513
+Date: Wed, 14 Aug 2019 09:33:03 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111399
+
+            Bug ID: 111399
+           Summary: Freeze after suspend/resume with kernel 5.0
+           Product: DRI
+           Version: unspecified
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: vl4d1m1r37@gmail.com
+
+Created attachment 145058
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145058&action=3Dedit
+blackscreen bug log
+
+System: HP 15-bw660ur
+GPU: Radeon 520 (Sun XT)
+
+Screen freezes after resuming from suspend. Here is discussion of this bug -
+https://bugs.archlinux.org/task/61950.
+
+I made a bisection in branch linux-5.0.y between the tags v5.0-rc1 and 4.20=
+. I
+found that there are two bugs with the screen after resuming from suspend. =
+The
+first bug is the one that is present in the kernel v.5 now and earlier to
+version 5.0-rc1. There is a bug with amdgpu_job_timedout in the log. The se=
+cond
+is the black screen after resuming from suspend and the absence of the
+amdgpu_job_timedout error in the log.
+The second bug first appears in commit
+[262485a50fd4532a8d71165190adc7a0a19bcc9e] drm/amd/display: Expand dc to use
+16.16 bit backlight.
+The first bug with amdgpu_job_timedout first appears in the commit
+[106c7d6148e5aadd394e6701f7e498df49b869d1] drm/amdgpu: abstract the functio=
+n of
+enter/exit safe mode for RLC.
+During the bisect searching for the first error, I went through the followi=
+ng
+stages sequentially: good (resuming from suspend was successful), error 2,
+good, error 2, error 1.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15657751831.CEeE06CBC.30513
+Date: Wed, 14 Aug 2019 09:33:03 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Freeze after suspend/resume with kernel 5.0"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111399">111399</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Freeze after suspend/resume with kernel 5.0
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>unspecified
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>vl4d1m1r37&#64;gmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145058=
+" name=3D"attach_145058" title=3D"blackscreen bug log">attachment 145058</a=
+> <a href=3D"attachment.cgi?id=3D145058&amp;action=3Dedit" title=3D"blacksc=
+reen bug log">[details]</a></span>
+blackscreen bug log
+
+System: HP 15-bw660ur
+GPU: Radeon 520 (Sun XT)
+
+Screen freezes after resuming from suspend. Here is discussion of this bug -
+<a href=3D"https://bugs.archlinux.org/task/61950">https://bugs.archlinux.or=
+g/task/61950</a>.
+
+I made a bisection in branch linux-5.0.y between the tags v5.0-rc1 and 4.20=
+. I
+found that there are two bugs with the screen after resuming from suspend. =
+The
+first bug is the one that is present in the kernel v.5 now and earlier to
+version 5.0-rc1. There is a bug with amdgpu_job_timedout in the log. The se=
+cond
+is the black screen after resuming from suspend and the absence of the
+amdgpu_job_timedout error in the log.
+The second bug first appears in commit
+[262485a50fd4532a8d71165190adc7a0a19bcc9e] drm/amd/display: Expand dc to use
+16.16 bit backlight.
+The first bug with amdgpu_job_timedout first appears in the commit
+[106c7d6148e5aadd394e6701f7e498df49b869d1] drm/amdgpu: abstract the functio=
+n of
+enter/exit safe mode for RLC.
+During the bisect searching for the first error, I went through the followi=
+ng
+stages sequentially: good (resuming from suspend was successful), error 2,
+good, error 2, error 1.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15657751831.CEeE06CBC.30513--
+
+--===============0306748015==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0306748015==--
