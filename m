@@ -1,56 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 173738CE61
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2019 10:28:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BCD18CEE1
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2019 10:58:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4892F6E434;
-	Wed, 14 Aug 2019 08:28:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 028276E484;
+	Wed, 14 Aug 2019 08:58:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2942A6E434
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 08:28:24 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id a30so15655770lfk.12
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 01:28:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=J83KZGJM1H+25Ep5nDkozma8SkGK+OcDZldJ6QzwaH0=;
- b=dql3A7RryeHe9gLaKYCHK75S6KPWdwgnSc/9rCin7I4g+6xj6ayz5/8EF99jjXvSkv
- u2S+cjelM+5uRIGM9SjKc9ksoVATbOHVEhArXOgqaj1r8XB/iilvA6rDnw+JFtoxgxbB
- 9p/LVXaXCRkGnD4zN8Ayv723lUmaQFIpsKDIpp7uvh7xiiCGDqiY5HL3OUMWI+b5jWZS
- uy1Zk7MCfCKdDb/xhw1BO3Ds+u1hsJv2xGYSVy5+VWuOlpHRpKriBxKbaX9u8FrZcl9r
- uT+p8DcbPRxwfg5yTEUY/J9wL39tw3/bgFuepEOS0OaL535cbDJc6OIL2vEyZfJsJCi0
- l6Ng==
-X-Gm-Message-State: APjAAAWj5J3a4pD07ImoJh2zOYscxGlkUW/3vQCeD+OzM5UMMFxis7V9
- 2TB7JoEXPUoN7rHUQV/HGvl7cjSCSAd45XMChrQSxg==
-X-Google-Smtp-Source: APXvYqx/pKIYf3ADrbaWtwPl1LapITMRPkDGA7rLXKcmW0V2qmaOIyExXYgPPecgdSpyox9WXnP5n7P2WaFpzCnXOK0=
-X-Received: by 2002:ac2:59d0:: with SMTP id x16mr26028436lfn.60.1565771302470; 
- Wed, 14 Aug 2019 01:28:22 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 66DB86E47C
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 08:58:46 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 633407215A; Wed, 14 Aug 2019 08:58:46 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109246] HDMI connected monitors fail to sleep and instead turn
+ back on when amdgpu.dc=1
+Date: Wed, 14 Aug 2019 08:58:46 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: jigglywiggly@3dslice.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109246-502-4axnt5jeyk@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109246-502@http.bugs.freedesktop.org/>
+References: <bug-109246-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190812073020.19109-1-geert@linux-m68k.org>
-In-Reply-To: <20190812073020.19109-1-geert@linux-m68k.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 14 Aug 2019 10:28:10 +0200
-Message-ID: <CACRpkdZAA8N6igrNaXcT5m62Fz2irRL-tyRZnjWgsxfacB2aow@mail.gmail.com>
-Subject: Re: [PATCH] m68k: atari: Rename shifter to shifter_st to avoid
- conflict
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=J83KZGJM1H+25Ep5nDkozma8SkGK+OcDZldJ6QzwaH0=;
- b=cUmVYG8UsBSWCZJv2pd/lU/PNItzi2UNLiW0TfIkMtuhz/f0dnCZQBVRRPzmjzbDU1
- rdC1UiKranq4PCx9s8pGLDdNWlc7JTJqMhRBsGlJk7PTqFNy1P03hYYsmPkCfCPrboHE
- 0D/9A510sxkFeysavEIqfp66pVKT46ihtgpDP36P8Z3A4hJbbaT/WITBlrYDFwxlDNcN
- zLMkVCuS8HXPJzOiNrSXY8IyUTRz7gMllIMp1c64kuJZOjJK6HczBxJ2Av8+QOz7gA+0
- T4EXfGOohdgKCjLCVyIixyz3hWalVsJruTGIoJAsFUhUGYsjdb9sJ/UEHSaA2BoPhqiD
- jY7w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,42 +53,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Schmitz <schmitzmic@gmail.com>, linux-fbdev@vger.kernel.org,
- kbuild test robot <lkp@intel.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- linux-m68k <linux-m68k@lists.linux-m68k.org>, Stefan Wahren <wahrenst@gmx.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0139594452=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBBdWcgMTIsIDIwMTkgYXQgOTozMCBBTSBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0
-QGxpbnV4LW02OGsub3JnPiB3cm90ZToKCj4gV2hlbiB0ZXN0LWNvbXBpbGluZyB0aGUgQkNNMjgz
-NSBwaW4gY29udHJvbCBkcml2ZXIgb24gbTY4azoKPgo+ICAgICBJbiBmaWxlIGluY2x1ZGVkIGZy
-b20gYXJjaC9tNjhrL2luY2x1ZGUvYXNtL2lvX21tLmg6MzI6MCwKPiAgICAgICAgICAgICAgICAg
-ICAgICBmcm9tIGFyY2gvbTY4ay9pbmNsdWRlL2FzbS9pby5oOjgsCj4gICAgICAgICAgICAgICAg
-ICAgICAgZnJvbSBpbmNsdWRlL2xpbnV4L2lvLmg6MTMsCj4gICAgICAgICAgICAgICAgICAgICAg
-ZnJvbSBpbmNsdWRlL2xpbnV4L2lycS5oOjIwLAo+ICAgICAgICAgICAgICAgICAgICAgIGZyb20g
-aW5jbHVkZS9saW51eC9ncGlvL2RyaXZlci5oOjcsCj4gICAgICAgICAgICAgICAgICAgICAgZnJv
-bSBkcml2ZXJzL3BpbmN0cmwvYmNtL3BpbmN0cmwtYmNtMjgzNS5jOjE3Ogo+ICAgICBkcml2ZXJz
-L3BpbmN0cmwvYmNtL3BpbmN0cmwtYmNtMjgzNS5jOiBJbiBmdW5jdGlvbiAnYmNtMjcxMV9wdWxs
-X2NvbmZpZ19zZXQnOgo+ICAgICBhcmNoL202OGsvaW5jbHVkZS9hc20vYXRhcmlody5oOjE5MDoy
-MjogZXJyb3I6IGV4cGVjdGVkIGlkZW50aWZpZXIgb3IgJygnIGJlZm9yZSAndm9sYXRpbGUnCj4g
-ICAgICAjIGRlZmluZSBzaGlmdGVyICgoKih2b2xhdGlsZSBzdHJ1Y3QgU0hJRlRFUiAqKVNIRl9C
-QVMpKQo+Cj4gInNoaWZ0ZXIiIGlzIGEgdG9vIGdlbmVyaWMgbmFtZSBmb3IgYSBnbG9iYWwgZGVm
-aW5pdGlvbi4KPgo+IEFzIHRoZSBjb3JyZXNwb25kaW5nIGRlZmluaXRpb24gZm9yIEF0YXJpIFRU
-IGlzIGFscmVhZHkgY2FsbGVkCj4gInNoaWZ0ZXJfdHQiLCBmaXggdGhpcyBieSByZW5hbWluZyB0
-aGUgZGVmaW5pdGlvbiBmb3IgQXRhcmkgU1QgdG8KPiAic2hpZnRlcl9zdCIuCj4KPiBSZXBvcnRl
-ZC1ieToga2J1aWxkIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+Cj4gU3VnZ2VzdGVkLWJ5OiBN
-aWNoYWVsIFNjaG1pdHogPHNjaG1pdHptaWNAZ21haWwuY29tPgo+IFNpZ25lZC1vZmYtYnk6IEdl
-ZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnRAbGludXgtbTY4ay5vcmc+CgpGaW5hbGx5IHdlIGNhbiB1
-c2UgdGhlIHNoIHBmYyBwaW4gY29udHJvbGxlciBvbiBvdXIgbTY4ayBBdGFyaS4KCk5vdyBpZiBJ
-IGNhbiBvbmx5IHJlc29sZGVyIHRoZSBjYXBhY2l0b3JzIG9uIG15IEF0YXJpIFRUIFNUCmJlZm9y
-ZSB0aGUgYm9hcmQgc2VsZi1kZXN0cnVjdHMgSSB3aWxsIG9uZSBkYXkgdGVzdCB0aGlzLgoKUmV2
-aWV3ZWQtYnk6IExpbnVzIFdhbGxlaWogPGxpbnVzLndhbGxlaWpAbGluYXJvLm9yZz4KCllvdXJz
-LApMaW51cyBXYWxsZWlqCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbA==
+
+--===============0139594452==
+Content-Type: multipart/alternative; boundary="15657731264.9f0dFcDc.25739"
+Content-Transfer-Encoding: 7bit
+
+
+--15657731264.9f0dFcDc.25739
+Date: Wed, 14 Aug 2019 08:58:46 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109246
+
+--- Comment #25 from jigglywiggly@3dslice.net ---
+Are any logs needed? I am using a rx570 on a LG 27UD59-B and it keeps waking
+itself up when it tries to sleep. amdgpu.dc=3D0 does fix it but then I get =
+mouse
+lag when I move my mouse quickly for long strokes.
+
+This bug I feel is very important, not having basic sleep functionality is
+really annoying. This did not happen to me when I used my nvidia 1060 3gb w=
+ith
+the proprietary driver.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15657731264.9f0dFcDc.25739
+Date: Wed, 14 Aug 2019 08:58:46 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HDMI connected monitors fail to sleep and instead turn ba=
+ck on when amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109246#c25">Comme=
+nt # 25</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HDMI connected monitors fail to sleep and instead turn ba=
+ck on when amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109246">bug 10924=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+jigglywiggly&#64;3dslice.net" title=3D"jigglywiggly&#64;3dslice.net">jiggly=
+wiggly&#64;3dslice.net</a>
+</span></b>
+        <pre>Are any logs needed? I am using a rx570 on a LG 27UD59-B and i=
+t keeps waking
+itself up when it tries to sleep. amdgpu.dc=3D0 does fix it but then I get =
+mouse
+lag when I move my mouse quickly for long strokes.
+
+This bug I feel is very important, not having basic sleep functionality is
+really annoying. This did not happen to me when I used my nvidia 1060 3gb w=
+ith
+the proprietary driver.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15657731264.9f0dFcDc.25739--
+
+--===============0139594452==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0139594452==--
