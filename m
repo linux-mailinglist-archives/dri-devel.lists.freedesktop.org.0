@@ -1,43 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D27B78C773
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2019 04:24:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEBBD8C9BE
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2019 04:54:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A78BB6E1C0;
-	Wed, 14 Aug 2019 02:24:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7FF86E22A;
+	Wed, 14 Aug 2019 02:54:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 053286E1C0
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 02:24:14 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 2C9F52084F;
- Wed, 14 Aug 2019 02:24:13 +0000 (UTC)
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 31/33] drm/vmwgfx: fix memory leak when too many
- retries have occurred
-Date: Tue, 13 Aug 2019 22:23:21 -0400
-Message-Id: <20190814022323.17111-31-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190814022323.17111-1-sashal@kernel.org>
-References: <20190814022323.17111-1-sashal@kernel.org>
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F54F6E21A;
+ Wed, 14 Aug 2019 02:54:40 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 467Z1Q3Zrpz9sN1;
+ Wed, 14 Aug 2019 12:54:33 +1000 (AEST)
+Date: Wed, 14 Aug 2019 12:54:33 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@linux.ie>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>
+Subject: linux-next: manual merge of the drm-misc tree with the drm and
+ drm-intel trees
+Message-ID: <20190814125433.20147fb7@canb.auug.org.au>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1565749453;
- bh=Zmf44+e0XE3x1uN8fCLZdo1CLwtdhJXzOTYsVc0cUwE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=O+6OkqUeVYdMvQyK5cvossnTrQBJLZZEFW6wxR7ks7YRFl6g0kjZI+CEYPYlxiWks
- vjY/E2J6/0pxiEFlKUgzi7V4vsHVj4kTkM+yPyjCpg0xDI0J4N/R47IOVLb7jIMYH1
- 7T5IWgC5n9BxqKWdeRXfKHmp2MOcDUl9gY34i8Dk=
+ d=canb.auug.org.au; s=201702; t=1565751277;
+ bh=pnshXtAEAaY0k7nVDf7DTgaFW2krmKG1q4o+k+yvbPU=;
+ h=Date:From:To:Cc:Subject:From;
+ b=MSegR/AvH8/o79fAuMHcrDSCK/M0pb7KnAPJrpbAhsRVGeefdLNr65v7lVcMMN7Tc
+ K0U6s5L054IPTsOQx2oF2mFGgeUUPIPjB2Qj0PB/KmqzCVsKtfrEjerSLA/cP+u7UV
+ Qd22ZgjS7P87zqDepi6oWCotZdhYFk8Idl092FKrkRbWClQ2LSI/IVXzughxycRZjx
+ yOmjRxPH29ZnecSXbtGuIef5VwPFMmTBq+On4ksUnrJg+hYrjIOvMYeEToUgUv4pCA
+ ur6UaFfbKlWaskzrN+NxaWSY/8mPmc0auEHWSgm+21C6wQ6qaMFZ9K/10B5tx6zFYl
+ p2ID6CZetpwSA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,36 +51,199 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Colin Ian King <colin.king@canonical.com>,
- Thomas Hellstrom <thellstrom@vmware.com>, Deepak Rawat <drawat@vmware.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Felix Kuehling <Felix.Kuehling@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Content-Type: multipart/mixed; boundary="===============2082232839=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4KClsgVXBzdHJl
-YW0gY29tbWl0IDZiN2MzYjg2ZjBiNjMxMzRiMmFiNTY1MDg5MjFhMDg1M2ZmYTY4N2EgXQoKQ3Vy
-cmVudGx5IHdoZW4gdG9vIG1hbnkgcmV0cmllcyBoYXZlIG9jY3VycmVkIHRoZXJlIGlzIGEgbWVt
-b3J5CmxlYWsgb24gdGhlIGFsbG9jYXRpb24gZm9yIHJlcGx5IG9uIHRoZSBlcnJvciByZXR1cm4g
-cGF0aC4gRml4CnRoaXMgYnkga2ZyZWUnaW5nIHJlcGx5IGJlZm9yZSByZXR1cm5pbmcuCgpBZGRy
-ZXNzZXMtQ292ZXJpdHk6ICgiUmVzb3VyY2UgbGVhayIpCkZpeGVzOiBhOWNkOWMwNDRhYTkgKCJk
-cm0vdm13Z2Z4OiBBZGQgYSBjaGVjayB0byBoYW5kbGUgaG9zdCBtZXNzYWdlIGZhaWx1cmUiKQpT
-aWduZWQtb2ZmLWJ5OiBDb2xpbiBJYW4gS2luZyA8Y29saW4ua2luZ0BjYW5vbmljYWwuY29tPgpS
-ZXZpZXdlZC1ieTogRGVlcGFrIFJhd2F0IDxkcmF3YXRAdm13YXJlLmNvbT4KU2lnbmVkLW9mZi1i
-eTogRGVlcGFrIFJhd2F0IDxkcmF3YXRAdm13YXJlLmNvbT4KU2lnbmVkLW9mZi1ieTogVGhvbWFz
-IEhlbGxzdHJvbSA8dGhlbGxzdHJvbUB2bXdhcmUuY29tPgpTaWduZWQtb2ZmLWJ5OiBTYXNoYSBM
-ZXZpbiA8c2FzaGFsQGtlcm5lbC5vcmc+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdn
-ZnhfbXNnLmMgfCA0ICsrKy0KIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDEgZGVs
-ZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9tc2cu
-YyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X21zZy5jCmluZGV4IGU1N2EwYmFkN2E2
-MjYuLjc3ZGY1MGRkNmQzMGQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13
-Z2Z4X21zZy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X21zZy5jCkBAIC0z
-MDAsOCArMzAwLDEwIEBAIHN0YXRpYyBpbnQgdm13X3JlY3ZfbXNnKHN0cnVjdCBycGNfY2hhbm5l
-bCAqY2hhbm5lbCwgdm9pZCAqKm1zZywKIAkJYnJlYWs7CiAJfQogCi0JaWYgKHJldHJpZXMgPT0g
-UkVUUklFUykKKwlpZiAocmV0cmllcyA9PSBSRVRSSUVTKSB7CisJCWtmcmVlKHJlcGx5KTsKIAkJ
-cmV0dXJuIC1FSU5WQUw7CisJfQogCiAJKm1zZ19sZW4gPSByZXBseV9sZW47CiAJKm1zZyAgICAg
-PSByZXBseTsKLS0gCjIuMjAuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVs
+--===============2082232839==
+Content-Type: multipart/signed; boundary="Sig_/07c9HVqAookgL3hIp9iskP4";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/07c9HVqAookgL3hIp9iskP4
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi all,
+
+Today's linux-next merge of the drm-misc tree got a conflict in:
+
+  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+  drivers/gpu/drm/i915/i915_vma.c
+  drivers/gpu/drm/i915/i915_gem_batch_pool.c
+  drivers/gpu/drm/i915/gem/i915_gem_object.c
+  drivers/gpu/drm/i915/gt/intel_engine_pool.c
+
+between commits:
+
+  a93615f900bd ("drm/i915: Throw away the active object retirement complexi=
+ty")
+  12c255b5dad1 ("drm/i915: Provide an i915_active.acquire callback")
+  cd2a4eaf8c79 ("drm/i915: Report resv_obj allocation failure")
+  b40d73784ffc ("drm/i915: Replace struct_mutex for batch pool serialisatio=
+n")
+  ab2f7a5c18b5 ("drm/amdgpu: Implement VRAM wipe on release")
+  0c159ffef628 ("drm/i915/gem: Defer obj->base.resv fini until RCU callback=
+")
+
+from the drm and drm-intel trees and commit:
+
+  52791eeec1d9 ("dma-buf: rename reservation_object to dma_resv")
+
+from the drm-misc tree.
+
+I fixed it up (see below and I added the following merge fix patch) and
+can carry the fix as necessary. This is now fixed as far as linux-next
+is concerned, but any non trivial conflicts should be mentioned to your
+upstream maintainer when your tree is submitted for merging.  You may
+also want to consider cooperating with the maintainer of the
+conflicting tree to minimise any particularly complex conflicts.
+
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Wed, 14 Aug 2019 12:48:39 +1000
+Subject: [PATCH] drm: fix up fallout from "dma-buf: rename reservation_obje=
+ct to dma_resv"
+
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  | 4 ++--
+ drivers/gpu/drm/i915/gem/i915_gem_object.c  | 2 +-
+ drivers/gpu/drm/i915/gt/intel_engine_pool.c | 8 ++++----
+ 3 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/a=
+md/amdgpu/amdgpu_object.c
+index dfd4aa68c806..6ebe61e14f29 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+@@ -1242,7 +1242,7 @@ void amdgpu_bo_release_notify(struct ttm_buffer_objec=
+t *bo)
+ 	    !(abo->flags & AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE))
+ 		return;
+=20
+-	reservation_object_lock(bo->base.resv, NULL);
++	dma_resv_lock(bo->base.resv, NULL);
+=20
+ 	r =3D amdgpu_fill_buffer(abo, AMDGPU_POISON, bo->base.resv, &fence);
+ 	if (!WARN_ON(r)) {
+@@ -1250,7 +1250,7 @@ void amdgpu_bo_release_notify(struct ttm_buffer_objec=
+t *bo)
+ 		dma_fence_put(fence);
+ 	}
+=20
+-	reservation_object_unlock(bo->base.resv);
++	dma_resv_unlock(bo->base.resv);
+ }
+=20
+ /**
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i=
+915/gem/i915_gem_object.c
+index 3929c3a6b281..67dc61e02c9f 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+@@ -154,7 +154,7 @@ static void __i915_gem_free_object_rcu(struct rcu_head =
+*head)
+ 		container_of(head, typeof(*obj), rcu);
+ 	struct drm_i915_private *i915 =3D to_i915(obj->base.dev);
+=20
+-	reservation_object_fini(&obj->base._resv);
++	dma_resv_fini(&obj->base._resv);
+ 	i915_gem_object_free(obj);
+=20
+ 	GEM_BUG_ON(!atomic_read(&i915->mm.free_count));
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pool.c b/drivers/gpu/drm/=
+i915/gt/intel_engine_pool.c
+index 03d90b49584a..4cd54c569911 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_pool.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_pool.c
+@@ -43,12 +43,12 @@ static int pool_active(struct i915_active *ref)
+ {
+ 	struct intel_engine_pool_node *node =3D
+ 		container_of(ref, typeof(*node), active);
+-	struct reservation_object *resv =3D node->obj->base.resv;
++	struct dma_resv *resv =3D node->obj->base.resv;
+ 	int err;
+=20
+-	if (reservation_object_trylock(resv)) {
+-		reservation_object_add_excl_fence(resv, NULL);
+-		reservation_object_unlock(resv);
++	if (dma_resv_trylock(resv)) {
++		dma_resv_add_excl_fence(resv, NULL);
++		dma_resv_unlock(resv);
+ 	}
+=20
+ 	err =3D i915_gem_object_pin_pages(node->obj);
+--=20
+2.20.1
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/gpu/drm/i915/i915_vma.c
+index 8be1bbef40e5,ebfd03d117cd..000000000000
+--- a/drivers/gpu/drm/i915/i915_vma.c
++++ b/drivers/gpu/drm/i915/i915_vma.c
+@@@ -911,21 -951,16 +911,21 @@@ int i915_vma_move_to_active(struct i915
+  		if (intel_fb_obj_invalidate(obj, ORIGIN_CS))
+  			__i915_active_request_set(&obj->frontbuffer_write, rq);
+ =20
+- 		reservation_object_add_excl_fence(vma->resv, &rq->fence);
+++		dma_resv_add_excl_fence(vma->resv, &rq->fence);
+ +		obj->write_domain =3D I915_GEM_DOMAIN_RENDER;
+  		obj->read_domains =3D 0;
+ +	} else {
+- 		err =3D reservation_object_reserve_shared(vma->resv, 1);
+++		err =3D dma_resv_reserve_shared(vma->resv, 1);
+ +		if (unlikely(err))
+ +			return err;
+ +
+- 		reservation_object_add_shared_fence(vma->resv, &rq->fence);
+++		dma_resv_add_shared_fence(vma->resv, &rq->fence);
+ +		obj->write_domain =3D 0;
+  	}
+  	obj->read_domains |=3D I915_GEM_GPU_DOMAINS;
+ +	obj->mm.dirty =3D true;
+ =20
+ -	if (flags & EXEC_OBJECT_NEEDS_FENCE)
+ -		__i915_active_request_set(&vma->last_fence, rq);
+ -
+ -	export_fence(vma, rq, flags);
+ +	GEM_BUG_ON(!i915_vma_is_active(vma));
+  	return 0;
+  }
+ =20
+
+--Sig_/07c9HVqAookgL3hIp9iskP4
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl1Td+kACgkQAVBC80lX
+0GzU8Af+KtbzLAIC/g1NfEN0dDKWUtuerpCRsRNbqfG6sDdQaN3xyMD+BdWzifLn
+zeNEae4NDLy36jPsJv7QJw+Xb/HMR6y9BvkFhxTbDy80zTHH4BW/SVVES0f8IhQg
+24xVCazCBmRJgTef5zatUtI4rB0angmBlwgzc+lfV6gaeyRuoWk26mhu3nyxJ9DI
+CCpVYufENS8B2esIU8GIwT/xBqrvOFGO7HpfAxhPmmqIjNGbeu8K/dE2acMBaOBl
+bTCTNH6lVp2H7Mj0UP1ZHyfAmTWhjX2bBKux5o0wI/3GpdMSsvX3hJZaH/VsjB2S
+K6ZPgpDbByYUBytWShudc35FDA93lA==
+=tx55
+-----END PGP SIGNATURE-----
+
+--Sig_/07c9HVqAookgL3hIp9iskP4--
+
+--===============2082232839==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2082232839==--
