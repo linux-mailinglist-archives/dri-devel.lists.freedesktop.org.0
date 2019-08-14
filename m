@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 310318C6D2
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2019 04:19:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D27B78C773
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2019 04:24:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 742E58925A;
-	Wed, 14 Aug 2019 02:19:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A78BB6E1C0;
+	Wed, 14 Aug 2019 02:24:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD545891E7
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 02:19:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 053286E1C0
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 02:24:14 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D29862084D;
- Wed, 14 Aug 2019 02:19:35 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 2C9F52084F;
+ Wed, 14 Aug 2019 02:24:13 +0000 (UTC)
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 40/44] drm/vmwgfx: fix memory leak when too many
+Subject: [PATCH AUTOSEL 4.9 31/33] drm/vmwgfx: fix memory leak when too many
  retries have occurred
-Date: Tue, 13 Aug 2019 22:18:29 -0400
-Message-Id: <20190814021834.16662-40-sashal@kernel.org>
+Date: Tue, 13 Aug 2019 22:23:21 -0400
+Message-Id: <20190814022323.17111-31-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190814021834.16662-1-sashal@kernel.org>
-References: <20190814021834.16662-1-sashal@kernel.org>
+In-Reply-To: <20190814022323.17111-1-sashal@kernel.org>
+References: <20190814022323.17111-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1565749176;
- bh=fG5gKSURpvl8cm1v+OZybGwKNiFssUS3aCFzr7Uketo=;
+ d=kernel.org; s=default; t=1565749453;
+ bh=Zmf44+e0XE3x1uN8fCLZdo1CLwtdhJXzOTYsVc0cUwE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VDPiDtMhlWrIrG1TVscC5A7ZQNO5aFEFHj6FnSFoqUxlesYtXEKsiJ7ioy98F3ZRI
- KDrZV1Trsok7RS7bVeol2Sjcuviv37ai38ngY66lPTNhKB3RMaojtRJmm7lJphFAKD
- 6lZkdl72LO18Ytg66cy6uJUrWJj0SwbSjNWYZS8Y=
+ b=O+6OkqUeVYdMvQyK5cvossnTrQBJLZZEFW6wxR7ks7YRFl6g0kjZI+CEYPYlxiWks
+ vjY/E2J6/0pxiEFlKUgzi7V4vsHVj4kTkM+yPyjCpg0xDI0J4N/R47IOVLb7jIMYH1
+ 7T5IWgC5n9BxqKWdeRXfKHmp2MOcDUl9gY34i8Dk=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,8 +72,8 @@ IEhlbGxzdHJvbSA8dGhlbGxzdHJvbUB2bXdhcmUuY29tPgpTaWduZWQtb2ZmLWJ5OiBTYXNoYSBM
 ZXZpbiA8c2FzaGFsQGtlcm5lbC5vcmc+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdn
 ZnhfbXNnLmMgfCA0ICsrKy0KIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDEgZGVs
 ZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9tc2cu
-YyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X21zZy5jCmluZGV4IDk3MDAwOTk2Yjhk
-YzUuLjUwY2MwNjBjYzU1MmEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13
+YyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X21zZy5jCmluZGV4IGU1N2EwYmFkN2E2
+MjYuLjc3ZGY1MGRkNmQzMGQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13
 Z2Z4X21zZy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X21zZy5jCkBAIC0z
 MDAsOCArMzAwLDEwIEBAIHN0YXRpYyBpbnQgdm13X3JlY3ZfbXNnKHN0cnVjdCBycGNfY2hhbm5l
 bCAqY2hhbm5lbCwgdm9pZCAqKm1zZywKIAkJYnJlYWs7CiAJfQogCi0JaWYgKHJldHJpZXMgPT0g
