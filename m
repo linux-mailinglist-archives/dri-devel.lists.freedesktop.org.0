@@ -1,46 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BCD18CEE1
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2019 10:58:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A778CFA0
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2019 11:31:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 028276E484;
-	Wed, 14 Aug 2019 08:58:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 939916E270;
+	Wed, 14 Aug 2019 09:31:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 66DB86E47C
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 08:58:46 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 633407215A; Wed, 14 Aug 2019 08:58:46 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
+ [198.145.29.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB1036E270
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 09:31:39 +0000 (UTC)
+Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 3034028739
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 09:31:39 +0000 (UTC)
+Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
+ id 206D12874F; Wed, 14 Aug 2019 09:31:39 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+ pdx-wl-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
+ NO_RELAYS autolearn=ham version=3.3.1
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109246] HDMI connected monitors fail to sleep and instead turn
- back on when amdgpu.dc=1
-Date: Wed, 14 Aug 2019 08:58:46 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+Subject: [Bug 204575] New: Connect a thunderbolt/usb-c dock hang the laptop
+ after resume
+Date: Wed, 14 Aug 2019 09:31:38 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: jigglywiggly@3dslice.net
+X-Bugzilla-Who: zioalex@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109246-502-4axnt5jeyk@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109246-502@http.bugs.freedesktop.org/>
-References: <bug-109246-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-204575-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,105 +62,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0139594452=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0139594452==
-Content-Type: multipart/alternative; boundary="15657731264.9f0dFcDc.25739"
-Content-Transfer-Encoding: 7bit
-
-
---15657731264.9f0dFcDc.25739
-Date: Wed, 14 Aug 2019 08:58:46 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109246
-
---- Comment #25 from jigglywiggly@3dslice.net ---
-Are any logs needed? I am using a rx570 on a LG 27UD59-B and it keeps waking
-itself up when it tries to sleep. amdgpu.dc=3D0 does fix it but then I get =
-mouse
-lag when I move my mouse quickly for long strokes.
-
-This bug I feel is very important, not having basic sleep functionality is
-really annoying. This did not happen to me when I used my nvidia 1060 3gb w=
-ith
-the proprietary driver.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15657731264.9f0dFcDc.25739
-Date: Wed, 14 Aug 2019 08:58:46 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HDMI connected monitors fail to sleep and instead turn ba=
-ck on when amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109246#c25">Comme=
-nt # 25</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HDMI connected monitors fail to sleep and instead turn ba=
-ck on when amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109246">bug 10924=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-jigglywiggly&#64;3dslice.net" title=3D"jigglywiggly&#64;3dslice.net">jiggly=
-wiggly&#64;3dslice.net</a>
-</span></b>
-        <pre>Are any logs needed? I am using a rx570 on a LG 27UD59-B and i=
-t keeps waking
-itself up when it tries to sleep. amdgpu.dc=3D0 does fix it but then I get =
-mouse
-lag when I move my mouse quickly for long strokes.
-
-This bug I feel is very important, not having basic sleep functionality is
-really annoying. This did not happen to me when I used my nvidia 1060 3gb w=
-ith
-the proprietary driver.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15657731264.9f0dFcDc.25739--
-
---===============0139594452==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0139594452==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQ1NzUKCiAgICAg
+ICAgICAgIEJ1ZyBJRDogMjA0NTc1CiAgICAgICAgICAgU3VtbWFyeTogQ29ubmVjdCBhIHRodW5k
+ZXJib2x0L3VzYi1jIGRvY2sgaGFuZyB0aGUgbGFwdG9wIGFmdGVyCiAgICAgICAgICAgICAgICAg
+ICAgcmVzdW1lCiAgICAgICAgICAgUHJvZHVjdDogRHJpdmVycwogICAgICAgICAgIFZlcnNpb246
+IDIuNQogICAgS2VybmVsIFZlcnNpb246IDUuMC4wLTIzLWdlbmVyaWMKICAgICAgICAgIEhhcmR3
+YXJlOiBBbGwKICAgICAgICAgICAgICAgIE9TOiBMaW51eAogICAgICAgICAgICAgIFRyZWU6IE1h
+aW5saW5lCiAgICAgICAgICAgIFN0YXR1czogTkVXCiAgICAgICAgICBTZXZlcml0eTogbm9ybWFs
+CiAgICAgICAgICBQcmlvcml0eTogUDEKICAgICAgICAgQ29tcG9uZW50OiBWaWRlbyhEUkkgLSBu
+b24gSW50ZWwpCiAgICAgICAgICBBc3NpZ25lZTogZHJpdmVyc192aWRlby1kcmlAa2VybmVsLWJ1
+Z3Mub3NkbC5vcmcKICAgICAgICAgIFJlcG9ydGVyOiB6aW9hbGV4QGdtYWlsLmNvbQogICAgICAg
+IFJlZ3Jlc3Npb246IE5vCgpDcmVhdGVkIGF0dGFjaG1lbnQgMjg0MzgxCiAgLS0+IGh0dHBzOi8v
+YnVnemlsbGEua2VybmVsLm9yZy9hdHRhY2htZW50LmNnaT9pZD0yODQzODEmYWN0aW9uPWVkaXQK
+S2VybmVsIHRyYWNlCgpJIGFtIGV4cGVyaWVuY2luZyBhIHByb2JsZW0gd2hlbiBJIGNvbm5lY3Qg
+YSBDYWJsZSBtYXR0ZXJzIFVTQi1DL1RodW5kZXJib2x0CmRvY2sgdG8gbXkgcmVzdW1lZCBsYXB0
+b3AuCgpJIHNlZSBpbiB0aGUgbG9ncyB0aGUgZm9sbG93IHRyYWNlOgpBdWcgMTQgMDk6Mjk6MDUg
+YXN1cmFjZS1zaWduYXZpbyBrZXJuZWw6IEJVRzogdW5hYmxlIHRvIGhhbmRsZSBrZXJuZWwgTlVM
+TApwb2ludGVyIGRlcmVmZXJlbmNlIGF0IDAwMDAwMDAwMDAwMDAzMTgKQXVnIDE0IDA5OjI5OjA1
+IGFzdXJhY2Utc2lnbmF2aW8ga2VybmVsOiAjUEYgZXJyb3I6IFtXUklURV0KQXVnIDE0IDA5OjI5
+OjA1IGFzdXJhY2Utc2lnbmF2aW8ga2VybmVsOiBQR0QgMCBQNEQgMCAKQXVnIDE0IDA5OjI5OjA1
+IGFzdXJhY2Utc2lnbmF2aW8ga2VybmVsOiBPb3BzOiAwMDAyIFsjMV0gU01QIE5PUFRJCkF1ZyAx
+NCAwOToyOTowNSBhc3VyYWNlLXNpZ25hdmlvIGtlcm5lbDogQ1BVOiA0IFBJRDogMjEzNjUgQ29t
+bToga3dvcmtlci80OjIKVGFpbnRlZDogRyAgICAgICAgICAgTyAgICAgIDUuMC4wLTIzLWdlbmVy
+aWMgIzI0fjE4LjA0LjEtVWJ1bnR1CkF1ZyAxNCAwOToyOTowNSBhc3VyYWNlLXNpZ25hdmlvIGtl
+cm5lbDogSGFyZHdhcmUgbmFtZTogTEVOT1ZPCjIwTjJTME03MDAvMjBOMlMwTTcwMCwgQklPUyBO
+MklFVDcxVyAoMS40OSApIDA3LzAzLzIwMTkKQXVnIDE0IDA5OjI5OjA1IGFzdXJhY2Utc2lnbmF2
+aW8ga2VybmVsOiBXb3JrcXVldWU6IGV2ZW50c19sb25nCmRybV9kcF9tc3RfbGlua19wcm9iZV93
+b3JrIFtkcm1fa21zX2hlbHBlcl0KQXVnIDE0IDA5OjI5OjA1IGFzdXJhY2Utc2lnbmF2aW8ga2Vy
+bmVsOiBSSVA6IDAwMTA6bXV0ZXhfbG9jaysweDFkLzB4NDAKQXVnIDE0IDA5OjI5OjA1IGFzdXJh
+Y2Utc2lnbmF2aW8ga2VybmVsOiBDb2RlOiA1ZCBjMyA5MCA2NiAyZSAwZiAxZiA4NCAwMCAwMCAw
+MAowMCAwMCAwZiAxZiA0NCAwMCAwMCA1NSA0OCA4OSBlNSA1MyA0OCA4OSBmYiBlOCBjZSBlNiBm
+ZiBmZiA2NSA0OCA4YiAxNCAyNSAwMAo1YyAwMSAwMCAzMSBjMCA8ZjA+IDQ4IDBmIGIxIDEzIDc1
+IDAzIDViIDVkIGMzIDQ4IDg5IGRmIGU4IGIxIGZmIGZmIGZmIDViIDVkIGMzCjBmCkF1ZyAxNCAw
+OToyOTowNSBhc3VyYWNlLXNpZ25hdmlvIGtlcm5lbDogUlNQOiAwMDE4OmZmZmZiYzM4NDhhZGZi
+ZjAgRUZMQUdTOgowMDAxMDI0NgpBdWcgMTQgMDk6Mjk6MDUgYXN1cmFjZS1zaWduYXZpbyBrZXJu
+ZWw6IFJBWDogMDAwMDAwMDAwMDAwMDAwMCBSQlg6CjAwMDAwMDAwMDAwMDAzMTggUkNYOiBmZmZm
+YmMzODQ0MDk3ODk4CkF1ZyAxNCAwOToyOTowNSBhc3VyYWNlLXNpZ25hdmlvIGtlcm5lbDogUkRY
+OiBmZmZmOTU1NDI0ZjlkZTAwIFJTSToKMDAwMDAwMDAwMDAwMDIxNiBSREk6IDAwMDAwMDAwMDAw
+MDAzMTgKQXVnIDE0IDA5OjI5OjA1IGFzdXJhY2Utc2lnbmF2aW8ga2VybmVsOiBSQlA6IGZmZmZi
+YzM4NDhhZGZiZjggUjA4OgpmZmZmOTU1NGJlNTFhYjcwIFIwOTogMDAwMDAwMDAwMDAwMDAwMApB
+dWcgMTQgMDk6Mjk6MDUgYXN1cmFjZS1zaWduYXZpbyBrZXJuZWw6IFIxMDogMDAwMDAwMDAwMDAw
+MDAwMCBSMTE6CjAwMDAwMDAwMDAwMDAwMDggUjEyOiAwMDAwMDAwMDAwMDAwM2RiCkF1ZyAxNCAw
+OToyOTowNSBhc3VyYWNlLXNpZ25hdmlvIGtlcm5lbDogUjEzOiBmZmZmOTU1NGFlNGU1N2I4IFIx
+NDoKZmZmZjk1NTRiOTIyMjA2MCBSMTU6IDAwMDAwMDAwMDAwMDAzZGIKQXVnIDE0IDA5OjI5OjA1
+IGFzdXJhY2Utc2lnbmF2aW8ga2VybmVsOiBGUzogIDAwMDAwMDAwMDAwMDAwMDAoMDAwMCkKR1M6
+ZmZmZjk1NTRiZTUwMDAwMCgwMDAwKSBrbmxHUzowMDAwMDAwMDAwMDAwMDAwCkF1ZyAxNCAwOToy
+OTowNSBhc3VyYWNlLXNpZ25hdmlvIGtlcm5lbDogQ1M6ICAwMDEwIERTOiAwMDAwIEVTOiAwMDAw
+IENSMDoKMDAwMDAwMDA4MDA1MDAzMwpBdWcgMTQgMDk6Mjk6MDUgYXN1cmFjZS1zaWduYXZpbyBr
+ZXJuZWw6IENSMjogMDAwMDAwMDAwMDAwMDMxOCBDUjM6CjAwMDAwMDA0MDVjMGUwMDQgQ1I0OiAw
+MDAwMDAwMDAwMzYyNmUwCkF1ZyAxNCAwOToyOTowNSBhc3VyYWNlLXNpZ25hdmlvIGtlcm5lbDog
+Q2FsbCBUcmFjZToKQXVnIDE0IDA5OjI5OjA1IGFzdXJhY2Utc2lnbmF2aW8ga2VybmVsOiAgZHJt
+X2RwX21zdF93YWl0X3R4X3JlcGx5KzB4MTU1LzB4MWYwCltkcm1fa21zX2hlbHBlcl0KCkZ1bGwg
+bG9nIGluIGF0dGFjaG1lbnQuClRoZSBkb2NrIGlzIHRoZSBmb2xsb3c6CkF1ZyAwNSAxMDo1MDo1
+NSBhc3VyYWNlLXNpZ25hdmlvIGtlcm5lbDogdXNiIDEtNS4yOiBNYW51ZmFjdHVyZXI6IENhYmxl
+IE1hdHRlcnMKSW5jCkF1ZyAwNSAxMDo1MDo1NSBhc3VyYWNlLXNpZ25hdmlvIGtlcm5lbDogdXNi
+IDEtNS4yOiBTZXJpYWxOdW1iZXI6CjExQUQxRDA5RTAzMDQ4MTIxOTFGMEIwMApBdWcgMDUgMTA6
+NTA6NTUgYXN1cmFjZS1zaWduYXZpbyBrZXJuZWw6IHVzYiAxLTUuMzogbmV3IGxvdy1zcGVlZCBV
+U0IgZGV2aWNlCm51bWJlciA4IHVzaW5nIHhoY2lfaGNkCkF1ZyAwNSAxMDo1MDo1NSBhc3VyYWNl
+LXNpZ25hdmlvIGtlcm5lbDogdXNiIDEtNS4zOiBOZXcgVVNCIGRldmljZSBmb3VuZCwKaWRWZW5k
+b3I9MDQ2ZCwgaWRQcm9kdWN0PWMzMWMsIGJjZERldmljZT02NC4wMAoKCmh0dHBzOi8va2IuY2Fi
+bGVtYXR0ZXJzLmNvbS9pbmRleC5waHA/Vmlldz1lbnRyeSZFbnRyeUlEPTg0CgotLSAKWW91IGFy
+ZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2ln
+bmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbA==
