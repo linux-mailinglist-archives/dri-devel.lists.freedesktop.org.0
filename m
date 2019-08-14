@@ -1,47 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C290B8CA1B
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2019 06:10:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 484AA8CAC3
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2019 07:52:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E777B6E1B6;
-	Wed, 14 Aug 2019 04:10:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33F216E1BD;
+	Wed, 14 Aug 2019 05:52:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 501266E1B6
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 04:10:45 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 49A4F721AA; Wed, 14 Aug 2019 04:10:45 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110886] After S3 resume, kernel:
- [drm:drm_atomic_helper_wait_for_flip_done [drm_kms_helper]] *ERROR*
- [CRTC:57:crtc-0] flip_done timed out
-Date: Wed, 14 Aug 2019 04:10:45 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kai.heng.feng@canonical.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110886-502-lj4ZFQs3Ze@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110886-502@http.bugs.freedesktop.org/>
-References: <bug-110886-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com
+ [IPv6:2607:f8b0:4864:20::54a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B040F6E1BD
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 05:52:09 +0000 (UTC)
+Received: by mail-pg1-x54a.google.com with SMTP id k20so67834451pgg.15
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 22:52:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=JIx6gT8XrMurJkYFq0Mwh3doyQoWfrR1Obdr19umRAo=;
+ b=ZmV44HQXfVzgyMiVixn+KmtTlJPylnteFqgdFhMLzPkkvCpLVPgiVaXOfTMXyPtUN6
+ 0vPbi7euVSSU+XNtUFONEWX29ZJiMLqy+8FzNN11Y4TcGCinw2fXnuyu0y+EaZiFPzT8
+ nWilAcggtVVyyZT56mLWb544Tf8FttaLsjg5PpAJjn+u95US1SEUdBQpO4C0PAvhndhW
+ 7ynszO/6caM4GBT60hfknLsvccQLKJZumYdXIqR6d0LYbSWyPg7/nB6i4nAQO2jRzqYC
+ Uzh6nRK+3IKkProu2ILHQL80Kmj476RSvh3mIKHpV1jURgjahYm4pudgXdqF2gVMQdnL
+ d36Q==
+X-Gm-Message-State: APjAAAUqHBnnYqPqN0RLY52zLwlm7pK88JK2eP8ZMuE9KLPGGBr9HE//
+ ruPnHB2I6N3hHCM2d+n2bWSLlMXZJ5B2SkDR7nANxQ==
+X-Google-Smtp-Source: APXvYqzpu9CiuWlTANWLufkskZGUP8V49k9uzqoRz2WmUPz8UVqc7iwJcusHzog7K8pIU/rzSJgkN1EhsWWgKYr26ckb6g==
+X-Received: by 2002:a63:6c4:: with SMTP id 187mr34796011pgg.401.1565761928470; 
+ Tue, 13 Aug 2019 22:52:08 -0700 (PDT)
+Date: Tue, 13 Aug 2019 22:50:50 -0700
+Message-Id: <20190814055108.214253-1-brendanhiggins@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
+Subject: [PATCH v13 00/18] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+From: Brendan Higgins <brendanhiggins@google.com>
+To: frowand.list@gmail.com, gregkh@linuxfoundation.org, jpoimboe@redhat.com, 
+ keescook@google.com, kieran.bingham@ideasonboard.com, mcgrof@kernel.org, 
+ peterz@infradead.org, robh@kernel.org, sboyd@kernel.org, shuah@kernel.org, 
+ tytso@mit.edu, yamada.masahiro@socionext.com
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=JIx6gT8XrMurJkYFq0Mwh3doyQoWfrR1Obdr19umRAo=;
+ b=lYtLPslE++KBhps7EtMXbyUcustGXe90OzEpA99zwHxQbVzot3NR81r30SxELmpTRj
+ bFTX6PGmhfSfkUB0/hnN4TiDWPb9DGLT5n61SEFnAdjshDyjj9bfjOnYsVA8+2Wxa382
+ hltZppNluZLMP3S27A5ep9xYE0fIqIXqNkFfqFxv/fX4amYyXfyPeKZMuHa0KtJyXYcL
+ 3dfzQ9XQrdy8jFFrB3jJCdZRXVPkDPt0BxDMzHm0Rbo2i7qahJfYSiN5kDw0wJhAXIM9
+ 5J0ignULWuWomRnfxW/Cnhs9Nkq0yzbvKJSmYrGdmqVvm6nl9IXqxbyhcWibeLv1FLvS
+ sTXg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,180 +63,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0837081787=="
+Cc: pmladek@suse.com, linux-doc@vger.kernel.org, amir73il@gmail.com,
+ Brendan Higgins <brendanhiggins@google.com>, dri-devel@lists.freedesktop.org,
+ Alexander.Levin@microsoft.com, linux-kselftest@vger.kernel.org,
+ linux-nvdimm@lists.01.org, khilman@baylibre.com, knut.omang@oracle.com,
+ wfg@linux.intel.com, joel@jms.id.au, rientjes@google.com, jdike@addtoit.com,
+ dan.carpenter@oracle.com, devicetree@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, Tim.Bird@sony.com, linux-um@lists.infradead.org,
+ rostedt@goodmis.org, julia.lawall@lip6.fr, Bjorn Helgaas <bhelgaas@google.com>,
+ kunit-dev@googlegroups.com, richard@nod.at, rdunlap@infradead.org,
+ linux-kernel@vger.kernel.org, mpe@ellerman.id.au,
+ linux-fsdevel@vger.kernel.org, logang@deltatee.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0837081787==
-Content-Type: multipart/alternative; boundary="15657558451.BB2267.15733"
-Content-Transfer-Encoding: 7bit
-
-
---15657558451.BB2267.15733
-Date: Wed, 14 Aug 2019 04:10:45 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110886
-
---- Comment #9 from Kai-Heng Feng <kai.heng.feng@canonical.com> ---
-(In reply to Andrey Grodzovsky from comment #8)
-> (In reply to Kai-Heng Feng from comment #6)
-> > Created attachment 145044 [details]
-> > failed log when iommu is disabled.
->=20
-> What was the failur ewith IOMMU disabled ?
-Blanked screen. Graphics no longer works.
-
->Is it the same as with IOMMU enabled ?
-Yes.
-
-> In the log I only see PSP errors on resume. Can you confirm that the only
-> failure/error you observed in the log in that use case ?
-Yes. I haven't seen=20
-"[drm:drm_atomic_helper_wait_for_flip_done [drm_kms_helper]] *ERROR*
-[CRTC:57:crtc-0] flip_done timed out"
-for a while.
-
-Now it always shows PSP fail.
-
->=20
-> Can you please provide your FW versions by=20
-> cat /sys/kernel/debug/dri/0/amdgpu_firmware_info
-VCE feature version: 0, firmware version: 0x00000000
-UVD feature version: 0, firmware version: 0x00000000
-MC feature version: 0, firmware version: 0x00000000
-ME feature version: 40, firmware version: 0x00000099
-PFP feature version: 40, firmware version: 0x000000ae
-CE feature version: 40, firmware version: 0x0000004d
-RLC feature version: 1, firmware version: 0x00000213
-RLC SRLC feature version: 1, firmware version: 0x00000001
-RLC SRLG feature version: 1, firmware version: 0x00000001
-RLC SRLS feature version: 1, firmware version: 0x00000001
-MEC feature version: 40, firmware version: 0x0000018b
-MEC2 feature version: 40, firmware version: 0x0000018b
-SOS feature version: 0, firmware version: 0x00000000
-ASD feature version: 0, firmware version: 0x001ad4d4
-TA XGMI feature version: 0, firmware version: 0x00000000
-TA RAS feature version: 0, firmware version: 0x00000000
-SMC feature version: 0, firmware version: 0x00001e4f
-SDMA0 feature version: 41, firmware version: 0x000000a9
-VCN feature version: 0, firmware version: 0x0110901c
-DMCU feature version: 0, firmware version: 0x00000000
-VBIOS version: SWBRT32481.001
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15657558451.BB2267.15733
-Date: Wed, 14 Aug 2019 04:10:45 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - After S3 resume, kernel: [drm:drm_atomic_helper_wait_for_=
-flip_done [drm_kms_helper]] *ERROR* [CRTC:57:crtc-0] flip_done timed out"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110886#c9">Commen=
-t # 9</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - After S3 resume, kernel: [drm:drm_atomic_helper_wait_for_=
-flip_done [drm_kms_helper]] *ERROR* [CRTC:57:crtc-0] flip_done timed out"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110886">bug 11088=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-kai.heng.feng&#64;canonical.com" title=3D"Kai-Heng Feng &lt;kai.heng.feng&#=
-64;canonical.com&gt;"> <span class=3D"fn">Kai-Heng Feng</span></a>
-</span></b>
-        <pre>(In reply to Andrey Grodzovsky from <a href=3D"show_bug.cgi?id=
-=3D110886#c8">comment #8</a>)
-<span class=3D"quote">&gt; (In reply to Kai-Heng Feng from <a href=3D"show_=
-bug.cgi?id=3D110886#c6">comment #6</a>)
-&gt; &gt; Created <span class=3D""><a href=3D"attachment.cgi?id=3D145044" n=
-ame=3D"attach_145044" title=3D"failed log when iommu is disabled.">attachme=
-nt 145044</a> <a href=3D"attachment.cgi?id=3D145044&amp;action=3Dedit" titl=
-e=3D"failed log when iommu is disabled.">[details]</a></span>
-&gt; &gt; failed log when iommu is disabled.
-&gt;=20
-&gt; What was the failur ewith IOMMU disabled ?</span >
-Blanked screen. Graphics no longer works.
-
-<span class=3D"quote">&gt;Is it the same as with IOMMU enabled ?</span >
-Yes.
-
-<span class=3D"quote">&gt; In the log I only see PSP errors on resume. Can =
-you confirm that the only
-&gt; failure/error you observed in the log in that use case ?</span >
-Yes. I haven't seen=20
-&quot;[drm:drm_atomic_helper_wait_for_flip_done [drm_kms_helper]] *ERROR*
-[CRTC:57:crtc-0] flip_done timed out&quot;
-for a while.
-
-Now it always shows PSP fail.
-
-<span class=3D"quote">&gt;=20
-&gt; Can you please provide your FW versions by=20
-&gt; cat /sys/kernel/debug/dri/0/amdgpu_firmware_info</span >
-VCE feature version: 0, firmware version: 0x00000000
-UVD feature version: 0, firmware version: 0x00000000
-MC feature version: 0, firmware version: 0x00000000
-ME feature version: 40, firmware version: 0x00000099
-PFP feature version: 40, firmware version: 0x000000ae
-CE feature version: 40, firmware version: 0x0000004d
-RLC feature version: 1, firmware version: 0x00000213
-RLC SRLC feature version: 1, firmware version: 0x00000001
-RLC SRLG feature version: 1, firmware version: 0x00000001
-RLC SRLS feature version: 1, firmware version: 0x00000001
-MEC feature version: 40, firmware version: 0x0000018b
-MEC2 feature version: 40, firmware version: 0x0000018b
-SOS feature version: 0, firmware version: 0x00000000
-ASD feature version: 0, firmware version: 0x001ad4d4
-TA XGMI feature version: 0, firmware version: 0x00000000
-TA RAS feature version: 0, firmware version: 0x00000000
-SMC feature version: 0, firmware version: 0x00001e4f
-SDMA0 feature version: 41, firmware version: 0x000000a9
-VCN feature version: 0, firmware version: 0x0110901c
-DMCU feature version: 0, firmware version: 0x00000000
-VBIOS version: SWBRT32481.001</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15657558451.BB2267.15733--
-
---===============0837081787==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0837081787==--
+IyMgVEw7RFIKClRoaXMgcmV2aXNpb24gYWRkcmVzc2VzIGNvbW1lbnRzIGZyb20gU3RlcGhlbiBh
+bmQgQmpvcm4gSGVsZ2Fhcy4gTW9zdApjaGFuZ2VzIGFyZSBwcmV0dHkgbWlub3Igc3R1ZmYgdGhh
+dCBkb2Vzbid0IGFmZmVjdCB0aGUgQVBJIGluIGFueXdheS4KT25lIHNpZ25pZmljYW50IGNoYW5n
+ZSwgaG93ZXZlciwgaXMgdGhhdCBJIGFkZGVkIHN1cHBvcnQgZm9yIGZyZWVpbmcKa3VuaXRfcmVz
+b3VyY2UgbWFuYWdlZCByZXNvdXJjZXMgYmVmb3JlIHRoZSB0ZXN0IGNhc2UgaXMgZmluaXNoZWQg
+dmlhCmt1bml0X3Jlc291cmNlX2Rlc3Ryb3koKS4gQWRkaXRpb25hbGx5LCBCam9ybiBwb2ludGVk
+IG91dCB0aGF0IEkgYnJva2UKS1VuaXQgb24gY2VydGFpbiBjb25maWd1cmF0aW9ucyAobGlrZSB0
+aGUgZGVmYXVsdCBvbmUgZm9yIHg4Niwgd2hvb3BzKS4KCkJhc2VkIG9uIFN0ZXBoZW4ncyBmZWVk
+YmFjayBvbiB0aGUgcHJldmlvdXMgY2hhbmdlLCBJIHRoaW5rIHdlIGFyZQpwcmV0dHkgY2xvc2Uu
+IEkgYW0gbm90IGV4cGVjdGluZyBhbnkgc2lnbmlmaWNhbnQgY2hhbmdlcyBmcm9tIGhlcmUgb24K
+b3V0LgoKIyMgQmFja2dyb3VuZAoKVGhpcyBwYXRjaCBzZXQgcHJvcG9zZXMgS1VuaXQsIGEgbGln
+aHR3ZWlnaHQgdW5pdCB0ZXN0aW5nIGFuZCBtb2NraW5nCmZyYW1ld29yayBmb3IgdGhlIExpbnV4
+IGtlcm5lbC4KClVubGlrZSBBdXRvdGVzdCBhbmQga3NlbGZ0ZXN0LCBLVW5pdCBpcyBhIHRydWUg
+dW5pdCB0ZXN0aW5nIGZyYW1ld29yazsKaXQgZG9lcyBub3QgcmVxdWlyZSBpbnN0YWxsaW5nIHRo
+ZSBrZXJuZWwgb24gYSB0ZXN0IG1hY2hpbmUgb3IgaW4gYSBWTQooaG93ZXZlciwgS1VuaXQgc3Rp
+bGwgYWxsb3dzIHlvdSB0byBydW4gdGVzdHMgb24gdGVzdCBtYWNoaW5lcyBvciBpbiBWTXMKaWYg
+eW91IHdhbnRbMV0pIGFuZCBkb2VzIG5vdCByZXF1aXJlIHRlc3RzIHRvIGJlIHdyaXR0ZW4gaW4g
+dXNlcnNwYWNlCnJ1bm5pbmcgb24gYSBob3N0IGtlcm5lbC4gQWRkaXRpb25hbGx5LCBLVW5pdCBp
+cyBmYXN0OiBGcm9tIGludm9jYXRpb24KdG8gY29tcGxldGlvbiBLVW5pdCBjYW4gcnVuIHNldmVy
+YWwgZG96ZW4gdGVzdHMgaW4gYWJvdXQgYSBzZWNvbmQuCkN1cnJlbnRseSwgdGhlIGVudGlyZSBL
+VW5pdCB0ZXN0IHN1aXRlIGZvciBLVW5pdCBydW5zIGluIHVuZGVyIGEgc2Vjb25kCmZyb20gdGhl
+IGluaXRpYWwgaW52b2NhdGlvbiAoYnVpbGQgdGltZSBleGNsdWRlZCkuCgpLVW5pdCBpcyBoZWF2
+aWx5IGluc3BpcmVkIGJ5IEpVbml0LCBQeXRob24ncyB1bml0dGVzdC5tb2NrLCBhbmQKR29vZ2xl
+dGVzdC9Hb29nbGVtb2NrIGZvciBDKysuIEtVbml0IHByb3ZpZGVzIGZhY2lsaXRpZXMgZm9yIGRl
+ZmluaW5nCnVuaXQgdGVzdCBjYXNlcywgZ3JvdXBpbmcgcmVsYXRlZCB0ZXN0IGNhc2VzIGludG8g
+dGVzdCBzdWl0ZXMsIHByb3ZpZGluZwpjb21tb24gaW5mcmFzdHJ1Y3R1cmUgZm9yIHJ1bm5pbmcg
+dGVzdHMsIG1vY2tpbmcsIHNweWluZywgYW5kIG11Y2ggbW9yZS4KCiMjIyBXaGF0J3Mgc28gc3Bl
+Y2lhbCBhYm91dCB1bml0IHRlc3Rpbmc/CgpBIHVuaXQgdGVzdCBpcyBzdXBwb3NlZCB0byB0ZXN0
+IGEgc2luZ2xlIHVuaXQgb2YgY29kZSBpbiBpc29sYXRpb24sCmhlbmNlIHRoZSBuYW1lLiBUaGVy
+ZSBzaG91bGQgYmUgbm8gZGVwZW5kZW5jaWVzIG91dHNpZGUgdGhlIGNvbnRyb2wgb2YKdGhlIHRl
+c3Q7IHRoaXMgbWVhbnMgbm8gZXh0ZXJuYWwgZGVwZW5kZW5jaWVzLCB3aGljaCBtYWtlcyB0ZXN0
+cyBvcmRlcnMKb2YgbWFnbml0dWRlcyBmYXN0ZXIuIExpa2V3aXNlLCBzaW5jZSB0aGVyZSBhcmUg
+bm8gZXh0ZXJuYWwgZGVwZW5kZW5jaWVzLAp0aGVyZSBhcmUgbm8gaG9vcHMgdG8ganVtcCB0aHJv
+dWdoIHRvIHJ1biB0aGUgdGVzdHMuIEFkZGl0aW9uYWxseSwgdGhpcwptYWtlcyB1bml0IHRlc3Rz
+IGRldGVybWluaXN0aWM6IGEgZmFpbGluZyB1bml0IHRlc3QgYWx3YXlzIGluZGljYXRlcyBhCnBy
+b2JsZW0uIEZpbmFsbHksIGJlY2F1c2UgdW5pdCB0ZXN0cyBuZWNlc3NhcmlseSBoYXZlIGZpbmVy
+IGdyYW51bGFyaXR5LAp0aGV5IGFyZSBhYmxlIHRvIHRlc3QgYWxsIGNvZGUgcGF0aHMgZWFzaWx5
+IHNvbHZpbmcgdGhlIGNsYXNzaWMgcHJvYmxlbQpvZiBkaWZmaWN1bHR5IGluIGV4ZXJjaXNpbmcg
+ZXJyb3IgaGFuZGxpbmcgY29kZS4KCiMjIyBJcyBLVW5pdCB0cnlpbmcgdG8gcmVwbGFjZSBvdGhl
+ciB0ZXN0aW5nIGZyYW1ld29ya3MgZm9yIHRoZSBrZXJuZWw/CgpOby4gTW9zdCBleGlzdGluZyB0
+ZXN0cyBmb3IgdGhlIExpbnV4IGtlcm5lbCBhcmUgZW5kLXRvLWVuZCB0ZXN0cywgd2hpY2gKaGF2
+ZSB0aGVpciBwbGFjZS4gQSB3ZWxsIHRlc3RlZCBzeXN0ZW0gaGFzIGxvdHMgb2YgdW5pdCB0ZXN0
+cywgYQpyZWFzb25hYmxlIG51bWJlciBvZiBpbnRlZ3JhdGlvbiB0ZXN0cywgYW5kIHNvbWUgZW5k
+LXRvLWVuZCB0ZXN0cy4gS1VuaXQKaXMganVzdCB0cnlpbmcgdG8gYWRkcmVzcyB0aGUgdW5pdCB0
+ZXN0IHNwYWNlIHdoaWNoIGlzIGN1cnJlbnRseSBub3QKYmVpbmcgYWRkcmVzc2VkLgoKIyMjIE1v
+cmUgaW5mb3JtYXRpb24gb24gS1VuaXQKClRoZXJlIGlzIGEgYnVuY2ggb2YgZG9jdW1lbnRhdGlv
+biBuZWFyIHRoZSBlbmQgb2YgdGhpcyBwYXRjaCBzZXQgdGhhdApkZXNjcmliZXMgaG93IHRvIHVz
+ZSBLVW5pdCBhbmQgYmVzdCBwcmFjdGljZXMgZm9yIHdyaXRpbmcgdW5pdCB0ZXN0cy4KRm9yIGNv
+bnZlbmllbmNlIEkgYW0gaG9zdGluZyB0aGUgY29tcGlsZWQgZG9jcyBoZXJlWzJdLgoKQWRkaXRp
+b25hbGx5IGZvciBjb252ZW5pZW5jZSwgSSBoYXZlIGFwcGxpZWQgdGhlc2UgcGF0Y2hlcyB0byBh
+CmJyYW5jaFszXS4gVGhlIHJlcG8gbWF5IGJlIGNsb25lZCB3aXRoOgpnaXQgY2xvbmUgaHR0cHM6
+Ly9rdW5pdC5nb29nbGVzb3VyY2UuY29tL2xpbnV4ClRoaXMgcGF0Y2hzZXQgaXMgb24gdGhlIGt1
+bml0L3JmYy92NS4zL3YxMyBicmFuY2guCgojIyBDaGFuZ2VzIFNpbmNlIExhc3QgVmVyc2lvbgoK
+LSBBZGRlZCBzdXBwb3J0IGZvciBmcmVlaW5nIGt1bml0X3Jlc291cmNlcyAoS1VuaXQgbWFuYWdl
+ZCByZXNvdXJjZXMpCiAgdmlhIGt1bml0X3Jlc291cmNlX2Rlc3Ryb3koKSBhcyBzdWdnZXN0ZWQg
+YnkgU3RlcGhlbi4KLSBQcm9tb3RlZCBXQVJOKCkgYWZ0ZXIgX19ub3JldHVybiBmdW5jdGlvbiB0
+byBCVUcoKSBpbgogICJbUEFUQ0ggdjEzIDA5LzE4XSBrdW5pdDogdGVzdDogYWRkIHN1cHBvcnQg
+Zm9yIHRlc3QgYWJvcnQiIGFzCiAgc3VnZ2VzdGVkIGJ5IFN0ZXBoZW4uCi0gRHJvcHBlZCBjb25j
+ZXB0IG9mIGRlYXRoIHRlc3Qgc2luY2UgSSBhbSBub3QgYWN0dWFsbHkgdXNpbmcgaXQgeWV0IGFz
+CiAgcG9pbnRlZCBvdXQgYnkgU3RlcGhlbi4KLSBSZXBsYWNlZCB1c2FnZSBvZiB3YXJuX3Nsb3dw
+YXRoX2ZtdCB3aXRoIFdBUk4gaW4ga3VuaXRfZG9fYXNzZXJ0aW9uCiAgc2luY2Ugd2Fybl9zbG93
+cGF0aF9mbXQgaXMgbm90IGF2YWlsYWJsZSBvbiBzb21lIGJ1aWxkIGNvbmZpZ3VyYXRpb25zLAog
+IGFzIHBvaW50ZWQgb3V0IGJ5IEJqb3JuLgotIExvdHMgb2Ygb3RoZXIgbWlub3IgY2hhbmdlcyBz
+dWdnZXN0ZWQgYnkgU3RlcGhlbi4KClsxXSBodHRwczovL2dvb2dsZS5naXRodWIuaW8va3VuaXQt
+ZG9jcy90aGlyZF9wYXJ0eS9rZXJuZWwvZG9jcy91c2FnZS5odG1sI2t1bml0LW9uLW5vbi11bWwt
+YXJjaGl0ZWN0dXJlcwpbMl0gaHR0cHM6Ly9nb29nbGUuZ2l0aHViLmlvL2t1bml0LWRvY3MvdGhp
+cmRfcGFydHkva2VybmVsL2RvY3MvClszXSBodHRwczovL2t1bml0Lmdvb2dsZXNvdXJjZS5jb20v
+bGludXgvKy9rdW5pdC9yZmMvdjUuMy92MTMKCi0tIAoyLjIzLjAucmMxLjE1My5nZGVlZDgwMzMw
+Zi1nb29nCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
