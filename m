@@ -1,54 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 636E98DDFA
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2019 21:39:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D87C8DE02
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2019 21:45:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E94C76E81D;
-	Wed, 14 Aug 2019 19:39:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 772B26E81F;
+	Wed, 14 Aug 2019 19:45:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
- [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E1AB6E81D
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 19:39:41 +0000 (UTC)
-Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 402AD2880C
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 19:39:41 +0000 (UTC)
-Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id 34B862887B; Wed, 14 Aug 2019 19:39:41 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
- pdx-wl-mail.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
- NO_RELAYS autolearn=ham version=3.3.1
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204241] amdgpu fails to resume from suspend
-Date: Wed, 14 Aug 2019 19:39:40 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: andreas.jackisch@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-204241-2300-dld6g8Ujnl@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204241-2300@https.bugzilla.kernel.org/>
-References: <bug-204241-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B985E6E81F
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 19:45:12 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id F3C8C20024;
+ Wed, 14 Aug 2019 21:45:09 +0200 (CEST)
+Date: Wed, 14 Aug 2019 21:45:08 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: John Stultz <john.stultz@linaro.org>,
+ Xinliang Liu <z.liuxinliang@hisilicon.com>,
+ Rongrong Zou <zourongrong@gmail.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Chen Feng <puck.chen@hisilicon.com>
+Subject: Re: [RESEND][PATCH v3 00/26] drm: Kirin driver cleanups to prep for
+ Kirin960 support
+Message-ID: <20190814194508.GA26866@ravnborg.org>
+References: <20190814184702.54275-1-john.stultz@linaro.org>
 MIME-Version: 1.0
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Disposition: inline
+In-Reply-To: <20190814184702.54275-1-john.stultz@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
+ a=pfM-4riQqBG9FQvt634A:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,17 +49,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>, Xinliang Liu <z.liuxinliang@hisilicon.com>,
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Rongrong Zou <zourongrong@gmail.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQyNDEKCi0tLSBD
-b21tZW50ICM4IGZyb20gQW5kcmVhcyBKYWNraXNjaCAoYW5kcmVhcy5qYWNraXNjaEBnbWFpbC5j
-b20pIC0tLQpDcmVhdGVkIGF0dGFjaG1lbnQgMjg0NDE1CiAgLS0+IGh0dHBzOi8vYnVnemlsbGEu
-a2VybmVsLm9yZy9hdHRhY2htZW50LmNnaT9pZD0yODQ0MTUmYWN0aW9uPWVkaXQKYW1kZ3B1IGZp
-cm13YXJlIGZyb20gcnl6ZW4gc3lzdGVtCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWls
-IGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+SGkgWGlubGlhbmcsIFJvbmdyb25nLCBYaW53ZWksIENoZW4KCk9uIFdlZCwgQXVnIDE0LCAyMDE5
+IGF0IDA2OjQ2OjM2UE0gKzAwMDAsIEpvaG4gU3R1bHR6IHdyb3RlOgo+IEp1c3Qgd2FudGVkIHRv
+IHJlc2VuZCB0aGlzIHBhdGNoIHNldCBzbyBJIGRpZG4ndCBoYXZlIHRvCj4gY29udGludWUgY2Fy
+cnlpbmcgaXQgZm9yZXZlciB0byBrZWVwIHRoZSBIaUtleTk2MCBib2FyZCBydW5uaW5nLgo+IAo+
+IFRoaXMgcGF0Y2hzZXQgY29udGFpbnMgb25lIGZpeCAoaW4gdGhlIGZyb250LCBzbyBpdHMgZWFz
+aWVyIHRvCj4gZXZlbnR1YWxseSBiYWNrcG9ydCksIGFuZCBhIHNlcmllcyBvZiBjaGFuZ2VzIGZy
+b20gWWlQaW5nIHRvCj4gcmVmYWN0b3IgdGhlIGtpcmluIGRybSBkcml2ZXIgc28gdGhhdCBpdCBj
+YW4gYmUgdXNlZCBvbiBib3RoCj4ga2lyaW42MjAgYmFzZWQgZGV2aWNlcyAobGlrZSB0aGUgb3Jp
+Z2luYWwgSGlLZXkgYm9hcmQpIGFzIHdlbGwKPiBhcyBraXJpbjk2MCBiYXNlZCBkZXZpY2VzIChs
+aWtlIHRoZSBIaUtleTk2MCBib2FyZCkuCj4gCj4gVGhlIGZ1bGwga2lyaW45NjAgZHJtIHN1cHBv
+cnQgaXMgc3RpbGwgYmVpbmcgcmVmYWN0b3JlZCwgYnV0IGFzCj4gdGhpcyBiYXNlIGtpcmluIHJl
+d29yayB3YXMgZ2V0dGluZyB0byBiZSBzdWJzdGFudGlhbCwgSSB3YW50ZWQKPiB0byBzZW5kIG91
+dCB0aGUgZmlyc3QgY2h1bmssIHNvIHRoYXQgdGhlIHJldmlldyBidXJkZW4gd2Fzbid0Cj4gb3Zl
+cndoZWxtaW5nLgoKQXMgTWFpbnRhaW5lcnMgY2FuIHdlIHBsZWFzZSBnZXQgc29tZSBmZWVkYmFj
+ayBmcm9tIG9uZSBvZiB5b3UuCkp1c3QgYW4gIk9LIHRvIGNvbW1pdCIgd291bGQgZG8gaXQuCkJ1
+dCBwcmVmZXJhYmx5IGFuIGFjayBvciBhIHJldmlldyBvbiB0aGUgaW5kaXZpZHVhbCBwYXRjaGVz
+LgoKSWYgdGhlIHJlYWxpdHkgaXMgdGhhdCBKb2huIGlzIHRoZSBNYWludGFpbmVyIHRvZGF5LAp0
+aGVuIHdlIHNob3VsZCB1cGRhdGUgTUFJTlRBSU5FUlMgdG8gcmVmbGVjdCB0aGlzLgoKVGhhbmtz
+IQoKCVNhbQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
