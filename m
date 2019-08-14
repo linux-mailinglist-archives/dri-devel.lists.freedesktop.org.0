@@ -2,44 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D23228D763
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2019 17:44:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A8F8D832
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Aug 2019 18:37:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 165A889228;
-	Wed, 14 Aug 2019 15:44:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 693136E6A5;
+	Wed, 14 Aug 2019 16:37:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3425A89228
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 15:44:46 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 3088A7215A; Wed, 14 Aug 2019 15:44:46 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 859916E6A5
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Aug 2019 16:37:02 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 495CE803C6;
+ Wed, 14 Aug 2019 18:36:59 +0200 (CEST)
+Date: Wed, 14 Aug 2019 18:36:57 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Wed, 14 Aug 2019 15:44:45 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: tom@r.je
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110674-502-KOkMOp4Cwq@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Subject: Re: [PATCH v2 0/4] drm: drop drmP in tda998x, tegra, arm, armada
+Message-ID: <20190814163657.GA26556@ravnborg.org>
+References: <20190804094132.29463-1-sam@ravnborg.org>
+ <20190812203805.GA10640@ravnborg.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190812203805.GA10640@ravnborg.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
+ a=0SJT8KT_22iOycAb6FwA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,162 +45,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1927573160=="
+Cc: David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
+ Russell King <linux@armlinux.org.uk>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>, malidp@foss.arm.com,
+ linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1927573160==
-Content-Type: multipart/alternative; boundary="15657974861.A10423b9.2052"
-Content-Transfer-Encoding: 7bit
-
-
---15657974861.A10423b9.2052
-Date: Wed, 14 Aug 2019 15:44:46 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
-
---- Comment #99 from Tom B <tom@r.je> ---
-Created attachment 145062
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145062&action=3Dedit
-a list of commits 5.0.13 - 5.1.0
-
-Attached is a list of all amdgpu and powerplay commits from 5.0.13 - 5.1.0.=
-=20
-
-I have tried reverting the following which looked most likely culprits:
-
-919a94d8101ebc29868940b580fe9e9811b7dc86 drm/amdgpu: fix CPDMA hang in PRT =
-mode
-for VEGA20
-
-f7b1844bacecca96dd8d813675e4d8adec02cd66 drm/amdgpu: Update gc golden setti=
-ng
-for vega family
-
-d25689760b747287c6ca03cfe0729da63e0717f4 drm/amdgpu/display:
-drm/amdgpu/display: Keep malloc ref to MST port  -- A change to the way
-displayport connectors are handled, looked promising.
-
-db64a2f43c1bc22c5ff2d22606000b8c3587d0ec drm/amd/powerplay: fix possible ha=
-ng
-with 3+ 4K monitors
-
-
-I also looked at that last one in detail as it seems very close to this bug.
-Nothing in the code looks for 3+ monitors or even 4k. It only actually looks
-for > 1 monitor.
-
-Although it's based on disable_mclk_switching, I also tried forcing
-disable_fclk_switching to true and false, neither had any affect. The resul=
-t is
-that mclk would be calculated based on screens but fclk would be forced on/=
-off.
- It didn't help but I can't help think that this commit is a little too clo=
-se
-to this issue to be irrelevant.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15657974861.A10423b9.2052
-Date: Wed, 14 Aug 2019 15:44:46 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c99">Comme=
-nt # 99</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tom&#64;r.je" title=3D"Tom B &lt;tom&#64;r.je&gt;"> <span class=3D"fn">Tom =
-B</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145062=
-" name=3D"attach_145062" title=3D"a list of commits 5.0.13 - 5.1.0">attachm=
-ent 145062</a> <a href=3D"attachment.cgi?id=3D145062&amp;action=3Dedit" tit=
-le=3D"a list of commits 5.0.13 - 5.1.0">[details]</a></span>
-a list of commits 5.0.13 - 5.1.0
-
-Attached is a list of all amdgpu and powerplay commits from 5.0.13 - 5.1.0.=
-=20
-
-I have tried reverting the following which looked most likely culprits:
-
-919a94d8101ebc29868940b580fe9e9811b7dc86 drm/amdgpu: fix CPDMA hang in PRT =
-mode
-for VEGA20
-
-f7b1844bacecca96dd8d813675e4d8adec02cd66 drm/amdgpu: Update gc golden setti=
-ng
-for vega family
-
-d25689760b747287c6ca03cfe0729da63e0717f4 drm/amdgpu/display:
-drm/amdgpu/display: Keep malloc ref to MST port  -- A change to the way
-displayport connectors are handled, looked promising.
-
-db64a2f43c1bc22c5ff2d22606000b8c3587d0ec drm/amd/powerplay: fix possible ha=
-ng
-with 3+ 4K monitors
-
-
-I also looked at that last one in detail as it seems very close to this bug.
-Nothing in the code looks for 3+ monitors or even 4k. It only actually looks
-for &gt; 1 monitor.
-
-Although it's based on disable_mclk_switching, I also tried forcing
-disable_fclk_switching to true and false, neither had any affect. The resul=
-t is
-that mclk would be calculated based on screens but fclk would be forced on/=
-off.
- It didn't help but I can't help think that this commit is a little too clo=
-se
-to this issue to be irrelevant.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15657974861.A10423b9.2052--
-
---===============1927573160==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1927573160==--
+PiA+IFRoaXMgc2V0IG9mIHBhdGNoZXMgaXMgb25lIG9mIHRoZSBmaW5hbCBzdGVwcyBiZWZvcmUK
+PiA+IHdlIGhhdmUgc3VjY2VlZGVkIHRvIHN0b3AgdXNpbmcgZHJtUC5oIGluIGFsbCBvZiBkcm0v
+Lgo+ID4gCj4gPiBUaGVyZSBpcyBhIGZldyBwYXRjaGVzIGluIGZsaWdodCB0aHJvdWdoIG90aGVy
+IHRyZWVzCj4gPiBhbmQgdGhlIHBsYW4gaXMgdGhhdCBhbGwgdXNlcnMgc2hhbGwgYmUgZ29uZSBp
+biB0aGUKPiA+IHVwc3RyZWFtIGtlcm5lbCBhZnRlciBuZXh0IG1lcmdlIHdpbmRvdy4KPiA+IAo+
+ID4gVGhlIHBhdGNoZXMgaGFzIHNlZW4gYnVpbGQgdGVzdCB3aXRoIHZhcmlvdXMgY29uZmlncwo+
+ID4gd2l0aCB2YXJpb3VzIGFyY2hpdGVjdHVyZXMuCj4gPiAKPiA+IFRoZSBwYXRjaGVzIGhhcyBi
+ZWVuIHNlbnQgYmVmb3JlLCBidXQgdG8gbXkgYmVzdCBrbm93bGVkZ2UKPiA+IHRoZXkgaGF2ZSBu
+b3QgYmVlbiBhcHBsaWVkIGFueXdoZXJlLgo+ID4gQWxsIGZvdXIgcGF0Y2hlcyBhcmUgYmFzZWQg
+b24gZHJtLW1pc2MtbmV4dCwKPiA+IGJ1dCBJIGNoZWNrZWQgdGhhdCB0aGUgdGRhOTk4eCBwYXRj
+aCBjYW4gYmUgYXBwbGllZCB0bwo+ID4gdGhlIHRkYTk5OHggdHJlZS4KPiA+IAo+ID4gVGhlcmUg
+YXJlIG5vIGRlcGVuZGVuY2llcyBiZXR3ZWVuIHRoZSBwYXRjaGVzLgo+ID4gCj4gPiB2MjoKPiA+
+IC0gcmViYXNlIG9uIHRvcCBvZiBkcm0tbWlzYy1uZXh0Cj4gPiAKPiA+IFRvIG1haW50YWluZXJz
+OiAoQXNzdW1pbmcgdGhlIHBhdGNoIGFyZSBPSykKPiA+IFBsZWFzZSBsZXQgbWUga25vdyBpZiB5
+b3UgdGFrZSB0aGUgcGF0Y2gsIG9yIHJlcXVlc3QKPiA+IG1lIHRvIGFwcGx5IGl0IHRvIGRybS1t
+aXNjLW5leHQuCj4gPiBPciBsZXQgbWUgbWUga25vdyBpZiB0aGUgcGF0Y2ggc2hvdWxkIGJlIGJh
+c2VkIG9uIGFub3RoZXIgdHJlZS4KPiAKPiBwaW5nLi4uCj4gCj4gVGhpcyBwYXRjaHNldCBpcyBv
+bmUgb2YgdGhlIGxhc3Qgc3RlcHMgdG8gZ2V0IHJpZCBvZiBkcm1QLmguCj4gT3RoZXIgcGF0Y2hl
+cyBhcmUgYXBwbGllZCB0byB2YXJpb3VzIHN1Yi1zeXN0ZW0gdHJlZXMuCj4gCj4gVGhlIGlkZWEg
+aXMgdGhhdCBhZnRlciBuZXh0IG1lcmdlIHdpbmRvdyBjYW4gZHJvcCBkcm1QLmguCj4gQXMgbG9u
+ZyBhcyB3ZSBrZWVwIGRybVAuaCBhcm91bmQgbmV3IHVzZXJzIHdpbGwgc25lYWsgaW4uCgpUaGll
+cnJ5IHJldmlld2VkIGFsbCBwYXRjaGVzIC0gdGhhbmtzIQoKQXBwbGllZCB0byBkcm0tbWlzYy1u
+ZXh0IGFuZCBwdXNoZWQgb3V0LgoKCVNhbQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWw=
