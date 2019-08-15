@@ -2,44 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 223D48F43A
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2019 21:15:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE23B8F49B
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2019 21:29:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 423F36E11B;
-	Thu, 15 Aug 2019 19:15:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CFDE6EA56;
+	Thu, 15 Aug 2019 19:29:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id EAABD6EA58
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2019 19:15:20 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E74EC7215A; Thu, 15 Aug 2019 19:15:20 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111122] 2500U: Graphics corruption on kernel 5.2
-Date: Thu, 15 Aug 2019 19:15:20 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: wiktoraleksanderkaczor@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111122-502-l4dUovtwLU@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111122-502@http.bugs.freedesktop.org/>
-References: <bug-111122-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30D4F6EA54;
+ Thu, 15 Aug 2019 19:29:54 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 18156008-1500050 for multiple; Thu, 15 Aug 2019 20:29:46 +0100
 MIME-Version: 1.0
+To: Daniel Vetter <daniel@ffwll.ch>
+From: Chris Wilson <chris@chris-wilson.co.uk>
+In-Reply-To: <156589579297.11610.13892431339759400267@skylake-alporthouse-com>
+References: <3b4da1e6-b5df-0f0e-cf4d-21dd6fd33e32@amd.com>
+ <20190811091523.9382-1-chris@chris-wilson.co.uk>
+ <20190814172053.GM7444@phenom.ffwll.local>
+ <156589475684.11610.4915544599007801229@skylake-alporthouse-com>
+ <CAKMK7uHuh6DMXitCHOCa7sjif9s1sjnHrBuHkwEgpzyQWBFhwA@mail.gmail.com>
+ <156589579297.11610.13892431339759400267@skylake-alporthouse-com>
+Message-ID: <156589738438.11610.1779256035636545692@skylake-alporthouse-com>
+User-Agent: alot/0.6
+Subject: Re: [PATCH 5/4] dma-fence: Have dma_fence_signal call signal_locked
+Date: Thu, 15 Aug 2019 20:29:44 +0100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,115 +43,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0277095837=="
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0277095837==
-Content-Type: multipart/alternative; boundary="15658965208.d40d27B.14161"
-Content-Transfer-Encoding: 7bit
-
-
---15658965208.d40d27B.14161
-Date: Thu, 15 Aug 2019 19:15:20 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111122
-
---- Comment #18 from Wiktor Kaczor <wiktoraleksanderkaczor@gmail.com> ---
-So, I've installed Compton as an alternative compositor on XFCE4 (I disabled
-the internal one), it works rather well The only problem I could find so fa=
-r is
-that the graphics corruption persists when moving windows (the white blocky
-stuff that appears around all moving elements). Although, It does clear up =
-as
-soon as I stop moving the window.
-
-Alternatively, I was thinking of moving to using Wayland, however, XFCE4
-doesn't seem to support it so that's not an option for me. Perhaps someone =
-can
-test that on their own system. Anyhow, I'm happy with the functionality of =
-my
-current albeit partial solution. I will continue to check in for a full
-solution though.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15658965208.d40d27B.14161
-Date: Thu, 15 Aug 2019 19:15:20 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122#c18">Comme=
-nt # 18</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122">bug 11112=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-wiktoraleksanderkaczor&#64;gmail.com" title=3D"Wiktor Kaczor &lt;wiktoralek=
-sanderkaczor&#64;gmail.com&gt;"> <span class=3D"fn">Wiktor Kaczor</span></a>
-</span></b>
-        <pre>So, I've installed Compton as an alternative compositor on XFC=
-E4 (I disabled
-the internal one), it works rather well The only problem I could find so fa=
-r is
-that the graphics corruption persists when moving windows (the white blocky
-stuff that appears around all moving elements). Although, It does clear up =
-as
-soon as I stop moving the window.
-
-Alternatively, I was thinking of moving to using Wayland, however, XFCE4
-doesn't seem to support it so that's not an option for me. Perhaps someone =
-can
-test that on their own system. Anyhow, I'm happy with the functionality of =
-my
-current albeit partial solution. I will continue to check in for a full
-solution though.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15658965208.d40d27B.14161--
-
---===============0277095837==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0277095837==--
+UXVvdGluZyBDaHJpcyBXaWxzb24gKDIwMTktMDgtMTUgMjA6MDM6MTMpCj4gUXVvdGluZyBEYW5p
+ZWwgVmV0dGVyICgyMDE5LTA4LTE1IDE5OjQ4OjQyKQo+ID4gT24gVGh1LCBBdWcgMTUsIDIwMTkg
+YXQgODo0NiBQTSBDaHJpcyBXaWxzb24gPGNocmlzQGNocmlzLXdpbHNvbi5jby51az4gd3JvdGU6
+Cj4gPiA+IFF1b3RpbmcgRGFuaWVsIFZldHRlciAoMjAxOS0wOC0xNCAxODoyMDo1MykKPiA+ID4g
+PiBPbiBTdW4sIEF1ZyAxMSwgMjAxOSBhdCAxMDoxNToyM0FNICswMTAwLCBDaHJpcyBXaWxzb24g
+d3JvdGU6Cj4gPiA+ID4gPiBOb3cgdGhhdCBkbWFfZmVuY2Vfc2lnbmFsIGFsd2F5cyB0YWtlcyB0
+aGUgc3BpbmxvY2sgdG8gZmx1c2ggdGhlCj4gPiA+ID4gPiBjYl9saXN0LCBzaW1wbHkgdGFrZSB0
+aGUgc3BpbmxvY2sgYW5kIGNhbGwgZG1hX2ZlbmNlX3NpZ25hbF9sb2NrZWQoKSB0bwo+ID4gPiA+
+ID4gYXZvaWQgY29kZSByZXBldGl0aW9uLgo+ID4gPiA+ID4KPiA+ID4gPiA+IFN1Z2dlc3RlZC1i
+eTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+ID4gPiA+ID4g
+U2lnbmVkLW9mZi1ieTogQ2hyaXMgV2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+Cj4g
+PiA+ID4gPiBDYzogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+
+ID4gPiA+Cj4gPiA+ID4gSG0sIEkgdGhpbmsgdGhpcyBsYXJnZWx5IGRlZmVhdHMgdGhlIHBvaW50
+IG9mIGhhdmluZyB0aGUgbG9ja2xlc3Mgc2lnbmFsCj4gPiA+ID4gZW5hYmxpbmcgdHJpY2tlcnkg
+aW4gZG1hX2ZlbmNlLiBNYXliZSB0aGF0IHBhcnQgaXNuJ3QgbmVlZGVkIGJ5IGFueW9uZSwKPiA+
+ID4gPiBidXQgZmVlbHMgbGlrZSBhIHRoaW5nIHRoYXQgbmVlZHMgYSBub3RjaCBtb3JlIHRob3Vn
+aHQuIEFuZCBpZiB3ZSBuZWVkIGl0LAo+ID4gPiA+IG1heWJlIGEgYml0IG1vcmUgY2xlYW51cC4K
+PiA+ID4KPiA+ID4gWW91IG1lYW4gZG1hX2ZlbmNlX2VuYWJsZV9zd19zaWduYWxpbmcoKS4gVGhl
+IG9ubHkgdXNlciBhcHBlYXJzIHRvIGJlIHRvCj4gPiA+IGZsdXNoIGZlbmNlcywgd2hpY2ggaXMg
+YWN0dWFsbHkgdGhlIGludGVudCBvZiBhbHdheXMgbm90aWZ5aW5nIHRoZSBzaWduYWwKPiA+ID4g
+Y2IuIEJ5IGFsd2F5cyBkb2luZyB0aGUgY2FsbGJhY2tzLCB3ZSBjYW4gYXZvaWQgaW5zdGFsbGlu
+ZyB0aGUgaW50ZXJydXB0Cj4gPiA+IGFuZCBjb21wbGV0ZWx5IHNhdHVyYXRpbmcgQ1BVcyB3aXRo
+IGlycXMsIGluc3RlYWQgZG9pbmcgYSBiYXRjaCBpbiBhCj4gPiA+IGxlaXN1cmVseSB0aW1lciBj
+YWxsYmFjayBpZiBub3QgZmx1c2hlZCBuYXR1cmFsbHkuCj4gPiAKPiA+IFllYWggSSdtIG5vdCBh
+Z2FpbnN0IGRpdGNoaW5nIHRoaXMsCj4gCj4gSSB3YXMganVzdCB0aGlua2luZyBhbG91ZCB3b3Jr
+aW5nIG91dCB3aGF0IHRoZSBjdXJyZW50IHVzZSBjYXNlIGluIHR0bQo+IHdhcyBmb3IuCj4gCj4g
+PiBidXQgY2FuJ3Qgd2UgZGl0Y2ggYSBsb3QgbW9yZSBpZgo+ID4gd2UganVzdCBhbHdheXMgdGFr
+ZSB0aGUgc3BpbmxvY2sgaW4gdGhvc2UgcGF0aHMgbm93IGFueXdheXM/IEtpbmRhIG5vdAo+ID4g
+d29ydGggaGF2aW5nIHRoZSBjb21wbGV4aXR5IGFueW1vcmUuCj4gCj4gWW91IHdvdWxkIGJlIGFi
+bGUgdG8gZHJvcCB0aGUgd2FzX3NldCBmcm9tIGRtYV9mZW5jZV9hZGRfY2FsbGJhY2suIFNheQo+
+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLmMgYi9kcml2ZXJzL2Rt
+YS1idWYvZG1hLWZlbmNlLmMKPiBpbmRleCA1OWFjOTZlYzdiYTguLmU1NjY0NDUxMzRhMiAxMDA2
+NDQKPiAtLS0gYS9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLmMKPiArKysgYi9kcml2ZXJzL2Rt
+YS1idWYvZG1hLWZlbmNlLmMKPiBAQCAtMzQ1LDM4ICszNDUsMzEgQEAgaW50IGRtYV9mZW5jZV9h
+ZGRfY2FsbGJhY2soc3RydWN0IGRtYV9mZW5jZSAqZmVuY2UsIHN0cnVjdCBkbWFfZmVuY2VfY2Ig
+KmNiLAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRtYV9mZW5jZV9mdW5jX3QgZnVuYykK
+PiAgewo+ICAgICAgICAgdW5zaWduZWQgbG9uZyBmbGFnczsKPiAtICAgICAgIGludCByZXQgPSAw
+Owo+IC0gICAgICAgYm9vbCB3YXNfc2V0Owo+ICsgICAgICAgaW50IHJldCA9IC1FTk9FTlQ7Cj4g
+Cj4gICAgICAgICBpZiAoV0FSTl9PTighZmVuY2UgfHwgIWZ1bmMpKQo+ICAgICAgICAgICAgICAg
+ICByZXR1cm4gLUVJTlZBTDsKPiAKPiAtICAgICAgIGlmICh0ZXN0X2JpdChETUFfRkVOQ0VfRkxB
+R19TSUdOQUxFRF9CSVQsICZmZW5jZS0+ZmxhZ3MpKSB7Cj4gLSAgICAgICAgICAgICAgIElOSVRf
+TElTVF9IRUFEKCZjYi0+bm9kZSk7Cj4gKyAgICAgICBJTklUX0xJU1RfSEVBRCgmY2ItPm5vZGUp
+Owo+ICsgICAgICAgY2ItPmZ1bmMgPSBmdW5jOwo+ICsKPiArICAgICAgIGlmICh0ZXN0X2JpdChE
+TUFfRkVOQ0VfRkxBR19TSUdOQUxFRF9CSVQsICZmZW5jZS0+ZmxhZ3MpKQo+ICAgICAgICAgICAg
+ICAgICByZXR1cm4gLUVOT0VOVDsKPiAtICAgICAgIH0KPiAKPiAgICAgICAgIHNwaW5fbG9ja19p
+cnFzYXZlKGZlbmNlLT5sb2NrLCBmbGFncyk7Cj4gLQo+IC0gICAgICAgd2FzX3NldCA9IHRlc3Rf
+YW5kX3NldF9iaXQoRE1BX0ZFTkNFX0ZMQUdfRU5BQkxFX1NJR05BTF9CSVQsCj4gLSAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAmZmVuY2UtPmZsYWdzKTsKPiAtCj4gLSAgICAgICBp
+ZiAodGVzdF9iaXQoRE1BX0ZFTkNFX0ZMQUdfU0lHTkFMRURfQklULCAmZmVuY2UtPmZsYWdzKSkK
+PiAtICAgICAgICAgICAgICAgcmV0ID0gLUVOT0VOVDsKPiAtICAgICAgIGVsc2UgaWYgKCF3YXNf
+c2V0ICYmIGZlbmNlLT5vcHMtPmVuYWJsZV9zaWduYWxpbmcpIHsKPiArICAgICAgIGlmICghdGVz
+dF9iaXQoRE1BX0ZFTkNFX0ZMQUdfU0lHTkFMRURfQklULCAmZmVuY2UtPmZsYWdzKSAmJgo+ICsg
+ICAgICAgICAgICF0ZXN0X2FuZF9zZXRfYml0KERNQV9GRU5DRV9GTEFHX0VOQUJMRV9TSUdOQUxf
+QklULAo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICZmZW5jZS0+ZmxhZ3MpKSB7Cj4g
+ICAgICAgICAgICAgICAgIHRyYWNlX2RtYV9mZW5jZV9lbmFibGVfc2lnbmFsKGZlbmNlKTsKPiAK
+PiAtICAgICAgICAgICAgICAgaWYgKCFmZW5jZS0+b3BzLT5lbmFibGVfc2lnbmFsaW5nKGZlbmNl
+KSkgewo+ICsgICAgICAgICAgICAgICBpZiAoIWZlbmNlLT5vcHMtPmVuYWJsZV9zaWduYWxpbmcg
+fHwKPiArICAgICAgICAgICAgICAgICAgIGZlbmNlLT5vcHMtPmVuYWJsZV9zaWduYWxpbmcoZmVu
+Y2UpKSB7Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgbGlzdF9hZGRfdGFpbCgmY2ItPm5vZGUs
+ICZmZW5jZS0+Y2JfbGlzdCk7Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgcmV0ID0gMDsKPiAr
+ICAgICAgICAgICAgICAgfSBlbHNlIHsKPiAgICAgICAgICAgICAgICAgICAgICAgICBkbWFfZmVu
+Y2Vfc2lnbmFsX2xvY2tlZChmZW5jZSk7Cj4gLSAgICAgICAgICAgICAgICAgICAgICAgcmV0ID0g
+LUVOT0VOVDsKPiAgICAgICAgICAgICAgICAgfQo+ICAgICAgICAgfQo+IC0KPiAtICAgICAgIGlm
+ICghcmV0KSB7Cj4gLSAgICAgICAgICAgICAgIGNiLT5mdW5jID0gZnVuYzsKPiAtICAgICAgICAg
+ICAgICAgbGlzdF9hZGRfdGFpbCgmY2ItPm5vZGUsICZmZW5jZS0+Y2JfbGlzdCk7Cj4gLSAgICAg
+ICB9IGVsc2UKPiAtICAgICAgICAgICAgICAgSU5JVF9MSVNUX0hFQUQoJmNiLT5ub2RlKTsKPiAg
+ICAgICAgIHNwaW5fdW5sb2NrX2lycXJlc3RvcmUoZmVuY2UtPmxvY2ssIGZsYWdzKTsKPiAKPiAg
+ICAgICAgIHJldHVybiByZXQ7Cj4gCj4gTm90IGEgd2hvbGUgbG90IGNoYW5nZXMgaW4gdGVybXMg
+b2YgYnJhbmNoZXMgYW5kIHNlcmlhbGlzaW5nCj4gaW5zdHJ1Y3Rpb25zLiBPbmUgbGVzcyBiYWZm
+bGluZyBzZXF1ZW5jZSB0byB3b3JyeSBhYm91dC4KCkZ3aXcsCkZ1bmN0aW9uICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIG9sZCAgICAgbmV3ICAgZGVsdGEKZG1hX2ZlbmNlX2Fk
+ZF9jYWxsYmFjayAgICAgICAgICAgICAgICAgICAgICAgMzM4ICAgICAzMDIgICAgIC0zNgoKQWxt
+b3N0IGNlcnRhaW5seSBtb3JlIHNoYXZpbmcgaWYgeW91IHN0YXJlLgotQ2hyaXMKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
