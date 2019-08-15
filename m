@@ -2,35 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC8A08E7D1
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2019 11:09:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DED6D8E834
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2019 11:27:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AAD46E957;
-	Thu, 15 Aug 2019 09:09:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1C696E961;
+	Thu, 15 Aug 2019 09:26:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CF9A6E957;
- Thu, 15 Aug 2019 09:08:59 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 15 Aug 2019 02:08:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,388,1559545200"; d="scan'208";a="194728760"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
- by fmsmga001.fm.intel.com with ESMTP; 15 Aug 2019 02:08:54 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>, =?utf-8?Q?Jos=C3=A9?= Roberto
- de Souza <jose.souza@intel.com>
-Subject: Re: [PATCH] drm/i915/tgl: Fix TGL_TRANS_DDI_FUNC_CTL_VAL_TO_PORT()
- macro
-In-Reply-To: <20190815083336.GE27238@mwanda>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20190815083336.GE27238@mwanda>
-Date: Thu, 15 Aug 2019 12:08:53 +0300
-Message-ID: <87lfvug5i2.fsf@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5FF786E965
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2019 09:26:57 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5D30A7215A; Thu, 15 Aug 2019 09:26:57 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111122] 2500U: Graphics corruption on kernel 5.2
+Date: Thu, 15 Aug 2019 09:26:57 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: briancschott@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc attachments.created
+Message-ID: <bug-111122-502-XTGfZReyQR@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111122-502@http.bugs.freedesktop.org/>
+References: <bug-111122-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -44,40 +52,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0510220996=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAxNSBBdWcgMjAxOSwgRGFuIENhcnBlbnRlciA8ZGFuLmNhcnBlbnRlckBvcmFjbGUu
-Y29tPiB3cm90ZToKPiBUaGlzIG1hY3JvIGRvZXNuJ3Qgd29yayBiZWNhdXNlIHRoZSByaWdodCBz
-aGlmdCBoYXMgaGlnaGVyIHByZWNlZGVuY2UKPiB0aGFuIGJpdHdpc2UgQU5ELgo+Cj4gRml4ZXM6
-IDk3NDlhNWI2YzA5ZiAoImRybS9pOTE1L3RnbDogRml4IHRoZSByZWFkIG9mIHRoZSBEREkgdGhh
-dCB0cmFuc2NvZGVyIGlzIGF0dGFjaGVkIHRvIikKPiBTaWduZWQtb2ZmLWJ5OiBEYW4gQ2FycGVu
-dGVyIDxkYW4uY2FycGVudGVyQG9yYWNsZS5jb20+CgpUaGFua3MsIGFscmVhZHkgZml4ZWQgYnkg
-MWNkZDg3MDVjN2FjICgiZHJtL2k5MTUvdGdsOiBGaXggbWlzc2luZwpwYXJlbnRoZXNlcyBvbiBU
-R0xfVFJBTlNfRERJX0ZVTkNfQ1RMX1ZBTF9UT19QT1JUIikuCgpCUiwKSmFuaS4KCj4gLS0tCj4g
-IGRyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfcmVnLmggfCAyICstCj4gIDEgZmlsZSBjaGFuZ2Vk
-LCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9pOTE1L2k5MTVfcmVnLmggYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X3JlZy5o
-Cj4gaW5kZXggNGE5NDdiZDBhMjk0Li5kZWY2ZGJkYzdlMmUgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvaTkxNV9yZWcuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5
-MTVfcmVnLmgKPiBAQCAtOTQzMyw3ICs5NDMzLDcgQEAgZW51bSBza2xfcG93ZXJfZ2F0ZSB7Cj4g
-ICNkZWZpbmUgIFRSQU5TX0RESV9TRUxFQ1RfUE9SVCh4KQkoKHgpIDw8IFRSQU5TX0RESV9QT1JU
-X1NISUZUKQo+ICAjZGVmaW5lICBUR0xfVFJBTlNfRERJX1NFTEVDVF9QT1JUKHgpCSgoKHgpICsg
-MSkgPDwgVEdMX1RSQU5TX0RESV9QT1JUX1NISUZUKQo+ICAjZGVmaW5lICBUUkFOU19ERElfRlVO
-Q19DVExfVkFMX1RPX1BPUlQodmFsKQkgKCgodmFsKSAmIFRSQU5TX0RESV9QT1JUX01BU0spID4+
-IFRSQU5TX0RESV9QT1JUX1NISUZUKQo+IC0jZGVmaW5lICBUR0xfVFJBTlNfRERJX0ZVTkNfQ1RM
-X1ZBTF9UT19QT1JUKHZhbCkgKCgodmFsKSAmIFRHTF9UUkFOU19ERElfUE9SVF9NQVNLID4+IFRH
-TF9UUkFOU19ERElfUE9SVF9TSElGVCkgLSAxKQo+ICsjZGVmaW5lICBUR0xfVFJBTlNfRERJX0ZV
-TkNfQ1RMX1ZBTF9UT19QT1JUKHZhbCkgKCgoKHZhbCkgJiBUR0xfVFJBTlNfRERJX1BPUlRfTUFT
-SykgPj4gVEdMX1RSQU5TX0RESV9QT1JUX1NISUZUKSAtIDEpCj4gICNkZWZpbmUgIFRSQU5TX0RE
-SV9NT0RFX1NFTEVDVF9NQVNLCSg3IDw8IDI0KQo+ICAjZGVmaW5lICBUUkFOU19ERElfTU9ERV9T
-RUxFQ1RfSERNSQkoMCA8PCAyNCkKPiAgI2RlZmluZSAgVFJBTlNfRERJX01PREVfU0VMRUNUX0RW
-SQkoMSA8PCAyNCkKCi0tIApKYW5pIE5pa3VsYSwgSW50ZWwgT3BlbiBTb3VyY2UgR3JhcGhpY3Mg
-Q2VudGVyCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0510220996==
+Content-Type: multipart/alternative; boundary="15658612174.Bebd.28035"
+Content-Transfer-Encoding: 7bit
+
+
+--15658612174.Bebd.28035
+Date: Thu, 15 Aug 2019 09:26:57 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111122
+
+Brian Schott <briancschott@gmail.com> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |briancschott@gmail.com
+
+--- Comment #17 from Brian Schott <briancschott@gmail.com> ---
+Created attachment 145069
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145069&action=3Dedit
+glxgears output
+
+> Can you paste the output of: "AMD_DEBUG=3Dinfo glxgears" please?
+
+Done.
+
+I'll try to bisect Mesa as time allows.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15658612174.Bebd.28035
+Date: Thu, 15 Aug 2019 09:26:57 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:briancsch=
+ott&#64;gmail.com" title=3D"Brian Schott &lt;briancschott&#64;gmail.com&gt;=
+"> <span class=3D"fn">Brian Schott</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122">bug 11112=
+2</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">CC</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>briancschott&#64;gmail.com
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122#c17">Comme=
+nt # 17</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122">bug 11112=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+briancschott&#64;gmail.com" title=3D"Brian Schott &lt;briancschott&#64;gmai=
+l.com&gt;"> <span class=3D"fn">Brian Schott</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145069=
+" name=3D"attach_145069" title=3D"glxgears output">attachment 145069</a> <a=
+ href=3D"attachment.cgi?id=3D145069&amp;action=3Dedit" title=3D"glxgears ou=
+tput">[details]</a></span>
+glxgears output
+
+<span class=3D"quote">&gt; Can you paste the output of: &quot;AMD_DEBUG=3Di=
+nfo glxgears&quot; please?</span >
+
+Done.
+
+I'll try to bisect Mesa as time allows.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15658612174.Bebd.28035--
+
+--===============0510220996==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0510220996==--
