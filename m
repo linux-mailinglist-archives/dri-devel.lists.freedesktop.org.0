@@ -1,99 +1,99 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB9438EE2F
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2019 16:30:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC128EE36
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2019 16:32:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7C1D6E9CA;
-	Thu, 15 Aug 2019 14:29:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F39126E9CB;
+	Thu, 15 Aug 2019 14:32:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM03-BY2-obe.outbound.protection.outlook.com
- (mail-eopbgr780084.outbound.protection.outlook.com [40.107.78.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA9406E9C9;
- Thu, 15 Aug 2019 14:29:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Gk+qa49wXeeurRddDE6gispAm3RH1Tlxzuo2+DWUAj2aviFSvTtkw5uaUsP2IYYNHoSk/TBKEf1g+TyCxQiqOpNOw+IZbOYBu9I+JAawTCTPAH46oVz3tL12fKnIPYHzvmT7vE/Lz+qvol8B4Qsgv+2BOe1NiSIb1FWppmA+KaJzBbTpPE1iGtFrkMT0MgBGq9+YO0UlBxqSprQ3Fsbz7H+hnX9vgXC19qlzJj/f6yfY3d7FpEQW8GqiroNeSdf8EAiEQLqFmbTZ+irn8qg4pZUDZXi8cYTgpJxrFDiUC9Q5HWNq01zlcFgiaEKH3in2suiPtkKujEXxIQcXGihy0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PWboKnI7vpsbEPWSaLnvCLy428XvWsXOYIspTI8WLt8=;
- b=QKDdqlx0ColBcmCxnDMYv+wCXJcAeRlFt0bGnq/lfR3cKNINZm/1NFljx9a0mnHPH2GWnOSYW8Ok68Hsu2DnCKYWG1jEYtuROFshKcsvBRza1JScXHiNg9qq0piV+je4TNx8P/WChd1OBELQnGVK7e+LCc6Imv95lJJCo5REu/VMwKBUTxlhyhFFs7NgSSe3D4kuwcR/ZzhPgyGRBwx2l+c6GRULT4baw/1VOMNd9WFU8sNpV/wHJrPZDX+v6SA0LqokIRV6pcsbFrY86cvVkejVc9PKFkCHOhce3Svwtfs8PPfZ5PEwxapAHSozoIatSYizLuzt31XU0pZpenr8dQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-Received: from DM5PR12MB1705.namprd12.prod.outlook.com (10.175.88.22) by
- DM5PR12MB2518.namprd12.prod.outlook.com (52.132.141.149) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2157.14; Thu, 15 Aug 2019 14:29:55 +0000
-Received: from DM5PR12MB1705.namprd12.prod.outlook.com
- ([fe80::a129:1f1a:52a9:4ac3]) by DM5PR12MB1705.namprd12.prod.outlook.com
- ([fe80::a129:1f1a:52a9:4ac3%5]) with mapi id 15.20.2157.022; Thu, 15 Aug 2019
- 14:29:55 +0000
-From: "Koenig, Christian" <Christian.Koenig@amd.com>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [PATCH 1/4] drm/radeon: handle PCIe root ports with addressing
- limitations
-Thread-Topic: [PATCH 1/4] drm/radeon: handle PCIe root ports with addressing
- limitations
-Thread-Index: AQHVUzra1CBLTgdm802owDhMdzV6Fab74e4AgABfewCAAAPqgA==
-Date: Thu, 15 Aug 2019 14:29:55 +0000
-Message-ID: <838ea437-f4b4-fc0a-c31c-db4568d1877e@amd.com>
-References: <20190815072703.7010-1-hch@lst.de>
- <20190815072703.7010-2-hch@lst.de>
- <d1cf1435-92e3-edb5-c239-18c71f2d27c7@amd.com>
- <CADnq5_NghUyn1K7ed6E_vk-8SgLXKj3QpriGRxbNDChdb0hU5Q@mail.gmail.com>
-In-Reply-To: <CADnq5_NghUyn1K7ed6E_vk-8SgLXKj3QpriGRxbNDChdb0hU5Q@mail.gmail.com>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADB0B6E9CB
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2019 14:32:26 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id D9414AEE5;
+ Thu, 15 Aug 2019 14:32:24 +0000 (UTC)
+Subject: Re: [Bug 204407] New: Bad page state in process Xorg
+To: Petr Vandrovec <petr@vandrovec.name>, Matthew Wilcox <willy@infradead.org>
+References: <bug-204407-27@https.bugzilla.kernel.org/>
+ <20190802132306.e945f4420bc2dcddd8d34f75@linux-foundation.org>
+ <20190802203344.GD5597@bombadil.infradead.org>
+ <1564780650.11067.50.camel@lca.pw>
+ <20190802225939.GE5597@bombadil.infradead.org>
+ <CA+i2_Dc-VrOUk8EVThwAE5HZ1-zFqONuW8Gojv+16UPsAqoM1Q@mail.gmail.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+Openpgp: preference=signencrypt
+Autocrypt: addr=vbabka@suse.cz; prefer-encrypt=mutual; keydata=
+ mQINBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
+ KxRWDHX0R2tgpFDXHnzZcQywawu8eSq0LxzxFNYMvtB7sV1pxYwej2qx9B75qW2plBs+7+YB
+ 87tMFA+u+L4Z5xAzIimfLD5EKC56kJ1CsXlM8S/LHcmdD9Ctkn3trYDNnat0eoAcfPIP2OZ+
+ 9oe9IF/R28zmh0ifLXyJQQz5ofdj4bPf8ecEW0rhcqHfTD8k4yK0xxt3xW+6Exqp9n9bydiy
+ tcSAw/TahjW6yrA+6JhSBv1v2tIm+itQc073zjSX8OFL51qQVzRFr7H2UQG33lw2QrvHRXqD
+ Ot7ViKam7v0Ho9wEWiQOOZlHItOOXFphWb2yq3nzrKe45oWoSgkxKb97MVsQ+q2SYjJRBBH4
+ 8qKhphADYxkIP6yut/eaj9ImvRUZZRi0DTc8xfnvHGTjKbJzC2xpFcY0DQbZzuwsIZ8OPJCc
+ LM4S7mT25NE5kUTG/TKQCk922vRdGVMoLA7dIQrgXnRXtyT61sg8PG4wcfOnuWf8577aXP1x
+ 6mzw3/jh3F+oSBHb/GcLC7mvWreJifUL2gEdssGfXhGWBo6zLS3qhgtwjay0Jl+kza1lo+Cv
+ BB2T79D4WGdDuVa4eOrQ02TxqGN7G0Biz5ZLRSFzQSQwLn8fbwARAQABtCBWbGFzdGltaWwg
+ QmFia2EgPHZiYWJrYUBzdXNlLmN6PokCVAQTAQoAPgIbAwULCQgHAwUVCgkICwUWAgMBAAIe
+ AQIXgBYhBKlA1DSZLC6OmRA9UCJPp+fMgqZkBQJcbbyGBQkH8VTqAAoJECJPp+fMgqZkpGoP
+ /1jhVihakxw1d67kFhPgjWrbzaeAYOJu7Oi79D8BL8Vr5dmNPygbpGpJaCHACWp+10KXj9yz
+ fWABs01KMHnZsAIUytVsQv35DMMDzgwVmnoEIRBhisMYOQlH2bBn/dqBjtnhs7zTL4xtqEcF
+ 1hoUFEByMOey7gm79utTk09hQE/Zo2x0Ikk98sSIKBETDCl4mkRVRlxPFl4O/w8dSaE4eczH
+ LrKezaFiZOv6S1MUKVKzHInonrCqCNbXAHIeZa3JcXCYj1wWAjOt9R3NqcWsBGjFbkgoKMGD
+ usiGabetmQjXNlVzyOYdAdrbpVRNVnaL91sB2j8LRD74snKsV0Wzwt90YHxDQ5z3M75YoIdl
+ byTKu3BUuqZxkQ/emEuxZ7aRJ1Zw7cKo/IVqjWaQ1SSBDbZ8FAUPpHJxLdGxPRN8Pfw8blKY
+ 8mvLJKoF6i9T6+EmlyzxqzOFhcc4X5ig5uQoOjTIq6zhLO+nqVZvUDd2Kz9LMOCYb516cwS/
+ Enpi0TcZ5ZobtLqEaL4rupjcJG418HFQ1qxC95u5FfNki+YTmu6ZLXy+1/9BDsPuZBOKYpUm
+ 3HWSnCS8J5Ny4SSwfYPH/JrtberWTcCP/8BHmoSpS/3oL3RxrZRRVnPHFzQC6L1oKvIuyXYF
+ rkybPXYbmNHN+jTD3X8nRqo+4Qhmu6SHi3VquQENBFsZNQwBCACuowprHNSHhPBKxaBX7qOv
+ KAGCmAVhK0eleElKy0sCkFghTenu1sA9AV4okL84qZ9gzaEoVkgbIbDgRbKY2MGvgKxXm+kY
+ n8tmCejKoeyVcn9Xs0K5aUZiDz4Ll9VPTiXdf8YcjDgeP6/l4kHb4uSW4Aa9ds0xgt0gP1Xb
+ AMwBlK19YvTDZV5u3YVoGkZhspfQqLLtBKSt3FuxTCU7hxCInQd3FHGJT/IIrvm07oDO2Y8J
+ DXWHGJ9cK49bBGmK9B4ajsbe5GxtSKFccu8BciNluF+BqbrIiM0upJq5Xqj4y+Xjrpwqm4/M
+ ScBsV0Po7qdeqv0pEFIXKj7IgO/d4W2bABEBAAGJA3IEGAEKACYWIQSpQNQ0mSwujpkQPVAi
+ T6fnzIKmZAUCWxk1DAIbAgUJA8JnAAFACRAiT6fnzIKmZMB0IAQZAQoAHRYhBKZ2GgCcqNxn
+ k0Sx9r6Fd25170XjBQJbGTUMAAoJEL6Fd25170XjDBUH/2jQ7a8g+FC2qBYxU/aCAVAVY0NE
+ YuABL4LJ5+iWwmqUh0V9+lU88Cv4/G8fWwU+hBykSXhZXNQ5QJxyR7KWGy7LiPi7Cvovu+1c
+ 9Z9HIDNd4u7bxGKMpn19U12ATUBHAlvphzluVvXsJ23ES/F1c59d7IrgOnxqIcXxr9dcaJ2K
+ k9VP3TfrjP3g98OKtSsyH0xMu0MCeyewf1piXyukFRRMKIErfThhmNnLiDbaVy6biCLx408L
+ Mo4cCvEvqGKgRwyckVyo3JuhqreFeIKBOE1iHvf3x4LU8cIHdjhDP9Wf6ws1XNqIvve7oV+w
+ B56YWoalm1rq00yUbs2RoGcXmtX1JQ//aR/paSuLGLIb3ecPB88rvEXPsizrhYUzbe1TTkKc
+ 4a4XwW4wdc6pRPVFMdd5idQOKdeBk7NdCZXNzoieFntyPpAq+DveK01xcBoXQ2UktIFIsXey
+ uSNdLd5m5lf7/3f0BtaY//f9grm363NUb9KBsTSnv6Vx7Co0DWaxgC3MFSUhxzBzkJNty+2d
+ 10jvtwOWzUN+74uXGRYSq5WefQWqqQNnx+IDb4h81NmpIY/X0PqZrapNockj3WHvpbeVFAJ0
+ 9MRzYP3x8e5OuEuJfkNnAbwRGkDy98nXW6fKeemREjr8DWfXLKFWroJzkbAVmeIL0pjXATxr
+ +tj5JC0uvMrrXefUhXTo0SNoTsuO/OsAKOcVsV/RHHTwCDR2e3W8mOlA3QbYXsscgjghbuLh
+ J3oTRrOQa8tUXWqcd5A0+QPo5aaMHIK0UAthZsry5EmCY3BrbXUJlt+23E93hXQvfcsmfi0N
+ rNh81eknLLWRYvMOsrbIqEHdZBT4FHHiGjnck6EYx/8F5BAZSodRVEAgXyC8IQJ+UVa02QM5
+ D2VL8zRXZ6+wARKjgSrW+duohn535rG/ypd0ctLoXS6dDrFokwTQ2xrJiLbHp9G+noNTHSan
+ ExaRzyLbvmblh3AAznb68cWmM3WVkceWACUalsoTLKF1sGrrIBj5updkKkzbKOq5gcC5AQ0E
+ Wxk1NQEIAJ9B+lKxYlnKL5IehF1XJfknqsjuiRzj5vnvVrtFcPlSFL12VVFVUC2tT0A1Iuo9
+ NAoZXEeuoPf1dLDyHErrWnDyn3SmDgb83eK5YS/K363RLEMOQKWcawPJGGVTIRZgUSgGusKL
+ NuZqE5TCqQls0x/OPljufs4gk7E1GQEgE6M90Xbp0w/r0HB49BqjUzwByut7H2wAdiNAbJWZ
+ F5GNUS2/2IbgOhOychHdqYpWTqyLgRpf+atqkmpIJwFRVhQUfwztuybgJLGJ6vmh/LyNMRr8
+ J++SqkpOFMwJA81kpjuGR7moSrUIGTbDGFfjxmskQV/W/c25Xc6KaCwXah3OJ40AEQEAAYkC
+ PAQYAQoAJhYhBKlA1DSZLC6OmRA9UCJPp+fMgqZkBQJbGTU1AhsMBQkDwmcAAAoJECJPp+fM
+ gqZkPN4P/Ra4NbETHRj5/fM1fjtngt4dKeX/6McUPDIRuc58B6FuCQxtk7sX3ELs+1+w3eSV
+ rHI5cOFRSdgw/iKwwBix8D4Qq0cnympZ622KJL2wpTPRLlNaFLoe5PkoORAjVxLGplvQIlhg
+ miljQ3R63ty3+MZfkSVsYITlVkYlHaSwP2t8g7yTVa+q8ZAx0NT9uGWc/1Sg8j/uoPGrctml
+ hFNGBTYyPq6mGW9jqaQ8en3ZmmJyw3CHwxZ5FZQ5qc55xgshKiy8jEtxh+dgB9d8zE/S/UGI
+ E99N/q+kEKSgSMQMJ/CYPHQJVTi4YHh1yq/qTkHRX+ortrF5VEeDJDv+SljNStIxUdroPD29
+ 2ijoaMFTAU+uBtE14UP5F+LWdmRdEGS1Ah1NwooL27uAFllTDQxDhg/+LJ/TqB8ZuidOIy1B
+ xVKRSg3I2m+DUTVqBy7Lixo73hnW69kSjtqCeamY/NSu6LNP+b0wAOKhwz9hBEwEHLp05+mj
+ 5ZFJyfGsOiNUcMoO/17FO4EBxSDP3FDLllpuzlFD7SXkfJaMWYmXIlO0jLzdfwfcnDzBbPwO
+ hBM8hvtsyq8lq8vJOxv6XD6xcTtj5Az8t2JjdUX6SF9hxJpwhBU0wrCoGDkWp4Bbv6jnF7zP
+ Nzftr4l8RuJoywDIiJpdaNpSlXKpj/K6KrnyAI/joYc7
+Message-ID: <45258da8-2ce7-68c2-1ba0-84f6c0e634b1@suse.cz>
+Date: Thu, 15 Aug 2019 16:32:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
-x-originating-ip: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-x-clientproxiedby: PR2P264CA0015.FRAP264.PROD.OUTLOOK.COM (2603:10a6:101::27)
- To DM5PR12MB1705.namprd12.prod.outlook.com
- (2603:10b6:3:10c::22)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9115d106-b1ea-4e1a-9dca-08d7218d0af3
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
- SRVR:DM5PR12MB2518; 
-x-ms-traffictypediagnostic: DM5PR12MB2518:
-x-ms-exchange-purlcount: 1
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM5PR12MB2518B958A3A0395BFD47CC7183AC0@DM5PR12MB2518.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 01304918F3
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(39860400002)(376002)(396003)(366004)(346002)(136003)(189003)(199004)(65806001)(54906003)(186003)(65956001)(58126008)(25786009)(14444005)(31686004)(53546011)(65826007)(36756003)(386003)(6506007)(102836004)(76176011)(46003)(4326008)(256004)(229853002)(6486002)(1411001)(6436002)(71200400001)(6246003)(6916009)(71190400001)(64126003)(53936002)(316002)(6512007)(2906002)(8676002)(486006)(14454004)(86362001)(476003)(2616005)(6306002)(305945005)(7736002)(52116002)(66574012)(6116002)(81166006)(81156014)(31696002)(11346002)(966005)(478600001)(446003)(66946007)(66556008)(5660300002)(64756008)(66446008)(99286004)(66476007)(8936002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB2518;
- H:DM5PR12MB1705.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: vEegGrfZwQt2/rdzGdkbmNnbSW3RmYlKYoeLwnE+Yy5IIFYs8lv3UO3P+Tjtf3quPVVO1HHBhjtwmiGIdGphWP9AoLm192JKwo5LwGWHFQBKRUk6uoKcvScnbiMjTXBIapmTBCQVENSnNoqJ5piiNlnfvE68jLkcwCjxgIGC2pVSgdX11dvH1ilpKlKWi6u+WSN/aqPRGBjwPBJDxpXsUeWKsnhTh5Zks8eaDzGLAh3tFuPfGJpNBtXUF4aK6tN1lBeiImBNeO5wjJRIHkZkuE0IopCkQQNjCJoRPEORZbBDxFRdk3mqUhe4RXDtS5LzEX0sCEOkguyHEpc7LV5bFQfD26fTYYmYjGteTFStGaTjGNy3SVWQpufGFi3npLeuc7Vf+SFhO6eOScSVk7jiyrNm/Fy2Xl8WaIMLMeWHzFM=
-Content-ID: <1D855281E343EE4F974C7CEDAF1DBD5B@namprd12.prod.outlook.com>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9115d106-b1ea-4e1a-9dca-08d7218d0af3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Aug 2019 14:29:55.7396 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jpadVYTUTEFxiTVrDrMgH2CllABMBM43kuPBnx+9HmHBGiMDxuBl7fJPQ+qQm1e4
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2518
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PWboKnI7vpsbEPWSaLnvCLy428XvWsXOYIspTI8WLt8=;
- b=xnwSO93qnfmN7pbtqzSqOpQVfPJMjQKALNhs59CtZbRQ55yS1u6Q6oGxbsveqFxIMaxxNuIAxxo0odOb+ekz09vIwt8+O245YLW2sEjK5yG6AT0N/sqCmxF20IYKkk9UhmkKf3cz2GMIoLPFh9mMMGJ+MxKSgw2rtKD/94nkxQM=
-X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Christian.Koenig@amd.com; 
+In-Reply-To: <CA+i2_Dc-VrOUk8EVThwAE5HZ1-zFqONuW8Gojv+16UPsAqoM1Q@mail.gmail.com>
+Content-Type: multipart/mixed; boundary="------------F75BE80D724DEE18C4FE2B15"
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -106,94 +106,420 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Atish Patra <Atish.Patra@wdc.com>, Alistair Francis <alistair.francis@wdc.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, bugzilla-daemon@bugzilla.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Huang Rui <ray.huang@amd.com>, Qian Cai <cai@lca.pw>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMTUuMDguMTkgdW0gMTY6MTUgc2NocmllYiBBbGV4IERldWNoZXI6DQo+IE9uIFRodSwgQXVn
-IDE1LCAyMDE5IGF0IDQ6MzQgQU0gS29lbmlnLCBDaHJpc3RpYW4NCj4gPENocmlzdGlhbi5Lb2Vu
-aWdAYW1kLmNvbT4gd3JvdGU6DQo+PiBBbSAxNS4wOC4xOSB1bSAwOToyNyBzY2hyaWViIENocmlz
-dG9waCBIZWxsd2lnOg0KPj4+IHJhZGVvbiB1c2VzIGEgbmVlZF9kbWEzMiBmbGFnIHRvIGluZGlj
-YXRlIHRvIHRoZSBkcm0gY29yZSB0aGF0IHNvbWUNCj4+PiBhbGxvY2F0aW9ucyBuZWVkIHRvIGJl
-IGRvbmUgdXNpbmcgR0ZQX0RNQTMyLCBidXQgaXQgb25seSBjaGVja3MgdGhlDQo+Pj4gZGV2aWNl
-IGFkZHJlc3NpbmcgY2FwYWJpbGl0aWVzIHRvIG1ha2UgdGhhdCBkZWNpc2lvbi4gIFVuZm9ydHVu
-YXRlbHkNCj4+PiBQQ0llIHJvb3QgcG9ydHMgdGhhdCBoYXZlIGxpbWl0ZWQgYWRkcmVzc2luZyBl
-eGlzdCBhcyB3ZWxsLiAgVXNlIHRoZQ0KPj4+IGRtYV9hZGRyZXNzaW5nX2xpbWl0ZWQgaW5zdGVh
-ZCB0byBhbHNvIHRha2UgdGhvc2UgaW50byBhY2NvdW50Lg0KPj4+DQo+Pj4gUmVwb3J0ZWQtYnk6
-IEF0aXNoIFBhdHJhIDxBdGlzaC5QYXRyYUB3ZGMuY29tPg0KPj4+IFNpZ25lZC1vZmYtYnk6IENo
-cmlzdG9waCBIZWxsd2lnIDxoY2hAbHN0LmRlPg0KPj4gTG9va3Mgc2FuZSB0byBtZS4gUmV2aWV3
-ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4uDQo+IElz
-IHRoaXMgZm9yIHRoZSBmdWxsIHNlcmllcyBvciBqdXN0IHRoaXMgcGF0Y2g/DQoNCkZvciB0aGUg
-ZnVsbCBzZXJpZXMsIHNvcnJ5IGZvciBub3QgYmVpbmcgY2xlYXIgb24gdGhpcy4NCg0KQ2hyaXN0
-aWFuLg0KDQo+DQo+IEFsZXgNCj4NCj4+IFNob3VsZCB3ZSBtZXJnZSB0aGlzIHRocm91Z2ggb3Vy
-IG5vcm1hbCBhbWRncHUvcmFkZW9uIGJyYW5jaGVzIG9yIGRvIHlvdQ0KPj4gd2FudCB0byBzZW5k
-IHRoaXMgdXBzdHJlYW0gc29tZWhvdyBlbHNlPw0KPj4NCj4+IFRoYW5rcywNCj4+IENocmlzdGlh
-bi4NCj4+DQo+Pj4gLS0tDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb24uaCAg
-ICAgICAgfCAgMSAtDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fZGV2aWNl
-LmMgfCAxMiArKysrKy0tLS0tLS0NCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVv
-bl90dG0uYyAgICB8ICAyICstDQo+Pj4gICAgMyBmaWxlcyBjaGFuZ2VkLCA2IGluc2VydGlvbnMo
-KyksIDkgZGVsZXRpb25zKC0pDQo+Pj4NCj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L3JhZGVvbi9yYWRlb24uaCBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uLmgNCj4+PiBp
-bmRleCAzMjgwOGU1MGJlMTIuLjFhMGIyMjUyNmE3NSAxMDA2NDQNCj4+PiAtLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vcmFkZW9uL3JhZGVvbi5oDQo+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVv
-bi9yYWRlb24uaA0KPj4+IEBAIC0yMzg3LDcgKzIzODcsNiBAQCBzdHJ1Y3QgcmFkZW9uX2Rldmlj
-ZSB7DQo+Pj4gICAgICAgIHN0cnVjdCByYWRlb25fd2IgICAgICAgICAgICAgICAgd2I7DQo+Pj4g
-ICAgICAgIHN0cnVjdCByYWRlb25fZHVtbXlfcGFnZSAgICAgICAgZHVtbXlfcGFnZTsNCj4+PiAg
-ICAgICAgYm9vbCAgICAgICAgICAgICAgICAgICAgICAgICAgICBzaHV0ZG93bjsNCj4+PiAtICAg
-ICBib29sICAgICAgICAgICAgICAgICAgICAgICAgICAgIG5lZWRfZG1hMzI7DQo+Pj4gICAgICAg
-IGJvb2wgICAgICAgICAgICAgICAgICAgICAgICAgICAgbmVlZF9zd2lvdGxiOw0KPj4+ICAgICAg
-ICBib29sICAgICAgICAgICAgICAgICAgICAgICAgICAgIGFjY2VsX3dvcmtpbmc7DQo+Pj4gICAg
-ICAgIGJvb2wgICAgICAgICAgICAgICAgICAgICAgICAgICAgZmFzdGZiX3dvcmtpbmc7IC8qIElH
-UCBmZWF0dXJlKi8NCj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRl
-b25fZGV2aWNlLmMgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9kZXZpY2UuYw0KPj4+
-IGluZGV4IGRjZWI1NTRlNTY3NC4uYjhjYzA1ODI2NjY3IDEwMDY0NA0KPj4+IC0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2RldmljZS5jDQo+Pj4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL3JhZGVvbi9yYWRlb25fZGV2aWNlLmMNCj4+PiBAQCAtMTM2NSwyNyArMTM2NSwyNSBAQCBp
-bnQgcmFkZW9uX2RldmljZV9pbml0KHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2LA0KPj4+ICAg
-ICAgICBlbHNlDQo+Pj4gICAgICAgICAgICAgICAgcmRldi0+bWMubWNfbWFzayA9IDB4ZmZmZmZm
-ZmZVTEw7IC8qIDMyIGJpdCBNQyAqLw0KPj4+DQo+Pj4gLSAgICAgLyogc2V0IERNQSBtYXNrICsg
-bmVlZF9kbWEzMiBmbGFncy4NCj4+PiArICAgICAvKiBzZXQgRE1BIG1hc2suDQo+Pj4gICAgICAg
-ICAqIFBDSUUgLSBjYW4gaGFuZGxlIDQwLWJpdHMuDQo+Pj4gICAgICAgICAqIElHUCAtIGNhbiBo
-YW5kbGUgNDAtYml0cw0KPj4+ICAgICAgICAgKiBBR1AgLSBnZW5lcmFsbHkgZG1hMzIgaXMgc2Fm
-ZXN0DQo+Pj4gICAgICAgICAqIFBDSSAtIGRtYTMyIGZvciBsZWdhY3kgcGNpIGdhcnQsIDQwIGJp
-dHMgb24gbmV3ZXIgYXNpY3MNCj4+PiAgICAgICAgICovDQo+Pj4gLSAgICAgcmRldi0+bmVlZF9k
-bWEzMiA9IGZhbHNlOw0KPj4+ICsgICAgIGRtYV9iaXRzID0gNDA7DQo+Pj4gICAgICAgIGlmIChy
-ZGV2LT5mbGFncyAmIFJBREVPTl9JU19BR1ApDQo+Pj4gLSAgICAgICAgICAgICByZGV2LT5uZWVk
-X2RtYTMyID0gdHJ1ZTsNCj4+PiArICAgICAgICAgICAgIGRtYV9iaXRzID0gMzI7DQo+Pj4gICAg
-ICAgIGlmICgocmRldi0+ZmxhZ3MgJiBSQURFT05fSVNfUENJKSAmJg0KPj4+ICAgICAgICAgICAg
-KHJkZXYtPmZhbWlseSA8PSBDSElQX1JTNzQwKSkNCj4+PiAtICAgICAgICAgICAgIHJkZXYtPm5l
-ZWRfZG1hMzIgPSB0cnVlOw0KPj4+ICsgICAgICAgICAgICAgZG1hX2JpdHMgPSAzMjsNCj4+PiAg
-ICAjaWZkZWYgQ09ORklHX1BQQzY0DQo+Pj4gICAgICAgIGlmIChyZGV2LT5mYW1pbHkgPT0gQ0hJ
-UF9DRURBUikNCj4+PiAtICAgICAgICAgICAgIHJkZXYtPm5lZWRfZG1hMzIgPSB0cnVlOw0KPj4+
-ICsgICAgICAgICAgICAgZG1hX2JpdHMgPSAzMjsNCj4+PiAgICAjZW5kaWYNCj4+Pg0KPj4+IC0g
-ICAgIGRtYV9iaXRzID0gcmRldi0+bmVlZF9kbWEzMiA/IDMyIDogNDA7DQo+Pj4gICAgICAgIHIg
-PSBwY2lfc2V0X2RtYV9tYXNrKHJkZXYtPnBkZXYsIERNQV9CSVRfTUFTSyhkbWFfYml0cykpOw0K
-Pj4+ICAgICAgICBpZiAocikgew0KPj4+IC0gICAgICAgICAgICAgcmRldi0+bmVlZF9kbWEzMiA9
-IHRydWU7DQo+Pj4gICAgICAgICAgICAgICAgZG1hX2JpdHMgPSAzMjsNCj4+PiAgICAgICAgICAg
-ICAgICBwcl93YXJuKCJyYWRlb246IE5vIHN1aXRhYmxlIERNQSBhdmFpbGFibGVcbiIpOw0KPj4+
-ICAgICAgICB9DQo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9u
-X3R0bS5jIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMNCj4+PiBpbmRleCBm
-YjM2OTZiYzYxNmQuLjExNmEyN2IyNWRjNCAxMDA2NDQNCj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vcmFkZW9uL3JhZGVvbl90dG0uYw0KPj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24v
-cmFkZW9uX3R0bS5jDQo+Pj4gQEAgLTc5NCw3ICs3OTQsNyBAQCBpbnQgcmFkZW9uX3R0bV9pbml0
-KHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2KQ0KPj4+ICAgICAgICByID0gdHRtX2JvX2Rldmlj
-ZV9pbml0KCZyZGV2LT5tbWFuLmJkZXYsDQo+Pj4gICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgJnJhZGVvbl9ib19kcml2ZXIsDQo+Pj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-cmRldi0+ZGRldi0+YW5vbl9pbm9kZS0+aV9tYXBwaW5nLA0KPj4+IC0gICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgcmRldi0+bmVlZF9kbWEzMik7DQo+Pj4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICBkbWFfYWRkcmVzc2luZ19saW1pdGVkKCZyZGV2LT5wZGV2LT5kZXYpKTsNCj4+PiAg
-ICAgICAgaWYgKHIpIHsNCj4+PiAgICAgICAgICAgICAgICBEUk1fRVJST1IoImZhaWxlZCBpbml0
-aWFsaXppbmcgYnVmZmVyIG9iamVjdCBkcml2ZXIoJWQpLlxuIiwgcik7DQo+Pj4gICAgICAgICAg
-ICAgICAgcmV0dXJuIHI7DQo+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXw0KPj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdA0KPj4gZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZw0KPj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwNCg0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVs
+This is a multi-part message in MIME format.
+--------------F75BE80D724DEE18C4FE2B15
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+On 8/3/19 1:29 AM, Petr Vandrovec wrote:
+> On Fri, Aug 2, 2019, 3:59 PM Matthew Wilcox <willy@infradead.org
+> <mailto:willy@infradead.org>> wrote:
+> 
+>     That doesn't help because we call reset_page_owner() in the free
+>     page path.
+> 
+>     We could turn on tracing because we call trace_mm_page_free() in this
+>     path.  That requires the reporter to be able to reproduce the problem,
+>     and it's not clear to me whether this is a "happened once" or "every
+>     time I do this, it happens" problem.
+> 
+> 
+> It happened on 3 of the boots with that kernel.  4th time box either
+> spontaneously rebooted when X started, or watchdog restarted box shortly
+> after starting X server.
+> 
+> So I believe I should be able to reproduce it with additional patches or
+> extra flags enabled.
+
+Does the issue still happen with rc4? Could you apply the 3 attached
+patches (work in progress), configure-enable CONFIG_DEBUG_PAGEALLOC and
+CONFIG_PAGE_OWNER and boot kernel with debug_pagealloc=on page_owner=on
+parameters? That should print stacktraces of allocation and first
+freeing (assuming this is a double free).
+
+Vlastimil
+
+
+--------------F75BE80D724DEE18C4FE2B15
+Content-Type: text/x-patch;
+ name="0001-mm-page_owner-record-page-owner-for-each-subpage.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+ filename*0="0001-mm-page_owner-record-page-owner-for-each-subpage.patch"
+
+From 5b4c46cb1d7a8bca3e8d98433b19e60b28fb5796 Mon Sep 17 00:00:00 2001
+From: Vlastimil Babka <vbabka@suse.cz>
+Date: Thu, 15 Aug 2019 14:06:50 +0200
+Subject: [PATCH 1/3] mm, page_owner: record page owner for each subpage
+
+Currently, page owner info is only recorded for the first page of a high-order
+allocation, and copied to tail pages in the event of a split page. With the
+plan to keep previous owner info after freeing the page, it would be benefical
+to record page owner for each subpage upon allocation. This increases the
+overhead for high orders, but that should be acceptable for a debugging option.
+
+Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+---
+ mm/page_owner.c | 33 +++++++++++++++++++++------------
+ 1 file changed, 21 insertions(+), 12 deletions(-)
+
+diff --git a/mm/page_owner.c b/mm/page_owner.c
+index addcbb2ae4e4..695cd5fdf7fd 100644
+--- a/mm/page_owner.c
++++ b/mm/page_owner.c
+@@ -154,18 +154,23 @@ static noinline depot_stack_handle_t save_stack(gfp_t flags)
+ 	return handle;
+ }
+ 
+-static inline void __set_page_owner_handle(struct page_ext *page_ext,
+-	depot_stack_handle_t handle, unsigned int order, gfp_t gfp_mask)
++static inline void __set_page_owner_handle(struct page *page,
++	struct page_ext *page_ext, depot_stack_handle_t handle,
++	unsigned int order, gfp_t gfp_mask)
+ {
+ 	struct page_owner *page_owner;
++	int i;
+ 
+-	page_owner = get_page_owner(page_ext);
+-	page_owner->handle = handle;
+-	page_owner->order = order;
+-	page_owner->gfp_mask = gfp_mask;
+-	page_owner->last_migrate_reason = -1;
++	for (i = 0; i < (1 << order); i++) {
++		page_owner = get_page_owner(page_ext);
++		page_owner->handle = handle;
++		page_owner->order = order;
++		page_owner->gfp_mask = gfp_mask;
++		page_owner->last_migrate_reason = -1;
++		__set_bit(PAGE_EXT_OWNER, &page_ext->flags);
+ 
+-	__set_bit(PAGE_EXT_OWNER, &page_ext->flags);
++		page_ext = lookup_page_ext(page + i);
++	}
+ }
+ 
+ noinline void __set_page_owner(struct page *page, unsigned int order,
+@@ -178,7 +183,7 @@ noinline void __set_page_owner(struct page *page, unsigned int order,
+ 		return;
+ 
+ 	handle = save_stack(gfp_mask);
+-	__set_page_owner_handle(page_ext, handle, order, gfp_mask);
++	__set_page_owner_handle(page, page_ext, handle, order, gfp_mask);
+ }
+ 
+ void __set_page_owner_migrate_reason(struct page *page, int reason)
+@@ -204,8 +209,11 @@ void __split_page_owner(struct page *page, unsigned int order)
+ 
+ 	page_owner = get_page_owner(page_ext);
+ 	page_owner->order = 0;
+-	for (i = 1; i < (1 << order); i++)
+-		__copy_page_owner(page, page + i);
++	for (i = 1; i < (1 << order); i++) {
++		page_ext = lookup_page_ext(page + i);
++		page_owner = get_page_owner(page_ext);
++		page_owner->order = 0;
++	}
+ }
+ 
+ void __copy_page_owner(struct page *oldpage, struct page *newpage)
+@@ -562,7 +570,8 @@ static void init_pages_in_zone(pg_data_t *pgdat, struct zone *zone)
+ 				continue;
+ 
+ 			/* Found early allocated page */
+-			__set_page_owner_handle(page_ext, early_handle, 0, 0);
++			__set_page_owner_handle(page, page_ext, early_handle,
++						0, 0);
+ 			count++;
+ 		}
+ 		cond_resched();
+-- 
+2.22.0
+
+
+--------------F75BE80D724DEE18C4FE2B15
+Content-Type: text/x-patch;
+ name="0002-mm-page_owner-keep-owner-info-when-freeing-the-page.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+ filename*0="0002-mm-page_owner-keep-owner-info-when-freeing-the-page.pat";
+ filename*1="ch"
+
+From 063f233cc154819bb39a005726260496eea12265 Mon Sep 17 00:00:00 2001
+From: Vlastimil Babka <vbabka@suse.cz>
+Date: Thu, 15 Aug 2019 14:48:54 +0200
+Subject: [PATCH 2/3] mm, page_owner: keep owner info when freeing the page
+
+For debugging purposes it might be useful to keep the owner info even after
+page has been freed and include it in e.g. dump_page() when detecting a bad
+page state. For that, change the PAGE_EXT_OWNER flag meaning to "page owner
+info has been set at least once" and add new PAGE_EXT_OWNER_ACTIVE for tracking
+whether page is supposed to be currently allocated or free. Adjust dump_page()
+and page_owner file printing accordingly.
+
+Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+---
+ include/linux/page_ext.h |  1 +
+ mm/page_owner.c          | 38 +++++++++++++++++++++++++-------------
+ 2 files changed, 26 insertions(+), 13 deletions(-)
+
+diff --git a/include/linux/page_ext.h b/include/linux/page_ext.h
+index 09592951725c..682fd465df06 100644
+--- a/include/linux/page_ext.h
++++ b/include/linux/page_ext.h
+@@ -18,6 +18,7 @@ struct page_ext_operations {
+ 
+ enum page_ext_flags {
+ 	PAGE_EXT_OWNER,
++	PAGE_EXT_OWNER_ACTIVE,
+ #if defined(CONFIG_IDLE_PAGE_TRACKING) && !defined(CONFIG_64BIT)
+ 	PAGE_EXT_YOUNG,
+ 	PAGE_EXT_IDLE,
+diff --git a/mm/page_owner.c b/mm/page_owner.c
+index 695cd5fdf7fd..c4c33d569f4d 100644
+--- a/mm/page_owner.c
++++ b/mm/page_owner.c
+@@ -111,7 +111,7 @@ void __reset_page_owner(struct page *page, unsigned int order)
+ 		page_ext = lookup_page_ext(page + i);
+ 		if (unlikely(!page_ext))
+ 			continue;
+-		__clear_bit(PAGE_EXT_OWNER, &page_ext->flags);
++		__clear_bit(PAGE_EXT_OWNER_ACTIVE, &page_ext->flags);
+ 	}
+ }
+ 
+@@ -168,6 +168,7 @@ static inline void __set_page_owner_handle(struct page *page,
+ 		page_owner->gfp_mask = gfp_mask;
+ 		page_owner->last_migrate_reason = -1;
+ 		__set_bit(PAGE_EXT_OWNER, &page_ext->flags);
++		__set_bit(PAGE_EXT_OWNER_ACTIVE, &page_ext->flags);
+ 
+ 		page_ext = lookup_page_ext(page + i);
+ 	}
+@@ -243,6 +244,7 @@ void __copy_page_owner(struct page *oldpage, struct page *newpage)
+ 	 * the new page, which will be freed.
+ 	 */
+ 	__set_bit(PAGE_EXT_OWNER, &new_ext->flags);
++	__set_bit(PAGE_EXT_OWNER_ACTIVE, &new_ext->flags);
+ }
+ 
+ void pagetypeinfo_showmixedcount_print(struct seq_file *m,
+@@ -302,7 +304,7 @@ void pagetypeinfo_showmixedcount_print(struct seq_file *m,
+ 			if (unlikely(!page_ext))
+ 				continue;
+ 
+-			if (!test_bit(PAGE_EXT_OWNER, &page_ext->flags))
++			if (!test_bit(PAGE_EXT_OWNER_ACTIVE, &page_ext->flags))
+ 				continue;
+ 
+ 			page_owner = get_page_owner(page_ext);
+@@ -331,7 +333,7 @@ void pagetypeinfo_showmixedcount_print(struct seq_file *m,
+ static ssize_t
+ print_page_owner(char __user *buf, size_t count, unsigned long pfn,
+ 		struct page *page, struct page_owner *page_owner,
+-		depot_stack_handle_t handle)
++		depot_stack_handle_t handle, bool page_active)
+ {
+ 	int ret, pageblock_mt, page_mt;
+ 	unsigned long *entries;
+@@ -344,7 +346,9 @@ print_page_owner(char __user *buf, size_t count, unsigned long pfn,
+ 		return -ENOMEM;
+ 
+ 	ret = snprintf(kbuf, count,
+-			"Page allocated via order %u, mask %#x(%pGg)\n",
++			"%s via order %u, mask %#x(%pGg)\n",
++			page_active ? "Page allocated" :
++				      "Free page previously allocated",
+ 			page_owner->order, page_owner->gfp_mask,
+ 			&page_owner->gfp_mask);
+ 
+@@ -413,21 +417,26 @@ void __dump_page_owner(struct page *page)
+ 	mt = gfpflags_to_migratetype(gfp_mask);
+ 
+ 	if (!test_bit(PAGE_EXT_OWNER, &page_ext->flags)) {
+-		pr_alert("page_owner info is not active (free page?)\n");
++		pr_alert("page_owner info is not present (never set?)\n");
+ 		return;
+ 	}
+ 
++	if (test_bit(PAGE_EXT_OWNER_ACTIVE, &page_ext->flags))
++		pr_alert("page_owner tracks the page as allocated\n");
++	else
++		pr_alert("page_owner tracks the page as freed\n");
++
++	pr_alert("page last allocated via order %u, migratetype %s, gfp_mask %#x(%pGg)\n",
++		 page_owner->order, migratetype_names[mt], gfp_mask, &gfp_mask);
++
+ 	handle = READ_ONCE(page_owner->handle);
+ 	if (!handle) {
+-		pr_alert("page_owner info is not active (free page?)\n");
+-		return;
++		pr_alert("page_owner allocation stack trace missing\n");
++	} else {
++		nr_entries = stack_depot_fetch(handle, &entries);
++		stack_trace_print(entries, nr_entries, 0);
+ 	}
+ 
+-	nr_entries = stack_depot_fetch(handle, &entries);
+-	pr_alert("page allocated via order %u, migratetype %s, gfp_mask %#x(%pGg)\n",
+-		 page_owner->order, migratetype_names[mt], gfp_mask, &gfp_mask);
+-	stack_trace_print(entries, nr_entries, 0);
+-
+ 	if (page_owner->last_migrate_reason != -1)
+ 		pr_alert("page has been migrated, last migrate reason: %s\n",
+ 			migrate_reason_names[page_owner->last_migrate_reason]);
+@@ -441,6 +450,7 @@ read_page_owner(struct file *file, char __user *buf, size_t count, loff_t *ppos)
+ 	struct page_ext *page_ext;
+ 	struct page_owner *page_owner;
+ 	depot_stack_handle_t handle;
++	bool page_active;
+ 
+ 	if (!static_branch_unlikely(&page_owner_inited))
+ 		return -EINVAL;
+@@ -489,6 +499,8 @@ read_page_owner(struct file *file, char __user *buf, size_t count, loff_t *ppos)
+ 		if (!test_bit(PAGE_EXT_OWNER, &page_ext->flags))
+ 			continue;
+ 
++		page_active = test_bit(PAGE_EXT_OWNER_ACTIVE, &page_ext->flags);
++
+ 		page_owner = get_page_owner(page_ext);
+ 
+ 		/*
+@@ -503,7 +515,7 @@ read_page_owner(struct file *file, char __user *buf, size_t count, loff_t *ppos)
+ 		*ppos = (pfn - min_low_pfn) + 1;
+ 
+ 		return print_page_owner(buf, count, pfn, page,
+-				page_owner, handle);
++				page_owner, handle, page_active);
+ 	}
+ 
+ 	return 0;
+-- 
+2.22.0
+
+
+--------------F75BE80D724DEE18C4FE2B15
+Content-Type: text/x-patch;
+ name="0003-mm-page_owner-debug_pagealloc-save-freeing-stack-tra.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+ filename*0="0003-mm-page_owner-debug_pagealloc-save-freeing-stack-tra.pa";
+ filename*1="tch"
+
+From 4df89531903b8f0a056d3ec7f21825d0a22df355 Mon Sep 17 00:00:00 2001
+From: Vlastimil Babka <vbabka@suse.cz>
+Date: Thu, 15 Aug 2019 16:28:14 +0200
+Subject: [PATCH 3/3] mm, page_owner, debug_pagealloc: save freeing stack trace
+
+Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+---
+ mm/page_owner.c | 53 +++++++++++++++++++++++++++++++++++++------------
+ 1 file changed, 40 insertions(+), 13 deletions(-)
+
+diff --git a/mm/page_owner.c b/mm/page_owner.c
+index c4c33d569f4d..f2eccea86210 100644
+--- a/mm/page_owner.c
++++ b/mm/page_owner.c
+@@ -24,6 +24,9 @@ struct page_owner {
+ 	short last_migrate_reason;
+ 	gfp_t gfp_mask;
+ 	depot_stack_handle_t handle;
++#ifdef CONFIG_DEBUG_PAGEALLOC
++	depot_stack_handle_t free_handle;
++#endif
+ };
+ 
+ static bool page_owner_disabled = true;
+@@ -102,19 +105,6 @@ static inline struct page_owner *get_page_owner(struct page_ext *page_ext)
+ 	return (void *)page_ext + page_owner_ops.offset;
+ }
+ 
+-void __reset_page_owner(struct page *page, unsigned int order)
+-{
+-	int i;
+-	struct page_ext *page_ext;
+-
+-	for (i = 0; i < (1 << order); i++) {
+-		page_ext = lookup_page_ext(page + i);
+-		if (unlikely(!page_ext))
+-			continue;
+-		__clear_bit(PAGE_EXT_OWNER_ACTIVE, &page_ext->flags);
+-	}
+-}
+-
+ static inline bool check_recursive_alloc(unsigned long *entries,
+ 					 unsigned int nr_entries,
+ 					 unsigned long ip)
+@@ -154,6 +144,32 @@ static noinline depot_stack_handle_t save_stack(gfp_t flags)
+ 	return handle;
+ }
+ 
++void __reset_page_owner(struct page *page, unsigned int order)
++{
++	int i;
++	struct page_ext *page_ext;
++#ifdef CONFIG_DEBUG_PAGEALLOC
++	depot_stack_handle_t handle = 0;
++	struct page_owner *page_owner;
++
++	if (debug_pagealloc_enabled())
++		handle = save_stack(GFP_NOWAIT | __GFP_NOWARN);
++#endif
++
++	for (i = 0; i < (1 << order); i++) {
++		page_ext = lookup_page_ext(page + i);
++		if (unlikely(!page_ext))
++			continue;
++		__clear_bit(PAGE_EXT_OWNER_ACTIVE, &page_ext->flags);
++#ifdef CONFIG_DEBUG_PAGEALLOC
++		if (debug_pagealloc_enabled()) {
++			page_owner = get_page_owner(page_ext);
++			page_owner->free_handle = handle;
++		}
++#endif
++	}
++}
++
+ static inline void __set_page_owner_handle(struct page *page,
+ 	struct page_ext *page_ext, depot_stack_handle_t handle,
+ 	unsigned int order, gfp_t gfp_mask)
+@@ -437,6 +453,17 @@ void __dump_page_owner(struct page *page)
+ 		stack_trace_print(entries, nr_entries, 0);
+ 	}
+ 
++#ifdef CONFIG_DEBUG_PAGEALLOC
++	handle = READ_ONCE(page_owner->free_handle);
++	if (!handle) {
++		pr_alert("page_owner free stack trace missing\n");
++	} else {
++		nr_entries = stack_depot_fetch(handle, &entries);
++		pr_alert("page last free stack trace:\n");
++		stack_trace_print(entries, nr_entries, 0);
++	}
++#endif
++
+ 	if (page_owner->last_migrate_reason != -1)
+ 		pr_alert("page has been migrated, last migrate reason: %s\n",
+ 			migrate_reason_names[page_owner->last_migrate_reason]);
+-- 
+2.22.0
+
+
+--------------F75BE80D724DEE18C4FE2B15
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--------------F75BE80D724DEE18C4FE2B15--
