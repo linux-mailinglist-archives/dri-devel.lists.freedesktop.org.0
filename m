@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D891B8E621
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2019 10:23:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00EA98E628
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2019 10:23:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 911EE6E8C4;
-	Thu, 15 Aug 2019 08:23:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDF086E2BF;
+	Thu, 15 Aug 2019 08:23:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3F4C6E8C4
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2019 08:22:58 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id l14so1527941ljj.9
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2019 01:22:58 -0700 (PDT)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A23A6E2BF
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2019 08:23:43 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id r9so1540211ljg.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2019 01:23:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=rNifjZHy9qpEjr0GVjpJDJGNo3i2//VHyToq2Gi1I5o=;
- b=Gl0KqdBcvxDhLTbhhreKgYZG0cpCn1cNnuN7Cht7z0wbctl+vVhYioHeB6FltWWGiN
- WRZEqaQYWsdyPznrGKQE+sRiOm1kPldMsEWq+F32/Xv7QWzlzZNOzAdmaEUcQFZDlmLS
- nO8xSvzAS262WKINO99im38+Ka4f9LV8khFVvRZIH4bm0ayXym/kCx+GckPmNW8TXkR7
- MB4oCQC6oXj+V6BYzjW+nvWgia9qttjHBkFVSmtNkUK9b36NaV8dsr1/oNyv+SwGRb8S
- bfQ/lbhc+WhiNnvDoIkA3vwUgOaMW0l9txEaQ4kGDvp6Fhz1FxgJ+/I3sew1EmIkdQc1
- 2xFA==
-X-Gm-Message-State: APjAAAWI29+rFqyMO9onUf8O4TK5Am/G+X+Lt95ZGOSzLXzP4LcMfXd5
- QUHOt+4qU8wgM0m/uJs+GBgdACKr0sho5zXYcaS9cA==
-X-Google-Smtp-Source: APXvYqzSKpPdJ2jsFgd1uIci3/V28JBr33UJghFYLTf8pCPXob33LzLWLieV3eJDVU3sY3EnTwoxgKPof5pySOFlK/A=
-X-Received: by 2002:a2e:781a:: with SMTP id t26mr2027257ljc.28.1565857377246; 
- Thu, 15 Aug 2019 01:22:57 -0700 (PDT)
+ bh=t0NopUkqBTLA90SLW4pHyzSS/xf0ZSXYWDKGwtJAIsY=;
+ b=Y2WyRtGZ7i4u/Z1nOMn8sgjKXGMwYNFhfgFWMzoBs8jxBk2knbp1zw+SANgeTo3Wsu
+ +0M5o9o15intHQSGgl9C5T56vPeTMGDDYI4HhOlXHDDiMjWDIJMaiEZsnKkHvsP9aIRY
+ U1ktODZ2qXBOpp3uo+c8qCg7QdqWaDK3n6NuLDtmPiQZxj8OirLK4ThtS/DwAcSHlvu3
+ B5iwaXIwliBdoi6FmcrSzlsaSWxOr/tNVhhVu4R6b0Fm4I3e6nCu7IpTnQ5iRA3qpluN
+ +ZtmV6K1bemAASR/RfdFpAx6o9AEWuR/s/vuQLyjRY6ZBlCcY+oVCq4S6hQXGFXTokwL
+ KIaA==
+X-Gm-Message-State: APjAAAW2y62g34LicZUj/qK2nsBSQT/w//FdlWPDXWWiLOqBMWw5U9KO
+ E7z8GJTBKL+mgKeneqBToiryql7PCb2bNtVK+5FGeQ==
+X-Google-Smtp-Source: APXvYqzE4/aMh5whMI0MclqVZfrD6ndHr/RkELyc9WknR09MC3TLKaJoB0cexdnz/NmuFUXRKZuieK+MZxg1NivzFuo=
+X-Received: by 2002:a2e:80da:: with SMTP id r26mr200669ljg.62.1565857421866;
+ Thu, 15 Aug 2019 01:23:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190815004854.19860-1-masneyb@onstation.org>
- <20190815004854.19860-7-masneyb@onstation.org>
-In-Reply-To: <20190815004854.19860-7-masneyb@onstation.org>
+ <20190815004854.19860-8-masneyb@onstation.org>
+In-Reply-To: <20190815004854.19860-8-masneyb@onstation.org>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 15 Aug 2019 10:22:45 +0200
-Message-ID: <CACRpkdYdQa+FVfpSjLi0SsBMDT4QC667z1P1dnapz7PXgRoB5Q@mail.gmail.com>
-Subject: Re: [PATCH RFC 06/11] drm/bridge: analogix-anx78xx: add support for
- avdd33 regulator
+Date: Thu, 15 Aug 2019 10:23:30 +0200
+Message-ID: <CACRpkda3uCk05FNfeesa6ZgL4MPcQPwjv506jMNmvMkvwCnLdg@mail.gmail.com>
+Subject: Re: [PATCH 07/11] ARM: qcom_defconfig: add CONFIG_DRM_ANALOGIX_ANX78XX
 To: Brian Masney <masneyb@onstation.org>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc;
- bh=rNifjZHy9qpEjr0GVjpJDJGNo3i2//VHyToq2Gi1I5o=;
- b=OlwYctZRlIMTjnglbFz8m9UPeYHKRsw+HS0cqHa/AZrP3rCVWXzJ5gTfiLfl40hRWX
- cX599NGltZt5oVIqpRPPhMuFrdyeOZm97dwPU+CAxT5l2Fmeh/ZSbFOCb/7nY3jY2z0d
- CIjrlvHSyzJD4VsaZOWNL8WGygu6Rqv8F2u1V5+5Vq2p/D6QfBUPCY82EgeyCZmGRItF
- sjGHEgbToBdt25gqu0ZmUeiwWbzQ33NvDXBHQd6ysLH7sZmeFJ9duV5eFYsKV7RiV72h
- eNWFtqLstPI4m/mvgNB4pqyITfo+BGeWUfVdKBuxzmRIaxr6JBuXwM1U7lK/HLoL9KU5
- xc1w==
+ bh=t0NopUkqBTLA90SLW4pHyzSS/xf0ZSXYWDKGwtJAIsY=;
+ b=XfZzDLa/pb4I6O618ihMETOAk22ZCfhPAN12JvjQDq86genpOOd9UIrjs1jDPfXHKv
+ C4XbzbKfduo6gxH7+9d535juc4lDa3KVomsptlT5IuBLZAjjZa9RDW+DaFQ5jw+Hd6qz
+ mvNDo2UoQAGTnFAb/z0MOQcgu+YNlE2gKQ/YaLvbGyKa55lgeWkOqmclOig+Qaw/vlFe
+ cNlUE6ev+m2Z4fhHUkF3Fc5Qp0FShH4ZtRp0bE3Vz4mlR/Xl4QSWA+RxNjkVmDlNnU3c
+ M9PVoAFWM/0SAqsGo/gmz/i8D6JE8b5LUjHeOHZCBhzPxG4uQmcxIyE7hoOUmdnT/gLF
+ SnCg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,26 +82,11 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 T24gVGh1LCBBdWcgMTUsIDIwMTkgYXQgMjo0OSBBTSBCcmlhbiBNYXNuZXkgPG1hc25leWJAb25z
-dGF0aW9uLm9yZz4gd3JvdGU6Cgo+IEFkZCBzdXBwb3J0IGZvciB0aGUgYXZkZDMzIHJlZ3VsYXRv
-ciB0byB0aGUgYW5hbG9naXgtYW54Nzh4eCBkcml2ZXIuCj4gTm90ZSB0aGF0IHRoZSByZWd1bGF0
-b3IgaXMgY3VycmVudGx5IGVuYWJsZWQgZHVyaW5nIGRyaXZlciBwcm9iZSBhbmQKPiBkaXNhYmxl
-ZCB3aGVuIHRoZSBkcml2ZXIgaXMgcmVtb3ZlZC4gVGhpcyBpcyBjdXJyZW50bHkgaG93IHRoZQo+
-IGRvd25zdHJlYW0gTVNNIGtlcm5lbCBzb3VyY2VzIGRvIHRoaXMuCj4KPiBMZXQncyBub3QgbWVy
-Z2UgdGhpcyB1cHN0cmVhbSBmb3IgdGhlIG1lYW4gdGltZSB1bnRpbCBJIGdldCB0aGUgZXh0ZXJu
-YWwKPiBkaXNwbGF5IGZ1bGx5IHdvcmtpbmcgb24gdGhlIE5leHVzIDUgYW5kIHRoZW4gSSBjYW4g
-c3VibWl0IHByb3Blcgo+IHN1cHBvcnQgdGhlbiB0aGF0IHBvd2VycyBkb3duIHRoaXMgcmVndWxh
-dG9yIGluIHRoZSBwb3dlciBvZmYgZnVuY3Rpb24uCj4KPiBTaWduZWQtb2ZmLWJ5OiBCcmlhbiBN
-YXNuZXkgPG1hc25leWJAb25zdGF0aW9uLm9yZz4KCj4gK3N0YXRpYyB2b2lkIGFueDc4eHhfZGlz
-YWJsZV9yZWd1bGF0b3JfYWN0aW9uKHZvaWQgKl9kYXRhKQo+ICt7Cj4gKyAgICAgICBzdHJ1Y3Qg
-YW54Nzh4eF9wbGF0Zm9ybV9kYXRhICpwZGF0YSA9IF9kYXRhOwo+ICsKPiArICAgICAgIHJlZ3Vs
-YXRvcl9kaXNhYmxlKHBkYXRhLT5hdmRkMzMpOwo+ICt9CiguLi4pCj4gKyAgICAgICBlcnIgPSBk
-ZXZtX2FkZF9hY3Rpb24oZGV2LCBhbng3OHh4X2Rpc2FibGVfcmVndWxhdG9yX2FjdGlvbiwKPiAr
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBwZGF0YSk7CgpDbGV2ZXIgaWRlYS4gR29vZCBm
-b3IgaW5pdGlhbCBzdXBwb3J0LCBwcm9iYWJseSBsYXRlciBvbiBpdCB3b3VsZApuZWVkIHRvIGJl
-IHJld29ya2VkIHVzaW5nIHJ1bnRpbWUgUE0gc28gaXQncyBub3QgY29uc3RhbnRseQpwb3dlcmVk
-IHVwLgoKU2VlIGZvciBleGFtcGxlIGhvdyBJIHRyeSB0byBwdXNoIGRvd24gcG93ZXIgZGlzc2lw
-YXRpb24Kb2Ygc2Vuc29ycyBpbiAzZDgzODExOGM2YWEuCgpSZXZpZXdlZC1ieTogTGludXMgV2Fs
-bGVpaiA8bGludXMud2FsbGVpakBsaW5hcm8ub3JnPgoKWW91cnMsCkxpbnVzIFdhbGxlaWoKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+dGF0aW9uLm9yZz4gd3JvdGU6Cgo+IEFkZCBDT05GSUdfRFJNX0FOQUxPR0lYX0FOWDc4WFggYXMg
+YSBtb2R1bGUgc28gdGhhdCB0aGUgZXh0ZXJuYWwgZGlzcGxheQo+IGNhbiBiZSB1c2VkIG9uIHRo
+ZSBOZXh1cyA1IHBob25lcy4KPgo+IFNpZ25lZC1vZmYtYnk6IEJyaWFuIE1hc25leSA8bWFzbmV5
+YkBvbnN0YXRpb24ub3JnPgoKUmV2aWV3ZWQtYnk6IExpbnVzIFdhbGxlaWogPGxpbnVzLndhbGxl
+aWpAbGluYXJvLm9yZz4KCllvdXJzLApMaW51cyBXYWxsZWlqCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
