@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4BB38F290
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2019 19:47:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B41A8F2A1
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2019 19:57:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DD346E44F;
-	Thu, 15 Aug 2019 17:47:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FCBA6EA20;
+	Thu, 15 Aug 2019 17:57:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 17B556E44F
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Aug 2019 17:47:39 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 140B77215A; Thu, 15 Aug 2019 17:47:39 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111211] Kernel 5.2.2+ introduced tearing, corruption and
- freezes with Raven Ridge 2500U
-Date: Thu, 15 Aug 2019 17:47:39 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: brauliobo@gmail.com
-X-Bugzilla-Status: REOPENED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: short_desc
-Message-ID: <bug-111211-502-8pukYVFnbg@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111211-502@http.bugs.freedesktop.org/>
-References: <bug-111211-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 879076EA1E;
+ Thu, 15 Aug 2019 17:57:24 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id B3C0D3083363;
+ Thu, 15 Aug 2019 17:57:23 +0000 (UTC)
+Received: from redhat.com (unknown [10.20.6.178])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E61018CBB9;
+ Thu, 15 Aug 2019 17:57:21 +0000 (UTC)
+Date: Thu, 15 Aug 2019 13:57:20 -0400
+From: Jerome Glisse <jglisse@redhat.com>
+To: Michal Hocko <mhocko@kernel.org>
+Subject: Re: [PATCH 2/5] kernel.h: Add non_block_start/end()
+Message-ID: <20190815175720.GJ30916@redhat.com>
+References: <20190814202027.18735-1-daniel.vetter@ffwll.ch>
+ <20190814202027.18735-3-daniel.vetter@ffwll.ch>
+ <20190814235805.GB11200@ziepe.ca>
+ <20190815065829.GA7444@phenom.ffwll.local>
+ <20190815122344.GA21596@ziepe.ca>
+ <20190815132127.GI9477@dhcp22.suse.cz>
+ <20190815141219.GF21596@ziepe.ca>
+ <20190815155950.GN9477@dhcp22.suse.cz>
+ <20190815165631.GK21596@ziepe.ca>
+ <20190815174207.GR9477@dhcp22.suse.cz>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190815174207.GR9477@dhcp22.suse.cz>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Thu, 15 Aug 2019 17:57:24 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,102 +55,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0817719743=="
+Cc: Feng Tang <feng.tang@intel.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Kees Cook <keescook@chromium.org>, linux-mm@kvack.org,
+ Peter Zijlstra <peterz@infradead.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Jann Horn <jannh@google.com>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Ingo Molnar <mingo@redhat.com>,
+ Thomas Gleixner <tglx@linutronix.de>, David Rientjes <rientjes@google.com>,
+ Wei Wang <wvw@google.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Masahiro Yamada <yamada.masahiro@socionext.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0817719743==
-Content-Type: multipart/alternative; boundary="15658912590.cc3A815f.21708"
-Content-Transfer-Encoding: 7bit
-
-
---15658912590.cc3A815f.21708
-Date: Thu, 15 Aug 2019 17:47:39 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111211
-
-Br=C3=A1ulio Barros de Oliveira <brauliobo@gmail.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-            Summary|Kernel 5.2.2 introduced     |Kernel 5.2.2+ introduced
-                   |tearing, corruption and     |tearing, corruption and
-                   |freezes with Raven Ridge    |freezes with Raven Ridge
-                   |2500U                       |2500U
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15658912590.cc3A815f.21708
-Date: Thu, 15 Aug 2019 17:47:39 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:brauliobo=
-&#64;gmail.com" title=3D"Br=C3=A1ulio Barros de Oliveira &lt;brauliobo&#64;=
-gmail.com&gt;"> <span class=3D"fn">Br=C3=A1ulio Barros de Oliveira</span></=
-a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_REOPENED "
-   title=3D"REOPENED - Kernel 5.2.2+ introduced tearing, corruption and fre=
-ezes with Raven Ridge 2500U"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111211">bug 11121=
-1</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Summary</td>
-           <td>Kernel 5.2.2 introduced tearing, corruption and freezes with=
- Raven Ridge 2500U
-           </td>
-           <td>Kernel 5.2.2+ introduced tearing, corruption and freezes wit=
-h Raven Ridge 2500U
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15658912590.cc3A815f.21708--
-
---===============0817719743==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0817719743==--
+T24gVGh1LCBBdWcgMTUsIDIwMTkgYXQgMDc6NDI6MDdQTSArMDIwMCwgTWljaGFsIEhvY2tvIHdy
+b3RlOgo+IE9uIFRodSAxNS0wOC0xOSAxMzo1NjozMSwgSmFzb24gR3VudGhvcnBlIHdyb3RlOgo+
+ID4gT24gVGh1LCBBdWcgMTUsIDIwMTkgYXQgMDY6MDA6NDFQTSArMDIwMCwgTWljaGFsIEhvY2tv
+IHdyb3RlOgo+ID4gCj4gPiA+ID4gQUZBSUsgJ0dGUF9OT1dBSVQnIGlzIGNoYXJhY3Rlcml6ZWQg
+YnkgdGhlIGxhY2sgb2YgX19HRlBfRlMgYW5kCj4gPiA+ID4gX19HRlBfRElSRUNUX1JFQ0xBSU0u
+Lgo+ID4gPiA+Cj4gPiA+ID4gVGhpcyBtYXRjaGVzIHRoZSBleGlzdGluZyB0ZXN0IGluIF9fbmVl
+ZF9mc19yZWNsYWltKCkgLSBzbyBpZiB5b3UgYXJlCj4gPiA+ID4gT0sgd2l0aCBHRlBfTk9GUywg
+YWthIF9fR0ZQX0lPIHdoaWNoIHRyaWdnZXJzIHRyeV90b19jb21wYWN0X3BhZ2VzKCksCj4gPiA+
+ID4gYWxsb2NhdGlvbnMgZHVyaW5nIE9PTSwgdGhlbiBJIHRoaW5rIGZzX3JlY2xhaW0gYWxyZWFk
+eSBtYXRjaGVzIHdoYXQKPiA+ID4gPiB5b3UgZGVzY3JpYmVkPwo+ID4gPiAKPiA+ID4gTm8gR0ZQ
+X05PRlMgaXMgZXF1YWxseSBiYWQuIFBsZWFzZSByZWFkIG15IG90aGVyIGVtYWlsIGV4cGxhaW5p
+bmcgd2hhdAo+ID4gPiB0aGUgb29tX3JlYXBlciBhY3R1YWxseSByZXF1aXJlcy4gSW4gc2hvcnQg
+bm8gYmxvY2tpbmcgb24gZGlyZWN0IG9yCj4gPiA+IGluZGlyZWN0IGRlcGVuZGVjeSBvbiBtZW1v
+cnkgYWxsb2NhdGlvbiB0aGF0IG1pZ2h0IHNsZWVwLgo+ID4gCj4gPiBJdCBpcyBtdWNoIGVhc2ll
+ciB0byBmb2xsb3cgd2l0aCBzb21lIGhpbnRzIG9uIGNvZGUsIHNvIHRoZSB0cnVlCj4gPiByZXF1
+aXJlbWVudCBpcyB0aGF0IHRoZSBPT00gcmVwZWFyIG5vdCBibG9jayBvbiBHRlBfRlMgYW5kIEdG
+UF9JTwo+ID4gYWxsb2NhdGlvbnMsIGdyZWF0LCB0aGF0IGNvbnN0cmFpbnQgaXMgbm93IGNsZWFy
+Lgo+IAo+IEkgc3RpbGwgZG8gbm90IGdldCB3aHkgZG8geW91IHB1dCBGUy9JTyBpbnRvIHRoZSBw
+aWN0dXJlLiBUaGlzIGlzIHJlYWxseQo+IGFib3V0IF9fR0ZQX0RJUkVDVF9SRUNMQUlNLgo+IAo+
+ID4gCj4gPiA+IElmIHlvdSBjYW4gZXhwcmVzcyB0aGF0IGluIHRoZSBleGlzdGluZyBsb2NrZGVw
+IG1hY2hpbmVyeS4gQWxsCj4gPiA+IGZpbmUuIEJ1dCB0aGVuIGNvbnNpZGVyIGRlcGxveW1lbnRz
+IHdoZXJlIGxvY2tkZXAgaXMgbm8tbm8gYmVjYXVzZQo+ID4gPiBvZiB0aGUgb3ZlcmhlYWQuCj4g
+PiAKPiA+IFRoaXMgaXMgYWxsIGZvciBkcml2ZXIgZGVidWdnaW5nLiBUaGUgcG9pbnQgb2YgbG9j
+a2RlcCBpcyB0byBmaW5kIGFsbAo+ID4gdGhlc2UgcGF0aHMgd2l0aG91dCBoYXZlIHRvIGhpdCB0
+aGVtIGFzIGFjdHVhbCByYWNlcywgdXNpbmcgZGVidWcKPiA+IGtlcm5lbHMuCj4gPiAKPiA+IEkg
+ZG9uJ3QgdGhpbmsgd2UgbmVlZCB0aGlzIGtpbmQgb2YgZGVidWdnaW5nIG9uIHByb2R1Y3Rpb24g
+a2VybmVscz8KPiAKPiBBZ2FpbiwgdGhlIHByaW1hcnkgbW90aXZhdGlvbiB3YXMgYSBzaW1wbGUg
+ZGVidWdnaW5nIGFpZCB0aGF0IGNvdWxkIGJlCj4gdXNlZCB3aXRob3V0IHdvcnJ5aW5nIGFib3V0
+IG92ZXJoZWFkLiBTbyBsb2NrZGVwIGlzIHZlcnkgb2Z0ZW4gb3V0IG9mCj4gdGhlIHF1ZXN0aW9u
+Lgo+IAo+ID4gPiA+IFRoZSBiZXN0IHdlIGdvdCB3YXMgZHJpdmVycyB0ZXN0ZWQgdGhlIFZBIHJh
+bmdlIGFuZCByZXR1cm5lZCBzdWNjZXNzCj4gPiA+ID4gaWYgdGhleSBoYWQgbm8gaW50ZXJlc3Qu
+IFdoaWNoIGlzIGEgYmlnIHdpbiB0byBiZSBzdXJlLCBidXQgaXQgbG9va3MKPiA+ID4gPiBsaWtl
+IGdldHRpbmcgYW55IG1vcmUgaXMgbm90IHJlYWxseSBwb3Nzc2libGUuCj4gPiA+IAo+ID4gPiBB
+bmQgdGhhdCBpcyBhbHJlYWR5IGEgZ3JlYXQgd2luISBCZWNhdXNlIG1hbnkgbm90aWZpZXJzIG9u
+bHkgZG8gY2FyZQo+ID4gPiBhYm91dCBwYXJ0aWN1bGFyIG1hcHBpbmdzLiBQbGVhc2Ugbm90ZSB0
+aGF0IGJhY2tpbmcgb2ZmIHVuY29uZGl0aW9hbmxseQo+ID4gPiB3aWxsIHNpbXBseSBjYXVzZSB0
+aGF0IHRoZSBvb20gcmVhcGVyIHdpbGwgaGF2ZSB0byBiYWNrIG9mZiBub3QgZG9pbmcKPiA+ID4g
+YW55IHRlYXIgZG93biBhbnl0aGluZy4KPiA+IAo+ID4gV2VsbCwgSSdtIHdvcmtpbmcgdG8gcHJv
+cG9zZSB0aGF0IHdlIGRvIHRoZSBWQSByYW5nZSB0ZXN0IHVuZGVyIGNvcmUKPiA+IG1tdSBub3Rp
+ZmllciBjb2RlIHRoYXQgY2Fubm90IGJsb2NrIGFuZCB0aGVuIHdlIHNpbXBseSByZW1vdmUgdGhl
+IGlkZWEKPiA+IG9mIGJsb2NrYWJsZSBmcm9tIGRyaXZlcnMgdXNpbmcgdGhpcyBuZXcgJ3Jhbmdl
+IG5vdGlmaWVyJy4gCj4gPiAKPiA+IEkgdGhpbmsgdGhpcyBwcmV0dHkgbXVjaCBzb2x2ZXMgdGhl
+IGNvbmNlcm4/Cj4gCj4gV2VsbCwgbXkgaWRlYSB3YXMgdGhhdCBhIHJhbmdlIGNoZWNrIGFuZCBl
+YXJseSBiYWlsIG91dCB3YXMgYSBmaXJzdCBzdGVwCj4gYW5kIHRoZW4gZWFjaCBzcGVjaWZpYyBu
+b3RpZmllciB3b3VsZCBiZSBhYmxlIHRvIGRvIGEgbW9yZSBzcGVjaWZpYwo+IGNoZWNrLiBJIHdh
+cyBub3QgYWJsZSB0byBkbyB0aGUgc2Vjb25kIHN0ZXAgYmVjYXVzZSB0aGF0IHJlcXVpcmVzIGEg
+ZGVlcAo+IHVuZGVyc3RhbmRpbmcgb2YgdGhlIHJlc3BlY3RpdmUgc3Vic3lzdGVtLgo+IAo+IFJl
+YWxseSBhbGwgSSBkbyBjYXJlIGFib3V0IGlzIHRvIHJlY2xhaW0gYXMgbXVjaCBtZW1vcnkgZnJv
+bSB0aGUKPiBvb21fcmVhcGVyIGNvbnRleHQgYXMgcG9zc2libGUuIEFuZCB0aGF0IGNhbm5vdCBy
+ZWFsbHkgYmUgYW4gdW5ib3VuZGVkCj4gcHJvY2Vzcy4gUXVpdGUgY29udHJhcnkgaXQgc2hvdWxk
+IGJlIGFzIHN3aWZ0IGFzIHBvc3NpYmxlLiBGcm9tIG15Cj4gY3Vyc29yeSBsb29rIHNvbWUgbm90
+aWZpZXJzIGFyZSBhYmxlIHRvIGFjaGlldmUgdGhlaXIgdGFzayB3aXRob3V0Cj4gYmxvY2tpbmcg
+b3IgZGVwZW5kaW5nIG9uIG1lbW9yeSBqdXN0IGZpbmUuIFNvIGJhaWxpbmcgb3V0Cj4gdW5jb25k
+aXRpb25hbGx5IG9uIHRoZSByYW5nZSBvZiBpbnRlcmVzdCB3b3VsZCBqdXN0IHB1dCB1cyBiYWNr
+LgoKQWdyZWUsIE9PTSBqdXN0IGFza2luZyB0aGUgcXVlc3Rpb246IGNhbiBpIHVubWFwIHRoYXQg
+cGFnZSBxdWlja2x5ID8Kc28gdGhhdCBtZSAoT09NKSBjYW4gc3dhcCBpdCBvdXQuIEluIG1hbnkg
+Y2FzZXMgdGhlIGRyaXZlciBuZWVkIHRvCmxvb2t1cCBzb21ldGhpbmcgdG8gc2VlIGlmIGF0IHRo
+ZSB0aW1lIHRoZSBtZW1vcnkgaXMganVzdCBub3QgaW4gdXNlCmFuZCBjYW4gYmUgcmVjbGFpbSBy
+aWdodCBhd2F5LiBTbyBkcml2ZXIgc2hvdWxkIGhhdmUgYSBwYXRoIHRvCm9wdGltaXN0aWNhbGx5
+IHVwZGF0ZSBpdHMgc3RhdGUgdG8gYWxsb3cgcXVpY2sgcmVjbGFpbS4KCgo+ID4gPiA+IEhvd2V2
+ZXIsIHdlIGNvdWxkIChwcm9iYWJseSBldmVuIHNob3VsZCkgbWFrZSB0aGUgZHJpdmVycyBmc19y
+ZWNsYWltCj4gPiA+ID4gc2FmZS4KPiA+ID4gPiAKPiA+ID4gPiBJZiB0aGF0IGlzIGVub3VnaCB0
+byBndWFyYW50ZWUgcHJvZ3Jlc3Mgb2YgT09NLCB0aGVuIGxldHMgY29uc2lkZXIKPiA+ID4gPiBz
+b21ldGhpbmcgbGlrZSB1c2luZyBjdXJyZW50X2dmcF9jb250ZXh0KCkgdG8gZm9yY2UgUEZfTUVN
+QUxMT0NfTk9GUwo+ID4gPiA+IGFsbG9jYXRpb24gYmVoYXZpb3Igb24gdGhlIGRyaXZlciBjYWxs
+YmFjayBhbmQgbG9ja2RlcCB0byB0cnkgYW5kIGtlZXAKPiA+ID4gPiBwdXNoaW5nIG9uIHRoZSB0
+aGUgZGVidWdnaW5nLCBhbmQgZHJvcHBpbmcgIWJsb2NraW5nLgo+ID4gPiAKPiA+ID4gSG93IGFy
+ZSB5b3UgZ29pbmcgdG8gZW5mb3JjZSBpbmRpcmVjdCBkZXBlbmRlbmN5PyBFLmcuIGEgbG9jayB0
+aGF0IGlzCj4gPiA+IGFsc28gdXNlZCBpbiBvdGhlciBjb250ZXh0IHdoaWNoIGRlcGVuZCBvbiBz
+bGVlcGFibGUgbWVtb3J5IGFsbG9jYXRpb24KPiA+ID4gdG8gbW92ZSBmb3J3YXJkLgo+ID4gCj4g
+PiBZb3UgbWVhbiBsaWtlIHRoaXM6Cj4gPiAKPiA+ICAgICAgICBDUFUwICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgQ1BVMQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIG11dGV4X2xvY2soKQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIGttYWxsb2MoR0ZQX0tFUk5FTCkKPiAKPiBubyBJIG1lYW4gX19HRlBfRElSRUNU
+X1JFQ0xBSU0gaGVyZS4KPiAKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBtdXRleF91bmxvY2soKQo+ID4gICBmc19yZWNsYWltX2FjcXVpcmUoKQo+ID4gICBtdXRl
+eF9sb2NrKCkgPC0gaWxsZWdhbDogbG9jayBkZXAgYXNzZXJ0aW9uCj4gCj4gSSBjYW5ub3QgcmVh
+bGx5IGNvbW1lbnQgb24gaG93IHRoYXQgaXMgYWNoaWV2ZWFibGUgYnkgbG9ja2RlcC4gSSBtYW5h
+Z2VkCj4gdG8gZm9yZ2V0IGRldGFpbHMgYWJvdXQgRlMvSU8gcmVjbGFpbSByZWN1cnNpb24gdHJh
+Y2tpbmcgYWxyZWFkeSBhbmQgSQo+IGRvIG5vdCBoYXZlIHRpbWUgdG8gbGVhcm4gaXQgYWdhaW4u
+IEl0IHdhcyBxdWl0ZSBhIGhhY2suIEFueXdheSwgbGV0IG1lCj4gcmVwZWF0IHRoYXQgdGhlIHBy
+aW1hcnkgbW90aXZhdGlvbiB3YXMgYSBzaW1wbGUgYWlkLiBOb3Qgc29tZXRoaW5nIGFzCj4gcG92
+ZXJmdWwgYXMgbG9ja2RlcC4KCkkgZmVlbCB0aGF0IHRoZSBmc19yZWNsYWltX2FjcXVpcmUoKSBp
+cyBqdXN0IHRvbyBoZWF2eSB3ZWlnaHQgaGVyZS4gSQpkbyB0aGluayB0aGF0IERhbmllbCBwYXRj
+aGVzIGltcHJvdmUgdGhlIGRlYnVnZ2luZyBzaXR1YXRpb24gd2l0aG91dApidXJkZW5pbmcgYW55
+dGhpbmcgc28gaSBhbSBpbiBmYXZvciBvciBtZXJnaW5nIHRoYXQuCgpJIGRvIG5vdCB0aGluayB3
+ZSBzaG91bGQgZGV2b3RlIHRvbyBtdWNoIHRpbWUgaW50byBmc19yZWNsYWltKCksIG91cgp0aW1l
+IHdvdWxkIGJlIGJldHRlciBzcGVuZCBpbiBpbXByb3ZpbmcgdGhlIGRyaXZlciBzaHJpbmtlciBm
+b3IgaW5zdGFuY2UKYWZ0ZXIgYWxsIE9PTSBpcyBhbGwgYWJvdXQgdHJ5aW5nIHRvIGZyZWUtdXAg
+bWVtb3J5LgoKQ2hlZXJzLApKw6lyw7RtZQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWw=
