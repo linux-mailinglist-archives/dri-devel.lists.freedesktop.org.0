@@ -2,43 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A040190ACA
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2019 00:15:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 473A090B21
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2019 00:42:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A0236E9D0;
-	Fri, 16 Aug 2019 22:15:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17D606E3BB;
+	Fri, 16 Aug 2019 22:42:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8AF3B6E9BA
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2019 22:15:13 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 87B0A7215A; Fri, 16 Aug 2019 22:15:13 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111122] 2500U: Graphics corruption on kernel 5.2
-Date: Fri, 16 Aug 2019 22:15:13 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: briancschott@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111122-502-CAz5Xe7zRh@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111122-502@http.bugs.freedesktop.org/>
-References: <bug-111122-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67FD16E3BB;
+ Fri, 16 Aug 2019 22:42:52 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 16 Aug 2019 15:42:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,394,1559545200"; d="scan'208";a="168175364"
+Received: from fmsmsx104.amr.corp.intel.com ([10.18.124.202])
+ by orsmga007.jf.intel.com with ESMTP; 16 Aug 2019 15:42:51 -0700
+Received: from fmsmsx152.amr.corp.intel.com (10.18.125.5) by
+ fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Fri, 16 Aug 2019 15:42:51 -0700
+Received: from fmsmsx117.amr.corp.intel.com ([169.254.3.69]) by
+ FMSMSX152.amr.corp.intel.com ([169.254.6.42]) with mapi id 14.03.0439.000;
+ Fri, 16 Aug 2019 15:42:50 -0700
+From: "Souza, Jose" <jose.souza@intel.com>
+To: "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>, "sean@poorly.run"
+ <sean@poorly.run>
+Subject: Re: [PATCH] drm/kms: Catch mode_object lifetime errors
+Thread-Topic: [PATCH] drm/kms: Catch mode_object lifetime errors
+Thread-Index: AQHVLpDtEJNADZ9VJESxct3KZ2vMKKb/IBOA
+Date: Fri, 16 Aug 2019 22:42:50 +0000
+Message-ID: <ba059a111a630e06ad79ce49e08830078bb91edd.camel@intel.com>
+References: <20190614061723.1173-1-daniel.vetter@ffwll.ch>
+ <20190628172424.GK25413@art_vandelay>
+ <CAKMK7uEhXK1JNfF95-aNAj4ph8Vk8B6wynJE=BCEpfJQZRbpdg@mail.gmail.com>
+In-Reply-To: <CAKMK7uEhXK1JNfF95-aNAj4ph8Vk8B6wynJE=BCEpfJQZRbpdg@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.24.9.135]
+Content-ID: <0B670ABFA77BF04EAFC9DC21C7AD2084@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -52,92 +58,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0836234856=="
+Cc: "Vetter, Daniel" <daniel.vetter@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0836234856==
-Content-Type: multipart/alternative; boundary="15659937131.69CAfb50.24708"
-Content-Transfer-Encoding: 7bit
-
-
---15659937131.69CAfb50.24708
-Date: Fri, 16 Aug 2019 22:15:13 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111122
-
---- Comment #19 from Brian Schott <briancschott@gmail.com> ---
-I haven't had a lot of time to work on this, but I do have one more data po=
-int:
-Mesa 19.1.4 has no corruption in Dolphin but still requires the nodcc
-workaround with kernel 5.2.6.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15659937131.69CAfb50.24708
-Date: Fri, 16 Aug 2019 22:15:13 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122#c19">Comme=
-nt # 19</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122">bug 11112=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-briancschott&#64;gmail.com" title=3D"Brian Schott &lt;briancschott&#64;gmai=
-l.com&gt;"> <span class=3D"fn">Brian Schott</span></a>
-</span></b>
-        <pre>I haven't had a lot of time to work on this, but I do have one=
- more data point:
-Mesa 19.1.4 has no corruption in Dolphin but still requires the nodcc
-workaround with kernel 5.2.6.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15659937131.69CAfb50.24708--
-
---===============0836234856==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0836234856==--
+T24gU2F0LCAyMDE5LTA2LTI5IGF0IDE3OjM5ICswMjAwLCBEYW5pZWwgVmV0dGVyIHdyb3RlOg0K
+PiBPbiBGcmksIEp1biAyOCwgMjAxOSBhdCA3OjI0IFBNIFNlYW4gUGF1bCA8c2VhbkBwb29ybHku
+cnVuPiB3cm90ZToNCj4gPiBPbiBGcmksIEp1biAxNCwgMjAxOSBhdCAwODoxNzoyM0FNICswMjAw
+LCBEYW5pZWwgVmV0dGVyIHdyb3RlOg0KPiA+ID4gT25seSBkeW5hbWljIG1vZGUgb2JqZWN0cywg
+aS5lLiB0aG9zZSB3aGljaCBhcmUgcmVmY291bnRlZCBhbmQNCj4gPiA+IGhhdmUgYSBmcmVlDQo+
+ID4gPiBjYWxsYmFjaywgY2FuIGJlIGFkZGVkIHdoaWxlIHRoZSBvdmVyYWxsIGRybV9kZXZpY2Ug
+aXMgdmlzaWJsZSB0bw0KPiA+ID4gdXNlcnNwYWNlLiBBbGwgb3RoZXJzIG11c3QgYmUgYWRkZWQg
+YmVmb3JlIGRybV9kZXZfcmVnaXN0ZXIgYW5kDQo+ID4gPiByZW1vdmVkIGFmdGVyIGRybV9kZXZf
+dW5yZWdpc3Rlci4NCj4gPiA+IA0KPiA+ID4gU21hbGwgaXNzdWUgYXJvdW5kIGRyaXZlcnMgc3Rp
+bGwgdXNpbmcgdGhlIGxvYWQvdW5sb2FkIGNhbGxiYWNrcywNCj4gPiA+IHdlDQo+ID4gPiBuZWVk
+IHRvIG1ha2Ugc3VyZSB3ZSBzZXQgZGV2LT5yZWdpc3RlcmVkIHNvIHRoYXQgbG9hZC91bmxvYWQg
+Y29kZQ0KPiA+ID4gaW4NCj4gPiA+IHRoZXNlIGNhbGxiYWNrcyBkb2Vzbid0IHRyaWdnZXIgZmFs
+c2Ugd2FybmluZ3MuIE9ubHkgYSBzbWFsbA0KPiA+ID4gYWRqdXN0ZW1lbnQgaW4gZHJtX2Rldl9y
+ZWdpc3RlciB3YXMgbmVlZGVkLg0KPiA+ID4gDQo+ID4gPiBNb3RpdmF0ZWQgYnkgc29tZSBpcmMg
+ZGlzY3Vzc2lvbnMgYWJvdXQgb2JqZWN0IGlkcyBvZiBkeW5hbWljDQo+ID4gPiBvYmplY3RzDQo+
+ID4gPiBsaWtlIGJsb2JzIGJlY29tZSBpbnZhbGlkLCBhbmQgbWUgZ29pbmcgb24gYSBiaXQgYW4g
+YXVkaXQgc3ByZWUuDQo+ID4gPiANCj4gPiANCj4gPiBTZWVtcyBsaWtlIGEgdmVyeSB3b3J0aHdo
+aWxlIGNoYW5nZSwgYW55IGlkZWEgaG93IG1hbnkgZHJpdmVycyBhcmUNCj4gPiBnb2luZw0KPiA+
+IHRvIGJlIHNhZCBhZnRlciB0aGlzIGNoYW5nZT8NCj4gDQo+IE5vbmUgSSB0aGluay9ob3BlLCBy
+ZWFsbHkganVzdCBkZWZlbnNlIFdBUk5fT04ganVzdCBpbiBjYXNlLiBUaGUgbWFpbg0KPiBvbmVz
+IHRoYXQgd291bGQgYmUgc2FkIGFyZSBhbGwgdGhlIG9uZXMgdGhhdCBoYXZlIGEgLT5sb2FkIGNh
+bGxiYWNrLA0KPiBidXQgSSdtIHRha2luZyBjYXJlIG9mIHRoZW0uIEV2ZXJ5b25lIGVsc2UgZG9l
+cyB0aGluZ3MgY29ycmVjdGx5IGFuZA0KPiBjYWxscyBkcm1fZGV2X3JlZ2lzdGVyIGxhc3QgaW4g
+dGhlaXIgcHJvYmUgZnVuY3Rpb24gKG9yIGFyb3VuZCB3aGVyZQ0KPiB0aGV5IHNldCB1cCBmYmRl
+diwgd2hpY2ggaXMgYWxzbyByZWdpc3RlciB0aGUgZHJpdmVyIGF0IGxlYXN0IHRvIHRoZQ0KPiBm
+YmRldiB3b3JsZCwgc28gcmVhbGx5IHRoZSBzYW1lKS4NCj4gDQo+ID4gPiBTaWduZWQtb2ZmLWJ5
+OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4NCj4gPiA+IC0tLQ0KPiA+
+ID4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fZHJ2LmMgICAgICAgICB8IDQgKystLQ0KPiA+ID4gIGRy
+aXZlcnMvZ3B1L2RybS9kcm1fbW9kZV9vYmplY3QuYyB8IDQgKysrKw0KPiA+ID4gIDIgZmlsZXMg
+Y2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiA+ID4gDQo+ID4gPiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9kcnYuYw0KPiA+ID4gYi9kcml2ZXJzL2dw
+dS9kcm0vZHJtX2Rydi5jDQo+ID4gPiBpbmRleCBjYjZmMDI0NWRlN2MuLjQ4Yzg0ZTNlMTkzMSAx
+MDA2NDQNCj4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHJ2LmMNCj4gPiA+ICsrKyBi
+L2RyaXZlcnMvZ3B1L2RybS9kcm1fZHJ2LmMNCj4gPiA+IEBAIC05OTcsMTQgKzk5NywxNCBAQCBp
+bnQgZHJtX2Rldl9yZWdpc3RlcihzdHJ1Y3QgZHJtX2RldmljZQ0KPiA+ID4gKmRldiwgdW5zaWdu
+ZWQgbG9uZyBmbGFncykNCj4gPiA+ICAgICAgIGlmIChyZXQpDQo+ID4gPiAgICAgICAgICAgICAg
+IGdvdG8gZXJyX21pbm9yczsNCj4gPiA+IA0KPiA+ID4gLSAgICAgZGV2LT5yZWdpc3RlcmVkID0g
+dHJ1ZTsNCj4gPiA+IC0NCj4gPiA+ICAgICAgIGlmIChkZXYtPmRyaXZlci0+bG9hZCkgew0KPiA+
+ID4gICAgICAgICAgICAgICByZXQgPSBkZXYtPmRyaXZlci0+bG9hZChkZXYsIGZsYWdzKTsNCj4g
+PiA+ICAgICAgICAgICAgICAgaWYgKHJldCkNCj4gPiA+ICAgICAgICAgICAgICAgICAgICAgICBn
+b3RvIGVycl9taW5vcnM7DQo+ID4gPiAgICAgICB9DQo+ID4gPiANCj4gPiA+ICsgICAgIGRldi0+
+cmVnaXN0ZXJlZCA9IHRydWU7DQo+ID4gPiArDQo+ID4gPiAgICAgICBpZiAoZHJtX2NvcmVfY2hl
+Y2tfZmVhdHVyZShkZXYsIERSSVZFUl9NT0RFU0VUKSkNCj4gPiA+ICAgICAgICAgICAgICAgZHJt
+X21vZGVzZXRfcmVnaXN0ZXJfYWxsKGRldik7DQo+ID4gPiANCj4gPiA+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vZHJtX21vZGVfb2JqZWN0LmMNCj4gPiA+IGIvZHJpdmVycy9ncHUvZHJt
+L2RybV9tb2RlX29iamVjdC5jDQo+ID4gPiBpbmRleCAxYzZlNTExMzU5NjIuLmMzNTViYThlNmQ1
+ZCAxMDA2NDQNCj4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fbW9kZV9vYmplY3QuYw0K
+PiA+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9tb2RlX29iamVjdC5jDQo+ID4gPiBAQCAt
+NDIsNiArNDIsOCBAQCBpbnQgX19kcm1fbW9kZV9vYmplY3RfYWRkKHN0cnVjdCBkcm1fZGV2aWNl
+DQo+ID4gPiAqZGV2LCBzdHJ1Y3QgZHJtX21vZGVfb2JqZWN0ICpvYmosDQo+ID4gPiAgew0KPiA+
+ID4gICAgICAgaW50IHJldDsNCj4gPiA+IA0KPiA+ID4gKyAgICAgV0FSTl9PTihkZXYtPnJlZ2lz
+dGVyZWQgJiYgIW9ial9mcmVlX2NiKTsNCg0KR2V0dGluZyB3YXJuaW5ncyBvbiBpOTE1IHdpdGgg
+TVNULCB3ZSBhZGQgZmFrZSBNU1QgY29ubmVjdG9ycyB3aGVuIGENCnNpbmsgd2l0aCBNU1Qgc3Vw
+cG9ydCBpcyBjb25uZWN0ZWQ7DQogDQppbnRlbF9kcF9hZGRfbXN0X2Nvbm5lY3RvcigpLT5kcm1f
+Y29ubmVjdG9yX2F0dGFjaF9tYXhfYnBjX3Byb3BlcnR5KCkNCg0KTm90IHN1cmUgaG93IHRvIGZp
+eCB0aGF0LCBhZGQgYSBnbG9iYWwgaTkxNSBkZXZpY2UgcHJvcGVydHkgbGlrZSB3ZSBkbw0KZm9y
+ICJhdWRpbyIgYW5kICJCcm9hZGNhc3QgUkdCIiBkb24ndCBsb29rIHRoZSByaWdodCBhcHByb2Fj
+aCBoZXJlLg0KQW55IHRpcHM/DQoNCldlIGRlZmluaXRlbHkgbmVlZCBhIHBsYXRmb3JtIHdpdGgg
+YSBNU1Qgc2luayBvbiBvdXIgQ0kuDQoNCj4gPiANCj4gPiBUaGVzZSBzaG91bGQgcHJvYmFibHkg
+aGF2ZSBhIGNvbW1lbnQgYWJvdmUgdGhlbSBnaXZpbmcgc29tZQ0KPiA+IGd1aWRhbmNlIHRvIHRo
+ZQ0KPiA+IGRyaXZlciBkZXZlbG9wZXIuDQo+ID4gDQo+ID4gV2l0aCBzb21lIGNvbW1lbnRzLCB0
+aGlzIGlzOg0KPiANCj4gV2hhdCBjb21tZW50IGRvIHlvdSBleHBlY3QgaGVyZT8gZHJtX2Rldl9y
+ZWdpc3RlciBleHBsYWlucyB3aGF0IHlvdQ0KPiBzaG91bGQgZG8gYWxyZWFkeSwgYW5kIEkgZXhw
+ZWN0IGRyaXZlciBkZXZlbG9wZXJzIHRvIGZpbmQgdGhhdCBvbmUNCj4gcHJldHR5IHF1aWNrbHku
+IEZyb20gdGhlcmU6ICJUaGlzIHNob3VsZCBiZSBkb25lIGxhc3QgaW4gdGhlIGRldmljZQ0KPiBp
+bml0aWFsaXphdGlvbiBzZXF1ZW5jZSB0byBtYWtlIHN1cmUgdXNlcnNwYWNlIGNhbid0IGFjY2Vz
+cyBhbg0KPiBpbmNvbnNpc3RlbnQgc3RhdGUuIg0KPiAtRGFuaWVsDQo+IA0KPiA+IFJldmlld2Vk
+LWJ5OiBTZWFuIFBhdWwgPHNlYW5AcG9vcmx5LnJ1bj4NCj4gPiANCj4gPiANCj4gPiA+ICsNCj4g
+PiA+ICAgICAgIG11dGV4X2xvY2soJmRldi0+bW9kZV9jb25maWcuaWRyX211dGV4KTsNCj4gPiA+
+ICAgICAgIHJldCA9IGlkcl9hbGxvYygmZGV2LT5tb2RlX2NvbmZpZy5vYmplY3RfaWRyLCByZWdp
+c3Rlcl9vYmoNCj4gPiA+ID8gb2JqIDogTlVMTCwNCj4gPiA+ICAgICAgICAgICAgICAgICAgICAg
+ICAxLCAwLCBHRlBfS0VSTkVMKTsNCj4gPiA+IEBAIC0xMDIsNiArMTA0LDggQEAgdm9pZCBkcm1f
+bW9kZV9vYmplY3RfcmVnaXN0ZXIoc3RydWN0DQo+ID4gPiBkcm1fZGV2aWNlICpkZXYsDQo+ID4g
+PiAgdm9pZCBkcm1fbW9kZV9vYmplY3RfdW5yZWdpc3RlcihzdHJ1Y3QgZHJtX2RldmljZSAqZGV2
+LA0KPiA+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0IGRybV9tb2RlX29i
+amVjdCAqb2JqZWN0KQ0KPiA+ID4gIHsNCj4gPiA+ICsgICAgIFdBUk5fT04oZGV2LT5yZWdpc3Rl
+cmVkICYmICFvYmplY3QtPmZyZWVfY2IpOw0KPiA+ID4gKw0KPiA+ID4gICAgICAgbXV0ZXhfbG9j
+aygmZGV2LT5tb2RlX2NvbmZpZy5pZHJfbXV0ZXgpOw0KPiA+ID4gICAgICAgaWYgKG9iamVjdC0+
+aWQpIHsNCj4gPiA+ICAgICAgICAgICAgICAgaWRyX3JlbW92ZSgmZGV2LT5tb2RlX2NvbmZpZy5v
+YmplY3RfaWRyLCBvYmplY3QtDQo+ID4gPiA+aWQpOw0KPiA+ID4gLS0NCj4gPiA+IDIuMjAuMQ0K
+PiA+ID4gDQo+ID4gPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXw0KPiA+ID4gZHJpLWRldmVsIG1haWxpbmcgbGlzdA0KPiA+ID4gZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZw0KPiA+ID4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWwNCj4gPiANCj4gPiAtLQ0KPiA+IFNlYW4gUGF1bCwgU29m
+dHdhcmUgRW5naW5lZXIsIEdvb2dsZSAvIENocm9taXVtIE9TDQo+IA0KPiANCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
