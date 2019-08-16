@@ -2,45 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D7809030F
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2019 15:31:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB54890316
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2019 15:33:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CD306E3E3;
-	Fri, 16 Aug 2019 13:31:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0F996E3F9;
+	Fri, 16 Aug 2019 13:32:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 602136E3F9
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2019 13:31:42 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5CA757215A; Fri, 16 Aug 2019 13:31:42 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109380] [CI][BAT] igt@kms_chamelium@*- warn/fail - Last errno:
- 113, No route to host
-Date: Fri, 16 Aug 2019 13:31:42 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: IGT
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: contact@emersion.fr
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109380-502-P1VYDUWOb0@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109380-502@http.bugs.freedesktop.org/>
-References: <bug-109380-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D22E6E3F9
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2019 13:32:57 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi
+ [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 229F82AF;
+ Fri, 16 Aug 2019 15:32:55 +0200 (CEST)
+Date: Fri, 16 Aug 2019 16:32:50 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH 1/2] video: omapfb2: Make standard and custom panel
+ drivers mutually exclusive
+Message-ID: <20190816133250.GI5020@pendragon.ideasonboard.com>
+References: <20190816122228.9475-1-laurent.pinchart@ideasonboard.com>
+ <20190816122228.9475-2-laurent.pinchart@ideasonboard.com>
+ <96dc63bc-92b4-6d55-bbf5-006aab111bec@ti.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <96dc63bc-92b4-6d55-bbf5-006aab111bec@ti.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=ideasonboard.com; s=mail; t=1565962375;
+ bh=zQuiHcnyV1VQtRwKAJBK5yGmDk2uL89nkR9Vk2ocvnI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=tcgAJnFglvLxaxjrAIBa8Ce08Sf019Nj3gEcogSKAY8J47s0Ruk0asBDE+3iABbtf
+ 3H9IsvRNk6Fu4UrcepFQieXoYrXc8x15Sy66XdzecPXx4TDLkDstNLuLAVL20hb9i7
+ nKTn5KoHS8JnDznPjIlv+zhAbSpTiF69DE4SintQ=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,96 +50,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2036042798=="
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2036042798==
-Content-Type: multipart/alternative; boundary="15659623020.BD68.29767"
-Content-Transfer-Encoding: 7bit
-
-
---15659623020.BD68.29767
-Date: Fri, 16 Aug 2019 13:31:42 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109380
-
---- Comment #6 from emersion <contact@emersion.fr> ---
-Related bug about Chamelium not having all ports plugged in:
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110940
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15659623020.BD68.29767
-Date: Fri, 16 Aug 2019 13:31:42 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [CI][BAT] igt&#64;kms_chamelium&#64;*- warn/fail - Last e=
-rrno: 113, No route to host"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109380#c6">Commen=
-t # 6</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [CI][BAT] igt&#64;kms_chamelium&#64;*- warn/fail - Last e=
-rrno: 113, No route to host"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109380">bug 10938=
-0</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-contact&#64;emersion.fr" title=3D"emersion &lt;contact&#64;emersion.fr&gt;"=
-> <span class=3D"fn">emersion</span></a>
-</span></b>
-        <pre>Related bug about Chamelium not having all ports plugged in:
-<a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - igt&#64;kms_* - skip - No second valid output found / Can=
-'t test dual pipes with the current outputs/hould have at least 2 outputs, =
-found 1"
-   href=3D"show_bug.cgi?id=3D110940">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D110940</a></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15659623020.BD68.29767--
-
---===============2036042798==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2036042798==--
+T24gRnJpLCBBdWcgMTYsIDIwMTkgYXQgMDQ6MjA6NDZQTSArMDMwMCwgVG9taSBWYWxrZWluZW4g
+d3JvdGU6Cj4gT24gMTYvMDgvMjAxOSAxNToyMiwgTGF1cmVudCBQaW5jaGFydCB3cm90ZToKPiA+
+IFN0YW5kYXJkIERSTSBwYW5lbCBkcml2ZXJzIGZvciBzZXZlcmFsIHBhbmVscyB1c2VkIGJ5IG9t
+YXBmYjIgYXJlIG5vdwo+ID4gYXZhaWxhYmxlLiBUaGVpciBtb2R1bGUgbmFtZSBjbGFzaGVzIHdp
+dGggdGhlIG1vZHVsZXMgZnJvbQo+ID4gZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vZGlzcGxheXMv
+LCBwYXJ0IG9mIHRoZSBkZXByZWNhdGVkIG9tYXBmYjIgZmJkZXYKPiAKPiBTaG91bGRuJ3QgdGhh
+dCBwYXRoIGJlIGRyaXZlcnMvdmlkZW8vZmJkZXYvb21hcDIvb21hcGZiL2Rpc3BsYXlzPwoKQWJz
+b2x1dGVseSA6LSkgQ291bGQgdGhpcyBiZSBmaXhlZCB3aGVuIGFwcGx5aW5nID8gT3RoZXJ3aXNl
+IEknbGwKc3VibWl0IGEgdjIuCgo+ID4gZHJpdmVyLiBBcyBvbWFwZmIyIGNhbiBvbmx5IGJlIGNv
+bXBpbGVkIHdoZW4gdGhlIG9tYXBkcm0gZHJpdmVyIGlzCj4gPiBkaXNhYmxlZCwgYW5kIHRoZSBE
+Uk0gcGFuZWwgZHJpdmVycyBhcmUgdXNlbGVzcyBpbiB0aGF0IGNhc2UsIG1ha2UgdGhlCj4gPiBv
+bWFwZmIyIHBhbmVscyBkZXBlbmQgb24gdGhlIHN0YW5kYXJkIERSTSBwYW5lbHMgYmVpbmcgZGlz
+YWJsZWQgdG8gZml4Cj4gPiB0aGUgbmFtZSBjbGFzaC4KPiA+IAo+ID4gU2lnbmVkLW9mZi1ieTog
+TGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPgo+ID4g
+LS0tCj4gPiAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvb21hcDIvb21hcGZiL2Rpc3BsYXlzL0tjb25m
+aWcgfCA1ICsrKysrCj4gPiAgIDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKykKPiAKPiBD
+YydkIEJhcnRsb21pZWouCgpPb3BzLCBzb3JyeSwgZm9yZ290IHRvIGRvIHRoYXQgOi1TCgo+IFJl
+dmlld2VkLWJ5OiBUb21pIFZhbGtlaW5lbiA8dG9taS52YWxrZWluZW5AdGkuY29tPgoKLS0gClJl
+Z2FyZHMsCgpMYXVyZW50IFBpbmNoYXJ0Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbA==
