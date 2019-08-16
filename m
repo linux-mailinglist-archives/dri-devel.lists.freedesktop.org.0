@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDE5790A98
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2019 23:58:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9873A90AAA
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2019 00:03:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F27236E3B0;
-	Fri, 16 Aug 2019 21:58:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77B7D6E9B2;
+	Fri, 16 Aug 2019 22:03:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4C2576E3B0
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2019 21:58:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5968C6E9B2
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2019 22:03:37 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 4402C7215A; Fri, 16 Aug 2019 21:58:44 +0000 (UTC)
+ id 562647215A; Fri, 16 Aug 2019 22:03:37 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111412] 4k 60hz unavailable RX 560 over HDMI
-Date: Fri, 16 Aug 2019 21:58:44 +0000
+Date: Fri, 16 Aug 2019 22:03:37 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111412-502-4r7o4iefQJ@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-111412-502-ZCTmDnQNWq@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111412-502@http.bugs.freedesktop.org/>
 References: <bug-111412-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1649533673=="
+Content-Type: multipart/mixed; boundary="===============0849110308=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1649533673==
-Content-Type: multipart/alternative; boundary="15659927240.c1e9E4C.23267"
+--===============0849110308==
+Content-Type: multipart/alternative; boundary="15659930171.924Cd8.24250"
 Content-Transfer-Encoding: 7bit
 
 
---15659927240.c1e9E4C.23267
-Date: Fri, 16 Aug 2019 21:58:44 +0000
+--15659930171.924Cd8.24250
+Date: Fri, 16 Aug 2019 22:03:37 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,26 +72,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111412
 
---- Comment #2 from Alfie Day <freedesktop@azelphur.com> ---
-trek00 from IRC found this bug report:
-https://bugs.freedesktop.org/show_bug.cgi?id=3D104412#c14
-
-which mentions running these commands, which seems to work and enable 4k60 =
-over
-HDMI.
-
-xrandr --newmode "mymode" 594  3840 4016 4104 4400  2160 2168 2178 2250 +hs=
-ync
-+vsync
-xrandr --addmode HDMI-A-0 mymode
-xrandr --output HDMI-A-0 --mode mymode
+--- Comment #3 from Alfie Day <freedesktop@azelphur.com> ---
+Created attachment 145079
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145079&action=3Dedit
+lspci
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15659927240.c1e9E4C.23267
-Date: Fri, 16 Aug 2019 21:58:44 +0000
+--15659930171.924Cd8.24250
+Date: Fri, 16 Aug 2019 22:03:37 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -108,8 +99,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - 4k 60hz unavailable RX 560 over HDMI"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111412#c2">Commen=
-t # 2</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111412#c3">Commen=
+t # 3</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - 4k 60hz unavailable RX 560 over HDMI"
@@ -119,23 +110,11 @@ t # 2</a>
 freedesktop&#64;azelphur.com" title=3D"Alfie Day &lt;freedesktop&#64;azelph=
 ur.com&gt;"> <span class=3D"fn">Alfie Day</span></a>
 </span></b>
-        <pre>trek00 from IRC found this bug report:
-<a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - RX 460 HDMI 4k 60fps not working, DisplayPort =
-is."
-   href=3D"show_bug.cgi?id=3D104412#c14">https://bugs.freedesktop.org/show_=
-bug.cgi?id=3D104412#c14</a>
-
-which mentions running these commands, which seems to work and enable 4k60 =
-over
-HDMI.
-
-xrandr --newmode &quot;mymode&quot; 594  3840 4016 4104 4400  2160 2168 217=
-8 2250 +hsync
-+vsync
-xrandr --addmode HDMI-A-0 mymode
-xrandr --output HDMI-A-0 --mode mymode</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145079=
+" name=3D"attach_145079" title=3D"lspci">attachment 145079</a> <a href=3D"a=
+ttachment.cgi?id=3D145079&amp;action=3Dedit" title=3D"lspci">[details]</a><=
+/span>
+lspci</pre>
         </div>
       </p>
 
@@ -149,9 +128,9 @@ xrandr --output HDMI-A-0 --mode mymode</pre>
     </body>
 </html>=
 
---15659927240.c1e9E4C.23267--
+--15659930171.924Cd8.24250--
 
---===============1649533673==
+--===============0849110308==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -161,4 +140,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1649533673==--
+--===============0849110308==--
