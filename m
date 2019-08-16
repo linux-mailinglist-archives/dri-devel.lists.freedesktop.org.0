@@ -2,45 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 092CE8FDEF
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2019 10:36:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A8BC8FEC0
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Aug 2019 11:14:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 649756E2C0;
-	Fri, 16 Aug 2019 08:36:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5020E8991E;
+	Fri, 16 Aug 2019 09:14:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 35FD76E2C0
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2019 08:36:12 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 32F697215A; Fri, 16 Aug 2019 08:36:12 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109380] [CI][BAT] igt@kms_chamelium@*- warn/fail - Last errno:
- 113, No route to host
-Date: Fri, 16 Aug 2019 08:36:12 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: IGT
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: arkadiusz.hiler@intel.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109380-502-Sh7eMHDz1P@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109380-502@http.bugs.freedesktop.org/>
-References: <bug-109380-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BBEE89956
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Aug 2019 09:14:39 +0000 (UTC)
+Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1hyYJh-0006Ci-7C; Fri, 16 Aug 2019 11:14:37 +0200
+Message-ID: <1565946875.2641.73.camel@pengutronix.de>
+Subject: [GIT PULL] etnaviv-next for 5.4
+From: Lucas Stach <l.stach@pengutronix.de>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 16 Aug 2019 11:14:35 +0200
+X-Mailer: Evolution 3.22.6-1+deb9u2 
+Mime-Version: 1.0
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::2a
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,89 +41,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1267142925=="
+Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1267142925==
-Content-Type: multipart/alternative; boundary="15659445722.aeFfcDA.2008"
-Content-Transfer-Encoding: 7bit
-
-
---15659445722.aeFfcDA.2008
-Date: Fri, 16 Aug 2019 08:36:12 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109380
-
---- Comment #5 from Arek Hiler <arkadiusz.hiler@intel.com> ---
-https://patchwork.freedesktop.org/patch/324290/
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15659445722.aeFfcDA.2008
-Date: Fri, 16 Aug 2019 08:36:12 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [CI][BAT] igt&#64;kms_chamelium&#64;*- warn/fail - Last e=
-rrno: 113, No route to host"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109380#c5">Commen=
-t # 5</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [CI][BAT] igt&#64;kms_chamelium&#64;*- warn/fail - Last e=
-rrno: 113, No route to host"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109380">bug 10938=
-0</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-arkadiusz.hiler&#64;intel.com" title=3D"Arek Hiler &lt;arkadiusz.hiler&#64;=
-intel.com&gt;"> <span class=3D"fn">Arek Hiler</span></a>
-</span></b>
-        <pre><a href=3D"https://patchwork.freedesktop.org/patch/324290/">ht=
-tps://patchwork.freedesktop.org/patch/324290/</a></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15659445722.aeFfcDA.2008--
-
---===============1267142925==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1267142925==--
+SGkgRGFuaWVsLCBEYXZlLAoKYWZ0ZXIgc29tZSBwcmV0dHkgc2xvdyBjeWNsZXMgd2UgZmluYWxs
+eSBoYXZlIGEgYml0IG1vcmUgZXhjaXRpbmcgd29yawpyZWFkeSBmb3IgdXBzdHJlYW0uCgpNb3N0
+IGltcG9ydGFudGx5IHBlci1wcm9jZXNzIGFkZHJlc3Mgc3BhY2VzIG9uIEdQVXMgdGhhdCBhcmUg
+Y2FwYWJsZSBvZgpwcm92aWRpbmcgcHJvcGVyIGlzb2xhdGlvbiBoYXMgZmluaXNoZWQgYmFraW5n
+LiBUaGlzIGlzIHRoZSBiYXNlIGZvcgpvdXIgc29mdHBpbiBpbXBsZW1lbnRhdGlvbiwgd2hpY2gg
+YWxsb3dzIHVzIHRvIHN1cHBvcnQgdGhlIHRleHR1cmUKZGVzY3JpcHRvciBidWZmZXJzIHVzZWQg
+YnkgR0M3MDAwIHNlcmllcyBHUFVzIHdpdGhvdXQgYSBtYWpvciBVQVBJCmV4dGVuc2lvbi9yZXdv
+cmsuCgpTaG9ydGxvZyBvZiBub3RhYmxlIGNoYW5nZXM6Ci0gY29kZSBjbGVhbnVwIGZyb20gRmFi
+aW8KLSBmaXggcGVyZm9ybWFuY2UgY291bnRlcnMgb24gR0M4ODAgYW5kIEdDMjAwMCBHUFVzIGZy
+b20gQ2hyaXN0aWFuCi0gZHJtUC5oIGhlYWRlciByZW1vdmFsIGZyb20gU2FtCi0gcGVyIHByb2Nl
+c3MgYWRkcmVzcyBzcGFjZSBzdXBwb3J0IG9uIE1NVXYyIEdQVXMgZnJvbSBtZQotIHNvZnRwaW4g
+c3VwcG9ydCBmcm9tIG1lCgpSZWdhcmRzLApMdWNhcwoKVGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNp
+bmNlIGNvbW1pdCA1ZjllODMyYzEzNzA3NTA0NWQxNWNkNjg5OWFiMDUwNWNmYjJjYTRiOgoKICBM
+aW51cyA1LjMtcmMxICgyMDE5LTA3LTIxIDE0OjA1OjM4IC0wNzAwKQoKYXJlIGF2YWlsYWJsZSBp
+biB0aGUgR2l0IHJlcG9zaXRvcnkgYXQ6CgogIGh0dHBzOi8vZ2l0LnBlbmd1dHJvbml4LmRlL2dp
+dC9sc3QvbGludXggZXRuYXZpdi9uZXh0Cgpmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8g
+MDg4ODgwZGRjMGIyMDA4NmI3MWJiODdiODA1ZmI2M2ZmMDdjMzVmMjoKCiAgZHJtL2V0bmF2aXY6
+IGltcGxlbWVudCBzb2Z0cGluICgyMDE5LTA4LTE1IDEyOjA3OjQ3ICswMjAwKQoKLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpD
+aHJpc3RpYW4gR21laW5lciAoMik6CiAgICAgIGV0bmF2aXY6IGZpeCB3aGl0ZXNwYWNlIGVycm9y
+cwogICAgICBldG5hdml2OiBwZXJmbW9uOiBmaXggdG90YWwgYW5kIGlkbGUgSEkgY3lsZWNlcyBy
+ZWFkb3V0CgpGYWJpbyBFc3RldmFtICgxKToKICAgICAgZHJtL2V0bmF2aXY6IFVzZSBkZXZtX3Bs
+YXRmb3JtX2lvcmVtYXBfcmVzb3VyY2UoKQoKTHVjYXMgU3RhY2ggKDE2KToKICAgICAgZHJtL2V0
+bmF2aXY6IGNsZWFuIHVwIGluY2x1ZGVzCiAgICAgIGRybS9ldG5hdml2OiBmaXggZXRuYXZpdl9j
+bWRidWZfc3ViYWxsb2NfbmV3IHJldHVybiB2YWx1ZQogICAgICBkcm0vZXRuYXZpdjogcmVtb3Zl
+IHVudXNlZCBmdW5jdGlvbiBldG5hdml2X2dlbV9tYXBwaW5nX3JlZmVyZW5jZQogICAgICBkcm0v
+ZXRuYXZpdjogZHVtcCBvbmx5IGZhaWxpbmcgc3VibWl0CiAgICAgIGRybS9ldG5hdml2OiBwYXNz
+IG1tdSBwb2ludGVyIHRvIGV0bmF2aXZfY29yZV9kdW1wX21tdQogICAgICBkcm0vZXRuYXZpdjog
+c2ltcGxpZnkgdW5iaW5kIGNoZWNrcwogICAgICBkcm0vZXRuYXZpdjogc3BsaXQgb3V0IGNtZGJ1
+ZiBtYXBwaW5nIGludG8gYWRkcmVzcyBzcGFjZQogICAgICBkcm0vZXRuYXZpdjogc2hhcmUgYSBz
+aW5nbGUgY21kYnVmIHN1YmFsbG9jIHJlZ2lvbiBhY3Jvc3MgYWxsIEdQVXMKICAgICAgZHJtL2V0
+bmF2aXY6IHJlcGxhY2UgTU1VIGZsdXNoIG1hcmtlciB3aXRoIGZsdXNoIHNlcXVlbmNlCiAgICAg
+IGRybS9ldG5hdml2OiByZXdvcmsgTU1VIGhhbmRsaW5nCiAgICAgIGRybS9ldG5hdml2OiBzcGxp
+dCBvdXQgc3RhcnRpbmcgb2YgRkUgaWRsZSBsb29wCiAgICAgIGRybS9ldG5hdml2OiBwcm92aWRl
+IE1NVSBjb250ZXh0IHRvIGV0bmF2aXZfZ2VtX21hcHBpbmdfZ2V0CiAgICAgIGRybS9ldG5hdml2
+OiBpbXBsZW1lbnQgcGVyLXByb2Nlc3MgYWRkcmVzcyBzcGFjZXMgb24gTU1VdjIKICAgICAgZHJt
+L2V0bmF2aXY6IHNraXAgY29tbWFuZCBzdHJlYW0gdmFsaWRhdGlvbiBvbiBQUEFTIGNhcGFibGUg
+R1BVcwogICAgICBkcm0vZXRuYXZpdjogYWxsb3cgdG8gcmVxdWVzdCBzcGVjaWZpYyB2aXJ0dWFs
+IGFkZHJlc3MgZm9yIGdlbSBtYXBwaW5nCiAgICAgIGRybS9ldG5hdml2OiBpbXBsZW1lbnQgc29m
+dHBpbgoKU2FtIFJhdm5ib3JnICgxKToKICAgICAgZHJtL2V0bmF2aXY6IGRyb3AgdXNlIG9mIGRy
+bVAuaAoKIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfYnVmZmVyLmMgICAgIHwgIDkz
+ICsrKysrKysrKystLS0tCiBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2NtZGJ1Zi5j
+ICAgICB8ICA1OCArKysrKy0tLS0KIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfY21k
+YnVmLmggICAgIHwgIDE1ICsrLQogZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9kcnYu
+YyAgICAgICAgfCAgNjggKysrKysrKystLQogZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZp
+dl9kcnYuaCAgICAgICAgfCAgMjcgKystLQogZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZp
+dl9kdW1wLmMgICAgICAgfCAgNjUgKysrKy0tLS0tLQogZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYv
+ZXRuYXZpdl9kdW1wLmggICAgICAgfCAgIDQgKy0KIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0
+bmF2aXZfZ2VtLmMgICAgICAgIHwgIDU2ICsrKystLS0tCiBkcml2ZXJzL2dwdS9kcm0vZXRuYXZp
+di9ldG5hdml2X2dlbS5oICAgICAgICB8ICAgOCArLQogZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYv
+ZXRuYXZpdl9nZW1fcHJpbWUuYyAgfCAgIDIgKwogZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRu
+YXZpdl9nZW1fc3VibWl0LmMgfCAgNDUgKysrKysrLQogZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYv
+ZXRuYXZpdl9ncHUuYyAgICAgICAgfCAxNTggKysrKysrKysrKysrLS0tLS0tLS0tLS0KIGRyaXZl
+cnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ3B1LmggICAgICAgIHwgIDExICstCiBkcml2ZXJz
+L2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2lvbW11LmMgICAgICB8IDE2NSArKysrKysrKysrKy0t
+LS0tLS0tLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfaW9tbXUuaCAgICAg
+IHwgIDIwIC0tLQogZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9pb21tdV92Mi5jICAg
+fCAyODQgKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KIGRyaXZlcnMv
+Z3B1L2RybS9ldG5hdml2L2V0bmF2aXZfbW11LmMgICAgICAgIHwgMzI2ICsrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vZXRuYXZp
+di9ldG5hdml2X21tdS5oICAgICAgICB8IDExNCArKysrKysrKysrKystLS0tLQogZHJpdmVycy9n
+cHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9wZXJmbW9uLmMgICAgfCAgNDggKysrKystLQogZHJpdmVy
+cy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9zY2hlZC5jICAgICAgfCAgIDQgKy0KIGluY2x1ZGUv
+dWFwaS9kcm0vZXRuYXZpdl9kcm0uaCAgICAgICAgICAgICAgIHwgIDEwICstCiAyMSBmaWxlcyBj
+aGFuZ2VkLCA5MjIgaW5zZXJ0aW9ucygrKSwgNjU5IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUg
+MTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfaW9tbXUuaApfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
