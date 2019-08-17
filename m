@@ -2,45 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BF8A90DB6
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2019 09:29:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FF6390F88
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2019 10:41:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B30086E49B;
-	Sat, 17 Aug 2019 07:29:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC7B66E221;
+	Sat, 17 Aug 2019 08:40:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id F3BB26E48A
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Aug 2019 07:29:30 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id EED3672161; Sat, 17 Aug 2019 07:29:30 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 102646] Screen flickering under amdgpu-experimental [buggy auto
- power profile]
-Date: Sat, 17 Aug 2019 07:29:31 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: reject5514@naver.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-102646-502-05LMSQhPAj@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-102646-502@http.bugs.freedesktop.org/>
-References: <bug-102646-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+ [209.85.208.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B884A6E221
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Aug 2019 08:40:56 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id s49so7099378edb.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Aug 2019 01:40:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qRs++cUPWqE7h71iD/NyfIih5j7NXZt7bjbEdWqVzho=;
+ b=lx7jvodZ/kh6d3zRGILfCEY/Q2OZp3d1YWh1I8AlaEKjGmlPu4J9DTG8FKxFStsO9Q
+ ssFW0pj43AsOXi+2LV5KsX5E7LCCWQkE1Awr+JChlbY4jcDKWrR7et9vfzIHNAPflf+R
+ pU9vm4uoRzhOdC8pS9OsotjnNb9tgFOv/u8adDUUEc2h4k5Ylx9i2ZoM5JBN5fxzeyMy
+ xUAiuumbhssE92RBY1AXpZpdvRMDMnKnGQUXACzCsfjJAEgqOy9psEUXgah0zotXv8KG
+ +76/ex5MI5meIIUD/JK4As1yM3pQjw0L4CGNw69erSGUC2WIh+vn1xx4ILNkWjAjAQ56
+ JSmg==
+X-Gm-Message-State: APjAAAVJhClBwYO5brZprXaDs4n6ujuVIPlrmMLsE+lkC1An7U4LNAwS
+ xLtYm7QCp1zsNy0l3ufNi799uA==
+X-Google-Smtp-Source: APXvYqyVeGWshlkAN3hcVFd4OniDjXvWk5lT+Wx1OL/j+MklrUymZoMYlJwTuyfs+e6TUmXM+MwbzQ==
+X-Received: by 2002:a50:90c4:: with SMTP id d4mr15291715eda.107.1566031255204; 
+ Sat, 17 Aug 2019 01:40:55 -0700 (PDT)
+Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl.
+ [84.106.84.65])
+ by smtp.gmail.com with ESMTPSA id e24sm1136686ejb.53.2019.08.17.01.40.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 17 Aug 2019 01:40:54 -0700 (PDT)
+Subject: Re: [PATCH] efifb: BGRT: Improve efifb_bgrt_sanity_check
+To: Peter Jones <pjones@redhat.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+References: <20190721131918.10115-1-hdegoede@redhat.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <a94c96de-16a5-7b52-a964-f8974e867a65@redhat.com>
+Date: Sat, 17 Aug 2019 10:40:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20190721131918.10115-1-hdegoede@redhat.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,118 +61,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0858743932=="
+Cc: linux-fbdev@vger.kernel.org, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0858743932==
-Content-Type: multipart/alternative; boundary="15660269701.509b6.17099"
-Content-Transfer-Encoding: 7bit
-
-
---15660269701.509b6.17099
-Date: Sat, 17 Aug 2019 07:29:30 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D102646
-
---- Comment #106 from reject5514@naver.com ---
-(In reply to magist3r from comment #105)
-> (In reply to reject5514 from comment #103)
-> > I have this problem on Archlinux 5.2.8-arch1-1-ARCH when connected 2
-> > monitors(1920x1080 @ 60Hz) and amdgpu.ppfeaturemask=3D0xffffffff option
-> > enabled. Patch didn't work for me.
-> >=20
-> > My GPU is RX570.
->=20
-> Try this patch:
-> https://lists.freedesktop.org/archives/amd-gfx/2019-June/036022.html
-
-That patch solved the issue but memory clock is fixed to maximum
-state(1750MHz). Normally it should change dynamically.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15660269701.509b6.17099
-Date: Sat, 17 Aug 2019 07:29:30 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
-ower profile]"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102646#c106">Comm=
-ent # 106</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
-ower profile]"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102646">bug 10264=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-reject5514&#64;naver.com" title=3D"reject5514&#64;naver.com">reject5514&#64=
-;naver.com</a>
-</span></b>
-        <pre>(In reply to magist3r from <a href=3D"show_bug.cgi?id=3D102646=
-#c105">comment #105</a>)
-<span class=3D"quote">&gt; (In reply to reject5514 from <a href=3D"show_bug=
-.cgi?id=3D102646#c103">comment #103</a>)
-&gt; &gt; I have this problem on Archlinux 5.2.8-arch1-1-ARCH when connecte=
-d 2
-&gt; &gt; monitors(1920x1080 &#64; 60Hz) and amdgpu.ppfeaturemask=3D0xfffff=
-fff option
-&gt; &gt; enabled. Patch didn't work for me.
-&gt; &gt;=20
-&gt; &gt; My GPU is RX570.
-&gt;=20
-&gt; Try this patch:
-&gt; <a href=3D"https://lists.freedesktop.org/archives/amd-gfx/2019-June/03=
-6022.html">https://lists.freedesktop.org/archives/amd-gfx/2019-June/036022.=
-html</a></span >
-
-That patch solved the issue but memory clock is fixed to maximum
-state(1750MHz). Normally it should change dynamically.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15660269701.509b6.17099--
-
---===============0858743932==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0858743932==--
+SGksCgpPbiAyMS0wNy0xOSAxNToxOSwgSGFucyBkZSBHb2VkZSB3cm90ZToKPiBGb3IgdmFyaW91
+cyByZWFzb25zLCBhdCBsZWFzdCB3aXRoIHg4NiBFRkkgZmlybXdhcmVzLCB0aGUgeG9mZnNldCBh
+bmQKPiB5b2Zmc2V0IGluIHRoZSBCR1JUIGluZm8gYXJlIG5vdCBhbHdheXMgcmVsaWFibGUuCj4g
+Cj4gRXh0ZW5zaXZlIHRlc3RpbmcgaGFzIHNob3duIHRoYXQgd2hlbiB0aGUgaW5mbyBpcyBjb3Jy
+ZWN0LCB0aGUKPiBCR1JUIGltYWdlIGlzIGFsd2F5cyBleGFjdGx5IGNlbnRlcmVkIGhvcml6b250
+YWxseSAodGhlIHlvZmZzZXQgdmFyaWFibGUKPiBpcyBtb3JlIHZhcmlhYmxlIGFuZCBub3QgYWx3
+YXlzIHByZWRpY3RhYmxlKS4KPiAKPiBUaGlzIGNvbW1pdCBzaW1wbGlmaWVzIC8gaW1wcm92ZXMg
+dGhlIGJncnRfc2FuaXR5X2NoZWNrIHRvIHNpbXBseQo+IGNoZWNrIHRoYXQgdGhlIEJHUlQgaW1h
+Z2UgaXMgZXhhY3RseSBjZW50ZXJlZCBob3Jpem9udGFsbHkgYW5kIHNraXBzCj4gKHJlKWRyYXdp
+bmcgaXQgd2hlbiBpdCBpcyBub3QuCj4gCj4gVGhpcyBmaXhlcyB0aGUgQkdSVCBpbWFnZSBzb21l
+dGltZXMgYmVpbmcgZHJhd24gaW4gdGhlIHdyb25nIHBsYWNlLgo+IAo+IENjOiBzdGFibGVAdmdl
+ci5rZXJuZWwub3JnCj4gRml4ZXM6IDg4ZmU0Y2ViMjQ0NyAoImVmaWZiOiBCR1JUOiBEbyBub3Qg
+Y29weSB0aGUgYm9vdCBncmFwaGljcyBmb3Igbm9uIG5hdGl2ZSByZXNvbHV0aW9ucyIpCj4gU2ln
+bmVkLW9mZi1ieTogSGFucyBkZSBHb2VkZSA8aGRlZ29lZGVAcmVkaGF0LmNvbT4KCnBpbmc/IEkg
+ZG8gbm90IHNlZSB0aGlzIG9uZSBpbiAtbmV4dCB5ZXQsIHdoYXQgaXMgdGhlIHN0YXR1cyBvZiB0
+aGlzCnBhdGNoPwoKUmVnYXJkcywKCkhhbnMKCgoKCj4gLS0tCj4gICBkcml2ZXJzL3ZpZGVvL2Zi
+ZGV2L2VmaWZiLmMgfCAyNyArKysrKystLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiAgIDEgZmlsZSBj
+aGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDIxIGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2VmaWZiLmMgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2VmaWZi
+LmMKPiBpbmRleCBkZmE4ZGQ0N2QxOWQuLjViM2NlZjliZjc5NCAxMDA2NDQKPiAtLS0gYS9kcml2
+ZXJzL3ZpZGVvL2ZiZGV2L2VmaWZiLmMKPiArKysgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2VmaWZi
+LmMKPiBAQCAtMTIyLDI4ICsxMjIsMTMgQEAgc3RhdGljIHZvaWQgZWZpZmJfY29weV9ibXAodTgg
+KnNyYywgdTMyICpkc3QsIGludCB3aWR0aCwgc3RydWN0IHNjcmVlbl9pbmZvICpzaSkKPiAgICAq
+Lwo+ICAgc3RhdGljIGJvb2wgZWZpZmJfYmdydF9zYW5pdHlfY2hlY2soc3RydWN0IHNjcmVlbl9p
+bmZvICpzaSwgdTMyIGJtcF93aWR0aCkKPiAgIHsKPiAtCXN0YXRpYyBjb25zdCBpbnQgZGVmYXVs
+dF9yZXNvbHV0aW9uc1tdWzJdID0gewo+IC0JCXsgIDgwMCwgIDYwMCB9LAo+IC0JCXsgMTAyNCwg
+IDc2OCB9LAo+IC0JCXsgMTI4MCwgMTAyNCB9LAo+IC0JfTsKPiAtCXUzMiBpLCByaWdodF9tYXJn
+aW47Cj4gLQo+IC0JZm9yIChpID0gMDsgaSA8IEFSUkFZX1NJWkUoZGVmYXVsdF9yZXNvbHV0aW9u
+cyk7IGkrKykgewo+IC0JCWlmIChkZWZhdWx0X3Jlc29sdXRpb25zW2ldWzBdID09IHNpLT5sZmJf
+d2lkdGggJiYKPiAtCQkgICAgZGVmYXVsdF9yZXNvbHV0aW9uc1tpXVsxXSA9PSBzaS0+bGZiX2hl
+aWdodCkKPiAtCQkJYnJlYWs7Cj4gLQl9Cj4gLQkvKiBJZiBub3QgYSBkZWZhdWx0IHJlc29sdXRp
+b24gdXNlZCBmb3IgdGV4dG1vZGUsIHRoaXMgc2hvdWxkIGJlIGZpbmUgKi8KPiAtCWlmIChpID49
+IEFSUkFZX1NJWkUoZGVmYXVsdF9yZXNvbHV0aW9ucykpCj4gLQkJcmV0dXJuIHRydWU7Cj4gLQo+
+IC0JLyogSWYgdGhlIHJpZ2h0IG1hcmdpbiBpcyA1IHRpbWVzIHNtYWxsZXIgdGhlbiB0aGUgbGVm
+dCBvbmUsIHJlamVjdCAqLwo+IC0JcmlnaHRfbWFyZ2luID0gc2ktPmxmYl93aWR0aCAtIChiZ3J0
+X3RhYi5pbWFnZV9vZmZzZXRfeCArIGJtcF93aWR0aCk7Cj4gLQlpZiAocmlnaHRfbWFyZ2luIDwg
+KGJncnRfdGFiLmltYWdlX29mZnNldF94IC8gNSkpCj4gLQkJcmV0dXJuIGZhbHNlOwo+ICsJLyoK
+PiArCSAqIEFsbCB4ODYgZmlybXdhcmVzIGhvcml6b250YWxseSBjZW50ZXIgdGhlIGltYWdlICh0
+aGUgeW9mZnNldAo+ICsJICogY2FsY3VsYXRpb25zIGRpZmZlciBiZXR3ZWVuIGJvYXJkcywgYnV0
+IHhvZmZzZXQgaXMgcHJlZGljdGFibGUpLgo+ICsJICovCj4gKwl1MzIgZXhwZWN0ZWRfeG9mZnNl
+dCA9IChzaS0+bGZiX3dpZHRoIC0gYm1wX3dpZHRoKSAvIDI7Cj4gICAKPiAtCXJldHVybiB0cnVl
+Owo+ICsJcmV0dXJuIGJncnRfdGFiLmltYWdlX29mZnNldF94ID09IGV4cGVjdGVkX3hvZmZzZXQ7
+Cj4gICB9Cj4gICAjZWxzZQo+ICAgc3RhdGljIGJvb2wgZWZpZmJfYmdydF9zYW5pdHlfY2hlY2so
+c3RydWN0IHNjcmVlbl9pbmZvICpzaSwgdTMyIGJtcF93aWR0aCkKPiAKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
