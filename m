@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2712E90BF8
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2019 03:47:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BB7E90C0C
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2019 04:15:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 318A16E417;
-	Sat, 17 Aug 2019 01:47:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E585B6E9BD;
+	Sat, 17 Aug 2019 02:15:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 286AF6E40D
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Aug 2019 01:47:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id B357A6E9D7
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Aug 2019 02:15:16 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 251417215A; Sat, 17 Aug 2019 01:47:11 +0000 (UTC)
+ id B04097215A; Sat, 17 Aug 2019 02:15:16 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Sat, 17 Aug 2019 01:47:11 +0000
+Date: Sat, 17 Aug 2019 02:15:16 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-qFjQWc0qp8@http.bugs.freedesktop.org/>
+Message-ID: <bug-110674-502-QIUJvIZUYc@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
 References: <bug-110674-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0696625664=="
+Content-Type: multipart/mixed; boundary="===============0339683333=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0696625664==
-Content-Type: multipart/alternative; boundary="15660064310.726Dd0d8.27258"
+--===============0339683333==
+Content-Type: multipart/alternative; boundary="15660081167.3ECcC2e.30459"
 Content-Transfer-Encoding: 7bit
 
 
---15660064310.726Dd0d8.27258
-Date: Sat, 17 Aug 2019 01:47:11 +0000
+--15660081167.3ECcC2e.30459
+Date: Sat, 17 Aug 2019 02:15:16 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,33 +72,46 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
 
---- Comment #111 from ReddestDream <reddestdream@gmail.com> ---
-A few other ideas to ponder:
+--- Comment #112 from ReddestDream <reddestdream@gmail.com> ---
+More ideas:
 
-1. Looking into DPM, I found this commit for 5.1-rc1 that looks interesting:
+3. Looking through the crash in sehellion's comment 45:
 
-https://github.com/torvalds/linux/commit/7ca881a8651bdeffd99ba8e0010160f9bf=
-60673e
+gfx_v9_0_ring_test_ring+0x19e/0x230 [amdgpu]
+amdgpu_ring_test_helper+0x1e/0x90 [amdgpu]
+gfx_v9_0_hw_fini+0x299/0x690 [amdgpu]
+amdgpu_device_ip_suspend_phase2+0x6c/0xa0 [amdgpu]
+amdgpu_device_ip_suspend+0x44/0x80 [amdgpu]
+amdgpu_device_pre_asic_reset+0x1ef/0x204 [amdgpu]
+amdgpu_device_gpu_recover+0x7b/0x7a3 [amdgpu]
+amdgpu_job_timedout+0xfc/0x120 [amdgpu]
 
-Looks like it exposes "ppfeatures" interface on Vega 10 and later GPU,
-including some code for Vega 20.
+We see gfx_v9_0_ring_test and gfx_v9_0_hw_fini which both come from:
 
-2. I also found two interesting commits that pertain to "doorbell" register
-initialization on Vega 20. Also from 5.1-rc1. Might be related to setting up
-the GPU ASICs . I must admit I'm not exactly sure what these do . . .
+https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/amd/amdgpu/gf=
+x_v9_0.c
 
-https://github.com/torvalds/linux/commit/fd4855409f6ebe015406cd2b2ffa4fee4c=
-d1f4a7
+There's a 5.1-rc1 commit in this file pertaining to a "wave ID mismatch" th=
+at
+could cause deadlocks.
 
-https://github.com/torvalds/linux/commit/828845b7c86c5338f6ca02aaaaf4b52571=
-8f31b2
+https://github.com/torvalds/linux/commit/41cca166cc57e75e94d888595a428d23a3=
+bf4e36
+
+Along with updated "golden values" for Vega in 5.1-rc1:
+
+https://github.com/torvalds/linux/commit/919a94d8101ebc29868940b580fe9e9811=
+b7dc86
+
+https://github.com/torvalds/linux/commit/f7b1844bacecca96dd8d813675e4d8adec=
+02cd66
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15660064310.726Dd0d8.27258
-Date: Sat, 17 Aug 2019 01:47:11 +0000
+--15660081167.3ECcC2e.30459
+Date: Sat, 17 Aug 2019 02:15:16 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -115,8 +128,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c111">Comm=
-ent # 111</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c112">Comm=
+ent # 112</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
@@ -126,30 +139,43 @@ ent # 111</a>
 reddestdream&#64;gmail.com" title=3D"ReddestDream &lt;reddestdream&#64;gmai=
 l.com&gt;"> <span class=3D"fn">ReddestDream</span></a>
 </span></b>
-        <pre>A few other ideas to ponder:
+        <pre>More ideas:
 
-1. Looking into DPM, I found this commit for 5.1-rc1 that looks interesting:
+3. Looking through the crash in sehellion's <a href=3D"show_bug.cgi?id=3D11=
+0674#c45">comment 45</a>:
 
-<a href=3D"https://github.com/torvalds/linux/commit/7ca881a8651bdeffd99ba8e=
-0010160f9bf60673e">https://github.com/torvalds/linux/commit/7ca881a8651bdef=
-fd99ba8e0010160f9bf60673e</a>
+gfx_v9_0_ring_test_ring+0x19e/0x230 [amdgpu]
+amdgpu_ring_test_helper+0x1e/0x90 [amdgpu]
+gfx_v9_0_hw_fini+0x299/0x690 [amdgpu]
+amdgpu_device_ip_suspend_phase2+0x6c/0xa0 [amdgpu]
+amdgpu_device_ip_suspend+0x44/0x80 [amdgpu]
+amdgpu_device_pre_asic_reset+0x1ef/0x204 [amdgpu]
+amdgpu_device_gpu_recover+0x7b/0x7a3 [amdgpu]
+amdgpu_job_timedout+0xfc/0x120 [amdgpu]
 
-Looks like it exposes &quot;ppfeatures&quot; interface on Vega 10 and later=
- GPU,
-including some code for Vega 20.
+We see gfx_v9_0_ring_test and gfx_v9_0_hw_fini which both come from:
 
-2. I also found two interesting commits that pertain to &quot;doorbell&quot=
-; register
-initialization on Vega 20. Also from 5.1-rc1. Might be related to setting up
-the GPU ASICs . I must admit I'm not exactly sure what these do . . .
+<a href=3D"https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/am=
+d/amdgpu/gfx_v9_0.c">https://github.com/torvalds/linux/blob/master/drivers/=
+gpu/drm/amd/amdgpu/gfx_v9_0.c</a>
 
-<a href=3D"https://github.com/torvalds/linux/commit/fd4855409f6ebe015406cd2=
-b2ffa4fee4cd1f4a7">https://github.com/torvalds/linux/commit/fd4855409f6ebe0=
-15406cd2b2ffa4fee4cd1f4a7</a>
+There's a 5.1-rc1 commit in this file pertaining to a &quot;wave ID mismatc=
+h&quot; that
+could cause deadlocks.
 
-<a href=3D"https://github.com/torvalds/linux/commit/828845b7c86c5338f6ca02a=
-aaaf4b525718f31b2">https://github.com/torvalds/linux/commit/828845b7c86c533=
-8f6ca02aaaaf4b525718f31b2</a></pre>
+<a href=3D"https://github.com/torvalds/linux/commit/41cca166cc57e75e94d8885=
+95a428d23a3bf4e36">https://github.com/torvalds/linux/commit/41cca166cc57e75=
+e94d888595a428d23a3bf4e36</a>
+
+Along with updated &quot;golden values&quot; for Vega in 5.1-rc1:
+
+<a href=3D"https://github.com/torvalds/linux/commit/919a94d8101ebc29868940b=
+580fe9e9811b7dc86">https://github.com/torvalds/linux/commit/919a94d8101ebc2=
+9868940b580fe9e9811b7dc86</a>
+
+<a href=3D"https://github.com/torvalds/linux/commit/f7b1844bacecca96dd8d813=
+675e4d8adec02cd66">https://github.com/torvalds/linux/commit/f7b1844bacecca9=
+6dd8d813675e4d8adec02cd66</a></pre>
         </div>
       </p>
 
@@ -163,9 +189,9 @@ aaaf4b525718f31b2">https://github.com/torvalds/linux/commit/828845b7c86c533=
     </body>
 </html>=
 
---15660064310.726Dd0d8.27258--
+--15660081167.3ECcC2e.30459--
 
---===============0696625664==
+--===============0339683333==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -175,4 +201,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0696625664==--
+--===============0339683333==--
