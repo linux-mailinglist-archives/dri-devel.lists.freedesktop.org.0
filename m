@@ -2,34 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81BC3911A3
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2019 17:28:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37E32911A4
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Aug 2019 17:29:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2615F88C07;
-	Sat, 17 Aug 2019 15:28:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8ACA6E9F3;
+	Sat, 17 Aug 2019 15:29:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 551C76E550;
- Sat, 17 Aug 2019 15:27:18 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 18173807-1500050 for multiple; Sat, 17 Aug 2019 16:27:16 +0100
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3A97889824
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Aug 2019 15:29:30 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 0FBEE72161; Sat, 17 Aug 2019 15:29:30 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111077] link_shader and deserialize_glsl_program suddenly
+ consume huge amount of RAM
+Date: Sat, 17 Aug 2019 15:29:30 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 18.3
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocker
+X-Bugzilla-Who: mattst88@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111077-502-6bHNJZdTRN@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111077-502@http.bugs.freedesktop.org/>
+References: <bug-111077-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-To: "Koenig, Christian" <Christian.Koenig@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <00872790-f514-6524-1876-d9461cb3fd8c@amd.com>
-References: <20190817144736.7826-1-chris@chris-wilson.co.uk>
- <20190817144736.7826-6-chris@chris-wilson.co.uk>
- <00872790-f514-6524-1876-d9461cb3fd8c@amd.com>
-Message-ID: <156605563372.25088.10824119829158086438@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [PATCH 6/6] dma-fence: Store the timestamp in the same union as
- the cb_list
-Date: Sat, 17 Aug 2019 16:27:13 +0100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -42,35 +53,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0939060290=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBLb2VuaWcsIENocmlzdGlhbiAoMjAxOS0wOC0xNyAxNjoyMDoxMikKPiBBbSAxNy4w
-OC4xOSB1bSAxNjo0NyBzY2hyaWViIENocmlzIFdpbHNvbjoKPiA+IGRpZmYgLS1naXQgYS9kcml2
-ZXJzL2RtYS1idWYvZG1hLWZlbmNlLmMgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLmMKPiA+
-IGluZGV4IDg5ZDk2ZTNlNmRmNi4uMmMyMTExNWIxYTM3IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVy
-cy9kbWEtYnVmL2RtYS1mZW5jZS5jCj4gPiArKysgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNl
-LmMKPiA+IEBAIC0xMjksNiArMTI5LDcgQEAgRVhQT1JUX1NZTUJPTChkbWFfZmVuY2VfY29udGV4
-dF9hbGxvYyk7Cj4gPiAgIGludCBkbWFfZmVuY2Vfc2lnbmFsX2xvY2tlZChzdHJ1Y3QgZG1hX2Zl
-bmNlICpmZW5jZSkKPiA+ICAgewo+ID4gICAgICAgc3RydWN0IGRtYV9mZW5jZV9jYiAqY3VyLCAq
-dG1wOwo+ID4gKyAgICAgc3RydWN0IGxpc3RfaGVhZCBjYl9saXN0Owo+ID4gICAKPiA+ICAgICAg
-IGxvY2tkZXBfYXNzZXJ0X2hlbGQoZmVuY2UtPmxvY2spOwo+ID4gICAKPiA+IEBAIC0xMzYsMTYg
-KzEzNywxNiBAQCBpbnQgZG1hX2ZlbmNlX3NpZ25hbF9sb2NrZWQoc3RydWN0IGRtYV9mZW5jZSAq
-ZmVuY2UpCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAmZmVuY2UtPmZs
-YWdzKSkpCj4gPiAgICAgICAgICAgICAgIHJldHVybiAtRUlOVkFMOwo+ID4gICAKPiA+ICsgICAg
-IC8qIFN0YXNoIHRoZSBjYl9saXN0IGJlZm9yZSByZXBsYWNpbmcgaXQgd2l0aCB0aGUgdGltZXN0
-YW1wICovCj4gPiArICAgICBsaXN0X3JlcGxhY2UoJmZlbmNlLT5jYl9saXN0LCAmY2JfbGlzdCk7
-Cj4gCj4gU3Rhc2hpbmcgdGhlIHRpbWVzdGFtcCBpbnN0ZWFkIGlzIHByb2JhYmx5IGxlc3MgYnl0
-ZXMgdG8gbW9kaWZ5LgoKTXkgdGhpbmtpbmcgd2FzIHRvIHBhc3MgdGhlIHRpbWVzdGFtcCB0byB0
-aGUgbm90aWZ5IGNhbGxiYWNrcywgd2UgbmVlZAp0byBzdGFzaCB0aGUgbGlzdCBhbmQgc2V0IHRo
-ZSB0aW1lc3RhbXAgZmlyc3QuCgpOb3RoaW5nIHRoYXQgSSdtIGF3YXJlIG9mIHVzZXMgdGhlIHRp
-bWVzdGFtcCAoanVzdCB0aGUgc3luYyBmaWxlIGRlYnVnCndoaWNoIHdlc3RvbiB3YXMgY29uc2lk
-ZXJpbmcgdXNpbmcgYXQgb25lIHBvaW50KS4uLiBTbyBJIGd1ZXNzIHdlIGRvbid0CmNhcmU/IEJ1
-dCBJIHdvdWxkIHNheSB3ZSBzaG91bGQgZG8gdGhhdCBhcyBhIHNlcGFyYXRlIHN0ZXAgaW4gY2Fz
-ZQpzb21lb25lIGRvZXMuCi1DaHJpcwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWw=
+
+--===============0939060290==
+Content-Type: multipart/alternative; boundary="15660557700.e31d8.24635"
+Content-Transfer-Encoding: 7bit
+
+
+--15660557700.e31d8.24635
+Date: Sat, 17 Aug 2019 15:29:29 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111077
+
+--- Comment #17 from Matt Turner <mattst88@gmail.com> ---
+The build failure is in Clover, the OpenCL implementation. If the applicati=
+on
+that triggers the huge amount of RAM problem is not using OpenCL, disable
+OpenCL in meson configure and try to get past that.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15660557700.e31d8.24635
+Date: Sat, 17 Aug 2019 15:29:30 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
+ huge amount of RAM"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077#c17">Comme=
+nt # 17</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
+ huge amount of RAM"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077">bug 11107=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+mattst88&#64;gmail.com" title=3D"Matt Turner &lt;mattst88&#64;gmail.com&gt;=
+"> <span class=3D"fn">Matt Turner</span></a>
+</span></b>
+        <pre>The build failure is in Clover, the OpenCL implementation. If =
+the application
+that triggers the huge amount of RAM problem is not using OpenCL, disable
+OpenCL in meson configure and try to get past that.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15660557700.e31d8.24635--
+
+--===============0939060290==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0939060290==--
