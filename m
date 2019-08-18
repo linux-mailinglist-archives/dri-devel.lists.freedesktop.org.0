@@ -1,54 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DCBE9198C
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2019 22:32:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3154891999
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2019 22:53:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6A7589DB4;
-	Sun, 18 Aug 2019 20:32:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A9876E05D;
+	Sun, 18 Aug 2019 20:53:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
- [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D82989DB4
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2019 20:32:54 +0000 (UTC)
-Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id C08C42854F
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2019 20:32:54 +0000 (UTC)
-Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id B4B4D285C3; Sun, 18 Aug 2019 20:32:54 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
- pdx-wl-mail.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
- NO_RELAYS autolearn=unavailable version=3.3.1
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 622F66E05D
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2019 20:53:50 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5489172161; Sun, 18 Aug 2019 20:53:50 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204611] New: amdgpu error scheduling IBs when waking from sleep
-Date: Sun, 18 Aug 2019 20:32:53 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
+Subject: [Bug 111415] BUG: kernel NULL pointer dereference - supervisor read
+ access in kernel mode
+Date: Sun, 18 Aug 2019 20:53:50 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tones111@hotmail.com
+X-Bugzilla-Who: tseewald@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-204611-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111415-502-PiXfed4eXz@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111415-502@http.bugs.freedesktop.org/>
+References: <bug-111415-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,33 +53,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1545918875=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQ2MTEKCiAgICAg
-ICAgICAgIEJ1ZyBJRDogMjA0NjExCiAgICAgICAgICAgU3VtbWFyeTogYW1kZ3B1IGVycm9yIHNj
-aGVkdWxpbmcgSUJzIHdoZW4gd2FraW5nIGZyb20gc2xlZXAKICAgICAgICAgICBQcm9kdWN0OiBE
-cml2ZXJzCiAgICAgICAgICAgVmVyc2lvbjogMi41CiAgICBLZXJuZWwgVmVyc2lvbjogNS4yLjkK
-ICAgICAgICAgIEhhcmR3YXJlOiB4ODYtNjQKICAgICAgICAgICAgICAgIE9TOiBMaW51eAogICAg
-ICAgICAgICAgIFRyZWU6IE1haW5saW5lCiAgICAgICAgICAgIFN0YXR1czogTkVXCiAgICAgICAg
-ICBTZXZlcml0eTogbm9ybWFsCiAgICAgICAgICBQcmlvcml0eTogUDEKICAgICAgICAgQ29tcG9u
-ZW50OiBWaWRlbyhEUkkgLSBub24gSW50ZWwpCiAgICAgICAgICBBc3NpZ25lZTogZHJpdmVyc192
-aWRlby1kcmlAa2VybmVsLWJ1Z3Mub3NkbC5vcmcKICAgICAgICAgIFJlcG9ydGVyOiB0b25lczEx
-MUBob3RtYWlsLmNvbQogICAgICAgIFJlZ3Jlc3Npb246IE5vCgpDcmVhdGVkIGF0dGFjaG1lbnQg
-Mjg0NDg1CiAgLS0+IGh0dHBzOi8vYnVnemlsbGEua2VybmVsLm9yZy9hdHRhY2htZW50LmNnaT9p
-ZD0yODQ0ODUmYWN0aW9uPWVkaXQKam91cm5hbGN0bDogYW1kZ3B1IGxvY2t1cCBvbiByZXN1bWUg
-ZnJvbSBzbGVlcC4KCk15IHN5c3RlbSBsb2NrcyB1cCB3aGVuIHRyeWluZyB0byB3YWtlIGZyb20g
-c2xlZXAgKG9wZW4gbGlkKS4gIFRoZSBzY3JlZW4KcmVtYWlucyBibGFjayBhbmQgaXMgdW5yZXNw
-b25zaXZlIHRvIGtleWJvYXJkL21vdXNlIGlucHV0LiAgSSdtIGFibGUgdG8gc3NoCmZyb20gYW5v
-dGhlciBtYWNoaW5lIGFuZCBoYXZlIGF0dGFjaGVkIHRoZSBvdXRwdXQgZnJvbSBqb3VybmFsY3Rs
-IC1iLiAgVGhlIGxvZwpzaG93cyBzY3JvbGxpbmcgZXJyb3JzLi4uCgprZXJuZWw6IFtkcm06YW1k
-Z3B1X2pvYl9ydW4gW2FtZGdwdV1dICpFUlJPUiogRXJyb3Igc2NoZWR1bGluZyBJQnMgKC0yMikK
-a2VybmVsOiBhbWRncHUgMDAwMDowNTowMC4wOiBjb3VsZG4ndCBzY2hlZHVsZSBpYiBvbiByaW5n
-IDxnZng+CgpUaGlzIGlzIGEgTGVub3ZvIEU1ODUgbGFwdG9wIHdpdGggYW4gQU1EIFI1IDI1MDBV
-IEFQVS4KCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3
-YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1545918875==
+Content-Type: multipart/alternative; boundary="15661616300.b6a368.16048"
+Content-Transfer-Encoding: 7bit
+
+
+--15661616300.b6a368.16048
+Date: Sun, 18 Aug 2019 20:53:50 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111415
+
+--- Comment #1 from Tom Seewald <tseewald@gmail.com> ---
+This bug report on the kernel bugtracker appears to be the same or at least=
+ a
+very similar problem:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D204181
+
+In that report, Nicholas Kazlauskas posted a possible fix:
+https://patchwork.freedesktop.org/series/64505/
+
+I have yet to test to see if this patch resolves the crashes I am experienc=
+ing,
+but I don't see this as being in the 5.3-rc series, and certainly not in the
+5.2 stable releases. Was this fix perhaps overlooked/missed?
+
+So far I just see that it is in amd-staging-drm-next as of August 1st:
+https://cgit.freedesktop.org/~agd5f/linux/commit/?h=3Damd-staging-drm-next&=
+id=3Da4f6a4c7de97335f3452229e67521eae338af10e
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15661616300.b6a368.16048
+Date: Sun, 18 Aug 2019 20:53:50 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - BUG: kernel NULL pointer dereference - supervisor read ac=
+cess in kernel mode"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111415#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - BUG: kernel NULL pointer dereference - supervisor read ac=
+cess in kernel mode"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111415">bug 11141=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+tseewald&#64;gmail.com" title=3D"Tom Seewald &lt;tseewald&#64;gmail.com&gt;=
+"> <span class=3D"fn">Tom Seewald</span></a>
+</span></b>
+        <pre>This bug report on the kernel bugtracker appears to be the sam=
+e or at least a
+very similar problem:
+<a href=3D"https://bugzilla.kernel.org/show_bug.cgi?id=3D204181">https://bu=
+gzilla.kernel.org/show_bug.cgi?id=3D204181</a>
+
+In that report, Nicholas Kazlauskas posted a possible fix:
+<a href=3D"https://patchwork.freedesktop.org/series/64505/">https://patchwo=
+rk.freedesktop.org/series/64505/</a>
+
+I have yet to test to see if this patch resolves the crashes I am experienc=
+ing,
+but I don't see this as being in the 5.3-rc series, and certainly not in the
+5.2 stable releases. Was this fix perhaps overlooked/missed?
+
+So far I just see that it is in amd-staging-drm-next as of August 1st:
+<a href=3D"https://cgit.freedesktop.org/~agd5f/linux/commit/?h=3Damd-stagin=
+g-drm-next&amp;id=3Da4f6a4c7de97335f3452229e67521eae338af10e">https://cgit.=
+freedesktop.org/~agd5f/linux/commit/?h=3Damd-staging-drm-next&amp;id=3Da4f6=
+a4c7de97335f3452229e67521eae338af10e</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15661616300.b6a368.16048--
+
+--===============1545918875==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1545918875==--
