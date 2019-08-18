@@ -2,53 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FE1F918DD
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2019 20:30:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B3A918E4
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2019 20:34:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA3446E05F;
-	Sun, 18 Aug 2019 18:30:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB89B6E088;
+	Sun, 18 Aug 2019 18:34:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
- [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B46ED6E088
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2019 18:30:52 +0000 (UTC)
-Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 70A3127DCD
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2019 18:30:52 +0000 (UTC)
-Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id 64FCD22B39; Sun, 18 Aug 2019 18:30:52 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
- pdx-wl-mail.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
- NO_RELAYS autolearn=unavailable version=3.3.1
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 847BB6E08A
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2019 18:34:46 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 8144D72161; Sun, 18 Aug 2019 18:34:46 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204599] amdgpu: RX 560 randomly hangs with kernel >= 5.1
-Date: Sun, 18 Aug 2019 18:30:51 +0000
-X-Bugzilla-Reason: None
+Subject: [Bug 111416] 4k 60hz on RX 560 over HDMI = no sound
+Date: Sun, 18 Aug 2019 18:34:46 +0000
+X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: tony.darko@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-204599-2300-LrhfgzHd37@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204599-2300@https.bugzilla.kernel.org/>
-References: <bug-204599-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111416-502-YjkCruSikH@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111416-502@http.bugs.freedesktop.org/>
+References: <bug-111416-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,25 +52,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0984896654=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQ1OTkKCkV2Z2Vu
-eSBTaHZpdHMgKHRvbnkuZGFya29AZ21haWwuY29tKSBjaGFuZ2VkOgoKICAgICAgICAgICBXaGF0
-ICAgIHxSZW1vdmVkICAgICAgICAgICAgICAgICAgICAgfEFkZGVkCi0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0KICAgICAgICAgICAgIFN0YXR1c3xORVcgICAgICAgICAgICAgICAgICAgICAgICAgfFJFU09M
-VkVECiAgICAgICAgIFJlc29sdXRpb258LS0tICAgICAgICAgICAgICAgICAgICAgICAgIHxDT0RF
-X0ZJWAoKLS0tIENvbW1lbnQgIzYgZnJvbSBFdmdlbnkgU2h2aXRzICh0b255LmRhcmtvQGdtYWls
-LmNvbSkgLS0tCkkgc3RhcnRlZCBiaXNlY3QsIGJ1dCBmb3VuZCB0aGF0IEkgd2FzIHVzaW5nIGFu
-IG91dGRhdGVkIHZlcnNpb24gb2YgdGhlIE9wZW5DTApsaWJzIGZyb20gYW1kZ3B1LXBybyA6KApB
-ZnRlciB1cGRhdGluZyBsaWJzIHJhbmRvbWx5IGhhbmdzIHdhcyBzdG9wcGVkLgoKQW5vdGhlciBw
-cm9ibGVtIHdpdGggcmV0dXJuIGZyb20gaGliZXJuYXRlIGkgd2lsbCB0ZXN0aW5pbmcgYW5kIHdp
-bGwgb3BlbiBuZXcKdGlja2V0IGlmIGJ1ZyBleGlzdHMuCgpQbGVhc2UgY2xvc2UgdGhpcyBidWcs
-IGknbSBzb3JyeSBmb3IgbXkgY2FyZWxlc3NuZXNzLgoKLS0gCllvdSBhcmUgcmVjZWl2aW5nIHRo
-aXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0aGUgYnVn
-LgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0984896654==
+Content-Type: multipart/alternative; boundary="15661532862.BA14dd9FB.24645"
+Content-Transfer-Encoding: 7bit
+
+
+--15661532862.BA14dd9FB.24645
+Date: Sun, 18 Aug 2019 18:34:46 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111416
+
+--- Comment #2 from Alex Deucher <alexdeucher@gmail.com> ---
+Please attach your xorg log (if using X) and your dmesg output.  What kernel
+are you using?  You monitor only supports 4k60 at yCbCr 4:2:0 encoding:
+VIC 107 3840x2160@60Hz 64:27  HorFreq: 135000 Hz Clock: 297.000 MHz
+Your custom modeline uses RGB encoding so probably uses too much bandwidth.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15661532862.BA14dd9FB.24645
+Date: Sun, 18 Aug 2019 18:34:46 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - 4k 60hz on RX 560 over HDMI =3D no sound"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111416#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - 4k 60hz on RX 560 over HDMI =3D no sound"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111416">bug 11141=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
+com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
+</span></b>
+        <pre>Please attach your xorg log (if using X) and your dmesg output=
+.  What kernel
+are you using?  You monitor only supports 4k60 at yCbCr 4:2:0 encoding:
+VIC 107 3840x2160&#64;60Hz 64:27  HorFreq: 135000 Hz Clock: 297.000 MHz
+Your custom modeline uses RGB encoding so probably uses too much bandwidth.=
+</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15661532862.BA14dd9FB.24645--
+
+--===============0984896654==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0984896654==--
