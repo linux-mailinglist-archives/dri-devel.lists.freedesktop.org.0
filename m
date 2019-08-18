@@ -2,44 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A64E89137D
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2019 00:30:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 437B9913C2
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2019 02:14:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC7DD6E564;
-	Sat, 17 Aug 2019 22:30:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 981956E02C;
+	Sun, 18 Aug 2019 00:14:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 409526E564
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Aug 2019 22:30:15 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 3D3AE72161; Sat, 17 Aug 2019 22:30:15 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE6186E02C
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2019 00:14:26 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4938889AC2
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2019 00:14:26 +0000 (UTC)
+Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
+ [10.64.54.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9DA071C6
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2019 00:14:25 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110795] Unable to install on latest Ubuntu (19.04)
-Date: Sat, 17 Aug 2019 22:30:15 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu-pro
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
-X-Bugzilla-Who: achlys@posteo.de
-X-Bugzilla-Status: VERIFIED
-X-Bugzilla-Resolution: WORKSFORME
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110795-502-MIcQ4o2n5n@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110795-502@http.bugs.freedesktop.org/>
-References: <bug-110795-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH] radeon: add option so DVI always respect HPD over DDC
+Date: Sun, 18 Aug 2019 10:14:24 +1000
+Message-Id: <20190818001424.27200-1-airlied@gmail.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Sun, 18 Aug 2019 00:14:26 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,95 +43,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0279188493=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0279188493==
-Content-Type: multipart/alternative; boundary="15660810153.FF7C.27355"
-Content-Transfer-Encoding: 7bit
-
-
---15660810153.FF7C.27355
-Date: Sat, 17 Aug 2019 22:30:15 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110795
-
---- Comment #28 from Sebastian <achlys@posteo.de> ---
-There is a new Version of the Radeon Software (ver 19.30 from Aug 12.)
-https://www.amd.com/en/support/kb/release-notes/rn-amdgpu-unified-linux
-Does the script work for the new version?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15660810153.FF7C.27355
-Date: Sat, 17 Aug 2019 22:30:15 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_VERIFIED  bz_closed"
-   title=3D"VERIFIED WORKSFORME - Unable to install on latest Ubuntu (19.04=
-)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795#c28">Comme=
-nt # 28</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_VERIFIED  bz_closed"
-   title=3D"VERIFIED WORKSFORME - Unable to install on latest Ubuntu (19.04=
-)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795">bug 11079=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-achlys&#64;posteo.de" title=3D"Sebastian &lt;achlys&#64;posteo.de&gt;"> <sp=
-an class=3D"fn">Sebastian</span></a>
-</span></b>
-        <pre>There is a new Version of the Radeon Software (ver 19.30 from =
-Aug 12.)
-<a href=3D"https://www.amd.com/en/support/kb/release-notes/rn-amdgpu-unifie=
-d-linux">https://www.amd.com/en/support/kb/release-notes/rn-amdgpu-unified-=
-linux</a>
-Does the script work for the new version?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15660810153.FF7C.27355--
-
---===============0279188493==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0279188493==--
+RnJvbTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KClB1cmVsaW5rIEZYLUQxMjAg
+KERWSSBvdmVyIGZpYnJlIGV4dGVuZGVkZXJzKSBkcml2ZSB0aGUgSFBEIGxpbmUKbG93IG9uIHRo
+ZSBHUFUgc2lkZSB3aGVuIHRoZSBtb25pdG9yIHNpZGUgZGV2aWNlIGlzIHVucGx1Z2dlZApvciBs
+b3NlcyB0aGUgY29ubmVjdGlvbi4gSG93ZXZlciB0aGUgR1BVIHNpZGUgZGV2aWNlIHNlZW1zIHRv
+IGNhY2hlCkVESUQgaW4gdGhpcyBjYXNlLiBQZXIgRFZJIHNwZWMgdGhlIEhQRCBsaW5lIG11c3Qg
+YmUgZHJpdmVuIGluIG9yZGVyCmZvciBFRElEIHRvIGJlIGRvbmUsIGJ1dCB3ZSd2ZSBtZXQgZW5v
+dWdoIGJyb2tlbiBkZXZpY2VzIChtYWlubHkKVkdBLT5EVkkgY29udmVydG9ycykgdGhhdCBkbyB0
+aGUgd3JvbmcgdGhpbmcgd2l0aCBIUEQgdGhhdCB3ZSBpZ25vcmUKaXQgaWYgYSBEREMgcHJvYmUg
+c3VjY2VlZHMuCgpUaGlzIHBhdGNoIGFkZHMgYW4gb3B0aW9uIHRvIHRoZSByYWRlb24gZHJpdmVy
+IHRvIGFsd2F5cyByZXNwZWN0IEhQRApvbiBEVkkgY29ubmVjdG9ycyBzdWNoIHRoYXQgaWYgdGhl
+IEhQRCBsaW5lIGlzbid0IGRyaXZlbiB0aGVuIEVESUQKaXNuJ3QgcHJvYmVkLgoKU2lnbmVkLW9m
+Zi1ieTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9k
+cm0vcmFkZW9uL3JhZGVvbi5oICAgICAgICAgICAgfCAxICsKIGRyaXZlcnMvZ3B1L2RybS9yYWRl
+b24vcmFkZW9uX2Nvbm5lY3RvcnMuYyB8IDcgKysrKysrKwogZHJpdmVycy9ncHUvZHJtL3JhZGVv
+bi9yYWRlb25fZHJ2LmMgICAgICAgIHwgNCArKysrCiAzIGZpbGVzIGNoYW5nZWQsIDEyIGluc2Vy
+dGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbi5oIGIv
+ZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb24uaAppbmRleCAzMjgwOGU1MGJlMTIuLmQ1NzJl
+OGRlZDliOSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb24uaAorKysg
+Yi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbi5oCkBAIC0xMTcsNiArMTE3LDcgQEAgZXh0
+ZXJuIGludCByYWRlb25fdXZkOwogZXh0ZXJuIGludCByYWRlb25fdmNlOwogZXh0ZXJuIGludCBy
+YWRlb25fc2lfc3VwcG9ydDsKIGV4dGVybiBpbnQgcmFkZW9uX2Npa19zdXBwb3J0OworZXh0ZXJu
+IGludCByYWRlb25fcmVzcGVjdF9ocGQ7CiAKIC8qCiAgKiBDb3B5IGZyb20gcmFkZW9uX2Rydi5o
+IHNvIHdlIGRvbid0IGhhdmUgdG8gaW5jbHVkZSBib3RoIGFuZCBoYXZlIGNvbmZsaWN0aW5nCmRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9jb25uZWN0b3JzLmMgYi9k
+cml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9jb25uZWN0b3JzLmMKaW5kZXggYzYwZDFhNDRk
+MjJhLi5lOWIzOTI0ZGYwNmUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFk
+ZW9uX2Nvbm5lY3RvcnMuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9jb25u
+ZWN0b3JzLmMKQEAgLTEyNjUsNiArMTI2NSwxMyBAQCByYWRlb25fZHZpX2RldGVjdChzdHJ1Y3Qg
+ZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLCBib29sIGZvcmNlKQogCQlnb3RvIGV4aXQ7CiAJfQog
+CisJaWYgKHJhZGVvbl9yZXNwZWN0X2hwZCAmJiByYWRlb25fY29ubmVjdG9yLT5ocGQuaHBkICE9
+IFJBREVPTl9IUERfTk9ORSkgeworCQlpZiAoIXJhZGVvbl9ocGRfc2Vuc2UocmRldiwgcmFkZW9u
+X2Nvbm5lY3Rvci0+aHBkLmhwZCkpIHsKKwkJCXJldCA9IGNvbm5lY3Rvcl9zdGF0dXNfZGlzY29u
+bmVjdGVkOworCQkJZ290byBleGl0OworCQl9CisJfQorCiAJaWYgKHJhZGVvbl9jb25uZWN0b3It
+PmRkY19idXMpIHsKIAkJZHJldCA9IHJhZGVvbl9kZGNfcHJvYmUocmFkZW9uX2Nvbm5lY3Rvciwg
+ZmFsc2UpOwogCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9kcnYu
+YyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2Rydi5jCmluZGV4IGE2Y2JlMTFmNzlj
+Ni4uNTU2YWUzODFlYTg2IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVv
+bl9kcnYuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9kcnYuYwpAQCAtMjA3
+LDYgKzIwNyw3IEBAIGludCByYWRlb25fYXV4Y2ggPSAtMTsKIGludCByYWRlb25fbXN0ID0gMDsK
+IGludCByYWRlb25fdXZkID0gMTsKIGludCByYWRlb25fdmNlID0gMTsKK2ludCByYWRlb25fcmVz
+cGVjdF9ocGQgPSAwOwogCiBNT0RVTEVfUEFSTV9ERVNDKG5vX3diLCAiRGlzYWJsZSBBR1Agd3Jp
+dGViYWNrIGZvciBzY3JhdGNoIHJlZ2lzdGVycyIpOwogbW9kdWxlX3BhcmFtX25hbWVkKG5vX3di
+LCByYWRlb25fbm9fd2IsIGludCwgMDQ0NCk7CkBAIC0zMTIsNiArMzEzLDkgQEAgaW50IHJhZGVv
+bl9jaWtfc3VwcG9ydCA9IDE7CiBNT0RVTEVfUEFSTV9ERVNDKGNpa19zdXBwb3J0LCAiQ0lLIHN1
+cHBvcnQgKDEgPSBlbmFibGVkIChkZWZhdWx0KSwgMCA9IGRpc2FibGVkKSIpOwogbW9kdWxlX3Bh
+cmFtX25hbWVkKGNpa19zdXBwb3J0LCByYWRlb25fY2lrX3N1cHBvcnQsIGludCwgMDQ0NCk7CiAK
+K01PRFVMRV9QQVJNX0RFU0MocmVzcGVjdF9ocGQsICJGb3IgRFZJIGFsd2F5cyBiZWxpZXZlIEhQ
+RCIpOworbW9kdWxlX3BhcmFtX25hbWVkKHJlc3BlY3RfaHBkLCByYWRlb25fcmVzcGVjdF9ocGQs
+IGludCwgMDY0NCk7CisKIHN0YXRpYyBzdHJ1Y3QgcGNpX2RldmljZV9pZCBwY2lpZGxpc3RbXSA9
+IHsKIAlyYWRlb25fUENJX0lEUwogfTsKLS0gCjIuMjAuMQoKX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
