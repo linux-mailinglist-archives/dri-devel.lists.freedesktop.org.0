@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE0229141B
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2019 04:18:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E98791463
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2019 06:12:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A69736E568;
-	Sun, 18 Aug 2019 02:18:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 427626E507;
+	Sun, 18 Aug 2019 04:12:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 802FB6E574
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2019 02:18:23 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A305B6E507
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2019 04:12:05 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7D06E72161; Sun, 18 Aug 2019 02:18:23 +0000 (UTC)
+ id 9F5AF72161; Sun, 18 Aug 2019 04:12:05 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111122] 2500U: Graphics corruption on kernel 5.2
-Date: Sun, 18 Aug 2019 02:18:23 +0000
+Subject: [Bug 110795] Unable to install on latest Ubuntu (19.04)
+Date: Sun, 18 Aug 2019 04:12:05 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Component: DRM/AMDgpu-pro
 X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: briancschott@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
+X-Bugzilla-Severity: enhancement
+X-Bugzilla-Who: ashark@linuxcomp.ru
+X-Bugzilla-Status: VERIFIED
+X-Bugzilla-Resolution: WORKSFORME
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111122-502-TMHzibEB5X@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111122-502@http.bugs.freedesktop.org/>
-References: <bug-111122-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
+Message-ID: <bug-110795-502-nvZFDXvivl@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110795-502@http.bugs.freedesktop.org/>
+References: <bug-110795-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,60 +52,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0670214610=="
+Content-Type: multipart/mixed; boundary="===============0341316861=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0670214610==
-Content-Type: multipart/alternative; boundary="15660947035.4E995ac20.32461"
+--===============0341316861==
+Content-Type: multipart/alternative; boundary="15661015252.57bD63E6D.14909"
 Content-Transfer-Encoding: 7bit
 
 
---15660947035.4E995ac20.32461
-Date: Sun, 18 Aug 2019 02:18:23 +0000
+--15661015252.57bD63E6D.14909
+Date: Sun, 18 Aug 2019 04:12:05 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111122
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110795
 
---- Comment #20 from Brian Schott <briancschott@gmail.com> ---
-The following applies to the graphics corruption seen in Dolphin:
+Andrew Shark <ashark@linuxcomp.ru> changed:
 
-ea5b7de138bb7e9a4e7e4f0c39c4ceb16acae923 is the first bad commit
-commit ea5b7de138bb7e9a4e7e4f0c39c4ceb16acae923
-Author: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Date:   Wed Jul 3 19:27:12 2019 +0200
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+ Attachment #144555|0                           |1
+        is obsolete|                            |
 
-    radeonsi: make gl_SampleMaskIn =3D 0x1 when MSAA is disabled
+--- Comment #29 from Andrew Shark <ashark@linuxcomp.ru> ---
+Created attachment 145087
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145087&action=3Dedit
+Script to modify packages to be able to use with ubuntu 19.04
 
-    gl_SampleMaskIn is 1 when R_028BE0_PA_SC_AA_CONFIG is 0, so this commit
-rework the conditions
-    controlling this register.
-
-    Before it was set if the sctx->framebuffer had a sample count > 1.
-
-    Now we still require this condition, but we also need either:
-      - GL_MULTISAMPLE to be enabled
-      - to be executing an operation that doesn't depends on GL state using
-u_blitter.
-
-    This fixes the arb_sample_shading/sample_mask piglit tests on radeonsi.
-
-    Signed-off-by: Marek Ol=C5=A1=C3=A1k <marek.olsak@amd.com>
-
- src/gallium/drivers/radeonsi/si_state.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Updated script to work with Ubuntu 19.04 and driver version 19.30-855429
+Set status to REOPENED, because the problem is still actual.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15660947035.4E995ac20.32461
-Date: Sun, 18 Aug 2019 02:18:23 +0000
+--15661015252.57bD63E6D.14909
+Date: Sun, 18 Aug 2019 04:12:05 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -116,52 +103,61 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:ashark&#6=
+4;linuxcomp.ru" title=3D"Andrew Shark &lt;ashark&#64;linuxcomp.ru&gt;"> <sp=
+an class=3D"fn">Andrew Shark</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_VERIFIED  bz_closed"
+   title=3D"VERIFIED WORKSFORME - Unable to install on latest Ubuntu (19.04=
+)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795">bug 11079=
+5</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Attachment #144555 is obsolete</=
+td>
+           <td>
+               &nbsp;
+           </td>
+           <td>1
+           </td>
+         </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122#c20">Comme=
-nt # 20</a>
+          bz_status_VERIFIED  bz_closed"
+   title=3D"VERIFIED WORKSFORME - Unable to install on latest Ubuntu (19.04=
+)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795#c29">Comme=
+nt # 29</a>
               on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122">bug 11112=
-2</a>
+          bz_status_VERIFIED  bz_closed"
+   title=3D"VERIFIED WORKSFORME - Unable to install on latest Ubuntu (19.04=
+)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795">bug 11079=
+5</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-briancschott&#64;gmail.com" title=3D"Brian Schott &lt;briancschott&#64;gmai=
-l.com&gt;"> <span class=3D"fn">Brian Schott</span></a>
+ashark&#64;linuxcomp.ru" title=3D"Andrew Shark &lt;ashark&#64;linuxcomp.ru&=
+gt;"> <span class=3D"fn">Andrew Shark</span></a>
 </span></b>
-        <pre>The following applies to the graphics corruption seen in Dolph=
-in:
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145087=
+" name=3D"attach_145087" title=3D"Script to modify packages to be able to u=
+se with ubuntu 19.04">attachment 145087</a> <a href=3D"attachment.cgi?id=3D=
+145087&amp;action=3Dedit" title=3D"Script to modify packages to be able to =
+use with ubuntu 19.04">[details]</a></span> <a href=3D'page.cgi?id=3Dsplint=
+er.html&amp;bug=3D110795&amp;attachment=3D145087'>[review]</a>
+Script to modify packages to be able to use with ubuntu 19.04
 
-ea5b7de138bb7e9a4e7e4f0c39c4ceb16acae923 is the first bad commit
-commit ea5b7de138bb7e9a4e7e4f0c39c4ceb16acae923
-Author: Pierre-Eric Pelloux-Prayer &lt;<a href=3D"mailto:pierre-eric.pellou=
-x-prayer&#64;amd.com">pierre-eric.pelloux-prayer&#64;amd.com</a>&gt;
-Date:   Wed Jul 3 19:27:12 2019 +0200
-
-    radeonsi: make gl_SampleMaskIn =3D 0x1 when MSAA is disabled
-
-    gl_SampleMaskIn is 1 when R_028BE0_PA_SC_AA_CONFIG is 0, so this commit
-rework the conditions
-    controlling this register.
-
-    Before it was set if the sctx-&gt;framebuffer had a sample count &gt; 1.
-
-    Now we still require this condition, but we also need either:
-      - GL_MULTISAMPLE to be enabled
-      - to be executing an operation that doesn't depends on GL state using
-u_blitter.
-
-    This fixes the arb_sample_shading/sample_mask piglit tests on radeonsi.
-
-    Signed-off-by: Marek Ol=C5=A1=C3=A1k &lt;<a href=3D"mailto:marek.olsak&=
-#64;amd.com">marek.olsak&#64;amd.com</a>&gt;
-
- src/gallium/drivers/radeonsi/si_state.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)</pre>
+Updated script to work with Ubuntu 19.04 and driver version 19.30-855429
+Set status to REOPENED, because the problem is still actual.</pre>
         </div>
       </p>
 
@@ -175,9 +171,9 @@ u_blitter.
     </body>
 </html>=
 
---15660947035.4E995ac20.32461--
+--15661015252.57bD63E6D.14909--
 
---===============0670214610==
+--===============0341316861==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -187,4 +183,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0670214610==--
+--===============0341316861==--
