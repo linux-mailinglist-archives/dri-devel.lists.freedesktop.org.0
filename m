@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1C729278F
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 16:51:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9032D927CB
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 17:01:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0304B6E191;
-	Mon, 19 Aug 2019 14:51:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFFC189DFB;
+	Mon, 19 Aug 2019 15:01:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6CDD86E191
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 14:51:47 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F07D36E1CD
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 15:01:14 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 626C872161; Mon, 19 Aug 2019 14:51:47 +0000 (UTC)
+ id ED44672161; Mon, 19 Aug 2019 15:01:14 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109607] [CI][DRMTIP] Time is passing at a different rate
- between IGT machines and the controller
-Date: Mon, 19 Aug 2019 14:51:47 +0000
+Subject: [Bug 102646] Screen flickering under amdgpu-experimental [buggy auto
+ power profile]
+Date: Mon, 19 Aug 2019 15:01:14 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: IGT
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: cibuglog@gmail.com
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: adrian.v.przekwas@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
+X-Bugzilla-Priority: high
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109607-502-dntVi0HWia@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109607-502@http.bugs.freedesktop.org/>
-References: <bug-109607-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-102646-502-ifMEclFI3y@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-102646-502@http.bugs.freedesktop.org/>
+References: <bug-102646-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,44 +53,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0858939881=="
+Content-Type: multipart/mixed; boundary="===============1180061924=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0858939881==
-Content-Type: multipart/alternative; boundary="15662263070.8e7c97Cdd.29238"
+--===============1180061924==
+Content-Type: multipart/alternative; boundary="156622687415.DFbc9A0C.31089"
 Content-Transfer-Encoding: 7bit
 
 
---15662263070.8e7c97Cdd.29238
-Date: Mon, 19 Aug 2019 14:51:47 +0000
+--156622687415.DFbc9A0C.31089
+Date: Mon, 19 Aug 2019 15:01:14 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109607
+https://bugs.freedesktop.org/show_bug.cgi?id=3D102646
 
---- Comment #15 from CI Bug Log <cibuglog@gmail.com> ---
-The CI Bug Log issue associated to this bug has been updated.
+--- Comment #113 from Adrian Przekwas <adrian.v.przekwas@gmail.com> ---
+(In reply to tempel.julian from comment #108)
+> I suppose also the Windows driver enforces maximum VRAM clock in your case
+> all the time?=20
 
-### New filters associated
-
-* shard-iclb5: igt@kms_flip@flip-vs-modeset-vs-hang-interruptible - dmesg-w=
-arn
-- watchdog: BUG: soft lockup - CPU#\d stuck for \d+s!
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6719/shard-iclb5/igt@kms_fl=
-ip@flip-vs-modeset-vs-hang-interruptible.html
+Windows users are reporting max vram clock if 2 (especially high refresh ra=
+te
+or different refresh rate) monitors are connected
+https://community.amd.com/thread/214915
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15662263070.8e7c97Cdd.29238
-Date: Mon, 19 Aug 2019 14:51:47 +0000
+--156622687415.DFbc9A0C.31089
+Date: Mon, 19 Aug 2019 15:01:14 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -106,32 +104,31 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - [CI][DRMTIP] Time is passing at a different rate between =
-IGT machines and the controller"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109607#c15">Comme=
-nt # 15</a>
+   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
+ower profile]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102646#c113">Comm=
+ent # 113</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - [CI][DRMTIP] Time is passing at a different rate between =
-IGT machines and the controller"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109607">bug 10960=
-7</a>
+   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
+ower profile]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102646">bug 10264=
+6</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-cibuglog&#64;gmail.com" title=3D"CI Bug Log &lt;cibuglog&#64;gmail.com&gt;"=
-> <span class=3D"fn">CI Bug Log</span></a>
+adrian.v.przekwas&#64;gmail.com" title=3D"Adrian Przekwas &lt;adrian.v.prze=
+kwas&#64;gmail.com&gt;"> <span class=3D"fn">Adrian Przekwas</span></a>
 </span></b>
-        <pre>The CI Bug Log issue associated to this bug has been updated.
+        <pre>(In reply to tempel.julian from <a href=3D"show_bug.cgi?id=3D1=
+02646#c108">comment #108</a>)
+<span class=3D"quote">&gt; I suppose also the Windows driver enforces maxim=
+um VRAM clock in your case
+&gt; all the time? </span >
 
-### New filters associated
-
-* shard-iclb5: igt&#64;kms_flip&#64;flip-vs-modeset-vs-hang-interruptible -=
- dmesg-warn
-- watchdog: BUG: soft lockup - CPU#\d stuck for \d+s!
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6719/shard-iclb5=
-/igt&#64;kms_flip&#64;flip-vs-modeset-vs-hang-interruptible.html">https://i=
-ntel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6719/shard-iclb5/igt&#64;kms_flip&#6=
-4;flip-vs-modeset-vs-hang-interruptible.html</a></pre>
+Windows users are reporting max vram clock if 2 (especially high refresh ra=
+te
+or different refresh rate) monitors are connected
+<a href=3D"https://community.amd.com/thread/214915">https://community.amd.c=
+om/thread/214915</a></pre>
         </div>
       </p>
 
@@ -145,9 +142,9 @@ ntel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6719/shard-iclb5/igt&#64;kms_flip&#6=
     </body>
 </html>=
 
---15662263070.8e7c97Cdd.29238--
+--156622687415.DFbc9A0C.31089--
 
---===============0858939881==
+--===============1180061924==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -157,4 +154,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0858939881==--
+--===============1180061924==--
