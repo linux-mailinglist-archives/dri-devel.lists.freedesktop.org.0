@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1AEF91ECC
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 10:22:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2314691ED9
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 10:28:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86D826E0D0;
-	Mon, 19 Aug 2019 08:22:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53F466E0D4;
+	Mon, 19 Aug 2019 08:28:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2C57D6E0D0
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 08:22:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id BEE386E0D4
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 08:28:03 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 28E4872161; Mon, 19 Aug 2019 08:22:21 +0000 (UTC)
+ id BB09172161; Mon, 19 Aug 2019 08:28:03 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111416] 4k 60hz on RX 560 over HDMI = no sound
-Date: Mon, 19 Aug 2019 08:22:21 +0000
+Date: Mon, 19 Aug 2019 08:28:04 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111416-502-FaIlG1wt6N@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111416-502-CNXj8e9Fiz@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111416-502@http.bugs.freedesktop.org/>
 References: <bug-111416-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0738055766=="
+Content-Type: multipart/mixed; boundary="===============1076850351=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0738055766==
-Content-Type: multipart/alternative; boundary="15662029410.A14e6e1.25564"
+--===============1076850351==
+Content-Type: multipart/alternative; boundary="15662032830.0fC547fe6.27151"
 Content-Transfer-Encoding: 7bit
 
 
---15662029410.A14e6e1.25564
-Date: Mon, 19 Aug 2019 08:22:21 +0000
+--15662032830.0fC547fe6.27151
+Date: Mon, 19 Aug 2019 08:28:03 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,19 +72,29 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111416
 
---- Comment #4 from Alfie Day <freedesktop@azelphur.com> ---
-Created attachment 145090
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145090&action=3Dedit
-dmesg
+--- Comment #5 from Alfie Day <freedesktop@azelphur.com> ---
+Thanks for getting back to me, I'm using this one right now:
+https://aur.archlinux.org/packages/linux-amd-staging-drm-next-git/
 
-Log of dmesg, starting at 4k 30hz and increasing to 4k 60hz
+I have tested on Arches standard kernel (5.2.8) and LTS kernel (4.19.67) al=
+l of
+which have the same issue.
+
+Apologies if this is user error. Sounds like you could be correct about my
+modeline. I tried generating modelines using cvt and gtf but I couldn't get
+xrandr to apply them (I'd get "xrandr: Configure crtc 0 failed" when I trie=
+d)
+
+After much digging I found this post,
+https://bugs.freedesktop.org/show_bug.cgi?id=3D104412#c14 and I'm using that
+solution currently to get 4k 60hz.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15662029410.A14e6e1.25564
-Date: Mon, 19 Aug 2019 08:22:21 +0000
+--15662032830.0fC547fe6.27151
+Date: Mon, 19 Aug 2019 08:28:03 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -101,8 +111,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - 4k 60hz on RX 560 over HDMI =3D no sound"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111416#c4">Commen=
-t # 4</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111416#c5">Commen=
+t # 5</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - 4k 60hz on RX 560 over HDMI =3D no sound"
@@ -112,13 +122,27 @@ t # 4</a>
 freedesktop&#64;azelphur.com" title=3D"Alfie Day &lt;freedesktop&#64;azelph=
 ur.com&gt;"> <span class=3D"fn">Alfie Day</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145090=
-" name=3D"attach_145090" title=3D"dmesg">attachment 145090</a> <a href=3D"a=
-ttachment.cgi?id=3D145090&amp;action=3Dedit" title=3D"dmesg">[details]</a><=
-/span>
-dmesg
+        <pre>Thanks for getting back to me, I'm using this one right now:
+<a href=3D"https://aur.archlinux.org/packages/linux-amd-staging-drm-next-gi=
+t/">https://aur.archlinux.org/packages/linux-amd-staging-drm-next-git/</a>
 
-Log of dmesg, starting at 4k 30hz and increasing to 4k 60hz</pre>
+I have tested on Arches standard kernel (5.2.8) and LTS kernel (4.19.67) al=
+l of
+which have the same issue.
+
+Apologies if this is user error. Sounds like you could be correct about my
+modeline. I tried generating modelines using cvt and gtf but I couldn't get
+xrandr to apply them (I'd get &quot;xrandr: Configure crtc 0 failed&quot; w=
+hen I tried)
+
+After much digging I found this post,
+<a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - RX 460 HDMI 4k 60fps not working, DisplayPort =
+is."
+   href=3D"show_bug.cgi?id=3D104412#c14">https://bugs.freedesktop.org/show_=
+bug.cgi?id=3D104412#c14</a> and I'm using that
+solution currently to get 4k 60hz.</pre>
         </div>
       </p>
 
@@ -132,9 +156,9 @@ Log of dmesg, starting at 4k 30hz and increasing to 4k 60hz</pre>
     </body>
 </html>=
 
---15662029410.A14e6e1.25564--
+--15662032830.0fC547fe6.27151--
 
---===============0738055766==
+--===============1076850351==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -144,4 +168,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0738055766==--
+--===============1076850351==--
