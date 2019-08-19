@@ -1,46 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EA2591F62
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 10:52:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 232B291FA1
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 11:05:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 336416E0E6;
-	Mon, 19 Aug 2019 08:52:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E7B56E0EE;
+	Mon, 19 Aug 2019 09:05:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4C3D96E0E6
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 08:52:30 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 48F1C72161; Mon, 19 Aug 2019 08:52:30 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110886] After S3 resume, kernel:
- [drm:drm_atomic_helper_wait_for_flip_done [drm_kms_helper]] *ERROR*
- [CRTC:57:crtc-0] flip_done timed out
-Date: Mon, 19 Aug 2019 08:52:30 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kai.heng.feng@canonical.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110886-502-pEGOyaAcBJ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110886-502@http.bugs.freedesktop.org/>
-References: <bug-110886-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F211B6E0EB;
+ Mon, 19 Aug 2019 09:05:40 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2019 02:05:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,403,1559545200"; d="scan'208";a="172068077"
+Received: from irsmsx151.ger.corp.intel.com ([163.33.192.59])
+ by orsmga008.jf.intel.com with ESMTP; 19 Aug 2019 02:05:39 -0700
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.73]) by
+ IRSMSX151.ger.corp.intel.com ([169.254.4.214]) with mapi id 14.03.0439.000;
+ Mon, 19 Aug 2019 10:05:38 +0100
+From: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
+To: "daniel@ffwll.ch" <daniel@ffwll.ch>, "Peres, Martin"
+ <martin.peres@intel.com>
+Subject: Re: [PATCH v3 0/3] Send a hotplug when edid changes
+Thread-Topic: [PATCH v3 0/3] Send a hotplug when edid changes
+Thread-Index: AQHVTFZ9Xb5ovM3/BU6v/tV6RvEfjacCMIaA
+Date: Mon, 19 Aug 2019 09:05:38 +0000
+Message-ID: <ce9f67ad10a2b1f07ab79bc4ac328ef2bd9a2cf4.camel@intel.com>
+References: <20190806125551.25761-1-stanislav.lisovskiy@intel.com>
+ <20190806135150.GZ7444@phenom.ffwll.local>
+ <8614f54fd742f9f35979768997e416d36b69563a.camel@intel.com>
+ <CAKMK7uHgfviXTqkHsCVmZX97dWFfbysCHtiRVDpSzJ3aheTQkw@mail.gmail.com>
+ <5e7dcb14e618796e9cb8a9503cec9d9985c5fd4d.camel@intel.com>
+ <20190807210702.GG7444@phenom.ffwll.local>
+ <cab2f3a9f9827a993069e402feecc9a9853560a1.camel@intel.com>
+ <56A4AB1F0E1B5D4C83D27F43C50F662E590292A2@IRSMSX107.ger.corp.intel.com>
+In-Reply-To: <56A4AB1F0E1B5D4C83D27F43C50F662E590292A2@IRSMSX107.ger.corp.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.237.66.154]
+Content-ID: <E9A545F74D63444183D3D25530152454@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -54,100 +60,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0071582471=="
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "Saarinen, Jani" <jani.saarinen@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0071582471==
-Content-Type: multipart/alternative; boundary="15662047503.dC52A2E.30147"
-Content-Transfer-Encoding: 7bit
-
-
---15662047503.dC52A2E.30147
-Date: Mon, 19 Aug 2019 08:52:30 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110886
-
---- Comment #16 from Kai-Heng Feng <kai.heng.feng@canonical.com> ---
-(In reply to Samantha McVey from comment #13)
-> Created attachment 145085 [details]
-> amd-staging-drm-net dmesg log
-
-Doesn't look like the same one.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15662047503.dC52A2E.30147
-Date: Mon, 19 Aug 2019 08:52:30 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - After S3 resume, kernel: [drm:drm_atomic_helper_wait_for_=
-flip_done [drm_kms_helper]] *ERROR* [CRTC:57:crtc-0] flip_done timed out"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110886#c16">Comme=
-nt # 16</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - After S3 resume, kernel: [drm:drm_atomic_helper_wait_for_=
-flip_done [drm_kms_helper]] *ERROR* [CRTC:57:crtc-0] flip_done timed out"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110886">bug 11088=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-kai.heng.feng&#64;canonical.com" title=3D"Kai-Heng Feng &lt;kai.heng.feng&#=
-64;canonical.com&gt;"> <span class=3D"fn">Kai-Heng Feng</span></a>
-</span></b>
-        <pre>(In reply to Samantha McVey from <a href=3D"show_bug.cgi?id=3D=
-110886#c13">comment #13</a>)
-<span class=3D"quote">&gt; Created <span class=3D""><a href=3D"attachment.c=
-gi?id=3D145085" name=3D"attach_145085" title=3D"amd-staging-drm-net dmesg l=
-og">attachment 145085</a> <a href=3D"attachment.cgi?id=3D145085&amp;action=
-=3Dedit" title=3D"amd-staging-drm-net dmesg log">[details]</a></span>
-&gt; amd-staging-drm-net dmesg log</span >
-
-Doesn't look like the same one.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15662047503.dC52A2E.30147--
-
---===============0071582471==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0071582471==--
+T24gTW9uLCAyMDE5LTA4LTE5IGF0IDA4OjM1ICswMTAwLCBQZXJlcywgTWFydGluIHdyb3RlOg0K
+PiBPbiAxOS8wOC8yMDE5IDEwOjIzLCBMaXNvdnNraXksIFN0YW5pc2xhdiB3cm90ZToNCj4gPiBP
+biBXZWQsIDIwMTktMDgtMDcgYXQgMjM6MDcgKzAyMDAsIERhbmllbCBWZXR0ZXIgd3JvdGU6DQo+
+ID4gPiANCj4gPiA+IA0KPiA+ID4gU28gaWd0IGlzbid0IHZhbGlkIHVzZXJzcGFjZSAoaXQncyBq
+dXN0IGdvb2QgdGVzdGNhc2VzKS4gQ2FuIHdlDQo+ID4gPiByZXBybw0KPiA+ID4gdGhlDQo+ID4g
+PiBzYW1lIG9uIHJlYWwgdXNlcnNwYWNlPyBEb2VzIHRoaXMgd29yayB3aXRoIHJlYWwgdXNlcnNw
+YWNlPyBXZSd2ZQ0KPiA+ID4gaGFkDQo+ID4gPiB1c2Vyc3BhY2Ugd2hpY2ggdHJpZXMgdG8gYmUg
+Y2xldmVyIGFuZCBmaWx0ZXJzIG91dCB3aGF0IGxvb2tzDQo+ID4gPiBsaWtlDQo+ID4gPiByZWR1
+bmRhbnQgaG90cGx1ZyBldmVudHMuIEFuZCB0aGVuIGdldHMgaXQgd3JvbmcgaW4gY2FzZXMgbGlr
+ZQ0KPiA+ID4gdGhpcy4NCj4gPiA+IA0KPiA+ID4gQWxzbywgd2UndmUgaGFkIGZvcmV2ZXIgYW4g
+dW5jb25kaXRpb25hbCB1ZXZlbnQgb24gcmVzdW1lLA0KPiA+ID4gZXhhY3RseQ0KPiA+ID4gYmVj
+YXVzZQ0KPiA+ID4gYW55dGhpbmcgY291bGQgaGF2ZSBjaGFuZ2VkLiBEaWQgd2UgbG9vc2UgdGhp
+cyBvbmUgb24gdGhlIHdheQ0KPiA+ID4gc29tZXdoZXJlPw0KPiA+ID4gT3IgbWF5YmUgSSBtaXNy
+ZW1lbWJlciAuLi4NCj4gPiA+IA0KPiA+ID4gSWYgYWxsIHdlIGNhcmUgYWJvdXQgaXMgcmVzdW1l
+IHJlLWFkZGluZyB0aGF0IHVuY29uZHRpb25hbCB1ZXZlbnQNCj4gPiA+IG9uDQo+ID4gPiByZXN1
+bWUgaXMgZ29pbmcgdG8gYmUgYSBsb3QgZWFzaWVyIHRoYW4gdGhpcyBoZXJlLg0KPiA+ID4gLURh
+bmllbA0KPiA+IA0KPiA+IFNvcnJ5IGZvciBsb25nIHJlcGx5KHdhcyBvbiB2YWNhdGlvbiksIHRo
+YXQgaXMgYSBnb29kIHF1ZXN0aW9uDQo+ID4gcmVnYXJkaW5nIHJlcHJvZHVjaW5nIHRoaXMgaW4g
+cmVhbCBsaWZlIHNjZW5hcmlvLiBNeSBvYnZpb3VzIGd1ZXNzDQo+ID4gd2FzIHRvIHN1c3BlbmQg
+dGhlIG1hY2hpbmUgYW5kIG1lYW53aGlsZSBjaGFuZ2UgY29ubmVjdGVkIGRpc3BsYXkNCj4gPiB0
+bw0KPiA+IGFub3RoZXIgb25lLiBIb3dldmVyIHRoaXMgc2l0dWF0aW9uIHNlZW1zIHRvIGJlIGFs
+cmVhZHkgaGFuZGxlZCBieQ0KPiA+IGtlcm5lbCBuaWNlbHkodHJpZWQgZmV3IHRpbWVzIGFuZCB3
+ZSBhbHdheXMgZ2V0IGEgaG90cGx1ZyBldmVudCkuDQo+ID4gU28NCj4gPiB0aGF0IGVkaWQgY2hh
+bmdlIGR1cmluZyBzdXNwZW5kIGNoYW1lbGl1bSB0ZXN0IGNhc2Ugc2VlbXMgdG8gYmUNCj4gPiBh
+IGJpdCBkaWZmZXJlbnQuIEkgd2lsbCB0YWxrIHRvIG91ciBndXlzIHdobyB3cm90ZSB0aGlzIGFi
+b3V0IHdoYXQNCj4gPiBpcw0KPiA+IHRoZSByZWFsIGxpZmUgc2NlbmFyaW8gZm9yIHRoaXMsIGJl
+Y2F1c2UgSSdtIG5vdyBjdXJpb3VzIGFzIHdlbGwuDQo+IA0KPiBUaGFua3MgRGFuaWVsIGZvciB0
+aGUgZmVlZGJhY2suDQo+IA0KPiBJIGFsc28gbm93IHdvbmRlciB3aHkgb3VyIElHVCB0ZXN0IChj
+aGFtZWxpdW0tYmFzZWQpIGRvZXMgbm90IHBhc3MgaWYNCj4gYQ0KPiB1ZXZlbnQgaXMgc2VudCBv
+biByZXN1bWUgYXV0b21hdGljYWxseSBhbmQgYWxsIHRoZSB0ZXN0IGlzIGV4cGVjdGluZw0KPiBp
+cw0KPiBhIHVldmVudC4uLg0KPiANCj4gTWFydGluDQoNCkluIGZhY3QgSSB3YXMgd3JvbmcgLSB3
+aGVuIGl0IHdvcmtlZCwgaXQgd2FzIHVzaW5nIGV4YWN0bHkgdGhvc2UNCnBhdGNoZXMgOikuIFdp
+dGggY2xlYW4gZHJtLXRpcCAtIGl0IHNlZW1zIHRvIHdvcmsgb2Nhc3Npb25hbGx5IGFuZCBpdA0K
+ZG9lc24ndCB1cGRhdGUgdGhlIGFjdHVhbCBkaXNwbGF5IGVkaWQgYW5kIG90aGVyIHN0dWZmLCBz
+byBldmVuIHdoZW4NCmRpc3BsYXlzIGFyZSBjaGFuZ2VkIHdlIHN0aWxsIHNlZSB0aGUgb2xkIGlu
+Zm8vZWRpZCBmcm9tIHVzZXJzcGFjZS4NCg0KV2UgYWx3YXlzIGdldCBhIGhwZCBpcnEgd2hlbiBz
+dXNwZW5kL3Jlc3VtZSBob3dldmVyIGl0IGRvZXNuJ3QgYWx3YXlzDQpyZXN1bHQgaW4gdWV2ZW50
+IGJlaW5nIHNlbnQuIFNvIHRoZXJlIGlzIGEgcmVhbCBuZWVkIGluIHRob3NlIHBhdGNoZXMuDQoN
+Cj4gDQo+ID4gDQo+ID4gLSBTdGFuaXNsYXYNCj4gPiANCj4gPiA+IA0KPiA+ID4gDQo+ID4gPiA+
+IA0KPiA+ID4gPiAtU3RhbmlzbGF2DQo+ID4gPiA+IA0KPiA+ID4gPiA+IA0KPiA+ID4gPiA+IENo
+ZWVycywgRGFuaWVsDQo+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+IA0KPiA+
+ID4gPiA+ID4gLVN0YW5pc2xhdg0KPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiANCj4gPiA+ID4g
+PiA+ID4gLURhbmllbA0KPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4g
+PiA+ID4gPiBTdGFuaXNsYXYgTGlzb3Zza2l5ICgzKToNCj4gPiA+ID4gPiA+ID4gPiAgIGRybTog
+QWRkIGhlbHBlciB0byBjb21wYXJlIGVkaWRzLg0KPiA+ID4gPiA+ID4gPiA+ICAgZHJtOiBJbnRy
+b2R1Y2UgY2hhbmdlIGNvdW50ZXIgdG8gZHJtX2Nvbm5lY3Rvcg0KPiA+ID4gPiA+ID4gPiA+ICAg
+ZHJtL2k5MTU6IFNlbmQgaG90cGx1ZyBldmVudCBpZiBlZGlkIGhhZCBjaGFuZ2VkLg0KPiA+ID4g
+PiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2Nvbm5lY3Rv
+ci5jICAgICAgICAgICAgICB8ICAxICsNCj4gPiA+ID4gPiA+ID4gPiAgZHJpdmVycy9ncHUvZHJt
+L2RybV9lZGlkLmMgICAgICAgICAgICAgICAgICAgfCAzMw0KPiA+ID4gPiA+ID4gPiA+ICsrKysr
+KysrKysrKysrKysrKysrDQo+ID4gPiA+ID4gPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fcHJv
+YmVfaGVscGVyLmMgICAgICAgICAgIHwgMjkNCj4gPiA+ID4gPiA+ID4gPiArKysrKysrKysrKysr
+KystDQo+ID4gPiA+ID4gPiA+ID4gLQ0KPiA+ID4gPiA+ID4gPiA+ICBkcml2ZXJzL2dwdS9kcm0v
+aTkxNS9kaXNwbGF5L2ludGVsX2RwLmMgICAgICB8IDE2DQo+ID4gPiA+ID4gPiA+ID4gKysrKysr
+KysrLQ0KPiA+ID4gPiA+ID4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVs
+X2hkbWkuYyAgICB8IDE2DQo+ID4gPiA+ID4gPiA+ID4gKysrKysrKystLQ0KPiA+ID4gPiA+ID4g
+PiA+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hvdHBsdWcuYyB8IDIxDQo+
+ID4gPiA+ID4gPiA+ID4gKysrKysrKysrKw0KPiA+ID4gPiA+ID4gPiA+IC0tLQ0KPiA+ID4gPiA+
+ID4gPiA+ICBpbmNsdWRlL2RybS9kcm1fY29ubmVjdG9yLmggICAgICAgICAgICAgICAgICB8ICAz
+ICsrDQo+ID4gPiA+ID4gPiA+ID4gIGluY2x1ZGUvZHJtL2RybV9lZGlkLmggICAgICAgICAgICAg
+ICAgICAgICAgIHwgIDkNCj4gPiA+ID4gPiA+ID4gPiArKysrKysNCj4gPiA+ID4gPiA+ID4gPiAg
+OCBmaWxlcyBjaGFuZ2VkLCAxMTcgaW5zZXJ0aW9ucygrKSwgMTEgZGVsZXRpb25zKC0pDQo+ID4g
+PiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4gLS0NCj4gPiA+ID4gPiA+ID4gPiAyLjE3LjEN
+Cj4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+IA0KPiA+ID4g
+PiA+IA0KPiA+ID4gPiA+IA0KPiA+ID4gPiA+IA0KPiA+ID4gDQo+ID4gPiANCj4gDQo+IA0KX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
