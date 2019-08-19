@@ -2,30 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DE6294B67
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 19:13:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76FD794B84
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 19:19:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DB926E247;
-	Mon, 19 Aug 2019 17:12:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 856DF6E252;
+	Mon, 19 Aug 2019 17:19:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CBEE6E23D;
- Mon, 19 Aug 2019 17:12:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66BB26E252;
+ Mon, 19 Aug 2019 17:19:12 +0000 (UTC)
 X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
  x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 18192520-1500050 for multiple; Mon, 19 Aug 2019 18:12:45 +0100
-MIME-Version: 1.0
-To: dri-devel@lists.freedesktop.org
+Received: from haswell.alporthouse.com (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 18192631-1500050 
+ for multiple; Mon, 19 Aug 2019 18:19:02 +0100
 From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <20190819095928.32091-1-chris@chris-wilson.co.uk>
-References: <20190819095928.32091-1-chris@chris-wilson.co.uk>
-Message-ID: <156623476260.1374.15627076469393909439@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [PATCH 1/3] dma-buf: Introduce selftesting framework
-Date: Mon, 19 Aug 2019 18:12:42 +0100
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Select DMABUF_SELFTESTS for the default i915.ko
+ debug build
+Date: Mon, 19 Aug 2019 18:19:00 +0100
+Message-Id: <20190819171900.4501-1-chris@chris-wilson.co.uk>
+X-Mailer: git-send-email 2.23.0.rc1
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -38,30 +37,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Sarvela <tomi.p.sarvela@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org
+Cc: Tomi Sarvela <tomi.p.sarvela@intel.com>, matthew.auld@intel.com,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBDaHJpcyBXaWxzb24gKDIwMTktMDgtMTkgMTA6NTk6MjYpCj4gSW4gbGlnaHQgb2Yg
-cmVjZW50IHJldmlldyBzbGlwIHVwcywgdGhlIGFic2VuY2Ugb2YgYSBzdWl0ZSBvZiB0ZXN0cyBm
-b3IKPiBkbWEtYnVmIGJlY2FtZSBhcHBhcmVudC4gR2l2ZW4gdGhlIGN1cnJlbnQgcGxldGhvcmEg
-b2YgdGVzdGluZwo+IGZyYW1ld29ya3MsIG9wdCBmb3Igb25lIGFscmVhZHkgaW4gdXNlIGJ5IElu
-dGVsJ3MgQ0kgYW5kIHNvIGFsbG93IGVhc3kKPiBob29rIHVwIGludG8gaWd0Lgo+IAo+IFdlIGlu
-dHJvZHVjZSBhIG5ldyBtb2R1bGUgdGhhdCB3aGVuIGxvYWRlZCB3aWxsIGV4ZWN1dGUgdGhlIGxp
-c3Qgb2YKPiBzZWxmdGVzdHMgYW5kIHRoZWlyIHN1YnRlc3QuIFRoZSBuYW1lcyBvZiB0aGUgc2Vs
-ZnRlc3RzIGFyZSBwdXQgaW50byB0aGUKPiBtb2RpbmZvIGFzIHBhcmFtZXRlcnMgc28gdGhhdCBp
-Z3QgY2FuIGlkZW50aWZ5IGVhY2gsIGFuZCBydW4gdGhlbQo+IGluZGVwZW5kZW50bHksIHByaW5j
-aXBhbGx5IGZvciBlYXNlIG9mIGVycm9yIHJlcG9ydGluZy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBD
-aHJpcyBXaWxzb24gPGNocmlzQGNocmlzLXdpbHNvbi5jby51az4KPiBDYzogRGFuaWVsIFZldHRl
-ciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPiBDYzogVG9taSBTYXJ2ZWxhIDx0b21pLnAuc2Fy
-dmVsYUBpbnRlbC5jb20+CgpBcyBhIHNlcGFyYXRlIG1vZHVsZSB3aXRoIG5vIGV4cG9ydHMsIEkg
-ZmVlbCBjb25maWRlbnQgaW4gcHVzaGluZyB0aGlzCndpdGggb25seSBEYW5pZWwncyBpcmMgYWNr
-LiBBcyBzb29uIGFzIGl0IGlzIGNvdXBsZWQgdXAgdG8gQ0ksIHdlIGNhbgpzdGFydCBiZWF0aW5n
-IG9uIGl0IGFuZCBwcm92aWRlIGZlZWRiYWNrIGZvciBkbWEtZmVuY2UtKiAvIGRtYS1yZXN2CnNl
-bGZ0ZXN0cyBhcyB0aGV5IGFyZSBzdWJtaXR0ZWQuCi1DaHJpcwpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+SW5jbHVkZSB0aGUgRE1BQlVGX1NFTEZURVNUUyBhcyBwYXJ0IG9mIHRoZSBzdGFuZGFyZCBidWls
+ZCBmb3IgSUdULCBzbwp0aGF0IHRoZXkgY2FuIGJlIHJ1biBieSBpZ3QvZG1hYnVmCgpUZXN0Y2Fz
+ZTogaWd0L2RtYWJ1ZgpTaWduZWQtb2ZmLWJ5OiBDaHJpcyBXaWxzb24gPGNocmlzQGNocmlzLXdp
+bHNvbi5jby51az4KQ2M6IFRvbWkgU2FydmVsYSA8dG9taS5wLnNhcnZlbGFAaW50ZWwuY29tPgot
+LS0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L0tjb25maWcuZGVidWcgfCAxICsKIDEgZmlsZSBjaGFu
+Z2VkLCAxIGluc2VydGlvbigrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L0tj
+b25maWcuZGVidWcgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9LY29uZmlnLmRlYnVnCmluZGV4IDg3
+YTM4YzZhYWE0MS4uMDA3ODZhMTQyZmYwIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkx
+NS9LY29uZmlnLmRlYnVnCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L0tjb25maWcuZGVidWcK
+QEAgLTMwLDYgKzMwLDcgQEAgY29uZmlnIERSTV9JOTE1X0RFQlVHCiAgICAgICAgIHNlbGVjdCBE
+Uk1fVkdFTSAjIHVzZWQgYnkgaWd0L3ByaW1lX3ZnZW0gKGRtYWJ1ZiBpbnRlcm9wIGNoZWNrcykK
+ICAgICAgICAgc2VsZWN0IERSTV9ERUJVR19NTSBpZiBEUk09eQogCXNlbGVjdCBEUk1fREVCVUdf
+U0VMRlRFU1QKKwlzZWxlY3QgRE1BQlVGX1NFTEZURVNUUwogCXNlbGVjdCBTV19TWU5DICMgc2ln
+bmFsaW5nIHZhbGlkYXRpb24gZnJhbWV3b3JrIChpZ3Qvc3luY29iaiopCiAJc2VsZWN0IERSTV9J
+OTE1X1NXX0ZFTkNFX0RFQlVHX09CSkVDVFMKIAlzZWxlY3QgRFJNX0k5MTVfU0VMRlRFU1QKLS0g
+CjIuMjMuMC5yYzEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bA==
