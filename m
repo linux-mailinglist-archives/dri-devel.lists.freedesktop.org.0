@@ -2,51 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 232B291FA1
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 11:05:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E91D920A6
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 11:49:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E7B56E0EE;
-	Mon, 19 Aug 2019 09:05:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 934586E0ED;
+	Mon, 19 Aug 2019 09:49:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F211B6E0EB;
- Mon, 19 Aug 2019 09:05:40 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 19 Aug 2019 02:05:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,403,1559545200"; d="scan'208";a="172068077"
-Received: from irsmsx151.ger.corp.intel.com ([163.33.192.59])
- by orsmga008.jf.intel.com with ESMTP; 19 Aug 2019 02:05:39 -0700
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.73]) by
- IRSMSX151.ger.corp.intel.com ([169.254.4.214]) with mapi id 14.03.0439.000;
- Mon, 19 Aug 2019 10:05:38 +0100
-From: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
-To: "daniel@ffwll.ch" <daniel@ffwll.ch>, "Peres, Martin"
- <martin.peres@intel.com>
-Subject: Re: [PATCH v3 0/3] Send a hotplug when edid changes
-Thread-Topic: [PATCH v3 0/3] Send a hotplug when edid changes
-Thread-Index: AQHVTFZ9Xb5ovM3/BU6v/tV6RvEfjacCMIaA
-Date: Mon, 19 Aug 2019 09:05:38 +0000
-Message-ID: <ce9f67ad10a2b1f07ab79bc4ac328ef2bd9a2cf4.camel@intel.com>
-References: <20190806125551.25761-1-stanislav.lisovskiy@intel.com>
- <20190806135150.GZ7444@phenom.ffwll.local>
- <8614f54fd742f9f35979768997e416d36b69563a.camel@intel.com>
- <CAKMK7uHgfviXTqkHsCVmZX97dWFfbysCHtiRVDpSzJ3aheTQkw@mail.gmail.com>
- <5e7dcb14e618796e9cb8a9503cec9d9985c5fd4d.camel@intel.com>
- <20190807210702.GG7444@phenom.ffwll.local>
- <cab2f3a9f9827a993069e402feecc9a9853560a1.camel@intel.com>
- <56A4AB1F0E1B5D4C83D27F43C50F662E590292A2@IRSMSX107.ger.corp.intel.com>
-In-Reply-To: <56A4AB1F0E1B5D4C83D27F43C50F662E590292A2@IRSMSX107.ger.corp.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.237.66.154]
-Content-ID: <E9A545F74D63444183D3D25530152454@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CAC0E6E0E7
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 09:49:05 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id C0BC072161; Mon, 19 Aug 2019 09:49:05 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111416] 4k 60hz on RX 560 over HDMI = no sound
+Date: Mon, 19 Aug 2019 09:49:06 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: freedesktop@azelphur.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111416-502-knGK8TOAky@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111416-502@http.bugs.freedesktop.org/>
+References: <bug-111416-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -60,79 +52,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "Saarinen, Jani" <jani.saarinen@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1128804264=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCAyMDE5LTA4LTE5IGF0IDA4OjM1ICswMTAwLCBQZXJlcywgTWFydGluIHdyb3RlOg0K
-PiBPbiAxOS8wOC8yMDE5IDEwOjIzLCBMaXNvdnNraXksIFN0YW5pc2xhdiB3cm90ZToNCj4gPiBP
-biBXZWQsIDIwMTktMDgtMDcgYXQgMjM6MDcgKzAyMDAsIERhbmllbCBWZXR0ZXIgd3JvdGU6DQo+
-ID4gPiANCj4gPiA+IA0KPiA+ID4gU28gaWd0IGlzbid0IHZhbGlkIHVzZXJzcGFjZSAoaXQncyBq
-dXN0IGdvb2QgdGVzdGNhc2VzKS4gQ2FuIHdlDQo+ID4gPiByZXBybw0KPiA+ID4gdGhlDQo+ID4g
-PiBzYW1lIG9uIHJlYWwgdXNlcnNwYWNlPyBEb2VzIHRoaXMgd29yayB3aXRoIHJlYWwgdXNlcnNw
-YWNlPyBXZSd2ZQ0KPiA+ID4gaGFkDQo+ID4gPiB1c2Vyc3BhY2Ugd2hpY2ggdHJpZXMgdG8gYmUg
-Y2xldmVyIGFuZCBmaWx0ZXJzIG91dCB3aGF0IGxvb2tzDQo+ID4gPiBsaWtlDQo+ID4gPiByZWR1
-bmRhbnQgaG90cGx1ZyBldmVudHMuIEFuZCB0aGVuIGdldHMgaXQgd3JvbmcgaW4gY2FzZXMgbGlr
-ZQ0KPiA+ID4gdGhpcy4NCj4gPiA+IA0KPiA+ID4gQWxzbywgd2UndmUgaGFkIGZvcmV2ZXIgYW4g
-dW5jb25kaXRpb25hbCB1ZXZlbnQgb24gcmVzdW1lLA0KPiA+ID4gZXhhY3RseQ0KPiA+ID4gYmVj
-YXVzZQ0KPiA+ID4gYW55dGhpbmcgY291bGQgaGF2ZSBjaGFuZ2VkLiBEaWQgd2UgbG9vc2UgdGhp
-cyBvbmUgb24gdGhlIHdheQ0KPiA+ID4gc29tZXdoZXJlPw0KPiA+ID4gT3IgbWF5YmUgSSBtaXNy
-ZW1lbWJlciAuLi4NCj4gPiA+IA0KPiA+ID4gSWYgYWxsIHdlIGNhcmUgYWJvdXQgaXMgcmVzdW1l
-IHJlLWFkZGluZyB0aGF0IHVuY29uZHRpb25hbCB1ZXZlbnQNCj4gPiA+IG9uDQo+ID4gPiByZXN1
-bWUgaXMgZ29pbmcgdG8gYmUgYSBsb3QgZWFzaWVyIHRoYW4gdGhpcyBoZXJlLg0KPiA+ID4gLURh
-bmllbA0KPiA+IA0KPiA+IFNvcnJ5IGZvciBsb25nIHJlcGx5KHdhcyBvbiB2YWNhdGlvbiksIHRo
-YXQgaXMgYSBnb29kIHF1ZXN0aW9uDQo+ID4gcmVnYXJkaW5nIHJlcHJvZHVjaW5nIHRoaXMgaW4g
-cmVhbCBsaWZlIHNjZW5hcmlvLiBNeSBvYnZpb3VzIGd1ZXNzDQo+ID4gd2FzIHRvIHN1c3BlbmQg
-dGhlIG1hY2hpbmUgYW5kIG1lYW53aGlsZSBjaGFuZ2UgY29ubmVjdGVkIGRpc3BsYXkNCj4gPiB0
-bw0KPiA+IGFub3RoZXIgb25lLiBIb3dldmVyIHRoaXMgc2l0dWF0aW9uIHNlZW1zIHRvIGJlIGFs
-cmVhZHkgaGFuZGxlZCBieQ0KPiA+IGtlcm5lbCBuaWNlbHkodHJpZWQgZmV3IHRpbWVzIGFuZCB3
-ZSBhbHdheXMgZ2V0IGEgaG90cGx1ZyBldmVudCkuDQo+ID4gU28NCj4gPiB0aGF0IGVkaWQgY2hh
-bmdlIGR1cmluZyBzdXNwZW5kIGNoYW1lbGl1bSB0ZXN0IGNhc2Ugc2VlbXMgdG8gYmUNCj4gPiBh
-IGJpdCBkaWZmZXJlbnQuIEkgd2lsbCB0YWxrIHRvIG91ciBndXlzIHdobyB3cm90ZSB0aGlzIGFi
-b3V0IHdoYXQNCj4gPiBpcw0KPiA+IHRoZSByZWFsIGxpZmUgc2NlbmFyaW8gZm9yIHRoaXMsIGJl
-Y2F1c2UgSSdtIG5vdyBjdXJpb3VzIGFzIHdlbGwuDQo+IA0KPiBUaGFua3MgRGFuaWVsIGZvciB0
-aGUgZmVlZGJhY2suDQo+IA0KPiBJIGFsc28gbm93IHdvbmRlciB3aHkgb3VyIElHVCB0ZXN0IChj
-aGFtZWxpdW0tYmFzZWQpIGRvZXMgbm90IHBhc3MgaWYNCj4gYQ0KPiB1ZXZlbnQgaXMgc2VudCBv
-biByZXN1bWUgYXV0b21hdGljYWxseSBhbmQgYWxsIHRoZSB0ZXN0IGlzIGV4cGVjdGluZw0KPiBp
-cw0KPiBhIHVldmVudC4uLg0KPiANCj4gTWFydGluDQoNCkluIGZhY3QgSSB3YXMgd3JvbmcgLSB3
-aGVuIGl0IHdvcmtlZCwgaXQgd2FzIHVzaW5nIGV4YWN0bHkgdGhvc2UNCnBhdGNoZXMgOikuIFdp
-dGggY2xlYW4gZHJtLXRpcCAtIGl0IHNlZW1zIHRvIHdvcmsgb2Nhc3Npb25hbGx5IGFuZCBpdA0K
-ZG9lc24ndCB1cGRhdGUgdGhlIGFjdHVhbCBkaXNwbGF5IGVkaWQgYW5kIG90aGVyIHN0dWZmLCBz
-byBldmVuIHdoZW4NCmRpc3BsYXlzIGFyZSBjaGFuZ2VkIHdlIHN0aWxsIHNlZSB0aGUgb2xkIGlu
-Zm8vZWRpZCBmcm9tIHVzZXJzcGFjZS4NCg0KV2UgYWx3YXlzIGdldCBhIGhwZCBpcnEgd2hlbiBz
-dXNwZW5kL3Jlc3VtZSBob3dldmVyIGl0IGRvZXNuJ3QgYWx3YXlzDQpyZXN1bHQgaW4gdWV2ZW50
-IGJlaW5nIHNlbnQuIFNvIHRoZXJlIGlzIGEgcmVhbCBuZWVkIGluIHRob3NlIHBhdGNoZXMuDQoN
-Cj4gDQo+ID4gDQo+ID4gLSBTdGFuaXNsYXYNCj4gPiANCj4gPiA+IA0KPiA+ID4gDQo+ID4gPiA+
-IA0KPiA+ID4gPiAtU3RhbmlzbGF2DQo+ID4gPiA+IA0KPiA+ID4gPiA+IA0KPiA+ID4gPiA+IENo
-ZWVycywgRGFuaWVsDQo+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+IA0KPiA+
-ID4gPiA+ID4gLVN0YW5pc2xhdg0KPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiANCj4gPiA+ID4g
-PiA+ID4gLURhbmllbA0KPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4g
-PiA+ID4gPiBTdGFuaXNsYXYgTGlzb3Zza2l5ICgzKToNCj4gPiA+ID4gPiA+ID4gPiAgIGRybTog
-QWRkIGhlbHBlciB0byBjb21wYXJlIGVkaWRzLg0KPiA+ID4gPiA+ID4gPiA+ICAgZHJtOiBJbnRy
-b2R1Y2UgY2hhbmdlIGNvdW50ZXIgdG8gZHJtX2Nvbm5lY3Rvcg0KPiA+ID4gPiA+ID4gPiA+ICAg
-ZHJtL2k5MTU6IFNlbmQgaG90cGx1ZyBldmVudCBpZiBlZGlkIGhhZCBjaGFuZ2VkLg0KPiA+ID4g
-PiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2Nvbm5lY3Rv
-ci5jICAgICAgICAgICAgICB8ICAxICsNCj4gPiA+ID4gPiA+ID4gPiAgZHJpdmVycy9ncHUvZHJt
-L2RybV9lZGlkLmMgICAgICAgICAgICAgICAgICAgfCAzMw0KPiA+ID4gPiA+ID4gPiA+ICsrKysr
-KysrKysrKysrKysrKysrDQo+ID4gPiA+ID4gPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fcHJv
-YmVfaGVscGVyLmMgICAgICAgICAgIHwgMjkNCj4gPiA+ID4gPiA+ID4gPiArKysrKysrKysrKysr
-KystDQo+ID4gPiA+ID4gPiA+ID4gLQ0KPiA+ID4gPiA+ID4gPiA+ICBkcml2ZXJzL2dwdS9kcm0v
-aTkxNS9kaXNwbGF5L2ludGVsX2RwLmMgICAgICB8IDE2DQo+ID4gPiA+ID4gPiA+ID4gKysrKysr
-KysrLQ0KPiA+ID4gPiA+ID4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVs
-X2hkbWkuYyAgICB8IDE2DQo+ID4gPiA+ID4gPiA+ID4gKysrKysrKystLQ0KPiA+ID4gPiA+ID4g
-PiA+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hvdHBsdWcuYyB8IDIxDQo+
-ID4gPiA+ID4gPiA+ID4gKysrKysrKysrKw0KPiA+ID4gPiA+ID4gPiA+IC0tLQ0KPiA+ID4gPiA+
-ID4gPiA+ICBpbmNsdWRlL2RybS9kcm1fY29ubmVjdG9yLmggICAgICAgICAgICAgICAgICB8ICAz
-ICsrDQo+ID4gPiA+ID4gPiA+ID4gIGluY2x1ZGUvZHJtL2RybV9lZGlkLmggICAgICAgICAgICAg
-ICAgICAgICAgIHwgIDkNCj4gPiA+ID4gPiA+ID4gPiArKysrKysNCj4gPiA+ID4gPiA+ID4gPiAg
-OCBmaWxlcyBjaGFuZ2VkLCAxMTcgaW5zZXJ0aW9ucygrKSwgMTEgZGVsZXRpb25zKC0pDQo+ID4g
-PiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4gLS0NCj4gPiA+ID4gPiA+ID4gPiAyLjE3LjEN
-Cj4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+IA0KPiA+ID4g
-PiA+IA0KPiA+ID4gPiA+IA0KPiA+ID4gPiA+IA0KPiA+ID4gDQo+ID4gPiANCj4gDQo+IA0KX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1128804264==
+Content-Type: multipart/alternative; boundary="15662081450.7dF7d30.8312"
+Content-Transfer-Encoding: 7bit
+
+
+--15662081450.7dF7d30.8312
+Date: Mon, 19 Aug 2019 09:49:05 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111416
+
+--- Comment #6 from Alfie Day <freedesktop@azelphur.com> ---
+Hi, based on your comment I went and plugged my nvidia machine into the TV
+using the same cable and port. I then used xvidtune -show to extract the
+modeline it was using: "3840x2160"   593.41   3840 4016 4104 4400   2160 21=
+68
+2178 2250 +hsync +vsync
+
+I applied that modeline to the machine with the RX 560 in it, and still no
+sound. However, I made a weird discovery while switching the cable between =
+the
+two machines. If I switch to 4k 60hz on the RX 560, then I pull the HDMI ca=
+ble
+out, and plug it back in again, I get sound at 4k 60hz. So that works as a
+workaround. If I reboot, no sound again.
+
+I have elimniated pulseaudio as a possibility by running
+
+pasuspender -- speaker-test --nloops=3D1 --channels=3D2 --test=3Dwav --devi=
+ce=3Dhw:1,9
+
+At 30hz, it works, at 60hz, it doesn't (Unless I replug the cable, then it
+does)
+
+I am attaching new dmesg and Xorg logs. Booting at 60hz (and thus having no
+sound) and then replugging the HDMI cable (which gets me sound)
+
+I can also simply turn my TV off and on again instead of unplugging /
+replugging the cable, sound also works if I boot the computer with the TV o=
+ff,
+and then turn the TV on after X has started.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15662081450.7dF7d30.8312
+Date: Mon, 19 Aug 2019 09:49:05 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - 4k 60hz on RX 560 over HDMI =3D no sound"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111416#c6">Commen=
+t # 6</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - 4k 60hz on RX 560 over HDMI =3D no sound"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111416">bug 11141=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+freedesktop&#64;azelphur.com" title=3D"Alfie Day &lt;freedesktop&#64;azelph=
+ur.com&gt;"> <span class=3D"fn">Alfie Day</span></a>
+</span></b>
+        <pre>Hi, based on your comment I went and plugged my nvidia machine=
+ into the TV
+using the same cable and port. I then used xvidtune -show to extract the
+modeline it was using: &quot;3840x2160&quot;   593.41   3840 4016 4104 4400=
+   2160 2168
+2178 2250 +hsync +vsync
+
+I applied that modeline to the machine with the RX 560 in it, and still no
+sound. However, I made a weird discovery while switching the cable between =
+the
+two machines. If I switch to 4k 60hz on the RX 560, then I pull the HDMI ca=
+ble
+out, and plug it back in again, I get sound at 4k 60hz. So that works as a
+workaround. If I reboot, no sound again.
+
+I have elimniated pulseaudio as a possibility by running
+
+pasuspender -- speaker-test --nloops=3D1 --channels=3D2 --test=3Dwav --devi=
+ce=3Dhw:1,9
+
+At 30hz, it works, at 60hz, it doesn't (Unless I replug the cable, then it
+does)
+
+I am attaching new dmesg and Xorg logs. Booting at 60hz (and thus having no
+sound) and then replugging the HDMI cable (which gets me sound)
+
+I can also simply turn my TV off and on again instead of unplugging /
+replugging the cable, sound also works if I boot the computer with the TV o=
+ff,
+and then turn the TV on after X has started.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15662081450.7dF7d30.8312--
+
+--===============1128804264==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1128804264==--
