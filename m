@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8157B920A8
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 11:49:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB73920AB
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 11:50:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01CE989C97;
-	Mon, 19 Aug 2019 09:49:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B069589D02;
+	Mon, 19 Aug 2019 09:49:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id C886089C97
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 09:49:32 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7FDED89CDF
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 09:49:57 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C4ADB72161; Mon, 19 Aug 2019 09:49:32 +0000 (UTC)
+ id 7C38972161; Mon, 19 Aug 2019 09:49:57 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111416] 4k 60hz on RX 560 over HDMI = no sound
-Date: Mon, 19 Aug 2019 09:49:32 +0000
+Date: Mon, 19 Aug 2019 09:49:57 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111416-502-2dcRWzLj9Y@http.bugs.freedesktop.org/>
+Message-ID: <bug-111416-502-aOBk43pejS@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111416-502@http.bugs.freedesktop.org/>
 References: <bug-111416-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0522356484=="
+Content-Type: multipart/mixed; boundary="===============0294233973=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0522356484==
-Content-Type: multipart/alternative; boundary="15662081721.baFdc92.8488"
+--===============0294233973==
+Content-Type: multipart/alternative; boundary="15662081971.e05e.8312"
 Content-Transfer-Encoding: 7bit
 
 
---15662081721.baFdc92.8488
-Date: Mon, 19 Aug 2019 09:49:32 +0000
+--15662081971.e05e.8312
+Date: Mon, 19 Aug 2019 09:49:57 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,17 +72,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111416
 
---- Comment #7 from Alfie Day <freedesktop@azelphur.com> ---
-Created attachment 145091
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145091&action=3Dedit
-dmesg (with hotplugging)
+--- Comment #8 from Alfie Day <freedesktop@azelphur.com> ---
+Created attachment 145092
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145092&action=3Dedit
+Xorg log (with hotplugging)
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15662081721.baFdc92.8488
-Date: Mon, 19 Aug 2019 09:49:32 +0000
+--15662081971.e05e.8312
+Date: Mon, 19 Aug 2019 09:49:57 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -99,8 +99,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - 4k 60hz on RX 560 over HDMI =3D no sound"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111416#c7">Commen=
-t # 7</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111416#c8">Commen=
+t # 8</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - 4k 60hz on RX 560 over HDMI =3D no sound"
@@ -110,11 +110,11 @@ t # 7</a>
 freedesktop&#64;azelphur.com" title=3D"Alfie Day &lt;freedesktop&#64;azelph=
 ur.com&gt;"> <span class=3D"fn">Alfie Day</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145091=
-" name=3D"attach_145091" title=3D"dmesg (with hotplugging)">attachment 1450=
-91</a> <a href=3D"attachment.cgi?id=3D145091&amp;action=3Dedit" title=3D"dm=
-esg (with hotplugging)">[details]</a></span>
-dmesg (with hotplugging)</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145092=
+" name=3D"attach_145092" title=3D"Xorg log (with hotplugging)">attachment 1=
+45092</a> <a href=3D"attachment.cgi?id=3D145092&amp;action=3Dedit" title=3D=
+"Xorg log (with hotplugging)">[details]</a></span>
+Xorg log (with hotplugging)</pre>
         </div>
       </p>
 
@@ -128,9 +128,9 @@ dmesg (with hotplugging)</pre>
     </body>
 </html>=
 
---15662081721.baFdc92.8488--
+--15662081971.e05e.8312--
 
---===============0522356484==
+--===============0294233973==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -140,4 +140,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0522356484==--
+--===============0294233973==--
