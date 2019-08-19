@@ -2,31 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A7019245D
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 15:09:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19E4C92490
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 15:18:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4679F6E0FB;
-	Mon, 19 Aug 2019 13:09:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 029586E115;
+	Mon, 19 Aug 2019 13:18:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96DA06E0FB
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 13:09:48 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 18189198-1500050 for multiple; Mon, 19 Aug 2019 14:09:37 +0100
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A28486E115
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 13:18:06 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 9E92C72161; Mon, 19 Aug 2019 13:18:06 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111261] Screen remains black when 2 monitors are connected
+Date: Mon, 19 Aug 2019 13:18:06 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu-pro
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111261-502-wd8F83Nb3p@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111261-502@http.bugs.freedesktop.org/>
+References: <bug-111261-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-To: Masanari Iida <standby24x7@gmail.com>, airlied@linux.ie, daniel@ffwll.ch, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <20190819130552.28354-1-standby24x7@gmail.com>
-References: <20190819130552.28354-1-standby24x7@gmail.com>
-Message-ID: <156622017506.1374.14327133187971388720@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [PATCH] drm: selftests: Fix a typo in test-drm_mm.c
-Date: Mon, 19 Aug 2019 14:09:35 +0100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -39,16 +52,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Masanari Iida <standby24x7@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1666685065=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBNYXNhbmFyaSBJaWRhICgyMDE5LTA4LTE5IDE0OjA1OjUyKQo+IFRoaXMgcGF0Y2gg
-Zml4IGEgc3BlbGxpbmcgdHlwbyBpbiB0ZXN0LWRybV9tbS5jCj4gCj4gU2lnbmVkLW9mZi1ieTog
-TWFzYW5hcmkgSWlkYSA8c3RhbmRieTI0eDdAZ21haWwuY29tPgpSZXZpZXdlZC1ieTogQ2hyaXMg
-V2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+Ci1DaHJpcwpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1666685065==
+Content-Type: multipart/alternative; boundary="15662206862.945ca8.13494"
+Content-Transfer-Encoding: 7bit
+
+
+--15662206862.945ca8.13494
+Date: Mon, 19 Aug 2019 13:18:06 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111261
+
+--- Comment #2 from Alex Deucher <alexdeucher@gmail.com> ---
+Please attach your xorg log (if using X) and your dmesg output.  What GPU a=
+re
+you using?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15662206862.945ca8.13494
+Date: Mon, 19 Aug 2019 13:18:06 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Screen remains black when 2 monitors are connected"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111261#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Screen remains black when 2 monitors are connected"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111261">bug 11126=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
+com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
+</span></b>
+        <pre>Please attach your xorg log (if using X) and your dmesg output=
+.  What GPU are
+you using?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15662206862.945ca8.13494--
+
+--===============1666685065==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1666685065==--
