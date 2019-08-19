@@ -1,33 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D62492679
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 16:19:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96DED926BB
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 16:30:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13D3F89250;
-	Mon, 19 Aug 2019 14:19:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E52F76E144;
+	Mon, 19 Aug 2019 14:30:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E79BF89250;
- Mon, 19 Aug 2019 14:19:52 +0000 (UTC)
-X-Originating-IP: 86.250.200.211
-Received: from localhost (lfbn-1-17395-211.w86-250.abo.wanadoo.fr
- [86.250.200.211]) (Authenticated sender: maxime.ripard@bootlin.com)
- by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id B698E40012;
- Mon, 19 Aug 2019 14:19:48 +0000 (UTC)
-Date: Mon, 19 Aug 2019 16:19:48 +0200
-From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: [PULL] drm-misc-next
-Message-ID: <20190819141948.hexaspzwv5bx5qrk@flea>
-References: <20190816113201.jwh7bqeddxllvgdv@flea>
- <156595602639.11610.9192945758435317854@skylake-alporthouse-com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0D1EC6E144
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 14:30:12 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 04AC172161; Mon, 19 Aug 2019 14:30:12 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111261] Screen remains black when 2 monitors are connected
+Date: Mon, 19 Aug 2019 14:30:12 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu-pro
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: fabstz-it@yahoo.fr
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-111261-502-tRUiCEkd1I@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111261-502@http.bugs.freedesktop.org/>
+References: <bug-111261-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <156595602639.11610.9192945758435317854@skylake-alporthouse-com>
-User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -40,74 +52,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, dim-tools@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: multipart/mixed; boundary="===============0152159541=="
+Content-Type: multipart/mixed; boundary="===============0913225616=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0152159541==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="tzh7ajwlyfp33ole"
-Content-Disposition: inline
+--===============0913225616==
+Content-Type: multipart/alternative; boundary="15662250110.7D5990aBD.26206"
+Content-Transfer-Encoding: 7bit
 
 
---tzh7ajwlyfp33ole
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--15662250110.7D5990aBD.26206
+Date: Mon, 19 Aug 2019 14:30:11 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
-Hi Chris,
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111261
 
-On Fri, Aug 16, 2019 at 12:47:06PM +0100, Chris Wilson wrote:
-> Quoting Maxime Ripard (2019-08-16 12:32:01)
-> > Hi Daniel, Dave,
-> >
-> > Here's this week drm-misc-next PR.
-> >
-> > Maxime
-> >
-> > drm-misc-next-2019-08-16:
-> > drm-misc-next for 5.4:
-> >
-> > UAPI Changes:
-> >
-> > Cross-subsystem Changes:
-> >
-> > Core Changes:
-> >   - dma-buf: add reservation_object_fences helper, relax
-> >              reservation_object_add_shared_fence, remove
-> >              reservation_object seq number
->
-> I just undid these. Probably better to respin without the headline
-> feature being immediately reverted :)
+--- Comment #4 from Fab Stz <fabstz-it@yahoo.fr> ---
+Created attachment 145098
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145098&action=3Dedit
+System information (part1)
 
-Thanks for telling us :)
+Please find attached:
+- basic configuration details.
+- addition information
 
-I've sent a new PR with the revert
+As instructed here :
+https://amdgpu-install.readthedocs.io/en/latest/install-bugrep.html
 
-Maxime
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
 
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--15662250110.7D5990aBD.26206
+Date: Mon, 19 Aug 2019 14:30:11 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
---tzh7ajwlyfp33ole
-Content-Type: application/pgp-signature; name="signature.asc"
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Screen remains black when 2 monitors are connected"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111261#c4">Commen=
+t # 4</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Screen remains black when 2 monitors are connected"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111261">bug 11126=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+fabstz-it&#64;yahoo.fr" title=3D"Fab Stz &lt;fabstz-it&#64;yahoo.fr&gt;"> <=
+span class=3D"fn">Fab Stz</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145098=
+" name=3D"attach_145098" title=3D"System information (part1)">attachment 14=
+5098</a> <a href=3D"attachment.cgi?id=3D145098&amp;action=3Dedit" title=3D"=
+System information (part1)">[details]</a></span>
+System information (part1)
 
------BEGIN PGP SIGNATURE-----
+Please find attached:
+- basic configuration details.
+- addition information
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXVqwBAAKCRDj7w1vZxhR
-xR6qAQDoj6KGEcm7v72tXuZRpn1MS631sD0Z/GYLITkulUSGAwD9G5pUGW4Veub6
-K2TwxbMbr2JHNlvDiziLzbyXYWh82QM=
-=e3iz
------END PGP SIGNATURE-----
+As instructed here :
+<a href=3D"https://amdgpu-install.readthedocs.io/en/latest/install-bugrep.h=
+tml">https://amdgpu-install.readthedocs.io/en/latest/install-bugrep.html</a=
+></pre>
+        </div>
+      </p>
 
---tzh7ajwlyfp33ole--
 
---===============0152159541==
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15662250110.7D5990aBD.26206--
+
+--===============0913225616==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -117,4 +156,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0152159541==--
+--===============0913225616==--
