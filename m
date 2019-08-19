@@ -1,45 +1,102 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96DED926BB
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 16:30:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07D3C926C6
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 16:34:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E52F76E144;
-	Mon, 19 Aug 2019 14:30:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBB6A6E148;
+	Mon, 19 Aug 2019 14:34:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0D1EC6E144
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 14:30:12 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 04AC172161; Mon, 19 Aug 2019 14:30:12 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111261] Screen remains black when 2 monitors are connected
-Date: Mon, 19 Aug 2019 14:30:12 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu-pro
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: fabstz-it@yahoo.fr
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111261-502-tRUiCEkd1I@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111261-502@http.bugs.freedesktop.org/>
-References: <bug-111261-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 407366E148
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 14:34:04 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20190819143402euoutp013e610eae050f5a36ee369e676b982873~8WY9jd-Gi0738507385euoutp01K
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 14:34:02 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20190819143402euoutp013e610eae050f5a36ee369e676b982873~8WY9jd-Gi0738507385euoutp01K
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20190819143401eucas1p2b244a28ed16ca9d0116d62ba9871dd2a~8WY8mRHth1167611676eucas1p2N;
+ Mon, 19 Aug 2019 14:34:01 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 57.28.04374.953BA5D5; Mon, 19
+ Aug 2019 15:34:01 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20190819143400eucas1p16aca480c54035284fd19536216226493~8WY7zCD8x3251132511eucas1p1g;
+ Mon, 19 Aug 2019 14:34:00 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20190819143400eusmtrp21967ebe44c87c0d7abf96d4fe3c75226~8WY7kR8Ce1418314183eusmtrp2g;
+ Mon, 19 Aug 2019 14:34:00 +0000 (GMT)
+X-AuditID: cbfec7f5-4f7ff70000001116-65-5d5ab35947c1
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id B5.37.04166.853BA5D5; Mon, 19
+ Aug 2019 15:34:00 +0100 (BST)
+Received: from [106.120.51.71] (unknown [106.120.51.71]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20190819143400eusmtip1f94a5d2512217a6e9d131a3fe2e8a8fb~8WY7Ry0Eh2211722117eusmtip1v;
+ Mon, 19 Aug 2019 14:34:00 +0000 (GMT)
+Subject: Re: [PATCH v2] video: radeon.h Fix Shifting signed 32 bit value by
+ 31 bits problem
+To: Shobhit Kukreti <shobhitkukreti@gmail.com>
+From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Message-ID: <85b130de-4e1b-3004-ae5a-3cda5d732bcb@samsung.com>
+Date: Mon, 19 Aug 2019 16:33:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <1563758072-898-1-git-send-email-shobhitkukreti@gmail.com>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrAKsWRmVeSWpSXmKPExsWy7djPc7qRm6NiDV4clbO48vU9m0XX4xcs
+ Fpd3zWGzmL1lHrvF3unLWB1YPXbOusvusX/uGnaP+93HmTx+/5jM6PF5k1wAaxSXTUpqTmZZ
+ apG+XQJXxp0lbUwF1xUqjpyIaGD8K9nFyMkhIWAi0X65gbmLkYtDSGAFo8S3L8ehnC+MEuvm
+ bmSEcD4zSpxa0MAI07Jy5k6oxHJGic272lkgnLeMEm8fzmEBqRIWiJU42vwYzBYR0JN4cmoT
+ K4jNLNAHNPdjCojNJmAlMbF9FdhUXgE7iQkftjKB2CwCqhJti8+yg9iiAhES949tYIWoEZQ4
+ OfMJ2ExOAXeJ9u0v2CBmikvcejKfCcKWl9j+dg7YDxICq9glFj1pYoc420ViV+sNKFtY4tXx
+ LVC2jMT/nSDNIA3rGCX+dryA6t7OKLF88j82iCpricPHLwKdwQG0QlNi/S59EFNCwFFi4ywJ
+ CJNP4sZbQYgb+CQmbZvODBHmlehoE4KYoSaxYdkGNpitXTtXMk9gVJqF5LNZSL6ZheSbWQhr
+ FzCyrGIUTy0tzk1PLTbOSy3XK07MLS7NS9dLzs/dxAhMN6f/Hf+6g3Hfn6RDjAIcjEo8vB7T
+ omKFWBPLiitzDzFKcDArifBWzAEK8aYkVlalFuXHF5XmpBYfYpTmYFES561meBAtJJCeWJKa
+ nZpakFoEk2Xi4JRqYHRRXp/7bIlIKftzB2YvX6lFJu82fmB8IPhpnfQZN6XXjzRL5Wty9oev
+ 0hN9XsL9VTN/ps/H24nXC7dZcvt9iuUTUUr6d8upQptb69zBC7+/Jv+5t3idtf9Rt0k3uZ6d
+ fm39gc1Fb+qqmnOLwiqMZm7YeWbjwyK3XQfc+ZYf3pf/e+Ful42uf3mUWIozEg21mIuKEwEh
+ 6uo+MwMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrMIsWRmVeSWpSXmKPExsVy+t/xu7oRm6NiDQ7+VrO48vU9m0XX4xcs
+ Fpd3zWGzmL1lHrvF3unLWB1YPXbOusvusX/uGnaP+93HmTx+/5jM6PF5k1wAa5SeTVF+aUmq
+ QkZ+cYmtUrShhZGeoaWFnpGJpZ6hsXmslZGpkr6dTUpqTmZZapG+XYJexp0lbUwF1xUqjpyI
+ aGD8K9nFyMkhIWAisXLmTsYuRi4OIYGljBKf7n5j7mLkAErISBxfXwZRIyzx51oXG0TNa0aJ
+ cxsXM4EkhAViJZZ83s8MYosI6Ek8ObWJFaSIWaCPUeLQzqVQHecZJY58/AFWxSZgJTGxfRUj
+ iM0rYCcx4cNWsEksAqoSbYvPsoPYogIREmfer2CBqBGUODnzCZjNKeAu0b79BRuIzSygLvFn
+ 3iVmCFtc4taT+UwQtrzE9rdzmCcwCs1C0j4LScssJC2zkLQsYGRZxSiSWlqcm55bbKhXnJhb
+ XJqXrpecn7uJERhh24793LyD8dLG4EOMAhyMSjy8HtOiYoVYE8uKK3MPMUpwMCuJ8FbMAQrx
+ piRWVqUW5ccXleakFh9iNAV6biKzlGhyPjD680riDU0NzS0sDc2NzY3NLJTEeTsEDsYICaQn
+ lqRmp6YWpBbB9DFxcEo1MEbf2pWifzRvso9JwfxdBy/+3mslmckkwF928N4n8cAFjkXGx/M4
+ Zn0Km1DtK7XS+HNY2+U/W0v/LtcJ/7v1qn6FybrjHgdfiv0+Lnbt7WqzabUqpeHyfNNdXhp/
+ 7Y38rxP6eb3OzQ37VHvnN4u+uG2RVPKfe9mtD4IX9j7buKrP1WLO5Iq1Km+UWIozEg21mIuK
+ EwFlCYaExgIAAA==
+X-CMS-MailID: 20190819143400eucas1p16aca480c54035284fd19536216226493
+X-Msg-Generator: CA
+X-RootMTR: 20190722011449epcas2p1ddef0d4a3bc2d39d9d99c9a8e9c10dc7
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20190722011449epcas2p1ddef0d4a3bc2d39d9d99c9a8e9c10dc7
+References: <46c5dc00-eb00-e229-62af-6e171f9f2a40@samsung.com>
+ <CGME20190722011449epcas2p1ddef0d4a3bc2d39d9d99c9a8e9c10dc7@epcas2p1.samsung.com>
+ <1563758072-898-1-git-send-email-shobhitkukreti@gmail.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=samsung.com; 
+ s=mail20170921; t=1566225242;
+ bh=7K+UU79oq6nFe0po5DkVy0Gje7sdK3LBbSKWF/5wqUs=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=C9fEQk77lf9I4zoi0mcu5nFV5yaiWC2/X2BQqCQ2omveO3SVQNoLjXkabEi5xSQm9
+ q6zMktkaV5jln5nAxfgBWuDyatoD4WwMeOKTov36uA4I8fE5MI9mffjqekNhrKGXeF
+ 8kB3TNjF9B1m1enGcUsRf+hESWrWpSJA1KH8tph8=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,108 +109,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0913225616=="
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ skhan@linuxfoundation.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0913225616==
-Content-Type: multipart/alternative; boundary="15662250110.7D5990aBD.26206"
-Content-Transfer-Encoding: 7bit
-
-
---15662250110.7D5990aBD.26206
-Date: Mon, 19 Aug 2019 14:30:11 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111261
-
---- Comment #4 from Fab Stz <fabstz-it@yahoo.fr> ---
-Created attachment 145098
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145098&action=3Dedit
-System information (part1)
-
-Please find attached:
-- basic configuration details.
-- addition information
-
-As instructed here :
-https://amdgpu-install.readthedocs.io/en/latest/install-bugrep.html
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15662250110.7D5990aBD.26206
-Date: Mon, 19 Aug 2019 14:30:11 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Screen remains black when 2 monitors are connected"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111261#c4">Commen=
-t # 4</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Screen remains black when 2 monitors are connected"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111261">bug 11126=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-fabstz-it&#64;yahoo.fr" title=3D"Fab Stz &lt;fabstz-it&#64;yahoo.fr&gt;"> <=
-span class=3D"fn">Fab Stz</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145098=
-" name=3D"attach_145098" title=3D"System information (part1)">attachment 14=
-5098</a> <a href=3D"attachment.cgi?id=3D145098&amp;action=3Dedit" title=3D"=
-System information (part1)">[details]</a></span>
-System information (part1)
-
-Please find attached:
-- basic configuration details.
-- addition information
-
-As instructed here :
-<a href=3D"https://amdgpu-install.readthedocs.io/en/latest/install-bugrep.h=
-tml">https://amdgpu-install.readthedocs.io/en/latest/install-bugrep.html</a=
-></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15662250110.7D5990aBD.26206--
-
---===============0913225616==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0913225616==--
+CkhpLAoKT24gNy8yMi8xOSAzOjE0IEFNLCBTaG9iaGl0IEt1a3JldGkgd3JvdGU6Cj4gRml4IFJC
+MkRfRENfQlVTWSBhbmQgSE9SWl9BVVRPX1JBVElPX0lOQyBkZWZpbmVzIHRvIHVzZSAiVSIgY2Fz
+dCB0bwo+IGF2b2lkIHNoaWZ0aW5nIHNpZ25lZCAzMiBiaXQgdmFsdWVzIGJ5IDMxIGJpdCBwcm9i
+bGVtLiBUaGlzIGlzIG5vdCBhCj4gcHJvYmxlbSBmb3IgZ2NjIGJ1aWx0IGtlcm5lbC4KPiAKPiBI
+b3dldmVyLCB0aGUgaGVhZGVyIGZpbGUgYmVpbmcgYSBwdWJsaWMgYXBpLCBvdGhlciBjb21waWxl
+cnMgbWF5IG5vdAo+IGhhbmRsZSB0aGUgY29uZGl0aW9uIHNhZmVseSByZXN1bHRpbmcgaW4gdW5k
+ZWZpbmVkIGJlaGF2aW9yLgo+IAo+IFNpZ25lZC1vZmYtYnk6IFNob2JoaXQgS3VrcmV0aSA8c2hv
+YmhpdGt1a3JldGlAZ21haWwuY29tPgo+IC0tLQo+IENoYW5nZXMgaW4gdjI6Cj4gCVJlcGxhY2Ug
+Yml0IHNoaWZ0IG9wZXJhdGlvbnMgd2l0aCBCSVQoKSBtYWNybwoKMS4gUGxlYXNlIHVwZGF0ZSB0
+aGUgcGF0Y2ggc3VtbWFyeSAmIGRlc2NyaXB0aW9uIHRvIHJlZmxlY3QgdGhhdCwKcGxlYXNlIHNl
+ZSBjb21taXQgMTM5OTBjZjhhMTgwIGZvciB0aGUgcmVmZXJlbmNlOgoKY29tbWl0IDEzOTkwY2Y4
+YTE4MGNjMDcwZjBiMTI2NjE0MGU3OTlkYjg3NTQyODkKQXV0aG9yOiBBbW9sIFN1cmF0aSA8c3Vy
+YXRpYW1vbEBnbWFpbC5jb20+CkRhdGU6ICAgU3VuIEp1bCA3IDE0OjI3OjI5IDIwMTkgKzA1MzAK
+CiAgICBpZGU6IHVzZSBCSVQoKSBtYWNybyBmb3IgZGVmaW5pbmcgYml0LWZsYWdzCiAgICAKICAg
+IFRoZSBCSVQoKSBtYWNybyBpcyBhdmFpbGFibGUgZm9yIGRlZmluaW5nIHRoZSByZXF1aXJlZCBi
+aXQtZmxhZ3MuCiAgICAKICAgIFNpbmNlIGl0IG9wZXJhdGVzIG9uIGFuIHVuc2lnbmVkIHZhbHVl
+IGFuZCBleHBhbmRzIHRvIGFuIHVuc2lnbmVkIHJlc3VsdCwKICAgIHVzaW5nIGl0LCBpbnN0ZWFk
+IG9mIGFuIGV4cHJlc3Npb24gbGlrZSAoMSA8PCB4KSwgYWxzbyBmaXhlcyB0aGUgcHJvYmxlbQog
+ICAgb2Ygc2hpZnRpbmcgYSBzaWduZWQgMzItYml0IHZhbHVlIGJ5IDMxIGJpdHMgKGUuZy4gMSA8
+PCAzMSkuCiAgICAKICAgIFNpZ25lZC1vZmYtYnk6IEFtb2wgU3VyYXRpIDxzdXJhdGlhbW9sQGdt
+YWlsLmNvbT4KICAgIFNpZ25lZC1vZmYtYnk6IERhdmlkIFMuIE1pbGxlciA8ZGF2ZW1AZGF2ZW1s
+b2Z0Lm5ldD4KCgoyLiBQbGVhc2UgdXNlIC4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIHRvIGNoZWNr
+IHlvdXIgcGF0Y2ggYW5kIGZpeCBpc3N1ZQpyZXBvcnRlZCBieSB0aGUgc2NyaXB0OgoKV0FSTklO
+RzogcGxlYXNlLCBubyBzcGFjZSBiZWZvcmUgdGFicwojMTQ3OiBGSUxFOiBpbmNsdWRlL3ZpZGVv
+L3JhZGVvbi5oOjQ1ODoKKyNkZWZpbmUgRk9SQ0VPTl9NQ0xLQiAgICAgICAgIF5JXkkgICBeSSAg
+IEJJVCgxNykkCgpXQVJOSU5HOiBwbGVhc2UsIG5vIHNwYWNlIGJlZm9yZSB0YWJzCiMxNDg6IEZJ
+TEU6IGluY2x1ZGUvdmlkZW8vcmFkZW9uLmg6NDU5OgorI2RlZmluZSBGT1JDRU9OX1lDTEtBICAg
+ICAgICAgXkkgICAgXkkgICBeSSAgIEJJVCgxOCkkCgpXQVJOSU5HOiBwbGVhc2UsIG5vIHNwYWNl
+IGJlZm9yZSB0YWJzCiMxNDk6IEZJTEU6IGluY2x1ZGUvdmlkZW8vcmFkZW9uLmg6NDYwOgorI2Rl
+ZmluZSBGT1JDRU9OX1lDTEtCICAgICAgICAgXkleSSAgIF5JICAgQklUKDE5KSQKCldBUk5JTkc6
+IHBsZWFzZSwgbm8gc3BhY2UgYmVmb3JlIHRhYnMKIzE1MDogRklMRTogaW5jbHVkZS92aWRlby9y
+YWRlb24uaDo0NjE6CisjZGVmaW5lIEZPUkNFT05fTUMgICAgICAgICAgICBeSV5JICAgXkkgICBC
+SVQoMjApJAoKV0FSTklORzogcGxlYXNlLCBubyBzcGFjZSBiZWZvcmUgdGFicwojMTUxOiBGSUxF
+OiBpbmNsdWRlL3ZpZGVvL3JhZGVvbi5oOjQ2MjoKKyNkZWZpbmUgRk9SQ0VPTl9BSUMgICAgICAg
+ICAgIF5JXkkgICBeSSAgIEJJVCgyMSkkCgpXQVJOSU5HOiBwbGVhc2UsIG5vIHNwYWNlIGJlZm9y
+ZSB0YWJzCiMyMTk6IEZJTEU6IGluY2x1ZGUvdmlkZW8vcmFkZW9uLmg6NTQ0OgorI2RlZmluZSBD
+UlRDX0JZUEFTU19MVVRfRU4gICAgIF5JXkleSSAgIEJJVCgxNCkkCgpXQVJOSU5HOiBwbGVhc2Us
+IG5vIHNwYWNlIGJlZm9yZSB0YWJzCiMyMjA6IEZJTEU6IGluY2x1ZGUvdmlkZW8vcmFkZW9uLmg6
+NTQ1OgorI2RlZmluZSBDUlRDX0VYVF9ESVNQX0VOICAgICAgXkleSV5JICAgQklUKDI0KSQKCldB
+Uk5JTkc6IHBsZWFzZSwgbm8gc3BhY2UgYmVmb3JlIHRhYnMKIzQ1MzogRklMRTogaW5jbHVkZS92
+aWRlby9yYWRlb24uaDo3NDA6CisjZGVmaW5lIFNPRlRfUkVTRVRfQ1AgICAgICAgICAgIF5JXkkg
+ICBCSVQoMCkkCgpXQVJOSU5HOiBwbGVhc2UsIG5vIHNwYWNlIGJlZm9yZSB0YWJzCiM0NTQ6IEZJ
+TEU6IGluY2x1ZGUvdmlkZW8vcmFkZW9uLmg6NzQxOgorI2RlZmluZSBTT0ZUX1JFU0VUX0hJICAg
+ICAgICAgICBeSV5JICAgQklUKDEpJAoKV0FSTklORzogcGxlYXNlLCBubyBzcGFjZSBiZWZvcmUg
+dGFicwojNDU1OiBGSUxFOiBpbmNsdWRlL3ZpZGVvL3JhZGVvbi5oOjc0MjoKKyNkZWZpbmUgU09G
+VF9SRVNFVF9TRSAgICAgICAgICAgXkleSSAgIEJJVCgyKSQKCldBUk5JTkc6IHBsZWFzZSwgbm8g
+c3BhY2UgYmVmb3JlIHRhYnMKIzQ1NjogRklMRTogaW5jbHVkZS92aWRlby9yYWRlb24uaDo3NDM6
+CisjZGVmaW5lIFNPRlRfUkVTRVRfUkUgICAgICAgICAgIF5JXkkgICBCSVQoMykkCgpXQVJOSU5H
+OiBwbGVhc2UsIG5vIHNwYWNlIGJlZm9yZSB0YWJzCiM0NTc6IEZJTEU6IGluY2x1ZGUvdmlkZW8v
+cmFkZW9uLmg6NzQ0OgorI2RlZmluZSBTT0ZUX1JFU0VUX1BQICAgICAgICAgICBeSV5JICAgQklU
+KDQpJAoKV0FSTklORzogcGxlYXNlLCBubyBzcGFjZSBiZWZvcmUgdGFicwojNDU4OiBGSUxFOiBp
+bmNsdWRlL3ZpZGVvL3JhZGVvbi5oOjc0NToKKyNkZWZpbmUgU09GVF9SRVNFVF9FMiAgICAgICAg
+ICAgXkleSSAgIEJJVCg1KSQKCldBUk5JTkc6IHBsZWFzZSwgbm8gc3BhY2UgYmVmb3JlIHRhYnMK
+IzQ1OTogRklMRTogaW5jbHVkZS92aWRlby9yYWRlb24uaDo3NDY6CisjZGVmaW5lIFNPRlRfUkVT
+RVRfUkIgICAgICAgICAgIF5JXkkgICBCSVQoNikkCgpXQVJOSU5HOiBwbGVhc2UsIG5vIHNwYWNl
+IGJlZm9yZSB0YWJzCiM0NjA6IEZJTEU6IGluY2x1ZGUvdmlkZW8vcmFkZW9uLmg6NzQ3OgorI2Rl
+ZmluZSBTT0ZUX1JFU0VUX0hEUCAgICAgICAgICBeSV5JICAgQklUKDcpJAoKV0FSTklORzogcGxl
+YXNlLCBubyBzcGFjZSBiZWZvcmUgdGFicwojNDk2OiBGSUxFOiBpbmNsdWRlL3ZpZGVvL3JhZGVv
+bi5oOjg4ODoKKyNkZWZpbmUgR01DX0NMUl9DTVBfQ05UTF9ESVMgICAgICBeSV5JICAgQklUKDI4
+KSQKCnRvdGFsOiAwIGVycm9ycywgMTcgd2FybmluZ3MsIDAgY2hlY2tzLCA1MDIgbGluZXMgY2hl
+Y2tlZAoKCjMuIFBsZWFzZSB1cGRhdGUgQ2M6IGxpc3Qgb2YgeW91ciBtYWlsIGJ5IGFsbCBtYWls
+aW5nIGxpc3RzIHJldHVybmVkIGJ5Ci4vc2NyaXB0cy9nZXRfbWFpbnRhaW5lci5wbDoKCiQgLi9z
+Y3JpcHRzL2dldF9tYWludGFpbmVyLnBsIC1mIGluY2x1ZGUvdmlkZW8vYXRtZWxfbGNkYy5oCkJh
+cnRsb21pZWogWm9sbmllcmtpZXdpY3ogPGIuem9sbmllcmtpZUBzYW1zdW5nLmNvbT4gKG1haW50
+YWluZXI6RlJBTUVCVUZGRVIgTEFZRVIpCmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcg
+KG9wZW4gbGlzdDpGUkFNRUJVRkZFUiBMQVlFUikKbGludXgtZmJkZXZAdmdlci5rZXJuZWwub3Jn
+IChvcGVuIGxpc3Q6RlJBTUVCVUZGRVIgTEFZRVIpCmxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5v
+cmcgKG9wZW4gbGlzdCkKCj4gIGluY2x1ZGUvdmlkZW8vcmFkZW9uLmggfCAzMzggKysrKysrKysr
+KysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+ICAxIGZpbGUgY2hhbmdl
+ZCwgMTY5IGluc2VydGlvbnMoKyksIDE2OSBkZWxldGlvbnMoLSkKQmVzdCByZWdhcmRzLAotLQpC
+YXJ0bG9taWVqIFpvbG5pZXJraWV3aWN6ClNhbXN1bmcgUiZEIEluc3RpdHV0ZSBQb2xhbmQKU2Ft
+c3VuZyBFbGVjdHJvbmljcwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWw=
