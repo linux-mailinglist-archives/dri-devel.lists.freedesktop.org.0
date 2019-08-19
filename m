@@ -1,43 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 173C394B86
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 19:19:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A90E94D2E
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 20:43:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E6BE89F45;
-	Mon, 19 Aug 2019 17:19:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A0836E266;
+	Mon, 19 Aug 2019 18:43:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F018F89FCA
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 17:19:43 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id BCE9A8048D;
- Mon, 19 Aug 2019 19:19:40 +0200 (CEST)
-Date: Mon, 19 Aug 2019 19:19:39 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Sean Paul <sean@poorly.run>
-Subject: Re: [PATCH RFC 07/19] drm/msm: Use drm_attach_bridge() to attach a
- bridge to an encoder
-Message-ID: <20190819171939.GB27109@ravnborg.org>
-References: <20190808151150.16336-1-boris.brezillon@collabora.com>
- <20190808151150.16336-8-boris.brezillon@collabora.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BD5356E268
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 18:43:20 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id B9E5F72161; Mon, 19 Aug 2019 18:43:20 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111414] [REGRESSION] [BISECTED] Segmentation fault in
+ si_bind_blend_state after removal of the blend state NULL check
+Date: Mon, 19 Aug 2019 18:43:20 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: maraeo@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-111414-502-T7ucI6tojF@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111414-502@http.bugs.freedesktop.org/>
+References: <bug-111414-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190808151150.16336-8-boris.brezillon@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=QX4gbG5DAAAA:8
- a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8 a=D1OYtgt7qXEmPHs6M7oA:9
- a=zqEInNdsOrnKXvVw:21 a=TYsL9ddC6Lm2RMaS:21 a=CjuIK1q_8ugA:10
- a=AbAUZ8qAyYyZVLSsDulk:22 a=E9Po1WZjFZOl8hwRPBS3:22
- a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,54 +53,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, dri-devel@lists.freedesktop.org,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
- Chris Healy <Chris.Healy@zii.aero>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1597849605=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBBdWcgMDgsIDIwMTkgYXQgMDU6MTE6MzhQTSArMDIwMCwgQm9yaXMgQnJlemlsbG9u
-IHdyb3RlOgo+IFRoaXMgaXMgcGFydCBvZiBvdXIgYXR0ZW1wdCB0byBtYWtlIHRoZSBicmlkZ2Ug
-Y2hhaW4gYSBkb3VibGUtbGlua2VkCj4gbGlzdCBiYXNlZCBvbiB0aGUgZ2VuZXJpYyBsaXN0IGhl
-bHBlcnMuIEluIG9yZGVyIHRvIGRvIHRoYXQsIHdlIG11c3QKPiBwYXRjaCBhbGwgZHJpdmVycyBt
-YW5pcHVsYXRpbmcgdGhlIGVuY29kZXItPmJyaWRnZSBmaWVsZCBkaXJlY3RseS4KPiAKPiBTaWdu
-ZWQtb2ZmLWJ5OiBCb3JpcyBCcmV6aWxsb24gPGJvcmlzLmJyZXppbGxvbkBjb2xsYWJvcmEuY29t
-PgpSZXZpZXdlZC1ieTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgoKU2VhbiwgdGhp
-cyBwYXRjaCBsb29rcyBsaWtlIGEgbmljZSBjbGVhbnVwIHdlIGNhbiBhcHBseQpvdXRzaWRlIHRo
-ZSBzZXJpZXMuCkl0IHdvdWxkIGJlIGdvb2QgdGhhdCBkcml2ZXJzIGRvIG5vdCBwb2tlIGRpcmVj
-dCBpbgp0aGUgZW5jb2RlciBkYXRhIHRoYXQgdGhpcyBwYXRjaCBmaXhlcy4KCglTYW0KCj4gLS0t
-Cj4gIGRyaXZlcnMvZ3B1L2RybS9tc20vZWRwL2VkcC5jICAgfCA0ICsrKy0KPiAgZHJpdmVycy9n
-cHUvZHJtL21zbS9oZG1pL2hkbWkuYyB8IDQgKysrLQo+ICAyIGZpbGVzIGNoYW5nZWQsIDYgaW5z
-ZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL21zbS9lZHAvZWRwLmMgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL2VkcC9lZHAuYwo+IGluZGV4
-IDBmMzEyYWM1YjYyNC4uYWQ0ZTk2M2NjZDliIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9tc20vZWRwL2VkcC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21zbS9lZHAvZWRwLmMKPiBA
-QCAtMTc4LDcgKzE3OCw5IEBAIGludCBtc21fZWRwX21vZGVzZXRfaW5pdChzdHJ1Y3QgbXNtX2Vk
-cCAqZWRwLCBzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ICAJCWdvdG8gZmFpbDsKPiAgCX0KPiAg
-Cj4gLQllbmNvZGVyLT5icmlkZ2UgPSBlZHAtPmJyaWRnZTsKPiArCXJldCA9IGRybV9icmlkZ2Vf
-YXR0YWNoKGVuY29kZXIsIGVkcC0+YnJpZGdlLCBOVUxMKTsKPiArCWlmIChyZXQpCj4gKwkJZ290
-byBmYWlsOwo+ICAKPiAgCXByaXYtPmJyaWRnZXNbcHJpdi0+bnVtX2JyaWRnZXMrK10gICAgICAg
-PSBlZHAtPmJyaWRnZTsKPiAgCXByaXYtPmNvbm5lY3RvcnNbcHJpdi0+bnVtX2Nvbm5lY3RvcnMr
-K10gPSBlZHAtPmNvbm5lY3RvcjsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21zbS9o
-ZG1pL2hkbWkuYyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vaGRtaS9oZG1pLmMKPiBpbmRleCAwZTQy
-MTdiZTNmMDAuLjU1YjlhOGM4MzEyYiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNt
-L2hkbWkvaGRtaS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21zbS9oZG1pL2hkbWkuYwo+IEBA
-IC0zMjcsNyArMzI3LDkgQEAgaW50IG1zbV9oZG1pX21vZGVzZXRfaW5pdChzdHJ1Y3QgaGRtaSAq
-aGRtaSwKPiAgCQlnb3RvIGZhaWw7Cj4gIAl9Cj4gIAo+IC0JZW5jb2Rlci0+YnJpZGdlID0gaGRt
-aS0+YnJpZGdlOwo+ICsJcmV0ID0gZHJtX2JyaWRnZV9hdHRhY2goZW5jb2RlciwgaGRtaS0+YnJp
-ZGdlLCBOVUxMKTsKPiArCWlmIChyZXQpCj4gKwkJZ290byBmYWlsOwo+ICAKPiAgCXByaXYtPmJy
-aWRnZXNbcHJpdi0+bnVtX2JyaWRnZXMrK10gICAgICAgPSBoZG1pLT5icmlkZ2U7Cj4gIAlwcml2
-LT5jb25uZWN0b3JzW3ByaXYtPm51bV9jb25uZWN0b3JzKytdID0gaGRtaS0+Y29ubmVjdG9yOwo+
-IC0tIAo+IDIuMjEuMAo+IAo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWw=
+
+--===============1597849605==
+Content-Type: multipart/alternative; boundary="15662402002.99Ac695e4.3058"
+Content-Transfer-Encoding: 7bit
+
+
+--15662402002.99Ac695e4.3058
+Date: Mon, 19 Aug 2019 18:43:20 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111414
+
+--- Comment #1 from Marek Ol=C5=A1=C3=A1k <maraeo@gmail.com> ---
+Created attachment 145103
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145103&action=3Dedit
+possible fix
+
+Does the attached patch fix it?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15662402002.99Ac695e4.3058
+Date: Mon, 19 Aug 2019 18:43:20 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [REGRESSION] [BISECTED] Segmentation fault in si_bind_ble=
+nd_state after removal of the blend state NULL check"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111414#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [REGRESSION] [BISECTED] Segmentation fault in si_bind_ble=
+nd_state after removal of the blend state NULL check"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111414">bug 11141=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+maraeo&#64;gmail.com" title=3D"Marek Ol=C5=A1=C3=A1k &lt;maraeo&#64;gmail.c=
+om&gt;"> <span class=3D"fn">Marek Ol=C5=A1=C3=A1k</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145103=
+" name=3D"attach_145103" title=3D"possible fix">attachment 145103</a> <a hr=
+ef=3D"attachment.cgi?id=3D145103&amp;action=3Dedit" title=3D"possible fix">=
+[details]</a></span> <a href=3D'page.cgi?id=3Dsplinter.html&amp;bug=3D11141=
+4&amp;attachment=3D145103'>[review]</a>
+possible fix
+
+Does the attached patch fix it?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15662402002.99Ac695e4.3058--
+
+--===============1597849605==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1597849605==--
