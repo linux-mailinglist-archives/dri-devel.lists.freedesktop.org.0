@@ -2,53 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8A9A92544
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 15:39:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E15F392559
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 15:42:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 774C3891DB;
-	Mon, 19 Aug 2019 13:39:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49C566E12F;
+	Mon, 19 Aug 2019 13:42:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
- [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED8646E129
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 13:39:27 +0000 (UTC)
-Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id B665828814
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 13:39:27 +0000 (UTC)
-Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id A98C12882F; Mon, 19 Aug 2019 13:39:27 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
- pdx-wl-mail.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
- NO_RELAYS autolearn=unavailable version=3.3.1
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D1D326E132
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 13:42:17 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id CE2C572161; Mon, 19 Aug 2019 13:42:17 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204181] NULL pointer dereference regression in amdgpu
-Date: Mon, 19 Aug 2019 13:39:26 +0000
-X-Bugzilla-Reason: None
+Subject: [Bug 105651] Vega64 doesn't output properly onto dell up2715k at
+ 5120x2880
+Date: Mon, 19 Aug 2019 13:42:17 +0000
+X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: nicholas.kazlauskas@amd.com
-X-Bugzilla-Status: NEW
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: freedesktop@redsandro.e4ward.com
+X-Bugzilla-Status: REOPENED
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-204181-2300-YnHgGnm4wE@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204181-2300@https.bugzilla.kernel.org/>
-References: <bug-204181-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
+Message-ID: <bug-105651-502-KnoA0WhkJa@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-105651-502@http.bugs.freedesktop.org/>
+References: <bug-105651-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,38 +53,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0776171999=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQxODEKCi0tLSBD
-b21tZW50ICMzMyBmcm9tIE5pY2hvbGFzIEthemxhdXNrYXMgKG5pY2hvbGFzLmthemxhdXNrYXNA
-YW1kLmNvbSkgLS0tCkkoSW4gcmVwbHkgdG8gU2VyZ2V5IEtvbmRha292IGZyb20gY29tbWVudCAj
-MjYpCj4gQ3JlYXRlZCBhdHRhY2htZW50IDI4NDA4MyBbZGV0YWlsc10KPiBkbWVzZ18yMDE5LTA4
-LTAyLWFtZGdwdV9mYWlsX29uX3BhdGNoZWRfNS4yLjUKPiAKPiAoSW4gcmVwbHkgdG8gTmljaG9s
-YXMgS2F6bGF1c2thcyBmcm9tIGNvbW1lbnQgIzI0KQo+ID4gVGhpcyBzaG91bGQgYmUgZml4ZWQg
-d2l0aCB0aGUgc2VyaWVzIGxpbmtlZCBiZWxvdzoKPiA+IAo+ID4gaHR0cHM6Ly9wYXRjaHdvcmsu
-ZnJlZWRlc2t0b3Aub3JnL3Nlcmllcy82NDUwNS8KPiA+IAo+ID4gQnV0IGl0IHN0aWxsIG5lZWRz
-IHJldmlldyBhbmQgYmFja3BvcnRpbmcgdG8gb2xkZXIga2VybmVscy4KPiAKPiBDZWxlYnJhdGlv
-biBtaWdodCBoYXZlIGJlZW4gcHJlbWF0dXJlLiBIb3VycyBsYXRlciBJJ3ZlIGdvdCBhbm90aGVy
-IGZyZWV6ZQo+IHdpdGggZGlmZmVyZW50IGVycm9yIGluIGFtZGdwdS4gT25seSB0aGlzIHRpbWUs
-IG1vdXNlIGN1cnNvciB3YXMgbW92YWJsZQo+IG92ZXIgZnJvemVuIGZyYW1lIHJpZ2h0IHVudGls
-IEkgdHJpZWQgc3dpdGNoaW5nIFZULiBIZXJlJ3MgdHJhY2U6Cj4gQlVHOiB1bmFibGUgdG8gaGFu
-ZGxlIHBhZ2UgZmF1bHQgZm9yIGFkZHJlc3M6IDAwMDAwMDA4MDAwMDAxODQKPiAjUEY6IHN1cGVy
-dmlzb3IgcmVhZCBhY2Nlc3MgaW4ga2VybmVsIG1vZGUKPiAjUEY6IGVycm9yX2NvZGUoMHgwMDAw
-KSAtIG5vdC1wcmVzZW50IHBhZ2UKPiBQR0QgMCBQNEQgMCAKPiBPb3BzOiAwMDAwIFsjMV0gUFJF
-RU1QVCBTTVAgTk9QVEkKPiBDUFU6IDIgUElEOiAyMTA0NCBDb21tOiBrd29ya2VyL3UxNjowIFRh
-aW50ZWQ6IEcgICAgICAgIFcgSU8gICAgIAo+IDUuMi41LTEzOTYuZzc5YjZhOWMtSFNGICMxIG9w
-ZW5TVVNFIFR1bWJsZXdlZWQgKHVucmVsZWFzZWQpCj4gSGFyZHdhcmUgbmFtZTogR2lnYWJ5dGUg
-VGVjaG5vbG9neSBDby4sIEx0ZC4gR0EtOTkwWEEtVUQzL0dBLTk5MFhBLVVEMywgQklPUwo+IEYx
-NGUgMDkvMDkvMjAxNAo+IFdvcmtxdWV1ZTogZXZlbnRzX3VuYm91bmQgY29tbWl0X3dvcmsKPiBS
-SVA6IDAwMTA6YW1kZ3B1X2RtX2F0b21pY19jb21taXRfdGFpbCsweDJlNi8weGQ2MCBbYW1kZ3B1
-XQoKQXJlIHlvdSBhYmxlIHRvIGNvbnNpc3RlbnRseSByZXByb2R1Y2UgdGhpcyBpc3N1ZT8gSXMg
-aXQgdGhlIHNhbWUgc2V0dXAgYW5kCnNhbWUgY29uZGl0aW9ucyBhcyBiZWZvcmU/IEkgaGF2ZW4n
-dCBiZWVuIGFibGUgdG8gc2VlIGl0IGluIG15IHRlc3RpbmcgYXQKbGVhc3QuCgotLSAKWW91IGFy
-ZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2ln
-bmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbA==
+
+--===============0776171999==
+Content-Type: multipart/alternative; boundary="15662221375.b03451.17637"
+Content-Transfer-Encoding: 7bit
+
+
+--15662221375.b03451.17637
+Date: Mon, 19 Aug 2019 13:42:17 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D105651
+
+--- Comment #9 from Redsandro <freedesktop@redsandro.e4ward.com> ---
+@AlexDeucher I am using xserver-xorg-video-amdgpu. I can use 18.0.1 (No TILE
+support, need workaround) or 19.0.1 (Cinnamon crashes, need workaround for =
+time
+being). I'm looking for a xorg config or xrandr command that works like
+nVidia's TwinView that I can keep in place while I am checking TILE support
+with this DM and kernel from time to time. (I am new to AMD/Radeon.)
+
+@TomasBzatek I still need a workaround because Cinnamon crashes on 5.2 w/
+19.0.1 TILE support. See https://github.com/linuxmint/cinnamon/issues/8807
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15662221375.b03451.17637
+Date: Mon, 19 Aug 2019 13:42:17 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - Vega64 doesn't output properly onto dell up2715k at =
+5120x2880"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105651#c9">Commen=
+t # 9</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - Vega64 doesn't output properly onto dell up2715k at =
+5120x2880"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105651">bug 10565=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+freedesktop&#64;redsandro.e4ward.com" title=3D"Redsandro &lt;freedesktop&#6=
+4;redsandro.e4ward.com&gt;"> <span class=3D"fn">Redsandro</span></a>
+</span></b>
+        <pre>&#64;AlexDeucher I am using xserver-xorg-video-amdgpu. I can u=
+se 18.0.1 (No TILE
+support, need workaround) or 19.0.1 (Cinnamon crashes, need workaround for =
+time
+being). I'm looking for a xorg config or xrandr command that works like
+nVidia's TwinView that I can keep in place while I am checking TILE support
+with this DM and kernel from time to time. (I am new to AMD/Radeon.)
+
+&#64;TomasBzatek I still need a workaround because Cinnamon crashes on 5.2 =
+w/
+19.0.1 TILE support. See <a href=3D"https://github.com/linuxmint/cinnamon/i=
+ssues/8807">https://github.com/linuxmint/cinnamon/issues/8807</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15662221375.b03451.17637--
+
+--===============0776171999==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0776171999==--
