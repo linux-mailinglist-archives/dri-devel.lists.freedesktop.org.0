@@ -2,72 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB7FB921EC
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 13:16:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 943E6921F5
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 13:17:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C54676E100;
-	Mon, 19 Aug 2019 11:16:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAC5C6E10A;
+	Mon, 19 Aug 2019 11:17:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57ABC6E100
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 11:16:18 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id b16so8285738wrq.9
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 04:16:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=sYL7MwOhoekZXAIluRkO4O6abKwPV5xWDSz9SiG3XnI=;
- b=BACy59ueB3DIMfJbgrI+DJDgHYgupPDDnv8aDS/Z3kI41vg2U0vtXpBOiFvsdy9LLV
- vClRr4+pTQQ3hufFTXwxe2SJamwY+zhjNv6YO4vMig146jGjC31XdQFn4/yTN+j+dooo
- Uvr6yN0SnXbq6im7j1QMaXFoYyudVDKd7O3u6Z2VH7ob6lm1xrYMRq8wnL/p9eDWhhFf
- D1Aw6kJ3TQDsDzX2PhPfQJJ4Mrk184kvKYnK7Tu2RAbXHx5iXeLl9/7f1+ADcJnDfNYR
- mblxaeBbJcvFJJ0wqd+C+yfsv9ixx3QcqRzWoaYos9Xysj3dEEKtH8NiU2r761KNmlcc
- 44WA==
-X-Gm-Message-State: APjAAAV+TdQgRo+EhJkmqWFIv36bHGCTM++PdT/IMsFSpFx4woeOBKUU
- G7Y3O91GjmAjSgJPMe0dLiH/Uw==
-X-Google-Smtp-Source: APXvYqweSsDDDlqBAEDnwhoSEhwjNEKT31VkZ/6tRaiTaurHW9p/OwYt4u6J+AkcMUwdc9v+6GjfMg==
-X-Received: by 2002:adf:f710:: with SMTP id r16mr100240wrp.81.1566213376861;
- Mon, 19 Aug 2019 04:16:16 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
- [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id t13sm15081515wrr.0.2019.08.19.04.16.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Aug 2019 04:16:15 -0700 (PDT)
-Date: Mon, 19 Aug 2019 12:16:13 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH v3 2/4] backlight: Expose brightness curve type through
- sysfs
-Message-ID: <20190819111613.2kkn25tmjgyjhbip@holly.lan>
-References: <20190709190007.91260-1-mka@chromium.org>
- <20190709190007.91260-3-mka@chromium.org>
- <20190816165148.7keg45fmlndr22fl@pengutronix.de>
- <20190816175157.GT250418@google.com>
- <20190816194754.ldzjqy2yjonfvaat@pengutronix.de>
- <20190816211051.GV250418@google.com>
- <20190819054628.asw3cxp46w3rpml7@pengutronix.de>
- <20190819095037.h3gig3quyhnzshm7@holly.lan>
- <20190819102127.wqudnbngottjakf5@pengutronix.de>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 78C8D6E109
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 11:17:32 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 7572772161; Mon, 19 Aug 2019 11:17:32 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 102646] Screen flickering under amdgpu-experimental [buggy auto
+ power profile]
+Date: Mon, 19 Aug 2019 11:17:32 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: magist3r@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-102646-502-S2w6gDEja0@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-102646-502@http.bugs.freedesktop.org/>
+References: <bug-102646-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190819102127.wqudnbngottjakf5@pengutronix.de>
-User-Agent: NeoMutt/20180716
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent;
- bh=sYL7MwOhoekZXAIluRkO4O6abKwPV5xWDSz9SiG3XnI=;
- b=SrHhkSlCRR2gmBXnlZ9FI5HFBABzwxvNa8AhHAvI55DKcotx0ZIziAITNc4rkC66aD
- 6CTuNdnVos38qUQQAg5ZVzHr+KVoEgJVRZMR2SP9Nw26RmjP59ThVgfezhDhQk+UbAkP
- W5avi1hf+yf9eEImqE7iFj2DVNOLyMsS130AOZ6dbQATdLxkq+gV34DG4uPglDxVEHU1
- Cb/lVVLAc0dowOkblz8Xd5vckOST7hY/v1co7mc4H1eXelT4fVsEBwQCyBVkw6lOPKaS
- ziJ/aWZGhaZGNGK2oCPHTkd8JJmLDv/tjr1cJcbtTScdaHaXh7euFPnDpov0SVxl7cdl
- e3KQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,126 +53,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- kernel@pengutronix.de, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jingoo Han <jingoohan1@gmail.com>, Brian Norris <briannorris@chromium.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>, Matthias Kaehlcke <mka@chromium.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Lee Jones <lee.jones@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0048229346=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBBdWcgMTksIDIwMTkgYXQgMTI6MjE6MjdQTSArMDIwMCwgVXdlIEtsZWluZS1Lw7Zu
-aWcgd3JvdGU6Cj4gPiA+ID4gSW4gYW4gaWRlYWwgd29ybGQgdGhlIGJhY2tsaWdodCBpbnRlcmZh
-Y2Ugd291bGQgYmUgY29uc2lzdGVudCBhcyB5b3UKPiA+ID4gPiBzdWdnZXN0LCBob3dldmVyIHRo
-ZXJlIGFyZSBwbGVudHkgb2YgZXhpc3RpbmcgZGV2aWNlcyB3aGljaCB1c2UgdGhlCj4gPiA+ID4g
-J290aGVyJyBzY2FsaW5nIChyZWdhcmRsZXNzIG9mIHdoaWNoIGlzIGNob3NlbiBhcyB0aGUgJ2Nv
-cnJlY3QnCj4gPiA+ID4gb25lKS4gVXNlcnNwYWNlIHN0aWxsIGhhcyB0byBkZWFsIHdpdGggdGhl
-c2UuIEFuZCBjaGFuZ2luZyBwcmV2aW91c2x5Cj4gPiA+ID4gJ2xvZ2FyaXRobWljJyBkcml2ZXJz
-IHRvIGxpbmVhciAob3IgdmljZXZlcnNhKSBtYXkgJ2JyZWFrJyB1c2Vyc3BhY2UsCj4gPiA+ID4g
-d2hlbiBpdCBrZWVwcyB1c2luZyBpdHMgJ29sZCcgc2NhbGluZywgd2hpY2ggbm93IGlzbid0IGNv
-cnJlY3QgYW55bW9yZS4KPiA+ID4gCj4gPiA+IEl0IG1pZ2h0IGJlIHN1YmplY3RpdmUsIG9yIG1h
-eWJlIEknbSBqdXN0IHRvbyBvcHRpbWlzdGljLCBidXQgSSB0aGluayBpZgo+ID4gPiB0aGVyZSB3
-YXMgbm8gcG9saWN5IGJlZm9yZSBhYm91dCB0aGUgbWVhbmluZyBvZgo+ID4gPiAKPiA+ID4gCWVj
-aG8gMTcgPiBicmlnaHRuZXNzCj4gPiA+IAo+ID4gPiBvdGhlciB0aGFuICJicmlnaHRlciB0aGFu
-IGxvd2VyIHZhbHVlcyBhbmQgZGFya2VyIHRoYW4gaGlnaGVyIG9uZXMiCj4gPiA+IGludHJvZHVj
-aW5nIChzYXkpIHRoZSBzY2FsZSBpcyBpbnRlbmRlZCB0byByZXByZXNlbnQgYSBsaW5lYXIgYnJp
-Z2h0bmVzcwo+ID4gPiBjdXJ2ZSBpcyBvay4KPiA+ID4gCj4gPiA+IFVubGVzcyB1c2Vyc3BhY2Ug
-anVtcHMgdGhyb3VnaCBob29wcyBhbmQgdHJpZXMgdG8gaWRlbnRpZnkgdGhlIGFjdHVhbAo+ID4g
-PiBkZXZpY2UgaXQgaXMgcnVubmluZyBvbiBpdCBpcyB3cm9uZyBvbiBzb21lIG1hY2hpbmVzIGFu
-eWhvdyBhbmQgd2UncmUKPiA+ID4gb25seSBzaGlmdGluZyB0aGUgc2V0IG9mIGFmZmVjdGVkIG1h
-Y2hpbmVzIHdpdGggYSB0aWdodGVyIHBvbGljeSAodW50aWwKPiA+ID4gdGhhdCB1c2Vyc3BhY2Ug
-YXBwbGljYXRpb24gaXMgZml4ZWQpLgo+ID4gCj4gPiBJIGJlbGlldmUgdGhhdCB0aGVyZSBhcmUg
-dHdvIGNvbW1vbiBhcHByb2FjaGVzIGJ5IHVzZXJzcGFjZSBhdCBwcmVzZW50Ogo+ID4gCj4gPiAx
-LiBBc3N1bWUgdGhlIHNjYWxlIGlzIHBlcmNlcHR1YWwgYW5kIHdlIGNhbiBkaXJlY3RseSBtYXAg
-YSBzbGlkZXIKPiA+ICAgIHRvIHRoZSBiYWNrbGlnaHQgdmFsdWUuIFRoaXMgaXMgY29tbW9uIHNp
-bXBseSBiZWNhdXNlIG1vc3QgQUNQSQo+ID4gICAgYmFja2xpZ2h0cyBhcmUgcGVyY2VwdHVhbCBh
-bmQgdGhlcmVmb3JlIHdoZW4gdGVzdGVkIGluIGEgbGFwdG9wCj4gPiAgICBpdCB3b3JrcyBPSy4K
-PiA+IAo+ID4gMi4gQXNzdW1lIHRoYXQgaXMgbWF4IGJyaWdodG5lc3MgaXMgc21hbGwgKGUuZy4g
-QUNQSSkgdGhlbiB0aGUKPiA+ICAgIHNjYWxlIGlzIHBlcmNlcHR1YWwgYW5kIGlmIHRoZSBtYXgg
-YnJpZ2h0bmVzcyBpcyBsYXJnZSAoZS5nLgo+ID4gICAgYSBQV00pIHRoZW4gdGhlIHNjYWxlIGlz
-IGxpbmVhciBhbmQgYXBwbHkgYSBjb3JyZWN0aW9uCj4gPiAgICBmdW5jdGlvbiBiZXR3ZWVuIHRo
-ZSBzbGlkZXIgYW5kIHRoZSBjb250cm9sLgo+ID4gCj4gPiBUaGF0IGhpc3RvcmljIGJhZ2dhZ2Ug
-bWFrZXMgaXMgZGlmZmN1bHQgdG8gImp1c3QgZGVmaW5lIGEgc3RhbmRhcmRpemVkCj4gPiBzY2Fs
-ZSIuLi4gZXNwZWNpYWxseSBnaXZlbiB0aGF0IGlmIHdlIHNlbGVjdGVkIGEgc3RhbmRhcmRpemVk
-IHNjYWxlIHdlCj4gPiB3b3VsZCBwcm9iYWJseSB3YW50IGEgcGVyY2VwdHVhbCBzY2FsZSB3aXRo
-IGxvdHMgb2Ygc3RlcHMgKGUuZy4gYnJlYWsKPiA+IHRoZSBoZXVyaXN0aWMpLgo+IAo+IFdpdGgg
-InBlcmNlcHR1YWwiIHlvdSBtZWFuIHRoYXQgbG9nYXJpdGhtaWMgc3R1ZmYsIHJpZ2h0PwoKSHVt
-YW4gcGVyY2VwdGlvbiBpcyBmYWlybHkgY29tcGxleCBzbyBpdCBkZXBlbmRzIGhvdyBzdHJpY3Qg
-eW91IHdhbnQgdG8KZ2V0LiBBdCB0aGUgZW5kIG9mIHRoZSBkYXkgd2hhdCBpdCBtZWFucyBpcyB5
-b3UgY2FuIG1hcCBhIHNsaWRlciBVSQpjb21wb25lbnQgZGlyZWN0bHkgdG8gdGhlIGJhY2tsaWdo
-dCByYW5nZSBhbmQgaXQgd2lsbCBmZWVsIHJpZ2h0LiBUaHVzCmEgdXNlcnNwYWNlIHRoYXQgbWFw
-cyBkaXJlY3RseSB0byBhIHNsaWRlciAqaXMqIGFzc3VtaW5nIHRoZSBzY2FsZQppcyBwZXJjZXB0
-dWFsLgoKTG9nYXJpdGhtaWMgc2NhbGVzIGFyZSBvZnRlbiBtZW50aW9uZWQgaW4gdGhpcyBraW5k
-IG9mIGNvbnZlcnNhdGlvbgpiZWNhdXNlIHRoZXkgYXJlIGhvcGVkIHRvIGJlICJwZXJjZXB0dWFs
-IGVub3VnaCIuIFRoZXkgYXJlIG5vdCBzdHJpY3RseQptYXRjaGVkIHRvIGh1bWFuIHBlcmNlcHRp
-b24gYnV0IHdpdGggYSBzYW5lIGV4cG9uZW50IHNob3VsZG4ndCBmZWVsCmFzIGJyb2tlbiBhcyBh
-IGxpbmVhciBzY2FsZSBkb2VzLgoKRmluYWxseSBub3RlIHRoYXQgZm9yIHBlb3BsZSB3aXRoIGFu
-IGF1ZGlvIGJhY2tncm91bmQgdGhlbiBsb2dhcml0aG1pYwphbmQgcGVyY2VwdHVhbCBhcmUgdXNl
-ZCBpbnRlcmNoYW5nYWJseSAoYmFzZWQgb24gdGhlIGFzc3VtcHRpb24gdGhhdApkZWNpYmVscyBh
-cmUgYSBwcmVjZXB0dWFsIHNjYWxlKS4KCgo+IEkgd291bGQgdGVuZCB0byBnbyBmb3IgbGluZWFy
-IGJlY2F1c2UgdGhpcyBpcyBlYXNpbHkgbWVhc3VyZWFibGUgYW5kCj4gYWxzbyBpcyBzdHJhaWdo
-dCBmb3J3YXJkIHRvIGltcGxlbWVudCBpbiB0aGUgdXN1YWwgY2FzZXMgKGF0dGVudGlvbjogSQo+
-IGFzc3VtZSB0aGF0ICJ1c3VhbCIgbWVhbnMgc29tZXRoaW5nIGxpa2UgUFdNIGFuZCBJIGRvbid0
-IGtub3cgbXVjaCBhYm91dAo+IHRoZSBwaHlzaWNzIG9mIGJhY2tsaWdodHMgYnV0IGp1c3QgYXNz
-dW1lIHRoYXQgYSBQV00gd2lsbCBjcmVhdGUgYQo+IGxpbmVhciBtYXBwaW5nKS4KCk1hbmRhdGlu
-ZyBhIGxpbmVhciBzY2FsZSBtYWtlcyB0aGluZ3MgZGlmZmljdWx0IGZvciBBQ1BJIHN5c3RlbXMg
-KHdoaWNoCmFyZSBhbW91bmcgdGhlIG1vc3QgY29tbW9uIGNhc2VzKSBzaW5jZSB3ZSB3b3VsZCBo
-YXZlIHRvIHVuLXBlcmNlcHR1YWxpemUKaXQuIEFkZGl0aW9uYWxseSBpdCBpcyBub3QgYSBwYXJ0
-aWN1bGFybHkgaGVscGZ1bCBzY2FsZSB0byBvZmZlciB0aGUKdXNlcnNwYWNlLgoKQWxsIHByb3Bv
-c2FscyBJIGhhdmUgc2VlbiBpbiB0aGlzIHNwYWNlIGFzc3VtZSB3ZSB3aWxsIG1hcCBsaW5lYXIK
-aGFyZHdhcmUgdG8gYSBwZXJjZXB0dWFsIHNjYWxlIHJhdGhlciB0aGFuIHRyeWluZyB0byB1bm1h
-cCBkZXZpY2VzIHRoYXQKYXJlIGFscmVhZHkgcGVyY2VwdHVhbC4KCldpdGhpbiB0aGUgYmFja2xp
-Z2h0IHNwYWNlIHdlIGFyZSBhbHNvIG1vdmluZyAoc2xvd2x5KSB0b3dhcmRzCnBlcmNlcHR1YWwg
-c2NhbGVzIHRvIGFsaWduIHdpdGggdGhpcy4gRm9yIGV4YW1wbGUgcHdtX2JsLmMgd2lsbAphdXRv
-bWF0aWNhbGx5IGdlbmVyYXRlIGEgcGVyY2VwdHVhbCB0YWJsZSB1bmxlc3MgdGhlIERUIHRlbGxz
-IGl0Cm5vdCB0by4KCgo+ID4gPiBBbmQgdGhlIGJpZyB1cHNpZGUgaXMgdGhhdCBpbiB0aGUgZW5k
-IChpLmUuIHdoZW4gYWxsIGtlcm5lbCBkcml2ZXJzIGFuZAo+ID4gPiB1c2Vyc3BhY2UgYXBwbGlj
-YXRpb25zIGFyZSBhZGFwdGVkIHRvIHByb3ZpZGUvY29uc3VtZSB0aGUgImNvcnJlY3QiCj4gPiA+
-IGN1cnZlKSB0aGUgcmVzdWx0IGlzIHNpbXBsZXIuCj4gPiAKPiA+IE15IHZpZXcgaXMgdGhhdCB0
-aGlzIGNvbnZlcmdlbmNlIHdpbGwgZXZlbnR1YWxseSBiZSBhY2hpZXZlZCBidXQgaXQgd2lsbAo+
-ID4gaGFwcGVuIHRocm91Z2ggdGhlIG9ic29sZXNjZW5jZSBvZiB0aGUgYmFja2xpZ2h0IHN5c2Zz
-IGludGVyZmFjZS4gVGhlCj4gPiBzeXNmcyBpbnRlcmZhY2UgaGFzIG90aGVyIGZsYXdzLCBpbiBw
-YXJ0aWN1bGFyIG5vIGludGVncmF0aW9uIHdpdGggdGhlCj4gPiBEUk0gY29ubmVjdG9yIEFQSS4K
-PiA+IAo+ID4gVGh1cyBJIHdvdWxkIGV4cGVjdCBhbiBhbHRlcm5hdGl2ZSBpbnRlcmZhY2UgdG8g
-ZW1lcmdlLCBtb3N0IGxpa2VseSBhcwo+ID4gcGFydCBvZiB0aGUgRFJNIGNvbm5lY3RvciBBUEku
-IEknZCBleHBlY3Qgc3VjaCBhIG5ldyBBUEkgdG8gYQo+ID4gcGVyY2VwdHVhbCBzY2FsZSBhbmQg
-dG8gaGF2ZSBhIGZpeGVkIG1heCBicmlnaHRuZXNzIHdpdGggZW5vdWdoCj4gPiBzdGVwcyB0byBz
-dXBwb3J0IGFuaW1hdGVkIGJhY2tsaWdodCBlZmZlY3RzIChJSVJDIDAuLjEwMCBoYXMgYmVlbgo+
-ID4gcHJvcG9zZWQgaW4gdGhlIHBhc3QpIAo+IAo+IFRoZW4gd29yayBvbiB0aGUgbmV3IHN0dWZm
-IGluc3RlYWQgb2YgbWFraW5nIHRoZSBvbGQgc3R1ZmYgKHRoYXQgaXMKPiBpbnRlbmRlZCB0byBk
-aWUpIGhhcmRlciB0byB1c2UgY29ycmVjdGx5PwoKSSBkbyBub3QgYWNjZXB0IHRoaXMgdGhpcyBj
-aGFuZ2UgbWFrZXMgaXQgaGFyZGVyIHRvIHVzZSB0aGUgYmFja2xpZ2h0CmNvcnJlY3RseS4KCldl
-IGtub3cgdGhlIGN1cnJlbnQgdXNlcnNwYWNlIGhldXJpc3RpY3MgYXJlIGZyYWdpbGUgYW5kIHRo
-YXQgYXMKYmFja2xpZ2h0IGFuaW1hdGlvbiBiZWNvbWVzIG1vcmUgcG9wdWxhciB3aWxsIGJlY29t
-ZSB1bm1haW50YWluYWJsZQooYmFja2xpZ2h0IGFuaW1hdGlvbiBlbmNvdXJhZ2VzIGJhY2tsaWdo
-dHMgd2l0aCBhIHBlcmNlcHR1YWwgc2NhbGUgdG8KaW50cm9kdWNlIG1vcmUgc3RlcHMuLi4gcmVz
-dWx0aW5nIGluIHRoZW0gYmVpbmcgbWlzaGFuZGxlZCBieQp1c2Vyc3BhY2UpLgoKQW55aG93IGdp
-dmVuIHdlIGtub3cgc29waGlzdGljYXRlZCB1c2Vyc3BhY2VzIGFscmVhZHkgaGF2ZSB0d28gY29k
-ZQpwYXRocyBjb250cm9scyBieSBoZXVyaXN0aWMgYW5kIHRoYXQgdGhpcyB3aWxsIGJyZWFrIHRo
-ZW4gd2UgYXJlCnNpbXBseSBwcm92aWRpbmcgYSBjbGVhciBpbmRpY2F0aW9uIHRoYXQgYWxsb3dz
-IHRoZWlyIG1haW50YWluZXJzIGEKbm9uLWhldXJpc3RpYyBzb2x1dGlvbiB3aGVuIGJ1ZyByZXBv
-cnRzIGNvbWUgaW4uIEl0IGFsc28gbWVhbnMgdGhhdAp1c2Vyc3BhY2VzIHRoYXQgYXJlIGN1cnJl
-bnRseSBuYWl2ZSAoZS5nLiBhc3N1bWUgcGVyY2VwdHVhbCBzY2FsZSkgbmVlZApub3QgaW50cm9k
-dWNlIGEgaGV1cmlzdGljIGlmIHRoZXkgZ2V0IGEgYnVnIHJlcG9ydC4KCgo+ID4gSW4gdGhlIG1l
-YW4gdGltZSBnZXR0aW5nIHRoZSBleGlzdGluZyBjb2xsZWN0aW9uIG9mIGJhY2tsaWdodCBkcml2
-ZXJzCj4gPiBtYXJrZWQgdXAgYXMgbGluZWFyL2xvZ2FyaXRobWljL2V0YyB3aWxsIGVhc2UgdGhl
-IGludHJvZHVjdGlvbiBvZiB0aGF0Cj4gPiBBUEkgYmVjYXVzZSwgd2l0aGluIHRoZSBrZXJuZWws
-IHdlIG1pZ2h0IGhhdmUgZ2F0aGVyZWQgZW5vdWdoIGtub3dsZWRnZQo+ID4gdG8gaGF2ZSBzb21l
-IGhvcGUgb2YgY29ycmVjdGx5IG1hcHBpbmcgZWFjaCBiYWNrbGlnaHQgb250byBhCj4gPiBzdGFu
-ZGFyZGl6ZWQgc2NhbGUuCj4gCj4gSXQgd291bGQgYmUgZW5vdWdoIHRvIGRvIHRoaXMgaW4gYSBj
-b2RlIGNvbW1lbnQgdGhlbi4gVGhhdCB3b3VsZCBjb21lCj4gd2l0aG91dCB0aGUgbmVlZCB0byBh
-ZGFwdCB0aGUgb2xkIHVzZXJzcGFjZSBBUEkuIEFsc28gd2hlbiB0aGUgb2xkCj4gc29sdXRpb24g
-d29ya3MgYXQgOTUlIGluc3RlYWQgb2YgOTAlIGJlZm9yZSwgaXQgd2lsbCByZXNpc3QgaGFyZGVy
-IHRvCj4gZHlpbmcuCgpUbyBiZSBob25lc3QgSSB0aGluayB0aGUgdHJhY3Rpb24gZm9yIHRoZSBz
-eXNmcyBpbnRlcmZhY2UgY29tZXMgZnJvbQp0aGUgZmFjdCB0aGF0LCB3aXRoIG9yIHdpdGhvdXQg
-dGhlIHByb3Bvc2VkIGNoYW5nZSwgaXQgaXMgZ29vZCBlbm91Z2gKZm9yIHRoZSBBQ1BJIHN5c3Rl
-bXMgdGhhdCBkb21pbmF0ZSB0aGUgbGFuZHNjYXBlLgoKCkRhbmllbC4KX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0048229346==
+Content-Type: multipart/alternative; boundary="15662134525.c1256.24972"
+Content-Transfer-Encoding: 7bit
+
+
+--15662134525.c1256.24972
+Date: Mon, 19 Aug 2019 11:17:32 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D102646
+
+--- Comment #109 from magist3r <magist3r@gmail.com> ---
+(In reply to tempel.julian from comment #108)
+> I suppose also the Windows driver enforces maximum VRAM clock in your case
+> all the time? If that is true, it would definitely be a cool thing if we
+> could get a patch into upstream to cover that as well (Ahzo's patch landed
+> in amd-staging-drm-next branch).
+
+I don't have Windows installed on my machine so I don't know.
+Anyway the linux driver enforces VRAM clock because of my two monitors are =
+out
+of sync, and memory reclockimg causes flickering (if I understand correctly
+what driver's code do).=20
+My patch fixes a bug that breaks this behavior when OverDrive mask is enabl=
+ed,
+nothing more.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15662134525.c1256.24972
+Date: Mon, 19 Aug 2019 11:17:32 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
+ower profile]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102646#c109">Comm=
+ent # 109</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
+ower profile]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102646">bug 10264=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+magist3r&#64;gmail.com" title=3D"magist3r &lt;magist3r&#64;gmail.com&gt;"> =
+<span class=3D"fn">magist3r</span></a>
+</span></b>
+        <pre>(In reply to tempel.julian from <a href=3D"show_bug.cgi?id=3D1=
+02646#c108">comment #108</a>)
+<span class=3D"quote">&gt; I suppose also the Windows driver enforces maxim=
+um VRAM clock in your case
+&gt; all the time? If that is true, it would definitely be a cool thing if =
+we
+&gt; could get a patch into upstream to cover that as well (Ahzo's patch la=
+nded
+&gt; in amd-staging-drm-next branch).</span >
+
+I don't have Windows installed on my machine so I don't know.
+Anyway the linux driver enforces VRAM clock because of my two monitors are =
+out
+of sync, and memory reclockimg causes flickering (if I understand correctly
+what driver's code do).=20
+My patch fixes a bug that breaks this behavior when OverDrive mask is enabl=
+ed,
+nothing more.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15662134525.c1256.24972--
+
+--===============0048229346==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0048229346==--
