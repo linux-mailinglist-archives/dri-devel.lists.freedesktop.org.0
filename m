@@ -1,46 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3154891999
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Aug 2019 22:53:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6CDE91AB7
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Aug 2019 03:30:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A9876E05D;
-	Sun, 18 Aug 2019 20:53:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02A096E062;
+	Mon, 19 Aug 2019 01:30:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 622F66E05D
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Aug 2019 20:53:50 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5489172161; Sun, 18 Aug 2019 20:53:50 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111415] BUG: kernel NULL pointer dereference - supervisor read
- access in kernel mode
-Date: Sun, 18 Aug 2019 20:53:50 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tseewald@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111415-502-PiXfed4eXz@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111415-502@http.bugs.freedesktop.org/>
-References: <bug-111415-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9EA446E062
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 01:30:35 +0000 (UTC)
+X-UUID: 5576cacccd1f4e5599be91181be40850-20190819
+X-UUID: 5576cacccd1f4e5599be91181be40850-20190819
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0707 with TLS)
+ with ESMTP id 1586978274; Mon, 19 Aug 2019 09:30:30 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Mon, 19 Aug 2019 09:30:31 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by mtkcas08.mediatek.inc
+ (172.21.101.126) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Mon, 19 Aug 2019 09:30:31 +0800
+Received: from [172.21.77.4] (172.21.77.4) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Mon, 19 Aug 2019 09:30:31 +0800
+Message-ID: <1566178231.7536.1.camel@mtksdaap41>
+Subject: Re: [PATCH] gpu: drm: mediatek: mtk_drm_drv.c: Add of_node_put()
+ before goto
+From: CK Hu <ck.hu@mediatek.com>
+To: Nishka Dasgupta <nishkadg.linux@gmail.com>
+Date: Mon, 19 Aug 2019 09:30:31 +0800
+In-Reply-To: <20190706133021.3308-1-nishkadg.linux@gmail.com>
+References: <20190706133021.3308-1-nishkadg.linux@gmail.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,122 +50,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1545918875=="
+Cc: airlie@linux.ie, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1545918875==
-Content-Type: multipart/alternative; boundary="15661616300.b6a368.16048"
-Content-Transfer-Encoding: 7bit
-
-
---15661616300.b6a368.16048
-Date: Sun, 18 Aug 2019 20:53:50 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111415
-
---- Comment #1 from Tom Seewald <tseewald@gmail.com> ---
-This bug report on the kernel bugtracker appears to be the same or at least=
- a
-very similar problem:
-https://bugzilla.kernel.org/show_bug.cgi?id=3D204181
-
-In that report, Nicholas Kazlauskas posted a possible fix:
-https://patchwork.freedesktop.org/series/64505/
-
-I have yet to test to see if this patch resolves the crashes I am experienc=
-ing,
-but I don't see this as being in the 5.3-rc series, and certainly not in the
-5.2 stable releases. Was this fix perhaps overlooked/missed?
-
-So far I just see that it is in amd-staging-drm-next as of August 1st:
-https://cgit.freedesktop.org/~agd5f/linux/commit/?h=3Damd-staging-drm-next&=
-id=3Da4f6a4c7de97335f3452229e67521eae338af10e
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15661616300.b6a368.16048
-Date: Sun, 18 Aug 2019 20:53:50 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - BUG: kernel NULL pointer dereference - supervisor read ac=
-cess in kernel mode"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111415#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - BUG: kernel NULL pointer dereference - supervisor read ac=
-cess in kernel mode"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111415">bug 11141=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tseewald&#64;gmail.com" title=3D"Tom Seewald &lt;tseewald&#64;gmail.com&gt;=
-"> <span class=3D"fn">Tom Seewald</span></a>
-</span></b>
-        <pre>This bug report on the kernel bugtracker appears to be the sam=
-e or at least a
-very similar problem:
-<a href=3D"https://bugzilla.kernel.org/show_bug.cgi?id=3D204181">https://bu=
-gzilla.kernel.org/show_bug.cgi?id=3D204181</a>
-
-In that report, Nicholas Kazlauskas posted a possible fix:
-<a href=3D"https://patchwork.freedesktop.org/series/64505/">https://patchwo=
-rk.freedesktop.org/series/64505/</a>
-
-I have yet to test to see if this patch resolves the crashes I am experienc=
-ing,
-but I don't see this as being in the 5.3-rc series, and certainly not in the
-5.2 stable releases. Was this fix perhaps overlooked/missed?
-
-So far I just see that it is in amd-staging-drm-next as of August 1st:
-<a href=3D"https://cgit.freedesktop.org/~agd5f/linux/commit/?h=3Damd-stagin=
-g-drm-next&amp;id=3Da4f6a4c7de97335f3452229e67521eae338af10e">https://cgit.=
-freedesktop.org/~agd5f/linux/commit/?h=3Damd-staging-drm-next&amp;id=3Da4f6=
-a4c7de97335f3452229e67521eae338af10e</a></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15661616300.b6a368.16048--
-
---===============1545918875==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1545918875==--
+SGksIE5pc2hrYToKCk9uIFNhdCwgMjAxOS0wNy0wNiBhdCAxOTowMCArMDUzMCwgTmlzaGthIERh
+c2d1cHRhIHdyb3RlOgo+IEVhY2ggaXRlcmF0aW9uIG9mIGZvcl9lYWNoX2NoaWxkX29mX25vZGUg
+cHV0cyB0aGUgcHJldmlvdXMKPiBub2RlLCBidXQgaW4gdGhlIGNhc2Ugb2YgYSBnb3RvIGZyb20g
+dGhlIG1pZGRsZSBvZiB0aGUgbG9vcCwgdGhlcmUgaXMKPiBubyBwdXQsIHRodXMgY2F1c2luZyBh
+IG1lbW9yeSBsZWFrLiBIZW5jZSBhZGQgYW4gb2Zfbm9kZV9wdXQgYmVmb3JlIHRoZQo+IGdvdG8g
+aW4gdHdvIHBsYWNlcy4KPiBJc3N1ZSBmb3VuZCB3aXRoIENvY2NpbmVsbGUuCgpBcHBsaWVkIHRv
+IG1lZGlhdGVrLWRybS1maXhlcy01LjMgWzFdLCB0aGFua3MuCgpbMV0KaHR0cHM6Ly9naXRodWIu
+Y29tL2NraHUtbWVkaWF0ZWsvbGludXguZ2l0LXRhZ3MvdHJlZS9tZWRpYXRlay1kcm0tZml4ZXMt
+NS4zCgpSZWdhcmRzLApDSwoKPiAKPiBTaWduZWQtb2ZmLWJ5OiBOaXNoa2EgRGFzZ3VwdGEgPG5p
+c2hrYWRnLmxpbnV4QGdtYWlsLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVr
+L210a19kcm1fZHJ2LmMgfCA1ICsrKystCj4gIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMo
+KyksIDEgZGVsZXRpb24oLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlh
+dGVrL210a19kcm1fZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kcnYu
+Ywo+IGluZGV4IDk1ZmRiZDBmYmNhYy4uMmRmZmJjOGM2ZDczIDEwMDY0NAo+IC0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L21lZGlhdGVrL210a19kcm1fZHJ2LmMKPiBAQCAtNTI0LDEyICs1MjQsMTUgQEAgc3RhdGljIGlu
+dCBtdGtfZHJtX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gIAkJCWNvbXAg
+PSBkZXZtX2t6YWxsb2MoZGV2LCBzaXplb2YoKmNvbXApLCBHRlBfS0VSTkVMKTsKPiAgCQkJaWYg
+KCFjb21wKSB7Cj4gIAkJCQlyZXQgPSAtRU5PTUVNOwo+ICsJCQkJb2Zfbm9kZV9wdXQobm9kZSk7
+Cj4gIAkJCQlnb3RvIGVycl9ub2RlOwo+ICAJCQl9Cj4gIAo+ICAJCQlyZXQgPSBtdGtfZGRwX2Nv
+bXBfaW5pdChkZXYsIG5vZGUsIGNvbXAsIGNvbXBfaWQsIE5VTEwpOwo+IC0JCQlpZiAocmV0KQo+
+ICsJCQlpZiAocmV0KSB7Cj4gKwkJCQlvZl9ub2RlX3B1dChub2RlKTsKPiAgCQkJCWdvdG8gZXJy
+X25vZGU7Cj4gKwkJCX0KPiAgCj4gIAkJCXByaXZhdGUtPmRkcF9jb21wW2NvbXBfaWRdID0gY29t
+cDsKPiAgCQl9CgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
