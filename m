@@ -2,44 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EB9B951AA
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2019 01:31:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE1DC951D7
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2019 01:48:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D56C16E47F;
-	Mon, 19 Aug 2019 23:31:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE4376E488;
+	Mon, 19 Aug 2019 23:48:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 44F9D6E4A3
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 23:31:03 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 41F2672161; Mon, 19 Aug 2019 23:31:03 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111122] 2500U: Graphics corruption on kernel 5.2
-Date: Mon, 19 Aug 2019 23:31:02 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: maraeo@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111122-502-HIejU593SV@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111122-502@http.bugs.freedesktop.org/>
-References: <bug-111122-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BADFC6E488
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 23:48:46 +0000 (UTC)
+Received: by mail-pf1-x442.google.com with SMTP id o70so2143205pfg.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Aug 2019 16:48:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=QgmxRXiV4eVbA2D+CIIcdEV2MHKTvfb/XetIC7rubus=;
+ b=uZvqJlKb/BizFik/RZ3XeOGbLwS68uv7CH7Cub1MeWvWGdWHS2yZyM17ZrA6fUHoRV
+ EpEe8ERQAZxXobFx5VcJD9wZwVtmOTs4SpmD8S0AZ0f8qZBWV/AbzDOJ3hyaVhnlJDxh
+ z+3yGQD3L0kchSQFiEwX/FimXq/RUN/S87HLqs3/ploew8tfWtnA1uXsJnxrtwaoFNhL
+ NFT0U1/CEP2vYZuGDflhI2oOIIAh0rqsoXFagRdt4fi/FUMcLFKIFAw55ETcso9Awzm3
+ wQPkdi6/Jcrrg+sMkGCtv4xT99y2jmPNhdpa8BtuYfyKsFW2k9jgx9oPlyHFiAVfPZu6
+ o/Og==
+X-Gm-Message-State: APjAAAWRzgFwwb1kuVsi8gFBc0oM0so8hzHX4tREqlI+ASmMEAxTpFuq
+ /IRlBWVh/MBa7J3itOqMJ8HEsg==
+X-Google-Smtp-Source: APXvYqxLZYDPjHITYPuLGErUtE7snQdksVmHOzJvYGqjfz2RdpRb8Kwiw0Y+5f6dwxBeKzZAVreQ+g==
+X-Received: by 2002:a63:4042:: with SMTP id n63mr11517121pga.75.1566258526047; 
+ Mon, 19 Aug 2019 16:48:46 -0700 (PDT)
+Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
+ by smtp.gmail.com with ESMTPSA id
+ 185sm18769681pfa.170.2019.08.19.16.48.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Aug 2019 16:48:45 -0700 (PDT)
+From: John Stultz <john.stultz@linaro.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] dt-bindings for lima support on HiKey
+Date: Mon, 19 Aug 2019 23:48:37 +0000
+Message-Id: <20190819234840.37786-1-john.stultz@linaro.org>
+X-Mailer: git-send-email 2.17.1
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=QgmxRXiV4eVbA2D+CIIcdEV2MHKTvfb/XetIC7rubus=;
+ b=mZZAymUSnMr0p4jzxwKi8QzK07aaNJ7XYQnKIsiXYe2ou1W56SjSX9PXE3QSg8XWEZ
+ 1Nq6cFiogPtQO1sjxpWu0t2NrU9YhCfYBgcvaUYc5z4OxBp9nNy0j2OfHAE+76P7Bpdg
+ 2ZFJhPS3sKV8HL3thf/YKLozN89C3JtCWJirNe/HbE4F9X6esAaGLZuyHzcI8dusq1Ke
+ caMLXlvCnFU2nKkn+BfyKXo9HL4J5Nk49OxzIjK7sMFeu5cAVBOdOqc+lpYZp928f132
+ OjK8W0EUYh69iB9g9ETekJ8y/EkRSPHhc0kOnY4r7xWGzXZv+NZWm3EA3lhAW8vuy5rI
+ Ayng==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,89 +63,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1794106702=="
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Peter Griffin <peter.griffin@linaro.org>, Rob Herring <robh+dt@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1794106702==
-Content-Type: multipart/alternative; boundary="15662574633.70f5b3.20312"
-Content-Transfer-Encoding: 7bit
-
-
---15662574633.70f5b3.20312
-Date: Mon, 19 Aug 2019 23:31:03 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111122
-
---- Comment #22 from Marek Ol=C5=A1=C3=A1k <maraeo@gmail.com> ---
-How do I reproduce the Xfce hang and corruption? It's not reproducible with
-Ubuntu 16.04.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15662574633.70f5b3.20312
-Date: Mon, 19 Aug 2019 23:31:03 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122#c22">Comme=
-nt # 22</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122">bug 11112=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-maraeo&#64;gmail.com" title=3D"Marek Ol=C5=A1=C3=A1k &lt;maraeo&#64;gmail.c=
-om&gt;"> <span class=3D"fn">Marek Ol=C5=A1=C3=A1k</span></a>
-</span></b>
-        <pre>How do I reproduce the Xfce hang and corruption? It's not repr=
-oducible with
-Ubuntu 16.04.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15662574633.70f5b3.20312--
-
---===============1794106702==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1794106702==--
+UGV0ZXIgc2VudCBhIHBhdGNoc2V0IG91dCBiYWNrIGluIEFwcmlsIHRvIGVuYWJsZSBMaW1hIHN1
+cHBvcnQKb24gSGlLZXksIGJ1dCB0aGVyZSdzIG5vdCBiZWVuIG11Y2ggYWN0aW9uIG9uIGl0IHNp
+bmNlIHNpbmNlLgoKSSd2ZSBiZWVuIGNhcnJ5aW5nIHRoZSBwYXRjaHNldCBpbiBteSB0cmVlLCBh
+bmQgZmlndXJlZCBJJ2Qgc2VuZApvdXQganVzdCB0aGVzZSB0aHJlZSBkdC1iaW5kaW5ncyBjaGFu
+Z2VzIGp1c3Qgc28gaG9wZWZ1bGx5IHRoZXkKY2FuIGdvIGluIGFuZCB0aGUgZGVwZW5kZW50IGRy
+aXZlciBjaGFuZ2VzIGNhbiBiZSBtb3JlIGVhc2lseQpwdXNoZWQgbGF0ZXIgb24uCgp0aGFua3MK
+LWpvaG4KCkNjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+CkNjOiBEYW5pZWwgVmV0
+dGVyIDxkYW5pZWxAZmZ3bGwuY2g+CkNjOiBSb2IgSGVycmluZyA8cm9iaCtkdEBrZXJuZWwub3Jn
+PgpDYzogTWFyayBSdXRsYW5kIDxtYXJrLnJ1dGxhbmRAYXJtLmNvbT4KQ2M6IFBoaWxpcHAgWmFi
+ZWwgPHAuemFiZWxAcGVuZ3V0cm9uaXguZGU+CkNjOiBQZXRlciBHcmlmZmluIDxwZXRlci5ncmlm
+ZmluQGxpbmFyby5vcmc+CkNjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCkNjOiBk
+ZXZpY2V0cmVlQHZnZXIua2VybmVsLm9yZwoKClBldGVyIEdyaWZmaW4gKDMpOgogIGR0LWJpbmRp
+bmdzOiBncHU6IG1hbGktdXRnYXJkOiBhZGQgaGlzaWxpY29uLGhpNjIyMC1tYWxpIGNvbXBhdGli
+bGUKICBkdC1iaW5kaW5nczogcmVzZXQ6IGhpc2lsaWNvbjogVXBkYXRlIGNvbXBhdGlibGUgZG9j
+dW1lbnRhdGlvbgogIGR0LWJpbmRpbmdzOiByZXNldDogaGlzaWxpY29uOiBBZGQgYW8gcmVzZXQg
+Y29udHJvbGxlcgoKIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9ncHUvYXJtLG1h
+bGktdXRnYXJkLnR4dCAgfCA1ICsrKysrCiAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy9yZXNldC9o
+aXNpbGljb24saGk2MjIwLXJlc2V0LnR4dCAgIHwgMSArCiBpbmNsdWRlL2R0LWJpbmRpbmdzL3Jl
+c2V0L2hpc2ksaGk2MjIwLXJlc2V0cy5oICAgICAgICAgICAgIHwgNyArKysrKysrCiAzIGZpbGVz
+IGNoYW5nZWQsIDEzIGluc2VydGlvbnMoKykKCi0tIAoyLjE3LjEKCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
