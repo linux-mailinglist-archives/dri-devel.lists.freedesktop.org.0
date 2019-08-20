@@ -1,33 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72C3A9637B
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2019 16:59:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C48D9638C
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2019 17:00:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5BFB89B7D;
-	Tue, 20 Aug 2019 14:59:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 019106E404;
+	Tue, 20 Aug 2019 15:00:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C056899C7;
- Tue, 20 Aug 2019 14:59:33 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 18203761-1500050 for multiple; Tue, 20 Aug 2019 15:58:53 +0100
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3F506E404
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2019 15:00:22 +0000 (UTC)
+X-Originating-IP: 86.250.200.211
+Received: from localhost (lfbn-1-17395-211.w86-250.abo.wanadoo.fr
+ [86.250.200.211]) (Authenticated sender: maxime.ripard@bootlin.com)
+ by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 1FC3140004;
+ Tue, 20 Aug 2019 15:00:19 +0000 (UTC)
+Date: Tue, 20 Aug 2019 17:00:18 +0200
+From: Maxime Ripard <maxime.ripard@bootlin.com>
+To: Thomas Graichen <thomas.graichen@googlemail.com>
+Subject: Re: [v5,05/12] drm/modes: Rewrite the command line parser
+Message-ID: <20190820150018.uhiquahda6wuxvjd@flea>
+References: <e32cd4009153b184103554009135c7bf7c9975d7.1560783090.git-series.maxime.ripard@bootlin.com>
+ <5978761.uBj7R84RrF@jernej-laptop>
+ <CAOUEw13CCVhk9kt_z2VkguX0=TCeARkH-8+qSh_nF-J+r0Rscg@mail.gmail.com>
 MIME-Version: 1.0
-To: DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <20190820145336.15649-2-daniel.vetter@ffwll.ch>
-References: <20190820145336.15649-1-daniel.vetter@ffwll.ch>
- <20190820145336.15649-2-daniel.vetter@ffwll.ch>
-Message-ID: <156631313113.1374.993467360259962570@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [PATCH 1/3] dma_resv: prime lockdep annotations
-Date: Tue, 20 Aug 2019 15:58:51 +0100
+In-Reply-To: <CAOUEw13CCVhk9kt_z2VkguX0=TCeARkH-8+qSh_nF-J+r0Rscg@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -40,90 +41,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Hellstrom <thellstrom@vmware.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Ben Skeggs <bskeggs@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: eben@raspberrypi.org, David Airlie <airlied@linux.ie>,
+ Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Sean Paul <seanpaul@chromium.org>, dri-devel@lists.freedesktop.org,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============1419767141=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBEYW5pZWwgVmV0dGVyICgyMDE5LTA4LTIwIDE1OjUzOjM0KQo+IEZ1bGwgYXVkaXQg
-b2YgZXZlcnlvbmU6Cj4gCj4gLSBpOTE1LCByYWRlb24sIGFtZGdwdSBzaG91bGQgYmUgY2xlYW4g
-cGVyIHRoZWlyIG1haW50YWluZXJzLgo+IAo+IC0gdnJhbSBoZWxwZXJzIHNob3VsZCBiZSBmaW5l
-LCB0aGV5IGRvbid0IGRvIGNvbW1hbmQgc3VibWlzc2lvbiwgc28KPiAgIHJlYWxseSBubyBidXNp
-bmVzcyBob2xkaW5nIHN0cnVjdF9tdXRleCB3aGlsZSBkb2luZyBjb3B5XypfdXNlci4gQnV0Cj4g
-ICBJIGhhdmVuJ3QgY2hlY2tlZCB0aGVtIGFsbC4KPiAKPiAtIHBhbmZyb3N0IHNlZW1zIHRvIGRt
-YV9yZXN2X2xvY2sgb25seSBpbiBwYW5mcm9zdF9qb2JfcHVzaCwgd2hpY2gKPiAgIGxvb2tzIGNs
-ZWFuLgo+IAo+IC0gdjNkIGhvbGRzIGRtYV9yZXN2IGxvY2tzIGluIHRoZSB0YWlsIG9mIGl0cyB2
-M2Rfc3VibWl0X2NsX2lvY3RsKCksCj4gICBjb3B5aW5nIGZyb20vdG8gdXNlcnNwYWNlIGhhcHBl
-bnMgYWxsIGluIHYzZF9sb29rdXBfYm9zIHdoaWNoIGlzCj4gICBvdXRzaWRlIG9mIHRoZSBjcml0
-aWNhbCBzZWN0aW9uLgo+IAo+IC0gdm13Z2Z4IGhhcyBhIGJ1bmNoIG9mIGlvY3RscyB0aGF0IGRv
-IHRoZWlyIG93biBjb3B5XypfdXNlcjoKPiAgIC0gdm13X2V4ZWNidWZfcHJvY2VzczogRmlyc3Qg
-dGhpcyBkb2VzIHNvbWUgY29waWVzIGluCj4gICAgIHZtd19leGVjYnVmX2NtZGJ1ZigpIGFuZCBh
-bHNvIGluIHRoZSB2bXdfZXhlY2J1Zl9wcm9jZXNzKCkgaXRzZWxmLgo+ICAgICBUaGVuIGNvbWVz
-IHRoZSB1c3VhbCB0dG0gcmVzZXJ2ZS92YWxpZGF0ZSBzZXF1ZW5jZSwgdGhlbiBhY3R1YWwKPiAg
-ICAgc3VibWlzc2lvbi9mZW5jaW5nLCB0aGVuIHVucmVzZXJ2aW5nLCBhbmQgZmluYWxseSBzb21l
-IG1vcmUKPiAgICAgY29weV90b191c2VyIGluIHZtd19leGVjYnVmX2NvcHlfZmVuY2VfdXNlci4g
-R2xvc3Npbmcgb3ZlciB0b25zIG9mCj4gICAgIGRldGFpbHMsIGJ1dCBsb29rcyBhbGwgc2FmZS4K
-PiAgIC0gdm13X2ZlbmNlX2V2ZW50X2lvY3RsOiBObyB0dG1fcmVzZXJ2ZS9kbWFfcmVzdl9sb2Nr
-IGFueXdoZXJlIHRvIGJlCj4gICAgIHNlZW4sIHNlZW1zIHRvIG9ubHkgY3JlYXRlIGEgZmVuY2Ug
-YW5kIGNvcHkgaXQgb3V0Lgo+ICAgLSBhIHBpbGUgb2Ygc21hbGxlciBpb2N0bCBpbiB2bXdnZnhf
-aW9jdGwuYywgbm8gcmVzZXJ2YXRpb25zIHRvIGJlCj4gICAgIGZvdW5kIHRoZXJlLgo+ICAgU3Vt
-bWFyeTogdm13Z2Z4IHNlZW1zIHRvIGJlIGZpbmUgdG9vLgo+IAo+IC0gdmlydGlvOiBUaGVyZSdz
-IHZpcnRpb19ncHVfZXhlY2J1ZmZlcl9pb2N0bCwgd2hpY2ggZG9lcyBhbGwgdGhlCj4gICBjb3B5
-aW5nIGZyb20gdXNlcnNwYWNlIGJlZm9yZSBldmVuIGxvb2tpbmcgdXAgb2JqZWN0cyB0aHJvdWdo
-IHRoZWlyCj4gICBoYW5kbGVzLCBzbyBzYWZlLiBQbHVzIHRoZSBnZXRwYXJhbS9nZXRjYXBzIGlv
-Y3RsLCBhbHNvIGJvdGggc2FmZS4KPiAKPiAtIHF4bCBvbmx5IGhhcyBxeGxfZXhlY2J1ZmZlcl9p
-b2N0bCwgd2hpY2ggY2FsbHMgaW50bwo+ICAgcXhsX3Byb2Nlc3Nfc2luZ2xlX2NvbW1hbmQuIFRo
-ZXJlJ3MgYSBsb3ZlbHkgY29tbWVudCBiZWZvcmUgdGhlCj4gICBfX2NvcHlfZnJvbV91c2VyX2lu
-YXRvbWljIHRoYXQgdGhlIHNsb3dwYXRoIHNob3VsZCBiZSBjb3BpZWQgZnJvbQo+ICAgaTkxNSwg
-YnV0IEkgZ3Vlc3MgdGhhdCBuZXZlciBoYXBwZW5lZC4gVHJ5IG5vdCB0byBiZSB1bmx1Y2t5IGFu
-ZCBnZXQKPiAgIHlvdXIgQ1MgZGF0YSBldmljdGVkIGJldHdlZW4gd2hlbiBpdCdzIHdyaXR0ZW4g
-YW5kIHRoZSBrZXJuZWwgdHJpZXMKPiAgIHRvIHJlYWQgaXQuIFRoZSBvbmx5IG90aGVyIGNvcHlf
-ZnJvbV91c2VyIGlzIGZvciByZWxvY3MsIGJ1dCB0aG9zZQo+ICAgYXJlIGRvbmUgYmVmb3JlIHF4
-bF9yZWxlYXNlX3Jlc2VydmVfbGlzdCgpLCB3aGljaCBzZWVtcyB0byBiZSB0aGUKPiAgIG9ubHkg
-dGhpbmcgcmVzZXJ2aW5nIGJ1ZmZlcnMgKGluIHRoZSB0dG0vZG1hX3Jlc3Ygc2Vuc2UpIGluIHRo
-YXQKPiAgIGNvZGUuIFNvIGxvb2tzIHNhZmUuCj4gCj4gLSBBIGRlYnVnZnMgZmlsZSBpbiBub3V2
-ZWF1X2RlYnVnZnNfcHN0YXRlX3NldCgpIGFuZCB0aGUgdXNpZiBpb2N0bCBpbgo+ICAgdXNpZl9p
-b2N0bCgpIGxvb2sgc2FmZS4gbm91dmVhdV9nZW1faW9jdGxfcHVzaGJ1ZigpIG90b2ggYnJlYWtz
-IHRoaXMKPiAgIGV2ZXJ5d2hlcmUgYW5kIG5lZWRzIHRvIGJlIGZpeGVkIHVwLgo+IAo+IENjOiBB
-bGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+Cj4gQ2M6IENocmlzdGlhbiBL
-w7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiBDYzogQ2hyaXMgV2lsc29uIDxjaHJp
-c0BjaHJpcy13aWxzb24uY28udWs+Cj4gQ2M6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFu
-bkBzdXNlLmRlPgo+IENjOiBSb2IgSGVycmluZyA8cm9iaEBrZXJuZWwub3JnPgo+IENjOiBUb21l
-dSBWaXpvc28gPHRvbWV1LnZpem9zb0Bjb2xsYWJvcmEuY29tPgo+IENjOiBFcmljIEFuaG9sdCA8
-ZXJpY0BhbmhvbHQubmV0Pgo+IENjOiBEYXZlIEFpcmxpZSA8YWlybGllZEByZWRoYXQuY29tPgo+
-IENjOiBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVkaGF0LmNvbT4KPiBDYzogQmVuIFNrZWdncyA8
-YnNrZWdnc0ByZWRoYXQuY29tPgo+IENjOiAiVk13YXJlIEdyYXBoaWNzIiA8bGludXgtZ3JhcGhp
-Y3MtbWFpbnRhaW5lckB2bXdhcmUuY29tPgo+IENjOiBUaG9tYXMgSGVsbHN0cm9tIDx0aGVsbHN0
-cm9tQHZtd2FyZS5jb20+Cj4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZl
-dHRlckBpbnRlbC5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvZG1hLWJ1Zi9kbWEtcmVzdi5jIHwgMTIg
-KysrKysrKysrKysrCj4gIDEgZmlsZSBjaGFuZ2VkLCAxMiBpbnNlcnRpb25zKCspCj4gCj4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtcmVzdi5jIGIvZHJpdmVycy9kbWEtYnVmL2Rt
-YS1yZXN2LmMKPiBpbmRleCA0MmE4ZjNmMTE2ODEuLjNlZGNhMTBkM2ZhZiAxMDA2NDQKPiAtLS0g
-YS9kcml2ZXJzL2RtYS1idWYvZG1hLXJlc3YuYwo+ICsrKyBiL2RyaXZlcnMvZG1hLWJ1Zi9kbWEt
-cmVzdi5jCj4gQEAgLTM0LDYgKzM0LDcgQEAKPiAgCj4gICNpbmNsdWRlIDxsaW51eC9kbWEtcmVz
-di5oPgo+ICAjaW5jbHVkZSA8bGludXgvZXhwb3J0Lmg+Cj4gKyNpbmNsdWRlIDxsaW51eC9zY2hl
-ZC9tbS5oPgo+ICAKPiAgLyoqCj4gICAqIERPQzogUmVzZXJ2YXRpb24gT2JqZWN0IE92ZXJ2aWV3
-Cj4gQEAgLTEwNyw2ICsxMDgsMTcgQEAgdm9pZCBkbWFfcmVzdl9pbml0KHN0cnVjdCBkbWFfcmVz
-diAqb2JqKQo+ICAgICAgICAgICAgICAgICAgICAgICAgICZyZXNlcnZhdGlvbl9zZXFjb3VudF9j
-bGFzcyk7Cj4gICAgICAgICBSQ1VfSU5JVF9QT0lOVEVSKG9iai0+ZmVuY2UsIE5VTEwpOwo+ICAg
-ICAgICAgUkNVX0lOSVRfUE9JTlRFUihvYmotPmZlbmNlX2V4Y2wsIE5VTEwpOwo+ICsKPiArICAg
-ICAgIGlmIChJU19FTkFCTEVEKENPTkZJR19MT0NLREVQKSkgewo+ICsgICAgICAgICAgICAgICBp
-ZiAoY3VycmVudC0+bW0pCj4gKyAgICAgICAgICAgICAgICAgICAgICAgZG93bl9yZWFkKCZjdXJy
-ZW50LT5tbS0+bW1hcF9zZW0pOwo+ICsgICAgICAgICAgICAgICB3d19tdXRleF9sb2NrKCZvYmot
-PmxvY2ssIE5VTEwpOwo+ICsgICAgICAgICAgICAgICBmc19yZWNsYWltX2FjcXVpcmUoR0ZQX0tF
-Uk5FTCk7Cj4gKyAgICAgICAgICAgICAgIGZzX3JlY2xhaW1fcmVsZWFzZShHRlBfS0VSTkVMKTsK
-CkEgY2FuZGlkYXRlIGZvciBtaWdodF9hbGxvYyhHRlBfS0VSTkVMKSwgd2UndmUgcmVwZWF0ZWQg
-dGhpcyBvZnRlbgplbm91Z2guCi1DaHJpcwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWw=
+
+--===============1419767141==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="upeyyhtq7btyttw2"
+Content-Disposition: inline
+
+
+--upeyyhtq7btyttw2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Mon, Aug 19, 2019 at 09:20:00PM +0200, Thomas Graichen wrote:
+> On Mon, Aug 19, 2019 at 8:54 PM Jernej =C5=A0krabec <jernej.skrabec@gmail=
+=2Ecom> wrote:
+> >
+> > +CC: Thomas Graichen
+> >
+> > Dne ponedeljek, 17. junij 2019 ob 16:51:32 CEST je Maxime Ripard napisa=
+l(a):
+> > > From: Maxime Ripard <maxime.ripard@free-electrons.com>
+> > >
+> > > Rewrite the command line parser in order to get away from the state m=
+achine
+> > > parsing the video mode lines.
+> > >
+> > > Hopefully, this will allow to extend it more easily to support named =
+modes
+> > > and / or properties set directly on the command line.
+> > >
+> > > Reviewed-by: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
+> > > Signed-off-by: Maxime Ripard <maxime.ripard@free-electrons.com>
+> >
+> > Thomas reported to me that this patch breaks "video=3DCONNECTOR:e" kern=
+el
+> > parameter which he currently uses as a workaround for H6 HDMI monitor
+> > detection issue on one STB.
+> >
+> > I suppose this is the same issue that Dmitry noticed.
+> >
+> > Thomas Graichen (in CC) can provide more information if needed.
+>
+> as jernej already mentioned i am currently having to use the kernel
+> cmdline option video=3DHDMI-A-1:e to get a working hdmi output on an
+> eachlink h6 mini tv box and was wondering that i did not get any hdmi
+> output even with this option when switching from the
+> https://github.com/megous/linux oprange-pi-5.2 to the orange-pi-5.3
+> branch which seems to contain this patch.
+
+Which kernel version is that based on?
+
+> as i had no idea what might have caused the breakage of the hdmi
+> output and did a full bisect of the kernel between those two
+> versions, which ended reliably at exactly this patch - so i guess
+> there is a regression at least with the video=3DCONNECTOR:e option
+> (maybe others too?) with this patches code which makes it not
+> working anymore.
+
+I'm not sure I'll have the time to look into it this week (or the
+next, unfortunately). However, the e parameter is supposed to be
+parsed by drm_mode_parse_cmdline_extra, which in turn is supposed to
+be called there:
+https://elixir.bootlin.com/linux/v5.3-rc5/source/drivers/gpu/drm/drm_modes.=
+c#L1810
+
+If you can test that, having an idea of if that function is called,
+which return code it returns, and if it isn't if why would be super
+helpful.
+
+Thanks!
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--upeyyhtq7btyttw2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXVwLAgAKCRDj7w1vZxhR
+xU5jAQCoQQ2yAaOQGsg8OTMgvoNdbtjA4H4nqF4DBTXJ6/8/QQD+L4iC5VrP0gcU
+b989j1Th8EdacGteid9NZ8Y9NPnLzw8=
+=EtCt
+-----END PGP SIGNATURE-----
+
+--upeyyhtq7btyttw2--
+
+--===============1419767141==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1419767141==--
