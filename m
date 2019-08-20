@@ -2,50 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B12F39684D
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2019 20:08:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C59296859
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2019 20:12:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC9E46E1BE;
-	Tue, 20 Aug 2019 18:08:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FFB86E844;
+	Tue, 20 Aug 2019 18:12:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
- [209.85.210.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 523166E1BE
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2019 18:08:52 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id w4so5888882ote.11
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2019 11:08:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2V1mGMCstWnpcKzMKvJ0w9fxy2kbmS/s8lE+TTa+kuE=;
- b=d5fpbL3YTVkfu/ujjAdfSbgMWS4RbnrWcSeLyuzv+Ez+LrIt9IyAFe1irU0zyWEwVZ
- zfYtobcfNB6WA9/M6RvGLkLukI6JjjqHdF9W6uexlrxe0VY6AvHDJvfWi/hI9nRWqMkn
- PHw0vgnNkFzXOO/IDrmolhBadqQ4+UCfzC/1wt0CXISEP5OPHtRWzzpY2TJGZ/JBfLzU
- lB47aAhcZYY05BSIKM+B08gTiNR6Yq6raxF6AQ+K0AowRnUB7vnkQpwxksIVl4yUh3rL
- 8HrsR2TrxEBMotqHytXxztF71wCGKgUAfXVtcy2Jd/Bvz7qqLmWp4h/iUkrDnKcpWr8g
- fblA==
-X-Gm-Message-State: APjAAAWBf++E7+gW7Rwr9VBQWBjKDHZFxxSXHv34jRjH+0kv0kKXKpqs
- NA2tz+cvTQ3FBZRM2KLzosA42MF2Fd8QUkdRpEWG0wTT
-X-Google-Smtp-Source: APXvYqzBUkEblq/MiYoqxtiYIJSp/mB+lLzwSmJnKZhFoXC5ylVOF7iTENS+UuicCsmexIJBI3y8fX2QgWxZAOSn+Cw=
-X-Received: by 2002:a9d:7a90:: with SMTP id l16mr24288910otn.297.1566324531299; 
- Tue, 20 Aug 2019 11:08:51 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 57CAF6E844
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2019 18:12:16 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5421472161; Tue, 20 Aug 2019 18:12:16 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 105718] amdgpu reported fan speed looks too high (dual fan
+ Sapphire Pulse Vega 56)
+Date: Tue, 20 Aug 2019 18:12:16 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: shtetldik@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-105718-502-LEwBRbLKTz@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-105718-502@http.bugs.freedesktop.org/>
+References: <bug-105718-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190706140746.29132-1-jacopo+renesas@jmondi.org>
- <20190706140746.29132-2-jacopo+renesas@jmondi.org>
- <CAMuHMdWVzm8yoZSoKZh3MJsaX4jCRXQCbn2x2LAu4UWtb1yYjw@mail.gmail.com>
- <CAMuHMdWFHDGPSZt2_H_sC9rCKDYBR0XDLn0TGxzPRxZsrOTEHw@mail.gmail.com>
- <20190820074826.5rdzeqyk6ylpjr7o@uno.localdomain>
- <CAMuHMdXNJLLRqZCZ5KHkdUKgtwmE-F-s5Vi6P10xHR38n_=HrA@mail.gmail.com>
- <20190820174110.GH10820@pendragon.ideasonboard.com>
-In-Reply-To: <20190820174110.GH10820@pendragon.ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 20 Aug 2019 20:08:40 +0200
-Message-ID: <CAMuHMdWOOfhPL3+cPyGd+hxL5ewKQjGyxM-Nx5DQy_1eqSG2Qw@mail.gmail.com>
-Subject: Re: [PATCH v2 01/19] dt-bindings: display: renesas,
- cmm: Add R-Car CMM documentation
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,95 +53,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: muroya@ksk.co.jp, Jacopo Mondi <jacopo@jmondi.org>,
- VenkataRajesh.Kalakodima@in.bosch.com, David Airlie <airlied@linux.ie>,
- Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Harsha.ManjulaMallikarjun@in.bosch.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0850594807=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTGF1cmVudCwKCk9uIFR1ZSwgQXVnIDIwLCAyMDE5IGF0IDc6NDEgUE0gTGF1cmVudCBQaW5j
-aGFydAo8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPiB3cm90ZToKPiBPbiBUdWUs
-IEF1ZyAyMCwgMjAxOSBhdCAwOTo1Mzo0NEFNICswMjAwLCBHZWVydCBVeXR0ZXJob2V2ZW4gd3Jv
-dGU6Cj4gPiBPbiBUdWUsIEF1ZyAyMCwgMjAxOSBhdCA5OjQ3IEFNIEphY29wbyBNb25kaSA8amFj
-b3BvQGptb25kaS5vcmc+IHdyb3RlOgo+ID4gPiBPbiBNb24sIEF1ZyAxOSwgMjAxOSBhdCAwMzo0
-NTo1NFBNICswMjAwLCBHZWVydCBVeXR0ZXJob2V2ZW4gd3JvdGU6Cj4gPiA+PiBPbiBNb24sIEp1
-bCA4LCAyMDE5IGF0IDk6NTggQU0gR2VlcnQgVXl0dGVyaG9ldmVuIDxnZWVydEBsaW51eC1tNjhr
-Lm9yZz4gd3JvdGU6Cj4gPiA+Pj4gT24gU2F0LCBKdWwgNiwgMjAxOSBhdCA0OjA3IFBNIEphY29w
-byBNb25kaSA8amFjb3BvK3JlbmVzYXNAam1vbmRpLm9yZz4gd3JvdGU6Cj4gPiA+Pj4+IEFkZCBk
-ZXZpY2UgdHJlZSBiaW5kaW5ncyBkb2N1bWVudGF0aW9uIGZvciB0aGUgUmVuZXNhcyBSLUNhciBE
-aXNwbGF5Cj4gPiA+Pj4+IFVuaXQgQ29sb3IgTWFuYWdlbWVudCBNb2R1bGUuCj4gPiA+Pj4+Cj4g
-PiA+Pj4+IENNTSBpcyB0aGUgaW1hZ2UgZW5oYW5jZW1lbnQgbW9kdWxlIGF2YWlsYWJsZSBvbiBl
-YWNoIFItQ2FyIERVIHZpZGVvCj4gPiA+Pj4+IGNoYW5uZWwgb24gUi1DYXIgR2VuMiBhbmQgR2Vu
-MyBTb0NzIChWM0ggYW5kIFYzTSBleGNsdWRlZCkuCj4gPiA+Pj4+Cj4gPiA+Pj4+IFNpZ25lZC1v
-ZmYtYnk6IEphY29wbyBNb25kaSA8amFjb3BvK3JlbmVzYXNAam1vbmRpLm9yZz4KPiA+ID4+Pj4g
-UmV2aWV3ZWQtYnk6IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJv
-YXJkLmNvbT4KPiA+ID4+Pgo+ID4gPj4+IFRoYW5rcyBmb3IgeW91ciBwYXRjaCEKPiA+ID4+Pgo+
-ID4gPj4+PiAtLS0gL2Rldi9udWxsCj4gPiA+Pj4+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNl
-dHJlZS9iaW5kaW5ncy9kaXNwbGF5L3JlbmVzYXMsY21tLnR4dAo+ID4gPj4+PiBAQCAtMCwwICsx
-LDI1IEBACj4gPiA+Pj4+ICsqIFJlbmVzYXMgUi1DYXIgQ29sb3IgTWFuYWdlbWVudCBNb2R1bGUg
-KENNTSkKPiA+ID4+Pj4gKwo+ID4gPj4+PiArUmVuZXNhcyBSLUNhciBpbWFnZSBlbmhhbmNlbWVu
-dCBtb2R1bGUgY29ubmVjdGVkIHRvIFItQ2FyIERVIHZpZGVvIGNoYW5uZWxzLgo+ID4gPj4+PiAr
-Cj4gPiA+Pj4+ICtSZXF1aXJlZCBwcm9wZXJ0aWVzOgo+ID4gPj4+PiArIC0gY29tcGF0aWJsZTog
-c2hhbGwgYmUgb25lIG9mOgo+ID4gPj4+PiArICAgLSAicmVuZXNhcyxyY2FyLWdlbjMtY21tIgo+
-ID4gPj4+PiArICAgLSAicmVuZXNhcyxyY2FyLWdlbjItY21tIgo+ID4gPj4+Cj4gPiA+Pj4gV2h5
-IGRvIHlvdSB0aGluayB5b3UgZG8gbm90IG5lZWQgU29DLXNwZWNpZmljIGNvbXBhdGlibGUgdmFs
-dWVzPwo+ID4gPj4+IFdoYXQgaWYgeW91IGRpc2NvdmVyIGEgZGlmZmVyZW50IGFjcm9zcyB0aGUg
-Ui1DYXIgR2VuMyBsaW5lIHRvbW9ycm93Pwo+ID4gPj4+IERvZXMgdGhlIElQIGJsb2NrIGhhdmUg
-YSB2ZXJzaW9uIHJlZ2lzdGVyPwo+ID4gPj4KPiA+ID4+IERvIHlvdSBoYXZlIGFuIGFuc3dlciB0
-byB0aGVzZSBxdWVzdGlvbnM/Cj4gPiA+Cj4gPiA+IEl0IGRvZXMgbm90IHNlZW0gdG8gbWUgdGhh
-dCBDTU0gaGFzIGFueSB2ZXJzaW9uIHJlZ2lzdGVyLCBub3IgdGhlcmUKPiA+ID4gYXJlIGRpZmZl
-cmVuY2VzIGJldHdlZW4gdGhlIGRpZmZlcmVudCBHZW4zIFNvQ3MuLgo+ID4gPgo+ID4gPiBIb3dl
-dmVyLCBldmVuIGlmIHdlIG5vdyBkZWZpbmUgYSBzaW5nbGUgY29tcGF0aWJsZSBwcm9wZXJ0eSBm
-b3IKPiA+ID4gZ2VuMy9nZW4yIGFuZCB3ZSBsYXRlciBmaW5kIG91dCBvbmUgb2YgdGhlIFNvQyBu
-ZWVkcyBhIHNvYy1zcGVjaWZpYwo+ID4gPiBwcm9wZXJ0eSB3ZSBjYW4gc2FmZWx5IGFkZCBpdCBh
-bmQga2VlcCB0aGUgZ2VuZXJpYyBnZW4zL2dlbjIgb25lIGFzCj4gPiA+IGZhbGxiYWNrLi4gRG9l
-cyBpdCB3b3JrIGZvciB5b3U/Cj4gPgo+ID4gVW5mb3J0dW5hdGVseSB0aGF0IHdvbid0IHdvcmss
-IGFzIHRoZSBleGlzdGluZyBEVEJzIHdvbid0IGhhdmUgdGhlCj4gPiBzb2Mtc3BlY2lmaWMgY29t
-cGF0aWJsZSB2YWx1ZS4KPiA+IFlvdSBjb3VsZCBzdGlsbCByZXNvcnQgdG8gc29jX2RldmljZV9t
-YXRjaCgpLCBidXQgaXQgaXMgYmV0dGVyIHRvIGF2b2lkIHRoYXQuCj4KPiBXZSd2ZSBoYWQgdGhl
-IHNhbWUgZGlzY3Vzc2lvbiBvdmVyIGFuZCBvdmVyIGZvciBxdWl0ZSBhIGxvbmcgdGltZSA6LSkg
-SQo+IHdvbmRlciwgbm93IHRoYXQgd2UgaGF2ZSBpbXBsZW1lbnRlZCBTb0Mtc3BlY2lmaWMgY29t
-cGF0aWJsZSB2YWx1ZXMgZm9yCj4gbWFueSBJUCBjb3JlcywgaG93IG1hbnkgb2YgdGhlbSBoYXZl
-IGFjdHVhbGx5IGJlbmVmaXRlZCBmcm9tIGl0ID8gSSdtCj4gbm90IGNvbnNpZGVyaW5nIElQIGNv
-cmVzIHdoZXJlIHdlIGtuZXcgZnJvbSB0aGUgc3RhcnQgdGhhdCBlYWNoIFNvQyB3YXMKPiBkaWZm
-ZXJlbnQgKHN1Y2ggYXMgcGluY3RybCBvciBjbG9ja3MgZm9yIGluc3RhbmNlKSwgYnV0IElQIGNv
-cmVzIHdoZXJlCj4gd2UgdGhvdWdoIGFsbCBTb0NzIHdvdWxkIGJlIGhhbmRsZWQgaW4gdGhlIHNh
-bWUgd2F5LiBJIGFsc28gd291bGRuJ3QKPiBjb3VudCBFUy1zcGVjaWZpYyBkaWZmZXJlbmNlcywg
-YXMgdGhvc2UgYXJlIGhhbmRsZWQgYnkKPiBzb2NfZGV2aWNlX21hdGNoKCkgYW55d2F5LgoKVGhh
-bmsgeW91IGZvciBtYWtpbmcgbWUgZGl2ZSBpbnRvIHRoaXMgOy0pCgpGb3IgUi1DYXIgR2VuMyBv
-bmx5OgoKRFJJRj8KVGhlIGRyaXZlciBzdGlsbCBtYXRjaGVzIGFnYWluc3QgInJlbmVzYXMscmNh
-ci1nZW4zLWRyaWYiLCBidXQgd2UgZm91bmQgYQpkaWZmZXJlbmNlIG9uIE0zLU4gKGRpZG4ndCBj
-aGVjayBpZiB0aGF0IHdhcyBkb2N1bWVudGVkIGluaXRpYWxseSBvciBub3QpLgoKUENJZT8KSUlS
-QywgdGhlcmUgaXMgc3RpbGwgYSBzcGVjaWFsIFBIWSByZWdpc3RlciBvbiBvbmUgb2YgdGhlIFYz
-eCBTb0NzIHRoYXQKdGhlIGRyaXZlciBkb2Vzbid0IGhhbmRsZSB5ZXQsIGFuZCB3YXNuJ3QgZG9j
-dW1lbnRlZCBpbml0aWFsbHkuCgpSUEMtSUY/CkxvdHMgb2Ygc21hbGwgZGlmZmVyZW5jZXMgKHlv
-dSBjYW4gY2xhaW0gdGhleSB3ZXJlIGRvY3VtZW50ZWQsIGJ1dCB0aGV5CndlcmUgdW5leHBlY3Rl
-ZCksIGFuZCBub24tZG9jdW1lbnRlZCBkaWZmZXJlbnQgbWFnaWMgdmFsdWVzIGluIHRoZQoobm90
-IHlldCB1cHN0cmVhbWVkKSBkcml2ZXIuCgpTT1VORD8KUi1DYXIgRTMgc3BlY2lhbCBoYW5kbGlu
-ZyB3YXMgYm9sdGVkIG9uIGxhdGVyLgoKVGhlcm1hbD8KTTMtVyB0dXJuZWQgb3V0IHRvIGhhdmUg
-YSBkaWZmZXJlbnQgVGogdGhhbiB0aGUgb3RoZXIgU29DcyB1c2luZyB0aGUgc2FtZQp0aGVybWFs
-IG1vZHVsZSAoeWVhaCwgdGhlcm1hbCBpcyBhIGJhZCBleGFtcGxlLCBhcyBzb21lIEdlbjMgU29D
-cyB1c2UKdGhlIEdlbjIgdGhlcm1hbCBtb2R1bGUsIHNvIHdlIG5lZWRlZCB0byBkaWZmZXJlbnRp
-YXRlIGFueXdheSkuCgpVU0JIUz8KSW5pdGlhbGx5IHdlIHRob3VnaHQgR2VuMyB3YXMgaWRlbnRp
-Y2FsIHRvIEdlbjIuICBMYXRlciBpdCB0dXJuZWQgb3V0IHRoYXQKKDEpIHdhc24ndCB0cnVlLCBh
-bmQgKDIpIEUzL0QzIHVzZWQgYSBkaWZmZXJlbnQgUExMIHRoYW4gdGhlIG90aGVyIEdlbjMKU29D
-cy4KClZJTj8KSUlSQywgd2UgaW5pdGlhbGl6ZSB0aG91Z2h0IGEgZmFtaWx5LXNwZWNpZmljIGNv
-bXBhdGlibGUgdmFsdWUgd291bGQgd29yawpmb3IgR2VuMywgbGlrZSBpdCBkaWQgZm9yIEdlbjIs
-IGJ1dCBoYWQgdG8gcmVjb25zaWRlci4KCkkgbWF5IGhhdmUgbWlzc2VkIHNvbWUuLi4KCkNvbnZp
-bmNlZD8KCkdye29ldGplLGVldGluZ31zLAoKICAgICAgICAgICAgICAgICAgICAgICAgR2VlcnQK
-Ci0tIApHZWVydCBVeXR0ZXJob2V2ZW4gLS0gVGhlcmUncyBsb3RzIG9mIExpbnV4IGJleW9uZCBp
-YTMyIC0tIGdlZXJ0QGxpbnV4LW02OGsub3JnCgpJbiBwZXJzb25hbCBjb252ZXJzYXRpb25zIHdp
-dGggdGVjaG5pY2FsIHBlb3BsZSwgSSBjYWxsIG15c2VsZiBhIGhhY2tlci4gQnV0CndoZW4gSSdt
-IHRhbGtpbmcgdG8gam91cm5hbGlzdHMgSSBqdXN0IHNheSAicHJvZ3JhbW1lciIgb3Igc29tZXRo
-aW5nIGxpa2UgdGhhdC4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLSBMaW51cyBU
-b3J2YWxkcwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0850594807==
+Content-Type: multipart/alternative; boundary="15663247361.2aED.1355"
+Content-Transfer-Encoding: 7bit
+
+
+--15663247361.2aED.1355
+Date: Tue, 20 Aug 2019 18:12:16 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D105718
+
+--- Comment #4 from Shmerl <shtetldik@gmail.com> ---
+By the way, after using this card for a while, newer firmware fixed fan cur=
+ves
+that were getting stucks, though top level RPMs still remain like that. But
+over time I stopped considering them too high. I think they are appropriate=
+ for
+the card.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15663247361.2aED.1355
+Date: Tue, 20 Aug 2019 18:12:16 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu reported fan speed looks too high (dual fan Sapphi=
+re Pulse Vega 56)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105718#c4">Commen=
+t # 4</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu reported fan speed looks too high (dual fan Sapphi=
+re Pulse Vega 56)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105718">bug 10571=
+8</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+shtetldik&#64;gmail.com" title=3D"Shmerl &lt;shtetldik&#64;gmail.com&gt;"> =
+<span class=3D"fn">Shmerl</span></a>
+</span></b>
+        <pre>By the way, after using this card for a while, newer firmware =
+fixed fan curves
+that were getting stucks, though top level RPMs still remain like that. But
+over time I stopped considering them too high. I think they are appropriate=
+ for
+the card.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15663247361.2aED.1355--
+
+--===============0850594807==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0850594807==--
