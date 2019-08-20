@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFF7A96095
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2019 15:42:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EA91960BA
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2019 15:43:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C33016E7D8;
-	Tue, 20 Aug 2019 13:42:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DFAE6E7DC;
+	Tue, 20 Aug 2019 13:43:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 065396E7D8
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2019 13:42:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC9426E7DC
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2019 13:43:10 +0000 (UTC)
 Received: from sasha-vm.mshome.net (unknown [12.236.144.82])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5ADE32087E;
- Tue, 20 Aug 2019 13:42:47 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 47E8422DA9;
+ Tue, 20 Aug 2019 13:43:10 +0000 (UTC)
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 24/27] drm/ast: Fixed reboot test may cause
+Subject: [PATCH AUTOSEL 4.14 10/12] drm/ast: Fixed reboot test may cause
  system hanged
-Date: Tue, 20 Aug 2019 09:42:10 -0400
-Message-Id: <20190820134213.11279-24-sashal@kernel.org>
+Date: Tue, 20 Aug 2019 09:42:51 -0400
+Message-Id: <20190820134253.11562-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190820134213.11279-1-sashal@kernel.org>
-References: <20190820134213.11279-1-sashal@kernel.org>
+In-Reply-To: <20190820134253.11562-1-sashal@kernel.org>
+References: <20190820134253.11562-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1566308567;
- bh=vQSIWtLX/ZSUMHhJihrr+VUZjUJuJ72xye3zPrDepdo=;
+ d=kernel.org; s=default; t=1566308590;
+ bh=TEL9wBgPW75cphadyHMqEYnF7SZMdviPo/Asrg6Z0v4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=yr6ceUFfk0ZOpklj2BLvvNpni8QG94038GpKUfUgcLn4i9/0laiTcvlx6mBppvYzW
- 5kQ9j6F/Vcd6dR00jBCXFRjouxgXrAEafxQ1vafwiOwrxxoxtwJtgfr/TtODN587JA
- IYWCjZ/pp6w7edjKxmj2IuVFjVyIHxufC9M1Ar9w=
+ b=y07fiW++il7IORTY6E4MyXIGJ1PIEJZQISr1h6dvJb6ZydQc26M+VsZ51Dwfrg9K+
+ vTC96Zmk/jM+sjS4/4V/Y7EiPnMzpXWypkRgQR03aG/NnhlvwkoBZUyEcpDktoBnxg
+ YJr6Sn0AmdX51pSPpx2PRcD8dRzClqwxTNQG6pMs=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,7 +84,7 @@ ZGFyZCBWR0EgZGVjb2RlICovCisJYXN0X3NldF9pbmRleF9yZWcoYXN0LCBBU1RfSU9fQ1JUQ19Q
 T1JULCAweGExLCAweDA0KTsKKwogCWFzdF9yZWxlYXNlX2Zpcm13YXJlKGRldik7CiAJa2ZyZWUo
 YXN0LT5kcDUwMV9md19hZGRyKTsKIAlhc3RfbW9kZV9maW5pKGRldik7CmRpZmYgLS1naXQgYS9k
 cml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMgYi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9t
-b2RlLmMKaW5kZXggOGJiMzU1ZDVkNDNkOC4uOWQ5MmQyZDJmY2ZjNyAxMDA2NDQKLS0tIGEvZHJp
+b2RlLmMKaW5kZXggMzQzODY3YjE4MmRkOC4uYTA5ZmFmYTI3MDgyMiAxMDA2NDQKLS0tIGEvZHJp
 dmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0
 X21vZGUuYwpAQCAtNjAwLDcgKzYwMCw3IEBAIHN0YXRpYyBpbnQgYXN0X2NydGNfbW9kZV9zZXQo
 c3RydWN0IGRybV9jcnRjICpjcnRjLAogCQlyZXR1cm4gLUVJTlZBTDsKIAlhc3Rfb3Blbl9rZXko
