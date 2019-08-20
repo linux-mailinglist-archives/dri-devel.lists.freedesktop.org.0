@@ -1,59 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D707695AA2
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2019 11:06:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8B4295ABF
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2019 11:14:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAA846E28E;
-	Tue, 20 Aug 2019 09:06:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BF426E296;
+	Tue, 20 Aug 2019 09:14:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
- [IPv6:2a00:1450:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F16F66E28C
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2019 09:06:32 +0000 (UTC)
-Received: by mail-ed1-x542.google.com with SMTP id p28so5458712edi.3
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2019 02:06:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=l7fNgk0ldBW4Q+AG0qbJN0jZoQuW4S+VZobr8oLUu28=;
- b=h6NaWMJfYjjpcfO2mWhsMGeVorXANpC96FdCcRHTUATj2BdYClO/qYTspCp00Xo9jS
- gVda7pl3pSEplFL3VgdytbOyltH8GamLHpYkEsA7ToQcar3Fk8Nh8uPqiSsy/pO5G9lx
- hrFCf6W98yamxmwRDB6QQLnLBxjr7H9pW8l5AqTe7iDwGV7pmvsBguzreiKU80B3WTX/
- 666E004MesO29v9dpkO29XJsIdQzNn8pN+HOfDxXtflQ5Bi6A1gJgSGccp1p9uGgGy3K
- 1m1FdZCfY6CIXORIsuXcyxHrHMDQtopVi11tTwLZqbFwwRb2vvmr8bxra8pTG/6zEp6e
- JmPQ==
-X-Gm-Message-State: APjAAAXvTFAPP9rCJlv/cADZd+p5f3tHZmoyLaSQ5ZGWSsrCiMnOlFLg
- vK2kE/YmRR8tJ0MFwU7rRR4upQ==
-X-Google-Smtp-Source: APXvYqwi3259Oa+93gf+fKuEnszCKN6hmqx+NHUdxTsSUVha8iwaDSxHZ1i2IFvsrHErdld8W6+xQg==
-X-Received: by 2002:a50:8f81:: with SMTP id y1mr29578719edy.181.1566291991613; 
- Tue, 20 Aug 2019 02:06:31 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
- by smtp.gmail.com with ESMTPSA id y37sm3325782edb.42.2019.08.20.02.06.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Aug 2019 02:06:30 -0700 (PDT)
-Date: Tue, 20 Aug 2019 11:06:29 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: [PATCH] dma-buf: Use %zu for printing sizeof
-Message-ID: <20190820090629.GF11147@phenom.ffwll.local>
-References: <20190819195740.27608-1-chris@chris-wilson.co.uk>
+Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70A006E296
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2019 09:14:17 +0000 (UTC)
+Received: from relay10.mail.gandi.net (unknown [217.70.178.230])
+ by mslow2.mail.gandi.net (Postfix) with ESMTP id 8210A3A3B4C
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2019 07:47:49 +0000 (UTC)
+Received: from uno.localdomain (unknown [87.18.63.98])
+ (Authenticated sender: jacopo@jmondi.org)
+ by relay10.mail.gandi.net (Postfix) with ESMTPSA id 68BE5240008;
+ Tue, 20 Aug 2019 07:47:02 +0000 (UTC)
+Date: Tue, 20 Aug 2019 09:48:26 +0200
+From: Jacopo Mondi <jacopo@jmondi.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v2 01/19] dt-bindings: display: renesas,cmm: Add R-Car
+ CMM documentation
+Message-ID: <20190820074826.5rdzeqyk6ylpjr7o@uno.localdomain>
+References: <20190706140746.29132-1-jacopo+renesas@jmondi.org>
+ <20190706140746.29132-2-jacopo+renesas@jmondi.org>
+ <CAMuHMdWVzm8yoZSoKZh3MJsaX4jCRXQCbn2x2LAu4UWtb1yYjw@mail.gmail.com>
+ <CAMuHMdWFHDGPSZt2_H_sC9rCKDYBR0XDLn0TGxzPRxZsrOTEHw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190819195740.27608-1-chris@chris-wilson.co.uk>
-X-Operating-System: Linux phenom 5.2.0-2-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=l7fNgk0ldBW4Q+AG0qbJN0jZoQuW4S+VZobr8oLUu28=;
- b=LDLHDcwuTvvzuGqb2OEkdO7mcnrFSERR4dQNuNqt7q71oibrXIHwh6/1hxaEUJj7sc
- hTpIGI9ggtqYp/ma1BRdXhmzHjQ82Z0rXxcPlnTm80xHF2Ucj/9NXNE7Cge5iNOhO8Xw
- DHnmrYLfIIb9mgViU3Cn/Jl0QsbYy83k14hV0=
+In-Reply-To: <CAMuHMdWFHDGPSZt2_H_sC9rCKDYBR0XDLn0TGxzPRxZsrOTEHw@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,32 +44,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@01.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: muroya@ksk.co.jp, VenkataRajesh.Kalakodima@in.bosch.com,
+ David Airlie <airlied@linux.ie>, Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Harsha.ManjulaMallikarjun@in.bosch.com
+Content-Type: multipart/mixed; boundary="===============0277509577=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBBdWcgMTksIDIwMTkgYXQgMDg6NTc6NDBQTSArMDEwMCwgQ2hyaXMgV2lsc29uIHdy
-b3RlOgo+IFVzZSB0aGUgJXp1IGZvcm1hdCBzcGVjaWZpZXIgZm9yIGEgc2l6ZV90IHJldHVybmVk
-IGJ5IHNpemVvLgo+IAo+IFJlcG9ydGVkLWJ5OiBrYnVpbGQtYWxsQDAxLm9yZwo+IFNpZ25lZC1v
-ZmYtYnk6IENocmlzIFdpbHNvbiA8Y2hyaXNAY2hyaXMtd2lsc29uLmNvLnVrPgoKUmV2aWV3ZWQt
-Ynk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+Cgo+IC0tLQo+ICBkcml2
-ZXJzL2RtYS1idWYvc3QtZG1hLWZlbmNlLmMgfCAyICstCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
-c2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2RtYS1i
-dWYvc3QtZG1hLWZlbmNlLmMgYi9kcml2ZXJzL2RtYS1idWYvc3QtZG1hLWZlbmNlLmMKPiBpbmRl
-eCAzZDY5NDA1OTUyYWEuLjZmYmFlNmJmNjU3NiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2RtYS1i
-dWYvc3QtZG1hLWZlbmNlLmMKPiArKysgYi9kcml2ZXJzL2RtYS1idWYvc3QtZG1hLWZlbmNlLmMK
-PiBAQCAtNTU3LDcgKzU1Nyw3IEBAIGludCBkbWFfZmVuY2Uodm9pZCkKPiAgCX07Cj4gIAlpbnQg
-cmV0Owo+ICAKPiAtCXByX2luZm8oInNpemVvZihkbWFfZmVuY2UpPSVsdVxuIiwgc2l6ZW9mKHN0
-cnVjdCBkbWFfZmVuY2UpKTsKPiArCXByX2luZm8oInNpemVvZihkbWFfZmVuY2UpPSV6dVxuIiwg
-c2l6ZW9mKHN0cnVjdCBkbWFfZmVuY2UpKTsKPiAgCj4gIAlzbGFiX2ZlbmNlcyA9IEtNRU1fQ0FD
-SEUobW9ja19mZW5jZSwKPiAgCQkJCSBTTEFCX1RZUEVTQUZFX0JZX1JDVSB8Cj4gLS0gCj4gMi4y
-My4wLnJjMQo+IAo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbAoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBv
-cmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0277509577==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="wjfjaeh4g25lin6n"
+Content-Disposition: inline
+
+
+--wjfjaeh4g25lin6n
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+Hi Geert,
+   sorry for the delayed response..
+
+On Mon, Aug 19, 2019 at 03:45:54PM +0200, Geert Uytterhoeven wrote:
+> Hi Jacopo,
+>
+> On Mon, Jul 8, 2019 at 9:58 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Sat, Jul 6, 2019 at 4:07 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
+> > > Add device tree bindings documentation for the Renesas R-Car Display
+> > > Unit Color Management Module.
+> > >
+> > > CMM is the image enhancement module available on each R-Car DU video
+> > > channel on R-Car Gen2 and Gen3 SoCs (V3H and V3M excluded).
+> > >
+> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >
+> > Thanks for your patch!
+> >
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/display/renesas,cmm.txt
+> > > @@ -0,0 +1,25 @@
+> > > +* Renesas R-Car Color Management Module (CMM)
+> > > +
+> > > +Renesas R-Car image enhancement module connected to R-Car DU video channels.
+> > > +
+> > > +Required properties:
+> > > + - compatible: shall be one of:
+> > > +   - "renesas,rcar-gen3-cmm"
+> > > +   - "renesas,rcar-gen2-cmm"
+> >
+> > Why do you think you do not need SoC-specific compatible values?
+> > What if you discover a different across the R-Car Gen3 line tomorrow?
+> > Does the IP block have a version register?
+>
+> Do you have an answer to these questions?
+
+It does not seem to me that CMM has any version register, nor there
+are differences between the different Gen3 SoCs..
+
+However, even if we now define a single compatible property for
+gen3/gen2 and we later find out one of the SoC needs a soc-specific
+property we can safely add it and keep the generic gen3/gen2 one as
+fallback.. Does it work for you?
+
+Thanks
+   j
+
+
+> Thanks!
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+
+--wjfjaeh4g25lin6n
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1bpb4ACgkQcjQGjxah
+VjzFehAAtZJyQ2C0O0+nEMVUjcPez/olBePoMeBVwI9w3mnWypOuE2eVaEyzNlMb
+imYJcwvi3JNKbb+3sxlcQAarRkWBayu5QFq/5Orbtk5ZxwBsKVyUjCkfkcTEprsf
+Drf5HI77kmvBDtIDRAwSZUPllhAzzmqqymQNOmuCRebv4i+BTKsiyRMrAIxH8xkw
+gcwpsfCCYzQxvjZgR73cshXHidzgrPVWL9mTT+SntxymEAspd+S+bd2Q4pVWHCaq
+ErkXABSR8quM6hLdPozJGRCaVv9oDkhSxihAj3dkp0AqtwvPLecmm1Czsoe7j5T3
+Qi+012N+EyLV5T/lt/jNNJZExS1wUVrkArYzulUUGrSYpWbN0B6StL/rEKY/KcgX
+RwubHKNXKAZKSXcHCzL3rnqeGhhP8QavJBtsj+F9oPy6K3tjoj95TBu2llE6fbuv
+dwJ4VbdccJA5bGYUTPbl9Xkn671CwUmCMnuGpp3C/jCOBJNLm9k3+4jMkkQcQYae
+kt3AwaARLmVCFRjh++QCczkG/MAZtOUVBcqXfJpGqKb4NkKwQofq3lcxib9zSGyk
+G3l+SEUmEwIm4TEvyu5VK04y6VD+Vx9CbcE7oJSG2aDzoEsBQymAIIx10vDvRTgA
+QV5rl0pWKx75XvHoWn8+OBO3phKOqM2Jr7n7QuhpdMR8GPY7pWY=
+=CPng
+-----END PGP SIGNATURE-----
+
+--wjfjaeh4g25lin6n--
+
+--===============0277509577==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0277509577==--
