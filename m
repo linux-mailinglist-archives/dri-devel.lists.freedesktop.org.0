@@ -1,39 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1CBE95354
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2019 03:24:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 464E7953B7
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Aug 2019 03:46:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A73AE89DA5;
-	Tue, 20 Aug 2019 01:24:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D6F66E594;
+	Tue, 20 Aug 2019 01:45:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id C1D2189CF6
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2019 01:24:38 +0000 (UTC)
-X-UUID: cb8855a77ff1409dbf10cd4290a1de95-20190820
-X-UUID: cb8855a77ff1409dbf10cd4290a1de95-20190820
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0707 with TLS)
- with ESMTP id 1247149086; Tue, 20 Aug 2019 09:24:32 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Tue, 20 Aug 2019 09:24:30 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Tue, 20 Aug 2019 09:24:29 +0800
-Message-ID: <1566264270.30493.4.camel@mtksdaap41>
-Subject: [GIT PULL] mediatek drm fixes for 5.3
-From: CK Hu <ck.hu@mediatek.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@intel.com>, 
- <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>
-Date: Tue, 20 Aug 2019 09:24:30 +0800
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from ozlabs.org (ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79E526E594
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Aug 2019 01:45:58 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 46CDCQ6ZJyz9sDQ;
+ Tue, 20 Aug 2019 11:45:54 +1000 (AEST)
+Date: Tue, 20 Aug 2019 11:45:54 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Jason Gunthorpe <jgg@mellanox.com>
+Subject: Re: linux-next: Tree for Aug 19 (amdgpu)
+Message-ID: <20190820114554.0e522651@canb.auug.org.au>
+In-Reply-To: <ba3cde82-6163-12e5-2e77-36834454113a@infradead.org>
+References: <20190819191832.03f1a579@canb.auug.org.au>
+ <ba3cde82-6163-12e5-2e77-36834454113a@infradead.org>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 23F0EE08CDB5C7F7271977C097F1F055DAC535E422A77928DA182112381D41192000:8
-X-MTK: N
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=canb.auug.org.au; s=201702; t=1566265555;
+ bh=VQwMdlxVKDS5vPjUh0+7GkwL7+DW7Sa5iJnqk75Apgo=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=CdZvnBfBBMv5XrzCT/7etg8QOWlnnhPYgSsbK35TOJaYBcqqkrsh8+E2jxnNPih9z
+ DC9AL0xvSj9BHGO0Dlb1t9I1l9RJquUmxkBJ3Qh5UVGtTn4QSrQGmFL/lzReRj0Ami
+ GANwPVYkqoJXKT3C7odVpzPZFoLI3ly1JTmA+FjGOSoAqIdxYWvYaGHQzK85vpJirR
+ iGXQVL9nKrrhyY8LrehvJ97MIErZHNu/Yt4csiC7dwp7zGfFiP3WhrnU5se/ZsDwNb
+ fo0k6wkcI2DLsor8stmfvv94AzwMmHzNFcRQImQOUZAs+jNbwWIlLIT/lIikrMojQd
+ VKPHnFOsZ+6UA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,32 +49,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishka Dasgupta <nishkadg.linux@gmail.com>,
- Alexandre Courbot <acourbot@chromium.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ amd-gfx@lists.freedesktop.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============1194234857=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGF2ZSwgRGFuaWVsOgoKVGhpcyBpbmNsdWRlIFBSSU1FIGJ1ZmZlciBhbmQgb2Zfbm9kZSBm
-aXhlcy4KClJlZ2FyZHMsCkNLCgpUaGUgZm9sbG93aW5nIGNoYW5nZXMgc2luY2UgY29tbWl0CjVm
-OWU4MzJjMTM3MDc1MDQ1ZDE1Y2Q2ODk5YWIwNTA1Y2ZiMmNhNGI6CgogIExpbnVzIDUuMy1yYzEg
-KDIwMTktMDctMjEgMTQ6MDU6MzggLTA3MDApCgphcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVw
-b3NpdG9yeSBhdDoKCiAgaHR0cHM6Ly9naXRodWIuY29tL2NraHUtbWVkaWF0ZWsvbGludXguZ2l0
-LXRhZ3MKdGFncy9tZWRpYXRlay1kcm0tZml4ZXMtNS4zCgpmb3IgeW91IHRvIGZldGNoIGNoYW5n
-ZXMgdXAgdG8gMTY1ZDQyYzAxMmJlNjk5MDBmMGUyZjg1NDU2MjZjYjllN2Q0YTgzMjoKCiAgZHJt
-L21lZGlhdGVrOiBtdGtfZHJtX2Rydi5jOiBBZGQgb2Zfbm9kZV9wdXQoKSBiZWZvcmUgZ290byAo
-MjAxOS0wOC0xOQowNzowOToyOSArMDgwMCkKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KTWVkaWF0ZWsgZHJtIGZpeGVzIGZv
-ciBMaW51eCA1LjMKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0KQWxleGFuZHJlIENvdXJib3QgKDIpOgogICAgICBkcm0vbWVk
-aWF0ZWs6IHVzZSBjb3JyZWN0IGRldmljZSB0byBpbXBvcnQgUFJJTUUgYnVmZmVycwogICAgICBk
-cm0vbWVkaWF0ZWs6IHNldCBETUEgbWF4IHNlZ21lbnQgc2l6ZQoKTmlzaGthIERhc2d1cHRhICgx
-KToKICAgICAgZHJtL21lZGlhdGVrOiBtdGtfZHJtX2Rydi5jOiBBZGQgb2Zfbm9kZV9wdXQoKSBi
-ZWZvcmUgZ290bwoKIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jIHwgNTQK
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tLQogZHJpdmVycy9ncHUvZHJtL21lZGlh
-dGVrL210a19kcm1fZHJ2LmggfCAgMiArKwogMiBmaWxlcyBjaGFuZ2VkLCA1MiBpbnNlcnRpb25z
-KCspLCA0IGRlbGV0aW9ucygtKQoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbA==
+--===============1194234857==
+Content-Type: multipart/signed; boundary="Sig_/ST4OoFXdpAP+5=cX8fhr9hW";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/ST4OoFXdpAP+5=cX8fhr9hW
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+Hi all,
+
+On Mon, 19 Aug 2019 18:34:41 -0700 Randy Dunlap <rdunlap@infradead.org> wro=
+te:
+>
+> On 8/19/19 2:18 AM, Stephen Rothwell wrote:
+> > Hi all,
+> >=20
+> > Changes since 20190816:
+> >  =20
+>=20
+> on x86_64:
+>=20
+> ../drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c: In function =E2=80=98amdgpu_e=
+xit=E2=80=99:
+> ../drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:1471:2: error: implicit declar=
+ation of function =E2=80=98mmu_notifier_synchronize=E2=80=99; did you mean =
+=E2=80=98__sync_synchronize=E2=80=99? [-Werror=3Dimplicit-function-declarat=
+ion]
+>   mmu_notifier_synchronize();
+>   ^~~~~~~~~~~~~~~~~~~~~~~~
+>   __sync_synchronize
+>=20
+>=20
+> Full randconfig file is attached.
+
+Caused by commit
+
+  6832c9dc8358 ("hmm: use mmu_notifier_get/put for 'struct hmm'")
+
+from the hmm tree.
+
+drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c need to include linux/mmu_notifier.h
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/ST4OoFXdpAP+5=cX8fhr9hW
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl1bUNIACgkQAVBC80lX
+0GxdzAf/dKMAj82tHRTzFb6SoJlnbnbHSbq1KtBSskLed0d9JATgMuYVT21kYmhx
+uCbRHbfdCHWJrnNqX8+tjhLpWLoj2csw9XwdUz3mU2t0KHFDJmjuu1uA4QO2+MIi
+Lmis+ayt5TNsMd/O40ihMr7k+0fY2EQBIS2VR+KPkPvCSRiAUquEt7OWzAKUSckF
+dA5q9F1vO2emerssEYLN3IFlNCVzwj6pPFaoh5S3Mx3dMt9VuWZD0ERVmdfDHpB9
+KVsSJ43+zI5lA+MgC0ly3XHz9Iud5TIz6o9Lg4EnpzCbqJKmksUMxN4D0vzW8uB+
+9mDrLAJAgyhNcEsfSNG+DcEJspx6cA==
+=Xru4
+-----END PGP SIGNATURE-----
+
+--Sig_/ST4OoFXdpAP+5=cX8fhr9hW--
+
+--===============1194234857==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1194234857==--
