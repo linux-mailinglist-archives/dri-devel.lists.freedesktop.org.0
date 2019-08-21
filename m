@@ -1,44 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8976598321
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2019 20:36:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73AE89832C
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2019 20:37:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAF266E962;
-	Wed, 21 Aug 2019 18:36:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB6A16E99B;
+	Wed, 21 Aug 2019 18:37:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B2736E962
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2019 18:36:31 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0A4096E99B
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2019 18:37:43 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 04A7D72161; Wed, 21 Aug 2019 18:37:43 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204181] NULL pointer dereference regression in amdgpu
-Date: Wed, 21 Aug 2019 18:36:30 +0000
-X-Bugzilla-Reason: None
+Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
+ when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
+Date: Wed, 21 Aug 2019 18:37:42 +0000
+X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: virtuousfox@gmail.com
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: tempel.julian@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-204181-2300-TiEB9e6dkJ@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204181-2300@https.bugzilla.kernel.org/>
-References: <bug-204181-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110659-502-mGl1ifEfrZ@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
+References: <bug-110659-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
- message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,39 +53,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0663917440=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQxODEKCi0tLSBD
-b21tZW50ICMzOCBmcm9tIFNlcmdleSBLb25kYWtvdiAodmlydHVvdXNmb3hAZ21haWwuY29tKSAt
-LS0KKEluIHJlcGx5IHRvIEFsZXggRGV1Y2hlciBmcm9tIGNvbW1lbnQgIzM3KQo+IChJbiByZXBs
-eSB0byBTZXJnZXkgS29uZGFrb3YgZnJvbSBjb21tZW50ICMzNCkKPiA+IEJ5IHRoZSB3YXksIGlz
-IHRoZXJlIGFueSBkaXNhZHZhbnRhZ2UgaW4gZm9yY2luZyBUZWFyRnJlZSB0byBiZSBhbHdheXMg
-b24KPiA+IHdoZW4gaXQgd29ya3MgPyBMaWtlIGFkZGl0aW9uYWwgZnJhbWUgb2YgbGF0ZW5jeSBv
-ciBzb21ldGhpbmcgbGlrZSB0aGF0ID8KPiAKPiBUaGUgVGVhckZyZWUgb3B0aW9uIGlzIHRoZXJl
-IHRvIGRlYWwgd2l0aCBjb21wb3NpdG9ycyB0aGF0IGRvIG5vdCBzdXBwb3J0Cj4gc3luYyB0byB2
-YmxhbmsuIFRoZSBkZHggYWxsb2NhdGVzIGFub3RoZXIgZnJvbnQgYnVmZmVyIGFuZCB0aGVuIHRo
-YXQgYnVmZmVyCj4gaXMgdXBkYXRlZCBzeW5jaHJvbml6ZWQgd2l0aCB2Ymxhbmsgd2l0aCB0aGUg
-ZGF0YSBmcm9tIHRoZSByZWFsIGZyb250Cj4gYnVmZmVyLiAgU28gaXQgdXNlcyBhbiBhZGRpdGlv
-bmFsIGJ1ZmZlci4KClRoYW5rcyAhIEl0J3MgYSBzaGFtZSwgSSd2ZSBhbHJlYWR5IGJlZ3VuIGJl
-bGlldmluZyBpbiAiVGhlIFNpbHZlciBCdWxsZXQgb2YKVlN5bmMiLiBBbmQgaXQncyBjb21wbGV0
-ZWx5ICJzb2Z0d2FyZSIgR1BVLWFnbm9zdGljIGZ1bmN0aW9uLCBzbyBhbHRlcm5hdGl2ZXMKbGlr
-ZSBXYXlsYW5kIHdvdWxkIGhhdmUgdG8ganVzdCByZWltcGxlbWVudCBpdCB0aGUgc2FtZSB3YXkg
-PyBJdCBhbHdheXMgYWRkcyBhCmJ1ZmZlciBvciAic21hcnQtZW5vdWdoIiBjb21wb3NpdG9yIGNh
-biBvcHQtb3V0ID8gT3IgInRoZSBjb3JyZWN0IGZpeCBmb3IKbGF0ZW5jeSIgd2l0aCBURiBpcyBk
-aXNhYmxpbmcgdnN5bmMgZXZlcnl3aGVyZSAoc3VjaCBhcyBrd2luJ3MKR0xQcmVmZXJCdWZmZXJT
-d2FwPW4pIGVsc2UgYW5kIGxldCBpdCBoYW5kbGUgaXQgPwoKTm8gbWF0dGVyIGhvdyBJIHByZXZp
-b3VzbHkgdHJpZWQsIG5vdGhpbmcgb3RoZXIgdGhhbiBUZWFyRnJlZSBndWFyYW50ZWVkIGFjdHVh
-bApsYWNrIG9mIHRlYXJpbmcgaW4gYWxsIHRpbWVzIGluIHNpbXBsZSAyeDEwODBwIGNvbmZpZ3Vy
-YXRpb24gYnV0IHRoZXJlIGlzCmFidW5kYW5jZSBvZiBidWZmZXJpbmcgYXMgaXQgaXMgaW4gYXBw
-cyBhbmQgYSBjb21wb3NpdG9yICsgbGF0ZW5jeSBvZiBMQ0QKZGlzcGxheXMuIEknbSBzdXJlLCB5
-b3UncmUgYXdhcmUgb2YKaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL3hvcmcveHNlcnZl
-ci9pc3N1ZXMvMjQ0IHRvby4gU3RyYW5nZSB0aGF0ICJ0aGUKbWFnaWMiIG9mIFRGIGlzbid0IGRv
-bmUgZGlyZWN0bHkgaW4gY29tcG9zaXRvcnMgb3Iga2VybmVsIHRoZW4uCgotLSAKWW91IGFyZSBy
-ZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVl
-IG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bA==
+
+--===============0663917440==
+Content-Type: multipart/alternative; boundary="15664126623.4a46a.22992"
+Content-Transfer-Encoding: 7bit
+
+
+--15664126623.4a46a.22992
+Date: Wed, 21 Aug 2019 18:37:42 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
+
+--- Comment #31 from tempel.julian@gmail.com ---
+Created attachment 145117
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145117&action=3Dedit
+new dmesg log with staging-drm-next kernel default parameters
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15664126623.4a46a.22992
+Date: Wed, 21 Aug 2019 18:37:42 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c31">Comme=
+nt # 31</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
+ulian&#64;gmail.com</a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145117=
+" name=3D"attach_145117" title=3D"new dmesg log with staging-drm-next kerne=
+l default parameters">attachment 145117</a> <a href=3D"attachment.cgi?id=3D=
+145117&amp;action=3Dedit" title=3D"new dmesg log with staging-drm-next kern=
+el default parameters">[details]</a></span>
+new dmesg log with staging-drm-next kernel default parameters</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15664126623.4a46a.22992--
+
+--===============0663917440==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0663917440==--
