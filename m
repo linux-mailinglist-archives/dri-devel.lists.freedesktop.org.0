@@ -1,64 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 284AD97975
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2019 14:32:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE7397A20
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2019 14:59:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2D106E31E;
-	Wed, 21 Aug 2019 12:32:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17EBE89BC0;
+	Wed, 21 Aug 2019 12:59:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2889B6E316
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2019 12:32:05 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id l2so1976175wmg.0
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2019 05:32:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=MZJwoU8EhjpqcfOVk/0UG/4FrwiANEoCi8kk0rWYdbg=;
- b=Mw1qKeCZfBuqP4Cr3JGfln1Ng/XYOoqVXzZgJuodOWsuttqTCj3iGHytaCoRs6dRAx
- eUg1kk1UuVF90B5ODdKmXnVlFBeQpyGCYRgTbMfyT8M7JFBCCDDei9PoqWx8+SCTimvo
- upPm1bNCkC7HviexMxSk5Zu9iy36iRhk8JbbGzg6KKLvCbQ+iD1+Cf0S88vRfVG/kNes
- wIys/3AppB/sMVTXP4pVjvhqOTNiISWa+9m3o81cU5HI/ZD9PnsBYA6vzKCC95l6NtaL
- gt1URJMTVv2Marnm9GCmyckqW1rPShkDATafuYML+cd7n25BuiIz1Zr+L5PnpozeMbdJ
- I6NQ==
-X-Gm-Message-State: APjAAAVudwwBXrHcTjv/ByRjrImiwACC/pBwWNf5L4DIS5n+5cSc2ykr
- BOfmmDlI7dL+Wni3syUizAu1Fckp
-X-Google-Smtp-Source: APXvYqwZ8Gd/KOK6OMmUJsHhzoQ82fdVwJdWeRR2KTsdPwyQ4ORWAL/wvp+i3s7QDG9IRFkvzuVI5Q==
-X-Received: by 2002:a1c:6a0b:: with SMTP id f11mr5415866wmc.87.1566390723528; 
- Wed, 21 Aug 2019 05:32:03 -0700 (PDT)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:8189:dd33:a934:c4fa])
- by smtp.gmail.com with ESMTPSA id v3sm23084571wrq.34.2019.08.21.05.32.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Aug 2019 05:32:00 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
- daniel.vetter@ffwll.ch, sumit.semwal@linaro.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 10/10] dma-buf/resv: add other operations
-Date: Wed, 21 Aug 2019 14:31:47 +0200
-Message-Id: <20190821123147.110736-11-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190821123147.110736-1-christian.koenig@amd.com>
-References: <20190821123147.110736-1-christian.koenig@amd.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5D5C589BC0
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2019 12:59:45 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5429D72161; Wed, 21 Aug 2019 12:59:45 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111455] DMAR: [INTR-REMAP] Blocked an interrupt request due to
+ source-id verification failure
+Date: Wed, 21 Aug 2019 12:59:45 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: nikolay@oldum.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-111455-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=MZJwoU8EhjpqcfOVk/0UG/4FrwiANEoCi8kk0rWYdbg=;
- b=d078rngoBxhERwo8VvL6b5SgmaYW+//qijiLogHL72rlIO5Pm8L7LSMSx6GyJmF65k
- C8q7M9/DvhYezkDiP+SWBJ8RFefSWz2sID92nlUbQbr0g/tIbvWM85tcR4tJRHRj0z+P
- G8/B2D8rkSeYsaVSE6eN1CDNN/EKJBfbXT157FpigZPLtXKpJSTh8lXKfpk0due1MkVA
- Sb0OvgvGbCbxryZ7/dOHetHUfO1thPixmEfzgrWwYthNgNbG1A6uUPVdDOI9HhK7UNHU
- 7aGrHm+4UTnRPa/iyfBS5TNBpPntvDoY1kO3T7ligHPmU54CgUdbZ2LygxEEpcpDlpiz
- VYvw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,89 +52,301 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1441890396=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QWRkaXRpb25hbCB0byByZWFkZXJzIGFuZCB3cml0ZXJzIGFkZCBhbm90aGVyIGNsYXNzIG9mIG9w
-ZXJhdGlvbnMKd2hpY2ggbmV2ZXIgcGFydGljaXBhdGUgaW4gaW1wbGljaXQgc3luY2hyb25pemF0
-aW9uLgoKU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0Bh
-bWQuY29tPgotLS0KIGRyaXZlcnMvZG1hLWJ1Zi9kbWEtcmVzdi5jIHwgMjcgKysrKysrKysrKysr
-KysrKysrKysrKysrLS0tCiBpbmNsdWRlL2xpbnV4L2RtYS1yZXN2LmggICB8ICAyICsrCiAyIGZp
-bGVzIGNoYW5nZWQsIDI2IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9kbWEtYnVmL2RtYS1yZXN2LmMgYi9kcml2ZXJzL2RtYS1idWYvZG1hLXJlc3Yu
-YwppbmRleCA4ZWY3ZGJjN2ZkOGUuLmM2ZGQ2YzM2ZGJhMiAxMDA2NDQKLS0tIGEvZHJpdmVycy9k
-bWEtYnVmL2RtYS1yZXN2LmMKKysrIGIvZHJpdmVycy9kbWEtYnVmL2RtYS1yZXN2LmMKQEAgLTI4
-MCw2ICsyODAsNyBAQCB2b2lkIGRtYV9yZXN2X2luaXQoc3RydWN0IGRtYV9yZXN2ICpvYmopCiAK
-IAlkbWFfcmVzdl9mZW5jZXNfaW5pdCgmb2JqLT53cml0ZXJzKTsKIAlkbWFfcmVzdl9mZW5jZXNf
-aW5pdCgmb2JqLT5yZWFkZXJzKTsKKwlkbWFfcmVzdl9mZW5jZXNfaW5pdCgmb2JqLT5vdGhlcnMp
-OwogfQogRVhQT1JUX1NZTUJPTChkbWFfcmVzdl9pbml0KTsKIApAQCAtMjk1LDYgKzI5Niw3IEBA
-IHZvaWQgZG1hX3Jlc3ZfZmluaShzdHJ1Y3QgZG1hX3Jlc3YgKm9iaikKIAkgKi8KIAlkbWFfcmVz
-dl9mZW5jZXNfZmluaSgmb2JqLT53cml0ZXJzKTsKIAlkbWFfcmVzdl9mZW5jZXNfZmluaSgmb2Jq
-LT5yZWFkZXJzKTsKKwlkbWFfcmVzdl9mZW5jZXNfZmluaSgmb2JqLT5vdGhlcnMpOwogCXd3X211
-dGV4X2Rlc3Ryb3koJm9iai0+bG9jayk7CiB9CiBFWFBPUlRfU1lNQk9MKGRtYV9yZXN2X2Zpbmkp
-OwpAQCAtMzM0LDYgKzMzNiwxMCBAQCB2b2lkIGRtYV9yZXN2X3BydW5lX2ZlbmNlcyhzdHJ1Y3Qg
-ZG1hX3Jlc3YgKm9iaikKIAlmZW5jZSA9IGRtYV9yZXN2X2ZlbmNlc19kZXJlZihvYmosICZvYmot
-PnJlYWRlcnMpOwogCWlmIChkbWFfZmVuY2VfaXNfc2lnbmFsZWQoZmVuY2UpKQogCQlkbWFfcmVz
-dl9mZW5jZXNfc2V0KG9iaiwgJm9iai0+cmVhZGVycywgTlVMTCk7CisKKwlmZW5jZSA9IGRtYV9y
-ZXN2X2ZlbmNlc19kZXJlZihvYmosICZvYmotPm90aGVycyk7CisJaWYgKGRtYV9mZW5jZV9pc19z
-aWduYWxlZChmZW5jZSkpCisJCWRtYV9yZXN2X2ZlbmNlc19zZXQob2JqLCAmb2JqLT5vdGhlcnMs
-IE5VTEwpOwogfQogRVhQT1JUX1NZTUJPTChkbWFfcmVzdl9wcnVuZV9mZW5jZXMpOwogCkBAIC0z
-NDYsMTcgKzM1MiwxOSBAQCBFWFBPUlRfU1lNQk9MKGRtYV9yZXN2X3BydW5lX2ZlbmNlcyk7CiAq
-LwogaW50IGRtYV9yZXN2X2NvcHlfZmVuY2VzKHN0cnVjdCBkbWFfcmVzdiAqZHN0LCBzdHJ1Y3Qg
-ZG1hX3Jlc3YgKnNyYykKIHsKLQlzdHJ1Y3QgZG1hX2ZlbmNlICp3cml0ZXJzLCAqcmVhZGVyczsK
-KwlzdHJ1Y3QgZG1hX2ZlbmNlICp3cml0ZXJzLCAqcmVhZGVycywgKm90aGVyczsKIAogCWRtYV9y
-ZXN2X2Fzc2VydF9oZWxkKGRzdCk7CiAKIAlyY3VfcmVhZF9sb2NrKCk7CiAJd3JpdGVycyA9IGRt
-YV9yZXN2X2ZlbmNlc19nZXRfcmN1KCZzcmMtPndyaXRlcnMpOwogCXJlYWRlcnMgPSBkbWFfcmVz
-dl9mZW5jZXNfZ2V0X3JjdSgmc3JjLT5yZWFkZXJzKTsKKwlvdGhlcnMgPSBkbWFfcmVzdl9mZW5j
-ZXNfZ2V0X3JjdSgmc3JjLT5vdGhlcnMpOwogCXJjdV9yZWFkX3VubG9jaygpOwogCiAJZG1hX3Jl
-c3ZfZmVuY2VzX3NldChkc3QsICZkc3QtPndyaXRlcnMsIHdyaXRlcnMpOwogCWRtYV9yZXN2X2Zl
-bmNlc19zZXQoZHN0LCAmZHN0LT5yZWFkZXJzLCByZWFkZXJzKTsKKwlkbWFfcmVzdl9mZW5jZXNf
-c2V0KGRzdCwgJmRzdC0+cmVhZGVycywgb3RoZXJzKTsKIAogCXJldHVybiAwOwogfQpAQCAtNDQw
-LDEyICs0NDgsMTMgQEAgbG9uZyBkbWFfcmVzdl93YWl0X3RpbWVvdXRfcmN1KHN0cnVjdCBkbWFf
-cmVzdiAqb2JqLAogCQkJICAgICAgIGJvb2wgd2FpdF9hbGwsIGJvb2wgaW50ciwKIAkJCSAgICAg
-ICB1bnNpZ25lZCBsb25nIHRpbWVvdXQpCiB7Ci0Jc3RydWN0IGRtYV9mZW5jZSAqd3JpdGVycywg
-KnJlYWRlcnM7CisJc3RydWN0IGRtYV9mZW5jZSAqd3JpdGVycywgKnJlYWRlcnMsICpvdGhlcnM7
-CiAJbG9uZyByZXQgPSB0aW1lb3V0ID8gdGltZW91dCA6IDE7CiAKIAlyY3VfcmVhZF9sb2NrKCk7
-CiAJd3JpdGVycyA9IGRtYV9yZXN2X2ZlbmNlc19nZXRfcmN1KCZvYmotPndyaXRlcnMpOwogCXJl
-YWRlcnMgPSBkbWFfcmVzdl9mZW5jZXNfZ2V0X3JjdSgmb2JqLT5yZWFkZXJzKTsKKwlvdGhlcnMg
-PSBkbWFfcmVzdl9mZW5jZXNfZ2V0X3JjdSgmb2JqLT5vdGhlcnMpOwogCXJjdV9yZWFkX3VubG9j
-aygpOwogCiAJaWYgKHdhaXRfYWxsICYmIHJlYWRlcnMpIHsKQEAgLTQ1NCwxMiArNDYzLDE5IEBA
-IGxvbmcgZG1hX3Jlc3Zfd2FpdF90aW1lb3V0X3JjdShzdHJ1Y3QgZG1hX3Jlc3YgKm9iaiwKIAkJ
-CWdvdG8gb3V0OwogCX0KIAorCWlmICh3YWl0X2FsbCAmJiBvdGhlcnMpIHsKKwkJcmV0ID0gZG1h
-X2ZlbmNlX3dhaXRfdGltZW91dChvdGhlcnMsIGludHIsIHJldCk7CisJCWlmIChyZXQgPD0gMCkK
-KwkJCWdvdG8gb3V0OworCX0KKwogCWlmICh3cml0ZXJzKQogCQlyZXQgPSBkbWFfZmVuY2Vfd2Fp
-dF90aW1lb3V0KHdyaXRlcnMsIGludHIsIHJldCk7CiAKIG91dDoKIAlkbWFfZmVuY2VfcHV0KHdy
-aXRlcnMpOwogCWRtYV9mZW5jZV9wdXQocmVhZGVycyk7CisJZG1hX2ZlbmNlX3B1dChvdGhlcnMp
-OwogCXJldHVybiByZXQ7CiB9CiBFWFBPUlRfU1lNQk9MX0dQTChkbWFfcmVzdl93YWl0X3RpbWVv
-dXRfcmN1KTsKQEAgLTQ3NiwxMiArNDkyLDEzIEBAIEVYUE9SVF9TWU1CT0xfR1BMKGRtYV9yZXN2
-X3dhaXRfdGltZW91dF9yY3UpOwogICovCiBib29sIGRtYV9yZXN2X3Rlc3Rfc2lnbmFsZWRfcmN1
-KHN0cnVjdCBkbWFfcmVzdiAqb2JqLCBib29sIHRlc3RfYWxsKQogewotCXN0cnVjdCBkbWFfZmVu
-Y2UgKndyaXRlcnMsICpyZWFkZXJzOworCXN0cnVjdCBkbWFfZmVuY2UgKndyaXRlcnMsICpyZWFk
-ZXJzLCAqb3RoZXJzOwogCWJvb2wgcmV0ID0gdHJ1ZTsKIAogCXJjdV9yZWFkX2xvY2soKTsKIAl3
-cml0ZXJzID0gZG1hX3Jlc3ZfZmVuY2VzX2dldF9yY3UoJm9iai0+d3JpdGVycyk7CiAJcmVhZGVy
-cyA9IGRtYV9yZXN2X2ZlbmNlc19nZXRfcmN1KCZvYmotPnJlYWRlcnMpOworCW90aGVycyA9IGRt
-YV9yZXN2X2ZlbmNlc19nZXRfcmN1KCZvYmotPm90aGVycyk7CiAJcmN1X3JlYWRfdW5sb2NrKCk7
-CiAKIAlpZiAod3JpdGVycykKQEAgLTQ5MCw4ICs1MDcsMTIgQEAgYm9vbCBkbWFfcmVzdl90ZXN0
-X3NpZ25hbGVkX3JjdShzdHJ1Y3QgZG1hX3Jlc3YgKm9iaiwgYm9vbCB0ZXN0X2FsbCkKIAlpZiAo
-dGVzdF9hbGwgJiYgcmVhZGVycykKIAkJcmV0ICY9IGRtYV9mZW5jZV9pc19zaWduYWxlZChyZWFk
-ZXJzKTsKIAorCWlmICh0ZXN0X2FsbCAmJiBvdGhlcnMpCisJCXJldCAmPSBkbWFfZmVuY2VfaXNf
-c2lnbmFsZWQob3RoZXJzKTsKKwogCWRtYV9mZW5jZV9wdXQod3JpdGVycyk7CiAJZG1hX2ZlbmNl
-X3B1dChyZWFkZXJzKTsKKwlkbWFfZmVuY2VfcHV0KG90aGVycyk7CiAKIAlyZXR1cm4gcmV0Owog
-fQpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9kbWEtcmVzdi5oIGIvaW5jbHVkZS9saW51eC9k
-bWEtcmVzdi5oCmluZGV4IDcyYzNjNGY5OTcxMS4uYmY4ZDIxY2M3NzIwIDEwMDY0NAotLS0gYS9p
-bmNsdWRlL2xpbnV4L2RtYS1yZXN2LmgKKysrIGIvaW5jbHVkZS9saW51eC9kbWEtcmVzdi5oCkBA
-IC03NiwxMiArNzYsMTQgQEAgdm9pZCBkbWFfcmVzdl9mZW5jZXNfY29tbWl0KHN0cnVjdCBkbWFf
-cmVzdiAqb2JqLAogICogQHNlcTogc2VxdWVuY2UgY291bnQgZm9yIG1hbmFnaW5nIFJDVSByZWFk
-LXNpZGUgc3luY2hyb25pemF0aW9uCiAgKiBAd3JpdGVyczogYXJyYXkgb2Ygd3JpdGUgb3BlcmF0
-aW9ucyBmb3IgaW1wbGljaXQgc3luYwogICogQHJlYWRlcnM6IGFycmF5IG9mIHJlYWQgb3BlcmF0
-aW9ucyBmb3IgaW1wbGljaXQgc3luYworICogQG90aGVyczogb3RoZXIgb3BlcmF0aW9ucyBub3Qg
-cGFydGljaXBhdGluZyBpbiBpbXBsaWNpdCBzeW5jCiAgKi8KIHN0cnVjdCBkbWFfcmVzdiB7CiAJ
-c3RydWN0IHd3X211dGV4IGxvY2s7CiAKIAlzdHJ1Y3QgZG1hX3Jlc3ZfZmVuY2VzIHdyaXRlcnM7
-CiAJc3RydWN0IGRtYV9yZXN2X2ZlbmNlcyByZWFkZXJzOworCXN0cnVjdCBkbWFfcmVzdl9mZW5j
-ZXMgb3RoZXJzOwogfTsKIAogI2RlZmluZSBkbWFfcmVzdl9oZWxkKG9iaikgbG9ja2RlcF9pc19o
-ZWxkKCYob2JqKS0+bG9jay5iYXNlKQotLSAKMi4xNy4xCgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1441890396==
+Content-Type: multipart/alternative; boundary="15663923850.eD82d.30640"
+Content-Transfer-Encoding: 7bit
+
+
+--15663923850.eD82d.30640
+Date: Wed, 21 Aug 2019 12:59:45 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111455
+
+            Bug ID: 111455
+           Summary: DMAR: [INTR-REMAP] Blocked an interrupt request due to
+                    source-id verification failure
+           Product: DRI
+           Version: XOrg git
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: not set
+          Priority: not set
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: nikolay@oldum.net
+
+Hello team,
+the below error is printed in the log and causes the graphics driver to fre=
+eze:
+
+[Tue Aug 20 12:04:38 2019] DMAR: DRHD: handling fault status reg 2
+[Tue Aug 20 12:04:38 2019] DMAR: [INTR-REMAP] Request device [00:00.0] fault
+index 26 [fault reason 38] Blocked an interrupt request due to source-id
+verification failure
+[Tue Aug 20 12:04:38 2019] [drm] Fence fallback timer expired on ring gfx
+[Tue Aug 20 12:04:38 2019] [drm] Fence fallback timer expired on ring gfx
+[Tue Aug 20 12:04:39 2019] [drm] Fence fallback timer expired on ring gfx
+[Tue Aug 20 12:04:39 2019] [drm] Fence fallback timer expired on ring gfx
+[Tue Aug 20 12:04:40 2019] [drm] Fence fallback timer expired on ring gfx
+[Tue Aug 20 12:04:40 2019] [drm] Fence fallback timer expired on ring sdma0
+[Tue Aug 20 12:04:41 2019] [drm] Fence fallback timer expired on ring sdma0
+...
+
+Hardware is: Dell Precision Tower 5810 with Advanced Micro Devices, Inc.
+[AMD/ATI] Oland GL [FirePro W2100] video card.
+
+Kernel: 5.2.8 x86_64 (GNU/Gentoo Linux)
+Kernel Command line: BOOT_IMAGE=3D/kernel-genkernel-x86_64-5.2.8-gentoo
+root=3D/dev/mapper/root ro crypt_root=3DUUID=3De11887f5-4104-4a9e-9c53-7e1d=
+904a0b28
+root_trim=3Dno elevator=3Dbfq scsi_mod.use_blk_mq=3D1 libata.allow_tpm=3D1 =
+domdadm
+dolvm intel_iommu=3Don
+
+IOMMU is on, because the system acts mainly as a KVM/Libvirt host.
+
+amdgpu driver information:
+# dmesg | grep amd
+[   14.614307] [drm] amdgpu kernel modesetting enabled.
+[   14.615206] amdgpu 0000:03:00.0: remove_conflicting_pci_framebuffers: ba=
+r 0:
+0xe0000000 -> 0xefffffff
+[   14.615208] amdgpu 0000:03:00.0: remove_conflicting_pci_framebuffers: ba=
+r 2:
+0xf7e00000 -> 0xf7e3ffff
+[   14.615209] amdgpu 0000:03:00.0: vgaarb: deactivate vga console
+[   14.617260] amdgpu 0000:03:00.0: kfd not supported on this ASIC
+[   14.622071] amdgpu 0000:03:00.0: No more image in the PCI ROM
+[   14.624585] amdgpu 0000:03:00.0: VRAM: 2048M 0x000000F400000000 -
+0x000000F47FFFFFFF (2048M used)
+[   14.624586] amdgpu 0000:03:00.0: GART: 1024M 0x000000FF00000000 -
+0x000000FF3FFFFFFF
+[   14.626166] [drm] amdgpu: 2048M of VRAM memory ready
+[   14.626169] [drm] amdgpu: 3072M of GTT memory ready.
+[   14.626832] amdgpu 0000:03:00.0: PCIE GART of 1024M enabled (table at
+0x000000F400900000).
+[   14.643922] [drm] amdgpu: dpm initialized
+[   14.862039] fbcon: amdgpudrmfb (fb0) is primary device
+[   14.990216] amdgpu 0000:03:00.0: fb0: amdgpudrmfb frame buffer device
+[   15.260648] [drm] Initialized amdgpu 3.32.0 20150101 for 0000:03:00.0 on
+minor 0
+
+and module dependencies:
+# lsmod | grep amdgpu
+amdgpu               3772416  7
+gpu_sched              36864  1 amdgpu
+ttm                   114688  1 amdgpu
+drm_kms_helper        212992  1 amdgpu
+drm                   462848  7 gpu_sched,drm_kms_helper,amdgpu,ttm
+i2c_algo_bit           16384  2 igb,amdgpu
+
+Happy to collect output from 'drm.debug=3D0x1e log_buf_len=3D4M' booted ker=
+nel if
+that makes sense.
+
+Thanks,
+-Nikolay
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15663923850.eD82d.30640
+Date: Wed, 21 Aug 2019 12:59:45 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - DMAR: [INTR-REMAP] Blocked an interrupt request due to so=
+urce-id verification failure"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111455">111455</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>DMAR: [INTR-REMAP] Blocked an interrupt request due to source=
+-id verification failure
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>XOrg git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>nikolay&#64;oldum.net
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Hello team,
+the below error is printed in the log and causes the graphics driver to fre=
+eze:
+
+[Tue Aug 20 12:04:38 2019] DMAR: DRHD: handling fault status reg 2
+[Tue Aug 20 12:04:38 2019] DMAR: [INTR-REMAP] Request device [00:00.0] fault
+index 26 [fault reason 38] Blocked an interrupt request due to source-id
+verification failure
+[Tue Aug 20 12:04:38 2019] [drm] Fence fallback timer expired on ring gfx
+[Tue Aug 20 12:04:38 2019] [drm] Fence fallback timer expired on ring gfx
+[Tue Aug 20 12:04:39 2019] [drm] Fence fallback timer expired on ring gfx
+[Tue Aug 20 12:04:39 2019] [drm] Fence fallback timer expired on ring gfx
+[Tue Aug 20 12:04:40 2019] [drm] Fence fallback timer expired on ring gfx
+[Tue Aug 20 12:04:40 2019] [drm] Fence fallback timer expired on ring sdma0
+[Tue Aug 20 12:04:41 2019] [drm] Fence fallback timer expired on ring sdma0
+...
+
+Hardware is: Dell Precision Tower 5810 with Advanced Micro Devices, Inc.
+[AMD/ATI] Oland GL [FirePro W2100] video card.
+
+Kernel: 5.2.8 x86_64 (GNU/Gentoo Linux)
+Kernel Command line: BOOT_IMAGE=3D/kernel-genkernel-x86_64-5.2.8-gentoo
+root=3D/dev/mapper/root ro crypt_root=3DUUID=3De11887f5-4104-4a9e-9c53-7e1d=
+904a0b28
+root_trim=3Dno elevator=3Dbfq scsi_mod.use_blk_mq=3D1 libata.allow_tpm=3D1 =
+domdadm
+dolvm intel_iommu=3Don
+
+IOMMU is on, because the system acts mainly as a KVM/Libvirt host.
+
+amdgpu driver information:
+# dmesg | grep amd
+[   14.614307] [drm] amdgpu kernel modesetting enabled.
+[   14.615206] amdgpu 0000:03:00.0: remove_conflicting_pci_framebuffers: ba=
+r 0:
+0xe0000000 -&gt; 0xefffffff
+[   14.615208] amdgpu 0000:03:00.0: remove_conflicting_pci_framebuffers: ba=
+r 2:
+0xf7e00000 -&gt; 0xf7e3ffff
+[   14.615209] amdgpu 0000:03:00.0: vgaarb: deactivate vga console
+[   14.617260] amdgpu 0000:03:00.0: kfd not supported on this ASIC
+[   14.622071] amdgpu 0000:03:00.0: No more image in the PCI ROM
+[   14.624585] amdgpu 0000:03:00.0: VRAM: 2048M 0x000000F400000000 -
+0x000000F47FFFFFFF (2048M used)
+[   14.624586] amdgpu 0000:03:00.0: GART: 1024M 0x000000FF00000000 -
+0x000000FF3FFFFFFF
+[   14.626166] [drm] amdgpu: 2048M of VRAM memory ready
+[   14.626169] [drm] amdgpu: 3072M of GTT memory ready.
+[   14.626832] amdgpu 0000:03:00.0: PCIE GART of 1024M enabled (table at
+0x000000F400900000).
+[   14.643922] [drm] amdgpu: dpm initialized
+[   14.862039] fbcon: amdgpudrmfb (fb0) is primary device
+[   14.990216] amdgpu 0000:03:00.0: fb0: amdgpudrmfb frame buffer device
+[   15.260648] [drm] Initialized amdgpu 3.32.0 20150101 for 0000:03:00.0 on
+minor 0
+
+and module dependencies:
+# lsmod | grep amdgpu
+amdgpu               3772416  7
+gpu_sched              36864  1 amdgpu
+ttm                   114688  1 amdgpu
+drm_kms_helper        212992  1 amdgpu
+drm                   462848  7 gpu_sched,drm_kms_helper,amdgpu,ttm
+i2c_algo_bit           16384  2 igb,amdgpu
+
+Happy to collect output from 'drm.debug=3D0x1e log_buf_len=3D4M' booted ker=
+nel if
+that makes sense.
+
+Thanks,
+-Nikolay</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15663923850.eD82d.30640--
+
+--===============1441890396==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1441890396==--
