@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ACEE984E0
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2019 21:59:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E81984E1
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2019 21:59:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A05FE6E98E;
-	Wed, 21 Aug 2019 19:58:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66DC76E98F;
+	Wed, 21 Aug 2019 19:59:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id C817C6E98E
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2019 19:58:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 879476E98F
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2019 19:59:04 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C549572161; Wed, 21 Aug 2019 19:58:56 +0000 (UTC)
+ id 8446472161; Wed, 21 Aug 2019 19:59:04 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
- when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
-Date: Wed, 21 Aug 2019 19:58:57 +0000
+Subject: [Bug 111332] Long running application causes assert in amdgpu_bo.c 
+ 'bo->cpu_map_count > 0' failed
+Date: Wed, 21 Aug 2019 19:59:04 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: nicholas.kazlauskas@amd.com
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: freedesktop@harrisonconsoles.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
+X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110659-502-EFUs5Wq4D9@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
-References: <bug-110659-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111332-502-bveTg44WjN@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111332-502@http.bugs.freedesktop.org/>
+References: <bug-111332-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,44 +53,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1541215051=="
+Content-Type: multipart/mixed; boundary="===============0864482939=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1541215051==
-Content-Type: multipart/alternative; boundary="15664175361.F6FaC.10879"
+--===============0864482939==
+Content-Type: multipart/alternative; boundary="15664175441.EdcfE6.10309"
 Content-Transfer-Encoding: 7bit
 
 
---15664175361.F6FaC.10879
-Date: Wed, 21 Aug 2019 19:58:56 +0000
+--15664175441.EdcfE6.10309
+Date: Wed, 21 Aug 2019 19:59:04 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111332
 
---- Comment #37 from Nicholas Kazlauskas <nicholas.kazlauskas@amd.com> ---
-Are you running a color management tool in the background?
+--- Comment #2 from Todd <freedesktop@harrisonconsoles.com> ---
+I can't comment on where the fix should be, but
 
-The difference between my setup and yours is that there isn't anything lock=
-ing
-the connectors hundreds of times per second and performing full updates.
+1. This does not happen on a radeon based system
 
-This is confirmed in your log by lines like the following:
-
- [ 2788.165907] [drm:drm_atomic_add_affected_connectors [drm]] Adding all
-current connectors for [CRTC:47:crtc-0] to 00000000acb155e9
+2. With the patch applied to the amdgpu code the application has been runni=
+ng
+for over 7 days now with no issues.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15664175361.F6FaC.10879
-Date: Wed, 21 Aug 2019 19:58:56 +0000
+--15664175441.EdcfE6.10309
+Date: Wed, 21 Aug 2019 19:59:04 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -106,31 +103,27 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c37">Comme=
-nt # 37</a>
+   title=3D"NEW - Long running application causes assert in amdgpu_bo.c 'bo=
+-&gt;cpu_map_count &gt; 0' failed"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111332#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
-9</a>
+   title=3D"NEW - Long running application causes assert in amdgpu_bo.c 'bo=
+-&gt;cpu_map_count &gt; 0' failed"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111332">bug 11133=
+2</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-nicholas.kazlauskas&#64;amd.com" title=3D"Nicholas Kazlauskas &lt;nicholas.=
-kazlauskas&#64;amd.com&gt;"> <span class=3D"fn">Nicholas Kazlauskas</span><=
-/a>
+freedesktop&#64;harrisonconsoles.com" title=3D"Todd &lt;freedesktop&#64;har=
+risonconsoles.com&gt;"> <span class=3D"fn">Todd</span></a>
 </span></b>
-        <pre>Are you running a color management tool in the background?
+        <pre>I can't comment on where the fix should be, but
 
-The difference between my setup and yours is that there isn't anything lock=
-ing
-the connectors hundreds of times per second and performing full updates.
+1. This does not happen on a radeon based system
 
-This is confirmed in your log by lines like the following:
-
- [ 2788.165907] [drm:drm_atomic_add_affected_connectors [drm]] Adding all
-current connectors for [CRTC:47:crtc-0] to 00000000acb155e9</pre>
+2. With the patch applied to the amdgpu code the application has been runni=
+ng
+for over 7 days now with no issues.</pre>
         </div>
       </p>
 
@@ -144,9 +137,9 @@ current connectors for [CRTC:47:crtc-0] to 00000000acb155e9</pre>
     </body>
 </html>=
 
---15664175361.F6FaC.10879--
+--15664175441.EdcfE6.10309--
 
---===============1541215051==
+--===============0864482939==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -156,4 +149,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1541215051==--
+--===============0864482939==--
