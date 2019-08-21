@@ -1,40 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3797898396
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2019 20:50:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60774983B2
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2019 20:53:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5CA76E970;
-	Wed, 21 Aug 2019 18:50:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C0586E9C0;
+	Wed, 21 Aug 2019 18:53:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA9F16E340
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2019 18:50:19 +0000 (UTC)
-Received: from pendragon.bb.dnainternet.fi
- (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi
- [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 694F0E1E;
- Wed, 21 Aug 2019 20:50:16 +0200 (CEST)
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 232B26E9C0
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2019 18:53:26 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 1FA2672161; Wed, 21 Aug 2019 18:53:26 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH/RFC 5/5] [HACK] drm/edid: Decouple EDID retrieval from
- connector
-Date: Wed, 21 Aug 2019 21:50:05 +0300
-Message-Id: <20190821185005.9789-6-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190821185005.9789-1-laurent.pinchart@ideasonboard.com>
-References: <20190821185005.9789-1-laurent.pinchart@ideasonboard.com>
+Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
+ when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
+Date: Wed, 21 Aug 2019 18:53:26 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: tempel.julian@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110659-502-AxFE7XgepT@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
+References: <bug-110659-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1566413416;
- bh=5uL7m7ZvvHeNwYioJgfDdPfaK9zXF85MSi+4czFWwVA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Pr3lCgDJ5ZGoD9n9LuO8ySoASk7nKGkVw0ii1oD2t52PnikDwXxBrXU6GzuagC6xX
- rTAtSyBokkhyUiw32ZDgKHvbkwZj2uSK8r/7mcgcpv+pPlG2TpiE4Wojt0bTBe7WWl
- xKAxmnfCJgBQwzZEJPnBdRlx/9uzH8rgJpAM4hp8=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,142 +53,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1690118391=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBwYXRjaCBpcyBhIHByb29mIG9mIGNvbmNlcHQgc2hvd2luZyBob3cgRURJRCByZXRyaWV2
-YWwgY291bGQgYmUKZGVjb3VwbGVkIGZyb20gZHJtX2Nvbm5lY3RvciwgaW4gb3JkZXIgdG8gYXZv
-aWQgcGFzc2luZyB0aGUgY29ubmVjdG9yCnBvaW50ZXIgdG8gdGhlIGRybV9icmlkZ2UgLmdldF9l
-ZGlkKCkgb3BlcmF0aW9uLiBUaGUgdXNlciBvZiBzdWNoCmJyaWRnZXMgKGluIG1vc3QgY2FzZSB0
-aGUgZnV0dXJlIGRybV9icmlkZ2VfY29ubmVjdG9yIGhlbHBlciwgc2VlCiJbUEFUQ0ggdjIgMDAv
-NTBdIGRybS9vbWFwOiBSZXBsYWNlIGN1c3RvbSBkaXNwbGF5IGRyaXZlcnMgd2l0aApkcm1fYnJp
-ZGdlIGFuZCBkcm1fcGFuZWwiKSB3b3VsZCBuZWVkIHRvIGR1cGxpY2F0ZSB0aGUgbG9naWMgZm91
-bmQgaW4KZHJtX2RvX2dldF9lZGlkKCksIGFuZCBicmlkZ2VzIHdvdWxkIHVzZSB0aGUgX19kcm1f
-ZG9fZ2V0X2VkaWQoKQpmdW5jdGlvbiB0byByZXRyaWV2ZSBhbmQgcmV0dXJuIGEgZHJtX2VkaWQg
-c3RydWN0dXJlLgoKTm90LXlldC1zaWduZWQtb2ZmLWJ5OiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVy
-ZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2RybV9l
-ZGlkLmMgfCAxNTcgKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLQogMSBmaWxl
-IGNoYW5nZWQsIDk1IGluc2VydGlvbnMoKyksIDYyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMK
-aW5kZXggNGIyODYzNWYxMDUwLi4zN2I2YTZkZTlmNDIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1
-L2RybS9kcm1fZWRpZC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jCkBAIC01MTE5
-LDM0ICs1MTE5LDYgQEAgZHJtX2RvX3Byb2JlX2RkY19lZGlkKHZvaWQgKmRhdGEsIHU4ICpidWYs
-IHVuc2lnbmVkIGludCBibG9jaywgc2l6ZV90IGxlbikKIAlyZXR1cm4gcmV0ID09IHhmZXJzID8g
-MCA6IC0xOwogfQogCi1zdGF0aWMgdm9pZCBjb25uZWN0b3JfYmFkX2VkaWQoc3RydWN0IGRybV9j
-b25uZWN0b3IgKmNvbm5lY3RvciwKLQkJCSAgICAgICB1OCAqZWRpZCwgaW50IG51bV9ibG9ja3Mp
-Ci17Ci0JaW50IGk7Ci0KLQlpZiAoY29ubmVjdG9yLT5iYWRfZWRpZF9jb3VudGVyKysgJiYgIShk
-cm1fZGVidWcgJiBEUk1fVVRfS01TKSkKLQkJcmV0dXJuOwotCi0JZGV2X3dhcm4oY29ubmVjdG9y
-LT5kZXYtPmRldiwKLQkJICIlczogRURJRCBpcyBpbnZhbGlkOlxuIiwKLQkJIGNvbm5lY3Rvci0+
-bmFtZSk7Ci0JZm9yIChpID0gMDsgaSA8IG51bV9ibG9ja3M7IGkrKykgewotCQl1OCAqYmxvY2sg
-PSBlZGlkICsgaSAqIEVESURfTEVOR1RIOwotCQljaGFyIHByZWZpeFsyMF07Ci0KLQkJaWYgKGRy
-bV9lZGlkX2lzX3plcm8oYmxvY2ssIEVESURfTEVOR1RIKSkKLQkJCXNwcmludGYocHJlZml4LCAi
-XHRbJTAyeF0gWkVSTyAiLCBpKTsKLQkJZWxzZSBpZiAoIWRybV9lZGlkX2Jsb2NrX3ZhbGlkKGJs
-b2NrLCBpLCBmYWxzZSwgTlVMTCkpCi0JCQlzcHJpbnRmKHByZWZpeCwgIlx0WyUwMnhdIEJBRCAg
-IiwgaSk7Ci0JCWVsc2UKLQkJCXNwcmludGYocHJlZml4LCAiXHRbJTAyeF0gR09PRCAiLCBpKTsK
-LQotCQlwcmludF9oZXhfZHVtcChLRVJOX1dBUk5JTkcsCi0JCQkgICAgICAgcHJlZml4LCBEVU1Q
-X1BSRUZJWF9OT05FLCAxNiwgMSwKLQkJCSAgICAgICBibG9jaywgRURJRF9MRU5HVEgsIGZhbHNl
-KTsKLQl9Ci19Ci0KIC8qIEdldCBvdmVycmlkZSBvciBmaXJtd2FyZSBFRElEICovCiBzdGF0aWMg
-c3RydWN0IGVkaWQgKmRybV9nZXRfb3ZlcnJpZGVfZWRpZChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAq
-Y29ubmVjdG9yKQogewpAQCAtNTIwMSwzMSArNTE3Myw2NyBAQCBzdGF0aWMgYm9vbCBfX2RybV9w
-cm9iZV9kZGMoaW50ICgqZ2V0X2VkaWRfYmxvY2spKHZvaWQgKmRhdGEsIHU4ICpidWYsCiAJcmV0
-dXJuIChnZXRfZWRpZF9ibG9jayhkYXRhLCAmb3V0LCAwLCAxKSA9PSAwKTsKIH0KIAotc3RhdGlj
-IHN0cnVjdCBlZGlkICpfX2RybV9kb19nZXRfZWRpZChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29u
-bmVjdG9yLAorc3RydWN0IGRybV9lZGlkIHsKKwl1OCAqZGF0YTsKKwl1bnNpZ25lZCBpbnQgbnVt
-X2Jsb2NrczsKKworCXVuc2lnbmVkIGludCBudWxsX2NvdW50ZXI7CisJdW5zaWduZWQgaW50IGJh
-ZF9jb3VudGVyOworCWJvb2wgY29ycnVwdDsKK307CisKK3N0YXRpYyB2b2lkIGNvbm5lY3Rvcl9i
-YWRfZWRpZChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBjb25zdCBjaGFyICpuYW1lLAorCQkJICAg
-ICAgIHN0cnVjdCBkcm1fZWRpZCAqZWRpZCkKK3sKKwlpbnQgaTsKKworCWlmIChlZGlkLT5iYWRf
-Y291bnRlcisrICYmICEoZHJtX2RlYnVnICYgRFJNX1VUX0tNUykpCisJCXJldHVybjsKKworCWRl
-dl93YXJuKGRldi0+ZGV2LCAiJXM6IEVESUQgaXMgaW52YWxpZDpcbiIsIG5hbWUpOworCisJZm9y
-IChpID0gMDsgaSA8IGVkaWQtPm51bV9ibG9ja3M7IGkrKykgeworCQl1OCAqYmxvY2sgPSBlZGlk
-LT5kYXRhICsgaSAqIEVESURfTEVOR1RIOworCQljaGFyIHByZWZpeFsyMF07CisKKwkJaWYgKGRy
-bV9lZGlkX2lzX3plcm8oYmxvY2ssIEVESURfTEVOR1RIKSkKKwkJCXNwcmludGYocHJlZml4LCAi
-XHRbJTAyeF0gWkVSTyAiLCBpKTsKKwkJZWxzZSBpZiAoIWRybV9lZGlkX2Jsb2NrX3ZhbGlkKGJs
-b2NrLCBpLCBmYWxzZSwgTlVMTCkpCisJCQlzcHJpbnRmKHByZWZpeCwgIlx0WyUwMnhdIEJBRCAg
-IiwgaSk7CisJCWVsc2UKKwkJCXNwcmludGYocHJlZml4LCAiXHRbJTAyeF0gR09PRCAiLCBpKTsK
-KworCQlwcmludF9oZXhfZHVtcChLRVJOX1dBUk5JTkcsCisJCQkgICAgICAgcHJlZml4LCBEVU1Q
-X1BSRUZJWF9OT05FLCAxNiwgMSwKKwkJCSAgICAgICBibG9jaywgRURJRF9MRU5HVEgsIGZhbHNl
-KTsKKwl9Cit9CisKK3N0YXRpYyBpbnQgX19kcm1fZG9fZ2V0X2VkaWQoc3RydWN0IGRybV9kZXZp
-Y2UgKmRldiwgY29uc3QgY2hhciAqbmFtZSwKKwkJCSAgICAgc3RydWN0IGRybV9lZGlkICplZGlk
-LAogCWludCAoKmdldF9lZGlkX2Jsb2NrKSh2b2lkICpkYXRhLCB1OCAqYnVmLCB1bnNpZ25lZCBp
-bnQgYmxvY2ssCiAJCQkgICAgICBzaXplX3QgbGVuKSwKIAl2b2lkICpkYXRhKQogewotCWludCBp
-LCBqID0gMCwgdmFsaWRfZXh0ZW5zaW9ucyA9IDA7Ci0JdTggKmVkaWQsICpuZXc7Ci0Jc3RydWN0
-IGVkaWQgKm92ZXJyaWRlOworCXVuc2lnbmVkIGludCB2YWxpZF9leHRlbnNpb25zOworCXVuc2ln
-bmVkIGludCBpLCBqOworCXU4ICpuZXc7CisJaW50IHJldDsKIAotCW92ZXJyaWRlID0gZHJtX2dl
-dF9vdmVycmlkZV9lZGlkKGNvbm5lY3Rvcik7Ci0JaWYgKG92ZXJyaWRlKQotCQlyZXR1cm4gb3Zl
-cnJpZGU7CisJZWRpZC0+ZGF0YSA9IGttYWxsb2MoRURJRF9MRU5HVEgsIEdGUF9LRVJORUwpOwor
-CWlmICghZWRpZC0+ZGF0YSkKKwkJcmV0dXJuIC1FTk9NRU07CiAKLQlpZiAoKGVkaWQgPSBrbWFs
-bG9jKEVESURfTEVOR1RILCBHRlBfS0VSTkVMKSkgPT0gTlVMTCkKLQkJcmV0dXJuIE5VTEw7CisJ
-ZWRpZC0+bnVtX2Jsb2NrcyA9IDE7CiAKIAkvKiBiYXNlIGJsb2NrIGZldGNoICovCiAJZm9yIChp
-ID0gMDsgaSA8IDQ7IGkrKykgewotCQlpZiAoZ2V0X2VkaWRfYmxvY2soZGF0YSwgZWRpZCwgMCwg
-RURJRF9MRU5HVEgpKQorCQlpZiAoZ2V0X2VkaWRfYmxvY2soZGF0YSwgZWRpZC0+ZGF0YSwgMCwg
-RURJRF9MRU5HVEgpKQogCQkJZ290byBvdXQ7Ci0JCWlmIChkcm1fZWRpZF9ibG9ja192YWxpZChl
-ZGlkLCAwLCBmYWxzZSwKLQkJCQkJICZjb25uZWN0b3ItPmVkaWRfY29ycnVwdCkpCisJCWlmIChk
-cm1fZWRpZF9ibG9ja192YWxpZChlZGlkLT5kYXRhLCAwLCBmYWxzZSwgJmVkaWQtPmNvcnJ1cHQp
-KQogCQkJYnJlYWs7Ci0JCWlmIChpID09IDAgJiYgZHJtX2VkaWRfaXNfemVybyhlZGlkLCBFRElE
-X0xFTkdUSCkpIHsKLQkJCWNvbm5lY3Rvci0+bnVsbF9lZGlkX2NvdW50ZXIrKzsKKwkJaWYgKGkg
-PT0gMCAmJiBkcm1fZWRpZF9pc196ZXJvKGVkaWQtPmRhdGEsIEVESURfTEVOR1RIKSkgeworCQkJ
-ZWRpZC0+bnVsbF9jb3VudGVyKys7CiAJCQlnb3RvIGNhcnA7CiAJCX0KIAl9CkBAIC01MjMzLDE3
-ICs1MjQxLDE5IEBAIHN0YXRpYyBzdHJ1Y3QgZWRpZCAqX19kcm1fZG9fZ2V0X2VkaWQoc3RydWN0
-IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwKIAkJZ290byBjYXJwOwogCiAJLyogaWYgdGhlcmUn
-cyBubyBleHRlbnNpb25zLCB3ZSdyZSBkb25lICovCi0JdmFsaWRfZXh0ZW5zaW9ucyA9IGVkaWRb
-MHg3ZV07CisJdmFsaWRfZXh0ZW5zaW9ucyA9IGVkaWQtPmRhdGFbMHg3ZV0gKyAxOwogCWlmICh2
-YWxpZF9leHRlbnNpb25zID09IDApCi0JCXJldHVybiAoc3RydWN0IGVkaWQgKillZGlkOworCQly
-ZXR1cm4gMDsKIAotCW5ldyA9IGtyZWFsbG9jKGVkaWQsICh2YWxpZF9leHRlbnNpb25zICsgMSkg
-KiBFRElEX0xFTkdUSCwgR0ZQX0tFUk5FTCk7CisJZWRpZC0+bnVtX2Jsb2NrcyArPSB2YWxpZF9l
-eHRlbnNpb25zOworCisJbmV3ID0ga3JlYWxsb2MoZWRpZC0+ZGF0YSwgZWRpZC0+bnVtX2Jsb2Nr
-cyAqIEVESURfTEVOR1RILCBHRlBfS0VSTkVMKTsKIAlpZiAoIW5ldykKIAkJZ290byBvdXQ7Ci0J
-ZWRpZCA9IG5ldzsKKwllZGlkLT5kYXRhID0gbmV3OwogCi0JZm9yIChqID0gMTsgaiA8PSBlZGlk
-WzB4N2VdOyBqKyspIHsKLQkJdTggKmJsb2NrID0gZWRpZCArIGogKiBFRElEX0xFTkdUSDsKKwlm
-b3IgKGogPSAxOyBqIDwgZWRpZC0+bnVtX2Jsb2NrczsgaisrKSB7CisJCXU4ICpibG9jayA9IGVk
-aWQtPmRhdGEgKyBqICogRURJRF9MRU5HVEg7CiAKIAkJZm9yIChpID0gMDsgaSA8IDQ7IGkrKykg
-ewogCQkJaWYgKGdldF9lZGlkX2Jsb2NrKGRhdGEsIGJsb2NrLCBqLCBFRElEX0xFTkdUSCkpCkBA
-IC01MjU2LDIyICs1MjY2LDI1IEBAIHN0YXRpYyBzdHJ1Y3QgZWRpZCAqX19kcm1fZG9fZ2V0X2Vk
-aWQoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwKIAkJCXZhbGlkX2V4dGVuc2lvbnMt
-LTsKIAl9CiAKLQlpZiAodmFsaWRfZXh0ZW5zaW9ucyAhPSBlZGlkWzB4N2VdKSB7CisJaWYgKHZh
-bGlkX2V4dGVuc2lvbnMgIT0gZWRpZC0+bnVtX2Jsb2NrcyAtIDEpIHsKIAkJdTggKmJhc2U7CiAK
-LQkJY29ubmVjdG9yX2JhZF9lZGlkKGNvbm5lY3RvciwgZWRpZCwgZWRpZFsweDdlXSArIDEpOwor
-CQljb25uZWN0b3JfYmFkX2VkaWQoZGV2LCBuYW1lLCBlZGlkKTsKIAotCQllZGlkW0VESURfTEVO
-R1RILTFdICs9IGVkaWRbMHg3ZV0gLSB2YWxpZF9leHRlbnNpb25zOwotCQllZGlkWzB4N2VdID0g
-dmFsaWRfZXh0ZW5zaW9uczsKKwkJZWRpZC0+ZGF0YVtFRElEX0xFTkdUSC0xXSArPSBlZGlkLT5k
-YXRhWzB4N2VdIC0gdmFsaWRfZXh0ZW5zaW9uczsKKwkJZWRpZC0+ZGF0YVsweDdlXSA9IHZhbGlk
-X2V4dGVuc2lvbnM7CisJCWVkaWQtPm51bV9ibG9ja3MgPSB2YWxpZF9leHRlbnNpb25zICsgMTsK
-IAogCQluZXcgPSBrbWFsbG9jX2FycmF5KHZhbGlkX2V4dGVuc2lvbnMgKyAxLCBFRElEX0xFTkdU
-SCwKIAkJCQkgICAgR0ZQX0tFUk5FTCk7Ci0JCWlmICghbmV3KQorCQlpZiAoIW5ldykgeworCQkJ
-cmV0ID0gLUVOT01FTTsKIAkJCWdvdG8gb3V0OworCQl9CiAKIAkJYmFzZSA9IG5ldzsKLQkJZm9y
-IChpID0gMDsgaSA8PSBlZGlkWzB4N2VdOyBpKyspIHsKLQkJCXU4ICpibG9jayA9IGVkaWQgKyBp
-ICogRURJRF9MRU5HVEg7CisJCWZvciAoaSA9IDA7IGkgPCBlZGlkLT5udW1fYmxvY2tzOyBpKysp
-IHsKKwkJCXU4ICpibG9jayA9IGVkaWQtPmRhdGEgKyBpICogRURJRF9MRU5HVEg7CiAKIAkJCWlm
-ICghZHJtX2VkaWRfYmxvY2tfdmFsaWQoYmxvY2ssIGksIGZhbHNlLCBOVUxMKSkKIAkJCQljb250
-aW51ZTsKQEAgLTUyODAsMTcgKzUyOTMsMTkgQEAgc3RhdGljIHN0cnVjdCBlZGlkICpfX2RybV9k
-b19nZXRfZWRpZChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLAogCQkJYmFzZSArPSBF
-RElEX0xFTkdUSDsKIAkJfQogCi0JCWtmcmVlKGVkaWQpOwotCQllZGlkID0gbmV3OworCQlrZnJl
-ZShlZGlkLT5kYXRhKTsKKwkJZWRpZC0+ZGF0YSA9IG5ldzsKIAl9CiAKLQlyZXR1cm4gKHN0cnVj
-dCBlZGlkICopZWRpZDsKKwlyZXR1cm4gMDsKIAogY2FycDoKLQljb25uZWN0b3JfYmFkX2VkaWQo
-Y29ubmVjdG9yLCBlZGlkLCAxKTsKKwljb25uZWN0b3JfYmFkX2VkaWQoZGV2LCBuYW1lLCBlZGlk
-KTsKKwlyZXQgPSAtRUlOVkFMOwogb3V0OgotCWtmcmVlKGVkaWQpOwotCXJldHVybiBOVUxMOwor
-CWtmcmVlKGVkaWQtPmRhdGEpOworCWVkaWQtPmRhdGEgPSBOVUxMOworCXJldHVybiByZXQ7CiB9
-CiAKIC8qKgpAQCAtNTMxOCw2ICs1MzMzLDkgQEAgc3RydWN0IGVkaWQgKmRybV9kb19nZXRfZWRp
-ZChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLAogCQkJICAgICAgc2l6ZV90IGxlbiks
-CiAJdm9pZCAqZGF0YSkKIHsKKwlzdHJ1Y3QgZHJtX2VkaWQgZWRpZDsKKwlzdHJ1Y3QgZWRpZCAq
-b3ZlcnJpZGU7CisKIAlpZiAoY29ubmVjdG9yLT5mb3JjZSA9PSBEUk1fRk9SQ0VfT0ZGKQogCQly
-ZXR1cm4gTlVMTDsKIApAQCAtNTMyNSw3ICs1MzQzLDIyIEBAIHN0cnVjdCBlZGlkICpkcm1fZG9f
-Z2V0X2VkaWQoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwKIAkgICAgIV9fZHJtX3By
-b2JlX2RkYyhnZXRfZWRpZF9ibG9jaywgZGF0YSkpCiAJCXJldHVybiBOVUxMOwogCi0JcmV0dXJu
-IF9fZHJtX2RvX2dldF9lZGlkKGNvbm5lY3RvciwgZ2V0X2VkaWRfYmxvY2ssIGRhdGEpOworCW92
-ZXJyaWRlID0gZHJtX2dldF9vdmVycmlkZV9lZGlkKGNvbm5lY3Rvcik7CisJaWYgKG92ZXJyaWRl
-KQorCQlyZXR1cm4gb3ZlcnJpZGU7CisKKwltZW1zZXQoJmVkaWQsIDAsIHNpemVvZihlZGlkKSk7
-CisJZWRpZC5iYWRfY291bnRlciA9IGNvbm5lY3Rvci0+YmFkX2VkaWRfY291bnRlcjsKKwllZGlk
-Lm51bGxfY291bnRlciA9IGNvbm5lY3Rvci0+bnVsbF9lZGlkX2NvdW50ZXI7CisKKwlfX2RybV9k
-b19nZXRfZWRpZChjb25uZWN0b3ItPmRldiwgY29ubmVjdG9yLT5uYW1lLCAmZWRpZCwKKwkJCSAg
-Z2V0X2VkaWRfYmxvY2ssIGRhdGEpOworCisJY29ubmVjdG9yLT5iYWRfZWRpZF9jb3VudGVyID0g
-ZWRpZC5iYWRfY291bnRlcjsKKwljb25uZWN0b3ItPm51bGxfZWRpZF9jb3VudGVyID0gZWRpZC5u
-dWxsX2NvdW50ZXI7CisJY29ubmVjdG9yLT5lZGlkX2NvcnJ1cHQgPSBlZGlkLmNvcnJ1cHQ7CisK
-KwlyZXR1cm4gKHN0cnVjdCBlZGlkICopZWRpZC5kYXRhOwogfQogRVhQT1JUX1NZTUJPTF9HUEwo
-ZHJtX2RvX2dldF9lZGlkKTsKIAotLSAKUmVnYXJkcywKCkxhdXJlbnQgUGluY2hhcnQKCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1690118391==
+Content-Type: multipart/alternative; boundary="15664136061.FD5fC22E.25457"
+Content-Transfer-Encoding: 7bit
+
+
+--15664136061.FD5fC22E.25457
+Date: Wed, 21 Aug 2019 18:53:26 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
+
+--- Comment #34 from tempel.julian@gmail.com ---
+Thank you for being still with me on this.
+
+I've downgraded to stock packages provided by Arch stable repository, which=
+ is:
+xorg-server 1.20.5
+xf86-video-amdgpu 19.0.1
+mesa  19.1.4
+stock (read: no) xorg config
+no custom kernel parameters (except of of disabling intel_pstate, see new
+dmesg.log attached)
+
+And I've also installed amd-staging-drm-next (6c7a8d5c0772) just like you.
+
+But: The issue is unchanged. To further illustrate the issue, I've recorded=
+ a
+capture of it in the game TESV: Oblivion in D9VK (no difference to WineD3D =
+or
+Gallium Nine regarding this issue).
+
+The capturing process in OBS Studio via Xcomposite breaks pageflipping, but=
+ I
+can turn it on again via TearFree which I enable via hotkey on the fly. The
+result 100% matches running the game with modesetting DDX or amdgpu.dc=3D0 =
+(no
+spikes) vs. xf86-video-amdgpu + amdgpu.dc=3D1 (nasty spikes).
+
+Hitman 2 is a bit different, as it doesn't show render spikes for me either=
+ (I
+think I was first mistaken regarding that difference, sorry for the confusi=
+on),
+but the mouse input just blocks/skips heavily and is even more unplayable t=
+han
+Oblivion/Skyrim etc.
+
+I was just writing this while I read your new reply. I'll gladly try what y=
+ou
+have suggested.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15664136061.FD5fC22E.25457
+Date: Wed, 21 Aug 2019 18:53:26 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c34">Comme=
+nt # 34</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
+ulian&#64;gmail.com</a>
+</span></b>
+        <pre>Thank you for being still with me on this.
+
+I've downgraded to stock packages provided by Arch stable repository, which=
+ is:
+xorg-server 1.20.5
+xf86-video-amdgpu 19.0.1
+mesa  19.1.4
+stock (read: no) xorg config
+no custom kernel parameters (except of of disabling intel_pstate, see new
+dmesg.log attached)
+
+And I've also installed amd-staging-drm-next (6c7a8d5c0772) just like you.
+
+But: The issue is unchanged. To further illustrate the issue, I've recorded=
+ a
+capture of it in the game TESV: Oblivion in D9VK (no difference to WineD3D =
+or
+Gallium Nine regarding this issue).
+
+The capturing process in OBS Studio via Xcomposite breaks pageflipping, but=
+ I
+can turn it on again via TearFree which I enable via hotkey on the fly. The
+result 100% matches running the game with modesetting DDX or amdgpu.dc=3D0 =
+(no
+spikes) vs. xf86-video-amdgpu + amdgpu.dc=3D1 (nasty spikes).
+
+Hitman 2 is a bit different, as it doesn't show render spikes for me either=
+ (I
+think I was first mistaken regarding that difference, sorry for the confusi=
+on),
+but the mouse input just blocks/skips heavily and is even more unplayable t=
+han
+Oblivion/Skyrim etc.
+
+I was just writing this while I read your new reply. I'll gladly try what y=
+ou
+have suggested.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15664136061.FD5fC22E.25457--
+
+--===============1690118391==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1690118391==--
