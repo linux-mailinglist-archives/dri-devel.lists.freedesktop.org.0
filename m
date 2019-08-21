@@ -1,45 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8177897A3F
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2019 15:03:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 116AD97AC3
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2019 15:28:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 873366E32E;
-	Wed, 21 Aug 2019 13:03:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8A7C6E334;
+	Wed, 21 Aug 2019 13:28:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1E8F76E32E
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2019 13:03:15 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1B80372161; Wed, 21 Aug 2019 13:03:15 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111456] amdgpu numerous failures on resume from suspend
-Date: Wed, 21 Aug 2019 13:03:15 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: freedesktop-bugs@fermulator.fastmail.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- attachments.created
-Message-ID: <bug-111456-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60D756E334
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2019 13:28:20 +0000 (UTC)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
+ [209.85.160.182])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0BCBB233FE
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2019 13:28:20 +0000 (UTC)
+Received: by mail-qt1-f182.google.com with SMTP id i4so2965996qtj.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2019 06:28:20 -0700 (PDT)
+X-Gm-Message-State: APjAAAXmao3kpiknlW4lSWFwMiBWCsvkT15UJgOeDyRqyQH3MCZpNKwJ
+ t582FpRcGL0L6Mmm6a+nNBC50kPNKVCbeYdptw==
+X-Google-Smtp-Source: APXvYqyZ8fsK6kGZwgr/fYxzi8cJ+hkrMeSsTdRTwMYv70RA5TletRh85GG86B60S3n03t8C6AAOpjBUMIzbxQONMXQ=
+X-Received: by 2002:ac8:44c4:: with SMTP id b4mr30978115qto.224.1566394099123; 
+ Wed, 21 Aug 2019 06:28:19 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190820195959.6126-1-robh@kernel.org>
+ <20190820195959.6126-2-robh@kernel.org>
+ <0ab5959e-fc6c-06c3-a3f1-ea5a1ebef87d@baylibre.com>
+In-Reply-To: <0ab5959e-fc6c-06c3-a3f1-ea5a1ebef87d@baylibre.com>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 21 Aug 2019 08:28:07 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqL=qCVfbKnNK6q_au2PXKcOpZ6584gungRgz7T0oXNFdg@mail.gmail.com>
+Message-ID: <CAL_JsqL=qCVfbKnNK6q_au2PXKcOpZ6584gungRgz7T0oXNFdg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: Convert Arm Mali Midgard GPU to DT schema
+To: Neil Armstrong <narmstrong@baylibre.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1566394100;
+ bh=i5OSWlioycaF2Znxi7uMbWMmm2fZgjZElmT5IOPeXtA=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=t6Xz1n0Nk1LrGg7AltwDRbxtIXhE07BH99OfT01zbaf0tJObd6DQIs69LhFVO90AO
+ crMBgjBKafVYM9XboXhg5tIfVvl8nRpUUZH0h3qqq49jJfcPzahiSltdjKB1FObqoi
+ DRymR5/HpqHl0CkloXLp2UONEbE5GSDBW9VI1yu8=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,493 +55,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0065614960=="
+Cc: devicetree@vger.kernel.org, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Maxime Ripard <maxime.ripard@free-electrons.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0065614960==
-Content-Type: multipart/alternative; boundary="15663925950.9aFfb6dF.30735"
-Content-Transfer-Encoding: 7bit
-
-
---15663925950.9aFfb6dF.30735
-Date: Wed, 21 Aug 2019 13:03:15 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111456
-
-            Bug ID: 111456
-           Summary: amdgpu numerous failures on resume from suspend
-           Product: DRI
-           Version: XOrg git
-          Hardware: x86-64 (AMD64)
-                OS: Linux (All)
-            Status: NEW
-          Severity: normal
-          Priority: not set
-         Component: DRM/AMDgpu
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: freedesktop-bugs@fermulator.fastmail.org
-
-Created attachment 145113
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145113&action=3Dedit
-Aug21 fermmy resume syslog full (after resume)
-
-This morning, ~8:40AM EST Aug21 2019, resumed my system from suspend.
-Normally it just comes back AOK, but today it hung. The screens were all wo=
-nky
-(mostly grey with a speckle of colour), disk was going bonkers, couldn't SSH
-into it;  sometimes this happens and I just walk away for 10 mins and come
-back, sometimes it fixes itself, sometimes not.  Today I was not patient and
-just reset it after ~3mins of waiting.
-
-Took a look at the previous boot system log and there were numerous AMDGPU
-related failures.
-
-snippets include:
-{{{
-Aug 21 08:42:21 fermmy kernel: [drm:amdgpu_suspend [amdgpu]] *ERROR* suspen=
-d of
-IP block <uvd_v6_0> failed -12
-
-Aug 21 08:42:24 fermmy kernel: do_IRQ: 0.34 No irq handler for vector
-
-Aug 21 08:42:25 fermmy kernel: [drm:gfx_v8_0_ring_test_ring [amdgpu]] *ERRO=
-R*
-amdgpu: ring 0 test failed (scratch(0xC040)=3D0xCAFEDEAD)
-Aug 21 08:42:25 fermmy kernel: [drm:amdgpu_resume_phase2 [amdgpu]] *ERROR*
-resume of IP block <gfx_v8_0> failed -22
-Aug 21 08:42:25 fermmy kernel: [drm:amdgpu_device_resume [amdgpu]] *ERROR*
-amdgpu_resume failed (-22).
-Aug 21 08:42:25 fermmy kernel: dpm_run_callback(): pci_pm_resume+0x0/0xb0
-returns -22
-Aug 21 08:42:25 fermmy kernel: PM: Device 0000:07:00.0 failed to resume asy=
-nc:
-error -22
-
-Aug 21 08:42:25 fermmy kernel: amdgpu 0000:07:00.0: couldn't schedule ib on
-ring <sdma0>
-Aug 21 08:42:25 fermmy kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
-scheduling IBs (-22)
-Aug 21 08:42:25 fermmy kernel: [drm:amd_sched_main [amdgpu]] *ERROR* Failed=
- to
-run job!
-
-}}}
-
-
-Linux fermmy 4.15.0-58-generic #64-Ubuntu SMP Tue Aug 6 11:12:41 UTC 2019
-x86_64 x86_64 x86_64 GNU/Linux
-
-Ubuntu 18.04.3 LTS \n \l
-
- dpkg --list | egrep -i "amd|dri-|xorg|mesa" | grep -v amd64
-ii  libdrm-amdgpu1:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20
-2.4.97-1ubuntu1~18.04.1                             i386         Userspace
-interface to amdgpu-specific kernel DRM services -- runtime
-ii  libegl-mesa0:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20
-19.1.2-0~b~padoka0                                  i386         free
-implementation of the EGL API -- Mesa vendor library
-ii  libgl1-mesa-dri:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20
-19.1.2-0~b~padoka0                                  i386         free
-implementation of the OpenGL API -- DRI modules
-rc  libgl1-mesa-dri-lts-quantal:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-9.0.3-0ubuntu0.4~precise1                           i386         free
-implementation of the OpenGL API -- DRI modules
-rc  libgl1-mesa-dri-lts-utopic:i386                                  3:13=
-=20=20=20=20=20=20
-                                         i386         Transitional package =
-for
-libgl1-mesa-dri-lts-utopic
-ii  libgl1-mesa-glx:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20
-19.1.2-0~b~padoka0                                  i386         transition=
-al
-dummy package
-rc  libgl1-mesa-glx-lts-quantal:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-9.0.3-0ubuntu0.4~precise1                           i386         free
-implementation of the OpenGL API -- GLX runtime
-ii  libglapi-mesa:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20
-19.1.2-0~b~padoka0                                  i386         free
-implementation of the GL API -- shared library
-rc  libglapi-mesa-lts-quantal:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-9.0.3-0ubuntu0.4~precise1                           i386         free
-implementation of the GL API -- shared library
-ii  libglu1-mesa:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20
-9.0.0-2.1build1                                     i386         Mesa OpenGL
-utility library (GLU)
-ii  libglx-mesa0:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20
-19.1.2-0~b~padoka0                                  i386         free
-implementation of the OpenGL API -- GLX vendor library
-ii  libosmesa6:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20
-19.1.2-0~b~padoka0                                  i386         Mesa
-Off-screen rendering extension
-rc  libtxc-dxtn-s2tc0:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20
-0~git20131104-1.1                                   i386         Texture
-compression library for Mesa
-ii  libwayland-egl1-mesa:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-19.1.2-0~b~padoka0                                  i386         transition=
-al
-dummy package
-ii  python3-xkit=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20
-0.5.0ubuntu2                                        all          library for
-the manipulation of xorg.conf files (Python 3)
-ii  xorg-docs-core=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20
-1:1.7.1-1.1                                         all          Core
-documentation for the X.org X Window System
-ii  xorg-sgml-doctools                                               1:1.11=
--1=20=20
-                                         all          Common tools for buil=
-ding
-X.Org SGML documentation
-
-$ sudo lshw -C video
-  *-display=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-       description: VGA compatible controller
-       product: Ellesmere [Radeon RX 470/480/570/570X/580/580X/590]
-       vendor: Advanced Micro Devices, Inc. [AMD/ATI]
-       physical id: 0
-       bus info: pci@0000:07:00.0
-       version: ef
-       width: 64 bits
-       clock: 33MHz
-       capabilities: pm pciexpress msi vga_controller bus_master cap_list r=
-om
-       configuration: driver=3Damdgpu latency=3D0
-       resources: irq:63 memory:c0000000-cfffffff memory:d0000000-d01fffff
-ioport:c000(size=3D256) memory:fe600000-fe63ffff memory:c0000-dffff
-
-
-My monitors are 3-fold atm (normally only run with 2x)
-2xDVI + 1xDP
-
-$ xrandr | grep normal
-DisplayPort-0 connected 1680x1050+3840+25 (normal left inverted right x axi=
-s y
-axis) 474mm x 296mm
-HDMI-A-0 disconnected (normal left inverted right x axis y axis)
-DVI-D-0 connected 1920x1080+1920+25 (normal left inverted right x axis y ax=
-is)
-521mm x 293mm
-DVI-D-1 connected primary 1920x1080+0+0 (normal left inverted right x axis y
-axis) 521mm x 293mm
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15663925950.9aFfb6dF.30735
-Date: Wed, 21 Aug 2019 13:03:15 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu numerous failures on resume from suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111456">111456</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>amdgpu numerous failures on resume from suspend
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>XOrg git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>x86-64 (AMD64)
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>Linux (All)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>DRM/AMDgpu
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>freedesktop-bugs&#64;fermulator.fastmail.org
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145113=
-" name=3D"attach_145113" title=3D"Aug21 fermmy resume syslog full (after re=
-sume)">attachment 145113</a> <a href=3D"attachment.cgi?id=3D145113&amp;acti=
-on=3Dedit" title=3D"Aug21 fermmy resume syslog full (after resume)">[detail=
-s]</a></span>
-Aug21 fermmy resume syslog full (after resume)
-
-This morning, ~8:40AM EST Aug21 2019, resumed my system from suspend.
-Normally it just comes back AOK, but today it hung. The screens were all wo=
-nky
-(mostly grey with a speckle of colour), disk was going bonkers, couldn't SSH
-into it;  sometimes this happens and I just walk away for 10 mins and come
-back, sometimes it fixes itself, sometimes not.  Today I was not patient and
-just reset it after ~3mins of waiting.
-
-Took a look at the previous boot system log and there were numerous AMDGPU
-related failures.
-
-snippets include:
-{{{
-Aug 21 08:42:21 fermmy kernel: [drm:amdgpu_suspend [amdgpu]] *ERROR* suspen=
-d of
-IP block &lt;uvd_v6_0&gt; failed -12
-
-Aug 21 08:42:24 fermmy kernel: do_IRQ: 0.34 No irq handler for vector
-
-Aug 21 08:42:25 fermmy kernel: [drm:gfx_v8_0_ring_test_ring [amdgpu]] *ERRO=
-R*
-amdgpu: ring 0 test failed (scratch(0xC040)=3D0xCAFEDEAD)
-Aug 21 08:42:25 fermmy kernel: [drm:amdgpu_resume_phase2 [amdgpu]] *ERROR*
-resume of IP block &lt;gfx_v8_0&gt; failed -22
-Aug 21 08:42:25 fermmy kernel: [drm:amdgpu_device_resume [amdgpu]] *ERROR*
-amdgpu_resume failed (-22).
-Aug 21 08:42:25 fermmy kernel: dpm_run_callback(): pci_pm_resume+0x0/0xb0
-returns -22
-Aug 21 08:42:25 fermmy kernel: PM: Device 0000:07:00.0 failed to resume asy=
-nc:
-error -22
-
-Aug 21 08:42:25 fermmy kernel: amdgpu 0000:07:00.0: couldn't schedule ib on
-ring &lt;sdma0&gt;
-Aug 21 08:42:25 fermmy kernel: [drm:amdgpu_job_run [amdgpu]] *ERROR* Error
-scheduling IBs (-22)
-Aug 21 08:42:25 fermmy kernel: [drm:amd_sched_main [amdgpu]] *ERROR* Failed=
- to
-run job!
-
-}}}
-
-
-Linux fermmy 4.15.0-58-generic #64-Ubuntu SMP Tue Aug 6 11:12:41 UTC 2019
-x86_64 x86_64 x86_64 GNU/Linux
-
-Ubuntu 18.04.3 LTS \n \l
-
- dpkg --list | egrep -i &quot;amd|dri-|xorg|mesa&quot; | grep -v amd64
-ii  libdrm-amdgpu1:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20
-2.4.97-1ubuntu1~18.04.1                             i386         Userspace
-interface to amdgpu-specific kernel DRM services -- runtime
-ii  libegl-mesa0:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20
-19.1.2-0~b~padoka0                                  i386         free
-implementation of the EGL API -- Mesa vendor library
-ii  libgl1-mesa-dri:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20
-19.1.2-0~b~padoka0                                  i386         free
-implementation of the OpenGL API -- DRI modules
-rc  libgl1-mesa-dri-lts-quantal:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-9.0.3-0ubuntu0.4~precise1                           i386         free
-implementation of the OpenGL API -- DRI modules
-rc  libgl1-mesa-dri-lts-utopic:i386                                  3:13=
-=20=20=20=20=20=20
-                                         i386         Transitional package =
-for
-libgl1-mesa-dri-lts-utopic
-ii  libgl1-mesa-glx:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20
-19.1.2-0~b~padoka0                                  i386         transition=
-al
-dummy package
-rc  libgl1-mesa-glx-lts-quantal:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-9.0.3-0ubuntu0.4~precise1                           i386         free
-implementation of the OpenGL API -- GLX runtime
-ii  libglapi-mesa:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20
-19.1.2-0~b~padoka0                                  i386         free
-implementation of the GL API -- shared library
-rc  libglapi-mesa-lts-quantal:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-9.0.3-0ubuntu0.4~precise1                           i386         free
-implementation of the GL API -- shared library
-ii  libglu1-mesa:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20
-9.0.0-2.1build1                                     i386         Mesa OpenGL
-utility library (GLU)
-ii  libglx-mesa0:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20
-19.1.2-0~b~padoka0                                  i386         free
-implementation of the OpenGL API -- GLX vendor library
-ii  libosmesa6:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20
-19.1.2-0~b~padoka0                                  i386         Mesa
-Off-screen rendering extension
-rc  libtxc-dxtn-s2tc0:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20
-0~git20131104-1.1                                   i386         Texture
-compression library for Mesa
-ii  libwayland-egl1-mesa:i386=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-19.1.2-0~b~padoka0                                  i386         transition=
-al
-dummy package
-ii  python3-xkit=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20
-0.5.0ubuntu2                                        all          library for
-the manipulation of xorg.conf files (Python 3)
-ii  xorg-docs-core=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20
-1:1.7.1-1.1                                         all          Core
-documentation for the X.org X Window System
-ii  xorg-sgml-doctools                                               1:1.11=
--1=20=20
-                                         all          Common tools for buil=
-ding
-X.Org SGML documentation
-
-$ sudo lshw -C video
-  *-display=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-       description: VGA compatible controller
-       product: Ellesmere [Radeon RX 470/480/570/570X/580/580X/590]
-       vendor: Advanced Micro Devices, Inc. [AMD/ATI]
-       physical id: 0
-       bus info: pci&#64;0000:07:00.0
-       version: ef
-       width: 64 bits
-       clock: 33MHz
-       capabilities: pm pciexpress msi vga_controller bus_master cap_list r=
-om
-       configuration: driver=3Damdgpu latency=3D0
-       resources: irq:63 memory:c0000000-cfffffff memory:d0000000-d01fffff
-ioport:c000(size=3D256) memory:fe600000-fe63ffff memory:c0000-dffff
-
-
-My monitors are 3-fold atm (normally only run with 2x)
-2xDVI + 1xDP
-
-$ xrandr | grep normal
-DisplayPort-0 connected 1680x1050+3840+25 (normal left inverted right x axi=
-s y
-axis) 474mm x 296mm
-HDMI-A-0 disconnected (normal left inverted right x axis y axis)
-DVI-D-0 connected 1920x1080+1920+25 (normal left inverted right x axis y ax=
-is)
-521mm x 293mm
-DVI-D-1 connected primary 1920x1080+0+0 (normal left inverted right x axis y
-axis) 521mm x 293mm</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15663925950.9aFfb6dF.30735--
-
---===============0065614960==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0065614960==--
+T24gV2VkLCBBdWcgMjEsIDIwMTkgYXQgMjoxMiBBTSBOZWlsIEFybXN0cm9uZyA8bmFybXN0cm9u
+Z0BiYXlsaWJyZS5jb20+IHdyb3RlOgo+Cj4gSGkgUm9iLAo+Cj4gT24gMjAvMDgvMjAxOSAyMTo1
+OSwgUm9iIEhlcnJpbmcgd3JvdGU6Cj4gPiBDb252ZXJ0IHRoZSBBcm0gTWlkZ2FyZCBHUFUgYmlu
+ZGluZyB0byBEVCBzY2hlbWEgZm9ybWF0Lgo+ID4KPiA+IFNpZ25lZC1vZmYtYnk6IFJvYiBIZXJy
+aW5nIDxyb2JoQGtlcm5lbC5vcmc+Cj4gPiAtLS0KPiA+ICAuLi4vYmluZGluZ3MvZ3B1L2FybSxt
+YWxpLW1pZGdhcmQudHh0ICAgICAgICAgfCAxMTkgLS0tLS0tLS0tLS0tLQo+ID4gIC4uLi9iaW5k
+aW5ncy9ncHUvYXJtLG1hbGktbWlkZ2FyZC55YW1sICAgICAgICB8IDE2NSArKysrKysrKysrKysr
+KysrKysKPiA+ICAyIGZpbGVzIGNoYW5nZWQsIDE2NSBpbnNlcnRpb25zKCspLCAxMTkgZGVsZXRp
+b25zKC0pCj4gPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
+aW5kaW5ncy9ncHUvYXJtLG1hbGktbWlkZ2FyZC50eHQKPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQg
+RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2dwdS9hcm0sbWFsaS1taWRnYXJkLnlh
+bWwKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
+L2dwdS9hcm0sbWFsaS1taWRnYXJkLnR4dCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5k
+aW5ncy9ncHUvYXJtLG1hbGktbWlkZ2FyZC50eHQKPiA+IGRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0
+NAo+ID4gaW5kZXggOWIyOThlZGVjNWIyLi4wMDAwMDAwMDAwMDAKPiA+IC0tLSBhL0RvY3VtZW50
+YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9ncHUvYXJtLG1hbGktbWlkZ2FyZC50eHQKPiA+ICsr
+KyAvZGV2L251bGwKPiA+IEBAIC0xLDExOSArMCwwIEBACj4gPiAtQVJNIE1hbGkgTWlkZ2FyZCBH
+UFUKPiA+IC09PT09PT09PT09PT09PT09PT09PQo+ID4gLQo+ID4gLVJlcXVpcmVkIHByb3BlcnRp
+ZXM6Cj4gPiAtCj4gPiAtLSBjb21wYXRpYmxlIDoKPiA+IC0gICogTXVzdCBjb250YWluIG9uZSBv
+ZiB0aGUgZm9sbG93aW5nOgo+ID4gLSAgICArICJhcm0sbWFsaS10NjA0Igo+ID4gLSAgICArICJh
+cm0sbWFsaS10NjI0Igo+ID4gLSAgICArICJhcm0sbWFsaS10NjI4Igo+ID4gLSAgICArICJhcm0s
+bWFsaS10NzIwIgo+ID4gLSAgICArICJhcm0sbWFsaS10NzYwIgo+ID4gLSAgICArICJhcm0sbWFs
+aS10ODIwIgo+ID4gLSAgICArICJhcm0sbWFsaS10ODMwIgo+ID4gLSAgICArICJhcm0sbWFsaS10
+ODYwIgo+ID4gLSAgICArICJhcm0sbWFsaS10ODgwIgo+ID4gLSAgKiB3aGljaCBtdXN0IGJlIHBy
+ZWNlZGVkIGJ5IG9uZSBvZiB0aGUgZm9sbG93aW5nIHZlbmRvciBzcGVjaWZpY3M6Cj4gPiAtICAg
+ICsgImFsbHdpbm5lcixzdW41MGktaDYtbWFsaSIKPiA+IC0gICAgKyAiYW1sb2dpYyxtZXNvbi1n
+eG0tbWFsaSIKPiA+IC0gICAgKyAic2Ftc3VuZyxleHlub3M1NDMzLW1hbGkiCj4gPiAtICAgICsg
+InJvY2tjaGlwLHJrMzI4OC1tYWxpIgo+ID4gLSAgICArICJyb2NrY2hpcCxyazMzOTktbWFsaSIK
+PiA+IC0KPiA+IC0tIHJlZyA6IFBoeXNpY2FsIGJhc2UgYWRkcmVzcyBvZiB0aGUgZGV2aWNlIGFu
+ZCBsZW5ndGggb2YgdGhlIHJlZ2lzdGVyIGFyZWEuCj4gPiAtCj4gPiAtLSBpbnRlcnJ1cHRzIDog
+Q29udGFpbnMgdGhlIHRocmVlIElSUSBsaW5lcyByZXF1aXJlZCBieSBNYWxpIE1pZGdhcmQgZGV2
+aWNlcy4KPiA+IC0KPiA+IC0tIGludGVycnVwdC1uYW1lcyA6IENvbnRhaW5zIHRoZSBuYW1lcyBv
+ZiBJUlEgcmVzb3VyY2VzIGluIHRoZSBvcmRlciB0aGV5IHdlcmUKPiA+IC0gIHByb3ZpZGVkIGlu
+IHRoZSBpbnRlcnJ1cHRzIHByb3BlcnR5LiBNdXN0IGNvbnRhaW46ICJqb2IiLCAibW11IiwgImdw
+dSIuCj4gPiAtCj4gPiAtCj4gPiAtT3B0aW9uYWwgcHJvcGVydGllczoKPiA+IC0KPiA+IC0tIGNs
+b2NrcyA6IFBoYW5kbGUgdG8gY2xvY2sgZm9yIHRoZSBNYWxpIE1pZGdhcmQgZGV2aWNlLgo+ID4g
+LQo+ID4gLS0gY2xvY2stbmFtZXMgOiBTcGVjaWZ5IHRoZSBuYW1lcyBvZiB0aGUgY2xvY2tzIHNw
+ZWNpZmllZCBpbiBjbG9ja3MKPiA+IC0gIHdoZW4gbXVsdGlwbGUgY2xvY2tzIGFyZSBwcmVzZW50
+Lgo+ID4gLSAgICAqIGNvcmU6IGNsb2NrIGRyaXZpbmcgdGhlIEdQVSBpdHNlbGYgKFdoZW4gb25s
+eSBvbmUgY2xvY2sgaXMgcHJlc2VudCwKPiA+IC0gICAgICBhc3N1bWUgaXQncyB0aGlzIGNsb2Nr
+LikKPiA+IC0gICAgKiBidXM6IGJ1cyBjbG9jayBmb3IgdGhlIEdQVQo+ID4gLQo+ID4gLS0gbWFs
+aS1zdXBwbHkgOiBQaGFuZGxlIHRvIHJlZ3VsYXRvciBmb3IgdGhlIE1hbGkgZGV2aWNlLiBSZWZl
+ciB0bwo+ID4gLSAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3JlZ3VsYXRvci9y
+ZWd1bGF0b3IudHh0IGZvciBkZXRhaWxzLgo+ID4gLQo+ID4gLS0gb3BlcmF0aW5nLXBvaW50cy12
+MiA6IFJlZmVyIHRvIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9vcHAvb3BwLnR4
+dAo+ID4gLSAgZm9yIGRldGFpbHMuCj4gPiAtCj4gPiAtLSAjY29vbGluZy1jZWxsczogUmVmZXIg
+dG8gRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3RoZXJtYWwvdGhlcm1hbC50eHQK
+PiA+IC0gIGZvciBkZXRhaWxzLgo+ID4gLQo+ID4gLS0gcmVzZXRzIDogUGhhbmRsZSBvZiB0aGUg
+R1BVIHJlc2V0IGxpbmUuCj4gPiAtCj4gPiAtVmVuZG9yLXNwZWNpZmljIGJpbmRpbmdzCj4gPiAt
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gPiAtCj4gPiAtVGhlIE1hbGkgR1BVIGlzIGludGVn
+cmF0ZWQgdmVyeSBkaWZmZXJlbnRseSBmcm9tIG9uZSBTb0MgdG8KPiA+IC1hbm90aGVyLiBJbiBv
+cmRlciB0byBhY2NvbW1vZGF0ZSB0aG9zZSBkaWZmZXJlbmNlcywgeW91IGhhdmUgdGhlIG9wdGlv
+bgo+ID4gLXRvIHNwZWNpZnkgb25lIG1vcmUgdmVuZG9yLXNwZWNpZmljIGNvbXBhdGlibGUsIGFt
+b25nOgo+ID4gLQo+ID4gLS0gImFsbHdpbm5lcixzdW41MGktaDYtbWFsaSIKPiA+IC0gIFJlcXVp
+cmVkIHByb3BlcnRpZXM6Cj4gPiAtICAtIGNsb2NrcyA6IHBoYW5kbGVzIHRvIGNvcmUgYW5kIGJ1
+cyBjbG9ja3MKPiA+IC0gIC0gY2xvY2stbmFtZXMgOiBtdXN0IGNvbnRhaW4gImNvcmUiIGFuZCAi
+YnVzIgo+ID4gLSAgLSByZXNldHM6IHBoYW5kbGUgdG8gR1BVIHJlc2V0IGxpbmUKPiA+IC0KPiA+
+IC0tICJhbWxvZ2ljLG1lc29uLWd4bS1tYWxpIgo+ID4gLSAgUmVxdWlyZWQgcHJvcGVydGllczoK
+PiA+IC0gIC0gcmVzZXRzIDogU2hvdWxkIGNvbnRhaW4gcGhhbmRsZXMgb2YgOgo+ID4gLSAgICAr
+IEdQVSByZXNldCBsaW5lCj4gPiAtICAgICsgR1BVIEFQQiBnbHVlIHJlc2V0IGxpbmUKPiA+IC0K
+PiA+IC1FeGFtcGxlIGZvciBhIE1hbGktVDc2MDoKPiA+IC0KPiA+IC1ncHVAZmZhMzAwMDAgewo+
+ID4gLSAgICAgY29tcGF0aWJsZSA9ICJyb2NrY2hpcCxyazMyODgtbWFsaSIsICJhcm0sbWFsaS10
+NzYwIjsKPiA+IC0gICAgIHJlZyA9IDwweGZmYTMwMDAwIDB4MTAwMDA+Owo+ID4gLSAgICAgaW50
+ZXJydXB0cyA9IDxHSUNfU1BJIDYgSVJRX1RZUEVfTEVWRUxfSElHSD4sCj4gPiAtICAgICAgICAg
+ICAgICAgICAgPEdJQ19TUEkgNyBJUlFfVFlQRV9MRVZFTF9ISUdIPiwKPiA+IC0gICAgICAgICAg
+ICAgICAgICA8R0lDX1NQSSA4IElSUV9UWVBFX0xFVkVMX0hJR0g+Owo+ID4gLSAgICAgaW50ZXJy
+dXB0LW5hbWVzID0gImpvYiIsICJtbXUiLCAiZ3B1IjsKPiA+IC0gICAgIGNsb2NrcyA9IDwmY3J1
+IEFDTEtfR1BVPjsKPiA+IC0gICAgIG1hbGktc3VwcGx5ID0gPCZ2ZGRfZ3B1PjsKPiA+IC0gICAg
+IG9wZXJhdGluZy1wb2ludHMtdjIgPSA8JmdwdV9vcHBfdGFibGU+Owo+ID4gLSAgICAgcG93ZXIt
+ZG9tYWlucyA9IDwmcG93ZXIgUkszMjg4X1BEX0dQVT47Cj4gPiAtICAgICAjY29vbGluZy1jZWxs
+cyA9IDwyPjsKPiA+IC19Owo+ID4gLQo+ID4gLWdwdV9vcHBfdGFibGU6IG9wcF90YWJsZTAgewo+
+ID4gLSAgICAgY29tcGF0aWJsZSA9ICJvcGVyYXRpbmctcG9pbnRzLXYyIjsKPiA+IC0KPiA+IC0g
+ICAgIG9wcEA1MzMwMDAwMDAgewo+ID4gLSAgICAgICAgICAgICBvcHAtaHogPSAvYml0cy8gNjQg
+PDUzMzAwMDAwMD47Cj4gPiAtICAgICAgICAgICAgIG9wcC1taWNyb3ZvbHQgPSA8MTI1MDAwMD47
+Cj4gPiAtICAgICB9Owo+ID4gLSAgICAgb3BwQDQ1MDAwMDAwMCB7Cj4gPiAtICAgICAgICAgICAg
+IG9wcC1oeiA9IC9iaXRzLyA2NCA8NDUwMDAwMDAwPjsKPiA+IC0gICAgICAgICAgICAgb3BwLW1p
+Y3Jvdm9sdCA9IDwxMTUwMDAwPjsKPiA+IC0gICAgIH07Cj4gPiAtICAgICBvcHBANDAwMDAwMDAw
+IHsKPiA+IC0gICAgICAgICAgICAgb3BwLWh6ID0gL2JpdHMvIDY0IDw0MDAwMDAwMDA+Owo+ID4g
+LSAgICAgICAgICAgICBvcHAtbWljcm92b2x0ID0gPDExMjUwMDA+Owo+ID4gLSAgICAgfTsKPiA+
+IC0gICAgIG9wcEAzNTAwMDAwMDAgewo+ID4gLSAgICAgICAgICAgICBvcHAtaHogPSAvYml0cy8g
+NjQgPDM1MDAwMDAwMD47Cj4gPiAtICAgICAgICAgICAgIG9wcC1taWNyb3ZvbHQgPSA8MTA3NTAw
+MD47Cj4gPiAtICAgICB9Owo+ID4gLSAgICAgb3BwQDI2NjAwMDAwMCB7Cj4gPiAtICAgICAgICAg
+ICAgIG9wcC1oeiA9IC9iaXRzLyA2NCA8MjY2MDAwMDAwPjsKPiA+IC0gICAgICAgICAgICAgb3Bw
+LW1pY3Jvdm9sdCA9IDwxMDI1MDAwPjsKPiA+IC0gICAgIH07Cj4gPiAtICAgICBvcHBAMTYwMDAw
+MDAwIHsKPiA+IC0gICAgICAgICAgICAgb3BwLWh6ID0gL2JpdHMvIDY0IDwxNjAwMDAwMDA+Owo+
+ID4gLSAgICAgICAgICAgICBvcHAtbWljcm92b2x0ID0gPDkyNTAwMD47Cj4gPiAtICAgICB9Owo+
+ID4gLSAgICAgb3BwQDEwMDAwMDAwMCB7Cj4gPiAtICAgICAgICAgICAgIG9wcC1oeiA9IC9iaXRz
+LyA2NCA8MTAwMDAwMDAwPjsKPiA+IC0gICAgICAgICAgICAgb3BwLW1pY3Jvdm9sdCA9IDw5MTI1
+MDA+Owo+ID4gLSAgICAgfTsKPiA+IC19Owo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24v
+ZGV2aWNldHJlZS9iaW5kaW5ncy9ncHUvYXJtLG1hbGktbWlkZ2FyZC55YW1sIGIvRG9jdW1lbnRh
+dGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2dwdS9hcm0sbWFsaS1taWRnYXJkLnlhbWwKPiA+IG5l
+dyBmaWxlIG1vZGUgMTAwNjQ0Cj4gPiBpbmRleCAwMDAwMDAwMDAwMDAuLjI0YzRhZjc0ZmI4ZAo+
+ID4gLS0tIC9kZXYvbnVsbAo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
+bmdzL2dwdS9hcm0sbWFsaS1taWRnYXJkLnlhbWwKPiA+IEBAIC0wLDAgKzEsMTY1IEBACj4gPiAr
+IyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMC1vbmx5Cj4gPiArJVlBTUwgMS4yCj4g
+PiArLS0tCj4gPiArJGlkOiBodHRwOi8vZGV2aWNldHJlZS5vcmcvc2NoZW1hcy9ncHUvYXJtLG1h
+bGktbWlkZ2FyZC55YW1sIwo+ID4gKyRzY2hlbWE6IGh0dHA6Ly9kZXZpY2V0cmVlLm9yZy9tZXRh
+LXNjaGVtYXMvY29yZS55YW1sIwo+ID4gKwo+ID4gK3RpdGxlOiBBUk0gTWFsaSBNaWRnYXJkIEdQ
+VQo+ID4gKwo+ID4gK21haW50YWluZXJzOgo+ID4gKyAgLSBSb2IgSGVycmluZyA8cm9iaEBrZXJu
+ZWwub3JnPgo+ID4gKwo+ID4gK3Byb3BlcnRpZXM6Cj4gPiArICAkbm9kZW5hbWU6Cj4gPiArICAg
+IHBhdHRlcm46ICdeZ3B1QFthLWYwLTldKyQnCj4gPiArICBjb21wYXRpYmxlOgo+ID4gKyAgICBv
+bmVPZjoKPiA+ICsgICAgICAtIGl0ZW1zOgo+ID4gKyAgICAgICAgICAtIGVudW06Cj4gPiArICAg
+ICAgICAgICAgIC0gYWxsd2lubmVyLHN1bjUwaS1oNi1tYWxpCj4gPiArICAgICAgICAgIC0gY29u
+c3Q6IGFybSxtYWxpLXQ3MjAKPiA+ICsgICAgICAtIGl0ZW1zOgo+ID4gKyAgICAgICAgICAtIGVu
+dW06Cj4gPiArICAgICAgICAgICAgIC0gYW1sb2dpYyxtZXNvbi1neG0tbWFsaQo+ID4gKyAgICAg
+ICAgICAtIGNvbnN0OiBhcm0sbWFsaS10ODIwCj4gPiArICAgICAgLSBpdGVtczoKPiA+ICsgICAg
+ICAgICAgLSBlbnVtOgo+ID4gKyAgICAgICAgICAgICAtIHJvY2tjaGlwLHJrMzI4OC1tYWxpCj4g
+PiArICAgICAgICAgIC0gY29uc3Q6IGFybSxtYWxpLXQ3NjAKPiA+ICsgICAgICAtIGl0ZW1zOgo+
+ID4gKyAgICAgICAgICAtIGVudW06Cj4gPiArICAgICAgICAgICAgIC0gcm9ja2NoaXAscmszMzk5
+LW1hbGkKPiA+ICsgICAgICAgICAgLSBjb25zdDogYXJtLG1hbGktdDg2MAo+ID4gKyAgICAgIC0g
+aXRlbXM6Cj4gPiArICAgICAgICAgIC0gZW51bToKPiA+ICsgICAgICAgICAgICAgLSBzYW1zdW5n
+LGV4eW5vczU0MzMtbWFsaQo+ID4gKyAgICAgICAgICAtIGNvbnN0OiBhcm0sbWFsaS10NzYwCj4g
+PiArCj4gPiArICAgICAgICAgICMgImFybSxtYWxpLXQ2MDQiCj4gPiArICAgICAgICAgICMgImFy
+bSxtYWxpLXQ2MjQiCj4gPiArICAgICAgICAgICMgImFybSxtYWxpLXQ2MjgiCj4gPiArICAgICAg
+ICAgICMgImFybSxtYWxpLXQ4MzAiCj4gPiArICAgICAgICAgICMgImFybSxtYWxpLXQ4ODAiCj4g
+PiArCj4gPiArICByZWc6Cj4gPiArICAgIG1heEl0ZW1zOiAxCj4gPiArCj4gPiArICBpbnRlcnJ1
+cHRzOgo+ID4gKyAgICBpdGVtczoKPiA+ICsgICAgICAtIGRlc2NyaXB0aW9uOiBKb2IgaW50ZXJy
+dXB0Cj4gPiArICAgICAgLSBkZXNjcmlwdGlvbjogTU1VIGludGVycnVwdAo+ID4gKyAgICAgIC0g
+ZGVzY3JpcHRpb246IEdQVSBpbnRlcnJ1cHQKPiA+ICsKPiA+ICsgIGludGVycnVwdC1uYW1lczoK
+PiA+ICsgICAgaXRlbXM6Cj4gPiArICAgICAgLSBjb25zdDogam9iCj4gPiArICAgICAgLSBjb25z
+dDogbW11Cj4gPiArICAgICAgLSBjb25zdDogZ3B1Cj4gPiArCj4gPiArICBjbG9ja3M6Cj4gPiAr
+ICAgIG1pbkl0ZW1zOiAxCj4gPiArICAgIG1heEl0ZW1zOiAyCj4gPiArCj4gPiArICBjbG9jay1u
+YW1lczoKPiA+ICsgICAgbWluSXRlbXM6IDEKPiA+ICsgICAgaXRlbXM6Cj4gPiArICAgICAgLSBj
+b25zdDogY29yZQo+ID4gKyAgICAgIC0gY29uc3Q6IGJ1cwo+ID4gKwo+ID4gKyAgbWFsaS1zdXBw
+bHk6Cj4gPiArICAgIG1heEl0ZW1zOiAxCj4gPiArCj4gPiArICByZXNldHM6Cj4gPiArICAgIG1p
+bkl0ZW1zOiAxCj4gPiArICAgIG1heEl0ZW1zOiAyCj4gPiArCj4gPiArICBvcGVyYXRpbmctcG9p
+bnRzLXYyOiB0cnVlCj4gPiArCj4gPiArICAiI2Nvb2xpbmctY2VsbHMiOgo+ID4gKyAgICBjb25z
+dDogMgo+ID4gKwo+ID4gK3JlcXVpcmVkOgo+ID4gKyAgLSBjb21wYXRpYmxlCj4gPiArICAtIHJl
+Zwo+ID4gKyAgLSBpbnRlcnJ1cHRzCj4gPiArICAtIGludGVycnVwdC1uYW1lcwo+ID4gKwo+ID4g
+K2FsbE9mOgo+ID4gKyAgLSBpZjoKPiA+ICsgICAgICBwcm9wZXJ0aWVzOgo+ID4gKyAgICAgICAg
+Y29tcGF0aWJsZToKPiA+ICsgICAgICAgICAgY29udGFpbnM6Cj4gPiArICAgICAgICAgICAgY29u
+c3Q6IGFsbHdpbm5lcixzdW41MGktaDYtbWFsaQo+ID4gKyAgICB0aGVuOgo+ID4gKyAgICAgIHBy
+b3BlcnRpZXM6Cj4gPiArICAgICAgICBjbG9ja3M6Cj4gPiArICAgICAgICAgIG1pbkl0ZW1zOiAy
+Cj4gPiArICAgICAgcmVxdWlyZWQ6Cj4gPiArICAgICAgICAtIGNsb2Nrcwo+ID4gKyAgICAgICAg
+LSBjbG9jay1uYW1lcwo+ID4gKyAgICAgICAgLSByZXNldHMKPiA+ICsgIC0gaWY6Cj4gPiArICAg
+ICAgcHJvcGVydGllczoKPiA+ICsgICAgICAgIGNvbXBhdGlibGU6Cj4gPiArICAgICAgICAgIGNv
+bnRhaW5zOgo+ID4gKyAgICAgICAgICAgIGNvbnN0OiBhbWxvZ2ljLG1lc29uLWd4bS1tYWxpCj4g
+PiArICAgIHRoZW46Cj4gPiArICAgICAgcHJvcGVydGllczoKPiA+ICsgICAgICAgIHJlc2V0czoK
+PiA+ICsgICAgICAgICAgbWluSXRlbXM6IDIKPiA+ICsgICAgICByZXF1aXJlZDoKPiA+ICsgICAg
+ICAgIC0gcmVzZXRzCj4KPiBUaGUgb3JpZ2luYWwgYmluZGluZ3Mgd2FzIHdyb25nLCBJbiBmYWN0
+LCBjbG9ja3Mgc2hvdWxkIGJlIHJlcXVpcmVkIGhlcmUgYXN3ZWxsLgo+IFNhbWUgZm9yIGJpZnJv
+c3QgYW5kIHV0Z2FyZC4uLgo+Cj4gU2hvdWxkIEkgc2VuZCBhIGZpeHVwIHBhdGNoID8KCkkgdGhp
+bmsgd2Ugc2hvdWxkIGp1c3QgbWFrZSBjbG9ja3MgcmVxdWlyZWQuIEkgY2FuJ3QgaW1hZ2luZSBh
+bnlvbmUKbm90IHVzaW5nIHRoZSBjbG9jayBiaW5kaW5nLgoKUm9iCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
