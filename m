@@ -2,21 +2,20 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8459D986A3
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2019 23:33:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC33A986B0
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2019 23:39:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDC956E397;
-	Wed, 21 Aug 2019 21:33:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AA8F890DB;
+	Wed, 21 Aug 2019 21:39:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A63EF6E397
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2019 21:33:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A155988FC1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2019 21:39:30 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204575] Connect a thunderbolt/usb-c dock hang the laptop after
- resume
-Date: Wed, 21 Aug 2019 21:33:12 +0000
+Subject: [Bug 204181] NULL pointer dereference regression in amdgpu
+Date: Wed, 21 Aug 2019 21:39:29 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -24,17 +23,17 @@ X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: zioalex@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: INVALID
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: virtuousfox@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-204575-2300-EKwCHALnvy@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204575-2300@https.bugzilla.kernel.org/>
-References: <bug-204575-2300@https.bugzilla.kernel.org/>
+Message-ID: <bug-204181-2300-xiWjycJ6LR@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204181-2300@https.bugzilla.kernel.org/>
+References: <bug-204181-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -57,12 +56,52 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQ1NzUKCi0tLSBD
-b21tZW50ICMyIGZyb20gQWxlc3NhbmRybyBTdXJhY2UgKHppb2FsZXhAZ21haWwuY29tKSAtLS0K
-VGhhbmtzIEphbmkuCkl0IGNhbiBiZSByZWxhdGVkIHdpdGggaHR0cHM6Ly9idWdzLmZyZWVkZXNr
-dG9wLm9yZy9zaG93X2J1Zy5jZ2k/aWQ9MTA3NzM4IC4KQ2hlY2tpbmcgaXQuCgotLSAKWW91IGFy
-ZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2ln
-bmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbA==
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQxODEKCi0tLSBD
+b21tZW50ICM0MCBmcm9tIFNlcmdleSBLb25kYWtvdiAodmlydHVvdXNmb3hAZ21haWwuY29tKSAt
+LS0KKEluIHJlcGx5IHRvIEFsZXggRGV1Y2hlciBmcm9tIGNvbW1lbnQgIzM5KQo+IChJbiByZXBs
+eSB0byBTZXJnZXkgS29uZGFrb3YgZnJvbSBjb21tZW50ICMzOCkKPiBIZXJlIGlzIHlvdXIgaXNz
+dWU6ICJzaW1wbGUgMngxMDgwcCIKPiAKPiBtdWx0aXBsZSBkaXNwbGF5IGFyZSByZWFsbHkgaGFy
+ZCB0byBkZWFsIHdpdGguICBUaGUgZGlzcGxheSB0aW1pbmcgbWF5IGJlCj4gZGlmZmVyZW50LCB0
+aGUgYmxhbmtpbmcgcGVyaW9kcyBtYXkgbm90IGFsaWduLCBldGMuICBYIHVzZXMgYSBzaW5nbGUg
+c3VyZmFjZQo+IGZvciBlYWNoIG11bHRpLWRpc3BsYXkgZGVza3RvcHNvIHdoZW4geW91IGFyZSB1
+cGRhdGluZyBtdWx0aXBsZSBkaXNwbGF5cywgaWYKPiB0aGUgdGltaW5ncyBhcmUgbm90IGFsaWdu
+ZWQsIG9uZSBkaXNwbGF5IHdpbGwgc2hvdyBvbGRlciBjb250ZW50LiAgRm9yIHRoaXMKPiB0byB3
+b3JrIHNtb290aGx5LCB5b3UgcmVhbGx5IG5lZWQgdGhlIGNvbXBvc2l0b3IgdG8gaGF2ZSBlYWNo
+IGRpc3BsYXkgdXNpbmcKPiBpdCdzIG93biBzZXQgb2YgYnVmZmVycyBhbmQgZG9pbmcgdnN5bmNl
+ZCByZW5kZXJpbmcgdG8gZWFjaCBkaXNwbGF5Cj4gc2VwYXJhdGVseS4KCkkgbGl0dGxlIGJpdCBz
+dHJhbmdlIHRvIGNhbGwgMngxMDgwcCBvbiBBTUQncyBmYW5jeSA1LXBvcnQgR1BVICgrIHBvc3Np
+YmxlIERQCm11bHRpcGxleGluZykgIm15IGlzc3VlIi4gSWYgYW55dGhpbmcgaXMgYW4gaXNzdWUg
+d2l0aCBBTUQncyBtb2Rlcm4gb3V0cHV0CmNvbnRyb2xsZXJzIGl0J3MgdGhlIGxhY2sgb2YgYW5h
+bG9ndWUgc2lnbmFsIGluIERWSSBwb3J0IGZvciBteSBwcm9wZXIKMTI4MHgxMDI0QDg5IENSVCBt
+b25pdG9yIHdpdGggbWFqZXN0aWMgPjEwazoxIGNvbnRyYXN0LiBUaW1pbmcgb24gYm90aCBvdXRw
+dXRzCmlzIGRlZmluaXRpdmVseSBkaWZmZXJlbnQsIHRob3VnaC4KCkkgc3RpbGwgY2Fubm90IGZh
+dGhvbSBob3cgaXMgaXQgc3RpbGwgdGhhdCBhbGwgb3V0cHV0cyBhcmUgbHVtcGVkIHRvZ2V0aGVy
+IGxpa2UKdGhhdC4gQW55d2F5LCBJIHdhcyBzZWFyY2hpbmcgb24gbXkgc3VzcGljaW9uIGFib3V0
+IGt3aW4ncyB2c3luYyBiZWhhdmlvdXIgYW5kCnN0dW1ibGVkIG9uIHRoaXMgdHJlYXQ6IGh0dHBz
+Oi8vYnVncy5rZGUub3JnL3Nob3dfYnVnLmNnaT9pZD0zOTU2MzIjYzQ1IC0gbmV3Cmt3aW4gZGV2
+ZWxvcGVyIHdvcmtpbmcgb24gdGhhdCBhbmQgbXVsdGktdGhyZWFkZWQgcGVyLW91dHB1dCB2c3lu
+YyBfcmlnaHQgbm93XywKd2FudHMgdGVzdGVycy4gU3VyZWx5LCB0aGlzIG5ldyB2ZXJzaW9uIG9m
+IGt3aW4gd2lsbCAiYmxvdyB1cCIga2VybmVsIG1vZHVsZQp3aXRoIHRoaXMgcGFnZS1mbGlwcGlu
+ZyBidWcgISBBbmQgaGUgd291bGQgcmVhbGx5IGJlbmVmaXQgZnJvbSB5b3VyIGFkdmljZXMuClRo
+ZW4gd2UgbWlnaHQgbm90IGV2ZW4gbmVlZCBUZWFyRnJlZSBhbnl3aGVyZSBhbnltb3JlICEKaHR0
+cHM6Ly9waGFicmljYXRvci5rZGUub3JnL1QxMTA3MSAtIHF1aXRlIGEgcHJvZ3Jlc3MgYWxyZWFk
+eS4gQWltcyB0byBtYWtlCmRvdWJsZS1vbmx5IHBlci1vdXRwdXQgbWFuZGF0b3J5IHZzeW5jIHZp
+YSBHTFhfT01MX3N5bmNfY29udHJvbC4KClJpZ2h0IG5vdyBgcWRidXMtcXQ1IG9yZy5rZGUuS1dp
+biAvS1dpbiBzdXBwb3J0SW5mb3JtYXRpb25gIHNheXM6CuKApgptYXhGcHNJbnRlcnZhbDogMTY2
+NjY2NjYKcmVmcmVzaFJhdGU6IDAKdkJsYW5rVGltZTogNjAwMDAwMApnbFN0cmljdEJpbmRpbmc6
+IGZhbHNlCmdsU3RyaWN0QmluZGluZ0ZvbGxvd3NEcml2ZXI6IHRydWUK4oCmClNjcmVlbnMKPT09
+PT09PQpNdWx0aS1IZWFkOiBubwpBY3RpdmUgc2NyZWVuIGZvbGxvd3MgbW91c2U6ICBubwpOdW1i
+ZXIgb2YgU2NyZWVuczogMgoKU2NyZWVuIDA6Ci0tLS0tLS0tLQpOYW1lOiBEVkktRC0wCkdlb21l
+dHJ5OiAwLDAsMTkyMHgxMDgwClNjYWxlOiAxClJlZnJlc2ggUmF0ZTogNzIuOTI0OQoKU2NyZWVu
+IDE6Ci0tLS0tLS0tLQpOYW1lOiBIRE1JLUEtMApHZW9tZXRyeTogMTkyMCwwLDE5MjB4MTA4MApT
+Y2FsZTogMQpSZWZyZXNoIFJhdGU6IDcxLjgyNjMKCmdseGdlYXJzIHNob3dzIHByb3BlciBGUFMg
+KH43Mi45MjMpIGJ1dCwganVkZ2luZyBieSB0aGF0IGJ1ZywgaXQncyBlaXRoZXIKbWlzdGltaW5n
+IHVwZGF0ZXMgb3IgImN1dHRpbmcgb3V0IiBzb21lIGZyYW1lcy4gSXQgd2lsbCBub3QgdGVhciBp
+ZiBpdCB3b3VsZApsZXQgYXBwcyByZW5kZXIgYXQgdGhlaXIgcGFjZSBhbmQgdGhlbiBsaW1pdCBp
+dHMgb3duIG91dHB1dCB0byA2MCwgaXNuJ3QgaXQgPwpBbmQgSSdtIGFzIGNsdWVsZXNzIGFzIHRo
+b3NlIGJ1Zy1yZXBvcnRlcnMgb24gaG93IHRvIGNoZWNrIGl0cyByZWFsIHJhdGUgb24KY3VycmVu
+dGx5IHJlbGVhc2VkIHZlcnNpb24uCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJl
+Y2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
