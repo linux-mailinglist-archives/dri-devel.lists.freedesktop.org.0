@@ -1,39 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D5B7973A0
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2019 09:34:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 615E1974A5
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Aug 2019 10:22:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A595C6E937;
-	Wed, 21 Aug 2019 07:34:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5708D6E93D;
+	Wed, 21 Aug 2019 08:22:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EED56E92A;
- Wed, 21 Aug 2019 07:33:41 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id A347C2332A;
- Wed, 21 Aug 2019 07:33:39 +0000 (UTC)
-Date: Wed, 21 Aug 2019 08:33:36 +0100
-From: Will Deacon <will@kernel.org>
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: linux-next: manual merge of the iommu tree with the drm-misc tree
-Message-ID: <20190821073335.db7wxxznhdnh2aal@willie-the-truck>
-References: <20190821141640.7967ddcc@canb.auug.org.au>
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E76C6E93D
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Aug 2019 08:22:43 +0000 (UTC)
+X-Originating-IP: 86.250.200.211
+Received: from localhost (lfbn-1-17395-211.w86-250.abo.wanadoo.fr
+ [86.250.200.211]) (Authenticated sender: maxime.ripard@bootlin.com)
+ by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 628481BF206;
+ Wed, 21 Aug 2019 08:22:39 +0000 (UTC)
+Date: Wed, 21 Aug 2019 09:31:54 +0200
+From: Maxime Ripard <maxime.ripard@bootlin.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 0/3] dt-bindings: Convert Arm Mali GPUs to DT schema
+Message-ID: <20190821073154.jnqv4sysoyorv7vo@flea>
+References: <20190820195959.6126-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190821141640.7967ddcc@canb.auug.org.au>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1566372821;
- bh=+tFf0mJTLo96yTYYqbHdRoumDvEssXCzw62+md2MYD8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=F4H1EFiOSPZTcw+U72R+MT/SkRIDDG5NH56gBRfds4Vsj8QWVp5c8syaxCCgU3rYT
- +0SlGG7GQouiQdZ6gYZsgRQmKEaasz1VNv2gdOfR9JwxZjc59DvcXBRHpdZXIXvuPh
- lgySo5SFuMMEijkzIll0PbWBDliFmstTPszklgfM=
+In-Reply-To: <20190820195959.6126-1-robh@kernel.org>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,36 +39,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1707711335=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBBdWcgMjEsIDIwMTkgYXQgMDI6MTY6NDBQTSArMTAwMCwgU3RlcGhlbiBSb3Rod2Vs
-bCB3cm90ZToKPiBIaSBhbGwsCj4gCj4gVG9kYXkncyBsaW51eC1uZXh0IG1lcmdlIG9mIHRoZSBp
-b21tdSB0cmVlIGdvdCBhIGNvbmZsaWN0IGluOgo+IAo+ICAgZHJpdmVycy9ncHUvZHJtL3BhbmZy
-b3N0L3BhbmZyb3N0X21tdS5jCj4gCj4gYmV0d2VlbiBjb21taXQ6Cj4gCj4gICAxODdkMjkyOTIw
-NmUgKCJkcm0vcGFuZnJvc3Q6IEFkZCBzdXBwb3J0IGZvciBHUFUgaGVhcCBhbGxvY2F0aW9ucyIp
-Cj4gCj4gZnJvbSB0aGUgZHJtLW1pc2MgdHJlZSBhbmQgY29tbWl0Ogo+IAo+ICAgYTJkM2EzODJk
-NmM2ICgiaW9tbXUvaW8tcGd0YWJsZTogUGFzcyBzdHJ1Y3QgaW9tbXVfaW90bGJfZ2F0aGVyIHRv
-IC0+dW5tYXAoKSIpCj4gCj4gZnJvbSB0aGUgaW9tbXUgdHJlZS4KPiAKPiBJIGZpeGVkIGl0IHVw
-IChzZWUgYmVsb3cpIGFuZCBjYW4gY2FycnkgdGhlIGZpeCBhcyBuZWNlc3NhcnkuIFRoaXMKPiBp
-cyBub3cgZml4ZWQgYXMgZmFyIGFzIGxpbnV4LW5leHQgaXMgY29uY2VybmVkLCBidXQgYW55IG5v
-biB0cml2aWFsCj4gY29uZmxpY3RzIHNob3VsZCBiZSBtZW50aW9uZWQgdG8geW91ciB1cHN0cmVh
-bSBtYWludGFpbmVyIHdoZW4geW91ciB0cmVlCj4gaXMgc3VibWl0dGVkIGZvciBtZXJnaW5nLiAg
-WW91IG1heSBhbHNvIHdhbnQgdG8gY29uc2lkZXIgY29vcGVyYXRpbmcKPiB3aXRoIHRoZSBtYWlu
-dGFpbmVyIG9mIHRoZSBjb25mbGljdGluZyB0cmVlIHRvIG1pbmltaXNlIGFueSBwYXJ0aWN1bGFy
-bHkKPiBjb21wbGV4IGNvbmZsaWN0cy4KClRoYW5rcy4gSSBkb24ndCB0aGluayB0aGUgY29uZmxp
-Y3QgaXMgYXMgYmFkIGFzIGl0IGxvb2tzLCB0aGVyZSdzIGp1c3QKY2xlYXJseSBiZWVuIGEgbG90
-IG9mIGNoYW5nZXMgdG8gdGhpcyBmaWxlLiBUaGUgSU9NTVUgY2hhbmdlcyBhcmUgYWxsCmFyb3Vu
-ZCB0aGUgaW8tcGd0YWJsZSBBUEksIHNvIHRoZXJlJ3MgYW4gZXh0cmEgJ05VTEwnIGFyZ3VtZW50
-IHRvCi0+dW5tYXAoKSBhbmQgc29tZSBuZXcgVExCIGludmFsaWRhdGlvbiBmdW5jdGlvbnMgaW4g
-dGhlIHJlbmFtZWQKJ2lvbW11X2dhdGhlcl9vcHMnIChub3cgJ2lvbW11X2ZsdXNoX29wcycpLgoK
-V2lsbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1707711335==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ye7watdg3ithuyxt"
+Content-Disposition: inline
+
+
+--ye7watdg3ithuyxt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Rob,
+
+On Tue, Aug 20, 2019 at 02:59:56PM -0500, Rob Herring wrote:
+> This series converts the various Arm Mali GPU bindings to use the DT
+> schema format.
+>
+> The Midgard and Bifrost bindings generate warnings on 'interrupt-names'
+> because there's all different ordering. The Utgard binding generates
+> warnings on Rockchip platforms because 'clock-names' order is reversed.
+
+Thank for taking care of that one, it was on my radar but I didn't
+really want to actually do it :)
+
+Acked-by: Maxime Ripard <maxime.ripard@bootlin.com>
+
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--ye7watdg3ithuyxt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXVzzagAKCRDj7w1vZxhR
+xeOoAP0fDHwGDG+Pp7I7jUWueHcugddYVgoBEitC7+EXWXCGywD/cyBgtgtPE19N
+g0eZSCfigQtpIBBde4Gqm9+94pYLnwI=
+=UmRS
+-----END PGP SIGNATURE-----
+
+--ye7watdg3ithuyxt--
+
+--===============1707711335==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1707711335==--
