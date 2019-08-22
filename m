@@ -2,32 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BB3699E86
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2019 20:17:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEFC199ED7
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2019 20:31:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 079786E9F9;
-	Thu, 22 Aug 2019 18:17:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 701C76EA26;
+	Thu, 22 Aug 2019 18:31:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A1F26E9F9
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2019 18:17:26 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90AB66EA26
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2019 18:31:55 +0000 (UTC)
 Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
  (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 0CE4928D3E4;
- Thu, 22 Aug 2019 19:17:25 +0100 (BST)
-Date: Thu, 22 Aug 2019 20:17:22 +0200
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 4137228D274;
+ Thu, 22 Aug 2019 19:31:54 +0100 (BST)
+Date: Thu, 22 Aug 2019 20:31:51 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2 16/50] drm/bridge: tfp410: Allow operation without
- drm_connector
-Message-ID: <20190822201722.39dbbd7c@collabora.com>
-In-Reply-To: <20190820011721.30136-17-laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v2 17/50] drm: Add helper to create a connector for a
+ chain of bridges
+Message-ID: <20190822203151.35bbe99f@collabora.com>
+In-Reply-To: <20190820011721.30136-18-laurent.pinchart@ideasonboard.com>
 References: <20190820011721.30136-1-laurent.pinchart@ideasonboard.com>
- <20190820011721.30136-17-laurent.pinchart@ideasonboard.com>
+ <20190820011721.30136-18-laurent.pinchart@ideasonboard.com>
 Organization: Collabora
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -52,24 +51,13 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMCBBdWcgMjAxOSAwNDoxNjo0NyArMDMwMApMYXVyZW50IFBpbmNoYXJ0IDxsYXVy
-ZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+IHdyb3RlOgoKPiBUaGUgdGZwNDEwIGRyaXZl
-ciBjYW4gb3BlcmF0ZSBhcyBwYXJ0IG9mIGEgcGlwZWxpbmUgd2hlcmUgdGhlCj4gZHJtX2Nvbm5l
-Y3RvciBpcyBjcmVhdGVkIGJ5IHRoZSBkaXNwbGF5IGNvbnRyb2xsZXIuIEVuYWJsZSB0aGlzIG1v
-ZGUgb2YKPiBvcGVyYXRpb24gYnkgc2tpcHBpbmcgY3JlYXRpb24gb2YgYSBkcm1fY29ubmVjdG9y
-IGludGVybmFsbHkuCj4gCj4gU2lnbmVkLW9mZi1ieTogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVu
-dC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPgoKUmV2aWV3ZWQtYnk6IEJvcmlzIEJyZXppbGxv
-biA8Ym9yaXMuYnJlemlsbG9uQGNvbGxhYm9yYS5jb20+Cgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9k
-cm0vYnJpZGdlL3RpLXRmcDQxMC5jIHwgMiArLQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
-b24oKyksIDEgZGVsZXRpb24oLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Jy
-aWRnZS90aS10ZnA0MTAuYyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGktdGZwNDEwLmMKPiBp
-bmRleCA2NTY1MWFlNmM1NTMuLjE2Y2M4YWJlMzI2MiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vYnJpZGdlL3RpLXRmcDQxMC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90
-aS10ZnA0MTAuYwo+IEBAIC0xMzMsNyArMTMzLDcgQEAgc3RhdGljIGludCB0ZnA0MTBfYXR0YWNo
-KHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UsCj4gIAkJcmV0dXJuIHJldDsKPiAgCj4gIAlpZiAo
-ZmxhZ3MgJiBEUk1fQlJJREdFX0FUVEFDSF9OT19DT05ORUNUT1IpCj4gLQkJcmV0dXJuIC1FSU5W
-QUw7Cj4gKwkJcmV0dXJuIDA7Cj4gIAo+ICAJaWYgKCFicmlkZ2UtPmVuY29kZXIpIHsKPiAgCQlk
-ZXZfZXJyKGR2aS0+ZGV2LCAiTWlzc2luZyBlbmNvZGVyXG4iKTsKCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+T24gVHVlLCAyMCBBdWcgMjAxOSAwNDoxNjo0OCArMDMwMApMYXVyZW50IFBpbmNoYXJ0IDxsYXVy
+ZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+IHdyb3RlOgoKCj4gKwkvKioKPiArCSAqIEBi
+cmlkZ2VfZGV0ZWN0OgoKCSAgICBeIEBicmlkZ2VfbW9kZXMKCj4gKwkgKgo+ICsJICogVGhlIGxh
+c3QgYnJpZGdlIGluIHRoZSBjaGFpbiAoY2xvc2VzdCB0byB0aGUgY29ubmVjdG9yKSB0aGF0IHBy
+b3ZpZGVzCj4gKwkgKiBjb25uZWN0b3IgbW9kZXMgZGV0ZWN0aW9uLCBpZiBhbnkgKHNlZSAmRFJN
+X0JSSURHRV9PUF9NT0RFUykuCj4gKwkgKi8KPiArCXN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2Vf
+bW9kZXM7Cj4gK307Cj4gKwoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVs
