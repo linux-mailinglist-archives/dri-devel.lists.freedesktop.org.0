@@ -1,35 +1,101 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D29A99FB2
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2019 21:18:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C97E99FC2
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2019 21:21:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD1D76EA37;
-	Thu, 22 Aug 2019 19:18:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78AA36EA45;
+	Thu, 22 Aug 2019 19:21:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 531406EA37
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2019 19:18:02 +0000 (UTC)
-X-Originating-IP: 87.18.63.98
-Received: from uno.localdomain (unknown [87.18.63.98])
- (Authenticated sender: jacopo@jmondi.org)
- by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 52EAEC0007;
- Thu, 22 Aug 2019 19:17:56 +0000 (UTC)
-Date: Thu, 22 Aug 2019 21:19:25 +0200
-From: Jacopo Mondi <jacopo@jmondi.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2 19/19] drm: rcar-du: kms: Update CMM in atomic commit
- tail
-Message-ID: <20190822191925.dnbdihnt3ole2nqx@uno.localdomain>
-References: <20190706140746.29132-1-jacopo+renesas@jmondi.org>
- <20190706140746.29132-20-jacopo+renesas@jmondi.org>
- <20190820184215.GM10820@pendragon.ideasonboard.com>
+Received: from NAM03-CO1-obe.outbound.protection.outlook.com
+ (mail-eopbgr790084.outbound.protection.outlook.com [40.107.79.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C18256EA3F;
+ Thu, 22 Aug 2019 19:21:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TRDrhNJLbXEGuWimL3P3BC1xeWmwy9pP11SvGOniLoSi9p7m4+PY0UKmDUfYExSgMq22h6zRTDV/cgVUli13YlzT3GcPdaZJ0SbZr81KS46sKZbxH8aM68gvb+diGQglG7n6cOSbEy7YPqH/hRz6f90pPSePnbJM2Nk1iyt0lEgASgtACbbX9RbqZGAByxuPcD1/NtFC/Fq1KSLFOyImDrdcaChCHqxxC6Y6ZjlQSGfIG0f93IaSwsQbrxRR5A+vycOaCppSjrxcspT+q6qaJxxaykIhw4wcyQNPx9mxVUJF6X6IKp3U3tiTmFj3XJ7meXAagRLUlpmiLh3rDZlZCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nARQBQ2T5JoGz0Mi0S9gFZwhe3r+nl2zCUHVzBenNDA=;
+ b=DikgnpvWo+iqy/0TZw/cutd427Ar5zykoHZV5t+hzSE3CNGW3BJh/ZfyTtwNgDMmX5Bi97ABryu/QkSTFW2KI+XfOcNAZdZNK9Eq4f2Cxv88GEzGEwOXFdBXigkrk3XsTUr8Q2AnS5hvJ2XyNPhuzEIZ4qkrikpYLZNZmrWAm5EBqmi8biqma2FLv9/ji7HhoNdBKh1vARYzgl7kIZJkzWiQ6CKpyXggOubcsqNYez3cIWFVM9MgEAdwYW3RYBFvRFXFD1os6gbO9eqMaB8Kb2+oum9ffJgvFYXBaimhBPDbhuAExKe6Kk/4G+2E3D0MqTeK8M2TWWpBMdJQs39T0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+Received: from CY4PR1201MB0230.namprd12.prod.outlook.com (10.172.79.7) by
+ CY4PR1201MB0183.namprd12.prod.outlook.com (10.174.52.9) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2178.16; Thu, 22 Aug 2019 19:21:13 +0000
+Received: from CY4PR1201MB0230.namprd12.prod.outlook.com
+ ([fe80::540f:1eae:7e3a:c6b2]) by CY4PR1201MB0230.namprd12.prod.outlook.com
+ ([fe80::540f:1eae:7e3a:c6b2%5]) with mapi id 15.20.2178.020; Thu, 22 Aug 2019
+ 19:21:13 +0000
+From: Harry Wentland <hwentlan@amd.com>
+To: Colin King <colin.king@canonical.com>, "Wentland, Harry"
+ <Harry.Wentland@amd.com>, "Li, Sun peng (Leo)" <Sunpeng.Li@amd.com>,
+ "Deucher, Alexander" <Alexander.Deucher@amd.com>, "Koenig, Christian"
+ <Christian.Koenig@amd.com>, "Zhou, David(ChunMing)" <David1.Zhou@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH][drm-next] drm/amd/display: fix a potential null pointer
+ dereference
+Thread-Topic: [PATCH][drm-next] drm/amd/display: fix a potential null pointer
+ dereference
+Thread-Index: AQHVVH9ikXZ9rtwK3kONgLDWrJHQDKcHlIMA
+Date: Thu, 22 Aug 2019 19:21:12 +0000
+Message-ID: <5981f677-3347-1450-f787-853e97496bd4@amd.com>
+References: <20190816221011.10750-1-colin.king@canonical.com>
+In-Reply-To: <20190816221011.10750-1-colin.king@canonical.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [165.204.55.250]
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+x-clientproxiedby: YTXPR0101CA0071.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:1::48) To CY4PR1201MB0230.namprd12.prod.outlook.com
+ (2603:10b6:910:1e::7)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 93657eee-cac2-473c-4a77-08d72735e529
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(5600166)(711020)(4605104)(1401327)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
+ SRVR:CY4PR1201MB0183; 
+x-ms-traffictypediagnostic: CY4PR1201MB0183:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <CY4PR1201MB0183C4A8C609C688018388BE8CA50@CY4PR1201MB0183.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1148;
+x-forefront-prvs: 01371B902F
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(39860400002)(136003)(366004)(376002)(346002)(396003)(189003)(199004)(2201001)(54906003)(52116002)(6512007)(81156014)(7736002)(11346002)(386003)(99286004)(102836004)(6506007)(446003)(14444005)(256004)(53546011)(229853002)(2501003)(53936002)(58126008)(2616005)(31696002)(36756003)(3846002)(6116002)(71190400001)(305945005)(31686004)(14454004)(71200400001)(26005)(186003)(478600001)(6486002)(76176011)(5660300002)(6436002)(8936002)(110136005)(64756008)(486006)(316002)(476003)(66066001)(65806001)(65956001)(25786009)(8676002)(6246003)(4326008)(66446008)(81166006)(66556008)(2906002)(66946007)(66476007)(921003)(1121003);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR1201MB0183;
+ H:CY4PR1201MB0230.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: yhLYdFB2GxxGq+ZYqelk4SFdJudmT8ZFaYNPNmmfeVpWMWmkg68ICCccXziGK+Gj7+BkHV79k+tZolOGdPO8MMBSUdIOJZ95YcC1+yotRSG56ge6hpGxR7YFygXf9oIK8V1h0a4HzQTyJKGKRue43UsjOtJQHt1jIyNUUEeJgK4kwDuptRI2nHJyqj8ikPNbztCs3ZIE3Alv1ro/2EEGPs1Zna8qeEH94n3O+yqOwjEn+zspQ1FTZpDwaGfZU19fWPXwt187iwp6jRQHKhAhtkncLD55XLmYbvXDVp6CV1sknUm6yZ9AqUnFNRByms/f1b7fLXT9SgtAGrcRC+ho51HiEplZ6qkZcOo44srkS1JgswrPAvW69CaGdgiiU6UyJVIpmexLd7cw0wF9Is/3GhNlXA258nb7fE7SwCirVy4=
+Content-ID: <BF8966527E0E3940B6309A7EBD82C85D@namprd12.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20190820184215.GM10820@pendragon.ideasonboard.com>
-User-Agent: NeoMutt/20180716
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 93657eee-cac2-473c-4a77-08d72735e529
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Aug 2019 19:21:13.0221 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LMckXLsfZMNnMEdfDib1EwdkGc2NZYKXkj3FtcJ04ZsxtV7q+gZbe/qKspSAOaocebi1Fz/rCrEloLDNEwCKLw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0183
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nARQBQ2T5JoGz0Mi0S9gFZwhe3r+nl2zCUHVzBenNDA=;
+ b=L8dircSFuw0t2xNYP5Mujm6H+EzcFP2/7ArtaqnHmVk5EFzdJkzZN4S9JMrMAeXB4/xlps90PuVjIJIb4AmCb38iJLt4hH1j+SSBSH8fEa85CWbVXaLEHIPMSEz1YVh9ttFvYELi9L8kAtl5jEaZ+ywT9aTJNqQC04jwW4RKMM8=
+X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Harry.Wentland@amd.com; 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -42,154 +108,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: muroya@ksk.co.jp, VenkataRajesh.Kalakodima@in.bosch.com, airlied@linux.ie,
- koji.matsuoka.xm@renesas.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- kieran.bingham+renesas@ideasonboard.com,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Harsha.ManjulaMallikarjun@in.bosch.com
-Content-Type: multipart/mixed; boundary="===============1598877851=="
+Cc: "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1598877851==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="3qbfvdcd762hsr7u"
-Content-Disposition: inline
-
-
---3qbfvdcd762hsr7u
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-
-Hi Laurent,
-
-On Tue, Aug 20, 2019 at 09:42:15PM +0300, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> Thank you for the patch.
->
-> On Sat, Jul 06, 2019 at 04:07:46PM +0200, Jacopo Mondi wrote:
-> > Update CMM settings at in the atomic commit tail helper method.
-> >
-> > The CMM is updated with new gamma values provided to the driver
-> > in the GAMMA_LUT blob property.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 35 +++++++++++++++++++++++++++
-> >  1 file changed, 35 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > index b79cda2f5531..f9aece78ca5f 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > @@ -21,6 +21,7 @@
-> >  #include <linux/of_platform.h>
-> >  #include <linux/wait.h>
-> >
-> > +#include "rcar_cmm.h"
-> >  #include "rcar_du_crtc.h"
-> >  #include "rcar_du_drv.h"
-> >  #include "rcar_du_encoder.h"
-> > @@ -287,6 +288,37 @@ rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
-> >   * Atomic Check and Update
-> >   */
-> >
-> > +static void rcar_du_atomic_commit_update_cmm(struct drm_crtc *crtc,
-> > +					     struct drm_crtc_state *old_state)
-> > +{
-> > +	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
-> > +	struct rcar_cmm_config cmm_config = {};
-> > +
-> > +	if (!rcrtc->cmm || !crtc->state->color_mgmt_changed)
-> > +		return;
-> > +
-> > +	if (!crtc->state->gamma_lut) {
-> > +		cmm_config.lut.enable = false;
-> > +		rcar_cmm_setup(rcrtc->cmm, &cmm_config);
-> > +
-> > +		return;
-> > +	}
-> > +
-> > +	cmm_config.lut.enable = true;
-> > +	cmm_config.lut.table = (struct drm_color_lut *)
-> > +			       crtc->state->gamma_lut->data;
-> > +
-> > +	/* Set LUT table size to 0 if entries should not be updated. */
-> > +	if (!old_state->gamma_lut ||
-> > +	    old_state->gamma_lut->base.id != crtc->state->gamma_lut->base.id)
-> > +		cmm_config.lut.size = crtc->state->gamma_lut->length
-> > +				    / sizeof(cmm_config.lut.table[0]);
-> > +	else
-> > +		cmm_config.lut.size = 0;
-> > +
-> > +	rcar_cmm_setup(rcrtc->cmm, &cmm_config);
-> > +}
-> > +
-> >  static int rcar_du_atomic_check(struct drm_device *dev,
-> >  				struct drm_atomic_state *state)
-> >  {
-> > @@ -329,6 +361,9 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
-> >  			rcdu->dpad1_source = rcrtc->index;
-> >  	}
-> >
-> > +	for_each_old_crtc_in_state(old_state, crtc, crtc_state, i)
-> > +		rcar_du_atomic_commit_update_cmm(crtc, crtc_state);
-> > +
->
-> I think this looks good overall, but I wonder if we couldn't simplify
-> the CMM driver suspend/resume and LUT caching due to config while not
-> enabled by handling it on the DU side. I have a rework on the commit
-> tail handler in progress, I'll think how this could be done. For now I
-> think you can leave it as is.
->
-
-Does this mean I have your R-b tag ? :)
-
-Thanks
-  j
-
-> >  	/* Apply the atomic update. */
-> >  	drm_atomic_helper_commit_modeset_disables(dev, old_state);
-> >  	drm_atomic_helper_commit_planes(dev, old_state,
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
---3qbfvdcd762hsr7u
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1e6r0ACgkQcjQGjxah
-VjwIoBAAnnFT2D1f5giY7bIuwi3DtCaXzY6/kEPbXXSqxroLRiNDRATdQXBA+HVr
-Z212k0ILVX4BkLQcksmd6ZXdac9TxS2y6/ejFF6474NE8LJ5TpkDQzSzgSMb1Y0F
-LrJOEw7xVImUIDt5Lo7tpFoyT3KdMRgYbpGYFDVRvhxGsApsmDz8KIA/QTrw+PTB
-P74B9kKM5V0FxMbSaTJotxiyqY5J1mQtwCNGdX2ud8rZc1AC1uhKVOxtYLTLPiIp
-PIOTWPimzIpVmFN7GLQDfObLARsrN6kfnqk3SZheOJCA7AG1YGoW8nza7iX/cWkl
-Dn+Tvs955Czre7c+z1HOAo/bc6Ch3Ejux7sMtkF1b26Pgvrb3u5GSiByf+4nnfk1
-uGox2IFORT0pfKHDnqDfQwVYD3vWrOBa6fZvsv1+rk/WldQrinYeDf9HPNG1KH+J
-AJBrEbKMmvjJvQNWNOGGdyuHngQtfMPNFQ980olWNhAj5Rgl44dnY0/kIgOXuEN+
-St996VyO46itGP7zygleeEtmWIFryzbDymhBTUaahhL0WUyUutNauZ6KZ7iwNQzY
-FVZzaq8ZtjRifFiwy8F924rJd+VdNwjDHaY8lmEmr18m3EWoL73sva3qn/AZ57cV
-CWzAE/kTGqiyxfMRSnIM5bU4GXMdpg5sBnWzHoftuLI/i5xjTLw=
-=IuZt
------END PGP SIGNATURE-----
-
---3qbfvdcd762hsr7u--
-
---===============1598877851==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1598877851==--
+T24gMjAxOS0wOC0xNiA2OjEwIHAubS4sIENvbGluIEtpbmcgd3JvdGU6DQo+IEZyb206IENvbGlu
+IElhbiBLaW5nIDxjb2xpbi5raW5nQGNhbm9uaWNhbC5jb20+DQo+IA0KPiBDdXJyZW50bHkgdGhl
+IHBvaW50ZXIgaW5pdF9kYXRhIGlzIGRlcmVmZXJlbmNlZCBvbiB0aGUgYXNzaWdubWVudA0KPiBv
+ZiBmd19pbmZvIGJlZm9yZSBpbml0X2RhdGEgaXMgc2FuaXR5IGNoZWNrZWQgdG8gc2VlIGlmIGl0
+IGlzIG51bGwuDQo+IEZpeCB0ZSBwb3RlbnRpYWwgbnVsbCBwb2ludGVyIGRlcmVmZXJlbmNlIG9u
+IGluaXRfZGF0YSBieSBvbmx5DQo+IHBlcmZvcm1pbmcgZGVyZWZlcmVuY2UgYWZ0ZXIgaXQgaXMg
+bnVsbCBjaGVja2VkLg0KPiANCj4gQWRkcmVzc2VzLUNvdmVyaXR5OiAoIkRlcmVmZXJlbmNlIGJl
+Zm9yZSBudWxsIGNoZWNrIikNCj4gRml4ZXM6IDlhZGM4MDUwYmYzYyAoImRybS9hbWQvZGlzcGxh
+eTogbWFrZSBmaXJtd2FyZSBpbmZvIG9ubHkgbG9hZCBvbmNlIGR1cmluZyBkY19iaW9zIGNyZWF0
+ZSIpDQo+IFNpZ25lZC1vZmYtYnk6IENvbGluIElhbiBLaW5nIDxjb2xpbi5raW5nQGNhbm9uaWNh
+bC5jb20+DQoNClJldmlld2VkLWJ5OiBIYXJyeSBXZW50bGFuZCA8aGFycnkud2VudGxhbmRAYW1k
+LmNvbT4NCg0KSGFycnkNCg0KPiAtLS0NCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9k
+Yy9kY2UvZGNlX2Nsb2NrX3NvdXJjZS5jIHwgMyArKy0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGlu
+c2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNlL2RjZV9jbG9ja19zb3VyY2UuYyBiL2RyaXZlcnMvZ3B1
+L2RybS9hbWQvZGlzcGxheS9kYy9kY2UvZGNlX2Nsb2NrX3NvdXJjZS5jDQo+IGluZGV4IGJlZTgx
+YmYyODhiZS4uOTI2OTU0YzgwNGE2IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1k
+L2Rpc3BsYXkvZGMvZGNlL2RjZV9jbG9ja19zb3VyY2UuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9k
+cm0vYW1kL2Rpc3BsYXkvZGMvZGNlL2RjZV9jbG9ja19zb3VyY2UuYw0KPiBAQCAtMTIzNSw3ICsx
+MjM1LDcgQEAgc3RhdGljIGJvb2wgY2FsY19wbGxfbWF4X3Zjb19jb25zdHJ1Y3QoDQo+ICAJCQlz
+dHJ1Y3QgY2FsY19wbGxfY2xvY2tfc291cmNlX2luaXRfZGF0YSAqaW5pdF9kYXRhKQ0KPiAgew0K
+PiAgCXVpbnQzMl90IGk7DQo+IC0Jc3RydWN0IGRjX2Zpcm13YXJlX2luZm8gKmZ3X2luZm8gPSAm
+aW5pdF9kYXRhLT5icC0+ZndfaW5mbzsNCj4gKwlzdHJ1Y3QgZGNfZmlybXdhcmVfaW5mbyAqZndf
+aW5mbzsNCj4gIAlpZiAoY2FsY19wbGxfY3MgPT0gTlVMTCB8fA0KPiAgCQkJaW5pdF9kYXRhID09
+IE5VTEwgfHwNCj4gIAkJCWluaXRfZGF0YS0+YnAgPT0gTlVMTCkNCj4gQEAgLTEyNDQsNiArMTI0
+NCw3IEBAIHN0YXRpYyBib29sIGNhbGNfcGxsX21heF92Y29fY29uc3RydWN0KA0KPiAgCWlmIChp
+bml0X2RhdGEtPmJwLT5md19pbmZvX3ZhbGlkKQ0KPiAgCQlyZXR1cm4gZmFsc2U7DQo+ICANCj4g
+Kwlmd19pbmZvID0gJmluaXRfZGF0YS0+YnAtPmZ3X2luZm87DQo+ICAJY2FsY19wbGxfY3MtPmN0
+eCA9IGluaXRfZGF0YS0+Y3R4Ow0KPiAgCWNhbGNfcGxsX2NzLT5yZWZfZnJlcV9raHogPSBmd19p
+bmZvLT5wbGxfaW5mby5jcnlzdGFsX2ZyZXF1ZW5jeTsNCj4gIAljYWxjX3BsbF9jcy0+bWluX3Zj
+b19raHogPQ0KPiANCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bA==
