@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D31899971
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2019 18:41:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49DBC99976
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2019 18:43:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF65D6E544;
-	Thu, 22 Aug 2019 16:41:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBDBE6E552;
+	Thu, 22 Aug 2019 16:42:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8BDB6E544
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2019 16:41:30 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 8536228D206;
- Thu, 22 Aug 2019 17:41:29 +0100 (BST)
-Date: Thu, 22 Aug 2019 18:41:25 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE9EA6E552
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2019 16:42:55 +0000 (UTC)
+X-Originating-IP: 87.18.63.98
+Received: from uno.localdomain (unknown [87.18.63.98])
+ (Authenticated sender: jacopo@jmondi.org)
+ by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 9540B40002;
+ Thu, 22 Aug 2019 16:42:47 +0000 (UTC)
+Date: Thu, 22 Aug 2019 18:44:12 +0200
+From: Jacopo Mondi <jacopo@jmondi.org>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2 04/50] drm/bridge: Add connector-related bridge
- operations and data
-Message-ID: <20190822184125.71507502@collabora.com>
-In-Reply-To: <20190820011721.30136-5-laurent.pinchart@ideasonboard.com>
-References: <20190820011721.30136-1-laurent.pinchart@ideasonboard.com>
- <20190820011721.30136-5-laurent.pinchart@ideasonboard.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Subject: Re: [PATCH v2 14/19] drm: rcar-du: Add support for CMM
+Message-ID: <20190822164404.czsfo2c6wusrslek@uno.localdomain>
+References: <20190706140746.29132-1-jacopo+renesas@jmondi.org>
+ <20190706140746.29132-15-jacopo+renesas@jmondi.org>
+ <898081800.61387.1563283024145@webmail.strato.com>
+ <20190820173744.GG10820@pendragon.ideasonboard.com>
 MIME-Version: 1.0
+In-Reply-To: <20190820173744.GG10820@pendragon.ideasonboard.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -42,63 +42,488 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Sean Paul <sean@poorly.run>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: muroya@ksk.co.jp, Ulrich Hecht <uli@fpond.eu>,
+ VenkataRajesh.Kalakodima@in.bosch.com, airlied@linux.ie,
+ koji.matsuoka.xm@renesas.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ kieran.bingham+renesas@ideasonboard.com,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Harsha.ManjulaMallikarjun@in.bosch.com
+Content-Type: multipart/mixed; boundary="===============0296659163=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMCBBdWcgMjAxOSAwNDoxNjozNSArMDMwMApMYXVyZW50IFBpbmNoYXJ0IDxsYXVy
-ZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+IHdyb3RlOgoKPiAgCj4gKy8qKgo+ICsgKiBl
-bnVtIGRybV9icmlkZ2Vfb3BzIC0gQml0bWFzayBvZiBvcGVyYXRpb25zIHN1cHBvcnRlZCBieSB0
-aGUgYnJpZGdlCj4gKyAqLwo+ICtlbnVtIGRybV9icmlkZ2Vfb3BzIHsKPiArCS8qKgo+ICsJICog
-QERSTV9CUklER0VfT1BfREVURUNUOiBUaGUgYnJpZGdlIGNhbiBkZXRlY3QgZGlzcGxheXMgY29u
-bmVjdGVkIHRvCj4gKwkgKiBpdHMgb3V0cHV0LiBCcmlkZ2VzIHRoYXQgc2V0IHRoaXMgZmxhZyBz
-aGFsbCBpbXBsZW1lbnQgdGhlCj4gKwkgKiAmZHJtX2JyaWRnZV9mdW5jcy0+ZGV0ZWN0IGNhbGxi
-YWNrLgo+ICsJICovCj4gKwlEUk1fQlJJREdFX09QX0RFVEVDVCA9IEJJVCgwKSwKPiArCS8qKgo+
-ICsJICogQERSTV9CUklER0VfT1BfRURJRDogVGhlIGJyaWRnZSBjYW4gcmV0cmlldmUgdGhlIEVE
-SUQgb2YgdGhlIGRpc3BsYXkKPiArCSAqIGNvbm5lY3RlZCB0byBpdHMgb3V0cHV0LiBCcmlkZ2Vz
-IHRoYXQgc2V0IHRoaXMgZmxhZyBzaGFsbCBpbXBsZW1lbnQKPiArCSAqIHRoZSAmZHJtX2JyaWRn
-ZV9mdW5jcy0+Z2V0X2VkaWQgY2FsbGJhY2suCj4gKwkgKi8KPiArCURSTV9CUklER0VfT1BfRURJ
-RCA9IEJJVCgxKSwKPiArCS8qKgo+ICsJICogQERSTV9CUklER0VfT1BfSFBEOiBUaGUgYnJpZGdl
-IGNhbiBkZXRlY3QgaG90LXBsdWcgYW5kIGhvdC11bnBsdWcKPiArCSAqIHdpdGhvdXQgcmVxdWly
-aW5nIHBvbGxpbmcuIEJyaWRnZXMgdGhhdCBzZXQgdGhpcyBmbGFnIHNoYWxsCj4gKwkgKiBpbXBs
-ZW1lbnQgdGhlICZkcm1fYnJpZGdlX2Z1bmNzLT5ocGRfZW5hYmxlIGFuZAo+ICsJICogJmRybV9i
-cmlkZ2VfZnVuY3MtPmhwZF9kaXNhYmxlIGNhbGxiYWNrcyBpZiB0aGV5IHN1cHBvcnQgZW5hYmxp
-bmcKPiArCSAqIGFuZCBkaXNhYmxpbmcgaG90LXBsdWcgZGV0ZWN0aW9uIGR5bmFtaWNhbGx5Lgo+
-ICsJICovCj4gKwlEUk1fQlJJREdFX09QX0hQRCA9IEJJVCgyKSwKPiArCS8qKgo+ICsJICogQERS
-TV9CUklER0VfT1BfTU9ERVM6IFRoZSBicmlkZ2UgY2FuIHJldHJpZXZpbmcgdGhlIG1vZGVzIHN1
-cHBvcnRlZAo+ICsJICogYnkgdGhlIGRpc3BsYXkgYXQgaXRzIG91dHB1dC4gVGhpcyBkb2VzIG5v
-dCBpbmNsdWRlIHJlYWRpbmQgRURJRAo+ICsJICogd2hpY2ggaXMgc2VwYXJhdGVseSBjb3ZlcmVk
-IGJ5IEBEUk1fQlJJREdFX09QX0VESUQuIEJyaWRnZXMgdGhhdCBzZXQKPiArCSAqIHRoaXMgZmxh
-ZyBzaGFsbCBpbXBsZW1lbnQgdGhlICZkcm1fYnJpZGdlX2Z1bmNzLT5nZXRfbW9kZXMgY2FsbGJh
-Y2suCj4gKwkgKi8KPiArCURSTV9CUklER0VfT1BfTU9ERVMgPSBCSVQoMyksCj4gK307Cj4gKwo+
-ICAvKioKPiAgICogc3RydWN0IGRybV9icmlkZ2UgLSBjZW50cmFsIERSTSBicmlkZ2UgY29udHJv
-bCBzdHJ1Y3R1cmUKPiAgICovCj4gQEAgLTM5OCw2ICs1MzgsMzMgQEAgc3RydWN0IGRybV9icmlk
-Z2Ugewo+ICAJY29uc3Qgc3RydWN0IGRybV9icmlkZ2VfZnVuY3MgKmZ1bmNzOwo+ICAJLyoqIEBk
-cml2ZXJfcHJpdmF0ZTogcG9pbnRlciB0byB0aGUgYnJpZGdlIGRyaXZlcidzIGludGVybmFsIGNv
-bnRleHQgKi8KPiAgCXZvaWQgKmRyaXZlcl9wcml2YXRlOwo+ICsJLyoqIEBvcHM6IGJpdG1hc2sg
-b2Ygb3BlcmF0aW9ucyBzdXBwb3J0ZWQgYnkgdGhlIGJyaWRnZSAqLwo+ICsJZW51bSBkcm1fYnJp
-ZGdlX29wcyBvcHM7CgpKdXN0IHJlYWxpemVkIHRoYXQgeW91J3JlIG5vdCBjaGVja2luZyAtPm9w
-cyBhbmQgLT5mdW5jcyBjb25zaXN0ZW5jeSBhdAphdHRhY2goKSB0aW1lICh5b3UncmUgb25seSBj
-aGVja2luZyAtPm9wcyBpbiB0aGUgdGZwNDEwIGRyaXZlciBiZWZvcmUKY2FsbGluZyAtPmZ1bmNz
-LT5kZXRlY3QoKSBhbmQgLT5mdW5jcy0+Z2V0X21vZGVzKCkgYW5kIHRoZXkgbWlnaHQgYmUKTlVM
-TCkuCgo+ICsJLyoqCj4gKwkgKiBAdHlwZTogVHlwZSBvZiB0aGUgY29ubmVjdGlvbiBhdCB0aGUg
-YnJpZGdlIG91dHB1dAo+ICsJICogKERSTV9NT0RFX0NPTk5FQ1RPUl8qKS4gRm9yIGJyaWRnZXMg
-YXQgdGhlIGVuZCBvZiB0aGlzIGNoYWluIHRoaXMKPiArCSAqIGlkZW50aWZpZXMgdGhlIHR5cGUg
-b2YgY29ubmVjdGVkIGRpc3BsYXkuCj4gKwkgKi8KPiArCWludCB0eXBlOwo+ICsJLyoqCj4gKwkg
-KiBAZGRjOiBBc3NvY2lhdGVkIEkyQyBhZGFwdGVyIGZvciBEREMgYWNjZXNzLCBpZiBhbnkuCj4g
-KwkgKi8KPiArCXN0cnVjdCBpMmNfYWRhcHRlciAqZGRjOwo+ICsJLyoqIHByaXZhdGU6ICovCj4g
-KwkvKioKPiArCSAqIEBocGRfbXV0ZXg6IFByb3RlY3RzIHRoZSBAaHBkX2NiIGFuZCBAaHBkX2Rh
-dGEgZmllbGRzLgo+ICsJICovCj4gKwlzdHJ1Y3QgbXV0ZXggaHBkX211dGV4Owo+ICsJLyoqCj4g
-KwkgKiBAaHBkX2NiOiBIb3QgcGx1ZyBkZXRlY3Rpb24gY2FsbGJhY2ssIHJlZ2lzdGVyZWQgd2l0
-aAo+ICsJICogZHJtX2JyaWRnZV9ocGRfZW5hYmxlKCkuCj4gKwkgKi8KPiArCXZvaWQgKCpocGRf
-Y2IpKHZvaWQgKmRhdGEsIGVudW0gZHJtX2Nvbm5lY3Rvcl9zdGF0dXMgc3RhdHVzKTsKPiArCS8q
-Kgo+ICsJICogQGhwZF9kYXRhOiBQcml2YXRlIGRhdGEgcGFzc2VkIHRvIHRoZSBIb3QgcGx1ZyBk
-ZXRlY3Rpb24gY2FsbGJhY2sKPiArCSAqIEBocGRfY2IuCj4gKwkgKi8KPiArCXZvaWQgKmhwZF9k
-YXRhOwo+ICB9OwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0296659163==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="udwnqrrxkfgyy2n6"
+Content-Disposition: inline
+
+
+--udwnqrrxkfgyy2n6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+Hi Ulrich,
+
+On Tue, Aug 20, 2019 at 08:37:44PM +0300, Laurent Pinchart wrote:
+> Hello,
+>
+> On Tue, Jul 16, 2019 at 03:17:04PM +0200, Ulrich Hecht wrote:
+> > > On July 6, 2019 at 4:07 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
+> > >
+> > > Add a driver for the R-Car Display Unit Color Correction Module.
+> > >
+> > > In most of Gen3 SoCs, each DU output channel is provided with a CMM unit
+> > > to perform image enhancement and color correction.
+> > >
+> > > Add support for CMM through a driver that supports configuration of
+> > > the 1-dimensional LUT table. More advanced CMM feature will be
+> > > implemented on top of this basic one.
+> > >
+> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > ---
+> > >  drivers/gpu/drm/rcar-du/Kconfig    |   7 +
+> > >  drivers/gpu/drm/rcar-du/Makefile   |   1 +
+> > >  drivers/gpu/drm/rcar-du/rcar_cmm.c | 292 +++++++++++++++++++++++++++++
+> > >  drivers/gpu/drm/rcar-du/rcar_cmm.h |  38 ++++
+> > >  4 files changed, 338 insertions(+)
+> > >  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.c
+> > >  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.h
+> > >
+> > > diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+> > > index 1529849e217e..539d232790d1 100644
+> > > --- a/drivers/gpu/drm/rcar-du/Kconfig
+> > > +++ b/drivers/gpu/drm/rcar-du/Kconfig
+> > > @@ -13,6 +13,13 @@ config DRM_RCAR_DU
+> > >  	  Choose this option if you have an R-Car chipset.
+> > >  	  If M is selected the module will be called rcar-du-drm.
+> > >
+> > > +config DRM_RCAR_CMM
+> > > +	bool "R-Car DU Color Management Module (CMM) Support"
+> > > +	depends on DRM && OF
+> > > +	depends on DRM_RCAR_DU
+> > > +	help
+> > > +	  Enable support for R-Car Color Management Module (CMM).
+> > > +
+> > >  config DRM_RCAR_DW_HDMI
+> > >  	tristate "R-Car DU Gen3 HDMI Encoder Support"
+> > >  	depends on DRM && OF
+> > > diff --git a/drivers/gpu/drm/rcar-du/Makefile b/drivers/gpu/drm/rcar-du/Makefile
+> > > index 6c2ed9c46467..4d1187ccc3e5 100644
+> > > --- a/drivers/gpu/drm/rcar-du/Makefile
+> > > +++ b/drivers/gpu/drm/rcar-du/Makefile
+> > > @@ -15,6 +15,7 @@ rcar-du-drm-$(CONFIG_DRM_RCAR_LVDS)	+= rcar_du_of.o \
+> > >  rcar-du-drm-$(CONFIG_DRM_RCAR_VSP)	+= rcar_du_vsp.o
+> > >  rcar-du-drm-$(CONFIG_DRM_RCAR_WRITEBACK) += rcar_du_writeback.o
+> > >
+> > > +obj-$(CONFIG_DRM_RCAR_CMM)		+= rcar_cmm.o
+> > >  obj-$(CONFIG_DRM_RCAR_DU)		+= rcar-du-drm.o
+> > >  obj-$(CONFIG_DRM_RCAR_DW_HDMI)		+= rcar_dw_hdmi.o
+> > >  obj-$(CONFIG_DRM_RCAR_LVDS)		+= rcar_lvds.o
+> > > diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.c b/drivers/gpu/drm/rcar-du/rcar_cmm.c
+> > > new file mode 100644
+> > > index 000000000000..76ed3fce2b33
+> > > --- /dev/null
+> > > +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.c
+> > > @@ -0,0 +1,292 @@
+> > > +// SPDX-License-Identifier: GPL-2.0+
+> > > +/*
+> > > + * rcar_cmm.c -- R-Car Display Unit Color Management Module
+> > > + *
+> > > + * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > + */
+> > > +
+> > > +#include <linux/clk.h>
+> > > +#include <linux/io.h>
+> > > +#include <linux/module.h>
+> > > +#include <linux/of.h>
+> > > +#include <linux/platform_device.h>
+> > > +#include <linux/pm.h>
+> > > +
+> > > +#include <drm/drm_atomic.h>
+> > > +
+> > > +#include "rcar_cmm.h"
+> > > +
+> > > +#define CM2_LUT_CTRL		0x0000
+> > > +#define CM2_LUT_CTRL_EN		BIT(0)
+> > > +#define CM2_LUT_TBLA_BASE	0x0600
+> > > +#define CM2_LUT_TBLA(__i)	(CM2_LUT_TBLA_BASE + (__i) * 4)
+> > > +
+> > > +struct rcar_cmm {
+> > > +	struct clk *clk;
+> > > +	void __iomem *base;
+> > > +	bool enabled;
+> > > +
+> > > +	/*
+> > > +	 * restore: LUT restore flag
+> > > +	 * running: LUT operating flag
+> > > +	 * size: Number of programmed entries in the LUT table
+> > > +	 * table: Scratch buffer where to store the LUT table entries to be
+> > > +	 *	  later restored.
+> > > +	 */
+> > > +	struct {
+> > > +		bool restore;
+> > > +		bool running;
+> > > +		unsigned int size;
+> > > +		struct drm_color_lut table[CMM_GAMMA_LUT_SIZE];
+> > > +	} lut;
+> > > +};
+> > > +
+> > > +static inline int rcar_cmm_read(struct rcar_cmm *rcmm, u32 reg)
+> > > +{
+> > > +	return ioread32(rcmm->base + reg);
+> > > +}
+> > > +
+> > > +static inline void rcar_cmm_write(struct rcar_cmm *rcmm, u32 reg, u32 data)
+> > > +{
+> > > +	iowrite32(data, rcmm->base + reg);
+> > > +}
+> > > +
+> > > +static void rcar_cmm_lut_write(struct rcar_cmm *rcmm, unsigned int size,
+> > > +			       struct drm_color_lut *lut)
+> > > +{
+> > > +	unsigned int i;
+> > > +
+> > > +	for (i = 0; i < size; ++i) {
+> > > +		struct drm_color_lut *entry = &lut[i];
+> > > +
+> > > +		u32 val = (entry->red & 0xff) << 16 |
+> > > +			  (entry->green & 0xff) << 8 |
+> > > +			  (entry->blue & 0xff);
+> >
+> > I don't think it's correct to cut off the high bits here. There is a
+> > function "drm_color_lut_extract()" for converting drm_color_lut values
+> > to hardware precision.
+> >
+
+Oh, I see! the value received from userspace in 16-bits precision
+needs to be rescaled to the hw supported one! Thanks, I totally missed
+this!
+
+> > > +		rcar_cmm_write(rcmm, CM2_LUT_TBLA(i), val);
+> > > +	}
+> > > +}
+> > > +
+> > > +/**
+> > > + * rcar_cmm_setup() - configure the CMM unit
+> > > + *
+> > > + * @pdev: The platform device associated with the CMM instance
+> > > + * @config: The CRTC provided configuration.
+> > > + *
+> > > + * Configure the CMM unit with the CRTC provided configuration.
+> > > + * Currently enabling, disabling and programming of the 1-D LUT unit is
+> > > + * supported.
+> > > + */
+> > > +int rcar_cmm_setup(struct platform_device *pdev,
+> > > +		   const struct rcar_cmm_config *config)
+> > > +{
+> > > +	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
+> > > +	unsigned int i;
+> > > +
+> > > +	if (config->lut.size > CMM_GAMMA_LUT_SIZE)
+> > > +		return -EINVAL;
+> > > +
+> > > +	/*
+> > > +	 * As cmm_setup is called by atomic commit tail helper, it might be
+> > > +	 * called before enabling the CRTC (which calls cmm_enable()).
+> > > +	 */
+> > > +	if (!rcmm->enabled) {
+> > > +		if (!config->lut.enable)
+> > > +			return 0;
+> > > +
+> > > +		/*
+> > > +		 * Store the LUT table entries in the scratch buffer to be later
+> > > +		 * programmed at enable time.
+> > > +		 */
+> > > +		for (i = 0; i < config->lut.size; ++i)
+> > > +			rcmm->lut.table[i] = config->lut.table[i];
+> > > +
+> > > +		rcmm->lut.size = config->lut.size;
+> > > +		rcmm->lut.restore = true;
+> > > +
+> > > +		return 0;
+> > > +	}
+> > > +
+> > > +	/* Stop LUT operations, if requested. */
+> > > +	if (rcmm->lut.running && !config->lut.enable) {
+> > > +		rcar_cmm_write(rcmm, CM2_LUT_CTRL, 0);
+> > > +		rcmm->lut.running = 0;
+> > > +		rcmm->lut.size = 0;
+> > > +
+> > > +		return 0;
+> > > +	}
+> > > +
+> > > +	/* Enable LUT and program the new gamma table values. */
+> > > +	if (!rcmm->lut.running) {
+> > > +		rcar_cmm_write(rcmm, CM2_LUT_CTRL, CM2_LUT_CTRL_EN);
+> > > +		rcmm->lut.running = true;
+> > > +	}
+> > > +
+> > > +	rcar_cmm_lut_write(rcmm, config->lut.size, config->lut.table);
+> > > +	rcmm->lut.size = config->lut.size;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(rcar_cmm_setup);
+> > > +
+> > > +/**
+> > > + * rcar_cmm_enable - enable the CMM unit
+> > > + *
+> > > + * @pdev: The platform device associated with the CMM instance
+> > > + *
+> > > + * Enable the CMM unit by enabling the parent clock and enabling the CMM
+> > > + * components, such as 1-D LUT, if requested.
+> > > + */
+> > > +int rcar_cmm_enable(struct platform_device *pdev)
+> > > +{
+> > > +	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
+> > > +	int ret;
+> > > +
+> > > +	if (!rcmm)
+> > > +		return -EPROBE_DEFER;
+> > > +
+> > > +	ret = clk_prepare_enable(rcmm->clk);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	/* Apply the LUT table values saved at cmm_setup time. */
+> > > +	if (rcmm->lut.restore) {
+> > > +		rcar_cmm_write(rcmm, CM2_LUT_CTRL, CM2_LUT_CTRL_EN);
+> > > +		rcar_cmm_lut_write(rcmm, rcmm->lut.size, rcmm->lut.table);
+> > > +
+> > > +		rcmm->lut.restore = false;
+> > > +		rcmm->lut.running = true;
+> > > +	}
+> > > +
+> > > +	rcmm->enabled = true;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(rcar_cmm_enable);
+> > > +
+> > > +/**
+> > > + * rcar_cmm_disable() - disable the CMM unit
+> > > + *
+> > > + * Disable the CMM unit by stopping the parent clock.
+> > > + *
+> > > + * @pdev: The platform device associated with the CMM instance
+> > > + */
+> > > +void rcar_cmm_disable(struct platform_device *pdev)
+> > > +{
+> > > +	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
+> > > +
+> > > +	rcar_cmm_write(rcmm, CM2_LUT_CTRL, 0);
+> > > +
+> > > +	clk_disable_unprepare(rcmm->clk);
+> > > +
+> > > +	rcmm->lut.restore = false;
+> > > +	rcmm->lut.running = false;
+> > > +	rcmm->lut.size = 0;
+> > > +
+> > > +	rcmm->enabled = false;
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(rcar_cmm_disable);
+> > > +
+> > > +#ifdef CONFIG_PM_SLEEP
+> > > +static int rcar_cmm_pm_suspend(struct device *dev)
+> > > +{
+> > > +	struct rcar_cmm *rcmm = dev_get_drvdata(dev);
+> > > +	unsigned int i;
+> > > +
+> > > +	if (!(rcmm->lut.running || rcmm->lut.restore))
+> > > +		return 0;
+> > > +
+> > > +	/* Save the LUT table entries in the scratch buffer table. */
+> > > +	for (i = 0; i < rcmm->lut.size; ++i) {
+> > > +		int entry = rcar_cmm_read(rcmm, CM2_LUT_TBLA(i));
+> > > +		struct drm_color_lut *lut = &rcmm->lut.table[i];
+> > > +
+> > > +		lut->blue = entry & 0xff;
+> > > +		lut->green = (entry >> 8) & 0xff;
+> > > +		lut->red = (entry >> 16) & 0xff;
+> >
+> > Need to convert the values back to drm_color_lut scale here. I could
+> > not find a counterpart to drm_color_lut_extract(), though...
+>
+> How about storing the LUT in hardware format internally ? I wonder if we
+> should always update the cached copy, in which case rcar_cmm_lut_write()
+> could just write the LUT values from the cache.
+>
+
+Probably that's the easier, so we always write stuff already scaled
+down to the 8-bit precision the CMM supports.
+
+Thanks both
+   j
+
+> > > +	}
+> > > +
+> > > +	rcmm->lut.restore = true;
+> > > +	rcmm->lut.running = false;
+> > > +
+> > > +	rcar_cmm_write(rcmm, CM2_LUT_CTRL, 0);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int rcar_cmm_pm_resume(struct device *dev)
+> > > +{
+> > > +	struct rcar_cmm *rcmm = dev_get_drvdata(dev);
+> > > +
+> > > +	if (!rcmm->lut.restore)
+> > > +		return 0;
+> > > +
+> > > +	/* Program the LUT entries saved at suspend time. */
+> > > +	rcar_cmm_write(rcmm, CM2_LUT_CTRL, CM2_LUT_CTRL_EN);
+> > > +	rcar_cmm_lut_write(rcmm, rcmm->lut.size, rcmm->lut.table);
+> > > +	rcmm->lut.running = true;
+> > > +	rcmm->lut.restore = false;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +#endif
+> > > +
+> > > +static const struct dev_pm_ops rcar_cmm_pm_ops = {
+> > > +	SET_SYSTEM_SLEEP_PM_OPS(rcar_cmm_pm_suspend, rcar_cmm_pm_resume)
+> > > +};
+> > > +
+> > > +static int rcar_cmm_probe(struct platform_device *pdev)
+> > > +{
+> > > +	struct rcar_cmm *rcmm;
+> > > +	struct resource *res;
+> > > +	resource_size_t size;
+> > > +
+> > > +	rcmm = devm_kzalloc(&pdev->dev, sizeof(*rcmm), GFP_KERNEL);
+> > > +	if (!rcmm)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	platform_set_drvdata(pdev, rcmm);
+> > > +
+> > > +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> > > +	size = resource_size(res);
+> > > +	if (!devm_request_mem_region(&pdev->dev, res->start, size,
+> > > +				     dev_name(&pdev->dev))) {
+> > > +		dev_err(&pdev->dev,
+> > > +			"can't request region for resource %pR\n", res);
+> > > +		return -EBUSY;
+> > > +	}
+> > > +
+> > > +	rcmm->base = devm_ioremap_nocache(&pdev->dev, res->start, size);
+> > > +	if (IS_ERR(rcmm->base))
+> > > +		return PTR_ERR(rcmm->base);
+> > > +
+> > > +	rcmm->clk = devm_clk_get(&pdev->dev, NULL);
+> > > +	if (IS_ERR(rcmm->clk)) {
+> > > +		dev_err(&pdev->dev, "Failed to get CMM clock");
+> > > +		return PTR_ERR(rcmm->clk);
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static const struct of_device_id rcar_cmm_of_table[] = {
+> > > +	{ .compatible = "renesas,rcar-gen3-cmm", },
+> > > +	{ .compatible = "renesas,rcar-gen2-cmm", },
+> > > +	{ },
+> > > +};
+> > > +
+> > > +MODULE_DEVICE_TABLE(of, rcar_cmm_of_table);
+> > > +
+> > > +static struct platform_driver rcar_cmm_platform_driver = {
+> > > +	.probe		= rcar_cmm_probe,
+> > > +	.driver		= {
+> > > +		.name	= "rcar-cmm",
+> > > +		.pm	= &rcar_cmm_pm_ops,
+> > > +		.of_match_table = rcar_cmm_of_table,
+> > > +	},
+> > > +};
+> > > +
+> > > +module_platform_driver(rcar_cmm_platform_driver);
+> > > +
+> > > +MODULE_AUTHOR("Jacopo Mondi <jacopo+renesas@jmondi.org>");
+> > > +MODULE_DESCRIPTION("Renesas R-Car CMM Driver");
+> > > +MODULE_LICENSE("GPL v2");
+> > > diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.h b/drivers/gpu/drm/rcar-du/rcar_cmm.h
+> > > new file mode 100644
+> > > index 000000000000..8744e72f32cd
+> > > --- /dev/null
+> > > +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.h
+> > > @@ -0,0 +1,38 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0+ */
+> > > +/*
+> > > + * rcar_cmm.h -- R-Car Display Unit Color Management Module
+> > > + *
+> > > + * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > + */
+> > > +
+> > > +#ifndef __RCAR_CMM_H__
+> > > +#define __RCAR_CMM_H__
+> > > +
+> > > +#define CMM_GAMMA_LUT_SIZE		256
+> > > +
+> > > +struct platform_device;
+> > > +struct drm_color_lut;
+> > > +
+> > > +/**
+> > > + * struct rcar_cmm_config - CMM configuration
+> > > + *
+> > > + * @lut:	1D-LUT configuration
+> > > + * @lut.enable:	1D-LUT enable flag
+> > > + * @lut.table:	1D-LUT table entries.
+> > > + * @lut.size	1D-LUT number of entries. Max is 256.
+> > > + */
+> > > +struct rcar_cmm_config {
+> > > +	struct {
+> > > +		bool enable;
+> > > +		struct drm_color_lut *table;
+> > > +		unsigned int size;
+> > > +	} lut;
+> > > +};
+> > > +
+> > > +int rcar_cmm_enable(struct platform_device *pdev);
+> > > +void rcar_cmm_disable(struct platform_device *pdev);
+> > > +
+> > > +int rcar_cmm_setup(struct platform_device *pdev,
+> > > +		   const struct rcar_cmm_config *config);
+> > > +
+> > > +#endif /* __RCAR_CMM_H__ */
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+--udwnqrrxkfgyy2n6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1exlwACgkQcjQGjxah
+VjyKVw//QHMqG/emAzAF/E6YMjnXd93L6jGtIUDNQhdnlAs4lzSRf41TcDg1eQUZ
+bhvWfQWpp++LxGBVXPP3B+/8sGLtm0LFOjIdr3BbgK2zA+j2RSv2kCkUf5PrA6ed
+YsjtGVxYjFEY7aC8u2ra/khtVwnwwN8BUi2IEGVGDfk0OoqDzGsuYeIpkQnyayAc
+pPuVqqZSLpMRqdrQH7ZQToDtz9M9mp0KKLIR8tMZkkqVIRg/TGGSA4TWWmzjnAli
+RZAAByqDyrPYOnGri/h5pBUS9wUsj9Kvs1LQEqU291jVbIh2urHNwAModMXHuZCc
+9qzeY3TT24xlM7CcQyaC1fOZhZaugOJmSH74XOmuTnGVObnYX0d49ArY86vVh7c8
+y9iVNcRacB2r1is92W7maZGxg39qBWpHDPk2EVNislY6BwCg6grFEXszfa9njrq0
+K40OK+sAfUrVOaSkaIUxIPbkVUA9VpZ43rp+bvOux3AYYfTREOdyU0Zl2sKwCISV
+ABKteiqG64/iniqTJLB3GY5PreXcxYoc+hWoK1yFBX0x/EiffnvFP8N8Q+vtrFz+
+En5vHA+rZOdVOe6tFGJdmZNejRpbbZdkty71gh+Ia3P+xgWfMENEGwFukaEzU755
+4/vOXUCYM9b/FXNNYqgDx1AGKmDNJF0gcdR8pLUuGmJJqFFGL00=
+=THG0
+-----END PGP SIGNATURE-----
+
+--udwnqrrxkfgyy2n6--
+
+--===============0296659163==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0296659163==--
