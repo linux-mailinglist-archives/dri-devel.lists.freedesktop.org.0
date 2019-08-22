@@ -1,45 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B992999DC
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2019 19:10:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 780B099AAE
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2019 19:15:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B21DE6E9DF;
-	Thu, 22 Aug 2019 17:09:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FCC86E55F;
+	Thu, 22 Aug 2019 17:15:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id A2A2A6E9DF
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2019 17:09:55 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9F45972161; Thu, 22 Aug 2019 17:09:55 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
- when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
-Date: Thu, 22 Aug 2019 17:09:55 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: nicholas.kazlauskas@amd.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110659-502-xpRSeA4YcQ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
-References: <bug-110659-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B94156E55F
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2019 17:15:37 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 5130B28D25B;
+ Thu, 22 Aug 2019 18:15:36 +0100 (BST)
+Date: Thu, 22 Aug 2019 19:15:33 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v2 15/50] drm/bridge: tfp410: Replace manual connector
+ handling with bridge
+Message-ID: <20190822191533.468813f2@collabora.com>
+In-Reply-To: <20190822165456.GH5027@pendragon.ideasonboard.com>
+References: <20190820011721.30136-1-laurent.pinchart@ideasonboard.com>
+ <20190820011721.30136-16-laurent.pinchart@ideasonboard.com>
+ <20190822183645.0672b546@collabora.com>
+ <20190822165456.GH5027@pendragon.ideasonboard.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -53,131 +44,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1714646131=="
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Sean Paul <sean@poorly.run>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1714646131==
-Content-Type: multipart/alternative; boundary="15664937951.b8480e.19941"
-Content-Transfer-Encoding: 7bit
-
-
---15664937951.b8480e.19941
-Date: Thu, 22 Aug 2019 17:09:55 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
-
---- Comment #43 from Nicholas Kazlauskas <nicholas.kazlauskas@amd.com> ---
-Created attachment 145139
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145139&action=3Dedit
-0001-drm-amd-display-Test-patch-for-disabling-color-adjus.patch
-
-From your video it looks like something is issuing a lot of full updates. T=
-hose
-are slow enough that they can miss the current vblank window and be forced =
-to
-wait until the next one with vsync on.
-
-I've attached a debug patch you can try that should disable color adjustmen=
-ts
-from triggering full updates.
-
-I've also added some debug information to know when full updates are being
-issued in case it was something other than color management.
-
-You can view that output with log level 4, ie.
-
-echo 0x4 > /sys/module/drm/parameters/debug
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15664937951.b8480e.19941
-Date: Thu, 22 Aug 2019 17:09:55 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c43">Comme=
-nt # 43</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-nicholas.kazlauskas&#64;amd.com" title=3D"Nicholas Kazlauskas &lt;nicholas.=
-kazlauskas&#64;amd.com&gt;"> <span class=3D"fn">Nicholas Kazlauskas</span><=
-/a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145139=
-" name=3D"attach_145139" title=3D"0001-drm-amd-display-Test-patch-for-disab=
-ling-color-adjus.patch">attachment 145139</a> <a href=3D"attachment.cgi?id=
-=3D145139&amp;action=3Dedit" title=3D"0001-drm-amd-display-Test-patch-for-d=
-isabling-color-adjus.patch">[details]</a></span> <a href=3D'page.cgi?id=3Ds=
-plinter.html&amp;bug=3D110659&amp;attachment=3D145139'>[review]</a>
-0001-drm-amd-display-Test-patch-for-disabling-color-adjus.patch
-
-From your video it looks like something is issuing a lot of full updates. T=
-hose
-are slow enough that they can miss the current vblank window and be forced =
-to
-wait until the next one with vsync on.
-
-I've attached a debug patch you can try that should disable color adjustmen=
-ts
-from triggering full updates.
-
-I've also added some debug information to know when full updates are being
-issued in case it was something other than color management.
-
-You can view that output with log level 4, ie.
-
-echo 0x4 &gt; /sys/module/drm/parameters/debug</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15664937951.b8480e.19941--
-
---===============1714646131==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1714646131==--
+T24gVGh1LCAyMiBBdWcgMjAxOSAxOTo1NDo1NiArMDMwMApMYXVyZW50IFBpbmNoYXJ0IDxsYXVy
+ZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+IHdyb3RlOgoKPiBIaSBCb3JpcywKPiAKPiBP
+biBUaHUsIEF1ZyAyMiwgMjAxOSBhdCAwNjozNjo0NVBNICswMjAwLCBCb3JpcyBCcmV6aWxsb24g
+d3JvdGU6Cj4gPiBPbiBUdWUsIDIwIEF1ZyAyMDE5IDA0OjE2OjQ2ICswMzAwIExhdXJlbnQgUGlu
+Y2hhcnQgd3JvdGU6Cj4gPiAgIAo+ID4gPiBOb3cgdGhhdCBhIGRyaXZlciBpcyBhdmFpbGFibGUg
+Zm9yIGRpc3BsYXkgY29ubmVjdG9ycywgcmVwbGFjZSB0aGUKPiA+ID4gbWFudWFsIGNvbm5lY3Rv
+ciBoYW5kbGluZyBjb2RlIHdpdGggdXNhZ2Ugb2YgdGhlIERSTSBicmlkZ2UgQVBJLiBUaGUKPiA+
+ID4gdGZwNDEwIGRyaXZlciBkb2Vzbid0IGRlYWwgd2l0aCB0aGUgZGlzcGxheSBjb25uZWN0b3Ig
+ZGlyZWN0bHkgYW55bW9yZSwKPiA+ID4gYnV0IHN0aWxsIGRlbGVnYXRlcyBkcm1fY29ubmVjdG9y
+IG9wZXJhdGlvbnMgdG8gdGhlIG5leHQgYnJpZGdlLiBUaGlzCj4gPiA+IGJyaW5ncyB1cyBvbmUg
+c3RlcCBjbG9zZXIgdG8gaGF2aW5nIHRoZSB0ZnA0MTAgZHJpdmVyIGhhbmRsaW5nIHRoZQo+ID4g
+PiBURlA0MTAgb25seS4KPiA+ID4gCj4gPiA+IFNpZ25lZC1vZmYtYnk6IExhdXJlbnQgUGluY2hh
+cnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4KPiA+ID4gLS0tCj4gPiA+ICBk
+cml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RpLXRmcDQxMC5jIHwgMTk1ICsrKysrKysrKystLS0tLS0t
+LS0tLS0tLS0tLS0tCj4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgNjggaW5zZXJ0aW9ucygrKSwgMTI3
+IGRlbGV0aW9ucygtKQo+ID4gPiAKPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9i
+cmlkZ2UvdGktdGZwNDEwLmMgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RpLXRmcDQxMC5jCj4g
+PiA+IGluZGV4IDRhNDY4ZjQ0ZWY2OS4uNjU2NTFhZTZjNTUzIDEwMDY0NAo+ID4gPiAtLS0gYS9k
+cml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RpLXRmcDQxMC5jCj4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9icmlkZ2UvdGktdGZwNDEwLmMKPiA+ID4gQEAgLTQsMTQgKzQsMTIgQEAKPiA+ID4gICAq
+IEF1dGhvcjogSnlyaSBTYXJoYSA8anNhcmhhQHRpLmNvbT4KPiA+ID4gICAqLwo+ID4gPiAgCj4g
+PiA+IC0jaW5jbHVkZSA8bGludXgvZGVsYXkuaD4KPiA+ID4gLSNpbmNsdWRlIDxsaW51eC9md25v
+ZGUuaD4KPiA+ID4gICNpbmNsdWRlIDxsaW51eC9ncGlvL2NvbnN1bWVyLmg+Cj4gPiA+ICAjaW5j
+bHVkZSA8bGludXgvaTJjLmg+Cj4gPiA+IC0jaW5jbHVkZSA8bGludXgvaXJxLmg+Cj4gPiA+ICAj
+aW5jbHVkZSA8bGludXgvbW9kdWxlLmg+Cj4gPiA+ICAjaW5jbHVkZSA8bGludXgvb2ZfZ3JhcGgu
+aD4KPiA+ID4gICNpbmNsdWRlIDxsaW51eC9wbGF0Zm9ybV9kZXZpY2UuaD4KPiA+ID4gKyNpbmNs
+dWRlIDxsaW51eC93b3JrcXVldWUuaD4KPiA+ID4gIAo+ID4gPiAgI2luY2x1ZGUgPGRybS9kcm1f
+YXRvbWljX2hlbHBlci5oPgo+ID4gPiAgI2luY2x1ZGUgPGRybS9kcm1fYnJpZGdlLmg+Cj4gPiA+
+IEBAIC0yNCwxNiArMjIsMTMgQEAKPiA+ID4gIHN0cnVjdCB0ZnA0MTAgewo+ID4gPiAgCXN0cnVj
+dCBkcm1fYnJpZGdlCWJyaWRnZTsKPiA+ID4gIAlzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcgljb25uZWN0
+b3I7Cj4gPiA+IC0JdW5zaWduZWQgaW50CQljb25uZWN0b3JfdHlwZTsKPiA+ID4gIAo+ID4gPiAg
+CXUzMgkJCWJ1c19mb3JtYXQ7Cj4gPiA+IC0Jc3RydWN0IGkyY19hZGFwdGVyCSpkZGM7Cj4gPiA+
+IC0Jc3RydWN0IGdwaW9fZGVzYwkqaHBkOwo+ID4gPiAtCWludAkJCWhwZF9pcnE7Cj4gPiA+ICAJ
+c3RydWN0IGRlbGF5ZWRfd29yawlocGRfd29yazsKPiA+ID4gIAlzdHJ1Y3QgZ3Bpb19kZXNjCSpw
+b3dlcmRvd247Cj4gPiA+ICAKPiA+ID4gIAlzdHJ1Y3QgZHJtX2JyaWRnZV90aW1pbmdzIHRpbWlu
+Z3M7Cj4gPiA+ICsJc3RydWN0IGRybV9icmlkZ2UJKm5leHRfYnJpZGdlOwo+ID4gPiAgCj4gPiA+
+ICAJc3RydWN0IGRldmljZSAqZGV2Owo+ID4gPiAgfTsKPiA+ID4gQEAgLTU2LDEwICs1MSwxMCBA
+QCBzdGF0aWMgaW50IHRmcDQxMF9nZXRfbW9kZXMoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5l
+Y3RvcikKPiA+ID4gIAlzdHJ1Y3QgZWRpZCAqZWRpZDsKPiA+ID4gIAlpbnQgcmV0Owo+ID4gPiAg
+Cj4gPiA+IC0JaWYgKCFkdmktPmRkYykKPiA+ID4gKwlpZiAoIShkdmktPm5leHRfYnJpZGdlLT5v
+cHMgJiBEUk1fQlJJREdFX09QX0VESUQpKQo+ID4gPiAgCQlnb3RvIGZhbGxiYWNrOwo+ID4gPiAg
+Cj4gPiA+IC0JZWRpZCA9IGRybV9nZXRfZWRpZChjb25uZWN0b3IsIGR2aS0+ZGRjKTsKPiA+ID4g
+KwllZGlkID0gZHZpLT5uZXh0X2JyaWRnZS0+ZnVuY3MtPmdldF9lZGlkKGR2aS0+bmV4dF9icmlk
+Z2UsIGNvbm5lY3Rvcik7ICAKPiA+IAo+ID4gQ2FuIHdlIGNyZWF0ZSBhIGRybV9icmlkZ2VfZ2V0
+X2VkaWQoKSB3cmFwcGVyIGZvciB0aGF0Pwo+ID4gU29tZXRoaW5nIGxpa2U6Cj4gPiAKPiA+IGlu
+dCBkcm1fYnJpZGdlX2dldF9lZGlkKHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UsCj4gPiAJCQlz
+dHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubikKPiA+IHsKPiA+IAlpZiAoIShkdmktPm5leHRfYnJp
+ZGdlLT5vcHMgJiBEUk1fQlJJREdFX09QX0VESUQpKQo+ID4gCQlyZXR1cm4gLUVOT1RTVVBQOyAg
+Cj4gCj4gSSBhc3N1bWUgeW91IG1lYW4gRVJSX1BUUigtRU5PVFNVUFApIHdpdGggdGhlIHJldHVy
+biB0eXBlIGNoYW5nZWQgdG8KPiBzdHJ1Y3QgZHJtX2VkaWQgKi4KPiAKPiA+IAo+ID4gCXJldHVy
+biBicmlkZ2UtPmZ1bmNzLT5nZXRfZWRpZChicmlkZ2UsIGNvbm5lY3Rvcik7Cj4gPiB9ICAKPiAK
+PiBJJ3ZlIHRob3VnaHQgYWJvdXQgaXQsIGJ1dCBJJ20gbm90IHN1cmUgaXQncyB3b3J0aCBpdC4g
+VGhlc2Ugb3BlcmF0aW9ucwo+IGFyZSBub3QgbWVhbnQgdG8gYmUgY2FsbGVkIG1hbnVhbGx5IGJ5
+IGJyaWRnZXMgbGlrZSBpbiBoZXJlLiBUaGlzIGlzIGFuCj4gaW50ZXJpbSBzb2x1dGlvbiB1bnRp
+bCBzdXBwb3J0IGZvciBkcm1fY29ubmVjdG9yIGNhbiBiZSBkcm9wcGVkIGZyb20gdGhlCj4gdGZw
+NDEwIGRyaXZlciwgb25jZSBpdHMgdXNlcnMgd2lsbCBiZSBjb252ZXJ0ZWQuIERvIHlvdSB0aGlu
+ayBJIHNob3VsZAo+IHN0aWxsIGNyZWF0ZSBhIHdyYXBwZXIgKHdoaWNoIEkgd291bGQgbWFrZSBz
+dGF0aWMgaW5saW5lIHRoZW4pID8KCldlbGwsIHRoaXMgY29udmVyc2lvbiBpcyBsaWtlbHkgdG8g
+dGFrZSB0aW1lLCBub3QgdG8gbWVudGlvbiB0aGF0IG90aGVyCmRyaXZlcnMgd2lsbCBnbyB0aHJv
+dWdoIHRoZSBzYW1lIHByb2Nlc3MuIEFuZCBldmVyeSB0aW1lIGEgYnJpZGdlCmRyaXZlciBpcyBj
+b252ZXJ0ZWQsIGl0IHJlcXVpcmVzIHBhdGNoaW5nIGFsbCBkaXNwbGF5IGNvbnRyb2xsZXIgZHJp
+dmVycwp0aGF0IGFyZSBrbm93biB0byBiZSBjb25uZWN0ZWQgdG8gaXQgYmVmb3JlIHlvdSBjYW4g
+Z2V0IHJpZCBvZiB0aGlzCnRlbXBvcmFyeSBzb2x1dGlvbi4gU28geWVzLCBJIHN0aWxsIHRoaW5r
+IGl0J3Mgd29ydGggYWRkaW5nIHRob3NlCmhlbHBlcnMsIG1heWJlIHdpdGggYSBjb21tZW50IGV4
+cGxhaW5pbmcgdGhhdCB0aGV5IHNob3VsZCBvbmx5IGJlIHVzZWQKZHVyaW5nIHRoZSBjb252ZXJz
+aW9uIHBoYXNlIChJT1csIHVudGlsIHRoZSBkcml2ZXIgc3RhcnRzIHJlamVjdGluZwp0aGUgIURS
+TV9CUklER0VfQVRUQUNIX05PX0NPTk5FQ1RPUiBjYXNlKS4KCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
