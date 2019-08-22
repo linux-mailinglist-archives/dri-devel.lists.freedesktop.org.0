@@ -1,39 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68F5D9906E
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2019 12:09:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E0BC99096
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2019 12:20:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0313889155;
-	Thu, 22 Aug 2019 10:09:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECAC86EAEB;
+	Thu, 22 Aug 2019 10:20:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B60EE6E9E5
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2019 10:09:28 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:b93f:9fae:b276:a89a])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E725E28AF5B;
- Thu, 22 Aug 2019 11:09:26 +0100 (BST)
-Date: Thu, 22 Aug 2019 12:09:23 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Neil Armstrong <narmstrong@baylibre.com>
-Subject: Re: [PATCH RFC 14/19] drm/bridge: Add the necessary bits to support
- bus format negotiation
-Message-ID: <20190822120923.6b18e6dd@collabora.com>
-In-Reply-To: <3d5fb77f-7775-c01c-212c-dbfc7a9728d8@baylibre.com>
-References: <20190808151150.16336-1-boris.brezillon@collabora.com>
- <20190808151150.16336-15-boris.brezillon@collabora.com>
- <20190822005556.GB16790@pendragon.ideasonboard.com>
- <20190822094834.382a54a8@collabora.com>
- <3d5fb77f-7775-c01c-212c-dbfc7a9728d8@baylibre.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 379146EAE9;
+ Thu, 22 Aug 2019 10:20:36 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 46DgXG6J7Lz9sNC;
+ Thu, 22 Aug 2019 20:20:30 +1000 (AEST)
+Date: Thu, 22 Aug 2019 20:20:20 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Merge in the drm-intel tree
+Message-ID: <20190822202020.5c1f83e0@canb.auug.org.au>
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=canb.auug.org.au; s=201702; t=1566469232;
+ bh=40snNYPlDhecp8bE4e3VC3sN00AYuvqCywRJlpKLdEA=;
+ h=Date:From:To:Cc:Subject:From;
+ b=ljGNRTAE1S2k+70uUpg8nK0aM6AfQmN2taTN++fRfYxYhRC2V2/LaQ3TAxDApRnWt
+ pKg+6+C5yZysTCa/KmQphlDtAd5/UpI0NaHMTqmRMjNrC31yoQ3gWCNoEkn122hWE0
+ sg9Kckq0ZOJWRdgViX+LDu5SMl1g9N9G1r8I36qe2XHfo9bZGVQ7oOuUt85lhzjvuU
+ tZisgc3gPFmhl0eYuoAX04Dj/XtYo78FsN3+O2nbi0hFbjlJgTfDbHqMS50zd8oBge
+ 1UWsjy/SzU8lgPyjXB95JD4i7vczMXh1Hub9Atba8caW6XT9pCVHLCzW+SYkIh0nWu
+ HH9+Eun4uF2Xg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,104 +48,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, dri-devel@lists.freedesktop.org,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>, Chris Healy <Chris.Healy@zii.aero>,
- kernel@collabora.com, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ DRI <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0438322444=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAyMiBBdWcgMjAxOSAxMToyOTo0MCArMDIwMApOZWlsIEFybXN0cm9uZyA8bmFybXN0
-cm9uZ0BiYXlsaWJyZS5jb20+IHdyb3RlOgoKPiA+Pj4gKy8qKgo+ID4+PiArICogc3RydWN0IGRy
-bV9idXNfY2FwcyAtIGJ1cyBjYXBhYmlsaXRpZXMKPiA+Pj4gKyAqIEBzdXBwb3J0ZWRfZm10czog
-YXJyYXkgb2YgTUVESUFfQlVTX0ZNVF8gZm9ybWF0cwo+ID4+PiArICogQG51bV9zdXBwb3J0ZWRf
-Zm10czogc2l6ZSBvZiB0aGUgc3VwcG9ydGVkX2ZtdHMgYXJyYXkKPiA+Pj4gKyAqCj4gPj4+ICsg
-KiBVc2VkIGJ5IHRoZSBjb3JlIHRvIG5lZ290aWF0ZSB0aGUgYnVzIGZvcm1hdCBhdCBydW50aW1l
-Lgo+ID4+PiArICovCj4gPj4+ICtzdHJ1Y3QgZHJtX2J1c19jYXBzIHsKPiA+Pj4gKwljb25zdCB1
-MzIgKnN1cHBvcnRlZF9mbXRzOwo+ID4+PiArCXVuc2lnbmVkIGludCBudW1fc3VwcG9ydGVkX2Zt
-dHM7Cj4gPj4+ICt9Owo+ID4+PiArCj4gPj4+ICAvKioKPiA+Pj4gICAqIHN0cnVjdCBkcm1fYnJp
-ZGdlX3N0YXRlIC0gQXRvbWljIGJyaWRnZSBzdGF0ZSBvYmplY3QKPiA+Pj4gICAqIEBiYXNlOiBp
-bmhlcml0IGZyb20gJmRybV9wcml2YXRlX3N0YXRlCj4gPj4+ICAgKiBAYnJpZGdlOiB0aGUgYnJp
-ZGdlIHRoaXMgc3RhdGUgcmVmZXJzIHRvCj4gPj4+ICsgKiBAaW5wdXRfYnVzX2luZm86IGlucHV0
-IGJ1cyBpbmZvcm1hdGlvbgo+ID4+PiArICogQG91dHB1dF9idXNfaW5mbzogb3V0cHV0IGJ1cyBp
-bmZvcm1hdGlvbiAgICAKPiA+Pgo+ID4+IEkgd291bGQgbWFrZSB0aGlzIGFuIGFycmF5LCB0byBw
-cmVwYXJlIGZvciBicmlkZ2VzIHRoYXQgd2lsbCBoYXZlIG1vcmUKPiA+PiB0aGFuIG9uZSBpbnB1
-dCBvciBvbmUgb3V0cHV0LiAgCj4gPiAKPiA+IEhtLCBub3Qgc3VyZSBob3cgeW91J2QgcmVwcmVz
-ZW50IHRoYXQuIEkgZ3Vlc3MgeW91IHdhbnQgdG8gc3VwcG9ydAo+ID4gYnJpZGdlcyB0aGF0IGNh
-biBhY3RpdmF0ZSBzZXZlcmFsIGlucHV0cytvdXRwdXRzIGluIHBhcmFsbGVsLiBEbyB3ZQo+ID4g
-ZXZlbiBzdXBwb3J0IHRoYXQgcmlnaHQgbm93Pwo+ID4gQWxzbywgaG93IGRvIHdlIGxpbmsgdGhl
-IGlucHV0IHRvIHRoZSBvdXRwdXQgaW4gdGhhdCBjYXNlPyBCeSB0aGVpcgo+ID4gcG9zaXRpb24g
-aW4gdGhlIGFycmF5PyBBbmQgd2UnZCBuZWVkIGFuIGV4dHJhIGZpZWxkIGluIGJ1c19jYXBzIHRv
-Cj4gPiBwb2ludCB0byB0aGUgY29ycmVzcG9uZGluZyBicmlkZ2UgaW5wdXQvb3V0cHV0IHBvcnQu
-Cj4gPiAKPiA+IEknbSBnbGFkIHdlIGNhbiBkaXNjdXNzIGFsbCB0aG9zZSBwcm9ibGVtcywgYnV0
-IEknZCBsaWtlIHRvIGZvY3VzIG9uCj4gPiB3aGF0J3MgbmVlZGVkIHJpZ2h0IG5vdywgbm90IHdo
-YXQgY291bGQgcG90ZW50aWFsbHkgYmUgbmVlZGVkIGluIHRoZQo+ID4gZnV0dXJlLiBJZiB3ZSBj
-YW4gZGVzaWduIHRoaW5ncyB0byBiZSBtb3JlIGZ1dHVyZS1wcm9vZiB0aGF0J3MgZ3JlYXQsCj4g
-PiBidXQgaW4gbXkgZXhwZXJpZW5jZSwgdHJ5aW5nIHRvIHNvbHZlIHByb2JsZW1zIHRoYXQgZG8g
-bm90IGV4aXN0IHlldAo+ID4gb2Z0ZW4gbGVhZHMgdG8gY29tcGxleCBkZXNpZ25zIHdoaWNoIHBy
-b3ZlIHRvIGJlIHdyb25nIHdoZW4gd2UgdHJ5IHRvCj4gPiBhcHBseSB0aGVtIHRvIHJlYWwgc2l0
-dWF0aW9ucyB3aGVuIHRoZXkgZmluYWxseSBvY2N1ci4gIAo+IAo+IEkgaGFkIGEgdGhvdWdodCB3
-aGVuIGltcGxlbWVudGluZyBidXMgZm9ybWF0IG5lZ290aWF0aW9uIGZvciBkdy1oZG1pLgo+IAo+
-IERlcGVuZGluZyBvbiB0aGUgb3V0cHV0IGJ1cy1mb3JtYXQsIHdlIGNvdWxkIGhhdmUgZGlmZmVy
-ZW50IHNldHMgb2YgcG9zc2libGUKPiBpbnB1dCBkcm1fYnVzX2NhcHMuCj4gCj4gRm9yIGV4YW1w
-bGUsIGlmIG91dHB1dCBpcyBNRURJQV9CVVNfRk1UX1JHQjg4OF8xWDI0LAo+IHRoZSBpbnB1dCBi
-dXMgZm9ybWF0cyBjb3VsZCBvbmx5IGJlIE1FRElBX0JVU19GTVRfUkdCODg4XzFYMjQgb3IgTUVE
-SUFfQlVTX0ZNVF9ZVVY4XzFYMjQuCj4gU2FtZSBmb3IgTUVESUFfQlVTX0ZNVF9SR0IxMDEwMTBf
-MVgzMCwgTUVESUFfQlVTX0ZNVF9SR0IxMjEyMTJfMVgzNiwgTUVESUFfQlVTX0ZNVF9SR0IxNjE2
-MTZfMVg0OC4uLgo+IEFuZCB0aGUgc3BlY2lhbCBNRURJQV9CVVNfRk1UX1VZWVZZWThfMF81WDI0
-LCB3aGVyZSBpbnB1dCBtdXN0IGJlIG91dHB1dC4KClNvdW5kcyBleGFjdGx5IGxpa2Ugd2hhdCBM
-YXVyZW50IHdhcyBkZXNjcmliaW5nLgoKPiAKPiBIb3cgY291bGQgd2UgaGFuZGxlIHRoaXMgPyBJ
-IG1lYW4sIGNvdWxkIHdlIGhhdmUgYSBmaXhlZAo+IG91dHB1dCBkcm1fYnVzX2NhcHMgYW5kIGJl
-IGFibGUgdG8gZHluYW1pY2FsbHkgY2hhbmdlIHRoZSBpbnB1dCBkcm1fYnVzX2NhcHMgPwoKSWYg
-YWxsIG91dHB1dCBlbmRzIG9mIGJyaWRnZXMgaGF2ZSBmaXhlZCBmb3JtYXRzIChtZWFuaW5nIHRo
-YXQKc29tZXRoaW5nIHNldHMgaXQgdG8gYSBmaXhlZCB2YWx1ZSwgbGlrZSBhIERUIHByb3ApLCB0
-aGVyZSdzIG5vIG5lZWQKZm9yIG5lZ290aWF0aW9uIGF0IGFsbCwgc2luY2UgdGhlIG91dHB1dCBv
-ZiB0aGUgcHJldmlvdXMgZWxlbWVudCBpbgp0aGUgY2hhaW4gd2lsbCBmb3JjZSBpbnB1dCBmb3Jt
-YXQgb2YgdGhlIGN1cnJlbnQgZWxlbWVudC4KCj4gCj4gQWRkaW5nIG1hdHJpeCBpbiBzdHJ1Y3Qg
-ZHJtX2JyaWRnZSBzZWVtcyBvdmVyLWVuZ2luZWVyZWQsIG5vID8KCldpbGwgaGF2ZSB0byB0cnkg
-aXQgdG8gZ2l2ZSBhbiBhbnN3ZXIgdG8gdGhhdCBxdWVzdGlvbiA6KS4KCj4gU2luY2UgaXQgc2hv
-dWxkIHRha2UKPiBpbiBhY2NvdW50IHRoZSBhY3R1YWwgZHJtX2Rpc3BsYXlfbW9kZS4KClRha2lu
-ZyB0aGUgZGlzcGxheV9tb2RlIGludG8gYWNjb3VudCBpcyB5ZXQgYW5vdGhlciB0aGluZywgdGhv
-dWdoIGl0Cm1pZ2h0IGltcGFjdCB0aGUgd2F5IHdlIHdhbnQgdG8gaGFuZGxlIGJ1cy1mb3JtYXQg
-bmVnb3RpYXRpb24uIFRoZSB3YXkKSSBzZWUgaXQsIHdlIGhhdmUgMiBpc3N1ZXMgdG8gc29sdmU6
-CgoxLyBtYWtlIHN1cmUgdGhlIGF0b21pYyBtb2Rlc2V0IGRvZXMgbm90IGZhaWwgaWYgdGhlcmUn
-cyBhdCBsZWFzdCBvbmUKICAgYnVzLWZvcm1hdCBjb21iaW5hdGlvbiB0aGF0IHdvcmtzICh0aGlz
-IGlzIHdoYXQgdGhlCiAgIHN1cHBvcnRlZC10cmFuc2NvZGluZyBtYXRyaXggaXMgZm9yKQoyLyBt
-YWtlIHN1cmUgdGhhdCB3ZSBwaWNrIHRoZSBiZXN0IG9wdGlvbiBhbW9uZyBhbGwgdGhlIHBvc3Np
-YmlsaXRpZXMuCiAgIFRoYXQgcmVxdWlyZXMgZGVmaW5pbmcgd2hhdCAnYmVzdCcgbWVhbnMuIElu
-IHNvbWUgY2FzZXMgeW91IG1pZ2h0CiAgIHdhbnQgdG8gcmVkdWNlIHBvd2VyLWNvbnN1bXB0aW9u
-L2JhbmR3aWR0aCBpbiBvdGhlcnMgeW91IG1pZ2h0IHdhbnQKICAgdG8gcHJlc2VydmUgaW1hZ2Ut
-cXVhbGl0eSAocmVsYXRpdmUgdG8gdGhlIHNlbGVjdGVkIG1vZGUgb2YgY291cnNlKQoKSSBkZWNp
-ZGVkIHRvIGlnbm9yZSBwcm9ibGVtICMyIGZvciBub3csIGJ1dCB0aGF0J3MgZGVmaW5pdGVseSBz
-b21ldGhpbmcKd2Ugc2hvdWxkIHdvcmsgb24gYXQgc29tZSBwb2ludC4gUHJvYmxlbSAjMSBpcyBh
-IHByb2JsZW0gd2Ugc2hvdWxkCnNvbHZlIG5vdy4gSWYgd2UgZmluZCBhIHNvbHV0aW9uIHRoYXQg
-c29sdmVzIGJvdGggaXQncyBldmVuIGJldHRlciA6LSkuCgo+IAo+IE1heWJlIGJ5IHBhc3Npbmcg
-YSBkeW5hbWljIGlucHV0IGRybV9idXNfY2FwcyB0byBkcm1fYXRvbWljX2JyaWRnZV9jaG9vc2Vf
-aW5wdXRfYnVzX2NmZygpCj4gYW5kIHRha2UgdGhlIGRlZmF1bHQgc3RydWN0IGRybV9icmlkZ2Ug
-b25lIGlmIG5vdCBwcm92aWRlZCA/CgpJSVVDLCB5b3UgcHJvcG9zZSB0byByZXN0cmljdCB0aGUg
-c2V0IG9mIGlucHV0IGZvcm1hdHMgYmFzZWQgb24gdGhlCnNlbGVjdGVkIG91dHB1dCBmb3JtYXQg
-ZnJvbSBpbnNpZGUgdGhlIGRyaXZlciAtPmF0b21pY19jaGVjaygpCmltcGxlbWVudGF0aW9uLiBU
-aGF0J3MgYmFzaWNhbGx5IGxpa2Ugb3Blbi1jb2RpbmcgdGhlCnN1cHBvcnRlZC10cmFuc2NvZGlu
-ZyBtYXRyaXg6IHlvdSdsbCBoYXZlIHRvIGhhdmUgYSBsaXN0IG9mIHN1cHBvcnRlZAppbnB1dCBm
-b3JtYXRzIGZvciBlYWNoIG91dHB1dCBmb3JtYXQgKG9yIHNldCBvZiBvdXRwdXQgZm9ybWF0cyks
-IHJpZ2h0PwoKTm90ZSB0aGF0IHdlIGNvdWxkIGltcGxlbWVudCB0aGUgc3VwcG9ydGVkLXRyYW5z
-Y29kaW5nIHRoaW5nIHdpdGggYSBob29rCmluc3RlYWQgb2YgYSBtYXRyaXgsIGJ1dCwgbm8gbWF0
-dGVyIHRoZSBzb2x1dGlvbiB3ZSBwaWNrLCBpdCB3aWxsIGFsd2F5cwpiZSBzb21ldGhpbmcgdGhh
-dCBjYW4gYW5zd2VyIHRoaXMgcXVlc3Rpb24gImlzIGJyaWRnZSBYIGFibGUgdG8gY29udmVydApp
-bnB1dCBmb3JtYXQgQSBpbnRvIG91dHB1dCBmb3JtYXQgQj8iLgoKVGhlIG5pY2UgdGhpbmcgYWJv
-dXQgaGF2aW5nIHRoZSB0cmFuc2NvZGluZyBtYXRyaXggY2FsY3VsYXRlZCBhdCBhdHRhY2gKdGlt
-ZSBpcyB0aGF0IHlvdSByZWplY3QgY29tYmluYXRpb25zIHRoYXQgYXJlIG5vdCBwb3NzaWJsZSBl
-YXJseSBpbnN0ZWFkCm9mIGhhdmluZyB0byBkbyB0aGlzIHdvcmsgYXQgZWFjaCBhdG9taWNfY2hl
-Y2soKS4gQWxzbywgaWYgeW91J3JlIG5vdApyZWplY3RpbmcgaW1wb3NzaWJsZSBjb21iaW5hdGlv
-bnMgZWFybHksIEkgdGhpbmsgeW91IHN0aWxsIGhhdmUgdGhlCnByb2JsZW0gTGF1cmVudCB3YXMg
-dGFsa2luZyBhYm91dCB3aGVuIHlvdSBoYXZlIG1vcmUgdGhhbiAyIGVsZW1lbnRzIGluCnRoZSBj
-aGFpbi4KCj4gVGhpcyB3b3VsZCByZWFsbHkgc2ltcGxpZnkgdGhlIGJyaWRnZSBhdG9taWNfY2hl
-Y2sgaW1wbGVtZW50YXRpb24gYnkgcmV1c2luZwo+IHRoZSBkcm1fYXRvbWljX2JyaWRnZV9jaG9v
-c2VfKigpIGZ1bmN0aW9ucy4KPiAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbA==
+--===============0438322444==
+Content-Type: multipart/signed; boundary="Sig_/8_2WD78wXEqMeJD556FmXUy";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/8_2WD78wXEqMeJD556FmXUy
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi all,
+
+I noticed that the drm tree has been back merge into the drm-intel
+tree.  Unfortunately, it seems that the file
+drivers/gpu/drm/i915/i915_gem_batch_pool.c has been resurrected.
+
+It was removed in commit
+
+  b40d73784ffc ("drm/i915: Replace struct_mutex for batch pool serialisatio=
+n")
+
+but has come back due to a conflict with commit
+
+  52791eeec1d9 ("dma-buf: rename reservation_object to dma_resv")
+
+from the drm tree.
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/8_2WD78wXEqMeJD556FmXUy
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl1ebGUACgkQAVBC80lX
+0GwPJgf/Xi+vrBQ6HAKEOclLz5V4XqQqvo1+Iuebfo7ZAlu8qmKAfjuSZri0a9pH
+dCER1doC45xJxz/PchmoPbgzU08ksZsYmI8Py/ACPqgJ3zJh64Y9anMtty8xNvjT
+fRcLzip027NOwokyzNInsEH8HcRgLkFoh5DgssapKhl5Vr2MSKdTggzsa5P8Hh08
+j9ruySyME+hOGr39cPwnkBNnIoKUthG9up+WIVTyno6Xp6W7NiJB+FayIhQNdlvn
+yZm+xzcVcw4N+7tYGpblgzAvc3rlcaJla2QhQi9qrZbtxXTgP+tZ3PhVxWUbMaFk
+PRn4VGOdYUJdbOjceu/AmfnjwEjXYQ==
+=dKms
+-----END PGP SIGNATURE-----
+
+--Sig_/8_2WD78wXEqMeJD556FmXUy--
+
+--===============0438322444==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0438322444==--
