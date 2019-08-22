@@ -1,36 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B1599E69
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2019 20:02:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EFA499E80
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2019 20:14:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B0A16E9F0;
-	Thu, 22 Aug 2019 18:02:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70D1D6E9FF;
+	Thu, 22 Aug 2019 18:14:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E00376E9F0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2019 18:02:52 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 560BF28D256;
- Thu, 22 Aug 2019 19:02:51 +0100 (BST)
-Date: Thu, 22 Aug 2019 20:02:47 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2 13/50] drm/bridge: panel: Implement bridge connector
- operations
-Message-ID: <20190822200247.13ce7d72@collabora.com>
-In-Reply-To: <20190822163524.GE5027@pendragon.ideasonboard.com>
-References: <20190820011721.30136-1-laurent.pinchart@ideasonboard.com>
- <20190820011721.30136-14-laurent.pinchart@ideasonboard.com>
- <20190822182909.0073e6a2@collabora.com>
- <20190822163524.GE5027@pendragon.ideasonboard.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1F9756E9FF
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2019 18:14:45 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 187B2721AA; Thu, 22 Aug 2019 18:14:45 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
+ when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
+Date: Thu, 22 Aug 2019 18:14:45 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: tempel.julian@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110659-502-zj1Jftk9dV@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
+References: <bug-110659-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -44,88 +53,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Sean Paul <sean@poorly.run>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0390815990=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAyMiBBdWcgMjAxOSAxOTozNToyNCArMDMwMApMYXVyZW50IFBpbmNoYXJ0IDxsYXVy
-ZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+IHdyb3RlOgoKPiBIaSBCb3JpcywKPiAKPiBP
-biBUaHUsIEF1ZyAyMiwgMjAxOSBhdCAwNjoyOTowOVBNICswMjAwLCBCb3JpcyBCcmV6aWxsb24g
-d3JvdGU6Cj4gPiBPbiBUdWUsIDIwIEF1ZyAyMDE5IDA0OjE2OjQ0ICswMzAwIExhdXJlbnQgUGlu
-Y2hhcnQgd3JvdGU6Cj4gPiAgIAo+ID4gPiBJbXBsZW1lbnQgdGhlIG5ld2x5IGFkZGVkIGJyaWRn
-ZSBjb25uZWN0b3Igb3BlcmF0aW9ucywgYWxsb3dpbmcgdGhlCj4gPiA+IHVzYWdlIG9mIGRybV9i
-cmlkZ2VfcGFuZWwgd2l0aCBkcm1fYnJpZGdlX2Nvbm5lY3Rvci4KPiA+ID4gCj4gPiA+IFNpZ25l
-ZC1vZmYtYnk6IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJk
-LmNvbT4KPiA+ID4gLS0tCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3BhbmVsLmMgfCAx
-OCArKysrKysrKysrKysrKysrKy0KPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxNyBpbnNlcnRpb25z
-KCspLCAxIGRlbGV0aW9uKC0pCj4gPiA+IAo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL2JyaWRnZS9wYW5lbC5jIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9wYW5lbC5jCj4gPiA+
-IGluZGV4IGY1YjhlNTUzMDFhYy4uMWM3ZjViNjQ4ZjA1IDEwMDY0NAo+ID4gPiAtLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vYnJpZGdlL3BhbmVsLmMKPiA+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2Jy
-aWRnZS9wYW5lbC5jCj4gPiA+IEBAIC02MCw3ICs2MCw3IEBAIHN0YXRpYyBpbnQgcGFuZWxfYnJp
-ZGdlX2F0dGFjaChzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlLAo+ID4gPiAgCWludCByZXQ7Cj4g
-PiA+ICAKPiA+ID4gIAlpZiAoZmxhZ3MgJiBEUk1fQlJJREdFX0FUVEFDSF9OT19DT05ORUNUT1Ip
-Cj4gPiA+IC0JCXJldHVybiAtRUlOVkFMOwo+ID4gPiArCQlyZXR1cm4gMDsKPiA+ID4gIAo+ID4g
-PiAgCWlmICghYnJpZGdlLT5lbmNvZGVyKSB7Cj4gPiA+ICAJCURSTV9FUlJPUigiTWlzc2luZyBl
-bmNvZGVyXG4iKTsKPiA+ID4gQEAgLTEyMyw2ICsxMjMsMTggQEAgc3RhdGljIHZvaWQgcGFuZWxf
-YnJpZGdlX3Bvc3RfZGlzYWJsZShzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlKQo+ID4gPiAgCWRy
-bV9wYW5lbF91bnByZXBhcmUocGFuZWxfYnJpZGdlLT5wYW5lbCk7Cj4gPiA+ICB9Cj4gPiA+ICAK
-PiA+ID4gK3N0YXRpYyBpbnQgcGFuZWxfYnJpZGdlX2dldF9tb2RlcyhzdHJ1Y3QgZHJtX2JyaWRn
-ZSAqYnJpZGdlLAo+ID4gPiArCQkJCSAgc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvcikK
-PiA+ID4gK3sKPiA+ID4gKwlzdHJ1Y3QgcGFuZWxfYnJpZGdlICpwYW5lbF9icmlkZ2UgPSBkcm1f
-YnJpZGdlX3RvX3BhbmVsX2JyaWRnZShicmlkZ2UpOwo+ID4gPiArCj4gPiA+ICsJLyoKPiA+ID4g
-KwkgKiBGSVhNRTogZHJtX3BhbmVsX2dldF9tb2RlcygpIHNob3VsZCB0YWtlIHRoZSBjb25uZWN0
-b3IgYXMgYW4KPiA+ID4gKwkgKiBhcmd1bWVudC4KPiA+ID4gKwkgKi8KPiA+ID4gKwlyZXR1cm4g
-ZHJtX3BhbmVsX2dldF9tb2RlcyhwYW5lbF9icmlkZ2UtPnBhbmVsKTsKPiA+ID4gK30KPiA+ID4g
-Kwo+ID4gPiAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fYnJpZGdlX2Z1bmNzIHBhbmVsX2JyaWRn
-ZV9icmlkZ2VfZnVuY3MgPSB7Cj4gPiA+ICAJLmF0dGFjaCA9IHBhbmVsX2JyaWRnZV9hdHRhY2gs
-Cj4gPiA+ICAJLmRldGFjaCA9IHBhbmVsX2JyaWRnZV9kZXRhY2gsCj4gPiA+IEBAIC0xMzAsNiAr
-MTQyLDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fYnJpZGdlX2Z1bmNzIHBhbmVsX2JyaWRn
-ZV9icmlkZ2VfZnVuY3MgPSB7Cj4gPiA+ICAJLmVuYWJsZSA9IHBhbmVsX2JyaWRnZV9lbmFibGUs
-Cj4gPiA+ICAJLmRpc2FibGUgPSBwYW5lbF9icmlkZ2VfZGlzYWJsZSwKPiA+ID4gIAkucG9zdF9k
-aXNhYmxlID0gcGFuZWxfYnJpZGdlX3Bvc3RfZGlzYWJsZSwKPiA+ID4gKwkuZ2V0X21vZGVzID0g
-cGFuZWxfYnJpZGdlX2dldF9tb2RlcywKPiA+ID4gIH07Cj4gPiA+ICAKPiA+ID4gIC8qKgo+ID4g
-PiBAQCAtMTc1LDYgKzE4OCw5IEBAIHN0cnVjdCBkcm1fYnJpZGdlICpkcm1fcGFuZWxfYnJpZGdl
-X2FkZChzdHJ1Y3QgZHJtX3BhbmVsICpwYW5lbCwKPiA+ID4gICNpZmRlZiBDT05GSUdfT0YKPiA+
-ID4gIAlwYW5lbF9icmlkZ2UtPmJyaWRnZS5vZl9ub2RlID0gcGFuZWwtPmRldi0+b2Zfbm9kZTsK
-PiA+ID4gICNlbmRpZgo+ID4gPiArCXBhbmVsX2JyaWRnZS0+YnJpZGdlLm9wcyA9IERSTV9CUklE
-R0VfT1BfTU9ERVM7Cj4gPiA+ICsJLyogRklYTUU6IFRoZSBwYW5lbCBzaG91bGQgcmVwb3J0IGl0
-cyB0eXBlLiAqLwo+ID4gPiArCXBhbmVsX2JyaWRnZS0+YnJpZGdlLnR5cGUgPSBEUk1fTU9ERV9D
-T05ORUNUT1JfRFBJOyAgCj4gPiAKPiA+IFNob3VsZG4ndCB3ZSBwYXRjaCBhbGwgcGFuZWwgZHJp
-dmVycyB0byBleHBvc2UgdGhpcyB0eXBlIGJlZm9yZSBkb2luZwo+ID4gdGhpcyBjaGFuZ2U/IEkg
-bWVhbiwgdGhlIGNvbm5lY3RvciB0eXBlIGlzIGV4cG9zZWQgdG8gdXNlcnNwYWNlLCBhbmQgSQo+
-ID4gd291bGRuJ3QgYmUgc3VycHJpc2VkIGlmIHNvbWUgdXNlcnNwYWNlIGFwcHMvbGlicyBkZWNp
-ZGVkIHRvIGJhc2UgdGhlaXIKPiA+IG91dHB1dCBzZWxlY3Rpb24gbG9naWMgb24gdGhpcyBmaWVs
-ZC4gIAo+IAo+IE5vdGUgdGhhdCB0aGlzIHR5cGUgd2lsbCBvbmx5IG1ha2UgaXQgdG8gdXNlcnNw
-YWNlIGZvciBkcml2ZXJzIHRoYXQgdXNlCj4gdGhlIGJyaWRnZS0+dHlwZSBmaWVsZCwgbGlrZWx5
-IHRocm91Z2ggdGhlIGRybSBicmlkZ2UgY29ubmVjdG9yIGhlbHBlci4KPiBJIGRvIGFncmVlIHRo
-YXQgcGFuZWwgZHJpdmVycyBzaG91bGQgYmUgdXBkYXRlZCwgYnV0IGdpdmVuIHRoZSBudW1iZXIg
-b2YKPiBwYW5lbHMgaW4gcGFuZWwtc2ltcGxlIGFuZCB0aGUgZmFjdCB0aGF0IHRoZSBpbmZvcm1h
-dGlvbiB3b3VsZCBuZWVkIHRvCj4gYmUgcmVzZWFyY2hlZCBmb3IgbW9zdCBvZiB0aGVtLCB0aGlz
-IHdpbGwgYmUgc2lnbmlmaWNhbnQgd29yay4gQ2FuJ3QKPiB0aGlzIGJlIGRvbmUgd2hlbiBjb252
-ZXJ0aW5nIGRpc3BsYXkgY29udHJvbGxlciBkcml2ZXJzIG9uIGEgbmVlZCBiYXNpcwo+ID8KCkkg
-dGhpbmsgc2V0dGluZyBhIGRlZmF1bHQgdmFsdWUgYW5kIGZpeGluZyB0aGluZ3Mgb24gYSBuZWVk
-IGJhc2lzIGlzCm9rYXksIGJ1dCB0aGF0IGRvZXNuJ3QgcHJldmVudCB5b3UgZnJvbSBhZGRpbmcg
-dGhlIG5lY2Vzc2FyeQppbmZyYXN0cnVjdHVyZSB0byBsZXQgcGFuZWwgZHJpdmVycyBwYXNzIHRo
-aXMgdHlwZSAod2UgY2FuIGZhbGxiYWNrIHRvIGEKZGVmYXVsdCB0eXBlIGluIHBhbmVsIGRyaXZl
-cnMgaW5zdGVhZCBvZiBoZXJlKS4gSSdtIGFsc28gbm90IHN1cmUgd2h5CidEUEknIGlzIGNob3Nl
-biBhcyB0aGUgZGVmYXVsdCwgc2hvdWxkbid0IHdlIHVzZSAnVW5rbm93bicgaW5zdGVhZD8KCj4g
-Cj4gT3IgbWF5YmUgd2UgY291bGQsIGFzIGFuIGludGVyaW0gbWVhc3VyZSwgZGVyaXZlIHRoZSB0
-eXBlIGZyb20gdGhlIGJ1cwo+IGZvcm1hdHMgcmVwb3J0ZWQgYnkgdGhlIHBhbmVsIGlmIHRoZSBw
-YW5lbCB0eXBlIGlzIG5vdCBzZXQgPyBJZiB0aGUKPiBwYW5lbCByZXBvcnRzIE1FRElBX0JVU19G
-TVRfUkdCNjY2XzFYN1gzX1NQV0csCj4gTUVESUFfQlVTX0ZNVF9SR0I2NjZfMVg3WDRfU1BXRyBv
-ciBNRURJQV9CVVNfRk1UX1JHQjg4OF8xWDdYNF9KRUlEQSB0aGVuCj4gd2UgY2FuIHNldCB0aGUg
-dHlwZSB0byBMVkRTLCBvdGhlcndpc2Ugd2Ugc2V0IGl0IHRvIERQSS4KCkhtLCBhcmVuJ3Qgd2Ug
-YmV0dGVyIG9mZiBwYXRjaGluZyBwYW5lbCBkZXNjcyBleHBvc2luZyB0aGVzZSBidXMgZm9ybWF0
-cwp0byBhbHNvIGV4cGxpY2l0bHkgc2V0IGRlc2MtPnR5cGUgdG8gTFZEUywgbGVhdmluZyBvdGhl
-cnMgdG8gVW5rbm93bgooVW5rbm93biBpcyAwLCBzbyB5b3UgZG9uJ3QgaGF2ZSB0byBwYXRjaCBh
-bGwgcGFuZWxfZGVzYyBkZWZpbml0aW9ucyk/Cgo+IEkgY2FuIHN1Ym1pdCBhCj4gcGF0Y2ggdG8g
-YWRkIGEgdHlwZSBmaWVsZCB0byB0aGUgcGFuZWwgc3RydWN0dXJlIGFuZCBpbXBsZW1lbnQgdGhp
-cwo+IGxvZ2ljLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0390815990==
+Content-Type: multipart/alternative; boundary="15664976850.de47c7.29706"
+Content-Transfer-Encoding: 7bit
+
+
+--15664976850.de47c7.29706
+Date: Thu, 22 Aug 2019 18:14:45 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
+
+--- Comment #44 from tempel.julian@gmail.com ---
+I applied the patch to linux 5.2 (among
+0001-drm-amd-display-Allow-fast-updates-again-for-swappin.patch) and as
+expected, gamma adjustments have stopped working.
+Unfortunately, the games still show the issue.
+
+Should the debug information be contained in dmesg? After doing
+echo 0x4 > /sys/module/drm/parameters/debug
+and starting Hitman 2, there don't seem to be any comprehensive debug
+information inside the dmesg log, at least not to my layman eyes (attaching
+right now nonetheless).
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15664976850.de47c7.29706
+Date: Thu, 22 Aug 2019 18:14:45 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c44">Comme=
+nt # 44</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
+ulian&#64;gmail.com</a>
+</span></b>
+        <pre>I applied the patch to linux 5.2 (among
+0001-drm-amd-display-Allow-fast-updates-again-for-swappin.patch) and as
+expected, gamma adjustments have stopped working.
+Unfortunately, the games still show the issue.
+
+Should the debug information be contained in dmesg? After doing
+echo 0x4 &gt; /sys/module/drm/parameters/debug
+and starting Hitman 2, there don't seem to be any comprehensive debug
+information inside the dmesg log, at least not to my layman eyes (attaching
+right now nonetheless).</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15664976850.de47c7.29706--
+
+--===============0390815990==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0390815990==--
