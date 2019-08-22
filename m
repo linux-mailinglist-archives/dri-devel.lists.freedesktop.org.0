@@ -1,45 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E55D99E81
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2019 20:15:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BB3699E86
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2019 20:17:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 397B16E9F5;
-	Thu, 22 Aug 2019 18:15:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 079786E9F9;
+	Thu, 22 Aug 2019 18:17:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2ED546E9F5
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2019 18:15:35 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 2BDFC72161; Thu, 22 Aug 2019 18:15:35 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
- when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
-Date: Thu, 22 Aug 2019 18:15:35 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tempel.julian@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110659-502-06ZA3JfqhE@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
-References: <bug-110659-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A1F26E9F9
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2019 18:17:26 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 0CE4928D3E4;
+ Thu, 22 Aug 2019 19:17:25 +0100 (BST)
+Date: Thu, 22 Aug 2019 20:17:22 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v2 16/50] drm/bridge: tfp410: Allow operation without
+ drm_connector
+Message-ID: <20190822201722.39dbbd7c@collabora.com>
+In-Reply-To: <20190820011721.30136-17-laurent.pinchart@ideasonboard.com>
+References: <20190820011721.30136-1-laurent.pinchart@ideasonboard.com>
+ <20190820011721.30136-17-laurent.pinchart@ideasonboard.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -53,95 +43,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1426940249=="
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Sean Paul <sean@poorly.run>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1426940249==
-Content-Type: multipart/alternative; boundary="15664977351.6B0BbC3Ae.30863"
-Content-Transfer-Encoding: 7bit
-
-
---15664977351.6B0BbC3Ae.30863
-Date: Thu, 22 Aug 2019 18:15:35 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
-
---- Comment #45 from tempel.julian@gmail.com ---
-Created attachment 145140
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145140&action=3Dedit
-new dmesg log with debug patch applied after starting Hitman 2
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15664977351.6B0BbC3Ae.30863
-Date: Thu, 22 Aug 2019 18:15:35 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c45">Comme=
-nt # 45</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
-ulian&#64;gmail.com</a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145140=
-" name=3D"attach_145140" title=3D"new dmesg log with debug patch applied af=
-ter starting Hitman 2">attachment 145140</a> <a href=3D"attachment.cgi?id=
-=3D145140&amp;action=3Dedit" title=3D"new dmesg log with debug patch applie=
-d after starting Hitman 2">[details]</a></span>
-new dmesg log with debug patch applied after starting Hitman 2</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15664977351.6B0BbC3Ae.30863--
-
---===============1426940249==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1426940249==--
+T24gVHVlLCAyMCBBdWcgMjAxOSAwNDoxNjo0NyArMDMwMApMYXVyZW50IFBpbmNoYXJ0IDxsYXVy
+ZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+IHdyb3RlOgoKPiBUaGUgdGZwNDEwIGRyaXZl
+ciBjYW4gb3BlcmF0ZSBhcyBwYXJ0IG9mIGEgcGlwZWxpbmUgd2hlcmUgdGhlCj4gZHJtX2Nvbm5l
+Y3RvciBpcyBjcmVhdGVkIGJ5IHRoZSBkaXNwbGF5IGNvbnRyb2xsZXIuIEVuYWJsZSB0aGlzIG1v
+ZGUgb2YKPiBvcGVyYXRpb24gYnkgc2tpcHBpbmcgY3JlYXRpb24gb2YgYSBkcm1fY29ubmVjdG9y
+IGludGVybmFsbHkuCj4gCj4gU2lnbmVkLW9mZi1ieTogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVu
+dC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPgoKUmV2aWV3ZWQtYnk6IEJvcmlzIEJyZXppbGxv
+biA8Ym9yaXMuYnJlemlsbG9uQGNvbGxhYm9yYS5jb20+Cgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9k
+cm0vYnJpZGdlL3RpLXRmcDQxMC5jIHwgMiArLQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
+b24oKyksIDEgZGVsZXRpb24oLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Jy
+aWRnZS90aS10ZnA0MTAuYyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGktdGZwNDEwLmMKPiBp
+bmRleCA2NTY1MWFlNmM1NTMuLjE2Y2M4YWJlMzI2MiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vYnJpZGdlL3RpLXRmcDQxMC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90
+aS10ZnA0MTAuYwo+IEBAIC0xMzMsNyArMTMzLDcgQEAgc3RhdGljIGludCB0ZnA0MTBfYXR0YWNo
+KHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UsCj4gIAkJcmV0dXJuIHJldDsKPiAgCj4gIAlpZiAo
+ZmxhZ3MgJiBEUk1fQlJJREdFX0FUVEFDSF9OT19DT05ORUNUT1IpCj4gLQkJcmV0dXJuIC1FSU5W
+QUw7Cj4gKwkJcmV0dXJuIDA7Cj4gIAo+ICAJaWYgKCFicmlkZ2UtPmVuY29kZXIpIHsKPiAgCQlk
+ZXZfZXJyKGR2aS0+ZGV2LCAiTWlzc2luZyBlbmNvZGVyXG4iKTsKCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
