@@ -2,33 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50E30998D7
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2019 18:11:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83E24998F9
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2019 18:17:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1600F6E536;
-	Thu, 22 Aug 2019 16:11:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D5656E54C;
+	Thu, 22 Aug 2019 16:17:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B28B6E536
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2019 16:11:04 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E1E4E28D1E4;
- Thu, 22 Aug 2019 17:11:02 +0100 (BST)
-Date: Thu, 22 Aug 2019 18:11:00 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2 14/50] drm/bridge: tfp410: Don't include drmP.h
-Message-ID: <20190822181100.406b9557@collabora.com>
-In-Reply-To: <20190820011721.30136-15-laurent.pinchart@ideasonboard.com>
-References: <20190820011721.30136-1-laurent.pinchart@ideasonboard.com>
- <20190820011721.30136-15-laurent.pinchart@ideasonboard.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E82646E53E
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2019 16:17:07 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id DFF3972161; Thu, 22 Aug 2019 16:17:07 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110865] Rx480 consumes 20w more power in idle than under Windows
+Date: Thu, 22 Aug 2019 16:17:08 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: enhancement
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
+Message-ID: <bug-110865-502-CYRBCtdtM7@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110865-502@http.bugs.freedesktop.org/>
+References: <bug-110865-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -42,43 +52,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Sean Paul <sean@poorly.run>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1907259546=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMCBBdWcgMjAxOSAwNDoxNjo0NSArMDMwMApMYXVyZW50IFBpbmNoYXJ0IDxsYXVy
-ZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+IHdyb3RlOgoKPiBUaGUgZHJtUC5oIGhlYWRl
-ciBpcyBkZXByZWNhdGVkLCByZXBsYWNlIGl0IHdpdGggdGhlIGhlYWRlcnMKPiBzcGVjaWZpY2Fs
-bHkgbmVlZGVkIGJ5IHRoZSB0ZnA0MTAgZHJpdmVyLiBXaGlsZSBhdCBpdCwgcmVwbGFjZSB0aGUg
-RFJNCj4gcHJpbnQgbWFjcm9zIHdpdGggZGV2X2luZm8oKSBhbmQgZGV2X2VycigpIGluc3RlYWQg
-b2YgaW5jbHVkaW5nCj4gZHJtX3ByaW50LmgKCkxvb2tzIGxpa2UgZHJtX3ByaW50LmggaXMgc3Rp
-bGwgaW5jbHVkZWQuCgo+IAo+IFNpZ25lZC1vZmYtYnk6IExhdXJlbnQgUGluY2hhcnQgPGxhdXJl
-bnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2Jy
-aWRnZS90aS10ZnA0MTAuYyB8IDYgKysrKy0tCj4gIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlv
-bnMoKyksIDIgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9i
-cmlkZ2UvdGktdGZwNDEwLmMgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RpLXRmcDQxMC5jCj4g
-aW5kZXggYTkzNTkwMzhmN2RjLi40YTQ2OGY0NGVmNjkgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2JyaWRnZS90aS10ZnA0MTAuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uv
-dGktdGZwNDEwLmMKPiBAQCAtMTQsNiArMTQsNyBAQAo+ICAjaW5jbHVkZSA8bGludXgvcGxhdGZv
-cm1fZGV2aWNlLmg+Cj4gIAo+ICAjaW5jbHVkZSA8ZHJtL2RybV9hdG9taWNfaGVscGVyLmg+Cj4g
-KyNpbmNsdWRlIDxkcm0vZHJtX2JyaWRnZS5oPgo+ICAjaW5jbHVkZSA8ZHJtL2RybV9jcnRjLmg+
-Cj4gICNpbmNsdWRlIDxkcm0vZHJtX3ByaW50Lmg+Cj4gICNpbmNsdWRlIDxkcm0vZHJtX3Byb2Jl
-X2hlbHBlci5oPgo+IEBAIC02MCw3ICs2MSw4IEBAIHN0YXRpYyBpbnQgdGZwNDEwX2dldF9tb2Rl
-cyhzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yKQo+ICAKPiAgCWVkaWQgPSBkcm1fZ2V0
-X2VkaWQoY29ubmVjdG9yLCBkdmktPmRkYyk7Cj4gIAlpZiAoIWVkaWQpIHsKPiAtCQlEUk1fSU5G
-TygiRURJRCByZWFkIGZhaWxlZC4gRmFsbGJhY2sgdG8gc3RhbmRhcmQgbW9kZXNcbiIpOwo+ICsJ
-CWRldl9pbmZvKGR2aS0+ZGV2LAo+ICsJCQkgIkVESUQgcmVhZCBmYWlsZWQuIEZhbGxiYWNrIHRv
-IHN0YW5kYXJkIG1vZGVzXG4iKTsKPiAgCQlnb3RvIGZhbGxiYWNrOwo+ICAJfQo+ICAKPiBAQCAt
-MzY0LDcgKzM2Niw3IEBAIHN0YXRpYyBpbnQgdGZwNDEwX2luaXQoc3RydWN0IGRldmljZSAqZGV2
-LCBib29sIGkyYykKPiAgCQkJSVJRRl9UUklHR0VSX0ZBTExJTkcgfCBJUlFGX09ORVNIT1QsCj4g
-IAkJCSJoZG1pLWhwZCIsIGR2aSk7Cj4gIAkJaWYgKHJldCkgewo+IC0JCQlEUk1fRVJST1IoImZh
-aWxlZCB0byByZWdpc3RlciBocGQgaW50ZXJydXB0XG4iKTsKPiArCQkJZGV2X2VycihkZXYsICJm
-YWlsZWQgdG8gcmVnaXN0ZXIgaHBkIGludGVycnVwdFxuIik7Cj4gIAkJCWdvdG8gZmFpbDsKPiAg
-CQl9Cj4gIAl9CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1907259546==
+Content-Type: multipart/alternative; boundary="15664906270.a1E6.9788"
+Content-Transfer-Encoding: 7bit
+
+
+--15664906270.a1E6.9788
+Date: Thu, 22 Aug 2019 16:17:07 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110865
+
+Alex Deucher <alexdeucher@gmail.com> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+ Attachment #144983|0                           |1
+        is obsolete|                            |
+
+--- Comment #16 from Alex Deucher <alexdeucher@gmail.com> ---
+Created attachment 145136
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145136&action=3Dedit
+fix DC code
+
+Can you try this patch along with attachment 144978?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15664906270.a1E6.9788
+Date: Thu, 22 Aug 2019 16:17:07 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:alexdeuch=
+er&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.com&gt;">=
+ <span class=3D"fn">Alex Deucher</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865">bug 11086=
+5</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Attachment #144983 is obsolete</=
+td>
+           <td>
+               &nbsp;
+           </td>
+           <td>1
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865#c16">Comme=
+nt # 16</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865">bug 11086=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
+com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145136=
+" name=3D"attach_145136" title=3D"fix DC code">attachment 145136</a> <a hre=
+f=3D"attachment.cgi?id=3D145136&amp;action=3Dedit" title=3D"fix DC code">[d=
+etails]</a></span> <a href=3D'page.cgi?id=3Dsplinter.html&amp;bug=3D110865&=
+amp;attachment=3D145136'>[review]</a>
+fix DC code
+
+Can you try this patch along with <span class=3D""><a href=3D"attachment.cg=
+i?id=3D144978" name=3D"attach_144978" title=3D"possible fix">attachment 144=
+978</a> <a href=3D"attachment.cgi?id=3D144978&amp;action=3Dedit" title=3D"p=
+ossible fix">[details]</a></span> <a href=3D'page.cgi?id=3Dsplinter.html&am=
+p;bug=3D110865&amp;attachment=3D144978'>[review]</a>?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15664906270.a1E6.9788--
+
+--===============1907259546==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1907259546==--
