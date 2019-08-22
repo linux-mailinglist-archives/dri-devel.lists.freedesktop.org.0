@@ -2,33 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C804999B2
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2019 19:00:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8D46999B3
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2019 19:00:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BE046E54E;
-	Thu, 22 Aug 2019 17:00:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DA5D6E556;
+	Thu, 22 Aug 2019 17:00:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8ECF6E54E
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2019 17:00:16 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 39C4528D21C;
- Thu, 22 Aug 2019 18:00:15 +0100 (BST)
-Date: Thu, 22 Aug 2019 19:00:11 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2 34/50] drm/omap: Create connector for bridges
-Message-ID: <20190822190011.6030579d@collabora.com>
-In-Reply-To: <20190820011721.30136-35-laurent.pinchart@ideasonboard.com>
-References: <20190820011721.30136-1-laurent.pinchart@ideasonboard.com>
- <20190820011721.30136-35-laurent.pinchart@ideasonboard.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5CC266E55C
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2019 17:00:27 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 4DDC1721AA; Thu, 22 Aug 2019 17:00:27 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
+ when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
+Date: Thu, 22 Aug 2019 17:00:27 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: tempel.julian@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110659-502-u8BLNyPfVF@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
+References: <bug-110659-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -42,52 +53,248 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Sean Paul <sean@poorly.run>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1340351897=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMCBBdWcgMjAxOSAwNDoxNzowNSArMDMwMApMYXVyZW50IFBpbmNoYXJ0IDxsYXVy
-ZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+IHdyb3RlOgoKPiBVc2UgdGhlIGRybV9icmlk
-Z2VfY29ubmVjdG9yIGhlbHBlciB0byBjcmVhdGUgYSBjb25uZWN0b3IgZm9yIHBpcGVsaW5lcwo+
-IHRoYXQgdXNlIGRybV9icmlkZ2UuIFRoaXMgYWxsb3dzIHNwbGl0dGluZyBjb25uZWN0b3Igb3Bl
-cmF0aW9ucyBhY3Jvc3MKPiBtdWx0aXBsZSBicmlkZ2VzIHdoZW4gbmVjZXNzYXJ5LCBpbnN0ZWFk
-IG9mIGhhdmluZyB0aGUgbGFzdCBicmlkZ2UgaW4KPiB0aGUgY2hhaW4gY3JlYXRpbmcgdGhlIGNv
-bm5lY3RvciBhbmQgaGFuZGxpbmcgYWxsIGNvbm5lY3RvciBvcGVyYXRpb25zCj4gaW50ZXJuYWxs
-eS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0
-QGlkZWFzb25ib2FyZC5jb20+Cj4gLS0tCj4gQ2hhbmdlcyBzaW5jZSB2MToKPiAKPiAtIFNxdWFz
-aCB3aXRoIHBhdGNoICJkcm0vb21hcDogRGV0YWNoIGZyb20gcGFuZWxzIGF0IHJlbW92ZSB0aW1l
-Igo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vb21hcGRybS9vbWFwX2Rydi5jIHwgODIgKysrKysr
-KysrKysrKysrKysrKysrKysrKy0tLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCA3MCBpbnNlcnRpb25z
-KCspLCAxMiBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL29t
-YXBkcm0vb21hcF9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL29tYXBfZHJ2LmMKPiBp
-bmRleCBkZTM3M2ZkNTA3MjkuLmYzOGQ5NWNiMzFiYSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vb21hcGRybS9vbWFwX2Rydi5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL29tYXBkcm0v
-b21hcF9kcnYuYwo+IEBAIC0xMSwxMCArMTEsMTIgQEAKPiAgCj4gICNpbmNsdWRlIDxkcm0vZHJt
-X2F0b21pYy5oPgo+ICAjaW5jbHVkZSA8ZHJtL2RybV9hdG9taWNfaGVscGVyLmg+Cj4gKyNpbmNs
-dWRlIDxkcm0vZHJtX2JyaWRnZV9jb25uZWN0b3IuaD4KPiAgI2luY2x1ZGUgPGRybS9kcm1fZHJ2
-Lmg+Cj4gICNpbmNsdWRlIDxkcm0vZHJtX2ZiX2hlbHBlci5oPgo+ICAjaW5jbHVkZSA8ZHJtL2Ry
-bV9maWxlLmg+Cj4gICNpbmNsdWRlIDxkcm0vZHJtX2lvY3RsLmg+Cj4gKyNpbmNsdWRlIDxkcm0v
-ZHJtX3BhbmVsLmg+Cj4gICNpbmNsdWRlIDxkcm0vZHJtX3ByaW1lLmg+Cj4gICNpbmNsdWRlIDxk
-cm0vZHJtX3Byb2JlX2hlbHBlci5oPgo+ICAjaW5jbHVkZSA8ZHJtL2RybV92YmxhbmsuaD4KPiBA
-QCAtMjkwLDkgKzI5MiwxNCBAQCBzdGF0aWMgaW50IG9tYXBfbW9kZXNldF9pbml0KHN0cnVjdCBk
-cm1fZGV2aWNlICpkZXYpCj4gIAo+ICAJCWlmIChwaXBlLT5vdXRwdXQtPmJyaWRnZSkgewo+ICAJ
-CQlyZXQgPSBkcm1fYnJpZGdlX2F0dGFjaChwaXBlLT5lbmNvZGVyLAo+IC0JCQkJCQlwaXBlLT5v
-dXRwdXQtPmJyaWRnZSwgTlVMTCwgMCk7Cj4gLQkJCWlmIChyZXQgPCAwKQo+ICsJCQkJCQlwaXBl
-LT5vdXRwdXQtPmJyaWRnZSwgTlVMTCwKPiArCQkJCQkJRFJNX0JSSURHRV9BVFRBQ0hfTk9fQ09O
-TkVDVE9SKTsKCkkgZ3Vlc3MgdGhlIG9ubHkgZXh0ZXJuYWwgYnJpZGdlIGNvbm5lY3RlZCB0byBh
-biBvbWFwIGRpc3BsYXkKY29udHJvbGxlciBpbiB1cHN0cmVhbSBEVHMgaXMgdGhlIFRGUDQxMC4g
-SSB3YXMgd29uZGVyaW5nIGlmIGZhbGxpbmcKYmFjayB0byAhRFJNX0JSSURHRV9BVFRBQ0hfTk9f
-Q09OTkVDVE9SIHdvdWxkIGJlIGFjY2VwdGFibGUgaW4gY2FzZSBvbmUKd2FudHMgdG8gY29udmVy
-dCBhIGRpc3BsYXkgY29udHJvbGxlciBkcml2ZXIgd2hpY2ggaXMga25vd24gdG8gYmUKdXNlZCBp
-biBjb25qdW5jdGlvbiB3aXRoIHZhcmlvdXMgZXh0ZXJuYWwgYnJpZGdlcy4KCj4gKwkJCWlmIChy
-ZXQgPCAwKSB7Cj4gKwkJCQlkZXZfZXJyKHByaXYtPmRldiwKPiArCQkJCQkidW5hYmxlIHRvIGF0
-dGFjaCBicmlkZ2UgJXBPRlxuIiwKPiArCQkJCQlwaXBlLT5vdXRwdXQtPmJyaWRnZS0+b2Zfbm9k
-ZSk7Cj4gIAkJCQlyZXR1cm4gcmV0Owo+ICsJCQl9Cj4gIAkJfQo+ICAKX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1340351897==
+Content-Type: multipart/alternative; boundary="15664932271.bCed77.18517"
+Content-Transfer-Encoding: 7bit
+
+
+--15664932271.bCed77.18517
+Date: Thu, 22 Aug 2019 17:00:27 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
+
+--- Comment #42 from tempel.julian@gmail.com ---
+(In reply to Nicholas Kazlauskas from comment #39)
+> Disabling the compositor doesn't make a difference as far as stuttering g=
+oes
+> for Hitman 2's DXVK - I don't see any commits in the log that are lock the
+> connector and all the planes.
+
+Thanks for trying!
+
+> I don't have Oblivion on my machine to test, but I tried running the DX9
+> version of Heaven under proton and I don't see stuttering or any gamma/co=
+lor
+> adjustment commits under that either. No issues with FreeSync when running
+> it either from what I can tell with vsync both on/off.
+
+I've given Heaven a try, it doesn't show the issue for me either (DX9 via
+D9VK).
+
+> Those commits are definitely what's causing your stuttering, but I'm not
+> sure what's actually creating them. My initial guess was something in the
+> compatibility layer for DX9 games, but I don't see that on my setup.
+
+I've attached a debug dmesg log after triggering the issue in Hitman 2. It =
+is
+also what is shown in the new video capture I've provided. As you can see,
+there are no rendering spikes, but instead the mouse input (and perhaps
+partially also keyboard) seems to be discarded a lot, causing such jumps. T=
+his
+is also there without vsync enabled, but less obvious. Just like the render
+spikes in Oblivion/Skyrim, this issue completely disappears by turning off
+pageflipping in xorg config, switching to modesetting DDX or disabling atom=
+ic
+modesetting via amdgpu.dc=3D0. I wonder if the log confirms that it's the s=
+ame
+issue (or the issue has the same roots)?
+
+> Is it only Oblivion that has this issue for you?
+
+I found out that also the native OpenGL renderer of Doom 2016 (which also h=
+as a
+free demo on Steam) shows the same behavior as Oblivion/Skyrim, despite of =
+no
+3D API wrapper involved.
+For whatever reason, the Vulkan renderer of the game doesn't show the issue=
+, it
+seems to run flawlessly with both pageflipping + vsync.
+
+> I'm not sure how much of this can be a kernel level fix - I think we need=
+ to
+> lock all the planes whenever gamma or color adjustments have been made and
+> that probably includes the cursor plane as well. If the cursor plane is
+> included that will block asynchronous cursor updates from occurring until
+> the color adjustments have been done. This is why the cursor causes
+> stuttering.
+
+Would it be possible to provide a test patch that completely blocks any gam=
+ma
+adjustment either in Xorg or the kernel? Then we'd have ultimate proof. :)
+
+> A check could potentially be made to not lock all the planes for redundant
+> color management commits, but I'm not sure if the color adjustments
+> requested are redundant or not. It could be the case that the application=
+ is
+> requesting different color adjustments every single time.
+
+It seems some suboptimal behavior of Wine can trigger this issue, but I sup=
+pose
+it would automatically be fixed together with this issue which I reported
+regarding gamma adjustment performance and atomic modesetting:
+https://bugs.freedesktop.org/show_bug.cgi?id=3D108917
+I btw. can reproduce that issue by simply booting Fedora 30 Workstation Gno=
+me
+Live and enable the nightlight feature, the color grading phase makes
+everything stutter.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15664932271.bCed77.18517
+Date: Thu, 22 Aug 2019 17:00:27 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c42">Comme=
+nt # 42</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
+ulian&#64;gmail.com</a>
+</span></b>
+        <pre>(In reply to Nicholas Kazlauskas from <a href=3D"show_bug.cgi?=
+id=3D110659#c39">comment #39</a>)
+<span class=3D"quote">&gt; Disabling the compositor doesn't make a differen=
+ce as far as stuttering goes
+&gt; for Hitman 2's DXVK - I don't see any commits in the log that are lock=
+ the
+&gt; connector and all the planes.</span >
+
+Thanks for trying!
+
+<span class=3D"quote">&gt; I don't have Oblivion on my machine to test, but=
+ I tried running the DX9
+&gt; version of Heaven under proton and I don't see stuttering or any gamma=
+/color
+&gt; adjustment commits under that either. No issues with FreeSync when run=
+ning
+&gt; it either from what I can tell with vsync both on/off.</span >
+
+I've given Heaven a try, it doesn't show the issue for me either (DX9 via
+D9VK).
+
+<span class=3D"quote">&gt; Those commits are definitely what's causing your=
+ stuttering, but I'm not
+&gt; sure what's actually creating them. My initial guess was something in =
+the
+&gt; compatibility layer for DX9 games, but I don't see that on my setup.</=
+span >
+
+I've attached a debug dmesg log after triggering the issue in Hitman 2. It =
+is
+also what is shown in the new video capture I've provided. As you can see,
+there are no rendering spikes, but instead the mouse input (and perhaps
+partially also keyboard) seems to be discarded a lot, causing such jumps. T=
+his
+is also there without vsync enabled, but less obvious. Just like the render
+spikes in Oblivion/Skyrim, this issue completely disappears by turning off
+pageflipping in xorg config, switching to modesetting DDX or disabling atom=
+ic
+modesetting via amdgpu.dc=3D0. I wonder if the log confirms that it's the s=
+ame
+issue (or the issue has the same roots)?
+
+<span class=3D"quote">&gt; Is it only Oblivion that has this issue for you?=
+</span >
+
+I found out that also the native OpenGL renderer of Doom 2016 (which also h=
+as a
+free demo on Steam) shows the same behavior as Oblivion/Skyrim, despite of =
+no
+3D API wrapper involved.
+For whatever reason, the Vulkan renderer of the game doesn't show the issue=
+, it
+seems to run flawlessly with both pageflipping + vsync.
+
+<span class=3D"quote">&gt; I'm not sure how much of this can be a kernel le=
+vel fix - I think we need to
+&gt; lock all the planes whenever gamma or color adjustments have been made=
+ and
+&gt; that probably includes the cursor plane as well. If the cursor plane is
+&gt; included that will block asynchronous cursor updates from occurring un=
+til
+&gt; the color adjustments have been done. This is why the cursor causes
+&gt; stuttering.</span >
+
+Would it be possible to provide a test patch that completely blocks any gam=
+ma
+adjustment either in Xorg or the kernel? Then we'd have ultimate proof. :)
+
+<span class=3D"quote">&gt; A check could potentially be made to not lock al=
+l the planes for redundant
+&gt; color management commits, but I'm not sure if the color adjustments
+&gt; requested are redundant or not. It could be the case that the applicat=
+ion is
+&gt; requesting different color adjustments every single time.</span >
+
+It seems some suboptimal behavior of Wine can trigger this issue, but I sup=
+pose
+it would automatically be fixed together with this issue which I reported
+regarding gamma adjustment performance and atomic modesetting:
+<a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - gamma adjustments cause stuttering with amdgpu.dc=3D1, es=
+pecially problematic with RedShift etc."
+   href=3D"show_bug.cgi?id=3D108917">https://bugs.freedesktop.org/show_bug.=
+cgi?id=3D108917</a>
+I btw. can reproduce that issue by simply booting Fedora 30 Workstation Gno=
+me
+Live and enable the nightlight feature, the color grading phase makes
+everything stutter.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15664932271.bCed77.18517--
+
+--===============1340351897==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1340351897==--
