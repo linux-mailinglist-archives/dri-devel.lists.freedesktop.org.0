@@ -2,32 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C71E49A377
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2019 01:04:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68C499A38A
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2019 01:14:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03BD56E566;
-	Thu, 22 Aug 2019 23:04:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0FEA6EB53;
+	Thu, 22 Aug 2019 23:14:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A51D56E564;
- Thu, 22 Aug 2019 23:04:16 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 18233027-1500050 for multiple; Fri, 23 Aug 2019 00:04:06 +0100
-MIME-Version: 1.0
-To: Lyude Paul <lyude@redhat.com>, intel-gfx@lists.freedesktop.org
-From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <20190822203127.24648-2-lyude@redhat.com>
-References: <20190822203127.24648-1-lyude@redhat.com>
- <20190822203127.24648-2-lyude@redhat.com>
-Message-ID: <156651504414.31031.15762618327886046790@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [PATCH v2 2/2] drm/i915: Enable CONFIG_DMA_API_DEBUG_SG for
- intel-ci
-Date: Fri, 23 Aug 2019 00:04:04 +0100
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79A4C6EB53;
+ Thu, 22 Aug 2019 23:14:29 +0000 (UTC)
+Received: from akpm3.svl.corp.google.com (unknown [104.133.8.65])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9E6CC2173E;
+ Thu, 22 Aug 2019 23:14:28 +0000 (UTC)
+Date: Thu, 22 Aug 2019 16:14:28 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 3/4] kernel.h: Add non_block_start/end()
+Message-Id: <20190822161428.c9e4479207386d34745ea111@linux-foundation.org>
+In-Reply-To: <20190820202440.GH11147@phenom.ffwll.local>
+References: <20190820081902.24815-1-daniel.vetter@ffwll.ch>
+ <20190820081902.24815-4-daniel.vetter@ffwll.ch>
+ <20190820202440.GH11147@phenom.ffwll.local>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1566515669;
+ bh=vApCOM3H3LWmBhR9eGKlIz7FlGeav7+0V7QMAv0lrz4=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=JnFvVQX53Ce1G2PQ2HOdxbB/SubAMwjIprQiE8EBfadRyLGqt1J+ii+olw/j5668Y
+ +QtLBXDlkv6/aLoxjapTqHtWc0fc3gJRJDtnIBEIp+3qWO0oQofuFmpQXuSE4efjH3
+ lHWO0el4UUudjvso5nDstFN30oxIxxABVA7nHCxs=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -40,33 +47,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Feng Tang <feng.tang@intel.com>, Michal Hocko <mhocko@suse.com>,
+ Kees Cook <keescook@chromium.org>, Linux MM <linux-mm@kvack.org>,
+ Peter Zijlstra <peterz@infradead.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Jann Horn <jannh@google.com>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ =?ISO-8859-1?Q?J=E9r=F4me?= Glisse <jglisse@redhat.com>,
+ Ingo Molnar <mingo@redhat.com>, Randy Dunlap <rdunlap@infradead.org>,
+ David Rientjes <rientjes@google.com>, Wei Wang <wvw@google.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Masahiro Yamada <yamada.masahiro@socionext.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBMeXVkZSBQYXVsICgyMDE5LTA4LTIyIDIxOjMxOjI3KQo+IE5vdyB0aGF0IHdlJ3Zl
-IGZpeGVkIGk5MTUgc28gdGhhdCBpdCBzZXRzIGEgbWF4IFNHIHNlZ21lbnQgbGVuZ3RoIGFuZAo+
-IGdvdHRlbiByaWQgb2YgdGhlIHJlbGV2YW50IHdhcm5pbmdzLCBsZXQncyBlbmFibGUKPiBDT05G
-SUdfRE1BX0FQSV9ERUJVR19TRyBmb3IgaW50ZWwtY2kgc28gdGhhdCB3ZSBjYW4gY2F0Y2ggaXNz
-dWVzIGxpa2UKPiB0aGlzIGluIHRoZSBmdXR1cmUgYXMgd2VsbC4KPiAKPiBTaWduZWQtb2ZmLWJ5
-OiBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPgo+IENjOiBDaHJpcyBXaWxzb24gPGNocmlz
-QGNocmlzLXdpbHNvbi5jby51az4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvS2NvbmZp
-Zy5kZWJ1ZyB8IDEgKwo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKPiAKPiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvS2NvbmZpZy5kZWJ1ZyBiL2RyaXZlcnMvZ3B1
-L2RybS9pOTE1L0tjb25maWcuZGVidWcKPiBpbmRleCAwMDc4NmExNDJmZjAuLmFkOGQzY2Q2M2M5
-ZiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9LY29uZmlnLmRlYnVnCj4gKysr
-IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvS2NvbmZpZy5kZWJ1Zwo+IEBAIC0zMiw2ICszMiw3IEBA
-IGNvbmZpZyBEUk1fSTkxNV9ERUJVRwo+ICAgICAgICAgc2VsZWN0IERSTV9ERUJVR19TRUxGVEVT
-VAo+ICAgICAgICAgc2VsZWN0IERNQUJVRl9TRUxGVEVTVFMKPiAgICAgICAgIHNlbGVjdCBTV19T
-WU5DICMgc2lnbmFsaW5nIHZhbGlkYXRpb24gZnJhbWV3b3JrIChpZ3Qvc3luY29iaiopCgoJc2Vs
-ZWN0IERNQV9BUElfREVCVUcKYXMgd2VsbCBmb3IgaXQgdG8gYmUgZW5hYmxlZCwgbm8gcmVjdXJz
-aXZlIGRlcGVuZGVuY3kgc29sdmVyIGluIEtjb25maWcuCgo+ICsgICAgICAgIHNlbGVjdCBETUFf
-QVBJX0RFQlVHX1NHCj4gICAgICAgICBzZWxlY3QgRFJNX0k5MTVfU1dfRkVOQ0VfREVCVUdfT0JK
-RUNUUwo+ICAgICAgICAgc2VsZWN0IERSTV9JOTE1X1NFTEZURVNUCj4gICAgICAgICBzZWxlY3Qg
-RFJNX0k5MTVfREVCVUdfUlVOVElNRV9QTQo+IC0tIAo+IDIuMjEuMAo+IApfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+T24gVHVlLCAyMCBBdWcgMjAxOSAyMjoyNDo0MCArMDIwMCBEYW5pZWwgVmV0dGVyIDxkYW5pZWxA
+ZmZ3bGwuY2g+IHdyb3RlOgoKPiBIaSBQZXRlciwKPiAKPiBJaXJjIHlvdSd2ZSBiZWVuIGludm9s
+dmVkIGF0IGxlYXN0IHNvbWV3aGF0IGluIGRpc2N1c3NpbmcgdGhpcy4gLW1tIGZvbGtzCj4gYXJl
+IGEgYml0IHVuZGVjaWRlZCB3aGV0aGVyIHRoZXNlIG5ldyBub25fYmxvY2sgc2VtYW50aWNzIGFy
+ZSBhIGdvb2QgaWRlYS4KPiBNaWNoYWwgSG9ja28gc3RpbGwgaXMgaW4gc3VwcG9ydCwgYnV0IEFu
+ZHJldyBNb3J0b24gYW5kIEphc29uIEd1bnRob3JwZQo+IGFyZSBsZXNzIGVudGh1c2lhc3RpYy4g
+SmFzb24gc2FpZCBoZSdzIG9rIHdpdGggbWVyZ2luZyB0aGUgaG1tIHNpZGUgb2YKPiB0aGlzIGlm
+IHNjaGVkdWxlciBmb2xrcyBhY2suIElmIG5vdCwgdGhlbiBJJ2xsIHJlc3BpbiB3aXRoIHRoZQo+
+IHByZWVtcHRfZGlzYWJsZS9lbmFibGUgaW5zdGVhZCBsaWtlIGluIHYxLgoKSSBiZWNhbWUgbW9s
+bGlmaWVkIG9uY2UgTWljaGVsIGV4cGxhaW5lZCB0aGUgcmF0aW9uYWxlLiAgSSB0aGluayBpdCdz
+Ck9LLiAgSXQncyB2ZXJ5IHNwZWNpZmljIHRvIHRoZSBvb20gcmVhcGVyIGFuZCBob3BlZnVsbHkg
+d29uJ3QgYmUgdXNlZAptb3JlIHdpZGVseSg/KS4KCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbA==
