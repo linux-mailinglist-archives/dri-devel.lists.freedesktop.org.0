@@ -2,45 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CEF698E90
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2019 11:00:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1082C98E97
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2019 11:01:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 155A96E9E4;
-	Thu, 22 Aug 2019 09:00:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A078F6E9D3;
+	Thu, 22 Aug 2019 09:01:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id B990E6E9E4
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2019 09:00:18 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B6F9C72161; Thu, 22 Aug 2019 09:00:18 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110888] 5.0.21 kernel crash when many GPU app run concurrently 
- , error msg: amdgpu_vm_validate_pt_bos() failed. ,
- Not enough memory for command submission!
-Date: Thu, 22 Aug 2019 09:00:18 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: anettecapuzzi@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110888-502-I30M129mjT@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110888-502@http.bugs.freedesktop.org/>
-References: <bug-110888-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 678596E9D3
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2019 09:01:01 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:b93f:9fae:b276:a89a])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 8BA072861FA;
+ Thu, 22 Aug 2019 10:00:59 +0100 (BST)
+Date: Thu, 22 Aug 2019 11:00:56 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH RFC 10/19] drm/bridge: Add a drm_bridge_state object
+Message-ID: <20190822110056.5be93d0a@collabora.com>
+In-Reply-To: <20190821201456.GF26759@pendragon.ideasonboard.com>
+References: <20190808151150.16336-1-boris.brezillon@collabora.com>
+ <20190808151150.16336-11-boris.brezillon@collabora.com>
+ <20190821201456.GF26759@pendragon.ideasonboard.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -54,105 +43,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0182516430=="
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, dri-devel@lists.freedesktop.org,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Chris Healy <Chris.Healy@zii.aero>,
+ kernel@collabora.com, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0182516430==
-Content-Type: multipart/alternative; boundary="15664644182.2e2D3A51.25000"
-Content-Transfer-Encoding: 7bit
-
-
---15664644182.2e2D3A51.25000
-Date: Thu, 22 Aug 2019 09:00:18 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110888
-
---- Comment #3 from freedesktop35 <anettecapuzzi@gmail.com> ---
-Bug 110888 - 5.0.21 just occurred in my computer and I was worried about th=
-is
-that what I should do. Then i read your article. Source
-https://www.australian-writings.org/ gave me solution to sort out this prob=
-lem.
-I have sorted out that bug. Thank you for helping me.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15664644182.2e2D3A51.25000
-Date: Thu, 22 Aug 2019 09:00:18 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - 5.0.21 kernel crash when many GPU app run concurrently , =
-error msg: amdgpu_vm_validate_pt_bos() failed. , Not enough memory for comm=
-and submission!"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110888#c3">Commen=
-t # 3</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - 5.0.21 kernel crash when many GPU app run concurrently , =
-error msg: amdgpu_vm_validate_pt_bos() failed. , Not enough memory for comm=
-and submission!"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110888">bug 11088=
-8</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-anettecapuzzi&#64;gmail.com" title=3D"freedesktop35 &lt;anettecapuzzi&#64;g=
-mail.com&gt;"> <span class=3D"fn">freedesktop35</span></a>
-</span></b>
-        <pre><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - 5.0.21 kernel crash when many GPU app run concurrently , =
-error msg: amdgpu_vm_validate_pt_bos() failed. , Not enough memory for comm=
-and submission!"
-   href=3D"show_bug.cgi?id=3D110888">Bug 110888</a> - 5.0.21 just occurred =
-in my computer and I was worried about this
-that what I should do. Then i read your article. Source
-<a href=3D"https://www.australian-writings.org/">https://www.australian-wri=
-tings.org/</a> gave me solution to sort out this problem.
-I have sorted out that bug. Thank you for helping me.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15664644182.2e2D3A51.25000--
-
---===============0182516430==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0182516430==--
+T24gV2VkLCAyMSBBdWcgMjAxOSAyMzoxNDo1NiArMDMwMApMYXVyZW50IFBpbmNoYXJ0IDxsYXVy
+ZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+IHdyb3RlOgoKPiA+ICtpbnQKPiA+ICtkcm1f
+YXRvbWljX2FkZF9lbmNvZGVyX2JyaWRnZXMoc3RydWN0IGRybV9hdG9taWNfc3RhdGUgKnN0YXRl
+LAo+ID4gKwkJCSAgICAgICBzdHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29kZXIpCj4gPiArewo+ID4g
+KwlzdHJ1Y3QgZHJtX2JyaWRnZV9zdGF0ZSAqYnJpZGdlX3N0YXRlOwo+ID4gKwlzdHJ1Y3QgZHJt
+X2JyaWRnZSAqYnJpZGdlOwo+ID4gKwo+ID4gKwlpZiAoIWVuY29kZXIpCj4gPiArCQlyZXR1cm4g
+MDsKPiA+ICsKPiA+ICsJRFJNX0RFQlVHX0FUT01JQygiQWRkaW5nIGFsbCBicmlkZ2VzIGZvciBb
+ZW5jb2RlcjolZDolc10gdG8gJXBcbiIsCj4gPiArCQkJIGVuY29kZXItPmJhc2UuaWQsIGVuY29k
+ZXItPm5hbWUsIHN0YXRlKTsKPiA+ICsKPiA+ICsJZm9yIChicmlkZ2UgPSBkcm1fYnJpZGdlX2No
+YWluX2dldF9maXJzdF9icmlkZ2UoZW5jb2Rlcik7IGJyaWRnZTsKPiA+ICsJICAgICBicmlkZ2Ug
+PSBkcm1fYnJpZGdlX2NoYWluX2dldF9uZXh0X2JyaWRnZShicmlkZ2UpKSB7ICAKPiAKPiBXb3Vs
+ZCBhIGZvcl9lYWNoX2JyaWRnZSgpIG1hY3JvIG1ha2Ugc2Vuc2UgPyBJJ2QgaW1wbGVtZW50IGl0
+IG9uIHRvcCBvZgo+IGxpc3RfZm9yX2VhY2hfZW50cnkoKSB0byBtYWtlIGl0IHNpbXBsZS4KCkkg
+Y2FuIGFkZCB0aGlzIGhlbHBlci4gTm90ZSB0aGF0IGZvcl9lYWNoX2JyaWRnZSgpIHdpbGwgaXRl
+cmF0ZSBvdmVyCnRoZSB3aG9sZSBicmlkZ2UgY2hhaW4sIGFuZCB3ZSBtaWdodCBuZWVkIGEgZm9y
+X2VhY2hfYnJpZGdlX2Zyb20oKSBhdApzb21lIHBvaW50IGlmIHdlIHdhbnQgdG8gaXRlcmF0ZSBv
+dmVyIGEgc3ViLWNoYWluLgoKPiAKPiA+ICsJCWJyaWRnZV9zdGF0ZSA9IGRybV9hdG9taWNfZ2V0
+X2JyaWRnZV9zdGF0ZShzdGF0ZSwgYnJpZGdlKTsKPiA+ICsJCWlmIChJU19FUlIoYnJpZGdlX3N0
+YXRlKSkKPiA+ICsJCQlyZXR1cm4gUFRSX0VSUihicmlkZ2Vfc3RhdGUpOwo+ID4gKwl9Cj4gPiAr
+Cj4gPiArCXJldHVybiAwOwo+ID4gK30KPiA+ICtFWFBPUlRfU1lNQk9MKGRybV9hdG9taWNfYWRk
+X2VuY29kZXJfYnJpZGdlcyk7CgpbLi4uXQoKPiA+ICAKPiA+ICsvKioKPiA+ICsgKiBkcm1fYXRv
+bWljX2hlbHBlcl9pbml0X2JyaWRnZV9zdGF0ZSgpIC0gSW5pdGlhbGl6ZXMgYSBicmlkZ2Ugc3Rh
+dGUgIAo+IAo+IHMvSW5pdGlhbGl6ZXMvSW5pdGlhbGl6ZS8KPiAKPiA+ICsgKiBAYnJpZGdlIHRo
+aXMgc3RhdGUgaXMgcmVmZXJyaW5nIHRvICAKPiAKPiBEaWQgeW91IG1lYW4KPiAKPiAgKiBAYnJp
+ZGdlOiB0aGUgYnJpZGdlIHRoaXMgc3RhdGUgaXMgcmVmZXJyaW5nIHRvID8KClllcy4KCj4gCj4g
+PiArICogQHN0YXRlOiBicmlkZ2Ugc3RhdGUgdG8gaW5pdGlhbGl6ZQo+ID4gKyAqCj4gPiArICog
+Rm9yIG5vdyBpdCdzIGp1c3QgYSBtZW1zZXQoMCkgcGx1cyBhIHN0YXRlLT5icmlkZ2UgYXNzaWdu
+bWVudC4gTWlnaHQKPiA+ICsgKiBiZSBleHRlbmRlZCBpbiB0aGUgZnV0dXJlLgo+ID4gKyAqLwo+
+ID4gK3ZvaWQgZHJtX2F0b21pY19oZWxwZXJfaW5pdF9icmlkZ2Vfc3RhdGUoc3RydWN0IGRybV9i
+cmlkZ2UgKmJyaWRnZSwKPiA+ICsJCQkJCSBzdHJ1Y3QgZHJtX2JyaWRnZV9zdGF0ZSAqc3RhdGUp
+Cj4gPiArewo+ID4gKwltZW1zZXQoc3RhdGUsIDAsIHNpemVvZigqc3RhdGUpKTsKPiA+ICsJc3Rh
+dGUtPmJyaWRnZSA9IGJyaWRnZTsKPiA+ICt9Cj4gPiArRVhQT1JUX1NZTUJPTChkcm1fYXRvbWlj
+X2hlbHBlcl9pbml0X2JyaWRnZV9zdGF0ZSk7ICAKPiAKPiBPdGhlciBvYmplY3RzIGRvbid0IGV4
+cG9ydCBhIHN0YXRlIGluaXQgZnVuY3Rpb24gaGVscGVyLCBidXQgc3RhdGUgcmVzZXQKPiBhbmQg
+c3RhdGUgZHVwbGljYXRlIGhlbHBlcnMuIElzIHRoZXJlIGEgcmVhc29uIHRvIGRlcGFydCBmcm9t
+IHRoYXQgbW9kZWwKPiA/IFNhbWUgZm9yIHRoZSBjb3B5IGhlbHBlciBiZWxvdy4KCkkgdGhvdWdo
+dCB0aG9zZSBuYW1lcyBiZXR0ZXIgcmVmbGVjdCB3aGF0IHRoZSBoZWxwZXJzIGRvLgpfX2RybV9h
+dG9taWNfaGVscGVyX2NydGNfZHVwbGljYXRlX3N0YXRlKCkgZm9yIGluc3RhbmNlLCBpdCBhY3R1
+YWxseQpkb2VzIG5vdCBkdXBsaWNhdGUgdGhlIHN0YXRlLCBidXQganVzdCBjb3BpZXMgY3VycmVu
+dCBzdGF0ZSBpbmZvIGludG8KdGhlIG5ldyBzdGF0ZSBvYmplY3Qgd2hpY2ggaGFzIGJlZW4gYWxs
+b2NhdGVkIGJ5IHRoZSBjYWxsZXIuIFNhbWUgZm9yCnRoZSByZXNldCBoZWxwZXJzLCB0aGV5IGFj
+dHVhbGx5IGRvIG5vdCByZXNldCBhbnl0aGluZyBidXQganVzdAppbml0aWFsaXplIHRoZSBzdGF0
+ZSB0byBhIGRlZmF1bHQuIEkgYWxzbyB0cnkgdG8gYXZvaWQgcHJlZml4aW5nCmZ1bmN0aW9ucyB3
+aXRoIF9fIHdoZW4gSSBjYW4gKG5hbWVzIGNhbiBiZSBjbGFyaWZpZWQvZXh0ZW5kZWQgdG8gYXZv
+aWQKY29uZmxpY3RzIG1vc3Qgb2YgdGhlIHRpbWUpLgpXaWxsIHN3aXRjaCBiYWNrIHRvIHJlc2V0
+L2R1cCBuYW1lcyBpZiB5b3UgcHJlZmVyLgoKPiAKPiA+ICsKPiA+ICsvKioKPiA+ICsgKiBkcm1f
+YXRvbWljX2hlbHBlcl9jb3B5X2JyaWRnZV9zdGF0ZSgpIC0gQ29weSB0aGUgY29udGVudCBvZiBh
+IGJyaWRnZSBzdGF0ZQo+ID4gKyAqIEBicmlkZ2U6IGJyaWRnZSB0aGUgb2xkIGFuZCBuZXcgc3Rh
+dGUgYXJlIHJlZmVycmluZyB0bwo+ID4gKyAqIEBvbGQ6IHByZXZpb3VzIGJyaWRnZSBzdGF0ZSB0
+byBjb3B5IGZyb20KPiA+ICsgKiBAbmV3OiBuZXcgYnJpZGdlIHN0YXRlIHRvIGNvcHkgdG8KPiA+
+ICsgKgo+ID4gKyAqIFNob3VsZCBiZSB1c2VkIGJ5IGN1c3RvbSAmZHJtX2JyaWRnZV9mdW5jcy5h
+dG9taWNfZHVwbGljYXRlKCkgaW1wbGVtZW50YXRpb24KPiA+ICsgKiB0byBjb3B5IHRoZSBwcmV2
+aW91cyBzdGF0ZSBpbnRvIHRoZSBuZXcgb2JqZWN0Lgo+ID4gKyAqLwo+ID4gK3ZvaWQgZHJtX2F0
+b21pY19oZWxwZXJfY29weV9icmlkZ2Vfc3RhdGUoc3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZSwK
+PiA+ICsJCQkJCSBjb25zdCBzdHJ1Y3QgZHJtX2JyaWRnZV9zdGF0ZSAqb2xkLAo+ID4gKwkJCQkJ
+IHN0cnVjdCBkcm1fYnJpZGdlX3N0YXRlICpuZXcpCj4gPiArewo+ID4gKwkqbmV3ID0gKm9sZDsK
+PiA+ICt9Cj4gPiArRVhQT1JUX1NZTUJPTChkcm1fYXRvbWljX2hlbHBlcl9jb3B5X2JyaWRnZV9z
+dGF0ZSk7Cj4gPiArCj4gPiArLyoqCj4gPiArICogZHJtX2F0b21pY19oZWxwZXJfZHVwbGljYXRl
+X2JyaWRnZV9zdGF0ZSgpIC0gRGVmYXVsdCBkdXBsaWNhdGUgc3RhdGUgaGVscGVyCj4gPiArICog
+QGJyaWRnZTogYnJpZGdlIGNvbnRhaW5pbmcgdGhlIHN0YXRlIHRvIGR1cGxpY2F0ZQo+ID4gKyAq
+Cj4gPiArICogRGVmYXVsdCBpbXBsZW1lbnRhdGlvbiBvZiAmZHJtX2JyaWRnZV9mdW5jcy5hdG9t
+aWNfZHVwbGljYXRlKCkuCj4gPiArICoKPiA+ICsgKiBSRVRVUk5TOgo+ID4gKyAqIGEgdmFsaWQg
+c3RhdGUgb2JqZWN0IG9yIE5VTEwgaWYgdGhlIGFsbG9jYXRpb24gZmFpbHMuCj4gPiArICovCj4g
+PiArc3RydWN0IGRybV9icmlkZ2Vfc3RhdGUgKgo+ID4gK2RybV9hdG9taWNfaGVscGVyX2R1cGxp
+Y2F0ZV9icmlkZ2Vfc3RhdGUoc3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZSkKPiA+ICt7Cj4gPiAr
+CXN0cnVjdCBkcm1fYnJpZGdlX3N0YXRlICpvbGQgPSBOVUxMLCAqbmV3Owo+ID4gKwo+ID4gKwlu
+ZXcgPSBremFsbG9jKHNpemVvZigqbmV3KSwgR0ZQX0tFUk5FTCk7Cj4gPiArCWlmICghbmV3KQo+
+ID4gKwkJcmV0dXJuIE5VTEw7Cj4gPiArCj4gPiArCWlmIChicmlkZ2UtPmJhc2Uuc3RhdGUpIHsK
+PiA+ICsJCW9sZCA9IGRybV9wcml2X3RvX2JyaWRnZV9zdGF0ZShicmlkZ2UtPmJhc2Uuc3RhdGUp
+Owo+ID4gKwkJZHJtX2F0b21pY19oZWxwZXJfY29weV9icmlkZ2Vfc3RhdGUoYnJpZGdlLCBvbGQs
+IG5ldyk7Cj4gPiArCX0gZWxzZSB7Cj4gPiArCQlkcm1fYXRvbWljX2hlbHBlcl9pbml0X2JyaWRn
+ZV9zdGF0ZShicmlkZ2UsIG5ldyk7Cj4gPiArCX0KPiA+ICsKPiA+ICsJcmV0dXJuIG5ldzsKPiA+
+ICt9Cj4gPiArRVhQT1JUX1NZTUJPTChkcm1fYXRvbWljX2hlbHBlcl9kdXBsaWNhdGVfYnJpZGdl
+X3N0YXRlKTsKPiA+ICsKPiA+ICsvKioKPiA+ICsgKiBkcm1fYXRvbWljX2hlbHBlcl9kZXN0cm95
+X2JyaWRnZV9zdGF0ZSgpIC0gRGVmYXVsdCBkZXN0cm95IHN0YXRlIGhlbHBlcgo+ID4gKyAqIEBi
+cmlkZ2U6IHRoZSBicmlkZ2UgdGhpcyBzdGF0ZSByZWZlcnMgdG8KPiA+ICsgKiBAc3RhdGU6IHN0
+YXRlIG9iamVjdCB0byBkZXN0cm95Cj4gPiArICoKPiA+ICsgKiBKdXN0IGEgc2ltcGxlIGtmcmVl
+KCkgZm9yIG5vdy4KPiA+ICsgKi8KPiA+ICt2b2lkIGRybV9hdG9taWNfaGVscGVyX2Rlc3Ryb3lf
+YnJpZGdlX3N0YXRlKHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UsCj4gPiArCQkJCQkgICAgc3Ry
+dWN0IGRybV9icmlkZ2Vfc3RhdGUgKnN0YXRlKQo+ID4gK3sKPiA+ICsJa2ZyZWUoc3RhdGUpOwo+
+ID4gK30KPiA+ICtFWFBPUlRfU1lNQk9MKGRybV9hdG9taWNfaGVscGVyX2Rlc3Ryb3lfYnJpZGdl
+X3N0YXRlKTsKPiA+ICsKPiA+ICAjaWZkZWYgQ09ORklHX09GCj4gPiAgLyoqCj4gPiAgICogb2Zf
+ZHJtX2ZpbmRfYnJpZGdlIC0gZmluZCB0aGUgYnJpZGdlIGNvcnJlc3BvbmRpbmcgdG8gdGhlIGRl
+dmljZSBub2RlIGluCj4gPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2F0b21pYy5oIGIv
+aW5jbHVkZS9kcm0vZHJtX2F0b21pYy5oCj4gPiBpbmRleCA5MjdlMTIwNWQ3YWEuLjVlZTI1ZmQ1
+MWU4MCAxMDA2NDQKPiA+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9hdG9taWMuaAo+ID4gKysrIGIv
+aW5jbHVkZS9kcm0vZHJtX2F0b21pYy5oCj4gPiBAQCAtNjYwLDYgKzY2MCw5IEBAIF9fZHJtX2F0
+b21pY19nZXRfY3VycmVudF9wbGFuZV9zdGF0ZShzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3Rh
+dGUsCj4gPiAgCXJldHVybiBwbGFuZS0+c3RhdGU7Cj4gPiAgfQo+ID4gIAo+ID4gK2ludCBfX211
+c3RfY2hlY2sKPiA+ICtkcm1fYXRvbWljX2FkZF9lbmNvZGVyX2JyaWRnZXMoc3RydWN0IGRybV9h
+dG9taWNfc3RhdGUgKnN0YXRlLAo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBz
+dHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29kZXIpOwo+ID4gIGludCBfX211c3RfY2hlY2sKPiA+ICBk
+cm1fYXRvbWljX2FkZF9hZmZlY3RlZF9jb25uZWN0b3JzKHN0cnVjdCBkcm1fYXRvbWljX3N0YXRl
+ICpzdGF0ZSwKPiA+ICAJCQkJICAgc3RydWN0IGRybV9jcnRjICpjcnRjKTsKPiA+IGRpZmYgLS1n
+aXQgYS9pbmNsdWRlL2RybS9kcm1fYnJpZGdlLmggYi9pbmNsdWRlL2RybS9kcm1fYnJpZGdlLmgK
+PiA+IGluZGV4IGY0MDE4MTI3NGVkNy4uOGNhMjVkMjY2ZDBjIDEwMDY0NAo+ID4gLS0tIGEvaW5j
+bHVkZS9kcm0vZHJtX2JyaWRnZS5oCj4gPiArKysgYi9pbmNsdWRlL2RybS9kcm1fYnJpZGdlLmgK
+PiA+IEBAIC0yNSw2ICsyNSw3IEBACj4gPiAgCj4gPiAgI2luY2x1ZGUgPGxpbnV4L2xpc3QuaD4K
+PiA+ICAjaW5jbHVkZSA8bGludXgvY3R5cGUuaD4KPiA+ICsjaW5jbHVkZSA8ZHJtL2RybV9hdG9t
+aWMuaD4KPiA+ICAjaW5jbHVkZSA8ZHJtL2RybV9tb2RlX29iamVjdC5oPgo+ID4gICNpbmNsdWRl
+IDxkcm0vZHJtX21vZGVzLmg+Cj4gPiAgCj4gPiBAQCAtMzIsNiArMzMsMjMgQEAgc3RydWN0IGRy
+bV9icmlkZ2U7Cj4gPiAgc3RydWN0IGRybV9icmlkZ2VfdGltaW5nczsKPiA+ICBzdHJ1Y3QgZHJt
+X3BhbmVsOwo+ID4gIAo+ID4gKy8qKgo+ID4gKyAqIHN0cnVjdCBkcm1fYnJpZGdlX3N0YXRlIC0g
+QXRvbWljIGJyaWRnZSBzdGF0ZSBvYmplY3QKPiA+ICsgKiBAYmFzZTogaW5oZXJpdCBmcm9tICZk
+cm1fcHJpdmF0ZV9zdGF0ZQo+ID4gKyAqIEBicmlkZ2U6IHRoZSBicmlkZ2UgdGhpcyBzdGF0ZSBy
+ZWZlcnMgdG8KPiA+ICsgKi8KPiA+ICtzdHJ1Y3QgZHJtX2JyaWRnZV9zdGF0ZSB7Cj4gPiArCXN0
+cnVjdCBkcm1fcHJpdmF0ZV9zdGF0ZSBiYXNlOwo+ID4gKwo+ID4gKwlzdHJ1Y3QgZHJtX2JyaWRn
+ZSAqYnJpZGdlOwo+ID4gK307Cj4gPiArCj4gPiArc3RhdGljIGlubGluZSBzdHJ1Y3QgZHJtX2Jy
+aWRnZV9zdGF0ZSAqCj4gPiArZHJtX3ByaXZfdG9fYnJpZGdlX3N0YXRlKHN0cnVjdCBkcm1fcHJp
+dmF0ZV9zdGF0ZSAqcHJpdikKPiA+ICt7Cj4gPiArCXJldHVybiBjb250YWluZXJfb2YocHJpdiwg
+c3RydWN0IGRybV9icmlkZ2Vfc3RhdGUsIGJhc2UpOwo+ID4gK30KPiA+ICsKPiA+ICAvKioKPiA+
+ICAgKiBzdHJ1Y3QgZHJtX2JyaWRnZV9mdW5jcyAtIGRybV9icmlkZ2UgY29udHJvbCBmdW5jdGlv
+bnMKPiA+ICAgKi8KPiA+IEBAIC0zMzcsNiArMzU1LDMwIEBAIHN0cnVjdCBkcm1fYnJpZGdlX2Z1
+bmNzIHsKPiA+ICAJICovCj4gPiAgCXZvaWQgKCphdG9taWNfcG9zdF9kaXNhYmxlKShzdHJ1Y3Qg
+ZHJtX2JyaWRnZSAqYnJpZGdlLAo+ID4gIAkJCQkgICAgc3RydWN0IGRybV9hdG9taWNfc3RhdGUg
+KnN0YXRlKTsKPiA+ICsKPiA+ICsJLyoqCj4gPiArCSAqIEBhdG9taWNfZHVwbGljYXRlX3N0YXRl
+Ogo+ID4gKwkgKgo+ID4gKwkgKiBEdXBsaWNhdGUgdGhlIGN1cnJlbnQgYnJpZGdlIHN0YXRlIG9i
+amVjdC4KPiA+ICsJICoKPiA+ICsJICogTm90ZSB0aGF0IHRoaXMgZnVuY3Rpb24gY2FuIGJlIGNh
+bGxlZCB3aGVuIGN1cnJlbnQgYnJpZGdlIHN0YXRlIGlzCj4gPiArCSAqIE5VTEwuIEluIHRoaXMg
+Y2FzZSwgaW1wbGVtZW50YXRpb25zIHNob3VsZCBlaXRoZXIgaW1wbGVtZW50IEhXCj4gPiArCSAq
+IHJlYWRiYWNrIG9yIGluaXRpYWxpemUgdGhlIHN0YXRlIHdpdGggc2Vuc2libGUgZGVmYXVsdCB2
+YWx1ZXMuICAKPiAKPiBSZWxhdGVkIHRvIHRoZSBxdWVzdGlvbiBhYm92ZSwgc2hvdWxkbid0IHdl
+IGhhdmUgYSByZXNldCBzdGF0ZSBvcGVyYXRpb24KPiBpbnN0ZWFkID8KCkkgaGFkIGEgdmVyc2lv
+biB3aXRoIGEgcmVzZXQgaG9vayBhbmQgYSBoZWxwZXIgdGhhdCB3YXMgZmFsbGluZyBiYWNrIHRv
+Ci0+ZHVwbGljYXRlX3N0YXRlKCkgd2hlbiBub3Qgc3BlY2lmaWVkLCBidXQgSSBkZWNpZGVkIHRv
+IGRyb3AgaXQgdG8Kc2ltcGxpZnkgdGhpbmdzIChJIHRoaW5rIG1vc3QgZHJpdmVycyB3aWxsIGp1
+c3QgdXNlIHRoZSBkZWZhdWx0CmhlbHBlciwgYW5kIHRob3NlIHRoYXQgYWN0dWFsbHkgd2FudCB0
+byBpbXBsZW1lbnQgSFcgcmVhZGJhY2sgY2FuCmVhc2lseSBkbyBpdCBmcm9tIHRoZWlyIC0+ZHVw
+bGljYXRlX3N0YXRlKCkgaG9vayBieSB0ZXN0aW5nCmJyaWRnZS0+c3RhdGUgdmFsdWUpLgpJIGNh
+biByZS1pbnRyb2R1Y2UgaXQgaWYgeW91IGxpa2UuCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbA==
