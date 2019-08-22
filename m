@@ -1,101 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C97E99FC2
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2019 21:21:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 608CB99FDD
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Aug 2019 21:25:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78AA36EA45;
-	Thu, 22 Aug 2019 19:21:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E88046EA51;
+	Thu, 22 Aug 2019 19:25:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM03-CO1-obe.outbound.protection.outlook.com
- (mail-eopbgr790084.outbound.protection.outlook.com [40.107.79.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C18256EA3F;
- Thu, 22 Aug 2019 19:21:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TRDrhNJLbXEGuWimL3P3BC1xeWmwy9pP11SvGOniLoSi9p7m4+PY0UKmDUfYExSgMq22h6zRTDV/cgVUli13YlzT3GcPdaZJ0SbZr81KS46sKZbxH8aM68gvb+diGQglG7n6cOSbEy7YPqH/hRz6f90pPSePnbJM2Nk1iyt0lEgASgtACbbX9RbqZGAByxuPcD1/NtFC/Fq1KSLFOyImDrdcaChCHqxxC6Y6ZjlQSGfIG0f93IaSwsQbrxRR5A+vycOaCppSjrxcspT+q6qaJxxaykIhw4wcyQNPx9mxVUJF6X6IKp3U3tiTmFj3XJ7meXAagRLUlpmiLh3rDZlZCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nARQBQ2T5JoGz0Mi0S9gFZwhe3r+nl2zCUHVzBenNDA=;
- b=DikgnpvWo+iqy/0TZw/cutd427Ar5zykoHZV5t+hzSE3CNGW3BJh/ZfyTtwNgDMmX5Bi97ABryu/QkSTFW2KI+XfOcNAZdZNK9Eq4f2Cxv88GEzGEwOXFdBXigkrk3XsTUr8Q2AnS5hvJ2XyNPhuzEIZ4qkrikpYLZNZmrWAm5EBqmi8biqma2FLv9/ji7HhoNdBKh1vARYzgl7kIZJkzWiQ6CKpyXggOubcsqNYez3cIWFVM9MgEAdwYW3RYBFvRFXFD1os6gbO9eqMaB8Kb2+oum9ffJgvFYXBaimhBPDbhuAExKe6Kk/4G+2E3D0MqTeK8M2TWWpBMdJQs39T0g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-Received: from CY4PR1201MB0230.namprd12.prod.outlook.com (10.172.79.7) by
- CY4PR1201MB0183.namprd12.prod.outlook.com (10.174.52.9) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2178.16; Thu, 22 Aug 2019 19:21:13 +0000
-Received: from CY4PR1201MB0230.namprd12.prod.outlook.com
- ([fe80::540f:1eae:7e3a:c6b2]) by CY4PR1201MB0230.namprd12.prod.outlook.com
- ([fe80::540f:1eae:7e3a:c6b2%5]) with mapi id 15.20.2178.020; Thu, 22 Aug 2019
- 19:21:13 +0000
-From: Harry Wentland <hwentlan@amd.com>
-To: Colin King <colin.king@canonical.com>, "Wentland, Harry"
- <Harry.Wentland@amd.com>, "Li, Sun peng (Leo)" <Sunpeng.Li@amd.com>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>, "Koenig, Christian"
- <Christian.Koenig@amd.com>, "Zhou, David(ChunMing)" <David1.Zhou@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH][drm-next] drm/amd/display: fix a potential null pointer
- dereference
-Thread-Topic: [PATCH][drm-next] drm/amd/display: fix a potential null pointer
- dereference
-Thread-Index: AQHVVH9ikXZ9rtwK3kONgLDWrJHQDKcHlIMA
-Date: Thu, 22 Aug 2019 19:21:12 +0000
-Message-ID: <5981f677-3347-1450-f787-853e97496bd4@amd.com>
-References: <20190816221011.10750-1-colin.king@canonical.com>
-In-Reply-To: <20190816221011.10750-1-colin.king@canonical.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [165.204.55.250]
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-x-clientproxiedby: YTXPR0101CA0071.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00:1::48) To CY4PR1201MB0230.namprd12.prod.outlook.com
- (2603:10b6:910:1e::7)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 93657eee-cac2-473c-4a77-08d72735e529
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(5600166)(711020)(4605104)(1401327)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
- SRVR:CY4PR1201MB0183; 
-x-ms-traffictypediagnostic: CY4PR1201MB0183:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CY4PR1201MB0183C4A8C609C688018388BE8CA50@CY4PR1201MB0183.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1148;
-x-forefront-prvs: 01371B902F
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(39860400002)(136003)(366004)(376002)(346002)(396003)(189003)(199004)(2201001)(54906003)(52116002)(6512007)(81156014)(7736002)(11346002)(386003)(99286004)(102836004)(6506007)(446003)(14444005)(256004)(53546011)(229853002)(2501003)(53936002)(58126008)(2616005)(31696002)(36756003)(3846002)(6116002)(71190400001)(305945005)(31686004)(14454004)(71200400001)(26005)(186003)(478600001)(6486002)(76176011)(5660300002)(6436002)(8936002)(110136005)(64756008)(486006)(316002)(476003)(66066001)(65806001)(65956001)(25786009)(8676002)(6246003)(4326008)(66446008)(81166006)(66556008)(2906002)(66946007)(66476007)(921003)(1121003);
- DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR1201MB0183;
- H:CY4PR1201MB0230.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: yhLYdFB2GxxGq+ZYqelk4SFdJudmT8ZFaYNPNmmfeVpWMWmkg68ICCccXziGK+Gj7+BkHV79k+tZolOGdPO8MMBSUdIOJZ95YcC1+yotRSG56ge6hpGxR7YFygXf9oIK8V1h0a4HzQTyJKGKRue43UsjOtJQHt1jIyNUUEeJgK4kwDuptRI2nHJyqj8ikPNbztCs3ZIE3Alv1ro/2EEGPs1Zna8qeEH94n3O+yqOwjEn+zspQ1FTZpDwaGfZU19fWPXwt187iwp6jRQHKhAhtkncLD55XLmYbvXDVp6CV1sknUm6yZ9AqUnFNRByms/f1b7fLXT9SgtAGrcRC+ho51HiEplZ6qkZcOo44srkS1JgswrPAvW69CaGdgiiU6UyJVIpmexLd7cw0wF9Is/3GhNlXA258nb7fE7SwCirVy4=
-Content-ID: <BF8966527E0E3940B6309A7EBD82C85D@namprd12.prod.outlook.com>
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BCB06EA51
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2019 19:25:06 +0000 (UTC)
+Received: by mail-ed1-x544.google.com with SMTP id s15so9601084edx.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Aug 2019 12:25:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fZkQJsq+n1RfedXQDBQyHKnZi1VbIPNeQKk02E606cM=;
+ b=Ztw2qVeLdGD7K1wf0H6OjR2ttqgBwWVY6rom1kzOk81RD5qv+fK7vzXMerGc/7/aw9
+ BjSlUTtGXMmTT4CVwzsrvqF7t8DAPMtEz9tbtSPT1B36f1k4jkRg2CFAvpTIDIzWaphY
+ Y4eeCs2dTpFnXgHNdsy+e7BhRB8p2i/Mjthb02wrU8Z7zRCHZFD5p8YL5ZigstAHGXso
+ uLpBpyogBRq1t8idw0+mhUD5HaUycAh6tpuRyaEXzwPOVAyLFJi3kaoIOEN8AD2c+EsU
+ jLNB9N33GdLWEHmc4h5KaBJX4u7eoMl4B+x+jaOixx6PTdboyiMNE1HpWPrmH7jOcwek
+ oUzQ==
+X-Gm-Message-State: APjAAAXkRTxaV20tpBuV3lC/dzzKa52d29mULmU2XGK7fn9Mx2hZlKmv
+ E4GnHTdNv0UTUyHEgbM1i93Q0cSUuXCjDAXWWtHPg5uLPBU=
+X-Google-Smtp-Source: APXvYqzj7wj+betofAU2jlmCxOs7ylg1bb+GVPk/FDGmXekHL3upHIC80z0CL5J/VZrXP+nY+pLCl9+O4Y2e2ctle9Y=
+X-Received: by 2002:aa7:c81a:: with SMTP id a26mr560038edt.26.1566501905056;
+ Thu, 22 Aug 2019 12:25:05 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 93657eee-cac2-473c-4a77-08d72735e529
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Aug 2019 19:21:13.0221 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LMckXLsfZMNnMEdfDib1EwdkGc2NZYKXkj3FtcJ04ZsxtV7q+gZbe/qKspSAOaocebi1Fz/rCrEloLDNEwCKLw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0183
+References: <20190822145503.24630-1-lionel.g.landwerlin@intel.com>
+In-Reply-To: <20190822145503.24630-1-lionel.g.landwerlin@intel.com>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Thu, 22 Aug 2019 14:24:52 -0500
+Message-ID: <CAOFGe96fLwPhmpuh8v2E7rcsrubxW6CA_sbU6yZOVdOQKSw9wQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/syncobj: Add documentation for timeline syncobj
+To: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nARQBQ2T5JoGz0Mi0S9gFZwhe3r+nl2zCUHVzBenNDA=;
- b=L8dircSFuw0t2xNYP5Mujm6H+EzcFP2/7ArtaqnHmVk5EFzdJkzZN4S9JMrMAeXB4/xlps90PuVjIJIb4AmCb38iJLt4hH1j+SSBSH8fEa85CWbVXaLEHIPMSEz1YVh9ttFvYELi9L8kAtl5jEaZ+ywT9aTJNqQC04jwW4RKMM8=
-X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Harry.Wentland@amd.com; 
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=fZkQJsq+n1RfedXQDBQyHKnZi1VbIPNeQKk02E606cM=;
+ b=ixmz4G5cAa5MSHRlgm6ewCDeG6w1cqthL829s5oiVBTR2Ar8ctB4Vx4ZMc6jPmlusg
+ uT6swTSiVqZuqbDyD3FFyOHn1cD5xcybQwMMReGn+mkSrmPSkljfTHjqB0qWYw9FfADU
+ nklrHw34/MNgCEPxSnAGou7Af85uxVr4lIF/gAL1zSV7ml9UYeuDduqDDGMsCPF9oCqR
+ Jqt4/jIZ11dIQV0WcXHd43+Ju/UIjranvwiPZyzRTImi1oLx9qbDkSmEMhpFrIeMFmwD
+ 4/AiNTFD/JRGP2W7/IGJUx8TWlMsuvIi4Zt96EPkT1vCu8JbiqCXU/qfLZoC0AZajtVD
+ 4PWg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -108,44 +62,431 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Christian Koenig <Christian.Koenig@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============1118997530=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAxOS0wOC0xNiA2OjEwIHAubS4sIENvbGluIEtpbmcgd3JvdGU6DQo+IEZyb206IENvbGlu
-IElhbiBLaW5nIDxjb2xpbi5raW5nQGNhbm9uaWNhbC5jb20+DQo+IA0KPiBDdXJyZW50bHkgdGhl
-IHBvaW50ZXIgaW5pdF9kYXRhIGlzIGRlcmVmZXJlbmNlZCBvbiB0aGUgYXNzaWdubWVudA0KPiBv
-ZiBmd19pbmZvIGJlZm9yZSBpbml0X2RhdGEgaXMgc2FuaXR5IGNoZWNrZWQgdG8gc2VlIGlmIGl0
-IGlzIG51bGwuDQo+IEZpeCB0ZSBwb3RlbnRpYWwgbnVsbCBwb2ludGVyIGRlcmVmZXJlbmNlIG9u
-IGluaXRfZGF0YSBieSBvbmx5DQo+IHBlcmZvcm1pbmcgZGVyZWZlcmVuY2UgYWZ0ZXIgaXQgaXMg
-bnVsbCBjaGVja2VkLg0KPiANCj4gQWRkcmVzc2VzLUNvdmVyaXR5OiAoIkRlcmVmZXJlbmNlIGJl
-Zm9yZSBudWxsIGNoZWNrIikNCj4gRml4ZXM6IDlhZGM4MDUwYmYzYyAoImRybS9hbWQvZGlzcGxh
-eTogbWFrZSBmaXJtd2FyZSBpbmZvIG9ubHkgbG9hZCBvbmNlIGR1cmluZyBkY19iaW9zIGNyZWF0
-ZSIpDQo+IFNpZ25lZC1vZmYtYnk6IENvbGluIElhbiBLaW5nIDxjb2xpbi5raW5nQGNhbm9uaWNh
-bC5jb20+DQoNClJldmlld2VkLWJ5OiBIYXJyeSBXZW50bGFuZCA8aGFycnkud2VudGxhbmRAYW1k
-LmNvbT4NCg0KSGFycnkNCg0KPiAtLS0NCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9k
-Yy9kY2UvZGNlX2Nsb2NrX3NvdXJjZS5jIHwgMyArKy0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGlu
-c2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNlL2RjZV9jbG9ja19zb3VyY2UuYyBiL2RyaXZlcnMvZ3B1
-L2RybS9hbWQvZGlzcGxheS9kYy9kY2UvZGNlX2Nsb2NrX3NvdXJjZS5jDQo+IGluZGV4IGJlZTgx
-YmYyODhiZS4uOTI2OTU0YzgwNGE2IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1k
-L2Rpc3BsYXkvZGMvZGNlL2RjZV9jbG9ja19zb3VyY2UuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9k
-cm0vYW1kL2Rpc3BsYXkvZGMvZGNlL2RjZV9jbG9ja19zb3VyY2UuYw0KPiBAQCAtMTIzNSw3ICsx
-MjM1LDcgQEAgc3RhdGljIGJvb2wgY2FsY19wbGxfbWF4X3Zjb19jb25zdHJ1Y3QoDQo+ICAJCQlz
-dHJ1Y3QgY2FsY19wbGxfY2xvY2tfc291cmNlX2luaXRfZGF0YSAqaW5pdF9kYXRhKQ0KPiAgew0K
-PiAgCXVpbnQzMl90IGk7DQo+IC0Jc3RydWN0IGRjX2Zpcm13YXJlX2luZm8gKmZ3X2luZm8gPSAm
-aW5pdF9kYXRhLT5icC0+ZndfaW5mbzsNCj4gKwlzdHJ1Y3QgZGNfZmlybXdhcmVfaW5mbyAqZndf
-aW5mbzsNCj4gIAlpZiAoY2FsY19wbGxfY3MgPT0gTlVMTCB8fA0KPiAgCQkJaW5pdF9kYXRhID09
-IE5VTEwgfHwNCj4gIAkJCWluaXRfZGF0YS0+YnAgPT0gTlVMTCkNCj4gQEAgLTEyNDQsNiArMTI0
-NCw3IEBAIHN0YXRpYyBib29sIGNhbGNfcGxsX21heF92Y29fY29uc3RydWN0KA0KPiAgCWlmIChp
-bml0X2RhdGEtPmJwLT5md19pbmZvX3ZhbGlkKQ0KPiAgCQlyZXR1cm4gZmFsc2U7DQo+ICANCj4g
-Kwlmd19pbmZvID0gJmluaXRfZGF0YS0+YnAtPmZ3X2luZm87DQo+ICAJY2FsY19wbGxfY3MtPmN0
-eCA9IGluaXRfZGF0YS0+Y3R4Ow0KPiAgCWNhbGNfcGxsX2NzLT5yZWZfZnJlcV9raHogPSBmd19p
-bmZvLT5wbGxfaW5mby5jcnlzdGFsX2ZyZXF1ZW5jeTsNCj4gIAljYWxjX3BsbF9jcy0+bWluX3Zj
-b19raHogPQ0KPiANCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bA==
+--===============1118997530==
+Content-Type: multipart/alternative; boundary="000000000000975c010590b9a5e7"
+
+--000000000000975c010590b9a5e7
+Content-Type: text/plain; charset="UTF-8"
+
+On Thu, Aug 22, 2019 at 9:55 AM Lionel Landwerlin <
+lionel.g.landwerlin@intel.com> wrote:
+
+> We've added a set of new APIs to manipulate syncobjs holding timelines
+> of dma_fence. This adds a bit of documentation about how this works.
+>
+> Signed-off-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+> Cc: Christian Koenig <Christian.Koenig@amd.com>
+> Cc: Jason Ekstrand <jason@jlekstrand.net>
+> Cc: David(ChunMing) Zhou <David1.Zhou@amd.com>
+> ---
+>  drivers/gpu/drm/drm_syncobj.c | 87 +++++++++++++++++++++++++++++------
+>  1 file changed, 74 insertions(+), 13 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+> index b5ad73330a48..32ffded6d2c0 100644
+> --- a/drivers/gpu/drm/drm_syncobj.c
+> +++ b/drivers/gpu/drm/drm_syncobj.c
+> @@ -43,27 +43,66 @@
+>   *  - Signal a syncobj (set a trivially signaled fence)
+>   *  - Wait for a syncobj's fence to appear and be signaled
+>   *
+> + * The syncobj userspace API also provides operations to manipulate a
+> syncobj
+> + * in terms of a timeline of struct &dma_fence rather than a single struct
+> + * &dma_fence, through the following operations:
+> + *
+> + *   - Signal a given point on the timeline
+> + *   - Wait for a given point to appear and/or be signaled
+> + *   - Import and export from/to a given point of a timeline
+> + *
+>   * At it's core, a syncobj is simply a wrapper around a pointer to a
+> struct
+>   * &dma_fence which may be NULL.
+>   * When a syncobj is first created, its pointer is either NULL or a
+> pointer
+>   * to an already signaled fence depending on whether the
+>   * &DRM_SYNCOBJ_CREATE_SIGNALED flag is passed to
+>   * &DRM_IOCTL_SYNCOBJ_CREATE.
+> - * When GPU work which signals a syncobj is enqueued in a DRM driver,
+> - * the syncobj fence is replaced with a fence which will be signaled by
+> the
+> - * completion of that work.
+> - * When GPU work which waits on a syncobj is enqueued in a DRM driver, the
+> - * driver retrieves syncobj's current fence at the time the work is
+> enqueued
+> - * waits on that fence before submitting the work to hardware.
+> - * If the syncobj's fence is NULL, the enqueue operation is expected to
+> fail.
+> - * All manipulation of the syncobjs's fence happens in terms of the
+> current
+> - * fence at the time the ioctl is called by userspace regardless of
+> whether
+> - * that operation is an immediate host-side operation (signal or reset) or
+> - * or an operation which is enqueued in some driver queue.
+> - * &DRM_IOCTL_SYNCOBJ_RESET and &DRM_IOCTL_SYNCOBJ_SIGNAL can be used to
+> - * manipulate a syncobj from the host by resetting its pointer to NULL or
+> + *
+> + * If the syncobj is considered as a binary (signal/unsignaled) primitive,
+>
+
+What does "considered as a binary" mean?  Is it an inherent property of the
+syncobj given at create time?  Is it a state the syncobj can be in?  Or is
+it a property of how the submit ioctl in the DRM driver references it?  I'm
+really hoping it's either 1 or 3....
+
+
+> + * when GPU work is enqueued in a DRM driver to signal the syncobj, the
+> fence
+> + * is replaced with a fence which will be signaled by the completion of
+> that
+> + * work.
+> + * If the syncobj is considered as a timeline primitive, when GPU work is
+> + * enqueued in a DRM driver to signal the a given point of the syncobj, a
+> new
+> + * struct &dma_fence_chain pointing to the DRM driver's fence and also
+> + * pointing to the previous fence that was in the syncobj. The new struct
+> + * &dma_fence_chain fence put into the syncobj will be signaled by
+> completion
+> + * of the DRM driver's work and also any work associated with the fence
+> + * previously in the syncobj.
+> + *
+> + * When GPU work which waits on a syncobj is enqueued in a DRM driver, at
+> the
+> + * time the work is enqueued, it waits on the fence coming from the
+> syncobj
+> + * before submitting the work to hardware. That fence is either :
+> + *
+> + *    - The syncobj's current fence if the syncobj is considered as a
+> binary
+> + *      primitive.
+> + *    - The struct &dma_fence associated with a given point if the
+> syncobj is
+> + *      considered as a timeline primitive.
+> + *
+> + * If the syncobj's fence is NULL or not present in the syncobj's
+> timeline,
+> + * the enqueue operation is expected to fail.
+> + *
+> + * With binary syncobj, all manipulation of the syncobjs's fence happens
+> in
+> + * terms of the current fence at the time the ioctl is called by userspace
+> + * regardless of whether that operation is an immediate host-side
+> operation
+> + * (signal or reset) or or an operation which is enqueued in some driver
+> + * queue. &DRM_IOCTL_SYNCOBJ_RESET and &DRM_IOCTL_SYNCOBJ_SIGNAL can be
+> used
+> + * to manipulate a syncobj from the host by resetting its pointer to NULL
+> or
+>   * setting its pointer to a fence which is already signaled.
+>   *
+> + * With timeline syncobj, all manipulation of the timeline fences happens
+> in
+> + * terms of the fence referred to in the timeline. See
+> + * dma_fence_chain_find_seqno() to see how a given point is found in the
+> + * timeline.
+> + *
+> + * Note that applications should be careful to always use timeline set of
+> + * ioctl() when dealing with syncobj considered as timeline. Using a
+> binary
+> + * set of ioctl() with a syncobj considered as timeline could result
+> incorrect
+> + * synchronization. The use of binary syncobj is supported through the
+> + * timeline set of ioctl() by using a point value of 0, this will
+> reproduce
+> + * the behavior of the binary set of ioctl() (for example replace the
+> + * syncobj's fence when signaling).
+>
+
+I know I've asked this before but I feel compelled to ask it again.  Why do
+we allow them to mix and match?  Why not just have a create flag and
+enforce meaningful behavior?  I'm a bit concerned that userspace is going
+to start relying on the subtlties of the interaction between timeline and
+binary syncobjs which are neither documented nor properly tested in IGT.
+
++ *
+>   *
+>   * Host-side wait on syncobjs
+>   * --------------------------
+> @@ -87,6 +126,16 @@
+>   * synchronize between the two.
+>   * This requirement is inherited from the Vulkan fence API.
+>   *
+> + * Similarly, &DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT takes an array of syncobj
+> + * handles as well as an array of u64 points and does a host-side wait on
+> all
+> + * of syncobj fences at the given points simultaneously.
+> + *
+> + * &DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT also adds the ability to wait for a
+> given
+> + * fence to materialize on the timeline without waiting for the fence to
+> be
+> + * signaled by using the &DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE flag. This
+> + * requirement is inherited from the wait-before-signal behavior required
+> by
+> + * the Vulkan timeline semaphore API.
+> + *
+>   *
+>   * Import/export of syncobjs
+>   * -------------------------
+> @@ -120,6 +169,18 @@
+>   * Because sync files are immutable, resetting or signaling the syncobj
+>   * will not affect any sync files whose fences have been imported into the
+>   * syncobj.
+> + *
+> + *
+> + * Import/export of timeline points in timeline syncobjs
+> + * -----------------------------------------------------
+> + *
+> + * &DRM_IOCTL_SYNCOBJ_TRANSFER provides a mechanism to transfer a struct
+> + * &dma_fence of at a given point from a timeline syncobj to another point
+> + * into another timeline syncobj.
+> + *
+> + * Note that if you want to transfer a struct &dma_fence from a given
+> point on
+> + * a timeline syncobj from/into a binary syncobj, you can use the point 0
+> to
+> + * mean take/replace the fence in the syncobj.
+>   */
+>
+>  #include <linux/anon_inodes.h>
+> --
+> 2.23.0
+>
+>
+
+--000000000000975c010590b9a5e7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Thu, Aug 22, 2019 at 9:55 AM Lionel Landwerlin &lt;<a href=3D"mai=
+lto:lionel.g.landwerlin@intel.com">lionel.g.landwerlin@intel.com</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">We&#39;ve a=
+dded a set of new APIs to manipulate syncobjs holding timelines<br>
+of dma_fence. This adds a bit of documentation about how this works.<br>
+<br>
+Signed-off-by: Lionel Landwerlin &lt;<a href=3D"mailto:lionel.g.landwerlin@=
+intel.com" target=3D"_blank">lionel.g.landwerlin@intel.com</a>&gt;<br>
+Cc: Christian Koenig &lt;<a href=3D"mailto:Christian.Koenig@amd.com" target=
+=3D"_blank">Christian.Koenig@amd.com</a>&gt;<br>
+Cc: Jason Ekstrand &lt;<a href=3D"mailto:jason@jlekstrand.net" target=3D"_b=
+lank">jason@jlekstrand.net</a>&gt;<br>
+Cc: David(ChunMing) Zhou &lt;<a href=3D"mailto:David1.Zhou@amd.com" target=
+=3D"_blank">David1.Zhou@amd.com</a>&gt;<br>
+---<br>
+=C2=A0drivers/gpu/drm/drm_syncobj.c | 87 +++++++++++++++++++++++++++++-----=
+-<br>
+=C2=A01 file changed, 74 insertions(+), 13 deletions(-)<br>
+<br>
+diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c<=
+br>
+index b5ad73330a48..32ffded6d2c0 100644<br>
+--- a/drivers/gpu/drm/drm_syncobj.c<br>
++++ b/drivers/gpu/drm/drm_syncobj.c<br>
+@@ -43,27 +43,66 @@<br>
+=C2=A0 *=C2=A0 - Signal a syncobj (set a trivially signaled fence)<br>
+=C2=A0 *=C2=A0 - Wait for a syncobj&#39;s fence to appear and be signaled<b=
+r>
+=C2=A0 *<br>
++ * The syncobj userspace API also provides operations to manipulate a sync=
+obj<br>
++ * in terms of a timeline of struct &amp;dma_fence rather than a single st=
+ruct<br>
++ * &amp;dma_fence, through the following operations:<br>
++ *<br>
++ *=C2=A0 =C2=A0- Signal a given point on the timeline<br>
++ *=C2=A0 =C2=A0- Wait for a given point to appear and/or be signaled<br>
++ *=C2=A0 =C2=A0- Import and export from/to a given point of a timeline<br>
++ *<br>
+=C2=A0 * At it&#39;s core, a syncobj is simply a wrapper around a pointer t=
+o a struct<br>
+=C2=A0 * &amp;dma_fence which may be NULL.<br>
+=C2=A0 * When a syncobj is first created, its pointer is either NULL or a p=
+ointer<br>
+=C2=A0 * to an already signaled fence depending on whether the<br>
+=C2=A0 * &amp;DRM_SYNCOBJ_CREATE_SIGNALED flag is passed to<br>
+=C2=A0 * &amp;DRM_IOCTL_SYNCOBJ_CREATE.<br>
+- * When GPU work which signals a syncobj is enqueued in a DRM driver,<br>
+- * the syncobj fence is replaced with a fence which will be signaled by th=
+e<br>
+- * completion of that work.<br>
+- * When GPU work which waits on a syncobj is enqueued in a DRM driver, the=
+<br>
+- * driver retrieves syncobj&#39;s current fence at the time the work is en=
+queued<br>
+- * waits on that fence before submitting the work to hardware.<br>
+- * If the syncobj&#39;s fence is NULL, the enqueue operation is expected t=
+o fail.<br>
+- * All manipulation of the syncobjs&#39;s fence happens in terms of the cu=
+rrent<br>
+- * fence at the time the ioctl is called by userspace regardless of whethe=
+r<br>
+- * that operation is an immediate host-side operation (signal or reset) or=
+<br>
+- * or an operation which is enqueued in some driver queue.<br>
+- * &amp;DRM_IOCTL_SYNCOBJ_RESET and &amp;DRM_IOCTL_SYNCOBJ_SIGNAL can be u=
+sed to<br>
+- * manipulate a syncobj from the host by resetting its pointer to NULL or<=
+br>
++ *<br>
++ * If the syncobj is considered as a binary (signal/unsignaled) primitive,=
+<br></blockquote><div><br></div><div>What does &quot;considered as a binary=
+&quot; mean?=C2=A0 Is it an inherent property of the syncobj given at creat=
+e time?=C2=A0 Is it a state the syncobj can be in?=C2=A0 Or is it a propert=
+y of how the submit ioctl in the DRM driver references it?=C2=A0 I&#39;m re=
+ally hoping it&#39;s either 1 or 3....<br></div><div>=C2=A0</div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">
++ * when GPU work is enqueued in a DRM driver to signal the syncobj, the fe=
+nce<br>
++ * is replaced with a fence which will be signaled by the completion of th=
+at<br>
++ * work.<br>
++ * If the syncobj is considered as a timeline primitive, when GPU work is<=
+br>
++ * enqueued in a DRM driver to signal the a given point of the syncobj, a =
+new<br>
++ * struct &amp;dma_fence_chain pointing to the DRM driver&#39;s fence and =
+also<br>
++ * pointing to the previous fence that was in the syncobj. The new struct<=
+br>
++ * &amp;dma_fence_chain fence put into the syncobj will be signaled by com=
+pletion<br>
++ * of the DRM driver&#39;s work and also any work associated with the fenc=
+e<br>
++ * previously in the syncobj.<br>
++ *<br>
++ * When GPU work which waits on a syncobj is enqueued in a DRM driver, at =
+the<br>
++ * time the work is enqueued, it waits on the fence coming from the syncob=
+j<br>
++ * before submitting the work to hardware. That fence is either :<br>
++ *<br>
++ *=C2=A0 =C2=A0 - The syncobj&#39;s current fence if the syncobj is consid=
+ered as a binary<br>
++ *=C2=A0 =C2=A0 =C2=A0 primitive.<br>
++ *=C2=A0 =C2=A0 - The struct &amp;dma_fence associated with a given point =
+if the syncobj is<br>
++ *=C2=A0 =C2=A0 =C2=A0 considered as a timeline primitive.<br>
++ *<br>
++ * If the syncobj&#39;s fence is NULL or not present in the syncobj&#39;s =
+timeline,<br>
++ * the enqueue operation is expected to fail.<br>
++ *<br>
++ * With binary syncobj, all manipulation of the syncobjs&#39;s fence happe=
+ns in<br>
++ * terms of the current fence at the time the ioctl is called by userspace=
+<br>
++ * regardless of whether that operation is an immediate host-side operatio=
+n<br>
++ * (signal or reset) or or an operation which is enqueued in some driver<b=
+r>
++ * queue. &amp;DRM_IOCTL_SYNCOBJ_RESET and &amp;DRM_IOCTL_SYNCOBJ_SIGNAL c=
+an be used<br>
++ * to manipulate a syncobj from the host by resetting its pointer to NULL =
+or<br>
+=C2=A0 * setting its pointer to a fence which is already signaled.<br>
+=C2=A0 *<br>
++ * With timeline syncobj, all manipulation of the timeline fences happens =
+in<br>
++ * terms of the fence referred to in the timeline. See<br>
++ * dma_fence_chain_find_seqno() to see how a given point is found in the<b=
+r>
++ * timeline.<br>
++ *<br>
++ * Note that applications should be careful to always use timeline set of<=
+br>
++ * ioctl() when dealing with syncobj considered as timeline. Using a binar=
+y<br>
++ * set of ioctl() with a syncobj considered as timeline could result incor=
+rect<br>
++ * synchronization. The use of binary syncobj is supported through the<br>
++ * timeline set of ioctl() by using a point value of 0, this will reproduc=
+e<br>
++ * the behavior of the binary set of ioctl() (for example replace the<br>
++ * syncobj&#39;s fence when signaling).<br></blockquote><div>=C2=A0</div><=
+div>I know I&#39;ve asked this before but I feel compelled to ask it again.=
+=C2=A0 Why do we allow them to mix and match?=C2=A0 Why not just have a cre=
+ate flag and enforce meaningful behavior?=C2=A0 I&#39;m a bit concerned tha=
+t userspace is going to start relying on the subtlties of the interaction b=
+etween timeline and binary syncobjs which are neither documented nor proper=
+ly tested in IGT.<br></div><div> <br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">
++ *<br>
+=C2=A0 *<br>
+=C2=A0 * Host-side wait on syncobjs<br>
+=C2=A0 * --------------------------<br>
+@@ -87,6 +126,16 @@<br>
+=C2=A0 * synchronize between the two.<br>
+=C2=A0 * This requirement is inherited from the Vulkan fence API.<br>
+=C2=A0 *<br>
++ * Similarly, &amp;DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT takes an array of synco=
+bj<br>
++ * handles as well as an array of u64 points and does a host-side wait on =
+all<br>
++ * of syncobj fences at the given points simultaneously.<br>
++ *<br>
++ * &amp;DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT also adds the ability to wait for =
+a given<br>
++ * fence to materialize on the timeline without waiting for the fence to b=
+e<br>
++ * signaled by using the &amp;DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE flag. =
+This<br>
++ * requirement is inherited from the wait-before-signal behavior required =
+by<br>
++ * the Vulkan timeline semaphore API.<br>
++ *<br>
+=C2=A0 *<br>
+=C2=A0 * Import/export of syncobjs<br>
+=C2=A0 * -------------------------<br>
+@@ -120,6 +169,18 @@<br>
+=C2=A0 * Because sync files are immutable, resetting or signaling the synco=
+bj<br>
+=C2=A0 * will not affect any sync files whose fences have been imported int=
+o the<br>
+=C2=A0 * syncobj.<br>
++ *<br>
++ *<br>
++ * Import/export of timeline points in timeline syncobjs<br>
++ * -----------------------------------------------------<br>
++ *<br>
++ * &amp;DRM_IOCTL_SYNCOBJ_TRANSFER provides a mechanism to transfer a stru=
+ct<br>
++ * &amp;dma_fence of at a given point from a timeline syncobj to another p=
+oint<br>
++ * into another timeline syncobj.<br>
++ *<br>
++ * Note that if you want to transfer a struct &amp;dma_fence from a given =
+point on<br>
++ * a timeline syncobj from/into a binary syncobj, you can use the point 0 =
+to<br>
++ * mean take/replace the fence in the syncobj.<br>
+=C2=A0 */<br>
+<br>
+=C2=A0#include &lt;linux/anon_inodes.h&gt;<br>
+-- <br>
+2.23.0<br>
+<br>
+</blockquote></div></div>
+
+--000000000000975c010590b9a5e7--
+
+--===============1118997530==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1118997530==--
