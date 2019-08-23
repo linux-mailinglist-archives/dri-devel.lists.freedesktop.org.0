@@ -1,34 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00DC79AB75
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2019 11:38:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 315839ABE2
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2019 11:51:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F3B66EC49;
-	Fri, 23 Aug 2019 09:38:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDB436EC50;
+	Fri, 23 Aug 2019 09:51:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 257876EC49
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2019 09:38:45 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D3330337;
- Fri, 23 Aug 2019 02:38:44 -0700 (PDT)
-Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3F3963F246;
- Fri, 23 Aug 2019 02:38:44 -0700 (PDT)
-Subject: Re: [PATCH] MAINTAINERS: Add Steven and Alyssa as panfrost reviewers
-To: Rob Herring <robh@kernel.org>, dri-devel@lists.freedesktop.org
-References: <20190823013357.932-1-robh@kernel.org>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <7db8cca3-fd35-33a9-b52d-efe7e946323f@arm.com>
-Date: Fri, 23 Aug 2019 10:38:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F68E6EC4D
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2019 09:51:45 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 46FGrZ5WXvz9sBp;
+ Fri, 23 Aug 2019 19:51:42 +1000 (AEST)
+Date: Fri, 23 Aug 2019 19:51:40 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: Signed-off-by missing for commit in the drm tree
+Message-ID: <20190823195140.3bc7821c@canb.auug.org.au>
 MIME-Version: 1.0
-In-Reply-To: <20190823013357.932-1-robh@kernel.org>
-Content-Language: en-GB
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=canb.auug.org.au; s=201702; t=1566553903;
+ bh=QLzdlGUP2qHEZlzxsdrO1oxIaTROUs3zT3IbbobvE7g=;
+ h=Date:From:To:Cc:Subject:From;
+ b=OIQ0AQe8iVVw+fLNrQ3/q3fEyUTbhCJOv+E7jYQc56hj8wHO9ciUq6b3puZ+SsVWg
+ U3ypD9L3ICPtB+2DIDezTalchGkvMfdIwnNlj3yqOnjaNR7ZoV8e0hAKf5sQK8EMBs
+ F9iaUP2FALOTinEVzVIUvpOairD4gj5T6+zMGKsZ1HEXFrSNeEjvmD8SQxT8ccAW+q
+ b+ZoVCAbHWv0gwYVJmN8vYQcIgnRCFwQVHIq9CfgG9nX/hwbTQoNjaKcHY8rxekZdU
+ LLMJWX6q3AECF4OYK5YD2/mQK43bTkuN0t5nrexc/7PXSbIf5GSNCju8gplHR/DU4i
+ pEDwzdqnBm+2Q==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -41,30 +46,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Ben Skeggs <bskeggs@redhat.com>
+Content-Type: multipart/mixed; boundary="===============1983189793=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjMvMDgvMjAxOSAwMjozMywgUm9iIEhlcnJpbmcgd3JvdGU6Cj4gQWRkIFN0ZXZlbiBQcmlj
-ZSBhbmQgQWx5c3NhIFJvc2VuendlaWcgYXMgcmV2aWV3ZXJzIGFzIHRoZXkgaGF2ZSBiZWVuIHRo
-ZQo+IHByaW1hcnkgcmV2aWV3ZXJzIGFscmVhZHkuCj4gCj4gQ2M6IFN0ZXZlbiBQcmljZSA8c3Rl
-dmVuLnByaWNlQGFybS5jb20+Cj4gQ2M6IEFseXNzYSBSb3Nlbnp3ZWlnIDxhbHlzc2Eucm9zZW56
-d2VpZ0Bjb2xsYWJvcmEuY29tPgo+IENjOiBUb21ldSBWaXpvc28gPHRvbWV1LnZpem9zb0Bjb2xs
-YWJvcmEuY29tPgo+IFNpZ25lZC1vZmYtYnk6IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+
-CgpBY2tlZC1ieTogU3RldmVuIFByaWNlIDxzdGV2ZW4ucHJpY2VAYXJtLmNvbT4KClN0ZXZlCgo+
-IC0tLQo+ICBNQUlOVEFJTkVSUyB8IDIgKysKPiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9u
-cygrKQo+IAo+IGRpZmYgLS1naXQgYS9NQUlOVEFJTkVSUyBiL01BSU5UQUlORVJTCj4gaW5kZXgg
-NjdiNzVmYzMzYzYxLi4yOGY0YTIwOTQwY2IgMTAwNjQ0Cj4gLS0tIGEvTUFJTlRBSU5FUlMKPiAr
-KysgYi9NQUlOVEFJTkVSUwo+IEBAIC0xMjU1LDYgKzEyNTUsOCBAQCBGOglEb2N1bWVudGF0aW9u
-L2dwdS9hZmJjLnJzdAo+ICBBUk0gTUFMSSBQQU5GUk9TVCBEUk0gRFJJVkVSCj4gIE06CVJvYiBI
-ZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+Cj4gIE06CVRvbWV1IFZpem9zbyA8dG9tZXUudml6b3Nv
-QGNvbGxhYm9yYS5jb20+Cj4gK1I6CVN0ZXZlbiBQcmljZSA8c3RldmVuLnByaWNlQGFybS5jb20+
-Cj4gK1I6CUFseXNzYSBSb3Nlbnp3ZWlnIDxhbHlzc2Eucm9zZW56d2VpZ0Bjb2xsYWJvcmEuY29t
-Pgo+ICBMOglkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gIFM6CVN1cHBvcnRlZAo+
-ICBUOglnaXQgZ2l0Oi8vYW5vbmdpdC5mcmVlZGVza3RvcC5vcmcvZHJtL2RybS1taXNjCj4gCgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+--===============1983189793==
+Content-Type: multipart/signed; boundary="Sig_/eDkqsrvY0P4s280mUgHpOaC";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/eDkqsrvY0P4s280mUgHpOaC
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi all,
+
+Commit
+
+  88b703527ba7 ("drm/nouveau/kms/gf119-: add ctm property support")
+
+is missing a Signed-off-by from its committer.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/eDkqsrvY0P4s280mUgHpOaC
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl1ftywACgkQAVBC80lX
+0Gy+gwgAm56anyFuDl42rt7iwMXlmwMaWLDH7JyiYBHCx4Wl6oD/R98T0D1eT4dX
+KgRF54RSZcmpneQDgwqGv/zSKC3xl4vF6+/gzguw5M5KQZiHriYoNp2PV9/o+kWm
+5/5sz/REq3DHb4uk07BZ+iUbRFPoifRpim5d2KOmV2IwNMfiNln64weFUgNH3E3A
+ODZWQ68HuOsV1JdkMUzutP+VrMKIJsHT/6Bb7Q74SlVzZ9D27QbKnkYA0bPzdNUX
+EIyARO8EbMx72nCPP+Nze2UVa/LZG7DWNHWyPL0kw+w1mE3zBLmDT1g9qlgfIf2p
+Csxt1kTjoHzphZkicet6jxRZzycyZw==
+=EDY5
+-----END PGP SIGNATURE-----
+
+--Sig_/eDkqsrvY0P4s280mUgHpOaC--
+
+--===============1983189793==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1983189793==--
