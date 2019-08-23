@@ -1,40 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD4D39AC30
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2019 11:56:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72BD09AC0A
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2019 11:55:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48C5C6EC70;
-	Fri, 23 Aug 2019 09:56:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86CD36EC51;
+	Fri, 23 Aug 2019 09:55:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FD106EC59
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2019 09:55:14 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3EC8E804F2;
- Fri, 23 Aug 2019 09:55:14 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-60.ams2.redhat.com
- [10.36.116.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E93135F9D3;
- Fri, 23 Aug 2019 09:55:10 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id DB4F631EA8; Fri, 23 Aug 2019 11:55:04 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v8 12/18] drm/virtio: rework virtio_gpu_cmd_context_{attach,
- detach}_resource
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6B186EC51
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2019 09:55:03 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 24260AF3E;
+ Fri, 23 Aug 2019 09:55:02 +0000 (UTC)
+Subject: Re: [LKP] [drm/mgag200] 90f479ae51: vm-scalability.median -18.8%
+ regression
+To: Dave Airlie <airlied@gmail.com>
+References: <20190729095155.GP22106@shao2-debian>
+ <1c0bf22b-2c69-6b45-f700-ed832a3a5c17@suse.de>
+ <14fdaaed-51c8-b270-b46b-cba7b5c4ba52@suse.de>
+ <20190805070200.GA91650@shbuild999.sh.intel.com>
+ <c0c3f387-dc93-3146-788c-23258b28a015@intel.com>
+ <045a23ab-78f7-f363-4a2e-bf24a7a2f79e@suse.de>
+ <37ae41e4-455d-c18d-5c93-7df854abfef9@intel.com>
+ <370747ca-4dc9-917b-096c-891dcc2aedf0@suse.de>
+ <c6e220fe-230c-265c-f2fc-b0948d1cb898@intel.com>
+ <20190812072545.GA63191@shbuild999.sh.intel.com>
+ <20190813093616.GA65475@shbuild999.sh.intel.com>
+ <64d41701-55a4-e526-17ae-8936de4bc1ef@suse.de>
+ <CAPM=9twNdYZCbyByLqZPpcK+ifoeL0weXppqzLyZEOn7GPAV_Q@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
+ IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
+ AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
+ 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
+ hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
+ YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
+ 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
+ tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
+ R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
+ E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
+ kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
+ 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
+ 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
+ A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
+ NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
+ VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
+ iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
+ VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
+ iNx9uqqx
+Message-ID: <7ba725e3-3db7-36d7-25f5-d9ef607ebf65@suse.de>
 Date: Fri, 23 Aug 2019 11:54:57 +0200
-Message-Id: <20190823095503.2261-13-kraxel@redhat.com>
-In-Reply-To: <20190823095503.2261-1-kraxel@redhat.com>
-References: <20190823095503.2261-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Fri, 23 Aug 2019 09:55:14 +0000 (UTC)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <CAPM=9twNdYZCbyByLqZPpcK+ifoeL0weXppqzLyZEOn7GPAV_Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,95 +77,223 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
- Gerd Hoffmann <kraxel@redhat.com>, gurchetansingh@chromium.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Feng Tang <feng.tang@intel.com>,
+ Rong Chen <rong.a.chen@intel.com>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, ying.huang@intel.com,
+ LKP <lkp@01.org>
+Content-Type: multipart/mixed; boundary="===============1294300467=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-U3dpdGNoIHRvIHRoZSB2aXJ0aW9fZ3B1X2FycmF5XyogaGVscGVyIHdvcmtmbG93LgoKU2lnbmVk
-LW9mZi1ieTogR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+Ci0tLQogZHJpdmVycy9n
-cHUvZHJtL3ZpcnRpby92aXJ0Z3B1X2Rydi5oIHwgIDQgKystLQogZHJpdmVycy9ncHUvZHJtL3Zp
-cnRpby92aXJ0Z3B1X2dlbS5jIHwgMjQgKysrKysrKysrKystLS0tLS0tLS0tLS0tCiBkcml2ZXJz
-L2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfdnEuYyAgfCAxMiArKysrKysrKy0tLS0KIDMgZmlsZXMg
-Y2hhbmdlZCwgMjEgaW5zZXJ0aW9ucygrKSwgMTkgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X2Rydi5oIGIvZHJpdmVycy9ncHUvZHJtL3Zp
-cnRpby92aXJ0Z3B1X2Rydi5oCmluZGV4IDRmNTRiZjdjMDJhZi4uZDVlZjI1MTRkMmJkIDEwMDY0
-NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfZHJ2LmgKKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X2Rydi5oCkBAIC0zMTMsMTAgKzMxMywxMCBAQCB2b2lk
-IHZpcnRpb19ncHVfY21kX2NvbnRleHRfZGVzdHJveShzdHJ1Y3QgdmlydGlvX2dwdV9kZXZpY2Ug
-KnZnZGV2LAogCQkJCSAgICB1aW50MzJfdCBpZCk7CiB2b2lkIHZpcnRpb19ncHVfY21kX2NvbnRl
-eHRfYXR0YWNoX3Jlc291cmNlKHN0cnVjdCB2aXJ0aW9fZ3B1X2RldmljZSAqdmdkZXYsCiAJCQkJ
-CSAgICB1aW50MzJfdCBjdHhfaWQsCi0JCQkJCSAgICB1aW50MzJfdCByZXNvdXJjZV9pZCk7CisJ
-CQkJCSAgICBzdHJ1Y3QgdmlydGlvX2dwdV9vYmplY3RfYXJyYXkgKm9ianMpOwogdm9pZCB2aXJ0
-aW9fZ3B1X2NtZF9jb250ZXh0X2RldGFjaF9yZXNvdXJjZShzdHJ1Y3QgdmlydGlvX2dwdV9kZXZp
-Y2UgKnZnZGV2LAogCQkJCQkgICAgdWludDMyX3QgY3R4X2lkLAotCQkJCQkgICAgdWludDMyX3Qg
-cmVzb3VyY2VfaWQpOworCQkJCQkgICAgc3RydWN0IHZpcnRpb19ncHVfb2JqZWN0X2FycmF5ICpv
-YmpzKTsKIHZvaWQgdmlydGlvX2dwdV9jbWRfc3VibWl0KHN0cnVjdCB2aXJ0aW9fZ3B1X2Rldmlj
-ZSAqdmdkZXYsCiAJCQkgICB2b2lkICpkYXRhLCB1aW50MzJfdCBkYXRhX3NpemUsCiAJCQkgICB1
-aW50MzJfdCBjdHhfaWQsCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRn
-cHVfZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfZ2VtLmMKaW5kZXggZjM3
-OTlmMmU5N2NiLi4xODhjMjBhYWFlNTYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS92aXJ0
-aW8vdmlydGdwdV9nZW0uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfZ2Vt
-LmMKQEAgLTEzNiwxOSArMTM2LDE4IEBAIGludCB2aXJ0aW9fZ3B1X2dlbV9vYmplY3Rfb3Blbihz
-dHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwKIHsKIAlzdHJ1Y3QgdmlydGlvX2dwdV9kZXZpY2Ug
-KnZnZGV2ID0gb2JqLT5kZXYtPmRldl9wcml2YXRlOwogCXN0cnVjdCB2aXJ0aW9fZ3B1X2Zwcml2
-ICp2ZnByaXYgPSBmaWxlLT5kcml2ZXJfcHJpdjsKLQlzdHJ1Y3QgdmlydGlvX2dwdV9vYmplY3Qg
-KnFvYmogPSBnZW1fdG9fdmlydGlvX2dwdV9vYmoob2JqKTsKLQlpbnQgcjsKKwlzdHJ1Y3Qgdmly
-dGlvX2dwdV9vYmplY3RfYXJyYXkgKm9ianM7CiAKIAlpZiAoIXZnZGV2LT5oYXNfdmlyZ2xfM2Qp
-CiAJCXJldHVybiAwOwogCi0JciA9IHZpcnRpb19ncHVfb2JqZWN0X3Jlc2VydmUocW9iaik7Ci0J
-aWYgKHIpCi0JCXJldHVybiByOworCW9ianMgPSB2aXJ0aW9fZ3B1X2FycmF5X2FsbG9jKDEpOwor
-CWlmICghb2JqcykKKwkJcmV0dXJuIC1FTk9NRU07CisJdmlydGlvX2dwdV9hcnJheV9hZGRfb2Jq
-KG9ianMsIG9iaik7CiAKIAl2aXJ0aW9fZ3B1X2NtZF9jb250ZXh0X2F0dGFjaF9yZXNvdXJjZSh2
-Z2RldiwgdmZwcml2LT5jdHhfaWQsCi0JCQkJCSAgICAgICBxb2JqLT5od19yZXNfaGFuZGxlKTsK
-LQl2aXJ0aW9fZ3B1X29iamVjdF91bnJlc2VydmUocW9iaik7CisJCQkJCSAgICAgICBvYmpzKTsK
-IAlyZXR1cm4gMDsKIH0KIApAQCAtMTU3LDE5ICsxNTYsMTggQEAgdm9pZCB2aXJ0aW9fZ3B1X2dl
-bV9vYmplY3RfY2xvc2Uoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosCiB7CiAJc3RydWN0IHZp
-cnRpb19ncHVfZGV2aWNlICp2Z2RldiA9IG9iai0+ZGV2LT5kZXZfcHJpdmF0ZTsKIAlzdHJ1Y3Qg
-dmlydGlvX2dwdV9mcHJpdiAqdmZwcml2ID0gZmlsZS0+ZHJpdmVyX3ByaXY7Ci0Jc3RydWN0IHZp
-cnRpb19ncHVfb2JqZWN0ICpxb2JqID0gZ2VtX3RvX3ZpcnRpb19ncHVfb2JqKG9iaik7Ci0JaW50
-IHI7CisJc3RydWN0IHZpcnRpb19ncHVfb2JqZWN0X2FycmF5ICpvYmpzOwogCiAJaWYgKCF2Z2Rl
-di0+aGFzX3ZpcmdsXzNkKQogCQlyZXR1cm47CiAKLQlyID0gdmlydGlvX2dwdV9vYmplY3RfcmVz
-ZXJ2ZShxb2JqKTsKLQlpZiAocikKKwlvYmpzID0gdmlydGlvX2dwdV9hcnJheV9hbGxvYygxKTsK
-KwlpZiAoIW9ianMpCiAJCXJldHVybjsKKwl2aXJ0aW9fZ3B1X2FycmF5X2FkZF9vYmoob2Jqcywg
-b2JqKTsKIAogCXZpcnRpb19ncHVfY21kX2NvbnRleHRfZGV0YWNoX3Jlc291cmNlKHZnZGV2LCB2
-ZnByaXYtPmN0eF9pZCwKLQkJCQkJCXFvYmotPmh3X3Jlc19oYW5kbGUpOwotCXZpcnRpb19ncHVf
-b2JqZWN0X3VucmVzZXJ2ZShxb2JqKTsKKwkJCQkJICAgICAgIG9ianMpOwogfQogCiBzdHJ1Y3Qg
-dmlydGlvX2dwdV9vYmplY3RfYXJyYXkgKnZpcnRpb19ncHVfYXJyYXlfYWxsb2ModTMyIG5lbnRz
-KQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X3ZxLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfdnEuYwppbmRleCBlOGY1NjcwYWFkZjIuLjdhMzE2
-ZTkyYzc4MyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X3ZxLmMK
-KysrIGIvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X3ZxLmMKQEAgLTgzOCwzNCArODM4
-LDM4IEBAIHZvaWQgdmlydGlvX2dwdV9jbWRfY29udGV4dF9kZXN0cm95KHN0cnVjdCB2aXJ0aW9f
-Z3B1X2RldmljZSAqdmdkZXYsCiAKIHZvaWQgdmlydGlvX2dwdV9jbWRfY29udGV4dF9hdHRhY2hf
-cmVzb3VyY2Uoc3RydWN0IHZpcnRpb19ncHVfZGV2aWNlICp2Z2RldiwKIAkJCQkJICAgIHVpbnQz
-Ml90IGN0eF9pZCwKLQkJCQkJICAgIHVpbnQzMl90IHJlc291cmNlX2lkKQorCQkJCQkgICAgc3Ry
-dWN0IHZpcnRpb19ncHVfb2JqZWN0X2FycmF5ICpvYmpzKQogeworCXN0cnVjdCB2aXJ0aW9fZ3B1
-X29iamVjdCAqYm8gPSBnZW1fdG9fdmlydGlvX2dwdV9vYmoob2Jqcy0+b2Jqc1swXSk7CiAJc3Ry
-dWN0IHZpcnRpb19ncHVfY3R4X3Jlc291cmNlICpjbWRfcDsKIAlzdHJ1Y3QgdmlydGlvX2dwdV92
-YnVmZmVyICp2YnVmOwogCiAJY21kX3AgPSB2aXJ0aW9fZ3B1X2FsbG9jX2NtZCh2Z2RldiwgJnZi
-dWYsIHNpemVvZigqY21kX3ApKTsKIAltZW1zZXQoY21kX3AsIDAsIHNpemVvZigqY21kX3ApKTsK
-Kwl2YnVmLT5vYmpzID0gb2JqczsKIAogCWNtZF9wLT5oZHIudHlwZSA9IGNwdV90b19sZTMyKFZJ
-UlRJT19HUFVfQ01EX0NUWF9BVFRBQ0hfUkVTT1VSQ0UpOwogCWNtZF9wLT5oZHIuY3R4X2lkID0g
-Y3B1X3RvX2xlMzIoY3R4X2lkKTsKLQljbWRfcC0+cmVzb3VyY2VfaWQgPSBjcHVfdG9fbGUzMihy
-ZXNvdXJjZV9pZCk7CisJY21kX3AtPnJlc291cmNlX2lkID0gY3B1X3RvX2xlMzIoYm8tPmh3X3Jl
-c19oYW5kbGUpOwogCXZpcnRpb19ncHVfcXVldWVfY3RybF9idWZmZXIodmdkZXYsIHZidWYpOwog
-CiB9CiAKIHZvaWQgdmlydGlvX2dwdV9jbWRfY29udGV4dF9kZXRhY2hfcmVzb3VyY2Uoc3RydWN0
-IHZpcnRpb19ncHVfZGV2aWNlICp2Z2RldiwKIAkJCQkJICAgIHVpbnQzMl90IGN0eF9pZCwKLQkJ
-CQkJICAgIHVpbnQzMl90IHJlc291cmNlX2lkKQorCQkJCQkgICAgc3RydWN0IHZpcnRpb19ncHVf
-b2JqZWN0X2FycmF5ICpvYmpzKQogeworCXN0cnVjdCB2aXJ0aW9fZ3B1X29iamVjdCAqYm8gPSBn
-ZW1fdG9fdmlydGlvX2dwdV9vYmoob2Jqcy0+b2Jqc1swXSk7CiAJc3RydWN0IHZpcnRpb19ncHVf
-Y3R4X3Jlc291cmNlICpjbWRfcDsKIAlzdHJ1Y3QgdmlydGlvX2dwdV92YnVmZmVyICp2YnVmOwog
-CiAJY21kX3AgPSB2aXJ0aW9fZ3B1X2FsbG9jX2NtZCh2Z2RldiwgJnZidWYsIHNpemVvZigqY21k
-X3ApKTsKIAltZW1zZXQoY21kX3AsIDAsIHNpemVvZigqY21kX3ApKTsKKwl2YnVmLT5vYmpzID0g
-b2JqczsKIAogCWNtZF9wLT5oZHIudHlwZSA9IGNwdV90b19sZTMyKFZJUlRJT19HUFVfQ01EX0NU
-WF9ERVRBQ0hfUkVTT1VSQ0UpOwogCWNtZF9wLT5oZHIuY3R4X2lkID0gY3B1X3RvX2xlMzIoY3R4
-X2lkKTsKLQljbWRfcC0+cmVzb3VyY2VfaWQgPSBjcHVfdG9fbGUzMihyZXNvdXJjZV9pZCk7CisJ
-Y21kX3AtPnJlc291cmNlX2lkID0gY3B1X3RvX2xlMzIoYm8tPmh3X3Jlc19oYW5kbGUpOwogCXZp
-cnRpb19ncHVfcXVldWVfY3RybF9idWZmZXIodmdkZXYsIHZidWYpOwogfQogCi0tIAoyLjE4LjEK
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1294300467==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="BX3CP7cHYzOQa9F5YKqbW8zm5Dwdk7dGN"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--BX3CP7cHYzOQa9F5YKqbW8zm5Dwdk7dGN
+Content-Type: multipart/mixed; boundary="UfVNc8G4JXNq0jGSgU2yvKqdKxlAlgW6V";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>
+Cc: Feng Tang <feng.tang@intel.com>, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Rong Chen <rong.a.chen@intel.com>, =?UTF-8?Q?Michel_D=c3=a4nzer?=
+ <michel@daenzer.net>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, ying.huang@intel.com,
+ LKP <lkp@01.org>
+Message-ID: <7ba725e3-3db7-36d7-25f5-d9ef607ebf65@suse.de>
+Subject: Re: [LKP] [drm/mgag200] 90f479ae51: vm-scalability.median -18.8%
+ regression
+References: <20190729095155.GP22106@shao2-debian>
+ <1c0bf22b-2c69-6b45-f700-ed832a3a5c17@suse.de>
+ <14fdaaed-51c8-b270-b46b-cba7b5c4ba52@suse.de>
+ <20190805070200.GA91650@shbuild999.sh.intel.com>
+ <c0c3f387-dc93-3146-788c-23258b28a015@intel.com>
+ <045a23ab-78f7-f363-4a2e-bf24a7a2f79e@suse.de>
+ <37ae41e4-455d-c18d-5c93-7df854abfef9@intel.com>
+ <370747ca-4dc9-917b-096c-891dcc2aedf0@suse.de>
+ <c6e220fe-230c-265c-f2fc-b0948d1cb898@intel.com>
+ <20190812072545.GA63191@shbuild999.sh.intel.com>
+ <20190813093616.GA65475@shbuild999.sh.intel.com>
+ <64d41701-55a4-e526-17ae-8936de4bc1ef@suse.de>
+ <CAPM=9twNdYZCbyByLqZPpcK+ifoeL0weXppqzLyZEOn7GPAV_Q@mail.gmail.com>
+In-Reply-To: <CAPM=9twNdYZCbyByLqZPpcK+ifoeL0weXppqzLyZEOn7GPAV_Q@mail.gmail.com>
+
+--UfVNc8G4JXNq0jGSgU2yvKqdKxlAlgW6V
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 22.08.19 um 22:02 schrieb Dave Airlie:
+> On Fri, 23 Aug 2019 at 03:25, Thomas Zimmermann <tzimmermann@suse.de> w=
+rote:
+>>
+>> Hi
+>>
+>> I was traveling and could reply earlier. Sorry for taking so long.
+>>
+>> Am 13.08.19 um 11:36 schrieb Feng Tang:
+>>> Hi Thomas,
+>>>
+>>> On Mon, Aug 12, 2019 at 03:25:45PM +0800, Feng Tang wrote:
+>>>> Hi Thomas,
+>>>>
+>>>> On Fri, Aug 09, 2019 at 04:12:29PM +0800, Rong Chen wrote:
+>>>>> Hi,
+>>>>>
+>>>>>>> Actually we run the benchmark as a background process, do we need=
+ to
+>>>>>>> disable the cursor and test again?
+>>>>>> There's a worker thread that updates the display from the shadow b=
+uffer.
+>>>>>> The blinking cursor periodically triggers the worker thread, but t=
+he
+>>>>>> actual update is just the size of one character.
+>>>>>>
+>>>>>> The point of the test without output is to see if the regression c=
+omes
+>>>>> >from the buffer update (i.e., the memcpy from shadow buffer to VRA=
+M), or
+>>>>> >from the worker thread. If the regression goes away after disablin=
+g the
+>>>>>> blinking cursor, then the worker thread is the problem. If it alre=
+ady
+>>>>>> goes away if there's simply no output from the test, the screen up=
+date
+>>>>>> is the problem. On my machine I have to disable the blinking curso=
+r, so
+>>>>>> I think the worker causes the performance drop.
+>>>>>
+>>>>> We disabled redirecting stdout/stderr to /dev/kmsg,  and the regres=
+sion is
+>>>>> gone.
+>>>>>
+>>>>> commit:
+>>>>>   f1f8555dfb9 drm/bochs: Use shadow buffer for bochs framebuffer co=
+nsole
+>>>>>   90f479ae51a drm/mgag200: Replace struct mga_fbdev with generic fr=
+amebuffer
+>>>>> emulation
+>>>>>
+>>>>> f1f8555dfb9a70a2  90f479ae51afa45efab97afdde testcase/testparams/te=
+stbox
+>>>>> ----------------  -------------------------- ----------------------=
+-----
+>>>>>          %stddev      change         %stddev
+>>>>>              \          |                \
+>>>>>      43785                       44481
+>>>>> vm-scalability/300s-8T-anon-cow-seq-hugetlb/lkp-knm01
+>>>>>      43785                       44481        GEO-MEAN vm-scalabili=
+ty.median
+>>>>
+>>>> Till now, from Rong's tests:
+>>>> 1. Disabling cursor blinking doesn't cure the regression.
+>>>> 2. Disabling printint test results to console can workaround the
+>>>> regression.
+>>>>
+>>>> Also if we set the perfer_shadown to 0, the regression is also
+>>>> gone.
+>>>
+>>> We also did some further break down for the time consumed by the
+>>> new code.
+>>>
+>>> The drm_fb_helper_dirty_work() calls sequentially
+>>> 1. drm_client_buffer_vmap       (290 us)
+>>> 2. drm_fb_helper_dirty_blit_real  (19240 us)
+>>> 3. helper->fb->funcs->dirty()    ---> NULL for mgag200 driver
+>>> 4. drm_client_buffer_vunmap       (215 us)
+>>>
+>>
+>> It's somewhat different to what I observed, but maybe I just couldn't
+>> reproduce the problem correctly.
+>>
+>>> The average run time is listed after the function names.
+>>>
+>>> From it, we can see drm_fb_helper_dirty_blit_real() takes too long
+>>> time (about 20ms for each run). I guess this is the root cause
+>>> of this regression, as the original code doesn't use this dirty worke=
+r.
+>>
+>> True, the original code uses a temporary buffer, but updates the displ=
+ay
+>> immediately.
+>>
+>> My guess is that this could be a caching problem. The worker runs on a=
+
+>> different CPU, which doesn't have the shadow buffer in cache.
+>>
+>>> As said in last email, setting the prefer_shadow to 0 can avoid
+>>> the regrssion. Could it be an option?
+>>
+>> Unfortunately not. Without the shadow buffer, the console's display
+>> buffer permanently resides in video memory. It consumes significant
+>> amount of that memory (say 8 MiB out of 16 MiB). That doesn't leave
+>> enough room for anything else.
+>>
+>> The best option is to not print to the console.
+>=20
+> Wait a second, I thought the driver did an eviction on modeset of the
+> scanned out object, this was a deliberate design decision made when
+> writing those drivers, has this been removed in favour of gem and
+> generic code paths?
+
+Yes. We added back this feature for testing in [1]. It was only an
+improvement of ~1% compared to the original report. I wouldn't mind
+landing this patch set, but it probably doesn't make a difference either.=
+
+
+Best regards
+Thomas
+
+[1] https://lists.freedesktop.org/archives/dri-devel/2019-August/228950.h=
+tml
+
+>=20
+> Dave.
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
+GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N=C3=BCrnberg)
+
+
+--UfVNc8G4JXNq0jGSgU2yvKqdKxlAlgW6V--
+
+--BX3CP7cHYzOQa9F5YKqbW8zm5Dwdk7dGN
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl1ft/QACgkQaA3BHVML
+eiM8Tgf+KBbm9lizxffLYbEQPJcuUsnSU/caG24GOCIxe0ojHKUmVxQWiwZQXNPe
+a98SXAQRB453dWGEvaeNIzNDzorlgfSp76mvXvlQ0ZZJ0joRS/RcS7O+1Q7irzsk
+zft51SZqyw+XSC7KtRPYkwjcs7T+bUM45JXJBtgQx3KxpqROubNij9hbQotoQFGG
+b3TSl6g81OVg5s7JAd+CuX/YdVCFqHyTATJutD9M5SMaLZAx3EQOrLSKfia9e5Nq
+8BKrU1Ewg6fwfX1H7cGBZMumm3o595rnscBCO/o1jBwrkSblcRi/MnpqOz9J9HQm
+XJWQiwPRuUWsUbCjuOkEA9SJHqcZkQ==
+=/fro
+-----END PGP SIGNATURE-----
+
+--BX3CP7cHYzOQa9F5YKqbW8zm5Dwdk7dGN--
+
+--===============1294300467==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1294300467==--
