@@ -2,57 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B64239B676
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2019 20:53:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22E229B67E
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2019 20:56:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 252916ED1E;
-	Fri, 23 Aug 2019 18:53:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 115C16ED1F;
+	Fri, 23 Aug 2019 18:56:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
- [IPv6:2a00:1450:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB0016ED1E
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2019 18:53:33 +0000 (UTC)
-Received: by mail-ed1-x542.google.com with SMTP id t50so14938079edd.2
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2019 11:53:33 -0700 (PDT)
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 714C06ED1F
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2019 18:56:16 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id i18so6232615pgl.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2019 11:56:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=BDXfIviE1lKAmy2BKZxi7Elg0Dvg2SzlySQMk9aK4Sk=;
- b=qas00JXxhHTNWix05TskmNlG1cHju5Ym1w2NGiNR8EsU5bGLXhGojl7sXA47JRvKUH
- FgVLmFmfOs8Y9MwewaVqpvNLmBaUitWUtXfUP5bt9HffjPELD+1Rl3yOleB9JeIpEXeW
- Z3PmH+EptbmTtFqtKrYR82UZKtN9LtDF0ebCUwS0bMP5r5oSSLIXszrlNHWmYDhyk5fG
- wIzTrFUPFgXQrOK0ZoejvW5u/6mlJezWPCmzLTyhPwSfDR6Pem0UkkHZpZE+55fdTZJW
- CPXvGWnRLgNRv5D/2DAonuzi9rJ5gK8IfYxli0JwZkWDmCNky13OYaQHghrqgLqkQn2U
- oZ0w==
-X-Gm-Message-State: APjAAAVPdnrYcfAsHWZUoignzKvHZ2TlK5HF2Py/P5LByFu8Nz+SW1m+
- hcGFD95tESfEa26DqOJhTOcrJM/8lBo3ZCUFVDFPKQ==
-X-Google-Smtp-Source: APXvYqw5V4aaxDkhILAom5GnSw4POgUrCCXo4QZxJFAPKEdsmuM0DjTozjf6mBY5gliEvaUaQe6hARRAfzuk8nzFRAI=
-X-Received: by 2002:a17:906:79d8:: with SMTP id
- m24mr5608133ejo.289.1566586412277; 
- Fri, 23 Aug 2019 11:53:32 -0700 (PDT)
+ bh=s/+aPLXaaGZm0z/f+opsuLonUw7MdHLn7J6CRhMZwFI=;
+ b=HoodB7M+YtVF6UXgSErog4DWFVnXl8l2k1sYfymHz1s0+lnHbEIOp4xT97rQcLlESD
+ eFT2h8JRJHRp7v/0bHUtcFBzR0joN9UAm+p9AyUU2qEC6wSaMhfYfAsp0vdA8dfH7ekF
+ tpEZimNsJxyg6jrXMXatJbgWbsh+0hlCiL8BMrDkNkXq+O4xtcyuaMB/KhtxJAxBedSi
+ Gho8mpxZG9ikIEcwuk1gppuiS/wouMovlY8NZcPlHDClVpRaxxJEhzBd5Plt5Y1R6Dnu
+ JcRxYqan3ML6yYHSQPU0JR3YRk+8VVbvjrkfM4K6JMRLNxSnNhc9mlc8PayULvKodcgF
+ flvA==
+X-Gm-Message-State: APjAAAU6rJLJoCQab9oyXXjwuwLnuDKDReYy/RrMfgh5Jhijvk2RGGGK
+ hsf2LYUG1CgXCDp2nsVd8OcKUc9Rsu2D7/kNJjxWhQ==
+X-Google-Smtp-Source: APXvYqwVWo6KNiW0mQ1ETfauvPQKOgX6Abfum/nAPgc5t6Yzc0edHSPUqib3OQFJdFu2HNr4tJqGaSMlXFS9ixOmggs=
+X-Received: by 2002:a17:90a:25ea:: with SMTP id
+ k97mr6804556pje.131.1566586575337; 
+ Fri, 23 Aug 2019 11:56:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190822145503.24630-1-lionel.g.landwerlin@intel.com>
- <CAOFGe96fLwPhmpuh8v2E7rcsrubxW6CA_sbU6yZOVdOQKSw9wQ@mail.gmail.com>
- <dc853f51-0800-17f8-ee56-3ff0d292d0bc@intel.com>
-In-Reply-To: <dc853f51-0800-17f8-ee56-3ff0d292d0bc@intel.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Fri, 23 Aug 2019 13:53:20 -0500
-Message-ID: <CAOFGe94BnYysnRRpfy4RovPrbQCaef7zw3Sd8kqTwLQiZWUREw@mail.gmail.com>
-Subject: Re: [PATCH] drm/syncobj: Add documentation for timeline syncobj
-To: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+References: <20190820232046.50175-1-brendanhiggins@google.com>
+ <20190820232046.50175-2-brendanhiggins@google.com>
+ <7f2c8908-75f6-b793-7113-ad57c51777ce@kernel.org>
+ <CAFd5g44mRK9t4f58i_YMEt=e9RTxwrrhFY_V2LW_E7bUwR3cdg@mail.gmail.com>
+ <4513d9f3-a69b-a9a4-768b-86c2962b62e0@kernel.org>
+ <CAFd5g446J=cVW4QW+QeZMLDi+ANqshAW6KTrFFBTusPcdr6-GA@mail.gmail.com>
+ <42c6235c-c586-8de1-1913-7cf1962c6066@kernel.org>
+ <CAFd5g44hLgeqPtNw1zQ5k_+apBm=ri_6=wAgHk=oPOvQs6xgNg@mail.gmail.com>
+ <54f3c011-d666-e828-5e77-359b7a7374e7@kernel.org>
+In-Reply-To: <54f3c011-d666-e828-5e77-359b7a7374e7@kernel.org>
+From: Brendan Higgins <brendanhiggins@google.com>
+Date: Fri, 23 Aug 2019 11:56:03 -0700
+Message-ID: <CAFd5g44NAs6KK0_sG9itgT5qxujpyx36XV6tT8=zMynG-ZyVhQ@mail.gmail.com>
+Subject: Re: [PATCH v14 01/18] kunit: test: add KUnit test runner core
+To: shuah <shuah@kernel.org>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ d=google.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc;
- bh=BDXfIviE1lKAmy2BKZxi7Elg0Dvg2SzlySQMk9aK4Sk=;
- b=KINJ9s74OWyEPQ3GhcEI/pWU+bP3STFLKDbuwGtRUtX6hh8qosc95mHA1gydlwcxb0
- 5ATTiu+/NaG2odTx+lcnraTotb5gIi2IIp0bYdAwiKL9oJDoC8v7Owu+emCgceNFRDuP
- ip6R3LEHofDMTykf3EdgK550uZb6axLmN8N+7RSZ6Xj9iUDZF7kpwG52wTvYxAO03y+x
- DPs4LecllMS/tDYmKnfBIm+3srUpzXNu+ImLllz2V6o4Pf1eBW8tl0nqeAii4gcNQX5H
- 8qCihJGci3ROZ96K6edIATQbZTup7DQUkVcBGPxTCIvPOD+LoD3YVfRh8CjKyQY9J+So
- NLXQ==
+ bh=s/+aPLXaaGZm0z/f+opsuLonUw7MdHLn7J6CRhMZwFI=;
+ b=aLqCki7OFRYb/zbxlgpGpa4MLZg24uOYeXo+bf759ur8hv1j2TRWPaLstl3a5bk10n
+ k9gZHsbj7RxEFvNm/UBw4x6AHMOqoIf/ZGCxlxIps6H1nGB4dHIYzRm+iwSZsHo9cyep
+ NQSVwGP5NR+YSOXJmM805vzb7tKcZoohUkGLv2BSmjPrKeneCaMQK2eneKbObMLvTYkP
+ lUd9iMs9dZblf94k6Ei365fYzU3AUwiPyeM1OqmPPs95PxMEymqhlGu1BcqjfCV5P0OP
+ qkLQ4DDcSRoXYkgDNbUMDsSyuoKrdlN3EVmPRXJtcw1zjcwJLDnJgdEsctFaR5HmJxC5
+ nJLQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,613 +71,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian Koenig <Christian.Koenig@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0300099368=="
+Cc: Petr Mladek <pmladek@suse.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Amir Goldstein <amir73il@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Sasha Levin <Alexander.Levin@microsoft.com>,
+ Masahiro Yamada <yamada.masahiro@socionext.com>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ Frank Rowand <frowand.list@gmail.com>,
+ linux-nvdimm <linux-nvdimm@lists.01.org>, Kevin Hilman <khilman@baylibre.com>,
+ Knut Omang <knut.omang@oracle.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>, wfg@linux.intel.com,
+ Joel Stanley <joel@jms.id.au>, David Rientjes <rientjes@google.com>,
+ Jeff Dike <jdike@addtoit.com>, Dan Carpenter <dan.carpenter@oracle.com>,
+ devicetree <devicetree@vger.kernel.org>,
+ linux-kbuild <linux-kbuild@vger.kernel.org>, "Bird,
+ Timothy" <Tim.Bird@sony.com>, linux-um@lists.infradead.org,
+ Steven Rostedt <rostedt@goodmis.org>, Julia Lawall <julia.lawall@lip6.fr>,
+ Josh Poimboeuf <jpoimboe@redhat.com>, kunit-dev@googlegroups.com,
+ Theodore Ts'o <tytso@mit.edu>, Richard Weinberger <richard@nod.at>,
+ Stephen Boyd <sboyd@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <keescook@google.com>,
+ linux-fsdevel@vger.kernel.org, Logan Gunthorpe <logang@deltatee.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0300099368==
-Content-Type: multipart/alternative; boundary="0000000000009d3bb80590cd522f"
-
---0000000000009d3bb80590cd522f
-Content-Type: text/plain; charset="UTF-8"
-
-On Thu, Aug 22, 2019 at 5:28 PM Lionel Landwerlin <
-lionel.g.landwerlin@intel.com> wrote:
-
-> On 22/08/2019 21:24, Jason Ekstrand wrote:
->
-> On Thu, Aug 22, 2019 at 9:55 AM Lionel Landwerlin <
-> lionel.g.landwerlin@intel.com> wrote:
->
->> We've added a set of new APIs to manipulate syncobjs holding timelines
->> of dma_fence. This adds a bit of documentation about how this works.
->>
->> Signed-off-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
->> Cc: Christian Koenig <Christian.Koenig@amd.com>
->> Cc: Jason Ekstrand <jason@jlekstrand.net>
->> Cc: David(ChunMing) Zhou <David1.Zhou@amd.com>
->> ---
->>  drivers/gpu/drm/drm_syncobj.c | 87 +++++++++++++++++++++++++++++------
->>  1 file changed, 74 insertions(+), 13 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
->> index b5ad73330a48..32ffded6d2c0 100644
->> --- a/drivers/gpu/drm/drm_syncobj.c
->> +++ b/drivers/gpu/drm/drm_syncobj.c
->> @@ -43,27 +43,66 @@
->>   *  - Signal a syncobj (set a trivially signaled fence)
->>   *  - Wait for a syncobj's fence to appear and be signaled
->>   *
->> + * The syncobj userspace API also provides operations to manipulate a
->> syncobj
->> + * in terms of a timeline of struct &dma_fence rather than a single
->> struct
->> + * &dma_fence, through the following operations:
->> + *
->> + *   - Signal a given point on the timeline
->> + *   - Wait for a given point to appear and/or be signaled
->> + *   - Import and export from/to a given point of a timeline
->> + *
->>   * At it's core, a syncobj is simply a wrapper around a pointer to a
->> struct
->>   * &dma_fence which may be NULL.
->>   * When a syncobj is first created, its pointer is either NULL or a
->> pointer
->>   * to an already signaled fence depending on whether the
->>   * &DRM_SYNCOBJ_CREATE_SIGNALED flag is passed to
->>   * &DRM_IOCTL_SYNCOBJ_CREATE.
->> - * When GPU work which signals a syncobj is enqueued in a DRM driver,
->> - * the syncobj fence is replaced with a fence which will be signaled by
->> the
->> - * completion of that work.
->> - * When GPU work which waits on a syncobj is enqueued in a DRM driver,
->> the
->> - * driver retrieves syncobj's current fence at the time the work is
->> enqueued
->> - * waits on that fence before submitting the work to hardware.
->> - * If the syncobj's fence is NULL, the enqueue operation is expected to
->> fail.
->> - * All manipulation of the syncobjs's fence happens in terms of the
->> current
->> - * fence at the time the ioctl is called by userspace regardless of
->> whether
->> - * that operation is an immediate host-side operation (signal or reset)
->> or
->> - * or an operation which is enqueued in some driver queue.
->> - * &DRM_IOCTL_SYNCOBJ_RESET and &DRM_IOCTL_SYNCOBJ_SIGNAL can be used to
->> - * manipulate a syncobj from the host by resetting its pointer to NULL or
->> + *
->> + * If the syncobj is considered as a binary (signal/unsignaled)
->> primitive,
->>
->
-> What does "considered as a binary" mean?  Is it an inherent property of
-> the syncobj given at create time?  Is it a state the syncobj can be in?  Or
-> is it a property of how the submit ioctl in the DRM driver references it?
-> I'm really hoping it's either 1 or 3....
->
->
-> 3: you either use it binary/legacy apis, or timeline apis. timeline apis
-> also provide some binary compatibility with the point 0 (in particular for
-> wait).
->
-
-Right.  Maybe we should say something like  "When GPU work is enqueued
-which signals a non-zero time point" or something like that?  I guess that
-implies a certain unification across drivers that maybe we don't want....
-
-
->
->
->> + * when GPU work is enqueued in a DRM driver to signal the syncobj, the
->> fence
->> + * is replaced with a fence which will be signaled by the completion of
->> that
->> + * work.
->> + * If the syncobj is considered as a timeline primitive, when GPU work is
->> + * enqueued in a DRM driver to signal the a given point of the syncobj,
->> a new
->> + * struct &dma_fence_chain pointing to the DRM driver's fence and also
->> + * pointing to the previous fence that was in the syncobj. The new struct
->> + * &dma_fence_chain fence put into the syncobj will be signaled by
->> completion
->> + * of the DRM driver's work and also any work associated with the fence
->> + * previously in the syncobj.
->> + *
->> + * When GPU work which waits on a syncobj is enqueued in a DRM driver,
->> at the
->> + * time the work is enqueued, it waits on the fence coming from the
->> syncobj
->> + * before submitting the work to hardware. That fence is either :
->> + *
->> + *    - The syncobj's current fence if the syncobj is considered as a
->> binary
->> + *      primitive.
->> + *    - The struct &dma_fence associated with a given point if the
->> syncobj is
->> + *      considered as a timeline primitive.
->> + *
->> + * If the syncobj's fence is NULL or not present in the syncobj's
->> timeline,
->> + * the enqueue operation is expected to fail.
->> + *
->> + * With binary syncobj, all manipulation of the syncobjs's fence happens
->> in
->> + * terms of the current fence at the time the ioctl is called by
->> userspace
->> + * regardless of whether that operation is an immediate host-side
->> operation
->> + * (signal or reset) or or an operation which is enqueued in some driver
->> + * queue. &DRM_IOCTL_SYNCOBJ_RESET and &DRM_IOCTL_SYNCOBJ_SIGNAL can be
->> used
->> + * to manipulate a syncobj from the host by resetting its pointer to
->> NULL or
->>   * setting its pointer to a fence which is already signaled.
->>   *
->> + * With timeline syncobj, all manipulation of the timeline fences
->> happens in
->> + * terms of the fence referred to in the timeline. See
->> + * dma_fence_chain_find_seqno() to see how a given point is found in the
->> + * timeline.
->> + *
->> + * Note that applications should be careful to always use timeline set of
->> + * ioctl() when dealing with syncobj considered as timeline. Using a
->> binary
->> + * set of ioctl() with a syncobj considered as timeline could result
->> incorrect
->> + * synchronization. The use of binary syncobj is supported through the
->> + * timeline set of ioctl() by using a point value of 0, this will
->> reproduce
->> + * the behavior of the binary set of ioctl() (for example replace the
->> + * syncobj's fence when signaling).
->>
->
-> I know I've asked this before but I feel compelled to ask it again.  Why
-> do we allow them to mix and match?  Why not just have a create flag and
-> enforce meaningful behavior?  I'm a bit concerned that userspace is going
-> to start relying on the subtlties of the interaction between timeline and
-> binary syncobjs which are neither documented nor properly tested in IGT.
->
->
-> For one, you might have to mix both types of syncobjs in a given
-> wait/signal operation. So 0 ensures we can do that.
->
-
-Right, that sounds like a useful feature.
-
-
-> Second, drm-syncobj is a container and its payload is an interface
-> (dma_fence) which has several implementations.
->
-> The kernel primitive is just less restrictive than the Vulkan API here.
->
-> I guess we could add a flag at creation to ensure the replacement of the
-> fence in a timeline syncobj cannot happen.
->
-
-I would be in favor of that but I'd be interested to hear what Christian or
-David think.
-
-
-> I haven't thought of all the implications that might have though... Should
-> we allow reset on a timeline syncobj?
->
-
-Good question.  I'm inclined to say "yes" because it's pretty well-defined
-what such a reset means.  However, it's not really needed.
-
-
-> -Lionel
->
->
->
-> + *
->>   *
->>   * Host-side wait on syncobjs
->>   * --------------------------
->> @@ -87,6 +126,16 @@
->>   * synchronize between the two.
->>   * This requirement is inherited from the Vulkan fence API.
->>   *
->> + * Similarly, &DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT takes an array of syncobj
->> + * handles as well as an array of u64 points and does a host-side wait
->> on all
->> + * of syncobj fences at the given points simultaneously.
->> + *
->> + * &DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT also adds the ability to wait for a
->> given
->> + * fence to materialize on the timeline without waiting for the fence to
->> be
->> + * signaled by using the &DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE flag.
->> This
->> + * requirement is inherited from the wait-before-signal behavior
->> required by
->> + * the Vulkan timeline semaphore API.
->> + *
->>   *
->>   * Import/export of syncobjs
->>   * -------------------------
->> @@ -120,6 +169,18 @@
->>   * Because sync files are immutable, resetting or signaling the syncobj
->>   * will not affect any sync files whose fences have been imported into
->> the
->>   * syncobj.
->> + *
->> + *
->> + * Import/export of timeline points in timeline syncobjs
->> + * -----------------------------------------------------
->> + *
->> + * &DRM_IOCTL_SYNCOBJ_TRANSFER provides a mechanism to transfer a struct
->> + * &dma_fence of at a given point from a timeline syncobj to another
->> point
->> + * into another timeline syncobj.
->> + *
->> + * Note that if you want to transfer a struct &dma_fence from a given
->> point on
->> + * a timeline syncobj from/into a binary syncobj, you can use the point
->> 0 to
->> + * mean take/replace the fence in the syncobj.
->>   */
->>
->>  #include <linux/anon_inodes.h>
->> --
->> 2.23.0
->>
->>
->
-
---0000000000009d3bb80590cd522f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><div dir=3D"ltr"><div class=3D"=
-gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 22, 2019 at =
-5:28 PM Lionel Landwerlin &lt;<a href=3D"mailto:lionel.g.landwerlin@intel.c=
-om" target=3D"_blank">lionel.g.landwerlin@intel.com</a>&gt; wrote:<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left:1px solid rgb(204,204,204);padding-left:1ex">
- =20
-   =20
- =20
-  <div bgcolor=3D"#FFFFFF">
-    <div class=3D"gmail-m_-5272467495377520358gmail-m_-1548110483521490893m=
-oz-cite-prefix">On 22/08/2019 21:24, Jason Ekstrand
-      wrote:<br>
-    </div>
-    <blockquote type=3D"cite">
-     =20
-      <div dir=3D"ltr">
-        <div class=3D"gmail_quote">
-          <div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 22, 2019 at 9:5=
-5
-            AM Lionel Landwerlin &lt;<a href=3D"mailto:lionel.g.landwerlin@=
-intel.com" target=3D"_blank">lionel.g.landwerlin@intel.com</a>&gt;
-            wrote:<br>
-          </div>
-          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">We&#39;ve added=
- a set of new
-            APIs to manipulate syncobjs holding timelines<br>
-            of dma_fence. This adds a bit of documentation about how
-            this works.<br>
-            <br>
-            Signed-off-by: Lionel Landwerlin &lt;<a href=3D"mailto:lionel.g=
-.landwerlin@intel.com" target=3D"_blank">lionel.g.landwerlin@intel.com</a>&=
-gt;<br>
-            Cc: Christian Koenig &lt;<a href=3D"mailto:Christian.Koenig@amd=
-.com" target=3D"_blank">Christian.Koenig@amd.com</a>&gt;<br>
-            Cc: Jason Ekstrand &lt;<a href=3D"mailto:jason@jlekstrand.net" =
-target=3D"_blank">jason@jlekstrand.net</a>&gt;<br>
-            Cc: David(ChunMing) Zhou &lt;<a href=3D"mailto:David1.Zhou@amd.=
-com" target=3D"_blank">David1.Zhou@amd.com</a>&gt;<br>
-            ---<br>
-            =C2=A0drivers/gpu/drm/drm_syncobj.c | 87
-            +++++++++++++++++++++++++++++------<br>
-            =C2=A01 file changed, 74 insertions(+), 13 deletions(-)<br>
-            <br>
-            diff --git a/drivers/gpu/drm/drm_syncobj.c
-            b/drivers/gpu/drm/drm_syncobj.c<br>
-            index b5ad73330a48..32ffded6d2c0 100644<br>
-            --- a/drivers/gpu/drm/drm_syncobj.c<br>
-            +++ b/drivers/gpu/drm/drm_syncobj.c<br>
-            @@ -43,27 +43,66 @@<br>
-            =C2=A0 *=C2=A0 - Signal a syncobj (set a trivially signaled fen=
-ce)<br>
-            =C2=A0 *=C2=A0 - Wait for a syncobj&#39;s fence to appear and b=
-e signaled<br>
-            =C2=A0 *<br>
-            + * The syncobj userspace API also provides operations to
-            manipulate a syncobj<br>
-            + * in terms of a timeline of struct &amp;dma_fence rather
-            than a single struct<br>
-            + * &amp;dma_fence, through the following operations:<br>
-            + *<br>
-            + *=C2=A0 =C2=A0- Signal a given point on the timeline<br>
-            + *=C2=A0 =C2=A0- Wait for a given point to appear and/or be si=
-gnaled<br>
-            + *=C2=A0 =C2=A0- Import and export from/to a given point of a
-            timeline<br>
-            + *<br>
-            =C2=A0 * At it&#39;s core, a syncobj is simply a wrapper around=
- a
-            pointer to a struct<br>
-            =C2=A0 * &amp;dma_fence which may be NULL.<br>
-            =C2=A0 * When a syncobj is first created, its pointer is either
-            NULL or a pointer<br>
-            =C2=A0 * to an already signaled fence depending on whether the<=
-br>
-            =C2=A0 * &amp;DRM_SYNCOBJ_CREATE_SIGNALED flag is passed to<br>
-            =C2=A0 * &amp;DRM_IOCTL_SYNCOBJ_CREATE.<br>
-            - * When GPU work which signals a syncobj is enqueued in a
-            DRM driver,<br>
-            - * the syncobj fence is replaced with a fence which will be
-            signaled by the<br>
-            - * completion of that work.<br>
-            - * When GPU work which waits on a syncobj is enqueued in a
-            DRM driver, the<br>
-            - * driver retrieves syncobj&#39;s current fence at the time th=
-e
-            work is enqueued<br>
-            - * waits on that fence before submitting the work to
-            hardware.<br>
-            - * If the syncobj&#39;s fence is NULL, the enqueue operation i=
-s
-            expected to fail.<br>
-            - * All manipulation of the syncobjs&#39;s fence happens in
-            terms of the current<br>
-            - * fence at the time the ioctl is called by userspace
-            regardless of whether<br>
-            - * that operation is an immediate host-side operation
-            (signal or reset) or<br>
-            - * or an operation which is enqueued in some driver queue.<br>
-            - * &amp;DRM_IOCTL_SYNCOBJ_RESET and
-            &amp;DRM_IOCTL_SYNCOBJ_SIGNAL can be used to<br>
-            - * manipulate a syncobj from the host by resetting its
-            pointer to NULL or<br>
-            + *<br>
-            + * If the syncobj is considered as a binary
-            (signal/unsignaled) primitive,<br>
-          </blockquote>
-          <div><br>
-          </div>
-          <div>What does &quot;considered as a binary&quot; mean?=C2=A0 Is =
-it an
-            inherent property of the syncobj given at create time?=C2=A0 Is
-            it a state the syncobj can be in?=C2=A0 Or is it a property of
-            how the submit ioctl in the DRM driver references it?=C2=A0 I&#=
-39;m
-            really hoping it&#39;s either 1 or 3....<br>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>3: you either use it binary/legacy apis, or timeline apis.
-      timeline apis also provide some binary compatibility with the
-      point 0 (in particular for wait).<br>
-    </p>
-    </div></blockquote><div><br></div><div>Right.=C2=A0 Maybe we should say=
- something like=C2=A0 &quot;When GPU work is enqueued which signals a non-z=
-ero time point&quot; or something like that?=C2=A0 I guess that implies a c=
-ertain unification across drivers that maybe we don&#39;t want....<br></div=
-><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div bg=
-color=3D"#FFFFFF">
-    <blockquote type=3D"cite">
-      <div dir=3D"ltr">
-        <div class=3D"gmail_quote">
-          <div>=C2=A0</div>
-          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-            + * when GPU work is enqueued in a DRM driver to signal the
-            syncobj, the fence<br>
-            + * is replaced with a fence which will be signaled by the
-            completion of that<br>
-            + * work.<br>
-            + * If the syncobj is considered as a timeline primitive,
-            when GPU work is<br>
-            + * enqueued in a DRM driver to signal the a given point of
-            the syncobj, a new<br>
-            + * struct &amp;dma_fence_chain pointing to the DRM driver&#39;=
-s
-            fence and also<br>
-            + * pointing to the previous fence that was in the syncobj.
-            The new struct<br>
-            + * &amp;dma_fence_chain fence put into the syncobj will be
-            signaled by completion<br>
-            + * of the DRM driver&#39;s work and also any work associated
-            with the fence<br>
-            + * previously in the syncobj.<br>
-            + *<br>
-            + * When GPU work which waits on a syncobj is enqueued in a
-            DRM driver, at the<br>
-            + * time the work is enqueued, it waits on the fence coming
-            from the syncobj<br>
-            + * before submitting the work to hardware. That fence is
-            either :<br>
-            + *<br>
-            + *=C2=A0 =C2=A0 - The syncobj&#39;s current fence if the synco=
-bj is
-            considered as a binary<br>
-            + *=C2=A0 =C2=A0 =C2=A0 primitive.<br>
-            + *=C2=A0 =C2=A0 - The struct &amp;dma_fence associated with a =
-given
-            point if the syncobj is<br>
-            + *=C2=A0 =C2=A0 =C2=A0 considered as a timeline primitive.<br>
-            + *<br>
-            + * If the syncobj&#39;s fence is NULL or not present in the
-            syncobj&#39;s timeline,<br>
-            + * the enqueue operation is expected to fail.<br>
-            + *<br>
-            + * With binary syncobj, all manipulation of the syncobjs&#39;s
-            fence happens in<br>
-            + * terms of the current fence at the time the ioctl is
-            called by userspace<br>
-            + * regardless of whether that operation is an immediate
-            host-side operation<br>
-            + * (signal or reset) or or an operation which is enqueued
-            in some driver<br>
-            + * queue. &amp;DRM_IOCTL_SYNCOBJ_RESET and
-            &amp;DRM_IOCTL_SYNCOBJ_SIGNAL can be used<br>
-            + * to manipulate a syncobj from the host by resetting its
-            pointer to NULL or<br>
-            =C2=A0 * setting its pointer to a fence which is already
-            signaled.<br>
-            =C2=A0 *<br>
-            + * With timeline syncobj, all manipulation of the timeline
-            fences happens in<br>
-            + * terms of the fence referred to in the timeline. See<br>
-            + * dma_fence_chain_find_seqno() to see how a given point is
-            found in the<br>
-            + * timeline.<br>
-            + *<br>
-            + * Note that applications should be careful to always use
-            timeline set of<br>
-            + * ioctl() when dealing with syncobj considered as
-            timeline. Using a binary<br>
-            + * set of ioctl() with a syncobj considered as timeline
-            could result incorrect<br>
-            + * synchronization. The use of binary syncobj is supported
-            through the<br>
-            + * timeline set of ioctl() by using a point value of 0,
-            this will reproduce<br>
-            + * the behavior of the binary set of ioctl() (for example
-            replace the<br>
-            + * syncobj&#39;s fence when signaling).<br>
-          </blockquote>
-          <div>=C2=A0</div>
-          <div>I know I&#39;ve asked this before but I feel compelled to as=
-k
-            it again.=C2=A0 Why do we allow them to mix and match?=C2=A0 Wh=
-y not
-            just have a create flag and enforce meaningful behavior?=C2=A0
-            I&#39;m a bit concerned that userspace is going to start relyin=
-g
-            on the subtlties of the interaction between timeline and
-            binary syncobjs which are neither documented nor properly
-            tested in IGT.<br>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>For one, you might have to mix both types of syncobjs in a given
-      wait/signal operation. So 0 ensures we can do that.</p></div></blockq=
-uote><div><br></div><div>Right, that sounds like a useful feature.<br></div=
-><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div bg=
-color=3D"#FFFFFF"><p>Second, drm-syncobj is a container and its payload is =
-an
-      interface (dma_fence) which has several implementations.</p>
-    <p>The kernel primitive is just less restrictive than the Vulkan API
-      here.<br>
-    </p>
-    <p>I guess we could add a flag at creation to ensure the replacement
-      of the fence in a timeline syncobj cannot happen.</p></div></blockquo=
-te><div><br></div><div>I would be in favor of that but I&#39;d be intereste=
-d to hear what Christian or David think.<br></div><div>=C2=A0</div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex"><div bgcolor=3D"#FFFFFF">
-    <p>I haven&#39;t thought of all the implications that might have
-      though... Should we allow reset on a timeline syncobj?</p></div></blo=
-ckquote><div><br></div><div>Good question.=C2=A0 I&#39;m inclined to say &q=
-uot;yes&quot; because it&#39;s pretty well-defined what such a reset means.=
-=C2=A0 However, it&#39;s not really needed.<br></div><div>=C2=A0</div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex"><div bgcolor=3D"#FFFFFF"><p>-L=
-ionel<br>
-    </p>
-    <p><br>
-    </p>
-    <blockquote type=3D"cite">
-      <div dir=3D"ltr">
-        <div class=3D"gmail_quote">
-          <div> <br>
-          </div>
-          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-            + *<br>
-            =C2=A0 *<br>
-            =C2=A0 * Host-side wait on syncobjs<br>
-            =C2=A0 * --------------------------<br>
-            @@ -87,6 +126,16 @@<br>
-            =C2=A0 * synchronize between the two.<br>
-            =C2=A0 * This requirement is inherited from the Vulkan fence AP=
-I.<br>
-            =C2=A0 *<br>
-            + * Similarly, &amp;DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT takes an
-            array of syncobj<br>
-            + * handles as well as an array of u64 points and does a
-            host-side wait on all<br>
-            + * of syncobj fences at the given points simultaneously.<br>
-            + *<br>
-            + * &amp;DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT also adds the
-            ability to wait for a given<br>
-            + * fence to materialize on the timeline without waiting for
-            the fence to be<br>
-            + * signaled by using the
-            &amp;DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE flag. This<br>
-            + * requirement is inherited from the wait-before-signal
-            behavior required by<br>
-            + * the Vulkan timeline semaphore API.<br>
-            + *<br>
-            =C2=A0 *<br>
-            =C2=A0 * Import/export of syncobjs<br>
-            =C2=A0 * -------------------------<br>
-            @@ -120,6 +169,18 @@<br>
-            =C2=A0 * Because sync files are immutable, resetting or signali=
-ng
-            the syncobj<br>
-            =C2=A0 * will not affect any sync files whose fences have been
-            imported into the<br>
-            =C2=A0 * syncobj.<br>
-            + *<br>
-            + *<br>
-            + * Import/export of timeline points in timeline syncobjs<br>
-            + * -----------------------------------------------------<br>
-            + *<br>
-            + * &amp;DRM_IOCTL_SYNCOBJ_TRANSFER provides a mechanism to
-            transfer a struct<br>
-            + * &amp;dma_fence of at a given point from a timeline
-            syncobj to another point<br>
-            + * into another timeline syncobj.<br>
-            + *<br>
-            + * Note that if you want to transfer a struct
-            &amp;dma_fence from a given point on<br>
-            + * a timeline syncobj from/into a binary syncobj, you can
-            use the point 0 to<br>
-            + * mean take/replace the fence in the syncobj.<br>
-            =C2=A0 */<br>
-            <br>
-            =C2=A0#include &lt;linux/anon_inodes.h&gt;<br>
-            -- <br>
-            2.23.0<br>
-            <br>
-          </blockquote>
-        </div>
-      </div>
-    </blockquote>
-    <p><br>
-    </p>
-  </div>
-
-</blockquote></div></div>
-</div>
-
---0000000000009d3bb80590cd522f--
-
---===============0300099368==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0300099368==--
+T24gRnJpLCBBdWcgMjMsIDIwMTkgYXQgMTE6MzIgQU0gc2h1YWggPHNodWFoQGtlcm5lbC5vcmc+
+IHdyb3RlOgo+Cj4gT24gOC8yMy8xOSAxMTo1NCBBTSwgQnJlbmRhbiBIaWdnaW5zIHdyb3RlOgo+
+ID4gT24gRnJpLCBBdWcgMjMsIDIwMTkgYXQgMTA6MzQgQU0gc2h1YWggPHNodWFoQGtlcm5lbC5v
+cmc+IHdyb3RlOgo+ID4+Cj4gPj4gT24gOC8yMy8xOSAxMToyNyBBTSwgQnJlbmRhbiBIaWdnaW5z
+IHdyb3RlOgo+ID4+PiBPbiBGcmksIEF1ZyAyMywgMjAxOSBhdCAxMDowNSBBTSBzaHVhaCA8c2h1
+YWhAa2VybmVsLm9yZz4gd3JvdGU6Cj4gPj4+Pgo+ID4+Pj4gT24gOC8yMy8xOSAxMDo0OCBBTSwg
+QnJlbmRhbiBIaWdnaW5zIHdyb3RlOgo+ID4+Pj4+IE9uIEZyaSwgQXVnIDIzLCAyMDE5IGF0IDg6
+MzMgQU0gc2h1YWggPHNodWFoQGtlcm5lbC5vcmc+IHdyb3RlOgo+ID4+Pj4+Pgo+ID4+Pj4+PiBI
+aSBCcmVuZGFuLAo+ID4+Pj4+Pgo+ID4+Pj4+PiBPbiA4LzIwLzE5IDU6MjAgUE0sIEJyZW5kYW4g
+SGlnZ2lucyB3cm90ZToKPiA+Pj4+Pj4+IEFkZCBjb3JlIGZhY2lsaXRpZXMgZm9yIGRlZmluaW5n
+IHVuaXQgdGVzdHM7IHRoaXMgcHJvdmlkZXMgYSBjb21tb24gd2F5Cj4gPj4+Pj4+PiB0byBkZWZp
+bmUgdGVzdCBjYXNlcywgZnVuY3Rpb25zIHRoYXQgZXhlY3V0ZSBjb2RlIHdoaWNoIGlzIHVuZGVy
+IHRlc3QKPiA+Pj4+Pj4+IGFuZCBkZXRlcm1pbmUgd2hldGhlciB0aGUgY29kZSB1bmRlciB0ZXN0
+IGJlaGF2ZXMgYXMgZXhwZWN0ZWQ7IHRoaXMgYWxzbwo+ID4+Pj4+Pj4gcHJvdmlkZXMgYSB3YXkg
+dG8gZ3JvdXAgdG9nZXRoZXIgcmVsYXRlZCB0ZXN0IGNhc2VzIGluIHRlc3Qgc3VpdGVzIChoZXJl
+Cj4gPj4+Pj4+PiB3ZSBjYWxsIHRoZW0gdGVzdF9tb2R1bGVzKS4KPiA+Pj4+Pj4+Cj4gPj4+Pj4+
+PiBKdXN0IGRlZmluZSB0ZXN0IGNhc2VzIGFuZCBob3cgdG8gZXhlY3V0ZSB0aGVtIGZvciBub3c7
+IHNldHRpbmcKPiA+Pj4+Pj4+IGV4cGVjdGF0aW9ucyBvbiBjb2RlIHdpbGwgYmUgZGVmaW5lZCBs
+YXRlci4KPiA+Pj4+Pj4+Cj4gPj4+Pj4+PiBTaWduZWQtb2ZmLWJ5OiBCcmVuZGFuIEhpZ2dpbnMg
+PGJyZW5kYW5oaWdnaW5zQGdvb2dsZS5jb20+Cj4gPj4+Pj4+PiBSZXZpZXdlZC1ieTogR3JlZyBL
+cm9haC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4KPiA+Pj4+Pj4+IFJldmll
+d2VkLWJ5OiBMb2dhbiBHdW50aG9ycGUgPGxvZ2FuZ0BkZWx0YXRlZS5jb20+Cj4gPj4+Pj4+PiBS
+ZXZpZXdlZC1ieTogTHVpcyBDaGFtYmVybGFpbiA8bWNncm9mQGtlcm5lbC5vcmc+Cj4gPj4+Pj4+
+PiBSZXZpZXdlZC1ieTogU3RlcGhlbiBCb3lkIDxzYm95ZEBrZXJuZWwub3JnPgo+ID4+Pj4+Pj4g
+LS0tCj4gPj4+Pj4+PiAgICAgIGluY2x1ZGUva3VuaXQvdGVzdC5oIHwgMTc5ICsrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPiA+Pj4+Pj4+ICAgICAga3VuaXQvS2NvbmZp
+ZyAgICAgICAgfCAgMTcgKysrKwo+ID4+Pj4+Pj4gICAgICBrdW5pdC9NYWtlZmlsZSAgICAgICB8
+ICAgMSArCj4gPj4+Pj4+PiAgICAgIGt1bml0L3Rlc3QuYyAgICAgICAgIHwgMTkxICsrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPiA+Pj4+Pj4+ICAgICAgNCBmaWxl
+cyBjaGFuZ2VkLCAzODggaW5zZXJ0aW9ucygrKQo+ID4+Pj4+Pj4gICAgICBjcmVhdGUgbW9kZSAx
+MDA2NDQgaW5jbHVkZS9rdW5pdC90ZXN0LmgKPiA+Pj4+Pj4+ICAgICAgY3JlYXRlIG1vZGUgMTAw
+NjQ0IGt1bml0L0tjb25maWcKPiA+Pj4+Pj4+ICAgICAgY3JlYXRlIG1vZGUgMTAwNjQ0IGt1bml0
+L01ha2VmaWxlCj4gPj4+Pj4+PiAgICAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBrdW5pdC90ZXN0LmMK
+PiA+Pj4+Pj4+Cj4gPj4+Pj4+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9rdW5pdC90ZXN0LmggYi9p
+bmNsdWRlL2t1bml0L3Rlc3QuaAo+ID4+Pj4+Pj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQKPiA+Pj4+
+Pj4+IGluZGV4IDAwMDAwMDAwMDAwMDAuLmUwYjM0YWNiOWVlNGUKPiA+Pj4+Pj4+IC0tLSAvZGV2
+L251bGwKPiA+Pj4+Pj4+ICsrKyBiL2luY2x1ZGUva3VuaXQvdGVzdC5oCj4gPj4+Pj4+PiBAQCAt
+MCwwICsxLDE3OSBAQAo+ID4+Pj4+Pj4gKy8qIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwt
+Mi4wICovCj4gPj4+Pj4+PiArLyoKPiA+Pj4+Pj4+ICsgKiBCYXNlIHVuaXQgdGVzdCAoS1VuaXQp
+IEFQSS4KPiA+Pj4+Pj4+ICsgKgo+ID4+Pj4+Pj4gKyAqIENvcHlyaWdodCAoQykgMjAxOSwgR29v
+Z2xlIExMQy4KPiA+Pj4+Pj4+ICsgKiBBdXRob3I6IEJyZW5kYW4gSGlnZ2lucyA8YnJlbmRhbmhp
+Z2dpbnNAZ29vZ2xlLmNvbT4KPiA+Pj4+Pj4+ICsgKi8KPiA+Pj4+Pj4+ICsKPiA+Pj4+Pj4+ICsj
+aWZuZGVmIF9LVU5JVF9URVNUX0gKPiA+Pj4+Pj4+ICsjZGVmaW5lIF9LVU5JVF9URVNUX0gKPiA+
+Pj4+Pj4+ICsKPiA+Pj4+Pj4+ICsjaW5jbHVkZSA8bGludXgvdHlwZXMuaD4KPiA+Pj4+Pj4+ICsK
+PiA+Pj4+Pj4+ICtzdHJ1Y3Qga3VuaXQ7Cj4gPj4+Pj4+PiArCj4gPj4+Pj4+PiArLyoqCj4gPj4+
+Pj4+PiArICogc3RydWN0IGt1bml0X2Nhc2UgLSByZXByZXNlbnRzIGFuIGluZGl2aWR1YWwgdGVz
+dCBjYXNlLgo+ID4+Pj4+Pj4gKyAqIEBydW5fY2FzZTogdGhlIGZ1bmN0aW9uIHJlcHJlc2VudGlu
+ZyB0aGUgYWN0dWFsIHRlc3QgY2FzZS4KPiA+Pj4+Pj4+ICsgKiBAbmFtZTogdGhlIG5hbWUgb2Yg
+dGhlIHRlc3QgY2FzZS4KPiA+Pj4+Pj4+ICsgKgo+ID4+Pj4+Pj4gKyAqIEEgdGVzdCBjYXNlIGlz
+IGEgZnVuY3Rpb24gd2l0aCB0aGUgc2lnbmF0dXJlLCBgYHZvaWQgKCopKHN0cnVjdCBrdW5pdCAq
+KWBgCj4gPj4+Pj4+PiArICogdGhhdCBtYWtlcyBleHBlY3RhdGlvbnMgKHNlZSBLVU5JVF9FWFBF
+Q1RfVFJVRSgpKSBhYm91dCBjb2RlIHVuZGVyIHRlc3QuIEVhY2gKPiA+Pj4+Pj4+ICsgKiB0ZXN0
+IGNhc2UgaXMgYXNzb2NpYXRlZCB3aXRoIGEgJnN0cnVjdCBrdW5pdF9zdWl0ZSBhbmQgd2lsbCBi
+ZSBydW4gYWZ0ZXIgdGhlCj4gPj4+Pj4+PiArICogc3VpdGUncyBpbml0IGZ1bmN0aW9uIGFuZCBm
+b2xsb3dlZCBieSB0aGUgc3VpdGUncyBleGl0IGZ1bmN0aW9uLgo+ID4+Pj4+Pj4gKyAqCj4gPj4+
+Pj4+PiArICogQSB0ZXN0IGNhc2Ugc2hvdWxkIGJlIHN0YXRpYyBhbmQgc2hvdWxkIG9ubHkgYmUg
+Y3JlYXRlZCB3aXRoIHRoZSBLVU5JVF9DQVNFKCkKPiA+Pj4+Pj4+ICsgKiBtYWNybzsgYWRkaXRp
+b25hbGx5LCBldmVyeSBhcnJheSBvZiB0ZXN0IGNhc2VzIHNob3VsZCBiZSB0ZXJtaW5hdGVkIHdp
+dGggYW4KPiA+Pj4+Pj4+ICsgKiBlbXB0eSB0ZXN0IGNhc2UuCj4gPj4+Pj4+PiArICoKPiA+Pj4+
+Pj4+ICsgKiBFeGFtcGxlOgo+ID4+Pj4+Pgo+ID4+Pj4+PiBDYW4geW91IGZpeCB0aGVzZSBsaW5l
+IGNvbnRpbnVhdGlvbnMuIEl0IG1ha2VzIGl0IHZlcnkgaGFyZCB0byByZWFkLgo+ID4+Pj4+PiBT
+b3JyeSBmb3IgdGhpcyBsYXRlIGNvbW1lbnQuIFRoZXNlIGNvbW1lbnRzIGxpbmVzIGFyZSBsb25n
+ZXIgdGhhbiA4MAo+ID4+Pj4+PiBhbmQgd3JhcC4KPiA+Pj4+Pgo+ID4+Pj4+IE5vbmUgb2YgdGhl
+IGxpbmVzIGluIHRoaXMgY29tbWl0IGFyZSBvdmVyIDgwIGNoYXJhY3RlcnMgaW4gY29sdW1uCj4g
+Pj4+Pj4gd2lkdGguIFNvbWUgYXJlIGV4YWN0bHkgODAgY2hhcmFjdGVycyAobGlrZSBhYm92ZSku
+Cj4gPj4+Pj4KPiA+Pj4+PiBNeSBndWVzcyBpcyB0aGF0IHlvdSBhcmUgc2VlaW5nIHRoZSBkaWZm
+IGFkZGVkIHRleHQgKCsgKSwgd2hpY2ggd2hlbgo+ID4+Pj4+IHlvdSBhZGQgdGhhdCB0byBhIGxp
+bmUgd2hpY2ggaXMgZXhhY3RseSA4MCBjaGFyIGluIGxlbmd0aCBlbmRzIHVwCj4gPj4+Pj4gYmVp
+bmcgb3ZlciA4MCBjaGFyIGluIGVtYWlsLiBJZiB5b3UgYXBwbHkgdGhlIHBhdGNoIHlvdSB3aWxs
+IHNlZSB0aGF0Cj4gPj4+Pj4gdGhleSBhcmUgb25seSA4MCBjaGFycy4KPiA+Pj4+Pgo+ID4+Pj4+
+Pgo+ID4+Pj4+PiBUaGVyZSBhcmUgc2V2ZXJhbCBjb21tZW50IGxpbmVzIGluIHRoZSBmaWxlIHRo
+YXQgYXJlIHdheSB0b28gbG9uZy4KPiA+Pj4+Pgo+ID4+Pj4+IE5vdGUgdGhhdCBjaGVja3BhdGNo
+IGFsc28gZG9lcyBub3QgY29tcGxhaW4gYWJvdXQgYW55IG92ZXIgODAgY2hhcgo+ID4+Pj4+IGxp
+bmVzIGluIHRoaXMgZmlsZS4KPiA+Pj4+Pgo+ID4+Pj4+IFNvcnJ5IGlmIEkgYW0gbWlzdW5kZXJz
+dGFuZGluZyB3aGF0IHlvdSBhcmUgdHJ5aW5nIHRvIHRlbGwgbWUuIFBsZWFzZQo+ID4+Pj4+IGNv
+bmZpcm0gZWl0aGVyIHdheS4KPiA+Pj4+Pgo+ID4+Pj4KPiA+Pj4+IFdBUk5JTkc6IEF2b2lkIHVu
+bmVjZXNzYXJ5IGxpbmUgY29udGludWF0aW9ucwo+ID4+Pj4gIzI1ODogRklMRTogaW5jbHVkZS9r
+dW5pdC90ZXN0Lmg6MTM3Ogo+ID4+Pj4gKyAgICAgICAgICAgICAgICAqLyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKPiA+Pj4+Cj4g
+Pj4+PiB0b3RhbDogMCBlcnJvcnMsIDIgd2FybmluZ3MsIDM4OCBsaW5lcyBjaGVja2VkCj4gPj4+
+Cj4gPj4+IEFoLCBva2F5IHNvIHlvdSBkb24ndCBsaWtlIHRoZSB3YXJuaW5nIGFib3V0IHRoZSBs
+aW5lIGNvbnRpbnVhdGlvbi4KPiA+Pj4gVGhhdCdzIG5vdCBiZWNhdXNlIGl0IGlzIG92ZXIgODAg
+Y2hhciwgYnV0IGJlY2F1c2UgdGhlcmUgaXMgYSBsaW5lCj4gPj4+IGNvbnRpbnVhdGlvbiBhZnRl
+ciBhIGNvbW1lbnQuIEkgZG9uJ3QgcmVhbGx5IHNlZSBhIHdheSB0byBnZXQgcmlkIG9mCj4gPj4+
+IGl0IHdpdGhvdXQgcmVtb3ZpbmcgdGhlIGNvbW1lbnQgZnJvbSBpbnNpZGUgdGhlIG1hY3JvLgo+
+ID4+Pgo+ID4+PiBJIHB1dCB0aGlzIFRPRE8gdGhlcmUgaW4gdGhlIGZpcnN0IHBsYWNlIGEgTHVp
+cycgcmVxdWVzdCwgYW5kIEkgcHV0IGl0Cj4gPj4+IGluIHRoZSBib2R5IG9mIHRoZSBtYWNybyBi
+ZWNhdXNlIHRoaXMgbWFjcm8gYWxyZWFkeSBoYWQgYSBrZXJuZWwtZG9jCj4gPj4+IGNvbW1lbnQg
+YW5kIEkgZGlkbid0IHRoaW5rIHRoYXQgYW4gaW1wbGVtZW50YXRpb24gZGV0YWlsIFRPRE8gYmVs
+b25nZWQKPiA+Pj4gaW4gdGhlIHVzZXIgZG9jdW1lbnRhdGlvbi4KPiA+Pj4KPiA+Pj4+IEdvIGFo
+ZWFkIGZpeCB0aGVzZS4gSXQgYXBwZWFycyB0aGVyZSBhcmUgZmV3IGxpbmVzIHRoYXQgZWl0aGVy
+IGxvbmdlcgo+ID4+Pj4gdGhhbiA4MC4gSW4gZ2VuZXJhbCwgSSBrZWVwIHRoZW0gYXJvdW5kIDc1
+LCBzbyBpdCBpcyBlYXNpZXIgcmVhZC4KPiA+Pj4KPiA+Pj4gU29ycnksIHRoZSBhYm92ZSBpcyB0
+aGUgb25seSBjaGVja3BhdGNoIHdhcm5pbmcgb3RoZXIgdGhhbiB0aGUKPiA+Pj4gcmVtaW5kZXIg
+dG8gdXBkYXRlIHRoZSBNQUlOVEFJTkVSUyBmaWxlLgo+ID4+Pgo+ID4+PiBBcmUgeW91IHNheWlu
+ZyB5b3Ugd2FudCBtZSB0byBnbyB0aHJvdWdoIGFuZCBtYWtlIGFsbCB0aGUgbGluZXMgZml0IGlu
+Cj4gPj4+IDc1IGNoYXIgY29sdW1uIHdpZHRoPyBJIGhvcGUgbm90IGJlY2F1c2UgdGhhdCBpcyBn
+b2luZyB0byBiZSBhIHByZXR0eQo+ID4+PiBzdWJzdGFudGlhbCBjaGFuZ2UgdG8gbWFrZS4KPiA+
+Pj4KPiA+Pgo+ID4+IFRoZXJlIGFyZSB0d28gdGhpbmdzIHdpdGggdGhlc2UgY29tbWVudCBsaW5l
+cy4gT25lIGlzIGNoZWNrcGF0Y2gKPiA+PiBjb21wbGFpbmluZyBhbmQgdGhlIG90aGVyIGlzIGdl
+bmVyYWwgcmVhZGFiaWxpdHkuCj4gPgo+ID4gU28gZm9yIHRoZSBjaGVja3BhdGNoIHdhcm5pbmcs
+IGRvIHlvdSB3YW50IG1lIHRvIG1vdmUgdGhlIGNvbW1lbnQgb3V0Cj4gPiBvZiB0aGUgbWFjcm8g
+Ym9keSBpbnRvIHRoZSBrZXJuZWwtZG9jIGNvbW1lbnQ/IEkgZG9uJ3QgcmVhbGx5IHRoaW5rIGl0
+Cj4gPiBpcyB0aGUgcmlnaHQgcGxhY2UgZm9yIGEgY29tbWVudCBvZiB0aGlzIG5hdHVyZSwgYnV0
+IEkgdGhpbmsgaXQgaXMKPiA+IHByb2JhYmx5IGJldHRlciB0aGFuIGRyb3BwaW5nIGl0IGVudGly
+ZWx5IChJIGRvbid0IHNlZSBob3cgZWxzZSB0byBkbwo+ID4gaXQgd2l0aG91dCBqdXN0IHJlbW92
+aW5nIHRoZSBjb21tZW50IGVudGlyZWx5KS4KPiA+Cj4KPiBEb24ndCBkcm9wIHRoZSBjb21tZW50
+cy4gSXQgbWFrZXMgcGVyZmVjdCBzZW5zZSB0byB0dXJuIHRoaXMgaW50byBhCj4ga2VybmVsLWRv
+YyBjb21tZW50LgoKSSBhbSBmaW5lIHdpdGggdGhhdC4gSSB3aWxsIGRvIHRoYXQgaW4gYSBzdWJz
+ZXF1ZW50IHJldmlzaW9uIG9uY2Ugd2UKZmlndXJlIG91dCB0aGUgY29sdW1uIGxpbWl0IGlzc3Vl
+LgoKPiBXZSBhcmUgZ29pbmcgYmFjayBmb3J0aCBvbiB0aGlzIGEgbG90LiBJIHNlZSBzZXZlcmFs
+IGxpbmVzIDgxKyBpbgo+IHRoaXMgZmlsZS4gSSBhbSBhdCA1LjMtcmM1IGFuZCBteSBjb21taXQg
+aG9va3MgYXJlbid0IGhhcHB5LiBJIGFtCj4gZmluZSB3aXRoIGl0IGlmIHlvdSB3YW50IHRvIGNv
+bnZlcnQgdGhlc2UgdG8ga2VybmVsLWRvYyBjb21tZW50cy4KPiBJIHRoaW5rIGl0IG1ha2VzIHBl
+cmZlY3Qgc2Vuc2UuCgpPa2F5LCBzbyB0aGlzIGlzIGludGVyZXN0aW5nLiBXaGVuIEkgbG9vayBh
+dCB0aGUgYXBwbGllZCBwYXRjaGVzIGluIG15CmxvY2FsIHJlcG8sIEkgZG9uJ3Qgc2VlIGFueSA4
+MSsgbGluZXMuIFNvIGl0IHNlZW1zIHRoYXQgc29tZXRoaW5nCmludGVyZXN0aW5nIGlzIGdvaW5n
+IG9uIGhlcmUuCgpUbyBiZSBjbGVhciAoc29ycnkgZm9yIHRoZSBzdHVwaWQgcXVlc3Rpb24pIHlv
+dSBhcmUgc2VlaW5nIHRoZSBpc3N1ZQphZnRlciB5b3UgYXBwbGllZCB0aGUgcGF0Y2gsIGFuZCBu
+b3QgaW4gdGhlIHBhdGNoIGZpbGUgaXRzZWxmPwoKU2luY2Ugd2UgYXJlIHN0aWxsIGF0IE9TUywg
+d291bGQgeW91IG1pbmQgaWYgd2UgbWVldCB1cCB0aGlzIGFmdGVybm9vbgpzbyBJIGNhbiBzZWUg
+dGhpcyBpc3N1ZSB5b3UgYXJlIHNlZWluZz8gSSBpbWFnaW5lIHdlIHNob3VsZCBnZXQgdGhpcwpm
+aWd1cmVkIG91dCBwcmV0dHkgcXVpY2tseS4KCkNoZWVycwpfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
