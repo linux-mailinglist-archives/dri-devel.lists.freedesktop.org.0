@@ -1,55 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 992C19AA6B
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2019 10:34:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 140E29AA6F
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2019 10:35:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9454D6EC27;
-	Fri, 23 Aug 2019 08:34:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C96D6EC20;
+	Fri, 23 Aug 2019 08:35:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DE9A6EC27
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2019 08:34:14 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id f17so8084223otq.4
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2019 01:34:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2wI4jnej8AspWUXE13reusEb4wx5ZdHi/mO0D9XYtEg=;
- b=kLHeCubjXpVR4ot6ll/JhS1qLbgA8OAaWNmCYDjOzJTNoN0Uyolphv0YSgAv867hDG
- JewqVLJT3LYdhgAL7H4F/Z21tDKtNfJ57MSQLwTFvXBQ/Y0nWTrb7EQtgfDjdxG5kkc6
- 3zPzsWLbvgOQkGDsbDVd5ad/6PqRnMcz2yRix6GGm9ayfPjSB4DZLBQ6C2ZBzGXy4ypG
- LLlquEuv1qqa7dtBlCUfetqtUJDHzk2c3JbyGVotBLkBXRgujiqmYkdlQxzSajVdarOh
- hfLd5DZ+KT6PTN0OE4bVByC1Az/vM7jMo1KoOt7cPjLIHJNQHw0QzYe6ONHkXvj95eTv
- Duqw==
-X-Gm-Message-State: APjAAAXrZt/SUCvZpUIht1s+ZNT06JYoi+P+YprTgH43UarxrVHI8s03
- ULfINhZOZ9/qgEcuqmWhtM9g24OljCmimzb841zIwQ==
-X-Google-Smtp-Source: APXvYqySGMSx76GQciFyarc45Uaxat2fi1EkKKRAKJHDAgSYk4ycOdQtf+zAg8LRPPEFSKLE0nTWT6z30G/6Y2FEpF0=
-X-Received: by 2002:a9d:7006:: with SMTP id k6mr3113253otj.303.1566549253448; 
- Fri, 23 Aug 2019 01:34:13 -0700 (PDT)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FEB16EC1B;
+ Fri, 23 Aug 2019 08:35:14 +0000 (UTC)
+X-Originating-IP: 86.250.200.211
+Received: from localhost (lfbn-1-17395-211.w86-250.abo.wanadoo.fr
+ [86.250.200.211]) (Authenticated sender: maxime.ripard@bootlin.com)
+ by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id A35C01BF20C;
+ Fri, 23 Aug 2019 08:35:09 +0000 (UTC)
+Date: Fri, 23 Aug 2019 10:35:09 +0200
+From: Maxime Ripard <maxime.ripard@bootlin.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-next
+Message-ID: <20190823083509.c7mduqdqjnxc7ubb@flea>
 MIME-Version: 1.0
-References: <20190820081902.24815-1-daniel.vetter@ffwll.ch>
- <20190820081902.24815-4-daniel.vetter@ffwll.ch>
- <20190820202440.GH11147@phenom.ffwll.local>
- <20190822161428.c9e4479207386d34745ea111@linux-foundation.org>
-In-Reply-To: <20190822161428.c9e4479207386d34745ea111@linux-foundation.org>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 23 Aug 2019 10:34:01 +0200
-Message-ID: <CAKMK7uGw_7uD=wH3bcR9xXSxAcAuYTLOZt3ue4TEvst1D0KzLQ@mail.gmail.com>
-Subject: Re: [PATCH 3/4] kernel.h: Add non_block_start/end()
-To: Andrew Morton <akpm@linux-foundation.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=2wI4jnej8AspWUXE13reusEb4wx5ZdHi/mO0D9XYtEg=;
- b=aeC3TxV0j2A92x3gKbNcF7bCggKdYhKlcyjxAhb5hfIRm+pYMjP86E3zP6iPTYa0CW
- V4FP5NjHd9HiRZopamKaKgTN9DoDP1olhMwISRwQM8srvpF0JbA28Xs/5rV6oXCqpMTX
- iTLRFwvLICz57Ol4za0Kp8tRS9HWt94Uo/ni8=
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,43 +37,275 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Feng Tang <feng.tang@intel.com>, Michal Hocko <mhocko@suse.com>,
- Kees Cook <keescook@chromium.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Peter Zijlstra <peterz@infradead.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Jann Horn <jannh@google.com>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux MM <linux-mm@kvack.org>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Ingo Molnar <mingo@redhat.com>, Randy Dunlap <rdunlap@infradead.org>,
- David Rientjes <rientjes@google.com>, Wei Wang <wvw@google.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Masahiro Yamada <yamada.masahiro@socionext.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Sean Paul <sean@poorly.run>, intel-gfx@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1942324549=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBBdWcgMjMsIDIwMTkgYXQgMToxNCBBTSBBbmRyZXcgTW9ydG9uIDxha3BtQGxpbnV4
-LWZvdW5kYXRpb24ub3JnPiB3cm90ZToKPgo+IE9uIFR1ZSwgMjAgQXVnIDIwMTkgMjI6MjQ6NDAg
-KzAyMDAgRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPiB3cm90ZToKPgo+ID4gSGkgUGV0
-ZXIsCj4gPgo+ID4gSWlyYyB5b3UndmUgYmVlbiBpbnZvbHZlZCBhdCBsZWFzdCBzb21ld2hhdCBp
-biBkaXNjdXNzaW5nIHRoaXMuIC1tbSBmb2xrcwo+ID4gYXJlIGEgYml0IHVuZGVjaWRlZCB3aGV0
-aGVyIHRoZXNlIG5ldyBub25fYmxvY2sgc2VtYW50aWNzIGFyZSBhIGdvb2QgaWRlYS4KPiA+IE1p
-Y2hhbCBIb2NrbyBzdGlsbCBpcyBpbiBzdXBwb3J0LCBidXQgQW5kcmV3IE1vcnRvbiBhbmQgSmFz
-b24gR3VudGhvcnBlCj4gPiBhcmUgbGVzcyBlbnRodXNpYXN0aWMuIEphc29uIHNhaWQgaGUncyBv
-ayB3aXRoIG1lcmdpbmcgdGhlIGhtbSBzaWRlIG9mCj4gPiB0aGlzIGlmIHNjaGVkdWxlciBmb2xr
-cyBhY2suIElmIG5vdCwgdGhlbiBJJ2xsIHJlc3BpbiB3aXRoIHRoZQo+ID4gcHJlZW1wdF9kaXNh
-YmxlL2VuYWJsZSBpbnN0ZWFkIGxpa2UgaW4gdjEuCj4KPiBJIGJlY2FtZSBtb2xsaWZpZWQgb25j
-ZSBNaWNoZWwgZXhwbGFpbmVkIHRoZSByYXRpb25hbGUuICBJIHRoaW5rIGl0J3MKPiBPSy4gIEl0
-J3MgdmVyeSBzcGVjaWZpYyB0byB0aGUgb29tIHJlYXBlciBhbmQgaG9wZWZ1bGx5IHdvbid0IGJl
-IHVzZWQKPiBtb3JlIHdpZGVseSg/KS4KClllYWgsIG5vIHBsYW5zIGZvciB0aGF0IGZyb20gbWUu
-IEFuZCBJIGhvcGUgdGhlIGNvbW1lbnQgYWJvdmUgdGhlbSBub3cKZXhwbGFpbnMgd2h5IHRoZXkg
-ZXhpc3QsIHNvIHBlb3BsZSB0aGluayB0d2ljZSBiZWZvcmUgdXNpbmcgaXQgaW4KcmFuZG9tIHBs
-YWNlcy4KLURhbmllbAotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwg
-Q29ycG9yYXRpb24KKzQxICgwKSA3OSAzNjUgNTcgNDggLSBodHRwOi8vYmxvZy5mZndsbC5jaApf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1942324549==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="qigpbldqffyl3bre"
+Content-Disposition: inline
+
+
+--qigpbldqffyl3bre
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Daniel, Dave,
+
+Here is what should be the final drm-misc-next PR for 5.4.
+
+Thanks!
+Maxime
+
+drm-misc-next-2019-08-23:
+drm-misc-next for 5.4:
+
+UAPI Changes:
+
+Cross-subsystem Changes:
+
+Core Changes:
+  - dma-buf: dma-fence selftests
+
+Driver Changes:
+  - kirin: Various cleanups and reworks
+  - komeda: Add support for DT memory-regions
+  - meson: Rely on the compatible to detect vpu features
+  - omap: Implement alpha and pixel blend mode properties
+  - panfrost: Implement per-fd address spaces, various fixes
+  - rockchip: DSI DT binding rework
+  - fbdev: Various cleanups
+The following changes since commit d777478599f781fc5162d1ae95dbee6e5ae05a41:
+
+  drm/xen-front: Make structure fb_funcs constant (2019-08-19 08:32:52 +030=
+0)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2019-08-23
+
+for you to fetch changes up to e26ae7c0432101a924cf745b07470c8592de64cb:
+
+  omapdrm: no need to check return value of debugfs_create functions (2019-=
+08-23 10:21:03 +0300)
+
+----------------------------------------------------------------
+drm-misc-next for 5.4:
+
+UAPI Changes:
+
+Cross-subsystem Changes:
+
+Core Changes:
+  - dma-buf: dma-fence selftests
+
+Driver Changes:
+  - kirin: Various cleanups and reworks
+  - komeda: Add support for DT memory-regions
+  - meson: Rely on the compatible to detect vpu features
+  - omap: Implement alpha and pixel blend mode properties
+  - panfrost: Implement per-fd address spaces, various fixes
+  - rockchip: DSI DT binding rework
+  - fbdev: Various cleanups
+
+----------------------------------------------------------------
+Anders Roxell (1):
+      video: fbdev: sh_mobile_lcdcfb: Mark expected switch fall-through
+
+Chris Wilson (5):
+      dma-buf: Introduce selftesting framework
+      dma-buf: Add selftests for dma-fence
+      drm/i915: Select DMABUF_SELFTESTS for the default i915.ko debug build
+      dma-buf: Use %zu for printing sizeof
+      dmabuf: Mark up onstack timer for selftests
+
+Chuhong Yuan (2):
+      video: fbdev: sm712fb: Use dev_get_drvdata
+      video: fbdev: radeonfb: Use dev_get_drvdata
+
+Da Lv (1):
+      drm: kirin: Fix for hikey620 display offset problem
+
+Dariusz Marcinkiewicz (2):
+      drm: dw-hdmi: use cec_notifier_conn_(un)register
+      dw-hdmi-cec: use cec_notifier_cec_adap_(un)register
+
+Greg Kroah-Hartman (1):
+      omapdrm: no need to check return value of debugfs_create functions
+
+Gustavo A. R. Silva (2):
+      video: fbdev: pvr2fb: remove unnecessary comparison of unsigned integ=
+er with < 0
+      video: fbdev/mmp/core: Use struct_size() in kzalloc()
+
+Hans de Goede (1):
+      efifb: BGRT: Improve efifb_bgrt_sanity_check
+
+Jani Nikula (1):
+      drm: fix module name in edid_firmware log message
+
+Jean-Jacques Hiblot (1):
+      drm/omap: Add 'alpha' and 'pixel blend mode' plane properties
+
+John Stultz (3):
+      drm: kirin: Remove HISI_KIRIN_DW_DSI config option
+      drm: kirin: Remove unreachable return
+      drm: kirin: Move workqueue to ade_hw_ctx structure
+
+Jonathan Neusch=E4fer (1):
+      drm/drv: Use // for comments in example code
+
+Julien Masson (1):
+      drm: meson: use match data to detect vpu compatibility
+
+Mihail Atanassov (1):
+      drm/komeda: Add support for 'memory-region' DT node property
+
+Nickey Yang (1):
+      dt-bindings: display: rockchip: update DSI controller
+
+Nishka Dasgupta (1):
+      udlfb: Make dlfb_ops constant
+
+Rob Herring (2):
+      drm/panfrost: Implement per FD address spaces
+      drm/panfrost: Fix sleeping while atomic in panfrost_gem_open
+
+Souptick Joarder (2):
+      video: fbdev: aty[128]fb: Remove dead code
+      video: fbdev: viafb: Remove dead code
+
+Steven Price (2):
+      drm/panfrost: Enable devfreq to work without regulator
+      drm/panfrost: Remove opp table when unloading
+
+Thierry Reding (1):
+      drm/nouveau: Initialize GEM object before TTM object
+
+Wei Yongjun (1):
+      drm/panfrost: Fix missing unlock on error in panfrost_mmu_map_fault_a=
+ddr()
+
+Xu YiPing (21):
+      drm: kirin: Remove uncessary parameter indirection
+      drm: kirin: Remove out_format from ade_crtc
+      drm: kirin: Rename ade_plane to kirin_plane
+      drm: kirin: Rename ade_crtc to kirin_crtc
+      drm: kirin: Dynamically allocate the hw_ctx
+      drm: kirin: Move request irq handle in ade hw ctx alloc
+      drm: kirin: Move kirin_crtc, kirin_plane, kirin_format to kirin_drm_d=
+rv.h
+      drm: kirin: Reanme dc_ops to kirin_drm_data
+      drm: kirin: Move ade crtc/plane help functions to driver_data
+      drm: kirin: Move channel formats to driver data
+      drm: kirin: Move mode config function to driver_data
+      drm: kirin: Move plane number and primay plane in driver data
+      drm: kirin: Move config max_width and max_height to driver data
+      drm: kirin: Move drm driver to driver data
+      drm: kirin: Add register connect helper functions in drm init
+      drm: kirin: Rename plane_init and crtc_init
+      drm: kirin: Fix dev->driver_data setting
+      drm: kirin: Make driver_data variable non-global
+      drm: kirin: Add alloc_hw_ctx/clean_hw_ctx ops in driver data
+      drm: kirin: Pass driver data to crtc init and plane init
+      drm: kirin: Move ade drm init to kirin drm drv
+
+ .../display/rockchip/dw_mipi_dsi_rockchip.txt      |  23 +-
+ drivers/dma-buf/Kconfig                            |   5 +
+ drivers/dma-buf/Makefile                           |   6 +
+ drivers/dma-buf/selftest.c                         | 167 ++++++
+ drivers/dma-buf/selftest.h                         |  30 ++
+ drivers/dma-buf/selftests.h                        |  13 +
+ drivers/dma-buf/st-dma-fence.c                     | 574 +++++++++++++++++=
+++++
+ drivers/gpu/drm/arm/display/komeda/komeda_dev.c    |   9 +
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c      |  13 +-
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |  45 +-
+ drivers/gpu/drm/drm_drv.c                          |  14 +-
+ drivers/gpu/drm/drm_kms_helper_common.c            |   2 +-
+ drivers/gpu/drm/hisilicon/kirin/Kconfig            |  10 +-
+ drivers/gpu/drm/hisilicon/kirin/Makefile           |   3 +-
+ drivers/gpu/drm/hisilicon/kirin/kirin_ade_reg.h    |   1 +
+ drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c    | 351 +++++--------
+ drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c    | 262 +++++++---
+ drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.h    |  48 +-
+ drivers/gpu/drm/i915/Kconfig.debug                 |   1 +
+ drivers/gpu/drm/meson/meson_crtc.c                 |   2 +-
+ drivers/gpu/drm/meson/meson_drv.c                  |  14 +-
+ drivers/gpu/drm/meson/meson_drv.h                  |  13 +-
+ drivers/gpu/drm/meson/meson_dw_hdmi.c              |   2 +-
+ drivers/gpu/drm/meson/meson_overlay.c              |   2 +-
+ drivers/gpu/drm/meson/meson_plane.c                |  10 +-
+ drivers/gpu/drm/meson/meson_vclk.c                 |  64 +--
+ drivers/gpu/drm/meson/meson_venc.c                 |   2 +-
+ drivers/gpu/drm/meson/meson_venc_cvbs.c            |  10 +-
+ drivers/gpu/drm/meson/meson_viu.c                  |  10 +-
+ drivers/gpu/drm/meson/meson_vpp.c                  |  10 +-
+ drivers/gpu/drm/nouveau/nouveau_bo.c               |  69 ++-
+ drivers/gpu/drm/nouveau/nouveau_bo.h               |   4 +
+ drivers/gpu/drm/nouveau/nouveau_gem.c              |  29 +-
+ drivers/gpu/drm/nouveau/nouveau_prime.c            |  16 +-
+ drivers/gpu/drm/omapdrm/dss/dss.c                  |  11 +-
+ drivers/gpu/drm/omapdrm/omap_plane.c               |   9 +-
+ drivers/gpu/drm/panfrost/TODO                      |   4 -
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c        |  13 +-
+ drivers/gpu/drm/panfrost/panfrost_devfreq.h        |   1 +
+ drivers/gpu/drm/panfrost/panfrost_device.c         |   2 +
+ drivers/gpu/drm/panfrost/panfrost_device.h         |  24 +-
+ drivers/gpu/drm/panfrost/panfrost_drv.c            |  36 +-
+ drivers/gpu/drm/panfrost/panfrost_gem.c            |  23 +-
+ drivers/gpu/drm/panfrost/panfrost_gem.h            |   3 +
+ drivers/gpu/drm/panfrost/panfrost_job.c            |  14 +-
+ drivers/gpu/drm/panfrost/panfrost_mmu.c            | 227 +++++---
+ drivers/gpu/drm/panfrost/panfrost_mmu.h            |   8 +
+ drivers/video/fbdev/aty/aty128fb.c                 |  18 -
+ drivers/video/fbdev/aty/atyfb_base.c               |  29 --
+ drivers/video/fbdev/aty/radeon_base.c              |   6 +-
+ drivers/video/fbdev/efifb.c                        |  27 +-
+ drivers/video/fbdev/mmp/core.c                     |   6 +-
+ drivers/video/fbdev/pvr2fb.c                       |   6 +-
+ drivers/video/fbdev/sh_mobile_lcdcfb.c             |   2 +
+ drivers/video/fbdev/sm712fb.c                      |   8 +-
+ drivers/video/fbdev/udlfb.c                        |   2 +-
+ drivers/video/fbdev/via/via-core.c                 |  43 --
+ 57 files changed, 1681 insertions(+), 675 deletions(-)
+ create mode 100644 drivers/dma-buf/selftest.c
+ create mode 100644 drivers/dma-buf/selftest.h
+ create mode 100644 drivers/dma-buf/selftests.h
+ create mode 100644 drivers/dma-buf/st-dma-fence.c
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--qigpbldqffyl3bre
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXV+lPQAKCRDj7w1vZxhR
+xa0hAP4p8LQULYds0+uw0O2xyAs94q3NqdukTNbLBJ9gaLh6hAD+LNhzTv2G6h17
+PWQL3nYC/G7vt+7UE6MCJM3s1a5g2Ao=
+=7Anj
+-----END PGP SIGNATURE-----
+
+--qigpbldqffyl3bre--
+
+--===============1942324549==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1942324549==--
