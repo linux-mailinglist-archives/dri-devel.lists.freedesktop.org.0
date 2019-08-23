@@ -1,36 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBD9C9B00A
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2019 14:56:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 388249B099
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2019 15:18:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 187026E071;
-	Fri, 23 Aug 2019 12:56:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F1746E06F;
+	Fri, 23 Aug 2019 13:18:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3ACB76E071
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2019 12:56:15 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C7007337;
- Fri, 23 Aug 2019 05:56:14 -0700 (PDT)
-Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 669A53F718;
- Fri, 23 Aug 2019 05:56:12 -0700 (PDT)
-Subject: Re: [PATCH v2 8/8] drm/panfrost: Remove unnecessary flushing from
- tlb_inv_context
-To: Rob Herring <robh@kernel.org>, dri-devel@lists.freedesktop.org
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBFD36E06F
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2019 13:18:18 +0000 (UTC)
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
+ [209.85.160.179])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id A4A1B23400
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2019 13:18:18 +0000 (UTC)
+Received: by mail-qt1-f179.google.com with SMTP id y26so11152253qto.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2019 06:18:18 -0700 (PDT)
+X-Gm-Message-State: APjAAAUAUMmgqTxmffRlzoQQtdUL+nv6cvTErEO8Wl1L0WjyZ0FoYmNX
+ FUKW3zG9yYuUdsZhZqWusdrhVVPyqwVmUUvHPg==
+X-Google-Smtp-Source: APXvYqwVGfUYpJDuvSk4JLXxB0511+FALJ0em+PZ/9+koBRWu7uJkXPFxZ8K9XB4Jt00BzDCwYyH4PoaY3CXYRgOyls=
+X-Received: by 2002:a05:6214:10e1:: with SMTP id
+ q1mr3794699qvt.148.1566566297713; 
+ Fri, 23 Aug 2019 06:18:17 -0700 (PDT)
+MIME-Version: 1.0
 References: <20190823021216.5862-1-robh@kernel.org>
  <20190823021216.5862-9-robh@kernel.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <39a16722-9ab2-b7ca-1c28-dd733c1b193a@arm.com>
-Date: Fri, 23 Aug 2019 13:56:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190823021216.5862-9-robh@kernel.org>
-Content-Language: en-GB
+ <39a16722-9ab2-b7ca-1c28-dd733c1b193a@arm.com>
+In-Reply-To: <39a16722-9ab2-b7ca-1c28-dd733c1b193a@arm.com>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 23 Aug 2019 08:18:06 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKeUBUw3JmCyc5Ui5Ou_shmizyEzFA-UQ-zXHCsPDv0DQ@mail.gmail.com>
+Message-ID: <CAL_JsqKeUBUw3JmCyc5Ui5Ou_shmizyEzFA-UQ-zXHCsPDv0DQ@mail.gmail.com>
+Subject: Re: [PATCH v2 8/8] drm/panfrost: Remove unnecessary flushing from
+ tlb_inv_context
+To: Robin Murphy <robin.murphy@arm.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1566566298;
+ bh=XG8XXwfzxDM9b0nIM6ddp1sGvNvzAlaD3olMJ3Wx1Kc=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=LCTarW+pVXjnwn3m6sOSGEwiv4E5ySbLk9UZSs+EWby5OQD7vh/Lp3j0eWDKwsH++
+ y7M1251/xYCc3lsuZI3m8E8tZilfpMNX4Q7HZz1+qhnwKp0r807fQvBiDFeh75wJqv
+ 4nh3Rn8+SzuFpueAtVaAqryaTKH0rXUvXvSPtt9I=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,49 +59,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
  Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
  Steven Price <steven.price@arm.com>,
  Boris Brezillon <boris.brezillon@collabora.com>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
  Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjMvMDgvMjAxOSAwMzoxMiwgUm9iIEhlcnJpbmcgd3JvdGU6Cj4gdGxiX2ludl9jb250ZXh0
-KCkgaG9vayBpcyBvbmx5IGNhbGxlZCB3aGVuIGZyZWVpbmcgdGhlIHBhZ2UgdGFibGVzLiBUaGVy
-ZSdzCj4gbm8gcG9pbnQgaW4gZmx1c2hpbmcgb25seSB0byBmcmVlIHRoZSBwYWdlIHRhYmxlcyBp
-bW1lZGlhdGVseSBmb2xsb3dpbmcuCgpGV0lXLCBpbiBnZW5lcmFsIHRoZSBwb2ludCBvZiBmbHVz
-aGluZyBpcyAqYmVjYXVzZSogd2UncmUgYWJvdXQgdG8gZnJlZSAKdGhlIHBhZ2V0YWJsZXMgLSBp
-ZiB0aGVyZSdzIGFueSBwb3NzaWJpbGl0eSB0aGF0IHRoZSBoYXJkd2FyZSBjb3VsZCAKY29udGlu
-dWUgdG8gaXNzdWUgdHJhbnNsYXRpb24gdGFibGUgd2Fsa3MgKHNwZWN1bGF0aXZlIG9yIG90aGVy
-d2lzZSkgCmFmdGVyIHRob3NlIHBhZ2VzIGhhdmUgYmVlbiByZXVzZWQgYnkgc29tZW9uZSBlbHNl
-LCBUTEIgYmFkbmVzcyBtYXkgZW5zdWUuCgpGb3IgcGFuZnJvc3QgaW4gcGFydGljdWxhciBJIHN1
-c3BlY3Qgd2UgY2FuIHByb2JhYmx5IGdldCBhd2F5IHdpdGhvdXQgCml0LCBhdCBsZWFzdCBmb3Ig
-dGhlIG1vbWVudCwgYnV0IGl0IG1pZ2h0IGJlIHdvcnRoIG1vdmluZyB0aGUgZmx1c2ggdG8gCm1t
-dV9kaXNhYmxlKCkgZm9yIGNvbXBsZXRlIHBlYWNlIG9mIG1pbmQgKHdoaWNoIGtpbmQgb2YgcHJl
-ZW1wdHMgdGhlIApzb3J0IG9mIHRoaW5nIHRoYXQgcGVyLXByb2Nlc3MgQVMgc3dpdGNoaW5nIHdp
-bGwgd2FudCBhbnl3YXkpLgoKUm9iaW4uCgo+IFRoZXJlIGlzIGFsc28gYSBwcm9ibGVtIHRoYXQg
-d2UgY291bGQgYmUgYWNjZXNzaW5nIHRoZSBoL3cgd2hlbiBzdXNwZW5kZWQuCj4gCj4gQ2M6IFRv
-bWV1IFZpem9zbyA8dG9tZXUudml6b3NvQGNvbGxhYm9yYS5jb20+Cj4gQ2M6IFN0ZXZlbiBQcmlj
-ZSA8c3RldmVuLnByaWNlQGFybS5jb20+Cj4gQ2M6IEFseXNzYSBSb3Nlbnp3ZWlnIDxhbHlzc2Eu
-cm9zZW56d2VpZ0Bjb2xsYWJvcmEuY29tPgo+IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGlu
-dXguaWU+Cj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiBTaWduZWQtb2Zm
-LWJ5OiBSb2IgSGVycmluZyA8cm9iaEBrZXJuZWwub3JnPgo+IC0tLQo+IHYyOiBuZXcgcGF0Y2gK
-PiAKPiAgIGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9tbXUuYyB8IDYgKy0tLS0t
-Cj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDUgZGVsZXRpb25zKC0pCj4gCj4g
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9tbXUuYyBiL2Ry
-aXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9tbXUuYwo+IGluZGV4IGNjZjY3MWE5YzNm
-Yi4uOWY4NTI3NWE4OTZjIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9w
-YW5mcm9zdF9tbXUuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9t
-bXUuYwo+IEBAIC0zMjgsMTEgKzMyOCw3IEBAIHZvaWQgcGFuZnJvc3RfbW11X3VubWFwKHN0cnVj
-dCBwYW5mcm9zdF9nZW1fb2JqZWN0ICpibykKPiAgIH0KPiAgIAo+ICAgc3RhdGljIHZvaWQgbW11
-X3RsYl9pbnZfY29udGV4dF9zMSh2b2lkICpjb29raWUpCj4gLXsKPiAtCXN0cnVjdCBwYW5mcm9z
-dF9maWxlX3ByaXYgKnByaXYgPSBjb29raWU7Cj4gLQo+IC0JbW11X2h3X2RvX29wZXJhdGlvbihw
-cml2LT5wZmRldiwgJnByaXYtPm1tdSwgMCwgfjBVTCwgQVNfQ09NTUFORF9GTFVTSF9NRU0pOwo+
-IC19Cj4gK3t9Cj4gICAKPiAgIHN0YXRpYyB2b2lkIG1tdV90bGJfaW52X3JhbmdlX25vc3luYyh1
-bnNpZ25lZCBsb25nIGlvdmEsIHNpemVfdCBzaXplLAo+ICAgCQkJCSAgICAgc2l6ZV90IGdyYW51
-bGUsIGJvb2wgbGVhZiwgdm9pZCAqY29va2llKQo+IApfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWw=
+T24gRnJpLCBBdWcgMjMsIDIwMTkgYXQgNzo1NiBBTSBSb2JpbiBNdXJwaHkgPHJvYmluLm11cnBo
+eUBhcm0uY29tPiB3cm90ZToKPgo+IE9uIDIzLzA4LzIwMTkgMDM6MTIsIFJvYiBIZXJyaW5nIHdy
+b3RlOgo+ID4gdGxiX2ludl9jb250ZXh0KCkgaG9vayBpcyBvbmx5IGNhbGxlZCB3aGVuIGZyZWVp
+bmcgdGhlIHBhZ2UgdGFibGVzLiBUaGVyZSdzCj4gPiBubyBwb2ludCBpbiBmbHVzaGluZyBvbmx5
+IHRvIGZyZWUgdGhlIHBhZ2UgdGFibGVzIGltbWVkaWF0ZWx5IGZvbGxvd2luZy4KPgo+IEZXSVcs
+IGluIGdlbmVyYWwgdGhlIHBvaW50IG9mIGZsdXNoaW5nIGlzICpiZWNhdXNlKiB3ZSdyZSBhYm91
+dCB0byBmcmVlCj4gdGhlIHBhZ2V0YWJsZXMgLSBpZiB0aGVyZSdzIGFueSBwb3NzaWJpbGl0eSB0
+aGF0IHRoZSBoYXJkd2FyZSBjb3VsZAo+IGNvbnRpbnVlIHRvIGlzc3VlIHRyYW5zbGF0aW9uIHRh
+YmxlIHdhbGtzIChzcGVjdWxhdGl2ZSBvciBvdGhlcndpc2UpCj4gYWZ0ZXIgdGhvc2UgcGFnZXMg
+aGF2ZSBiZWVuIHJldXNlZCBieSBzb21lb25lIGVsc2UsIFRMQiBiYWRuZXNzIG1heSBlbnN1ZS4K
+Pgo+IEZvciBwYW5mcm9zdCBpbiBwYXJ0aWN1bGFyIEkgc3VzcGVjdCB3ZSBjYW4gcHJvYmFibHkg
+Z2V0IGF3YXkgd2l0aG91dAo+IGl0LCBhdCBsZWFzdCBmb3IgdGhlIG1vbWVudCwgYnV0IGl0IG1p
+Z2h0IGJlIHdvcnRoIG1vdmluZyB0aGUgZmx1c2ggdG8KPiBtbXVfZGlzYWJsZSgpIGZvciBjb21w
+bGV0ZSBwZWFjZSBvZiBtaW5kICh3aGljaCBraW5kIG9mIHByZWVtcHRzIHRoZQo+IHNvcnQgb2Yg
+dGhpbmcgdGhhdCBwZXItcHJvY2VzcyBBUyBzd2l0Y2hpbmcgd2lsbCB3YW50IGFueXdheSkuCgpU
+aGVyZSdzIGJpZ2dlciBwcm9ibGVtIHRoYXQgbW11X2Rpc2FibGUoKSBpcyBzdGlsbCBvbmx5IGNh
+bGxlZCBmb3IgQVMwCmFuZCBvbmx5IGZvciBkcml2ZXIgdW5sb2FkLiBJIGd1ZXNzIHdlIHNob3Vs
+ZCBmaXggdGhhdCBhbmQgdGhlbiBmaWd1cmUKb3V0IHdoZXJlIGEgZmx1c2ggaXMgbmVlZGVkIGlm
+IGF0IGFsbC4gSSB3b3VsZCB0aGluayBjaGFuZ2luZyB0aGUgVFRCUgp3b3VsZCBiZSBlbm91Z2gg
+dG8gcXVpZXNjZSB0aGUgaC93IGFuZCBUTEJzLiBUaGF0IHNlZW1zIHRvIGJlIHRoZSBjYXNlCmlu
+IG15IHRlc3Rpbmcgb2Ygc3dpdGNoaW5nIGFkZHJlc3Mgc3BhY2VzLgoKUm9iCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
