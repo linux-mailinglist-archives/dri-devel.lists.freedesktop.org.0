@@ -1,37 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FF329B814
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Aug 2019 23:24:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD6ED9B880
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Aug 2019 00:18:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 583A96ED3D;
-	Fri, 23 Aug 2019 21:24:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC74B6ED64;
+	Fri, 23 Aug 2019 22:18:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98A6F6ED3D
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2019 21:24:05 +0000 (UTC)
-Received: from pendragon.bb.dnainternet.fi
- (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi
- [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 764302B2;
- Fri, 23 Aug 2019 23:24:03 +0200 (CEST)
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/ingenic: Hardcode panel type to DPI
-Date: Sat, 24 Aug 2019 00:23:53 +0300
-Message-Id: <20190823212353.29369-1-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.21.0
+Received: from hqemgate16.nvidia.com (hqemgate16.nvidia.com [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D45FF6ED5D;
+ Fri, 23 Aug 2019 22:18:12 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5d6066240001>; Fri, 23 Aug 2019 15:18:12 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Fri, 23 Aug 2019 15:18:12 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Fri, 23 Aug 2019 15:18:12 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 23 Aug
+ 2019 22:18:07 +0000
+Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 23 Aug 2019 22:18:07 +0000
+Received: from rcampbell-dev.nvidia.com (Not Verified[10.110.48.66]) by
+ hqnvemgw01.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
+ id <B5d60661e0003>; Fri, 23 Aug 2019 15:18:06 -0700
+From: Ralph Campbell <rcampbell@nvidia.com>
+To: <linux-mm@kvack.org>
+Subject: [PATCH 0/2] mm/hmm: two bug fixes for hmm_range_fault()
+Date: Fri, 23 Aug 2019 15:17:51 -0700
+Message-ID: <20190823221753.2514-1-rcampbell@nvidia.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1566595443;
- bh=QzwdrbR/rKkFWGsStFcMnyNotZ9xFIffms2XPFBdgo8=;
- h=From:To:Cc:Subject:Date:From;
- b=X5xp9Dl2MpS8LjOFMLY92iJnKaHouRjmTMnwXDgoV9aCzfJU8W6ptSLzqOaFeqKeE
- NQjVtNj4w+DGqdRvbkrFYPkqJlU7kZT40R3EJq1zqlr4EAuG77mvmGwQiWA3ZxXE7b
- AtMdAbDFzdSBv3GqTYZjSUQcXMHd5E9EaQTuTYsU=
+X-NVConfidentiality: public
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nvidia.com; s=n1; 
+ t=1566598693; bh=Z6axOFKbUvqsjcFqMxwwOrZTql7QqKTfP0heWnYU1Z8=;
+ h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+ MIME-Version:X-NVConfidentiality:Content-Transfer-Encoding:
+ Content-Type;
+ b=ctpsqG1kNxP+YzsOTUXs7AwK5TY2o4ZmwFLtokaKLQ4zXNU31nsT4X7JyHtFGc5fe
+ O8xIorB0RJZR6/3g7TN0cjxJ0/JlP3grcpjxY6NHweE6/eyjaFRSeeYH/peSmE7G5E
+ 6FiA1tTrxCHIAWyCwjMVD8eWRBvO37Z3HtCxaHyPi8tCz1GQZvv+j03ery4xJu2Nvb
+ rik3UshHudfzSfYw2qCWIlQKCR9d0zLt50+Q354r5dPupAuz4gjV8IJsaeiLwrVPAQ
+ M/0ar3v6Up8fbsIC/Ld11+CbgBG306Z+AOrZZelEg4l+GgDLY6zz0F1xBu2md0eZ1G
+ mlS04Yqu1Mb/w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,30 +61,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Cercueil <paul@crapouillou.net>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Ralph Campbell <rcampbell@nvidia.com>, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+ Jason Gunthorpe <jgg@mellanox.com>, amd-gfx@lists.freedesktop.org,
+ Andrew Morton <akpm@linux-foundation.org>, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIGluZ2VuaWMgZHJpdmVyIHN1cHBvcnRzIERQSSBwYW5lbHMgb25seSBhdCB0aGUgbW9tZW50
-LCBzbyBoYXJkY29kZQp0aGVpciB0eXBlIHRvIERQSSBpbnN0ZWFkIG9mIFVua25vd24uCgpTaWdu
-ZWQtb2ZmLWJ5OiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2Fy
-ZC5jb20+Ci0tLQpQYXVsLCBhcyB0aGUgZHJpdmVyIGhhcyBiZWVuIG1lcmdlZCBpbiB2NS4zLXJj
-MSwgdGhpcyBpcyBhIGNhbmRpZGF0ZSBmb3IKYSB2NS4zIGZpeC4gS2VlcGluZyB0aGUgY29ubmVj
-dG9yIHR5cGUgYXMgdW5rbm93biBjb3VsZCBjYXVzZSBhCnVzZXJzcGFjZSBkZXBlbmRlbmN5IG9u
-IGl0LCBwcmV2ZW50aW5nIGl0IGZyb20gYmVpbmcgY2hhbmdlZCBsYXRlci4KCmRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vaW5nZW5pYy9pbmdlbmljLWRybS5jIGIvZHJpdmVycy9ncHUvZHJt
-L2luZ2VuaWMvaW5nZW5pYy1kcm0uYwppbmRleCBjZTFmYWUzYTc4YTkuLjJlMmVkNjUzZTljNiAx
-MDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2luZ2VuaWMvaW5nZW5pYy1kcm0uYworKysgYi9k
-cml2ZXJzL2dwdS9kcm0vaW5nZW5pYy9pbmdlbmljLWRybS5jCkBAIC02NzUsMTAgKzY3NSw5IEBA
-IHN0YXRpYyBpbnQgaW5nZW5pY19kcm1fcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRl
-dikKIAkJcmV0dXJuIHJldDsKIAl9CiAKLQlpZiAocGFuZWwpIHsKKwlpZiAocGFuZWwpCiAJCWJy
-aWRnZSA9IGRldm1fZHJtX3BhbmVsX2JyaWRnZV9hZGQoZGV2LCBwYW5lbCwKLQkJCQkJCSAgIERS
-TV9NT0RFX0NPTk5FQ1RPUl9Vbmtub3duKTsKLQl9CisJCQkJCQkgICBEUk1fTU9ERV9DT05ORUNU
-T1JfRFBJKTsKIAogCXByaXYtPmRtYV9od2Rlc2MgPSBkbWFfYWxsb2NfY29oZXJlbnQoZGV2LCBz
-aXplb2YoKnByaXYtPmRtYV9od2Rlc2MpLAogCQkJCQkgICAgICAmcHJpdi0+ZG1hX2h3ZGVzY19w
-aHlzLAotLSAKUmVnYXJkcywKCkxhdXJlbnQgUGluY2hhcnQKCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+SSBoYXZlIGJlZW4gd29ya2luZyBvbiBjb252ZXJ0aW5nIEplcm9tZSdzIGhtbV9kdW1teSBkcml2
+ZXIgYW5kIHNlbGYKdGVzdHMgaW50byBhIHN0YW5kLWFsb25lIHNldCBvZiB0ZXN0cyB0byBiZSBp
+bmNsdWRlZCBpbgp0b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy92bSBhbmQgY2FtZSBhY3Jvc3MgdGhl
+c2UgdHdvIGJ1ZyBmaXhlcyBpbiB0aGUKcHJvY2Vzcy4gVGhlIHRlc3RzIGFyZW4ndCBxdWl0ZSBy
+ZWFkeSB0byBiZSBwb3N0ZWQgYXMgYSBwYXRjaC4KSSdtIHBvc3RpbmcgdGhlIGZpeGVzIG5vdyBz
+aW5jZSBJIHRob3VnaHQgdGhleSBzaG91bGRuJ3Qgd2FpdC4KVGhleSBzaG91bGQgcHJvYmFibHkg
+aGF2ZSBhIGZpeGVzIGxpbmUgYnV0IHdpdGggYWxsIHRoZSBITU0gY2hhbmdlcywKSSB3YXNuJ3Qg
+c3VyZSBleGFjdGx5IHdoaWNoIGNvbW1pdCB0byB1c2UuCgpUaGVzZSBhcmUgYmFzZWQgb24gdG9w
+IG9mIEphc29uJ3MgbGF0ZXN0IGhtbSBicmFuY2guCgpSYWxwaCBDYW1wYmVsbCAoMik6CiAgbW0v
+aG1tOiBobW1fcmFuZ2VfZmF1bHQoKSBOVUxMIHBvaW50ZXIgYnVnCiAgbW0vaG1tOiBobW1fcmFu
+Z2VfZmF1bHQoKSBpbmZpbml0ZSBsb29wCgogbW0vaG1tLmMgfCAxNiArKysrKysrKysrKystLS0t
+CiAxIGZpbGUgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKCi0tIAoy
+LjIwLjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
+aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
