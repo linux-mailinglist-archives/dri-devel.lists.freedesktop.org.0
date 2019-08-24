@@ -2,59 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5B829BA69
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Aug 2019 03:35:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F27699BB88
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Aug 2019 05:53:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A69906ED9A;
-	Sat, 24 Aug 2019 01:35:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13A286E081;
+	Sat, 24 Aug 2019 03:53:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com
- [IPv6:2607:f8b0:4864:20::649])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 622A86ED93
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Aug 2019 01:35:28 +0000 (UTC)
-Received: by mail-pl1-x649.google.com with SMTP id y22so6838617plr.20
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Aug 2019 18:35:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=RZYwg2AKNWWbK5AlePl3YpD83HqbQqaQ/S9W/auEYuc=;
- b=JoCNXiFI7mXatqQt5Y/Vq0Bg59BRhzLoSOGQjTLP/CAOYGVlzTXhCw3jlgG7uBv9fE
- ElrcwYxhnh9h48C8Gs5oKsDigoVJ6cpRP1F/ZNQ7OWMJt+e0DF15VpIqUDaFw4mzeSx9
- vRnqqtVXpVvbpHJEjOb/FBT6/85E398sp5Y9qexMhJ3ORvX13Jpz4V68w2SNVACMogFf
- +P1HoOMmZHxv8ln9FJxHxT4XW7mLyW/9HtvNtAz1CWxnIBpgwt7fjfw3a5q0zp4qbey1
- 7B0kF81j5Bse8zXmqIFqy/Ek5fErooXKT0F69EKcXub4FgYd7/VUg+N/QPEwIFIetjaJ
- d6cA==
-X-Gm-Message-State: APjAAAXzl/Rm5AI9WwPHnN0lCsRWNQhiVPCbuum9EnOjtz5KWDagCGeh
- anmuWP0WJwQPD+VlSC2hVKkEez5m89g89XYRmmYUOA==
-X-Google-Smtp-Source: APXvYqxeho9rBF0ZZ6VsD/UiYLMznIviw0ZlKZiyS4hv5yytF5NdlNUif2Pu10B+ZY4kXv3ubxh1pUBcBlFmg94D169gig==
-X-Received: by 2002:a63:c03:: with SMTP id b3mr6561436pgl.23.1566610527139;
- Fri, 23 Aug 2019 18:35:27 -0700 (PDT)
-Date: Fri, 23 Aug 2019 18:34:25 -0700
-In-Reply-To: <20190824013425.175645-1-brendanhiggins@google.com>
-Message-Id: <20190824013425.175645-19-brendanhiggins@google.com>
-Mime-Version: 1.0
-References: <20190824013425.175645-1-brendanhiggins@google.com>
-X-Mailer: git-send-email 2.23.0.187.g17f5b7556c-goog
-Subject: [PATCH v15 18/18] MAINTAINERS: add proc sysctl KUnit test to PROC
- SYSCTL section
-From: Brendan Higgins <brendanhiggins@google.com>
-To: frowand.list@gmail.com, gregkh@linuxfoundation.org, jpoimboe@redhat.com, 
- keescook@google.com, kieran.bingham@ideasonboard.com, mcgrof@kernel.org, 
- peterz@infradead.org, robh@kernel.org, sboyd@kernel.org, shuah@kernel.org, 
- tytso@mit.edu, yamada.masahiro@socionext.com
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20161025;
- h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc;
- bh=RZYwg2AKNWWbK5AlePl3YpD83HqbQqaQ/S9W/auEYuc=;
- b=sXlKKJhgEU1wa6b+t1Kfk3Us9JBNqB6qgFrYAorUjpNahnQtVB62F129r9jqW7As2D
- TECRv23j+orFXVoF1btyTlgKbGavDLv/mRXRpxUvewJTVsSyWUiwJR/MDWHL2k4m7043
- cnxd+RK+ZXWwaD0m4kGAzCv3TPvws/OkUrPxVWvZj7C8gOUsEIbG1ulzMU+UBC5ulBWq
- dWbj8dEXXE7CGrs/FCxd7vyonAjP9xvohhPSk8O9Rj98/htG5iBLR1KI8Hh4Pbg0s00U
- 4YCNUKyFTqpEwz4Jf4CPs5qIZGCq3zkZi2UB5XVr4PO3/OBx5gUJAlDS2TXKFE4g9qqr
- g5EQ==
+Received: from ozlabs.org (ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6E1D6E081
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Aug 2019 03:53:13 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 46FkrN3RRnz9sDB;
+ Sat, 24 Aug 2019 13:53:08 +1000 (AEST)
+Date: Sat, 24 Aug 2019 13:53:00 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Alexandre Courbot <acourbot@chromium.org>
+Subject: Re: next/master build: 218 builds: 4 failed, 214 passed, 10 errors,
+ 786 warnings (next-20190823)
+Message-ID: <20190824135300.23a5fcb4@canb.auug.org.au>
+In-Reply-To: <5d607e27.1c69fb81.eb9af.1e5c@mx.google.com>
+References: <5d607e27.1c69fb81.eb9af.1e5c@mx.google.com>
+MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=canb.auug.org.au; s=201702; t=1566618790;
+ bh=FEIZf4rOzlkEzQCJVORZlo0oASAXUKoy7ZB+pkJCCPo=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=tgdR+wySLNG+AtDiEEFSJLA8wCUXbeJ/JCqr32eucKkzg03bav2GEEeqaiypbcvWF
+ 25O0I0sc5H2PAJd0GoJTP7eIT75+/FxXblHtLFW7+/hj6hntjyoSj9OGRanh8/2p8r
+ 1XlbfxlBQkzUqWXhiiTUPIc4PcyeD3rNWZynjBnHF/BSTE8lbxBojEVFi5yfRmP+JL
+ A36TYIBpNoxQXOaIsYcwvSp5akhJgwKUuZjOYR3F2N0fp+ANydsPhp/vIlFTF7KRGz
+ pXsf7kXj6rO7a6n2pY5XdxOMbox35Xo3ksACSXSYsSHfsw0kgJ072Gs63O3X22814P
+ DwnBmuYxp2QiQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,40 +49,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pmladek@suse.com, linux-doc@vger.kernel.org, amir73il@gmail.com,
- Brendan Higgins <brendanhiggins@google.com>, dri-devel@lists.freedesktop.org,
- Alexander.Levin@microsoft.com, linux-kselftest@vger.kernel.org,
- linux-nvdimm@lists.01.org, khilman@baylibre.com, knut.omang@oracle.com,
- wfg@linux.intel.com, joel@jms.id.au, rientjes@google.com,
- Iurii Zaikin <yzaikin@google.com>, jdike@addtoit.com, dan.carpenter@oracle.com,
- devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org, Tim.Bird@sony.com,
- linux-um@lists.infradead.org, rostedt@goodmis.org, julia.lawall@lip6.fr,
- kunit-dev@googlegroups.com, richard@nod.at, rdunlap@infradead.org,
- linux-kernel@vger.kernel.org, mpe@ellerman.id.au,
- linux-fsdevel@vger.kernel.org, logang@deltatee.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Dave Airlie <airlied@linux.ie>, linux-next@vger.kernel.org,
+ DRI <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0939178778=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QWRkIGVudHJ5IGZvciB0aGUgbmV3IHByb2Mgc3lzY3RsIEtVbml0IHRlc3QgdG8gdGhlIFBST0Mg
-U1lTQ1RMIHNlY3Rpb24sCmFuZCBhZGQgSXVyaWkgYXMgYSBtYWludGFpbmVyLgoKU2lnbmVkLW9m
-Zi1ieTogQnJlbmRhbiBIaWdnaW5zIDxicmVuZGFuaGlnZ2luc0Bnb29nbGUuY29tPgpDYzogSXVy
-aWkgWmFpa2luIDx5emFpa2luQGdvb2dsZS5jb20+ClJldmlld2VkLWJ5OiBHcmVnIEtyb2FoLUhh
-cnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgpSZXZpZXdlZC1ieTogTG9nYW4gR3Vu
-dGhvcnBlIDxsb2dhbmdAZGVsdGF0ZWUuY29tPgpBY2tlZC1ieTogTHVpcyBDaGFtYmVybGFpbiA8
-bWNncm9mQGtlcm5lbC5vcmc+Ci0tLQogTUFJTlRBSU5FUlMgfCAyICsrCiAxIGZpbGUgY2hhbmdl
-ZCwgMiBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvTUFJTlRBSU5FUlMgYi9NQUlOVEFJTkVS
-UwppbmRleCBmMGJkNzdlOGE4YTIuLjBjYWM3ODgwNzEzNyAxMDA2NDQKLS0tIGEvTUFJTlRBSU5F
-UlMKKysrIGIvTUFJTlRBSU5FUlMKQEAgLTEyOTY1LDEyICsxMjk2NSwxNCBAQCBGOglEb2N1bWVu
-dGF0aW9uL2ZpbGVzeXN0ZW1zL3Byb2MudHh0CiBQUk9DIFNZU0NUTAogTToJTHVpcyBDaGFtYmVy
-bGFpbiA8bWNncm9mQGtlcm5lbC5vcmc+CiBNOglLZWVzIENvb2sgPGtlZXNjb29rQGNocm9taXVt
-Lm9yZz4KK006CUl1cmlpIFphaWtpbiA8eXphaWtpbkBnb29nbGUuY29tPgogTDoJbGludXgta2Vy
-bmVsQHZnZXIua2VybmVsLm9yZwogTDoJbGludXgtZnNkZXZlbEB2Z2VyLmtlcm5lbC5vcmcKIFM6
-CU1haW50YWluZWQKIEY6CWZzL3Byb2MvcHJvY19zeXNjdGwuYwogRjoJaW5jbHVkZS9saW51eC9z
-eXNjdGwuaAogRjoJa2VybmVsL3N5c2N0bC5jCitGOglrZXJuZWwvc3lzY3RsLXRlc3QuYwogRjoJ
-dG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvc3lzY3RsLwogCiBQUzMgTkVUV09SSyBTVVBQT1JUCi0t
-IAoyLjIzLjAuMTg3LmcxN2Y1Yjc1NTZjLWdvb2cKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbA==
+--===============0939178778==
+Content-Type: multipart/signed; boundary="Sig_/ZGFilMq2=J+G.Tj1sllVQex";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/ZGFilMq2=J+G.Tj1sllVQex
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi all,
+
+On Fri, 23 Aug 2019 17:00:39 -0700 (PDT) "kernelci.org bot" <bot@kernelci.o=
+rg> wrote:
+>
+>     2    drivers/gpu/drm/mediatek/mtk_drm_drv.c:291:8: error: implicit de=
+claration of function 'dma_set_max_seg_size'; did you mean 'drm_rect_adjust=
+_size'? [-Werror=3Dimplicit-function-declaration]
+>     2    drivers/gpu/drm/mediatek/mtk_drm_drv.c:291:52: error: implicit d=
+eclaration of function 'DMA_BIT_MASK'; did you mean 'BIT_MASK'? [-Werror=3D=
+implicit-function-declaration]
+>     1    drivers/gpu/drm/mediatek/mtk_drm_drv.c:291:8: error: this functi=
+on declaration is not a prototype [-Werror,-Wstrict-prototypes]
+>     1    drivers/gpu/drm/mediatek/mtk_drm_drv.c:291:8: error: implicit de=
+claration of function 'dma_set_max_seg_size' [-Werror,-Wimplicit-function-d=
+eclaration]
+>     1    drivers/gpu/drm/mediatek/mtk_drm_drv.c:291:52: error: this funct=
+ion declaration is not a prototype [-Werror,-Wstrict-prototypes]
+>     1    drivers/gpu/drm/mediatek/mtk_drm_drv.c:291:52: error: implicit d=
+eclaration of function 'DMA_BIT_MASK' [-Werror,-Wimplicit-function-declarat=
+ion]
+
+Caused by commit
+
+  070955558e82 ("drm/mediatek: set DMA max segment size")
+
+(from the drm-fixes tree) which should have included linux/dma-mapping.h
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/ZGFilMq2=J+G.Tj1sllVQex
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl1gtJwACgkQAVBC80lX
+0Gzqqwf/b3WboB44becOBeXRfwMN/2ci/IvSzKiFvSDQRMryn+yIU+e/Ug8m1cWC
+So/4wb0BXEbPbxfU5CT6mtbM+U9dLdfExwx0+qZXTRMaxRNMjXk4CmByl/E8HcXZ
+IVRi8ZM4SscrGPK8A05REFAJ1E9eKialgX9HtR8ydAmefNEsx9jpv3KdXnWNKa2L
+3uLks1mxQYrcWg22a3hRMLz4KMAythq0vJydLy1576706cRMvTAeazQKaBhSVGRe
+Wwb4vXPNxKqwPKhF+SZ0ZFW7XJhpX7qP4NQ7AOKRaxAGgpTVE13VSeqlvCJV8nf5
+mFKJMCHjw/sDNVSjFQI2ao9D8jKyrA==
+=74YK
+-----END PGP SIGNATURE-----
+
+--Sig_/ZGFilMq2=J+G.Tj1sllVQex--
+
+--===============0939178778==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0939178778==--
