@@ -1,44 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9133B9BC4A
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Aug 2019 08:54:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E5B59BC9C
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Aug 2019 10:49:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED4706E092;
-	Sat, 24 Aug 2019 06:54:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 093026E096;
+	Sat, 24 Aug 2019 08:49:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23B256E092
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Aug 2019 06:54:44 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 46Fpsr5DDwz9sBF;
- Sat, 24 Aug 2019 16:54:40 +1000 (AEST)
-Date: Sat, 24 Aug 2019 16:54:36 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@gmail.com>
-Subject: Re: next/master build: 218 builds: 4 failed, 214 passed, 10 errors,
- 786 warnings (next-20190823)
-Message-ID: <20190824165436.554381be@canb.auug.org.au>
-In-Reply-To: <CAPM=9tzQ=3BNveNZ_misvZXAUZo+b6uxrQUbHePuaeYnizhHcw@mail.gmail.com>
-References: <5d607e27.1c69fb81.eb9af.1e5c@mx.google.com>
- <20190824135300.23a5fcb4@canb.auug.org.au>
- <CAPM=9tzQ=3BNveNZ_misvZXAUZo+b6uxrQUbHePuaeYnizhHcw@mail.gmail.com>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F1246E096
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Aug 2019 08:49:00 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id C73B220042;
+ Sat, 24 Aug 2019 10:48:52 +0200 (CEST)
+Date: Sat, 24 Aug 2019 10:48:51 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v2 1/4] drm/panel: Add missing drm_panel_init() in panel
+ drivers
+Message-ID: <20190824084851.GA30584@ravnborg.org>
+References: <20190823193245.23876-1-laurent.pinchart@ideasonboard.com>
+ <20190823193245.23876-2-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=canb.auug.org.au; s=201702; t=1566629682;
- bh=B0nkR7jt73tiwBbqhrmmJgZaJn/+3zHEzu7uMFO+fpI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=N49sduS9tEsLXd9FX5mQlI092fd9kl/XTv0gFxzylyDZV+kFaoBW/4bIzp06/sIib
- OuHKB9jU1PIkEIZIwaGQeI7k6PDYmAbc3ogTImsmMFGwQGL0yb24C5fkUV1EBLXovg
- B2WjFoOWmGkNj18LFUzO22KEPIyl/rweEeZrlNEk/S2AeGjK/hqg5m6RgMF60e7vNf
- 4LGYbRckTD5oEerhc5At37Q90Cv5RV5x4sCq4ukwP25avxAOYM72rCM3AboCw84ZpP
- ZF4cUq9EcfForVAuGx4XGFQDVFWM9VramPShUG2sSqqgEVl3so7lv/KaLbm0wGakIo
- TFLIxNyA0FUEA==
+Content-Disposition: inline
+In-Reply-To: <20190823193245.23876-2-laurent.pinchart@ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=P1BnusSwAAAA:8
+ a=XctQEPjzDpzqge3OlGcA:9 a=CjuIK1q_8ugA:10 a=D0XLA9XvdZm18NrgonBM:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,59 +46,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, linux-next <linux-next@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Alexandre Courbot <acourbot@chromium.org>
-Content-Type: multipart/mixed; boundary="===============1393935498=="
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>,
+ Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ dri-devel@lists.freedesktop.org, Philippe Cornu <philippe.cornu@st.com>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Yannick Fertre <yannick.fertre@st.com>, Stefan Mavrodiev <stefan@olimex.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Robert Chiras <robert.chiras@nxp.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jyri Sarha <jsarha@ti.com>,
+ Sean Paul <sean@poorly.run>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Purism Kernel Team <kernel@puri.sm>, Boris Brezillon <bbrezillon@kernel.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Vincent Abriou <vincent.abriou@st.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1393935498==
-Content-Type: multipart/signed; boundary="Sig_/zr=8s6spYG95L+dKakOX=sL";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-
---Sig_/zr=8s6spYG95L+dKakOX=sL
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi Dave,
-
-On Sat, 24 Aug 2019 15:06:07 +1000 Dave Airlie <airlied@gmail.com> wrote:
->
-> I'll add the include anyways and send to Linus,
-
-Thanks.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/zr=8s6spYG95L+dKakOX=sL
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl1g3ywACgkQAVBC80lX
-0GzzzQf9HKU8hqwhQiI78sSXtrotBHrLx+ltFLoCQ064IZ1mNdA9dvzm631A9Xsu
-JpKoIGnYzkKCbmpGT3R3K2FOZ0zkTtaZQ5St/GPjwJzJ0MUP9RNWIY3odFxZhD2G
-96/BI2tY5CqX9vL35bi8pm/a8aF/1VRGYj3Yu6c5SCqCIOq6+HsqxlG4z9S1sBmE
-66qz+Cstfk9uzuLqjoXosJsp+cO3Bwxt4hoKgPWggxX4vsFsy+viNvfQeNDMZhrT
-LplyeZ4rJHAvEc3OvEELpMDJEHXNcI9+pcGlP6qe7eauyaqKtrMMOqhOD6EN6mFR
-gjKZhDtSKmtzAdc1Xk+ttXy6C6gO2g==
-=yJEH
------END PGP SIGNATURE-----
-
---Sig_/zr=8s6spYG95L+dKakOX=sL--
-
---===============1393935498==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1393935498==--
+T24gRnJpLCBBdWcgMjMsIDIwMTkgYXQgMTA6MzI6NDJQTSArMDMwMCwgTGF1cmVudCBQaW5jaGFy
+dCB3cm90ZToKPiBQYW5lbHMgbXVzdCBiZSBpbml0aWFsaXNlZCB3aXRoIGRybV9wYW5lbF9pbml0
+KCkuIEFkZCB0aGUgbWlzc2luZwo+IGZ1bmN0aW9uIGNhbGwgaW4gdGhlIHBhbmVsLXJhc3BiZXJy
+eXBpLXRvdWNoc2NyZWVuLmMgYW5kCj4gcGFuZWwtc2l0cm9uaXgtc3Q3Nzg5di5jIGRyaXZlcnMu
+Cj4gCj4gU2lnbmVkLW9mZi1ieTogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydEBp
+ZGVhc29uYm9hcmQuY29tPgoKVGhhbmtzLCBnb29kIHRvIGhhdmUgdGhpcyBkb25lIGluIHRoZSBy
+aWdodCB3YXkuCgpUaGlzIGRvZXMgbm90IHNvbHZlIGFueSBrbm93IGJ1Z3MgdmlzaWJsZSB0byB1
+c2Vycy4gQXQgbGVhc3QgdGhlcmUgYXJlCm5vIHJlcG9ydHMgSSBrbm93IG9mZi4gU28gZm9yIG5v
+dyBvbmx5IGFwcGxpZWQgdG8gZHJtLW1pc2MtbmV4dC4KCglTYW0KCj4gLS0tCj4gIGRyaXZlcnMv
+Z3B1L2RybS9wYW5lbC9wYW5lbC1yYXNwYmVycnlwaS10b3VjaHNjcmVlbi5jIHwgMSArCj4gIGRy
+aXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zaXRyb25peC1zdDc3ODl2LmMgICAgICAgIHwgMSAr
+Cj4gIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1yYXNwYmVycnlwaS10b3VjaHNjcmVlbi5jIGIvZHJp
+dmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXJhc3BiZXJyeXBpLXRvdWNoc2NyZWVuLmMKPiBpbmRl
+eCBiNWIxNGFhMDU5ZWEuLjJhYTg5ZWFlY2Y2ZiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9k
+cm0vcGFuZWwvcGFuZWwtcmFzcGJlcnJ5cGktdG91Y2hzY3JlZW4uYwo+ICsrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9wYW5lbC9wYW5lbC1yYXNwYmVycnlwaS10b3VjaHNjcmVlbi5jCj4gQEAgLTQyNiw2
+ICs0MjYsNyBAQCBzdGF0aWMgaW50IHJwaV90b3VjaHNjcmVlbl9wcm9iZShzdHJ1Y3QgaTJjX2Ns
+aWVudCAqaTJjLAo+ICAJCXJldHVybiBQVFJfRVJSKHRzLT5kc2kpOwo+ICAJfQo+ICAKPiArCWRy
+bV9wYW5lbF9pbml0KCZ0cy0+YmFzZSk7Cj4gIAl0cy0+YmFzZS5kZXYgPSBkZXY7Cj4gIAl0cy0+
+YmFzZS5mdW5jcyA9ICZycGlfdG91Y2hzY3JlZW5fZnVuY3M7Cj4gIAo+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2l0cm9uaXgtc3Q3Nzg5di5jIGIvZHJpdmVycy9n
+cHUvZHJtL3BhbmVsL3BhbmVsLXNpdHJvbml4LXN0Nzc4OXYuYwo+IGluZGV4IDVlM2U5MmVhOWVh
+Ni4uM2IyNjEyYWU5MzFlIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5l
+bC1zaXRyb25peC1zdDc3ODl2LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwt
+c2l0cm9uaXgtc3Q3Nzg5di5jCj4gQEAgLTM4MSw2ICszODEsNyBAQCBzdGF0aWMgaW50IHN0Nzc4
+OXZfcHJvYmUoc3RydWN0IHNwaV9kZXZpY2UgKnNwaSkKPiAgCXNwaV9zZXRfZHJ2ZGF0YShzcGks
+IGN0eCk7Cj4gIAljdHgtPnNwaSA9IHNwaTsKPiAgCj4gKwlkcm1fcGFuZWxfaW5pdCgmY3R4LT5w
+YW5lbCk7Cj4gIAljdHgtPnBhbmVsLmRldiA9ICZzcGktPmRldjsKPiAgCWN0eC0+cGFuZWwuZnVu
+Y3MgPSAmc3Q3Nzg5dl9kcm1fZnVuY3M7Cj4gIAo+IC0tIAo+IFJlZ2FyZHMsCj4gCj4gTGF1cmVu
+dCBQaW5jaGFydApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
