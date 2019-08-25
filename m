@@ -1,25 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586E99C62E
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Aug 2019 23:05:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B4A9C67B
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2019 01:01:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA9D06E130;
-	Sun, 25 Aug 2019 21:05:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D00A6E13D;
+	Sun, 25 Aug 2019 23:01:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6D4BE6E130
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Aug 2019 21:05:06 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DF5DB6E139
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Aug 2019 23:01:47 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 672F8721AA; Sun, 25 Aug 2019 21:05:06 +0000 (UTC)
+ id D47FB72161; Sun, 25 Aug 2019 23:01:47 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
- with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Sun, 25 Aug 2019 21:05:06 +0000
+Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
+Date: Sun, 25 Aug 2019 23:01:48 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -27,17 +26,17 @@ X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: a9016009@gmx.de
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: reddestdream@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
+X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: priority
-Message-ID: <bug-111481-502-JXLptzXqRJ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
-References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110674-502-JaaXxNgmuL@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
+References: <bug-110674-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,38 +52,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0583806563=="
+Content-Type: multipart/mixed; boundary="===============1228687754=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0583806563==
-Content-Type: multipart/alternative; boundary="15667671061.CAd9CA.12444"
+--===============1228687754==
+Content-Type: multipart/alternative; boundary="15667741070.cc5eeb.579"
 Content-Transfer-Encoding: 7bit
 
 
---15667671061.CAd9CA.12444
-Date: Sun, 25 Aug 2019 21:05:06 +0000
+--15667741070.cc5eeb.579
+Date: Sun, 25 Aug 2019 23:01:47 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
 
-Andre Klapper <a9016009@gmx.de> changed:
+--- Comment #118 from ReddestDream <reddestdream@gmail.com> ---
+So, this is a crazy idea, but ironically I think it might be getting closer=
+ to
+the truth.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-           Priority|highest                     |not set
+Tom B. attempted reverting ad51c46eec739c18be24178a30b47801b10e0357, which =
+was
+known to cause some issue with an RX 580. He found that doing so fixed the
+multimonitor crash but locked the card to the lowest possible memory speed,
+which really isn't acceptable.
+
+Perhaps our issue seem is connected to insufficient or improperly calculated
+PCIe bandwidth/speed. Speed mismatches can and will cause messages to not go
+through to the peripheral. It's also well-known that Radeon VII was origina=
+lly
+a PCIe 4.0 card that AMD locked down to the 3.0 speeds . . .
+
+What if when using multiple monitors and/or higher clock speeds Radeon VII =
+uses
+more bandwidth than Linux expects, causing the loss of communication?
+
+Something else I plan to investigate.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15667671061.CAd9CA.12444
-Date: Sun, 25 Aug 2019 21:05:06 +0000
+--15667741070.cc5eeb.579
+Date: Sun, 25 Aug 2019 23:01:47 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -95,32 +111,45 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:a9016009&=
-#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <span clas=
-s=3D"fn">Andre Klapper</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Priority</td>
-           <td>highest
-           </td>
-           <td>not set
-           </td>
-         </tr></table>
+    <body>
       <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c118">Comm=
+ent # 118</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+reddestdream&#64;gmail.com" title=3D"ReddestDream &lt;reddestdream&#64;gmai=
+l.com&gt;"> <span class=3D"fn">ReddestDream</span></a>
+</span></b>
+        <pre>So, this is a crazy idea, but ironically I think it might be g=
+etting closer to
+the truth.
+
+Tom B. attempted reverting ad51c46eec739c18be24178a30b47801b10e0357, which =
+was
+known to cause some issue with an RX 580. He found that doing so fixed the
+multimonitor crash but locked the card to the lowest possible memory speed,
+which really isn't acceptable.
+
+Perhaps our issue seem is connected to insufficient or improperly calculated
+PCIe bandwidth/speed. Speed mismatches can and will cause messages to not go
+through to the peripheral. It's also well-known that Radeon VII was origina=
+lly
+a PCIe 4.0 card that AMD locked down to the 3.0 speeds . . .
+
+What if when using multiple monitors and/or higher clock speeds Radeon VII =
+uses
+more bandwidth than Linux expects, causing the loss of communication?
+
+Something else I plan to investigate.</pre>
+        </div>
       </p>
 
 
@@ -133,9 +162,9 @@ s=3D"fn">Andre Klapper</span></a>
     </body>
 </html>=
 
---15667671061.CAd9CA.12444--
+--15667741070.cc5eeb.579--
 
---===============0583806563==
+--===============1228687754==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -145,4 +174,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0583806563==--
+--===============1228687754==--
