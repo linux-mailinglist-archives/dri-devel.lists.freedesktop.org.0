@@ -1,47 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E46399C5F8
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Aug 2019 21:55:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3149C614
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Aug 2019 22:24:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41A5B6E127;
-	Sun, 25 Aug 2019 19:55:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F403F6E125;
+	Sun, 25 Aug 2019 20:24:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 09F5A6E125
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Aug 2019 19:55:20 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 00D82721AA; Sun, 25 Aug 2019 19:55:19 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109534] Crash in Minecraft due to a swp[chan] assertion fail in
- src/gallium/drivers/r600/sb/sb_ir.cpp
- alu_packed_node::update_packed_items
-Date: Sun, 25 Aug 2019 19:55:20 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r600
-X-Bugzilla-Version: 18.3
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: vanyasmart@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109534-502-6lDmitwAAk@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109534-502@http.bugs.freedesktop.org/>
-References: <bug-109534-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com
+ [209.85.217.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 003076E126
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Aug 2019 20:24:06 +0000 (UTC)
+Received: by mail-vs1-f51.google.com with SMTP id y16so9621685vsc.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Aug 2019 13:24:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tQZ/3TQP4mK8fGf9cwa7hIufD3H+7ptVXSxi7jQl7Uw=;
+ b=MWfOJb+PjZnnWKx7ZCBfdRi9t8FOacqwlkpn94HrDUBzBz5QPRzxGw71/g11vqP/rX
+ CHO+vDBnqZ6wz5uUgI8QVB9qC/8bMzLuXfB+IVnQTti5UqnhVEippldAa6CBnLKmX9+h
+ r3eYCSWvhwAiquDYoMjvM36OcJHvkiHUuJU74SpmtNvov5JFQbTmpEquizT302U1C+9o
+ kjE4uzCW5gLe0TIUtBlj/6T+6NR2XC67Oe0wTTD8Kcymo2y8+W36gsw/ihGucGEt42GO
+ VSMc+SNOg4bEP99WuUkPIbQHzVpKmu4QAUu1CSYpa7d8J5pibAYAM3oAutYFICWofZuO
+ IIbg==
+X-Gm-Message-State: APjAAAVKkBEDbwTto8Hedze3vj5ogy12JYUnGMH3eGqUbnL7HZzmCZB4
+ JEeALIDJJDqkVaONxfXalsuCrIfPzXKTSJmX5aI=
+X-Google-Smtp-Source: APXvYqzOFWruPfgGsLZnzjN/VSHUQwYBh1TKA/seKEgWYOYS/7zdPDD19kuXbHMmAHSLZ77zY8ClSQ7Ec2zbXyyzlCg=
+X-Received: by 2002:a67:cf05:: with SMTP id y5mr8351908vsl.18.1566764645679;
+ Sun, 25 Aug 2019 13:24:05 -0700 (PDT)
 MIME-Version: 1.0
+References: <7f5204a1-cc3a-d6a3-be07-b2c316761e46@ti.com>
+In-Reply-To: <7f5204a1-cc3a-d6a3-be07-b2c316761e46@ti.com>
+From: Ilia Mirkin <imirkin@alum.mit.edu>
+Date: Sun, 25 Aug 2019 16:23:54 -0400
+Message-ID: <CAKb7Uvh2Ygp2sWGk-GOUzA699fr=R0=S8ejmXKsNOj3MEkzGxA@mail.gmail.com>
+Subject: Re: Display-Port HPD handling, link status, and bandwidth checks
+To: Jyri Sarha <jsarha@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,89 +51,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1660797471=="
+Cc: "Valkeinen, Tomi" <tomi.valkeinen@ti.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1660797471==
-Content-Type: multipart/alternative; boundary="15667629191.ad6dfbB4a.383"
-Content-Transfer-Encoding: 7bit
-
-
---15667629191.ad6dfbB4a.383
-Date: Sun, 25 Aug 2019 19:55:19 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109534
-
---- Comment #7 from vanyasmart@gmail.com ---
-No, sorry. Still happening with Oracle JRE, but more rarely.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15667629191.ad6dfbB4a.383
-Date: Sun, 25 Aug 2019 19:55:19 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crash in Minecraft due to a swp[chan] assertion fail in s=
-rc/gallium/drivers/r600/sb/sb_ir.cpp alu_packed_node::update_packed_items"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109534#c7">Commen=
-t # 7</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crash in Minecraft due to a swp[chan] assertion fail in s=
-rc/gallium/drivers/r600/sb/sb_ir.cpp alu_packed_node::update_packed_items"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109534">bug 10953=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-vanyasmart&#64;gmail.com" title=3D"vanyasmart&#64;gmail.com">vanyasmart&#64=
-;gmail.com</a>
-</span></b>
-        <pre>No, sorry. Still happening with Oracle JRE, but more rarely.</=
-pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15667629191.ad6dfbB4a.383--
-
---===============1660797471==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1660797471==--
+WW91J2xsIHByb2JhYmx5IGdldCBhIG1vcmUgZGV0YWlsZWQgcmVwbHkgZHVyaW5nIHRoZSB3ZWVr
+LCBidXQgZm9yIG5vdwpoYXZlIGEgbG9vayBhdCB0aGUgImxpbmstc3RhdHVzIiBwcm9wZXJ0eSwg
+d2hpY2ggd2FzIG1hZGUgZm9yCnByZWNpc2VseSB0aGlzIHNpdHVhdGlvbi4gSSB0aGluayBiYXNp
+Y2FsbHkgdGhlIGlkZWEgaXMgdG8gaWdub3JlIGxpbmsKdHJhaW5pbmcgYXMgcGFydCBvZiB0aGUg
+bW9kZXNldCwgYW5kIGp1c3QgcmV0dXJuIHRoZSBsaW5rIHN0YXR1cwpkZXBlbmRpbmcgb24gdGhl
+IHN1Y2Nlc3MuIChBbmQgeW91IHNob3VsZCBmaWx0ZXIgb3V0IHRvdGFsbHkKaW5mZWFzaWJsZSBt
+b2RlcywgaS5lLiBvdXRzaWRlIHRoZSBtb25pdG9yJ3MgbWF4IGxhbmVzL2JhbmR3aWR0aApjYXBh
+YmlsaXRpZXMsIHdoaWNoIEkgYmVsaWV2ZSBhcmUgYXZhaWxhYmxlIHZpYSBEUENEIG9yIEVESUQu
+KQoKU2VlIGh0dHBzOi8vd3d3Lmtlcm5lbC5vcmcvZG9jL2h0bWwvbGF0ZXN0L2dwdS9kcm0ta21z
+Lmh0bWwgZm9yIGEgYml0Cm1vcmUgaW5mbyBhcyB3ZWxsLgoKQ2hlZXJzLAoKICAtaWxpYQoKT24g
+U3VuLCBBdWcgMjUsIDIwMTkgYXQgNzoxMiBBTSBKeXJpIFNhcmhhIDxqc2FyaGFAdGkuY29tPiB3
+cm90ZToKPgo+IEhpLAo+Cj4gSSBhbSB3b3JraW5nIG9uIGEgbmV3IERpc3BsYXlQb3J0IGJyaWRn
+ZS1kcml2ZXIgYW5kIHRoZXJlIGlzIGEgY291cGxlIG9mCj4gdGhpbmdzIHRoYXQgSSBkbyBub3Qg
+a25vdyBob3cgdG8gaGFuZGxlLgo+Cj4gMS4gV2hlbiBzaG91bGQgdGhlIGxpbmsgdHJhaW5pbmcg
+aGFwcGVuPwo+ICAgIGEpIEluIGNvbm5lY3RvciBkZXRlY3QoKT8KPiAgICAgICAtIFRoaXMgd291
+bGQgZW5hYmxlIHVzIHRvIGRvIG1vZGUgZmlsdGVyaW5nIChpbiBtb2RlX3ZhbGlkKCkpCj4gICAg
+ICAgICBiYXNlZCBvbiB0aGUgZXN0YWJsaXNoZWQgbGluayBiYW5kLXdpZHRoICh0aGVuIGFnYWlu
+Cj4gICAgICAgICBtb2RlX3ZhbGlkKCkgZG9jdW1lbnRhdGlvbiBzdWdnZXN0cyB0aGF0IG1vZGVz
+IHNob3VsZCBvbmx5Cj4gICAgICAgICBiZSBmaWx0ZXJlZCBiYXNlZCBvbiAiY29uZmlndXJhdGlv
+bi1pbnZhcmlhbnQgaGFyZHdhcmUKPiAgICAgICAgIGNvbnN0cmFpbnRzIikuCj4gICAgYikgSW4g
+Y2hlY2sgcGhhc2UgKHRoaXMgd291bGQgY3VycmVudGx5IG1lYW4gbW9kZV9maXh1cCk/Cj4gICAg
+ICAgLSBUaGlzIGlzIHRoZSBsYXN0IHBvaW50IHdoZXJlIHdlIGNhbiByZWplY3QgYSBtb2RlIHRo
+YXQgY2FuIG5vdAo+ICAgICAgICAgYmUgc2VudCBvdmVyIHRoZSBEUC1saW5rCj4gICAgYykgSW4g
+Y29tbWl0IHBoYXNlIChlLmcuIGJyaWRnZSBlbmFibGUoKSkKPiAgICAgICAtIFRoaXMgaXMgYmFk
+IHNpbmNlIHdlIHNob3VsZCBub3QgZmFpbCBhbnkgbW9yZSBpbiB0aGUgY29tbWl0Cj4gICAgICAg
+ICBwaGFzZQo+Cj4gMi4gRFAtbGluayBzb21ldGltZXMgZHJvcHMgYWZ0ZXIgYSBzdWNjZXNmdWwg
+bGluayB0cmFpbmluZyBhbmQgRFAtc2luawo+ICAgIGlzIHN1cHBvc2VkIHRvIHNlbmQgc2hvcnQg
+SFBEIHB1bHNlIGFib3V0IGl0LiBXaGF0IGFyZSB0aGUKPiAgICByZWNvbW1lbmRlZCB3YXlzIHRv
+IGhhbmRsZSB0aGUgc2l0dWF0aW9uPwo+Cj4gICAgYSkgU2VuZCBob3RwbHVnIGV2ZW50IGFuZCBs
+ZXQgdGhlIERSTSBjbGllbnQgZGVhbCB3aXRoIGl0Pwo+ICAgICAgIC0gVGhpcyBkb2VzIG5vdCB3
+b3JrIHRvbyB3ZWxsIGJlY2F1c2UgZXZlbiBpZiB0aGUgY2xpZW50IHRyaWVzCj4gICAgICAgICB0
+byByZXN0b3JlIHRoZSBkaXNwbGF5IGJ5IGNvbW1pdHRpbmcgdGhlIHNhbWUgc3RhdGUgYWdhaW4g
+LQo+ICAgICAgICAgbGlrZSBmYmRldiBkb2VzIC0gdGhlIGJyaWRnZSBkb2VzIG5vdCBnbyB0cm91
+Z2ggZGlzYWJsZS1lbmFibGUKPiAgICAgICAgIGN5Y2xlLCBzaW5jZSBkaXNwbGF5IG1vZGUgaGFz
+IG5vdCBjaGFuZ2VkLgo+ICAgICAgIC0gRGVzcGl0ZSBpdCBub3Qgd29ya2luZyBzbyB3ZWxsLCB0
+aGlzIGlzIHdoYXQgdGhlIG1vc3QgZHJpdmVycwo+ICAgICAgICAgYXBwZWFyIHRvIGRvLgo+Cj4g
+ICAgYikgRHJpdmVyIGludGVybmFsbHkgcmUtdHJhaW5zIHRoZSBsaW5rIGJ1dCBzZW5kIGEgaG90
+cGx1ZyBldmVudAo+ICAgICAgIGFsd2F5cyBhZnRlciBpdD8KPiAgICAgICAtIFRoaXMgaXMgd2hh
+dCBpOTE1IGRvZXMsIGlmIEkgcmVhZCB0aGUgY29kZSByaWdodC4KPiAgICAgICAtIEhvdyB0byB0
+cmVhdCBhIHRyYWluaW5nIGZhaWx1cmU/IFNlbmRpbmcgaG90cGx1ZyBldmVudCBkb2VzIG5vdAo+
+ICAgICAgICAgcmVhbGx5IGhlbHAgKHNlZSBhYm92ZSkuCj4KPiAgICBjKSBTaWxlbnRseSByZS10
+cmFpbiB0aGUgbGluayBpZiB3ZSB3ZXJlIGFibGUgdG8gcmVzdG9yZSB0aGUgbGluawo+ICAgICAg
+IGFuZCB0aGUgZGlzcGxheSBtb2RlLCBhbmQgc2VuZCBIUEQgb25seSBpZiBzb21ldGhpbmcgd2Vu
+dCB3cm9uZz8KPgo+IEJlc3QgcmVnYXJkcywKPiBKeXJpCj4KPiAtLQo+IFRleGFzIEluc3RydW1l
+bnRzIEZpbmxhbmQgT3ksIFBvcmtrYWxhbmthdHUgMjIsIDAwMTgwIEhlbHNpbmtpLgo+IFktdHVu
+bnVzL0J1c2luZXNzIElEOiAwNjE1NTIxLTQuIEtvdGlwYWlra2EvRG9taWNpbGU6IEhlbHNpbmtp
+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
+LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
