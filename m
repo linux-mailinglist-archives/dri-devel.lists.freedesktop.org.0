@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A79C69C627
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Aug 2019 22:54:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 655E89C62C
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Aug 2019 23:00:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B73F86E126;
-	Sun, 25 Aug 2019 20:54:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF4136E12D;
+	Sun, 25 Aug 2019 21:00:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1D5526E126
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Aug 2019 20:53:59 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CD6D36E12D
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Aug 2019 21:00:23 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 140C272161; Sun, 25 Aug 2019 20:53:59 +0000 (UTC)
+ id C3F1172161; Sun, 25 Aug 2019 21:00:23 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110865] Rx480 consumes 20w more power in idle than under Windows
-Date: Sun, 25 Aug 2019 20:53:59 +0000
+Date: Sun, 25 Aug 2019 21:00:24 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110865-502-D1pLYiXoko@http.bugs.freedesktop.org/>
+Message-ID: <bug-110865-502-d0chs3J9ak@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110865-502@http.bugs.freedesktop.org/>
 References: <bug-110865-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1287087820=="
+Content-Type: multipart/mixed; boundary="===============0939047910=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1287087820==
-Content-Type: multipart/alternative; boundary="15667664390.5DfAD9E.10842"
+--===============0939047910==
+Content-Type: multipart/alternative; boundary="15667668230.7Ed1B.12032"
 Content-Transfer-Encoding: 7bit
 
 
---15667664390.5DfAD9E.10842
-Date: Sun, 25 Aug 2019 20:53:58 +0000
+--15667668230.7Ed1B.12032
+Date: Sun, 25 Aug 2019 21:00:23 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,31 +72,23 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110865
 
---- Comment #18 from Martin <mwolf@adiumentum.com> ---
-Hello,
+--- Comment #19 from Martin <mwolf@adiumentum.com> ---
+with 70W i mean total system power-consumption of course.=20
+This is roughly the same / a little more as with Windows. So we are on a go=
+od
+path I think.
 
-sorry that it took me that long. I was on a historic cycling event in Germa=
-ny.
-
-Your patch indeed did something.
-The power consumption drops sometimes to 70W, but now both screen flicker a=
-nd
-produce errors similar to a dying video-memory.
-
-GFX Clocks and Power:
-        300 MHz (MCLK)
-        308 MHz (SCLK)
-        300 MHz (PSTATE_SCLK)
-        300 MHz (PSTATE_MCLK)
-        800 mV (VDDGFX)
-        12.222 W (average GPU)
+If i do=20
+"echo low > /sys/class/drm/card0/device/power_dpm_force_performance_level"
+the flickering stops.
+So the flickering is caused by the automatic powermanagement / reclocking.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15667664390.5DfAD9E.10842
-Date: Sun, 25 Aug 2019 20:53:59 +0000
+--15667668230.7Ed1B.12032
+Date: Sun, 25 Aug 2019 21:00:23 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -113,8 +105,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865#c18">Comme=
-nt # 18</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865#c19">Comme=
+nt # 19</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
@@ -124,23 +116,17 @@ nt # 18</a>
 mwolf&#64;adiumentum.com" title=3D"Martin &lt;mwolf&#64;adiumentum.com&gt;"=
 > <span class=3D"fn">Martin</span></a>
 </span></b>
-        <pre>Hello,
+        <pre>with 70W i mean total system power-consumption of course.=20
+This is roughly the same / a little more as with Windows. So we are on a go=
+od
+path I think.
 
-sorry that it took me that long. I was on a historic cycling event in Germa=
-ny.
-
-Your patch indeed did something.
-The power consumption drops sometimes to 70W, but now both screen flicker a=
-nd
-produce errors similar to a dying video-memory.
-
-GFX Clocks and Power:
-        300 MHz (MCLK)
-        308 MHz (SCLK)
-        300 MHz (PSTATE_SCLK)
-        300 MHz (PSTATE_MCLK)
-        800 mV (VDDGFX)
-        12.222 W (average GPU)</pre>
+If i do=20
+&quot;echo low &gt; /sys/class/drm/card0/device/power_dpm_force_performance=
+_level&quot;
+the flickering stops.
+So the flickering is caused by the automatic powermanagement / reclocking.<=
+/pre>
         </div>
       </p>
 
@@ -154,9 +140,9 @@ GFX Clocks and Power:
     </body>
 </html>=
 
---15667664390.5DfAD9E.10842--
+--15667668230.7Ed1B.12032--
 
---===============1287087820==
+--===============0939047910==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -166,4 +152,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1287087820==--
+--===============0939047910==--
