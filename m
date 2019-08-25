@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC3149C614
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Aug 2019 22:24:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C22869C623
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Aug 2019 22:46:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F403F6E125;
-	Sun, 25 Aug 2019 20:24:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E15E46E12B;
+	Sun, 25 Aug 2019 20:46:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com
- [209.85.217.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 003076E126
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Aug 2019 20:24:06 +0000 (UTC)
-Received: by mail-vs1-f51.google.com with SMTP id y16so9621685vsc.3
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Aug 2019 13:24:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tQZ/3TQP4mK8fGf9cwa7hIufD3H+7ptVXSxi7jQl7Uw=;
- b=MWfOJb+PjZnnWKx7ZCBfdRi9t8FOacqwlkpn94HrDUBzBz5QPRzxGw71/g11vqP/rX
- CHO+vDBnqZ6wz5uUgI8QVB9qC/8bMzLuXfB+IVnQTti5UqnhVEippldAa6CBnLKmX9+h
- r3eYCSWvhwAiquDYoMjvM36OcJHvkiHUuJU74SpmtNvov5JFQbTmpEquizT302U1C+9o
- kjE4uzCW5gLe0TIUtBlj/6T+6NR2XC67Oe0wTTD8Kcymo2y8+W36gsw/ihGucGEt42GO
- VSMc+SNOg4bEP99WuUkPIbQHzVpKmu4QAUu1CSYpa7d8J5pibAYAM3oAutYFICWofZuO
- IIbg==
-X-Gm-Message-State: APjAAAVKkBEDbwTto8Hedze3vj5ogy12JYUnGMH3eGqUbnL7HZzmCZB4
- JEeALIDJJDqkVaONxfXalsuCrIfPzXKTSJmX5aI=
-X-Google-Smtp-Source: APXvYqzOFWruPfgGsLZnzjN/VSHUQwYBh1TKA/seKEgWYOYS/7zdPDD19kuXbHMmAHSLZ77zY8ClSQ7Ec2zbXyyzlCg=
-X-Received: by 2002:a67:cf05:: with SMTP id y5mr8351908vsl.18.1566764645679;
- Sun, 25 Aug 2019 13:24:05 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 127906E130
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Aug 2019 20:46:20 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 0F2A272161; Sun, 25 Aug 2019 20:46:20 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
+Date: Sun, 25 Aug 2019 20:46:19 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: reddestdream@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110674-502-6qk9ydCQSo@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
+References: <bug-110674-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <7f5204a1-cc3a-d6a3-be07-b2c316761e46@ti.com>
-In-Reply-To: <7f5204a1-cc3a-d6a3-be07-b2c316761e46@ti.com>
-From: Ilia Mirkin <imirkin@alum.mit.edu>
-Date: Sun, 25 Aug 2019 16:23:54 -0400
-Message-ID: <CAKb7Uvh2Ygp2sWGk-GOUzA699fr=R0=S8ejmXKsNOj3MEkzGxA@mail.gmail.com>
-Subject: Re: Display-Port HPD handling, link status, and bandwidth checks
-To: Jyri Sarha <jsarha@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,64 +52,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Valkeinen, Tomi" <tomi.valkeinen@ti.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1344411365=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-WW91J2xsIHByb2JhYmx5IGdldCBhIG1vcmUgZGV0YWlsZWQgcmVwbHkgZHVyaW5nIHRoZSB3ZWVr
-LCBidXQgZm9yIG5vdwpoYXZlIGEgbG9vayBhdCB0aGUgImxpbmstc3RhdHVzIiBwcm9wZXJ0eSwg
-d2hpY2ggd2FzIG1hZGUgZm9yCnByZWNpc2VseSB0aGlzIHNpdHVhdGlvbi4gSSB0aGluayBiYXNp
-Y2FsbHkgdGhlIGlkZWEgaXMgdG8gaWdub3JlIGxpbmsKdHJhaW5pbmcgYXMgcGFydCBvZiB0aGUg
-bW9kZXNldCwgYW5kIGp1c3QgcmV0dXJuIHRoZSBsaW5rIHN0YXR1cwpkZXBlbmRpbmcgb24gdGhl
-IHN1Y2Nlc3MuIChBbmQgeW91IHNob3VsZCBmaWx0ZXIgb3V0IHRvdGFsbHkKaW5mZWFzaWJsZSBt
-b2RlcywgaS5lLiBvdXRzaWRlIHRoZSBtb25pdG9yJ3MgbWF4IGxhbmVzL2JhbmR3aWR0aApjYXBh
-YmlsaXRpZXMsIHdoaWNoIEkgYmVsaWV2ZSBhcmUgYXZhaWxhYmxlIHZpYSBEUENEIG9yIEVESUQu
-KQoKU2VlIGh0dHBzOi8vd3d3Lmtlcm5lbC5vcmcvZG9jL2h0bWwvbGF0ZXN0L2dwdS9kcm0ta21z
-Lmh0bWwgZm9yIGEgYml0Cm1vcmUgaW5mbyBhcyB3ZWxsLgoKQ2hlZXJzLAoKICAtaWxpYQoKT24g
-U3VuLCBBdWcgMjUsIDIwMTkgYXQgNzoxMiBBTSBKeXJpIFNhcmhhIDxqc2FyaGFAdGkuY29tPiB3
-cm90ZToKPgo+IEhpLAo+Cj4gSSBhbSB3b3JraW5nIG9uIGEgbmV3IERpc3BsYXlQb3J0IGJyaWRn
-ZS1kcml2ZXIgYW5kIHRoZXJlIGlzIGEgY291cGxlIG9mCj4gdGhpbmdzIHRoYXQgSSBkbyBub3Qg
-a25vdyBob3cgdG8gaGFuZGxlLgo+Cj4gMS4gV2hlbiBzaG91bGQgdGhlIGxpbmsgdHJhaW5pbmcg
-aGFwcGVuPwo+ICAgIGEpIEluIGNvbm5lY3RvciBkZXRlY3QoKT8KPiAgICAgICAtIFRoaXMgd291
-bGQgZW5hYmxlIHVzIHRvIGRvIG1vZGUgZmlsdGVyaW5nIChpbiBtb2RlX3ZhbGlkKCkpCj4gICAg
-ICAgICBiYXNlZCBvbiB0aGUgZXN0YWJsaXNoZWQgbGluayBiYW5kLXdpZHRoICh0aGVuIGFnYWlu
-Cj4gICAgICAgICBtb2RlX3ZhbGlkKCkgZG9jdW1lbnRhdGlvbiBzdWdnZXN0cyB0aGF0IG1vZGVz
-IHNob3VsZCBvbmx5Cj4gICAgICAgICBiZSBmaWx0ZXJlZCBiYXNlZCBvbiAiY29uZmlndXJhdGlv
-bi1pbnZhcmlhbnQgaGFyZHdhcmUKPiAgICAgICAgIGNvbnN0cmFpbnRzIikuCj4gICAgYikgSW4g
-Y2hlY2sgcGhhc2UgKHRoaXMgd291bGQgY3VycmVudGx5IG1lYW4gbW9kZV9maXh1cCk/Cj4gICAg
-ICAgLSBUaGlzIGlzIHRoZSBsYXN0IHBvaW50IHdoZXJlIHdlIGNhbiByZWplY3QgYSBtb2RlIHRo
-YXQgY2FuIG5vdAo+ICAgICAgICAgYmUgc2VudCBvdmVyIHRoZSBEUC1saW5rCj4gICAgYykgSW4g
-Y29tbWl0IHBoYXNlIChlLmcuIGJyaWRnZSBlbmFibGUoKSkKPiAgICAgICAtIFRoaXMgaXMgYmFk
-IHNpbmNlIHdlIHNob3VsZCBub3QgZmFpbCBhbnkgbW9yZSBpbiB0aGUgY29tbWl0Cj4gICAgICAg
-ICBwaGFzZQo+Cj4gMi4gRFAtbGluayBzb21ldGltZXMgZHJvcHMgYWZ0ZXIgYSBzdWNjZXNmdWwg
-bGluayB0cmFpbmluZyBhbmQgRFAtc2luawo+ICAgIGlzIHN1cHBvc2VkIHRvIHNlbmQgc2hvcnQg
-SFBEIHB1bHNlIGFib3V0IGl0LiBXaGF0IGFyZSB0aGUKPiAgICByZWNvbW1lbmRlZCB3YXlzIHRv
-IGhhbmRsZSB0aGUgc2l0dWF0aW9uPwo+Cj4gICAgYSkgU2VuZCBob3RwbHVnIGV2ZW50IGFuZCBs
-ZXQgdGhlIERSTSBjbGllbnQgZGVhbCB3aXRoIGl0Pwo+ICAgICAgIC0gVGhpcyBkb2VzIG5vdCB3
-b3JrIHRvbyB3ZWxsIGJlY2F1c2UgZXZlbiBpZiB0aGUgY2xpZW50IHRyaWVzCj4gICAgICAgICB0
-byByZXN0b3JlIHRoZSBkaXNwbGF5IGJ5IGNvbW1pdHRpbmcgdGhlIHNhbWUgc3RhdGUgYWdhaW4g
-LQo+ICAgICAgICAgbGlrZSBmYmRldiBkb2VzIC0gdGhlIGJyaWRnZSBkb2VzIG5vdCBnbyB0cm91
-Z2ggZGlzYWJsZS1lbmFibGUKPiAgICAgICAgIGN5Y2xlLCBzaW5jZSBkaXNwbGF5IG1vZGUgaGFz
-IG5vdCBjaGFuZ2VkLgo+ICAgICAgIC0gRGVzcGl0ZSBpdCBub3Qgd29ya2luZyBzbyB3ZWxsLCB0
-aGlzIGlzIHdoYXQgdGhlIG1vc3QgZHJpdmVycwo+ICAgICAgICAgYXBwZWFyIHRvIGRvLgo+Cj4g
-ICAgYikgRHJpdmVyIGludGVybmFsbHkgcmUtdHJhaW5zIHRoZSBsaW5rIGJ1dCBzZW5kIGEgaG90
-cGx1ZyBldmVudAo+ICAgICAgIGFsd2F5cyBhZnRlciBpdD8KPiAgICAgICAtIFRoaXMgaXMgd2hh
-dCBpOTE1IGRvZXMsIGlmIEkgcmVhZCB0aGUgY29kZSByaWdodC4KPiAgICAgICAtIEhvdyB0byB0
-cmVhdCBhIHRyYWluaW5nIGZhaWx1cmU/IFNlbmRpbmcgaG90cGx1ZyBldmVudCBkb2VzIG5vdAo+
-ICAgICAgICAgcmVhbGx5IGhlbHAgKHNlZSBhYm92ZSkuCj4KPiAgICBjKSBTaWxlbnRseSByZS10
-cmFpbiB0aGUgbGluayBpZiB3ZSB3ZXJlIGFibGUgdG8gcmVzdG9yZSB0aGUgbGluawo+ICAgICAg
-IGFuZCB0aGUgZGlzcGxheSBtb2RlLCBhbmQgc2VuZCBIUEQgb25seSBpZiBzb21ldGhpbmcgd2Vu
-dCB3cm9uZz8KPgo+IEJlc3QgcmVnYXJkcywKPiBKeXJpCj4KPiAtLQo+IFRleGFzIEluc3RydW1l
-bnRzIEZpbmxhbmQgT3ksIFBvcmtrYWxhbmthdHUgMjIsIDAwMTgwIEhlbHNpbmtpLgo+IFktdHVu
-bnVzL0J1c2luZXNzIElEOiAwNjE1NTIxLTQuIEtvdGlwYWlra2EvRG9taWNpbGU6IEhlbHNpbmtp
-Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1344411365==
+Content-Type: multipart/alternative; boundary="15667659800.C4A59.10396"
+Content-Transfer-Encoding: 7bit
+
+
+--15667659800.C4A59.10396
+Date: Sun, 25 Aug 2019 20:46:20 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
+
+--- Comment #116 from ReddestDream <reddestdream@gmail.com> ---
+Created attachment 145153
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145153&action=3Dedit
+dmesgAMD2Monitors
+
+I've been doing a few tests. I looked into and compiled 5.3-rc5 along with
+these patches, but nothing seemed to resolve our multimonitor issue. :/
+
+https://phoronix.com/scan.php?page=3Dnews_item&px=3DAMDGPU-Multi-Monitor-vR=
+AM-Clock
+
+I've also gotten some dmesg output with 5.2.9 with amdgpu.dc_log=3D1
+drm.debug=3D0x1e log_buf_len=3D2M. Turns out that amdgpu.dc_log=3D1 does no=
+thing on
+this kernel, but I didn't know this when I ran the tests. The interesting a=
+dded
+data appears to be coming from drm.debug=3D0x1e.
+
+I have two (physically) identical LG 24UD58-B 4K60 monitors connected via D=
+P.
+One test was done with both monitors connected to Radeon VII, and the other=
+ was
+done using my stable Intel+Radeon VII setup where one monitor is connected =
+to
+Radeon VII and the other is connected to the Intel iGPU (HD 630, also via D=
+P at
+4K60).
+
+These dmesg dumps were taken with all DMs/DEs/Graphics disabled in order to
+limit interference. The system was booted to a text commandline at native
+resolution.
+
+Since 5.3 isn't changing anything, I plan to do a recompile of 5.2.9 (or 5.=
+2.10
+if it's out for Arch) with the smum_send_msg_to_smc_with_parameter patch
+suggested by Tom B.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15667659800.C4A59.10396
+Date: Sun, 25 Aug 2019 20:46:20 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c116">Comm=
+ent # 116</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+reddestdream&#64;gmail.com" title=3D"ReddestDream &lt;reddestdream&#64;gmai=
+l.com&gt;"> <span class=3D"fn">ReddestDream</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145153=
+" name=3D"attach_145153" title=3D"dmesgAMD2Monitors">attachment 145153</a> =
+<a href=3D"attachment.cgi?id=3D145153&amp;action=3Dedit" title=3D"dmesgAMD2=
+Monitors">[details]</a></span>
+dmesgAMD2Monitors
+
+I've been doing a few tests. I looked into and compiled 5.3-rc5 along with
+these patches, but nothing seemed to resolve our multimonitor issue. :/
+
+<a href=3D"https://phoronix.com/scan.php?page=3Dnews_item&amp;px=3DAMDGPU-M=
+ulti-Monitor-vRAM-Clock">https://phoronix.com/scan.php?page=3Dnews_item&amp=
+;px=3DAMDGPU-Multi-Monitor-vRAM-Clock</a>
+
+I've also gotten some dmesg output with 5.2.9 with amdgpu.dc_log=3D1
+drm.debug=3D0x1e log_buf_len=3D2M. Turns out that amdgpu.dc_log=3D1 does no=
+thing on
+this kernel, but I didn't know this when I ran the tests. The interesting a=
+dded
+data appears to be coming from drm.debug=3D0x1e.
+
+I have two (physically) identical LG 24UD58-B 4K60 monitors connected via D=
+P.
+One test was done with both monitors connected to Radeon VII, and the other=
+ was
+done using my stable Intel+Radeon VII setup where one monitor is connected =
+to
+Radeon VII and the other is connected to the Intel iGPU (HD 630, also via D=
+P at
+4K60).
+
+These dmesg dumps were taken with all DMs/DEs/Graphics disabled in order to
+limit interference. The system was booted to a text commandline at native
+resolution.
+
+Since 5.3 isn't changing anything, I plan to do a recompile of 5.2.9 (or 5.=
+2.10
+if it's out for Arch) with the smum_send_msg_to_smc_with_parameter patch
+suggested by Tom B.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15667659800.C4A59.10396--
+
+--===============1344411365==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1344411365==--
