@@ -1,52 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BE8B9D654
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2019 21:18:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D320E9D659
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2019 21:19:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B06F76E2AB;
-	Mon, 26 Aug 2019 19:18:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1220689DD2;
+	Mon, 26 Aug 2019 19:19:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59E7B6E2A8;
- Mon, 26 Aug 2019 19:18:14 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DADEA89DD2;
+ Mon, 26 Aug 2019 19:19:50 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 26 Aug 2019 12:18:13 -0700
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 26 Aug 2019 12:19:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,433,1559545200"; d="scan'208";a="174305411"
-Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
- by orsmga008.jf.intel.com with ESMTP; 26 Aug 2019 12:18:13 -0700
-Received: from fmsmsx156.amr.corp.intel.com (10.18.116.74) by
- FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 26 Aug 2019 12:18:13 -0700
-Received: from bgsmsx110.gar.corp.intel.com (10.223.4.212) by
- fmsmsx156.amr.corp.intel.com (10.18.116.74) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 26 Aug 2019 12:18:13 -0700
+X-IronPort-AV: E=Sophos;i="5.64,433,1559545200"; d="scan'208";a="380644951"
+Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
+ by fmsmga006.fm.intel.com with ESMTP; 26 Aug 2019 12:19:50 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Mon, 26 Aug 2019 12:19:50 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 26 Aug 2019 12:19:50 -0700
+Received: from bgsmsx106.gar.corp.intel.com (10.223.43.196) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
+ via Frontend Transport; Mon, 26 Aug 2019 12:19:49 -0700
 Received: from bgsmsx104.gar.corp.intel.com ([169.254.5.178]) by
- BGSMSX110.gar.corp.intel.com ([169.254.11.152]) with mapi id 14.03.0439.000;
- Tue, 27 Aug 2019 00:48:10 +0530
+ BGSMSX106.gar.corp.intel.com ([169.254.1.143]) with mapi id 14.03.0439.000;
+ Tue, 27 Aug 2019 00:49:47 +0530
 From: "Shankar, Uma" <uma.shankar@intel.com>
 To: "Mun, Gwan-gyeong" <gwan-gyeong.mun@intel.com>,
  "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: RE: [PATCH v2 3/6] drm: Add DisplayPort colorspace property
-Thread-Topic: [PATCH v2 3/6] drm: Add DisplayPort colorspace property
-Thread-Index: AQHVWZiJcilefE1DtUK27WGcqhrx+acN0pTg
-Date: Mon, 26 Aug 2019 19:18:09 +0000
-Message-ID: <E7C9878FBA1C6D42A1CA3F62AEB6945F821D1DA8@BGSMSX104.gar.corp.intel.com>
+Subject: RE: [PATCH v2 4/6] drm/i915/dp: Attach colorspace property
+Thread-Topic: [PATCH v2 4/6] drm/i915/dp: Attach colorspace property
+Thread-Index: AQHVWZiIIwojtwHdUUeyg3Jtf3ufTKcN0xKQ
+Date: Mon, 26 Aug 2019 19:19:47 +0000
+Message-ID: <E7C9878FBA1C6D42A1CA3F62AEB6945F821D1DD8@BGSMSX104.gar.corp.intel.com>
 References: <20190823095232.28908-1-gwan-gyeong.mun@intel.com>
- <20190823095232.28908-4-gwan-gyeong.mun@intel.com>
-In-Reply-To: <20190823095232.28908-4-gwan-gyeong.mun@intel.com>
+ <20190823095232.28908-5-gwan-gyeong.mun@intel.com>
+In-Reply-To: <20190823095232.28908-5-gwan-gyeong.mun@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMjJjOGIzZjYtZmUxOC00NjUzLWI0OGEtNmRiMWMwODBlOTk2IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoib0FvdlQ3OFB5K25XVWdZdXBvVWhpVG9DRnBnZlQ3SjZ0THNcL0pGT2FmMnFMK3lWSGhZQmdsQ0VTYklOdlRJRjcifQ==
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZTZjM2I1ZmEtMzZmMi00NTczLWE3Y2YtMzkyNDRhMmQ0MTY2IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiQ0VmK0tBbTl0M1RTcUxFUUd6c24zOWE4THhNeE5FMnh3amM1N1E5dlV3XC95VmZaSGZ4dSszbXltODg1TlwveFMrIn0=
 dlp-product: dlpe-windows
 dlp-version: 11.2.0.6
 dlp-reaction: no-action
@@ -71,32 +76,31 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Cgo+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0KPkZyb206IE11biwgR3dhbi1neWVvbmcKPlNl
-bnQ6IEZyaWRheSwgQXVndXN0IDIzLCAyMDE5IDM6MjIgUE0KPlRvOiBpbnRlbC1nZnhAbGlzdHMu
+bnQ6IEZyaWRheSwgQXVndXN0IDIzLCAyMDE5IDM6MjMgUE0KPlRvOiBpbnRlbC1nZnhAbGlzdHMu
 ZnJlZWRlc2t0b3Aub3JnCj5DYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgU2hh
 bmthciwgVW1hIDx1bWEuc2hhbmthckBpbnRlbC5jb20+Owo+U2hhcm1hLCBTaGFzaGFuayA8c2hh
-c2hhbmsuc2hhcm1hQGludGVsLmNvbT4KPlN1YmplY3Q6IFtQQVRDSCB2MiAzLzZdIGRybTogQWRk
-IERpc3BsYXlQb3J0IGNvbG9yc3BhY2UgcHJvcGVydHkKPgo+SW4gb3JkZXIgdG8gdXNlIGNvbG9y
-c3BhY2UgcHJvcGVydHkgdG8gRGlzcGxheSBQb3J0IGNvbm5lY3RvcnMsIGl0IGV4dGVuZHMKPkRS
-TV9NT0RFX0NPTk5FQ1RPUl9EaXNwbGF5UG9ydCBjb25uZWN0b3JfdHlwZSBvbgo+ZHJtX21vZGVf
-Y3JlYXRlX2NvbG9yc3BhY2VfcHJvcGVydHkgZnVuY3Rpb24uCgpUaGUgY2hhbmdlcyBsb29rIGdv
-b2QgdG8gbWUuClJldmlld2VkLWJ5OiBVbWEgU2hhbmthciA8dW1hLnNoYW5rYXJAaW50ZWwuY29t
-PgoKPlNpZ25lZC1vZmYtYnk6IEd3YW4tZ3llb25nIE11biA8Z3dhbi1neWVvbmcubXVuQGludGVs
-LmNvbT4KPi0tLQo+IGRyaXZlcnMvZ3B1L2RybS9kcm1fY29ubmVjdG9yLmMgfCA0ICsrKy0KPiAx
-IGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4KPmRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Nvbm5lY3Rvci5jIGIvZHJpdmVycy9ncHUvZHJtL2Ry
-bV9jb25uZWN0b3IuYwo+aW5kZXggNGM3NjY2MjRiMjBkLi42NTVhZGE5ZDRjMTYgMTAwNjQ0Cj4t
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Nvbm5lY3Rvci5jCj4rKysgYi9kcml2ZXJzL2dwdS9k
-cm0vZHJtX2Nvbm5lY3Rvci5jCj5AQCAtMTcwMyw3ICsxNzAzLDkgQEAgaW50IGRybV9tb2RlX2Ny
-ZWF0ZV9jb2xvcnNwYWNlX3Byb3BlcnR5KHN0cnVjdAo+ZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9y
-KQo+IAlzdHJ1Y3QgZHJtX3Byb3BlcnR5ICpwcm9wOwo+Cj4gCWlmIChjb25uZWN0b3ItPmNvbm5l
-Y3Rvcl90eXBlID09IERSTV9NT0RFX0NPTk5FQ1RPUl9IRE1JQSB8fAo+LQkgICAgY29ubmVjdG9y
-LT5jb25uZWN0b3JfdHlwZSA9PSBEUk1fTU9ERV9DT05ORUNUT1JfSERNSUIpIHsKPisJICAgIGNv
-bm5lY3Rvci0+Y29ubmVjdG9yX3R5cGUgPT0gRFJNX01PREVfQ09OTkVDVE9SX0hETUlCIHx8Cj4r
-CSAgICBjb25uZWN0b3ItPmNvbm5lY3Rvcl90eXBlID09IERSTV9NT0RFX0NPTk5FQ1RPUl9EaXNw
-bGF5UG9ydCB8fAo+KwkgICAgY29ubmVjdG9yLT5jb25uZWN0b3JfdHlwZSA9PSBEUk1fTU9ERV9D
-T05ORUNUT1JfZURQKSB7Cj4gCQlwcm9wID0gZHJtX3Byb3BlcnR5X2NyZWF0ZV9lbnVtKGRldiwg
-RFJNX01PREVfUFJPUF9FTlVNLAo+IAkJCQkJCSJDb2xvcnNwYWNlIiwKPiAJCQkJCQloZG1pX2Nv
-bG9yc3BhY2VzLAo+LS0KPjIuMjIuMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVs
+c2hhbmsuc2hhcm1hQGludGVsLmNvbT4KPlN1YmplY3Q6IFtQQVRDSCB2MiA0LzZdIGRybS9pOTE1
+L2RwOiBBdHRhY2ggY29sb3JzcGFjZSBwcm9wZXJ0eQo+Cj5JdCBhdHRhY2hlcyB0aGUgY29sb3Jz
+cGFjZSBjb25uZWN0b3IgcHJvcGVydHkgdG8gYSBEaXNwbGF5UG9ydCBjb25uZWN0b3IuCj5CYXNl
+ZCBvbiBjb2xvcnNwYWNlIGNoYW5nZSwgbW9kZXNldCB3aWxsIGJlIHRyaWdnZXJlZCB0byBzd2l0
+Y2ggdG8gYSBuZXcKPmNvbG9yc3BhY2UuCj4KPkJhc2VkIG9uIGNvbG9yc3BhY2UgcHJvcGVydHkg
+dmFsdWUgY3JlYXRlIGEgVlNDIFNEUCBwYWNrZXQgd2l0aCBhcHByb3ByaWF0ZQo+Y29sb3JzcGFj
+ZS4gVGhpcyB3b3VsZCBoZWxwIHRvIGVuYWJsZSB3aWRlciBjb2xvciBnYW11dCBsaWtlIEJUMjAy
+MCBvbiBhIHNpbmsgZGV2aWNlLgoKVGhlIGNoYW5nZXMgbG9vayBnb29kIHRvIG1lLgpSZXZpZXdl
+ZC1ieTogVW1hIFNoYW5rYXIgPHVtYS5zaGFua2FyQGludGVsLmNvbT4KCj5TaWduZWQtb2ZmLWJ5
+OiBHd2FuLWd5ZW9uZyBNdW4gPGd3YW4tZ3llb25nLm11bkBpbnRlbC5jb20+Cj4tLS0KPiBkcml2
+ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMgfCAyICsrCj4gMSBmaWxlIGNoYW5n
+ZWQsIDIgaW5zZXJ0aW9ucygrKQo+Cj5kaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUv
+ZGlzcGxheS9pbnRlbF9kcC5jCj5iL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxf
+ZHAuYwo+aW5kZXggMjk1ZDVlZDJiZTk2Li43MjE4ZTE1OWY1NWQgMTAwNjQ0Cj4tLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMKPisrKyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYwo+QEAgLTY0MDIsNiArNjQwMiw4IEBAIGludGVsX2Rw
+X2FkZF9wcm9wZXJ0aWVzKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHAsIHN0cnVjdAo+ZHJtX2Nv
+bm5lY3RvciAqY29ubmVjdAo+IAllbHNlIGlmIChJTlRFTF9HRU4oZGV2X3ByaXYpID49IDUpCj4g
+CQlkcm1fY29ubmVjdG9yX2F0dGFjaF9tYXhfYnBjX3Byb3BlcnR5KGNvbm5lY3RvciwgNiwgMTIp
+Owo+Cj4rCWludGVsX2F0dGFjaF9jb2xvcnNwYWNlX3Byb3BlcnR5KGNvbm5lY3Rvcik7Cj4rCj4g
+CWlmIChpbnRlbF9kcF9pc19lZHAoaW50ZWxfZHApKSB7Cj4gCQl1MzIgYWxsb3dlZF9zY2FsZXJz
+Owo+Cj4tLQo+Mi4yMi4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWw=
