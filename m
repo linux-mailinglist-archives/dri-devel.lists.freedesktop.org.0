@@ -1,36 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8FE29CFCD
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2019 14:47:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 340739CFD6
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2019 14:51:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71B856E0E9;
-	Mon, 26 Aug 2019 12:47:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BB326E0FE;
+	Mon, 26 Aug 2019 12:51:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB0B16E0E9
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2019 12:47:36 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 26 Aug 2019 05:47:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,433,1559545200"; d="scan'208";a="197046581"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
- by fmsmga001.fm.intel.com with ESMTP; 26 Aug 2019 05:47:34 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: David Francis <David.Francis@amd.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v5 5/5] drm/dp_mst: Add helper for finding right aux to
- enable/query DSC
-In-Reply-To: <20190823202809.15934-6-David.Francis@amd.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20190823202809.15934-1-David.Francis@amd.com>
- <20190823202809.15934-6-David.Francis@amd.com>
-Date: Mon, 26 Aug 2019 15:47:34 +0300
-Message-ID: <87blwc9jq1.fsf@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C85246E0FE
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2019 12:51:18 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id C558C72161; Mon, 26 Aug 2019 12:51:18 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111487] AMD vega - display off/on -> solid green display
+Date: Mon, 26 Aug 2019 12:51:18 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: bzz@atomicbee.cz
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111487-502-2mE7WVHgLS@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111487-502@http.bugs.freedesktop.org/>
+References: <bug-111487-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -44,157 +52,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Francis <David.Francis@amd.com>, Wenjing Liu <Wenjing.Liu@amd.com>,
- Nikola Cornij <Nikola.Cornij@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2056870301=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyMyBBdWcgMjAxOSwgRGF2aWQgRnJhbmNpcyA8RGF2aWQuRnJhbmNpc0BhbWQuY29t
-PiB3cm90ZToKPiBBZGQgZHJtX2RwX21zdF9kc2NfYXV4X2Zvcl9wb3J0LiBUbyBlbmFibGUgRFND
-LCB0aGUgRFNDX0VOQUJMRUQKPiByZWdpc3RlciBtaWdodCBoYXZlIHRvIGJlIHdyaXR0ZW4gb24g
-dGhlIGxlYWYgcG9ydCdzIERQQ0QsCj4gaXRzIHBhcmVudCdzIERQQ0QsIG9yIHRoZSBNU1QgbWFu
-YWdlcidzIERQQ0QuIFRoaXMgZnVuY3Rpb24KPiBmaW5kcyB0aGUgY29ycmVjdCBhdXggZm9yIHRo
-ZSBqb2IuCj4KPiBBcyBwYXJ0IG9mIHRoaXMsIGFkZCBkcm1fZHBfbXN0X2lzX3ZpcnR1YWxfZHBj
-ZC4gVmlydHVhbCBEUENECj4gaXMgYSBEUCBmZWF0dXJlIG5ldyBpbiBEUCB2MS40LCB3aGljaCBl
-eHBvc2VzIGNlcnRhaW4gRFBDRAo+IHJlZ2lzdGVycyBvbiB2aXJ0dWFsIHBvcnRzLgo+Cj4gQUxz
-byBhZGQgYSBuZXcgcXVpcmsgZm9yIFN5bmF0aWNzIE1TVCBodWJzIHRoYXQgc3VwcG9ydCBEU0MK
-PiBkZXNwaXRlIG5vdCBzdXBwb3J0aW5nIHZpcnR1YWwgRFBDRC4KCiJBbHNvIiBpbiB0aGUgY29t
-bWl0IG1lc3NhZ2Ugb2Z0ZW4gbWVhbnMsICJzaG91bGQgYmUgYSBzZXBhcmF0ZQpwYXRjaCIuIEkg
-dGhpbmsgdGhpcyBpcyB0cnVlIGhlcmUuCgpCUiwKSmFuaS4KCgo+Cj4gQ2M6IEx5dWRlIFBhdWwg
-PGx5dWRlQHJlZGhhdC5jb20+Cj4gQ2M6IFdlbmppbmcgTGl1IDxXZW5qaW5nLkxpdUBhbWQuY29t
-Pgo+IENjOiBOaWtvbGEgQ29ybmlqIDxOaWtvbGEuQ29ybmlqQGFtZC5jb20+Cj4gU2lnbmVkLW9m
-Zi1ieTogRGF2aWQgRnJhbmNpcyA8RGF2aWQuRnJhbmNpc0BhbWQuY29tPgo+IC0tLQo+ICBkcml2
-ZXJzL2dwdS9kcm0vZHJtX2RwX2hlbHBlci5jICAgICAgIHwgICAyICsKPiAgZHJpdmVycy9ncHUv
-ZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYyB8IDE0NyArKysrKysrKysrKysrKysrKysrKysrKysr
-Kwo+ICBpbmNsdWRlL2RybS9kcm1fZHBfaGVscGVyLmggICAgICAgICAgIHwgICA3ICsrCj4gIGlu
-Y2x1ZGUvZHJtL2RybV9kcF9tc3RfaGVscGVyLmggICAgICAgfCAgIDIgKwo+ICA0IGZpbGVzIGNo
-YW5nZWQsIDE1OCBpbnNlcnRpb25zKCspCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L2RybV9kcF9oZWxwZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfaGVscGVyLmMKPiBpbmRl
-eCAyY2MyMWVmZjRjZjMuLmZjMzkzMjNlN2Q1MiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vZHJtX2RwX2hlbHBlci5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9oZWxwZXIu
-Ywo+IEBAIC0xMjcwLDYgKzEyNzAsOCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRwY2RfcXVpcmsg
-ZHBjZF9xdWlya19saXN0W10gPSB7Cj4gIAl7IE9VSSgweDAwLCAweDEwLCAweGZhKSwgREVWSUNF
-X0lEX0FOWSwgZmFsc2UsIEJJVChEUF9EUENEX1FVSVJLX05PX1BTUikgfSwKPiAgCS8qIENINzUx
-MSBzZWVtcyB0byBsZWF2ZSBTSU5LX0NPVU5UIHplcm9lZCAqLwo+ICAJeyBPVUkoMHgwMCwgMHgw
-MCwgMHgwMCksIERFVklDRV9JRCgnQycsICdIJywgJzcnLCAnNScsICcxJywgJzEnKSwgZmFsc2Us
-IEJJVChEUF9EUENEX1FVSVJLX05PX1NJTktfQ09VTlQpIH0sCj4gKwkvKiBTeW5hcHRpY3MgRFAx
-LjQgTVNUIGh1YnMgY2FuIHN1cHBvcnQgRFNDIHdpdGhvdXQgdmlydHVhbCBEUENEICovCj4gKwl7
-IE9VSSgweDkwLCAweENDLCAweDI0KSwgREVWSUNFX0lEX0FOWSwgdHJ1ZSwgQklUKERQX0RQQ0Rf
-UVVJUktfRFNDX1dJVEhPVVRfVklSVFVBTF9EUENEKSB9LAo+ICB9Owo+ICAKPiAgI3VuZGVmIE9V
-SQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jIGIv
-ZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYwo+IGluZGV4IGEzOWU0MmM3ZDg2
-OC4uNTU5YmMwOWI2Yjk0IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0
-X3RvcG9sb2d5LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5j
-Cj4gQEAgLTQxNTAsMyArNDE1MCwxNTAgQEAgc3RhdGljIHZvaWQgZHJtX2RwX21zdF91bnJlZ2lz
-dGVyX2kyY19idXMoc3RydWN0IGRybV9kcF9hdXggKmF1eCkKPiAgewo+ICAJaTJjX2RlbF9hZGFw
-dGVyKCZhdXgtPmRkYyk7Cj4gIH0KPiArCj4gKy8qKgo+ICsgKiBkcm1fZHBfbXN0X2lzX3ZpcnR1
-YWxfZHBjZCgpIC0gSXMgdGhlIGdpdmVuIHBvcnQgYSB2aXJ0dWFsIERQIFBlZXIgRGV2aWNlCj4g
-KyAqIEBwb3J0OiBUaGUgcG9ydCB0byBjaGVjawo+ICsgKgo+ICsgKiBBIHNpbmdsZSBwaHlzaWNh
-bCBNU1QgaHViIG9iamVjdCBjYW4gYmUgcmVwcmVzZW50ZWQgaW4gdGhlIHRvcG9sb2d5Cj4gKyAq
-IGJ5IG11bHRpcGxlIGJyYW5jaGVzLCB3aXRoIHZpcnR1YWwgcG9ydHMgYmV0d2VlbiB0aG9zZSBi
-cmFuY2hlcy4KPiArICoKPiArICogQXMgb2YgRFAxLjQsIEFuIE1TVCBodWIgd2l0aCBpbnRlcm5h
-bCAodmlydHVhbCkgcG9ydHMgbXVzdCBleHBvc2UKPiArICogY2VydGFpbiBEUENEIHJlZ2lzdGVy
-cyBvdmVyIHRob3NlIHBvcnRzLiBTZWUgc2VjdGlvbnMgMi42LjEuMS4xCj4gKyAqIGFuZCAyLjYu
-MS4xLjIgb2YgRGlzcGxheSBQb3J0IHNwZWNpZmljYXRpb24gdjEuNCBmb3IgZGV0YWlscy4KPiAr
-ICoKPiArICogTWF5IGFjcXVpcmUgbWdyLT5sb2NrCj4gKyAqCj4gKyAqIFJldHVybnM6Cj4gKyAq
-IHRydWUgaWYgdGhlIHBvcnQgaXMgYSB2aXJ0dWFsIERQIHBlZXIgZGV2aWNlLCBmYWxzZSBvdGhl
-cndpc2UKPiArICovCj4gK3N0YXRpYyBib29sIGRybV9kcF9tc3RfaXNfdmlydHVhbF9kcGNkKHN0
-cnVjdCBkcm1fZHBfbXN0X3BvcnQgKnBvcnQpCj4gK3sKPiArCXN0cnVjdCBkcm1fZHBfbXN0X3Bv
-cnQgKmRvd25zdHJlYW1fcG9ydDsKPiArCj4gKwlpZiAoIXBvcnQpCj4gKwkJcmV0dXJuIGZhbHNl
-Owo+ICsKPiArCS8qIFZpcnR1YWwgRFAgU2luayAoSW50ZXJuYWwgRGlzcGxheSBQYW5lbCkgKi8K
-PiArCWlmIChwb3J0LT5wb3J0X251bSA+PSA4ICYmIHBvcnQtPmRwY2RfcmV2ID49IERQX0RQQ0Rf
-UkVWXzE0KQo+ICsJCXJldHVybiB0cnVlOwo+ICsKPiArCS8qIERQLXRvLUhETUkgUHJvdG9jb2wg
-Q29udmVydGVyICovCj4gKwlpZiAocG9ydC0+cGR0ID09IERQX1BFRVJfREVWSUNFX0RQX0xFR0FD
-WV9DT05WICYmCj4gKwkJCSFwb3J0LT5tY3MgJiYKPiArCQkJcG9ydC0+bGRwcyAmJgo+ICsJCQlw
-b3J0LT5kcGNkX3JldiA+PSBEUF9EUENEX1JFVl8xNCkKPiArCQlyZXR1cm4gdHJ1ZTsKPiArCj4g
-KwkvKiBEUC10by1EUCAqLwo+ICsJbXV0ZXhfbG9jaygmcG9ydC0+bWdyLT5sb2NrKTsKPiArCWlm
-IChwb3J0LT5wZHQgPT0gRFBfUEVFUl9ERVZJQ0VfTVNUX0JSQU5DSElORyAmJgo+ICsJCQlwb3J0
-LT5tc3RiICYmCj4gKwkJCXBvcnQtPmRwY2RfcmV2ID49IERQX0RQQ0RfUkVWXzE0ICYmCj4gKwkJ
-CXBvcnQtPm1zdGItPm51bV9wb3J0cyA9PSAyKSB7Cj4gKwkJbGlzdF9mb3JfZWFjaF9lbnRyeShk
-b3duc3RyZWFtX3BvcnQsICZwb3J0LT5tc3RiLT5wb3J0cywgbmV4dCkgewo+ICsJCQlpZiAoIWRv
-d25zdHJlYW1fcG9ydC0+aW5wdXQgJiYKPiArCQkJCWRvd25zdHJlYW1fcG9ydC0+cGR0ID09IERQ
-X1BFRVJfREVWSUNFX1NTVF9TSU5LKQo+ICsJCQkJcmV0dXJuIHRydWU7Cj4gKwkJfQo+ICsJfQo+
-ICsJbXV0ZXhfdW5sb2NrKCZwb3J0LT5tZ3ItPmxvY2spOwo+ICsKPiArCXJldHVybiBmYWxzZTsK
-PiArfQo+ICsKPiArLyoqCj4gKyAqIGRybV9kcF9tc3RfZHNjX2F1eF9mb3JfcG9ydCgpIC0gRmlu
-ZCB0aGUgY29ycmVjdCBhdXggZm9yIERTQwo+ICsgKiBAcG9ydDogVGhlIHBvcnQgdG8gY2hlY2su
-IEEgbGVhZiBvZiB0aGUgTVNUIHRyZWUgd2l0aCBhbiBhdHRhY2hlZCBkaXNwbGF5Lgo+ICsgKgo+
-ICsgKiBEZXBlbmRpbmcgb24gdGhlIHNpdHVhdGlvbiwgRFNDIG1heSBiZSBlbmFibGVkIHZpYSB0
-aGUgZW5kcG9pbnQgYXV4LAo+ICsgKiB0aGUgaW1tZWRpYXRlbHkgdXBzdHJlYW0gYXV4LCBvciB0
-aGUgY29ubmVjdG9yJ3MgcGh5c2ljYWwgYXV4Lgo+ICsgKgo+ICsgKiBUaGlzIGlzIGJvdGggdGhl
-IGNvcnJlY3QgYXV4IHRvIHJlYWQgRFNDX0NBUEFCSUxJVFkgYW5kIHRoZQo+ICsgKiBjb3JyZWN0
-IGF1eCB0byB3cml0ZSBEU0NfRU5BQkxFRC4KPiArICoKPiArICogVGhpcyBvcGVyYXRpb24gY2Fu
-IGJlIGV4cGVuc2l2ZSAodXAgdG8gZm91ciBhdXggcmVhZHMpLCBzbwo+ICsgKiB0aGUgY2FsbGVy
-IHNob3VsZCBjYWNoZSB0aGUgcmV0dXJuLgo+ICsgKgo+ICsgKiBSZXR1cm5zOgo+ICsgKiBOVUxM
-IGlmIERTQyBjYW5ub3QgYmUgZW5hYmxlZCBvbiB0aGlzIHBvcnQsIG90aGVyd2lzZSB0aGUgYXV4
-IGRldmljZQo+ICsgKi8KPiArc3RydWN0IGRybV9kcF9hdXggKmRybV9kcF9tc3RfZHNjX2F1eF9m
-b3JfcG9ydChzdHJ1Y3QgZHJtX2RwX21zdF9wb3J0ICpwb3J0KQo+ICt7Cj4gKwlzdHJ1Y3QgZHJt
-X2RwX21zdF9wb3J0ICppbW1lZGlhdGVfdXBzdHJlYW1fcG9ydDsKPiArCXN0cnVjdCBkcm1fZHBf
-bXN0X3BvcnQgKmZlY19wb3J0Owo+ICsJc3RydWN0IGRybV9kcF9kZXNjICpkZXNjOwo+ICsKPiAr
-CWlmIChwb3J0ICYmIHBvcnQtPnBhcmVudCkKPiArCQlpbW1lZGlhdGVfdXBzdHJlYW1fcG9ydCA9
-IHBvcnQtPnBhcmVudC0+cG9ydF9wYXJlbnQ7Cj4gKwllbHNlCj4gKwkJaW1tZWRpYXRlX3Vwc3Ry
-ZWFtX3BvcnQgPSBOVUxMOwo+ICsKPiArCWZlY19wb3J0ID0gaW1tZWRpYXRlX3Vwc3RyZWFtX3Bv
-cnQ7Cj4gKwl3aGlsZSAoZmVjX3BvcnQpIHsKPiArCQkvKgo+ICsJCSAqIEVhY2ggcGh5c2ljYWwg
-bGluayAoaS5lLiBub3QgYSB2aXJ0dWFsIHBvcnQpIGJldHdlZW4gdGhlCj4gKwkJICogb3V0cHV0
-IGFuZCB0aGUgcHJpbWFyeSBkZXZpY2UgbXVzdCBzdXBwb3J0IEZFQwo+ICsJCSAqLwo+ICsJCWlm
-ICghZHJtX2RwX21zdF9pc192aXJ0dWFsX2RwY2QoZmVjX3BvcnQpICYmCj4gKwkJCQkhZmVjX3Bv
-cnQtPmZlY19jYXBhYmxlKQo+ICsJCQlyZXR1cm4gTlVMTDsKPiArCj4gKwkJZmVjX3BvcnQgPSBm
-ZWNfcG9ydC0+cGFyZW50LT5wb3J0X3BhcmVudDsKPiArCX0KPiArCj4gKwkvKiBFbnBvaW50IGRl
-Y29tcHJlc3Npb24gd2l0aCBEUC10by1EUCBwZWVyIGRldmljZSAqLwo+ICsJaWYgKGRybV9kcF9t
-c3RfaXNfdmlydHVhbF9kcGNkKGltbWVkaWF0ZV91cHN0cmVhbV9wb3J0KSkgewo+ICsJCXU4IHVw
-c3RyZWFtX2RzYzsKPiArCQl1OCBlbmRwb2ludF9kc2M7Cj4gKwkJdTggZW5kcG9pbnRfZmVjOwo+
-ICsKPiArCQlpZiAoZHJtX2RwX2RwY2RfcmVhZCgmcG9ydC0+YXV4LAo+ICsJCQkJICAgICBEUF9E
-U0NfU1VQUE9SVCwgJmVuZHBvaW50X2RzYywgMSkgPCAwKQo+ICsJCQlyZXR1cm4gTlVMTDsKPiAr
-CQlpZiAoZHJtX2RwX2RwY2RfcmVhZCgmcG9ydC0+YXV4LAo+ICsJCQkJICAgICBEUF9GRUNfQ0FQ
-QUJJTElUWSwgJmVuZHBvaW50X2ZlYywgMSkgPCAwKQo+ICsJCQlyZXR1cm4gTlVMTDsKPiArCQlp
-ZiAoZHJtX2RwX2RwY2RfcmVhZCgmaW1tZWRpYXRlX3Vwc3RyZWFtX3BvcnQtPmF1eCwKPiArCQkJ
-CSAgICAgRFBfRFNDX1NVUFBPUlQsICZ1cHN0cmVhbV9kc2MsIDEpIDwgMCkKPiArCQkJcmV0dXJu
-IE5VTEw7Cj4gKwo+ICsJCWlmICgoZW5kcG9pbnRfZHNjICYgRFBfRFNDX0RFQ09NUFJFU1NJT05f
-SVNfU1VQUE9SVEVEKQo+ICsJCQkJJiYgKGVuZHBvaW50X2ZlYyAmIERQX0ZFQ19DQVBBQkxFKQo+
-ICsJCQkJJiYgKHVwc3RyZWFtX2RzYyAmIDB4MikgLyogRFNDIHBhc3N0aHJvdWdoICovKQo+ICsJ
-CQlyZXR1cm4gJnBvcnQtPmF1eDsKPiArCj4gKwkJLyogVmlydHVhbCBEUENEIGRlY29tcHJlc3Np
-b24gd2l0aCBEUC10by1EUCBwZWVyIGRldmljZSAqLwo+ICsJCXJldHVybiAmaW1tZWRpYXRlX3Vw
-c3RyZWFtX3BvcnQtPmF1eDsKPiArCX0KPiArCj4gKwkvKiBWaXJ0dWFsIERQQ0QgZGVjb21wcmVz
-c2lvbiB3aXRoIERQLXRvLUhETUkgb3IgVmlydHVhbCBEUCBTaW5rICovCj4gKwlpZiAoZHJtX2Rw
-X21zdF9pc192aXJ0dWFsX2RwY2QocG9ydCkpCj4gKwkJcmV0dXJuICZwb3J0LT5hdXg7Cj4gKwo+
-ICsJLyoKPiArCSAqIFN5bmFwdGljcyBxdWlyawo+ICsJICogQXBwbGllcyB0byBwb3J0cyBmb3Ig
-d2hpY2g6Cj4gKwkgKiAtIFBoeXNpY2FsIGF1eCBoYXMgU3luYXB0aWNzIE9VSQo+ICsJICogLSBE
-UHYxLjQgb3IgaGlnaGVyCj4gKwkgKiAtIFBvcnQgaXMgb24gcHJpbWFyeSBicmFuY2ggZGV2aWNl
-Cj4gKwkgKiAtIE5vdCBhIFZHQSBhZGFwdGVyIChEUF9EV05fU1RSTV9QT1JUX1RZUEVfQU5BTE9H
-KQo+ICsJICovCj4gKwlkcm1fZHBfcmVhZF9kZXNjKHBvcnQtPm1nci0+YXV4LCBkZXNjLCB0cnVl
-KTsKPiArCWlmIChkcm1fZHBfaGFzX3F1aXJrKGRlc2MsIERQX0RQQ0RfUVVJUktfRFNDX1dJVEhP
-VVRfVklSVFVBTF9EUENEICYmCj4gKwkJCXBvcnQtPm1nci0+ZHBjZFtEUF9EUENEX1JFVl0gPj0g
-RFBfRFBDRF9SRVZfMTQpICYmCj4gKwkJCXBvcnQtPnBhcmVudCA9PSBwb3J0LT5tZ3ItPm1zdF9w
-cmltYXJ5KSB7Cj4gKwkJdTggZG93bnN0cmVhbXBvcnQ7Cj4gKwo+ICsJCWRybV9kcF9kcGNkX3Jl
-YWQoJnBvcnQtPmF1eCwgRFBfRE9XTlNUUkVBTVBPUlRfUFJFU0VOVCwKPiArCQkJCSAmZG93bnN0
-cmVhbXBvcnQsIDEpOwo+ICsKPiArCQlpZiAoKGRvd25zdHJlYW1wb3J0ICYgRFBfRFdOX1NUUk1f
-UE9SVF9QUkVTRU5UKSAmJgo+ICsJCQkJKGRvd25zdHJlYW1wb3J0ICYgRFBfRFdOX1NUUk1fUE9S
-VF9UWVBFX01BU0sKPiArCQkJCSE9IERQX0RXTl9TVFJNX1BPUlRfVFlQRV9BTkFMT0cpKQo+ICsJ
-CQlyZXR1cm4gcG9ydC0+bWdyLT5hdXg7Cj4gKwl9Cj4gKwo+ICsJcmV0dXJuIE5VTEw7Cj4gK30K
-PiArRVhQT1JUX1NZTUJPTChkcm1fZHBfbXN0X2RzY19hdXhfZm9yX3BvcnQpOwo+IGRpZmYgLS1n
-aXQgYS9pbmNsdWRlL2RybS9kcm1fZHBfaGVscGVyLmggYi9pbmNsdWRlL2RybS9kcm1fZHBfaGVs
-cGVyLmgKPiBpbmRleCA4MzY0NTAyZjkyY2YuLmExMzMxYjA4NzA1ZiAxMDA2NDQKPiAtLS0gYS9p
-bmNsdWRlL2RybS9kcm1fZHBfaGVscGVyLmgKPiArKysgYi9pbmNsdWRlL2RybS9kcm1fZHBfaGVs
-cGVyLmgKPiBAQCAtMTQzNCw2ICsxNDM0LDEzIEBAIGVudW0gZHJtX2RwX3F1aXJrIHsKPiAgCSAq
-IFRoZSBkcml2ZXIgc2hvdWxkIGlnbm9yZSBTSU5LX0NPVU5UIGR1cmluZyBkZXRlY3Rpb24uCj4g
-IAkgKi8KPiAgCURQX0RQQ0RfUVVJUktfTk9fU0lOS19DT1VOVCwKPiArCS8qKgo+ICsJICogQERQ
-X0RQQ0RfUVVJUktfRFNDX1dJVEhPVVRfVklSVFVBTF9EUENEOgo+ICsJICoKPiArCSAqIFRoZSBk
-ZXZpY2Ugc3VwcG9ydHMgTVNUIERTQyBkZXNwaXRlIG5vdCBzdXBwb3J0aW5nIFZpcnR1YWwgRFBD
-RC4KPiArCSAqIFRoZSBEU0MgY2FwcyBjYW4gYmUgcmVhZCBmcm9tIHRoZSBwaHlzaWNhbCBhdXgg
-aW5zdGVhZC4KPiArCSAqLwo+ICsJRFBfRFBDRF9RVUlSS19EU0NfV0lUSE9VVF9WSVJUVUFMX0RQ
-Q0QsCj4gIH07Cj4gIAo+ICAvKioKPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2RwX21z
-dF9oZWxwZXIuaCBiL2luY2x1ZGUvZHJtL2RybV9kcF9tc3RfaGVscGVyLmgKPiBpbmRleCBmMTEz
-YWUwNGZhODguLjRjZjczODU0NWRmYiAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fZHBf
-bXN0X2hlbHBlci5oCj4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX2RwX21zdF9oZWxwZXIuaAo+IEBA
-IC02NzMsNiArNjczLDggQEAgaW50IF9fbXVzdF9jaGVjayBkcm1fZHBfbXN0X2F0b21pY19jaGVj
-ayhzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpOwo+ICB2b2lkIGRybV9kcF9tc3RfZ2V0
-X3BvcnRfbWFsbG9jKHN0cnVjdCBkcm1fZHBfbXN0X3BvcnQgKnBvcnQpOwo+ICB2b2lkIGRybV9k
-cF9tc3RfcHV0X3BvcnRfbWFsbG9jKHN0cnVjdCBkcm1fZHBfbXN0X3BvcnQgKnBvcnQpOwo+ICAK
-PiArc3RydWN0IGRybV9kcF9hdXggKmRybV9kcF9tc3RfZHNjX2F1eF9mb3JfcG9ydChzdHJ1Y3Qg
-ZHJtX2RwX21zdF9wb3J0ICpwb3J0KTsKPiArCj4gIGV4dGVybiBjb25zdCBzdHJ1Y3QgZHJtX3By
-aXZhdGVfc3RhdGVfZnVuY3MgZHJtX2RwX21zdF90b3BvbG9neV9zdGF0ZV9mdW5jczsKPiAgCj4g
-IC8qKgoKLS0gCkphbmkgTmlrdWxhLCBJbnRlbCBPcGVuIFNvdXJjZSBHcmFwaGljcyBDZW50ZXIK
+
+--===============2056870301==
+Content-Type: multipart/alternative; boundary="15668238781.a40bd3D.9080"
+Content-Transfer-Encoding: 7bit
+
+
+--15668238781.a40bd3D.9080
+Date: Mon, 26 Aug 2019 12:51:18 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111487
+
+--- Comment #3 from bzz <bzz@atomicbee.cz> ---
+this issue seems connected also with HDMI.=20
+I've connected whole desktop to older display, which has only DVI input and
+used cable deskto-HDMI -> display-DVI and there is no issue, when i turn off
+the display.
+
+(the flickering is still there but at least i don't have "solid green scree=
+n"
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15668238781.a40bd3D.9080
+Date: Mon, 26 Aug 2019 12:51:18 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD vega - display off/on -&gt; solid green display"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111487#c3">Commen=
+t # 3</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD vega - display off/on -&gt; solid green display"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111487">bug 11148=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+bzz&#64;atomicbee.cz" title=3D"bzz &lt;bzz&#64;atomicbee.cz&gt;"> <span cla=
+ss=3D"fn">bzz</span></a>
+</span></b>
+        <pre>this issue seems connected also with HDMI.=20
+I've connected whole desktop to older display, which has only DVI input and
+used cable deskto-HDMI -&gt; display-DVI and there is no issue, when i turn=
+ off
+the display.
+
+(the flickering is still there but at least i don't have &quot;solid green =
+screen&quot;</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15668238781.a40bd3D.9080--
+
+--===============2056870301==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
 X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2056870301==--
