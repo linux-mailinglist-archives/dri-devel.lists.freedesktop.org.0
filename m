@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454589CCA1
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2019 11:35:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1685A9CCA4
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2019 11:37:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DD2889EA3;
-	Mon, 26 Aug 2019 09:35:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7928B89F0A;
+	Mon, 26 Aug 2019 09:37:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id CD46E89EA3
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2019 09:35:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id D3F8E89F08
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2019 09:37:00 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C6B1E721AA; Mon, 26 Aug 2019 09:35:33 +0000 (UTC)
+ id D07D772161; Mon, 26 Aug 2019 09:37:00 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111236] VA-API radeonsi SIGSEGV __memmove_avx_unaligned
-Date: Mon, 26 Aug 2019 09:35:34 +0000
+Subject: [Bug 110865] Rx480 consumes 20w more power in idle than under Windows
+Date: Mon, 26 Aug 2019 09:37:01 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 19.1
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: michel@daenzer.net
+X-Bugzilla-Severity: enhancement
+X-Bugzilla-Who: mwolf@adiumentum.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111236-502-Iuf1h1zZDj@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111236-502@http.bugs.freedesktop.org/>
-References: <bug-111236-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110865-502-zABaheeeuW@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110865-502@http.bugs.freedesktop.org/>
+References: <bug-110865-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,39 +52,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2090134670=="
+Content-Type: multipart/mixed; boundary="===============2008149449=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============2090134670==
-Content-Type: multipart/alternative; boundary="15668121331.4Adf.7155"
+--===============2008149449==
+Content-Type: multipart/alternative; boundary="15668122201.d97c.7149"
 Content-Transfer-Encoding: 7bit
 
 
---15668121331.4Adf.7155
-Date: Mon, 26 Aug 2019 09:35:33 +0000
+--15668122201.d97c.7149
+Date: Mon, 26 Aug 2019 09:37:00 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111236
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110865
 
---- Comment #7 from Michel D=C3=A4nzer <michel@daenzer.net> ---
-(In reply to Julien Isorce from comment #6)
-> It is working fine with mesa 18.3.6 [...]
-
-I tried to bisect based on this premise, but I can reproduce the crash (with
-totem) even with 18.3.6. Maybe this isn't a Mesa regression.
+--- Comment #21 from Martin <mwolf@adiumentum.com> ---
+sadly the screen still flickers
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15668121331.4Adf.7155
-Date: Mon, 26 Aug 2019 09:35:33 +0000
+--15668122201.d97c.7149
+Date: Mon, 26 Aug 2019 09:37:00 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -100,24 +96,19 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - VA-API radeonsi SIGSEGV __memmove_avx_unaligned"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111236#c7">Commen=
-t # 7</a>
+   title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865#c21">Comme=
+nt # 21</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - VA-API radeonsi SIGSEGV __memmove_avx_unaligned"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111236">bug 11123=
-6</a>
+   title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865">bug 11086=
+5</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
-net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
+mwolf&#64;adiumentum.com" title=3D"Martin &lt;mwolf&#64;adiumentum.com&gt;"=
+> <span class=3D"fn">Martin</span></a>
 </span></b>
-        <pre>(In reply to Julien Isorce from <a href=3D"show_bug.cgi?id=3D1=
-11236#c6">comment #6</a>)
-<span class=3D"quote">&gt; It is working fine with mesa 18.3.6 [...]</span >
-
-I tried to bisect based on this premise, but I can reproduce the crash (with
-totem) even with 18.3.6. Maybe this isn't a Mesa regression.</pre>
+        <pre>sadly the screen still flickers</pre>
         </div>
       </p>
 
@@ -131,9 +122,9 @@ totem) even with 18.3.6. Maybe this isn't a Mesa regression.</pre>
     </body>
 </html>=
 
---15668121331.4Adf.7155--
+--15668122201.d97c.7149--
 
---===============2090134670==
+--===============2008149449==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -143,4 +134,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============2090134670==--
+--===============2008149449==--
