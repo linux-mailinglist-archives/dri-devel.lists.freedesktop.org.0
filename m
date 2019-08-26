@@ -1,34 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5670E9CB32
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2019 10:01:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20C949CB40
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2019 10:08:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F76D6E06D;
-	Mon, 26 Aug 2019 08:01:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C37E6E10C;
+	Mon, 26 Aug 2019 08:08:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B64906E06D
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2019 08:01:30 +0000 (UTC)
-X-Originating-IP: 87.18.63.98
-Received: from uno.localdomain (unknown [87.18.63.98])
- (Authenticated sender: jacopo@jmondi.org)
- by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id E4E4A1BF209;
- Mon, 26 Aug 2019 08:01:19 +0000 (UTC)
-Date: Mon, 26 Aug 2019 10:02:50 +0200
-From: Jacopo Mondi <jacopo@jmondi.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v3 08/14] drm: rcar-du: Add support for CMM
-Message-ID: <20190826080250.av3z2vunbd2z7hzu@uno.localdomain>
-References: <20190825135154.11488-1-jacopo+renesas@jmondi.org>
- <20190825135154.11488-9-jacopo+renesas@jmondi.org>
- <CAMuHMdUuWFGSTUcAR2aV6cg4hpfzMs5EQBJTNM+ym2k8Ht-bVA@mail.gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 34B356E10C
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2019 08:08:52 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 2837B72161; Mon, 26 Aug 2019 08:08:52 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111455] DMAR: [INTR-REMAP] Blocked an interrupt request due to
+ source-id verification failure
+Date: Mon, 26 Aug 2019 08:08:52 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: nikolay@oldum.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111455-502-k5CQXXvcwd@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111455-502@http.bugs.freedesktop.org/>
+References: <bug-111455-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdUuWFGSTUcAR2aV6cg4hpfzMs5EQBJTNM+ym2k8Ht-bVA@mail.gmail.com>
-User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -41,113 +53,194 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: muroya@ksk.co.jp, Ulrich Hecht <uli@fpond.eu>,
- Simon Horman <horms@verge.net.au>, VenkataRajesh.Kalakodima@in.bosch.com,
- David Airlie <airlied@linux.ie>, Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Harsha.ManjulaMallikarjun@in.bosch.com
-Content-Type: multipart/mixed; boundary="===============1479060905=="
+Content-Type: multipart/mixed; boundary="===============0638913004=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1479060905==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="sbblrgvskuirlqsw"
-Content-Disposition: inline
+--===============0638913004==
+Content-Type: multipart/alternative; boundary="15668069320.7D9cD.24642"
+Content-Transfer-Encoding: 7bit
 
 
---sbblrgvskuirlqsw
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+--15668069320.7D9cD.24642
+Date: Mon, 26 Aug 2019 08:08:52 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
-Hi Geert,
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111455
 
-On Mon, Aug 26, 2019 at 09:31:02AM +0200, Geert Uytterhoeven wrote:
-> Hi Jacopo,
->
-> On Sun, Aug 25, 2019 at 3:51 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
-> > Add a driver for the R-Car Display Unit Color Correction Module.
-> > In most of Gen3 SoCs, each DU output channel is provided with a CMM unit
-> > to perform image enhancement and color correction.
-> >
-> > Add support for CMM through a driver that supports configuration of
-> > the 1-dimensional LUT table. More advanced CMM feature will be
-> > implemented on top of this basic one.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
->
-> Thanks for your patch!
->
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.c
->
-> > +static const struct of_device_id rcar_cmm_of_table[] = {
-> > +       { .compatible = "renesas,cmm-r8a7795", },
-> > +       { .compatible = "renesas,cmm-r8a7796", },
-> > +       { .compatible = "renesas,cmm-r8a77965", },
-> > +       { .compatible = "renesas,cmm-r8a77990", },
-> > +       { .compatible = "renesas,cmm-r8a77995", },
-> > +       { .compatible = "renesas,rcar-gen3-cmm", },
->
-> As they're all handled the same, you can drop the SoC-specific values
-> from the driver's match table.
->
-> > +       { .compatible = "renesas,rcar-gen2-cmm", },
->
-> Just wondering: has this been tested on R-Car Gen2?
->
+--- Comment #1 from Nikolay Kichukov <nikolay@oldum.net> ---
+Not much seems to have been captured by running the kernel with:
+'drm.debug=3D0x1e log_buf_len=3D4M'
 
-Not from me :(
-It might not be the smartest move to add a compatible for an un-tested
-chip generation. I dragged the gen2 compatible in along the series as
-it was there in the downstream driver and I assumed BSP has been
-tested there, but since I've not been able to run any test on Gen2
-board I should probably drop it? Any volunteer with a Gen2 board that
-want to run a test?
+...snip...
+Aug 25 19:03:44 localhost kernel: [283823.907593][T15386]
+[drm:amdgpu_display_flip_work_func [amdgpu]] crtc:1[00000000c905a8f5],
+pflip_stat:AMDGPU_FLIP_SUBMITTED, work: 00000000c841325d,
+Aug 25 19:03:44 localhost kernel: [283823.922605][ T8596]
+[drm:amdgpu_display_crtc_page_flip_target [amdgpu]] crtc:0[00000000cc62eb17=
+],
+pflip_stat:AMDGPU_FLIP_PENDING, work: 0000000019340169,
+Aug 25 19:03:44 localhost kernel: [283823.922640][ T8596]
+[drm:amdgpu_display_crtc_page_flip_target [amdgpu]] crtc:1[00000000c905a8f5=
+],
+pflip_stat:AMDGPU_FLIP_PENDING, work: 00000000b4d9949b,
+Aug 25 19:03:44 localhost kernel: [283823.924283][T15386]
+[drm:amdgpu_display_flip_work_func [amdgpu]] crtc:0[00000000cc62eb17],
+pflip_stat:AMDGPU_FLIP_SUBMITTED, work: 0000000019340169,
+Aug 25 19:03:44 localhost kernel: [283823.924316][T15386]
+[drm:amdgpu_display_flip_work_func [amdgpu]] crtc:1[00000000c905a8f5],
+pflip_stat:AMDGPU_FLIP_SUBMITTED, work: 00000000b4d9949b,
+Aug 25 19:03:44 localhost kernel: [283823.939256][ T8596]
+[drm:amdgpu_display_crtc_page_flip_target [amdgpu]] crtc:0[00000000cc62eb17=
+],
+pflip_stat:AMDGPU_FLIP_PENDING, work: 00000000a8e63b00,
+Aug 25 19:03:44 localhost kernel: [283823.939292][ T8596]
+[drm:amdgpu_display_crtc_page_flip_target [amdgpu]] crtc:1[00000000c905a8f5=
+],
+pflip_stat:AMDGPU_FLIP_PENDING, work: 00000000b1a1f198,
+Aug 25 19:03:44 localhost kernel: [283823.940944][T15386]
+[drm:amdgpu_display_flip_work_func [amdgpu]] crtc:0[00000000cc62eb17],
+pflip_stat:AMDGPU_FLIP_SUBMITTED, work: 00000000a8e63b00,
+Aug 25 19:03:44 localhost kernel: [283823.940975][T15386]
+[drm:amdgpu_display_flip_work_func [amdgpu]] crtc:1[00000000c905a8f5],
+pflip_stat:AMDGPU_FLIP_SUBMITTED, work: 00000000b1a1f198,
+Aug 25 19:03:44 localhost kernel: [283823.955946][ T8596]
+[drm:amdgpu_display_crtc_page_flip_target [amdgpu]] crtc:0[00000000cc62eb17=
+],
+pflip_stat:AMDGPU_FLIP_PENDING, work: 00000000614cee44,
+Aug 25 19:03:44 localhost kernel: [283823.955982][ T8596]
+[drm:amdgpu_display_crtc_page_flip_target [amdgpu]] crtc:1[00000000c905a8f5=
+],
+pflip_stat:AMDGPU_FLIP_PENDING, work: 00000000df74fb67,
+Aug 25 19:03:44 localhost kernel: [283823.957643][T15386]
+[drm:amdgpu_display_flip_work_func [amdgpu]] crtc:0[00000000cc62eb17],
+pflip_stat:AMDGPU_FLIP_SUBMITTED, work: 00000000614cee44,
+Aug 25 19:03:44 localhost kernel: [283823.957673][T15386]
+[drm:amdgpu_display_flip_work_func [amdgpu]] crtc:1[00000000c905a8f5],
+pflip_stat:AMDGPU_FLIP_SUBMITTED, work: 00000000df74fb67,
+Aug 25 19:03:45 localhost kernel: [283824.053148][    C0] DMAR: DRHD: handl=
+ing
+fault status reg 2
+Aug 25 19:03:45 localhost kernel: [283824.053153][    C0] DMAR: [INTR-REMAP]
+Request device [00:00.0] fault index 26 [fault reason 38] Blocked an interr=
+upt
+request due to source-id verification failure
+...end...
 
-Thanks
-  j
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
 
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+--15668069320.7D9cD.24642
+Date: Mon, 26 Aug 2019 08:08:52 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
---sbblrgvskuirlqsw
-Content-Type: application/pgp-signature; name="signature.asc"
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - DMAR: [INTR-REMAP] Blocked an interrupt request due to so=
+urce-id verification failure"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111455#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - DMAR: [INTR-REMAP] Blocked an interrupt request due to so=
+urce-id verification failure"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111455">bug 11145=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+nikolay&#64;oldum.net" title=3D"Nikolay Kichukov &lt;nikolay&#64;oldum.net&=
+gt;"> <span class=3D"fn">Nikolay Kichukov</span></a>
+</span></b>
+        <pre>Not much seems to have been captured by running the kernel wit=
+h:
+'drm.debug=3D0x1e log_buf_len=3D4M'
 
------BEGIN PGP SIGNATURE-----
+...snip...
+Aug 25 19:03:44 localhost kernel: [283823.907593][T15386]
+[drm:amdgpu_display_flip_work_func [amdgpu]] crtc:1[00000000c905a8f5],
+pflip_stat:AMDGPU_FLIP_SUBMITTED, work: 00000000c841325d,
+Aug 25 19:03:44 localhost kernel: [283823.922605][ T8596]
+[drm:amdgpu_display_crtc_page_flip_target [amdgpu]] crtc:0[00000000cc62eb17=
+],
+pflip_stat:AMDGPU_FLIP_PENDING, work: 0000000019340169,
+Aug 25 19:03:44 localhost kernel: [283823.922640][ T8596]
+[drm:amdgpu_display_crtc_page_flip_target [amdgpu]] crtc:1[00000000c905a8f5=
+],
+pflip_stat:AMDGPU_FLIP_PENDING, work: 00000000b4d9949b,
+Aug 25 19:03:44 localhost kernel: [283823.924283][T15386]
+[drm:amdgpu_display_flip_work_func [amdgpu]] crtc:0[00000000cc62eb17],
+pflip_stat:AMDGPU_FLIP_SUBMITTED, work: 0000000019340169,
+Aug 25 19:03:44 localhost kernel: [283823.924316][T15386]
+[drm:amdgpu_display_flip_work_func [amdgpu]] crtc:1[00000000c905a8f5],
+pflip_stat:AMDGPU_FLIP_SUBMITTED, work: 00000000b4d9949b,
+Aug 25 19:03:44 localhost kernel: [283823.939256][ T8596]
+[drm:amdgpu_display_crtc_page_flip_target [amdgpu]] crtc:0[00000000cc62eb17=
+],
+pflip_stat:AMDGPU_FLIP_PENDING, work: 00000000a8e63b00,
+Aug 25 19:03:44 localhost kernel: [283823.939292][ T8596]
+[drm:amdgpu_display_crtc_page_flip_target [amdgpu]] crtc:1[00000000c905a8f5=
+],
+pflip_stat:AMDGPU_FLIP_PENDING, work: 00000000b1a1f198,
+Aug 25 19:03:44 localhost kernel: [283823.940944][T15386]
+[drm:amdgpu_display_flip_work_func [amdgpu]] crtc:0[00000000cc62eb17],
+pflip_stat:AMDGPU_FLIP_SUBMITTED, work: 00000000a8e63b00,
+Aug 25 19:03:44 localhost kernel: [283823.940975][T15386]
+[drm:amdgpu_display_flip_work_func [amdgpu]] crtc:1[00000000c905a8f5],
+pflip_stat:AMDGPU_FLIP_SUBMITTED, work: 00000000b1a1f198,
+Aug 25 19:03:44 localhost kernel: [283823.955946][ T8596]
+[drm:amdgpu_display_crtc_page_flip_target [amdgpu]] crtc:0[00000000cc62eb17=
+],
+pflip_stat:AMDGPU_FLIP_PENDING, work: 00000000614cee44,
+Aug 25 19:03:44 localhost kernel: [283823.955982][ T8596]
+[drm:amdgpu_display_crtc_page_flip_target [amdgpu]] crtc:1[00000000c905a8f5=
+],
+pflip_stat:AMDGPU_FLIP_PENDING, work: 00000000df74fb67,
+Aug 25 19:03:44 localhost kernel: [283823.957643][T15386]
+[drm:amdgpu_display_flip_work_func [amdgpu]] crtc:0[00000000cc62eb17],
+pflip_stat:AMDGPU_FLIP_SUBMITTED, work: 00000000614cee44,
+Aug 25 19:03:44 localhost kernel: [283823.957673][T15386]
+[drm:amdgpu_display_flip_work_func [amdgpu]] crtc:1[00000000c905a8f5],
+pflip_stat:AMDGPU_FLIP_SUBMITTED, work: 00000000df74fb67,
+Aug 25 19:03:45 localhost kernel: [283824.053148][    C0] DMAR: DRHD: handl=
+ing
+fault status reg 2
+Aug 25 19:03:45 localhost kernel: [283824.053153][    C0] DMAR: [INTR-REMAP]
+Request device [00:00.0] fault index 26 [fault reason 38] Blocked an interr=
+upt
+request due to source-id verification failure
+...end...</pre>
+        </div>
+      </p>
 
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1jkioACgkQcjQGjxah
-Vjz2zA/9GA5pNTNrK1sLbSQr1l5T/m5J1t7HdVRkrl24WFP5Mpjzm1g/Du5cRFPQ
-XtI6YoSrvzWADCbeDldUaIGCQ+1b+EQntwVU3dkkV50FrxiDuZ+4b2+Qco1lTT9W
-5uuWRkc14jpDdIT5bFYB79V4yckKLy54rzRHVgB5uX+KzswQgs26SICnlgecA+9d
-7Dy6Q0gMVfnxrNiCSVrrr637sXfdKaQUAHz+y+X4bJTgQsjcjKD+WU4pqmG4hLs/
-CsY9+FErIXk9yB2EOX7hCP6k6KsX/BHHRGW4uHq/neunFZECfDyI48yC/9qCWtWk
-JjZdAO+ZzPXFB1kjKeyfaunqa1oKhdR2C2traKN5E1i8EkRzTU1HB5CJElFDU5Xf
-OLOKApejqaZKSza693g9cU2Gv0UVO1jJuie2kEnp+5MH9BY+sJFxE47qmmdGeIlZ
-hIZ7X1A67eZD0z9FocQVpfBOLpztswaL3dNzOPw0azxdH4MgcTBoQYSFB/GVJLqS
-Az3r2R1w/kIDaJhmWNFLuPSiFJNdL1Sqrd/SChrQYoYbXGqqFE3O7a1TS+5k1tE+
-ecLmjUPerqRP29vehz8lgipCdirotVmR+kCfGotGMnC6mpcqfR1WyghGLcl/nItc
-H78K5Xu8knqi0kV4ieP0PnIw60OC92IsceQBl3arkkrMkr/ukew=
-=MgVV
------END PGP SIGNATURE-----
 
---sbblrgvskuirlqsw--
+      <hr>
+      <span>You are receiving this mail because:</span>
 
---===============1479060905==
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15668069320.7D9cD.24642--
+
+--===============0638913004==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -157,4 +250,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1479060905==--
+--===============0638913004==--
