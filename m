@@ -1,45 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CAFE9CDA2
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2019 12:54:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5437C9CE19
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2019 13:26:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DA5B89DE6;
-	Mon, 26 Aug 2019 10:54:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A7DE89F75;
+	Mon, 26 Aug 2019 11:26:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id CAFA189DE6
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2019 10:54:03 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C7C9C72161; Mon, 26 Aug 2019 10:54:03 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111487] AMD vega - display off/on -> solid green display
-Date: Mon, 26 Aug 2019 10:54:04 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: bzz@atomicbee.cz
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111487-502-REmSl7qlFj@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111487-502@http.bugs.freedesktop.org/>
-References: <bug-111487-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42FDB89F75
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2019 11:26:02 +0000 (UTC)
+X-Originating-IP: 86.250.200.211
+Received: from localhost (lfbn-1-17395-211.w86-250.abo.wanadoo.fr
+ [86.250.200.211]) (Authenticated sender: maxime.ripard@bootlin.com)
+ by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id C0F5F60007;
+ Mon, 26 Aug 2019 11:25:58 +0000 (UTC)
+Date: Mon, 26 Aug 2019 13:25:58 +0200
+From: Maxime Ripard <maxime.ripard@bootlin.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v2 06/50] drm/bridge: dumb-vga-dac: Rename internal
+ symbols to simple-bridge
+Message-ID: <20190826112558.znoo3ihwpkxk472u@flea>
+References: <20190820011721.30136-1-laurent.pinchart@ideasonboard.com>
+ <20190820011721.30136-7-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
+In-Reply-To: <20190820011721.30136-7-laurent.pinchart@ideasonboard.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,91 +41,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0850809500=="
+Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>, Sean Paul <sean@poorly.run>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1925299748=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0850809500==
-Content-Type: multipart/alternative; boundary="15668168432.fDe81FC15.22421"
-Content-Transfer-Encoding: 7bit
+--===============1925299748==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="xsstn5mot5qlc66j"
+Content-Disposition: inline
 
 
---15668168432.fDe81FC15.22421
-Date: Mon, 26 Aug 2019 10:54:03 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+--xsstn5mot5qlc66j
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111487
+Hi,
 
---- Comment #2 from bzz <bzz@atomicbee.cz> ---
-after some time following errors appear in dmesg:
+On Tue, Aug 20, 2019 at 04:16:37AM +0300, Laurent Pinchart wrote:
+> The dumb-vga-dac driver is a simple DRM bridge driver for simple VGA
+> DACs that don't require configuration. Other non-VGA bridges fall in a
+> similar category, and would benefit from a common driver. Prepare for
+> this by renaming the internal symbols from dumb-vga-dac to
+> simple-bridge.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
 
-[  488.913338] [drm:drm_atomic_helper_wait_for_flip_done [drm_kms_helper]]
-*ERROR* [CRTC:56:crtc-0] flip_done timed out
-[  970.551486] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper=
-]]
-*ERROR* [CRTC:56:crtc-0] flip_done timed out
+Reviewed-by: Maxime Ripard <maxime.ripard@bootlin.com>
 
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
+Maxime
 
---15668168432.fDe81FC15.22421
-Date: Mon, 26 Aug 2019 10:54:03 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD vega - display off/on -&gt; solid green display"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111487#c2">Commen=
-t # 2</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD vega - display off/on -&gt; solid green display"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111487">bug 11148=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-bzz&#64;atomicbee.cz" title=3D"bzz &lt;bzz&#64;atomicbee.cz&gt;"> <span cla=
-ss=3D"fn">bzz</span></a>
-</span></b>
-        <pre>after some time following errors appear in dmesg:
+--xsstn5mot5qlc66j
+Content-Type: application/pgp-signature; name="signature.asc"
 
-[  488.913338] [drm:drm_atomic_helper_wait_for_flip_done [drm_kms_helper]]
-*ERROR* [CRTC:56:crtc-0] flip_done timed out
-[  970.551486] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper=
-]]
-*ERROR* [CRTC:56:crtc-0] flip_done timed out</pre>
-        </div>
-      </p>
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXWPBxgAKCRDj7w1vZxhR
+xUTvAQCYLfYNlit5XyANErX2bbTTPBHZVaJEltwZeYp1WIanugD+Mf0CrCFg8eAa
+V98THJeoduJr1V6XBEvGhC3jHekI1A8=
+=cq25
+-----END PGP SIGNATURE-----
 
-      <hr>
-      <span>You are receiving this mail because:</span>
+--xsstn5mot5qlc66j--
 
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15668168432.fDe81FC15.22421--
-
---===============0850809500==
+--===============1925299748==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -146,4 +103,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0850809500==--
+--===============1925299748==--
