@@ -2,44 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 260E59CFB5
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2019 14:39:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F7A89CFC7
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2019 14:45:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47EF889BFF;
-	Mon, 26 Aug 2019 12:39:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABB4E89FA7;
+	Mon, 26 Aug 2019 12:45:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 78F0C89C05
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2019 12:39:37 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 75A3372161; Mon, 26 Aug 2019 12:39:37 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
- when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
-Date: Mon, 26 Aug 2019 12:39:37 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: nicholas.kazlauskas@amd.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110659-502-vmUsKHTPax@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
-References: <bug-110659-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C81189FA7
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2019 12:44:59 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 26 Aug 2019 05:44:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,433,1559545200"; d="scan'208";a="197046148"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
+ by fmsmga001.fm.intel.com with ESMTP; 26 Aug 2019 05:44:57 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: David Francis <David.Francis@amd.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v5 3/5] drm/dp_mst: Add MST support to DP DPCD R/W
+ functions
+In-Reply-To: <20190823202809.15934-4-David.Francis@amd.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20190823202809.15934-1-David.Francis@amd.com>
+ <20190823202809.15934-4-David.Francis@amd.com>
+Date: Mon, 26 Aug 2019 15:44:56 +0300
+Message-ID: <87ef189juf.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -53,149 +44,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1675038146=="
+Cc: David Francis <David.Francis@amd.com>, "Syrjala,
+ Ville" <ville.syrjala@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1675038146==
-Content-Type: multipart/alternative; boundary="15668231771.2424dc3.7391"
-Content-Transfer-Encoding: 7bit
-
-
---15668231771.2424dc3.7391
-Date: Mon, 26 Aug 2019 12:39:37 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
-
---- Comment #48 from Nicholas Kazlauskas <nicholas.kazlauskas@amd.com> ---
-(In reply to tempel.julian from comment #47)
-> I got a new 1440p 144 Hz FreeSync display, and as expected, the issue is
-> unchanged with it.
->=20
-> With it, I've created a new debug dmesg log for render stutter in Oblivio=
-n,
-> this time with your patch applied to drm-next kernel.
->=20
-> Perhaps this could be interesting?
->=20
->=20
-> [  529.556752] [drm:drm_mode_addfb2 [drm]] [FB:79]
-> [  529.557106] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] VRR packet
-> update: crtc=3D47 enabled=3D1 state=3D3
-> [  529.557164] [drm:dc_commit_updates_for_stream [amdgpu]] debug: full
-> update issued
-> [  529.564401] [drm:drm_mode_addfb2 [drm]] [FB:86]
-> [  531.420971] [drm:drm_mode_addfb2 [drm]] [FB:95]
-> [  531.459067] [drm:drm_mode_addfb2 [drm]] [FB:96]
-> [  544.144771] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] VRR packet
-> update: crtc=3D47 enabled=3D0 state=3D2
-> [  544.145961] [drm:dc_commit_updates_for_stream [amdgpu]] debug: full
-> update issued
-> [  544.169447] [drm:drm_mode_addfb2 [drm]] [FB:79]
-> [  544.172953] [drm:drm_mode_addfb2 [drm]] [FB:94]
-
-This is normal behavior for toggling into and out of VRR. I was expecting to
-see was a log with hundreds of full updates issued, but since this isn't the
-case I think it's something more fundamental with vblank timing though I'm
-still not quite sure why it I can't reproduce it in my testing.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15668231771.2424dc3.7391
-Date: Mon, 26 Aug 2019 12:39:37 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c48">Comme=
-nt # 48</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-nicholas.kazlauskas&#64;amd.com" title=3D"Nicholas Kazlauskas &lt;nicholas.=
-kazlauskas&#64;amd.com&gt;"> <span class=3D"fn">Nicholas Kazlauskas</span><=
-/a>
-</span></b>
-        <pre>(In reply to tempel.julian from <a href=3D"show_bug.cgi?id=3D1=
-10659#c47">comment #47</a>)
-<span class=3D"quote">&gt; I got a new 1440p 144 Hz FreeSync display, and a=
-s expected, the issue is
-&gt; unchanged with it.
-&gt;=20
-&gt; With it, I've created a new debug dmesg log for render stutter in Obli=
-vion,
-&gt; this time with your patch applied to drm-next kernel.
-&gt;=20
-&gt; Perhaps this could be interesting?
-&gt;=20
-&gt;=20
-&gt; [  529.556752] [drm:drm_mode_addfb2 [drm]] [FB:79]
-&gt; [  529.557106] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] VRR packet
-&gt; update: crtc=3D47 enabled=3D1 state=3D3
-&gt; [  529.557164] [drm:dc_commit_updates_for_stream [amdgpu]] debug: full
-&gt; update issued
-&gt; [  529.564401] [drm:drm_mode_addfb2 [drm]] [FB:86]
-&gt; [  531.420971] [drm:drm_mode_addfb2 [drm]] [FB:95]
-&gt; [  531.459067] [drm:drm_mode_addfb2 [drm]] [FB:96]
-&gt; [  544.144771] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] VRR packet
-&gt; update: crtc=3D47 enabled=3D0 state=3D2
-&gt; [  544.145961] [drm:dc_commit_updates_for_stream [amdgpu]] debug: full
-&gt; update issued
-&gt; [  544.169447] [drm:drm_mode_addfb2 [drm]] [FB:79]
-&gt; [  544.172953] [drm:drm_mode_addfb2 [drm]] [FB:94]</span >
-
-This is normal behavior for toggling into and out of VRR. I was expecting to
-see was a log with hundreds of full updates issued, but since this isn't the
-case I think it's something more fundamental with vblank timing though I'm
-still not quite sure why it I can't reproduce it in my testing.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15668231771.2424dc3.7391--
-
---===============1675038146==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1675038146==--
+T24gRnJpLCAyMyBBdWcgMjAxOSwgRGF2aWQgRnJhbmNpcyA8RGF2aWQuRnJhbmNpc0BhbWQuY29t
+PiB3cm90ZToKPiBJbnN0ZWFkIG9mIGhhdmluZyBkcm1fZHBfZHBjZF9yZWFkL3dyaXRlIGFuZAo+
+IGRybV9kcF9tc3RfZHBjZF9yZWFkL3dyaXRlIGFzIGVudHJ5IHBvaW50cyBpbnRvIHRoZQo+IGF1
+eCBjb2RlLCBoYXZlIGRybV9kcF9kcGNkX3JlYWQvd3JpdGUgaGFuZGxlIGJvdGguCj4KPiBUaGlz
+IG1lYW5zIHRoYXQgRFJNIGRyaXZlcnMgY2FuIG1ha2UgTVNUIERQQ0QgcmVhZC93cml0ZXMuCj4K
+PiB2MjogRml4IHNwYWNpbmcKPiB2MzogRHVtcCBkcGNkIGFjY2VzcyBvbiBNU1QgcmVhZC93cml0
+ZXMKPgo+IFJldmlld2VkLWJ5OiBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPgo+IFNpZ25l
+ZC1vZmYtYnk6IERhdmlkIEZyYW5jaXMgPERhdmlkLkZyYW5jaXNAYW1kLmNvbT4KCkNjOiBWaWxs
+ZSB3aG8gYWRkZWQgZHJtX2RwX21zdF9kcGNkX3JlYWQgYW5kIF93cml0ZS4KCkJSLApKYW5pLgoK
+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fZHBfYXV4X2Rldi5jIHwgMTIgKystLS0tLS0t
+LS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fZHBfaGVscGVyLmMgIHwgMzAgKysrKysrKysrKysr
+KysrKysrKystLS0tLS0tLS0tCj4gIDIgZmlsZXMgY2hhbmdlZCwgMjIgaW5zZXJ0aW9ucygrKSwg
+MjAgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9h
+dXhfZGV2LmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX2F1eF9kZXYuYwo+IGluZGV4IDBjZmIz
+ODY3NTRjMy4uNDE4Y2FkNGY2NDlhIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1f
+ZHBfYXV4X2Rldi5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9hdXhfZGV2LmMKPiBA
+QCAtMTYzLDExICsxNjMsNyBAQCBzdGF0aWMgc3NpemVfdCBhdXhkZXZfcmVhZF9pdGVyKHN0cnVj
+dCBraW9jYiAqaW9jYiwgc3RydWN0IGlvdl9pdGVyICp0bykKPiAgCQkJYnJlYWs7Cj4gIAkJfQo+
+ICAKPiAtCQlpZiAoYXV4X2Rldi0+YXV4LT5pc19yZW1vdGUpCj4gLQkJCXJlcyA9IGRybV9kcF9t
+c3RfZHBjZF9yZWFkKGF1eF9kZXYtPmF1eCwgcG9zLCBidWYsCj4gLQkJCQkJCSAgIHRvZG8pOwo+
+IC0JCWVsc2UKPiAtCQkJcmVzID0gZHJtX2RwX2RwY2RfcmVhZChhdXhfZGV2LT5hdXgsIHBvcywg
+YnVmLCB0b2RvKTsKPiArCQlyZXMgPSBkcm1fZHBfZHBjZF9yZWFkKGF1eF9kZXYtPmF1eCwgcG9z
+LCBidWYsIHRvZG8pOwo+ICAKPiAgCQlpZiAocmVzIDw9IDApCj4gIAkJCWJyZWFrOwo+IEBAIC0y
+MTUsMTEgKzIxMSw3IEBAIHN0YXRpYyBzc2l6ZV90IGF1eGRldl93cml0ZV9pdGVyKHN0cnVjdCBr
+aW9jYiAqaW9jYiwgc3RydWN0IGlvdl9pdGVyICpmcm9tKQo+ICAJCQlicmVhazsKPiAgCQl9Cj4g
+IAo+IC0JCWlmIChhdXhfZGV2LT5hdXgtPmlzX3JlbW90ZSkKPiAtCQkJcmVzID0gZHJtX2RwX21z
+dF9kcGNkX3dyaXRlKGF1eF9kZXYtPmF1eCwgcG9zLCBidWYsCj4gLQkJCQkJCSAgICB0b2RvKTsK
+PiAtCQllbHNlCj4gLQkJCXJlcyA9IGRybV9kcF9kcGNkX3dyaXRlKGF1eF9kZXYtPmF1eCwgcG9z
+LCBidWYsIHRvZG8pOwo+ICsJCXJlcyA9IGRybV9kcF9tc3RfZHBjZF93cml0ZShhdXhfZGV2LT5h
+dXgsIHBvcywgYnVmLCB0b2RvKTsKPiAgCj4gIAkJaWYgKHJlcyA8PSAwKQo+ICAJCQlicmVhazsK
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9oZWxwZXIuYyBiL2RyaXZlcnMv
+Z3B1L2RybS9kcm1fZHBfaGVscGVyLmMKPiBpbmRleCBmZmM2OGQzMDVhZmUuLjJjYzIxZWZmNGNm
+MyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX2hlbHBlci5jCj4gKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL2RybV9kcF9oZWxwZXIuYwo+IEBAIC0zMCw2ICszMCw3IEBACj4gICNp
+bmNsdWRlIDxsaW51eC9zZXFfZmlsZS5oPgo+ICAKPiAgI2luY2x1ZGUgPGRybS9kcm1fZHBfaGVs
+cGVyLmg+Cj4gKyNpbmNsdWRlIDxkcm0vZHJtX2RwX21zdF9oZWxwZXIuaD4KPiAgI2luY2x1ZGUg
+PGRybS9kcm1fcHJpbnQuaD4KPiAgI2luY2x1ZGUgPGRybS9kcm1fdmJsYW5rLmg+Cj4gIAo+IEBA
+IC0yNTEsNyArMjUyLDcgQEAgc3RhdGljIGludCBkcm1fZHBfZHBjZF9hY2Nlc3Moc3RydWN0IGRy
+bV9kcF9hdXggKmF1eCwgdTggcmVxdWVzdCwKPiAgCj4gIC8qKgo+ICAgKiBkcm1fZHBfZHBjZF9y
+ZWFkKCkgLSByZWFkIGEgc2VyaWVzIG9mIGJ5dGVzIGZyb20gdGhlIERQQ0QKPiAtICogQGF1eDog
+RGlzcGxheVBvcnQgQVVYIGNoYW5uZWwKPiArICogQGF1eDogRGlzcGxheVBvcnQgQVVYIGNoYW5u
+ZWwgKFNTVCBvciBNU1QpCj4gICAqIEBvZmZzZXQ6IGFkZHJlc3Mgb2YgdGhlIChmaXJzdCkgcmVn
+aXN0ZXIgdG8gcmVhZAo+ICAgKiBAYnVmZmVyOiBidWZmZXIgdG8gc3RvcmUgdGhlIHJlZ2lzdGVy
+IHZhbHVlcwo+ICAgKiBAc2l6ZTogbnVtYmVyIG9mIGJ5dGVzIGluIEBidWZmZXIKPiBAQCAtMjgw
+LDEzICsyODEsMTggQEAgc3NpemVfdCBkcm1fZHBfZHBjZF9yZWFkKHN0cnVjdCBkcm1fZHBfYXV4
+ICphdXgsIHVuc2lnbmVkIGludCBvZmZzZXQsCj4gIAkgKiBXZSBqdXN0IGhhdmUgdG8gZG8gaXQg
+YmVmb3JlIGFueSBEUENEIGFjY2VzcyBhbmQgaG9wZSB0aGF0IHRoZQo+ICAJICogbW9uaXRvciBk
+b2Vzbid0IHBvd2VyIGRvd24gZXhhY3RseSBhZnRlciB0aGUgdGhyb3cgYXdheSByZWFkLgo+ICAJ
+ICovCj4gLQlyZXQgPSBkcm1fZHBfZHBjZF9hY2Nlc3MoYXV4LCBEUF9BVVhfTkFUSVZFX1JFQUQs
+IERQX0RQQ0RfUkVWLCBidWZmZXIsCj4gLQkJCQkgMSk7Cj4gLQlpZiAocmV0ICE9IDEpCj4gLQkJ
+Z290byBvdXQ7Cj4gKwlpZiAoIWF1eC0+aXNfcmVtb3RlKSB7Cj4gKwkJcmV0ID0gZHJtX2RwX2Rw
+Y2RfYWNjZXNzKGF1eCwgRFBfQVVYX05BVElWRV9SRUFELCBEUF9EUENEX1JFViwKPiArCQkJCQkg
+YnVmZmVyLCAxKTsKPiArCQlpZiAocmV0ICE9IDEpCj4gKwkJCWdvdG8gb3V0Owo+ICsJfQo+ICAK
+PiAtCXJldCA9IGRybV9kcF9kcGNkX2FjY2VzcyhhdXgsIERQX0FVWF9OQVRJVkVfUkVBRCwgb2Zm
+c2V0LCBidWZmZXIsCj4gLQkJCQkgc2l6ZSk7Cj4gKwlpZiAoYXV4LT5pc19yZW1vdGUpCj4gKwkJ
+cmV0ID0gZHJtX2RwX21zdF9kcGNkX3JlYWQoYXV4LCBvZmZzZXQsIGJ1ZmZlciwgc2l6ZSk7Cj4g
+KwllbHNlCj4gKwkJcmV0ID0gZHJtX2RwX2RwY2RfYWNjZXNzKGF1eCwgRFBfQVVYX05BVElWRV9S
+RUFELCBvZmZzZXQsCj4gKwkJCQkJIGJ1ZmZlciwgc2l6ZSk7Cj4gIAo+ICBvdXQ6Cj4gIAlkcm1f
+ZHBfZHVtcF9hY2Nlc3MoYXV4LCBEUF9BVVhfTkFUSVZFX1JFQUQsIG9mZnNldCwgYnVmZmVyLCBy
+ZXQpOwo+IEBAIC0yOTYsNyArMzAyLDcgQEAgRVhQT1JUX1NZTUJPTChkcm1fZHBfZHBjZF9yZWFk
+KTsKPiAgCj4gIC8qKgo+ICAgKiBkcm1fZHBfZHBjZF93cml0ZSgpIC0gd3JpdGUgYSBzZXJpZXMg
+b2YgYnl0ZXMgdG8gdGhlIERQQ0QKPiAtICogQGF1eDogRGlzcGxheVBvcnQgQVVYIGNoYW5uZWwK
+PiArICogQGF1eDogRGlzcGxheVBvcnQgQVVYIGNoYW5uZWwgKFNTVCBvciBNU1QpCj4gICAqIEBv
+ZmZzZXQ6IGFkZHJlc3Mgb2YgdGhlIChmaXJzdCkgcmVnaXN0ZXIgdG8gd3JpdGUKPiAgICogQGJ1
+ZmZlcjogYnVmZmVyIGNvbnRhaW5pbmcgdGhlIHZhbHVlcyB0byB3cml0ZQo+ICAgKiBAc2l6ZTog
+bnVtYmVyIG9mIGJ5dGVzIGluIEBidWZmZXIKPiBAQCAtMzEzLDggKzMxOSwxMiBAQCBzc2l6ZV90
+IGRybV9kcF9kcGNkX3dyaXRlKHN0cnVjdCBkcm1fZHBfYXV4ICphdXgsIHVuc2lnbmVkIGludCBv
+ZmZzZXQsCj4gIHsKPiAgCWludCByZXQ7Cj4gIAo+IC0JcmV0ID0gZHJtX2RwX2RwY2RfYWNjZXNz
+KGF1eCwgRFBfQVVYX05BVElWRV9XUklURSwgb2Zmc2V0LCBidWZmZXIsCj4gLQkJCQkgc2l6ZSk7
+Cj4gKwlpZiAoYXV4LT5pc19yZW1vdGUpCj4gKwkJcmV0ID0gZHJtX2RwX21zdF9kcGNkX3dyaXRl
+KGF1eCwgb2Zmc2V0LCBidWZmZXIsIHNpemUpOwo+ICsJZWxzZQo+ICsJCXJldCA9IGRybV9kcF9k
+cGNkX2FjY2VzcyhhdXgsIERQX0FVWF9OQVRJVkVfV1JJVEUsIG9mZnNldCwKPiArCQkJCQkgYnVm
+ZmVyLCBzaXplKTsKPiArCj4gIAlkcm1fZHBfZHVtcF9hY2Nlc3MoYXV4LCBEUF9BVVhfTkFUSVZF
+X1dSSVRFLCBvZmZzZXQsIGJ1ZmZlciwgcmV0KTsKPiAgCXJldHVybiByZXQ7Cj4gIH0KCi0tIApK
+YW5pIE5pa3VsYSwgSW50ZWwgT3BlbiBTb3VyY2UgR3JhcGhpY3MgQ2VudGVyCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
