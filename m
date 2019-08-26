@@ -1,48 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 894CA9CBB2
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2019 10:38:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82EBF9CBDF
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2019 10:47:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A40E89FC9;
-	Mon, 26 Aug 2019 08:38:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B362A89E15;
+	Mon, 26 Aug 2019 08:47:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
- [209.85.167.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F7AF897E4
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2019 08:38:16 +0000 (UTC)
-Received: by mail-oi1-f193.google.com with SMTP id h21so11504664oie.7
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2019 01:38:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=S97RvsRiKIiK8t6HN0Bo20TQZGEw922DDvAZ31Eixeg=;
- b=opyep3cpJg/2zbBD8MXQhLWBA+5EjnCO9lFzkwDMkhBkbO+InMVfrCgmQgFydWGj3z
- y3ZJyKEe/6IjmJIIBcJZBVO+U97nY0hpvFp7nCyzc+ZBEz1AVRNV4pHIHHMELadRyzI9
- LoeNoHMOnQTOGY4XZ//LWIe7iZglOXLNCRS6VQ0l5aiEdtzULhtkEWyj9vKlQnevjD7t
- Hs+Lt3vOOAWFc9WfGw2+shSI6bgkt2xuNbBcNP01AvuelsRG8pp/E10Q5CDVCFu7o0B4
- ycjGF2pDtm+PtsiEzyzPPS5AZRViXdVOR7PpyVkfCCxF0fTWmv1K0TSS1IkB/9oyJL9x
- ELBQ==
-X-Gm-Message-State: APjAAAV3YyEQKgZwJ4vP0asxoOgG8KvHXuCA3bdUA4EVwp1jfA2N+zSP
- 4I0acKsvDpv3XHFt7VvDZVM68X5EUWKniQqqsqM=
-X-Google-Smtp-Source: APXvYqwS8pPXQBTu7rOA7Ra36ZN5byF9JEUVZwQ88s7wxrXqb3PQ6w+mwoiH0MbAT1cJodMEFqRUkvdBUISj1SUi2yc=
-X-Received: by 2002:aca:b154:: with SMTP id a81mr10921390oif.148.1566808695135; 
- Mon, 26 Aug 2019 01:38:15 -0700 (PDT)
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1B3789E15
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2019 08:47:12 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 5C50EB011;
+ Mon, 26 Aug 2019 08:47:11 +0000 (UTC)
+Subject: Re: [PATCH v4 00/17] drm: add gem ttm helpers, rework mmap workflow.
+To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+References: <20190808134417.10610-1-kraxel@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
+ IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
+ AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
+ 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
+ hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
+ YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
+ 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
+ tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
+ R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
+ E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
+ kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
+ 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
+ 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
+ A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
+ NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
+ VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
+ iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
+ VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
+ iNx9uqqx
+Message-ID: <510b8714-2b9a-ee1d-3b03-f2704c69637e@suse.de>
+Date: Mon, 26 Aug 2019 10:47:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190825135154.11488-1-jacopo+renesas@jmondi.org>
- <20190825135154.11488-2-jacopo+renesas@jmondi.org>
- <CAMuHMdVvjrMXap5CQ-grNYpJfOG6QeN26EW4tR_YE=VFv5ozqw@mail.gmail.com>
- <20190826075943.h7ivwagape3glym5@uno.localdomain>
-In-Reply-To: <20190826075943.h7ivwagape3glym5@uno.localdomain>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 26 Aug 2019 10:38:04 +0200
-Message-ID: <CAMuHMdWgc2QQu38mqcYrutwKzED-e0-cMUV-vEwa5njqGTB=mg@mail.gmail.com>
-Subject: Re: [PATCH v3 01/14] dt-bindings: display: renesas,
- cmm: Add R-Car CMM documentation
-To: Jacopo Mondi <jacopo@jmondi.org>
+In-Reply-To: <20190808134417.10610-1-kraxel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,63 +64,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: muroya@ksk.co.jp, Ulrich Hecht <uli@fpond.eu>,
- Simon Horman <horms@verge.net.au>, VenkataRajesh.Kalakodima@in.bosch.com,
- David Airlie <airlied@linux.ie>, Mark Rutland <mark.rutland@arm.com>,
- Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Harsha.ManjulaMallikarjun@in.bosch.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0386008183=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgSmFjb3BvLAoKT24gTW9uLCBBdWcgMjYsIDIwMTkgYXQgOTo1OCBBTSBKYWNvcG8gTW9uZGkg
-PGphY29wb0BqbW9uZGkub3JnPiB3cm90ZToKPiBPbiBNb24sIEF1ZyAyNiwgMjAxOSBhdCAwOToz
-NDo0MUFNICswMjAwLCBHZWVydCBVeXR0ZXJob2V2ZW4gd3JvdGU6Cj4gPiBPbiBTdW4sIEF1ZyAy
-NSwgMjAxOSBhdCAzOjUwIFBNIEphY29wbyBNb25kaSA8amFjb3BvK3JlbmVzYXNAam1vbmRpLm9y
-Zz4gd3JvdGU6Cj4gPiA+IEFkZCBkZXZpY2UgdHJlZSBiaW5kaW5ncyBkb2N1bWVudGF0aW9uIGZv
-ciB0aGUgUmVuZXNhcyBSLUNhciBEaXNwbGF5Cj4gPiA+IFVuaXQgQ29sb3IgTWFuYWdlbWVudCBN
-b2R1bGUuCj4gPiA+Cj4gPiA+IENNTSBpcyB0aGUgaW1hZ2UgZW5oYW5jZW1lbnQgbW9kdWxlIGF2
-YWlsYWJsZSBvbiBlYWNoIFItQ2FyIERVIHZpZGVvCj4gPiA+IGNoYW5uZWwgb24gUi1DYXIgR2Vu
-MiBhbmQgR2VuMyBTb0NzIChWM0ggYW5kIFYzTSBleGNsdWRlZCkuCj4gPiA+Cj4gPiA+IFNpZ25l
-ZC1vZmYtYnk6IEphY29wbyBNb25kaSA8amFjb3BvK3JlbmVzYXNAam1vbmRpLm9yZz4KPiA+Cj4g
-PiBUaGFua3MgZm9yIHlvdXIgcGF0Y2ghCj4gPgo+ID4gPiAtLS0gL2Rldi9udWxsCj4gPiA+ICsr
-KyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3JlbmVzYXMsY21t
-LnR4dAo+ID4gPiBAQCAtMCwwICsxLDMzIEBACj4gPiA+ICsqIFJlbmVzYXMgUi1DYXIgQ29sb3Ig
-TWFuYWdlbWVudCBNb2R1bGUgKENNTSkKPiA+ID4gKwo+ID4gPiArUmVuZXNhcyBSLUNhciBpbWFn
-ZSBlbmhhbmNlbWVudCBtb2R1bGUgY29ubmVjdGVkIHRvIFItQ2FyIERVIHZpZGVvIGNoYW5uZWxz
-Lgo+ID4gPiArCj4gPiA+ICtSZXF1aXJlZCBwcm9wZXJ0aWVzOgo+ID4gPiArIC0gY29tcGF0aWJs
-ZTogc2hhbGwgYmUgb25lIG9yIG1vcmUgb2YgdGhlIGZvbGxvd2luZzoKPiA+ID4gKyAgIC0gInJl
-bmVzYXMsY21tLXI4YTc3OTUiOiBmb3IgUjhBNzc5NSAoUi1DYXIgSDMpIGNvbXBhdGlibGUgQ01N
-Lgo+ID4gPiArICAgLSAicmVuZXNhcyxjbW0tcjhhNzc5NiI6IGZvciBSOEE3Nzk2IChSLUNhciBN
-My1XKSBjb21wYXRpYmxlIENNTS4KPiA+ID4gKyAgIC0gInJlbmVzYXMsY21tLXI4YTc3OTY1Ijog
-Zm9yIFI4QTc3OTY1IChSLUNhciBNMy1OKSBjb21wYXRpYmxlIENNTS4KPiA+ID4gKyAgIC0gInJl
-bmVzYXMsY21tLXI4YTc3OTkwIjogZm9yIFI4QTc3OTkwIChSLUNhciBFMykgY29tcGF0aWJsZSBD
-TU0uCj4gPiA+ICsgICAtICJyZW5lc2FzLGNtbS1yOGE3Nzk5NSI6IGZvciBSOEE3Nzk5NSAoUi1D
-YXIgRDMpIGNvbXBhdGlibGUgQ01NLgo+ID4KPiA+IFBsZWFzZSB1c2UgInJlbmVzYXMsPHNvY3lw
-ZS0+LWNtbSIgaW5zdGVhZCBvZiAicmVuZXNhcyxjbW0tPHNvY3R5cGU+Ii4KPiA+Cj4KPiBJIGFj
-dHVhbGx5IGNvcGllZCBpdCBmcm9tIHRoZSByLWNhciBncGlvIGJpbmRpbmdzLCBhbmQgSSBsaWtl
-ZAo+IGNtbS08c29jdHlwZT4gYmV0dGVyLiBJZiB5b3UgcHJlZmVyIEkgY2FuIGNoYW5nZSBpdCB0
-aG91Z2guCgpXZSBzd2l0Y2hlZCBmcm9tICJyZW5lc2FzLGNtbS08c29jdHlwZT4iIHRvICJyZW5l
-c2FzLDxzb2N5cGUtPi1jbW0iCmEgZmV3IHllYXJzIGFnbywgdXBvbiByZXF1ZXN0IGZyb20gdGhl
-IERUIHBlb3BsZToKCiAgICB2ZW5kb3IgLT4gZmFtaWx5L1NvQyAtPiBJUCBjb3JlCgpVbmZvcnR1
-bmF0ZWx5IHdlIGNhbm5vdCBjaGFuZ2UgdGhlIG9sZCBzdHlsZSBpbiBleGlzdGluZyBiaW5kaW5n
-cywgd2l0aG91dApncmVhdCBlZmZvcnQgYW5kIGJhY2t3YXJkcyBjb21wYXRpYmlsaXR5IHJhbWlm
-aWNhdGlvbnMuCgpHcntvZXRqZSxlZXRpbmd9cywKCiAgICAgICAgICAgICAgICAgICAgICAgIEdl
-ZXJ0CgotLSAKR2VlcnQgVXl0dGVyaG9ldmVuIC0tIFRoZXJlJ3MgbG90cyBvZiBMaW51eCBiZXlv
-bmQgaWEzMiAtLSBnZWVydEBsaW51eC1tNjhrLm9yZwoKSW4gcGVyc29uYWwgY29udmVyc2F0aW9u
-cyB3aXRoIHRlY2huaWNhbCBwZW9wbGUsIEkgY2FsbCBteXNlbGYgYSBoYWNrZXIuIEJ1dAp3aGVu
-IEknbSB0YWxraW5nIHRvIGpvdXJuYWxpc3RzIEkganVzdCBzYXkgInByb2dyYW1tZXIiIG9yIHNv
-bWV0aGluZyBsaWtlIHRoYXQuCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLS0gTGlu
-dXMgVG9ydmFsZHMKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0386008183==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="dCCLT0uunhC92DmZKJGbc4To3YrmuoTcW"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--dCCLT0uunhC92DmZKJGbc4To3YrmuoTcW
+Content-Type: multipart/mixed; boundary="xS3zMFV52pMdiTzP62jhF1mYjjf3kavbP";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+Message-ID: <510b8714-2b9a-ee1d-3b03-f2704c69637e@suse.de>
+Subject: Re: [PATCH v4 00/17] drm: add gem ttm helpers, rework mmap workflow.
+References: <20190808134417.10610-1-kraxel@redhat.com>
+In-Reply-To: <20190808134417.10610-1-kraxel@redhat.com>
+
+--xS3zMFV52pMdiTzP62jhF1mYjjf3kavbP
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+I would have liked to get some context on the purpose of GEM TTM
+helpers. Is is just share-able code?
+
+=46rom my understanding VRAM helpers _are_ GEM TTM helpers. And they wher=
+e
+re-named to VRAM helpers, so that the naming is independent from the
+implementation (and vice versa).
+
+Wrt qxl, would it be possible to convert the driver over to VRAM helpers
+entirely? I noticed a memory region named PRIV. Could we add this to
+VRAM helpers?
+
+Best regards
+Thomas
+
+
+Am 08.08.19 um 15:44 schrieb Gerd Hoffmann:
+>=20
+>=20
+> Gerd Hoffmann (17):
+>   drm/ttm: turn ttm_bo_device.vma_manager into a pointer
+>   drm/ttm: add gem_ttm_bo_device_init()
+>   drm/vram: switch vram helpers to the new gem_ttm_bo_device_init()
+>   drm/qxl: switch qxl to the new gem_ttm_bo_device_init()
+>   drm: add mmap() to drm_gem_object_funcs
+>   drm/shmem: switch shmem helper to drm_gem_object_funcs->mmap
+>   drm/shmem: drop DEFINE_DRM_GEM_SHMEM_FOPS
+>   drm/ttm: factor out ttm_bo_mmap_vma_setup
+>   drm/ttm: add drm_gem_ttm_mmap()
+>   drm/vram: switch vram helper to drm_gem_object_funcs->mmap codepath
+>   drm/vram: drop verify_access
+>   drm: drop DRM_VRAM_MM_FILE_OPERATIONS
+>   drm/qxl: use drm_gem_object_funcs
+>   drm/qxl: drop qxl_ttm_fault
+>   drm/qxl: switch qxl to drm_gem_object_funcs->mmap codepath
+>   drm/qxl: drop verify_access
+>   drm/qxl: use DEFINE_DRM_GEM_FOPS()
+>=20
+>  drivers/gpu/drm/qxl/qxl_drv.h                 |  5 +-
+>  drivers/gpu/drm/qxl/qxl_object.h              |  5 --
+>  include/drm/drm_gem.h                         |  9 +++
+>  include/drm/drm_gem_shmem_helper.h            | 28 +--------
+>  include/drm/drm_gem_ttm_helper.h              | 32 ++++++++++
+>  include/drm/drm_gem_vram_helper.h             |  9 +--
+>  include/drm/drm_vram_mm_helper.h              | 27 ---------
+>  include/drm/ttm/ttm_bo_api.h                  |  8 +++
+>  include/drm/ttm/ttm_bo_driver.h               | 11 +++-
+>  drivers/gpu/drm/ast/ast_drv.c                 |  5 +-
+>  drivers/gpu/drm/bochs/bochs_drv.c             |  5 +-
+>  drivers/gpu/drm/cirrus/cirrus.c               |  2 +-
+>  drivers/gpu/drm/drm_gem.c                     |  6 ++
+>  drivers/gpu/drm/drm_gem_shmem_helper.c        | 18 +++---
+>  drivers/gpu/drm/drm_gem_ttm_helper.c          | 47 +++++++++++++++
+>  drivers/gpu/drm/drm_gem_vram_helper.c         | 53 +----------------
+>  drivers/gpu/drm/drm_vram_mm_helper.c          | 44 +-------------
+>  .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  6 +-
+>  drivers/gpu/drm/mgag200/mgag200_drv.c         |  5 +-
+>  drivers/gpu/drm/panfrost/panfrost_drv.c       |  2 +-
+>  drivers/gpu/drm/panfrost/panfrost_gem.c       |  1 +
+>  drivers/gpu/drm/qxl/qxl_drv.c                 | 19 +-----
+>  drivers/gpu/drm/qxl/qxl_dumb.c                | 17 ------
+>  drivers/gpu/drm/qxl/qxl_ioctl.c               |  5 +-
+>  drivers/gpu/drm/qxl/qxl_object.c              | 13 +++++
+>  drivers/gpu/drm/qxl/qxl_ttm.c                 | 58 ++-----------------=
+
+>  drivers/gpu/drm/ttm/ttm_bo.c                  | 29 +++++++---
+>  drivers/gpu/drm/ttm/ttm_bo_vm.c               | 53 +++++++++--------
+>  drivers/gpu/drm/v3d/v3d_bo.c                  |  1 +
+>  drivers/gpu/drm/v3d/v3d_drv.c                 |  2 +-
+>  drivers/gpu/drm/vboxvideo/vbox_drv.c          |  5 +-
+>  Documentation/gpu/drm-mm.rst                  | 12 ++++
+>  drivers/gpu/drm/Kconfig                       |  8 +++
+>  drivers/gpu/drm/Makefile                      |  3 +
+>  drivers/gpu/drm/qxl/Kconfig                   |  1 +
+>  35 files changed, 231 insertions(+), 323 deletions(-)
+>  create mode 100644 include/drm/drm_gem_ttm_helper.h
+>  create mode 100644 drivers/gpu/drm/drm_gem_ttm_helper.c
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
+GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N=C3=BCrnberg)
+
+
+--xS3zMFV52pMdiTzP62jhF1mYjjf3kavbP--
+
+--dCCLT0uunhC92DmZKJGbc4To3YrmuoTcW
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl1jnIsACgkQaA3BHVML
+eiOgdwgAkBljP67t0BH2d5L5nvnwoYYLEq/zEGKi9aBiR5LwSf3WJfSTsz4wcpeI
+ywxiFGk3JKZtkcfFaGm/3JsQHWEjsBSnApuH0E6pPWy85K7vCGd1poPYtrkR91AS
+yuQGr2zNyllh8LOO5errXnZQGuYtMLQlC/46DUWJFSks428JlMOcY7TUV20eMo/X
+PGYbBBt4ZtaZv8f85NR0HzqVQk2pPJY+5CELdcrcpDr8wPZ6+YWIGkIT1FfgR2TW
+Sv1N0icy9QW85gau/G4rbRTpD08e7kdCViJtAuAIH0AD66uOEAzE/uT+LizFLJxD
+pBk7yiijQfRSJ+SUVfx15yGZyL/zsA==
+=0z4A
+-----END PGP SIGNATURE-----
+
+--dCCLT0uunhC92DmZKJGbc4To3YrmuoTcW--
+
+--===============0386008183==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0386008183==--
