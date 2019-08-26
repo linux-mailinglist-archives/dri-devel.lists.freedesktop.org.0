@@ -1,62 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4946F9D767
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2019 22:27:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2BDA9D76D
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2019 22:33:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1741E6E2F5;
-	Mon, 26 Aug 2019 20:27:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF82D6E2FD;
+	Mon, 26 Aug 2019 20:33:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B58E36E2F5
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2019 20:27:54 +0000 (UTC)
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 06BBB88305
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2019 20:27:54 +0000 (UTC)
-Received: by mail-qk1-f199.google.com with SMTP id k68so76660qkb.19
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2019 13:27:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=9ubZQ1MrtAppRkusIuCug+qFN0ZdyB/xPSht6xQqH5U=;
- b=oMW0RpBjwpZyfsop7HSlpDl3h43BzNtUI0ekdLR8NIOaabxeqsfKhskPofgef4bFCS
- 4CX96buyosV9pVNzKtrpP2w6Q6OWYI4m7XTd8y1aR+gjJ6IiER8AWC73O/smCKkxk47J
- q+8HcUOzPJkJWyHjYr42WiP6AgcvfNHIZEcL7STOBMf0BqsGHxGoSprQXZzdDEGlMJoc
- X+GgPquCo7BYxzmp1NMnVm+B2PRUE3XvCDHQwjHI1RAW+4qxy0rfTX20zPxhAQSLWT/f
- Dcu2pFVOeqikmyS28gJHC7i+iG+7mqtav9VIsBkKXJIYNsND/UUpMclbO1tcPpllnA1r
- MZew==
-X-Gm-Message-State: APjAAAXXkXwhNxajvZ4TyVcATnRVWTME2TIF9ZdKnyNAJbYcmEm5LEpX
- 6FNm435GhCzmoW0AyfhHZ4w5a4zzDmgxClpiIQMEZ7kKjXUiL3nDGSnVO3H6ph/k6F0HaD7TJzo
- lW9xyJQ/Akg9ax+V5d5W+Nw+Z3vUI
-X-Received: by 2002:ae9:e412:: with SMTP id q18mr17873771qkc.318.1566851273308; 
- Mon, 26 Aug 2019 13:27:53 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyGJ/gcunlLWOGcOllUPZNv7iNPg7QqSedzN+Kbh91T9BGJ0EuUaklkJzPgUj2nmsFo4bBryw==
-X-Received: by 2002:ae9:e412:: with SMTP id q18mr17873755qkc.318.1566851272960; 
- Mon, 26 Aug 2019 13:27:52 -0700 (PDT)
-Received: from dhcp-10-20-1-11.bss.redhat.com ([144.121.20.162])
- by smtp.gmail.com with ESMTPSA id k12sm489941qkj.4.2019.08.26.13.27.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Aug 2019 13:27:52 -0700 (PDT)
-Message-ID: <d0180568435244b3886be19afa5979d56edca725.camel@redhat.com>
-Subject: Re: [PATCH v8 6/6] drm/dp_mst: Add helpers for MST DSC and virtual
- DPCD aux
-From: Lyude Paul <lyude@redhat.com>
-To: "Francis, David" <David.Francis@amd.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Date: Mon, 26 Aug 2019 16:27:51 -0400
-In-Reply-To: <BYAPR12MB3224E4E50A629B8DF9168AB7EFA10@BYAPR12MB3224.namprd12.prod.outlook.com>
-References: <20190826180507.17802-1-David.Francis@amd.com>
- ,<20190826180507.17802-7-David.Francis@amd.com>
- <BYAPR12MB3224E4E50A629B8DF9168AB7EFA10@BYAPR12MB3224.namprd12.prod.outlook.com>
-Organization: Red Hat
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 399D86E2FD
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2019 20:33:23 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 3632F72161; Mon, 26 Aug 2019 20:33:23 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111492] HDMI audio is unavailable with amdgpu on R9 270
+Date: Mon, 26 Aug 2019 20:33:23 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: marti@juffo.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111492-502-TBg1BPFYzG@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111492-502@http.bugs.freedesktop.org/>
+References: <bug-111492-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -70,161 +52,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0380913585=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UGxlYXNlIGZpeCB0aGUgaW5kZW50aW5nIG9uIHRoaXMuIEkndmUgbWVudGlvbmVkIHRoaXMgYWxy
-ZWFkeSBpbiBteSBwcmV2aW91cwpyZXZpZXdzLgoKT24gTW9uLCAyMDE5LTA4LTI2IGF0IDE5OjE2
-ICswMDAwLCBGcmFuY2lzLCBEYXZpZCB3cm90ZToKPiBSZWNlaXZlZCBvZmZsaW5lIHJldmlldyBm
-cm9tIEFNRCBNU1QgRFNDIChOb24tTGludXgpIGV4cGVydCBXZW5qaW5nIExpdSwKPiBnaXZpbmcg
-bWUgcGVybWlzc2lvbiAgdG8gbWFyayB0aGlzIHBhdGNoCj4gUmV2aWV3ZWQtYnk6IFdlbmppbmcg
-TGl1IDxXZW5qaW5nLkxpdUBhbWQuY29tPgo+IAo+IF9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KPiBGcm9tOiBEYXZpZCBGcmFuY2lzIDxEYXZpZC5GcmFuY2lzQGFtZC5j
-b20+Cj4gU2VudDogQXVndXN0IDI2LCAyMDE5IDI6MDUgUE0KPiBUbzogZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwo+IENjOiBGcmFuY2lzLCBEYXZpZDsgTHl1ZGUgUGF1bDsgSmFuaSBO
-aWt1bGEKPiBTdWJqZWN0OiBbUEFUQ0ggdjggNi82XSBkcm0vZHBfbXN0OiBBZGQgaGVscGVycyBm
-b3IgTVNUIERTQyBhbmQgdmlydHVhbCBEUENECj4gYXV4Cj4gCj4gQWRkIGRybV9kcF9tc3RfZHNj
-X2F1eF9mb3JfcG9ydC4gVG8gZW5hYmxlIERTQywgdGhlIERTQ19FTkFCTEVECj4gcmVnaXN0ZXIg
-bWlnaHQgaGF2ZSB0byBiZSB3cml0dGVuIG9uIHRoZSBsZWFmIHBvcnQncyBEUENELAo+IGl0cyBw
-YXJlbnQncyBEUENELCBvciB0aGUgTVNUIG1hbmFnZXIncyBEUENELiBUaGlzIGZ1bmN0aW9uCj4g
-ZmluZHMgdGhlIGNvcnJlY3QgYXV4IGZvciB0aGUgam9iLgo+IAo+IEFzIHBhcnQgb2YgdGhpcywg
-YWRkIGRybV9kcF9tc3RfaXNfdmlydHVhbF9kcGNkLiBWaXJ0dWFsIERQQ0QKPiBpcyBhIERQIGZl
-YXR1cmUgbmV3IGluIERQIHYxLjQsIHdoaWNoIGV4cG9zZXMgY2VydGFpbiBEUENECj4gcmVnaXN0
-ZXJzIG9uIHZpcnR1YWwgcG9ydHMuCj4gCj4gdjI6IFJlbWVtYmVyIHRvIHVubG9jayBtdXRleCBv
-biBhbGwgcGF0aHMKPiAKPiBDYzogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KPiBDYzog
-SmFuaSBOaWt1bGEgPGphbmkubmlrdWxhQGxpbnV4LmludGVsLmNvbT4KPiBTaWduZWQtb2ZmLWJ5
-OiBEYXZpZCBGcmFuY2lzIDxEYXZpZC5GcmFuY2lzQGFtZC5jb20+Cj4gLS0tCj4gIGRyaXZlcnMv
-Z3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMgfCAxNTIgKysrKysrKysrKysrKysrKysrKysr
-KysrKysKPiAgaW5jbHVkZS9kcm0vZHJtX2RwX21zdF9oZWxwZXIuaCAgICAgICB8ICAgMiArCj4g
-IDIgZmlsZXMgY2hhbmdlZCwgMTU0IGluc2VydGlvbnMoKykKPiAKPiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYwo+IGIvZHJpdmVycy9ncHUvZHJtL2Ry
-bV9kcF9tc3RfdG9wb2xvZ3kuYwo+IGluZGV4IDUwMjkyM2MyNDQ1MC4uMWZlZTkyYmQ1MWY3IDEw
-MDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMKPiArKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jCj4gQEAgLTQxNTAsMyArNDE1
-MCwxNTUgQEAgc3RhdGljIHZvaWQgZHJtX2RwX21zdF91bnJlZ2lzdGVyX2kyY19idXMoc3RydWN0
-Cj4gZHJtX2RwX2F1eCAqYXV4KQo+ICB7Cj4gICAgICAgICBpMmNfZGVsX2FkYXB0ZXIoJmF1eC0+
-ZGRjKTsKPiAgfQo+ICsKPiArLyoqCj4gKyAqIGRybV9kcF9tc3RfaXNfdmlydHVhbF9kcGNkKCkg
-LSBJcyB0aGUgZ2l2ZW4gcG9ydCBhIHZpcnR1YWwgRFAgUGVlcgo+IERldmljZQo+ICsgKiBAcG9y
-dDogVGhlIHBvcnQgdG8gY2hlY2sKPiArICoKPiArICogQSBzaW5nbGUgcGh5c2ljYWwgTVNUIGh1
-YiBvYmplY3QgY2FuIGJlIHJlcHJlc2VudGVkIGluIHRoZSB0b3BvbG9neQo+ICsgKiBieSBtdWx0
-aXBsZSBicmFuY2hlcywgd2l0aCB2aXJ0dWFsIHBvcnRzIGJldHdlZW4gdGhvc2UgYnJhbmNoZXMu
-Cj4gKyAqCj4gKyAqIEFzIG9mIERQMS40LCBBbiBNU1QgaHViIHdpdGggaW50ZXJuYWwgKHZpcnR1
-YWwpIHBvcnRzIG11c3QgZXhwb3NlCj4gKyAqIGNlcnRhaW4gRFBDRCByZWdpc3RlcnMgb3ZlciB0
-aG9zZSBwb3J0cy4gU2VlIHNlY3Rpb25zIDIuNi4xLjEuMQo+ICsgKiBhbmQgMi42LjEuMS4yIG9m
-IERpc3BsYXkgUG9ydCBzcGVjaWZpY2F0aW9uIHYxLjQgZm9yIGRldGFpbHMuCj4gKyAqCj4gKyAq
-IE1heSBhY3F1aXJlIG1nci0+bG9jawo+ICsgKgo+ICsgKiBSZXR1cm5zOgo+ICsgKiB0cnVlIGlm
-IHRoZSBwb3J0IGlzIGEgdmlydHVhbCBEUCBwZWVyIGRldmljZSwgZmFsc2Ugb3RoZXJ3aXNlCj4g
-KyAqLwo+ICtzdGF0aWMgYm9vbCBkcm1fZHBfbXN0X2lzX3ZpcnR1YWxfZHBjZChzdHJ1Y3QgZHJt
-X2RwX21zdF9wb3J0ICpwb3J0KQo+ICt7Cj4gKyAgICAgICBzdHJ1Y3QgZHJtX2RwX21zdF9wb3J0
-ICpkb3duc3RyZWFtX3BvcnQ7Cj4gKwo+ICsgICAgICAgaWYgKCFwb3J0KQo+ICsgICAgICAgICAg
-ICAgICByZXR1cm4gZmFsc2U7Cj4gKwo+ICsgICAgICAgLyogVmlydHVhbCBEUCBTaW5rIChJbnRl
-cm5hbCBEaXNwbGF5IFBhbmVsKSAqLwo+ICsgICAgICAgaWYgKHBvcnQtPnBvcnRfbnVtID49IDgg
-JiYgcG9ydC0+ZHBjZF9yZXYgPj0gRFBfRFBDRF9SRVZfMTQpCj4gKyAgICAgICAgICAgICAgIHJl
-dHVybiB0cnVlOwo+ICsKPiArICAgICAgIC8qIERQLXRvLUhETUkgUHJvdG9jb2wgQ29udmVydGVy
-ICovCj4gKyAgICAgICBpZiAocG9ydC0+cGR0ID09IERQX1BFRVJfREVWSUNFX0RQX0xFR0FDWV9D
-T05WICYmCj4gKyAgICAgICAgICAgICAgICAgICAgICAgIXBvcnQtPm1jcyAmJgo+ICsgICAgICAg
-ICAgICAgICAgICAgICAgIHBvcnQtPmxkcHMgJiYKPiArICAgICAgICAgICAgICAgICAgICAgICBw
-b3J0LT5kcGNkX3JldiA+PSBEUF9EUENEX1JFVl8xNCkKPiArICAgICAgICAgICAgICAgcmV0dXJu
-IHRydWU7Cj4gKwo+ICsgICAgICAgLyogRFAtdG8tRFAgKi8KPiArICAgICAgIG11dGV4X2xvY2so
-JnBvcnQtPm1nci0+bG9jayk7Cj4gKyAgICAgICBpZiAocG9ydC0+cGR0ID09IERQX1BFRVJfREVW
-SUNFX01TVF9CUkFOQ0hJTkcgJiYKPiArICAgICAgICAgICAgICAgICAgICAgICBwb3J0LT5tc3Ri
-ICYmCj4gKyAgICAgICAgICAgICAgICAgICAgICAgcG9ydC0+ZHBjZF9yZXYgPj0gRFBfRFBDRF9S
-RVZfMTQgJiYKPiArICAgICAgICAgICAgICAgICAgICAgICBwb3J0LT5tc3RiLT5udW1fcG9ydHMg
-PT0gMikgewo+ICsgICAgICAgICAgICAgICBsaXN0X2Zvcl9lYWNoX2VudHJ5KGRvd25zdHJlYW1f
-cG9ydCwgJnBvcnQtPm1zdGItPnBvcnRzLAo+IG5leHQpIHsKPiArICAgICAgICAgICAgICAgICAg
-ICAgICBpZiAoZG93bnN0cmVhbV9wb3J0LT5wZHQgPT0gRFBfUEVFUl9ERVZJQ0VfU1NUX1NJTksK
-PiAmJgo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAhZG93bnN0cmVh
-bV9wb3J0LT5pbnB1dCkgewo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbXV0ZXhf
-dW5sb2NrKCZwb3J0LT5tZ3ItPmxvY2spOwo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgcmV0dXJuIHRydWU7Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgfQo+ICsgICAgICAgICAg
-ICAgICB9Cj4gKyAgICAgICB9Cj4gKyAgICAgICBtdXRleF91bmxvY2soJnBvcnQtPm1nci0+bG9j
-ayk7Cj4gKwo+ICsgICAgICAgcmV0dXJuIGZhbHNlOwo+ICt9Cj4gKwo+ICsvKioKPiArICogZHJt
-X2RwX21zdF9kc2NfYXV4X2Zvcl9wb3J0KCkgLSBGaW5kIHRoZSBjb3JyZWN0IGF1eCBmb3IgRFND
-Cj4gKyAqIEBwb3J0OiBUaGUgcG9ydCB0byBjaGVjay4gQSBsZWFmIG9mIHRoZSBNU1QgdHJlZSB3
-aXRoIGFuIGF0dGFjaGVkCj4gZGlzcGxheS4KPiArICoKPiArICogRGVwZW5kaW5nIG9uIHRoZSBz
-aXR1YXRpb24sIERTQyBtYXkgYmUgZW5hYmxlZCB2aWEgdGhlIGVuZHBvaW50IGF1eCwKPiArICog
-dGhlIGltbWVkaWF0ZWx5IHVwc3RyZWFtIGF1eCwgb3IgdGhlIGNvbm5lY3RvcidzIHBoeXNpY2Fs
-IGF1eC4KPiArICoKPiArICogVGhpcyBpcyBib3RoIHRoZSBjb3JyZWN0IGF1eCB0byByZWFkIERT
-Q19DQVBBQklMSVRZIGFuZCB0aGUKPiArICogY29ycmVjdCBhdXggdG8gd3JpdGUgRFNDX0VOQUJM
-RUQuCj4gKyAqCj4gKyAqIFRoaXMgb3BlcmF0aW9uIGNhbiBiZSBleHBlbnNpdmUgKHVwIHRvIGZv
-dXIgYXV4IHJlYWRzKSwgc28KPiArICogdGhlIGNhbGxlciBzaG91bGQgY2FjaGUgdGhlIHJldHVy
-bi4KPiArICoKPiArICogUmV0dXJuczoKPiArICogTlVMTCBpZiBEU0MgY2Fubm90IGJlIGVuYWJs
-ZWQgb24gdGhpcyBwb3J0LCBvdGhlcndpc2UgdGhlIGF1eCBkZXZpY2UKPiArICovCj4gK3N0cnVj
-dCBkcm1fZHBfYXV4ICpkcm1fZHBfbXN0X2RzY19hdXhfZm9yX3BvcnQoc3RydWN0IGRybV9kcF9t
-c3RfcG9ydAo+ICpwb3J0KQo+ICt7Cj4gKyAgICAgICBzdHJ1Y3QgZHJtX2RwX21zdF9wb3J0ICpp
-bW1lZGlhdGVfdXBzdHJlYW1fcG9ydDsKPiArICAgICAgIHN0cnVjdCBkcm1fZHBfbXN0X3BvcnQg
-KmZlY19wb3J0Owo+ICsgICAgICAgc3RydWN0IGRybV9kcF9kZXNjICpkZXNjID0gTlVMTDsKPiAr
-Cj4gKyAgICAgICBpZiAocG9ydCAmJiBwb3J0LT5wYXJlbnQpCj4gKyAgICAgICAgICAgICAgIGlt
-bWVkaWF0ZV91cHN0cmVhbV9wb3J0ID0gcG9ydC0+cGFyZW50LT5wb3J0X3BhcmVudDsKPiArICAg
-ICAgIGVsc2UKPiArICAgICAgICAgICAgICAgaW1tZWRpYXRlX3Vwc3RyZWFtX3BvcnQgPSBOVUxM
-Owo+ICsKPiArICAgICAgIGZlY19wb3J0ID0gaW1tZWRpYXRlX3Vwc3RyZWFtX3BvcnQ7Cj4gKyAg
-ICAgICB3aGlsZSAoZmVjX3BvcnQpIHsKPiArICAgICAgICAgICAgICAgLyoKPiArICAgICAgICAg
-ICAgICAgICogRWFjaCBwaHlzaWNhbCBsaW5rIChpLmUuIG5vdCBhIHZpcnR1YWwgcG9ydCkgYmV0
-d2VlbiB0aGUKPiArICAgICAgICAgICAgICAgICogb3V0cHV0IGFuZCB0aGUgcHJpbWFyeSBkZXZp
-Y2UgbXVzdCBzdXBwb3J0IEZFQwo+ICsgICAgICAgICAgICAgICAgKi8KPiArICAgICAgICAgICAg
-ICAgaWYgKCFkcm1fZHBfbXN0X2lzX3ZpcnR1YWxfZHBjZChmZWNfcG9ydCkgJiYKPiArICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICFmZWNfcG9ydC0+ZmVjX2NhcGFibGUpCj4gKyAgICAg
-ICAgICAgICAgICAgICAgICAgcmV0dXJuIE5VTEw7Cj4gKwo+ICsgICAgICAgICAgICAgICBmZWNf
-cG9ydCA9IGZlY19wb3J0LT5wYXJlbnQtPnBvcnRfcGFyZW50Owo+ICsgICAgICAgfQo+ICsKPiAr
-ICAgICAgIC8qIERQLXRvLURQIHBlZXIgZGV2aWNlICovCj4gKyAgICAgICBpZiAoZHJtX2RwX21z
-dF9pc192aXJ0dWFsX2RwY2QoaW1tZWRpYXRlX3Vwc3RyZWFtX3BvcnQpKSB7Cj4gKyAgICAgICAg
-ICAgICAgIHU4IHVwc3RyZWFtX2RzYzsKPiArICAgICAgICAgICAgICAgdTggZW5kcG9pbnRfZHNj
-Owo+ICsgICAgICAgICAgICAgICB1OCBlbmRwb2ludF9mZWM7Cj4gKwo+ICsgICAgICAgICAgICAg
-ICBpZiAoZHJtX2RwX2RwY2RfcmVhZCgmcG9ydC0+YXV4LAo+ICsgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICBEUF9EU0NfU1VQUE9SVCwgJmVuZHBvaW50X2RzYywgMSkgPCAwKQo+
-ICsgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiBOVUxMOwo+ICsgICAgICAgICAgICAgICBp
-ZiAoZHJtX2RwX2RwY2RfcmVhZCgmcG9ydC0+YXV4LAo+ICsgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBEUF9GRUNfQ0FQQUJJTElUWSwgJmVuZHBvaW50X2ZlYywgMSkgPAo+IDAp
-Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIE5VTEw7Cj4gKyAgICAgICAgICAgICAg
-IGlmIChkcm1fZHBfZHBjZF9yZWFkKCZpbW1lZGlhdGVfdXBzdHJlYW1fcG9ydC0+YXV4LAo+ICsg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEUF9EU0NfU1VQUE9SVCwgJnVwc3Ry
-ZWFtX2RzYywgMSkgPCAwKQo+ICsgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiBOVUxMOwo+
-ICsKPiArICAgICAgICAgICAgICAgLyogRW5wb2ludCBkZWNvbXByZXNzaW9uIHdpdGggRFAtdG8t
-RFAgcGVlciBkZXZpY2UgKi8KPiArICAgICAgICAgICAgICAgaWYgKChlbmRwb2ludF9kc2MgJiBE
-UF9EU0NfREVDT01QUkVTU0lPTl9JU19TVVBQT1JURUQpCj4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAmJiAoZW5kcG9pbnRfZmVjICYgRFBfRkVDX0NBUEFCTEUpCj4gKyAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAmJiAodXBzdHJlYW1fZHNjICYgMHgyKSAvKiBEU0MgcGFz
-c3Rocm91Z2gKPiAqLykKPiArICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gJnBvcnQtPmF1
-eDsKPiArCj4gKyAgICAgICAgICAgICAgIC8qIFZpcnR1YWwgRFBDRCBkZWNvbXByZXNzaW9uIHdp
-dGggRFAtdG8tRFAgcGVlciBkZXZpY2UgKi8KPiArICAgICAgICAgICAgICAgcmV0dXJuICZpbW1l
-ZGlhdGVfdXBzdHJlYW1fcG9ydC0+YXV4Owo+ICsgICAgICAgfQo+ICsKPiArICAgICAgIC8qIFZp
-cnR1YWwgRFBDRCBkZWNvbXByZXNzaW9uIHdpdGggRFAtdG8tSERNSSBvciBWaXJ0dWFsIERQIFNp
-bmsgKi8KPiArICAgICAgIGlmIChkcm1fZHBfbXN0X2lzX3ZpcnR1YWxfZHBjZChwb3J0KSkKPiAr
-ICAgICAgICAgICAgICAgcmV0dXJuICZwb3J0LT5hdXg7Cj4gKwo+ICsgICAgICAgLyoKPiArICAg
-ICAgICAqIFN5bmFwdGljcyBxdWlyawo+ICsgICAgICAgICogQXBwbGllcyB0byBwb3J0cyBmb3Ig
-d2hpY2g6Cj4gKyAgICAgICAgKiAtIFBoeXNpY2FsIGF1eCBoYXMgU3luYXB0aWNzIE9VSQo+ICsg
-ICAgICAgICogLSBEUHYxLjQgb3IgaGlnaGVyCj4gKyAgICAgICAgKiAtIFBvcnQgaXMgb24gcHJp
-bWFyeSBicmFuY2ggZGV2aWNlCj4gKyAgICAgICAgKiAtIE5vdCBhIFZHQSBhZGFwdGVyIChEUF9E
-V05fU1RSTV9QT1JUX1RZUEVfQU5BTE9HKQo+ICsgICAgICAgICovCj4gKyAgICAgICBpZiAoIWRy
-bV9kcF9yZWFkX2Rlc2MocG9ydC0+bWdyLT5hdXgsIGRlc2MsIHRydWUpKQo+ICsgICAgICAgICAg
-ICAgICByZXR1cm4gZmFsc2U7Cj4gKwo+ICsgICAgICAgaWYgKGRybV9kcF9oYXNfcXVpcmsoZGVz
-YywgRFBfRFBDRF9RVUlSS19EU0NfV0lUSE9VVF9WSVJUVUFMX0RQQ0QgJiYKPiArICAgICAgICAg
-ICAgICAgICAgICAgICBwb3J0LT5tZ3ItPmRwY2RbRFBfRFBDRF9SRVZdID49IERQX0RQQ0RfUkVW
-XzE0KSAmJgo+ICsgICAgICAgICAgICAgICAgICAgICAgIHBvcnQtPnBhcmVudCA9PSBwb3J0LT5t
-Z3ItPm1zdF9wcmltYXJ5KSB7Cj4gKyAgICAgICAgICAgICAgIHU4IGRvd25zdHJlYW1wb3J0Owo+
-ICsKPiArICAgICAgICAgICAgICAgZHJtX2RwX2RwY2RfcmVhZCgmcG9ydC0+YXV4LCBEUF9ET1dO
-U1RSRUFNUE9SVF9QUkVTRU5ULAo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICZk
-b3duc3RyZWFtcG9ydCwgMSk7Cj4gKwo+ICsgICAgICAgICAgICAgICBpZiAoKGRvd25zdHJlYW1w
-b3J0ICYgRFBfRFdOX1NUUk1fUE9SVF9QUkVTRU5UKSAmJgo+ICsgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgKChkb3duc3RyZWFtcG9ydCAmCj4gRFBfRFdOX1NUUk1fUE9SVF9UWVBFX01B
-U0spCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAhPSBEUF9EV05fU1RSTV9QT1JU
-X1RZUEVfQU5BTE9HKSkKPiArICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gcG9ydC0+bWdy
-LT5hdXg7Cj4gKyAgICAgICB9Cj4gKwo+ICsgICAgICAgcmV0dXJuIE5VTEw7Cj4gK30KPiArRVhQ
-T1JUX1NZTUJPTChkcm1fZHBfbXN0X2RzY19hdXhfZm9yX3BvcnQpOwo+IGRpZmYgLS1naXQgYS9p
-bmNsdWRlL2RybS9kcm1fZHBfbXN0X2hlbHBlci5oCj4gYi9pbmNsdWRlL2RybS9kcm1fZHBfbXN0
-X2hlbHBlci5oCj4gaW5kZXggZjExM2FlMDRmYTg4Li40Y2Y3Mzg1NDVkZmIgMTAwNjQ0Cj4gLS0t
-IGEvaW5jbHVkZS9kcm0vZHJtX2RwX21zdF9oZWxwZXIuaAo+ICsrKyBiL2luY2x1ZGUvZHJtL2Ry
-bV9kcF9tc3RfaGVscGVyLmgKPiBAQCAtNjczLDYgKzY3Myw4IEBAIGludCBfX211c3RfY2hlY2sg
-ZHJtX2RwX21zdF9hdG9taWNfY2hlY2soc3RydWN0Cj4gZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUp
-Owo+ICB2b2lkIGRybV9kcF9tc3RfZ2V0X3BvcnRfbWFsbG9jKHN0cnVjdCBkcm1fZHBfbXN0X3Bv
-cnQgKnBvcnQpOwo+ICB2b2lkIGRybV9kcF9tc3RfcHV0X3BvcnRfbWFsbG9jKHN0cnVjdCBkcm1f
-ZHBfbXN0X3BvcnQgKnBvcnQpOwo+IAo+ICtzdHJ1Y3QgZHJtX2RwX2F1eCAqZHJtX2RwX21zdF9k
-c2NfYXV4X2Zvcl9wb3J0KHN0cnVjdCBkcm1fZHBfbXN0X3BvcnQKPiAqcG9ydCk7Cj4gKwo+ICBl
-eHRlcm4gY29uc3Qgc3RydWN0IGRybV9wcml2YXRlX3N0YXRlX2Z1bmNzCj4gZHJtX2RwX21zdF90
-b3BvbG9neV9zdGF0ZV9mdW5jczsKPiAKPiAgLyoqCj4gLS0KPiAyLjE3LjEKPiAKLS0gCkNoZWVy
-cywKCUx5dWRlIFBhdWwKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbA==
+
+--===============0380913585==
+Content-Type: multipart/alternative; boundary="15668516031.f0C808.27868"
+Content-Transfer-Encoding: 7bit
+
+
+--15668516031.f0C808.27868
+Date: Mon, 26 Aug 2019 20:33:23 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111492
+
+--- Comment #1 from Marti Raudsepp <marti@juffo.org> ---
+Oh and I'm using HDMI output for video, which works fine.
+Unplugging and re-plugging the HDMI cable does not help.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15668516031.f0C808.27868
+Date: Mon, 26 Aug 2019 20:33:23 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HDMI audio is unavailable with amdgpu on R9 270"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111492#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HDMI audio is unavailable with amdgpu on R9 270"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111492">bug 11149=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+marti&#64;juffo.org" title=3D"Marti Raudsepp &lt;marti&#64;juffo.org&gt;"> =
+<span class=3D"fn">Marti Raudsepp</span></a>
+</span></b>
+        <pre>Oh and I'm using HDMI output for video, which works fine.
+Unplugging and re-plugging the HDMI cable does not help.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15668516031.f0C808.27868--
+
+--===============0380913585==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0380913585==--
