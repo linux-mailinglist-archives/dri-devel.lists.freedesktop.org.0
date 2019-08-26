@@ -2,44 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1666B9C77F
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2019 05:00:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EB0B9C782
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2019 05:06:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B13B6E0F3;
-	Mon, 26 Aug 2019 03:00:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12D336E087;
+	Mon, 26 Aug 2019 03:06:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 16BA76E038
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2019 03:00:16 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0E18C72161; Mon, 26 Aug 2019 03:00:16 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110865] Rx480 consumes 20w more power in idle than under Windows
-Date: Mon, 26 Aug 2019 03:00:16 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
-Message-ID: <bug-110865-502-RH2bB7mMH4@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110865-502@http.bugs.freedesktop.org/>
-References: <bug-110865-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDE666E087;
+ Mon, 26 Aug 2019 03:06:44 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 46Gxjq6nJQz9s7T;
+ Mon, 26 Aug 2019 13:06:39 +1000 (AEST)
+Date: Mon, 26 Aug 2019 13:06:37 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm tree with the drm-misc-fixes tree
+Message-ID: <20190826130637.176f6208@canb.auug.org.au>
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=canb.auug.org.au; s=201702; t=1566788801;
+ bh=ao4+tkZSNPxGhHnop5/uB0c25lKvBwr4pgEKllddgAQ=;
+ h=Date:From:To:Cc:Subject:From;
+ b=DcqgXxue3U+qpniOSwRvKEcQjSkM2i+VPn8GRJ0jY2ra05YOru62S7WOrCnR8ejY8
+ rVIdjuHyTCJiqazmPLx7jSI3QWIx8DGgtAK3rAp9qLyRSyVSyGLhXz1QO5vCL1qHcV
+ hyptsAtmzvpKInJOjaxKw5f030CTZhTFdXyYUvaRqEd/2gpKa8Up9ptEfUJXDottn1
+ ItGK/tSsRHVLRoSYV4ncesgPGUcC8CkYDMzRnktZ7cvYw67n70kZfAs2nydzHWt/n/
+ rKZQ+aDBZyRrepbiWC+mfkjXJoYEwQocKMNKc+zskyTMVTtIwPoqEDsszkXKT7X8ME
+ 2vgVpq0rIhpNg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,122 +48,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1356387912=="
+Cc: Mihail Atanassov <Mihail.Atanassov@arm.com>,
+ Liviu Dudau <Liviu.Dudau@arm.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>, "James
+ Qian Wang \(Arm Technology China\)" <james.qian.wang@arm.com>,
+ Ayan kumar halder <ayan.halder@arm.com>
+Content-Type: multipart/mixed; boundary="===============1930830967=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--===============1930830967==
+Content-Type: multipart/signed; boundary="Sig_/wydur/h7UBhnu/l7f8Ha7ul";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
---===============1356387912==
-Content-Type: multipart/alternative; boundary="15667884160.7b66.8237"
-Content-Transfer-Encoding: 7bit
-
-
---15667884160.7b66.8237
-Date: Mon, 26 Aug 2019 03:00:15 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+--Sig_/wydur/h7UBhnu/l7f8Ha7ul
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110865
+Hi all,
 
-Alex Deucher <alexdeucher@gmail.com> changed:
+Today's linux-next merge of the drm tree got a conflict in:
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
- Attachment #145136|0                           |1
-        is obsolete|                            |
+  drivers/gpu/drm/arm/display/komeda/komeda_dev.c
 
---- Comment #20 from Alex Deucher <alexdeucher@gmail.com> ---
-Created attachment 145157
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145157&action=3Dedit
-fix DC code
+between commit:
 
-Updated patch.
+  51a44a28eefd ("drm/komeda: Add missing of_node_get() call")
+
+from the drm-misc-fixes tree and commit:
+
+  8965ad8433ea ("drm/komeda: Enable dual-link support")
+
+from the drm tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
 
 --=20
-You are receiving this mail because:
-You are the assignee for the bug.=
+Cheers,
+Stephen Rothwell
 
---15667884160.7b66.8237
-Date: Mon, 26 Aug 2019 03:00:16 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+diff --cc drivers/gpu/drm/arm/display/komeda/komeda_dev.c
+index 9d4d5075cc64,1ff7f4b2c620..000000000000
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
+@@@ -127,7 -128,8 +129,8 @@@ static int komeda_parse_pipe_dt(struct=20
+  	pipe->of_output_port =3D
+  		of_graph_get_port_by_id(np, KOMEDA_OF_PORT_OUTPUT);
+ =20
++ 	pipe->dual_link =3D pipe->of_output_links[0] && pipe->of_output_links[1];
+ -	pipe->of_node =3D np;
+ +	pipe->of_node =3D of_node_get(np);
+ =20
+  	return 0;
+  }
 
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:alexdeuch=
-er&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.com&gt;">=
- <span class=3D"fn">Alex Deucher</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865">bug 11086=
-5</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
+--Sig_/wydur/h7UBhnu/l7f8Ha7ul
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-         <tr>
-           <td style=3D"text-align:right;">Attachment #145136 is obsolete</=
-td>
-           <td>
-               &nbsp;
-           </td>
-           <td>1
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865#c20">Comme=
-nt # 20</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865">bug 11086=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
-com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145157=
-" name=3D"attach_145157" title=3D"fix DC code">attachment 145157</a> <a hre=
-f=3D"attachment.cgi?id=3D145157&amp;action=3Dedit" title=3D"fix DC code">[d=
-etails]</a></span> <a href=3D'page.cgi?id=3Dsplinter.html&amp;bug=3D110865&=
-amp;attachment=3D145157'>[review]</a>
-fix DC code
+-----BEGIN PGP SIGNATURE-----
 
-Updated patch.</pre>
-        </div>
-      </p>
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl1jTL0ACgkQAVBC80lX
+0Gxv3Qf/UZODeNlf0Cg6Pp21C0lTRqUfi6nfMnY9tk8fimcVVU7XczrGHYCdq9lh
+2cix95QOpooh3Rr8edxYyYMnXNpP4l+Tt0yXFr1a7VGIX+mjZv35aY8Rw55L0WLC
+ja+YF6MBfyXQMaSxee3XRsqX3bHrnqwX5P84at39Q5+gHoGaqm4HPbGB9dslfYIX
+FG/D1pXucobj7tuKBDufUQcFcdmAvgt9uXqeveQ5mSAMToqtBM8d6F29lEan8A6H
+tzPQdiowwIb16nRya/Qu7IVW/I4QwJLwp5ykDPp9foeSGM7YWKejUXUroOkNt0V2
+C0m6H2culOjxXPqbSRq1efBeyIXpEQ==
+=mbfu
+-----END PGP SIGNATURE-----
 
+--Sig_/wydur/h7UBhnu/l7f8Ha7ul--
 
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15667884160.7b66.8237--
-
---===============1356387912==
+--===============1930830967==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -177,4 +136,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1356387912==--
+--===============1930830967==--
