@@ -2,44 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D60ED9D40E
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2019 18:34:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 021329D414
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Aug 2019 18:34:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9176389A56;
-	Mon, 26 Aug 2019 16:34:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E4B689B30;
+	Mon, 26 Aug 2019 16:34:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 51F0F89A56
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2019 16:34:02 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 4E9AB72161; Mon, 26 Aug 2019 16:34:02 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111236] VA-API radeonsi SIGSEGV __memmove_avx_unaligned
-Date: Mon, 26 Aug 2019 16:34:02 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 19.1
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: michel@daenzer.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111236-502-GtBUfw4nxU@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111236-502@http.bugs.freedesktop.org/>
-References: <bug-111236-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 613BD89B30
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2019 16:34:45 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by honk.sigxcpu.org (Postfix) with ESMTP id F22E8FB04;
+ Mon, 26 Aug 2019 18:34:42 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
+Received: from honk.sigxcpu.org ([127.0.0.1])
+ by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id qBltwtRLUrlk; Mon, 26 Aug 2019 18:34:41 +0200 (CEST)
+Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
+ id A11B349200; Mon, 26 Aug 2019 18:34:40 +0200 (CEST)
+Date: Mon, 26 Aug 2019 18:34:40 +0200
+From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+To: Stefan Agner <stefan@agner.ch>
+Subject: Re: [PATCH v3 00/15] Improvements and fixes for mxsfb DRM driver
+Message-ID: <20190826163440.GA5539@bogon.m.sigxcpu.org>
+References: <1566382555-12102-1-git-send-email-robert.chiras@nxp.com>
+ <20190826120548.GA14316@bogon.m.sigxcpu.org>
+ <3bd35686e046048d35cd4987567a13cf@agner.ch>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <3bd35686e046048d35cd4987567a13cf@agner.ch>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,119 +45,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1485936337=="
+Cc: Marek Vasut <marex@denx.de>, Mark Rutland <mark.rutland@arm.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Sascha Hauer <s.hauer@pengutronix.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
+ Robert Chiras <robert.chiras@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1485936337==
-Content-Type: multipart/alternative; boundary="15668372421.b9fe.15113"
-Content-Transfer-Encoding: 7bit
-
-
---15668372421.b9fe.15113
-Date: Mon, 26 Aug 2019 16:34:02 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111236
-
---- Comment #8 from Michel D=C3=A4nzer <michel@daenzer.net> ---
-Created attachment 145171
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145171&action=3Dedit
-si_video_buffer_create fixups
-
-I've traced this to the si_video_buffer_create function, which makes multip=
-le
-pipe_resources use the same buffer, but doesn't update the bo_size or make =
-sure
-si_can_invalidate_texture returns false for those resources. So
-si_texture_transfer_map may allocate a new buffer of the original bo_size,
-which is smaller than the combined size of the resources =3D> its CPU mappi=
-ng
-doesn't always cover the calculated address.
-
-This quick'n'dirty patch prevents the crash, but now totem just hangs for m=
-e.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15668372421.b9fe.15113
-Date: Mon, 26 Aug 2019 16:34:02 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - VA-API radeonsi SIGSEGV __memmove_avx_unaligned"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111236#c8">Commen=
-t # 8</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - VA-API radeonsi SIGSEGV __memmove_avx_unaligned"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111236">bug 11123=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
-net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145171=
-" name=3D"attach_145171" title=3D"si_video_buffer_create fixups">attachment=
- 145171</a> <a href=3D"attachment.cgi?id=3D145171&amp;action=3Dedit" title=
-=3D"si_video_buffer_create fixups">[details]</a></span> <a href=3D'page.cgi=
-?id=3Dsplinter.html&amp;bug=3D111236&amp;attachment=3D145171'>[review]</a>
-si_video_buffer_create fixups
-
-I've traced this to the si_video_buffer_create function, which makes multip=
-le
-pipe_resources use the same buffer, but doesn't update the bo_size or make =
-sure
-si_can_invalidate_texture returns false for those resources. So
-si_texture_transfer_map may allocate a new buffer of the original bo_size,
-which is smaller than the combined size of the resources =3D&gt; its CPU ma=
-pping
-doesn't always cover the calculated address.
-
-This quick'n'dirty patch prevents the crash, but now totem just hangs for m=
-e.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15668372421.b9fe.15113--
-
---===============1485936337==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1485936337==--
+SGksCk9uIE1vbiwgQXVnIDI2LCAyMDE5IGF0IDA0OjM1OjEwUE0gKzAyMDAsIFN0ZWZhbiBBZ25l
+ciB3cm90ZToKPiBPbiAyMDE5LTA4LTI2IDE0OjA1LCBHdWlkbyBHw7xudGhlciB3cm90ZToKPiA+
+IEhpLAo+ID4gT24gV2VkLCBBdWcgMjEsIDIwMTkgYXQgMDE6MTU6NDBQTSArMDMwMCwgUm9iZXJ0
+IENoaXJhcyB3cm90ZToKPiA+PiBUaGlzIHBhdGNoLXNldCBpbXByb3ZlcyB0aGUgdXNlIG9mIGVM
+Q0RJRiBibG9jayBvbiBpTVggOCBTb0NzIChsaWtlIDhNUSwgOE1NCj4gPj4gYW5kIDhRWFApLiBG
+b2xsb3dpbmcsIGFyZSB0aGUgbmV3IGZlYXR1cmVzIGFkZGVkIGFuZCBmaXhlcyBmcm9tIHRoaXMK
+PiA+PiBwYXRjaC1zZXQ6Cj4gPiAKPiA+IEkndmUgYXBwbGllZCB0aGlzIHdob2xlIHNlcmllcyBv
+biB0b3Agb2YgbXkgTldMIHdvcmsgYW5kIGl0IGxvb2tzIGdvb2QKPiA+IHdpdGggYSBEU0kgcGFu
+ZWwuIEFwcGx5aW5nIHRoZSB3aG9sZSBzZXJpZXMgYWxzbyBmaXhlcyBhbiBpc3N1ZSB3aGVyZQo+
+ID4gYWZ0ZXIgdW5ibGFuayB0aGUgb3V0cHV0IHdhcyBzb21ldGltZXMgc2hpZnRlZCBhYm91dCBo
+YWxmIGEgc2NyZWVuIHdpZHRoCj4gPiB0byB0aGUgcmlnaHQgKHdoaWNoIGRpZG4ndCBoYXBwZW4g
+d2l0aCBEQ1NTKS4gU28gYXQgbGVhc3QgZnJvbSB0aGUgcGFydHMKPiA+IEkgY291bGQgdGVzdDoK
+PiA+IAo+ID4gICBUZXN0ZWQtYnk6IEd1aWRvIEfDvG50aGVyIDxhZ3hAc2lneGNwdS5vcmc+IAo+
+ID4gCj4gPiBmb3IgdGhlIHdob2xlIHRoaW5nLgo+IAo+IFRoYW5rcyBmb3IgdGVzdGluZyEgV2hh
+dCBTb0MgZGlkIHlvdSB1c2U/IEkgdGhpbmsgaXQgd291bGQgYmUgZ29vZCB0bwo+IGFsc28gZ2l2
+ZSB0aGlzIGEgdHJ5IG9uIGkuTVggNyBvciBpLk1YIDZVTEwgYmVmb3JlIG1lcmdpbmcuCgpUaGlz
+IHdhcyBvbiBpLk1YOE1RLiBJIGRvbid0IGhhdmUgaGFyZHdhcmUgdG8gdGVzdCBteHNmYiBvbiBh
+bnl0aGluZwplbHNlIG92ZXIgaGVyZSBhdG0uCkNoZWVycywKIC0tIEd1aWRvCgo+IAo+IC0tCj4g
+U3RlZmFuCj4gCj4gCj4gPiBDaGVlcnMsCj4gPiAgLS0gR3VpZG8KPiA+Pgo+ID4+IDEuIEFkZCBz
+dXBwb3J0IGZvciBkcm1fYnJpZGdlCj4gPj4gT24gOE1RIGFuZCA4TU0sIHRoZSBMQ0RJRiBibG9j
+ayBpcyBub3QgZGlyZWN0bHkgY29ubmVjdGVkIHRvIGEgcGFyYWxsZWwKPiA+PiBkaXNwbGF5IGNv
+bm5lY3Rvciwgd2hlcmUgYW4gTENEIHBhbmVsIGNhbiBiZSBhdHRhY2hlZCwgYnV0IGluc3RlYWQg
+aXQgaXMKPiA+PiBjb25uZWN0ZWQgdG8gRFNJIGNvbnRyb2xsZXIuIFNpbmNlIHRoaXMgRFNJIHN0
+YW5kcyBiZXR3ZWVuIHRoZSBkaXNwbGF5Cj4gPj4gY29udHJvbGxlciAoZUxDRElGKSBhbmQgdGhl
+IHBoeXNpY2FsIGNvbm5lY3RvciwgdGhlIERTSSBjYW4gYmUgaW1wbGVtZW50ZWQKPiA+PiBhcyBh
+IERSTSBicmlkZ2UuIFNvLCBpbiBvcmRlciB0byBiZSBhYmxlIHRvIGNvbm5lY3QgdGhlIG14c2Zi
+IGRyaXZlciB0bwo+ID4+IHRoZSBEU0kgZHJpdmVyLCB0aGUgc3VwcG9ydCBmb3IgYSBkcm1fYnJp
+ZGdlIHdhcyBuZWVkZWQgaW4gbXhzZmIgRFJNCj4gPj4gZHJpdmVyICh0aGUgYWN0dWFsIGRyaXZl
+ciBmb3IgdGhlIGVMQ0RJRiBibG9jaykuCj4gPj4KPiA+PiAyLiBBZGQgc3VwcG9ydCBmb3IgYWRk
+aXRpb25hbCBwaXhlbCBmb3JtYXRzCj4gPj4gU29tZSBvZiB0aGUgcGl4ZWwgZm9ybWF0cyBuZWVk
+ZWQgYnkgQW5kcm9pZCB3ZXJlIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGlzCj4gPj4gZHJpdmVyLCBi
+dXQgdGhleSB3ZXJlIGFjdHVhbGx5IHN1cHBvcnRlZC4gU28sIGFkZCBzdXBwb3J0IGZvciB0aGVt
+Lgo+ID4+Cj4gPj4gMy4gQWRkIHN1cHBvcnQgZm9yIGhvcml6b250YWwgc3RyaWRlCj4gPj4gSGF2
+aW5nIHN1cHBvcnQgZm9yIGhvcml6b250YWwgc3RyaWRlIGFsbG93cyB0aGUgdXNlIG9mIGVMQ0RJ
+RiB3aXRoIGEgR1BVCj4gPj4gKGZvciBleGFtcGxlKSB0aGF0IGNhbiBvbmx5IG91dHB1dCByZXNv
+bHV0aW9uIHNpemVzIG11bHRpcGxlIG9mIGEgcG93ZXIgb2YKPiA+PiA4LiBGb3IgZXhhbXBsZSwg
+MTA4MCBpcyBub3QgYSBwb3dlciBvZiAxNiwgc28gaW4gb3JkZXIgdG8gc3VwcG9ydCAxOTIweDEw
+ODAKPiA+PiBvdXRwdXQgZnJvbSBHUFVzIHRoYXQgY2FuIHByb2R1Y2UgbGluZWFyIGJ1ZmZlcnMg
+b25seSBpbiBzaXplcyBtdWx0aXBsZSB0byAxNiwKPiA+PiB0aGlzIGZlYXR1cmUgaXMgbmVlZGVk
+Lgo+ID4+Cj4gPj4gMy4gRmV3IG1pbm9yIGZlYXR1cmVzIGFuZCBidWctZml4aW5nCj4gPj4gVGhl
+IGFkZGl0aW9uIG9mIG1heC1yZXMgRFQgcHJvcGVydHkgd2FzIGFjdHVhbGx5IG5lZWRlZCBpbiBv
+cmRlciB0byBsaW1pdAo+ID4+IHRoZSBiYW5kd2lkdGggdXNhZ2Ugb2YgdGhlIGVMQ0RJRiBibG9j
+ay4gVGhpcyBpcyBuZWVkIG9uIHN5c3RlbXMgd2hlcmUKPiA+PiBtdWx0aXBsZSBkaXNwbGF5IGNv
+bnRyb2xsZXJzIGFyZSBwcmVzZW5kIGFuZCB0aGUgbWVtb3J5IGJhbmR3aWR0aCBpcyBub3QKPiA+
+PiBlbm91Z2ggdG8gaGFuZGxlIGFsbCBvZiB0aGVtIGF0IG1heGltdW0gY2FwYWNpdHkgKGxpa2Ug
+aXQgaXMgdGhlIGNhc2Ugb24KPiA+PiA4TVEsIHdoZXJlIHRoZXJlIGFyZSB0d28gZGlzcGxheSBj
+b250cm9sbGVyczogRENTUyBhbmQgZUxDRElGKS4KPiA+PiBUaGUgcmVzdCBvZiB0aGUgcGF0Y2hl
+cyBhcmUgYnVnLWZpeGVzLgo+ID4+Cj4gPj4gdjM6Cj4gPj4gLSBSZW1vdmVkIHRoZSBtYXgtcmVz
+IHByb3BlcnR5IHBhdGNoZXMgYW5kIGFkZGVkIHN1cHBvcnQgZm9yCj4gPj4gICBtYXgtbWVtb3J5
+LWJhbmR3aWR0aCBwcm9wZXJ0eSwgYXMgaXQgaXMgYWxzbyBpbXBsZW1lbnRlZCBpbiBvdGhlciBk
+cml2ZXJzCj4gPj4gLSBSZW1vdmVkIHVubmVjZXNzYXJ5IGRybV92Ymxhbmtfb2ZmIGluIHByb2Jl
+Cj4gPj4KPiA+PiB2MjoKPiA+PiAtIENvbGxlY3RlZCBUZXN0ZWQtYnkgZnJvbSBHdWlkbwo+ID4+
+IC0gU3BsaXQgdGhlIGZpcnN0IHBhdGNoLCB3aGljaCBhZGRlZCBtb3JlIHRoYW4gb25lIGZlYXR1
+cmUgaW50byByZWxldmFudAo+ID4+ICAgcGF0Y2hlcywgZXhwbGFpbmluZyBlYWNoIGZlYXR1cmUg
+YWRkZWQKPiA+PiAtIEFsc28gc3BsaXQgdGhlIHNlY29uZCBwYXRjaCBpbnRvIG1vcmUgcGF0Y2hl
+cywgdG8gZGlmZmVyZW50aWF0ZSBiZXR3ZWVuCj4gPj4gICB0aGUgZmVhdHVyZSBpdHNlbGYgKGFk
+ZGl0aW9uYWwgcGl4ZWwgZm9ybWF0cyBzdXBwb3J0KSBhbmQgdGhlIGNsZWFudXAKPiA+PiAgIG9m
+IHRoZSByZWdpc3RlciBkZWZpbml0aW9ucyBmb3IgYSBiZXR0ZXIgcmVwcmVzZW50YXRpb24gKGd1
+aWRvKQo+ID4+IC0gSW5jbHVkZWQgYSBwYXRjaCBzdWJtaXR0ZWQgYnkgR3VpZG8sIHdoaWxlIGhl
+IHdhcyB0ZXN0aW5nIG15IHBhdGNoLXNldAo+ID4+Cj4gPj4gR3VpZG8gR8O8bnRoZXIgKDEpOgo+
+ID4+ICAgZHJtL214c2ZiOiBSZWFkIGJ1cyBmbGFncyBmcm9tIGJyaWRnZSBpZiBwcmVzZW50Cj4g
+Pj4KPiA+PiBNaXJlbGEgUmFidWxlYSAoMSk6Cj4gPj4gICBkcm0vbXhzZmI6IFNpZ25hbCBtb2Rl
+IGNoYW5nZWQgd2hlbiBicHAgY2hhbmdlZAo+ID4+Cj4gPj4gUm9iZXJ0IENoaXJhcyAoMTMpOgo+
+ID4+ICAgZHJtL214c2ZiOiBVcGRhdGUgbXhzZmIgdG8gc3VwcG9ydCBhIGJyaWRnZQo+ID4+ICAg
+ZHJtL214c2ZiOiBBZGQgZGVmaW5lcyBmb3IgdGhlIHJlc3Qgb2YgcmVnaXN0ZXJzCj4gPj4gICBk
+cm0vbXhzZmI6IFJlc2V0IHZpdGFsIHJlZ2lzdGVycyBmb3IgYSBwcm9wZXIgaW5pdGlhbGl6YXRp
+b24KPiA+PiAgIGRybS9teHNmYjogVXBkYXRlIHJlZ2lzdGVyIGRlZmluaXRpb25zIHVzaW5nIGJp
+dCBtYW5pcHVsYXRpb24gZGVmaW5lcwo+ID4+ICAgZHJtL214c2ZiOiBVcGRhdGUgbXhzZmIgd2l0
+aCBhZGRpdGlvbmFsIHBpeGVsIGZvcm1hdHMKPiA+PiAgIGRybS9teHNmYjogRml4IHRoZSB2Ymxh
+bmsgZXZlbnRzCj4gPj4gICBkcm0vbXhzZmI6IEFkZCBtYXgtbWVtb3J5LWJhbmR3aWR0aCBwcm9w
+ZXJ0eSBmb3IgTVhTRkIKPiA+PiAgIGR0LWJpbmRpbmdzOiBkaXNwbGF5OiBBZGQgbWF4LW1lbW9y
+eS1iYW5kd2lkdGggcHJvcGVydHkgZm9yIG14c2ZiCj4gPj4gICBkcm0vbXhzZmI6IFVwZGF0ZSBt
+eHNmYiB0byBzdXBwb3J0IExDRCByZXNldAo+ID4+ICAgZHJtL214c2ZiOiBJbXByb3ZlIHRoZSBh
+eGkgY2xvY2sgdXNhZ2UKPiA+PiAgIGRybS9teHNmYjogQ2xlYXIgT1VUU1RBTkRJTkdfUkVRUyBi
+aXRzCj4gPj4gICBkcm0vbXhzZmI6IEFkZCBzdXBwb3J0IGZvciBob3Jpem9udGFsIHN0cmlkZQo+
+ID4+ICAgZHJtL214c2ZiOiBBZGQgc3VwcG9ydCBmb3IgbGl2ZSBwaXhlbCBmb3JtYXQgY2hhbmdl
+Cj4gPj4KPiA+PiAgLi4uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9teHNmYi50eHQgICAg
+ICAgICAgfCAgIDUgKwo+ID4+ICBkcml2ZXJzL2dwdS9kcm0vbXhzZmIvbXhzZmJfY3J0Yy5jICAg
+ICAgICAgICAgICAgICB8IDI4NyArKysrKysrKysrKysrKysrKystLS0KPiA+PiAgZHJpdmVycy9n
+cHUvZHJtL214c2ZiL214c2ZiX2Rydi5jICAgICAgICAgICAgICAgICAgfCAyMDMgKysrKysrKysr
+KysrKy0tCj4gPj4gIGRyaXZlcnMvZ3B1L2RybS9teHNmYi9teHNmYl9kcnYuaCAgICAgICAgICAg
+ICAgICAgIHwgIDEyICstCj4gPj4gIGRyaXZlcnMvZ3B1L2RybS9teHNmYi9teHNmYl9vdXQuYyAg
+ICAgICAgICAgICAgICAgIHwgIDI2ICstCj4gPj4gIGRyaXZlcnMvZ3B1L2RybS9teHNmYi9teHNm
+Yl9yZWdzLmggICAgICAgICAgICAgICAgIHwgMTkzICsrKysrKysrKy0tLS0tCj4gPj4gIDYgZmls
+ZXMgY2hhbmdlZCwgNTg5IGluc2VydGlvbnMoKyksIDEzNyBkZWxldGlvbnMoLSkKPiA+Pgo+ID4+
+IC0tCj4gPj4gMi43LjQKPiA+Pgo+IApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
+by9kcmktZGV2ZWw=
