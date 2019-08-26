@@ -2,40 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D44DB9D97B
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2019 00:47:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57F5D9D9C5
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2019 01:07:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 513A56E32A;
-	Mon, 26 Aug 2019 22:47:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F40DF6E331;
+	Mon, 26 Aug 2019 23:07:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 525096E32A
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2019 22:47:42 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi
- [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id CB5519A4;
- Tue, 27 Aug 2019 00:47:40 +0200 (CEST)
-Date: Tue, 27 Aug 2019 01:47:34 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: Re: [PATCH v3 07/14] arm64: dts: renesas: r8a77995: Add CMM units
-Message-ID: <20190826224734.GP5031@pendragon.ideasonboard.com>
-References: <20190825135154.11488-1-jacopo+renesas@jmondi.org>
- <20190825135154.11488-8-jacopo+renesas@jmondi.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 36A1A6E331
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Aug 2019 23:07:36 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 3282D72161; Mon, 26 Aug 2019 23:07:36 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111482] Sapphire Pulse RX 5700 XT power consumption
+Date: Mon, 26 Aug 2019 23:07:36 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: freedesktop@postfach.xyz
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111482-502-6D6SjHWhfT@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111482-502@http.bugs.freedesktop.org/>
+References: <bug-111482-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190825135154.11488-8-jacopo+renesas@jmondi.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1566859661;
- bh=5FneaKNOaJ6gc1HCDlkYzgekoyT6FJ9a1i4rQZk/G64=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=q77l1vMnetbiVN/hqkbVVfXAD+kTMJ38mjw6gRt05MANFlmT4HlwoO7DyVGFusuOo
- xTTzyk7bHrsTC+Fnf1feUNYglDXMosa8Md/TYj9swR4FqYuGkjHQNVES+ggCwfdc/p
- GYNWhQXH1pKuSu0W++YxwhftImTiWCLQkWGobEWY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,50 +52,286 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: muroya@ksk.co.jp, uli@fpond.eu, horms@verge.net.au,
- VenkataRajesh.Kalakodima@in.bosch.com, airlied@linux.ie,
- koji.matsuoka.xm@renesas.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
- Harsha.ManjulaMallikarjun@in.bosch.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1474440282=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgSmFjb3BvLAoKVGhhbmsgeW91IGZvciB0aGUgcGF0Y2guCgpPbiBTdW4sIEF1ZyAyNSwgMjAx
-OSBhdCAwMzo1MTo0N1BNICswMjAwLCBKYWNvcG8gTW9uZGkgd3JvdGU6Cj4gQWRkIENNTSB1bml0
-cyB0byBSZW5lc2FzIFItQ2FyIEQzIGRldmljZSB0cmVlIGFuZCByZWZlcmVuY2UgdGhlbSBmcm9t
-Cj4gdGhlIERpc3BsYXkgVW5pdCB0aGV5IGFyZSBjb25uZWN0ZWQgdG8uCj4gCj4gV2hpbGUgYXQg
-aXQsIHJlLXNvcnQgdGhlIGR1IGRldmljZSBub2RlIHByb3BlcnRpZXMgdG8gbWF0Y2ggdGhlIG9y
-ZGVyaW5nCj4gZm91bmQgaW4gb3RoZXIgU29Dcy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBKYWNvcG8g
-TW9uZGkgPGphY29wbytyZW5lc2FzQGptb25kaS5vcmc+CgpBcGFydCBmcm9tIHRoZSBpc3N1ZSB3
-aXRoIGNvbXBhdGlibGUgc3RyaW5nIGFzIHBvaW50ZWQgb3V0IGZvciBwYXRjaAowMy8xNCwKClJl
-dmlld2VkLWJ5OiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2Fy
-ZC5jb20+Cgo+IC0tLQo+ICBhcmNoL2FybTY0L2Jvb3QvZHRzL3JlbmVzYXMvcjhhNzc5OTUuZHRz
-aSB8IDIwICsrKysrKysrKysrKysrKysrKystCj4gIDEgZmlsZSBjaGFuZ2VkLCAxOSBpbnNlcnRp
-b25zKCspLCAxIGRlbGV0aW9uKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2FyY2gvYXJtNjQvYm9vdC9k
-dHMvcmVuZXNhcy9yOGE3Nzk5NS5kdHNpIGIvYXJjaC9hcm02NC9ib290L2R0cy9yZW5lc2FzL3I4
-YTc3OTk1LmR0c2kKPiBpbmRleCAxODNmZWY4NmNmN2MuLmI5MWEyMGZiYmJjNiAxMDA2NDQKPiAt
-LS0gYS9hcmNoL2FybTY0L2Jvb3QvZHRzL3JlbmVzYXMvcjhhNzc5OTUuZHRzaQo+ICsrKyBiL2Fy
-Y2gvYXJtNjQvYm9vdC9kdHMvcmVuZXNhcy9yOGE3Nzk5NS5kdHNpCj4gQEAgLTk5Myw2ICs5OTMs
-MjIgQEAKPiAgCQkJaW9tbXVzID0gPCZpcG1tdV92aTAgOT47Cj4gIAkJfTsKPiAgCj4gKwkJY21t
-MDogY21tQGZlYTQwMDAwIHsKPiArCQkJY29tcGF0aWJsZSA9ICJyZW5lc2FzLGNtbS1yOGE3Nzk5
-NSI7Cj4gKwkJCXJlZyA9IDwwIDB4ZmVhNDAwMDAgMCAweDEwMDA+Owo+ICsJCQljbG9ja3MgPSA8
-JmNwZyBDUEdfTU9EIDcxMT47Cj4gKwkJCXBvd2VyLWRvbWFpbnMgPSA8JnN5c2MgUjhBNzc5OTVf
-UERfQUxXQVlTX09OPjsKPiArCQkJcmVzZXRzID0gPCZjcGcgNzExPjsKPiArCQl9Owo+ICsKPiAr
-CQljbW0xOiBjbW1AZmVhNTAwMDAgewo+ICsJCQljb21wYXRpYmxlID0gInJlbmVzYXMsY21tLXI4
-YTc3OTk1IjsKPiArCQkJcmVnID0gPDAgMHhmZWE1MDAwMCAwIDB4MTAwMD47Cj4gKwkJCWNsb2Nr
-cyA9IDwmY3BnIENQR19NT0QgNzEwPjsKPiArCQkJcG93ZXItZG9tYWlucyA9IDwmc3lzYyBSOEE3
-Nzk5NV9QRF9BTFdBWVNfT04+Owo+ICsJCQlyZXNldHMgPSA8JmNwZyA3MTA+Owo+ICsJCX07Cj4g
-Kwo+ICAJCWR1OiBkaXNwbGF5QGZlYjAwMDAwIHsKPiAgCQkJY29tcGF0aWJsZSA9ICJyZW5lc2Fz
-LGR1LXI4YTc3OTk1IjsKPiAgCQkJcmVnID0gPDAgMHhmZWIwMDAwMCAwIDB4NDAwMDA+Owo+IEBA
-IC0xMDAzLDkgKzEwMTksMTEgQEAKPiAgCQkJY2xvY2stbmFtZXMgPSAiZHUuMCIsICJkdS4xIjsK
-PiAgCQkJcmVzZXRzID0gPCZjcGcgNzI0PjsKPiAgCQkJcmVzZXQtbmFtZXMgPSAiZHUuMCI7Cj4g
-LQkJCXZzcHMgPSA8JnZzcGQwIDA+LCA8JnZzcGQxIDA+Owo+ICAJCQlzdGF0dXMgPSAiZGlzYWJs
-ZWQiOwo+ICAKPiArCQkJdnNwcyA9IDwmdnNwZDAgMD4sIDwmdnNwZDEgMD47Cj4gKwkJCWNtbXMg
-PSA8JmNtbTAgJmNtbTE+Owo+ICsKPiAgCQkJcG9ydHMgewo+ICAJCQkJI2FkZHJlc3MtY2VsbHMg
-PSA8MT47Cj4gIAkJCQkjc2l6ZS1jZWxscyA9IDwwPjsKCi0tIApSZWdhcmRzLAoKTGF1cmVudCBQ
-aW5jaGFydApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1474440282==
+Content-Type: multipart/alternative; boundary="15668608561.9650D.17379"
+Content-Transfer-Encoding: 7bit
+
+
+--15668608561.9650D.17379
+Date: Mon, 26 Aug 2019 23:07:36 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111482
+
+--- Comment #1 from Robert <freedesktop@postfach.xyz> ---
+Not sure if it's of any use but I figured out today that after starting KDE
+Plasma, launching "Konsole" and typing "sensors" the output is basically
+garbage:
+
+"""
+amdgpu-pci-0c00
+Adapter: PCI adapter
+vddgfx:       +0.72 V=20=20
+fan1:             N/A  (min =3D    0 RPM, max =3D 3200 RPM)
+edge:             N/A  (crit =3D +118.0=C2=B0C, hyst =3D -273.1=C2=B0C)
+                       (emerg =3D +99.0=C2=B0C)
+junction:         N/A  (crit =3D +99.0=C2=B0C, hyst =3D -273.1=C2=B0C)
+                       (emerg =3D +99.0=C2=B0C)
+mem:              N/A  (crit =3D +99.0=C2=B0C, hyst =3D -273.1=C2=B0C)
+                       (emerg =3D +99.0=C2=B0C)
+power1:           N/A  (cap =3D 180.00 W)
+
+asus-isa-0000
+Adapter: ISA adapter
+cpu_fan:        0 RPM
+"""
+
+I can repeat this a few times and it stays the same. And I always see this
+errors in "dmesg" or "journalctl":
+
+"""
+[  137.931148] amdgpu: [powerplay] failed send message: TransferTableSmu2Dr=
+am
+(18)      param: 0x00000006 response 0xffffffc2
+[  137.931150] amdgpu: [powerplay] Failed to export SMU metrics table!
+[  140.144885] amdgpu: [powerplay] failed send message: SetDriverDramAddrHi=
+gh
+(14)      param: 0x00000080 response 0xffffffc2
+[  142.358346] amdgpu: [powerplay] failed send message: SetDriverDramAddrHi=
+gh
+(14)      param: 0x00000080 response 0xffffffc2
+[  142.358348] amdgpu: [powerplay] Failed to export SMU metrics table!
+[  144.571878] amdgpu: [powerplay] failed send message: SetDriverDramAddrHi=
+gh
+(14)      param: 0x00000080 response 0xffffffc2
+[  146.785069] amdgpu: [powerplay] failed send message: SetDriverDramAddrHi=
+gh
+(14)      param: 0x00000080 response 0xffffffc2
+[  146.785071] amdgpu: [powerplay] Failed to export SMU metrics table!
+[  148.998450] amdgpu: [powerplay] failed send message: SetDriverDramAddrHi=
+gh
+(14)      param: 0x00000080 response 0xffffffc2
+[  151.211737] amdgpu: [powerplay] failed send message: SetDriverDramAddrHi=
+gh
+(14)      param: 0x00000080 response 0xffffffc2
+[  151.211738] amdgpu: [powerplay] Failed to export SMU metrics table!
+[  153.425132] amdgpu: [powerplay] failed send message: SetDriverDramAddrHi=
+gh
+(14)      param: 0x00000080 response 0xffffffc2
+[  155.638843] amdgpu: [powerplay] failed send message: SetDriverDramAddrHi=
+gh
+(14)      param: 0x00000080 response 0xffffffc2
+[  155.638845] amdgpu: [powerplay] Failed to export SMU metrics table!
+"""
+
+It looks like that for every value "sensors" try to get it prints one such
+"failed send message..." errors.
+
+Now the funny thing is if I start "Firefox" the screen "flickers" very shor=
+tly
+and afterwards "sensors" prints useful values e.g.:
+
+"""
+amdgpu-pci-0c00
+Adapter: PCI adapter
+vddgfx:       +0.72 V=20=20
+fan1:         531 RPM  (min =3D    0 RPM, max =3D 3200 RPM)
+edge:         +54.0=C2=B0C  (crit =3D +118.0=C2=B0C, hyst =3D -273.1=C2=B0C)
+                       (emerg =3D +99.0=C2=B0C)
+junction:     +56.0=C2=B0C  (crit =3D +99.0=C2=B0C, hyst =3D -273.1=C2=B0C)
+                       (emerg =3D +99.0=C2=B0C)
+mem:          +66.0=C2=B0C  (crit =3D +99.0=C2=B0C, hyst =3D -273.1=C2=B0C)
+                       (emerg =3D +99.0=C2=B0C)
+power1:       34.00 W  (cap =3D 180.00 W)
+
+asus-isa-0000
+Adapter: ISA adapter
+cpu_fan:        0 RPM
+"""
+
+But the problem with high idle power consumption of course doesn't change.
+Today I updated to the latest firmware from 2019-08-26 and also updated Mes=
+a to
+19.2-rc1. In the last post I forgot to mention that I'm currently using
+"libdrm-git 2.4.99.r16.g14922551-1" which is basically libdrm master branch
+AFAIK.
+
+I'm really a little bit out of ideas ATM. Besides the idle power consumption
+thingy everything is working perfectly. Even Minecraft ;-)
+
+Before I installed Archlinux from scratch I used a Nvidia GTX 1060 with the
+Nvidia binary drivers in the same host as the Sapphire card I now use wasn't
+released at that time. With that card I hadn't any issues with idle power
+consumption. It was around 8-10W while running KDE Plasma.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15668608561.9650D.17379
+Date: Mon, 26 Aug 2019 23:07:36 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482">bug 11148=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+freedesktop&#64;postfach.xyz" title=3D"Robert &lt;freedesktop&#64;postfach.=
+xyz&gt;"> <span class=3D"fn">Robert</span></a>
+</span></b>
+        <pre>Not sure if it's of any use but I figured out today that after=
+ starting KDE
+Plasma, launching &quot;Konsole&quot; and typing &quot;sensors&quot; the ou=
+tput is basically
+garbage:
+
+&quot;&quot;&quot;
+amdgpu-pci-0c00
+Adapter: PCI adapter
+vddgfx:       +0.72 V=20=20
+fan1:             N/A  (min =3D    0 RPM, max =3D 3200 RPM)
+edge:             N/A  (crit =3D +118.0=C2=B0C, hyst =3D -273.1=C2=B0C)
+                       (emerg =3D +99.0=C2=B0C)
+junction:         N/A  (crit =3D +99.0=C2=B0C, hyst =3D -273.1=C2=B0C)
+                       (emerg =3D +99.0=C2=B0C)
+mem:              N/A  (crit =3D +99.0=C2=B0C, hyst =3D -273.1=C2=B0C)
+                       (emerg =3D +99.0=C2=B0C)
+power1:           N/A  (cap =3D 180.00 W)
+
+asus-isa-0000
+Adapter: ISA adapter
+cpu_fan:        0 RPM
+&quot;&quot;&quot;
+
+I can repeat this a few times and it stays the same. And I always see this
+errors in &quot;dmesg&quot; or &quot;journalctl&quot;:
+
+&quot;&quot;&quot;
+[  137.931148] amdgpu: [powerplay] failed send message: TransferTableSmu2Dr=
+am
+(18)      param: 0x00000006 response 0xffffffc2
+[  137.931150] amdgpu: [powerplay] Failed to export SMU metrics table!
+[  140.144885] amdgpu: [powerplay] failed send message: SetDriverDramAddrHi=
+gh
+(14)      param: 0x00000080 response 0xffffffc2
+[  142.358346] amdgpu: [powerplay] failed send message: SetDriverDramAddrHi=
+gh
+(14)      param: 0x00000080 response 0xffffffc2
+[  142.358348] amdgpu: [powerplay] Failed to export SMU metrics table!
+[  144.571878] amdgpu: [powerplay] failed send message: SetDriverDramAddrHi=
+gh
+(14)      param: 0x00000080 response 0xffffffc2
+[  146.785069] amdgpu: [powerplay] failed send message: SetDriverDramAddrHi=
+gh
+(14)      param: 0x00000080 response 0xffffffc2
+[  146.785071] amdgpu: [powerplay] Failed to export SMU metrics table!
+[  148.998450] amdgpu: [powerplay] failed send message: SetDriverDramAddrHi=
+gh
+(14)      param: 0x00000080 response 0xffffffc2
+[  151.211737] amdgpu: [powerplay] failed send message: SetDriverDramAddrHi=
+gh
+(14)      param: 0x00000080 response 0xffffffc2
+[  151.211738] amdgpu: [powerplay] Failed to export SMU metrics table!
+[  153.425132] amdgpu: [powerplay] failed send message: SetDriverDramAddrHi=
+gh
+(14)      param: 0x00000080 response 0xffffffc2
+[  155.638843] amdgpu: [powerplay] failed send message: SetDriverDramAddrHi=
+gh
+(14)      param: 0x00000080 response 0xffffffc2
+[  155.638845] amdgpu: [powerplay] Failed to export SMU metrics table!
+&quot;&quot;&quot;
+
+It looks like that for every value &quot;sensors&quot; try to get it prints=
+ one such
+&quot;failed send message...&quot; errors.
+
+Now the funny thing is if I start &quot;Firefox&quot; the screen &quot;flic=
+kers&quot; very shortly
+and afterwards &quot;sensors&quot; prints useful values e.g.:
+
+&quot;&quot;&quot;
+amdgpu-pci-0c00
+Adapter: PCI adapter
+vddgfx:       +0.72 V=20=20
+fan1:         531 RPM  (min =3D    0 RPM, max =3D 3200 RPM)
+edge:         +54.0=C2=B0C  (crit =3D +118.0=C2=B0C, hyst =3D -273.1=C2=B0C)
+                       (emerg =3D +99.0=C2=B0C)
+junction:     +56.0=C2=B0C  (crit =3D +99.0=C2=B0C, hyst =3D -273.1=C2=B0C)
+                       (emerg =3D +99.0=C2=B0C)
+mem:          +66.0=C2=B0C  (crit =3D +99.0=C2=B0C, hyst =3D -273.1=C2=B0C)
+                       (emerg =3D +99.0=C2=B0C)
+power1:       34.00 W  (cap =3D 180.00 W)
+
+asus-isa-0000
+Adapter: ISA adapter
+cpu_fan:        0 RPM
+&quot;&quot;&quot;
+
+But the problem with high idle power consumption of course doesn't change.
+Today I updated to the latest firmware from 2019-08-26 and also updated Mes=
+a to
+19.2-rc1. In the last post I forgot to mention that I'm currently using
+&quot;libdrm-git 2.4.99.r16.g14922551-1&quot; which is basically libdrm mas=
+ter branch
+AFAIK.
+
+I'm really a little bit out of ideas ATM. Besides the idle power consumption
+thingy everything is working perfectly. Even Minecraft ;-)
+
+Before I installed Archlinux from scratch I used a Nvidia GTX 1060 with the
+Nvidia binary drivers in the same host as the Sapphire card I now use wasn't
+released at that time. With that card I hadn't any issues with idle power
+consumption. It was around 8-10W while running KDE Plasma.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15668608561.9650D.17379--
+
+--===============1474440282==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1474440282==--
