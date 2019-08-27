@@ -2,45 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF1859F512
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2019 23:28:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6F379F52A
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2019 23:36:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0765C89A1A;
-	Tue, 27 Aug 2019 21:28:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15D78892B5;
+	Tue, 27 Aug 2019 21:36:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id A07928997A
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2019 21:28:19 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9760272161; Tue, 27 Aug 2019 21:28:19 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
+ [IPv6:2607:f8b0:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B0D5892B5;
+ Tue, 27 Aug 2019 21:36:44 +0000 (UTC)
+Received: by mail-pl1-x643.google.com with SMTP id 4so166568pld.10;
+ Tue, 27 Aug 2019 14:36:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=k+0AUBxbU6JVGwde8Yye0R2BikQpnByAsWECQmXnXdg=;
+ b=B4kqgPEAtzCUu+NlUDdxegZK6H9ILaItYXBl96ejFRLMM/SNY4A4adoitsq/NmTYZm
+ Slpiww1cDMQwtGCuRtXZxGGMCUouMrS8rAfREEI3ujeQFXlyi1XsMDiJ95+2OlEgXK+z
+ qVsQq0SDlCR7V+6oHoFHPDistxQ1A4q/GwHvkaiXgjtBCNkL4y7oks9jXUl0GmQ/eof9
+ CWZruz77HFpOXBItdGWHlpo9f7ZZwsSoBtoHOB8IXeZUaYLS/AYs4SO0v0wFgpwwQ7QL
+ 5PGM5FknGKeIwILt3nnCPNSjVyarCgdqzplgAGGEtzcal8aQDd0ZlCX6L9JWiSKuYsti
+ abQw==
+X-Gm-Message-State: APjAAAU4LYx09Ek4jW/rKsZtqPW5q7z6bhNBieRLtrq8Vbz6PcgD5/jg
+ w/7hYkmW9iddh/JVLYUdpStmKsnVc5o=
+X-Google-Smtp-Source: APXvYqy07weBiz46/PfoQJBr6AVmaA4u5nf1lNwSBxa3zqpE7lPXtS1ZoG1ndxvssYCOXXhfmOjHoQ==
+X-Received: by 2002:a17:902:f01:: with SMTP id 1mr981614ply.337.1566941803570; 
+ Tue, 27 Aug 2019 14:36:43 -0700 (PDT)
+Received: from localhost ([100.118.89.196])
+ by smtp.gmail.com with ESMTPSA id b126sm275451pfa.177.2019.08.27.14.36.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Aug 2019 14:36:42 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111414] [REGRESSION] [BISECTED] Segmentation fault in
- si_bind_blend_state after removal of the blend state NULL check
-Date: Tue, 27 Aug 2019 21:28:19 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: Dieter@nuetzel-hh.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111414-502-C24pwt6hbV@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111414-502@http.bugs.freedesktop.org/>
-References: <bug-111414-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH 0/9] drm/msm: async commit support
+Date: Tue, 27 Aug 2019 14:33:30 -0700
+Message-Id: <20190827213421.21917-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=k+0AUBxbU6JVGwde8Yye0R2BikQpnByAsWECQmXnXdg=;
+ b=ORQG6ecUUO5DHHrbAG09EZHk4pcKZezQuBxRAF+KWI2FGlRh5SpcXahV1RvNmYAeFl
+ dn1epk7Ea0CJf26fKzI/BP5wzDexaa4K9aOFA2nGh98/oHHeHJf25lame43eyEgYOtNN
+ PIexZfo4kWgQrIKgGV1PspZOBb53LpAoG5aO/wAbEqfUlEbIIcfTyK8+a52s3lXPXjbO
+ bqeoqBQbMSkDMQoua45nrrUo0S9OSEBLwN9uRyZ0Zn505CbC+8+vogDtWZSCTTM6tahU
+ 7w9X76M1Jwnevb1HG3vcL5+/WlcOoFvyZAUVDkTldSvpT5s3xzipcHNQFsWS+KJTHJg8
+ 7RxA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,136 +65,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1525319677=="
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, Fritz Koenig <frkoenig@google.com>,
+ Sravanthi Kollukuduru <skolluku@codeaurora.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Jonathan Marek <jonathan@marek.ca>,
+ Boris Brezillon <bbrezillon@kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, Bruce Wang <bzwang@chromium.org>,
+ Alexios Zavras <alexios.zavras@intel.com>, Sean Paul <seanpaul@chromium.org>,
+ Mamta Shukla <mamtashukla555@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Enrico Weigelt <info@metux.net>, Georgi Djakov <georgi.djakov@linaro.org>,
+ Allison Randal <allison@lohutok.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1525319677==
-Content-Type: multipart/alternative; boundary="15669412990.aC2ad.23620"
-Content-Transfer-Encoding: 7bit
-
-
---15669412990.aC2ad.23620
-Date: Tue, 27 Aug 2019 21:28:19 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111414
-
---- Comment #6 from Dieter N=C3=BCtzel <Dieter@nuetzel-hh.de> ---
-(gdb) bt full
-#0  0x00007f2ec9e5ddd1 in raise () from /lib64/libc.so.6
-No symbol table info available.
-#1  0x00007f2ec9e47549 in abort () from /lib64/libc.so.6
-No symbol table info available.
-#2  0x00007f2ec9e47421 in __assert_fail_base.cold () from /lib64/libc.so.6
-No symbol table info available.
-#3  0x00007f2ec9e56322 in __assert_fail () from /lib64/libc.so.6
-No symbol table info available.
-#4  0x00007f2e66d99c16 in FormatYCBCRToPipe (vdpau_format=3D7)
-    at ../src/gallium/state_trackers/vdpau/vdpau_private.h:138
-        __PRETTY_FUNCTION__ =3D "FormatYCBCRToPipe"
-#5  0x00007f2e66d9a00e in vlVdpVideoSurfaceQueryGetPutBitsYCbCrCapabilities
-(device=3D1,=20
-    surface_chroma_type=3D2, bits_ycbcr_format=3D7, is_supported=3D0x7f2eba=
-775630)
-    at ../src/gallium/state_trackers/vdpau/query.c:157
-        dev =3D 0x7f2ea802fbf0
-        pscreen =3D 0x7f2ea8571b20
-#6  0x00007f2ec7e4aa95 in ?? () from /usr/lib64/libavutil.so.56
-No symbol table info available.
-#7  0x00007f2ec7e4593e in av_hwdevice_ctx_init () from
-/usr/lib64/libavutil.so.56
-No symbol table info available.
-#8  0x000055e6b254ca9d in mp_vdpau_create_device_x11 ()
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15669412990.aC2ad.23620
-Date: Tue, 27 Aug 2019 21:28:19 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [REGRESSION] [BISECTED] Segmentation fault in si_bind_ble=
-nd_state after removal of the blend state NULL check"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111414#c6">Commen=
-t # 6</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [REGRESSION] [BISECTED] Segmentation fault in si_bind_ble=
-nd_state after removal of the blend state NULL check"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111414">bug 11141=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-Dieter&#64;nuetzel-hh.de" title=3D"Dieter N=C3=BCtzel &lt;Dieter&#64;nuetze=
-l-hh.de&gt;"> <span class=3D"fn">Dieter N=C3=BCtzel</span></a>
-</span></b>
-        <pre>(gdb) bt full
-#0  0x00007f2ec9e5ddd1 in raise () from /lib64/libc.so.6
-No symbol table info available.
-#1  0x00007f2ec9e47549 in abort () from /lib64/libc.so.6
-No symbol table info available.
-#2  0x00007f2ec9e47421 in __assert_fail_base.cold () from /lib64/libc.so.6
-No symbol table info available.
-#3  0x00007f2ec9e56322 in __assert_fail () from /lib64/libc.so.6
-No symbol table info available.
-#4  0x00007f2e66d99c16 in FormatYCBCRToPipe (vdpau_format=3D7)
-    at ../src/gallium/state_trackers/vdpau/vdpau_private.h:138
-        __PRETTY_FUNCTION__ =3D &quot;FormatYCBCRToPipe&quot;
-#5  0x00007f2e66d9a00e in vlVdpVideoSurfaceQueryGetPutBitsYCbCrCapabilities
-(device=3D1,=20
-    surface_chroma_type=3D2, bits_ycbcr_format=3D7, is_supported=3D0x7f2eba=
-775630)
-    at ../src/gallium/state_trackers/vdpau/query.c:157
-        dev =3D 0x7f2ea802fbf0
-        pscreen =3D 0x7f2ea8571b20
-#6  0x00007f2ec7e4aa95 in ?? () from /usr/lib64/libavutil.so.56
-No symbol table info available.
-#7  0x00007f2ec7e4593e in av_hwdevice_ctx_init () from
-/usr/lib64/libavutil.so.56
-No symbol table info available.
-#8  0x000055e6b254ca9d in mp_vdpau_create_device_x11 ()</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15669412990.aC2ad.23620--
-
---===============1525319677==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1525319677==--
+RnJvbTogUm9iIENsYXJrIDxyb2JkY2xhcmtAY2hyb21pdW0ub3JnPgoKQ3VycmVudGx5IHRoZSBk
+cHUgYmFja2VuZCBhdHRlbXB0cyB0byBoYW5kbGUgYXN5bmMgY29tbWl0cy4gIEJ1dCBpdAppcyBy
+YWNleSBhbmQgY291bGQgcmVzdWx0IGluIGZsdXNoaW5nIG11bHRpcGxlIHRpbWVzIGluIGEgZnJh
+bWUsIG9yCm1vZGlmeWluZyBodyBzdGF0ZSAoc3VjaCBhcyBzY2Fub3V0IGFkZHJlc3Mgb3IgY3Vy
+c29yIHBvc2l0aW9uKSBhZnRlcgp0aGUgcHJldmlvdXMgZmx1c2gsIGJ1dCBiZWZvcmUgdmJsYW5r
+LCBjYXVzaW5nIHVuZGVyZmxvd3MgKHdoaWNoCm1hbmlmZXN0IGFzIGJyaWVmIGJsYWNrIGZsYXNo
+ZXMpLgoKVGhpcyBwYXRjaHNldCByZW1vdmVzIHRoZSBwcmV2aW91cyBkcHUgYXN5bmMgY29tbWl0
+IGhhbmRsaW5nLCBhbmQKcmV3b3JrcyB0aGUgaW50ZXJuYWwga21zIGJhY2tlbmQgQVBJIHRvIGRl
+Y291cGxlIGZsdXNoaW5nLiAgQW5kIGluCnRoZSBlbmQgaW50cm9kdWNlcyBhbiBocnRpbWVyIHRv
+IGZsdXNoIGFzeW5jIHVwZGF0ZXMuICBUaGUgb3ZlcmFsbAphcHByb2FjaCBpczoKCiAxKSBNb3Zl
+IGZsdXNoaW5nIHZhcmlvdXMgaHcgc3RhdGUgb3V0IG9mIGVuY29kZXIvY3J0YyBhdG9taWMgY29t
+bWl0CiAgICAod2hpY2ggaXMgYW55d2F5cyBhbiBpbXByb3ZlbWVudCBvdmVyIHRoZSBjdXJyZW50
+IHN0YXRlLCB3aGVyZQogICAgd2UgZWl0aGVyIGZsdXNoIGZyb20gY3J0YyBvciBlbmNvZGVyLCBk
+ZXBlbmRpbmcgb24gd2hldGhlciBpdCBpcwogICAgYSBmdWxsIG1vZGVzZXQpCgogMikgU3dpdGNo
+IHRvIGNydGNfbWFzayBmb3IgYW55dGhpbmcgdGhhdCBjb21wbGV0ZXMgYWZ0ZXIgYXRvbWljCiAg
+ICBfY29tbWl0X3RhaWwoKSwgc28gd2UgZG8gbm90IG5lZWQgdG8ga2VlcCB0aGUgYXRvbWljIHN0
+YXRlCiAgICBhcm91bmQuICBJZS4gZnJvbSBkcm0gY29yZSdzIHBlcnNwZWN0aXZlLCBhbiBhc3lu
+YyBjb21taXQKICAgIGNvbXBsZXRlcyBpbW1lZGlhdGVseS4KCiAgICBUaGlzIGF2b2lkcyBmaWdo
+dGluZyB3aXRoIGRybSBjb3JlIGFib3V0IHRoZSBsaWZlY3ljbGUgb2YgYW4KICAgIGF0b21pYyBz
+dGF0ZSBvYmplY3QuCgogMykgVHJhY2sgYSBiaXRtYXNrIG9mIGNydGNzIHcvIHBlbmRpbmcgYXN5
+bmMgZmx1c2gsIGFuZCBzZXR1cAogICAgYW4gaHJ0aW1lciB3aXRoIGV4cGlyYXRpb24gMW1zIGJl
+Zm9yZSB2YmxhbmssIHRvIHRyaWdnZXIKICAgIHRoZSBmbHVzaC4gIEZvciBhc3luYyBjb21taXRz
+LCB3ZSBwdXNoIHRoZSBzdGF0ZSBkb3duIHRvCiAgICB0aGUgZG91YmxlIGJ1ZmZlcmVkIGh3IHJl
+Z2lzdGVycyBpbW1lZGlhdGVseSwgYW5kIG9ubHkKICAgIGRlZmVyIHdyaXRpbmcgdGhlIGZsdXNo
+IHJlZ2lzdGVycy4KCkN1cnJlbnQgcGF0Y2hzZXQgb25seSBpbmNsdWRlcyB0aGUgZHB1IGJhY2tl
+bmQgc3VwcG9ydCBmb3IgYXN5bmMKY29tbWl0cy4uIG1kcDQgYW5kIG1kcDUgc2hvdWxkIGJlIHJl
+bGF0aXZlbHkgdHJpdmlhbCAobGVzcyBsYXllcnMKb2YgaW5kaXJlY3Rpb24gaW52b2x2ZWQpLiAg
+QnV0IEkgd29uJ3QgaGF2ZSBhY2Nlc3MgdG8gYW55IG1kcDQgaHcKZm9yIGEgZmV3IG1vcmUgd2Vl
+a3MsIHNvIGF0IGxlYXN0IHRoYXQgcGFydCBJIG1pZ2h0IHB1bnQgb24gZm9yCm5vdy4KClJvYiBD
+bGFyayAoOSk6CiAgZHJtL21zbS9kcHU6IHVud2luZCBhc3luYyBjb21taXQgaGFuZGxpbmcKICBk
+cm0vbXNtL2RwdTogYWRkIHJlYWwgd2FpdF9mb3JfY29tbWl0X2RvbmUoKQogIGRybS9tc20vZHB1
+OiBoYW5kbGVfZnJhbWVfZG9uZSgpIGZyb20gdmJsYW5rIGlycQogIGRybS9tc206IGFkZCBrbXMt
+PndhaXRfZmx1c2goKQogIGRybS9tc206IGNvbnZlcnQga21zLT5jb21wbGV0ZV9jb21taXQoKSB0
+byBjcnRjX21hc2sKICBkcm0vbXNtOiBhZGQga21zLT5mbHVzaF9jb21taXQoKQogIGRybS9tc206
+IHNwbGl0IHBvd2VyIGNvbnRyb2wgZnJvbSBwcmVwYXJlL2NvbXBsZXRlX2NvbW1pdAogIGRybS9t
+c206IGFzeW5jIGNvbW1pdCBzdXBwb3J0CiAgZHJtL21zbS9kcHU6IGFzeW5jIGNvbW1pdCBzdXBw
+b3J0CgogZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL2RwdTEvZHB1X2NydGMuYyAgICAgIHwgIDQ4
+ICstLS0KIGRyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9kcHUxL2RwdV9jcnRjLmggICAgICB8ICAg
+NyArLQogZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL2RwdTEvZHB1X2VuY29kZXIuYyAgIHwgIDQ2
+ICsrLS0KIGRyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9kcHUxL2RwdV9lbmNvZGVyLmggICB8ICAg
+OCArLQogLi4uL2RybS9tc20vZGlzcC9kcHUxL2RwdV9lbmNvZGVyX3BoeXNfdmlkLmMgIHwgIDM5
+ICsrLS0KIGRyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9kcHUxL2RwdV9rbXMuYyAgICAgICB8ICA5
+OSArKysrKy0tLS0KIGRyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9tZHA0L21kcDRfa21zLmMgICAg
+ICB8ICA0OCArKy0tCiBkcml2ZXJzL2dwdS9kcm0vbXNtL2Rpc3AvbWRwNS9tZHA1X2ttcy5jICAg
+ICAgfCAgNDcgKystLQogZHJpdmVycy9ncHUvZHJtL21zbS9tc21fYXRvbWljLmMgICAgICAgICAg
+ICAgIHwgMjEwICsrKysrKysrKysrKysrKy0tLQogZHJpdmVycy9ncHUvZHJtL21zbS9tc21fZHJ2
+LmMgICAgICAgICAgICAgICAgIHwgICAxICsKIGRyaXZlcnMvZ3B1L2RybS9tc20vbXNtX2Rydi5o
+ICAgICAgICAgICAgICAgICB8ICAgNCArCiBkcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9rbXMuaCAg
+ICAgICAgICAgICAgICAgfCAxMDggKysrKysrKystCiAxMiBmaWxlcyBjaGFuZ2VkLCA0NjYgaW5z
+ZXJ0aW9ucygrKSwgMTk5IGRlbGV0aW9ucygtKQoKLS0gCjIuMjEuMAoKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
