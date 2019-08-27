@@ -2,39 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB1B59EB51
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2019 16:41:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B32FC9EB5C
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2019 16:43:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41CA289C61;
-	Tue, 27 Aug 2019 14:41:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52FC489C33;
+	Tue, 27 Aug 2019 14:43:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99942893B9;
- Tue, 27 Aug 2019 14:41:38 +0000 (UTC)
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 27 Aug 2019 07:41:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,437,1559545200"; d="scan'208";a="180245194"
-Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.154])
- by fmsmga008.fm.intel.com with ESMTP; 27 Aug 2019 07:41:35 -0700
-Date: Tue, 27 Aug 2019 20:11:01 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: "Winkler, Tomas" <tomas.winkler@intel.com>
-Subject: Re: [PATCH v10 4/6] misc/mei/hdcp: Fill transcoder index in port info
-Message-ID: <20190827144101.GD5040@intel.com>
-References: <20190827105014.14181-1-ramalingam.c@intel.com>
- <20190827105014.14181-5-ramalingam.c@intel.com>
- <5B8DA87D05A7694D9FA63FD143655C1B9DCA4FBC@hasmsx108.ger.corp.intel.com>
- <20190827143120.GC5040@intel.com>
- <5B8DA87D05A7694D9FA63FD143655C1B9DCA5021@hasmsx108.ger.corp.intel.com>
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B148889C33
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2019 14:43:00 +0000 (UTC)
+X-Originating-IP: 87.18.63.98
+Received: from uno.localdomain (unknown [87.18.63.98])
+ (Authenticated sender: jacopo@jmondi.org)
+ by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id CEF00C0003;
+ Tue, 27 Aug 2019 14:42:50 +0000 (UTC)
+Date: Tue, 27 Aug 2019 16:44:21 +0200
+From: Jacopo Mondi <jacopo@jmondi.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v3 13/14] drm: rcar-du: kms: Update CMM in atomic commit
+ tail
+Message-ID: <20190827144421.vbcoizfjxj5ashv2@uno.localdomain>
+References: <20190825135154.11488-1-jacopo+renesas@jmondi.org>
+ <20190825135154.11488-14-jacopo+renesas@jmondi.org>
+ <20190827000017.GB5274@pendragon.ideasonboard.com>
+ <20190827001927.GA5926@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <5B8DA87D05A7694D9FA63FD143655C1B9DCA5021@hasmsx108.ger.corp.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190827001927.GA5926@pendragon.ideasonboard.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,145 +43,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Nikula, Jani" <jani.nikula@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: muroya@ksk.co.jp, uli@fpond.eu, horms@verge.net.au,
+ VenkataRajesh.Kalakodima@in.bosch.com, airlied@linux.ie,
+ koji.matsuoka.xm@renesas.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Harsha.ManjulaMallikarjun@in.bosch.com, Ulrich Hecht <uli+renesas@fpond.eu>
+Content-Type: multipart/mixed; boundary="===============0693891037=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAxOS0wOC0yNyBhdCAyMDowNzowNCArMDUzMCwgV2lua2xlciwgVG9tYXMgd3JvdGU6Cj4g
-Cj4gPiAKPiA+IE9uIDIwMTktMDgtMjcgYXQgMTk6NDk6MTkgKzA1MzAsIFdpbmtsZXIsIFRvbWFz
-IHdyb3RlOgo+ID4gPiA+IEZvciBnZW4xMisgcGxhdGZvcm0gd2UgbmVlZCB0byBwYXNzIHRoZSB0
-cmFuc2NvZGVyIGluZm8gYXMgcGFydCBvZgo+ID4gPiA+IHRoZSBwb3J0IGluZm8gaW50byBNRSBG
-Vy4KPiA+ID4gPgo+ID4gPiA+IFRoaXMgY2hhbmdlIGZpbGxzIHRoZSBwYXlsb2FkIGZvciBNRSBG
-VyBmcm9tIGhkY3BfcG9ydF9kYXRhLgo+ID4gPiA+Cj4gPiA+ID4gU2lnbmVkLW9mZi1ieTogUmFt
-YWxpbmdhbSBDIDxyYW1hbGluZ2FtLmNAaW50ZWwuY29tPgo+ID4gPiA+IEFja2VkLWJ5OiBKYW5p
-IE5pa3VsYSA8amFuaS5uaWt1bGFAaW50ZWwuY29tPgo+ID4gPiA+IFJldmlld2VkLWJ5OiBTaGFz
-aGFuayBTaGFybWEgPHNoYXNoYW5rLnNoYXJtYUBpbnRlbC5jb20+Cj4gPiA+ID4gLS0tCj4gPiA+
-ID4gIGRyaXZlcnMvbWlzYy9tZWkvaGRjcC9tZWlfaGRjcC5jIHwgMTEgKysrKysrKysrKysKPiA+
-ID4gPiBkcml2ZXJzL21pc2MvbWVpL2hkY3AvbWVpX2hkY3AuaCB8ICA0ICsrKy0KPiA+ID4gPiAg
-MiBmaWxlcyBjaGFuZ2VkLCAxNCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4gPiA+ID4K
-PiA+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9taXNjL21laS9oZGNwL21laV9oZGNwLmMKPiA+
-ID4gPiBiL2RyaXZlcnMvbWlzYy9tZWkvaGRjcC9tZWlfaGRjcC5jCj4gPiA+ID4gaW5kZXggMzYz
-OGM3N2ViYTI2Li45MzAyN2ZkOTZjNzEgMTAwNjQ0Cj4gPiA+ID4gLS0tIGEvZHJpdmVycy9taXNj
-L21laS9oZGNwL21laV9oZGNwLmMKPiA+ID4gPiArKysgYi9kcml2ZXJzL21pc2MvbWVpL2hkY3Av
-bWVpX2hkY3AuYwo+ID4gPiA+IEBAIC01OCw2ICs1OCw3IEBAIG1laV9oZGNwX2luaXRpYXRlX3Nl
-c3Npb24oc3RydWN0IGRldmljZSAqZGV2LAo+ID4gPiA+IHN0cnVjdCBoZGNwX3BvcnRfZGF0YSAq
-ZGF0YSwKPiA+ID4gPgo+ID4gPiA+ICAJc2Vzc2lvbl9pbml0X2luLnBvcnQuaW50ZWdyYXRlZF9w
-b3J0X3R5cGUgPSBkYXRhLT5wb3J0X3R5cGU7Cj4gPiA+ID4gIAlzZXNzaW9uX2luaXRfaW4ucG9y
-dC5waHlzaWNhbF9wb3J0ID0gKHU4KWRhdGEtPmZ3X2RkaTsKPiA+ID4gPiArCXNlc3Npb25faW5p
-dF9pbi5wb3J0LmF0dGFjaGVkX3RyYW5zY29kZXIgPSAodTgpZGF0YS0+ZndfdGM7Cj4gPiA+ID4g
-IAlzZXNzaW9uX2luaXRfaW4ucHJvdG9jb2wgPSBkYXRhLT5wcm90b2NvbDsKPiA+ID4gPgo+ID4g
-PiA+ICAJYnl0ZSA9IG1laV9jbGRldl9zZW5kKGNsZGV2LCAodTggKikmc2Vzc2lvbl9pbml0X2lu
-LCBAQCAtMTI3LDYKPiA+ID4gPiArMTI4LDcgQEAgbWVpX2hkY3BfdmVyaWZ5X3JlY2VpdmVyX2Nl
-cnRfcHJlcGFyZV9rbShzdHJ1Y3QgZGV2aWNlCj4gPiA+ID4gKypkZXYsCj4gPiA+ID4KPiA+ID4g
-PiAgCXZlcmlmeV9yeGNlcnRfaW4ucG9ydC5pbnRlZ3JhdGVkX3BvcnRfdHlwZSA9IGRhdGEtPnBv
-cnRfdHlwZTsKPiA+ID4gPiAgCXZlcmlmeV9yeGNlcnRfaW4ucG9ydC5waHlzaWNhbF9wb3J0ID0g
-KHU4KWRhdGEtPmZ3X2RkaTsKPiA+ID4gPiArCXZlcmlmeV9yeGNlcnRfaW4ucG9ydC5hdHRhY2hl
-ZF90cmFuc2NvZGVyID0gKHU4KWRhdGEtPmZ3X3RjOwo+ID4gPiA+Cj4gPiA+ID4gIAl2ZXJpZnlf
-cnhjZXJ0X2luLmNlcnRfcnggPSByeF9jZXJ0LT5jZXJ0X3J4Owo+ID4gPiA+ICAJbWVtY3B5KHZl
-cmlmeV9yeGNlcnRfaW4ucl9yeCwgJnJ4X2NlcnQtPnJfcngsIEhEQ1BfMl8yX1JSWF9MRU4pOwo+
-ID4gPiA+IEBAIC0xOTcsNiArMTk5LDcgQEAgbWVpX2hkY3BfdmVyaWZ5X2hwcmltZShzdHJ1Y3Qg
-ZGV2aWNlICpkZXYsCj4gPiA+ID4gc3RydWN0IGhkY3BfcG9ydF9kYXRhICpkYXRhLAo+ID4gPiA+
-Cj4gPiA+ID4gIAlzZW5kX2hwcmltZV9pbi5wb3J0LmludGVncmF0ZWRfcG9ydF90eXBlID0gZGF0
-YS0+cG9ydF90eXBlOwo+ID4gPiA+ICAJc2VuZF9ocHJpbWVfaW4ucG9ydC5waHlzaWNhbF9wb3J0
-ID0gKHU4KWRhdGEtPmZ3X2RkaTsKPiA+ID4gPiArCXNlbmRfaHByaW1lX2luLnBvcnQuYXR0YWNo
-ZWRfdHJhbnNjb2RlciA9ICh1OClkYXRhLT5md190YzsKPiA+ID4gPgo+ID4gPiA+ICAJbWVtY3B5
-KHNlbmRfaHByaW1lX2luLmhfcHJpbWUsIHJ4X2hwcmltZS0+aF9wcmltZSwKPiA+ID4gPiAgCSAg
-ICAgICBIRENQXzJfMl9IX1BSSU1FX0xFTik7Cj4gPiA+ID4gQEAgLTI1NCw2ICsyNTcsNyBAQCBt
-ZWlfaGRjcF9zdG9yZV9wYWlyaW5nX2luZm8oc3RydWN0IGRldmljZSAqZGV2LAo+ID4gPiA+IHN0
-cnVjdCBoZGNwX3BvcnRfZGF0YSAqZGF0YSwKPiA+ID4gPgo+ID4gPiA+ICAJcGFpcmluZ19pbmZv
-X2luLnBvcnQuaW50ZWdyYXRlZF9wb3J0X3R5cGUgPSBkYXRhLT5wb3J0X3R5cGU7Cj4gPiA+ID4g
-IAlwYWlyaW5nX2luZm9faW4ucG9ydC5waHlzaWNhbF9wb3J0ID0gKHU4KWRhdGEtPmZ3X2RkaTsK
-PiA+ID4gPiArCXBhaXJpbmdfaW5mb19pbi5wb3J0LmF0dGFjaGVkX3RyYW5zY29kZXIgPSAodTgp
-ZGF0YS0+ZndfdGM7Cj4gPiA+ID4KPiA+ID4gPiAgCW1lbWNweShwYWlyaW5nX2luZm9faW4uZV9r
-aF9rbSwgcGFpcmluZ19pbmZvLT5lX2toX2ttLAo+ID4gPiA+ICAJICAgICAgIEhEQ1BfMl8yX0Vf
-S0hfS01fTEVOKTsKPiA+ID4gPiBAQCAtMzEyLDYgKzMxNiw3IEBAIG1laV9oZGNwX2luaXRpYXRl
-X2xvY2FsaXR5X2NoZWNrKHN0cnVjdCBkZXZpY2UKPiA+ID4gPiAqZGV2LAo+ID4gPiA+Cj4gPiA+
-ID4gIAlsY19pbml0X2luLnBvcnQuaW50ZWdyYXRlZF9wb3J0X3R5cGUgPSBkYXRhLT5wb3J0X3R5
-cGU7Cj4gPiA+ID4gIAlsY19pbml0X2luLnBvcnQucGh5c2ljYWxfcG9ydCA9ICh1OClkYXRhLT5m
-d19kZGk7Cj4gPiA+ID4gKwlsY19pbml0X2luLnBvcnQuYXR0YWNoZWRfdHJhbnNjb2RlciA9ICh1
-OClkYXRhLT5md190YzsKPiA+ID4gPgo+ID4gPiA+ICAJYnl0ZSA9IG1laV9jbGRldl9zZW5kKGNs
-ZGV2LCAodTggKikmbGNfaW5pdF9pbiwgc2l6ZW9mKGxjX2luaXRfaW4pKTsKPiA+ID4gPiAgCWlm
-IChieXRlIDwgMCkgewo+ID4gPiA+IEBAIC0zNjcsNiArMzcyLDcgQEAgbWVpX2hkY3BfdmVyaWZ5
-X2xwcmltZShzdHJ1Y3QgZGV2aWNlICpkZXYsCj4gPiA+ID4gc3RydWN0IGhkY3BfcG9ydF9kYXRh
-ICpkYXRhLAo+ID4gPiA+Cj4gPiA+ID4gIAl2ZXJpZnlfbHByaW1lX2luLnBvcnQuaW50ZWdyYXRl
-ZF9wb3J0X3R5cGUgPSBkYXRhLT5wb3J0X3R5cGU7Cj4gPiA+ID4gIAl2ZXJpZnlfbHByaW1lX2lu
-LnBvcnQucGh5c2ljYWxfcG9ydCA9ICh1OClkYXRhLT5md19kZGk7Cj4gPiA+ID4gKwl2ZXJpZnlf
-bHByaW1lX2luLnBvcnQuYXR0YWNoZWRfdHJhbnNjb2RlciA9ICh1OClkYXRhLT5md190YzsKPiA+
-ID4gPgo+ID4gPiA+ICAJbWVtY3B5KHZlcmlmeV9scHJpbWVfaW4ubF9wcmltZSwgcnhfbHByaW1l
-LT5sX3ByaW1lLAo+ID4gPiA+ICAJICAgICAgIEhEQ1BfMl8yX0xfUFJJTUVfTEVOKTsKPiA+ID4g
-PiBAQCAtNDI0LDYgKzQzMCw3IEBAIHN0YXRpYyBpbnQgbWVpX2hkY3BfZ2V0X3Nlc3Npb25fa2V5
-KHN0cnVjdAo+ID4gPiA+IGRldmljZSAqZGV2LAo+ID4gPiA+Cj4gPiA+ID4gIAlnZXRfc2tleV9p
-bi5wb3J0LmludGVncmF0ZWRfcG9ydF90eXBlID0gZGF0YS0+cG9ydF90eXBlOwo+ID4gPiA+ICAJ
-Z2V0X3NrZXlfaW4ucG9ydC5waHlzaWNhbF9wb3J0ID0gKHU4KWRhdGEtPmZ3X2RkaTsKPiA+ID4g
-PiArCWdldF9za2V5X2luLnBvcnQuYXR0YWNoZWRfdHJhbnNjb2RlciA9ICh1OClkYXRhLT5md190
-YzsKPiA+ID4gPgo+ID4gPiA+ICAJYnl0ZSA9IG1laV9jbGRldl9zZW5kKGNsZGV2LCAodTggKikm
-Z2V0X3NrZXlfaW4sIHNpemVvZihnZXRfc2tleV9pbikpOwo+ID4gPiA+ICAJaWYgKGJ5dGUgPCAw
-KSB7Cj4gPiA+ID4gQEAgLTQ4OCw2ICs0OTUsNyBAQAo+ID4gbWVpX2hkY3BfcmVwZWF0ZXJfY2hl
-Y2tfZmxvd19wcmVwYXJlX2FjayhzdHJ1Y3QKPiA+ID4gPiBkZXZpY2UgKmRldiwKPiA+ID4gPgo+
-ID4gPiA+ICAJdmVyaWZ5X3JlcGVhdGVyX2luLnBvcnQuaW50ZWdyYXRlZF9wb3J0X3R5cGUgPSBk
-YXRhLT5wb3J0X3R5cGU7Cj4gPiA+ID4gIAl2ZXJpZnlfcmVwZWF0ZXJfaW4ucG9ydC5waHlzaWNh
-bF9wb3J0ID0gKHU4KWRhdGEtPmZ3X2RkaTsKPiA+ID4gPiArCXZlcmlmeV9yZXBlYXRlcl9pbi5w
-b3J0LmF0dGFjaGVkX3RyYW5zY29kZXIgPSAodTgpZGF0YS0+ZndfdGM7Cj4gPiA+ID4KPiA+ID4g
-PiAgCW1lbWNweSh2ZXJpZnlfcmVwZWF0ZXJfaW4ucnhfaW5mbywgcmVwX3RvcG9sb2d5LT5yeF9p
-bmZvLAo+ID4gPiA+ICAJICAgICAgIEhEQ1BfMl8yX1JYSU5GT19MRU4pOwo+ID4gPiA+IEBAIC01
-NTgsNiArNTY2LDcgQEAgc3RhdGljIGludCBtZWlfaGRjcF92ZXJpZnlfbXByaW1lKHN0cnVjdCBk
-ZXZpY2UKPiA+ID4gPiAqZGV2LAo+ID4gPiA+Cj4gPiA+ID4gIAl2ZXJpZnlfbXByaW1lX2luLnBv
-cnQuaW50ZWdyYXRlZF9wb3J0X3R5cGUgPSBkYXRhLT5wb3J0X3R5cGU7Cj4gPiA+ID4gIAl2ZXJp
-ZnlfbXByaW1lX2luLnBvcnQucGh5c2ljYWxfcG9ydCA9ICh1OClkYXRhLT5md19kZGk7Cj4gPiA+
-ID4gKwl2ZXJpZnlfbXByaW1lX2luLnBvcnQuYXR0YWNoZWRfdHJhbnNjb2RlciA9ICh1OClkYXRh
-LT5md190YzsKPiA+ID4gPgo+ID4gPiA+ICAJbWVtY3B5KHZlcmlmeV9tcHJpbWVfaW4ubV9wcmlt
-ZSwgc3RyZWFtX3JlYWR5LT5tX3ByaW1lLAo+ID4gPiA+ICAJICAgICAgIEhEQ1BfMl8yX01QUklN
-RV9MRU4pOwo+ID4gPiA+IEBAIC02MTksNiArNjI4LDcgQEAgc3RhdGljIGludCBtZWlfaGRjcF9l
-bmFibGVfYXV0aGVudGljYXRpb24oc3RydWN0Cj4gPiA+ID4gZGV2aWNlICpkZXYsCj4gPiA+ID4K
-PiA+ID4gPiAgCWVuYWJsZV9hdXRoX2luLnBvcnQuaW50ZWdyYXRlZF9wb3J0X3R5cGUgPSBkYXRh
-LT5wb3J0X3R5cGU7Cj4gPiA+ID4gIAllbmFibGVfYXV0aF9pbi5wb3J0LnBoeXNpY2FsX3BvcnQg
-PSAodTgpZGF0YS0+ZndfZGRpOwo+ID4gPiA+ICsJZW5hYmxlX2F1dGhfaW4ucG9ydC5hdHRhY2hl
-ZF90cmFuc2NvZGVyID0gKHU4KWRhdGEtPmZ3X3RjOwo+ID4gPiA+ICAJZW5hYmxlX2F1dGhfaW4u
-c3RyZWFtX3R5cGUgPSBkYXRhLT5zdHJlYW1zWzBdLnN0cmVhbV90eXBlOwo+ID4gPiA+Cj4gPiA+
-ID4gIAlieXRlID0gbWVpX2NsZGV2X3NlbmQoY2xkZXYsICh1OCAqKSZlbmFibGVfYXV0aF9pbiwg
-QEAgLTY3Myw2Cj4gPiA+ID4gKzY4Myw3IEBAIG1laV9oZGNwX2Nsb3NlX3Nlc3Npb24oc3RydWN0
-IGRldmljZSAqZGV2LCBzdHJ1Y3QKPiA+ID4gPiAraGRjcF9wb3J0X2RhdGEKPiA+ID4gPiAqZGF0
-YSkKPiA+ID4gPgo+ID4gPiA+ICAJc2Vzc2lvbl9jbG9zZV9pbi5wb3J0LmludGVncmF0ZWRfcG9y
-dF90eXBlID0gZGF0YS0+cG9ydF90eXBlOwo+ID4gPiA+ICAJc2Vzc2lvbl9jbG9zZV9pbi5wb3J0
-LnBoeXNpY2FsX3BvcnQgPSAodTgpZGF0YS0+ZndfZGRpOwo+ID4gPiA+ICsJc2Vzc2lvbl9jbG9z
-ZV9pbi5wb3J0LmF0dGFjaGVkX3RyYW5zY29kZXIgPSAodTgpZGF0YS0+ZndfdGM7Cj4gPiA+ID4K
-PiA+ID4gPiAgCWJ5dGUgPSBtZWlfY2xkZXZfc2VuZChjbGRldiwgKHU4ICopJnNlc3Npb25fY2xv
-c2VfaW4sCj4gPiA+ID4gIAkJCSAgICAgIHNpemVvZihzZXNzaW9uX2Nsb3NlX2luKSk7IGRpZmYg
-LS1naXQKPiA+ID4gPiBhL2RyaXZlcnMvbWlzYy9tZWkvaGRjcC9tZWlfaGRjcC5oCj4gPiA+ID4g
-Yi9kcml2ZXJzL21pc2MvbWVpL2hkY3AvbWVpX2hkY3AuaAo+ID4gPiA+IGluZGV4IGU2MDI4MmVi
-MmQ0OC4uNThlNDM5ZDJmYzFhIDEwMDY0NAo+ID4gPiA+IC0tLSBhL2RyaXZlcnMvbWlzYy9tZWkv
-aGRjcC9tZWlfaGRjcC5oCj4gPiA+ID4gKysrIGIvZHJpdmVycy9taXNjL21laS9oZGNwL21laV9o
-ZGNwLmgKPiA+ID4gPiBAQCAtMTg0LDggKzE4NCwxMCBAQCBzdHJ1Y3QgaGRjcF9jbWRfbm9fZGF0
-YSB7Cj4gPiA+ID4gIC8qIFVuaXF1ZWx5IGlkZW50aWZpZXMgdGhlIGhkY3AgcG9ydCBiZWluZyBh
-ZGRyZXNzZWQgZm9yIGEgZ2l2ZW4KPiA+ID4gPiBjb21tYW5kLiAqLyBzdHJ1Y3QgaGRjcF9wb3J0
-X2lkIHsKPiA+ID4gPiAgCXU4CWludGVncmF0ZWRfcG9ydF90eXBlOwo+ID4gPiA+ICsJLyogVXNl
-ZCB1bnRpbCBHZW4xMS41LiBNdXN0IGJlIHplcm8gZm9yIEdlbjExLjUrICovCj4gPiA+IFdoYXQg
-YXJlIHlvdSByZWZlcmVuY2UgaGVyZSwgdGhlIG1lbWJlciBiZWxsb3cgb3IgYWJvdmU/IC0gIEl0
-IGlzIGJldHRlciB0bwo+ID4gZG9jdW1lbnQgaXQgaW4gdXNpbmcga2RvYyEKPiA+ID4gTmV4dCwg
-d2hhdCBwYXJ0IG9mIHRoZSBjb2RlIGlzIHZhbGlkYXRpbmcgdGhpcz8KPiA+IFRoaXMgaXMgZG9j
-dW1lbnRhdGlvbiBmb3IgcGh5c2ljYWxfcG9ydC4gQXMgdGhlc2Ugc3RydWN0dXJlcyBhcmUgTUUg
-RlcgQVBJCj4gPiBwYXlsb2FkcywgaSBkb250IHRoaW5rIHdlIG5lZWQgYSBrZG9jIG9uIGl0LiBQ
-bGVhc2UgbGV0IG1lIGtub3cgaWYgeW91IHRoaW5rCj4gPiBvdGhlcndpc2UuCj4gSSBhc2tlZCBm
-b3Iga2RvYywgYmVjYXVzZSBpdCBpcyBub3QgY2xlYXIgZnJvbSB0aGUgY29tbWVudCB3aGF0IG1l
-bWJlciBhcmUgeW91IGNvbW1lbnRpbmcgb24sCj4gSW4gb3RoZXIgd29yZHMgdGhlIGNvbW1lbnQg
-aXMgbGFja2luZyB0aGUgc3ViamVjdC4gCkkgd2lsbCByZXBocmFzZSBpdCBhcyAvKiBwaHlzaWNh
-bF9wb3J0IGlzIHVzZWQgdW50aWwgR2VuMTEuNS4gTXVzdCBiZSB6ZXJvIGZvciBHZW4xMS41KyAq
-LwpIb3BlIHRoYXQgbG9va3MgZ29vZCB0byB5b3UuCgotUmFtCj4gCj4gPiAKPiA+IFRoaXMgaXMg
-Y2hlY2tlZCBhdCBNRSBGVyBhbmQgcmV0dXJuZWQgd2l0aCBFUlJPUiBDb2RlLgo+ID4gQW5kIGFz
-IG9ubHkgSTkxNSBrbm93cyB0aGUgR0VOIywgaTkxNSB0YWtlcyBjYXJlIG9mIHRoZSBmaWxsaW5n
-IHRoaXMgbWVtYmVyCj4gPiB3aXRoIFplcm8oSU5WQUxJRF9QT1JUKSwgZm9yIGdlbjEyKy4KPiA+
-IAo+ID4gPgo+ID4gPiA+ICAJdTgJcGh5c2ljYWxfcG9ydDsKPiA+ID4gPiAtCXUxNglyZXNlcnZl
-ZDsKPiA+ID4KPiA+ID4gPiArCXU4CWF0dGFjaGVkX3RyYW5zY29kZXI7Cj4gPiA+IEFsc28gaGVy
-ZSBuZWVkIHRoZSBkb2N1bWVudGF0aW9uCj4gPiBJbiB0aGlzIGZpbGUgd2UgYXJlIG5vdCBkb2N1
-bWVudGluZyBlYWNoIG1lbWJlciBvZiB0aGUgc3RydWN0LiBJTUhPIHZhcmlhYmxlCj4gPiBuYW1l
-IGlzIHNlbGYgZG9jdW1lbnRpbmcuCj4gPiAKPiA+IFNpbmNlIHRoZXJlIHdhcyBhIHNwZWNpYWwg
-ZXhwZWN0YXRpb24gb24gcGh5c2ljYWwgcG9ydCBvbiBnZW4xMissIEkgaGF2ZSBhZGRlZAo+ID4g
-dGhlIGNvbW1lbnQuCj4gPiAKPiA+IC1SYW0KPiA+ID4gPiArCXU4CXJlc2VydmVkOwo+ID4gPiA+
-ICB9IF9fcGFja2VkOwo+ID4gPiA+Cj4gPiA+ID4gIC8qCj4gPiA+ID4gLS0KPiA+ID4gPiAyLjIw
-LjEKPiA+ID4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0693891037==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="3m3cb2q7h77rk35u"
+Content-Disposition: inline
+
+
+--3m3cb2q7h77rk35u
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+HI Laurent,
+
+On Tue, Aug 27, 2019 at 03:19:27AM +0300, Laurent Pinchart wrote:
+> On Tue, Aug 27, 2019 at 03:00:17AM +0300, Laurent Pinchart wrote:
+> > Hi Jacopo,
+> >
+> > Thank you for the patch.
+> >
+> > On Sun, Aug 25, 2019 at 03:51:53PM +0200, Jacopo Mondi wrote:
+> > > Update CMM settings at in the atomic commit tail helper method.
+> > >
+> > > The CMM is updated with new gamma values provided to the driver
+> > > in the GAMMA_LUT blob property.
+> > >
+> > > Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
+> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > ---
+> > >  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 35 +++++++++++++++++++++++++++
+> > >  1 file changed, 35 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > > index 61ca1d3c379a..047fdb982a11 100644
+> > > --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > > +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > > @@ -22,6 +22,7 @@
+> > >  #include <linux/of_platform.h>
+> > >  #include <linux/wait.h>
+> > >
+> > > +#include "rcar_cmm.h"
+> > >  #include "rcar_du_crtc.h"
+> > >  #include "rcar_du_drv.h"
+> > >  #include "rcar_du_encoder.h"
+> > > @@ -368,6 +369,37 @@ rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
+> > >   * Atomic Check and Update
+> > >   */
+> > >
+> > > +static void rcar_du_atomic_commit_update_cmm(struct drm_crtc *crtc,
+> > > +					     struct drm_crtc_state *old_state)
+> > > +{
+> > > +	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
+> > > +	struct rcar_cmm_config cmm_config = {};
+> > > +
+> > > +	if (!rcrtc->cmm || !crtc->state->color_mgmt_changed)
+> > > +		return;
+> > > +
+> > > +	if (!crtc->state->gamma_lut) {
+> > > +		cmm_config.lut.enable = false;
+> > > +		rcar_cmm_setup(rcrtc->cmm, &cmm_config);
+> > > +
+> > > +		return;
+> > > +	}
+> > > +
+> > > +	cmm_config.lut.enable = true;
+> > > +	cmm_config.lut.table = (struct drm_color_lut *)
+> > > +			       crtc->state->gamma_lut->data;
+> > > +
+> > > +	/* Set LUT table size to 0 if entries should not be updated. */
+> > > +	if (!old_state->gamma_lut ||
+> > > +	    old_state->gamma_lut->base.id != crtc->state->gamma_lut->base.id)
+> > > +		cmm_config.lut.size = crtc->state->gamma_lut->length
+> > > +				    / sizeof(cmm_config.lut.table[0]);
+> >
+> > It has just occurred to me that the hardware only support LUTs of
+
+Where did you find this strict requirement ? I have tried programming
+less than 256 entries in the 1-D LUT table, and it seems to me things
+are working fine (from a visual inspection of the output image, I
+don't see much differences from when I program the full table, maybe
+that's an indication something is bad?)
+
+Thanks
+   j
+> > exactly 256 entries. Should we remove cmm_config.lut.size (simplifying
+> > the code in the CMM driver), and add a check to the CRTC .atomic_check()
+> > handler to reject invalid LUTs ? Sorry for not having caught this
+> > earlier.
+>
+> Just an additional comment, if we drop the size field, then the
+> cmm_config.lut.table pointer should be set to NULL when the LUT contents
+> don't need to be updated.
+>
+> > > +	else
+> > > +		cmm_config.lut.size = 0;
+> > > +
+> > > +	rcar_cmm_setup(rcrtc->cmm, &cmm_config);
+> > > +}
+> > > +
+> > >  static int rcar_du_atomic_check(struct drm_device *dev,
+> > >  				struct drm_atomic_state *state)
+> > >  {
+> > > @@ -410,6 +442,9 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
+> > >  			rcdu->dpad1_source = rcrtc->index;
+> > >  	}
+> > >
+> > > +	for_each_old_crtc_in_state(old_state, crtc, crtc_state, i)
+> > > +		rcar_du_atomic_commit_update_cmm(crtc, crtc_state);
+> > > +
+> > >  	/* Apply the atomic update. */
+> > >  	drm_atomic_helper_commit_modeset_disables(dev, old_state);
+> > >  	drm_atomic_helper_commit_planes(dev, old_state,
+> >
+> > --
+> > Regards,
+> >
+> > Laurent Pinchart
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+--3m3cb2q7h77rk35u
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1lQcUACgkQcjQGjxah
+VjzMqRAAvjI1dIl75COJM8s3AwAk9V/Sl1o3l0ttHp1a6JrSakhJCJidsuH29+GC
+XbkCLizR1XSBa2yrfWyAPtFlltJjO35+iypOc73L7OI9tBFyIar7dsRDeCzQ853N
+U26ToA5f9JCvHHAMyc6NJzzqWpp1QkkT2GPJmxavvyvhi0k4zHRvNMhkKmUfq/XS
+vGGV/3q96JTPnHy+loaMRiasMhwt7Ow2SwTgjLlvwQy7v+bFxqXfPGTp+1ovUVxg
+6FUccyq3e2CWH/sL2hcTomIUj4efvnhI5rHZ/pmayxmi++TeUPiZ+qQDZfGVU1hQ
+9R6kUWBgZahFStAeqU4k3Hum4xklB77oeKeB9ndV5IgHzVE+5mpvdQMTYV4bkltT
+KKkleHPtb8CH2Fqm+cu1Odake+iXOWKmjWtsVyAe81GCt80DjdzE01IlPnuuqxP4
+aLS5Q1SAOLN1Z7EiBCU62JyBVB2vl6teH42yD8Y48ctU+0wtLuQ6tS1J8xVAdiQ0
+SdB+gFIHa1skyA4KVR8DxOkaucO2ldAhHLSj0pLKKeR29Ojp9HjfmpJpb/Z+cFYA
+Px2v0e4l/HGXEAvNEr2Glrss6a/Znz4qledwHJBYNDTgp9WqFnD5+1dDWJK0dzOJ
+mS6b+uN5iNbHTQ1TSDDDkAxryETL+mUDPIN1Gnxfq5H5X+NTo08=
+=RTB1
+-----END PGP SIGNATURE-----
+
+--3m3cb2q7h77rk35u--
+
+--===============0693891037==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0693891037==--
