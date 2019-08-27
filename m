@@ -1,94 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 467A79EA97
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2019 16:13:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD299EA99
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2019 16:14:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CD9089BC2;
-	Tue, 27 Aug 2019 14:13:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB4F789BF4;
+	Tue, 27 Aug 2019 14:14:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM01-BN3-obe.outbound.protection.outlook.com
- (mail-eopbgr740082.outbound.protection.outlook.com [40.107.74.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6DAF89BBD
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2019 14:13:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UhHWKhJsH9jUc6sXYR+8N1tapzjib/4yFFUwCk+TQwY8qWdhb1MDQ9gbRWiigCPZzom8xWp0wePE29QNoyvL5+Vd4vh1Kp8Hdjqj+YcGZo2Vvx5wSMli4P6VXmixSPxjxfdEc4K5qpdRRokhQeBw0FcwOSEmRKgEtJl5ZIomzvNWYtBEdRBsgYeviX//e5Nq4/QmM/lN3WFy+uGplD3yGp3NSFwvFDkQG8Vcj145n+RbrFCFarNHQn4GEthJcNO+Lt/keyw8oca2KfM6cJ9GTwxAfV6H4vSZ7h0va7E1B0XtMzbZnRyne3pv+7BzRk7oHaO8n5tJYVrHAog2lxGWzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b9+CsAHmQZJIT/OeJW1vpVXkwnCHncYnxgaA7TLZ+NY=;
- b=Y1jdVAd6KNSV2nwqlaVlShwgal7nOluqa8s8F9IPAanyuOyD+vdsLiJ5Gs2wJ+Xws0TtxOEFmRb8270mq3tqg0XMI2U/GqCgeFHkHY9W8Whmdo/V1t1WFB3h8U1qWtd8Q2RcSy7O+PlUKH5yQKMostJNBRAmpXPw/wk/iQKxNicxaUPSYI0IArWQuJ8k5wD81j8FCF9ROAyLVH6QLY2q4ptX6VyjS5viej2MJ/Mqjp7/niPHwKq/MqMceR7BqbWioyJd5gL/pqEgJEq+xRvQ3ahVwxr5IF6thNTQyC3ejslwegf3VDyuAXZ/cgLalagqCIMP6Dxv7FZ6G6BRf0lw4A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
- dmarc=permerror action=none header.from=amd.com; dkim=none (message not
- signed); arc=none
-Received: from BN6PR1201CA0009.namprd12.prod.outlook.com
- (2603:10b6:405:4c::19) by BYAPR12MB2712.namprd12.prod.outlook.com
- (2603:10b6:a03:68::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2199.21; Tue, 27 Aug
- 2019 14:13:39 +0000
-Received: from DM3NAM03FT045.eop-NAM03.prod.protection.outlook.com
- (2a01:111:f400:7e49::209) by BN6PR1201CA0009.outlook.office365.com
- (2603:10b6:405:4c::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2199.14 via Frontend
- Transport; Tue, 27 Aug 2019 14:13:39 +0000
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-Received: from SATLEXCHOV01.amd.com (165.204.84.17) by
- DM3NAM03FT045.mail.protection.outlook.com (10.152.82.208) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.2178.16 via Frontend Transport; Tue, 27 Aug 2019 14:13:39 +0000
-Received: from localhost.localdomain (10.180.168.240) by SATLEXCHOV01.amd.com
- (10.181.40.71) with Microsoft SMTP Server id 14.3.389.1;
- Tue, 27 Aug 2019 09:13:33 -0500
-From: David Francis <David.Francis@amd.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v9 6/6] drm/dp_mst: Add helpers for MST DSC and virtual DPCD
- aux
-Date: Tue, 27 Aug 2019 10:13:29 -0400
-Message-ID: <20190827141329.30767-7-David.Francis@amd.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190827141329.30767-1-David.Francis@amd.com>
-References: <20190827141329.30767-1-David.Francis@amd.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 82B5889BF4
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2019 14:14:08 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 7916172161; Tue, 27 Aug 2019 14:14:08 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111502] Dell XPS15 (HD530 & GeForce 950) external screen via
+ dock/HDMI no text display & gdm freeze
+Date: Tue, 27 Aug 2019 14:14:08 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/Intel
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: imirkin@alum.mit.edu
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: intel-gfx-bugs@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: qa_contact component cc assigned_to
+Message-ID: <bug-111502-502-SJCOUwIzxy@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111502-502@http.bugs.freedesktop.org/>
+References: <bug-111502-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:165.204.84.17; IPV:NLI; CTRY:US; EFV:NLI;
- SFV:NSPM;
- SFS:(10009020)(4636009)(376002)(396003)(39860400002)(346002)(136003)(2980300002)(428003)(189003)(199004)(14444005)(26005)(5024004)(51416003)(76176011)(186003)(6916009)(478600001)(70586007)(2351001)(70206006)(81166006)(81156014)(8676002)(305945005)(50226002)(8936002)(48376002)(16586007)(54906003)(316002)(1076003)(4326008)(126002)(2906002)(476003)(50466002)(486006)(11346002)(336012)(446003)(49486002)(2616005)(356004)(426003)(36756003)(86362001)(6666004)(53936002)(47776003)(5660300002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR12MB2712; H:SATLEXCHOV01.amd.com; FPR:;
- SPF:None; LANG:en; PTR:InfoDomainNonexistent; MX:1; A:1; 
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d42e0e49-5a90-4cd4-ffe3-08d72af8c221
-X-Microsoft-Antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328);
- SRVR:BYAPR12MB2712; 
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2712:
-X-Microsoft-Antispam-PRVS: <BYAPR12MB271260D2627EBA9FF4AA404BEFA00@BYAPR12MB2712.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-Forefront-PRVS: 0142F22657
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info: Zd6Mz8CfV+DiNjFNa9yxY9I67y2wmrWVR7Dm2OcRGGGY2K8lKI7YkKOdshmGh6Qny0wwYiOn1IaJaKrNsGJxluSiaNYjA0vcNCfYzz/HWRiriGxBJ0tJG4eiUniRccbOJacoPzwkkwF0Vy6wtdCvleC6HJS8XTxHsav4fthM8ZMkhvBJeu/grrHtMD2z7Q2hmVnUz1ty8N34kVSY6gmWDJALMpXzMlY4I2WISJoscBvHt5ckcW4/Nts+5uVvqA1CexqMvxbJlhB2kdBVXBQBodkWrlck6UAQlFsdYLmByWE9IaOGKy3KOAlXF/pbwJRN4DIUdwZOOL8N+2YMhA6nN0VGPqCcxq84QQGT1pV6DMDWVCOUIqG7pc+TKtTAL3fz/peJc1Eq0Fuli94D5CeofvYskmH3PYqpPa9CDBdh1RM=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2019 14:13:39.1196 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d42e0e49-5a90-4cd4-ffe3-08d72af8c221
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXCHOV01.amd.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2712
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b9+CsAHmQZJIT/OeJW1vpVXkwnCHncYnxgaA7TLZ+NY=;
- b=pUI4AujUn3GCobB8gTlvt2286ZxRKiMDY5rrMZpQd7I0iaGfQJ0e1LMNlcmf1BHPBveWMOdTRzAoNrqpsDw4w4QNiTVvAHs3RB1skbYo3ZsL3Js4dB20CiF0ZLFOzf1BXCaKWkq2/3HDs28NQmxdNAnKEk4NPCokYDEkmP6gyaw=
-X-Mailman-Original-Authentication-Results: spf=none (sender IP is
- 165.204.84.17)
- smtp.mailfrom=amd.com; linux.intel.com; dkim=none (message not signed)
- header.d=none;linux.intel.com; dmarc=permerror action=none
- header.from=amd.com;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,123 +53,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Francis <David.Francis@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1544994413=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QWRkIGRybV9kcF9tc3RfZHNjX2F1eF9mb3JfcG9ydC4gVG8gZW5hYmxlIERTQywgdGhlIERTQ19F
-TkFCTEVECnJlZ2lzdGVyIG1pZ2h0IGhhdmUgdG8gYmUgd3JpdHRlbiBvbiB0aGUgbGVhZiBwb3J0
-J3MgRFBDRCwKaXRzIHBhcmVudCdzIERQQ0QsIG9yIHRoZSBNU1QgbWFuYWdlcidzIERQQ0QuIFRo
-aXMgZnVuY3Rpb24KZmluZHMgdGhlIGNvcnJlY3QgYXV4IGZvciB0aGUgam9iLgoKQXMgcGFydCBv
-ZiB0aGlzLCBhZGQgZHJtX2RwX21zdF9pc192aXJ0dWFsX2RwY2QuIFZpcnR1YWwgRFBDRAppcyBh
-IERQIGZlYXR1cmUgbmV3IGluIERQIHYxLjQsIHdoaWNoIGV4cG9zZXMgY2VydGFpbiBEUENECnJl
-Z2lzdGVycyBvbiB2aXJ0dWFsIHBvcnRzLgoKdjI6IFJlbWVtYmVyIHRvIHVubG9jayBtdXRleCBv
-biBhbGwgcGF0aHMKdjM6IFJlZmFjdG9yIHRvIG1hdGNoIGNvZGluZyBzdHlsZSBhbmQgaW5jcmVh
-c2UgYnJldml0eQoKQ2M6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+CkNjOiBKYW5pIE5p
-a3VsYSA8amFuaS5uaWt1bGFAbGludXguaW50ZWwuY29tPgpDYzogSGFycnkgV2VudGxhbmQgPGhh
-cnJ5LndlbnRsYW5kQGFtZC5jb20+ClJldmlld2VkLWJ5OiBXZW5qaW5nIExpdSA8V2VuamluZy5M
-aXVAYW1kLmNvbT4KU2lnbmVkLW9mZi1ieTogRGF2aWQgRnJhbmNpcyA8RGF2aWQuRnJhbmNpc0Bh
-bWQuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMgfCAxNTMg
-KysrKysrKysrKysrKysrKysrKysrKysrKysKIGluY2x1ZGUvZHJtL2RybV9kcF9tc3RfaGVscGVy
-LmggICAgICAgfCAgIDIgKwogMiBmaWxlcyBjaGFuZ2VkLCAxNTUgaW5zZXJ0aW9ucygrKQoKZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMgYi9kcml2ZXJz
-L2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jCmluZGV4IDUwMjkyM2MyNDQ1MC4uZTI0ZGJh
-Mjc2MTE5IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5j
-CisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMKQEAgLTQxNTAsMyAr
-NDE1MCwxNTYgQEAgc3RhdGljIHZvaWQgZHJtX2RwX21zdF91bnJlZ2lzdGVyX2kyY19idXMoc3Ry
-dWN0IGRybV9kcF9hdXggKmF1eCkKIHsKIAlpMmNfZGVsX2FkYXB0ZXIoJmF1eC0+ZGRjKTsKIH0K
-KworLyoqCisgKiBkcm1fZHBfbXN0X2lzX3ZpcnR1YWxfZHBjZCgpIC0gSXMgdGhlIGdpdmVuIHBv
-cnQgYSB2aXJ0dWFsIERQIFBlZXIgRGV2aWNlCisgKiBAcG9ydDogVGhlIHBvcnQgdG8gY2hlY2sK
-KyAqCisgKiBBIHNpbmdsZSBwaHlzaWNhbCBNU1QgaHViIG9iamVjdCBjYW4gYmUgcmVwcmVzZW50
-ZWQgaW4gdGhlIHRvcG9sb2d5CisgKiBieSBtdWx0aXBsZSBicmFuY2hlcywgd2l0aCB2aXJ0dWFs
-IHBvcnRzIGJldHdlZW4gdGhvc2UgYnJhbmNoZXMuCisgKgorICogQXMgb2YgRFAxLjQsIEFuIE1T
-VCBodWIgd2l0aCBpbnRlcm5hbCAodmlydHVhbCkgcG9ydHMgbXVzdCBleHBvc2UKKyAqIGNlcnRh
-aW4gRFBDRCByZWdpc3RlcnMgb3ZlciB0aG9zZSBwb3J0cy4gU2VlIHNlY3Rpb25zIDIuNi4xLjEu
-MQorICogYW5kIDIuNi4xLjEuMiBvZiBEaXNwbGF5IFBvcnQgc3BlY2lmaWNhdGlvbiB2MS40IGZv
-ciBkZXRhaWxzLgorICoKKyAqIE1heSBhY3F1aXJlIG1nci0+bG9jaworICoKKyAqIFJldHVybnM6
-CisgKiB0cnVlIGlmIHRoZSBwb3J0IGlzIGEgdmlydHVhbCBEUCBwZWVyIGRldmljZSwgZmFsc2Ug
-b3RoZXJ3aXNlCisgKi8KK3N0YXRpYyBib29sIGRybV9kcF9tc3RfaXNfdmlydHVhbF9kcGNkKHN0
-cnVjdCBkcm1fZHBfbXN0X3BvcnQgKnBvcnQpCit7CisJc3RydWN0IGRybV9kcF9tc3RfcG9ydCAq
-ZG93bnN0cmVhbV9wb3J0OworCisJaWYgKCFwb3J0IHx8IHBvcnQtPmRwY2RfcmV2IDwgRFBfRFBD
-RF9SRVZfMTQpCisJCXJldHVybiBmYWxzZTsKKworCS8qIFZpcnR1YWwgRFAgU2luayAoSW50ZXJu
-YWwgRGlzcGxheSBQYW5lbCkgKi8KKwlpZiAocG9ydC0+cG9ydF9udW0gPj0gOCkKKwkJcmV0dXJu
-IHRydWU7CisKKwkvKiBEUC10by1IRE1JIFByb3RvY29sIENvbnZlcnRlciAqLworCWlmIChwb3J0
-LT5wZHQgPT0gRFBfUEVFUl9ERVZJQ0VfRFBfTEVHQUNZX0NPTlYgJiYKKwkgICAgIXBvcnQtPm1j
-cyAmJgorCSAgICBwb3J0LT5sZHBzKQorCQlyZXR1cm4gdHJ1ZTsKKworCS8qIERQLXRvLURQICov
-CisJbXV0ZXhfbG9jaygmcG9ydC0+bWdyLT5sb2NrKTsKKwlpZiAocG9ydC0+cGR0ID09IERQX1BF
-RVJfREVWSUNFX01TVF9CUkFOQ0hJTkcgJiYKKwkgICAgcG9ydC0+bXN0YiAmJgorCSAgICBwb3J0
-LT5tc3RiLT5udW1fcG9ydHMgPT0gMikgeworCQlsaXN0X2Zvcl9lYWNoX2VudHJ5KGRvd25zdHJl
-YW1fcG9ydCwgJnBvcnQtPm1zdGItPnBvcnRzLCBuZXh0KSB7CisJCQlpZiAoZG93bnN0cmVhbV9w
-b3J0LT5wZHQgPT0gRFBfUEVFUl9ERVZJQ0VfU1NUX1NJTksgJiYKKwkJCSAgICAhZG93bnN0cmVh
-bV9wb3J0LT5pbnB1dCkgeworCQkJCW11dGV4X3VubG9jaygmcG9ydC0+bWdyLT5sb2NrKTsKKwkJ
-CQlyZXR1cm4gdHJ1ZTsKKwkJCX0KKwkJfQorCX0KKwltdXRleF91bmxvY2soJnBvcnQtPm1nci0+
-bG9jayk7CisKKwlyZXR1cm4gZmFsc2U7Cit9CisKKy8qKgorICogZHJtX2RwX21zdF9kc2NfYXV4
-X2Zvcl9wb3J0KCkgLSBGaW5kIHRoZSBjb3JyZWN0IGF1eCBmb3IgRFNDCisgKiBAcG9ydDogVGhl
-IHBvcnQgdG8gY2hlY2suIEEgbGVhZiBvZiB0aGUgTVNUIHRyZWUgd2l0aCBhbiBhdHRhY2hlZCBk
-aXNwbGF5LgorICoKKyAqIERlcGVuZGluZyBvbiB0aGUgc2l0dWF0aW9uLCBEU0MgbWF5IGJlIGVu
-YWJsZWQgdmlhIHRoZSBlbmRwb2ludCBhdXgsCisgKiB0aGUgaW1tZWRpYXRlbHkgdXBzdHJlYW0g
-YXV4LCBvciB0aGUgY29ubmVjdG9yJ3MgcGh5c2ljYWwgYXV4LgorICoKKyAqIFRoaXMgaXMgYm90
-aCB0aGUgY29ycmVjdCBhdXggdG8gcmVhZCBEU0NfQ0FQQUJJTElUWSBhbmQgdGhlCisgKiBjb3Jy
-ZWN0IGF1eCB0byB3cml0ZSBEU0NfRU5BQkxFRC4KKyAqCisgKiBUaGlzIG9wZXJhdGlvbiBjYW4g
-YmUgZXhwZW5zaXZlICh1cCB0byBmb3VyIGF1eCByZWFkcyksIHNvCisgKiB0aGUgY2FsbGVyIHNo
-b3VsZCBjYWNoZSB0aGUgcmV0dXJuLgorICoKKyAqIFJldHVybnM6CisgKiBOVUxMIGlmIERTQyBj
-YW5ub3QgYmUgZW5hYmxlZCBvbiB0aGlzIHBvcnQsIG90aGVyd2lzZSB0aGUgYXV4IGRldmljZQor
-ICovCitzdHJ1Y3QgZHJtX2RwX2F1eCAqZHJtX2RwX21zdF9kc2NfYXV4X2Zvcl9wb3J0KHN0cnVj
-dCBkcm1fZHBfbXN0X3BvcnQgKnBvcnQpCit7CisJc3RydWN0IGRybV9kcF9tc3RfcG9ydCAqaW1t
-ZWRpYXRlX3Vwc3RyZWFtX3BvcnQ7CisJc3RydWN0IGRybV9kcF9tc3RfcG9ydCAqZmVjX3BvcnQ7
-CisJc3RydWN0IGRybV9kcF9kZXNjICpkZXNjID0gTlVMTDsKKworCWlmICghcG9ydCkKKwkJcmV0
-dXJuIE5VTEw7CisKKwlpZiAocG9ydC0+cGFyZW50KQorCQlpbW1lZGlhdGVfdXBzdHJlYW1fcG9y
-dCA9IHBvcnQtPnBhcmVudC0+cG9ydF9wYXJlbnQ7CisJZWxzZQorCQlpbW1lZGlhdGVfdXBzdHJl
-YW1fcG9ydCA9IE5VTEw7CisKKwlmZWNfcG9ydCA9IGltbWVkaWF0ZV91cHN0cmVhbV9wb3J0Owor
-CXdoaWxlIChmZWNfcG9ydCkgeworCQkvKgorCQkgKiBFYWNoIHBoeXNpY2FsIGxpbmsgKGkuZS4g
-bm90IGEgdmlydHVhbCBwb3J0KSBiZXR3ZWVuIHRoZQorCQkgKiBvdXRwdXQgYW5kIHRoZSBwcmlt
-YXJ5IGRldmljZSBtdXN0IHN1cHBvcnQgRkVDCisJCSAqLworCQlpZiAoIWRybV9kcF9tc3RfaXNf
-dmlydHVhbF9kcGNkKGZlY19wb3J0KSAmJgorCQkJCSFmZWNfcG9ydC0+ZmVjX2NhcGFibGUpCisJ
-CQlyZXR1cm4gTlVMTDsKKworCQlmZWNfcG9ydCA9IGZlY19wb3J0LT5wYXJlbnQtPnBvcnRfcGFy
-ZW50OworCX0KKworCS8qIERQLXRvLURQIHBlZXIgZGV2aWNlICovCisJaWYgKGRybV9kcF9tc3Rf
-aXNfdmlydHVhbF9kcGNkKGltbWVkaWF0ZV91cHN0cmVhbV9wb3J0KSkgeworCQl1OCB1cHN0cmVh
-bV9kc2M7CisJCXU4IGVuZHBvaW50X2RzYzsKKwkJdTggZW5kcG9pbnRfZmVjOworCisJCWlmIChk
-cm1fZHBfZHBjZF9yZWFkKCZwb3J0LT5hdXgsCisJCQkJICAgICBEUF9EU0NfU1VQUE9SVCwgJmVu
-ZHBvaW50X2RzYywgMSkgPCAwKQorCQkJcmV0dXJuIE5VTEw7CisJCWlmIChkcm1fZHBfZHBjZF9y
-ZWFkKCZwb3J0LT5hdXgsCisJCQkJICAgICBEUF9GRUNfQ0FQQUJJTElUWSwgJmVuZHBvaW50X2Zl
-YywgMSkgPCAwKQorCQkJcmV0dXJuIE5VTEw7CisJCWlmIChkcm1fZHBfZHBjZF9yZWFkKCZpbW1l
-ZGlhdGVfdXBzdHJlYW1fcG9ydC0+YXV4LAorCQkJCSAgICAgRFBfRFNDX1NVUFBPUlQsICZ1cHN0
-cmVhbV9kc2MsIDEpIDwgMCkKKwkJCXJldHVybiBOVUxMOworCisJCS8qIEVucG9pbnQgZGVjb21w
-cmVzc2lvbiB3aXRoIERQLXRvLURQIHBlZXIgZGV2aWNlICovCisJCWlmICgoZW5kcG9pbnRfZHNj
-ICYgRFBfRFNDX0RFQ09NUFJFU1NJT05fSVNfU1VQUE9SVEVEKSAmJgorCQkgICAgKGVuZHBvaW50
-X2ZlYyAmIERQX0ZFQ19DQVBBQkxFKSAmJgorCQkgICAgKHVwc3RyZWFtX2RzYyAmIDB4MikgLyog
-RFNDIHBhc3N0aHJvdWdoICovKQorCQkJcmV0dXJuICZwb3J0LT5hdXg7CisKKwkJLyogVmlydHVh
-bCBEUENEIGRlY29tcHJlc3Npb24gd2l0aCBEUC10by1EUCBwZWVyIGRldmljZSAqLworCQlyZXR1
-cm4gJmltbWVkaWF0ZV91cHN0cmVhbV9wb3J0LT5hdXg7CisJfQorCisJLyogVmlydHVhbCBEUENE
-IGRlY29tcHJlc3Npb24gd2l0aCBEUC10by1IRE1JIG9yIFZpcnR1YWwgRFAgU2luayAqLworCWlm
-IChkcm1fZHBfbXN0X2lzX3ZpcnR1YWxfZHBjZChwb3J0KSkKKwkJcmV0dXJuICZwb3J0LT5hdXg7
-CisKKwkvKgorCSAqIFN5bmFwdGljcyBxdWlyaworCSAqIEFwcGxpZXMgdG8gcG9ydHMgZm9yIHdo
-aWNoOgorCSAqIC0gUGh5c2ljYWwgYXV4IGhhcyBTeW5hcHRpY3MgT1VJCisJICogLSBEUHYxLjQg
-b3IgaGlnaGVyCisJICogLSBQb3J0IGlzIG9uIHByaW1hcnkgYnJhbmNoIGRldmljZQorCSAqIC0g
-Tm90IGEgVkdBIGFkYXB0ZXIgKERQX0RXTl9TVFJNX1BPUlRfVFlQRV9BTkFMT0cpCisJICovCisJ
-aWYgKCFkcm1fZHBfcmVhZF9kZXNjKHBvcnQtPm1nci0+YXV4LCBkZXNjLCB0cnVlKSkKKwkJcmV0
-dXJuIGZhbHNlOworCisJaWYgKGRybV9kcF9oYXNfcXVpcmsoZGVzYywgRFBfRFBDRF9RVUlSS19E
-U0NfV0lUSE9VVF9WSVJUVUFMX0RQQ0QgJiYKKwkgICAgcG9ydC0+bWdyLT5kcGNkW0RQX0RQQ0Rf
-UkVWXSA+PSBEUF9EUENEX1JFVl8xNCkgJiYKKwkgICAgcG9ydC0+cGFyZW50ID09IHBvcnQtPm1n
-ci0+bXN0X3ByaW1hcnkpIHsKKwkJdTggZG93bnN0cmVhbXBvcnQ7CisKKwkJZHJtX2RwX2RwY2Rf
-cmVhZCgmcG9ydC0+YXV4LCBEUF9ET1dOU1RSRUFNUE9SVF9QUkVTRU5ULAorCQkJCSAmZG93bnN0
-cmVhbXBvcnQsIDEpOworCisJCWlmICgoZG93bnN0cmVhbXBvcnQgJiBEUF9EV05fU1RSTV9QT1JU
-X1BSRVNFTlQpICYmCisJCSAgICgoZG93bnN0cmVhbXBvcnQgJiBEUF9EV05fU1RSTV9QT1JUX1RZ
-UEVfTUFTSykKKwkJICAgICAhPSBEUF9EV05fU1RSTV9QT1JUX1RZUEVfQU5BTE9HKSkKKwkJCXJl
-dHVybiBwb3J0LT5tZ3ItPmF1eDsKKwl9CisKKwlyZXR1cm4gTlVMTDsKK30KK0VYUE9SVF9TWU1C
-T0woZHJtX2RwX21zdF9kc2NfYXV4X2Zvcl9wb3J0KTsKZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJt
-L2RybV9kcF9tc3RfaGVscGVyLmggYi9pbmNsdWRlL2RybS9kcm1fZHBfbXN0X2hlbHBlci5oCmlu
-ZGV4IGYxMTNhZTA0ZmE4OC4uNGNmNzM4NTQ1ZGZiIDEwMDY0NAotLS0gYS9pbmNsdWRlL2RybS9k
-cm1fZHBfbXN0X2hlbHBlci5oCisrKyBiL2luY2x1ZGUvZHJtL2RybV9kcF9tc3RfaGVscGVyLmgK
-QEAgLTY3Myw2ICs2NzMsOCBAQCBpbnQgX19tdXN0X2NoZWNrIGRybV9kcF9tc3RfYXRvbWljX2No
-ZWNrKHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSk7CiB2b2lkIGRybV9kcF9tc3RfZ2V0
-X3BvcnRfbWFsbG9jKHN0cnVjdCBkcm1fZHBfbXN0X3BvcnQgKnBvcnQpOwogdm9pZCBkcm1fZHBf
-bXN0X3B1dF9wb3J0X21hbGxvYyhzdHJ1Y3QgZHJtX2RwX21zdF9wb3J0ICpwb3J0KTsKIAorc3Ry
-dWN0IGRybV9kcF9hdXggKmRybV9kcF9tc3RfZHNjX2F1eF9mb3JfcG9ydChzdHJ1Y3QgZHJtX2Rw
-X21zdF9wb3J0ICpwb3J0KTsKKwogZXh0ZXJuIGNvbnN0IHN0cnVjdCBkcm1fcHJpdmF0ZV9zdGF0
-ZV9mdW5jcyBkcm1fZHBfbXN0X3RvcG9sb2d5X3N0YXRlX2Z1bmNzOwogCiAvKioKLS0gCjIuMTcu
-MQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1544994413==
+Content-Type: multipart/alternative; boundary="15669152480.9c991a.8837"
+Content-Transfer-Encoding: 7bit
+
+
+--15669152480.9c991a.8837
+Date: Tue, 27 Aug 2019 14:14:08 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111502
+
+Ilia Mirkin <imirkin@alum.mit.edu> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+         QA Contact|                            |intel-gfx-bugs@lists.freede
+                   |                            |sktop.org
+          Component|General                     |DRM/Intel
+                 CC|                            |intel-gfx-bugs@lists.freede
+                   |                            |sktop.org
+           Assignee|dri-devel@lists.freedesktop |intel-gfx-bugs@lists.freede
+                   |.org                        |sktop.org
+
+--- Comment #1 from Ilia Mirkin <imirkin@alum.mit.edu> ---
+The ultimate issue is a modeset failure:
+
+[   107.379] (EE) modeset(0): failed to set mode: No space left on device
+
+Pretty sure that nouveau's not involved since there are, it seems, no
+connectors hanging off the NVIDIA device. Try booting one of the failing
+kernels with
+
+drm.debug=3D0x1e
+
+which should hopefully reveal more information about what's going wrong.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15669152480.9c991a.8837
+Date: Tue, 27 Aug 2019 14:14:08 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:imirkin&#=
+64;alum.mit.edu" title=3D"Ilia Mirkin &lt;imirkin&#64;alum.mit.edu&gt;"> <s=
+pan class=3D"fn">Ilia Mirkin</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Dell XPS15 (HD530 &amp; GeForce 950) external screen via =
+dock/HDMI no text display &amp; gdm freeze"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111502">bug 11150=
+2</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">QA Contact</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>intel-gfx-bugs&#64;lists.freedesktop.org
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Component</td>
+           <td>General
+           </td>
+           <td>DRM/Intel
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">CC</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>intel-gfx-bugs&#64;lists.freedesktop.org
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Assignee</td>
+           <td>dri-devel&#64;lists.freedesktop.org
+           </td>
+           <td>intel-gfx-bugs&#64;lists.freedesktop.org
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Dell XPS15 (HD530 &amp; GeForce 950) external screen via =
+dock/HDMI no text display &amp; gdm freeze"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111502#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Dell XPS15 (HD530 &amp; GeForce 950) external screen via =
+dock/HDMI no text display &amp; gdm freeze"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111502">bug 11150=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+imirkin&#64;alum.mit.edu" title=3D"Ilia Mirkin &lt;imirkin&#64;alum.mit.edu=
+&gt;"> <span class=3D"fn">Ilia Mirkin</span></a>
+</span></b>
+        <pre>The ultimate issue is a modeset failure:
+
+[   107.379] (EE) modeset(0): failed to set mode: No space left on device
+
+Pretty sure that nouveau's not involved since there are, it seems, no
+connectors hanging off the NVIDIA device. Try booting one of the failing
+kernels with
+
+drm.debug=3D0x1e
+
+which should hopefully reveal more information about what's going wrong.</p=
+re>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15669152480.9c991a.8837--
+
+--===============1544994413==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1544994413==--
