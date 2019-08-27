@@ -2,42 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E604C9E85D
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2019 14:51:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64BC79E86E
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2019 14:54:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7A9B89A5E;
-	Tue, 27 Aug 2019 12:51:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 907EA89A59;
+	Tue, 27 Aug 2019 12:54:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 296CD89A5E
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2019 12:51:26 +0000 (UTC)
-Received: from lupine.hi.pengutronix.de
- ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
- by metis.ext.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1i2awW-0007xV-NY; Tue, 27 Aug 2019 14:51:24 +0200
-Message-ID: <1566910280.4102.10.camel@pengutronix.de>
-Subject: Re: [PATCH v2 17/21] drm/imx: pd: Use bus format/flags provided by
- the bridge when available
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Date: Tue, 27 Aug 2019 14:51:20 +0200
-In-Reply-To: <20190827115706.1e172a63@collabora.com>
-References: <20190826152649.13820-1-boris.brezillon@collabora.com>
- <20190826152649.13820-18-boris.brezillon@collabora.com>
- <1566893719.4102.1.camel@pengutronix.de>
- <20190827104353.1447e5ba@collabora.com>
- <1566897782.4102.6.camel@pengutronix.de>
- <20190827115706.1e172a63@collabora.com>
-X-Mailer: Evolution 3.22.6-1+deb9u2 
-Mime-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EE45689A59
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2019 12:54:18 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id E383372161; Tue, 27 Aug 2019 12:54:18 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111502] Dell XPS15 (HD530 & GeForce 950) external screen via
+ dock/HDMI no text display & gdm freeze
+Date: Tue, 27 Aug 2019 12:54:18 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: General
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: hajo@hajo.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ attachments.created
+Message-ID: <bug-111502-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,109 +53,201 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, dri-devel@lists.freedesktop.org,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>, Chris Healy <Chris.Healy@zii.aero>,
- kernel@collabora.com, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1511861240=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMDE5LTA4LTI3IGF0IDExOjU3ICswMjAwLCBCb3JpcyBCcmV6aWxsb24gd3JvdGU6
-Cj4gT24gVHVlLCAyNyBBdWcgMjAxOSAxMToyMzowMiArMDIwMAo+IFBoaWxpcHAgWmFiZWwgPHAu
-emFiZWxAcGVuZ3V0cm9uaXguZGU+IHdyb3RlOgo+ID4gT24gVHVlLCAyMDE5LTA4LTI3IGF0IDEw
-OjQzICswMjAwLCBCb3JpcyBCcmV6aWxsb24gd3JvdGU6ClsuLi5dCj4gPiBBYnNvbHV0ZWx5LiBU
-aGlzIHdhcyBqdXN0IGEgY29zbWV0aWMgcmVtYXJrLiBJJ20gc3VnZ2VzdGluZyB0byBwdXQgdGhp
-cwo+ID4gYnJhbmNoIGJlbG93IHRoZSBvdGhlciB0d28sIHRvIGluZGljYXRlIGl0cyByZWxhdGl2
-ZSBpbXBvcnRhbmNlLgo+IAo+IE9rYXksIHNvbWV0aGluZyBsaWtlIHRoYXQ/Cj4gCj4gCSpudW1f
-b3V0cHV0X2ZtdHMgPSAxOwo+IAlpZiAoIWlteHBkLT5idXNfZm9ybWF0ICYmIGRpLT5udW1fYnVz
-X2Zvcm1hdHMpIHsKPiAJCWlmIChvdXRwdXRfZm10cykKPiAJCQlvdXRwdXRfZm10c1swXSA9IGRp
-LT5idXNfZm9ybWF0c1swXTsKPiAJfSBlbHNlIGlmICghaW14cGQtPmJ1c19mb3JtYXQpIHsKPiAJ
-CSpudW1fb3V0cHV0X2ZtdHMgPSBBUlJBWV9TSVpFKGlteF9wZF9idXNfZm10cyk7Cj4gCQlpZiAo
-b3V0cHV0X2ZtdHMpCj4gCQkJbWVtY3B5KG91dHB1dF9mbXRzLCBpbXhfcGRfYnVzX2ZtdHMsCj4g
-CQkJICAgICAgIEFSUkFZX1NJWkUoaW14X3BkX2J1c19mbXRzKSk7Cj4gCX0gZWxzZSBpZiAob3V0
-cHV0X2ZtdHMpIHsKPiAJCW91dHB1dF9mbXRzWzBdID0gaW14cGQtPmJ1c19mb3JtYXQ7Cj4gCX0K
-ClllcywgdGhhbmsgeW91LgoKWy4uLl0KPiA+IFRoYXQgd2FzIHVuZXhwZWN0ZWQsIGFzIE1FRElB
-X0JVU19GTVRfRklYRUQgaXMgZG9jdW1lbnRlZCBhczoKPiA+IAo+ID4gICAiTUVESUFfQlVTX0ZN
-VF9GSVhFRCBzaGFsbCBiZSB1c2VkIGJ5IGhvc3QtY2xpZW50IHBhaXJzLAo+ID4gICAgd2hlcmUg
-dGhlIGRhdGEgZm9ybWF0IGlzIGZpeGVkLiIKPiA+IAo+ID4gaW4gaW5jbHVkZS91YXBpL2xpbnV4
-L21lZGlhLWJ1cy1mb3JtYXQuaC4gSSByZWFkIHRoaXMgYXMgc29tZXRoaW5nIGZvciBhCj4gPiBm
-aXhlZCBsaW5rIGJldHdlZW4gdHdvIGtub3duIGRldmljZXMgd2hlcmUgdGhlcmUgaXMgb25seSBv
-bmUgcG9zc2libGUKPiA+IGZvcm1hdC4gSGVyZSB3ZSBjYW4ndCBwb3NzaWJseSBrbm93IHdoYXQg
-dGhlIG90aGVyIHNpZGUgZXhwZWN0cy4KPiAKPiBXZWxsLCBpdCdzIG1vcmUgb3IgbGVzcyB3aGF0
-IGhhcHBlbnMgcmlnaHQgbm93IHdpdGhvdXQgdGhlIGJ1cyBmb3JtYXQKPiBuZWdvdGlhdGlvbjog
-YnJpZGdlIGVsZW1lbnRzIGNvbnNpZGVyIHRoYXQgdGhlIGxpbmsgdXNlcyBhIGZpeGVkIGZvcm1h
-dAo+IHRoYXQncyBrbm93biBieSBib3RoIGVuZHMgaW4gYWR2YW5jZS4KCk9rLiBBbmQgd2l0aCB0
-aGUgbGVnYWN5IERUIHByb3ZpZGVkIGJ1cyBmb3JtYXQgd2UgY2FuIGV2ZW4gY2hvb3NlIGEKc2Vu
-c2libGUgZm9ybWF0LgoKWy4uLl0KPiA+ID4gSSBjYW4gZG8gdGhhdCBpZiB5b3UgbGlrZS4gTm90
-ZSB0aGF0IHdlIGFyZSBmb3J3YXJkaW5nCj4gPiA+IHRoZSAtPm91dHB1dF9idXNfY2ZnLmZtdCB2
-YWx1ZSB0byB0aGUgSVBVIERJLCBub3QgLT5pbnB1dF9idXNfY2ZnLmZtdC4KPiA+ID4gSSBqdXN0
-IGFzc3VtZWQgdGhhdCBpbnB1dCBmb3JtYXQgd291bGRuJ3QgYmUgdXNlZCBpbiB0aGUgZHVtbXkg
-YnJpZGdlCj4gPiA+IGVsZW1lbnQgKHRoZSBvbmUgZW1iZWRkZWQgaW4gdGhlIGVuY29kZXIpIHNp
-bmNlIGVuY29kZXJzIG9ubHkgaGF2ZSBhbgo+ID4gPiBvdXRwdXQgZW5kIChpbnB1dCBwb3J0IGlz
-IGxpa2VseSB0byBiZSBhIFNvQyBzcGVjaWZpYyBsaW5rIGJldHdlZW4gdGhlCj4gPiA+IENSVEMg
-YW5kIHRoZSBlbmNvZGVyIHdoaWNoIHdlIHByb2JhYmx5IGRvbid0IG5lZWQvd2FudCB0byBleHBv
-c2UpLiAgCj4gPiAKPiA+IFRoZW4gd2h5ICh3b3VsZCB0aGlzIGRyaXZlciBoYXZlIHRvKSBpbXBs
-ZW1lbnQgZ2V0X2lucHV0X2ZtdHMgYXQgYWxsPwo+IAo+IFRoYXQncyB0aGUgb25seSB3YXkgd2Ug
-Y2FuIGNoZWNrIGlmIGFuIG91dHB1dCBmb3JtYXQgaXMgc3VwcG9ydGVkOiBidXMKPiBmb3JtYXQg
-bmVnb3RpYXRpb24gaXMgYmFzZWQgb24gYSB0cmlhbCBhbmQgZXJyb3IgbG9naWMgdGhhdCBzdGFy
-dHMgZnJvbQo+IHRoZSBlbmQgb2YgdGhlIHBpcGVsaW5lIChsYXN0IGJyaWRnZSBlbGVtZW50KSBh
-bmQgZ29lcyBiYWNrd2FyZCB1bnRpbAo+IGl0IHJlYWNoZXMgdGhlIGZpcnN0IGJyaWRnZSAodGhl
-IGR1bW15IGVuY29kZXIgYnJpZGdlKS4gQSBidXMgZm9ybWF0Cj4gc2V0dGluZyBpcyB2YWxpZGF0
-ZWQgd2hlbiBhbGwgLT5nZXRfaW5wdXRfYnVzX2ZtdHMoKSBob29rcyByZXR1cm5lZCBhdAo+IGxl
-YXN0IG9uZSBwb3NzaWJsZSBmb3JtYXQgKCpudW1faW5wdXRfZm9ybWF0cyA+IDApIGZvciB0aGUg
-b3V0cHV0IGZvcm1hdAo+IGJlaW5nIHRlc3RlZCBieSB0aGUgbmV4dCBlbGVtZW50IGluIHRoZSBj
-aGFpbi4gQW5kIHRoYXQncyB3aHkgZXZlbiB0aGUKPiBkdW1teSBlbmNvZGVyIGJyaWRnZSBoYXMg
-dG8gaW1wbGVtZW50IHRoaXMgaG9vayB1bmxlc3MgaXQgb25seSBzdXBwb3J0cwo+IG9uZSBvdXRw
-dXQgZm9ybWF0ICh0aGUgY29yZSByZXR1cm5zIE1FRElBX0JVU19GTVRfRklYRUQgd2hlbgo+IC0+
-Z2V0X2lucHV0X2J1c19mbXRzIGlzIE5VTEwpLgoKVGhpcyBmdW5jdGlvbiAoY3VycmVudGx5KSBh
-bHNvIG9ubHkgcmV0dXJucyBNRURJQV9CVVNfRk1UX0ZJWEVELCBzbwp0aGVyZSBpcyBubyBkaWZm
-ZXJlbmNlIGluIHJldHVybiB2YWx1ZSAoaWYgcXVlcmllZCB3aXRoIGEgc3VwcG9ydGVkCm91dHB1
-dF9mbXQpLgpzZWxlY3RfYnVzX2ZtdF9yZWN1cnNpdmUgY291bGQganVzdCBjaGVjayBhdG9taWNf
-Z2V0X291dHB1dF9idXNfZm10cyBpZgp0aGF0IGlzIGltcGxlbWVudGVkLCBidXQgYXRvbWljX2dl
-dF9pbnB1dF9idXNfZm10cyBpc24ndC4KClRoYXQgcG9pbnQgaXMgbW9vdCB0aG91Z2gsIGlmIHdl
-IHByb3BhZ2F0ZSB0aGUgb3V0cHV0IGZvcm1hdCB0byB0aGUKaW5wdXQgZm9ybWF0LgoKPiA+IEkn
-ZCBsaWtlIHRoaXMgdG8gYmUgY29uc2lzdGVudC4gSWYgZW5jb2Rlci1icmlkZ2VzIGRvbid0IHVz
-ZSB0aGUgaW5wdXQKPiA+IGJ1cyBmb3JtYXQgaW4gZ2VuZXJhbCwgSSdtIGZpbmUgd2l0aCB0aGlz
-Lgo+IAo+IFByb3BhZ2F0aW5nIG91dHB1dCB0byBpbnB1dCBkb2Vzbid0IGh1cnQsIGFuZCBpZiB5
-b3UgdGhpbmsgdGhhdCdzCj4gY2xlYXJlciB0aGlzIHdheSBJJ20gcGVyZmVjdGx5IGZpbmUgYWRq
-dXN0aW5nIHRoZSBkcml2ZXIgYWNjb3JkaW5nbHkuCgpZZXMsIEknZCBsaWtlIHRoYXQuCgo+ID4g
-SSB3YXMganVzdCBjb25mdXNlZCB0aGF0IHRoZSBicmlkZ2UgdGFrZXMgcGFydCBpbiBpbnB1dCBm
-b3JtYXQKPiA+IG5lZ290aWF0aW9uIGFuZCB0aGVuIGNhcnJpZXMgb24gdXNpbmcgdGhlIG91dHB1
-dCBmb3JtYXQgdG8gY29uZmlndXJlIGl0cwo+ID4gaW5wdXQuCj4gCj4gTWF5YmUgSSdtIHdyb25n
-LCBidXQgSSB0aG91Z2h0IGl0IHdhcyB0aGUgcGFyYWxsZWwgKEFLQSBEUEkpIGVuY29kZXIKPiBv
-dXRwdXQgd2Ugd2VyZSBjb25maWd1cmluZyBoZXJlLgo+IEFueXdheSwgSSdsbCBjaG9vc2Ugb25l
-IHNlbWFudGljIGFuZCBkb2N1bWVudCBpdC4KClNlbWFudGljcyA6KSBZb3UgYXJlIG5vdCB3cm9u
-ZywgdGhlIElQVSBESXMgdGVjaG5pY2FsbHkgb3V0cHV0IERQSQpjb21wYXRpYmxlIHNpZ25hbHMs
-IGludGVybmFsbHkuIFRob3NlIGFyZSBmZWQgdGhyb3VnaCBtdXhlcyBlaXRoZXIgaW50bwp0aGUg
-SERNSS9MVkRTL1RWIGVuY29kZXJzLCBvciBkaXJlY3RseSBpbnRvIHRoZSBJT01VWCBibG9jaywg
-d2hpY2gKZHJpdmVzIHRoZW0gb250byB0aGUgRElTUCBwYWRzLgoKVGhlIElQVSBkcml2ZXIgaXMg
-ZnJvbSBhIHRpbWUgYmVmb3JlIGJyaWRnZXMgYW5kIG9mLWdyYXBoIGJpbmRpbmdzIHdlcmUKZXN0
-YWJsaXNoZWQuIFdlIGNob3NlIHRvIGNvbnNpZGVyIHRoZSB3aG9sZSBJRE1BQy9EUC9EQy9ESSBw
-YXRoIGFzIGNydGMsCmFuZCB0aGUgSERNSSAvIExWRFMgLyBJT01VWC9ESVNQIGJsb2NrcyBhcyBl
-bmNvZGVyLCBiZWNhdXNlIHRoZSBjcnRjLQplbmNvZGVyIGFzc2lnbm1lbnQgbWFwcGVkIHdlbGwg
-dG8gY29uZmlndXJpbmcgdGhlIG11eGVzIGJldHdlZW4gdGhlCmNvbXBvbmVudHMuClRlY2huaWNh
-bGx5IHdlIGNvdWxkIGp1c3QgYXMgd2VsbCBjb25zaWRlciBJRE1BQy9EUC9wYXJ0LW9mLURDIHRv
-IGJlIHRoZQpjcnRjIGFuZCBwYXJ0LW9mLURDL0RJIHRvIGJlIGEgRFBJIGVuY29kZXIgdG8gd2hp
-Y2ggdGhlIEhETUkvTFZEUy9UVgpicmlkZ2VzIGFyZSBjb25uZWN0ZWQsIGJ1dCB0b2RheSB3ZSdk
-IHN0aWxsIG1pc3MgdGhlIHBvc3NpYmlsaXR5IHRvCm11bHRpcGxleCBzZXZlcmFsIGVuY29kZXJz
-IGludG8gdGhlIHNhbWUgYnJpZGdlLgoKWy4uLl0KPiA+ID4gQXMgc2FpZCBhYm92ZSwgd2UgbmVl
-ZCBhIHdheSB0byBzdXBwb3J0IGJyaWRnZSBjaGFpbnMgd2hlcmUgbm90IGFsbAo+ID4gPiBlbGVt
-ZW50cyBzdXBwb3J0IG5lZ290aWF0aW5nIHRoZSBidXMgZm9ybWF0LCB0aGF0J3Mgd2hhdCB0aGlz
-IGZhbGxiYWNrCj4gPiA+IGlzIGZvciwgYnV0IG1heWJlIDAgaXMgbm90IGFuIGFwcHJvcHJpYXRl
-IHZhbHVlIHRvIG1lYW4gJ3BpY2sgdGhlCj4gPiA+IGRlZmF1bHQgZm9ybWF0Jy4gIAo+ID4gCj4g
-PiBXZSdkIGFjdHVhbGx5IGhhdmUgdG8gcGljayBvbmUgaGVyZS4gSWYgc2V0LCB0aGF0IHNob3Vs
-ZCBiZQo+ID4gaW14cGQtPmJ1c19mb3JtYXQuCj4gCj4gV2hhdCBpZiBpbXhwZC0+YnVzX2Zvcm1h
-dCBpcyAwPyBTaG91bGQgSSByZXR1cm4gLUVJTlZBTD8KCkkgdGhpbmsgc28uIFRoYXQgd291bGQg
-Y2VydGFpbmx5IGJlIGVhc2llciB0byBkZWJ1ZyB0aGFuICJzdHJhbmdlCmNvbG91cnMiIHdoZW4g
-aG9va2luZyB1cCBhIGJyaWRnZSB0aGF0IGlzIGluY29tcGF0aWJsZSB3aXRoIHdoYXRldmVyCndl
-J2QgY2hvb3NlLgoKcmVnYXJkcwpQaGlsaXBwCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1511861240==
+Content-Type: multipart/alternative; boundary="15669104580.be943.22051"
+Content-Transfer-Encoding: 7bit
+
+
+--15669104580.be943.22051
+Date: Tue, 27 Aug 2019 12:54:18 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111502
+
+            Bug ID: 111502
+           Summary: Dell XPS15 (HD530 & GeForce 950) external screen via
+                    dock/HDMI no text display & gdm freeze
+           Product: DRI
+           Version: unspecified
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: critical
+          Priority: not set
+         Component: General
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: hajo@hajo.net
+
+Created attachment 145176
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145176&action=3Dedit
+multiple logs
+
+Fedora 30, Dell XPS15 9550 with Intel HD530, GeForce 950 cards, dual-screen
+setup with external display connected through Dell WD15 TB dock and HDMI
+
+Setup worked until kernel 5.0. It broke somewhere around kernel 5.1:
+
+- Booting to runlevel 3, external display remains off
+- Booting to gdm, external display remains off during boot, system freezes =
+on
+gdm start
+
+Attached lspci, lsmod and dmesg for both (working) kernel 5.0 and (failing)
+kernel 5.2. FWIW also attached a failing Xorg.log of kernel 5.2.
+
+Sorry for the tagging, I'm not even sure if this is a i915, nouveau or kern=
+el
+issue.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15669104580.be943.22051
+Date: Tue, 27 Aug 2019 12:54:18 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Dell XPS15 (HD530 &amp; GeForce 950) external screen via =
+dock/HDMI no text display &amp; gdm freeze"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111502">111502</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Dell XPS15 (HD530 &amp; GeForce 950) external screen via dock=
+/HDMI no text display &amp; gdm freeze
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>unspecified
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>critical
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>General
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>hajo&#64;hajo.net
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145176=
+" name=3D"attach_145176" title=3D"multiple logs">attachment 145176</a> <a h=
+ref=3D"attachment.cgi?id=3D145176&amp;action=3Dedit" title=3D"multiple logs=
+">[details]</a></span>
+multiple logs
+
+Fedora 30, Dell XPS15 9550 with Intel HD530, GeForce 950 cards, dual-screen
+setup with external display connected through Dell WD15 TB dock and HDMI
+
+Setup worked until kernel 5.0. It broke somewhere around kernel 5.1:
+
+- Booting to runlevel 3, external display remains off
+- Booting to gdm, external display remains off during boot, system freezes =
+on
+gdm start
+
+Attached lspci, lsmod and dmesg for both (working) kernel 5.0 and (failing)
+kernel 5.2. FWIW also attached a failing Xorg.log of kernel 5.2.
+
+Sorry for the tagging, I'm not even sure if this is a i915, nouveau or kern=
+el
+issue.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15669104580.be943.22051--
+
+--===============1511861240==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1511861240==--
