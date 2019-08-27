@@ -2,35 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B32FC9EB5C
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2019 16:43:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 141B39EB90
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2019 16:52:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52FC489C33;
-	Tue, 27 Aug 2019 14:43:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B807896EB;
+	Tue, 27 Aug 2019 14:52:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B148889C33
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2019 14:43:00 +0000 (UTC)
-X-Originating-IP: 87.18.63.98
-Received: from uno.localdomain (unknown [87.18.63.98])
- (Authenticated sender: jacopo@jmondi.org)
- by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id CEF00C0003;
- Tue, 27 Aug 2019 14:42:50 +0000 (UTC)
-Date: Tue, 27 Aug 2019 16:44:21 +0200
-From: Jacopo Mondi <jacopo@jmondi.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v3 13/14] drm: rcar-du: kms: Update CMM in atomic commit
- tail
-Message-ID: <20190827144421.vbcoizfjxj5ashv2@uno.localdomain>
-References: <20190825135154.11488-1-jacopo+renesas@jmondi.org>
- <20190825135154.11488-14-jacopo+renesas@jmondi.org>
- <20190827000017.GB5274@pendragon.ideasonboard.com>
- <20190827001927.GA5926@pendragon.ideasonboard.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 998F0896EB;
+ Tue, 27 Aug 2019 14:52:52 +0000 (UTC)
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 27 Aug 2019 07:52:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,437,1559545200"; d="scan'208";a="182800518"
+Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.154])
+ by orsmga003.jf.intel.com with ESMTP; 27 Aug 2019 07:52:49 -0700
+Date: Tue, 27 Aug 2019 20:22:16 +0530
+From: Ramalingam C <ramalingam.c@intel.com>
+To: "Winkler, Tomas" <tomas.winkler@intel.com>
+Subject: Re: [PATCH v10 5/6] drm/i915/hdcp: update current transcoder into
+ intel_hdcp
+Message-ID: <20190827145216.GE5040@intel.com>
+References: <20190827105014.14181-1-ramalingam.c@intel.com>
+ <20190827105014.14181-6-ramalingam.c@intel.com>
+ <5B8DA87D05A7694D9FA63FD143655C1B9DCA4FFC@hasmsx108.ger.corp.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20190827001927.GA5926@pendragon.ideasonboard.com>
-User-Agent: NeoMutt/20180716
+Content-Disposition: inline
+In-Reply-To: <5B8DA87D05A7694D9FA63FD143655C1B9DCA4FFC@hasmsx108.ger.corp.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -43,170 +46,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: muroya@ksk.co.jp, uli@fpond.eu, horms@verge.net.au,
- VenkataRajesh.Kalakodima@in.bosch.com, airlied@linux.ie,
- koji.matsuoka.xm@renesas.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Harsha.ManjulaMallikarjun@in.bosch.com, Ulrich Hecht <uli+renesas@fpond.eu>
-Content-Type: multipart/mixed; boundary="===============0693891037=="
+Cc: "Nikula, Jani" <jani.nikula@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0693891037==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="3m3cb2q7h77rk35u"
-Content-Disposition: inline
-
-
---3m3cb2q7h77rk35u
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-
-HI Laurent,
-
-On Tue, Aug 27, 2019 at 03:19:27AM +0300, Laurent Pinchart wrote:
-> On Tue, Aug 27, 2019 at 03:00:17AM +0300, Laurent Pinchart wrote:
-> > Hi Jacopo,
-> >
-> > Thank you for the patch.
-> >
-> > On Sun, Aug 25, 2019 at 03:51:53PM +0200, Jacopo Mondi wrote:
-> > > Update CMM settings at in the atomic commit tail helper method.
-> > >
-> > > The CMM is updated with new gamma values provided to the driver
-> > > in the GAMMA_LUT blob property.
-> > >
-> > > Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > ---
-> > >  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 35 +++++++++++++++++++++++++++
-> > >  1 file changed, 35 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > > index 61ca1d3c379a..047fdb982a11 100644
-> > > --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > > +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > > @@ -22,6 +22,7 @@
-> > >  #include <linux/of_platform.h>
-> > >  #include <linux/wait.h>
-> > >
-> > > +#include "rcar_cmm.h"
-> > >  #include "rcar_du_crtc.h"
-> > >  #include "rcar_du_drv.h"
-> > >  #include "rcar_du_encoder.h"
-> > > @@ -368,6 +369,37 @@ rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
-> > >   * Atomic Check and Update
-> > >   */
-> > >
-> > > +static void rcar_du_atomic_commit_update_cmm(struct drm_crtc *crtc,
-> > > +					     struct drm_crtc_state *old_state)
-> > > +{
-> > > +	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
-> > > +	struct rcar_cmm_config cmm_config = {};
-> > > +
-> > > +	if (!rcrtc->cmm || !crtc->state->color_mgmt_changed)
-> > > +		return;
-> > > +
-> > > +	if (!crtc->state->gamma_lut) {
-> > > +		cmm_config.lut.enable = false;
-> > > +		rcar_cmm_setup(rcrtc->cmm, &cmm_config);
-> > > +
-> > > +		return;
-> > > +	}
-> > > +
-> > > +	cmm_config.lut.enable = true;
-> > > +	cmm_config.lut.table = (struct drm_color_lut *)
-> > > +			       crtc->state->gamma_lut->data;
-> > > +
-> > > +	/* Set LUT table size to 0 if entries should not be updated. */
-> > > +	if (!old_state->gamma_lut ||
-> > > +	    old_state->gamma_lut->base.id != crtc->state->gamma_lut->base.id)
-> > > +		cmm_config.lut.size = crtc->state->gamma_lut->length
-> > > +				    / sizeof(cmm_config.lut.table[0]);
-> >
-> > It has just occurred to me that the hardware only support LUTs of
-
-Where did you find this strict requirement ? I have tried programming
-less than 256 entries in the 1-D LUT table, and it seems to me things
-are working fine (from a visual inspection of the output image, I
-don't see much differences from when I program the full table, maybe
-that's an indication something is bad?)
-
-Thanks
-   j
-> > exactly 256 entries. Should we remove cmm_config.lut.size (simplifying
-> > the code in the CMM driver), and add a check to the CRTC .atomic_check()
-> > handler to reject invalid LUTs ? Sorry for not having caught this
-> > earlier.
->
-> Just an additional comment, if we drop the size field, then the
-> cmm_config.lut.table pointer should be set to NULL when the LUT contents
-> don't need to be updated.
->
-> > > +	else
-> > > +		cmm_config.lut.size = 0;
-> > > +
-> > > +	rcar_cmm_setup(rcrtc->cmm, &cmm_config);
-> > > +}
-> > > +
-> > >  static int rcar_du_atomic_check(struct drm_device *dev,
-> > >  				struct drm_atomic_state *state)
-> > >  {
-> > > @@ -410,6 +442,9 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
-> > >  			rcdu->dpad1_source = rcrtc->index;
-> > >  	}
-> > >
-> > > +	for_each_old_crtc_in_state(old_state, crtc, crtc_state, i)
-> > > +		rcar_du_atomic_commit_update_cmm(crtc, crtc_state);
-> > > +
-> > >  	/* Apply the atomic update. */
-> > >  	drm_atomic_helper_commit_modeset_disables(dev, old_state);
-> > >  	drm_atomic_helper_commit_planes(dev, old_state,
-> >
-> > --
-> > Regards,
-> >
-> > Laurent Pinchart
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
---3m3cb2q7h77rk35u
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1lQcUACgkQcjQGjxah
-VjzMqRAAvjI1dIl75COJM8s3AwAk9V/Sl1o3l0ttHp1a6JrSakhJCJidsuH29+GC
-XbkCLizR1XSBa2yrfWyAPtFlltJjO35+iypOc73L7OI9tBFyIar7dsRDeCzQ853N
-U26ToA5f9JCvHHAMyc6NJzzqWpp1QkkT2GPJmxavvyvhi0k4zHRvNMhkKmUfq/XS
-vGGV/3q96JTPnHy+loaMRiasMhwt7Ow2SwTgjLlvwQy7v+bFxqXfPGTp+1ovUVxg
-6FUccyq3e2CWH/sL2hcTomIUj4efvnhI5rHZ/pmayxmi++TeUPiZ+qQDZfGVU1hQ
-9R6kUWBgZahFStAeqU4k3Hum4xklB77oeKeB9ndV5IgHzVE+5mpvdQMTYV4bkltT
-KKkleHPtb8CH2Fqm+cu1Odake+iXOWKmjWtsVyAe81GCt80DjdzE01IlPnuuqxP4
-aLS5Q1SAOLN1Z7EiBCU62JyBVB2vl6teH42yD8Y48ctU+0wtLuQ6tS1J8xVAdiQ0
-SdB+gFIHa1skyA4KVR8DxOkaucO2ldAhHLSj0pLKKeR29Ojp9HjfmpJpb/Z+cFYA
-Px2v0e4l/HGXEAvNEr2Glrss6a/Znz4qledwHJBYNDTgp9WqFnD5+1dDWJK0dzOJ
-mS6b+uN5iNbHTQ1TSDDDkAxryETL+mUDPIN1Gnxfq5H5X+NTo08=
-=RTB1
------END PGP SIGNATURE-----
-
---3m3cb2q7h77rk35u--
-
---===============0693891037==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0693891037==--
+T24gMjAxOS0wOC0yNyBhdCAyMDowMzoyMSArMDUzMCwgV2lua2xlciwgVG9tYXMgd3JvdGU6Cj4g
+PiBPbiBnZW4xMisgcGxhdGZvcm1zLCBIRENQIEhXIGlzIGFzc29jaWF0ZWQgdG8gdGhlIHRyYW5z
+Y29kZXIuCj4gPiBIZW5jZSBvbiBldmVyeSBtb2Rlc2V0IHVwZGF0ZSBhc3NvY2lhdGVkIHRyYW5z
+Y29kZXIgaW50byB0aGUgaW50ZWxfaGRjcCBvZgo+ID4gdGhlIHBvcnQuCj4gPiAKPiA+IHYyOgo+
+ID4gICBzL3RyYW5zL2NwdV90cmFuc2NvZGVyIFtKYW5pXQo+ID4gdjM6Cj4gPiAgIGNvbW1lbnQg
+aXMgYWRkZWQgZm9yIGZ3X2RkaSBpbml0IGZvciBnZW4xMisgW1NoYXNoYW5rXQo+ID4gICBvbmx5
+IGhkY3AgY2FwYWJsZSB0cmFuc2NvZGVyIGlzIHRyYW5zbGF0ZWQgaW50byBmd190YyBbU2hhc2hh
+bmtdCj4gPiAKPiA+IFNpZ25lZC1vZmYtYnk6IFJhbWFsaW5nYW0gQyA8cmFtYWxpbmdhbS5jQGlu
+dGVsLmNvbT4KPiA+IEFja2VkLWJ5OiBKYW5pIE5pa3VsYSA8amFuaS5uaWt1bGFAaW50ZWwuY29t
+Pgo+ID4gLS0tCj4gPiAgLi4uL2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheV90eXBlcy5o
+ICAgIHwgIDcgKysrCj4gPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5j
+ICAgICAgIHwgIDMgKysKPiA+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hk
+Y3AuYyAgICAgfCA0NyArKysrKysrKysrKysrKysrKystCj4gPiAgZHJpdmVycy9ncHUvZHJtL2k5
+MTUvZGlzcGxheS9pbnRlbF9oZGNwLmggICAgIHwgIDMgKysKPiA+ICBkcml2ZXJzL2dwdS9kcm0v
+aTkxNS9kaXNwbGF5L2ludGVsX2hkbWkuYyAgICAgfCAgMyArKwo+ID4gIDUgZmlsZXMgY2hhbmdl
+ZCwgNjIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5X3R5cGVzLmgKPiA+IGIv
+ZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5X3R5cGVzLmgKPiA+IGlu
+ZGV4IDk2NTE0ZGNjNzgxMi4uNjEyNzdhODdkYmU3IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5X3R5cGVzLmgKPiA+ICsrKyBiL2RyaXZl
+cnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheV90eXBlcy5oCj4gPiBAQCAtMzg4
+LDYgKzM4OCwxMyBAQCBzdHJ1Y3QgaW50ZWxfaGRjcCB7Cj4gPiAgCXdhaXRfcXVldWVfaGVhZF90
+IGNwX2lycV9xdWV1ZTsKPiA+ICAJYXRvbWljX3QgY3BfaXJxX2NvdW50Owo+ID4gIAlpbnQgY3Bf
+aXJxX2NvdW50X2NhY2hlZDsKPiA+ICsKPiA+ICsJLyoKPiA+ICsJICogSERDUCByZWdpc3RlciBh
+Y2Nlc3MgZm9yIGdlbjEyKyBuZWVkIHRoZSB0cmFuc2NvZGVyIGFzc29jaWF0ZWQuCj4gPiArCSAq
+IFRyYW5zY29kZXIgYXR0YWNoZWQgdG8gdGhlIGNvbm5lY3RvciBjb3VsZCBiZSBjaGFuZ2VkIGF0
+IG1vZGVzZXQuCj4gPiArCSAqIEhlbmNlIGNhY2hpbmcgdGhlIHRyYW5zY29kZXIgaGVyZS4KPiA+
+ICsJICovCj4gPiArCWVudW0gdHJhbnNjb2RlciBjcHVfdHJhbnNjb2RlcjsKPiA+ICB9Owo+ID4g
+Cj4gPiAgc3RydWN0IGludGVsX2Nvbm5lY3RvciB7Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
+cHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1
+L2Rpc3BsYXkvaW50ZWxfZHAuYwo+ID4gaW5kZXggMjM5MDhkYTFjZDVkLi5lODQ3MTY4OWY3ODUg
+MTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMK
+PiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYwo+ID4gQEAg
+LTIyNDgsNiArMjI0OCw5IEBAIGludGVsX2RwX2NvbXB1dGVfY29uZmlnKHN0cnVjdCBpbnRlbF9l
+bmNvZGVyCj4gPiAqZW5jb2RlciwKPiA+IAo+ID4gIAlpbnRlbF9wc3JfY29tcHV0ZV9jb25maWco
+aW50ZWxfZHAsIHBpcGVfY29uZmlnKTsKPiA+IAo+ID4gKwlpbnRlbF9oZGNwX3RyYW5zY29kZXJf
+Y29uZmlnKGludGVsX2Nvbm5lY3RvciwKPiA+ICsJCQkJICAgICBwaXBlX2NvbmZpZy0+Y3B1X3Ry
+YW5zY29kZXIpOwo+ID4gKwo+ID4gIAlyZXR1cm4gMDsKPiA+ICB9Cj4gPiAKPiA+IGRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hkY3AuYwo+ID4gYi9kcml2
+ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hkY3AuYwo+ID4gaW5kZXggNTM0ODMyZjQz
+NWRjLi4zNTkxYjhmN2ZlMzAgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9k
+aXNwbGF5L2ludGVsX2hkY3AuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxh
+eS9pbnRlbF9oZGNwLmMKPiA+IEBAIC0xNzYyLDEzICsxNzYyLDU4IEBAIGVudW0gbWVpX2Z3X2Rk
+aQo+ID4gaW50ZWxfZ2V0X21laV9md19kZGlfaW5kZXgoZW51bSBwb3J0IHBvcnQpCj4gPiAgCX0K
+PiA+ICB9Cj4gPiAKPiA+ICtzdGF0aWMgaW5saW5lCj4gPiArZW51bSBtZWlfZndfdGMgaW50ZWxf
+Z2V0X21laV9md190YyhlbnVtIHRyYW5zY29kZXIgY3B1X3RyYW5zY29kZXIpIHsKPiA+ICsJc3dp
+dGNoIChjcHVfdHJhbnNjb2Rlcikgewo+ID4gKwljYXNlIFRSQU5TQ09ERVJfQSAuLi4gVFJBTlND
+T0RFUl9EOgo+ID4gKwkJcmV0dXJuIChlbnVtIG1laV9md190YykoY3B1X3RyYW5zY29kZXIgfCAw
+eDEwKTsKPiA+ICsJZGVmYXVsdDogLyogZURQLCBEU0kgVFJBTlNDT0RFUlMgYXJlIG5vbiBIRENQ
+IGNhcGFibGUgKi8KPiA+ICsJCXJldHVybiBNRUlfSU5WQUxJRF9UUkFOU0NPREVSOwo+ID4gKwl9
+Cj4gPiArfQo+ID4gKwo+ID4gK3ZvaWQgaW50ZWxfaGRjcF90cmFuc2NvZGVyX2NvbmZpZyhzdHJ1
+Y3QgaW50ZWxfY29ubmVjdG9yICpjb25uZWN0b3IsCj4gPiArCQkJCSAgZW51bSB0cmFuc2NvZGVy
+IGNwdV90cmFuc2NvZGVyKQo+ID4gK3sKPiA+ICsJc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRl
+dl9wcml2ID0gdG9faTkxNShjb25uZWN0b3ItPmJhc2UuZGV2KTsKPiA+ICsJc3RydWN0IGludGVs
+X2hkY3AgKmhkY3AgPSAmY29ubmVjdG9yLT5oZGNwOwo+ID4gKwo+ID4gKwlpZiAoIWhkY3AtPnNo
+aW0pCj4gPiArCQlyZXR1cm47Cj4gPiArCj4gPiArCWlmIChJTlRFTF9HRU4oZGV2X3ByaXYpID49
+IDEyKSB7Cj4gPiArCQltdXRleF9sb2NrKCZoZGNwLT5tdXRleCk7Cj4gPiArCQloZGNwLT5jcHVf
+dHJhbnNjb2RlciA9IGNwdV90cmFuc2NvZGVyOwo+ID4gKwkJaGRjcC0+cG9ydF9kYXRhLmZ3X3Rj
+ID0KPiA+IGludGVsX2dldF9tZWlfZndfdGMoY3B1X3RyYW5zY29kZXIpOwo+ID4gKwkJbXV0ZXhf
+dW5sb2NrKCZoZGNwLT5tdXRleCk7Cj4gPiArCX0KPiA+ICt9Cj4gPiArCj4gPiAgc3RhdGljIGlu
+bGluZSBpbnQgaW5pdGlhbGl6ZV9oZGNwX3BvcnRfZGF0YShzdHJ1Y3QgaW50ZWxfY29ubmVjdG9y
+ICpjb25uZWN0b3IsCj4gPiAgCQkJCQkgICAgY29uc3Qgc3RydWN0IGludGVsX2hkY3Bfc2hpbSAq
+c2hpbSkKPiA+IHsKPiA+ICsJc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRldl9wcml2ID0gdG9f
+aTkxNShjb25uZWN0b3ItPmJhc2UuZGV2KTsKPiA+ICAJc3RydWN0IGludGVsX2hkY3AgKmhkY3Ag
+PSAmY29ubmVjdG9yLT5oZGNwOwo+ID4gIAlzdHJ1Y3QgaGRjcF9wb3J0X2RhdGEgKmRhdGEgPSAm
+aGRjcC0+cG9ydF9kYXRhOwo+ID4gKwlzdHJ1Y3QgaW50ZWxfY3J0YyAqY3J0YzsKPiA+ICsKPiA+
+ICsJaWYgKElOVEVMX0dFTihkZXZfcHJpdikgPCAxMikgewo+ID4gKwkJZGF0YS0+ZndfZGRpID0K
+PiA+ICsJCQlpbnRlbF9nZXRfbWVpX2Z3X2RkaV9pbmRleChjb25uZWN0b3ItPmVuY29kZXItCj4g
+PiA+cG9ydCk7Cj4gPiArCX0gZWxzZSB7Cj4gPiArCQljcnRjID0gdG9faW50ZWxfY3J0Yyhjb25u
+ZWN0b3ItPmJhc2Uuc3RhdGUtPmNydGMpOwo+ID4gKwkJaWYgKGNydGMpIHsKPiA+ICsJCQloZGNw
+LT5jcHVfdHJhbnNjb2RlciA9IGNydGMtPmNvbmZpZy0+Y3B1X3RyYW5zY29kZXI7Cj4gPiArCQkJ
+ZGF0YS0+ZndfdGMgPSBpbnRlbF9nZXRfbWVpX2Z3X3RjKGhkY3AtCj4gPiA+Y3B1X3RyYW5zY29k
+ZXIpOwo+ID4gKwkJfQkKPiBXaGF0IGlzIHRoZSAnZWxzZScgYWN0aW9uIGhlcmUsIGxvb2tzIGxp
+a2UgdGhlcmUgaXMgbm8gZGVmYXVsdCB2YWx1ZSBmb3IgZndfdGM/IAplbHNlIGJsb2NrIHN0YW5k
+cyBvZiBnZW4xMisgcGxhdGZvcm1zLiBBbmQgd2l0aCByZXNwZWN0IHRvIGZ3X3RjCmluaXRpYWxp
+emF0aW9uLCB3ZSBhcmUgY29uZmlndXJpbmcgaXQgYXQgZXZlcnkgbW9kZXNldCB0aHJvdWdoCmlu
+dGVsX2hkY3BfdHJhbnNjb2Rlcl9jb25maWcoKSwgYXMgdHJhbnNjb2RlciBtaWdodCBjaGFuZ2Ug
+YXQgbW9kZXNldC4KQW5kIGluIGhkY3BfaW5pdCBpbml0aWFsaXppbmcgaXMgcG9zc2libGUgb25s
+eSBpZiBjcnRjIGlzIGFzc29jaWF0ZWQKd2l0aCBjb25uZWN0b3IgYWxyZWFkeS4KCkFuZCBpdCB3
+aWxsIGJlIGluaXRpbGFpemVkIHdoZW4gbWVpX2hkY3AgYXBpcyBhcmUgY2FsbGVkLCBhcyBtb2Rl
+c2V0CmlzIGVzc2VudGlhbCB0byBpbnZva2UgSERDUC4KClBPUlQgaXMgc3RhdGljYWxseSBhc3Nv
+Y2lhdGVkIHdpdGggY29ubmVjdG9yLCBoZW5jZSB3ZSBhcmUgaW5pdGlhbGl6aW5nCmhlcmUgZm9y
+ZXZlci4KCi1SYW0KPiAKPiA+ICsJCS8qCj4gPiArCQkgKiBBcyBwZXIgTUUgRlcgQVBJIGV4cGVj
+dGF0aW9uLCBmb3IgR0VOIDEyKywgZndfZGRpIGlzIGZpbGxlZAo+ID4gKwkJICogd2l0aCBJTlZB
+TElEIFBPUlQuCj4gPiArCQkgKi8KPiA+ICsJCWRhdGEtPmZ3X2RkaSA9IGludGVsX2dldF9tZWlf
+ZndfZGRpX2luZGV4KFBPUlRfTk9ORSk7Cj4gPiArCX0KPiA+IAo+ID4gLQlkYXRhLT5md19kZGkg
+PSBpbnRlbF9nZXRfbWVpX2Z3X2RkaV9pbmRleChjb25uZWN0b3ItPmVuY29kZXItCj4gPiA+cG9y
+dCk7Cj4gPiAgCWRhdGEtPnBvcnRfdHlwZSA9ICh1OClIRENQX1BPUlRfVFlQRV9JTlRFR1JBVEVE
+Owo+ID4gIAlkYXRhLT5wcm90b2NvbCA9ICh1OClzaGltLT5wcm90b2NvbDsKPiA+IAo+ID4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfaGRjcC5oCj4gPiBi
+L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfaGRjcC5oCj4gPiBpbmRleCA1OWEy
+YjQwNDA1Y2MuLjQxYzEwNTNkOWUzOCAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9p
+OTE1L2Rpc3BsYXkvaW50ZWxfaGRjcC5oCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9k
+aXNwbGF5L2ludGVsX2hkY3AuaAo+ID4gQEAgLTE2LDEwICsxNiwxMyBAQCBzdHJ1Y3QgZHJtX2k5
+MTVfcHJpdmF0ZTsgIHN0cnVjdCBpbnRlbF9jb25uZWN0b3I7ICBzdHJ1Y3QKPiA+IGludGVsX2hk
+Y3Bfc2hpbTsgIGVudW0gcG9ydDsKPiA+ICtlbnVtIHRyYW5zY29kZXI7Cj4gPiAKPiA+ICB2b2lk
+IGludGVsX2hkY3BfYXRvbWljX2NoZWNrKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3Is
+Cj4gPiAgCQkJICAgICBzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9zdGF0ZSAqb2xkX3N0YXRlLAo+ID4g
+IAkJCSAgICAgc3RydWN0IGRybV9jb25uZWN0b3Jfc3RhdGUgKm5ld19zdGF0ZSk7Cj4gPiArdm9p
+ZCBpbnRlbF9oZGNwX3RyYW5zY29kZXJfY29uZmlnKHN0cnVjdCBpbnRlbF9jb25uZWN0b3IgKmNv
+bm5lY3RvciwKPiA+ICsJCQkJICBlbnVtIHRyYW5zY29kZXIgY3B1X3RyYW5zY29kZXIpOwo+ID4g
+IGludCBpbnRlbF9oZGNwX2luaXQoc3RydWN0IGludGVsX2Nvbm5lY3RvciAqY29ubmVjdG9yLAo+
+ID4gIAkJICAgIGNvbnN0IHN0cnVjdCBpbnRlbF9oZGNwX3NoaW0gKmhkY3Bfc2hpbSk7ICBpbnQK
+PiA+IGludGVsX2hkY3BfZW5hYmxlKHN0cnVjdCBpbnRlbF9jb25uZWN0b3IgKmNvbm5lY3Rvciwg
+dTggY29udGVudF90eXBlKTsgZGlmZiAtLQo+ID4gZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUv
+ZGlzcGxheS9pbnRlbF9oZG1pLmMKPiA+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9p
+bnRlbF9oZG1pLmMKPiA+IGluZGV4IGUwMmYwZmFlY2YwMi4uNmU5YmI2YmQxZWUyIDEwMDY0NAo+
+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9oZG1pLmMKPiA+ICsr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfaGRtaS5jCj4gPiBAQCAtMjQz
+MSw2ICsyNDMxLDkgQEAgaW50IGludGVsX2hkbWlfY29tcHV0ZV9jb25maWcoc3RydWN0IGludGVs
+X2VuY29kZXIKPiA+ICplbmNvZGVyLAo+ID4gIAkJcmV0dXJuIC1FSU5WQUw7Cj4gPiAgCX0KPiA+
+IAo+ID4gKwlpbnRlbF9oZGNwX3RyYW5zY29kZXJfY29uZmlnKGludGVsX2hkbWktPmF0dGFjaGVk
+X2Nvbm5lY3RvciwKPiA+ICsJCQkJICAgICBwaXBlX2NvbmZpZy0+Y3B1X3RyYW5zY29kZXIpOwo+
+ID4gKwo+ID4gIAlyZXR1cm4gMDsKPiA+ICB9Cj4gPiAKPiA+IC0tCj4gPiAyLjIwLjEKPiAKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
