@@ -2,61 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C9DF9E88A
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2019 15:02:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17A129E8B7
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2019 15:10:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57EF28979E;
-	Tue, 27 Aug 2019 13:02:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3C8789AB5;
+	Tue, 27 Aug 2019 13:10:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBC578979E;
- Tue, 27 Aug 2019 13:02:18 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 27 Aug 2019 06:02:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,437,1559545200"; d="scan'208";a="182772462"
-Received: from fmsmsx104.amr.corp.intel.com ([10.18.124.202])
- by orsmga003.jf.intel.com with ESMTP; 27 Aug 2019 06:02:17 -0700
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 27 Aug 2019 06:02:17 -0700
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 27 Aug 2019 06:02:17 -0700
-Received: from lcsmsx154.ger.corp.intel.com (10.186.165.229) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Tue, 27 Aug 2019 06:02:16 -0700
-Received: from hasmsx108.ger.corp.intel.com ([169.254.9.203]) by
- LCSMSX154.ger.corp.intel.com ([169.254.7.131]) with mapi id 14.03.0439.000;
- Tue, 27 Aug 2019 16:02:14 +0300
-From: "Winkler, Tomas" <tomas.winkler@intel.com>
-To: "C, Ramalingam" <ramalingam.c@intel.com>, intel-gfx
- <intel-gfx@lists.freedesktop.org>, dri-devel
- <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH v10 0/6] drm/i915: Enable HDCP 1.4 and 2.2 on Gen12+
-Thread-Topic: [PATCH v10 0/6] drm/i915: Enable HDCP 1.4 and 2.2 on Gen12+
-Thread-Index: AQHVXMVRSsOGlv6880mVspSOZAq5YKcO9YPw
-Date: Tue, 27 Aug 2019 13:02:13 +0000
-Message-ID: <5B8DA87D05A7694D9FA63FD143655C1B9DCA4E9E@hasmsx108.ger.corp.intel.com>
-References: <20190827105014.14181-1-ramalingam.c@intel.com>
-In-Reply-To: <20190827105014.14181-1-ramalingam.c@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZjgxZmQ4MzMtY2IzZS00ZjMyLTkyYjYtNTUwOTRlYzcwNDE3IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiOVJyaFNrTEV4VlZraUlBUzV2SCtLUW1wR2FVSVkya2pBT21FTHpVZGxzbHlHcnI0ZE9CVHlWeFhOREZoU01HSyJ9
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.184.70.10]
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C25789AB5
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2019 13:10:37 +0000 (UTC)
+Received: from zn.tnic (p200300EC2F0CD000F02F6C1468024718.dip0.t-ipconnect.de
+ [IPv6:2003:ec:2f0c:d000:f02f:6c14:6802:4718])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 975791EC0B89;
+ Tue, 27 Aug 2019 15:10:33 +0200 (CEST)
+Date: Tue, 27 Aug 2019 15:10:29 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Thomas =?utf-8?Q?Hellstr=C3=B6m_=28VMware=29?= <thomas_os@shipmail.org>
+Subject: Re: [PATCH v2 2/4] x86/vmware: Add a header file for hypercall
+ definitions
+Message-ID: <20190827131029.GF29752@zn.tnic>
+References: <20190823081316.28478-1-thomas_os@shipmail.org>
+ <20190823081316.28478-3-thomas_os@shipmail.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190823081316.28478-3-thomas_os@shipmail.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=alien8.de; s=dkim; t=1566911433;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1O36I11NR1TCXF+c0kx9q6zN8+NXYhHhq5Irre2ThJw=;
+ b=eL3U/jP2V+9BgFmUx2XVAEzxHUZCz/v86h5uaRhGjMr31UHC+T2CTAkJSXBFSpwruJ1XvO
+ gBUuQnvSiU8VFgpWBOnNbhbeKHz7Be5KDdYVQv8jCO1AI1FJMduxPKTWMaGj4DvmS1AVpf
+ pDpkFlNfJpLwsKGI8UtliZUEbNSdwOM=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,40 +52,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Nikula, Jani" <jani.nikula@intel.com>
+Cc: Thomas Hellstrom <thellstrom@vmware.com>, pv-drivers@vmware.com,
+ x86@kernel.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Doug Covelli <dcovelli@vmware.com>, Ingo Molnar <mingo@redhat.com>,
+ linux-graphics-maintainer@vmware.com, "H. Peter Anvin" <hpa@zytor.com>,
+ Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Cj4gRW5hYmxpbmcgdGhlIEhEQ1AxLjQgYW5kIDIuMiBvbiBUR0wgYnkgc3VwcG9ydGluZyB0aGUg
-SFcgYmxvY2sgbW92ZW1lbnQKPiBmcm9tIERESSBpbnRvIHRyYW5zY29kZXIuCgpJbiBzb21lIGZp
-bGVzIG5lZWRzIHRvIGJ1bXAgdGhlIGNvcHlyaWdodCB0byAyMDE5LiAKCj4gCj4gdjEwOgo+ICAg
-UmV2aWV3IGNvbW1lbnRzIGZyb20gc2hhc2hhbmsgYWRkcmVzc2VkCj4gCj4gUmFtYWxpbmdhbSBD
-ICg2KToKPiAgIGRybS9pOTE1OiBtZWlfaGRjcDogSTkxNSBzZW5kcyBkZGkgaW5kZXggYXMgcGVy
-IE1FIEZXCj4gICBkcm06IE1vdmUgcG9ydCBkZWZpbml0aW9uIGJhY2sgdG8gaTkxNSBoZWFkZXIK
-PiAgIGRybTogRXh0ZW5kIEk5MTUgbWVpIGludGVyZmFjZSBmb3IgdHJhbnNjb2RlciBpbmZvCj4g
-ICBtaXNjL21laS9oZGNwOiBGaWxsIHRyYW5zY29kZXIgaW5kZXggaW4gcG9ydCBpbmZvCj4gICBk
-cm0vaTkxNS9oZGNwOiB1cGRhdGUgY3VycmVudCB0cmFuc2NvZGVyIGludG8gaW50ZWxfaGRjcAo+
-ICAgZHJtL2k5MTUvaGRjcDogRW5hYmxlIEhEQ1AgMS40IGFuZCAyLjIgb24gR2VuMTIrCj4gCj4g
-IGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfYmlvcy5oICAgICB8ICAgMSArCj4g
-IGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheS5oICB8ICAxOCArKwo+
-ICAuLi4vZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5X3R5cGVzLmggICAgfCAgIDcgKwo+
-ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMgICAgICAgfCAgIDMgKwo+
-ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmggICAgICAgfCAgIDEgKwo+
-ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hkY3AuYyAgICAgfCAyMTIgKysr
-KysrKysrKysrKy0tLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfaGRj
-cC5oICAgICB8ICAgNCArCj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfaGRt
-aS5jICAgICB8ICAxMyArLQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hk
-bWkuaCAgICAgfCAgIDEgKwo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hv
-dHBsdWcuaCAgfCAgIDEgKwo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX3Nk
-dm8uaCAgICAgfCAgIDEgKwo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X3JlZy5oICAgICAg
-ICAgICAgICAgfCAxMjQgKysrKysrKysrLQo+ICBkcml2ZXJzL21pc2MvbWVpL2hkY3AvbWVpX2hk
-Y3AuYyAgICAgICAgICAgICAgfCAgNDUgKystLQo+ICBkcml2ZXJzL21pc2MvbWVpL2hkY3AvbWVp
-X2hkY3AuaCAgICAgICAgICAgICAgfCAgMTYgKy0KPiAgaW5jbHVkZS9kcm0vaTkxNV9kcm0uaCAg
-ICAgICAgICAgICAgICAgICAgICAgIHwgIDE4IC0tCj4gIGluY2x1ZGUvZHJtL2k5MTVfbWVpX2hk
-Y3BfaW50ZXJmYWNlLmggICAgICAgICB8ICAyOSArKy0KPiAgMTYgZmlsZXMgY2hhbmdlZCwgMzcy
-IGluc2VydGlvbnMoKyksIDEyMiBkZWxldGlvbnMoLSkKPiAKPiAtLQo+IDIuMjAuMQoKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+T24gRnJpLCBBdWcgMjMsIDIwMTkgYXQgMTA6MTM6MTRBTSArMDIwMCwgVGhvbWFzIEhlbGxzdHLD
+tm0gKFZNd2FyZSkgd3JvdGU6Cj4gRnJvbTogVGhvbWFzIEhlbGxzdHJvbSA8dGhlbGxzdHJvbUB2
+bXdhcmUuY29tPgo+IAo+IFRoZSBuZXcgaGVhZGVyIGlzIGludGVuZGVkIHRvIGJlIHVzZWQgYnkg
+ZHJpdmVycyB1c2luZyB0aGUgYmFja2Rvb3IuCj4gRm9sbG93IHRoZSBrdm0gZXhhbXBsZSB1c2lu
+ZyBhbHRlcm5hdGl2ZXMgc2VsZi1wYXRjaGluZyB0bwo+IGNob29zZSBiZXR3ZWVuIHZtY2FsbCwg
+dm1tY2FsbCBhbmQgaW8gaW5zdHJ1Y3Rpb25zLgo+IAo+IEFsc28gZGVmaW5lIHR3byBuZXcgQ1BV
+IGZlYXR1cmUgZmxhZ3MgdG8gaW5kaWNhdGUgaHlwZXJ2aXNvciBzdXBwb3J0Cj4gZm9yIHZtY2Fs
+bC0gYW5kIHZtbWNhbGwgaW5zdHJ1Y3Rpb25zLgoKSSBjb3VsZCB1c2Ugc29tZSBvZiB0aGUgZXhw
+bGFuYXRpb24gd2h5IHdlIG5lZWQgdHdvIGZlYXR1cmUgZmxhZ3MgYWRkZWQKaGVyZSBmcm9tOgoK
+aHR0cHM6Ly9sa21sLmtlcm5lbC5vcmcvci85NzBkMmJiNi1hYjI5LTMxNWYtZjVkOC01ZDExMDk1
+ODU5YWZAc2hpcG1haWwub3JnCgpUaHguCgotLSAKUmVnYXJkcy9HcnVzcywKICAgIEJvcmlzLgoK
+R29vZCBtYWlsaW5nIHByYWN0aWNlcyBmb3IgNDAwOiBhdm9pZCB0b3AtcG9zdGluZyBhbmQgdHJp
+bSB0aGUgcmVwbHkuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bA==
