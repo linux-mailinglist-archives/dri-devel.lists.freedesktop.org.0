@@ -1,41 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A89E29DCC9
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2019 06:48:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD1AA9DCCE
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2019 06:50:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02E9F89249;
-	Tue, 27 Aug 2019 04:48:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16D1689686;
+	Tue, 27 Aug 2019 04:50:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F1A389227;
- Tue, 27 Aug 2019 04:48:11 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 26 Aug 2019 21:48:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,435,1559545200"; d="scan'208";a="185174605"
-Received: from sharmash-mobl3.gar.corp.intel.com (HELO [10.252.72.100])
- ([10.252.72.100])
- by orsmga006.jf.intel.com with ESMTP; 26 Aug 2019 21:48:08 -0700
-Subject: Re: [PATCH v9 3/6] drm: Extend I915 mei interface for transcoder info
-To: Ramalingam C <ramalingam.c@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-References: <20190822151904.17919-1-ramalingam.c@intel.com>
- <20190822151904.17919-4-ramalingam.c@intel.com>
-From: "Sharma, Shashank" <shashank.sharma@intel.com>
-Message-ID: <4d2a0d7a-e364-bbc8-071c-d4bbd887479d@intel.com>
-Date: Tue, 27 Aug 2019 10:18:07 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 876DE896AF
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2019 04:49:59 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 844DD72161; Tue, 27 Aug 2019 04:49:59 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111494] Raven Ridge (2400G): Firefox menu items become invisible
+Date: Tue, 27 Aug 2019 04:49:59 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: diego.viola@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111494-502-z3Clb64w5I@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111494-502@http.bugs.freedesktop.org/>
+References: <bug-111494-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20190822151904.17919-4-ramalingam.c@intel.com>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,43 +52,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, tomas.winkler@intel.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============0765614253=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDgvMjIvMjAxOSA4OjQ5IFBNLCBSYW1hbGluZ2FtIEMgd3JvdGU6Cj4gSTkxNSBuZWVkcyB0
-byBzZW5kIHRoZSBpbmRleCBvZiB0aGUgdHJhbnNjb2RlciBhcyBwZXIgTUUgRlcuCj4gVG8gc3Vw
-cG9ydCB0aGlzLCBkZWZpbmUgZW51bSBtZWlfZndfZGRpIGFuZCBhZGQgYXMgYSBtZW1iZXIgaW50
-bwo+IHRoZSBzdHJ1Y3QgaGRjcF9wb3J0X2RhdGEuCgpUaGUgY29tbWl0IG1lc3NhZ2Ugc2F5cyB5
-b3UgYXJlIGRlZmluaW5nIGVudW0gbWVpX2Z3X2RkaSwgYnV0IHlvdSBhcmUgCmFjdHVhbGx5IGRl
-ZmluaW5nIGVudW0gbWVpX2Z3X3RjOwoKLSBTaGFzaGFuawoKPiBTaWduZWQtb2ZmLWJ5OiBSYW1h
-bGluZ2FtIEMgPHJhbWFsaW5nYW0uY0BpbnRlbC5jb20+Cj4gQWNrZWQtYnk6IEphbmkgTmlrdWxh
-IDxqYW5pLm5pa3VsYUBpbnRlbC5jb20+Cj4gLS0tCj4gICBpbmNsdWRlL2RybS9pOTE1X21laV9o
-ZGNwX2ludGVyZmFjZS5oIHwgMTMgKysrKysrKysrKysrKwo+ICAgMSBmaWxlIGNoYW5nZWQsIDEz
-IGluc2VydGlvbnMoKykKPgo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9pOTE1X21laV9oZGNw
-X2ludGVyZmFjZS5oIGIvaW5jbHVkZS9kcm0vaTkxNV9tZWlfaGRjcF9pbnRlcmZhY2UuaAo+IGlu
-ZGV4IGE5N2FjZjFjOTcxMC4uMGRlNjI5YmYyZjYyIDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvZHJt
-L2k5MTVfbWVpX2hkY3BfaW50ZXJmYWNlLmgKPiArKysgYi9pbmNsdWRlL2RybS9pOTE1X21laV9o
-ZGNwX2ludGVyZmFjZS5oCj4gQEAgLTU0LDkgKzU0LDIxIEBAIGVudW0gbWVpX2Z3X2RkaSB7Cj4g
-ICAJTUVJX0RESV9SQU5HRV9FTkQgPSBNRUlfRERJX0EsCj4gICB9Owo+ICAgCj4gK2VudW0gbWVp
-X2Z3X3RjIHsKPiArCU1FSV9JTlZBTElEX1RSQU5TQ09ERVIgPSAweDAwLAkvKiBJbnZhbGlkIHRy
-YW5zY29kZXIgdHlwZSAqLwo+ICsJTUVJX1RDX0VEUCwJCQkvKiBUcmFuc2NvZGVyIGZvciBlRFAg
-Ki8KPiArCU1FSV9UQ19EU0kwLAkJCS8qIFRyYW5zY29kZXIgZm9yIERTSTAgKi8KPiArCU1FSV9U
-Q19EU0kxLAkJCS8qIFRyYW5zY29kZXIgZm9yIERTSTEgKi8KPiArCU1FSV9UQ19BID0gMHgxMCwJ
-CS8qIFRyYW5zY29kZXIgVENBICovCj4gKwlNRUlfVENfQiwJCQkvKiBUcmFuc2NvZGVyIFRDQiAq
-Lwo+ICsJTUVJX1RDX0MsCQkJLyogVHJhbnNjb2RlciBUQ0MgKi8KPiArCU1FSV9UQ19ECQkJLyog
-VHJhbnNjb2RlciBUQ0QgKi8KPiArfTsKPiArCj4gICAvKioKPiAgICAqIHN0cnVjdCBoZGNwX3Bv
-cnRfZGF0YSAtIGludGVsIHNwZWNpZmljIEhEQ1AgcG9ydCBkYXRhCj4gICAgKiBAZndfZGRpOiBk
-ZGkgaW5kZXggYXMgcGVyIE1FIEZXCj4gKyAqIEBmd190YzogdHJhbnNjb2RlciBpbmRleCBhcyBw
-ZXIgTUUgRlcKPiAgICAqIEBwb3J0X3R5cGU6IEhEQ1AgcG9ydCB0eXBlIGFzIHBlciBNRSBGVyBj
-bGFzc2lmaWNhdGlvbgo+ICAgICogQHByb3RvY29sOiBIRENQIGFkYXB0YXRpb24gYXMgcGVyIE1F
-IEZXCj4gICAgKiBAazogTm8gb2Ygc3RyZWFtcyB0cmFuc21pdHRlZCBvbiBhIHBvcnQuIE9ubHkg
-b24gRFAgTVNUIHRoaXMgaXMgIT0gMQo+IEBAIC02OSw2ICs4MSw3IEBAIGVudW0gbWVpX2Z3X2Rk
-aSB7Cj4gICAgKi8KPiAgIHN0cnVjdCBoZGNwX3BvcnRfZGF0YSB7Cj4gICAJZW51bSBtZWlfZndf
-ZGRpIGZ3X2RkaTsKPiArCWVudW0gbWVpX2Z3X3RjIGZ3X3RjOwo+ICAgCXU4IHBvcnRfdHlwZTsK
-PiAgIAl1OCBwcm90b2NvbDsKPiAgIAl1MTYgazsKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVs
+
+--===============0765614253==
+Content-Type: multipart/alternative; boundary="15668813991.88d0B8b06.13248"
+Content-Transfer-Encoding: 7bit
+
+
+--15668813991.88d0B8b06.13248
+Date: Tue, 27 Aug 2019 04:49:59 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111494
+
+--- Comment #1 from Diego Viola <diego.viola@gmail.com> ---
+My system specs:
+
+- Arch Linux (x86_64).
+- Linux 5.2.9-arch1-1-ARCH
+- mesa 19.1.5-1
+- i3-wm 4.17-1
+- Firefox 68.0.2-1
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15668813991.88d0B8b06.13248
+Date: Tue, 27 Aug 2019 04:49:59 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Raven Ridge (2400G): Firefox menu items become invisible"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111494#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Raven Ridge (2400G): Firefox menu items become invisible"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111494">bug 11149=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+diego.viola&#64;gmail.com" title=3D"Diego Viola &lt;diego.viola&#64;gmail.c=
+om&gt;"> <span class=3D"fn">Diego Viola</span></a>
+</span></b>
+        <pre>My system specs:
+
+- Arch Linux (x86_64).
+- Linux 5.2.9-arch1-1-ARCH
+- mesa 19.1.5-1
+- i3-wm 4.17-1
+- Firefox 68.0.2-1</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15668813991.88d0B8b06.13248--
+
+--===============0765614253==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0765614253==--
