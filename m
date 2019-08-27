@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708179E6B1
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2019 13:25:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D259E6B7
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Aug 2019 13:25:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 071F689AB6;
-	Tue, 27 Aug 2019 11:25:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C079898B7;
+	Tue, 27 Aug 2019 11:25:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
- [209.85.210.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75A4B89AB6
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2019 11:25:17 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id m24so18276623otp.12
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2019 04:25:17 -0700 (PDT)
+Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
+ [209.85.167.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F28BC898B7
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2019 11:25:40 +0000 (UTC)
+Received: by mail-oi1-f196.google.com with SMTP id k22so14620292oiw.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Aug 2019 04:25:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=8+QWSwWcojaDdjJrlxzolY9DpOXYYC/c2KNNIAQNvxc=;
- b=WsSZIATyKx2/Hl/ohzCpyvCiJmVf0IseA36P2SmhMvpAjCGYuXUanlbFU08fyqQowP
- 9Nbehk2sHLG3gSXNAhOkjeHHLImbXfnAqrtQvm7kY4A7AyKJhDwPaj4xZtT3ZIe3w5eR
- kfTVH7wgmbIOEeEBQuVF2xHQCjChWZdorj42btNmPb4iHRL42NAbD99E6N/S1uWqtKwZ
- X+0nyuQElaOBzDZonU4/e5zPXauhqHZjQqs6hs711QqQpOUXzJ00puaIKCYCbxRFc/kv
- +V6YHfNI/gRj2AcXdKtCZkfauSYuYXZL8+nghCXjY6PyteH6bib1hawvYbLw/FX/AbjX
- p9sw==
-X-Gm-Message-State: APjAAAUvJCnCtBQdGUeVOseP4zSeM9xznzlDIT5MPPURIpZKmyqCvSAO
- io3ZZAjbrAb3NxW4LX+tecTZ/Cp2GjuZjDDMQrA=
-X-Google-Smtp-Source: APXvYqw+f7CKWP0dcOY1+7xVWxHjSrtt9IPmRKrLF7GZ2GTvQuuOyd5CeqlxVccIcLk5TLxv4hUggtxpgVwJfYzd5ew=
-X-Received: by 2002:a9d:3e50:: with SMTP id h16mr16391328otg.107.1566905116634; 
- Tue, 27 Aug 2019 04:25:16 -0700 (PDT)
+ bh=sbe+mD9TjSIALmM4jOBGJ1BaowYoqtIQG+RaLF5qQhI=;
+ b=VQqb/B87iY5zikBG6RldAB1RQouHFC7yRHSo3HxqR47MtjLXhV4RrUc85chOsGc+N6
+ YZo5E+HMSY8k46eDuU1XkME75vgoojeDINDRFB7Ho/G9E9ejVVrJEs70Wx1OvpaY9nAp
+ 1iPYVmvIcDQNwCli+O9U/9vIqLRgsKiBlClcOxsfDwRpsaqjbfHEuilYuKxXqq5ZTPkR
+ qxIT/SZe7ch+s9XGHyIMTxk9vXZMEunB+OVOy0q62uIyG+6OB4Y1RKoZUWUaNzr1eo+E
+ cZ73nfX9e76VL7P2KPpIuyO5QUDTlqKyAASoXeBtxVt7thoKBKMnB8rQvdOqw5Dq2y3z
+ spwA==
+X-Gm-Message-State: APjAAAWHAvSK0L9qvvIRXdcPrE/6du3KlM6Qg/IZR8OeXU7R/+SuI/bY
+ lm34Pxe09EV6my9LhfcF+GZRqsFj5tO1ibKSD28=
+X-Google-Smtp-Source: APXvYqyBmLm+aF54MGwelCc+w4hkzT2alLYfQdaYjb4e9WDwRSce6dti3GUc+LGiArPFcvFQ7bgcck/G/b9VD42wTiI=
+X-Received: by 2002:a54:478d:: with SMTP id o13mr15817144oic.54.1566905140208; 
+ Tue, 27 Aug 2019 04:25:40 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190827110854.12574-1-peda@axentia.se>
- <20190827110854.12574-2-peda@axentia.se>
-In-Reply-To: <20190827110854.12574-2-peda@axentia.se>
+ <20190827110854.12574-3-peda@axentia.se>
+In-Reply-To: <20190827110854.12574-3-peda@axentia.se>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 27 Aug 2019 13:25:05 +0200
-Message-ID: <CAMuHMdWzMSGeBrLK6TnUwJrtNqif_vgW1RTYzZXxQ9Qh5x6qTQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] fbdev: fix numbering of fbcon options
+Date: Tue, 27 Aug 2019 13:25:29 +0200
+Message-ID: <CAMuHMdU1PEyqh8e5n3_xp1NT8YdPYXEyHDiaVQYOYKYKCm8y1A@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] fbdev: fbmem: allow overriding the number of
+ bootup logos
 To: Peter Rosin <peda@axentia.se>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -65,19 +66,17 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 T24gVHVlLCBBdWcgMjcsIDIwMTkgYXQgMTowOSBQTSBQZXRlciBSb3NpbiA8cGVkYUBheGVudGlh
-LnNlPiB3cm90ZToKPiBUaHJlZSBzaGFsbCBiZSB0aGUgbnVtYmVyIHRob3Ugc2hhbHQgY291bnQs
-IGFuZCB0aGUgbnVtYmVyIG9mIHRoZQo+IGNvdW50aW5nIHNoYWxsIGJlIHRocmVlLiBGb3VyIHNo
-YWx0IHRob3Ugbm90IGNvdW50Li4uCj4KPiBPbmUhIFR3byEgRml2ZSEKPgo+IEZpeGVzOiBlZmI5
-ODVmNmIyNjUgKCJbUEFUQ0hdIGZiY29uOiBDb25zb2xlIFJvdGF0aW9uIC0gQWRkIGZyYW1lYnVm
-ZmVyIGNvbnNvbGUgZG9jdW1lbnRhdGlvbiIpCj4gU2lnbmVkLW9mZi1ieTogUGV0ZXIgUm9zaW4g
-PHBlZGFAYXhlbnRpYS5zZT4KClJldmlld2VkLWJ5OiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0
-QGxpbnV4LW02OGsub3JnPgoKR3J7b2V0amUsZWV0aW5nfXMsCgogICAgICAgICAgICAgICAgICAg
-ICAgICBHZWVydAoKLS0gCkdlZXJ0IFV5dHRlcmhvZXZlbiAtLSBUaGVyZSdzIGxvdHMgb2YgTGlu
-dXggYmV5b25kIGlhMzIgLS0gZ2VlcnRAbGludXgtbTY4ay5vcmcKCkluIHBlcnNvbmFsIGNvbnZl
-cnNhdGlvbnMgd2l0aCB0ZWNobmljYWwgcGVvcGxlLCBJIGNhbGwgbXlzZWxmIGEgaGFja2VyLiBC
-dXQKd2hlbiBJJ20gdGFsa2luZyB0byBqb3VybmFsaXN0cyBJIGp1c3Qgc2F5ICJwcm9ncmFtbWVy
-IiBvciBzb21ldGhpbmcgbGlrZSB0aGF0LgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IC0tIExpbnVzIFRvcnZhbGRzCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbA==
+LnNlPiB3cm90ZToKPiBQcm9iYWJseSBtb3N0IHVzZWZ1bCBpZiB5b3Ugd2FudCBubyBsb2dvIGF0
+IGFsbCwgb3IgaWYgeW91IG9ubHkgd2FudCBvbmUKPiBsb2dvIHJlZ2FyZGxlc3Mgb2YgaG93IG1h
+bnkgQ1BVIGNvcmVzIHlvdSBoYXZlLgo+Cj4gU2lnbmVkLW9mZi1ieTogUGV0ZXIgUm9zaW4gPHBl
+ZGFAYXhlbnRpYS5zZT4KClJldmlld2VkLWJ5OiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0QGxp
+bnV4LW02OGsub3JnPgoKR3J7b2V0amUsZWV0aW5nfXMsCgogICAgICAgICAgICAgICAgICAgICAg
+ICBHZWVydAoKLS0gCkdlZXJ0IFV5dHRlcmhvZXZlbiAtLSBUaGVyZSdzIGxvdHMgb2YgTGludXgg
+YmV5b25kIGlhMzIgLS0gZ2VlcnRAbGludXgtbTY4ay5vcmcKCkluIHBlcnNvbmFsIGNvbnZlcnNh
+dGlvbnMgd2l0aCB0ZWNobmljYWwgcGVvcGxlLCBJIGNhbGwgbXlzZWxmIGEgaGFja2VyLiBCdXQK
+d2hlbiBJJ20gdGFsa2luZyB0byBqb3VybmFsaXN0cyBJIGp1c3Qgc2F5ICJwcm9ncmFtbWVyIiBv
+ciBzb21ldGhpbmcgbGlrZSB0aGF0LgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC0t
+IExpbnVzIFRvcnZhbGRzCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbA==
