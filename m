@@ -1,51 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF5819FE9F
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2019 11:37:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8494F9FEAC
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2019 11:38:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B0CC897E0;
-	Wed, 28 Aug 2019 09:37:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09AD6897EB;
+	Wed, 28 Aug 2019 09:38:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C74C1897E0
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2019 09:37:05 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 28 Aug 2019 02:37:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,440,1559545200"; d="scan'208";a="264592725"
-Received: from shao2-debian.sh.intel.com (HELO [10.239.13.6]) ([10.239.13.6])
- by orsmga001.jf.intel.com with ESMTP; 28 Aug 2019 02:37:03 -0700
-Subject: Re: [LKP] [drm/mgag200] 90f479ae51: vm-scalability.median -18.8%
- regression
-To: Thomas Zimmermann <tzimmermann@suse.de>, Feng Tang <feng.tang@intel.com>
-References: <14fdaaed-51c8-b270-b46b-cba7b5c4ba52@suse.de>
- <20190805070200.GA91650@shbuild999.sh.intel.com>
- <c0c3f387-dc93-3146-788c-23258b28a015@intel.com>
- <045a23ab-78f7-f363-4a2e-bf24a7a2f79e@suse.de>
- <37ae41e4-455d-c18d-5c93-7df854abfef9@intel.com>
- <370747ca-4dc9-917b-096c-891dcc2aedf0@suse.de>
- <c6e220fe-230c-265c-f2fc-b0948d1cb898@intel.com>
- <20190812072545.GA63191@shbuild999.sh.intel.com>
- <20190813093616.GA65475@shbuild999.sh.intel.com>
- <64d41701-55a4-e526-17ae-8936de4bc1ef@suse.de>
- <20190824051605.GA63850@shbuild999.sh.intel.com>
- <1b897bfe-fd40-3ae3-d867-424d1fc08c44@suse.de>
- <d114b0b6-6b64-406e-6c3f-a8b8d5502413@intel.com>
- <44029e80-ba00-8246-dec0-fda122d53f5e@suse.de>
-From: Rong Chen <rong.a.chen@intel.com>
-Message-ID: <90e78ce8-d46a-5154-c324-a05aa1743c98@intel.com>
-Date: Wed, 28 Aug 2019 17:37:01 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07132897EB
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2019 09:38:24 +0000 (UTC)
+Received: by mail-ed1-x544.google.com with SMTP id g8so2263186edm.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2019 02:38:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=flt9IxTDXpAAINorBs+AmhNQPGibX4knZjBXudoTqJ4=;
+ b=fC/R1LU6e3BFdon8v5WPeKvVykgV1l4PVo/zK2v1aSL6CKlFzHRkBwda+eJKA+CMlT
+ HubTdIiSpyoaRaWasXeBQVfUz95aWaf0iet7lEFODTNK3o8paqJuv1kBqRZTNs8/JvRc
+ mO0ZoOgI3VS0O6H3l+hotx3CY3a8JejBl7JJUofkfydWsVV6cTpzykdG4TZg8a0Vm1ge
+ OriWl9XvT/69F8sabxsvj9CQjAVtFS/ShdPSgZUfs66TA4jMVluWQDqnxYPq1VXpWGxg
+ QpK9sjwtsh/oS9Y4x6IyvPINyWEITEm+m6c7Hs21z5XLcThdIzkqCKF0xt811HIdCAxK
+ PDuw==
+X-Gm-Message-State: APjAAAW+d0oB7Gs6sNwwyLOKPxQkK3nRcfMDgQqAIO7Ma+8brm8OwylP
+ +vGNxzKl2HfMm/QyWCAt74o=
+X-Google-Smtp-Source: APXvYqxRLGxga0d1nTuNK8TzJOX1G7Yg77gfwljepMJBzvd+Kbne+6dSBmtKBoGGAAZDPD+0b4iOMQ==
+X-Received: by 2002:a50:ea8d:: with SMTP id d13mr2949950edo.83.1566985102474; 
+ Wed, 28 Aug 2019 02:38:22 -0700 (PDT)
+Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
+ by smtp.gmail.com with ESMTPSA id gs21sm303630ejb.40.2019.08.28.02.38.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Aug 2019 02:38:21 -0700 (PDT)
+Date: Wed, 28 Aug 2019 11:38:20 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH v7 7/9] drm: tegra: use cec_notifier_conn_(un)register
+Message-ID: <20190828093820.GE2917@ulmo>
+References: <20190814104520.6001-1-darekm@google.com>
+ <20190814104520.6001-8-darekm@google.com>
+ <f0e99db8-3329-f272-e139-a7c713f200ea@xs4all.nl>
 MIME-Version: 1.0
-In-Reply-To: <44029e80-ba00-8246-dec0-fda122d53f5e@suse.de>
-Content-Language: en-US
+In-Reply-To: <f0e99db8-3329-f272-e139-a7c713f200ea@xs4all.nl>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=flt9IxTDXpAAINorBs+AmhNQPGibX4knZjBXudoTqJ4=;
+ b=mHCK2iBPcn4RtNqJIa+r3p4rW5ZGIZOZvbTBwUB3Rmirj/XeHZinLNpDMorcZRMk1n
+ VS9CVZ6FmYUTjw9dlo5SJ5r2jpYufzwgYIFxtkiNCQ+4C7TRGeOj7jb7p2a9Klzo+HZC
+ w84j1JjGM9b0NJJ1KKKwBxQFeSw51ULZx+inQhieR6vZFbBbWfBxcAyh5pMVQzJFcgZo
+ IMbJ5AnDJDOYBEpRsXnPfkwV2ESCRS0UxYBzfwXpJhRfRAYIPJssFuY03qL33u3Vx1l4
+ g9Ny+1jNBQ8S9IuMMb3R8rRoaXS9IhA+FjWZ44n8lYeIXd1PRnzYWB46lbDq3LeX3I9F
+ 2aVA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,42 +69,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, michel@daenzer.net, lkp@01.org,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ linux-tegra@vger.kernel.org, Dariusz Marcinkiewicz <darekm@google.com>,
+ linux-media@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============1530728680=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgVGhvbWFzLAoKT24gOC8yOC8xOSAxOjE2IEFNLCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToK
-PiBIaQo+Cj4gQW0gMjcuMDguMTkgdW0gMTQ6MzMgc2NocmllYiBDaGVuLCBSb25nIEE6Cj4+IEJv
-dGggcGF0Y2hlcyBoYXZlIGxpdHRsZSBpbXBhY3Qgb24gdGhlIHBlcmZvcm1hbmNlIGZyb20gb3Vy
-IHNpZGUuCj4gVGhhbmtzIGZvciB0ZXN0aW5nLiBUb28gYmFkIHRoZXkgZG9lc24ndCBzb2x2ZSB0
-aGUgaXNzdWUuCj4KPiBUaGVyZSdzIGFub3RoZXIgcGF0Y2ggYXR0YWNoZWQuIENvdWxkIHlvdSBw
-bGVhc2UgdGVzdHMgdGhpcyBhcyB3ZWxsPwo+IFRoYW5rcyBhIGxvdCEKPgo+IFRoZSBwYXRjaCBj
-b21lcyBmcm9tIERhbmllbCBWZXR0ZXIgYWZ0ZXIgZGlzY3Vzc2luZyB0aGUgcHJvYmxlbSBvbiBJ
-UkMuCj4gVGhlIGlkZWEgb2YgdGhlIHBhdGNoIGlzIHRoYXQgdGhlIG9sZCBtZ2FnMjAwIGNvZGUg
-bWlnaHQgZGlzcGxheSBtdWNoCj4gbGVzcyBmcmFtZXMgdGhhdCB0aGUgZ2VuZXJpYyBjb2RlLCBi
-ZWNhdXNlIG1nYWcyMDAgb25seSBwcmludHMgZnJvbQo+IG5vbi1hdG9taWMgY29udGV4dC4gSWYg
-d2Ugc2ltdWxhdGUgdGhpcyB3aXRoIHRoZSBnZW5lcmljIGNvZGUsIHdlIHNob3VsZAo+IHNlZSBy
-b3VnaGx5IHRoZSBvcmlnaW5hbCBwZXJmb3JtYW5jZS4KPgo+CgpJdCdzIGNvb2wsIHRoZSBwYXRj
-aCAidXNlY2Fuc2xlZXAucGF0Y2giIGNhbiBmaXggdGhlIGlzc3VlLgoKY29tbWl0OgogwqAgZjFm
-ODU1NWRmYjkgZHJtL2JvY2hzOiBVc2Ugc2hhZG93IGJ1ZmZlciBmb3IgYm9jaHMgZnJhbWVidWZm
-ZXIgY29uc29sZQogwqAgOTBmNDc5YWU1MWEgZHJtL21nYWcyMDA6IFJlcGxhY2Ugc3RydWN0IG1n
-YV9mYmRldiB3aXRoIGdlbmVyaWMgCmZyYW1lYnVmZmVyIGVtdWxhdGlvbgogwqAgYjk3NmIwNGMy
-YmMgb25seSBzY2hlZHVsZSB3b3JrZXIgZnJvbSBub24tYXRvbWljIGNvbnRleHQKCmYxZjg1NTVk
-ZmI5YTcwYTLCoCA5MGY0NzlhZTUxYWZhNDVlZmFiOTdhZmRkZSBiOTc2YjA0YzJiY2YzMzE0OGQ2
-YzdiYzFhMsKgIAp0ZXN0Y2FzZS90ZXN0cGFyYW1zL3Rlc3Rib3gKLS0tLS0tLS0tLS0tLS0tLcKg
-IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0twqAg
-Ci0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogwqDCoMKgwqDCoMKgwqDCoCAlc3RkZGV2wqDC
-oMKgwqDCoCBjaGFuZ2XCoMKgwqDCoMKgwqDCoMKgICVzdGRkZXbCoMKgwqDCoMKgIGNoYW5nZSAl
-c3RkZGV2CiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgXMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFzCoMKgwqDCoMKgwqDCoMKgwqAgfCBcCiDCoMKg
-wqDCoCA0MjkxMsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAtMTUlwqDCoMKgwqDCoCAzNjUxNyA0
-NDA5MyAKdm0tc2NhbGFiaWxpdHkvcGVyZm9ybWFuY2UtMzAwcy04VC1hbm9uLWNvdy1zZXEtaHVn
-ZXRsYi9sa3Ata25tMDEKIMKgwqDCoMKgIDQyOTEywqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC0x
-NSXCoMKgwqDCoMKgIDM2NTE3IDQ0MDkzwqDCoMKgwqDCoMKgwqAgR0VPLU1FQU4gCnZtLXNjYWxh
-YmlsaXR5Lm1lZGlhbgoKQmVzdCBSZWdhcmRzLApSb25nIENoZW4KX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1530728680==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="y2zxS2PfCDLh6JVG"
+Content-Disposition: inline
+
+
+--y2zxS2PfCDLh6JVG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Aug 28, 2019 at 10:09:30AM +0200, Hans Verkuil wrote:
+> Thierry,
+>=20
+> Can you review this patch?
+>=20
+> Thanks!
+>=20
+> 	Hans
+
+Did you want me to pick this up into the drm/tegra tree? Or do you want
+to pick it up into your tree?
+
+We're just past the DRM subsystem deadline, so it'll have to wait until
+the next cycle if we go that way. If you're in a hurry you may want to
+pick it up yourself, in which case:
+
+Acked-by: Thierry Reding <treding@nvidia.com>
+
+> On 8/14/19 12:45 PM, Dariusz Marcinkiewicz wrote:
+> > Use the new cec_notifier_conn_(un)register() functions to
+> > (un)register the notifier for the HDMI connector, and fill in
+> > the cec_connector_info.
+> >=20
+> > Changes since v4:
+> > 	- only create a CEC notifier for HDMI connectors
+> >=20
+> > Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
+> > Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> > ---
+> >  drivers/gpu/drm/tegra/output.c | 28 +++++++++++++++++++++-------
+> >  1 file changed, 21 insertions(+), 7 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/out=
+put.c
+> > index bdcaa4c7168cf..34373734ff689 100644
+> > --- a/drivers/gpu/drm/tegra/output.c
+> > +++ b/drivers/gpu/drm/tegra/output.c
+> > @@ -70,6 +70,11 @@ tegra_output_connector_detect(struct drm_connector *=
+connector, bool force)
+> > =20
+> >  void tegra_output_connector_destroy(struct drm_connector *connector)
+> >  {
+> > +	struct tegra_output *output =3D connector_to_output(connector);
+> > +
+> > +	if (output->cec)
+> > +		cec_notifier_conn_unregister(output->cec);
+> > +
+> >  	drm_connector_unregister(connector);
+> >  	drm_connector_cleanup(connector);
+> >  }
+> > @@ -163,18 +168,11 @@ int tegra_output_probe(struct tegra_output *outpu=
+t)
+> >  		disable_irq(output->hpd_irq);
+> >  	}
+> > =20
+> > -	output->cec =3D cec_notifier_get(output->dev);
+> > -	if (!output->cec)
+> > -		return -ENOMEM;
+> > -
+> >  	return 0;
+> >  }
+> > =20
+> >  void tegra_output_remove(struct tegra_output *output)
+> >  {
+> > -	if (output->cec)
+> > -		cec_notifier_put(output->cec);
+> > -
+> >  	if (output->hpd_gpio)
+> >  		free_irq(output->hpd_irq, output);
+> > =20
+> > @@ -184,6 +182,7 @@ void tegra_output_remove(struct tegra_output *outpu=
+t)
+> > =20
+> >  int tegra_output_init(struct drm_device *drm, struct tegra_output *out=
+put)
+> >  {
+> > +	int connector_type;
+> >  	int err;
+> > =20
+> >  	if (output->panel) {
+> > @@ -199,6 +198,21 @@ int tegra_output_init(struct drm_device *drm, stru=
+ct tegra_output *output)
+> >  	if (output->hpd_gpio)
+> >  		enable_irq(output->hpd_irq);
+> > =20
+> > +	connector_type =3D output->connector.connector_type;
+> > +	/*
+> > +	 * Create a CEC notifier for HDMI connector.
+> > +	 */
+> > +	if (connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA ||
+> > +	    connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIB) {
+> > +		struct cec_connector_info conn_info;
+> > +
+> > +		cec_fill_conn_info_from_drm(&conn_info, &output->connector);
+> > +		output->cec =3D cec_notifier_conn_register(output->dev, NULL,
+> > +							 &conn_info);
+> > +		if (!output->cec)
+> > +			return -ENOMEM;
+> > +	}
+> > +
+> >  	return 0;
+> >  }
+> > =20
+> >=20
+>=20
+
+--y2zxS2PfCDLh6JVG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl1mS4wACgkQ3SOs138+
+s6Hukw/8DvWhMV7uYDCsZIDHgnNF+l4WXu+x1XIy9XFt57KVfkbBW6YyYhAos1rx
+4JSvHvWIdlB1AdTJacEqnxYynrMmfDrBNikG+0kFuUUwIeOdT+wRuOODFzGg7gZC
+OvN+cADPyEDP0XyPZjv29B5+heSJnnLV6ziIENuVQaJA3QECOyx+K1hBheCLUXjE
+fBUH9B6CpuGHvYtAqNu5i10kkL5sGIG/xjnHresWTHxrxwDHEIVBeryREjPdaYV7
+fpafk17crGKST65cyIU0Be7h6WPEzCuybE5653TI4qM71ISJvhEsPnWY4ZSHBZXk
+QWaKd8FtIuSuh6T/zkhzkfCBRAMyD3hluP2lPKOQLrw/oZqRTtyu4hyTFhxAIema
+OeQeVY7aQyawoT3bSfWvhruPZ4r0wDxXCu0j2eD3so2AgGYBz/5WadYsCoZxGOS0
+hzQayaCick670ZmDPJV/CiyzybkDN21gKpRzp/0+DXB837yCBlCK34bU76b9rd0e
+J4Gy5wy32ja6KK2TxqiHBuPKyASjadwW5dYxDH2iNnSJxWbg82z15/ZBaUpYeIvF
+mDhLxA6Cz49/iFXDsfTZcUpVf5JTADqNYYa0Yy1kBjFNXw/pwvgvp6wL0N5x20eL
+mItPhPmbflgIE0KJvBp0S0h/sgJ4dxUTjPsEVFKD2KFLn7xbYJY=
+=2whG
+-----END PGP SIGNATURE-----
+
+--y2zxS2PfCDLh6JVG--
+
+--===============1530728680==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1530728680==--
