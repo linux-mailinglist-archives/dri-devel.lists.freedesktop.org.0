@@ -1,59 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67AF2A0769
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2019 18:31:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1F22A0787
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2019 18:39:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A4D989DA4;
-	Wed, 28 Aug 2019 16:31:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9039189D79;
+	Wed, 28 Aug 2019 16:39:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CDDD89DA4
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2019 16:31:33 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id x3so147104lji.5
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2019 09:31:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NjXiz0jtJWGT4cEckFQPpVyw/lRnuMBErWmMi5AhrWA=;
- b=h2HaB7VYR7EZSE/h0TjIxXjpC0zIM/9jNoDArJU7It2qHBjnRVPmMOozy01JKG5iXr
- BVvu3AKe796ZL0Wj5SSOHFktUrnHemxf7Kc8V5XJMi7dlQyan7x/wnN8LY0OM0e3szfy
- kWhUY4ojFHYLbNUntgvRKpNAboLZpQCyjC5gBGL1AXGt/LguqfcNufqclwLAYz/RXFkr
- S3FeRlvJKtQTw+WQ+GQOaDtihBaBDk5bhtwpr48JR/yb+h6xyIwH5+3SgUg9b/Wz5uUo
- XJt+m12uj5BYZ5Cq0n8J4tP9D2cgYP6Sd//4qKRhBOkglu8sXHbtBL0R1buGFZC5OgsB
- zT0Q==
-X-Gm-Message-State: APjAAAUmaVVAxzLiOSucmaEwvI15Hsir8nglxli3FoiDADRmYMwFpjqF
- eIDkgrlUHkVGkeOBGOExKVmb8GVvBtDZ48XjM3B+uXbAPCc=
-X-Google-Smtp-Source: APXvYqxAHfxii1r8G4uA4TRksDr+gKgKoYBl4Hdl6wuwPpbFwpxiCpD0ZSA802wdhf0b6NWeu0VbqDNspGN9n84/Rjg=
-X-Received: by 2002:a2e:9f0f:: with SMTP id u15mr2559887ljk.54.1567009891738; 
- Wed, 28 Aug 2019 09:31:31 -0700 (PDT)
-MIME-Version: 1.0
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8BAB89D79
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2019 16:39:17 +0000 (UTC)
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it
+ [2.224.242.101]) (Authenticated sender: jacopo@jmondi.org)
+ by relay11.mail.gandi.net (Postfix) with ESMTPSA id 49B5F100008;
+ Wed, 28 Aug 2019 16:39:12 +0000 (UTC)
+Date: Wed, 28 Aug 2019 18:40:44 +0200
+From: Jacopo Mondi <jacopo@jmondi.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v3 0/7] backlight: gpio: simplify the driver
+Message-ID: <20190828164044.ku3xozmp7wlipn5d@uno.localdomain>
 References: <20190724082508.27617-1-brgl@bgdev.pl>
  <CAMRc=Mex_Ricd+C4F7nGLmpBggO-hWwJDB6duX8kFpPEeaTDjQ@mail.gmail.com>
  <CAMRc=Mci4ncbDmns=0uL8hsAGz1Wvd5bgK4yxTF8QQQitXDv0g@mail.gmail.com>
  <CAMRc=McUEgm6yH7enwHuHxVTL41dmb5KAY_pxTmSr3vctCs2xg@mail.gmail.com>
  <CAMuHMdV3obGtQ7qohNedQNgpvZvyL9xjH0HUiBKD6b8Ou5F+XA@mail.gmail.com>
-In-Reply-To: <CAMuHMdV3obGtQ7qohNedQNgpvZvyL9xjH0HUiBKD6b8Ou5F+XA@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 28 Aug 2019 18:31:19 +0200
-Message-ID: <CACRpkdbgZhgSvicq2XG0n2hiKA9K8VFmvCPn3W9oXgSLrZiw=w@mail.gmail.com>
-Subject: Re: [PATCH v3 0/7] backlight: gpio: simplify the driver
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=NjXiz0jtJWGT4cEckFQPpVyw/lRnuMBErWmMi5AhrWA=;
- b=E5GgF7uEiUS4O03g81yoi6j0NmHdf4h5a677oc0l/9oNnv0vPvwDHY9bBDT7sfZWMO
- rtsogJ+CsbQsVUNcCCnRHsk9EWzhAL6ZAKvbAkIGd3LbnZ9GbTX5hpb5oa1NrfnQCDQD
- 85jxjR9VZDrJIS3b4zWx5d3/+VcTuqraAY6MfUm0HRhJ88NUTZw3xDXtM5agrv/wXgTK
- 4OEFhl9VwwKoRXdkm56/y0MiVOG/BysRAFp+oFrmld0FBfH7Wc6WzPLGLl/lz1dZz4pY
- cQR2OdKQ1dpLW+E67rY2iNc+/jXps0kUscsilbRR/9V3g+yKEWUcVcl6Q4w3/v7MaUkX
- iQqw==
+ <CACRpkdbgZhgSvicq2XG0n2hiKA9K8VFmvCPn3W9oXgSLrZiw=w@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CACRpkdbgZhgSvicq2XG0n2hiKA9K8VFmvCPn3W9oXgSLrZiw=w@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,18 +50,80 @@ Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
  Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Jacopo Mondi <jacopo@jmondi.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Lee Jones <lee.jones@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0311191793=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBBdWcgMjgsIDIwMTkgYXQgMTA6MzYgQU0gR2VlcnQgVXl0dGVyaG9ldmVuCjxnZWVy
-dEBsaW51eC1tNjhrLm9yZz4gd3JvdGU6Cgo+IENDIHRoZSBwb3VyIHNvdWwgd2l0aCB0aGUgZWNv
-dmVjIGJvYXJkLgoKV2l0aCBncmVhdCBwb3dlciBjb21lcyBncmVhdCByZXNwb25zaWJpbGl0eSA7
-KQoKWW91cnMsCkxpbnVzIFdhbGxlaWoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVs
+
+--===============0311191793==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ootzxk2uvromcpqa"
+Content-Disposition: inline
+
+
+--ootzxk2uvromcpqa
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+Hi Geert,
+
+On Wed, Aug 28, 2019 at 06:31:19PM +0200, Linus Walleij wrote:
+> On Wed, Aug 28, 2019 at 10:36 AM Geert Uytterhoeven
+> <geert@linux-m68k.org> wrote:
+>
+> > CC the pour soul with the ecovec board.
+>
+I'm sorry, Eco what ? :)
+
+> With great power comes great responsibility ;)
+>
+
+Yeah, that's -exactly- a 'great powers' board :)
+
+I'll try to resurect it from the deads again and get back eventually
+with a tested-by.
+
+I only briefly looked at the series and I don't have any LCD to test
+the backlight with, I hope I can sample the backlight GPIO value from
+some test point, if I ever find the schematics...
+
+> Yours,
+> Linus Walleij
+
+--ootzxk2uvromcpqa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1mrowACgkQcjQGjxah
+VjxtAA//YCv1S5V4Y+U+KJqq8uhB+Cs4NqedH2fC45FFxMAz/ze/UnG4XixNT9x1
+UP3xPgozXZeOzJyfM9w4bRC8yLTq6/t4kazDK0jjr/defxi1YpHCARTEw4/ioEkb
+FJ9K2FolNzhcQbTQNqNQNYqCtXPsUwzOR701cZkf2eE5PE/1DJi17wsYfycbi/1/
+HDrnrjDXnjla5CMrObPmvJ5rxPDHSHo3Le+SpBflzwvEWIktFKSwCMiNYUj2z9/x
+N71lKRlTS4jr//BURsomOt6i5Qzr6X2DroQ+VFLzsoToSVRleS/UMiY/ADnNori6
+xB9brM1ua/98Go61pIGXkhwOztB880f1dsyNygtyqxssWBUsWFEKsKcxQC5uAaeA
+iWY68EcVHFRKipu0CzJCNTh/mWrEbKZznDQPrXO4PIS8KlZuTlhKvrrTZAQL0knN
+zgTETUPOD4Yo27IvaNfxZKXWvfJbdywvPXOfV5i7lnMyYo17nfNQ3ZGeNcI+7oMA
+mgSi7zzNyOn1Rrag82vAytbXehRLkBq6vY7CpiCL6Cnh9J+NySiqOwpm/j1RBpek
+6rb2rbdu2kYUICirp9Fij8Ii1fkV4maFrRSxqe3Zig4Vr+swUl2Rc00Alz0Rj2y9
+I6CVuwpecgOeEmGst6RgEZ6R5ZyS5sO93znoz/ux6lbxW6UcYCE=
+=s/MY
+-----END PGP SIGNATURE-----
+
+--ootzxk2uvromcpqa--
+
+--===============0311191793==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0311191793==--
