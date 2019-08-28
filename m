@@ -2,58 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A89E69FCE3
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2019 10:26:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 233369FCE5
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2019 10:26:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6953389722;
-	Wed, 28 Aug 2019 08:26:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F172F898F3;
+	Wed, 28 Aug 2019 08:26:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E138B89722;
- Wed, 28 Aug 2019 08:26:10 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 28 Aug 2019 01:26:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,440,1559545200"; d="scan'208";a="188152086"
-Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
- by FMSMGA003.fm.intel.com with ESMTP; 28 Aug 2019 01:26:09 -0700
-Received: from fmsmsx158.amr.corp.intel.com (10.18.116.75) by
- fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Wed, 28 Aug 2019 01:26:09 -0700
-Received: from hasmsx106.ger.corp.intel.com (10.184.198.20) by
- fmsmsx158.amr.corp.intel.com (10.18.116.75) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Wed, 28 Aug 2019 01:26:09 -0700
-Received: from hasmsx108.ger.corp.intel.com ([169.254.9.203]) by
- HASMSX106.ger.corp.intel.com ([169.254.10.64]) with mapi id 14.03.0439.000;
- Wed, 28 Aug 2019 11:26:06 +0300
-From: "Winkler, Tomas" <tomas.winkler@intel.com>
-To: "C, Ramalingam" <ramalingam.c@intel.com>, intel-gfx
- <intel-gfx@lists.freedesktop.org>, dri-devel
- <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH v11 5/6] drm/i915/hdcp: update current transcoder into
- intel_hdcp
-Thread-Topic: [PATCH v11 5/6] drm/i915/hdcp: update current transcoder into
- intel_hdcp
-Thread-Index: AQHVXXJZrN8N9jL2wkqyt170LNy/r6cQOJqQ
-Date: Wed, 28 Aug 2019 08:26:06 +0000
-Message-ID: <5B8DA87D05A7694D9FA63FD143655C1B9DCA5F19@hasmsx108.ger.corp.intel.com>
-References: <20190828072823.4832-1-ramalingam.c@intel.com>
- <20190828072823.4832-6-ramalingam.c@intel.com>
-In-Reply-To: <20190828072823.4832-6-ramalingam.c@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiN2UzZDM5Y2YtYzI0Yi00NjMzLWE1N2YtMDQxMWU3ZThmNTAxIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiZ1RcL25TVEVsQkQ5bmJSNWhPdEJ4S3RWYVZnK1l0UXh0NmZCenpkSGhMV3BOd3FEYk9lZzE2SEV3a1wvNEZWS3pzIn0=
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.184.70.11]
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5DA2F898F3
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2019 08:26:53 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5A6F472161; Wed, 28 Aug 2019 08:26:53 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111506] [amdgpu] VRR/Freesync below the range (LFC) flickering
+ (5700 XT)
+Date: Wed, 28 Aug 2019 08:26:53 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: asheldon55@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-111506-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -67,115 +52,230 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Nikula, Jani" <jani.nikula@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0177898310=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Cj4gT24gZ2VuMTIrIHBsYXRmb3JtcywgSERDUCBIVyBpcyBhc3NvY2lhdGVkIHRvIHRoZSB0cmFu
-c2NvZGVyLgo+IEhlbmNlIG9uIGV2ZXJ5IG1vZGVzZXQgdXBkYXRlIGFzc29jaWF0ZWQgdHJhbnNj
-b2RlciBpbnRvIHRoZSBpbnRlbF9oZGNwIG9mCj4gdGhlIHBvcnQuCj4gCj4gdjI6Cj4gICBzL3Ry
-YW5zL2NwdV90cmFuc2NvZGVyIFtKYW5pXQo+IHYzOgo+ICAgY29tbWVudCBpcyBhZGRlZCBmb3Ig
-ZndfZGRpIGluaXQgZm9yIGdlbjEyKyBbU2hhc2hhbmtdCj4gICBvbmx5IGhkY3AgY2FwYWJsZSB0
-cmFuc2NvZGVyIGlzIHRyYW5zbGF0ZWQgaW50byBmd190YyBbU2hhc2hhbmtdCj4gdjQ6Cj4gICBm
-d190YyBpbml0aWFsaXphdGlvbiBpcyBrZXB0IGZvciBtb2Rlc2V0LiBbVG9tYXNdCj4gICBmZXcg
-ZXh0cmEgZG9jIGlzIGFkZGVkIGF0IHBvcnRfZGF0YSBpbml0IFtUb21hc10KPiAKPiBTaWduZWQt
-b2ZmLWJ5OiBSYW1hbGluZ2FtIEMgPHJhbWFsaW5nYW0uY0BpbnRlbC5jb20+Cj4gQWNrZWQtYnk6
-IEphbmkgTmlrdWxhIDxqYW5pLm5pa3VsYUBpbnRlbC5jb20+Cj4gLS0tCj4gIC4uLi9kcm0vaTkx
-NS9kaXNwbGF5L2ludGVsX2Rpc3BsYXlfdHlwZXMuaCAgICB8ICA3ICsrKwo+ICBkcml2ZXJzL2dw
-dS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMgICAgICAgfCAgMyArKwo+ICBkcml2ZXJzL2dw
-dS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hkY3AuYyAgICAgfCA0OCArKysrKysrKysrKysrKysr
-KystCj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfaGRjcC5oICAgICB8ICAz
-ICsrCj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfaGRtaS5jICAgICB8ICAz
-ICsrCj4gIDUgZmlsZXMgY2hhbmdlZCwgNjMgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+
-IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3Bs
-YXlfdHlwZXMuaAo+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5
-X3R5cGVzLmgKPiBpbmRleCA5NjUxNGRjYzc4MTIuLjYxMjc3YTg3ZGJlNyAxMDA2NDQKPiAtLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXlfdHlwZXMuaAo+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheV90eXBlcy5oCj4g
-QEAgLTM4OCw2ICszODgsMTMgQEAgc3RydWN0IGludGVsX2hkY3Agewo+ICAJd2FpdF9xdWV1ZV9o
-ZWFkX3QgY3BfaXJxX3F1ZXVlOwo+ICAJYXRvbWljX3QgY3BfaXJxX2NvdW50Owo+ICAJaW50IGNw
-X2lycV9jb3VudF9jYWNoZWQ7Cj4gKwo+ICsJLyoKPiArCSAqIEhEQ1AgcmVnaXN0ZXIgYWNjZXNz
-IGZvciBnZW4xMisgbmVlZCB0aGUgdHJhbnNjb2RlciBhc3NvY2lhdGVkLgo+ICsJICogVHJhbnNj
-b2RlciBhdHRhY2hlZCB0byB0aGUgY29ubmVjdG9yIGNvdWxkIGJlIGNoYW5nZWQgYXQgbW9kZXNl
-dC4KPiArCSAqIEhlbmNlIGNhY2hpbmcgdGhlIHRyYW5zY29kZXIgaGVyZS4KPiArCSAqLwo+ICsJ
-ZW51bSB0cmFuc2NvZGVyIGNwdV90cmFuc2NvZGVyOwo+ICB9Owo+IAo+ICBzdHJ1Y3QgaW50ZWxf
-Y29ubmVjdG9yIHsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9p
-bnRlbF9kcC5jCj4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMKPiBp
-bmRleCAyMzkwOGRhMWNkNWQuLmU4NDcxNjg5Zjc4NSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkx
-NS9kaXNwbGF5L2ludGVsX2RwLmMKPiBAQCAtMjI0OCw2ICsyMjQ4LDkgQEAgaW50ZWxfZHBfY29t
-cHV0ZV9jb25maWcoc3RydWN0IGludGVsX2VuY29kZXIKPiAqZW5jb2RlciwKPiAKPiAgCWludGVs
-X3Bzcl9jb21wdXRlX2NvbmZpZyhpbnRlbF9kcCwgcGlwZV9jb25maWcpOwo+IAo+ICsJaW50ZWxf
-aGRjcF90cmFuc2NvZGVyX2NvbmZpZyhpbnRlbF9jb25uZWN0b3IsCj4gKwkJCQkgICAgIHBpcGVf
-Y29uZmlnLT5jcHVfdHJhbnNjb2Rlcik7Cj4gKwo+ICAJcmV0dXJuIDA7Cj4gIH0KPiAKPiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9oZGNwLmMKPiBiL2Ry
-aXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfaGRjcC5jCj4gaW5kZXggZThiMDRjYzhm
-Y2IxLi45ODhkNjc1ZjlmNjkgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlz
-cGxheS9pbnRlbF9oZGNwLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2lu
-dGVsX2hkY3AuYwo+IEBAIC0xNzY0LDEzICsxNzY0LDU5IEBAIGVudW0gbWVpX2Z3X2RkaQo+IGlu
-dGVsX2dldF9tZWlfZndfZGRpX2luZGV4KGVudW0gcG9ydCBwb3J0KQo+ICAJfQo+ICB9Cj4gCj4g
-K3N0YXRpYyBpbmxpbmUKPiArZW51bSBtZWlfZndfdGMgaW50ZWxfZ2V0X21laV9md190YyhlbnVt
-IHRyYW5zY29kZXIgY3B1X3RyYW5zY29kZXIpIHsKPiArCXN3aXRjaCAoY3B1X3RyYW5zY29kZXIp
-IHsKPiArCWNhc2UgVFJBTlNDT0RFUl9BIC4uLiBUUkFOU0NPREVSX0Q6Cj4gKwkJcmV0dXJuIChl
-bnVtIG1laV9md190YykoY3B1X3RyYW5zY29kZXIgfCAweDEwKTsKPiArCWRlZmF1bHQ6IC8qIGVE
-UCwgRFNJIFRSQU5TQ09ERVJTIGFyZSBub24gSERDUCBjYXBhYmxlICovCj4gKwkJcmV0dXJuIE1F
-SV9JTlZBTElEX1RSQU5TQ09ERVI7Cj4gKwl9Cj4gK30KPiArCj4gK3ZvaWQgaW50ZWxfaGRjcF90
-cmFuc2NvZGVyX2NvbmZpZyhzdHJ1Y3QgaW50ZWxfY29ubmVjdG9yICpjb25uZWN0b3IsCj4gKwkJ
-CQkgIGVudW0gdHJhbnNjb2RlciBjcHVfdHJhbnNjb2RlcikKPiArewo+ICsJc3RydWN0IGRybV9p
-OTE1X3ByaXZhdGUgKmRldl9wcml2ID0gdG9faTkxNShjb25uZWN0b3ItPmJhc2UuZGV2KTsKPiAr
-CXN0cnVjdCBpbnRlbF9oZGNwICpoZGNwID0gJmNvbm5lY3Rvci0+aGRjcDsKPiArCj4gKwlpZiAo
-IWhkY3AtPnNoaW0pCj4gKwkJcmV0dXJuOwo+ICsKPiArCWlmIChJTlRFTF9HRU4oZGV2X3ByaXYp
-ID49IDEyKSB7Cj4gKwkJbXV0ZXhfbG9jaygmaGRjcC0+bXV0ZXgpOwo+ICsJCWhkY3AtPmNwdV90
-cmFuc2NvZGVyID0gY3B1X3RyYW5zY29kZXI7Cj4gKwkJaGRjcC0+cG9ydF9kYXRhLmZ3X3RjID0K
-PiBpbnRlbF9nZXRfbWVpX2Z3X3RjKGNwdV90cmFuc2NvZGVyKTsKPiArCQltdXRleF91bmxvY2so
-JmhkY3AtPm11dGV4KTsKPiArCX0KPiArfQo+ICsKPiAgc3RhdGljIGlubGluZSBpbnQgaW5pdGlh
-bGl6ZV9oZGNwX3BvcnRfZGF0YShzdHJ1Y3QgaW50ZWxfY29ubmVjdG9yICpjb25uZWN0b3IsCj4g
-IAkJCQkJICAgIGNvbnN0IHN0cnVjdCBpbnRlbF9oZGNwX3NoaW0gKnNoaW0pCj4gewo+ICsJc3Ry
-dWN0IGRybV9pOTE1X3ByaXZhdGUgKmRldl9wcml2ID0gdG9faTkxNShjb25uZWN0b3ItPmJhc2Uu
-ZGV2KTsKPiAgCXN0cnVjdCBpbnRlbF9oZGNwICpoZGNwID0gJmNvbm5lY3Rvci0+aGRjcDsKPiAg
-CXN0cnVjdCBoZGNwX3BvcnRfZGF0YSAqZGF0YSA9ICZoZGNwLT5wb3J0X2RhdGE7Cj4gCj4gLQlk
-YXRhLT5md19kZGkgPSBpbnRlbF9nZXRfbWVpX2Z3X2RkaV9pbmRleChjb25uZWN0b3ItPmVuY29k
-ZXItCj4gPnBvcnQpOwo+ICsJaWYgKElOVEVMX0dFTihkZXZfcHJpdikgPCAxMikgewpOb3cgeW91
-IGhhdmUgb25lIGxpbmVycywgeW91IHNob3VsZCBkcm9wIHRoZSBicmFja2V0cy4gCj4gKwkJZGF0
-YS0+ZndfZGRpID0KPiArCQkJaW50ZWxfZ2V0X21laV9md19kZGlfaW5kZXgoY29ubmVjdG9yLT5l
-bmNvZGVyLQo+ID5wb3J0KTsKPiArCX0gZWxzZSB7Cj4gKwo+ICsJCS8qCj4gKwkJICogQXMgcGVy
-IE1FIEZXIEFQSSBleHBlY3RhdGlvbiwgZm9yIEdFTiAxMissIGZ3X2RkaSBpcyBmaWxsZWQKPiAr
-CQkgKiB3aXRoIElOVkFMSUQgUE9SVCBpbmRleC4KPiArCQkgKi8KPiArCQlkYXRhLT5md19kZGkg
-PSBNRUlfRERJX0lOVkFMSURfUE9SVDsKSW4geW91ciBwcmV2aW91cyBwYXRjaCB5b3UgY29tbWVu
-dGVkIHRoYXQgdGhpcyBzaG91bGQgYmUgJzAnLCBuZWVkIHRvIG1ha2UgY29tbWVudCBjb25zaXN0
-ZW50IGV2ZW4gaWYgTUVJX0RESV9JTlZBTElEX1BPUlQgaXMgMAo+ICsJfQo+ICsKPiArCS8qCj4g
-KwkgKiBBcyBhc3NvY2lhdGVkIHRyYW5zY29kZXIgaXMgc2V0IGFuZCBtb2RpZmllZCBhdCBtb2Rl
-c2V0LCBoZXJlIGZ3X3RjCj4gKwkgKiBpcyBpbml0aWFsaXplZCB0byBpbnZhbGlkIGluZGV4Lgo+
-ICsJICovCj4gKwlkYXRhLT5md190YyA9IE1FSV9JTlZBTElEX1RSQU5TQ09ERVI7CkluIHlvdXIg
-cHJldmlvdXMgeW91IGNvbW1lbnRlZCB0aGlzIHNob3VsZCBiZSAnMCcsIGFzIGZvciBwb3J0LgoK
-PiArCj4gIAlkYXRhLT5wb3J0X3R5cGUgPSAodTgpSERDUF9QT1JUX1RZUEVfSU5URUdSQVRFRDsK
-PiAgCWRhdGEtPnByb3RvY29sID0gKHU4KXNoaW0tPnByb3RvY29sOwo+IAo+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hkY3AuaAo+IGIvZHJpdmVycy9n
-cHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9oZGNwLmgKPiBpbmRleCA1OWEyYjQwNDA1Y2MuLjQx
-YzEwNTNkOWUzOCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2lu
-dGVsX2hkY3AuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfaGRj
-cC5oCj4gQEAgLTE2LDEwICsxNiwxMyBAQCBzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZTsgIHN0cnVj
-dCBpbnRlbF9jb25uZWN0b3I7ICBzdHJ1Y3QKPiBpbnRlbF9oZGNwX3NoaW07ICBlbnVtIHBvcnQ7
-Cj4gK2VudW0gdHJhbnNjb2RlcjsKPiAKPiAgdm9pZCBpbnRlbF9oZGNwX2F0b21pY19jaGVjayhz
-dHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLAo+ICAJCQkgICAgIHN0cnVjdCBkcm1fY29u
-bmVjdG9yX3N0YXRlICpvbGRfc3RhdGUsCj4gIAkJCSAgICAgc3RydWN0IGRybV9jb25uZWN0b3Jf
-c3RhdGUgKm5ld19zdGF0ZSk7Cj4gK3ZvaWQgaW50ZWxfaGRjcF90cmFuc2NvZGVyX2NvbmZpZyhz
-dHJ1Y3QgaW50ZWxfY29ubmVjdG9yICpjb25uZWN0b3IsCj4gKwkJCQkgIGVudW0gdHJhbnNjb2Rl
-ciBjcHVfdHJhbnNjb2Rlcik7Cj4gIGludCBpbnRlbF9oZGNwX2luaXQoc3RydWN0IGludGVsX2Nv
-bm5lY3RvciAqY29ubmVjdG9yLAo+ICAJCSAgICBjb25zdCBzdHJ1Y3QgaW50ZWxfaGRjcF9zaGlt
-ICpoZGNwX3NoaW0pOyAgaW50Cj4gaW50ZWxfaGRjcF9lbmFibGUoc3RydWN0IGludGVsX2Nvbm5l
-Y3RvciAqY29ubmVjdG9yLCB1OCBjb250ZW50X3R5cGUpOyBkaWZmIC0tCj4gZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9oZG1pLmMKPiBiL2RyaXZlcnMvZ3B1L2RybS9p
-OTE1L2Rpc3BsYXkvaW50ZWxfaGRtaS5jCj4gaW5kZXggZTAyZjBmYWVjZjAyLi42ZTliYjZiZDFl
-ZTIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9oZG1p
-LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hkbWkuYwo+IEBA
-IC0yNDMxLDYgKzI0MzEsOSBAQCBpbnQgaW50ZWxfaGRtaV9jb21wdXRlX2NvbmZpZyhzdHJ1Y3Qg
-aW50ZWxfZW5jb2Rlcgo+ICplbmNvZGVyLAo+ICAJCXJldHVybiAtRUlOVkFMOwo+ICAJfQo+IAo+
-ICsJaW50ZWxfaGRjcF90cmFuc2NvZGVyX2NvbmZpZyhpbnRlbF9oZG1pLT5hdHRhY2hlZF9jb25u
-ZWN0b3IsCj4gKwkJCQkgICAgIHBpcGVfY29uZmlnLT5jcHVfdHJhbnNjb2Rlcik7Cj4gKwo+ICAJ
-cmV0dXJuIDA7Cj4gIH0KPiAKPiAtLQo+IDIuMjAuMQoKX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0177898310==
+Content-Type: multipart/alternative; boundary="15669808130.37fc07.14271"
+Content-Transfer-Encoding: 7bit
+
+
+--15669808130.37fc07.14271
+Date: Wed, 28 Aug 2019 08:26:53 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111506
+
+            Bug ID: 111506
+           Summary: [amdgpu] VRR/Freesync below the range (LFC) flickering
+                    (5700 XT)
+           Product: DRI
+           Version: DRI git
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: not set
+          Priority: not set
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: asheldon55@gmail.com
+
+I'm getting heavy flickering when dropping below the minimum refresh rate
+(default of 40-92, but I also tested 35-92) with Freesync enabled.
+
+It seems to be LFC related as the higher the minimum, the earlier the
+flickering kicks in (so it's not a case of the monitor not being able to ha=
+ndle
+it at the low end).
+
+I can workaround the problem by changing block of code in freesync.c:
+
+if (in_out_vrr->max_refresh_in_uhz <
+            (2 * in_out_vrr->min_refresh_in_uhz))
+                in_out_vrr->btr.btr_enabled =3D false;
+
+with:
+
+if (in_out_vrr->max_refresh_in_uhz <
+            (3 * in_out_vrr->min_refresh_in_uhz))
+                in_out_vrr->btr.btr_enabled =3D false;
+
+effectively forcing LFC to only kick in at ~30fps or lower.=20
+
+It's possibly a regression as I don't remember the issue occurring with Veg=
+a or
+Polaris and 5.2 kernel. It's also possible that it's the monitor itself at
+fault, and maybe LFC wasn't kicking in properly in older kernels/hardware,
+effectively hiding the problem. I will try to get around to testing with Ve=
+ga
+and an older kernel in the future.
+
+
+System:
+MSI 5700 XT
+amd-staging-drm-next
+Mesa git
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15669808130.37fc07.14271
+Date: Wed, 28 Aug 2019 08:26:53 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [amdgpu] VRR/Freesync below the range (LFC) flickering (5=
+700 XT)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111506">111506</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>[amdgpu] VRR/Freesync below the range (LFC) flickering (5700 =
+XT)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>DRI git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>asheldon55&#64;gmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>I'm getting heavy flickering when dropping below the minimum r=
+efresh rate
+(default of 40-92, but I also tested 35-92) with Freesync enabled.
+
+It seems to be LFC related as the higher the minimum, the earlier the
+flickering kicks in (so it's not a case of the monitor not being able to ha=
+ndle
+it at the low end).
+
+I can workaround the problem by changing block of code in freesync.c:
+
+if (in_out_vrr-&gt;max_refresh_in_uhz &lt;
+            (2 * in_out_vrr-&gt;min_refresh_in_uhz))
+                in_out_vrr-&gt;btr.btr_enabled =3D false;
+
+with:
+
+if (in_out_vrr-&gt;max_refresh_in_uhz &lt;
+            (3 * in_out_vrr-&gt;min_refresh_in_uhz))
+                in_out_vrr-&gt;btr.btr_enabled =3D false;
+
+effectively forcing LFC to only kick in at ~30fps or lower.=20
+
+It's possibly a regression as I don't remember the issue occurring with Veg=
+a or
+Polaris and 5.2 kernel. It's also possible that it's the monitor itself at
+fault, and maybe LFC wasn't kicking in properly in older kernels/hardware,
+effectively hiding the problem. I will try to get around to testing with Ve=
+ga
+and an older kernel in the future.
+
+
+System:
+MSI 5700 XT
+amd-staging-drm-next
+Mesa git</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15669808130.37fc07.14271--
+
+--===============0177898310==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0177898310==--
