@@ -1,45 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC039FEB9
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2019 11:41:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A202A0008
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2019 12:39:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E356897AC;
-	Wed, 28 Aug 2019 09:41:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD43689A1F;
+	Wed, 28 Aug 2019 10:39:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4297B897AC
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2019 09:41:48 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 3F20E72161; Wed, 28 Aug 2019 09:41:48 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 107825] *ERROR* Couldn't read Speaker Allocation Data Block: -2
-Date: Wed, 28 Aug 2019 09:41:48 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pmenzel+bugs.freedesktop.org@molgen.mpg.de
-X-Bugzilla-Status: NEEDINFO
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-107825-502-hWxPotDoit@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-107825-502@http.bugs.freedesktop.org/>
-References: <bug-107825-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C73FF89A60
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2019 10:39:19 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6F5A3337;
+ Wed, 28 Aug 2019 03:39:19 -0700 (PDT)
+Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9EAE63F59C;
+ Wed, 28 Aug 2019 03:39:18 -0700 (PDT)
+Subject: Re: [PATCH v3 1/8] drm/panfrost: Rework runtime PM initialization
+To: Rob Herring <robh@kernel.org>, dri-devel@lists.freedesktop.org
+References: <20190826223317.28509-1-robh@kernel.org>
+ <20190826223317.28509-2-robh@kernel.org>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <35560462-a9f2-9d8b-57c1-4715801874b2@arm.com>
+Date: Wed, 28 Aug 2019 11:39:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20190826223317.28509-2-robh@kernel.org>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,91 +42,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0774654407=="
+Cc: David Airlie <airlied@linux.ie>, Robin Murphy <robin.murphy@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0774654407==
-Content-Type: multipart/alternative; boundary="15669853083.F92c50e.29566"
-Content-Transfer-Encoding: 7bit
-
-
---15669853083.F92c50e.29566
-Date: Wed, 28 Aug 2019 09:41:48 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D107825
-
---- Comment #4 from Paul Menzel <pmenzel+bugs.freedesktop.org@molgen.mpg.de=
-> ---
-I confirm, that the Dell monitors used here, do not have speakers.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15669853083.F92c50e.29566
-Date: Wed, 28 Aug 2019 09:41:48 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEEDINFO "
-   title=3D"NEEDINFO - *ERROR* Couldn't read Speaker Allocation Data Block:=
- -2"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107825#c4">Commen=
-t # 4</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEEDINFO "
-   title=3D"NEEDINFO - *ERROR* Couldn't read Speaker Allocation Data Block:=
- -2"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107825">bug 10782=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-pmenzel+bugs.freedesktop.org&#64;molgen.mpg.de" title=3D"Paul Menzel &lt;pm=
-enzel+bugs.freedesktop.org&#64;molgen.mpg.de&gt;"> <span class=3D"fn">Paul =
-Menzel</span></a>
-</span></b>
-        <pre>I confirm, that the Dell monitors used here, do not have speak=
-ers.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15669853083.F92c50e.29566--
-
---===============0774654407==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0774654407==--
+T24gMjYvMDgvMjAxOSAyMzozMywgUm9iIEhlcnJpbmcgd3JvdGU6Cj4gVGhlcmUncyBhIGZldyBp
+c3N1ZXMgd2l0aCB0aGUgcnVudGltZSBQTSBpbml0aWFsaXphdGlvbi4KPiAKPiBUaGUgZG9jdW1l
+bnRhdGlvbiBzdGF0ZXMgcG1fcnVudGltZV9zZXRfYWN0aXZlKCkgc2hvdWxkIGJlIGNhbGxlZCBi
+ZWZvcmUKPiBwbV9ydW50aW1lX2VuYWJsZSgpLiBUaGUgcG1fcnVudGltZV9wdXRfYXV0b3N1c3Bl
+bmQoKSBjb3VsZCBzdXNwZW5kIHRoZSBHUFUKPiBiZWZvcmUgcGFuZnJvc3RfcGVyZmNudF9pbml0
+KCkgaXMgY2FsbGVkIHdoaWNoIHRvdWNoZXMgdGhlIGgvdy4gVGhlCj4gYXV0b3N1c3BlbmQgZGVs
+YXkga2VlcHMgdGhpbmdzIGZyb20gYnJlYWtpbmcuIFRoZXJlJ3Mgbm8gbmVlZCBleHBsaWNpdGx5
+Cj4gcG93ZXIgb2ZmIHRoZSBHUFUgb25seSB0byB3YWtlIGJhY2sgdXAgd2l0aCBwbV9ydW50aW1l
+X2dldF9zeW5jKCkuIEp1c3QKPiBkZWxheWluZyBwbV9ydW50aW1lX2VuYWJsZSB0byB0aGUgZW5k
+IG9mIHByb2JlIGlzIHN1ZmZpY2llbnQuCj4gCj4gTGV0cyBtb3ZlIGFsbCB0aGUgcnVudGltZSBQ
+TSBjYWxscyBpbnRvIHRoZSBwcm9iZSgpIGZ1bmN0aW9uIHNvIHRoZXkgYXJlCj4gYWxsIGluIG9u
+ZSBwbGFjZSBhbmQgYXJlIGRvbmUgYWZ0ZXIgYWxsIGluaXRpYWxpemF0aW9uLgo+IAo+IENjOiBU
+b21ldSBWaXpvc28gPHRvbWV1LnZpem9zb0Bjb2xsYWJvcmEuY29tPgo+IENjOiBTdGV2ZW4gUHJp
+Y2UgPHN0ZXZlbi5wcmljZUBhcm0uY29tPgo+IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGlu
+dXguaWU+Cj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiBBY2tlZC1ieTog
+QWx5c3NhIFJvc2VuendlaWcgPGFseXNzYS5yb3Nlbnp3ZWlnQGNvbGxhYm9yYS5jb20+Cj4gU2ln
+bmVkLW9mZi1ieTogUm9iIEhlcnJpbmcgPHJvYmhAa2VybmVsLm9yZz4KClJldmlld2VkLWJ5OiBT
+dGV2ZW4gUHJpY2UgPHN0ZXZlbi5wcmljZUBhcm0uY29tPgoKU3RldmUKCj4gLS0tCj4gdjM6Cj4g
+IC0gTW92ZSBhdXRvc3VzcGVuZCBzZXR1cCBhZnRlciBwbV9ydW50aW1lX2VuYWJsZSBhcyBvbmx5
+IGF1dG9zdXNwZW5kIGNoYW5nZXMKPiAgICB0cmlnZ2VyIHN1c3BlbmQuCj4gIC0gRml4IGF1dG9z
+dXNwZW5kIGRlbGF5IHRvIDUwbXMgaW5zdGVhZCBvZiAwLgo+IAo+ICBkcml2ZXJzL2dwdS9kcm0v
+cGFuZnJvc3QvcGFuZnJvc3RfZGV2aWNlLmMgfCAgOSAtLS0tLS0tLS0KPiAgZHJpdmVycy9ncHUv
+ZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2Rydi5jICAgIHwgMTAgKysrKysrLS0tLQo+ICAyIGZpbGVz
+IGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgMTMgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZpY2UuYyBiL2RyaXZlcnMv
+Z3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZpY2UuYwo+IGluZGV4IDRkYTcxYmI1NmMyMC4u
+NzM4MDUyMTA4MzRlIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5m
+cm9zdF9kZXZpY2UuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9k
+ZXZpY2UuYwo+IEBAIC01LDcgKzUsNiBAQAo+ICAjaW5jbHVkZSA8bGludXgvY2xrLmg+Cj4gICNp
+bmNsdWRlIDxsaW51eC9yZXNldC5oPgo+ICAjaW5jbHVkZSA8bGludXgvcGxhdGZvcm1fZGV2aWNl
+Lmg+Cj4gLSNpbmNsdWRlIDxsaW51eC9wbV9ydW50aW1lLmg+Cj4gICNpbmNsdWRlIDxsaW51eC9y
+ZWd1bGF0b3IvY29uc3VtZXIuaD4KPiAKPiAgI2luY2x1ZGUgInBhbmZyb3N0X2RldmljZS5oIgo+
+IEBAIC0xNjYsMTQgKzE2NSw2IEBAIGludCBwYW5mcm9zdF9kZXZpY2VfaW5pdChzdHJ1Y3QgcGFu
+ZnJvc3RfZGV2aWNlICpwZmRldikKPiAgCWlmIChlcnIpCj4gIAkJZ290byBlcnJfb3V0NDsKPiAK
+PiAtCS8qIHJ1bnRpbWUgUE0gd2lsbCB3YWtlIHVzIHVwIGxhdGVyICovCj4gLQlwYW5mcm9zdF9n
+cHVfcG93ZXJfb2ZmKHBmZGV2KTsKPiAtCj4gLQlwbV9ydW50aW1lX3NldF9hY3RpdmUocGZkZXYt
+PmRldik7Cj4gLQlwbV9ydW50aW1lX2dldF9zeW5jKHBmZGV2LT5kZXYpOwo+IC0JcG1fcnVudGlt
+ZV9tYXJrX2xhc3RfYnVzeShwZmRldi0+ZGV2KTsKPiAtCXBtX3J1bnRpbWVfcHV0X2F1dG9zdXNw
+ZW5kKHBmZGV2LT5kZXYpOwo+IC0KPiAgCWVyciA9IHBhbmZyb3N0X3BlcmZjbnRfaW5pdChwZmRl
+dik7Cj4gIAlpZiAoZXJyKQo+ICAJCWdvdG8gZXJyX291dDU7Cj4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5m
+cm9zdC9wYW5mcm9zdF9kcnYuYwo+IGluZGV4IGQ3NDQ0MmQ3MTA0OC4uYmMyZGRlYjU1ZjVkIDEw
+MDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kcnYuYwo+ICsr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kcnYuYwo+IEBAIC01MjMsMTAg
+KzUyMyw2IEBAIHN0YXRpYyBpbnQgcGFuZnJvc3RfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2Rldmlj
+ZSAqcGRldikKPiAgCW11dGV4X2luaXQoJnBmZGV2LT5zaHJpbmtlcl9sb2NrKTsKPiAgCUlOSVRf
+TElTVF9IRUFEKCZwZmRldi0+c2hyaW5rZXJfbGlzdCk7Cj4gCj4gLQlwbV9ydW50aW1lX3VzZV9h
+dXRvc3VzcGVuZChwZmRldi0+ZGV2KTsKPiAtCXBtX3J1bnRpbWVfc2V0X2F1dG9zdXNwZW5kX2Rl
+bGF5KHBmZGV2LT5kZXYsIDUwKTsgLyogfjMgZnJhbWVzICovCj4gLQlwbV9ydW50aW1lX2VuYWJs
+ZShwZmRldi0+ZGV2KTsKPiAtCj4gIAllcnIgPSBwYW5mcm9zdF9kZXZpY2VfaW5pdChwZmRldik7
+Cj4gIAlpZiAoZXJyKSB7Cj4gIAkJaWYgKGVyciAhPSAtRVBST0JFX0RFRkVSKQo+IEBAIC01NDEs
+NiArNTM3LDEyIEBAIHN0YXRpYyBpbnQgcGFuZnJvc3RfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2Rl
+dmljZSAqcGRldikKPiAgCQlnb3RvIGVycl9vdXQxOwo+ICAJfQo+IAo+ICsJcG1fcnVudGltZV9z
+ZXRfYWN0aXZlKHBmZGV2LT5kZXYpOwo+ICsJcG1fcnVudGltZV9tYXJrX2xhc3RfYnVzeShwZmRl
+di0+ZGV2KTsKPiArCXBtX3J1bnRpbWVfZW5hYmxlKHBmZGV2LT5kZXYpOwo+ICsJcG1fcnVudGlt
+ZV9zZXRfYXV0b3N1c3BlbmRfZGVsYXkocGZkZXYtPmRldiwgNTApOyAvKiB+MyBmcmFtZXMgKi8K
+PiArCXBtX3J1bnRpbWVfdXNlX2F1dG9zdXNwZW5kKHBmZGV2LT5kZXYpOwo+ICsKPiAgCS8qCj4g
+IAkgKiBSZWdpc3RlciB0aGUgRFJNIGRldmljZSB3aXRoIHRoZSBjb3JlIGFuZCB0aGUgY29ubmVj
+dG9ycyB3aXRoCj4gIAkgKiBzeXNmcwo+IC0tCj4gMi4yMC4xCj4gX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4g
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCj4gCgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
