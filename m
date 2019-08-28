@@ -1,58 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 668FC9FD14
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2019 10:31:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF2989FD1A
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2019 10:31:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02E3089232;
-	Wed, 28 Aug 2019 08:31:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B04489D44;
+	Wed, 28 Aug 2019 08:31:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com
- [IPv6:2607:f8b0:4864:20::d2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74BDE89C25
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2019 07:18:56 +0000 (UTC)
-Received: by mail-io1-xd2f.google.com with SMTP id e20so3865389iob.9
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2019 00:18:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/LBTmr+u/ll+ec1sXUYsm3kWarWnOtf47U/5VvRHfk0=;
- b=Nv8Ui0ypWdfpl6kpeq9Bz79ZculJljRrO81AgJzHTrl9OG8jsCRvejetdzqr+5guMt
- 49aOQWr3OsFUd75g3tkd1w4+I8AKdcfrcPkO8vjWCz1SuxeWaR6v+v00Pm77R7KsJmPA
- iIpc7AvpJWkLYVCiFPOXNPZaRiApemHOEluKbb9plvOET45JJ27LsT79aiYnu8JmA8C7
- A/h2rftFgFEyWPBFaO/KZXYFPb8OgU/+rmHPlvHDaLeFyeaNbW7KKRtciAkFEBp08KeU
- 1wROS32PZ1oYAsq9CoWDVGAfo8vonMcd1d5mA9aTJBh//xcT1+szPTGfBr7LMuUM5TCV
- 0dzw==
-X-Gm-Message-State: APjAAAXcu57pf8+RmurpcGM5vVqOBsW0fZEEBxuBAJj5BZ47+Dfs4bMV
- FvjV+R87A8kVUaOMfKiB2i6Zf8NJXKTczp4z3Tl8lrfbEok=
-X-Google-Smtp-Source: APXvYqxA2ZHjkm6bFll8L6S4oXwEng6zqnJkJSqB0zfTBDBET3xsdisBSj5iJaI2tBO9qwReNTBAjoGICoeMx1bPpqk=
-X-Received: by 2002:a5d:8e15:: with SMTP id e21mr2845840iod.296.1566976735508; 
- Wed, 28 Aug 2019 00:18:55 -0700 (PDT)
+X-Greylist: delayed 372 seconds by postgrey-1.36 at gabe;
+ Wed, 28 Aug 2019 08:06:10 UTC
+Received: from shell.v3.sk (shell.v3.sk [90.176.6.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DA68896AF
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2019 08:06:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by zimbra.v3.sk (Postfix) with ESMTP id 87A09D833D;
+ Wed, 28 Aug 2019 10:00:01 +0200 (CEST)
+Received: from shell.v3.sk ([127.0.0.1])
+ by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
+ with ESMTP id 3yinYU-dRN-5; Wed, 28 Aug 2019 09:59:46 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zimbra.v3.sk (Postfix) with ESMTP id DC1DCD8333;
+ Wed, 28 Aug 2019 09:59:43 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at zimbra.v3.sk
+Received: from shell.v3.sk ([127.0.0.1])
+ by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id vuMu0oR0fIL4; Wed, 28 Aug 2019 09:59:41 +0200 (CEST)
+Received: from belphegor.brq.redhat.com (nat-pool-brq-t.redhat.com
+ [213.175.37.10])
+ by zimbra.v3.sk (Postfix) with ESMTPSA id 0313BD832A;
+ Wed, 28 Aug 2019 09:59:40 +0200 (CEST)
+From: Lubomir Rintel <lkundrak@v3.sk>
+To: Russell King <linux@armlinux.org.uk>
+Subject: [PATCH v4 0/5] dt-bindings: improve the Armada DRM bindings
+Date: Wed, 28 Aug 2019 09:59:33 +0200
+Message-Id: <20190828075938.318028-1-lkundrak@v3.sk>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20190814104520.6001-1-darekm@google.com>
- <20190814104520.6001-6-darekm@google.com>
- <1e7fdf30-3723-857a-68fd-139f396856b7@xs4all.nl>
-In-Reply-To: <1e7fdf30-3723-857a-68fd-139f396856b7@xs4all.nl>
-From: Dariusz Marcinkiewicz <darekm@google.com>
-Date: Wed, 28 Aug 2019 09:18:43 +0200
-Message-ID: <CALFZZQFN4M_3vjigmwLbCvP+060hyR5ogx-e2W+=R1NafHcapQ@mail.gmail.com>
-Subject: Re: [PATCH v7 5/9] drm: tda998x: use cec_notifier_conn_(un)register
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 X-Mailman-Approved-At: Wed, 28 Aug 2019 08:28:09 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=/LBTmr+u/ll+ec1sXUYsm3kWarWnOtf47U/5VvRHfk0=;
- b=QURAhAVVbDqA9BitIpPd7bqLRan4epUlRU5WKqfWOn/AtJSvjkCeRukPuQMaiP1aGZ
- 3JcrFtcOmz2LTEycDRL0+gH26Po7febdO3ME8tTmZ3A1nL5p3j6YaEOFlUS3OZE1RMoY
- mT3vnuOco1iAkQoU5XebIE4ly6MU/QIihJrMacQEBDjzXUOR4UMe7avA9pk0ZQ7RJUt4
- COx7H47+Ta9dfMLKrro/tlBTOt5stwrmyTraOlKdbsdO7nX0yblpzKemPZ4bvKG1iHCB
- Y3JuprullAkMBzq+QCIP2jGD4m0UkAP7xM/Kd05kdG/JBm4ut0kGYpa3rsxBfnMC//sr
- PoCw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,20 +51,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Russell King <linux@armlinux.org.uk>,
- linux-media@vger.kernel.org
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU3VuLCBBdWcgMjUsIDIwMTkgYXQgMzoxMiBQTSBIYW5zIFZlcmt1aWwgPGh2ZXJrdWlsLWNp
-c2NvQHhzNGFsbC5ubD4gd3JvdGU6Cj4KPiBZb3UgZHJvcHBlZCBhICdpZiAoIW5vdGlmaWVyKScg
-YmVmb3JlIHRoZSByZXR1cm4hCj4KPiBBZnRlciBhZGRpbmcgYmFjayB0aGlzICdpZicgaXQgd29y
-a2VkIGZpbmUgb24gbXkgQmVhZ2xlQm9uZSBCbGFjayBib2FyZCwKPiBzbyBhZnRlciBmaXhpbmcg
-dGhpcyB5b3UgY2FuIGFkZCBteToKPgo+IFRlc3RlZC1ieTogSGFucyBWZXJrdWlsIDxodmVya3Vp
-bC1jaXNjb0B4czRhbGwubmw+Cj4KU3VibWl0dGVkIHY3LjIuIFRoYW5rIHlvdSBmb3IgdGVzdGlu
-ZyEKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+SGksCgp0aGlzIGlzIHRoZSBmb3VydGggc3BpbiBvZiBhIHBhdGNoIHNldCB0aGF0IGFpbXMgdG8g
+Y29tcGxldGUgdGhlIEFybWFkYQpEUk0gYmluZGluZyBkb2N1bWVudGF0aW9uLiBUaGUgb25seSBj
+aGFuZ2UgZnJvbSB0aGUgbGFzdCB2ZXJzaW9uIGlzIHRoZQphZGRpdGlvbiBvZiBSZXZpZXdlZC1i
+eSB0YWdzLgoKV2hhdCBpcyBkb2N1bWVudGVkIGNvcnJlc3BvbmRzIHRvIHRoZSBhcm1hZGEtZGV2
+ZWwgYnJhbmNoIG9mCmdpdDovL2dpdC5hcm1saW51eC5vcmcudWsvfnJtay9saW51eC1hcm0uZ2l0
+IHdpdGggdGhlc2UgZGlmZmVyZW5jaWVzOgoKKiBEb2N1bWVudGF0aW9uIG9mIHRoZSBidXMtd2lk
+dGggcHJvcGVydHkgb2YgdGhlIExDREMKKiBUaGUgTU1QMiBjb21wYXRpYmxlIHN0cmluZ3MuCgpQ
+YXRjaGVzIHRvIHRoZSBkcml2ZXIgZm9yIHRoZSBhYm92ZSB3ZXJlIHNlbnQgb3V0IHNlcGFyYXRl
+bHkuCgpMdWJvCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
