@@ -2,45 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 021E29FD72
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2019 10:50:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A1E19FD8B
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2019 10:55:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 304908930A;
-	Wed, 28 Aug 2019 08:49:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85DBA89487;
+	Wed, 28 Aug 2019 08:55:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id E940B8995F
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2019 08:42:34 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E628A72161; Wed, 28 Aug 2019 08:42:34 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111506] [amdgpu] VRR/Freesync below the range (LFC) flickering
- (5700 XT)
-Date: Wed, 28 Aug 2019 08:42:35 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: not set
-X-Bugzilla-Who: asheldon55@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111506-502-aR50cfIRZg@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111506-502@http.bugs.freedesktop.org/>
-References: <bug-111506-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from ozlabs.org (ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4990089483;
+ Wed, 28 Aug 2019 08:55:29 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 46JKMJ5Txkz9sNp;
+ Wed, 28 Aug 2019 18:55:24 +1000 (AEST)
+Date: Wed, 28 Aug 2019 18:55:16 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20190828185516.22b03da8@canb.auug.org.au>
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=canb.auug.org.au; s=201702; t=1566982525;
+ bh=uHfZSqpM9d5GmZPwHwbJ/ALaDsqk/uyw9kZHkl+R9NE=;
+ h=Date:From:To:Cc:Subject:From;
+ b=I7/yD7DH7aaydjm2wxLZr4OBwHvpk84eM0V2tmBzHdYVPOlqOrGmr3Q+jUAd4ZXPA
+ FE347BnBhMs4N5Nhf0ngbcP9ClAXbqLevO5Z00AQUDHipyUtkAJHGKDH9mnxn4ly4A
+ 0Hoe4mowNqHA+XHsqW+9DZg660LpvFNpBMxWsOFKqhPNRxy1xgLar8ZRTq3bD9rVaC
+ EI3KcN9F13n6ZLK5PcKmkDJfHUep8Ac8eC8btSYJVXCaTSMqQ4jUoAZRohY/fRNzrB
+ YuU7aZ6FrJRpX1Aup0r7SJDw3RWPRzvyyqrIXIErez1MiXRAtBz9+V5N3kARzTnnw2
+ VhTPQfwaTLRwQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,101 +47,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1175010455=="
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: multipart/mixed; boundary="===============1726200386=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--===============1726200386==
+Content-Type: multipart/signed; boundary="Sig_/vl+g_4dHxCiacR0wR8Sx6nD";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
---===============1175010455==
-Content-Type: multipart/alternative; boundary="15669817541.aCDe27c4f.16919"
-Content-Transfer-Encoding: 7bit
-
-
---15669817541.aCDe27c4f.16919
-Date: Wed, 28 Aug 2019 08:42:34 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+--Sig_/vl+g_4dHxCiacR0wR8Sx6nD
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111506
+Hi all,
 
---- Comment #1 from Andrew Sheldon <asheldon55@gmail.com> ---
-I should note that it doesn't flicker at all with the modification I sugges=
-ted.
-Presumably, LFC is in fact kicking in at 30fps and below, so assuming that's
-the case, it's not really LFC in general that is the problem, just LFC when
-just below the minimum.=20
+After merging the drm-misc tree, today's linux-next build (powerpc
+allyesconfig) failed like this:
 
-One possibility is that LFC is somehow generating frames at a rate above the
-maximum refresh rate for framerates above 30 and below the minimum (35), si=
-nce
-the range is fairly narrow. Maybe it's tripling rather than doubling the
-framerate?
+drivers/gpu/drm/virtio/virtgpu_object.c:31:67: error: expected ')' before '=
+int'
+ module_param_named(virglhack, virtio_gpu_virglrenderer_workaround, int, 04=
+00);
+                                                                   ^~~~
+                                                                   )
+
+Caused by commit
+
+  3e93bc2a58aa ("drm/virtio: make resource id workaround runtime switchable=
+.")
+
+I applied the following fix patch:
+
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Wed, 28 Aug 2019 18:37:40 +1000
+Subject: [PATCH] drm/virtio: module_param_named() requires linux/modulepara=
+m.h
+
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+---
+ drivers/gpu/drm/virtio/virtgpu_object.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virt=
+io/virtgpu_object.c
+index aab5534056ec..b5f8923ac674 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -23,6 +23,8 @@
+  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  */
+=20
++#include <linux/moduleparam.h>
++
+ #include <drm/ttm/ttm_execbuf_util.h>
+=20
+ #include "virtgpu_drv.h"
+--=20
+2.20.1
 
 --=20
-You are receiving this mail because:
-You are the assignee for the bug.=
+Cheers,
+Stephen Rothwell
 
---15669817541.aCDe27c4f.16919
-Date: Wed, 28 Aug 2019 08:42:34 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+--Sig_/vl+g_4dHxCiacR0wR8Sx6nD
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [amdgpu] VRR/Freesync below the range (LFC) flickering (5=
-700 XT)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111506#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [amdgpu] VRR/Freesync below the range (LFC) flickering (5=
-700 XT)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111506">bug 11150=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-asheldon55&#64;gmail.com" title=3D"Andrew Sheldon &lt;asheldon55&#64;gmail.=
-com&gt;"> <span class=3D"fn">Andrew Sheldon</span></a>
-</span></b>
-        <pre>I should note that it doesn't flicker at all with the modifica=
-tion I suggested.
-Presumably, LFC is in fact kicking in at 30fps and below, so assuming that's
-the case, it's not really LFC in general that is the problem, just LFC when
-just below the minimum.=20
+-----BEGIN PGP SIGNATURE-----
 
-One possibility is that LFC is somehow generating frames at a rate above the
-maximum refresh rate for framerates above 30 and below the minimum (35), si=
-nce
-the range is fairly narrow. Maybe it's tripling rather than doubling the
-framerate?</pre>
-        </div>
-      </p>
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl1mQXQACgkQAVBC80lX
+0GwORQf6AlHwThxv6cZcRGeDgqyf3lCCR2mfKYONLAp2GmjLFjkS3TaAri5ltvPT
+97svBbPdH8yu86Kw8PowHBXS8BUV1CxmrgfSrmZHUjBerrTi+wlIduVFP7Q8tzry
+haUQ6gaVphSvChG0OCAB6TsJZlnmHtJy5VZSRH5mZ4Opsn0HYGaa0RcV5dWqQM1z
+cpOpsz7Hbyf1DQC4TQ6Y5+CLD1sj4MNe9gh8N4blAlN6Kv7HoLMEMSZCUPUxSlkV
+Z9bLuzSnHv+EB77v0H3UO9x3OOR7g1KYc6GmVJyOXk0QQC9o/yery3tYscE2lobC
+tF82e/0NcWBt1banOVbXJQCqWDFFjg==
+=/Jl+
+-----END PGP SIGNATURE-----
 
+--Sig_/vl+g_4dHxCiacR0wR8Sx6nD--
 
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15669817541.aCDe27c4f.16919--
-
---===============1175010455==
+--===============1726200386==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -157,4 +140,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1175010455==--
+--===============1726200386==--
