@@ -1,35 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1F22A0787
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2019 18:39:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0662DA079F
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2019 18:42:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9039189D79;
-	Wed, 28 Aug 2019 16:39:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0456589DA7;
+	Wed, 28 Aug 2019 16:42:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8BAB89D79
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2019 16:39:17 +0000 (UTC)
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it
- [2.224.242.101]) (Authenticated sender: jacopo@jmondi.org)
- by relay11.mail.gandi.net (Postfix) with ESMTPSA id 49B5F100008;
- Wed, 28 Aug 2019 16:39:12 +0000 (UTC)
-Date: Wed, 28 Aug 2019 18:40:44 +0200
-From: Jacopo Mondi <jacopo@jmondi.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v3 0/7] backlight: gpio: simplify the driver
-Message-ID: <20190828164044.ku3xozmp7wlipn5d@uno.localdomain>
-References: <20190724082508.27617-1-brgl@bgdev.pl>
- <CAMRc=Mex_Ricd+C4F7nGLmpBggO-hWwJDB6duX8kFpPEeaTDjQ@mail.gmail.com>
- <CAMRc=Mci4ncbDmns=0uL8hsAGz1Wvd5bgK4yxTF8QQQitXDv0g@mail.gmail.com>
- <CAMRc=McUEgm6yH7enwHuHxVTL41dmb5KAY_pxTmSr3vctCs2xg@mail.gmail.com>
- <CAMuHMdV3obGtQ7qohNedQNgpvZvyL9xjH0HUiBKD6b8Ou5F+XA@mail.gmail.com>
- <CACRpkdbgZhgSvicq2XG0n2hiKA9K8VFmvCPn3W9oXgSLrZiw=w@mail.gmail.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 534BF89D79;
+ Wed, 28 Aug 2019 16:42:52 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 28 Aug 2019 09:42:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,441,1559545200"; d="scan'208";a="197593730"
+Received: from ramaling-i9x.iind.intel.com ([10.99.66.154])
+ by fmsmga001.fm.intel.com with ESMTP; 28 Aug 2019 09:42:49 -0700
+From: Ramalingam C <ramalingam.c@intel.com>
+To: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v12 0/6] drm/i915: Enable HDCP 1.4 and 2.2 on Gen12+
+Date: Wed, 28 Aug 2019 22:12:10 +0530
+Message-Id: <20190828164216.405-1-ramalingam.c@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CACRpkdbgZhgSvicq2XG0n2hiKA9K8VFmvCPn3W9oXgSLrZiw=w@mail.gmail.com>
-User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -42,88 +41,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Rich Felker <dalias@libc.org>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Linux-sh list <linux-sh@vger.kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
- Bartosz Golaszewski <brgl@bgdev.pl>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Lee Jones <lee.jones@linaro.org>
-Content-Type: multipart/mixed; boundary="===============0311191793=="
+Cc: Jani Nikula <jani.nikula@intel.com>, tomas.winkler@intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0311191793==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ootzxk2uvromcpqa"
-Content-Disposition: inline
-
-
---ootzxk2uvromcpqa
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-
-Hi Geert,
-
-On Wed, Aug 28, 2019 at 06:31:19PM +0200, Linus Walleij wrote:
-> On Wed, Aug 28, 2019 at 10:36 AM Geert Uytterhoeven
-> <geert@linux-m68k.org> wrote:
->
-> > CC the pour soul with the ecovec board.
->
-I'm sorry, Eco what ? :)
-
-> With great power comes great responsibility ;)
->
-
-Yeah, that's -exactly- a 'great powers' board :)
-
-I'll try to resurect it from the deads again and get back eventually
-with a tested-by.
-
-I only briefly looked at the series and I don't have any LCD to test
-the backlight with, I hope I can sample the backlight GPIO value from
-some test point, if I ever find the schematics...
-
-> Yours,
-> Linus Walleij
-
---ootzxk2uvromcpqa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1mrowACgkQcjQGjxah
-VjxtAA//YCv1S5V4Y+U+KJqq8uhB+Cs4NqedH2fC45FFxMAz/ze/UnG4XixNT9x1
-UP3xPgozXZeOzJyfM9w4bRC8yLTq6/t4kazDK0jjr/defxi1YpHCARTEw4/ioEkb
-FJ9K2FolNzhcQbTQNqNQNYqCtXPsUwzOR701cZkf2eE5PE/1DJi17wsYfycbi/1/
-HDrnrjDXnjla5CMrObPmvJ5rxPDHSHo3Le+SpBflzwvEWIktFKSwCMiNYUj2z9/x
-N71lKRlTS4jr//BURsomOt6i5Qzr6X2DroQ+VFLzsoToSVRleS/UMiY/ADnNori6
-xB9brM1ua/98Go61pIGXkhwOztB880f1dsyNygtyqxssWBUsWFEKsKcxQC5uAaeA
-iWY68EcVHFRKipu0CzJCNTh/mWrEbKZznDQPrXO4PIS8KlZuTlhKvrrTZAQL0knN
-zgTETUPOD4Yo27IvaNfxZKXWvfJbdywvPXOfV5i7lnMyYo17nfNQ3ZGeNcI+7oMA
-mgSi7zzNyOn1Rrag82vAytbXehRLkBq6vY7CpiCL6Cnh9J+NySiqOwpm/j1RBpek
-6rb2rbdu2kYUICirp9Fij8Ii1fkV4maFrRSxqe3Zig4Vr+swUl2Rc00Alz0Rj2y9
-I6CVuwpecgOeEmGst6RgEZ6R5ZyS5sO93znoz/ux6lbxW6UcYCE=
-=s/MY
------END PGP SIGNATURE-----
-
---ootzxk2uvromcpqa--
-
---===============0311191793==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0311191793==--
+RW5hYmxpbmcgdGhlIEhEQ1AxLjQgYW5kIDIuMiBvbiBUR0wgYnkgc3VwcG9ydGluZyB0aGUgSFcg
+YmxvY2sgbW92ZW1lbnQKZnJvbSBEREkgaW50byB0cmFuc2NvZGVyLgoKdjEyOgogIHItYiBhbmQg
+YWNrIGFyZSBjb2xsZWN0ZWQuCiAgZmV3IHJldmlldyBjb21tZW50cyBhcmUgYWRkcmVzc2VkLgoK
+UmFtYWxpbmdhbSBDICg2KToKICBkcm0vaTkxNTogbWVpX2hkY3A6IEk5MTUgc2VuZHMgZGRpIGlu
+ZGV4IGFzIHBlciBNRSBGVwogIGRybTogTW92ZSBwb3J0IGRlZmluaXRpb24gYmFjayB0byBpOTE1
+IGhlYWRlcgogIGRybTogRXh0ZW5kIEk5MTUgbWVpIGludGVyZmFjZSBmb3IgdHJhbnNjb2RlciBp
+bmZvCiAgbWlzYy9tZWkvaGRjcDogRmlsbCB0cmFuc2NvZGVyIGluZGV4IGluIHBvcnQgaW5mbwog
+IGRybS9pOTE1L2hkY3A6IHVwZGF0ZSBjdXJyZW50IHRyYW5zY29kZXIgaW50byBpbnRlbF9oZGNw
+CiAgZHJtL2k5MTUvaGRjcDogRW5hYmxlIEhEQ1AgMS40IGFuZCAyLjIgb24gR2VuMTIrCgogZHJp
+dmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9iaW9zLmggICAgIHwgICAzICstCiBkcml2
+ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXkuaCAgfCAgMjAgKy0KIC4uLi9k
+cm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXlfdHlwZXMuaCAgICB8ICAgNyArCiBkcml2ZXJz
+L2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMgICAgICAgfCAgIDMgKwogZHJpdmVycy9n
+cHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5oICAgICAgIHwgICAxICsKIGRyaXZlcnMvZ3B1
+L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfaGRjcC5jICAgICB8IDIxNCArKysrKysrKysrKysrLS0t
+LS0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfaGRjcC5oICAgICB8ICAgNCAr
+CiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hkbWkuYyAgICAgfCAgMTMgKy0K
+IGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfaGRtaS5oICAgICB8ICAgMSArCiBk
+cml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hvdHBsdWcuaCAgfCAgIDEgKwogZHJp
+dmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9zZHZvLmggICAgIHwgICAxICsKIGRyaXZl
+cnMvZ3B1L2RybS9pOTE1L2k5MTVfcmVnLmggICAgICAgICAgICAgICB8IDEyNCArKysrKysrKyst
+CiBkcml2ZXJzL21pc2MvbWVpL2hkY3AvbWVpX2hkY3AuYyAgICAgICAgICAgICAgfCAgNDUgKyst
+LQogZHJpdmVycy9taXNjL21laS9oZGNwL21laV9oZGNwLmggICAgICAgICAgICAgIHwgIDE3ICst
+CiBpbmNsdWRlL2RybS9pOTE1X2RybS5oICAgICAgICAgICAgICAgICAgICAgICAgfCAgMTggLS0K
+IGluY2x1ZGUvZHJtL2k5MTVfbWVpX2hkY3BfaW50ZXJmYWNlLmggICAgICAgICB8ICA0MiArKyst
+CiAxNiBmaWxlcyBjaGFuZ2VkLCAzODkgaW5zZXJ0aW9ucygrKSwgMTI1IGRlbGV0aW9ucygtKQoK
+LS0gCjIuMjAuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
