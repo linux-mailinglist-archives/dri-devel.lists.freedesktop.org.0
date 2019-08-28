@@ -2,60 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6062E9FE99
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2019 11:36:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF5819FE9F
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Aug 2019 11:37:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6311F897EB;
-	Wed, 28 Aug 2019 09:36:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B0CC897E0;
+	Wed, 28 Aug 2019 09:37:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 846BF897E0
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2019 09:36:49 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id s18so1793432wrn.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2019 02:36:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=BBuzzof8zZMyC5cBUE8nZgFa0hb+Dbo0Ym4NPdlUc3Q=;
- b=RLkdm4TuyIWPPVlqtzIpjBA0ZubSOaMKMAU0r+nWiT0r43p1XacODvjxmv9Npq1UXn
- MGHZFADbNE6c19+EmBZA5yFIwgoqmKajVLk/EkG5Ve8n0rrGPmiYHGoSo8jJAHmk69/S
- PZMBzuoYrCBHN5QyNstZCX4mT0l5Pc5HBaOadEQ5qEAQ2VisKUszo0kuy9LHwfdFnqDj
- K0YgEV9nHbNaIlL3OIZmtQr9gqeUfEPDBypn6qcutZEV7JPlc9ZaEUR3ChsOh4n4egCN
- Sr08Nauvu5ZMnYuN5DziA0hdH4+UZG9PayAdlIvoBgnYoWZW9coS25dxSuFLTluQXpzz
- 9rKw==
-X-Gm-Message-State: APjAAAXza783OK7JuOcenFC1q8M1dTkWod2CLKThkcnIReTIFFmXQlo1
- NGG+Az8KjY5del9UimTWJ0A=
-X-Google-Smtp-Source: APXvYqwMQnUB0YswPXCDQ17rfO0T99SGjGKn1T19r6B1/gAj6ortuQOoWuNkvCua17xNq8CJRLTJuQ==
-X-Received: by 2002:a5d:610d:: with SMTP id v13mr3553458wrt.249.1566985007828; 
- Wed, 28 Aug 2019 02:36:47 -0700 (PDT)
-Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
- by smtp.gmail.com with ESMTPSA id j20sm4464767wre.65.2019.08.28.02.36.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2019 02:36:46 -0700 (PDT)
-Date: Wed, 28 Aug 2019 11:36:45 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dariusz Marcinkiewicz <darekm@google.com>
-Subject: Re: [PATCH v7 7/9] drm: tegra: use cec_notifier_conn_(un)register
-Message-ID: <20190828093645.GD2917@ulmo>
-References: <20190814104520.6001-1-darekm@google.com>
- <20190814104520.6001-8-darekm@google.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C74C1897E0
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Aug 2019 09:37:05 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 28 Aug 2019 02:37:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,440,1559545200"; d="scan'208";a="264592725"
+Received: from shao2-debian.sh.intel.com (HELO [10.239.13.6]) ([10.239.13.6])
+ by orsmga001.jf.intel.com with ESMTP; 28 Aug 2019 02:37:03 -0700
+Subject: Re: [LKP] [drm/mgag200] 90f479ae51: vm-scalability.median -18.8%
+ regression
+To: Thomas Zimmermann <tzimmermann@suse.de>, Feng Tang <feng.tang@intel.com>
+References: <14fdaaed-51c8-b270-b46b-cba7b5c4ba52@suse.de>
+ <20190805070200.GA91650@shbuild999.sh.intel.com>
+ <c0c3f387-dc93-3146-788c-23258b28a015@intel.com>
+ <045a23ab-78f7-f363-4a2e-bf24a7a2f79e@suse.de>
+ <37ae41e4-455d-c18d-5c93-7df854abfef9@intel.com>
+ <370747ca-4dc9-917b-096c-891dcc2aedf0@suse.de>
+ <c6e220fe-230c-265c-f2fc-b0948d1cb898@intel.com>
+ <20190812072545.GA63191@shbuild999.sh.intel.com>
+ <20190813093616.GA65475@shbuild999.sh.intel.com>
+ <64d41701-55a4-e526-17ae-8936de4bc1ef@suse.de>
+ <20190824051605.GA63850@shbuild999.sh.intel.com>
+ <1b897bfe-fd40-3ae3-d867-424d1fc08c44@suse.de>
+ <d114b0b6-6b64-406e-6c3f-a8b8d5502413@intel.com>
+ <44029e80-ba00-8246-dec0-fda122d53f5e@suse.de>
+From: Rong Chen <rong.a.chen@intel.com>
+Message-ID: <90e78ce8-d46a-5154-c324-a05aa1743c98@intel.com>
+Date: Wed, 28 Aug 2019 17:37:01 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190814104520.6001-8-darekm@google.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=BBuzzof8zZMyC5cBUE8nZgFa0hb+Dbo0Ym4NPdlUc3Q=;
- b=AkKK/XBjEHizNiJ0Mj63NeQtn6moijs4nu2RBhf9x/eWwd3J1lopIwY4zV3tZb+DlO
- VC1dkwGi6ZSir6f/+ks3upVkVmfQKQ/cXJrNsCN+aTEz+mRJVwWYgi3rYePyMm2RvE9j
- 3qnk9AeZ8xfZLnF6DjVPsWQAFYOkNBcRtTpJWBH9cchiNlzlIMbgBP12imyY+hr9aYZ5
- t9tMP+KW/dg3PMxhk5hACbAMfCVA62KpV5VGG6ltn+2wJ93KW9PIQBhVBShrduA+AXBH
- tXW4qH/k7bWNbB1oKBPgy/GOrsYydl/ocG53Qu31310stSFGjfFDyU0i2MZy3jurV7Wn
- cHaA==
+In-Reply-To: <44029e80-ba00-8246-dec0-fda122d53f5e@suse.de>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,150 +58,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
- linux-tegra@vger.kernel.org, hverkuil-cisco@xs4all.nl,
- linux-media@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============0390184799=="
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, michel@daenzer.net, lkp@01.org,
+ linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0390184799==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="DrWhICOqskFTAXiy"
-Content-Disposition: inline
-
-
---DrWhICOqskFTAXiy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Aug 14, 2019 at 12:45:05PM +0200, Dariusz Marcinkiewicz wrote:
-> Use the new cec_notifier_conn_(un)register() functions to
-> (un)register the notifier for the HDMI connector, and fill in
-> the cec_connector_info.
->=20
-> Changes since v4:
-> 	- only create a CEC notifier for HDMI connectors
->=20
-> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
-> Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
->  drivers/gpu/drm/tegra/output.c | 28 +++++++++++++++++++++-------
->  1 file changed, 21 insertions(+), 7 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/outpu=
-t.c
-> index bdcaa4c7168cf..34373734ff689 100644
-> --- a/drivers/gpu/drm/tegra/output.c
-> +++ b/drivers/gpu/drm/tegra/output.c
-> @@ -70,6 +70,11 @@ tegra_output_connector_detect(struct drm_connector *co=
-nnector, bool force)
-> =20
->  void tegra_output_connector_destroy(struct drm_connector *connector)
->  {
-> +	struct tegra_output *output =3D connector_to_output(connector);
-> +
-> +	if (output->cec)
-> +		cec_notifier_conn_unregister(output->cec);
-> +
->  	drm_connector_unregister(connector);
->  	drm_connector_cleanup(connector);
->  }
-> @@ -163,18 +168,11 @@ int tegra_output_probe(struct tegra_output *output)
->  		disable_irq(output->hpd_irq);
->  	}
-> =20
-> -	output->cec =3D cec_notifier_get(output->dev);
-> -	if (!output->cec)
-> -		return -ENOMEM;
-> -
->  	return 0;
->  }
-> =20
->  void tegra_output_remove(struct tegra_output *output)
->  {
-> -	if (output->cec)
-> -		cec_notifier_put(output->cec);
-> -
->  	if (output->hpd_gpio)
->  		free_irq(output->hpd_irq, output);
-> =20
-> @@ -184,6 +182,7 @@ void tegra_output_remove(struct tegra_output *output)
-> =20
->  int tegra_output_init(struct drm_device *drm, struct tegra_output *outpu=
-t)
->  {
-> +	int connector_type;
->  	int err;
-> =20
->  	if (output->panel) {
-> @@ -199,6 +198,21 @@ int tegra_output_init(struct drm_device *drm, struct=
- tegra_output *output)
->  	if (output->hpd_gpio)
->  		enable_irq(output->hpd_irq);
-> =20
-> +	connector_type =3D output->connector.connector_type;
-> +	/*
-> +	 * Create a CEC notifier for HDMI connector.
-> +	 */
-> +	if (connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA ||
-> +	    connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIB) {
-> +		struct cec_connector_info conn_info;
-> +
-> +		cec_fill_conn_info_from_drm(&conn_info, &output->connector);
-> +		output->cec =3D cec_notifier_conn_register(output->dev, NULL,
-> +							 &conn_info);
-> +		if (!output->cec)
-> +			return -ENOMEM;
-> +	}
-> +
->  	return 0;
->  }
-> =20
-
-It might be slightly cleaner to move this into the HDMI drivers
-themselves, although that'd mean a bit of duplication. That could be
-mitigated by moving the code into a separate helper that could be called
-by the HDMI drivers.
-
-Then again, I don't feel strongly about it, and that could always be
-done as part of some later refactoring, so I think this is fine.
-
-Thierry
-
---DrWhICOqskFTAXiy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl1mSy0ACgkQ3SOs138+
-s6H4gg/+OuMLV5fIj7+uzWlp1gQO6V43RpNGjpFS9gndEosOfV/QTOEip16Efq1p
-ZegaEk1ibqDX7dIwQ2m48uFRJw+qKyYVIJoxBhFDgcUk5uwnAtHF7qMTRnQJGcVP
-LDjQ2Lxw4PmpdO8SQxUc/xDOlmTWPcqGpv7XzqB+ZbwK7ACCce5Cw080B/5kp1Z1
-4D4dttwjpVdtO0/dx3nhFYpjeDAwyH/u8kWJLFAt+cbVgyNap8drgrSNlAArVXD3
-R5R5Ge3iouXUuY+juQRv4uwC86F6WAOfKU8VQaENjRof5jCyL/BJrv9t4JGYbVte
-QQnAi9FJvwbpra04AkpFG2nib/nnX/8m3OGiRrMp29l7TRpD9QptRDIaSKkPkw4n
-BpySuAXUIh05zS8xNNZNDxW3BygkZQHoK50tW0RNwhYmI4LTfOrkDT3E6ZyWLx9E
-j4+CwkemwwRijP8yX3eegsC8gYreS1ERPNuAehIghf95X3b6KExZQb4/yj/qxW/E
-cpXn24r3PT45Y7GZVXuIEyMIeLWIz+2YOxCgXwYjzEkRau8NHBA/UIRPzWLiuovO
-JXJyeT7d7J9rNm0YE9A45jNnG4qpN1ruV919nABZ9Qgq7jVFDP83bWp1ywKZQtTO
-be1SyPh01yjDg3/H7mRqkLFU3WXO+Uz82JwNG1RN9A0aE0Us3Qo=
-=st98
------END PGP SIGNATURE-----
-
---DrWhICOqskFTAXiy--
-
---===============0390184799==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0390184799==--
+SGkgVGhvbWFzLAoKT24gOC8yOC8xOSAxOjE2IEFNLCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToK
+PiBIaQo+Cj4gQW0gMjcuMDguMTkgdW0gMTQ6MzMgc2NocmllYiBDaGVuLCBSb25nIEE6Cj4+IEJv
+dGggcGF0Y2hlcyBoYXZlIGxpdHRsZSBpbXBhY3Qgb24gdGhlIHBlcmZvcm1hbmNlIGZyb20gb3Vy
+IHNpZGUuCj4gVGhhbmtzIGZvciB0ZXN0aW5nLiBUb28gYmFkIHRoZXkgZG9lc24ndCBzb2x2ZSB0
+aGUgaXNzdWUuCj4KPiBUaGVyZSdzIGFub3RoZXIgcGF0Y2ggYXR0YWNoZWQuIENvdWxkIHlvdSBw
+bGVhc2UgdGVzdHMgdGhpcyBhcyB3ZWxsPwo+IFRoYW5rcyBhIGxvdCEKPgo+IFRoZSBwYXRjaCBj
+b21lcyBmcm9tIERhbmllbCBWZXR0ZXIgYWZ0ZXIgZGlzY3Vzc2luZyB0aGUgcHJvYmxlbSBvbiBJ
+UkMuCj4gVGhlIGlkZWEgb2YgdGhlIHBhdGNoIGlzIHRoYXQgdGhlIG9sZCBtZ2FnMjAwIGNvZGUg
+bWlnaHQgZGlzcGxheSBtdWNoCj4gbGVzcyBmcmFtZXMgdGhhdCB0aGUgZ2VuZXJpYyBjb2RlLCBi
+ZWNhdXNlIG1nYWcyMDAgb25seSBwcmludHMgZnJvbQo+IG5vbi1hdG9taWMgY29udGV4dC4gSWYg
+d2Ugc2ltdWxhdGUgdGhpcyB3aXRoIHRoZSBnZW5lcmljIGNvZGUsIHdlIHNob3VsZAo+IHNlZSBy
+b3VnaGx5IHRoZSBvcmlnaW5hbCBwZXJmb3JtYW5jZS4KPgo+CgpJdCdzIGNvb2wsIHRoZSBwYXRj
+aCAidXNlY2Fuc2xlZXAucGF0Y2giIGNhbiBmaXggdGhlIGlzc3VlLgoKY29tbWl0OgogwqAgZjFm
+ODU1NWRmYjkgZHJtL2JvY2hzOiBVc2Ugc2hhZG93IGJ1ZmZlciBmb3IgYm9jaHMgZnJhbWVidWZm
+ZXIgY29uc29sZQogwqAgOTBmNDc5YWU1MWEgZHJtL21nYWcyMDA6IFJlcGxhY2Ugc3RydWN0IG1n
+YV9mYmRldiB3aXRoIGdlbmVyaWMgCmZyYW1lYnVmZmVyIGVtdWxhdGlvbgogwqAgYjk3NmIwNGMy
+YmMgb25seSBzY2hlZHVsZSB3b3JrZXIgZnJvbSBub24tYXRvbWljIGNvbnRleHQKCmYxZjg1NTVk
+ZmI5YTcwYTLCoCA5MGY0NzlhZTUxYWZhNDVlZmFiOTdhZmRkZSBiOTc2YjA0YzJiY2YzMzE0OGQ2
+YzdiYzFhMsKgIAp0ZXN0Y2FzZS90ZXN0cGFyYW1zL3Rlc3Rib3gKLS0tLS0tLS0tLS0tLS0tLcKg
+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0twqAg
+Ci0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogwqDCoMKgwqDCoMKgwqDCoCAlc3RkZGV2wqDC
+oMKgwqDCoCBjaGFuZ2XCoMKgwqDCoMKgwqDCoMKgICVzdGRkZXbCoMKgwqDCoMKgIGNoYW5nZSAl
+c3RkZGV2CiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgXMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFzCoMKgwqDCoMKgwqDCoMKgwqAgfCBcCiDCoMKg
+wqDCoCA0MjkxMsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAtMTUlwqDCoMKgwqDCoCAzNjUxNyA0
+NDA5MyAKdm0tc2NhbGFiaWxpdHkvcGVyZm9ybWFuY2UtMzAwcy04VC1hbm9uLWNvdy1zZXEtaHVn
+ZXRsYi9sa3Ata25tMDEKIMKgwqDCoMKgIDQyOTEywqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC0x
+NSXCoMKgwqDCoMKgIDM2NTE3IDQ0MDkzwqDCoMKgwqDCoMKgwqAgR0VPLU1FQU4gCnZtLXNjYWxh
+YmlsaXR5Lm1lZGlhbgoKQmVzdCBSZWdhcmRzLApSb25nIENoZW4KX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
