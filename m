@@ -2,45 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB6B0A1A9F
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2019 15:03:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7F32A1AA2
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2019 15:04:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 860766E0CA;
-	Thu, 29 Aug 2019 13:03:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72BEF892A5;
+	Thu, 29 Aug 2019 13:04:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id D08036E0D2
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2019 13:03:52 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id CCDAA72161; Thu, 29 Aug 2019 13:03:52 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
- when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
-Date: Thu, 29 Aug 2019 13:03:53 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: nicholas.kazlauskas@amd.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110659-502-CEd3CpXVhp@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
-References: <bug-110659-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-yw1-xc44.google.com (mail-yw1-xc44.google.com
+ [IPv6:2607:f8b0:4864:20::c44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30162892B6
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2019 13:04:39 +0000 (UTC)
+Received: by mail-yw1-xc44.google.com with SMTP id e65so1112203ywh.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2019 06:04:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=jbt8QVuKSyj/sWQ72n57ax07Z6OSVIi5b7yOSbu/iaA=;
+ b=gLmc97G0A3Y2Koq+pNUtilwKQvXpJyOp8sRccrdwPQOk4As38UoDeqhMnw/PKcmahc
+ dgHCrGZlDarGH1jiUn/y3DZO9oZB7EFviGXTzNvn620FSGunoiKyliPODSwichs0XiqO
+ YL3xOWSidG7kL0OmA9dHRWMC31UAPSgfKI3ixNJIOlDZSVD/dp4BOKBrN1fkoFeV4KPP
+ FMT1PGwlm+9CWa8V3eesMPd3Ib9Nsui7YDS7isTBmDI1gettwldqLmGbXXTWAHq8vDgR
+ I7VBd7S2jVoJnjr6Fc36/B+W7nC1HKkT5nIyQquhoPEzafDWhJLzPtlg02mI5L2cXzx4
+ sByQ==
+X-Gm-Message-State: APjAAAXsCZJAxjfTuc1Ov3z/1Hgj/EhIoc0h590lR8QJYvW0LOGkFI+7
+ ZLbJgj5U3dFZj6h3WFhQisXyOA==
+X-Google-Smtp-Source: APXvYqxlv5dMHxddcEVgVm1vPth9+XsALvqjG1C8iU2wgMSOIhQ7CLZvCEH1dw0B9q1yyV85VcTGUQ==
+X-Received: by 2002:a81:a6c1:: with SMTP id d184mr6487059ywh.468.1567083878220; 
+ Thu, 29 Aug 2019 06:04:38 -0700 (PDT)
+Received: from localhost ([2620:0:1013:11:89c6:2139:5435:371d])
+ by smtp.gmail.com with ESMTPSA id d195sm450214ywb.101.2019.08.29.06.04.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Aug 2019 06:04:36 -0700 (PDT)
+Date: Thu, 29 Aug 2019 09:04:33 -0400
+From: Sean Paul <sean@poorly.run>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH 4/9] drm/msm: add kms->wait_flush()
+Message-ID: <20190829130433.GE218215@art_vandelay>
+References: <20190827213421.21917-1-robdclark@gmail.com>
+ <20190827213421.21917-5-robdclark@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190827213421.21917-5-robdclark@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=poorly.run; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=jbt8QVuKSyj/sWQ72n57ax07Z6OSVIi5b7yOSbu/iaA=;
+ b=cnNhSiUI5Y8Aorow788RFQl6zZ3NHK14DJ8y8HvjApt1P5EMwS0HUx4q/gfDtXDqNw
+ lkpAaomVKvQ1tcAUf+q77rRaPCJJZKV/0rGryQWXskP/OBBCDrY+Nd89tqoxenRGQqLR
+ yDn9TS/LcOz3pYNOQcO9sObX7Rtc/YPSDIb6C6/IVjel/dSqJ9mGJzedqjbb9OL+N6+o
+ SrFnm9Wq9BsLPzjIrxBbiMAyTDAms2dmvCeJer+1LnLbxkChyf8x3Up7RNh1a69dGqu/
+ O67aNQa3bDPxRASG7Bt2kbInLkEp12AVR2/+iXvwpQGG27M+FzdcWE7hB6+M5znGCUsz
+ WNPQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,103 +69,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1579761091=="
+Cc: Rob Clark <robdclark@chromium.org>, Enrico Weigelt <info@metux.net>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Georgi Djakov <georgi.djakov@linaro.org>, Bruce Wang <bzwang@chromium.org>,
+ Mamta Shukla <mamtashukla555@gmail.com>, Allison Randal <allison@lohutok.net>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
+ Sean Paul <sean@poorly.run>, Thomas Gleixner <tglx@linutronix.de>,
+ Sravanthi Kollukuduru <skolluku@codeaurora.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1579761091==
-Content-Type: multipart/alternative; boundary="15670838321.6d8fb7.6600"
-Content-Transfer-Encoding: 7bit
-
-
---15670838321.6d8fb7.6600
-Date: Thu, 29 Aug 2019 13:03:52 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
-
---- Comment #51 from Nicholas Kazlauskas <nicholas.kazlauskas@amd.com> ---
-(In reply to tempel.julian from comment #50)
-> Are we already out of options for debug output? :)
-
-Might help to see what IOCTLs are being specifically called by userspace. I
-think you can enable that log with:
-
-echo 0x3f > /sys/module/drm/parameters/debug
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15670838321.6d8fb7.6600
-Date: Thu, 29 Aug 2019 13:03:52 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c51">Comme=
-nt # 51</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-nicholas.kazlauskas&#64;amd.com" title=3D"Nicholas Kazlauskas &lt;nicholas.=
-kazlauskas&#64;amd.com&gt;"> <span class=3D"fn">Nicholas Kazlauskas</span><=
-/a>
-</span></b>
-        <pre>(In reply to tempel.julian from <a href=3D"show_bug.cgi?id=3D1=
-10659#c50">comment #50</a>)
-<span class=3D"quote">&gt; Are we already out of options for debug output? =
-:)</span >
-
-Might help to see what IOCTLs are being specifically called by userspace. I
-think you can enable that log with:
-
-echo 0x3f &gt; /sys/module/drm/parameters/debug</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15670838321.6d8fb7.6600--
-
---===============1579761091==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1579761091==--
+T24gVHVlLCBBdWcgMjcsIDIwMTkgYXQgMDI6MzM6MzRQTSAtMDcwMCwgUm9iIENsYXJrIHdyb3Rl
+Ogo+IEZyb206IFJvYiBDbGFyayA8cm9iZGNsYXJrQGNocm9taXVtLm9yZz4KPiAKPiBGaXJzdCBz
+dGVwIGluIHJlLXdvcmtpbmcgdGhlIGF0b21pYyByZWxhdGVkIGludGVybmFsIEFQSSB0byBwcmVw
+YXJlIGZvcgo+IGFzeW5jIHVwZGF0ZXMgcGVuZGluZy4uIC0+d2FpdF9mbHVzaCgpIGlzIGludGVu
+ZGVkIHRvIGJsb2NrIHVudGlsIHRoZXJlCj4gaXMgbm8gaW4tcHJvZ3Jlc3MgZmx1c2guCj4gCj4g
+QSBjcnRjX21hc2sgaXMgdXNlZCwgcmF0aGVyIHRoYW4gYW4gYXRvbWljIHN0YXRlIG9iamVjdCwg
+YXMgdGhpcyB3aWxsCj4gbGF0ZXIgYmUgdXNlZCBmb3IgYXN5bmMgZmx1c2ggYWZ0ZXIgdGhlIGF0
+b21pYyBzdGF0ZSBpcyBkZXN0cm95ZWQuCj4gCj4gVGhpcyByZXBsYWNlcyAtPndhaXRfZm9yX2Ny
+dGNfY29tbWl0X2RvbmUoKQo+IAo+IFNpZ25lZC1vZmYtYnk6IFJvYiBDbGFyayA8cm9iZGNsYXJr
+QGNocm9taXVtLm9yZz4KCkhpIFJvYiwKQSBmZXcgbml0cyBiZWxvdywgYnV0IGxndG0gb3ZlcmFs
+bAoKCj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9kcHUxL2RwdV9rbXMuYyAgfCAx
+MSArKysrKystCj4gIGRyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9tZHA0L21kcDRfa21zLmMgfCAx
+NyArKysrKystLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9tZHA1L21kcDVfa21zLmMg
+fCAxNyArKysrKystLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9tc20vbXNtX2F0b21pYy5jICAgICAg
+ICAgfCA0MiArKysrKysrKysrLS0tLS0tLS0tLS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL21zbS9t
+c21fa21zLmggICAgICAgICAgICB8ICA5ICsrKy0tCj4gIDUgZmlsZXMgY2hhbmdlZCwgNTQgaW5z
+ZXJ0aW9ucygrKSwgNDIgZGVsZXRpb25zKC0pCj4gCgovc25pcAoKPiBpbmRleCBlNWFhZTE2NDU5
+MzMuLjYzOWNjODhjMzFhMSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9h
+dG9taWMuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vbXNtX2F0b21pYy5jCj4gQEAgLTEw
+LDI4ICsxMCw2IEBACj4gICNpbmNsdWRlICJtc21fZ2VtLmgiCj4gICNpbmNsdWRlICJtc21fa21z
+LmgiCj4gIAo+IC1zdGF0aWMgdm9pZCBtc21fYXRvbWljX3dhaXRfZm9yX2NvbW1pdF9kb25lKHN0
+cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gLQkJc3RydWN0IGRybV9hdG9taWNfc3RhdGUgKm9sZF9z
+dGF0ZSkKPiAtewo+IC0Jc3RydWN0IGRybV9jcnRjICpjcnRjOwo+IC0Jc3RydWN0IGRybV9jcnRj
+X3N0YXRlICpuZXdfY3J0Y19zdGF0ZTsKPiAtCXN0cnVjdCBtc21fZHJtX3ByaXZhdGUgKnByaXYg
+PSBvbGRfc3RhdGUtPmRldi0+ZGV2X3ByaXZhdGU7Cj4gLQlzdHJ1Y3QgbXNtX2ttcyAqa21zID0g
+cHJpdi0+a21zOwo+IC0JaW50IGk7Cj4gLQo+IC0JZm9yX2VhY2hfbmV3X2NydGNfaW5fc3RhdGUo
+b2xkX3N0YXRlLCBjcnRjLCBuZXdfY3J0Y19zdGF0ZSwgaSkgewo+IC0JCWlmICghbmV3X2NydGNf
+c3RhdGUtPmFjdGl2ZSkKPiAtCQkJY29udGludWU7Cj4gLQo+IC0JCWlmIChkcm1fY3J0Y192Ymxh
+bmtfZ2V0KGNydGMpKQo+IC0JCQljb250aW51ZTsKPiAtCj4gLQkJa21zLT5mdW5jcy0+d2FpdF9m
+b3JfY3J0Y19jb21taXRfZG9uZShrbXMsIGNydGMpOwo+IC0KPiAtCQlkcm1fY3J0Y192Ymxhbmtf
+cHV0KGNydGMpOwo+IC0JfQo+IC19Cj4gLQo+ICBpbnQgbXNtX2F0b21pY19wcmVwYXJlX2ZiKHN0
+cnVjdCBkcm1fcGxhbmUgKnBsYW5lLAo+ICAJCQkgIHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5l
+d19zdGF0ZSkKPiAgewo+IEBAIC01MSwxMSArMjksMjggQEAgaW50IG1zbV9hdG9taWNfcHJlcGFy
+ZV9mYihzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKPiAgCXJldHVybiBtc21fZnJhbWVidWZmZXJf
+cHJlcGFyZShuZXdfc3RhdGUtPmZiLCBrbXMtPmFzcGFjZSk7Cj4gIH0KPiAgCj4gKy8qIEdldCBi
+aXRtYXNrIG9mIGNydGNzIHRoYXQgd2lsbCBuZWVkIHRvIGJlIGZsdXNoZWQuICBUaGUgYml0bWFz
+awo+ICsgKiBjYW4gYmUgdXNlZCB3aXRoIGZvcl9lYWNoX2NydGNfbWFzaygpIGl0ZXJhdG9yLCB0
+byBpdGVyYXRlCj4gKyAqIGVmZmVjdGVkIGNydGNzIHdpdGhvdXQgbmVlZGluZyB0byBwcmVzZXJ2
+ZSB0aGUgYXRvbWljIHN0YXRlLgo+ICsgKi8KPiArc3RhdGljIHVuc2lnbmVkIGdldF9jcnRjX21h
+c2soc3RydWN0IGRybV9hdG9taWNfc3RhdGUgKnN0YXRlKQo+ICt7Cj4gKwlzdHJ1Y3QgZHJtX2Ny
+dGNfc3RhdGUgKmNydGNfc3RhdGU7Cj4gKwlzdHJ1Y3QgZHJtX2NydGMgKmNydGM7Cj4gKwl1bnNp
+Z25lZCBpLCBtYXNrID0gMDsKPiArCj4gKwlmb3JfZWFjaF9uZXdfY3J0Y19pbl9zdGF0ZShzdGF0
+ZSwgY3J0YywgY3J0Y19zdGF0ZSwgaSkKPiArCQltYXNrIHw9IEJJVChjcnRjLT5pbmRleCk7Cgpt
+YXNrIHw9IGRybV9jcnRjX21hc2soY3J0Yyk7Cgo+ICsKPiArCXJldHVybiBtYXNrOwo+ICt9Cj4g
+Kwo+ICB2b2lkIG1zbV9hdG9taWNfY29tbWl0X3RhaWwoc3RydWN0IGRybV9hdG9taWNfc3RhdGUg
+KnN0YXRlKQo+ICB7Cj4gIAlzdHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0gc3RhdGUtPmRldjsKPiAg
+CXN0cnVjdCBtc21fZHJtX3ByaXZhdGUgKnByaXYgPSBkZXYtPmRldl9wcml2YXRlOwo+ICAJc3Ry
+dWN0IG1zbV9rbXMgKmttcyA9IHByaXYtPmttczsKPiArCXVuc2lnbmVkIGNydGNfbWFzayA9IGdl
+dF9jcnRjX21hc2soc3RhdGUpOwo+ICAKPiAgCWttcy0+ZnVuY3MtPnByZXBhcmVfY29tbWl0KGtt
+cywgc3RhdGUpOwo+ICAKPiBAQCAtNzAsOCArNjUsNyBAQCB2b2lkIG1zbV9hdG9taWNfY29tbWl0
+X3RhaWwoc3RydWN0IGRybV9hdG9taWNfc3RhdGUgKnN0YXRlKQo+ICAJCWttcy0+ZnVuY3MtPmNv
+bW1pdChrbXMsIHN0YXRlKTsKPiAgCX0KPiAgCj4gLQltc21fYXRvbWljX3dhaXRfZm9yX2NvbW1p
+dF9kb25lKGRldiwgc3RhdGUpOwo+IC0KPiArCWttcy0+ZnVuY3MtPndhaXRfZmx1c2goa21zLCBj
+cnRjX21hc2spOwo+ICAJa21zLT5mdW5jcy0+Y29tcGxldGVfY29tbWl0KGttcywgc3RhdGUpOwo+
+ICAKPiAgCWRybV9hdG9taWNfaGVscGVyX2NvbW1pdF9od19kb25lKHN0YXRlKTsKPiBkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9ncHUvZHJtL21zbS9tc21fa21zLmggYi9kcml2ZXJzL2dwdS9kcm0vbXNt
+L21zbV9rbXMuaAo+IGluZGV4IGM3NTg4YTQyNjM1ZS4uODU2MmJiZmQ1ZGNhIDEwMDY0NAo+IC0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9tc20vbXNtX2ttcy5oCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L21zbS9tc21fa21zLmgKPiBAQCAtMzQsOSArMzQsOCBAQCBzdHJ1Y3QgbXNtX2ttc19mdW5jcyB7
+Cj4gIAl2b2lkICgqcHJlcGFyZV9jb21taXQpKHN0cnVjdCBtc21fa21zICprbXMsIHN0cnVjdCBk
+cm1fYXRvbWljX3N0YXRlICpzdGF0ZSk7Cj4gIAl2b2lkICgqY29tbWl0KShzdHJ1Y3QgbXNtX2tt
+cyAqa21zLCBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpOwo+ICAJdm9pZCAoKmNvbXBs
+ZXRlX2NvbW1pdCkoc3RydWN0IG1zbV9rbXMgKmttcywgc3RydWN0IGRybV9hdG9taWNfc3RhdGUg
+KnN0YXRlKTsKPiAtCS8qIGZ1bmN0aW9ucyB0byB3YWl0IGZvciBhdG9taWMgY29tbWl0IGNvbXBs
+ZXRlZCBvbiBlYWNoIENSVEMgKi8KPiAtCXZvaWQgKCp3YWl0X2Zvcl9jcnRjX2NvbW1pdF9kb25l
+KShzdHJ1Y3QgbXNtX2ttcyAqa21zLAo+IC0JCQkJCXN0cnVjdCBkcm1fY3J0YyAqY3J0Yyk7Cj4g
+Kwl2b2lkICgqd2FpdF9mbHVzaCkoc3RydWN0IG1zbV9rbXMgKmttcywgdW5zaWduZWQgY3J0Y19t
+YXNrKTsKPiArCj4gIAkvKiBnZXQgbXNtX2Zvcm1hdCB3LyBvcHRpb25hbCBmb3JtYXQgbW9kaWZp
+ZXJzIGZyb20gZHJtX21vZGVfZmJfY21kMiAqLwo+ICAJY29uc3Qgc3RydWN0IG1zbV9mb3JtYXQg
+KigqZ2V0X2Zvcm1hdCkoc3RydWN0IG1zbV9rbXMgKmttcywKPiAgCQkJCQljb25zdCB1aW50MzJf
+dCBmb3JtYXQsCj4gQEAgLTk4LDQgKzk3LDggQEAgc3RydWN0IG1zbV9tZHNzIHsKPiAgaW50IG1k
+cDVfbWRzc19pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpOwo+ICBpbnQgZHB1X21kc3NfaW5p
+dChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KTsKPiAgCj4gKyNkZWZpbmUgZm9yX2VhY2hfY3J0Y19t
+YXNrKGRldiwgY3J0YywgY3J0Y19tYXNrKSBcCj4gKwlsaXN0X2Zvcl9lYWNoX2VudHJ5KGNydGMs
+ICYoZGV2KS0+bW9kZV9jb25maWcuY3J0Y19saXN0LCBoZWFkKSBcCgpkcm1fZm9yX2VhY2hfY3J0
+YwoKPiArCQlmb3JfZWFjaF9pZiAoQklUKChjcnRjKS0+aW5kZXgpICYgKGNydGNfbWFzaykpCj4g
+Kwo+ICAjZW5kaWYgLyogX19NU01fS01TX0hfXyAqLwo+IC0tIAo+IDIuMjEuMAo+IAoKLS0gClNl
+YW4gUGF1bCwgU29mdHdhcmUgRW5naW5lZXIsIEdvb2dsZSAvIENocm9taXVtIE9TCl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
