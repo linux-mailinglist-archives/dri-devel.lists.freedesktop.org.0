@@ -1,46 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48619A2941
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2019 23:54:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37595A2957
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2019 00:04:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87B9A8932A;
-	Thu, 29 Aug 2019 21:54:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 932396E221;
+	Thu, 29 Aug 2019 22:04:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2BE118932A
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2019 21:54:41 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 2352C72161; Thu, 29 Aug 2019 21:54:41 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109628] WARNING at dcn10_hw_sequencer.c:868
- dcn10_verify_allow_pstate_change_high()
-Date: Thu, 29 Aug 2019 21:54:41 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: johannes.hirte@datenkhaos.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109628-502-GX1NIYtQss@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109628-502@http.bugs.freedesktop.org/>
-References: <bug-109628-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B393B6E220;
+ Thu, 29 Aug 2019 22:04:04 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id l11so3736205lfk.6;
+ Thu, 29 Aug 2019 15:04:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=qmQAdDRYulUDjSpMspTEPnnb4TRIYFsZQNmhOKS11AU=;
+ b=f/E1XWRmmCt/0UVkDZUc1AJJJRok2ooeG1AQ1EWXZOcVUvgkXIqYlmXRxQ5ZKlXrs9
+ IYS/Yo0qtbZdKcUqP4udoozqWB2fO3/XcViOs9lNX6fjqxrAIOxKwQBGwPUVsevcksBi
+ vKUP44Q5aemKjI1kfk8m8ysDvtRp+dIpnfXAUZdP0vl7WrJrZxoc30tOmstOXROYUoAr
+ upT6bh70iyqlpAIlrAyplEMPu1KoXbzdELpisOYvtxjG9/rlLVjE9AjGQiBYAn4zINT/
+ dFetosJbxU6PqrztwjZ7K+zZMo3LVke9GZ+HVKa8SVJ+PsP84jgdUV+afQisrmIA01ZJ
+ ww2A==
+X-Gm-Message-State: APjAAAXxl9Lm3fbvVdwDqto0VwVCAUyK8Y0dvfgYw+M3s+VSjeW+2+fz
+ ACT7ial5gFaXN79bJtiXXTE=
+X-Google-Smtp-Source: APXvYqx5Rzds4epSb/bOTOocRGoYxAjXegirF5KGbnGG+NfeQNJOyfAEBiAXvG0M0ytaQNmDGCVGug==
+X-Received: by 2002:a19:6a12:: with SMTP id u18mr7345008lfu.133.1567116242773; 
+ Thu, 29 Aug 2019 15:04:02 -0700 (PDT)
+Received: from localhost.localdomain ([178.214.243.78])
+ by smtp.gmail.com with ESMTPSA id e21sm575402lfj.10.2019.08.29.15.04.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Aug 2019 15:04:02 -0700 (PDT)
+Message-ID: <a07be36905f145f2fb07beee73f9d3805c285022.camel@gmail.com>
+Subject: Re: gnome-shell stuck because of amdgpu driver [5.3 RC5]
+From: mikhail.v.gavrilov@gmail.com
+To: Daniel Vetter <daniel@ffwll.ch>, Hillf Danton <hdanton@sina.com>
+Date: Fri, 30 Aug 2019 03:03:58 +0500
+In-Reply-To: <20190826092408.GA2112@phenom.ffwll.local>
+References: <20190825141305.13984-1-hdanton@sina.com>
+ <20190826092408.GA2112@phenom.ffwll.local>
+User-Agent: Evolution 3.33.91 (3.33.91-1.fc32) 
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=qmQAdDRYulUDjSpMspTEPnnb4TRIYFsZQNmhOKS11AU=;
+ b=olk4Y4iZag61wP1hPA3Br9s19D+SI48mrDe97epo/a7ja3nmIUJ1UW8dDTQEudnCot
+ 1rnKEtiyP81Axb4ndf5Ni20lVk7FBuW1LOu7/V5wvu5s8axkfpD2k8Its1nqKDucVCrS
+ S8yMPZ8Nw6GPrdw3UkBvomVkp1MQw1CgvQh8WBMnqa5qO0lAfXIzXAi50aOm1UCbg2ai
+ GJ+LzdGBPdyjQ5Eb8a60J9SAQ2dB5ZNFSuvTeLhDZSArZX6uf03nNmd4KBwPQli0UcBZ
+ +8Ce2PdTca8oaDWDIc6NF2csNQVP0JO+LkIGg0U7Q/tgFjsOMYp40upVHb1DBhO4Ok42
+ ZRNA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,273 +68,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1661509512=="
+Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1661509512==
-Content-Type: multipart/alternative; boundary="15671156810.Ef8CBCA3.10547"
-Content-Transfer-Encoding: 7bit
-
-
---15671156810.Ef8CBCA3.10547
-Date: Thu, 29 Aug 2019 21:54:41 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109628
-
---- Comment #6 from Johannes Hirte <johannes.hirte@datenkhaos.de> ---
-seeing similar with a Dell Latitude 5495 with AMD Ryzen 5 PRO 2500U:
-
-kernel is 5.2.10
-
-[ 1795.534761] ------------[ cut here ]------------
-[ 1795.534791] WARNING: CPU: 7 PID: 765 at
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_hw_sequencer.c:854
-dcn10_verify_allow_pstate_change_high.cold+0xc/0x229
-[ 1795.534793] Modules linked in: uas usb_storage algif_aead ecb algif_skci=
-pher
-cmac sha512_ssse3 sha512_generic md4 algif_hash af_alg btusb btrtl btbcm
-btintel bluetooth ecdh_generic ecc hid_logitech_hidpp uvcvideo
-videobuf2_vmalloc videobuf2_memops snd_hda_codec_generic snd_hda_codec_hdmi
-videobuf2_v4l2 videodev videobuf2_common snd_hda_intel snd_hda_codec snd_hw=
-dep
-snd_hda_core kvm_amd snd_pcm ccp snd_timer snd kvm soundcore irqbypass
-crc32_pclmul rtsx_pci_sdmmc mmc_core wmi_bmof dell_wmi joydev dell_laptop
-aesni_intel ledtrig_audio dell_smbios ath10k_pci dell_wmi_descriptor aes_x8=
-6_64
-crypto_simd dcdbas ath10k_core cryptd glue_helper ath mac80211 psmouse
-i2c_piix4 k10temp cfg80211 tg3 ucsi_acpi typec_ucsi libphy rtsx_pci typec w=
-mi
-dell_rbtn dell_smo8800 rfkill i2c_amd_mp2_plat i2c_amd_mp2_pci hid_logitech=
-_dj
-pkcs8_key_parser xhci_pci xhci_hcd pinctrl_amd i2c_hid efivarfs autofs4
-[ 1795.534838] CPU: 7 PID: 765 Comm: Xorg Not tainted 5.2.10 #2
-[ 1795.534841] Hardware name: Dell Inc. Latitude 5495/0G9F45, BIOS 1.2.14
-05/29/2019
-[ 1795.534844] RIP: 0010:dcn10_verify_allow_pstate_change_high.cold+0xc/0x2=
-29
-[ 1795.534847] Code: 83 c8 ff e9 9e b6 ff ff 48 c7 c7 30 8a 72 af e8 61 8a =
-95
-ff 0f 0b 83 c8 ff e9 88 b6 ff ff 48 c7 c7 30 8a 72 af e8 4b 8a 95 ff <0f> 0=
-b 80
-bb 93 01 00 00 00 75 05 e9 f2 db ff ff 48 8b 83 80 02 00
-[ 1795.534849] RSP: 0018:ffffac7ec25578c8 EFLAGS: 00010246
-[ 1795.534851] RAX: 0000000000000024 RBX: ffff8be1235ef000 RCX:
-0000000000000000
-[ 1795.534852] RDX: 0000000000000000 RSI: 0000000000000096 RDI:
-00000000ffffffff
-[ 1795.534855] RBP: ffff8be1235ef000 R08: 000000000000043a R09:
-0000000000000033
-[ 1795.534856] R10: ffffac7ec2557788 R11: ffffac7ec255778d R12:
-ffff8be1260d7c00
-[ 1795.534858] R13: 0000000000000002 R14: ffff8be1235ef000 R15:
-ffff8bdf02588000
-[ 1795.534860] FS:  00007f06ae67fd80(0000) GS:ffff8be127fc0000(0000)
-knlGS:0000000000000000
-[ 1795.534862] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 1795.534864] CR2: 00007f6fb5fe8b08 CR3: 00000002180a0000 CR4:
-00000000003406e0
-[ 1795.534868] Call Trace:
-[ 1795.534880]  dcn10_prepare_bandwidth+0xff/0x120
-[ 1795.534884]  dc_commit_updates_for_stream+0xb02/0xc00
-[ 1795.534888]  amdgpu_dm_atomic_commit_tail+0xa9b/0x1970
-[ 1795.534897]  ? commit_tail+0x37/0x60
-[ 1795.534903]  commit_tail+0x37/0x60
-[ 1795.534911]  drm_atomic_helper_commit+0x103/0x110
-[ 1795.534919]  drm_mode_obj_set_property_ioctl+0x121/0x2b1
-[ 1795.534922]  ? drm_mode_obj_find_prop_id+0x40/0x40
-[ 1795.534925]  drm_ioctl_kernel+0xad/0xf0
-[ 1795.534928]  drm_ioctl+0x1e6/0x33f
-[ 1795.534930]  ? drm_mode_obj_find_prop_id+0x40/0x40
-[ 1795.534934]  amdgpu_drm_ioctl+0x44/0x80
-[ 1795.534938]  do_vfs_ioctl+0x428/0x6b0
-[ 1795.534941]  ? __fget+0x6c/0xa0
-[ 1795.534944]  ksys_ioctl+0x59/0x90
-[ 1795.534946]  __x64_sys_ioctl+0x11/0x20
-[ 1795.534949]  do_syscall_64+0x54/0x1c0
-[ 1795.534952]  ? page_fault+0x8/0x30
-[ 1795.534954]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[ 1795.534957] RIP: 0033:0x7f06aed32dc7
-[ 1795.534960] Code: 00 00 00 75 0c 48 c7 c0 ff ff ff ff 48 83 c4 18 c3 e8 =
-7d
-d9 01 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 b8 10 00 00 00 0f 05 <48> 3=
-d 01
-f0 ff ff 73 01 c3 48 8b 0d 99 00 0d 00 f7 d8 64 89 01 48
-[ 1795.534962] RSP: 002b:00007ffcf32eaf68 EFLAGS: 00000246 ORIG_RAX:
-0000000000000010
-[ 1795.534964] RAX: ffffffffffffffda RBX: 00007ffcf32eafa0 RCX:
-00007f06aed32dc7
-[ 1795.534965] RDX: 00007ffcf32eafa0 RSI: 00000000c01864ba RDI:
-000000000000000c
-[ 1795.534967] RBP: 00000000c01864ba R08: 0000000000000052 R09:
-00000000cccccccc
-[ 1795.534968] R10: 00005598b65824c4 R11: 0000000000000246 R12:
-00005598b5438ed0
-[ 1795.534969] R13: 000000000000000c R14: 0000000000000003 R15:
-0000000000000fff
-[ 1795.534972] ---[ end trace 2954f837eadb53a4 ]---
-
-
-Do you need more infos?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15671156810.Ef8CBCA3.10547
-Date: Thu, 29 Aug 2019 21:54:41 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - WARNING at dcn10_hw_sequencer.c:868 dcn10_verify_allow_ps=
-tate_change_high()"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109628#c6">Commen=
-t # 6</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - WARNING at dcn10_hw_sequencer.c:868 dcn10_verify_allow_ps=
-tate_change_high()"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109628">bug 10962=
-8</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-johannes.hirte&#64;datenkhaos.de" title=3D"Johannes Hirte &lt;johannes.hirt=
-e&#64;datenkhaos.de&gt;"> <span class=3D"fn">Johannes Hirte</span></a>
-</span></b>
-        <pre>seeing similar with a Dell Latitude 5495 with AMD Ryzen 5 PRO =
-2500U:
-
-kernel is 5.2.10
-
-[ 1795.534761] ------------[ cut here ]------------
-[ 1795.534791] WARNING: CPU: 7 PID: 765 at
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_hw_sequencer.c:854
-dcn10_verify_allow_pstate_change_high.cold+0xc/0x229
-[ 1795.534793] Modules linked in: uas usb_storage algif_aead ecb algif_skci=
-pher
-cmac sha512_ssse3 sha512_generic md4 algif_hash af_alg btusb btrtl btbcm
-btintel bluetooth ecdh_generic ecc hid_logitech_hidpp uvcvideo
-videobuf2_vmalloc videobuf2_memops snd_hda_codec_generic snd_hda_codec_hdmi
-videobuf2_v4l2 videodev videobuf2_common snd_hda_intel snd_hda_codec snd_hw=
-dep
-snd_hda_core kvm_amd snd_pcm ccp snd_timer snd kvm soundcore irqbypass
-crc32_pclmul rtsx_pci_sdmmc mmc_core wmi_bmof dell_wmi joydev dell_laptop
-aesni_intel ledtrig_audio dell_smbios ath10k_pci dell_wmi_descriptor aes_x8=
-6_64
-crypto_simd dcdbas ath10k_core cryptd glue_helper ath mac80211 psmouse
-i2c_piix4 k10temp cfg80211 tg3 ucsi_acpi typec_ucsi libphy rtsx_pci typec w=
-mi
-dell_rbtn dell_smo8800 rfkill i2c_amd_mp2_plat i2c_amd_mp2_pci hid_logitech=
-_dj
-pkcs8_key_parser xhci_pci xhci_hcd pinctrl_amd i2c_hid efivarfs autofs4
-[ 1795.534838] CPU: 7 PID: 765 Comm: Xorg Not tainted 5.2.10 #2
-[ 1795.534841] Hardware name: Dell Inc. Latitude 5495/0G9F45, BIOS 1.2.14
-05/29/2019
-[ 1795.534844] RIP: 0010:dcn10_verify_allow_pstate_change_high.cold+0xc/0x2=
-29
-[ 1795.534847] Code: 83 c8 ff e9 9e b6 ff ff 48 c7 c7 30 8a 72 af e8 61 8a =
-95
-ff 0f 0b 83 c8 ff e9 88 b6 ff ff 48 c7 c7 30 8a 72 af e8 4b 8a 95 ff &lt;0f=
-&gt; 0b 80
-bb 93 01 00 00 00 75 05 e9 f2 db ff ff 48 8b 83 80 02 00
-[ 1795.534849] RSP: 0018:ffffac7ec25578c8 EFLAGS: 00010246
-[ 1795.534851] RAX: 0000000000000024 RBX: ffff8be1235ef000 RCX:
-0000000000000000
-[ 1795.534852] RDX: 0000000000000000 RSI: 0000000000000096 RDI:
-00000000ffffffff
-[ 1795.534855] RBP: ffff8be1235ef000 R08: 000000000000043a R09:
-0000000000000033
-[ 1795.534856] R10: ffffac7ec2557788 R11: ffffac7ec255778d R12:
-ffff8be1260d7c00
-[ 1795.534858] R13: 0000000000000002 R14: ffff8be1235ef000 R15:
-ffff8bdf02588000
-[ 1795.534860] FS:  00007f06ae67fd80(0000) GS:ffff8be127fc0000(0000)
-knlGS:0000000000000000
-[ 1795.534862] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 1795.534864] CR2: 00007f6fb5fe8b08 CR3: 00000002180a0000 CR4:
-00000000003406e0
-[ 1795.534868] Call Trace:
-[ 1795.534880]  dcn10_prepare_bandwidth+0xff/0x120
-[ 1795.534884]  dc_commit_updates_for_stream+0xb02/0xc00
-[ 1795.534888]  amdgpu_dm_atomic_commit_tail+0xa9b/0x1970
-[ 1795.534897]  ? commit_tail+0x37/0x60
-[ 1795.534903]  commit_tail+0x37/0x60
-[ 1795.534911]  drm_atomic_helper_commit+0x103/0x110
-[ 1795.534919]  drm_mode_obj_set_property_ioctl+0x121/0x2b1
-[ 1795.534922]  ? drm_mode_obj_find_prop_id+0x40/0x40
-[ 1795.534925]  drm_ioctl_kernel+0xad/0xf0
-[ 1795.534928]  drm_ioctl+0x1e6/0x33f
-[ 1795.534930]  ? drm_mode_obj_find_prop_id+0x40/0x40
-[ 1795.534934]  amdgpu_drm_ioctl+0x44/0x80
-[ 1795.534938]  do_vfs_ioctl+0x428/0x6b0
-[ 1795.534941]  ? __fget+0x6c/0xa0
-[ 1795.534944]  ksys_ioctl+0x59/0x90
-[ 1795.534946]  __x64_sys_ioctl+0x11/0x20
-[ 1795.534949]  do_syscall_64+0x54/0x1c0
-[ 1795.534952]  ? page_fault+0x8/0x30
-[ 1795.534954]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[ 1795.534957] RIP: 0033:0x7f06aed32dc7
-[ 1795.534960] Code: 00 00 00 75 0c 48 c7 c0 ff ff ff ff 48 83 c4 18 c3 e8 =
-7d
-d9 01 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 b8 10 00 00 00 0f 05 &lt;48=
-&gt; 3d 01
-f0 ff ff 73 01 c3 48 8b 0d 99 00 0d 00 f7 d8 64 89 01 48
-[ 1795.534962] RSP: 002b:00007ffcf32eaf68 EFLAGS: 00000246 ORIG_RAX:
-0000000000000010
-[ 1795.534964] RAX: ffffffffffffffda RBX: 00007ffcf32eafa0 RCX:
-00007f06aed32dc7
-[ 1795.534965] RDX: 00007ffcf32eafa0 RSI: 00000000c01864ba RDI:
-000000000000000c
-[ 1795.534967] RBP: 00000000c01864ba R08: 0000000000000052 R09:
-00000000cccccccc
-[ 1795.534968] R10: 00005598b65824c4 R11: 0000000000000246 R12:
-00005598b5438ed0
-[ 1795.534969] R13: 000000000000000c R14: 0000000000000003 R15:
-0000000000000fff
-[ 1795.534972] ---[ end trace 2954f837eadb53a4 ]---
-
-
-Do you need more infos?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15671156810.Ef8CBCA3.10547--
-
---===============1661509512==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1661509512==--
+T24gU3VuLCBBdWcgMjUsIDIwMTkgYXQgMTA6MTM6MDVQTSArMDgwMCwgSGlsbGYgRGFudG9uIHdy
+b3RlOgo+IENhbiB3ZSB0cnkgdG8gYWRkIHRoZSBmYWxsYmFjayB0aW1lciBtYW51YWxseT8KPiAK
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZmVuY2UuYwo+ICsrKyBi
+L2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9mZW5jZS5jCj4gQEAgLTMyMiw2ICsz
+MjIsMTAgQEAgaW50IGFtZGdwdV9mZW5jZV93YWl0X2VtcHR5KHN0cnVjdCBhbWRncAo+ICAgICAg
+ICAgfQo+ICAgICAgICAgcmN1X3JlYWRfdW5sb2NrKCk7Cj4gIAo+ICsgICAgICAgaWYgKCF0aW1l
+cl9wZW5kaW5nKCZyaW5nLT5mZW5jZV9kcnYuZmFsbGJhY2tfdGltZXIpKQo+ICsgICAgICAgICAg
+ICAgICBtb2RfdGltZXIoJnJpbmctPmZlbmNlX2Rydi5mYWxsYmFja190aW1lciwKPiArICAgICAg
+ICAgICAgICAgICAgICAgICBqaWZmaWVzICsgKEFNREdQVV9GRU5DRV9KSUZGSUVTX1RJTUVPVVQg
+PDwKPiAxKSk7Cj4gKwo+ICAgICAgICAgciA9IGRtYV9mZW5jZV93YWl0KGZlbmNlLCBmYWxzZSk7
+Cj4gICAgICAgICBkbWFfZmVuY2VfcHV0KGZlbmNlKTsKPiAgICAgICAgIHJldHVybiByOwo+IC0t
+Cj4gCj4gT3Igc2ltcGx5IHdhaXQgd2l0aCBhbiBlYXIgb24gc2lnbmFsIGFuZCB0aW1lb3V0IGlm
+IGFkZGluZyB0aW1lcgo+IHNlZW1zIHRvIGdvIGEgYml0IHRvbyBmYXI/Cj4gCj4gLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2ZlbmNlLmMKPiArKysgYi9kcml2ZXJzL2dw
+dS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZmVuY2UuYwo+IEBAIC0zMjIsNyArMzIyLDEyIEBAIGlu
+dCBhbWRncHVfZmVuY2Vfd2FpdF9lbXB0eShzdHJ1Y3QgYW1kZ3AKPiAgICAgICAgIH0KPiAgICAg
+ICAgIHJjdV9yZWFkX3VubG9jaygpOwo+ICAKPiAtICAgICAgIHIgPSBkbWFfZmVuY2Vfd2FpdChm
+ZW5jZSwgZmFsc2UpOwo+ICsgICAgICAgaWYgKDAgPCBkbWFfZmVuY2Vfd2FpdF90aW1lb3V0KGZl
+bmNlLCB0cnVlLAo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQU1ER1BVX0ZFTkNF
+X0pJRkZJRVNfVElNRU9VVCArCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAoQU1E
+R1BVX0ZFTkNFX0pJRkZJRVNfVElNRU9VVCA+PiAzKSkpCj4gKyAgICAgICAgICAgICAgIHIgPSAw
+Owo+ICsgICAgICAgZWxzZQo+ICsgICAgICAgICAgICAgICByID0gLUVJTlZBTDsKPiAgICAgICAg
+IGRtYV9mZW5jZV9wdXQoZmVuY2UpOwo+ICAgICAgICAgcmV0dXJuIHI7Cj4gIH0KCkkgdGVzdGVk
+IGJvdGggcGF0Y2hlcyBvbiB0b3Agb2YgNS4zIFJDNi4gRWFjaCBwYXRjaCBJIHdhcyB0ZXN0ZWQg
+bW9yZQp0aGFuIDI0IGhvdXJzIGFuZCBJIGRvbid0IHNlZW4gYW55IHJlZ3Jlc3Npb25zIG9yIHBy
+b2JsZW1zIHdpdGggdGhlbS4KCgpPbiBNb24sIDIwMTktMDgtMjYgYXQgMTE6MjQgKzAyMDAsIERh
+bmllbCBWZXR0ZXIgd3JvdGU6Cj4gCj4gVGhpcyB3aWxsIHBhcGVyIG92ZXIgdGhlIGlzc3VlLCBi
+dXQgd29uJ3QgZml4IGl0LiBkbWFfZmVuY2VzIGhhdmUgdG8KPiBjb21wbGV0ZSwgYXQgbGVhc3Qg
+Zm9yIG5vcm1hbCBvcGVyYXRpb25zLCBvdGhlcndpc2UgeW91ciBkZXNrdG9wIHdpbGwKPiBzdGFy
+dCBmZWVsaW5nIGxpa2UgdGhlIGdwdSBoYW5ncyBhbGwgdGhlIHRpbWUuCj4gCj4gSSB0aGluayB3
+b3VsZCBiZSBtdWNoIG1vcmUgaW50ZXJlc3RpbmcgdG8gZHVtcCB3aGljaCBmZW5jZSBpc24ndAo+
+IGNvbXBsZXRpbmcgaGVyZSBpbiB0aW1lLCBpLmUuIG5vdCBqdXN0IHRoZSB0aW1lb3V0LCBidXQg
+bG90cyBvZiBkZWJ1Zwo+IHByaW50a3MuCj4gLURhbmllbAoKQXMgSSBhbSB1bmRlcnN0b29kIG5v
+bmUgb2YgdGhlc2UgcGF0Y2hlcyBjb3VsZG4ndCBiZSBtZXJnZWQgYmVjYXVzZQp0aGV5IGRvIG5v
+dCBmaXggdGhlIHJvb3QgY2F1c2UgdGhleSBlbGltaW5hdGUgb25seSB0aGUgY29uc2VxdWVuY2Vz
+PwpFbGltaW5hdGluZyBjb25zZXF1ZW5jZXMgaGFzIGFueSBuZWdhdGl2ZSBlZmZlY3RzPyBBbmQg
+d2Ugd2lsbCBuZXZlcgprbm93IHRoZSByb290IGNhdXNlIGJlY2F1c2Ugbm90IGhhdmluZyBlbm91
+Z2ggZGVidWdnaW5nIGluZm9ybWF0aW9uLgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVs
