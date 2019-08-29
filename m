@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70145A1A81
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2019 14:54:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB6B0A1A9F
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2019 15:03:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D0EC6E0C3;
-	Thu, 29 Aug 2019 12:54:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 860766E0CA;
+	Thu, 29 Aug 2019 13:03:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9FFFD6E0C3
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2019 12:54:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id D08036E0D2
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2019 13:03:52 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9691372161; Thu, 29 Aug 2019 12:54:05 +0000 (UTC)
+ id CCDAA72161; Thu, 29 Aug 2019 13:03:52 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
  when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
-Date: Thu, 29 Aug 2019 12:54:05 +0000
+Date: Thu, 29 Aug 2019 13:03:53 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -28,14 +28,14 @@ X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tempel.julian@gmail.com
+X-Bugzilla-Who: nicholas.kazlauskas@amd.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: high
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110659-502-vRxwQ0xk1B@http.bugs.freedesktop.org/>
+Message-ID: <bug-110659-502-CEd3CpXVhp@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
 References: <bug-110659-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1906370956=="
+Content-Type: multipart/mixed; boundary="===============1579761091=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1906370956==
-Content-Type: multipart/alternative; boundary="15670832450.e0eAdCd0F.4893"
+--===============1579761091==
+Content-Type: multipart/alternative; boundary="15670838321.6d8fb7.6600"
 Content-Transfer-Encoding: 7bit
 
 
---15670832450.e0eAdCd0F.4893
-Date: Thu, 29 Aug 2019 12:54:05 +0000
+--15670838321.6d8fb7.6600
+Date: Thu, 29 Aug 2019 13:03:52 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,15 +73,21 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
 
---- Comment #50 from tempel.julian@gmail.com ---
-Are we already out of options for debug output? :)
+--- Comment #51 from Nicholas Kazlauskas <nicholas.kazlauskas@amd.com> ---
+(In reply to tempel.julian from comment #50)
+> Are we already out of options for debug output? :)
+
+Might help to see what IOCTLs are being specifically called by userspace. I
+think you can enable that log with:
+
+echo 0x3f > /sys/module/drm/parameters/debug
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15670832450.e0eAdCd0F.4893
-Date: Thu, 29 Aug 2019 12:54:05 +0000
+--15670838321.6d8fb7.6600
+Date: Thu, 29 Aug 2019 13:03:52 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -99,8 +105,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
  running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c50">Comme=
-nt # 50</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c51">Comme=
+nt # 51</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
@@ -108,10 +114,19 @@ nt # 50</a>
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
 9</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
-ulian&#64;gmail.com</a>
+nicholas.kazlauskas&#64;amd.com" title=3D"Nicholas Kazlauskas &lt;nicholas.=
+kazlauskas&#64;amd.com&gt;"> <span class=3D"fn">Nicholas Kazlauskas</span><=
+/a>
 </span></b>
-        <pre>Are we already out of options for debug output? :)</pre>
+        <pre>(In reply to tempel.julian from <a href=3D"show_bug.cgi?id=3D1=
+10659#c50">comment #50</a>)
+<span class=3D"quote">&gt; Are we already out of options for debug output? =
+:)</span >
+
+Might help to see what IOCTLs are being specifically called by userspace. I
+think you can enable that log with:
+
+echo 0x3f &gt; /sys/module/drm/parameters/debug</pre>
         </div>
       </p>
 
@@ -125,9 +140,9 @@ ulian&#64;gmail.com</a>
     </body>
 </html>=
 
---15670832450.e0eAdCd0F.4893--
+--15670838321.6d8fb7.6600--
 
---===============1906370956==
+--===============1579761091==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -137,4 +152,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1906370956==--
+--===============1579761091==--
