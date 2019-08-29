@@ -1,46 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9630CA16C3
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2019 12:51:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDE0BA16BD
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2019 12:50:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7528F6E0A0;
-	Thu, 29 Aug 2019 10:51:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BB286E0A2;
+	Thu, 29 Aug 2019 10:50:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
- [209.85.210.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 360396E0A0
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2019 10:51:01 +0000 (UTC)
-Received: by mail-ot1-f66.google.com with SMTP id c7so2977158otp.1
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2019 03:51:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0gb1RksLZCdZN7Gqwbk2B2Bw8bW0XoBsFuzP7b4DZug=;
- b=NCIxaT82VrnipO7BCtS79UTBRVg93PoMkpS3KVUEekHNczgeoPcwnckUCZovrOY7ze
- Wc7u0lBp8pU1NGDFeaRPYxHG5NWdVDc3GUD73LFOuzW4UlOYG/uAxw/NtMFVuyy/qsJl
- NRnXiO8Pv2NMCZumk9QXFEnQ0xlDw1VLa0svxJYSGZhRA6z/jN/4Ku086BSlqfU2FNVC
- jIYXF5p2bTZ8quDWsdI9avNRNySO/2F2Y8hD9XSMt6Go29r9LnUzIg11df4KuCaxqThR
- e2iErQuVEM7eVghK3+e19jjz7+z/XrLL9VVkEH3X430Diqd3RhNRnGXXC7tYtvyBQUhh
- nbxw==
-X-Gm-Message-State: APjAAAUl2Um5W5xjlismWMqVMSMJKF1y3m+M9rEBdBT7ciFQU49ACLIN
- IGbL4UvjgPQWhRkw0VCzue/hRwiA8cDSBa8mxeI=
-X-Google-Smtp-Source: APXvYqwIAhcA/nWCNgJup5gdGLXZIeUPRMQV/UuyUh16eWUF27QHCqA90ZmP5kXNe/Ui1iwCsoSRaWrB2EecdmPsd+k=
-X-Received: by 2002:a9d:68c5:: with SMTP id i5mr7124507oto.250.1567075860475; 
- Thu, 29 Aug 2019 03:51:00 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5693B6E0BC
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2019 10:50:52 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 520D572161; Thu, 29 Aug 2019 10:50:52 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110865] Rx480 consumes 20w more power in idle than under Windows
+Date: Thu, 29 Aug 2019 10:50:52 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: enhancement
+X-Bugzilla-Who: mwolf@adiumentum.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110865-502-kKH5h5i0M0@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110865-502@http.bugs.freedesktop.org/>
+References: <bug-110865-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <1567074107-4899-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1567074107-4899-3-git-send-email-fabrizio.castro@bp.renesas.com>
-In-Reply-To: <1567074107-4899-3-git-send-email-fabrizio.castro@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 29 Aug 2019 12:50:49 +0200
-Message-ID: <CAMuHMdW7asYJGC2+c-4=a6006K2WMjEAAigBLA+MTaFip03R+Q@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: Add HiHope RZ/G2M board with
- idk-1110wr display
-To: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,46 +52,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Simon Horman <horms@verge.net.au>,
- Chris Paterson <Chris.Paterson2@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Biju Das <biju.das@bp.renesas.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>, ebiharaml@si-linux.co.jp,
- Thierry Reding <thierry.reding@gmail.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, xu_shunji@hoperun.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0628196784=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRmFicml6aW8sCgpPbiBUaHUsIEF1ZyAyOSwgMjAxOSBhdCAxMjoyMiBQTSBGYWJyaXppbyBD
-YXN0cm8KPGZhYnJpemlvLmNhc3Ryb0BicC5yZW5lc2FzLmNvbT4gd3JvdGU6Cj4gVGhlIEhpSG9w
-ZSBSWi9HMk0gaXMgYWR2ZXJ0aXNlZCBhcyBjb21wYXRpYmxlIHdpdGggcGFuZWwgaWRrLTExMTB3
-cgo+IGZyb20gQWR2YW50ZWNoLCBob3dldmVyIHRoZSBwYW5lbCBpc24ndCBzb2xkIGFsb25nc2lk
-ZSB0aGUgYm9hcmQuCj4gQSBuZXcgZHRzLCBhZGRpbmcgZXZlcnl0aGluZyB0aGF0J3MgcmVxdWly
-ZWQgdG8gZ2V0IHRoZSBwYW5lbCB0bwo+IHdvcmsgdGhlIEhpSG9wZSBSWi9HMk0sIGlzIHRoZSBt
-b3N0IGNvbnZlbmllbnQgd2F5IHRvIHN1cHBvcnQgdGhlCj4gSGlIb3BlIFJaL0cyTSB3aGVuIGl0
-J3MgY29ubmVjdGVkIHRvIHRoZSBpZGstMTExMHdyLgo+Cj4gU2lnbmVkLW9mZi1ieTogRmFicml6
-aW8gQ2FzdHJvIDxmYWJyaXppby5jYXN0cm9AYnAucmVuZXNhcy5jb20+CgpUaGFua3MgZm9yIHlv
-dXIgcGF0Y2ghCgo+IC0tLSAvZGV2L251bGwKPiArKysgYi9hcmNoL2FybTY0L2Jvb3QvZHRzL3Jl
-bmVzYXMvcjhhNzc0YTEtaGlob3BlLXJ6ZzJtLWV4LWlkay0xMTEwd3IuZHRzCgo+ICsmZ3BpbzEg
-ewo+ICsgICAgICAgLyoKPiArICAgICAgICAqIFdoZW4gR1AxXzIwIGlzIExPVyBMVkRTMCBpcyBj
-b25uZWN0ZWQgdG8gdGhlIExWRFMgY29ubmVjdG9yCj4gKyAgICAgICAgKiBXaGVuIEdQMV8yMCBp
-cyBISUdIIExWRFMwIGlzIGNvbm5lY3RlZCB0byB0aGUgTFQ4OTE4TAo+ICsgICAgICAgICovCj4g
-KyAgICAgICBsdmRzLWNvbm5lY3Rvci1lbi1ncGlvewoKTWlzc2luZyBzcGFjZSBiZWZvcmUgY3Vy
-bHkgYnJhY2UuCgpHcntvZXRqZSxlZXRpbmd9cywKCiAgICAgICAgICAgICAgICAgICAgICAgIEdl
-ZXJ0CgotLSAKR2VlcnQgVXl0dGVyaG9ldmVuIC0tIFRoZXJlJ3MgbG90cyBvZiBMaW51eCBiZXlv
-bmQgaWEzMiAtLSBnZWVydEBsaW51eC1tNjhrLm9yZwoKSW4gcGVyc29uYWwgY29udmVyc2F0aW9u
-cyB3aXRoIHRlY2huaWNhbCBwZW9wbGUsIEkgY2FsbCBteXNlbGYgYSBoYWNrZXIuIEJ1dAp3aGVu
-IEknbSB0YWxraW5nIHRvIGpvdXJuYWxpc3RzIEkganVzdCBzYXkgInByb2dyYW1tZXIiIG9yIHNv
-bWV0aGluZyBsaWtlIHRoYXQuCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLS0gTGlu
-dXMgVG9ydmFsZHMKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0628196784==
+Content-Type: multipart/alternative; boundary="15670758522.f77D.14769"
+Content-Transfer-Encoding: 7bit
+
+
+--15670758522.f77D.14769
+Date: Thu, 29 Aug 2019 10:50:52 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110865
+
+--- Comment #29 from Martin <mwolf@adiumentum.com> ---
+@Alex Deucher
+Is there a fix for the graphical glitches I experience?=20
+They seem to be similar to the glitches I get when I enable overclocking wi=
+th
+amdgpu.ppfeaturemask=3D0xffffffff
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15670758522.f77D.14769
+Date: Thu, 29 Aug 2019 10:50:52 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865#c29">Comme=
+nt # 29</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865">bug 11086=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+mwolf&#64;adiumentum.com" title=3D"Martin &lt;mwolf&#64;adiumentum.com&gt;"=
+> <span class=3D"fn">Martin</span></a>
+</span></b>
+        <pre>&#64;Alex Deucher
+Is there a fix for the graphical glitches I experience?=20
+They seem to be similar to the glitches I get when I enable overclocking wi=
+th
+amdgpu.ppfeaturemask=3D0xffffffff</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15670758522.f77D.14769--
+
+--===============0628196784==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0628196784==--
