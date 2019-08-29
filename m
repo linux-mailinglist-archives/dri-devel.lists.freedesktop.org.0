@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC266A1B51
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2019 15:23:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8674BA1B5D
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2019 15:26:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C89D6E0C1;
-	Thu, 29 Aug 2019 13:23:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 704726E10E;
+	Thu, 29 Aug 2019 13:26:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 70F856E0C1
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2019 13:23:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 126E86E10B
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2019 13:26:37 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 685BE72161; Thu, 29 Aug 2019 13:23:38 +0000 (UTC)
+ id 0F0D572161; Thu, 29 Aug 2019 13:26:37 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
  when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
-Date: Thu, 29 Aug 2019 13:23:38 +0000
+Date: Thu, 29 Aug 2019 13:26:37 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,8 +34,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: high
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110659-502-HyU9EgaAFy@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110659-502-MQb16G6seN@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
 References: <bug-110659-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1041267974=="
+Content-Type: multipart/mixed; boundary="===============1845880200=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1041267974==
-Content-Type: multipart/alternative; boundary="15670850180.055Bc3a4.10161"
+--===============1845880200==
+Content-Type: multipart/alternative; boundary="15670851970.9bD99d.11655"
 Content-Transfer-Encoding: 7bit
 
 
---15670850180.055Bc3a4.10161
-Date: Thu, 29 Aug 2019 13:23:38 +0000
+--15670851970.9bD99d.11655
+Date: Thu, 29 Aug 2019 13:26:37 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,17 +73,15 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
 
---- Comment #52 from tempel.julian@gmail.com ---
-Created attachment 145207
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145207&action=3Dedit
-dmesg ioctl log
+--- Comment #53 from tempel.julian@gmail.com ---
+Hm, it seems that maximum log size isn't enough for even one whole second?
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15670850180.055Bc3a4.10161
-Date: Thu, 29 Aug 2019 13:23:38 +0000
+--15670851970.9bD99d.11655
+Date: Thu, 29 Aug 2019 13:26:37 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -101,8 +99,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
  running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c52">Comme=
-nt # 52</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c53">Comme=
+nt # 53</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
@@ -113,11 +111,8 @@ nt # 52</a>
 tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
 ulian&#64;gmail.com</a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145207=
-" name=3D"attach_145207" title=3D"dmesg ioctl log">attachment 145207</a> <a=
- href=3D"attachment.cgi?id=3D145207&amp;action=3Dedit" title=3D"dmesg ioctl=
- log">[details]</a></span>
-dmesg ioctl log</pre>
+        <pre>Hm, it seems that maximum log size isn't enough for even one w=
+hole second?</pre>
         </div>
       </p>
 
@@ -131,9 +126,9 @@ dmesg ioctl log</pre>
     </body>
 </html>=
 
---15670850180.055Bc3a4.10161--
+--15670851970.9bD99d.11655--
 
---===============1041267974==
+--===============1845880200==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -143,4 +138,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1041267974==--
+--===============1845880200==--
