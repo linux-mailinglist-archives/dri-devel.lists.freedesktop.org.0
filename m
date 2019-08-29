@@ -1,47 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACDE3A1BBA
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2019 15:44:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0AC0A1BBC
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2019 15:44:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6691C89247;
-	Thu, 29 Aug 2019 13:44:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9230989260;
+	Thu, 29 Aug 2019 13:44:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EC3D89247
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2019 13:44:41 +0000 (UTC)
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
- [209.85.222.180])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5578A2342C
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2019 13:44:41 +0000 (UTC)
-Received: by mail-qk1-f180.google.com with SMTP id i78so1487560qke.11
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2019 06:44:41 -0700 (PDT)
-X-Gm-Message-State: APjAAAWAsqBwQZoBvi2Dwi0xOwpKEKEvnq1TTWSzWxuM8djPbIHqfgS7
- ZfU2a38/J6MNlQr9/gxI5XSHIQS35gHemMcv4A==
-X-Google-Smtp-Source: APXvYqxSE0YabCZbTGJEMY6IRxRqXQltQGwtj+w4DSTunRzVOnwmn8VB0XQkhKwOYkeqn97wvdZAYXR3bCf8AGd6bR0=
-X-Received: by 2002:a37:4941:: with SMTP id w62mr8752360qka.119.1567086280340; 
- Thu, 29 Aug 2019 06:44:40 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CD8DF89258
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2019 13:44:44 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id C2BC372161; Thu, 29 Aug 2019 13:44:44 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110865] Rx480 consumes 20w more power in idle than under Windows
+Date: Thu, 29 Aug 2019 13:44:45 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: enhancement
+X-Bugzilla-Who: mwolf@adiumentum.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110865-502-u45E5yX7Cp@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110865-502@http.bugs.freedesktop.org/>
+References: <bug-110865-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <1567078713-29361-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1567078713-29361-2-git-send-email-fabrizio.castro@bp.renesas.com>
-In-Reply-To: <1567078713-29361-2-git-send-email-fabrizio.castro@bp.renesas.com>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Thu, 29 Aug 2019 08:44:28 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqLikohkWAq7exzCuGfg2yVE1Wx6h7GZFP8-jaL31PLpmA@mail.gmail.com>
-Message-ID: <CAL_JsqLikohkWAq7exzCuGfg2yVE1Wx6h7GZFP8-jaL31PLpmA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: display: Add idk-1110wr binding
-To: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1567086281;
- bh=mR7GA3c4mGRbLwLDIK+jRuWdNT4gDXNkRRI6mT85V6w=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=nO/aoVqieSJBIcG8Q1+Ukaxbr8aB1UPguFn1lMmZhsf/sbrqA+r7ZtvKoOxFOXt6R
- P6+qGYTzBPWW8jXYLcKpzu2eVYVOPYH4+olE+9leQGrL7R+7OJCID9RsHoB8rEp683
- srC9yYQYiwILMQRhyzllWwssMBKCbzaeQERBmKGI=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,38 +52,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Simon Horman <horms@verge.net.au>,
- Chris Paterson <Chris.Paterson2@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, xu_shunji@hoperun.com,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Biju Das <biju.das@bp.renesas.com>,
- "open list:MEDIA DRIVERS FOR RENESAS - FCP"
- <linux-renesas-soc@vger.kernel.org>, ebiharaml@si-linux.co.jp,
- Thierry Reding <thierry.reding@gmail.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1865146490=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBBdWcgMjksIDIwMTkgYXQgNjozOCBBTSBGYWJyaXppbyBDYXN0cm8KPGZhYnJpemlv
-LmNhc3Ryb0BicC5yZW5lc2FzLmNvbT4gd3JvdGU6Cj4KPiBBZGQgYmluZGluZyBmb3IgdGhlIGlk
-ay0xMTEwd3IgTFZEUyBwYW5lbCBmcm9tIEFkdmFudGVjaC4KPgo+IFNvbWUgcGFuZWwtc3BlY2lm
-aWMgZG9jdW1lbnRhdGlvbiBjYW4gYmUgZm91bmQgaGVyZToKPiBodHRwczovL2J1eS5hZHZhbnRl
-Y2guZXUvRGlzcGxheXMvRW1iZWRkZWQtTENELUtpdHMtTENELUtpdC1Nb2R1bGVzL21vZGVsLUlE
-Sy0xMTEwV1ItNTVXU0ExRS5odG0KPgo+IFNpZ25lZC1vZmYtYnk6IEZhYnJpemlvIENhc3RybyA8
-ZmFicml6aW8uY2FzdHJvQGJwLnJlbmVzYXMuY29tPgo+IC0tLQo+IHYxLT52MjoKPiAqIG5vIGNo
-YW5nZQo+Cj4gIC4uLi9kaXNwbGF5L3BhbmVsL2FkdmFudGVjaCxpZGstMTExMHdyLnlhbWwgICAg
-ICAgIHwgNjkgKysrKysrKysrKysrKysrKysrKysrKwo+ICAxIGZpbGUgY2hhbmdlZCwgNjkgaW5z
-ZXJ0aW9ucygrKQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
-L2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvYWR2YW50ZWNoLGlkay0xMTEwd3IueWFtbAoKUmV2aWV3
-ZWQtYnk6IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+Cl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1865146490==
+Content-Type: multipart/alternative; boundary="15670862840.B00b.14068"
+Content-Transfer-Encoding: 7bit
+
+
+--15670862840.B00b.14068
+Date: Thu, 29 Aug 2019 13:44:44 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110865
+
+--- Comment #31 from Martin <mwolf@adiumentum.com> ---
+well the flickering goes away, if I lock the clocks to "low" or "high"
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15670862840.B00b.14068
+Date: Thu, 29 Aug 2019 13:44:44 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865#c31">Comme=
+nt # 31</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865">bug 11086=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+mwolf&#64;adiumentum.com" title=3D"Martin &lt;mwolf&#64;adiumentum.com&gt;"=
+> <span class=3D"fn">Martin</span></a>
+</span></b>
+        <pre>well the flickering goes away, if I lock the clocks to &quot;l=
+ow&quot; or &quot;high&quot;</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15670862840.B00b.14068--
+
+--===============1865146490==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1865146490==--
