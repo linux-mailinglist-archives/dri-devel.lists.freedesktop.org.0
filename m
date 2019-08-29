@@ -2,44 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54D9DA1CDB
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2019 16:33:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 546FFA1D30
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2019 16:40:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 713256E134;
-	Thu, 29 Aug 2019 14:33:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D3BB6E159;
+	Thu, 29 Aug 2019 14:39:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 92C156E134
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2019 14:33:00 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 8711572161; Thu, 29 Aug 2019 14:33:00 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110865] Rx480 consumes 20w more power in idle than under Windows
-Date: Thu, 29 Aug 2019 14:33:00 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110865-502-vm46vhhVPJ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110865-502@http.bugs.freedesktop.org/>
-References: <bug-110865-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7EDC6E0CC
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2019 14:39:36 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (85-76-165-17-nat.elisa-mobile.fi
+ [85.76.165.17])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 26C042E5;
+ Thu, 29 Aug 2019 16:39:34 +0200 (CEST)
+Date: Thu, 29 Aug 2019 17:39:09 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Subject: Re: [PATCH v2 2/2] arm64: dts: renesas: Add HiHope RZ/G2M board with
+ idk-1110wr display
+Message-ID: <20190829143909.GB5875@pendragon.ideasonboard.com>
+References: <1567078713-29361-1-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1567078713-29361-3-git-send-email-fabrizio.castro@bp.renesas.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1567078713-29361-3-git-send-email-fabrizio.castro@bp.renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=ideasonboard.com; s=mail; t=1567089575;
+ bh=2UXHM5b1YAj2t0RDx8a11m5h72/N89NUdiQSrAd+NHM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fr9OAeKtuUG/9HAaUCLSLvfBf51J7Zw3QVevDG39yW89RopMz8zSY7Q0VS83eU5RX
+ QKAxhIZSdbNcES7WtKez/7Yy2PrGJuAUdx5cJRV4r/xI8oG1IFZCiH1snoPValDqo4
+ mKK32ubWBA+awn3oriPwiKP6jedjtmX4bgh/CfIE=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,108 +48,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1909291176=="
+Cc: Mark Rutland <mark.rutland@arm.com>, Simon Horman <horms@verge.net.au>,
+ Chris Paterson <Chris.Paterson2@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, xu_shunji@hoperun.com,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org,
+ Biju Das <biju.das@bp.renesas.com>, linux-renesas-soc@vger.kernel.org,
+ ebiharaml@si-linux.co.jp, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1909291176==
-Content-Type: multipart/alternative; boundary="15670891800.C164D.23811"
-Content-Transfer-Encoding: 7bit
-
-
---15670891800.C164D.23811
-Date: Thu, 29 Aug 2019 14:33:00 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110865
-
---- Comment #34 from Alex Deucher <alexdeucher@gmail.com> ---
-(In reply to Martin from comment #33)
-> thank you for the clarification.=20
-> Right now I switch manually between low and high when necessary, so I can
-> work around the glitches.=20
-> Do you think it will be possible to achieve feature parity with windows s=
-oon?
-
-I don't think windows enables mclk switching with multiple monitors either.=
-=20
-It's not clear what's different between windows and Linux on your board
-unfortunately.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15670891800.C164D.23811
-Date: Thu, 29 Aug 2019 14:33:00 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865#c34">Comme=
-nt # 34</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865">bug 11086=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
-com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
-</span></b>
-        <pre>(In reply to Martin from <a href=3D"show_bug.cgi?id=3D110865#c=
-33">comment #33</a>)
-<span class=3D"quote">&gt; thank you for the clarification.=20
-&gt; Right now I switch manually between low and high when necessary, so I =
-can
-&gt; work around the glitches.=20
-&gt; Do you think it will be possible to achieve feature parity with window=
-s soon?</span >
-
-I don't think windows enables mclk switching with multiple monitors either.=
-=20
-It's not clear what's different between windows and Linux on your board
-unfortunately.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15670891800.C164D.23811--
-
---===============1909291176==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1909291176==--
+SGkgRmFicml6aW8sCgpUaGFuayB5b3UgZm9yIHRoZSBwYXRjaC4KCk9uIFRodSwgQXVnIDI5LCAy
+MDE5IGF0IDEyOjM4OjMzUE0gKzAxMDAsIEZhYnJpemlvIENhc3RybyB3cm90ZToKPiBUaGUgSGlI
+b3BlIFJaL0cyTSBpcyBhZHZlcnRpc2VkIGFzIGNvbXBhdGlibGUgd2l0aCBwYW5lbCBpZGstMTEx
+MHdyCj4gZnJvbSBBZHZhbnRlY2gsIGhvd2V2ZXIgdGhlIHBhbmVsIGlzbid0IHNvbGQgYWxvbmdz
+aWRlIHRoZSBib2FyZC4KPiBBIG5ldyBkdHMsIGFkZGluZyBldmVyeXRoaW5nIHRoYXQncyByZXF1
+aXJlZCB0byBnZXQgdGhlIHBhbmVsIHRvCj4gd29yayB0aGUgSGlIb3BlIFJaL0cyTSwgaXMgdGhl
+IG1vc3QgY29udmVuaWVudCB3YXkgdG8gc3VwcG9ydCB0aGUKPiBIaUhvcGUgUlovRzJNIHdoZW4g
+aXQncyBjb25uZWN0ZWQgdG8gdGhlIGlkay0xMTEwd3IuCj4gCj4gU2lnbmVkLW9mZi1ieTogRmFi
+cml6aW8gQ2FzdHJvIDxmYWJyaXppby5jYXN0cm9AYnAucmVuZXNhcy5jb20+Cj4gLS0tCj4gdjEt
+PnYyOgo+ICogYWRkZWQgc3BhY2UgYmV0d2VlbiBsdmRzLWNvbm5lY3Rvci1lbi1ncGlvIGFuZCBj
+dXJseSBicmFjZQo+IAo+ICBhcmNoL2FybTY0L2Jvb3QvZHRzL3JlbmVzYXMvTWFrZWZpbGUgICAg
+ICAgICAgICAgICB8ICAxICsKPiAgLi4uL3I4YTc3NGExLWhpaG9wZS1yemcybS1leC1pZGstMTEx
+MHdyLmR0cyAgICAgICAgfCA4NiArKysrKysrKysrKysrKysrKysrKysrCj4gIDIgZmlsZXMgY2hh
+bmdlZCwgODcgaW5zZXJ0aW9ucygrKQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgYXJjaC9hcm02NC9i
+b290L2R0cy9yZW5lc2FzL3I4YTc3NGExLWhpaG9wZS1yemcybS1leC1pZGstMTExMHdyLmR0cwo+
+IAo+IGRpZmYgLS1naXQgYS9hcmNoL2FybTY0L2Jvb3QvZHRzL3JlbmVzYXMvTWFrZWZpbGUgYi9h
+cmNoL2FybTY0L2Jvb3QvZHRzL3JlbmVzYXMvTWFrZWZpbGUKPiBpbmRleCA0MmI3NGMyLi41ZDk0
+MzAxIDEwMDY0NAo+IC0tLSBhL2FyY2gvYXJtNjQvYm9vdC9kdHMvcmVuZXNhcy9NYWtlZmlsZQo+
+ICsrKyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvcmVuZXNhcy9NYWtlZmlsZQo+IEBAIC0xLDYgKzEs
+NyBAQAo+ICAjIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wCj4gIGR0Yi0kKENPTkZJ
+R19BUkNIX1I4QTc3NEExKSArPSByOGE3NzRhMS1oaWhvcGUtcnpnMm0uZHRiCj4gIGR0Yi0kKENP
+TkZJR19BUkNIX1I4QTc3NEExKSArPSByOGE3NzRhMS1oaWhvcGUtcnpnMm0tZXguZHRiCj4gK2R0
+Yi0kKENPTkZJR19BUkNIX1I4QTc3NEExKSArPSByOGE3NzRhMS1oaWhvcGUtcnpnMm0tZXgtaWRr
+LTExMTB3ci5kdGIKPiAgZHRiLSQoQ09ORklHX0FSQ0hfUjhBNzc0QzApICs9IHI4YTc3NGMwLWNh
+dDg3NC5kdGIgcjhhNzc0YzAtZWs4NzQuZHRiCj4gIGR0Yi0kKENPTkZJR19BUkNIX1I4QTc3OTUp
+ICs9IHI4YTc3OTUtc2FsdmF0b3IteC5kdGIgcjhhNzc5NS1oM3VsY2IuZHRiCj4gIGR0Yi0kKENP
+TkZJR19BUkNIX1I4QTc3OTUpICs9IHI4YTc3OTUtaDN1bGNiLWtmLmR0Ygo+IGRpZmYgLS1naXQg
+YS9hcmNoL2FybTY0L2Jvb3QvZHRzL3JlbmVzYXMvcjhhNzc0YTEtaGlob3BlLXJ6ZzJtLWV4LWlk
+ay0xMTEwd3IuZHRzIGIvYXJjaC9hcm02NC9ib290L2R0cy9yZW5lc2FzL3I4YTc3NGExLWhpaG9w
+ZS1yemcybS1leC1pZGstMTExMHdyLmR0cwo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0Cj4gaW5kZXgg
+MDAwMDAwMC4uNjdmZTA0Ywo+IC0tLSAvZGV2L251bGwKPiArKysgYi9hcmNoL2FybTY0L2Jvb3Qv
+ZHRzL3JlbmVzYXMvcjhhNzc0YTEtaGlob3BlLXJ6ZzJtLWV4LWlkay0xMTEwd3IuZHRzCj4gQEAg
+LTAsMCArMSw4NiBAQAo+ICsvLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMAo+ICsv
+Kgo+ICsgKiBEZXZpY2UgVHJlZSBTb3VyY2UgZm9yIHRoZSBIaUhvcGUgUlovRzJNIHN1YiBib2Fy
+ZCBjb25uZWN0ZWQgdG8gYW4KPiArICogQWR2YW50ZWNoIElESy0xMTEwV1IgMTAuMSIgTFZEUyBw
+YW5lbAo+ICsgKgo+ICsgKiBDb3B5cmlnaHQgKEMpIDIwMTkgUmVuZXNhcyBFbGVjdHJvbmljcyBD
+b3JwLgo+ICsgKi8KPiArCj4gKyNpbmNsdWRlICJyOGE3NzRhMS1oaWhvcGUtcnpnMm0tZXguZHRz
+Igo+ICsKPiArLyB7Cj4gKwliYWNrbGlnaHQgewo+ICsJCWNvbXBhdGlibGUgPSAicHdtLWJhY2ts
+aWdodCI7Cj4gKwkJcHdtcyA9IDwmcHdtMCAwIDUwMDAwPjsKPiArCj4gKwkJYnJpZ2h0bmVzcy1s
+ZXZlbHMgPSA8MCAyIDggMTYgMzIgNjQgMTI4IDI1NT47Cj4gKwkJZGVmYXVsdC1icmlnaHRuZXNz
+LWxldmVsID0gPDY+Owo+ICsJfTsKPiArCj4gKwlwYW5lbC1sdmRzIHsKPiArCQljb21wYXRpYmxl
+ID0gImFkdmFudGVjaCxpZGstMTExMHdyIiwgInBhbmVsLWx2ZHMiOwo+ICsKPiArCQl3aWR0aC1t
+bSA9IDwyMjM+Owo+ICsJCWhlaWdodC1tbSA9IDwxMjU+Owo+ICsKPiArCQlkYXRhLW1hcHBpbmcg
+PSAiamVpZGEtMjQiOwo+ICsKPiArCQlwYW5lbC10aW1pbmcgewo+ICsJCQkvKiAxMDI0eDYwMCBA
+NjBIeiAqLwo+ICsJCQljbG9jay1mcmVxdWVuY3kgPSA8NTEyMDAwMDA+Owo+ICsJCQloYWN0aXZl
+ID0gPDEwMjQ+Owo+ICsJCQl2YWN0aXZlID0gPDYwMD47Cj4gKwkJCWhzeW5jLWxlbiA9IDwyNDA+
+Owo+ICsJCQloZnJvbnQtcG9yY2ggPSA8NDA+Owo+ICsJCQloYmFjay1wb3JjaCA9IDw0MD47Cj4g
+KwkJCXZmcm9udC1wb3JjaCA9IDwxNT47Cj4gKwkJCXZiYWNrLXBvcmNoID0gPDEwPjsKPiArCQkJ
+dnN5bmMtbGVuID0gPDEwPjsKPiArCQl9Owo+ICsKPiArCQlwb3J0IHsKPiArCQkJcGFuZWxfaW46
+IGVuZHBvaW50IHsKPiArCQkJCXJlbW90ZS1lbmRwb2ludCA9IDwmbHZkczBfb3V0PjsKPiArCQkJ
+fTsKPiArCQl9Owo+ICsJfTsKPiArfTsKPiArCj4gKyZncGlvMSB7Cj4gKwkvKgo+ICsJICogV2hl
+biBHUDFfMjAgaXMgTE9XIExWRFMwIGlzIGNvbm5lY3RlZCB0byB0aGUgTFZEUyBjb25uZWN0b3IK
+PiArCSAqIFdoZW4gR1AxXzIwIGlzIEhJR0ggTFZEUzAgaXMgY29ubmVjdGVkIHRvIHRoZSBMVDg5
+MThMCj4gKwkgKi8KCkkga25ldyB0aGF0IHJ1bnRpbWUtY29uZmlndXJhYmxlIG91dHB1dCByb3V0
+aW5nIHdvdWxkIGJlIG5lZWRlZCBvbmUgZGF5LgpXaGlsZSBJJ20gbm90IG9wcG9zZWQgdG8gbWVy
+Z2luZyB0aGlzIHBhdGNoIGFzLWlzLCBpdCBtZWFucyB0aGF0IGEgYm9hcmQKc2hpcHBpbmcgdGhp
+cyBEVCB3aWxsIG5vdCBzdXBwb3J0IHRoZSBEU0kgb3V0cHV0LiBJIHN1cHBvc2UgdGhhdCdzIG5v
+dCBhCnByb2JsZW0gYXMgdXNpbmcgRFNJIHdvdWxkIHJlcXVpcmUgYW4gZXh0ZXJuYWwgRFNJIHBh
+bmVsLCB3aGljaCB3b3VsZApyZXF1aXJlIGEgZGlmZmVyZW50IERUIGFueXdheS4gSW4gdGhlIGdl
+bmVyYWwgY2FzZSwgaG93ZXZlciwKaW1wbGVtZW50aW5nIHN1cHBvcnQgaW4gdGhlIERVIGRyaXZl
+ciBmb3Igb3V0cHV0IHJvdXRpbmcgb3V0c2lkZSB0aGUgU29DCndpbGwgYmUgaW50ZXJlc3Rpbmcg
+dG8gc2F5IHRoZSBsZWFzdCA6LSkKCkFja2VkLWJ5OiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50
+LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+Cgo+ICsJbHZkcy1jb25uZWN0b3ItZW4tZ3BpbyB7
+Cj4gKwkJZ3Bpby1ob2c7Cj4gKwkJZ3Bpb3MgPSA8MjAgR1BJT19BQ1RJVkVfSElHSD47Cj4gKwkJ
+b3V0cHV0LWxvdzsKPiArCQlsaW5lLW5hbWUgPSAibHZkcy1jb25uZWN0b3ItZW4tZ3BpbyI7Cj4g
+Kwl9Owo+ICt9Owo+ICsKPiArJmx2ZHMwIHsKPiArCXN0YXR1cyA9ICJva2F5IjsKPiArCj4gKwlw
+b3J0cyB7Cj4gKwkJcG9ydEAxIHsKPiArCQkJbHZkczBfb3V0OiBlbmRwb2ludCB7Cj4gKwkJCQly
+ZW1vdGUtZW5kcG9pbnQgPSA8JnBhbmVsX2luPjsKPiArCQkJfTsKPiArCQl9Owo+ICsJfTsKPiAr
+fTsKPiArCj4gKyZwZmMgewo+ICsJcHdtMF9waW5zOiBwd20wIHsKPiArCQlncm91cHMgPSAicHdt
+MCI7Cj4gKwkJZnVuY3Rpb24gPSAicHdtMCI7Cj4gKwl9Owo+ICt9Owo+ICsKPiArJnB3bTAgewo+
+ICsJcGluY3RybC0wID0gPCZwd20wX3BpbnM+Owo+ICsJcGluY3RybC1uYW1lcyA9ICJkZWZhdWx0
+IjsKPiArCj4gKwlzdGF0dXMgPSAib2theSI7Cj4gK307CgotLSAKUmVnYXJkcywKCkxhdXJlbnQg
+UGluY2hhcnQKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
