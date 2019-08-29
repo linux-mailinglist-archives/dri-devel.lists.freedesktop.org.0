@@ -1,55 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00BCEA28D7
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2019 23:24:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A004CA2918
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Aug 2019 23:36:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 653A46E21A;
-	Thu, 29 Aug 2019 21:24:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27D80892D2;
+	Thu, 29 Aug 2019 21:36:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C69BC6E21A
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2019 21:24:26 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id c81so2938669pfc.11
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2019 14:24:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=E2P9cOC9rhcxBzt6NHNxzx1T9WKYvIwrZWNTN0rkY+s=;
- b=MWpZ9ztZFg3Zgz4Sd//E9JZAOsu9C6YWXgmlc7kg+qQitytTs0nhNwiCVI7gTeslx2
- 5RbP/1CuynMs58EaytyCgqfJwGo3pmMW/1hG40GZyH21rtm+wglluHlQHiROXyZXkEHp
- aC+jEujifnwBfbKiXnYpZpH5F9L/tUUszOWwPzoarUi+Qe/O9eILzSeI2q4mBt7CT4cz
- h6bE8/wh0a59P7EDv32PUYimo+4BI5XsIvmkcIFG3aW+0B34OJCg72F9aamc59cBXw24
- xHjsHYIA/v4cXHVlDdMmkpUjhFZ8ahLc9IGbcXLtmk3WkMJzhbuEPrKQyj1X7/N9h6q0
- IqpQ==
-X-Gm-Message-State: APjAAAXnhuHzsm7ZEDhEf1Z/zMmRKp1zp4D5HXOEwOW9ARfYBm2gM2++
- 6RlkOrC75dgRWcUl0f2unWS3Iy02oIE=
-X-Google-Smtp-Source: APXvYqwrArfkjixaiROj/5i5BAEgcr0XtH1eJ8V9j+D6f55gAYz46DjrMy53tXXCLTJpgC2htTwUPA==
-X-Received: by 2002:a63:f357:: with SMTP id t23mr10380346pgj.421.1567113866106; 
- Thu, 29 Aug 2019 14:24:26 -0700 (PDT)
-Received: from localhost ([2620:15c:202:1:e9ae:bd45:1bd9:e60d])
- by smtp.gmail.com with ESMTPSA id o9sm2972126pgv.19.2019.08.29.14.24.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Aug 2019 14:24:25 -0700 (PDT)
-From: David Riley <davidriley@chromium.org>
-To: dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
-Subject: [PATCH] drm/virtio: Use vmalloc for command buffer allocations.
-Date: Thu, 29 Aug 2019 14:24:17 -0700
-Message-Id: <20190829212417.257397-1-davidriley@chromium.org>
-X-Mailer: git-send-email 2.23.0.187.g17f5b7556c-goog
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B38F9892D2
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2019 21:36:36 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id B023172161; Thu, 29 Aug 2019 21:36:36 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111414] [REGRESSION] [BISECTED] Segmentation fault in
+ si_bind_blend_state after removal of the blend state NULL check
+Date: Thu, 29 Aug 2019 21:36:36 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: edmondo.tommasina@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-111414-502-QGHiJBBIc8@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111414-502@http.bugs.freedesktop.org/>
+References: <bug-111414-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=E2P9cOC9rhcxBzt6NHNxzx1T9WKYvIwrZWNTN0rkY+s=;
- b=h0jTQN3TrKHnWNcg4cy77XJ0Co8Zx9n1Djd8fwUQW0bwNR3x0a6yxAkmXQyKGJ0vuP
- 2HpX11DY6L3hw3NBb+hAtyV/Ga22TIDS/NvuS5CEUbOTIw9b4QOdmT1FdD8gNz1QHFby
- OVTmlgN4RoKEVolCdsq3rEd/zNSOYd16GWfJ4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,86 +53,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?St=C3=A9phane=20Marchesin?= <marcheu@chromium.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1620152828=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VXNlcnNwYWNlIHJlcXVlc3RlZCBjb21tYW5kIGJ1ZmZlciBhbGxvY2F0aW9ucyBjb3VsZCBiZSB0
-b28gbGFyZ2UKdG8gbWFrZSBhcyBhIGNvbnRpZ3VvdXMgYWxsb2NhdGlvbi4gIFVzZSB2bWFsbG9j
-IGlmIG5lY2Vzc2FyeSB0bwpzYXRpc2Z5IHRob3NlIGFsbG9jYXRpb25zLgoKU2lnbmVkLW9mZi1i
-eTogRGF2aWQgUmlsZXkgPGRhdmlkcmlsZXlAY2hyb21pdW0ub3JnPgotLS0KIGRyaXZlcnMvZ3B1
-L2RybS92aXJ0aW8vdmlydGdwdV9pb2N0bC5jIHwgIDQgKy0KIGRyaXZlcnMvZ3B1L2RybS92aXJ0
-aW8vdmlydGdwdV92cS5jICAgIHwgNzQgKysrKysrKysrKysrKysrKysrKysrKysrLS0KIDIgZmls
-ZXMgY2hhbmdlZCwgNzMgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfaW9jdGwuYyBiL2RyaXZlcnMvZ3B1L2Ry
-bS92aXJ0aW8vdmlydGdwdV9pb2N0bC5jCmluZGV4IGFjNjBiZTliNWMxOS4uYTg3MzJhOGFmNzY2
-IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfaW9jdGwuYworKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfaW9jdGwuYwpAQCAtMTk1LDcgKzE5NSw3
-IEBAIHN0YXRpYyBpbnQgdmlydGlvX2dwdV9leGVjYnVmZmVyX2lvY3RsKHN0cnVjdCBkcm1fZGV2
-aWNlICpkZXYsIHZvaWQgKmRhdGEsCiAJaWYgKHJldCkKIAkJZ290byBvdXRfZnJlZTsKIAotCWJ1
-ZiA9IG1lbWR1cF91c2VyKHU2NF90b191c2VyX3B0cihleGJ1Zi0+Y29tbWFuZCksIGV4YnVmLT5z
-aXplKTsKKwlidWYgPSB2bWVtZHVwX3VzZXIodTY0X3RvX3VzZXJfcHRyKGV4YnVmLT5jb21tYW5k
-KSwgZXhidWYtPnNpemUpOwogCWlmIChJU19FUlIoYnVmKSkgewogCQlyZXQgPSBQVFJfRVJSKGJ1
-Zik7CiAJCWdvdG8gb3V0X3VucmVzdjsKQEAgLTIzMCw3ICsyMzAsNyBAQCBzdGF0aWMgaW50IHZp
-cnRpb19ncHVfZXhlY2J1ZmZlcl9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpk
-YXRhLAogCXJldHVybiAwOwogCiBvdXRfbWVtZHVwOgotCWtmcmVlKGJ1Zik7CisJa3ZmcmVlKGJ1
-Zik7CiBvdXRfdW5yZXN2OgogCXR0bV9ldV9iYWNrb2ZmX3Jlc2VydmF0aW9uKCZ0aWNrZXQsICZ2
-YWxpZGF0ZV9saXN0KTsKIG91dF9mcmVlOgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Zp
-cnRpby92aXJ0Z3B1X3ZxLmMgYi9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfdnEuYwpp
-bmRleCA5ODFlZTE2ZTNlZTkuLmJjYmM0OGI3Mjg0ZiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL3ZpcnRpby92aXJ0Z3B1X3ZxLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0
-Z3B1X3ZxLmMKQEAgLTE1NCw3ICsxNTQsNyBAQCBzdGF0aWMgdm9pZCBmcmVlX3ZidWYoc3RydWN0
-IHZpcnRpb19ncHVfZGV2aWNlICp2Z2RldiwKIHsKIAlpZiAodmJ1Zi0+cmVzcF9zaXplID4gTUFY
-X0lOTElORV9SRVNQX1NJWkUpCiAJCWtmcmVlKHZidWYtPnJlc3BfYnVmKTsKLQlrZnJlZSh2YnVm
-LT5kYXRhX2J1Zik7CisJa3ZmcmVlKHZidWYtPmRhdGFfYnVmKTsKIAlrbWVtX2NhY2hlX2ZyZWUo
-dmdkZXYtPnZidWZzLCB2YnVmKTsKIH0KIApAQCAtMjUxLDYgKzI1MSw1OSBAQCB2b2lkIHZpcnRp
-b19ncHVfZGVxdWV1ZV9jdXJzb3JfZnVuYyhzdHJ1Y3Qgd29ya19zdHJ1Y3QgKndvcmspCiAJd2Fr
-ZV91cCgmdmdkZXYtPmN1cnNvcnEuYWNrX3F1ZXVlKTsKIH0KIAorLyogSG93IG1hbnkgYnl0ZXMg
-bGVmdCBpbiB0aGlzIHBhZ2UuICovCitzdGF0aWMgdW5zaWduZWQgaW50IHJlc3Rfb2ZfcGFnZSh2
-b2lkICpkYXRhKQoreworCXJldHVybiBQQUdFX1NJWkUgLSBvZmZzZXRfaW5fcGFnZShkYXRhKTsK
-K30KKworLyogQ3JlYXRlIHNnX3RhYmxlIGZyb20gYSB2bWFsbG9jJ2QgYnVmZmVyLiAqLworc3Rh
-dGljIHN0cnVjdCBzZ190YWJsZSAqdm1hbGxvY190b19zZ3QoY2hhciAqZGF0YSwgdWludDMyX3Qg
-c2l6ZSkKK3sKKwlpbnQgbmVudHMsIHJldCwgcywgaTsKKwlzdHJ1Y3Qgc2dfdGFibGUgKnNndDsK
-KwlzdHJ1Y3Qgc2NhdHRlcmxpc3QgKnNnOworCXN0cnVjdCBwYWdlICpwZzsKKworCXNndCA9IGtt
-YWxsb2Moc2l6ZW9mKCpzZ3QpLCBHRlBfS0VSTkVMKTsKKwlpZiAoIXNndCkKKwkJcmV0dXJuIE5V
-TEw7CisKKwluZW50cyA9IERJVl9ST1VORF9VUChzaXplLCBQQUdFX1NJWkUpICsgMTsKKwlyZXQg
-PSBzZ19hbGxvY190YWJsZShzZ3QsIG5lbnRzLCBHRlBfS0VSTkVMKTsKKwlpZiAocmV0KSB7CisJ
-CWtmcmVlKHNndCk7CisJCXJldHVybiBOVUxMOworCX0KKworCWZvcl9lYWNoX3NnKHNndC0+c2ds
-LCBzZywgbmVudHMsIGkpIHsKKwkJcGcgPSB2bWFsbG9jX3RvX3BhZ2UoZGF0YSk7CisJCWlmICgh
-cGcpIHsKKwkJCXNnX2ZyZWVfdGFibGUoc2d0KTsKKwkJCWtmcmVlKHNndCk7CisJCQlyZXR1cm4g
-TlVMTDsKKwkJfQorCisJCXMgPSByZXN0X29mX3BhZ2UoZGF0YSk7CisJCWlmIChzID4gc2l6ZSkK
-KwkJCXMgPSBzaXplOworCisJCXNnX3NldF9wYWdlKHNnLCBwZywgcywgb2Zmc2V0X2luX3BhZ2Uo
-ZGF0YSkpOworCisJCXNpemUgLT0gczsKKwkJZGF0YSArPSBzOworCisJCWlmIChzaXplKSB7CisJ
-CQlzZ191bm1hcmtfZW5kKHNnKTsKKwkJfSBlbHNlIHsKKwkJCXNnX21hcmtfZW5kKHNnKTsKKwkJ
-CWJyZWFrOworCQl9CisJfQorCisJcmV0dXJuIHNndDsKK30KKwogc3RhdGljIGludCB2aXJ0aW9f
-Z3B1X3F1ZXVlX2N0cmxfYnVmZmVyX2xvY2tlZChzdHJ1Y3QgdmlydGlvX2dwdV9kZXZpY2UgKnZn
-ZGV2LAogCQkJCQkgICAgICAgc3RydWN0IHZpcnRpb19ncHVfdmJ1ZmZlciAqdmJ1ZikKIAkJX19y
-ZWxlYXNlcygmdmdkZXYtPmN0cmxxLnFsb2NrKQpAQCAtMjYwLDYgKzMxMyw3IEBAIHN0YXRpYyBp
-bnQgdmlydGlvX2dwdV9xdWV1ZV9jdHJsX2J1ZmZlcl9sb2NrZWQoc3RydWN0IHZpcnRpb19ncHVf
-ZGV2aWNlICp2Z2RldiwKIAlzdHJ1Y3Qgc2NhdHRlcmxpc3QgKnNnc1szXSwgdmNtZCwgdm91dCwg
-dnJlc3A7CiAJaW50IG91dGNudCA9IDAsIGluY250ID0gMDsKIAlpbnQgcmV0OworCXN0cnVjdCBz
-Z190YWJsZSAqc2d0ID0gTlVMTDsKIAogCWlmICghdmdkZXYtPnZxc19yZWFkeSkKIAkJcmV0dXJu
-IC1FTk9ERVY7CkBAIC0yNjksOCArMzIzLDE3IEBAIHN0YXRpYyBpbnQgdmlydGlvX2dwdV9xdWV1
-ZV9jdHJsX2J1ZmZlcl9sb2NrZWQoc3RydWN0IHZpcnRpb19ncHVfZGV2aWNlICp2Z2RldiwKIAlv
-dXRjbnQrKzsKIAogCWlmICh2YnVmLT5kYXRhX3NpemUpIHsKLQkJc2dfaW5pdF9vbmUoJnZvdXQs
-IHZidWYtPmRhdGFfYnVmLCB2YnVmLT5kYXRhX3NpemUpOwotCQlzZ3Nbb3V0Y250ICsgaW5jbnRd
-ID0gJnZvdXQ7CisJCWlmIChpc192bWFsbG9jX2FkZHIodmJ1Zi0+ZGF0YV9idWYpKSB7CisJCQlz
-cGluX3VubG9jaygmdmdkZXYtPmN0cmxxLnFsb2NrKTsKKwkJCXNndCA9IHZtYWxsb2NfdG9fc2d0
-KHZidWYtPmRhdGFfYnVmLCB2YnVmLT5kYXRhX3NpemUpOworCQkJc3Bpbl9sb2NrKCZ2Z2Rldi0+
-Y3RybHEucWxvY2spOworCQkJaWYgKCFzZ3QpCisJCQkJcmV0dXJuIC1FTk9NRU07CisJCQlzZ3Nb
-b3V0Y250ICsgaW5jbnRdID0gc2d0LT5zZ2w7CisJCX0gZWxzZSB7CisJCQlzZ19pbml0X29uZSgm
-dm91dCwgdmJ1Zi0+ZGF0YV9idWYsIHZidWYtPmRhdGFfc2l6ZSk7CisJCQlzZ3Nbb3V0Y250ICsg
-aW5jbnRdID0gJnZvdXQ7CisJCX0KIAkJb3V0Y250Kys7CiAJfQogCkBAIC0yOTQsNiArMzU3LDEx
-IEBAIHN0YXRpYyBpbnQgdmlydGlvX2dwdV9xdWV1ZV9jdHJsX2J1ZmZlcl9sb2NrZWQoc3RydWN0
-IHZpcnRpb19ncHVfZGV2aWNlICp2Z2RldiwKIAkJdmlydHF1ZXVlX2tpY2sodnEpOwogCX0KIAor
-CWlmIChzZ3QpIHsKKwkJc2dfZnJlZV90YWJsZShzZ3QpOworCQlrZnJlZShzZ3QpOworCX0KKwog
-CWlmICghcmV0KQogCQlyZXQgPSB2cS0+bnVtX2ZyZWU7CiAJcmV0dXJuIHJldDsKLS0gCjIuMjMu
-MC4xODcuZzE3ZjViNzU1NmMtZ29vZwoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVs
+
+--===============1620152828==
+Content-Type: multipart/alternative; boundary="15671145961.Af2745Dc.6934"
+Content-Transfer-Encoding: 7bit
+
+
+--15671145961.Af2745Dc.6934
+Date: Thu, 29 Aug 2019 21:36:36 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111414
+
+Edmondo Tommasina <edmondo.tommasina@gmail.com> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+         Resolution|---                         |FIXED
+             Status|NEW                         |RESOLVED
+
+--- Comment #8 from Edmondo Tommasina <edmondo.tommasina@gmail.com> ---
+Thanks Dieter for clarifying.
+
+Patch got merged in mesa:
+https://gitlab.freedesktop.org/mesa/mesa/commit/f95a28d3
+
+I'm closing this issue. Thanks for the fix.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15671145961.Af2745Dc.6934
+Date: Thu, 29 Aug 2019 21:36:36 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:edmondo.t=
+ommasina&#64;gmail.com" title=3D"Edmondo Tommasina &lt;edmondo.tommasina&#6=
+4;gmail.com&gt;"> <span class=3D"fn">Edmondo Tommasina</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - [REGRESSION] [BISECTED] Segmentation fault in =
+si_bind_blend_state after removal of the blend state NULL check"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111414">bug 11141=
+4</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>FIXED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - [REGRESSION] [BISECTED] Segmentation fault in =
+si_bind_blend_state after removal of the blend state NULL check"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111414#c8">Commen=
+t # 8</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - [REGRESSION] [BISECTED] Segmentation fault in =
+si_bind_blend_state after removal of the blend state NULL check"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111414">bug 11141=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+edmondo.tommasina&#64;gmail.com" title=3D"Edmondo Tommasina &lt;edmondo.tom=
+masina&#64;gmail.com&gt;"> <span class=3D"fn">Edmondo Tommasina</span></a>
+</span></b>
+        <pre>Thanks Dieter for clarifying.
+
+Patch got merged in mesa:
+<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/commit/f95a28d3">https:=
+//gitlab.freedesktop.org/mesa/mesa/commit/f95a28d3</a>
+
+I'm closing this issue. Thanks for the fix.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15671145961.Af2745Dc.6934--
+
+--===============1620152828==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1620152828==--
