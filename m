@@ -2,57 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD478A3CC0
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2019 19:00:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57579A3CCE
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2019 19:13:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A17AA6E382;
-	Fri, 30 Aug 2019 17:00:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E80B76E38A;
+	Fri, 30 Aug 2019 17:13:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3AC26E382
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2019 17:00:45 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id m44so8692479edd.9
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2019 10:00:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BYx/7ZZJMriDlNg4ZPsq21Bt/UqwjpyoKzwS2ezJwBE=;
- b=fc2l/fuydm3SkRUcZFBQAG6LkspquS6OgkcB73Vj35XAP5/Kmcy7er1x6NCZXp+LxJ
- SRfPEHQZ+FnvvHVyXoGevvc0RhtVAShxgGC6rJfmnIQjvT2FCs6YYTylhyxU73nTatfP
- zr3aim/VtMcFl13margjD/AA1s/foFXsFRyuBKiJK4M37eqoZHubZo1P1ZcfjHTeMbmO
- 6A1BUSRTG6jDfOLuk7sZZTLe8Y+tOE56L7LK5aMdfj5Dd6VtB7u2XxAX7+XzQRIVZTGU
- pEdJK6P5EjNr1NZXtT50Ahysxcm97OrkdQKlnJC0X/ylq9LRlbIvyNgiU7OKUsPcNNU6
- 2Vdw==
-X-Gm-Message-State: APjAAAWYFO3izn8QRMm1VtDY7YamzkyeU+4NVGWhE6++guGBhrGFTUcZ
- +A2ww24AtaLDmQhnILbuXyzAeQ0QJctHO3KzRcw=
-X-Google-Smtp-Source: APXvYqyZ6FiDbZXqhP+dUzvTWSJz4+sI8AP9b1IW11QFTTBJP93LJVxAD4AX29i6NLqjKmTRVObBEHluGl4oDaY4Kf4=
-X-Received: by 2002:a50:8d8b:: with SMTP id r11mr16378963edh.163.1567184444153; 
- Fri, 30 Aug 2019 10:00:44 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 41F0F6E38A
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2019 17:13:39 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 3A20272161; Fri, 30 Aug 2019 17:13:39 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109628] WARNING at dcn10_hw_sequencer.c:868
+ dcn10_verify_allow_pstate_change_high()
+Date: Fri, 30 Aug 2019 17:13:39 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: johannes.hirte@datenkhaos.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109628-502-YGzLXPOqvx@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109628-502@http.bugs.freedesktop.org/>
+References: <bug-109628-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190829060550.62095-1-john.stultz@linaro.org>
- <CGME20190829173938epcas3p1276089cb3d6f9813840d1bb6cac8b1da@epcas3p1.samsung.com>
- <CAF6AEGvborwLmjfC6_vgZ-ZbfvF3HEFFyb_NHSLRoYWF35bw+g@mail.gmail.com>
- <ebdf3ff5-5a9b-718d-2832-f326138a5b2d@samsung.com>
-In-Reply-To: <ebdf3ff5-5a9b-718d-2832-f326138a5b2d@samsung.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 30 Aug 2019 10:00:32 -0700
-Message-ID: <CAF6AEGtkvRpXSoddjmxer2U6LxnV_SAe+jwE2Ct8B8dDpFy2mA@mail.gmail.com>
-Subject: Re: [RFC][PATCH] drm: kirin: Fix dsi probe/attach logic
-To: Andrzej Hajda <a.hajda@samsung.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=BYx/7ZZJMriDlNg4ZPsq21Bt/UqwjpyoKzwS2ezJwBE=;
- b=fHQpPopx4LSbHrCvj7rw6l1CLOopOQzBJRjlVgJMH98EnxhPls8ZkejgfrdqYvd1FP
- QKVs/gZovPqgZxUmNAqZYRUvejV71/GkggtdXplY9NATi5nWIxAixao0KrT9LRLQc5Mo
- IvL8DnaH3m9RayTSLM/UcmEzg+vEWq0AJwrFiCbeg25v+y7rVW3KxQifYZIWFriZ//7t
- eUpgC+7JASwn8HE40bUopQfVznDkB6Xd2n/maTuYzzgCysZ5aTXqLXoKWcr8HVZTP3uf
- MlRfeJDYkmw3dtaGF7Y1Z8uuBAJ4elyMrGY18gR8GsbgHzFhqJLqcXG4EKtlrgnUkh6E
- nsCw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,85 +53,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Jonas Karlman <jonas@kwiboo.se>, lkml <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Xinliang Liu <z.liuxinliang@hisilicon.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Rongrong Zou <zourongrong@gmail.com>, Sean Paul <seanpaul@chromium.org>,
- Sam Ravnborg <sam@ravnborg.org>, Matt Redfearn <matt.redfearn@thinci.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0502844952=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBBdWcgMjksIDIwMTkgYXQgMTE6NTIgUE0gQW5kcnplaiBIYWpkYSA8YS5oYWpkYUBz
-YW1zdW5nLmNvbT4gd3JvdGU6Cj4KPiBPbiAyOS4wOC4yMDE5IDE5OjM5LCBSb2IgQ2xhcmsgd3Jv
-dGU6Cj4gPiBPbiBXZWQsIEF1ZyAyOCwgMjAxOSBhdCAxMTowNiBQTSBKb2huIFN0dWx0eiA8am9o
-bi5zdHVsdHpAbGluYXJvLm9yZz4gd3JvdGU6Cj4gPj4gU2luY2UgY29tbWl0IDgzZjM1YmMzYTg1
-MiAoImRybS9icmlkZ2U6IGFkdjc1MTE6IEF0dGFjaCB0byBEU0kKPiA+PiBob3N0IGF0IHByb2Jl
-IHRpbWUiKSBsYW5kZWQgaW4gLW5leHQgdGhlIEhpS2V5IGJvYXJkIHdvdWxkIGZhaWwKPiA+PiB0
-byBib290LCBsb29waW5nOgo+ID4gTm8sIHBsZWFzZSByZXZlcnQgODNmMzViYzNhODUyLi4gdGhh
-dCBpcyBnb2luZyBpbiB0aGUgKmNvbXBsZXRlKiB3cm9uZwo+ID4gZGlyZWN0aW9uLiAgV2UgYWN0
-dWFsbHkgc2hvdWxkIGJlIG1vdmluZyBwYW5lbHMgdG8gbm90IHJlcXVpcmUgZHNpCj4gPiBob3N0
-IHVudGlsIGF0dGFjaCB0aW1lLCBzaW1pbGFyIHRvIGhvdyBicmlkZ2VzIHdvcmssIG5vdCB0aGUg
-b3RoZXIgd2F5Cj4gPiBhcm91bmQuCj4KPgo+IERldmljZXMgb2YgcGFuZWxzIGFuZCBicmlkZ2Vz
-IGNvbnRyb2xsZWQgdmlhIERTSSB3aWxsIG5vdCBhcHBlYXIgYXQgYWxsCj4gaWYgRFNJIGhvc3Qg
-aXMgbm90IGNyZWF0ZWQuCj4KPiBTbyB0aGlzIGlzIHRoZSBvbmx5IGRpcmVjdGlvbiEhIQo+CgpJ
-IGRpc2FncmVlLCB0aGVyZSBpcyByZWFsbHkgbm8gaGFybSBpbiB0aGUgYnJpZGdlIHByb2Jpbmcg
-aWYgdGhlcmUgaXMgbm8gZHNpLgoKRnVydGhlcm1vcmUsIGl0IHNlZW1zIHRoYXQgdGhpcyBjaGFu
-Z2UgYnJva2UgYSBmZXcgb3RoZXIgZHJpdmVycy4KCj4gPgo+ID4gVGhlIHByb2JsZW0gaXMgdGhh
-dCwgd2hlbiBkZWFsaW5nIHdpdGggYm9vdGxvYWRlciBlbmFibGVkIGRpc3BsYXksIHdlCj4gPiBu
-ZWVkIHRvIGJlIHJlYWxseSBjYXJlZnVsIG5vdCB0byB0b3VjaCB0aGUgaGFyZHdhcmUgdW50aWwg
-dGhlIGRpc3BsYXkKPiA+IGRyaXZlciBrbm93cyB0aGUgYnJpZGdlL3BhbmVsIGlzIHByZXNlbnQu
-ICBJZiB0aGUgYnJpZGdlL3BhbmVsIHByb2Jlcwo+ID4gYWZ0ZXIgdGhlIGRpc3BsYXkgZHJpdmVy
-LCB3ZSBjb3VsZCBlbmQgdXAga2lsbGluZyBzY2Fub3V0Cj4gPiAoZWZpZmIvc2ltcGxlZmIpLi4g
-aWYgdGhlIGJyaWRnZS9wYW5lbCBpcyBtaXNzaW5nIHNvbWUgZGVwZW5kZW5jeSBhbmQKPiA+IG5l
-dmVyIHByb2JlcywgaXQgaXMgcmF0aGVyIHVucGxlYXNhbnQgdG8gYmUgc3R1Y2sgdHJ5aW5nIHRv
-IGRlYnVnIHdoYXQKPiA+IHdlbnQgd3Jvbmcgd2l0aCBubyBkaXNwbGF5Lgo+Cj4KPiBJdCBoYXMg
-bm90aGluZyB0byBkbyB3aXRoIHRvdWNoaW5nIGhhcmR3YXJlLCB5b3UgY2FuIGFsd2F5cyAoSSBo
-b3BlKQo+IHBvc3Rwb25lIGl0IHRpbGwgYWxsIGNvbXBvbmVudHMgYXJlIHByZXNlbnQuCgpVbmZv
-cnR1bmF0ZWx5IHRoaXMgaXMgaGFyZGVyIHRoYW4gaXQgc291bmRzLCBzaW5jZSB3ZSBuZWVkIHRv
-IHJlYWQgaHcKcmV2aXNpb24gcmVnaXN0ZXJzIGZvciBkaXNwbGF5IGFuZCBkc2kgYmxvY2tzIHRv
-IGtub3cgd2hpY2ggaHcKcmV2aXNpb24gd2UgYXJlIGRlYWxpbmcgd2l0aC4KCihBbHNvLCB3ZSBu
-ZWVkIHRvIGF2b2lkCmRybV9mYl9oZWxwZXJfcmVtb3ZlX2NvbmZsaWN0aW5nX2ZyYW1lYnVmZmVy
-cygpIHVudGlsIHdlIGtub3cgd2UgYXJlCnJlYWR5IHRvIGdvLikKCldlIGNvdWxkIHBvc3NpYmx5
-IHB1dCBtb3JlIGluZm9ybWF0aW9uIGluIGR0LiAgQnV0IHRoZSBsZXNzIHdlIGRlcGVuZApvbiBk
-dCwgdGhlIGVhc2llciB0aW1lIHdlJ2xsIGhhdmUgYWRkaW5nIHN1cHBvcnQgZm9yIEFDUEkgYm9v
-dCBvbiB0aGUKd2luZG93cyBhcm0gbGFwdG9wcy4KCj4gQnV0IGl0IGlzIGp1c3QgcmVxdWlyZW1l
-bnQgb2YgZGV2aWNlL2RyaXZlciBtb2RlbCBpbiBMaW51eCBLZXJuZWwuCgp5ZXMgYW5kIG5vLi4g
-dGhlIHdheSB0aGUgZXhpc3RpbmcgYnJpZGdlcyB3b3JrIHdpdGggYSBicmlkZ2UtPmF0dGFjaCgp
-CnN0ZXAgc2VlbXMgZmFpcmx5IHByYWdtYXRpYyB0byBtZS4KCj4KPiA+Cj4gPiBTb3JyeSBJIGRp
-ZG4ndCBub3RpY2UgdGhhdCBhZHY3NTExIHBhdGNoIGJlZm9yZSBpdCBsYW5kZWQsIGJ1dCB0aGUK
-PiA+IHJpZ2h0IHRoaW5nIHRvIGRvIG5vdyBpcyB0byByZXZlcnQgaXQuCj4KPgo+IFRoZSAxc3Qg
-dmVyc2lvbiBvZiB0aGUgcGF0Y2ggd2FzIHBvc3RlZCBhdCB0aGUgZW5kIG9mIEFwcmlsIGFuZCBm
-aW5hbAo+IHZlcnNpb24gd2FzIHF1ZXVlZCAxc3QgSnVseSwgc28gaXQgd2FzIHF1aXRlIGxvbmcg
-dGltZSBmb3IgZGlzY3Vzc2lvbnMKPiBhbmQgdGVzdHMuCgpzb3JyeSBJIGRpZG4ndCBub3RpY2Ug
-dGhlIHBhdGNoIHNvb25lciwgbW9zdCBvZiBteSBiYW5kd2lkdGggZ29lcyB0byBtZXNhLgoKPiBS
-ZXZlcnRpbmcgaXQgbm93IHNlZW1zIHF1aXRlIGxhdGUsIGVzcGVjaWFsbHkgaWYgdGhlIHBhdGNo
-IGRvZXMgcmlnaHQKPiB0aGluZyBhbmQgdGhlcmUgaXMgYWxyZWFkeSBwcm9wZXIgZml4IGZvciBv
-bmUgZW5jb2RlciAoa2lyaW4pLCBtb3Jlb3Zlcgo+IHJldmVydCB3aWxsIGJyZWFrIGFub3RoZXIg
-cGxhdGZvcm1zLgoKa2lyaW4gaXNuJ3QgdGhlIG9ubHkgb3RoZXIgdXNlciBvZiBhZHY3NXh4Li4g
-YXQgbGVhc3QgaXQgaXMgbXkKdW5kZXJzdGFuZGluZyB0aGF0IHRoaXMgYnJva2UgZGI0MTBjIGFz
-IHdlbGwuCgo+IE9mIGNvdXJzZSBpdCBzZWVtcyB5b3UgaGF2ZSBkaWZmZXJlbnQgb3BpbmlvbiB3
-aGF0IGlzIHRoZSByaWdodCB0aGluZyBpbgo+IHRoaXMgY2FzZSwgc28gaWYgeW91IGNvbnZpbmNl
-IHVzIHRoYXQgeW91ciBhcHByb2FjaCBpcyBiZXR0ZXIgb25lIGNhbgo+IHJldmVydCB0aGUgcGF0
-Y2guCgpJIGd1ZXNzIG15IHN0cm9uZ2VzdCAvIG1vc3QgaW1tZWRpYXRlIG9waW5pb24gaXMgdG8g
-bm90IGJyZWFrIG90aGVyCmV4aXN0aW5nIGFkdjc1eHggYnJpZGdlIHVzZXJzLgoKQmV5b25kIHRo
-YXQsIEkgZm91bmQgZG9pbmcgbWlwaV9kc2lfYXR0YWNoKCkgaW4gYnJpZGdlLT5hdHRhY2goKSB3
-YXMKcXVpdGUgY29udmVuaWVudCB0byBnZXQgZGlzcGxheSBoYW5kb3ZlciBmcm9tIGVmaWZiIHdv
-cmsuICBBbmQgdGhhdAp3YXMgKHByZXZpb3VzbHkpIHRoZSB3YXkgbW9zdCBvZiB0aGUgYnJpZGdl
-cyB3b3JrZWQuCgpCdXQgbWF5YmUgdGhlcmUgaXMgYW5vdGhlciB3YXkuLiBwZXJoYXBzIHNvbWVo
-b3cgdGhlIGJyaWRnZXMvcGFuZWxzCmNvdWxkIGJlIGFkZGVkIGFzIHN1Yi1jb21wb25lbnRzIHVz
-aW5nIHRoZSBjb21wb25lbnQgZnJhbWV3b3JrLCB0bwpwcmV2ZW50IHRoZSB0b3BsZXZlbCBkcm0g
-ZGV2aWNlIGZyb20gcHJvYmluZyB1bnRpbCB0aGV5IGFyZSByZWFkeT8KV2UnZCBzdGlsbCBoYXZl
-IHRoZSBwcm9ibGVtIHRoYXQgdGhlIGRzaSBjb21wb25lbnQgd2FudHMgdG8gYmUgYWJsZSB0bwpy
-ZWFkIGh3IHJldmlzaW9uIGJlZm9yZSByZWdpc3RlcmluZyBkc2kgaG9zdC4uIGJ1dCBJIHN1cHBv
-c2UgaWYgQ0NGCmV4cG9ydGVkIGEgd2F5IHRoYXQgd2UgY291bGQgcXVlcnkgd2hldGhlciB0aGUg
-aW50ZXJmYWNlIGNsayB3YXMKYWxyZWFkeSBlbmFibGVkLCB3ZSBjb3VsZCBoYXZlIHRoZSBjbGsg
-ZW5hYmxlL2Rpc2FibGUgY3ljbGUgdGhhdCB3b3VsZApicmVhayBlZmlmYi4KCkJSLAotUgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0502844952==
+Content-Type: multipart/alternative; boundary="15671852192.3bED.12713"
+Content-Transfer-Encoding: 7bit
+
+
+--15671852192.3bED.12713
+Date: Fri, 30 Aug 2019 17:13:39 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109628
+
+--- Comment #12 from Johannes Hirte <johannes.hirte@datenkhaos.de> ---
+On top of 5.2.11 it doesn't work either. It get even worse. Without the two
+patches, I can shutdown the system. With both patches applied, the system h=
+angs
+completely after resume. I have to force it off.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15671852192.3bED.12713
+Date: Fri, 30 Aug 2019 17:13:39 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - WARNING at dcn10_hw_sequencer.c:868 dcn10_verify_allow_ps=
+tate_change_high()"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109628#c12">Comme=
+nt # 12</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - WARNING at dcn10_hw_sequencer.c:868 dcn10_verify_allow_ps=
+tate_change_high()"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109628">bug 10962=
+8</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+johannes.hirte&#64;datenkhaos.de" title=3D"Johannes Hirte &lt;johannes.hirt=
+e&#64;datenkhaos.de&gt;"> <span class=3D"fn">Johannes Hirte</span></a>
+</span></b>
+        <pre>On top of 5.2.11 it doesn't work either. It get even worse. Wi=
+thout the two
+patches, I can shutdown the system. With both patches applied, the system h=
+angs
+completely after resume. I have to force it off.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15671852192.3bED.12713--
+
+--===============0502844952==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0502844952==--
