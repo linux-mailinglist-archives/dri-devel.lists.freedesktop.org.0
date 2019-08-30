@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 206CAA40ED
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Aug 2019 01:20:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C0C5A410E
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Aug 2019 01:31:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F41A16E136;
-	Fri, 30 Aug 2019 23:20:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B960D6E079;
+	Fri, 30 Aug 2019 23:31:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6C00B6E136
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2019 23:20:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 01DFF6E12E
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2019 23:31:00 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 699F672161; Fri, 30 Aug 2019 23:20:18 +0000 (UTC)
+ id F09B8721AA; Fri, 30 Aug 2019 23:30:59 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
- with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Fri, 30 Aug 2019 23:20:18 +0000
+Subject: [Bug 109628] WARNING at dcn10_hw_sequencer.c:868
+ dcn10_verify_allow_pstate_change_high()
+Date: Fri, 30 Aug 2019 23:31:00 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: b747xx@gmail.com
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: johannes.hirte@datenkhaos.de
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
+X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-oRm4B8d5AD@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
-References: <bug-111481-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-109628-502-lUeiGN9Zzx@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109628-502@http.bugs.freedesktop.org/>
+References: <bug-109628-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,43 +53,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1995138933=="
+Content-Type: multipart/mixed; boundary="===============0485932034=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1995138933==
-Content-Type: multipart/alternative; boundary="15672072181.aCfE5.15937"
+--===============0485932034==
+Content-Type: multipart/alternative; boundary="15672078591.2ce9e8f.17737"
 Content-Transfer-Encoding: 7bit
 
 
---15672072181.aCfE5.15937
-Date: Fri, 30 Aug 2019 23:20:18 +0000
+--15672078591.2ce9e8f.17737
+Date: Fri, 30 Aug 2019 23:30:59 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109628
 
---- Comment #5 from Mathieu Belanger <b747xx@gmail.com> ---
-It probably really depend of what we do on our desktop. I just remember now=
- how
-I did stop using FileZilla since I got that GPU as it was crashing almost a=
-ll
-the time I was using it (Like I never not crashed while that thing was open=
- and
-running). Still use it for work but I keep it to minimum (open, upload, clo=
-se)
-instead of keeping it running.
+--- Comment #13 from Johannes Hirte <johannes.hirte@datenkhaos.de> ---
+It seems DCC is broken on Raven Ridge. So how about disabling it here, until
+the problems are solved?
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15672072181.aCfE5.15937
-Date: Fri, 30 Aug 2019 23:20:18 +0000
+--15672078591.2ce9e8f.17737
+Date: Fri, 30 Aug 2019 23:30:59 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -105,29 +98,23 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c5">Commen=
-t # 5</a>
+   title=3D"NEW - WARNING at dcn10_hw_sequencer.c:868 dcn10_verify_allow_ps=
+tate_change_high()"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109628#c13">Comme=
+nt # 13</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
+   title=3D"NEW - WARNING at dcn10_hw_sequencer.c:868 dcn10_verify_allow_ps=
+tate_change_high()"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109628">bug 10962=
+8</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-b747xx&#64;gmail.com" title=3D"Mathieu Belanger &lt;b747xx&#64;gmail.com&gt=
-;"> <span class=3D"fn">Mathieu Belanger</span></a>
+johannes.hirte&#64;datenkhaos.de" title=3D"Johannes Hirte &lt;johannes.hirt=
+e&#64;datenkhaos.de&gt;"> <span class=3D"fn">Johannes Hirte</span></a>
 </span></b>
-        <pre>It probably really depend of what we do on our desktop. I just=
- remember now how
-I did stop using FileZilla since I got that GPU as it was crashing almost a=
-ll
-the time I was using it (Like I never not crashed while that thing was open=
- and
-running). Still use it for work but I keep it to minimum (open, upload, clo=
-se)
-instead of keeping it running.</pre>
+        <pre>It seems DCC is broken on Raven Ridge. So how about disabling =
+it here, until
+the problems are solved?</pre>
         </div>
       </p>
 
@@ -141,9 +128,9 @@ instead of keeping it running.</pre>
     </body>
 </html>=
 
---15672072181.aCfE5.15937--
+--15672078591.2ce9e8f.17737--
 
---===============1995138933==
+--===============0485932034==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -153,4 +140,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1995138933==--
+--===============0485932034==--
