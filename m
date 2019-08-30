@@ -2,44 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5841A2B53
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2019 02:11:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBA79A2D9D
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2019 05:51:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DF616E229;
-	Fri, 30 Aug 2019 00:11:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E560B6E226;
+	Fri, 30 Aug 2019 03:51:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id C8B376E229
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2019 00:11:39 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id BDF8072161; Fri, 30 Aug 2019 00:11:39 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111241] Shadertoy shader causing hang
-Date: Fri, 30 Aug 2019 00:11:40 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 19.1
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: Dieter@nuetzel-hh.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111241-502-wJxGKANZ2o@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111241-502@http.bugs.freedesktop.org/>
-References: <bug-111241-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 369A16E226
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2019 03:51:44 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id x3so5098691lji.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2019 20:51:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=hyJSGC81Q0n6R8fdT2tpbdChQ3Fli9gi9SBH1WBTCXc=;
+ b=QnEzZxJQxkePBRKMfu5VsEOrsErn0CgivHNjZwzFPjVXgN8loszRcC2gosIGHtLdPG
+ msjGP6xBEEU759Bru+hIulqOuMFsacuPn/ljHAJYK00/ybUggzY9Av5uigKRLKyVafuk
+ N3lHQ7TtIp1ysB6ET9N4eDaf9VAc8OoCQHuCAUxbyj/VPCPXVRebzYoShct8jGj4YKHm
+ YCCgtA16r2RIYX/m27oE9TlvCQAooJVKrLYin/W+NFcTqBZrKtuiuKYcQ7jRCV9zlmFe
+ M+uoGHyoHn2unTgXneAsrqpoFXGmXklC6Z6bdg4hKoi5QrK31mqdyoLkxoM78DBj+79a
+ 9C5g==
+X-Gm-Message-State: APjAAAU/oI1jADtCg2Ih3BYE8X2PxmtdtHBC62efjZsxWWkug4Dx8WJq
+ ppkLknXguk42XPvyb7UJrUkqIK0eEtQkYXrEcDE=
+X-Google-Smtp-Source: APXvYqwVqKPeQoa36Zc62b73Iyn2ikt3K7kssJJnAXlWUQWFyuGs9pCWfaIOQrmiFfeOK+aIEpOIlQf/dZejFhJv+ck=
+X-Received: by 2002:a2e:8059:: with SMTP id p25mr7498256ljg.120.1567137102242; 
+ Thu, 29 Aug 2019 20:51:42 -0700 (PDT)
 MIME-Version: 1.0
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 30 Aug 2019 13:51:31 +1000
+Message-ID: <CAPM=9tzaHaDUoSGC6_ESxTFWQxqgAZnDWzYNqx0zX17bv4KTUQ@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.3-rc7
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=hyJSGC81Q0n6R8fdT2tpbdChQ3Fli9gi9SBH1WBTCXc=;
+ b=A90Z7HgbUS9iqb2gPQQdbqtD0UK7+QqBGjqarCRm+usXBsJOmKW9ZidB80eus7QKQc
+ JHNoTEiLSJ0XJTflEW6BKG69L9tBIrqJY8xxJZfjfJZAl6aL0VrB/5Axnq2Vw05BkyAK
+ zW/8qM8LWsDz6WzaD9X6FXzm2Y3G3IRaXdHGE0UMo6R6TnSioYMhptreFpTlpLvIIzzo
+ /qBecL1RRKJ+FYiTLspdltz0NS0r2NvHMml3yF6WJHYia4zNPHFZ25vaSZOVh+2DBlvZ
+ pjno02icEPFTQOub1T76pCw+/wwnA0p2thQ80i1wZm7rr+Gn+M+j31jeKtpqWriev8aB
+ UQ+g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,98 +61,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1843986609=="
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1843986609==
-Content-Type: multipart/alternative; boundary="15671238990.2313B.344"
-Content-Transfer-Encoding: 7bit
-
-
---15671238990.2313B.344
-Date: Fri, 30 Aug 2019 00:11:39 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111241
-
---- Comment #10 from Dieter N=C3=BCtzel <Dieter@nuetzel-hh.de> ---
-(In reply to Dieter N=C3=BCtzel from comment #9)
-> Created attachment 145215 [details]
-> Shadertoy-EOT-Grid-scene-2.png
-
-Saw it first @ 2. November 2018
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15671238990.2313B.344
-Date: Fri, 30 Aug 2019 00:11:39 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Shadertoy shader causing hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111241#c10">Comme=
-nt # 10</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Shadertoy shader causing hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111241">bug 11124=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-Dieter&#64;nuetzel-hh.de" title=3D"Dieter N=C3=BCtzel &lt;Dieter&#64;nuetze=
-l-hh.de&gt;"> <span class=3D"fn">Dieter N=C3=BCtzel</span></a>
-</span></b>
-        <pre>(In reply to Dieter N=C3=BCtzel from <a href=3D"show_bug.cgi?i=
-d=3D111241#c9">comment #9</a>)
-<span class=3D"quote">&gt; Created <span class=3D""><a href=3D"attachment.c=
-gi?id=3D145215" name=3D"attach_145215" title=3D"Shadertoy-EOT-Grid-scene-2.=
-png">attachment 145215</a> <a href=3D"attachment.cgi?id=3D145215&amp;action=
-=3Dedit" title=3D"Shadertoy-EOT-Grid-scene-2.png">[details]</a></span>
-&gt; Shadertoy-EOT-Grid-scene-2.png</span >
-
-Saw it first &#64; 2. November 2018</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15671238990.2313B.344--
-
---===============1843986609==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1843986609==--
+SGkgTGludXMsCgpOb3RoaW5nIHRvbyBjcmF6eSwgdGhlcmUncyBwcm9iYWJseSBtb3JlIHBhdGNo
+ZXMgdGhhbiBJJ2QgbGlrZSBhdCB0aGlzCnN0YWdlLCBidXQgdGhleSBhcmUgYWxsIHByZXR0eSBz
+ZWxmIGNvbnRhaW5lZC4KCkRhdmUuCgpkcm0tZml4ZXMtMjAxOS0wOC0zMDoKZHJtIGZpeGVzIGZv
+ciA1LjMtcmM3CgphbWRncHU6Ci0gRml4IEdGWE9GRiByZWdyZXNzaW9uIGZvciBQQ08gYW5kIFJW
+MgotIEZpeCBtaXNzaW5nIGZlbmNlIHJlZmVyZW5jZQotIEZpeCBWRzIwIHBvd2VyIHJlYWRpbmdz
+IG9uIGNlcnRhaW4gU01VIGZpcm13YXJlIHZlcnNpb25zCi0gRml4IGRwbSBsZXZlbCBzZXR1cCBm
+b3IgVkcyMAotIEFkZCBhbiBBVFBYIGxhcHRvcCBxdWlyawoKaTkxNToKLSBGaXggRFAgTVNUIG1h
+eCBCUEMgcHJvcGVydHkgY3JlYXRpb24gYWZ0ZXIgRFJNIHJlZ2lzdGVyCi0gRml4IHVudXNlZCBn
+Z3R0IGRlYmFsbG9vbmluZyBhbmQgTlVMTCBkZXJlZmVyZW5jZSBpbiBndWVzdAotIEZpeCBEU0Mg
+ZURQIHRyYW5zY29kZXIgaWRlbnRpZmljYXRpb24KLSBGaXggV0FSTiBmcm9tIERNQSBBUEkgZGVi
+dWcgYnkgc2V0dGluZyBETUEgbWF4IHNlZ21lbnQgc2l6ZQoKcXhsOgotIE1ha2UgcXhsIHJlc2Vy
+dmUgdGhlIHZnYSBwb3J0cyB1c2luZyB2Z2FhcmIgdG8gcHJldmVudCBzd2l0Y2hpbmcgdG8Kdmdh
+IGNvbXBhdGliaWxpdHkgbW9kZS4KCm9tYXA6Ci0gRml4IG9tYXAgcG9ydCBsb29rdXAgZm9yIFNE
+SSBvdXRwdXQKCnZpcnRpbzoKLSBVc2UgdmlydGlvX21heF9kbWFfc2l6ZSB0byBmaXggYW4gaXNz
+dWUgd2l0aCBzd2lvdGxiLgoKa29tZWRhOgotIENvbXBpbGVyIGZpeGVzIHRvIGtvbWVkYS4KLSBB
+ZGQgbWlzc2luZyBvZl9ub2RlX2dldCgpIGNhbGwgaW4ga29tZWRhLgotIFJlb3JkZXIgdGhlIGtv
+bWVkYSBkZS1pbml0IGZ1bmN0aW9ucy4KVGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1p
+dCBhNTVhYTg5YWFiOTBmYWU3YzgxNWIwNTUxYjA3YmUzN2RiMzU5ZDc2OgoKICBMaW51eCA1LjMt
+cmM2ICgyMDE5LTA4LTI1IDEyOjAxOjIzIC0wNzAwKQoKYXJlIGF2YWlsYWJsZSBpbiB0aGUgR2l0
+IHJlcG9zaXRvcnkgYXQ6CgogIGdpdDovL2Fub25naXQuZnJlZWRlc2t0b3Aub3JnL2RybS9kcm0g
+dGFncy9kcm0tZml4ZXMtMjAxOS0wOC0zMAoKZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRv
+IDFjMGQ2M2ViMGU4MjRjYjI5MTZhNzc1MjNlYzdhNGZhMGU5NzUzYzg6CgogIE1lcmdlIHRhZyAn
+ZHJtLWludGVsLWZpeGVzLTIwMTktMDgtMjknIG9mCmdpdDovL2Fub25naXQuZnJlZWRlc2t0b3Au
+b3JnL2RybS9kcm0taW50ZWwgaW50byBkcm0tZml4ZXMgKDIwMTktMDgtMzAKMTA6NTU6MjkgKzEw
+MDApCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tCmRybSBmaXhlcyBmb3IgNS4zLXJjNwoKYW1kZ3B1OgotIEZpeCBHRlhPRkYg
+cmVncmVzc2lvbiBmb3IgUENPIGFuZCBSVjIKLSBGaXggbWlzc2luZyBmZW5jZSByZWZlcmVuY2UK
+LSBGaXggVkcyMCBwb3dlciByZWFkaW5ncyBvbiBjZXJ0YWluIFNNVSBmaXJtd2FyZSB2ZXJzaW9u
+cwotIEZpeCBkcG0gbGV2ZWwgc2V0dXAgZm9yIFZHMjAKLSBBZGQgYW4gQVRQWCBsYXB0b3AgcXVp
+cmsKCmk5MTU6Ci0gRml4IERQIE1TVCBtYXggQlBDIHByb3BlcnR5IGNyZWF0aW9uIGFmdGVyIERS
+TSByZWdpc3RlcgotIEZpeCB1bnVzZWQgZ2d0dCBkZWJhbGxvb25pbmcgYW5kIE5VTEwgZGVyZWZl
+cmVuY2UgaW4gZ3Vlc3QKLSBGaXggRFNDIGVEUCB0cmFuc2NvZGVyIGlkZW50aWZpY2F0aW9uCi0g
+Rml4IFdBUk4gZnJvbSBETUEgQVBJIGRlYnVnIGJ5IHNldHRpbmcgRE1BIG1heCBzZWdtZW50IHNp
+emUKCnF4bDoKLSBNYWtlIHF4bCByZXNlcnZlbCB0aGUgdmdhIHBvcnRzIHVzaW5nIHZnYWFyZ2Ig
+dG8gcHJldmVudCBzd2l0Y2hpbmcKdG8gdmdhIGNvbXBhdGliaWxpdHkgbW9kZS4KCm9tYXA6Ci0g
+Rml4IG9tYXAgcG9ydCBsb29rdXAgZm9yIFNESSBvdXRwdXQKCnZpcnRpbzoKLSBVc2UgdmlydGlv
+X21heF9kbWFfc2l6ZSB0byBmaXggYW4gaXNzdWUgd2l0aCBzd2lvdGxiLgoKa29tZWRhOgotIENv
+bXBpbGVyIGZpeGVzIHRvIGtvbWVkYS4KLSBBZGQgbWlzc2luZyBvZl9ub2RlX2dldCgpIGNhbGwg
+aW4ga29tZWRhLgotIFJlb3JkZXIgdGhlIGtvbWVkYSBkZS1pbml0IGZ1bmN0aW9ucy4KCi0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0KQWFyb24gTGl1ICgxKToKICAgICAgZHJtL2FtZGdwdTogZml4IEdGWE9GRiBvbiBQaWNhc3Nv
+IGFuZCBSYXZlbjIKCkF5YW4gS3VtYXIgSGFsZGVyICgxKToKICAgICAgZHJtL2tvbWVkYTogUmVv
+cmRlcmVkIHRoZSBrb21lZGEncyBkZS1pbml0IGZ1bmN0aW9ucwoKQ2hyaXN0aWFuIEvDtm5pZyAo
+MSk6CiAgICAgIGRybS9hbWRncHU6IGZpeCBkbWFfZmVuY2Vfd2FpdCB3aXRob3V0IHJlZmVyZW5j
+ZQoKRGF2ZSBBaXJsaWUgKDMpOgogICAgICBNZXJnZSB0YWcgJ2RybS1taXNjLWZpeGVzLTIwMTkt
+MDgtMjgnIG9mCmdpdDovL2Fub25naXQuZnJlZWRlc2t0b3Aub3JnL2RybS9kcm0tbWlzYyBpbnRv
+IGRybS1maXhlcwogICAgICBNZXJnZSB0YWcgJ2RybS1maXhlcy01LjMtMjAxOS0wOC0yOCcgb2YK
+Z2l0Oi8vcGVvcGxlLmZyZWVkZXNrdG9wLm9yZy9+YWdkNWYvbGludXggaW50byBkcm0tZml4ZXMK
+ICAgICAgTWVyZ2UgdGFnICdkcm0taW50ZWwtZml4ZXMtMjAxOS0wOC0yOScgb2YKZ2l0Oi8vYW5v
+bmdpdC5mcmVlZGVza3RvcC5vcmcvZHJtL2RybS1pbnRlbCBpbnRvIGRybS1maXhlcwoKRXZhbiBR
+dWFuICgxKToKICAgICAgZHJtL2FtZC9wb3dlcnBsYXk6IGNvcnJlY3QgVmVnYTIwIGRwbSBsZXZl
+bCByZWxhdGVkIHNldHRpbmdzCgpHZXJkIEhvZmZtYW5uICgyKToKICAgICAgZHJtL3F4bDogZ2V0
+IHZnYSBpb3BvcnRzCiAgICAgIGRybS92aXJ0aW86IHVzZSB2aXJ0aW9fbWF4X2RtYV9zaXplCgpL
+YWktSGVuZyBGZW5nICgxKToKICAgICAgZHJtL2FtZGdwdTogQWRkIEFQVFggcXVpcmsgZm9yIERl
+bGwgTGF0aXR1ZGUgNTQ5NQoKS2VudCBSdXNzZWxsICgyKToKICAgICAgZHJtL3Bvd2VycGxheTog
+Rml4IFZlZ2EyMCBBdmVyYWdlIFBvd2VyIHZhbHVlIHY0CiAgICAgIGRybS9wb3dlcnBsYXk6IEZp
+eCBWZWdhMjAgcG93ZXIgcmVhZGluZyBhZ2FpbgoKTGF1cmVudCBQaW5jaGFydCAoMSk6CiAgICAg
+IGRybS9vbWFwOiBGaXggcG9ydCBsb29rdXAgZm9yIFNESSBvdXRwdXQKCkx5dWRlIFBhdWwgKDEp
+OgogICAgICBkcm0vaTkxNTogQ2FsbCBkbWFfc2V0X21heF9zZWdfc2l6ZSgpIGluIGk5MTVfZHJp
+dmVyX2h3X3Byb2JlKCkKCk1hbmFzaSBOYXZhcmUgKDEpOgogICAgICBkcm0vaTkxNS9kcDogRml4
+IERTQyBlbmFibGUgY29kZSB0byB1c2UgY3B1X3RyYW5zY29kZXIgaW5zdGVhZApvZiBlbmNvZGVy
+LT50eXBlCgpNaWhhaWwgQXRhbmFzc292ICgxKToKICAgICAgZHJtL2tvbWVkYTogQWRkIG1pc3Np
+bmcgb2Zfbm9kZV9nZXQoKSBjYWxsCgpWaWxsZSBTeXJqw6Rsw6QgKDEpOgogICAgICBkcm0vaTkx
+NTogRG8gbm90IGNyZWF0ZSBhIG5ldyBtYXhfYnBjIHByb3AgZm9yIE1TVCBjb25uZWN0b3JzCgpY
+aW9uZyBaaGFuZyAoMSk6CiAgICAgIGRybS9pOTE1OiBEb24ndCBkZWJhbGxvb24gdW51c2VkIGdn
+dHQgZHJtX21tX25vZGUgaW4gbGludXggZ3Vlc3QKCmphbWVzIHFpYW4gd2FuZyAoQXJtIFRlY2hu
+b2xvZ3kgQ2hpbmEpICgzKToKICAgICAgZHJtL2tvbWVkYTogRml4IGVycm9yOiBub3QgYWxsb2Nh
+dGluZyBlbm91Z2ggZGF0YSAxNTkyIHZzIDE1ODQKICAgICAgZHJtL2tvbWVkYTogRml4IHdhcm5p
+bmcgLVd1bnVzZWQtYnV0LXNldC12YXJpYWJsZQogICAgICBkcm0va29tZWRhOiBDbGVhbiB3YXJu
+aW5nICdrb21lZGFfY29tcG9uZW50X2FkZCcgbWlnaHQgYmUgYQpjYW5kaWRhdGUgZm9yICdnbnVf
+cHJpbnRmJwoKIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9hdHB4X2hhbmRsZXIu
+YyAgIHwgIDEgKwogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2N0eC5jICAgICAg
+ICAgICAgfCAyNyArKysrKy0tLS0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2dmeF92OV8w
+LmMgICAgICAgICAgICAgIHwgMTQgKystLS0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5
+L2h3bWdyL3ZlZ2EyMF9od21nci5jIHwgNjYgKysrKysrKysrKysrKysrKysrKy0tLQogZHJpdmVy
+cy9ncHUvZHJtL2FtZC9wb3dlcnBsYXkvdmVnYTIwX3BwdC5jICAgICAgICAgfCAxMSArKystCiBk
+cml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9kZXYuYyAgICB8ICAyICst
+CiBkcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9rbXMuYyAgICB8IDI5
+ICsrKysrKy0tLS0KIC4uLi9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfcGlwZWxp
+bmUuaCAgIHwgIDEgKwogLi4uL2RybS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRhX3diX2Nvbm5l
+Y3Rvci5jICAgfCAgMiArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcF9t
+c3QuYyAgICAgICAgfCAxMCArKystCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVs
+X3Zkc2MuYyAgICAgICAgICB8ICAyICstCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2Rydi5j
+ICAgICAgICAgICAgICAgICAgICB8ICA2ICsrCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X3Zn
+cHUuYyAgICAgICAgICAgICAgICAgICB8ICAzICsKIGRyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL2Rz
+cy9vdXRwdXQuYyAgICAgICAgICAgICAgIHwgIDQgKy0KIGRyaXZlcnMvZ3B1L2RybS9xeGwvcXhs
+X2Rydi5jICAgICAgICAgICAgICAgICAgICAgIHwgMjAgKysrKysrLQogZHJpdmVycy9ncHUvZHJt
+L3ZpcnRpby92aXJ0Z3B1X29iamVjdC5jICAgICAgICAgICAgfCAxMCArKystCiAxNiBmaWxlcyBj
+aGFuZ2VkLCAxNjEgaW5zZXJ0aW9ucygrKSwgNDcgZGVsZXRpb25zKC0pCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
