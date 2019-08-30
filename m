@@ -1,41 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 002FDA3010
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2019 08:36:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A82A3013
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2019 08:36:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AA606E0F0;
-	Fri, 30 Aug 2019 06:36:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A929E6E233;
+	Fri, 30 Aug 2019 06:36:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id 88FE16E0F0
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2019 06:36:32 +0000 (UTC)
-X-UUID: f87a23ab6bbe4b4194fdb629b252278d-20190830
-X-UUID: f87a23ab6bbe4b4194fdb629b252278d-20190830
-Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 1604358296; Fri, 30 Aug 2019 14:36:33 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Fri, 30 Aug 2019 14:36:31 +0800
-Received: from [172.21.77.4] (172.21.77.4) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Fri, 30 Aug 2019 14:36:31 +0800
-Message-ID: <1567146985.5942.22.camel@mtksdaap41>
-Subject: Re: [PATCH v5, 31/32] drm/mediatek: add connection from RDMA0 to DSI0
-From: CK Hu <ck.hu@mediatek.com>
-To: <yongqiang.niu@mediatek.com>
-Date: Fri, 30 Aug 2019 14:36:25 +0800
-In-Reply-To: <1567090254-15566-32-git-send-email-yongqiang.niu@mediatek.com>
-References: <1567090254-15566-1-git-send-email-yongqiang.niu@mediatek.com>
- <1567090254-15566-32-git-send-email-yongqiang.niu@mediatek.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E53606E233
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2019 06:36:43 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id t17so6052540wmi.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Aug 2019 23:36:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Kk8x3cKyvvXICceum0INWYEPewq78FbjmDWi29s8UWM=;
+ b=FtlK/gry5n07DMyV+cvQWlHcBJxdEFZdkDfzw6VNoY6xwHyfuvbVz9P5KybB+dYaQx
+ je8JlZsgjC0dqnoxIYRURsiHCbuxYvrTUMvF0UxE00OYj5MqiWjTYfTfDlSnMGwK2Sk7
+ ngYEJTAzQURDcRbxSPwRXMQ5HChw2HjrEKUf46aktsmJl8NIiA0u7M508Mdi2/d5qlNw
+ tjXyj/2/G9pDo4BDEl4AEa8YeS+If/zSWfe4M6xKsbhiecBjfKkiohUZDK7b3RHhYpPR
+ lfBSxCzZYrFoW18L4XlywQqdjEVn7R6c2qzLhgKpi4qGg/9O89En28tTTde+0pCrnLhi
+ aFPw==
+X-Gm-Message-State: APjAAAWCUOwP/+GUyT2L1dYYP9EtKhSzKpDE5xFqW5MDLPpxd/msJBUk
+ a95ANnQdSsJixmcgfJt2vR/D06lkMsRg1l7zNtZiCJUlhSVnsQ==
+X-Google-Smtp-Source: APXvYqz362DNbXCxqBJOcBjnm+Qh+pOH4b4faggNpPXu9chV19w7iO+en8zEk7AMRyHYLrvQQzN2TO3RTAlICTUm6U8=
+X-Received: by 2002:a1c:7319:: with SMTP id d25mr14416105wmb.123.1567147002204; 
+ Thu, 29 Aug 2019 23:36:42 -0700 (PDT)
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 50A5F5C4F5D72EB5221C973FC30EC94B6C7215BA6C5A3B2CA8C5D11468BADDBA2000:8
-X-MTK: N
+References: <20190829212417.257397-1-davidriley@chromium.org>
+ <20190830060857.tzrzgoi2hrmchdi5@sirius.home.kraxel.org>
+In-Reply-To: <20190830060857.tzrzgoi2hrmchdi5@sirius.home.kraxel.org>
+From: David Riley <davidriley@chromium.org>
+Date: Thu, 29 Aug 2019 23:36:30 -0700
+Message-ID: <CAASgrz2v0DYb_5A3MnaWFM4Csx1DKkZe546v7DG7R+UyLOA8og@mail.gmail.com>
+Subject: Re: [PATCH] drm/virtio: Use vmalloc for command buffer allocations.
+To: Gerd Hoffmann <kraxel@redhat.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=Kk8x3cKyvvXICceum0INWYEPewq78FbjmDWi29s8UWM=;
+ b=QIdRALQscUj1g5pKhrT+kqnbA1s1DJFRuUEErgbicE2+DP/FHUc1xZmMRmRok1pdPJ
+ BgmW/KHS6p8w+iIYlgwIbgMvOpHM14YoaDcSm49QJwXEwTb7Rs0lPNDkqLyzdh/Rs3Si
+ FpZAgsQXNOx3X1q0XJZiN7PlRWBCXvApkWmKw=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,39 +60,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
+ =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+ virtualization@lists.linux-foundation.org
+Content-Type: multipart/mixed; boundary="===============1616914557=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIFlvbmdxaWFuZzoKCk9uIFRodSwgMjAxOS0wOC0yOSBhdCAyMjo1MCArMDgwMCwgeW9uZ3Fp
-YW5nLm5pdUBtZWRpYXRlay5jb20gd3JvdGU6Cj4gRnJvbTogWW9uZ3FpYW5nIE5pdSA8eW9uZ3Fp
-YW5nLm5pdUBtZWRpYXRlay5jb20+Cj4gCj4gVGhpcyBwYXRjaCBhZGQgY29ubmVjdGlvbiBmcm9t
-IFJETUEwIHRvIERTSTAKClJldmlld2VkLWJ5OiBDSyBIdSA8Y2suaHVAbWVkaWF0ZWsuY29tPgoK
-PiAKPiBTaWduZWQtb2ZmLWJ5OiBZb25ncWlhbmcgTml1IDx5b25ncWlhbmcubml1QG1lZGlhdGVr
-LmNvbT4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZGRwLmMgfCA0
-ICsrKysKPiAgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQo+IAo+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kZHAuYyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9tZWRpYXRlay9tdGtfZHJtX2RkcC5jCj4gaW5kZXggZmQzODY1OC4uNmE3Y2IxNSAxMDA2NDQK
-PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kZHAuYwo+ICsrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcC5jCj4gQEAgLTQyLDYgKzQyLDcgQEAK
-PiAgI2RlZmluZSBPVkwxXzJMX01PVVRfRU5fUkRNQTEJCQkJQklUKDQpCj4gICNkZWZpbmUgRElU
-SEVSMF9NT1VUX0lOX0RTSTAJCQkJQklUKDApCj4gICNkZWZpbmUgRElTUF9QQVRIMF9TRUxfSU5f
-T1ZMMF8yTAkJCTB4MQo+ICsjZGVmaW5lIERTSTBfU0VMX0lOX1JETUEwCQkJCTB4MQo+ICAKPiAg
-I2RlZmluZSBNVDI3MDFfRElTUF9NVVRFWDBfTU9EMAkJCTB4MmMKPiAgI2RlZmluZSBNVDI3MDFf
-RElTUF9NVVRFWDBfU09GMAkJCTB4MzAKPiBAQCAtMzkxLDYgKzM5Miw5IEBAIHN0YXRpYyB1bnNp
-Z25lZCBpbnQgbXRrX2RkcF9zZWxfaW4oY29uc3Qgc3RydWN0IG10a19tbXN5c19yZWdfZGF0YSAq
-ZGF0YSwKPiAgCQkgICBuZXh0ID09IEREUF9DT01QT05FTlRfUkRNQTApIHsKPiAgCQkqYWRkciA9
-IE1UODE4M19ESVNQX1BBVEgwX1NFTF9JTjsKPiAgCQl2YWx1ZSA9IERJU1BfUEFUSDBfU0VMX0lO
-X09WTDBfMkw7Cj4gKwl9IGVsc2UgaWYgKGN1ciA9PSBERFBfQ09NUE9ORU5UX1JETUEwICYmIG5l
-eHQgPT0gRERQX0NPTVBPTkVOVF9EU0kwKSB7Cj4gKwkJKmFkZHIgPSBkYXRhLT5kc2kwX3NlbF9p
-bjsKPiArCQl2YWx1ZSA9IERTSTBfU0VMX0lOX1JETUEwOwo+ICAJfSBlbHNlIHsKPiAgCQl2YWx1
-ZSA9IDA7Cj4gIAl9CgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVs
+--===============1616914557==
+Content-Type: multipart/alternative; boundary="00000000000060f46005914fd875"
+
+--00000000000060f46005914fd875
+Content-Type: text/plain; charset="UTF-8"
+
+On Thu, Aug 29, 2019 at 11:09 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+
+>   Hi,
+>
+> >  {
+> >       if (vbuf->resp_size > MAX_INLINE_RESP_SIZE)
+> >               kfree(vbuf->resp_buf);
+> > -     kfree(vbuf->data_buf);
+> > +     kvfree(vbuf->data_buf);
+>
+> if (is_vmalloc_addr(vbuf->data_buf)) ...
+>
+> needed here I gues?
+>
+
+kvfree() handles vmalloc/kmalloc/kvmalloc internally by doing that check.
+
+
+>
+> > +/* Create sg_table from a vmalloc'd buffer. */
+> > +static struct sg_table *vmalloc_to_sgt(char *data, uint32_t size)
+>
+> Hmm, isn't there an existing function for that?
+> I'd be surprised if virtio-gpu is the first driver needing this ...
+>
+> And it case there really isn't one this should probably added to the
+> vmalloc or scatterlist code, not the virtio-gpu driver.
+>
+
+There's a few other similar ones around:
+- pack_sg_list in net/9p/trans_virtio.c, assumes contiguous array of
+scatterlist and non-vmalloc
+- videobuf_vmalloc_to_sg in drivers/media/v4l2-core/videobuf-dma-sg.c,
+assumes contiguous array of scatterlist and that the buffer being converted
+is page aligned (the l
+- vmalloc_to_sg() in drivers/media/common/saa7146/saa7146_core.c, duplicate
+of videobuf_vmalloc_to_sg
+
+None of the existing ones seemed to do what was needed and the convention
+seemed to pack an sg table as needed for the usage and just keep it in the
+module so that's what I followed.  I'm not very familiar with these APIs so
+maybe there's something I missed, but I did look through the helpers in
+lib/scatterlist.c and didn't see anything.  If you think it is better
+suited to live in scatterlist I can prepare another change for that.
+
+Dave
+
+>
+> cheers,
+>   Gerd
+>
+>
+
+--00000000000060f46005914fd875
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 29, 2019 at 11:09 PM Gerd=
+ Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt=
+; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=C2=A0 =
+Hi,<br>
+<br>
+&gt;=C2=A0 {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (vbuf-&gt;resp_size &gt; MAX_INLINE_RESP_=
+SIZE)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kfree(vbuf-&gt;r=
+esp_buf);<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0kfree(vbuf-&gt;data_buf);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0kvfree(vbuf-&gt;data_buf);<br>
+<br>
+if (is_vmalloc_addr(vbuf-&gt;data_buf)) ...<br>
+<br>
+needed here I gues?<br></blockquote><div><br></div><div>kvfree() handles vm=
+alloc/kmalloc/kvmalloc internally by doing that check.</div><div>=C2=A0</di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; +/* Create sg_table from a vmalloc&#39;d buffer. */<br>
+&gt; +static struct sg_table *vmalloc_to_sgt(char *data, uint32_t size)<br>
+<br>
+Hmm, isn&#39;t there an existing function for that?<br>
+I&#39;d be surprised if virtio-gpu is the first driver needing this ...<br>
+<br>
+And it case there really isn&#39;t one this should probably added to the<br=
+>
+vmalloc or scatterlist code, not the virtio-gpu driver.<br></blockquote><di=
+v><br></div><div>There&#39;s a few other similar ones around:</div><div>- p=
+ack_sg_list in net/9p/trans_virtio.c, assumes contiguous=C2=A0array of scat=
+terlist and non-vmalloc</div><div>-=C2=A0videobuf_vmalloc_to_sg in=C2=A0dri=
+vers/media/v4l2-core/videobuf-dma-sg.c, assumes contiguous array of scatter=
+list and that the buffer being converted is page aligned (the l</div><div>-=
+ vmalloc_to_sg() in drivers/media/common/saa7146/saa7146_core.c, duplicate =
+of videobuf_vmalloc_to_sg</div><div><br></div><div>None of the existing one=
+s seemed to do what was needed and the convention seemed to pack an sg tabl=
+e as needed for the usage and just keep it in the module so that&#39;s what=
+ I followed.=C2=A0 I&#39;m not very familiar with these APIs so maybe there=
+&#39;s something I missed, but I did look through the helpers in lib/scatte=
+rlist.c and didn&#39;t see anything.=C2=A0 If you think it is better suited=
+ to live in scatterlist I can prepare another change for that.</div><div><b=
+r></div><div>Dave</div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+cheers,<br>
+=C2=A0 Gerd<br>
+<br>
+</blockquote></div></div>
+
+--00000000000060f46005914fd875--
+
+--===============1616914557==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1616914557==--
