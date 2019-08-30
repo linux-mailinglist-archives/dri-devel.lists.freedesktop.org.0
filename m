@@ -2,31 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B931A3F19
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2019 22:43:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16573A3F21
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2019 22:49:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D0FF6E128;
-	Fri, 30 Aug 2019 20:43:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 130496E3DA;
+	Fri, 30 Aug 2019 20:49:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD8E86E128
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2019 20:43:19 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2019 13:43:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,447,1559545200"; d="scan'208";a="172345243"
-Received: from anusha.jf.intel.com ([10.54.75.176])
- by orsmga007.jf.intel.com with ESMTP; 30 Aug 2019 13:43:19 -0700
-From: Anusha Srivatsa <anusha.srivatsa@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C15BA6E3DA
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2019 20:49:12 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id BE00B72161; Fri, 30 Aug 2019 20:49:12 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH libdrm] intel: sync i915_pciids.h with kernel
-Date: Fri, 30 Aug 2019 13:32:51 -0700
-Message-Id: <20190830203251.3050-1-anusha.srivatsa@intel.com>
-X-Mailer: git-send-email 2.23.0
+Subject: [Bug 107296] WARNING: CPU: 0 PID: 370 at
+ drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:1355
+ dcn_bw_update_from_pplib+0x16b/0x280 [amdgpu]
+Date: Fri, 30 Aug 2019 20:49:12 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alpha_one_x86@first-world.info
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-107296-502-9UMUshwy2c@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-107296-502@http.bugs.freedesktop.org/>
+References: <bug-107296-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -40,30 +54,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Anusha Srivatsa <anusha.srivatsa@intel.com>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1415028538=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QWRkIHRoZSBuZXcgQ01MIFBDSSBJRFMuCgpBbGlnbiB3aXRoIGtlcm5lbCBjb21taXQ6CmJmYzRj
-MzU5YjI4MjIgKCJkcm0vaTkxNS9jbWw6IEFkZCBNaXNzaW5nIFBDSSBJRHMiKQoKVGhpcyBpcyBp
-biBzeW5jIHdpdGgga2VybmVsIGhlYWRlciBhcyBvZjoKMDc0NzU5MDI2N2U3ICgiZHJtLXRpcDog
-MjAxOXktMDhtLTMwZC0xOGgtMDNtLTE4cyBVVEMgaW50ZWdyYXRpb24gbWFuaWZlc3QiKQoKQ2M6
-IEpvc8OpIFJvYmVydG8gZGUgU291emEgPGpvc2Uuc291emFAaW50ZWwuY29tPgpTaWduZWQtb2Zm
-LWJ5OiBBbnVzaGEgU3JpdmF0c2EgPGFudXNoYS5zcml2YXRzYUBpbnRlbC5jb20+Ci0tLQogaW50
-ZWwvaTkxNV9wY2lpZHMuaCB8IDUgKysrKy0KIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMo
-KyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9pbnRlbC9pOTE1X3BjaWlkcy5oIGIvaW50
-ZWwvaTkxNV9wY2lpZHMuaAppbmRleCBhNzBjOTgyZC4uYjFmNjZiMTEgMTAwNjQ0Ci0tLSBhL2lu
-dGVsL2k5MTVfcGNpaWRzLmgKKysrIGIvaW50ZWwvaTkxNV9wY2lpZHMuaApAQCAtNDY2LDcgKzQ2
-NiwxMCBAQAogCUlOVEVMX1ZHQV9ERVZJQ0UoMHg5QkM1LCBpbmZvKSwgXAogCUlOVEVMX1ZHQV9E
-RVZJQ0UoMHg5QkM4LCBpbmZvKSwgXAogCUlOVEVMX1ZHQV9ERVZJQ0UoMHg5QkM0LCBpbmZvKSwg
-XAotCUlOVEVMX1ZHQV9ERVZJQ0UoMHg5QkMyLCBpbmZvKQorCUlOVEVMX1ZHQV9ERVZJQ0UoMHg5
-QkMyLCBpbmZvKSwgXAorCUlOVEVMX1ZHQV9ERVZJQ0UoMHg5QkM2LCBpbmZvKSwgXAorCUlOVEVM
-X1ZHQV9ERVZJQ0UoMHg5QkU2LCBpbmZvKSwgXAorCUlOVEVMX1ZHQV9ERVZJQ0UoMHg5QkY2LCBp
-bmZvKQogCiAjZGVmaW5lIElOVEVMX0tCTF9JRFMoaW5mbykgXAogCUlOVEVMX0tCTF9HVDFfSURT
-KGluZm8pLCBcCi0tIAoyLjIzLjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbA==
+
+--===============1415028538==
+Content-Type: multipart/alternative; boundary="15671981528.94FC660.20342"
+Content-Transfer-Encoding: 7bit
+
+
+--15671981528.94FC660.20342
+Date: Fri, 30 Aug 2019 20:49:12 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D107296
+
+--- Comment #17 from BRULE Herman <alpha_one_x86@first-world.info> ---
+Same here with 3400G
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15671981528.94FC660.20342
+Date: Fri, 30 Aug 2019 20:49:12 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - WARNING: CPU: 0 PID: 370 at drivers/gpu/drm/amd/amdgpu/..=
+/display/dc/calcs/dcn_calcs.c:1355 dcn_bw_update_from_pplib+0x16b/0x280 [am=
+dgpu]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107296#c17">Comme=
+nt # 17</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - WARNING: CPU: 0 PID: 370 at drivers/gpu/drm/amd/amdgpu/..=
+/display/dc/calcs/dcn_calcs.c:1355 dcn_bw_update_from_pplib+0x16b/0x280 [am=
+dgpu]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107296">bug 10729=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+alpha_one_x86&#64;first-world.info" title=3D"BRULE Herman &lt;alpha_one_x86=
+&#64;first-world.info&gt;"> <span class=3D"fn">BRULE Herman</span></a>
+</span></b>
+        <pre>Same here with 3400G</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15671981528.94FC660.20342--
+
+--===============1415028538==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1415028538==--
