@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 248FBA2F64
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2019 08:09:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1D6CA2F72
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2019 08:11:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4649D8937C;
-	Fri, 30 Aug 2019 06:09:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F0A88937C;
+	Fri, 30 Aug 2019 06:11:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F1DF8937C
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2019 06:08:59 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BB4E030832C6;
- Fri, 30 Aug 2019 06:08:58 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-95.ams2.redhat.com
- [10.36.116.95])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6BB755C1D6;
- Fri, 30 Aug 2019 06:08:58 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A32B317536; Fri, 30 Aug 2019 08:08:57 +0200 (CEST)
-Date: Fri, 30 Aug 2019 08:08:57 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: David Riley <davidriley@chromium.org>
-Subject: Re: [PATCH] drm/virtio: Use vmalloc for command buffer allocations.
-Message-ID: <20190830060857.tzrzgoi2hrmchdi5@sirius.home.kraxel.org>
-References: <20190829212417.257397-1-davidriley@chromium.org>
+Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6CEFA8937C
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2019 06:11:47 +0000 (UTC)
+X-UUID: f23dc1529da6496e8313aee092cad3a8-20190830
+X-UUID: f23dc1529da6496e8313aee092cad3a8-20190830
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLS)
+ with ESMTP id 885994755; Fri, 30 Aug 2019 14:11:49 +0800
+Received: from mtkcas09.mediatek.inc (172.21.101.178) by
+ MTKMBS31N1.mediatek.inc (172.27.4.69) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Fri, 30 Aug 2019 14:11:47 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas09.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Fri, 30 Aug 2019 14:11:47 +0800
+Message-ID: <1567145502.5942.15.camel@mtksdaap41>
+Subject: Re: [PATCH v5, 24/32] drm/mediatek: add clock property check before
+ get it
+From: CK Hu <ck.hu@mediatek.com>
+To: <yongqiang.niu@mediatek.com>
+Date: Fri, 30 Aug 2019 14:11:42 +0800
+In-Reply-To: <1567090254-15566-25-git-send-email-yongqiang.niu@mediatek.com>
+References: <1567090254-15566-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1567090254-15566-25-git-send-email-yongqiang.niu@mediatek.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190829212417.257397-1-davidriley@chromium.org>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Fri, 30 Aug 2019 06:08:58 +0000 (UTC)
+X-TM-SNTS-SMTP: AC63B56FAA0B5FFE3064F062EFE487F75FF6A0918ACADC649B94CFF7E07E14872000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,26 +49,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
- =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
- virtualization@lists.linux-foundation.org
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ICBIaSwKCj4gIHsKPiAgCWlmICh2YnVmLT5yZXNwX3NpemUgPiBNQVhfSU5MSU5FX1JFU1BfU0la
-RSkKPiAgCQlrZnJlZSh2YnVmLT5yZXNwX2J1Zik7Cj4gLQlrZnJlZSh2YnVmLT5kYXRhX2J1Zik7
-Cj4gKwlrdmZyZWUodmJ1Zi0+ZGF0YV9idWYpOwoKaWYgKGlzX3ZtYWxsb2NfYWRkcih2YnVmLT5k
-YXRhX2J1ZikpIC4uLgoKbmVlZGVkIGhlcmUgSSBndWVzPwoKPiArLyogQ3JlYXRlIHNnX3RhYmxl
-IGZyb20gYSB2bWFsbG9jJ2QgYnVmZmVyLiAqLwo+ICtzdGF0aWMgc3RydWN0IHNnX3RhYmxlICp2
-bWFsbG9jX3RvX3NndChjaGFyICpkYXRhLCB1aW50MzJfdCBzaXplKQoKSG1tLCBpc24ndCB0aGVy
-ZSBhbiBleGlzdGluZyBmdW5jdGlvbiBmb3IgdGhhdD8KSSdkIGJlIHN1cnByaXNlZCBpZiB2aXJ0
-aW8tZ3B1IGlzIHRoZSBmaXJzdCBkcml2ZXIgbmVlZGluZyB0aGlzIC4uLgoKQW5kIGl0IGNhc2Ug
-dGhlcmUgcmVhbGx5IGlzbid0IG9uZSB0aGlzIHNob3VsZCBwcm9iYWJseSBhZGRlZCB0byB0aGUK
-dm1hbGxvYyBvciBzY2F0dGVybGlzdCBjb2RlLCBub3QgdGhlIHZpcnRpby1ncHUgZHJpdmVyLgoK
-Y2hlZXJzLAogIEdlcmQKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbA==
+SGksIFlvbmdxaWFuZzoKCk9uIFRodSwgMjAxOS0wOC0yOSBhdCAyMjo1MCArMDgwMCwgeW9uZ3Fp
+YW5nLm5pdUBtZWRpYXRlay5jb20gd3JvdGU6Cj4gRnJvbTogWW9uZ3FpYW5nIE5pdSA8eW9uZ3Fp
+YW5nLm5pdUBtZWRpYXRlay5jb20+Cj4gCj4gVGhpcyBwYXRjaCBhZGQgY2xvY2sgcHJvcGVydHkg
+Y2hlY2sgYmVmb3JlIGdldCBpdAo+IAo+IFNpZ25lZC1vZmYtYnk6IFlvbmdxaWFuZyBOaXUgPHlv
+bmdxaWFuZy5uaXVAbWVkaWF0ZWsuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0
+ZWsvbXRrX2RybV9kZHAuYyB8IDEwICsrKysrKy0tLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDYgaW5z
+ZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL21lZGlhdGVrL210a19kcm1fZGRwLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRr
+X2RybV9kZHAuYwo+IGluZGV4IGE1YTY2ODkuLmVmZmMyNGEgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZGRwLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
+bWVkaWF0ZWsvbXRrX2RybV9kZHAuYwo+IEBAIC02NTcsMTAgKzY1NywxMiBAQCBzdGF0aWMgaW50
+IG10a19kZHBfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKPiAgCWZvciAoaSA9
+IDA7IGkgPCAxMDsgaSsrKQo+ICAJCWRkcC0+bXV0ZXhbaV0uaWQgPSBpOwo+ICAKPiAtCWRkcC0+
+Y2xrID0gZGV2bV9jbGtfZ2V0KGRldiwgTlVMTCk7Cj4gLQlpZiAoSVNfRVJSKGRkcC0+Y2xrKSkg
+ewo+IC0JCWRldl9lcnIoZGV2LCAiRmFpbGVkIHRvIGdldCBjbG9ja1xuIik7Cj4gLQkJcmV0dXJu
+IFBUUl9FUlIoZGRwLT5jbGspOwo+ICsJaWYgKG9mX2ZpbmRfcHJvcGVydHkoZGV2LT5vZl9ub2Rl
+LCAiY2xvY2tzIiwgJmkpKSB7Cj4gKwkJZGRwLT5jbGsgPSBkZXZtX2Nsa19nZXQoZGV2LCBOVUxM
+KTsKPiArCQlpZiAoSVNfRVJSKGRkcC0+Y2xrKSkgewo+ICsJCQlkZXZfZXJyKGRldiwgIkZhaWxl
+ZCB0byBnZXQgY2xvY2tcbiIpOwo+ICsJCQlyZXR1cm4gUFRSX0VSUihkZHAtPmNsayk7Cj4gKwkJ
+fQoKT25seSAibWVkaWF0ZWssbXQ4MTMzLWRpc3AtbXV0ZXgiIGhhcyBubyBjbG9jayBwcm9wZXJ0
+eS4gRm9yIG90aGVyIFNvQywKY2xvY2sgcHJvcGVydHkgaXMgcmVxdWlyZWQuIFNvIEkgdGhpbmsg
+dGhpcyBleGNlcHRpb24gaXMganVzdCBmb3IKbXQ4MTgzLgoKUmVnYXJkcywKQ0sKCj4gIAl9Cj4g
+IAo+ICAJcmVncyA9IHBsYXRmb3JtX2dldF9yZXNvdXJjZShwZGV2LCBJT1JFU09VUkNFX01FTSwg
+MCk7CgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
+LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
