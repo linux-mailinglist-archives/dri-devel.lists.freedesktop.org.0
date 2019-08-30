@@ -1,42 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4912A2F1D
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2019 07:41:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E1EA2F2E
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2019 07:49:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8261E6E237;
-	Fri, 30 Aug 2019 05:41:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C63386E231;
+	Fri, 30 Aug 2019 05:49:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2E7EB6E237
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2019 05:41:29 +0000 (UTC)
-X-UUID: 7c4078c7a9474170b97f8c3d36eb57c0-20190830
-X-UUID: 7c4078c7a9474170b97f8c3d36eb57c0-20190830
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 2135017108; Fri, 30 Aug 2019 13:41:33 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Fri, 30 Aug 2019 13:41:31 +0800
-Received: from [172.21.77.4] (172.21.77.4) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Fri, 30 Aug 2019 13:41:30 +0800
-Message-ID: <1567143685.5942.11.camel@mtksdaap41>
-Subject: Re: [PATCH v5, 13/32] drm/mediatek: move rdma sout from
- mtk_ddp_mout_en into mtk_ddp_sout_sel
-From: CK Hu <ck.hu@mediatek.com>
-To: <yongqiang.niu@mediatek.com>
-Date: Fri, 30 Aug 2019 13:41:25 +0800
-In-Reply-To: <1567090254-15566-14-git-send-email-yongqiang.niu@mediatek.com>
-References: <1567090254-15566-1-git-send-email-yongqiang.niu@mediatek.com>
- <1567090254-15566-14-git-send-email-yongqiang.niu@mediatek.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B67806E231
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2019 05:49:01 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id AEE6572161; Fri, 30 Aug 2019 05:49:01 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 107877] deepin-desktop: xdg-email: no method available for
+ opening 'mailto:'
+Date: Fri, 30 Aug 2019 05:49:02 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: security
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mskristymurphy@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-107877-502-VK9kpzQALP@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-107877-502@http.bugs.freedesktop.org/>
+References: <bug-107877-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 91FBBB659019F98841FF1162CEE48D62A4310431E53ADFD011B0F26E739CCC8C2000:8
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,121 +53,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0993516006=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIFlvbmdxaWFuZzoKCk9uIFRodSwgMjAxOS0wOC0yOSBhdCAyMjo1MCArMDgwMCwgeW9uZ3Fp
-YW5nLm5pdUBtZWRpYXRlay5jb20gd3JvdGU6Cj4gRnJvbTogWW9uZ3FpYW5nIE5pdSA8eW9uZ3Fp
-YW5nLm5pdUBtZWRpYXRlay5jb20+Cj4gCj4gVGhpcyBwYXRjaCBtb3ZlIHJkbWEgc291dCBmcm9t
-IG10a19kZHBfbW91dF9lbiBpbnRvIG10a19kZHBfc291dF9zZWwKPiByZG1hIG9ubHkgaGFzIHNp
-bmdsZSBvdXRwdXQsIGJ1dCBubyBtdWx0aSBvdXRwdXQsCj4gYWxsIHRoZXNlIHJkbWEtPmRzaS9k
-cGkgdXNlY2FzZSBzaG91bGQgbW92ZSB0byBtdGtfZGRwX3NvdXRfc2VsCgpSZXZpZXdlZC1ieTog
-Q0sgSHUgPGNrLmh1QG1lZGlhdGVrLmNvbT4KCj4gCj4gU2lnbmVkLW9mZi1ieTogWW9uZ3FpYW5n
-IE5pdSA8eW9uZ3FpYW5nLm5pdUBtZWRpYXRlay5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2Ry
-bS9tZWRpYXRlay9tdGtfZHJtX2RkcC5jIHwgOTAgKysrKysrKysrKysrKysrKystLS0tLS0tLS0t
-LS0tLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgNDUgaW5zZXJ0aW9ucygrKSwgNDUgZGVsZXRpb25z
-KC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rk
-cC5jIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZGRwLmMKPiBpbmRleCAzMzhj
-YzJmLi5hNWE2Njg5IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtf
-ZHJtX2RkcC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZGRwLmMK
-PiBAQCAtMjk5LDUxICsyOTksNiBAQCBzdGF0aWMgdW5zaWduZWQgaW50IG10a19kZHBfbW91dF9l
-bihjb25zdCBzdHJ1Y3QgbXRrX21tc3lzX3JlZ19kYXRhICpkYXRhLAo+ICAJfSBlbHNlIGlmIChj
-dXIgPT0gRERQX0NPTVBPTkVOVF9PRDEgJiYgbmV4dCA9PSBERFBfQ09NUE9ORU5UX1JETUExKSB7
-Cj4gIAkJKmFkZHIgPSBESVNQX1JFR19DT05GSUdfRElTUF9PRF9NT1VUX0VOOwo+ICAJCXZhbHVl
-ID0gT0QxX01PVVRfRU5fUkRNQTE7Cj4gLQl9IGVsc2UgaWYgKGN1ciA9PSBERFBfQ09NUE9ORU5U
-X1JETUEwICYmIG5leHQgPT0gRERQX0NPTVBPTkVOVF9EUEkwKSB7Cj4gLQkJKmFkZHIgPSBESVNQ
-X1JFR19DT05GSUdfRElTUF9SRE1BMF9TT1VUX0VOOwo+IC0JCXZhbHVlID0gUkRNQTBfU09VVF9E
-UEkwOwo+IC0JfSBlbHNlIGlmIChjdXIgPT0gRERQX0NPTVBPTkVOVF9SRE1BMCAmJiBuZXh0ID09
-IEREUF9DT01QT05FTlRfRFBJMSkgewo+IC0JCSphZGRyID0gRElTUF9SRUdfQ09ORklHX0RJU1Bf
-UkRNQTBfU09VVF9FTjsKPiAtCQl2YWx1ZSA9IFJETUEwX1NPVVRfRFBJMTsKPiAtCX0gZWxzZSBp
-ZiAoY3VyID09IEREUF9DT01QT05FTlRfUkRNQTAgJiYgbmV4dCA9PSBERFBfQ09NUE9ORU5UX0RT
-STEpIHsKPiAtCQkqYWRkciA9IERJU1BfUkVHX0NPTkZJR19ESVNQX1JETUEwX1NPVVRfRU47Cj4g
-LQkJdmFsdWUgPSBSRE1BMF9TT1VUX0RTSTE7Cj4gLQl9IGVsc2UgaWYgKGN1ciA9PSBERFBfQ09N
-UE9ORU5UX1JETUEwICYmIG5leHQgPT0gRERQX0NPTVBPTkVOVF9EU0kyKSB7Cj4gLQkJKmFkZHIg
-PSBESVNQX1JFR19DT05GSUdfRElTUF9SRE1BMF9TT1VUX0VOOwo+IC0JCXZhbHVlID0gUkRNQTBf
-U09VVF9EU0kyOwo+IC0JfSBlbHNlIGlmIChjdXIgPT0gRERQX0NPTVBPTkVOVF9SRE1BMCAmJiBu
-ZXh0ID09IEREUF9DT01QT05FTlRfRFNJMykgewo+IC0JCSphZGRyID0gRElTUF9SRUdfQ09ORklH
-X0RJU1BfUkRNQTBfU09VVF9FTjsKPiAtCQl2YWx1ZSA9IFJETUEwX1NPVVRfRFNJMzsKPiAtCX0g
-ZWxzZSBpZiAoY3VyID09IEREUF9DT01QT05FTlRfUkRNQTEgJiYgbmV4dCA9PSBERFBfQ09NUE9O
-RU5UX0RTSTEpIHsKPiAtCQkqYWRkciA9IERJU1BfUkVHX0NPTkZJR19ESVNQX1JETUExX1NPVVRf
-RU47Cj4gLQkJdmFsdWUgPSBSRE1BMV9TT1VUX0RTSTE7Cj4gLQl9IGVsc2UgaWYgKGN1ciA9PSBE
-RFBfQ09NUE9ORU5UX1JETUExICYmIG5leHQgPT0gRERQX0NPTVBPTkVOVF9EU0kyKSB7Cj4gLQkJ
-KmFkZHIgPSBESVNQX1JFR19DT05GSUdfRElTUF9SRE1BMV9TT1VUX0VOOwo+IC0JCXZhbHVlID0g
-UkRNQTFfU09VVF9EU0kyOwo+IC0JfSBlbHNlIGlmIChjdXIgPT0gRERQX0NPTVBPTkVOVF9SRE1B
-MSAmJiBuZXh0ID09IEREUF9DT01QT05FTlRfRFNJMykgewo+IC0JCSphZGRyID0gRElTUF9SRUdf
-Q09ORklHX0RJU1BfUkRNQTFfU09VVF9FTjsKPiAtCQl2YWx1ZSA9IFJETUExX1NPVVRfRFNJMzsK
-PiAtCX0gZWxzZSBpZiAoY3VyID09IEREUF9DT01QT05FTlRfUkRNQTEgJiYgbmV4dCA9PSBERFBf
-Q09NUE9ORU5UX0RQSTApIHsKPiAtCQkqYWRkciA9IGRhdGEtPnJkbWExX3NvdXRfc2VsX2luOwo+
-IC0JCXZhbHVlID0gZGF0YS0+cmRtYTFfc291dF9kcGkwOwo+IC0JfSBlbHNlIGlmIChjdXIgPT0g
-RERQX0NPTVBPTkVOVF9SRE1BMSAmJiBuZXh0ID09IEREUF9DT01QT05FTlRfRFBJMSkgewo+IC0J
-CSphZGRyID0gRElTUF9SRUdfQ09ORklHX0RJU1BfUkRNQTFfU09VVF9FTjsKPiAtCQl2YWx1ZSA9
-IFJETUExX1NPVVRfRFBJMTsKPiAtCX0gZWxzZSBpZiAoY3VyID09IEREUF9DT01QT05FTlRfUkRN
-QTIgJiYgbmV4dCA9PSBERFBfQ09NUE9ORU5UX0RQSTApIHsKPiAtCQkqYWRkciA9IERJU1BfUkVH
-X0NPTkZJR19ESVNQX1JETUEyX1NPVVQ7Cj4gLQkJdmFsdWUgPSBSRE1BMl9TT1VUX0RQSTA7Cj4g
-LQl9IGVsc2UgaWYgKGN1ciA9PSBERFBfQ09NUE9ORU5UX1JETUEyICYmIG5leHQgPT0gRERQX0NP
-TVBPTkVOVF9EUEkxKSB7Cj4gLQkJKmFkZHIgPSBESVNQX1JFR19DT05GSUdfRElTUF9SRE1BMl9T
-T1VUOwo+IC0JCXZhbHVlID0gUkRNQTJfU09VVF9EUEkxOwo+IC0JfSBlbHNlIGlmIChjdXIgPT0g
-RERQX0NPTVBPTkVOVF9SRE1BMiAmJiBuZXh0ID09IEREUF9DT01QT05FTlRfRFNJMSkgewo+IC0J
-CSphZGRyID0gRElTUF9SRUdfQ09ORklHX0RJU1BfUkRNQTJfU09VVDsKPiAtCQl2YWx1ZSA9IFJE
-TUEyX1NPVVRfRFNJMTsKPiAtCX0gZWxzZSBpZiAoY3VyID09IEREUF9DT01QT05FTlRfUkRNQTIg
-JiYgbmV4dCA9PSBERFBfQ09NUE9ORU5UX0RTSTIpIHsKPiAtCQkqYWRkciA9IERJU1BfUkVHX0NP
-TkZJR19ESVNQX1JETUEyX1NPVVQ7Cj4gLQkJdmFsdWUgPSBSRE1BMl9TT1VUX0RTSTI7Cj4gLQl9
-IGVsc2UgaWYgKGN1ciA9PSBERFBfQ09NUE9ORU5UX1JETUEyICYmIG5leHQgPT0gRERQX0NPTVBP
-TkVOVF9EU0kzKSB7Cj4gLQkJKmFkZHIgPSBESVNQX1JFR19DT05GSUdfRElTUF9SRE1BMl9TT1VU
-Owo+IC0JCXZhbHVlID0gUkRNQTJfU09VVF9EU0kzOwo+ICAJfSBlbHNlIHsKPiAgCQl2YWx1ZSA9
-IDA7Cj4gIAl9Cj4gQEAgLTQyMyw2ICszNzgsNTEgQEAgc3RhdGljIHVuc2lnbmVkIGludCBtdGtf
-ZGRwX3NvdXRfc2VsKGNvbnN0IHN0cnVjdCBtdGtfbW1zeXNfcmVnX2RhdGEgKmRhdGEsCj4gIAl9
-IGVsc2UgaWYgKGN1ciA9PSBERFBfQ09NUE9ORU5UX0JMUyAmJiBuZXh0ID09IEREUF9DT01QT05F
-TlRfRFBJMCkgewo+ICAJCSphZGRyID0gRElTUF9SRUdfQ09ORklHX09VVF9TRUw7Cj4gIAkJdmFs
-dWUgPSBCTFNfVE9fRFBJX1JETUExX1RPX0RTSTsKPiArCX0gZWxzZSBpZiAoY3VyID09IEREUF9D
-T01QT05FTlRfUkRNQTAgJiYgbmV4dCA9PSBERFBfQ09NUE9ORU5UX0RQSTApIHsKPiArCQkqYWRk
-ciA9IERJU1BfUkVHX0NPTkZJR19ESVNQX1JETUEwX1NPVVRfRU47Cj4gKwkJdmFsdWUgPSBSRE1B
-MF9TT1VUX0RQSTA7Cj4gKwl9IGVsc2UgaWYgKGN1ciA9PSBERFBfQ09NUE9ORU5UX1JETUEwICYm
-IG5leHQgPT0gRERQX0NPTVBPTkVOVF9EUEkxKSB7Cj4gKwkJKmFkZHIgPSBESVNQX1JFR19DT05G
-SUdfRElTUF9SRE1BMF9TT1VUX0VOOwo+ICsJCXZhbHVlID0gUkRNQTBfU09VVF9EUEkxOwo+ICsJ
-fSBlbHNlIGlmIChjdXIgPT0gRERQX0NPTVBPTkVOVF9SRE1BMCAmJiBuZXh0ID09IEREUF9DT01Q
-T05FTlRfRFNJMSkgewo+ICsJCSphZGRyID0gRElTUF9SRUdfQ09ORklHX0RJU1BfUkRNQTBfU09V
-VF9FTjsKPiArCQl2YWx1ZSA9IFJETUEwX1NPVVRfRFNJMTsKPiArCX0gZWxzZSBpZiAoY3VyID09
-IEREUF9DT01QT05FTlRfUkRNQTAgJiYgbmV4dCA9PSBERFBfQ09NUE9ORU5UX0RTSTIpIHsKPiAr
-CQkqYWRkciA9IERJU1BfUkVHX0NPTkZJR19ESVNQX1JETUEwX1NPVVRfRU47Cj4gKwkJdmFsdWUg
-PSBSRE1BMF9TT1VUX0RTSTI7Cj4gKwl9IGVsc2UgaWYgKGN1ciA9PSBERFBfQ09NUE9ORU5UX1JE
-TUEwICYmIG5leHQgPT0gRERQX0NPTVBPTkVOVF9EU0kzKSB7Cj4gKwkJKmFkZHIgPSBESVNQX1JF
-R19DT05GSUdfRElTUF9SRE1BMF9TT1VUX0VOOwo+ICsJCXZhbHVlID0gUkRNQTBfU09VVF9EU0kz
-Owo+ICsJfSBlbHNlIGlmIChjdXIgPT0gRERQX0NPTVBPTkVOVF9SRE1BMSAmJiBuZXh0ID09IERE
-UF9DT01QT05FTlRfRFNJMSkgewo+ICsJCSphZGRyID0gRElTUF9SRUdfQ09ORklHX0RJU1BfUkRN
-QTFfU09VVF9FTjsKPiArCQl2YWx1ZSA9IFJETUExX1NPVVRfRFNJMTsKPiArCX0gZWxzZSBpZiAo
-Y3VyID09IEREUF9DT01QT05FTlRfUkRNQTEgJiYgbmV4dCA9PSBERFBfQ09NUE9ORU5UX0RTSTIp
-IHsKPiArCQkqYWRkciA9IERJU1BfUkVHX0NPTkZJR19ESVNQX1JETUExX1NPVVRfRU47Cj4gKwkJ
-dmFsdWUgPSBSRE1BMV9TT1VUX0RTSTI7Cj4gKwl9IGVsc2UgaWYgKGN1ciA9PSBERFBfQ09NUE9O
-RU5UX1JETUExICYmIG5leHQgPT0gRERQX0NPTVBPTkVOVF9EU0kzKSB7Cj4gKwkJKmFkZHIgPSBE
-SVNQX1JFR19DT05GSUdfRElTUF9SRE1BMV9TT1VUX0VOOwo+ICsJCXZhbHVlID0gUkRNQTFfU09V
-VF9EU0kzOwo+ICsJfSBlbHNlIGlmIChjdXIgPT0gRERQX0NPTVBPTkVOVF9SRE1BMSAmJiBuZXh0
-ID09IEREUF9DT01QT05FTlRfRFBJMCkgewo+ICsJCSphZGRyID0gZGF0YS0+cmRtYTFfc291dF9z
-ZWxfaW47Cj4gKwkJdmFsdWUgPSBkYXRhLT5yZG1hMV9zb3V0X2RwaTA7Cj4gKwl9IGVsc2UgaWYg
-KGN1ciA9PSBERFBfQ09NUE9ORU5UX1JETUExICYmIG5leHQgPT0gRERQX0NPTVBPTkVOVF9EUEkx
-KSB7Cj4gKwkJKmFkZHIgPSBESVNQX1JFR19DT05GSUdfRElTUF9SRE1BMV9TT1VUX0VOOwo+ICsJ
-CXZhbHVlID0gUkRNQTFfU09VVF9EUEkxOwo+ICsJfSBlbHNlIGlmIChjdXIgPT0gRERQX0NPTVBP
-TkVOVF9SRE1BMiAmJiBuZXh0ID09IEREUF9DT01QT05FTlRfRFBJMCkgewo+ICsJCSphZGRyID0g
-RElTUF9SRUdfQ09ORklHX0RJU1BfUkRNQTJfU09VVDsKPiArCQl2YWx1ZSA9IFJETUEyX1NPVVRf
-RFBJMDsKPiArCX0gZWxzZSBpZiAoY3VyID09IEREUF9DT01QT05FTlRfUkRNQTIgJiYgbmV4dCA9
-PSBERFBfQ09NUE9ORU5UX0RQSTEpIHsKPiArCQkqYWRkciA9IERJU1BfUkVHX0NPTkZJR19ESVNQ
-X1JETUEyX1NPVVQ7Cj4gKwkJdmFsdWUgPSBSRE1BMl9TT1VUX0RQSTE7Cj4gKwl9IGVsc2UgaWYg
-KGN1ciA9PSBERFBfQ09NUE9ORU5UX1JETUEyICYmIG5leHQgPT0gRERQX0NPTVBPTkVOVF9EU0kx
-KSB7Cj4gKwkJKmFkZHIgPSBESVNQX1JFR19DT05GSUdfRElTUF9SRE1BMl9TT1VUOwo+ICsJCXZh
-bHVlID0gUkRNQTJfU09VVF9EU0kxOwo+ICsJfSBlbHNlIGlmIChjdXIgPT0gRERQX0NPTVBPTkVO
-VF9SRE1BMiAmJiBuZXh0ID09IEREUF9DT01QT05FTlRfRFNJMikgewo+ICsJCSphZGRyID0gRElT
-UF9SRUdfQ09ORklHX0RJU1BfUkRNQTJfU09VVDsKPiArCQl2YWx1ZSA9IFJETUEyX1NPVVRfRFNJ
-MjsKPiArCX0gZWxzZSBpZiAoY3VyID09IEREUF9DT01QT05FTlRfUkRNQTIgJiYgbmV4dCA9PSBE
-RFBfQ09NUE9ORU5UX0RTSTMpIHsKPiArCQkqYWRkciA9IERJU1BfUkVHX0NPTkZJR19ESVNQX1JE
-TUEyX1NPVVQ7Cj4gKwkJdmFsdWUgPSBSRE1BMl9TT1VUX0RTSTM7Cj4gIAl9IGVsc2Ugewo+ICAJ
-CXZhbHVlID0gMDsKPiAgCX0KCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWw=
+
+--===============0993516006==
+Content-Type: multipart/alternative; boundary="15671441410.eD3D2A4F1.25692"
+Content-Transfer-Encoding: 7bit
+
+
+--15671441410.eD3D2A4F1.25692
+Date: Fri, 30 Aug 2019 05:49:01 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D107877
+
+--- Comment #30 from Kristy Murphy <mskristymurphy@gmail.com> ---
+Thanks for showing this I was also looking for the same. Keep posting and h=
+elp
+people like me. https://www.goassignmenthelp.com.au/assignment-help-melbour=
+ne/
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15671441410.eD3D2A4F1.25692
+Date: Fri, 30 Aug 2019 05:49:01 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - deepin-desktop: xdg-email: no method available=
+ for opening 'mailto:'"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107877#c30">Comme=
+nt # 30</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - deepin-desktop: xdg-email: no method available=
+ for opening 'mailto:'"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107877">bug 10787=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+mskristymurphy&#64;gmail.com" title=3D"Kristy Murphy &lt;mskristymurphy&#64=
+;gmail.com&gt;"> <span class=3D"fn">Kristy Murphy</span></a>
+</span></b>
+        <pre>Thanks for showing this I was also looking for the same. Keep =
+posting and help
+people like me. <a href=3D"https://www.goassignmenthelp.com.au/assignment-h=
+elp-melbourne/">https://www.goassignmenthelp.com.au/assignment-help-melbour=
+ne/</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15671441410.eD3D2A4F1.25692--
+
+--===============0993516006==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0993516006==--
