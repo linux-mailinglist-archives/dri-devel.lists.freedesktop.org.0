@@ -1,41 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E4DA2FCD
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2019 08:25:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D323DA2FE0
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2019 08:29:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63D7A6E280;
-	Fri, 30 Aug 2019 06:25:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A38786E0ED;
+	Fri, 30 Aug 2019 06:29:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id ABC2F6E280
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2019 06:25:36 +0000 (UTC)
-X-UUID: 59d948ae0e16412ebff2a44e0df5220c-20190830
-X-UUID: 59d948ae0e16412ebff2a44e0df5220c-20190830
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 1358243706; Fri, 30 Aug 2019 14:25:39 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Fri, 30 Aug 2019 14:25:36 +0800
-Received: from [172.21.77.4] (172.21.77.4) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Fri, 30 Aug 2019 14:25:35 +0800
-Message-ID: <1567146329.5942.18.camel@mtksdaap41>
-Subject: Re: [PATCH v5, 27/32] drm/mediatek: add connection from RDMA1 to DSI0
-From: CK Hu <ck.hu@mediatek.com>
-To: <yongqiang.niu@mediatek.com>
-Date: Fri, 30 Aug 2019 14:25:29 +0800
-In-Reply-To: <1567090254-15566-28-git-send-email-yongqiang.niu@mediatek.com>
-References: <1567090254-15566-1-git-send-email-yongqiang.niu@mediatek.com>
- <1567090254-15566-28-git-send-email-yongqiang.niu@mediatek.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 791036E0ED
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2019 06:29:17 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 6F1A272161; Fri, 30 Aug 2019 06:29:17 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 103217] Recent noveau causes errors with scilab 5.5.2 on NVIDIA
+ G84GL [Quadro FX 570]
+Date: Fri, 30 Aug 2019 06:29:17 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/DRI/i915
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: jaimeallen2019@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: DUPLICATE
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-103217-502-ovAOv1JFay@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-103217-502@http.bugs.freedesktop.org/>
+References: <bug-103217-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 5F2F3D7BC5A4F670280F7D4277302E6A46330E9FB3DE1CA6135116014A39081C2000:8
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,39 +53,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1428728173=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIFlvbmdxaWFuZzoKCk9uIFRodSwgMjAxOS0wOC0yOSBhdCAyMjo1MCArMDgwMCwgeW9uZ3Fp
-YW5nLm5pdUBtZWRpYXRlay5jb20gd3JvdGU6Cj4gRnJvbTogWW9uZ3FpYW5nIE5pdSA8eW9uZ3Fp
-YW5nLm5pdUBtZWRpYXRlay5jb20+Cj4gCj4gVGhpcyBwYXRjaCBhZGQgY29ubmVjdGlvbiBmcm9t
-IFJETUExIHRvIERTSTAKClJldmlld2VkLWJ5OiBDSyBIdSA8Y2suaHVAbWVkaWF0ZWsuY29tPgoK
-PiAKPiBTaWduZWQtb2ZmLWJ5OiBZb25ncWlhbmcgTml1IDx5b25ncWlhbmcubml1QG1lZGlhdGVr
-LmNvbT4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZGRwLmMgfCA0
-ICsrKysKPiAgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQo+IAo+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kZHAuYyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9tZWRpYXRlay9tdGtfZHJtX2RkcC5jCj4gaW5kZXggMDNhNDZlYy4uYWE2MTczYiAxMDA2NDQK
-PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kZHAuYwo+ICsrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcC5jCj4gQEAgLTE3NSw2ICsxNzUsNyBA
-QCBzdHJ1Y3QgbXRrX21tc3lzX3JlZ19kYXRhIHsKPiAgCXUzMiByZG1hMF9zb3V0X2NvbG9yMDsK
-PiAgCXUzMiByZG1hMV9zb3V0X3NlbF9pbjsKPiAgCXUzMiByZG1hMV9zb3V0X2RwaTA7Cj4gKwl1
-MzIgcmRtYTFfc291dF9kc2kwOwo+ICAJdTMyIGRwaTBfc2VsX2luOwo+ICAJdTMyIGRwaTBfc2Vs
-X2luX3JkbWExOwo+ICAJdTMyIGRzaTBfc2VsX2luOwo+IEBAIC00MzMsNiArNDM0LDkgQEAgc3Rh
-dGljIHVuc2lnbmVkIGludCBtdGtfZGRwX3NvdXRfc2VsKGNvbnN0IHN0cnVjdCBtdGtfbW1zeXNf
-cmVnX2RhdGEgKmRhdGEsCj4gIAl9IGVsc2UgaWYgKGN1ciA9PSBERFBfQ09NUE9ORU5UX1JETUEw
-ICYmIG5leHQgPT0gRERQX0NPTVBPTkVOVF9DT0xPUjApIHsKPiAgCQkqYWRkciA9IGRhdGEtPnJk
-bWEwX3NvdXRfc2VsX2luOwo+ICAJCXZhbHVlID0gZGF0YS0+cmRtYTBfc291dF9jb2xvcjA7Cj4g
-Kwl9IGVsc2UgaWYgKGN1ciA9PSBERFBfQ09NUE9ORU5UX1JETUExICYmIG5leHQgPT0gRERQX0NP
-TVBPTkVOVF9EU0kwKSB7Cj4gKwkJKmFkZHIgPSBkYXRhLT5yZG1hMV9zb3V0X3NlbF9pbjsKPiAr
-CQl2YWx1ZSA9IGRhdGEtPnJkbWExX3NvdXRfZHNpMDsKPiAgCX0gZWxzZSB7Cj4gIAkJdmFsdWUg
-PSAwOwo+ICAJfQoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bA==
+
+--===============1428728173==
+Content-Type: multipart/alternative; boundary="15671465570.aA4D2.605"
+Content-Transfer-Encoding: 7bit
+
+
+--15671465570.aA4D2.605
+Date: Fri, 30 Aug 2019 06:29:17 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D103217
+
+--- Comment #9 from jaimeallen <jaimeallen2019@gmail.com> ---
+Much thanks for the most recent innovation. I'm completely engaged with the
+post of https://icasinoreviews.info/1-dollar-deposit-casinos/for the
+difficulties. The tip of the composing is devoured by me with respect to
+innovation and cell phones.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15671465570.aA4D2.605
+Date: Fri, 30 Aug 2019 06:29:17 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED DUPLICATE - Recent noveau causes errors with scilab 5.=
+5.2 on NVIDIA G84GL [Quadro FX 570]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D103217#c9">Commen=
+t # 9</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED DUPLICATE - Recent noveau causes errors with scilab 5.=
+5.2 on NVIDIA G84GL [Quadro FX 570]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D103217">bug 10321=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+jaimeallen2019&#64;gmail.com" title=3D"jaimeallen &lt;jaimeallen2019&#64;gm=
+ail.com&gt;"> <span class=3D"fn">jaimeallen</span></a>
+</span></b>
+        <pre>Much thanks for the most recent innovation. I'm completely eng=
+aged with the
+post of <a href=3D"https://icasinoreviews.info/1-dollar-deposit-casinos/for=
+">https://icasinoreviews.info/1-dollar-deposit-casinos/for</a> the
+difficulties. The tip of the composing is devoured by me with respect to
+innovation and cell phones.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15671465570.aA4D2.605--
+
+--===============1428728173==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1428728173==--
