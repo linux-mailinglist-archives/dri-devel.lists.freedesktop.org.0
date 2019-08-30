@@ -2,59 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FD54A3785
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2019 15:06:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5E35A394E
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Aug 2019 16:34:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCF356E331;
-	Fri, 30 Aug 2019 13:06:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 337E06E0FC;
+	Fri, 30 Aug 2019 14:34:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E00C36E331
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2019 13:06:30 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id q27so5289579lfo.10
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2019 06:06:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CEB5ZvNjUPElBE9umR+JJZU4wgevrWXUj1n2n10MLZs=;
- b=fK3yq7YNiMGS6v5KCEAm3fvx0UN546gkBl95ayUhZdGt193aYvHp+o8vOvdqodG2lr
- ySKiXrA2cTasiiKzCMPz2uqFLSDtc6ROVUg5VNgr/KvfMIDmeTMD6BR3WmIssnGWgX2a
- KlRmpavQVnodkswTuGuRub045trmTSwpdidi9gTyXbJTE8zZLIukOI9Hl2Cp8Lar5bTO
- mdM7Wr0BCgkkrrs5on0FPstktKon7Xg1hLhYVGlnRZ+lM0DIpaiG3ZrbfULXpv4COReX
- 4KuVld3g/y//w4Zsgw1OCSJmIaEPSu9bFPjLUNhCn7kTdqbQMo0dqnFt9keKVM7IOcZf
- vBpQ==
-X-Gm-Message-State: APjAAAWxfHGoq1VXwoOYXueoNR939rqwD2cPzwNS2B3TG4zuGukCm+KJ
- Os2BQg0no32I+c6ePorbOyVcIlxcpgQ=
-X-Google-Smtp-Source: APXvYqyHHH8/6/Pp9bt+mcoalxqgoQY4hpFXQVj+h6v+YLA//msOjZDiALKXOOWN6FjLimkObxjKgQ==
-X-Received: by 2002:a19:e04f:: with SMTP id g15mr9011216lfj.46.1567170388587; 
- Fri, 30 Aug 2019 06:06:28 -0700 (PDT)
-Received: from genomnajs.ideon.se ([85.235.10.227])
- by smtp.gmail.com with ESMTPSA id y20sm833319ljy.55.2019.08.30.06.06.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Aug 2019 06:06:27 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <maxime.ripard@bootlin.com>, Sean Paul <sean@poorly.run>
-Subject: [PATCH] drm/mcde: Fix DSI transfers
-Date: Fri, 30 Aug 2019 15:06:23 +0200
-Message-Id: <20190830130623.19116-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.21.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2369C6E0FC
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Aug 2019 14:34:16 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 1B71672161; Fri, 30 Aug 2019 14:34:16 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110979] [amd tahiti xt][amdgpu] ERROR: "dm_ip_block"
+ [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!, without DC enabled
+Date: Fri, 30 Aug 2019 14:34:16 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: petrcvekcz@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc attachments.created
+Message-ID: <bug-110979-502-3eMv7CnDdq@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110979-502@http.bugs.freedesktop.org/>
+References: <bug-110979-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CEB5ZvNjUPElBE9umR+JJZU4wgevrWXUj1n2n10MLZs=;
- b=uwd8wpGvjkNaubjt9cnpM6036yUIA8iJpAkMfwRTyg+jknhyyGowZf1ko4n3IvSm2n
- oAZBqNTS6R+q3h3OKpKow1Rq5OLDKixQjYHQeQp1skVm1KqbhfqLn9z6jr5DtjHpmp0Y
- Ps7O6kMaTplrkMiCpbf+rGxQuGARV94LgzQeEdjtpycJUjqurOhctuIYkY5o5wxQ+SGL
- rbWATECNrvU8qWlsZVcGobN/lZUGTtpPujqpTgqHRAR1eKhQbTLqG6Ls4WKfWZABMbnx
- 2/hOUzJcoJglMPbDpA+4SAegV9rREWDaaNLoqJsVJoPZGS51C1G9iYEM9qWP5iV9KE04
- aE9g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,96 +53,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephan Gerhold <stephan@gerhold.net>, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0374104483=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlcmUgd2VyZSBidWdzIGluIHRoZSBEU0kgdHJhbnNmZXIgKHJlYWQgYW5kIHdyaXRlKSBmdW5j
-dGlvbgphcyBpdCB3YXMgb25seSB0ZXN0ZWQgd2l0aCBkaXNwbGF5cyBldmVyIG5lZWRpbmcgYSBz
-aW5nbGUgYnl0ZQp0byBiZSB3cml0dGVuLiBGaXhlZCBpdCB1cCBhbmQgdGVzdGVkIHNvIHdlIGNh
-biBub3cgd3JpdGUKbWVzc2FnZXMgb2YgdXAgdG8gMTYgYnl0ZXMgYW5kIHJlYWQgdXAgdG8gNCBi
-eXRlcyBmcm9tIHRoZQpkaXNwbGF5LgoKVGVzdGVkIHdpdGggYSBTb255IEFDWDQyNEFLUCBkaXNw
-bGF5OiB0aGlzIGRpc3BsYXkgbm93IHNlbGYtCmlkZW50aWZpZXMgYW5kIGNhbiBjb250cm9sIGJh
-Y2tsaWdodCBpbiBjb21tYW5kIG1vZGUuCgpDYzogU3RlcGhhbiBHZXJob2xkIDxzdGVwaGFuQGdl
-cmhvbGQubmV0PgpGaXhlczogNWZjNTM3YmZkMDAwICgiZHJtL21jZGU6IEFkZCBuZXcgZHJpdmVy
-IGZvciBTVC1Fcmljc3NvbiBNQ0RFIikKU2lnbmVkLW9mZi1ieTogTGludXMgV2FsbGVpaiA8bGlu
-dXMud2FsbGVpakBsaW5hcm8ub3JnPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9tY2RlL21jZGVfZHNp
-LmMgfCA3MCArKysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0KIDEgZmlsZSBjaGFuZ2Vk
-LCA0NyBpbnNlcnRpb25zKCspLCAyMyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vbWNkZS9tY2RlX2RzaS5jIGIvZHJpdmVycy9ncHUvZHJtL21jZGUvbWNkZV9kc2ku
-YwppbmRleCAwN2Y3MDkwZDA4YjMuLmFkNzZhMzZlN2JjMSAxMDA2NDQKLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL21jZGUvbWNkZV9kc2kuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vbWNkZS9tY2RlX2Rz
-aS5jCkBAIC0xNzgsMjIgKzE3OCwyNiBAQCBzdGF0aWMgc3NpemVfdCBtY2RlX2RzaV9ob3N0X3Ry
-YW5zZmVyKHN0cnVjdCBtaXBpX2RzaV9ob3N0ICpob3N0LAogCWNvbnN0IHUzMiBsb29wX2RlbGF5
-X3VzID0gMTA7IC8qIHVzICovCiAJY29uc3QgdTggKnR4ID0gbXNnLT50eF9idWY7CiAJdTMyIGxv
-b3BfY291bnRlcjsKLQlzaXplX3QgdHhsZW47CisJc2l6ZV90IHR4bGVuID0gbXNnLT50eF9sZW47
-CisJc2l6ZV90IHJ4bGVuID0gbXNnLT5yeF9sZW47CiAJdTMyIHZhbDsKIAlpbnQgcmV0OwogCWlu
-dCBpOwogCi0JdHhsZW4gPSBtc2ctPnR4X2xlbjsKLQlpZiAodHhsZW4gPiAxMikgeworCWlmICh0
-eGxlbiA+IDE2KSB7CiAJCWRldl9lcnIoZC0+ZGV2LAotCQkJImR1bm5vIGhvdyB0byB3cml0ZSBt
-b3JlIHRoYW4gMTIgYnl0ZXMgeWV0XG4iKTsKKwkJCSJkdW5ubyBob3cgdG8gd3JpdGUgbW9yZSB0
-aGFuIDE2IGJ5dGVzIHlldFxuIik7CisJCXJldHVybiAtRUlPOworCX0KKwlpZiAocnhsZW4gPiA0
-KSB7CisJCWRldl9lcnIoZC0+ZGV2LAorCQkJImR1bm5vIGhvdyB0byByZWFkIG1vcmUgdGhhbiA0
-IGJ5dGVzIHlldFxuIik7CiAJCXJldHVybiAtRUlPOwogCX0KIAogCWRldl9kYmcoZC0+ZGV2LAot
-CQkibWVzc2FnZSB0byBjaGFubmVsICVkLCAlemQgYnl0ZXMiLAotCQltc2ctPmNoYW5uZWwsCi0J
-CXR4bGVuKTsKKwkJIm1lc3NhZ2UgdG8gY2hhbm5lbCAlZCwgd3JpdGUgJXpkIGJ5dGVzIHJlYWQg
-JXpkIGJ5dGVzXG4iLAorCQltc2ctPmNoYW5uZWwsIHR4bGVuLCByeGxlbik7CiAKIAkvKiBDb21t
-YW5kICJuYXR1cmUiICovCiAJaWYgKE1DREVfRFNJX0hPU1RfSVNfUkVBRChtc2ctPnR5cGUpKQpA
-QCAtMjEwLDkgKzIxNCw3IEBAIHN0YXRpYyBzc2l6ZV90IG1jZGVfZHNpX2hvc3RfdHJhbnNmZXIo
-c3RydWN0IG1pcGlfZHNpX2hvc3QgKmhvc3QsCiAJaWYgKG1pcGlfZHNpX3BhY2tldF9mb3JtYXRf
-aXNfbG9uZyhtc2ctPnR5cGUpKQogCQl2YWwgfD0gRFNJX0RJUkVDVF9DTURfTUFJTl9TRVRUSU5H
-U19DTURfTE9OR05PVFNIT1JUOwogCXZhbCB8PSAwIDw8IERTSV9ESVJFQ1RfQ01EX01BSU5fU0VU
-VElOR1NfQ01EX0lEX1NISUZUOwotCS8qIEFkZCBvbmUgdG8gdGhlIGxlbmd0aCBmb3IgdGhlIE1J
-UEkgRENTIGNvbW1hbmQgKi8KLQl2YWwgfD0gdHhsZW4KLQkJPDwgRFNJX0RJUkVDVF9DTURfTUFJ
-Tl9TRVRUSU5HU19DTURfU0laRV9TSElGVDsKKwl2YWwgfD0gdHhsZW4gPDwgRFNJX0RJUkVDVF9D
-TURfTUFJTl9TRVRUSU5HU19DTURfU0laRV9TSElGVDsKIAl2YWwgfD0gRFNJX0RJUkVDVF9DTURf
-TUFJTl9TRVRUSU5HU19DTURfTFBfRU47CiAJdmFsIHw9IG1zZy0+dHlwZSA8PCBEU0lfRElSRUNU
-X0NNRF9NQUlOX1NFVFRJTkdTX0NNRF9IRUFEX1NISUZUOwogCXdyaXRlbCh2YWwsIGQtPnJlZ3Mg
-KyBEU0lfRElSRUNUX0NNRF9NQUlOX1NFVFRJTkdTKTsKQEAgLTI0OSwxNyArMjUxLDM2IEBAIHN0
-YXRpYyBzc2l6ZV90IG1jZGVfZHNpX2hvc3RfdHJhbnNmZXIoc3RydWN0IG1pcGlfZHNpX2hvc3Qg
-Kmhvc3QsCiAJd3JpdGVsKDEsIGQtPnJlZ3MgKyBEU0lfRElSRUNUX0NNRF9TRU5EKTsKIAogCWxv
-b3BfY291bnRlciA9IDEwMDAgKiAxMDAwIC8gbG9vcF9kZWxheV91czsKLQl3aGlsZSAoIShyZWFk
-bChkLT5yZWdzICsgRFNJX0RJUkVDVF9DTURfU1RTKSAmCi0JCSBEU0lfRElSRUNUX0NNRF9TVFNf
-V1JJVEVfQ09NUExFVEVEKQotCSAgICAgICAmJiAtLWxvb3BfY291bnRlcikKLQkJdXNsZWVwX3Jh
-bmdlKGxvb3BfZGVsYXlfdXMsIChsb29wX2RlbGF5X3VzICogMykgLyAyKTsKLQotCWlmICghbG9v
-cF9jb3VudGVyKSB7Ci0JCWRldl9lcnIoZC0+ZGV2LCAiRFNJIHdyaXRlIHRpbWVvdXQhXG4iKTsK
-LQkJcmV0dXJuIC1FVElNRTsKKwlpZiAoTUNERV9EU0lfSE9TVF9JU19SRUFEKG1zZy0+dHlwZSkp
-IHsKKwkJLyogUmVhZCBjb21tYW5kICovCisJCXdoaWxlICghKHJlYWRsKGQtPnJlZ3MgKyBEU0lf
-RElSRUNUX0NNRF9TVFMpICYKKwkJCSAoRFNJX0RJUkVDVF9DTURfU1RTX1JFQURfQ09NUExFVEVE
-IHwKKwkJCSAgRFNJX0RJUkVDVF9DTURfU1RTX1JFQURfQ09NUExFVEVEX1dJVEhfRVJSKSkKKwkJ
-ICAgICAgICYmIC0tbG9vcF9jb3VudGVyKQorCQkJdXNsZWVwX3JhbmdlKGxvb3BfZGVsYXlfdXMs
-IChsb29wX2RlbGF5X3VzICogMykgLyAyKTsKKwkJaWYgKCFsb29wX2NvdW50ZXIpIHsKKwkJCWRl
-dl9lcnIoZC0+ZGV2LCAiRFNJIHdyaXRlIHRpbWVvdXQhXG4iKTsKKwkJCXJldHVybiAtRVRJTUU7
-CisJCX0KKwl9IGVsc2UgeworCQkvKiBXcml0aW5nIG9ubHkgKi8KKwkJd2hpbGUgKCEocmVhZGwo
-ZC0+cmVncyArIERTSV9ESVJFQ1RfQ01EX1NUUykgJgorCQkJIERTSV9ESVJFQ1RfQ01EX1NUU19X
-UklURV9DT01QTEVURUQpCisJCSAgICAgICAmJiAtLWxvb3BfY291bnRlcikKKwkJCXVzbGVlcF9y
-YW5nZShsb29wX2RlbGF5X3VzLCAobG9vcF9kZWxheV91cyAqIDMpIC8gMik7CisKKwkJaWYgKCFs
-b29wX2NvdW50ZXIpIHsKKwkJCWRldl9lcnIoZC0+ZGV2LCAiRFNJIHdyaXRlIHRpbWVvdXQhXG4i
-KTsKKwkJCXJldHVybiAtRVRJTUU7CisJCX0KIAl9CiAKIAl2YWwgPSByZWFkbChkLT5yZWdzICsg
-RFNJX0RJUkVDVF9DTURfU1RTKTsKKwlpZiAodmFsICYgRFNJX0RJUkVDVF9DTURfU1RTX1JFQURf
-Q09NUExFVEVEX1dJVEhfRVJSKSB7CisJCWRldl9lcnIoZC0+ZGV2LCAicmVhZCBjb21wbGV0ZWQg
-d2l0aCBlcnJvclxuIik7CisJCXdyaXRlbCgxLCBkLT5yZWdzICsgRFNJX0RJUkVDVF9DTURfUkRf
-SU5JVCk7CisJCXJldHVybiAtRUlPOworCX0KIAlpZiAodmFsICYgRFNJX0RJUkVDVF9DTURfU1RT
-X0FDS05PV0xFREdFX1dJVEhfRVJSX1JFQ0VJVkVEKSB7CiAJCXZhbCA+Pj0gRFNJX0RJUkVDVF9D
-TURfU1RTX0FDS19WQUxfU0hJRlQ7CiAJCWRldl9lcnIoZC0+ZGV2LCAiZXJyb3IgZHVyaW5nIHRy
-YW5zbWlzc2lvbjogJTA0eFxuIiwKQEAgLTI2OSwxMCArMjkwLDcgQEAgc3RhdGljIHNzaXplX3Qg
-bWNkZV9kc2lfaG9zdF90cmFuc2ZlcihzdHJ1Y3QgbWlwaV9kc2lfaG9zdCAqaG9zdCwKIAogCWlm
-ICghTUNERV9EU0lfSE9TVF9JU19SRUFEKG1zZy0+dHlwZSkpIHsKIAkJLyogUmV0dXJuIG51bWJl
-ciBvZiBieXRlcyB3cml0dGVuICovCi0JCWlmIChtaXBpX2RzaV9wYWNrZXRfZm9ybWF0X2lzX2xv
-bmcobXNnLT50eXBlKSkKLQkJCXJldCA9IDQgKyB0eGxlbjsKLQkJZWxzZQotCQkJcmV0ID0gNDsK
-KwkJcmV0ID0gdHhsZW47CiAJfSBlbHNlIHsKIAkJLyogT0sgdGhpcyBpcyBhIHJlYWQgY29tbWFu
-ZCwgZ2V0IHRoZSByZXNwb25zZSAqLwogCQl1MzIgcmRzejsKQEAgLTI4Miw3ICszMDAsMTMgQEAg
-c3RhdGljIHNzaXplX3QgbWNkZV9kc2lfaG9zdF90cmFuc2ZlcihzdHJ1Y3QgbWlwaV9kc2lfaG9z
-dCAqaG9zdCwKIAkJcmRzeiA9IHJlYWRsKGQtPnJlZ3MgKyBEU0lfRElSRUNUX0NNRF9SRF9QUk9Q
-RVJUWSk7CiAJCXJkc3ogJj0gRFNJX0RJUkVDVF9DTURfUkRfUFJPUEVSVFlfUkRfU0laRV9NQVNL
-OwogCQlyZGRhdCA9IHJlYWRsKGQtPnJlZ3MgKyBEU0lfRElSRUNUX0NNRF9SRERBVCk7Ci0JCWZv
-ciAoaSA9IDA7IGkgPCA0ICYmIGkgPCByZHN6OyBpKyspCisJCWlmIChyZHN6IDwgcnhsZW4pIHsK
-KwkJCWRldl9lcnIoZC0+ZGV2LCAicmVhZCBlcnJvciwgcmVxdWVzdGVkICVkIGdvdCAlZFxuIiwK
-KwkJCQltc2ctPnJ4X2xlbiwgcmRzeik7CisJCQlyZXR1cm4gLUVJTzsKKwkJfQorCQkvKiBGSVhN
-RTogcmVhZCBtb3JlIHRoYW4gNCBieXRlcyAqLworCQlmb3IgKGkgPSAwOyBpIDwgNCAmJiBpIDwg
-cnhsZW47IGkrKykKIAkJCXJ4W2ldID0gKHJkZGF0ID4+IChpICogOCkpICYgMHhmZjsKIAkJcmV0
-ID0gcmRzejsKIAl9Ci0tIAoyLjIxLjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbA==
+
+--===============0374104483==
+Content-Type: multipart/alternative; boundary="15671756560.c4CeE5dC.14870"
+Content-Transfer-Encoding: 7bit
+
+
+--15671756560.c4CeE5dC.14870
+Date: Fri, 30 Aug 2019 14:34:16 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110979
+
+Petr Cvek <petrcvekcz@gmail.com> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |petrcvekcz@gmail.com
+
+--- Comment #1 from Petr Cvek <petrcvekcz@gmail.com> ---
+Created attachment 145218
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145218&action=3Dedit
+The patch adds if defined block around undefined symbol
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15671756560.c4CeE5dC.14870
+Date: Fri, 30 Aug 2019 14:34:16 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:petrcvekc=
+z&#64;gmail.com" title=3D"Petr Cvek &lt;petrcvekcz&#64;gmail.com&gt;"> <spa=
+n class=3D"fn">Petr Cvek</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [amd tahiti xt][amdgpu] ERROR: &quot;dm_ip_block&quot; [d=
+rivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!, without DC enabled"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110979">bug 11097=
+9</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">CC</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>petrcvekcz&#64;gmail.com
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [amd tahiti xt][amdgpu] ERROR: &quot;dm_ip_block&quot; [d=
+rivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!, without DC enabled"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110979#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [amd tahiti xt][amdgpu] ERROR: &quot;dm_ip_block&quot; [d=
+rivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!, without DC enabled"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110979">bug 11097=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+petrcvekcz&#64;gmail.com" title=3D"Petr Cvek &lt;petrcvekcz&#64;gmail.com&g=
+t;"> <span class=3D"fn">Petr Cvek</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145218=
+" name=3D"attach_145218" title=3D"The patch adds if defined block around un=
+defined symbol">attachment 145218</a> <a href=3D"attachment.cgi?id=3D145218=
+&amp;action=3Dedit" title=3D"The patch adds if defined block around undefin=
+ed symbol">[details]</a></span> <a href=3D'page.cgi?id=3Dsplinter.html&amp;=
+bug=3D110979&amp;attachment=3D145218'>[review]</a>
+The patch adds if defined block around undefined symbol</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15671756560.c4CeE5dC.14870--
+
+--===============0374104483==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0374104483==--
