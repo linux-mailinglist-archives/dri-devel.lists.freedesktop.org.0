@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78DF9A4404
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Aug 2019 12:28:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DDC6A4406
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Aug 2019 12:29:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6B3F6E13C;
-	Sat, 31 Aug 2019 10:28:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 775CF89D3E;
+	Sat, 31 Aug 2019 10:29:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 57D6A6E0E5
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Aug 2019 10:28:00 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2109889D3E
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Aug 2019 10:29:53 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 53FD772161; Sat, 31 Aug 2019 10:28:00 +0000 (UTC)
+ id 1D54172161; Sat, 31 Aug 2019 10:29:53 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
  when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
-Date: Sat, 31 Aug 2019 10:28:00 +0000
+Date: Sat, 31 Aug 2019 10:29:53 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,8 +34,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: high
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110659-502-iJ11H0gKgl@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110659-502-4DONRAvMjS@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
 References: <bug-110659-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0705182104=="
+Content-Type: multipart/mixed; boundary="===============1660709907=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0705182104==
-Content-Type: multipart/alternative; boundary="15672472800.bBEd54fdB.30988"
+--===============1660709907==
+Content-Type: multipart/alternative; boundary="15672473931.AD1bb.31057"
 Content-Transfer-Encoding: 7bit
 
 
---15672472800.bBEd54fdB.30988
-Date: Sat, 31 Aug 2019 10:28:00 +0000
+--15672473931.AD1bb.31057
+Date: Sat, 31 Aug 2019 10:29:53 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,17 +73,18 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
 
---- Comment #59 from tempel.julian@gmail.com ---
-Created attachment 145222
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145222&action=3Dedit
-debug dmesg output for patch applied to drm-next
+--- Comment #60 from tempel.julian@gmail.com ---
+I've applied your patch to current drm-next branch head (tag
+drm-next-5.4-2019-08-30), situation is still unchanged. I've also attached a
+new log with it. This time I ran Oblivion with Gallium Nine statetracker
+instead of D9VK.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15672472800.bBEd54fdB.30988
-Date: Sat, 31 Aug 2019 10:28:00 +0000
+--15672473931.AD1bb.31057
+Date: Sat, 31 Aug 2019 10:29:53 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -101,8 +102,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
  running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c59">Comme=
-nt # 59</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c60">Comme=
+nt # 60</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
@@ -113,12 +114,10 @@ nt # 59</a>
 tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
 ulian&#64;gmail.com</a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145222=
-" name=3D"attach_145222" title=3D"debug dmesg output for patch applied to d=
-rm-next">attachment 145222</a> <a href=3D"attachment.cgi?id=3D145222&amp;ac=
-tion=3Dedit" title=3D"debug dmesg output for patch applied to drm-next">[de=
-tails]</a></span>
-debug dmesg output for patch applied to drm-next</pre>
+        <pre>I've applied your patch to current drm-next branch head (tag
+drm-next-5.4-2019-08-30), situation is still unchanged. I've also attached a
+new log with it. This time I ran Oblivion with Gallium Nine statetracker
+instead of D9VK.</pre>
         </div>
       </p>
 
@@ -132,9 +131,9 @@ debug dmesg output for patch applied to drm-next</pre>
     </body>
 </html>=
 
---15672472800.bBEd54fdB.30988--
+--15672473931.AD1bb.31057--
 
---===============0705182104==
+--===============1660709907==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -144,4 +143,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0705182104==--
+--===============1660709907==--
