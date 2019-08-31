@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04499A4265
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Aug 2019 07:21:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC91CA426D
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Aug 2019 07:41:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB2A16E2C4;
-	Sat, 31 Aug 2019 05:21:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A7FE6E175;
+	Sat, 31 Aug 2019 05:41:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id E5B206E175
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Aug 2019 05:21:20 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5A8356E175
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Aug 2019 05:41:46 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id CCE7C72161; Sat, 31 Aug 2019 05:21:20 +0000 (UTC)
+ id 57A4872161; Sat, 31 Aug 2019 05:41:46 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Sat, 31 Aug 2019 05:21:20 +0000
+Subject: [Bug 111526] hhhhhhhhhh
+Date: Sat, 31 Aug 2019 05:41:46 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
+X-Bugzilla-Type: new
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Component: DRM/amdkfd
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ilvipero@gmx.com
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: knsnileshkarande325@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
+X-Bugzilla-Priority: high
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109955-502-b8fchNvF7C@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
-References: <bug-109955-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-111526-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,86 +51,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0069115281=="
+Content-Type: multipart/mixed; boundary="===============1939202574=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0069115281==
-Content-Type: multipart/alternative; boundary="15672288800.17E689f.12221"
+--===============1939202574==
+Content-Type: multipart/alternative; boundary="15672301061.5267B4dd.15137"
 Content-Transfer-Encoding: 7bit
 
 
---15672288800.17E689f.12221
-Date: Sat, 31 Aug 2019 05:21:20 +0000
+--15672301061.5267B4dd.15137
+Date: Sat, 31 Aug 2019 05:41:46 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111526
 
---- Comment #90 from Mauro Gaspari <ilvipero@gmx.com> ---
-@Sam and @Jaap Buurman
+            Bug ID: 111526
+           Summary: hhhhhhhhhh
+           Product: DRI
+           Version: XOrg git
+          Hardware: Alpha
+                OS: Windows (All)
+            Status: NEW
+          Severity: critical
+          Priority: high
+         Component: DRM/amdkfd
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: knsnileshkarande325@gmail.com
 
-Can you please help and post system info regarding your crash? I hope that =
-with
-more detailed reports, we can get better help.
-
-Example:
-
-OS Info can be taken from neofetch:
-System info:
-OS: openSUSE Tumbleweed
-Kernel: 5.2.10-1-default
-Resolution: 3440x1440
-CPU: AMD Ryzen 7 2700X (16) @ 3.700GHz
-GPU: AMD ATI Radeon VII=20
-Memory: 6308MiB / 64387MiB=20
-
-
-Mesa info can be taken from this command:
-glxinfo | grep "OpenGL version"=20
-OpenGL version string: 4.5 (Compatibility Profile) Mesa 19.1.5
-
-
-Game being played: Eve Online
-Native or Wine or Wine+DXVK: Wine+DXVK Directx11
-
-
-Crash type: Game crash? Full System freeze? System freeze but still can dro=
-p to
-tty?
-
-
-
-DMESG output after the crash:
-sudo dmesg | grep amdgpu
-
-
-
-systemd logs output after the crash (If your system did not freeze and you =
-can
-get it before reboot):
-sudo journalctl -b | grep amdgpu
-
-
-systemd logs output after the crash (If your system froze and you get logs
-after reboot):
-sudo journalctl -b -1 | grep amdgpu
-
-If your distribution does not use persistent systemd logs you can change it
-according to your distribution. Example for openSUSE:
-https://www.suse.com/documentation/sles-12/book_sle_admin/data/journalctl_p=
-ersistent.html
+hhhhhhhhhhhhhhhh
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15672288800.17E689f.12221
-Date: Sat, 31 Aug 2019 05:21:20 +0000
+--15672301061.5267B4dd.15137
+Date: Sat, 31 Aug 2019 05:41:46 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -142,76 +102,84 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - hhhhhhhhhh"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111526">111526</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>hhhhhhhhhh
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>XOrg git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Alpha
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Windows (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>critical
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>high
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/amdkfd
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>knsnileshkarande325&#64;gmail.com
+          </td>
+        </tr></table>
       <p>
         <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c90">Comme=
-nt # 90</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-ilvipero&#64;gmx.com" title=3D"Mauro Gaspari &lt;ilvipero&#64;gmx.com&gt;">=
- <span class=3D"fn">Mauro Gaspari</span></a>
-</span></b>
-        <pre>&#64;Sam and &#64;Jaap Buurman
-
-Can you please help and post system info regarding your crash? I hope that =
-with
-more detailed reports, we can get better help.
-
-Example:
-
-OS Info can be taken from neofetch:
-System info:
-OS: openSUSE Tumbleweed
-Kernel: 5.2.10-1-default
-Resolution: 3440x1440
-CPU: AMD Ryzen 7 2700X (16) &#64; 3.700GHz
-GPU: AMD ATI Radeon VII=20
-Memory: 6308MiB / 64387MiB=20
-
-
-Mesa info can be taken from this command:
-glxinfo | grep &quot;OpenGL version&quot;=20
-OpenGL version string: 4.5 (Compatibility Profile) Mesa 19.1.5
-
-
-Game being played: Eve Online
-Native or Wine or Wine+DXVK: Wine+DXVK Directx11
-
-
-Crash type: Game crash? Full System freeze? System freeze but still can dro=
-p to
-tty?
-
-
-
-DMESG output after the crash:
-sudo dmesg | grep amdgpu
-
-
-
-systemd logs output after the crash (If your system did not freeze and you =
-can
-get it before reboot):
-sudo journalctl -b | grep amdgpu
-
-
-systemd logs output after the crash (If your system froze and you get logs
-after reboot):
-sudo journalctl -b -1 | grep amdgpu
-
-If your distribution does not use persistent systemd logs you can change it
-according to your distribution. Example for openSUSE:
-<a href=3D"https://www.suse.com/documentation/sles-12/book_sle_admin/data/j=
-ournalctl_persistent.html">https://www.suse.com/documentation/sles-12/book_=
-sle_admin/data/journalctl_persistent.html</a></pre>
+        <pre>hhhhhhhhhhhhhhhh</pre>
         </div>
       </p>
 
@@ -225,9 +193,9 @@ sle_admin/data/journalctl_persistent.html</a></pre>
     </body>
 </html>=
 
---15672288800.17E689f.12221--
+--15672301061.5267B4dd.15137--
 
---===============0069115281==
+--===============1939202574==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -237,4 +205,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0069115281==--
+--===============1939202574==--
