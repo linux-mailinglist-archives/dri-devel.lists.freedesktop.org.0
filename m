@@ -2,20 +2,20 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B074A4644
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Aug 2019 22:53:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 096D9A4646
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Aug 2019 22:55:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44BC06E0E5;
-	Sat, 31 Aug 2019 20:53:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA1B789E19;
+	Sat, 31 Aug 2019 20:55:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E0566E0E5
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Aug 2019 20:53:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1C6589E19
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Aug 2019 20:55:05 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 204725] black screen
-Date: Sat, 31 Aug 2019 20:53:45 +0000
+Date: Sat, 31 Aug 2019 20:55:05 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -31,7 +31,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-204725-2300-S3kSHX3cf5@https.bugzilla.kernel.org/>
+Message-ID: <bug-204725-2300-gpG2W6V0S5@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-204725-2300@https.bugzilla.kernel.org/>
 References: <bug-204725-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -57,17 +57,12 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQ3MjUKCi0tLSBD
-b21tZW50ICMxNCBmcm9tIERtaXRyaSBTZWxldHNraSAoZHJqb21zQGdtYWlsLmNvbSkgLS0tCihu
-b25lKWRpbWtvJ3MgRGVza3RvcCAvaG9tZS9kaW1rbyAjICBnbHhpbmZvIHwgZ3JlcCAiT3BlbkdM
-IHZlcnNpb24iIApPcGVuR0wgdmVyc2lvbiBzdHJpbmc6IDMuMSBNZXNhIDE5LjMuMC1kZXZlbCAo
-Z2l0LTg3MDliODY1Y2UpCgoKaSBhbHNvIGRpc2FibGVkIHRob3NlIG9wdGlvbnMgYmVmb3JlLCB0
-aGV5ICBtYWRlIGFic29sdXRlbHkgbm8gZGlmZmVyZW5jZSwKZXNwZWNpYWxseSBjb25zaWRlcmlu
-ZyB0aGV5IGFyZSBmb3Igb2xkZXIgZ2VuZXJhdGlvbiBjYXJkczoKQ09ORklHX0RSTV9BTURfRENf
-RENOMV8wPXkKQ09ORklHX0RSTV9BTURfRENfRENOMl8wPXkKCmkgd2lsbCBkbyBhcyB5b3Ugc3Vn
-Z2VzdCwgbWVhbndoaWxlIHNlZSB4b3JnIHB1dHB1dCBpIHdpbGwgYXR0YWNoIGFuZCB4b3JnIGxv
-Zy4Kd2VzdG9uIG91dHB1dCBhcyB3ZWxsLCBpIHRoaW5rLCB0aG91Z2ggaSB0aGluayBpbWVzc2Vk
-IHdpdGggd2VzdG9uIGJlZm9yZSwgc28KaXQncyBub3QgJ2NsZWFuJy4KCi0tIApZb3UgYXJlIHJl
-Y2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUg
-b2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+b21tZW50ICMxNSBmcm9tIERtaXRyaSBTZWxldHNraSAoZHJqb21zQGdtYWlsLmNvbSkgLS0tCmFn
+YWluLCBqdXN0ICBhIGZyaWVuZGx5IHJlbWluZGVyLCBpIGdldCBwcm9ibGVtcyBCRUZPUkUgeG9y
+Zy4gWG9yZyBpcyBub3QKcnVubmluZyBieSBkZWZhdWx0IG9uIG15IG1hY2hpbmUuIGl0J3MgZmly
+c3QgdGhpbmcgaSBtYW51YWxseSBzdGFydCBvbiBteQptYWNoaW5lIHdoZW4gaSBsb2dpbiBpbnRv
+IGNvbnNvbGUgYXMgbXkgdXNlci4KCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVj
+YXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
