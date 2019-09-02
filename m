@@ -2,44 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C618AA5C4C
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2019 20:35:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D24DA5D01
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2019 22:16:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43ECB891C2;
-	Mon,  2 Sep 2019 18:34:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5D2289A1A;
+	Mon,  2 Sep 2019 20:16:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 844C8891CB
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2019 18:34:57 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7F97572161; Mon,  2 Sep 2019 18:34:57 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111524] AMD A9 R5 GPU doesn't work after resume
-Date: Mon, 02 Sep 2019 18:34:57 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: not set
-X-Bugzilla-Who: samuel@sieb.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111524-502-6VF097WKuh@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111524-502@http.bugs.freedesktop.org/>
-References: <bug-111524-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 884AD8997E;
+ Mon,  2 Sep 2019 08:33:50 +0000 (UTC)
+Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37]
+ helo=localhost)
+ by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.76) (envelope-from <kai.heng.feng@canonical.com>)
+ id 1i4hmV-0001ln-NX; Mon, 02 Sep 2019 08:33:48 +0000
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, David1.Zhou@amd.com
+Subject: [PATCH] drm/amd/display: Restore backlight brightness after system
+ resume
+Date: Mon,  2 Sep 2019 16:33:42 +0800
+Message-Id: <20190902083342.27393-1-kai.heng.feng@canonical.com>
+X-Mailer: git-send-email 2.17.1
+X-Mailman-Approved-At: Mon, 02 Sep 2019 20:15:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,100 +39,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2000409413=="
+Cc: stable@vger.kernel.org, Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2000409413==
-Content-Type: multipart/alternative; boundary="15674492972.abc9BD.1089"
-Content-Transfer-Encoding: 7bit
-
-
---15674492972.abc9BD.1089
-Date: Mon, 2 Sep 2019 18:34:57 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111524
-
---- Comment #5 from Samuel Sieb <samuel@sieb.net> ---
-Created attachment 145236
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145236&action=3Dedit
-dmesg with drm.debug=3D4
-
-I've seen mention elsewhere about setting the drm.debug value.  If you need=
- a
-different setting, let me know.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15674492972.abc9BD.1089
-Date: Mon, 2 Sep 2019 18:34:57 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD A9 R5 GPU doesn't work after resume"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111524#c5">Commen=
-t # 5</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD A9 R5 GPU doesn't work after resume"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111524">bug 11152=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-samuel&#64;sieb.net" title=3D"Samuel Sieb &lt;samuel&#64;sieb.net&gt;"> <sp=
-an class=3D"fn">Samuel Sieb</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145236=
-" name=3D"attach_145236" title=3D"dmesg with drm.debug=3D4">attachment 1452=
-36</a> <a href=3D"attachment.cgi?id=3D145236&amp;action=3Dedit" title=3D"dm=
-esg with drm.debug=3D4">[details]</a></span>
-dmesg with drm.debug=3D4
-
-I've seen mention elsewhere about setting the drm.debug value.  If you need=
- a
-different setting, let me know.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15674492972.abc9BD.1089--
-
---===============2000409413==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2000409413==--
+TGFwdG9wcyB3aXRoIEFNRCBBUFUgZG9lc24ndCByZXN0b3JlIGRpc3BsYXkgYmFja2xpZ2h0IGJy
+aWdodG5lc3MgYWZ0ZXIKc3lzdGVtIHJlc3VtZS4KClRoaXMgaXNzdWUgc3RhcnRlZCB3aGVuIERD
+IHdhcyBpbnRyb2R1Y2VkLgoKTGV0J3MgdXNlIEJMX0NPUkVfU1VTUEVORFJFU1VNRSBzbyB0aGUg
+YmFja2xpZ2h0IGNvcmUgY2FsbHMKdXBkYXRlX3N0YXR1cyBjYWxsYmFjayBhZnRlciBzeXN0ZW0g
+cmVzdW1lIHRvIHJlc3RvcmUgdGhlIGJhY2tsaWdodApsZXZlbC4KClRlc3RlZCBvbiBEZWxsIElu
+c3Bpcm9uIDMxODAgKFN0b25leSBSaWRnZSkgYW5kIERlbGwgTGF0aXR1ZGUgNTQ5NQooUmF2ZW4g
+UmlkZ2UpLgoKQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPgpTaWduZWQtb2ZmLWJ5OiBLYWkt
+SGVuZyBGZW5nIDxrYWkuaGVuZy5mZW5nQGNhbm9uaWNhbC5jb20+Ci0tLQogZHJpdmVycy9ncHUv
+ZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG0uYyB8IDEgKwogMSBmaWxlIGNoYW5n
+ZWQsIDEgaW5zZXJ0aW9uKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNw
+bGF5L2FtZGdwdV9kbS9hbWRncHVfZG0uYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9h
+bWRncHVfZG0vYW1kZ3B1X2RtLmMKaW5kZXggMWIwOTQ5ZGQ3ODA4Li4xODNlZjE4YWM2ZjMgMTAw
+NjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2Rt
+LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG0u
+YwpAQCAtMjExMSw2ICsyMTExLDcgQEAgc3RhdGljIGludCBhbWRncHVfZG1fYmFja2xpZ2h0X2dl
+dF9icmlnaHRuZXNzKHN0cnVjdCBiYWNrbGlnaHRfZGV2aWNlICpiZCkKIH0KIAogc3RhdGljIGNv
+bnN0IHN0cnVjdCBiYWNrbGlnaHRfb3BzIGFtZGdwdV9kbV9iYWNrbGlnaHRfb3BzID0geworCS5v
+cHRpb25zID0gQkxfQ09SRV9TVVNQRU5EUkVTVU1FLAogCS5nZXRfYnJpZ2h0bmVzcyA9IGFtZGdw
+dV9kbV9iYWNrbGlnaHRfZ2V0X2JyaWdodG5lc3MsCiAJLnVwZGF0ZV9zdGF0dXMJPSBhbWRncHVf
+ZG1fYmFja2xpZ2h0X3VwZGF0ZV9zdGF0dXMsCiB9OwotLSAKMi4xNy4xCgpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
