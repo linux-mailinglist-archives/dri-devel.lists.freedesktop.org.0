@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58D5EA5C07
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2019 20:06:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C618AA5C4C
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2019 20:35:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D94B889254;
-	Mon,  2 Sep 2019 18:06:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43ECB891C2;
+	Mon,  2 Sep 2019 18:34:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5C4F89254
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2019 18:06:34 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 844C8891CB
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2019 18:34:57 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 7F97572161; Mon,  2 Sep 2019 18:34:57 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204725] black screen
-Date: Mon, 02 Sep 2019 18:06:34 +0000
-X-Bugzilla-Reason: None
+Subject: [Bug 111524] AMD A9 R5 GPU doesn't work after resume
+Date: Mon, 02 Sep 2019 18:34:57 +0000
+X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: drjoms@gmail.com
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: samuel@sieb.net
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-204725-2300-SIo30talvn@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204725-2300@https.bugzilla.kernel.org/>
-References: <bug-204725-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-111524-502-6VF097WKuh@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111524-502@http.bugs.freedesktop.org/>
+References: <bug-111524-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
- message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,66 +52,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2000409413=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQ3MjUKCi0tLSBD
-b21tZW50ICM0NiBmcm9tIERtaXRyaSBTZWxldHNraSAoZHJqb21zQGdtYWlsLmNvbSkgLS0tCihJ
-biByZXBseSB0byBNaWtlIExvdGhpYW4gZnJvbSBjb21tZW50ICMzNykKPiBJIHRoaW5rIHlvdSBu
-ZWVkIENPTkZJR19GQl9TSU1QTEUgJiBDT05GSUdfRkJfQk9PVF9WRVNBX1NVUFBPUlQ9eSBjb25m
-aWd1cmVkCj4gCj4gVGhpcyBpcyB3aGF0IEkgaGF2ZSBpbiBteSAuY29uZmlnIGZvciBhIFJ5emVu
-IGNhcmQKPiAKPiBDT05GSUdfRFJNX0tNU19GQl9IRUxQRVI9eQo+IENPTkZJR19GQl9DTURMSU5F
-PXkKPiBDT05GSUdfRkJfTk9USUZZPXkKPiBDT05GSUdfRkJfQ0ZCX0ZJTExSRUNUPXkKPiBDT05G
-SUdfRkJfQ0ZCX0NPUFlBUkVBPXkKPiBDT05GSUdfRkJfQ0ZCX0lNQUdFQkxJVD15Cj4gQ09ORklH
-X0ZCX1NZU19GSUxMUkVDVD15Cj4gQ09ORklHX0ZCX1NZU19DT1BZQVJFQT15Cj4gQ09ORklHX0ZC
-X1NZU19JTUFHRUJMSVQ9eQo+IENPTkZJR19GQl9TWVNfRk9QUz15Cj4gQ09ORklHX0ZCX0RFRkVS
-UkVEX0lPPXkKPiBDT05GSUdfRkJfTU9ERV9IRUxQRVJTPXkKPiBDT05GSUdfRkJfRUZJPXkKPiBD
-T05GSUdfRkJfU0lNUExFPXkKPiAKPiBBbmQgSSdtIHN1cmUgSSBoYWQgdGhlIGFib3ZlIGlzc3Vl
-IHdoZW4gcGxheWluZyB3aXRoIHRoZXNlIG9wdGlvbnMgYmVmb3JlCgpJIGFtIGEgbGl0dGxlIGNv
-bmZ1c2VkLgpDT05GSUdfRFJNX0tNU19GQl9IRUxQRVIKCkkgaGF2ZSB0aGlzIGluIG15ICdtYWtl
-IG1lbnVjb25maWcnCgogIOKUgiBTeW1ib2w6IERSTV9LTVNfRkJfSEVMUEVSIFs9bl0gICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIOKUgiAg
-CiAg4pSCIFR5cGUgIDogYm9vbCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg4pSCICAKICDilIIgICBEZWZp
-bmVkIGF0IGRyaXZlcnMvZ3B1L2RybS9LY29uZmlnOjc1ICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICDilIIgIAogIOKUgiAgIERlcGVuZHMgb246IEhBU19J
-T01FTSBbPXldICYmIERSTV9LTVNfSEVMUEVSIFs9bV0gCgoKSSBjaGVja2VkIGV2ZXJ5IG9wdGlv
-biB1bmRlciAnZHJpdmVycy9ncHUvZHJtLycKCkkgZG9uJ3Qgc2VlIG9uZSBvcHRpb24gd2l0aCBk
-ZXNjcmlwdGlvbiBvZiAnQ09ORklHX0RSTV9LTVNfRkJfSEVMUEVSJy4gSXMgdGhpcwpub3JtYWw/
-CgoKSSBvbmx5IGhhdmUsIHVuZGVyICJEZXZpY2UgRHJpdmVycyA+IEdyYXBoaWNzIHN1cHBvcnQg
-PiBEaXJlY3QgUmVuZGVyaW5nCk1hbmFnZXIgKFhGcmVlODYgNC4xLjAgYW5kIGhpZ2hlciBEUkkg
-c3VwcG9ydCkiOgoKCi0tLSBEaXJlY3QgUmVuZGVyaW5nIE1hbmFnZXIgKFhGcmVlODYgNC4xLjAg
-YW5kIGhpZ2hlciBEUkkgc3VwcG9ydCkgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAg4pSCIOKUgiAgCiAg4pSCIOKUgiAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFsgXSAgIERSTSBEUCBBVVgK
-SW50ZXJmYWNlICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAg4pSCIOKU
-giAgCiAg4pSCIOKUgiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIFsgXSAgIEluc2VydCBleHRyYQpjaGVja3MgYW5kIGRlYnVnIGluZm8gaW50byB0
-aGUgRFJNIHJhbmdlIG1hbmFnZXJzICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAg
-ICAgICAgICAgICAgICAgICAgICAg4pSCIOKUgiAgCiAg4pSCIOKUgiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwgPiAgIGtzZWxmdGVzdHMgZm9y
-CkRSTSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAg4pSCIOKUgiAg
-CiAg4pSCIOKUgiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIFsgXSAgIEVuYWJsZSBsZWdhY3kKZmJkZXYgc3VwcG9ydCBmb3IgeW91ciBtb2Rlc2V0
-dGluZyBkcml2ZXIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAg
-ICAgICAgICAgICAgICAgICAg4pSCIOKUgiAgCiAg4pSCIOKUgiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFsqXSAgIEFsbG93IHRvCnNwZWNpZnkg
-YW4gRURJRCBkYXRhIHNldCBpbnN0ZWFkIG9mIHByb2JpbmcgZm9yIGl0LgoKCkkgc3VwcG9zZWQg
-SSBjYW4ganVzdCBhZGQgQ09ORklHX0RSTV9LTVNfRkJfSEVMUEVSPXkgbGluZSB0byAuY29uZmln
-IGFuZApjb21waWxlIGl0IHRoaXMgd2F5LCBidXQgd2h5IGlzIGl0IGRpc2FibGVkIGFuZCBub3Qg
-aW4gY29uZmlnIGZpbGUgYnkgZGVmYXVsdD8KSXMgaXQgZXZlbiBzaWduaWZpY2FudD8KCi0tIApZ
-b3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUg
-YXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVs
+
+--===============2000409413==
+Content-Type: multipart/alternative; boundary="15674492972.abc9BD.1089"
+Content-Transfer-Encoding: 7bit
+
+
+--15674492972.abc9BD.1089
+Date: Mon, 2 Sep 2019 18:34:57 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111524
+
+--- Comment #5 from Samuel Sieb <samuel@sieb.net> ---
+Created attachment 145236
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145236&action=3Dedit
+dmesg with drm.debug=3D4
+
+I've seen mention elsewhere about setting the drm.debug value.  If you need=
+ a
+different setting, let me know.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15674492972.abc9BD.1089
+Date: Mon, 2 Sep 2019 18:34:57 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD A9 R5 GPU doesn't work after resume"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111524#c5">Commen=
+t # 5</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD A9 R5 GPU doesn't work after resume"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111524">bug 11152=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+samuel&#64;sieb.net" title=3D"Samuel Sieb &lt;samuel&#64;sieb.net&gt;"> <sp=
+an class=3D"fn">Samuel Sieb</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145236=
+" name=3D"attach_145236" title=3D"dmesg with drm.debug=3D4">attachment 1452=
+36</a> <a href=3D"attachment.cgi?id=3D145236&amp;action=3Dedit" title=3D"dm=
+esg with drm.debug=3D4">[details]</a></span>
+dmesg with drm.debug=3D4
+
+I've seen mention elsewhere about setting the drm.debug value.  If you need=
+ a
+different setting, let me know.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15674492972.abc9BD.1089--
+
+--===============2000409413==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2000409413==--
