@@ -1,56 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AC8BA4FCA
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2019 09:24:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 045F1A4FBB
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2019 09:24:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C62189269;
-	Mon,  2 Sep 2019 07:24:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C83189BF3;
+	Mon,  2 Sep 2019 07:24:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
- [IPv6:2607:f8b0:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C0E8892EE
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2019 03:54:49 +0000 (UTC)
-Received: by mail-pf1-x443.google.com with SMTP id 26so5853501pfp.9
- for <dri-devel@lists.freedesktop.org>; Sun, 01 Sep 2019 20:54:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OH1ekUs0bAkwdIcXuhIeBy1Fe7rzwyed9i4anOS+QSk=;
- b=N/ce9WmXhHs7nIEGSLmMeVGTGQGCYQQrOwg1K3mtWekXankeJSrRab155D8Qs0EfCu
- X8irT0CSdlF1s0AX3NeTVBfL3dDkWi9VF69DijKq6osJ6QS/wM9SdATJpYJyh/K8Oz2r
- HJHgzWxtQPnJXO5kgnYPsUX/1x0OQEgZ28rnzU3/Ed4XptzV4MlmBHob+eYUHmqTo2cO
- q+PEy/nRKnid+x7FNX9tMgkL2xD6sNRxOzRHf7MGM8+mkKkBfZALnuIAinimXUQ34TMt
- 80irCZbDtm1q3OiHekrt4loLr8qufB06sLDM13g4N3g++YHQbweawjHyv6MLfqg3QrVC
- dCDw==
-X-Gm-Message-State: APjAAAWbICUx3upcMc7IaMfKdtp39aAChjvUR4yM/tecTll/mRWhqh8R
- lxleCRsRE5IfhiEG2vEPzaY5EQ==
-X-Google-Smtp-Source: APXvYqyLLTVcLzaki/zpgHyUnP83/ENMttMFuYtnXoMrj+6ZqRMI+e1TuQ0iyviYJx0zTEuLTNFtzg==
-X-Received: by 2002:a63:f401:: with SMTP id g1mr24388291pgi.314.1567396489069; 
- Sun, 01 Sep 2019 20:54:49 -0700 (PDT)
-Received: from localhost ([2401:fa00:1:10:79b4:bd83:e4a5:a720])
- by smtp.gmail.com with ESMTPSA id y16sm14382217pfn.173.2019.09.01.20.54.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 01 Sep 2019 20:54:48 -0700 (PDT)
-From: Cheng-Yi Chiang <cychiang@chromium.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm: dw-hdmi-i2s: enable audio clock in audio_startup
-Date: Mon,  2 Sep 2019 11:54:35 +0800
-Message-Id: <20190902035435.44463-1-cychiang@chromium.org>
-X-Mailer: git-send-email 2.23.0.187.g17f5b7556c-goog
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D238F89BFB
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2019 07:24:15 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id CE3C772161; Mon,  2 Sep 2019 07:24:15 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Mon, 02 Sep 2019 07:24:16 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: popovic.marko@protonmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111481-502-I9XNulsnZh@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Approved-At: Mon, 02 Sep 2019 07:24:25 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OH1ekUs0bAkwdIcXuhIeBy1Fe7rzwyed9i4anOS+QSk=;
- b=D9yjCxOsKpxC2MY18oXKvPMh45HPOOO/2e6rqJimjQ57JSKfThLSfjFt2TWGoleJYA
- E0AElnWelyQ7JaAGl2mZzXl5pOrn4anpOQ00XxONWEggwisR/j5HvuSMs+qD8B5HkkrJ
- pDcjEHJYYMW/VQhxlYQREAnlnIwtdaxV6E5qw=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,55 +53,198 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, tzungbi@chromium.org, zhengxing@rock-chips.com,
- kuninori.morimoto.gx@renesas.com, airlied@linux.ie, jeffy.chen@rock-chips.com,
- dianders@chromium.org, dri-devel@lists.freedesktop.org,
- cain.cai@rock-chips.com, linux-rockchip@lists.infradead.org,
- Jonas Karlman <jonas@kwiboo.se>, eddie.cai@rock-chips.com,
- Laurent.pinchart@ideasonboard.com, enric.balletbo@collabora.com,
- dgreid@chromium.org, sam@ravnborg.org, linux-arm-kernel@lists.infradead.org,
- cychiang@chromium.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1336107004=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SW4gdGhlIGRlc2lnbndhcmUgZGF0YWJvb2ssIHRoZSBzZXF1ZW5jZSBvZiBlbmFibGluZyBhdWRp
-byBjbG9jayBhbmQKc2V0dGluZyBmb3JtYXQgaXMgbm90IGNsZWFybHkgc3BlY2lmaWVkLgpDdXJy
-ZW50bHksIGF1ZGlvIGNsb2NrIGlzIGVuYWJsZWQgaW4gdGhlIGVuZCBvZiBod19wYXJhbSBvcHMg
-YWZ0ZXIKc2V0dGluZyBmb3JtYXQuCgpPbiBzb21lIG1vbml0b3JzLCB0aGVyZSBpcyBhIHBvc3Np
-YmlsaXR5IHRoYXQgYXVkaW8gZG9lcyBub3QgY29tZSBvdXQuCkZpeCB0aGlzIGJ5IGVuYWJsaW5n
-IGF1ZGlvIGNsb2NrIGluIGF1ZGlvX3N0YXJ0dXAgb3BzCmJlZm9yZSBod19wYXJhbSBvcHMgc2V0
-dGluZyBmb3JtYXQuCgpTaWduZWQtb2ZmLWJ5OiBDaGVuZy1ZaSBDaGlhbmcgPGN5Y2hpYW5nQGNo
-cm9taXVtLm9yZz4KUmV2aWV3ZWQtYnk6IERvdWdsYXMgQW5kZXJzb24gPGRpYW5kZXJzQGNocm9t
-aXVtLm9yZz4KUmV2aWV3ZWQtYnk6IEpvbmFzIEthcmxtYW4gPGpvbmFzQGt3aWJvby5zZT4KVGVz
-dGVkLWJ5OiBEb3VnbGFzIEFuZGVyc29uIDxkaWFuZGVyc0BjaHJvbWl1bS5vcmc+Ci0tLQogQ2hh
-bmdlcyBmcm9tIHYxOgogMS4gTW92ZSBhdWRpb19zdGFydHVwIHRvIHRoZSBmcm9udCBvZiBhdWRp
-b19zaHV0ZG93bi4KIDIuIEZpeCB0aGUgaW5kZW50YXRpb24gb2YgYXVkaW9fc3RhcnR1cCBlcXVh
-bCBzaWduIHVzaW5nIHRhYi4KIDMuIFJlYmFzZSB0aGUgcGF0Y2ggb24gbGludXgtbmV4dC9tYXN0
-ZXIuCiA0LiBBZGQgUmV2aWV3ZWQtYnkgYW5kIFRlc3RlZC1ieSBmaWVsZHMgZnJvbSBkaWFuZGVy
-c0BjaHJvbWl1bS5vcmcuCiA1LiBBZGQgUmV2aWV3ZWQtYnkgZmllbGQgZnJvbSBqb25hc0Brd2li
-b28uc2UuCgogZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1oZG1pLWkycy1hdWRp
-by5jIHwgOSArKysrKysrKysKIDEgZmlsZSBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKykKCmRpZmYg
-LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3LWhkbWktaTJzLWF1ZGlv
-LmMgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3LWhkbWktaTJzLWF1ZGlvLmMK
-aW5kZXggMWQxNWNmOWI2ODIxLi4zNGQ4ZTgzNzU1NWYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1
-L2RybS9icmlkZ2Uvc3lub3BzeXMvZHctaGRtaS1pMnMtYXVkaW8uYworKysgYi9kcml2ZXJzL2dw
-dS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3LWhkbWktaTJzLWF1ZGlvLmMKQEAgLTEwOSw2ICsxMDks
-MTQgQEAgc3RhdGljIGludCBkd19oZG1pX2kyc19od19wYXJhbXMoc3RydWN0IGRldmljZSAqZGV2
-LCB2b2lkICpkYXRhLAogCWhkbWlfd3JpdGUoYXVkaW8sIGNvbmYwLCBIRE1JX0FVRF9DT05GMCk7
-CiAJaGRtaV93cml0ZShhdWRpbywgY29uZjEsIEhETUlfQVVEX0NPTkYxKTsKIAorCXJldHVybiAw
-OworfQorCitzdGF0aWMgaW50IGR3X2hkbWlfaTJzX2F1ZGlvX3N0YXJ0dXAoc3RydWN0IGRldmlj
-ZSAqZGV2LCB2b2lkICpkYXRhKQoreworCXN0cnVjdCBkd19oZG1pX2kyc19hdWRpb19kYXRhICph
-dWRpbyA9IGRhdGE7CisJc3RydWN0IGR3X2hkbWkgKmhkbWkgPSBhdWRpby0+aGRtaTsKKwogCWR3
-X2hkbWlfYXVkaW9fZW5hYmxlKGhkbWkpOwogCiAJcmV0dXJuIDA7CkBAIC0xNTMsNiArMTYxLDcg
-QEAgc3RhdGljIGludCBkd19oZG1pX2kyc19nZXRfZGFpX2lkKHN0cnVjdCBzbmRfc29jX2NvbXBv
-bmVudCAqY29tcG9uZW50LAogCiBzdGF0aWMgc3RydWN0IGhkbWlfY29kZWNfb3BzIGR3X2hkbWlf
-aTJzX29wcyA9IHsKIAkuaHdfcGFyYW1zCT0gZHdfaGRtaV9pMnNfaHdfcGFyYW1zLAorCS5hdWRp
-b19zdGFydHVwICA9IGR3X2hkbWlfaTJzX2F1ZGlvX3N0YXJ0dXAsCiAJLmF1ZGlvX3NodXRkb3du
-CT0gZHdfaGRtaV9pMnNfYXVkaW9fc2h1dGRvd24sCiAJLmdldF9lbGQJPSBkd19oZG1pX2kyc19n
-ZXRfZWxkLAogCS5nZXRfZGFpX2lkCT0gZHdfaGRtaV9pMnNfZ2V0X2RhaV9pZCwKLS0gCjIuMjMu
-MC4xODcuZzE3ZjViNzU1NmMtZ29vZwoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVs
+
+--===============1336107004==
+Content-Type: multipart/alternative; boundary="15674090552.Ed43C.9994"
+Content-Transfer-Encoding: 7bit
+
+
+--15674090552.Ed43C.9994
+Date: Mon, 2 Sep 2019 07:24:15 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+
+--- Comment #14 from Marko Popovic <popovic.marko@protonmail.com> ---
+(In reply to Mathieu Belanger from comment #13)=20
+> I was able to reproduce that Citra crash.
+> Followed the instruction, it did crash instantly after choosing continue =
+(or
+> a fraction of a second after, the music lagged a lil and complete system
+> crash (was able so sync/umount/reboot with the magics key)).
+>=20
+> Is your crash exactly at the same place? If so then it's very reproducible
+> and  it might be a good idea to run a opengl trace to see what commands w=
+as
+> sent last to provoke the crash.
+>=20
+> I am not familiar with the Ubuntu stuff, is these got compiled on your
+> system? if no do you know the build date of your Mesa, libdrm and
+> xf86-video-amdgpu (x11 ddx).
+>=20
+> Also can you tell what microcode files dates you do have?
+>=20
+> Libdrm : 07:49:10 PM 08/27/2019
+> Mesa : 05:37:07 PM 08/30/2019
+> Xorg amdgpu DDX : 07:55:17 PM 08/27/2019
+>=20
+> The microcode files where not available on my distribution when I install=
+ed
+> them. I did download/install them on August 6 but they where from July 15
+> ish I think, I remember that the latest microcode at that time where
+> crashing with a black screen on module load and that's why I did install =
+an
+> older version.
+
+Yes, always happens at the same place with Citra emulator, however what bot=
+hers
+me more about the bug is that sometimes it happens completely randomly on my
+system without any really obvious triggers while just browsing and using my
+desktop, so it's not Citra exclusive, but luckily I've found the Citra meth=
+od
+to provode the bug so we can do more detailed logging.
+
+Further observations:
+- Bug is the same-type as other crashes and is not Citra emulator exclusive,
+happens on Rocket League on launch as well and sometimes randomly while usi=
+ng
+the desktop
+- Same type of crash IS NOT reproducable on Windows on the same GPU
+- Same type of bug IS NOT reproducable on my IntelHD laptop with same versi=
+ons
+of MESA/LLVM which probably means either faulty AMD kernel driver or faulty
+Firmware binaries.
+
+My versions are:
+MESA: Mesa 19.3.0-devel (git-6775a52 2019-09-02 eoan-oibaf-ppa)
+Kernel: Ubuntu mainline 5.3 daily build (I ALSO tried amd-drm-next-5.4, same
+bug is reproducable)
+Firmware binaries: 2019-08-26 from /~agd5f/radeon_ucode/navi10
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15674090552.Ed43C.9994
+Date: Mon, 2 Sep 2019 07:24:15 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c14">Comme=
+nt # 14</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+popovic.marko&#64;protonmail.com" title=3D"Marko Popovic &lt;popovic.marko&=
+#64;protonmail.com&gt;"> <span class=3D"fn">Marko Popovic</span></a>
+</span></b>
+        <pre>(In reply to Mathieu Belanger from <a href=3D"show_bug.cgi?id=
+=3D111481#c13">comment #13</a>)=20
+<span class=3D"quote">&gt; I was able to reproduce that Citra crash.
+&gt; Followed the instruction, it did crash instantly after choosing contin=
+ue (or
+&gt; a fraction of a second after, the music lagged a lil and complete syst=
+em
+&gt; crash (was able so sync/umount/reboot with the magics key)).
+&gt;=20
+&gt; Is your crash exactly at the same place? If so then it's very reproduc=
+ible
+&gt; and  it might be a good idea to run a opengl trace to see what command=
+s was
+&gt; sent last to provoke the crash.
+&gt;=20
+&gt; I am not familiar with the Ubuntu stuff, is these got compiled on your
+&gt; system? if no do you know the build date of your Mesa, libdrm and
+&gt; xf86-video-amdgpu (x11 ddx).
+&gt;=20
+&gt; Also can you tell what microcode files dates you do have?
+&gt;=20
+&gt; Libdrm : 07:49:10 PM 08/27/2019
+&gt; Mesa : 05:37:07 PM 08/30/2019
+&gt; Xorg amdgpu DDX : 07:55:17 PM 08/27/2019
+&gt;=20
+&gt; The microcode files where not available on my distribution when I inst=
+alled
+&gt; them. I did download/install them on August 6 but they where from July=
+ 15
+&gt; ish I think, I remember that the latest microcode at that time where
+&gt; crashing with a black screen on module load and that's why I did insta=
+ll an
+&gt; older version.</span >
+
+Yes, always happens at the same place with Citra emulator, however what bot=
+hers
+me more about the bug is that sometimes it happens completely randomly on my
+system without any really obvious triggers while just browsing and using my
+desktop, so it's not Citra exclusive, but luckily I've found the Citra meth=
+od
+to provode the bug so we can do more detailed logging.
+
+Further observations:
+- Bug is the same-type as other crashes and is not Citra emulator exclusive,
+happens on Rocket League on launch as well and sometimes randomly while usi=
+ng
+the desktop
+- Same type of crash IS NOT reproducable on Windows on the same GPU
+- Same type of bug IS NOT reproducable on my IntelHD laptop with same versi=
+ons
+of MESA/LLVM which probably means either faulty AMD kernel driver or faulty
+Firmware binaries.
+
+My versions are:
+MESA: Mesa 19.3.0-devel (git-6775a52 2019-09-02 eoan-oibaf-ppa)
+Kernel: Ubuntu mainline 5.3 daily build (I ALSO tried amd-drm-next-5.4, same
+bug is reproducable)
+Firmware binaries: 2019-08-26 from /~agd5f/radeon_ucode/navi10</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15674090552.Ed43C.9994--
+
+--===============1336107004==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1336107004==--
