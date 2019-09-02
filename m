@@ -1,98 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D0EA5DAC
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2019 23:51:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0E57A5E42
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 01:47:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8B77898EA;
-	Mon,  2 Sep 2019 21:51:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA39A89949;
+	Mon,  2 Sep 2019 23:47:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89865898EA
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2019 21:51:51 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x82LpkTp099331;
- Mon, 2 Sep 2019 16:51:46 -0500
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x82LpkxO127163
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 2 Sep 2019 16:51:46 -0500
-Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 2 Sep
- 2019 16:51:45 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Mon, 2 Sep 2019 16:51:45 -0500
-Received: from [10.1.3.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x82LpiiO086265;
- Mon, 2 Sep 2019 16:51:44 -0500
-Subject: Re: Display-Port HPD handling, link status, and bandwidth checks
-To: Ilia Mirkin <imirkin@alum.mit.edu>
-References: <7f5204a1-cc3a-d6a3-be07-b2c316761e46@ti.com>
- <CAKb7Uvh2Ygp2sWGk-GOUzA699fr=R0=S8ejmXKsNOj3MEkzGxA@mail.gmail.com>
-From: Jyri Sarha <jsarha@ti.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <e1dec17f-2ee9-0cc8-c244-cbd289862480@ti.com>
-Date: Tue, 3 Sep 2019 00:51:43 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 15A91898BC
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2019 23:47:12 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 0C04172161; Mon,  2 Sep 2019 23:47:12 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111241] Shadertoy shader causing hang
+Date: Mon, 02 Sep 2019 23:47:12 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 19.1
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: t_arceri@yahoo.com.au
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-111241-502-E6PgZpRYJw@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111241-502@http.bugs.freedesktop.org/>
+References: <bug-111241-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <CAKb7Uvh2Ygp2sWGk-GOUzA699fr=R0=S8ejmXKsNOj3MEkzGxA@mail.gmail.com>
-Content-Language: en-GB
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ti.com; s=ti-com-17Q1; t=1567461106;
- bh=IKEvWg/YfLY7uoXoiX9s9Sn6ivbiZqsdXooAoq67z+Y=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=Hj7JEiFlsbk/sNbJHPrM1GdArNSpUwM4oM1xlPJOHHt5x0yi04ZS5MoPU3s6voogk
- IarIhZoSBzMju9WQLQupgEokh5+ABIkln7VjLTcaKncXDFErxyqUaQFITaEeWGUmb7
- dX9psMixL6D1QjAzHeixlzG6lrT/nHsQKylnyUv0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -105,94 +52,224 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Valkeinen, Tomi" <tomi.valkeinen@ti.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1391691096=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjUvMDgvMjAxOSAyMzoyMywgSWxpYSBNaXJraW4gd3JvdGU6Cj4gWW91J2xsIHByb2JhYmx5
-IGdldCBhIG1vcmUgZGV0YWlsZWQgcmVwbHkgZHVyaW5nIHRoZSB3ZWVrLCBidXQgZm9yIG5vdwo+
-IGhhdmUgYSBsb29rIGF0IHRoZSAibGluay1zdGF0dXMiIHByb3BlcnR5LCB3aGljaCB3YXMgbWFk
-ZSBmb3IKPiBwcmVjaXNlbHkgdGhpcyBzaXR1YXRpb24uIEkgdGhpbmsgYmFzaWNhbGx5IHRoZSBp
-ZGVhIGlzIHRvIGlnbm9yZSBsaW5rCj4gdHJhaW5pbmcgYXMgcGFydCBvZiB0aGUgbW9kZXNldCwg
-YW5kIGp1c3QgcmV0dXJuIHRoZSBsaW5rIHN0YXR1cwo+IGRlcGVuZGluZyBvbiB0aGUgc3VjY2Vz
-cy4gKEFuZCB5b3Ugc2hvdWxkIGZpbHRlciBvdXQgdG90YWxseQo+IGluZmVhc2libGUgbW9kZXMs
-IGkuZS4gb3V0c2lkZSB0aGUgbW9uaXRvcidzIG1heCBsYW5lcy9iYW5kd2lkdGgKPiBjYXBhYmls
-aXRpZXMsIHdoaWNoIEkgYmVsaWV2ZSBhcmUgYXZhaWxhYmxlIHZpYSBEUENEIG9yIEVESUQuKQo+
-IAo+IFNlZSBodHRwczovL3d3dy5rZXJuZWwub3JnL2RvYy9odG1sL2xhdGVzdC9ncHUvZHJtLWtt
-cy5odG1sIGZvciBhIGJpdAo+IG1vcmUgaW5mbyBhcyB3ZWxsLgo+IAoKSXQgbG9va3MgbGlrZSBv
-bmx5IGk5MTUgaXMgcmVhbGx5IGltcGxlbWVudGluZyB0aGUgImxpbmstc3RhdHVzIgpwcm9wZXJ0
-eSAoZS5nLiBzZXR0aW5nIGl0IHRvIHNvbWV0aGluZyBlbHNlIHRoYW4gIkdPT0QiKS4gQW5kIGl0
-IG9ubHkKc2V0cyBpdCBpbiBkZWxheWVkIHdvcmsgcmlnaHQgYWZ0ZXIgYSBmYWlsZWQgbGluay10
-cmFpbmluZy4KCkJ1dCBpdCBsb29rcyBsaWtlIHNldHRpbmcgImxpbmstc3RhdHVzIiBiYWQgYW5k
-IGNhbGxpbmcKZHJtX2ttc19oZWxwZXJfaG90cGx1Z19ldmVudCgpIGluZGVlZCB0cmlnZ2VycyBh
-bm90aGVyIG1vZGVzZXQgYXQgbGVhc3QKZnJvbSBmYmRldiBjb25zb2xlLgoKSSBndWVzcyB0aGUg
-Y29ycmVjdCB3YXkgd291bGQgYmUgY2hlY2tpbmcgaWYgdGhlIGxpbmsgaXMgc3RpbGwgdXAKYWZ0
-ZXIgcmVjZWl2aW5nIGFuIEhQRCBzaG9ydCBwdWxzZSBhbmQgc2V0dGluZyBsaW5rLXN0YXR1cyBi
-YWQgYW5kCmNhbGxpbmcgZHJtX2ttc19oZWxwZXJfaG90cGx1Z19ldmVudCgpIGlmIHRoZSBsaW5r
-IGlzIGRvd24uCgpJIGp1c3Qgd29uZGVyIGlmIHRoZSByZWFsIHVzZXIgc3BhY2UgY2xpZW50cyBs
-aWtlIFdlc3RvbiBvciBYIHdvcmsgdGhlCnNhbWUgd2F5IGFzIGZiZGV2IGRvZXMuCgpNYXliZSBt
-eSBmaXJzdCBxdWVzdGlvbiBpcyBub3cgYW5zd2VyZWQsIGJ1dCBJIGFtIHN0aWxsIHdvbmRlcmlu
-ZyBhYm91dAp0aGlzOgoKPj4gMS4gV2hlbiBzaG91bGQgdGhlIGxpbmsgdHJhaW5pbmcgaGFwcGVu
-Pwo+PiAgICBhKSBJbiBjb25uZWN0b3IgZGV0ZWN0KCk/Cj4+ICAgICAgIC0gVGhpcyB3b3VsZCBl
-bmFibGUgdXMgdG8gZG8gbW9kZSBmaWx0ZXJpbmcgKGluIG1vZGVfdmFsaWQoKSkKPj4gICAgICAg
-ICBiYXNlZCBvbiB0aGUgZXN0YWJsaXNoZWQgbGluayBiYW5kLXdpZHRoICh0aGVuIGFnYWluCj4+
-ICAgICAgICAgbW9kZV92YWxpZCgpIGRvY3VtZW50YXRpb24gc3VnZ2VzdHMgdGhhdCBtb2RlcyBz
-aG91bGQgb25seQo+PiAgICAgICAgIGJlIGZpbHRlcmVkIGJhc2VkIG9uICJjb25maWd1cmF0aW9u
-LWludmFyaWFudCBoYXJkd2FyZQo+PiAgICAgICAgIGNvbnN0cmFpbnRzIikuCj4+ICAgIGIpIElu
-IGNoZWNrIHBoYXNlICh0aGlzIHdvdWxkIGN1cnJlbnRseSBtZWFuIG1vZGVfZml4dXApPwo+PiAg
-ICAgICAtIFRoaXMgaXMgdGhlIGxhc3QgcG9pbnQgd2hlcmUgd2UgY2FuIHJlamVjdCBhIG1vZGUg
-dGhhdCBjYW4gbm90Cj4+ICAgICAgICAgYmUgc2VudCBvdmVyIHRoZSBEUC1saW5rCj4+ICAgIGMp
-IEluIGNvbW1pdCBwaGFzZSAoZS5nLiBicmlkZ2UgZW5hYmxlKCkpCj4+ICAgICAgIC0gVGhpcyBp
-cyBiYWQgc2luY2Ugd2Ugc2hvdWxkIG5vdCBmYWlsIGFueSBtb3JlIGluIHRoZSBjb21taXQKPj4g
-ICAgICAgICBwaGFzZQoKVGhhbmtzLApKeXJpCgo+IENoZWVycywKPiAKPiAgIC1pbGlhCj4gCj4g
-T24gU3VuLCBBdWcgMjUsIDIwMTkgYXQgNzoxMiBBTSBKeXJpIFNhcmhhIDxqc2FyaGFAdGkuY29t
-PiB3cm90ZToKPj4KPj4gSGksCj4+Cj4+IEkgYW0gd29ya2luZyBvbiBhIG5ldyBEaXNwbGF5UG9y
-dCBicmlkZ2UtZHJpdmVyIGFuZCB0aGVyZSBpcyBhIGNvdXBsZSBvZgo+PiB0aGluZ3MgdGhhdCBJ
-IGRvIG5vdCBrbm93IGhvdyB0byBoYW5kbGUuCj4+Cj4+IDEuIFdoZW4gc2hvdWxkIHRoZSBsaW5r
-IHRyYWluaW5nIGhhcHBlbj8KPj4gICAgYSkgSW4gY29ubmVjdG9yIGRldGVjdCgpPwo+PiAgICAg
-ICAtIFRoaXMgd291bGQgZW5hYmxlIHVzIHRvIGRvIG1vZGUgZmlsdGVyaW5nIChpbiBtb2RlX3Zh
-bGlkKCkpCj4+ICAgICAgICAgYmFzZWQgb24gdGhlIGVzdGFibGlzaGVkIGxpbmsgYmFuZC13aWR0
-aCAodGhlbiBhZ2Fpbgo+PiAgICAgICAgIG1vZGVfdmFsaWQoKSBkb2N1bWVudGF0aW9uIHN1Z2dl
-c3RzIHRoYXQgbW9kZXMgc2hvdWxkIG9ubHkKPj4gICAgICAgICBiZSBmaWx0ZXJlZCBiYXNlZCBv
-biAiY29uZmlndXJhdGlvbi1pbnZhcmlhbnQgaGFyZHdhcmUKPj4gICAgICAgICBjb25zdHJhaW50
-cyIpLgo+PiAgICBiKSBJbiBjaGVjayBwaGFzZSAodGhpcyB3b3VsZCBjdXJyZW50bHkgbWVhbiBt
-b2RlX2ZpeHVwKT8KPj4gICAgICAgLSBUaGlzIGlzIHRoZSBsYXN0IHBvaW50IHdoZXJlIHdlIGNh
-biByZWplY3QgYSBtb2RlIHRoYXQgY2FuIG5vdAo+PiAgICAgICAgIGJlIHNlbnQgb3ZlciB0aGUg
-RFAtbGluawo+PiAgICBjKSBJbiBjb21taXQgcGhhc2UgKGUuZy4gYnJpZGdlIGVuYWJsZSgpKQo+
-PiAgICAgICAtIFRoaXMgaXMgYmFkIHNpbmNlIHdlIHNob3VsZCBub3QgZmFpbCBhbnkgbW9yZSBp
-biB0aGUgY29tbWl0Cj4+ICAgICAgICAgcGhhc2UKPj4KPj4gMi4gRFAtbGluayBzb21ldGltZXMg
-ZHJvcHMgYWZ0ZXIgYSBzdWNjZXNmdWwgbGluayB0cmFpbmluZyBhbmQgRFAtc2luawo+PiAgICBp
-cyBzdXBwb3NlZCB0byBzZW5kIHNob3J0IEhQRCBwdWxzZSBhYm91dCBpdC4gV2hhdCBhcmUgdGhl
-Cj4+ICAgIHJlY29tbWVuZGVkIHdheXMgdG8gaGFuZGxlIHRoZSBzaXR1YXRpb24/Cj4+Cj4+ICAg
-IGEpIFNlbmQgaG90cGx1ZyBldmVudCBhbmQgbGV0IHRoZSBEUk0gY2xpZW50IGRlYWwgd2l0aCBp
-dD8KPj4gICAgICAgLSBUaGlzIGRvZXMgbm90IHdvcmsgdG9vIHdlbGwgYmVjYXVzZSBldmVuIGlm
-IHRoZSBjbGllbnQgdHJpZXMKPj4gICAgICAgICB0byByZXN0b3JlIHRoZSBkaXNwbGF5IGJ5IGNv
-bW1pdHRpbmcgdGhlIHNhbWUgc3RhdGUgYWdhaW4gLQo+PiAgICAgICAgIGxpa2UgZmJkZXYgZG9l
-cyAtIHRoZSBicmlkZ2UgZG9lcyBub3QgZ28gdHJvdWdoIGRpc2FibGUtZW5hYmxlCj4+ICAgICAg
-ICAgY3ljbGUsIHNpbmNlIGRpc3BsYXkgbW9kZSBoYXMgbm90IGNoYW5nZWQuCj4+ICAgICAgIC0g
-RGVzcGl0ZSBpdCBub3Qgd29ya2luZyBzbyB3ZWxsLCB0aGlzIGlzIHdoYXQgdGhlIG1vc3QgZHJp
-dmVycwo+PiAgICAgICAgIGFwcGVhciB0byBkby4KPj4KPj4gICAgYikgRHJpdmVyIGludGVybmFs
-bHkgcmUtdHJhaW5zIHRoZSBsaW5rIGJ1dCBzZW5kIGEgaG90cGx1ZyBldmVudAo+PiAgICAgICBh
-bHdheXMgYWZ0ZXIgaXQ/Cj4+ICAgICAgIC0gVGhpcyBpcyB3aGF0IGk5MTUgZG9lcywgaWYgSSBy
-ZWFkIHRoZSBjb2RlIHJpZ2h0Lgo+PiAgICAgICAtIEhvdyB0byB0cmVhdCBhIHRyYWluaW5nIGZh
-aWx1cmU/IFNlbmRpbmcgaG90cGx1ZyBldmVudCBkb2VzIG5vdAo+PiAgICAgICAgIHJlYWxseSBo
-ZWxwIChzZWUgYWJvdmUpLgo+Pgo+PiAgICBjKSBTaWxlbnRseSByZS10cmFpbiB0aGUgbGluayBp
-ZiB3ZSB3ZXJlIGFibGUgdG8gcmVzdG9yZSB0aGUgbGluawo+PiAgICAgICBhbmQgdGhlIGRpc3Bs
-YXkgbW9kZSwgYW5kIHNlbmQgSFBEIG9ubHkgaWYgc29tZXRoaW5nIHdlbnQgd3Jvbmc/Cj4+Cj4+
-IEJlc3QgcmVnYXJkcywKPj4gSnlyaQo+Pgo+PiAtLQo+PiBUZXhhcyBJbnN0cnVtZW50cyBGaW5s
-YW5kIE95LCBQb3Jra2FsYW5rYXR1IDIyLCAwMDE4MCBIZWxzaW5raS4KPj4gWS10dW5udXMvQnVz
-aW5lc3MgSUQ6IDA2MTU1MjEtNC4gS290aXBhaWtrYS9Eb21pY2lsZTogSGVsc2lua2kKPj4gX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPj4gZHJpLWRldmVs
-IG1haWxpbmcgbGlzdAo+PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4+IGh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCgoKLS0g
-ClRleGFzIEluc3RydW1lbnRzIEZpbmxhbmQgT3ksIFBvcmtrYWxhbmthdHUgMjIsIDAwMTgwIEhl
-bHNpbmtpLgpZLXR1bm51cy9CdXNpbmVzcyBJRDogMDYxNTUyMS00LiBLb3RpcGFpa2thL0RvbWlj
-aWxlOiBIZWxzaW5raQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWw=
+
+--===============1391691096==
+Content-Type: multipart/alternative; boundary="15674680310.E5af.22215"
+Content-Transfer-Encoding: 7bit
+
+
+--15674680310.E5af.22215
+Date: Mon, 2 Sep 2019 23:47:11 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111241
+
+Timothy Arceri <t_arceri@yahoo.com.au> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |FIXED
+
+--- Comment #13 from Timothy Arceri <t_arceri@yahoo.com.au> ---
+(In reply to Dieter N=C3=BCtzel from comment #12)
+> (In reply to Pierre-Eric Pelloux-Prayer from comment #11)
+> > (In reply to Dieter N=C3=BCtzel from comment #8)
+> > > BTW
+> > >=20
+> > > Pierre-Eric can you look into this
+> > >=20
+> > > Shadertoy shader corruption, too?
+> > > https://www.shadertoy.com/view/Xt3cWS
+> > >
+> >=20
+> > The "Buffer A" shader doesn't write fragColor when uv.y is < 0.1 or > 0=
+.9.
+> >=20
+> > So the content is undefined and may be black on some platform or random.
+> >=20
+> > radeonsi is correct here, but we might want to replace undef values wit=
+h 0x0
+> > to get a default value instead of random.
+>=20
+> Cool to have you around for bug hunting...;-)
+>=20
+> Any hints where I shoud change 'undef values with 0x0' for testing?
+>=20
+> And sorry that I 'hijacked' this thread - should I open a new ticket?
+
+I don't think you need to open a bug for it at all. As its not a bug in Mesa
+its a shader bug.
+
+Closing this bug report as it should be fixed by:
+
+commit  47cc660d9c19572e5ef2dce7c8ae1766a2ac9885
+glsl: replace 'x + (-x)' with constant 0
+   This fixes a hang in shadertoy for radeonsi where a buffer was initializ=
+ed
+with:
+
+   value -=3D value
+
+   with value being undefined.
+   In this case LLVM replace the operation with an assignment to NaN.
+
+   Cc: 19.1 19.2 <mesa-stable@lists.freedesktop.org>
+   Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=3D111241
+   Reviewed-by: Marek Ol=C5=A1=C3=A1k <marek.olsak@amd.com>
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15674680310.E5af.22215
+Date: Mon, 2 Sep 2019 23:47:11 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:t_arceri&=
+#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.com.au&gt;=
+"> <span class=3D"fn">Timothy Arceri</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Shadertoy shader causing hang"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111241">bug 11124=
+1</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>FIXED
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Shadertoy shader causing hang"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111241#c13">Comme=
+nt # 13</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Shadertoy shader causing hang"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111241">bug 11124=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+t_arceri&#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.c=
+om.au&gt;"> <span class=3D"fn">Timothy Arceri</span></a>
+</span></b>
+        <pre>(In reply to Dieter N=C3=BCtzel from <a href=3D"show_bug.cgi?i=
+d=3D111241#c12">comment #12</a>)
+<span class=3D"quote">&gt; (In reply to Pierre-Eric Pelloux-Prayer from <a =
+href=3D"show_bug.cgi?id=3D111241#c11">comment #11</a>)
+&gt; &gt; (In reply to Dieter N=C3=BCtzel from <a href=3D"show_bug.cgi?id=
+=3D111241#c8">comment #8</a>)
+&gt; &gt; &gt; BTW
+&gt; &gt; &gt;=20
+&gt; &gt; &gt; Pierre-Eric can you look into this
+&gt; &gt; &gt;=20
+&gt; &gt; &gt; Shadertoy shader corruption, too?
+&gt; &gt; &gt; <a href=3D"https://www.shadertoy.com/view/Xt3cWS">https://ww=
+w.shadertoy.com/view/Xt3cWS</a>
+&gt; &gt; &gt;
+&gt; &gt;=20
+&gt; &gt; The &quot;Buffer A&quot; shader doesn't write fragColor when uv.y=
+ is &lt; 0.1 or &gt; 0.9.
+&gt; &gt;=20
+&gt; &gt; So the content is undefined and may be black on some platform or =
+random.
+&gt; &gt;=20
+&gt; &gt; radeonsi is correct here, but we might want to replace undef valu=
+es with 0x0
+&gt; &gt; to get a default value instead of random.
+&gt;=20
+&gt; Cool to have you around for bug hunting...;-)
+&gt;=20
+&gt; Any hints where I shoud change 'undef values with 0x0' for testing?
+&gt;=20
+&gt; And sorry that I 'hijacked' this thread - should I open a new ticket?<=
+/span >
+
+I don't think you need to open a bug for it at all. As its not a bug in Mesa
+its a shader bug.
+
+Closing this bug report as it should be fixed by:
+
+commit  47cc660d9c19572e5ef2dce7c8ae1766a2ac9885
+glsl: replace 'x + (-x)' with constant 0
+   This fixes a hang in shadertoy for radeonsi where a buffer was initializ=
+ed
+with:
+
+   value -=3D value
+
+   with value being undefined.
+   In this case LLVM replace the operation with an assignment to NaN.
+
+   Cc: 19.1 19.2 &lt;<a href=3D"mailto:mesa-stable&#64;lists.freedesktop.or=
+g">mesa-stable&#64;lists.freedesktop.org</a>&gt;
+   Bugzilla: <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Shadertoy shader causing hang"
+   href=3D"show_bug.cgi?id=3D111241">https://bugs.freedesktop.org/show_bug.=
+cgi?id=3D111241</a>
+   Reviewed-by: Marek Ol=C5=A1=C3=A1k &lt;<a href=3D"mailto:marek.olsak&#64=
+;amd.com">marek.olsak&#64;amd.com</a>&gt;</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15674680310.E5af.22215--
+
+--===============1391691096==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1391691096==--
