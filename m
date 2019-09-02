@@ -2,38 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 938CEA5538
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2019 13:47:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EC3CA5555
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2019 13:53:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9E92899A3;
-	Mon,  2 Sep 2019 11:46:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F8E689A1F;
+	Mon,  2 Sep 2019 11:53:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A746A899A3;
- Mon,  2 Sep 2019 11:46:56 +0000 (UTC)
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2019 04:46:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,459,1559545200"; d="scan'208";a="186982502"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga006.jf.intel.com with SMTP; 02 Sep 2019 04:46:52 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 02 Sep 2019 14:46:51 +0300
-Date: Mon, 2 Sep 2019 14:46:51 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jean Delvare <jdelvare@suse.de>
-Subject: Re: [PATCH 3/3] drm/edid: no CEA extension is not an error
-Message-ID: <20190902114651.GS7482@intel.com>
-References: <20190830181423.4f31a28f@endymion>
- <20190830181652.5b58727b@endymion>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 61508899E8
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2019 11:53:41 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5679072161; Mon,  2 Sep 2019 11:53:41 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Mon, 02 Sep 2019 11:53:41 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: pierre-eric.pelloux-prayer@amd.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111481-502-kNUi0VEU2L@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190830181652.5b58727b@endymion>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,48 +53,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, amd-gfx@lists.freedesktop.org,
- Leo Li <sunpeng.li@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Sean Paul <sean@poorly.run>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0818700598=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBBdWcgMzAsIDIwMTkgYXQgMDY6MTY6NTJQTSArMDIwMCwgSmVhbiBEZWx2YXJlIHdy
-b3RlOgo+IEl0IGlzIGZpbmUgZm9yIGRpc3BsYXlzIHdpdGhvdXQgYXVkaW8gZnVuY3Rpb25hbGl0
-eSB0byBub3QgaW1wbGVtZW50Cj4gQ0VBIGV4dGVuc2lvbiBpbiB0aGVpciBFRElELiBEbyBub3Qg
-cmV0dXJuIGFuIGVycm9yIGluIHRoYXQgY2FzZSwKPiBpbnN0ZWFkIHJldHVybiAwIGFzIGlmIHRo
-ZXJlIHdhcyBhIENFQSBleHRlbnNpb24gd2l0aCBubyBhdWRpbyBvcgo+IHNwZWFrZXIgYmxvY2su
-Cj4gCj4gVGhpcyBmaXhlcyBoYWxmIG9mIGJ1ZyBmZG8jMTA3ODI1Ogo+IGh0dHBzOi8vYnVncy5m
-cmVlZGVza3RvcC5vcmcvc2hvd19idWcuY2dpP2lkPTEwNzgyNQo+IAo+IFNpZ25lZC1vZmYtYnk6
-IEplYW4gRGVsdmFyZSA8amRlbHZhcmVAc3VzZS5kZT4KPiBDYzogTWFhcnRlbiBMYW5raG9yc3Qg
-PG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4KPiBDYzogTWF4aW1lIFJpcGFyZCA8
-bWF4aW1lLnJpcGFyZEBib290bGluLmNvbT4KPiBDYzogU2VhbiBQYXVsIDxzZWFuQHBvb3JseS5y
-dW4+Cj4gQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KPiBDYzogRGFuaWVsIFZl
-dHRlciA8ZGFuaWVsQGZmd2xsLmNoPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQu
-YyB8ICAgIDQgKystLQo+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0
-aW9ucygtKQo+IAo+IC0tLSBsaW51eC01LjIub3JpZy9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQu
-YwkyMDE5LTA4LTMwIDE3OjU3OjM4LjE5OTk5MDk5NSArMDIwMAo+ICsrKyBsaW51eC01LjIvZHJp
-dmVycy9ncHUvZHJtL2RybV9lZGlkLmMJMjAxOS0wOC0zMCAxODowNDozNi44NDAzMzM4MzQgKzAy
-MDAKPiBAQCAtNDEzMCw3ICs0MTMwLDcgQEAgaW50IGRybV9lZGlkX3RvX3NhZChzdHJ1Y3QgZWRp
-ZCAqZWRpZCwgcwo+ICAJY2VhID0gZHJtX2ZpbmRfY2VhX2V4dGVuc2lvbihlZGlkKTsKPiAgCWlm
-ICghY2VhKSB7Cj4gIAkJRFJNX0RFQlVHX0tNUygiU0FEOiBubyBDRUEgRXh0ZW5zaW9uIGZvdW5k
-XG4iKTsKPiAtCQlyZXR1cm4gLUVOT0VOVDsKPiArCQlyZXR1cm4gMDsKPiAgCX0KClNlZW1zIHJl
-YXNvbmFibGUuIE1heWJlIHRoZSBjZWFfcmV2aXNpb248MyBicmFuY2hlcyBzaG91bGQgYWxzZSBy
-ZXR1cm4gMD8KCkVpdGhlciB3YXkKUmV2aWV3ZWQtYnk6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUu
-c3lyamFsYUBsaW51eC5pbnRlbC5jb20+Cgo+ICAKPiAgCWlmIChjZWFfcmV2aXNpb24oY2VhKSA8
-IDMpIHsKPiBAQCAtNDE5MSw3ICs0MTkxLDcgQEAgaW50IGRybV9lZGlkX3RvX3NwZWFrZXJfYWxs
-b2NhdGlvbihzdHJ1Ywo+ICAJY2VhID0gZHJtX2ZpbmRfY2VhX2V4dGVuc2lvbihlZGlkKTsKPiAg
-CWlmICghY2VhKSB7Cj4gIAkJRFJNX0RFQlVHX0tNUygiU0FEOiBubyBDRUEgRXh0ZW5zaW9uIGZv
-dW5kXG4iKTsKPiAtCQlyZXR1cm4gLUVOT0VOVDsKPiArCQlyZXR1cm4gMDsKPiAgCX0KPiAgCj4g
-IAlpZiAoY2VhX3JldmlzaW9uKGNlYSkgPCAzKSB7Cj4gCj4gLS0gCj4gSmVhbiBEZWx2YXJlCj4g
-U1VTRSBMMyBTdXBwb3J0Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCgotLSAKVmlsbGUgU3lyasOkbMOkCkludGVsCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0818700598==
+Content-Type: multipart/alternative; boundary="15674252210.7F146.24609"
+Content-Transfer-Encoding: 7bit
+
+
+--15674252210.7F146.24609
+Date: Mon, 2 Sep 2019 11:53:41 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+
+--- Comment #19 from Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer=
+@amd.com> ---
+(In reply to Marko Popovic from comment #17)
+> (In reply to Pierre-Eric Pelloux-Prayer from comment #15)
+> > (In reply to Marko Popovic from comment #14)
+> > >=20
+> > > Yes, always happens at the same place with Citra emulator
+> >=20
+> > Could you capture a trace of the problem (using Apitrace or Renderdoc)?
+> >=20
+> > This would be very helpful to fix it.
+>=20
+> I added reproduced Citra crash recorded by using command:
+> apitrace trace ./citra-qt
+>=20
+> I hope this is correct, if you need anything else or done differently ple=
+ase
+> just let me know!
+
+Thanks for the trace!
+
+Replaying the trace a few times is enough to reliably to reproduce the hang.
+
+Using AMD_DEBUG=3Dnongg seems to prevent it so it could be a temporary work=
+around
+until a proper fix is found.
+Could you confirm this on your system?
+
+
+>=20
+> I am adding Rocket League crash output from apitrace.
+
+This trace file is very small (only one frame) and doesn't hang here.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15674252210.7F146.24609
+Date: Mon, 2 Sep 2019 11:53:41 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c19">Comme=
+nt # 19</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+pierre-eric.pelloux-prayer&#64;amd.com" title=3D"Pierre-Eric Pelloux-Prayer=
+ &lt;pierre-eric.pelloux-prayer&#64;amd.com&gt;"> <span class=3D"fn">Pierre=
+-Eric Pelloux-Prayer</span></a>
+</span></b>
+        <pre>(In reply to Marko Popovic from <a href=3D"show_bug.cgi?id=3D1=
+11481#c17">comment #17</a>)
+<span class=3D"quote">&gt; (In reply to Pierre-Eric Pelloux-Prayer from <a =
+href=3D"show_bug.cgi?id=3D111481#c15">comment #15</a>)
+&gt; &gt; (In reply to Marko Popovic from <a href=3D"show_bug.cgi?id=3D1114=
+81#c14">comment #14</a>)
+&gt; &gt; &gt;=20
+&gt; &gt; &gt; Yes, always happens at the same place with Citra emulator
+&gt; &gt;=20
+&gt; &gt; Could you capture a trace of the problem (using Apitrace or Rende=
+rdoc)?
+&gt; &gt;=20
+&gt; &gt; This would be very helpful to fix it.
+&gt;=20
+&gt; I added reproduced Citra crash recorded by using command:
+&gt; apitrace trace ./citra-qt
+&gt;=20
+&gt; I hope this is correct, if you need anything else or done differently =
+please
+&gt; just let me know!</span >
+
+Thanks for the trace!
+
+Replaying the trace a few times is enough to reliably to reproduce the hang.
+
+Using AMD_DEBUG=3Dnongg seems to prevent it so it could be a temporary work=
+around
+until a proper fix is found.
+Could you confirm this on your system?
+
+
+<span class=3D"quote">&gt;=20
+&gt; I am adding Rocket League crash output from apitrace.</span >
+
+This trace file is very small (only one frame) and doesn't hang here.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15674252210.7F146.24609--
+
+--===============0818700598==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0818700598==--
