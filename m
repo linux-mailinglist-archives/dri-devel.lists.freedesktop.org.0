@@ -1,24 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35D72A502F
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2019 09:48:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE07CA5095
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Sep 2019 10:01:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35944890F5;
-	Mon,  2 Sep 2019 07:48:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2AB989B4D;
+	Mon,  2 Sep 2019 08:01:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 10EDC89B11
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2019 07:48:20 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6B14989B4D
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2019 08:01:39 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0D83172161; Mon,  2 Sep 2019 07:48:20 +0000 (UTC)
+ id 67EFA72161; Mon,  2 Sep 2019 08:01:39 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Mon, 02 Sep 2019 07:48:19 +0000
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Mon, 02 Sep 2019 08:01:39 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -26,17 +27,17 @@ X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: me@jasondaigo.de
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: pierre-eric.pelloux-prayer@amd.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
+X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109955-502-jjpFatDVv8@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
-References: <bug-109955-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111481-502-kG2dTDDSZb@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,42 +53,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0434680938=="
+Content-Type: multipart/mixed; boundary="===============1479412891=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0434680938==
-Content-Type: multipart/alternative; boundary="15674105000.C3FD.16830"
+--===============1479412891==
+Content-Type: multipart/alternative; boundary="15674112993.1B61.18958"
 Content-Transfer-Encoding: 7bit
 
 
---15674105000.C3FD.16830
-Date: Mon, 2 Sep 2019 07:48:20 +0000
+--15674112993.1B61.18958
+Date: Mon, 2 Sep 2019 08:01:39 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
 
---- Comment #93 from Wilko Bartels <me@jasondaigo.de> ---
-(In reply to Wilko Bartels from comment #91)
-> how big are your swap partitions guys? just toying around here :-)
+--- Comment #15 from Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer=
+@amd.com> ---
+(In reply to Marko Popovic from comment #14)
+>=20
+> Yes, always happens at the same place with Citra emulator
 
-also i wanna know if anyone else on arch tested the amdgpu-pro yet?
-i played only 3 hours now. we all know that doesnt mean anything :-)
-but fingers crossed.
-i also have no idea how to confirm its even used. the kernel module showing
-amdgpu in both circumstances right?
+Could you capture a trace of the problem (using Apitrace or Renderdoc)?
+
+This would be very helpful to fix it.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15674105000.C3FD.16830
-Date: Mon, 2 Sep 2019 07:48:20 +0000
+--15674112993.1B61.18958
+Date: Mon, 2 Sep 2019 08:01:39 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -103,28 +104,29 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c93">Comme=
-nt # 93</a>
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c15">Comme=
+nt # 15</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
-5</a>
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-me&#64;jasondaigo.de" title=3D"Wilko Bartels &lt;me&#64;jasondaigo.de&gt;">=
- <span class=3D"fn">Wilko Bartels</span></a>
+pierre-eric.pelloux-prayer&#64;amd.com" title=3D"Pierre-Eric Pelloux-Prayer=
+ &lt;pierre-eric.pelloux-prayer&#64;amd.com&gt;"> <span class=3D"fn">Pierre=
+-Eric Pelloux-Prayer</span></a>
 </span></b>
-        <pre>(In reply to Wilko Bartels from <a href=3D"show_bug.cgi?id=3D1=
-09955#c91">comment #91</a>)
-<span class=3D"quote">&gt; how big are your swap partitions guys? just toyi=
-ng around here :-)</span >
+        <pre>(In reply to Marko Popovic from <a href=3D"show_bug.cgi?id=3D1=
+11481#c14">comment #14</a>)
+<span class=3D"quote">&gt;=20
+&gt; Yes, always happens at the same place with Citra emulator</span >
 
-also i wanna know if anyone else on arch tested the amdgpu-pro yet?
-i played only 3 hours now. we all know that doesnt mean anything :-)
-but fingers crossed.
-i also have no idea how to confirm its even used. the kernel module showing
-amdgpu in both circumstances right?</pre>
+Could you capture a trace of the problem (using Apitrace or Renderdoc)?
+
+This would be very helpful to fix it.</pre>
         </div>
       </p>
 
@@ -138,9 +140,9 @@ amdgpu in both circumstances right?</pre>
     </body>
 </html>=
 
---15674105000.C3FD.16830--
+--15674112993.1B61.18958--
 
---===============0434680938==
+--===============1479412891==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -150,4 +152,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0434680938==--
+--===============1479412891==--
