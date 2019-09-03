@@ -2,44 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E57A5E42
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 01:47:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D60AA5EE8
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 03:39:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA39A89949;
-	Mon,  2 Sep 2019 23:47:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2528B89951;
+	Tue,  3 Sep 2019 01:39:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 15A91898BC
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Sep 2019 23:47:12 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0C04172161; Mon,  2 Sep 2019 23:47:12 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111241] Shadertoy shader causing hang
-Date: Mon, 02 Sep 2019 23:47:12 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 19.1
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: t_arceri@yahoo.com.au
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-111241-502-E6PgZpRYJw@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111241-502@http.bugs.freedesktop.org/>
-References: <bug-111241-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D6CD789951
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2019 01:39:17 +0000 (UTC)
+X-UUID: 6d6db5c5ebc44cf2b5ad3837c9d4759b-20190903
+X-UUID: 6d6db5c5ebc44cf2b5ad3837c9d4759b-20190903
+Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by
+ mailgw02.mediatek.com (envelope-from <bibby.hsieh@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 1775787851; Tue, 03 Sep 2019 09:39:12 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 3 Sep 2019 09:39:12 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via
+ Frontend Transport; Tue, 3 Sep 2019 09:39:12 +0800
+From: Bibby Hsieh <bibby.hsieh@mediatek.com>
+To: David Airlie <airlied@linux.ie>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>
+Subject: [PATCH] arm64: dts: mt8183: Add gce setting in display node
+Date: Tue, 3 Sep 2019 09:39:10 +0800
+Message-ID: <20190903013910.30225-1-bibby.hsieh@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,224 +46,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1391691096=="
+Cc: drinkcat@chromium.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ linux-kernel@vger.kernel.org, tfiga@chromium.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1391691096==
-Content-Type: multipart/alternative; boundary="15674680310.E5af.22215"
-Content-Transfer-Encoding: 7bit
-
-
---15674680310.E5af.22215
-Date: Mon, 2 Sep 2019 23:47:11 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111241
-
-Timothy Arceri <t_arceri@yahoo.com.au> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |FIXED
-
---- Comment #13 from Timothy Arceri <t_arceri@yahoo.com.au> ---
-(In reply to Dieter N=C3=BCtzel from comment #12)
-> (In reply to Pierre-Eric Pelloux-Prayer from comment #11)
-> > (In reply to Dieter N=C3=BCtzel from comment #8)
-> > > BTW
-> > >=20
-> > > Pierre-Eric can you look into this
-> > >=20
-> > > Shadertoy shader corruption, too?
-> > > https://www.shadertoy.com/view/Xt3cWS
-> > >
-> >=20
-> > The "Buffer A" shader doesn't write fragColor when uv.y is < 0.1 or > 0=
-.9.
-> >=20
-> > So the content is undefined and may be black on some platform or random.
-> >=20
-> > radeonsi is correct here, but we might want to replace undef values wit=
-h 0x0
-> > to get a default value instead of random.
->=20
-> Cool to have you around for bug hunting...;-)
->=20
-> Any hints where I shoud change 'undef values with 0x0' for testing?
->=20
-> And sorry that I 'hijacked' this thread - should I open a new ticket?
-
-I don't think you need to open a bug for it at all. As its not a bug in Mesa
-its a shader bug.
-
-Closing this bug report as it should be fixed by:
-
-commit  47cc660d9c19572e5ef2dce7c8ae1766a2ac9885
-glsl: replace 'x + (-x)' with constant 0
-   This fixes a hang in shadertoy for radeonsi where a buffer was initializ=
-ed
-with:
-
-   value -=3D value
-
-   with value being undefined.
-   In this case LLVM replace the operation with an assignment to NaN.
-
-   Cc: 19.1 19.2 <mesa-stable@lists.freedesktop.org>
-   Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=3D111241
-   Reviewed-by: Marek Ol=C5=A1=C3=A1k <marek.olsak@amd.com>
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15674680310.E5af.22215
-Date: Mon, 2 Sep 2019 23:47:11 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:t_arceri&=
-#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.com.au&gt;=
-"> <span class=3D"fn">Timothy Arceri</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Shadertoy shader causing hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111241">bug 11124=
-1</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>FIXED
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Shadertoy shader causing hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111241#c13">Comme=
-nt # 13</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Shadertoy shader causing hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111241">bug 11124=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-t_arceri&#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.c=
-om.au&gt;"> <span class=3D"fn">Timothy Arceri</span></a>
-</span></b>
-        <pre>(In reply to Dieter N=C3=BCtzel from <a href=3D"show_bug.cgi?i=
-d=3D111241#c12">comment #12</a>)
-<span class=3D"quote">&gt; (In reply to Pierre-Eric Pelloux-Prayer from <a =
-href=3D"show_bug.cgi?id=3D111241#c11">comment #11</a>)
-&gt; &gt; (In reply to Dieter N=C3=BCtzel from <a href=3D"show_bug.cgi?id=
-=3D111241#c8">comment #8</a>)
-&gt; &gt; &gt; BTW
-&gt; &gt; &gt;=20
-&gt; &gt; &gt; Pierre-Eric can you look into this
-&gt; &gt; &gt;=20
-&gt; &gt; &gt; Shadertoy shader corruption, too?
-&gt; &gt; &gt; <a href=3D"https://www.shadertoy.com/view/Xt3cWS">https://ww=
-w.shadertoy.com/view/Xt3cWS</a>
-&gt; &gt; &gt;
-&gt; &gt;=20
-&gt; &gt; The &quot;Buffer A&quot; shader doesn't write fragColor when uv.y=
- is &lt; 0.1 or &gt; 0.9.
-&gt; &gt;=20
-&gt; &gt; So the content is undefined and may be black on some platform or =
-random.
-&gt; &gt;=20
-&gt; &gt; radeonsi is correct here, but we might want to replace undef valu=
-es with 0x0
-&gt; &gt; to get a default value instead of random.
-&gt;=20
-&gt; Cool to have you around for bug hunting...;-)
-&gt;=20
-&gt; Any hints where I shoud change 'undef values with 0x0' for testing?
-&gt;=20
-&gt; And sorry that I 'hijacked' this thread - should I open a new ticket?<=
-/span >
-
-I don't think you need to open a bug for it at all. As its not a bug in Mesa
-its a shader bug.
-
-Closing this bug report as it should be fixed by:
-
-commit  47cc660d9c19572e5ef2dce7c8ae1766a2ac9885
-glsl: replace 'x + (-x)' with constant 0
-   This fixes a hang in shadertoy for radeonsi where a buffer was initializ=
-ed
-with:
-
-   value -=3D value
-
-   with value being undefined.
-   In this case LLVM replace the operation with an assignment to NaN.
-
-   Cc: 19.1 19.2 &lt;<a href=3D"mailto:mesa-stable&#64;lists.freedesktop.or=
-g">mesa-stable&#64;lists.freedesktop.org</a>&gt;
-   Bugzilla: <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Shadertoy shader causing hang"
-   href=3D"show_bug.cgi?id=3D111241">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D111241</a>
-   Reviewed-by: Marek Ol=C5=A1=C3=A1k &lt;<a href=3D"mailto:marek.olsak&#64=
-;amd.com">marek.olsak&#64;amd.com</a>&gt;</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15674680310.E5af.22215--
-
---===============1391691096==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1391691096==--
+SW4gb3JkZXIgdG8gdXNlIEdDRSBmdW5jdGlvbiwgd2UgbmVlZCBhZGQgc29tZSBpbmZvcm1hdGlv
+bnMKaW50byBkaXNwbGF5IG5vZGUgKG1ib3hlcywgbWVkaWF0ZWssZ2NlLWNsaWVudC1yZWcsIG1l
+ZGlhdGVrLGdjZS1ldmVudHMpLgoKU2lnbmVkLW9mZi1ieTogQmliYnkgSHNpZWggPGJpYmJ5Lmhz
+aWVoQG1lZGlhdGVrLmNvbT4KU2lnbmVkLW9mZi1ieTogWW9uZ3FpYW5nIE5pdSA8eW9uZ3FpYW5n
+Lm5pdUBtZWRpYXRlay5jb20+Ci0tLQogYXJjaC9hcm02NC9ib290L2R0cy9tZWRpYXRlay9tdDgx
+ODMuZHRzaSB8IDE1ICsrKysrKysrKysrKysrKwogMSBmaWxlIGNoYW5nZWQsIDE1IGluc2VydGlv
+bnMoKykKCmRpZmYgLS1naXQgYS9hcmNoL2FybTY0L2Jvb3QvZHRzL21lZGlhdGVrL210ODE4My5k
+dHNpIGIvYXJjaC9hcm02NC9ib290L2R0cy9tZWRpYXRlay9tdDgxODMuZHRzaQppbmRleCA1NjE2
+ZDE1OGE0ZmEuLmI3ZDI5NGMxYzViNCAxMDA2NDQKLS0tIGEvYXJjaC9hcm02NC9ib290L2R0cy9t
+ZWRpYXRlay9tdDgxODMuZHRzaQorKysgYi9hcmNoL2FybTY0L2Jvb3QvZHRzL21lZGlhdGVrL210
+ODE4My5kdHNpCkBAIC00ODUsNiArNDg1LDExIEBACiAJCQljb21wYXRpYmxlID0gIm1lZGlhdGVr
+LG10ODE4My1kaXNwbGF5IjsKIAkJCXJlZyA9IDwwIDB4MTQwMDAwMDAgMCAweDEwMDA+OwogCQkJ
+cG93ZXItZG9tYWlucyA9IDwmc2Nwc3lzIE1UODE4M19QT1dFUl9ET01BSU5fRElTUD47CisJCQlt
+Ym94ZXMgPSA8JmdjZSAwIENNRFFfVEhSX1BSSU9fSElHSEVTVCAxPiwKKwkJCQkgPCZnY2UgMSBD
+TURRX1RIUl9QUklPX0hJR0hFU1QgMT47CisJCQltZWRpYXRlayxnY2UtY2xpZW50LXJlZyA9IDwm
+Z2NlIFNVQlNZU18xNDAwWFhYWCAwIDB4MTAwMD47CisJCQltZWRpYXRlayxnY2UtZXZlbnRzID0g
+PENNRFFfRVZFTlRfTVVURVhfU1RSRUFNX0RPTkUwPiwKKwkJCQkJICAgICAgPENNRFFfRVZFTlRf
+TVVURVhfU1RSRUFNX0RPTkUxPjsKIAkJfTsKIAogCQlvdmwwOiBvdmxAMTQwMDgwMDAgewpAQCAt
+NDk0LDYgKzQ5OSw3IEBACiAJCQlwb3dlci1kb21haW5zID0gPCZzY3BzeXMgTVQ4MTgzX1BPV0VS
+X0RPTUFJTl9ESVNQPjsKIAkJCWNsb2NrcyA9IDwmbW1zeXMgQ0xLX01NX0RJU1BfT1ZMMD47CiAJ
+CQltZWRpYXRlayxsYXJiID0gPCZsYXJiMD47CisJCQltZWRpYXRlayxnY2UtY2xpZW50LXJlZyA9
+IDwmZ2NlIFNVQlNZU18xNDAwWFhYWCAweDgwMDAgMHgxMDAwPjsKIAkJfTsKIAogCQlvdmxfMmww
+OiBvdmxAMTQwMDkwMDAgewpAQCAtNTAzLDYgKzUwOSw3IEBACiAJCQlwb3dlci1kb21haW5zID0g
+PCZzY3BzeXMgTVQ4MTgzX1BPV0VSX0RPTUFJTl9ESVNQPjsKIAkJCWNsb2NrcyA9IDwmbW1zeXMg
+Q0xLX01NX0RJU1BfT1ZMMF8yTD47CiAJCQltZWRpYXRlayxsYXJiID0gPCZsYXJiMD47CisJCQlt
+ZWRpYXRlayxnY2UtY2xpZW50LXJlZyA9IDwmZ2NlIFNVQlNZU18xNDAwWFhYWCAweDkwMDAgMHgx
+MDAwPjsKIAkJfTsKIAogCQlvdmxfMmwxOiBvdmxAMTQwMGEwMDAgewpAQCAtNTEyLDYgKzUxOSw3
+IEBACiAJCQlwb3dlci1kb21haW5zID0gPCZzY3BzeXMgTVQ4MTgzX1BPV0VSX0RPTUFJTl9ESVNQ
+PjsKIAkJCWNsb2NrcyA9IDwmbW1zeXMgQ0xLX01NX0RJU1BfT1ZMMV8yTD47CiAJCQltZWRpYXRl
+ayxsYXJiID0gPCZsYXJiMD47CisJCQltZWRpYXRlayxnY2UtY2xpZW50LXJlZyA9IDwmZ2NlIFNV
+QlNZU18xNDAwWFhYWCAweGEwMDAgMHgxMDAwPjsKIAkJfTsKIAogCQlyZG1hMDogcmRtYUAxNDAw
+YjAwMCB7CkBAIC01MjIsNiArNTMwLDcgQEAKIAkJCWNsb2NrcyA9IDwmbW1zeXMgQ0xLX01NX0RJ
+U1BfUkRNQTA+OwogCQkJbWVkaWF0ZWssbGFyYiA9IDwmbGFyYjA+OwogCQkJbWVkaWF0ZWsscmRt
+YV9maWZvX3NpemUgPSA8NT47CisJCQltZWRpYXRlayxnY2UtY2xpZW50LXJlZyA9IDwmZ2NlIFNV
+QlNZU18xNDAwWFhYWCAweGIwMDAgMHgxMDAwPjsKIAkJfTsKIAogCQlyZG1hMTogcmRtYUAxNDAw
+YzAwMCB7CkBAIC01MzIsNiArNTQxLDcgQEAKIAkJCWNsb2NrcyA9IDwmbW1zeXMgQ0xLX01NX0RJ
+U1BfUkRNQTE+OwogCQkJbWVkaWF0ZWssbGFyYiA9IDwmbGFyYjA+OwogCQkJbWVkaWF0ZWsscmRt
+YV9maWZvX3NpemUgPSA8Mj47CisJCQltZWRpYXRlayxnY2UtY2xpZW50LXJlZyA9IDwmZ2NlIFNV
+QlNZU18xNDAwWFhYWCAweGMwMDAgMHgxMDAwPjsKIAkJfTsKIAogCQljb2xvcjA6IGNvbG9yQDE0
+MDBlMDAwIHsKQEAgLTU0MSw2ICs1NTEsNyBAQAogCQkJaW50ZXJydXB0cyA9IDxHSUNfU1BJIDIz
+MSBJUlFfVFlQRV9MRVZFTF9MT1c+OwogCQkJcG93ZXItZG9tYWlucyA9IDwmc2Nwc3lzIE1UODE4
+M19QT1dFUl9ET01BSU5fRElTUD47CiAJCQljbG9ja3MgPSA8Jm1tc3lzIENMS19NTV9ESVNQX0NP
+TE9SMD47CisJCQltZWRpYXRlayxnY2UtY2xpZW50LXJlZyA9IDwmZ2NlIFNVQlNZU18xNDAwWFhY
+WCAweGUwMDAgMHgxMDAwPjsKIAkJfTsKIAogCQljY29ycjA6IGNjb3JyQDE0MDBmMDAwIHsKQEAg
+LTU0OSw2ICs1NjAsNyBAQAogCQkJaW50ZXJydXB0cyA9IDxHSUNfU1BJIDIzMiBJUlFfVFlQRV9M
+RVZFTF9MT1c+OwogCQkJcG93ZXItZG9tYWlucyA9IDwmc2Nwc3lzIE1UODE4M19QT1dFUl9ET01B
+SU5fRElTUD47CiAJCQljbG9ja3MgPSA8Jm1tc3lzIENMS19NTV9ESVNQX0NDT1JSMD47CisJCQlt
+ZWRpYXRlayxnY2UtY2xpZW50LXJlZyA9IDwmZ2NlIFNVQlNZU18xNDAwWFhYWCAweGYwMDAgMHgx
+MDAwPjsKIAkJfTsKIAogCQlhYWwwOiBhYWxAMTQwMTAwMDAgewpAQCAtNTU4LDYgKzU3MCw3IEBA
+CiAJCQlpbnRlcnJ1cHRzID0gPEdJQ19TUEkgMjMzIElSUV9UWVBFX0xFVkVMX0xPVz47CiAJCQlw
+b3dlci1kb21haW5zID0gPCZzY3BzeXMgTVQ4MTgzX1BPV0VSX0RPTUFJTl9ESVNQPjsKIAkJCWNs
+b2NrcyA9IDwmbW1zeXMgQ0xLX01NX0RJU1BfQUFMMD47CisJCQltZWRpYXRlayxnY2UtY2xpZW50
+LXJlZyA9IDwmZ2NlIFNVQlNZU18xNDAxWFhYWCAwIDB4MTAwMD47CiAJCX07CiAKIAkJZ2FtbWEw
+OiBnYW1tYUAxNDAxMTAwMCB7CkBAIC01NjcsNiArNTgwLDcgQEAKIAkJCWludGVycnVwdHMgPSA8
+R0lDX1NQSSAyMzQgSVJRX1RZUEVfTEVWRUxfTE9XPjsKIAkJCXBvd2VyLWRvbWFpbnMgPSA8JnNj
+cHN5cyBNVDgxODNfUE9XRVJfRE9NQUlOX0RJU1A+OwogCQkJY2xvY2tzID0gPCZtbXN5cyBDTEtf
+TU1fRElTUF9HQU1NQTA+OworCQkJbWVkaWF0ZWssZ2NlLWNsaWVudC1yZWcgPSA8JmdjZSBTVUJT
+WVNfMTQwMVhYWFggMHgxMDAwIDB4MTAwMD47CiAJCX07CiAKIAkJZGl0aGVyMDogZGl0aGVyQDE0
+MDEyMDAwIHsKQEAgLTU3NSw2ICs1ODksNyBAQAogCQkJaW50ZXJydXB0cyA9IDxHSUNfU1BJIDIz
+NSBJUlFfVFlQRV9MRVZFTF9MT1c+OwogCQkJcG93ZXItZG9tYWlucyA9IDwmc2Nwc3lzIE1UODE4
+M19QT1dFUl9ET01BSU5fRElTUD47CiAJCQljbG9ja3MgPSA8Jm1tc3lzIENMS19NTV9ESVNQX0RJ
+VEhFUjA+OworCQkJbWVkaWF0ZWssZ2NlLWNsaWVudC1yZWcgPSA8JmdjZSBTVUJTWVNfMTQwMVhY
+WFggMHgyMDAwIDB4MTAwMD47CiAJCX07CiAKIAkJbXV0ZXg6IG11dGV4QDE0MDE2MDAwIHsKLS0g
+CjIuMTguMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
