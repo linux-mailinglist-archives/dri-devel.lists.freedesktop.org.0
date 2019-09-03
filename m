@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 909EAA70EA
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 18:46:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B7CA7117
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 18:54:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA68A89686;
-	Tue,  3 Sep 2019 16:46:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2BD588E41;
+	Tue,  3 Sep 2019 16:54:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id BF368897F3
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2019 16:46:22 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B86AA88E41
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2019 16:54:39 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id BBFA572161; Tue,  3 Sep 2019 16:46:22 +0000 (UTC)
+ id B2E4A721AA; Tue,  3 Sep 2019 16:54:39 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Tue, 03 Sep 2019 16:46:22 +0000
+Subject: [Bug 111482] Sapphire Pulse RX 5700 XT power consumption
+Date: Tue, 03 Sep 2019 16:54:39 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: DRI git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: reddestdream@gmail.com
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: freedesktop@postfach.xyz
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110674-502-PhoBGTYMwx@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111482-502-HRdz6eu2Xe@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111482-502@http.bugs.freedesktop.org/>
+References: <bug-111482-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,41 +52,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0686601843=="
+Content-Type: multipart/mixed; boundary="===============2083017171=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0686601843==
-Content-Type: multipart/alternative; boundary="15675291827.d82E.17913"
+--===============2083017171==
+Content-Type: multipart/alternative; boundary="15675296791.9DefD1.20512"
 Content-Transfer-Encoding: 7bit
 
 
---15675291827.d82E.17913
-Date: Tue, 3 Sep 2019 16:46:22 +0000
+--15675296791.9DefD1.20512
+Date: Tue, 3 Sep 2019 16:54:39 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111482
 
---- Comment #124 from ReddestDream <reddestdream@gmail.com> ---
-Created attachment 145254
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145254&action=3Dedit
-Dmesg 5.3-rc7 w/ Two monitors
-
-This issue is still not fixed on 5.3-rc7. I guess we will probably have to =
-wait
-until 5.4 (the next LTS) before more people take a look at this issue. :(
+--- Comment #7 from Robert <freedesktop@postfach.xyz> ---
+Thanks Andrew for you comment! Sadly that doesn't apply to me. My 49WL95C-W=
+ is
+using 5120x1440 @60 Hz connected via DisplayPort. So refresh rate can't be
+higher then 60 Hz. The display can't have a bigger refresh rate.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15675291827.d82E.17913
-Date: Tue, 3 Sep 2019 16:46:22 +0000
+--15675296791.9DefD1.20512
+Date: Tue, 3 Sep 2019 16:54:39 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -102,28 +99,23 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c124">Comm=
-ent # 124</a>
+   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482#c7">Commen=
+t # 7</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
+   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482">bug 11148=
+2</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-reddestdream&#64;gmail.com" title=3D"ReddestDream &lt;reddestdream&#64;gmai=
-l.com&gt;"> <span class=3D"fn">ReddestDream</span></a>
+freedesktop&#64;postfach.xyz" title=3D"Robert &lt;freedesktop&#64;postfach.=
+xyz&gt;"> <span class=3D"fn">Robert</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145254=
-" name=3D"attach_145254" title=3D"Dmesg 5.3-rc7 w/ Two monitors">attachment=
- 145254</a> <a href=3D"attachment.cgi?id=3D145254&amp;action=3Dedit" title=
-=3D"Dmesg 5.3-rc7 w/ Two monitors">[details]</a></span>
-Dmesg 5.3-rc7 w/ Two monitors
-
-This issue is still not fixed on 5.3-rc7. I guess we will probably have to =
-wait
-until 5.4 (the next LTS) before more people take a look at this issue. :(</=
-pre>
+        <pre>Thanks Andrew for you comment! Sadly that doesn't apply to me.=
+ My 49WL95C-W is
+using 5120x1440 &#64;60 Hz connected via DisplayPort. So refresh rate can't=
+ be
+higher then 60 Hz. The display can't have a bigger refresh rate.</pre>
         </div>
       </p>
 
@@ -137,9 +129,9 @@ pre>
     </body>
 </html>=
 
---15675291827.d82E.17913--
+--15675296791.9DefD1.20512--
 
---===============0686601843==
+--===============2083017171==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -149,4 +141,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0686601843==--
+--===============2083017171==--
