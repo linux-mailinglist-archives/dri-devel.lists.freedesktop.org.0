@@ -2,67 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8522DA6CBF
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 17:18:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09705A6CCF
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 17:22:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D229892BE;
-	Tue,  3 Sep 2019 15:18:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DEEC892BE;
+	Tue,  3 Sep 2019 15:22:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 856228957D
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2019 15:18:54 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id c19so5017174edy.10
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2019 08:18:54 -0700 (PDT)
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC8B4892BE
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2019 15:22:16 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id u6so13031992edq.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2019 08:22:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to:user-agent;
- bh=M/MgUkf0bO2y1PXvF3i03lzNOLBm92Qd4oy/UMB5kQA=;
- b=GmmQ0n4k+rtZtmcp7E7BBx+ZI6cOpJUQpXpHa7MyV0BNgtoEH4he8NBtmnisVyjWuz
- H1zPrrNkvbIPu2sZsK92ayP+uV0Jb9gBXaKA+gUlYcOfQbMU1RwNs62PJOedQ/ivF0BY
- /mJkutdWz9I725YJpednZGQVOFz4W8+6u943O/UMQrMgrdccp6KaQLwhcSfE+VOqsORQ
- 8csOpBHL9i4eSuHWW4Fgn5k1byB7d2dwaZKuUTQf7WI0dom4DVyPCNQUvT19T1IJ4S1M
- EnIHHXQF/eKhJi38T9JoGik4jksvHizFCtai8Zxj92mCGLPF5XUHqFiylZdnYmZfVhR1
- KHlw==
-X-Gm-Message-State: APjAAAUNBb4y7Sv6j2YJz1giVxB/GMvWjZ/CKD4+zAEndnOcxgWDIIbN
- 9acNUkPruCB/ruA8RywXD0Piuw==
-X-Google-Smtp-Source: APXvYqwZYMPuR026foAliFROtcKkxtxin7G2+x5wezCSiXYr6+gpxIU+tlEuN6Cd2MU96aGSP0aElw==
-X-Received: by 2002:a05:6402:894:: with SMTP id
- e20mr36411232edy.69.1567523933187; 
- Tue, 03 Sep 2019 08:18:53 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net.
- [212.51.149.96])
- by smtp.gmail.com with ESMTPSA id m22sm3381056edp.50.2019.09.03.08.18.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 08:18:52 -0700 (PDT)
-Date: Tue, 3 Sep 2019 17:18:50 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m_=28VMware=29?= <thomas_os@shipmail.org>
-Subject: Re: [PATCH v2 0/4] Have TTM support SEV encryption with coherent
- memory
-Message-ID: <20190903151850.GB2112@phenom.ffwll.local>
-Mail-Followup-To: Thomas =?iso-8859-1?Q?Hellstr=F6m_=28VMware=29?=
- <thomas_os@shipmail.org>, 
- dri-devel@lists.freedesktop.org, pv-drivers@vmware.com,
- linux-graphics-maintainer@vmware.com, linux-kernel@vger.kernel.org
-References: <20190903131504.18935-1-thomas_os@shipmail.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NZ5CZDcXrND2jbljHxs/cV3y+JvNidev8udWa1RS1ik=;
+ b=ON5AsaEU8HVu/n4eOV/3RwyunSUQX79IdnS8gGBFcFN7kgGEl2fTMM7wcIAh9AuwdF
+ FJHysjqok/ELP4k24u/1p7fF08VELLIS6W271GmmAzDO5eN2jNslnPd0Bsrvzi2bZl5L
+ OT3pNoK/UrnzQ6CL3iHGa+p+g5CmbSk7w2V25hNH1qAHmtFeKMW/fgDQuaAAl6YJtWmJ
+ sfjRgTvL3lMwhd4lBVTPdgyG+cfauR6Y0ieUQ1hxNN9dArd5XgpXr43SD5V4hGRovxNT
+ Wj28jfJUUhxqMWeQOe2e7Ku1dWWe9aWRd0Ghz6WyTl1MB20sq7Sd1T9ixa6psuPnxn2X
+ dsvg==
+X-Gm-Message-State: APjAAAX04AWtDjMR1myKnrmzruarGwU4ngNv2/Ne0MdOSjne5iIt7q2z
+ C0K6Iqb0kh4vespo5HHXThA1S2QJ3GCycm2PWuI=
+X-Google-Smtp-Source: APXvYqyAL2RetRKUcbfaeIu3uF4RGOA7/ELf5DOykkMIUXjs73OxXiiNZudtqTLDaoJItO/7qr2J7USqAOLgxBYhNKs=
+X-Received: by 2002:a17:906:b845:: with SMTP id
+ ga5mr5685048ejb.278.1567524135481; 
+ Tue, 03 Sep 2019 08:22:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190903131504.18935-1-thomas_os@shipmail.org>
-X-Operating-System: Linux phenom 5.2.0-2-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <CAOMZO5Cuk+t16bNFA+sm5=ZEdf+BNRtSpX27OCoQ==DbEyBtCw@mail.gmail.com>
+ <ec11a377-fca3-ed12-2a05-abb3de936f8b@arm.com>
+ <CAOMZO5BK0CJ8aA0CdBrYF75FRRHjqm0aOM4TpS9C+nHVuD8M_w@mail.gmail.com>
+In-Reply-To: <CAOMZO5BK0CJ8aA0CdBrYF75FRRHjqm0aOM4TpS9C+nHVuD8M_w@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 3 Sep 2019 08:22:03 -0700
+Message-ID: <CAF6AEGtGXshOACrHYE7kkfvsBXRZ_ZF3xugJDOEFP9zr--vB5g@mail.gmail.com>
+Subject: Re: Adreno crash on i.MX53 running 5.3-rc6
+To: Fabio Estevam <festevam@gmail.com>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=sender:date:from:to:cc:subject:message-id:mail-followup-to
- :references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to:user-agent;
- bh=M/MgUkf0bO2y1PXvF3i03lzNOLBm92Qd4oy/UMB5kQA=;
- b=EvTOIWYVWgrd7AbgV5YsYOXbSXD4jwxgmejN3UTHIJhGn03ikVBqZeHHeW7u9lqI34
- /MjiQvOoCtQU/+TI25Ks7pHxMntaHG7efrJjU8krFLkWkYKQEcCc2e+qk5E4xrAi3uEH
- 2tcPUTv5f5FovKVuc7SvXkwXE/nB1wU1AczuA=
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=NZ5CZDcXrND2jbljHxs/cV3y+JvNidev8udWa1RS1ik=;
+ b=EPB0CWkz3A6BTebHcErQO8gFtXiTlVzgiIVm6gURSO2u+inrjpteDYG5vh8W20on2K
+ u+lr2NqHosRYMWHmj6njCt1/pLQ63M+ADt4jYC8l9IcyAsUwpcxYBgdBZsugVwkyFAa/
+ 1t3eDUrcLqsqqAfDiqqmSIV9UT2rpYwE7Ania5d75ZAPoswEYZqkLR1XQb0xlNciqQej
+ gJJP4EwXsSgyvCKltB4Is6Dcm4qmwk2hsdqMkxIQ8zdKyjURg9HxK14tSgL0gZi77oF1
+ pjIQ/aCM6nRDOpUy1fNeE0nJnKLpm4a/3CVpcSibI+cRn/HFDTXcXvV+st1TB5oknMqA
+ wvxQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,28 +65,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pv-drivers@vmware.com, linux-graphics-maintainer@vmware.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Robin Murphy <robin.murphy@arm.com>, Chris Healy <cphealy@gmail.com>,
+ Jonathan Marek <jonathan@marek.ca>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBTZXAgMDMsIDIwMTkgYXQgMDM6MTU6MDBQTSArMDIwMCwgVGhvbWFzIEhlbGxzdHLD
-tm0gKFZNd2FyZSkgd3JvdGU6Cj4gV2l0aCBTRVYgbWVtb3J5IGVuY3J5cHRpb24gYW5kIGluIHNv
-bWUgY2FzZXMgYWxzbyB3aXRoIFNNRSBtZW1vcnkKPiBlbmNyeXB0aW9uLCBjb2hlcmVudCBtZW1v
-cnkgaXMgdW5lbmNyeXB0ZWQuIEluIHRob3NlIGNhc2VzLCBUVE0gZG9lc24ndAo+IHNldCB1cCB0
-aGUgY29ycmVjdCBwYWdlIHByb3RlY3Rpb24uIEZpeCB0aGlzIGJ5IGhhdmluZyB0aGUgVFRNCj4g
-Y29oZXJlbnQgcGFnZSBhbGxvY2F0b3IgY2FsbCBpbnRvIHRoZSBwbGF0Zm9ybSBjb2RlIHRvIGRl
-dGVybWluZSB3aGV0aGVyCj4gY29oZXJlbnQgbWVtb3J5IGlzIGVuY3J5cHRlZCBvciBub3QsIGFu
-ZCBtb2RpZnkgdGhlIHBhZ2UgcHJvdGVjdGlvbiBpZgo+IGl0IGlzIG5vdC4KPiAKPiB2MjoKPiAt
-IFVzZSBmb3JjZV9kbWFfdW5lbmNyeXB0ZWQoKSByYXRoZXIgdGhhbiBzZXZfYWN0aXZlKCkgdG8g
-Y2F0Y2ggYWxzbyB0aGUKPiAgIHNwZWNpYWwgU01FIGVuY3J5cHRpb24gY2FzZXMuCgpXZSBzaG91
-bGQgcHJvYmFibHkgY2MgQ2hyaXN0b3BoIEhlbGx3aWcgb24gdGhpcyAuLi4gYmV0dGVyIHRvIGhl
-YXIgaGlzCnNjcmVhbXMgYmVmb3JlIG1lcmdpbmcgdGhhbiBhZnRlcndhcmRzLiBBcyBtdWNoIGFz
-IEkgZG9uJ3Qgc3VwcG9ydApzY3JlYW1pbmcgbWFpbnRhaW5lcnMsIHRoYXQgc2VlbXMgdGhlIGxl
-YXN0IGJhZCBvcHRpb24gaGVyZS4KLURhbmllbAotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBF
-bmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+T24gTW9uLCBTZXAgMiwgMjAxOSBhdCAxMTowMyBBTSBGYWJpbyBFc3RldmFtIDxmZXN0ZXZhbUBn
+bWFpbC5jb20+IHdyb3RlOgo+Cj4gSGkgUm9iaW4sCj4KPiBPbiBNb24sIFNlcCAyLCAyMDE5IGF0
+IDExOjQ1IEFNIFJvYmluIE11cnBoeSA8cm9iaW4ubXVycGh5QGFybS5jb20+IHdyb3RlOgo+Cj4g
+PiBUcnkgMDAzNmJjNzNjY2JlIC0gdGhhdCBsb29rcyBsaWtlIHNvbWV0aGluZyB0aGF0IENPTkZJ
+R19ETUFfQVBJX0RFQlVHCj4gPiBzaG91bGQgaGF2ZSBiZWVuIHNjcmVhbWluZyBhYm91dCBhbnl3
+YXkuCj4KPiBUaGFua3MgZm9yIHlvdXIgc3VnZ2VzdGlvbi4KPgo+IEkgY2FuIHN1Y2Nlc3NmdWxs
+eSBib290IGFmdGVyIHJldmVydGluZyB0aGUgZm9sbG93aW5nIGNvbW1pdHM6Cj4KPiBjb21taXQg
+MTQxZGI1NzAzYzg4N2Y0Njk1NzYxNWNkNjYxNmNhMjhmZTQ2OTFlMCAoSEVBRCkKPiBBdXRob3I6
+IEZhYmlvIEVzdGV2YW0gPGZlc3RldmFtQGdtYWlsLmNvbT4KPiBEYXRlOiAgIE1vbiBTZXAgMiAx
+NDo1ODoxOCAyMDE5IC0wMzAwCj4KPiAgICAgUmV2ZXJ0ICJkcm0vbXNtOiBzdG9wIGFidXNpbmcg
+ZG1hX21hcC91bm1hcCBmb3IgY2FjaGUiCj4KPiAgICAgVGhpcyByZXZlcnRzIGNvbW1pdCAwMDM2
+YmM3M2NjYmU3ZTYwMGEzNDY4YmY4ZTg4NzliMTIyMjUyMjc0Lgo+Cj4gY29tbWl0IGZhNWIxZjYy
+MGYyOTg0YzI1NDg3N2Q2MDQ5MjE0YzM5YzI0YzgyMDcKPiBBdXRob3I6IEZhYmlvIEVzdGV2YW0g
+PGZlc3RldmFtQGdtYWlsLmNvbT4KPiBEYXRlOiAgIE1vbiBTZXAgMiAxNDo1NjowMSAyMDE5IC0w
+MzAwCj4KPiAgICAgUmV2ZXJ0ICJkcm0vbXNtOiBVc2UgdGhlIGNvcnJlY3QgZG1hX3N5bmMgY2Fs
+bHMgaW4gbXNtX2dlbSIKPgo+ICAgICBUaGlzIHJldmVydHMgY29tbWl0IDNkZTQzM2M1YjM4YWY0
+OWE1ZmM3NjAyNzIxZTJhYjVkMzlmMWU2OWMuCj4KPiBSb2IsCj4KPiBXaGF0IHdvdWxkIGJlIHRo
+ZSByZWNvbW1lbmRlZCBhcHByb2FjaCBmb3IgZml4aW5nIHRoaXM/Cj4KCldlIG5lZWQgYSBkaXJl
+Y3Qgd2F5IHRvIGhhbmRsZSBjYWNoZSwgc28gd2UgY2FuIHN0b3AgdHJ5aW5nIHRvIHRyaWNrCkRN
+QSBBUEkgaW50byBkb2luZyB3aGF0IHdlIHdhbnQuCgpTb21ldGhpbmcgbGlrZSB0aGlzIGlzIHdo
+YXQgSSBoYWQgaW4gbWluZDoKCmh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9zZXJp
+ZXMvNjUyMTEvCgpJIGd1ZXNzIEkgY291bGQgcmVzcGluIHRoYXQuICBJJ20gbm90IHJlYWxseSBz
+dXJlIG9mIGFueSBvdGhlciB3YXkgdG8KaGF2ZSB0aGluZ3Mgd29ya2luZyBvbiB0aGUgZGlmZmVy
+ZW50IGNvbWJpbmF0aW9ucyBvZiBhcmNocyBhbmQgZG1hX29wcwp0aGF0IHdlIGhhdmUuICBMYXRl
+bHkgZml4aW5nIG9uZSBoYXMgYmVlbiBicmVha2luZyBhbm90aGVyLgoKQlIsCi1SCl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
