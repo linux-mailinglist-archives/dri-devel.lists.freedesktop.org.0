@@ -1,45 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1F75A6572
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 11:35:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA157A65CF
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 11:41:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CA3189801;
-	Tue,  3 Sep 2019 09:35:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC6B989791;
+	Tue,  3 Sep 2019 09:40:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 12800897E3
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2019 09:35:41 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0F12E72161; Tue,  3 Sep 2019 09:35:41 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111482] Sapphire Pulse RX 5700 XT power consumption
-Date: Tue, 03 Sep 2019 09:35:41 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: asheldon55@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111482-502-4w0LOztpq6@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111482-502@http.bugs.freedesktop.org/>
-References: <bug-111482-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59A70895B9
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2019 09:40:57 +0000 (UTC)
+Received: by mail-ed1-x543.google.com with SMTP id c19so4010226edy.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2019 02:40:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to:user-agent;
+ bh=CmQ5eXdHreVCWEDMK58IvGkMwaP6/7vmghpQI7SOZ54=;
+ b=rFW1yJPxT1sQI36G+6f+8aX9ofPNwRLitT1r7JxouMPJ7cGXIsa8VDAtbjyjy+DCPt
+ CuOmfU6UTxaIZSoMvvuXkdvJ4rNJoM256JfpyrI80DCqawAL1QfSFHeToqk674tsOczk
+ OKyILNFR8esLVGTQYhsKIbqwJSoCEL2DjniXQmvAB7C1ZtZTa87qKuO9Jjv6xdtdo7VO
+ JlD5+xQjIVavT2S8ubGIomuIoSss6POZbdDfxune3TwnfldEXTHA8adGOlOsPQfzrzR5
+ 4tLn1e/yF+QJResEKtRMpSY8ZDGnqpLuLQlYD9NM3NeNKgQSypygbF/MaPdfMRvI56C+
+ Ubfg==
+X-Gm-Message-State: APjAAAUWeMZKvgUQcrk+RskHrMyNUvGCrTmGEfssiddJXn+/YrXv2lL+
+ xM2m5JbUXKspvh2uV+Wy90B0mA==
+X-Google-Smtp-Source: APXvYqzNJJOJVELfmnx+f7yv4E7QF72roz8MsenvXwTu1v4L02iUqcBK7opbjhhABvfrgn6X7IcSDw==
+X-Received: by 2002:a17:907:1043:: with SMTP id
+ oy3mr19836078ejb.21.1567503655784; 
+ Tue, 03 Sep 2019 02:40:55 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net.
+ [212.51.149.96])
+ by smtp.gmail.com with ESMTPSA id t21sm173363ejf.27.2019.09.03.02.40.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Sep 2019 02:40:54 -0700 (PDT)
+Date: Tue, 3 Sep 2019 11:40:52 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
+Subject: Re: [PATCH v3 0/3] Send a hotplug when edid changes
+Message-ID: <20190903094052.GP2112@phenom.ffwll.local>
+References: <20190806125551.25761-1-stanislav.lisovskiy@intel.com>
+ <20190806135150.GZ7444@phenom.ffwll.local>
+ <8614f54fd742f9f35979768997e416d36b69563a.camel@intel.com>
+ <CAKMK7uHgfviXTqkHsCVmZX97dWFfbysCHtiRVDpSzJ3aheTQkw@mail.gmail.com>
+ <5e7dcb14e618796e9cb8a9503cec9d9985c5fd4d.camel@intel.com>
+ <20190807210702.GG7444@phenom.ffwll.local>
+ <cab2f3a9f9827a993069e402feecc9a9853560a1.camel@intel.com>
+ <56A4AB1F0E1B5D4C83D27F43C50F662E590292A2@IRSMSX107.ger.corp.intel.com>
+ <ce9f67ad10a2b1f07ab79bc4ac328ef2bd9a2cf4.camel@intel.com>
+ <2d8527f7e982148eec6dc8dd80470d4daf4cfa82.camel@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <2d8527f7e982148eec6dc8dd80470d4daf4cfa82.camel@intel.com>
+X-Operating-System: Linux phenom 5.2.0-2-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=CmQ5eXdHreVCWEDMK58IvGkMwaP6/7vmghpQI7SOZ54=;
+ b=UOY3R5f6Ou33kr9Dd6HEe9vjjRa95yCmiaGgC1IZ445k1y8jL1SAlKvEyf0RePuBhl
+ A3RN6yFVA+z0KYhhp/54jj7hmdncXCrKYJwBXYvNiUzta+MjpJ7ta8IFdz43h/1wf4iL
+ sczz2dViJVV440Mj7jqqG3nESrtsNwLAhcrhY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,184 +77,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0530182239=="
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Peres,
+ Martin" <martin.peres@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Mun,
+ Gwan-gyeong" <gwan-gyeong.mun@intel.com>, "Ser, Simon" <simon.ser@intel.com>,
+ "Saarinen, Jani" <jani.saarinen@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0530182239==
-Content-Type: multipart/alternative; boundary="15675033410.9ae9F6dBc.617"
-Content-Transfer-Encoding: 7bit
-
-
---15675033410.9ae9F6dBc.617
-Date: Tue, 3 Sep 2019 09:35:40 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111482
-
---- Comment #6 from Andrew Sheldon <asheldon55@gmail.com> ---
-Okay, so in my case, it turned out to be a problem with >60hz refresh rates=
-. If
-I set to 60hz, the problem goes away.
-
-sensors:
-amdgpu-pci-0d00
-Adapter: PCI adapter
-vddgfx:       +0.72 V=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-fan1:           0 RPM  (min =3D    0 RPM, max =3D 3200 RPM)=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-edge:         +53.0=C2=B0C  (crit =3D +118.0=C2=B0C, hyst =3D -273.1=C2=B0C=
-)=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-                       (emerg =3D +99.0=C2=B0C)=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20
-junction:     +53.0=C2=B0C  (crit =3D +99.0=C2=B0C, hyst =3D -273.1=C2=B0C)=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-                       (emerg =3D +99.0=C2=B0C)=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20
-mem:          +56.0=C2=B0C  (crit =3D +99.0=C2=B0C, hyst =3D -273.1=C2=B0C)=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-                       (emerg =3D +99.0=C2=B0C)=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20
-power1:       12.00 W  (cap =3D 200.00 W)
-
-cat pp_dpm_mclk:
-
-0: 100Mhz *=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-1: 500Mhz=20
-2: 625Mhz=20
-3: 875Mhz
-
-This is a problem on Windows as well, so there looks to be a cross-platform=
- bug
-here.
-
-Also, much like Windows, 75hz is even more buggy, with lm-sensors triggering
-the weirdness relating to sensor data that some users have reported (N/A
-sensors readings, and then a lockup). Windows has a variation of this, with=
- all
-sensors being unreadable when using a 75hz refresh rate (but no lockup at
-least).
-
-My main refresh rate (92hz) doesn't have the latter problem, at least.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15675033410.9ae9F6dBc.617
-Date: Tue, 3 Sep 2019 09:35:41 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482#c6">Commen=
-t # 6</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482">bug 11148=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-asheldon55&#64;gmail.com" title=3D"Andrew Sheldon &lt;asheldon55&#64;gmail.=
-com&gt;"> <span class=3D"fn">Andrew Sheldon</span></a>
-</span></b>
-        <pre>Okay, so in my case, it turned out to be a problem with &gt;60=
-hz refresh rates. If
-I set to 60hz, the problem goes away.
-
-sensors:
-amdgpu-pci-0d00
-Adapter: PCI adapter
-vddgfx:       +0.72 V=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-fan1:           0 RPM  (min =3D    0 RPM, max =3D 3200 RPM)=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-edge:         +53.0=C2=B0C  (crit =3D +118.0=C2=B0C, hyst =3D -273.1=C2=B0C=
-)=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-                       (emerg =3D +99.0=C2=B0C)=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20
-junction:     +53.0=C2=B0C  (crit =3D +99.0=C2=B0C, hyst =3D -273.1=C2=B0C)=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-                       (emerg =3D +99.0=C2=B0C)=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20
-mem:          +56.0=C2=B0C  (crit =3D +99.0=C2=B0C, hyst =3D -273.1=C2=B0C)=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-                       (emerg =3D +99.0=C2=B0C)=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20
-power1:       12.00 W  (cap =3D 200.00 W)
-
-cat pp_dpm_mclk:
-
-0: 100Mhz *=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-1: 500Mhz=20
-2: 625Mhz=20
-3: 875Mhz
-
-This is a problem on Windows as well, so there looks to be a cross-platform=
- bug
-here.
-
-Also, much like Windows, 75hz is even more buggy, with lm-sensors triggering
-the weirdness relating to sensor data that some users have reported (N/A
-sensors readings, and then a lockup). Windows has a variation of this, with=
- all
-sensors being unreadable when using a 75hz refresh rate (but no lockup at
-least).
-
-My main refresh rate (92hz) doesn't have the latter problem, at least.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15675033410.9ae9F6dBc.617--
-
---===============0530182239==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0530182239==--
+T24gVHVlLCBTZXAgMDMsIDIwMTkgYXQgMDk6MTc6NDlBTSArMDAwMCwgTGlzb3Zza2l5LCBTdGFu
+aXNsYXYgd3JvdGU6Cj4gT24gTW9uLCAyMDE5LTA4LTE5IGF0IDA5OjA1ICswMDAwLCBMaXNvdnNr
+aXksIFN0YW5pc2xhdiB3cm90ZToKPiA+IE9uIE1vbiwgMjAxOS0wOC0xOSBhdCAwODozNSArMDEw
+MCwgUGVyZXMsIE1hcnRpbiB3cm90ZToKPiA+ID4gT24gMTkvMDgvMjAxOSAxMDoyMywgTGlzb3Zz
+a2l5LCBTdGFuaXNsYXYgd3JvdGU6Cj4gPiA+ID4gT24gV2VkLCAyMDE5LTA4LTA3IGF0IDIzOjA3
+ICswMjAwLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+ID4gPiA+ID4gCj4gPiA+ID4gPiAKPiA+ID4g
+PiA+IFNvIGlndCBpc24ndCB2YWxpZCB1c2Vyc3BhY2UgKGl0J3MganVzdCBnb29kIHRlc3RjYXNl
+cykuIENhbiB3ZQo+ID4gPiA+ID4gcmVwcm8KPiA+ID4gPiA+IHRoZQo+ID4gPiA+ID4gc2FtZSBv
+biByZWFsIHVzZXJzcGFjZT8gRG9lcyB0aGlzIHdvcmsgd2l0aCByZWFsIHVzZXJzcGFjZT8KPiA+
+ID4gPiA+IFdlJ3ZlCj4gPiA+ID4gPiBoYWQKPiA+ID4gPiA+IHVzZXJzcGFjZSB3aGljaCB0cmll
+cyB0byBiZSBjbGV2ZXIgYW5kIGZpbHRlcnMgb3V0IHdoYXQgbG9va3MKPiA+ID4gPiA+IGxpa2UK
+PiA+ID4gPiA+IHJlZHVuZGFudCBob3RwbHVnIGV2ZW50cy4gQW5kIHRoZW4gZ2V0cyBpdCB3cm9u
+ZyBpbiBjYXNlcyBsaWtlCj4gPiA+ID4gPiB0aGlzLgo+ID4gPiA+ID4gCj4gPiA+ID4gPiBBbHNv
+LCB3ZSd2ZSBoYWQgZm9yZXZlciBhbiB1bmNvbmRpdGlvbmFsIHVldmVudCBvbiByZXN1bWUsCj4g
+PiA+ID4gPiBleGFjdGx5Cj4gPiA+ID4gPiBiZWNhdXNlCj4gPiA+ID4gPiBhbnl0aGluZyBjb3Vs
+ZCBoYXZlIGNoYW5nZWQuIERpZCB3ZSBsb29zZSB0aGlzIG9uZSBvbiB0aGUgd2F5Cj4gPiA+ID4g
+PiBzb21ld2hlcmU/Cj4gPiA+ID4gPiBPciBtYXliZSBJIG1pc3JlbWVtYmVyIC4uLgo+ID4gPiA+
+ID4gCj4gPiA+ID4gPiBJZiBhbGwgd2UgY2FyZSBhYm91dCBpcyByZXN1bWUgcmUtYWRkaW5nIHRo
+YXQgdW5jb25kdGlvbmFsCj4gPiA+ID4gPiB1ZXZlbnQKPiA+ID4gPiA+IG9uCj4gPiA+ID4gPiBy
+ZXN1bWUgaXMgZ29pbmcgdG8gYmUgYSBsb3QgZWFzaWVyIHRoYW4gdGhpcyBoZXJlLgo+ID4gPiA+
+ID4gLURhbmllbAo+ID4gPiA+IAo+ID4gPiA+IFNvcnJ5IGZvciBsb25nIHJlcGx5KHdhcyBvbiB2
+YWNhdGlvbiksIHRoYXQgaXMgYSBnb29kIHF1ZXN0aW9uCj4gPiA+ID4gcmVnYXJkaW5nIHJlcHJv
+ZHVjaW5nIHRoaXMgaW4gcmVhbCBsaWZlIHNjZW5hcmlvLiBNeSBvYnZpb3VzCj4gPiA+ID4gZ3Vl
+c3MKPiA+ID4gPiB3YXMgdG8gc3VzcGVuZCB0aGUgbWFjaGluZSBhbmQgbWVhbndoaWxlIGNoYW5n
+ZSBjb25uZWN0ZWQgZGlzcGxheQo+ID4gPiA+IHRvCj4gPiA+ID4gYW5vdGhlciBvbmUuIEhvd2V2
+ZXIgdGhpcyBzaXR1YXRpb24gc2VlbXMgdG8gYmUgYWxyZWFkeSBoYW5kbGVkCj4gPiA+ID4gYnkK
+PiA+ID4gPiBrZXJuZWwgbmljZWx5KHRyaWVkIGZldyB0aW1lcyBhbmQgd2UgYWx3YXlzIGdldCBh
+IGhvdHBsdWcgZXZlbnQpLgo+ID4gPiA+IFNvCj4gPiA+ID4gdGhhdCBlZGlkIGNoYW5nZSBkdXJp
+bmcgc3VzcGVuZCBjaGFtZWxpdW0gdGVzdCBjYXNlIHNlZW1zIHRvIGJlCj4gPiA+ID4gYSBiaXQg
+ZGlmZmVyZW50LiBJIHdpbGwgdGFsayB0byBvdXIgZ3V5cyB3aG8gd3JvdGUgdGhpcyBhYm91dAo+
+ID4gPiA+IHdoYXQKPiA+ID4gPiBpcwo+ID4gPiA+IHRoZSByZWFsIGxpZmUgc2NlbmFyaW8gZm9y
+IHRoaXMsIGJlY2F1c2UgSSdtIG5vdyBjdXJpb3VzIGFzIHdlbGwuCj4gPiA+IAo+ID4gPiBUaGFu
+a3MgRGFuaWVsIGZvciB0aGUgZmVlZGJhY2suCj4gPiA+IAo+ID4gPiBJIGFsc28gbm93IHdvbmRl
+ciB3aHkgb3VyIElHVCB0ZXN0IChjaGFtZWxpdW0tYmFzZWQpIGRvZXMgbm90IHBhc3MKPiA+ID4g
+aWYKPiA+ID4gYQo+ID4gPiB1ZXZlbnQgaXMgc2VudCBvbiByZXN1bWUgYXV0b21hdGljYWxseSBh
+bmQgYWxsIHRoZSB0ZXN0IGlzCj4gPiA+IGV4cGVjdGluZwo+ID4gPiBpcwo+ID4gPiBhIHVldmVu
+dC4uLgo+ID4gPiAKPiA+ID4gTWFydGluCj4gPiAKPiA+IEluIGZhY3QgSSB3YXMgd3JvbmcgLSB3
+aGVuIGl0IHdvcmtlZCwgaXQgd2FzIHVzaW5nIGV4YWN0bHkgdGhvc2UKPiA+IHBhdGNoZXMgOiku
+IFdpdGggY2xlYW4gZHJtLXRpcCAtIGl0IHNlZW1zIHRvIHdvcmsgb2Nhc3Npb25hbGx5IGFuZCBp
+dAo+ID4gZG9lc24ndCB1cGRhdGUgdGhlIGFjdHVhbCBkaXNwbGF5IGVkaWQgYW5kIG90aGVyIHN0
+dWZmLCBzbyBldmVuIHdoZW4KPiA+IGRpc3BsYXlzIGFyZSBjaGFuZ2VkIHdlIHN0aWxsIHNlZSB0
+aGUgb2xkIGluZm8vZWRpZCBmcm9tIHVzZXJzcGFjZS4KPiA+IAo+ID4gV2UgYWx3YXlzIGdldCBh
+IGhwZCBpcnEgd2hlbiBzdXNwZW5kL3Jlc3VtZSBob3dldmVyIGl0IGRvZXNuJ3QgYWx3YXlzCj4g
+PiByZXN1bHQgaW4gdWV2ZW50IGJlaW5nIHNlbnQuIFNvIHRoZXJlIGlzIGEgcmVhbCBuZWVkIGlu
+IHRob3NlCj4gPiBwYXRjaGVzLgo+ID4gCj4gCj4gSnVzdCBkZWNpZGVkIHRvICJwaW5nIiB0aGlz
+IGRpc2N1c3Npb24gYWdhaW4uIFRoZSBpc3N1ZSBpcyBhbHJlYWR5IHNvbWUKPiB5ZWFycyBvbGQg
+YW5kIHN0aWxsIG5vdGhpbmcgaXMgZml4ZWQuIEkgZG8gYWdyZWUgdGhhdCBtYXkgYmUgc29tZXRo
+aW5nCj4gbmVlZHMgdG8gYmUgZml4ZWQvY2hhbmdlZCBoZXJlIGluIHRob3NlIHBhdGNoZXMsIGJ1
+dCBzb21ldGhpbmcgbXVzdCBiZQo+IGFncmVlZCBhdCBsZWFzdCBJIGd1ZXNzLCBhcyBkaXNjdXNz
+aW9ucyB0aGVtc2VsZiBkbyBub3QgZml4IGJ1Z3MuCj4gQ3VycmVudGx5IHRob3NlIHBhdGNoZXMg
+YWRkcmVzcyBhIHBhcnRpY3VsYXIgaXNzdWUgd2hpY2ggb2NjdXJzLCBpZgo+IGRpc3BsYXkgaXMg
+Y2hhbmdlZCBkdXJpbmcgc3VzcGVuZC4gCj4gT24gb2Nhc3Npb25hbCBiYXNpcywgdXNlcnNwYWNl
+IG1pZ2h0IG5vdCBnZXQgYSBob3RwbHVnIGV2ZW50IGF0IGFsbCwKPiBjYXVzaW5nIGRpZmZlcmVu
+dCBraW5kIG9mIHByb2JsZW1zKGxpa2Ugd3JvbmcgbW9kZSBzZXQgb24gZGlzcGxheSBvcgo+IGRp
+YXBseSBub3Qgd29ya2luZyBhdCBhbGwpLiBBbHNvIHNvbWUga21zX2NoYW1lbGl1bSBob3RwbHVn
+IHRlc3RzIGZhaWwKPiBiZWNhdXNlIG9mIHRoYXQuIAoKSSBzdGlsbCB0aGluayB3ZSdsbCBsb25n
+LXRlcm0gcmVncmV0IHRoaXMgaWYgd2UganVzdCBkdWN0LXRhcGUgbW9yZSBzdHVmZgpvbiB0b3As
+IGluc3RlYWQgb2YgZ2l2aW5nIHVzZXJzcGFjZSBhIG1vcmUgaW5mb3JtYXRpdmUgdWV2ZW50LiBU
+aGlzIHdpbGwKc2VuZCBtb3JlIHVldmVudHMgdG8gdXNlcnNwYWNlLCBzbyBtYXliZSB0aGVuIHVz
+ZXJzcGFjZSB0cmllcyB0byBmaWx0ZXIKbW9yZSBhbmQgYmUgY2xldmVyLCB3aGljaCBuZXZlciB3
+b3JrcywgYW5kIHdlJ3JlIGJhY2sgdG8gdGVhcnMuCgpBbnl3YXksIG9uIHRoZSBhcHByb2FjaCBp
+dHNlbGY6IEl0J3MgZXh0cmVtZWx5IGk5MTUgc3BlY2lmaWMsIGFuZCBpdApyZXF1aXJlcyB0aGF0
+IGFsbCBkcml2ZXJzIHJvbGwgb3V0IGRybV9lZGlkX2VxdWFsIGNoZWNrcyBhbmQgbm90IGZvcmdl
+dCB0bwppbmNyZW1lbnQgdGhlIGVwb2NoIGNvdW50ZXIuCgpXaGF0IEkgaGFkIGluIG1pbmQgaXMg
+dGhhdCB3aGVuIHdlIHNldCB0aGUgZWRpZCBmb3IgYSBjb25uZWN0b3Igd2l0aApkcm1fY29ubmVj
+dG9yX3VwZGF0ZV9lZGlkX3Byb3BlcnR5KCkgb3Igd2hhdGV2ZXIsIHRoZW4gdGhlIGVwb2NoIGNv
+dW50ZXIKd291bGQgYXV0by1pbmNyZW1lbnQgaWYgYW55dGhpbmcgaGFzIGNoYW5nZWQuIFNpbWls
+YXJseSAobG9uZy10ZXJtIGlkZWEgYXQKbGVhc3QpIGlmIGFueXRoaW5nIGltcG9ydGFudCB3aXRo
+IERQIHJlZ2lzdGVycyBoYXMgY2hhbmdlZC4KCkNhbid0IHdlIGRvIHRoYXQsIGluc3RlYWQgb2Yg
+dGhpcyBzdWItb3B0aW1hbCBzb2x1dGlvbiBvZiByZXF1aXJpbmcgYWxsCmRyaXZlcnMgdG8gcm9s
+bCBvdXQgbG90cyBvZiBjb2RlPwotRGFuaWVsCgo+IAo+ID4gPiAKPiA+ID4gPiAKPiA+ID4gPiAt
+IFN0YW5pc2xhdgo+ID4gPiA+IAo+ID4gPiA+ID4gCj4gPiA+ID4gPiAKPiA+ID4gPiA+ID4gCj4g
+PiA+ID4gPiA+IC1TdGFuaXNsYXYKPiA+ID4gPiA+ID4gCj4gPiA+ID4gPiA+ID4gCj4gPiA+ID4g
+PiA+ID4gQ2hlZXJzLCBEYW5pZWwKPiA+ID4gPiA+ID4gPiAKPiA+ID4gPiA+ID4gPiA+IAo+ID4g
+PiA+ID4gPiA+ID4gCj4gPiA+ID4gPiA+ID4gPiAtU3RhbmlzbGF2Cj4gPiA+ID4gPiA+ID4gPiAK
+PiA+ID4gPiA+ID4gPiA+IAo+ID4gPiA+ID4gPiA+ID4gPiAtRGFuaWVsCj4gPiA+ID4gPiA+ID4g
+PiA+IAo+ID4gPiA+ID4gPiA+ID4gPiA+IAo+ID4gPiA+ID4gPiA+ID4gPiA+IFN0YW5pc2xhdiBM
+aXNvdnNraXkgKDMpOgo+ID4gPiA+ID4gPiA+ID4gPiA+ICAgZHJtOiBBZGQgaGVscGVyIHRvIGNv
+bXBhcmUgZWRpZHMuCj4gPiA+ID4gPiA+ID4gPiA+ID4gICBkcm06IEludHJvZHVjZSBjaGFuZ2Ug
+Y291bnRlciB0byBkcm1fY29ubmVjdG9yCj4gPiA+ID4gPiA+ID4gPiA+ID4gICBkcm0vaTkxNTog
+U2VuZCBob3RwbHVnIGV2ZW50IGlmIGVkaWQgaGFkIGNoYW5nZWQuCj4gPiA+ID4gPiA+ID4gPiA+
+ID4gCj4gPiA+ID4gPiA+ID4gPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fY29ubmVjdG9yLmMg
+ICAgICAgICAgICAgIHwgIDEgKwo+ID4gPiA+ID4gPiA+ID4gPiA+ICBkcml2ZXJzL2dwdS9kcm0v
+ZHJtX2VkaWQuYyAgICAgICAgICAgICAgICAgICB8IDMzCj4gPiA+ID4gPiA+ID4gPiA+ID4gKysr
+KysrKysrKysrKysrKysrKysKPiA+ID4gPiA+ID4gPiA+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2Ry
+bV9wcm9iZV9oZWxwZXIuYyAgICAgICAgICAgfCAyOQo+ID4gPiA+ID4gPiA+ID4gPiA+ICsrKysr
+KysrKysrKysrKy0KPiA+ID4gPiA+ID4gPiA+ID4gPiAtCj4gPiA+ID4gPiA+ID4gPiA+ID4gIGRy
+aXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYyAgICAgIHwgMTYKPiA+ID4gPiA+
+ID4gPiA+ID4gPiArKysrKysrKystCj4gPiA+ID4gPiA+ID4gPiA+ID4gIGRyaXZlcnMvZ3B1L2Ry
+bS9pOTE1L2Rpc3BsYXkvaW50ZWxfaGRtaS5jICAgIHwgMTYKPiA+ID4gPiA+ID4gPiA+ID4gPiAr
+KysrKysrKy0tCj4gPiA+ID4gPiA+ID4gPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3Bs
+YXkvaW50ZWxfaG90cGx1Zy5jIHwgMjEKPiA+ID4gPiA+ID4gPiA+ID4gPiArKysrKysrKysrCj4g
+PiA+ID4gPiA+ID4gPiA+ID4gLS0tCj4gPiA+ID4gPiA+ID4gPiA+ID4gIGluY2x1ZGUvZHJtL2Ry
+bV9jb25uZWN0b3IuaCAgICAgICAgICAgICAgICAgIHwgIDMgKysKPiA+ID4gPiA+ID4gPiA+ID4g
+PiAgaW5jbHVkZS9kcm0vZHJtX2VkaWQuaCAgICAgICAgICAgICAgICAgICAgICAgfCAgOQo+ID4g
+PiA+ID4gPiA+ID4gPiA+ICsrKysrKwo+ID4gPiA+ID4gPiA+ID4gPiA+ICA4IGZpbGVzIGNoYW5n
+ZWQsIDExNyBpbnNlcnRpb25zKCspLCAxMSBkZWxldGlvbnMoLSkKPiA+ID4gPiA+ID4gPiA+ID4g
+PiAKPiA+ID4gPiA+ID4gPiA+ID4gPiAtLQo+ID4gPiA+ID4gPiA+ID4gPiA+IDIuMTcuMQo+ID4g
+PiA+ID4gPiA+ID4gPiA+IAo+ID4gPiA+ID4gPiA+ID4gPiAKPiA+ID4gPiA+ID4gPiA+ID4gCj4g
+PiA+ID4gPiA+ID4gCj4gPiA+ID4gPiA+ID4gCj4gPiA+ID4gPiA+ID4gCj4gPiA+ID4gPiAKPiA+
+ID4gPiA+IAo+ID4gPiAKPiA+ID4gCj4gPiAKPiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCj4gPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gPiBkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdh
+cmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
