@@ -2,35 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B197CA60B3
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 07:35:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FCA9A6122
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 08:15:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4038589B20;
-	Tue,  3 Sep 2019 05:35:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3B4889711;
+	Tue,  3 Sep 2019 06:15:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED92489B30;
- Tue,  3 Sep 2019 05:35:52 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2019 22:35:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,461,1559545200"; d="scan'208";a="187151428"
-Received: from helsinki.fi.intel.com ([10.237.66.149])
- by orsmga006.jf.intel.com with ESMTP; 02 Sep 2019 22:35:49 -0700
-From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 7/7] drm/i915/dp: Attach HDR metadata property to DP
- connector
-Date: Tue,  3 Sep 2019 08:35:08 +0300
-Message-Id: <20190903053508.21803-8-gwan-gyeong.mun@intel.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190903053508.21803-1-gwan-gyeong.mun@intel.com>
-References: <20190903053508.21803-1-gwan-gyeong.mun@intel.com>
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4663789711
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2019 06:15:28 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id AD2173082E4E;
+ Tue,  3 Sep 2019 06:15:27 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-117-67.ams2.redhat.com
+ [10.36.117.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 03A7E19D70;
+ Tue,  3 Sep 2019 06:15:25 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id A2AD346D3; Tue,  3 Sep 2019 08:15:24 +0200 (CEST)
+Date: Tue, 3 Sep 2019 08:15:24 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 1/5] drm/ttm: add drm_gem_ttm_print_info()
+Message-ID: <20190903061524.v75akt6rmx5vow2n@sirius.home.kraxel.org>
+References: <20190902124126.7700-1-kraxel@redhat.com>
+ <20190902124126.7700-2-kraxel@redhat.com>
+ <199bbf8d-68bc-ea99-723e-3b88045970c4@suse.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <199bbf8d-68bc-ea99-723e-3b88045970c4@suse.de>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Tue, 03 Sep 2019 06:15:27 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -43,30 +51,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: uma.shankar@intel.com, dri-devel@lists.freedesktop.org
+Cc: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Jonathan Corbet <corbet@lwn.net>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <maxime.ripard@bootlin.com>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SXQgYXR0YWNoZXMgSERSIG1ldGFkYXRhIHByb3BlcnR5IHRvIERQIGNvbm5lY3RvciBvbiBHTEsr
-LgpJdCBlbmFibGVzIEhEUiBtZXRhZGF0YSBpbmZvZnJhbWUgc2RwIG9uIEdMSysgdG8gYmUgdXNl
-ZCB0byBzZW5kCkhEUiBtZXRhZGF0YSB0byBEUCBzaW5rLgoKdjI6IE1pbm9yIHN0eWxlIGZpeAoK
-U2lnbmVkLW9mZi1ieTogR3dhbi1neWVvbmcgTXVuIDxnd2FuLWd5ZW9uZy5tdW5AaW50ZWwuY29t
-PgpSZXZpZXdlZC1ieTogVW1hIFNoYW5rYXIgPHVtYS5zaGFua2FyQGludGVsLmNvbT4KLS0tCiBk
-cml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMgfCA1ICsrKysrCiAxIGZpbGUg
-Y2hhbmdlZCwgNSBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5
-MTUvZGlzcGxheS9pbnRlbF9kcC5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRl
-bF9kcC5jCmluZGV4IDdmY2M5ZjI4ZDJlNy4uMjQ2NmQ3YWZmNjcwIDEwMDY0NAotLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMKKysrIGIvZHJpdmVycy9ncHUvZHJt
-L2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jCkBAIC02NTM2LDYgKzY1MzYsMTEgQEAgaW50ZWxfZHBf
-YWRkX3Byb3BlcnRpZXMoc3RydWN0IGludGVsX2RwICppbnRlbF9kcCwgc3RydWN0IGRybV9jb25u
-ZWN0b3IgKmNvbm5lY3QKIAogCWludGVsX2F0dGFjaF9jb2xvcnNwYWNlX3Byb3BlcnR5KGNvbm5l
-Y3Rvcik7CiAKKwlpZiAoSVNfR0VNSU5JTEFLRShkZXZfcHJpdikgfHwgSU5URUxfR0VOKGRldl9w
-cml2KSA+PSAxMSkKKwkJZHJtX29iamVjdF9hdHRhY2hfcHJvcGVydHkoJmNvbm5lY3Rvci0+YmFz
-ZSwKKwkJCQkJICAgY29ubmVjdG9yLT5kZXYtPm1vZGVfY29uZmlnLmhkcl9vdXRwdXRfbWV0YWRh
-dGFfcHJvcGVydHksCisJCQkJCSAgIDApOworCiAJaWYgKGludGVsX2RwX2lzX2VkcChpbnRlbF9k
-cCkpIHsKIAkJdTMyIGFsbG93ZWRfc2NhbGVyczsKIAotLSAKMi4yMy4wCgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+ICBIaSwKCj4gPiArCQlbIFRUTV9QTF9TWVNURU0gXSA9ICJzeXN0ZW0iLAo+ID4gKwkJWyBUVE1f
+UExfVFQgICAgIF0gPSAidHQiLAo+ID4gKwkJWyBUVE1fUExfVlJBTSAgIF0gPSAidnJhbSIsCj4g
+PiArCQlbIFRUTV9QTF9QUklWICAgXSA9ICJwcml2IiwKPiA+ICsKPiAKPiBUaGlzICdnYXAnIGlu
+IHRoZSBhcnJheSBzZWVtcyB0byBiZSBhIHByb2JsZW0gZm9yIGRyaXZlcnMgdGhhdCB1c2UgdGhl
+c2UKPiBiaXRzLiBDb3VsZCB0aGUgcHJpbnQgbG9naWMgYmUgbW92ZWQgaW50byBzIHNlcGFyYXRl
+IGZ1bmN0aW9uIHRoYXQgYWxzbwo+IHRha2VzIHRoZSBhcnJheSBhcyBhbiBhcmd1bWVudD8KCkFy
+ZSB0aGVyZSBhbnkgZHJpdmVycyB3aGljaCBhY3R1YWxseSB1c2UgdGhlc2UgYml0cyBhbmQgd2hp
+Y2ggdGhlcmVmb3JlCm1pZ2h0IHdhbnQgdG8gdXNlIGEgZGlmZmVyZW50IGFycmF5PwoKQWxzbyBu
+b3RlIHRoZXkgc2hvdWxkIG5vdCBjYXVzZSBhbnkgcHJvYmxlbXMgKG90aGVyIHRoYW4gbm90IGJl
+aW5nCnByaW50ZWQpLiAgVGhlcmUgaXMgYW4gZXhwbGljaXQgY2hlY2sgaGVyZSAuLi4KCj4gPiAr
+CQlpZiAoIXBsbmFtZVtpXSkKPiA+ICsJCQljb250aW51ZTsKCi4uIHRvIHNraXAgdW5rbm93biBi
+aXRzLgoKY2hlZXJzLAogIEdlcmQKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbA==
