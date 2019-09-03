@@ -1,46 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE39A6F97
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 18:35:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 318E5A7068
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 18:39:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9981D89233;
-	Tue,  3 Sep 2019 16:35:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6F528972B;
+	Tue,  3 Sep 2019 16:39:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1E1B7891F4
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2019 16:34:59 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1B09072161; Tue,  3 Sep 2019 16:34:59 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 104206] [drm:construct [amdgpu]] *ERROR* construct: Invalid
- Connector ObjectID from Adapter Service for connector index:2!
-Date: Tue, 03 Sep 2019 16:34:59 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: pip.kde@gmx.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-104206-502-KV1cxWe2R4@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-104206-502@http.bugs.freedesktop.org/>
-References: <bug-104206-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
+ [IPv6:2607:f8b0:4864:20::d43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10D5D880C6
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2019 16:39:35 +0000 (UTC)
+Received: by mail-io1-xd43.google.com with SMTP id h144so22030125iof.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2019 09:39:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JzftJXzoOTFgbjF3xTbUoWc131CYvIfGIZLcafzYJHs=;
+ b=EbdtHfJhQZ18x+GkT+yeQRu3yqLsLnL+IScBUuExoKtQ1du6xOJfjhQ4qdMFynbVcf
+ lFD+0hTItJc1nx+X0IoXTMp3bGPFuwpYOk7sK6IfmROCHbEeSgHrFBWZ7YtcIwai2F6U
+ IbZ/0rEiran9IVDhTkaIe6M/W3YhYc4fkmNZJuKggVsDp19Trmt4dup6tDRH2cm1ky3z
+ lHftJ8t6zVpXWSvj/KSX/cj231zBGzz2JJWHTNteKNT00CEsmUy+te17ha28TvW6TZte
+ JVbA9Fw1W3W+7En0N64KzQbRNIURInwKHFkFfCclEnDNeRgydIHU9iVywV6WIUaWQuLt
+ ZF7w==
+X-Gm-Message-State: APjAAAXpWYCeIgneAc2AW/XVljUUUelb8vsUCfMSg+2zEJ7Q5fX+D3Ok
+ tUOpeYfwooYTY14LT0Gd2e89o0Hj9F/soAzthR4=
+X-Google-Smtp-Source: APXvYqxFcxaXizUfkzAkarARBL9OQt+CU3nnchi5sZTg5CAf54xc5ETUf7QWVo7WdxDzekz2H/nhunhKKyEH9Q13vNM=
+X-Received: by 2002:a6b:6d0f:: with SMTP id a15mr20477540iod.278.1567528774230; 
+ Tue, 03 Sep 2019 09:39:34 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190830060116.10476-1-kraxel@redhat.com>
+In-Reply-To: <20190830060116.10476-1-kraxel@redhat.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Tue, 3 Sep 2019 09:39:23 -0700
+Message-ID: <CAPaKu7TuBg0pAKJrvWAG4B0dWjKuGh_HwMKS4JoktS8q_NwOyg@mail.gmail.com>
+Subject: Re: [PATCH] drm/virtio: add worker for object release
+To: Gerd Hoffmann <kraxel@redhat.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=JzftJXzoOTFgbjF3xTbUoWc131CYvIfGIZLcafzYJHs=;
+ b=jRpQzv72f0HZUJvx5o8Tjjf1nGxAfyjIBUkYXUQHDIflZYZp5Y3OWrgG3NoATvrbIT
+ 99h1T7plhj3mbL68RFdH+otunF0AX/njw29m+8yntWCKN3b25UO9S9youqKfZwYlrGLy
+ HyfBZy3AQeRmy9xGVhAVntJcGG7A4s/zhBMA1dNM0TYfVYJxF58st0I5w+UuZN6B8bSi
+ dqwntQuIcjlQhaZEODpPQW7i4W4uZjPrh7KGdWfUMa+8dOjqp0zHbKnlW8gjuLcI29Ed
+ t35dGdAd1t8hQ2rYkwqjPRHste2w+ZGJ4xnrRCe5P6EJLYUKf7E16RCtNjlE0UlfJkLg
+ ALvg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,320 +62,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1265919248=="
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1265919248==
-Content-Type: multipart/alternative; boundary="15675284990.6C5f5e.16121"
-Content-Transfer-Encoding: 7bit
-
-
---15675284990.6C5f5e.16121
-Date: Tue, 3 Sep 2019 16:34:59 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D104206
-
---- Comment #25 from Paul <pip.kde@gmx.com> ---
-Also seeing this on an HP255G7 Ryzen3=20
-
-paul@HP255G7:~> journalctl -b | grep -i "drm:construct"
-Sep 03 17:21:39 HP255G7 kernel: [drm:construct [amdgpu]] *ERROR* construct:
-Invalid Connector ObjectID from Adapter Service for connector index:2! type=
- 0
-expected 3
-Sep 03 17:21:39 HP255G7 kernel: [drm:construct [amdgpu]] *ERROR* construct:
-Invalid Connector ObjectID from Adapter Service for connector index:3! type=
- 0
-expected 3
-
-paul@HP255G7:~> inxi -GxxSz
-System:    Host: HP255G7 Kernel: 4.12.14-lp151.28.13-default x86_64 bits: 64
-gcc: 7.4.0
-           Desktop: KDE Plasma 5.12.8 (Qt 5.9.7) dm: sddm,sddm Distro: open=
-SUSE
-Leap 15.1
-Graphics:  Card: Advanced Micro Devices [AMD/ATI] Radeon Vega 8 Mobile bus-=
-ID:
-04:00.0 chip-ID: 1002:15dd
-           Display Server: x11 (X.Org 1.20.3 ) drivers: ati,amdgpu (unloade=
-d:
-modesetting,fbdev,vesa)
-           Resolution: 1920x1080@60.01hz
-           OpenGL: renderer: AMD RAVEN (DRM 3.27.0,
-4.12.14-lp151.28.13-default, LLVM 7.0.1)
-           version: 4.5 Mesa 18.3.2 Direct Render: Yes
-
-paul@HP255G7:~> /sbin/lspci -nnk | egrep -A3 "VGA|Display|3D"
-04:00.0 VGA compatible controller [0300]: Advanced Micro Devices, Inc.
-[AMD/ATI] Radeon Vega 8 Mobile [1002:15dd] (rev c5)
-        Subsystem: Hewlett-Packard Company Device [103c:84ae]
-        Kernel driver in use: amdgpu
-        Kernel modules: amdgpu
-
-
-paul@HP255G7:~> journalctl -b | grep -i amdgpu
-Sep 03 17:21:38 HP255G7 kernel: [drm] amdgpu kernel modesetting enabled.
-Sep 03 17:21:38 HP255G7 kernel: fb: switching to amdgpudrmfb from EFI VGA
-Sep 03 17:21:38 HP255G7 kernel: amdgpu 0000:04:00.0: VRAM: 256M
-0x000000F400000000 - 0x000000F40FFFFFFF (256M used)
-Sep 03 17:21:38 HP255G7 kernel: amdgpu 0000:04:00.0: GART: 1024M
-0x000000F500000000 - 0x000000F53FFFFFFF
-Sep 03 17:21:38 HP255G7 kernel: [drm] amdgpu: 256M of VRAM memory ready
-Sep 03 17:21:38 HP255G7 kernel: [drm] amdgpu: 3072M of GTT memory ready.
-Sep 03 17:21:39 HP255G7 kernel: amdgpu: [powerplay] dpm has been enabled
-Sep 03 17:21:39 HP255G7 kernel: [drm:construct [amdgpu]] *ERROR* construct:
-Invalid Connector ObjectID from Adapter Service for connector index:2! type=
- 0
-expected 3
-Sep 03 17:21:39 HP255G7 kernel: [drm:construct [amdgpu]] *ERROR* construct:
-Invalid Connector ObjectID from Adapter Service for connector index:3! type=
- 0
-expected 3
-Sep 03 17:21:39 HP255G7 kernel: fbcon: amdgpudrmfb (fb0) is primary device
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: fb0: amdgpudrmfb frame
-buffer device
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 0(gfx) uses VM inv
-eng 4 on hub 0
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 1(comp_1.0.0) use=
-s VM
-inv eng 5 on hub 0
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 2(comp_1.1.0) use=
-s VM
-inv eng 6 on hub 0
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 3(comp_1.2.0) use=
-s VM
-inv eng 7 on hub 0
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 4(comp_1.3.0) use=
-s VM
-inv eng 8 on hub 0
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 5(comp_1.0.1) use=
-s VM
-inv eng 9 on hub 0
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 6(comp_1.1.1) use=
-s VM
-inv eng 10 on hub 0
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 7(comp_1.2.1) use=
-s VM
-inv eng 11 on hub 0
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 8(comp_1.3.1) use=
-s VM
-inv eng 12 on hub 0
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 9(kiq_2.1.0) uses=
- VM
-inv eng 13 on hub 0
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 10(sdma0) uses VM=
- inv
-eng 4 on hub 1
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 11(vcn_dec) uses =
-VM
-inv eng 5 on hub 1
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 12(vcn_enc0) uses=
- VM
-inv eng 6 on hub 1
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 13(vcn_enc1) uses=
- VM
-inv eng 7 on hub 1
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 14(vcn_jpeg) uses=
- VM
-inv eng 8 on hub 1
-Sep 03 17:21:39 HP255G7 kernel: [drm] Initialized amdgpu 3.27.0 20150101 for
-0000:04:00.0 on minor 0
-Sep 03 17:21:40 HP255G7 systemd[1]: Starting Load/Save Screen Backlight
-Brightness of backlight:amdgpu_bl0...
-Sep 03 17:21:40 HP255G7 systemd[1]: Started Load/Save Screen Backlight
-Brightness of backlight:amdgpu_bl0.
-Sep 03 17:22:31 HP255G7 org_kde_powerdevil[1557]: powerdevil: Udev device
-changed
-"/sys/devices/pci0000:00/0000:00:08.1/0000:04:00.0/backlight/amdgpu_bl0"
-"/sys/devices/pci0000:00/0000:00:08.1/0000:04:00.0/backlight/amdgpu_bl0"
-
-
-Regards, Paul.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15675284990.6C5f5e.16121
-Date: Tue, 3 Sep 2019 16:34:59 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [drm:construct [amdgpu]] *ERROR* construct: Invalid Conne=
-ctor ObjectID from Adapter Service for connector index:2!"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104206#c25">Comme=
-nt # 25</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [drm:construct [amdgpu]] *ERROR* construct: Invalid Conne=
-ctor ObjectID from Adapter Service for connector index:2!"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104206">bug 10420=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-pip.kde&#64;gmx.com" title=3D"Paul &lt;pip.kde&#64;gmx.com&gt;"> <span clas=
-s=3D"fn">Paul</span></a>
-</span></b>
-        <pre>Also seeing this on an HP255G7 Ryzen3=20
-
-paul&#64;HP255G7:~&gt; journalctl -b | grep -i &quot;drm:construct&quot;
-Sep 03 17:21:39 HP255G7 kernel: [drm:construct [amdgpu]] *ERROR* construct:
-Invalid Connector ObjectID from Adapter Service for connector index:2! type=
- 0
-expected 3
-Sep 03 17:21:39 HP255G7 kernel: [drm:construct [amdgpu]] *ERROR* construct:
-Invalid Connector ObjectID from Adapter Service for connector index:3! type=
- 0
-expected 3
-
-paul&#64;HP255G7:~&gt; inxi -GxxSz
-System:    Host: HP255G7 Kernel: 4.12.14-lp151.28.13-default x86_64 bits: 64
-gcc: 7.4.0
-           Desktop: KDE Plasma 5.12.8 (Qt 5.9.7) dm: sddm,sddm Distro: open=
-SUSE
-Leap 15.1
-Graphics:  Card: Advanced Micro Devices [AMD/ATI] Radeon Vega 8 Mobile bus-=
-ID:
-04:00.0 chip-ID: 1002:15dd
-           Display Server: x11 (X.Org 1.20.3 ) drivers: ati,amdgpu (unloade=
-d:
-modesetting,fbdev,vesa)
-           Resolution: <a href=3D"mailto:1920x1080&#64;60.01hz">1920x1080&#=
-64;60.01hz</a>
-           OpenGL: renderer: AMD RAVEN (DRM 3.27.0,
-4.12.14-lp151.28.13-default, LLVM 7.0.1)
-           version: 4.5 Mesa 18.3.2 Direct Render: Yes
-
-paul&#64;HP255G7:~&gt; /sbin/lspci -nnk | egrep -A3 &quot;VGA|Display|3D&qu=
-ot;
-04:00.0 VGA compatible controller [0300]: Advanced Micro Devices, Inc.
-[AMD/ATI] Radeon Vega 8 Mobile [1002:15dd] (rev c5)
-        Subsystem: Hewlett-Packard Company Device [103c:84ae]
-        Kernel driver in use: amdgpu
-        Kernel modules: amdgpu
-
-
-paul&#64;HP255G7:~&gt; journalctl -b | grep -i amdgpu
-Sep 03 17:21:38 HP255G7 kernel: [drm] amdgpu kernel modesetting enabled.
-Sep 03 17:21:38 HP255G7 kernel: fb: switching to amdgpudrmfb from EFI VGA
-Sep 03 17:21:38 HP255G7 kernel: amdgpu 0000:04:00.0: VRAM: 256M
-0x000000F400000000 - 0x000000F40FFFFFFF (256M used)
-Sep 03 17:21:38 HP255G7 kernel: amdgpu 0000:04:00.0: GART: 1024M
-0x000000F500000000 - 0x000000F53FFFFFFF
-Sep 03 17:21:38 HP255G7 kernel: [drm] amdgpu: 256M of VRAM memory ready
-Sep 03 17:21:38 HP255G7 kernel: [drm] amdgpu: 3072M of GTT memory ready.
-Sep 03 17:21:39 HP255G7 kernel: amdgpu: [powerplay] dpm has been enabled
-Sep 03 17:21:39 HP255G7 kernel: [drm:construct [amdgpu]] *ERROR* construct:
-Invalid Connector ObjectID from Adapter Service for connector index:2! type=
- 0
-expected 3
-Sep 03 17:21:39 HP255G7 kernel: [drm:construct [amdgpu]] *ERROR* construct:
-Invalid Connector ObjectID from Adapter Service for connector index:3! type=
- 0
-expected 3
-Sep 03 17:21:39 HP255G7 kernel: fbcon: amdgpudrmfb (fb0) is primary device
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: fb0: amdgpudrmfb frame
-buffer device
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 0(gfx) uses VM inv
-eng 4 on hub 0
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 1(comp_1.0.0) use=
-s VM
-inv eng 5 on hub 0
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 2(comp_1.1.0) use=
-s VM
-inv eng 6 on hub 0
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 3(comp_1.2.0) use=
-s VM
-inv eng 7 on hub 0
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 4(comp_1.3.0) use=
-s VM
-inv eng 8 on hub 0
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 5(comp_1.0.1) use=
-s VM
-inv eng 9 on hub 0
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 6(comp_1.1.1) use=
-s VM
-inv eng 10 on hub 0
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 7(comp_1.2.1) use=
-s VM
-inv eng 11 on hub 0
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 8(comp_1.3.1) use=
-s VM
-inv eng 12 on hub 0
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 9(kiq_2.1.0) uses=
- VM
-inv eng 13 on hub 0
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 10(sdma0) uses VM=
- inv
-eng 4 on hub 1
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 11(vcn_dec) uses =
-VM
-inv eng 5 on hub 1
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 12(vcn_enc0) uses=
- VM
-inv eng 6 on hub 1
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 13(vcn_enc1) uses=
- VM
-inv eng 7 on hub 1
-Sep 03 17:21:39 HP255G7 kernel: amdgpu 0000:04:00.0: ring 14(vcn_jpeg) uses=
- VM
-inv eng 8 on hub 1
-Sep 03 17:21:39 HP255G7 kernel: [drm] Initialized amdgpu 3.27.0 20150101 for
-0000:04:00.0 on minor 0
-Sep 03 17:21:40 HP255G7 systemd[1]: Starting Load/Save Screen Backlight
-Brightness of backlight:amdgpu_bl0...
-Sep 03 17:21:40 HP255G7 systemd[1]: Started Load/Save Screen Backlight
-Brightness of backlight:amdgpu_bl0.
-Sep 03 17:22:31 HP255G7 org_kde_powerdevil[1557]: powerdevil: Udev device
-changed
-&quot;/sys/devices/pci0000:00/0000:00:08.1/0000:04:00.0/backlight/amdgpu_bl=
-0&quot;
-&quot;/sys/devices/pci0000:00/0000:00:08.1/0000:04:00.0/backlight/amdgpu_bl=
-0&quot;
-
-
-Regards, Paul.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15675284990.6C5f5e.16121--
-
---===============1265919248==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1265919248==--
+T24gVGh1LCBBdWcgMjksIDIwMTkgYXQgMTE6MDEgUE0gR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJl
+ZGhhdC5jb20+IHdyb3RlOgo+Cj4gTW92ZSBvYmplY3QgcmVsZWFzZSBpbnRvIGEgc2VwYXJhdGUg
+d29ya2VyLiAgUmVsZWFzaW5nIG9iamVjdHMgcmVxdWlyZXMKPiBzZW5kaW5nIGNvbW1hbmRzIHRv
+IHRoZSBob3N0LiAgRG9pbmcgdGhhdCBpbiB0aGUgZGVxdWV1ZSB3b3JrZXIgd2lsbAo+IGNhdXNl
+IGRlYWRsb2NrcyBpbiBjYXNlIHRoZSBjb21tYW5kIHF1ZXVlIGdldHMgZmlsbGVkIHVwLCBiZWNh
+dXNlIHRoZQo+IGRlcXVldWUgd29ya2VyIGlzIGFsc28gdGhlIG9uZSB3aGljaCB3aWxsIGZyZWUg
+dXAgc2xvdHMgaW4gdGhlIGNvbW1hbmQKPiBxdWV1ZS4KPgo+IFJlcG9ydGVkLWJ5OiBDaGlhLUkg
+V3UgPG9sdmFmZmVAZ21haWwuY29tPgo+IFNpZ25lZC1vZmYtYnk6IEdlcmQgSG9mZm1hbm4gPGty
+YXhlbEByZWRoYXQuY29tPgpUZXN0ZWQtYnk6IENoaWEtSSBXdSA8b2x2YWZmZUBnbWFpbC5jb20+
+ClJldmlld2VkLWJ5OiBDaGlhLUkgV3UgPG9sdmFmZmVAZ21haWwuY29tPgo+IC0tLQo+ICBkcml2
+ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfZHJ2LmggfCAgOCArKysrKysrKwo+ICBkcml2ZXJz
+L2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfZ2VtLmMgfCAyNyArKysrKysrKysrKysrKysrKysrKysr
+KysrKysKPiAgZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X2ttcy5jIHwgIDYgKysrKysr
+Cj4gIGRyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV92cS5jICB8ICAyICstCj4gIDQgZmls
+ZXMgY2hhbmdlZCwgNDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+Cj4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9kcnYuaCBiL2RyaXZlcnMvZ3B1L2Ry
+bS92aXJ0aW8vdmlydGdwdV9kcnYuaAo+IGluZGV4IGZiMzU4MzFlZDM1MS4uMzE0ZTAyZjk0ZDlj
+IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9kcnYuaAo+ICsr
+KyBiL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9kcnYuaAo+IEBAIC03OCw2ICs3OCw3
+IEBAIHN0cnVjdCB2aXJ0aW9fZ3B1X29iamVjdCB7Cj4KPiAgc3RydWN0IHZpcnRpb19ncHVfb2Jq
+ZWN0X2FycmF5IHsKPiAgICAgICAgIHN0cnVjdCB3d19hY3F1aXJlX2N0eCB0aWNrZXQ7Cj4gKyAg
+ICAgICBzdHJ1Y3QgbGlzdF9oZWFkIG5leHQ7Cj4gICAgICAgICB1MzIgbmVudHMsIHRvdGFsOwo+
+ICAgICAgICAgc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmpzW107Cj4gIH07Cj4gQEAgLTE5Nyw2
+ICsxOTgsMTAgQEAgc3RydWN0IHZpcnRpb19ncHVfZGV2aWNlIHsKPgo+ICAgICAgICAgc3RydWN0
+IHdvcmtfc3RydWN0IGNvbmZpZ19jaGFuZ2VkX3dvcms7Cj4KPiArICAgICAgIHN0cnVjdCB3b3Jr
+X3N0cnVjdCBvYmpfZnJlZV93b3JrOwo+ICsgICAgICAgc3BpbmxvY2tfdCBvYmpfZnJlZV9sb2Nr
+Owo+ICsgICAgICAgc3RydWN0IGxpc3RfaGVhZCBvYmpfZnJlZV9saXN0Owo+ICsKPiAgICAgICAg
+IHN0cnVjdCB2aXJ0aW9fZ3B1X2Rydl9jYXBzZXQgKmNhcHNldHM7Cj4gICAgICAgICB1aW50MzJf
+dCBudW1fY2Fwc2V0czsKPiAgICAgICAgIHN0cnVjdCBsaXN0X2hlYWQgY2FwX2NhY2hlOwo+IEBA
+IC0yNDYsNiArMjUxLDkgQEAgdm9pZCB2aXJ0aW9fZ3B1X2FycmF5X3VubG9ja19yZXN2KHN0cnVj
+dCB2aXJ0aW9fZ3B1X29iamVjdF9hcnJheSAqb2Jqcyk7Cj4gIHZvaWQgdmlydGlvX2dwdV9hcnJh
+eV9hZGRfZmVuY2Uoc3RydWN0IHZpcnRpb19ncHVfb2JqZWN0X2FycmF5ICpvYmpzLAo+ICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0IGRtYV9mZW5jZSAqZmVuY2UpOwo+ICB2
+b2lkIHZpcnRpb19ncHVfYXJyYXlfcHV0X2ZyZWUoc3RydWN0IHZpcnRpb19ncHVfb2JqZWN0X2Fy
+cmF5ICpvYmpzKTsKPiArdm9pZCB2aXJ0aW9fZ3B1X2FycmF5X3B1dF9mcmVlX2RlbGF5ZWQoc3Ry
+dWN0IHZpcnRpb19ncHVfZGV2aWNlICp2Z2RldiwKPiArICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICBzdHJ1Y3QgdmlydGlvX2dwdV9vYmplY3RfYXJyYXkgKm9ianMpOwo+ICt2
+b2lkIHZpcnRpb19ncHVfYXJyYXlfcHV0X2ZyZWVfd29yayhzdHJ1Y3Qgd29ya19zdHJ1Y3QgKndv
+cmspOwo+Cj4gIC8qIHZpcnRpbyB2ZyAqLwo+ICBpbnQgdmlydGlvX2dwdV9hbGxvY192YnVmcyhz
+dHJ1Y3QgdmlydGlvX2dwdV9kZXZpY2UgKnZnZGV2KTsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
+cHUvZHJtL3ZpcnRpby92aXJ0Z3B1X2dlbS5jIGIvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0
+Z3B1X2dlbS5jCj4gaW5kZXggYjgxMjA5NGFlOTE2Li40YzFmNTc5ZWRmYjMgMTAwNjQ0Cj4gLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X2dlbS5jCj4gKysrIGIvZHJpdmVycy9n
+cHUvZHJtL3ZpcnRpby92aXJ0Z3B1X2dlbS5jCj4gQEAgLTIzOSwzICsyMzksMzAgQEAgdm9pZCB2
+aXJ0aW9fZ3B1X2FycmF5X3B1dF9mcmVlKHN0cnVjdCB2aXJ0aW9fZ3B1X29iamVjdF9hcnJheSAq
+b2JqcykKPiAgICAgICAgICAgICAgICAgZHJtX2dlbV9vYmplY3RfcHV0X3VubG9ja2VkKG9ianMt
+Pm9ianNbaV0pOwo+ICAgICAgICAgdmlydGlvX2dwdV9hcnJheV9mcmVlKG9ianMpOwo+ICB9Cj4g
+Kwo+ICt2b2lkIHZpcnRpb19ncHVfYXJyYXlfcHV0X2ZyZWVfZGVsYXllZChzdHJ1Y3QgdmlydGlv
+X2dwdV9kZXZpY2UgKnZnZGV2LAo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIHN0cnVjdCB2aXJ0aW9fZ3B1X29iamVjdF9hcnJheSAqb2JqcykKPiArewo+ICsgICAgICAg
+c3Bpbl9sb2NrKCZ2Z2Rldi0+b2JqX2ZyZWVfbG9jayk7Cj4gKyAgICAgICBsaXN0X2FkZF90YWls
+KCZvYmpzLT5uZXh0LCAmdmdkZXYtPm9ial9mcmVlX2xpc3QpOwo+ICsgICAgICAgc3Bpbl91bmxv
+Y2soJnZnZGV2LT5vYmpfZnJlZV9sb2NrKTsKPiArICAgICAgIHNjaGVkdWxlX3dvcmsoJnZnZGV2
+LT5vYmpfZnJlZV93b3JrKTsKPiArfQo+ICsKPiArdm9pZCB2aXJ0aW9fZ3B1X2FycmF5X3B1dF9m
+cmVlX3dvcmsoc3RydWN0IHdvcmtfc3RydWN0ICp3b3JrKQo+ICt7Cj4gKyAgICAgICBzdHJ1Y3Qg
+dmlydGlvX2dwdV9kZXZpY2UgKnZnZGV2ID0KPiArICAgICAgICAgICAgICAgY29udGFpbmVyX29m
+KHdvcmssIHN0cnVjdCB2aXJ0aW9fZ3B1X2RldmljZSwgb2JqX2ZyZWVfd29yayk7Cj4gKyAgICAg
+ICBzdHJ1Y3QgdmlydGlvX2dwdV9vYmplY3RfYXJyYXkgKm9ianM7Cj4gKwo+ICsgICAgICAgc3Bp
+bl9sb2NrKCZ2Z2Rldi0+b2JqX2ZyZWVfbG9jayk7Cj4gKyAgICAgICB3aGlsZSAoIWxpc3RfZW1w
+dHkoJnZnZGV2LT5vYmpfZnJlZV9saXN0KSkgewo+ICsgICAgICAgICAgICAgICBvYmpzID0gbGlz
+dF9maXJzdF9lbnRyeSgmdmdkZXYtPm9ial9mcmVlX2xpc3QsCj4gKyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCB2aXJ0aW9fZ3B1X29iamVjdF9hcnJheSwgbmV4
+dCk7Cj4gKyAgICAgICAgICAgICAgIGxpc3RfZGVsKCZvYmpzLT5uZXh0KTsKPiArICAgICAgICAg
+ICAgICAgc3Bpbl91bmxvY2soJnZnZGV2LT5vYmpfZnJlZV9sb2NrKTsKPiArICAgICAgICAgICAg
+ICAgdmlydGlvX2dwdV9hcnJheV9wdXRfZnJlZShvYmpzKTsKPiArICAgICAgICAgICAgICAgc3Bp
+bl9sb2NrKCZ2Z2Rldi0+b2JqX2ZyZWVfbG9jayk7Cj4gKyAgICAgICB9Cj4gKyAgICAgICBzcGlu
+X3VubG9jaygmdmdkZXYtPm9ial9mcmVlX2xvY2spOwo+ICt9Cj4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9rbXMuYyBiL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8v
+dmlydGdwdV9rbXMuYwo+IGluZGV4IDIzMWM0ZTI3YjNiMy4uMGIzY2RiMGQ4M2IwIDEwMDY0NAo+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9rbXMuYwo+ICsrKyBiL2RyaXZl
+cnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9rbXMuYwo+IEBAIC0xNDcsNiArMTQ3LDExIEBAIGlu
+dCB2aXJ0aW9fZ3B1X2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRldikKPiAgICAgICAgIElOSVRf
+V09SSygmdmdkZXYtPmNvbmZpZ19jaGFuZ2VkX3dvcmssCj4gICAgICAgICAgICAgICAgICAgdmly
+dGlvX2dwdV9jb25maWdfY2hhbmdlZF93b3JrX2Z1bmMpOwo+Cj4gKyAgICAgICBJTklUX1dPUkso
+JnZnZGV2LT5vYmpfZnJlZV93b3JrLAo+ICsgICAgICAgICAgICAgICAgIHZpcnRpb19ncHVfYXJy
+YXlfcHV0X2ZyZWVfd29yayk7Cj4gKyAgICAgICBJTklUX0xJU1RfSEVBRCgmdmdkZXYtPm9ial9m
+cmVlX2xpc3QpOwo+ICsgICAgICAgc3Bpbl9sb2NrX2luaXQoJnZnZGV2LT5vYmpfZnJlZV9sb2Nr
+KTsKPiArCj4gICNpZmRlZiBfX0xJVFRMRV9FTkRJQU4KPiAgICAgICAgIGlmICh2aXJ0aW9faGFz
+X2ZlYXR1cmUodmdkZXYtPnZkZXYsIFZJUlRJT19HUFVfRl9WSVJHTCkpCj4gICAgICAgICAgICAg
+ICAgIHZnZGV2LT5oYXNfdmlyZ2xfM2QgPSB0cnVlOwo+IEBAIC0yMjYsNiArMjMxLDcgQEAgdm9p
+ZCB2aXJ0aW9fZ3B1X2RlaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KQo+ICB7Cj4gICAgICAg
+ICBzdHJ1Y3QgdmlydGlvX2dwdV9kZXZpY2UgKnZnZGV2ID0gZGV2LT5kZXZfcHJpdmF0ZTsKPgo+
+ICsgICAgICAgZmx1c2hfd29yaygmdmdkZXYtPm9ial9mcmVlX3dvcmspOwo+ICAgICAgICAgdmdk
+ZXYtPnZxc19yZWFkeSA9IGZhbHNlOwo+ICAgICAgICAgZmx1c2hfd29yaygmdmdkZXYtPmN0cmxx
+LmRlcXVldWVfd29yayk7Cj4gICAgICAgICBmbHVzaF93b3JrKCZ2Z2Rldi0+Y3Vyc29ycS5kZXF1
+ZXVlX3dvcmspOwo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVf
+dnEuYyBiL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV92cS5jCj4gaW5kZXggZWNmNTdk
+Zjk2NWIwLi41OTVmYTZlYzJkNTggMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3ZpcnRp
+by92aXJ0Z3B1X3ZxLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfdnEu
+Ywo+IEBAIC0yMjcsNyArMjI3LDcgQEAgdm9pZCB2aXJ0aW9fZ3B1X2RlcXVldWVfY3RybF9mdW5j
+KHN0cnVjdCB3b3JrX3N0cnVjdCAqd29yaykKPgo+ICAgICAgICAgbGlzdF9mb3JfZWFjaF9lbnRy
+eV9zYWZlKGVudHJ5LCB0bXAsICZyZWNsYWltX2xpc3QsIGxpc3QpIHsKPiAgICAgICAgICAgICAg
+ICAgaWYgKGVudHJ5LT5vYmpzKQo+IC0gICAgICAgICAgICAgICAgICAgICAgIHZpcnRpb19ncHVf
+YXJyYXlfcHV0X2ZyZWUoZW50cnktPm9ianMpOwo+ICsgICAgICAgICAgICAgICAgICAgICAgIHZp
+cnRpb19ncHVfYXJyYXlfcHV0X2ZyZWVfZGVsYXllZCh2Z2RldiwgZW50cnktPm9ianMpOwo+ICAg
+ICAgICAgICAgICAgICBsaXN0X2RlbCgmZW50cnktPmxpc3QpOwo+ICAgICAgICAgICAgICAgICBm
+cmVlX3ZidWYodmdkZXYsIGVudHJ5KTsKPiAgICAgICAgIH0KPiAtLQo+IDIuMTguMQo+Cl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
