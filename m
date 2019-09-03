@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64E25A68DC
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 14:46:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBD2CA68E1
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 14:48:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52CC689330;
-	Tue,  3 Sep 2019 12:46:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D10989320;
+	Tue,  3 Sep 2019 12:48:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
- [IPv6:2607:f8b0:4864:20::d41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2CD689322;
- Tue,  3 Sep 2019 12:46:50 +0000 (UTC)
-Received: by mail-io1-xd41.google.com with SMTP id m11so3556481ioo.0;
- Tue, 03 Sep 2019 05:46:50 -0700 (PDT)
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
+ [IPv6:2607:f8b0:4864:20::d42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1C1189317;
+ Tue,  3 Sep 2019 12:48:48 +0000 (UTC)
+Received: by mail-io1-xd42.google.com with SMTP id p12so35570559iog.5;
+ Tue, 03 Sep 2019 05:48:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=VSPFb100h3Uik0xz8yit5XxDmhLyTgBC0DSlIATmpbs=;
- b=Dpf60uJsh7/HsjcmkY8FxZ7+WTym2vrBNnuBZbFsyV4DDGifZLJ1rPKnxodw3VXBUe
- /Aoq7Wo1ZO3vG9x4nmh/zbOm8hmYeJk5mdIkacvEkxW3IMY0TDa13nCFcM2uATqoFB41
- m2gafjxZpb2OGjlncTbHgJcE9ILx08qRosxkusM8+HBet1ThLP402Q2HR+lXXim/oV1k
- N5qXs8i0rhz4I8o38Xno+jWe69PBIdqvBfcUI9YgLdlPm6BLHszMkSyAq3CXOjLrb1uW
- 22vVMGMzm3Knhm9ZGK/OPlbE3w+flDnYUlQ+VAGSXpah0fq/k3PQxCpQm8RfHgz6ygG9
- D0AA==
-X-Gm-Message-State: APjAAAWcSzDHZOnMf8ApX6rujCuPIe5KUv8cz9OnxA+BSsfLrvil7Elg
- F+gJ14Gx0DR4zjQgJiZQso8=
-X-Google-Smtp-Source: APXvYqwtrTZ3qyIkIsCcVVlQQdv3pmvyIdzeSwyLvBwqQCIa/B5qwiK0H7blaZqufZ32/EhCuQQprA==
-X-Received: by 2002:a5e:930b:: with SMTP id k11mr168121iom.2.1567514804539;
- Tue, 03 Sep 2019 05:46:44 -0700 (PDT)
+ bh=OxhTjFMzsMPahnY7yPAHTAcPblgoxRftK/8FKreejXw=;
+ b=g0tbahVtxZOjiqLJCrhkPVT70Wn7PZX++Y8mAv7J9KkrCpPWi0ZeOR4qcvVz3DPq+W
+ cwmYPz0+SOGg1l4VbiuWkKmHDMqzeS9MUyyZACDj0SvajAYR1wJe5x4PE/fN+L1U70ex
+ sbfJdK9UfY0eKjalidVEs/AfmGmmLRreYiziiflAruCH04flGy5/umDHEI1zM62fmABf
+ TjDtITagsrTEjn22uZFncHk9nwmqRVIjiuorL1oNRKMo8kcn3hr5Ib/5TP3lkVBRZ6yh
+ iRZf306ujKIIcfLoMxl3LCNOfc76H2rngjflIinD/E95e4UcTUk22eiVSRObYd0bfeMq
+ 1BgQ==
+X-Gm-Message-State: APjAAAX1HN1zLGC3vqfp2VjF3yOeWR2dxLEs+cGGWXceS+YFostwlH0x
+ 4f8tXZVhPsD1QSU2MCmOQV8=
+X-Google-Smtp-Source: APXvYqyrd2nHteZivlkmCkOI0rd6W7LhsOb8NOjEiSzALgTYHkdQV4otPHgUTDJnads5lKANjAmVvA==
+X-Received: by 2002:a6b:b805:: with SMTP id i5mr13693456iof.106.1567514927819; 
+ Tue, 03 Sep 2019 05:48:47 -0700 (PDT)
 Received: from smtp.gmail.com ([165.204.55.250])
- by smtp.gmail.com with ESMTPSA id k9sm17460404ioa.10.2019.09.03.05.46.43
+ by smtp.gmail.com with ESMTPSA id g4sm7407353ion.26.2019.09.03.05.48.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 05:46:43 -0700 (PDT)
-Date: Tue, 3 Sep 2019 08:47:03 -0400
+ Tue, 03 Sep 2019 05:48:46 -0700 (PDT)
+Date: Tue, 3 Sep 2019 08:49:06 -0400
 From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm/vblank: Document and fix vblank count barrier
- semantics
-Message-ID: <20190903124703.7ldnm6owxu6r2fsm@smtp.gmail.com>
-References: <20190719170654.GQ5942@intel.com>
- <20190723131337.22031-1-daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 2/3] drm/vkms: Use wait_for_flip_done
+Message-ID: <20190903124906.sytisd2swa77zh4h@smtp.gmail.com>
+References: <20190719152314.7706-1-daniel.vetter@ffwll.ch>
+ <20190719152314.7706-2-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-In-Reply-To: <20190723131337.22031-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <20190719152314.7706-2-daniel.vetter@ffwll.ch>
 User-Agent: NeoMutt/20180716
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=VSPFb100h3Uik0xz8yit5XxDmhLyTgBC0DSlIATmpbs=;
- b=pxhl48krsVYx/AkrWS5pl5F4qbLCr1kbRtFa39nwTmj3vAFhJnpzm06W5G9sVtnhjf
- KbB0jyrslZXp5RXAhXdcutYHy2/LMyt8L/9oqSLXTYXJ7SoniR/9vuVL6hgLuDnih3VB
- hCgeKjcwHLPU+kOiaQe0RN2fY55RLYDOuELrzEKGPky9QQp5cKWmYKdE6TgBmGxxyk7b
- ecp3TXk78dYD7vbwnXAuyEz9KtpOcJ5uhtzGfda3EINNudyJEcJi1UdYHv0/La9aK3n5
- gasud8xY9kUmt6JL1Mdp86VlNc3h6flnX/iYWFMQm7yB5GCIvTagV2gGymEPbsXqO8b6
- tdow==
+ bh=OxhTjFMzsMPahnY7yPAHTAcPblgoxRftK/8FKreejXw=;
+ b=K+dqlqlJc2uoxSIz4B0nEVQOR831dqmUAXoM9cnf8KlhHoXigzi3s0Zliyua8AsHXH
+ hOjTOEfkDRFbP4vx6dpa71s/ZyFygHU5DVa9UEZ7W15YH8smkEqpcoPkV6gc+OTOeVrD
+ B9EhwysjT+JWNf/tkF1YOiy7XxRGaSlq/bDskcFHdvqmXe+HWRFw73HJnsxgbOsF1oUf
+ fR3oVBl0j7O9AmDUbgNrOaALWnjVXS/wl2uMxDs021PVm1z1hXWR5DKwOI00yATOjU4G
+ R2Ecj/S+PsBSJ52Wnffr+MYjCqolHxBa6UbwEERrD6bGwAG+0HbtrSrzpFP/P1deZIvx
+ ny1Q==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,219 +68,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Keith Packard <keithp@keithp.com>,
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: multipart/mixed; boundary="===============0991039415=="
+ Haneen Mohammed <hamohammed.sa@gmail.com>
+Content-Type: multipart/mixed; boundary="===============1081521240=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0991039415==
+--===============1081521240==
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="yfx3lcbhzheddqdc"
+	protocol="application/pgp-signature"; boundary="aswdu57iq62gcvs6"
 Content-Disposition: inline
 
 
---yfx3lcbhzheddqdc
-Content-Type: text/plain; charset=iso-8859-1
+--aswdu57iq62gcvs6
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Daniel,
+On 07/19, Daniel Vetter wrote:
+> It's the recommended version, wait_for_vblanks is a bit a hacky
+> interim thing that predates all the flip_done tracking. It's
+> unfortunately still the default ...
 
-All the series look really good for me. I just have some few questions
-here.
+Just one question, is it safe to replace drm_atomic_helper_wait_for_vblanks=
+ by
+drm_atomic_helper_wait_for_flip_done? I noticed that only six drivers use t=
+hese
+functions; they are:
 
-On 07/23, Daniel Vetter wrote:
-> Noticed while reviewing code. I'm not sure whether this might or might
-> not explain some of the missed vblank hilarity we've been seeing. I
+* atmel-hlcdc
+* mediatek
+* msm
+* tegra
+* tilcdc
+* virtio
 
-I have to admit that I'm a little bit confused about the "missed vblank
-hilarity we've been seeing". Could you elaborate a little bit more about
-this problem in the commit message?
+If we change these drivers, can we drop the helper
+drm_atomic_helper_wait_for_vblanks?
 
-Additionally, how about break this commit in two? One dedicated to the barr=
-iers
-and the atomic64, and the other related to the documentation?
-
-> think those all go through the vblank completion event, which has
-> unconditional barriers - it always takes the spinlock. Therefore no
-> cc stable.
->=20
-> v2:
-> - Barrriers are hard, put them in in the right order (Chris).
-> - Improve the comments a bit.
->=20
-> v3:
->=20
-> Ville noticed that on 32bit we might be breaking up the load/stores,
-> now that the vblank counter has been switched over to be 64 bit. Fix
-> that up by switching to atomic64_t. This this happens so rarely in
-> practice I figured no need to cc: stable ...
->=20
-> Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> Cc: Keith Packard <keithp@keithp.com>
-> References: 570e86963a51 ("drm: Widen vblank count to 64-bits [v3]")
-> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> ---
->  drivers/gpu/drm/drm_vblank.c | 45 ++++++++++++++++++++++++++++++++----
->  include/drm/drm_vblank.h     | 15 ++++++++++--
->  2 files changed, 54 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-> index 603ab105125d..03e37bceac9c 100644
-> --- a/drivers/gpu/drm/drm_vblank.c
-> +++ b/drivers/gpu/drm/drm_vblank.c
-> @@ -107,7 +107,7 @@ static void store_vblank(struct drm_device *dev, unsi=
-gned int pipe,
-> =20
->  	write_seqlock(&vblank->seqlock);
->  	vblank->time =3D t_vblank;
-> -	vblank->count +=3D vblank_count_inc;
-> +	atomic64_add(vblank_count_inc, &vblank->count);
->  	write_sequnlock(&vblank->seqlock);
->  }
-> =20
-> @@ -273,7 +273,8 @@ static void drm_update_vblank_count(struct drm_device=
- *dev, unsigned int pipe,
-> =20
->  	DRM_DEBUG_VBL("updating vblank count on crtc %u:"
->  		      " current=3D%llu, diff=3D%u, hw=3D%u hw_last=3D%u\n",
-> -		      pipe, vblank->count, diff, cur_vblank, vblank->last);
-> +		      pipe, atomic64_read(&vblank->count), diff,
-> +		      cur_vblank, vblank->last);
-> =20
->  	if (diff =3D=3D 0) {
->  		WARN_ON_ONCE(cur_vblank !=3D vblank->last);
-> @@ -295,11 +296,23 @@ static void drm_update_vblank_count(struct drm_devi=
-ce *dev, unsigned int pipe,
->  static u64 drm_vblank_count(struct drm_device *dev, unsigned int pipe)
->  {
->  	struct drm_vblank_crtc *vblank =3D &dev->vblank[pipe];
-> +	u64 count;
-> =20
->  	if (WARN_ON(pipe >=3D dev->num_crtcs))
->  		return 0;
-> =20
-> -	return vblank->count;
-> +	count =3D atomic64_read(&vblank->count);
-> +
-> +	/*
-> +	 * This read barrier corresponds to the implicit write barrier of the
-> +	 * write seqlock in store_vblank(). Note that this is the only place
-> +	 * where we need an explicit barrier, since all other access goes
-> +	 * through drm_vblank_count_and_time(), which already has the required
-> +	 * read barrier curtesy of the read seqlock.
-> +	 */
-> +	smp_rmb();
-
-I think I did not get all the idea behind the smp_rmb() in this function. F=
-WIU,
-smp_xxx are used for preventing race conditions in a multiprocessor system,
-right? In this sense, I can presume that this change can bring benefits for
-VKMS or any other virtual driver; on the other hand, this will not bring any
-advantage on real drivers like i915 and amdgpu since these devices are not
-related with smp stuff, right?
+Reviewed-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
 
 Thanks
 
-> +
-> +	return count;
->  }
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> ---
+>  drivers/gpu/drm/vkms/vkms_drv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_=
+drv.c
+> index 44ab9f8ef8be..80524a22412a 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -83,7 +83,7 @@ static void vkms_atomic_commit_tail(struct drm_atomic_s=
+tate *old_state)
 > =20
->  /**
-> @@ -764,6 +777,14 @@ drm_get_last_vbltimestamp(struct drm_device *dev, un=
-signed int pipe,
->   * vblank interrupt (since it only reports the software vblank counter),=
- see
->   * drm_crtc_accurate_vblank_count() for such use-cases.
->   *
-> + * Note that for a given vblank counter value drm_crtc_handle_vblank()
-> + * and drm_crtc_vblank_count() or drm_crtc_vblank_count_and_time()
-> + * provide a barrier: Any writes done before calling
-> + * drm_crtc_handle_vblank() will be visible to callers of the later
-> + * functions, iff the vblank count is the same or a later one.
-> + *
-> + * See also &drm_vblank_crtc.count.
-> + *
->   * Returns:
->   * The software vblank counter.
->   */
-> @@ -801,7 +822,7 @@ static u64 drm_vblank_count_and_time(struct drm_devic=
-e *dev, unsigned int pipe,
+>  	drm_atomic_helper_commit_hw_done(old_state);
 > =20
->  	do {
->  		seq =3D read_seqbegin(&vblank->seqlock);
-> -		vblank_count =3D vblank->count;
-> +		vblank_count =3D atomic64_read(&vblank->count);
->  		*vblanktime =3D vblank->time;
->  	} while (read_seqretry(&vblank->seqlock, seq));
+> -	drm_atomic_helper_wait_for_vblanks(dev, old_state);
+> +	drm_atomic_helper_wait_for_flip_done(dev, old_state);
 > =20
-> @@ -818,6 +839,14 @@ static u64 drm_vblank_count_and_time(struct drm_devi=
-ce *dev, unsigned int pipe,
->   * vblank events since the system was booted, including lost events due =
-to
->   * modesetting activity. Returns corresponding system timestamp of the t=
-ime
->   * of the vblank interval that corresponds to the current vblank counter=
- value.
-> + *
-> + * Note that for a given vblank counter value drm_crtc_handle_vblank()
-> + * and drm_crtc_vblank_count() or drm_crtc_vblank_count_and_time()
-> + * provide a barrier: Any writes done before calling
-> + * drm_crtc_handle_vblank() will be visible to callers of the later
-> + * functions, iff the vblank count is the same or a later one.
-> + *
-> + * See also &drm_vblank_crtc.count.
->   */
->  u64 drm_crtc_vblank_count_and_time(struct drm_crtc *crtc,
->  				   ktime_t *vblanktime)
-> @@ -1791,6 +1820,14 @@ EXPORT_SYMBOL(drm_handle_vblank);
->   *
->   * This is the native KMS version of drm_handle_vblank().
->   *
-> + * Note that for a given vblank counter value drm_crtc_handle_vblank()
-> + * and drm_crtc_vblank_count() or drm_crtc_vblank_count_and_time()
-> + * provide a barrier: Any writes done before calling
-> + * drm_crtc_handle_vblank() will be visible to callers of the later
-> + * functions, iff the vblank count is the same or a later one.
-> + *
-> + * See also &drm_vblank_crtc.count.
-> + *
->   * Returns:
->   * True if the event was successfully handled, false on failure.
->   */
-> diff --git a/include/drm/drm_vblank.h b/include/drm/drm_vblank.h
-> index 9fe4ba8bc622..c16c44052b3d 100644
-> --- a/include/drm/drm_vblank.h
-> +++ b/include/drm/drm_vblank.h
-> @@ -109,9 +109,20 @@ struct drm_vblank_crtc {
->  	seqlock_t seqlock;
-> =20
->  	/**
-> -	 * @count: Current software vblank counter.
-> +	 * @count:
-> +	 *
-> +	 * Current software vblank counter.
-> +	 *
-> +	 * Note that for a given vblank counter value drm_crtc_handle_vblank()
-> +	 * and drm_crtc_vblank_count() or drm_crtc_vblank_count_and_time()
-> +	 * provide a barrier: Any writes done before calling
-> +	 * drm_crtc_handle_vblank() will be visible to callers of the later
-> +	 * functions, iff the vblank count is the same or a later one.
-> +	 *
-> +	 * IMPORTANT: This guarantee requires barriers, therefor never access
-> +	 * this field directly. Use drm_crtc_vblank_count() instead.
->  	 */
-> -	u64 count;
-> +	atomic64_t count;
->  	/**
->  	 * @time: Vblank timestamp corresponding to @count.
->  	 */
+>  	for_each_old_crtc_in_state(old_state, crtc, old_crtc_state, i) {
+>  		struct vkms_crtc_state *vkms_state =3D
 > --=20
 > 2.22.0
 >=20
@@ -291,29 +145,29 @@ Rodrigo Siqueira
 Software Engineer, Advanced Micro Devices (AMD)
 https://siqueira.tech
 
---yfx3lcbhzheddqdc
+--aswdu57iq62gcvs6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl1uYMcACgkQWJzP/com
-vP+Pqg/9HyJHKu3KqehS8aHMOyZVaBlC9l3KyRBpt9MNy17YPH+W+F6exQtXQFyb
-iyf0O2n2lVVqoxMADxNJooIpvr2XtRubWGTThyPcNQxEYLrRO0auYbU/8QLpenyO
-PiA+673J1TBypMi/aplZpSPW0GMW2yx6lrhpA18lIjCFaI2Ie8j/fgXcM0XnamWT
-hjzx4TloxcyzmpzK1WvkxNpvnwbiMBDb+l7DgXZkYJu5FocAmmPzbjAwgRQji2eK
-FXu/s4/m3S03wOfO+XcKbO6EqZNph5cnReNs+eCMgk2Th7+9KHZSvclo9Ty3X9jX
-bSUXI8l7ejlyBMofyxCUgAvU3uD9XnfjvvkAtmdJXSSxqNSgxRXZNQK6FwdhxgpG
-vNnEU7gF6HGmuZpNTyEX53LIIC5NBM4Wq0vZKTiPXm2sIEqmb6ZvltmhCcyltCjB
-zSfACmUiO0sFv1R/+16we9tyeTID5+gfiutBajBe/+IOBegnVtpw1rCkP8bbweEP
-MfbckXN1vGXYksjNdDw32dT0Avlync+lT/z4bpOEr5XeiZ6Ua7eDzi/fbGahcmef
-G1963xCMoynRyOIcuC8+hkT0IHkAQJounHSEpjoegz4OX2q0781aiTqKE2DsroOO
-Lm6dT0VTn7x1D+iYjw/xnKcV5Iw7QnbiQE1aZqtHcTy8ekglC2o=
-=UUeP
+iQIzBAEBCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl1uYUIACgkQWJzP/com
+vP/oaA//TTSZpIP1tYDeccQZ9Ud11QtDKpuFtpzQsBcwflXvx6jISlD3cFz6EGlf
+N/XlkF7QY8asp0GL3mUiJajW0ops7LJ7gt9heTvChJ5ikjGnDGHqK6UT/IaEJO2l
+rXFa2AoWZQfqVtOtZunjsFiXe3Bx5IneiQOoSazNdyy56rGAnj9HgB3UZMNgR9/I
+HV4jdzQGnHA5BOsusWPrK2roRm9UmjaOG4MPa6Zmv0G8brpq1ptiyh8go86mZ2KF
+3bWwpRN8ggGANzMtFlEjev3UVt9V6qPxZxRdXKTRp316Teu9vNULh0AfAgxR4pLI
+PXuGSLg9vCd2M1XEbfo4Zr0OjZx9y28lvSEcpMPpx4LE6s29NpEkHEPj/LXHwaw5
+vwg6vA+Me05ZkIZ5AfQL+fegYOZD9abaDlI2ZiUuVuTyC02KPnkuJyPAqMr1gbxK
+wHRboIrfvQW19oo6s3g8AWrLGWdI5bmdon8V1UB9LidEMyzcfqauIlRc4esBxrQL
+3N4ogQ6iDDRQ5m+JniCMgwwBJzvILcwhu9T+h0NyMPpqZVauRq3TKN8nsfmuTC2e
+NY9w1dpD3REokcm95xAVfjSbO4k5Km7I7SRuIGw4i91MjSnx6CjYDwAlWMT49ZF4
+MSbSjqm3z+5Uvdnzv45ad5U/KkdBicH66it0/qkG3sCLoC3P7po=
+=+Ymn
 -----END PGP SIGNATURE-----
 
---yfx3lcbhzheddqdc--
+--aswdu57iq62gcvs6--
 
---===============0991039415==
+--===============1081521240==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -323,4 +177,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0991039415==--
+--===============1081521240==--
