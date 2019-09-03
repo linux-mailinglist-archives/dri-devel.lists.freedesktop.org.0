@@ -1,36 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73602A7C73
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2019 09:15:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95D2CA7C69
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2019 09:14:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 233D989349;
-	Wed,  4 Sep 2019 07:14:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B60A0891EF;
+	Wed,  4 Sep 2019 07:14:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 575 seconds by postgrey-1.36 at gabe;
- Tue, 03 Sep 2019 08:31:20 UTC
-Received: from r3-25.sinamail.sina.com.cn (r3-25.sinamail.sina.com.cn
- [202.108.3.25])
- by gabe.freedesktop.org (Postfix) with SMTP id 64BD689104
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2019 08:31:20 +0000 (UTC)
-Received: from unknown (HELO [IPv6:::ffff:192.168.199.155])([114.254.173.51])
- by sina.com with ESMTP
- id 5D6E2292000328FE; Tue, 3 Sep 2019 16:21:43 +0800 (CST)
-X-Sender: hdanton@sina.com
-X-Auth-ID: hdanton@sina.com
-X-SMAIL-MID: 35238354926319
+Received: from ironport.ite.com.tw (60-251-196-230.HINET-IP.hinet.net
+ [60.251.196.230])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E829689356
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2019 11:05:27 +0000 (UTC)
+Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
+ by ironport.ite.com.tw with ESMTP; 03 Sep 2019 18:55:44 +0800
+Received: from csbcas.internal.ite.com.tw (csbcas1.internal.ite.com.tw
+ [192.168.65.46]) by mse.ite.com.tw with ESMTP id x83AtcHq074927;
+ Tue, 3 Sep 2019 18:55:38 +0800 (GMT-8)
+ (envelope-from allen.chen@ite.com.tw)
+Received: from allen-VirtualBox.internal.ite.com.tw (192.168.70.14) by
+ csbcas1.internal.ite.com.tw (192.168.65.45) with Microsoft SMTP Server (TLS)
+ id 14.3.352.0; Tue, 3 Sep 2019 18:55:39 +0800
+From: allen <allen.chen@ite.com.tw>
+To: 
+Subject: [PATCH v2 1/2] dt-bindings: Add binding for IT6505.
+Date: Tue, 3 Sep 2019 18:51:53 +0800
+Message-ID: <1567507915-9844-2-git-send-email-allen.chen@ite.com.tw>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1567507915-9844-1-git-send-email-allen.chen@ite.com.tw>
+References: <1567507915-9844-1-git-send-email-allen.chen@ite.com.tw>
 MIME-Version: 1.0
-To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-From: Hillf Danton <hdanton@sina.com>
-Subject: Re: gnome-shell stuck because of amdgpu driver [5.3 RC5]
-Date: Tue, 3 Sep 2019 16:21:42 +0800
-Importance: normal
-X-Priority: 3
-In-Reply-To: <CABXGCsNywbo90+wgiZ64Srm-KexypTbjiviwTW_BsO9Pm11GKQ@mail.gmail.com>
-References: <20190830032948.13516-1-hdanton@sina.com>
- <CABXGCsNywbo90+wgiZ64Srm-KexypTbjiviwTW_BsO9Pm11GKQ@mail.gmail.com>
+X-Originating-IP: [192.168.70.14]
+X-MAIL: mse.ite.com.tw x83AtcHq074927
 X-Mailman-Approved-At: Wed, 04 Sep 2019 07:14:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -44,145 +46,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux kernel <linux-kernel@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============1406955865=="
+Cc: Mark Rutland <mark.rutland@arm.com>, "open list:OPEN FIRMWARE AND
+ FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+ Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>, David Airlie <airlied@linux.ie>,
+ Allen Chen <allen.chen@ite.com.tw>, open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM
+ DRIVERS" <dri-devel@lists.freedesktop.org>, Rob Herring <robh+dt@kernel.org>,
+ Pi-Hsun Shih <pihsun@chromium.org>, Eddie Huang <eddie.huang@mediatek.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-Message-Id: <20190904071442.233D989349@gabe.freedesktop.org>
 
-
---===============1406955865==
-Content-Type: multipart/alternative;
-	boundary="_32C85ED2-0338-4B2A-A8C8-E35FD2FB74F0_"
-
-
---_32C85ED2-0338-4B2A-A8C8-E35FD2FB74F0_
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-
-On Tue, 3 Sep 2019 11:48:12 +0500 From:   Mikhail Gavrilov <mikhail.v.gavri=
-lov@gmail.com>
-> On Fri, 30 Aug 2019 at 08:30, Hillf Danton <hdanton@sina.com> wrote:
-> >
-> > Add a warning to show if it makes sense in field: neither regression no=
-r
-> > problem will have been observed with the warning printed.
->
-> I caught the problem.
->=20
->
-> [21793.094289] ------------[ cut here ]------------
-> [21793.094296] gnome shell stuck warning
-> [21793.094391] WARNING: CPU: 14 PID: 1768 at
-> drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c:332
->
-Thanks Mike.
-
-Describe the problems you are experiencing please.
-Say is the screen locked up? Machine lockedup?=20
-Anything unnormal after you see the warning?
-
-Hillf
-
---_32C85ED2-0338-4B2A-A8C8-E35FD2FB74F0_
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html; charset="utf-8"
-
-<html xmlns:o=3D"urn:schemas-microsoft-com:office:office" xmlns:w=3D"urn:sc=
-hemas-microsoft-com:office:word" xmlns:m=3D"http://schemas.microsoft.com/of=
-fice/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta ht=
-tp-equiv=3DContent-Type content=3D"text/html; charset=3Dutf-8"><meta name=
-=3DGenerator content=3D"Microsoft Word 15 (filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:DengXian;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-@font-face
-	{font-family:DengXian;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	margin-bottom:.0001pt;
-	text-align:justify;
-	text-justify:inter-ideograph;
-	font-size:10.5pt;
-	font-family:DengXian;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-span.DefaultFontHxMailStyle
-	{mso-style-name:"Default Font HxMail Style";
-	font-family:DengXian;
-	color:windowtext;
-	font-weight:normal;
-	font-style:normal;
-	text-decoration:none none;}
-.MsoChpDefault
-	{mso-style-type:export-only;}
-/* Page Definitions */
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style></head><body lang=3DZH-CN link=3Dblue vlink=3D"#954F72"><div cla=
-ss=3DWordSection1><p class=3DMsoNormal><span class=3DDefaultFontHxMailStyle=
-><span lang=3DEN-US>On Tue, 3 Sep 2019 11:48:12 +0500 From:=C2=A0=C2=A0 Mik=
-hail Gavrilov &lt;mikhail.v.gavrilov@gmail.com&gt;<o:p></o:p></span></span>=
-</p><p class=3DMsoNormal><span lang=3DEN-US>&gt; On Fri, 30 Aug 2019 at 08:=
-30, Hillf Danton &lt;hdanton@sina.com&gt; wrote:</span></p><p class=3DMsoNo=
-rmal><span lang=3DEN-US>&gt; &gt;</span></p><p class=3DMsoNormal><span lang=
-=3DEN-US>&gt; &gt; Add a warning to show if it makes sense in field: neithe=
-r regression nor</span></p><p class=3DMsoNormal><span lang=3DEN-US>&gt; &gt=
-; problem will have been observed with the warning printed.</span></p><p cl=
-ass=3DMsoNormal><span lang=3DEN-US>&gt;<o:p>&nbsp;</o:p></span></p><p class=
-=3DMsoNormal><span lang=3DEN-US>&gt; I caught the problem.</span></p><p cla=
-ss=3DMsoNormal><span lang=3DEN-US>&gt; </span></p><p class=3DMsoNormal><spa=
-n lang=3DEN-US>&gt;<o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span l=
-ang=3DEN-US>&gt; [21793.094289] ------------[ cut here ]------------</span>=
-</p><p class=3DMsoNormal><span lang=3DEN-US>&gt; [21793.094296] gnome shell=
- stuck warning</span></p><p class=3DMsoNormal><span lang=3DEN-US>&gt; [2179=
-3.094391] WARNING: CPU: 14 PID: 1768 at</span></p><p class=3DMsoNormal><spa=
-n lang=3DEN-US>&gt; drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c:332</span></p=
-><p class=3DMsoNormal><span lang=3DEN-US>&gt;<o:p>&nbsp;</o:p></span></p><p=
- class=3DMsoNormal><span lang=3DEN-US>Thanks Mike.</span></p><p class=3DMso=
-Normal><span lang=3DEN-US><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal>=
-<span class=3DDefaultFontHxMailStyle><span lang=3DEN-US>Describe the proble=
-ms you are experiencing please.<o:p></o:p></span></span></p><p class=3DMsoN=
-ormal><span class=3DDefaultFontHxMailStyle><span lang=3DEN-US>Say is the sc=
-reen locked up? Machine lockedup? <o:p></o:p></span></span></p><p class=3DM=
-soNormal><span class=3DDefaultFontHxMailStyle><span lang=3DEN-US>Anything u=
-nnormal after you see the warning?<o:p></o:p></span></span></p><p class=3DM=
-soNormal><span class=3DDefaultFontHxMailStyle><span lang=3DEN-US><o:p>&nbsp=
-;</o:p></span></span></p><p class=3DMsoNormal><span class=3DDefaultFontHxMa=
-ilStyle><span lang=3DEN-US>Hillf<o:p></o:p></span></span></p></div></body><=
-/html>=
-
---_32C85ED2-0338-4B2A-A8C8-E35FD2FB74F0_--
-
-
-
---===============1406955865==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1406955865==--
-
-
+RnJvbTogQWxsZW4gQ2hlbiA8YWxsZW4uY2hlbkBpdGUuY29tLnR3PgoKQWRkIGEgRFQgYmluZGlu
+ZyBkb2N1bWVudGF0aW9uIGZvciBJVDY1MDUuCgpTaWduZWQtb2ZmLWJ5OiBBbGxlbiBDaGVuIDxh
+bGxlbi5jaGVuQGl0ZS5jb20udHc+CgotLS0KQ29tbWVudHMgaW4gdjEgd291bGQgYmUgYWRkcmVz
+c2VkIGxhdGVyIGluIHYzLgotLS0KIC4uLi9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9pdGUsaXQ2
+NTA1LnR4dCAgICAgICAgIHwgMzAgKysrKysrKysrKysrKysrKysrKysrKwogLi4uL2RldmljZXRy
+ZWUvYmluZGluZ3MvdmVuZG9yLXByZWZpeGVzLnR4dCAgICAgICAgfCAgMSArCiAyIGZpbGVzIGNo
+YW5nZWQsIDMxIGluc2VydGlvbnMoKykKIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9u
+L2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvaXRlLGl0NjUwNS50eHQKCmRpZmYg
+LS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2Uv
+aXRlLGl0NjUwNS50eHQgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxh
+eS9icmlkZ2UvaXRlLGl0NjUwNS50eHQKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAw
+MC4uYzM1MDZhYwotLS0gL2Rldi9udWxsCisrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
+aW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9pdGUsaXQ2NTA1LnR4dApAQCAtMCwwICsxLDMwIEBACitp
+VEUgaXQ2NTA1IERQIGJyaWRnZSBiaW5kaW5ncworCitSZXF1aXJlZCBwcm9wZXJ0aWVzOgorICAg
+ICAgICAtIGNvbXBhdGlibGU6ICJpdGUsaXQ2NTA1IgorICAgICAgICAtIHJlZzogaTJjIGFkZHJl
+c3Mgb2YgdGhlIGJyaWRnZQorICAgICAgICAtIG92ZGQtc3VwcGx5OiBJL08gdm9sdGFnZQorICAg
+ICAgICAtIHB3cjE4LXN1cHBseTogQ29yZSB2b2x0YWdlCisgICAgICAgIC0gaW50ZXJydXB0czog
+aW50ZXJydXB0IHNwZWNpZmllciBvZiBJTlQgcGluCisgICAgICAgIC0gcmVzZXQtZ3Bpb3M6IGdw
+aW8gc3BlY2lmaWVyIG9mIFJFU0VUIHBpbgorCitFeGFtcGxlOgorCWl0NjUwNWRwdHg6IGl0NjUw
+NWRwdHhANWMgeworICAgICAgICAgICAgICAgIGNvbXBhdGlibGUgPSAiaXRlLGl0NjUwNSI7Cisg
+ICAgICAgICAgICAgICAgc3RhdHVzID0gIm9rYXkiOworICAgICAgICAgICAgICAgIGludGVycnVw
+dC1wYXJlbnQgPSA8JnBpbz47CisgICAgICAgICAgICAgICAgaW50ZXJydXB0cyA9IDwxNTIgSVJR
+X1RZUEVfRURHRV9SSVNJTkcgMTUyIDA+OworICAgICAgICAgICAgICAgIHJlZyA9IDwweDVjPjsK
+KyAgICAgICAgICAgICAgICBwaW5jdHJsLW5hbWVzID0gImRlZmF1bHQiOworICAgICAgICAgICAg
+ICAgIHBpbmN0cmwtMCA9IDwmaXQ2NTA1X3BpbnM+OworICAgICAgICAgICAgICAgIG92ZGQtc3Vw
+cGx5ID0gPCZtdDYzNThfdnNpbTFfcmVnPjsKKyAgICAgICAgICAgICAgICBwd3IxOC1zdXBwbHkg
+PSA8Jml0NjUwNV9wcDE4X3JlZz47CisgICAgICAgICAgICAgICAgcmVzZXQtZ3Bpb3MgPSA8JnBp
+byAxNzkgMT47CisgICAgICAgICAgICAgICAgaHBkLWdwaW9zID0gPCZwaW8gOSAwPjsKKyAgICAg
+ICAgICAgICAgICBleHRjb24gPSA8JnVzYmNfZXh0Y29uPjsKKyAgICAgICAgICAgICAgICBwb3J0
+IHsKKyAgICAgICAgICAgICAgICAgICAgICAgIGl0NjUwNV9pbjogZW5kcG9pbnQgeworICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICByZW1vdGUtZW5kcG9pbnQgPSA8JmRwaV9vdXQ+Owor
+ICAgICAgICAgICAgICAgICAgICAgICAgfTsKKyAgICAgICAgICAgICAgICB9OworICAgICAgICB9
+OwpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3ZlbmRvci1w
+cmVmaXhlcy50eHQgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdmVuZG9yLXBy
+ZWZpeGVzLnR4dAppbmRleCAyYzNmYzUxLi5jMDg4NjQ2IDEwMDY0NAotLS0gYS9Eb2N1bWVudGF0
+aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdmVuZG9yLXByZWZpeGVzLnR4dAorKysgYi9Eb2N1bWVu
+dGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdmVuZG9yLXByZWZpeGVzLnR4dApAQCAtMTg0LDYg
+KzE4NCw3IEBAIGlvbQlJb21lZ2EgQ29ycG9yYXRpb24KIGlzZWUJSVNFRSAyMDA3IFMuTC4KIGlz
+aWwJSW50ZXJzaWwKIGlzc2kJSW50ZWdyYXRlZCBTaWxpY29uIFNvbHV0aW9ucyBJbmMuCitpdGUJ
+aVRFIFRlY2guIEluYy4KIGl0ZWFkCUlURUFEIEludGVsbGlnZW50IFN5c3RlbXMgQ28uTHRkCiBp
+d2F2ZSAgaVdhdmUgU3lzdGVtcyBUZWNobm9sb2dpZXMgUHZ0LiBMdGQuCiBqZGkJSmFwYW4gRGlz
+cGxheSBJbmMuCi0tIAoxLjkuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVs
