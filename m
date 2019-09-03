@@ -2,59 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D08E0A61D7
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 08:52:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2F7EA626E
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 09:28:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75CD689654;
-	Tue,  3 Sep 2019 06:52:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDDF689624;
+	Tue,  3 Sep 2019 07:28:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C852895F5;
- Tue,  3 Sep 2019 06:52:34 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id B2D34AD44;
- Tue,  3 Sep 2019 06:52:32 +0000 (UTC)
-Subject: Re: [PATCH 4/5] drm/qxl: use drm_gem_object_funcs callbacks
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20190902124126.7700-1-kraxel@redhat.com>
- <20190902124126.7700-5-kraxel@redhat.com>
- <0a9d97c7-26a4-bee6-e9a2-120abbd5277c@suse.de>
- <20190903062417.a4gpgaollk5jruas@sirius.home.kraxel.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
- IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
- AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
- 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
- hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
- YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
- 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
- tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
- R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
- E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
- kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
- 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
- 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
- A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
- NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
- VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
- iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
- VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
- iNx9uqqx
-Message-ID: <61b2c31a-6d0a-c42d-a456-ea13b17c9aec@suse.de>
-Date: Tue, 3 Sep 2019 08:52:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
+ [IPv6:2607:f8b0:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E00D89624
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2019 07:28:35 +0000 (UTC)
+Received: by mail-ot1-x342.google.com with SMTP id n7so8343581otk.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Sep 2019 00:28:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UdMoRPg0KlVqze0pTkNC9rfXaDd7uPSTe82szx43jMg=;
+ b=YqEHB3JQLQQVNPjwiRhreFSKZy/j1nmK8HQZ6Y60LYw96NgKMx4zBt2cKNObakGdT6
+ MhCsiMnhCSAIGKex9yZuO8t/Lao7JBWT8839q0VEEE5lwm/ba1j8MUSQx/5ZO2wnyi8w
+ j9XCGen3tfr8Q1STvZ38W6vYCU7Ao1h1GZeKyjWmMIO2JbPwfb0SI3hAdtqcHMBULy9w
+ uFoWZIkeOe+gToXkWtX/KC8tPMh5HcBEU+XCv1lX3+MaQ9WK8BEW5w0BqE4QIUbGnwSt
+ ZebhkflC7Mm8GiDwPB/4yb0ZEHJPAQCU1Yw5eiNoLOapOKwRarTKIbET+2TAe0tAhMbL
+ EQBg==
+X-Gm-Message-State: APjAAAWTvzMcTi5CDj0oPYddoD/r4kz1eiZg9qFB3Ck7/6aFUHgujuQ+
+ Y3tIi+pOAEjmybOYCayfrAE1UIk0Ezh90PNiVXhiNw==
+X-Google-Smtp-Source: APXvYqxNdE/m5cDoeoduzif078Rn/h+XzpbDyvLbalFH6g7b9CtJip46QdskaojSElyMHAM5lUrtBDY5YQw43Yn2gis=
+X-Received: by 2002:a05:6830:1594:: with SMTP id
+ i20mr1193992otr.188.1567495714412; 
+ Tue, 03 Sep 2019 00:28:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190903062417.a4gpgaollk5jruas@sirius.home.kraxel.org>
+References: <20190826201425.17547-1-daniel.vetter@ffwll.ch>
+ <20190826201425.17547-4-daniel.vetter@ffwll.ch>
+ <20190827225002.GB30700@ziepe.ca>
+ <CAKMK7uHKiLwXLHd1xThZVM1dH-oKrtpDZ=FxLBBwtY7XmJKgtA@mail.gmail.com>
+ <20190828184330.GD933@ziepe.ca>
+ <CAKMK7uFJESH1XHTCqYoDb4iMfThxnib3Uz=RUcd7h=SS-TJWbg@mail.gmail.com>
+In-Reply-To: <CAKMK7uFJESH1XHTCqYoDb4iMfThxnib3Uz=RUcd7h=SS-TJWbg@mail.gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Tue, 3 Sep 2019 09:28:23 +0200
+Message-ID: <CAKMK7uET7GL-nmRd_wxkxu0KsiYiSZcGTsSstcUpqaT=mKTbmg@mail.gmail.com>
+Subject: Re: [PATCH 3/5] kernel.h: Add non_block_start/end()
+To: Jason Gunthorpe <jgg@ziepe.ca>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=UdMoRPg0KlVqze0pTkNC9rfXaDd7uPSTe82szx43jMg=;
+ b=BRXYASXfXrSYdvQ7cHvdL8g1FGYY5yc7fn4k3rf1HqK5cdyf7DVE1ZRs2ggL6FBlZY
+ jhOxSfrYQhY9BD157Pi5jnSxIhZjG9EG4xisQBVknT3mt+l8TxsfMTbDpomdpXG0MF88
+ /Ul9+UZc5rqz3oUInM3tk4DRzAXTmO9p25Eds=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,180 +65,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
- Dave Airlie <airlied@redhat.com>
-Content-Type: multipart/mixed; boundary="===============0953288632=="
+Cc: Feng Tang <feng.tang@intel.com>, Michal Hocko <mhocko@suse.com>,
+ Kees Cook <keescook@chromium.org>,
+ Masahiro Yamada <yamada.masahiro@socionext.com>,
+ Peter Zijlstra <peterz@infradead.org>, Jann Horn <jannh@google.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux MM <linux-mm@kvack.org>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Ingo Molnar <mingo@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Randy Dunlap <rdunlap@infradead.org>, David Rientjes <rientjes@google.com>,
+ Wei Wang <wvw@google.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0953288632==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="sTjO2c2Xh1w2ytuKOwUgkevjL9602HtnZ"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---sTjO2c2Xh1w2ytuKOwUgkevjL9602HtnZ
-Content-Type: multipart/mixed; boundary="iawTWFCrY3WzO9gNZyPaM2AqQcrXu2JUN";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: David Airlie <airlied@linux.ie>, open list
- <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>, Dave Airlie
- <airlied@redhat.com>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <spice-devel@lists.freedesktop.org>
-Message-ID: <61b2c31a-6d0a-c42d-a456-ea13b17c9aec@suse.de>
-Subject: Re: [PATCH 4/5] drm/qxl: use drm_gem_object_funcs callbacks
-References: <20190902124126.7700-1-kraxel@redhat.com>
- <20190902124126.7700-5-kraxel@redhat.com>
- <0a9d97c7-26a4-bee6-e9a2-120abbd5277c@suse.de>
- <20190903062417.a4gpgaollk5jruas@sirius.home.kraxel.org>
-In-Reply-To: <20190903062417.a4gpgaollk5jruas@sirius.home.kraxel.org>
-
---iawTWFCrY3WzO9gNZyPaM2AqQcrXu2JUN
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 03.09.19 um 08:24 schrieb Gerd Hoffmann:
-> On Mon, Sep 02, 2019 at 04:34:49PM +0200, Thomas Zimmermann wrote:
->> This patch seems unrelated.
->=20
-> Well, patch 5/5 depends on it because it hooks the
-> drm_gem_ttm_print_info helper into the new
-> qxl_object_funcs added by this patch.
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-
->=20
->> Am 02.09.19 um 14:41 schrieb Gerd Hoffmann:
->>> Switch qxl to use drm_gem_object_funcs callbacks
->>> instead of drm_driver callbacks.
->>>
->>> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
->>> ---
->>>  drivers/gpu/drm/qxl/qxl_drv.c    |  8 --------
->>>  drivers/gpu/drm/qxl/qxl_object.c | 12 ++++++++++++
->>>  2 files changed, 12 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_=
-drv.c
->>> index 2b726a51a302..996d428fa7e6 100644
->>> --- a/drivers/gpu/drm/qxl/qxl_drv.c
->>> +++ b/drivers/gpu/drm/qxl/qxl_drv.c
->>> @@ -258,16 +258,8 @@ static struct drm_driver qxl_driver =3D {
->>>  #endif
->>>  	.prime_handle_to_fd =3D drm_gem_prime_handle_to_fd,
->>>  	.prime_fd_to_handle =3D drm_gem_prime_fd_to_handle,
->>> -	.gem_prime_pin =3D qxl_gem_prime_pin,
->>> -	.gem_prime_unpin =3D qxl_gem_prime_unpin,
->>> -	.gem_prime_get_sg_table =3D qxl_gem_prime_get_sg_table,
->>>  	.gem_prime_import_sg_table =3D qxl_gem_prime_import_sg_table,
->>> -	.gem_prime_vmap =3D qxl_gem_prime_vmap,
->>> -	.gem_prime_vunmap =3D qxl_gem_prime_vunmap,
->>>  	.gem_prime_mmap =3D qxl_gem_prime_mmap,
->>> -	.gem_free_object_unlocked =3D qxl_gem_object_free,
->>> -	.gem_open_object =3D qxl_gem_object_open,
->>> -	.gem_close_object =3D qxl_gem_object_close,
->>>  	.fops =3D &qxl_fops,
->>>  	.ioctls =3D qxl_ioctls,
->>>  	.irq_handler =3D qxl_irq_handler,
->>> diff --git a/drivers/gpu/drm/qxl/qxl_object.c b/drivers/gpu/drm/qxl/q=
-xl_object.c
->>> index 548dfe6f3b26..29aab7b14513 100644
->>> --- a/drivers/gpu/drm/qxl/qxl_object.c
->>> +++ b/drivers/gpu/drm/qxl/qxl_object.c
->>> @@ -77,6 +77,17 @@ void qxl_ttm_placement_from_domain(struct qxl_bo *=
-qbo, u32 domain, bool pinned)
->>>  	}
->>>  }
->>> =20
->>> +static const struct drm_gem_object_funcs qxl_object_funcs =3D {
->>> +	.free =3D qxl_gem_object_free,
->>> +	.open =3D qxl_gem_object_open,
->>> +	.close =3D qxl_gem_object_close,
->>> +	.pin =3D qxl_gem_prime_pin,
->>> +	.unpin =3D qxl_gem_prime_unpin,
->>> +	.get_sg_table =3D qxl_gem_prime_get_sg_table,
->>> +	.vmap =3D qxl_gem_prime_vmap,
->>> +	.vunmap =3D qxl_gem_prime_vunmap,
->>> +};
->>> +
->>>  int qxl_bo_create(struct qxl_device *qdev,
->>>  		  unsigned long size, bool kernel, bool pinned, u32 domain,
->>>  		  struct qxl_surface *surf,
->>> @@ -100,6 +111,7 @@ int qxl_bo_create(struct qxl_device *qdev,
->>>  		kfree(bo);
->>>  		return r;
->>>  	}
->>> +	bo->tbo.base.funcs =3D &qxl_object_funcs;
->>>  	bo->type =3D domain;
->>>  	bo->pin_count =3D pinned ? 1 : 0;
->>>  	bo->surface_id =3D 0;
->>>
->>
->> --=20
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
->> GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
->> HRB 21284 (AG N=C3=BCrnberg)
->>
->=20
->=20
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
-GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N=C3=BCrnberg)
-
-
---iawTWFCrY3WzO9gNZyPaM2AqQcrXu2JUN--
-
---sTjO2c2Xh1w2ytuKOwUgkevjL9602HtnZ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl1uDa8ACgkQaA3BHVML
-eiPQoQf/Wl/J5K/3RKwGAJERCr8fOCYgY7SYWZoF4BJknAUMFttOVdQ/V3lvJIrR
-4Tr1l5MNfKwJGdOoQuSBvJU+WD3Nq/xQHLvc+2ZqHF3FYASr1EBp88Kj8CHLMdnP
-tsLXP3aE7YQ0eo2XRJnc8lyoOKf0gCLox/wAs+PPQQ8DjGkvg9VoF+a4WaxoTUg2
-s5zvfkuTnQRiSY0AGo9uHl3usBtDb/wE0lM4ZJBlciorkd9dU0vAM4y2uk7QbHJS
-s5gaYaD0eyyd662jyADWR0y/ii2LSZh1Yjb3SqrbCWHkY6HAnW41iregzvydB3fP
-ihmam6WVMv6BKWwDv0OMpnhO9SFktg==
-=BJVE
------END PGP SIGNATURE-----
-
---sTjO2c2Xh1w2ytuKOwUgkevjL9602HtnZ--
-
---===============0953288632==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0953288632==--
+T24gV2VkLCBBdWcgMjgsIDIwMTkgYXQgODo1NiBQTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0
+dGVyQGZmd2xsLmNoPiB3cm90ZToKPiBPbiBXZWQsIEF1ZyAyOCwgMjAxOSBhdCA4OjQzIFBNIEph
+c29uIEd1bnRob3JwZSA8amdnQHppZXBlLmNhPiB3cm90ZToKPiA+IE9uIFdlZCwgQXVnIDI4LCAy
+MDE5IGF0IDA4OjMzOjEzUE0gKzAyMDAsIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gPiA+IE9uIFdl
+ZCwgQXVnIDI4LCAyMDE5IGF0IDEyOjUwIEFNIEphc29uIEd1bnRob3JwZSA8amdnQHppZXBlLmNh
+PiB3cm90ZToKPiA+ID4gPgo+ID4gPiA+ID4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgva2Vy
+bmVsLmggYi9pbmNsdWRlL2xpbnV4L2tlcm5lbC5oCj4gPiA+ID4gPiBpbmRleCA0ZmEzNjBhMTNj
+MWUuLjgyZjg0Y2ZlMzcyZiAxMDA2NDQKPiA+ID4gPiA+ICsrKyBiL2luY2x1ZGUvbGludXgva2Vy
+bmVsLmgKPiA+ID4gPiA+IEBAIC0yMTcsNyArMjE3LDkgQEAgZXh0ZXJuIHZvaWQgX19jYW50X3Ns
+ZWVwKGNvbnN0IGNoYXIgKmZpbGUsIGludCBsaW5lLCBpbnQgcHJlZW1wdF9vZmZzZXQpOwo+ID4g
+PiA+ID4gICAqIG1pZ2h0X3NsZWVwIC0gYW5ub3RhdGlvbiBmb3IgZnVuY3Rpb25zIHRoYXQgY2Fu
+IHNsZWVwCj4gPiA+ID4gPiAgICoKPiA+ID4gPiA+ICAgKiB0aGlzIG1hY3JvIHdpbGwgcHJpbnQg
+YSBzdGFjayB0cmFjZSBpZiBpdCBpcyBleGVjdXRlZCBpbiBhbiBhdG9taWMKPiA+ID4gPiA+IC0g
+KiBjb250ZXh0IChzcGlubG9jaywgaXJxLWhhbmRsZXIsIC4uLikuCj4gPiA+ID4gPiArICogY29u
+dGV4dCAoc3BpbmxvY2ssIGlycS1oYW5kbGVyLCAuLi4pLiBBZGRpdGlvbmFsIHNlY3Rpb25zIHdo
+ZXJlIGJsb2NraW5nIGlzCj4gPiA+ID4gPiArICogbm90IGFsbG93ZWQgY2FuIGJlIGFubm90YXRl
+ZCB3aXRoIG5vbl9ibG9ja19zdGFydCgpIGFuZCBub25fYmxvY2tfZW5kKCkKPiA+ID4gPiA+ICsg
+KiBwYWlycy4KPiA+ID4gPiA+ICAgKgo+ID4gPiA+ID4gICAqIFRoaXMgaXMgYSB1c2VmdWwgZGVi
+dWdnaW5nIGhlbHAgdG8gYmUgYWJsZSB0byBjYXRjaCBwcm9ibGVtcyBlYXJseSBhbmQgbm90Cj4g
+PiA+ID4gPiAgICogYmUgYml0dGVuIGxhdGVyIHdoZW4gdGhlIGNhbGxpbmcgZnVuY3Rpb24gaGFw
+cGVucyB0byBzbGVlcCB3aGVuIGl0IGlzIG5vdAo+ID4gPiA+ID4gQEAgLTIzMyw2ICsyMzUsMjUg
+QEAgZXh0ZXJuIHZvaWQgX19jYW50X3NsZWVwKGNvbnN0IGNoYXIgKmZpbGUsIGludCBsaW5lLCBp
+bnQgcHJlZW1wdF9vZmZzZXQpOwo+ID4gPiA+ID4gICMgZGVmaW5lIGNhbnRfc2xlZXAoKSBcCj4g
+PiA+ID4gPiAgICAgICBkbyB7IF9fY2FudF9zbGVlcChfX0ZJTEVfXywgX19MSU5FX18sIDApOyB9
+IHdoaWxlICgwKQo+ID4gPiA+ID4gICMgZGVmaW5lIHNjaGVkX2Fubm90YXRlX3NsZWVwKCkgICAg
+ICAoY3VycmVudC0+dGFza19zdGF0ZV9jaGFuZ2UgPSAwKQo+ID4gPiA+ID4gKy8qKgo+ID4gPiA+
+ID4gKyAqIG5vbl9ibG9ja19zdGFydCAtIGFubm90YXRlIHRoZSBzdGFydCBvZiBzZWN0aW9uIHdo
+ZXJlIHNsZWVwaW5nIGlzIHByb2hpYml0ZWQKPiA+ID4gPiA+ICsgKgo+ID4gPiA+ID4gKyAqIFRo
+aXMgaXMgb24gYmVoYWxmIG9mIHRoZSBvb20gcmVhcGVyLCBzcGVjaWZpY2FsbHkgd2hlbiBpdCBp
+cyBjYWxsaW5nIHRoZSBtbXUKPiA+ID4gPiA+ICsgKiBub3RpZmllcnMuIFRoZSBwcm9ibGVtIGlz
+IHRoYXQgaWYgdGhlIG5vdGlmaWVyIHdlcmUgdG8gYmxvY2sgb24sIGZvciBleGFtcGxlLAo+ID4g
+PiA+ID4gKyAqIG11dGV4X2xvY2soKSBhbmQgaWYgdGhlIHByb2Nlc3Mgd2hpY2ggaG9sZHMgdGhh
+dCBtdXRleCB3ZXJlIHRvIHBlcmZvcm0gYQo+ID4gPiA+ID4gKyAqIHNsZWVwaW5nIG1lbW9yeSBh
+bGxvY2F0aW9uLCB0aGUgb29tIHJlYXBlciBpcyBub3cgYmxvY2tlZCBvbiBjb21wbGV0aW9uIG9m
+Cj4gPiA+ID4gPiArICogdGhhdCBtZW1vcnkgYWxsb2NhdGlvbi4gT3RoZXIgYmxvY2tpbmcgY2Fs
+bHMgbGlrZSB3YWl0X2V2ZW50KCkgcG9zZSBzaW1pbGFyCj4gPiA+ID4gPiArICogaXNzdWVzLgo+
+ID4gPiA+ID4gKyAqLwo+ID4gPiA+ID4gKyMgZGVmaW5lIG5vbl9ibG9ja19zdGFydCgpIFwKPiA+
+ID4gPiA+ICsgICAgIGRvIHsgY3VycmVudC0+bm9uX2Jsb2NrX2NvdW50Kys7IH0gd2hpbGUgKDAp
+Cj4gPiA+ID4gPiArLyoqCj4gPiA+ID4gPiArICogbm9uX2Jsb2NrX2VuZCAtIGFubm90YXRlIHRo
+ZSBlbmQgb2Ygc2VjdGlvbiB3aGVyZSBzbGVlcGluZyBpcyBwcm9oaWJpdGVkCj4gPiA+ID4gPiAr
+ICoKPiA+ID4gPiA+ICsgKiBDbG9zZXMgYSBzZWN0aW9uIG9wZW5lZCBieSBub25fYmxvY2tfc3Rh
+cnQoKS4KPiA+ID4gPiA+ICsgKi8KPiA+ID4gPiA+ICsjIGRlZmluZSBub25fYmxvY2tfZW5kKCkg
+XAo+ID4gPiA+ID4gKyAgICAgZG8geyBXQVJOX09OKGN1cnJlbnQtPm5vbl9ibG9ja19jb3VudC0t
+ID09IDApOyB9IHdoaWxlICgwKQo+ID4gPiA+Cj4gPiA+ID4gY2hlY2stcGF0Y2ggZG9lcyBub3Qg
+bGlrZSB0aGVzZSwgYW5kIEkgYWdyZWUKPiA+ID4gPgo+ID4gPiA+ICMxMDE6IEZJTEU6IGluY2x1
+ZGUvbGludXgva2VybmVsLmg6MjQ4Ogo+ID4gPiA+ICsjIGRlZmluZSBub25fYmxvY2tfc3RhcnQo
+KSBcCj4gPiA+ID4gKyAgICAgICBkbyB7IGN1cnJlbnQtPm5vbl9ibG9ja19jb3VudCsrOyB9IHdo
+aWxlICgwKQo+ID4gPiA+Cj4gPiA+ID4gL3RtcC90bXAxc3BmeHVmeS8wMDA2LWtlcm5lbC1oLUFk
+ZC1ub25fYmxvY2tfc3RhcnQtZW5kLS5wYXRjaDoxMDg6IFdBUk5JTkc6IFNpbmdsZSBzdGF0ZW1l
+bnQgbWFjcm9zIHNob3VsZCBub3QgdXNlIGEgZG8ge30gd2hpbGUgKDApIGxvb3AKPiA+ID4gPiAj
+MTA4OiBGSUxFOiBpbmNsdWRlL2xpbnV4L2tlcm5lbC5oOjI1NToKPiA+ID4gPiArIyBkZWZpbmUg
+bm9uX2Jsb2NrX2VuZCgpIFwKPiA+ID4gPiArICAgICAgIGRvIHsgV0FSTl9PTihjdXJyZW50LT5u
+b25fYmxvY2tfY291bnQtLSA9PSAwKTsgfSB3aGlsZSAoMCkKPiA+ID4gPgo+ID4gPiA+IFBsZWFz
+ZSB1c2UgYSBzdGF0aWMgaW5saW5lPwo+ID4gPgo+ID4gPiBXZSBuZWVkIGdldF9jdXJyZW50KCkg
+cGx1cyB0aGUgdGFza19zdHJ1Y3QsIHNvIHRoaXMgZ2V0cyByZWFsIG1lc3N5Cj4gPiA+IHJlYWwg
+ZmFzdC4gTm90IGV2ZW4gc3VyZSB3aGljaCBoZWFkZXIgdGhpcyB3b3VsZCBmaXQgaW4sIG9yIHdo
+ZXRoZXIKPiA+ID4gSSdkIG5lZWQgdG8gY3JlYXRlIGEgbmV3IG9uZS4gWW91J3JlIGluc2lzdGlu
+ZyBvbiB0aGlzIG9yIHJlc3Bpbm5pbmcKPiA+ID4gd2l0aCB0aGUgZG8geyB9IHdoaWxlICgwKSBk
+cm9wcGVkIG9rLgo+ID4KPiA+IE15IHByZWZlcm5jZSBpcyBhbHdheXMgYSBzdGF0aWMgaW5saW5l
+LCBidXQgaWYgdGhlIGhlYWRlcnMgYXJlIHNvCj4gPiB0d2lzdHkgd2UgbmVlZCB0byB1c2UgI2Rl
+ZmluZSB0byBzb2x2ZSBhIG1pc3NpbmcgaW5jbHVkZSwgdGhlbiBJCj4gPiB3b3VsZG4ndCBpbnNp
+c3Qgb24gaXQuCj4KPiBDbGVhbmVzdCB3b3VsZCBiZSBhIG5ldyBoZWFkZXIgSSBndWVzcywgdG9n
+ZXRoZXIgd2l0aCBtaWdodF9zbGVlcCgpLgo+IEJ1dCBtb3ZpbmcgdGhhdCBpcyBhIGJpdCBtdWNo
+IEkgdGhpbmssIHRoZXJlJ3MgYWxtb3N0IDUwMCBjYWxsZXJzIG9mCj4gdGhhdCBvbmUgZnJvbSBh
+IHF1aWNrIGdpdCBncmVwCj4KPiA+IElmIGRyb3BwaW5nIGRvIHdoaWxlIGlzIHRoZSBvbmx5IGNo
+YW5nZSB0aGVuIEkgY2FuIGVkaXQgaXQgaW4uLgo+ID4gSSB0aGluayB3ZSBoYXZlIHRoZSBhY2tz
+IG5vdwo+Cj4gWWVhaCBzb3VuZHMgc2ltcGxlc3QsIHRoYW5rcy4KCkhpIEphc29uLAoKRG8geW91
+IGV4cGVjdCBtZSB0byByZXNlbmQgbm93LCBvciBkbyB5b3UgcGxhbiB0byBkbyB0aGUgcGF0Y2h3
+b3JrCmFwcGVhc2VtZW50IHdoZW4gYXBwbHlpbmc/IEkndmUgc2VlbiB5b3UgbWVyZ2VkIHRoZSBv
+dGhlciBwYXRjaGVzCih0aGFua3MhKSwgYnV0IG5vdCB0aGVzZSB0d28gaGVyZS4KLURhbmllbAot
+LSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KKzQx
+ICgwKSA3OSAzNjUgNTcgNDggLSBodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
