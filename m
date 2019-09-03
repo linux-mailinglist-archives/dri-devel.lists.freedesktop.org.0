@@ -2,44 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25BA4A7635
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 23:31:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A5B8A7651
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 23:36:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02FCC898A4;
-	Tue,  3 Sep 2019 21:31:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF69189700;
+	Tue,  3 Sep 2019 21:36:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6AE61898A4
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2019 21:31:08 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 658D172161; Tue,  3 Sep 2019 21:31:08 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109389] memory leak in `amdgpu_bo_create()`
-Date: Tue, 03 Sep 2019 21:31:08 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: czbd@o2.pl
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
-Message-ID: <bug-109389-502-h7ZPccCU0U@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109389-502@http.bugs.freedesktop.org/>
-References: <bug-109389-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE5DB892A6;
+ Tue,  3 Sep 2019 21:36:13 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id w6so8730371lfl.2;
+ Tue, 03 Sep 2019 14:36:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5c3lERoSBFKARRSEJjybtuQrS47BHT/FjEnyYEyNFQ4=;
+ b=Kdjf4+aPsV0KC0My497IpetFjr43kJWP+GDRCuEP9nPbOm9jejanSZILRRkenNzdrY
+ rtNp5fAoooD+yMWuyTQYPfwBzfbNyxm4cDa0vfnVo6RQiaOMB6xAc+ETQskFUvBqSX/B
+ hTOVCN/XzSH4tpCVKiMdG29OfDyv9G4TsJl0nA5Y/MujKB60niRd68rmhMYUkqdL1d37
+ 1FQ34bmJOB659tNqlvETVBuYRj2t7MrCAzkcx93hpSRoxp7Nm011HBLKTYZv/0qt/ca7
+ v9IGKScFMKB7SaZhUkmPzu9+8d7EBt1Vx6NF4TO66u5RWq3OJoQXhC8u7J9tV+RpjhfB
+ Lvaw==
+X-Gm-Message-State: APjAAAUg9PUe3sdIrI3tVgbWSCY9q8It3TWNjp0GXVRjkWeiMOidMPbC
+ BAJlTkdVrIzrtmSOonXgjadgYkjjBn8wPbB6GW9qXg==
+X-Google-Smtp-Source: APXvYqy2qhVjfLBh6LUVY+Z+vrZrMk+8/5OQwcJmo6NhFVQ3s89dwyA3XcD5DyAwHt4sP/Hll/Nzd4MOCtCsqEAmtqg=
+X-Received: by 2002:ac2:530e:: with SMTP id c14mr11866722lfh.165.1567546571837; 
+ Tue, 03 Sep 2019 14:36:11 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190903204645.25487-1-lyude@redhat.com>
+ <20190903204645.25487-7-lyude@redhat.com>
+In-Reply-To: <20190903204645.25487-7-lyude@redhat.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 4 Sep 2019 07:35:59 +1000
+Message-ID: <CAPM=9tx1vQMEsw4VjDVCbDYFUiaeHNCfP09aiSxnPnucQuB1JQ@mail.gmail.com>
+Subject: Re: [PATCH v2 06/27] drm/dp_mst: Combine redundant cases in
+ drm_dp_encode_sideband_req()
+To: Lyude Paul <lyude@redhat.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=5c3lERoSBFKARRSEJjybtuQrS47BHT/FjEnyYEyNFQ4=;
+ b=dxm8P2Ly/msbsWBeFRBcnitifyB3atAXYLi82sF0F0mHuVQSC6s5gkHpC87cEgYLt4
+ f34KoYIhlfFxD3mXnngj8ImCRMTbWdei5YasUPMWWS/n/+jq9Wbn1kLrr0qrh7NXmfvN
+ wSZjXyWYR130Jp31Zoq+YIYqVKcSCdgw1hc6bpSSOXSbjAbb7PDBY8f62BlbEa6UjUmY
+ SuBoCbno0obv6HEu6lgdwrhqw237KiEFBG88Fmux0Tqbkn5Y/awAvyTtHXaneQJe9Bsy
+ lxQMgKiSOohBTdUaheExu2nfYZMLqWEuzMqgOMlYr93Wxf/F0niZ4qroBYnH8aRfBgXA
+ Kg2A==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,155 +64,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0059147480=="
+Cc: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
+ nouveau <nouveau@lists.freedesktop.org>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ Harry Wentland <hwentlan@amd.com>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Sean Paul <sean@poorly.run>,
+ Juston Li <juston.li@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0059147480==
-Content-Type: multipart/alternative; boundary="15675462682.05cE489Aa.6996"
-Content-Transfer-Encoding: 7bit
-
-
---15675462682.05cE489Aa.6996
-Date: Tue, 3 Sep 2019 21:31:08 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109389
-
-Czcibor Bohusz-Dobosz <czbd@o2.pl> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
- Attachment #145256|0                           |1
-        is obsolete|                            |
-
---- Comment #6 from Czcibor Bohusz-Dobosz <czbd@o2.pl> ---
-Created attachment 145257
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145257&action=3Dedit
-Galactic Civilizations III memleak log with DXVK
-
-Apologies, looks like I had forgotten to update the methodology in several
-places of the DXVK memleak log - this one should be much more accurate.
-
-The updated methodology had however, to my understanding, showcased somethi=
-ng
-that I had not expected: apparently, the memory allocated by amdgpu_bo_crea=
-te()
-does not actually accumulate in a linear fashion, instead, it seems like it=
- is
-replaced the second time the game is launched. Because of that, there is a
-chance that more than the 65 megabytes were actually unavailable after the =
-test
-without DXVK, perhaps a sum of all the amdgpu_bo_create() calls' allocation=
-s.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15675462682.05cE489Aa.6996
-Date: Tue, 3 Sep 2019 21:31:08 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:czbd&#64;=
-o2.pl" title=3D"Czcibor Bohusz-Dobosz &lt;czbd&#64;o2.pl&gt;"> <span class=
-=3D"fn">Czcibor Bohusz-Dobosz</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - memory leak in `amdgpu_bo_create()`"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109389">bug 10938=
-9</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Attachment #145256 is obsolete</=
-td>
-           <td>
-               &nbsp;
-           </td>
-           <td>1
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - memory leak in `amdgpu_bo_create()`"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109389#c6">Commen=
-t # 6</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - memory leak in `amdgpu_bo_create()`"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109389">bug 10938=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-czbd&#64;o2.pl" title=3D"Czcibor Bohusz-Dobosz &lt;czbd&#64;o2.pl&gt;"> <sp=
-an class=3D"fn">Czcibor Bohusz-Dobosz</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145257=
-" name=3D"attach_145257" title=3D"Galactic Civilizations III memleak log wi=
-th DXVK">attachment 145257</a> <a href=3D"attachment.cgi?id=3D145257&amp;ac=
-tion=3Dedit" title=3D"Galactic Civilizations III memleak log with DXVK">[de=
-tails]</a></span>
-Galactic Civilizations III memleak log with DXVK
-
-Apologies, looks like I had forgotten to update the methodology in several
-places of the DXVK memleak log - this one should be much more accurate.
-
-The updated methodology had however, to my understanding, showcased somethi=
-ng
-that I had not expected: apparently, the memory allocated by amdgpu_bo_crea=
-te()
-does not actually accumulate in a linear fashion, instead, it seems like it=
- is
-replaced the second time the game is launched. Because of that, there is a
-chance that more than the 65 megabytes were actually unavailable after the =
-test
-without DXVK, perhaps a sum of all the amdgpu_bo_create() calls' allocation=
-s.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15675462682.05cE489Aa.6996--
-
---===============0059147480==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0059147480==--
+T24gV2VkLCA0IFNlcCAyMDE5IGF0IDA2OjQ4LCBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29t
+PiB3cm90ZToKPgo+IE5vdGljZWQgdGhpcyB3aGlsZSB3b3JraW5nIG9uIGFkZGluZyBhIGRybV9k
+cF9kZWNvZGVfc2lkZWJhbmRfcmVxKCkuCj4gRFBfUE9XRVJfRE9XTl9QSFkvRFBfUE9XRVJfVVBf
+UEhZIGJvdGggdXNlIHRoZSBzYW1lIHN0cnVjdCwgc28gd2UgY2FuCj4ganVzdCBjb21iaW5lIHRo
+ZWlyIGNhc2VzLgoKYm90aCB1c2UgdGhlIHNhbWUgc3RydWN0IGFzIGVudW0gcGF0aCByZXNvdXJj
+ZXM/CgpTaW5jZSBvdGhlcndpc2UgdGhlIHBhdGNoIGRvZXNuJ3QgbWFrZSBzZW5zZS4KCldpdGgg
+dGhhdCBmaXhlZDoKUmV2aWV3ZWQtYnk6IERhdmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+
+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
+bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
+c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
