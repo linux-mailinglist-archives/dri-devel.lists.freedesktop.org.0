@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD2CA68E1
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 14:48:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 654EDA68E5
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 14:50:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D10989320;
-	Tue,  3 Sep 2019 12:48:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E47688938F;
+	Tue,  3 Sep 2019 12:50:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
- [IPv6:2607:f8b0:4864:20::d42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1C1189317;
- Tue,  3 Sep 2019 12:48:48 +0000 (UTC)
-Received: by mail-io1-xd42.google.com with SMTP id p12so35570559iog.5;
- Tue, 03 Sep 2019 05:48:48 -0700 (PDT)
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
+ [IPv6:2607:f8b0:4864:20::d44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0E9E8938C;
+ Tue,  3 Sep 2019 12:50:10 +0000 (UTC)
+Received: by mail-io1-xd44.google.com with SMTP id j4so35498633iog.11;
+ Tue, 03 Sep 2019 05:50:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=OxhTjFMzsMPahnY7yPAHTAcPblgoxRftK/8FKreejXw=;
- b=g0tbahVtxZOjiqLJCrhkPVT70Wn7PZX++Y8mAv7J9KkrCpPWi0ZeOR4qcvVz3DPq+W
- cwmYPz0+SOGg1l4VbiuWkKmHDMqzeS9MUyyZACDj0SvajAYR1wJe5x4PE/fN+L1U70ex
- sbfJdK9UfY0eKjalidVEs/AfmGmmLRreYiziiflAruCH04flGy5/umDHEI1zM62fmABf
- TjDtITagsrTEjn22uZFncHk9nwmqRVIjiuorL1oNRKMo8kcn3hr5Ib/5TP3lkVBRZ6yh
- iRZf306ujKIIcfLoMxl3LCNOfc76H2rngjflIinD/E95e4UcTUk22eiVSRObYd0bfeMq
- 1BgQ==
-X-Gm-Message-State: APjAAAX1HN1zLGC3vqfp2VjF3yOeWR2dxLEs+cGGWXceS+YFostwlH0x
- 4f8tXZVhPsD1QSU2MCmOQV8=
-X-Google-Smtp-Source: APXvYqyrd2nHteZivlkmCkOI0rd6W7LhsOb8NOjEiSzALgTYHkdQV4otPHgUTDJnads5lKANjAmVvA==
-X-Received: by 2002:a6b:b805:: with SMTP id i5mr13693456iof.106.1567514927819; 
- Tue, 03 Sep 2019 05:48:47 -0700 (PDT)
+ bh=SKfhF1MpHwww/fX2tQllUKhsKLgL/Go0OoYIGIy2WZk=;
+ b=k3tee6WTellAAkoK8X/HVejMLaUowa+sfKgoMNKckWux4iuFTPZRzPC8NZRFuGBsU7
+ aq8maglrIvS+K4WWBulwIDwcb731GSR8upr5Tpdt5tZP6MfZDESVkWYRQsY4dxVrCYGd
+ kyrisF+P2dZFhjUddnok23gaXYsdzWUqX6EPlqro9XrjUDS7aq3DiB8zFQD88hEy7A8Z
+ WjnRLS7r2gKNWAup19lMz4I4qdArPIpnoLIXH6T1B/rUz4AAiGU268laZPVhge/LHEXX
+ l6VZMeVpT0iU6b+LSTHdBhWWxOZVU0h8IFAIr/ntKzjwpDwqmQ6SxFNjGjOtVq1M4euk
+ YCNg==
+X-Gm-Message-State: APjAAAWZ9qq0wAfJekIlC6NJAvZ80QLGSplxgvS7xfaikFisuRgGqddP
+ 92OMDI7hjKu4K79GibsaMXQ=
+X-Google-Smtp-Source: APXvYqz695b/2HygsAfknHRbGOoPh69tDwvEX3MBOc2m0Ra4x3pKQQKob3aeyNlZe2OPcUym1ZO/vg==
+X-Received: by 2002:a6b:6010:: with SMTP id r16mr39828359iog.124.1567515010065; 
+ Tue, 03 Sep 2019 05:50:10 -0700 (PDT)
 Received: from smtp.gmail.com ([165.204.55.250])
- by smtp.gmail.com with ESMTPSA id g4sm7407353ion.26.2019.09.03.05.48.46
+ by smtp.gmail.com with ESMTPSA id k24sm14162757ioj.39.2019.09.03.05.50.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 05:48:46 -0700 (PDT)
-Date: Tue, 3 Sep 2019 08:49:06 -0400
+ Tue, 03 Sep 2019 05:50:09 -0700 (PDT)
+Date: Tue, 3 Sep 2019 08:50:29 -0400
 From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 2/3] drm/vkms: Use wait_for_flip_done
-Message-ID: <20190903124906.sytisd2swa77zh4h@smtp.gmail.com>
+Subject: Re: [PATCH 3/3] drm/vkms: Reduce critical section in vblank_simulate
+Message-ID: <20190903125029.6jctvqvwoq2yzyka@smtp.gmail.com>
 References: <20190719152314.7706-1-daniel.vetter@ffwll.ch>
- <20190719152314.7706-2-daniel.vetter@ffwll.ch>
+ <20190719152314.7706-3-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-In-Reply-To: <20190719152314.7706-2-daniel.vetter@ffwll.ch>
+In-Reply-To: <20190719152314.7706-3-daniel.vetter@ffwll.ch>
 User-Agent: NeoMutt/20180716
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=OxhTjFMzsMPahnY7yPAHTAcPblgoxRftK/8FKreejXw=;
- b=K+dqlqlJc2uoxSIz4B0nEVQOR831dqmUAXoM9cnf8KlhHoXigzi3s0Zliyua8AsHXH
- hOjTOEfkDRFbP4vx6dpa71s/ZyFygHU5DVa9UEZ7W15YH8smkEqpcoPkV6gc+OTOeVrD
- B9EhwysjT+JWNf/tkF1YOiy7XxRGaSlq/bDskcFHdvqmXe+HWRFw73HJnsxgbOsF1oUf
- fR3oVBl0j7O9AmDUbgNrOaALWnjVXS/wl2uMxDs021PVm1z1hXWR5DKwOI00yATOjU4G
- R2Ecj/S+PsBSJ52Wnffr+MYjCqolHxBa6UbwEERrD6bGwAG+0HbtrSrzpFP/P1deZIvx
- ny1Q==
+ bh=SKfhF1MpHwww/fX2tQllUKhsKLgL/Go0OoYIGIy2WZk=;
+ b=R0alH1O4/bUkBVc8ydTSadIDytxx28eDJFBg2wtuoVYRMZsMJ25WmMR6m3c6ncHfM/
+ 0bOLqQ/m9eFB9fybzVHdYUvNO3jS0+NpWKtz3GBWse9n5LStT3ulqMzo80OuMgtOJouG
+ lBc8LFjZOUohUOwZPI/SCF8bLJeQM4E1Qy7HHcxA4y9jTqi2X3ABb14QTRMQ8Ukb5MPJ
+ 7uH/540gnlpj0jIPgVX8tv4bPmLkWOWH/M8EdLLXzD17aD3q/H+CjuHp/xQcndmzxGVn
+ T7hv83wDLcqA/lSOGS8/RNOqbl6l73g0MMlzEgSfttzQa91BjkgQliyczCtRN5USR6FE
+ 7IIA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,70 +72,121 @@ Cc: Daniel Vetter <daniel.vetter@intel.com>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
  Haneen Mohammed <hamohammed.sa@gmail.com>
-Content-Type: multipart/mixed; boundary="===============1081521240=="
+Content-Type: multipart/mixed; boundary="===============0971651684=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1081521240==
+--===============0971651684==
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="aswdu57iq62gcvs6"
+	protocol="application/pgp-signature"; boundary="yarmh4qjkc74q7rn"
 Content-Disposition: inline
 
 
---aswdu57iq62gcvs6
+--yarmh4qjkc74q7rn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 07/19, Daniel Vetter wrote:
-> It's the recommended version, wait_for_vblanks is a bit a hacky
-> interim thing that predates all the flip_done tracking. It's
-> unfortunately still the default ...
-
-Just one question, is it safe to replace drm_atomic_helper_wait_for_vblanks=
- by
-drm_atomic_helper_wait_for_flip_done? I noticed that only six drivers use t=
-hese
-functions; they are:
-
-* atmel-hlcdc
-* mediatek
-* msm
-* tegra
-* tilcdc
-* virtio
-
-If we change these drivers, can we drop the helper
-drm_atomic_helper_wait_for_vblanks?
+Thanks for this patch! It looks good for me.
 
 Reviewed-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
 
-Thanks
-
+On 07/19, Daniel Vetter wrote:
+> We can reduce the critical section in vkms_vblank_simulate under
+> output->lock quite a lot:
+>=20
+> - hrtimer_forward_now just needs to be ordered correctly wrt
+>   drm_crtc_handle_vblank. We already access the hrtimer timestamp
+>   without locks. While auditing that I noticed that we don't correctly
+>   annotate the read there, so sprinkle a READ_ONCE to make sure the
+>   compiler doesn't do anything foolish.
+>=20
+> - drm_crtc_handle_vblank must stay under the lock to avoid races with
+>   drm_crtc_arm_vblank_event.
+>=20
+> - The access to vkms_ouptut->crc_state also must stay under the lock.
+>=20
+> - next problem is making sure the output->state structure doesn't get
+>   freed too early. First we rely on a given hrtimer being serialized:
+>   If we call drm_crtc_handle_vblank, then we are guaranteed that the
+>   previous call to vkms_vblank_simulate has completed. The other side
+>   of the coin is that the atomic updates waits for the vblank to
+>   happen before it releases the old state. Both taken together means
+>   that by the time the atomic update releases the old state, the
+>   hrtimer won't access it anymore (it might be accessing the new state
+>   at the same time, but that's ok).
+>=20
+> - state is invariant, except the few fields separate protected by
+>   state->crc_lock. So no need to hold the lock for that.
+>=20
+> - finally the queue_work. We need to make sure there's no races with
+>   the flush_work, i.e. when we call flush_work we need to guarantee
+>   that the hrtimer can't requeue the work again. This is guaranteed by
+>   the same vblank/hrtimer ordering guarantees like the reasoning above
+>   why state won't be freed too early: flush_work on the old state is
+>   called after wait_for_flip_done in the atomic commit code.
+>=20
+> Therefore we can also move everything after the output->crc_state out
+> of the critical section.
+>=20
+> Motivated by suggestions from Rodrigo.
+>=20
 > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 > Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
 > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
 > Cc: Daniel Vetter <daniel@ffwll.ch>
 > ---
->  drivers/gpu/drm/vkms/vkms_drv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/vkms/vkms_crtc.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_=
-drv.c
-> index 44ab9f8ef8be..80524a22412a 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> @@ -83,7 +83,7 @@ static void vkms_atomic_commit_tail(struct drm_atomic_s=
-tate *old_state)
+> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms=
+_crtc.c
+> index 927dafaebc76..74f703b8d22a 100644
+> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
+> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+> @@ -16,17 +16,18 @@ static enum hrtimer_restart vkms_vblank_simulate(stru=
+ct hrtimer *timer)
+>  	u64 ret_overrun;
+>  	bool ret;
 > =20
->  	drm_atomic_helper_commit_hw_done(old_state);
+> -	spin_lock(&output->lock);
+> -
+>  	ret_overrun =3D hrtimer_forward_now(&output->vblank_hrtimer,
+>  					  output->period_ns);
+>  	WARN_ON(ret_overrun !=3D 1);
 > =20
-> -	drm_atomic_helper_wait_for_vblanks(dev, old_state);
-> +	drm_atomic_helper_wait_for_flip_done(dev, old_state);
+> +	spin_lock(&output->lock);
+>  	ret =3D drm_crtc_handle_vblank(crtc);
+>  	if (!ret)
+>  		DRM_ERROR("vkms failure on handling vblank");
 > =20
->  	for_each_old_crtc_in_state(old_state, crtc, old_crtc_state, i) {
->  		struct vkms_crtc_state *vkms_state =3D
+>  	state =3D output->composer_state;
+> +	spin_unlock(&output->lock);
+> +
+>  	if (state && output->composer_enabled) {
+>  		u64 frame =3D drm_crtc_accurate_vblank_count(crtc);
+> =20
+> @@ -48,8 +49,6 @@ static enum hrtimer_restart vkms_vblank_simulate(struct=
+ hrtimer *timer)
+>  			DRM_DEBUG_DRIVER("Composer worker already queued\n");
+>  	}
+> =20
+> -	spin_unlock(&output->lock);
+> -
+>  	return HRTIMER_RESTART;
+>  }
+> =20
+> @@ -85,7 +84,7 @@ bool vkms_get_vblank_timestamp(struct drm_device *dev, =
+unsigned int pipe,
+>  	struct vkms_output *output =3D &vkmsdev->output;
+>  	struct drm_vblank_crtc *vblank =3D &dev->vblank[pipe];
+> =20
+> -	*vblank_time =3D output->vblank_hrtimer.node.expires;
+> +	*vblank_time =3D READ_ONCE(output->vblank_hrtimer.node.expires);
+> =20
+>  	if (WARN_ON(*vblank_time =3D=3D vblank->time))
+>  		return true;
 > --=20
 > 2.22.0
 >=20
@@ -145,29 +196,29 @@ Rodrigo Siqueira
 Software Engineer, Advanced Micro Devices (AMD)
 https://siqueira.tech
 
---aswdu57iq62gcvs6
+--yarmh4qjkc74q7rn
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl1uYUIACgkQWJzP/com
-vP/oaA//TTSZpIP1tYDeccQZ9Ud11QtDKpuFtpzQsBcwflXvx6jISlD3cFz6EGlf
-N/XlkF7QY8asp0GL3mUiJajW0ops7LJ7gt9heTvChJ5ikjGnDGHqK6UT/IaEJO2l
-rXFa2AoWZQfqVtOtZunjsFiXe3Bx5IneiQOoSazNdyy56rGAnj9HgB3UZMNgR9/I
-HV4jdzQGnHA5BOsusWPrK2roRm9UmjaOG4MPa6Zmv0G8brpq1ptiyh8go86mZ2KF
-3bWwpRN8ggGANzMtFlEjev3UVt9V6qPxZxRdXKTRp316Teu9vNULh0AfAgxR4pLI
-PXuGSLg9vCd2M1XEbfo4Zr0OjZx9y28lvSEcpMPpx4LE6s29NpEkHEPj/LXHwaw5
-vwg6vA+Me05ZkIZ5AfQL+fegYOZD9abaDlI2ZiUuVuTyC02KPnkuJyPAqMr1gbxK
-wHRboIrfvQW19oo6s3g8AWrLGWdI5bmdon8V1UB9LidEMyzcfqauIlRc4esBxrQL
-3N4ogQ6iDDRQ5m+JniCMgwwBJzvILcwhu9T+h0NyMPpqZVauRq3TKN8nsfmuTC2e
-NY9w1dpD3REokcm95xAVfjSbO4k5Km7I7SRuIGw4i91MjSnx6CjYDwAlWMT49ZF4
-MSbSjqm3z+5Uvdnzv45ad5U/KkdBicH66it0/qkG3sCLoC3P7po=
-=+Ymn
+iQIzBAEBCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl1uYZQACgkQWJzP/com
+vP9+hA/+KlJu2cW+Qi84gCDTbQhtlHO2k0hRdE6YTPytQy6qVaUH+Cmz7H+2RGJH
+QT7lgoeCg8WqyBJrCEYRQWYZtm4mBHml+GQ2ZlkIA5L43vjlWiOFhH29l8+T+/ML
+rHTJ9VCRPWXXp3z4qBLb+KynMA8Mf46SKMINq9k2SAb/R6HXIENdwAWmvwS4sluS
+0kxCP30/BwcgbMvL+s7+K/pS34/mzug5lZOkkS2LwZW8md2dMKrt1zIfEgCLGqDD
+ncLxx/scKDR3LTvwsye+YgnVZN2TmUnt7pkyy+GSBgoncZ5VbgGIinKfj9WNF2GB
+9rPHyjJIAfivucDdIm6BVV8V1ONjtiEYOgFzJ1gDmajqPnwYUi1i4qTWPgAxNn5B
++5mSj1Wh2vBom6569Jn0/dj+K4OM5wn5YW2x41/t1Zc/7DtLRj2rjm5FURPALRWu
+3qu+zOxQUro7g/FYKbP0DA5kXC/x5ulh+Rg7Ug8emCDNNV7onyG2gFeBuJVHCPyr
+dc+hrxjkgjCV82Hgv3pp3gUkAt8Xn7BbNVeK0XCMj18cerz5jhE7hNj0+rqBbP/P
+163+bK0fGkUCcTsmuF/rL1gQBWP/bX+WLjtQkCXE2dr8pU0EZp1U0npG65nkg2DA
+OAYZ23kWEc1nSdzIz9jF13zlJobDI7PhwjcfQ99V4aiAc5MfTgo=
+=HLgx
 -----END PGP SIGNATURE-----
 
---aswdu57iq62gcvs6--
+--yarmh4qjkc74q7rn--
 
---===============1081521240==
+--===============0971651684==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -177,4 +228,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1081521240==--
+--===============0971651684==--
