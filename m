@@ -2,99 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A277A6991
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 15:19:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 465A3A69B2
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 15:25:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C74F891AC;
-	Tue,  3 Sep 2019 13:19:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B879E892B7;
+	Tue,  3 Sep 2019 13:25:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21532891AC
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2019 13:19:18 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20190903131916euoutp01edb5e87214d074bca0d2f4703369b67e~A8C9aG7N22579525795euoutp01d
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2019 13:19:16 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20190903131916euoutp01edb5e87214d074bca0d2f4703369b67e~A8C9aG7N22579525795euoutp01d
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20190903131915eucas1p2937a3faac418173bfb3d386f27190449~A8C8dUU7F2832828328eucas1p2c;
- Tue,  3 Sep 2019 13:19:15 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 91.96.04309.3586E6D5; Tue,  3
- Sep 2019 14:19:15 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20190903131914eucas1p291f7d917e8a39f2bcdc253b7b32144ce~A8C7mzpkK0727407274eucas1p2e;
- Tue,  3 Sep 2019 13:19:14 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20190903131914eusmtrp2212fe6f17d80ecebe097a9ba9ade4643~A8C7Yu6oR2389423894eusmtrp2C;
- Tue,  3 Sep 2019 13:19:14 +0000 (GMT)
-X-AuditID: cbfec7f4-ae1ff700000010d5-5e-5d6e68535e14
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 52.2D.04117.2586E6D5; Tue,  3
- Sep 2019 14:19:14 +0100 (BST)
-Received: from [106.120.51.74] (unknown [106.120.51.74]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20190903131913eusmtip185fb3280ad2649e347010e2bf2ed0b29~A8C694DA80205502055eusmtip1K;
- Tue,  3 Sep 2019 13:19:13 +0000 (GMT)
-Subject: Re: [PATCH] drm/vgem: Added page prefaulting
-To: Szymon Andrzejuk <s.andrzejuk@samsung.com>, dri-devel@lists.freedesktop.org
-From: Andrzej Hajda <a.hajda@samsung.com>
-Message-ID: <d6792ae4-e4e4-f585-10f8-af9bfa232b23@samsung.com>
-Date: Tue, 3 Sep 2019 15:19:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 626B3892B7
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2019 13:25:30 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5ED3A72161; Tue,  3 Sep 2019 13:25:30 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110850] Vlc fails to decode video using vaapi
+Date: Tue, 03 Sep 2019 13:25:30 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 19.1
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: kle@bluewin.ch
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110850-502-B5PExnRsAF@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110850-502@http.bugs.freedesktop.org/>
+References: <bug-110850-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20190820065830.GA11255@AMDC3964.digital.local>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrCKsWRmVeSWpSXmKPExsWy7djP87rBGXmxBl/mc1j0njvJZPF/20Rm
- iwO/3rNaXPn6ns3iaddbNovLl04xWTTO62O22H/pKbvF3Q1nGR04PVov/WXzmN1wkcVjx90l
- jB57vy1g8Vi85yWTx/ZvD1g97ncfZ/Lo27KKMYAjissmJTUnsyy1SN8ugSujpXcqc8Fzt4qF
- hw+xNDDuM+ti5OSQEDCRaD10iamLkYtDSGAFo8TdDX0sEM4XRom+rWegnM+MEut/dTLDtHw6
- 8ZgNIrGcUeL/zmNQzltGiY+rm5lAqoQFTCX2TuxmBbFFBAIllv88zw5SxAwyavXdW4wgCTYB
- TYm/m2+ygdi8AnYSTx7eB1rBwcEioCKxfH0xSFhUIELi04PDrBAlghInZz5hAbE5BWwk+t40
- gdnMAvISzVtnM0PY4hK3nswHe0hC4Bq7xJ7PrxghznaR2DdnEhOELSzx6vgWdghbBuiD+VDx
- eon7K1qYIZo7GCW2btgJ9bO1xOHjF1lBjmMGOnr9Ln0QU0LAUeLztBgIk0/ixltBiBP4JCZt
- m84MEeaV6GgTgpihKHH/7FaoeeISSy98ZZvAqDQLyWOzkDwzC8kzsxDWLmBkWcUonlpanJue
- WmyUl1quV5yYW1yal66XnJ+7iRGYtk7/O/5lB+OuP0mHGAU4GJV4eHf45cUKsSaWFVfmHmKU
- 4GBWEuEN3ZMTK8SbklhZlVqUH19UmpNafIhRmoNFSZy3muFBtJBAemJJanZqakFqEUyWiYNT
- qoExaXXr79KLvLs9HSfkmqY3PvhszqI3OfbiZYYWVjcN+dM3eBSqFlR4XZFLmrs+yky1c5tR
- ltn6b81nv9lU1sheSHNmSrypqfP85qn5O92qLt/S3/aM3Tbs5cOojZzzDC6VLD+dbvZk5dFp
- aVa5EnVX83cuOqlud+mfqUfO/Pwbkpq8IrXWhtxKLMUZiYZazEXFiQAQrVS4VwMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrBIsWRmVeSWpSXmKPExsVy+t/xu7pBGXmxBhPuC1j0njvJZPF/20Rm
- iwO/3rNaXPn6ns3iaddbNovLl04xWTTO62O22H/pKbvF3Q1nGR04PVov/WXzmN1wkcVjx90l
- jB57vy1g8Vi85yWTx/ZvD1g97ncfZ/Lo27KKMYAjSs+mKL+0JFUhI7+4xFYp2tDCSM/Q0kLP
- yMRSz9DYPNbKyFRJ384mJTUnsyy1SN8uQS+jpXcqc8Fzt4qFhw+xNDDuM+ti5OSQEDCR+HTi
- MVsXIxeHkMBSRokzCx8zQSTEJXbPf8sMYQtL/LnWBVX0mlFixtlHLCAJYQFTib0Tu1lBbBGB
- QIn/K5sYQYqYBT4zSryaNQuqox+o49sasA42AU2Jv5tvsoHYvAJ2Ek8e3gdawcHBIqAisXx9
- MUhYVCBC4vCOWYwQJYISJ2c+AWvlFLCR6HvTBGYzC6hL/Jl3iRnClpdo3jobyhaXuPVkPtME
- RqFZSNpnIWmZhaRlFpKWBYwsqxhFUkuLc9Nzi430ihNzi0vz0vWS83M3MQJjdduxn1t2MHa9
- Cz7EKMDBqMTDu8MvL1aINbGsuDL3EKMEB7OSCG/onpxYId6UxMqq1KL8+KLSnNTiQ4ymQL9N
- ZJYSTc4HppG8knhDU0NzC0tDc2NzYzMLJXHeDoGDMUIC6YklqdmpqQWpRTB9TBycUg2M3A5T
- vPOL/BWe7/wVemPlba2r1x8HPdQXvD+xZn1y08y9B66dqcvj1ZxyenLdQmH348k3uTdk7xES
- eu9eU7tX9O3XtgK+Cbc+lHxbuVI0iuvseSmmsHBDX4bHbp1uWcozvopxvXqqvMFOSHSLn5cP
- R/WsoL4rFi/O1V37+C9fijdX4Idx1uVPSizFGYmGWsxFxYkAVUtnl+sCAAA=
-X-CMS-MailID: 20190903131914eucas1p291f7d917e8a39f2bcdc253b7b32144ce
-X-Msg-Generator: CA
-X-RootMTR: 20190820065832eucas1p182359d7501af8c027e7f3a4f4ad4d5e3
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20190820065832eucas1p182359d7501af8c027e7f3a4f4ad4d5e3
-References: <CGME20190820065832eucas1p182359d7501af8c027e7f3a4f4ad4d5e3@eucas1p1.samsung.com>
- <20190820065830.GA11255@AMDC3964.digital.local>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=samsung.com; 
- s=mail20170921; t=1567516756;
- bh=ub6j34nN8agewwJJ3kHEMXxtiKxWllU5heWAox+ZDmk=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=KyAW64KlVcID40I3/5heV74ox71cGiZHXzDuKgwXC8yBLIono39qLENBX9nqM3p+x
- ZsfAfqRk7bK+xEtrDWYCrOyW8Lx54vNBmcCQvatchjaSOVY0QDMPB8/e8mVFMFimD0
- u+AtHtU2lUkkH/h6nPxS9C4ouw8QhadG0bGq87CM=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -107,167 +52,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: p.rak@samsung.com, Deepak Sharma <deepak.sharma@amd.com>,
- David Airlie <airlied@linux.ie>, Sean Paul <seanpaul@chromium.org>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1405701499=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-K0NDOiAkKC4vc2NyaXB0L2dldF9tYWludGFpbmVycy5wbCBkcml2ZXJzL2dwdS9kcm0vdmdlbS92
-Z2VtX2Rydi5jKQoKCk9uIDIwLjA4LjIwMTkgMDg6NTgsIFN6eW1vbiBBbmRyemVqdWsgd3JvdGU6
-Cj4gUGFnZSBmYXVsdCBoYW5kbGVyIGluc2lkZSB2Z2VtIGRyaXZlciBub3cgcHJlYWxsb2NhdGVz
-IHBhZ2VzIGluIGFkdmFuY2UKPiB3aGVuIGZhdWx0IG9jY3VycyBmb3IgdGhlIGZpcnN0IHRpbWUu
-IFBhZ2VzIGNhbiBiZSBhbGxvY2F0ZWQgaW4KPiBkaXJlY3Rpb24gb2YgaW5jcmVhc2luZy9kZWNy
-ZWFzaW5nIGFkZHJlc3NlcywgZGVwZW5kaW5nIG9uIG1lbW9yeSBhY2Nlc3MKPiBwcm9maWxlLiBJ
-biBjYXNlIG9mIHJhbmRvbSBhY2Nlc3Mgbm8gcHJlYWxsb2NhdGlvbiBvY2N1cnMuCj4KPiBTeW50
-aGV0aWMgYmVuY2htYXJrIHNob3dlZCBvdmVyIDh4IGJhbmR3aWR0aCBpbmNyZWFzZSB3aGVuIGNv
-cHlpbmcgZGF0YQo+IGZyb20gbW1hcHBlZCB2Z2VtIGJ1ZmZlciB3aXRoIG1lbWNweSBhbmQgfjE2
-MCB0aW1lcyB3aGVuIGFjY2Vzc2luZyBtYXBwZWQKPiBidWZmZXIgc2VxdWVudGlhbGx5LiBDb21w
-aWxlZCB3aXRoIGdjYyA4LjIuMCB3aXRoIC1PMiBmbGFnLgo+IFVuaWdpbmUgSGVhdmVuIHJ1bm5p
-bmcgb24gY3VzdG9tIHZpcmdsIHZ0ZXN0IHZpcnR1YWwgR1BVIHdpdGggdmdlbSBidWZmZXJzCj4g
-c2VlcyB+MTclIEZQUyBpbmNyZWFzZS4KPgo+IFRoaXMgcGVyZm9ybWFuY2UgaW5jcmVhc2Ugb25s
-eSBvY2N1cnMgd2hlbiBhY2Nlc3NpbmcgdmdlbSBidWZmZXIgbWFwcGVkCj4gdXNpbmcgRFJNX0lP
-Q1RMX01PREVfTUFQX0RVTUIgaW9jdGwuIFdoZW4gYWNjZXNzaW5nIGJ1ZmZlciBpbXBvcnRlZAo+
-IGZyb20gcHJpbWUgZmQgdGhlIHZnZW0gcGFnZSBmYXVsdCBoYW5kbGVyIGlzIG5vdCBpbnZva2Vk
-LiBJdCdzIGFkdmlzZWQKPiB0byB1c2UgdmVjdG9yIHN0cmVhbWluZyBjb3B5IGluc3RydWN0aW9u
-cyBhbmQgYXZvaWQgc2VxdWVudGlhbCBhY2Nlc3Nlcwo+IGluIHRoaXMgY2FzZS4gU3RyZWFtaW5n
-IGNvcHkgYnJpbmdzIHRoZSBwZXJmb3JtYW5jZSB0byBiZSBvbiBwYXIgd2l0aAo+IHNpbWlsYXIg
-YnVmZmVyIGFsbG9jYXRlZCB3aXRoIG1lbWZkX2NyZWF0ZSgyKSBzeXNjYWxsLgo+Cj4gU2lnbmVk
-LW9mZi1ieTogU3p5bW9uIEFuZHJ6ZWp1ayA8cy5hbmRyemVqdWtAc2Ftc3VuZy5jb20+Cj4gLS0t
-Cj4gIGRyaXZlcnMvZ3B1L2RybS92Z2VtL3ZnZW1fZHJ2LmMgfCAxNzcgKysrKysrKysrKysrKysr
-KysrKysrKysrKystLS0tLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDE0MyBpbnNlcnRpb25zKCspLCAz
-NCBkZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdmdlbS92Z2Vt
-X2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL3ZnZW0vdmdlbV9kcnYuYwo+IGluZGV4IDExYThmOTli
-YTE4Yy4uNzM5YmE4NDFlODljIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92Z2VtL3Zn
-ZW1fZHJ2LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdmdlbS92Z2VtX2Rydi5jCj4gQEAgLTM0
-LDYgKzM0LDcgQEAKPiAgI2luY2x1ZGUgPGxpbnV4L3JhbWZzLmg+Cj4gICNpbmNsdWRlIDxsaW51
-eC9zaG1lbV9mcy5oPgo+ICAjaW5jbHVkZSA8bGludXgvZG1hLWJ1Zi5oPgo+ICsjaW5jbHVkZSA8
-bGludXgvcGZuX3QuaD4KPiAgI2luY2x1ZGUgInZnZW1fZHJ2LmgiCj4gIAo+ICAjZGVmaW5lIERS
-SVZFUl9OQU1FCSJ2Z2VtIgo+IEBAIC01MCw4ICs1MSwyMSBAQCBzdGF0aWMgc3RydWN0IHZnZW1f
-ZGV2aWNlIHsKPiAgc3RhdGljIHZvaWQgdmdlbV9nZW1fZnJlZV9vYmplY3Qoc3RydWN0IGRybV9n
-ZW1fb2JqZWN0ICpvYmopCj4gIHsKPiAgCXN0cnVjdCBkcm1fdmdlbV9nZW1fb2JqZWN0ICp2Z2Vt
-X29iaiA9IHRvX3ZnZW1fYm8ob2JqKTsKPiArCWludCBpOwo+ICsKPiArCW11dGV4X2xvY2soJnZn
-ZW1fb2JqLT5wYWdlc19sb2NrKTsKPiArCWlmICh2Z2VtX29iai0+cGFnZXMpIHsKPiArCQlpbnQg
-bnVtX3BhZ2VzID0gb2JqLT5zaXplID4+IFBBR0VfU0hJRlQ7Cj4gKwo+ICsJCWZvciAoaSA9IDA7
-IGkgPCBudW1fcGFnZXM7IGkrKykgewo+ICsJCQlpZiAodmdlbV9vYmotPnBhZ2VzW2ldKQo+ICsJ
-CQkJcHV0X3BhZ2UodmdlbV9vYmotPnBhZ2VzW2ldKTsKPiArCQl9Cj4gKwkJa3ZmcmVlKHZnZW1f
-b2JqLT5wYWdlcyk7Cj4gKwkJdmdlbV9vYmotPnBhZ2VzID0gTlVMTDsKPiArCX0KPiArCW11dGV4
-X3VubG9jaygmdmdlbV9vYmotPnBhZ2VzX2xvY2spOwo+ICAKPiAtCWt2ZnJlZSh2Z2VtX29iai0+
-cGFnZXMpOwo+ICAJbXV0ZXhfZGVzdHJveSgmdmdlbV9vYmotPnBhZ2VzX2xvY2spOwo+ICAKPiAg
-CWlmIChvYmotPmltcG9ydF9hdHRhY2gpCj4gQEAgLTYxLDYgKzc1LDcyIEBAIHN0YXRpYyB2b2lk
-IHZnZW1fZ2VtX2ZyZWVfb2JqZWN0KHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqKQo+ICAJa2Zy
-ZWUodmdlbV9vYmopOwo+ICB9Cj4gIAo+ICtzdGF0aWMgaW50IF9fdmdlbV9hbGxvY19wYWdlKHN0
-cnVjdCBwYWdlICpwYWdlLCBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSwKPiArCQkJCQkJCSB1
-bnNpZ25lZCBsb25nIHZhZGRyLCBpbnQgcGFnZV9udW0pCgoKdW51c2VkIHBhZ2VfbnVtCgoKPiAr
-ewo+ICsJdW5zaWduZWQgbG9uZyBwZm47Cj4gKwlpbnQgaW5zZXJ0X3JldDsKPiArCj4gKwlwZm4g
-PSBwYWdlX3RvX3BmbihwYWdlKTsKPiArCWluc2VydF9yZXQgPSB2bWZfaW5zZXJ0X21peGVkKHZt
-YSwgdmFkZHIsIF9fcGZuX3RvX3Bmbl90KHBmbiwgUEZOX0RFVikpOwo+ICsKPiArCWlmIChpbnNl
-cnRfcmV0ICYgVk1fRkFVTFRfRVJST1IpCj4gKwkJcmV0dXJuIFZNX0ZBVUxUX0VSUk9SOwoKCklz
-IGl0IE9LIHRvIHJldHVybiBtYXNrPyBpbnN0ZWFkIG9mIGluc2VydF9yZXQuCgoKPiArCj4gKwly
-ZXR1cm4gMDsKPiArfQo+ICsKPiArc3RhdGljIGludCBfX3ZnZW1fcmVhZF9tYXBwaW5nX3BhZ2Uo
-c3RydWN0IGRybV92Z2VtX2dlbV9vYmplY3QgKm9iaiwKPiArCQkJCQkJCQkJaW50IHBhZ2VfbnVt
-LCBzdHJ1Y3QgcGFnZSAqKnBhZ2UpCj4gK3sKPiArCWludCByZXQ7Cj4gKwlzdHJ1Y3QgcGFnZSAq
-bWFwcGVkX3BhZ2U7Cj4gKwo+ICsJbWFwcGVkX3BhZ2UgPSBzaG1lbV9yZWFkX21hcHBpbmdfcGFn
-ZShmaWxlX2lub2RlKG9iai0+YmFzZS5maWxwKS0+aV9tYXBwaW5nLAo+ICsJCQkJCQkJCQkJICBw
-YWdlX251bSk7Cj4gKwlpZiAoSVNfRVJSKHBhZ2UpKSB7Cj4gKwkJc3dpdGNoIChQVFJfRVJSKHBh
-Z2UpKSB7Cj4gKwkJY2FzZSAtRU5PU1BDOgo+ICsJCWNhc2UgLUVOT01FTToKPiArCQkJcmV0ID0g
-Vk1fRkFVTFRfT09NOwo+ICsJCQlicmVhazsKPiArCQljYXNlIC1FQlVTWToKPiArCQkJcmV0ID0g
-Vk1fRkFVTFRfUkVUUlk7Cj4gKwkJCWJyZWFrOwo+ICsJCWNhc2UgLUVGQVVMVDoKPiArCQljYXNl
-IC1FSU5WQUw6Cj4gKwkJCXJldCA9IFZNX0ZBVUxUX1NJR0JVUzsKPiArCQkJYnJlYWs7Cj4gKwkJ
-ZGVmYXVsdDoKPiArCQkJV0FSTl9PTihQVFJfRVJSKHBhZ2UpKTsKPiArCQkJcmV0ID0gVk1fRkFV
-TFRfU0lHQlVTOwo+ICsJCQlicmVhazsKPiArCQl9Cj4gKwo+ICsJCXJldHVybiByZXQ7Cj4gKwl9
-Cj4gKwo+ICsJKnBhZ2UgPSBtYXBwZWRfcGFnZTsKPiArCXJldHVybiAwOwo+ICt9Cj4gKwo+ICtz
-dGF0aWMgaW50IF9fdmdlbV9wcmVwYXJlX3NpbmdsZV9wYWdlKHN0cnVjdCBkcm1fdmdlbV9nZW1f
-b2JqZWN0ICpvYmosCj4gKwkJCQkJCQkJCSAgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEsCj4g
-KwkJCQkJCQkJCSAgaW50IHBhZ2VfbnVtLCB1bnNpZ25lZCBsb25nIHZhZGRyKQo+ICt7Cj4gKwlp
-bnQgcmV0Owo+ICsKPiArCXJldCA9IF9fdmdlbV9yZWFkX21hcHBpbmdfcGFnZShvYmosIHBhZ2Vf
-bnVtLCAmb2JqLT5wYWdlc1twYWdlX251bV0pOwo+ICsJaWYgKHJldCkKPiArCQlyZXR1cm4gcmV0
-Owo+ICsKPiArCXJldCA9IF9fdmdlbV9hbGxvY19wYWdlKG9iai0+cGFnZXNbcGFnZV9udW1dLCB2
-bWEsIHZhZGRyLCBwYWdlX251bSk7Cj4gKwlpZiAocmV0KQo+ICsJCXJldHVybiByZXQ7CgoKT25l
-IGNhbiB1c2UgcmV0dXJuIF9fdmdlbV9hbGxvY19wYWdlKC4uLiksIHVwIHRvIHlvdS4KCgo+ICsK
-PiArCXJldHVybiAwOwo+ICt9Cj4gKwo+ICBzdGF0aWMgdm1fZmF1bHRfdCB2Z2VtX2dlbV9mYXVs
-dChzdHJ1Y3Qgdm1fZmF1bHQgKnZtZikKPiAgewo+ICAJc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2
-bWEgPSB2bWYtPnZtYTsKPiBAQCAtNzAsNiArMTUwLDggQEAgc3RhdGljIHZtX2ZhdWx0X3Qgdmdl
-bV9nZW1fZmF1bHQoc3RydWN0IHZtX2ZhdWx0ICp2bWYpCj4gIAl2bV9mYXVsdF90IHJldCA9IFZN
-X0ZBVUxUX1NJR0JVUzsKPiAgCWxvZmZfdCBudW1fcGFnZXM7Cj4gIAlwZ29mZl90IHBhZ2Vfb2Zm
-c2V0Owo+ICsJaW50IHBhZ2VfbnVtLCBwYWdlX3ByZXBfcmV0Owo+ICsJY29uc3QgaW50IFBSRUZB
-VUxUX1BBR0VTID0gODsKPiAgCXBhZ2Vfb2Zmc2V0ID0gKHZhZGRyIC0gdm1hLT52bV9zdGFydCkg
-Pj4gUEFHRV9TSElGVDsKPiAgCj4gIAludW1fcGFnZXMgPSBESVZfUk9VTkRfVVAob2JqLT5iYXNl
-LnNpemUsIFBBR0VfU0laRSk7Cj4gQEAgLTc3LDQxICsxNTksNjAgQEAgc3RhdGljIHZtX2ZhdWx0
-X3QgdmdlbV9nZW1fZmF1bHQoc3RydWN0IHZtX2ZhdWx0ICp2bWYpCj4gIAlpZiAocGFnZV9vZmZz
-ZXQgPj0gbnVtX3BhZ2VzKQo+ICAJCXJldHVybiBWTV9GQVVMVF9TSUdCVVM7Cj4gIAo+ICsJcmV0
-ID0gVk1fRkFVTFRfTk9QQUdFOwo+ICsKPiAgCW11dGV4X2xvY2soJm9iai0+cGFnZXNfbG9jayk7
-Cj4gLQlpZiAob2JqLT5wYWdlcykgewo+IC0JCWdldF9wYWdlKG9iai0+cGFnZXNbcGFnZV9vZmZz
-ZXRdKTsKPiAtCQl2bWYtPnBhZ2UgPSBvYmotPnBhZ2VzW3BhZ2Vfb2Zmc2V0XTsKPiAtCQlyZXQg
-PSAwOwo+IC0JfQo+IC0JbXV0ZXhfdW5sb2NrKCZvYmotPnBhZ2VzX2xvY2spOwo+IC0JaWYgKHJl
-dCkgewo+IC0JCXN0cnVjdCBwYWdlICpwYWdlOwo+IC0KPiAtCQlwYWdlID0gc2htZW1fcmVhZF9t
-YXBwaW5nX3BhZ2UoCj4gLQkJCQkJZmlsZV9pbm9kZShvYmotPmJhc2UuZmlscCktPmlfbWFwcGlu
-ZywKPiAtCQkJCQlwYWdlX29mZnNldCk7Cj4gLQkJaWYgKCFJU19FUlIocGFnZSkpIHsKPiAtCQkJ
-dm1mLT5wYWdlID0gcGFnZTsKPiAtCQkJcmV0ID0gMDsKPiAtCQl9IGVsc2Ugc3dpdGNoIChQVFJf
-RVJSKHBhZ2UpKSB7Cj4gLQkJCWNhc2UgLUVOT1NQQzoKPiAtCQkJY2FzZSAtRU5PTUVNOgo+IC0J
-CQkJcmV0ID0gVk1fRkFVTFRfT09NOwo+IC0JCQkJYnJlYWs7Cj4gLQkJCWNhc2UgLUVCVVNZOgo+
-IC0JCQkJcmV0ID0gVk1fRkFVTFRfUkVUUlk7Cj4gLQkJCQlicmVhazsKPiAtCQkJY2FzZSAtRUZB
-VUxUOgo+IC0JCQljYXNlIC1FSU5WQUw6Cj4gLQkJCQlyZXQgPSBWTV9GQVVMVF9TSUdCVVM7Cj4g
-LQkJCQlicmVhazsKPiAtCQkJZGVmYXVsdDoKPiAtCQkJCVdBUk5fT04oUFRSX0VSUihwYWdlKSk7
-Cj4gLQkJCQlyZXQgPSBWTV9GQVVMVF9TSUdCVVM7Cj4gLQkJCQlicmVhazsKPiArCj4gKwlpZiAo
-bnVtX3BhZ2VzID4gMSkgewo+ICsJCWJvb2wgZm9yd2FyZCA9IHRydWU7Cj4gKwkJYm9vbCByYW5k
-b20gPSBmYWxzZTsKPiArCj4gKwkJLy8gRGV0ZXJtaW5lIHByZWZhdWx0aW5nIGRpcmVjdGlvbi4g
-SWYgYWRqYWNlbnQgcGFnZXMgYXJlIGJvdGgKPiArCQkvLyBhbGxvY2F0ZWQvbm90IGFsbG9jYXRl
-ZCB0aGVuIHdlIGhhdmUgcmFuZG9tIGFjY2Vzcy4KPiArCQkvLyBBbHdheXMgdHJ5IHRvIHByZWZh
-dWx0IG9uIGZpcnN0IGFuZCBsYXN0IHBhZ2UuCj4gKwkJaWYgKHBhZ2Vfb2Zmc2V0ICE9IDAgJiYg
-cGFnZV9vZmZzZXQgIT0gbnVtX3BhZ2VzIC0gMSkgewo+ICsJCQlzdHJ1Y3QgcGFnZSAqbmV4dCwg
-KnByZXY7Cj4gKwo+ICsJCQluZXh0ID0gb2JqLT5wYWdlc1twYWdlX29mZnNldCArIDFdOwo+ICsJ
-CQlwcmV2ID0gb2JqLT5wYWdlc1twYWdlX29mZnNldCAtIDFdOwo+ICsJCQlpZiAoISgodWludHB0
-cl90KW5leHQgXiAodWludHB0cl90KXByZXYpKQo+ICsJCQkJcmFuZG9tID0gdHJ1ZTsKPiArCQkJ
-ZWxzZSBpZiAoIXByZXYpCj4gKwkJCQlmb3J3YXJkID0gZmFsc2U7Cj4gKwkJfSBlbHNlIHsKPiAr
-CQkJZm9yd2FyZCA9IChwYWdlX29mZnNldCA9PSAwKTsKPiAgCQl9CgoKUXVpdGUgY29tcGxpY2F0
-ZWQswqAgbWF5YmUgc3RoIGxpa2UgdGhpczoKCsKgwqDCoCBib29sIG5leHQsIHByZXY7CgrCoMKg
-wqAgbmV4dCA9IG9iai0+cGFnZXNbcGFnZV9vZmZzZXQgKyAxXTsKCsKgwqDCoCBwcmV2ID0gb2Jq
-LT5wYWdlc1twYWdlX29mZnNldCAtIDFdOwoKwqDCoMKgIGlmIChwcmV2ID09IG5leHQpCgrCoMKg
-wqAgwqDCoMKgIHJhbmRvbSA9IHRydWU7CgoKPiAgCj4gKwkJaWYgKCFyYW5kb20pIHsKPiArCQkJ
-Zm9yIChwYWdlX251bSA9IHBhZ2Vfb2Zmc2V0Owo+ICsJCQkJZm9yd2FyZCA/IHBhZ2VfbnVtIDwg
-cGFnZV9vZmZzZXQgKyBQUkVGQVVMVF9QQUdFUyAmJiBwYWdlX251bSA8IG51bV9wYWdlcyA6Cj4g
-KwkJCQlwYWdlX29mZnNldCAtIHBhZ2VfbnVtIDwgUFJFRkFVTFRfUEFHRVMgJiYgcGFnZV9udW0g
-Pj0gMDsKPiArCQkJCWZvcndhcmQgPyBwYWdlX251bSsrIDogcGFnZV9udW0tLSkgewoKCkFnYWlu
-IGNvbXBsaWNhdGVkLCB0cnkgcHJlLWNhbGN1bGF0ZSBib3VuZGFyaWVzIGFuZDoKCnN0YXJ0X3Bh
-Z2UgPSAuLi47CgplbmRfcGFnZSA9IC4uLjsKCnN0ZXAgPSBmb3J3YXJkID8gMSA6IC0xOwoKZm9y
-IChwYWdlX251bSA9IHN0YXJ0X3BhZ2U7IHBhZ2VfbnVtIDwgZW5kX3BhZ2U7IHBhZ2VfbnVtICs9
-IHN0ZXApCgrCoMKgwqAgLi4uCgoKPiArCQkJCWlmICghb2JqLT5wYWdlc1twYWdlX251bV0pIHsK
-PiArCQkJCQlwYWdlX3ByZXBfcmV0ID0gX192Z2VtX3ByZXBhcmVfc2luZ2xlX3BhZ2Uob2JqLCB2
-bWEsIHBhZ2VfbnVtLCB2YWRkcik7Cj4gKwkJCQkJaWYgKHBhZ2VfcHJlcF9yZXQpIHsKPiArCQkJ
-CQkJcmV0ID0gcGFnZV9wcmVwX3JldDsKPiArCQkJCQkJYnJlYWs7Cj4gKwkJCQkJfQo+ICsJCQkJ
-fSBlbHNlIHsKPiArCQkJCQkvLyByYW5kb20gYWNjZXNzLCBleGl0IGxvb3AKPiArCQkJCQlicmVh
-azsKPiArCQkJCX0KPiArCj4gKwkJCQl2YWRkciA9IHZhZGRyICsgKGZvcndhcmQgPyAxIDogLTEp
-ICogUEFHRV9TSVpFOwoKCnZhZGRyICs9IHN0ZXAgKiBQQUdFX1NJWkU7CgoKUmVnYXJkcwoKQW5k
-cnplagoKCj4gKwkJCX0KPiArCQl9IGVsc2Ugewo+ICsJCQlwYWdlX3ByZXBfcmV0ID0gX192Z2Vt
-X3ByZXBhcmVfc2luZ2xlX3BhZ2Uob2JqLCB2bWEsIHBhZ2Vfb2Zmc2V0LCB2YWRkcik7Cj4gKwkJ
-CWlmIChwYWdlX3ByZXBfcmV0KQo+ICsJCQkJcmV0ID0gcGFnZV9wcmVwX3JldDsKPiArCQl9Cj4g
-Kwl9IGVsc2Ugewo+ICsJCXBhZ2VfcHJlcF9yZXQgPSBfX3ZnZW1fcHJlcGFyZV9zaW5nbGVfcGFn
-ZShvYmosIHZtYSwgcGFnZV9vZmZzZXQsIHZhZGRyKTsKPiArCQlpZiAocGFnZV9wcmVwX3JldCkK
-PiArCQkJcmV0ID0gcGFnZV9wcmVwX3JldDsKPiAgCX0KPiArCj4gKwltdXRleF91bmxvY2soJm9i
-ai0+cGFnZXNfbG9jayk7Cj4gIAlyZXR1cm4gcmV0Owo+ICB9Cj4gIAo+IEBAIC0xODIsNyArMjgz
-LDcgQEAgc3RhdGljIHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqdmdlbV9nZW1fY3JlYXRlKHN0cnVj
-dCBkcm1fZGV2aWNlICpkZXYsCj4gIAkJCQkJICAgICAgdW5zaWduZWQgbG9uZyBzaXplKQo+ICB7
-Cj4gIAlzdHJ1Y3QgZHJtX3ZnZW1fZ2VtX29iamVjdCAqb2JqOwo+IC0JaW50IHJldDsKPiArCWlu
-dCByZXQsIG51bV9wYWdlczsKPiAgCj4gIAlvYmogPSBfX3ZnZW1fZ2VtX2NyZWF0ZShkZXYsIHNp
-emUpOwo+ICAJaWYgKElTX0VSUihvYmopKQo+IEBAIC0xOTMsNiArMjk0LDEzIEBAIHN0YXRpYyBz
-dHJ1Y3QgZHJtX2dlbV9vYmplY3QgKnZnZW1fZ2VtX2NyZWF0ZShzdHJ1Y3QgZHJtX2RldmljZSAq
-ZGV2LAo+ICAJaWYgKHJldCkKPiAgCQlyZXR1cm4gRVJSX1BUUihyZXQpOwo+ICAKPiArCW11dGV4
-X2xvY2soJm9iai0+cGFnZXNfbG9jayk7Cj4gKwo+ICsJbnVtX3BhZ2VzID0gb2JqLT5iYXNlLnNp
-emUgPj4gUEFHRV9TSElGVDsKPiArCW9iai0+cGFnZXMgPSBrdmNhbGxvYyhudW1fcGFnZXMsIHNp
-emVvZihzdHJ1Y3QgcGFnZSAqKSwgR0ZQX0tFUk5FTCk7Cj4gKwo+ICsJbXV0ZXhfdW5sb2NrKCZv
-YmotPnBhZ2VzX2xvY2spOwo+ICsKPiAgCXJldHVybiAmb2JqLT5iYXNlOwo+ICB9Cj4gIAo+IEBA
-IC0yNjIsNyArMzcwLDggQEAgc3RhdGljIGludCB2Z2VtX21tYXAoc3RydWN0IGZpbGUgKmZpbHAs
-IHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hKQo+ICAJLyogS2VlcCB0aGUgV0MgbW1hcGluZyBz
-ZXQgYnkgZHJtX2dlbV9tbWFwKCkgYnV0IG91ciBwYWdlcwo+ICAJICogYXJlIG9yZGluYXJ5IGFu
-ZCBub3Qgc3BlY2lhbC4KPiAgCSAqLwo+IC0Jdm1hLT52bV9mbGFncyA9IGZsYWdzIHwgVk1fRE9O
-VEVYUEFORCB8IFZNX0RPTlREVU1QOwo+ICsJdm1hLT52bV9mbGFncyA9IGZsYWdzIHwgVk1fRE9O
-VEVYUEFORCB8IFZNX0RPTlREVU1QIHwgVk1fTUlYRURNQVA7Cj4gKwo+ICAJcmV0dXJuIDA7Cj4g
-IH0KPiAgCj4KPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbAoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1405701499==
+Content-Type: multipart/alternative; boundary="15675171302.A6DAEfd.11167"
+Content-Transfer-Encoding: 7bit
+
+
+--15675171302.A6DAEfd.11167
+Date: Tue, 3 Sep 2019 13:25:30 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110850
+
+--- Comment #1 from C. Leu <kle@bluewin.ch> ---
+(In reply to Akarshan Biswas from comment #0)
+
+I can confirm a similar issue. In my case, the problem occurs on older Rade=
+on
+hardware (HD 3650) which uses the r600 driver. The result is the same, no
+hardware acceleration is possible through the integrated unified video deco=
+der
+(UVD). CPU has around 100% load.
+
+It seems that the VA-API is broken, at least for certain systems.
+
+Mesa version: 19.0.8
+
+OS: Kubuntu 18.04.3 LTS with kernel 5.0.0-27
+
+Kaffeine: 2.0.18
+
+Error message:
+
+libva info: VA-API version 1.1.0
+libva info: va_getDriverName() returns 0
+libva info: Trying to open /usr/lib/x86_64-linux-gnu/dri/r600_drv_video.so
+libva info: Found init function __vaDriverInit_1_1
+libva info: va_openDriver() returns 0
+[00007fabb0002bd0] glconv_vaapi_x11 gl error: vaDeriveImage: invalid
+VAImageFormat
+[00007fabbc1cbe10] main video output error: video output creation failed
+[00007fabe8031800] main decoder error: failed to create video output
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15675171302.A6DAEfd.11167
+Date: Tue, 3 Sep 2019 13:25:30 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Vlc fails to decode video using vaapi"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110850#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Vlc fails to decode video using vaapi"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110850">bug 11085=
+0</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+kle&#64;bluewin.ch" title=3D"C. Leu &lt;kle&#64;bluewin.ch&gt;"> <span clas=
+s=3D"fn">C. Leu</span></a>
+</span></b>
+        <pre>(In reply to Akarshan Biswas from <a href=3D"show_bug.cgi?id=
+=3D110850#c0">comment #0</a>)
+
+I can confirm a similar issue. In my case, the problem occurs on older Rade=
+on
+hardware (HD 3650) which uses the r600 driver. The result is the same, no
+hardware acceleration is possible through the integrated unified video deco=
+der
+(UVD). CPU has around 100% load.
+
+It seems that the VA-API is broken, at least for certain systems.
+
+Mesa version: 19.0.8
+
+OS: Kubuntu 18.04.3 LTS with kernel 5.0.0-27
+
+Kaffeine: 2.0.18
+
+Error message:
+
+libva info: VA-API version 1.1.0
+libva info: va_getDriverName() returns 0
+libva info: Trying to open /usr/lib/x86_64-linux-gnu/dri/r600_drv_video.so
+libva info: Found init function __vaDriverInit_1_1
+libva info: va_openDriver() returns 0
+[00007fabb0002bd0] glconv_vaapi_x11 gl error: vaDeriveImage: invalid
+VAImageFormat
+[00007fabbc1cbe10] main video output error: video output creation failed
+[00007fabe8031800] main decoder error: failed to create video output</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15675171302.A6DAEfd.11167--
+
+--===============1405701499==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1405701499==--
