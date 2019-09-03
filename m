@@ -2,53 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77041A67C9
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 13:49:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4835FA67F7
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Sep 2019 14:00:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13C9B89321;
-	Tue,  3 Sep 2019 11:49:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 625BB8908B;
+	Tue,  3 Sep 2019 12:00:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78F2589291;
- Tue,  3 Sep 2019 11:49:27 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2019 04:49:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,462,1559545200"; d="scan'208";a="266267014"
-Received: from irsmsx109.ger.corp.intel.com ([163.33.3.23])
- by orsmga001.jf.intel.com with ESMTP; 03 Sep 2019 04:49:25 -0700
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.73]) by
- IRSMSX109.ger.corp.intel.com ([169.254.13.11]) with mapi id 14.03.0439.000;
- Tue, 3 Sep 2019 12:49:24 +0100
-From: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
-To: "daniel@ffwll.ch" <daniel@ffwll.ch>
-Subject: Re: [PATCH v3 0/3] Send a hotplug when edid changes
-Thread-Topic: [PATCH v3 0/3] Send a hotplug when edid changes
-Thread-Index: AQHVTFZ9Xb5ovM3/BU6v/tV6RvEfjacCMIaAgBeWVYCAAAcOAIAAI0uA
-Date: Tue, 3 Sep 2019 11:49:23 +0000
-Message-ID: <ff5ad889af108e1d78be513e8705c033d16cf994.camel@intel.com>
-References: <20190806125551.25761-1-stanislav.lisovskiy@intel.com>
- <20190806135150.GZ7444@phenom.ffwll.local>
- <8614f54fd742f9f35979768997e416d36b69563a.camel@intel.com>
- <CAKMK7uHgfviXTqkHsCVmZX97dWFfbysCHtiRVDpSzJ3aheTQkw@mail.gmail.com>
- <5e7dcb14e618796e9cb8a9503cec9d9985c5fd4d.camel@intel.com>
- <20190807210702.GG7444@phenom.ffwll.local>
- <cab2f3a9f9827a993069e402feecc9a9853560a1.camel@intel.com>
- <56A4AB1F0E1B5D4C83D27F43C50F662E590292A2@IRSMSX107.ger.corp.intel.com>
- <ce9f67ad10a2b1f07ab79bc4ac328ef2bd9a2cf4.camel@intel.com>
- <2d8527f7e982148eec6dc8dd80470d4daf4cfa82.camel@intel.com>
- <20190903094052.GP2112@phenom.ffwll.local>
-In-Reply-To: <20190903094052.GP2112@phenom.ffwll.local>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.237.72.89]
-Content-ID: <41ED0A40233358478663FBB3EDF043F0@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 03A458908B
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Sep 2019 12:00:34 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id EF05C72161; Tue,  3 Sep 2019 12:00:33 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111241] Shadertoy shader causing hang
+Date: Tue, 03 Sep 2019 12:00:34 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 19.1
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: pierre-eric.pelloux-prayer@amd.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111241-502-SVcv1lQZew@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111241-502@http.bugs.freedesktop.org/>
+References: <bug-111241-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -62,119 +52,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Peres,
- Martin" <martin.peres@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Mun, 
- Gwan-gyeong" <gwan-gyeong.mun@intel.com>, "Ser, Simon" <simon.ser@intel.com>,
- "Saarinen, Jani" <jani.saarinen@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0642072039=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMDE5LTA5LTAzIGF0IDExOjQwICswMjAwLCBEYW5pZWwgVmV0dGVyIHdyb3RlOg0K
-PiANCj4gPiA+IEluIGZhY3QgSSB3YXMgd3JvbmcgLSB3aGVuIGl0IHdvcmtlZCwgaXQgd2FzIHVz
-aW5nIGV4YWN0bHkgdGhvc2UNCj4gPiA+IHBhdGNoZXMgOikuIFdpdGggY2xlYW4gZHJtLXRpcCAt
-IGl0IHNlZW1zIHRvIHdvcmsgb2Nhc3Npb25hbGx5DQo+ID4gPiBhbmQgaXQNCj4gPiA+IGRvZXNu
-J3QgdXBkYXRlIHRoZSBhY3R1YWwgZGlzcGxheSBlZGlkIGFuZCBvdGhlciBzdHVmZiwgc28gZXZl
-bg0KPiA+ID4gd2hlbg0KPiA+ID4gZGlzcGxheXMgYXJlIGNoYW5nZWQgd2Ugc3RpbGwgc2VlIHRo
-ZSBvbGQgaW5mby9lZGlkIGZyb20NCj4gPiA+IHVzZXJzcGFjZS4NCj4gPiA+IA0KPiA+ID4gV2Ug
-YWx3YXlzIGdldCBhIGhwZCBpcnEgd2hlbiBzdXNwZW5kL3Jlc3VtZSBob3dldmVyIGl0IGRvZXNu
-J3QNCj4gPiA+IGFsd2F5cw0KPiA+ID4gcmVzdWx0IGluIHVldmVudCBiZWluZyBzZW50LiBTbyB0
-aGVyZSBpcyBhIHJlYWwgbmVlZCBpbiB0aG9zZQ0KPiA+ID4gcGF0Y2hlcy4NCj4gPiA+IA0KPiA+
-IA0KPiA+IEp1c3QgZGVjaWRlZCB0byAicGluZyIgdGhpcyBkaXNjdXNzaW9uIGFnYWluLiBUaGUg
-aXNzdWUgaXMgYWxyZWFkeQ0KPiA+IHNvbWUNCj4gPiB5ZWFycyBvbGQgYW5kIHN0aWxsIG5vdGhp
-bmcgaXMgZml4ZWQuIEkgZG8gYWdyZWUgdGhhdCBtYXkgYmUNCj4gPiBzb21ldGhpbmcNCj4gPiBu
-ZWVkcyB0byBiZSBmaXhlZC9jaGFuZ2VkIGhlcmUgaW4gdGhvc2UgcGF0Y2hlcywgYnV0IHNvbWV0
-aGluZyBtdXN0DQo+ID4gYmUNCj4gPiBhZ3JlZWQgYXQgbGVhc3QgSSBndWVzcywgYXMgZGlzY3Vz
-c2lvbnMgdGhlbXNlbGYgZG8gbm90IGZpeCBidWdzLg0KPiA+IEN1cnJlbnRseSB0aG9zZSBwYXRj
-aGVzIGFkZHJlc3MgYSBwYXJ0aWN1bGFyIGlzc3VlIHdoaWNoIG9jY3VycywgaWYNCj4gPiBkaXNw
-bGF5IGlzIGNoYW5nZWQgZHVyaW5nIHN1c3BlbmQuIA0KPiA+IE9uIG9jYXNzaW9uYWwgYmFzaXMs
-IHVzZXJzcGFjZSBtaWdodCBub3QgZ2V0IGEgaG90cGx1ZyBldmVudCBhdA0KPiA+IGFsbCwNCj4g
-PiBjYXVzaW5nIGRpZmZlcmVudCBraW5kIG9mIHByb2JsZW1zKGxpa2Ugd3JvbmcgbW9kZSBzZXQg
-b24gZGlzcGxheQ0KPiA+IG9yDQo+ID4gZGlhcGx5IG5vdCB3b3JraW5nIGF0IGFsbCkuIEFsc28g
-c29tZSBrbXNfY2hhbWVsaXVtIGhvdHBsdWcgdGVzdHMNCj4gPiBmYWlsDQo+ID4gYmVjYXVzZSBv
-ZiB0aGF0LiANCj4gDQo+IEkgc3RpbGwgdGhpbmsgd2UnbGwgbG9uZy10ZXJtIHJlZ3JldCB0aGlz
-IGlmIHdlIGp1c3QgZHVjdC10YXBlIG1vcmUNCj4gc3R1ZmYNCj4gb24gdG9wLCBpbnN0ZWFkIG9m
-IGdpdmluZyB1c2Vyc3BhY2UgYSBtb3JlIGluZm9ybWF0aXZlIHVldmVudC4gVGhpcw0KPiB3aWxs
-DQo+IHNlbmQgbW9yZSB1ZXZlbnRzIHRvIHVzZXJzcGFjZSwgc28gbWF5YmUgdGhlbiB1c2Vyc3Bh
-Y2UgdHJpZXMgdG8NCj4gZmlsdGVyDQo+IG1vcmUgYW5kIGJlIGNsZXZlciwgd2hpY2ggbmV2ZXIg
-d29ya3MsIGFuZCB3ZSdyZSBiYWNrIHRvIHRlYXJzLg0KDQpCdXQgaGVyZSB3ZSBhY3R1YWxseSBk
-byBuZWVkIGEgdWV2ZW50IGFzIGN1cnJlbnRseSB3ZSBkb24ndCBnZXQgYW55IGF0DQphbGwsIGlm
-IGVkaWQgY2hhbmdlcyBkdXJpbmcgc3VzcGVuZC4gSWYgdXNlcnNwYWNlIHdpbGwgdHJ5IHRvIGZp
-bHRlcg0KdGhpcyBvdXQgLSBpdCdzIGp1c3Qgc3R1cGlkLCBob3dldmVyIHdlIHN0aWxsIG5lZWQg
-dG8gZG8gdGhpbmdzDQpjb3JyZWN0bHkuDQoNCj4gDQo+IEFueXdheSwgb24gdGhlIGFwcHJvYWNo
-IGl0c2VsZjogSXQncyBleHRyZW1lbHkgaTkxNSBzcGVjaWZpYywgYW5kIGl0DQo+IHJlcXVpcmVz
-IHRoYXQgYWxsIGRyaXZlcnMgcm9sbCBvdXQgZHJtX2VkaWRfZXF1YWwgY2hlY2tzIGFuZCBub3QN
-Cj4gZm9yZ2V0IHRvDQo+IGluY3JlbWVudCB0aGUgZXBvY2ggY291bnRlci4NCg0KPiANCj4gV2hh
-dCBJIGhhZCBpbiBtaW5kIGlzIHRoYXQgd2hlbiB3ZSBzZXQgdGhlIGVkaWQgZm9yIGEgY29ubmVj
-dG9yIHdpdGgNCj4gZHJtX2Nvbm5lY3Rvcl91cGRhdGVfZWRpZF9wcm9wZXJ0eSgpIG9yIHdoYXRl
-dmVyLCB0aGVuIHRoZSBlcG9jaA0KPiBjb3VudGVyDQo+IHdvdWxkIGF1dG8taW5jcmVtZW50IGlm
-IGFueXRoaW5nIGhhcyBjaGFuZ2VkLiBTaW1pbGFybHkgKGxvbmctdGVybQ0KPiBpZGVhIGF0DQo+
-IGxlYXN0KSBpZiBhbnl0aGluZyBpbXBvcnRhbnQgd2l0aCBEUCByZWdpc3RlcnMgaGFzIGNoYW5n
-ZWQuDQo+IA0KPiBDYW4ndCB3ZSBkbyB0aGF0LCBpbnN0ZWFkIG9mIHRoaXMgc3ViLW9wdGltYWwg
-c29sdXRpb24gb2YgcmVxdWlyaW5nDQo+IGFsbA0KPiBkcml2ZXJzIHRvIHJvbGwgb3V0IGxvdHMg
-b2YgY29kZT8NCg0KMSkgV2UgdXBkYXRlIGVkaWQgaW4gaW50ZWxfZHBfc2V0X2VkaWQsIHdoaWNo
-IGlzIGNhbGxlZCBmcm9tDQppbnRlbF9kcF9kZXRlY3QoZHJtX2Nvbm5lY3Rvcl9oZWxwZXJfZnVu
-Y3MtPmRldGVjdF9jdHggaG9vaykgd2hpY2ggaXMNCmNhbGxlZCBmcm9tIGRybV9oZWxwZXJfcHJv
-YmVfZGV0ZWN0LiBUaGF0IG9uZSBpcyBjYWxsZWQgZWl0aGVyIGZyb20NCnNwZWNpZmljIGludGVs
-X2VuY29kZXItPmhvdHBsdWcgaG9vayBpbiBpOTE1X2hvdHBsdWdfd29ya19mdW5jIG9yIGJ5DQp1
-c2Vyc3BhY2UgcmVxdWVzdCBkdXJpbmcgcmVwcm9iZS4NCg0KMikgUHJldmlvdXNseSB3ZSB3ZXJl
-IHNpbXBseSB1cGRhdGluZyBlZGlkIGluIGludGVsX2RwX3NldF9lZGlkIHdpdGhvdXQNCmNhcmlu
-ZyBpZiBpdCBpcyB0aGUgc2FtZSBvciBub3QgYW5kIGhvdHBsdWcgZXZlbnQgd2FzIHNlbnQgb25s
-eSBvbmNlDQpjb25uZWN0aW9uX3N0YXR1cyBoYWQgY2hhbmdlZC4gDQoNCjMpIGRybV9jb25uZWN0
-b3JfdXBkYXRlX2VkaWRfcHJvcGVydHkgaXMgY2FsbGVkIGZyb20gY29ubmVjdG9yLQ0KPmdldF9t
-b2RlcyBob29rKGxldHMgc2F5IGludGVsX2RwX2dldF9tb2RlcyBmbyBkcCkgaG93ZXZlciBpdCBz
-aW1wbHkNCnVzZXMgcmVzdWx0cyBvZg0KZHJtX2hlbHBlcl9wcm9iZV9kZXRlY3Qgc28gd2l0aG91
-dCBhY3R1YWwgY29tcGFyaXNvbiBpdCB3b3VsZCBub3QgYmUNCmFibGUgdG8gZGV0ZWN0IGlmIHdl
-IHJlYWxseSBuZWVkIHRvIHVwZGF0ZSBlcG9jaF9jb3VudGVyIG9yIG5vdC4NCg0KQmVjYXVzZSBh
-cyBJIHNhaWQgY3VycmVudGx5IGludGVsX2RwX3NldF9lZGlkIHNpbXBseSBhc3NpZ25zIGl0IHdp
-dGhvdXQNCmNoZWNraW5nLCBzbyB0aGF0IHdheSB5b3Ugd2lsbCBnZXQgZXBvY2hfY291bnRlciB1
-cGRhdGVkIGV2ZXJ5IHRpbWUsDQppLmUgZXhhY3RseSB3aGF0IHlvdSB3YW50ZWQgdG8gYXZvaWQg
-aGVyZS4NCg0KU28gd2UgcmVhbGx5IG5lZWQgc29tZXdheSB0byBkZXRlcm1pbmUgaWYgZWRpZCBo
-YWQgY2hhbmdlZCwgaW5zdGVhZCBvZg0Kc2ltcGx5IGFzc2lnbmluZyBpdCBhbGwgdGhlIHRpbWUg
-LSB0aGF0IGlzIHdoeSBJIGhhZCB0byBtYWtlIHRoaXMNCmZ1bmN0aW9uLg0KDQpDaGVlcnMsDQoN
-ClN0YW5pc2xhdg0KDQoNCj4gLURhbmllbA0KPiANCj4gPiANCj4gPiA+ID4gDQo+ID4gPiA+ID4g
-DQo+ID4gPiA+ID4gLSBTdGFuaXNsYXYNCj4gPiA+ID4gPiANCj4gPiA+ID4gPiA+IA0KPiA+ID4g
-PiA+ID4gDQo+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiAtU3RhbmlzbGF2DQo+ID4gPiA+
-ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiA+IENoZWVycywgRGFuaWVs
-DQo+ID4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiA+
-IA0KPiA+ID4gPiA+ID4gPiA+ID4gLVN0YW5pc2xhdg0KPiA+ID4gPiA+ID4gPiA+ID4gDQo+ID4g
-PiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiA+ID4gLURhbmllbA0KPiA+ID4gPiA+ID4g
-PiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiBT
-dGFuaXNsYXYgTGlzb3Zza2l5ICgzKToNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiAgIGRybTogQWRk
-IGhlbHBlciB0byBjb21wYXJlIGVkaWRzLg0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ICAgZHJtOiBJ
-bnRyb2R1Y2UgY2hhbmdlIGNvdW50ZXIgdG8gZHJtX2Nvbm5lY3Rvcg0KPiA+ID4gPiA+ID4gPiA+
-ID4gPiA+ICAgZHJtL2k5MTU6IFNlbmQgaG90cGx1ZyBldmVudCBpZiBlZGlkIGhhZA0KPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+IGNoYW5nZWQuDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fY29ubmVjdG9yLmMgICAgICAgICAg
-ICAgIHwgIA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+IDEgKw0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYyAgICAgICAgICAgICAgICAgICB8DQo+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gMzMNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiArKysrKysrKysrKysrKysr
-KysrKw0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX3Byb2JlX2hl
-bHBlci5jICAgICAgICAgICB8DQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gMjkNCj4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiArKysrKysrKysrKysrKystDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gLQ0KPiA+
-ID4gPiA+ID4gPiA+ID4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rw
-LmMgICAgICB8DQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gMTYNCj4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiArKysrKysrKystDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1
-L2Rpc3BsYXkvaW50ZWxfaGRtaS5jICAgIHwNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiAxNg0KPiA+
-ID4gPiA+ID4gPiA+ID4gPiA+ICsrKysrKysrLS0NCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiAgZHJp
-dmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9ob3RwbHVnLmMgfA0KPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+IDIxDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gKysrKysrKysrKw0KPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+IC0tLQ0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ICBpbmNsdWRlL2RybS9kcm1f
-Y29ubmVjdG9yLmggICAgICAgICAgICAgICAgICB8ICANCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiAz
-ICsrDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gIGluY2x1ZGUvZHJtL2RybV9lZGlkLmggICAgICAg
-ICAgICAgICAgICAgICAgIHwgIA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+IDkNCj4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiArKysrKysNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiAgOCBmaWxlcyBjaGFuZ2Vk
-LCAxMTcgaW5zZXJ0aW9ucygrKSwgMTENCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiBkZWxldGlvbnMo
-LSkNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiAtLQ0KPiA+
-ID4gPiA+ID4gPiA+ID4gPiA+IDIuMTcuMQ0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+IA0KPiA+ID4g
-PiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4gDQo+
-ID4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiANCj4gPiA+ID4g
-PiA+IA0KPiA+ID4gPiANCj4gPiA+ID4gDQo+ID4gPiANCj4gPiA+IF9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+ID4gPiBkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0DQo+ID4gPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+ID4gPiBodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA0KPiANCj4g
-DQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0642072039==
+Content-Type: multipart/alternative; boundary="15675120330.B81E7D41.29032"
+Content-Transfer-Encoding: 7bit
+
+
+--15675120330.B81E7D41.29032
+Date: Tue, 3 Sep 2019 12:00:33 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111241
+
+--- Comment #14 from Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer=
+@amd.com> ---
+> > And sorry that I 'hijacked' this thread - should I open a new ticket?
+>=20
+> I don't think you need to open a bug for it at all. As its not a bug in M=
+esa
+> its a shader bug.
+>=20
+
+It's not a bug in Mesa but if adopting the same behavior than other drivers=
+ is
+cheap performance-wise I think we should consider it.
+
+For instance, adding a prolog to PS that always initializes v0, v1, v2 to 0
+could do the trick... maybe there are other/better ways though.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15675120330.B81E7D41.29032
+Date: Tue, 3 Sep 2019 12:00:33 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Shadertoy shader causing hang"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111241#c14">Comme=
+nt # 14</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Shadertoy shader causing hang"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111241">bug 11124=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+pierre-eric.pelloux-prayer&#64;amd.com" title=3D"Pierre-Eric Pelloux-Prayer=
+ &lt;pierre-eric.pelloux-prayer&#64;amd.com&gt;"> <span class=3D"fn">Pierre=
+-Eric Pelloux-Prayer</span></a>
+</span></b>
+        <pre><span class=3D"quote">&gt; &gt; And sorry that I 'hijacked' th=
+is thread - should I open a new ticket?
+&gt;=20
+&gt; I don't think you need to open a bug for it at all. As its not a bug i=
+n Mesa
+&gt; its a shader bug.
+&gt; </span >
+
+It's not a bug in Mesa but if adopting the same behavior than other drivers=
+ is
+cheap performance-wise I think we should consider it.
+
+For instance, adding a prolog to PS that always initializes v0, v1, v2 to 0
+could do the trick... maybe there are other/better ways though.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15675120330.B81E7D41.29032--
+
+--===============0642072039==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0642072039==--
