@@ -2,56 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED779A81B3
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2019 14:01:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED915A81DE
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2019 14:08:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D01CD8918D;
-	Wed,  4 Sep 2019 12:01:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 789B58945A;
+	Wed,  4 Sep 2019 12:08:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D4268918D
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2019 12:01:44 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 01C29B64E;
- Wed,  4 Sep 2019 12:01:43 +0000 (UTC)
-Subject: Re: potential regression in drm/mgag200
-To: Davidlohr Bueso <dave@stgolabs.net>
-References: <20190904064907.fxzpknmqhfozkkwj@linux-r8p5>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
- IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
- AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
- 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
- hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
- YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
- 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
- tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
- R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
- E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
- kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
- 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
- 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
- A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
- NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
- VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
- iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
- VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
- iNx9uqqx
-Message-ID: <a8a0caeb-3f85-5a6c-5ee5-ceddebac2db5@suse.de>
-Date: Wed, 4 Sep 2019 14:01:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57F57893AB;
+ Wed,  4 Sep 2019 12:08:25 +0000 (UTC)
+Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id E189922CED;
+ Wed,  4 Sep 2019 12:08:24 +0000 (UTC)
+Date: Wed, 4 Sep 2019 08:08:23 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>
+Subject: Re: [PATCH AUTOSEL 4.19 044/167] drm/amdgpu: validate user pitch
+ alignment
+Message-ID: <20190904120823.GW5281@sasha-vm>
+References: <20190903162519.7136-1-sashal@kernel.org>
+ <20190903162519.7136-44-sashal@kernel.org>
+ <7957107d-634f-4771-327e-99fdd5e6474e@daenzer.net>
+ <20190903170347.GA24357@kroah.com> <20190903200139.GJ5281@sasha-vm>
+ <CAKMK7uFpBnkF4xABdkDMZ8TYhL4jg6ZuGyHGyVeBxc9rkyUtXQ@mail.gmail.com>
+ <829c5912-cf80-81d0-7400-d01d286861fc@daenzer.net>
 MIME-Version: 1.0
-In-Reply-To: <20190904064907.fxzpknmqhfozkkwj@linux-r8p5>
+Content-Disposition: inline
+In-Reply-To: <829c5912-cf80-81d0-7400-d01d286861fc@daenzer.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1567598905;
+ bh=QbYO5xJQGT1Uu94hWScBCp6qWdp8GydhSptk7yOPeHE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HLOwcXn29+BdSWFL3qKDpEDbLdF51Ww2YAF6klsvOok5k1oQ1Lee8fRjgoP40Z3hD
+ XXrM2fR7PuHQwR72a2MJS+DqWYtl7VMLoDnalEiQgicy4dE8KYwGP7ehYl2uyJ/Dva
+ xKoaEHfjepJkgmsXpJhskZPwPDGL0hrKIhAaKrZY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,133 +52,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@redhat.com, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1947490863=="
+Cc: Yu Zhao <yuzhao@google.com>, Dave Airlie <airlied@linux.ie>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, stable <stable@vger.kernel.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1947490863==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="jSO8uOUuxq4Yr0B9w3k2KPAtgM89BK23F"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---jSO8uOUuxq4Yr0B9w3k2KPAtgM89BK23F
-Content-Type: multipart/mixed; boundary="r5zIdMQr7SvyHsWq3vgxyhZBZ5dOfICqJ";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Davidlohr Bueso <dave@stgolabs.net>
-Cc: airlied@redhat.com, dri-devel@lists.freedesktop.org
-Message-ID: <a8a0caeb-3f85-5a6c-5ee5-ceddebac2db5@suse.de>
-Subject: Re: potential regression in drm/mgag200
-References: <20190904064907.fxzpknmqhfozkkwj@linux-r8p5>
-In-Reply-To: <20190904064907.fxzpknmqhfozkkwj@linux-r8p5>
-
---r5zIdMQr7SvyHsWq3vgxyhZBZ5dOfICqJ
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 04.09.19 um 08:49 schrieb Davidlohr Bueso:
-> Hi,
->=20
-> While doing some changes to x86's pat code and thus having 'debugpat', =
-I
-> noticed
-> some weird behavior in a server running linux-next as of -- yes,
-> reverting does 'fix'
-> the issue:
->=20
-> 90f479ae51a (drm/mgag200: Replace struct mga_fbdev with generic
-> framebuffer emulation)
->=20
-> Where the following splat is seen over and over endlessly for the same
-> range:
->=20
-> x86/PAT: Overlap at 0xd0000000-0xd1000000
-> x86/PAT: reserve_memtype added [mem 0xd0000000-0xd02fffff], track
-> write-combining, req write-combining, ret write-combining
-> x86/PAT: free_memtype request [mem 0xd0000000-0xd02fffff]
->=20
-> And all these are doing ioremap from drm_fb_helper_dirty_work():
->=20
-> [=C2=A0 114.330825]=C2=A0 reserve_memtype+0x1b0/0x410
-> [=C2=A0 114.330829]=C2=A0 ? ttm_bo_kmap+0x1d7/0x270 [ttm]
-> [=C2=A0 114.330830]=C2=A0 __ioremap_caller.constprop.14+0xf6/0x300
-> [=C2=A0 114.330832]=C2=A0 ? soft_cursor+0x1f9/0x220
-> [=C2=A0 114.330835]=C2=A0 ttm_bo_kmap+0x1d7/0x270 [ttm]
-> [=C2=A0 114.330838]=C2=A0 ? ttm_bo_del_sub_from_lru+0x29/0x40 [ttm]
-> [=C2=A0 114.330841]=C2=A0 drm_gem_vram_kmap+0x54/0x70 [drm_vram_helper]=
-
-> [=C2=A0 114.330842]=C2=A0 drm_gem_vram_object_vmap+0x23/0x40 [drm_vram_=
-helper]
-> [=C2=A0 114.330853]=C2=A0 drm_gem_vmap+0x1f/0x60 [drm]
-> [=C2=A0 114.477697]=C2=A0 drm_client_buffer_vmap+0x1d/0x30 [drm]
-> [=C2=A0 114.477703]=C2=A0 drm_fb_helper_dirty_work+0x92/0x180 [drm_kms_=
-helper]
-> [=C2=A0 114.477706]=C2=A0 process_one_work+0x1f4/0x3e0
-> [=C2=A0 114.477707]=C2=A0 worker_thread+0x2d/0x3e0
->=20
-> Before, the same range was also added, but only once, and fwiw it was
-> the same either
-> with 24 or 32 bpp.
->=20
-> Any thoughts?
-
-Thanks for reporting. The original code kept around memory mappings for
-a longer time, while the new code remapped frequently. I've just
-submitted a patch set that restores the old behavior. [1] Fixes the
-problem on my test machine.
-
-Best regards
-Thomas
-
-[1] https://patchwork.freedesktop.org/series/66210/
-
->=20
-> Thanks,
-> Davidlohr
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
-GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N=C3=BCrnberg)
-
-
---r5zIdMQr7SvyHsWq3vgxyhZBZ5dOfICqJ--
-
---jSO8uOUuxq4Yr0B9w3k2KPAtgM89BK23F
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl1vp6IACgkQaA3BHVML
-eiOv4wf/aVidfnLf+LIWnZ3J/vV0nyLf1KmcY+8N9orJOloO1N+GoT9RhMw15Caw
-M0uCuFRT9g+p8S5GJAYQSpvjGnlU0PxK9uyX5ShoQ/BIx0Gzy0ZDXPkG9Ssc8W8f
-/YdsWrrTgrgBvgXBg4MohMoAZLRVIAl/4TgxyKzmgjLeSoAjqCZ5LVGvSMKclxoy
-gfsHFJ/KQMMEu22oEqxtnYcXeAxmQRN5SwZqBEl3uE0FQaKyXFk7vyMTULaA+wEU
-Ry+62oXoyjtyOBcxCfF7O/X5qwKlMD8niFuRaO2//dS58Jlh2BsECh7BJzfjBjnl
-mp9bsMnfoegRAh9utc3okYfs68wcEg==
-=zN5/
------END PGP SIGNATURE-----
-
---jSO8uOUuxq4Yr0B9w3k2KPAtgM89BK23F--
-
---===============1947490863==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1947490863==--
+T24gV2VkLCBTZXAgMDQsIDIwMTkgYXQgMTA6NTU6MTBBTSArMDIwMCwgTWljaGVsIETDpG56ZXIg
+d3JvdGU6Cj5PbiAyMDE5LTA5LTAzIDEwOjE2IHAubS4sIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4+
+IE9uIFR1ZSwgU2VwIDMsIDIwMTkgYXQgMTA6MDEgUE0gU2FzaGEgTGV2aW4gPHNhc2hhbEBrZXJu
+ZWwub3JnPiB3cm90ZToKPj4+IE9uIFR1ZSwgU2VwIDAzLCAyMDE5IGF0IDA3OjAzOjQ3UE0gKzAy
+MDAsIEdyZWcgS0ggd3JvdGU6Cj4+Pj4gT24gVHVlLCBTZXAgMDMsIDIwMTkgYXQgMDY6NDA6NDNQ
+TSArMDIwMCwgTWljaGVsIETDpG56ZXIgd3JvdGU6Cj4+Pj4+IE9uIDIwMTktMDktMDMgNjoyMyBw
+Lm0uLCBTYXNoYSBMZXZpbiB3cm90ZToKPj4+Pj4+IEZyb206IFl1IFpoYW8gPHl1emhhb0Bnb29n
+bGUuY29tPgo+Pj4+Pj4KPj4+Pj4+IFsgVXBzdHJlYW0gY29tbWl0IDg5ZjIzYjZlZmVmNTU0NzY2
+MTc3YmY1MWFhNzU0YmNlMTRjM2U3ZGEgXQo+Pj4+Pgo+Pj4+PiBIb2xkIHlvdXIgaG9yc2VzIQo+
+Pj4+Pgo+Pj4+PiBUaGlzIGNvbW1pdCBhbmQgYzRhMzJiMjY2ZGE3YmI3MDJlNjAzODFjYTBjMzVl
+YWRkYmM4OWE2YyBoYWQgdG8gYmUKPj4+Pj4gcmV2ZXJ0ZWQsIGFzIHRoZXkgY2F1c2VkIHJlZ3Jl
+c3Npb25zLiBTZWUgY29tbWl0cwo+Pj4+PiAyNWVjNDI5ZTg2YmI3OTBlNDAzODdhNTUwZjA1MDFk
+MGFjNTVhNDdjICYKPj4+Pj4gOTJiMDczMGVhZjJkNTQ5ZmRmYjEwZWNjOGI3MWYzNGI5ZjQ3MmMx
+MiAuCj4+Pj4+Cj4+Pj4+Cj4+Pj4+IFRoaXMgaXNuJ3QgYm9sc3RlcmluZyBjb25maWRlbmNlIGlu
+IGhvdyB0aGVzZSBwYXRjaGVzIGFyZSBzZWxlY3RlZC4uLgo+Pj4+Cj4+Pj4gVGhlIHBhdGNoIF9p
+dHNlbGZfIHNhaWQgdG8gYmUgYmFja3BvcnRlZCB0byB0aGUgc3RhYmxlIHRyZWVzIGZyb20gNC4y
+Cj4+Pj4gYW5kIG5ld2VyLiAgV2h5IHdvdWxkbid0IHdlIGJlIGNvbmZpZGVudCBpbiBkb2luZyB0
+aGlzPwo+Pj4+Cj4+Pj4gSWYgdGhlIHBhdGNoIGRvZXNuJ3Qgd2FudCB0byBiZSBiYWNrcG9ydGVk
+LCB0aGVuIGRvIG5vdCBhZGQgdGhlIGNjOgo+Pj4+IHN0YWJsZSBsaW5lIHRvIGl0Li4uCj4+Pgo+
+Pj4gVGhpcyBwYXRjaCB3YXMgcGlja2VkIGJlY2F1c2UgaXQgaGFzIGEgc3RhYmxlIHRhZywgd2hp
+Y2ggeW91IHByZXN1bWFibHkKPj4+IHNhdyBhcyB5b3VyIFJldmlld2VkLWJ5IHRhZyBpcyBpbiB0
+aGUgcGF0Y2guIFRoaXMgaXMgd2h5IGl0IHdhcwo+Pj4gYmFja3BvcnRlZDsgaXQgZG9lc24ndCB0
+YWtlIEFJIHRvIGJhY2twb3J0IHBhdGNoZXMgdGFnZ2VkIGZvciBzdGFibGUuLi4KPgo+VGhlIHBh
+dGNoZXMgZGlkIHBvaW50IHRvIGdhcHMgaW4gdmFsaWRhdGlvbiBvZiBpb2N0bCBwYXJhbWV0ZXJz
+IHBhc3NlZAo+aW4gYnkgdXNlcnNwYWNlLiBVbmZvcnR1bmF0ZWx5LCB0aGV5IHR1cm5lZCBvdXQg
+dG8gYmUgdG9vIHN0cmljdCwKPmNhdXNpbmcgdmFsaWQgcGFyYW1ldGVycyB0byBzcHVyaW91c2x5
+IGZhaWwuIElmIHRoYXQgd2Fzbid0IHRoZSBjYXNlLAo+YW5kIHRoZSBwYXRjaGVzIGRpZG4ndCBo
+YXZlIHN0YWJsZSB0YWdzLCBtYXliZSB3ZSdkIGJlIGhhdmluZyBhCj5kaXNjdXNzaW9uIGFib3V0
+IHdoeSB0aGV5IGRpZG4ndCBoYXZlIHRoZSB0YWdzIG5vdy4uLgoKVGhhdCdzIGZhaXIsIGFuZCB3
+ZSdyZSBkZWZpbml0ZWx5IG5vdCBjb21wbGFpbmluZyB0aGF0IHRoZXNlIHBhdGNoZXMgaGFkCmEg
+c3RhYmxlIHRhZywgbXkgY29tbWVudCB3YXMgZGlyZWN0ZWQgbW9yZSB0b3dhcmRzIHRoZSAiVGhp
+cyBpc24ndApib2xzdGVyaW5nIGNvbmZpZGVuY2UgaW4gaG93IHRoZXNlIHBhdGNoZXMgYXJlIHNl
+bGVjdGVkIiBjb21tZW50IHlvdSd2ZQptYWRlIC0gd2UgYmFzaWNhbGx5IGRpZCB3aGF0IHdlIHdl
+cmUgdG9sZCB0byBkbyBhbmQgZm9yIHNvbWUgcmVhc29uIHlvdQpnb3QgdXBzZXQgOikKCj4+PiBU
+aGUgcmV2ZXJ0IG9mIHRoaXMgcGF0Y2gsIGhvd2V2ZXI6Cj4+Pgo+Pj4gIDEuIERpZG4ndCBoYXZl
+IGEgc3RhYmxlIHRhZy4KPgo+SSBndWVzcyBpdCBkaWRuJ3Qgb2NjdXIgdG8gbWUgdGhhdCB3YXMg
+bmVjZXNzYXJ5LCBhcyB0aGUgcGF0Y2hlcyBnb3QKPnJldmVydGVkIHdpdGhpbiBkYXlzLgoKU2lu
+Y2UgdGhlIG9yaWdpbmFsIHN0YWJsZSB0YWdnZWQgcGF0Y2ggbWFkZSBpdCB1cHN0cmVhbSwgd2Un
+cmUgYm91bmQgdG8KdHJ5IGFuZCBzZWxlY3QgaXQgZm9yIHN0YWJsZSBicmFuY2hlcyBldmVuIGlm
+IHRoZXJlIGFyZSBtb3JlIGNoYW5nZXMgb3IKcmV2ZXJ0cyBsYXRlciBvbi4gV2UnbGwgdHJ5IHRv
+IGRldGVjdCBmdXJ0aGVyIGZpeGVzIGFuZCByZXZlcnRzLCBidXQKd2UncmUgbGltaXRlZCBieSB0
+aGUgbWV0YWRhdGEgaW4gdGhlIGNvbW1pdCBtZXNzYWdlLgoKPj4+ICAyLiBEaWRuJ3QgaGF2ZSBh
+ICJGaXhlczoiIHRhZy4KPj4+ICAzLiBEaWRuJ3QgaGF2ZSB0aGUgdXN1YWwgInRoZSByZXZlcnRz
+IGNvbW1pdCAuLi4iIHN0cmluZyBhZGRlZCBieSBnaXQKPj4+ICB3aGVuIG9uZSBkb2VzIGEgcmV2
+ZXJ0Lgo+Cj5JIHN1c3BlY3QgdGhhdCdzIGJlY2F1c2UgdGhlcmUgd2VyZSBubyBzdGFibGUgY29t
+bWl0IGhhc2hlcyB0bwo+cmVmZXJlbmNlLCBzZWUgYmVsb3cuCj4KPgo+Pj4gV2hpY2ggaXMgd2h5
+IHdlIHN0aWxsIGtpY2sgcGF0Y2hlcyBmb3IgcmV2aWV3LCBldmVuIHRob3VnaCB0aGV5IGhhZCBh
+Cj4+PiBzdGFibGUgdGFnLCBqdXN0IHNvIHBlb3BsZSBjb3VsZCB0YWtlIGEgbG9vayBhbmQgY29u
+ZmlybSB3ZSdyZSBub3QKPj4+IG1pc3NpbmcgYW55dGhpbmcgLSBsaWtlIHdlIGRpZCBoZXJlLgo+
+Pj4KPj4+IEknbSBub3Qgc3VyZSB3aGF0IHlvdSBleHBlY3RlZCBtZSB0byBkbyBkaWZmZXJlbnRs
+eSBoZXJlLgo+Cj5ZZWFoLCBzb3JyeSwgSSBkaWRuJ3QgcmVhbGl6ZSBpdCdzIHRyaWNreSBmb3Ig
+c2NyaXB0cyB0byByZWNvZ25pemUgdGhhdAo+dGhlIHBhdGNoZXMgaGF2ZSBiZWVuIHJldmVydGVk
+IGluIHRoaXMgY2FzZS4KCkZXSVcsIEkndmUgYWRkZWQgYW5vdGhlciB0ZXN0IHRvIG15IHNjcmlw
+dHMgdG8gdHJ5IGFuZCBjYXRjaCB0aGVzZSBjYXNlcwooUmV2ZXJ0ICIlcyIpLiBJdCdsbCBzbG93
+IGRvd24gdGhlIHNjcmlwdHMgYSBiaXQgYnV0IGl0J3MgYmV0dGVyIHRvIGdldAppdCByaWdodCBy
+YXRoZXIgdGhhbiB0byBiZSBkb25lIHF1aWNrbHkgOikKCi0tClRoYW5rcywKU2FzaGEKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
