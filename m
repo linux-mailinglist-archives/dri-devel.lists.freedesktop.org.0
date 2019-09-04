@@ -2,37 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B90AA7D04
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2019 09:48:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA0FAA7D17
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2019 09:54:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72D8789337;
-	Wed,  4 Sep 2019 07:48:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BE9F89A7A;
+	Wed,  4 Sep 2019 07:54:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AEE689337
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2019 07:48:33 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C67FC83F3B;
- Wed,  4 Sep 2019 07:48:32 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-117-72.ams2.redhat.com
- [10.36.117.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D888219C4F;
- Wed,  4 Sep 2019 07:48:29 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id EBBCA93E3; Wed,  4 Sep 2019 09:48:28 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/virtio: fix command submission with objects but without
- fence.
-Date: Wed,  4 Sep 2019 09:48:28 +0200
-Message-Id: <20190904074828.32502-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Wed, 04 Sep 2019 07:48:32 +0000 (UTC)
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC097898CC
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2019 07:54:05 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id c7so19730586otp.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2019 00:54:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nsL2dG0Jkv/yBtdq643XdQgXacAtlmVt/WZU7C9r86Q=;
+ b=qqDTn4vGVgP+n+26Qm8p5FVZ0sHWu1mtB1RzulJNzsJ8I+kKiEY57DBidLFJqVslt+
+ mrYvWWiGlaCvNigzxnV07ykDChc7unpgt22hMQJPOr0feT9Wt28HiarO21UuYsPl5uUl
+ weYjpzX0C2ZP9b7vqVXLLEW4JLBduT4jqj9LXHshiguMhr+6l/r6J/u2RXjNsHazs7gs
+ M3Ttt7zkIDtxdhUwLOA1PMU/TVgml7wMae+jLmjLfvy0yjAEyT2rSr8vMwKYuToiLLJE
+ Co4xxfZTSj6GiOPV6pGgAbFmahFvs/dP+DqnashwYMNQkleFmBt4QqWgQbRq/ip73Eb4
+ G1qg==
+X-Gm-Message-State: APjAAAX1h15LyL3TLePR09nhA4vWGyYF+Fro0bD9Q6Cq7Vitrn1Mb/QW
+ h4oBXIoqDy1cM9PNtLzEMGT+Zy/OMgyZDJ4F7rJYQA==
+X-Google-Smtp-Source: APXvYqxIAUAvfPNM73tpeSvNr//yloLprQQu73fJhL+XKHcnaBcmH7124BD4NPk5vIXaT6rUNf8CFt+b+b0Z/W6osOs=
+X-Received: by 2002:a05:6830:10d8:: with SMTP id
+ z24mr11461873oto.281.1567583645124; 
+ Wed, 04 Sep 2019 00:54:05 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190903131504.18935-1-thomas_os@shipmail.org>
+ <20190903131504.18935-4-thomas_os@shipmail.org>
+ <b54bd492-9702-5ad7-95da-daf20918d3d9@intel.com>
+ <CAKMK7uFv+poZq43as8XoQaSuoBZxCQ1p44VCmUUTXOXt4Y+Bjg@mail.gmail.com>
+ <6d0fafcc-b596-481b-7b22-1f26f0c02c5c@intel.com>
+ <bed2a2d9-17f0-24bd-9f4a-c7ee27f6106e@shipmail.org>
+ <7fa3b178-b9b4-2df9-1eee-54e24d48342e@intel.com>
+ <ba77601a-d726-49fa-0c88-3b02165a9a21@shipmail.org>
+ <CALCETrVnNpPwmRddGLku9hobE7wG30_3j+QfcYxk09hZgtaYww@mail.gmail.com>
+ <44b094c8-63fe-d9e5-1bf4-7da0788caccf@shipmail.org>
+ <6d122d62-9c96-4c29-8d06-02f7134e5e2a@shipmail.org>
+ <B3C5DD1B-A33C-417F-BDDC-73120A035EA5@amacapital.net>
+ <3393108b-c7e3-c9be-b65b-5860c15ca228@shipmail.org>
+In-Reply-To: <3393108b-c7e3-c9be-b65b-5860c15ca228@shipmail.org>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 4 Sep 2019 09:53:53 +0200
+Message-ID: <CAKMK7uH0jxaWJLxfXfGLyN-Rb=0ZKUFTkrEPdFCuGCh4ORCv9w@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] drm/ttm, drm/vmwgfx: Correctly support support AMD
+ memory encryption
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28VMware=29?= <thomas_os@shipmail.org>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=nsL2dG0Jkv/yBtdq643XdQgXacAtlmVt/WZU7C9r86Q=;
+ b=Fpfim0KLgJ+FNUELGd/cGbfkJVwz26hJlETB2SD4TW1Yi+H4dORrDsb+7WOsgUCfCa
+ wvIESBCC6aMyklaV4lbBJAoUZOpTVEfCpEgrnDEPYSaTF5HzRKGBzIWCpRMC+wTI2Kse
+ X2iSsZIejDC/X+uhwFkMzF8Ia0FiRe8aLWGxI=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,34 +73,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
- Gerd Hoffmann <kraxel@redhat.com>
-MIME-Version: 1.0
+Cc: Tom Lendacky <thomas.lendacky@amd.com>,
+ Thomas Hellstrom <thellstrom@vmware.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, pv-drivers@vmware.com,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Heiko Carstens <heiko.carstens@de.ibm.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andy Lutomirski <luto@amacapital.net>, Dave Hansen <dave.hansen@intel.com>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Andy Lutomirski <luto@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T25seSBjYWxsIHZpcnRpb19ncHVfYXJyYXlfYWRkX2ZlbmNlIGlmIHdlIGFjdHVhbGx5IGhhdmUg
-YSBmZW5jZS4KCkZpeGVzOiBkYTc1OGQ1MTk2OGEgKCJkcm0vdmlydGlvOiByZXdvcmsgdmlydGlv
-X2dwdV9leGVjYnVmZmVyX2lvY3RsIGZlbmNpbmciKQpTaWduZWQtb2ZmLWJ5OiBHZXJkIEhvZmZt
-YW5uIDxrcmF4ZWxAcmVkaGF0LmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRn
-cHVfdnEuYyB8IDkgKysrKystLS0tCiAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCA0
-IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdw
-dV92cS5jIGIvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X3ZxLmMKaW5kZXggNTk1ZmE2
-ZWMyZDU4Li43ZmQyODUxZjdiOTcgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8v
-dmlydGdwdV92cS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV92cS5jCkBA
-IC0zMzksMTEgKzMzOSwxMiBAQCBzdGF0aWMgdm9pZCB2aXJ0aW9fZ3B1X3F1ZXVlX2ZlbmNlZF9j
-dHJsX2J1ZmZlcihzdHJ1Y3QgdmlydGlvX2dwdV9kZXZpY2UgKnZnZGV2LAogCQlnb3RvIGFnYWlu
-OwogCX0KIAotCWlmIChmZW5jZSkKKwlpZiAoZmVuY2UpIHsKIAkJdmlydGlvX2dwdV9mZW5jZV9l
-bWl0KHZnZGV2LCBoZHIsIGZlbmNlKTsKLQlpZiAodmJ1Zi0+b2JqcykgewotCQl2aXJ0aW9fZ3B1
-X2FycmF5X2FkZF9mZW5jZSh2YnVmLT5vYmpzLCAmZmVuY2UtPmYpOwotCQl2aXJ0aW9fZ3B1X2Fy
-cmF5X3VubG9ja19yZXN2KHZidWYtPm9ianMpOworCQlpZiAodmJ1Zi0+b2JqcykgeworCQkJdmly
-dGlvX2dwdV9hcnJheV9hZGRfZmVuY2UodmJ1Zi0+b2JqcywgJmZlbmNlLT5mKTsKKwkJCXZpcnRp
-b19ncHVfYXJyYXlfdW5sb2NrX3Jlc3YodmJ1Zi0+b2Jqcyk7CisJCX0KIAl9CiAJbm90aWZ5ID0g
-dmlydGlvX2dwdV9xdWV1ZV9jdHJsX2J1ZmZlcl9sb2NrZWQodmdkZXYsIHZidWYpOwogCXNwaW5f
-dW5sb2NrKCZ2Z2Rldi0+Y3RybHEucWxvY2spOwotLSAKMi4xOC4xCgpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+T24gV2VkLCBTZXAgNCwgMjAxOSBhdCA4OjQ5IEFNIFRob21hcyBIZWxsc3Ryw7ZtIChWTXdhcmUp
+Cjx0aG9tYXNfb3NAc2hpcG1haWwub3JnPiB3cm90ZToKPiBPbiA5LzQvMTkgMToxNSBBTSwgQW5k
+eSBMdXRvbWlyc2tpIHdyb3RlOgo+ID4gQnV0LCByZWFkaW5nIHRoaXMsIEkgaGF2ZSBtb3JlIHF1
+ZXN0aW9uczoKPiA+Cj4gPiBDYW7igJl0IHlvdSBnZXQgcmlkIG9mIGN2bWEgYnkgdXNpbmcgdm1m
+X2luc2VydF9wZm5fcHJvdCgpPwo+Cj4gSXQgbG9va3MgbGlrZSB0aGF0LCBhbHRob3VnaCB0aGVy
+ZSBhcmUgY29tbWVudHMgaW4gdGhlIGNvZGUgYWJvdXQKPiBzZXJpb3VzIHBlcmZvcm1hbmNlIHBy
+b2JsZW1zIHVzaW5nIFZNX1BGTk1BUCAvIHZtZl9pbnNlcnRfcGZuKCkgd2l0aAo+IHdyaXRlLWNv
+bWJpbmluZyBhbmQgUEFULCBzbyB0aGF0IHdvdWxkIHJlcXVpcmUgc29tZSBzZXJpb3VzIHRlc3Rp
+bmcgd2l0aAo+IGhhcmR3YXJlIEkgZG9uJ3QgaGF2ZS4gQnV0IEkgZ3Vlc3MgdGhlcmUgaXMgZGVm
+aW5pdGVseSByb29tIGZvcgo+IGltcHJvdmVtZW50IGhlcmUuIElkZWFsbHkgd2UnZCBsaWtlIHRv
+IGJlIGFibGUgdG8gY2hhbmdlIHRoZQo+IHZtYS0+dm1fcGFnZV9wcm90IHdpdGhpbiBmYXVsdCgp
+LiBCdXQgd2UgY2FuCgpKdXN0IGEgcXVpY2sgY29tbWVudCBvbiB0aGlzOiBJdCdzIHRoZSByZXBl
+YXRlZCAocGVyLXBmbi9wdGUpIGxvb2t1cApvZiB0aGUgUEFUIHRhYmxlcywgd2hpY2ggYXJlIGRl
+YWQgc2xvdy4gSWYgeW91IGhhdmUgYSBzdHJ1Y3QKaW9fbWFwcGluZyB0aGVuIHRoYXQgY2FuIGJl
+IGRvbmUgb25jZSwgYW5kIHRoZW4ganVzdCBibGluZGx5IGluc2VydGVkLgpTZWUgcmVtYXBfaW9f
+bWFwcGluZyBpbiBpOTE1LgotRGFuaWVsCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2lu
+ZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1NyA0OCAtIGh0dHA6Ly9ibG9n
+LmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
