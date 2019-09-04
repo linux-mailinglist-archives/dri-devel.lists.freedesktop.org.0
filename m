@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47065A9593
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Sep 2019 23:52:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5911CA960D
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2019 00:17:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52E448914E;
-	Wed,  4 Sep 2019 21:52:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DC9989CAA;
+	Wed,  4 Sep 2019 22:16:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 669F58914E
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2019 21:52:08 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id E5798440;
- Wed,  4 Sep 2019 23:52:06 +0200 (CEST)
-Date: Thu, 5 Sep 2019 00:52:00 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jyri Sarha <jsarha@ti.com>
-Subject: Re: [PATCH 4/7] drm/omap: Implement CTM property for CRTC using OVL
- managers CPR matrix
-Message-ID: <20190904215200.GN5433@pendragon.ideasonboard.com>
-References: <20190902125359.18001-1-tomi.valkeinen@ti.com>
- <20190902125359.18001-5-tomi.valkeinen@ti.com>
- <20190903152413.GB8247@pendragon.ideasonboard.com>
- <b44372e2-1bb7-ddb8-d121-ae096b38d918@ti.com>
- <20190904111105.GA4811@pendragon.ideasonboard.com>
- <d75b942b-0256-3824-9055-1f6b68bb8c3b@ti.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C194B89CAA
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2019 22:16:56 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id B39DF72161; Wed,  4 Sep 2019 22:16:56 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111482] Sapphire Pulse RX 5700 XT power consumption
+Date: Wed, 04 Sep 2019 22:16:57 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: freedesktop@postfach.xyz
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111482-502-9dRApXzR6Z@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111482-502@http.bugs.freedesktop.org/>
+References: <bug-111482-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <d75b942b-0256-3824-9055-1f6b68bb8c3b@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1567633927;
- bh=SOvoomdzcRZXx+qFPbFr7nQLPFXs8OxHEOFVOnSlDe8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AltD7U2bZddv56caryBlq4zfB1CBSBxHxE3Z6C+0yL/s6mizO95F304xXq0fhj8u0
- 9j5GARPORcNZJ20yKnw3uQlEBYEIG7UE7HbrIew66oLSH8rzE4zqf/MbM6IaG11cM9
- LkpMwVpfOTvxoA1SKtf+iIRwfHD3OpmjdIG52qJg=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,123 +52,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0589146041=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgSnlyaSwKCk9uIFdlZCwgU2VwIDA0LCAyMDE5IGF0IDExOjA4OjIwUE0gKzAzMDAsIEp5cmkg
-U2FyaGEgd3JvdGU6Cj4gT24gMDQvMDkvMjAxOSAxNDoxMSwgTGF1cmVudCBQaW5jaGFydCB3cm90
-ZToKPiA+IE9uIFdlZCwgU2VwIDA0LCAyMDE5IGF0IDEwOjE3OjAwQU0gKzAzMDAsIEp5cmkgU2Fy
-aGEgd3JvdGU6Cj4gPj4gT24gMDMvMDkvMjAxOSAxODoyNCwgTGF1cmVudCBQaW5jaGFydCB3cm90
-ZToKPiA+Pj4gT24gTW9uLCBTZXAgMDIsIDIwMTkgYXQgMDM6NTM6NTZQTSArMDMwMCwgVG9taSBW
-YWxrZWluZW4gd3JvdGU6Cj4gPj4+PiBGcm9tOiBKeXJpIFNhcmhhIDxqc2FyaGFAdGkuY29tPgo+
-ID4+Pj4KPiA+Pj4+IEltcGxlbWVudCBDVE0gY29sb3IgbWFuYWdlbWVudCBwcm9wZXJ0eSBmb3Ig
-T01BUCBDUlRDIHVzaW5nIERTUwo+ID4+Pj4gb3ZlcmxheSBtYW5hZ2VyJ3MgQ29sb3IgUGhhc2Ug
-Um90YXRpb24gbWF0cml4LiBUaGUgQ1BSIG1hdHJpeCBkb2VzIG5vdAo+ID4+Pj4gZXhhY3RseSBt
-YXRjaCB0aGUgQ1RNIHByb3BlcnR5IGRvY3VtZW50YXRpb24uIE9uIERTUyB0aGUgQ1BSIG1hdHJp
-eCBpcwo+ID4+Pj4gYXBwbGllZCBhZnRlciBnYW1tYSB0YWJsZSBsb29rIHVwLiBIb3dldmVyLCBp
-dCBzZWVtcyBzdHVwaWQgdG8gYWRkIGEKPiA+Pj4+IGN1c3RvbSBwcm9wZXJ0eSBqdXN0IGZvciB0
-aGF0Lgo+ID4+Pgo+ID4+PiBJbiB0aGF0IGNhc2UgdGhlIERSTSBkb2N1bWVudGF0aW9uIHNob3Vs
-ZCBiZSB1cGRhdGVkIHRvIG1lbnRpb24gdGhhdAo+ID4+PiBib3RoIG9wdGlvbnMgYXJlIGFsbG93
-ZWQuCj4gPj4KPiA+PiBPaywgaWYgdGhhdCBpcyBhbHJpZ2h0LiBCdXQgaWYgd2UgZG8gdGhhdCwg
-dGhlbiBJIGd1ZXNzIGFsbCB0aGUgZHJpdmVycwo+ID4+IGltcGxlbWVudGluZyBDVE0gc2hvdWxk
-IGRvY3VtZW50IHRoZSBwb2ludCB3aGVyZSBpdCBpcyBhcHBsaWVkIGluIHRoZQo+ID4+IHBpcGVs
-aW5lLgo+ID4gCj4gPiBXaGF0ZXZlciBzb2x1dGlvbiB3ZSBlbmQgdXAgcGlja2luZywgSSB0aGlu
-ayBpdCBzaG91bGQgYXQgbGVhc3QgYmUKPiA+IGRpc2N1c3NlZCB3aXRoIGEgYnJvYWRlciB1cHN0
-cmVhbSBhdWRpZW5jZSBhbmQgbm90IGp1c3Qgc3dlcHQgdW5kZXIgdGhlCj4gPiBvbWFwZHJtIGNh
-cnBldCA6LSkKPiAKPiBJJ2xsIHRyeSB0byB3cml0ZSBzb21ldGhpbmcgYW5kIHNlbmQgdGhlIG5l
-eHQgc2VyaWVzIHRvIHdpZGVyIGF1ZGllbmNlLgo+IExldCdzIHNlZSB3aGF0IGp1cnkgc2F5cy4K
-PiAKPiA+Pj4+IFNpZ25lZC1vZmYtYnk6IEp5cmkgU2FyaGEgPGpzYXJoYUB0aS5jb20+Cj4gPj4+
-PiBTaWduZWQtb2ZmLWJ5OiBUb21pIFZhbGtlaW5lbiA8dG9taS52YWxrZWluZW5AdGkuY29tPgo+
-ID4+Pj4gLS0tCj4gPj4+PiAgZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vb21hcF9jcnRjLmMgfCAz
-OSArKysrKysrKysrKysrKysrKysrKysrKysrKystLQo+ID4+Pj4gIDEgZmlsZSBjaGFuZ2VkLCAz
-NyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQo+ID4+Pj4KPiA+Pj4+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vb21hcGRybS9vbWFwX2NydGMuYyBiL2RyaXZlcnMvZ3B1L2RybS9v
-bWFwZHJtL29tYXBfY3J0Yy5jCj4gPj4+PiBpbmRleCAzYzVkZGJmMzBlOTcuLmQ2MzIxM2RkN2Q4
-MyAxMDA2NDQKPiA+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL29tYXBfY3J0Yy5j
-Cj4gPj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vb21hcGRybS9vbWFwX2NydGMuYwo+ID4+Pj4g
-QEAgLTM5MSw2ICszOTEsMzIgQEAgc3RhdGljIHZvaWQgb21hcF9jcnRjX21hbnVhbF9kaXNwbGF5
-X3VwZGF0ZShzdHJ1Y3Qgd29ya19zdHJ1Y3QgKmRhdGEpCj4gPj4+PiAgCX0KPiA+Pj4+ICB9Cj4g
-Pj4+PiAgCj4gPj4+PiArc3RhdGljIHMxNiBvbWFwX2NydGNfUzMxXzMyX3RvX3MyXzgoczY0IGNv
-ZWYpCj4gPj4+PiArewo+ID4+Pj4gKwl1aW50NjRfdCBzaWduX2JpdCA9IDFVTEwgPDwgNjM7Cj4g
-Pj4+PiArCXVpbnQ2NF90IGNiaXRzID0gKHVpbnQ2NF90KSBjb2VmOwo+ID4+Pgo+ID4+PiBzL3Vp
-bnQ2NF90L3U2NC8gZm9yIGJvdGggbGluZXMgYXMgd2UncmUgZGVhbGluZyB3aXRoIGtlcm5lbCBj
-b2RlLiBBbmQKPiA+Pj4gdGhlcmUncyBubyBuZWVkIGZvciBhIHNwYWNlIGJlZm9yZSBjb2VmLgo+
-ID4+Pgo+ID4+Pj4gKwlzMTYgcmV0ID0gY2xhbXBfdmFsKCgoY2JpdHMgJiB+c2lnbl9iaXQpID4+
-IDI0KSwgMCwgMHgxRkYpOwo+ID4+Pj4gKwo+ID4+Pj4gKwlpZiAoY2JpdHMgJiBzaWduX2JpdCkK
-PiA+Pj4+ICsJCXJldCA9IC1yZXQ7Cj4gPj4+PiArCj4gPj4+PiArCXJldHVybiByZXQ7Cj4gPj4+
-Cj4gPj4+IENhbid0IHRoaXMgYmUgc2ltcGxpZmllZCB0byAKPiA+Pj4KPiA+Pj4gCXMxNiByZXQg
-PSAoY29lZiA+PiAyNCkgJiAweDFmZjsKPiA+Pj4KPiA+Pj4gCXJldHVybiBjb2VmIDwgMCA/IC1y
-ZXQgOiByZXQ7Cj4gPj4+Cj4gPj4KPiA+PiBOby4gQ2xhbXBpbmcgaXMgZGlmZmVyZW50IHRoaW5n
-LiBJZiB0aGUgb3JpZ2luYWwgdmFsdWUgaXMgZ3JlYXRlciB0aGFuCj4gPj4gd2hhdCB3ZSBjYW4g
-cHJlc2VudCB3aXRoIG91ciAyIG1hZ25pdHVkZSBiaXQsIHdlIHdhbnQgdG8gdXNlIHRoZSBtYXhp
-bXVtCj4gPj4gdmFsdWUsIG5vdCBzb21ldGhpbmcgdGhhdCB3ZSBtYXkgaGF2ZSBpbiB0aGUgTFNC
-IGVuZCBvZiBiaXRzLiBlLmcgaWYKPiA+PiB1c2VyLXNwYWNlIHRyaWVzIHRvIHNldCB0aGUgdmFs
-dWUgdG8gMi4wICg9IDB4MjAwKSB3ZSByYXRoZXIgcHJlc2VudCBpdAo+ID4+IGFzIDEuOTk2ICg9
-IDB4MUZGKSB0aGFuIDAuMCAoPSAweDAwMCkuCj4gPiAKPiA+IE9mIGNvdXJzZSwgbXkgYmFkLgo+
-ID4gCj4gPiBQZXJoYXBzIGEgc3R1cGlkIHF1ZXN0aW9uLCBzaG91bGQgd2UgcmVqZWN0IG91dCBv
-ZiByYW5nZSB2YWx1ZXMgYXQKPiA+IGF0b21pYyBjaGVjayB0aW1lID8KPiAKPiBJJ3ZlIGF0IGxl
-YXN0IHNlZW4gQ1NDIG1hdHJpY2VzIHdpdGggMi4wIHZhbHVlcywgc28gSSB0aGluayB3ZSBzaG91
-bGQKPiBhY2NlcHQgdGhvc2UgYW5kIHVzZSBjbGFtcGluZywgYnV0IG1heWJlIHdlIHNob3VsZCBy
-ZWplY3QgQ1RNcyB3aXRoCj4gdmFsdWVzIGZhciBiaWdnZXIgdGhhbiB3aGF0IHdlIGNhbiByZXBy
-ZXNlbnQuIFN1Y2ggbWF0cmljZXMgd291bGQgaGFyZGx5Cj4gd29yayB0aGUgd2F5IHRoZXkgd2Vy
-ZSBpbnRlbmRlZC4KCkkgdGVuZCB0byBiZSBjb25zZXJ2YXRpdmUgaW4gc3VjaCBjYXNlcyBhbmQg
-cmVqZWN0IGludmFsaWQgdmFsdWVzLCBidXQKaWYgeW91IHRoaW5rIHRoZXJlIGFyZSB1c2VycyBp
-biB0aGUgd2lsZCB0aGF0IHdvdWxkIGJyZWFrLCB0aGVuIGNsYW1waW5nCmlzIGZpbmUgd2l0aCBt
-ZSB0b28uIElmIHdlIHdhbnQgdG8gcmVqZWN0IHZhbHVlcyBoaWdoZXIgdGhhbiAyLjAgYW5kCmNs
-YW1wIDIuMCB0byAweDFmZiB0aGVuIHRoYXQgc2hvdWxkIGJlIGRvbmUgaW4gYXRvbWljIGNoZWNr
-LCBhbmQgaGVyZSB3ZQpjb3VsZCBjb252ZXJ0IHRoZSB2YWx1ZXMgYmxpbmRseS4KCj4gPj4+PiAr
-fQo+ID4+Pj4gKwo+ID4+Pj4gK3N0YXRpYyB2b2lkIG9tYXBfY3J0Y19jcHJfY29lZnNfZnJvbV9j
-dG0oY29uc3Qgc3RydWN0IGRybV9jb2xvcl9jdG0gKmN0bSwKPiA+Pj4+ICsJCQkJCSBzdHJ1Y3Qg
-b21hcF9kc3NfY3ByX2NvZWZzICpjcHIpCj4gPj4+PiArewo+ID4+Pj4gKwljcHItPnJyID0gb21h
-cF9jcnRjX1MzMV8zMl90b19zMl84KGN0bS0+bWF0cml4WzBdKTsKPiA+Pj4+ICsJY3ByLT5yZyA9
-IG9tYXBfY3J0Y19TMzFfMzJfdG9fczJfOChjdG0tPm1hdHJpeFsxXSk7Cj4gPj4+PiArCWNwci0+
-cmIgPSBvbWFwX2NydGNfUzMxXzMyX3RvX3MyXzgoY3RtLT5tYXRyaXhbMl0pOwo+ID4+Pj4gKwlj
-cHItPmdyID0gb21hcF9jcnRjX1MzMV8zMl90b19zMl84KGN0bS0+bWF0cml4WzNdKTsKPiA+Pj4+
-ICsJY3ByLT5nZyA9IG9tYXBfY3J0Y19TMzFfMzJfdG9fczJfOChjdG0tPm1hdHJpeFs0XSk7Cj4g
-Pj4+PiArCWNwci0+Z2IgPSBvbWFwX2NydGNfUzMxXzMyX3RvX3MyXzgoY3RtLT5tYXRyaXhbNV0p
-Owo+ID4+Pj4gKwljcHItPmJyID0gb21hcF9jcnRjX1MzMV8zMl90b19zMl84KGN0bS0+bWF0cml4
-WzZdKTsKPiA+Pj4+ICsJY3ByLT5iZyA9IG9tYXBfY3J0Y19TMzFfMzJfdG9fczJfOChjdG0tPm1h
-dHJpeFs3XSk7Cj4gPj4+PiArCWNwci0+YmIgPSBvbWFwX2NydGNfUzMxXzMyX3RvX3MyXzgoY3Rt
-LT5tYXRyaXhbOF0pOwo+ID4+Pj4gK30KPiA+Pj4+ICsKPiA+Pj4+ICBzdGF0aWMgdm9pZCBvbWFw
-X2NydGNfd3JpdGVfY3J0Y19wcm9wZXJ0aWVzKHN0cnVjdCBkcm1fY3J0YyAqY3J0YykKPiA+Pj4+
-ICB7Cj4gPj4+PiAgCXN0cnVjdCBvbWFwX2RybV9wcml2YXRlICpwcml2ID0gY3J0Yy0+ZGV2LT5k
-ZXZfcHJpdmF0ZTsKPiA+Pj4+IEBAIC00MDIsNyArNDI4LDE2IEBAIHN0YXRpYyB2b2lkIG9tYXBf
-Y3J0Y193cml0ZV9jcnRjX3Byb3BlcnRpZXMoc3RydWN0IGRybV9jcnRjICpjcnRjKQo+ID4+Pj4g
-IAlpbmZvLmRlZmF1bHRfY29sb3IgPSAweDAwMDAwMDsKPiA+Pj4+ICAJaW5mby50cmFuc19lbmFi
-bGVkID0gZmFsc2U7Cj4gPj4+PiAgCWluZm8ucGFydGlhbF9hbHBoYV9lbmFibGVkID0gZmFsc2U7
-Cj4gPj4+PiAtCWluZm8uY3ByX2VuYWJsZSA9IGZhbHNlOwo+ID4+Pj4gKwo+ID4+Pj4gKwlpZiAo
-Y3J0Yy0+c3RhdGUtPmN0bSkgewo+ID4+Pj4gKwkJc3RydWN0IGRybV9jb2xvcl9jdG0gKmN0bSA9
-Cj4gPj4+PiArCQkJKHN0cnVjdCBkcm1fY29sb3JfY3RtICopIGNydGMtPnN0YXRlLT5jdG0tPmRh
-dGE7Cj4gPj4+PiArCj4gPj4+PiArCQlpbmZvLmNwcl9lbmFibGUgPSB0cnVlOwo+ID4+Pj4gKwkJ
-b21hcF9jcnRjX2Nwcl9jb2Vmc19mcm9tX2N0bShjdG0sICZpbmZvLmNwcl9jb2Vmcyk7Cj4gPj4+
-Cj4gPj4+IEFzIGFuIG9wdGltaXNhdGlvbiBpdCB3b3VsZCBiZSBuaWNlIHRvIG9ubHkgd3JpdGUg
-dGhlIGNvZWZmaWNpZW50cyB3aGVuCj4gPj4+IHRoZXkgYWN0dWFsbHkgY2hhbmdlLiBUaGF0IGNv
-dWxkIGJlIGltcGxlbWVudGVkIG9uIHRvcCBvZiB0aGlzIHNlcmllcy4KPiA+Pgo+ID4+IEUuZy4g
-YXBwbHkgdGhpcyA/Cj4gPj4KPiA+PiAtIGlmIChjcnRjLT5zdGF0ZS0+Y3RtKQo+ID4+ICsgaWYg
-KGNydGMtPnN0YXRlLT5jb2xvcl9tZ210X2NoYW5nZWQgJiYgY3J0Yy0+c3RhdGUtPmN0bSkKPiA+
-IAo+ID4gU29tZXRoaW5nIGxpa2UgdGhhdCwgYnV0IC5tZ3Jfc2V0dXAoKSBzaG91bGQgdGhlbiBi
-ZSB0YXVnaHQgbm90IHRvIHdyaXRlCj4gPiB1bmNoYW5nZWQgQ1RNIHRhYmxlcyB0byByZWdpc3Rl
-cnMuIERvIHlvdSB0aGluayBpdCB3b3VsZCBiZSB3b3J0aCBpdCA/Cj4gCj4gSG1tbSwgamVzcyBJ
-IHNob3VsZCBkbyBpdCBsaWtlIHRoaXM6Cj4gaWYgKGNydGMtPnN0YXRlLT5jb2xvcl9tZ210X2No
-YW5nZWQpIHsKPiAJaWYgKGNydGMtPnN0YXRlLT5jdG0pIHsKPiAuLi4KPiA+Pj4+ICsJfSBlbHNl
-IHsKPiA+Pj4+ICsJCWluZm8uY3ByX2VuYWJsZSA9IGZhbHNlOwo+ID4+Pj4gKwl9Cj4gfQo+IAo+
-IFRoaXMgd2F5IHRoZSB3aG9sZSBDUFIgZnVuY3Rpb25hbGl0eSBpcyB0dXJuZWQgb2ZmLCBpZiB0
-aGUgdGhlcmUgaXMgbm8KPiBDVE0gaW4gdGhlIGNydGMgc3RhdGUuCgpZZXMsIGJ1dCB5b3Ugd291
-bGQgYWxzbyBuZWVkIHRvIHVwZGF0ZSAubWdyX3NldHVwKCkgOi0pIEEgbmV3CmNvbG9yX21nbXRf
-Y2hhbmdlZCBmbGFnIHdvdWxkIGJlIG5lZWRlZCBpbiB0aGUgaW5mbyBzdHJ1Y3R1cmUgdG9vLgoK
-PiA+Pj4+ICAKPiA+Pj4+ICAJcHJpdi0+ZGlzcGNfb3BzLT5tZ3Jfc2V0dXAocHJpdi0+ZGlzcGMs
-IG9tYXBfY3J0Yy0+Y2hhbm5lbCwgJmluZm8pOwo+ID4+Pj4gIH0KPiA+Pj4+IEBAIC04MzYsNyAr
-ODcxLDcgQEAgc3RydWN0IGRybV9jcnRjICpvbWFwX2NydGNfaW5pdChzdHJ1Y3QgZHJtX2Rldmlj
-ZSAqZGV2LAo+ID4+Pj4gIAlpZiAocHJpdi0+ZGlzcGNfb3BzLT5tZ3JfZ2FtbWFfc2l6ZShwcml2
-LT5kaXNwYywgY2hhbm5lbCkpIHsKPiA+Pj4+ICAJCXVuc2lnbmVkIGludCBnYW1tYV9sdXRfc2l6
-ZSA9IDI1NjsKPiA+Pj4+ICAKPiA+Pj4+IC0JCWRybV9jcnRjX2VuYWJsZV9jb2xvcl9tZ210KGNy
-dGMsIDAsIGZhbHNlLCBnYW1tYV9sdXRfc2l6ZSk7Cj4gPj4+PiArCQlkcm1fY3J0Y19lbmFibGVf
-Y29sb3JfbWdtdChjcnRjLCAwLCB0cnVlLCBnYW1tYV9sdXRfc2l6ZSk7Cj4gPj4+PiAgCQlkcm1f
-bW9kZV9jcnRjX3NldF9nYW1tYV9zaXplKGNydGMsIGdhbW1hX2x1dF9zaXplKTsKPiA+Pj4+ICAJ
-fQo+ID4+Pj4gIAoKLS0gClJlZ2FyZHMsCgpMYXVyZW50IFBpbmNoYXJ0Cl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0589146041==
+Content-Type: multipart/alternative; boundary="15676354160.A9F2.26293"
+Content-Transfer-Encoding: 7bit
+
+
+--15676354160.A9F2.26293
+Date: Wed, 4 Sep 2019 22:16:56 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111482
+
+--- Comment #9 from Robert <freedesktop@postfach.xyz> ---
+Thanks Andrew, but I guess I don't know how to interpret your last comment =
+;-)
+Is there something I can test/change? I can't change the value of
+"/sys/class/drm/card0/device/pp_dpm_mclk" which is the memclock frequency
+AFAIK. It always stays at 875Mhz regardless which value I submit. As soon a=
+s I
+start KDE Plasma I open "konsole" and I see the 875Mhz. So the power usage =
+is
+already high at this point and not after using KDE Plasma for a while.
+Executing=20
+
+echo "2" > /sys/class/drm/card0/device/pp_dpm_mclk
+
+e.g. doesn't change the freqency.
+
+Maybe it's a "KDE Plasma + X server" thingy. Users which are using "KDE Pla=
+sma
++ Wayland" seems less frequently affected by the problem. But that's not re=
+ally
+an option for me as I need screen sharing from time to time via Zoom video
+conferencing or Slack and AFAIK that still doesn't work with Wayland (besid=
+es
+other problems). It's somehow funny that Wayland seems to be less of an iss=
+ue
+than X...
+
+Maybe it's a X570 chipset + 5700XT thingy. I've no idea. I'm not a driver
+developer ;-) I can only try things out like settings or patches (if I get
+some). But I guess this is one of the issues that some future commit will m=
+aybe
+fix "by accident" or it will just stay there forever ;-) If I see how long
+other AMD related threads stay around in this bug tracker without solution =
+or
+some solution after years I currently don't have much hope that there will =
+be
+any solution for my problem. Hopefully Intel launches a dedicated graphics =
+card
+sometimes next year. I never had notable issues with Intel hardware and Lin=
+ux
+within the last few years. It just works ;-)
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15676354160.A9F2.26293
+Date: Wed, 4 Sep 2019 22:16:56 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482#c9">Commen=
+t # 9</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482">bug 11148=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+freedesktop&#64;postfach.xyz" title=3D"Robert &lt;freedesktop&#64;postfach.=
+xyz&gt;"> <span class=3D"fn">Robert</span></a>
+</span></b>
+        <pre>Thanks Andrew, but I guess I don't know how to interpret your =
+last comment ;-)
+Is there something I can test/change? I can't change the value of
+&quot;/sys/class/drm/card0/device/pp_dpm_mclk&quot; which is the memclock f=
+requency
+AFAIK. It always stays at 875Mhz regardless which value I submit. As soon a=
+s I
+start KDE Plasma I open &quot;konsole&quot; and I see the 875Mhz. So the po=
+wer usage is
+already high at this point and not after using KDE Plasma for a while.
+Executing=20
+
+echo &quot;2&quot; &gt; /sys/class/drm/card0/device/pp_dpm_mclk
+
+e.g. doesn't change the freqency.
+
+Maybe it's a &quot;KDE Plasma + X server&quot; thingy. Users which are usin=
+g &quot;KDE Plasma
++ Wayland&quot; seems less frequently affected by the problem. But that's n=
+ot really
+an option for me as I need screen sharing from time to time via Zoom video
+conferencing or Slack and AFAIK that still doesn't work with Wayland (besid=
+es
+other problems). It's somehow funny that Wayland seems to be less of an iss=
+ue
+than X...
+
+Maybe it's a X570 chipset + 5700XT thingy. I've no idea. I'm not a driver
+developer ;-) I can only try things out like settings or patches (if I get
+some). But I guess this is one of the issues that some future commit will m=
+aybe
+fix &quot;by accident&quot; or it will just stay there forever ;-) If I see=
+ how long
+other AMD related threads stay around in this bug tracker without solution =
+or
+some solution after years I currently don't have much hope that there will =
+be
+any solution for my problem. Hopefully Intel launches a dedicated graphics =
+card
+sometimes next year. I never had notable issues with Intel hardware and Lin=
+ux
+within the last few years. It just works ;-)</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15676354160.A9F2.26293--
+
+--===============0589146041==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0589146041==--
