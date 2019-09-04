@@ -2,44 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5911CA960D
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2019 00:17:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E342EA9660
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2019 00:27:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DC9989CAA;
-	Wed,  4 Sep 2019 22:16:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FD5289CAF;
+	Wed,  4 Sep 2019 22:27:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id C194B89CAA
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2019 22:16:56 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B39DF72161; Wed,  4 Sep 2019 22:16:56 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111482] Sapphire Pulse RX 5700 XT power consumption
-Date: Wed, 04 Sep 2019 22:16:57 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: freedesktop@postfach.xyz
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111482-502-9dRApXzR6Z@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111482-502@http.bugs.freedesktop.org/>
-References: <bug-111482-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com
+ [IPv6:2607:f8b0:4864:20::d2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65C0089B9F;
+ Wed,  4 Sep 2019 22:27:01 +0000 (UTC)
+Received: by mail-io1-xd2c.google.com with SMTP id u185so88854iod.10;
+ Wed, 04 Sep 2019 15:27:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=v80n4rXbkShFgebQ5FICTxVnnlRSUULZ8/gy7pHLeh8=;
+ b=HgRzKG9mkZZZ3xJDuqkJIjsApasoOFomr6cFto/zlE6olCUUVN6ujEPyvBFCxtqg9k
+ oyaNn8UsesXQBRkKRUM56FV7gliQUe9mHb9uH0OEayvrk3et0sbUaQ9FAarP7UrTW/6v
+ x/SQfRe+YKm5AOOoNLhWPmO+luOcipEQSEQMb+6BOjPyz5S/3PUvisYrX68lj6ZgKVGs
+ Jl4FtbC272h7WckVnL/N+rEvxyIZhog7JC/jdmXnxaNirIkSf3HqJYqbHNfq1WxgC7cn
+ fH+AyZvuUL3Q/YRZ+riTBfHuQQuRpB90+ek8UAe6Qk4Ffj3YU1EtyUsvmU7rJpxu3bhF
+ vODw==
+X-Gm-Message-State: APjAAAU19N/YJZhunu2s+c7g7VEnV2UiOnToknQI7wDuqSf3oBjUkXL/
+ 2cUCPmlh4TjoRMh1TLXrg8DpQesu/6f7xXy+Wek=
+X-Google-Smtp-Source: APXvYqxACw1EXq4uIdOI7CJyO7UyP+1ZXGBZQYOvghT0n0Tbuenh4J7du10svLvKeNIA9o3Pc5CticXAL6o0zcY2MIg=
+X-Received: by 2002:a6b:8d84:: with SMTP id p126mr375199iod.111.1567636020233; 
+ Wed, 04 Sep 2019 15:27:00 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190830032948.13516-1-hdanton@sina.com>
+ <CABXGCsNywbo90+wgiZ64Srm-KexypTbjiviwTW_BsO9Pm11GKQ@mail.gmail.com>
+ <5d6e2298.1c69fb81.b5532.8395SMTPIN_ADDED_MISSING@mx.google.com>
+ <CABXGCsMG2YrybO4_5jHaFQQxy2ywB53pY63qRfXK=ZKx5qc2Bw@mail.gmail.com>
+ <CAKMK7uH9q09XadTV5Ezm=9aODErD=w_+8feujviVnF5LO_fggA@mail.gmail.com>
+ <5d6f10a6.1c69fb81.6b104.af73SMTPIN_ADDED_MISSING@mx.google.com>
+ <20190904083747.GE2112@phenom.ffwll.local>
+In-Reply-To: <20190904083747.GE2112@phenom.ffwll.local>
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Date: Thu, 5 Sep 2019 03:26:49 +0500
+Message-ID: <CABXGCsMEjP-UQ5A1xpL-xWHxtFEsOUO14+cmWJUS1ff1hgReFA@mail.gmail.com>
+Subject: Re: gnome-shell stuck because of amdgpu driver [5.3 RC5]
+To: Hillf Danton <hdanton@sina.com>,
+ Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Linux kernel <linux-kernel@vger.kernel.org>, 
+ Alex Deucher <alexdeucher@gmail.com>, Harry Wentland <hwentlan@amd.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=v80n4rXbkShFgebQ5FICTxVnnlRSUULZ8/gy7pHLeh8=;
+ b=sOU7Av1JfUZVGNSUO8hYl2UV5cekBaoLdvH9Jj9Dpf2HwWXaidWa0dZm4JIYsixbEk
+ obLF3hcaSy1wrxU73q8L85ND+K3Ckv18SPO0z+MIDjPew1BND3+BIxErgT6hhn/HkwoW
+ uGqM3dPWHuLcPHu8hOi/bu6U8sqFQ2Hx8B/qIIgvAJ4fagjRK2oP+eiSGAPBMXAYieAv
+ JTC8VPNLd4/o1+K2kCxN4aET4e09C9+Q1OfNJt+C6DwKewDn2vfgqX2wFmK0lVKQWVqo
+ vrI/tnVUTxkNfYwNPn44C/XTGV5bhIpsFOpUKrUY3zcfAbPiC9wzA4LJbQzL7AJYaaoH
+ M7jQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,166 +73,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0589146041=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0589146041==
-Content-Type: multipart/alternative; boundary="15676354160.A9F2.26293"
-Content-Transfer-Encoding: 7bit
-
-
---15676354160.A9F2.26293
-Date: Wed, 4 Sep 2019 22:16:56 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111482
-
---- Comment #9 from Robert <freedesktop@postfach.xyz> ---
-Thanks Andrew, but I guess I don't know how to interpret your last comment =
-;-)
-Is there something I can test/change? I can't change the value of
-"/sys/class/drm/card0/device/pp_dpm_mclk" which is the memclock frequency
-AFAIK. It always stays at 875Mhz regardless which value I submit. As soon a=
-s I
-start KDE Plasma I open "konsole" and I see the 875Mhz. So the power usage =
-is
-already high at this point and not after using KDE Plasma for a while.
-Executing=20
-
-echo "2" > /sys/class/drm/card0/device/pp_dpm_mclk
-
-e.g. doesn't change the freqency.
-
-Maybe it's a "KDE Plasma + X server" thingy. Users which are using "KDE Pla=
-sma
-+ Wayland" seems less frequently affected by the problem. But that's not re=
-ally
-an option for me as I need screen sharing from time to time via Zoom video
-conferencing or Slack and AFAIK that still doesn't work with Wayland (besid=
-es
-other problems). It's somehow funny that Wayland seems to be less of an iss=
-ue
-than X...
-
-Maybe it's a X570 chipset + 5700XT thingy. I've no idea. I'm not a driver
-developer ;-) I can only try things out like settings or patches (if I get
-some). But I guess this is one of the issues that some future commit will m=
-aybe
-fix "by accident" or it will just stay there forever ;-) If I see how long
-other AMD related threads stay around in this bug tracker without solution =
-or
-some solution after years I currently don't have much hope that there will =
-be
-any solution for my problem. Hopefully Intel launches a dedicated graphics =
-card
-sometimes next year. I never had notable issues with Intel hardware and Lin=
-ux
-within the last few years. It just works ;-)
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15676354160.A9F2.26293
-Date: Wed, 4 Sep 2019 22:16:56 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482#c9">Commen=
-t # 9</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482">bug 11148=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-freedesktop&#64;postfach.xyz" title=3D"Robert &lt;freedesktop&#64;postfach.=
-xyz&gt;"> <span class=3D"fn">Robert</span></a>
-</span></b>
-        <pre>Thanks Andrew, but I guess I don't know how to interpret your =
-last comment ;-)
-Is there something I can test/change? I can't change the value of
-&quot;/sys/class/drm/card0/device/pp_dpm_mclk&quot; which is the memclock f=
-requency
-AFAIK. It always stays at 875Mhz regardless which value I submit. As soon a=
-s I
-start KDE Plasma I open &quot;konsole&quot; and I see the 875Mhz. So the po=
-wer usage is
-already high at this point and not after using KDE Plasma for a while.
-Executing=20
-
-echo &quot;2&quot; &gt; /sys/class/drm/card0/device/pp_dpm_mclk
-
-e.g. doesn't change the freqency.
-
-Maybe it's a &quot;KDE Plasma + X server&quot; thingy. Users which are usin=
-g &quot;KDE Plasma
-+ Wayland&quot; seems less frequently affected by the problem. But that's n=
-ot really
-an option for me as I need screen sharing from time to time via Zoom video
-conferencing or Slack and AFAIK that still doesn't work with Wayland (besid=
-es
-other problems). It's somehow funny that Wayland seems to be less of an iss=
-ue
-than X...
-
-Maybe it's a X570 chipset + 5700XT thingy. I've no idea. I'm not a driver
-developer ;-) I can only try things out like settings or patches (if I get
-some). But I guess this is one of the issues that some future commit will m=
-aybe
-fix &quot;by accident&quot; or it will just stay there forever ;-) If I see=
- how long
-other AMD related threads stay around in this bug tracker without solution =
-or
-some solution after years I currently don't have much hope that there will =
-be
-any solution for my problem. Hopefully Intel launches a dedicated graphics =
-card
-sometimes next year. I never had notable issues with Intel hardware and Lin=
-ux
-within the last few years. It just works ;-)</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15676354160.A9F2.26293--
-
---===============0589146041==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
+T24gV2VkLCA0IFNlcCAyMDE5IGF0IDEzOjM3LCBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwu
+Y2g+IHdyb3RlOgo+Cj4gRXh0ZW5kIHlvdXIgYmFja3RyYWMgd2FybmluZyBzbGlnaHRseSBsaWtl
+Cj4KPiAgICAgICAgIFdBUk4ociwgIndlJ3JlIHN0dWNrIG9uIGZlbmNlICVwU1xuIiwgZmVuY2Ut
+Pm9wcyk7Cj4KPiBBbHNvIGFkZGluZyBIYXJyeSBhbmQgQWxleCwgSSdtIG5vdCByZWFsbHkgd29y
+a2luZyBvbiBhbWRncHUgLi4uCgpbIDM1MTEuOTk4MzIwXSAtLS0tLS0tLS0tLS1bIGN1dCBoZXJl
+IF0tLS0tLS0tLS0tLS0KWyAzNTExLjk5ODcxNF0gd2UncmUgc3R1Y2sgb24gZmVuY2UKYW1kZ3B1
+X2ZlbmNlX29wcysweDAvMHhmZmZmZmZmZmZmZmZjMjIwIFthbWRncHVdClsgMzUxMS45OTg5OTFd
+IFdBUk5JTkc6IENQVTogMTAgUElEOiAxODExIGF0CmRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
+L2FtZGdwdV9mZW5jZS5jOjMzMgphbWRncHVfZmVuY2Vfd2FpdF9lbXB0eSsweDFjNi8weDI0MCBb
+YW1kZ3B1XQpbIDM1MTEuOTk5MDA5XSBNb2R1bGVzIGxpbmtlZCBpbjogcmZjb21tIGZ1c2UgeHRf
+Q0hFQ0tTVU0KeHRfTUFTUVVFUkFERSBuZl9uYXRfdGZ0cCBuZl9jb25udHJhY2tfdGZ0cCB0dW4g
+YnJpZGdlIHN0cCBsbGMKbmZfY29ubnRyYWNrX25ldGJpb3NfbnMgbmZfY29ubnRyYWNrX2Jyb2Fk
+Y2FzdCB4dF9DVCBpcDZ0X1JFSkVDVApuZl9yZWplY3RfaXB2NiBpcDZ0X3JwZmlsdGVyIGlwdF9S
+RUpFQ1QgbmZfcmVqZWN0X2lwdjQgeHRfY29ubnRyYWNrCmVidGFibGVfbmF0IGlwNnRhYmxlX25h
+dCBpcDZ0YWJsZV9tYW5nbGUgaXA2dGFibGVfcmF3CmlwNnRhYmxlX3NlY3VyaXR5IGlwdGFibGVf
+bmF0IG5mX25hdCBpcHRhYmxlX21hbmdsZSBpcHRhYmxlX3JhdwppcHRhYmxlX3NlY3VyaXR5IG5m
+X2Nvbm50cmFjayBuZl9kZWZyYWdfaXB2NiBuZl9kZWZyYWdfaXB2NCBsaWJjcmMzMmMKaXBfc2V0
+IG5mbmV0bGluayBlYnRhYmxlX2ZpbHRlciBlYnRhYmxlcyBpcDZ0YWJsZV9maWx0ZXIgaXA2X3Rh
+YmxlcwppcHRhYmxlX2ZpbHRlciBjbWFjIGJuZXAgc3VucnBjIHZmYXQgZmF0IGVkYWNfbWNlX2Ft
+ZCBrdm1fYW1kCnNuZF9oZGFfY29kZWNfcmVhbHRlayBydHdwY2kgc25kX2hkYV9jb2RlY19nZW5l
+cmljIGt2bSBsZWR0cmlnX2F1ZGlvCnNuZF9oZGFfY29kZWNfaGRtaSB1dmN2aWRlbyBydHc4OCB2
+aWRlb2J1ZjJfdm1hbGxvYyBzbmRfaGRhX2ludGVsCnZpZGVvYnVmMl9tZW1vcHMgdmlkZW9idWYy
+X3Y0bDIgaXJxYnlwYXNzIHNuZF91c2JfYXVkaW8gc25kX2hkYV9jb2RlYwp2aWRlb2J1ZjJfY29t
+bW9uIGNyY3QxMGRpZl9wY2xtdWwgc25kX3VzYm1pZGlfbGliIGNyYzMyX3BjbG11bAptYWM4MDIx
+MSBzbmRfcmF3bWlkaSB2aWRlb2RldiBzbmRfaGRhX2NvcmUgZ2hhc2hfY2xtdWxuaV9pbnRlbCBi
+dHVzYgpzbmRfaHdkZXAgYnRydGwgc25kX3NlcSBidGJjbSBidGludGVsIHNuZF9zZXFfZGV2aWNl
+IGVlZXBjX3dtaQpibHVldG9vdGggeHBhZCBqb3lkZXYgbWMgc25kX3BjbQpbIDM1MTEuOTk5MDc2
+XSAgYXN1c193bWkgZmZfbWVtbGVzcyBjZmc4MDIxMSBzcGFyc2Vfa2V5bWFwIHZpZGVvCndtaV9i
+bW9mIGVjZGhfZ2VuZXJpYyBzbmRfdGltZXIgZWNjIHNwNTEwMF90Y28gazEwdGVtcCBzbmQgaTJj
+X3BpaXg0CmNjcCByZmtpbGwgc291bmRjb3JlIGxpYmFyYzQgZ3Bpb19hbWRwdCBncGlvX2dlbmVy
+aWMgYWNwaV9jcHVmcmVxCmJpbmZtdF9taXNjIGlwX3RhYmxlcyBoaWRfbG9naXRlY2hfaGlkcHAg
+aGlkX2xvZ2l0ZWNoX2RqIGFtZGdwdQphbWRfaW9tbXVfdjIgZ3B1X3NjaGVkIHR0bSBkcm1fa21z
+X2hlbHBlciBkcm0gY3JjMzJjX2ludGVsIGlnYiBkY2EKbnZtZSBpMmNfYWxnb19iaXQgbnZtZV9j
+b3JlIHdtaSBwaW5jdHJsX2FtZApbIDM1MTEuOTk5MTI2XSBDUFU6IDEwIFBJRDogMTgxMSBDb21t
+OiBYb3JnIE5vdCB0YWludGVkCjUuMy4wLTAucmM2LmdpdDIuMWMuZmMzMi54ODZfNjQgIzEKWyAz
+NTExLjk5OTEzMV0gSGFyZHdhcmUgbmFtZTogU3lzdGVtIG1hbnVmYWN0dXJlciBTeXN0ZW0gUHJv
+ZHVjdApOYW1lL1JPRyBTVFJJWCBYNDcwLUkgR0FNSU5HLCBCSU9TIDI3MDMgMDgvMjAvMjAxOQpb
+IDM1MTEuOTk5MjUzXSBSSVA6IDAwMTA6YW1kZ3B1X2ZlbmNlX3dhaXRfZW1wdHkrMHgxYzYvMHgy
+NDAgW2FtZGdwdV0KWyAzNTExLjk5OTI3OF0gQ29kZTogZmUgZmYgZmYgMzEgYzAgYzMgNDggODkg
+ZWYgZTggMzYgMjkgMDQgY2IgODQgYzAKNzQgMDggNDggODkgZWYgZTggOGEgYTkgMjEgY2IgNDgg
+OGIgNzUgMDggNDggYzcgYzcgMmMgMTYgODYgYzAgZTggODIKYjggYjkgY2EgPDBmPiAwYiBiOCBl
+YSBmZiBmZiBmZiA1ZCBjMyBlOCBlYyA1NyBjMyBjYSA4NCBjMCAwZiA4NSA2ZiBmZgpmZiBmZgpb
+IDM1MTEuOTk5MjgyXSBSU1A6IDAwMTg6ZmZmZmI5YzA0MTcwZjc5OCBFRkxBR1M6IDAwMjEwMjgy
+ClsgMzUxMS45OTkyODhdIFJBWDogMDAwMDAwMDAwMDAwMDAwMCBSQlg6IGZmZmY4ZDJjZTUyMDVh
+ODAgUkNYOiAwMDAwMDAwMDAwMDAwMDA2ClsgMzUxMS45OTkyOTJdIFJEWDogMDAwMDAwMDAwMDAw
+MDAwNyBSU0k6IGZmZmY4ZDJjNWJlYTQwNzAgUkRJOiBmZmZmOGQyY2ZiNWQ5ZTAwClsgMzUxMS45
+OTkyOTZdIFJCUDogZmZmZjhkMjhiZWNhZTQ4MCBSMDg6IDAwMDAwMzMxYjM2ZmQ1MDMgUjA5OiAw
+MDAwMDAwMDAwMDAwMDAwClsgMzUxMS45OTkyOTldIFIxMDogMDAwMDAwMDAwMDAwMDAwMCBSMTE6
+IDAwMDAwMDAwMDAwMDAwMDAgUjEyOiBmZmZmOGQyY2U1MjAwMDAwClsgMzUxMS45OTkzMDNdIFIx
+MzogMDAwMDAwMDAwMDAwMDAwMCBSMTQ6IDAwMDAwMDAwMDAwMDAwMDAgUjE1OiBmZmZmOGQyY2Ux
+NTQwMDAwClsgMzUxMS45OTkzMDhdIEZTOiAgMDAwMDdmNTlhNWJjNmYwMCgwMDAwKSBHUzpmZmZm
+OGQyY2ZiNDAwMDAwKDAwMDApCmtubEdTOjAwMDAwMDAwMDAwMDAwMDAKWyAzNTExLjk5OTMxMV0g
+Q1M6ICAwMDEwIERTOiAwMDAwIEVTOiAwMDAwIENSMDogMDAwMDAwMDA4MDA1MDAzMwpbIDM1MTEu
+OTk5MzE1XSBDUjI6IDAwMDAxMTA4YmM0NzU5NjAgQ1IzOiAwMDAwMDAwNzViZjMyMDAwIENSNDog
+MDAwMDAwMDAwMDM0MDZlMApbIDM1MTEuOTk5MzE5XSBDYWxsIFRyYWNlOgpbIDM1MTEuOTk5Mzk0
+XSAgYW1kZ3B1X3BtX2NvbXB1dGVfY2xvY2tzKzB4NzAvMHg1ZjAgW2FtZGdwdV0KWyAzNTExLjk5
+OTUwM10gIGRtX3BwX2FwcGx5X2Rpc3BsYXlfcmVxdWlyZW1lbnRzKzB4MWE4LzB4MWMwIFthbWRn
+cHVdClsgMzUxMS45OTk2MDldICBkY2UxMl91cGRhdGVfY2xvY2tzKzB4ZDgvMHgxMTAgW2FtZGdw
+dV0KWyAzNTExLjk5OTcxMl0gIGRjX2NvbW1pdF9zdGF0ZSsweDQxNC8weDU5MCBbYW1kZ3B1XQpb
+IDM1MTEuOTk5NzI1XSAgPyBmaW5kX2hlbGRfbG9jaysweDMyLzB4OTAKWyAzNTExLjk5OTgzMl0g
+IGFtZGdwdV9kbV9hdG9taWNfY29tbWl0X3RhaWwrMHhkMTgvMHgxY2YwIFthbWRncHVdClsgMzUx
+MS45OTk4NDRdICA/IHJlYWNxdWlyZV9oZWxkX2xvY2tzKzB4ZWQvMHgyMTAKWyAzNTExLjk5OTg1
+OV0gID8gdHRtX2V1X2JhY2tvZmZfcmVzZXJ2YXRpb24rMHhhNS8weDE2MCBbdHRtXQpbIDM1MTEu
+OTk5ODY2XSAgPyBmaW5kX2hlbGRfbG9jaysweDMyLzB4OTAKWyAzNTExLjk5OTg3Ml0gID8gZmlu
+ZF9oZWxkX2xvY2srMHgzMi8weDkwClsgMzUxMS45OTk4ODFdICA/IF9fbG9ja19hY3F1aXJlKzB4
+MjQ3LzB4MTkxMApbIDM1MTEuOTk5ODkzXSAgPyBmaW5kX2hlbGRfbG9jaysweDMyLzB4OTAKWyAz
+NTExLjk5OTkwMV0gID8gbWFya19oZWxkX2xvY2tzKzB4NTAvMHg4MApbIDM1MTEuOTk5OTA3XSAg
+PyBfcmF3X3NwaW5fdW5sb2NrX2lycSsweDI5LzB4NDAKWyAzNTExLjk5OTkxM10gID8gbG9ja2Rl
+cF9oYXJkaXJxc19vbisweGYwLzB4MTgwClsgMzUxMS45OTk5MTldICA/IF9yYXdfc3Bpbl91bmxv
+Y2tfaXJxKzB4MjkvMHg0MApbIDM1MTEuOTk5OTI0XSAgPyB3YWl0X2Zvcl9jb21wbGV0aW9uX3Rp
+bWVvdXQrMHg3NS8weDE5MApbIDM1MTEuOTk5OTUyXSAgPyBjb21taXRfdGFpbCsweDNjLzB4NzAg
+W2RybV9rbXNfaGVscGVyXQpbIDM1MTEuOTk5OTY2XSAgY29tbWl0X3RhaWwrMHgzYy8weDcwIFtk
+cm1fa21zX2hlbHBlcl0KWyAzNTExLjk5OTk3OV0gIGRybV9hdG9taWNfaGVscGVyX2NvbW1pdCsw
+eGUzLzB4MTUwIFtkcm1fa21zX2hlbHBlcl0KWyAzNTEyLjAwMDAwMl0gIGRybV9tb2RlX2F0b21p
+Y19pb2N0bCsweDc5My8weDliMCBbZHJtXQpbIDM1MTIuMDAwMDE0XSAgPyBfX2xvY2tfYWNxdWly
+ZSsweDI0Ny8weDE5MTAKWyAzNTEyLjAwMDA0NF0gID8gZHJtX2F0b21pY19zZXRfcHJvcGVydHkr
+MHhhNTAvMHhhNTAgW2RybV0KWyAzNTEyLjAwMDA2Nl0gIGRybV9pb2N0bF9rZXJuZWwrMHhhYS8w
+eGYwIFtkcm1dClsgMzUxMi4wMDAwODhdICBkcm1faW9jdGwrMHgyMDgvMHgzOTAgW2RybV0KWyAz
+NTEyLjAwMDEwOF0gID8gZHJtX2F0b21pY19zZXRfcHJvcGVydHkrMHhhNTAvMHhhNTAgW2RybV0K
+WyAzNTEyLjAwMDEyMF0gID8gbG9ja2RlcF9oYXJkaXJxc19vbisweGYwLzB4MTgwClsgMzUxMi4w
+MDAyMDVdICBhbWRncHVfZHJtX2lvY3RsKzB4NDkvMHg4MCBbYW1kZ3B1XQpbIDM1MTIuMDAwMjE2
+XSAgZG9fdmZzX2lvY3RsKzB4NDExLzB4NzUwClsgMzUxMi4wMDAyMjldICBrc3lzX2lvY3RsKzB4
+NWUvMHg5MApbIDM1MTIuMDAwMjM3XSAgX194NjRfc3lzX2lvY3RsKzB4MTYvMHgyMApbIDM1MTIu
+MDAwMjQyXSAgZG9fc3lzY2FsbF82NCsweDVjLzB4YjAKWyAzNTEyLjAwMDI0OV0gIGVudHJ5X1NZ
+U0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsweDQ5LzB4YmUKWyAzNTEyLjAwMDI1NF0gUklQOiAwMDMz
+OjB4N2Y1OWE2MDNkMDBiClsgMzUxMi4wMDAyNTldIENvZGU6IDBmIDFlIGZhIDQ4IDhiIDA1IDdk
+IDllIDBjIDAwIDY0IGM3IDAwIDI2IDAwIDAwCjAwIDQ4IGM3IGMwIGZmIGZmIGZmIGZmIGMzIDY2
+IDBmIDFmIDQ0IDAwIDAwIGYzIDBmIDFlIGZhIGI4IDEwIDAwIDAwCjAwIDBmIDA1IDw0OD4gM2Qg
+MDEgZjAgZmYgZmYgNzMgMDEgYzMgNDggOGIgMGQgNGQgOWUgMGMgMDAgZjcgZDggNjQgODkKMDEg
+NDgKWyAzNTEyLjAwMDI2M10gUlNQOiAwMDJiOjAwMDA3ZmZjNDkzYmNjMDggRUZMQUdTOiAwMDAw
+MDI0NiBPUklHX1JBWDoKMDAwMDAwMDAwMDAwMDAxMApbIDM1MTIuMDAwMjY3XSBSQVg6IGZmZmZm
+ZmZmZmZmZmZmZGEgUkJYOiAwMDAwN2ZmYzQ5M2JjYzUwIFJDWDogMDAwMDdmNTlhNjAzZDAwYgpb
+IDM1MTIuMDAwMjcxXSBSRFg6IDAwMDA3ZmZjNDkzYmNjNTAgUlNJOiAwMDAwMDAwMGMwMzg2NGJj
+IFJESTogMDAwMDAwMDAwMDAwMDAwZQpbIDM1MTIuMDAwMjc1XSBSQlA6IDAwMDAwMDAwYzAzODY0
+YmMgUjA4OiAwMDAwNTVhYTYyZTQxZDAwIFIwOTogMDAwMDAwMDAwMDAwMDAwMQpbIDM1MTIuMDAw
+Mjc4XSBSMTA6IDAwMDAwMDAwMDAwMDAwMDEgUjExOiAwMDAwMDAwMDAwMDAwMjQ2IFIxMjogMDAw
+MDU1YWE2MWE5OWQwMApbIDM1MTIuMDAwMjgyXSBSMTM6IDAwMDAwMDAwMDAwMDAwMGUgUjE0OiAw
+MDAwNTVhYTYyOGY3NDMwIFIxNTogMDAwMDU1YWE2MmUzNDU0MApbIDM1MTIuMDAwMjk3XSBpcnEg
+ZXZlbnQgc3RhbXA6IDI1ODI4MzIzMgpbIDM1MTIuMDAwMzAzXSBoYXJkaXJxcyBsYXN0ICBlbmFi
+bGVkIGF0ICgyNTgyODMyMzEpOgpbPGZmZmZmZmZmOGIxNzBiZWI+XSBjb25zb2xlX3VubG9jaysw
+eDQ2Yi8weDVkMApbIDM1MTIuMDAwMzA5XSBoYXJkaXJxcyBsYXN0IGRpc2FibGVkIGF0ICgyNTgy
+ODMyMzIpOgpbPGZmZmZmZmZmOGIwMDM4ZGE+XSB0cmFjZV9oYXJkaXJxc19vZmZfdGh1bmsrMHgx
+YS8weDIwClsgMzUxMi4wMDAzMTRdIHNvZnRpcnFzIGxhc3QgIGVuYWJsZWQgYXQgKDI1ODI4MjQ0
+OCk6Cls8ZmZmZmZmZmY4YmUwMDM1ZD5dIF9fZG9fc29mdGlycSsweDM1ZC8weDQ1ZApbIDM1MTIu
+MDAwMzE5XSBzb2Z0aXJxcyBsYXN0IGRpc2FibGVkIGF0ICgyNTgyODI0MTMpOgpbPGZmZmZmZmZm
+OGIwZjFlNTc+XSBpcnFfZXhpdCsweGY3LzB4MTAwClsgMzUxMi4wMDAzMjNdIC0tLVsgZW5kIHRy
+YWNlIDU1ZWQwYzgwYjk1YWVmOTkgXS0tLQoKaHR0cHM6Ly9wYXN0ZWJpbi5jb20vRGZxVkdEZ2MK
 X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0589146041==--
