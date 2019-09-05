@@ -1,56 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5D07A96D6
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2019 01:10:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A8BCA97C5
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2019 03:02:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87B4E89CB8;
-	Wed,  4 Sep 2019 23:10:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F00F689CA2;
+	Thu,  5 Sep 2019 01:01:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
- [IPv6:2607:f8b0:4864:20::d42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26DB189CB8
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Sep 2019 23:10:42 +0000 (UTC)
-Received: by mail-io1-xd42.google.com with SMTP id p12so347818iog.5
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Sep 2019 16:10:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DB1rbzm8PF8Bwfs8Jp/tKsNhJPofsXR23GDzMzgP/Zo=;
- b=irqlwVzPoHzD5CzzYbDmnYJWPvg2sc1wnFMfn+PF6xKawpK12IqKV8LkcutYIPV2Z8
- 4PkQIc62YV+z65uNzOv70xav/eu5iHn0a/zD1ACcIx169OogeC6T4QxKh+vRCH9Z9zAg
- ubTt6vu8ijBPn+KTH0EdniTePgobVTXwGCo4BTAbRz3aANaN3yamF4afbo76uAtQp7ZF
- arH6E6TM9SCchfAqih/d+0lyNpaapjBvRkYfyBNOtwks+otZn9XFS74aX1YYFJlngRNa
- gR+TJTVtEOolOqQhyY/rLIw7uGgbu2kRfOURcbV9W7zKVV/8Xl7vs1nJFUB3jD/Pbeif
- bpUw==
-X-Gm-Message-State: APjAAAUScLeTReC3TEccTAQrDxTR1qTS00KEy9il6HL4e/QxUAiwtYsp
- 5KX+BLX5TMsYu4G8edxsOMNrfwrwjM2bxa4NcRo=
-X-Google-Smtp-Source: APXvYqy0jYg/Z8XA/MeoEAwnqZjsjs0eFej+KYg1PPMJWO6JB9B1AVaOVDMkjRWEP7D3sv6xexnbd1n0FFsKarY4fh4=
-X-Received: by 2002:a6b:db0e:: with SMTP id t14mr546846ioc.93.1567638641383;
- Wed, 04 Sep 2019 16:10:41 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4484E89CA2
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2019 01:01:55 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 418D872161; Thu,  5 Sep 2019 01:01:55 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111482] Sapphire Pulse RX 5700 XT power consumption
+Date: Thu, 05 Sep 2019 01:01:55 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: asheldon55@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111482-502-SrfWzaSKJ5@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111482-502@http.bugs.freedesktop.org/>
+References: <bug-111482-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190904074828.32502-1-kraxel@redhat.com>
-In-Reply-To: <20190904074828.32502-1-kraxel@redhat.com>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Wed, 4 Sep 2019 16:10:30 -0700
-Message-ID: <CAPaKu7RWiEr5n_DWcg0H2PPnRs9CUn-ZgQV3NYe8VrdZgEAhTQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/virtio: fix command submission with objects but
- without fence.
-To: Gerd Hoffmann <kraxel@redhat.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=DB1rbzm8PF8Bwfs8Jp/tKsNhJPofsXR23GDzMzgP/Zo=;
- b=TWXBSs+rssh2KOR8Br4xQVWj2yPdts1caiQ8YeGZCkLygQUi3QXTp7bXtG8avLPfoY
- FU0qWwBUSFqJQ11YlGcYAyCc1LuOHBkMXnenhqK6bcrkpT40+xQVdSKLzHma7+CFHsNH
- DZE2H4wNyGmxrNjxgvrV/PEFzx79oncEEh/D3bItyY1amR4GCh4qqWlRADRT5zCrS1xz
- v9RL7oWNP1ZGT3CoxK7EoA/Xh83edIeMEIwa2Q5LX2O+a5xbwE8I0aEm9ioQHvqkHV6F
- cx90+SxExNmT98lEpdrmmEC1UE3oSt/btorqGtDplYJGoFnrKoF6bjyDNR9WrI8DSxLl
- l/fA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,40 +52,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0777802244=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBTZXAgNCwgMjAxOSBhdCAxMjo0OCBBTSBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVk
-aGF0LmNvbT4gd3JvdGU6Cj4KPiBPbmx5IGNhbGwgdmlydGlvX2dwdV9hcnJheV9hZGRfZmVuY2Ug
-aWYgd2UgYWN0dWFsbHkgaGF2ZSBhIGZlbmNlLgo+Cj4gRml4ZXM6IGRhNzU4ZDUxOTY4YSAoImRy
-bS92aXJ0aW86IHJld29yayB2aXJ0aW9fZ3B1X2V4ZWNidWZmZXJfaW9jdGwgZmVuY2luZyIpCj4g
-U2lnbmVkLW9mZi1ieTogR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+Cj4gLS0tCj4g
-IGRyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV92cS5jIHwgOSArKysrKy0tLS0KPiAgMSBm
-aWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfdnEuYyBiL2RyaXZlcnMvZ3B1L2Ry
-bS92aXJ0aW8vdmlydGdwdV92cS5jCj4gaW5kZXggNTk1ZmE2ZWMyZDU4Li43ZmQyODUxZjdiOTcg
-MTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X3ZxLmMKPiArKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfdnEuYwo+IEBAIC0zMzksMTEgKzMzOSwx
-MiBAQCBzdGF0aWMgdm9pZCB2aXJ0aW9fZ3B1X3F1ZXVlX2ZlbmNlZF9jdHJsX2J1ZmZlcihzdHJ1
-Y3QgdmlydGlvX2dwdV9kZXZpY2UgKnZnZGV2LAo+ICAgICAgICAgICAgICAgICBnb3RvIGFnYWlu
-Owo+ICAgICAgICAgfQo+Cj4gLSAgICAgICBpZiAoZmVuY2UpCj4gKyAgICAgICBpZiAoZmVuY2Up
-IHsKPiAgICAgICAgICAgICAgICAgdmlydGlvX2dwdV9mZW5jZV9lbWl0KHZnZGV2LCBoZHIsIGZl
-bmNlKTsKPiAtICAgICAgIGlmICh2YnVmLT5vYmpzKSB7Cj4gLSAgICAgICAgICAgICAgIHZpcnRp
-b19ncHVfYXJyYXlfYWRkX2ZlbmNlKHZidWYtPm9ianMsICZmZW5jZS0+Zik7Cj4gLSAgICAgICAg
-ICAgICAgIHZpcnRpb19ncHVfYXJyYXlfdW5sb2NrX3Jlc3YodmJ1Zi0+b2Jqcyk7Cj4gKyAgICAg
-ICAgICAgICAgIGlmICh2YnVmLT5vYmpzKSB7Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgdmly
-dGlvX2dwdV9hcnJheV9hZGRfZmVuY2UodmJ1Zi0+b2JqcywgJmZlbmNlLT5mKTsKPiArICAgICAg
-ICAgICAgICAgICAgICAgICB2aXJ0aW9fZ3B1X2FycmF5X3VubG9ja19yZXN2KHZidWYtPm9ianMp
-Owo+ICsgICAgICAgICAgICAgICB9ClRoaXMgbGVha3Mgd2hlbiBmZW5jZSA9PSBOVUxMIGFuZCB2
-YnVmLT5vYmpzICE9IE5VTEwgKHdoaWNoIGNhbiByZWFsbHkKaGFwcGVuIElJUkMuLi4gbm90IGF0
-IG15IGRlc2sgdG8gY2hlY2spLgoKCj4gICAgICAgICB9Cj4gICAgICAgICBub3RpZnkgPSB2aXJ0
-aW9fZ3B1X3F1ZXVlX2N0cmxfYnVmZmVyX2xvY2tlZCh2Z2RldiwgdmJ1Zik7Cj4gICAgICAgICBz
-cGluX3VubG9jaygmdmdkZXYtPmN0cmxxLnFsb2NrKTsKPiAtLQo+IDIuMTguMQo+Cl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0777802244==
+Content-Type: multipart/alternative; boundary="15676453151.040fa973f.22280"
+Content-Transfer-Encoding: 7bit
+
+
+--15676453151.040fa973f.22280
+Date: Thu, 5 Sep 2019 01:01:55 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111482
+
+--- Comment #10 from Andrew Sheldon <asheldon55@gmail.com> ---
+>I don't know how to interpret your last comment=20
+
+Yeah, I was a bit unclear. I was just indicating that while I can workaround
+the issue, it can still be triggered on my system as well. E.g. if I switch=
+ to
+75hz, it will be stuck at 850mhz (even after switching back), so it's possi=
+ble
+that the issue can be triggered through different ways (but the underlying
+issue may be the same).=20
+
+Anyway, I suspect that this bug, the one related to sensor readings (includ=
+ing
+the 75hz issue), are all related. It's most likely a video bios/firmware is=
+sue
+as it affects Windows as well, and some have even triggered the bug in BIOS
+settings, with monitors that use 75hz.
+
+One thing you could try is booting with a window manager/DE that doesn't use
+any sort of hardware acceleration. That's the main difference I can figure
+between my system, and yours (besides the fact I use x370 instead of x570).=
+ I
+would also try a lower resolution just to test, as that's a pretty non-stan=
+dard
+res, and might be another way of triggering this bug.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15676453151.040fa973f.22280
+Date: Thu, 5 Sep 2019 01:01:55 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482#c10">Comme=
+nt # 10</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482">bug 11148=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+asheldon55&#64;gmail.com" title=3D"Andrew Sheldon &lt;asheldon55&#64;gmail.=
+com&gt;"> <span class=3D"fn">Andrew Sheldon</span></a>
+</span></b>
+        <pre><span class=3D"quote">&gt;I don't know how to interpret your l=
+ast comment </span >
+
+Yeah, I was a bit unclear. I was just indicating that while I can workaround
+the issue, it can still be triggered on my system as well. E.g. if I switch=
+ to
+75hz, it will be stuck at 850mhz (even after switching back), so it's possi=
+ble
+that the issue can be triggered through different ways (but the underlying
+issue may be the same).=20
+
+Anyway, I suspect that this bug, the one related to sensor readings (includ=
+ing
+the 75hz issue), are all related. It's most likely a video bios/firmware is=
+sue
+as it affects Windows as well, and some have even triggered the bug in BIOS
+settings, with monitors that use 75hz.
+
+One thing you could try is booting with a window manager/DE that doesn't use
+any sort of hardware acceleration. That's the main difference I can figure
+between my system, and yours (besides the fact I use x370 instead of x570).=
+ I
+would also try a lower resolution just to test, as that's a pretty non-stan=
+dard
+res, and might be another way of triggering this bug.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15676453151.040fa973f.22280--
+
+--===============0777802244==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0777802244==--
