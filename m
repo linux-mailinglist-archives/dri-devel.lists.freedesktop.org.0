@@ -1,53 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AF60A987C
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2019 04:41:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB14BA9A0F
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2019 07:23:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DB2A89A62;
-	Thu,  5 Sep 2019 02:41:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82DCE89CBE;
+	Thu,  5 Sep 2019 05:23:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8210889A62
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2019 02:41:49 +0000 (UTC)
-X-UUID: ee9c975d9c9f4a36948ac9b4ed035b23-20190905
-X-UUID: ee9c975d9c9f4a36948ac9b4ed035b23-20190905
-Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 291277882; Thu, 05 Sep 2019 10:41:45 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- MTKMBS33DR.mediatek.inc (172.27.6.106) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Thu, 5 Sep 2019 10:41:38 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Thu, 5 Sep 2019 10:41:37 +0800
-Message-ID: <1567651299.13330.4.camel@mtksdaap41>
-Subject: Re: [PATCH v6 0/7] Support dsi for mt8183
-From: CK Hu <ck.hu@mediatek.com>
-To: Jitao Shi <jitao.shi@mediatek.com>
-Date: Thu, 5 Sep 2019 10:41:39 +0800
-In-Reply-To: <20190811104008.53372-1-jitao.shi@mediatek.com>
-References: <20190811104008.53372-1-jitao.shi@mediatek.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0BAB89CBE
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2019 05:23:43 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 343963090FD1;
+ Thu,  5 Sep 2019 05:23:43 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-117-72.ams2.redhat.com
+ [10.36.117.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE9AF60606;
+ Thu,  5 Sep 2019 05:23:41 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 84C01784F; Thu,  5 Sep 2019 07:23:40 +0200 (CEST)
+Date: Thu, 5 Sep 2019 07:23:40 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Chia-I Wu <olvaffe@gmail.com>
+Subject: Re: [PATCH] drm/virtio: fix command submission with objects but
+ without fence.
+Message-ID: <20190905052340.gfwmzkqwcpxtvzvu@sirius.home.kraxel.org>
+References: <20190904074828.32502-1-kraxel@redhat.com>
+ <CAPaKu7RWiEr5n_DWcg0H2PPnRs9CUn-ZgQV3NYe8VrdZgEAhTQ@mail.gmail.com>
 MIME-Version: 1.0
-X-TM-AS-Product-Ver: SMEX-12.5.0.1684-8.5.1010-24890.000
-X-TM-AS-Result: No-10.241600-8.000000-10
-X-TMASE-MatchedRID: 6otD/cJAac2EFkjzuXHNt+LdprnA5EQRJih/yo+OvlVSAxvL+nqAnW4+
- gA+i9D2DqMlm1+4tGhQfHS8wUUuW9T4Pcn5OGAtGMpVOsYwN78M0YG6kQ2QiFFSOymiJfTYXrr5
- TE4GLzk06n5U+9hWy0GYwRleGHW3t0/GyN5MpGlOqNnzrkU+2mgKflB9+9kWVcJHSK1bfF9XGcw
- gtERMbmd99l6mYw28dfPU3ZRMebCuKiQbKW6KJeAlpVkdtt3WuOHhqIXe4IzZIyDY579vwTFYvW
- mlP6FyeEu6Hmd7GM5PTDbyTDLiYnVGEd5OSBmbmngIgpj8eDcC063Wh9WVqgmWCfbzydb0g2EuZ
- q9zngaeNo+PRbWqfRDsAVzN+Ov/sXEXPO/6fybNBoFITciebPaiz/Co2CGruef8GeKgmo5snmxJ
- 8YZpSdw==
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--10.241600-8.000000
-X-TMASE-Version: SMEX-12.5.0.1684-8.5.1010-24890.000
-X-TM-SNTS-SMTP: 75FAA2A7B910283301DE15DCDB5DB7A8A744F4C0B4B7E434DF4A678FAB936AED2000:8
-X-MTK: N
+Content-Disposition: inline
+In-Reply-To: <CAPaKu7RWiEr5n_DWcg0H2PPnRs9CUn-ZgQV3NYe8VrdZgEAhTQ@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Thu, 05 Sep 2019 05:23:43 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,56 +51,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, stonea168@163.com,
- dri-devel@lists.freedesktop.org, yingjoe.chen@mediatek.com,
- Ajay Kumar <ajaykumar.rs@samsung.com>, Vincent Palatin <vpalatin@chromium.org>,
- cawa.cheng@mediatek.com, Russell King <rmk+kernel@arm.linux.org.uk>, Thierry
- Reding <treding@nvidia.com>, linux-pwm@vger.kernel.org,
- Sascha Hauer <kernel@pengutronix.de>, Pawel Moll <pawel.moll@arm.com>,
- Ian Campbell <ijc+devicetree@hellion.org.uk>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Andy
- Yan <andy.yan@rock-chips.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- eddie.huang@mediatek.com, linux-arm-kernel@lists.infradead.org,
- Rahul Sharma <rahul.sharma@samsung.com>, srv_heupstream@mediatek.com,
- linux-kernel@vger.kernel.org, Sean Paul <seanpaul@chromium.org>
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIEppdGFvOgoKRm9yIHRoaXMgc2VyaWVzLCBhcHBsaWVkIHRvIG1lZGlhdGVrLWRybS1uZXh0
-LTUuNSBbMV0sIGFuZCBJIGJyZWFrCiJbdjYsMi83XSBkcm0vbWVkaWF0ZWs6IGZpeGVzIENNRFEg
-cmVnIGFkZHJlc3Mgb2YgbXQ4MTczIGlzIGRpZmZlcmVudAp3aXRoIG10MjcwMSIgaW50byB0d28g
-cGF0Y2hlcywgdGhhbmtzLgoKWzFdCmh0dHBzOi8vZ2l0aHViLmNvbS9ja2h1LW1lZGlhdGVrL2xp
-bnV4LmdpdC10YWdzL2NvbW1pdHMvbWVkaWF0ZWstZHJtLW5leHQtNS41CgpSZWdhcmRzLApDSwoK
-Ck9uIFN1biwgMjAxOS0wOC0xMSBhdCAxODo0MCArMDgwMCwgSml0YW8gU2hpIHdyb3RlOgo+IENo
-YW5nZSBzaW5jZSB2NToKPiAgLSBmaW5lIHR1bmUgZHBoeSB0aW1pbmcuCj4gCj4gQ2hhbmdlIHNp
-bmNlIHY0Ogo+ICAtIG1vdmUgbWlwaV9kc2lfaG9zdF91bnJlZ2l0ZXIoKSB0byAucmVtb3ZlKCkK
-PiAgLSBmaW5lIHR1bmUgYWRkIGZyYW1lIHNpemUgY29udHJvbCBjb2Rpbmcgc3R5bGUKPiAgLSBj
-aGFuZ2UgdGhlIGRhdGEgdHlwZSBvZiBkYXRhX3JhdGUgYXMgdTMyLCBhbmQgYWRkIERJVl9ST1VO
-RF9VUF9VTEwKPiAgLSB1c2UgZGl2X3U2NCB3aGVuIDgwMDAwMDAwMDBVTEwgLyBkc2ktPmRhdGFf
-cmF0ZS4KPiAKPiBDaGFuZ2VzIHNpbmNlIHYzCj4gIC0gYWRkIG9uZSBtb3JlICd0YWInIGZvciBi
-aXR3aXNlIGRlZmluZS4KPiAgLSBhZGQgVGVzdGVkLWJ5OiBSeWFuIENhc2UgPHJ5YW5kY2FzZUBj
-aHJvbWl1bS5vcmc+Cj4gCWFuZCBSZXZpZXdlZC1ieTogQ0sgSHUgPGNrLmh1QG1lZGlhdGVrLmNv
-bT4uCj4gIC0gcmVtb3ZlIGNvbXBhcmUgZGFfaHNfemVybyB0byBkYV9oc19wcmVwYXJlLgo+IAo+
-IENoYW5nZXMgc2luY2UgdjI6Cj4gIC0gY2hhbmdlIHRoZSB2aWRlbyB0aW1pbmcgY2FsYyBtZXRo
-b2QKPiAgLSBmaW5lIHRoZSBkc2kgYW5kIG1pcGl0eCBpbml0IHNlcXVlbmNlCj4gIC0gZmluZSB0
-dW5lIGNvbW1pdCBtc2cKPiAKPiBDaGFuZ2VzIHNpbmNlIHYxOgo+ICAtIHNlcGFyYXRlIGZyYW1l
-IHNpemUgYW5kIHJlZyBjb21taXQgY29udHJvbCBpbmRlcGVuZGVudCBwYXRjaGVzLgo+ICAtIGZp
-eCBzb21lIHJldHVybiB2YWx1ZXMgaW4gcHJvYmUKPiAgLSByZW1vdmUgRFNJX0NNRFcwIGluICJD
-TURRIHJlZyBhZGRyZXNzIG9mIG10ODE3MyBpcyBkaWZmZXJlbnQgd2l0aCBtdDI3MDEiIAo+IAo+
-IEppdGFvIFNoaSAoNyk6Cj4gICBkcm0vbWVkaWF0ZWs6IG1vdmUgbWlwaV9kc2lfaG9zdF9yZWdp
-c3RlciB0byBwcm9iZQo+ICAgZHJtL21lZGlhdGVrOiBmaXhlcyBDTURRIHJlZyBhZGRyZXNzIG9m
-IG10ODE3MyBpcyBkaWZmZXJlbnQgd2l0aAo+ICAgICBtdDI3MDEKPiAgIGRybS9tZWRpYXRlazog
-YWRkIGRzaSByZWcgY29tbWl0IGRpc2FibGUgY29udHJvbAo+ICAgZHJtL21lZGlhdGVrOiBhZGQg
-ZnJhbWUgc2l6ZSBjb250cm9sCj4gICBkcm0vbWVkaWF0ZWs6IGFkZCBtdDgxODMgZHNpIGRyaXZl
-ciBzdXBwb3J0Cj4gICBkcm0vbWVkaWF0ZWs6IGNoYW5nZSB0aGUgZHNpIHBoeXRpbWluZyBjYWxj
-dWxhdGUgbWV0aG9kCj4gICBkcm06IG1lZGlhdGVrOiBhZGp1c3QgZHNpIGFuZCBtaXBpX3R4IHBy
-b2JlIHNlcXVlbmNlCj4gCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5j
-IHwgICAyICstCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHNpLmMgICAgIHwgMjI0
-ICsrKysrKysrKysrKysrKysrKy0tLS0tLS0KPiAgMiBmaWxlcyBjaGFuZ2VkLCAxNjEgaW5zZXJ0
-aW9ucygrKSwgNjUgZGVsZXRpb25zKC0pCj4gCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVs
+T24gV2VkLCBTZXAgMDQsIDIwMTkgYXQgMDQ6MTA6MzBQTSAtMDcwMCwgQ2hpYS1JIFd1IHdyb3Rl
+Ogo+IE9uIFdlZCwgU2VwIDQsIDIwMTkgYXQgMTI6NDggQU0gR2VyZCBIb2ZmbWFubiA8a3JheGVs
+QHJlZGhhdC5jb20+IHdyb3RlOgo+ID4KPiA+IE9ubHkgY2FsbCB2aXJ0aW9fZ3B1X2FycmF5X2Fk
+ZF9mZW5jZSBpZiB3ZSBhY3R1YWxseSBoYXZlIGEgZmVuY2UuCj4gPgo+ID4gRml4ZXM6IGRhNzU4
+ZDUxOTY4YSAoImRybS92aXJ0aW86IHJld29yayB2aXJ0aW9fZ3B1X2V4ZWNidWZmZXJfaW9jdGwg
+ZmVuY2luZyIpCj4gPiBTaWduZWQtb2ZmLWJ5OiBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVkaGF0
+LmNvbT4KPiA+IC0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV92cS5jIHwg
+OSArKysrKy0tLS0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCA0IGRlbGV0
+aW9ucygtKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRn
+cHVfdnEuYyBiL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV92cS5jCj4gPiBpbmRleCA1
+OTVmYTZlYzJkNTguLjdmZDI4NTFmN2I5NyAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS92aXJ0aW8vdmlydGdwdV92cS5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3Zp
+cnRncHVfdnEuYwo+ID4gQEAgLTMzOSwxMSArMzM5LDEyIEBAIHN0YXRpYyB2b2lkIHZpcnRpb19n
+cHVfcXVldWVfZmVuY2VkX2N0cmxfYnVmZmVyKHN0cnVjdCB2aXJ0aW9fZ3B1X2RldmljZSAqdmdk
+ZXYsCj4gPiAgICAgICAgICAgICAgICAgZ290byBhZ2FpbjsKPiA+ICAgICAgICAgfQo+ID4KPiA+
+IC0gICAgICAgaWYgKGZlbmNlKQo+ID4gKyAgICAgICBpZiAoZmVuY2UpIHsKPiA+ICAgICAgICAg
+ICAgICAgICB2aXJ0aW9fZ3B1X2ZlbmNlX2VtaXQodmdkZXYsIGhkciwgZmVuY2UpOwo+ID4gLSAg
+ICAgICBpZiAodmJ1Zi0+b2Jqcykgewo+ID4gLSAgICAgICAgICAgICAgIHZpcnRpb19ncHVfYXJy
+YXlfYWRkX2ZlbmNlKHZidWYtPm9ianMsICZmZW5jZS0+Zik7Cj4gPiAtICAgICAgICAgICAgICAg
+dmlydGlvX2dwdV9hcnJheV91bmxvY2tfcmVzdih2YnVmLT5vYmpzKTsKPiA+ICsgICAgICAgICAg
+ICAgICBpZiAodmJ1Zi0+b2Jqcykgewo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgdmlydGlv
+X2dwdV9hcnJheV9hZGRfZmVuY2UodmJ1Zi0+b2JqcywgJmZlbmNlLT5mKTsKPiA+ICsgICAgICAg
+ICAgICAgICAgICAgICAgIHZpcnRpb19ncHVfYXJyYXlfdW5sb2NrX3Jlc3YodmJ1Zi0+b2Jqcyk7
+Cj4gPiArICAgICAgICAgICAgICAgfQo+IFRoaXMgbGVha3Mgd2hlbiBmZW5jZSA9PSBOVUxMIGFu
+ZCB2YnVmLT5vYmpzICE9IE5VTEwgKHdoaWNoIGNhbiByZWFsbHkKPiBoYXBwZW4gSUlSQy4uLiBu
+b3QgYXQgbXkgZGVzayB0byBjaGVjaykuCgpZZXMsIGl0IGNhbiBoYXBwZW4sIGZvciBleGFtcGxl
+IHdoZW4gZmx1c2hpbmcgZHVtYiBidWZmZXJzLgoKQnV0IEkgZG9uJ3QgdGhpbmsgd2UgbGVhayBp
+biB0aGlzIGNhc2UuICBUaGUgY29kZSBwYXRocyB3aGljaCBkb24ndCBuZWVkCmEgZmVuY2UgYWxz
+byBkbyBub3QgY2FsbCB2aXJ0aW9fZ3B1X2FycmF5X2xvY2tfcmVzdigpLCBzbyB0aGluZ3MgYXJl
+CmJhbGFuY2VkLiAgVGhlIGFjdHVhbCByZWxlYXNlIG9mIHRoZSBvYmpzIGhhcHBlbnMgaW4Kdmly
+dGlvX2dwdV9kZXF1ZXVlX2N0cmxfZnVuYygpIHZpYSB2aXJ0aW9fZ3B1X2FycmF5X3B1dF9mcmVl
+X2RlbGF5ZWQoKS4KCmNoZWVycywKICBHZXJkCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWw=
