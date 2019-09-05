@@ -2,50 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82F92AB2BF
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2019 09:01:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51DC5AB2E1
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2019 09:01:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC2096E148;
-	Fri,  6 Sep 2019 07:01:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D189F6E161;
+	Fri,  6 Sep 2019 07:01:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.heh.ee (heh.ee [213.35.143.160])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94A436E0B8;
- Thu,  5 Sep 2019 12:34:08 +0000 (UTC)
-Received: from [0.0.0.0] (unknown [127.0.0.1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.heh.ee (Postfix) with ESMTPSA id 05B9C16BF1F;
- Thu,  5 Sep 2019 15:34:06 +0300 (EEST)
-Subject: Re: Xorg indefinitely hangs in kernelspace
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <92785039-0941-4626-610b-f4e3d9613069@ristioja.ee>
- <20190905071407.47iywqcqomizs3yr@sirius.home.kraxel.org>
-From: Jaak Ristioja <jaak@ristioja.ee>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jaak@ristioja.ee; prefer-encrypt=mutual; keydata=
- mDMEWyjlXBYJKwYBBAHaRw8BAQdABEPNmQfWmwZZXSl5vKnpI1UVtS4l2N9kv7KqyFYtfLe0
- IEphYWsgUmlzdGlvamEgPGphYWtAcmlzdGlvamEuZWU+iJYEExYIAD4WIQTjaPCMFhRItZ2p
- iV/uxscoTrbt3AUCWyjlXAIbIwUJA8OZNAULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRDu
- xscoTrbt3OYPAP9l6ZjLh4qK2r/H1b+7a7qZIAjwf0o4AX6qvtX1WERxywEAhhtOHg+G8idL
- FR08XPW7nlobl2qEHMnqBTqteSsz1gG4OARbKOVcEgorBgEEAZdVAQUBAQdAU6y3a2gcxTI+
- bZgPkJjPXxr0tvuLpCqkIb/envF5ajADAQgHiH4EGBYIACYWIQTjaPCMFhRItZ2piV/uxsco
- Trbt3AUCWyjlXAIbDAUJA8OZNAAKCRDuxscoTrbt3OG5AP0cd6gLbKVSBvSEgRNQ+BNk/1a5
- lSQtocXAcwUx0X9h0gEAqIZ9u7pCWBlRTL+rij97VWWkB/jb1deZ2gExNhd6RAU=
-Message-ID: <e4b7d889-15f3-0c90-3b9f-d395344499c0@ristioja.ee>
-Date: Thu, 5 Sep 2019 15:34:12 +0300
-User-Agent: undefined
-MIME-Version: 1.0
-In-Reply-To: <20190905071407.47iywqcqomizs3yr@sirius.home.kraxel.org>
+Received: from NAM03-DM3-obe.outbound.protection.outlook.com
+ (mail-eopbgr800137.outbound.protection.outlook.com [40.107.80.137])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CD856E0D2
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2019 14:05:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Vq68ixzBsxfm6hf8jSEk3SVAtSePv9NEq6b7glrIO4XOElKcnDYhJYW5P2314x0wY8+rHy6ZShJkLs2xkRS/fFCDjoSH8WC7KxFjFozH3CnQ+6Gh/2nuAZpRC5pU7cDR1Rx9StFdAIGx5E0t6brbZnNv8DCmEDwBjgMfFXQe1HGQwAhQGwpmD/nYyuNO8P/Bv2kDs6o16M9/kOZsMoDgnohOxFc+Lp9YH3EOCYv8LtW/CiT4kXXZ8aXYVG+gIDjsaYQ1cgjHsLJ2glOAOrvmoZ53kggPGIZ2m/JmtlStgQXrsl27VsfEC94vxHhdOcQw1370y15dWJaDjqvbgmwXfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Iavyn5/LeMujLUYzJfuyfS+4LKPlHifEu2K00ZmAld0=;
+ b=NLO8hrYT/trBeqndA4ZG55KBCzIvtZswJUj7j3i3E3BfyMOIIS1hOOA07ijkqjAAcZXH9aFsIzAOZ7VOfXd1CQsBrw0eqxIcPj3HDIy5cmzCRRtElKBmfxXAytRxgswOrwj2CrEwjW2awRjZo6XisYPNdkPxfctGjA8SnXwXDoivvGRGc4IPmTP7mSl93PnAwO7plSTG0hseRIdDsusPDNk0iAS+lYBEeClrWGp2ylFfq2Rean7leO6/fUqHvYLYp0BX1G1WjFVsKmaas8N3NIM2NPF0u0i3RHtVMUUMALnixdlc/N72qExcT/BHOp1jFetdpChPHpDhFHPan2d4fQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+Received: from DM5PR21MB0137.namprd21.prod.outlook.com (10.173.173.12) by
+ DM5PR21MB0843.namprd21.prod.outlook.com (10.173.172.141) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2263.7; Thu, 5 Sep 2019 14:05:49 +0000
+Received: from DM5PR21MB0137.namprd21.prod.outlook.com
+ ([fe80::c437:6219:efcc:fb8a]) by DM5PR21MB0137.namprd21.prod.outlook.com
+ ([fe80::c437:6219:efcc:fb8a%7]) with mapi id 15.20.2263.004; Thu, 5 Sep 2019
+ 14:05:49 +0000
+From: Michael Kelley <mikelley@microsoft.com>
+To: Wei Hu <weh@microsoft.com>, "b.zolnierkie@samsung.com"
+ <b.zolnierkie@samsung.com>, "linux-hyperv@vger.kernel.org"
+ <linux-hyperv@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-fbdev@vger.kernel.org"
+ <linux-fbdev@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>,
+ "sashal@kernel.org" <sashal@kernel.org>, Haiyang Zhang
+ <haiyangz@microsoft.com>, KY Srinivasan <kys@microsoft.com>, Dexuan Cui
+ <decui@microsoft.com>
+Subject: RE: [PATCH v4] video: hyperv: hyperv_fb: Obtain screen resolution
+ from Hyper-V host
+Thread-Topic: [PATCH v4] video: hyperv: hyperv_fb: Obtain screen resolution
+ from Hyper-V host
+Thread-Index: AQHVY8n1ZHStyEKyQEWtq6qT8x1cIqcdHi/Q
+Date: Thu, 5 Sep 2019 14:05:49 +0000
+Message-ID: <DM5PR21MB0137D40DF705CDB372497266D7BB0@DM5PR21MB0137.namprd21.prod.outlook.com>
+References: <20190905091120.16761-1-weh@microsoft.com>
+In-Reply-To: <20190905091120.16761-1-weh@microsoft.com>
+Accept-Language: en-US
 Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=mikelley@ntdev.microsoft.com;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2019-09-05T14:05:47.2964572Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=5fdc59c0-9d8b-4103-9a31-ed8f82961311;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
+x-originating-ip: [24.22.167.197]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e1eebf27-c839-4db0-5391-08d7320a27ae
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
+ SRVR:DM5PR21MB0843; 
+x-ms-traffictypediagnostic: DM5PR21MB0843:|DM5PR21MB0843:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM5PR21MB0843C0D93057DFE6CACADD72D7BB0@DM5PR21MB0843.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-forefront-prvs: 015114592F
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(366004)(136003)(376002)(346002)(396003)(39860400002)(199004)(189003)(2201001)(86362001)(4744005)(478600001)(6636002)(81166006)(10290500003)(6506007)(33656002)(52536014)(229853002)(8676002)(81156014)(8936002)(66066001)(76176011)(14454004)(99286004)(1511001)(5660300002)(186003)(486006)(25786009)(4326008)(476003)(10090500001)(2906002)(6246003)(3846002)(107886003)(53936002)(9686003)(446003)(55016002)(7696005)(256004)(2501003)(11346002)(6436002)(66556008)(26005)(305945005)(71190400001)(71200400001)(6116002)(316002)(7736002)(102836004)(8990500004)(110136005)(22452003)(66476007)(64756008)(66946007)(66446008)(76116006)(74316002)(921003)(1121003);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DM5PR21MB0843;
+ H:DM5PR21MB0137.namprd21.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: microsoft.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 62YoNtJ4rqfQGlhygqWLMdIVo1wXXYN0fPuOwwiHuBNm4s8SprVSmiTZjt1iA2sq1NYP1600XBULdzJkvbvtXFjnX/8eKW8e9vOWN8mptx8OWSsjma1zgzae0wCLUPzvuvWQc3oRvODyrgIdvouF4oqAdV6lFMs24CPNME8j6Iu9mQv/uLarojb8PQodn+M6mA+RGmy3ESalnss2W6U0nC3onQTLUSB+nyWdNSoP9Huu+V70m8vXgLOlbBImINffzZKjeAaZ0yBFFDwbCfV8KQh7S793o2uOmkKiIHIZwo1SBEkNobJkPEe55tr7WOO4/hIGBqIcThq+g5if9W2qWB/5JmfXc7vlIPtBPk8lovvT2RcbwX73QVCqfdtT9NqXzETmh4Hy/bmVTBodlO/gPb9SjD1yZs9k+8nCUlB5xXE=
+MIME-Version: 1.0
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e1eebf27-c839-4db0-5391-08d7320a27ae
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Sep 2019 14:05:49.1083 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xvaKevwvhc5NnMsUW9bAqhbWLA0iGcI4z/0ZN3iHba04kbdFq6RLYAZJcU1299ElHcRrH2TeC0KdvHLhBCxcPc/DnGxc40Ri+ae7AgyX/Ug=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR21MB0843
 X-Mailman-Approved-At: Fri, 06 Sep 2019 07:01:00 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=ristioja.ee; s=mail; 
- t=1567686846; bh=LFJJB8HaRCeJflug32dzVDXPw+towLk1sQP9ogor7+A=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To;
- b=CZYFfli/f+r3GSXDHeu3Xk/mw2JOlWDFAjueuJ5OXXzuOkPEPJjx9D1A+z4lMpy8D
- J/U25+xiF3ZhAWaiX3eM96x67vZyCbKsePG8cD3KV73LpOd9u0J+JVrcu5CJHELu+N
- mJZOXBW9G41Y1oS9e/R96a4REJ3a/4zI+PLlQa6E=
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=microsoft.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Iavyn5/LeMujLUYzJfuyfS+4LKPlHifEu2K00ZmAld0=;
+ b=Yzt0MNrMKJh6//1/79waRMybbzkxpgLxkBWtAscpRjBMYJRHTOaewTt84qTPXsja4U5PDd6akIz0bUguUWW9vKQxoP9bVlxvhEEybogd2slRDGmvf+yR1JbfymwAHmTZgjx05vZOC7kMZItJ9zyANND12Hv0zfgOK7fpue+Uy2Q=
+X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=mikelley@microsoft.com; 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,30 +113,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- spice-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>
+Cc: Iouri Tarassov <iourit@microsoft.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMDUuMDkuMTkgMTA6MTQsIEdlcmQgSG9mZm1hbm4gd3JvdGU6Cj4gT24gVHVlLCBBdWcgMDYs
-IDIwMTkgYXQgMDk6MDA6MTBQTSArMDMwMCwgSmFhayBSaXN0aW9qYSB3cm90ZToKPj4gSGVsbG8h
-Cj4+Cj4+IEknbSB3cml0aW5nIHRvIHJlcG9ydCBhIGNyYXNoIGluIHRoZSBRWEwgLyBEUk0gY29k
-ZSBpbiB0aGUgTGludXgga2VybmVsLgo+PiBJIG9yaWdpbmFsbHkgZmlsZWQgdGhlIGlzc3VlIG9u
-IExhdW5jaFBhZCBhbmQgbW9yZSBkZXRhaWxzIGNhbiBiZSBmb3VuZAo+PiB0aGVyZSwgYWx0aG91
-Z2ggSSBkb3VidCB3aGV0aGVyIHRoZXNlIGRldGFpbHMgYXJlIHVzZWZ1bC4KPiAKPiBBbnkgY2hh
-bmdlIHdpdGgga2VybmVsIDUuMy1yYzcgPwoKRGlkbid0IHRyeS4gRGlkIHlvdSBjaGFuZ2Ugc29t
-ZXRoaW5nPyBJIGNvdWxkIHRyeSwgYnV0IEkndmUgZG9uZSBzbwpiZWZvcmUgYW5kIGV2ZXJ5IHRp
-bWUgdGhpcyBidWcgbWFuaWZlc3RzIGl0c2VsZiB3aXRoIE1BSk9SLk1JTk9SLXJjIyBJCmdldCBh
-c2tlZCB0byB0cnkgdmVyc2lvbiBNQUpPUi4oTUlOT1IrMSktcmMjIHNvIEkgZ3Vlc3MgSSBjb3Vs
-ZCBhcyB3ZWxsCmdpdmUgdXA/CgpBbHJpZ2h0LCBJJ2xsIGluc3RhbGwgNS4zLXJjNywgYnV0IG9u
-Y2UgbW9yZSBpdCBtaWdodCB0YWtlIHNvbWUgdGltZSBmb3IKdGhpcyBidWcgdG8gZXhwb3NlIGl0
-c2VsZi4KCk9uZSB0aGluZyB0byBub3RlIHRob3VnaCwgaXMgdGhhdCB0aGlzIG9jY3VycmVkIG11
-Y2ggbW9yZSBvZnRlbiB3aXRoCm9sZGVyIGtlcm5lbHMgKG9yIG9sZGVyIHZlcnNpb25zIG9mIHRo
-ZSBLdWJ1bnR1IGRlc2t0b3AvRmlyZWZveCBpbiBteQpWTSksIHNvbWV0aW1lcyBldmVuIHNldmVy
-YWwgdGltZXMgaW4gYW4gaG91ciBvZiB1c2UuCgoKQmVzdCByZWdhcmRzLApKCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+RnJvbTogV2VpIEh1IDx3ZWhAbWljcm9zb2Z0LmNvbT4gU2VudDogVGh1cnNkYXksIFNlcHRlbWJl
+ciA1LCAyMDE5IDI6MTIgQU0KPiAKPiBCZWdpbm5pbmcgZnJvbSBXaW5kb3dzIDEwIFJTNSssIFZN
+IHNjcmVlbiByZXNvbHV0aW9uIGlzIG9idGFpbmVkIGZyb20gaG9zdC4KPiBUaGUgInZpZGVvPWh5
+cGVydl9mYiIgYm9vdCB0aW1lIG9wdGlvbiBpcyBub3QgbmVlZGVkLCBidXQgc3RpbGwgY2FuIGJl
+Cj4gdXNlZCB0byBvdmVyd3JpdGUgd2hhdCB0aGUgaG9zdCBzcGVjaWZpZXMuIFRoZSBWTSByZXNv
+bHV0aW9uIG9uIHRoZSBob3N0Cj4gY291bGQgYmUgc2V0IGJ5IGV4ZWN1dGluZyB0aGUgcG93ZXJz
+aGVsbCAic2V0LXZtdmlkZW8iIGNvbW1hbmQuCj4gCj4gU2lnbmVkLW9mZi1ieTogSW91cmkgVGFy
+YXNzb3YgPGlvdXJpdEBtaWNyb3NvZnQuY29tPgo+IFNpZ25lZC1vZmYtYnk6IFdlaSBIdSA8d2Vo
+QG1pY3Jvc29mdC5jb20+Cj4gLS0tCj4gICAgIHYyOgo+ICAgICAtIEltcGxlbWVudGVkIGZhbGxi
+YWNrIHdoZW4gdmVyc2lvbiBuZWdvdGlhdGlvbiBmYWlsZWQuCj4gICAgIC0gRGVmaW5lZCBmdWxs
+IHNpemUgZm9yIHN1cHBvcnRlZF9yZXNvbHV0aW9uIGFycmF5Lgo+IAo+ICAgICB2MzoKPiAgICAg
+LSBDb3JyZWN0ZWQgdGhlIHN5bnRodmlkIG1ham9yIGFuZCBtaW5vciB2ZXJzaW9uIGNvbXBhcmlz
+b24gcHJvYmxlbS4KPiAKPiAgICAgdjQ6Cj4gICAgIC0gQ2hhbmdlZCBmdW5jdGlvbiBuYW1lIHRv
+IHN5bnRodmlkX3Zlcl9nZSgpLgo+IAo+ICBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2h5cGVydl9mYi5j
+IHwgMTU5ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0tCj4gIDEgZmlsZSBjaGFuZ2Vk
+LCAxNDcgaW5zZXJ0aW9ucygrKSwgMTIgZGVsZXRpb25zKC0pCj4gCgpSZXZpZXdlZC1ieTogTWlj
+aGFlbCBLZWxsZXkgPG1pa2VsbGV5QG1pY3Jvc29mdC5jb20+Cl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
