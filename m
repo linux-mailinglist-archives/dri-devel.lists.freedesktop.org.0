@@ -2,36 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DC39AA3B9
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2019 15:02:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B459AA3BB
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2019 15:03:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CA436E0CB;
-	Thu,  5 Sep 2019 13:02:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBF296E0CD;
+	Thu,  5 Sep 2019 13:03:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 868CA6E0CB
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2019 13:02:41 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 29EBD28;
- Thu,  5 Sep 2019 06:02:41 -0700 (PDT)
-Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3F1163F718;
- Thu,  5 Sep 2019 06:02:40 -0700 (PDT)
-Subject: Re: [PATCH] drm/panfrost: Fix regulator_get_optional() misuse
-To: Mark Brown <broonie@kernel.org>
-References: <20190904123032.23263-1-broonie@kernel.org>
- <CAL_JsqK8hn8aHa0e-QhT5=dMqCd0_HzNWMHM1YbEC_2z8n-tXg@mail.gmail.com>
- <feaf7338-9aa1-5065-7a83-028aeadd5578@arm.com>
- <20190905124014.GA4053@sirena.co.uk>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <93b8910d-fc01-4c16-fd7e-86abfc3cc617@arm.com>
-Date: Thu, 5 Sep 2019 14:02:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B540D6E0CD
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2019 13:03:15 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20190905130313euoutp0189143309013c78ab2e9da5cdbcfbb424~BjHhBXRJa0692706927euoutp015
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2019 13:03:13 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20190905130313euoutp0189143309013c78ab2e9da5cdbcfbb424~BjHhBXRJa0692706927euoutp015
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20190905130312eucas1p26f3c77f2706e806823fd46116b515397~BjHgK6Jaz0374903749eucas1p2D;
+ Thu,  5 Sep 2019 13:03:12 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 90.35.04374.097017D5; Thu,  5
+ Sep 2019 14:03:12 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20190905130311eucas1p22a1969c5b2d90bc7a8d381b3736cfffe~BjHfbVOiU0374503745eucas1p2B;
+ Thu,  5 Sep 2019 13:03:11 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20190905130311eusmtrp2619959b0a1aad92ce7fed81966b2177d~BjHfHPodZ2979329793eusmtrp2J;
+ Thu,  5 Sep 2019 13:03:11 +0000 (GMT)
+X-AuditID: cbfec7f5-4f7ff70000001116-d3-5d7107904aac
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id AC.E4.04117.F87017D5; Thu,  5
+ Sep 2019 14:03:11 +0100 (BST)
+Received: from AMDC3964.digital.local (unknown [106.120.61.39]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20190905130310eusmtip1637151dcc81b63567e8a8a25729c8997~BjHep4k_b2373123731eusmtip1O;
+ Thu,  5 Sep 2019 13:03:10 +0000 (GMT)
+Date: Thu, 5 Sep 2019 15:03:09 +0200
+From: Szymon Andrzejuk <s.andrzejuk@samsung.com>
+To: dri-devel@lists.freedesktop.org, a.hajda@samsung.com
+Subject: [PATCH v2] drm/vgem: Added page prefaulting
+Message-ID: <20190905130309.GA15140@AMDC3964.digital.local>
 MIME-Version: 1.0
-In-Reply-To: <20190905124014.GA4053@sirena.co.uk>
-Content-Language: en-GB
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0hTYRjHfc85OzsuJ8fN8EmDYBZZeK8Ph0pLEjpQH+xLRDFy5vFCOnVT
+ y2zkSMOc2rwhm1likaWiZjrLNMTCZeZM7UY08/pBYWimUuKlzaPht9/zPP//c3l5KVzSL/Ck
+ 4pWpnEqpSJCRIsLU83fATy9MkQc2T7sy3xssAqbA0osx1W0Es24qwpmu5VkB82lxlmSm8mwk
+ Mzz0HmO09wtxxtrUj06I2JyhVZKtyBok2BfWR4jtXKoi2JdGq5B92DGNsW1LowL2p86MsYUt
+ tSjC+YLoWDSXEJ/OqQJCI0Vx47OLZLLt+LVf2TNkFuoPzkPOFNCHobq0SJiHRJSEfoIgJ/c7
+ zgcLCL51ZGF88BvB2PodtGUpmcgm+UINAsvXRuy/5bOhHnOoCHovjM6ZSQeTdCB8Mcza3RTl
+ TjOQb4h06HG6DcHHH2MCh0Zq7zr3YYJwsJg+CpZR3Sa7Qa9hcoN30t7QZTJj/BbtQrBWSnkO
+ B61lcDMvhRlzi5Dn3bD+8sHGckDrEJTa+hAflCIwaJ9ubAT2aRXVrMOA0/EwptXjvDkMFk3P
+ SV7iCt9sbrzEFYpN5TifFkPubQmv3gfzWivBsxe8M/dsPhYLy22VGx0ltBx0rTmEHu0xbrvM
+ uG0wz75Q9WqeNNon4PZWNWsUjwegsT2gCglqkQeXpk6M5dSHlNxVf7UiUZ2mjPW/nJTYjOyf
+ rG/NvPgCvV6J6kY0hWQuYnohWS4RKNLVGYndCChc5i5ufGZPiaMVGdc5VdIlVVoCp+5GXhQh
+ 8xBnOo1elNCxilTuCsclc6qtKkY5e2Yhv8L3oQWNLTf/NPiN5Ub8bBoevOEzEjFShkLKA0Sa
+ XbcycO/xoOBBY4qhIrO6WB5WhhXG1OVn3733ztmiceo+I42f8takLGhO16Xpzh2JaXnsO5P+
+ tnXnfmnADqWtXh/Xi04NnRxYyNSsFK++iYqKVbg0J0yGn9eXyDu9QkZ8zsoIdZwi6CCuUiv+
+ AacJg7tgAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDIsWRmVeSWpSXmKPExsVy+t/xu7r97IWxBvOeiVjcWneO1aL33Ekm
+ i0XbWSz+b5vIbHHg13tWiytf37NZPO16y2Zx+dIpJovGeX3MFnc3nGV04PJovfSXzWN2w0UW
+ jx13lzB67P22gMVj56y77B6L97xk8tj+7QGrx/3u40wefVtWMQZwRunZFOWXlqQqZOQXl9gq
+ RRtaGOkZWlroGZlY6hkam8daGZkq6dvZpKTmZJalFunbJehl3Pn3jrFglW3F6aYL7A2Miw26
+ GDk5JARMJCY/bmHrYuTiEBJYyijxrO8tE0RCWuLxxEvMELawxJ9rXWwgtpDAJ0aJbQuLQGwW
+ ARWJBx+Og8XZBAwkrs18z9jFyMEhImAh0TMzASTMLLCTUWJNoymILQy068OZxywgNq+AtcS5
+ B91QtqDEyZlPWCDqtSRu/HvJBDKGGeiE5f84QMKiAsoSB7YdZ5rAyD8LSccsJB2zEDoWMDKv
+ YhRJLS3OTc8tNtIrTswtLs1L10vOz93ECIypbcd+btnB2PUu+BCjAAejEg+vwJeCWCHWxLLi
+ ytxDjBIczEoivOs3AoV4UxIrq1KL8uOLSnNSiw8xmgJ9PJFZSjQ5HxjveSXxhqaG5haWhubG
+ 5sZmFkrivB0CB2OEBNITS1KzU1MLUotg+pg4OKUaGK8ftd4/wWbTv5btxdtsZE8EikiusSxh
+ aUs3f1zVdHzyhZT7s9ayc9czdjHN/fY090zBuklRagmvuG3Z9Cza7py4ckZ7/k3JN9bz7SRO
+ OHmF+GjXHvWObT+yNSbkbOklzv4l/bvnnVr37vDXouCiE1aH0ktMZmj/iQg8UjU7xldh24Gc
+ x0rZIkosxRmJhlrMRcWJANdshxW/AgAA
+X-CMS-MailID: 20190905130311eucas1p22a1969c5b2d90bc7a8d381b3736cfffe
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+ boundary="----Vk40yymdOPf5tY5lSgqcTAWqq.j3lXMfgTgPoE1csihVfod4=_116f2e_"
+X-RootMTR: 20190905130311eucas1p22a1969c5b2d90bc7a8d381b3736cfffe
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20190905130311eucas1p22a1969c5b2d90bc7a8d381b3736cfffe
+References: <CGME20190905130311eucas1p22a1969c5b2d90bc7a8d381b3736cfffe@eucas1p2.samsung.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=samsung.com; 
+ s=mail20170921; t=1567688593;
+ bh=D5sOCSzCWywoLeGbjQhx28+mkq4vOHMPq9CZr3Y5/Ig=;
+ h=Date:From:To:Cc:Subject:References:From;
+ b=Od+brZEJ3Ns6SxAPaGPaPGrBKig5bomI62gu3UlTdAmljIvct2uhhgs5p+F97Qd3x
+ MLSUro11Fbe0ItCPTeKUKoxYpcmez/nUDrtzn1M7+4vX5T6Muq4ddy0FemrH5Aki0h
+ 4uYAHwXK21FnPTgTMyne00RsL0G0sXNftzMy094M=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,89 +106,303 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: p.rak@samsung.com, deepak.sharma@amd.com, airlied@linux.ie,
+ andrzejuk.szymon@gmail.com, seanpaul@chromium.org, emil.velikov@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMDUvMDkvMjAxOSAxMzo0MCwgTWFyayBCcm93biB3cm90ZToKPiBPbiBUaHUsIFNlcCAwNSwg
-MjAxOSBhdCAxMDozNzo1M0FNICswMTAwLCBTdGV2ZW4gUHJpY2Ugd3JvdGU6Cj4gCj4+IEFoLCBJ
-IGRpZG4ndCByZWFsaXNlIHRoYXQgcmVndWxhdG9yX2dldCgpIHdpbGwgcmV0dXJuIGEgZHVtbXkg
-cmVndWxhdG9yCj4+IGlmIG5vbmUgaXMgcHJvdmlkZWQgaW4gdGhlIERULiBJbiB0aGVvcnkgdGhh
-dCBzZWVtcyBsaWtlIGEgbmljZXIKPj4gc29sdXRpb24gdG8gbXkgdHdvIGNvbW1pdHMuIEhvd2V2
-ZXIgdGhlcmUncyBzdGlsbCBhIHByb2JsZW0gLSB0aGUgZHVtbXkKPj4gcmVndWxhdG9yIHJldHVy
-bmVkIGZyb20gcmVndWxhdG9yX2dldCgpIHJlcG9ydHMgZXJyb3JzIHdoZW4KPj4gcmVndWxhdG9y
-X3NldF92b2x0YWdlKCkgaXMgY2FsbGVkLiBTbyBJIGdldCBlcnJvcnMgbGlrZSB0aGlzOgo+IAo+
-PiBbICAyOTkuODYxMTY1XSBwYW5mcm9zdCBlODJjMDAwMC5tYWxpOiBDYW5ub3Qgc2V0IHZvbHRh
-Z2UgMTEwMDAwMCB1Vgo+PiBbICAyOTkuODY3Mjk0XSBkZXZmcmVxIGRldmZyZXEwOiBkdmZzIGZh
-aWxlZCB3aXRoICgtMjIpIGVycm9yCj4gCj4+IChBbmQgdGhlcmVmb3JlIHRoZSBmcmVxdWVuY3kg
-aXNuJ3QgYmVpbmcgY2hhbmdlZCkKPiAKPj4gSWRlYWxseSB3ZSB3YW50IGEgZHVtbXkgcmVndWxh
-dG9yIHRoYXQgd2lsbCBzaWxlbnRseSBpZ25vcmUgYW55Cj4+IHJlZ3VsYXRvcl9zZXRfdm9sdGFn
-ZSgpIGNhbGxzLgo+IAo+IElzIHRoYXQgc2FmZT8gIFlvdSBjYW4ndCByZWx5IG9uIGJlaW5nIGFi
-bGUgdG8gY2hhbmdlIHZvbHRhZ2VzIGV2ZW4gaWYKPiB0aGVyZSdzIGEgcGh5c2ljYWwgcmVndWxh
-dG9yIGF2YWlsYWJsZSwgc3lzdGVtIGNvbnN0cmFpbnRzIG9yIHRoZQo+IHJlc3VsdHMgb2Ygc2hh
-cmluZyB0aGUgcmVndWxhdG9yIHdpdGggb3RoZXIgdXNlcnMgbWF5IHByZXZlbnQgY2hhbmdlcy4K
-ClBlcmhhcHMgSSBkaWRuJ3QgZXhwcmVzcyBteXNlbGYgY2xlYXJseS4gSSBtZWFuIHRoYXQgaW4g
-dGhlIGNhc2Ugb2YgdGhlCkhpa2V5OTYwIGl0IHdvdWxkIGJlIGNvbnZlbmllbnQgdG8gaGF2ZSBh
-ICJkdW1teSByZWd1bGF0b3IiIHRoYXQgc2ltcGx5CmFjY2VwdGVkIGFueSBjaGFuZ2UgYmVjYXVz
-ZSB1bHRpbWF0ZWx5IExpbnV4IGRvZXNuJ3QgaGF2ZSBkaXJlY3QgY29udHJvbApvZiB0aGUgdm9s
-dGFnZXMgYnV0IHNpbXBseSByZXF1ZXN0cyBhIHBhcnRpY3VsYXIgb3BlcmF0aW5nIGZyZXF1ZW5j
-eSB2aWEKdGhlIG1haWxib3guCgo+IEkgZ3Vlc3MgYXQgdGhlIG1pbnV0ZSB0aGUgY29kZSBpcyBh
-c3N1bWluZyB0aGF0IGlmIHlvdSBjYW4ndCB2YXJ5IHRoZQo+IHJlZ3VsYXRvciBpdCdzIGZpeGVk
-IGF0IHRoZSBtYXhpbXVtIHZvbHRhZ2UgYW5kIHRoYXQgaXQncyBzYWZlIHRvIHJ1biBhdAo+IGEg
-bG93ZXIgY2xvY2sgd2l0aCBhIGhpZ2hlciB2b2x0YWdlIChzb21lIGRldmljZXMgZG9uJ3QgbGlr
-ZSBkb2luZyB0aGF0KS4KCk5vIC0gYXQgdGhlIG1vbWVudCBpZiB0aGUgcmVndWxhdG9yIHJlcG9y
-dHMgYW4gZXJyb3IgdGhlbiB0aGUgZnVuY3Rpb24KYmFpbHMgb3V0IGFuZCBkb2Vzbid0IGNoYW5n
-ZSB0aGUgZnJlcXVlbmN5LgoKPiBJZiB0aGUgZGV2aWNlIGFsd2F5cyBzdGFydHMgdXAgYXQgZnVs
-bCBzcGVlZCBJIGd1ZXNzIHRoYXQncyBPSy4gIEl0J3MKPiBjZXJ0YWlubHkgaW4gZ2VuZXJhbCBh
-IGJhZCBpZGVhIHRvIGRvIHRoaXMgaW4gZ2VuZXJhbCwgd2UgY2FuJ3QgdGVsbCBob3cKPiBpbXBv
-cnRhbnQgaXQgaXMgdG8gdGhlIGNvbnN1bWVyIHRoYXQgdGhleSBhY3R1YWxseSBnZXQgdGhlIHZv
-bHRhZ2UgdGhhdAo+IHRoZXkgYXNrZWQgZm9yIC0gZm9yIHNvbWUgYXBwbGljYXRpb25zIGxpa2Ug
-dGhpcyBpdCdzIGp1c3QgYWRkaW5nIHRvIHRoZQo+IHBvd2VyIHNhdmluZyBpdCdzIGxpa2VseSBm
-aW5lIGJ1dCBmb3Igb3RoZXJzIGl0IG1pZ2h0IGJyZWFrIHRoaW5ncy4KCkFncmVlZC4KCj4gSWYg
-eW91J3JlIGhhcHB5IHRvIGNoYW5nZSB0aGUgZnJlcXVlbmN5IHdpdGhvdXQgdGhlIGFiaWxpdHkg
-dG8gdmFyeSB0aGUKPiB2b2x0YWdlIHlvdSBjYW4gcXVlcnkgd2hhdCdzIHN1cHBvcnRlZCB0aHJv
-dWdoIHRoZSBBUEkgKHRoZSBzaW1wbGVzdAo+IGludGVyZmFjZSBpcyByZWd1bGF0b3JfaXNfc3Vw
-cG9ydGVkX3ZvbHRhZ2UoKSkuICBZb3Ugc2hvdWxkIGRvIHRoZQo+IHJlZ3VsYXRvciBBUEkgcXVl
-cmllcyBhdCBpbml0aWFsaXphdGlvbiB0aW1lIHNpbmNlIHRoZXkgY2FuIGJlIGEgYml0Cj4gZXhw
-ZW5zaXZlLCB0aGUgdXN1YWwgcGF0dGVybiB3b3VsZCBiZSB0byBnbyB0aHJvdWdoIHlvdXIgT1BQ
-IHRhYmxlIGFuZAo+IGRpc2FibGUgc3RhdGVzIHdoZXJlIHlvdSBjYW4ndCBzdXBwb3J0IHRoZSB2
-b2x0YWdlIGJ1dCB5b3UgKmNvdWxkKiBhbHNvCj4gZmxhZyBzdGF0ZXMgd2hlcmUgeW91IGp1c3Qg
-ZG9uJ3Qgc2V0IHRoZSB2b2x0YWdlLiAgVGhhdCBzZWVtcyBlc3BlY2lhbGx5Cj4gcmVhc29uYWJs
-ZSBpZiBubyB2b2x0YWdlcyBpbiB0aGUgcmFuZ2UgdGhlIGRldmljZSBzdXBwb3J0cyBjYW4gYmUg
-c2V0Lgo+IAo+IEkgZG8gbm90ZSB0aGF0IHRoZSBjdXJyZW50IGNvZGUgcmVxdWlyZXMgZXhhY3Rs
-eSBzcGVjaWZpZWQgdm9sdGFnZXMgd2l0aAo+IG5vIHZhcmlhdGlvbiB3aGljaCBkb2Vzbid0IG1h
-dGNoIHRoZSBiZWhhdmlvdXIgeW91IHNheSB5b3UncmUgT0sgd2l0aAo+IGhlcmUsIHdoYXQgeW91
-J3JlIGRlc2NyaWJpbmcgc291bmRzIGxpa2UgdGhlIGRyaXZlciBzaG91bGQgYmUgc3BlY2lmeWlu
-Zwo+IGEgdm9sdGFnZSByYW5nZSBmcm9tIHRoZSBoYXJkd2FyZSBzcGVjaWZpZWQgbWF4aW11bSBk
-b3duIHRvIHdoYXRldmVyIHRoZQo+IG1pbmltdW0gdGhlIE9QUCBzdXBwb3J0cyByYXRoZXIgdGhh
-biBleGFjdGx5IHRoZSBPUFAgdm9sdGFnZS4gIEFzIHRoaW5ncwo+IGFyZSB5b3UgbWlnaHQgYWxz
-byBydW4gaW50byB2b2x0YWdlcyB0aGF0IGNhbid0IGJlIGhpdCBleGFjdGx5IChlZywgaW4KPiB0
-aGUgRXh5bm9zIDU0MzMgY2FzZSBpbiBtYWlubGluZSBhIHJlZ3VsYXRvciB0aGF0IG9ubHkgb2Zm
-ZXJzIHN0ZXBzIG9mCj4gMm1WIHdpbGwgZXJyb3Igb3V0IHRyeWluZyB0byBzZXQgc2V2ZXJhbCBv
-ZiB0aGUgT1BQcykuCgpQZXJoYXBzIHRoZXJlJ3MgYSBiZXR0ZXIgd2F5IG9mIGRvaW5nIGRldmZy
-ZXE/IFBhbmZyb3N0IGl0c2VsZiBkb2Vzbid0CnJlYWxseSBjYXJlIG11c3QgYWJvdXQgdGhpcyAt
-IHdlIGp1c3QgbmVlZCB0byBiZSBhYmxlIHRvIHNjYWxpbmcgdXAvZG93bgp0aGUgb3BlcmF0aW5n
-IHBvaW50IGRlcGVuZGluZyBvbiBsb2FkLgoKT24gbWFueSBwbGF0Zm9ybXMgdG8gc2V0IHRoZSBm
-cmVxdWVuY3kgaXQncyBuZWNlc3NhcnkgdG8gZG8gdGhlIGRhbmNlIHRvCnNldCBhbiBhcHByb3By
-aWF0ZSB2b2x0YWdlIGJlZm9yZS9hZnRlcndhcmRzLCBidXQgb24gdGhlIEhpa2V5OTYwCmJlY2F1
-c2UgdGhpcyBpcyBoYW5kbGVkIHZpYSBhIG1haWxib3ggd2UgZG9uJ3QgYWN0dWFsbHkgaGF2ZSBh
-IHJlZ3VsYXRvcgp0byBzZXQgdGhlIHZvbHRhZ2Ugb24uIE15IGNvbW1pdFsxXSBzdXBwb3J0cyB0
-aGlzIGJ5IHNpbXBseSBub3QgbGlzdGluZwp0aGUgcmVndWxhdG9yIGluIHRoZSBEVCBhbmQgYXNz
-dW1pbmcgdGhhdCBub3RoaW5nIGlzIG5lZWRlZCB3aGVuCnN3aXRjaGluZyBmcmVxdWVuY3kuIEkn
-bSBoYXBweSBmb3Igc29tZSBvdGhlciB3YXkgb2YgaGFuZGxpbmcgdGhpcyBpZgp0aGVyZSdzIGEg
-YmV0dGVyIG1ldGhvZC4KCkF0IHRoZSBtb21lbnQgeW91ciBjaGFuZ2UgZnJvbSBkZXZtX3JlZ3Vs
-YXRvcl9nZXRfb3B0aW9uYWwoKSB0bwpkZXZtX3JlZ3VsYXRvcl9nZXQoKSBpcyBhIHJlZ3Jlc3Np
-b24gb24gdGhpcyBwbGF0Zm9ybSBiZWNhdXNlIGl0IG1lYW5zCnRoZXJlIGlzIG5vdyBhIGR1bW15
-IHJlZ3VsYXRvciB3aGljaCB3aWxsIGFsd2F5cyBmYWlsIHRoZQpyZWd1bGF0b3Jfc2V0X3ZvbHRh
-Z2UoKSBjYWxscyBwcmV2ZW50aW5nIGZyZXF1ZW5jeSBjaGFuZ2VzLiBBbmQgSSBjYW4ndApzZWUg
-YW55dGhpbmcgSSBjYW4gZG8gaW4gdGhlIERUIHRvIGZpeCB0aGF0LgoKU3RldmUKClsxXSBlMjFk
-ZDI5MDg4MWIgZHJtL3BhbmZyb3N0OiBFbmFibGUgZGV2ZnJlcSB0byB3b3JrIHdpdGhvdXQgcmVn
-dWxhdG9yCihwbHVzIGJ1ZyBmaXggaW4gNTIyODIxNjNkZmE2KQpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+------Vk40yymdOPf5tY5lSgqcTAWqq.j3lXMfgTgPoE1csihVfod4=_116f2e_
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+
+Page fault handler inside vgem driver now preallocates pages in advance
+when fault occurs for the first time. Pages can be allocated in
+direction of increasing/decreasing addresses, depending on memory access
+profile. In case of random access no preallocation occurs.
+
+Synthetic benchmark showed over 8x bandwidth increase when copying data
+from mmapped vgem buffer with memcpy and ~160 times when accessing mapped
+buffer sequentially. Compiled with gcc 8.2.0 with -O2 flag.
+Unigine Heaven running on custom virgl vtest virtual GPU with vgem buffers
+sees ~17% FPS increase.
+
+This performance increase only occurs when accessing vgem buffer mapped
+using DRM_IOCTL_MODE_MAP_DUMB ioctl. When accessing buffer imported
+from prime fd the vgem page fault handler is not invoked. It's advised
+to use vector streaming copy instructions and avoid sequential accesses
+in this case. Streaming copy brings the performance to be on par with
+similar buffer allocated with memfd_create(2) syscall.
+
+Changes in v2:
+  - Refactored some code based on Andrzej Hajda review
+  - changed return types of __vgem_alloc_page, __vgem_read_mapping_page 
+    and __vgem_prepare_single_page from int to vm_fault_t
+
+Signed-off-by: Szymon Andrzejuk <s.andrzejuk@samsung.com>
+---
+    
+ drivers/gpu/drm/vgem/vgem_drv.c | 178 ++++++++++++++++++++++++++------
+ 1 file changed, 144 insertions(+), 34 deletions(-)
+
+diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
+index 11a8f99ba18c..155a7911cfc8 100644
+--- a/drivers/gpu/drm/vgem/vgem_drv.c
++++ b/drivers/gpu/drm/vgem/vgem_drv.c
+@@ -34,6 +34,7 @@
+ #include <linux/ramfs.h>
+ #include <linux/shmem_fs.h>
+ #include <linux/dma-buf.h>
++#include <linux/pfn_t.h>
+ #include "vgem_drv.h"
+ 
+ #define DRIVER_NAME	"vgem"
+@@ -50,8 +51,21 @@ static struct vgem_device {
+ static void vgem_gem_free_object(struct drm_gem_object *obj)
+ {
+ 	struct drm_vgem_gem_object *vgem_obj = to_vgem_bo(obj);
++	int i;
++
++	mutex_lock(&vgem_obj->pages_lock);
++	if (vgem_obj->pages) {
++		int num_pages = obj->size >> PAGE_SHIFT;
++
++		for (i = 0; i < num_pages; i++) {
++			if (vgem_obj->pages[i])
++				put_page(vgem_obj->pages[i]);
++		}
++		kvfree(vgem_obj->pages);
++		vgem_obj->pages = NULL;
++	}
++	mutex_unlock(&vgem_obj->pages_lock);
+ 
+-	kvfree(vgem_obj->pages);
+ 	mutex_destroy(&vgem_obj->pages_lock);
+ 
+ 	if (obj->import_attach)
+@@ -61,6 +75,68 @@ static void vgem_gem_free_object(struct drm_gem_object *obj)
+ 	kfree(vgem_obj);
+ }
+ 
++static vm_fault_t __vgem_alloc_page(struct page *page, struct vm_area_struct *vma,
++									unsigned long vaddr)
++{
++	unsigned long pfn;
++	vm_fault_t insert_ret;
++
++	pfn = page_to_pfn(page);
++	insert_ret = vmf_insert_mixed(vma, vaddr, __pfn_to_pfn_t(pfn, PFN_DEV));
++
++	if (insert_ret & VM_FAULT_ERROR)
++		return insert_ret;
++
++	return 0;
++}
++
++static vm_fault_t __vgem_read_mapping_page(struct drm_vgem_gem_object *obj,
++										   int page_num, struct page **page)
++{
++	vm_fault_t ret;
++	struct page *mapped_page;
++
++	mapped_page = shmem_read_mapping_page(file_inode(obj->base.filp)->i_mapping,
++										  page_num);
++	if (IS_ERR(page)) {
++		switch (PTR_ERR(page)) {
++		case -ENOSPC:
++		case -ENOMEM:
++			ret = VM_FAULT_OOM;
++			break;
++		case -EBUSY:
++			ret = VM_FAULT_RETRY;
++			break;
++		case -EFAULT:
++		case -EINVAL:
++			ret = VM_FAULT_SIGBUS;
++			break;
++		default:
++			WARN_ON(PTR_ERR(page));
++			ret = VM_FAULT_SIGBUS;
++			break;
++		}
++
++		return ret;
++	}
++
++	*page = mapped_page;
++	return 0;
++}
++
++static vm_fault_t __vgem_prepare_single_page(struct drm_vgem_gem_object *obj,
++											 struct vm_area_struct *vma,
++											 int page_num, unsigned long vaddr)
++{
++	vm_fault_t ret;
++
++	ret = __vgem_read_mapping_page(obj, page_num, &obj->pages[page_num]);
++	if (ret)
++		return ret;
++
++	return __vgem_alloc_page(obj->pages[page_num], vma, vaddr);
++}
++
+ static vm_fault_t vgem_gem_fault(struct vm_fault *vmf)
+ {
+ 	struct vm_area_struct *vma = vmf->vma;
+@@ -70,6 +146,8 @@ static vm_fault_t vgem_gem_fault(struct vm_fault *vmf)
+ 	vm_fault_t ret = VM_FAULT_SIGBUS;
+ 	loff_t num_pages;
+ 	pgoff_t page_offset;
++	int page_num, page_prep_ret;
++	const int PREFAULT_PAGES = 8;
+ 	page_offset = (vaddr - vma->vm_start) >> PAGE_SHIFT;
+ 
+ 	num_pages = DIV_ROUND_UP(obj->base.size, PAGE_SIZE);
+@@ -77,41 +155,65 @@ static vm_fault_t vgem_gem_fault(struct vm_fault *vmf)
+ 	if (page_offset >= num_pages)
+ 		return VM_FAULT_SIGBUS;
+ 
++	ret = VM_FAULT_NOPAGE;
++
+ 	mutex_lock(&obj->pages_lock);
+-	if (obj->pages) {
+-		get_page(obj->pages[page_offset]);
+-		vmf->page = obj->pages[page_offset];
+-		ret = 0;
+-	}
+-	mutex_unlock(&obj->pages_lock);
+-	if (ret) {
+-		struct page *page;
+-
+-		page = shmem_read_mapping_page(
+-					file_inode(obj->base.filp)->i_mapping,
+-					page_offset);
+-		if (!IS_ERR(page)) {
+-			vmf->page = page;
+-			ret = 0;
+-		} else switch (PTR_ERR(page)) {
+-			case -ENOSPC:
+-			case -ENOMEM:
+-				ret = VM_FAULT_OOM;
+-				break;
+-			case -EBUSY:
+-				ret = VM_FAULT_RETRY;
+-				break;
+-			case -EFAULT:
+-			case -EINVAL:
+-				ret = VM_FAULT_SIGBUS;
+-				break;
+-			default:
+-				WARN_ON(PTR_ERR(page));
+-				ret = VM_FAULT_SIGBUS;
+-				break;
++
++	if (num_pages > 1) {
++		bool forward = true;
++		bool random = false;
++
++		// Determine prefaulting direction. If adjacent pages are both
++		// allocated/not allocated then we have random access.
++		// Always try to prefault on first and last page.
++		if (page_offset != 0 && page_offset != num_pages - 1) {
++			bool next, prev;
++
++			next = obj->pages[page_offset + 1];
++			prev = obj->pages[page_offset - 1];
++			if (prev == next)
++				random = true;
++			else if (!prev)
++				forward = false;
++		} else {
++			forward = (page_offset == 0);
+ 		}
+ 
++		if (!random) {
++			int start_page = page_offset;
++			int end_page;
++			int step = (forward ? 1 : -1);
++			if (forward)
++				end_page = min(page_offset + PREFAULT_PAGES, (unsigned long)num_pages);
++			else
++				end_page = max((int)page_offset - PREFAULT_PAGES, 0);
++
++			for (page_num = start_page; page_num != end_page; page_num += step) {
++				if (!obj->pages[page_num]) {
++					page_prep_ret = __vgem_prepare_single_page(obj, vma, page_num, vaddr);
++					if (page_prep_ret) {
++						ret = page_prep_ret;
++						break;
++					}
++				} else {
++					// random access, exit loop
++					break;
++				}
++
++				vaddr += step * PAGE_SIZE;
++			}
++		} else {
++			page_prep_ret = __vgem_prepare_single_page(obj, vma, page_offset, vaddr);
++			if (page_prep_ret)
++				ret = page_prep_ret;
++		}
++	} else {
++		page_prep_ret = __vgem_prepare_single_page(obj, vma, page_offset, vaddr);
++		if (page_prep_ret)
++			ret = page_prep_ret;
+ 	}
++
++	mutex_unlock(&obj->pages_lock);
+ 	return ret;
+ }
+ 
+@@ -182,7 +284,7 @@ static struct drm_gem_object *vgem_gem_create(struct drm_device *dev,
+ 					      unsigned long size)
+ {
+ 	struct drm_vgem_gem_object *obj;
+-	int ret;
++	int ret, num_pages;
+ 
+ 	obj = __vgem_gem_create(dev, size);
+ 	if (IS_ERR(obj))
+@@ -193,6 +295,13 @@ static struct drm_gem_object *vgem_gem_create(struct drm_device *dev,
+ 	if (ret)
+ 		return ERR_PTR(ret);
+ 
++	mutex_lock(&obj->pages_lock);
++
++	num_pages = obj->base.size >> PAGE_SHIFT;
++	obj->pages = kvcalloc(num_pages, sizeof(struct page *), GFP_KERNEL);
++
++	mutex_unlock(&obj->pages_lock);
++
+ 	return &obj->base;
+ }
+ 
+@@ -262,7 +371,8 @@ static int vgem_mmap(struct file *filp, struct vm_area_struct *vma)
+ 	/* Keep the WC mmaping set by drm_gem_mmap() but our pages
+ 	 * are ordinary and not special.
+ 	 */
+-	vma->vm_flags = flags | VM_DONTEXPAND | VM_DONTDUMP;
++	vma->vm_flags = flags | VM_DONTEXPAND | VM_DONTDUMP | VM_MIXEDMAP;
++
+ 	return 0;
+ }
+ 
+-- 
+2.17.1
+
+
+------Vk40yymdOPf5tY5lSgqcTAWqq.j3lXMfgTgPoE1csihVfod4=_116f2e_
+Content-Type: text/plain; charset="utf-8"
+
+
+------Vk40yymdOPf5tY5lSgqcTAWqq.j3lXMfgTgPoE1csihVfod4=_116f2e_
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+------Vk40yymdOPf5tY5lSgqcTAWqq.j3lXMfgTgPoE1csihVfod4=_116f2e_--
