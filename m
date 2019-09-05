@@ -2,37 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C658AA406
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2019 15:13:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80FDEAA428
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2019 15:17:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A11996E0C2;
-	Thu,  5 Sep 2019 13:13:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 646796E0D3;
+	Thu,  5 Sep 2019 13:17:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22D476E082
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2019 13:13:28 +0000 (UTC)
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it
- [2.224.242.101]) (Authenticated sender: jacopo@jmondi.org)
- by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 9B3B7C0006;
- Thu,  5 Sep 2019 13:13:19 +0000 (UTC)
-Date: Thu, 5 Sep 2019 15:14:53 +0200
-From: Jacopo Mondi <jacopo@jmondi.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v3 08/14] drm: rcar-du: Add support for CMM
-Message-ID: <20190905131453.7ortosddn4afxd5j@uno.localdomain>
-References: <20190825135154.11488-1-jacopo+renesas@jmondi.org>
- <20190825135154.11488-9-jacopo+renesas@jmondi.org>
- <20190827002422.GQ5031@pendragon.ideasonboard.com>
- <20190827145619.33s7gkv7tgtsr6nz@uno.localdomain>
- <20190827163423.GB5054@pendragon.ideasonboard.com>
- <20190905095757.gg6s5pse5tvivxbs@uno.localdomain>
- <20190905111712.GG5035@pendragon.ideasonboard.com>
+Received: from NAM04-SN1-obe.outbound.protection.outlook.com
+ (mail-eopbgr700040.outbound.protection.outlook.com [40.107.70.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EED8B6E0D2;
+ Thu,  5 Sep 2019 13:17:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aa4j93z59d4xwwpS/Nj+CBM8uhHQvFUlFkqfd+FkwNCWDpmO2jzsqT30iQ+BXLprmZ9U4F7NaJKg5KwFa7TUMUD5vJGW9rz2OevpwkXiMrB+HAzX6uxwFFfQXNj1KTxO+WB3GRAwDkTsSOTVikcXpBgfwqI+k1ufPWn8gAt7PSU5ZfPlxnCYaQFLxoqHXJFj/3M2fAj5GVxhL6Xprh3m/GPxUVNpvYss46FR652UaDy2/QoJw6x5ljzgOJvWnN1aCfxVV4HFwCA2AZqBNgsUcumMBBFw9VAHKQ7VqrM5mwCBeEY8Yj4a/+GVKH//Oq1DQpdfjtUzJu75S3CcDwGSfg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uVTmM3a0Z1LL3nxtcwTLTK+lmTNNgQZj8TQjhIg9/84=;
+ b=hbyZrcCPApPEuzhVOBnSMTk+vzoMplc3TSuPCggREG4N+CWp7uUfsvZoT/sPSwiG2R3uWO/8hf5taLOzZpGoLLpLMdSvIua7Z1/97XIYZQDHroVT9UKCkYNskA4pBAaVbl8K4wjvqEtyazgE4La0ZpP0ifpjLMyt/ezI9ylQfbQwzFdnYUOYRkHzPvn7XkPSsNnhmhulnRz+0YnwUkX6VdIBTQ/gRrivinErNcJsBBQhx0CuYRpUk882POUGfbn1iT72aKotjM92fyRs3p9SOWiqdJVYdRycM6QlJUmpNDZXtjH8/9iPn3kxmWjItwjj+KXS4sY1/5yz1AV8IUMYEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+Received: from CY4PR1201MB0230.namprd12.prod.outlook.com (10.172.79.7) by
+ CY4PR1201MB0232.namprd12.prod.outlook.com (10.174.52.149) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2241.14; Thu, 5 Sep 2019 13:17:14 +0000
+Received: from CY4PR1201MB0230.namprd12.prod.outlook.com
+ ([fe80::708e:c826:5b05:e3f0]) by CY4PR1201MB0230.namprd12.prod.outlook.com
+ ([fe80::708e:c826:5b05:e3f0%11]) with mapi id 15.20.2220.022; Thu, 5 Sep 2019
+ 13:17:14 +0000
+From: Harry Wentland <hwentlan@amd.com>
+To: Randy Dunlap <rdunlap@infradead.org>, Stephen Rothwell
+ <sfr@canb.auug.org.au>, Linux Next Mailing List <linux-next@vger.kernel.org>
+Subject: Re: linux-next: Tree for Sep 4 (amd/display/)
+Thread-Topic: linux-next: Tree for Sep 4 (amd/display/)
+Thread-Index: AQHVY2OBXMezq3awGkCsLLALyRll+qcdEayA
+Date: Thu, 5 Sep 2019 13:17:14 +0000
+Message-ID: <752f74d6-f6ff-6013-25ad-a8fdce934d17@amd.com>
+References: <20190904233443.3f73c46b@canb.auug.org.au>
+ <6b70fdfd-1f18-1e55-2574-7be5997cfb2a@infradead.org>
+In-Reply-To: <6b70fdfd-1f18-1e55-2574-7be5997cfb2a@infradead.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [2607:fea8:925f:916c::2]
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+x-clientproxiedby: YT1PR01CA0006.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::19)
+ To CY4PR1201MB0230.namprd12.prod.outlook.com
+ (2603:10b6:910:1e::7)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b4b54925-03ea-4518-e384-08d732035dff
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
+ SRVR:CY4PR1201MB0232; 
+x-ms-traffictypediagnostic: CY4PR1201MB0232:
+x-ms-exchange-purlcount: 1
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <CY4PR1201MB02325ADDA607B3D789B7E8608CBB0@CY4PR1201MB0232.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3513;
+x-forefront-prvs: 015114592F
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(136003)(396003)(366004)(376002)(346002)(39860400002)(199004)(189003)(53754006)(486006)(6306002)(99286004)(446003)(14444005)(4326008)(6512007)(11346002)(478600001)(476003)(2616005)(14454004)(966005)(36756003)(25786009)(256004)(229853002)(53936002)(71190400001)(46003)(71200400001)(6246003)(6486002)(31686004)(52116002)(6436002)(65956001)(65806001)(31696002)(4744005)(5660300002)(6116002)(81156014)(81166006)(8676002)(186003)(58126008)(76176011)(66476007)(66556008)(66946007)(66446008)(64756008)(8936002)(7736002)(386003)(102836004)(6506007)(316002)(53546011)(2906002)(110136005)(305945005)(54906003);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR1201MB0232;
+ H:CY4PR1201MB0230.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: Vr8Qt0hj8MmbyEtAM4B1R+94qbhO5Vc5tHiBSSOXP4GCl7yQq7c8GCzkZa4PNLaIXkbdm09dEsIBiTkTbxd+8X0YOnTPG5vNDjI62J/xsS45+ykcuSji+BkJ3jOQSeC2HxADQT7t9tQtCKnWEgRcDr8G5ixSwQx/8qyftaPQW1Jfv85bdTdpnJ8bp7xSd8Z9o0kEbQESIiOs2wCUCP61hV+NVUINKMJ5U0RP7pNly+n1/u86NBkUztAm3FpL84LGNhpst67GGn08umoLbu9AyfWag3F4F+FMkBGbv2cGjIZzmDH/I1zl4erob7INkjBIeZjvFwcC5DiDstAvAxvj9CXhcEAfW7s4XICF+sdfd/Ege+cunh9QNEYKq08SJlCTMbM8XK1x+VFr4x6Ajqs0CG7t52CZnwJMq4WVG6U6ruI=
+Content-ID: <C2E148370D9A45438625E22C870190C8@namprd12.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20190905111712.GG5035@pendragon.ideasonboard.com>
-User-Agent: NeoMutt/20180716
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4b54925-03ea-4518-e384-08d732035dff
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Sep 2019 13:17:14.3764 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: bJtQcbnVEA1TLmfwJ79NE01a6aKt2SvcWziquaCLUtj/o2nmYxsNadRt/1hkIkvSdSbIaR807HsbSg2R8rcr+Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0232
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uVTmM3a0Z1LL3nxtcwTLTK+lmTNNgQZj8TQjhIg9/84=;
+ b=IU6LoCZV9XJmKxznDGS/0w0ta8hOpOIF1iB7VhbB8F5Z4pbqmObP8UK09UCv0SGr8lvILw8hDJGYVxW5Q9KahxAGSFny5PF37WgU3ewEUBTqfphz0+gP4tmedBVqymk0IgIfUCU9ubSxzaJu0wo+N0nbH3qflO6vXZXjstPBuHw=
+X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Harry.Wentland@amd.com; 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,138 +103,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: muroya@ksk.co.jp, uli@fpond.eu, horms@verge.net.au,
- VenkataRajesh.Kalakodima@in.bosch.com, airlied@linux.ie,
- koji.matsuoka.xm@renesas.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Harsha.ManjulaMallikarjun@in.bosch.com
-Content-Type: multipart/mixed; boundary="===============1244729335=="
+Cc: "Li, Sun peng \(Leo\)" <Sunpeng.Li@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1244729335==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="iuoqgpboxu2vm3n7"
-Content-Disposition: inline
-
-
---iuoqgpboxu2vm3n7
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Laurent,
-
-On Thu, Sep 05, 2019 at 02:17:12PM +0300, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> > >>>> +/**
-> > >>>> + * rcar_cmm_enable() - enable the CMM unit
-> > >>>> + *
-> > >>>> + * @pdev: The platform device associated with the CMM instance
-> > >>>> + *
-> > >>>> + * Enable the CMM unit by enabling the parent clock and enabling =
-the CMM
-> > >>>> + * components, such as 1-D LUT, if requested.
-> > >>>> + */
-> > >>>> +int rcar_cmm_enable(struct platform_device *pdev)
-> > >>>> +{
-> > >>>> +	struct rcar_cmm *rcmm =3D platform_get_drvdata(pdev);
-> > >>>> +	int ret;
-> > >>>> +
-> > >>>> +	if (!rcmm)
-> > >>>> +		return -EPROBE_DEFER;
-> > >>>
-> > >>> This function is called in rcar_du_crtc_atomic_enable(), so that's =
-not
-> > >>> the right error code. It seems we need another function for the CMM=
- API
-> > >>> to defer probing :-/ I would call it rcar_cmm_init(). This check wo=
-uld
-> > >>> then be removed.
-> > >>
-> > >> I agree about the return code, but not the name, as this function
-> > >> actually enables the CMM.
-> > >
-> > > I meant creating a new rcar_cmm_init() function that would just have =
-the
-> > > !rcmm check.
-> > >
-> > >> PROBE_DEFER does not make any sense here, I
-> > >> wonder where it come from, as the probing of CMM and DU has long
-> > >> happened once we get here (at least, I assume so, if we receive a
-> > >> gamma_table, userspace has already been running, and both DU and CMM
-> > >> should have probed. Otherwise, we can exploit the newly created devi=
-ce
-> > >> link, and make sure DU probes after the CMM).
-> > >>
-> > >> I would just change the return value here, and possibly use the devi=
-ce
-> > >> link to ensure the correct probing sequence.
-> > >
-> > > How does device link help here ?
-> >
-> > Currently it doesn't, as we are creating a stateless link.
-> >
-> > But if we go for a managed device link (which is the default, by the
-> > way, you have to opt-out from it) we can guarantee the CMM has probed
-> > before the DU probes, so that we have a guarantee when we get here
-> > !rcmm cannot happen.
-> >
-> > https://www.kernel.org/doc/html/v5.2-rc7/driver-api/device_link.html
-> > "The consumer devices are not probed before the supplier is bound to a =
-driver,
-> >  and they=E2=80=99re unbound before the supplier is unbound."
-> >
-> > As we create the link, the CMM is the supplier of DU, so we could just
-> > drop the DL_FLAG_STATELESS flag in device_link_add() in 10/14.
-> >
-> > Does this match your understanding ?
->
-> Except there's a bit of a chicken and egg issue, as you call
-> device_link_add() from rcar_du_cmm_init(), which thus require the DU
-> driver to probe first :-) For this to work we would probably need an
-> early initcall in the DU driver.
->
-
-Yes indeed, the point where the link is created at the moment is too
-late... Is it worth an early initcall, or should we just assume that
-at the point where the LUT is operated userspace has already been
-running and both the CMM and the DU have probed already?
-
---iuoqgpboxu2vm3n7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1xCk0ACgkQcjQGjxah
-Vjy4WhAAs0hFWf0KGDxzpxaW2Is+PYr+7r9FJJCvIRLtHJrvMMa7ZiUHu6snKcwi
-c1af164xRrIBq9jUAnWlDfDACdyVgZIAZm1sKTXF8Y7lulTX8prColnNv9PbJkSf
-GFPk2NS60LnPYPDLxa5YnD/wCEluH6zZP0Iec0F60xCs288jmWasZUk1GE/nt6en
-tYOPmEtnGL74VYbqVzx9cYXQ/x/NEwpVRvTGTb5Z8JAWw0fiKoJcbWVNklfy++VE
-up2vaz4OSOJ5LT+KPIGqXW0FrTPHYVyu6FYHrxDzM+/IKmXWtWCNq4iRypltPd5R
-iixHQkqBq/G8aedqIzJbpeVFW/v2LowO/HlDwo2LmLmXkaJeBfX4V7/HK8dGNCjc
-XCnefTL1pFgJ0kP+pO8rybOtt74T/gcjcU3Yxj0EcOUXauzUiFYyKyt0pgyhfJxl
-8AYzAfmLAdQDawPntPIZ011LYVa5oF27Wek05zw3oWRC98VtJMro5CxX8vebKFrA
-gtqfZB2pz6MzO8IbNeAPr+LLcSjgHhSe13JlO9iAxJ0bDYHtnT9TEKxu49LagXnN
-xsKlzgRajJCcJEf5ldjFu0Ew9UM+BoiLuR7AKMiFdxCpCGlsBiUSGMWgEAtfbs4e
-TQ8x0CruiKbwXTirVnSU/mlf6+oh3fJ4CPB1+AhH7Mjjn4L5kXE=
-=ww4d
------END PGP SIGNATURE-----
-
---iuoqgpboxu2vm3n7--
-
---===============1244729335==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1244729335==--
+CgpPbiAyMDE5LTA5LTA0IDQ6NTggcC5tLiwgUmFuZHkgRHVubGFwIHdyb3RlOgo+IE9uIDkvNC8x
+OSA2OjM0IEFNLCBTdGVwaGVuIFJvdGh3ZWxsIHdyb3RlOgo+PiBIaSBhbGwsCj4+Cj4+IE5ld3M6
+IHRoaXMgd2lsbCBiZSB0aGUgbGFzdCBsaW51eC1uZXh0IEkgd2lsbCByZWxlYXNlIHVudGlsIFNl
+cHQgMzAuCj4+Cj4+IENoYW5nZXMgc2luY2UgMjAxOTA5MDM6Cj4+Cj4gCj4gb24geDg2XzY0Ogo+
+IAo+IEluIGZpbGUgaW5jbHVkZWQgZnJvbSAuLi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8u
+Li9kaXNwbGF5L2RjL2RtbC9kY24yMC9kaXNwbGF5X3JxX2RsZ19jYWxjXzIwdjIuYzo3NzowOgo+
+IC4uL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1Ly4uL2Rpc3BsYXkvZGMvZG1sL2RjbjIwLy4u
+L2RtbF9pbmxpbmVfZGVmcy5oOiBJbiBmdW5jdGlvbiDigJhkbWxfbWlu4oCZOgo+IC4uL2RyaXZl
+cnMvZ3B1L2RybS9hbWQvYW1kZ3B1Ly4uL2Rpc3BsYXkvZGMvZG1sL2RjbjIwLy4uL2RtbF9pbmxp
+bmVfZGVmcy5oOjM0OjE6IGVycm9yOiBTU0UgcmVnaXN0ZXIgcmV0dXJuIHdpdGggU1NFIGRpc2Fi
+bGVkCj4gCgpJcyB0aGF0IGZpeGVkIGJ5IFN0ZXBoZW4ncyBmaXh1cCBoZXJlPwoKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvYXJjaGl2ZXMvZHJpLWRldmVsLzIwMTktU2VwdGVtYmVyLzIz
+NDI5Mi5odG1sCgpUaGFua3MsCkhhcnJ5Cgo+IApfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWw=
