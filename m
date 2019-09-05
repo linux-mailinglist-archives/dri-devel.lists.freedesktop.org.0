@@ -1,46 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41CA7AA106
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2019 13:14:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A78CEAA10F
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2019 13:17:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 548A3893B9;
-	Thu,  5 Sep 2019 11:14:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BEE86E071;
+	Thu,  5 Sep 2019 11:17:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 28B468934F
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2019 11:14:41 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1C7B072161; Thu,  5 Sep 2019 11:14:41 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
- with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Thu, 05 Sep 2019 11:14:41 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: popovic.marko@protonmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-JaTGdVwCZ7@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
-References: <bug-111481-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
+ [IPv6:2607:f8b0:4864:20::744])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D4036E071
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2019 11:16:59 +0000 (UTC)
+Received: by mail-qk1-x744.google.com with SMTP id i78so1652146qke.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Sep 2019 04:16:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=1RtJ0DInKStLNm7nRRLdODfCYZfUMUe8UxnFTe9vEuw=;
+ b=JAso2SWzs3lAmfgmQNMrKArr05az0ym2d+TDvu8eq9+rOZRjBePDZy2no9sEt0I1B4
+ 5T8HrIXi1w3CBMznL0/FPo8ZC58ax2CR6rlP/5+/U1gA6HN7tR47rEaQxVWR5SNFQXou
+ DhG67dFWjGMwB8oNhfsL9tqbQBPikzch1LOcrUgWo4Ynv8K7opU7s7QaHrlzSOg+hLwX
+ jg96OBWm11v+IPVy5NraO1atgW+3gOKK4/BWijcf+gQ4kzwWp6XcFsPmZ9mgUOB+x6Zn
+ EBhxreGB/tH407rUCN/pk1XeCDOHiD5hHOyBLgB1Bo0xByYXPKEDq0veq0XWcDSjvhwT
+ kxyw==
+X-Gm-Message-State: APjAAAWFMjBfAb7A8t/zSmXyjTJnRpzEEyovk5nSKtB++oi38cCP/rqG
+ eH6PPzaZqA8zWbjk8MCfpA7GcvzJ
+X-Google-Smtp-Source: APXvYqxSGWC4onoTEz0DUnOdi4eFadkrQp9G8tRvV5mvqBpu33ZnuFM9J/pomGZcFWv51KhkMx3khg==
+X-Received: by 2002:a05:620a:234:: with SMTP id
+ u20mr2283723qkm.11.1567682218167; 
+ Thu, 05 Sep 2019 04:16:58 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:482:9a5::1])
+ by smtp.gmail.com with ESMTPSA id b192sm925416qkg.39.2019.09.05.04.16.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Sep 2019 04:16:57 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: robdclark@gmail.com
+Subject: [PATCH] drm/msm/adreno: Do not print error on "qcom,
+ gpu-pwrlevels" absence
+Date: Thu,  5 Sep 2019 08:16:48 -0300
+Message-Id: <20190905111648.11559-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=1RtJ0DInKStLNm7nRRLdODfCYZfUMUe8UxnFTe9vEuw=;
+ b=pN6dQ/6QyAUzD0+gKffZNDV5d+f3T4tmASOgqkFVxa/4NzL7pR/lj2H0yVMSVI0F3U
+ ldlUtNHsO/ZwVdrqtR2oR7bkHO92pZSAXnL0uyhe96aKhZwM4NuhwjN88n27bLG9RDbJ
+ rXTJqGQKQEwQCehmilQy0wgg6e6kDIDV7zwhwky7oKdhg6I9QnVmPjcq1OPjiN8CBw7i
+ cOyMpxN0vYSOKXp/ckvxRUifajTWtxLQaPuW7EIG42OKR1fkwFddK7BDRo6bo3Osj0Kf
+ fvvo7Mr4IAReOosrb3wRf3PkI883Qp4LCtGkhYeONRKnHrosQjJkwNTdsFzd2Kb9HSkG
+ El8A==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,127 +64,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0601129859=="
+Cc: jonathan@marek.ca, dri-devel@lists.freedesktop.org, sean@poorly.run,
+ cphealy@gmail.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0601129859==
-Content-Type: multipart/alternative; boundary="15676820800.dcDAf2a1.4912"
-Content-Transfer-Encoding: 7bit
-
-
---15676820800.dcDAf2a1.4912
-Date: Thu, 5 Sep 2019 11:14:40 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
-
---- Comment #29 from Marko Popovic <popovic.marko@protonmail.com> ---
-(In reply to Mathieu Belanger from comment #27)
-> It did fix it for me too.
-
-(In reply to Pierre-Eric Pelloux-Prayer from comment #28)
-> Regarding sdma ring hangs: if you still have access to the affected machi=
-ne
-> using ssh, it would be helpful to add a comment with the following
-> information:
->=20
->   - the last dmesg lines (at least the "[drm:amdgpu_job_timedout [amdgpu]]
-> *ERROR* ring sdma1 timeout, signaled seq=3D9871, emitted seq=3D9873" one)
->   - the output of : umr -R sdma0 (or sdma1 depending on which one failed)
->=20
-> Thanks!
-
-Mathieu could you assist Pierre-Eric with this?=20
-I am currently on vacation and won't be able to debug or test further until
-15th of September.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15676820800.dcDAf2a1.4912
-Date: Thu, 5 Sep 2019 11:14:40 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c29">Comme=
-nt # 29</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-popovic.marko&#64;protonmail.com" title=3D"Marko Popovic &lt;popovic.marko&=
-#64;protonmail.com&gt;"> <span class=3D"fn">Marko Popovic</span></a>
-</span></b>
-        <pre>(In reply to Mathieu Belanger from <a href=3D"show_bug.cgi?id=
-=3D111481#c27">comment #27</a>)
-<span class=3D"quote">&gt; It did fix it for me too.</span >
-
-(In reply to Pierre-Eric Pelloux-Prayer from <a href=3D"show_bug.cgi?id=3D1=
-11481#c28">comment #28</a>)
-<span class=3D"quote">&gt; Regarding sdma ring hangs: if you still have acc=
-ess to the affected machine
-&gt; using ssh, it would be helpful to add a comment with the following
-&gt; information:
-&gt;=20
-&gt;   - the last dmesg lines (at least the &quot;[drm:amdgpu_job_timedout =
-[amdgpu]]
-&gt; *ERROR* ring sdma1 timeout, signaled seq=3D9871, emitted seq=3D9873&qu=
-ot; one)
-&gt;   - the output of : umr -R sdma0 (or sdma1 depending on which one fail=
-ed)
-&gt;=20
-&gt; Thanks!</span >
-
-Mathieu could you assist Pierre-Eric with this?=20
-I am currently on vacation and won't be able to debug or test further until
-15th of September.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15676820800.dcDAf2a1.4912--
-
---===============0601129859==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0601129859==--
+Qm9vdGluZyB0aGUgYWRyZW5vIGRyaXZlciBvbiBhIGlteDUzIGJvYXJkIGxlYWRzIHRvIHRoZSBm
+b2xsb3dpbmcKZXJyb3IgbWVzc2FnZToKCmFkcmVubyAzMDAwMDAwMC5ncHU6IFtkcm06YWRyZW5v
+X2dwdV9pbml0XSAqRVJST1IqIENvdWxkIG5vdCBmaW5kIHRoZSBHUFUgcG93ZXJsZXZlbHMKCkFz
+IHRoZSAicWNvbSxncHUtcHdybGV2ZWxzIiBwcm9wZXJ0eSBpcyBvcHRpb25hbCBhbmQgbmV2ZXIg
+cHJlc2VudCBvbgppLk1YNSwgdHVybiB0aGUgbWVzc2FnZSBpbnRvIGRlYnVnIGxldmVsIGluc3Rl
+YWQuCgpTaWduZWQtb2ZmLWJ5OiBGYWJpbyBFc3RldmFtIDxmZXN0ZXZhbUBnbWFpbC5jb20+Ci0t
+LQogZHJpdmVycy9ncHUvZHJtL21zbS9hZHJlbm8vYWRyZW5vX2dwdS5jIHwgMiArLQogMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL21zbS9hZHJlbm8vYWRyZW5vX2dwdS5jIGIvZHJpdmVycy9ncHUvZHJtL21z
+bS9hZHJlbm8vYWRyZW5vX2dwdS5jCmluZGV4IDA0OGM4YmU0MjZmMy4uNzNjNzlmMTYxNGMxIDEw
+MDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hZHJlbm9fZ3B1LmMKKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL21zbS9hZHJlbm8vYWRyZW5vX2dwdS5jCkBAIC04MjUsNyArODI1LDcg
+QEAgc3RhdGljIGludCBhZHJlbm9fZ2V0X2xlZ2FjeV9wd3JsZXZlbHMoc3RydWN0IGRldmljZSAq
+ZGV2KQogCiAJbm9kZSA9IG9mX2dldF9jb21wYXRpYmxlX2NoaWxkKGRldi0+b2Zfbm9kZSwgInFj
+b20sZ3B1LXB3cmxldmVscyIpOwogCWlmICghbm9kZSkgewotCQlEUk1fREVWX0VSUk9SKGRldiwg
+IkNvdWxkIG5vdCBmaW5kIHRoZSBHUFUgcG93ZXJsZXZlbHNcbiIpOworCQlEUk1fREVWX0RFQlVH
+KGRldiwgIkNvdWxkIG5vdCBmaW5kIHRoZSBHUFUgcG93ZXJsZXZlbHNcbiIpOwogCQlyZXR1cm4g
+LUVOWElPOwogCX0KIAotLSAKMi4xNy4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWw=
