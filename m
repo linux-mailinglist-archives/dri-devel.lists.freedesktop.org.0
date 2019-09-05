@@ -2,44 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E82B5AAAAD
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2019 20:17:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB48AAAAB6
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2019 20:18:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B93E66E0D5;
-	Thu,  5 Sep 2019 18:17:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05AB56E0F8;
+	Thu,  5 Sep 2019 18:18:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4B0AE6E0D5
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2019 18:16:59 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 4577172161; Thu,  5 Sep 2019 18:16:59 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111482] Sapphire Pulse RX 5700 XT power consumption
-Date: Thu, 05 Sep 2019 18:16:59 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: freedesktop@postfach.xyz
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111482-502-tRDhxj2gUP@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111482-502@http.bugs.freedesktop.org/>
-References: <bug-111482-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
+ [IPv6:2a00:1450:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFDE56E0E6
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2019 18:18:43 +0000 (UTC)
+Received: by mail-ed1-x541.google.com with SMTP id i8so3536986edn.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Sep 2019 11:18:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=obFAoJjwX5LVICOlIHTt1Y/s9EsFMUSE1s849zGP32Q=;
+ b=EcSToqVhQJIuaaUC3H9j7lBYJ4fA+Iruo6aAWi6HB7yxs0ecnEv3oZTqSKdyfSp6j5
+ mPHJQFW9Tte0FvrObfkc26PeKpwuOUj1SJRz7lQfsfTyqNkR+BIPfFFVlZIw6NbXlAav
+ S5k4og2aIcC/XBrYkSYaF3Pij3bqne+VPUbDxumP7XSBwWsAzNhzVY2sXZHu/CF1Kc6r
+ 9Y+tW7FO1JXcPTAEP4YjQVFhROI9MFeZlOXhO+wz6ekrG796IBnTsAJ2R4+MbtvN6kWH
+ uyiYOCZjvhkk1wGAidcsMWsupXOJADoAfKu3Us8DwyWqc8xm9/8uVq+WJRM2VAQEbqJ4
+ v0qw==
+X-Gm-Message-State: APjAAAUebpZyJ3e89UFzRI6pREI3QBINZHvsbcQTiLPlSfqkkQbSsNbh
+ onJuS4tL3clXoTf6N85rWMWVWt5GXUM=
+X-Google-Smtp-Source: APXvYqyzaG6Yf4kQ2QY6XayOtQGL5hNQW9zxGYl73+F4ofPJ6wblCKH7JO8eJ2dauX6xy0MRG8TzBg==
+X-Received: by 2002:aa7:d8c8:: with SMTP id k8mr5400533eds.8.1567707522004;
+ Thu, 05 Sep 2019 11:18:42 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net.
+ [212.51.149.96])
+ by smtp.gmail.com with ESMTPSA id v8sm305107ejk.29.2019.09.05.11.18.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Sep 2019 11:18:41 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/atomic: Take the atomic toys away from X
+Date: Thu,  5 Sep 2019 20:18:34 +0200
+Message-Id: <20190905181834.6234-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20190903190642.32588-1-daniel.vetter@ffwll.ch>
+References: <20190903190642.32588-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=obFAoJjwX5LVICOlIHTt1Y/s9EsFMUSE1s849zGP32Q=;
+ b=fCjtWKHVKfNPVHweI4Dr39tiJQOVJ5Csyxs7DuVOxRDIxrjpp2gtRtuxU0N4SsSRj2
+ cX52YmzJXNLBuI2D5qMYuo7im9kxNTogPs6pUJAlilJzDMBFSPWDmOF6lG518UPHrTUi
+ hY81BqfZm6U1jwMN/BEPNL6bmMMme8hJhthkc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,161 +65,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0805498784=="
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>, stable@vger.kernel.org,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sean Paul <sean@poorly.run>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0805498784==
-Content-Type: multipart/alternative; boundary="15677074191.8bDF2D.25663"
-Content-Transfer-Encoding: 7bit
-
-
---15677074191.8bDF2D.25663
-Date: Thu, 5 Sep 2019 18:16:59 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111482
-
---- Comment #15 from Robert <freedesktop@postfach.xyz> ---
-Thanks Ilia for your comment! I get this output from "xrandr":
-
-"""
-Screen 0: minimum 320 x 200, current 5120 x 1440, maximum 16384 x 16384
-DisplayPort-0 disconnected (normal left inverted right x axis y axis)
-DisplayPort-1 disconnected (normal left inverted right x axis y axis)
-DisplayPort-2 connected primary 5120x1440+0+0 (normal left inverted right x
-axis y axis) 1200mm x 340mm
-   5120x1440     60.00 +  30.00*+
-   3840x1080     60.00 +
-   3840x2160     60.00    30.00=20=20
-   1920x1200     60.00=20=20
-   1920x1080     60.00    59.94=20=20
-   1600x1200     60.00=20=20
-   1680x1050     60.00=20=20
-   1600x900      60.00=20=20
-   1280x1024     60.02=20=20
-   1440x900      60.00=20=20
-   1280x800      59.81=20=20
-   1152x864      59.97=20=20
-   1280x720      60.00    59.94=20=20
-   1024x768      60.00=20=20
-   800x600       60.32=20=20
-   720x480       60.00    59.94=20=20
-   640x480       60.00    59.94=20=20
-HDMI-A-0 disconnected (normal left inverted right x axis y axis)
-"""
-
-So from what I can see only one monitor reported.
-
-But I figured out something else: If I change the refresh rate from 60Hz to
-30Hz I get 8W idle power consumption... Umpf... Now I've a big screen, kinda
-high end graphics card and 30Hz refresh rate :D It basically works but movi=
-ng
-windows a little bit faster or moving the mouse pointer around looks
-"interesting". Haven't tested any games with that refresh rate but I guess =
-it
-also looks "interesting" ;-)
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15677074191.8bDF2D.25663
-Date: Thu, 5 Sep 2019 18:16:59 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482#c15">Comme=
-nt # 15</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482">bug 11148=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-freedesktop&#64;postfach.xyz" title=3D"Robert &lt;freedesktop&#64;postfach.=
-xyz&gt;"> <span class=3D"fn">Robert</span></a>
-</span></b>
-        <pre>Thanks Ilia for your comment! I get this output from &quot;xra=
-ndr&quot;:
-
-&quot;&quot;&quot;
-Screen 0: minimum 320 x 200, current 5120 x 1440, maximum 16384 x 16384
-DisplayPort-0 disconnected (normal left inverted right x axis y axis)
-DisplayPort-1 disconnected (normal left inverted right x axis y axis)
-DisplayPort-2 connected primary 5120x1440+0+0 (normal left inverted right x
-axis y axis) 1200mm x 340mm
-   5120x1440     60.00 +  30.00*+
-   3840x1080     60.00 +
-   3840x2160     60.00    30.00=20=20
-   1920x1200     60.00=20=20
-   1920x1080     60.00    59.94=20=20
-   1600x1200     60.00=20=20
-   1680x1050     60.00=20=20
-   1600x900      60.00=20=20
-   1280x1024     60.02=20=20
-   1440x900      60.00=20=20
-   1280x800      59.81=20=20
-   1152x864      59.97=20=20
-   1280x720      60.00    59.94=20=20
-   1024x768      60.00=20=20
-   800x600       60.32=20=20
-   720x480       60.00    59.94=20=20
-   640x480       60.00    59.94=20=20
-HDMI-A-0 disconnected (normal left inverted right x axis y axis)
-&quot;&quot;&quot;
-
-So from what I can see only one monitor reported.
-
-But I figured out something else: If I change the refresh rate from 60Hz to
-30Hz I get 8W idle power consumption... Umpf... Now I've a big screen, kinda
-high end graphics card and 30Hz refresh rate :D It basically works but movi=
-ng
-windows a little bit faster or moving the mouse pointer around looks
-&quot;interesting&quot;. Haven't tested any games with that refresh rate bu=
-t I guess it
-also looks &quot;interesting&quot; ;-)</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15677074191.8bDF2D.25663--
-
---===============0805498784==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0805498784==--
+VGhlIC1tb2Rlc2V0dGluZyBkZHggaGFzIGEgdG90YWxseSBicm9rZW4gaWRlYSBvZiBob3cgYXRv
+bWljIHdvcmtzOgotIGRvZXNuJ3QgZGlzYWJsZSBvbGQgY29ubmVjdG9ycywgYXNzdW1pbmcgdGhl
+eSBnZXQgYXV0by1kaXNhYmxlIGxpa2UKICB3aXRoIHRoZSBsZWdhY3kgc2V0Y3J0YwotIGFzc3Vt
+ZXMgQVNZTkNfRkxJUCBpcyB3aXJlZCB0aHJvdWdoIGZvciB0aGUgYXRvbWljIGlvY3RsCi0gbm90
+IGEgc2luZ2xlIGNhbGwgdG8gVEVTVF9PTkxZCgpJb3cgdGhlIGltcGxlbWVudGF0aW9uIGlzIGEg
+MToxIHRyYW5zbGF0aW9uIG9mIGxlZ2FjeSBpb2N0bHMgdG8KYXRvbWljLCB3aGljaCBpcyBhKSBi
+cm9rZW4gYikgcG9pbnRsZXNzLgoKV2UgYWxyZWFkeSBoYXZlIGJ1Z3MgaW4gYm90aCBpOTE1IGFu
+ZCBhbWRncHUtREMgd2hlcmUgdGhpcyBwcmV2ZW50cyB1cwpmcm9tIGVuYWJsaW5nIG5lYXQgZmVh
+dHVyZXMuCgpJZiBhbnlvbmUgZXZlciBjYXJlcyBhYm91dCBhdG9taWMgaW4gWCB3ZSBjYW4gZWFz
+aWx5IGFkZCBhIG5ldyBhdG9taWMKbGV2ZWwgKHJlcS0+dmFsdWUgPT0gMikgZm9yIFggdG8gZ2V0
+IGJhY2sgdGhlIHNoaW55IHRveXMuCgpTaW5jZSB0aGVzZSBicm9rZW4gdmVyc2lvbnMgb2YgLW1v
+ZGVzZXR0aW5nIGhhdmUgYmVlbiBzaGlwcGluZywKdGhlcmUncyByZWFsbHkgbm8gb3RoZXIgd2F5
+IHRvIGdldCBvdXQgb2YgdGhpcyBiaW5kLgoKdjI6Ci0gYWRkIGFuIGluZm9ybWF0aW9uYWwgZG1l
+c2cgb3V0cHV0IChSb2IsIEFqYXgpCi0gcmVvcmRlciBhZnRlciB0aGUgRFJJVkVSX0FUT01JQyBj
+aGVjayB0byBhdm9pZCB1c2VsZXNzIG5vaXNlIChJbGlhKQotIGFsbG93IHJlcS0+dmFsdWUgPiAy
+IHNvIHRoYXQgWCBjYW4gZG8gYW5vdGhlciBhdHRlbXB0IGF0IGF0b21pYyBpbgogIHRoZSBmdXR1
+cmUKCkNjOiBJbGlhIE1pcmtpbiA8aW1pcmtpbkBhbHVtLm1pdC5lZHU+ClJlZmVyZW5jZXM6IGh0
+dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy94b3JnL3hzZXJ2ZXIvaXNzdWVzLzYyOQpSZWZl
+cmVuY2VzOiBodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcveG9yZy94c2VydmVyL21lcmdl
+X3JlcXVlc3RzLzE4MApSZWZlcmVuY2VzOiBhYmJjMDY5N2Q1ZmIgKCJkcm0vZmI6IHJldmVydCB0
+aGUgaTkxNSBBY3R1YWxseSBjb25maWd1cmUgdW50aWxlZCBkaXNwbGF5cyBmcm9tIG1hc3RlciIp
+CkNjOiBNYWFydGVuIExhbmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwuY29t
+PgpSZXZpZXdlZC1ieTogTWFhcnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4
+LmludGVsLmNvbT4gKHYxKQpSZXZpZXdlZC1ieTogTmljaG9sYXMgS2F6bGF1c2thcyA8bmljaG9s
+YXMua2F6bGF1c2thc0BhbWQuY29tPiAodjEpCkNjOiBNaWNoZWwgRMOkbnplciA8bWljaGVsQGRh
+ZW56ZXIubmV0PgpDYzogQWxleCBEZXVjaGVyIDxhbGV4ZGV1Y2hlckBnbWFpbC5jb20+CkNjOiBB
+ZGFtIEphY2tzb24gPGFqYXhAcmVkaGF0LmNvbT4KQWNrZWQtYnk6IEFkYW0gSmFja3NvbiA8YWph
+eEByZWRoYXQuY29tPgpDYzogU2VhbiBQYXVsIDxzZWFuQHBvb3JseS5ydW4+CkNjOiBEYXZpZCBB
+aXJsaWUgPGFpcmxpZWRAbGludXguaWU+CkNjOiBSb2IgQ2xhcmsgPHJvYmRjbGFya0BnbWFpbC5j
+b20+CkFja2VkLWJ5OiBSb2IgQ2xhcmsgPHJvYmRjbGFya0BnbWFpbC5jb20+CkNjOiBzdGFibGVA
+dmdlci5rZXJuZWwub3JnClNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0
+ZXJAaW50ZWwuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9kcm1faW9jdGwuYyB8IDcgKysrKysr
+LQogMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1faW9jdGwuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1f
+aW9jdGwuYwppbmRleCAyYzEyMGM1OGY3MmQuLjU2YWE4YmJiM2E4YyAxMDA2NDQKLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL2RybV9pb2N0bC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1faW9jdGwu
+YwpAQCAtMzM2LDcgKzMzNiwxMiBAQCBkcm1fc2V0Y2xpZW50Y2FwKHN0cnVjdCBkcm1fZGV2aWNl
+ICpkZXYsIHZvaWQgKmRhdGEsIHN0cnVjdCBkcm1fZmlsZSAqZmlsZV9wcml2KQogCWNhc2UgRFJN
+X0NMSUVOVF9DQVBfQVRPTUlDOgogCQlpZiAoIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBE
+UklWRVJfQVRPTUlDKSkKIAkJCXJldHVybiAtRU9QTk9UU1VQUDsKLQkJaWYgKHJlcS0+dmFsdWUg
+PiAxKQorCQkvKiBUaGUgbW9kZXNldHRpbmcgRERYIGhhcyBhIHRvdGFsbHkgYnJva2VuIGlkZWEg
+b2YgYXRvbWljLiAqLworCQlpZiAoc3Ryc3RyKGN1cnJlbnQtPmNvbW0sICJYIikgJiYgcmVxLT52
+YWx1ZSA9PSAxKSB7CisJCQlwcl9pbmZvKCJicm9rZW4gYXRvbWljIG1vZGVzZXQgdXNlcnNwYWNl
+IGRldGVjdGVkLCBkaXNhYmxpbmcgYXRvbWljXG4iKTsKKwkJCXJldHVybiAtRU9QTk9UU1VQUDsK
+KwkJfQorCQlpZiAocmVxLT52YWx1ZSA+IDIpCiAJCQlyZXR1cm4gLUVJTlZBTDsKIAkJZmlsZV9w
+cml2LT5hdG9taWMgPSByZXEtPnZhbHVlOwogCQlmaWxlX3ByaXYtPnVuaXZlcnNhbF9wbGFuZXMg
+PSByZXEtPnZhbHVlOwotLSAKMi4yMy4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWw=
