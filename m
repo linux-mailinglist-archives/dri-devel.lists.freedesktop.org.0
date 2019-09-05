@@ -1,44 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 483A7A9EA4
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2019 11:43:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5EC5A9EF6
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Sep 2019 11:56:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 924B389EEB;
-	Thu,  5 Sep 2019 09:43:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A59BD89FEA;
+	Thu,  5 Sep 2019 09:56:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E811789EEB
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2019 09:43:18 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi
- [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id AB23526D;
- Thu,  5 Sep 2019 11:43:16 +0200 (CEST)
-Date: Thu, 5 Sep 2019 12:43:10 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jyri Sarha <jsarha@ti.com>
-Subject: Re: [PATCH 5/7] drm/omap: Enable COLOR_ENCODING and COLOR_RANGE
- properties for planes
-Message-ID: <20190905094310.GC5035@pendragon.ideasonboard.com>
-References: <20190902125359.18001-1-tomi.valkeinen@ti.com>
- <20190902125359.18001-6-tomi.valkeinen@ti.com>
- <20190903153206.GC8247@pendragon.ideasonboard.com>
- <cc91002c-33af-25ca-2132-b760887c8db6@ti.com>
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E57889FEA
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Sep 2019 09:56:31 +0000 (UTC)
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it
+ [2.224.242.101]) (Authenticated sender: jacopo@jmondi.org)
+ by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 73BB11C001F;
+ Thu,  5 Sep 2019 09:56:23 +0000 (UTC)
+Date: Thu, 5 Sep 2019 11:57:57 +0200
+From: Jacopo Mondi <jacopo@jmondi.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v3 08/14] drm: rcar-du: Add support for CMM
+Message-ID: <20190905095757.gg6s5pse5tvivxbs@uno.localdomain>
+References: <20190825135154.11488-1-jacopo+renesas@jmondi.org>
+ <20190825135154.11488-9-jacopo+renesas@jmondi.org>
+ <20190827002422.GQ5031@pendragon.ideasonboard.com>
+ <20190827145619.33s7gkv7tgtsr6nz@uno.localdomain>
+ <20190827163423.GB5054@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <cc91002c-33af-25ca-2132-b760887c8db6@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1567676596;
- bh=ltSKZgR1gJ8AaaQzvqG2aHEALM6Ly7v+94ejVWiYI5c=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=d++8ETaXRob40ZyRRLps+/yY345Mo4kpxLuqllw9to/UUngwtQFmMW9oFNjZSAk0x
- U07/P6IXe7fHahH5SRFuy8+9Xizfo+4DEEd1L73Rm8Fk5JK5+aK2wwFQmyHRMuE7fJ
- ro789kFDY+P/d+U9gsQSIIJB1N9RuLf+Ss2nDW8M=
+In-Reply-To: <20190827163423.GB5054@pendragon.ideasonboard.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,229 +43,584 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: muroya@ksk.co.jp, uli@fpond.eu, horms@verge.net.au,
+ VenkataRajesh.Kalakodima@in.bosch.com, airlied@linux.ie,
+ koji.matsuoka.xm@renesas.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Harsha.ManjulaMallikarjun@in.bosch.com
+Content-Type: multipart/mixed; boundary="===============1977165461=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgSnlyaSwKCk9uIFRodSwgU2VwIDA1LCAyMDE5IGF0IDEyOjI0OjM3UE0gKzAzMDAsIEp5cmkg
-U2FyaGEgd3JvdGU6Cj4gT24gMDMvMDkvMjAxOSAxODozMiwgTGF1cmVudCBQaW5jaGFydCB3cm90
-ZToKPiA+IE9uIE1vbiwgU2VwIDAyLCAyMDE5IGF0IDAzOjUzOjU3UE0gKzAzMDAsIFRvbWkgVmFs
-a2VpbmVuIHdyb3RlOgo+ID4+IEZyb206IEp5cmkgU2FyaGEgPGpzYXJoYUB0aS5jb20+Cj4gPj4K
-PiA+PiBBZGRzIHN1cHBvcnQgZm9yIENPTE9SX0VOQ09ESU5HIGFuZCBDT0xPUl9SQU5HRSBwcm9w
-ZXJ0aWVzIHRvCj4gPj4gb21hcF9wbGFuZS5jIGFuZCBkaXNwYy5jLiBUaGUgc3VwcG9ydGVkIGVu
-Y29kaW5ncyBhbmQgcmFuZ2VzIGFyZToKPiA+Pgo+ID4+IEZvciBDT0xPUl9FTkNPRElORzoKPiA+
-PiAtIFlDYkN0IEJULjYwMSAoZGVmYXVsdCkKPiA+IAo+ID4gRGlkIHlvdSBtZWFuIFlDYkNyID8K
-PiA+ID4+IC0gWUNiQ3QgQlQuNzA5Cj4gPj4KPiA+PiBGb3IgQ09MT1JfUkFOR0U6Cj4gPj4gLSBZ
-Q2JDdCBsaW1pdGVkIHJhbmdlCj4gPj4gLSBZQ2JDdCBmdWxsIHJhbmdlIChkZWZhdWx0KQo+ID4+
-Cj4gPj4gU2lnbmVkLW9mZi1ieTogSnlyaSBTYXJoYSA8anNhcmhhQHRpLmNvbT4KPiA+PiBTaWdu
-ZWQtb2ZmLWJ5OiBUb21pIFZhbGtlaW5lbiA8dG9taS52YWxrZWluZW5AdGkuY29tPgo+ID4+IC0t
-LQo+ID4+ICBkcml2ZXJzL2dwdS9kcm0vb21hcGRybS9kc3MvZGlzcGMuYyAgIHwgMTE5ICsrKysr
-KysrKysrKysrKysrKysrLS0tLS0tCj4gPj4gIGRyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL2Rzcy9v
-bWFwZHNzLmggfCAgIDQgKwo+ID4+ICBkcml2ZXJzL2dwdS9kcm0vb21hcGRybS9vbWFwX3BsYW5l
-LmMgIHwgIDMwICsrKysrKysKPiA+PiAgMyBmaWxlcyBjaGFuZ2VkLCAxMjcgaW5zZXJ0aW9ucygr
-KSwgMjYgZGVsZXRpb25zKC0pCj4gPj4KPiA+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L29tYXBkcm0vZHNzL2Rpc3BjLmMgYi9kcml2ZXJzL2dwdS9kcm0vb21hcGRybS9kc3MvZGlzcGMu
-Ywo+ID4+IGluZGV4IDdkODdkNjBlZGI4MC4uNDBkZGIyOGVlN2FhIDEwMDY0NAo+ID4+IC0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL2Rzcy9kaXNwYy5jCj4gPj4gKysrIGIvZHJpdmVycy9n
-cHUvZHJtL29tYXBkcm0vZHNzL2Rpc3BjLmMKPiA+PiBAQCAtODkyLDMyICs4OTIsOTEgQEAgc3Rh
-dGljIHZvaWQgZGlzcGNfd2Jfd3JpdGVfY29sb3JfY29udl9jb2VmKHN0cnVjdCBkaXNwY19kZXZp
-Y2UgKmRpc3BjLAo+ID4+ICAjdW5kZWYgQ1ZBTAo+ID4+ICB9Cj4gPj4gIAo+ID4+IC1zdGF0aWMg
-dm9pZCBkaXNwY19zZXR1cF9jb2xvcl9jb252X2NvZWYoc3RydWN0IGRpc3BjX2RldmljZSAqZGlz
-cGMpCj4gPj4gKy8qIFlVViAtPiBSR0IsIElUVS1SIEJULjYwMSwgZnVsbCByYW5nZSAqLwo+ID4+
-ICtjb25zdCBzdGF0aWMgc3RydWN0IGNzY19jb2VmX3l1djJyZ2IgY29lZnNfeXV2MnJnYl9idDYw
-MV9mdWxsID0gewo+ID4gCj4gPiBzdGF0aWMgY29uc3QgaXMgdXN1YWxseSBwcmVmZXJyZWQgb3Zl
-ciBjb25zdCBzdGF0aWMsIGhlcmUgYW5kIGJlbG93Lgo+ID4gCj4gPj4gKwkyNTYsICAgMCwgIDM1
-OCwJCS8qIHJ5LCByY2IsIHJjciB8MS4wMDAgIDAuMDAwICAxLjQwMnwqLwo+ID4+ICsJMjU2LCAt
-ODgsIC0xODIsCQkvKiBneSwgZ2NiLCBnY3IgfDEuMDAwIC0wLjM0NCAtMC43MTR8Ki8KPiA+PiAr
-CTI1NiwgNDUyLCAgICAwLAkJLyogYnksIGJjYiwgYmNyIHwxLjAwMCAgMS43NzIgIDAuMDAwfCov
-Cj4gPj4gKwl0cnVlLAkJCS8qIGZ1bGwgcmFuZ2UgKi8KPiA+PiArfTsKPiA+PiArCj4gPj4gKy8q
-IFlVViAtPiBSR0IsIElUVS1SIEJULjYwMSwgbGltaXRlZCByYW5nZSAqLwo+ID4+ICtjb25zdCBz
-dGF0aWMgc3RydWN0IGNzY19jb2VmX3l1djJyZ2IgY29lZnNfeXV2MnJnYl9idDYwMV9saW0gPSB7
-Cj4gPj4gKwkyOTgsICAgIDAsICA0MDksCS8qIHJ5LCByY2IsIHJjciB8MS4xNjQgIDAuMDAwICAx
-LjU5NnwqLwo+ID4+ICsJMjk4LCAtMTAwLCAtMjA4LAkvKiBneSwgZ2NiLCBnY3IgfDEuMTY0IC0w
-LjM5MiAtMC44MTN8Ki8KPiA+PiArCTI5OCwgIDUxNiwgICAgMCwJLyogYnksIGJjYiwgYmNyIHwx
-LjE2NCAgMi4wMTcgIDAuMDAwfCovCj4gPj4gKwlmYWxzZSwJCQkvKiBsaW1pdGVkIHJhbmdlICov
-Cj4gPj4gK307Cj4gPj4gKwo+ID4+ICsvKiBZVVYgLT4gUkdCLCBJVFUtUiBCVC43MDksIGZ1bGwg
-cmFuZ2UgKi8KPiA+PiArY29uc3Qgc3RhdGljIHN0cnVjdCBjc2NfY29lZl95dXYycmdiIGNvZWZz
-X3l1djJyZ2JfYnQ3MDlfZnVsbCA9IHsKPiA+PiArCTI1NiwgICAgMCwgIDQwMiwgICAgICAgIC8q
-IHJ5LCByY2IsIHJjciB8MS4wMDAgIDAuMDAwICAxLjU3MHwqLwo+ID4+ICsJMjU2LCAgLTQ4LCAt
-MTIwLCAgICAgICAgLyogZ3ksIGdjYiwgZ2NyIHwxLjAwMCAtMC4xODcgLTAuNDY3fCovCj4gPj4g
-KwkyNTYsICA0NzUsICAgIDAsICAgICAgICAvKiBieSwgYmNiLCBiY3IgfDEuMDAwICAxLjg1NiAg
-MC4wMDB8Ki8KPiA+PiArCXRydWUsICAgICAgICAgICAgICAgICAgIC8qIGZ1bGwgcmFuZ2UgKi8K
-PiA+PiArfTsKPiA+PiArCj4gPj4gKy8qIFlVViAtPiBSR0IsIElUVS1SIEJULjcwOSwgbGltaXRl
-ZCByYW5nZSAqLwo+ID4+ICtjb25zdCBzdGF0aWMgc3RydWN0IGNzY19jb2VmX3l1djJyZ2IgY29l
-ZnNfeXV2MnJnYl9idDcwOV9saW0gPSB7Cj4gPj4gKwkyOTgsICAgIDAsICA0NTksCS8qIHJ5LCBy
-Y2IsIHJjciB8MS4xNjQgIDAuMDAwICAxLjc5M3wqLwo+ID4+ICsJMjk4LCAgLTU1LCAtMTM2LAkv
-KiBneSwgZ2NiLCBnY3IgfDEuMTY0IC0wLjIxMyAtMC41MzN8Ki8KPiA+PiArCTI5OCwgIDU0MSwg
-ICAgMCwJLyogYnksIGJjYiwgYmNyIHwxLjE2NCAgMi4xMTIgIDAuMDAwfCovCj4gPj4gKwlmYWxz
-ZSwJCQkvKiBsaW1pdGVkIHJhbmdlICovCj4gPj4gK307Cj4gPj4gKwo+ID4+ICsvKiBSR0IgLT4g
-WVVWLCBJVFUtUiBCVC42MDEsIGxpbWl0ZWQgcmFuZ2UgKi8KPiA+PiArY29uc3Qgc3RhdGljIHN0
-cnVjdCBjc2NfY29lZl9yZ2IyeXV2IGNvZWZzX3JnYjJ5dXZfYnQ2MDFfbGltID0gewo+ID4+ICsJ
-IDY2LCAxMjksICAyNSwJCS8qIHlyLCAgIHlnLCAgeWIgfCAwLjI1NyAgMC41MDQgIDAuMDk4fCov
-Cj4gPj4gKwktMzgsIC03NCwgMTEyLAkJLyogY2JyLCBjYmcsIGNiYiB8LTAuMTQ4IC0wLjI5MSAg
-MC40Mzl8Ki8KPiA+PiArCTExMiwgLTk0LCAtMTgsCQkvKiBjcnIsIGNyZywgY3JiIHwgMC40Mzkg
-LTAuMzY4IC0wLjA3MXwqLwo+ID4+ICsJZmFsc2UsCQkJLyogbGltaXRlZCByYW5nZSAqLwo+ID4+
-ICt9Owo+ID4+ICsKPiA+PiArLyogUkdCIC0+IFlVViwgSVRVLVIgQlQuNjAxLCBmdWxsIHJhbmdl
-ICovCj4gPj4gK2NvbnN0IHN0YXRpYyBzdHJ1Y3QgY3NjX2NvZWZfcmdiMnl1diBjb2Vmc19yZ2Iy
-eXV2X2J0NjAxX2Z1bGwgPSB7Cj4gPj4gKwkgNzcsICAxNTAsICAyOSwJCS8qIHlyLCAgIHlnLCAg
-eWIgfCAwLjI5OSAgMC41ODcgIDAuMTE0fCovCj4gPj4gKwktNDMsICAtODUsIDEyOCwJCS8qIGNi
-ciwgY2JnLCBjYmIgfC0wLjE3MyAtMC4zMzkgIDAuNTExfCovCj4gPj4gKwkxMjgsIC0xMDcsIC0y
-MSwJCS8qIGNyciwgY3JnLCBjcmIgfCAwLjUxMSAtMC40MjggLTAuMDgzfCovCj4gPj4gKwl0cnVl
-LAkJCS8qIGZ1bGwgcmFuZ2UgKi8KPiA+PiArfTsKPiA+PiArCj4gPj4gKy8qIFJHQiAtPiBZVVYs
-IElUVS1SIEJULjcwOSwgbGltaXRlZCByYW5nZSAqLwo+ID4+ICtjb25zdCBzdGF0aWMgc3RydWN0
-IGNzY19jb2VmX3JnYjJ5dXYgY29lZnNfcmdiMnl1dl9idDcwMV9saW0gPSB7Cj4gPiAKPiA+IFRo
-YXQgc2hvdWxkIGJlIGNvZWZzX3JnYjJ5dXZfYnQ3MDlfbGltCj4gPiAKPiA+PiArCSA0NywgIDE1
-NywgICAxNiwJLyogeXIsICAgeWcsICB5YiB8IDAuMTgyNiAgMC42MTQyICAwLjA2MjB8Ki8KPiA+
-PiArCS0yNiwgIC04NywgIDExMiwJLyogY2JyLCBjYmcsIGNiYiB8LTAuMTAwNiAtMC4zMzg2ICAw
-LjQzOTJ8Ki8KPiA+PiArCTExMiwgLTEwMiwgIC0xMCwJLyogY3JyLCBjcmcsIGNyYiB8IDAuNDM5
-MiAtMC4zOTg5IC0wLjA0MDN8Ki8KPiA+PiArCWZhbHNlLAkJCS8qIGxpbWl0ZWQgcmFuZ2UgKi8K
-PiA+PiArfTsKPiA+IAo+ID4gV2h5IGlzIGNvZWZzX3JnYjJ5dXZfYnQ3MDlfZnVsbCBub3Qgc3Vw
-cG9ydGVkID8gQWN0dWFsbHkKPiA+IGNvZWZzX3JnYjJ5dXZfYnQ2MDFfbGltIGFuZCBjb2Vmc19y
-Z2IyeXV2X2J0NzAxX2xpbSBzZWVtIHVudXNlZC4KPiA+IAo+IAo+IEkgbXVzdCBoYXZlIHNpbXBs
-eSBmb3Jnb3R0ZW4uIFRoaXMgaXMgYW4gb2xkIHBhdGNoIGFuZCBJIGNhbiBub3QKPiByZW1lbWJl
-ciBleGFjdGx5LiBCdXQgSSByZW1lbWJlciB0aGF0IEkgd2FudGVkIHRvIGFkZCBhbGwgQ1NDcyBh
-dCBvbmUKPiB0aW1lIHNvIHRoYXQgSSBkbyBub3QgbmVlZCBzdGFydCBmcm9tIHRoZSBiZWdpbm5p
-bmcgd2hlbiBldmVyIGEgbmV3Cj4gY29udmVyc2lvbiBpcyBhc2tlZC4gRm9yIHRoZSBtb21lbnQg
-cmdiIHRvIHl1diBjb252ZXJzaW9ucyBhcmUgb25seSB1c2VkCj4gZm9yIHdyaXRlIGJhY2sgYW5k
-IGl0IGN1cnJlbnRseSBvbmx5IHVzZXMgdGhlIGRlZmF1bHQgQlQuNjAxIEZ1bGwgcmFuZ2UuCj4g
-Cj4gSSdsbCBhZGQgcmdiMnl1dl9idDcwOV9mdWxsLiBPciBzaG91bGQgSSByZW1vdmUgYWxsIHRo
-ZSB1bnVzZWQgQ1NDcz8gT3IKPiBtYXliZSBwdXQgdGhlbSBiZWhpbmQgc29tZSBpZmRlZiBzbyB0
-aGF0IHRoZXkgZG8gbm90IGJsb2F0IHRoZSBrZXJuZWw/CgpDb21tZW50ZWQtb3V0IGNvZGUgaXMg
-ZnJvd25lZCB1cG9uLiBJIHdvdWxkIGp1c3QgZHJvcCB0aGUgdW51c2VkIGRhdGEuCgo+ID4+ICsK
-PiA+PiArc3RhdGljIGludCBkaXNwY19vdmxfc2V0X2NzYyhzdHJ1Y3QgZGlzcGNfZGV2aWNlICpk
-aXNwYywKPiA+PiArCQkJICAgICBlbnVtIG9tYXBfcGxhbmVfaWQgcGxhbmUsCj4gPj4gKwkJCSAg
-ICAgZW51bSBkcm1fY29sb3JfZW5jb2RpbmcgY29sb3JfZW5jb2RpbmcsCj4gPj4gKwkJCSAgICAg
-ZW51bSBkcm1fY29sb3JfcmFuZ2UgY29sb3JfcmFuZ2UpCj4gPj4gIHsKPiA+PiAtCWludCBpOwo+
-ID4+IC0JaW50IG51bV9vdmwgPSBkaXNwY19nZXRfbnVtX292bHMoZGlzcGMpOwo+ID4+IC0KPiA+
-PiAtCS8qIFlVViAtPiBSR0IsIElUVS1SIEJULjYwMSwgbGltaXRlZCByYW5nZSAqLwo+ID4+IC0J
-Y29uc3Qgc3RydWN0IGNzY19jb2VmX3l1djJyZ2IgY29lZnNfeXV2MnJnYl9idDYwMV9saW0gPSB7
-Cj4gPj4gLQkJMjk4LCAgICAwLCAgNDA5LAkvKiByeSwgcmNiLCByY3IgKi8KPiA+PiAtCQkyOTgs
-IC0xMDAsIC0yMDgsCS8qIGd5LCBnY2IsIGdjciAqLwo+ID4+IC0JCTI5OCwgIDUxNiwgICAgMCwJ
-LyogYnksIGJjYiwgYmNyICovCj4gPj4gLQkJZmFsc2UsCQkJLyogbGltaXRlZCByYW5nZSAqLwo+
-ID4+IC0JfTsKPiA+PiArCWNvbnN0IHN0cnVjdCBjc2NfY29lZl95dXYycmdiICpjc2M7Cj4gPj4g
-IAo+ID4+IC0JLyogUkdCIC0+IFlVViwgSVRVLVIgQlQuNjAxLCBsaW1pdGVkIHJhbmdlICovCj4g
-Pj4gLQljb25zdCBzdHJ1Y3QgY3NjX2NvZWZfcmdiMnl1diBjb2Vmc19yZ2IyeXV2X2J0NjAxX2xp
-bSA9IHsKPiA+PiAtCQkgNjYsIDEyOSwgIDI1LAkJLyogeXIsICAgeWcsICB5YiAqLwo+ID4+IC0J
-CS0zOCwgLTc0LCAxMTIsCQkvKiBjYnIsIGNiZywgY2JiICovCj4gPj4gLQkJMTEyLCAtOTQsIC0x
-OCwJCS8qIGNyciwgY3JnLCBjcmIgKi8KPiA+PiAtCQlmYWxzZSwJCQkvKiBsaW1pdGVkIHJhbmdl
-ICovCj4gPj4gLQl9Owo+ID4+ICsJc3dpdGNoIChjb2xvcl9lbmNvZGluZykgewo+ID4+ICsJY2Fz
-ZSBEUk1fQ09MT1JfWUNCQ1JfQlQ2MDE6Cj4gPj4gKwkJaWYgKGNvbG9yX3JhbmdlID09IERSTV9D
-T0xPUl9ZQ0JDUl9GVUxMX1JBTkdFKQo+ID4+ICsJCQljc2MgPSAmY29lZnNfeXV2MnJnYl9idDYw
-MV9mdWxsOwo+ID4+ICsJCWVsc2UKPiA+PiArCQkJY3NjID0gJmNvZWZzX3l1djJyZ2JfYnQ2MDFf
-bGltOwo+ID4+ICsJCWJyZWFrOwo+ID4+ICsJY2FzZSBEUk1fQ09MT1JfWUNCQ1JfQlQ3MDk6Cj4g
-Pj4gKwkJaWYgKGNvbG9yX3JhbmdlID09IERSTV9DT0xPUl9ZQ0JDUl9GVUxMX1JBTkdFKQo+ID4+
-ICsJCQljc2MgPSAmY29lZnNfeXV2MnJnYl9idDcwOV9mdWxsOwo+ID4+ICsJCWVsc2UKPiA+PiAr
-CQkJY3NjID0gJmNvZWZzX3l1djJyZ2JfYnQ3MDlfbGltOwo+ID4+ICsJCWJyZWFrOwo+ID4+ICsJ
-ZGVmYXVsdDoKPiA+PiArCQlEU1NFUlIoIlVuc3VwcG9ydGVkIENTQyBtb2RlICVkIGZvciBwbGFu
-ZSAlZFxuIiwKPiA+PiArCQkgICAgICAgY29sb3JfZW5jb2RpbmcsIHBsYW5lKTsKPiA+PiArCQly
-ZXR1cm4gLUVJTlZBTDsKPiA+PiArCX0KPiA+PiAgCj4gPj4gLQlmb3IgKGkgPSAxOyBpIDwgbnVt
-X292bDsgaSsrKQo+ID4+IC0JCWRpc3BjX292bF93cml0ZV9jb2xvcl9jb252X2NvZWYoZGlzcGMs
-IGksICZjb2Vmc195dXYycmdiX2J0NjAxX2xpbSk7Cj4gPj4gKwlkaXNwY19vdmxfd3JpdGVfY29s
-b3JfY29udl9jb2VmKGRpc3BjLCBwbGFuZSwgY3NjKTsKPiA+PiAgCj4gPj4gLQlpZiAoZGlzcGMt
-PmZlYXQtPmhhc193cml0ZWJhY2spCj4gPj4gLQkJZGlzcGNfd2Jfd3JpdGVfY29sb3JfY29udl9j
-b2VmKGRpc3BjLCAmY29lZnNfcmdiMnl1dl9idDYwMV9saW0pOwo+ID4+ICsJcmV0dXJuIDA7Cj4g
-Pj4gIH0KPiA+PiAgCj4gPj4gIHN0YXRpYyB2b2lkIGRpc3BjX292bF9zZXRfYmEwKHN0cnVjdCBk
-aXNwY19kZXZpY2UgKmRpc3BjLAo+ID4+IEBAIC0yNTk4LDcgKzI2NTcsOSBAQCBzdGF0aWMgaW50
-IGRpc3BjX292bF9zZXR1cF9jb21tb24oc3RydWN0IGRpc3BjX2RldmljZSAqZGlzcGMsCj4gPj4g
-IAkJCQkgIHU4IHByZV9tdWx0X2FscGhhLCB1OCBnbG9iYWxfYWxwaGEsCj4gPj4gIAkJCQkgIGVu
-dW0gb21hcF9kc3Nfcm90YXRpb25fdHlwZSByb3RhdGlvbl90eXBlLAo+ID4+ICAJCQkJICBib29s
-IHJlcGxpY2F0aW9uLCBjb25zdCBzdHJ1Y3QgdmlkZW9tb2RlICp2bSwKPiA+PiAtCQkJCSAgYm9v
-bCBtZW1fdG9fbWVtKQo+ID4+ICsJCQkJICBib29sIG1lbV90b19tZW0sCj4gPj4gKwkJCQkgIGVu
-dW0gZHJtX2NvbG9yX2VuY29kaW5nIGNvbG9yX2VuY29kaW5nLAo+ID4+ICsJCQkJICBlbnVtIGRy
-bV9jb2xvcl9yYW5nZSBjb2xvcl9yYW5nZSkKPiA+PiAgewo+ID4+ICAJYm9vbCBmaXZlX3RhcHMg
-PSB0cnVlOwo+ID4+ICAJYm9vbCBmaWVsZG1vZGUgPSBmYWxzZTsKPiA+PiBAQCAtMjc0Nyw2ICsy
-ODA4LDkgQEAgc3RhdGljIGludCBkaXNwY19vdmxfc2V0dXBfY29tbW9uKHN0cnVjdCBkaXNwY19k
-ZXZpY2UgKmRpc3BjLAo+ID4+ICAJCQkJICAgICAgZmllbGRtb2RlLCBmb3VyY2MsIHJvdGF0aW9u
-KTsKPiA+PiAgCQlkaXNwY19vdmxfc2V0X291dHB1dF9zaXplKGRpc3BjLCBwbGFuZSwgb3V0X3dp
-ZHRoLCBvdXRfaGVpZ2h0KTsKPiA+PiAgCQlkaXNwY19vdmxfc2V0X3ZpZF9jb2xvcl9jb252KGRp
-c3BjLCBwbGFuZSwgY2NvbnYpOwo+ID4+ICsKPiA+PiArCQlpZiAocGxhbmUgIT0gT01BUF9EU1Nf
-V0IpCj4gPj4gKwkJCWRpc3BjX292bF9zZXRfY3NjKGRpc3BjLCBwbGFuZSwgY29sb3JfZW5jb2Rp
-bmcsIGNvbG9yX3JhbmdlKTsKPiA+PiAgCX0KPiA+PiAgCj4gPj4gIAlkaXNwY19vdmxfc2V0X3Jv
-dGF0aW9uX2F0dHJzKGRpc3BjLCBwbGFuZSwgcm90YXRpb24sIHJvdGF0aW9uX3R5cGUsCj4gPj4g
-QEAgLTI3ODMsNyArMjg0Nyw4IEBAIHN0YXRpYyBpbnQgZGlzcGNfb3ZsX3NldHVwKHN0cnVjdCBk
-aXNwY19kZXZpY2UgKmRpc3BjLAo+ID4+ICAJCW9pLT5zY3JlZW5fd2lkdGgsIG9pLT5wb3NfeCwg
-b2ktPnBvc195LCBvaS0+d2lkdGgsIG9pLT5oZWlnaHQsCj4gPj4gIAkJb2ktPm91dF93aWR0aCwg
-b2ktPm91dF9oZWlnaHQsIG9pLT5mb3VyY2MsIG9pLT5yb3RhdGlvbiwKPiA+PiAgCQlvaS0+em9y
-ZGVyLCBvaS0+cHJlX211bHRfYWxwaGEsIG9pLT5nbG9iYWxfYWxwaGEsCj4gPj4gLQkJb2ktPnJv
-dGF0aW9uX3R5cGUsIHJlcGxpY2F0aW9uLCB2bSwgbWVtX3RvX21lbSk7Cj4gPj4gKwkJb2ktPnJv
-dGF0aW9uX3R5cGUsIHJlcGxpY2F0aW9uLCB2bSwgbWVtX3RvX21lbSwKPiA+PiArCQlvaS0+Y29s
-b3JfZW5jb2RpbmcsIG9pLT5jb2xvcl9yYW5nZSk7Cj4gPj4gIAo+ID4+ICAJcmV0dXJuIHI7Cj4g
-Pj4gIH0KPiA+PiBAQCAtMjgxNiw3ICsyODgxLDggQEAgc3RhdGljIGludCBkaXNwY193Yl9zZXR1
-cChzdHJ1Y3QgZGlzcGNfZGV2aWNlICpkaXNwYywKPiA+PiAgCQl3aS0+YnVmX3dpZHRoLCBwb3Nf
-eCwgcG9zX3ksIGluX3dpZHRoLCBpbl9oZWlnaHQsIHdpLT53aWR0aCwKPiA+PiAgCQl3aS0+aGVp
-Z2h0LCB3aS0+Zm91cmNjLCB3aS0+cm90YXRpb24sIHpvcmRlciwKPiA+PiAgCQl3aS0+cHJlX211
-bHRfYWxwaGEsIGdsb2JhbF9hbHBoYSwgd2ktPnJvdGF0aW9uX3R5cGUsCj4gPj4gLQkJcmVwbGlj
-YXRpb24sIHZtLCBtZW1fdG9fbWVtKTsKPiA+PiArCQlyZXBsaWNhdGlvbiwgdm0sIG1lbV90b19t
-ZW0sIERSTV9DT0xPUl9ZQ0JDUl9CVDYwMSwKPiA+PiArCQlEUk1fQ09MT1JfWUNCQ1JfTElNSVRF
-RF9SQU5HRSk7Cj4gPj4gIAlpZiAocikKPiA+PiAgCQlyZXR1cm4gcjsKPiA+PiAgCj4gPj4gQEAg
-LTM5NDgsNyArNDAxNCw4IEBAIHN0YXRpYyB2b2lkIF9vbWFwX2Rpc3BjX2luaXRpYWxfY29uZmln
-KHN0cnVjdCBkaXNwY19kZXZpY2UgKmRpc3BjKQo+ID4+ICAJICAgIGRpc3BjLT5mZWF0LT5oYXNf
-Z2FtbWFfdGFibGUpCj4gPj4gIAkJUkVHX0ZMRF9NT0QoZGlzcGMsIERJU1BDX0NPTkZJRywgMSwg
-OSwgOSk7Cj4gPj4gIAo+ID4+IC0JZGlzcGNfc2V0dXBfY29sb3JfY29udl9jb2VmKGRpc3BjKTsK
-PiA+PiArCWlmIChkaXNwYy0+ZmVhdC0+aGFzX3dyaXRlYmFjaykKPiA+PiArCQlkaXNwY193Yl93
-cml0ZV9jb2xvcl9jb252X2NvZWYoZGlzcGMsICZjb2Vmc19yZ2IyeXV2X2J0NjAxX2Z1bGwpOwo+
-ID4+ICAKPiA+PiAgCWRpc3BjX3NldF9sb2FkbW9kZShkaXNwYywgT01BUF9EU1NfTE9BRF9GUkFN
-RV9PTkxZKTsKPiA+PiAgCj4gPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9vbWFwZHJt
-L2Rzcy9vbWFwZHNzLmggYi9kcml2ZXJzL2dwdS9kcm0vb21hcGRybS9kc3Mvb21hcGRzcy5oCj4g
-Pj4gaW5kZXggNzlmNmIxOTVjN2NmLi4xNDMwY2FiNmI4NzcgMTAwNjQ0Cj4gPj4gLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL29tYXBkcm0vZHNzL29tYXBkc3MuaAo+ID4+ICsrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9vbWFwZHJtL2Rzcy9vbWFwZHNzLmgKPiA+PiBAQCAtMTQsNiArMTQsNyBAQAo+ID4+ICAj
-aW5jbHVkZSA8bGludXgvcGxhdGZvcm1fZGF0YS9vbWFwZHNzLmg+Cj4gPj4gICNpbmNsdWRlIDx1
-YXBpL2RybS9kcm1fbW9kZS5oPgo+ID4+ICAjaW5jbHVkZSA8ZHJtL2RybV9jcnRjLmg+Cj4gPj4g
-KyNpbmNsdWRlIDxkcm0vZHJtX2NvbG9yX21nbXQuaD4KPiA+IAo+ID4gQWxwaGFiZXRpY2FsIG9y
-ZGVyID8gV2hpbGUgYXQgaXMgeW91IGNvdWxkZSByZW1vdmUgdWFwaS8KPiA+IAo+ID4+ICAKPiA+
-PiAgI2RlZmluZSBESVNQQ19JUlFfRlJBTUVET05FCQkoMSA8PCAwKQo+ID4+ICAjZGVmaW5lIERJ
-U1BDX0lSUV9WU1lOQwkJCSgxIDw8IDEpCj4gPj4gQEAgLTI0Myw2ICsyNDQsOSBAQCBzdHJ1Y3Qg
-b21hcF9vdmVybGF5X2luZm8gewo+ID4+ICAJdTggZ2xvYmFsX2FscGhhOwo+ID4+ICAJdTggcHJl
-X211bHRfYWxwaGE7Cj4gPj4gIAl1OCB6b3JkZXI7Cj4gPj4gKwo+ID4+ICsJZW51bSBkcm1fY29s
-b3JfZW5jb2RpbmcgY29sb3JfZW5jb2Rpbmc7Cj4gPj4gKwllbnVtIGRybV9jb2xvcl9yYW5nZSBj
-b2xvcl9yYW5nZTsKPiA+PiAgfTsKPiA+PiAgCj4gPj4gIHN0cnVjdCBvbWFwX292ZXJsYXlfbWFu
-YWdlcl9pbmZvIHsKPiA+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vb21h
-cF9wbGFuZS5jIGIvZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vb21hcF9wbGFuZS5jCj4gPj4gaW5k
-ZXggNzNlYzk5ODE5YTNkLi5kYjhlOTE3MjYwZGYgMTAwNjQ0Cj4gPj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL29tYXBkcm0vb21hcF9wbGFuZS5jCj4gPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL29t
-YXBkcm0vb21hcF9wbGFuZS5jCj4gPj4gQEAgLTU5LDYgKzU5LDggQEAgc3RhdGljIHZvaWQgb21h
-cF9wbGFuZV9hdG9taWNfdXBkYXRlKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLAo+ID4+ICAJCWlu
-Zm8ucHJlX211bHRfYWxwaGEgPSAxOwo+ID4+ICAJZWxzZQo+ID4+ICAJCWluZm8ucHJlX211bHRf
-YWxwaGEgPSAwOwo+ID4+ICsJaW5mby5jb2xvcl9lbmNvZGluZyA9IHN0YXRlLT5jb2xvcl9lbmNv
-ZGluZzsKPiA+PiArCWluZm8uY29sb3JfcmFuZ2UgPSBzdGF0ZS0+Y29sb3JfcmFuZ2U7Cj4gPj4g
-IAo+ID4+ICAJLyogdXBkYXRlIHNjYW5vdXQ6ICovCj4gPj4gIAlvbWFwX2ZyYW1lYnVmZmVyX3Vw
-ZGF0ZV9zY2Fub3V0KHN0YXRlLT5mYiwgc3RhdGUsICZpbmZvKTsKPiA+PiBAQCAtMTg5LDYgKzE5
-MSw4IEBAIHN0YXRpYyB2b2lkIG9tYXBfcGxhbmVfcmVzZXQoc3RydWN0IGRybV9wbGFuZSAqcGxh
-bmUpCj4gPj4gIAkgKi8KPiA+PiAgCXBsYW5lLT5zdGF0ZS0+enBvcyA9IHBsYW5lLT50eXBlID09
-IERSTV9QTEFORV9UWVBFX1BSSU1BUlkKPiA+PiAgCQkJICAgPyAwIDogb21hcF9wbGFuZS0+aWQ7
-Cj4gPj4gKwlwbGFuZS0+c3RhdGUtPmNvbG9yX2VuY29kaW5nID0gRFJNX0NPTE9SX1lDQkNSX0JU
-NjAxOwo+ID4+ICsJcGxhbmUtPnN0YXRlLT5jb2xvcl9yYW5nZSA9IERSTV9DT0xPUl9ZQ0JDUl9G
-VUxMX1JBTkdFOwo+ID4+ICB9Cj4gPj4gIAo+ID4+ICBzdGF0aWMgaW50IG9tYXBfcGxhbmVfYXRv
-bWljX3NldF9wcm9wZXJ0eShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKPiA+PiBAQCAtMjMyLDYg
-KzIzNiwyMyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9wbGFuZV9mdW5jcyBvbWFwX3BsYW5l
-X2Z1bmNzID0gewo+ID4+ICAJLmF0b21pY19nZXRfcHJvcGVydHkgPSBvbWFwX3BsYW5lX2F0b21p
-Y19nZXRfcHJvcGVydHksCj4gPj4gIH07Cj4gPj4gIAo+ID4+ICtzdGF0aWMgYm9vbCBvbWFwX3Bs
-YW5lX3N1cHBvcnRzX3l1dihzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSkKPiA+PiArewo+ID4+ICsJ
-c3RydWN0IG9tYXBfZHJtX3ByaXZhdGUgKnByaXYgPSBwbGFuZS0+ZGV2LT5kZXZfcHJpdmF0ZTsK
-PiA+PiArCXN0cnVjdCBvbWFwX3BsYW5lICpvbWFwX3BsYW5lID0gdG9fb21hcF9wbGFuZShwbGFu
-ZSk7Cj4gPj4gKwljb25zdCB1MzIgKmZvcm1hdHMgPQo+ID4+ICsJCXByaXYtPmRpc3BjX29wcy0+
-b3ZsX2dldF9jb2xvcl9tb2Rlcyhwcml2LT5kaXNwYywgb21hcF9wbGFuZS0+aWQpOwo+ID4+ICsJ
-aW50IGk7Cj4gPiAKPiA+IHVuc2lnbmVkIGludCBpID8KPiA+IAo+ID4+ICsKPiA+PiArCWZvciAo
-aSA9IDA7IGZvcm1hdHNbaV07IGkrKykKPiA+PiArCQlpZiAoZm9ybWF0c1tpXSA9PSBEUk1fRk9S
-TUFUX1lVWVYgfHwKPiA+PiArCQkgICAgZm9ybWF0c1tpXSA9PSBEUk1fRk9STUFUX1VZVlkgfHwK
-PiA+PiArCQkgICAgZm9ybWF0c1tpXSA9PSBEUk1fRk9STUFUX05WMTIpCj4gPj4gKwkJCXJldHVy
-biB0cnVlOwo+ID4+ICsKPiA+PiArCXJldHVybiBmYWxzZTsKPiA+PiArfQo+ID4+ICsKPiA+PiAg
-c3RhdGljIGNvbnN0IGNoYXIgKnBsYW5lX2lkX3RvX25hbWVbXSA9IHsKPiA+PiAgCVtPTUFQX0RT
-U19HRlhdID0gImdmeCIsCj4gPj4gIAlbT01BUF9EU1NfVklERU8xXSA9ICJ2aWQxIiwKPiA+PiBA
-QCAtMjkzLDYgKzMxNCwxNSBAQCBzdHJ1Y3QgZHJtX3BsYW5lICpvbWFwX3BsYW5lX2luaXQoc3Ry
-dWN0IGRybV9kZXZpY2UgKmRldiwKPiA+PiAgCWRybV9wbGFuZV9jcmVhdGVfYmxlbmRfbW9kZV9w
-cm9wZXJ0eShwbGFuZSwgQklUKERSTV9NT0RFX0JMRU5EX1BSRU1VTFRJKSB8Cj4gPj4gIAkJCQkJ
-ICAgICBCSVQoRFJNX01PREVfQkxFTkRfQ09WRVJBR0UpKTsKPiA+PiAgCj4gPj4gKwlpZiAob21h
-cF9wbGFuZV9zdXBwb3J0c195dXYocGxhbmUpKQo+ID4+ICsJCWRybV9wbGFuZV9jcmVhdGVfY29s
-b3JfcHJvcGVydGllcyhwbGFuZSwKPiA+PiArCQkJCQlCSVQoRFJNX0NPTE9SX1lDQkNSX0JUNjAx
-KSB8Cj4gPj4gKwkJCQkJQklUKERSTV9DT0xPUl9ZQ0JDUl9CVDcwOSksCj4gPj4gKwkJCQkJQklU
-KERSTV9DT0xPUl9ZQ0JDUl9GVUxMX1JBTkdFKSB8Cj4gPj4gKwkJCQkJQklUKERSTV9DT0xPUl9Z
-Q0JDUl9MSU1JVEVEX1JBTkdFKSwKPiA+PiArCQkJCQlEUk1fQ09MT1JfWUNCQ1JfQlQ2MDEsCj4g
-Pj4gKwkJCQkJRFJNX0NPTE9SX1lDQkNSX0ZVTExfUkFOR0UpOwo+ID4+ICsKPiA+PiAgCXJldHVy
-biBwbGFuZTsKPiA+PiAgCj4gPj4gIGVycm9yOgoKLS0gClJlZ2FyZHMsCgpMYXVyZW50IFBpbmNo
-YXJ0Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1977165461==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="vshdzxkdbqvaeroa"
+Content-Disposition: inline
+
+
+--vshdzxkdbqvaeroa
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Laurent,
+
+On Tue, Aug 27, 2019 at 07:34:23PM +0300, Laurent Pinchart wrote:
+> Hi Laurent,
+>
+> On Tue, Aug 27, 2019 at 04:56:19PM +0200, Jacopo Mondi wrote:
+> > On Tue, Aug 27, 2019 at 03:24:22AM +0300, Laurent Pinchart wrote:
+> > > On Sun, Aug 25, 2019 at 03:51:48PM +0200, Jacopo Mondi wrote:
+> > > > Add a driver for the R-Car Display Unit Color Correction Module.
+> > > >
+> > > > In most of Gen3 SoCs, each DU output channel is provided with a CMM=
+ unit
+> > > > to perform image enhancement and color correction.
+> > > >
+> > > > Add support for CMM through a driver that supports configuration of
+> > > > the 1-dimensional LUT table. More advanced CMM feature will be
+> > > > implemented on top of this basic one.
+> > > >
+> > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > > ---
+> > > >  drivers/gpu/drm/rcar-du/Kconfig    |   7 +
+> > > >  drivers/gpu/drm/rcar-du/Makefile   |   1 +
+> > > >  drivers/gpu/drm/rcar-du/rcar_cmm.c | 262 +++++++++++++++++++++++++=
+++++
+> > > >  drivers/gpu/drm/rcar-du/rcar_cmm.h |  38 +++++
+> > > >  4 files changed, 308 insertions(+)
+> > > >  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.c
+> > > >  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.h
+> > > >
+> > > > diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar=
+-du/Kconfig
+> > > > index 1529849e217e..539d232790d1 100644
+> > > > --- a/drivers/gpu/drm/rcar-du/Kconfig
+> > > > +++ b/drivers/gpu/drm/rcar-du/Kconfig
+> > > > @@ -13,6 +13,13 @@ config DRM_RCAR_DU
+> > > >  	  Choose this option if you have an R-Car chipset.
+> > > >  	  If M is selected the module will be called rcar-du-drm.
+> > > >
+> > > > +config DRM_RCAR_CMM
+> > > > +	bool "R-Car DU Color Management Module (CMM) Support"
+> > > > +	depends on DRM && OF
+> > > > +	depends on DRM_RCAR_DU
+> > > > +	help
+> > > > +	  Enable support for R-Car Color Management Module (CMM).
+> > > > +
+> > > >  config DRM_RCAR_DW_HDMI
+> > > >  	tristate "R-Car DU Gen3 HDMI Encoder Support"
+> > > >  	depends on DRM && OF
+> > > > diff --git a/drivers/gpu/drm/rcar-du/Makefile b/drivers/gpu/drm/rca=
+r-du/Makefile
+> > > > index 6c2ed9c46467..4d1187ccc3e5 100644
+> > > > --- a/drivers/gpu/drm/rcar-du/Makefile
+> > > > +++ b/drivers/gpu/drm/rcar-du/Makefile
+> > > > @@ -15,6 +15,7 @@ rcar-du-drm-$(CONFIG_DRM_RCAR_LVDS)	+=3D rcar_du_=
+of.o \
+> > > >  rcar-du-drm-$(CONFIG_DRM_RCAR_VSP)	+=3D rcar_du_vsp.o
+> > > >  rcar-du-drm-$(CONFIG_DRM_RCAR_WRITEBACK) +=3D rcar_du_writeback.o
+> > > >
+> > > > +obj-$(CONFIG_DRM_RCAR_CMM)		+=3D rcar_cmm.o
+> > > >  obj-$(CONFIG_DRM_RCAR_DU)		+=3D rcar-du-drm.o
+> > > >  obj-$(CONFIG_DRM_RCAR_DW_HDMI)		+=3D rcar_dw_hdmi.o
+> > > >  obj-$(CONFIG_DRM_RCAR_LVDS)		+=3D rcar_lvds.o
+> > > > diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.c b/drivers/gpu/drm/r=
+car-du/rcar_cmm.c
+> > > > new file mode 100644
+> > > > index 000000000000..55361f5701e8
+> > > > --- /dev/null
+> > > > +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.c
+> > > > @@ -0,0 +1,262 @@
+> > > > +// SPDX-License-Identifier: GPL-2.0+
+> > > > +/*
+> > > > + * rcar_cmm.c -- R-Car Display Unit Color Management Module
+> > > > + *
+> > > > + * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > > + */
+> > > > +
+> > > > +#include <linux/io.h>
+> > > > +#include <linux/module.h>
+> > > > +#include <linux/of.h>
+> > > > +#include <linux/platform_device.h>
+> > > > +#include <linux/pm_runtime.h>
+> > > > +
+> > > > +#include <drm/drm_color_mgmt.h>
+> > > > +
+> > > > +#include "rcar_cmm.h"
+> > > > +
+> > > > +#define CM2_LUT_CTRL		0x0000
+> > > > +#define CM2_LUT_CTRL_LUT_EN	BIT(0)
+> > > > +#define CM2_LUT_TBL_BASE	0x0600
+> > > > +#define CM2_LUT_TBL(__i)	(CM2_LUT_TBL_BASE + (__i) * 4)
+> > > > +
+> > > > +struct rcar_cmm {
+> > > > +	void __iomem *base;
+> > > > +	bool enabled;
+> > > > +
+> > > > +	/*
+> > > > +	 * @lut:		1D-LUT status
+> > > > +	 * @lut.enabled:	1D-LUT enabled flag
+> > > > +	 * @lut.size:		Number of entries in the LUT table
+> > >
+> > > Please see my review of patch 13/14, I wonder if we could drop this
+> > > field.
+> > >
+> > > > +	 * @lut.table:		Table of 1D-LUT entries scaled to HW support
+> > > > +	 *			precision (8-bits per color component)
+> > > > +	 */
+> > > > +	struct {
+> > > > +		bool enabled;
+> > > > +		unsigned int size;
+> > > > +		u32 table[CMM_GAMMA_LUT_SIZE];
+> > > > +	} lut;
+> > > > +};
+> > > > +
+> > > > +static inline int rcar_cmm_read(struct rcar_cmm *rcmm, u32 reg)
+> > > > +{
+> > > > +	return ioread32(rcmm->base + reg);
+> > > > +}
+> > > > +
+> > > > +static inline void rcar_cmm_write(struct rcar_cmm *rcmm, u32 reg, =
+u32 data)
+> > > > +{
+> > > > +	iowrite32(data, rcmm->base + reg);
+> > > > +}
+> > > > +
+> > > > +/*
+> > > > + * rcar_cmm_lut_extract() - Scale down to hw precision the DRM LUT=
+ table
+> > >
+> > > s/hw/hardware/ (and below too)
+> > >
+> > > > + *			    entries and store them.
+> > > > + * @rcmm: Pointer to the CMM device
+> > > > + * @size: Number of entries in the table
+> > > > + * @drm_lut: DRM LUT table
+> > > > + */
+> > > > +static void rcar_cmm_lut_extract(struct rcar_cmm *rcmm, size_t siz=
+e,
+> > > > +				 const struct drm_color_lut *drm_lut)
+> > > > +{
+> > > > +	unsigned int i;
+> > > > +
+> > > > +	for (i =3D 0; i < size; ++i) {
+> > > > +		const struct drm_color_lut *lut =3D &drm_lut[i];
+> > > > +
+> > > > +		rcmm->lut.table[i] =3D drm_color_lut_extract(lut->red, 8) << 16
+> > > > +				   | drm_color_lut_extract(lut->green, 8) << 8
+> > > > +				   | drm_color_lut_extract(lut->blue, 8);
+> > > > +	}
+> > > > +
+> > > > +	rcmm->lut.size =3D size;
+> > > > +}
+> > > > +
+> > > > +/*
+> > > > + * rcar_cmm_lut_load() - Write to hw the LUT table entries from th=
+e local table.
+> > > > + *
+> > >
+> > > No need for a blank line
+> > >
+> > > > + * @rcmm: Pointer to the CMM device
+> > > > + */
+> > > > +static void rcar_cmm_lut_load(struct rcar_cmm *rcmm)
+> > >
+> > > I would name this rcar_cmm_lut_write().
+> >
+> > I won't, as I would like to convey the LUT tables is loaded from the
+> > local cache after it has been scaled down to the hardware supported
+> > precision.
+>
+> "load" hints a read though, and here you write the LUT to the hardware.
+> Without reading the comments I would have thought this function would
+> read the LUT back from the hardware.
+>
+> > > > +{
+> > > > +	unsigned int i;
+> > > > +
+> > > > +	for (i =3D 0; i < rcmm->lut.size; ++i) {
+> > > > +		u32 entry =3D rcmm->lut.table[i];
+> > > > +
+> > > > +		rcar_cmm_write(rcmm, CM2_LUT_TBL(i), entry);
+> > >
+> > > You don't need the local entry variable.
+> >
+> > True, but the code is nicer to read and the compiler should be smart
+> > enough to optimize it away
+>
+> I'm not sure about nicer to read, I find the opposite personally, but
+> it's your code :-)
+>
+> > > > +	}
+> > > > +}
+> > > > +
+> > > > +/**
+> > > > + * rcar_cmm_setup() - configure the CMM unit
+> > >
+> > > s/configure/Configure/ and s/$/./, or the other way around for the ot=
+her
+> > > functions (I don't mine which one, but let's stay consistent).
+> >
+> > Oh right, sorry for the confusion
+>
+> It's just my OCD kicking in :-)
+>
+> > > > + *
+> > >
+> > > No need for a blank line (same for the functions below).
+> > >
+> > > > + * @pdev: The platform device associated with the CMM instance
+> > > > + * @config: The CRTC-provided configuration.
+> > > > + *
+> > > > + * Configure the CMM unit with the CRTC-provided configuration.
+> > > > + * Currently enabling, disabling and programming of the 1-D LUT un=
+it is
+> > > > + * supported.
+> > > > + */
+> > > > +int rcar_cmm_setup(struct platform_device *pdev,
+> > > > +		   const struct rcar_cmm_config *config)
+> > > > +{
+> > > > +	struct rcar_cmm *rcmm =3D platform_get_drvdata(pdev);
+> > > > +
+> > > > +	if (config->lut.size > CMM_GAMMA_LUT_SIZE)
+> > > > +		return -EINVAL;
+> > > > +
+> > > > +	/*
+> > > > +	 * As rcar_cmm_setup() is called by atomic commit tail helper, it=
+ might
+> > > > +	 * be called when the CMM is disabled. As we can't program the ha=
+rdware
+> > > > +	 * in that case, store the configuration internally and apply it =
+when
+> > > > +	 * the CMM will be enabled by the CRTC through rcar_cmm_enable().
+> > > > +	 */
+> > > > +	if (!rcmm->enabled) {
+> > > > +		if (!config->lut.enable)
+> > > > +			return 0;
+> > > > +
+> > > > +		rcar_cmm_lut_extract(rcmm, config->lut.size, config->lut.table);
+> > > > +		rcmm->lut.enabled =3D true;
+> > > > +
+> > > > +		return 0;
+> > > > +	}
+> > > > +
+> > > > +	/* Stop LUT operations if requested. */
+> > > > +	if (!config->lut.enable) {
+> > > > +		if (rcmm->lut.enabled) {
+> > > > +			rcar_cmm_write(rcmm, CM2_LUT_CTRL, 0);
+> > > > +			rcmm->lut.enabled =3D false;
+> > > > +			rcmm->lut.size =3D 0;
+> > > > +		}
+> > > > +
+> > > > +		return 0;
+> > > > +	}
+> > > > +
+> > > > +	/*
+> > > > +	 * Enable LUT and program the new gamma table values.
+> > > > +	 *
+> > > > +	 * FIXME: In order to have stable operations it is required to fi=
+rst
+> > > > +	 * enable the 1D-LUT and then program its table entries. This see=
+ms to
+> > > > +	 * contradict what the chip manual reports, and will have to be
+> > > > +	 * reconsidered when implementing support for double buffering.
+> > > > +	 */
+> > > > +	if (!rcmm->lut.enabled) {
+> > > > +		rcar_cmm_write(rcmm, CM2_LUT_CTRL, CM2_LUT_CTRL_LUT_EN);
+> > > > +		rcmm->lut.enabled =3D true;
+> > > > +	}
+> > > > +
+> > > > +	rcar_cmm_lut_extract(rcmm, config->lut.size, config->lut.table);
+> > > > +	rcar_cmm_lut_load(rcmm);
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +EXPORT_SYMBOL_GPL(rcar_cmm_setup);
+> > > > +
+> > > > +/**
+> > > > + * rcar_cmm_enable() - enable the CMM unit
+> > > > + *
+> > > > + * @pdev: The platform device associated with the CMM instance
+> > > > + *
+> > > > + * Enable the CMM unit by enabling the parent clock and enabling t=
+he CMM
+> > > > + * components, such as 1-D LUT, if requested.
+> > > > + */
+> > > > +int rcar_cmm_enable(struct platform_device *pdev)
+> > > > +{
+> > > > +	struct rcar_cmm *rcmm =3D platform_get_drvdata(pdev);
+> > > > +	int ret;
+> > > > +
+> > > > +	if (!rcmm)
+> > > > +		return -EPROBE_DEFER;
+> > >
+> > > This function is called in rcar_du_crtc_atomic_enable(), so that's not
+> > > the right error code. It seems we need another function for the CMM A=
+PI
+> > > to defer probing :-/ I would call it rcar_cmm_init(). This check would
+> > > then be removed.
+> >
+> > I agree about the return code, but not the name, as this function
+> > actually enables the CMM.
+>
+> I meant creating a new rcar_cmm_init() function that would just have the
+> !rcmm check.
+>
+> > PROBE_DEFER does not make any sense here, I
+> > wonder where it come from, as the probing of CMM and DU has long
+> > happened once we get here (at least, I assume so, if we receive a
+> > gamma_table, userspace has already been running, and both DU and CMM
+> > should have probed. Otherwise, we can exploit the newly created device
+> > link, and make sure DU probes after the CMM).
+> >
+> > I would just change the return value here, and possibly use the device
+> > link to ensure the correct probing sequence.
+>
+> How does device link help here ?
+>
+
+Currently it doesn't, as we are creating a stateless link.
+
+But if we go for a managed device link (which is the default, by the
+way, you have to opt-out from it) we can guarantee the CMM has probed
+before the DU probes, so that we have a guarantee when we get here
+!rcmm cannot happen.
+
+https://www.kernel.org/doc/html/v5.2-rc7/driver-api/device_link.html
+"The consumer devices are not probed before the supplier is bound to a driv=
+er,
+ and they=E2=80=99re unbound before the supplier is unbound."
+
+As we create the link, the CMM is the supplier of DU, so we could just
+drop the DL_FLAG_STATELESS flag in device_link_add() in 10/14.
+
+Does this match your understanding ?
+
+> > > > +
+> > > > +	ret =3D pm_runtime_get_sync(&pdev->dev);
+> > > > +	if (ret < 0)
+> > > > +		return ret;
+> > > > +
+> > > > +	/* Apply the LUT table values saved at rcar_cmm_setup() time. */
+> > > > +	if (rcmm->lut.enabled) {
+> > > > +		rcar_cmm_write(rcmm, CM2_LUT_CTRL, CM2_LUT_CTRL_LUT_EN);
+> > > > +		rcar_cmm_lut_load(rcmm);
+> > >
+> > > You will not like this, but I just realised that we're now reprogramm=
+ing
+> > > the LUT contents every time the CMM is enabled. Do you think that's
+> > > something we should optimise ? And yes, that would require introducing
+> >
+> > Why so? If we receive an enable after a disable which stops the CMM
+> > clock and we have no guarantees the table entries have been kept, or
+> > what we receive from userspace has changed or not. Why is this an
+> > issue in your opinion?
+>
+> I thought the hardware preserved the LUT ? Skipping the LUT write is an
+> optimisation, so we could do without it in the initial version. I think
+> it would become more important with the CLU though, as we'll have more
+> data entries there. Maybe we should first check how much time the LUT
+> and CLU writes take before deciding to optimise them.
+>
+
+Yeah, let's post-pone optimizations...
+
+> > > back an update flag in rcmm->lut :-S Sorry for not realising this whe=
+n I
+> > > proposed dropping it.
+> > >
+> > > > +	}
+> > > > +
+> > > > +	rcmm->enabled =3D true;
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +EXPORT_SYMBOL_GPL(rcar_cmm_enable);
+> > > > +
+> > > > +/**
+> > > > + * rcar_cmm_disable() - disable the CMM unit
+> > > > + *
+> > > > + * @pdev: The platform device associated with the CMM instance
+> > > > + *
+> > > > + * Disable the CMM unit by stopping the parent clock.
+> > > > + */
+> > > > +void rcar_cmm_disable(struct platform_device *pdev)
+> > > > +{
+> > > > +	struct rcar_cmm *rcmm =3D platform_get_drvdata(pdev);
+> > > > +
+> > > > +	rcar_cmm_write(rcmm, CM2_LUT_CTRL, 0);
+> > > > +
+> > > > +	pm_runtime_put(&pdev->dev);
+> > > > +
+> > > > +	rcmm->lut.enabled =3D false;
+> > > > +	rcmm->lut.size =3D 0;
+> > > > +
+> > > > +	rcmm->enabled =3D false;
+> > > > +}
+> > > > +EXPORT_SYMBOL_GPL(rcar_cmm_disable);
+> > > > +
+> > > > +static int rcar_cmm_probe(struct platform_device *pdev)
+> > > > +{
+> > > > +	struct rcar_cmm *rcmm;
+> > > > +	struct resource *res;
+> > > > +
+> > > > +	rcmm =3D devm_kzalloc(&pdev->dev, sizeof(*rcmm), GFP_KERNEL);
+> > > > +	if (!rcmm)
+> > > > +		return -ENOMEM;
+> > > > +
+> > > > +	platform_set_drvdata(pdev, rcmm);
+> > > > +
+> > > > +	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> > > > +	rcmm->base =3D devm_ioremap_resource(&pdev->dev, res);
+> > > > +	if (IS_ERR(rcmm->base))
+> > > > +		return PTR_ERR(rcmm->base);
+> > >
+> > > You really don't like combining those two calls, do you ? :-)
+> >
+> > devm_of_iomap() ?
+>
+> devm_platform_ioremap_resource()
+>
+
+Oh stupid, thanks!
+
+Thanks
+   j
+
+> > > > +
+> > > > +	pm_runtime_enable(&pdev->dev);
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +
+> > > > +static int rcar_cmm_remove(struct platform_device *pdev)
+> > > > +{
+> > > > +	pm_runtime_disable(&pdev->dev);
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +
+> > > > +static const struct of_device_id rcar_cmm_of_table[] =3D {
+> > > > +	{ .compatible =3D "renesas,cmm-r8a7795", },
+> > > > +	{ .compatible =3D "renesas,cmm-r8a7796", },
+> > > > +	{ .compatible =3D "renesas,cmm-r8a77965", },
+> > > > +	{ .compatible =3D "renesas,cmm-r8a77990", },
+> > > > +	{ .compatible =3D "renesas,cmm-r8a77995", },
+> > >
+> > > As Geert pointed out, I would drop those entries.
+> >
+> > yes
+> >
+> > > > +	{ .compatible =3D "renesas,rcar-gen3-cmm", },
+> > > > +	{ .compatible =3D "renesas,rcar-gen2-cmm", },
+> > > > +	{ },
+> > > > +};
+> > > > +MODULE_DEVICE_TABLE(of, rcar_cmm_of_table);
+> > > > +
+> > > > +static struct platform_driver rcar_cmm_platform_driver =3D {
+> > > > +	.probe		=3D rcar_cmm_probe,
+> > > > +	.remove		=3D rcar_cmm_remove,
+> > > > +	.driver		=3D {
+> > > > +		.name	=3D "rcar-cmm",
+> > > > +		.of_match_table =3D rcar_cmm_of_table,
+> > > > +	},
+> > > > +};
+> > > > +
+> > > > +module_platform_driver(rcar_cmm_platform_driver);
+> > > > +
+> > > > +MODULE_AUTHOR("Jacopo Mondi <jacopo+renesas@jmondi.org>");
+> > > > +MODULE_DESCRIPTION("Renesas R-Car CMM Driver");
+> > > > +MODULE_LICENSE("GPL v2");
+> > > > diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.h b/drivers/gpu/drm/r=
+car-du/rcar_cmm.h
+> > > > new file mode 100644
+> > > > index 000000000000..b0bb7349ebaa
+> > > > --- /dev/null
+> > > > +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.h
+> > > > @@ -0,0 +1,38 @@
+> > > > +/* SPDX-License-Identifier: GPL-2.0+ */
+> > > > +/*
+> > > > + * rcar_cmm.h -- R-Car Display Unit Color Management Module
+> > > > + *
+> > > > + * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > > + */
+> > > > +
+> > > > +#ifndef __RCAR_CMM_H__
+> > > > +#define __RCAR_CMM_H__
+> > > > +
+> > > > +#define CMM_GAMMA_LUT_SIZE		256
+> > > > +
+> > > > +struct drm_color_lut;
+> > > > +struct platform_device;
+> > > > +
+> > > > +/**
+> > > > + * struct rcar_cmm_config - CMM configuration
+> > > > + *
+> > > > + * @lut:	1D-LUT configuration
+> > > > + * @lut.enable:	1D-LUT enable flag
+> > > > + * @lut.table:	1D-LUT table entries
+> > > > + * @lut.size:	Number of 1D-LUT (max 256)
+> > >
+> > > s/1D-LUT/1D-LUT entries/
+> >
+> > ack, I'll change this.
+> >
+> > > > + */
+> > > > +struct rcar_cmm_config {
+> > > > +	struct {
+> > > > +		bool enable;
+> > > > +		struct drm_color_lut *table;
+> > > > +		unsigned int size;
+> > > > +	} lut;
+> > > > +};
+> > > > +
+> > > > +int rcar_cmm_enable(struct platform_device *pdev);
+> > > > +void rcar_cmm_disable(struct platform_device *pdev);
+> > > > +
+> > > > +int rcar_cmm_setup(struct platform_device *pdev,
+> > > > +		   const struct rcar_cmm_config *config);
+> > > > +
+> > > > +#endif /* __RCAR_CMM_H__ */
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+--vshdzxkdbqvaeroa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1w3CQACgkQcjQGjxah
+VjzbIA/+LgrHbVxVTWMGN8f6AHtJaz4hhI9TQWewAwIjx9A/ZfvtxpOlUVgEXkgM
+XYSEtFdQoxhXGIXlkHsoX/G04DXT63OMWJAI153DwYZ+qyiiA2IDrlmHh6BaOEk3
+aCLg8esrmjomnStfifVvMHcFQ1owXKhfYOG+kZZctZtk7TCZb99zwNVsjgAeXgsl
+1sFocg85PcAFwFv5Lr/ogF+AKa0485rp0tdqMAFrgTojXIiaCNL3VaV+YaydEu6+
+EZv66QkqdtFcEYnAxswhNvH7GZ9EO0at7OYQccWRIU+yUgVJbAG6rqJkEQGGRzP+
+0IT8thyCUOHLoc+Sh6oC9b2rMVPEBS9YWilH4IU0jQqtor1wIdhgZ/P6TBSiBYJk
++1ADPtK1+owL394Lva9X2J9VgSnpLaOdC7CV4RZZ6Dl0MfN9BiFUQVFAGnk74Rp+
+utBTCoWaSsS4kSi6hHYD9bgXyQWHNR8G8L5SjKRyT9m+LENcUz/6oosMn1xVtdRn
+VJq4voe+YnBhSBIyx20lfBgZyHNCxXianabJ2G1IjuZFcXWdAVmgXCFt3iukY25C
+EXcsGAmLcOwhgGQQ6y2Unm5oKeexNDT20Vi5TcPwOTh8PF6P/Knu9iXYvYLjsl+k
+F67nZC9pjbsqE01RVGJM6FBTywThYOxvgrQCdtNZdpqcpvWEElU=
+=2dT/
+-----END PGP SIGNATURE-----
+
+--vshdzxkdbqvaeroa--
+
+--===============1977165461==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1977165461==--
