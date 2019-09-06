@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33AA6AB7CF
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2019 14:08:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CABCAB7D8
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2019 14:08:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 448B46E279;
-	Fri,  6 Sep 2019 12:08:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 349266E278;
+	Fri,  6 Sep 2019 12:08:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 608246E279
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2019 12:08:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 428476E27E
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2019 12:08:47 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5C8BF72161; Fri,  6 Sep 2019 12:08:09 +0000 (UTC)
+ id 3F43272161; Fri,  6 Sep 2019 12:08:47 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
  when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
-Date: Fri, 06 Sep 2019 12:08:09 +0000
+Date: Fri, 06 Sep 2019 12:08:47 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,8 +34,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: high
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110659-502-583oL03e7c@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110659-502-Jv8aDVYdor@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
 References: <bug-110659-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0518871802=="
+Content-Type: multipart/mixed; boundary="===============0625603282=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0518871802==
-Content-Type: multipart/alternative; boundary="15677716892.ee7d.4450"
+--===============0625603282==
+Content-Type: multipart/alternative; boundary="15677717272.96BcE.6429"
 Content-Transfer-Encoding: 7bit
 
 
---15677716892.ee7d.4450
-Date: Fri, 6 Sep 2019 12:08:09 +0000
+--15677717272.96BcE.6429
+Date: Fri, 6 Sep 2019 12:08:47 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,22 +73,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
 
---- Comment #68 from tempel.julian@gmail.com ---
-I did it, but it stopped after hitting the two breakpoints the first time
-without me having moved the mouse at all. I suppose this isn't enough? Woul=
-d it
-be possible to provide me with a short hint how to let it run longer? I'd h=
-ave
-to read quite some doc pages otherwise.
-
-Anyhow, here's the log.
+--- Comment #69 from tempel.julian@gmail.com ---
+Created attachment 145278
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145278&action=3Dedit
+1st gdb log
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15677716892.ee7d.4450
-Date: Fri, 6 Sep 2019 12:08:09 +0000
+--15677717272.96BcE.6429
+Date: Fri, 6 Sep 2019 12:08:47 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -106,8 +101,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
  running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c68">Comme=
-nt # 68</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c69">Comme=
+nt # 69</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
@@ -118,15 +113,11 @@ nt # 68</a>
 tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
 ulian&#64;gmail.com</a>
 </span></b>
-        <pre>I did it, but it stopped after hitting the two breakpoints the=
- first time
-without me having moved the mouse at all. I suppose this isn't enough? Woul=
-d it
-be possible to provide me with a short hint how to let it run longer? I'd h=
-ave
-to read quite some doc pages otherwise.
-
-Anyhow, here's the log.</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145278=
+" name=3D"attach_145278" title=3D"1st gdb log">attachment 145278</a> <a hre=
+f=3D"attachment.cgi?id=3D145278&amp;action=3Dedit" title=3D"1st gdb log">[d=
+etails]</a></span>
+1st gdb log</pre>
         </div>
       </p>
 
@@ -140,9 +131,9 @@ Anyhow, here's the log.</pre>
     </body>
 </html>=
 
---15677716892.ee7d.4450--
+--15677717272.96BcE.6429--
 
---===============0518871802==
+--===============0625603282==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -152,4 +143,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0518871802==--
+--===============0625603282==--
