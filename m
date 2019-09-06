@@ -2,45 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E5C4ABEDB
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2019 19:38:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22E8AABEF4
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2019 19:47:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FD2E6E33E;
-	Fri,  6 Sep 2019 17:38:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E9996E326;
+	Fri,  6 Sep 2019 17:47:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id B1A6C6E33E
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2019 17:38:49 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id AE5FC72161; Fri,  6 Sep 2019 17:38:49 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
- when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
-Date: Fri, 06 Sep 2019 17:38:49 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tempel.julian@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110659-502-aXMqUE45tI@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
-References: <bug-110659-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACBE36E326
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2019 17:47:37 +0000 (UTC)
+Received: by mail-ed1-x543.google.com with SMTP id v38so7027947edm.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Sep 2019 10:47:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AXnjF1eMA0qvhNi+oaAvRaU1Op/sm6+LQv/OHFTjjBs=;
+ b=BWCFQnPlo34lLBxfMjkSbbpkYJRS2yY8UV32uT8tgCYeTc0FFERN11XXGl812tGi4s
+ /beZKq1bhsziOE/YOguBXZIMP7PpyYszz10Os9eAGwQaje7wW7AFL4vkhfF0b/Z75/eJ
+ tyOY1y7TTlqastLmmJBUtty6TeJtNWummwtEDzcOaxYOX1xR7vjHhk4RQyncL3no6BAR
+ lFA1QOWrYpJb+lmOe3LCEBHN/5aiT7su3RmAF7qM/+XDAUa9gBhJpS2UYo2fA1gauTGG
+ X+OVyNyUKijSDDg53ephmO5hSw9nVYzgp6e+AKkbK8CLRA8UrMsEjQk5Ien4WyTgImuy
+ QLSw==
+X-Gm-Message-State: APjAAAWcEaAeyThZ26XcC/OFRlidKhBlNHEQtkQsccKOQyy/RZkk8JEJ
+ nPToUvTCDULthubg4sRFmHy2dg==
+X-Google-Smtp-Source: APXvYqyXNSoipVDK3YxyEJ0q0hqumo6vbP/ePP5SeWNLJC+mFFPaXXQumLn2z+pO051A2VuoAWL5CA==
+X-Received: by 2002:a17:906:8158:: with SMTP id
+ z24mr8426652ejw.54.1567792056188; 
+ Fri, 06 Sep 2019 10:47:36 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net.
+ [212.51.149.96])
+ by smtp.gmail.com with ESMTPSA id m14sm537241edc.61.2019.09.06.10.47.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Sep 2019 10:47:35 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH] mm,
+ notifier: Fix early return case for new lockdep annotations
+Date: Fri,  6 Sep 2019 19:47:30 +0200
+Message-Id: <20190906174730.22462-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AXnjF1eMA0qvhNi+oaAvRaU1Op/sm6+LQv/OHFTjjBs=;
+ b=FRjTuqf9guqExV42vYGxD/fiJVxgZg0XxcBoMZkO3y4QM+JRyu5YDuJcT8dY4cwVtT
+ 6/DchteyEMWB7Egugye1ennPXOFn5/y55kWgyjVlAxTOzKoAeV3mZZ1vkODIu9aV6ZZ/
+ wPg7BapUpyEmLjNdij5gnkTUktJpuxzhSOXy4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,97 +65,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2058258328=="
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Ralph Campbell <rcampbell@nvidia.com>, Michal Hocko <mhocko@suse.com>,
+ linux-mm@kvack.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+ Jason Gunthorpe <jgg@mellanox.com>,
+ Sean Christopherson <sean.j.christopherson@intel.com>,
+ syzbot+aaedc50d99a03250fe1f@syzkaller.appspotmail.com,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Ira Weiny <ira.weiny@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2058258328==
-Content-Type: multipart/alternative; boundary="15677915292.D3D225.11551"
-Content-Transfer-Encoding: 7bit
-
-
---15677915292.D3D225.11551
-Date: Fri, 6 Sep 2019 17:38:49 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
-
---- Comment #75 from tempel.julian@gmail.com ---
-Is it possible that Wine or the affected programs in Wine are the clients t=
-hat
-are at fault for this?
-As it happens with my Arch Plasma setup and also a fresh Fedora Gnome
-installation, it seems impossible to identify the "culprit" for me.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15677915292.D3D225.11551
-Date: Fri, 6 Sep 2019 17:38:49 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c75">Comme=
-nt # 75</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
-ulian&#64;gmail.com</a>
-</span></b>
-        <pre>Is it possible that Wine or the affected programs in Wine are =
-the clients that
-are at fault for this?
-As it happens with my Arch Plasma setup and also a fresh Fedora Gnome
-installation, it seems impossible to identify the &quot;culprit&quot; for m=
-e.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15677915292.D3D225.11551--
-
---===============2058258328==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2058258328==--
+SSBtaXNzZWQgdGhhdCB3aGVuIGV4dGVuZGluZyB0aGUgbG9ja2RlcCBhbm5vdGF0aW9ucyB0byB0
+aGUKbm9uYmxvY2tpbmcgY2FzZS4KCkkgbWlzc2VkIHRoaXMgd2hpbGUgdGVzdGluZyBzaW5jZSBp
+biB0aGUgaTkxNSBtbXUgbm90aWZpZXJzIGlzIGhpdHRpbmcKYSBuaWNlIGxvY2tkZXAgc3BsYXQg
+YWxyZWFkeSBiZWZvcmUgdGhlIHBvaW50IG9mIGdvaW5nIGludG8gb29tIGtpbGxlcgptb2RlIDot
+LwoKUmVwb3J0ZWQtYnk6IHN5emJvdCthYWVkYzUwZDk5YTAzMjUwZmUxZkBzeXprYWxsZXIuYXBw
+c3BvdG1haWwuY29tCkZpeGVzOiBkMmIyMTllZDAzZDQgKCJtbS9tbXVfbm90aWZpZXJzOiBhZGQg
+YSBsb2NrZGVwIG1hcCBmb3IgaW52YWxpZGF0ZV9yYW5nZV9zdGFydC9lbmQiKQpDYzogSmFzb24g
+R3VudGhvcnBlIDxqZ2dAbWVsbGFub3guY29tPgpDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZl
+dHRlckBpbnRlbC5jb20+CkNjOiBBbmRyZXcgTW9ydG9uIDxha3BtQGxpbnV4LWZvdW5kYXRpb24u
+b3JnPgpDYzogIkrDqXLDtG1lIEdsaXNzZSIgPGpnbGlzc2VAcmVkaGF0LmNvbT4KQ2M6IFJhbHBo
+IENhbXBiZWxsIDxyY2FtcGJlbGxAbnZpZGlhLmNvbT4KQ2M6IEphc29uIEd1bnRob3JwZSA8amdn
+QHppZXBlLmNhPgpDYzogSXJhIFdlaW55IDxpcmEud2VpbnlAaW50ZWwuY29tPgpDYzogTWljaGFs
+IEhvY2tvIDxtaG9ja29Ac3VzZS5jb20+CkNjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVy
+QGZmd2xsLmNoPgpDYzogU2VhbiBDaHJpc3RvcGhlcnNvbiA8c2Vhbi5qLmNocmlzdG9waGVyc29u
+QGludGVsLmNvbT4KQ2M6IEplYW4tUGhpbGlwcGUgQnJ1Y2tlciA8amVhbi1waGlsaXBwZUBsaW5h
+cm8ub3JnPgpDYzogbGludXgtbW1Aa3ZhY2sub3JnClNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0
+ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgotLS0KIGluY2x1ZGUvbGludXgvbW11X25vdGlm
+aWVyLmggfCA1ICsrKy0tCiAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAyIGRlbGV0
+aW9ucygtKQoKZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvbW11X25vdGlmaWVyLmggYi9pbmNs
+dWRlL2xpbnV4L21tdV9ub3RpZmllci5oCmluZGV4IDVhMDM0MTdlNWJmNy4uNGVkZDk4YjA2ODM0
+IDEwMDY0NAotLS0gYS9pbmNsdWRlL2xpbnV4L21tdV9ub3RpZmllci5oCisrKyBiL2luY2x1ZGUv
+bGludXgvbW11X25vdGlmaWVyLmgKQEAgLTM1NiwxMyArMzU2LDE0IEBAIG1tdV9ub3RpZmllcl9p
+bnZhbGlkYXRlX3JhbmdlX3N0YXJ0KHN0cnVjdCBtbXVfbm90aWZpZXJfcmFuZ2UgKnJhbmdlKQog
+c3RhdGljIGlubGluZSBpbnQKIG1tdV9ub3RpZmllcl9pbnZhbGlkYXRlX3JhbmdlX3N0YXJ0X25v
+bmJsb2NrKHN0cnVjdCBtbXVfbm90aWZpZXJfcmFuZ2UgKnJhbmdlKQogeworCWludCByZXQgPSAw
+OwogCWxvY2tfbWFwX2FjcXVpcmUoJl9fbW11X25vdGlmaWVyX2ludmFsaWRhdGVfcmFuZ2Vfc3Rh
+cnRfbWFwKTsKIAlpZiAobW1faGFzX25vdGlmaWVycyhyYW5nZS0+bW0pKSB7CiAJCXJhbmdlLT5m
+bGFncyAmPSB+TU1VX05PVElGSUVSX1JBTkdFX0JMT0NLQUJMRTsKLQkJcmV0dXJuIF9fbW11X25v
+dGlmaWVyX2ludmFsaWRhdGVfcmFuZ2Vfc3RhcnQocmFuZ2UpOworCQlyZXQgPSBfX21tdV9ub3Rp
+Zmllcl9pbnZhbGlkYXRlX3JhbmdlX3N0YXJ0KHJhbmdlKTsKIAl9CiAJbG9ja19tYXBfcmVsZWFz
+ZSgmX19tbXVfbm90aWZpZXJfaW52YWxpZGF0ZV9yYW5nZV9zdGFydF9tYXApOwotCXJldHVybiAw
+OworCXJldHVybiByZXQ7CiB9CiAKIHN0YXRpYyBpbmxpbmUgdm9pZAotLSAKMi4yMy4wCgpfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
+bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
