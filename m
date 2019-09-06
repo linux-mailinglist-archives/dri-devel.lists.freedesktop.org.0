@@ -2,47 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 460E5AB930
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2019 15:24:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91F5EAB9DB
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2019 15:53:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58ED06E294;
-	Fri,  6 Sep 2019 13:24:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC236E2A0;
+	Fri,  6 Sep 2019 13:53:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f193.google.com (mail-vk1-f193.google.com
- [209.85.221.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 537316E293;
- Fri,  6 Sep 2019 13:24:26 +0000 (UTC)
-Received: by mail-vk1-f193.google.com with SMTP id 82so1262177vkf.11;
- Fri, 06 Sep 2019 06:24:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=XLpr7WvbSvimdjkJnjlD0Shk80lqTbI9nNOT/f95L7s=;
- b=FnIcExIDBJwbOOSwa+tRyp0afyhJw0uWVtxlWjaoI0HMSwEzIYrkT9I+mnN+sSJwGd
- NGyiDA8Zmq2nclQypeccVnfPZxkCLhnEOExBLC650GLWrzakVQ3ZOq2gth/c2eSNWdND
- U6CrD0Ezzvd11B8t9s3dFrQNRPqAiAk0KSX8nJz8D3hfmBzgeA/dY1yerAWrHJ4PDEMR
- 6l+YSddh/1lD897x+NmT/RGwiu10yY1r6vl3ayJwuCInIC79M454S8D06jS5is3/jmDx
- /AejECeeUiPVW1t7h9MOoiyHFjjxCXpWiyNywqGPhraTCgKvuDr0Y7CACWpzTpVoXc37
- vROw==
-X-Gm-Message-State: APjAAAUFkW+d1RG6fbtxrZAZsG5hn20nwy+T8eB1LnU0IeoK6cSpKGvh
- JX5ZVJtNOAfJqwA7ybWxP7l3S/UWYx/BZ/ULSG7EQw==
-X-Google-Smtp-Source: APXvYqxWBON6QU8X1QmmlTNmsRiXMY9tuAH7+aGD+d5hFG+kdzamK7/dOHtoEpMTel5XshSL88ymgx7XhUyLCz7GQ+s=
-X-Received: by 2002:a1f:8:: with SMTP id 8mr3866470vka.2.1567776265167; Fri,
- 06 Sep 2019 06:24:25 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CA8856E29F
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2019 13:53:30 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id C14C072161; Fri,  6 Sep 2019 13:53:30 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
+ when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
+Date: Fri, 06 Sep 2019 13:53:31 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: michel@daenzer.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110659-502-pQfXBms2gj@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
+References: <bug-110659-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190903091235.32304-1-gwan-gyeong.mun@intel.com>
- <20190903091235.32304-4-gwan-gyeong.mun@intel.com>
- <CAKb7Uvi4aO-im=cBi_xy8QoDhUXsJmuxcL8ewOrMvFbky9Je0g@mail.gmail.com>
- <E7C9878FBA1C6D42A1CA3F62AEB6945F821DC31F@BGSMSX104.gar.corp.intel.com>
- <20190906114255.GS7482@intel.com>
-In-Reply-To: <20190906114255.GS7482@intel.com>
-From: Ilia Mirkin <imirkin@alum.mit.edu>
-Date: Fri, 6 Sep 2019 09:24:12 -0400
-Message-ID: <CAKb7UvjdjrVtueEDM+eij0LvCrdAbwzUyNpbPde=AZ-7Dega2A@mail.gmail.com>
-Subject: Re: [PATCH v4 3/7] drm: Add DisplayPort colorspace property
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,40 +53,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>, "Shankar,
- Uma" <uma.shankar@intel.com>, dri-devel <dri-devel@lists.freedesktop.org>,
- "Mun, Gwan-gyeong" <gwan-gyeong.mun@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0725740418=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBTZXAgNiwgMjAxOSBhdCA3OjQzIEFNIFZpbGxlIFN5cmrDpGzDpAo8dmlsbGUuc3ly
-amFsYUBsaW51eC5pbnRlbC5jb20+IHdyb3RlOgo+Cj4gT24gRnJpLCBTZXAgMDYsIDIwMTkgYXQg
-MTE6MzE6NTVBTSArMDAwMCwgU2hhbmthciwgVW1hIHdyb3RlOgo+ID4KPiA+Cj4gPiA+LS0tLS1P
-cmlnaW5hbCBNZXNzYWdlLS0tLS0KPiA+ID5Gcm9tOiBJbGlhIE1pcmtpbiA8aW1pcmtpbkBhbHVt
-Lm1pdC5lZHU+Cj4gPiA+U2VudDogVHVlc2RheSwgU2VwdGVtYmVyIDMsIDIwMTkgNjoxMiBQTQo+
-ID4gPlRvOiBNdW4sIEd3YW4tZ3llb25nIDxnd2FuLWd5ZW9uZy5tdW5AaW50ZWwuY29tPgo+ID4g
-PkNjOiBJbnRlbCBHcmFwaGljcyBEZXZlbG9wbWVudCA8aW50ZWwtZ2Z4QGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZz47IFNoYW5rYXIsIFVtYQo+ID4gPjx1bWEuc2hhbmthckBpbnRlbC5jb20+OyBkcmkt
-ZGV2ZWwgPGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc+Cj4gPiA+U3ViamVjdDogUmU6
-IFtQQVRDSCB2NCAzLzddIGRybTogQWRkIERpc3BsYXlQb3J0IGNvbG9yc3BhY2UgcHJvcGVydHkK
-PiA+ID4KPiA+ID5TbyBob3cgd291bGQgdGhpcyB3b3JrIHdpdGggYSBEUCsrIGNvbm5lY3Rvcj8g
-U2hvdWxkIGl0IGxpc3QgdGhlIEhETUkgb3IgRFAKPiA+ID5wcm9wZXJ0aWVzPyBPciBkbyB3ZSBu
-ZWVkIGEgY3VzdG9tIHByb3BlcnR5IGNoZWNrZXIgd2hpY2ggaXMgYXdhcmUgb2Ygd2hhdCBpcwo+
-ID4gPmN1cnJlbnRseSBwbHVnZ2VkIGluIHRvIHZhbGlkYXRlIHRoZSB2YWx1ZXM/Cj4gPgo+ID4g
-QUZBSVUgRm9yIERQKysgY2FzZXMsIHdlIGRldGVjdCB3aGF0IGtpbmQgb2Ygc2luayBpdHMgZHJp
-dmluZyBEUCBvciBIRE1JICh3aXRoIGEgcGFzc2l2ZSBkb25nbGUpLgo+ID4gQmFzZWQgb24gdGhl
-IHR5cGUgb2Ygc2luayBkZXRlY3RlZCwgd2Ugc2hvdWxkIGV4cG9zZSBEUCBvciBIRE1JIGNvbG9y
-c3BhY2VzIHRvIHVzZXJzcGFjZS4KPgo+IEZvciBpOTE1IERQIGNvbm5lY3RvciBhbHdheXMgZHJp
-dmVzIERQIG1vZGUsIEhETUkgY29ubmVjdG9yIGFsd2F5cyBkcml2ZXMKPiBIRE1JIG1vZGUsIGV2
-ZW4gd2hlbiB0aGUgcGh5c2ljYWwgY29ubmVjdG9yIGlzIERQKysuCgpSaWdodCwgaTkxNSBjcmVh
-dGVzIDIgY29ubmVjdG9ycywgd2hpbGUgbm91dmVhdSwgcmFkZW9uLCBhbmQgYW1kZ3B1CmNyZWF0
-ZSAxIGNvbm5lY3RvciAobm90IHN1cmUgYWJvdXQgb3RoZXIgZHJpdmVycykgZm9yIGEgc2luZ2xl
-CnBoeXNpY2FsIERQKysgc29ja2V0LiBTaW5jZSB3ZSBzdXBwbHkgdGhlIGxpc3Qgb2YgdmFsaWQg
-dmFsdWVzIGF0IHRoZQp0aW1lIG9mIGNyZWF0aW5nIHRoZSBjb25uZWN0b3IsIHdlIGNhbid0IGtu
-b3cgYXQgdGhhdCBwb2ludCB3aGV0aGVyIGluCnRoZSBmdXR1cmUgYSBIRE1JIG9yIERQIHdpbGwg
-YmUgcGx1Z2dlZCBpbnRvIGl0LgoKICAtaWxpYQpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0725740418==
+Content-Type: multipart/alternative; boundary="15677780100.15782.26317"
+Content-Transfer-Encoding: 7bit
+
+
+--15677780100.15782.26317
+Date: Fri, 6 Sep 2019 13:53:30 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
+
+--- Comment #70 from Michel D=C3=A4nzer <michel@daenzer.net> ---
+(In reply to tempel.julian from comment #68)
+> I did it, but it stopped after hitting the two breakpoints the first time
+> without me having moved the mouse at all. I suppose this isn't enough? Wo=
+uld
+> it be possible to provide me with a short hint how to let it run longer?
+
+Enter "continue" (or just "c") at the gdb prompt to continue, and wait for a
+few breakpoint hits, to see if they're getting hit from multiple places.
+
+Also, make sure debugging symbols are available for
+/usr/lib/xorg/modules/drivers/amdgpu_drv.so (and ideally also for Xorg and =
+its
+modules), otherwise the backtraces are useless.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15677780100.15782.26317
+Date: Fri, 6 Sep 2019 13:53:30 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c70">Comme=
+nt # 70</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
+net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
+</span></b>
+        <pre>(In reply to tempel.julian from <a href=3D"show_bug.cgi?id=3D1=
+10659#c68">comment #68</a>)
+<span class=3D"quote">&gt; I did it, but it stopped after hitting the two b=
+reakpoints the first time
+&gt; without me having moved the mouse at all. I suppose this isn't enough?=
+ Would
+&gt; it be possible to provide me with a short hint how to let it run longe=
+r?</span >
+
+Enter &quot;continue&quot; (or just &quot;c&quot;) at the gdb prompt to con=
+tinue, and wait for a
+few breakpoint hits, to see if they're getting hit from multiple places.
+
+Also, make sure debugging symbols are available for
+/usr/lib/xorg/modules/drivers/amdgpu_drv.so (and ideally also for Xorg and =
+its
+modules), otherwise the backtraces are useless.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15677780100.15782.26317--
+
+--===============0725740418==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0725740418==--
