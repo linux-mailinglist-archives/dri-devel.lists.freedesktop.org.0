@@ -1,60 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DE70AC23A
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2019 23:51:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54E31AC262
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2019 00:16:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB54D6E14C;
-	Fri,  6 Sep 2019 21:51:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC6ED892B7;
+	Fri,  6 Sep 2019 22:16:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
- [IPv6:2607:f8b0:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B97C6E14B;
- Fri,  6 Sep 2019 21:51:04 +0000 (UTC)
-Received: by mail-pf1-x443.google.com with SMTP id b13so5435072pfo.8;
- Fri, 06 Sep 2019 14:51:04 -0700 (PDT)
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com
+ [IPv6:2607:f8b0:4864:20::d33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65E81892B7;
+ Fri,  6 Sep 2019 22:16:19 +0000 (UTC)
+Received: by mail-io1-xd33.google.com with SMTP id f12so16221885iog.12;
+ Fri, 06 Sep 2019 15:16:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=eDpX53pV2w3525Sfc++y574jdtjcTxKRU6k4wrPYJJE=;
- b=Hrr6kvNWy+Rx40ms/n4fJl2WUwQSmOgbl9EekvBoe10KCg+j570BKYq4qLr3/PN0NK
- bJRTsHFnaj0YG3Wcd78wgHFhTioxgXLWLydWL2+558b2EpuaGADFU5epqOLCxCjv/4dW
- XequW8Q6oZGrkzBJRDLzWs+xVGT9JdWWUrScIkGXr5hjcc7p7TlWdIcVrp5ubEP7HBNM
- pw33+umyi6QvOPoO4J42HtO3Ak45czzV2lC/rwuCALQ3obawxyt+xm9MND7khSpVS8As
- gLmZ9EsEBNwIQJX4rAbQsUJvNNob89cpVXAg7aB3zyG7gMVv6YZU1WrT4kx/HZoDpE5l
- HfAQ==
-X-Gm-Message-State: APjAAAVx1la9i9TEzQm3H3FTdfe+JkxATt1nvMJsywfbVxw1qiywmpm6
- bDzCFu7OPhi5iTc4lQoySZ0=
-X-Google-Smtp-Source: APXvYqxxmn9ULbrQFMLJEtMySO7JBNQkpSXC7k9Y2QPcQyK5SFcavLc7RGYi6hNSQ6p9Iz352cwvcQ==
-X-Received: by 2002:a63:484d:: with SMTP id x13mr9803253pgk.122.1567806663646; 
- Fri, 06 Sep 2019 14:51:03 -0700 (PDT)
-Received: from localhost ([100.118.89.196])
- by smtp.gmail.com with ESMTPSA id g14sm6823936pfo.133.2019.09.06.14.51.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Sep 2019 14:51:03 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: iommu@lists.linux-foundation.org
-Subject: [PATCH v2 2/2] drm/msm: mark devices where iommu is managed by driver
-Date: Fri,  6 Sep 2019 14:44:02 -0700
-Message-Id: <20190906214409.26677-3-robdclark@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190906214409.26677-1-robdclark@gmail.com>
-References: <20190906214409.26677-1-robdclark@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=38nnCfPigNI1/uHMmV2XQ1uO6AO0xaUYtuRBzn2zHCQ=;
+ b=JiGrYvB48ROpX/XmB1nUbfTttdbqKGoTsu+wTBAXnZGaqYaB5TgxZ2YL4XHT36ZO8I
+ g7SQ6pmMpxgoeUPBgMPI6itTpR32MZ0AavSrjbM7q8bg0ngQpnYxQVAvBqBZr5xfSii5
+ 2WVDEMEPIjp7VLGLraYlnxLpGjFN8bZMrqFaApMRMSXM42FSkKYXrn1ua1gLchfLMPfG
+ CbrEF86ihEAIlA6CG8pCqLc78yjpvLRthCYPjD+dP5BalN6Sf7wXjl8pgH0M3mDbg6w9
+ uorAC3ZmrTwYdIIKclrjvGJ/UiXbBvjBxB5Jv994i/MiUDMMKWSlYqRI1qVogH2wRzHo
+ cNfw==
+X-Gm-Message-State: APjAAAU377lfJ+3ks3X0KK8sJt1BBiTfRCqbQ5o0EDiwLzQFfndAZKdm
+ ib5JzB5ggPknQfOtWVDk466b0C/Pup1xJpLcMkTpKg==
+X-Google-Smtp-Source: APXvYqwDZRv4SZ0zNi01uQULmpyHePOo6igTtKNh8i2C69PvVrz+h05HhRCYxcj12Vx+9O/UZI1uttqIEvBiGPx/7FM=
+X-Received: by 2002:a5d:9a01:: with SMTP id s1mr516030iol.255.1567808178461;
+ Fri, 06 Sep 2019 15:16:18 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190903214040.2386-1-sonny.jiang@amd.com>
+In-Reply-To: <20190903214040.2386-1-sonny.jiang@amd.com>
+From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+Date: Fri, 6 Sep 2019 18:15:41 -0400
+Message-ID: <CAAxE2A45N4gMYrcETDpznGKyxLztuwenFasL19a81QQmBkYiww@mail.gmail.com>
+Subject: Re: [PATCH] drm: add drm device name
+To: dri-devel <dri-devel@lists.freedesktop.org>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=eDpX53pV2w3525Sfc++y574jdtjcTxKRU6k4wrPYJJE=;
- b=R7tJANYP9RC8vMxjaiQJQysGREeC4SukBKwQay9FF+AMJE+MvsYVBFrsati6KaggWM
- VWkpRA7WPb67hbvt9c4rmHWNClvfUZwODODfoY+fH9crahdylzEddDD/2NidH2MKqLAp
- Iapm/hiz0A2mDeZEclyVm+SdU1bJGoc8FP6NklRbcl5IksRx0lwTVYI5cealjOhS7XYM
- gitoGxs4V3Z1Ekpym5seReRqr8Hs7DrGi6GbW553Hr4d3wKFAx1oTU7V3ez1y5WfY1gc
- 2nf2SwaiX5AwY5cE+npxZbJaQLMTapIZxsY6RSypeBRKrquK9OECMgG8670DMSeZaHyp
- Vsrw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=38nnCfPigNI1/uHMmV2XQ1uO6AO0xaUYtuRBzn2zHCQ=;
+ b=MNmg2wwCvLreQD3jZOQtkENmmlww2DvJi1H4DEKyNpYmBIioQAupIIpffbSamiSi/k
+ TU8RAq5UTNuFMpsRIM11kaEVOOZzrgbapUOPzrAw/wvNa+fCGK6N8mIZhfF7R2Z4obJR
+ vZCI5+1P4visaYCLP/xvZC7IviZu/gMByHWfILsTJhLPClfiyttTV9Mt80gxFGdcsZNV
+ OKA4la0HP/ShikJxbLnd8IIlcwvlx33Rp3Nme0PvHv/MaMN1QgUUpcdOonoqVrad7ZRt
+ lxapQSMHwHDHwfGWPZDT2Ic3losiUc13t9f8vJKclpx9/w0H8sC0bEpj6tjgfQ0sOJRG
+ YaWw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,58 +62,281 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Will Deacon <will@kernel.org>,
- Rob Clark <robdclark@chromium.org>, Jonathan Marek <jonathan@marek.ca>,
- Mamta Shukla <mamtashukla555@gmail.com>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <abhinavk@codeaurora.org>,
- Bruce Wang <bzwang@chromium.org>, Thomas Gleixner <tglx@linutronix.de>,
- Sean Paul <sean@poorly.run>, Allison Randal <allison@lohutok.net>,
- Boris Brezillon <bbrezillon@kernel.org>, Enrico Weigelt <info@metux.net>,
- open list <linux-kernel@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Georgi Djakov <georgi.djakov@linaro.org>,
- Sravanthi Kollukuduru <skolluku@codeaurora.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "Jiang, Sonny" <Sonny.Jiang@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0449115473=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogUm9iIENsYXJrIDxyb2JkY2xhcmtAY2hyb21pdW0ub3JnPgoKU2lnbmVkLW9mZi1ieTog
-Um9iIENsYXJrIDxyb2JkY2xhcmtAY2hyb21pdW0ub3JnPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9t
-c20vYWRyZW5vL2FkcmVub19kZXZpY2UuYyB8IDEgKwogZHJpdmVycy9ncHUvZHJtL21zbS9kaXNw
-L2RwdTEvZHB1X2ttcy5jICAgIHwgMSArCiBkcml2ZXJzL2dwdS9kcm0vbXNtL2Rpc3AvbWRwNS9t
-ZHA1X2ttcy5jICAgfCAxICsKIGRyaXZlcnMvZ3B1L2RybS9tc20vbXNtX2Rydi5jICAgICAgICAg
-ICAgICB8IDEgKwogNCBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hZHJlbm9fZGV2aWNlLmMgYi9kcml2ZXJzL2dw
-dS9kcm0vbXNtL2FkcmVuby9hZHJlbm9fZGV2aWNlLmMKaW5kZXggN2Y3NTBhOTUxMGE1Li4xOWYy
-YmQyZDZjYjQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2FkcmVub19k
-ZXZpY2UuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hZHJlbm9fZGV2aWNlLmMK
-QEAgLTQ1Miw2ICs0NTIsNyBAQCBzdGF0aWMgc3RydWN0IHBsYXRmb3JtX2RyaXZlciBhZHJlbm9f
-ZHJpdmVyID0gewogCQkubmFtZSA9ICJhZHJlbm8iLAogCQkub2ZfbWF0Y2hfdGFibGUgPSBkdF9t
-YXRjaCwKIAkJLnBtID0gJmFkcmVub19wbV9vcHMsCisJCS5kcml2ZXJfbWFuYWdlc19pb21tdSA9
-IHRydWUsCiAJfSwKIH07CiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9k
-cHUxL2RwdV9rbXMuYyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9kcHUxL2RwdV9rbXMuYwpp
-bmRleCA1NzUxODE1YTI2ZDcuLmRlYzhjYzZiNjRkYyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL21zbS9kaXNwL2RwdTEvZHB1X2ttcy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vZGlz
-cC9kcHUxL2RwdV9rbXMuYwpAQCAtMTA5NCw2ICsxMDk0LDcgQEAgc3RhdGljIHN0cnVjdCBwbGF0
-Zm9ybV9kcml2ZXIgZHB1X2RyaXZlciA9IHsKIAkJLm5hbWUgPSAibXNtX2RwdSIsCiAJCS5vZl9t
-YXRjaF90YWJsZSA9IGRwdV9kdF9tYXRjaCwKIAkJLnBtID0gJmRwdV9wbV9vcHMsCisJCS5kcml2
-ZXJfbWFuYWdlc19pb21tdSA9IHRydWUsCiAJfSwKIH07CiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9tc20vZGlzcC9tZHA1L21kcDVfa21zLmMgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL2Rp
-c3AvbWRwNS9tZHA1X2ttcy5jCmluZGV4IGQ5M2RlM2E1NjliNC4uZWZmMWIwMDAyNThlIDEwMDY0
-NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2Rpc3AvbWRwNS9tZHA1X2ttcy5jCisrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS9tc20vZGlzcC9tZHA1L21kcDVfa21zLmMKQEAgLTExMzQsNiArMTEzNCw3
-IEBAIHN0YXRpYyBzdHJ1Y3QgcGxhdGZvcm1fZHJpdmVyIG1kcDVfZHJpdmVyID0gewogCQkubmFt
-ZSA9ICJtc21fbWRwIiwKIAkJLm9mX21hdGNoX3RhYmxlID0gbWRwNV9kdF9tYXRjaCwKIAkJLnBt
-ID0gJm1kcDVfcG1fb3BzLAorCQkuZHJpdmVyX21hbmFnZXNfaW9tbXUgPSB0cnVlLAogCX0sCiB9
-OwogCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9kcnYuYyBiL2RyaXZlcnMv
-Z3B1L2RybS9tc20vbXNtX2Rydi5jCmluZGV4IDNhNGZkMjBhMzNlOC4uMzM2YTZkMGE0Y2QzIDEw
-MDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9kcnYuYworKysgYi9kcml2ZXJzL2dw
-dS9kcm0vbXNtL21zbV9kcnYuYwpAQCAtMTM4OCw2ICsxMzg4LDcgQEAgc3RhdGljIHN0cnVjdCBw
-bGF0Zm9ybV9kcml2ZXIgbXNtX3BsYXRmb3JtX2RyaXZlciA9IHsKIAkJLm5hbWUgICA9ICJtc20i
-LAogCQkub2ZfbWF0Y2hfdGFibGUgPSBkdF9tYXRjaCwKIAkJLnBtICAgICA9ICZtc21fcG1fb3Bz
-LAorCQkuZHJpdmVyX21hbmFnZXNfaW9tbXUgPSB0cnVlLAogCX0sCiB9OwogCi0tIAoyLjIxLjAK
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+--===============0449115473==
+Content-Type: multipart/alternative; boundary="0000000000008d9f850591e9c93b"
+
+--0000000000008d9f850591e9c93b
+Content-Type: text/plain; charset="UTF-8"
+
++ dri-devel
+
+On Tue, Sep 3, 2019 at 5:41 PM Jiang, Sonny <Sonny.Jiang@amd.com> wrote:
+
+> Add DRM device name and use DRM_IOCTL_VERSION ioctl drmVersion::desc
+> passing it to user space
+> instead of unused DRM driver name descriptor.
+>
+> Change-Id: I809f6d3e057111417efbe8fa7cab8f0113ba4b21
+> Signed-off-by: Sonny Jiang <sonny.jiang@amd.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |  2 ++
+>  drivers/gpu/drm/drm_drv.c                  | 17 +++++++++++++++++
+>  drivers/gpu/drm/drm_ioctl.c                |  2 +-
+>  include/drm/drm_device.h                   |  3 +++
+>  include/drm/drm_drv.h                      |  1 +
+>  5 files changed, 24 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index 67b09cb2a9e2..8f0971cea363 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -2809,6 +2809,8 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+>         /* init the mode config */
+>         drm_mode_config_init(adev->ddev);
+>
+> +       drm_dev_set_name(adev->ddev, amdgpu_asic_name[adev->asic_type]);
+> +
+>         r = amdgpu_device_ip_init(adev);
+>         if (r) {
+>                 /* failed in exclusive mode due to timeout */
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 862621494a93..6c33879bb538 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -802,6 +802,7 @@ void drm_dev_fini(struct drm_device *dev)
+>         mutex_destroy(&dev->struct_mutex);
+>         drm_legacy_destroy_members(dev);
+>         kfree(dev->unique);
+> +       kfree(dev->name);
+>  }
+>  EXPORT_SYMBOL(drm_dev_fini);
+>
+> @@ -1078,6 +1079,22 @@ int drm_dev_set_unique(struct drm_device *dev,
+> const char *name)
+>  }
+>  EXPORT_SYMBOL(drm_dev_set_unique);
+>
+> +/**
+> + * drm_dev_set_name - Set the name of a DRM device
+> + * @dev: device of which to set the name
+> + * @name: name to be set
+> + *
+> + * Return: 0 on success or a negative error code on failure.
+> + */
+> +int drm_dev_set_name(struct drm_device *dev, const char *name)
+> +{
+> +       kfree(dev->name);
+> +       dev->name = kstrdup(name, GFP_KERNEL);
+> +
+> +       return dev->name ? 0 : -ENOMEM;
+> +}
+> +EXPORT_SYMBOL(drm_dev_set_name);
+> +
+>  /*
+>   * DRM Core
+>   * The DRM core module initializes all global DRM objects and makes them
+> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+> index 2263e3ddd822..61f02965106b 100644
+> --- a/drivers/gpu/drm/drm_ioctl.c
+> +++ b/drivers/gpu/drm/drm_ioctl.c
+> @@ -506,7 +506,7 @@ int drm_version(struct drm_device *dev, void *data,
+>                                 dev->driver->date);
+>         if (!err)
+>                 err = drm_copy_field(version->desc, &version->desc_len,
+> -                               dev->driver->desc);
+> +                               dev->name);
+>
+>         return err;
+>  }
+> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+> index 7f9ef709b2b6..e29912c484e4 100644
+> --- a/include/drm/drm_device.h
+> +++ b/include/drm/drm_device.h
+> @@ -123,6 +123,9 @@ struct drm_device {
+>         /** @unique: Unique name of the device */
+>         char *unique;
+>
+> +       /** @name: device name */
+> +       char *name;
+> +
+>         /**
+>          * @struct_mutex:
+>          *
+> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+> index 68ca736c548d..f742e2bde467 100644
+> --- a/include/drm/drm_drv.h
+> +++ b/include/drm/drm_drv.h
+> @@ -798,6 +798,7 @@ static inline bool drm_drv_uses_atomic_modeset(struct
+> drm_device *dev)
+>
+>
+>  int drm_dev_set_unique(struct drm_device *dev, const char *name);
+> +int drm_dev_set_name(struct drm_device *dev, const char *name);
+>
+>
+>  #endif
+> --
+> 2.17.1
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+
+--0000000000008d9f850591e9c93b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">+ dri-devel<br></div><br><div class=3D"gmail_quote"><div d=
+ir=3D"ltr" class=3D"gmail_attr">On Tue, Sep 3, 2019 at 5:41 PM Jiang, Sonny=
+ &lt;<a href=3D"mailto:Sonny.Jiang@amd.com">Sonny.Jiang@amd.com</a>&gt; wro=
+te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Add DRM devi=
+ce name and use DRM_IOCTL_VERSION ioctl drmVersion::desc passing it to user=
+ space<br>
+instead of unused DRM driver name descriptor.<br>
+<br>
+Change-Id: I809f6d3e057111417efbe8fa7cab8f0113ba4b21<br>
+Signed-off-by: Sonny Jiang &lt;<a href=3D"mailto:sonny.jiang@amd.com" targe=
+t=3D"_blank">sonny.jiang@amd.com</a>&gt;<br>
+---<br>
+=C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |=C2=A0 2 ++<br>
+=C2=A0drivers/gpu/drm/drm_drv.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 | 17 +++++++++++++++++<br>
+=C2=A0drivers/gpu/drm/drm_ioctl.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 2 +-<br>
+=C2=A0include/drm/drm_device.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 3 +++<br>
+=C2=A0include/drm/drm_drv.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
+=C2=A05 files changed, 24 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/a=
+md/amdgpu/amdgpu_device.c<br>
+index 67b09cb2a9e2..8f0971cea363 100644<br>
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c<br>
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c<br>
+@@ -2809,6 +2809,8 @@ int amdgpu_device_init(struct amdgpu_device *adev,<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* init the mode config */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 drm_mode_config_init(adev-&gt;ddev);<br>
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0drm_dev_set_name(adev-&gt;ddev, amdgpu_asic_nam=
+e[adev-&gt;asic_type]);<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D amdgpu_device_ip_init(adev);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (r) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* failed in exclus=
+ive mode due to timeout */<br>
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c<br>
+index 862621494a93..6c33879bb538 100644<br>
+--- a/drivers/gpu/drm/drm_drv.c<br>
++++ b/drivers/gpu/drm/drm_drv.c<br>
+@@ -802,6 +802,7 @@ void drm_dev_fini(struct drm_device *dev)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mutex_destroy(&amp;dev-&gt;struct_mutex);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 drm_legacy_destroy_members(dev);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 kfree(dev-&gt;unique);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0kfree(dev-&gt;name);<br>
+=C2=A0}<br>
+=C2=A0EXPORT_SYMBOL(drm_dev_fini);<br>
+<br>
+@@ -1078,6 +1079,22 @@ int drm_dev_set_unique(struct drm_device *dev, const=
+ char *name)<br>
+=C2=A0}<br>
+=C2=A0EXPORT_SYMBOL(drm_dev_set_unique);<br>
+<br>
++/**<br>
++ * drm_dev_set_name - Set the name of a DRM device<br>
++ * @dev: device of which to set the name<br>
++ * @name: name to be set<br>
++ *<br>
++ * Return: 0 on success or a negative error code on failure.<br>
++ */<br>
++int drm_dev_set_name(struct drm_device *dev, const char *name)<br>
++{<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0kfree(dev-&gt;name);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0dev-&gt;name =3D kstrdup(name, GFP_KERNEL);<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return dev-&gt;name ? 0 : -ENOMEM;<br>
++}<br>
++EXPORT_SYMBOL(drm_dev_set_name);<br>
++<br>
+=C2=A0/*<br>
+=C2=A0 * DRM Core<br>
+=C2=A0 * The DRM core module initializes all global DRM objects and makes t=
+hem<br>
+diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c<br>
+index 2263e3ddd822..61f02965106b 100644<br>
+--- a/drivers/gpu/drm/drm_ioctl.c<br>
++++ b/drivers/gpu/drm/drm_ioctl.c<br>
+@@ -506,7 +506,7 @@ int drm_version(struct drm_device *dev, void *data,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dev-&gt;driver-&gt;date);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!err)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D drm_copy_fi=
+eld(version-&gt;desc, &amp;version-&gt;desc_len,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev-&gt;driver-&gt;desc);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev-&gt;name);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return err;<br>
+=C2=A0}<br>
+diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h<br>
+index 7f9ef709b2b6..e29912c484e4 100644<br>
+--- a/include/drm/drm_device.h<br>
++++ b/include/drm/drm_device.h<br>
+@@ -123,6 +123,9 @@ struct drm_device {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /** @unique: Unique name of the device */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 char *unique;<br>
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/** @name: device name */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0char *name;<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /**<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* @struct_mutex:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*<br>
+diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h<br>
+index 68ca736c548d..f742e2bde467 100644<br>
+--- a/include/drm/drm_drv.h<br>
++++ b/include/drm/drm_drv.h<br>
+@@ -798,6 +798,7 @@ static inline bool drm_drv_uses_atomic_modeset(struct d=
+rm_device *dev)<br>
+<br>
+<br>
+=C2=A0int drm_dev_set_unique(struct drm_device *dev, const char *name);<br>
++int drm_dev_set_name(struct drm_device *dev, const char *name);<br>
+<br>
+<br>
+=C2=A0#endif<br>
+-- <br>
+2.17.1<br>
+<br>
+_______________________________________________<br>
+amd-gfx mailing list<br>
+<a href=3D"mailto:amd-gfx@lists.freedesktop.org" target=3D"_blank">amd-gfx@=
+lists.freedesktop.org</a><br>
+<a href=3D"https://lists.freedesktop.org/mailman/listinfo/amd-gfx" rel=3D"n=
+oreferrer" target=3D"_blank">https://lists.freedesktop.org/mailman/listinfo=
+/amd-gfx</a></blockquote></div>
+
+--0000000000008d9f850591e9c93b--
+
+--===============0449115473==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0449115473==--
