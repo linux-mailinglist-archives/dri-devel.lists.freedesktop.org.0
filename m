@@ -2,38 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB54FABD6B
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2019 18:13:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB6DABDB0
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2019 18:27:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ED7A6E319;
-	Fri,  6 Sep 2019 16:13:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42FC46E318;
+	Fri,  6 Sep 2019 16:27:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 976266E319
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2019 16:13:39 +0000 (UTC)
-Received: from localhost (unknown [194.251.198.105])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 96E2F2070C;
- Fri,  6 Sep 2019 16:13:38 +0000 (UTC)
-Date: Fri, 6 Sep 2019 19:13:35 +0300
-From: Maxime Ripard <mripard@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH] drm/modes: Make the whitelist more const
-Message-ID: <20190906161335.2hqsnyfzswfc4lpy@flea>
-References: <20190906074614.30608-1-mripard@kernel.org>
- <87zhjh3lk5.fsf@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 905336E32A
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2019 16:27:19 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 3B57E7215A; Fri,  6 Sep 2019 16:27:19 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111236] VA-API radeonsi SIGSEGV __memmove_avx_unaligned
+Date: Fri, 06 Sep 2019 16:27:17 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 19.1
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: julien.isorce@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111236-502-zlpcEfaNql@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111236-502@http.bugs.freedesktop.org/>
+References: <bug-111236-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <87zhjh3lk5.fsf@intel.com>
-User-Agent: NeoMutt/20180716
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1567786419;
- bh=Y/LqvI9sGZVg4a4gW7KKX+2A32+RJNg3yTFldVTo/UE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JrDzZQf9IHgVKQKp9chcV9VaSruuty+3WO1vI/XYV2xKrIDt1Qt6kmcjt7orCp5Lg
- MhgaOoNsGdZl6Yur1Tc1vWHJfYgItNdGfEyhoz0QzEQWfb1bSlan6E/Tj/bUgvG0of
- iaX7F6/MR6ckB6oZaqh028AZd5zZeB69OtxJYH9A=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,58 +52,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- Sean Paul <seanpaul@chromium.org>, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1107181105=="
+Content-Type: multipart/mixed; boundary="===============1930041606=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1107181105==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="jmiirhy7oybexmnw"
-Content-Disposition: inline
+--===============1930041606==
+Content-Type: multipart/alternative; boundary="15677872390.79C54D.27158"
+Content-Transfer-Encoding: 7bit
 
 
---jmiirhy7oybexmnw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--15677872390.79C54D.27158
+Date: Fri, 6 Sep 2019 16:27:18 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
-On Fri, Sep 06, 2019 at 10:56:10AM +0300, Jani Nikula wrote:
-> On Fri, 06 Sep 2019, Maxime Ripard <mripard@kernel.org> wrote:
-> > The commit 3764137906a5 ("drm/modes: Introduce a whitelist for the named
-> > modes") introduced a whitelist in the named modes lookup code in order to
-> > be a bit more robust.
-> >
-> > However, even though the char pointers were made const, the data they were
-> > pointing were not. Let's fix that.
->
-> Or rather, the char pointers were const, and they pointed at const
-> string literals, but the array of pointers itself was not const.
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111236
 
-Right, I'm always confused with const in this case. I've updated the
-commit log, thanks!
-Maxime
+--- Comment #9 from Julien Isorce <julien.isorce@gmail.com> ---
+Hi Michel, nice catch!=20
 
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Instead of using totem which has other issues can you try:
 
---jmiirhy7oybexmnw
-Content-Type: application/pgp-signature; name="signature.asc"
+gst-launch-1.0 filesrc location=3Dtest.mp4 ! qtdemux ! h264parse ! vaapih26=
+4dec !
+vaapipostproc ! videoconvert ! ximagesink=20
 
------BEGIN PGP SIGNATURE-----
+(with and without vaapipostproc)
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXXKFrwAKCRDj7w1vZxhR
-xcOoAP44pbB/jzJy2QWizuWhV5CmgaQYEyzenk/Ff5AffIuLowEA+safD2M6aD6I
-G79Do9Tfttw+3BhIKYFTS1BJ+fh1PAU=
-=hPwh
------END PGP SIGNATURE-----
+Thx!
 
---jmiirhy7oybexmnw--
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
 
---===============1107181105==
+--15677872390.79C54D.27158
+Date: Fri, 6 Sep 2019 16:27:18 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - VA-API radeonsi SIGSEGV __memmove_avx_unaligned"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111236#c9">Commen=
+t # 9</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - VA-API radeonsi SIGSEGV __memmove_avx_unaligned"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111236">bug 11123=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+julien.isorce&#64;gmail.com" title=3D"Julien Isorce &lt;julien.isorce&#64;g=
+mail.com&gt;"> <span class=3D"fn">Julien Isorce</span></a>
+</span></b>
+        <pre>Hi Michel, nice catch!=20
+
+Instead of using totem which has other issues can you try:
+
+gst-launch-1.0 filesrc location=3Dtest.mp4 ! qtdemux ! h264parse ! vaapih26=
+4dec !
+vaapipostproc ! videoconvert ! ximagesink=20
+
+(with and without vaapipostproc)
+
+Thx!</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15677872390.79C54D.27158--
+
+--===============1930041606==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -107,4 +154,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1107181105==--
+--===============1930041606==--
