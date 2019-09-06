@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3264AC160
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2019 22:27:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1440AC1E1
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2019 23:14:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1FB46E123;
-	Fri,  6 Sep 2019 20:27:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF57F892B0;
+	Fri,  6 Sep 2019 21:14:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAA4C6E123;
- Fri,  6 Sep 2019 20:27:44 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F1ED22DA980;
- Fri,  6 Sep 2019 20:27:43 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com
- (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 61F0F60BF1;
- Fri,  6 Sep 2019 20:27:43 +0000 (UTC)
-Received: from zmail25.collab.prod.int.phx2.redhat.com
- (zmail25.collab.prod.int.phx2.redhat.com [10.5.83.31])
- by colo-mx.corp.redhat.com (Postfix) with ESMTP id 956AB2551B;
- Fri,  6 Sep 2019 20:27:41 +0000 (UTC)
-Date: Fri, 6 Sep 2019 16:27:41 -0400 (EDT)
-From: Frediano Ziglio <fziglio@redhat.com>
-To: Hillf Danton <hdanton@sina.com>
-Message-ID: <236676538.10995729.1567801661076.JavaMail.zimbra@redhat.com>
-In-Reply-To: <20190906055322.17900-1-hdanton@sina.com>
-References: <20190906055322.17900-1-hdanton@sina.com>
-Subject: Re: [Spice-devel] Xorg indefinitely hangs in kernelspace
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B4484892B0
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2019 21:14:42 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id B0D8A72161; Fri,  6 Sep 2019 21:14:42 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109389] memory leak in `amdgpu_bo_create()`
+Date: Fri, 06 Sep 2019 21:14:42 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: czbd@o2.pl
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-109389-502-OfDpqNoB0Y@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109389-502@http.bugs.freedesktop.org/>
+References: <bug-109389-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Originating-IP: [10.33.32.2, 10.4.195.2]
-Thread-Topic: Xorg indefinitely hangs in kernelspace
-Thread-Index: KkczUG/O2oqvsTo9E9PUNbvyJKRlsA==
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Fri, 06 Sep 2019 20:27:44 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,136 +52,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
- Jaak Ristioja <jaak@ristioja.ee>, spice-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1695214361=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PiAKPiBPbiBUdWUsIDYgQXVnIDIwMTkgMjE6MDA6MTAgKzAzMDAgRnJvbTogICBKYWFrIFJpc3Rp
-b2phIDxqYWFrQHJpc3Rpb2phLmVlPgo+ID4gSGVsbG8hCj4gPiAKPiA+IEknbSB3cml0aW5nIHRv
-IHJlcG9ydCBhIGNyYXNoIGluIHRoZSBRWEwgLyBEUk0gY29kZSBpbiB0aGUgTGludXgga2VybmVs
-Lgo+ID4gSSBvcmlnaW5hbGx5IGZpbGVkIHRoZSBpc3N1ZSBvbiBMYXVuY2hQYWQgYW5kIG1vcmUg
-ZGV0YWlscyBjYW4gYmUgZm91bmQKPiA+IHRoZXJlLCBhbHRob3VnaCBJIGRvdWJ0IHdoZXRoZXIg
-dGhlc2UgZGV0YWlscyBhcmUgdXNlZnVsLgo+ID4gCj4gPiAgIGh0dHBzOi8vYnVncy5sYXVuY2hw
-YWQubmV0L3VidW50dS8rc291cmNlL2xpbnV4LytidWcvMTgxMzYyMAo+ID4gCj4gPiBJIGZpcnN0
-IGV4cGVyaWVuY2VkIHRoZXNlIGlzc3VlcyB3aXRoOgo+ID4gCj4gPiAqIFVidW50dSAxOC4wNCAo
-cHJvYmFibHkga2VybmVsIDQuMTUuc29tZXRoaW5nKQo+ID4gKiBVYnVudHUgMTguMTAgKGtlcm5l
-bCA0LjE4LjAtMTMpCj4gPiAqIFVidW50dSAxOS4wNCAoa2VybmVsIDUuMC4wLTEzLWdlbmVyaWMp
-Cj4gPiAqIFVidW50dSAxOS4wNCAobWFpbmxpbmUga2VybmVsIDUuMS1yYzcpCj4gPiAqIFVidW50
-dSAxOS4wNCAobWFpbmxpbmUga2VybmVsIDUuMi4wLTA1MDIwMHJjMS1nZW5lcmljKQo+ID4gCj4g
-PiBIZXJlIGlzIHRoZSBjcmFzaCBvdXRwdXQgZnJvbSBkbWVzZzoKPiA+IAo+ID4gWzM1NDA3My43
-MTMzNTBdIElORk86IHRhc2sgWG9yZzo5MjAgYmxvY2tlZCBmb3IgbW9yZSB0aGFuIDEyMCBzZWNv
-bmRzLgo+ID4gWzM1NDA3My43MTc3NTVdICAgICAgIE5vdCB0YWludGVkIDUuMi4wLTA1MDIwMHJj
-MS1nZW5lcmljICMyMDE5MDUxOTE5MzAKPiA+IFszNTQwNzMuNzIyMjc3XSAiZWNobyAwID4gL3By
-b2Mvc3lzL2tlcm5lbC9odW5nX3Rhc2tfdGltZW91dF9zZWNzIgo+ID4gZGlzYWJsZXMgdGhpcyBt
-ZXNzYWdlLgo+ID4gWzM1NDA3My43MzgzMzJdIFhvcmcgICAgICAgICAgICBEICAgIDAgICA5MjAg
-ICAgODU0IDB4MDA0MDQwMDQKPiA+IFszNTQwNzMuNzM4MzM0XSBDYWxsIFRyYWNlOgo+ID4gWzM1
-NDA3My43MzgzNDBdICBfX3NjaGVkdWxlKzB4MmJhLzB4NjUwCj4gPiBbMzU0MDczLjczODM0Ml0g
-IHNjaGVkdWxlKzB4MmQvMHg5MAo+ID4gWzM1NDA3My43MzgzNDNdICBzY2hlZHVsZV9wcmVlbXB0
-X2Rpc2FibGVkKzB4ZS8weDEwCj4gPiBbMzU0MDczLjczODM0NV0gIF9fd3dfbXV0ZXhfbG9jay5p
-c3JhLjExKzB4M2UwLzB4NzUwCj4gPiBbMzU0MDczLjczODM0Nl0gIF9fd3dfbXV0ZXhfbG9ja19z
-bG93cGF0aCsweDE2LzB4MjAKPiA+IFszNTQwNzMuNzM4MzQ3XSAgd3dfbXV0ZXhfbG9jaysweDM0
-LzB4NTAKPiA+IFszNTQwNzMuNzM4MzUyXSAgdHRtX2V1X3Jlc2VydmVfYnVmZmVycysweDFmOS8w
-eDJlMCBbdHRtXQo+ID4gWzM1NDA3My43MzgzNTZdICBxeGxfcmVsZWFzZV9yZXNlcnZlX2xpc3Qr
-MHg2Ny8weDE1MCBbcXhsXQo+ID4gWzM1NDA3My43MzgzNThdICA/IHF4bF9ib19waW4rMHhhYS8w
-eDE5MCBbcXhsXQo+ID4gWzM1NDA3My43MzgzNTldICBxeGxfY3Vyc29yX2F0b21pY191cGRhdGUr
-MHgxYjAvMHgyZTAgW3F4bF0KPiA+IFszNTQwNzMuNzM4MzY3XSAgZHJtX2F0b21pY19oZWxwZXJf
-Y29tbWl0X3BsYW5lcysweGI5LzB4MjIwCj4gPiBbZHJtX2ttc19oZWxwZXJdCj4gPiBbMzU0MDcz
-LjczODM3MV0gIGRybV9hdG9taWNfaGVscGVyX2NvbW1pdF90YWlsKzB4MmIvMHg3MCBbZHJtX2tt
-c19oZWxwZXJdCj4gPiBbMzU0MDczLjczODM3NF0gIGNvbW1pdF90YWlsKzB4NjcvMHg3MCBbZHJt
-X2ttc19oZWxwZXJdCj4gPiBbMzU0MDczLjczODM3OF0gIGRybV9hdG9taWNfaGVscGVyX2NvbW1p
-dCsweDExMy8weDEyMCBbZHJtX2ttc19oZWxwZXJdCj4gPiBbMzU0MDczLjczODM5MF0gIGRybV9h
-dG9taWNfY29tbWl0KzB4NGEvMHg1MCBbZHJtXQo+ID4gWzM1NDA3My43MzgzOTRdICBkcm1fYXRv
-bWljX2hlbHBlcl91cGRhdGVfcGxhbmUrMHhlOS8weDEwMCBbZHJtX2ttc19oZWxwZXJdCj4gPiBb
-MzU0MDczLjczODQwMl0gIF9fc2V0cGxhbmVfYXRvbWljKzB4ZDMvMHgxMjAgW2RybV0KPiA+IFsz
-NTQwNzMuNzM4NDEwXSAgZHJtX21vZGVfY3Vyc29yX3VuaXZlcnNhbCsweDE0Mi8weDI3MCBbZHJt
-XQo+ID4gWzM1NDA3My43Mzg0MThdICBkcm1fbW9kZV9jdXJzb3JfY29tbW9uKzB4Y2IvMHgyMjAg
-W2RybV0KPiA+IFszNTQwNzMuNzM4NDI1XSAgPyBkcm1fbW9kZV9jdXJzb3JfaW9jdGwrMHg2MC8w
-eDYwIFtkcm1dCj4gPiBbMzU0MDczLjczODQzMl0gIGRybV9tb2RlX2N1cnNvcjJfaW9jdGwrMHhl
-LzB4MTAgW2RybV0KPiA+IFszNTQwNzMuNzM4NDM4XSAgZHJtX2lvY3RsX2tlcm5lbCsweGIwLzB4
-MTAwIFtkcm1dCj4gPiBbMzU0MDczLjczODQ0MF0gID8gX19fc3lzX3JlY3Ztc2crMHgxNmMvMHgy
-MDAKPiA+IFszNTQwNzMuNzM4NDQ1XSAgZHJtX2lvY3RsKzB4MjMzLzB4NDEwIFtkcm1dCj4gPiBb
-MzU0MDczLjczODQ1Ml0gID8gZHJtX21vZGVfY3Vyc29yX2lvY3RsKzB4NjAvMHg2MCBbZHJtXQo+
-ID4gWzM1NDA3My43Mzg0NTRdICA/IHRpbWVycXVldWVfYWRkKzB4NTcvMHg5MAo+ID4gWzM1NDA3
-My43Mzg0NTZdICA/IGVucXVldWVfaHJ0aW1lcisweDNjLzB4OTAKPiA+IFszNTQwNzMuNzM4NDU4
-XSAgZG9fdmZzX2lvY3RsKzB4YTkvMHg2NDAKPiA+IFszNTQwNzMuNzM4NDU5XSAgPyBmcHV0KzB4
-MTMvMHgyMAo+ID4gWzM1NDA3My43Mzg0NjFdICA/IF9fc3lzX3JlY3Ztc2crMHg4OC8weGEwCj4g
-PiBbMzU0MDczLjczODQ2Ml0gIGtzeXNfaW9jdGwrMHg2Ny8weDkwCj4gPiBbMzU0MDczLjczODQ2
-M10gIF9feDY0X3N5c19pb2N0bCsweDFhLzB4MjAKPiA+IFszNTQwNzMuNzM4NDY1XSAgZG9fc3lz
-Y2FsbF82NCsweDVhLzB4MTQwCj4gPiBbMzU0MDczLjczODQ2N10gIGVudHJ5X1NZU0NBTExfNjRf
-YWZ0ZXJfaHdmcmFtZSsweDQ0LzB4YTkKPiA+IFszNTQwNzMuNzM4NDY4XSBSSVA6IDAwMzM6MHg3
-ZmZhZDE0ZDM0MTcKPiA+IFszNTQwNzMuNzM4NDcyXSBDb2RlOiBCYWQgUklQIHZhbHVlLgo+ID4g
-WzM1NDA3My43Mzg0NzJdIFJTUDogMDAyYjowMDAwN2ZmZGQ1Njc5OTc4IEVGTEFHUzogMDAwMDMy
-NDYgT1JJR19SQVg6Cj4gPiAwMDAwMDAwMDAwMDAwMDEwCj4gPiBbMzU0MDczLjczODQ3M10gUkFY
-OiBmZmZmZmZmZmZmZmZmZmRhIFJCWDogMDAwMDU2NDI4YTQ3NDYxMCBSQ1g6Cj4gPiAwMDAwN2Zm
-YWQxNGQzNDE3Cj4gPiBbMzU0MDczLjczODQ3NF0gUkRYOiAwMDAwN2ZmZGQ1Njc5OWIwIFJTSTog
-MDAwMDAwMDBjMDI0NjRiYiBSREk6Cj4gPiAwMDAwMDAwMDAwMDAwMDBlCj4gPiBbMzU0MDczLjcz
-ODQ3NF0gUkJQOiAwMDAwN2ZmZGQ1Njc5OWIwIFIwODogMDAwMDAwMDAwMDAwMDA0MCBSMDk6Cj4g
-PiAwMDAwMDAwMDAwMDAwMDEwCj4gPiBbMzU0MDczLjczODQ3NV0gUjEwOiAwMDAwMDAwMDAwMDAw
-MDNmIFIxMTogMDAwMDAwMDAwMDAwMzI0NiBSMTI6Cj4gPiAwMDAwMDAwMGMwMjQ2NGJiCj4gPiBb
-MzU0MDczLjczODQ3NV0gUjEzOiAwMDAwMDAwMDAwMDAwMDBlIFIxNDogMDAwMDAwMDAwMDAwMDAw
-MCBSMTU6Cj4gPiAwMDAwNTY0MjhhNDcyMWQwCj4gPiBbMzU0MDczLjczODUxMV0gSU5GTzogdGFz
-ayBrd29ya2VyLzE6MDoyNzYyNSBibG9ja2VkIGZvciBtb3JlIHRoYW4gMTIwCj4gPiBzZWNvbmRz
-Lgo+ID4gWzM1NDA3My43NDUxNTRdICAgICAgIE5vdCB0YWludGVkIDUuMi4wLTA1MDIwMHJjMS1n
-ZW5lcmljICMyMDE5MDUxOTE5MzAKPiA+IFszNTQwNzMuNzUxOTAwXSAiZWNobyAwID4gL3Byb2Mv
-c3lzL2tlcm5lbC9odW5nX3Rhc2tfdGltZW91dF9zZWNzIgo+ID4gZGlzYWJsZXMgdGhpcyBtZXNz
-YWdlLgo+ID4gWzM1NDA3My43NjIxOTddIGt3b3JrZXIvMTowICAgICBEICAgIDAgMjc2MjUgICAg
-ICAyIDB4ODAwMDQwMDAKPiA+IFszNTQwNzMuNzYyMjA1XSBXb3JrcXVldWU6IGV2ZW50cyBxeGxf
-Y2xpZW50X21vbml0b3JzX2NvbmZpZ193b3JrX2Z1bmMKPiA+IFtxeGxdCj4gPiBbMzU0MDczLjc2
-MjIwNl0gQ2FsbCBUcmFjZToKPiA+IFszNTQwNzMuNzYyMjExXSAgX19zY2hlZHVsZSsweDJiYS8w
-eDY1MAo+ID4gWzM1NDA3My43NjIyMTRdICBzY2hlZHVsZSsweDJkLzB4OTAKPiA+IFszNTQwNzMu
-NzYyMjE1XSAgc2NoZWR1bGVfcHJlZW1wdF9kaXNhYmxlZCsweGUvMHgxMAo+ID4gWzM1NDA3My43
-NjIyMTZdICBfX3d3X211dGV4X2xvY2suaXNyYS4xMSsweDNlMC8weDc1MAo+ID4gWzM1NDA3My43
-NjIyMTddICA/IF9fc3dpdGNoX3RvX2FzbSsweDM0LzB4NzAKPiA+IFszNTQwNzMuNzYyMjE4XSAg
-PyBfX3N3aXRjaF90b19hc20rMHg0MC8weDcwCj4gPiBbMzU0MDczLjc2MjIxOV0gID8gX19zd2l0
-Y2hfdG9fYXNtKzB4NDAvMHg3MAo+ID4gWzM1NDA3My43NjIyMjBdICBfX3d3X211dGV4X2xvY2tf
-c2xvd3BhdGgrMHgxNi8weDIwCj4gPiBbMzU0MDczLjc2MjIyMV0gIHd3X211dGV4X2xvY2srMHgz
-NC8weDUwCj4gPiBbMzU0MDczLjc2MjIzNV0gIGRybV9tb2Rlc2V0X2xvY2srMHgzNS8weGIwIFtk
-cm1dCj4gPiBbMzU0MDczLjc2MjI0M10gIGRybV9tb2Rlc2V0X2xvY2tfYWxsX2N0eCsweDVkLzB4
-ZTAgW2RybV0KPiA+IFszNTQwNzMuNzYyMjUxXSAgZHJtX21vZGVzZXRfbG9ja19hbGwrMHg1ZS8w
-eGIwIFtkcm1dCj4gPiBbMzU0MDczLjc2MjI1Ml0gIHF4bF9kaXNwbGF5X3JlYWRfY2xpZW50X21v
-bml0b3JzX2NvbmZpZysweDFlMS8weDM3MCBbcXhsXQo+ID4gWzM1NDA3My43NjIyNTRdICBxeGxf
-Y2xpZW50X21vbml0b3JzX2NvbmZpZ193b3JrX2Z1bmMrMHgxNS8weDIwIFtxeGxdCj4gPiBbMzU0
-MDczLjc2MjI1Nl0gIHByb2Nlc3Nfb25lX3dvcmsrMHgyMGYvMHg0MTAKPiA+IFszNTQwNzMuNzYy
-MjU3XSAgd29ya2VyX3RocmVhZCsweDM0LzB4NDAwCj4gPiBbMzU0MDczLjc2MjI1OV0gIGt0aHJl
-YWQrMHgxMjAvMHgxNDAKPiA+IFszNTQwNzMuNzYyMjYwXSAgPyBwcm9jZXNzX29uZV93b3JrKzB4
-NDEwLzB4NDEwCj4gPiBbMzU0MDczLjc2MjI2MV0gID8gX19rdGhyZWFkX3BhcmttZSsweDcwLzB4
-NzAKPiA+IFszNTQwNzMuNzYyMjYyXSAgcmV0X2Zyb21fZm9yaysweDM1LzB4NDAKPiA+IAo+IAo+
-IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2V4ZWNidWZfdXRpbC5jCj4gKysrIGIvZHJp
-dmVycy9ncHUvZHJtL3R0bS90dG1fZXhlY2J1Zl91dGlsLmMKPiBAQCAtOTcsOCArOTcsOSBAQCBp
-bnQgdHRtX2V1X3Jlc2VydmVfYnVmZmVycyhzdHJ1Y3Qgd3dfYWNxCj4gIAkJCSAgIHN0cnVjdCBs
-aXN0X2hlYWQgKmR1cHMsIGJvb2wgZGVsX2xydSkKPiAgewo+ICAJc3RydWN0IHR0bV9ib19nbG9i
-YWwgKmdsb2I7Cj4gLQlzdHJ1Y3QgdHRtX3ZhbGlkYXRlX2J1ZmZlciAqZW50cnk7Cj4gKwlzdHJ1
-Y3QgdHRtX3ZhbGlkYXRlX2J1ZmZlciAqZW50cnksICpsYXN0X2VudHJ5Owo+ICAJaW50IHJldDsK
-PiArCWJvb2wgbG9ja2VkID0gZmFsc2U7Cj4gIAo+ICAJaWYgKGxpc3RfZW1wdHkobGlzdCkpCj4g
-IAkJcmV0dXJuIDA7Cj4gQEAgLTExMiw3ICsxMTMsMTAgQEAgaW50IHR0bV9ldV9yZXNlcnZlX2J1
-ZmZlcnMoc3RydWN0IHd3X2FjcQo+ICAJbGlzdF9mb3JfZWFjaF9lbnRyeShlbnRyeSwgbGlzdCwg
-aGVhZCkgewo+ICAJCXN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8gPSBlbnRyeS0+Ym87Cj4g
-IAo+ICsJCWxhc3RfZW50cnkgPSBlbnRyeTsKPiAgCQlyZXQgPSBfX3R0bV9ib19yZXNlcnZlKGJv
-LCBpbnRyLCAodGlja2V0ID09IE5VTEwpLCB0aWNrZXQpOwo+ICsJCWlmICghcmV0KQo+ICsJCQls
-b2NrZWQgPSB0cnVlOwo+ICAJCWlmICghcmV0ICYmIHVubGlrZWx5KGF0b21pY19yZWFkKCZiby0+
-Y3B1X3dyaXRlcnMpID4gMCkpIHsKPiAgCQkJcmVzZXJ2YXRpb25fb2JqZWN0X3VubG9jayhiby0+
-cmVzdik7Cj4gIAo+IEBAIC0xNTEsNiArMTU1LDEwIEBAIGludCB0dG1fZXVfcmVzZXJ2ZV9idWZm
-ZXJzKHN0cnVjdCB3d19hY3EKPiAgCQkJCXJldCA9IDA7Cj4gIAkJCX0KPiAgCQl9Cj4gKwkJaWYg
-KCFyZXQpCj4gKwkJCWxvY2tlZCA9IHRydWU7Cj4gKwkJZWxzZQo+ICsJCQlsb2NrZWQgPSBmYWxz
-ZTsKPiAgCgpsb2NrZWQgPSAhcmV0OyAKCj8KCj4gIAkJaWYgKCFyZXQgJiYgZW50cnktPm51bV9z
-aGFyZWQpCj4gIAkJCXJldCA9IHJlc2VydmF0aW9uX29iamVjdF9yZXNlcnZlX3NoYXJlZChiby0+
-cmVzdiwKPiBAQCAtMTYzLDYgKzE3MSw4IEBAIGludCB0dG1fZXVfcmVzZXJ2ZV9idWZmZXJzKHN0
-cnVjdCB3d19hY3EKPiAgCQkJCXd3X2FjcXVpcmVfZG9uZSh0aWNrZXQpOwo+ICAJCQkJd3dfYWNx
-dWlyZV9maW5pKHRpY2tldCk7Cj4gIAkJCX0KPiArCQkJaWYgKGxvY2tlZCkKPiArCQkJCXR0bV9l
-dV9iYWNrb2ZmX3Jlc2VydmF0aW9uX3JldmVyc2UobGlzdCwgZW50cnkpOwo+ICAJCQlyZXR1cm4g
-cmV0Owo+ICAJCX0KPiAgCj4gQEAgLTE3Miw2ICsxODIsOCBAQCBpbnQgdHRtX2V1X3Jlc2VydmVf
-YnVmZmVycyhzdHJ1Y3Qgd3dfYWNxCj4gIAkJbGlzdF9kZWwoJmVudHJ5LT5oZWFkKTsKPiAgCQls
-aXN0X2FkZCgmZW50cnktPmhlYWQsIGxpc3QpOwo+ICAJfQo+ICsJaWYgKGxvY2tlZCkKPiArCQl0
-dG1fZXVfYmFja29mZl9yZXNlcnZhdGlvbl9yZXZlcnNlKGxpc3QsIGxhc3RfZW50cnkpOwo+ICAK
-PiAgCWlmIChkZWxfbHJ1KSB7Cj4gIAkJc3Bpbl9sb2NrKCZnbG9iLT5scnVfbG9jayk7CgpXaGVy
-ZSBkb2VzIGl0IGNhbWUgdGhpcyBwYXRjaD8gSXMgaXQgYWxyZWFkeSBzb21ld2hlcmU/CklzIGl0
-IHN1cHBvc2VkIHRvIGZpeCB0aGlzIGlzc3VlPwpEb2VzIGl0IGFmZmVjdCBzb21lIG90aGVyIGNh
-cmQgYmVzaWRlIFFYTD8KCkZyZWRpYW5vCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbA==
+
+--===============1695214361==
+Content-Type: multipart/alternative; boundary="15678044822.08B0.18787"
+Content-Transfer-Encoding: 7bit
+
+
+--15678044822.08B0.18787
+Date: Fri, 6 Sep 2019 21:14:42 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109389
+
+--- Comment #7 from Czcibor Bohusz-Dobosz <czbd@o2.pl> ---
+Created attachment 145288
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145288&action=3Dedit
+DRM/Radeon glxgears memleak log
+
+Took a while to perform some more tests, and it turns out that running glxg=
+ears
+with amdgpu also leaks memory - launching a hundred of glxgears instances l=
+eaks
+about 400 megabytes, only freed after they are killed and the caches are
+manually dropped with the command `echo 3 > /proc/sys/vm/drop_caches`.
+
+Because glxgears does not need Vulkan support, it had also been possible fo=
+r me
+to confirm that the massive persisting leak is definitely caused by the amd=
+gpu
+driver - attached is a bcc memleak log of glxgears taken with the radeon
+driver.
+
+On a side note, launching vkcube seems to leak memory with the described ca=
+ll
+at a very similar rate as well.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15678044822.08B0.18787
+Date: Fri, 6 Sep 2019 21:14:42 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - memory leak in `amdgpu_bo_create()`"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109389#c7">Commen=
+t # 7</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - memory leak in `amdgpu_bo_create()`"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109389">bug 10938=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+czbd&#64;o2.pl" title=3D"Czcibor Bohusz-Dobosz &lt;czbd&#64;o2.pl&gt;"> <sp=
+an class=3D"fn">Czcibor Bohusz-Dobosz</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145288=
+" name=3D"attach_145288" title=3D"DRM/Radeon glxgears memleak log">attachme=
+nt 145288</a> <a href=3D"attachment.cgi?id=3D145288&amp;action=3Dedit" titl=
+e=3D"DRM/Radeon glxgears memleak log">[details]</a></span>
+DRM/Radeon glxgears memleak log
+
+Took a while to perform some more tests, and it turns out that running glxg=
+ears
+with amdgpu also leaks memory - launching a hundred of glxgears instances l=
+eaks
+about 400 megabytes, only freed after they are killed and the caches are
+manually dropped with the command `echo 3 &gt; /proc/sys/vm/drop_caches`.
+
+Because glxgears does not need Vulkan support, it had also been possible fo=
+r me
+to confirm that the massive persisting leak is definitely caused by the amd=
+gpu
+driver - attached is a bcc memleak log of glxgears taken with the radeon
+driver.
+
+On a side note, launching vkcube seems to leak memory with the described ca=
+ll
+at a very similar rate as well.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15678044822.08B0.18787--
+
+--===============1695214361==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1695214361==--
