@@ -1,61 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F20B6ABA1D
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2019 16:01:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F70ABA97
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Sep 2019 16:17:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C9786E2A3;
-	Fri,  6 Sep 2019 14:01:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB8AF6E2B2;
+	Fri,  6 Sep 2019 14:17:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC03D6E2A3
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2019 14:01:07 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 2363EB150;
- Fri,  6 Sep 2019 14:01:06 +0000 (UTC)
-Subject: Re: [PATCH v3 2/3] drm/vram: Add infrastructure for move_notify()
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20190906085214.11677-1-tzimmermann@suse.de>
- <20190906085214.11677-3-tzimmermann@suse.de>
- <20190906092822.GD3958@phenom.ffwll.local>
- <5b033377-44a1-ebd1-7fad-322bede05eef@suse.de>
- <CAKMK7uH9V4Zcq0BhphnJhKDx_JfvQyNmqyQi8HnUgHg02bt+_A@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
- IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
- AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
- 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
- hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
- YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
- 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
- tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
- R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
- E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
- kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
- 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
- 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
- A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
- NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
- VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
- iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
- VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
- iNx9uqqx
-Message-ID: <03eea1da-0252-0150-f107-253a9069eda9@suse.de>
-Date: Fri, 6 Sep 2019 16:01:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 41EDA6E2B2
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Sep 2019 14:17:54 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BA26E28;
+ Fri,  6 Sep 2019 07:17:53 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7E5F33F718;
+ Fri,  6 Sep 2019 07:17:53 -0700 (PDT)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+ id 33851682951; Fri,  6 Sep 2019 15:17:52 +0100 (BST)
+Date: Fri, 6 Sep 2019 15:17:52 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Wen He <wen.he_1@nxp.com>
+Subject: Re: [v4 2/2] drm/arm/mali-dp: Add display QoS interface
+ configuration for Mali DP500
+Message-ID: <20190906141751.unabowxoglygg4kp@e110455-lin.cambridge.arm.com>
+References: <20190822021135.10288-1-wen.he_1@nxp.com>
+ <20190822021135.10288-2-wen.he_1@nxp.com>
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uH9V4Zcq0BhphnJhKDx_JfvQyNmqyQi8HnUgHg02bt+_A@mail.gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20190822021135.10288-2-wen.he_1@nxp.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,224 +45,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Feng Tang <feng.tang@intel.com>, Davidlohr Bueso <dave@stgolabs.net>,
- kernel test robot <rong.a.chen@intel.com>, Dave Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Maxime Ripard <maxime.ripard@bootlin.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Huang Ying <ying.huang@intel.com>, Sean Paul <sean@poorly.run>
-Content-Type: multipart/mixed; boundary="===============1657726924=="
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, leoyang.li@nxp.com,
+ linux-devel@linux.nxdi.nxp.com, Rob Herring <robh+dt@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1657726924==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="30J8qoeBxqDxIaSkoylSpsQmXhj8KjxbY"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---30J8qoeBxqDxIaSkoylSpsQmXhj8KjxbY
-Content-Type: multipart/mixed; boundary="8XEhJfI5qfqLF86IWuXKEvftenNCRnja3";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Feng Tang <feng.tang@intel.com>, Davidlohr Bueso <dave@stgolabs.net>,
- kernel test robot <rong.a.chen@intel.com>, Dave Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Maxime Ripard <maxime.ripard@bootlin.com>, Gerd Hoffmann
- <kraxel@redhat.com>, Huang Ying <ying.huang@intel.com>,
- Sean Paul <sean@poorly.run>
-Message-ID: <03eea1da-0252-0150-f107-253a9069eda9@suse.de>
-Subject: Re: [PATCH v3 2/3] drm/vram: Add infrastructure for move_notify()
-References: <20190906085214.11677-1-tzimmermann@suse.de>
- <20190906085214.11677-3-tzimmermann@suse.de>
- <20190906092822.GD3958@phenom.ffwll.local>
- <5b033377-44a1-ebd1-7fad-322bede05eef@suse.de>
- <CAKMK7uH9V4Zcq0BhphnJhKDx_JfvQyNmqyQi8HnUgHg02bt+_A@mail.gmail.com>
-In-Reply-To: <CAKMK7uH9V4Zcq0BhphnJhKDx_JfvQyNmqyQi8HnUgHg02bt+_A@mail.gmail.com>
-
---8XEhJfI5qfqLF86IWuXKEvftenNCRnja3
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 06.09.19 um 15:05 schrieb Daniel Vetter:
-> On Fri, Sep 6, 2019 at 12:24 PM Thomas Zimmermann <tzimmermann@suse.de>=
- wrote:
->>
->> Hi
->>
->> Am 06.09.19 um 11:28 schrieb Daniel Vetter:
->>> On Fri, Sep 06, 2019 at 10:52:13AM +0200, Thomas Zimmermann wrote:
->>>> This patch prepares VRAM helpers for lazy unmapping of buffer object=
-s.
->>>>
->>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>> ---
->>>>  drivers/gpu/drm/drm_vram_mm_helper.c | 12 ++++++++++++
->>>>  include/drm/drm_vram_mm_helper.h     |  4 ++++
->>>>  2 files changed, 16 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/drm_vram_mm_helper.c b/drivers/gpu/drm/=
-drm_vram_mm_helper.c
->>>> index c911781d6728..31984690d5f3 100644
->>>> --- a/drivers/gpu/drm/drm_vram_mm_helper.c
->>>> +++ b/drivers/gpu/drm/drm_vram_mm_helper.c
->>>> @@ -98,6 +98,17 @@ static int bo_driver_verify_access(struct ttm_buf=
-fer_object *bo,
->>>>      return vmm->funcs->verify_access(bo, filp);
->>>>  }
->>>>
->>>> +static void bo_driver_move_notify(struct ttm_buffer_object *bo,
->>>> +                              bool evict,
->>>> +                              struct ttm_mem_reg *new_mem)
->>>> +{
->>>> +    struct drm_vram_mm *vmm =3D drm_vram_mm_of_bdev(bo->bdev);
->>>> +
->>>> +    if (!vmm->funcs || !vmm->funcs->move_notify)
->>>> +            return;
->>>> +    vmm->funcs->move_notify(bo, evict, new_mem);
->>>> +}
->>>> +
->>>>  static int bo_driver_io_mem_reserve(struct ttm_bo_device *bdev,
->>>>                                  struct ttm_mem_reg *mem)
->>>>  {
->>>> @@ -140,6 +151,7 @@ static struct ttm_bo_driver bo_driver =3D {
->>>>      .eviction_valuable =3D ttm_bo_eviction_valuable,
->>>>      .evict_flags =3D bo_driver_evict_flags,
->>>>      .verify_access =3D bo_driver_verify_access,
->>>> +    .move_notify =3D bo_driver_move_notify,
->>>>      .io_mem_reserve =3D bo_driver_io_mem_reserve,
->>>>      .io_mem_free =3D bo_driver_io_mem_free,
->>>>  };
->>>> diff --git a/include/drm/drm_vram_mm_helper.h b/include/drm/drm_vram=
-_mm_helper.h
->>>> index 2aacfb1ccfae..7fb8700f45fe 100644
->>>> --- a/include/drm/drm_vram_mm_helper.h
->>>> +++ b/include/drm/drm_vram_mm_helper.h
->>>> @@ -15,6 +15,8 @@ struct drm_device;
->>>>      &ttm_bo_driver.evict_flags
->>>>   * @verify_access:  Provides an implementation for \
->>>>      struct &ttm_bo_driver.verify_access
->>>> + * @move_notify:    Provides an implementation for
->>>> + *                  struct &ttm_bo_driver.move_notify
->>>>   *
->>>>   * These callback function integrate VRAM MM with TTM buffer object=
-s. New
->>>>   * functions can be added if necessary.
->>>> @@ -23,6 +25,8 @@ struct drm_vram_mm_funcs {
->>>>      void (*evict_flags)(struct ttm_buffer_object *bo,
->>>>                          struct ttm_placement *placement);
->>>>      int (*verify_access)(struct ttm_buffer_object *bo, struct file =
-*filp);
->>>> +    void (*move_notify)(struct ttm_buffer_object *bo, bool evict,
->>>> +                        struct ttm_mem_reg *new_mem);
->>>
->>> Is this indirection really worth it? We have a grand total of 1 drive=
-r
->>> which isn't using gem (vmwgfx), and I don't think that one will ever
->>> switch over to vram helpers.
->>>
->>> I'd fold that all in. Helpers don't need to be flexible enough to sup=
-port
->>> every possible use-case (that's just the job of the core), they can b=
-e
->>> opinionated to get cleaner code for most cases.
->>>
->>
->> The original idea was to make this as flexible as possible; probably
->> more flexible than necessary. I wouldn't mind merging everything into
->> one file, but please not in this patch set, can we keep it for now and=
- I
->> send you a cleanup next?
->=20
-> Oh sure, I just wondered about why this flexibility exists and
-> realized there's not really a user for it. And pondering this more I
-> didn't come up with a use-case where it might reasonably be needed,
-> and you don't want to roll your own complete, and couldn't come up
-> with anything. Aside from the locking question on patch 1 I think this
-> looks like a really tidy solution for the fbdev mapping issue, happy
-> to ack once we've figured out the locking thing.
-
-Great. There's a v4 of the patch set that should resolve the locking
-problem.
-
-Best regards
-Thomas
-
-> -Daniel
->=20
->>
->> Best regards
->> Thomas
->>
->>> For this case here if you fold this in you can unexport 3 EXPORT_SYMB=
-OLs
->>> (4 with this patch here), which I think is a neat simplification of t=
-he
->>> complexity exposed to driver writers. Just put the necessary declarat=
-ions
->>> into a drm_vram_helper_internal.h so that drivers don't get at it by
->>> accident (like the other drm*internal.h helpers we have).
->>> -Daniel
->>>
->>>>  };
->>>>
->>>>  /**
->>>> --
->>>> 2.23.0
->>>>
->>>
->>
->> --
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
->> GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
->> HRB 21284 (AG N=C3=BCrnberg)
->>
->=20
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
-GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N=C3=BCrnberg)
-
-
---8XEhJfI5qfqLF86IWuXKEvftenNCRnja3--
-
---30J8qoeBxqDxIaSkoylSpsQmXhj8KjxbY
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl1yZpwACgkQaA3BHVML
-eiNN+gf8CA2FXQWue/0O1vbp/VjRx886TmwEY9bUKHTVQJ3BybYsh1o6sHr1LXKy
-753oCIRM1N0cKHgPwwakjm553p+vizFDiwUSOo0SZ4mDenvZ2c17+JmDNLj+gNvv
-JdXWW28nb5vm3j7JsoUcPvIaEHf7/9eyVjei4eWM5XGte1EPBSNqDdIVfPl52o3j
-Waa8E9L46CY7ergsTFn69TXCduUrTD3D0uvkkRpvCuuCAzQ9hOuU+oBoQ0mu2OjA
-vyOM90bFJF8LhYesmS6lZZ33AT3WrZyl9LBABfs21d3FWaAWJ2hoY3Miv9TqY4wD
-k0lnxe96wwopTgJRMoInRD2pGcn+kQ==
-=5Mzq
------END PGP SIGNATURE-----
-
---30J8qoeBxqDxIaSkoylSpsQmXhj8KjxbY--
-
---===============1657726924==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1657726924==--
+SGkgV2VuLAoKT24gVGh1LCBBdWcgMjIsIDIwMTkgYXQgMTA6MTE6MzVBTSArMDgwMCwgV2VuIEhl
+IHdyb3RlOgo+IENvbmZpZ3VyZSB0aGUgZGlzcGxheSBRdWFsaXR5IG9mIHNlcnZpY2UgKFFvUykg
+bGV2ZWxzIHByaW9yaXR5IGlmIHRoZQo+IG9wdGlvbmFsIHByb3BlcnR5IG5vZGUgImFybSxtYWxp
+ZHAtYXFyb3MtdmFsdWUiIGlzIGRlZmluZWQgaW4gRFRTIGZpbGUuCj4gCj4gUW9TIHNpZ25hbGlu
+ZyB1c2luZyBBUVJPUyBhbmQgQVdRT1MgQVhJIGludGVyZmFjZSBzaWduYWxzLCB0aGUgQVFST1Mg
+aXMKPiBkcml2ZW4gZnJvbSB0aGUgIlJRT1MiIHJlZ2lzdGVyLCBzbyBuZWVkZWQgdG8gcHJvZ3Jh
+bSB0aGUgUlFPUyByZWdpc3Rlcgo+IHRvIGF2b2lkIHRoZSBoaWdoIHJlc29sdXRpb25zIGZsaWNr
+ZXIgaXNzdWUgb24gdGhlIExTMTAyOEEgcGxhdGZvcm0uCj4gCj4gU2lnbmVkLW9mZi1ieTogV2Vu
+IEhlIDx3ZW4uaGVfMUBueHAuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vYXJtL21hbGlk
+cF9kcnYuYyAgfCAgNiArKysrKysKPiAgZHJpdmVycy9ncHUvZHJtL2FybS9tYWxpZHBfaHcuYyAg
+IHwgMTMgKysrKysrKysrKysrKwo+ICBkcml2ZXJzL2dwdS9kcm0vYXJtL21hbGlkcF9ody5oICAg
+fCAgMyArKysKPiAgZHJpdmVycy9ncHUvZHJtL2FybS9tYWxpZHBfcmVncy5oIHwgMTAgKysrKysr
+KysrKwo+ICA0IGZpbGVzIGNoYW5nZWQsIDMyIGluc2VydGlvbnMoKykKPiAKPiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL2FybS9tYWxpZHBfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vYXJt
+L21hbGlkcF9kcnYuYwo+IGluZGV4IGMyN2ZmNDU2ZWRkYy4uODBlOGQxNTc2MGFjIDEwMDY0NAo+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX2Rydi5jCj4gKysrIGIvZHJpdmVycy9n
+cHUvZHJtL2FybS9tYWxpZHBfZHJ2LmMKPiBAQCAtODE1LDYgKzgxNSwxMiBAQCBzdGF0aWMgaW50
+IG1hbGlkcF9iaW5kKHN0cnVjdCBkZXZpY2UgKmRldikKPiAgCj4gIAltYWxpZHAtPmNvcmVfaWQg
+PSB2ZXJzaW9uOwo+ICAKPiArCXJldCA9IG9mX3Byb3BlcnR5X3JlYWRfdTMyKGRldi0+b2Zfbm9k
+ZSwKPiArCQkJCQkiYXJtLG1hbGlkcC1hcnFvcy12YWx1ZSIsCj4gKwkJCQkJJmh3ZGV2LT5hcnFv
+c192YWx1ZSk7Cj4gKwlpZiAocmV0KQo+ICsJCWh3ZGV2LT5hcnFvc192YWx1ZSA9IDB4MDsKPiAr
+Cj4gIAkvKiBzZXQgdGhlIG51bWJlciBvZiBsaW5lcyB1c2VkIGZvciBvdXRwdXQgb2YgUkdCIGRh
+dGEgKi8KPiAgCXJldCA9IG9mX3Byb3BlcnR5X3JlYWRfdThfYXJyYXkoZGV2LT5vZl9ub2RlLAo+
+ICAJCQkJCSJhcm0sbWFsaWRwLW91dHB1dC1wb3J0LWxpbmVzIiwKPiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL2FybS9tYWxpZHBfaHcuYyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRw
+X2h3LmMKPiBpbmRleCAzODBiZTY2ZDRjNmUuLmY5MGEzNjdhNWJjOSAxMDA2NDQKPiAtLS0gYS9k
+cml2ZXJzL2dwdS9kcm0vYXJtL21hbGlkcF9ody5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2Fy
+bS9tYWxpZHBfaHcuYwo+IEBAIC0zNzQsNiArMzc0LDE5IEBAIHN0YXRpYyB2b2lkIG1hbGlkcDUw
+MF9tb2Rlc2V0KHN0cnVjdCBtYWxpZHBfaHdfZGV2aWNlICpod2Rldiwgc3RydWN0IHZpZGVvbW9k
+ZSAqCj4gIAkJbWFsaWRwX2h3X3NldGJpdHMoaHdkZXYsIE1BTElEUF9ESVNQX0ZVTkNfSUxBQ0VE
+LCBNQUxJRFBfREVfRElTUExBWV9GVU5DKTsKPiAgCWVsc2UKPiAgCQltYWxpZHBfaHdfY2xlYXJi
+aXRzKGh3ZGV2LCBNQUxJRFBfRElTUF9GVU5DX0lMQUNFRCwgTUFMSURQX0RFX0RJU1BMQVlfRlVO
+Qyk7Cj4gKwo+ICsJLyoKPiArCSAqIFByb2dyYW0gdGhlIFJRb1MgcmVnaXN0ZXIgdG8gYXZvaWQg
+aGlnaCByZXNvbHV0aW9ucyBmbGlja2VyCj4gKwkgKiBpc3N1ZSBvbiB0aGUgTFMxMDI4QS4KPiAr
+CSAqLwo+ICsJaWYgKGh3ZGV2LT5hcnFvc192YWx1ZSkgewo+ICsJCXZhbCA9IGh3ZGV2LT5hcnFv
+c192YWx1ZTsKPiArCj4gKwkJaWYgKG1vZGUtPnBpeGVsY2xvY2sgPiAxNDg1MDAwMDApCj4gKwkJ
+CW1hbGlkcF9od19zZXRiaXRzKGh3ZGV2LCB2YWwsIE1BTElEUDUwMF9SUU9TX1FVQUxJVFkpOwo+
+ICsJCWVsc2UKPiArCQkJbWFsaWRwX2h3X2NsZWFyYml0cyhod2RldiwgdmFsLCBNQUxJRFA1MDBf
+UlFPU19RVUFMSVRZKTsKPiArCX0KClRoaXMgYXBwbGljYXRpb24gb2YgdGhlIGFycW9zX3ZhbHVl
+IGJhc2VkIG9uIGEgcGl4ZWwgY2xvY2sgdmFsdWUgYm90aGVycyBtZSwKYmVjYXVzZSBpdCBoYXMg
+dHdvIHByb2JsZW1zOgoKMS4gU29tZSBvdGhlciB1c2VyIG9mIHRoZSBNYWxpIERQIGRyaXZlciBj
+YW4ndCBhcHBseSBhIHN5c3RlbSBRb1MgdmFsdWUgdGhhdCB0aGV5IGNhbgpub3cgc3BlY2lmeSBp
+biB0aGUgRFQsIHVubGVzcyB0aGUgcmVxdWVzdGVkIHBpeGVsIGNsb2NrIGlzIGJpZ2dlciB0aGFu
+IDE0NU1Iei4gOigKCjIuIChBIGd1ZXNzKSBUaGUgZmxpY2tlcmluZyBpc3N1ZSBzaG93cyB1cCBv
+biBhIGNvbWJpbmF0aW9uIG9mIHBpeGVsY2xvY2sgYW5kCnJlc29sdXRpb24gKGkuZS4gaXQgaXMg
+YSBiYW5kd2lkdGggcHJvYmxlbSksIGJ1dCB5b3Ugb25seSBhZGRyZXNzIG9uZSBvZiB0aGUKdmFy
+aWFibGVzLiBIYXZlbid0IHRlc3RlZCBvbiB0aGUgTFMxMDI4QSB5ZXQsIGJ1dCBkbyB5b3Uga25v
+dyBpZiAodGhlb3JldGljYWxseSkgaXQKd291bGQgaGF2ZSBhIGZsaWNrZXIgcHJvYmxlbSBkb2lu
+ZyA2NDB4NDgwQDIwME1IeiB3aXRob3V0IHRoZSBRb1MgdmFsdWU/CgpIb3cgYWJvdXQgdGhpcyBp
+bnN0ZWFkPwoKLS04PC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Fy
+bS9tYWxpZHBfaHcuYyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX2h3LmMKaW5kZXggMzgw
+YmU2NmQ0YzZlYi4uZTJmOTZkY2UxMzg1MCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2Fy
+bS9tYWxpZHBfaHcuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL21hbGlkcF9ody5jCkBAIC0z
+NzQsNiArMzc0LDIyIEBAIHN0YXRpYyB2b2lkIG1hbGlkcDUwMF9tb2Rlc2V0KHN0cnVjdCBtYWxp
+ZHBfaHdfZGV2aWNlICpod2Rldiwgc3RydWN0IHZpZGVvbW9kZSAqCiAJCW1hbGlkcF9od19zZXRi
+aXRzKGh3ZGV2LCBNQUxJRFBfRElTUF9GVU5DX0lMQUNFRCwgTUFMSURQX0RFX0RJU1BMQVlfRlVO
+Qyk7CiAJZWxzZQogCQltYWxpZHBfaHdfY2xlYXJiaXRzKGh3ZGV2LCBNQUxJRFBfRElTUF9GVU5D
+X0lMQUNFRCwgTUFMSURQX0RFX0RJU1BMQVlfRlVOQyk7CisKKwkvKgorCSAqIFByb2dyYW0gdGhl
+IFJRb1MgcmVnaXN0ZXIuIExTMTAyOEEgaGFzIGFuIGlzc3VlIHdoZXJlIHNjcmVlbiB3aWxsCisJ
+ICogZmxpY2tlciBvbiBwaXhlbGNsb2NrcyBoaWdoZXIgdGhhbiAxNDguNU1IeiBidXQgb3RoZXJ3
+aXNlIGRvZXNuJ3QKKwkgKiB3YW50IGFuIFJRb1MgdmFsdWUsIHNvIHNwZWNpYWwgY2FzZSBpdCBm
+b3IgdGhlbS4KKwkgKi8KKwlpZiAoaHdkZXYtPmFycW9zX3ZhbHVlKSB7CisJCXZhbCA9IGh3ZGV2
+LT5hcnFvc192YWx1ZTsKKworI2lmZGVmIE1BTElEUF9MUzEwMjhBCisJCWlmIChtb2RlLT5waXhl
+bGNsb2NrIDw9IDE0ODUwMDAwMCkKKwkJCW1hbGlkcF9od19jbGVhcmJpdHMoaHdkZXYsIHZhbCwg
+TUFMSURQNTAwX1JRT1NfUVVBTElUWSk7CisJCWVsc2UKKyNlbmRpZgorCQkJbWFsaWRwX2h3X3Nl
+dGJpdHMoaHdkZXYsIHZhbCwgTUFMSURQNTAwX1JRT1NfUVVBTElUWSk7CisJfQogfQogCiBpbnQg
+bWFsaWRwX2Zvcm1hdF9nZXRfYnBwKHUzMiBmbXQpCi0tODwtLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KCkFuZCB0aGVu
+IHlvdSBuZWVkIHRvIGRlZmluZSBhIE1BTElEUF9MUzEwMjhBIGluIGEgdmVuZG9yIHBhdGNoIG9u
+IHRvcCBvZiB0aGUga2VybmVsCnNvdXJjZSBjb2RlLgoKQmVzdCByZWdhcmRzLApMaXZpdQoKCj4g
+IH0KPiAgCj4gIGludCBtYWxpZHBfZm9ybWF0X2dldF9icHAodTMyIGZtdCkKPiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL2FybS9tYWxpZHBfaHcuaCBiL2RyaXZlcnMvZ3B1L2RybS9hcm0v
+bWFsaWRwX2h3LmgKPiBpbmRleCA5NjhhNjVlZWQzNzEuLmU0YzM2YmM5MGJkYSAxMDA2NDQKPiAt
+LS0gYS9kcml2ZXJzL2dwdS9kcm0vYXJtL21hbGlkcF9ody5oCj4gKysrIGIvZHJpdmVycy9ncHUv
+ZHJtL2FybS9tYWxpZHBfaHcuaAo+IEBAIC0yNTEsNiArMjUxLDkgQEAgc3RydWN0IG1hbGlkcF9o
+d19kZXZpY2Ugewo+ICAKPiAgCS8qIHNpemUgb2YgbWVtb3J5IHVzZWQgZm9yIHJvdGF0aW5nIGxh
+eWVycywgdXAgdG8gdHdvIGJhbmtzIGF2YWlsYWJsZSAqLwo+ICAJdTMyIHJvdGF0aW9uX21lbW9y
+eVsyXTsKPiArCj4gKwkvKiBwcmlvcml0eSBsZXZlbCBvZiBSUU9TIHJlZ2lzdGVyIHVzZWQgZm9y
+IGRyaXZlbiB0aGUgQVJRT1Mgc2lnbmFsICovCj4gKwl1MzIgYXJxb3NfdmFsdWU7Cj4gIH07Cj4g
+IAo+ICBzdGF0aWMgaW5saW5lIHUzMiBtYWxpZHBfaHdfcmVhZChzdHJ1Y3QgbWFsaWRwX2h3X2Rl
+dmljZSAqaHdkZXYsIHUzMiByZWcpCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hcm0v
+bWFsaWRwX3JlZ3MuaCBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX3JlZ3MuaAo+IGluZGV4
+IDk5MzAzMTU0MmZhMS4uNTE0YzUwZGNiNzRkIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9hcm0vbWFsaWRwX3JlZ3MuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX3Jl
+Z3MuaAo+IEBAIC0yMTAsNiArMjEwLDE2IEBACj4gICNkZWZpbmUgTUFMSURQNTAwX0NPTkZJR19W
+QUxJRAkJMHgwMGYwMAo+ICAjZGVmaW5lIE1BTElEUDUwMF9DT05GSUdfSUQJCTB4MDBmZDQKPiAg
+Cj4gKy8qCj4gKyAqIFRoZSBxdWFsaXR5IG9mIHNlcnZpY2UgKFFvUykgcmVnaXN0ZXIgb24gdGhl
+IERQNTAwLiBSUU9TIHJlZ2lzdGVyIHZhbHVlcwo+ICsgKiBhcmUgZHJpdmVuIGJ5IHRoZSBBUlFP
+UyBzaWduYWwsIHVzaW5nIEFYSSB0cmFuc2FjYXRpb25zLCBkZXBlbmRlbnQgb24gdGhlCj4gKyAq
+IEZJRk8gaW5wdXQgbGV2ZWwuCj4gKyAqIFRoZSBSUU9TIHJlZ2lzdGVyIGNhbiBhbHNvIHNldCBR
+b1MgbGV2ZWxzIGZvcjoKPiArICogICAgLSBSRURfQVJRT1MgICBAIEEgNC1iaXQgc2lnbmFsIHZh
+bHVlIGZvciBjbG9zZSB0byB1bmRlcmZsb3cgY29uZGl0aW9ucwo+ICsgKiAgICAtIEdSRUVOX0FS
+UU9TIEAgQSA0LWJpdCBzaWduYWwgdmFsdWUgZm9yIG5vcm1hbCBjb25kaXRpb25zCj4gKyAqLwo+
+ICsjZGVmaW5lIE1BTElEUDUwMF9SUU9TX1FVQUxJVFkgICAgICAgICAgMHgwMDUwMAo+ICsKPiAg
+LyogcmVnaXN0ZXIgb2Zmc2V0cyBhbmQgYml0cyBzcGVjaWZpYyB0byBEUDU1MC9EUDY1MCAqLwo+
+ICAjZGVmaW5lIE1BTElEUDU1MF9BRERSX1NQQUNFX1NJWkUJMHgxMDAwMAo+ICAjZGVmaW5lIE1B
+TElEUDU1MF9ERV9DT05UUk9MCQkweDAwMDEwCj4gLS0gCj4gMi4xNy4xCj4gCgotLSAKPT09PT09
+PT09PT09PT09PT09PT0KfCBJIHdvdWxkIGxpa2UgdG8gfAp8IGZpeCB0aGUgd29ybGQsICB8Cnwg
+YnV0IHRoZXkncmUgbm90IHwKfCBnaXZpbmcgbWUgdGhlICAgfAogXCBzb3VyY2UgY29kZSEgIC8K
+ICAtLS0tLS0tLS0tLS0tLS0KICAgIMKvXF8o44OEKV8vwq8KX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
