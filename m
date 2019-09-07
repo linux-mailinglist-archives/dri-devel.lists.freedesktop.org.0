@@ -2,52 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB429AC618
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2019 12:32:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 728E6AC6BF
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2019 15:20:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42D3F89F35;
-	Sat,  7 Sep 2019 10:32:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27AF089CF1;
+	Sat,  7 Sep 2019 13:20:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB5F989F35
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Sep 2019 10:32:53 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id n7so8150238otk.6
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Sep 2019 03:32:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=b/cX7xITRlwawwj8ZZAOJ/YBqGb0dFQASFM/0pTz2tk=;
- b=LFS7VVbva3SXd/XYOgddYka+iXVJRamcWfvNqBeHbG3d6NshSi9HqJ1J1tUTIOBSBg
- lhMGnDcg7rEjvo6zAHZOQlRgKtyuQm6KIA2lXCy/ZOMu/R4+va7ESX/QsjyaQTGbZTbS
- VPPiU2IN2H7lDTFIpKH44l6i5lnv5v/arDixhP8+5q9difyTQEqAcnLogtjeS//Effi8
- zbJ/9IjYwUY96As+MfO8f97BiziGStIha1juYy2AJGxtCunSZ/Cl5BV6nkGhklLPJx94
- T8Y/kK2Dxg20vfxueNJeKrHqrec4duEIZbmZMe55FRsQtB8YtDXQPMtuPy6pwCWqqIxX
- oKYA==
-X-Gm-Message-State: APjAAAWQxQ0HFwFSbbKNc9+3v/q+7bVRc95YObpO15X2ZJoNFN4Yx4L0
- BH9qQkT1OtgVXM6YBmOgn8y/Kmu/2pXbDDIRRHa/MaH3
-X-Google-Smtp-Source: APXvYqyVoNQgJNSVxxO4W3K/xguX20n0h0ihJY8BhZ+1HPnwkcskYodYDNcREPZNQLxNM7GZkCySZwZwTYcEzEqbzMc=
-X-Received: by 2002:a05:6830:10d8:: with SMTP id
- z24mr218837oto.281.1567852372299; 
- Sat, 07 Sep 2019 03:32:52 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3815E89CE1
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Sep 2019 13:20:20 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 34C4272161; Sat,  7 Sep 2019 13:20:20 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111527] obs-studio + latest mesa on amdgpu/vega64 leaks kernel
+ memory rapidly
+Date: Sat, 07 Sep 2019 13:20:20 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: tele42k3@hotmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-111527-502-hOry3u6h85@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111527-502@http.bugs.freedesktop.org/>
+References: <bug-111527-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190907090534.GB1712@pc-sasha.localdomain>
-In-Reply-To: <20190907090534.GB1712@pc-sasha.localdomain>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Sat, 7 Sep 2019 12:32:41 +0200
-Message-ID: <CAKMK7uHYdXwruQxxBM12Q5MVeH9fjFpZvxZz06BSo7YrCQbM2w@mail.gmail.com>
-Subject: Re: Kernel panic during drm/nouveau init 5.3.0-rc7-next-20190903
-To: Alexander Kapshuk <alexander.kapshuk@gmail.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=b/cX7xITRlwawwj8ZZAOJ/YBqGb0dFQASFM/0pTz2tk=;
- b=IAcvYCxB9Y3lVd1dPhXunwMoEDwpz4gg8XVqE56TpNAUSsOCUeuEFcSpt6hKnNhR1R
- yNLrn5ZooPklEbP+DfaHCUNl9mMiqyV/EKvJEhC2SCwXESng+X82fWXjAnPLtWRtgtUn
- IRASeKFCB/qyD3FWtmQtDzUpKZzjzuCrADoV0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,170 +53,194 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Maxime Ripard <mripard@kernel.org>, linux-next <linux-next@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1081580969=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU2F0LCBTZXAgNywgMjAxOSBhdCAxMTowNSBBTSBBbGV4YW5kZXIgS2Fwc2h1awo8YWxleGFu
-ZGVyLmthcHNodWtAZ21haWwuY29tPiB3cm90ZToKPgo+IFRvIFdob20gSXQgTWF5IENvbmNlcm4K
-Pgo+IEV2ZXJ5IGtlcm5lbCBJIGhhdmUgYnVpbHQgc2luY2UgNS4zLjAtcmMyLW5leHQtMjAxOTA3
-MzAgYW5kIHVwIHRvCj4gNS4zLjAtcmM3LW5leHQtMjAxOTA5MDMgaGFzIHJlc3VsdGVkIGluIHRo
-ZSBrZXJuZWwgcGFuaWMgZGVzY3JpYmVkIGJlbG93Lgo+Cj4gVGhlIHBhbmljIG9jY3VycyBlYXJs
-eSBvbiBpbiB0aGUgYm9vdCBwcm9jZXNzLCBzbyBubyByZWNvcmRzIG9mIGl0IGdldAo+IHdyaXR0
-ZW4gb24gZGlzay4gSSByZXNvdXJ0ZWQgdG8gdGFraW5nIHBob3RvcyBhbmQgdmlkZW9zIHRvIGdl
-dCB0aGUgaW5mbwo+IGZvciBkZWJ1Z2dpbmcuCj4KPiBbS2VybmVsIHBhbmljXQo+IENvZGU6IDAw
-IDQ4IDgzIGJiIGYwIDAwIDAwIDAwIDAwIDc0IDE2IDQ4IDgzIGMzIDE4IGI5IDE3IDAwIDAwIDAw
-IDMxIGMwIDQ4IDg5IGRmIGYzIDQ4IGFiIDViIDQxIDVjIDVkIGMzIDRjIDg5IGEzIGYwIDAwIDAw
-IDAwIGViIGUxIDwwZj4gMGIgMGYgMWYgNDAgMDAgNTUgNDggODkgZTUgNDEgNTQgNDkgODkgZDQg
-NTMgNDggODkgZjMgZTggN2UgZmYKPgo+IEtlcm5lbCBwYW5pYyAtIE5vdCBzeW5jaW5nOiBBdHRl
-bXB0ZWQgdG8ga2lsbCBpbml0ISBleGl0Y29kZT0weDAwMDAwMDBiLgo+Cj4gVG9wIG9mIGNhbGwg
-c3RhY2s6Cj4gX19kcm1fZmJfaGVscGVyX2luaXRpYWxfY29uZmlnX2FuZF91bmxvY2sKPiBkcm1f
-ZmJfaGVscGVyX2luaXRpYWxfY29uZmlnCj4KPiA8c2NyaXB0cy9kZWNvZGVjb2RlIDx+L3RtcC9w
-YW5pY19jb2RlLnR4dAo+IENvZGU6IDAwIDQ4IDgzIGJiIGYwIDAwIDAwIDAwIDAwIDc0IDE2IDQ4
-IDgzIGMzIDE4IGI5IDE3IDAwIDAwIDAwIDMxIGMwIDQ4IDg5IGRmIGYzIDQ4IGFiIDViIDQxIDVj
-IDVkIGMzIDRjIDg5IGEzIGYwIDAwIDAwIDAwIGViIGUxIDwwZj4gMGIgMGYgMWYgNDAgMDAgNTUg
-NDggODkgZTUgNDEgNTQgNDkgODkgZDQgNTMgNDggODkgZjMgZTggN2UgZmYKPiBBbGwgY29kZQo+
-ID09PT09PT09Cj4gICAgMDogICAwMCA0OCA4MyAgICAgICAgICAgICAgICBhZGQgICAgJWNsLC0w
-eDdkKCVyYXgpCj4gICAgMzogICBiYiBmMCAwMCAwMCAwMCAgICAgICAgICBtb3YgICAgJDB4ZjAs
-JWVieAo+ICAgIDg6ICAgMDAgNzQgMTYgNDggICAgICAgICAgICAgYWRkICAgICVkaCwweDQ4KCVy
-c2ksJXJkeCwxKQo+ICAgIGM6ICAgODMgYzMgMTggICAgICAgICAgICAgICAgYWRkICAgICQweDE4
-LCVlYngKPiAgICBmOiAgIGI5IDE3IDAwIDAwIDAwICAgICAgICAgIG1vdiAgICAkMHgxNywlZWN4
-Cj4gICAxNDogICAzMSBjMCAgICAgICAgICAgICAgICAgICB4b3IgICAgJWVheCwlZWF4Cj4gICAx
-NjogICA0OCA4OSBkZiAgICAgICAgICAgICAgICBtb3YgICAgJXJieCwlcmRpCj4gICAxOTogICBm
-MyA0OCBhYiAgICAgICAgICAgICAgICByZXAgc3RvcyAlcmF4LCVlczooJXJkaSkKPiAgIDFjOiAg
-IDViICAgICAgICAgICAgICAgICAgICAgIHBvcCAgICAlcmJ4Cj4gICAxZDogICA0MSA1YyAgICAg
-ICAgICAgICAgICAgICBwb3AgICAgJXIxMgo+ICAgMWY6ICAgNWQgICAgICAgICAgICAgICAgICAg
-ICAgcG9wICAgICVyYnAKPiAgIDIwOiAgIGMzICAgICAgICAgICAgICAgICAgICAgIHJldHEKPiAg
-IDIxOiAgIDRjIDg5IGEzIGYwIDAwIDAwIDAwICAgIG1vdiAgICAlcjEyLDB4ZjAoJXJieCkKPiAg
-IDI4OiAgIGViIGUxICAgICAgICAgICAgICAgICAgIGptcCAgICAweGIKPiAgIDJhOiogIDBmIDBi
-ICAgICAgICAgICAgICAgICAgIHVkMiAgICAgICAgICAgICA8LS0gdHJhcHBpbmcgaW5zdHJ1Y3Rp
-b24KPiAgIDJjOiAgIDBmIDFmIDQwIDAwICAgICAgICAgICAgIG5vcGwgICAweDAoJXJheCkKPiAg
-IDMwOiAgIDU1ICAgICAgICAgICAgICAgICAgICAgIHB1c2ggICAlcmJwCj4gICAzMTogICA0OCA4
-OSBlNSAgICAgICAgICAgICAgICBtb3YgICAgJXJzcCwlcmJwCj4gICAzNDogICA0MSA1NCAgICAg
-ICAgICAgICAgICAgICBwdXNoICAgJXIxMgo+ICAgMzY6ICAgNDkgODkgZDQgICAgICAgICAgICAg
-ICAgbW92ICAgICVyZHgsJXIxMgo+ICAgMzk6ICAgNTMgICAgICAgICAgICAgICAgICAgICAgcHVz
-aCAgICVyYngKPiAgIDNhOiAgIDQ4IDg5IGYzICAgICAgICAgICAgICAgIG1vdiAgICAlcnNpLCVy
-YngKPiAgIDNkOiAgIGU4ICAgICAgICAgICAgICAgICAgICAgIC5ieXRlIDB4ZTgKPiAgIDNlOiAg
-IDdlIGZmICAgICAgICAgICAgICAgICAgIGpsZSAgICAweDNmCj4KPiBDb2RlIHN0YXJ0aW5nIHdp
-dGggdGhlIGZhdWx0aW5nIGluc3RydWN0aW9uCj4gPT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PQo+ICAgIDA6ICAgMGYgMGIgICAgICAgICAgICAgICAgICAgdWQyCj4g
-ICAgMjogICAwZiAxZiA0MCAwMCAgICAgICAgICAgICBub3BsICAgMHgwKCVyYXgpCj4gICAgNjog
-ICA1NSAgICAgICAgICAgICAgICAgICAgICBwdXNoICAgJXJicAo+ICAgIDc6ICAgNDggODkgZTUg
-ICAgICAgICAgICAgICAgbW92ICAgICVyc3AsJXJicAo+ICAgIGE6ICAgNDEgNTQgICAgICAgICAg
-ICAgICAgICAgcHVzaCAgICVyMTIKPiAgICBjOiAgIDQ5IDg5IGQ0ICAgICAgICAgICAgICAgIG1v
-diAgICAlcmR4LCVyMTIKPiAgICBmOiAgIDUzICAgICAgICAgICAgICAgICAgICAgIHB1c2ggICAl
-cmJ4Cj4gICAxMDogICA0OCA4OSBmMyAgICAgICAgICAgICAgICBtb3YgICAgJXJzaSwlcmJ4Cj4g
-ICAxMzogICBlOCAgICAgICAgICAgICAgICAgICAgICAuYnl0ZSAweGU4Cj4gICAxNDogICA3ZSBm
-ZiAgICAgICAgICAgICAgICAgICBqbGUgICAgMHgxNQo+Cj4gVGhlIHBhbmljIG9jY3VycyBhZnRl
-ciB0aGUgJ0RyaXZlciBzdXBwb3J0cyBwcmVjaXNlIHZibGFuayB0aW1lc3RhbXAKPiBxdWVyeS4n
-IGxpbmUgZ2V0cyBwcmludGVkIHRvIGNvbnNvbGU6Cj4gWyAgICAyLjg1ODk3MF0gTGludXggYWdw
-Z2FydCBpbnRlcmZhY2UgdjAuMTAzCj4gWyAgICAyLjg1OTMwOF0gbm91dmVhdSAwMDAwOjAxOjAw
-LjA6IE5WSURJQSBHODQgKDA4NDMwMGEyKQo+IFsgICAgMi45Njg5NTBdIG5vdXZlYXUgMDAwMDow
-MTowMC4wOiBiaW9zOiB2ZXJzaW9uIDYwLjg0LjY4LjAwLjE5Cj4gWyAgICAyLjk4OTkyM10gbm91
-dmVhdSAwMDAwOjAxOjAwLjA6IGJpb3M6IE0wMjAzVCBub3QgZm91bmQKPiBbICAgIDIuOTkwMDEw
-XSBub3V2ZWF1IDAwMDA6MDE6MDAuMDogYmlvczogTTAyMDNFIG5vdCBtYXRjaGVkIQo+IFsgICAg
-Mi45OTAwOTZdIG5vdXZlYXUgMDAwMDowMTowMC4wOiBmYjogNTEyIE1pQiBERFIyCj4gWyAgICAz
-LjA2MjM2Ml0gW1RUTV0gWm9uZSAga2VybmVsOiBBdmFpbGFibGUgZ3JhcGhpY3MgbWVtb3J5OiAy
-MDE1MDE0IEtpQgo+IFsgICAgMy4wNjI0OTRdIFtUVE1dIEluaXRpYWxpemluZyBwb29sIGFsbG9j
-YXRvcgo+IFsgICAgMy4wNjI1ODFdIFtUVE1dIEluaXRpYWxpemluZyBETUEgcG9vbCBhbGxvY2F0
-b3IKPiBbICAgIDMuMDYyNjgzXSBub3V2ZWF1IDAwMDA6MDE6MDAuMDogRFJNOiBWUkFNOiA1MTIg
-TWlCCj4gWyAgICAzLjA2Mjc2OV0gbm91dmVhdSAwMDAwOjAxOjAwLjA6IERSTTogR0FSVDogMTA0
-ODU3NiBNaUIKPiBbICAgIDMuMDYyODU5XSBub3V2ZWF1IDAwMDA6MDE6MDAuMDogRFJNOiBUTURT
-IHRhYmxlIHZlcnNpb24gMi4wCj4gWyAgICAzLjA2Mjk0NF0gbm91dmVhdSAwMDAwOjAxOjAwLjA6
-IERSTTogRENCIHZlcnNpb24gNC4wCj4gWyAgICAzLjA2MzAzMF0gbm91dmVhdSAwMDAwOjAxOjAw
-LjA6IERSTTogRENCIG91dHAgMDA6IDAyMDAwMzAwIDAwMDAwMDI4Cj4gWyAgICAzLjA2MzExN10g
-bm91dmVhdSAwMDAwOjAxOjAwLjA6IERSTTogRENCIG91dHAgMDE6IDAxMDAwMzAyIDAwMDAwMDMw
-Cj4gWyAgICAzLjA2MzIwM10gbm91dmVhdSAwMDAwOjAxOjAwLjA6IERSTTogRENCIG91dHAgMDI6
-IDA0MDExMzEwIDAwMDAwMDI4Cj4gWyAgICAzLjA2MzI5MF0gbm91dmVhdSAwMDAwOjAxOjAwLjA6
-IERSTTogRENCIG91dHAgMDM6IDAyMDExMzEyIDAwYzAwMGIwCj4gWyAgICAzLjA2MzM3N10gbm91
-dmVhdSAwMDAwOjAxOjAwLjA6IERSTTogRENCIGNvbm4gMDA6IDEwMzAKPiBbICAgIDMuMDYzNDYy
-XSBub3V2ZWF1IDAwMDA6MDE6MDAuMDogRFJNOiBEQ0IgY29ubiAwMTogMjEzMAo+IFsgICAgMy4w
-NjU5ODJdIG5vdXZlYXUgMDAwMDowMTowMC4wOiBEUk06IE1NOiB1c2luZyBDUllQVCBmb3IgYnVm
-ZmVyIGNvcGllcwo+IFsgICAgMy4wNjY2MjJdIFtkcm1dIFN1cHBvcnRzIHZibGFuayB0aW1lc3Rh
-bXAgY2FjaGluZyBSZXYgMiAoMjEuMTAuMjAxMykuCj4gWyAgICAzLjA2Njc1NF0gW2RybV0gRHJp
-dmVyIHN1cHBvcnRzIHByZWNpc2UgdmJsYW5rIHRpbWVzdGFtcCBxdWVyeS4KPgo+IEkgd2FzIG5v
-dCBhYmxlIHRvIGNhcHR1cmUgdGhlIHZhbHVlIG9mIFJJUCBmb3IgdGhpcyBjcmFzaC4KPgo+IFdp
-dGggZHJtX2ttc19oZWxwZXIuZmJkZXZfZW11bGF0aW9uPTAgZW5hYmxlZCwgYXMgZG9jdW1lbnRl
-ZCBpbgo+IHRoZSBjb21tZW50YXJ5IHRvIGZ1bmN0aW9uIGRybV9mYl9oZWxwZXJfaW5pdGlhbF9j
-b25maWcgZGVmaW5lZCBpbgo+IGRyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMsIEkgZ2V0
-IHRoZSBmb2xsb3dpbmcgb3V0cHV0Ogo+Cj4gUklQOiAwMDEwOiBfcmF3X3NwaW5fbG9jaysweDcv
-MHgyMAo+IENvZGU6IGJhIGZmIDAwIDAwIDAwIGYwIDBmIGIxIDE3IDc1IDAxIGMzIDU1IDQ4IDg5
-IGU1IGU4IDIzIGEyIDZkIGZmIDVkIGMzIDY2IDY2IDJlIDBmIDFmIDg0IDAwIDAwIDAwIDAwIDAw
-IDkwIDMxIGMwIGJhIDAxIDAwIDAwIDAwIDxmMD4gMGYgYjEgMTcgNzUgMDEgYzMgNTUgODkgYzYg
-NDAgODkgZTUgZTggZTcgOGYgNmQgZmYgNWQgYzMgMGYgMWYKPgo+IDxzY3JpcHRzL2RlY29kZWNv
-ZGUgPH4vdG1wL3BhbmljX2NvZGUudHh0Cj4gQ29kZTogYmEgZmYgMDAgMDAgMDAgZjAgMGYgYjEg
-MTcgNzUgMDEgYzMgNTUgNDggODkgZTUgZTggMjMgYTIgNmQgZmYgNWQgYzMgNjYgNjYgMmUgMGYg
-MWYgODQgMDAgMDAgMDAgMDAgMDAgOTAgMzEgYzAgYmEgMDEgMDAgMDAgMDAgPGYwPiAwZiBiMSAx
-NyA3NSAwMSBjMyA1NSA4OSBjNiA0MCA4OSBlNSBlOCBlNyA4ZiA2ZCBmZiA1ZCBjMyAwZiAxZgo+
-IEFsbCBjb2RlCj4gPT09PT09PT0KPiAgICAwOiAgIGJhIGZmIDAwIDAwIDAwICAgICAgICAgIG1v
-diAgICAkMHhmZiwlZWR4Cj4gICAgNTogICBmMCAwZiBiMSAxNyAgICAgICAgICAgICBsb2NrIGNt
-cHhjaGcgJWVkeCwoJXJkaSkKPiAgICA5OiAgIDc1IDAxICAgICAgICAgICAgICAgICAgIGpuZSAg
-ICAweGMKPiAgICBiOiAgIGMzICAgICAgICAgICAgICAgICAgICAgIHJldHEKPiAgICBjOiAgIDU1
-ICAgICAgICAgICAgICAgICAgICAgIHB1c2ggICAlcmJwCj4gICAgZDogICA0OCA4OSBlNSAgICAg
-ICAgICAgICAgICBtb3YgICAgJXJzcCwlcmJwCj4gICAxMDogICBlOCAyMyBhMiA2ZCBmZiAgICAg
-ICAgICBjYWxscSAgMHhmZmZmZmZmZmZmNmRhMjM4Cj4gICAxNTogICA1ZCAgICAgICAgICAgICAg
-ICAgICAgICBwb3AgICAgJXJicAo+ICAgMTY6ICAgYzMgICAgICAgICAgICAgICAgICAgICAgcmV0
-cQo+ICAgMTc6ICAgNjYgNjYgMmUgMGYgMWYgODQgMDAgICAgZGF0YTE2IG5vcHcgJWNzOjB4MCgl
-cmF4LCVyYXgsMSkKPiAgIDFlOiAgIDAwIDAwIDAwIDAwCj4gICAyMjogICA5MCAgICAgICAgICAg
-ICAgICAgICAgICBub3AKPiAgIDIzOiAgIDMxIGMwICAgICAgICAgICAgICAgICAgIHhvciAgICAl
-ZWF4LCVlYXgKPiAgIDI1OiAgIGJhIDAxIDAwIDAwIDAwICAgICAgICAgIG1vdiAgICAkMHgxLCVl
-ZHgKPiAgIDJhOiogIGYwIDBmIGIxIDE3ICAgICAgICAgICAgIGxvY2sgY21weGNoZyAlZWR4LCgl
-cmRpKSAgICAgICAgICAgICAgICA8LS0gdHJhcHBpbmcgaW5zdHJ1Y3Rpb24KPiAgIDJlOiAgIDc1
-IDAxICAgICAgICAgICAgICAgICAgIGpuZSAgICAweDMxCj4gICAzMDogICBjMyAgICAgICAgICAg
-ICAgICAgICAgICByZXRxCj4gICAzMTogICA1NSAgICAgICAgICAgICAgICAgICAgICBwdXNoICAg
-JXJicAo+ICAgMzI6ICAgODkgYzYgICAgICAgICAgICAgICAgICAgbW92ICAgICVlYXgsJWVzaQo+
-ICAgMzQ6ICAgNDAgODkgZTUgICAgICAgICAgICAgICAgcmV4IG1vdiAlZXNwLCVlYnAKPiAgIDM3
-OiAgIGU4IGU3IDhmIDZkIGZmICAgICAgICAgIGNhbGxxICAweGZmZmZmZmZmZmY2ZDkwMjMKPiAg
-IDNjOiAgIDVkICAgICAgICAgICAgICAgICAgICAgIHBvcCAgICAlcmJwCj4gICAzZDogICBjMyAg
-ICAgICAgICAgICAgICAgICAgICByZXRxCj4gICAzZTogICAwZiAgICAgICAgICAgICAgICAgICAg
-ICAuYnl0ZSAweGYKPiAgIDNmOiAgIDFmICAgICAgICAgICAgICAgICAgICAgIChiYWQpCj4KPiBD
-b2RlIHN0YXJ0aW5nIHdpdGggdGhlIGZhdWx0aW5nIGluc3RydWN0aW9uCj4gPT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQo+ICAgIDA6ICAgZjAgMGYgYjEgMTcgICAg
-ICAgICAgICAgbG9jayBjbXB4Y2hnICVlZHgsKCVyZGkpCj4gICAgNDogICA3NSAwMSAgICAgICAg
-ICAgICAgICAgICBqbmUgICAgMHg3Cj4gICAgNjogICBjMyAgICAgICAgICAgICAgICAgICAgICBy
-ZXRxCj4gICAgNzogICA1NSAgICAgICAgICAgICAgICAgICAgICBwdXNoICAgJXJicAo+ICAgIDg6
-ICAgODkgYzYgICAgICAgICAgICAgICAgICAgbW92ICAgICVlYXgsJWVzaQo+ICAgIGE6ICAgNDAg
-ODkgZTUgICAgICAgICAgICAgICAgcmV4IG1vdiAlZXNwLCVlYnAKPiAgICBkOiAgIGU4IGU3IDhm
-IDZkIGZmICAgICAgICAgIGNhbGxxICAweGZmZmZmZmZmZmY2ZDhmZjkKPiAgIDEyOiAgIDVkICAg
-ICAgICAgICAgICAgICAgICAgIHBvcCAgICAlcmJwCj4gICAxMzogICBjMyAgICAgICAgICAgICAg
-ICAgICAgICByZXRxCj4gICAxNDogICAwZiAgICAgICAgICAgICAgICAgICAgICAuYnl0ZSAweGYK
-PiAgIDE1OiAgIDFmICAgICAgICAgICAgICAgICAgICAgIChiYWQpCj4KPiAoZ2RiKSBsaXN0ICoo
-X3Jhd19zcGluX2xvY2srMHg3KQo+IDB4ZmZmZmZmZmY4MWExM2IyNyBpcyBpbiBfcmF3X3NwaW5f
-bG9jayAoLi9hcmNoL3g4Ni9pbmNsdWRlL2FzbS9hdG9taWMuaDoyMDApLgo+IDE5NSAgICAgfQo+
-IDE5Ngo+IDE5NyAgICAgI2RlZmluZSBhcmNoX2F0b21pY190cnlfY21weGNoZyBhcmNoX2F0b21p
-Y190cnlfY21weGNoZwo+IDE5OCAgICAgc3RhdGljIF9fYWx3YXlzX2lubGluZSBib29sIGFyY2hf
-YXRvbWljX3RyeV9jbXB4Y2hnKGF0b21pY190ICp2LCBpbnQgKm9sZCwgaW50IG5ldykKPiAxOTkg
-ICAgIHsKPiAyMDAgICAgICAgICAgICAgcmV0dXJuIHRyeV9jbXB4Y2hnKCZ2LT5jb3VudGVyLCBv
-bGQsIG5ldyk7Cj4gMjAxICAgICB9Cj4gMjAyCj4gMjAzICAgICBzdGF0aWMgaW5saW5lIGludCBh
-cmNoX2F0b21pY194Y2hnKGF0b21pY190ICp2LCBpbnQgbmV3KQo+IDIwNCAgICAgewo+Cj4gKGdk
-YikgZGlzYXNzZW1ibGUgX3Jhd19zcGluX2xvY2srMHg3Cj4gRHVtcCBvZiBhc3NlbWJsZXIgY29k
-ZSBmb3IgZnVuY3Rpb24gX3Jhd19zcGluX2xvY2s6Cj4gICAgMHhmZmZmZmZmZjgxYTEzYjIwIDwr
-MD46ICAgICB4b3IgICAgJWVheCwlZWF4Cj4gICAgMHhmZmZmZmZmZjgxYTEzYjIyIDwrMj46ICAg
-ICBtb3YgICAgJDB4MSwlZWR4Cj4gICAgMHhmZmZmZmZmZjgxYTEzYjI3IDwrNz46ICAgICBsb2Nr
-IGNtcHhjaGcgJWVkeCwoJXJkaSkKPiAgICAweGZmZmZmZmZmODFhMTNiMmIgPCsxMT46ICAgIGpu
-ZSAgICAweGZmZmZmZmZmODFhMTNiMmUgPF9yYXdfc3Bpbl9sb2NrKzE0Pgo+ICAgIDB4ZmZmZmZm
-ZmY4MWExM2IyZCA8KzEzPjogICAgcmV0cQo+ICAgIDB4ZmZmZmZmZmY4MWExM2IyZSA8KzE0Pjog
-ICAgcHVzaCAgICVyYnAKPiAgICAweGZmZmZmZmZmODFhMTNiMmYgPCsxNT46ICAgIG1vdiAgICAl
-ZWF4LCVlc2kKPiAgICAweGZmZmZmZmZmODFhMTNiMzEgPCsxNz46ICAgIG1vdiAgICAlcnNwLCVy
-YnAKPiAgICAweGZmZmZmZmZmODFhMTNiMzQgPCsyMD46ICAgIGNhbGxxICAweGZmZmZmZmZmODEw
-ZWNiMjAgPHF1ZXVlZF9zcGluX2xvY2tfc2xvd3BhdGg+Cj4gICAgMHhmZmZmZmZmZjgxYTEzYjM5
-IDwrMjU+OiAgICBwb3AgICAgJXJicAo+ICAgIDB4ZmZmZmZmZmY4MWExM2IzYSA8KzI2PjogICAg
-cmV0cQo+IEVuZCBvZiBhc3NlbWJsZXIgZHVtcC4KPgo+IEFueSBwb2ludGVycyBvbiBob3cgdG8g
-cHJvY2VlZCB3aXRoIHRoaXMgd291bGQgYmUgYXBwcmVjaWF0ZWQuCj4gU2VlIHRoZSBmaWxlcyBh
-dHRhY2hlZCBmb3IgY29waWVzIG9mIG15IC5jb25maWcgYW5kIG91dHB1dCBvZiB2ZXJfbGludXgu
-CgpMb3R0YSBwZW9wbGUgYXJlIHRyYXZlbGxpbmcgdG8gcGx1bWJlcnMgbm93IGZvciBuZXh0IHdl
-ZWssIHNvIG1pZ2h0IGJlCnNsb3cgcmVzcG9uc2VzLiBPbmUgb3B0aW9uIHdvdWxkIGJlIHRvIHRy
-eSB0byBiaXNlY3Qgd2hlcmUgdGhpbmdzCmJyb2tlLiBZb3UndmUgY29sbGVjdGVkIGEgbG90IG9m
-IGRhdGEgaGVyZSBwYWluc3Rha2luZ2x5LCBidXQgZnJvbQpsb29raW5nIGF0IGl0IEknbSBub3Qg
-cmVhbGx5IGNvbm5lY3RpbmcgdGhlIGRvY3MuIEtub3dpbmcgd2hpY2ggY2hhbmdlCmJyb2tlIHlv
-dXIgbWFjaGluZSBjYW4gaGVscCBlbm9ybW91c2x5LgotRGFuaWVsCi0tIApEYW5pZWwgVmV0dGVy
-ClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1NyA0
-OCAtIGh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbA==
+
+--===============1081580969==
+Content-Type: multipart/alternative; boundary="15678624201.148dc.2358"
+Content-Transfer-Encoding: 7bit
+
+
+--15678624201.148dc.2358
+Date: Sat, 7 Sep 2019 13:20:20 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111527
+
+tele42k3@hotmail.com changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |tele42k3@hotmail.com
+
+--- Comment #2 from tele42k3@hotmail.com ---
+Thanks for the clear steps to reproduce this issue. I managed to reproduce =
+this
+on my RX 480 and it bisected to:
+
+commit 11a3679e3aba3524cf987f1f808d92c25f16e080
+Author: Michel D=C3=A4nzer <michel.daenzer@amd.com>
+Date:   Fri Jun 28 18:35:56 2019 +0200
+
+    winsys/amdgpu: Make KMS handles valid for original DRM file descriptor
+
+    Getting a DMA-buf fd and converting that to a handle using our duplicate
+    of that file descriptor (getting at which requires passing a
+    radeon_winsys pointer to the buffer_get_handle hook) makes sure of this,
+    since duplicated file descriptors reference the same file description
+    and therefore the same GEM handle namespace.
+
+    This is necessary because libdrm_amdgpu may use a different DRM file
+    descriptor with a separate handle namespace internally, e.g. because it
+    always reuses any existing amdgpu_device_handle for the same device.
+    amdgpu_bo_export returns a handle which is valid for that internal
+    file descriptor.
+
+    Bugzilla: https://bugs.freedesktop.org/110903
+    Reviewed-by: Marek Ol=C5=A1=C3=A1k <marek.olsak@amd.com>
+    Tested-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.c=
+om>
+
+While testing I saw a .8 to 1 MB/s slow leak which appeared immediately on
+opening OBS with the test scene. It felt like it consistently hit some obsc=
+ured
+value like 64MB before the major memory leak started, which helped bisect t=
+he
+issue.
+
+I reverted the commit on top of f8887909c6683986990474b61afd6d4335a69e41 wi=
+th
+good results.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15678624201.148dc.2358
+Date: Sat, 7 Sep 2019 13:20:20 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:tele42k3&=
+#64;hotmail.com" title=3D"tele42k3&#64;hotmail.com">tele42k3&#64;hotmail.co=
+m</a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - obs-studio + latest mesa on amdgpu/vega64 leaks kernel me=
+mory rapidly"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111527">bug 11152=
+7</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">CC</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>tele42k3&#64;hotmail.com
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - obs-studio + latest mesa on amdgpu/vega64 leaks kernel me=
+mory rapidly"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111527#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - obs-studio + latest mesa on amdgpu/vega64 leaks kernel me=
+mory rapidly"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111527">bug 11152=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+tele42k3&#64;hotmail.com" title=3D"tele42k3&#64;hotmail.com">tele42k3&#64;h=
+otmail.com</a>
+</span></b>
+        <pre>Thanks for the clear steps to reproduce this issue. I managed =
+to reproduce this
+on my RX 480 and it bisected to:
+
+commit 11a3679e3aba3524cf987f1f808d92c25f16e080
+Author: Michel D=C3=A4nzer &lt;<a href=3D"mailto:michel.daenzer&#64;amd.com=
+">michel.daenzer&#64;amd.com</a>&gt;
+Date:   Fri Jun 28 18:35:56 2019 +0200
+
+    winsys/amdgpu: Make KMS handles valid for original DRM file descriptor
+
+    Getting a DMA-buf fd and converting that to a handle using our duplicate
+    of that file descriptor (getting at which requires passing a
+    radeon_winsys pointer to the buffer_get_handle hook) makes sure of this,
+    since duplicated file descriptors reference the same file description
+    and therefore the same GEM handle namespace.
+
+    This is necessary because libdrm_amdgpu may use a different DRM file
+    descriptor with a separate handle namespace internally, e.g. because it
+    always reuses any existing amdgpu_device_handle for the same device.
+    amdgpu_bo_export returns a handle which is valid for that internal
+    file descriptor.
+
+    Bugzilla: <a href=3D"https://bugs.freedesktop.org/110903">https://bugs.=
+freedesktop.org/110903</a>
+    Reviewed-by: Marek Ol=C5=A1=C3=A1k &lt;<a href=3D"mailto:marek.olsak&#6=
+4;amd.com">marek.olsak&#64;amd.com</a>&gt;
+    Tested-by: Pierre-Eric Pelloux-Prayer &lt;<a href=3D"mailto:pierre-eric=
+.pelloux-prayer&#64;amd.com">pierre-eric.pelloux-prayer&#64;amd.com</a>&gt;
+
+While testing I saw a .8 to 1 MB/s slow leak which appeared immediately on
+opening OBS with the test scene. It felt like it consistently hit some obsc=
+ured
+value like 64MB before the major memory leak started, which helped bisect t=
+he
+issue.
+
+I reverted the commit on top of f8887909c6683986990474b61afd6d4335a69e41 wi=
+th
+good results.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15678624201.148dc.2358--
+
+--===============1081580969==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1081580969==--
