@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9879CAC4A1
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2019 06:39:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC99AC4CA
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2019 07:42:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AA6189F0B;
-	Sat,  7 Sep 2019 04:39:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F07D89FE8;
+	Sat,  7 Sep 2019 05:42:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 62A8989F0B
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Sep 2019 04:39:13 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 73FC489FE8
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Sep 2019 05:42:22 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5FB3A72161; Sat,  7 Sep 2019 04:39:13 +0000 (UTC)
+ id 706E872161; Sat,  7 Sep 2019 05:42:22 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111236] VA-API radeonsi SIGSEGV __memmove_avx_unaligned
-Date: Sat, 07 Sep 2019 04:39:13 +0000
+Subject: [Bug 102322] System crashes after "[drm] IP block:gmc_v8_0 is hung!"
+ / [drm] IP block:sdma_v3_0 is hung!
+Date: Sat, 07 Sep 2019 05:42:21 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 19.1
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: julien.isorce@gmail.com
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: paul@ezvan.fr
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111236-502-tZCFextJXt@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111236-502@http.bugs.freedesktop.org/>
-References: <bug-111236-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-102322-502-ZjocAtFHwQ@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-102322-502@http.bugs.freedesktop.org/>
+References: <bug-102322-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,35 +53,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0642259399=="
+Content-Type: multipart/mixed; boundary="===============0765490935=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0642259399==
-Content-Type: multipart/alternative; boundary="15678311531.dF0Fe32d.5407"
+--===============0765490935==
+Content-Type: multipart/alternative; boundary="15678349425.AFF0.15036"
 Content-Transfer-Encoding: 7bit
 
 
---15678311531.dF0Fe32d.5407
-Date: Sat, 7 Sep 2019 04:39:13 +0000
+--15678349425.AFF0.15036
+Date: Sat, 7 Sep 2019 05:42:22 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111236
+https://bugs.freedesktop.org/show_bug.cgi?id=3D102322
 
---- Comment #11 from Julien Isorce <julien.isorce@gmail.com> ---
-Hi Michel, I confirm the attached patch fixes the issues for me too.
+--- Comment #86 from Paul Ezvan <paul@ezvan.fr> ---
+I was also impacted by this bug (amdgpu hangs on random conditions with sim=
+ilar
+messages as the one exposed) with any kernel/mesa version combination other
+than the ones on Debian Stretch (any other distro or using Mesa from backpo=
+rts
+would trigger those crashes).
+This was on a Ryzen 1700 platform with chipset B450. I had this issue with a
+RX480 and a RX560 (as I tried to replace the GPU in case it was faulty, I a=
+lso
+replace the motherboard).
+
+I was still impacted with Fedora 30 with recurring GPU hangs. Then I replac=
+ed
+the CPU/motherboard with a Core i7-9700k/Z390 platform. Since then I did not
+have a single GPU hang on Fedora 30.
+
+My hypothesis on this problem not being easily reproducible is that it would
+happen only on specific GPU/CPU combinations.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15678311531.dF0Fe32d.5407
-Date: Sat, 7 Sep 2019 04:39:13 +0000
+--15678349425.AFF0.15036
+Date: Sat, 7 Sep 2019 05:42:22 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -96,20 +114,38 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - VA-API radeonsi SIGSEGV __memmove_avx_unaligned"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111236#c11">Comme=
-nt # 11</a>
+   title=3D"NEW - System crashes after &quot;[drm] IP block:gmc_v8_0 is hun=
+g!&quot; / [drm] IP block:sdma_v3_0 is hung!"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102322#c86">Comme=
+nt # 86</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - VA-API radeonsi SIGSEGV __memmove_avx_unaligned"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111236">bug 11123=
-6</a>
+   title=3D"NEW - System crashes after &quot;[drm] IP block:gmc_v8_0 is hun=
+g!&quot; / [drm] IP block:sdma_v3_0 is hung!"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102322">bug 10232=
+2</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-julien.isorce&#64;gmail.com" title=3D"Julien Isorce &lt;julien.isorce&#64;g=
-mail.com&gt;"> <span class=3D"fn">Julien Isorce</span></a>
+paul&#64;ezvan.fr" title=3D"Paul Ezvan &lt;paul&#64;ezvan.fr&gt;"> <span cl=
+ass=3D"fn">Paul Ezvan</span></a>
 </span></b>
-        <pre>Hi Michel, I confirm the attached patch fixes the issues for m=
-e too.</pre>
+        <pre>I was also impacted by this bug (amdgpu hangs on random condit=
+ions with similar
+messages as the one exposed) with any kernel/mesa version combination other
+than the ones on Debian Stretch (any other distro or using Mesa from backpo=
+rts
+would trigger those crashes).
+This was on a Ryzen 1700 platform with chipset B450. I had this issue with a
+RX480 and a RX560 (as I tried to replace the GPU in case it was faulty, I a=
+lso
+replace the motherboard).
+
+I was still impacted with Fedora 30 with recurring GPU hangs. Then I replac=
+ed
+the CPU/motherboard with a Core i7-9700k/Z390 platform. Since then I did not
+have a single GPU hang on Fedora 30.
+
+My hypothesis on this problem not being easily reproducible is that it would
+happen only on specific GPU/CPU combinations.</pre>
         </div>
       </p>
 
@@ -123,9 +159,9 @@ e too.</pre>
     </body>
 </html>=
 
---15678311531.dF0Fe32d.5407--
+--15678349425.AFF0.15036--
 
---===============0642259399==
+--===============0765490935==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -135,4 +171,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0642259399==--
+--===============0765490935==--
