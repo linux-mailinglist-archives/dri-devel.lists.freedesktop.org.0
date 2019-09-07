@@ -1,43 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1DFFAC752
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2019 17:43:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29923AC76A
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2019 17:56:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EFD989C97;
-	Sat,  7 Sep 2019 15:43:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76C1589D4D;
+	Sat,  7 Sep 2019 15:56:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id D9CD389C97
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Sep 2019 15:43:15 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D61ED72161; Sat,  7 Sep 2019 15:43:15 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111584] "pp_od_clk_voltage" unavailable on Hawaii GPU (R9 390)
-Date: Sat, 07 Sep 2019 15:43:15 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
-X-Bugzilla-Who: jonasdcdm@mailbox.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
-Message-ID: <bug-111584-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+X-Greylist: delayed 372 seconds by postgrey-1.36 at gabe;
+ Sat, 07 Sep 2019 15:56:51 UTC
+Received: from smtprelay.hostedemail.com (smtprelay0131.hostedemail.com
+ [216.40.44.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88C1A89D4D;
+ Sat,  7 Sep 2019 15:56:51 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
+ [10.5.19.251])
+ by smtpgrave03.hostedemail.com (Postfix) with ESMTP id 3A68C180357DB;
+ Sat,  7 Sep 2019 15:50:39 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay04.hostedemail.com (Postfix) with ESMTP id CD557180A884B;
+ Sat,  7 Sep 2019 15:50:37 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com,
+ :::::::::::::::::::::,
+ RULES_HIT:41:355:379:599:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1537:1560:1593:1594:1711:1714:1730:1747:1777:1792:2393:2559:2562:2828:3138:3139:3140:3141:3142:3622:3865:3866:3867:3872:3874:4321:5007:8531:10004:10400:10848:11658:11914:12297:12740:12760:12895:13069:13311:13357:13439:14659:21080:21627:30051:30054:30060:30069:30091,
+ 0,
+ RBL:47.151.152.152:@perches.com:.lbl8.mailshell.net-62.8.0.100 64.201.201.201,
+ CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none, DomainCache:0,
+ MSF:not bulk, SPF:fn, MSBL:0, DNSBL:neutral, Custom_rules:0:0:0, LFtime:27,
+ LUA_SUMMARY:none
+X-HE-Tag: rake73_3f7a51a030944
+X-Filterd-Recvd-Size: 1669
+Received: from XPS-9350.home (unknown [47.151.152.152])
+ (Authenticated sender: joe@perches.com)
+ by omf04.hostedemail.com (Postfix) with ESMTPA;
+ Sat,  7 Sep 2019 15:50:36 +0000 (UTC)
+Message-ID: <b387b7ea498eb96d94f47b22ac4b11c75518513a.camel@perches.com>
+Subject: Re: [PATCH AUTOSEL 4.19 044/167] drm/amdgpu: validate user pitch
+ alignment
+From: Joe Perches <joe@perches.com>
+To: Sasha Levin <sashal@kernel.org>, Michel =?ISO-8859-1?Q?D=E4nzer?=
+ <michel@daenzer.net>
+Date: Sat, 07 Sep 2019 08:50:34 -0700
+In-Reply-To: <20190904120823.GW5281@sasha-vm>
+References: <20190903162519.7136-1-sashal@kernel.org>
+ <20190903162519.7136-44-sashal@kernel.org>
+ <7957107d-634f-4771-327e-99fdd5e6474e@daenzer.net>
+ <20190903170347.GA24357@kroah.com> <20190903200139.GJ5281@sasha-vm>
+ <CAKMK7uFpBnkF4xABdkDMZ8TYhL4jg6ZuGyHGyVeBxc9rkyUtXQ@mail.gmail.com>
+ <829c5912-cf80-81d0-7400-d01d286861fc@daenzer.net>
+ <20190904120823.GW5281@sasha-vm>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -51,223 +67,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0735218743=="
+Cc: Yu Zhao <yuzhao@google.com>, Dave Airlie <airlied@linux.ie>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, stable <stable@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0735218743==
-Content-Type: multipart/alternative; boundary="15678709951.55bBEc.32292"
-Content-Transfer-Encoding: 7bit
-
-
---15678709951.55bBEc.32292
-Date: Sat, 7 Sep 2019 15:43:15 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111584
-
-            Bug ID: 111584
-           Summary: "pp_od_clk_voltage" unavailable on Hawaii GPU (R9 390)
-           Product: DRI
-           Version: XOrg git
-          Hardware: x86-64 (AMD64)
-                OS: Linux (All)
-            Status: NEW
-          Severity: enhancement
-          Priority: not set
-         Component: DRM/AMDgpu
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: jonasdcdm@mailbox.org
-
-I have recently tried to overclock/undervolt my GPU (R9 390) within Linux
-thanks to the "amdgpu.ppfeaturemask=3D0xffffffff" boot parameter, but
-unfortunately the file "pp_od_clk_voltage" is not available after a reboot.
-
-Files "pp_dpm_mclk" and "pp_dpm_sclk" however show correct states and MHz,
-except that they don't show voltage information. Changing
-"power_dpm_force_performance_level" to manual allows me to make changes to
-these files, I can force a state to be used and overclock it, but voltages
-aren't showed and can't be modified.
-
-I have read that Southern Island GPUs were not expected to get this feature
-working, and I know Vega is compatible, but I can't find anywhere if Hawaii
-(CIK) hardware should be able to expose this feature. I might be missing
-something.
-
-Is there any way to undervolt my GPU under Linux at the moment?
-
-Specs:
-OS: Arch Linux
-Kernel: 5.2.11.arch1-1
-Mesa: 19.1.6-1
-Xorg: 1.20.5-2
-Boot parameters: radeon.cik_support=3D0 amdgpu.cik_support=3D1 amdgpu.dpm=
-=3D1
-amdgpu.dc=3D1 amdgpu.ppfeaturemask=3D0xffffffff
-GPU: [AMD/ATI] Hawaii PRO [Radeon R9 290/390] (rev 80)
-
-Feel free to ask for more details and output if needed.
-
-Thank you for your time.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15678709951.55bBEc.32292
-Date: Sat, 7 Sep 2019 15:43:15 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - &quot;pp_od_clk_voltage&quot; unavailable on Hawaii GPU (=
-R9 390)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111584">111584</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>&quot;pp_od_clk_voltage&quot; unavailable on Hawaii GPU (R9 3=
-90)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>XOrg git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>x86-64 (AMD64)
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>Linux (All)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>enhancement
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>DRM/AMDgpu
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>jonasdcdm&#64;mailbox.org
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>I have recently tried to overclock/undervolt my GPU (R9 390) w=
-ithin Linux
-thanks to the &quot;amdgpu.ppfeaturemask=3D0xffffffff&quot; boot parameter,=
- but
-unfortunately the file &quot;pp_od_clk_voltage&quot; is not available after=
- a reboot.
-
-Files &quot;pp_dpm_mclk&quot; and &quot;pp_dpm_sclk&quot; however show corr=
-ect states and MHz,
-except that they don't show voltage information. Changing
-&quot;power_dpm_force_performance_level&quot; to manual allows me to make c=
-hanges to
-these files, I can force a state to be used and overclock it, but voltages
-aren't showed and can't be modified.
-
-I have read that Southern Island GPUs were not expected to get this feature
-working, and I know Vega is compatible, but I can't find anywhere if Hawaii
-(CIK) hardware should be able to expose this feature. I might be missing
-something.
-
-Is there any way to undervolt my GPU under Linux at the moment?
-
-Specs:
-OS: Arch Linux
-Kernel: 5.2.11.arch1-1
-Mesa: 19.1.6-1
-Xorg: 1.20.5-2
-Boot parameters: radeon.cik_support=3D0 amdgpu.cik_support=3D1 amdgpu.dpm=
-=3D1
-amdgpu.dc=3D1 amdgpu.ppfeaturemask=3D0xffffffff
-GPU: [AMD/ATI] Hawaii PRO [Radeon R9 290/390] (rev 80)
-
-Feel free to ask for more details and output if needed.
-
-Thank you for your time.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15678709951.55bBEc.32292--
-
---===============0735218743==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0735218743==--
+T24gV2VkLCAyMDE5LTA5LTA0IGF0IDA4OjA4IC0wNDAwLCBTYXNoYSBMZXZpbiB3cm90ZToKPiBp
+dCdzIGJldHRlciB0byBnZXQKPiBpdCByaWdodCByYXRoZXIgdGhhbiB0byBiZSBkb25lIHF1aWNr
+bHkgOikKClRoYXQgYWxzbyBhcHBsaWVzIHRvIHRoZSBpbml0aWFsIHNlbGVjdGlvbiBvZgpwYXRj
+aGVzIGZvciB0aGUgc3RhYmxlIHRyZWVzLgoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbA==
