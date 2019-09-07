@@ -1,46 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67163AC8A8
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2019 20:11:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25FD5AC907
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2019 21:36:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6E7689E15;
-	Sat,  7 Sep 2019 18:11:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16A3D89CB9;
+	Sat,  7 Sep 2019 19:36:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id EF6E989E1B
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Sep 2019 18:11:47 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C8FFE7215A; Sat,  7 Sep 2019 18:11:47 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111077] link_shader and deserialize_glsl_program suddenly
- consume huge amount of RAM
-Date: Sat, 07 Sep 2019 18:11:46 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 18.3
-X-Bugzilla-Keywords: bisected
-X-Bugzilla-Severity: blocker
-X-Bugzilla-Who: mattst88@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111077-502-MdFPTGVxmt@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111077-502@http.bugs.freedesktop.org/>
-References: <bug-111077-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
+ [IPv6:2607:f8b0:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6BF989CB9
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Sep 2019 19:36:15 +0000 (UTC)
+Received: by mail-ot1-x342.google.com with SMTP id 21so8872071otj.11
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Sep 2019 12:36:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RhGLMNYUXJVQObvjLPO1eOiQfW1an+aVLoibG+hHY9Q=;
+ b=rWR8fd6WBfYdynyShBnmnSE62jvDQXGWbJoARR1BYr03r01pcBYwlFb2JOlImEz7Jq
+ +GoVcgHql1casXERZXQRUWxfZgKH0rbh8H0uo7OMWcWUG53UINfI8tJ2hngkNoGgNUyv
+ VX/uU67e1bx0TwaUtr40BeZYwiWJJi00FzrWc4U0j+2zci6xsRWhe4AT20gWEzcBYO+N
+ RDqpKtTHyzD9RP4rydXFuDWtIFlV3OcoMhrHDZzhACry/NMiWgT0h83BRvOsllz7RP0D
+ WthO9ZH/9GpnTMpIN18DiSTdIglgQDp9Ajzg2SLYQR3N6qjQKgUfB9grErWXnMB8z1x9
+ LIBQ==
+X-Gm-Message-State: APjAAAUyOCUJv4Bm12kU0sTPPHPZp+5v4SMjS9hkT1KXOaZYYdmiUGTx
+ gmtpv97kBJMoehjcKpiHWm+Uw0Nobl4zpbiXYwrJfA==
+X-Google-Smtp-Source: APXvYqw9MLHsMbDuHWusaaUeavHJQNS8sUOSW/qUdjoZHHhfwfZJnEgUK1X7iy+POt0zvZdNu+dnfsKg4HRMF4ea7fw=
+X-Received: by 2002:a05:6830:10d8:: with SMTP id
+ z24mr1919013oto.281.1567884975003; 
+ Sat, 07 Sep 2019 12:36:15 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190905121141.42820-1-steven.price@arm.com>
+ <CAL_JsqKyKUBOK7+fSpr+ShjUz72oXC91ySOKCST9WyWjd0nqww@mail.gmail.com>
+ <d0fb9ba9-d8af-1523-192c-23376e467f12@arm.com>
+In-Reply-To: <d0fb9ba9-d8af-1523-192c-23376e467f12@arm.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Sat, 7 Sep 2019 21:36:03 +0200
+Message-ID: <CAKMK7uF1PYEPjQBvZwFOzAtjQ4YbY7AWj5mV106fvk_e=2ohsw@mail.gmail.com>
+Subject: Re: [PATCH] drm/panfrost: Prevent race when handling page fault
+To: Steven Price <steven.price@arm.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=RhGLMNYUXJVQObvjLPO1eOiQfW1an+aVLoibG+hHY9Q=;
+ b=TvXeKsfp/nWWk1PSAqPnMBAzbhIuOo4U+A7gi16k160MJlt2d/O7WhwFaZ9rraOsBP
+ 7N/K3JNqDHlTMvGrCbJT1jAqvcZTdlyv+rQ8SF3cgvWCRCRobvt14qMcVu/E8TediIDT
+ DF9GT+FB8MGRmump0F5RFngwNYnrA+hvFDHg8=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,95 +62,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1125592683=="
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1125592683==
-Content-Type: multipart/alternative; boundary="15678799070.89b3.31036"
-Content-Transfer-Encoding: 7bit
-
-
---15678799070.89b3.31036
-Date: Sat, 7 Sep 2019 18:11:47 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111077
-
---- Comment #27 from Matt Turner <mattst88@gmail.com> ---
-Is the shader-cache causing the shaders to be loaded from disk instead of
-compiled?
-
-Try with the environment variable MESA_GLSL_CACHE_DISABLE=3D1
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15678799070.89b3.31036
-Date: Sat, 7 Sep 2019 18:11:47 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
- huge amount of RAM"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077#c27">Comme=
-nt # 27</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
- huge amount of RAM"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077">bug 11107=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-mattst88&#64;gmail.com" title=3D"Matt Turner &lt;mattst88&#64;gmail.com&gt;=
-"> <span class=3D"fn">Matt Turner</span></a>
-</span></b>
-        <pre>Is the shader-cache causing the shaders to be loaded from disk=
- instead of
-compiled?
-
-Try with the environment variable MESA_GLSL_CACHE_DISABLE=3D1</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15678799070.89b3.31036--
-
---===============1125592683==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1125592683==--
+T24gRnJpLCBTZXAgNiwgMjAxOSBhdCAyOjQyIFBNIFN0ZXZlbiBQcmljZSA8c3RldmVuLnByaWNl
+QGFybS5jb20+IHdyb3RlOgo+Cj4gT24gMDYvMDkvMjAxOSAxMjoxMCwgUm9iIEhlcnJpbmcgd3Jv
+dGU6Cj4gPiBPbiBUaHUsIFNlcCA1LCAyMDE5IGF0IDE6MTEgUE0gU3RldmVuIFByaWNlIDxzdGV2
+ZW4ucHJpY2VAYXJtLmNvbT4gd3JvdGU6Cj4gPj4KPiA+PiBXaGVuIGhhbmRsaW5nIGEgR1BVIHBh
+Z2UgZmF1bHQgYWRkcl90b19kcm1fbW1fbm9kZSgpIGlzIHVzZWQgdG8KPiA+PiB0cmFuc2xhdGUg
+dGhlIEdQVSBhZGRyZXNzIHRvIGEgYnVmZmVyIG9iamVjdC4gSG93ZXZlciBpdCBpcyBwb3NzaWJs
+ZSBmb3IKPiA+PiB0aGUgYnVmZmVyIG9iamVjdCB0byBiZSBmcmVlZCBhZnRlciB0aGUgZnVuY3Rp
+b24gaGFzIHJldHVybmVkIHJlc3VsdGluZwo+ID4+IGluIGEgdXNlLWFmdGVyLWZyZWUgb2YgdGhl
+IEJPLgo+ID4+Cj4gPj4gQ2hhbmdlIGFkZHJfdG9fZHJtX21tX25vZGUgdG8gcmV0dXJuIHRoZSBw
+YW5mcm9zdF9nZW1fb2JqZWN0IHdpdGggYW4KPiA+PiBleHRyYSByZWZlcmVuY2Ugb24gaXQsIHBy
+ZXZlbnRpbmcgdGhlIEJPIGZyb20gYmVpbmcgZnJlZWQgdW50aWwgYWZ0ZXIKPiA+PiB0aGUgcGFn
+ZSBmYXVsdCBoYXMgYmVlbiBoYW5kbGVkLgo+ID4+Cj4gPj4gU2lnbmVkLW9mZi1ieTogU3RldmVu
+IFByaWNlIDxzdGV2ZW4ucHJpY2VAYXJtLmNvbT4KPiA+PiAtLS0KPiA+Pgo+ID4+IEkndmUgbWFu
+YWdlZCB0byB0cmlnZ2VyIHRoaXMsIGdlbmVyYXRpbmcgdGhlIGZvbGxvd2luZyBzdGFjayB0cmFj
+ZS4KPiA+Cj4gPiBIdW1tLCB0aGUgYXNzdW1wdGlvbiB3YXMgdGhhdCBhIGZhdWx0IGNvdWxkIG9u
+bHkgaGFwcGVuIGR1cmluZyBhIGpvYgo+ID4gYW5kIHNvIGEgcmVmZXJlbmNlIHdvdWxkIGFscmVh
+ZHkgYmUgaGVsZC4gT3RoZXJ3aXNlLCBjb3VsZG4ndCB0aGUgR1BVCj4gPiBhbHNvIGJlIGFjY2Vz
+c2luZyB0aGUgQk8gYWZ0ZXIgaXQgaXMgZnJlZWQ/Cj4KPiBBaCwgSSBndWVzcyBJIG1pc3NlZCB0
+aGF0IGluIHRoZSBjb21taXQgbWVzc2FnZS4gVGhpcyBpcyBhc3N1bWluZyB0aGF0Cj4gdXNlciBz
+cGFjZSBkb2Vzbid0IGluY2x1ZGUgdGhlIEJPIGluIHRoZSBqb2IgZXZlbiB0aG91Z2ggdGhlIEdQ
+VSB0aGVuCj4gZG9lcyB0cnkgdG8gYWNjZXNzIGl0LiBBSVVJIG1lc2Egd291bGRuJ3QgZG8gdGhp
+cywgYnV0IHRoaXMgaXMgc3RpbGwKPiBlYXNpbHkgcG9zc2libGUgaWYgdXNlciBzcGFjZSB3YW50
+cyB0byBjcmFzaCB0aGUga2VybmVsLgoKRG8gd2UgaGF2ZSBzb21lIG5pY2UgcmVncmVzc2lvbiB0
+ZXN0cyBmb3IgdWFwaSBleHBsb2l0cyBhbmQgY29ybmVyCmNhc2VzIGxpa2UgdGhpcz8gTWF5YmUg
+ZXZlbiBpbiBpZ3Q/Ci1EYW5pZWwKCj4KPiA+IEFsc28sIGxvb2tpbmcgYXQgdGhpcyBhZ2Fpbiwg
+SSB0aGluayB3ZSBuZWVkIHRvIGhvbGQgdGhlIG1tX2xvY2sKPiA+IGFyb3VuZCB0aGUgZHJtX21t
+X2Zvcl9lYWNoX25vZGUoKS4KPgo+IEFoLCBnb29kIHBvaW50LiBTcXVhc2hpbmcgaW4gdGhlIGZv
+bGxvd2luZyBzaG91bGQgZG8gdGhlIHRyaWNrOgo+Cj4gLS0tLTg8LS0tLQo+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfbW11LmMKPiBiL2RyaXZlcnMvZ3B1
+L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9tbXUuYwo+IGluZGV4IGNjYzUzNmQyZTQ4OS4uNDFmMjk3
+YWEyNTljIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9t
+bXUuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9tbXUuYwo+IEBA
+IC0zOTYsMjYgKzM5NiwzMyBAQCBzdGF0aWMgc3RydWN0IHBhbmZyb3N0X2dlbV9vYmplY3QgKgo+
+ICBhZGRyX3RvX2RybV9tbV9ub2RlKHN0cnVjdCBwYW5mcm9zdF9kZXZpY2UgKnBmZGV2LCBpbnQg
+YXMsIHU2NCBhZGRyKQo+ICB7Cj4gICAgICAgICBzdHJ1Y3QgcGFuZnJvc3RfZ2VtX29iamVjdCAq
+Ym8gPSBOVUxMOwo+ICsgICAgICAgc3RydWN0IHBhbmZyb3N0X2ZpbGVfcHJpdiAqcHJpdjsKPiAg
+ICAgICAgIHN0cnVjdCBkcm1fbW1fbm9kZSAqbm9kZTsKPiAgICAgICAgIHU2NCBvZmZzZXQgPSBh
+ZGRyID4+IFBBR0VfU0hJRlQ7Cj4gICAgICAgICBzdHJ1Y3QgcGFuZnJvc3RfbW11ICptbXU7Cj4K
+PiAgICAgICAgIHNwaW5fbG9jaygmcGZkZXYtPmFzX2xvY2spOwo+ICAgICAgICAgbGlzdF9mb3Jf
+ZWFjaF9lbnRyeShtbXUsICZwZmRldi0+YXNfbHJ1X2xpc3QsIGxpc3QpIHsKPiAtICAgICAgICAg
+ICAgICAgc3RydWN0IHBhbmZyb3N0X2ZpbGVfcHJpdiAqcHJpdjsKPiAtICAgICAgICAgICAgICAg
+aWYgKGFzICE9IG1tdS0+YXMpCj4gLSAgICAgICAgICAgICAgICAgICAgICAgY29udGludWU7Cj4g
+KyAgICAgICAgICAgICAgIGlmIChhcyA9PSBtbXUtPmFzKQo+ICsgICAgICAgICAgICAgICAgICAg
+ICAgIGJyZWFrOwo+ICsgICAgICAgfQo+ICsgICAgICAgaWYgKGFzICE9IG1tdS0+YXMpCj4gKyAg
+ICAgICAgICAgICAgIGdvdG8gb3V0Owo+Cj4gLSAgICAgICAgICAgICAgIHByaXYgPSBjb250YWlu
+ZXJfb2YobW11LCBzdHJ1Y3QgcGFuZnJvc3RfZmlsZV9wcml2LCBtbXUpOwo+IC0gICAgICAgICAg
+ICAgICBkcm1fbW1fZm9yX2VhY2hfbm9kZShub2RlLCAmcHJpdi0+bW0pIHsKPiAtICAgICAgICAg
+ICAgICAgICAgICAgICBpZiAob2Zmc2V0ID49IG5vZGUtPnN0YXJ0ICYmCj4gLSAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIG9mZnNldCA8IChub2RlLT5zdGFydCArIG5vZGUtPnNpemUpKSB7Cj4g
+LSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBibyA9IGRybV9tbV9ub2RlX3RvX3BhbmZy
+b3N0X2JvKG5vZGUpOwo+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZHJtX2dlbV9v
+YmplY3RfZ2V0KCZiby0+YmFzZS5iYXNlKTsKPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIGdvdG8gb3V0Owo+IC0gICAgICAgICAgICAgICAgICAgICAgIH0KPiArICAgICAgIHByaXYg
+PSBjb250YWluZXJfb2YobW11LCBzdHJ1Y3QgcGFuZnJvc3RfZmlsZV9wcml2LCBtbXUpOwo+ICsK
+PiArICAgICAgIHNwaW5fbG9jaygmcHJpdi0+bW1fbG9jayk7Cj4gKwo+ICsgICAgICAgZHJtX21t
+X2Zvcl9lYWNoX25vZGUobm9kZSwgJnByaXYtPm1tKSB7Cj4gKyAgICAgICAgICAgICAgIGlmIChv
+ZmZzZXQgPj0gbm9kZS0+c3RhcnQgJiYKPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IG9mZnNldCA8IChub2RlLT5zdGFydCArIG5vZGUtPnNpemUpKSB7Cj4gKyAgICAgICAgICAgICAg
+ICAgICAgICAgYm8gPSBkcm1fbW1fbm9kZV90b19wYW5mcm9zdF9ibyhub2RlKTsKPiArICAgICAg
+ICAgICAgICAgICAgICAgICBkcm1fZ2VtX29iamVjdF9nZXQoJmJvLT5iYXNlLmJhc2UpOwo+ICsg
+ICAgICAgICAgICAgICAgICAgICAgIGJyZWFrOwo+ICAgICAgICAgICAgICAgICB9Cj4gICAgICAg
+ICB9Cj4gKwo+ICsgICAgICAgc3Bpbl91bmxvY2soJnByaXYtPm1tX2xvY2spOwo+ICBvdXQ6Cj4g
+ICAgICAgICBzcGluX3VubG9jaygmcGZkZXYtPmFzX2xvY2spOwo+ICAgICAgICAgcmV0dXJuIGJv
+Owo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gZHJp
+LWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAoK
+CgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24K
+KzQxICgwKSA3OSAzNjUgNTcgNDggLSBodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
