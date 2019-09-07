@@ -1,60 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA193AC715
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2019 16:58:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1DFFAC752
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Sep 2019 17:43:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3339789D86;
-	Sat,  7 Sep 2019 14:58:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EFD989C97;
+	Sat,  7 Sep 2019 15:43:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBB2089D86;
- Sat,  7 Sep 2019 14:58:17 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id l16so9347833wrv.12;
- Sat, 07 Sep 2019 07:58:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=1COcKaS2HXJAJL3v76zzn2hj7Bwkz387tvnsFY+Qqwo=;
- b=kJ+pGmYaaUsOaPWr82MbcJ6anycmZ+A0ubzV1E5MhWXxS9szpu6ZcR8WfRcMwzjDRP
- wDugGR/nJdlInmw2J4Y3Z8M1n/U0Inj5ju5ALQueW+N2Xu1UDeWNcneaLuxiFjBguZng
- JRyCmY1uduEZ+MyzN54iuPH1Ao5H94Tz1/+YJOFl8EwN2wtZw3BWOoMNjAkGJgstQWv0
- NS0SVAiS8FvTunqE3AbzbDnv+Xq1+gWtgVB6J9wiONfY9OCV4RK0WRbCxAYqIUy7id+V
- 7J1L77XVhUnn84m0x2ig33640mGSLy5XMDUoGFCJHTiD/Qx6ooKa3zH82QfUTLZLsAkD
- GWIQ==
-X-Gm-Message-State: APjAAAVJr6y3Z5hL3TbbDYUTcqDS+zoIg3FbOUz+QUYYPwU6+Lv1qrGJ
- BclY+zf7hqZQHDfqoepgPucBf1QuZuNUbKrMq7M=
-X-Google-Smtp-Source: APXvYqzSXDuicK9cIB3YHlgQmu0ZhC7GmzlZl5Qjwb/WQCt4v0+9tJb5jpYKC073HCxRSWvKDYp3DpEEhmnzeKDshIA=
-X-Received: by 2002:adf:e286:: with SMTP id v6mr11989190wri.4.1567868296438;
- Sat, 07 Sep 2019 07:58:16 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D9CD389C97
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Sep 2019 15:43:15 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id D61ED72161; Sat,  7 Sep 2019 15:43:15 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111584] "pp_od_clk_voltage" unavailable on Hawaii GPU (R9 390)
+Date: Sat, 07 Sep 2019 15:43:15 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: enhancement
+X-Bugzilla-Who: jonasdcdm@mailbox.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-111584-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190903162519.7136-1-sashal@kernel.org>
- <20190903162519.7136-44-sashal@kernel.org>
- <7957107d-634f-4771-327e-99fdd5e6474e@daenzer.net>
- <20190903170347.GA24357@kroah.com> <20190903200139.GJ5281@sasha-vm>
- <CAKMK7uFpBnkF4xABdkDMZ8TYhL4jg6ZuGyHGyVeBxc9rkyUtXQ@mail.gmail.com>
-In-Reply-To: <CAKMK7uFpBnkF4xABdkDMZ8TYhL4jg6ZuGyHGyVeBxc9rkyUtXQ@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Sat, 7 Sep 2019 10:58:03 -0400
-Message-ID: <CADnq5_Mfee4xmzMJ-Hmw251QCMfabWPKd8PX+o70D97qdCDJ8g@mail.gmail.com>
-Subject: Re: [PATCH AUTOSEL 4.19 044/167] drm/amdgpu: validate user pitch
- alignment
-To: Daniel Vetter <daniel@ffwll.ch>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=1COcKaS2HXJAJL3v76zzn2hj7Bwkz387tvnsFY+Qqwo=;
- b=KniegP04d/AhcqE+5LUIynxWrj4CHnLgNRFGgR7j8m829cSrKRqZLjBci1iMhrN9+x
- cqyDDhNpm9roTgyItEoJBj9jYmhcfmOiEyJecJy+xX17N141k3tCye93e+hJxq2oXIDB
- 2x2zNGykFoX/BoI0c03XYb1SW0e2rtEpH2DysWWXHRAgWNMQz7SLWGUisP3CVuaoBXJk
- hoNFQ2uHsjflydICv0dD6BWPs46wkgceQ9aSvnBXiTjZ/E1aAz0wzza4n/sDf/D3+icV
- 6KW8/8E0Wg/nkvsmHWe0k2DE4bzBIRAbzjsS5SLleqiJXKabVZqL4pFk1s9IvWhS8sqE
- RrpA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,73 +51,223 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Yu Zhao <yuzhao@google.com>,
- Dave Airlie <airlied@linux.ie>, Greg KH <gregkh@linuxfoundation.org>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, stable <stable@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0735218743=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBTZXAgMywgMjAxOSBhdCA0OjE2IFBNIERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZnds
-bC5jaD4gd3JvdGU6Cj4KPiBPbiBUdWUsIFNlcCAzLCAyMDE5IGF0IDEwOjAxIFBNIFNhc2hhIExl
-dmluIDxzYXNoYWxAa2VybmVsLm9yZz4gd3JvdGU6Cj4gPgo+ID4gT24gVHVlLCBTZXAgMDMsIDIw
-MTkgYXQgMDc6MDM6NDdQTSArMDIwMCwgR3JlZyBLSCB3cm90ZToKPiA+ID5PbiBUdWUsIFNlcCAw
-MywgMjAxOSBhdCAwNjo0MDo0M1BNICswMjAwLCBNaWNoZWwgRMOkbnplciB3cm90ZToKPiA+ID4+
-IE9uIDIwMTktMDktMDMgNjoyMyBwLm0uLCBTYXNoYSBMZXZpbiB3cm90ZToKPiA+ID4+ID4gRnJv
-bTogWXUgWmhhbyA8eXV6aGFvQGdvb2dsZS5jb20+Cj4gPiA+PiA+Cj4gPiA+PiA+IFsgVXBzdHJl
-YW0gY29tbWl0IDg5ZjIzYjZlZmVmNTU0NzY2MTc3YmY1MWFhNzU0YmNlMTRjM2U3ZGEgXQo+ID4g
-Pj4KPiA+ID4+IEhvbGQgeW91ciBob3JzZXMhCj4gPiA+Pgo+ID4gPj4gVGhpcyBjb21taXQgYW5k
-IGM0YTMyYjI2NmRhN2JiNzAyZTYwMzgxY2EwYzM1ZWFkZGJjODlhNmMgaGFkIHRvIGJlCj4gPiA+
-PiByZXZlcnRlZCwgYXMgdGhleSBjYXVzZWQgcmVncmVzc2lvbnMuIFNlZSBjb21taXRzCj4gPiA+
-PiAyNWVjNDI5ZTg2YmI3OTBlNDAzODdhNTUwZjA1MDFkMGFjNTVhNDdjICYKPiA+ID4+IDkyYjA3
-MzBlYWYyZDU0OWZkZmIxMGVjYzhiNzFmMzRiOWY0NzJjMTIgLgo+ID4gPj4KPiA+ID4+Cj4gPiA+
-PiBUaGlzIGlzbid0IGJvbHN0ZXJpbmcgY29uZmlkZW5jZSBpbiBob3cgdGhlc2UgcGF0Y2hlcyBh
-cmUgc2VsZWN0ZWQuLi4KPiA+ID4KPiA+ID5UaGUgcGF0Y2ggX2l0c2VsZl8gc2FpZCB0byBiZSBi
-YWNrcG9ydGVkIHRvIHRoZSBzdGFibGUgdHJlZXMgZnJvbSA0LjIKPiA+ID5hbmQgbmV3ZXIuICBX
-aHkgd291bGRuJ3Qgd2UgYmUgY29uZmlkZW50IGluIGRvaW5nIHRoaXM/Cj4gPiA+Cj4gPiA+SWYg
-dGhlIHBhdGNoIGRvZXNuJ3Qgd2FudCB0byBiZSBiYWNrcG9ydGVkLCB0aGVuIGRvIG5vdCBhZGQg
-dGhlIGNjOgo+ID4gPnN0YWJsZSBsaW5lIHRvIGl0Li4uCj4gPgo+ID4gVGhpcyBwYXRjaCB3YXMg
-cGlja2VkIGJlY2F1c2UgaXQgaGFzIGEgc3RhYmxlIHRhZywgd2hpY2ggeW91IHByZXN1bWFibHkK
-PiA+IHNhdyBhcyB5b3VyIFJldmlld2VkLWJ5IHRhZyBpcyBpbiB0aGUgcGF0Y2guIFRoaXMgaXMg
-d2h5IGl0IHdhcwo+ID4gYmFja3BvcnRlZDsgaXQgZG9lc24ndCB0YWtlIEFJIHRvIGJhY2twb3J0
-IHBhdGNoZXMgdGFnZ2VkIGZvciBzdGFibGUuLi4KPiA+Cj4gPiBUaGUgcmV2ZXJ0IG9mIHRoaXMg
-cGF0Y2gsIGhvd2V2ZXI6Cj4gPgo+ID4gIDEuIERpZG4ndCBoYXZlIGEgc3RhYmxlIHRhZy4KPiA+
-ICAyLiBEaWRuJ3QgaGF2ZSBhICJGaXhlczoiIHRhZy4KPiA+ICAzLiBEaWRuJ3QgaGF2ZSB0aGUg
-dXN1YWwgInRoZSByZXZlcnRzIGNvbW1pdCAuLi4iIHN0cmluZyBhZGRlZCBieSBnaXQKPiA+ICB3
-aGVuIG9uZSBkb2VzIGEgcmV2ZXJ0Lgo+ID4KPiA+IFdoaWNoIGlzIHdoeSB3ZSBzdGlsbCBraWNr
-IHBhdGNoZXMgZm9yIHJldmlldywgZXZlbiB0aG91Z2ggdGhleSBoYWQgYQo+ID4gc3RhYmxlIHRh
-ZywganVzdCBzbyBwZW9wbGUgY291bGQgdGFrZSBhIGxvb2sgYW5kIGNvbmZpcm0gd2UncmUgbm90
-Cj4gPiBtaXNzaW5nIGFueXRoaW5nIC0gbGlrZSB3ZSBkaWQgaGVyZS4KPiA+Cj4gPiBJJ20gbm90
-IHN1cmUgd2hhdCB5b3UgZXhwZWN0ZWQgbWUgdG8gZG8gZGlmZmVyZW50bHkgaGVyZS4KPgo+IFll
-YWggdGhpcyBsb29rcyBsaWtlIGZhaWwgb24gdGhlIHJldmVydCBzaWRlLCB0aGV5IG5lZWQgdG8g
-cmVmZXJlbmNlCj4gdGhlIHJldmVydGVkIGNvbW1pdCBzb21laG93IC4uLgo+Cj4gQWxleCwgd2h5
-IGdvdCB0aGlzIGRyb3BwZWQ/IElzIHRoaXMgbW9yZSBmYWxsb3V0IGZyb20gdGhlIGJhY2smZm9y
-dGgKPiBzaHVmZmxpbmcgeW91J3JlIGRvaW5nIGJldHdlZW4geW91ciBpbnRlcm5hbCBicmFuY2hl
-cyBiZWhpbmQgdGhlCj4gZmlyZXdhbGwsIGFuZCB0aGUgcHVibGljIGhpc3Rvcnk/CgpUaGUgYmVo
-aW5kIHRoZSBmaXJld2FsbCBjb21tZW50cyBhcmUgbm90IHJlYWxseSBoZWxwZnVsLiAgVGhlcmUg
-YXJlbid0CmFueSAiYmVoaW5kIHRoZSBmaXJld2FsbCIgdHJlZXMuICBFdmVyeXRoaW5nIGlzIG1p
-cnJvcmVkIGluIHB1YmxpYy4KWWVzIGl0IGlzIGFubm95aW5nIHRoYXQgd2UgZG9uJ3QgaGF2ZSBh
-IGRpcmVjdCBjb21taXR0ZXIgdHJlZSwgYnV0IHRoZQpvbmx5IHNodWZmbGluZyBpcyBiZXR3ZWVu
-IHB1YmxpYyB0cmVlcy4gIFRoZSBwcm9ibGVtIGlzIDkwJSBvZiBvdXIKY3VzdG9tZXJzIHdhbnQg
-cGFja2FnZWQgb3V0IG9mIHRyZWUgZHJpdmVycyByYXRoZXIgdGhhbiBpbiB0cmVlCmRyaXZlcnMg
-YmVjYXVzZSB0aGV5IGFyZSB1c2luZyBhbiBvbGQgZGlzdHJvIG9yIGEgY3VzdG9tIGRpc3RybyBv
-cgpzb21ldGhpbmcgZWxzZSBzbyB3ZSBoYXZlIHRvIGRvIHRoaXMgZGFuY2UuICBJIHJlYWxpemUg
-dGhlcmUgYXJlIG90aGVyCmRhbmNlcyB3ZSBjb3VsZCBkbyB0byBzb2x2ZSB0aGlzIHByb2JsZW0s
-IGJ1dCB0aGV5IGFsbCBoYXZlIHRoZWlyIG93bgpzZXQgb2YgY29zdHMgYW5kIHRoaXMgaXMgd2hh
-dCB3ZSBoYXZlIG5vdy4gIFRoZSBwYXRjaCBzaHVmZmxpbmcKZG9lc24ndCBoZWxwLCBidXQgcmVn
-YXJkbGVzcywgdGhlIHNhbWUgdGhpbmcgY291bGQgaGFwcGVuIGV2ZW4gd2l0aCBhCmRpcmVjdCBj
-b21taXR0ZXIgdHJlZSBpZiBzb21lb25lIG1pc3NlZCB0aGUgdGFnIHdoZW4gY29tbWl0dGluZy4K
-CkFsZXgKCj4KPiBBbHNvIGFkZGluZyBEYXZlIEFpcmxpZS4KPiAtRGFuaWVsCj4gLS0KPiBEYW5p
-ZWwgVmV0dGVyCj4gU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCj4gKzQxICgw
-KSA3OSAzNjUgNTcgNDggLSBodHRwOi8vYmxvZy5mZndsbC5jaAo+IF9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+
-IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbApfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0735218743==
+Content-Type: multipart/alternative; boundary="15678709951.55bBEc.32292"
+Content-Transfer-Encoding: 7bit
+
+
+--15678709951.55bBEc.32292
+Date: Sat, 7 Sep 2019 15:43:15 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111584
+
+            Bug ID: 111584
+           Summary: "pp_od_clk_voltage" unavailable on Hawaii GPU (R9 390)
+           Product: DRI
+           Version: XOrg git
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: enhancement
+          Priority: not set
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: jonasdcdm@mailbox.org
+
+I have recently tried to overclock/undervolt my GPU (R9 390) within Linux
+thanks to the "amdgpu.ppfeaturemask=3D0xffffffff" boot parameter, but
+unfortunately the file "pp_od_clk_voltage" is not available after a reboot.
+
+Files "pp_dpm_mclk" and "pp_dpm_sclk" however show correct states and MHz,
+except that they don't show voltage information. Changing
+"power_dpm_force_performance_level" to manual allows me to make changes to
+these files, I can force a state to be used and overclock it, but voltages
+aren't showed and can't be modified.
+
+I have read that Southern Island GPUs were not expected to get this feature
+working, and I know Vega is compatible, but I can't find anywhere if Hawaii
+(CIK) hardware should be able to expose this feature. I might be missing
+something.
+
+Is there any way to undervolt my GPU under Linux at the moment?
+
+Specs:
+OS: Arch Linux
+Kernel: 5.2.11.arch1-1
+Mesa: 19.1.6-1
+Xorg: 1.20.5-2
+Boot parameters: radeon.cik_support=3D0 amdgpu.cik_support=3D1 amdgpu.dpm=
+=3D1
+amdgpu.dc=3D1 amdgpu.ppfeaturemask=3D0xffffffff
+GPU: [AMD/ATI] Hawaii PRO [Radeon R9 290/390] (rev 80)
+
+Feel free to ask for more details and output if needed.
+
+Thank you for your time.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15678709951.55bBEc.32292
+Date: Sat, 7 Sep 2019 15:43:15 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - &quot;pp_od_clk_voltage&quot; unavailable on Hawaii GPU (=
+R9 390)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111584">111584</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>&quot;pp_od_clk_voltage&quot; unavailable on Hawaii GPU (R9 3=
+90)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>XOrg git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>enhancement
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>jonasdcdm&#64;mailbox.org
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>I have recently tried to overclock/undervolt my GPU (R9 390) w=
+ithin Linux
+thanks to the &quot;amdgpu.ppfeaturemask=3D0xffffffff&quot; boot parameter,=
+ but
+unfortunately the file &quot;pp_od_clk_voltage&quot; is not available after=
+ a reboot.
+
+Files &quot;pp_dpm_mclk&quot; and &quot;pp_dpm_sclk&quot; however show corr=
+ect states and MHz,
+except that they don't show voltage information. Changing
+&quot;power_dpm_force_performance_level&quot; to manual allows me to make c=
+hanges to
+these files, I can force a state to be used and overclock it, but voltages
+aren't showed and can't be modified.
+
+I have read that Southern Island GPUs were not expected to get this feature
+working, and I know Vega is compatible, but I can't find anywhere if Hawaii
+(CIK) hardware should be able to expose this feature. I might be missing
+something.
+
+Is there any way to undervolt my GPU under Linux at the moment?
+
+Specs:
+OS: Arch Linux
+Kernel: 5.2.11.arch1-1
+Mesa: 19.1.6-1
+Xorg: 1.20.5-2
+Boot parameters: radeon.cik_support=3D0 amdgpu.cik_support=3D1 amdgpu.dpm=
+=3D1
+amdgpu.dc=3D1 amdgpu.ppfeaturemask=3D0xffffffff
+GPU: [AMD/ATI] Hawaii PRO [Radeon R9 290/390] (rev 80)
+
+Feel free to ask for more details and output if needed.
+
+Thank you for your time.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15678709951.55bBEc.32292--
+
+--===============0735218743==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0735218743==--
