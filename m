@@ -1,51 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F317EACA45
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Sep 2019 03:59:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF8DACA50
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Sep 2019 04:02:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E33189D63;
-	Sun,  8 Sep 2019 01:59:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CB6D89D81;
+	Sun,  8 Sep 2019 02:02:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com
- [209.85.217.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2D0A89D49;
- Sun,  8 Sep 2019 01:58:58 +0000 (UTC)
-Received: by mail-vs1-f67.google.com with SMTP id g11so6190326vsr.8;
- Sat, 07 Sep 2019 18:58:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9wvcp3nV7La4YoI+ieadHx02sDBCIHvis3wKPKJAabs=;
- b=IKDAZoUJSksUTckWv2HFSdQx4O9ft0kR8GtF3+lrPOVaAOjcwI6+gJ9bY6ZzaeJ8TC
- HL4qxDlsSil4mCJVt9KTR4Mr8vlxI8REI7qutmmUxywTfbjGtU7XbHHL1D5x/9zRtT43
- UewO1lQVwi5IkifpFZ/+Fxc2FjVu5ilBx2lCXZQmD5hbjYOQkWCXB6ycOv4hCoeJFDsZ
- mg8UZjd0QERP+th7WvuxXiiZjHxp/niokOgy9yvpZEoKs5R1FtvXcA315kqmIDnB5jFq
- 1CqnYhL3Op0IvG4zPQqKkOHYXgD/plPZsoxAnQQpNtLinSaLWBpc3DNuZqVAexUVS3oz
- up7Q==
-X-Gm-Message-State: APjAAAWSLJ175T8e1hlnp9o5SnhAbKtiJACgqnWlT956D8Q7gtvh4DsO
- z185qfbKLHvnZWrQVte0yZUp0z6hi00gerr/Nro=
-X-Google-Smtp-Source: APXvYqylZV390V/V1oizqnab5+4dm12EOj8yZUV8cYoKWUvOfP7UehtT5iz9+JYf89ReeVrKsPeKsLwhqt0H+c6F8EM=
-X-Received: by 2002:a67:db12:: with SMTP id z18mr7697263vsj.18.1567907937861; 
- Sat, 07 Sep 2019 18:58:57 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A18AF89D81
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Sep 2019 02:02:18 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 9D50872161; Sun,  8 Sep 2019 02:02:18 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111482] Sapphire Pulse RX 5700 XT power consumption
+Date: Sun, 08 Sep 2019 02:02:18 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: asheldon55@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111482-502-qwW0lwa8Uo@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111482-502@http.bugs.freedesktop.org/>
+References: <bug-111482-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190805140119.7337-1-kraxel@redhat.com>
- <20190805140119.7337-9-kraxel@redhat.com>
- <20190813151115.GA29955@ulmo>
- <20190814055827.6hrxj6daovxxnnvw@sirius.home.kraxel.org>
- <20190814093524.GA31345@ulmo>
- <20190814101411.lj3p6zjzbjvnnjf4@sirius.home.kraxel.org>
- <CACAvsv5Rar9F=Wf-9HBpndY4QaQZcGCx05j0esvV9pitM=JoGg@mail.gmail.com>
- <20190821115523.GA21839@ulmo>
-In-Reply-To: <20190821115523.GA21839@ulmo>
-From: Ilia Mirkin <imirkin@alum.mit.edu>
-Date: Sat, 7 Sep 2019 21:58:46 -0400
-Message-ID: <CAKb7UvjXq0ptiPYu5EGH6sJAbbRjN3X4f_knrxyOHD1Zi7P1BA@mail.gmail.com>
-Subject: Re: [Nouveau] [Intel-gfx] [PATCH v6 08/17] drm/ttm: use gem vma_node
-To: Thierry Reding <thierry.reding@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,46 +52,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ben Skeggs <skeggsb@gmail.com>, ML nouveau <nouveau@lists.freedesktop.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- Ben Skeggs <bskeggs@redhat.com>, linux-graphics-maintainer@vmware.com,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- spice-devel@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0511913057=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBBdWcgMjEsIDIwMTkgYXQgNzo1NSBBTSBUaGllcnJ5IFJlZGluZyA8dGhpZXJyeS5y
-ZWRpbmdAZ21haWwuY29tPiB3cm90ZToKPgo+IE9uIFdlZCwgQXVnIDIxLCAyMDE5IGF0IDA0OjMz
-OjU4UE0gKzEwMDAsIEJlbiBTa2VnZ3Mgd3JvdGU6Cj4gPiBPbiBXZWQsIDE0IEF1ZyAyMDE5IGF0
-IDIwOjE0LCBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVkaGF0LmNvbT4gd3JvdGU6Cj4gPiA+Cj4g
-PiA+ICAgSGksCj4gPiA+Cj4gPiA+ID4gPiBDaGFuZ2luZyB0aGUgb3JkZXIgZG9lc24ndCBsb29r
-IGhhcmQuICBQYXRjaCBhdHRhY2hlZCAodW50ZXN0ZWQsIGhhdmUgbm8KPiA+ID4gPiA+IHRlc3Qg
-aGFyZHdhcmUpLiAgQnV0IG1heWJlIEkgbWlzc2VkIHNvbWUgZGV0YWlsIC4uLgo+ID4gPiA+Cj4g
-PiA+ID4gSSBjYW1lIHVwIHdpdGggc29tZXRoaW5nIHZlcnkgc2ltaWxhciBieSBzcGxpdHRpbmcg
-dXAgbm91dmVhdV9ib19uZXcoKQo+ID4gPiA+IGludG8gYWxsb2NhdGlvbiBhbmQgaW5pdGlhbGl6
-YXRpb24gc3RlcHMsIHNvIHRoYXQgd2hlbiBuZWNlc3NhcnkgdGhlIEdFTQo+ID4gPiA+IG9iamVj
-dCBjYW4gYmUgaW5pdGlhbGl6ZWQgaW4gYmV0d2Vlbi4gSSB0aGluayB0aGF0J3Mgc2xpZ2h0bHkg
-bW9yZQo+ID4gPiA+IGZsZXhpYmxlIGFuZCBlYXNpZXIgdG8gdW5kZXJzdGFuZCB0aGFuIGEgYm9v
-bGVhbiBmbGFnLgo+ID4gPgo+ID4gPiBZZXMsIHRoYXQgc2hvdWxkIHdvcmsgdG9vLgo+ID4gPgo+
-ID4gPiBBY2tlZC1ieTogR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+Cj4gPiBBY2tl
-ZC1ieTogQmVuIFNrZWdncyA8YnNrZWdnc0ByZWRoYXQuY29tPgo+Cj4gVGhhbmtzIGd1eXMsIGFw
-cGxpZWQgdG8gZHJtLW1pc2MtbmV4dC4KCkhpIFRoaWVycnksCgpJbml0aWFsIGludmVzdGlnYXRp
-b25zIHN1Z2dlc3QgdGhhdCB0aGlzIGNvbW1pdCBjdXJyZW50bHkgaW4gZHJtLW5leHQKCmNvbW1p
-dCAwMTljYmQ0YTRmZWIzYWEzYTkxN2Q3OGU3MTEwZTMwMTFiYmZmNmQ1CkF1dGhvcjogVGhpZXJy
-eSBSZWRpbmcgPHRyZWRpbmdAbnZpZGlhLmNvbT4KRGF0ZTogICBXZWQgQXVnIDE0IDExOjAwOjQ4
-IDIwMTkgKzAyMDAKCiAgICBkcm0vbm91dmVhdTogSW5pdGlhbGl6ZSBHRU0gb2JqZWN0IGJlZm9y
-ZSBUVE0gb2JqZWN0CgpicmVha3Mgbm91dmVhdSB1c2Vyc3BhY2Ugd2hpY2ggdHJpZXMgdG8gYWxs
-b2NhdGUgR0VNIG9iamVjdHMgd2l0aCBhCm5vbi1wYWdlLWFsaWduZWQgc2l6ZS4gUHJldmlvdXNs
-eSBub3V2ZWF1X2dlbV9uZXcgd291bGQganVzdCBjYWxsCm5vdXZlYXVfYm9faW5pdCB3aGljaCB3
-b3VsZCBjYWxsIG5vdXZlYXVfYm9fZml4dXBfYWxpZ24gYmVmb3JlCmluaXRpYWxpemluZyB0aGUg
-R0VNIG9iamVjdC4gV2l0aCB0aGlzIGNoYW5nZSwgaXQgaXMgZG9uZSBhZnRlci4gV2hhdApkbyB5
-b3UgdGhpbmsgLS0gT0sgdG8ganVzdCBtb3ZlIHRoYXQgYml0IG9mIGxvZ2ljIGludG8gdGhlIG5l
-dwpub3V2ZWF1X2JvX2FsbG9jKCkgKGFuZCBtYWtlIHNpemUvYWxpZ24gYmUgcG9pbnRlcnMgc28g
-dGhhdCB0aGV5IGNhbgpiZSBmaXhlZCB1cD8pCgpDaGVlcnMsCgogIC1pbGlhCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0511913057==
+Content-Type: multipart/alternative; boundary="15679081381.De34B8.28534"
+Content-Transfer-Encoding: 7bit
+
+
+--15679081381.De34B8.28534
+Date: Sun, 8 Sep 2019 02:02:18 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111482
+
+--- Comment #16 from Andrew Sheldon <asheldon55@gmail.com> ---
+One possibility could be to create a custom modeline, perhaps trying refresh
+rates between 30-60hz (starting with 45hz), so you can find a point where t=
+he
+high idle power usage kicks in. Reduced blanking modes could be useful if i=
+t's
+a case of bandwidth.
+
+See: https://github.com/kevinlekiller/cvt_modeline_calculator_12
+
+Something like this, using just xrandr (-b option indicating reduced blanki=
+ng
+v2 mode):
+
+./cvt12 5120 1440 45 -b
+
+Which yields:
+Modeline "5120x1440_45.00_rb2"  344.21  5120 5128 5160 5200  1440 1457 1465
+1471 +hsync -vsync
+
+Then:
+xrandr --output DisplayPort-2 --newmode "5120x1440_45.00_rb2" 344.21  5120 =
+5128
+5160 5200  1440 1457 1465 1471 +hsync -vsync
+
+xrandr --output DisplayPort-2 --addmode DisplayPort-2 "5120x1440_45.00_rb2"
+
+xrandr --output DisplayPort-2 --mode "5120x1440_45.00_rb2"
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15679081381.De34B8.28534
+Date: Sun, 8 Sep 2019 02:02:18 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482#c16">Comme=
+nt # 16</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482">bug 11148=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+asheldon55&#64;gmail.com" title=3D"Andrew Sheldon &lt;asheldon55&#64;gmail.=
+com&gt;"> <span class=3D"fn">Andrew Sheldon</span></a>
+</span></b>
+        <pre>One possibility could be to create a custom modeline, perhaps =
+trying refresh
+rates between 30-60hz (starting with 45hz), so you can find a point where t=
+he
+high idle power usage kicks in. Reduced blanking modes could be useful if i=
+t's
+a case of bandwidth.
+
+See: <a href=3D"https://github.com/kevinlekiller/cvt_modeline_calculator_12=
+">https://github.com/kevinlekiller/cvt_modeline_calculator_12</a>
+
+Something like this, using just xrandr (-b option indicating reduced blanki=
+ng
+v2 mode):
+
+./cvt12 5120 1440 45 -b
+
+Which yields:
+Modeline &quot;5120x1440_45.00_rb2&quot;  344.21  5120 5128 5160 5200  1440=
+ 1457 1465
+1471 +hsync -vsync
+
+Then:
+xrandr --output DisplayPort-2 --newmode &quot;5120x1440_45.00_rb2&quot; 344=
+.21  5120 5128
+5160 5200  1440 1457 1465 1471 +hsync -vsync
+
+xrandr --output DisplayPort-2 --addmode DisplayPort-2 &quot;5120x1440_45.00=
+_rb2&quot;
+
+xrandr --output DisplayPort-2 --mode &quot;5120x1440_45.00_rb2&quot;</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15679081381.De34B8.28534--
+
+--===============0511913057==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0511913057==--
