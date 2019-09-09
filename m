@@ -2,29 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21CEBAD8C7
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 14:18:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14DBDAD93A
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 14:40:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52C29898FA;
-	Mon,  9 Sep 2019 12:18:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AEDF8989A;
+	Mon,  9 Sep 2019 12:40:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27B46898FA
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 12:18:43 +0000 (UTC)
-Received: from ip5f5a6266.dynamic.kabel-deutschland.de ([95.90.98.102]
- helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.89) (envelope-from <heiko@sntech.de>)
- id 1i7Icz-00071q-47; Mon, 09 Sep 2019 14:18:41 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: lima@lists.freedesktop.org
-Subject: Re: [Lima] [PATCH] drm/lima: fix lima_gem_wait() return value
-Date: Mon, 09 Sep 2019 14:18:40 +0200
-Message-ID: <3263343.nbYvo8rMJO@diego>
-In-Reply-To: <CAKGbVbt056DyZHer1bKnAv8uBCX6zbsWeMjE6AQy8HYQf7L1wg@mail.gmail.com>
-References: <20190908024800.23229-1-anarsoul@gmail.com>
- <CAKGbVbt056DyZHer1bKnAv8uBCX6zbsWeMjE6AQy8HYQf7L1wg@mail.gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DCA158989A
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 12:40:25 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id D7E5C72168; Mon,  9 Sep 2019 12:40:25 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109303] [CI][SHARDS]
+ igt@i915_query@query-topology-known-pci-ids - skip - Test requirement:
+ IS_HASWELL(devid) || IS_BROADWELL(devid) || IS_SKYLAKE(devid) ||
+ IS_KABYLAKE(devid) || IS_COFFEELAKE(devid), SKIP
+Date: Mon, 09 Sep 2019 12:40:22 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: IGT
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: cibuglog@gmail.com
+X-Bugzilla-Status: CLOSED
+X-Bugzilla-Resolution: NOTABUG
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109303-502-SzZQI7PG3j@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109303-502@http.bugs.freedesktop.org/>
+References: <bug-109303-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -38,53 +55,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Vasily Khoruzhick <anarsoul@gmail.com>, Qiang Yu <yuq825@gmail.com>,
- stable@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0564140696=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgUWlhbmcsCgpBbSBNb250YWcsIDkuIFNlcHRlbWJlciAyMDE5LCAwNDozMDo0MyBDRVNUIHNj
-aHJpZWIgUWlhbmcgWXU6Cj4gT2gsIEkgd2FzIG1pc3MgbGVhZGluZyBieSB0aGUgZHJtX2dlbV9y
-ZXNlcnZhdGlvbl9vYmplY3Rfd2FpdAo+IGNvbW1lbnRzLiBQYXRjaCBpczoKPiBSZXZpZXdlZC1i
-eTogUWlhbmcgWXUgPHl1cTgyNUBnbWFpbC5jb20+Cj4gCj4gSSdsbCBhcHBseSB0aGlzIHBhdGNo
-IHRvIGRybS1taXNjLW5leHQuCj4gCj4gQ3VycmVudCBrZXJuZWwgcmVsZWFzZSBpcyA1LjMtcmM4
-LCBpcyBpdCB0b28gbGF0ZSBmb3IgdGhpcyBmaXggdG8gZ28KPiBpbnRvIHRoZSBtYWlubGluZSA1
-LjMgcmVsZWFzZT8KPiBJJ2QgbGlrZSB0byBrbm93IGhvdyB0byBhcHBseSB0aGlzIGZpeCBmb3Ig
-Y3VycmVudCByYyBrZXJuZWxzLCBieQo+IGRybS1taXNjLWZpeGVzPyBDYW4gSSBwdXNoCj4gdG8g
-ZHJtLW1pc2MtZml4ZXMgYnkgZGltIG9yIEkgY2FuIG9ubHkgcHVzaCB0byBkcm0tbWlzYy1uZXh0
-IGFuZAo+IGRybS1taXNjIG1haW50YWluZXIgd2lsbAo+IHBpY2sgZml4ZXMgZnJvbSBpdCB0byBk
-cm0tbWlzYy1maXhlcz8KCmRybS1taXNjLWZpeGVzIGdldHMgbWVyZ2VkIGludG8gZHJtLW1pc2Mt
-bmV4dCBieSBtYWludGFpbmVycyByZWd1bGFybHksCnNvIEkgX3RoaW5rXyB5b3Ugc2hvdWxkIGFw
-cGx5IHRoZSBmaXgtcGF0Y2ggdG8gZHJtLW1pc2MtZml4ZXMgZmlyc3QuCltJIGFsc28gYWx3YXlz
-IGhhdmUgdG8gcmVhZCB0aGUgZG9jdW1lbnRhdGlvbiA7LSkgXQoKSW4gYW55IGNhc2UgeW91IG1p
-Z2h0IHdhbnQgdG8gYWRkIGEgIkZpeGVzOiAuLi4uLiIgdGFnIGFzIHdlbGwgYXMgYQoiQ2M6IHN0
-YWJsZUB2Z2VyLmtlcm5lbC5vcmciIHRhZywgc28gaXQgY2FuIGJlIGJhY2twb3J0ZWQgdG8gc3Rh
-YmxlCmtlcm5lbHMgaWYgYXBwbGljYWJsZS4KCgpIZWlrbwoKPiBPbiBTdW4sIFNlcCA4LCAyMDE5
-IGF0IDEwOjQ4IEFNIFZhc2lseSBLaG9ydXpoaWNrIDxhbmFyc291bEBnbWFpbC5jb20+IHdyb3Rl
-Ogo+ID4KPiA+IGRybV9nZW1fcmVzZXJ2YXRpb25fb2JqZWN0X3dhaXQoKSByZXR1cm5zIDAgaWYg
-aXQgc3VjY2VlZHMgYW5kIC1FVElNRQo+ID4gaWYgaXQgdGltZW91dHMsIGJ1dCBsaW1hIGRyaXZl
-ciBhc3N1bWVkIHRoYXQgMCBpcyBlcnJvci4KPiA+Cj4gPiBDYzogc3RhYmxlQHZnZXIua2VybmVs
-Lm9yZwo+ID4gU2lnbmVkLW9mZi1ieTogVmFzaWx5IEtob3J1emhpY2sgPGFuYXJzb3VsQGdtYWls
-LmNvbT4KPiA+IC0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9saW1hL2xpbWFfZ2VtLmMgfCAyICst
-Cj4gPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4gPgo+
-ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9saW1hL2xpbWFfZ2VtLmMgYi9kcml2ZXJz
-L2dwdS9kcm0vbGltYS9saW1hX2dlbS5jCj4gPiBpbmRleCA0NzdjMGY3NjY2NjMuLmI2MDlkYzAz
-MGQ2YyAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9saW1hL2xpbWFfZ2VtLmMKPiA+
-ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9saW1hL2xpbWFfZ2VtLmMKPiA+IEBAIC0zNDIsNyArMzQy
-LDcgQEAgaW50IGxpbWFfZ2VtX3dhaXQoc3RydWN0IGRybV9maWxlICpmaWxlLCB1MzIgaGFuZGxl
-LCB1MzIgb3AsIHM2NCB0aW1lb3V0X25zKQo+ID4gICAgICAgICB0aW1lb3V0ID0gZHJtX3RpbWVv
-dXRfYWJzX3RvX2ppZmZpZXModGltZW91dF9ucyk7Cj4gPgo+ID4gICAgICAgICByZXQgPSBkcm1f
-Z2VtX3Jlc2VydmF0aW9uX29iamVjdF93YWl0KGZpbGUsIGhhbmRsZSwgd3JpdGUsIHRpbWVvdXQp
-Owo+ID4gLSAgICAgICBpZiAocmV0ID09IDApCj4gPiArICAgICAgIGlmIChyZXQgPT0gLUVUSU1F
-KQo+ID4gICAgICAgICAgICAgICAgIHJldCA9IHRpbWVvdXQgPyAtRVRJTUVET1VUIDogLUVCVVNZ
-Owo+ID4KPiA+ICAgICAgICAgcmV0dXJuIHJldDsKPiA+IC0tCj4gPiAyLjIzLjAKPiA+Cj4gX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBsaW1hIG1haWxp
-bmcgbGlzdAo+IGxpbWFAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW1hCgoKCgpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0564140696==
+Content-Type: multipart/alternative; boundary="15680328251.a1538c.15993"
+Content-Transfer-Encoding: 7bit
+
+
+--15680328251.a1538c.15993
+Date: Mon, 9 Sep 2019 12:40:25 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109303
+
+--- Comment #6 from CI Bug Log <cibuglog@gmail.com> ---
+A CI Bug Log filter associated to this bug has been updated:
+
+{- CML ICL: igt@i915_query@query-topology-known-pci-ids - skip - Test
+requirement: IS_HASWELL(devid) || IS_BROADWELL(devid) || IS_SKYLAKE(devid) =
+||
+-}
+{+ CML ICL TGL: igt@i915_query@query-topology-known-pci-ids - skip - Test
+requirement: IS_HASWELL(devid) || IS_BROADWELL(devid) || IS_SKYLAKE(devid) =
+||
++}
+
+New failures caught by the filter:
+
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_362/fi-tgl-u/igt@i915_query=
+@query-topology-known-pci-ids.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_363/fi-tgl-u/igt@i915_query=
+@query-topology-known-pci-ids.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_364/fi-tgl-u/igt@i915_query=
+@query-topology-known-pci-ids.html
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15680328251.a1538c.15993
+Date: Mon, 9 Sep 2019 12:40:25 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_CLOSED  bz_closed"
+   title=3D"CLOSED NOTABUG - [CI][SHARDS] igt&#64;i915_query&#64;query-topo=
+logy-known-pci-ids - skip - Test requirement: IS_HASWELL(devid) || IS_BROAD=
+WELL(devid) || IS_SKYLAKE(devid) || IS_KABYLAKE(devid) || IS_COFFEELAKE(dev=
+id), SKIP"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109303#c6">Commen=
+t # 6</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_CLOSED  bz_closed"
+   title=3D"CLOSED NOTABUG - [CI][SHARDS] igt&#64;i915_query&#64;query-topo=
+logy-known-pci-ids - skip - Test requirement: IS_HASWELL(devid) || IS_BROAD=
+WELL(devid) || IS_SKYLAKE(devid) || IS_KABYLAKE(devid) || IS_COFFEELAKE(dev=
+id), SKIP"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109303">bug 10930=
+3</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+cibuglog&#64;gmail.com" title=3D"CI Bug Log &lt;cibuglog&#64;gmail.com&gt;"=
+> <span class=3D"fn">CI Bug Log</span></a>
+</span></b>
+        <pre>A CI Bug Log filter associated to this bug has been updated:
+
+{- CML ICL: igt&#64;i915_query&#64;query-topology-known-pci-ids - skip - Te=
+st
+requirement: IS_HASWELL(devid) || IS_BROADWELL(devid) || IS_SKYLAKE(devid) =
+||
+-}
+{+ CML ICL TGL: igt&#64;i915_query&#64;query-topology-known-pci-ids - skip =
+- Test
+requirement: IS_HASWELL(devid) || IS_BROADWELL(devid) || IS_SKYLAKE(devid) =
+||
++}
+
+New failures caught by the filter:
+
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_362/fi-tgl-u/igt=
+&#64;i915_query&#64;query-topology-known-pci-ids.html">https://intel-gfx-ci=
+.01.org/tree/drm-tip/drmtip_362/fi-tgl-u/igt&#64;i915_query&#64;query-topol=
+ogy-known-pci-ids.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_363/fi-tgl-u/igt=
+&#64;i915_query&#64;query-topology-known-pci-ids.html">https://intel-gfx-ci=
+.01.org/tree/drm-tip/drmtip_363/fi-tgl-u/igt&#64;i915_query&#64;query-topol=
+ogy-known-pci-ids.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_364/fi-tgl-u/igt=
+&#64;i915_query&#64;query-topology-known-pci-ids.html">https://intel-gfx-ci=
+.01.org/tree/drm-tip/drmtip_364/fi-tgl-u/igt&#64;i915_query&#64;query-topol=
+ogy-known-pci-ids.html</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15680328251.a1538c.15993--
+
+--===============0564140696==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0564140696==--
