@@ -2,45 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68CA4ADDC1
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 19:03:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 191E8ADDD6
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 19:12:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22CCD89B78;
-	Mon,  9 Sep 2019 17:03:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 163D289C07;
+	Mon,  9 Sep 2019 17:12:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id D456A89BFD
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 17:03:32 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D09CB72167; Mon,  9 Sep 2019 17:03:32 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111077] link_shader and deserialize_glsl_program suddenly
- consume huge amount of RAM
-Date: Mon, 09 Sep 2019 17:03:33 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 18.3
-X-Bugzilla-Keywords: bisected
-X-Bugzilla-Severity: blocker
-X-Bugzilla-Who: roland@rptd.ch
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111077-502-mgGBMQZtgv@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111077-502@http.bugs.freedesktop.org/>
-References: <bug-111077-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9761A89C07
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 17:12:22 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id g7so14816640wrx.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Sep 2019 10:12:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jqdidbzPeA/sgt3s+DYxvSvIwPPs0smJm/TWV8LV8WA=;
+ b=KpbwRedLJedYgU/0YSdqA77bVZ94WCVcqsmHapr910G4Hw2jvSmT7a42oV/WpvcvwC
+ xEhc9I08z2JZNK1t8vqrhNmMXb5GaxIMgLeMJGZ7X+sjJiNFiOA42I+fs1jPXm9QkXPv
+ T9OQmui4LDpHDhBqo83m2POfgSyHqZt9m/7WHKCdPJh1eW2zz1tdDAo8j2UAq7VuAh5Z
+ f5A/ieWXW/e4b9VJtJSVQwwG86ya9cJJjX5sqIH3qIsXXD287Lr6snM07EZQmXg5F5wy
+ OlaUoXBAgjveqmCXKYSZatxINs+LJa2cIyriNV2tFRaYyUUmwLDVgEdM+kf5fdHTriyf
+ eTFg==
+X-Gm-Message-State: APjAAAV/zml+7yjIWoISSO4MtugoxkV3bDeasJ1YAWyFCoLRo3PSY7xx
+ j531zC0KOJb6EaAg70F6sHpBU3W1RNma3z9q+oR7Xg==
+X-Google-Smtp-Source: APXvYqxRYqXaWD9NPcEGlHG2PQGB7kVycmg6gplz6JAGUJ9RYnlUeXsXl8u0K9fNh8PZ078dfQoUs/gEHoU+sQ2Dst8=
+X-Received: by 2002:adf:fa10:: with SMTP id m16mr14700174wrr.322.1568049140887; 
+ Mon, 09 Sep 2019 10:12:20 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190829212417.257397-1-davidriley@chromium.org>
+ <20190905220008.75488-1-davidriley@chromium.org>
+ <20190906051847.75mj4772nqwdper6@sirius.home.kraxel.org>
+In-Reply-To: <20190906051847.75mj4772nqwdper6@sirius.home.kraxel.org>
+From: David Riley <davidriley@chromium.org>
+Date: Mon, 9 Sep 2019 10:12:09 -0700
+Message-ID: <CAASgrz2tPPEiArFb=HaTJwoshrdS9xaOaLYtG1Ah43Rfcb=iSA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/virtio: Use vmalloc for command buffer allocations.
+To: Gerd Hoffmann <kraxel@redhat.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=jqdidbzPeA/sgt3s+DYxvSvIwPPs0smJm/TWV8LV8WA=;
+ b=H3OftagEfFDm375McT0XbKcLTDfqJHbzZnQHwb0rA1h8doy/xHjSC9X0c5D+htCHWG
+ d3hFKxdBvz0XJR1VYgPZ71ZxU6vs2svcVObFBW9pjRVLQne3RWi9X2Wf+RbRqwNl2cai
+ G0mBpLKVsMczLpBRdH2Ud7cOoSVlZnkaCnsN4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,91 +61,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1866141549=="
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
+ =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+ virtualization@lists.linux-foundation.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1866141549==
-Content-Type: multipart/alternative; boundary="15680486123.CC83B5490.1031"
-Content-Transfer-Encoding: 7bit
-
-
---15680486123.CC83B5490.1031
-Date: Mon, 9 Sep 2019 17:03:32 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111077
-
---- Comment #30 from roland@rptd.ch <roland@rptd.ch> ---
-How I best test this? Just check out the branch and build it or apply it
-somehow to the mesa branch I have here from bisecting?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15680486123.CC83B5490.1031
-Date: Mon, 9 Sep 2019 17:03:32 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
- huge amount of RAM"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077#c30">Comme=
-nt # 30</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
- huge amount of RAM"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077">bug 11107=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-roland&#64;rptd.ch" title=3D"roland&#64;rptd.ch &lt;roland&#64;rptd.ch&gt;"=
-> <span class=3D"fn">roland&#64;rptd.ch</span></a>
-</span></b>
-        <pre>How I best test this? Just check out the branch and build it o=
-r apply it
-somehow to the mesa branch I have here from bisecting?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15680486123.CC83B5490.1031--
-
---===============1866141549==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1866141549==--
+T24gVGh1LCBTZXAgNSwgMjAxOSBhdCAxMDoxOCBQTSBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVk
+aGF0LmNvbT4gd3JvdGU6Cj4KPiA+ICsvKiBIb3cgbWFueSBieXRlcyBsZWZ0IGluIHRoaXMgcGFn
+ZS4gKi8KPiA+ICtzdGF0aWMgdW5zaWduZWQgaW50IHJlc3Rfb2ZfcGFnZSh2b2lkICpkYXRhKQo+
+ID4gK3sKPiA+ICsgICAgIHJldHVybiBQQUdFX1NJWkUgLSBvZmZzZXRfaW5fcGFnZShkYXRhKTsK
+PiA+ICt9Cj4KPiBOb3QgbmVlZGVkLgo+Cj4gPiArLyogQ3JlYXRlIHNnX3RhYmxlIGZyb20gYSB2
+bWFsbG9jJ2QgYnVmZmVyLiAqLwo+ID4gK3N0YXRpYyBzdHJ1Y3Qgc2dfdGFibGUgKnZtYWxsb2Nf
+dG9fc2d0KGNoYXIgKmRhdGEsIHVpbnQzMl90IHNpemUsIGludCAqc2dfZW50cykKPiA+ICt7Cj4g
+PiArICAgICBpbnQgbmVudHMsIHJldCwgcywgaTsKPiA+ICsgICAgIHN0cnVjdCBzZ190YWJsZSAq
+c2d0Owo+ID4gKyAgICAgc3RydWN0IHNjYXR0ZXJsaXN0ICpzZzsKPiA+ICsgICAgIHN0cnVjdCBw
+YWdlICpwZzsKPiA+ICsKPiA+ICsgICAgICpzZ19lbnRzID0gMDsKPiA+ICsKPiA+ICsgICAgIHNn
+dCA9IGttYWxsb2Moc2l6ZW9mKCpzZ3QpLCBHRlBfS0VSTkVMKTsKPiA+ICsgICAgIGlmICghc2d0
+KQo+ID4gKyAgICAgICAgICAgICByZXR1cm4gTlVMTDsKPiA+ICsKPiA+ICsgICAgIG5lbnRzID0g
+RElWX1JPVU5EX1VQKHNpemUsIFBBR0VfU0laRSkgKyAxOwo+Cj4gV2h5ICsxPwoKVGhpcyBpcyBw
+YXJ0IG9mIGhhbmRsaW5nIG9mZnNldHMgd2l0aGluIHRoZSB2bWFsbG9jIGJ1ZmZlciBhbmQgdG8K
+bWFpbnRhaW4gcGFyaXR5IHdpdGggdGhlICFpc192bWFsbG9jX2FkZHIvZXhpc3RpbmcgY2FzZSAo
+c2dfaW5pdF9vbmUKaGFuZGxlcyBvZmZzZXRzIHdpdGhpbiBwYWdlcyBpbnRlcm5hbGx5KS4gIEkg
+aGFkIGxlZnQgaXQgaW4gYmVjYXVzZQp0aGlzIGlzIGJlaW5nIHVzZWQgZm9yIGFsbCBzZy9kZXNj
+cmlwdG9yIGdlbmVyYXRpb24gYW5kIEkgd2Fzbid0IHN1cmUKaWYgc29tZW9uZSBpbiB0aGUgZnV0
+dXJlIG1pZ2h0IGRvIHNvbWV0aGluZyBsaWtlOgpidWYgPSB2bWVtZHVwX3VzZXIoKQpvZmZzZXQg
+PSBmaW5kX2ludGVyZXN0aW5nKGJ1ZikKcXVldWUoYnVmICsgb2Zmc2V0KQoKVG8gcmVzcG9uZCBz
+cGVjaWZpY2FsbHkgdG8geW91ciBxdWVzdGlvbiwgaWYgd2UgaGFuZGxlIG9mZnNldHMsIGEKdm1h
+bGxvY190b19zZ3Qoc2l6ZSA9IFBBR0VfU0laRSArIDIpIGNvdWxkIGVuZCB1cCB3aXRoIDMgc2df
+ZW50cyB3aXRoCnRoZSArMSBiZWluZyB0byBhY2NvdW50IGZvciB0aGF0IGV4dHJhIHBhZ2UuCgpJ
+J2xsIGp1c3QgcmVtb3ZlIGFsbCBzdXBwb3J0IGZvciBvZmZzZXRzIGluIHYzIG9mIHRoZSBwYXRj
+aCBhbmQKY29tbWVudCB0aGF0IGZ1bmN0aW9uYWxpdHkgd2lsbCBiZSBkaWZmZXJlbnQgYmFzZWQg
+b24gd2hlcmUgdGhlIGJ1ZmZlcgp3YXMgb3JpZ2luYWxseSBhbGxvY2F0ZWQgZnJvbS4KCj4KPiA+
+ICsgICAgIHJldCA9IHNnX2FsbG9jX3RhYmxlKHNndCwgbmVudHMsIEdGUF9LRVJORUwpOwo+ID4g
+KyAgICAgaWYgKHJldCkgewo+ID4gKyAgICAgICAgICAgICBrZnJlZShzZ3QpOwo+ID4gKyAgICAg
+ICAgICAgICByZXR1cm4gTlVMTDsKPiA+ICsgICAgIH0KPiA+ICsKPiA+ICsgICAgIGZvcl9lYWNo
+X3NnKHNndC0+c2dsLCBzZywgbmVudHMsIGkpIHsKPiA+ICsgICAgICAgICAgICAgcGcgPSB2bWFs
+bG9jX3RvX3BhZ2UoZGF0YSk7Cj4gPiArICAgICAgICAgICAgIGlmICghcGcpIHsKPiA+ICsgICAg
+ICAgICAgICAgICAgICAgICBzZ19mcmVlX3RhYmxlKHNndCk7Cj4gPiArICAgICAgICAgICAgICAg
+ICAgICAga2ZyZWUoc2d0KTsKPiA+ICsgICAgICAgICAgICAgICAgICAgICByZXR1cm4gTlVMTDsK
+PiA+ICsgICAgICAgICAgICAgfQo+ID4gKwo+ID4gKyAgICAgICAgICAgICBzID0gcmVzdF9vZl9w
+YWdlKGRhdGEpOwo+ID4gKyAgICAgICAgICAgICBpZiAocyA+IHNpemUpCj4gPiArICAgICAgICAg
+ICAgICAgICAgICAgcyA9IHNpemU7Cj4KPiB2bWFsbG9jIG1lbW9yeSBpcyBwYWdlIGFsaWduZWQs
+IHNvOgoKQXMgcGVyIGFib3ZlLCB3aWxsIHJlbW92ZSB3aXRoIHYzLgoKPgo+ICAgICAgICAgICAg
+ICAgICBzID0gbWluKFBBR0VfU0laRSwgc2l6ZSk7Cj4KPiA+ICsgICAgICAgICAgICAgc2dfc2V0
+X3BhZ2Uoc2csIHBnLCBzLCBvZmZzZXRfaW5fcGFnZShkYXRhKSk7Cj4KPiBPZmZzZXQgaXMgYWx3
+YXlzIHplcm8uCgpBcyBwZXIgYWJvdmUsIHdpbGwgcmVtb3ZlIHdpdGggdjMuCj4KPiA+ICsKPiA+
+ICsgICAgICAgICAgICAgc2l6ZSAtPSBzOwo+ID4gKyAgICAgICAgICAgICBkYXRhICs9IHM7Cj4g
+PiArICAgICAgICAgICAgICpzZ19lbnRzICs9IDE7Cj4KPiBzZ19lbnRzIGlzbid0IHVzZWQgYW55
+d2hlcmUuCgpJdCdzIHVzZWQgZm9yIG91dGNudC4KCj4KPiA+ICsKPiA+ICsgICAgICAgICAgICAg
+aWYgKHNpemUpIHsKPiA+ICsgICAgICAgICAgICAgICAgICAgICBzZ191bm1hcmtfZW5kKHNnKTsK
+PiA+ICsgICAgICAgICAgICAgfSBlbHNlIHsKPiA+ICsgICAgICAgICAgICAgICAgICAgICBzZ19t
+YXJrX2VuZChzZyk7Cj4gPiArICAgICAgICAgICAgICAgICAgICAgYnJlYWs7Cj4gPiArICAgICAg
+ICAgICAgIH0KPgo+IFRoYXQgbG9va3MgYSBiaXQgc3RyYW5nZS4gIEkgZ3Vlc3MgeW91IG5lZWQg
+b25seSBvbmUgb2YgdGhlIHR3byBiZWNhdXNlCj4gdGhlIG90aGVyIGlzIHRoZSBkZWZhdWx0PwoK
+SSB3YXMgYmVpbmcgb3Zlcmx5IHBhcmFub2lkIGFuZCBub3Qgd2FudGluZyB0byBtYWtlIGFzc3Vt
+cHRpb25zIGFib3V0CnRoZSBpbml0aWFsIHN0YXRlIG9mIHRoZSB0YWJsZS4gIEknbGwgc2ltcGxp
+ZnkuCj4KPiA+ICBzdGF0aWMgaW50IHZpcnRpb19ncHVfcXVldWVfZmVuY2VkX2N0cmxfYnVmZmVy
+KHN0cnVjdCB2aXJ0aW9fZ3B1X2RldmljZSAqdmdkZXYsCj4gPiAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgdmlydGlvX2dwdV92YnVmZmVyICp2YnVm
+LAo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0
+IHZpcnRpb19ncHVfY3RybF9oZHIgKmhkciwKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIHN0cnVjdCB2aXJ0aW9fZ3B1X2ZlbmNlICpmZW5jZSkKPiA+ICB7
+Cj4gPiAgICAgICBzdHJ1Y3QgdmlydHF1ZXVlICp2cSA9IHZnZGV2LT5jdHJscS52cTsKPiA+ICsg
+ICAgIHN0cnVjdCBzY2F0dGVybGlzdCAqdm91dCA9IE5VTEwsIHNnOwo+ID4gKyAgICAgc3RydWN0
+IHNnX3RhYmxlICpzZ3QgPSBOVUxMOwo+ID4gICAgICAgaW50IHJjOwo+ID4gKyAgICAgaW50IG91
+dGNudCA9IDA7Cj4gPiArCj4gPiArICAgICBpZiAodmJ1Zi0+ZGF0YV9zaXplKSB7Cj4gPiArICAg
+ICAgICAgICAgIGlmIChpc192bWFsbG9jX2FkZHIodmJ1Zi0+ZGF0YV9idWYpKSB7Cj4gPiArICAg
+ICAgICAgICAgICAgICAgICAgc2d0ID0gdm1hbGxvY190b19zZ3QodmJ1Zi0+ZGF0YV9idWYsIHZi
+dWYtPmRhdGFfc2l6ZSwKPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAmb3V0Y250KTsKPiA+ICsgICAgICAgICAgICAgICAgICAgICBpZiAoIXNndCkKPiA+ICsg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiAtRU5PTUVNOwo+ID4gKyAgICAgICAg
+ICAgICAgICAgICAgIHZvdXQgPSBzZ3QtPnNnbDsKPiA+ICsgICAgICAgICAgICAgfSBlbHNlIHsK
+PiA+ICsgICAgICAgICAgICAgICAgICAgICBzZ19pbml0X29uZSgmc2csIHZidWYtPmRhdGFfYnVm
+LCB2YnVmLT5kYXRhX3NpemUpOwo+ID4gKyAgICAgICAgICAgICAgICAgICAgIHZvdXQgPSAmc2c7
+Cj4gPiArICAgICAgICAgICAgICAgICAgICAgb3V0Y250ID0gMTsKPgo+IG91dGNudCBtdXN0IGJl
+IHNldCBpbiBib3RoIGNhc2VzLgoKb3V0Y250IGlzIHNldCBieSB2bWFsbG9jX3RvX3NndC4KCj4K
+PiA+ICtzdGF0aWMgaW50IHZpcnRpb19ncHVfcXVldWVfY3RybF9idWZmZXIoc3RydWN0IHZpcnRp
+b19ncHVfZGV2aWNlICp2Z2RldiwKPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgc3RydWN0IHZpcnRpb19ncHVfdmJ1ZmZlciAqdmJ1ZikKPiA+ICt7Cj4gPiArICAgICBy
+ZXR1cm4gdmlydGlvX2dwdV9xdWV1ZV9mZW5jZWRfY3RybF9idWZmZXIodmdkZXYsIHZidWYsIE5V
+TEwsIE5VTEwpOwo+ID4gK30KPgo+IENoYW5naW5nIHZpcnRpb19ncHVfcXVldWVfY3RybF9idWZm
+ZXIgdG8gY2FsbAo+IHZpcnRpb19ncHVfcXVldWVfZmVuY2VkX2N0cmxfYnVmZmVyIHNob3VsZCBi
+ZSBkb25lIGluIGEgc2VwYXJhdGUgcGF0Y2guCgpXaWxsIGRvLgoKVGhhbmtzLApEYXZpZApfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
+bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
