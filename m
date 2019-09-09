@@ -1,46 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA950AE334
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2019 07:07:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F64EAE424
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2019 08:58:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 121FA89026;
-	Tue, 10 Sep 2019 05:07:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68D776E827;
+	Tue, 10 Sep 2019 06:58:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 451DC89026
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2019 05:07:10 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 3B03C72167; Tue, 10 Sep 2019 05:07:10 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111622] VAAPI vaDeriveImage returns
- VA_STATUS_ERROR_OPERATION_FAILED
-Date: Tue, 10 Sep 2019 05:07:10 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 19.1
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: reject5514@naver.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- qa_contact attachments.created
-Message-ID: <bug-111622-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail3-166.sinamail.sina.com.cn (mail3-166.sinamail.sina.com.cn
+ [202.108.3.166])
+ by gabe.freedesktop.org (Postfix) with SMTP id C796489722
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 07:16:13 +0000 (UTC)
+Received: from unknown (HELO [IPv6:::ffff:172.20.10.2])([61.148.244.178])
+ by sina.com with ESMTP
+ id 5D75FBAB0002BC5A; Mon, 9 Sep 2019 15:13:48 +0800 (CST)
+X-Sender: hdanton@sina.com
+X-Auth-ID: hdanton@sina.com
+X-SMAIL-MID: 92381354923368
 MIME-Version: 1.0
+To: Gerd Hoffmann <kraxel@redhat.com>
+From: Hillf Danton <hdanton@sina.com>
+Subject: Re: Xorg indefinitely hangs in kernelspace
+Date: Mon, 9 Sep 2019 15:13:48 +0800
+Importance: normal
+X-Priority: 3
+In-Reply-To: <20190909055219.q44k27cczwkuio3z@sirius.home.kraxel.org>
+References: <20190906055322.17900-1-hdanton@sina.com>
+ <20190909055219.q44k27cczwkuio3z@sirius.home.kraxel.org>
+X-Mailman-Approved-At: Tue, 10 Sep 2019 06:57:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,266 +42,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1537768457=="
+Cc: David Airlie <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>,
+ "spice-devel@lists.freedesktop.org" <spice-devel@lists.freedesktop.org>,
+ Jaak Ristioja <jaak@ristioja.ee>, Dave Airlie <airlied@redhat.com>
+Content-Type: multipart/mixed; boundary="===============1714248832=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
+Message-Id: <20190910065807.68D776E827@gabe.freedesktop.org>
 
 
---===============1537768457==
-Content-Type: multipart/alternative; boundary="15680920300.F4BbF.27327"
-Content-Transfer-Encoding: 7bit
+--===============1714248832==
+Content-Type: multipart/alternative;
+	boundary="_AD05A452-BEFD-47CB-8E14-119A02D5DF11_"
 
 
---15680920300.F4BbF.27327
-Date: Tue, 10 Sep 2019 05:07:10 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+--_AD05A452-BEFD-47CB-8E14-119A02D5DF11_
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Content-Type: text/plain; charset="utf-8"
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111622
+Hi,
 
-            Bug ID: 111622
-           Summary: VAAPI vaDeriveImage returns
-                    VA_STATUS_ERROR_OPERATION_FAILED
-           Product: Mesa
-           Version: 19.1
-          Hardware: x86-64 (AMD64)
-                OS: Linux (All)
-            Status: NEW
-          Severity: normal
-          Priority: not set
-         Component: Drivers/Gallium/radeonsi
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: reject5514@naver.com
-        QA Contact: dri-devel@lists.freedesktop.org
+On Mon, 9 Sep 2019 from Gerd Hoffmann <kraxel@redhat.com>
+>
+> Hmm, I think the patch is wrong.  As far I know it is the qxl drivers's
+> job to call ttm_eu_backoff_reservation().  Doing that automatically in
+> ttm will most likely break other ttm users.
+>
+Perhaps.
 
-Created attachment 145311
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145311&action=3Dedit
-Sample C code to reproduce error
+>So I guess the call is missing in the qxl driver somewhere, most likely
+>in some error handling code path given that this bug is a relatively
+>rare event.
+>
+>There is only a single ttm_eu_reserve_buffers() call in qxl.
+>So how about this?
+>
+No preference in either way if it is a right cure.
 
-Operating System: archlinux 5.2.13-arch1-1-ARCH
-GPU: Radeon RX 570
-Mesa version: 19.1.6
-Libva version: 2.5.0
+BTW a quick peep at the mainline tree shows not every
+ttm_eu_reserve_buffers() pairs with ttm_eu_backoff_reservation()
+without qxl being taken in account.
 
-vaDeriveImage() VAAPI returns VA_STATUS_ERROR_OPERATION_FAILED when
-radeonsi_drv_video.so used as driver. It runs successfully with
-i965_drv_video.so on intel integrated GPU.
+Hillf
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110850 related to this.
-
-I found by debugging that error return occurs in the vlVaDeriveImage functi=
-on.
-//vlVaDeriveImage function is in src/gallium/state_trackers/va/image.c
-if (surf->buffer->interlaced)
-     return VA_STATUS_ERROR_OPERATION_FAILED;
-
-Is there a problem with interlaced video in Mesa? I don't know much about
-computer graphics and how Mesa works, but Intel driver has no problem about=
- it,
-so I think it's a bug.
-
-Sample C code attached to reproduce error. This code was written by referri=
-ng
-to the VLC's VAAPI source code. Compile command: gcc -o va va.c -lX11 -lva
--lva-x11 -g
-
-Result on Radeon GPU system:
-libva info: VA-API version 1.5.0
-libva info: va_getDriverName() returns 0
-libva info: Trying to open /usr/lib/dri/radeonsi_drv_video.so
-libva info: Found init function __vaDriverInit_1_5
-libva info: va_openDriver() returns 0
-vendor string : Mesa Gallium driver 19.1.6 for Radeon RX 570 Series (POLARI=
-S10,
-DRM 3.32.0, 5.2.13-arch1-1-ARCH, LLVM 8.0.1)
-vaDeriveImage error : operation failed
-
-Result on Intel GPU system:
-libva info: VA-API version 1.5.0
-libva info: va_getDriverName() returns 0
-libva info: Trying to open /usr/lib/dri/i965_drv_video.so
-libva info: Found init function __vaDriverInit_1_3
-libva info: va_openDriver() returns 0
-vendor string : Intel i965 driver for Intel(R) Broadwell - 2.3.0
-
-vaDeriveImage : success (no error)
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15680920300.F4BbF.27327
-Date: Tue, 10 Sep 2019 05:07:10 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
+--_AD05A452-BEFD-47CB-8E14-119A02D5DF11_
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Content-Type: text/html; charset="utf-8"
 
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - VAAPI vaDeriveImage returns VA_STATUS_ERROR_OPERATION_FAI=
-LED"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111622">111622</a>
-          </td>
-        </tr>
+<html xmlns:o=3D"urn:schemas-microsoft-com:office:office" xmlns:w=3D"urn:sc=
+hemas-microsoft-com:office:word" xmlns:m=3D"http://schemas.microsoft.com/of=
+fice/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta ht=
+tp-equiv=3DContent-Type content=3D"text/html; charset=3Dutf-8"><meta name=
+=3DGenerator content=3D"Microsoft Word 15 (filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:DengXian;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:DengXian;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	font-size:10.5pt;
+	font-family:DengXian;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
+	{mso-style-priority:34;
+	margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	text-indent:21.0pt;
+	font-size:10.5pt;
+	font-family:DengXian;}
+span.DefaultFontHxMailStyle
+	{mso-style-name:"Default Font HxMail Style";
+	font-family:DengXian;
+	color:windowtext;
+	font-weight:normal;
+	font-style:normal;
+	text-decoration:none none;}
+.MsoChpDefault
+	{mso-style-type:export-only;}
+/* Page Definitions */
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+/* List Definitions */
+@list l0
+	{mso-list-id:1496729359;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1873276564 -1 67698691 67698693 67698689 67698691 6=
+7698693 67698689 67698691 67698693;}
+@list l0:level1
+	{mso-level-start-at:0;
+	mso-level-number-format:bullet;
+	mso-level-text:\F0D8;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;
+	font-family:Wingdings;
+	mso-fareast-font-family:DengXian;
+	mso-bidi-font-family:"Times New Roman";}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:\F06E;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:42.0pt;
+	text-indent:-21.0pt;
+	font-family:Wingdings;}
+@list l0:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F075;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:63.0pt;
+	text-indent:-21.0pt;
+	font-family:Wingdings;}
+@list l0:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F06C;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:84.0pt;
+	text-indent:-21.0pt;
+	font-family:Wingdings;}
+@list l0:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F06E;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:105.0pt;
+	text-indent:-21.0pt;
+	font-family:Wingdings;}
+@list l0:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F075;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:126.0pt;
+	text-indent:-21.0pt;
+	font-family:Wingdings;}
+@list l0:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F06C;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:147.0pt;
+	text-indent:-21.0pt;
+	font-family:Wingdings;}
+@list l0:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F06E;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:168.0pt;
+	text-indent:-21.0pt;
+	font-family:Wingdings;}
+@list l0:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F075;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:189.0pt;
+	text-indent:-21.0pt;
+	font-family:Wingdings;}
+ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+--></style></head><body lang=3DZH-CN link=3Dblue vlink=3D"#954F72"><div cla=
+ss=3DWordSection1><p class=3DMsoNormal><span lang=3DEN-US>Hi,</span></p><p =
+class=3DMsoNormal><span lang=3DEN-US><o:p>&nbsp;</o:p></span></p><p class=
+=3DMsoNormal><span lang=3DEN-US>On Mon, 9 Sep 2019 from Gerd Hoffmann &lt;k=
+raxel@redhat.com&gt;<o:p></o:p></span></p><p class=3DMsoNormal><span lang=
+=3DEN-US>&gt;<o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span lang=3D=
+EN-US>&gt; Hmm, I think the patch is wrong.=C2=A0 As far I know it is the q=
+xl drivers's</span></p><p class=3DMsoNormal><span lang=3DEN-US>&gt; job to =
+call ttm_eu_backoff_reservation().=C2=A0 Doing that automatically in</span>=
+</p><p class=3DMsoNormal><span lang=3DEN-US>&gt; ttm will most likely break=
+ other ttm users.</span></p><p class=3DMsoNormal><span lang=3DEN-US>&gt;<o:=
+p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span lang=3DEN-US>Perhaps.</=
+span></p><p class=3DMsoNormal><span lang=3DEN-US><o:p>&nbsp;</o:p></span></=
+p><p class=3DMsoNormal><span lang=3DEN-US>&gt;So I guess the call is missin=
+g in the qxl driver somewhere, most likely</span></p><p class=3DMsoNormal><=
+span lang=3DEN-US>&gt;in some error handling code path given that this bug =
+is a relatively</span></p><p class=3DMsoNormal><span lang=3DEN-US>&gt;rare =
+event.</span></p><p class=3DMsoNormal><span lang=3DEN-US>&gt;<o:p>&nbsp;</o=
+:p></span></p><p class=3DMsoNormal><span lang=3DEN-US>&gt;There is only a s=
+ingle ttm_eu_reserve_buffers() call in qxl.</span></p><p class=3DMsoNormal>=
+<span lang=3DEN-US>&gt;So how about this?</span></p><p class=3DMsoNormal><s=
+pan lang=3DEN-US>&gt;<o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span=
+ lang=3DEN-US>No preference in either way if it is a right cure.</span></p>=
+<p class=3DMsoNormal><span lang=3DEN-US><o:p>&nbsp;</o:p></span></p><p clas=
+s=3DMsoNormal><span lang=3DEN-US>BTW a quick peep at the mainline tree show=
+s not every</span></p><p class=3DMsoNormal><span lang=3DEN-US>ttm_eu_reserv=
+e_buffers() pairs with ttm_eu_backoff_reservation()</span></p><p class=3DMs=
+oNormal><span lang=3DEN-US>without qxl being taken in account.</span></p><p=
+ class=3DMsoNormal><span class=3DDefaultFontHxMailStyle><span lang=3DEN-US>=
+<o:p>&nbsp;</o:p></span></span></p><p class=3DMsoNormal><span class=3DDefau=
+ltFontHxMailStyle><span lang=3DEN-US>Hillf<o:p></o:p></span></span></p></di=
+v></body></html>=
 
-        <tr>
-          <th>Summary</th>
-          <td>VAAPI vaDeriveImage returns VA_STATUS_ERROR_OPERATION_FAILED
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>Mesa
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>19.1
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>x86-64 (AMD64)
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>Linux (All)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>Drivers/Gallium/radeonsi
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>reject5514&#64;naver.com
-          </td>
-        </tr>
-
-        <tr>
-          <th>QA Contact</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145311=
-" name=3D"attach_145311" title=3D"Sample C code to reproduce error">attachm=
-ent 145311</a> <a href=3D"attachment.cgi?id=3D145311&amp;action=3Dedit" tit=
-le=3D"Sample C code to reproduce error">[details]</a></span>
-Sample C code to reproduce error
-
-Operating System: archlinux 5.2.13-arch1-1-ARCH
-GPU: Radeon RX 570
-Mesa version: 19.1.6
-Libva version: 2.5.0
-
-vaDeriveImage() VAAPI returns VA_STATUS_ERROR_OPERATION_FAILED when
-radeonsi_drv_video.so used as driver. It runs successfully with
-i965_drv_video.so on intel integrated GPU.
-
-<a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Vlc fails to decode video using vaapi"
-   href=3D"show_bug.cgi?id=3D110850">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D110850</a> related to this.
-
-I found by debugging that error return occurs in the vlVaDeriveImage functi=
-on.
-//vlVaDeriveImage function is in src/gallium/state_trackers/va/image.c
-if (surf-&gt;buffer-&gt;interlaced)
-     return VA_STATUS_ERROR_OPERATION_FAILED;
-
-Is there a problem with interlaced video in Mesa? I don't know much about
-computer graphics and how Mesa works, but Intel driver has no problem about=
- it,
-so I think it's a bug.
-
-Sample C code attached to reproduce error. This code was written by referri=
-ng
-to the VLC's VAAPI source code. Compile command: gcc -o va va.c -lX11 -lva
--lva-x11 -g
-
-Result on Radeon GPU system:
-libva info: VA-API version 1.5.0
-libva info: va_getDriverName() returns 0
-libva info: Trying to open /usr/lib/dri/radeonsi_drv_video.so
-libva info: Found init function __vaDriverInit_1_5
-libva info: va_openDriver() returns 0
-vendor string : Mesa Gallium driver 19.1.6 for Radeon RX 570 Series (POLARI=
-S10,
-DRM 3.32.0, 5.2.13-arch1-1-ARCH, LLVM 8.0.1)
-vaDeriveImage error : operation failed
-
-Result on Intel GPU system:
-libva info: VA-API version 1.5.0
-libva info: va_getDriverName() returns 0
-libva info: Trying to open /usr/lib/dri/i965_drv_video.so
-libva info: Found init function __vaDriverInit_1_3
-libva info: va_openDriver() returns 0
-vendor string : Intel i965 driver for Intel(R) Broadwell - 2.3.0
-
-vaDeriveImage : success (no error)</pre>
-        </div>
-      </p>
+--_AD05A452-BEFD-47CB-8E14-119A02D5DF11_--
 
 
-      <hr>
-      <span>You are receiving this mail because:</span>
 
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15680920300.F4BbF.27327--
-
---===============1537768457==
+--===============1714248832==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -322,4 +283,6 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1537768457==--
+--===============1714248832==--
+
+
