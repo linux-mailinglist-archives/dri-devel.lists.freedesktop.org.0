@@ -1,35 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F64EAE424
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2019 08:58:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBC8DAE41E
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2019 08:58:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68D776E827;
-	Tue, 10 Sep 2019 06:58:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 409756E823;
+	Tue, 10 Sep 2019 06:57:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail3-166.sinamail.sina.com.cn (mail3-166.sinamail.sina.com.cn
- [202.108.3.166])
- by gabe.freedesktop.org (Postfix) with SMTP id C796489722
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 07:16:13 +0000 (UTC)
-Received: from unknown (HELO [IPv6:::ffff:172.20.10.2])([61.148.244.178])
- by sina.com with ESMTP
- id 5D75FBAB0002BC5A; Mon, 9 Sep 2019 15:13:48 +0800 (CST)
-X-Sender: hdanton@sina.com
-X-Auth-ID: hdanton@sina.com
-X-SMAIL-MID: 92381354923368
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [62.209.51.94])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 851D589B11
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 10:13:19 +0000 (UTC)
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ x89A1pit016851; Mon, 9 Sep 2019 12:13:12 +0200
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com with ESMTP id 2uv212ctu2-1
+ (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
+ Mon, 09 Sep 2019 12:13:12 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 8C6E559;
+ Mon,  9 Sep 2019 10:13:01 +0000 (GMT)
+Received: from Webmail-eu.st.com (Safex1hubcas21.st.com [10.75.90.44])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 19A8A2C6D25;
+ Mon,  9 Sep 2019 12:13:01 +0200 (CEST)
+Received: from SAFEX1HUBCAS22.st.com (10.75.90.92) by SAFEX1HUBCAS21.st.com
+ (10.75.90.44) with Microsoft SMTP Server (TLS) id 14.3.439.0; Mon, 9 Sep 2019
+ 12:13:00 +0200
+Received: from localhost (10.201.20.122) by Webmail-ga.st.com (10.75.90.48)
+ with Microsoft SMTP Server (TLS) id 14.3.439.0; Mon, 9 Sep 2019 12:13:00
+ +0200
+From: Benjamin Gaignard <benjamin.gaignard@st.com>
+To: <benjamin.gaignard@linaro.org>, <airlied@linux.ie>, <daniel@ffwll.ch>
+Subject: [PATCH] drm: sti: fix W=1 warnings
+Date: Mon, 9 Sep 2019 12:12:53 +0200
+Message-ID: <20190909101254.24191-1-benjamin.gaignard@st.com>
+X-Mailer: git-send-email 2.15.0
 MIME-Version: 1.0
-To: Gerd Hoffmann <kraxel@redhat.com>
-From: Hillf Danton <hdanton@sina.com>
-Subject: Re: Xorg indefinitely hangs in kernelspace
-Date: Mon, 9 Sep 2019 15:13:48 +0800
-Importance: normal
-X-Priority: 3
-In-Reply-To: <20190909055219.q44k27cczwkuio3z@sirius.home.kraxel.org>
-References: <20190906055322.17900-1-hdanton@sina.com>
- <20190909055219.q44k27cczwkuio3z@sirius.home.kraxel.org>
+X-Originating-IP: [10.201.20.122]
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.70,1.0.8
+ definitions=2019-09-09_04:2019-09-09,2019-09-09 signatures=0
 X-Mailman-Approved-At: Tue, 10 Sep 2019 06:57:58 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=st.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=eaDnefryRKb0WXqhwir54zXZzPWWXudlNrduZXInUhY=;
+ b=WGXq+WpQNhSscPYoOE6mVpFGFO4NJ/SW3A1GtwgMvn9YNO2jk2AXabhjz66nQ4hacclT
+ hEd58OAWUH1sKTT/dVpr878Y0aoYoyqxU7eRINMkaBxwSS3TeDe7iUIrl/tpum3cPTCB
+ 0ghIEWVYXZs5vTbWoAQsQJVydoLW3wPZf1py9lSfu3W48GJUP4ZS8oKgrP3X13EBdtrq
+ hzYRTLIXn4IPNjA5aVnRLMD3fvRo64E6PBRv07+/z0Gi5eTz6suUXkUkpns+XWAniAJb
+ FCAqVJIrvgUm6G5GgIBhMYtrxOiCbIie3ZoU0uCqD/aECIEGtdfcxC22epnd4wKJMQXn Vw== 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -42,247 +64,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>,
- "spice-devel@lists.freedesktop.org" <spice-devel@lists.freedesktop.org>,
- Jaak Ristioja <jaak@ristioja.ee>, Dave Airlie <airlied@redhat.com>
-Content-Type: multipart/mixed; boundary="===============1714248832=="
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Benjamin Gaignard <benjamin.gaignard@st.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-Message-Id: <20190910065807.68D776E827@gabe.freedesktop.org>
 
-
---===============1714248832==
-Content-Type: multipart/alternative;
-	boundary="_AD05A452-BEFD-47CB-8E14-119A02D5DF11_"
-
-
---_AD05A452-BEFD-47CB-8E14-119A02D5DF11_
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-
-Hi,
-
-On Mon, 9 Sep 2019 from Gerd Hoffmann <kraxel@redhat.com>
->
-> Hmm, I think the patch is wrong.  As far I know it is the qxl drivers's
-> job to call ttm_eu_backoff_reservation().  Doing that automatically in
-> ttm will most likely break other ttm users.
->
-Perhaps.
-
->So I guess the call is missing in the qxl driver somewhere, most likely
->in some error handling code path given that this bug is a relatively
->rare event.
->
->There is only a single ttm_eu_reserve_buffers() call in qxl.
->So how about this?
->
-No preference in either way if it is a right cure.
-
-BTW a quick peep at the mainline tree shows not every
-ttm_eu_reserve_buffers() pairs with ttm_eu_backoff_reservation()
-without qxl being taken in account.
-
-Hillf
-
---_AD05A452-BEFD-47CB-8E14-119A02D5DF11_
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html; charset="utf-8"
-
-<html xmlns:o=3D"urn:schemas-microsoft-com:office:office" xmlns:w=3D"urn:sc=
-hemas-microsoft-com:office:word" xmlns:m=3D"http://schemas.microsoft.com/of=
-fice/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta ht=
-tp-equiv=3DContent-Type content=3D"text/html; charset=3Dutf-8"><meta name=
-=3DGenerator content=3D"Microsoft Word 15 (filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:DengXian;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-@font-face
-	{font-family:DengXian;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	margin-bottom:.0001pt;
-	text-align:justify;
-	text-justify:inter-ideograph;
-	font-size:10.5pt;
-	font-family:DengXian;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
-	{mso-style-priority:34;
-	margin:0cm;
-	margin-bottom:.0001pt;
-	text-align:justify;
-	text-justify:inter-ideograph;
-	text-indent:21.0pt;
-	font-size:10.5pt;
-	font-family:DengXian;}
-span.DefaultFontHxMailStyle
-	{mso-style-name:"Default Font HxMail Style";
-	font-family:DengXian;
-	color:windowtext;
-	font-weight:normal;
-	font-style:normal;
-	text-decoration:none none;}
-.MsoChpDefault
-	{mso-style-type:export-only;}
-/* Page Definitions */
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
-div.WordSection1
-	{page:WordSection1;}
-/* List Definitions */
-@list l0
-	{mso-list-id:1496729359;
-	mso-list-type:hybrid;
-	mso-list-template-ids:-1873276564 -1 67698691 67698693 67698689 67698691 6=
-7698693 67698689 67698691 67698693;}
-@list l0:level1
-	{mso-level-start-at:0;
-	mso-level-number-format:bullet;
-	mso-level-text:\F0D8;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	margin-left:18.0pt;
-	text-indent:-18.0pt;
-	font-family:Wingdings;
-	mso-fareast-font-family:DengXian;
-	mso-bidi-font-family:"Times New Roman";}
-@list l0:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:\F06E;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	margin-left:42.0pt;
-	text-indent:-21.0pt;
-	font-family:Wingdings;}
-@list l0:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F075;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	margin-left:63.0pt;
-	text-indent:-21.0pt;
-	font-family:Wingdings;}
-@list l0:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F06C;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	margin-left:84.0pt;
-	text-indent:-21.0pt;
-	font-family:Wingdings;}
-@list l0:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F06E;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	margin-left:105.0pt;
-	text-indent:-21.0pt;
-	font-family:Wingdings;}
-@list l0:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F075;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	margin-left:126.0pt;
-	text-indent:-21.0pt;
-	font-family:Wingdings;}
-@list l0:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F06C;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	margin-left:147.0pt;
-	text-indent:-21.0pt;
-	font-family:Wingdings;}
-@list l0:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F06E;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	margin-left:168.0pt;
-	text-indent:-21.0pt;
-	font-family:Wingdings;}
-@list l0:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F075;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	margin-left:189.0pt;
-	text-indent:-21.0pt;
-	font-family:Wingdings;}
-ol
-	{margin-bottom:0cm;}
-ul
-	{margin-bottom:0cm;}
---></style></head><body lang=3DZH-CN link=3Dblue vlink=3D"#954F72"><div cla=
-ss=3DWordSection1><p class=3DMsoNormal><span lang=3DEN-US>Hi,</span></p><p =
-class=3DMsoNormal><span lang=3DEN-US><o:p>&nbsp;</o:p></span></p><p class=
-=3DMsoNormal><span lang=3DEN-US>On Mon, 9 Sep 2019 from Gerd Hoffmann &lt;k=
-raxel@redhat.com&gt;<o:p></o:p></span></p><p class=3DMsoNormal><span lang=
-=3DEN-US>&gt;<o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span lang=3D=
-EN-US>&gt; Hmm, I think the patch is wrong.=C2=A0 As far I know it is the q=
-xl drivers's</span></p><p class=3DMsoNormal><span lang=3DEN-US>&gt; job to =
-call ttm_eu_backoff_reservation().=C2=A0 Doing that automatically in</span>=
-</p><p class=3DMsoNormal><span lang=3DEN-US>&gt; ttm will most likely break=
- other ttm users.</span></p><p class=3DMsoNormal><span lang=3DEN-US>&gt;<o:=
-p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span lang=3DEN-US>Perhaps.</=
-span></p><p class=3DMsoNormal><span lang=3DEN-US><o:p>&nbsp;</o:p></span></=
-p><p class=3DMsoNormal><span lang=3DEN-US>&gt;So I guess the call is missin=
-g in the qxl driver somewhere, most likely</span></p><p class=3DMsoNormal><=
-span lang=3DEN-US>&gt;in some error handling code path given that this bug =
-is a relatively</span></p><p class=3DMsoNormal><span lang=3DEN-US>&gt;rare =
-event.</span></p><p class=3DMsoNormal><span lang=3DEN-US>&gt;<o:p>&nbsp;</o=
-:p></span></p><p class=3DMsoNormal><span lang=3DEN-US>&gt;There is only a s=
-ingle ttm_eu_reserve_buffers() call in qxl.</span></p><p class=3DMsoNormal>=
-<span lang=3DEN-US>&gt;So how about this?</span></p><p class=3DMsoNormal><s=
-pan lang=3DEN-US>&gt;<o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span=
- lang=3DEN-US>No preference in either way if it is a right cure.</span></p>=
-<p class=3DMsoNormal><span lang=3DEN-US><o:p>&nbsp;</o:p></span></p><p clas=
-s=3DMsoNormal><span lang=3DEN-US>BTW a quick peep at the mainline tree show=
-s not every</span></p><p class=3DMsoNormal><span lang=3DEN-US>ttm_eu_reserv=
-e_buffers() pairs with ttm_eu_backoff_reservation()</span></p><p class=3DMs=
-oNormal><span lang=3DEN-US>without qxl being taken in account.</span></p><p=
- class=3DMsoNormal><span class=3DDefaultFontHxMailStyle><span lang=3DEN-US>=
-<o:p>&nbsp;</o:p></span></span></p><p class=3DMsoNormal><span class=3DDefau=
-ltFontHxMailStyle><span lang=3DEN-US>Hillf<o:p></o:p></span></span></p></di=
-v></body></html>=
-
---_AD05A452-BEFD-47CB-8E14-119A02D5DF11_--
-
-
-
---===============1714248832==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1714248832==--
-
-
+Rml4IHdhcm5pbmdzIHdoZW4gVz0xLgpObyBjb2RlIGNoYW5nZXMsIG9ubHkgY2xlYW4gdXAgaW4g
+c3RpIGludGVybmFsIHN0cnVjdHVyZXMgYW5kIGZ1bmN0aW9ucwpkZXNjcmlwdGlvbnMuCgpTaWdu
+ZWQtb2ZmLWJ5OiBCZW5qYW1pbiBHYWlnbmFyZCA8YmVuamFtaW4uZ2FpZ25hcmRAc3QuY29tPgot
+LS0KIGRyaXZlcnMvZ3B1L2RybS9zdGkvc3RpX2N1cnNvci5jIHwgIDIgKy0KIGRyaXZlcnMvZ3B1
+L2RybS9zdGkvc3RpX2R2by5jICAgIHwgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9zdGkvc3RpX2dk
+cC5jICAgIHwgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9zdGkvc3RpX2hkYS5jICAgIHwgIDIgKy0K
+IGRyaXZlcnMvZ3B1L2RybS9zdGkvc3RpX2hkbWkuYyAgIHwgIDQgKystLQogZHJpdmVycy9ncHUv
+ZHJtL3N0aS9zdGlfdHZvdXQuYyAgfCAxMCArKysrKy0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vc3Rp
+L3N0aV92dGcuYyAgICB8ICAyICstCiA3IGZpbGVzIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKyks
+IDEyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9zdGkvc3RpX2N1
+cnNvci5jIGIvZHJpdmVycy9ncHUvZHJtL3N0aS9zdGlfY3Vyc29yLmMKaW5kZXggMGJmN2MzMzJj
+ZjBiLi5lYTY0YzFkY2FmNjMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9zdGkvc3RpX2N1
+cnNvci5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9zdGkvc3RpX2N1cnNvci5jCkBAIC00Nyw3ICs0
+Nyw3IEBAIHN0cnVjdCBkbWFfcGl4bWFwIHsKIAl2b2lkICpiYXNlOwogfTsKIAotLyoqCisvKgog
+ICogU1RJIEN1cnNvciBzdHJ1Y3R1cmUKICAqCiAgKiBAc3RpX3BsYW5lOiAgICBzdGlfcGxhbmUg
+c3RydWN0dXJlCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc3RpL3N0aV9kdm8uYyBiL2Ry
+aXZlcnMvZ3B1L2RybS9zdGkvc3RpX2R2by5jCmluZGV4IDllNmQ1ZDhiNzAzMC4uYzMzZDBhYWVl
+ODJiIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vc3RpL3N0aV9kdm8uYworKysgYi9kcml2
+ZXJzL2dwdS9kcm0vc3RpL3N0aV9kdm8uYwpAQCAtNjUsNyArNjUsNyBAQCBzdGF0aWMgc3RydWN0
+IGR2b19jb25maWcgcmdiXzI0Yml0X2RlX2NmZyA9IHsKIAkuYXdnX2Z3Z2VuX2ZjdCA9IHN0aV9h
+d2dfZ2VuZXJhdGVfY29kZV9kYXRhX2VuYWJsZV9tb2RlLAogfTsKIAotLyoqCisvKgogICogU1RJ
+IGRpZ2l0YWwgdmlkZW8gb3V0cHV0IHN0cnVjdHVyZQogICoKICAqIEBkZXY6IGRyaXZlciBkZXZp
+Y2UKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9zdGkvc3RpX2dkcC5jIGIvZHJpdmVycy9n
+cHUvZHJtL3N0aS9zdGlfZ2RwLmMKaW5kZXggOGU5MjZjZDZhMWM4Li4xMTU5NWM3NDg4NDQgMTAw
+NjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9zdGkvc3RpX2dkcC5jCisrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9zdGkvc3RpX2dkcC5jCkBAIC0xMDMsNyArMTAzLDcgQEAgc3RydWN0IHN0aV9nZHBfbm9k
+ZV9saXN0IHsKIAlkbWFfYWRkcl90IGJ0bV9maWVsZF9wYWRkcjsKIH07CiAKLS8qKgorLyoKICAq
+IFNUSSBHRFAgc3RydWN0dXJlCiAgKgogICogQHN0aV9wbGFuZTogICAgICAgICAgc3RpX3BsYW5l
+IHN0cnVjdHVyZQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3N0aS9zdGlfaGRhLmMgYi9k
+cml2ZXJzL2dwdS9kcm0vc3RpL3N0aV9oZGEuYwppbmRleCA5NGU0MDRmMTMyMzQuLjM1MTJhOTRh
+MGZjYSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3N0aS9zdGlfaGRhLmMKKysrIGIvZHJp
+dmVycy9ncHUvZHJtL3N0aS9zdGlfaGRhLmMKQEAgLTIzMCw3ICsyMzAsNyBAQCBzdGF0aWMgY29u
+c3Qgc3RydWN0IHN0aV9oZGFfdmlkZW9fY29uZmlnIGhkYV9zdXBwb3J0ZWRfbW9kZXNbXSA9IHsK
+IAkgQVdHaV83MjB4NDgwcF82MCwgTk5fNzIweDQ4MHBfNjAsIFZJRF9FRH0KIH07CiAKLS8qKgor
+LyoKICAqIFNUSSBoZCBhbmFsb2cgc3RydWN0dXJlCiAgKgogICogQGRldjogZHJpdmVyIGRldmlj
+ZQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3N0aS9zdGlfaGRtaS5jIGIvZHJpdmVycy9n
+cHUvZHJtL3N0aS9zdGlfaGRtaS5jCmluZGV4IGYwM2Q2MTdlZGM0Yy4uODdlMzRmN2E2Y2ZlIDEw
+MDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vc3RpL3N0aV9oZG1pLmMKKysrIGIvZHJpdmVycy9n
+cHUvZHJtL3N0aS9zdGlfaGRtaS5jCkBAIC0zMzMsNyArMzMzLDYgQEAgc3RhdGljIHZvaWQgaGRt
+aV9pbmZvZnJhbWVfcmVzZXQoc3RydWN0IHN0aV9oZG1pICpoZG1pLAogICogSGVscGVyIHRvIGNv
+bmNhdGVuYXRlIGluZm9mcmFtZSBpbiAzMiBiaXRzIHdvcmQKICAqCiAgKiBAcHRyOiBwb2ludGVy
+IG9uIHRoZSBoZG1pIGludGVybmFsIHN0cnVjdHVyZQotICogQGRhdGE6IGluZm9mcmFtZSB0byB3
+cml0ZQogICogQHNpemU6IHNpemUgdG8gd3JpdGUKICAqLwogc3RhdGljIGlubGluZSB1bnNpZ25l
+ZCBpbnQgaGRtaV9pbmZvZnJhbWVfc3VicGFjayhjb25zdCB1OCAqcHRyLCBzaXplX3Qgc2l6ZSkK
+QEAgLTU0MywxMyArNTQyLDE0IEBAIHN0YXRpYyBpbnQgaGRtaV92ZW5kb3JfaW5mb2ZyYW1lX2Nv
+bmZpZyhzdHJ1Y3Qgc3RpX2hkbWkgKmhkbWkpCiAJcmV0dXJuIDA7CiB9CiAKKyNkZWZpbmUgSERN
+SV9USU1FT1VUX1NXUkVTRVQgIDEwMCAgIC8qbWlsbGlzZWNvbmRzICovCisKIC8qKgogICogU29m
+dHdhcmUgcmVzZXQgb2YgdGhlIGhkbWkgc3Vic3lzdGVtCiAgKgogICogQGhkbWk6IHBvaW50ZXIg
+b24gdGhlIGhkbWkgaW50ZXJuYWwgc3RydWN0dXJlCiAgKgogICovCi0jZGVmaW5lIEhETUlfVElN
+RU9VVF9TV1JFU0VUICAxMDAgICAvKm1pbGxpc2Vjb25kcyAqLwogc3RhdGljIHZvaWQgaGRtaV9z
+d3Jlc2V0KHN0cnVjdCBzdGlfaGRtaSAqaGRtaSkKIHsKIAl1MzIgdmFsOwpkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9ncHUvZHJtL3N0aS9zdGlfdHZvdXQuYyBiL2RyaXZlcnMvZ3B1L2RybS9zdGkvc3Rp
+X3R2b3V0LmMKaW5kZXggZTFiM2M4Y2I3Mjg3Li5iMWZjNzdiMTUwZGEgMTAwNjQ0Ci0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS9zdGkvc3RpX3R2b3V0LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3N0aS9z
+dGlfdHZvdXQuYwpAQCAtMTU3LDkgKzE1Nyw5IEBAIHN0YXRpYyB2b2lkIHR2b3V0X3dyaXRlKHN0
+cnVjdCBzdGlfdHZvdXQgKnR2b3V0LCB1MzIgdmFsLCBpbnQgb2Zmc2V0KQogICoKICAqIEB0dm91
+dDogdHZvdXQgc3RydWN0dXJlCiAgKiBAcmVnOiByZWdpc3RlciB0byBzZXQKLSAqIEBjcl9yOgot
+ICogQHlfZzoKLSAqIEBjYl9iOgorICogQGNyX3I6IHJlZCBjaHJvbWEgb3IgcmVkIG9yZGVyCisg
+KiBAeV9nOiB5IG9yIGdyZWVuIG9yZGVyCisgKiBAY2JfYjogYmx1ZSBjaHJvbWEgb3IgYmx1ZSBv
+cmRlcgogICovCiBzdGF0aWMgdm9pZCB0dm91dF92aXBfc2V0X2NvbG9yX29yZGVyKHN0cnVjdCBz
+dGlfdHZvdXQgKnR2b3V0LCBpbnQgcmVnLAogCQkJCSAgICAgIHUzMiBjcl9yLCB1MzIgeV9nLCB1
+MzIgY2JfYikKQEAgLTIxNCw3ICsyMTQsNyBAQCBzdGF0aWMgdm9pZCB0dm91dF92aXBfc2V0X3Ju
+ZChzdHJ1Y3Qgc3RpX3R2b3V0ICp0dm91dCwgaW50IHJlZywgdTMyIHJuZCkKICAqIEB0dm91dDog
+dHZvdXQgc3RydWN0dXJlCiAgKiBAcmVnOiByZWdpc3RlciB0byBzZXQKICAqIEBtYWluX3BhdGg6
+IG1haW4gb3IgYXV4aWxpYXJ5IHBhdGgKLSAqIEBzZWxfaW5wdXQ6IHNlbGVjdGVkX2lucHV0ICht
+YWluL2F1eCArIGNvbnYpCisgKiBAdmlkZW9fb3V0OiBzZWxlY3RlZF9pbnB1dCAobWFpbi9hdXgg
+KyBjb252KQogICovCiBzdGF0aWMgdm9pZCB0dm91dF92aXBfc2V0X3NlbF9pbnB1dChzdHJ1Y3Qg
+c3RpX3R2b3V0ICp0dm91dCwKIAkJCQkgICAgaW50IHJlZywKQEAgLTI1MSw3ICsyNTEsNyBAQCBz
+dGF0aWMgdm9pZCB0dm91dF92aXBfc2V0X3NlbF9pbnB1dChzdHJ1Y3Qgc3RpX3R2b3V0ICp0dm91
+dCwKICAqCiAgKiBAdHZvdXQ6IHR2b3V0IHN0cnVjdHVyZQogICogQHJlZzogcmVnaXN0ZXIgdG8g
+c2V0Ci0gKiBAaW5fdmlkX3NpZ25lZDogdXNlZCB2aWRlbyBpbnB1dCBmb3JtYXQKKyAqIEBpbl92
+aWRfZm10OiB1c2VkIHZpZGVvIGlucHV0IGZvcm1hdAogICovCiBzdGF0aWMgdm9pZCB0dm91dF92
+aXBfc2V0X2luX3ZpZF9mbXQoc3RydWN0IHN0aV90dm91dCAqdHZvdXQsCiAJCWludCByZWcsIHUz
+MiBpbl92aWRfZm10KQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3N0aS9zdGlfdnRnLmMg
+Yi9kcml2ZXJzL2dwdS9kcm0vc3RpL3N0aV92dGcuYwppbmRleCBlZjQwMDlmMTEzOTYuLjBiMTdh
+YzhhM2ZhYSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3N0aS9zdGlfdnRnLmMKKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL3N0aS9zdGlfdnRnLmMKQEAgLTEyMSw3ICsxMjEsNyBAQCBzdHJ1Y3Qg
+c3RpX3Z0Z19zeW5jX3BhcmFtcyB7CiAJdTMyIHZzeW5jX29mZl9ib3Q7CiB9OwogCi0vKioKKy8q
+CiAgKiBTVEkgVlRHIHN0cnVjdHVyZQogICoKICAqIEByZWdzOiByZWdpc3RlciBtYXBwaW5nCi0t
+IAoyLjE1LjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
