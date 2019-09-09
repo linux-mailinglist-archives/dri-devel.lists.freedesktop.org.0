@@ -1,44 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4571ADF83
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 21:38:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF24AADFA9
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 21:51:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEE8D89DC9;
-	Mon,  9 Sep 2019 19:38:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B859B89E50;
+	Mon,  9 Sep 2019 19:51:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 216AE89DC7
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 19:38:31 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1E0C772167; Mon,  9 Sep 2019 19:38:31 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111487] AMD vega - display off/on -> solid green display
-Date: Mon, 09 Sep 2019 19:38:31 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: bzz@atomicbee.cz
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111487-502-XtdoXXvORy@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111487-502@http.bugs.freedesktop.org/>
-References: <bug-111487-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A605789E50
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 19:51:13 +0000 (UTC)
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 215D9C04B2CE
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 19:51:13 +0000 (UTC)
+Received: by mail-qt1-f199.google.com with SMTP id z20so17032046qtn.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Sep 2019 12:51:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=cX/+uP2cXNy1rxyLG62p5Ml+Jo0Iv2JmVM5wnVFWQwo=;
+ b=ql/0HnyDxUf6KpGMh/w8hazxz49epNSZzbCKcB/VHB+X3toqM/4ujfy5UruE+5rHOT
+ 2F3kpjIxm+c5LDF1kgmFW0WfZ25L4ept2xFfKNnycwOE/F4PnUbMACAPO5bd0TkGL8Wl
+ BbdCVWsR+Q3sM4Y5wKZ8X7C0On3b3WaMrtcQhd/o0ov40App4MlXFqx5LzQqHlInnGl3
+ HbaRpIElrzfxqiWwZ9c1Vr5CMZw9/5uidZbhyWI1WPXGREP3Tnj2mGZSrlYLOjdzTrfN
+ IE2hzatOnBv+gSzvxopSJGK4HOFWkAkR5zd8gZ0wDcEZGbSxJK9CRM+aP2IlYEDqHKoM
+ Kk5Q==
+X-Gm-Message-State: APjAAAUNUjKi096Di7YgCvBwuhM5eo3Juaf+NInJYWmeG+0bh6MeWWau
+ 5pxb845tR3NfTidC7nZZ2JTJzoVbzVELd6Jdf2wAzw+yWRtsDS7v/lNhT0/Yixz5eZvaYIIyk7J
+ rRSa2X3zLiVCT0QhrrNQxZwKA0EVe
+X-Received: by 2002:ac8:4556:: with SMTP id z22mr24894801qtn.134.1568058672361; 
+ Mon, 09 Sep 2019 12:51:12 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxaYnXwjL5NSAmz2KcT+HiqPN+1dgYEDfYYYqIG9Oq37ivjAsVdBiCJjPEkwoO18h7ZTcEoGA==
+X-Received: by 2002:ac8:4556:: with SMTP id z22mr24894780qtn.134.1568058672080; 
+ Mon, 09 Sep 2019 12:51:12 -0700 (PDT)
+Received: from dhcp-10-20-1-34.bss.redhat.com ([144.121.20.162])
+ by smtp.gmail.com with ESMTPSA id e7sm8511412qtb.94.2019.09.09.12.51.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Sep 2019 12:51:11 -0700 (PDT)
+Message-ID: <a81059f8e09b317b479f17aa0a578107d19726b7.camel@redhat.com>
+Subject: Re: [PATCH v2] drm: Bump encoder limit from 32 to 64
+From: Lyude Paul <lyude@redhat.com>
+To: Ville =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Date: Mon, 09 Sep 2019 15:51:09 -0400
+In-Reply-To: <20190821115355.GH5942@intel.com>
+References: <20190821001656.32577-1-lyude@redhat.com>
+ <20190821115355.GH5942@intel.com>
+Organization: Red Hat
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -52,412 +67,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1055735518=="
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1055735518==
-Content-Type: multipart/alternative; boundary="15680579111.1cfE92.30293"
-Content-Transfer-Encoding: 7bit
-
-
---15680579111.1cfE92.30293
-Date: Mon, 9 Sep 2019 19:38:31 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111487
-
---- Comment #6 from bzz <bzz@atomicbee.cz> ---
-New kernel, problem still here:
-
-
-[  242.669782] WARNING: CPU: 2 PID: 183 at
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_hw_sequencer.c:854
-dcn10_verify_allow_pstate_change_high.cold+0xc/0x229 [amdgpu]
-[  242.669782] Modules linked in: vhost_net vhost tap fuse tun ebtable_filt=
-er
-ebtables ip6table_filter ip6_tables iptable_filter ip_tables x_tables bpfil=
-ter
-scsi_transport_iscsi af_packet br_netfilter bridge stp llc iscsi_ibft
-iscsi_boot_sysfs msr raid1 dm_raid raid456 md_mod async_raid6_recov
-async_memcpy async_pq async_xor async_tx nls_iso8859_1 nls_cp437 vfat fat
-edac_mce_amd kvm_amd ccp kvm irqbypass crct10dif_pclmul crc32_pclmul
-ghash_clmulni_intel aesni_intel snd_hda_codec_realtek snd_hda_codec_generic
-aes_x86_64 crypto_simd ledtrig_audio snd_hda_codec_hdmi cryptd glue_helper
-eeepc_wmi snd_hda_intel asus_wmi pcspkr sparse_keymap rfkill snd_hda_codec
-sp5100_tco wmi_bmof k10temp i2c_piix4 snd_hda_core snd_hwdep snd_pcm snd_ti=
-mer
-snd soundcore r8169 joydev realtek libphy gpio_amdpt gpio_generic pcc_cpufr=
-eq
-button acpi_cpufreq hid_logitech_hidpp btrfs libcrc32c xor uas usb_storage
-raid6_pq hid_logitech_dj hid_generic usbhid amdgpu crc32c_intel amd_iommu_v2
-gpu_sched i2c_algo_bit ttm
-[  242.669793]  drm_kms_helper syscopyarea sysfillrect sysimgblt fb_sys_fops
-drm xhci_pci xhci_hcd usbcore wmi video pinctrl_amd sg dm_multipath dm_mod
-scsi_dh_rdac scsi_dh_emc scsi_dh_alua efivarfs
-[  242.669796] CPU: 2 PID: 183 Comm: kworker/u64:10 Tainted: G        W=20=
-=20=20=20=20=20=20=20
-5.2.11-1-default #1 openSUSE Tumbleweed (unreleased)
-[  242.669797] Hardware name: System manufacturer System Product Name/PRIME
-B450M-A, BIOS 1804 07/29/2019
-[  242.669801] Workqueue: events_unbound commit_work [drm_kms_helper]
-[  242.669841] RIP: 0010:dcn10_verify_allow_pstate_change_high.cold+0xc/0x2=
-29
-[amdgpu]
-[  242.669842] Code: 83 c8 ff e9 59 c9 f9 ff 48 c7 c7 b8 4a 7e c0 e8 bc 2c =
-fb
-e0 0f 0b 83 c8 ff e9 43 c9 f9 ff 48 c7 c7 b8 4a 7e c0 e8 a6 2c fb e0 <0f> 0=
-b 80
-bb 93 01 00 00 00 75 05 e9 29 ed f9 ff 48 8b 83 80 02 00
-[  242.669843] RSP: 0018:ffffa7744350bb18 EFLAGS: 00010286
-[  242.669843] RAX: 0000000000000024 RBX: ffff8b6be7aa1000 RCX:
-0000000000000006
-[  242.669844] RDX: 0000000000000007 RSI: 0000000000000092 RDI:
-ffff8b712ea99a10
-[  242.669844] RBP: ffff8b6be7aa1000 R08: 000000000001a53c R09:
-0000000000000001
-[  242.669844] R10: 0000000000000000 R11: 0000000000000001 R12:
-ffff8b6f046181b8
-[  242.669845] R13: 0000000000000000 R14: ffff8b6be7aa1000 R15:
-ffff8b6f04619318
-[  242.669845] FS:  0000000000000000(0000) GS:ffff8b712ea80000(0000)
-knlGS:0000000000000000
-[  242.669846] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  242.669846] CR2: 0000000804158a48 CR3: 00000007b62f4000 CR4:
-00000000003406e0
-[  242.669847] Call Trace:
-[  242.669887]  dcn10_pipe_control_lock.part.0+0x69/0x70 [amdgpu]
-[  242.669925]  dc_commit_updates_for_stream+0x901/0xbe0 [amdgpu]
-[  242.669963]  amdgpu_dm_commit_planes.constprop.0+0x6b4/0x880 [amdgpu]
-[  242.670001]  amdgpu_dm_atomic_commit_tail+0x9be/0xd30 [amdgpu]
-[  242.670002]  ? __switch_to_asm+0x40/0x70
-[  242.670003]  ? __switch_to_asm+0x34/0x70
-[  242.670003]  ? __switch_to_asm+0x40/0x70
-[  242.670004]  ? __switch_to_asm+0x34/0x70
-[  242.670004]  ? __switch_to_asm+0x40/0x70
-[  242.670005]  ? __switch_to_asm+0x34/0x70
-[  242.670005]  ? __switch_to_asm+0x40/0x70
-[  242.670006]  ? __switch_to_asm+0x34/0x70
-[  242.670006]  ? __switch_to_asm+0x40/0x70
-[  242.670008]  ? trace_hardirqs_off_thunk+0x1a/0x33
-[  242.670009]  ? wait_for_completion_timeout+0xf3/0x110
-[  242.670010]  ? finish_task_switch+0x7d/0x290
-[  242.670014]  ? commit_tail+0x3c/0x70 [drm_kms_helper]
-[  242.670017]  commit_tail+0x3c/0x70 [drm_kms_helper]
-[  242.670019]  process_one_work+0x1df/0x3c0
-[  242.670020]  worker_thread+0x4d/0x400
-[  242.670021]  kthread+0xf9/0x130
-[  242.670021]  ? process_one_work+0x3c0/0x3c0
-[  242.670022]  ? kthread_park+0x80/0x80
-[  242.670023]  ret_from_fork+0x27/0x50
-[  242.670024] ---[ end trace 253676aaf03c94d7 ]---
-[  242.670609] [drm] pstate TEST_DEBUG_DATA: 0x36F60000
-[  242.670610] ------------[ cut here ]------------
-[  242.670658] WARNING: CPU: 2 PID: 183 at
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_hw_sequencer.c:854
-dcn10_verify_allow_pstate_change_high.cold+0xc/0x229 [amdgpu]
-[  242.670658] Modules linked in: vhost_net vhost tap fuse tun ebtable_filt=
-er
-ebtables ip6table_filter ip6_tables iptable_filter ip_tables x_tables bpfil=
-ter
-scsi_transport_iscsi af_packet br_netfilter bridge stp llc iscsi_ibft
-iscsi_boot_sysfs msr raid1 dm_raid raid456 md_mod async_raid6_recov
-async_memcpy async_pq async_xor async_tx nls_iso8859_1 nls_cp437 vfat fat
-edac_mce_amd kvm_amd ccp kvm irqbypass crct10dif_pclmul crc32_pclmul
-ghash_clmulni_intel aesni_intel snd_hda_codec_realtek snd_hda_codec_generic
-aes_x86_64 crypto_simd ledtrig_audio snd_hda_codec_hdmi cryptd glue_helper
-eeepc_wmi snd_hda_intel asus_wmi pcspkr sparse_keymap rfkill snd_hda_codec
-sp5100_tco wmi_bmof k10temp i2c_piix4 snd_hda_core snd_hwdep snd_pcm snd_ti=
-mer
-snd soundcore r8169 joydev realtek libphy gpio_amdpt gpio_generic pcc_cpufr=
-eq
-button acpi_cpufreq hid_logitech_hidpp btrfs libcrc32c xor uas usb_storage
-raid6_pq hid_logitech_dj hid_generic usbhid amdgpu crc32c_intel amd_iommu_v2
-gpu_sched i2c_algo_bit ttm
-[  242.670670]  drm_kms_helper syscopyarea sysfillrect sysimgblt fb_sys_fops
-drm xhci_pci xhci_hcd usbcore wmi video pinctrl_amd sg dm_multipath dm_mod
-scsi_dh_rdac scsi_dh_emc scsi_dh_alua efivarfs
-[  242.670673] CPU: 2 PID: 183 Comm: kworker/u64:10 Tainted: G        W=20=
-=20=20=20=20=20=20=20
-5.2.11-1-default #1 openSUSE Tumbleweed (unreleased)
-[  242.670673] Hardware name: System manufacturer System Product Name/PRIME
-B450M-A, BIOS 1804 07/29/2019
-[  242.670677] Workqueue: events_unbound commit_work [drm_kms_helper]
-[  242.670718] RIP: 0010:dcn10_verify_allow_pstate_change_high.cold+0xc/0x2=
-29
-[amdgpu]
-[  242.670719] Code: 83 c8 ff e9 59 c9 f9 ff 48 c7 c7 b8 4a 7e c0 e8 bc 2c =
-fb
-e0 0f 0b 83 c8 ff e9 43 c9 f9 ff 48 c7 c7 b8 4a 7e c0 e8 a6 2c fb e0 <0f> 0=
-b 80
-bb 93 01 00 00 00 75 05 e9 29 ed f9 ff 48 8b 83 80 02 00
-[  242.670720] RSP: 0018:ffffa7744350bb38 EFLAGS: 00010282
-[  242.670721] RAX: 0000000000000024 RBX: ffff8b6be7aa1000 RCX:
-0000000000000006
-[  242.670721] RDX: 0000000000000007 RSI: 0000000000000096 RDI:
-ffff8b712ea99a10
-[  242.670721] RBP: ffffa7744350bbb8 R08: 000000000001a569 R09:
-0000000000000001
-[  242.670722] R10: 0000000000000000 R11: 0000000000000001 R12:
-ffff8b6f046181b8
-[  242.670722] R13: 0000000000000000 R14: ffff8b6be7aa1000 R15:
-ffff8b6f04619318
-[  242.670723] FS:  0000000000000000(0000) GS:ffff8b712ea80000(0000)
-knlGS:0000000000000000
-[  242.670723] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  242.670724] CR2: 0000000804158a48 CR3: 00000007b62f4000 CR4:
-00000000003406e0
-[  242.670727] Call Trace:
-[  242.670765]  dc_commit_updates_for_stream+0x901/0xbe0 [amdgpu]
-[  242.670803]  amdgpu_dm_commit_planes.constprop.0+0x6b4/0x880 [amdgpu]
-[  242.670841]  amdgpu_dm_atomic_commit_tail+0x9be/0xd30 [amdgpu]
-[  242.670842]  ? __switch_to_asm+0x40/0x70
-[  242.670843]  ? __switch_to_asm+0x34/0x70
-[  242.670844]  ? __switch_to_asm+0x40/0x70
-[  242.670844]  ? __switch_to_asm+0x34/0x70
-[  242.670846]  ? __switch_to_asm+0x40/0x70
-[  242.670847]  ? __switch_to_asm+0x34/0x70
-[  242.670847]  ? __switch_to_asm+0x40/0x70
-[  242.670848]  ? __switch_to_asm+0x34/0x70
-[  242.670848]  ? __switch_to_asm+0x40/0x70
-[  242.670850]  ? trace_hardirqs_off_thunk+0x1a/0x33
-[  242.670851]  ? wait_for_completion_timeout+0xf3/0x110
-[  242.670852]  ? finish_task_switch+0x7d/0x290
-[  242.670856]  ? commit_tail+0x3c/0x70 [drm_kms_helper]
-[  242.670860]  commit_tail+0x3c/0x70 [drm_kms_helper]
-[  242.670861]  process_one_work+0x1df/0x3c0
-[  242.670862]  worker_thread+0x4d/0x400
-[  242.670863]  kthread+0xf9/0x130
-[  242.670864]  ? process_one_work+0x3c0/0x3c0
-[  242.670865]  ? kthread_park+0x80/0x80
-[  242.670865]  ret_from_fork+0x27/0x50
-[  242.670866] ---[ end trace 253676aaf03c94d8 ]---
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15680579111.1cfE92.30293
-Date: Mon, 9 Sep 2019 19:38:31 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD vega - display off/on -&gt; solid green display"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111487#c6">Commen=
-t # 6</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD vega - display off/on -&gt; solid green display"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111487">bug 11148=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-bzz&#64;atomicbee.cz" title=3D"bzz &lt;bzz&#64;atomicbee.cz&gt;"> <span cla=
-ss=3D"fn">bzz</span></a>
-</span></b>
-        <pre>New kernel, problem still here:
-
-
-[  242.669782] WARNING: CPU: 2 PID: 183 at
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_hw_sequencer.c:854
-dcn10_verify_allow_pstate_change_high.cold+0xc/0x229 [amdgpu]
-[  242.669782] Modules linked in: vhost_net vhost tap fuse tun ebtable_filt=
-er
-ebtables ip6table_filter ip6_tables iptable_filter ip_tables x_tables bpfil=
-ter
-scsi_transport_iscsi af_packet br_netfilter bridge stp llc iscsi_ibft
-iscsi_boot_sysfs msr raid1 dm_raid raid456 md_mod async_raid6_recov
-async_memcpy async_pq async_xor async_tx nls_iso8859_1 nls_cp437 vfat fat
-edac_mce_amd kvm_amd ccp kvm irqbypass crct10dif_pclmul crc32_pclmul
-ghash_clmulni_intel aesni_intel snd_hda_codec_realtek snd_hda_codec_generic
-aes_x86_64 crypto_simd ledtrig_audio snd_hda_codec_hdmi cryptd glue_helper
-eeepc_wmi snd_hda_intel asus_wmi pcspkr sparse_keymap rfkill snd_hda_codec
-sp5100_tco wmi_bmof k10temp i2c_piix4 snd_hda_core snd_hwdep snd_pcm snd_ti=
-mer
-snd soundcore r8169 joydev realtek libphy gpio_amdpt gpio_generic pcc_cpufr=
-eq
-button acpi_cpufreq hid_logitech_hidpp btrfs libcrc32c xor uas usb_storage
-raid6_pq hid_logitech_dj hid_generic usbhid amdgpu crc32c_intel amd_iommu_v2
-gpu_sched i2c_algo_bit ttm
-[  242.669793]  drm_kms_helper syscopyarea sysfillrect sysimgblt fb_sys_fops
-drm xhci_pci xhci_hcd usbcore wmi video pinctrl_amd sg dm_multipath dm_mod
-scsi_dh_rdac scsi_dh_emc scsi_dh_alua efivarfs
-[  242.669796] CPU: 2 PID: 183 Comm: kworker/u64:10 Tainted: G        W=20=
-=20=20=20=20=20=20=20
-5.2.11-1-default #1 openSUSE Tumbleweed (unreleased)
-[  242.669797] Hardware name: System manufacturer System Product Name/PRIME
-B450M-A, BIOS 1804 07/29/2019
-[  242.669801] Workqueue: events_unbound commit_work [drm_kms_helper]
-[  242.669841] RIP: 0010:dcn10_verify_allow_pstate_change_high.cold+0xc/0x2=
-29
-[amdgpu]
-[  242.669842] Code: 83 c8 ff e9 59 c9 f9 ff 48 c7 c7 b8 4a 7e c0 e8 bc 2c =
-fb
-e0 0f 0b 83 c8 ff e9 43 c9 f9 ff 48 c7 c7 b8 4a 7e c0 e8 a6 2c fb e0 &lt;0f=
-&gt; 0b 80
-bb 93 01 00 00 00 75 05 e9 29 ed f9 ff 48 8b 83 80 02 00
-[  242.669843] RSP: 0018:ffffa7744350bb18 EFLAGS: 00010286
-[  242.669843] RAX: 0000000000000024 RBX: ffff8b6be7aa1000 RCX:
-0000000000000006
-[  242.669844] RDX: 0000000000000007 RSI: 0000000000000092 RDI:
-ffff8b712ea99a10
-[  242.669844] RBP: ffff8b6be7aa1000 R08: 000000000001a53c R09:
-0000000000000001
-[  242.669844] R10: 0000000000000000 R11: 0000000000000001 R12:
-ffff8b6f046181b8
-[  242.669845] R13: 0000000000000000 R14: ffff8b6be7aa1000 R15:
-ffff8b6f04619318
-[  242.669845] FS:  0000000000000000(0000) GS:ffff8b712ea80000(0000)
-knlGS:0000000000000000
-[  242.669846] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  242.669846] CR2: 0000000804158a48 CR3: 00000007b62f4000 CR4:
-00000000003406e0
-[  242.669847] Call Trace:
-[  242.669887]  dcn10_pipe_control_lock.part.0+0x69/0x70 [amdgpu]
-[  242.669925]  dc_commit_updates_for_stream+0x901/0xbe0 [amdgpu]
-[  242.669963]  amdgpu_dm_commit_planes.constprop.0+0x6b4/0x880 [amdgpu]
-[  242.670001]  amdgpu_dm_atomic_commit_tail+0x9be/0xd30 [amdgpu]
-[  242.670002]  ? __switch_to_asm+0x40/0x70
-[  242.670003]  ? __switch_to_asm+0x34/0x70
-[  242.670003]  ? __switch_to_asm+0x40/0x70
-[  242.670004]  ? __switch_to_asm+0x34/0x70
-[  242.670004]  ? __switch_to_asm+0x40/0x70
-[  242.670005]  ? __switch_to_asm+0x34/0x70
-[  242.670005]  ? __switch_to_asm+0x40/0x70
-[  242.670006]  ? __switch_to_asm+0x34/0x70
-[  242.670006]  ? __switch_to_asm+0x40/0x70
-[  242.670008]  ? trace_hardirqs_off_thunk+0x1a/0x33
-[  242.670009]  ? wait_for_completion_timeout+0xf3/0x110
-[  242.670010]  ? finish_task_switch+0x7d/0x290
-[  242.670014]  ? commit_tail+0x3c/0x70 [drm_kms_helper]
-[  242.670017]  commit_tail+0x3c/0x70 [drm_kms_helper]
-[  242.670019]  process_one_work+0x1df/0x3c0
-[  242.670020]  worker_thread+0x4d/0x400
-[  242.670021]  kthread+0xf9/0x130
-[  242.670021]  ? process_one_work+0x3c0/0x3c0
-[  242.670022]  ? kthread_park+0x80/0x80
-[  242.670023]  ret_from_fork+0x27/0x50
-[  242.670024] ---[ end trace 253676aaf03c94d7 ]---
-[  242.670609] [drm] pstate TEST_DEBUG_DATA: 0x36F60000
-[  242.670610] ------------[ cut here ]------------
-[  242.670658] WARNING: CPU: 2 PID: 183 at
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_hw_sequencer.c:854
-dcn10_verify_allow_pstate_change_high.cold+0xc/0x229 [amdgpu]
-[  242.670658] Modules linked in: vhost_net vhost tap fuse tun ebtable_filt=
-er
-ebtables ip6table_filter ip6_tables iptable_filter ip_tables x_tables bpfil=
-ter
-scsi_transport_iscsi af_packet br_netfilter bridge stp llc iscsi_ibft
-iscsi_boot_sysfs msr raid1 dm_raid raid456 md_mod async_raid6_recov
-async_memcpy async_pq async_xor async_tx nls_iso8859_1 nls_cp437 vfat fat
-edac_mce_amd kvm_amd ccp kvm irqbypass crct10dif_pclmul crc32_pclmul
-ghash_clmulni_intel aesni_intel snd_hda_codec_realtek snd_hda_codec_generic
-aes_x86_64 crypto_simd ledtrig_audio snd_hda_codec_hdmi cryptd glue_helper
-eeepc_wmi snd_hda_intel asus_wmi pcspkr sparse_keymap rfkill snd_hda_codec
-sp5100_tco wmi_bmof k10temp i2c_piix4 snd_hda_core snd_hwdep snd_pcm snd_ti=
-mer
-snd soundcore r8169 joydev realtek libphy gpio_amdpt gpio_generic pcc_cpufr=
-eq
-button acpi_cpufreq hid_logitech_hidpp btrfs libcrc32c xor uas usb_storage
-raid6_pq hid_logitech_dj hid_generic usbhid amdgpu crc32c_intel amd_iommu_v2
-gpu_sched i2c_algo_bit ttm
-[  242.670670]  drm_kms_helper syscopyarea sysfillrect sysimgblt fb_sys_fops
-drm xhci_pci xhci_hcd usbcore wmi video pinctrl_amd sg dm_multipath dm_mod
-scsi_dh_rdac scsi_dh_emc scsi_dh_alua efivarfs
-[  242.670673] CPU: 2 PID: 183 Comm: kworker/u64:10 Tainted: G        W=20=
-=20=20=20=20=20=20=20
-5.2.11-1-default #1 openSUSE Tumbleweed (unreleased)
-[  242.670673] Hardware name: System manufacturer System Product Name/PRIME
-B450M-A, BIOS 1804 07/29/2019
-[  242.670677] Workqueue: events_unbound commit_work [drm_kms_helper]
-[  242.670718] RIP: 0010:dcn10_verify_allow_pstate_change_high.cold+0xc/0x2=
-29
-[amdgpu]
-[  242.670719] Code: 83 c8 ff e9 59 c9 f9 ff 48 c7 c7 b8 4a 7e c0 e8 bc 2c =
-fb
-e0 0f 0b 83 c8 ff e9 43 c9 f9 ff 48 c7 c7 b8 4a 7e c0 e8 a6 2c fb e0 &lt;0f=
-&gt; 0b 80
-bb 93 01 00 00 00 75 05 e9 29 ed f9 ff 48 8b 83 80 02 00
-[  242.670720] RSP: 0018:ffffa7744350bb38 EFLAGS: 00010282
-[  242.670721] RAX: 0000000000000024 RBX: ffff8b6be7aa1000 RCX:
-0000000000000006
-[  242.670721] RDX: 0000000000000007 RSI: 0000000000000096 RDI:
-ffff8b712ea99a10
-[  242.670721] RBP: ffffa7744350bbb8 R08: 000000000001a569 R09:
-0000000000000001
-[  242.670722] R10: 0000000000000000 R11: 0000000000000001 R12:
-ffff8b6f046181b8
-[  242.670722] R13: 0000000000000000 R14: ffff8b6be7aa1000 R15:
-ffff8b6f04619318
-[  242.670723] FS:  0000000000000000(0000) GS:ffff8b712ea80000(0000)
-knlGS:0000000000000000
-[  242.670723] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  242.670724] CR2: 0000000804158a48 CR3: 00000007b62f4000 CR4:
-00000000003406e0
-[  242.670727] Call Trace:
-[  242.670765]  dc_commit_updates_for_stream+0x901/0xbe0 [amdgpu]
-[  242.670803]  amdgpu_dm_commit_planes.constprop.0+0x6b4/0x880 [amdgpu]
-[  242.670841]  amdgpu_dm_atomic_commit_tail+0x9be/0xd30 [amdgpu]
-[  242.670842]  ? __switch_to_asm+0x40/0x70
-[  242.670843]  ? __switch_to_asm+0x34/0x70
-[  242.670844]  ? __switch_to_asm+0x40/0x70
-[  242.670844]  ? __switch_to_asm+0x34/0x70
-[  242.670846]  ? __switch_to_asm+0x40/0x70
-[  242.670847]  ? __switch_to_asm+0x34/0x70
-[  242.670847]  ? __switch_to_asm+0x40/0x70
-[  242.670848]  ? __switch_to_asm+0x34/0x70
-[  242.670848]  ? __switch_to_asm+0x40/0x70
-[  242.670850]  ? trace_hardirqs_off_thunk+0x1a/0x33
-[  242.670851]  ? wait_for_completion_timeout+0xf3/0x110
-[  242.670852]  ? finish_task_switch+0x7d/0x290
-[  242.670856]  ? commit_tail+0x3c/0x70 [drm_kms_helper]
-[  242.670860]  commit_tail+0x3c/0x70 [drm_kms_helper]
-[  242.670861]  process_one_work+0x1df/0x3c0
-[  242.670862]  worker_thread+0x4d/0x400
-[  242.670863]  kthread+0xf9/0x130
-[  242.670864]  ? process_one_work+0x3c0/0x3c0
-[  242.670865]  ? kthread_park+0x80/0x80
-[  242.670865]  ret_from_fork+0x27/0x50
-[  242.670866] ---[ end trace 253676aaf03c94d8 ]---</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15680579111.1cfE92.30293--
-
---===============1055735518==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1055735518==--
+RmluYWxseSBnb3QgYSBjaGFuY2UgdG8gbG9vayBhdCB0aGlzIGFnYWluLCBzb21lIG5vdGVzIGJl
+bG93CgpPbiBXZWQsIDIwMTktMDgtMjEgYXQgMTQ6NTMgKzAzMDAsIFZpbGxlIFN5cmrDpGzDpCB3
+cm90ZToKPiBPbiBUdWUsIEF1ZyAyMCwgMjAxOSBhdCAwODoxNjo1NVBNIC0wNDAwLCBMeXVkZSBQ
+YXVsIHdyb3RlOgo+ID4gQXNzdW1pbmcgdGhhdCBHUFVzIHdvdWxkIG5ldmVyIGhhdmUgZXZlbiBj
+bG9zZSB0byAzMiBzZXBhcmF0ZSB2aWRlbwo+ID4gZW5jb2RlcnMgaXMgcXVpdGUgaG9uZXN0bHkg
+YSBwcmV0dHkgcmVhc29uYWJsZSBhc3N1bXB0aW9uLiBVbmZvcnR1bmF0ZWx5Cj4gPiB3ZSBkbyBu
+b3QgbGl2ZSBpbiBhIHJlYXNvbmFibGUgd29ybGQsIGFzIGl0IGxvb2tzIGxpa2UgaXQgaXMgYWN0
+dWFsbHkKPiA+IHBvc3NpYmxlIHRvIGZpbmQgZGV2aWNlcyB0aGF0IHdpbGwgY3JlYXRlIG1vcmUg
+ZHJtX2VuY29kZXIgb2JqZWN0cyB0aGVuCj4gPiB0aGlzLiBDYXNlIGluIHBvaW50OiB0aGUgVGhp
+bmtQYWQgUDcxJ3MgZGlzY3JldGUgR1BVLCB3aGljaCBleHBvc2VzIDEKPiA+IGVEUCBwb3J0IGFu
+ZCA1IERQIHBvcnRzLiBPbiB0aGUgUDcxLCBub3V2ZWF1IGF0dGVtcHRzIHRvIGNyZWF0ZSBvbmUK
+PiA+IGVuY29kZXIgZm9yIHRoZSBlRFAgcG9ydCwgYW5kIHR3byBlbmNvZGVycyBmb3IgZWFjaCBE
+UCsrL1VTQi1DIHBvcnQKPiA+IGFsb25nIHdpdGggNCBNU1QgZW5jb2RlcnMgZm9yIGVhY2ggRFAg
+cG9ydC4gVGhpcyBjb21lcyBvdXQgdG8gMzUKPiA+IGRpZmZlcmVudCBlbmNvZGVycy4gVW5mb3J0
+dW5hdGVseSwgdGhpcyBjYW4ndCByZWFsbHkgYmUgb3B0aW1pemVkIHRvCj4gPiBtYWtlIGxlc3Mg
+ZW5jb2RlcnMgZWl0aGVyLgo+ID4gCj4gPiBTbywgd2hhdCBpZiB3ZSBidW1wZWQgdGhlIGxpbWl0
+IHRvIDY0PyBVbmZvcnR1bmF0ZWx5IHRoaXMgaGFzIG9uZSB2ZXJ5Cj4gPiBhd2t3YXJkIGRyYXdi
+YWNrOiB3ZSBhbHJlYWR5IGV4cG9zZSAzMi1iaXQgYml0bWFza3MgZm9yIGVuY29kZXJzIHRvCj4g
+PiB1c2Vyc3BhY2UgaW4gZHJtX2VuY29kZXItPnBvc3NpYmxlX2Nsb25lcy4gWWlrZXMuIFdoaWxl
+IGNsb25pbmcgaXMgc3RpbGwKPiA+IChyYXJlbHkpIHVzZWQgaW4gY2VydGFpbiBtb2Rlcm4gdmlk
+ZW8gaGFyZHdhcmUsIGl0J3MgbW9zdGx5IHVzZWQgaW4KPiA+IHNpdHVhdGlvbnMgd2hlcmUgbWVt
+b3J5IGJhbmR3aWR0aCBpcyBzbyBsaW1pdGVkIHRoYXQgaXQncyBub3QgcG9zc2libGUKPiA+IHRv
+IHNjYW4gb3V0IGZyb20gMiBDUlRDcyBhdCBvbmNlLgo+ID4gCj4gPiBTbywgbGV0J3MgdHJ5IHRv
+IGNvbXByb21pc2UgaGVyZTogYWxsb3cgZW5jb2RlcnMgd2l0aCBpbmRleGVzIDwzMiB0bwo+ID4g
+aGF2ZSBub24temVybyB2YWx1ZXMgaW4gZHJtX2VuY29kZXItPnBvc3NpYmxlX2Nsb25lcywgYW5k
+IGRvbid0IGFsbG93Cj4gPiBlbmNvZGVycyB3aXRoIGhpZ2hlciBpbmRleGVzIHRvIHNldCBkcm1f
+ZW5jb2Rlci0+cG9zc2libGVfY2xvbmVzIHRvIGEKPiA+IG5vbi16ZXJvIHZhbHVlLiBUaGlzIGFs
+bG93cyB1cyB0byBhdm9pZCBicmVha2luZyBVQVBJIGFuZCBrZWVwIHRoaW5ncwo+ID4gd29ya2lu
+ZyBzYW5lbHkgZm9yIGhhcmR3YXJlIHdoaWNoIHN0aWxsIHVzZXMgY2xvbmluZywgd2hpbGUgc3Rp
+bGwgYmVpbmcKPiA+IGFibGUgdG8gYnVtcCB1cCB0aGUgZW5jb2RlciBsaW1pdC4KPiA+IAo+ID4g
+VGhpcyBhbHNvIGZpeGVzIGRyaXZlciBwcm9iaW5nIGZvciBub3V2ZWF1IG9uIHRoZSBUaGlua1Bh
+ZCBQNzEuCj4gPiAKPiA+IENoYW5nZXMgc2luY2UgdjE6Cj4gPiAqIE1vdmUgaW5kZXgrcG9zc2li
+bGVfY2xvbmVzIGNoZWNrIG91dCBvZiBkcm1fZW5jb2Rlcl9pbml0KCkgYW5kIGludG8KPiA+ICAg
+ZHJtX2VuY29kZXJfcmVnaXN0ZXJfYWxsKCksIHNpbmNlIGVuY29kZXItPnBvc3NpYmxlX2Nsb25l
+cyBjYW4gZ2V0Cj4gPiAgIGNoYW5nZWQgYW55IHRpbWUgYmVmb3JlIHJlZ2lzdHJhdGlvbiAtIERh
+bmllbCBWZXR0ZXIKPiA+ICogVXBkYXRlIHRoZSBjb21taXQgbWVzc2FnZSBhIGJpdCB0byBhY2N1
+cmF0ZWx5IHJlZmxlY3QgbW9kZXJuIGRheSB1c2FnZQo+ID4gICBvZiBoYXJkd2FyZSBjbG9uaW5n
+LCB3aGljaCBhcyBEYW5pZWwgU3RvbmUgcG9pbnRlZCBvdXQgaXMgYXBwYXJlbnRseSBhCj4gPiAg
+IHRoaW5nCj4gPiAKPiA+IFNpZ25lZC1vZmYtYnk6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5j
+b20+Cj4gPiBDYzogbm91dmVhdUBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+IC0tLQo+ID4gIGRy
+aXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljLmMgIHwgIDIgKy0KPiA+ICBkcml2ZXJzL2dwdS9kcm0v
+ZHJtX2VuY29kZXIuYyB8IDEyICsrKysrKysrKystLQo+ID4gIGluY2x1ZGUvZHJtL2RybV9jcnRj
+LmggICAgICAgIHwgIDIgKy0KPiA+ICBpbmNsdWRlL2RybS9kcm1fZW5jb2Rlci5oICAgICB8IDIw
+ICsrKysrKysrKysrKysrKy0tLS0tCj4gPiAgNCBmaWxlcyBjaGFuZ2VkLCAyNyBpbnNlcnRpb25z
+KCspLCA5IGRlbGV0aW9ucygtKQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L2RybV9hdG9taWMuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljLmMKPiA+IGluZGV4IDQx
+OTM4MWFiYmRkMS4uMjdjZTk4OGVmMGNjIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L2RybV9hdG9taWMuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWMuYwo+ID4g
+QEAgLTM5Miw3ICszOTIsNyBAQCBzdGF0aWMgdm9pZCBkcm1fYXRvbWljX2NydGNfcHJpbnRfc3Rh
+dGUoc3RydWN0Cj4gPiBkcm1fcHJpbnRlciAqcCwKPiA+ICAJZHJtX3ByaW50ZihwLCAiXHRjb2xv
+cl9tZ210X2NoYW5nZWQ9JWRcbiIsIHN0YXRlLT5jb2xvcl9tZ210X2NoYW5nZWQpOwo+ID4gIAlk
+cm1fcHJpbnRmKHAsICJcdHBsYW5lX21hc2s9JXhcbiIsIHN0YXRlLT5wbGFuZV9tYXNrKTsKPiA+
+ICAJZHJtX3ByaW50ZihwLCAiXHRjb25uZWN0b3JfbWFzaz0leFxuIiwgc3RhdGUtPmNvbm5lY3Rv
+cl9tYXNrKTsKPiA+IC0JZHJtX3ByaW50ZihwLCAiXHRlbmNvZGVyX21hc2s9JXhcbiIsIHN0YXRl
+LT5lbmNvZGVyX21hc2spOwo+ID4gKwlkcm1fcHJpbnRmKHAsICJcdGVuY29kZXJfbWFzaz0lbGx4
+XG4iLCBzdGF0ZS0+ZW5jb2Rlcl9tYXNrKTsKPiA+ICAJZHJtX3ByaW50ZihwLCAiXHRtb2RlOiAi
+IERSTV9NT0RFX0ZNVCAiXG4iLCBEUk1fTU9ERV9BUkcoJnN0YXRlLQo+ID4gPm1vZGUpKTsKPiA+
+ICAKPiA+ICAJaWYgKGNydGMtPmZ1bmNzLT5hdG9taWNfcHJpbnRfc3RhdGUpCj4gPiBkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9lbmNvZGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJt
+X2VuY29kZXIuYwo+ID4gaW5kZXggN2ZiNDdiN2I4YjQ0Li45ZDQ0M2I0NWViYmEgMTAwNjQ0Cj4g
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2VuY29kZXIuYwo+ID4gKysrIGIvZHJpdmVycy9n
+cHUvZHJtL2RybV9lbmNvZGVyLmMKPiA+IEBAIC03MSw2ICs3MSwxNCBAQCBpbnQgZHJtX2VuY29k
+ZXJfcmVnaXN0ZXJfYWxsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpCj4gPiAgCWludCByZXQgPSAw
+Owo+ID4gIAo+ID4gIAlkcm1fZm9yX2VhY2hfZW5jb2RlcihlbmNvZGVyLCBkZXYpIHsKPiA+ICsJ
+CS8qCj4gPiArCQkgKiBTaW5jZSBwb3NzaWJsZV9jbG9uZXMgaGFzIGJlZW4gZXhwb3NlZCB0byB1
+c2Vyc3BhY2UgYXMgYQo+ID4gKwkJICogMzJiaXQgYml0bWFzaywgd2UgZG9uJ3QgYWxsb3cgY3Jl
+YXRpbmcgZW5jb2RlcnMgd2l0aCBhbgo+ID4gKwkJICogaW5kZXggPj0zMiB3aGljaCBhcmUgY2Fw
+YWJsZSBvZiBjbG9uaW5nCj4gPiArCQkgKi8KPiA+ICsJCWlmIChXQVJOX09OKGVuY29kZXItPmlu
+ZGV4ID49IDMyICYmIGVuY29kZXItPnBvc3NpYmxlX2Nsb25lcykpCj4gPiArCQkJcmV0dXJuIC1F
+SU5WQUw7Cj4gCj4gSSBiZWxpZXZlIHBvc3NpYmxlX2Nsb25lcyB3YXMgc3VwcG9zZWQgdG8gaW5j
+bHVkZSB0aGUgZW5jb2RlciBpdHNlbGYuIE5vdAo+IHJlYWxseSBzdXJlIHdoeSB0aG91Z2guIEkg
+Z3Vlc3Mgd2UndmUgbm93IGRlY2lkZWQgdGhhdCBpdCdzIE9LIG5vdCB0byBkbyAKPiB0aGF0Pwo+
+IAo+IGdpdCBncmVwIHRlbGxzIG1lIGRybV9hdG9taWNfaGVscGVyLmMgaGFzIHNvbWUgdXNlcyBv
+ZiBkcm1fZW5jb2Rlcl9tYXNrKCkKPiB0aGF0IG5lZWQgdG8gYmUgbG9va2VkIGF0LgoKdWdoaGho
+aGhoaGhoCnlvdSdyZSBjb21wbGV0ZWx5IHJpZ2h0IDooLCBpdCBzZWVtcyB0aGF0IHRoZXJlIGFy
+ZSBzb21lIGxlZ2FjeSBkcml2ZXJzIHRoYXQKZG8gdGhpcy4gQW4gZXhjZXJwdCBmcm9tIHN0aV90
+dm91dC5jOgoKc3RhdGljIHZvaWQgc3RpX3R2b3V0X2NyZWF0ZV9lbmNvZGVycyhzdHJ1Y3QgZHJt
+X2RldmljZSAqZGV2LAoJCXN0cnVjdCBzdGlfdHZvdXQgKnR2b3V0KQp7Cgl0dm91dC0+aGRtaSA9
+IHN0aV90dm91dF9jcmVhdGVfaGRtaV9lbmNvZGVyKGRldiwgdHZvdXQpOwoJdHZvdXQtPmhkYSA9
+IHN0aV90dm91dF9jcmVhdGVfaGRhX2VuY29kZXIoZGV2LCB0dm91dCk7Cgl0dm91dC0+ZHZvID0g
+c3RpX3R2b3V0X2NyZWF0ZV9kdm9fZW5jb2RlcihkZXYsIHR2b3V0KTsKCgl0dm91dC0+aGRtaS0+
+cG9zc2libGVfY2xvbmVzID0gZHJtX2VuY29kZXJfbWFzayh0dm91dC0+aGRtaSkgfAoJCWRybV9l
+bmNvZGVyX21hc2sodHZvdXQtPmhkYSkgfCBkcm1fZW5jb2Rlcl9tYXNrKHR2b3V0LT5kdm8pOwoJ
+dHZvdXQtPmhkYS0+cG9zc2libGVfY2xvbmVzID0gZHJtX2VuY29kZXJfbWFzayh0dm91dC0+aGRt
+aSkgfAoJCWRybV9lbmNvZGVyX21hc2sodHZvdXQtPmhkYSkgfCBkcm1fZW5jb2Rlcl9tYXNrKHR2
+b3V0LT5kdm8pOwoJdHZvdXQtPmR2by0+cG9zc2libGVfY2xvbmVzID0gZHJtX2VuY29kZXJfbWFz
+ayh0dm91dC0+aGRtaSkgfAoJCWRybV9lbmNvZGVyX21hc2sodHZvdXQtPmhkYSkgfCBkcm1fZW5j
+b2Rlcl9tYXNrKHR2b3V0LT5kdm8pOwp9CgpTbyB5ZWFoLCBJJ20gbm90IHJlYWxseSBzdXJlIHdo
+YXQgd2UgY2FuIGRvIGFib3V0IHRoaXMgdGhlbiwgb3RoZXIgdGhlbiBtYXliZQp0cnkgYW5kIG1h
+a2Ugbm91dmVhdSB1c2UgbGVzcyBlbmNvZGVycyBhZ2FpbiAod2hpY2ggSSBtaWdodCBoYXZlIGEg
+YmV0dGVyIGlkZWEKb24gaG93IHRvIGRvIG5vdy4uLikuIEVpdGhlciB0aGF0LCBvciBkYW52ZXQn
+cyBpZGVhIHdpdGggZmFrZSBlbmNvZGVycwooYWx0aG91Z2ggSSdkIHJlYWxseSBsaWtlIHRvIGF2
+b2lkIHNvbWV0aGluZyB0aGlzIGNvbXBsaWNhdGVkLCBidXQgaXQgbWlnaHQKbm90IGJlIGFibGUg
+dG8gYmUgaGVscGVkKQoKPiAKPiA+ICsKPiA+ICAJCWlmIChlbmNvZGVyLT5mdW5jcy0+bGF0ZV9y
+ZWdpc3RlcikKPiA+ICAJCQlyZXQgPSBlbmNvZGVyLT5mdW5jcy0+bGF0ZV9yZWdpc3RlcihlbmNv
+ZGVyKTsKPiA+ICAJCWlmIChyZXQpCj4gPiBAQCAtMTEyLDggKzEyMCw4IEBAIGludCBkcm1fZW5j
+b2Rlcl9pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gPiAgewo+ID4gIAlpbnQgcmV0Owo+
+ID4gIAo+ID4gLQkvKiBlbmNvZGVyIGluZGV4IGlzIHVzZWQgd2l0aCAzMmJpdCBiaXRtYXNrcyAq
+Lwo+ID4gLQlpZiAoV0FSTl9PTihkZXYtPm1vZGVfY29uZmlnLm51bV9lbmNvZGVyID49IDMyKSkK
+PiA+ICsJLyogZW5jb2RlciBpbmRleCBpcyB1c2VkIHdpdGggNjRiaXQgYml0bWFza3MgKi8KPiA+
+ICsJaWYgKFdBUk5fT04oZGV2LT5tb2RlX2NvbmZpZy5udW1fZW5jb2RlciA+PSA2NCkpCj4gPiAg
+CQlyZXR1cm4gLUVJTlZBTDsKPiA+ICAKPiA+ICAJcmV0ID0gZHJtX21vZGVfb2JqZWN0X2FkZChk
+ZXYsICZlbmNvZGVyLT5iYXNlLAo+ID4gRFJNX01PREVfT0JKRUNUX0VOQ09ERVIpOwo+ID4gZGlm
+ZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9jcnRjLmggYi9pbmNsdWRlL2RybS9kcm1fY3J0Yy5o
+Cj4gPiBpbmRleCA3ZDE0YzExYmRjMGEuLmZkMGIyNDM4YzNkNSAxMDA2NDQKPiA+IC0tLSBhL2lu
+Y2x1ZGUvZHJtL2RybV9jcnRjLmgKPiA+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9jcnRjLmgKPiA+
+IEBAIC0yMTAsNyArMjEwLDcgQEAgc3RydWN0IGRybV9jcnRjX3N0YXRlIHsKPiA+ICAJICogQGVu
+Y29kZXJfbWFzazogQml0bWFzayBvZiBkcm1fZW5jb2Rlcl9tYXNrKGVuY29kZXIpIG9mIGVuY29k
+ZXJzCj4gPiAgCSAqIGF0dGFjaGVkIHRvIHRoaXMgQ1JUQy4KPiA+ICAJICovCj4gPiAtCXUzMiBl
+bmNvZGVyX21hc2s7Cj4gPiArCXU2NCBlbmNvZGVyX21hc2s7Cj4gPiAgCj4gPiAgCS8qKgo+ID4g
+IAkgKiBAYWRqdXN0ZWRfbW9kZToKPiA+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fZW5j
+b2Rlci5oIGIvaW5jbHVkZS9kcm0vZHJtX2VuY29kZXIuaAo+ID4gaW5kZXggNzBjZmNhMDNkODEy
+Li4zZjljYjY1Njk0ZTEgMTAwNjQ0Cj4gPiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fZW5jb2Rlci5o
+Cj4gPiArKysgYi9pbmNsdWRlL2RybS9kcm1fZW5jb2Rlci5oCj4gPiBAQCAtMTU5LDcgKzE1OSwx
+NSBAQCBzdHJ1Y3QgZHJtX2VuY29kZXIgewo+ID4gIAkgKiBlbmNvZGVycyBjYW4gYmUgdXNlZCBp
+biBhIGNsb25lZCBjb25maWd1cmF0aW9uLCB0aGV5IGJvdGggc2hvdWxkCj4gPiBoYXZlCj4gPiAg
+CSAqIGVhY2ggYW5vdGhlciBiaXRzIHNldC4KPiA+ICAJICoKPiA+IC0JICogSW4gcmVhbGl0eSBh
+bG1vc3QgZXZlcnkgZHJpdmVyIGdldHMgdGhpcyB3cm9uZy4KPiA+ICsJICogSW4gcmVhbGl0eSBh
+bG1vc3QgZXZlcnkgZHJpdmVyIGdldHMgdGhpcyB3cm9uZywgYW5kIG1vc3QgbW9kZXJuCj4gPiAr
+CSAqIGRpc3BsYXkgaGFyZHdhcmUgZG9lcyBub3QgaGF2ZSBzdXBwb3J0IGZvciBjbG9uaW5nLiBB
+cyB3ZWxsLCB3aGlsZQo+ID4gd2UKPiA+ICsJICogZXhwb3NlIHRoaXMgbWFzayB0byB1c2Vyc3Bh
+Y2UgYXMgMzJiaXRzIGxvbmcsIHdlIGRvIHN1cmUgcHVyZWx5IHRvCj4gPiArCSAqIGF2b2lkIGJy
+ZWFraW5nIHByZS1leGlzdGluZyBVQVBJIHNpbmNlIHRoZSBsaW1pdGF0aW9uIG9uIHRoZSBudW1i
+ZXIKPiA+ICsJICogb2YgZW5jb2RlcnMgaGFzIGJlZW4gaW5jcmVhc2VkIGZyb20gMzIgYml0cyB0
+byA2NCBiaXRzLiBJbiBvcmRlciB0bwo+ID4gKwkgKiBtYWludGFpbiBmdW5jdGlvbmFsaXR5IGZv
+ciBkcml2ZXJzIHdoaWNoIGRvIGFjdHVhbGx5IHN1cHBvcnQKPiA+IGNsb25pbmcsCj4gPiArCSAq
+IHdlIG9ubHkgYWxsb3cgY2xvbmluZyB3aXRoIGVuY29kZXJzIHRoYXQgaGF2ZSBhbiBpbmRleCA8
+MzIuCj4gPiBFbmNvZGVycwo+ID4gKwkgKiB3aXRoIGluZGV4ZXMgaGlnaGVyIHRoYW4gMzIgYXJl
+IG5vdCBhbGxvd2VkIHRvIHNwZWNpZnkgYSBub24temVybwo+ID4gKwkgKiB2YWx1ZSBoZXJlLgo+
+ID4gIAkgKgo+ID4gIAkgKiBOb3RlIHRoYXQgc2luY2UgZW5jb2RlciBvYmplY3RzIGNhbid0IGJl
+IGhvdHBsdWdnZWQgdGhlIGFzc2lnbmVkCj4gPiBpbmRpY2VzCj4gPiAgCSAqIGFyZSBzdGFibGUg
+YW5kIGhlbmNlIGtub3duIGJlZm9yZSByZWdpc3RlcmluZyBhbGwgb2JqZWN0cy4KPiA+IEBAIC0x
+OTgsMTMgKzIwNiwxNSBAQCBzdGF0aWMgaW5saW5lIHVuc2lnbmVkIGludCBkcm1fZW5jb2Rlcl9p
+bmRleChjb25zdAo+ID4gc3RydWN0IGRybV9lbmNvZGVyICplbmNvZGVyKQo+ID4gIH0KPiA+ICAK
+PiA+ICAvKioKPiA+IC0gKiBkcm1fZW5jb2Rlcl9tYXNrIC0gZmluZCB0aGUgbWFzayBvZiBhIHJl
+Z2lzdGVyZWQgRU5DT0RFUgo+ID4gKyAqIGRybV9lbmNvZGVyX21hc2sgLSBmaW5kIHRoZSBtYXNr
+IG9mIGEgcmVnaXN0ZXJlZCBlbmNvZGVyCj4gPiAgICogQGVuY29kZXI6IGVuY29kZXIgdG8gZmlu
+ZCBtYXNrIGZvcgo+ID4gICAqCj4gPiAtICogR2l2ZW4gYSByZWdpc3RlcmVkIGVuY29kZXIsIHJl
+dHVybiB0aGUgbWFzayBiaXQgb2YgdGhhdCBlbmNvZGVyIGZvciBhbgo+ID4gLSAqIGVuY29kZXIn
+cyBwb3NzaWJsZV9jbG9uZXMgZmllbGQuCj4gPiArICogUmV0dXJuczoKPiA+ICsgKiBBIGJpdCBt
+YXNrIHdpdGggdGhlIG50aCBiaXQgc2V0LCB3aGVyZSBuIGlzIHRoZSBpbmRleCBvZiB0aGUgZW5j
+b2Rlci4KPiA+IFRha2UKPiA+ICsgKiBjYXJlIHdoZW4gdXNpbmcgdGhpcywgYXMgdGhlIERSTSBV
+QVBJIG9ubHkgYWxsb3dzIGZvciAzMiBiaXQgZW5jb2Rlcgo+ID4gbWFza3MKPiA+ICsgKiB3aGls
+ZSBpbnRlcm5hbGx5IGVuY29kZXIgbWFza3MgYXJlIDY0IGJpdHMuCj4gPiAgICovCj4gPiAtc3Rh
+dGljIGlubGluZSB1MzIgZHJtX2VuY29kZXJfbWFzayhjb25zdCBzdHJ1Y3QgZHJtX2VuY29kZXIg
+KmVuY29kZXIpCj4gPiArc3RhdGljIGlubGluZSB1NjQgZHJtX2VuY29kZXJfbWFzayhjb25zdCBz
+dHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29kZXIpCj4gPiAgewo+ID4gIAlyZXR1cm4gMSA8PCBkcm1f
+ZW5jb2Rlcl9pbmRleChlbmNvZGVyKTsKPiA+ICB9Cj4gPiAtLSAKPiA+IDIuMjEuMAo+ID4gCj4g
+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4gZHJp
+LWRldmVsIG1haWxpbmcgbGlzdAo+ID4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+
+ID4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwKLS0gCkNoZWVycywKCUx5dWRlIFBhdWwKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbA==
