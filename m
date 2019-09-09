@@ -2,51 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD1B4AD3B7
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 09:23:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6F8AAD3C1
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 09:23:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95C0E89875;
-	Mon,  9 Sep 2019 07:23:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E83C2898A4;
+	Mon,  9 Sep 2019 07:23:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.andi.de1.cc (mail.andi.de1.cc
- [IPv6:2a01:238:4321:8900:456f:ecd6:43e:202c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85F8989789
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Sep 2019 21:17:39 +0000 (UTC)
-Received: from p200300ccff4729001a3da2fffebfd33a.dip0.t-ipconnect.de
- ([2003:cc:ff47:2900:1a3d:a2ff:febf:d33a] helo=aktux)
- by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.89) (envelope-from <andreas@kemnade.info>)
- id 1i73vq-0000wT-5M; Sun, 08 Sep 2019 22:37:10 +0200
-Received: from andi by aktux with local (Exim 4.92)
- (envelope-from <andreas@kemnade.info>)
- id 1i73vp-0007rT-Sv; Sun, 08 Sep 2019 22:37:09 +0200
-From: Andreas Kemnade <andreas@kemnade.info>
-To: lee.jones@linaro.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
- jacek.anaszewski@gmail.com, pavel@ucw.cz, dmurphy@ti.com,
- robh+dt@kernel.org, mark.rutland@arm.com, b.zolnierkie@samsung.com,
- dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org, "H. Nikolaus Schaller" <hns@goldelico.com>
-Subject: [PATCH 2/2] dt-bindings: backlight: lm3630a: add enable_gpios
-Date: Sun,  8 Sep 2019 22:37:04 +0200
-Message-Id: <20190908203704.30147-3-andreas@kemnade.info>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190908203704.30147-1-andreas@kemnade.info>
-References: <20190908203704.30147-1-andreas@kemnade.info>
-MIME-Version: 1.0
-X-Spam-Score: -1.0 (-)
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DEB1896EC
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 01:26:17 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id 67so10910268oto.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Sep 2019 18:26:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=5Ov2d6Pnm9u+Qu6MuAf8jhV3xMMR4SjQUGOpB2HvBj0=;
+ b=G3wLQ+JZ6Vi3/psz6/drjww5+K0pix0VgDNkoKSkBi3bQ+0+nAbdj7jHuth+KNToGL
+ VjFk4lZ2LlZI4qns67PNq1kP41hfCgq0aesaPiFbEtBbbbvkjAxOSqrXpuG7wBerJ89L
+ JVK99cnU1CXi3KXepFDKQZFsoP+QS6Az2mkN45DSKpS2mxtz7DQL3RwReOqyiViE58jy
+ OiyaSdIX4WfoyYXSG9NKAF2dhoWMSSHunoV9PEPtVRF2iYNMqYCd9P0bityiCva7XWhw
+ nf5noSGdUCZr2RbRuH4aOvf3X44r086o/uMpT/aJHB/uDqLuEjb3IGmZr8PWdXr78lyb
+ pxCA==
+X-Gm-Message-State: APjAAAW4QDfEYI6TU1+fAESsKQp7sU/MD7yK6Tg8fNHOtwh642weZXxY
+ +QriJ/HFNZr0GmEO4vYSTBU=
+X-Google-Smtp-Source: APXvYqxREF5U+6iLM0y+RqBU1gb9iyKo78SFJJdiLHDsba6Zy60Pv8GzxsKEmTWJ0FnmUHdON9IdBA==
+X-Received: by 2002:a9d:7ac8:: with SMTP id m8mr13140172otn.172.1567992376680; 
+ Sun, 08 Sep 2019 18:26:16 -0700 (PDT)
+Received: from sreeram-MS-7B98 (cpe-173-174-83-82.austin.res.rr.com.
+ [173.174.83.82])
+ by smtp.gmail.com with ESMTPSA id d24sm4898419otf.78.2019.09.08.18.26.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 08 Sep 2019 18:26:16 -0700 (PDT)
+From: Sreeram Veluthakkal <srrmvlt@gmail.com>
+To: gregkh@linuxfoundation.org
+Subject: [PATCH] FBTFT: fb_agm1264k: usleep_range is preferred over udelay
+Date: Sun,  8 Sep 2019 20:26:05 -0500
+Message-Id: <20190909012605.15051-1-srrmvlt@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Mon, 09 Sep 2019 07:23:02 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; 
- d=kemnade.info; s=20180802; h=Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=kpo4GcGSp/p9xK4M107Cs6yDAMCz9KA0m/IM/ACOm4E=; b=DU6vwmH4jkv/uSyC72u75opOru
- tJiAe0zAqAhQf8OWs+pSXGzo6uHU3Ab+7u5Byz3emvyTlLRzJuasaqMGR+n/1e6R0V/r6fL69nCRd
- TdEg4gpjSwZR97wFCRmmK5S6+FYXuE2J8xM3wGCEM0/TNagoJCLVOXbKseWO14fHBaAc=;
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=5Ov2d6Pnm9u+Qu6MuAf8jhV3xMMR4SjQUGOpB2HvBj0=;
+ b=jeBGCxRNn+pUIGhwRwVpQqdTM/IILqqr3/4As4imoqUasPXfypeW3HUH1otXbg9JYv
+ 52fimVWUxuIKNuYMya5fLjh0r0X0AJ5nPFSRsCiM3UYxsE8f3xv+iyJ0zhdvrxBjYSNW
+ iQzYT1+lVrbyzlaWpWOwWET0fSPBpZ3ic4F9V+KlNoXmwKA94nVgdj0je7ZZiaPQ6KuQ
+ WucSJpugiVN84M01w7/gTq4VyAt6SbNlFkfy3xPRGy4bRp4BPP3xRDY3V2ddEYknnngU
+ HXbuBusFEpN6kMfHXwJbobmpEAAkQd4vKgZ5h2kurvofmG/jlM3dIH+mu5rlItBQtWQU
+ kVMw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,26 +64,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andreas Kemnade <andreas@kemnade.info>
+Cc: thomas.petazzoni@free-electrons.com, devel@driverdev.osuosl.org,
+ linux-fbdev@vger.kernel.org, jeremy@azazel.net, nishadkamdar@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ payal.s.kshirsagar.98@gmail.com, Sreeram Veluthakkal <srrmvlt@gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-YWRkIGVuYWJsZS1ncGlvcyB0byBkZXNjcmliZSBIV0VOIHBpbgoKU2lnbmVkLW9mZi1ieTogQW5k
-cmVhcyBLZW1uYWRlIDxhbmRyZWFzQGtlbW5hZGUuaW5mbz4KLS0tCiAuLi4vZGV2aWNldHJlZS9i
-aW5kaW5ncy9sZWRzL2JhY2tsaWdodC9sbTM2MzBhLWJhY2tsaWdodC55YW1sIHwgNCArKysrCiAx
-IGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlv
-bi9kZXZpY2V0cmVlL2JpbmRpbmdzL2xlZHMvYmFja2xpZ2h0L2xtMzYzMGEtYmFja2xpZ2h0Lnlh
-bWwgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbGVkcy9iYWNrbGlnaHQvbG0z
-NjMwYS1iYWNrbGlnaHQueWFtbAppbmRleCBkYzEyOWQ5YTMyOWUuLmE5NjU2ZDcyYjY2OCAxMDA2
-NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2xlZHMvYmFja2xpZ2h0
-L2xtMzYzMGEtYmFja2xpZ2h0LnlhbWwKKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
-bmRpbmdzL2xlZHMvYmFja2xpZ2h0L2xtMzYzMGEtYmFja2xpZ2h0LnlhbWwKQEAgLTI5LDYgKzI5
-LDEwIEBAIHByb3BlcnRpZXM6CiAgICcjc2l6ZS1jZWxscyc6CiAgICAgY29uc3Q6IDAKIAorICBl
-bmFibGUtZ3Bpb3M6CisgICAgZGVzY3JpcHRpb246IEdQSU8gdG8gdXNlIHRvIGVuYWJsZS9kaXNh
-YmxlIHRoZSBiYWNrbGlnaHQgKEhXRU4gcGluKS4KKyAgICBtYXhJdGVtczogMQorCiByZXF1aXJl
-ZDoKICAgLSBjb21wYXRpYmxlCiAgIC0gcmVnCi0tIAoyLjIwLjEKCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+VGhpcyBwYXRjaCBmaXhlcyB0aGUgaXNzdWU6CkZJTEU6IGRyaXZlcnMvc3RhZ2luZy9mYnRmdC9m
+Yl9hZ20xMjY0ay1mbC5jOjg4OgpDSEVDSzogdXNsZWVwX3JhbmdlIGlzIHByZWZlcnJlZCBvdmVy
+IHVkZWxheTsgc2VlIERvY3VtZW50YXRpb24vdGltZXJzL3RpbWVycy1ob3d0by5yc3QKKyAgICAg
+ICB1ZGVsYXkoMjApOwoKU2lnbmVkLW9mZi1ieTogU3JlZXJhbSBWZWx1dGhha2thbCA8c3JybXZs
+dEBnbWFpbC5jb20+Ci0tLQogZHJpdmVycy9zdGFnaW5nL2ZidGZ0L2ZiX2FnbTEyNjRrLWZsLmMg
+fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRp
+ZmYgLS1naXQgYS9kcml2ZXJzL3N0YWdpbmcvZmJ0ZnQvZmJfYWdtMTI2NGstZmwuYyBiL2RyaXZl
+cnMvc3RhZ2luZy9mYnRmdC9mYl9hZ20xMjY0ay1mbC5jCmluZGV4IGVlZWVlYzk3YWQyNy4uMmRl
+Y2U3MWZkM2I1IDEwMDY0NAotLS0gYS9kcml2ZXJzL3N0YWdpbmcvZmJ0ZnQvZmJfYWdtMTI2NGst
+ZmwuYworKysgYi9kcml2ZXJzL3N0YWdpbmcvZmJ0ZnQvZmJfYWdtMTI2NGstZmwuYwpAQCAtODUs
+NyArODUsNyBAQCBzdGF0aWMgdm9pZCByZXNldChzdHJ1Y3QgZmJ0ZnRfcGFyICpwYXIpCiAJZGV2
+X2RiZyhwYXItPmluZm8tPmRldmljZSwgIiVzKClcbiIsIF9fZnVuY19fKTsKIAogCWdwaW9kX3Nl
+dF92YWx1ZShwYXItPmdwaW8ucmVzZXQsIDApOwotCXVkZWxheSgyMCk7CisJdXNsZWVwX3Jhbmdl
+KDIwLCA0MCk7CiAJZ3Bpb2Rfc2V0X3ZhbHVlKHBhci0+Z3Bpby5yZXNldCwgMSk7CiAJbWRlbGF5
+KDEyMCk7CiB9Ci0tIAoyLjE3LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbA==
