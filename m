@@ -1,42 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8893BAD2DA
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 07:52:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8C59AD31D
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 08:30:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3389897B5;
-	Mon,  9 Sep 2019 05:52:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 033DB8979E;
+	Mon,  9 Sep 2019 06:30:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68A3789498;
- Mon,  9 Sep 2019 05:52:22 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B5F7330A00C5;
- Mon,  9 Sep 2019 05:52:21 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-117-59.ams2.redhat.com
- [10.36.117.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD9E05D6A7;
- Mon,  9 Sep 2019 05:52:20 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B9D2992F; Mon,  9 Sep 2019 07:52:19 +0200 (CEST)
-Date: Mon, 9 Sep 2019 07:52:19 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Hillf Danton <hdanton@sina.com>
-Subject: Re: Xorg indefinitely hangs in kernelspace
-Message-ID: <20190909055219.q44k27cczwkuio3z@sirius.home.kraxel.org>
-References: <20190906055322.17900-1-hdanton@sina.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BC034897E3
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 06:30:11 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id B91AB72167; Mon,  9 Sep 2019 06:30:11 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 105718] amdgpu reported fan speed looks too high (dual fan
+ Sapphire Pulse Vega 56 and Sapphire RX 5700 XT)
+Date: Mon, 09 Sep 2019 06:30:11 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: asheldon55@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-105718-502-fhuJvU2LyT@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-105718-502@http.bugs.freedesktop.org/>
+References: <bug-105718-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190906055322.17900-1-hdanton@sina.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Mon, 09 Sep 2019 05:52:21 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,47 +53,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- spice-devel@lists.freedesktop.org, Jaak Ristioja <jaak@ristioja.ee>,
- Dave Airlie <airlied@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2044716959=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ICBIaSwKCi0tdmVyYm9zZSBwbGVhc2UuICBEbyB5b3Ugc2VlIHRoZSBzYW1lIGhhbmc/ICBEb2Vz
-IHRoZSBwYXRjaCBmaXggaXQ/Cgo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2V4ZWNi
-dWZfdXRpbC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fZXhlY2J1Zl91dGlsLmMK
-PiBAQCAtOTcsOCArOTcsOSBAQCBpbnQgdHRtX2V1X3Jlc2VydmVfYnVmZmVycyhzdHJ1Y3Qgd3df
-YWNxCj4gIAkJCSAgIHN0cnVjdCBsaXN0X2hlYWQgKmR1cHMsIGJvb2wgZGVsX2xydSkKWyAuLi4g
-XQoKPiArCQkJaWYgKGxvY2tlZCkKPiArCQkJCXR0bV9ldV9iYWNrb2ZmX3Jlc2VydmF0aW9uX3Jl
-dmVyc2UobGlzdCwgZW50cnkpOwoKSG1tLCBJIHRoaW5rIHRoZSBwYXRjaCBpcyB3cm9uZy4gIEFz
-IGZhciBJIGtub3cgaXQgaXMgdGhlIHF4bCBkcml2ZXJzJ3MKam9iIHRvIGNhbGwgdHRtX2V1X2Jh
-Y2tvZmZfcmVzZXJ2YXRpb24oKS4gIERvaW5nIHRoYXQgYXV0b21hdGljYWxseSBpbgp0dG0gd2ls
-bCBtb3N0IGxpa2VseSBicmVhayBvdGhlciB0dG0gdXNlcnMuCgpTbyBJIGd1ZXNzIHRoZSBjYWxs
-IGlzIG1pc3NpbmcgaW4gdGhlIHF4bCBkcml2ZXIgc29tZXdoZXJlLCBtb3N0IGxpa2VseQppbiBz
-b21lIGVycm9yIGhhbmRsaW5nIGNvZGUgcGF0aCBnaXZlbiB0aGF0IHRoaXMgYnVnIGlzIGEgcmVs
-YXRpdmVseQpyYXJlIGV2ZW50LgoKVGhlcmUgaXMgb25seSBhIHNpbmdsZSB0dG1fZXVfcmVzZXJ2
-ZV9idWZmZXJzKCkgY2FsbCBpbiBxeGwuClNvIGhvdyBhYm91dCB0aGlzPwoKLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0gY3V0IGhlcmUgLS0tLS0tLS0tLS0tLS0tLS0tLS0KZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9xeGwvcXhsX3JlbGVhc2UuYyBiL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhs
-X3JlbGVhc2UuYwppbmRleCAzMTIyMTZjYWVlYTIuLjJmOTk1MGZhMGI4ZCAxMDA2NDQKLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfcmVsZWFzZS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9x
-eGwvcXhsX3JlbGVhc2UuYwpAQCAtMjYyLDE4ICsyNjIsMjAgQEAgaW50IHF4bF9yZWxlYXNlX3Jl
-c2VydmVfbGlzdChzdHJ1Y3QgcXhsX3JlbGVhc2UgKnJlbGVhc2UsIGJvb2wgbm9faW50cikKIAly
-ZXQgPSB0dG1fZXVfcmVzZXJ2ZV9idWZmZXJzKCZyZWxlYXNlLT50aWNrZXQsICZyZWxlYXNlLT5i
-b3MsCiAJCQkJICAgICAhbm9faW50ciwgTlVMTCwgdHJ1ZSk7CiAJaWYgKHJldCkKLQkJcmV0dXJu
-IHJldDsKKwkJZ290byBlcnJfYmFja29mZjsKIAogCWxpc3RfZm9yX2VhY2hfZW50cnkoZW50cnks
-ICZyZWxlYXNlLT5ib3MsIHR2LmhlYWQpIHsKIAkJc3RydWN0IHF4bF9ibyAqYm8gPSB0b19xeGxf
-Ym8oZW50cnktPnR2LmJvKTsKIAogCQlyZXQgPSBxeGxfcmVsZWFzZV92YWxpZGF0ZV9ibyhibyk7
-Ci0JCWlmIChyZXQpIHsKLQkJCXR0bV9ldV9iYWNrb2ZmX3Jlc2VydmF0aW9uKCZyZWxlYXNlLT50
-aWNrZXQsICZyZWxlYXNlLT5ib3MpOwotCQkJcmV0dXJuIHJldDsKLQkJfQorCQlpZiAocmV0KQor
-CQkJZ290byBlcnJfYmFja29mZjsKIAl9CiAJcmV0dXJuIDA7CisKK2Vycl9iYWNrb2ZmOgorCXR0
-bV9ldV9iYWNrb2ZmX3Jlc2VydmF0aW9uKCZyZWxlYXNlLT50aWNrZXQsICZyZWxlYXNlLT5ib3Mp
-OworCXJldHVybiByZXQ7CiB9CiAKIHZvaWQgcXhsX3JlbGVhc2VfYmFja29mZl9yZXNlcnZlX2xp
-c3Qoc3RydWN0IHF4bF9yZWxlYXNlICpyZWxlYXNlKQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSBj
-dXQgaGVyZSAtLS0tLS0tLS0tLS0tLS0tLS0tLQoKY2hlZXJzLAogIEdlcmQKCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============2044716959==
+Content-Type: multipart/alternative; boundary="15680106114.8Aa72f0.18534"
+Content-Transfer-Encoding: 7bit
+
+
+--15680106114.8Aa72f0.18534
+Date: Mon, 9 Sep 2019 06:30:11 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D105718
+
+--- Comment #7 from Andrew Sheldon <asheldon55@gmail.com> ---
+(In reply to Shmerl from comment #5)
+> Actually, I've noticed another similar issue. I just got Sapphire Pulse RX
+> 5700 XT. It's also dual fan.
+>=20
+> According to this:
+> https://www.gamersnexus.net/hwreviews/3498-sapphire-rx-5700-xt-pulse-revi=
+ew
+>=20
+> The top level of fan rotation (at high load and more performance BIOS
+> setting) is around 1570 rpm. While sensors report that max is 3200 rpm for
+> me!
+>=20
+> And something like 50% load (of the fan) is shown as around 1600 RPM!
+>=20
+> So I'd say something is definitely off. It's almost like values from both
+> fans are added up, instead of showing actual one.
+
+You could use UPP (https://github.com/sibradzic/upp) so see what your the
+powerplay tables report is the maximum for fanspeed. On the MSI Evoke 5700 =
+XT,
+mine reports a FanMaximumRpm of 3200. I believe in the case of the Evoke, t=
+hat
+some benchmarks have shown it can get near 3200 RPM at max speed.
+
+I don't know if the driver impacts the values here, or if this is strictly
+based on the BIOS. But it might be helpful to see if that max matches what =
+the
+sensors are reporting.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15680106114.8Aa72f0.18534
+Date: Mon, 9 Sep 2019 06:30:11 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu reported fan speed looks too high (dual fan Sapphi=
+re Pulse Vega 56 and Sapphire RX 5700 XT)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105718#c7">Commen=
+t # 7</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu reported fan speed looks too high (dual fan Sapphi=
+re Pulse Vega 56 and Sapphire RX 5700 XT)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105718">bug 10571=
+8</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+asheldon55&#64;gmail.com" title=3D"Andrew Sheldon &lt;asheldon55&#64;gmail.=
+com&gt;"> <span class=3D"fn">Andrew Sheldon</span></a>
+</span></b>
+        <pre>(In reply to Shmerl from <a href=3D"show_bug.cgi?id=3D105718#c=
+5">comment #5</a>)
+<span class=3D"quote">&gt; Actually, I've noticed another similar issue. I =
+just got Sapphire Pulse RX
+&gt; 5700 XT. It's also dual fan.
+&gt;=20
+&gt; According to this:
+&gt; <a href=3D"https://www.gamersnexus.net/hwreviews/3498-sapphire-rx-5700=
+-xt-pulse-review">https://www.gamersnexus.net/hwreviews/3498-sapphire-rx-57=
+00-xt-pulse-review</a>
+&gt;=20
+&gt; The top level of fan rotation (at high load and more performance BIOS
+&gt; setting) is around 1570 rpm. While sensors report that max is 3200 rpm=
+ for
+&gt; me!
+&gt;=20
+&gt; And something like 50% load (of the fan) is shown as around 1600 RPM!
+&gt;=20
+&gt; So I'd say something is definitely off. It's almost like values from b=
+oth
+&gt; fans are added up, instead of showing actual one.</span >
+
+You could use UPP (<a href=3D"https://github.com/sibradzic/upp">https://git=
+hub.com/sibradzic/upp</a>) so see what your the
+powerplay tables report is the maximum for fanspeed. On the MSI Evoke 5700 =
+XT,
+mine reports a FanMaximumRpm of 3200. I believe in the case of the Evoke, t=
+hat
+some benchmarks have shown it can get near 3200 RPM at max speed.
+
+I don't know if the driver impacts the values here, or if this is strictly
+based on the BIOS. But it might be helpful to see if that max matches what =
+the
+sensors are reporting.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15680106114.8Aa72f0.18534--
+
+--===============2044716959==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2044716959==--
