@@ -1,40 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD8ACAD112
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 00:46:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DEEDAD16A
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 02:34:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA32689341;
-	Sun,  8 Sep 2019 22:46:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A73A89561;
+	Mon,  9 Sep 2019 00:34:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE4F189341
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Sep 2019 22:46:53 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (unknown [88.214.162.168])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C7D9523F;
- Mon,  9 Sep 2019 00:46:46 +0200 (CEST)
-Date: Mon, 9 Sep 2019 01:46:33 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v3 0/2] drm/panel: Extend panels to report their types
-Message-ID: <20190908224633.GA4952@pendragon.ideasonboard.com>
-References: <20190904132804.29680-1-laurent.pinchart@ideasonboard.com>
- <20190908171151.GB20115@ravnborg.org>
- <20190908171748.GA3451@ravnborg.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 51A3789561
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 00:34:00 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 2D47872168; Mon,  9 Sep 2019 00:34:00 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109048] [amdgpu] [apitrace] Penumbra Overture crash in
+ radeonsi_dri.so on RX580
+Date: Mon, 09 Sep 2019 00:34:00 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 18.3
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: t_arceri@yahoo.com.au
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109048-502-OOGF5syX0p@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109048-502@http.bugs.freedesktop.org/>
+References: <bug-109048-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190908171748.GA3451@ravnborg.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1567982810;
- bh=vk9yy6ltuwveTMQaZYiRfBBAZGcFqRoJCXFWQirK7GY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SoY6iOTGMNpUGDP4k+mIBnPoc5DB8hLxmGvk5soF357EIOs9v2C5dzavasltWifOa
- ICRHWLQy2EGsPHDnkqgMc14SnWYXX5F3QF0M+myPzKoTHwEh75zgwrcoHvCvYCvqpb
- bu8mxhtFFP8lnM6GGQL2Kvkrm8bQDhm9wd32agKY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,23 +53,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1254556721=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgU2FtLAoKT24gU3VuLCBTZXAgMDgsIDIwMTkgYXQgMDc6MTc6NDhQTSArMDIwMCwgU2FtIFJh
-dm5ib3JnIHdyb3RlOgo+IEhpIExhdXJlbnQuCj4gCj4gPiA+IExhdXJlbnQgUGluY2hhcnQgKDIp
-Ogo+ID4gPiAgIGRybS9wYW5lbDogQWRkIGFuZCBmaWxsIGRybV9wYW5lbCB0eXBlIGZpZWxkCj4g
-PiA+ICAgZHJtL2JyaWRnZTogcGFuZWw6IEluZmVyIGNvbm5lY3RvciB0eXBlIGZyb20gcGFuZWwg
-YnkgZGVmYXVsdAo+ID4gCj4gPiBBcHBsaWVkIGFsbCB0aHJlZSBwYXRjaGVzIChkZXNwaXRlIHRo
-aXMgc2hvcnRsb2cgb25seSBzaG93cyB0d28KPiA+IHBhdGNoZXMpLgo+IAo+IEkgZ3Vlc3MgeW91
-IG5vdGljZWQgdGhhdCBJIGhhdmUgYmVlbiBhd2F5IGEgbGl0dGxlLgo+IFRoaXMgd2lsbCBjb250
-aW51ZSBmb3IgYXQgbGVhc3QgYW5vdGhlciB3ZWVrLgo+IGRheS10aW1lIGpvYiArIHNvbWUgdHJh
-dmVsbGluZyBhaGVhZC4KCk5vIHdvcnJpZXMgYXQgYWxsLiBUaGFua3MgZm9yIHlvdXIgd29yayBh
-bmQgZm9yIHBpY2tpbmcgdGhvc2UgcGF0Y2hlcywKYW5kIGhhdmUgYSBzYWZlIChhbmQgaWYgcG9z
-c2libGUgZW5qb3lhYmxlKSB0cmF2ZWwuCgotLSAKUmVnYXJkcywKCkxhdXJlbnQgUGluY2hhcnQK
+
+--===============1254556721==
+Content-Type: multipart/alternative; boundary="15679892401.E7Bc4a.24123"
+Content-Transfer-Encoding: 7bit
+
+
+--15679892401.E7Bc4a.24123
+Date: Mon, 9 Sep 2019 00:34:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109048
+
+--- Comment #16 from Timothy Arceri <t_arceri@yahoo.com.au> ---
+Is this still a problem for you? Or have updates to GCC fixed it?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15679892401.E7Bc4a.24123
+Date: Mon, 9 Sep 2019 00:34:00 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [amdgpu] [apitrace] Penumbra Overture crash in radeonsi_d=
+ri.so on RX580"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109048#c16">Comme=
+nt # 16</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [amdgpu] [apitrace] Penumbra Overture crash in radeonsi_d=
+ri.so on RX580"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109048">bug 10904=
+8</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+t_arceri&#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.c=
+om.au&gt;"> <span class=3D"fn">Timothy Arceri</span></a>
+</span></b>
+        <pre>Is this still a problem for you? Or have updates to GCC fixed =
+it?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15679892401.E7Bc4a.24123--
+
+--===============1254556721==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
 X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1254556721==--
