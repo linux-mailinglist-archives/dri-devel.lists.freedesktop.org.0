@@ -2,45 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F3EADCDF
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 18:15:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F67ADCFF
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 18:23:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28FDE8928B;
-	Mon,  9 Sep 2019 16:15:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F112089CF1;
+	Mon,  9 Sep 2019 16:22:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0A3FB8929D
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 16:14:58 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0739572167; Mon,  9 Sep 2019 16:14:58 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111588] Framebuffer corruption when a fb which is not being
- scanned out gets removed
-Date: Mon, 09 Sep 2019 16:14:58 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: not set
-X-Bugzilla-Who: michel@daenzer.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111588-502-pxbdUkrasd@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111588-502@http.bugs.freedesktop.org/>
-References: <bug-111588-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2974189CF1
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 16:22:58 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9777728;
+ Mon,  9 Sep 2019 09:22:57 -0700 (PDT)
+Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C93633F59C;
+ Mon,  9 Sep 2019 09:22:56 -0700 (PDT)
+From: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH] drm/panfrost: Fix regulator_get_optional() misuse
+To: Rob Herring <robh@kernel.org>
+References: <20190904123032.23263-1-broonie@kernel.org>
+ <ccd81530-2dbd-3c02-ca0a-1085b00663b5@arm.com>
+ <CAL_JsqKWEe=+X5AYRJ-_8peTzfrOrRBfFWgk8c6h3TN6f0ZHtA@mail.gmail.com>
+Message-ID: <3e3a2c8a-b4fc-8af6-39e1-b26160db2c7c@arm.com>
+Date: Mon, 9 Sep 2019 17:22:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <CAL_JsqKWEe=+X5AYRJ-_8peTzfrOrRBfFWgk8c6h3TN6f0ZHtA@mail.gmail.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,120 +43,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2049130590=="
+Cc: David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Mark Brown <broonie@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2049130590==
-Content-Type: multipart/alternative; boundary="15680456971.90fA54d.23794"
-Content-Transfer-Encoding: 7bit
-
-
---15680456971.90fA54d.23794
-Date: Mon, 9 Sep 2019 16:14:57 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111588
-
---- Comment #2 from Michel D=C3=A4nzer <michel@daenzer.net> ---
-(In reply to Hans de Goede from comment #0)
-> 5) Plymouth internally calls src/plugins/renderers/drm/plugin.c:
->    ply_renderer_buffer_free() this does:
->     drmModeRmFB(...);
->     munmap (buffer->map_address, buffer->map_size);
->     destroy_dumb_buffer_request.handle =3D buffer->handle;
->     drmIoctl (fd, DRM_IOCTL_MODE_DESTROY_DUMB, &destroy_dumb_buffer_reque=
-st);
->    Followed by calling close() on the fd.
-> 6) Plymouth exits
-> 7) 5 and/or 6 cause the gdm framebuffer being all messed up, it looks lik=
-e a
->    wrong pitch or tiling setting
-
-Would be interesting if you could further narrow down which step (or even
-sub-step of 5) exactly triggers the problem.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15680456971.90fA54d.23794
-Date: Mon, 9 Sep 2019 16:14:57 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Framebuffer corruption when a fb which is not being scann=
-ed out gets removed"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111588#c2">Commen=
-t # 2</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Framebuffer corruption when a fb which is not being scann=
-ed out gets removed"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111588">bug 11158=
-8</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
-net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
-</span></b>
-        <pre>(In reply to Hans de Goede from <a href=3D"show_bug.cgi?id=3D1=
-11588#c0">comment #0</a>)
-<span class=3D"quote">&gt; 5) Plymouth internally calls src/plugins/rendere=
-rs/drm/plugin.c:
-&gt;    ply_renderer_buffer_free() this does:
-&gt;     drmModeRmFB(...);
-&gt;     munmap (buffer-&gt;map_address, buffer-&gt;map_size);
-&gt;     destroy_dumb_buffer_request.handle =3D buffer-&gt;handle;
-&gt;     drmIoctl (fd, DRM_IOCTL_MODE_DESTROY_DUMB, &amp;destroy_dumb_buffe=
-r_request);
-&gt;    Followed by calling close() on the fd.
-&gt; 6) Plymouth exits
-&gt; 7) 5 and/or 6 cause the gdm framebuffer being all messed up, it looks =
-like a
-&gt;    wrong pitch or tiling setting</span >
-
-Would be interesting if you could further narrow down which step (or even
-sub-step of 5) exactly triggers the problem.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15680456971.90fA54d.23794--
-
---===============2049130590==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2049130590==--
+T24gMDkvMDkvMjAxOSAxNjo0MSwgUm9iIEhlcnJpbmcgd3JvdGU6Cj4gT24gRnJpLCBTZXAgNiwg
+MjAxOSBhdCA0OjIzIFBNIFN0ZXZlbiBQcmljZSA8c3RldmVuLnByaWNlQGFybS5jb20+IHdyb3Rl
+Ogo+Pgo+PiBPbiAwNC8wOS8yMDE5IDEzOjMwLCBNYXJrIEJyb3duIHdyb3RlOgo+Pj4gVGhlIHBh
+bmZyb3N0IGRyaXZlciByZXF1ZXN0cyBhIHN1cHBseSB1c2luZyByZWd1bGF0b3JfZ2V0X29wdGlv
+bmFsKCkKPj4+IGJ1dCBib3RoIHRoZSBuYW1lIG9mIHRoZSBzdXBwbHkgYW5kIHRoZSB1c2FnZSBw
+YXR0ZXJuIHN1Z2dlc3QgdGhhdCBpdCBpcwo+Pj4gYmVpbmcgdXNlZCBmb3IgdGhlIG1haW4gcG93
+ZXIgZm9yIHRoZSBkZXZpY2UgYW5kIGlzIG5vdCBhdCBhbGwgb3B0aW9uYWwKPj4+IGZvciB0aGUg
+ZGV2aWNlIGZvciBmdW5jdGlvbiwgdGhlcmUgaXMgbm8gbWVhbmluZ2Z1bCBoYW5kbGluZyBmb3Ig
+YWJzZW50Cj4+PiBzdXBwbGllcy4gIFN1Y2ggcmVndWxhdG9ycyBzaG91bGQgdXNlIHRoZSB2YW5p
+bGxhIHJlZ3VsYXRvcl9nZXQoKQo+Pj4gaW50ZXJmYWNlLCBpdCB3aWxsIGVuc3VyZSB0aGF0IGV2
+ZW4gaWYgYSBzdXBwbHkgaXMgbm90IGRlc2NyaWJlZCBpbiB0aGUKPj4+IHN5c3RlbSBpbnRlZ3Jh
+dGlvbiBvbmUgd2lsbCBiZSBwcm92aWRlZCBpbiBzb2Z0d2FyZS4KPj4+Cj4+PiBTaWduZWQtb2Zm
+LWJ5OiBNYXJrIEJyb3duIDxicm9vbmllQGtlcm5lbC5vcmc+Cj4+Cj4+IFRlc3RlZC1ieTogU3Rl
+dmVuIFByaWNlIDxzdGV2ZW4ucHJpY2VAYXJtLmNvbT4KPj4KPj4gTG9va3MgbGlrZSBteSBhcHBy
+b2FjaCB0byB0aGlzIHdhcyB3cm9uZyAtIHNvIHdlIHNob3VsZCBhbHNvIHJldmVydCB0aGUKPj4g
+Y2hhbmdlcyBJIG1hZGUgcHJldmlvdXNseS4KPj4KPj4gLS0tLTg8LS0tLQo+PiBGcm9tIGZlMjBm
+OGFiY2RlODQ0NGJiNDFhOGY3MmZiMzVkZTk0M2EyN2VjNWMgTW9uIFNlcCAxNyAwMDowMDowMCAy
+MDAxCj4+IEZyb206IFN0ZXZlbiBQcmljZSA8c3RldmVuLnByaWNlQGFybS5jb20+Cj4+IERhdGU6
+IEZyaSwgNiBTZXAgMjAxOSAxNToyMDo1MyArMDEwMAo+PiBTdWJqZWN0OiBbUEFUQ0hdIGRybS9w
+YW5mcm9zdDogUmV2ZXJ0IGNoYW5nZXMgdG8gY29wZSB3aXRoIE5VTEwgcmVndWxhdG9yCj4+Cj4+
+IEhhbmRsaW5nIGEgTlVMTCByZXR1cm4gZnJvbSBkZXZtX3JlZ3VsYXRvcl9nZXRfb3B0aW9uYWwo
+KSBkb2Vzbid0IHNlZW0KPj4gbGlrZSB0aGUgY29ycmVjdCB3YXkgb2YgaGFuZGxpbmcgdGhpcy4g
+SW5zdGVhZCByZXZlcnQgdGhlIGNoYW5nZXMgaW4KPj4gZmF2b3VyIG9mIHN3aXRjaGluZyB0byB1
+c2luZyBkZXZtX3JlZ3VsYXRvcl9nZXQoKSB3aGljaCB3aWxsIHJldHVybiBhCj4+IGR1bW15IHJl
+Z3VsYXRvciBpbnN0ZWFkLgo+Pgo+PiBSZXZlcnRzIGNvbW1pdCA1MjI4MjE2M2RmYTYgKCJkcm0v
+cGFuZnJvc3Q6IEFkZCBtaXNzaW5nIGNoZWNrIGZvciBwZmRldi0+cmVndWxhdG9yIikKPj4gUmV2
+ZXJ0cyBjb21taXQgZTIxZGQyOTA4ODFiICgiZHJtL3BhbmZyb3N0OiBFbmFibGUgZGV2ZnJlcSB0
+byB3b3JrIHdpdGhvdXQgcmVndWxhdG9yIikKPiAKPiBEb2VzIGEgc3RyYWlnaHQgcmV2ZXJ0IG9m
+IHRoZXNlIDIgcGF0Y2hlcyBub3Qgd29yaz8gSWYgaXQgZG9lcyB3b3JrLAo+IGNhbiB5b3UgZG8g
+dGhhdCBhbmQgc2VuZCB0byB0aGUgbGlzdC4gSSBkb24ndCB3YW50IG15IGhhbmQgc2xhcHBlZAo+
+IGFnYWluIHJldmVydGluZyB0aGluZ3MuCgpJIHdhc24ndCBzdXJlIHdoYXQgd2FzIGJlc3QgaGVy
+ZSAtIDUyMjgyMTYzZGZhNiBpcyBhIGJ1ZyBmaXgsIHNvCnJldmVydGluZyB0aGF0IGZvbGxvd2Vk
+IGJ5IGUyMWRkMjkwODgxYiB3b3VsZCAocmUtKWludHJvZHVjZSBhCnJlZ3Jlc3Npb24gZm9yIHRo
+YXQgb25lIGNvbW1pdCAoaS5lLiBub3QgY29tcGxldGVseSBiaXNlY3RhYmxlKS4KUmV2ZXJ0aW5n
+IGluIHRoZSBvdGhlciBvcmRlciB3b3VsZCB3b3JrLCBidXQgc2VlbXMgYSBsaXR0bGUgb2RkLgpT
+cXVhc2hpbmcgdGhlIHJldmVydHMgc2VlbWVkIHRoZSBuZWF0ZXN0IG9wdGlvbiAtIGJ1dCBpdCdz
+IG5vdCBteSBoYW5kCmF0IHJpc2suLi4gOikKClBlcmhhcHMgaXQgd291bGQgYmUgYmVzdCB0byBz
+aW1wbHkgYXBwbHkgTWFyaydzIGNoYW5nZSBmb2xsb3dlZCBieQpzb21ldGhpbmcgbGlrZSB0aGUg
+Zm9sbG93aW5nLiBUaGF0IHdheSBpdCdzIG5vdCBhY3R1YWxseSBhIHJldmVydCEKSXQgYWxzbyBh
+dm9pZHMgKHJlLSlhZGRpbmcgdGhlIG5vdyByZWR1bmRhbnQgY2hlY2sgaW4KcGFuZnJvc3RfZGV2
+ZnJlcV9pbml0KCkuCgpTdGV2ZQoKLS0tODwtLS0tCkZyb20gZmIyOTU2YWNkZjQ2Y2EwNDA5NWVm
+MTEzNjNjMTM2ZGM5NGExYWIxOCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKRnJvbTogU3RldmVu
+IFByaWNlIDxzdGV2ZW4ucHJpY2VAYXJtLmNvbT4KRGF0ZTogRnJpLCA2IFNlcCAyMDE5IDE1OjIw
+OjUzICswMTAwClN1YmplY3Q6IFtQQVRDSF0gZHJtL3BhbmZyb3N0OiBSZW1vdmUgTlVMTCBjaGVj
+a3MgZm9yIHJlZ3VsYXRvcgoKZGV2bV9yZWd1bGF0b3JfZ2V0KCkgaXMgbm93IHVzZWQgdG8gcG9w
+dWxhdGUgcGZkZXYtPnJlZ3VsYXRvciB3aGljaAplbnN1cmVzIHRoYXQgdGhpcyBjYW5ub3QgYmUg
+TlVMTCAoYSBkdW1teSByZWd1bGF0b3Igd2lsbCBiZSByZXR1cm5lZCBpZgpuZWNlc3NhcnkpLiBT
+byByZW1vdmUgdGhlIGNoZWNrcyBpbiBwYW5mcm9zdF9kZXZmcmVxX3RhcmdldCgpLgoKU2lnbmVk
+LW9mZi1ieTogU3RldmVuIFByaWNlIDxzdGV2ZW4ucHJpY2VAYXJtLmNvbT4KLS0tCiBkcml2ZXJz
+L2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2ZnJlcS5jIHwgMTAgKysrKy0tLS0tLQogMSBm
+aWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2ZnJlcS5jIGIvZHJpdmVycy9n
+cHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmZyZXEuYwppbmRleCBhMWY1ZmE2YTc0MmEuLjEy
+ZmY3N2RhY2M5NSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0
+X2RldmZyZXEuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2ZnJl
+cS5jCkBAIC0zOSw3ICszOSw3IEBAIHN0YXRpYyBpbnQgcGFuZnJvc3RfZGV2ZnJlcV90YXJnZXQo
+c3RydWN0IGRldmljZSAqZGV2LCB1bnNpZ25lZCBsb25nICpmcmVxLAogCSAqIElmIGZyZXF1ZW5j
+eSBzY2FsaW5nIGZyb20gbG93IHRvIGhpZ2gsIGFkanVzdCB2b2x0YWdlIGZpcnN0LgogCSAqIElm
+IGZyZXF1ZW5jeSBzY2FsaW5nIGZyb20gaGlnaCB0byBsb3csIGFkanVzdCBmcmVxdWVuY3kgZmly
+c3QuCiAJICovCi0JaWYgKG9sZF9jbGtfcmF0ZSA8IHRhcmdldF9yYXRlICYmIHBmZGV2LT5yZWd1
+bGF0b3IpIHsKKwlpZiAob2xkX2Nsa19yYXRlIDwgdGFyZ2V0X3JhdGUpIHsKIAkJZXJyID0gcmVn
+dWxhdG9yX3NldF92b2x0YWdlKHBmZGV2LT5yZWd1bGF0b3IsIHRhcmdldF92b2x0LAogCQkJCQkg
+ICAgdGFyZ2V0X3ZvbHQpOwogCQlpZiAoZXJyKSB7CkBAIC01MywxNCArNTMsMTIgQEAgc3RhdGlj
+IGludCBwYW5mcm9zdF9kZXZmcmVxX3RhcmdldChzdHJ1Y3QgZGV2aWNlICpkZXYsIHVuc2lnbmVk
+IGxvbmcgKmZyZXEsCiAJaWYgKGVycikgewogCQlkZXZfZXJyKGRldiwgIkNhbm5vdCBzZXQgZnJl
+cXVlbmN5ICVsdSAoJWQpXG4iLCB0YXJnZXRfcmF0ZSwKIAkJCWVycik7Ci0JCWlmIChwZmRldi0+
+cmVndWxhdG9yKQotCQkJcmVndWxhdG9yX3NldF92b2x0YWdlKHBmZGV2LT5yZWd1bGF0b3IsCi0J
+CQkJCSAgICAgIHBmZGV2LT5kZXZmcmVxLmN1cl92b2x0LAotCQkJCQkgICAgICBwZmRldi0+ZGV2
+ZnJlcS5jdXJfdm9sdCk7CisJCXJlZ3VsYXRvcl9zZXRfdm9sdGFnZShwZmRldi0+cmVndWxhdG9y
+LCBwZmRldi0+ZGV2ZnJlcS5jdXJfdm9sdCwKKwkJCQkgICAgICBwZmRldi0+ZGV2ZnJlcS5jdXJf
+dm9sdCk7CiAJCXJldHVybiBlcnI7CiAJfQogCi0JaWYgKG9sZF9jbGtfcmF0ZSA+IHRhcmdldF9y
+YXRlICYmIHBmZGV2LT5yZWd1bGF0b3IpIHsKKwlpZiAob2xkX2Nsa19yYXRlID4gdGFyZ2V0X3Jh
+dGUpIHsKIAkJZXJyID0gcmVndWxhdG9yX3NldF92b2x0YWdlKHBmZGV2LT5yZWd1bGF0b3IsIHRh
+cmdldF92b2x0LAogCQkJCQkgICAgdGFyZ2V0X3ZvbHQpOwogCQlpZiAoZXJyKQotLSAKMi4yMC4x
+CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
