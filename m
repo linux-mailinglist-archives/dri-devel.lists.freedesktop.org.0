@@ -2,44 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B294FAD2CB
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 07:24:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8893BAD2DA
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 07:52:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE1248933E;
-	Mon,  9 Sep 2019 05:24:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3389897B5;
+	Mon,  9 Sep 2019 05:52:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7AB328951E
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 05:24:45 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7564B72168; Mon,  9 Sep 2019 05:24:45 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111591] [radeonsi/Navi] The Bard's Tale IV causes a GPU hang
-Date: Mon, 09 Sep 2019 05:24:45 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: t_arceri@yahoo.com.au
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111591-502-tsXkgNQFen@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111591-502@http.bugs.freedesktop.org/>
-References: <bug-111591-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68A3789498;
+ Mon,  9 Sep 2019 05:52:22 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id B5F7330A00C5;
+ Mon,  9 Sep 2019 05:52:21 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-117-59.ams2.redhat.com
+ [10.36.117.59])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BD9E05D6A7;
+ Mon,  9 Sep 2019 05:52:20 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id B9D2992F; Mon,  9 Sep 2019 07:52:19 +0200 (CEST)
+Date: Mon, 9 Sep 2019 07:52:19 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Hillf Danton <hdanton@sina.com>
+Subject: Re: Xorg indefinitely hangs in kernelspace
+Message-ID: <20190909055219.q44k27cczwkuio3z@sirius.home.kraxel.org>
+References: <20190906055322.17900-1-hdanton@sina.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190906055322.17900-1-hdanton@sina.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Mon, 09 Sep 2019 05:52:21 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,87 +49,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0116407169=="
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ spice-devel@lists.freedesktop.org, Jaak Ristioja <jaak@ristioja.ee>,
+ Dave Airlie <airlied@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0116407169==
-Content-Type: multipart/alternative; boundary="15680066851.6d1eA.7755"
-Content-Transfer-Encoding: 7bit
-
-
---15680066851.6d1eA.7755
-Date: Mon, 9 Sep 2019 05:24:45 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111591
-
---- Comment #1 from Timothy Arceri <t_arceri@yahoo.com.au> ---
-An apitrace of the problem would be helpful if you can get it.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15680066851.6d1eA.7755
-Date: Mon, 9 Sep 2019 05:24:45 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [radeonsi/Navi] The Bard's Tale IV causes a GPU hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111591#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [radeonsi/Navi] The Bard's Tale IV causes a GPU hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111591">bug 11159=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-t_arceri&#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.c=
-om.au&gt;"> <span class=3D"fn">Timothy Arceri</span></a>
-</span></b>
-        <pre>An apitrace of the problem would be helpful if you can get it.=
-</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15680066851.6d1eA.7755--
-
---===============0116407169==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0116407169==--
+ICBIaSwKCi0tdmVyYm9zZSBwbGVhc2UuICBEbyB5b3Ugc2VlIHRoZSBzYW1lIGhhbmc/ICBEb2Vz
+IHRoZSBwYXRjaCBmaXggaXQ/Cgo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2V4ZWNi
+dWZfdXRpbC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fZXhlY2J1Zl91dGlsLmMK
+PiBAQCAtOTcsOCArOTcsOSBAQCBpbnQgdHRtX2V1X3Jlc2VydmVfYnVmZmVycyhzdHJ1Y3Qgd3df
+YWNxCj4gIAkJCSAgIHN0cnVjdCBsaXN0X2hlYWQgKmR1cHMsIGJvb2wgZGVsX2xydSkKWyAuLi4g
+XQoKPiArCQkJaWYgKGxvY2tlZCkKPiArCQkJCXR0bV9ldV9iYWNrb2ZmX3Jlc2VydmF0aW9uX3Jl
+dmVyc2UobGlzdCwgZW50cnkpOwoKSG1tLCBJIHRoaW5rIHRoZSBwYXRjaCBpcyB3cm9uZy4gIEFz
+IGZhciBJIGtub3cgaXQgaXMgdGhlIHF4bCBkcml2ZXJzJ3MKam9iIHRvIGNhbGwgdHRtX2V1X2Jh
+Y2tvZmZfcmVzZXJ2YXRpb24oKS4gIERvaW5nIHRoYXQgYXV0b21hdGljYWxseSBpbgp0dG0gd2ls
+bCBtb3N0IGxpa2VseSBicmVhayBvdGhlciB0dG0gdXNlcnMuCgpTbyBJIGd1ZXNzIHRoZSBjYWxs
+IGlzIG1pc3NpbmcgaW4gdGhlIHF4bCBkcml2ZXIgc29tZXdoZXJlLCBtb3N0IGxpa2VseQppbiBz
+b21lIGVycm9yIGhhbmRsaW5nIGNvZGUgcGF0aCBnaXZlbiB0aGF0IHRoaXMgYnVnIGlzIGEgcmVs
+YXRpdmVseQpyYXJlIGV2ZW50LgoKVGhlcmUgaXMgb25seSBhIHNpbmdsZSB0dG1fZXVfcmVzZXJ2
+ZV9idWZmZXJzKCkgY2FsbCBpbiBxeGwuClNvIGhvdyBhYm91dCB0aGlzPwoKLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0gY3V0IGhlcmUgLS0tLS0tLS0tLS0tLS0tLS0tLS0KZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvZ3B1L2RybS9xeGwvcXhsX3JlbGVhc2UuYyBiL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhs
+X3JlbGVhc2UuYwppbmRleCAzMTIyMTZjYWVlYTIuLjJmOTk1MGZhMGI4ZCAxMDA2NDQKLS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfcmVsZWFzZS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9x
+eGwvcXhsX3JlbGVhc2UuYwpAQCAtMjYyLDE4ICsyNjIsMjAgQEAgaW50IHF4bF9yZWxlYXNlX3Jl
+c2VydmVfbGlzdChzdHJ1Y3QgcXhsX3JlbGVhc2UgKnJlbGVhc2UsIGJvb2wgbm9faW50cikKIAly
+ZXQgPSB0dG1fZXVfcmVzZXJ2ZV9idWZmZXJzKCZyZWxlYXNlLT50aWNrZXQsICZyZWxlYXNlLT5i
+b3MsCiAJCQkJICAgICAhbm9faW50ciwgTlVMTCwgdHJ1ZSk7CiAJaWYgKHJldCkKLQkJcmV0dXJu
+IHJldDsKKwkJZ290byBlcnJfYmFja29mZjsKIAogCWxpc3RfZm9yX2VhY2hfZW50cnkoZW50cnks
+ICZyZWxlYXNlLT5ib3MsIHR2LmhlYWQpIHsKIAkJc3RydWN0IHF4bF9ibyAqYm8gPSB0b19xeGxf
+Ym8oZW50cnktPnR2LmJvKTsKIAogCQlyZXQgPSBxeGxfcmVsZWFzZV92YWxpZGF0ZV9ibyhibyk7
+Ci0JCWlmIChyZXQpIHsKLQkJCXR0bV9ldV9iYWNrb2ZmX3Jlc2VydmF0aW9uKCZyZWxlYXNlLT50
+aWNrZXQsICZyZWxlYXNlLT5ib3MpOwotCQkJcmV0dXJuIHJldDsKLQkJfQorCQlpZiAocmV0KQor
+CQkJZ290byBlcnJfYmFja29mZjsKIAl9CiAJcmV0dXJuIDA7CisKK2Vycl9iYWNrb2ZmOgorCXR0
+bV9ldV9iYWNrb2ZmX3Jlc2VydmF0aW9uKCZyZWxlYXNlLT50aWNrZXQsICZyZWxlYXNlLT5ib3Mp
+OworCXJldHVybiByZXQ7CiB9CiAKIHZvaWQgcXhsX3JlbGVhc2VfYmFja29mZl9yZXNlcnZlX2xp
+c3Qoc3RydWN0IHF4bF9yZWxlYXNlICpyZWxlYXNlKQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSBj
+dXQgaGVyZSAtLS0tLS0tLS0tLS0tLS0tLS0tLQoKY2hlZXJzLAogIEdlcmQKCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
