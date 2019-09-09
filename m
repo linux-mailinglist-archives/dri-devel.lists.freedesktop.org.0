@@ -1,44 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEB7BAD1A5
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 03:47:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0333DAD1DB
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 04:25:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6031189704;
-	Mon,  9 Sep 2019 01:47:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 770148970B;
+	Mon,  9 Sep 2019 02:25:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id E383089704
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 01:47:31 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D5EA372167; Mon,  9 Sep 2019 01:47:31 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111591] [radeonsi/Navi] The Bard's Tale IV causes a GPU hang
-Date: Mon, 09 Sep 2019 01:47:31 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: shtetldik@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- qa_contact
-Message-ID: <bug-111591-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B28B1896ED
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 02:25:51 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by honk.sigxcpu.org (Postfix) with ESMTP id C8140FB03;
+ Mon,  9 Sep 2019 04:25:48 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
+Received: from honk.sigxcpu.org ([127.0.0.1])
+ by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 2JqzTVGhY5z6; Mon,  9 Sep 2019 04:25:45 +0200 (CEST)
+Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
+ id 7226F420BD; Sun,  8 Sep 2019 19:25:42 -0700 (PDT)
+From: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Robert Chiras <robert.chiras@nxp.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Arnd Bergmann <arnd@arndb.de>
+Subject: [PATCH v5 0/2] drm: bridge: Add NWL MIPI DSI host controller support
+Date: Sun,  8 Sep 2019 19:25:40 -0700
+Message-Id: <cover.1567995854.git.agx@sigxcpu.org>
+X-Mailer: git-send-email 2.23.0.rc1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -52,202 +54,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1376170174=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1376170174==
-Content-Type: multipart/alternative; boundary="15679936510.56D5de4.4894"
-Content-Transfer-Encoding: 7bit
-
-
---15679936510.56D5de4.4894
-Date: Mon, 9 Sep 2019 01:47:31 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111591
-
-            Bug ID: 111591
-           Summary: [radeonsi/Navi] The Bard's Tale IV causes a GPU hang
-           Product: Mesa
-           Version: git
-          Hardware: x86-64 (AMD64)
-                OS: Linux (All)
-            Status: NEW
-          Severity: normal
-          Priority: not set
-         Component: Drivers/Gallium/radeonsi
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: shtetldik@gmail.com
-        QA Contact: dri-devel@lists.freedesktop.org
-
-When running the Bard's Tale IV, in the beginning of the game, if I turn
-around, it consistently is causing a GPU hang. And I see this in dmesg:
-
-[ 4246.501534] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
-for
-fences timed out or interrupted!
-[ 4251.365674] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx_0.0.0
-timeout, signaled seq=3D178390, emitted seq=3D178392
-[ 4251.365740] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
-on:
-process BardsTale4-Linu pid 7251 thread BardsTale4:cs0 pid 7292
-[ 4251.365742] [drm] GPU recovery disabled.
-
-GPU: Sapphire Pulse RX 5700 XT
-Kernel: 5.3.0-rc8+
-OpenGL renderer string: AMD NAVI10 (DRM 3.33.0, 5.3.0-rc8+, LLVM 10.0.0)
-OpenGL core profile version string: 4.5 (Core Profile) Mesa 19.3.0-devel
-(git-87fa8d9ebc)
-Game version: GOG, release 1.0.0 (version 4.20.1 / 32050).
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15679936510.56D5de4.4894
-Date: Mon, 9 Sep 2019 01:47:31 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [radeonsi/Navi] The Bard's Tale IV causes a GPU hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111591">111591</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>[radeonsi/Navi] The Bard's Tale IV causes a GPU hang
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>Mesa
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>x86-64 (AMD64)
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>Linux (All)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>Drivers/Gallium/radeonsi
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>shtetldik&#64;gmail.com
-          </td>
-        </tr>
-
-        <tr>
-          <th>QA Contact</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>When running the Bard's Tale IV, in the beginning of the game,=
- if I turn
-around, it consistently is causing a GPU hang. And I see this in dmesg:
-
-[ 4246.501534] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
-for
-fences timed out or interrupted!
-[ 4251.365674] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx_0.0.0
-timeout, signaled seq=3D178390, emitted seq=3D178392
-[ 4251.365740] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
-on:
-process BardsTale4-Linu pid 7251 thread BardsTale4:cs0 pid 7292
-[ 4251.365742] [drm] GPU recovery disabled.
-
-GPU: Sapphire Pulse RX 5700 XT
-Kernel: 5.3.0-rc8+
-OpenGL renderer string: AMD NAVI10 (DRM 3.33.0, 5.3.0-rc8+, LLVM 10.0.0)
-OpenGL core profile version string: 4.5 (Core Profile) Mesa 19.3.0-devel
-(git-87fa8d9ebc)
-Game version: GOG, release 1.0.0 (version 4.20.1 / 32050).</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15679936510.56D5de4.4894--
-
---===============1376170174==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1376170174==--
+VGhpcyBhZGRzIGluaXRpYWwgc3VwcG9ydCBmb3IgdGhlIE5XTCBNSVBJIERTSSBob3N0IGNvbnRy
+b2xsZXIgZm91bmQgb24gaS5NWDgKU29Dcy4KCkl0IGFkZHMgc3VwcG9ydCBmb3IgdGhlIGkuTVg4
+TVEgYnV0IHRoZSBzYW1lIElQIGNvcmUgY2FuIGFsc28gYmUgZm91bmQgb24gZS5nLgppLk1YOFFY
+UC4gSSBhZGRlZCB0aGUgbmVjZXNzYXJ5IGhvb2tzIHRvIHN1cHBvcnQgb3RoZXIgaW14OCB2YXJp
+YW50cyBidXQgc2luY2UKSSBvbmx5IGhhdmUgaW14OG1xIGJvYXJkcyB0byB0ZXN0IEkgb21pdHRl
+ZCB0aGUgcGxhdGZvcm0gZGF0YSBmb3Igb3RoZXIgU29Dcy4KClRoZSBjb2RlIGlzIGJhc2VkIG9u
+IE5YUHMgQlNQIHNvIEkgYWRkZWQgUm9iZXJ0IENoaXJhcyBhcwpDby1hdXRob3JlZC1ieS4KClRo
+ZSBtb3N0IG5vdGFibGUgY2hhbmdlcyBvdmVyIHRoZSBCU1AgZHJpdmVyIGFyZQogLSBDYWxjdWxh
+dGUgSFMgbW9kZSB0aW1pbmcgZnJvbSBwaHlfY29uZmlndXJlX29wdHNfbWlwaV9kcGh5CiAtIFBl
+cmZvcm0gYWxsIGNsb2NrIHNldHVwIHZpYSBEVAogLSBNZXJnZSBud2wtaW14IGFuZCBud2wgZHJp
+dmVycwogLSBBZGQgQjAgc2lsaW9uIHJldmlzaW9uIHF1aXJrCiAtIGJlY29tZSBhIGJyaWRnZSBk
+cml2ZXIgdG8gaG9vayBpbnRvIG14c2ZiIChmcm9tIHdoYXQgSSByZWFkWzBdIERDU1MsIHdoaWNo
+CiAgIGFsc28gY2FuIGRyaXZlIHRoZSBud2wgb24gdGhlIGlteDhtcSB3aWxsIGxpa2VseSBub3Qg
+YmVjb21lIHBhcnQgb2YKICAgaW14LWRpc3BsYXktc3Vic3lzdGVtIHNvIGl0IG1ha2VzIHNlbnNl
+IHRvIG1ha2UgaXQgZHJpdmUgYSBicmlkZ2UgZm9yIGRzaSBhcwogICB3ZWxsKS4KIC0gVXNlIHBh
+bmVsX2JyaWRnZSB0byBhdHRhY2ggdGhlIHBhbmVsCiAtIFVzZSBtdWx0aXBsZXggZnJhbWV3b3Jr
+IGluc3RlYWQgb2YgYWNjZXNzaW5nIHN5c2NvbiBkaXJlY3RseQoKVGhpcyBoYXMgYmVlbiB0ZXN0
+ZWQgb24gYSBMaWJyZW0gNSBkZXZraXQgdXNpbmcgbXhzZmIgd2l0aCBSb2JlcnQncyBwYXRjaGVz
+WzFdCmFuZCB0aGUgcm9ja3RlY2gtamgwNTduMDA5MDAgcGFuZWwgZHJpdmVyIG9uIG5leHQtMjAx
+OTA4MDcuIFRoZSBEQ1NTIGNhbiBsYXRlcgpvbiBhbHNvIGFjdCBhcyBpbnB1dCBzb3VyY2UgdG9v
+LgoKQ2hhbmdlcyBmcm9tIHY0OgotIENvbGxlY3QgUmV2aWV3ZWQtYnk6IGZyb20gUm9iIEhlcnJp
+bmcsIHRoYW5rcyEKICBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9hcmNoaXZlcy9kcmkt
+ZGV2ZWwvMjAxOS1TZXB0ZW1iZXIvMjMzOTc5Lmh0bWwKLSBTcG90dGVkIGJ5IGtidWlsZCB0ZXN0
+IHJvYm90IDxsa3BAaW50ZWwuY29tPgogIGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL2Fy
+Y2hpdmVzL2RyaS1kZXZlbC8yMDE5LVNlcHRlbWJlci8yMzM4NjAuaHRtbAogIGh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL2RyaS1kZXZlbC8yMDE5LVNlcHRlbWJlci8yMzM4
+NjMuaHRtbAogIC0gZml4IGZvcm1hdCBzdHJpbmcgZm9yIHNpemVfdAogIC0gVXNlIERJVjY0X1U2
+NF9ST1VORF9VUCB0byBmaXggYnVpbGQgb24gMzIgYml0IGFyY2hpdGVjdHVyZXMKICAgIFdlIGNh
+bid0IHVzZSBzaW1wbGUgc2hpZnQgc2luZCBkIGFuZCBuIGFyZSBzaW1pbGFyIGluIHNpemUgYW5k
+CiAgICB3ZSBuZWVkIGZ1bGwgcHJlY2lzaW9uCi0gRml4IGRlYnVnIGNmZ190X3Bvc3QgZGVidWcg
+cHJpbnQgb3V0Ci0gQXZvaWQgUFNFQ19QRVJfU0VDCi0gTW92ZSB0aW1lb3V0IC8gb3ZlcmZsb3cg
+aGFuZGxpbmcgb3V0IG9mIG53bF9kc2lfZmluaXNoX3RyYW5zbWlzc2lvbiwKICBpdCB3b3VsZCBu
+ZXZlciBlbmQgdXAgYmVpbmcgcmVwb3J0ZWQgc2luY2UgdGhlIGNhbGwgdG8gdGhlIGZ1bmN0aW9u
+CiAgd2FzIGd1YXJkZWQgYnkgZmxhZ3MuCi0gRHJvcCAnc3VwcG9ydCBmb3InIGZyb20gS0NvbmZp
+ZyB0aXRsZSB0byBtYWtlIGl0IG1hdGNoIHRoZSBvdGhlcgogIGRyaXZlcnMgaW4gdGhhdCBzdWJt
+ZW51CgpDaGFuZ2VzIGZyb20gdjM6Ci0gUGVyIHJldmlldyBjb21tZW50cyBieSBSb2JlcnQgQ2hp
+cmFzCiAgaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvYXJjaGl2ZXMvZHJpLWRldmVsLzIw
+MTktQXVndXN0LzIzMjU4MC5odG1sCiAgLSBBZGQgUm9iZXJ0J3Mge1NpZ25lZC1vZmYsVGVzdGVk
+fS1ieToKICAtIFJlc3BlY3QgbnVtYmVyIG9mIGxhbmVzIHdoZW4gY2FsY3VsdGluZyBiYW5kd2lk
+dGggbGltaXRzCiAgLSBEcm9wIGR1cGxpY2F0ZSBOV0xfRFNJX0VOQUJMRV9NVUxUX1BLVFMgc2V0
+dXAKLSBQZXIgdGVzdGluZyBieSBSb2JlciBDaGlyYXMKICBodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9hcmNoaXZlcy9kcmktZGV2ZWwvMjAxOS1BdWd1c3QvMjMzNjg4Lmh0bWwKICAtIERy
+b3AgZHVwbGljYXRlIChhbmQgdG9vIGVhcmx5KSBkcm1fYnJpZGdlX2FkZCgpIGluIG53bF9kaXJf
+cHJvYmUoKSB0aGF0CiAgICBtYWRlIG14c2ZiIGZhaWwgdG8gY29ubmVjdCB0byB0aGUgYnJpZGdl
+IHNpbmNlIHRoZSBwYW5lbF9icmlkZ2Ugd2FzIG5vdCB1cAogICAgeWV0LiBkcm1fYnJpZGdlX2Fk
+ZCgpIGhhcHBlbnMgaW4gbndsX2RzaV9ob3N0X2F0dGFjaCgpIHdoZXJlIGFmdGVyIHRoZQogICAg
+cGFuZWxfYnJpZGdlIHdhcyBzZXQgdXAuCi0gUGVyIHJldmlldyBjb21tZW50cyBieSBSb2IgSGVy
+cmluZyBvbiBiaW5kaW5ncwogIGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVz
+L2RyaS1kZXZlbC8yMDE5LUF1Z3VzdC8yMzMxOTYuaHRtbAogIC0gZHJvcCBkZXNjcmlwdGlvbiBm
+cm9tIHBvd2VyLWRvbWFpbnMgYW5kIHJlc2V0cwogIC0gYWxsb3cgQlNEIDIgY2xhdXNlIGxpY2Vu
+c2UgYXMgd2VsbAogIC0gbWFrZSBwb3J0cyBtb3JlIHNwZWNpZmljCiAgLSBhZGQgI2FkZHJlc3Mt
+Y2VsbHMsICNzaXplLWNlbGxzIGFzIHJlcXVpcmVkCiAgLSB1c2UgYWRkaXRpb25hbFByb3BlcnRp
+ZXMKICAtIHBhbmVsIGlzIG9mIHR5cGUgb2JqZWN0CgpDaGFuZ2VzIGZyb20gdjI6Ci0gUGVyIHJl
+dmlldyBjb21tZW50cyBieSBSb2IgSGVycmluZwogIGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL2FyY2hpdmVzL2RyaS1kZXZlbC8yMDE5LUF1Z3VzdC8yMzA0NDguaHRtbAogIC0gYmluZGlu
+Z3M6CiAgICAtIFNpbXBsaWZ5IGJ5IHJlc3RyaWN0aW5nIHRvIGZzbCxpbXg4bXEtbndsLWRzaQog
+ICAgLSBkb2N1bWVudCByZXNldCBsaW5lcwogICAgLSBhZGQgcG9ydEB7MCwxfQogICAgLSB1c2Ug
+YSByZWFsIGNvbXBhdGlibGUgc3RyaW5nIGZvciB0aGUgcGFuZWwKICAgIC0gcmVzZXRzIGFyZSBy
+ZXF1aXJlZAotIFBlciByZXZpZXcgY29tbWVudHMgYnkgQXJuZCBCZXJnbWFubgogIGh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL2RyaS1kZXZlbC8yMDE5LUF1Z3VzdC8yMzA4
+NjguaHRtbAogIC0gRG9uJ3QgYWNjZXNzIGlvbXV4Y19ncHIgcmVncyBkaXJlY3RseS4gVGhpcyBh
+bGxvd3MgdXMgdG8gZHJvcCB0aGUKICAgIGZpcnN0IHBhdGNoIGluIHRoZSBzZXJpZXMgd2l0aCB0
+aGUgaW9tdXhjX2dwciBmaWVsZCBkZWZpbmVzLgotIFBlciByZXZpZXcgY29tbWVudHMgYnkgTGF1
+cmVudCBQaW5jaGFydAogIEZpeCB3b3JkaW5nIGluIGJpbmRpbmdzCi0gQWRkIG11eC1jb250cm9s
+cyB0byBiaW5kaW5ncwotIERvbid0IHByaW50IGVycm9yIG1lc3NhZ2Ugb24gZHBoeSBwcm9iZSBk
+ZWZlcnJhbAoKQ2hhbmdlcyBmcm9tIHYxOgotIFBlciByZXZpZXcgY29tbWVudHMgYnkgU2FtIFJh
+dm5ib3JnCiAgaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvYXJjaGl2ZXMvZHJpLWRldmVs
+LzIwMTktSnVseS8yMjgxMzAuaHRtbAogIC0gQ2hhbmdlIGJpbmRpbmcgZG9jcyB0byBZQU1MCiAg
+LSBidWlsZDogRG9uJ3QgYWx3YXlzIHZpc2l0IGlteC1ud2wvCiAgLSBidWlsZDogQWRkIGhlYWRl
+ci10ZXN0LXkKICAtIFNvcnQgaGVhZGVycyBhY2NvcmRpbmcgdG8gRFJNIGNvbnZlbnRpb24KICAt
+IFVzZSBkcm1fZGlzcGxheV9tb2RlIGluc3RlYWQgb2YgdmlkZW1vZGUKLSBQZXIgcmV2aWV3IGNv
+bW1lbnRzIGJ5IEZhYmlvIEVzdGV2YW0KICBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9h
+cmNoaXZlcy9kcmktZGV2ZWwvMjAxOS1KdWx5LzIyODI5OS5odG1sCiAgLSBEb24ndCByZXN0cmlj
+dCBidWlsZCB0byBBUkNIX01YQwogIC0gRHJvcCB1bnVzZWQgaW5jbHVkZXMKICAtIERyb3AgdW5y
+ZWFjaGFibGUgY29kZSBpbiBpbXhfbndsX2RzaV9icmlkZ2VfbW9kZV9maXh1cCgpCiAgLSBEcm9w
+IHJlbWFpbmluZyBjYWxscyBvZiBkZXZfZXJyKCkgYW5kIHVzZSBEUk1fREVWX0VSUigpCiAgICBj
+b25zaXN0ZW50bHkuCiAgLSBVc2UgZGV2bV9wbGF0Zm9ybV9pb3JlbWFwX3Jlc291cmNlKCkKICAt
+IERyb3AgZGV2bV9mcmVlX2lycSgpIGluIHByb2JlKCkgZXJyb3IgcGF0aAogIC0gVXNlIHNpbmds
+ZSBsaW5lIGNvbW1lbnRzIHdoZXJlIHN1ZmZpY2llbnQKICAtIFVzZSA8bGludXgvdGltZTY0Lmg+
+IGluc3RlYWQgb2YgZGVmaW5pbmcgVVNFQ19QRVJfU0VDCiAgLSBNYWtlIGlucHV0IHNvdXJjZSBz
+ZWxlY3QgaW14OCBzcGVjaWZpYwogIC0gRHJvcCA8YXNtL3VuYWxpZ25lZC5oPiBpbmNsdXNpb24g
+KGFmdGVyIHJlbW92YWwgb2YgZ2V0X3VuYWxpZ25lZF9sZTMyKQogIC0gRHJvcCBhbGwgRVhQT1JU
+X1NZTUJPTF9HUEwoKSBmb3IgZnVuY3Rpb25zIHVzZWQgaW4gdGhlIHNhbWUgbW9kdWxlCiAgICBi
+dXQgZGlmZmVyZW50IHNvdXJjZSBmaWxlcy4KICAtIERyb3AgbndsX2RzaV9lbmFibGVfe3J4LHR4
+fV9jbG9jaygpIGJ5IGludm9raW5nIGNsa19wcmVwYXJlX2VuYWJsZSgpCiAgICBkaXJlY3RseQog
+IC0gUmVtb3ZlIHBvaW50bGVzcyBjb21tZW50Ci0gTGF1cmVudCBQaW5jaGFydAogIGh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL2RyaS1kZXZlbC8yMDE5LUp1bHkvMjI4MzEz
+Lmh0bWwKICBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9hcmNoaXZlcy9kcmktZGV2ZWwv
+MjAxOS1KdWx5LzIyODMwOC5odG1sCiAgLSBEcm9wIChvbiBpTVg4TVEpIHVudXNlZCBjc3IgcmVn
+bWFwCiAgLSBVc2UgTldMX01BWF9QTEFURk9STV9DTE9DS1MgZXZlcnl3aGVyZQogIC0gRHJvcCBn
+ZXRfdW5hbGlnbmVkX2xlMzIoKSB1c2FnZQogIC0gcmVtb3ZlIGR1cGxpY2F0ZSAnZm9yIHRoZScg
+aW4gYmluZGluZyBkb2NzCiAgLSBEb24ndCBpbmNsdWRlIHVudXNlZCA8bGludXgvY2xrLXByb3Zp
+ZGVyLmg+CiAgLSBEb24ndCBpbmNsdWRlIHVudXNlZCA8bGludXgvY29tcG9uZW50Lmg+CiAgLSBE
+cm9wIGRwbXNfbW9kZSBmb3IgdHJhY2tpbmcgc3RhdGUsIHRydXN0IHRoZSBkcm0gbGF5ZXIgb24g
+dGhhdAogIC0gVXNlIHBtX3J1bnRpbWVfcHV0KCkgaW5zdGVhZCBvZiBwbV9ydW50aW1lX3B1dF9z
+eW5jKCkKICAtIERvbid0IG92ZXJ3cml0ZSBlbmNvZGVyIHR5cGUKICAtIE1ha2UgaW14X253bF9w
+bGF0Zm9ybV9kYXRhIGNvbnN0CiAgLSBVc2UgdGhlIHJlc2V0IGNvbnRyb2xsZXIgQVBJIGluc3Rl
+YWQgb2Ygb3BlbiBjb2RpbmcgdGhhdCBwbGF0Zm9ybSBzcGVjaWZpYwogICAgcGFydAogIC0gVXNl
+IDxsaW51eC9iaXRmaWVsZC5oPiBpbnRlYWQgb2YgbWFraW5nIHVwIG91ciBvd24gZGVmaW5lcwog
+IC0gbmFtZSBtaXBpX2RzaV90cmFuc2ZlciBsZXNzIGdlbmVyaWM6IG53bF9kc2lfdHJhbnNmZXIK
+ICAtIGVuc3VyZSBjbGVhbiBpbiAucmVtb3ZlIGJ5IGNhbGxpbmcgbWlwaV9kc2lfaG9zdF91bnJl
+Z2lzdGVyLgogIC0gcHJlZml4IGNvbnN0YW50cyBieSBOV0xfRFNJXwogIC0gcHJvcGVybHkgZm9y
+bWF0IHRyYW5zZmVyX2RpcmVjdGlvbiBlbnVtCiAgLSBzaW1wbGlmeSBwbGF0Zm9ybSBjbG9jayBo
+YW5kbGluZwogIC0gRG9uJ3QgbW9kaWZ5IHN0YXRlIGluIG1vZGVfZml4dXAoKSBhbmQgdXNlIG1v
+ZGVfc2V0KCkgaW5zdGVhZAogIC0gRHJvcCBicmlkZ2UgZGV0YWNoKCksIGFscmVhZHkgaGFuZGxl
+IGJ5IG53bF9kc2lfaG9zdF9kZXRhY2goKQogIC0gRHJvcCBVU0VfKl9RVUlSSygpIG1hY3Jvcwot
+IERyb3AgKGZvciBub3cpIHVudXNlZCBjbG9jayBkZWZuaXRpb25zLiAncGl4ZWwnIGFuZCAnYnlw
+YXNzJyBjbG9jayB3aWxsIGJlCiAgdXNlZCBmb3IgaS5NWDggU29DcyBidXQgc2luY2UgdGhleSdy
+ZSB1bnVzZWQgYXRtIGRyb3AgdGhlIGRlZmluaXRpb25zIC0gYnV0CiAga2VlcCB0aGUgbG9naWMg
+dG8gZW5hYmxlL2Rpc2FibGUgc2V2ZXJhbCBjbG9ja3MgaW4gcGxhY2Ugc2luY2Ugd2Uga25vdyB3
+ZSdsbAogIG5lZWQgaXQgaW4gdGhlIGZ1dHVyZS4KCkNoYW5nZXMgZnJvbSB2MDoKLSBBZGQgcXVp
+cmsgZm9yIElNUThNUSBzaWxpY29uIEIwIHJldmlzaW9uIHRvIG5vdCBtZXNzIHdpdGggdGhlCiAg
+c3lzdGVtIHJlc2V0IGNvbnRyb2xsZXIgb24gcG93ZXIgZG93biBzaW5jZSBlbmFibGUoKSB3b24n
+dCB3b3JrCiAgb3RoZXJ3aXNlLgotIERyb3AgZGV2bV9mcmVlX2lycSgpIGhhbmRsZWQgYnkgdGhl
+IGRldmljZSBkcml2ZXIgY29yZQotIERpc2FibGUgdHggZXNjIGNsb2NrIGFmdGVyIHRoZSBwaHkg
+cG93ZXIgZG93biB0byB1bmJyZWFrCiAgZGlzYWJsZS9lbmFibGUgKHVuYmxhbmsvYmxhbmspCi0g
+QWRkIHBvcnRzIHRvIGR0IGJpbmRpbmcgZG9jcwotIFNlbGVjdCBHRU5FUklDX1BIWV9NSVBJX0RQ
+SFkgaW5zdGVhZCBvZiBHRU5FUklDX1BIWSBmb3IKICBwaHlfbWlwaV9kcGh5X2dldF9kZWZhdWx0
+X2NvbmZpZwotIFNlbGVjdCBEUk1fTUlQSV9EU0kKLSBJbmNsdWRlIGRybV9wcmludC5oIHRvIGZp
+eCBidWlsZCBvbiBuZXh0LTIwMTkwNDA4Ci0gRHJvcCBzb21lIGRlYnVnZ2luZyBtZXNzYWdlcwot
+IE5ld2xpbmUgdGVybWluYXRlIGFsbCBEUk1fIHByaW50b3V0cwotIFR1cm4gY29tcG9uZW50IGRy
+aXZlciBpbnRvIGEgZHJtIGJyaWRnZQoKWzBdOiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9hcmNoaXZlcy9kcmktZGV2ZWwvMjAxOS1NYXkvMjE5NDg0Lmh0bWwKWzFdOiBodHRwczovL3Bh
+dGNod29yay5mcmVlZGVza3RvcC5vcmcvc2VyaWVzLzYyODIyLwoKR3VpZG8gR8O8bnRoZXIgKDIp
+OgogIGR0LWJpbmRpbmdzOiBkaXNwbGF5L2JyaWRnZTogQWRkIGJpbmRpbmcgZm9yIE5XTCBtaXBp
+IGRzaSBob3N0CiAgICBjb250cm9sbGVyCiAgZHJtL2JyaWRnZTogQWRkIE5XTCBNSVBJIERTSSBo
+b3N0IGNvbnRyb2xsZXIgc3VwcG9ydAoKIC4uLi9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9ud2wt
+ZHNpLnlhbWwgICAgICB8IDE3NiArKysrKwogZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9LY29uZmln
+ICAgICAgICAgICAgICAgIHwgICAyICsKIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvTWFrZWZpbGUg
+ICAgICAgICAgICAgICB8ICAgMSArCiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL253bC1kc2kvS2Nv
+bmZpZyAgICAgICAgfCAgMTYgKwogZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9ud2wtZHNpL01ha2Vm
+aWxlICAgICAgIHwgICA0ICsKIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvbndsLWRzaS9ud2wtZHJ2
+LmMgICAgICB8IDQ5OSArKysrKysrKysrKysrCiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL253bC1k
+c2kvbndsLWRydi5oICAgICAgfCAgNjUgKysKIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvbndsLWRz
+aS9ud2wtZHNpLmMgICAgICB8IDY5NiArKysrKysrKysrKysrKysrKysKIGRyaXZlcnMvZ3B1L2Ry
+bS9icmlkZ2UvbndsLWRzaS9ud2wtZHNpLmggICAgICB8IDExMiArKysKIDkgZmlsZXMgY2hhbmdl
+ZCwgMTU3MSBpbnNlcnRpb25zKCspCiBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9k
+ZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL253bC1kc2kueWFtbAogY3JlYXRlIG1v
+ZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvbndsLWRzaS9LY29uZmlnCiBjcmVhdGUg
+bW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9ud2wtZHNpL01ha2VmaWxlCiBjcmVh
+dGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9ud2wtZHNpL253bC1kcnYuYwog
+Y3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvbndsLWRzaS9ud2wtZHJ2
+LmgKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL253bC1kc2kvbnds
+LWRzaS5jCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9ud2wtZHNp
+L253bC1kc2kuaAoKLS0gCjIuMjMuMC5yYzEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbA==
