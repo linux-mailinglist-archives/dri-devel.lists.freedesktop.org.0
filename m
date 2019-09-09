@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB99AAD4DD
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 10:29:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E4AAAD4E6
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 10:31:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9DFE8994D;
-	Mon,  9 Sep 2019 08:29:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D820F89A08;
+	Mon,  9 Sep 2019 08:31:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89ADF8994D
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 08:29:32 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B204489A08
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 08:31:39 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id A932572167; Mon,  9 Sep 2019 08:31:39 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204227] Visual artefacts and crash from suspend on amdgpu
-Date: Mon, 09 Sep 2019 08:29:31 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
+Subject: [Bug 111599] [CI][RESUME] igt@gem_ctx_isolation@* - skip - Test
+ requirement: !(gen > LAST_KNOWN_GEN), SKIP
+Date: Mon, 09 Sep 2019 08:31:39 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: IGT
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: exa.exa@gmail.com
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: martin.peres@free.fr
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-204227-2300-yGxyC2kz13@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204227-2300@https.bugzilla.kernel.org/>
-References: <bug-204227-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-111599-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
- message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,56 +52,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2077942635=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQyMjcKCk1pcmVr
-IEtyYXRvY2h2aWwgKGV4YS5leGFAZ21haWwuY29tKSBjaGFuZ2VkOgoKICAgICAgICAgICBXaGF0
-ICAgIHxSZW1vdmVkICAgICAgICAgICAgICAgICAgICAgfEFkZGVkCi0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0KICAgICAgICAgICAgICAgICBDQ3wgICAgICAgICAgICAgICAgICAgICAgICAgICAgfGV4YS5l
-eGFAZ21haWwuY29tCgotLS0gQ29tbWVudCAjMTAgZnJvbSBNaXJlayBLcmF0b2NodmlsIChleGEu
-ZXhhQGdtYWlsLmNvbSkgLS0tCkhlbGxvIGV2ZXJ5b25lLAoKd291bGQgdGhlIGFydGVmYWN0cyBs
-b29rIGxpa2Ugb24gdGhpcyBwaWN0dXJlLCBvciBhbSBJIGhhdmluZyBhIGRpZmZlcmVudAppc3N1
-ZT8KaHR0cDovL2UteC1hLm9yZy9zdHVmZi9hbWRncHUtYXJ0ZWZhY3RzLmpwZwooVGFrZW4gd2l0
-aCBhIHBob25lLCBhcyB0aGUgYXJ0ZWZhY3RzIGFyZSBub3Qgc2NyZWVuc2hvdHRhYmxlLikKClRo
-ZSBzcXVhcmVzIGFwcGVhciBhcm91bmQgc21hbGwgc3R1ZmYgdGhhdCBjaGFuZ2VzIChlc3AuIHRl
-cm1pbmFsIHRleHQpIGFuZApkaXNhcHBlYXIgaW4gYXJvdW5kIGhhbGYgYSBzZWNvbmQuIE5vdGFi
-bHksIHRoZXkgYXJlIG9ubHkgc2VlbiBpbiB4ZmNlIChzdXNwZWN0CmNvbXBvc2l0b3IgaXMgbmVl
-ZGVkKTsgbm90IGluIExpZ2h0RE0gKHdoaWNoIGRvZXMgbm90IGRvIGNvbXBvc2l0aW9uKSBub3IK
-YXJvdW5kIGFueSBmcmVxdWVudGx5IHJlZnJlc2hlZC9hY2NlbGVyYXRlZCBzdXJmYWNlIChnbHhn
-ZWFycyBhbmQgYW5pbWF0aW9ucyBpbgpmb3JlZm94IGFyZSBjbGVhbi4pCgpNaW5lIGlzOgoKMDU6
-MDAuMCBWR0EgY29tcGF0aWJsZSBjb250cm9sbGVyOiBBZHZhbmNlZCBNaWNybyBEZXZpY2VzLCBJ
-bmMuIFtBTUQvQVRJXSBSYXZlbgpSaWRnZSBbUmFkZW9uIFZlZ2EgU2VyaWVzIC8gUmFkZW9uIFZl
-Z2EgTW9iaWxlIFNlcmllc10gKHJldiBjMykgKHByb2ctaWYgMDAKW1ZHQSBjb250cm9sbGVyXSkK
-ICAgICAgICBTdWJzeXN0ZW06IExlbm92byBSYXZlbiBSaWRnZSBbUmFkZW9uIFZlZ2EgU2VyaWVz
-IC8gUmFkZW9uIFZlZ2EgTW9iaWxlClNlcmllc10KICAgICAgICBGbGFnczogYnVzIG1hc3Rlciwg
-ZmFzdCBkZXZzZWwsIGxhdGVuY3kgMCwgSVJRIDU4CiAgICAgICAgTWVtb3J5IGF0IGIwMDAwMDAw
-ICg2NC1iaXQsIHByZWZldGNoYWJsZSkgW3NpemU9MjU2TV0KICAgICAgICBNZW1vcnkgYXQgYzAw
-MDAwMDAgKDY0LWJpdCwgcHJlZmV0Y2hhYmxlKSBbc2l6ZT0yTV0KICAgICAgICBJL08gcG9ydHMg
-YXQgMTAwMCBbc2l6ZT0yNTZdCiAgICAgICAgTWVtb3J5IGF0IGMwODAwMDAwICgzMi1iaXQsIG5v
-bi1wcmVmZXRjaGFibGUpIFtzaXplPTUxMktdCiAgICAgICAgQ2FwYWJpbGl0aWVzOiBbNDhdIFZl
-bmRvciBTcGVjaWZpYyBJbmZvcm1hdGlvbjogTGVuPTA4IDw/PgogICAgICAgIENhcGFiaWxpdGll
-czogWzUwXSBQb3dlciBNYW5hZ2VtZW50IHZlcnNpb24gMwogICAgICAgIENhcGFiaWxpdGllczog
-WzY0XSBFeHByZXNzIExlZ2FjeSBFbmRwb2ludCwgTVNJIDAwCiAgICAgICAgQ2FwYWJpbGl0aWVz
-OiBbYTBdIE1TSTogRW5hYmxlKyBDb3VudD0xLzQgTWFza2FibGUtIDY0Yml0KwogICAgICAgIENh
-cGFiaWxpdGllczogW2MwXSBNU0ktWDogRW5hYmxlLSBDb3VudD0zIE1hc2tlZC0KICAgICAgICBD
-YXBhYmlsaXRpZXM6IFsxMDBdIFZlbmRvciBTcGVjaWZpYyBJbmZvcm1hdGlvbjogSUQ9MDAwMSBS
-ZXY9MSBMZW49MDEwCjw/PgogICAgICAgIENhcGFiaWxpdGllczogWzIwMF0gUmVzaXphYmxlIEJB
-UiA8Pz4KICAgICAgICBDYXBhYmlsaXRpZXM6IFsyNzBdIFNlY29uZGFyeSBQQ0kgRXhwcmVzcyA8
-Pz4KICAgICAgICBDYXBhYmlsaXRpZXM6IFsyYjBdIEFkZHJlc3MgVHJhbnNsYXRpb24gU2Vydmlj
-ZSAoQVRTKQogICAgICAgIENhcGFiaWxpdGllczogWzJjMF0gUGFnZSBSZXF1ZXN0IEludGVyZmFj
-ZSAoUFJJKQogICAgICAgIENhcGFiaWxpdGllczogWzJkMF0gUHJvY2VzcyBBZGRyZXNzIFNwYWNl
-IElEIChQQVNJRCkKICAgICAgICBDYXBhYmlsaXRpZXM6IFszMjBdIExhdGVuY3kgVG9sZXJhbmNl
-IFJlcG9ydGluZwogICAgICAgIEtlcm5lbCBkcml2ZXIgaW4gdXNlOiBhbWRncHUKICAgICAgICBL
-ZXJuZWwgbW9kdWxlczogYW1kZ3B1CgpUaGUgcHJvYmxlbSBoYXBwZW5zIG9uIGFsbCA1LjIga2Vy
-bmVscyBJIHRyaWVkIChmcm9tIGRlYmlhbikuICJEZWJpYW4gc3RhYmxlIgo0LjE5IGFuZCBvbmUg
-NS4xIEkgdHJpZWQgYXJlIE9LLgoKSWYgdGhpcyBpcyBhIGRpZmZlcmVudCBraW5kIG9mIGFydGlm
-YWN0cywgcGxlYXNlIGxldCBtZSBrbm93IChJJ2Qgb3BlbiBhCmRpZmZlcmVudCBraW5kIG9mIGJ1
-Zy4pCgpUaGFua3MgaW4gYWR2YW5jZSEKLW1rCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBt
-YWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============2077942635==
+Content-Type: multipart/alternative; boundary="15680178990.dD0Ba2e6.6784"
+Content-Transfer-Encoding: 7bit
+
+
+--15680178990.dD0Ba2e6.6784
+Date: Mon, 9 Sep 2019 08:31:39 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111599
+
+            Bug ID: 111599
+           Summary: [CI][RESUME] igt@gem_ctx_isolation@* - skip - Test
+                    requirement: !(gen > LAST_KNOWN_GEN), SKIP
+           Product: DRI
+           Version: XOrg git
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: not set
+          Priority: not set
+         Component: IGT
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: martin.peres@free.fr
+
+https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_362/fi-tgl-u/igt@gem_ctx_is=
+olation@bcs0-dirty-switch.html
+
+Test requirement not met in function __real_main808, file
+../tests/i915/gem_ctx_isolation.c:827:
+Test requirement: !(gen > LAST_KNOWN_GEN)
+Subtest bcs0-dirty-switch: SKIP
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15680178990.dD0Ba2e6.6784
+Date: Mon, 9 Sep 2019 08:31:39 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI][RESUME] igt&#64;gem_ctx_isolation&#64;* - skip - Tes=
+t requirement: !(gen &gt; LAST_KNOWN_GEN), SKIP"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111599">111599</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>[CI][RESUME] igt&#64;gem_ctx_isolation&#64;* - skip - Test re=
+quirement: !(gen &gt; LAST_KNOWN_GEN), SKIP
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>XOrg git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>IGT
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>martin.peres&#64;free.fr
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre><a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_362=
+/fi-tgl-u/igt&#64;gem_ctx_isolation&#64;bcs0-dirty-switch.html">https://int=
+el-gfx-ci.01.org/tree/drm-tip/drmtip_362/fi-tgl-u/igt&#64;gem_ctx_isolation=
+&#64;bcs0-dirty-switch.html</a>
+
+Test requirement not met in function __real_main808, file
+../tests/i915/gem_ctx_isolation.c:827:
+Test requirement: !(gen &gt; LAST_KNOWN_GEN)
+Subtest bcs0-dirty-switch: SKIP</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15680178990.dD0Ba2e6.6784--
+
+--===============2077942635==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2077942635==--
