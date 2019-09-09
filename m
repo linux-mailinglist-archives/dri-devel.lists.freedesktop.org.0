@@ -2,45 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2803BAD651
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 12:06:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E7EAD67C
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 12:12:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C29E289B0B;
-	Mon,  9 Sep 2019 10:06:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 977C289B06;
+	Mon,  9 Sep 2019 10:12:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCC0D89B0B
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 10:06:55 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 56B3F3090FC2;
- Mon,  9 Sep 2019 10:06:55 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-117-59.ams2.redhat.com
- [10.36.117.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E8DAA10018F8;
- Mon,  9 Sep 2019 10:06:54 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0588916E19; Mon,  9 Sep 2019 12:06:54 +0200 (CEST)
-Date: Mon, 9 Sep 2019 12:06:53 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v4 05/17] drm: add mmap() to drm_gem_object_funcs
-Message-ID: <20190909100653.hyo4psakt3ccfwjk@sirius.home.kraxel.org>
-References: <20190808134417.10610-1-kraxel@redhat.com>
- <20190808134417.10610-6-kraxel@redhat.com>
- <20190903094859.GQ2112@phenom.ffwll.local>
- <20190906121318.r4nvoacazvwukuun@sirius.home.kraxel.org>
- <CAKMK7uHFS8uW15NMEzN92POD2hyhkvKFgePdjgL=D-noUAkq3Q@mail.gmail.com>
+Received: from ozlabs.org (ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F243589B06
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 10:12:21 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 46RkVN3cwBz9sNT;
+ Mon,  9 Sep 2019 20:12:12 +1000 (AEST)
+Date: Mon, 9 Sep 2019 20:11:59 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Alexander Kapshuk <alexander.kapshuk@gmail.com>
+Subject: Re: Kernel panic during drm/nouveau init 5.3.0-rc7-next-20190903
+Message-ID: <20190909201159.778590a0@canb.auug.org.au>
+In-Reply-To: <20190908141307.GA7115@pc-sasha.localdomain>
+References: <20190907090534.GB1712@pc-sasha.localdomain>
+ <CAKMK7uHYdXwruQxxBM12Q5MVeH9fjFpZvxZz06BSo7YrCQbM2w@mail.gmail.com>
+ <20190908141307.GA7115@pc-sasha.localdomain>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uHFS8uW15NMEzN92POD2hyhkvKFgePdjgL=D-noUAkq3Q@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Mon, 09 Sep 2019 10:06:55 +0000 (UTC)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=canb.auug.org.au; s=201702; t=1568023938;
+ bh=WtZHNMKTkVbJZEkFoiX0iM3pmN7GlX1AZgEOXkQakSg=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Wsyn3E/2zaHCW4VqxqI5PS+I/rnEAQQ5mbiObekuOF7KTH3V19YqcE9FlHOBbZP1v
+ uwq8/fSubckISd2IBOi+fIPEeIlwEN52ulKt2TKMqtAErLXMStfx4Aj4pzNnx/0q3v
+ mxJzHFvjhf3fI5+7JcA69D0p+jmetgPyqMMz8cCqzhsFZxSiZzW5yVuGY2MPhKoijf
+ H8jowi5wc09wIhSfkFMgqUw5Aio4zoEFpAqh0fxJgVddxJ5aJKqbsfLJPQKGdt4o+e
+ W28JDvL6PgoEVkhELNM+wKDDGh7tJg/y3RwF/xHk7Fw0pBJE/SwrorGkZRfC94o20g
+ UyUIA8xDfrrIw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,41 +50,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org, mripard@kernel.org,
+ linux-next@vger.kernel.org, dri-devel@lists.freedesktop.org, sean@poorly.run
+Content-Type: multipart/mixed; boundary="===============1376138799=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ICBIaSwKCj4gPiArICAgICAgICAgICAgICAgdm1hLT52bV9mbGFncyB8PSBWTV9JTyB8IFZNX1BG
-Tk1BUCB8IFZNX0RPTlRFWFBBTkQgfCBWTV9ET05URFVNUDsKPiA+ICsgICAgICAgICAgICAgICB2
-bWEtPnZtX3BhZ2VfcHJvdCA9IHBncHJvdF93cml0ZWNvbWJpbmUodm1fZ2V0X3BhZ2VfcHJvdCh2
-bWEtPnZtX2ZsYWdzKSk7Cj4gPiArICAgICAgICAgICAgICAgdm1hLT52bV9wYWdlX3Byb3QgPSBw
-Z3Byb3RfZGVjcnlwdGVkKHZtYS0+dm1fcGFnZV9wcm90KTsKPiA+ICsgICAgICAgfQo+IAo+IFRv
-dGFsbHkgdW5yZWxhdGVkIGRpc2N1c3Npb24gYXJvdW5kIEhNTSBsZWFkIG1lIHRvIGEgYml0IGEg
-Y2hhc2UsIGFuZAo+IHJlYWxpemluZyB0aGF0IHdlIHByb2JhYmx5IHdhbnQgYQo+IAo+ICAgICBX
-QVJOX09OKCEodm1hLT52bV9mbGFncyAmIFZNX1NQRUNJQUwpKTsKPiAKPiBoZXJlLCB0byBtYWtl
-IHN1cmUgZHJpdmVycyBzZXQgYXQgbGVhc3Qgb25lIG9mIHRoZSAidGhpcyBpcyBhIHNwZWNpYWwK
-PiB2bWEsIGRvbid0IHRyeSB0byB0cmVhdCBpdCBsaWtlIHBhZ2VjYWNoZS9hbm9uIG1lbW9yeSIu
-IEp1c3QgdG8gYmUgb24KPiB0aGUgc2FmZSBzaWRlLiBNYXliZSB3ZSBhbHNvIHdhbnQgdG8ga2Vl
-cCB0aGUgZW50aXJlIHZtYS0+dm1fZmxhZ3MKPiBhc3NpZ25tZW50IGluIHRoZSBjb21tb24gY29k
-ZSwgYnV0IGF0IGxlYXN0IHRoZSBXQVJOX09OIHdvdWxkIGJlIGEKPiBnb29kIGNoZWNrIEkgdGhp
-bmsuIE1heWJlIGFsc28gY2hlY2sgZm9yIFZNX0RPTlRFWFBBTkQgd2hpbGUgYXQgaXQKCkhtbS4g
-IFZNX1NQRUNJQUwgaXMgdGhpczoKCiAgI2RlZmluZSBWTV9TUEVDSUFMIChWTV9JTyB8IFZNX0RP
-TlRFWFBBTkQgfCBWTV9QRk5NQVAgfCBWTV9NSVhFRE1BUCkKClJlcXVpcmluZyBWTV9ET05URVhQ
-QU5EIG1ha2VzIHNlbnNlIGZvciBzdXJlLiAgRHVubm8gYWJvdXQgdGhlIG90aGVyCm9uZXMuICBG
-b3IgZHJtX2dlbV92cmFtX2hlbHBlciBWTV9JTyArIFZNX1BGTk1BUCBhcmUgbmVlZGVkLgoKQnV0
-IHdlIGFsc28gaGF2ZSBkcm1fZ2VtX3NobWVtX2hlbHBlciB3aGljaCBiYWNrcyBvYmplY3RzIHdp
-dGggbm9ybWFsCnBhZ2VzLiAgSW4gZmFjdCBkcm1fZ2VtX3NobWVtX21tYXAgZG9lcyB0aGlzOgoK
-CS8qIFZNX1BGTk1BUCB3YXMgc2V0IGJ5IGRybV9nZW1fbW1hcCgpICovCgl2bWEtPnZtX2ZsYWdz
-ICY9IH5WTV9QRk5NQVA7Cgl2bWEtPnZtX2ZsYWdzIHw9IFZNX01JWEVETUFQOwoKaW5jbHVkZS9s
-aW51eC9tbS5oIGlzbid0IHZlcnkgaGVscGZ1bCBpbiBleHBsYWluaW5nIGhvdyBWTV9NSVhFRE1B
-UApzaG91bGQgYmUgdXNlZCwgb25seSBzYXlpbmcgY2FuIGJlIGJvdGggInN0cnVjdCBwYWdlIiBh
-bmQgcGZubWFwLCBzbyBJJ20Kbm90IHN1cmUgd2h5IFZNX01JWEVETUFQIGlzIHNldCBoZXJlLCBp
-dCBzaG91bGQgYWx3YXlzIGJlICJzdHJ1Y3QgcGFnZSIKZm9yIHNobWVtLCBubz8KCmNoZWVycywK
-ICBHZXJkCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+--===============1376138799==
+Content-Type: multipart/signed; boundary="Sig_/x+8al_Rd8L9FcNKBXNLv=W/";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/x+8al_Rd8L9FcNKBXNLv=W/
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi Alexander,
+
+On Sun, 8 Sep 2019 17:13:07 +0300 Alexander Kapshuk <alexander.kapshuk@gmai=
+l.com> wrote:
+>
+> This is my first bisect. Here's what I've tried so far and based on the
+> output I got, I seem to be taken in the opposit direction.
+>=20
+> git bisect start
+> git bisect bad				# 7dc4585e0378:next-20190903
+> git bisect good next-20190730	#70f4b4ac1655
+
+If you are bisecting linux-next, I will suggest bisecting between the stabl=
+e branch on linux-next (which is just Linus' tree when I started that day) =
+and the top of the first linux-next that fails.  (Assuming that the stable =
+branch is good).
+
+so
+
+git bisect start
+git bisect good stable
+git bisect bad next-20190903
+
+and go from there.  It will (unfortunately) be quite a few commits to test
+:-(
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/x+8al_Rd8L9FcNKBXNLv=W/
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl12JW8ACgkQAVBC80lX
+0Gxqigf+I6xbGgy1s4thi/M2FwgBiKiGnIOia6WQIG+D0OhL0OKh1/YfMema9pzH
+zC2rO39vF53JVihv1MQRe1HfTEj7nMrZjm6BPziPwtFbKjw5f67qkXOr7YhUTx5c
+msTgV9Y0yzD+LHDYBm+CI0Vd29CQmXmFa6UlAaTDFY83yOXAYLUJgvDyPeyWzb3K
+6zWUbV9+VIAY2ygo/YMH+6fFhEMqUm2g4AbzLjatQmhNq9gpUzDRgPnAXqsUPWXY
+i7IDti6k+CbGWwj4w+CtUYwNEm8fA3RzXWgKnF2BxbdpnAURulM0N7dCokblBE9X
+Wy44jyqIFkp/d4fCxxQRX2+dtnxwSA==
+=94Wb
+-----END PGP SIGNATURE-----
+
+--Sig_/x+8al_Rd8L9FcNKBXNLv=W/--
+
+--===============1376138799==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1376138799==--
