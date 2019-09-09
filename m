@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C894AADC19
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 17:29:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 542C1ADC44
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 17:41:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E556489B65;
-	Mon,  9 Sep 2019 15:29:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C5F289C28;
+	Mon,  9 Sep 2019 15:41:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id CFD8189B65
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 15:29:20 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id CD27772167; Mon,  9 Sep 2019 15:29:20 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
- when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
-Date: Mon, 09 Sep 2019 15:29:21 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: michel@daenzer.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110659-502-wWOw3EzziZ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
-References: <bug-110659-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D6A389C28
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 15:41:46 +0000 (UTC)
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
+ [209.85.160.177])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 23A4221A4A
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 15:41:46 +0000 (UTC)
+Received: by mail-qt1-f177.google.com with SMTP id c9so16657306qth.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Sep 2019 08:41:46 -0700 (PDT)
+X-Gm-Message-State: APjAAAUyf4X16Q0cKKreUvavk71fibVAOSNBbPIa1TaDjVRR1HtPJNPa
+ 3LigNUXjj+dU/PAU1LncIeWddavv0fGrmYRHJw==
+X-Google-Smtp-Source: APXvYqz141Z8J3amoWSNvEnWBMcRo8P2gwc1042x2UJzSiJd8NyLDaEMcfylKvyhtyaKCZweTwgZC/eZ9i/0FZ1Xa0s=
+X-Received: by 2002:ac8:4a05:: with SMTP id x5mr12045321qtq.110.1568043705274; 
+ Mon, 09 Sep 2019 08:41:45 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190904123032.23263-1-broonie@kernel.org>
+ <ccd81530-2dbd-3c02-ca0a-1085b00663b5@arm.com>
+In-Reply-To: <ccd81530-2dbd-3c02-ca0a-1085b00663b5@arm.com>
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 9 Sep 2019 16:41:32 +0100
+X-Gmail-Original-Message-ID: <CAL_JsqKWEe=+X5AYRJ-_8peTzfrOrRBfFWgk8c6h3TN6f0ZHtA@mail.gmail.com>
+Message-ID: <CAL_JsqKWEe=+X5AYRJ-_8peTzfrOrRBfFWgk8c6h3TN6f0ZHtA@mail.gmail.com>
+Subject: Re: [PATCH] drm/panfrost: Fix regulator_get_optional() misuse
+To: Steven Price <steven.price@arm.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1568043706;
+ bh=fM4JbSVJbGXAjoftVI6cCaz2ZaDS1dmEdNr69EQNLl4=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=QHv+pIF0WkKCXPobKnhnm+m3bLWKtzErPwv9PJb/Q9LP2fL+MarhCoXM/uwRzAUgE
+ zD+eK2DD1rxsaNWmHnvUfoa5cFmfJWNWBmNP1TCG6ZGdM/k7ePwCma0B3v0gMbRo3c
+ IiRiUAseAivRcmSGGSDHZgXCSbLvGJdZVJ35g0d0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,98 +54,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1190811869=="
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Mark Brown <broonie@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1190811869==
-Content-Type: multipart/alternative; boundary="15680429601.067baf.13414"
-Content-Transfer-Encoding: 7bit
-
-
---15680429601.067baf.13414
-Date: Mon, 9 Sep 2019 15:29:20 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
-
---- Comment #78 from Michel D=C3=A4nzer <michel@daenzer.net> ---
-(In reply to tempel.julian from comment #77)
-> I turned DPMS off in Xorg config which leaves the issue unchanged. Is this
-> to be expected?
-
-Yeah, this isn't directly related to X's DPMS functionality.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15680429601.067baf.13414
-Date: Mon, 9 Sep 2019 15:29:20 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c78">Comme=
-nt # 78</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
-net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
-</span></b>
-        <pre>(In reply to tempel.julian from <a href=3D"show_bug.cgi?id=3D1=
-10659#c77">comment #77</a>)
-<span class=3D"quote">&gt; I turned DPMS off in Xorg config which leaves th=
-e issue unchanged. Is this
-&gt; to be expected?</span >
-
-Yeah, this isn't directly related to X's DPMS functionality.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15680429601.067baf.13414--
-
---===============1190811869==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1190811869==--
+T24gRnJpLCBTZXAgNiwgMjAxOSBhdCA0OjIzIFBNIFN0ZXZlbiBQcmljZSA8c3RldmVuLnByaWNl
+QGFybS5jb20+IHdyb3RlOgo+Cj4gT24gMDQvMDkvMjAxOSAxMzozMCwgTWFyayBCcm93biB3cm90
+ZToKPiA+IFRoZSBwYW5mcm9zdCBkcml2ZXIgcmVxdWVzdHMgYSBzdXBwbHkgdXNpbmcgcmVndWxh
+dG9yX2dldF9vcHRpb25hbCgpCj4gPiBidXQgYm90aCB0aGUgbmFtZSBvZiB0aGUgc3VwcGx5IGFu
+ZCB0aGUgdXNhZ2UgcGF0dGVybiBzdWdnZXN0IHRoYXQgaXQgaXMKPiA+IGJlaW5nIHVzZWQgZm9y
+IHRoZSBtYWluIHBvd2VyIGZvciB0aGUgZGV2aWNlIGFuZCBpcyBub3QgYXQgYWxsIG9wdGlvbmFs
+Cj4gPiBmb3IgdGhlIGRldmljZSBmb3IgZnVuY3Rpb24sIHRoZXJlIGlzIG5vIG1lYW5pbmdmdWwg
+aGFuZGxpbmcgZm9yIGFic2VudAo+ID4gc3VwcGxpZXMuICBTdWNoIHJlZ3VsYXRvcnMgc2hvdWxk
+IHVzZSB0aGUgdmFuaWxsYSByZWd1bGF0b3JfZ2V0KCkKPiA+IGludGVyZmFjZSwgaXQgd2lsbCBl
+bnN1cmUgdGhhdCBldmVuIGlmIGEgc3VwcGx5IGlzIG5vdCBkZXNjcmliZWQgaW4gdGhlCj4gPiBz
+eXN0ZW0gaW50ZWdyYXRpb24gb25lIHdpbGwgYmUgcHJvdmlkZWQgaW4gc29mdHdhcmUuCj4gPgo+
+ID4gU2lnbmVkLW9mZi1ieTogTWFyayBCcm93biA8YnJvb25pZUBrZXJuZWwub3JnPgo+Cj4gVGVz
+dGVkLWJ5OiBTdGV2ZW4gUHJpY2UgPHN0ZXZlbi5wcmljZUBhcm0uY29tPgo+Cj4gTG9va3MgbGlr
+ZSBteSBhcHByb2FjaCB0byB0aGlzIHdhcyB3cm9uZyAtIHNvIHdlIHNob3VsZCBhbHNvIHJldmVy
+dCB0aGUKPiBjaGFuZ2VzIEkgbWFkZSBwcmV2aW91c2x5Lgo+Cj4gLS0tLTg8LS0tLQo+IEZyb20g
+ZmUyMGY4YWJjZGU4NDQ0YmI0MWE4ZjcyZmIzNWRlOTQzYTI3ZWM1YyBNb24gU2VwIDE3IDAwOjAw
+OjAwIDIwMDEKPiBGcm9tOiBTdGV2ZW4gUHJpY2UgPHN0ZXZlbi5wcmljZUBhcm0uY29tPgo+IERh
+dGU6IEZyaSwgNiBTZXAgMjAxOSAxNToyMDo1MyArMDEwMAo+IFN1YmplY3Q6IFtQQVRDSF0gZHJt
+L3BhbmZyb3N0OiBSZXZlcnQgY2hhbmdlcyB0byBjb3BlIHdpdGggTlVMTCByZWd1bGF0b3IKPgo+
+IEhhbmRsaW5nIGEgTlVMTCByZXR1cm4gZnJvbSBkZXZtX3JlZ3VsYXRvcl9nZXRfb3B0aW9uYWwo
+KSBkb2Vzbid0IHNlZW0KPiBsaWtlIHRoZSBjb3JyZWN0IHdheSBvZiBoYW5kbGluZyB0aGlzLiBJ
+bnN0ZWFkIHJldmVydCB0aGUgY2hhbmdlcyBpbgo+IGZhdm91ciBvZiBzd2l0Y2hpbmcgdG8gdXNp
+bmcgZGV2bV9yZWd1bGF0b3JfZ2V0KCkgd2hpY2ggd2lsbCByZXR1cm4gYQo+IGR1bW15IHJlZ3Vs
+YXRvciBpbnN0ZWFkLgo+Cj4gUmV2ZXJ0cyBjb21taXQgNTIyODIxNjNkZmE2ICgiZHJtL3BhbmZy
+b3N0OiBBZGQgbWlzc2luZyBjaGVjayBmb3IgcGZkZXYtPnJlZ3VsYXRvciIpCj4gUmV2ZXJ0cyBj
+b21taXQgZTIxZGQyOTA4ODFiICgiZHJtL3BhbmZyb3N0OiBFbmFibGUgZGV2ZnJlcSB0byB3b3Jr
+IHdpdGhvdXQgcmVndWxhdG9yIikKCkRvZXMgYSBzdHJhaWdodCByZXZlcnQgb2YgdGhlc2UgMiBw
+YXRjaGVzIG5vdCB3b3JrPyBJZiBpdCBkb2VzIHdvcmssCmNhbiB5b3UgZG8gdGhhdCBhbmQgc2Vu
+ZCB0byB0aGUgbGlzdC4gSSBkb24ndCB3YW50IG15IGhhbmQgc2xhcHBlZAphZ2FpbiByZXZlcnRp
+bmcgdGhpbmdzLgoKUm9iCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbA==
