@@ -1,46 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8C59AD31D
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 08:30:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D9FFAD353
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Sep 2019 08:59:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 033DB8979E;
-	Mon,  9 Sep 2019 06:30:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56E82897E0;
+	Mon,  9 Sep 2019 06:59:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id BC034897E3
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Sep 2019 06:30:11 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B91AB72167; Mon,  9 Sep 2019 06:30:11 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 105718] amdgpu reported fan speed looks too high (dual fan
- Sapphire Pulse Vega 56 and Sapphire RX 5700 XT)
-Date: Mon, 09 Sep 2019 06:30:11 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: asheldon55@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-105718-502-fhuJvU2LyT@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-105718-502@http.bugs.freedesktop.org/>
-References: <bug-105718-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A1AF896E5;
+ Mon,  9 Sep 2019 06:59:15 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id a11so2710115wrx.1;
+ Sun, 08 Sep 2019 23:59:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=uPb7ZUb8kECFK5vFQJ+UGqGz0n2kxO9qQItYwAt4gFY=;
+ b=dHPzz3X6f1qvs0c2faM2fq9P71+oNyjv8IVaIzTbSaTImhfd2Mxd41OSlJwi3mWmu2
+ HBC3Ui913GEpN5kZtp0o0ybVp4edyIBwwzycTK/Qx68/ZVCLKNaZx+DLZ92uE+ErftgF
+ 6V33bIp2V5zFwJOj15vv8zR/66lL37ZlCF/Nmk/zpxSGopp9byjoOMVVeYpF7v2RpXoE
+ 7WNMv3efuBwSDLoLMMpBTO81+YyYCp/z3DDLrM58Zf8SGHjpOZ3YBhLzXh5rw1EwkYgb
+ Cykjl1YZNhd1LdI6IdCI0QRKb5zZQ0kAgvYEMkxYJcAjcusZ14j7uAAgheUhSCLCZOIz
+ +FJQ==
+X-Gm-Message-State: APjAAAW1mLUC4WKf3Rs6X0AypAGOphBDtgn1Gyb7efp3SA/TKKtcpB5h
+ F+EZET0RNv9YOTvyIY5GYkU=
+X-Google-Smtp-Source: APXvYqw/C6I8CzsT9UGXJlxxLpdeCtDXrqqzvRbYoW4dVD4JuyoSQaL05Is8JEnR4Ta69DMV7MaNPg==
+X-Received: by 2002:adf:8b13:: with SMTP id n19mr14297307wra.203.1568012354232; 
+ Sun, 08 Sep 2019 23:59:14 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id n30sm8600164wmd.15.2019.09.08.23.59.12
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 08 Sep 2019 23:59:13 -0700 (PDT)
+Subject: Re: [PATCH 1/8] drm/ttm: turn ttm_bo_device.vma_manager into a pointer
+To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+References: <20190905070509.22407-1-kraxel@redhat.com>
+ <20190905070509.22407-2-kraxel@redhat.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <851d89ec-968f-2209-91d2-29ec0b083e0b@gmail.com>
+Date: Mon, 9 Sep 2019 08:59:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20190905070509.22407-2-kraxel@redhat.com>
+Content-Language: en-US
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=uPb7ZUb8kECFK5vFQJ+UGqGz0n2kxO9qQItYwAt4gFY=;
+ b=DHm1ahO5q654Gu/6Vd7heKonLzVNGhmts5Gw+GY4zikwM9j0Qv0vZMNqgqhPhlM32l
+ mTk3Jxrv5U9JewLXC7NZmjZ8kQ/Qj0x8vtbuwEd9I3C1NncdXA5XxRO9xvFOLfva+OUJ
+ BdMIjfPrAJCTDzCWtu1ysbUe89Iogc3N+RRYq414Jj9a1voUWEK4sxl0IhQImQkW+UTI
+ QcahwVn9F28k6+H9NMBA/n1bD9AWlIVCGHc8GJZzpqLFFs2c5smia0qwWphPiwfvSAyu
+ BgI5E99u53IAwobj8OlzRT9q3Clv4aJJRaxhMIgRq3fCAJLHFIrLesixzwdag37MKwJd
+ mA4A==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,148 +72,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2044716959=="
+Reply-To: christian.koenig@amd.com
+Cc: Thomas Hellstrom <thellstrom@vmware.com>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>,
+ Maxime Ripard <maxime.ripard@bootlin.com>, Huang Rui <ray.huang@amd.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Dave Airlie <airlied@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
+ Sean Paul <sean@poorly.run>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2044716959==
-Content-Type: multipart/alternative; boundary="15680106114.8Aa72f0.18534"
-Content-Transfer-Encoding: 7bit
-
-
---15680106114.8Aa72f0.18534
-Date: Mon, 9 Sep 2019 06:30:11 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D105718
-
---- Comment #7 from Andrew Sheldon <asheldon55@gmail.com> ---
-(In reply to Shmerl from comment #5)
-> Actually, I've noticed another similar issue. I just got Sapphire Pulse RX
-> 5700 XT. It's also dual fan.
->=20
-> According to this:
-> https://www.gamersnexus.net/hwreviews/3498-sapphire-rx-5700-xt-pulse-revi=
-ew
->=20
-> The top level of fan rotation (at high load and more performance BIOS
-> setting) is around 1570 rpm. While sensors report that max is 3200 rpm for
-> me!
->=20
-> And something like 50% load (of the fan) is shown as around 1600 RPM!
->=20
-> So I'd say something is definitely off. It's almost like values from both
-> fans are added up, instead of showing actual one.
-
-You could use UPP (https://github.com/sibradzic/upp) so see what your the
-powerplay tables report is the maximum for fanspeed. On the MSI Evoke 5700 =
-XT,
-mine reports a FanMaximumRpm of 3200. I believe in the case of the Evoke, t=
-hat
-some benchmarks have shown it can get near 3200 RPM at max speed.
-
-I don't know if the driver impacts the values here, or if this is strictly
-based on the BIOS. But it might be helpful to see if that max matches what =
-the
-sensors are reporting.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15680106114.8Aa72f0.18534
-Date: Mon, 9 Sep 2019 06:30:11 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu reported fan speed looks too high (dual fan Sapphi=
-re Pulse Vega 56 and Sapphire RX 5700 XT)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105718#c7">Commen=
-t # 7</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu reported fan speed looks too high (dual fan Sapphi=
-re Pulse Vega 56 and Sapphire RX 5700 XT)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105718">bug 10571=
-8</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-asheldon55&#64;gmail.com" title=3D"Andrew Sheldon &lt;asheldon55&#64;gmail.=
-com&gt;"> <span class=3D"fn">Andrew Sheldon</span></a>
-</span></b>
-        <pre>(In reply to Shmerl from <a href=3D"show_bug.cgi?id=3D105718#c=
-5">comment #5</a>)
-<span class=3D"quote">&gt; Actually, I've noticed another similar issue. I =
-just got Sapphire Pulse RX
-&gt; 5700 XT. It's also dual fan.
-&gt;=20
-&gt; According to this:
-&gt; <a href=3D"https://www.gamersnexus.net/hwreviews/3498-sapphire-rx-5700=
--xt-pulse-review">https://www.gamersnexus.net/hwreviews/3498-sapphire-rx-57=
-00-xt-pulse-review</a>
-&gt;=20
-&gt; The top level of fan rotation (at high load and more performance BIOS
-&gt; setting) is around 1570 rpm. While sensors report that max is 3200 rpm=
- for
-&gt; me!
-&gt;=20
-&gt; And something like 50% load (of the fan) is shown as around 1600 RPM!
-&gt;=20
-&gt; So I'd say something is definitely off. It's almost like values from b=
-oth
-&gt; fans are added up, instead of showing actual one.</span >
-
-You could use UPP (<a href=3D"https://github.com/sibradzic/upp">https://git=
-hub.com/sibradzic/upp</a>) so see what your the
-powerplay tables report is the maximum for fanspeed. On the MSI Evoke 5700 =
-XT,
-mine reports a FanMaximumRpm of 3200. I believe in the case of the Evoke, t=
-hat
-some benchmarks have shown it can get near 3200 RPM at max speed.
-
-I don't know if the driver impacts the values here, or if this is strictly
-based on the BIOS. But it might be helpful to see if that max matches what =
-the
-sensors are reporting.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15680106114.8Aa72f0.18534--
-
---===============2044716959==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2044716959==--
+QW0gMDUuMDkuMTkgdW0gMDk6MDUgc2NocmllYiBHZXJkIEhvZmZtYW5uOgo+IFJlbmFtZSB0aGUg
+ZW1iZWRkZWQgc3RydWN0IHZtYV9vZmZzZXRfbWFuYWdlciwgbmV3IG5hbWUgaXMgX3ZtYV9tYW5h
+Z2VyLgo+IHR0bV9ib19kZXZpY2Uudm1hX21hbmFnZXIgY2hhbmdlZCB0byBhIHBvaW50ZXIuCj4K
+PiBUaGUgdHRtX2JvX2RldmljZV9pbml0KCkgZnVuY3Rpb24gZ2V0cyBhbiBhZGRpdGlvbmFsIHZt
+YV9tYW5hZ2VyCj4gYXJndW1lbnQgd2hpY2ggYWxsb3dzIHRvIGluaXRpYWxpemUgdHRtIHdpdGgg
+YSBkaWZmZXJlbnQgdm1hIG1hbmFnZXIuCj4gV2hlbiBwYXNzaW5nIE5VTEwgdGhlIGVtYmVkZGVk
+IF92bWFfbWFuYWdlciBpcyB1c2VkLgo+Cj4gQWxsIGNhbGxlcnMgYXJlIHVwZGF0ZWQgdG8gcGFz
+cyBOVUxMLCBzbyB0aGUgYmVoYXZpb3IgZG9lc24ndCBjaGFuZ2UuCj4KPiBTaWduZWQtb2ZmLWJ5
+OiBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVkaGF0LmNvbT4KClJldmlld2VkLWJ5OiBDaHJpc3Rp
+YW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cgo+IC0tLQo+ICAgaW5jbHVkZS9k
+cm0vdHRtL3R0bV9ib19kcml2ZXIuaCAgICAgICAgIHwgIDggKysrKysrLS0KPiAgIGRyaXZlcnMv
+Z3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uYyB8ICAxICsKPiAgIGRyaXZlcnMvZ3B1L2Ry
+bS9kcm1fdnJhbV9tbV9oZWxwZXIuYyAgICB8ICAxICsKPiAgIGRyaXZlcnMvZ3B1L2RybS9ub3V2
+ZWF1L25vdXZlYXVfdHRtLmMgICB8ICAxICsKPiAgIGRyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX3R0
+bS5jICAgICAgICAgICB8ICAxICsKPiAgIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0
+bS5jICAgICB8ICAxICsKPiAgIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgICAgICAgICAg
+ICB8IDEzICsrKysrKysrKy0tLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3ZtLmMg
+ICAgICAgICB8ICA2ICsrKy0tLQo+ICAgZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZHJ2
+LmMgICAgIHwgIDEgKwo+ICAgOSBmaWxlcyBjaGFuZ2VkLCAyNCBpbnNlcnRpb25zKCspLCA5IGRl
+bGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVy
+LmggYi9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2RyaXZlci5oCj4gaW5kZXggZTg4ZTAwYzZjYmYy
+Li5lMzY1NDM0ZjkyYjMgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19kcml2
+ZXIuaAo+ICsrKyBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVyLmgKPiBAQCAtNDQxLDcg
+KzQ0MSw4IEBAIGV4dGVybiBzdHJ1Y3QgdHRtX2JvX2dsb2JhbCB7Cj4gICAgKgo+ICAgICogQGRy
+aXZlcjogUG9pbnRlciB0byBhIHN0cnVjdCB0dG1fYm9fZHJpdmVyIHN0cnVjdCBzZXR1cCBieSB0
+aGUgZHJpdmVyLgo+ICAgICogQG1hbjogQW4gYXJyYXkgb2YgbWVtX3R5cGVfbWFuYWdlcnMuCj4g
+LSAqIEB2bWFfbWFuYWdlcjogQWRkcmVzcyBzcGFjZSBtYW5hZ2VyCj4gKyAqIEB2bWFfbWFuYWdl
+cjogQWRkcmVzcyBzcGFjZSBtYW5hZ2VyIChwb2ludGVyKQo+ICsgKiBAX3ZtYV9tYW5hZ2VyOiBB
+ZGRyZXNzIHNwYWNlIG1hbmFnZXIgKGVuYmVkZGVkKQo+ICAgICogbHJ1X2xvY2s6IFNwaW5sb2Nr
+IHRoYXQgcHJvdGVjdHMgdGhlIGJ1ZmZlcitkZXZpY2UgbHJ1IGxpc3RzIGFuZAo+ICAgICogZGRl
+c3Ryb3kgbGlzdHMuCj4gICAgKiBAZGV2X21hcHBpbmc6IEEgcG9pbnRlciB0byB0aGUgc3RydWN0
+IGFkZHJlc3Nfc3BhY2UgcmVwcmVzZW50aW5nIHRoZQo+IEBAIC00NjQsNyArNDY1LDggQEAgc3Ry
+dWN0IHR0bV9ib19kZXZpY2Ugewo+ICAgCS8qCj4gICAJICogUHJvdGVjdGVkIGJ5IGludGVybmFs
+IGxvY2tzLgo+ICAgCSAqLwo+IC0Jc3RydWN0IGRybV92bWFfb2Zmc2V0X21hbmFnZXIgdm1hX21h
+bmFnZXI7Cj4gKwlzdHJ1Y3QgZHJtX3ZtYV9vZmZzZXRfbWFuYWdlciAqdm1hX21hbmFnZXI7Cj4g
+KwlzdHJ1Y3QgZHJtX3ZtYV9vZmZzZXRfbWFuYWdlciBfdm1hX21hbmFnZXI7Cj4gICAKPiAgIAkv
+Kgo+ICAgCSAqIFByb3RlY3RlZCBieSB0aGUgZ2xvYmFsOmxydSBsb2NrLgo+IEBAIC01ODUsNiAr
+NTg3LDcgQEAgaW50IHR0bV9ib19kZXZpY2VfcmVsZWFzZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAq
+YmRldik7Cj4gICAgKiBAZ2xvYjogQSBwb2ludGVyIHRvIGFuIGluaXRpYWxpemVkIHN0cnVjdCB0
+dG1fYm9fZ2xvYmFsLgo+ICAgICogQGRyaXZlcjogQSBwb2ludGVyIHRvIGEgc3RydWN0IHR0bV9i
+b19kcml2ZXIgc2V0IHVwIGJ5IHRoZSBjYWxsZXIuCj4gICAgKiBAbWFwcGluZzogVGhlIGFkZHJl
+c3Mgc3BhY2UgdG8gdXNlIGZvciB0aGlzIGJvLgo+ICsgKiBAdm1hX21hbmFnZXI6IEEgcG9pbnRl
+ciB0byBhIHZtYSBtYW5hZ2VyIG9yIE5VTEwuCj4gICAgKiBAZmlsZV9wYWdlX29mZnNldDogT2Zm
+c2V0IGludG8gdGhlIGRldmljZSBhZGRyZXNzIHNwYWNlIHRoYXQgaXMgYXZhaWxhYmxlCj4gICAg
+KiBmb3IgYnVmZmVyIGRhdGEuIFRoaXMgZW5zdXJlcyBjb21wYXRpYmlsaXR5IHdpdGggb3RoZXIg
+dXNlcnMgb2YgdGhlCj4gICAgKiBhZGRyZXNzIHNwYWNlLgo+IEBAIC01OTYsNiArNTk5LDcgQEAg
+aW50IHR0bV9ib19kZXZpY2VfcmVsZWFzZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldik7Cj4g
+ICBpbnQgdHRtX2JvX2RldmljZV9pbml0KHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LAo+ICAg
+CQkgICAgICAgc3RydWN0IHR0bV9ib19kcml2ZXIgKmRyaXZlciwKPiAgIAkJICAgICAgIHN0cnVj
+dCBhZGRyZXNzX3NwYWNlICptYXBwaW5nLAo+ICsJCSAgICAgICBzdHJ1Y3QgZHJtX3ZtYV9vZmZz
+ZXRfbWFuYWdlciAqdm1hX21hbmFnZXIsCj4gICAJCSAgICAgICBib29sIG5lZWRfZG1hMzIpOwo+
+ICAgCj4gICAvKioKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
+Z3B1X3R0bS5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jCj4gaW5k
+ZXggZmIwOTMxNGJjZmQ0Li4zNGVlNWQ3MjVmYWYgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9h
+bWRncHUvYW1kZ3B1X3R0bS5jCj4gQEAgLTE3MjgsNiArMTcyOCw3IEBAIGludCBhbWRncHVfdHRt
+X2luaXQoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYpCj4gICAJciA9IHR0bV9ib19kZXZpY2Vf
+aW5pdCgmYWRldi0+bW1hbi5iZGV2LAo+ICAgCQkJICAgICAgICZhbWRncHVfYm9fZHJpdmVyLAo+
+ICAgCQkJICAgICAgIGFkZXYtPmRkZXYtPmFub25faW5vZGUtPmlfbWFwcGluZywKPiArCQkJICAg
+ICAgIE5VTEwsCj4gICAJCQkgICAgICAgYWRldi0+bmVlZF9kbWEzMik7Cj4gICAJaWYgKHIpIHsK
+PiAgIAkJRFJNX0VSUk9SKCJmYWlsZWQgaW5pdGlhbGl6aW5nIGJ1ZmZlciBvYmplY3QgZHJpdmVy
+KCVkKS5cbiIsIHIpOwo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3ZyYW1fbW1f
+aGVscGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX3ZyYW1fbW1faGVscGVyLmMKPiBpbmRleCBj
+OTExNzgxZDY3MjguLjU2ZmQxNTE5ZWIzNSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+ZHJtX3ZyYW1fbW1faGVscGVyLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX3ZyYW1fbW1f
+aGVscGVyLmMKPiBAQCAtMTcyLDYgKzE3Miw3IEBAIGludCBkcm1fdnJhbV9tbV9pbml0KHN0cnVj
+dCBkcm1fdnJhbV9tbSAqdm1tLCBzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ICAgCj4gICAJcmV0
+ID0gdHRtX2JvX2RldmljZV9pbml0KCZ2bW0tPmJkZXYsICZib19kcml2ZXIsCj4gICAJCQkJIGRl
+di0+YW5vbl9pbm9kZS0+aV9tYXBwaW5nLAo+ICsJCQkJIE5VTEwsCj4gICAJCQkJIHRydWUpOwo+
+ICAgCWlmIChyZXQpCj4gICAJCXJldHVybiByZXQ7Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
+L2RybS9ub3V2ZWF1L25vdXZlYXVfdHRtLmMgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2
+ZWF1X3R0bS5jCj4gaW5kZXggZjBkYWY5NThlMDNhLi5lNjdlYjEwODQzZDEgMTAwNjQ0Cj4gLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV90dG0uYwo+ICsrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfdHRtLmMKPiBAQCAtMjM2LDYgKzIzNiw3IEBAIG5vdXZl
+YXVfdHRtX2luaXQoc3RydWN0IG5vdXZlYXVfZHJtICpkcm0pCj4gICAJcmV0ID0gdHRtX2JvX2Rl
+dmljZV9pbml0KCZkcm0tPnR0bS5iZGV2LAo+ICAgCQkJCSAgJm5vdXZlYXVfYm9fZHJpdmVyLAo+
+ICAgCQkJCSAgZGV2LT5hbm9uX2lub2RlLT5pX21hcHBpbmcsCj4gKwkJCQkgTlVMTCwKPiAgIAkJ
+CQkgIGRybS0+Y2xpZW50Lm1tdS5kbWFiaXRzIDw9IDMyID8gdHJ1ZSA6IGZhbHNlKTsKPiAgIAlp
+ZiAocmV0KSB7Cj4gICAJCU5WX0VSUk9SKGRybSwgImVycm9yIGluaXRpYWxpc2luZyBibyBkcml2
+ZXIsICVkXG4iLCByZXQpOwo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF90
+dG0uYyBiL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX3R0bS5jCj4gaW5kZXggOWIyNDUxNGM3NWFh
+Li42OWRhMGVlYTZlNGMgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfdHRt
+LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF90dG0uYwo+IEBAIC0zMjUsNiArMzI1
+LDcgQEAgaW50IHF4bF90dG1faW5pdChzdHJ1Y3QgcXhsX2RldmljZSAqcWRldikKPiAgIAlyID0g
+dHRtX2JvX2RldmljZV9pbml0KCZxZGV2LT5tbWFuLmJkZXYsCj4gICAJCQkgICAgICAgJnF4bF9i
+b19kcml2ZXIsCj4gICAJCQkgICAgICAgcWRldi0+ZGRldi5hbm9uX2lub2RlLT5pX21hcHBpbmcs
+Cj4gKwkJCSAgICAgICBOVUxMLAo+ICAgCQkJICAgICAgIGZhbHNlKTsKPiAgIAlpZiAocikgewo+
+ICAgCQlEUk1fRVJST1IoImZhaWxlZCBpbml0aWFsaXppbmcgYnVmZmVyIG9iamVjdCBkcml2ZXIo
+JWQpLlxuIiwgcik7Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9u
+X3R0bS5jIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMKPiBpbmRleCAzNWFj
+NzVhMTFkMzguLmUyYzEyZTU5NzA0ZCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmFk
+ZW9uL3JhZGVvbl90dG0uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0
+bS5jCj4gQEAgLTc5NCw2ICs3OTQsNyBAQCBpbnQgcmFkZW9uX3R0bV9pbml0KHN0cnVjdCByYWRl
+b25fZGV2aWNlICpyZGV2KQo+ICAgCXIgPSB0dG1fYm9fZGV2aWNlX2luaXQoJnJkZXYtPm1tYW4u
+YmRldiwKPiAgIAkJCSAgICAgICAmcmFkZW9uX2JvX2RyaXZlciwKPiAgIAkJCSAgICAgICByZGV2
+LT5kZGV2LT5hbm9uX2lub2RlLT5pX21hcHBpbmcsCj4gKwkJCSAgICAgICBOVUxMLAo+ICAgCQkJ
+ICAgICAgIHJkZXYtPm5lZWRfZG1hMzIpOwo+ICAgCWlmIChyKSB7Cj4gICAJCURSTV9FUlJPUigi
+ZmFpbGVkIGluaXRpYWxpemluZyBidWZmZXIgb2JqZWN0IGRyaXZlciglZCkuXG4iLCByKTsKPiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYyBiL2RyaXZlcnMvZ3B1L2Ry
+bS90dG0vdHRtX2JvLmMKPiBpbmRleCA1OGQxZjJiMjgxMzIuLjhkYzI2YmFiYzVjYiAxMDA2NDQK
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCj4gKysrIGIvZHJpdmVycy9ncHUv
+ZHJtL3R0bS90dG1fYm8uYwo+IEBAIC02NzIsNyArNjcyLDcgQEAgc3RhdGljIHZvaWQgdHRtX2Jv
+X3JlbGVhc2Uoc3RydWN0IGtyZWYgKmtyZWYpCj4gICAJc3RydWN0IHR0bV9ib19kZXZpY2UgKmJk
+ZXYgPSBiby0+YmRldjsKPiAgIAlzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIgKm1hbiA9ICZi
+ZGV2LT5tYW5bYm8tPm1lbS5tZW1fdHlwZV07Cj4gICAKPiAtCWRybV92bWFfb2Zmc2V0X3JlbW92
+ZSgmYmRldi0+dm1hX21hbmFnZXIsICZiby0+YmFzZS52bWFfbm9kZSk7Cj4gKwlkcm1fdm1hX29m
+ZnNldF9yZW1vdmUoYmRldi0+dm1hX21hbmFnZXIsICZiby0+YmFzZS52bWFfbm9kZSk7Cj4gICAJ
+dHRtX21lbV9pb19sb2NrKG1hbiwgZmFsc2UpOwo+ICAgCXR0bV9tZW1faW9fZnJlZV92bShibyk7
+Cj4gICAJdHRtX21lbV9pb191bmxvY2sobWFuKTsKPiBAQCAtMTM1Myw3ICsxMzUzLDcgQEAgaW50
+IHR0bV9ib19pbml0X3Jlc2VydmVkKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LAo+ICAgCSAq
+Lwo+ICAgCWlmIChiby0+dHlwZSA9PSB0dG1fYm9fdHlwZV9kZXZpY2UgfHwKPiAgIAkgICAgYm8t
+PnR5cGUgPT0gdHRtX2JvX3R5cGVfc2cpCj4gLQkJcmV0ID0gZHJtX3ZtYV9vZmZzZXRfYWRkKCZi
+ZGV2LT52bWFfbWFuYWdlciwgJmJvLT5iYXNlLnZtYV9ub2RlLAo+ICsJCXJldCA9IGRybV92bWFf
+b2Zmc2V0X2FkZChiZGV2LT52bWFfbWFuYWdlciwgJmJvLT5iYXNlLnZtYV9ub2RlLAo+ICAgCQkJ
+CQkgYm8tPm1lbS5udW1fcGFnZXMpOwo+ICAgCj4gICAJLyogcGFzc2VkIHJlc2VydmF0aW9uIG9i
+amVjdHMgc2hvdWxkIGFscmVhZHkgYmUgbG9ja2VkLAo+IEBAIC0xNzA0LDcgKzE3MDQsNyBAQCBp
+bnQgdHRtX2JvX2RldmljZV9yZWxlYXNlKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2KQo+ICAg
+CQkJcHJfZGVidWcoIlN3YXAgbGlzdCAlZCB3YXMgY2xlYW5cbiIsIGkpOwo+ICAgCXNwaW5fdW5s
+b2NrKCZnbG9iLT5scnVfbG9jayk7Cj4gICAKPiAtCWRybV92bWFfb2Zmc2V0X21hbmFnZXJfZGVz
+dHJveSgmYmRldi0+dm1hX21hbmFnZXIpOwo+ICsJZHJtX3ZtYV9vZmZzZXRfbWFuYWdlcl9kZXN0
+cm95KCZiZGV2LT5fdm1hX21hbmFnZXIpOwo+ICAgCj4gICAJaWYgKCFyZXQpCj4gICAJCXR0bV9i
+b19nbG9iYWxfcmVsZWFzZSgpOwo+IEBAIC0xNzE2LDExICsxNzE2LDE1IEBAIEVYUE9SVF9TWU1C
+T0wodHRtX2JvX2RldmljZV9yZWxlYXNlKTsKPiAgIGludCB0dG1fYm9fZGV2aWNlX2luaXQoc3Ry
+dWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsCj4gICAJCSAgICAgICBzdHJ1Y3QgdHRtX2JvX2RyaXZl
+ciAqZHJpdmVyLAo+ICAgCQkgICAgICAgc3RydWN0IGFkZHJlc3Nfc3BhY2UgKm1hcHBpbmcsCj4g
+KwkJICAgICAgIHN0cnVjdCBkcm1fdm1hX29mZnNldF9tYW5hZ2VyICp2bWFfbWFuYWdlciwKPiAg
+IAkJICAgICAgIGJvb2wgbmVlZF9kbWEzMikKPiAgIHsKPiAgIAlzdHJ1Y3QgdHRtX2JvX2dsb2Jh
+bCAqZ2xvYiA9ICZ0dG1fYm9fZ2xvYjsKPiAgIAlpbnQgcmV0Owo+ICAgCj4gKwlpZiAoIXZtYV9t
+YW5hZ2VyKQo+ICsJCXZtYV9tYW5hZ2VyID0gJmJkZXYtPl92bWFfbWFuYWdlcjsKPiArCj4gICAJ
+cmV0ID0gdHRtX2JvX2dsb2JhbF9pbml0KCk7Cj4gICAJaWYgKHJldCkKPiAgIAkJcmV0dXJuIHJl
+dDsKPiBAQCAtMTczNyw3ICsxNzQxLDggQEAgaW50IHR0bV9ib19kZXZpY2VfaW5pdChzdHJ1Y3Qg
+dHRtX2JvX2RldmljZSAqYmRldiwKPiAgIAlpZiAodW5saWtlbHkocmV0ICE9IDApKQo+ICAgCQln
+b3RvIG91dF9ub19zeXM7Cj4gICAKPiAtCWRybV92bWFfb2Zmc2V0X21hbmFnZXJfaW5pdCgmYmRl
+di0+dm1hX21hbmFnZXIsCj4gKwliZGV2LT52bWFfbWFuYWdlciA9IHZtYV9tYW5hZ2VyOwo+ICsJ
+ZHJtX3ZtYV9vZmZzZXRfbWFuYWdlcl9pbml0KCZiZGV2LT5fdm1hX21hbmFnZXIsCj4gICAJCQkJ
+ICAgIERSTV9GSUxFX1BBR0VfT0ZGU0VUX1NUQVJULAo+ICAgCQkJCSAgICBEUk1fRklMRV9QQUdF
+X09GRlNFVF9TSVpFKTsKPiAgIAlJTklUX0RFTEFZRURfV09SSygmYmRldi0+d3EsIHR0bV9ib19k
+ZWxheWVkX3dvcmtxdWV1ZSk7Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRt
+X2JvX3ZtLmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib192bS5jCj4gaW5kZXggNzZlZWRi
+OTYzNjkzLi40YWEwMDdlZGZmYjAgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90
+dG1fYm9fdm0uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3ZtLmMKPiBAQCAt
+NDA5LDE2ICs0MDksMTYgQEAgc3RhdGljIHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqdHRtX2Jv
+X3ZtX2xvb2t1cChzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwKPiAgIAlzdHJ1Y3QgZHJtX3Zt
+YV9vZmZzZXRfbm9kZSAqbm9kZTsKPiAgIAlzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvID0g
+TlVMTDsKPiAgIAo+IC0JZHJtX3ZtYV9vZmZzZXRfbG9ja19sb29rdXAoJmJkZXYtPnZtYV9tYW5h
+Z2VyKTsKPiArCWRybV92bWFfb2Zmc2V0X2xvY2tfbG9va3VwKGJkZXYtPnZtYV9tYW5hZ2VyKTsK
+PiAgIAo+IC0Jbm9kZSA9IGRybV92bWFfb2Zmc2V0X2xvb2t1cF9sb2NrZWQoJmJkZXYtPnZtYV9t
+YW5hZ2VyLCBvZmZzZXQsIHBhZ2VzKTsKPiArCW5vZGUgPSBkcm1fdm1hX29mZnNldF9sb29rdXBf
+bG9ja2VkKGJkZXYtPnZtYV9tYW5hZ2VyLCBvZmZzZXQsIHBhZ2VzKTsKPiAgIAlpZiAobGlrZWx5
+KG5vZGUpKSB7Cj4gICAJCWJvID0gY29udGFpbmVyX29mKG5vZGUsIHN0cnVjdCB0dG1fYnVmZmVy
+X29iamVjdCwKPiAgIAkJCQkgIGJhc2Uudm1hX25vZGUpOwo+ICAgCQlibyA9IHR0bV9ib19nZXRf
+dW5sZXNzX3plcm8oYm8pOwo+ICAgCX0KPiAgIAo+IC0JZHJtX3ZtYV9vZmZzZXRfdW5sb2NrX2xv
+b2t1cCgmYmRldi0+dm1hX21hbmFnZXIpOwo+ICsJZHJtX3ZtYV9vZmZzZXRfdW5sb2NrX2xvb2t1
+cChiZGV2LT52bWFfbWFuYWdlcik7Cj4gICAKPiAgIAlpZiAoIWJvKQo+ICAgCQlwcl9lcnIoIkNv
+dWxkIG5vdCBmaW5kIGJ1ZmZlciBvYmplY3QgdG8gbWFwXG4iKTsKPiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4
+L3Ztd2dmeF9kcnYuYwo+IGluZGV4IGNkMGQ0OWQ4YThkYS4uMjBiYzkxMjE0ZTc1IDEwMDY0NAo+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2Rydi5jCj4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZHJ2LmMKPiBAQCAtODMwLDYgKzgzMCw3IEBAIHN0YXRp
+YyBpbnQgdm13X2RyaXZlcl9sb2FkKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHVuc2lnbmVkIGxv
+bmcgY2hpcHNldCkKPiAgIAlyZXQgPSB0dG1fYm9fZGV2aWNlX2luaXQoJmRldl9wcml2LT5iZGV2
+LAo+ICAgCQkJCSAmdm13X2JvX2RyaXZlciwKPiAgIAkJCQkgZGV2LT5hbm9uX2lub2RlLT5pX21h
+cHBpbmcsCj4gKwkJCQkgTlVMTCwKPiAgIAkJCQkgZmFsc2UpOwo+ICAgCWlmICh1bmxpa2VseShy
+ZXQgIT0gMCkpIHsKPiAgIAkJRFJNX0VSUk9SKCJGYWlsZWQgaW5pdGlhbGl6aW5nIFRUTSBidWZm
+ZXIgb2JqZWN0IGRyaXZlci5cbiIpOwoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVs
