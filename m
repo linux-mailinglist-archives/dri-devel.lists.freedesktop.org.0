@@ -1,46 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BF1FAE932
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2019 13:32:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E2A9AE960
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2019 13:47:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B78E6E059;
-	Tue, 10 Sep 2019 11:32:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A3906E03C;
+	Tue, 10 Sep 2019 11:47:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 444226E046
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2019 11:32:56 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 40A1372167; Tue, 10 Sep 2019 11:32:56 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110117] Waking from Suspend causes screen to appear with grey
- static (like a TV with no signal)
-Date: Tue, 10 Sep 2019 11:32:56 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: iakornfeld@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110117-502-QFOZdLPn23@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110117-502@http.bugs.freedesktop.org/>
-References: <bug-110117-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A35D36E03C
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2019 11:47:29 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id CF18E18CB900;
+ Tue, 10 Sep 2019 11:47:28 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-47.ams2.redhat.com
+ [10.36.116.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5E00A5D9D6;
+ Tue, 10 Sep 2019 11:47:28 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 8F45E31EED; Tue, 10 Sep 2019 13:47:27 +0200 (CEST)
+Date: Tue, 10 Sep 2019 13:47:27 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/2] drm/mgag200: Add vblank support
+Message-ID: <20190910114727.xdx3case5jzcvva3@sirius.home.kraxel.org>
+References: <20190909140633.31260-1-tzimmermann@suse.de>
+ <20190909140633.31260-3-tzimmermann@suse.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190909140633.31260-3-tzimmermann@suse.de>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.63]); Tue, 10 Sep 2019 11:47:28 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,93 +50,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1411968863=="
+Cc: feng.tang@intel.com, rong.a.chen@intel.com, dri-devel@lists.freedesktop.org,
+ ying.huang@intel.com, airlied@redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1411968863==
-Content-Type: multipart/alternative; boundary="15681151762.C792DED6E.29742"
-Content-Transfer-Encoding: 7bit
-
-
---15681151762.C792DED6E.29742
-Date: Tue, 10 Sep 2019 11:32:56 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110117
-
---- Comment #15 from leo60228 <iakornfeld@gmail.com> ---
-This issue also occurs on Windows. AMD support says that it will be fixed in
-the next Windows update; could they possibly contribute that same fix to Li=
-nux?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15681151762.C792DED6E.29742
-Date: Tue, 10 Sep 2019 11:32:56 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Waking from Suspend causes screen to appear with grey sta=
-tic (like a TV with no signal)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110117#c15">Comme=
-nt # 15</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Waking from Suspend causes screen to appear with grey sta=
-tic (like a TV with no signal)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110117">bug 11011=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-iakornfeld&#64;gmail.com" title=3D"leo60228 &lt;iakornfeld&#64;gmail.com&gt=
-;"> <span class=3D"fn">leo60228</span></a>
-</span></b>
-        <pre>This issue also occurs on Windows. AMD support says that it wi=
-ll be fixed in
-the next Windows update; could they possibly contribute that same fix to Li=
-nux?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15681151762.C792DED6E.29742--
-
---===============1411968863==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1411968863==--
+T24gTW9uLCBTZXAgMDksIDIwMTkgYXQgMDQ6MDY6MzNQTSArMDIwMCwgVGhvbWFzIFppbW1lcm1h
+bm4gd3JvdGU6Cj4gU3VwcG9ydCBmb3IgdmJsYW5rIHJlcXVpcmVzIFZTWU5DIHRvIHNpZ25hbCBh
+biBpbnRlcnJ1cHQsIHdoaWNoIGlzIGJyb2tlbgo+IG9uIE1hdHJveCBjaGlwc2V0cy4gVGhlIHdv
+cmthcm91bmQgdGhhdCBpcyB1c2VkIGhlcmUgYW5kIGluIG90aGVyIGZyZWUKPiBNYXRyb3ggZHJp
+dmVycyBpcyB0byBwcm9ncmFtIDxsaW5lY29tcD4gdG8gdGhlIHZhbHVlIG9mIDx2ZGlzcGxheT4g
+YW5kCj4gZW5hYmxlIHRoZSBWTElORSBpbnRlcnJ1cHQuIFRoaXMgdHJpZ2dlcnMgYW4gaW50ZXJy
+dXB0IGF0IHRoZSBzYW1lIHRpbWUKPiB3aGVuIFZTWU5DIGJlZ2lucy4KPiAKPiBWTElORSB1c2Vz
+IHNlcGFyYXRlIHJlZ2lzdGVycyBmb3IgZW5hYmxpbmcgYW5kIGNsZWFyaW5nIHBlbmRpbmcgaW50
+ZXJydXB0cy4KPiBObyBleHRyYSBzeW5jcm9uaXphdGlvbiBiZXR3ZWVuIGlycSBoYW5kbGVyIGFu
+ZCB0aGUgcmVzdCBvZiB0aGUgZHJpdmVyIGlzCj4gcmVxdWlyZWQuCgpMb29rcyBnb29kIG92ZXJh
+bGwsIHNvbWUgbWlub3Igbml0cyAuLi4KCj4gK2lycXJldHVybl90IG1nYWcyMDBfaXJxX2hhbmRs
+ZXIoaW50IGlycSwgdm9pZCAqYXJnKQo+ICt7Cj4gKwlzdHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0g
+YXJnOwo+ICsJc3RydWN0IG1nYV9kZXZpY2UgKm1kZXYgPSBkZXYtPmRldl9wcml2YXRlOwo+ICsJ
+c3RydWN0IGRybV9jcnRjICpjcnRjOwo+ICsJdTMyIHN0YXR1cywgaWNsZWFyOwo+ICsKPiArCXN0
+YXR1cyA9IFJSRUczMigweDFlMTQpOwo+ICsKPiArCWlmIChzdGF0dXMgJiAweDAwMDAwMDIwKSB7
+IC8qIHRlc3QgPHZsaW5lcGVuPiAqLwo+ICsJCWRybV9mb3JfZWFjaF9jcnRjKGNydGMsIGRldikg
+ewo+ICsJCQlkcm1fY3J0Y19oYW5kbGVfdmJsYW5rKGNydGMpOwo+ICsJCX0KPiArCQlpY2xlYXIg
+PSBSUkVHMzIoMHgxZTE4KTsKPiArCQlpY2xlYXIgfD0gMHgwMDAwMDAyMDsgLyogc2V0IDx2bGlu
+ZWljbHI+ICovCgojZGVmaW5lIGZvciB0aGlzIHdvdWxkIGJlIGdvb2QgKHlvdSBhbHNvIGRvbid0
+IG5lZWQgdGhlIGNvbW1lbnQgdGhlbikuCgo+ICsJLyogVGhlIFZTWU5DIGludGVycnVwdCBpcyBi
+cm9rZW4gb24gTWF0cm94IGNoaXBzZXRzLiBXZSB1c2UKCkNvZGVzdHlsZS4gICIvKiIgc2hvdWxk
+IGJlIG9uIGEgc2VwYXJhdGUgbGluZS4KCj4gK3N0YXRpYyB2b2lkIG1nYV9jcnRjX2Rpc2FibGVf
+dmJsYW5rKHN0cnVjdCBkcm1fY3J0YyAqY3J0YykKPiArewo+ICsJc3RydWN0IGRybV9kZXZpY2Ug
+KmRldiA9IGNydGMtPmRldjsKPiArCXN0cnVjdCBtZ2FfZGV2aWNlICptZGV2ID0gZGV2LT5kZXZf
+cHJpdmF0ZTsKPiArCXUzMiBpZW47Cj4gKwo+ICsJaWVuID0gUlJFRzMyKDB4MWUxYyk7Cj4gKwlp
+ZW4gJj0gMHhmZmZmZmZkZjsgLyogY2xlYXIgPHZsaW5laWVuPiAqLwoKVGhhdCBpcyB0eXBpY2Fs
+bHkgd3JpdHRlbiBhcyB2YWx1ZSAmPSB+KGJpdCk7CgpjaGVlcnMsCiAgR2VyZAoKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
