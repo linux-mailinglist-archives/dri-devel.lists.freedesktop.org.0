@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC563AF64F
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2019 09:01:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A86BDAF647
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2019 09:01:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67B8A6EA26;
-	Wed, 11 Sep 2019 07:01:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D1586EA21;
+	Wed, 11 Sep 2019 07:01:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BED126E94C;
- Tue, 10 Sep 2019 18:13:42 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id c20so9011319eds.1;
- Tue, 10 Sep 2019 11:13:42 -0700 (PDT)
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89E216E94F;
+ Tue, 10 Sep 2019 18:15:51 +0000 (UTC)
+Received: by mail-ed1-x543.google.com with SMTP id u6so18026508edq.6;
+ Tue, 10 Sep 2019 11:15:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language;
- bh=bo5+HFI44hSPrtS9ewMwQXiYKpJ8WlCVc5cNPQf3ZDY=;
- b=cAMcf4MwLmyK4H+UcdL5ASH8k13vFERio1vSEX9y7TkwZ2SURf69edvgfG2QISswyg
- nEPS1b9OfaUqXQyBdzApzyaAOTTw0WEXR1vlMxW+2W1s4NLKm8cbuoDGr4pBo+r5HzGd
- ciyLeN2f1+2cEBerkvFqarDP9kn8OMb40trJ487bcgQVeoGABK6b9M9lWQkhHhXwts+3
- MPuL2K8wo0CkvfnfEiMvtaGwnr/O/e3x9FKC+85hmkc1MyVJDCR9ka/VKiDM9UCcf28W
- L1fFZFWvjB8zu1PWxVOPKINTHjo4hDk3B69GiSFUcP6jK5UaxYLfiJzzTyqu6PNqTNA9
- Wk+A==
-X-Gm-Message-State: APjAAAV5yzhBSFc305apCWAoEfA8P/rzNZFdClyyoZ8jTSGafqh4IRLv
- EaypzcP1Y0WJYePzuN1EYq4=
-X-Google-Smtp-Source: APXvYqwLi+HnezzLlp/tHlI7ym12EYOwtk6FmnceqTHQ45BVUfl3Q9FBwXTlO9fkwiADZ9zQ9HBgkA==
-X-Received: by 2002:a17:906:b211:: with SMTP id
- p17mr25858265ejz.11.1568139221375; 
- Tue, 10 Sep 2019 11:13:41 -0700 (PDT)
+ bh=vr9wNAhM9c0yc/na27U5ugXbFrM/MxR/9UjrhSYk90Y=;
+ b=XbtUIwDR86gAd8Ilu4N+oZxJAovEF0pD5OqHlA6C/b59NNiVyat8JS1fARMGAKOqmo
+ J+LivSbM11uWCNmP5TflY0Fh6U12BWQUaobTFiG7cPCrFJ3ngLsEwqhCsSYQvJpzzIXa
+ UPbSaeRpftZIBPsK0xVrdoRp3v85lNVbxNkaPa3Eyevi9wtPGdujVtYUmKsgMToA/Z8B
+ rgB5OGUZydScV4lQX8bixO4dQVb0SGRXo4Ip4cwQgKU2BG5I5kQoHCksiao5YfNSdTRX
+ cTh5Zqc/+Jk4LFsFX64BjDSvXDN0IPln+FTbLmT8teztANaQyWFq4nsETWUq2v/HBpFs
+ XbwA==
+X-Gm-Message-State: APjAAAWZiPZuipC5a8rFAaHnGfBV4sGhKKltwsdVsFLHnkXQ3c9FjBAP
+ HhaSDb7akHDY56AOLWF634VFzEildf/7MQ==
+X-Google-Smtp-Source: APXvYqwikUrAefuXNEtHxA9Cv3joSeqMNyDcw0gX0NulGFsx+wjagoLu7hrs9ywx1aJ22sWQnKogJQ==
+X-Received: by 2002:a05:6402:1426:: with SMTP id
+ c6mr15984979edx.53.1568139350223; 
+ Tue, 10 Sep 2019 11:15:50 -0700 (PDT)
 Received: from [192.168.64.105] (ip5f5bf6f8.dynamic.kabel-deutschland.de.
  [95.91.246.248])
- by smtp.gmail.com with ESMTPSA id f36sm3583152ede.28.2019.09.10.11.13.39
+ by smtp.gmail.com with ESMTPSA id z65sm3705137ede.86.2019.09.10.11.15.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Sep 2019 11:13:40 -0700 (PDT)
+ Tue, 10 Sep 2019 11:15:49 -0700 (PDT)
 Subject: Re: [PATCH v7 0/7] qcom: add OCMEM support
 To: Brian Masney <masneyb@onstation.org>, robdclark@gmail.com,
  sean@poorly.run, bjorn.andersson@linaro.org
@@ -89,8 +89,8 @@ Autocrypt: addr=frc.gabriel@gmail.com; keydata=
  xR845BRFQOMgDczuQtbYzQWjVAqQlZOtvgf28zr7Xu5bEwNsSKpPbKiLuAqIg1Wsaq3Z1EyI
  tUbHxtJszIucpMlcVCsMpcuhP1hKS2GvCTSJvISFGIatwrGeRgDTGMA33OyXrw9DHt9ZatcI
  1elWpWNKH1LXFmGsIZn9
-Message-ID: <d3eb4c40-67ad-c318-84be-f701b8ae6abe@gmail.com>
-Date: Tue, 10 Sep 2019 20:13:39 +0200
+Message-ID: <2dd1a9db-a321-953d-8a46-23b4a8975570@gmail.com>
+Date: Tue, 10 Sep 2019 20:15:48 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
@@ -101,13 +101,13 @@ X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
  :user-agent:mime-version:in-reply-to:content-language;
- bh=bo5+HFI44hSPrtS9ewMwQXiYKpJ8WlCVc5cNPQf3ZDY=;
- b=bbWH1Qe85Xdge2UwdvEqkz3IW8WETOHeAQJziRdXIGCcQdBf1zsIIBT8f0IP+X3DQX
- Hk579HQ+UNVSnOUfsHfbr+XgJOyaPbyLWMkzXeDSXHOXsb72fvAGQharrTqG4gQm+fzr
- MBLo4sWzurO8nYAqP1TXKrgRWdcPVGQTuToxLd9+jw15ABUce3+TjvnnBMx2Oi4eFK6Q
- 46trXZ/dM0alsW86GW23CbNrhFfdrYvB1f7I2dYRbD2rkVfiuUgHqPrH2e6syJvxXkrG
- d5U+pzwcBrnnYia18XgTROzJyxPNeqojVGLiKXMWZJdtXDO1omOfcgimXBE8LL8WOsY5
- dFjA==
+ bh=vr9wNAhM9c0yc/na27U5ugXbFrM/MxR/9UjrhSYk90Y=;
+ b=bdi2qozviog6c9+5Ze6ug+0JxrkJRiAp7RCPkWAH3N0wVIjH3pURnX+a12cQZv57t/
+ LLOWzmv8Vqvg8GeB9HGctvR/R1v9tNpb9UVQiLskEig96be+xfJoQNOXkkOuTeeqly+L
+ L2HmpG+QfmRkfNneSwNj648WwscHZKV0AasDHMuviTRXHsDxqlb6YUvEEP1/rjvNm9gc
+ 30Xd0BuJsmZGfosN6jTO0HJpUYHsgqc5J4Q9V7ZkzTV7veSUFGHN3HNjKbF1zoiTrGVk
+ CiFRjCuzBS/RkSO8C+Ss08lQS3vuFwcF1+6q9ZGmobtdP0/B3qLQTXNAKiwFAFJUy3c7
+ 8Ncw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -124,22 +124,22 @@ Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, jonathan@marek.ca,
  airlied@linux.ie, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
  robh+dt@kernel.org, agross@kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1934102481=="
+Content-Type: multipart/mixed; boundary="===============1133918661=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is a multi-part message in MIME format.
---===============1934102481==
+--===============1133918661==
 Content-Type: multipart/alternative;
- boundary="------------E9414BE935F490A0BC8CA132"
+ boundary="------------7F6CA8B8CC8B88CF290782BB"
 Content-Language: en-US
 
 This is a multi-part message in MIME format.
---------------E9414BE935F490A0BC8CA132
+--------------7F6CA8B8CC8B88CF290782BB
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
-Tested-by: Gabriel Francisco <frc.gabrielgmail.com>
+Tested-by: Gabriel Francisco <frc.gabriel@gmail.com>
 
 On 9/1/19 11:40 PM, Brian Masney wrote:
 > Hi Rob C / Sean P,
@@ -162,7 +162,7 @@ On 9/1/19 11:40 PM, Brian Masney wrote:
 > Brian
 >
 
---------------E9414BE935F490A0BC8CA132
+--------------7F6CA8B8CC8B88CF290782BB
 Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
@@ -171,7 +171,7 @@ Content-Transfer-Encoding: 7bit
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   </head>
   <body text="#000000" bgcolor="#FFFFFF">
-    <pre class="content"><span class="tested-by">Tested-by: Gabriel Francisco &lt;frc.gabrielgmail.com&gt;</span></pre>
+    <pre class="content"><span class="tested-by">Tested-by: Gabriel Francisco <a class="moz-txt-link-rfc2396E" href="mailto:frc.gabriel@gmail.com">&lt;frc.gabriel@gmail.com&gt;</a></span></pre>
     <div class="moz-cite-prefix">On 9/1/19 11:40 PM, Brian Masney wrote:<br>
     </div>
     <blockquote type="cite"
@@ -205,9 +205,9 @@ Brian
   </body>
 </html>
 
---------------E9414BE935F490A0BC8CA132--
+--------------7F6CA8B8CC8B88CF290782BB--
 
---===============1934102481==
+--===============1133918661==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -217,4 +217,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1934102481==--
+--===============1133918661==--
