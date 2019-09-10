@@ -2,44 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E019AF1DF
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2019 21:27:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AD3CAF228
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2019 22:07:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAF2C6E125;
-	Tue, 10 Sep 2019 19:27:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 718436E141;
+	Tue, 10 Sep 2019 20:07:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id B48786E125
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2019 19:27:42 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B17C972167; Tue, 10 Sep 2019 19:27:42 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111482] Sapphire Pulse RX 5700 XT power consumption
-Date: Tue, 10 Sep 2019 19:27:43 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: freedesktop@postfach.xyz
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111482-502-0kOb17IuTR@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111482-502@http.bugs.freedesktop.org/>
-References: <bug-111482-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
+ [IPv6:2607:f8b0:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 669656E141
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2019 20:06:59 +0000 (UTC)
+Received: by mail-pf1-x443.google.com with SMTP id q21so12166678pfn.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2019 13:06:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=0QByh7nMUE4DnF1EZmnVCO0LesBewegKmGWKg2jdIyE=;
+ b=rAPGzzWV5FHVxGwihyRn5Iwhy/NMcxGI7GHHTtMFmU4fR87M/oupij16Lg6HUgJfso
+ oSn0lrPTCgI07DP6bBuqzqg675De30UCQFkkFnKougzDFdfLUq6K2nlTLZDLYCoKTHNo
+ T+1UErPlIRf/g+IqDl/VjhYCtAFkVFOl7PNn0dNudwHeV2O4dDYzvFlUUv4up9mdZk72
+ JltOyq8/hoTSkwfFk0OZy1qg4MccIeu48R9i6vEx/O32GZDhnQIQdRLjcv73oWmJlR/H
+ DAO2MGjunxhig+oMFr1vym/PKPvq+Ufarg4edU8Wj7XVpriOkGNse3VPnRMyGUQUxp0u
+ IcXg==
+X-Gm-Message-State: APjAAAXBhFfk1IqZnCDtHWclaDTmwSqMz3jvqUPXKS7HEf/Emr9SIEhy
+ yskow6vFJ+IpPzwOV2bmeTJpqmDPwlM=
+X-Google-Smtp-Source: APXvYqwY8ZIVNVGdt/gxFNSdRhnyOwo46cUOwbhh5f13J3xXT4X/se8iTQ5/XLLxoCcy8JMm8lWmtg==
+X-Received: by 2002:a63:1:: with SMTP id 1mr29256800pga.162.1568146018680;
+ Tue, 10 Sep 2019 13:06:58 -0700 (PDT)
+Received: from localhost ([2620:15c:202:1:e9ae:bd45:1bd9:e60d])
+ by smtp.gmail.com with ESMTPSA id q20sm35751990pfg.85.2019.09.10.13.06.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Sep 2019 13:06:58 -0700 (PDT)
+From: David Riley <davidriley@chromium.org>
+To: dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Subject: [PATCH v3 1/2] drm/virtio: Rewrite virtio_gpu_queue_ctrl_buffer using
+ fenced version.
+Date: Tue, 10 Sep 2019 13:06:50 -0700
+Message-Id: <20190910200651.118628-1-davidriley@chromium.org>
+X-Mailer: git-send-email 2.23.0.162.g0b9fbb3734-goog
+In-Reply-To: <20190829212417.257397-1-davidriley@chromium.org>
+References: <20190829212417.257397-1-davidriley@chromium.org>
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=0QByh7nMUE4DnF1EZmnVCO0LesBewegKmGWKg2jdIyE=;
+ b=nTUelCMWT/OF5pwZR9T+jGu510zTnmwud9l5EN0tgRovfWW3EYCEcVjRSwfD8F+hPw
+ yAIdumgV1m7JRyUG7aabeXsBuJzUH71TonbwfImsqF5M8kj+jUqR8e83DIwTd/uGBLma
+ /lCZB6Hq4zwK53E1k9KIQDRF0+VKGvwzIwlyM=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,247 +65,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1258706304=="
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?St=C3=A9phane=20Marchesin?= <marcheu@chromium.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1258706304==
-Content-Type: multipart/alternative; boundary="15681436621.5A6d5f2f.23120"
-Content-Transfer-Encoding: 7bit
-
-
---15681436621.5A6d5f2f.23120
-Date: Tue, 10 Sep 2019 19:27:42 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111482
-
---- Comment #17 from Robert <freedesktop@postfach.xyz> ---
-Thanks Andrew! I played around a little bit with the refresh rates. Between
-40-60Hz there is no difference in idle power consumption. The mem clock sta=
-ys
-at 875Mhz and can't be changed.
-
-The best refresh rate with 8W idle power consumption I could get was at 39H=
-z:
-
-cvt12 5120 1440 39 -b
-xrandr --output DisplayPort-2 --newmode "5120x1440_39.00_rb2" 297.51  5120 =
-5128
-5160 5200  1440 1453 1461 1467 +hsync -vsync
-xrandr --output DisplayPort-2 --addmode DisplayPort-2 "5120x1440_39.00_rb2"
-xrandr --output DisplayPort-2 --mode "5120x1440_39.00_rb2"
-
-This causes the mem clock to go up to 625Mhz at first but it can be switched
-back to 100Mhz with
-
-echo "0" > /sys/class/drm/card0/device/pp_dpm_mclk
-
-Regarding my statement when using 30Hz in the last comment:
-
-"""
-It basically works but moving windows a little bit faster or moving the mou=
-se
-pointer around looks "interesting".
-"""
-
-For this "flickering" that I saw and which was quite annoying I found a
-workaround :-) It looked like something didn't refresh fast enough. So I
-thought playing around with some frequencies would be a good idea... And the
-mem clock was the obvious one to start with. So I was setting the mem clock=
- to
-500Mhz with
-
-echo "1" > /sys/class/drm/card0/device/pp_dpm_mclk
-
-Then the "flickering" went away :-) But of course that brought idle power
-consumption to 24W. So just for fun I switched back to 100Mhz with
-
-echo "0" > /sys/class/drm/card0/device/pp_dpm_mclk
-
-Funny enough the "flickering" stayed away :-))) So for now after I start KDE
-plasma I enter Konsole and execute
-
-echo "1" > /sys/class/drm/card0/device/pp_dpm_mclk
-echo "0" > /sys/class/drm/card0/device/pp_dpm_mclk
-
-and be happy :D
-
-One final observation: I tried out kernel 5.3-rc8. With that kernel there i=
-s no
-way to reduce idle power consumption. It stays at 34W regardless what you d=
-o.
-But with this tag
-https://cgit.freedesktop.org/~agd5f/linux/tag/?h=3Ddrm-next-5.4-2019-08-30 =
-(which
-basically is kernel 5.3-rc3 with the Navi10 patches for kernel 5.4 - if I g=
-ot
-it right ;-) ) idle power consumption is as expected.=20
-
-So my whole issue basically comes down to this: If you have a resolution of
-5120x1440 and a refresh rate of > 39Hz your idle power consumption stays at=
- max
-and there is (at least until now) nothing you can do about it. So if I had =
-used
-a lower resolution or a smaller screen I wouldn't have had an issue at all =
-;-)
-S... happens :D
-
-But anyways: Thanks so much for your help and also to Ilia! I'm now happy w=
-ith
-my setup so far. It would be very interesting if there is really some kind =
-of a
-cap with 5120x1444@39Hz or if this this "only" a firmware problem, a driver
-problem, a config error or something completely different. Maybe we'll find=
- out
-in our next lives :D
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15681436621.5A6d5f2f.23120
-Date: Tue, 10 Sep 2019 19:27:42 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482#c17">Comme=
-nt # 17</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482">bug 11148=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-freedesktop&#64;postfach.xyz" title=3D"Robert &lt;freedesktop&#64;postfach.=
-xyz&gt;"> <span class=3D"fn">Robert</span></a>
-</span></b>
-        <pre>Thanks Andrew! I played around a little bit with the refresh r=
-ates. Between
-40-60Hz there is no difference in idle power consumption. The mem clock sta=
-ys
-at 875Mhz and can't be changed.
-
-The best refresh rate with 8W idle power consumption I could get was at 39H=
-z:
-
-cvt12 5120 1440 39 -b
-xrandr --output DisplayPort-2 --newmode &quot;5120x1440_39.00_rb2&quot; 297=
-.51  5120 5128
-5160 5200  1440 1453 1461 1467 +hsync -vsync
-xrandr --output DisplayPort-2 --addmode DisplayPort-2 &quot;5120x1440_39.00=
-_rb2&quot;
-xrandr --output DisplayPort-2 --mode &quot;5120x1440_39.00_rb2&quot;
-
-This causes the mem clock to go up to 625Mhz at first but it can be switched
-back to 100Mhz with
-
-echo &quot;0&quot; &gt; /sys/class/drm/card0/device/pp_dpm_mclk
-
-Regarding my statement when using 30Hz in the last comment:
-
-&quot;&quot;&quot;
-It basically works but moving windows a little bit faster or moving the mou=
-se
-pointer around looks &quot;interesting&quot;.
-&quot;&quot;&quot;
-
-For this &quot;flickering&quot; that I saw and which was quite annoying I f=
-ound a
-workaround :-) It looked like something didn't refresh fast enough. So I
-thought playing around with some frequencies would be a good idea... And the
-mem clock was the obvious one to start with. So I was setting the mem clock=
- to
-500Mhz with
-
-echo &quot;1&quot; &gt; /sys/class/drm/card0/device/pp_dpm_mclk
-
-Then the &quot;flickering&quot; went away :-) But of course that brought id=
-le power
-consumption to 24W. So just for fun I switched back to 100Mhz with
-
-echo &quot;0&quot; &gt; /sys/class/drm/card0/device/pp_dpm_mclk
-
-Funny enough the &quot;flickering&quot; stayed away :-))) So for now after =
-I start KDE
-plasma I enter Konsole and execute
-
-echo &quot;1&quot; &gt; /sys/class/drm/card0/device/pp_dpm_mclk
-echo &quot;0&quot; &gt; /sys/class/drm/card0/device/pp_dpm_mclk
-
-and be happy :D
-
-One final observation: I tried out kernel 5.3-rc8. With that kernel there i=
-s no
-way to reduce idle power consumption. It stays at 34W regardless what you d=
-o.
-But with this tag
-<a href=3D"https://cgit.freedesktop.org/~agd5f/linux/tag/?h=3Ddrm-next-5.4-=
-2019-08-30">https://cgit.freedesktop.org/~agd5f/linux/tag/?h=3Ddrm-next-5.4=
--2019-08-30</a> (which
-basically is kernel 5.3-rc3 with the Navi10 patches for kernel 5.4 - if I g=
-ot
-it right ;-) ) idle power consumption is as expected.=20
-
-So my whole issue basically comes down to this: If you have a resolution of
-5120x1440 and a refresh rate of &gt; 39Hz your idle power consumption stays=
- at max
-and there is (at least until now) nothing you can do about it. So if I had =
-used
-a lower resolution or a smaller screen I wouldn't have had an issue at all =
-;-)
-S... happens :D
-
-But anyways: Thanks so much for your help and also to Ilia! I'm now happy w=
-ith
-my setup so far. It would be very interesting if there is really some kind =
-of a
-cap with 5120x1444&#64;39Hz or if this this &quot;only&quot; a firmware pro=
-blem, a driver
-problem, a config error or something completely different. Maybe we'll find=
- out
-in our next lives :D</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15681436621.5A6d5f2f.23120--
-
---===============1258706304==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1258706304==--
+RmFjdG9yIGZ1bmN0aW9uIGluIHByZXBhcmF0aW9uIHRvIGdlbmVyYXRpbmcgc2NhdHRlcmxpc3Qg
+cHJpb3IgdG8gbG9ja2luZy4KClNpZ25lZC1vZmYtYnk6IERhdmlkIFJpbGV5IDxkYXZpZHJpbGV5
+QGNocm9taXVtLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfdnEuYyB8
+IDE5ICsrKysrKystLS0tLS0tLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyks
+IDEyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmly
+dGdwdV92cS5jIGIvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X3ZxLmMKaW5kZXggOTgx
+ZWUxNmUzZWU5Li5iZjVhNGE1MGIwMDIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS92aXJ0
+aW8vdmlydGdwdV92cS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV92cS5j
+CkBAIC0yOTksMTcgKzI5OSw2IEBAIHN0YXRpYyBpbnQgdmlydGlvX2dwdV9xdWV1ZV9jdHJsX2J1
+ZmZlcl9sb2NrZWQoc3RydWN0IHZpcnRpb19ncHVfZGV2aWNlICp2Z2RldiwKIAlyZXR1cm4gcmV0
+OwogfQogCi1zdGF0aWMgaW50IHZpcnRpb19ncHVfcXVldWVfY3RybF9idWZmZXIoc3RydWN0IHZp
+cnRpb19ncHVfZGV2aWNlICp2Z2RldiwKLQkJCQkJc3RydWN0IHZpcnRpb19ncHVfdmJ1ZmZlciAq
+dmJ1ZikKLXsKLQlpbnQgcmM7Ci0KLQlzcGluX2xvY2soJnZnZGV2LT5jdHJscS5xbG9jayk7Ci0J
+cmMgPSB2aXJ0aW9fZ3B1X3F1ZXVlX2N0cmxfYnVmZmVyX2xvY2tlZCh2Z2RldiwgdmJ1Zik7Ci0J
+c3Bpbl91bmxvY2soJnZnZGV2LT5jdHJscS5xbG9jayk7Ci0JcmV0dXJuIHJjOwotfQotCiBzdGF0
+aWMgaW50IHZpcnRpb19ncHVfcXVldWVfZmVuY2VkX2N0cmxfYnVmZmVyKHN0cnVjdCB2aXJ0aW9f
+Z3B1X2RldmljZSAqdmdkZXYsCiAJCQkJCSAgICAgICBzdHJ1Y3QgdmlydGlvX2dwdV92YnVmZmVy
+ICp2YnVmLAogCQkJCQkgICAgICAgc3RydWN0IHZpcnRpb19ncHVfY3RybF9oZHIgKmhkciwKQEAg
+LTMzNSwxMyArMzI0LDE5IEBAIHN0YXRpYyBpbnQgdmlydGlvX2dwdV9xdWV1ZV9mZW5jZWRfY3Ry
+bF9idWZmZXIoc3RydWN0IHZpcnRpb19ncHVfZGV2aWNlICp2Z2RldiwKIAkJZ290byBhZ2FpbjsK
+IAl9CiAKLQlpZiAoZmVuY2UpCisJaWYgKGhkciAmJiBmZW5jZSkKIAkJdmlydGlvX2dwdV9mZW5j
+ZV9lbWl0KHZnZGV2LCBoZHIsIGZlbmNlKTsKIAlyYyA9IHZpcnRpb19ncHVfcXVldWVfY3RybF9i
+dWZmZXJfbG9ja2VkKHZnZGV2LCB2YnVmKTsKIAlzcGluX3VubG9jaygmdmdkZXYtPmN0cmxxLnFs
+b2NrKTsKIAlyZXR1cm4gcmM7CiB9CiAKK3N0YXRpYyBpbnQgdmlydGlvX2dwdV9xdWV1ZV9jdHJs
+X2J1ZmZlcihzdHJ1Y3QgdmlydGlvX2dwdV9kZXZpY2UgKnZnZGV2LAorCQkJCQlzdHJ1Y3Qgdmly
+dGlvX2dwdV92YnVmZmVyICp2YnVmKQoreworCXJldHVybiB2aXJ0aW9fZ3B1X3F1ZXVlX2ZlbmNl
+ZF9jdHJsX2J1ZmZlcih2Z2RldiwgdmJ1ZiwgTlVMTCwgTlVMTCk7Cit9CisKIHN0YXRpYyBpbnQg
+dmlydGlvX2dwdV9xdWV1ZV9jdXJzb3Ioc3RydWN0IHZpcnRpb19ncHVfZGV2aWNlICp2Z2RldiwK
+IAkJCQkgICBzdHJ1Y3QgdmlydGlvX2dwdV92YnVmZmVyICp2YnVmKQogewotLSAKMi4yMy4wLjE2
+Mi5nMGI5ZmJiMzczNC1nb29nCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWw=
