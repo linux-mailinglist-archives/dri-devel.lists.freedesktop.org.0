@@ -1,66 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 821D4AE7E9
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2019 12:22:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35002AE818
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2019 12:28:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 986E96E8AE;
-	Tue, 10 Sep 2019 10:22:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78C7B6E8AF;
+	Tue, 10 Sep 2019 10:28:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74DE46E8AE
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2019 10:22:00 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id l11so19011028wrx.5
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2019 03:22:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Wpr2coDySs9Rh34jajBcihEANouoWM4tiMrDCeWl8sg=;
- b=q0aTOD9Rc6SqFi00y/5ADtoSWgOknkjREwZCRXz2jVXGBvGDrA5krxkoles7yE3n6J
- H2nvW8tmf3CPD1EqSC2De9R5gz5dDtHTioqOXXoBydJvfBPVNph1nd24n0kcckr0LNMo
- jbS0p2hn09dLhBVBoo8xU+iqrajMeV3XavxA42oW5FqHT+7o0e+CEox24XOJ0SFzbfsN
- fjKpsCk62Bfx7GX6gj5WogmIH/8UmYFdQ55xWUHDxGBsCYyp1eLNppq3MES5tWAreWbC
- AEc9pMXqHSP+oENeMJC462BS8gV+6xOoB+IQ4zhh73b2nQSCnVWmXVxkwDIQQZ3b2Fel
- 728A==
-X-Gm-Message-State: APjAAAXhAaJ101Az+KHxj65+vnzKI+ehcn27+FXuydMpuFlXg1qCRUhk
- Suc8Gu4EoxEnwwbq0TdcZXcEkA==
-X-Google-Smtp-Source: APXvYqzG45USjR48kMX2kVZsXNO4YuCGkE3qBxH6BwrxuV+lwOeTtCvs9XVNlmc/kSobyXOtgJDQdA==
-X-Received: by 2002:adf:f04f:: with SMTP id t15mr13262934wro.250.1568110919018; 
- Tue, 10 Sep 2019 03:21:59 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
- [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id o19sm23744301wro.50.2019.09.10.03.21.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Sep 2019 03:21:58 -0700 (PDT)
-Date: Tue, 10 Sep 2019 11:21:56 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Andreas Kemnade <andreas@kemnade.info>
-Subject: Re: [PATCH 1/2] backlight: lm3630a: add an enable gpio for the HWEN
- pin
-Message-ID: <20190910102156.vmprsjebmlphkv34@holly.lan>
-References: <20190908203704.30147-1-andreas@kemnade.info>
- <20190908203704.30147-2-andreas@kemnade.info>
- <20190909105729.w5552rtop7rhghy2@holly.lan>
- <20190909221349.46ca5a1f@aktux>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6C2A96E8B0
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2019 10:28:15 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5F85272162; Tue, 10 Sep 2019 10:28:15 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111630] Generate a list of tags for the machine that runs the
+ testsuite
+Date: Tue, 10 Sep 2019 10:28:14 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: IGT
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: martin.peres@free.fr
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-111630-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190909221349.46ca5a1f@aktux>
-User-Agent: NeoMutt/20180716
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=Wpr2coDySs9Rh34jajBcihEANouoWM4tiMrDCeWl8sg=;
- b=OWD1IplSbH+Uj6fRnvAWQMTtgsLhiEt+qYbKjXaLSulXC/QfZK1S8iBbPUxjl80LQs
- Sxa/NOEYbyoMdACAwtywuw45EkqtZ4cwdzmxnQTw9JieI26ywI5teAX/795GB6Jtqmp9
- SK1E4X5R8xry3MoVaEDSWL3tNsjqoxoGYqC+m1t6M9u5PG5TtnU76MQiPPj/ch8FZCVh
- VNAkXR11i4Q+SFgNCBjUbiUoEY9M8+hM44rio0gVfl4Q1Eof5sap2IoUobfy8txXXqGa
- SdF6Z2HV1FVkF11y1n4OqbppwEtKiDW3lebmGQ+6jAoCKHsYYEQQTXBbwSvCj25uPmQ+
- BMfA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,88 +52,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
- "H. Nikolaus Schaller" <hns@goldelico.com>, lee.jones@linaro.org,
- linux-leds@vger.kernel.org, dmurphy@ti.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0606373569=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBTZXAgMDksIDIwMTkgYXQgMTA6MTM6NDlQTSArMDIwMCwgQW5kcmVhcyBLZW1uYWRl
-IHdyb3RlOgo+IE9uIE1vbiwgOSBTZXAgMjAxOSAxMTo1NzoyOSArMDEwMAo+IERhbmllbCBUaG9t
-cHNvbiA8ZGFuaWVsLnRob21wc29uQGxpbmFyby5vcmc+IHdyb3RlOgo+IAo+ID4gT24gU3VuLCBT
-ZXAgMDgsIDIwMTkgYXQgMTA6Mzc6MDNQTSArMDIwMCwgQW5kcmVhcyBLZW1uYWRlIHdyb3RlOgo+
-ID4gPiBGb3Igbm93IGp1c3QgZW5hYmxlIGl0IGluIHRoZSBwcm9iZSBmdW5jdGlvbiB0byBhbGxv
-dyBpMmMKPiA+ID4gYWNjZXNzIGFuZCBkaXNhYmxlIGl0IG9uIHJlbW92ZS4gRGlzYWJsaW5nIGFs
-c28gbWVhbnMgcmVzZXR0aW5nCj4gPiA+IHRoZSByZWdpc3RlciB2YWx1ZXMgdG8gZGVmYXVsdC4K
-PiA+ID4gCj4gPiA+IFRlc3RlZCBvbiBLb2JvIENsYXJhIEhELgo+ID4gPiAKPiA+ID4gU2lnbmVk
-LW9mZi1ieTogQW5kcmVhcyBLZW1uYWRlIDxhbmRyZWFzQGtlbW5hZGUuaW5mbz4KPiA+ID4gLS0t
-Cj4gPiA+ICBkcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9sbTM2MzBhX2JsLmMgfCAxOCArKysrKysr
-KysrKysrKysrKysKPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxOCBpbnNlcnRpb25zKCspCj4gPiA+
-IAo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy92aWRlby9iYWNrbGlnaHQvbG0zNjMwYV9ibC5j
-IGIvZHJpdmVycy92aWRlby9iYWNrbGlnaHQvbG0zNjMwYV9ibC5jCj4gPiA+IGluZGV4IGIwNGIz
-NWQwMDdhMi4uM2I0NWExNzMzMTk4IDEwMDY0NAo+ID4gPiAtLS0gYS9kcml2ZXJzL3ZpZGVvL2Jh
-Y2tsaWdodC9sbTM2MzBhX2JsLmMKPiA+ID4gKysrIGIvZHJpdmVycy92aWRlby9iYWNrbGlnaHQv
-bG0zNjMwYV9ibC5jCj4gPiA+IEBAIC0xMiw2ICsxMiw4IEBACj4gPiA+ICAjaW5jbHVkZSA8bGlu
-dXgvdWFjY2Vzcy5oPgo+ID4gPiAgI2luY2x1ZGUgPGxpbnV4L2ludGVycnVwdC5oPgo+ID4gPiAg
-I2luY2x1ZGUgPGxpbnV4L3JlZ21hcC5oPgo+ID4gPiArI2luY2x1ZGUgPGxpbnV4L2dwaW8vY29u
-c3VtZXIuaD4KPiA+ID4gKyNpbmNsdWRlIDxsaW51eC9ncGlvLmg+Cj4gPiA+ICAjaW5jbHVkZSA8
-bGludXgvcHdtLmg+Cj4gPiA+ICAjaW5jbHVkZSA8bGludXgvcGxhdGZvcm1fZGF0YS9sbTM2MzBh
-X2JsLmg+Cj4gPiA+ICAKPiA+ID4gQEAgLTQ4LDYgKzUwLDcgQEAgc3RydWN0IGxtMzYzMGFfY2hp
-cCB7Cj4gPiA+ICAJc3RydWN0IGxtMzYzMGFfcGxhdGZvcm1fZGF0YSAqcGRhdGE7Cj4gPiA+ICAJ
-c3RydWN0IGJhY2tsaWdodF9kZXZpY2UgKmJsZWRhOwo+ID4gPiAgCXN0cnVjdCBiYWNrbGlnaHRf
-ZGV2aWNlICpibGVkYjsKPiA+ID4gKwlzdHJ1Y3QgZ3Bpb19kZXNjICplbmFibGVfZ3BpbzsKPiA+
-ID4gIAlzdHJ1Y3QgcmVnbWFwICpyZWdtYXA7Cj4gPiA+ICAJc3RydWN0IHB3bV9kZXZpY2UgKnB3
-bWQ7Cj4gPiA+ICB9Owo+ID4gPiBAQCAtNTA2LDYgKzUwOSwxNCBAQCBzdGF0aWMgaW50IGxtMzYz
-MGFfcHJvYmUoc3RydWN0IGkyY19jbGllbnQgKmNsaWVudCwKPiA+ID4gIAkJcmV0dXJuIC1FTk9N
-RU07Cj4gPiA+ICAJcGNoaXAtPmRldiA9ICZjbGllbnQtPmRldjsKPiA+ID4gIAo+ID4gPiArCXBj
-aGlwLT5lbmFibGVfZ3BpbyA9IGRldm1fZ3Bpb2RfZ2V0X29wdGlvbmFsKCZjbGllbnQtPmRldiwg
-ImVuYWJsZSIsCj4gPiA+ICsJCQkJCQlHUElPRF9BU0lTKTsgIAo+ID4gCj4gPiBJbml0aWFsaXpp
-bmcgR1BJT0RfQVNJUyBkb2Vzbid0IGxvb2sgcmlnaHQgdG8gbWUuCj4gPiAKPiA+IElmIHlvdSBp
-bml0aWFsaXplIEFTSVMgdGhlbiB0aGUgZHJpdmVyIG11c3QgY29uZmlndXJlIHRoZSBwaW4gYXMg
-YW4KPiA+IG91dHB1dC4uLiBmYXIgZWFzaWVyIGp1c3QgdG8gc2V0IEdQSU9EX09VVF9ISUdIIGR1
-cmluZyB0aGUgZ2V0Lgo+ID4gCj4gPiBOb3RlIGFsc28gdGhhdCB0aGUgY2FsbCB0byB0aGlzIGZ1
-bmN0aW9uIHNob3VsZCBhbHNvIGJlIG1vdmVkICpiZWxvdyoKPiA+IHRoZSBjYWxscyBwYXJzZSB0
-aGUgRFQuCj4gPiAKPiBvb3BzLCBtdXN0IGhhdmUgZm9yZ290dGVuIHRoYXQsIGFuZCBoYWQgZ29v
-ZCBsdWNrIGhlcmUuCj4gPiAKPiA+ID4gKwlpZiAoSVNfRVJSKHBjaGlwLT5lbmFibGVfZ3Bpbykp
-IHsKPiA+ID4gKwkJcnZhbCA9IFBUUl9FUlIocGNoaXAtPmVuYWJsZV9ncGlvKTsKPiA+ID4gKwkJ
-cmV0dXJuIHJ2YWw7Cj4gPiA+ICsJfQo+ID4gPiArCj4gPiA+ICsKPiA+ID4gIAlwY2hpcC0+cmVn
-bWFwID0gZGV2bV9yZWdtYXBfaW5pdF9pMmMoY2xpZW50LCAmbG0zNjMwYV9yZWdtYXApOwo+ID4g
-PiAgCWlmIChJU19FUlIocGNoaXAtPnJlZ21hcCkpIHsKPiA+ID4gIAkJcnZhbCA9IFBUUl9FUlIo
-cGNoaXAtPnJlZ21hcCk7Cj4gPiA+IEBAIC01MzUsNiArNTQ2LDEwIEBAIHN0YXRpYyBpbnQgbG0z
-NjMwYV9wcm9iZShzdHJ1Y3QgaTJjX2NsaWVudCAqY2xpZW50LAo+ID4gPiAgCX0KPiA+ID4gIAlw
-Y2hpcC0+cGRhdGEgPSBwZGF0YTsKPiA+ID4gIAo+ID4gPiArCWlmIChwY2hpcC0+ZW5hYmxlX2dw
-aW8pIHsKPiA+ID4gKwkJZ3Bpb2Rfc2V0X3ZhbHVlX2NhbnNsZWVwKHBjaGlwLT5lbmFibGVfZ3Bp
-bywgMSk7ICAKPiA+IAo+ID4gTm90IG5lZWRlZCwgdXNlIEdQSU9EX09VVF9ISUdIIGluc3RlYWQu
-Cj4gPiAKPiA+IAo+ID4gPiArCQl1c2xlZXBfcmFuZ2UoMTAwMCwgMjAwMCk7ICAKPiA+IAo+ID4g
-Tm90IG5lZWRlZCwgdGhpcyBzbGVlcCBpcyBhbHJlYWR5IHBhcnQgb2YgbG0zNjMwYV9jaGlwX2lu
-aXQoKS4KPiA+IAo+IHlvdSBhcmUgcmlnaHQuCj4gPiAKPiA+ID4gKwl9Cj4gPiA+ICAJLyogY2hp
-cCBpbml0aWFsaXplICovCj4gPiA+ICAJcnZhbCA9IGxtMzYzMGFfY2hpcF9pbml0KHBjaGlwKTsK
-PiA+ID4gIAlpZiAocnZhbCA8IDApIHsKPiA+ID4gQEAgLTU4Niw2ICs2MDEsOSBAQCBzdGF0aWMg
-aW50IGxtMzYzMGFfcmVtb3ZlKHN0cnVjdCBpMmNfY2xpZW50ICpjbGllbnQpCj4gPiA+ICAJaWYg
-KHJ2YWwgPCAwKQo+ID4gPiAgCQlkZXZfZXJyKHBjaGlwLT5kZXYsICJpMmMgZmFpbGVkIHRvIGFj
-Y2VzcyByZWdpc3RlclxuIik7Cj4gPiA+ICAKPiA+ID4gKwlpZiAocGNoaXAtPmVuYWJsZV9ncGlv
-KQo+ID4gPiArCQlncGlvZF9zZXRfdmFsdWVfY2Fuc2xlZXAocGNoaXAtPmVuYWJsZV9ncGlvLCAw
-KTsKPiA+ID4gKyAgCj4gPiAKPiA+IElzIHRoaXMgbmVlZGVkPwo+ID4gCj4gPiBUaGlzIGlzIGEg
-cmVtb3ZlIHBhdGgsIG5vdCBhIHBvd2VyIG1hbmFnZW1lbnQgcGF0aCwgYW5kIHdlIGhhdmUgbm8g
-aWRlYQo+ID4gd2hhdCB0aGUgb3JpZ2luYWwgc3RhdHVzIG9mIHRoZSBwaW4gd2FzIGFueXdheT8K
-PiA+IAo+IAo+IExvb2tpbmcgYXQgSXNoZG4gb24gcGFnZSA1IG9mIHRoZSBkYXRhc2hlZXQsIHN3
-aXRjaGluZyBpdCBvZmYgZXZlcnl0aW1lCj4gcG9zc2libGUgc2VlbXMgbm90IG5lZWRlZC4gV2Ug
-d291bGQgbmVlZCB0byBjYWxsIGNoaXBfaW5pdCgpIGV2ZXJ5dGltZQo+IHdlIGVuYWJsZSB0aGUg
-Z3BpbyBvciBsaXZlIHdpdGggZGVmYXVsdCB2YWx1ZXMuCj4gVGhlcmVmb3JlIEkgZGlkIGRlY2lk
-ZSB0byBub3QgcHV0IGl0IGludG8gYW55IHBvd2VyIG1hbmFnZW1lbnQgcGF0aC4KPiBCdXQgc3dp
-dGNoaW5nIGl0IG9uIGFuZCBub3Qgc3dpdGNoaW5nIGl0IG9mZiBmZWVscyBzbyB1bmJhbGFuY2Vk
-LiAKCkVpdGhlciB0aGUgcG93ZXIgY29uc3VtZWQgYnkgdGhlIGNvbnRyb2xsZXIgd2hlbiBzdHJp
-bmdzIGFyZW4ndCBsaXQgdXAKbWF0dGVycywgaW4gd2hpY2ggY2FzZSB0aGUgZHJpdmVyIHNob3Vs
-ZCBpbXBsZW1lbnQgcHJvcGVyIHBvd2VyCm1hbmFnZW1lbnQgb3IgaXQgZG9lc24ndCBtYXR0ZXIg
-YW5kIGNoYW5naW5nIHRoZSBwaW4gc3RhdGUgaXNuJ3QgbmVlZGVkLgoKSSdtIGhhcHB5IHdpdGgg
-ZWl0aGVyIG9mIHRoZSBhYm92ZSBidXQgdGhpcyBsb29rcyBsaWtlIGEgdGhpcmQgd2F5LAp3aGVy
-ZSBlYWdlciB1c2VycyBjb3VsZCBoYWNrIGluIGEgYml0IG9mIGV4dHJhIHBvd2VyIG1hbmFnZW1l
-bnQgYnkKZm9yY2luZyBkcml2ZXJzIHRvIHVuYmluZC4gCgoKRGFuaWVsLgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0606373569==
+Content-Type: multipart/alternative; boundary="15681112951.f4574F.18221"
+Content-Transfer-Encoding: 7bit
+
+
+--15681112951.f4574F.18221
+Date: Tue, 10 Sep 2019 10:28:15 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111630
+
+            Bug ID: 111630
+           Summary: Generate a list of tags for the machine that runs the
+                    testsuite
+           Product: DRI
+           Version: XOrg git
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: not set
+          Priority: not set
+         Component: IGT
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: martin.peres@free.fr
+
+Bug filing is done based on machine tags. They can be indicating a platform
+(TGL, SKL, ...), or a configuration (HDMI, PSR, CHAMELIUM, ...).=20
+
+This tagging is currently done manually, but it often is not in sync with t=
+he
+current platform state, which makes bug filing difficult and leads to random
+noise in CI until the proper tag is set.
+
+Since we would like individual developers and CI machines to have a consist=
+ent
+way of creating these tags (so as individual developers can filter out the
+known issues from their run locally), having an IGT test/utility to generate
+these tags would be ideal.
+
+I'll let Arek explain how it could be done :)
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15681112951.f4574F.18221
+Date: Tue, 10 Sep 2019 10:28:15 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Generate a list of tags for the machine that runs the tes=
+tsuite"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111630">111630</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Generate a list of tags for the machine that runs the testsui=
+te
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>XOrg git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>IGT
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>martin.peres&#64;free.fr
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Bug filing is done based on machine tags. They can be indicati=
+ng a platform
+(TGL, SKL, ...), or a configuration (HDMI, PSR, CHAMELIUM, ...).=20
+
+This tagging is currently done manually, but it often is not in sync with t=
+he
+current platform state, which makes bug filing difficult and leads to random
+noise in CI until the proper tag is set.
+
+Since we would like individual developers and CI machines to have a consist=
+ent
+way of creating these tags (so as individual developers can filter out the
+known issues from their run locally), having an IGT test/utility to generate
+these tags would be ideal.
+
+I'll let Arek explain how it could be done :)</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15681112951.f4574F.18221--
+
+--===============0606373569==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0606373569==--
