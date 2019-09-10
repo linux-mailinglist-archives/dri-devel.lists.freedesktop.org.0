@@ -2,44 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87AFDAF57A
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2019 07:45:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D09EFAF652
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2019 09:01:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60BD06EA09;
-	Wed, 11 Sep 2019 05:45:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A51226EA27;
+	Wed, 11 Sep 2019 07:01:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E56B6EA09
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2019 05:45:50 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204805] BUG: kernel NULL pointer dereference, address:
- 0000000000000200
-Date: Wed, 11 Sep 2019 05:45:49 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: ilkka.prusi@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-204805-2300-tLyrh2kGr8@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204805-2300@https.bugzilla.kernel.org/>
-References: <bug-204805-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
-X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
- message/signature format)
+Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A70D6E864
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2019 08:09:55 +0000 (UTC)
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+ by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 2B97B200089;
+ Tue, 10 Sep 2019 10:09:54 +0200 (CEST)
+Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com
+ [165.114.16.14])
+ by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id C481E200494;
+ Tue, 10 Sep 2019 10:09:48 +0200 (CEST)
+Received: from titan.ap.freescale.net (TITAN.ap.freescale.net [10.192.208.233])
+ by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id DE111402A5;
+ Tue, 10 Sep 2019 16:09:41 +0800 (SGT)
+From: Wen He <wen.he_1@nxp.com>
+To: linux-devel@linux.nxdi.nxp.com, Liviu Dudau <liviu.dudau@arm.com>,
+ Brian Starkey <brian.starkey@arm.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ leoyang.li@nxp.com
+Subject: [v5 1/2] dt/bindings: display: Add optional property node define for
+ Mali DP500
+Date: Tue, 10 Sep 2019 15:59:12 +0800
+Message-Id: <20190910075913.17650-1-wen.he_1@nxp.com>
+X-Mailer: git-send-email 2.9.5
+X-Virus-Scanned: ClamAV using ClamSMTP
+X-Mailman-Approved-At: Wed, 11 Sep 2019 07:01:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,18 +48,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Wen He <wen.he_1@nxp.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQ4MDUKCi0tLSBD
-b21tZW50ICMxIGZyb20gaWxra2EucHJ1c2lAZ21haWwuY29tIC0tLQpIYXZpbmcgc29tZXRoaW5n
-IHN1Y2ggYXMgIm1ha2UgLWogMjAiIG9mIGtlcm5lbCBzb3VyY2VzIHdoaWxlIHVzaW5nIGEgYnJv
-d3NlcgppbiBHUFUtYWNjZWxlcmF0ZWQgbW9kZSBzZWVtcyB0byBjb250cmlidXRlIHRvIHRoaXMu
-IFJlcGVhdHMgb24gNS4yLjE0IGFzIHdlbGwKYnV0IGxvZ3MgZG9uJ3Qgc2hvdyBhbnl0aGluZyB1
-c2VmdWwgZm9yIHNvbWUgcmVhc29uLgoKLS0gCllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBi
-ZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+QWRkIG9wdGlvbmFsIHByb3BlcnR5IG5vZGUgJ2FybSxtYWxpZHAtYXJxb3MtdmFsdWUnIGZvciB0
+aGUgTWFsaSBEUDUwMC4KVGhpcyBwcm9wZXJ0eSBkZXNjcmliZSB0aGUgQVJRb1MgbGV2ZWxzIG9m
+IERQNTAwJ3MgUW9TIHNpZ25hbGluZy4KClNpZ25lZC1vZmYtYnk6IFdlbiBIZSA8d2VuLmhlXzFA
+bnhwLmNvbT4KUmV2aWV3ZWQtYnk6IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+Ci0tLQog
+RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYXJtLG1hbGlkcC50eHQg
+fCAzICsrKwogMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL0Rv
+Y3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2FybSxtYWxpZHAudHh0IGIv
+RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYXJtLG1hbGlkcC50eHQK
+aW5kZXggMmY3ODcwOTgzZWYxLi43YTk3YTJiNDhjMmEgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRp
+b24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2FybSxtYWxpZHAudHh0CisrKyBiL0RvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2FybSxtYWxpZHAudHh0CkBAIC0z
+Nyw2ICszNyw4IEBAIE9wdGlvbmFsIHByb3BlcnRpZXM6CiAgICAgRG9jdW1lbnRhdGlvbi9kZXZp
+Y2V0cmVlL2JpbmRpbmdzL3Jlc2VydmVkLW1lbW9yeS9yZXNlcnZlZC1tZW1vcnkudHh0KQogICAg
+IHRvIGJlIHVzZWQgZm9yIHRoZSBmcmFtZWJ1ZmZlcjsgaWYgbm90IHByZXNlbnQsIHRoZSBmcmFt
+ZWJ1ZmZlciBtYXkKICAgICBiZSBsb2NhdGVkIGFueXdoZXJlIGluIG1lbW9yeS4KKyAgLSBhcm0s
+bWFsaWRwLWFycW9zLWhpZ2gtbGV2ZWw6IGludGVnZXIgb2YgdTMyIHZhbHVlIGRlc2NyaWJpbmcg
+dGhlIEFSUW9TCisgICAgbGV2ZWxzIG9mIERQNTAwJ3MgUW9TIHNpZ25hbGluZy4KIAogCiBFeGFt
+cGxlOgpAQCAtNTQsNiArNTYsNyBAQCBFeGFtcGxlOgogCQljbG9ja3MgPSA8Jm9zY2NsazI+LCA8
+JmZwZ2Fvc2MwPiwgPCZmcGdhb3NjMT4sIDwmZnBnYW9zYzE+OwogCQljbG9jay1uYW1lcyA9ICJw
+eGxjbGsiLCAibWNsayIsICJhY2xrIiwgInBjbGsiOwogCQlhcm0sbWFsaWRwLW91dHB1dC1wb3J0
+LWxpbmVzID0gL2JpdHMvIDggPDggOCA4PjsKKwkJYXJtLG1hbGlkcC1hcnFvcy1oaWdoLWxldmVs
+ID0gPDB4ZDAwMGQwMDA+OwogCQlwb3J0IHsKIAkJCWRwMF9vdXRwdXQ6IGVuZHBvaW50IHsKIAkJ
+CQlyZW1vdGUtZW5kcG9pbnQgPSA8JnRkYTk5OHhfMl9pbnB1dD47Ci0tIAoyLjE3LjEKCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
