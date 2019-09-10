@@ -1,59 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15A94AEE8F
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2019 17:34:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45D17AEE91
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2019 17:34:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED1286E90E;
-	Tue, 10 Sep 2019 15:34:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D33A6E910;
+	Tue, 10 Sep 2019 15:34:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 556E66E90E
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2019 15:34:26 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id y91so17518984ede.9
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2019 08:34:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=b4wnBlpeFgpGxUVqzfbdvP1S+Q+RawN3p7bTgqnZia8=;
- b=YF4NhUaSRhEvycRmiXvBKA4M8wY477hP3VM4rhKoIz0IvMrgHt5kZL1ZgDcCclAtRe
- 097DwLl0V9WzlRj1rVWFlry5AiQRI7ZOjNshYjYkqg0bfMK1Lwn7JCFP6B3x0Y1naQQd
- 1jBh/nZoHD8TXF7VTKzXFa7cY9bxW+W02IYn0sXmWJAWICOebvCUmwHy2q+RA7kobsMb
- nxCk1H1FXVRqh/vl9jh6q1C4DUQPxWnJWWsvHYyK+KIeXBryagqOHUBYwyXXmKKr5+tq
- kC1qZY6LGKZNrn0tNt6dyncC1GeMEisiOoVshEA4Dy4K0X4xZyg3He1vQU3kMp3Z7EXn
- eeAw==
-X-Gm-Message-State: APjAAAVwOStPmJfSHL9eZdZrJXYE1zAS4FMRKcxZdhYTbuEX1nnJrZMT
- gj36mQ7Y0+zdDQp8ov/plmbM8sZLuoqmR7MNJag=
-X-Google-Smtp-Source: APXvYqyyx6xWTkb16aLchOZtzOWws5iFVpGXm89mtst/lZo1kpZ1sLfKtvPombMjz1ZlKI1NrttKYsabF6z8hwrEYtQ=
-X-Received: by 2002:a17:906:a3d5:: with SMTP id
- ca21mr25922239ejb.258.1568129664829; 
- Tue, 10 Sep 2019 08:34:24 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BB1B86E910
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2019 15:34:25 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id B7C8572167; Tue, 10 Sep 2019 15:34:25 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109628] WARNING at dcn10_hw_sequencer.c:868
+ dcn10_verify_allow_pstate_change_high()
+Date: Tue, 10 Sep 2019 15:34:25 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: johannes.hirte@datenkhaos.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109628-502-Ah8af0FBfY@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109628-502@http.bugs.freedesktop.org/>
+References: <bug-109628-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190906214409.26677-1-robdclark@gmail.com>
- <20190906214409.26677-2-robdclark@gmail.com>
- <20190910081415.GB3247@8bytes.org>
-In-Reply-To: <20190910081415.GB3247@8bytes.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 10 Sep 2019 08:34:13 -0700
-Message-ID: <CAF6AEGsFmuO5M_RWm-RjDT_F_1Z=MLYmNqRXqFNDR7aUoPaMdg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] iommu: add support for drivers that manage iommu
- explicitly
-To: Joerg Roedel <joro@8bytes.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=b4wnBlpeFgpGxUVqzfbdvP1S+Q+RawN3p7bTgqnZia8=;
- b=tzUouiroRdJjO/r28/634yrQ4C8pWz/+BOZ+mEtUOK3kpyHqIRhDkUnyEQ71dGDzZd
- eV9r1PRFyP8IHgUbl9FqShjbwycRxAB0fwLv2qC7bme4DyOSOsM8HR2u8x2sI4UPumtG
- c0OlWiSyl2uwiL7uTXcNcWtQwoZ4hvX3jgw3VhaUOJjf3FlZgjIN68zIQso9eaGkmtTP
- /3GmXxjh0Fn7jkEanuaNrTfCjI+I3RqMMoKmq7qrrJjrlZg7YmxLdzpWZA4BjA4ivqxL
- s83bDaQOuAHvVXsmXCo9hHqsCcSA1CafKyd4S0M5LZYrxfey+98rQGYF5KXA6PmW3vyX
- foKw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,45 +53,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Arnd Bergmann <arnd@arndb.de>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Robin Murphy <robin.murphy@arm.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Sudeep Holla <sudeep.holla@arm.com>,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Joe Perches <joe@perches.com>,
- Andrew Morton <akpm@linux-foundation.org>, Will Deacon <will@kernel.org>,
- open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0334041073=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBTZXAgMTAsIDIwMTkgYXQgMToxNCBBTSBKb2VyZyBSb2VkZWwgPGpvcm9AOGJ5dGVz
-Lm9yZz4gd3JvdGU6Cj4KPiBPbiBGcmksIFNlcCAwNiwgMjAxOSBhdCAwMjo0NDowMVBNIC0wNzAw
-LCBSb2IgQ2xhcmsgd3JvdGU6Cj4gPiBAQCAtNjc0LDcgKzY3NCw3IEBAIGludCBpb21tdV9ncm91
-cF9hZGRfZGV2aWNlKHN0cnVjdCBpb21tdV9ncm91cCAqZ3JvdXAsIHN0cnVjdCBkZXZpY2UgKmRl
-dikKPiA+Cj4gPiAgICAgICBtdXRleF9sb2NrKCZncm91cC0+bXV0ZXgpOwo+ID4gICAgICAgbGlz
-dF9hZGRfdGFpbCgmZGV2aWNlLT5saXN0LCAmZ3JvdXAtPmRldmljZXMpOwo+ID4gLSAgICAgaWYg
-KGdyb3VwLT5kb21haW4pCj4gPiArICAgICBpZiAoZ3JvdXAtPmRvbWFpbiAmJiAhKGRldi0+ZHJp
-dmVyICYmIGRldi0+ZHJpdmVyLT5kcml2ZXJfbWFuYWdlc19pb21tdSkpCj4KPiBIbW0sIHRoaXMg
-Y29kZSB1c3VhbGx5IHJ1bnMgYXQgZW51bWVyYXRpb24gdGltZSB3aGVuIG5vIGRyaXZlciBpcwo+
-IGF0dGFjaGVkIHRvIHRoZSBkZXZpY2UuIEFjdHVhbGx5IGl0IHdvdWxkIGJlIHByZXR0eSBkYW5n
-ZXJvdXMgd2hlbiB0aGlzCj4gY29kZSBydW5zIHdoaWxlIGEgZHJpdmVyIGlzIGF0dGFjaGVkIHRv
-IHRoZSBkZXZpY2UuIEhvdyBkb2VzIHRoYXQgY2hhbmdlCj4gbWFrZSB0aGluZ3Mgd29yayBmb3Ig
-eW91Pwo+CgpJIHdhcyBzZWVpbmcgdGhpcyBnZXQgY2FsbGVkIHZpYSB0aGUgcGF0aCBkcml2ZXJf
-cHJvYmVfZGV2aWNlKCkgLT4KcGxhdGZvcm1fZG1hX2NvbmZpZ3VyZSgpIC0+IG9mX2RtYV9jb25m
-aWd1cmUoKSAtPiBvZl9pb21tdV9jb25maWd1cmUoKQotPiBpb21tdV9wcm9iZV9kZXZpY2UoKSAt
-PiAuLi4KClRoZSBvbmx5IGNhc2VzIEkgd2FzIHNlZWluZyB3aGVyZSBkZXYtPmRyaXZlciBpcyBO
-VUxMIHdoZXJlIGEgZmV3CnBsYWNlcyB0aGF0IGRyaXZlcnMgY2FsbCBvZl9kbWFfY29uZmlndXJl
-KCkgb24gdGhlaXIgb3duIHN1Yi1kZXZpY2VzLgpCdXQgbWF5YmUgdGhlcmUgYXJlIHNvbWUgb3Ro
-ZXIgcGF0aHMgdGhhdCBJIGRpZCBub3Qgbm90aWNlPwoKQlIsCi1SCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0334041073==
+Content-Type: multipart/alternative; boundary="15681296652.57f7a.10064"
+Content-Transfer-Encoding: 7bit
+
+
+--15681296652.57f7a.10064
+Date: Tue, 10 Sep 2019 15:34:25 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109628
+
+--- Comment #16 from Johannes Hirte <johannes.hirte@datenkhaos.de> ---
+Seems to be fixed now. Tested with v5.3-rc8-7-g3120b9a6a3f7 and resume from=
+ S3
+Works without problems. Interestingly even v5.3-rc6-129-g265381004994 works=
+ now
+without additional patches.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15681296652.57f7a.10064
+Date: Tue, 10 Sep 2019 15:34:25 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - WARNING at dcn10_hw_sequencer.c:868 dcn10_verify_allow_ps=
+tate_change_high()"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109628#c16">Comme=
+nt # 16</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - WARNING at dcn10_hw_sequencer.c:868 dcn10_verify_allow_ps=
+tate_change_high()"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109628">bug 10962=
+8</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+johannes.hirte&#64;datenkhaos.de" title=3D"Johannes Hirte &lt;johannes.hirt=
+e&#64;datenkhaos.de&gt;"> <span class=3D"fn">Johannes Hirte</span></a>
+</span></b>
+        <pre>Seems to be fixed now. Tested with v5.3-rc8-7-g3120b9a6a3f7 an=
+d resume from S3
+Works without problems. Interestingly even v5.3-rc6-129-g265381004994 works=
+ now
+without additional patches.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15681296652.57f7a.10064--
+
+--===============0334041073==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0334041073==--
