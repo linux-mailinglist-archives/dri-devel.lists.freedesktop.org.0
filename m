@@ -1,36 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EA6CAE4D2
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2019 09:45:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 514DFAE4F4
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2019 09:55:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB48889F43;
-	Tue, 10 Sep 2019 07:45:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5680C6E856;
+	Tue, 10 Sep 2019 07:55:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64DDC89F43
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2019 07:45:55 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2019 00:45:54 -0700
-X-IronPort-AV: E=Sophos;i="5.64,487,1559545200"; d="scan'208";a="178595961"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2019 00:45:52 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: "Lakha\, Bhawanpreet" <Bhawanpreet.Lakha@amd.com>,
- Ramalingam C <ramalingam.c@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- "dri-devel\@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: Re: HDCP Content Type Interface
-In-Reply-To: <10cb9f86-9d46-6654-ad9d-dcb77d6ef624@amd.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <10cb9f86-9d46-6654-ad9d-dcb77d6ef624@amd.com>
-Date: Tue, 10 Sep 2019 10:45:49 +0300
-Message-ID: <8736h4387m.fsf@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8E9C06E856
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2019 07:55:22 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 8AE1872167; Tue, 10 Sep 2019 07:55:22 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 108718] Raven Ridge: ring sdma0 timeout on heavy CSS website
+ with Firefox WebRender
+Date: Tue, 10 Sep 2019 07:55:22 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: pierre-eric.pelloux-prayer@amd.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-108718-502-S9cA2Ia78U@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-108718-502@http.bugs.freedesktop.org/>
+References: <bug-108718-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -44,38 +53,215 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2068965755=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCAwOSBTZXAgMjAxOSwgIkxha2hhLCBCaGF3YW5wcmVldCIgPEJoYXdhbnByZWV0Lkxh
-a2hhQGFtZC5jb20+IHdyb3RlOgo+IEhpIGFsbCwKPgo+IFRoaXMgaXMgcmVnYXJkaW5nIHRoZSBy
-ZWNlbnQgaGRjcCBjb250ZW50IHR5cGUgcGF0Y2ggdGhhdCB3YXMgbWVyZ2VkCj4gaW50bwo+IGRy
-bS1taXNjLiAoaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3BhdGNoLzMyMDk1OC8/
-c2VyaWVzPTU3MjMzJnJldj0xMSkKPgo+IFRoZXJlIGFyZSBkaXNwbGF5cyBvbiB0aGUgbWFya2V0
-IHRoYXQgYWR2ZXJ0aXNlIEhEQ1AgMi4yIHN1cHBvcnQgYW5kCj4gd2lsbCBwYXNzIGF1dGhlbnRp
-Y2F0aW9uIGFuZCBlbmNyeXB0aW9uIGJ1dCB3aWxsIHRoZW4gc2hvdyBhCj4gY29ycnVwdGVkL2Js
-dWUvYmxhY2sgc2NyZWVuICh0aGUgZHJpdmVyIGNhbm5vdCBkZXRlY3QgdGhpcykuIFRoZXNlCj4g
-ZGlzcGxheXMgd29yayB3aXRoIEhEQ1AgMS40IHdpdGhvdXQgYW55IGlzc3Vlcy4gRHVlIHRvIHRo
-ZSBsYXJnZQo+IG51bWJlciBvZiBIRENQLXN1cHBvcnRpbmcgZGV2aWNlcyBvbiB0aGUgbWFya2V0
-IHdlIG1pZ2h0IG5vdCBiZSBhYmxlCj4gdG8gY2F0Y2ggdGhlbSB3aXRoIGEgYmxhY2tsaXN0LgoK
-SGFzIHRoaXMgYmVlbiBjb25maXJtZWQgd2l0aCBzb21lIG90aGVyIEhEQ1Agc291cmNlIHRoYW4g
-dGhlIHJlY2VudGx5Cm1lcmdlZCBIRENQIDIuMiBzdXBwb3J0PyBJLmUuIGhhcyBpdCBiZWVuIGNv
-bmZpcm1lZCB0aGUgaXNzdWUgaXMgcmVhbGx5CmluIHRoZSBzaW5rcyByYXRoZXIgdGhhbiBpbiB0
-aGUgc291cmNlIHN1cHBvcnQ/CgpCUiwKSmFuaS4KCgo+Cj4gRnJvbSB0aGUgdXNlciBtb2RlcyBw
-ZXJzcGVjdGl2ZSwgSERDUDEuNCBhbmQgSERDUDIuMiBUeXBlMCBhcmUgdGhlCj4gc2FtZSB0aGlu
-Zy4gTWVhbmluZyB0aGF0IHRoaXMgaW50ZXJmYWNlIGRvZXNuJ3QgYWxsb3cgdXMgdG8gZm9yY2Ug
-dGhlCj4gaGRjcCB2ZXJzaW9uLiBEdWUgdG8gdGhlIHByb2JsZW1zIG1lbnRpb25lZCBhYm92ZSB3
-ZSBtaWdodCB3YW50IHRvCj4gZXhwb3NlIHRoZSBhYmlsaXR5IGZvciBhIHVzZXIgdG8gZm9yY2Ug
-YW4gSERDUCBkb3duZ3JhZGUgdG8gYSBjZXJ0YWluCj4gbGV2ZWwgKGUuZy4gMS40KSBpbiBjYXNl
-IHRoZXkgZXhwZXJpZW5jZSBwcm9ibGVtcy4KPgo+IFdoYXQgYXJlIHlvdXIgdGhvdWdodHM/IGFu
-ZCB3aGF0IHdvdWxkIGJlIGEgZ29vZCB3YXkgdG8gZGVhbCB3aXRoIGl0Pwo+Cj4KPiBUaGFua3Ms
-Cj4KPiBCaGF3YW4KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWwKCi0tIApKYW5pIE5pa3VsYSwgSW50ZWwgT3BlbiBTb3VyY2UgR3JhcGhpY3MgQ2Vu
-dGVyCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============2068965755==
+Content-Type: multipart/alternative; boundary="15681021222.F06EcdC6.22812"
+Content-Transfer-Encoding: 7bit
+
+
+--15681021222.F06EcdC6.22812
+Date: Tue, 10 Sep 2019 07:55:22 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D108718
+
+--- Comment #4 from Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@=
+amd.com> ---
+(In reply to Pierre-Eric Pelloux-Prayer from comment #2)
+> Can you still reproduce this issue?
+>=20
+> It seems to work fine here with a recent kernel + mesa configuration.
+
+Correction: I retested and can reproduce the problem partially.
+
+After zooming and scrolling for a while, there are logs like this in dmesg:
+
+
+[drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* amdgpu_vm_validate_pt_bos() failed.
+[drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Not enough memory for command
+submission!
+[TTM] Failed to find memory space for buffer 0x00000000de5c5282 eviction
+[TTM]  No space for 00000000de5c5282 (2224 pages, 8896K, 8M)
+[TTM]    placement[0]=3D0x00060002 (1)
+[TTM]      has_type: 1
+[TTM]      use_type: 1
+[TTM]      flags: 0x0000000A
+[TTM]      gpu_offset: 0x00000000
+[TTM]      size: 786432
+[TTM]      available_caching: 0x00070000
+[TTM]      default_caching: 0x00010000
+[TTM]  0x0000000000000400-0x0000000000000401: 1: used
+[TTM]  0x0000000000000401-0x0000000000000443: 66: used
+[TTM]  0x0000000000000443-0x0000000000000445: 2: used
+[TTM]  0x0000000000000445-0x0000000000000447: 2: used
+[TTM]  0x0000000000000447-0x0000000000000449: 2: used
+[TTM]  0x0000000000000449-0x000000000000044b: 2: used
+[TTM]  0x000000000000044b-0x000000000000044d: 2: used
+[TTM]  0x000000000000044d-0x000000000000044f: 2: used
+[TTM]  0x000000000000044f-0x0000000000000451: 2: used
+[TTM]  0x0000000000000451-0x0000000000000453: 2: used
+[TTM]  0x0000000000000453-0x0000000000000455: 2: used
+[TTM]  0x0000000000000455-0x0000000000000456: 1: used
+[TTM]  0x0000000000000456-0x0000000000000556: 256: used
+[TTM]  0x0000000000000556-0x0000000000000557: 1: used
+[TTM]  0x0000000000000557-0x0000000000000558: 1: used
+[TTM]  0x0000000000000558-0x0000000000000559: 1: used
+[TTM]  0x0000000000000559-0x000000000000055a: 1: used
+[TTM]  0x000000000000055a-0x000000000000055b: 1: used
+[TTM]  0x000000000000055b-0x000000000000055c: 1: used
+[TTM]  0x000000000000055c-0x000000000000055d: 1: used
+[TTM]  0x000000000000055d-0x000000000000055e: 1: used
+[TTM]  0x000000000000055e-0x0000000000000560: 2: used
+[TTM]  0x0000000000000560-0x0000000000000561: 1: used
+[TTM]  0x0000000000000561-0x0000000000000562: 1: used
+[TTM]  0x0000000000000562-0x0000000000000563: 1: used
+[TTM]  0x0000000000000563-0x0000000000000565: 2: used
+[TTM]  0x0000000000000565-0x0000000000000665: 256: used
+[TTM]  0x0000000000000665-0x000000000000075c: 247: used
+[TTM]  0x000000000000075c-0x0000000000000800: 164: free
+[TTM]  0x0000000000000800-0x0000000000000900: 256: used
+[TTM]  0x0000000000000900-0x0000000000000cca: 970: used
+[TTM]  0x0000000000000cca-0x0000000000040000: 258870: free
+[TTM]  total: 261120, used 2086 free 259034
+
+
+The computer doesn't hang or crash though and if I close Firefox's window
+everything goes back to normal.
+
+(using: Mesa master, LLVM 10, kernel 865b4ca43816 from amd-staging-drm-next)
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15681021222.F06EcdC6.22812
+Date: Tue, 10 Sep 2019 07:55:22 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Raven Ridge: ring sdma0 timeout on heavy CSS website with=
+ Firefox WebRender"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108718#c4">Commen=
+t # 4</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Raven Ridge: ring sdma0 timeout on heavy CSS website with=
+ Firefox WebRender"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108718">bug 10871=
+8</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+pierre-eric.pelloux-prayer&#64;amd.com" title=3D"Pierre-Eric Pelloux-Prayer=
+ &lt;pierre-eric.pelloux-prayer&#64;amd.com&gt;"> <span class=3D"fn">Pierre=
+-Eric Pelloux-Prayer</span></a>
+</span></b>
+        <pre>(In reply to Pierre-Eric Pelloux-Prayer from <a href=3D"show_b=
+ug.cgi?id=3D108718#c2">comment #2</a>)
+<span class=3D"quote">&gt; Can you still reproduce this issue?
+&gt;=20
+&gt; It seems to work fine here with a recent kernel + mesa configuration.<=
+/span >
+
+Correction: I retested and can reproduce the problem partially.
+
+After zooming and scrolling for a while, there are logs like this in dmesg:
+
+
+[drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* amdgpu_vm_validate_pt_bos() failed.
+[drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Not enough memory for command
+submission!
+[TTM] Failed to find memory space for buffer 0x00000000de5c5282 eviction
+[TTM]  No space for 00000000de5c5282 (2224 pages, 8896K, 8M)
+[TTM]    placement[0]=3D0x00060002 (1)
+[TTM]      has_type: 1
+[TTM]      use_type: 1
+[TTM]      flags: 0x0000000A
+[TTM]      gpu_offset: 0x00000000
+[TTM]      size: 786432
+[TTM]      available_caching: 0x00070000
+[TTM]      default_caching: 0x00010000
+[TTM]  0x0000000000000400-0x0000000000000401: 1: used
+[TTM]  0x0000000000000401-0x0000000000000443: 66: used
+[TTM]  0x0000000000000443-0x0000000000000445: 2: used
+[TTM]  0x0000000000000445-0x0000000000000447: 2: used
+[TTM]  0x0000000000000447-0x0000000000000449: 2: used
+[TTM]  0x0000000000000449-0x000000000000044b: 2: used
+[TTM]  0x000000000000044b-0x000000000000044d: 2: used
+[TTM]  0x000000000000044d-0x000000000000044f: 2: used
+[TTM]  0x000000000000044f-0x0000000000000451: 2: used
+[TTM]  0x0000000000000451-0x0000000000000453: 2: used
+[TTM]  0x0000000000000453-0x0000000000000455: 2: used
+[TTM]  0x0000000000000455-0x0000000000000456: 1: used
+[TTM]  0x0000000000000456-0x0000000000000556: 256: used
+[TTM]  0x0000000000000556-0x0000000000000557: 1: used
+[TTM]  0x0000000000000557-0x0000000000000558: 1: used
+[TTM]  0x0000000000000558-0x0000000000000559: 1: used
+[TTM]  0x0000000000000559-0x000000000000055a: 1: used
+[TTM]  0x000000000000055a-0x000000000000055b: 1: used
+[TTM]  0x000000000000055b-0x000000000000055c: 1: used
+[TTM]  0x000000000000055c-0x000000000000055d: 1: used
+[TTM]  0x000000000000055d-0x000000000000055e: 1: used
+[TTM]  0x000000000000055e-0x0000000000000560: 2: used
+[TTM]  0x0000000000000560-0x0000000000000561: 1: used
+[TTM]  0x0000000000000561-0x0000000000000562: 1: used
+[TTM]  0x0000000000000562-0x0000000000000563: 1: used
+[TTM]  0x0000000000000563-0x0000000000000565: 2: used
+[TTM]  0x0000000000000565-0x0000000000000665: 256: used
+[TTM]  0x0000000000000665-0x000000000000075c: 247: used
+[TTM]  0x000000000000075c-0x0000000000000800: 164: free
+[TTM]  0x0000000000000800-0x0000000000000900: 256: used
+[TTM]  0x0000000000000900-0x0000000000000cca: 970: used
+[TTM]  0x0000000000000cca-0x0000000000040000: 258870: free
+[TTM]  total: 261120, used 2086 free 259034
+
+
+The computer doesn't hang or crash though and if I close Firefox's window
+everything goes back to normal.
+
+(using: Mesa master, LLVM 10, kernel 865b4ca43816 from amd-staging-drm-next=
+)</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15681021222.F06EcdC6.22812--
+
+--===============2068965755==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2068965755==--
