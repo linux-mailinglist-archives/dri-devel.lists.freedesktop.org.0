@@ -2,38 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF42CAE901
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2019 13:20:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BF1FAE932
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Sep 2019 13:32:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57B236E037;
-	Tue, 10 Sep 2019 11:20:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B78E6E059;
+	Tue, 10 Sep 2019 11:32:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E36846E037
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2019 11:20:23 +0000 (UTC)
-Date: Tue, 10 Sep 2019 11:20:16 +0000
-To: Pekka Paalanen <ppaalanen@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm: two planes with the same zpos have undefined ordering
-Message-ID: <uIh7eDYXe7Cj_3_8V0-WIdUfSrRlIHw8yb91myRQqlv5A7dS8TtfXZTsz0R84_LSQBdqkZvEHc6uWPnGJKIIqa_SnTr6RtmPRwr4d2u13JA=@emersion.fr>
-In-Reply-To: <20190910133810.64e973f4@eldfell.localdomain>
-References: <KJRi1ROX2_eM1WjtEQ1e1-f--VK4hwMQJQt1nPaS6lcmt3v4yIfdttLIu_EOGdkwXwEMAEo66Xa7ksp7iQABWT5GuMu6UgKoiuEm6EU2N1U=@emersion.fr>
- <20190910133810.64e973f4@eldfell.localdomain>
-Feedback-ID: FsVprHBOgyvh0T8bxcZ0CmvJCosWkwVUg658e_lOUQMnA9qynD8O1lGeniuBDfPSkDAUuhiKfOIXUZBfarMyvA==:Ext:ProtonMail
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 444226E046
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Sep 2019 11:32:56 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 40A1372167; Tue, 10 Sep 2019 11:32:56 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110117] Waking from Suspend causes screen to appear with grey
+ static (like a TV with no signal)
+Date: Tue, 10 Sep 2019 11:32:56 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: iakornfeld@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110117-502-QFOZdLPn23@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110117-502@http.bugs.freedesktop.org/>
+References: <bug-110117-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF autolearn=ham
- autolearn_force=no version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.protonmail.ch
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=emersion.fr; s=protonmail; t=1568114421;
- bh=5GKF9Ohyk4Zj8XVCequ41oRmYLWZvrvc6xv6XH2MDu0=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:
- Feedback-ID:From;
- b=yLbXr6Qmrqj+D1Wi8HZedTf52oXmi2R92yfE6cnFaaK0X+UH8iecFiH14w1gXlsWS
- M+n8s5DHIbt4ZJfSmReoy0+fQfG2vEkReJ1Ls8c/KomGzTMeZh/ukrZNz8hjcr8r1w
- xpwJJfX7ooKFkDU50l9hfUGcyIKIExlSaFIzFisY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,75 +53,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
- "daniels@collabora.com" <daniels@collabora.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1411968863=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlc2RheSwgU2VwdGVtYmVyIDEwLCAyMDE5IDE6MzggUE0sIFBla2thIFBhYWxhbmVuIDxw
-cGFhbGFuZW5AZ21haWwuY29tPiB3cm90ZToKCj4gT24gVHVlLCAxMCBTZXAgMjAxOSAxMDowOTo1
-NSArMDAwMAo+IFNpbW9uIFNlciBjb250YWN0QGVtZXJzaW9uLmZyIHdyb3RlOgo+Cj4gPiBDdXJy
-ZW50bHkgdGhlIHByb3BlcnR5IGRvY3MgZG9uJ3Qgc3BlY2lmeSB3aGV0aGVyIGl0J3Mgb2theSBm
-b3IgdHdvIHBsYW5lcyB0bwo+ID4gaGF2ZSB0aGUgc2FtZSB6cG9zIHZhbHVlIGFuZCB3aGF0IHVz
-ZXItc3BhY2Ugc2hvdWxkIGV4cGVjdCBpbiB0aGlzIGNhc2UuCj4gPiBUaGUgcnVsZSBtZW50aW9u
-bmVkIGluIHRoZSBwYXN0IHdhcyB0byBkaXNhbWJpZ3VhdGUgd2l0aCBvYmplY3QgSURzLiBIb3dl
-dmVyCj4gPiBzb21lIGRyaXZlcnMgYnJlYWsgdGhpcyBydWxlICh0aGF0J3Mgd2h5IHRoZSBvcmRl
-cmluZyBpcyBkb2N1bWVudGVkIGFzCj4gPiB1bnNwZWNpZmllZCBpbiBjYXNlIHRoZSB6cG9zIHBy
-b3BlcnR5IGlzIG1pc3NpbmcpLiBBZGRpdGlvbmFsbHkgaXQgZG9lc24ndAo+ID4gcmVhbGx5IG1h
-a2Ugc2Vuc2UgZm9yIGEgZHJpdmVyIHRvIHVzZXIgaWRlbnRpY2FsIHpwb3MgdmFsdWVzIGlmIGl0
-IGtub3dzIHRoZWlyCj4gPiByZWxhdGl2ZSBwb3NpdGlvbjogdGhlIGRyaXZlciBjYW4ganVzdCBw
-aWNrIGRpZmZlcmVudCB2YWx1ZXMgaW5zdGVhZC4KPiA+IFNvIHR3byBzb2x1dGlvbnMgd291bGQg
-bWFrZSBzZW5zZTogZWl0aGVyIGRpc2FsbG93IGNvbXBsZXRlbHkgaWRlbnRpY2FsIHpwb3MKPiA+
-IHZhbHVlcyBmb3IgdHdvIGRpZmZlcmVudCBwbGFuZXMsIGVpdGhlciBtYWtlIHRoZSBvcmRlcmlu
-ZyB1bnNwZWNpZmllZC4gVG8gYWxsb3cKPiA+IGRyaXZlcnMgdGhhdCBkb24ndCBrbm93IHRoZSBy
-ZWxhdGl2ZSBvcmRlcmluZyBiZXR3ZWVuIHR3byBwbGFuZXMgdG8gc3RpbGwKPiA+IGV4cG9zZSB0
-aGUgenBvcyBwcm9wZXJ0eSwgY2hvb3NlIHRoZSBsYXR0ZXIgc29sdXRpb24uCj4gPgo+ID4gU2ln
-bmVkLW9mZi1ieTogU2ltb24gU2VyIGNvbnRhY3RAZW1lcnNpb24uZnIKPiA+Cj4gPiAtLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiA+Cj4gPiBFcnIsIEknbSBz
-b3JyeSBhYm91dCB0aGUgZG91YmxlLXBvc3QuIEkgc2VudCB0aGlzIHRvIGludGVsLWdmeCBieSBt
-aXN0YWtlLgo+ID4gZHJpdmVycy9ncHUvZHJtL2RybV9ibGVuZC5jIHwgOCArKysrLS0tLQo+ID4g
-MSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKPiA+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2JsZW5kLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJt
-X2JsZW5kLmMKPiA+IGluZGV4IGQwMjcwOWRkMmQ0YS4uNTFiZDU0NTRlNTBhIDEwMDY0NAo+ID4g
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9ibGVuZC5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9k
-cm0vZHJtX2JsZW5kLmMKPiA+IEBAIC0xMzIsMTAgKzEzMiwxMCBAQAo+ID4KPiA+IC0gICBwbGFu
-ZXMuIFdpdGhvdXQgdGhpcyBwcm9wZXJ0eSB0aGUgcHJpbWFyeSBwbGFuZSBpcyBhbHdheXMgYmVs
-b3cgdGhlIGN1cnNvcgo+ID4gLSAgIHBsYW5lLCBhbmQgb3JkZXJpbmcgYmV0d2VlbiBhbGwgb3Ro
-ZXIgcGxhbmVzIGlzIHVuZGVmaW5lZC4gVGhlIHBvc2l0aXZlCj4gPiAtICAgWiBheGlzIHBvaW50
-cyB0b3dhcmRzIHRoZSB1c2VyLCBpLmUuIHBsYW5lcyB3aXRoIGxvd2VyIFogcG9zaXRpb24gdmFs
-dWVzCj4gPgo+ID4gLSAgIC0gICBhcmUgdW5kZXJuZWF0aCBwbGFuZXMgd2l0aCBoaWdoZXIgWiBw
-b3NpdGlvbiB2YWx1ZXMuIE5vdGUgdGhhdCB0aGUgWgo+ID4gLSAgIC0gICBwb3NpdGlvbiB2YWx1
-ZSBjYW4gYWxzbyBiZSBpbW11dGFibGUsIHRvIGluZm9ybSB1c2Vyc3BhY2UgYWJvdXQgdGhlCj4g
-PiAtICAgLSAgIGhhcmQtY29kZWQgc3RhY2tpbmcgb2Ygb3ZlcmxheSBwbGFuZXMsIHNlZQo+ID4g
-LSAgIC0gICBkcm1fcGxhbmVfY3JlYXRlX3pwb3NfaW1tdXRhYmxlX3Byb3BlcnR5KCkuCj4gPgo+
-ID4gLSAgIC0gICBhcmUgdW5kZXJuZWF0aCBwbGFuZXMgd2l0aCBoaWdoZXIgWiBwb3NpdGlvbiB2
-YWx1ZXMuIFR3byBwbGFuZXMgd2l0aCB0aGUKPiA+IC0gICAtICAgc2FtZSBaIHBvc2l0aW9uIHZh
-bHVlIGhhdmUgdW5kZWZpbmVkIG9yZGVyaW5nLiBOb3RlIHRoYXQgdGhlIFogcG9zaXRpb24KPiA+
-IC0gICAtICAgdmFsdWUgY2FuIGFsc28gYmUgaW1tdXRhYmxlLCB0byBpbmZvcm0gdXNlcnNwYWNl
-IGFib3V0IHRoZSBoYXJkLWNvZGVkCj4gPiAtICAgLSAgIHN0YWNraW5nIG9mIG92ZXJsYXkgcGxh
-bmVzLCBzZWUgZHJtX3BsYW5lX2NyZWF0ZV96cG9zX2ltbXV0YWJsZV9wcm9wZXJ0eSgpLgo+ID4g
-ICAgIC0KPiA+ICAgICAtICAgcGl4ZWwgYmxlbmQgbW9kZToKPiA+ICAgICAtICAgUGl4ZWwgYmxl
-bmQgbW9kZSBpcyBzZXQgdXAgd2l0aCBkcm1fcGxhbmVfY3JlYXRlX2JsZW5kX21vZGVfcHJvcGVy
-dHkoKS4KPgo+IEhpLAo+Cj4gdGhpcyBzZWVtcyB0byBjb250cmFkaWN0IHdoYXQgdGhlIGRvY3Mg
-c2F5IGluIGFub3RoZXIgcGxhY2U6CgpFeGNlcHQgdGhpcyBjb21tZW50IGlzIGFib3V0IGRybV9w
-bGFuZV9zdGF0ZS56cG9zLCBhbiBpbnRlcm5hbCBEUk0KcHJvcGVydHkuIFRoaXMgaXMgbm90IGFi
-b3V0IHRoZSB6cG9zIHByb3BlcnR5IGl0c2VsZi4KClRoZSBjb21tZW50IHdhcyBpbnRyb2R1Y2Vk
-IGluIHYyIG9mIFsxXSwgYWx0aG91Z2ggdGhlIG1vdGl2YXRpb24gZm9yCnRoZSBjaGFuZ2UgaXNu
-J3QgZG9jdW1lbnRlZC4KClsxXTogaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3Nl
-cmllcy8xMzUyOC8jcmV2MgoKPiB6cG9zCj4KPiBQcmlvcml0eSBvZiB0aGUgZ2l2ZW4gcGxhbmUg
-b24gY3J0YyAob3B0aW9uYWwpLgo+Cj4gTm90ZSB0aGF0IG11bHRpcGxlIGFjdGl2ZSBwbGFuZXMg
-b24gdGhlIHNhbWUgY3J0YyBjYW4gaGF2ZSBhbgo+IGlkZW50aWNhbCB6cG9zIHZhbHVlLiBUaGUg
-cnVsZSB0byBzb2x2aW5nIHRoZSBjb25mbGljdCBpcyB0bwo+IGNvbXBhcmUgdGhlIHBsYW5lIG9i
-amVjdCBJRHM7IHRoZSBwbGFuZSB3aXRoIGEgaGlnaGVyIElEIG11c3QgYmUKPiBzdGFja2VkIG9u
-IHRvcCBvZiBhIHBsYW5lIHdpdGggYSBsb3dlciBJRC4KPgo+IFNlZSBkcm1fcGxhbmVfY3JlYXRl
-X3pwb3NfcHJvcGVydHkoKSBhbmQKPiBkcm1fcGxhbmVfY3JlYXRlX3pwb3NfaW1tdXRhYmxlX3By
-b3BlcnR5KCkgZm9yIG1vcmUgZGV0YWlscy4KPgo+IGZyb20gaHR0cHM6Ly8wMS5vcmcvbGludXhn
-cmFwaGljcy9nZngtZG9jcy9kcm0vZ3B1L2RybS1rbXMuaHRtbCNwbGFuZS1mdW5jdGlvbnMtcmVm
-ZXJlbmNlCj4KPiBUaGFua3MsCj4gcHEKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWw=
+
+--===============1411968863==
+Content-Type: multipart/alternative; boundary="15681151762.C792DED6E.29742"
+Content-Transfer-Encoding: 7bit
+
+
+--15681151762.C792DED6E.29742
+Date: Tue, 10 Sep 2019 11:32:56 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110117
+
+--- Comment #15 from leo60228 <iakornfeld@gmail.com> ---
+This issue also occurs on Windows. AMD support says that it will be fixed in
+the next Windows update; could they possibly contribute that same fix to Li=
+nux?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15681151762.C792DED6E.29742
+Date: Tue, 10 Sep 2019 11:32:56 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Waking from Suspend causes screen to appear with grey sta=
+tic (like a TV with no signal)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110117#c15">Comme=
+nt # 15</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Waking from Suspend causes screen to appear with grey sta=
+tic (like a TV with no signal)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110117">bug 11011=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+iakornfeld&#64;gmail.com" title=3D"leo60228 &lt;iakornfeld&#64;gmail.com&gt=
+;"> <span class=3D"fn">leo60228</span></a>
+</span></b>
+        <pre>This issue also occurs on Windows. AMD support says that it wi=
+ll be fixed in
+the next Windows update; could they possibly contribute that same fix to Li=
+nux?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15681151762.C792DED6E.29742--
+
+--===============1411968863==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1411968863==--
