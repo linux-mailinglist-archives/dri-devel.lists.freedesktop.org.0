@@ -2,43 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1116FB0761
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2019 06:12:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 722A4B076C
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2019 06:13:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 845206E077;
-	Thu, 12 Sep 2019 04:12:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 160126E261;
+	Thu, 12 Sep 2019 04:12:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id AFDC76E2FF
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2019 17:44:14 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id ACC2F72167; Wed, 11 Sep 2019 17:44:14 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111591] [radeonsi/Navi] The Bard's Tale IV causes a GPU hang
-Date: Wed, 11 Sep 2019 17:44:14 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: vgglvyww36@khasekhemwy.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111591-502-RMd37xLBQ8@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111591-502@http.bugs.freedesktop.org/>
-References: <bug-111591-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D9276E222;
+ Wed, 11 Sep 2019 17:56:11 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 11 Sep 2019 10:56:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,492,1559545200"; d="scan'208";a="196964765"
+Received: from josouza-mobl.jf.intel.com (HELO josouza-MOBL.intel.com)
+ ([10.24.9.135])
+ by orsmga002.jf.intel.com with ESMTP; 11 Sep 2019 10:56:09 -0700
+From: =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/connector: Share with non-atomic drivers the function
+ to get the single encoder
+Date: Wed, 11 Sep 2019 10:56:02 -0700
+Message-Id: <20190911175603.30356-1-jose.souza@intel.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -52,177 +43,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1387320946=="
+Cc: =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1387320946==
-Content-Type: multipart/alternative; boundary="15682238542.cfc3.29145"
-Content-Transfer-Encoding: 7bit
-
-
---15682238542.cfc3.29145
-Date: Wed, 11 Sep 2019 17:44:14 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111591
-
---- Comment #16 from vggl <vgglvyww36@khasekhemwy.net> ---
-
-"The games shaders use GLSL 4.30 which mean interpolation qualifiers must m=
-atch
-across shader interfaces otherwise it is a link-time error. In GLSL 4.40 th=
-is
-restriction was relaxed."
-
-I believe that relaxation came in version 4.30, not 4.40.
-
-The 4.30 spec here:
-https://www.khronos.org/registry/OpenGL/specs/gl/GLSLangSpec.4.30.pdf
-
-From the "4.3.4 Input Variables" section:
-
-"The fragment shader inputs form an interface with the last active shader in
-the vertex processing pipeline. For this interface, the last active shader
-stage output variables and fragment shader input variables of the same name
-must match in type and qualification, with a few exceptions: The storage
-qualifiers must, of course, differ (one is in and one is out). Also,
-interpolation qualification (e.g., flat) and auxiliary qualification (e.g.
-centroid) may differ. These mismatches are allowed between any pair of stag=
-es.
-When interpolation or auxiliary qualifiers do not match, those provided in =
-the
-fragment shader supersede those provided in previous stages. If any such
-qualifiers are completely missing in the fragment shaders, then the default=
- is
-used, rather than any qualifiers that may have been declared in previous
-stages. That is, what matters is what is declared in the fragment shaders, =
-not
-what is declared in shaders in previous stages."
-
-That language is identical between 4.30 and 4.40. It sounds like it explici=
-tly
-allows interpolation qualifiers to differ.  However the 4.20 spec language =
-in
-that section was quite different and did require an interpolation qualifier
-match.
-
-Also, from
-https://www.khronos.org/opengl/wiki/Shader_Compilation#Interface_matching:
-
-"If GLSL 4.30 or later is available, then the interpolation qualifiers
-(including centroid and sample) do not need to match."
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15682238542.cfc3.29145
-Date: Wed, 11 Sep 2019 17:44:14 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [radeonsi/Navi] The Bard's Tale IV causes a GPU hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111591#c16">Comme=
-nt # 16</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [radeonsi/Navi] The Bard's Tale IV causes a GPU hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111591">bug 11159=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-vgglvyww36&#64;khasekhemwy.net" title=3D"vggl &lt;vgglvyww36&#64;khasekhemw=
-y.net&gt;"> <span class=3D"fn">vggl</span></a>
-</span></b>
-        <pre>
-&quot;The games shaders use GLSL 4.30 which mean interpolation qualifiers m=
-ust match
-across shader interfaces otherwise it is a link-time error. In GLSL 4.40 th=
-is
-restriction was relaxed.&quot;
-
-I believe that relaxation came in version 4.30, not 4.40.
-
-The 4.30 spec here:
-<a href=3D"https://www.khronos.org/registry/OpenGL/specs/gl/GLSLangSpec.4.3=
-0.pdf">https://www.khronos.org/registry/OpenGL/specs/gl/GLSLangSpec.4.30.pd=
-f</a>
-
-From the &quot;4.3.4 Input Variables&quot; section:
-
-&quot;The fragment shader inputs form an interface with the last active sha=
-der in
-the vertex processing pipeline. For this interface, the last active shader
-stage output variables and fragment shader input variables of the same name
-must match in type and qualification, with a few exceptions: The storage
-qualifiers must, of course, differ (one is in and one is out). Also,
-interpolation qualification (e.g., flat) and auxiliary qualification (e.g.
-centroid) may differ. These mismatches are allowed between any pair of stag=
-es.
-When interpolation or auxiliary qualifiers do not match, those provided in =
-the
-fragment shader supersede those provided in previous stages. If any such
-qualifiers are completely missing in the fragment shaders, then the default=
- is
-used, rather than any qualifiers that may have been declared in previous
-stages. That is, what matters is what is declared in the fragment shaders, =
-not
-what is declared in shaders in previous stages.&quot;
-
-That language is identical between 4.30 and 4.40. It sounds like it explici=
-tly
-allows interpolation qualifiers to differ.  However the 4.20 spec language =
-in
-that section was quite different and did require an interpolation qualifier
-match.
-
-Also, from
-<a href=3D"https://www.khronos.org/opengl/wiki/Shader_Compilation#Interface=
-_matching">https://www.khronos.org/opengl/wiki/Shader_Compilation#Interface=
-_matching</a>:
-
-&quot;If GLSL 4.30 or later is available, then the interpolation qualifiers
-(including centroid and sample) do not need to match.&quot;</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15682238542.cfc3.29145--
-
---===============1387320946==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1387320946==--
+VGhpcyAzIG5vbi1hdG9taWMgZHJpdmVycyBhbGwgaGF2ZSB0aGUgc2FtZSBmdW5jdGlvbiBnZXR0
+aW5nIHRoZQpvbmx5IGVuY29kZXIgYXZhaWxhYmxlIGluIHRoZSBjb25uZWN0b3IsIGFsc28gYXRv
+bWljIGRyaXZlcnMgaGF2ZQp0aGlzIGZhbGxiYWNrLiBTbyBtb3ZpbmcgaXQgYSBjb21tb24gcGxh
+Y2UgYW5kIHNoYXJpbmcgYmV0d2VlbiBhdG9taWMKYW5kIG5vbi1hdG9taWMgZHJpdmVycy4KCldo
+aWxlIGF0IGl0IEkgYWxzbyByZW1vdmVkIHRoZSBtZW50aW9uIG9mCmRybV9hdG9taWNfaGVscGVy
+X2Jlc3RfZW5jb2RlcigpIHRoYXQgd2FzIHJlbmFtZWQgaW4KY29tbWl0IDI5N2UzMGI1ZDliNiAo
+ImRybS9hdG9taWMtaGVscGVyOiBVbmV4cG9ydApkcm1fYXRvbWljX2hlbHBlcl9iZXN0X2VuY29k
+ZXIiKS4KClN1Z2dlc3RlZC1ieTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4
+LmludGVsLmNvbT4KQ2M6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRl
+bC5jb20+CkNjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgpDYzogTGF1
+cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPgpDYzogZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpDYzogaW50ZWwtZ2Z4QGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpTaWduZWQtb2ZmLWJ5OiBKb3PDqSBSb2JlcnRvIGRlIFNvdXphIDxqb3NlLnNvdXph
+QGludGVsLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMgICAgICAgICAg
+IHwgMTIgLS0tLS0tLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY19oZWxwZXIuYyAg
+ICAgIHwgMTUgKystLS0tLS0tLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2Nvbm5lY3Rvci5j
+ICAgICAgICAgIHwgMTEgKysrKysrKysrKysKIGRyaXZlcnMvZ3B1L2RybS9kcm1fY3J0Y19oZWxw
+ZXIuYyAgICAgICAgfCAgOCArKysrKysrLQogZHJpdmVycy9ncHUvZHJtL2RybV9jcnRjX2ludGVy
+bmFsLmggICAgICB8ICAyICsrCiBkcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX21vZGUu
+YyAgIHwgMTEgLS0tLS0tLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Nvbm5lY3Rvci5j
+ICAgICAgfCAgOCAtLS0tLS0tLQogaW5jbHVkZS9kcm0vZHJtX21vZGVzZXRfaGVscGVyX3Z0YWJs
+ZXMuaCB8ICA2ICsrKy0tLQogOCBmaWxlcyBjaGFuZ2VkLCAyNSBpbnNlcnRpb25zKCspLCA0OCBk
+ZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMg
+Yi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMKaW5kZXggZDM0OWM3MjE1MDFjLi5lZWY5
+NWUxYWYwNmIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUuYworKysg
+Yi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMKQEAgLTY4NywxNyArNjg3LDYgQEAgc3Rh
+dGljIHZvaWQgYXN0X2VuY29kZXJfZGVzdHJveShzdHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29kZXIp
+CiAJa2ZyZWUoZW5jb2Rlcik7CiB9CiAKLQotc3RhdGljIHN0cnVjdCBkcm1fZW5jb2RlciAqYXN0
+X2Jlc3Rfc2luZ2xlX2VuY29kZXIoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvcikKLXsK
+LQlpbnQgZW5jX2lkID0gY29ubmVjdG9yLT5lbmNvZGVyX2lkc1swXTsKLQkvKiBwaWNrIHRoZSBl
+bmNvZGVyIGlkcyAqLwotCWlmIChlbmNfaWQpCi0JCXJldHVybiBkcm1fZW5jb2Rlcl9maW5kKGNv
+bm5lY3Rvci0+ZGV2LCBOVUxMLCBlbmNfaWQpOwotCXJldHVybiBOVUxMOwotfQotCi0KIHN0YXRp
+YyBjb25zdCBzdHJ1Y3QgZHJtX2VuY29kZXJfZnVuY3MgYXN0X2VuY19mdW5jcyA9IHsKIAkuZGVz
+dHJveSA9IGFzdF9lbmNvZGVyX2Rlc3Ryb3ksCiB9OwpAQCAtODQ3LDcgKzgzNiw2IEBAIHN0YXRp
+YyB2b2lkIGFzdF9jb25uZWN0b3JfZGVzdHJveShzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVj
+dG9yKQogc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fY29ubmVjdG9yX2hlbHBlcl9mdW5jcyBhc3Rf
+Y29ubmVjdG9yX2hlbHBlcl9mdW5jcyA9IHsKIAkubW9kZV92YWxpZCA9IGFzdF9tb2RlX3ZhbGlk
+LAogCS5nZXRfbW9kZXMgPSBhc3RfZ2V0X21vZGVzLAotCS5iZXN0X2VuY29kZXIgPSBhc3RfYmVz
+dF9zaW5nbGVfZW5jb2RlciwKIH07CiAKIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rv
+cl9mdW5jcyBhc3RfY29ubmVjdG9yX2Z1bmNzID0gewpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL2RybV9hdG9taWNfaGVscGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY19oZWxw
+ZXIuYwppbmRleCA0NzA2NDM5ZmI0OTAuLjlkN2U0ZGE2YzI5MiAxMDA2NDQKLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL2RybV9hdG9taWNfaGVscGVyLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9h
+dG9taWNfaGVscGVyLmMKQEAgLTk3LDE3ICs5Nyw2IEBAIGRybV9hdG9taWNfaGVscGVyX3BsYW5l
+X2NoYW5nZWQoc3RydWN0IGRybV9hdG9taWNfc3RhdGUgKnN0YXRlLAogCX0KIH0KIAotLyoKLSAq
+IEZvciBjb25uZWN0b3JzIHRoYXQgc3VwcG9ydCBtdWx0aXBsZSBlbmNvZGVycywgZWl0aGVyIHRo
+ZQotICogLmF0b21pY19iZXN0X2VuY29kZXIoKSBvciAuYmVzdF9lbmNvZGVyKCkgb3BlcmF0aW9u
+IG11c3QgYmUgaW1wbGVtZW50ZWQuCi0gKi8KLXN0YXRpYyBzdHJ1Y3QgZHJtX2VuY29kZXIgKgot
+cGlja19zaW5nbGVfZW5jb2Rlcl9mb3JfY29ubmVjdG9yKHN0cnVjdCBkcm1fY29ubmVjdG9yICpj
+b25uZWN0b3IpCi17Ci0JV0FSTl9PTihjb25uZWN0b3ItPmVuY29kZXJfaWRzWzFdKTsKLQlyZXR1
+cm4gZHJtX2VuY29kZXJfZmluZChjb25uZWN0b3ItPmRldiwgTlVMTCwgY29ubmVjdG9yLT5lbmNv
+ZGVyX2lkc1swXSk7Ci19Ci0KIHN0YXRpYyBpbnQgaGFuZGxlX2NvbmZsaWN0aW5nX2VuY29kZXJz
+KHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSwKIAkJCQkgICAgICAgYm9vbCBkaXNhYmxl
+X2NvbmZsaWN0aW5nX2VuY29kZXJzKQogewpAQCAtMTM1LDcgKzEyNCw3IEBAIHN0YXRpYyBpbnQg
+aGFuZGxlX2NvbmZsaWN0aW5nX2VuY29kZXJzKHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0
+ZSwKIAkJZWxzZSBpZiAoZnVuY3MtPmJlc3RfZW5jb2RlcikKIAkJCW5ld19lbmNvZGVyID0gZnVu
+Y3MtPmJlc3RfZW5jb2Rlcihjb25uZWN0b3IpOwogCQllbHNlCi0JCQluZXdfZW5jb2RlciA9IHBp
+Y2tfc2luZ2xlX2VuY29kZXJfZm9yX2Nvbm5lY3Rvcihjb25uZWN0b3IpOworCQkJbmV3X2VuY29k
+ZXIgPSBkcm1fY29ubmVjdG9yX2dldF9zaW5nbGVfZW5jb2Rlcihjb25uZWN0b3IpOwogCiAJCWlm
+IChuZXdfZW5jb2RlcikgewogCQkJaWYgKGVuY29kZXJfbWFzayAmIGRybV9lbmNvZGVyX21hc2so
+bmV3X2VuY29kZXIpKSB7CkBAIC0zNTksNyArMzQ4LDcgQEAgdXBkYXRlX2Nvbm5lY3Rvcl9yb3V0
+aW5nKHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSwKIAllbHNlIGlmIChmdW5jcy0+YmVz
+dF9lbmNvZGVyKQogCQluZXdfZW5jb2RlciA9IGZ1bmNzLT5iZXN0X2VuY29kZXIoY29ubmVjdG9y
+KTsKIAllbHNlCi0JCW5ld19lbmNvZGVyID0gcGlja19zaW5nbGVfZW5jb2Rlcl9mb3JfY29ubmVj
+dG9yKGNvbm5lY3Rvcik7CisJCW5ld19lbmNvZGVyID0gZHJtX2Nvbm5lY3Rvcl9nZXRfc2luZ2xl
+X2VuY29kZXIoY29ubmVjdG9yKTsKIAogCWlmICghbmV3X2VuY29kZXIpIHsKIAkJRFJNX0RFQlVH
+X0FUT01JQygiTm8gc3VpdGFibGUgZW5jb2RlciBmb3VuZCBmb3IgW0NPTk5FQ1RPUjolZDolc11c
+biIsCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Nvbm5lY3Rvci5jIGIvZHJpdmVy
+cy9ncHUvZHJtL2RybV9jb25uZWN0b3IuYwppbmRleCA0Yzc2NjYyNGIyMGQuLjNlMmE2MzJjZjg2
+MSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9jb25uZWN0b3IuYworKysgYi9kcml2
+ZXJzL2dwdS9kcm0vZHJtX2Nvbm5lY3Rvci5jCkBAIC0yMzM0LDMgKzIzMzQsMTQgQEAgc3RydWN0
+IGRybV90aWxlX2dyb3VwICpkcm1fbW9kZV9jcmVhdGVfdGlsZV9ncm91cChzdHJ1Y3QgZHJtX2Rl
+dmljZSAqZGV2LAogCXJldHVybiB0ZzsKIH0KIEVYUE9SVF9TWU1CT0woZHJtX21vZGVfY3JlYXRl
+X3RpbGVfZ3JvdXApOworCisvKgorICogRm9yIGNvbm5lY3RvcnMgdGhhdCBzdXBwb3J0IG11bHRp
+cGxlIGVuY29kZXJzLCBlaXRoZXIgdGhlCisgKiAuYXRvbWljX2Jlc3RfZW5jb2RlcigpIG9yIC5i
+ZXN0X2VuY29kZXIoKSBvcGVyYXRpb24gbXVzdCBiZSBpbXBsZW1lbnRlZC4KKyAqLworc3RydWN0
+IGRybV9lbmNvZGVyICoKK2RybV9jb25uZWN0b3JfZ2V0X3NpbmdsZV9lbmNvZGVyKHN0cnVjdCBk
+cm1fY29ubmVjdG9yICpjb25uZWN0b3IpCit7CisJV0FSTl9PTihjb25uZWN0b3ItPmVuY29kZXJf
+aWRzWzFdKTsKKwlyZXR1cm4gZHJtX2VuY29kZXJfZmluZChjb25uZWN0b3ItPmRldiwgTlVMTCwg
+Y29ubmVjdG9yLT5lbmNvZGVyX2lkc1swXSk7Cit9CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
+cm0vZHJtX2NydGNfaGVscGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2NydGNfaGVscGVyLmMK
+aW5kZXggYTUxODI0YTdlN2MxLi5hMWYzYzM4OGUzOTggMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1
+L2RybS9kcm1fY3J0Y19oZWxwZXIuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2NydGNfaGVs
+cGVyLmMKQEAgLTQ4LDYgKzQ4LDggQEAKICNpbmNsdWRlIDxkcm0vZHJtX3ByaW50Lmg+CiAjaW5j
+bHVkZSA8ZHJtL2RybV92YmxhbmsuaD4KIAorI2luY2x1ZGUgImRybV9jcnRjX2ludGVybmFsLmgi
+CisKIC8qKgogICogRE9DOiBvdmVydmlldwogICoKQEAgLTYyNSw3ICs2MjcsMTEgQEAgaW50IGRy
+bV9jcnRjX2hlbHBlcl9zZXRfY29uZmlnKHN0cnVjdCBkcm1fbW9kZV9zZXQgKnNldCwKIAkJbmV3
+X2VuY29kZXIgPSBjb25uZWN0b3ItPmVuY29kZXI7CiAJCWZvciAocm8gPSAwOyBybyA8IHNldC0+
+bnVtX2Nvbm5lY3RvcnM7IHJvKyspIHsKIAkJCWlmIChzZXQtPmNvbm5lY3RvcnNbcm9dID09IGNv
+bm5lY3RvcikgewotCQkJCW5ld19lbmNvZGVyID0gY29ubmVjdG9yX2Z1bmNzLT5iZXN0X2VuY29k
+ZXIoY29ubmVjdG9yKTsKKwkJCQlpZiAoY29ubmVjdG9yX2Z1bmNzLT5iZXN0X2VuY29kZXIpCisJ
+CQkJCW5ld19lbmNvZGVyID0gY29ubmVjdG9yX2Z1bmNzLT5iZXN0X2VuY29kZXIoY29ubmVjdG9y
+KTsKKwkJCQllbHNlCisJCQkJCW5ld19lbmNvZGVyID0gZHJtX2Nvbm5lY3Rvcl9nZXRfc2luZ2xl
+X2VuY29kZXIoY29ubmVjdG9yKTsKKwogCQkJCS8qIGlmIHdlIGNhbid0IGdldCBhbiBlbmNvZGVy
+IGZvciBhIGNvbm5lY3RvcgogCQkJCSAgIHdlIGFyZSBzZXR0aW5nIG5vdyAtIHRoZW4gZmFpbCAq
+LwogCQkJCWlmIChuZXdfZW5jb2RlciA9PSBOVUxMKQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL2RybV9jcnRjX2ludGVybmFsLmggYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2NydGNfaW50ZXJu
+YWwuaAppbmRleCBjN2Q1ZTRjMjE0MjMuLjgwYWRlMWZhNjZlNSAxMDA2NDQKLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL2RybV9jcnRjX2ludGVybmFsLmgKKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9j
+cnRjX2ludGVybmFsLmgKQEAgLTE4MSw2ICsxODEsOCBAQCBpbnQgZHJtX2Nvbm5lY3Rvcl9zZXRf
+b2JqX3Byb3Aoc3RydWN0IGRybV9tb2RlX29iamVjdCAqb2JqLAogaW50IGRybV9jb25uZWN0b3Jf
+Y3JlYXRlX3N0YW5kYXJkX3Byb3BlcnRpZXMoc3RydWN0IGRybV9kZXZpY2UgKmRldik7CiBjb25z
+dCBjaGFyICpkcm1fZ2V0X2Nvbm5lY3Rvcl9mb3JjZV9uYW1lKGVudW0gZHJtX2Nvbm5lY3Rvcl9m
+b3JjZSBmb3JjZSk7CiB2b2lkIGRybV9jb25uZWN0b3JfZnJlZV93b3JrX2ZuKHN0cnVjdCB3b3Jr
+X3N0cnVjdCAqd29yayk7CitzdHJ1Y3QgZHJtX2VuY29kZXIgKgorZHJtX2Nvbm5lY3Rvcl9nZXRf
+c2luZ2xlX2VuY29kZXIoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3Rvcik7CiAKIC8qIElP
+Q1RMICovCiBpbnQgZHJtX2Nvbm5lY3Rvcl9wcm9wZXJ0eV9zZXRfaW9jdGwoc3RydWN0IGRybV9k
+ZXZpY2UgKmRldiwKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBf
+bW9kZS5jIGIvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9tb2RlLmMKaW5kZXggNWU3
+NzhiNWYxYTEwLi42ODIyNjU1NjA0NGIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZ2Fn
+MjAwL21nYWcyMDBfbW9kZS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBf
+bW9kZS5jCkBAIC0xNjM4LDE2ICsxNjM4LDYgQEAgc3RhdGljIGVudW0gZHJtX21vZGVfc3RhdHVz
+IG1nYV92Z2FfbW9kZV92YWxpZChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLAogCXJl
+dHVybiBNT0RFX09LOwogfQogCi1zdGF0aWMgc3RydWN0IGRybV9lbmNvZGVyICptZ2FfY29ubmVj
+dG9yX2Jlc3RfZW5jb2RlcihzdHJ1Y3QgZHJtX2Nvbm5lY3RvcgotCQkJCQkJICAqY29ubmVjdG9y
+KQotewotCWludCBlbmNfaWQgPSBjb25uZWN0b3ItPmVuY29kZXJfaWRzWzBdOwotCS8qIHBpY2sg
+dGhlIGVuY29kZXIgaWRzICovCi0JaWYgKGVuY19pZCkKLQkJcmV0dXJuIGRybV9lbmNvZGVyX2Zp
+bmQoY29ubmVjdG9yLT5kZXYsIE5VTEwsIGVuY19pZCk7Ci0JcmV0dXJuIE5VTEw7Ci19Ci0KIHN0
+YXRpYyB2b2lkIG1nYV9jb25uZWN0b3JfZGVzdHJveShzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29u
+bmVjdG9yKQogewogCXN0cnVjdCBtZ2FfY29ubmVjdG9yICptZ2FfY29ubmVjdG9yID0gdG9fbWdh
+X2Nvbm5lY3Rvcihjb25uZWN0b3IpOwpAQCAtMTY1OSw3ICsxNjQ5LDYgQEAgc3RhdGljIHZvaWQg
+bWdhX2Nvbm5lY3Rvcl9kZXN0cm95KHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IpCiBz
+dGF0aWMgY29uc3Qgc3RydWN0IGRybV9jb25uZWN0b3JfaGVscGVyX2Z1bmNzIG1nYV92Z2FfY29u
+bmVjdG9yX2hlbHBlcl9mdW5jcyA9IHsKIAkuZ2V0X21vZGVzID0gbWdhX3ZnYV9nZXRfbW9kZXMs
+CiAJLm1vZGVfdmFsaWQgPSBtZ2FfdmdhX21vZGVfdmFsaWQsCi0JLmJlc3RfZW5jb2RlciA9IG1n
+YV9jb25uZWN0b3JfYmVzdF9lbmNvZGVyLAogfTsKIAogc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1f
+Y29ubmVjdG9yX2Z1bmNzIG1nYV92Z2FfY29ubmVjdG9yX2Z1bmNzID0gewpkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfY29ubmVjdG9yLmMgYi9kcml2ZXJzL2dwdS9kcm0vdWRs
+L3VkbF9jb25uZWN0b3IuYwppbmRleCBkZGI2MWE2MGM2MTAuLmI0YWUzZTg5YTdiNCAxMDA2NDQK
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfY29ubmVjdG9yLmMKKysrIGIvZHJpdmVycy9n
+cHUvZHJtL3VkbC91ZGxfY29ubmVjdG9yLmMKQEAgLTkwLDEzICs5MCw2IEBAIHVkbF9kZXRlY3Qo
+c3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwgYm9vbCBmb3JjZSkKIAlyZXR1cm4gY29u
+bmVjdG9yX3N0YXR1c19jb25uZWN0ZWQ7CiB9CiAKLXN0YXRpYyBzdHJ1Y3QgZHJtX2VuY29kZXIq
+Ci11ZGxfYmVzdF9zaW5nbGVfZW5jb2RlcihzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9y
+KQotewotCWludCBlbmNfaWQgPSBjb25uZWN0b3ItPmVuY29kZXJfaWRzWzBdOwotCXJldHVybiBk
+cm1fZW5jb2Rlcl9maW5kKGNvbm5lY3Rvci0+ZGV2LCBOVUxMLCBlbmNfaWQpOwotfQotCiBzdGF0
+aWMgaW50IHVkbF9jb25uZWN0b3Jfc2V0X3Byb3BlcnR5KHN0cnVjdCBkcm1fY29ubmVjdG9yICpj
+b25uZWN0b3IsCiAJCQkJICAgICAgc3RydWN0IGRybV9wcm9wZXJ0eSAqcHJvcGVydHksCiAJCQkJ
+ICAgICAgdWludDY0X3QgdmFsKQpAQCAtMTIwLDcgKzExMyw2IEBAIHN0YXRpYyB2b2lkIHVkbF9j
+b25uZWN0b3JfZGVzdHJveShzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yKQogc3RhdGlj
+IGNvbnN0IHN0cnVjdCBkcm1fY29ubmVjdG9yX2hlbHBlcl9mdW5jcyB1ZGxfY29ubmVjdG9yX2hl
+bHBlcl9mdW5jcyA9IHsKIAkuZ2V0X21vZGVzID0gdWRsX2dldF9tb2RlcywKIAkubW9kZV92YWxp
+ZCA9IHVkbF9tb2RlX3ZhbGlkLAotCS5iZXN0X2VuY29kZXIgPSB1ZGxfYmVzdF9zaW5nbGVfZW5j
+b2RlciwKIH07CiAKIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9mdW5jcyB1ZGxf
+Y29ubmVjdG9yX2Z1bmNzID0gewpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX21vZGVzZXRf
+aGVscGVyX3Z0YWJsZXMuaCBiL2luY2x1ZGUvZHJtL2RybV9tb2Rlc2V0X2hlbHBlcl92dGFibGVz
+LmgKaW5kZXggNmIxOGM4YWRmZTlkLi5iNTU0MTJjNmNlM2EgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUv
+ZHJtL2RybV9tb2Rlc2V0X2hlbHBlcl92dGFibGVzLmgKKysrIGIvaW5jbHVkZS9kcm0vZHJtX21v
+ZGVzZXRfaGVscGVyX3Z0YWJsZXMuaApAQCAtOTU1LDggKzk1NSw4IEBAIHN0cnVjdCBkcm1fY29u
+bmVjdG9yX2hlbHBlcl9mdW5jcyB7CiAJICogQGF0b21pY19iZXN0X2VuY29kZXIuCiAJICoKIAkg
+KiBZb3UgY2FuIGxlYXZlIHRoaXMgZnVuY3Rpb24gdG8gTlVMTCBpZiB0aGUgY29ubmVjdG9yIGlz
+IG9ubHkKLQkgKiBhdHRhY2hlZCB0byBhIHNpbmdsZSBlbmNvZGVyIGFuZCB5b3UgYXJlIHVzaW5n
+IHRoZSBhdG9taWMgaGVscGVycy4KLQkgKiBJbiB0aGlzIGNhc2UsIHRoZSBjb3JlIHdpbGwgY2Fs
+bCBkcm1fYXRvbWljX2hlbHBlcl9iZXN0X2VuY29kZXIoKQorCSAqIGF0dGFjaGVkIHRvIGEgc2lu
+Z2xlIGVuY29kZXIuCisJICogSW4gdGhpcyBjYXNlLCB0aGUgY29yZSB3aWxsIGNhbGwgZHJtX2Nv
+bm5lY3Rvcl9nZXRfc2luZ2xlX2VuY29kZXIoKQogCSAqIGZvciB5b3UuCiAJICoKIAkgKiBSRVRV
+Uk5TOgpAQCAtOTc3LDcgKzk3Nyw3IEBAIHN0cnVjdCBkcm1fY29ubmVjdG9yX2hlbHBlcl9mdW5j
+cyB7CiAJICoKIAkgKiBUaGlzIGZ1bmN0aW9uIGlzIHVzZWQgYnkgZHJtX2F0b21pY19oZWxwZXJf
+Y2hlY2tfbW9kZXNldCgpLgogCSAqIElmIGl0IGlzIG5vdCBpbXBsZW1lbnRlZCwgdGhlIGNvcmUg
+d2lsbCBmYWxsYmFjayB0byBAYmVzdF9lbmNvZGVyCi0JICogKG9yIGRybV9hdG9taWNfaGVscGVy
+X2Jlc3RfZW5jb2RlcigpIGlmIEBiZXN0X2VuY29kZXIgaXMgTlVMTCkuCisJICogKG9yIGRybV9j
+b25uZWN0b3JfZ2V0X3NpbmdsZV9lbmNvZGVyKCkgaWYgQGJlc3RfZW5jb2RlciBpcyBOVUxMKS4K
+IAkgKgogCSAqIE5PVEU6CiAJICoKLS0gCjIuMjMuMAoKX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
+YW4vbGlzdGluZm8vZHJpLWRldmVs
