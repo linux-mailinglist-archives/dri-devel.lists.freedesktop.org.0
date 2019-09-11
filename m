@@ -1,31 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB926AF895
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2019 11:12:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8869AAF8B6
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2019 11:18:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 978CC6EA67;
-	Wed, 11 Sep 2019 09:12:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F7B96EA6C;
+	Wed, 11 Sep 2019 09:18:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1930B6EA67
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2019 09:12:30 +0000 (UTC)
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
- by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <colin.king@canonical.com>)
- id 1i7yfr-0004Aq-NU; Wed, 11 Sep 2019 09:12:27 +0000
-From: Colin King <colin.king@canonical.com>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Alexandru-Cosmin Gheorghe <Alexandru-Cosmin.Gheorghe@arm.com>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/selftests: fix spelling mistake "misssing" -> "missing"
-Date: Wed, 11 Sep 2019 10:12:27 +0100
-Message-Id: <20190911091227.5710-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.20.1
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 379B26EA6C
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2019 09:18:09 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 3469472167; Wed, 11 Sep 2019 09:18:09 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 107877] deepin-desktop: xdg-email: no method available for
+ opening 'mailto:'
+Date: Wed, 11 Sep 2019 09:18:09 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: security
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: routerlognet@gmail.com
+X-Bugzilla-Status: CLOSED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status bug_file_loc
+Message-ID: <bug-107877-502-diYMkp9SAB@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-107877-502@http.bugs.freedesktop.org/>
+References: <bug-107877-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -39,32 +53,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0541680813=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4KClRoZXJlIGlz
-IGEgc3BlbGxpbmcgbWlzdGFrZSBpbiBhIGxpdGVyYWwgc3RyaW5nLCBmaXggaXQuCgpTaWduZWQt
-b2ZmLWJ5OiBDb2xpbiBJYW4gS2luZyA8Y29saW4ua2luZ0BjYW5vbmljYWwuY29tPgotLS0KIGRy
-aXZlcnMvZ3B1L2RybS9zZWxmdGVzdHMvdGVzdC1kcm1fZnJhbWVidWZmZXIuYyB8IDIgKy0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZ3B1L2RybS9zZWxmdGVzdHMvdGVzdC1kcm1fZnJhbWVidWZmZXIuYyBiL2RyaXZl
-cnMvZ3B1L2RybS9zZWxmdGVzdHMvdGVzdC1kcm1fZnJhbWVidWZmZXIuYwppbmRleCA3NGQ1NTYx
-YTg2MmIuLjJkMjllYTZmOTJlMiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3NlbGZ0ZXN0
-cy90ZXN0LWRybV9mcmFtZWJ1ZmZlci5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9zZWxmdGVzdHMv
-dGVzdC1kcm1fZnJhbWVidWZmZXIuYwpAQCAtMTI2LDcgKzEyNiw3IEBAIHN0YXRpYyBzdHJ1Y3Qg
-ZHJtX2ZyYW1lYnVmZmVyX3Rlc3QgY3JlYXRlYnVmZmVyX3Rlc3RzW10gPSB7CiAJCSAuaGFuZGxl
-cyA9IHsgMSwgMSwgMCB9LCAucGl0Y2hlcyA9IHsgTUFYX1dJRFRILCBNQVhfV0lEVEggLSAxLCAw
-IH0sCiAJfQogfSwKLXsgLmJ1ZmZlcl9jcmVhdGVkID0gMCwgLm5hbWUgPSAiTlYxMiBJbnZhbGlk
-IG1vZGlmaWVyL21pc3NzaW5nIERSTV9NT0RFX0ZCX01PRElGSUVSUyBmbGFnIiwKK3sgLmJ1ZmZl
-cl9jcmVhdGVkID0gMCwgLm5hbWUgPSAiTlYxMiBJbnZhbGlkIG1vZGlmaWVyL21pc3NpbmcgRFJN
-X01PREVfRkJfTU9ESUZJRVJTIGZsYWciLAogCS5jbWQgPSB7IC53aWR0aCA9IE1BWF9XSURUSCwg
-LmhlaWdodCA9IE1BWF9IRUlHSFQsIC5waXhlbF9mb3JtYXQgPSBEUk1fRk9STUFUX05WMTIsCiAJ
-CSAuaGFuZGxlcyA9IHsgMSwgMSwgMCB9LCAubW9kaWZpZXIgPSB7IERSTV9GT1JNQVRfTU9EX1NB
-TVNVTkdfNjRfMzJfVElMRSwgMCwgMCB9LAogCQkgLnBpdGNoZXMgPSB7IE1BWF9XSURUSCwgTUFY
-X1dJRFRILCAwIH0sCi0tIAoyLjIwLjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbA==
+
+--===============0541680813==
+Content-Type: multipart/alternative; boundary="15681934891.Abe00f0E6.30006"
+Content-Transfer-Encoding: 7bit
+
+
+--15681934891.Abe00f0E6.30006
+Date: Wed, 11 Sep 2019 09:18:09 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D107877
+
+Brett P. Gardner <routerlognet@gmail.com> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|RESOLVED                    |CLOSED
+                URL|                            |https://routerlognnet.us/
+
+--- Comment #31 from Brett P. Gardner <routerlognet@gmail.com> ---
+If you are not able to complete the login process then you can call at
+1-877-800-6576 or visit https://routerlognnet.us/. Our technical experts wi=
+ll
+resolve all the technical issues with Netgear Router Setup and
+www.routerlogin.net login. We are there for you 24*7 so you can contact us
+anytime.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15681934891.Abe00f0E6.30006
+Date: Wed, 11 Sep 2019 09:18:09 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:routerlog=
+net&#64;gmail.com" title=3D"Brett P. Gardner &lt;routerlognet&#64;gmail.com=
+&gt;"> <span class=3D"fn">Brett P. Gardner</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_CLOSED  bz_closed"
+   title=3D"CLOSED FIXED - deepin-desktop: xdg-email: no method available f=
+or opening 'mailto:'"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107877">bug 10787=
+7</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>RESOLVED
+           </td>
+           <td>CLOSED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">URL</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>https://routerlognnet.us/
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_CLOSED  bz_closed"
+   title=3D"CLOSED FIXED - deepin-desktop: xdg-email: no method available f=
+or opening 'mailto:'"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107877#c31">Comme=
+nt # 31</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_CLOSED  bz_closed"
+   title=3D"CLOSED FIXED - deepin-desktop: xdg-email: no method available f=
+or opening 'mailto:'"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107877">bug 10787=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+routerlognet&#64;gmail.com" title=3D"Brett P. Gardner &lt;routerlognet&#64;=
+gmail.com&gt;"> <span class=3D"fn">Brett P. Gardner</span></a>
+</span></b>
+        <pre>If you are not able to complete the login process then you can=
+ call at
+1-877-800-6576 or visit <a href=3D"https://routerlognnet.us/">https://route=
+rlognnet.us/</a>. Our technical experts will
+resolve all the technical issues with Netgear Router Setup and
+www.routerlogin.net login. We are there for you 24*7 so you can contact us
+anytime.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15681934891.Abe00f0E6.30006--
+
+--===============0541680813==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0541680813==--
