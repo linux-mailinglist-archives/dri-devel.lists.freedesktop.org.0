@@ -2,116 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71AB4B0188
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2019 18:24:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5208DB0785
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2019 06:14:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7303B6EB50;
-	Wed, 11 Sep 2019 16:24:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D27F76EB87;
+	Thu, 12 Sep 2019 04:12:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 057E46EB50
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2019 16:24:03 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id d17so12508521wrq.13
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2019 09:24:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=1aeFNqOpX1l0T3sLZE0GImu3YT1JIHyjts4KwaTkPb4=;
- b=hNydXaoBNQlK1RpCaCnL+BVguDgzfAERV49ARHEwr2lJZbqBbWBkROpc6H7U4iZwfU
- yPk/MMBbGsQ7pItZerpVxQshCAAmQQYxZBODSxrAXOodfRgFT2i0l/abHyKlpEK32RfZ
- ewhI/Sc8SjAHzUPoyjPCJxKUb+of4pIGChiNGFgZDzk5fON7uW85speTwVf+xURa9paa
- Wz9dr0r1IsuqtDHKvwV2s0Y/kUGBnLw6vrFe9Aj7294Ee+wjKopHZgxhGCAW9RNUhBkj
- BheyyjN3mnG7JLh+BC0oq5ynBG/KW3hEPUZtPVOVIonnQWgVHkuNqBxhYLvkYM5tZIgF
- VfgQ==
-X-Gm-Message-State: APjAAAVoMTphK4jW5luRk85ioPYwnOQY7f0IIBL0Fa7zqZlfkFoKYBIw
- 4AwEqxaCyIfUgdgOGUY+el8/mw==
-X-Google-Smtp-Source: APXvYqwQCIK9LvYW6kmdJ5gXTptp2YAEu8qow/5+gNE0h6lktGJHH/w16XPnqBQ+FTUanYyksyILtg==
-X-Received: by 2002:adf:f48e:: with SMTP id l14mr29875557wro.234.1568219041433; 
- Wed, 11 Sep 2019 09:24:01 -0700 (PDT)
-Received: from [192.168.1.62] (wal59-h01-176-150-251-154.dsl.sta.abo.bbox.fr.
- [176.150.251.154])
- by smtp.gmail.com with ESMTPSA id q15sm27450181wrg.65.2019.09.11.09.23.59
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 11 Sep 2019 09:24:00 -0700 (PDT)
-Subject: Re: [PATCH v3] drm: bridge/dw_hdmi: add audio sample channel status
- setting
-To: Cheng-Yi Chiang <cychiang@chromium.org>, linux-kernel@vger.kernel.org
-References: <20190911082646.134347-1-cychiang@chromium.org>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- ZaTUOEkgIor5losDrePdPgE=
-Organization: Baylibre
-Message-ID: <1e2ec69d-e42d-4e1b-7ce9-d1620cfbb4c9@baylibre.com>
-Date: Wed, 11 Sep 2019 18:23:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 607856E31D
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2019 16:39:58 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 592EC72167; Wed, 11 Sep 2019 16:39:58 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111077] link_shader and deserialize_glsl_program suddenly
+ consume huge amount of RAM
+Date: Wed, 11 Sep 2019 16:39:58 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 18.3
+X-Bugzilla-Keywords: bisected
+X-Bugzilla-Severity: blocker
+X-Bugzilla-Who: roland@rptd.ch
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111077-502-w4xw3KLE6x@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111077-502@http.bugs.freedesktop.org/>
+References: <bug-111077-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20190911082646.134347-1-cychiang@chromium.org>
-Content-Language: en-US
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:openpgp:autocrypt:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=1aeFNqOpX1l0T3sLZE0GImu3YT1JIHyjts4KwaTkPb4=;
- b=0og97i2X2lPm1u0FA8orQhWmkgm8sFSPAWcjdTMnmtdaPm6hmzsWRyc7qzdCdpTc+K
- HmNflBo2j+ah4jQePd5ttlAfrG7Iw/ga+wzPwY531g4Rvm4DQPii9OsH20JftchLNU4w
- ypwN3vxv2rJ+QA/h8/gZr28+1Npz+b85sfbNlh8ySEzboTuNDk6XIDxIcIjDn9AipK9W
- MEKHW9XXC88XXArqIoIhkjU0eR5aLVa0Egld+Vlg2ed5ms3aDL2Uq2gnQHo7Oqu8HvRl
- nMVscqcWgCgCWwj+cFhGhqT8acRLv6Vx3rgggG7zLgscW/nxoxQSlrDFfL3WAbbmpMt3
- Hozw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -124,107 +53,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, kuninori.morimoto.gx@renesas.com,
- airlied@linux.ie, dri-devel@lists.freedesktop.org, cain.cai@rock-chips.com,
- Laurent.pinchart@ideasonboard.com, Yakir Yang <ykk@rock-chips.com>,
- sam@ravnborg.org, Jerome Brunet <jbrunet@baylibre.com>,
- zhengxing@rock-chips.com, linux-rockchip@lists.infradead.org,
- dgreid@chromium.org, tzungbi@chromium.org, Jonas Karlman <jonas@kwiboo.se>,
- jeffy.chen@rock-chips.com, eddie.cai@rock-chips.com,
- linux-arm-kernel@lists.infradead.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- dianders@chromium.org, enric.balletbo@collabora.com, kuankuan.y@gmail.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0283056999=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTEvMDkvMjAxOSAxMDoyNiwgQ2hlbmctWWkgQ2hpYW5nIHdyb3RlOgo+IEZyb206IFlha2ly
-IFlhbmcgPHlra0Byb2NrLWNoaXBzLmNvbT4KPiAKPiBXaGVuIHRyYW5zbWl0dGluZyBJRUM2MDk4
-NSBsaW5lYXIgUENNIGF1ZGlvLCB3ZSBjb25maWd1cmUgdGhlCj4gQWR1aW8gU2FtcGxlIENoYW5u
-ZWwgU3RhdHVzIGluZm9ybWF0aW9uIGluIHRoZSBJRUM2MDk1OCBmcmFtZS4KPiBUaGUgc3RhdHVz
-IGJpdCBpcyBhbHJlYWR5IGF2YWlsYWJsZSBpbiBpZWMuc3RhdHVzIG9mIGhkbWlfY29kZWNfcGFy
-YW1zLgo+IAo+IFRoaXMgZml4IHRoZSBpc3N1ZSB0aGF0IGF1ZGlvIGRvZXMgbm90IGNvbWUgb3V0
-IG9uIHNvbWUgbW9uaXRvcnMKPiAoZS5nLiBMRyAyMkNWMjQxKQo+IAo+IE5vdGUgdGhhdCB0aGVz
-ZSByZWdpc3RlcnMgYXJlIG9ubHkgZm9yIGludGVyZmFjZXM6Cj4gSTJTIGF1ZGlvIGludGVyZmFj
-ZSwgR2VuZXJhbCBQdXJwb3NlIEF1ZGlvIChHUEEpLCBvciBBSEIgYXVkaW8gRE1BCj4gKEFIQkFV
-RERNQSkuCj4gRm9yIFMvUERJRiBpbnRlcmZhY2UgdGhpcyBpbmZvcm1hdGlvbiBjb21lcyBmcm9t
-IHRoZSBzdHJlYW0uCj4gCj4gQ3VycmVudGx5IHRoaXMgZnVuY3Rpb24gZHdfaGRtaV9zZXRfY2hh
-bm5lbF9zdGF0dXMgaXMgb25seSBjYWxsZWQKPiBmcm9tIGR3LWhkbWktaTJzLWF1ZGlvIGluIEky
-UyBzZXR1cC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBZYWtpciBZYW5nIDx5a2tAcm9jay1jaGlwcy5j
-b20+Cj4gU2lnbmVkLW9mZi1ieTogQ2hlbmctWWkgQ2hpYW5nIDxjeWNoaWFuZ0BjaHJvbWl1bS5v
-cmc+Cj4gLS0tCj4gCj4gQ2hhbmdlIGZyb20gdjIgdG8gdjM6Cj4gMS4gUmV1c2Ugd2hhdCBpcyBh
-bHJlYWR5IHNldCBpbiBpZWMuc3RhdHVzIGluIGh3X3BhcmFtLgo+IDIuIFJlbW92ZSBhbGwgdXNl
-bGVzcyBkZWZpbml0aW9uIG9mIHJlZ2lzdGVycyBhbmQgdmFsdWVzLgo+IDMuIE5vdGUgdGhhdCB0
-aGUgb3JpZ2luYWwgc2FtcGxpbmcgZnJlcXVlbmN5IGlzIG5vdCB3cml0dGVuIHRvCj4gICAgdGhl
-IGNoYW5uZWwgc3RhdHVzIGFzIHdlIHJldXNlIGNyZWF0ZV9pZWM5NThfY29uc3VtZXIgaW4gcGNt
-X2llYzk1OC5jLgo+ICAgIFdpdGhvdXQgdGhhdCBpdCBjYW4gc3RpbGwgcGxheSBhdWRpbyBmaW5l
-Lgo+IAo+ICAuLi4vZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1oZG1pLWkycy1hdWRpby5jICAgfCAg
-MSArCj4gIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3BzeXMvZHctaGRtaS5jICAgICB8IDIw
-ICsrKysrKysrKysrKysrKysrKysKPiAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9k
-dy1oZG1pLmggICAgIHwgIDIgKysKPiAgaW5jbHVkZS9kcm0vYnJpZGdlL2R3X2hkbWkuaCAgICAg
-ICAgICAgICAgICAgIHwgIDEgKwo+ICA0IGZpbGVzIGNoYW5nZWQsIDI0IGluc2VydGlvbnMoKykK
-PiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1oZG1p
-LWkycy1hdWRpby5jIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1oZG1pLWky
-cy1hdWRpby5jCj4gaW5kZXggMzRkOGU4Mzc1NTVmLi4yMGY0ZjkyZGQ4NjYgMTAwNjQ0Cj4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1oZG1pLWkycy1hdWRpby5jCj4g
-KysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1oZG1pLWkycy1hdWRpby5j
-Cj4gQEAgLTEwMiw2ICsxMDIsNyBAQCBzdGF0aWMgaW50IGR3X2hkbWlfaTJzX2h3X3BhcmFtcyhz
-dHJ1Y3QgZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsCj4gIAl9Cj4gIAo+ICAJZHdfaGRtaV9zZXRf
-c2FtcGxlX3JhdGUoaGRtaSwgaHBhcm1zLT5zYW1wbGVfcmF0ZSk7Cj4gKwlkd19oZG1pX3NldF9j
-aGFubmVsX3N0YXR1cyhoZG1pLCBocGFybXMtPmllYy5zdGF0dXMpOwo+ICAJZHdfaGRtaV9zZXRf
-Y2hhbm5lbF9jb3VudChoZG1pLCBocGFybXMtPmNoYW5uZWxzKTsKPiAgCWR3X2hkbWlfc2V0X2No
-YW5uZWxfYWxsb2NhdGlvbihoZG1pLCBocGFybXMtPmNlYS5jaGFubmVsX2FsbG9jYXRpb24pOwo+
-ICAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1oZG1p
-LmMgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3LWhkbWkuYwo+IGluZGV4IGJk
-NjVkMDQ3OTY4My4uYWE3ZWZkNGRhMWM4IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9i
-cmlkZ2Uvc3lub3BzeXMvZHctaGRtaS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9z
-eW5vcHN5cy9kdy1oZG1pLmMKPiBAQCAtNTgyLDYgKzU4MiwyNiBAQCBzdGF0aWMgdW5zaWduZWQg
-aW50IGhkbWlfY29tcHV0ZV9uKHVuc2lnbmVkIGludCBmcmVxLCB1bnNpZ25lZCBsb25nIHBpeGVs
-X2NsaykKPiAgCXJldHVybiBuOwo+ICB9Cj4gIAo+ICsvKgo+ICsgKiBXaGVuIHRyYW5zbWl0dGlu
-ZyBJRUM2MDk1OCBsaW5lYXIgUENNIGF1ZGlvLCB0aGVzZSByZWdpc3RlcnMgYWxsb3cgdG8KPiAr
-ICogY29uZmlndXJlIHRoZSBjaGFubmVsIHN0YXR1cyBpbmZvcm1hdGlvbiBvZiBhbGwgdGhlIGNo
-YW5uZWwgc3RhdHVzCj4gKyAqIGJpdHMgaW4gdGhlIElFQzYwOTU4IGZyYW1lLiBGb3IgdGhlIG1v
-bWVudCB0aGlzIGNvbmZpZ3VyYXRpb24gaXMgb25seQo+ICsgKiB1c2VkIHdoZW4gdGhlIEkyUyBh
-dWRpbyBpbnRlcmZhY2UsIEdlbmVyYWwgUHVycG9zZSBBdWRpbyAoR1BBKSwKPiArICogb3IgQUhC
-IGF1ZGlvIERNQSAoQUhCQVVERE1BKSBpbnRlcmZhY2UgaXMgYWN0aXZlCj4gKyAqIChmb3IgUy9Q
-RElGIGludGVyZmFjZSB0aGlzIGluZm9ybWF0aW9uIGNvbWVzIGZyb20gdGhlIHN0cmVhbSkuCj4g
-KyAqLwo+ICt2b2lkIGR3X2hkbWlfc2V0X2NoYW5uZWxfc3RhdHVzKHN0cnVjdCBkd19oZG1pICpo
-ZG1pLAo+ICsJCQkJdTggKmNoYW5uZWxfc3RhdHVzKQo+ICt7Cj4gKwkvKgo+ICsJICogU2V0IGNo
-YW5uZWwgc3RhdHVzIHJlZ2lzdGVyIGZvciBmcmVxdWVuY3kgYW5kIHdvcmQgbGVuZ3RoLgo+ICsJ
-ICogVXNlIGRlZmF1bHQgdmFsdWVzIGZvciBvdGhlciByZWdpc3RlcnMuCj4gKwkgKi8KPiArCWhk
-bWlfd3JpdGViKGhkbWksIGNoYW5uZWxfc3RhdHVzWzNdLCBIRE1JX0ZDX0FVRFNDSE5MUzcpOwo+
-ICsJaGRtaV93cml0ZWIoaGRtaSwgY2hhbm5lbF9zdGF0dXNbNF0sIEhETUlfRkNfQVVEU0NITkxT
-OCk7Cj4gK30KPiArRVhQT1JUX1NZTUJPTF9HUEwoZHdfaGRtaV9zZXRfY2hhbm5lbF9zdGF0dXMp
-Owo+ICsKPiAgc3RhdGljIHZvaWQgaGRtaV9zZXRfY2xrX3JlZ2VuZXJhdG9yKHN0cnVjdCBkd19o
-ZG1pICpoZG1pLAo+ICAJdW5zaWduZWQgbG9uZyBwaXhlbF9jbGssIHVuc2lnbmVkIGludCBzYW1w
-bGVfcmF0ZSkKPiAgewo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9w
-c3lzL2R3LWhkbWkuaCBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3BzeXMvZHctaGRtaS5o
-Cj4gaW5kZXggNjk4OGYxMmQ4OWQ5Li5mY2ZmNTA1OWRiMjQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1oZG1pLmgKPiArKysgYi9kcml2ZXJzL2dwdS9k
-cm0vYnJpZGdlL3N5bm9wc3lzL2R3LWhkbWkuaAo+IEBAIC0xNTgsNiArMTU4LDggQEAKPiAgI2Rl
-ZmluZSBIRE1JX0ZDX1NQRERFVklDRUlORiAgICAgICAgICAgICAgICAgICAgMHgxMDYyCj4gICNk
-ZWZpbmUgSERNSV9GQ19BVURTQ09ORiAgICAgICAgICAgICAgICAgICAgICAgIDB4MTA2Mwo+ICAj
-ZGVmaW5lIEhETUlfRkNfQVVEU1NUQVQgICAgICAgICAgICAgICAgICAgICAgICAweDEwNjQKPiAr
-I2RlZmluZSBIRE1JX0ZDX0FVRFNDSE5MUzcgICAgICAgICAgICAgICAgICAgICAgMHgxMDZlCj4g
-KyNkZWZpbmUgSERNSV9GQ19BVURTQ0hOTFM4ICAgICAgICAgICAgICAgICAgICAgIDB4MTA2Zgo+
-ICAjZGVmaW5lIEhETUlfRkNfREFUQUNIMEZJTEwgICAgICAgICAgICAgICAgICAgICAweDEwNzAK
-PiAgI2RlZmluZSBIRE1JX0ZDX0RBVEFDSDFGSUxMICAgICAgICAgICAgICAgICAgICAgMHgxMDcx
-Cj4gICNkZWZpbmUgSERNSV9GQ19EQVRBQ0gyRklMTCAgICAgICAgICAgICAgICAgICAgIDB4MTA3
-Mgo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9icmlkZ2UvZHdfaGRtaS5oIGIvaW5jbHVkZS9k
-cm0vYnJpZGdlL2R3X2hkbWkuaAo+IGluZGV4IGNmNTI4YzI4OTg1Ny4uNGIzZTg2M2M0ZjhhIDEw
-MDY0NAo+IC0tLSBhL2luY2x1ZGUvZHJtL2JyaWRnZS9kd19oZG1pLmgKPiArKysgYi9pbmNsdWRl
-L2RybS9icmlkZ2UvZHdfaGRtaS5oCj4gQEAgLTE1Niw2ICsxNTYsNyBAQCB2b2lkIGR3X2hkbWlf
-c2V0dXBfcnhfc2Vuc2Uoc3RydWN0IGR3X2hkbWkgKmhkbWksIGJvb2wgaHBkLCBib29sIHJ4X3Nl
-bnNlKTsKPiAgCj4gIHZvaWQgZHdfaGRtaV9zZXRfc2FtcGxlX3JhdGUoc3RydWN0IGR3X2hkbWkg
-KmhkbWksIHVuc2lnbmVkIGludCByYXRlKTsKPiAgdm9pZCBkd19oZG1pX3NldF9jaGFubmVsX2Nv
-dW50KHN0cnVjdCBkd19oZG1pICpoZG1pLCB1bnNpZ25lZCBpbnQgY250KTsKPiArdm9pZCBkd19o
-ZG1pX3NldF9jaGFubmVsX3N0YXR1cyhzdHJ1Y3QgZHdfaGRtaSAqaGRtaSwgdTggKmNoYW5uZWxf
-c3RhdHVzKTsKPiAgdm9pZCBkd19oZG1pX3NldF9jaGFubmVsX2FsbG9jYXRpb24oc3RydWN0IGR3
-X2hkbWkgKmhkbWksIHVuc2lnbmVkIGludCBjYSk7Cj4gIHZvaWQgZHdfaGRtaV9hdWRpb19lbmFi
-bGUoc3RydWN0IGR3X2hkbWkgKmhkbWkpOwo+ICB2b2lkIGR3X2hkbWlfYXVkaW9fZGlzYWJsZShz
-dHJ1Y3QgZHdfaGRtaSAqaGRtaSk7Cj4gCgpMb29rcyBmaW5lIGZvciBtZToKUmV2aWV3ZWQtYnk6
-IE5laWwgQXJtc3Ryb25nIDxuYXJtc3Ryb25nQGJheWxpYnJlLmNvbT4KCkpvbmFzID8gSmVybmVq
-ID8gUnVzc2VsbCA/CgpJZiBpdCdzIG9rIGZvciB5b3UgSSdsbCBhcHBseSBpdC4KCk5laWwKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0283056999==
+Content-Type: multipart/alternative; boundary="15682199980.Fd99BCa.19836"
+Content-Transfer-Encoding: 7bit
+
+
+--15682199980.Fd99BCa.19836
+Date: Wed, 11 Sep 2019 16:39:58 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111077
+
+--- Comment #36 from roland@rptd.ch <roland@rptd.ch> ---
+# mkdir -p /etc/portage/patches/media-libs/mesa/
+# cd /etc/portage/patches/media-libs/mesa/
+wget 'https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1852.patch'
+--2019-09-11 18:35:51--=20
+https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1852.patch
+Resolving gitlab.freedesktop.org... 35.185.111.185
+Connecting to gitlab.freedesktop.org|35.185.111.185|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/plain]
+Saving to: =E2=80=981852.patch=E2=80=99
+
+1852.patch                                 [ <=3D>=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+                                         ]  13.33K  --.-KB/s    in 0.1s=20=
+=20=20=20
+
+2019-09-11 18:35:52 (113 KB/s) - =E2=80=981852.patch=E2=80=99 saved [13646]
+# ebuild /usr/portage/media-libs/mesa/mesa-19.0.8.ebuild prepare
+ * mesa-19.0.8.tar.xz BLAKE2B SHA512 size ;-) ...=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+                                                                     [ ok ]
+ * checking ebuild checksums ;-) ...=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20
+                                                                     [ ok ]
+ * checking miscfile checksums ;-) ...=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20
+                                                                     [ ok ]
+>>> Unpacking source...
+>>> Unpacking mesa-19.0.8.tar.xz to /var/tmp/portage/media-libs/mesa-19.0.8=
+/work
+>>> Source unpacked in /var/tmp/portage/media-libs/mesa-19.0.8/work
+>>> Preparing source in /var/tmp/portage/media-libs/mesa-19.0.8/work/mesa-1=
+9.0.8 ...
+>>> Source prepared.
+
+I'm sorry but this procedure does not pick up the patch. Any ideas why this
+could be the case? The directory /var/db/repos/gentoo/media-libs/mesa/ in y=
+our
+version does not exist on my system.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15682199980.Fd99BCa.19836
+Date: Wed, 11 Sep 2019 16:39:58 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
+ huge amount of RAM"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077#c36">Comme=
+nt # 36</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
+ huge amount of RAM"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077">bug 11107=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+roland&#64;rptd.ch" title=3D"roland&#64;rptd.ch &lt;roland&#64;rptd.ch&gt;"=
+> <span class=3D"fn">roland&#64;rptd.ch</span></a>
+</span></b>
+        <pre># mkdir -p /etc/portage/patches/media-libs/mesa/
+# cd /etc/portage/patches/media-libs/mesa/
+wget '<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/merge_requests/18=
+52.patch">https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1852.patc=
+h</a>'
+--2019-09-11 18:35:51--=20
+<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1852.pat=
+ch">https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1852.patch</a>
+Resolving gitlab.freedesktop.org... 35.185.111.185
+Connecting to gitlab.freedesktop.org|35.185.111.185|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/plain]
+Saving to: =E2=80=981852.patch=E2=80=99
+
+1852.patch                                 [ &lt;=3D&gt;=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+                                         ]  13.33K  --.-KB/s    in 0.1s=20=
+=20=20=20
+
+2019-09-11 18:35:52 (113 KB/s) - =E2=80=981852.patch=E2=80=99 saved [13646]
+# ebuild /usr/portage/media-libs/mesa/mesa-19.0.8.ebuild prepare
+ * mesa-19.0.8.tar.xz BLAKE2B SHA512 size ;-) ...=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+                                                                     [ ok ]
+ * checking ebuild checksums ;-) ...=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20
+                                                                     [ ok ]
+ * checking miscfile checksums ;-) ...=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20
+                                                                     [ ok ]
+<span class=3D"quote">&gt;&gt;&gt; Unpacking source...
+&gt;&gt;&gt; Unpacking mesa-19.0.8.tar.xz to /var/tmp/portage/media-libs/me=
+sa-19.0.8/work
+&gt;&gt;&gt; Source unpacked in /var/tmp/portage/media-libs/mesa-19.0.8/work
+&gt;&gt;&gt; Preparing source in /var/tmp/portage/media-libs/mesa-19.0.8/wo=
+rk/mesa-19.0.8 ...
+&gt;&gt;&gt; Source prepared.</span >
+
+I'm sorry but this procedure does not pick up the patch. Any ideas why this
+could be the case? The directory /var/db/repos/gentoo/media-libs/mesa/ in y=
+our
+version does not exist on my system.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15682199980.Fd99BCa.19836--
+
+--===============0283056999==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0283056999==--
