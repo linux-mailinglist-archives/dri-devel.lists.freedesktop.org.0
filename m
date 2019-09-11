@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 104CEAF390
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2019 02:10:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4353AF40F
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2019 03:38:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5DC06E9DF;
-	Wed, 11 Sep 2019 00:10:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52FAE6E07B;
+	Wed, 11 Sep 2019 01:38:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 08E866E9DF
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2019 00:10:15 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0FB676E11C
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2019 01:38:10 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0526772167; Wed, 11 Sep 2019 00:10:15 +0000 (UTC)
+ id 0784072168; Wed, 11 Sep 2019 01:38:10 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111077] link_shader and deserialize_glsl_program suddenly
- consume huge amount of RAM
-Date: Wed, 11 Sep 2019 00:10:15 +0000
+Subject: [Bug 111591] [radeonsi/Navi] The Bard's Tale IV causes a GPU hang
+Date: Wed, 11 Sep 2019 01:38:10 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 18.3
-X-Bugzilla-Keywords: bisected
-X-Bugzilla-Severity: blocker
-X-Bugzilla-Who: mattst88@gmail.com
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: t_arceri@yahoo.com.au
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
+X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111077-502-NChFHYkfBu@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111077-502@http.bugs.freedesktop.org/>
-References: <bug-111077-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111591-502-nN9h5ZLTtU@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111591-502@http.bugs.freedesktop.org/>
+References: <bug-111591-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,92 +52,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0509767835=="
+Content-Type: multipart/mixed; boundary="===============0751638086=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0509767835==
-Content-Type: multipart/alternative; boundary="15681606141.2ACFA0.5296"
+--===============0751638086==
+Content-Type: multipart/alternative; boundary="15681658891.0fEd9.20294"
 Content-Transfer-Encoding: 7bit
 
 
---15681606141.2ACFA0.5296
-Date: Wed, 11 Sep 2019 00:10:14 +0000
+--15681658891.0fEd9.20294
+Date: Wed, 11 Sep 2019 01:38:09 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111077
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111591
 
---- Comment #35 from Matt Turner <mattst88@gmail.com> ---
-(In reply to roland@rptd.ch from comment #34)
-> I do not see anything mentioned there. I've wget the file into
-> /etc/portage/patches/media-libs/mesa/ directory, which did not exist.
-> Anything else I need to do to get Gentoo to pick up the patch?
+--- Comment #9 from Timothy Arceri <t_arceri@yahoo.com.au> ---
+Thanks! I can reproduce the problem using the new trace.
 
-p50-ethernet ~ # mkdir -p /etc/portage/patches/media-libs/mesa/
-p50-ethernet ~ # cd /etc/portage/patches/media-libs/mesa/
-p50-ethernet /etc/portage/patches/media-libs/mesa # wget
-'https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1852.patch'
---2019-09-10 17:09:04--=20
-https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1852.patch
-Resolving gitlab.freedesktop.org... 35.185.111.185
-Connecting to gitlab.freedesktop.org|35.185.111.185|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: unspecified [text/plain]
-Saving to: =E2=80=981852.patch=E2=80=99
-
-1852.patch                                               [ <=3D>=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20
-                ]  13.33K  --.-KB/s    in 0.08s=20=20=20
-
-2019-09-10 17:09:04 (163 KB/s) - =E2=80=981852.patch=E2=80=99 saved [13646]
-
-p50-ethernet /etc/portage/patches/media-libs/mesa # ebuild
-/var/db/repos/gentoo/media-libs/mesa/mesa-19.2.0_rc2.ebuild prepare
- * mesa-19.2.0-rc2.tar.xz BLAKE2B SHA512 size ;-) ...=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20
-                                            [ ok ]
->>> Unpacking source...
->>> Unpacking mesa-19.2.0-rc2.tar.xz to /var/tmp/portage/media-libs/mesa-19=
-.2.0_rc2/work
->>> Source unpacked in /var/tmp/portage/media-libs/mesa-19.2.0_rc2/work
->>> Preparing source in /var/tmp/portage/media-libs/mesa-19.2.0_rc2/work/me=
-sa-19.2.0-rc2 ...
- * Applying 1852.patch ...=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20
-                                            [ ok ]
- * User patches applied.
->>> Source prepared.
-
-
-"Applying 1852.patch" is what you should see.
-
-There's nothing else you need to do other than putting the patch into that
-directory.
+It's strange the problem is caused by some shaders failing to link but the
+error message doesn't match what the shaders actually do. Also dumping out =
+the
+shaders and compiling them with our shader-db tool also results in them
+compiling correctly. There is clearly a bug in here somewhere but will take
+some more digging to find it.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15681606141.2ACFA0.5296
-Date: Wed, 11 Sep 2019 00:10:14 +0000
+--15681658891.0fEd9.20294
+Date: Wed, 11 Sep 2019 01:38:09 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -154,83 +103,26 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
- huge amount of RAM"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077#c35">Comme=
-nt # 35</a>
+   title=3D"NEW - [radeonsi/Navi] The Bard's Tale IV causes a GPU hang"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111591#c9">Commen=
+t # 9</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
- huge amount of RAM"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077">bug 11107=
-7</a>
+   title=3D"NEW - [radeonsi/Navi] The Bard's Tale IV causes a GPU hang"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111591">bug 11159=
+1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-mattst88&#64;gmail.com" title=3D"Matt Turner &lt;mattst88&#64;gmail.com&gt;=
-"> <span class=3D"fn">Matt Turner</span></a>
+t_arceri&#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.c=
+om.au&gt;"> <span class=3D"fn">Timothy Arceri</span></a>
 </span></b>
-        <pre>(In reply to <a href=3D"mailto:roland&#64;rptd.ch">roland&#64;=
-rptd.ch</a> from <a href=3D"show_bug.cgi?id=3D111077#c34">comment #34</a>)
-<span class=3D"quote">&gt; I do not see anything mentioned there. I've wget=
- the file into
-&gt; /etc/portage/patches/media-libs/mesa/ directory, which did not exist.
-&gt; Anything else I need to do to get Gentoo to pick up the patch?</span >
+        <pre>Thanks! I can reproduce the problem using the new trace.
 
-p50-ethernet ~ # mkdir -p /etc/portage/patches/media-libs/mesa/
-p50-ethernet ~ # cd /etc/portage/patches/media-libs/mesa/
-p50-ethernet /etc/portage/patches/media-libs/mesa # wget
-'<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1852.pa=
-tch">https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1852.patch</a>'
---2019-09-10 17:09:04--=20
-<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1852.pat=
-ch">https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1852.patch</a>
-Resolving gitlab.freedesktop.org... 35.185.111.185
-Connecting to gitlab.freedesktop.org|35.185.111.185|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: unspecified [text/plain]
-Saving to: =E2=80=981852.patch=E2=80=99
-
-1852.patch                                               [ &lt;=3D&gt;=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20
-                ]  13.33K  --.-KB/s    in 0.08s=20=20=20
-
-2019-09-10 17:09:04 (163 KB/s) - =E2=80=981852.patch=E2=80=99 saved [13646]
-
-p50-ethernet /etc/portage/patches/media-libs/mesa # ebuild
-/var/db/repos/gentoo/media-libs/mesa/mesa-19.2.0_rc2.ebuild prepare
- * mesa-19.2.0-rc2.tar.xz BLAKE2B SHA512 size ;-) ...=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20
-                                            [ ok ]
-<span class=3D"quote">&gt;&gt;&gt; Unpacking source...
-&gt;&gt;&gt; Unpacking mesa-19.2.0-rc2.tar.xz to /var/tmp/portage/media-lib=
-s/mesa-19.2.0_rc2/work
-&gt;&gt;&gt; Source unpacked in /var/tmp/portage/media-libs/mesa-19.2.0_rc2=
-/work
-&gt;&gt;&gt; Preparing source in /var/tmp/portage/media-libs/mesa-19.2.0_rc=
-2/work/mesa-19.2.0-rc2 ...</span >
- * Applying 1852.patch ...=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20
-                                            [ ok ]
- * User patches applied.
-<span class=3D"quote">&gt;&gt;&gt; Source prepared.</span >
-
-
-&quot;Applying 1852.patch&quot; is what you should see.
-
-There's nothing else you need to do other than putting the patch into that
-directory.</pre>
+It's strange the problem is caused by some shaders failing to link but the
+error message doesn't match what the shaders actually do. Also dumping out =
+the
+shaders and compiling them with our shader-db tool also results in them
+compiling correctly. There is clearly a bug in here somewhere but will take
+some more digging to find it.</pre>
         </div>
       </p>
 
@@ -244,9 +136,9 @@ directory.</pre>
     </body>
 </html>=
 
---15681606141.2ACFA0.5296--
+--15681658891.0fEd9.20294--
 
---===============0509767835==
+--===============0751638086==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -256,4 +148,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0509767835==--
+--===============0751638086==--
