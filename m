@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99552B0930
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2019 09:08:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83170B0935
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2019 09:08:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B7086EBA6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7584E6EBAA;
 	Thu, 12 Sep 2019 07:07:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [62.209.51.94])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 290226E1CF
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2019 08:48:27 +0000 (UTC)
-Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- x8B8kp03032729; Wed, 11 Sep 2019 10:48:13 +0200
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com with ESMTP id 2uv2aw9qx2-1
- (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
- Wed, 11 Sep 2019 10:48:13 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 239E923;
- Wed, 11 Sep 2019 08:48:05 +0000 (GMT)
-Received: from Webmail-eu.st.com (Safex1hubcas21.st.com [10.75.90.44])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 4D7E42B59F2;
- Wed, 11 Sep 2019 10:48:05 +0200 (CEST)
-Received: from SAFEX1HUBCAS22.st.com (10.75.90.92) by SAFEX1HUBCAS21.st.com
- (10.75.90.44) with Microsoft SMTP Server (TLS) id 14.3.439.0; Wed, 11 Sep
- 2019 10:48:04 +0200
-Received: from localhost (10.201.20.122) by Webmail-ga.st.com (10.75.90.48)
- with Microsoft SMTP Server (TLS) id 14.3.439.0; Wed, 11 Sep 2019 10:48:03
- +0200
-From: Benjamin Gaignard <benjamin.gaignard@st.com>
-To: <benjamin.gaignard@linaro.org>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <hwentlan@amd.com>, <manasi.d.navare@intel.com>
-Subject: [PATCH] drm: fix warnings in DSC
-Date: Wed, 11 Sep 2019 10:47:59 +0200
-Message-ID: <20190911084759.6946-1-benjamin.gaignard@st.com>
-X-Mailer: git-send-email 2.15.0
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
+ [IPv6:2607:f8b0:4864:20::d42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FCF66E24E
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2019 11:49:06 +0000 (UTC)
+Received: by mail-io1-xd42.google.com with SMTP id d17so23148570ios.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2019 04:49:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pt9n59Xh89lcvDG7F3KB+ad2c5bCRWrFgBU89mDdIF0=;
+ b=TsWOoeP4PP00bpRweU/qWtc8YRYXVlKVY3/EKx1TCQQsPpbD94n5YiBq2W7n7UZzaX
+ U4yu/WUzhrRGcy3/mXPxwoALvnkpDSgkZD8y6iO4fKtJyIQL5C2GHvjAYb2vKgIUVSMo
+ GD4b4OG6H17N53x/s7aaYFOvlp5OFNBYjuVsK3coXMBVhyFkWLCHpLGleUT5VS4qxLi0
+ dguXm7gDtpp1D+kBJIIE7NwCPg9Du8yDPkcqswp7mbtDC0A71uLHt5i+Z11tt9YWLRNy
+ HJsc5INuEk83i12IAyZiB9XfUq4n4JsYsJt9D+CfxzlyBifQw+G3sTVM8Z19CDsm6EsQ
+ SbhQ==
+X-Gm-Message-State: APjAAAVPBFZ+1KuiuZlJjMUpReis+2dMntV7OYy5FE7WvOy+wFlNhXcH
+ c7lu/XEjICOapUmrlqcBIq7doZYfBT6yx4HQagvWaw==
+X-Google-Smtp-Source: APXvYqxlBQa/pWCmQtM8lPVAXpB2e9g5uT8Bm+hPW3kKFvwwJtOaLE+5YYKw8CrWQllIEI6Nk4MBeu28X+R8MWb0zlk=
+X-Received: by 2002:a6b:b213:: with SMTP id b19mr6876408iof.58.1568202545749; 
+ Wed, 11 Sep 2019 04:49:05 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.201.20.122]
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.70,1.0.8
- definitions=2019-09-11_06:2019-09-10,2019-09-11 signatures=0
+References: <20190905161759.28036-1-mathieu.poirier@linaro.org>
+ <20190905161759.28036-4-mathieu.poirier@linaro.org>
+ <20190910143459.GC3362@kroah.com>
+In-Reply-To: <20190910143459.GC3362@kroah.com>
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+Date: Wed, 11 Sep 2019 05:48:55 -0600
+Message-ID: <CANLsYkzE+Qnb4v-WQMy1OYQOdwjXhjPAdD7gWnChmVTQNcxs+A@mail.gmail.com>
+Subject: Re: [BACKPORT 4.14.y 03/18] drm/omap: panel-dsi-cm: fix driver
+To: Greg KH <greg@kroah.com>
 X-Mailman-Approved-At: Thu, 12 Sep 2019 07:07:54 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=st.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-type; s=STMicroelectronics;
- bh=z6ENkti3uAiwejD5PjtOMXUIXSlg5W0YF9pqxoz3ApI=;
- b=AdR7PLnhq76/wCtudwip3AwQvR6m5lINU6EJdjomYgaYVBQMZ3xrdCBJGzwLkfCBnyrw
- rz3NJh0GHibY8btNQ9xiJ/7CzI7nuHheo28Kg9NHr3awMceHpKcgRT3Ktrg2jQbj3vcG
- igVXtZyrCfHZPO3DWxhh/paMG4m3cCO8DrlzILLedMwdKXR/+oMUJYi1K5HJi5S6yBeI
- oVhfbImIi0hbGnE/56tJ0YUmKAl1qD/PknYe0WhC3FSzRMy+hKwRnqFpsXIj+br0XfCc
- PTyyzPF3h+8bufyOwrcd4wB6WSO2MfAxoJc5ZmQyLv7oGlj535azzuRTYs362fKwsExV vQ== 
+ d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=pt9n59Xh89lcvDG7F3KB+ad2c5bCRWrFgBU89mDdIF0=;
+ b=s3IP81L3ko+a35IbBsxOpDaYKcaLR+XsiyXdS+gACPhd3Zg9tpfEB5s0WqsNCkb/ld
+ jzTUe0fr1/fKFvBulJ05ljCkKy7aFniUsx/6UVED3kqEIStfMaB42lhaQZ6EzbV5QXY4
+ noCXTdBBYecwqpAwxOla7XRqIqdkiIkbdI/FZx1MdWF6MlBDq+sIMJjoKAK497BZfbez
+ lzT/1oSxZ598DrjH0jMYFrrYBNm63v6Mcuam5ZhavAkwpykZp+yxR3QJPKxFGYHrVHBt
+ 7mJJp2Xc2WiAbX6JH4hmNJXZgnvgemVDhBPkYw7uHXbKMiIOu/deHKuCywSvZJdYqLHk
+ YIRA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,36 +65,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Benjamin Gaignard <benjamin.gaignard@st.com>
+Cc: linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-usb@vger.kernel.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-mtd@lists.infradead.org,
+ "# 4 . 7" <stable@vger.kernel.org>, linux-omap@vger.kernel.org,
+ linux-i2c@vger.kernel.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UmVtb3ZlIGFsd2F5cyBmYWxzZSBjb21wYXJpc29ucyBkdWUgdG8gbGltaXRlZCByYW5nZSBvZiBu
-ZmxfYnBnX29mZnNldAphbmQgc2NhbGVfaW5jcmVtZW50X2ludGVydmFsIGZpZWxkcy4KV2Fybmlu
-Z3MgZGV0ZWN0ZWQgd2hlbiBjb21waWxpbmcgd2l0aCBXPTEuCgpTaWduZWQtb2ZmLWJ5OiBCZW5q
-YW1pbiBHYWlnbmFyZCA8YmVuamFtaW4uZ2FpZ25hcmRAc3QuY29tPgotLS0KIGRyaXZlcnMvZ3B1
-L2RybS9kcm1fZHNjLmMgfCAxMSAtLS0tLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDExIGRlbGV0
-aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHNjLmMgYi9kcml2ZXJz
-L2dwdS9kcm0vZHJtX2RzYy5jCmluZGV4IDc3ZjRlNWFlNDE5Ny4uMjdlNWM2MDM2NjU4IDEwMDY0
-NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RzYy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9k
-cm1fZHNjLmMKQEAgLTMzNiwxMiArMzM2LDYgQEAgaW50IGRybV9kc2NfY29tcHV0ZV9yY19wYXJh
-bWV0ZXJzKHN0cnVjdCBkcm1fZHNjX2NvbmZpZyAqdmRzY19jZmcpCiAJZWxzZQogCQl2ZHNjX2Nm
-Zy0+bmZsX2JwZ19vZmZzZXQgPSAwOwogCi0JLyogMl4xNiAtIDEgKi8KLQlpZiAodmRzY19jZmct
-Pm5mbF9icGdfb2Zmc2V0ID4gNjU1MzUpIHsKLQkJRFJNX0RFQlVHX0tNUygiTmZsQnBnT2Zmc2V0
-IGlzIHRvbyBsYXJnZSBmb3IgdGhpcyBzbGljZSBoZWlnaHRcbiIpOwotCQlyZXR1cm4gLUVSQU5H
-RTsKLQl9Ci0KIAkvKiBOdW1iZXIgb2YgZ3JvdXBzIHVzZWQgdG8gY29kZSB0aGUgZW50aXJlIHNs
-aWNlICovCiAJZ3JvdXBzX3RvdGFsID0gZ3JvdXBzX3Blcl9saW5lICogdmRzY19jZmctPnNsaWNl
-X2hlaWdodDsKIApAQCAtMzcxLDExICszNjUsNiBAQCBpbnQgZHJtX2RzY19jb21wdXRlX3JjX3Bh
-cmFtZXRlcnMoc3RydWN0IGRybV9kc2NfY29uZmlnICp2ZHNjX2NmZykKIAkJdmRzY19jZmctPnNj
-YWxlX2luY3JlbWVudF9pbnRlcnZhbCA9IDA7CiAJfQogCi0JaWYgKHZkc2NfY2ZnLT5zY2FsZV9p
-bmNyZW1lbnRfaW50ZXJ2YWwgPiA2NTUzNSkgewotCQlEUk1fREVCVUdfS01TKCJTY2FsZUluY3Jl
-bWVudEludGVydmFsIGlzIGxhcmdlIGZvciBzbGljZSBoZWlnaHRcbiIpOwotCQlyZXR1cm4gLUVS
-QU5HRTsKLQl9Ci0KIAkvKgogCSAqIERTQyBzcGVjIG1lbnRpb25zIHRoYXQgYml0c19wZXJfcGl4
-ZWwgc3BlY2lmaWVzIHRoZSB0YXJnZXQKIAkgKiBiaXRzL3BpeGVsIChicHApIHJhdGUgdGhhdCBp
-cyB1c2VkIGJ5IHRoZSBlbmNvZGVyLAotLSAKMi4xNS4wCgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+T24gVHVlLCAxMCBTZXAgMjAxOSBhdCAwODozNSwgR3JlZyBLSCA8Z3JlZ0Brcm9haC5jb20+IHdy
+b3RlOgo+Cj4gT24gVGh1LCBTZXAgMDUsIDIwMTkgYXQgMTA6MTc6NDRBTSAtMDYwMCwgTWF0aGll
+dSBQb2lyaWVyIHdyb3RlOgo+ID4gRnJvbTogVG9ueSBMaW5kZ3JlbiA8dG9ueUBhdG9taWRlLmNv
+bT4KPiA+Cj4gPiBjb21taXQgZTEyODMxMGRkZDM3OWIwZmRkMjFkYzQxZDE3NmMzYjM1MDVhMDgz
+MiB1cHN0cmVhbQo+ID4KPiA+IFRoaXMgYWRkcyBzdXBwb3J0IGZvciBnZXRfdGltaW5ncygpIGFu
+ZCBjaGVja190aW1pbmdzKCkKPiA+IHRvIGdldCB0aGUgZHJpdmVyIHdvcmtpbmcgYW5kIHByb3Bl
+cmx5IGluaXRpYWxpemVzIHRoZQo+ID4gdGltaW5nIGluZm9ybWF0aW9uIGZyb20gRFQuCj4gPgo+
+ID4gU2lnbmVkLW9mZi1ieTogVG9ueSBMaW5kZ3JlbiA8dG9ueUBhdG9taWRlLmNvbT4KPiA+IFNp
+Z25lZC1vZmYtYnk6IFNlYmFzdGlhbiBSZWljaGVsIDxzZWJhc3RpYW4ucmVpY2hlbEBjb2xsYWJv
+cmEuY28udWs+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBUb21pIFZhbGtlaW5lbiA8dG9taS52YWxrZWlu
+ZW5AdGkuY29tPgo+ID4gU2lnbmVkLW9mZi1ieTogTWF0aGlldSBQb2lyaWVyIDxtYXRoaWV1LnBv
+aXJpZXJAbGluYXJvLm9yZz4KPiA+IC0tLQo+ID4gIC4uLi9ncHUvZHJtL29tYXBkcm0vZGlzcGxh
+eXMvcGFuZWwtZHNpLWNtLmMgICB8IDU2ICsrKysrKysrKysrKysrKysrLS0KPiA+ICAxIGZpbGUg
+Y2hhbmdlZCwgNTEgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKPgo+IFRIaXMgbG9va3Mg
+bGlrZSBhICJuZXcgZmVhdHVyZSIsIHJpZ2h0PyAgV2h5IGlzIHRoaXMgYSBzdGFibGUgcGF0Y2g/
+CgpJIHRob3VnaHQgaXQgd2FzIHBhcnQgb2YgNC4xOS55IGJ1dCBsb29raW5nIGF0IGl0IGFnYWlu
+IEkgc2VlIHRoYXQgaXQKaXMgdGhlcmUgYXMgcGFydCBvZiB0aGUgbWFpbmxpbmUgYmFzZSByYXRo
+ZXIgdGhhbiBhIGJhY2twb3J0LgoKUGxlYXNlIGRyb3AuCgpUaGFua3MsCk1hdGhpZXUKCj4KPiB0
+aGFua3MsCj4KPiBncmVnIGstaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWw=
