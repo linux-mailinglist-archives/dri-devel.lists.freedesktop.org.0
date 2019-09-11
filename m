@@ -1,42 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CCD2B079D
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2019 06:14:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07748B07B9
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2019 06:15:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ED3C6EB64;
-	Thu, 12 Sep 2019 04:12:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 253746E124;
+	Thu, 12 Sep 2019 04:12:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from anholt.net (anholt.net [50.246.234.109])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2BB396E02C
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2019 20:48:47 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by anholt.net (Postfix) with ESMTP id B20CF10A37A2;
- Wed, 11 Sep 2019 13:48:46 -0700 (PDT)
-X-Virus-Scanned: Debian amavisd-new at anholt.net
-Received: from anholt.net ([127.0.0.1])
- by localhost (kingsolver.anholt.net [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id QFhPKD3VB0id; Wed, 11 Sep 2019 13:48:45 -0700 (PDT)
-Received: from eliezer.anholt.net (localhost [127.0.0.1])
- by anholt.net (Postfix) with ESMTP id 70C5D10A379E;
- Wed, 11 Sep 2019 13:48:45 -0700 (PDT)
-Received: by eliezer.anholt.net (Postfix, from userid 1000)
- id A112E2FE2E27; Wed, 11 Sep 2019 13:48:46 -0700 (PDT)
-From: Eric Anholt <eric@anholt.net>
-To: Stefan Wahren <wahrenst@gmx.net>, Florian Fainelli <f.fainelli@gmail.com>,
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>, boris.brezillon@bootlin.com
-Subject: Re: [PATCH] Revert "ARM: bcm283x: Switch V3D over to using the PM
- driver instead of firmware."
-In-Reply-To: <1567957493-4567-1-git-send-email-wahrenst@gmx.net>
-References: <1567957493-4567-1-git-send-email-wahrenst@gmx.net>
-User-Agent: Notmuch/0.22.2+1~gb0bcfaa (http://notmuchmail.org) Emacs/26.1
- (x86_64-pc-linux-gnu)
-Date: Wed, 11 Sep 2019 13:48:46 -0700
-Message-ID: <87ftl2lftd.fsf@anholt.net>
+Received: from hqemgate15.nvidia.com (hqemgate15.nvidia.com [216.228.121.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CA286E0E2;
+ Wed, 11 Sep 2019 22:28:47 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5d7975230000>; Wed, 11 Sep 2019 15:28:51 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Wed, 11 Sep 2019 15:28:46 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Wed, 11 Sep 2019 15:28:46 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 11 Sep
+ 2019 22:28:43 +0000
+Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 11 Sep 2019 22:28:43 +0000
+Received: from rcampbell-dev.nvidia.com (Not Verified[10.110.48.66]) by
+ hqnvemgw01.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
+ id <B5d79751a0003>; Wed, 11 Sep 2019 15:28:42 -0700
+From: Ralph Campbell <rcampbell@nvidia.com>
+To: <linux-mm@kvack.org>
+Subject: [PATCH 0/4] HMM tests and minor fixes
+Date: Wed, 11 Sep 2019 15:28:25 -0700
+Message-ID: <20190911222829.28874-1-rcampbell@nvidia.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+X-NVConfidentiality: public
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nvidia.com; s=n1; 
+ t=1568240931; bh=Dh8YksJO7otMqlUqvnlcy89p09JxR+sFwxCtiGvsYNU=;
+ h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+ MIME-Version:X-NVConfidentiality:Content-Type:
+ Content-Transfer-Encoding;
+ b=OTq660RjB6dzpe60fOzoY+lzAEtGvMCTtmZoIVWmV8sMmeiCyqSIkhLfThszuvYzb
+ Ha0CoERgf0L/6cb34YwFmnwIJZEjBTERV3ek1H/GBmMBbY4vlY71RzAZYn7aqaf2qV
+ kPH8Wdz/cA/lZBTpiO1DK+kfQb8eq3uoVSBW2P/Q+8fNaiT6POn7oxnFh0GpJOAcR3
+ NvejJ2Bw/bSaL44yDphjMPYhLgDhLt7wqqxU5n+bGJ5Id7ueYMWoUKMmfyQ/mhJQDt
+ k6+ohnisBrTSSEzHZq0olTXV+Hc1p/35HLmSUfBpwcQRpHOZQwniQdCNWncl7t+pgb
+ cpAhUMgiRHdww==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,77 +61,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- Stefan Wahren <wahrenst@gmx.net>
-Content-Type: multipart/mixed; boundary="===============1459221302=="
+Cc: Ralph Campbell <rcampbell@nvidia.com>, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+ Jason Gunthorpe <jgg@mellanox.com>, amd-gfx@lists.freedesktop.org,
+ Andrew Morton <akpm@linux-foundation.org>, Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1459221302==
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha512; protocol="application/pgp-signature"
-
---=-=-=
-Content-Type: text/plain
-
-Stefan Wahren <wahrenst@gmx.net> writes:
-
-> Since release of the new BCM2835 PM driver there has been several reports
-> of V3D probing issues. This is caused by timeouts during powering-up the
-> GRAFX PM domain:
->
->   bcm2835-power: Timeout waiting for grafx power OK
->
-> I was able to reproduce this reliable on my Raspberry Pi 3B+ after setting
-> force_turbo=1 in the firmware configuration. Since there are no issues
-> using the firmware PM driver with the same setup, there must be an issue
-> in the BCM2835 PM driver.
->
-> Unfortunately there hasn't been much progress in identifying the root cause
-> since June (mostly in the lack of documentation), so i decided to switch
-> back until the issue in the BCM2835 PM driver is fixed.
->
-> Link: https://github.com/raspberrypi/linux/issues/3046
-> Fixes: e1dc2b2e1bef (" ARM: bcm283x: Switch V3D over to using the PM driver instead of firmware.")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-
-Acked-by: Eric Anholt <eric@anholt.net>
-
-I wish someone with firmware source had the time to look into why using
-open source drivers to drive this hardware was failing, but I don't have
-that time or code any more.
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE/JuuFDWp9/ZkuCBXtdYpNtH8nugFAl15Xa4ACgkQtdYpNtH8
-nui29hAAghQUxmPKCpEEJiONuOiuIC7ozMT9p5wZ2f3fdWyJdDFBBLGldPea7SgA
-mjNWZ2dk4yUEY2BFKVjoeMCCs3KMdiuqzi+6kkAaK21zflRA1A65Vw65/tfyvzdw
-iKL24+/dAH9A0k+UcZZ5ujptijaOCdnxif1lc4+hyADe1Oxw5E8Be8d9GvadZwaU
-mOG+16Sf0U3OcbGOvfPndIrHeKHgDpVN+U0MNUlEx1HMh7yfXT0QtK7iSwabjWZF
-FJ27WGqPaEo3+LMGCOSj5TEA72B08oEvl0nbl562dFWT6mau3R9DiCEZcWNODMhZ
-YAZ+fxJR3MeHsr8KdxH1p6Z9eDNCxaa9LOz6+Tmn5SEUlaMdiNFi84FjMgct9JoK
-3O1h8tzijpjvifSvwa1r4jVNMi3y+8vIZ+RTyGCTB9yoye0Hs+zJgtSu3vbjs6Nz
-Scd3TjCslZBPlm7TpSAFCyIowuMOGmWASq0eoOxRBMGTQYPLorqR+llenYOCbtEC
-l9Vx3WdoPgH2Zd+Hof9Jn7ZDwDrtyFXkOsFwSmoRkVzPTH9u108rTX8+AkyxDybt
-CvhnFGxUg2cOTTTIUoDYFpxQN7bTzjIqq7iu5iVQlXzq9js5/TovcdA6jO9u5B4N
-2fVQGEGrfJeWZM0ICoVDaILnEHdASZYD/s3nbIq4/Jkrmu40MMc=
-=vNM5
------END PGP SIGNATURE-----
---=-=-=--
-
---===============1459221302==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1459221302==--
+VGhlc2UgY2hhbmdlcyBhcmUgYmFzZWQgb24gSmFzb24ncyBsYXRlc3QgaG1tIGJyYW5jaC4KUGF0
+Y2ggMSB3YXMgcHJldmlvdXNseSBwb3N0ZWQgaGVyZSBbMV0gYnV0IHdhcyBkcm9wcGVkIGZyb20g
+dGhlIG9yZ2luYWwKc2VyaWVzLiBIb3BlZnVsbHksIHRoZSB0ZXN0cyB3aWxsIHJlZHVjZSBjb25j
+ZXJucyBhYm91dCBlZGdlIGNvbmRpdGlvbnMuCkknbSBzdXJlIG1vcmUgdGVzdHMgY291bGQgYmUg
+dXNlZnVsbHkgYWRkZWQgYnV0IEkgdGhvdWdodCB0aGlzIHdhcyBhIGdvb2QKc3RhcnRpbmcgcG9p
+bnQuCgpbMV0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtbW0vMjAxOTA3MjYwMDU2NTAu
+MjU2Ni02LXJjYW1wYmVsbEBudmlkaWEuY29tLwoKUmFscGggQ2FtcGJlbGwgKDQpOgogIG1tL2ht
+bTogbWFrZSBmdWxsIHVzZSBvZiB3YWxrX3BhZ2VfcmFuZ2UoKQogIG1tL2htbTogYWxsb3cgc25h
+cHNob3Qgb2YgdGhlIHNwZWNpYWwgemVybyBwYWdlCiAgbW0vaG1tOiBhbGxvdyBobW1fcmFuZ2Vf
+ZmF1bHQoKSBvZiBtbWFwKFBST1RfTk9ORSkKICBtbS9obW0vdGVzdDogYWRkIHNlbGYgdGVzdHMg
+Zm9yIEhNTQoKIE1BSU5UQUlORVJTICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAgMyAr
+CiBkcml2ZXJzL2NoYXIvS2NvbmZpZyAgICAgICAgICAgICAgICAgICB8ICAgMTEgKwogZHJpdmVy
+cy9jaGFyL01ha2VmaWxlICAgICAgICAgICAgICAgICAgfCAgICAxICsKIGRyaXZlcnMvY2hhci9o
+bW1fZG1pcnJvci5jICAgICAgICAgICAgIHwgMTUwNCArKysrKysrKysrKysrKysrKysrKysrKysK
+IGluY2x1ZGUvS2J1aWxkICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAgMSArCiBpbmNsdWRl
+L3VhcGkvbGludXgvaG1tX2RtaXJyb3IuaCAgICAgICB8ICAgNzQgKysKIG1tL2htbS5jICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDExNyArLQogdG9vbHMvdGVzdGluZy9zZWxmdGVz
+dHMvdm0vLmdpdGlnbm9yZSAgfCAgICAxICsKIHRvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL3ZtL01h
+a2VmaWxlICAgIHwgICAgMyArCiB0b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy92bS9jb25maWcgICAg
+ICB8ICAgIDMgKwogdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvdm0vaG1tLXRlc3RzLmMgfCAxMzA0
+ICsrKysrKysrKysrKysrKysrKysrCiB0b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy92bS9ydW5fdm10
+ZXN0cyB8ICAgMTYgKwogdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvdm0vdGVzdF9obW0uc2ggfCAg
+MTA1ICsrCiAxMyBmaWxlcyBjaGFuZ2VkLCAzMDc5IGluc2VydGlvbnMoKyksIDY0IGRlbGV0aW9u
+cygtKQogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvY2hhci9obW1fZG1pcnJvci5jCiBjcmVh
+dGUgbW9kZSAxMDA2NDQgaW5jbHVkZS91YXBpL2xpbnV4L2htbV9kbWlycm9yLmgKIGNyZWF0ZSBt
+b2RlIDEwMDY0NCB0b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy92bS9obW0tdGVzdHMuYwogY3JlYXRl
+IG1vZGUgMTAwNzU1IHRvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL3ZtL3Rlc3RfaG1tLnNoCgotLSAK
+Mi4yMC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
