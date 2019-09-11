@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4387AF4C0
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2019 05:49:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D7FBAF4D9
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2019 06:20:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A856A6E9F4;
-	Wed, 11 Sep 2019 03:49:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 013D76E9F7;
+	Wed, 11 Sep 2019 04:20:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 00B556E9F5
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2019 03:49:09 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3F8CD6E9F7
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2019 04:20:28 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id F0FD572167; Wed, 11 Sep 2019 03:49:08 +0000 (UTC)
+ id 32D7172167; Wed, 11 Sep 2019 04:20:28 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111591] [radeonsi/Navi] The Bard's Tale IV causes a GPU hang
-Date: Wed, 11 Sep 2019 03:49:09 +0000
+Date: Wed, 11 Sep 2019 04:20:28 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -27,14 +27,14 @@ X-Bugzilla-Component: Drivers/Gallium/radeonsi
 X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: t_arceri@yahoo.com.au
+X-Bugzilla-Who: shtetldik@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111591-502-8chguzZvuH@http.bugs.freedesktop.org/>
+Message-ID: <bug-111591-502-0oMhQLocXf@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111591-502@http.bugs.freedesktop.org/>
 References: <bug-111591-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0570216348=="
+Content-Type: multipart/mixed; boundary="===============0822678848=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0570216348==
-Content-Type: multipart/alternative; boundary="15681737481.Ac8F92.8734"
+--===============0822678848==
+Content-Type: multipart/alternative; boundary="15681756280.E8B0.13480"
 Content-Transfer-Encoding: 7bit
 
 
---15681737481.Ac8F92.8734
-Date: Wed, 11 Sep 2019 03:49:08 +0000
+--15681756280.E8B0.13480
+Date: Wed, 11 Sep 2019 04:20:28 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,26 +72,25 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111591
 
---- Comment #14 from Timothy Arceri <t_arceri@yahoo.com.au> ---
-(In reply to Shmerl from comment #13)
-> (In reply to Timothy Arceri from comment #12)
-> > For now you could try using the environment variable:
-> >=20
-> > allow_glsl_cross_stage_interpolation_mismatch=3Dtrue
->=20
-> Thanks! I tried setting it, and it shows the message that it's overridden,
-> but the game still hangs.
+--- Comment #15 from Shmerl <shtetldik@gmail.com> ---
+(In reply to Timothy Arceri from comment #14)
+> Are you sure it is hanging? There is a huge amount of stuttering due to t=
+he
+> game compiling shaders in-game. Its really bad the first time I run the
+> apitrace but much better the second time.
 
-Are you sure it is hanging? There is a huge amount of stuttering due to the
-game compiling shaders in-game. Its really bad the first time I run the
-apitrace but much better the second time.
+
+I couldn't even switch to tty using Ctrl+Alt+F1, so I didn't check dmesg and
+just SysRq rebooted. Next time if this happens with override, may be I can =
+try
+accessing it over ssh remotely to check if it's different from before.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15681737481.Ac8F92.8734
-Date: Wed, 11 Sep 2019 03:49:08 +0000
+--15681756280.E8B0.13480
+Date: Wed, 11 Sep 2019 04:20:28 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -108,32 +107,29 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - [radeonsi/Navi] The Bard's Tale IV causes a GPU hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111591#c14">Comme=
-nt # 14</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111591#c15">Comme=
+nt # 15</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - [radeonsi/Navi] The Bard's Tale IV causes a GPU hang"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111591">bug 11159=
 1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-t_arceri&#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.c=
-om.au&gt;"> <span class=3D"fn">Timothy Arceri</span></a>
+shtetldik&#64;gmail.com" title=3D"Shmerl &lt;shtetldik&#64;gmail.com&gt;"> =
+<span class=3D"fn">Shmerl</span></a>
 </span></b>
-        <pre>(In reply to Shmerl from <a href=3D"show_bug.cgi?id=3D111591#c=
-13">comment #13</a>)
-<span class=3D"quote">&gt; (In reply to Timothy Arceri from <a href=3D"show=
-_bug.cgi?id=3D111591#c12">comment #12</a>)
-&gt; &gt; For now you could try using the environment variable:
-&gt; &gt;=20
-&gt; &gt; allow_glsl_cross_stage_interpolation_mismatch=3Dtrue
-&gt;=20
-&gt; Thanks! I tried setting it, and it shows the message that it's overrid=
-den,
-&gt; but the game still hangs.</span >
+        <pre>(In reply to Timothy Arceri from <a href=3D"show_bug.cgi?id=3D=
+111591#c14">comment #14</a>)
+<span class=3D"quote">&gt; Are you sure it is hanging? There is a huge amou=
+nt of stuttering due to the
+&gt; game compiling shaders in-game. Its really bad the first time I run the
+&gt; apitrace but much better the second time.</span >
 
-Are you sure it is hanging? There is a huge amount of stuttering due to the
-game compiling shaders in-game. Its really bad the first time I run the
-apitrace but much better the second time.</pre>
+
+I couldn't even switch to tty using Ctrl+Alt+F1, so I didn't check dmesg and
+just SysRq rebooted. Next time if this happens with override, may be I can =
+try
+accessing it over ssh remotely to check if it's different from before.</pre>
         </div>
       </p>
 
@@ -147,9 +143,9 @@ apitrace but much better the second time.</pre>
     </body>
 </html>=
 
---15681737481.Ac8F92.8734--
+--15681756280.E8B0.13480--
 
---===============0570216348==
+--===============0822678848==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -159,4 +155,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0570216348==--
+--===============0822678848==--
