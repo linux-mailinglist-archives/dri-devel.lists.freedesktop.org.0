@@ -2,43 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CC30B07C9
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2019 06:15:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CCD2B079D
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2019 06:14:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 149DB6EC79;
-	Thu, 12 Sep 2019 04:13:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ED3C6EB64;
+	Thu, 12 Sep 2019 04:12:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 493676E02C
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2019 20:17:39 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204817] New: IP resume fail after changing dpm states rapidly
-Date: Wed, 11 Sep 2019 20:17:37 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: proje.pdf@outlook.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-204817-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from anholt.net (anholt.net [50.246.234.109])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2BB396E02C
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2019 20:48:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id B20CF10A37A2;
+ Wed, 11 Sep 2019 13:48:46 -0700 (PDT)
+X-Virus-Scanned: Debian amavisd-new at anholt.net
+Received: from anholt.net ([127.0.0.1])
+ by localhost (kingsolver.anholt.net [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id QFhPKD3VB0id; Wed, 11 Sep 2019 13:48:45 -0700 (PDT)
+Received: from eliezer.anholt.net (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id 70C5D10A379E;
+ Wed, 11 Sep 2019 13:48:45 -0700 (PDT)
+Received: by eliezer.anholt.net (Postfix, from userid 1000)
+ id A112E2FE2E27; Wed, 11 Sep 2019 13:48:46 -0700 (PDT)
+From: Eric Anholt <eric@anholt.net>
+To: Stefan Wahren <wahrenst@gmx.net>, Florian Fainelli <f.fainelli@gmail.com>,
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>, boris.brezillon@bootlin.com
+Subject: Re: [PATCH] Revert "ARM: bcm283x: Switch V3D over to using the PM
+ driver instead of firmware."
+In-Reply-To: <1567957493-4567-1-git-send-email-wahrenst@gmx.net>
+References: <1567957493-4567-1-git-send-email-wahrenst@gmx.net>
+User-Agent: Notmuch/0.22.2+1~gb0bcfaa (http://notmuchmail.org) Emacs/26.1
+ (x86_64-pc-linux-gnu)
+Date: Wed, 11 Sep 2019 13:48:46 -0700
+Message-ID: <87ftl2lftd.fsf@anholt.net>
 MIME-Version: 1.0
-X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
- message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,64 +49,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: stable@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ Stefan Wahren <wahrenst@gmx.net>
+Content-Type: multipart/mixed; boundary="===============1459221302=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQ4MTcKCiAgICAg
-ICAgICAgIEJ1ZyBJRDogMjA0ODE3CiAgICAgICAgICAgU3VtbWFyeTogSVAgcmVzdW1lIGZhaWwg
-YWZ0ZXIgY2hhbmdpbmcgZHBtIHN0YXRlcyByYXBpZGx5CiAgICAgICAgICAgUHJvZHVjdDogRHJp
-dmVycwogICAgICAgICAgIFZlcnNpb246IDIuNQogICAgS2VybmVsIFZlcnNpb246IDUuMy4wLTA1
-MDMwMHJjOC1nZW5lcmljCiAgICAgICAgICBIYXJkd2FyZTogeDg2LTY0CiAgICAgICAgICAgICAg
-ICBPUzogTGludXgKICAgICAgICAgICAgICBUcmVlOiBNYWlubGluZQogICAgICAgICAgICBTdGF0
-dXM6IE5FVwogICAgICAgICAgU2V2ZXJpdHk6IG5vcm1hbAogICAgICAgICAgUHJpb3JpdHk6IFAx
-CiAgICAgICAgIENvbXBvbmVudDogVmlkZW8oRFJJIC0gbm9uIEludGVsKQogICAgICAgICAgQXNz
-aWduZWU6IGRyaXZlcnNfdmlkZW8tZHJpQGtlcm5lbC1idWdzLm9zZGwub3JnCiAgICAgICAgICBS
-ZXBvcnRlcjogcHJvamUucGRmQG91dGxvb2suY29tCiAgICAgICAgUmVncmVzc2lvbjogTm8KCkNy
-ZWF0ZWQgYXR0YWNobWVudCAyODQ5MjkKICAtLT4gaHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3Jn
-L2F0dGFjaG1lbnQuY2dpP2lkPTI4NDkyOSZhY3Rpb249ZWRpdApmdWxsIHN1ZG8gZG1lc2cgbG9n
-Cgp1dGt1M0Bwb3Atb3M6fiQgZm9yIGkgaW4gSVAgaXA7ZG8gZXZhbCAic3VkbyBkbWVzZ3xncmVw
-ICckaSBibG9jayciO2RvbmUKWyAzMDQ5LjEzNDIxMV0gW2RybTphbWRncHVfZGV2aWNlX2lwX3Jl
-c3VtZV9waGFzZTIgW2FtZGdwdV1dICpFUlJPUiogcmVzdW1lIG9mCklQIGJsb2NrIDxzZG1hX3Yz
-XzA+IGZhaWxlZCAtMTEwClsgMzA3NC40ODg4NzNdIFtkcm06YW1kZ3B1X2RldmljZV9pcF9zdXNw
-ZW5kX3BoYXNlMiBbYW1kZ3B1XV0gKkVSUk9SKiBzdXNwZW5kCm9mIElQIGJsb2NrIDxwb3dlcnBs
-YXk+IGZhaWxlZCAtMjIKWyAzMDc1LjQ4OTk0M10gW2RybTphbWRncHVfZGV2aWNlX2lwX3Jlc3Vt
-ZV9waGFzZTIgW2FtZGdwdV1dICpFUlJPUiogcmVzdW1lIG9mCklQIGJsb2NrIDxzZG1hX3YzXzA+
-IGZhaWxlZCAtMTEwClsgMzI2MS42MjIwOTRdIFtkcm06YW1kZ3B1X2RldmljZV9pcF9zdXNwZW5k
-X3BoYXNlMiBbYW1kZ3B1XV0gKkVSUk9SKiBzdXNwZW5kCm9mIElQIGJsb2NrIDxwb3dlcnBsYXk+
-IGZhaWxlZCAtMjIKWyAzMzQxLjM4NTA0NV0gW2RybTphbWRncHVfZGV2aWNlX2lwX3Jlc3VtZV9w
-aGFzZTIgW2FtZGdwdV1dICpFUlJPUiogcmVzdW1lIG9mCklQIGJsb2NrIDxnZnhfdjhfMD4gZmFp
-bGVkIC0xMTAKWyAzMzkxLjk2NTIwMV0gW2RybTphbWRncHVfZGV2aWNlX2lwX3N1c3BlbmRfcGhh
-c2UyIFthbWRncHVdXSAqRVJST1IqIHN1c3BlbmQKb2YgSVAgYmxvY2sgPHBvd2VycGxheT4gZmFp
-bGVkIC0yMgpbICAgIDIuMTAyMDg2XSBbZHJtXSBhZGQgaXAgYmxvY2sgbnVtYmVyIDAgPHZpX2Nv
-bW1vbj4KWyAgICAyLjEwMjA4OF0gW2RybV0gYWRkIGlwIGJsb2NrIG51bWJlciAxIDxnbWNfdjhf
-MD4KWyAgICAyLjEwMjA4OV0gW2RybV0gYWRkIGlwIGJsb2NrIG51bWJlciAyIDxjel9paD4KWyAg
-ICAyLjEwMjA5MF0gW2RybV0gYWRkIGlwIGJsb2NrIG51bWJlciAzIDxnZnhfdjhfMD4KWyAgICAy
-LjEwMjA5MV0gW2RybV0gYWRkIGlwIGJsb2NrIG51bWJlciA0IDxzZG1hX3YzXzA+ClsgICAgMi4x
-MDIwOTJdIFtkcm1dIGFkZCBpcCBibG9jayBudW1iZXIgNSA8cG93ZXJwbGF5PgpbICAgIDIuMTAy
-MDkzXSBbZHJtXSBhZGQgaXAgYmxvY2sgbnVtYmVyIDYgPGRtPgpbICAgIDIuMTAyMDk0XSBbZHJt
-XSBhZGQgaXAgYmxvY2sgbnVtYmVyIDcgPHV2ZF92Nl8wPgpbICAgIDIuMTAyMDk1XSBbZHJtXSBh
-ZGQgaXAgYmxvY2sgbnVtYmVyIDggPHZjZV92M18wPgpbICAgIDIuMTAyMDk2XSBbZHJtXSBhZGQg
-aXAgYmxvY2sgbnVtYmVyIDkgPGFjcF9pcD4KWyAgICAyLjQwMzE4Ml0gW2RybV0gYWRkIGlwIGJs
-b2NrIG51bWJlciAwIDx2aV9jb21tb24+ClsgICAgMi40MDMxODNdIFtkcm1dIGFkZCBpcCBibG9j
-ayBudW1iZXIgMSA8Z21jX3Y4XzA+ClsgICAgMi40MDMxODRdIFtkcm1dIGFkZCBpcCBibG9jayBu
-dW1iZXIgMiA8dG9uZ2FfaWg+ClsgICAgMi40MDMxODVdIFtkcm1dIGFkZCBpcCBibG9jayBudW1i
-ZXIgMyA8Z2Z4X3Y4XzA+ClsgICAgMi40MDMxODVdIFtkcm1dIGFkZCBpcCBibG9jayBudW1iZXIg
-NCA8c2RtYV92M18wPgpbICAgIDIuNDAzMTg2XSBbZHJtXSBhZGQgaXAgYmxvY2sgbnVtYmVyIDUg
-PHBvd2VycGxheT4KWyAgICAyLjQwMzE4N10gW2RybV0gYWRkIGlwIGJsb2NrIG51bWJlciA2IDxk
-bT4KWyAgICAyLjQwMzE4OF0gW2RybV0gYWRkIGlwIGJsb2NrIG51bWJlciA3IDx1dmRfdjZfMD4K
-WyAgICAyLjQwMzE4OV0gW2RybV0gYWRkIGlwIGJsb2NrIG51bWJlciA4IDx2Y2VfdjNfMD4KdXRr
-dTNAcG9wLW9zOn4kIHVuYW1lIC1hCkxpbnV4IHBvcC1vcyA1LjMuMC0wNTAzMDByYzgtZ2VuZXJp
-YyAjMjAxOTA5MDgyMTMyIFNNUCBTdW4gU2VwIDggMjE6MzQ6NDEgVVRDCjIwMTkgeDg2XzY0IHg4
-Nl82NCB4ODZfNjQgR05VL0xpbnV4IAoKUHJvYmxlbSBvY2N1cnMgd2hlbiBpIHNldAovc3lzL2Ns
-YXNzL2RybS9jYXJkMS9kZXZpY2UvcG93ZXJfZHBtX2ZvcmNlX3BlcmZvcm1hbmNlX2xldmVsIGJl
-dHdlZW4gbG93LCBoaWdoCmFuZCBhdXRvIHF1aWNrZXIgdGhhbiBhIHNlY29uZCBvciByYXJlbHkg
-YnkgaXRzIG93biwgaSBjYW4ndCB0ZXN0IHRoZSBpc3N1ZXMgb24Ka2VybmVscyBvbGRlciB0aGFu
-IDUuMy4wLXJjMSBiZWNhdXNlIG9mICMyMDEwNzcsIEdQVSBpcyBSWCA1NDAgb24gQWNlciBBc3Bp
-cmUgNQpBNTE1LTQxRy1UNDhRCmZ1bGwgZG1lc2cgbG9nIGlzIGF0dGFjaGVkLgoKLS0gCllvdSBh
-cmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3Np
-Z25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWw=
+--===============1459221302==
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
+
+--=-=-=
+Content-Type: text/plain
+
+Stefan Wahren <wahrenst@gmx.net> writes:
+
+> Since release of the new BCM2835 PM driver there has been several reports
+> of V3D probing issues. This is caused by timeouts during powering-up the
+> GRAFX PM domain:
+>
+>   bcm2835-power: Timeout waiting for grafx power OK
+>
+> I was able to reproduce this reliable on my Raspberry Pi 3B+ after setting
+> force_turbo=1 in the firmware configuration. Since there are no issues
+> using the firmware PM driver with the same setup, there must be an issue
+> in the BCM2835 PM driver.
+>
+> Unfortunately there hasn't been much progress in identifying the root cause
+> since June (mostly in the lack of documentation), so i decided to switch
+> back until the issue in the BCM2835 PM driver is fixed.
+>
+> Link: https://github.com/raspberrypi/linux/issues/3046
+> Fixes: e1dc2b2e1bef (" ARM: bcm283x: Switch V3D over to using the PM driver instead of firmware.")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+
+Acked-by: Eric Anholt <eric@anholt.net>
+
+I wish someone with firmware source had the time to look into why using
+open source drivers to drive this hardware was failing, but I don't have
+that time or code any more.
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE/JuuFDWp9/ZkuCBXtdYpNtH8nugFAl15Xa4ACgkQtdYpNtH8
+nui29hAAghQUxmPKCpEEJiONuOiuIC7ozMT9p5wZ2f3fdWyJdDFBBLGldPea7SgA
+mjNWZ2dk4yUEY2BFKVjoeMCCs3KMdiuqzi+6kkAaK21zflRA1A65Vw65/tfyvzdw
+iKL24+/dAH9A0k+UcZZ5ujptijaOCdnxif1lc4+hyADe1Oxw5E8Be8d9GvadZwaU
+mOG+16Sf0U3OcbGOvfPndIrHeKHgDpVN+U0MNUlEx1HMh7yfXT0QtK7iSwabjWZF
+FJ27WGqPaEo3+LMGCOSj5TEA72B08oEvl0nbl562dFWT6mau3R9DiCEZcWNODMhZ
+YAZ+fxJR3MeHsr8KdxH1p6Z9eDNCxaa9LOz6+Tmn5SEUlaMdiNFi84FjMgct9JoK
+3O1h8tzijpjvifSvwa1r4jVNMi3y+8vIZ+RTyGCTB9yoye0Hs+zJgtSu3vbjs6Nz
+Scd3TjCslZBPlm7TpSAFCyIowuMOGmWASq0eoOxRBMGTQYPLorqR+llenYOCbtEC
+l9Vx3WdoPgH2Zd+Hof9Jn7ZDwDrtyFXkOsFwSmoRkVzPTH9u108rTX8+AkyxDybt
+CvhnFGxUg2cOTTTIUoDYFpxQN7bTzjIqq7iu5iVQlXzq9js5/TovcdA6jO9u5B4N
+2fVQGEGrfJeWZM0ICoVDaILnEHdASZYD/s3nbIq4/Jkrmu40MMc=
+=vNM5
+-----END PGP SIGNATURE-----
+--=-=-=--
+
+--===============1459221302==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1459221302==--
