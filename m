@@ -2,24 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C62FAF561
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2019 07:14:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6994FAF577
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2019 07:34:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2287D6EA03;
-	Wed, 11 Sep 2019 05:14:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89EDB6EA05;
+	Wed, 11 Sep 2019 05:34:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9CE416EA03
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2019 05:14:49 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C80446EA05
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2019 05:34:28 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 99E0272167; Wed, 11 Sep 2019 05:14:49 +0000 (UTC)
+ id C52D672167; Wed, 11 Sep 2019 05:34:28 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111637] Document configuration shadowing and clean up handling
- that in igt_core
-Date: Wed, 11 Sep 2019 05:14:49 +0000
+Subject: [Bug 111638] Include tools/ in documentation
+Date: Wed, 11 Sep 2019 05:34:28 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: new
 X-Bugzilla-Watch-Reason: None
@@ -27,7 +26,7 @@ X-Bugzilla-Product: DRI
 X-Bugzilla-Component: IGT
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: not set
 X-Bugzilla-Who: arkadiusz.hiler@intel.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
@@ -36,7 +35,7 @@ X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
  op_sys bug_status bug_severity priority component assigned_to reporter
-Message-ID: <bug-111637-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111638-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,67 +51,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0962879628=="
+Content-Type: multipart/mixed; boundary="===============0684969801=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0962879628==
-Content-Type: multipart/alternative; boundary="15681788891.EcEF72CEC.21878"
+--===============0684969801==
+Content-Type: multipart/alternative; boundary="15681800681.e3805A0.24916"
 Content-Transfer-Encoding: 7bit
 
 
---15681788891.EcEF72CEC.21878
-Date: Wed, 11 Sep 2019 05:14:49 +0000
+--15681800681.e3805A0.24916
+Date: Wed, 11 Sep 2019 05:34:28 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111637
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111638
 
-            Bug ID: 111637
-           Summary: Document configuration shadowing and clean up handling
-                    that in igt_core
+            Bug ID: 111638
+           Summary: Include tools/ in documentation
            Product: DRI
            Version: unspecified
           Hardware: Other
                 OS: All
             Status: NEW
-          Severity: normal
+          Severity: not set
           Priority: not set
          Component: IGT
           Assignee: dri-devel@lists.freedesktop.org
           Reporter: arkadiusz.hiler@intel.com
 
-The current agreed order of importance is as follows:
-.igtrc < ENV < --switch
-
-or to put it in words
-.igtrc option is less important than ENV
-.igtrc and ENV are both less important than --switch
-
-Real world example:
-https://patchwork.freedesktop.org/series/63553/
-
-device for IGT execution can be specified as Common::Device in .igtrc,
-IGT_DEVICE env variable or --device switch on command line.
-
-The idea is that .igtrc is the default set on the machine that can be
-overwritten for the whole session with env or just for a single test with
---device.
-
-This needs to be documented and the whey we handle this in igt_core.c could=
- use
-some streamlining.
+List the tools and include --help. If the tools have any gtk-doc-formatted
+documentation it also should be included.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15681788891.EcEF72CEC.21878
-Date: Wed, 11 Sep 2019 05:14:49 +0000
+--15681800681.e3805A0.24916
+Date: Wed, 11 Sep 2019 05:34:28 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -128,16 +108,14 @@ Auto-Submitted: auto-generated
           <th>Bug ID</th>
           <td><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Document configuration shadowing and clean up handling th=
-at in igt_core"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111637">111637</a>
+   title=3D"NEW - Include tools/ in documentation"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111638">111638</a>
           </td>
         </tr>
 
         <tr>
           <th>Summary</th>
-          <td>Document configuration shadowing and clean up handling that i=
-n igt_core
+          <td>Include tools/ in documentation
           </td>
         </tr>
 
@@ -173,7 +151,7 @@ n igt_core
 
         <tr>
           <th>Severity</th>
-          <td>normal
+          <td>not set
           </td>
         </tr>
 
@@ -202,27 +180,9 @@ n igt_core
         </tr></table>
       <p>
         <div>
-        <pre>The current agreed order of importance is as follows:
-.igtrc &lt; ENV &lt; --switch
-
-or to put it in words
-.igtrc option is less important than ENV
-.igtrc and ENV are both less important than --switch
-
-Real world example:
-<a href=3D"https://patchwork.freedesktop.org/series/63553/">https://patchwo=
-rk.freedesktop.org/series/63553/</a>
-
-device for IGT execution can be specified as Common::Device in .igtrc,
-IGT_DEVICE env variable or --device switch on command line.
-
-The idea is that .igtrc is the default set on the machine that can be
-overwritten for the whole session with env or just for a single test with
---device.
-
-This needs to be documented and the whey we handle this in igt_core.c could=
- use
-some streamlining.</pre>
+        <pre>List the tools and include --help. If the tools have any gtk-d=
+oc-formatted
+documentation it also should be included.</pre>
         </div>
       </p>
 
@@ -236,9 +196,9 @@ some streamlining.</pre>
     </body>
 </html>=
 
---15681788891.EcEF72CEC.21878--
+--15681800681.e3805A0.24916--
 
---===============0962879628==
+--===============0684969801==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -248,4 +208,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0962879628==--
+--===============0684969801==--
