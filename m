@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D7FBAF4D9
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2019 06:20:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8220AAF542
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Sep 2019 07:12:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 013D76E9F7;
-	Wed, 11 Sep 2019 04:20:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C15366E134;
+	Wed, 11 Sep 2019 05:12:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3F8CD6E9F7
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2019 04:20:28 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 32D7172167; Wed, 11 Sep 2019 04:20:28 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111591] [radeonsi/Navi] The Bard's Tale IV causes a GPU hang
-Date: Wed, 11 Sep 2019 04:20:28 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: shtetldik@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111591-502-0oMhQLocXf@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111591-502@http.bugs.freedesktop.org/>
-References: <bug-111591-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D2666E134
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Sep 2019 05:12:43 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 27E953CA06;
+ Wed, 11 Sep 2019 05:12:42 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-47.ams2.redhat.com
+ [10.36.116.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8F54C5D6C8;
+ Wed, 11 Sep 2019 05:12:41 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 68FFA268; Wed, 11 Sep 2019 07:12:40 +0200 (CEST)
+Date: Wed, 11 Sep 2019 07:12:40 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: David Riley <davidriley@chromium.org>
+Subject: Re: [PATCH v3 1/2] drm/virtio: Rewrite virtio_gpu_queue_ctrl_buffer
+ using fenced version.
+Message-ID: <20190911051240.2k2olzsc3xnqaggl@sirius.home.kraxel.org>
+References: <20190829212417.257397-1-davidriley@chromium.org>
+ <20190910200651.118628-1-davidriley@chromium.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190910200651.118628-1-davidriley@chromium.org>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.39]); Wed, 11 Sep 2019 05:12:42 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,107 +51,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0822678848=="
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
+ =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
+ virtualization@lists.linux-foundation.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0822678848==
-Content-Type: multipart/alternative; boundary="15681756280.E8B0.13480"
-Content-Transfer-Encoding: 7bit
-
-
---15681756280.E8B0.13480
-Date: Wed, 11 Sep 2019 04:20:28 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111591
-
---- Comment #15 from Shmerl <shtetldik@gmail.com> ---
-(In reply to Timothy Arceri from comment #14)
-> Are you sure it is hanging? There is a huge amount of stuttering due to t=
-he
-> game compiling shaders in-game. Its really bad the first time I run the
-> apitrace but much better the second time.
-
-
-I couldn't even switch to tty using Ctrl+Alt+F1, so I didn't check dmesg and
-just SysRq rebooted. Next time if this happens with override, may be I can =
-try
-accessing it over ssh remotely to check if it's different from before.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15681756280.E8B0.13480
-Date: Wed, 11 Sep 2019 04:20:28 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [radeonsi/Navi] The Bard's Tale IV causes a GPU hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111591#c15">Comme=
-nt # 15</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [radeonsi/Navi] The Bard's Tale IV causes a GPU hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111591">bug 11159=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-shtetldik&#64;gmail.com" title=3D"Shmerl &lt;shtetldik&#64;gmail.com&gt;"> =
-<span class=3D"fn">Shmerl</span></a>
-</span></b>
-        <pre>(In reply to Timothy Arceri from <a href=3D"show_bug.cgi?id=3D=
-111591#c14">comment #14</a>)
-<span class=3D"quote">&gt; Are you sure it is hanging? There is a huge amou=
-nt of stuttering due to the
-&gt; game compiling shaders in-game. Its really bad the first time I run the
-&gt; apitrace but much better the second time.</span >
-
-
-I couldn't even switch to tty using Ctrl+Alt+F1, so I didn't check dmesg and
-just SysRq rebooted. Next time if this happens with override, may be I can =
-try
-accessing it over ssh remotely to check if it's different from before.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15681756280.E8B0.13480--
-
---===============0822678848==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0822678848==--
+T24gVHVlLCBTZXAgMTAsIDIwMTkgYXQgMDE6MDY6NTBQTSAtMDcwMCwgRGF2aWQgUmlsZXkgd3Jv
+dGU6Cj4gRmFjdG9yIGZ1bmN0aW9uIGluIHByZXBhcmF0aW9uIHRvIGdlbmVyYXRpbmcgc2NhdHRl
+cmxpc3QgcHJpb3IgdG8gbG9ja2luZy4KClBhdGNoZXMgYXJlIGxvb2tpbmcgZ29vZCBub3csIGJ1
+dCB0aGV5IGRvbid0IGFwcGx5LiAgV2hhdCB0cmVlIHdhcyB1c2VkCnRvIGNyZWF0ZSB0aGVtPwoK
+TGF0ZXN0IHZpcnRpby1ncHUgZHJpdmVyIGJpdHMgYXJlIGluIGRybS1taXNjLW5leHQgKHNlZQpo
+dHRwczovL2NnaXQuZnJlZWRlc2t0b3Aub3JnL2RybS9kcm0tbWlzYykuCgpjaGVlcnMsCiAgR2Vy
+ZApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
