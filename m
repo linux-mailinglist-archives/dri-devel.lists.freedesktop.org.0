@@ -2,92 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A85CFB0CDD
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2019 12:27:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CABE5B0CF6
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2019 12:33:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 899B96ECB5;
-	Thu, 12 Sep 2019 10:27:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97A786ECC3;
+	Thu, 12 Sep 2019 10:33:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam04on0607.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe4d::607])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED2116ECB4;
- Thu, 12 Sep 2019 10:27:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KwXkYh7PHa9JT8wcYaA7mk7quco3oQdLNHrTFZ2IpA9PR1Qgc2eA8NcTIldf320BKTzfyWlygzkha3IxrhZkbStnUG7eoI04EnMqWIZbufLwvtHWc3Q5662g14Gv9l6UhgPJof1J8BGQlHSu3NZ/uRr9/xI+OsYrAn4n2jEyAbt0c4hzOmwAU1MSmlSSSoFnKDoYEf7g11TDSFkR4c12d28N+RORZCFKRclyfD6lYSdz22TuOMnjZsdFmiZoaJ8noA8lbTaBnoFwezzqPyHssBt6gMqNxxj5iFxhQrfMF3MxZwXYZyCMyTEczf2VWmlprZQd2MbWtZTjp3pxJhBM8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yPItzebs9LL4MneJNHH8n9OFBwLC7owyhZ8wnsuwlvI=;
- b=HQl+uRp1+SqSvCUx/L7+GgMnXJb7JWMBwDmvXqJBc8k8YGyh+1Q/fZ0QVb0hespZvNnElWXgZ98JDo+enNbYcLfOtpB4X9geCG4xo8igtufNMZW5s0efsA3qF7RT5DNnWopGfCpoo/Q7PnAyJU2O9scFIkS7yPTexJm1eGpaUOPpcmY44aiqeapUEgBtFCe/Cm62bZBdfh2LUYAFtkt5QoLCzzZqeG4IQud+msEDBNknjN1v3hQe1mGftSh0mn8QiJ9g8csbGXkCR/bIqZgHn56n8ku9Ahjcr/oDizlh3EZU0HwqVHxSmv1GF9cBG5g90ubXiflL+35bKbMTaX+GOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-Received: from MN2PR12MB3309.namprd12.prod.outlook.com (20.179.83.157) by
- MN2PR12MB2989.namprd12.prod.outlook.com (20.178.241.16) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2241.15; Thu, 12 Sep 2019 10:27:17 +0000
-Received: from MN2PR12MB3309.namprd12.prod.outlook.com
- ([fe80::e105:cd24:c71d:c38d]) by MN2PR12MB3309.namprd12.prod.outlook.com
- ([fe80::e105:cd24:c71d:c38d%4]) with mapi id 15.20.2263.016; Thu, 12 Sep 2019
- 10:27:17 +0000
-From: "Huang, Ray" <Ray.Huang@amd.com>
-To: "Koenig, Christian" <Christian.Koenig@amd.com>
-Subject: Re: [PATCH 14/14] drm/amdgpu: set TMZ bits in PTEs for secure bo (v2)
-Thread-Topic: [PATCH 14/14] drm/amdgpu: set TMZ bits in PTEs for secure bo (v2)
-Thread-Index: AQHVaJcopKpC1OzuDEifbwgZtSrWx6cmY2qAgAH6I4A=
-Date: Thu, 12 Sep 2019 10:27:16 +0000
-Message-ID: <MN2PR12MB3309544896408F62494EC8B3ECB00@MN2PR12MB3309.namprd12.prod.outlook.com>
-References: <1568202584-14471-1-git-send-email-ray.huang@amd.com>
- <1568202584-14471-15-git-send-email-ray.huang@amd.com>
- <5704cdc8-754e-538e-9547-738ef81efa7c@amd.com>
-In-Reply-To: <5704cdc8-754e-538e-9547-738ef81efa7c@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-imapappendstamp: MN2PR12MB3309.namprd12.prod.outlook.com
- (15.20.2263.000)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [180.167.199.189]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: efa86cac-9cb6-433a-2efa-08d7376bc915
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
- SRVR:MN2PR12MB2989; 
-x-ms-traffictypediagnostic: MN2PR12MB2989:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR12MB2989323DF61713B9FD264BF4ECB00@MN2PR12MB2989.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 01583E185C
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(39850400004)(376002)(346002)(136003)(396003)(366004)(189003)(199004)(3846002)(476003)(66556008)(450100002)(71200400001)(4326008)(76116006)(486006)(7736002)(305945005)(74316002)(71190400001)(446003)(33656002)(7696005)(14454004)(2906002)(52536014)(102836004)(478600001)(25786009)(99286004)(5660300002)(26005)(6116002)(66946007)(256004)(186003)(14444005)(6506007)(11346002)(64756008)(66446008)(76176011)(8676002)(8936002)(316002)(6636002)(86362001)(53936002)(81156014)(6246003)(66066001)(81166006)(55016002)(6862004)(229853002)(6436002)(9686003)(54906003)(66476007)(21314003);
- DIR:OUT; SFP:1101; SCL:1; SRVR:MN2PR12MB2989;
- H:MN2PR12MB3309.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: nNDwYIu2aUfbBwiy9q25PxMt47dofhSNn+SaxeTWiz46/R5LjeCtXN2U/DTOPVh3qshNvj/BbnRcqMyfXFXYfr3i41JfrvnGQ27jRRP7p7mKbNQ//A3l+ka8HGrIIKl11OsYh9iLBZUdN9OX3q5bhTJ6aVlVxjO96lMjW/Kbgg1kywePTwmdPPTHbEEFvU/mOO2xeJHX35Atn8OfnqgHeCYnqIqFBf5IDgrQOV6TecFydpROnjv7vmLzYxXLBcJ3MsRdVxQpxxMD7h3v/EDytz+Mbz1OxtY68cCTcdeI3WvtpkhftoqlRX0SB/YvzRlVMfxJrkO+3wL9HzrZnh2LOTJjxkC7xdYO91kJASJLrSqTjiWC91n57oyZXV1dx9KyvPCzpL216232ctwMyjmbE9IArlv3enasAroOCHAEToU=
-Content-ID: <8632ECF67B51D34C80EB8684B8D6400B@amdcloud.onmicrosoft.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A42AB6ECBC
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2019 10:33:23 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id A09FE72167; Thu, 12 Sep 2019 10:33:23 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 107296] WARNING: CPU: 0 PID: 370 at
+ drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:1355
+ dcn_bw_update_from_pplib+0x16b/0x280 [amdgpu]
+Date: Thu, 12 Sep 2019 10:33:23 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: woodruff@posteo.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-107296-502-lI2ELQux00@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-107296-502@http.bugs.freedesktop.org/>
+References: <bug-107296-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: efa86cac-9cb6-433a-2efa-08d7376bc915
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Sep 2019 10:27:16.9412 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: x7/MRDYUcIYTfHbTTt+4W8TbzSLBeoq5ao+6S8G6UerdEuE8OUN/gqtLHoi/GW4BIWJt65cx1I3xfAXxdekwOQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB2989
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yPItzebs9LL4MneJNHH8n9OFBwLC7owyhZ8wnsuwlvI=;
- b=w3h8Pbci5y9ZFVWNIADgusRmBfuGw52rc91614I7cymYyrF8U6yvag7hU0ReChIHuGMGAPPiSCFnhHHtbJgQt0dqvqBv4bN8mDy4MH+bSHcmWfbxT4hPs3siRVIOJOHx0a85MK+8ckQ8AVrtffq5caXV/VQDl0QACKYyRpma0TI=
-X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Ray.Huang@amd.com; 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,105 +54,507 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>, "Tuikov,
- Luben" <Luben.Tuikov@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Liu,
- Aaron" <Aaron.Liu@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1440649793=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBTZXAgMTEsIDIwMTkgYXQgMDg6MTM6MTlQTSArMDgwMCwgS29lbmlnLCBDaHJpc3Rp
-YW4gd3JvdGU6Cj4gQW0gMTEuMDkuMTkgdW0gMTM6NTAgc2NocmllYiBIdWFuZywgUmF5Ogo+ID4g
-RnJvbTogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgo+ID4KPiA+IElm
-IG9uZSBibyBpcyBzZWN1cmUgKGNyZWF0ZWQgd2l0aCBBTURHUFVfR0VNX0NSRUFURV9FTkNSWVBU
-RUQpLCB0aGUgVE1aIGJpdHMgb2YKPiA+IFBURXMgdGhhdCBiZWxvbmdzIHRoYXQgYm8gc2hvdWxk
-IGJlIHNldC4gVGhlbiBwc3AgaXMgYWJsZSB0byBwcm90ZWN0IHRoZSBwYWdlcwo+ID4gb2YgdGhp
-cyBibyB0byBhdm9pZCB0aGUgYWNjZXNzIGZyb20gYW4gInVudHJ1c3QiIGRvbWFpbiBzdWNoIGFz
-IENQVS4KPiA+Cj4gPiB2MTogZGVzaWduIGFuZCBkcmFmdCB0aGUgc2tlbGV0aW9uIG9mIHRteiBi
-aXRzIHNldHRpbmcgb24gUFRFcyAoQWxleCkKPiA+IHYyOiByZXR1cm4gZmFpbHVyZSBvbmNlIGNy
-ZWF0ZSBzZWN1cmUgYm8gb24gbm8tdG16IHBsYXRmb3JtICAoUmF5KQo+ID4KPiA+IFNpZ25lZC1v
-ZmYtYnk6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KPiA+IFJldmll
-d2VkLWJ5OiBIdWFuZyBSdWkgPHJheS5odWFuZ0BhbWQuY29tPgo+ID4gU2lnbmVkLW9mZi1ieTog
-SHVhbmcgUnVpIDxyYXkuaHVhbmdAYW1kLmNvbT4KPiA+IC0tLQo+ID4gICBkcml2ZXJzL2dwdS9k
-cm0vYW1kL2FtZGdwdS9hbWRncHVfZ2VtLmMgICAgfCAxMiArKysrKysrKysrKy0KPiA+ICAgZHJp
-dmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X29iamVjdC5oIHwgMTAgKysrKysrKysrKwo+
-ID4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMgICAgfCAgNSArKysr
-Kwo+ID4gICAzIGZpbGVzIGNoYW5nZWQsIDI2IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkK
-PiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2dl
-bS5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2dlbS5jCj4gPiBpbmRleCAy
-MmVhYjc0Li41MzMyMTA0IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRn
-cHUvYW1kZ3B1X2dlbS5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRn
-cHVfZ2VtLmMKPiA+IEBAIC0yMjIsNyArMjIyLDggQEAgaW50IGFtZGdwdV9nZW1fY3JlYXRlX2lv
-Y3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsCj4gPiAgIAkJICAgICAgQU1E
-R1BVX0dFTV9DUkVBVEVfQ1BVX0dUVF9VU1dDIHwKPiA+ICAgCQkgICAgICBBTURHUFVfR0VNX0NS
-RUFURV9WUkFNX0NMRUFSRUQgfAo+ID4gICAJCSAgICAgIEFNREdQVV9HRU1fQ1JFQVRFX1ZNX0FM
-V0FZU19WQUxJRCB8Cj4gPiAtCQkgICAgICBBTURHUFVfR0VNX0NSRUFURV9FWFBMSUNJVF9TWU5D
-KSkKPiA+ICsJCSAgICAgIEFNREdQVV9HRU1fQ1JFQVRFX0VYUExJQ0lUX1NZTkMgfAo+ID4gKwkJ
-ICAgICAgQU1ER1BVX0dFTV9DUkVBVEVfRU5DUllQVEVEKSkKPiA+ICAgCj4gPiAgIAkJcmV0dXJu
-IC1FSU5WQUw7Cj4gPiAgIAo+ID4gQEAgLTIzMCw2ICsyMzEsMTEgQEAgaW50IGFtZGdwdV9nZW1f
-Y3JlYXRlX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsCj4gPiAgIAlp
-ZiAoYXJncy0+aW4uZG9tYWlucyAmIH5BTURHUFVfR0VNX0RPTUFJTl9NQVNLKQo+ID4gICAJCXJl
-dHVybiAtRUlOVkFMOwo+ID4gICAKPiA+ICsJaWYgKCFhZGV2LT50bXouZW5hYmxlZCAmJiAoZmxh
-Z3MgJiBBTURHUFVfR0VNX0NSRUFURV9FTkNSWVBURUQpKSB7Cj4gPiArCQlEUk1fRVJST1IoIkNh
-bm5vdCBhbGxvY2F0ZSBzZWN1cmUgYnVmZmVyIHdoaWxlIHRteiBpcyBkaXNhYmxlZFxuIik7Cj4g
-PiArCQlyZXR1cm4gLUVJTlZBTDsKPiA+ICsJfQo+ID4gKwo+ID4gICAJLyogY3JlYXRlIGEgZ2Vt
-IG9iamVjdCB0byBjb250YWluIHRoaXMgb2JqZWN0IGluICovCj4gPiAgIAlpZiAoYXJncy0+aW4u
-ZG9tYWlucyAmIChBTURHUFVfR0VNX0RPTUFJTl9HRFMgfAo+ID4gICAJICAgIEFNREdQVV9HRU1f
-RE9NQUlOX0dXUyB8IEFNREdQVV9HRU1fRE9NQUlOX09BKSkgewo+ID4gQEAgLTI1MSw2ICsyNTcs
-MTAgQEAgaW50IGFtZGdwdV9nZW1fY3JlYXRlX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYs
-IHZvaWQgKmRhdGEsCj4gPiAgIAkJcmVzdiA9IHZtLT5yb290LmJhc2UuYm8tPnRiby5yZXN2Owo+
-ID4gICAJfQo+ID4gICAKPiA+ICsJaWYgKGZsYWdzICYgQU1ER1BVX0dFTV9DUkVBVEVfRU5DUllQ
-VEVEKSB7Cj4gPiArCQkvKiBYWFg6IHBhZCBvdXQgYWxpZ25tZW50IHRvIG1lZXQgVE1aIHJlcXVp
-cmVtZW50cyAqLwo+ID4gKwl9Cj4gPiArCj4gPiAgIAlyID0gYW1kZ3B1X2dlbV9vYmplY3RfY3Jl
-YXRlKGFkZXYsIHNpemUsIGFyZ3MtPmluLmFsaWdubWVudCwKPiA+ICAgCQkJCSAgICAgKHUzMiko
-MHhmZmZmZmZmZiAmIGFyZ3MtPmluLmRvbWFpbnMpLAo+ID4gICAJCQkJICAgICBmbGFncywgdHRt
-X2JvX3R5cGVfZGV2aWNlLCByZXN2LCAmZ29iaik7Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X29iamVjdC5oIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9h
-bWRncHUvYW1kZ3B1X29iamVjdC5oCj4gPiBpbmRleCA1YTNjMTc3Li4yODZlMmUyIDEwMDY0NAo+
-ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X29iamVjdC5oCj4gPiAr
-KysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfb2JqZWN0LmgKPiA+IEBAIC0y
-MjQsNiArMjI0LDE2IEBAIHN0YXRpYyBpbmxpbmUgYm9vbCBhbWRncHVfYm9fZXhwbGljaXRfc3lu
-YyhzdHJ1Y3QgYW1kZ3B1X2JvICpibykKPiA+ICAgCXJldHVybiBiby0+ZmxhZ3MgJiBBTURHUFVf
-R0VNX0NSRUFURV9FWFBMSUNJVF9TWU5DOwo+ID4gICB9Cj4gPiAgIAo+ID4gKy8qKgo+ID4gKyAq
-IGFtZGdwdV9ib19lbmNyeXB0ZWQgLSByZXR1cm4gd2hldGhlciB0aGUgYm8gaXMgZW5jcnlwdGVk
-Cj4gPiArICovCj4gPiArc3RhdGljIGlubGluZSBib29sIGFtZGdwdV9ib19lbmNyeXB0ZWQoc3Ry
-dWN0IGFtZGdwdV9ibyAqYm8pCj4gPiArewo+ID4gKwlzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRl
-diA9IGFtZGdwdV90dG1fYWRldihiby0+dGJvLmJkZXYpOwo+ID4gKwo+ID4gKwlyZXR1cm4gYWRl
-di0+dG16LmVuYWJsZWQgJiYgKGJvLT5mbGFncyAmIEFNREdQVV9HRU1fQ1JFQVRFX0VOQ1JZUFRF
-RCk7Cj4gCj4gQ2hlY2tpbmcgdGhlIGFkZXYtPnRtei5lbmFibGVkIGZsYWdzIHNob3VsZCBiZSBk
-cm9wcGVkIGhlcmUuCj4gCgpUaGF0J3MgZmluZS4gQk8gc2hvdWxkIGJlIHZhbGlkYXRlZCB3aGls
-ZSBpdCBpcyBjcmVhdGVkLgoKQnV0IGlmIHRoZSBCTyBpcyBjcmVhdGVkIGJ5IHZtaWQgMCwgaXMg
-dGhpcyBjaGVja2luZyBuZWVkZWQ/Cgo+ID4gK30KPiA+ICsKPiA+ICAgYm9vbCBhbWRncHVfYm9f
-aXNfYW1kZ3B1X2JvKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8pOwo+ID4gICB2b2lkIGFt
-ZGdwdV9ib19wbGFjZW1lbnRfZnJvbV9kb21haW4oc3RydWN0IGFtZGdwdV9ibyAqYWJvLCB1MzIg
-ZG9tYWluKTsKPiA+ICAgCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRn
-cHUvYW1kZ3B1X3R0bS5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5j
-Cj4gPiBpbmRleCAzNjYzNjU1Li44ZjAwYmIyIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1k
-L2FtZGdwdS9hbWRncHVfdHRtLmMKPiA+IEBAIC0xNDM0LDYgKzE0MzQsOCBAQCBib29sIGFtZGdw
-dV90dG1fdHRfaXNfcmVhZG9ubHkoc3RydWN0IHR0bV90dCAqdHRtKQo+ID4gICB1aW50NjRfdCBh
-bWRncHVfdHRtX3R0X3BkZV9mbGFncyhzdHJ1Y3QgdHRtX3R0ICp0dG0sIHN0cnVjdCB0dG1fbWVt
-X3JlZyAqbWVtKQo+ID4gICB7Cj4gPiAgIAl1aW50NjRfdCBmbGFncyA9IDA7Cj4gPiArCXN0cnVj
-dCB0dG1fYnVmZmVyX29iamVjdCAqdGJvID0gdHRtX21lbV9yZWdfdG9fYm8obWVtKTsKPiA+ICsJ
-c3RydWN0IGFtZGdwdV9ibyAqYWJvID0gdHRtX3RvX2FtZGdwdV9ibyh0Ym8pOwo+IAo+IFRoYXQn
-cyBhIGNsZWFyIE5BSy4gVGhlIGZ1bmN0aW9uIGlzIG5vdCBuZWNlc3NhcmlseSBjYWxsZWQgd2l0
-aCAKPiAmYm8tPm1lbSwgd2hpY2ggaXMgYWxzbyB0aGUgcmVhc29uIHdoeSB0aGlzIGZ1bmN0aW9u
-IGRvZXNuJ3QgZ2V0cyB0aGUgQk8gCj4gYXMgcGFyYW1ldGVyLgo+IAoKRG8geW91IG1lYW4gd2Ug
-Y2FuIHJldmlzZSB0aGUgYmVsb3cgZnVuY3Rpb25zIHRvIHVzZSBibyBhcyB0aGUgcGFyYW1ldGVy
-Cmluc3RlYWQ/IAoKdWludDY0X3QgYW1kZ3B1X3R0bV90dF9wZGVfZmxhZ3Moc3RydWN0IHR0bV90
-dCAqdHRtLCBzdHJ1Y3QgYW1kZ3B1X2JvICpibykKdWludDY0X3QgYW1kZ3B1X3R0bV90dF9wdGVf
-ZmxhZ3Moc3RydWN0IHR0bV90dCAqdHRtLCBzdHJ1Y3QgYW1kZ3B1X2JvICpibykKClRoYW5rcywK
-UmF5Cgo+IENocmlzdGlhbi4KPiAKPiA+ICAgCj4gPiAgIAlpZiAobWVtICYmIG1lbS0+bWVtX3R5
-cGUgIT0gVFRNX1BMX1NZU1RFTSkKPiA+ICAgCQlmbGFncyB8PSBBTURHUFVfUFRFX1ZBTElEOwo+
-ID4gQEAgLTE0NDQsNiArMTQ0Niw5IEBAIHVpbnQ2NF90IGFtZGdwdV90dG1fdHRfcGRlX2ZsYWdz
-KHN0cnVjdCB0dG1fdHQgKnR0bSwgc3RydWN0IHR0bV9tZW1fcmVnICptZW0pCj4gPiAgIAkJaWYg
-KHR0bS0+Y2FjaGluZ19zdGF0ZSA9PSB0dF9jYWNoZWQpCj4gPiAgIAkJCWZsYWdzIHw9IEFNREdQ
-VV9QVEVfU05PT1BFRDsKPiA+ICAgCX0KPiA+ICsJaWYgKGFtZGdwdV9ib19lbmNyeXB0ZWQoYWJv
-KSkgewo+ID4gKwkJZmxhZ3MgfD0gQU1ER1BVX1BURV9UTVo7Cj4gPiArCX0KPiA+ICAgCj4gPiAg
-IAlyZXR1cm4gZmxhZ3M7Cj4gPiAgIH0KPiAKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVs
+
+--===============1440649793==
+Content-Type: multipart/alternative; boundary="15682844032.2e8717.23398"
+Content-Transfer-Encoding: 7bit
+
+
+--15682844032.2e8717.23398
+Date: Thu, 12 Sep 2019 10:33:23 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D107296
+
+--- Comment #18 from woodruff@posteo.de ---
+Similar here on a Asrock B450M Pro4 with Athlon 200GE (Raven Ridge):
+Screen blanks on boot a few seconds, aswell on wakeups.
+
+[    0.849231] Linux agpgart interface v0.103
+[    0.927246] [drm] amdgpu kernel modesetting enabled.
+[    0.927385] Parsing CRAT table with 1 nodes
+[    0.927395] Creating topology SYSFS entries
+[    0.927433] Topology: Add APU node [0x0:0x0]
+[    0.927434] Finished initializing topology
+[    0.927497] amdgpu 0000:07:00.0: remove_conflicting_pci_framebuffers: ba=
+r 0:
+0xe0000000 -> 0xefffffff
+[    0.927498] amdgpu 0000:07:00.0: remove_conflicting_pci_framebuffers: ba=
+r 2:
+0xf0000000 -> 0xf01fffff
+[    0.927499] amdgpu 0000:07:00.0: remove_conflicting_pci_framebuffers: ba=
+r 5:
+0xfcb00000 -> 0xfcb7ffff
+[    0.927501] amdgpu 0000:07:00.0: vgaarb: deactivate vga console
+[    0.928793] Console: switching to colour dummy device 80x25
+[    0.929058] [drm] initializing kernel modesetting (RAVEN 0x1002:0x15DD
+0x1002:0x15DD 0xCB).
+[    0.929072] [drm] register mmio base: 0xFCB00000
+[    0.929072] [drm] register mmio size: 524288
+[    0.929130] [drm] add ip block number 0 <soc15_common>
+[    0.929131] [drm] add ip block number 1 <gmc_v9_0>
+[    0.929131] [drm] add ip block number 2 <vega10_ih>
+[    0.929132] [drm] add ip block number 3 <psp>
+[    0.929132] [drm] add ip block number 4 <gfx_v9_0>
+[    0.929133] [drm] add ip block number 5 <sdma_v4_0>
+[    0.929133] [drm] add ip block number 6 <powerplay>
+[    0.929134] [drm] add ip block number 7 <dm>
+[    0.929135] [drm] add ip block number 8 <vcn_v1_0>
+[    0.929186] [drm] VCN decode is enabled in VM mode
+[    0.929187] [drm] VCN encode is enabled in VM mode
+[    0.929187] [drm] VCN jpeg decode is enabled in VM mode
+[    0.952670] [drm] BIOS signature incorrect 20 7
+[    0.952690] ATOM BIOS: 113-RAVEN-113
+[    0.952723] [drm] RAS INFO: ras initialized successfully, hardware
+ability[0] ras_mask[0]
+[    0.952725] [drm] vm size is 262144 GB, 4 levels, block size is 9-bit,
+fragment size is 9-bit
+[    0.952737] amdgpu 0000:07:00.0: VRAM: 2048M 0x000000F400000000 -
+0x000000F47FFFFFFF (2048M used)
+[    0.952738] amdgpu 0000:07:00.0: GART: 1024M 0x0000000000000000 -
+0x000000003FFFFFFF
+[    0.952739] amdgpu 0000:07:00.0: AGP: 267419648M 0x000000F800000000 -
+0x0000FFFFFFFFFFFF
+[    0.952743] [drm] Detected VRAM RAM=3D2048M, BAR=3D2048M
+[    0.952744] [drm] RAM width 128bits DDR4
+[    0.952804] [TTM] Zone  kernel: Available graphics memory: 7173824 KiB
+[    0.952804] [TTM] Zone   dma32: Available graphics memory: 2097152 KiB
+[    0.952805] [TTM] Initializing pool allocator
+[    0.952808] [TTM] Initializing DMA pool allocator
+[    0.952865] [drm] amdgpu: 2048M of VRAM memory ready
+[    0.952873] [drm] amdgpu: 3072M of GTT memory ready.
+[    0.952884] [drm] GART: num cpu pages 262144, num gpu pages 262144
+[    0.953019] [drm] PCIE GART of 1024M enabled (table at 0x000000F40090000=
+0).
+[    0.954302] [drm] use_doorbell being set to: [true]
+[    0.954418] [drm] Found VCN firmware Version ENC: 1.9 DEC: 1 VEP: 0
+Revision: 28
+[    0.954428] [drm] PSP loading VCN firmware
+[    0.975073] [drm] reserve 0x400000 from 0xf400c00000 for PSP TMR SIZE
+[    1.140184] [drm] DM_PPLIB: values for F clock
+[    1.140185] [drm] DM_PPLIB:   0 in kHz
+[    1.140186] [drm] DM_PPLIB:   0 in kHz
+[    1.140186] [drm] DM_PPLIB:   0 in kHz
+[    1.140186] [drm] DM_PPLIB:   1333000 in kHz
+[    1.140187] ------------[ cut here ]------------
+[    1.140280] WARNING: CPU: 2 PID: 199 at
+drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:1401
+dcn_bw_update_from_pplib.cold+0x73/0x9c [amdgpu]
+[    1.140281] Modules linked in: amdgpu(+) gpu_sched i2c_algo_bit ttm
+drm_kms_helper syscopyarea sysfillrect sysimgblt fb_sys_fops drm agpgart
+[    1.140287] CPU: 2 PID: 199 Comm: modprobe Not tainted 5.2.14-arch1-1-AR=
+CH
+#1
+[    1.140288] Hardware name: To Be Filled By O.E.M. To Be Filled By
+O.E.M./B450M Pro4, BIOS P3.50 07/18/2019
+[    1.140364] RIP: 0010:dcn_bw_update_from_pplib.cold+0x73/0x9c [amdgpu]
+[    1.140366] Code: 48 8b 93 e0 02 00 00 db 42 78 83 f9 02 77 37 b8 02 00 =
+00
+00 8d 71 ff e9 ca 2b f7 ff 48 c7 c7 98 03 3e c0 31 c0 e8 6b 67 9b e1 <0f> 0=
+b e9
+44 2c f7 ff 48 c7 c7 98 03 3e c0 31 c0 e8 56 67 9b e1 0f
+[    1.140367] RSP: 0018:ffff9bbc81d2f668 EFLAGS: 00010246
+[    1.140369] RAX: 0000000000000024 RBX: ffff8addc5723000 RCX:
+0000000000000000
+[    1.140369] RDX: 0000000000000000 RSI: 0000000000000092 RDI:
+00000000ffffffff
+[    1.140370] RBP: ffff8addc620c980 R08: 00000000000002b3 R09:
+0000000000000004
+[    1.140370] R10: 0000000000000000 R11: 0000000000000001 R12:
+ffff9bbc81d2f708
+[    1.140371] R13: 0000000000000001 R14: 000000000000000a R15:
+0000000000000000
+[    1.140372] FS:  00007fb896a9e740(0000) GS:ffff8addd0680000(0000)
+knlGS:0000000000000000
+[    1.140373] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[    1.140373] CR2: 0000565204d50058 CR3: 00000004060c8000 CR4:
+00000000003406e0
+[    1.140374] Call Trace:
+[    1.140458]  dcn10_create_resource_pool+0x983/0xa50 [amdgpu]
+[    1.140462]  ? _raw_spin_lock_irqsave+0x26/0x50
+[    1.140537]  dc_create_resource_pool+0x1c0/0x270 [amdgpu]
+[    1.140612]  dc_create+0x229/0x630 [amdgpu]
+[    1.140615]  ? kmem_cache_alloc_trace+0x34/0x1c0
+[    1.140687]  ? amdgpu_cgs_create_device+0x23/0x50 [amdgpu]
+[    1.140763]  amdgpu_dm_init+0xeb/0x160 [amdgpu]
+[    1.140839]  dm_hw_init+0xe/0x20 [amdgpu]
+[    1.140915]  amdgpu_device_init.cold+0x1000/0x15e3 [amdgpu]
+[    1.140975]  amdgpu_driver_load_kms+0x88/0x270 [amdgpu]
+[    1.140987]  drm_dev_register+0x111/0x150 [drm]
+[    1.141046]  amdgpu_pci_probe+0xbd/0x120 [amdgpu]
+[    1.141049]  ? __pm_runtime_resume+0x49/0x60
+[    1.141051]  local_pci_probe+0x42/0x80
+[    1.141053]  ? pci_match_device+0xc5/0x100
+[    1.141054]  pci_device_probe+0xfa/0x190
+[    1.141057]  really_probe+0xf0/0x380
+[    1.141058]  driver_probe_device+0xb6/0x100
+[    1.141060]  device_driver_attach+0x53/0x60
+[    1.141061]  __driver_attach+0x8a/0x150
+[    1.141063]  ? device_driver_attach+0x60/0x60
+[    1.141064]  ? device_driver_attach+0x60/0x60
+[    1.141065]  bus_for_each_dev+0x89/0xd0
+[    1.141066]  bus_add_driver+0x14a/0x1e0
+[    1.141068]  driver_register+0x6c/0xb0
+[    1.141070]  ? 0xffffffffc052b000
+[    1.141072]  do_one_initcall+0x59/0x234
+[    1.141076]  do_init_module+0x5c/0x230
+[    1.141078]  load_module+0x2122/0x23a0
+[    1.141082]  ? __se_sys_finit_module+0xa8/0x100
+[    1.141083]  __se_sys_finit_module+0xa8/0x100
+[    1.141086]  do_syscall_64+0x5f/0x1d0
+[    1.141089]  ? page_fault+0x8/0x30
+[    1.141091]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[    1.141092] RIP: 0033:0x7fb896bbfe3d
+[    1.141094] Code: 00 c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 =
+89
+f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3=
+d 01
+f0 ff ff 73 01 c3 48 8b 0d 23 50 0c 00 f7 d8 64 89 01 48
+[    1.141095] RSP: 002b:00007ffdaf7dd488 EFLAGS: 00000246 ORIG_RAX:
+0000000000000139
+[    1.141096] RAX: ffffffffffffffda RBX: 0000557476d8caf0 RCX:
+00007fb896bbfe3d
+[    1.141097] RDX: 0000000000000000 RSI: 0000557475ac0400 RDI:
+000000000000000d
+[    1.141097] RBP: 0000557475ac0400 R08: 0000000000000000 R09:
+0000000000000000
+[    1.141098] R10: 000000000000000d R11: 0000000000000246 R12:
+0000000000000000
+[    1.141098] R13: 0000557476d8cb70 R14: 0000000000060000 R15:
+0000557476d8caf0
+[    1.141100] ---[ end trace e8ff844124760292 ]---
+[    1.141102] [drm] DM_PPLIB: values for DCF clock
+[    1.141102] [drm] DM_PPLIB:   300000 in kHz
+[    1.141103] [drm] DM_PPLIB:   600000 in kHz
+[    1.141103] [drm] DM_PPLIB:   626000 in kHz
+[    1.141103] [drm] DM_PPLIB:   654000 in kHz
+[    1.141368] [drm:construct [amdgpu]] *ERROR* construct: Invalid Connector
+ObjectID from Adapter Service for connector index:2! type 0 expected 3
+[    1.144192] [drm] Display Core initialized with v3.2.27!
+[    1.157042] [drm] SADs count is: -2, don't need to read it
+[    1.157380] [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
+[    1.157380] [drm] Driver supports precise vblank timestamp query.
+[    1.170880] [drm] VCN decode and encode initialized successfully(under S=
+PG
+Mode).
+[    1.171884] kfd kfd: Allocated 3969056 bytes on gart
+[    1.171899] Topology: Add APU node [0x15dd:0x1002]
+[    1.172085] kfd kfd: added device 1002:15dd
+[    1.173162] [drm] fb mappable at 0x61000000
+[    1.173162] [drm] vram apper at 0x60000000
+[    1.173163] [drm] size 8294400
+[    1.173163] [drm] fb depth is 24
+[    1.173164] [drm]    pitch is 7680
+[    1.173214] fbcon: amdgpudrmfb (fb0) is primary device
+[    1.195455] Console: switching to colour frame buffer device 240x67
+[    1.217430] amdgpu 0000:07:00.0: fb0: amdgpudrmfb frame buffer device
+[    1.260159] amdgpu 0000:07:00.0: ring gfx uses VM inv eng 0 on hub 0
+[    1.260163] amdgpu 0000:07:00.0: ring comp_1.0.0 uses VM inv eng 1 on hu=
+b 0
+[    1.260165] amdgpu 0000:07:00.0: ring comp_1.1.0 uses VM inv eng 4 on hu=
+b 0
+[    1.260167] amdgpu 0000:07:00.0: ring comp_1.2.0 uses VM inv eng 5 on hu=
+b 0
+[    1.260169] amdgpu 0000:07:00.0: ring comp_1.3.0 uses VM inv eng 6 on hu=
+b 0
+[    1.260171] amdgpu 0000:07:00.0: ring comp_1.0.1 uses VM inv eng 7 on hu=
+b 0
+[    1.260172] amdgpu 0000:07:00.0: ring comp_1.1.1 uses VM inv eng 8 on hu=
+b 0
+[    1.260174] amdgpu 0000:07:00.0: ring comp_1.2.1 uses VM inv eng 9 on hu=
+b 0
+[    1.260176] amdgpu 0000:07:00.0: ring comp_1.3.1 uses VM inv eng 10 on h=
+ub 0
+[    1.260178] amdgpu 0000:07:00.0: ring kiq_2.1.0 uses VM inv eng 11 on hu=
+b 0
+[    1.260180] amdgpu 0000:07:00.0: ring sdma0 uses VM inv eng 0 on hub 1
+[    1.260182] amdgpu 0000:07:00.0: ring vcn_dec uses VM inv eng 1 on hub 1
+[    1.260184] amdgpu 0000:07:00.0: ring vcn_enc0 uses VM inv eng 4 on hub 1
+[    1.260186] amdgpu 0000:07:00.0: ring vcn_enc1 uses VM inv eng 5 on hub 1
+[    1.260187] amdgpu 0000:07:00.0: ring vcn_jpeg uses VM inv eng 6 on hub 1
+[    1.263555] [drm] Initialized amdgpu 3.32.0 20150101 for 0000:07:00.0 on
+minor 0
+[    1.353427] SCSI subsystem initialized
+[    1.355923] xhci_hcd 0000:01:00.0: xHCI Host Controller
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15682844032.2e8717.23398
+Date: Thu, 12 Sep 2019 10:33:23 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - WARNING: CPU: 0 PID: 370 at drivers/gpu/drm/amd/amdgpu/..=
+/display/dc/calcs/dcn_calcs.c:1355 dcn_bw_update_from_pplib+0x16b/0x280 [am=
+dgpu]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107296#c18">Comme=
+nt # 18</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - WARNING: CPU: 0 PID: 370 at drivers/gpu/drm/amd/amdgpu/..=
+/display/dc/calcs/dcn_calcs.c:1355 dcn_bw_update_from_pplib+0x16b/0x280 [am=
+dgpu]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107296">bug 10729=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+woodruff&#64;posteo.de" title=3D"woodruff&#64;posteo.de">woodruff&#64;poste=
+o.de</a>
+</span></b>
+        <pre>Similar here on a Asrock B450M Pro4 with Athlon 200GE (Raven R=
+idge):
+Screen blanks on boot a few seconds, aswell on wakeups.
+
+[    0.849231] Linux agpgart interface v0.103
+[    0.927246] [drm] amdgpu kernel modesetting enabled.
+[    0.927385] Parsing CRAT table with 1 nodes
+[    0.927395] Creating topology SYSFS entries
+[    0.927433] Topology: Add APU node [0x0:0x0]
+[    0.927434] Finished initializing topology
+[    0.927497] amdgpu 0000:07:00.0: remove_conflicting_pci_framebuffers: ba=
+r 0:
+0xe0000000 -&gt; 0xefffffff
+[    0.927498] amdgpu 0000:07:00.0: remove_conflicting_pci_framebuffers: ba=
+r 2:
+0xf0000000 -&gt; 0xf01fffff
+[    0.927499] amdgpu 0000:07:00.0: remove_conflicting_pci_framebuffers: ba=
+r 5:
+0xfcb00000 -&gt; 0xfcb7ffff
+[    0.927501] amdgpu 0000:07:00.0: vgaarb: deactivate vga console
+[    0.928793] Console: switching to colour dummy device 80x25
+[    0.929058] [drm] initializing kernel modesetting (RAVEN 0x1002:0x15DD
+0x1002:0x15DD 0xCB).
+[    0.929072] [drm] register mmio base: 0xFCB00000
+[    0.929072] [drm] register mmio size: 524288
+[    0.929130] [drm] add ip block number 0 &lt;soc15_common&gt;
+[    0.929131] [drm] add ip block number 1 &lt;gmc_v9_0&gt;
+[    0.929131] [drm] add ip block number 2 &lt;vega10_ih&gt;
+[    0.929132] [drm] add ip block number 3 &lt;psp&gt;
+[    0.929132] [drm] add ip block number 4 &lt;gfx_v9_0&gt;
+[    0.929133] [drm] add ip block number 5 &lt;sdma_v4_0&gt;
+[    0.929133] [drm] add ip block number 6 &lt;powerplay&gt;
+[    0.929134] [drm] add ip block number 7 &lt;dm&gt;
+[    0.929135] [drm] add ip block number 8 &lt;vcn_v1_0&gt;
+[    0.929186] [drm] VCN decode is enabled in VM mode
+[    0.929187] [drm] VCN encode is enabled in VM mode
+[    0.929187] [drm] VCN jpeg decode is enabled in VM mode
+[    0.952670] [drm] BIOS signature incorrect 20 7
+[    0.952690] ATOM BIOS: 113-RAVEN-113
+[    0.952723] [drm] RAS INFO: ras initialized successfully, hardware
+ability[0] ras_mask[0]
+[    0.952725] [drm] vm size is 262144 GB, 4 levels, block size is 9-bit,
+fragment size is 9-bit
+[    0.952737] amdgpu 0000:07:00.0: VRAM: 2048M 0x000000F400000000 -
+0x000000F47FFFFFFF (2048M used)
+[    0.952738] amdgpu 0000:07:00.0: GART: 1024M 0x0000000000000000 -
+0x000000003FFFFFFF
+[    0.952739] amdgpu 0000:07:00.0: AGP: 267419648M 0x000000F800000000 -
+0x0000FFFFFFFFFFFF
+[    0.952743] [drm] Detected VRAM RAM=3D2048M, BAR=3D2048M
+[    0.952744] [drm] RAM width 128bits DDR4
+[    0.952804] [TTM] Zone  kernel: Available graphics memory: 7173824 KiB
+[    0.952804] [TTM] Zone   dma32: Available graphics memory: 2097152 KiB
+[    0.952805] [TTM] Initializing pool allocator
+[    0.952808] [TTM] Initializing DMA pool allocator
+[    0.952865] [drm] amdgpu: 2048M of VRAM memory ready
+[    0.952873] [drm] amdgpu: 3072M of GTT memory ready.
+[    0.952884] [drm] GART: num cpu pages 262144, num gpu pages 262144
+[    0.953019] [drm] PCIE GART of 1024M enabled (table at 0x000000F40090000=
+0).
+[    0.954302] [drm] use_doorbell being set to: [true]
+[    0.954418] [drm] Found VCN firmware Version ENC: 1.9 DEC: 1 VEP: 0
+Revision: 28
+[    0.954428] [drm] PSP loading VCN firmware
+[    0.975073] [drm] reserve 0x400000 from 0xf400c00000 for PSP TMR SIZE
+[    1.140184] [drm] DM_PPLIB: values for F clock
+[    1.140185] [drm] DM_PPLIB:   0 in kHz
+[    1.140186] [drm] DM_PPLIB:   0 in kHz
+[    1.140186] [drm] DM_PPLIB:   0 in kHz
+[    1.140186] [drm] DM_PPLIB:   1333000 in kHz
+[    1.140187] ------------[ cut here ]------------
+[    1.140280] WARNING: CPU: 2 PID: 199 at
+drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:1401
+dcn_bw_update_from_pplib.cold+0x73/0x9c [amdgpu]
+[    1.140281] Modules linked in: amdgpu(+) gpu_sched i2c_algo_bit ttm
+drm_kms_helper syscopyarea sysfillrect sysimgblt fb_sys_fops drm agpgart
+[    1.140287] CPU: 2 PID: 199 Comm: modprobe Not tainted 5.2.14-arch1-1-AR=
+CH
+#1
+[    1.140288] Hardware name: To Be Filled By O.E.M. To Be Filled By
+O.E.M./B450M Pro4, BIOS P3.50 07/18/2019
+[    1.140364] RIP: 0010:dcn_bw_update_from_pplib.cold+0x73/0x9c [amdgpu]
+[    1.140366] Code: 48 8b 93 e0 02 00 00 db 42 78 83 f9 02 77 37 b8 02 00 =
+00
+00 8d 71 ff e9 ca 2b f7 ff 48 c7 c7 98 03 3e c0 31 c0 e8 6b 67 9b e1 &lt;0f=
+&gt; 0b e9
+44 2c f7 ff 48 c7 c7 98 03 3e c0 31 c0 e8 56 67 9b e1 0f
+[    1.140367] RSP: 0018:ffff9bbc81d2f668 EFLAGS: 00010246
+[    1.140369] RAX: 0000000000000024 RBX: ffff8addc5723000 RCX:
+0000000000000000
+[    1.140369] RDX: 0000000000000000 RSI: 0000000000000092 RDI:
+00000000ffffffff
+[    1.140370] RBP: ffff8addc620c980 R08: 00000000000002b3 R09:
+0000000000000004
+[    1.140370] R10: 0000000000000000 R11: 0000000000000001 R12:
+ffff9bbc81d2f708
+[    1.140371] R13: 0000000000000001 R14: 000000000000000a R15:
+0000000000000000
+[    1.140372] FS:  00007fb896a9e740(0000) GS:ffff8addd0680000(0000)
+knlGS:0000000000000000
+[    1.140373] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[    1.140373] CR2: 0000565204d50058 CR3: 00000004060c8000 CR4:
+00000000003406e0
+[    1.140374] Call Trace:
+[    1.140458]  dcn10_create_resource_pool+0x983/0xa50 [amdgpu]
+[    1.140462]  ? _raw_spin_lock_irqsave+0x26/0x50
+[    1.140537]  dc_create_resource_pool+0x1c0/0x270 [amdgpu]
+[    1.140612]  dc_create+0x229/0x630 [amdgpu]
+[    1.140615]  ? kmem_cache_alloc_trace+0x34/0x1c0
+[    1.140687]  ? amdgpu_cgs_create_device+0x23/0x50 [amdgpu]
+[    1.140763]  amdgpu_dm_init+0xeb/0x160 [amdgpu]
+[    1.140839]  dm_hw_init+0xe/0x20 [amdgpu]
+[    1.140915]  amdgpu_device_init.cold+0x1000/0x15e3 [amdgpu]
+[    1.140975]  amdgpu_driver_load_kms+0x88/0x270 [amdgpu]
+[    1.140987]  drm_dev_register+0x111/0x150 [drm]
+[    1.141046]  amdgpu_pci_probe+0xbd/0x120 [amdgpu]
+[    1.141049]  ? __pm_runtime_resume+0x49/0x60
+[    1.141051]  local_pci_probe+0x42/0x80
+[    1.141053]  ? pci_match_device+0xc5/0x100
+[    1.141054]  pci_device_probe+0xfa/0x190
+[    1.141057]  really_probe+0xf0/0x380
+[    1.141058]  driver_probe_device+0xb6/0x100
+[    1.141060]  device_driver_attach+0x53/0x60
+[    1.141061]  __driver_attach+0x8a/0x150
+[    1.141063]  ? device_driver_attach+0x60/0x60
+[    1.141064]  ? device_driver_attach+0x60/0x60
+[    1.141065]  bus_for_each_dev+0x89/0xd0
+[    1.141066]  bus_add_driver+0x14a/0x1e0
+[    1.141068]  driver_register+0x6c/0xb0
+[    1.141070]  ? 0xffffffffc052b000
+[    1.141072]  do_one_initcall+0x59/0x234
+[    1.141076]  do_init_module+0x5c/0x230
+[    1.141078]  load_module+0x2122/0x23a0
+[    1.141082]  ? __se_sys_finit_module+0xa8/0x100
+[    1.141083]  __se_sys_finit_module+0xa8/0x100
+[    1.141086]  do_syscall_64+0x5f/0x1d0
+[    1.141089]  ? page_fault+0x8/0x30
+[    1.141091]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[    1.141092] RIP: 0033:0x7fb896bbfe3d
+[    1.141094] Code: 00 c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 =
+89
+f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 &lt;48=
+&gt; 3d 01
+f0 ff ff 73 01 c3 48 8b 0d 23 50 0c 00 f7 d8 64 89 01 48
+[    1.141095] RSP: 002b:00007ffdaf7dd488 EFLAGS: 00000246 ORIG_RAX:
+0000000000000139
+[    1.141096] RAX: ffffffffffffffda RBX: 0000557476d8caf0 RCX:
+00007fb896bbfe3d
+[    1.141097] RDX: 0000000000000000 RSI: 0000557475ac0400 RDI:
+000000000000000d
+[    1.141097] RBP: 0000557475ac0400 R08: 0000000000000000 R09:
+0000000000000000
+[    1.141098] R10: 000000000000000d R11: 0000000000000246 R12:
+0000000000000000
+[    1.141098] R13: 0000557476d8cb70 R14: 0000000000060000 R15:
+0000557476d8caf0
+[    1.141100] ---[ end trace e8ff844124760292 ]---
+[    1.141102] [drm] DM_PPLIB: values for DCF clock
+[    1.141102] [drm] DM_PPLIB:   300000 in kHz
+[    1.141103] [drm] DM_PPLIB:   600000 in kHz
+[    1.141103] [drm] DM_PPLIB:   626000 in kHz
+[    1.141103] [drm] DM_PPLIB:   654000 in kHz
+[    1.141368] [drm:construct [amdgpu]] *ERROR* construct: Invalid Connector
+ObjectID from Adapter Service for connector index:2! type 0 expected 3
+[    1.144192] [drm] Display Core initialized with v3.2.27!
+[    1.157042] [drm] SADs count is: -2, don't need to read it
+[    1.157380] [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
+[    1.157380] [drm] Driver supports precise vblank timestamp query.
+[    1.170880] [drm] VCN decode and encode initialized successfully(under S=
+PG
+Mode).
+[    1.171884] kfd kfd: Allocated 3969056 bytes on gart
+[    1.171899] Topology: Add APU node [0x15dd:0x1002]
+[    1.172085] kfd kfd: added device 1002:15dd
+[    1.173162] [drm] fb mappable at 0x61000000
+[    1.173162] [drm] vram apper at 0x60000000
+[    1.173163] [drm] size 8294400
+[    1.173163] [drm] fb depth is 24
+[    1.173164] [drm]    pitch is 7680
+[    1.173214] fbcon: amdgpudrmfb (fb0) is primary device
+[    1.195455] Console: switching to colour frame buffer device 240x67
+[    1.217430] amdgpu 0000:07:00.0: fb0: amdgpudrmfb frame buffer device
+[    1.260159] amdgpu 0000:07:00.0: ring gfx uses VM inv eng 0 on hub 0
+[    1.260163] amdgpu 0000:07:00.0: ring comp_1.0.0 uses VM inv eng 1 on hu=
+b 0
+[    1.260165] amdgpu 0000:07:00.0: ring comp_1.1.0 uses VM inv eng 4 on hu=
+b 0
+[    1.260167] amdgpu 0000:07:00.0: ring comp_1.2.0 uses VM inv eng 5 on hu=
+b 0
+[    1.260169] amdgpu 0000:07:00.0: ring comp_1.3.0 uses VM inv eng 6 on hu=
+b 0
+[    1.260171] amdgpu 0000:07:00.0: ring comp_1.0.1 uses VM inv eng 7 on hu=
+b 0
+[    1.260172] amdgpu 0000:07:00.0: ring comp_1.1.1 uses VM inv eng 8 on hu=
+b 0
+[    1.260174] amdgpu 0000:07:00.0: ring comp_1.2.1 uses VM inv eng 9 on hu=
+b 0
+[    1.260176] amdgpu 0000:07:00.0: ring comp_1.3.1 uses VM inv eng 10 on h=
+ub 0
+[    1.260178] amdgpu 0000:07:00.0: ring kiq_2.1.0 uses VM inv eng 11 on hu=
+b 0
+[    1.260180] amdgpu 0000:07:00.0: ring sdma0 uses VM inv eng 0 on hub 1
+[    1.260182] amdgpu 0000:07:00.0: ring vcn_dec uses VM inv eng 1 on hub 1
+[    1.260184] amdgpu 0000:07:00.0: ring vcn_enc0 uses VM inv eng 4 on hub 1
+[    1.260186] amdgpu 0000:07:00.0: ring vcn_enc1 uses VM inv eng 5 on hub 1
+[    1.260187] amdgpu 0000:07:00.0: ring vcn_jpeg uses VM inv eng 6 on hub 1
+[    1.263555] [drm] Initialized amdgpu 3.32.0 20150101 for 0000:07:00.0 on
+minor 0
+[    1.353427] SCSI subsystem initialized
+[    1.355923] xhci_hcd 0000:01:00.0: xHCI Host Controller</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15682844032.2e8717.23398--
+
+--===============1440649793==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1440649793==--
