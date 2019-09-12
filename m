@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3CC8B133F
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2019 19:08:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2A5CB135B
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2019 19:17:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4641D6EDD9;
-	Thu, 12 Sep 2019 17:08:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 290A06EDD7;
+	Thu, 12 Sep 2019 17:16:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqemgate15.nvidia.com (hqemgate15.nvidia.com [216.228.121.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB9FC6EDD7;
- Thu, 12 Sep 2019 17:08:32 +0000 (UTC)
+Received: from hqemgate16.nvidia.com (hqemgate16.nvidia.com [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 102786EDD7;
+ Thu, 12 Sep 2019 17:16:58 +0000 (UTC)
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5d7a7b940001>; Thu, 12 Sep 2019 10:08:36 -0700
+ hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5d7a7d8d0000>; Thu, 12 Sep 2019 10:17:01 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
  by hqpgpgate101.nvidia.com (PGP Universal service);
- Thu, 12 Sep 2019 10:08:31 -0700
+ Thu, 12 Sep 2019 10:16:57 -0700
 X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Thu, 12 Sep 2019 10:08:31 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 12 Sep
- 2019 17:08:31 +0000
-Received: from rcampbell-dev.nvidia.com (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
- Thu, 12 Sep 2019 17:08:29 +0000
-Subject: Re: [PATCH 2/4] mm/hmm: allow snapshot of the special zero page
+ by hqpgpgate101.nvidia.com on Thu, 12 Sep 2019 10:16:57 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 12 Sep
+ 2019 17:16:57 +0000
+Received: from rcampbell-dev.nvidia.com (172.20.13.39) by
+ DRHQMAIL107.nvidia.com (10.27.9.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3; Thu, 12 Sep 2019 17:16:51 +0000
+Subject: Re: [PATCH 1/4] mm/hmm: make full use of walk_page_range()
 To: Christoph Hellwig <hch@lst.de>
 References: <20190911222829.28874-1-rcampbell@nvidia.com>
- <20190911222829.28874-3-rcampbell@nvidia.com> <20190912082648.GB14368@lst.de>
+ <20190911222829.28874-2-rcampbell@nvidia.com> <20190912082613.GA14368@lst.de>
 X-Nvconfidentiality: public
 From: Ralph Campbell <rcampbell@nvidia.com>
-Message-ID: <6b124c6d-0fac-2a34-0542-7516de939b9e@nvidia.com>
-Date: Thu, 12 Sep 2019 10:08:28 -0700
+Message-ID: <973b7159-513f-0776-668d-8ba1adf87f1c@nvidia.com>
+Date: Thu, 12 Sep 2019 10:16:51 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190912082648.GB14368@lst.de>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+In-Reply-To: <20190912082613.GA14368@lst.de>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
  DRHQMAIL107.nvidia.com (10.27.9.16)
 Content-Language: en-US
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=nvidia.com; s=n1; 
- t=1568308116; bh=+GKH1AipM7oG/s2bgF7S7KajVnJGTKEgPflQKyI5DSM=;
+ t=1568308621; bh=0I/msTXMK3oeVIVr50/e/aSOEcjBKVeKIFb7hH02Hio=;
  h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
  Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
  X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
  Content-Transfer-Encoding;
- b=NCPYwAbJfj+jlzLC4k7UA+8/QOE9h0v6qDvzE/V1RnbUxex1B9SEAY36Efl5u+3ZO
- zvZ51eidxCdXZ8HFCWMCw5hGNa/lMPoiNFy6j4+wo/LscvqWd28kSyWnS9/xCu5bu/
- jF21AcFwtWR6yW5/o4oHKOVT9hVbzCALReGwp4U0JeF9BnD5rGRF+bURQvnTnBf//7
- lCdky8a8sTXbWPLyS5Wjzz1rNTZXp6xGu/k+nvAHrd2GO1cvnh91cCbK3/0ajr8c/A
- tjaFNJZ2graB7u7BnkySgeqpV77zRY2GPSHJkizUsXRqwsDz5aOvedaOvDPbx2Grvp
- +ZGSkOgtPseUA==
+ b=kRrrpximNrle4ueUTW3i6O9Mb0HqYE3SBDqBD8uvc6Pk1mWY4I5cAXt9LeMFFnbUQ
+ rPbvrrX80AI7hACgTF3cHGGmoLyY1fF8xdUTnIpP57+U+5o/qmkuje1REYgxux/tHo
+ epw+5Jl8KJNz5hkr0Slxr8vkyWnuGEIaql8P7F2UXYkothY48LnIZ30eP/FQjOB6pB
+ gAObbpf2n5+xP6fIRhEHSJ7RZnSaexO5cHoQ8IIegdQ59WsiLu29hkDVFSJQTAzeIv
+ fw996tl3wwsXISYoWQd9OcLICHrROIYQbJsIdSGB0yVRwkRzQcW03EG0Zg+rQLB2ol
+ UxoOO/UNTLxSQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,27 +77,19 @@ Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDkvMTIvMTkgMToyNiBBTSwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6Cj4gT24gV2VkLCBT
-ZXAgMTEsIDIwMTkgYXQgMDM6Mjg6MjdQTSAtMDcwMCwgUmFscGggQ2FtcGJlbGwgd3JvdGU6Cj4+
-IEFsbG93IGhtbV9yYW5nZV9mYXVsdCgpIHRvIHJldHVybiBzdWNjZXNzICgwKSB3aGVuIHRoZSBD
-UFUgcGFnZXRhYmxlCj4+IGVudHJ5IHBvaW50cyB0byB0aGUgc3BlY2lhbCBzaGFyZWQgemVybyBw
-YWdlLgo+PiBUaGUgY2FsbGVyIGNhbiB0aGVuIGhhbmRsZSB0aGUgemVybyBwYWdlIGJ5IHBvc3Np
-Ymx5IGNsZWFyaW5nIGRldmljZQo+PiBwcml2YXRlIG1lbW9yeSBpbnN0ZWFkIG9mIERNQWluZyBh
-IHplcm8gcGFnZS4KPj4KPj4gU2lnbmVkLW9mZi1ieTogUmFscGggQ2FtcGJlbGwgPHJjYW1wYmVs
-bEBudmlkaWEuY29tPgo+PiBDYzogIkrDqXLDtG1lIEdsaXNzZSIgPGpnbGlzc2VAcmVkaGF0LmNv
-bT4KPj4gQ2M6IEphc29uIEd1bnRob3JwZSA8amdnQG1lbGxhbm94LmNvbT4KPj4gQ2M6IENocmlz
-dG9waCBIZWxsd2lnIDxoY2hAbHN0LmRlPgo+PiAtLS0KPj4gICBtbS9obW0uYyB8IDIgKy0KPj4g
-ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPj4KPj4gZGlm
-ZiAtLWdpdCBhL21tL2htbS5jIGIvbW0vaG1tLmMKPj4gaW5kZXggMDYwNDFkNDM5OWZmLi43MjE3
-OTEyYmVmMTMgMTAwNjQ0Cj4+IC0tLSBhL21tL2htbS5jCj4+ICsrKyBiL21tL2htbS5jCj4+IEBA
-IC01MzIsNyArNTMyLDcgQEAgc3RhdGljIGludCBobW1fdm1hX2hhbmRsZV9wdGUoc3RydWN0IG1t
-X3dhbGsgKndhbGssIHVuc2lnbmVkIGxvbmcgYWRkciwKPj4gICAJCQlyZXR1cm4gLUVCVVNZOwo+
-PiAgIAl9IGVsc2UgaWYgKElTX0VOQUJMRUQoQ09ORklHX0FSQ0hfSEFTX1BURV9TUEVDSUFMKSAm
-JiBwdGVfc3BlY2lhbChwdGUpKSB7Cj4+ICAgCQkqcGZuID0gcmFuZ2UtPnZhbHVlc1tITU1fUEZO
-X1NQRUNJQUxdOwo+PiAtCQlyZXR1cm4gLUVGQVVMVDsKPj4gKwkJcmV0dXJuIGlzX3plcm9fcGZu
-KHB0ZV9wZm4ocHRlKSkgPyAwIDogLUVGQVVMVDsKPiAKPiBBbnkgY2hhbmNlIHRvIGp1c3QgdXNl
-IGEgbm9ybWFsIGlmIGhlcmU6Cj4gCj4gCQlpZiAoIWlzX3plcm9fcGZuKHB0ZV9wZm4ocHRlKSkp
-Cj4gCQkJcmV0dXJuIC1FRkFVTFQ7Cj4gCQlyZXR1cm4gMDsKPiAKClN1cmUsIG5vIHByb2JsZW0u
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+Ck9uIDkvMTIvMTkgMToyNiBBTSwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6Cj4+ICtzdGF0aWMg
+aW50IGhtbV9wZm5zX2ZpbGwodW5zaWduZWQgbG9uZyBhZGRyLAo+PiArCQkJIHVuc2lnbmVkIGxv
+bmcgZW5kLAo+PiArCQkJIHN0cnVjdCBobW1fcmFuZ2UgKnJhbmdlLAo+PiArCQkJIGVudW0gaG1t
+X3Bmbl92YWx1ZV9lIHZhbHVlKQo+IAo+IE5pdDogY2FuIHdlIHVzZSB0aGUgc3BhY2UgYSBsaXR0
+bGUgbW9yZSBlZmZpY2llbnQsIGUuZy46Cj4gCj4gc3RhdGljIGludCBobW1fcGZuc19maWxsKHVu
+c2lnbmVkIGxvbmcgYWRkciwgdW5zaWduZWQgbG9uZyBlbmQsCj4gCQlzdHJ1Y3QgaG1tX3Jhbmdl
+ICpyYW5nZSwgZW51bSBobW1fcGZuX3ZhbHVlX2UgdmFsdWUpCj4gCj4+ICtzdGF0aWMgaW50IGht
+bV92bWFfd2Fsa190ZXN0KHVuc2lnbmVkIGxvbmcgc3RhcnQsCj4+ICsJCQkgICAgIHVuc2lnbmVk
+IGxvbmcgZW5kLAo+PiArCQkJICAgICBzdHJ1Y3QgbW1fd2FsayAqd2FsaykKPiAKPiBTYW1lIGhl
+cmUuCj4gCj4+ICsJaWYgKCEodm1hLT52bV9mbGFncyAmIFZNX1JFQUQpKSB7Cj4+ICsJCSh2b2lk
+KSBobW1fcGZuc19maWxsKHN0YXJ0LCBlbmQsIHJhbmdlLCBITU1fUEZOX05PTkUpOwo+IAo+IFRo
+ZXJlIHNob3VsZCBiZSBubyBuZWVkIGZvciB0aGUgdm9pZCBjYXN0IGhlcmUuCj4gCgpPSy4gSSds
+bCBwb3N0IGEgdjIgd2l0aCB0aGUgdGhlc2UgY2hhbmdlcy4KVGhhbmtzIGZvciB0aGUgcmV2aWV3
+cy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
