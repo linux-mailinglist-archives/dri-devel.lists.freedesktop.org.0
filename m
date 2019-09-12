@@ -2,44 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88BBB09F6
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2019 10:11:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D77BFB0A6D
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2019 10:35:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E90A16EC3A;
-	Thu, 12 Sep 2019 08:11:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2527C8933C;
+	Thu, 12 Sep 2019 08:35:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id ACF116EC3A
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2019 08:11:43 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id A52A372167; Thu, 12 Sep 2019 08:11:43 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1F778933C
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2019 08:35:33 +0000 (UTC)
+Received: from [192.168.12.205] (helo=localhost.localdomain)
+ by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1i8KZf-0004YV-7N; Thu, 12 Sep 2019 10:35:31 +0200
+From: Iago Toral Quiroga <itoral@igalia.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111669] Navi GPU hang in Minecraft
-Date: Thu, 12 Sep 2019 08:11:43 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: git@dougty.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- qa_contact
-Message-ID: <bug-111669-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Subject: [PATCH] drm/v3d: clean caches at the end of render jobs on request
+ from user space
+Date: Thu, 12 Sep 2019 10:35:16 +0200
+Message-Id: <20190912083516.13797-1-itoral@igalia.com>
+X-Mailer: git-send-email 2.17.1
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
+ c=relaxed/relaxed; d=igalia.com; s=20170329; 
+ h=Message-Id:Date:Subject:Cc:To:From;
+ bh=+CeqBiJvBiI3qZoU2ZQHkTFnwbBNl+1AzbQIFwwTiZo=; 
+ b=E8VRjo+7bgMU7WkiEgDmRIKegpvPYO1nZiww509Cyc2zDslYg12gBIxGNt3CsMOd72Vmmk9Kt5JE8PG8o3fhBXJ3NQE/N7RWTAHySAHYS+Mwmjwm51DqKwLPp3geDkjA4FcVpEPoteSt6ZCwn7r5Sxa4rzNH8W3A6ak6FfYznr6wXf4FZzViOwrf+VD67VE/id62gsy0+3Paud9m3gp/qaPldobaTwkrsxztQfpnAdnQHa2YaL8ONd2DVyRnv54hx07BZ/v2qLe5h3lXr+1TZbqXfD8cqtuxlo1X3ue8es4bpMPUlXSbzbS999Uuu89JxxUF75Y9zfMDLh96RGSYYg==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,255 +40,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1803532441=="
+Cc: Iago Toral Quiroga <itoral@igalia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1803532441==
-Content-Type: multipart/alternative; boundary="15682759030.91ac96f.30649"
-Content-Transfer-Encoding: 7bit
-
-
---15682759030.91ac96f.30649
-Date: Thu, 12 Sep 2019 08:11:43 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111669
-
-            Bug ID: 111669
-           Summary: Navi GPU hang in Minecraft
-           Product: Mesa
-           Version: git
-          Hardware: x86-64 (AMD64)
-                OS: Linux (All)
-            Status: NEW
-          Severity: major
-          Priority: not set
-         Component: Drivers/Gallium/radeonsi
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: git@dougty.com
-        QA Contact: dri-devel@lists.freedesktop.org
-
-When playing Minecraft, being in a certain area of my world at night causes=
- my
-GPU to hang. I'm using Optifine and Sildur's shaders.
-
-Sep 12 01:38:42 xxx kernel: [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ER=
-ROR*
-Waiting for fences timed out or interrupted!
-Sep 12 01:38:47 xxx kernel: [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ER=
-ROR*
-Waiting for fences timed out or interrupted!
-Sep 12 01:38:47 xxx kernel: [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ER=
-ROR*
-Waiting for fences timed out or interrupted!
-Sep 12 01:38:47 xxx kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring
-gfx_0.0.0 timeout, signaled seq=3D19965, emitted seq=3D19967
-Sep 12 01:38:47 xxx kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Proc=
-ess
-information: process java pid 1375 thread java:cs0 pid 1433
-
-
-CPU: 3700X
-GPU: Sapphire 5700XT (reference)
-Motherboard: Gigabyte X570-I (BIOS F4)
-Kernel: 5.3.0-rc8-mainline
-Mesa: 19.3.0_devel.115190.f83f9d7daa0
-LLVM: 10.0.0_r326348.d7d8bb937ad
-OpenGL string (as seen ingame): 4.5 (Compatibility Profile) Mesa 19.3.0-dev=
-el
-(git-f83f9d7daa), X.Org, AMD NAVI10 (DRM 3.33.0, 5.3.0-rc8-mainline, LLVM
-10.0.0)
-
-I get the hang extremely reliably when in this specific spot at night, but =
-only
-this one apitrace recreates the hang when I replay it. Apologies for the
-filesize.
-
-https://drive.google.com/open?id=3D16wAmCa27o2xxv3bFXnR6rGXAum0Wci_5
-
-When the hangs occur, my screen freezes but everything is still running in =
-the
-background, and I need to use REISUB hotkeys in order to reboot. Occurs with
-both PCIe 4.0 and 3.0 set in the BIOS.
-
-Please let me know if any more info is needed.
-Thank you.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15682759030.91ac96f.30649
-Date: Thu, 12 Sep 2019 08:11:43 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Navi GPU hang in Minecraft"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111669">111669</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>Navi GPU hang in Minecraft
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>Mesa
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>x86-64 (AMD64)
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>Linux (All)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>major
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>Drivers/Gallium/radeonsi
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>git&#64;dougty.com
-          </td>
-        </tr>
-
-        <tr>
-          <th>QA Contact</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>When playing Minecraft, being in a certain area of my world at=
- night causes my
-GPU to hang. I'm using Optifine and Sildur's shaders.
-
-Sep 12 01:38:42 xxx kernel: [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ER=
-ROR*
-Waiting for fences timed out or interrupted!
-Sep 12 01:38:47 xxx kernel: [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ER=
-ROR*
-Waiting for fences timed out or interrupted!
-Sep 12 01:38:47 xxx kernel: [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ER=
-ROR*
-Waiting for fences timed out or interrupted!
-Sep 12 01:38:47 xxx kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring
-gfx_0.0.0 timeout, signaled seq=3D19965, emitted seq=3D19967
-Sep 12 01:38:47 xxx kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Proc=
-ess
-information: process java pid 1375 thread java:cs0 pid 1433
-
-
-CPU: 3700X
-GPU: Sapphire 5700XT (reference)
-Motherboard: Gigabyte X570-I (BIOS F4)
-Kernel: 5.3.0-rc8-mainline
-Mesa: 19.3.0_devel.115190.f83f9d7daa0
-LLVM: 10.0.0_r326348.d7d8bb937ad
-OpenGL string (as seen ingame): 4.5 (Compatibility Profile) Mesa 19.3.0-dev=
-el
-(git-f83f9d7daa), X.Org, AMD NAVI10 (DRM 3.33.0, 5.3.0-rc8-mainline, LLVM
-10.0.0)
-
-I get the hang extremely reliably when in this specific spot at night, but =
-only
-this one apitrace recreates the hang when I replay it. Apologies for the
-filesize.
-
-<a href=3D"https://drive.google.com/open?id=3D16wAmCa27o2xxv3bFXnR6rGXAum0W=
-ci_5">https://drive.google.com/open?id=3D16wAmCa27o2xxv3bFXnR6rGXAum0Wci_5<=
-/a>
-
-When the hangs occur, my screen freezes but everything is still running in =
-the
-background, and I need to use REISUB hotkeys in order to reboot. Occurs with
-both PCIe 4.0 and 3.0 set in the BIOS.
-
-Please let me know if any more info is needed.
-Thank you.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15682759030.91ac96f.30649--
-
---===============1803532441==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1803532441==--
+RXh0ZW5kcyB0aGUgdXNlciBzcGFjZSBpb2N0bCBmb3IgQ0wgc3VibWlzc2lvbnMgc28gaXQgY2Fu
+IGluY2x1ZGUgYSByZXF1ZXN0CnRvIGZsdXNoIHRoZSBjYWNoZSBvbmNlIHRoZSBDTCBleGVjdXRp
+b24gaGFzIGNvbXBsZXRlZC4gRml4ZXMgbWVtb3J5CndyaXRlIHZpb2xhdGlvbiBtZXNzYWdlcyBy
+ZXBvcnRlZCBieSB0aGUga2VybmVsIGluIHdvcmtsb2FkcyBpbnZvbHZpbmcKc2hhZGVyIG1lbW9y
+eSB3cml0ZXMgKFNTQk9zLCBzaGFkZXIgaW1hZ2VzLCBzY3JhdGNoLCBldGMpIHdoaWNoIHNvbWV0
+aW1lcwphbHNvIGxlYWQgdG8gR1BVIHJlc2V0cyBkdXJpbmcgUGlnbGl0IGFuZCBDVFMgd29ya2xv
+YWRzLgoKU2lnbmVkLW9mZi1ieTogSWFnbyBUb3JhbCBRdWlyb2dhIDxpdG9yYWxAaWdhbGlhLmNv
+bT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9nZW0uYyB8IDUxICsrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrLS0tLS0tCiBpbmNsdWRlL3VhcGkvZHJtL3YzZF9kcm0uaCAgICB8ICA3
+ICsrLS0tCiAyIGZpbGVzIGNoYW5nZWQsIDQ3IGluc2VydGlvbnMoKyksIDExIGRlbGV0aW9ucygt
+KQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92M2QvdjNkX2dlbS5jIGIvZHJpdmVycy9n
+cHUvZHJtL3YzZC92M2RfZ2VtLmMKaW5kZXggNWQ4MDUwN2I1MzliLi41MzBmZTlkOWQ1YmQgMTAw
+NjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS92M2QvdjNkX2dlbS5jCisrKyBiL2RyaXZlcnMvZ3B1
+L2RybS92M2QvdjNkX2dlbS5jCkBAIC01MzAsMTMgKzUzMCwxNiBAQCB2M2Rfc3VibWl0X2NsX2lv
+Y3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsCiAJc3RydWN0IGRybV92M2Rf
+c3VibWl0X2NsICphcmdzID0gZGF0YTsKIAlzdHJ1Y3QgdjNkX2Jpbl9qb2IgKmJpbiA9IE5VTEw7
+CiAJc3RydWN0IHYzZF9yZW5kZXJfam9iICpyZW5kZXI7CisJc3RydWN0IHYzZF9qb2IgKmNsZWFu
+X2pvYiA9IE5VTEw7CisJc3RydWN0IHYzZF9qb2IgKmxhc3Rfam9iOwogCXN0cnVjdCB3d19hY3F1
+aXJlX2N0eCBhY3F1aXJlX2N0eDsKIAlpbnQgcmV0ID0gMDsKIAogCXRyYWNlX3YzZF9zdWJtaXRf
+Y2xfaW9jdGwoJnYzZC0+ZHJtLCBhcmdzLT5yY2xfc3RhcnQsIGFyZ3MtPnJjbF9lbmQpOwogCi0J
+aWYgKGFyZ3MtPnBhZCAhPSAwKSB7Ci0JCURSTV9JTkZPKCJwYWQgbXVzdCBiZSB6ZXJvOiAlZFxu
+IiwgYXJncy0+cGFkKTsKKwlpZiAoYXJncy0+ZmxhZ3MgIT0gMCAmJgorCSAgICBhcmdzLT5mbGFn
+cyAhPSBEUk1fVjNEX1NVQk1JVF9DTF9GTFVTSF9DQUNIRV9GTEFHKSB7CisJCURSTV9JTkZPKCJp
+bnZhbGlkIGZsYWdzOiAlZFxuIiwgYXJncy0+ZmxhZ3MpOwogCQlyZXR1cm4gLUVJTlZBTDsKIAl9
+CiAKQEAgLTU3NSwxMiArNTc4LDI4IEBAIHYzZF9zdWJtaXRfY2xfaW9jdGwoc3RydWN0IGRybV9k
+ZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwKIAkJYmluLT5yZW5kZXIgPSByZW5kZXI7CiAJfQogCi0J
+cmV0ID0gdjNkX2xvb2t1cF9ib3MoZGV2LCBmaWxlX3ByaXYsICZyZW5kZXItPmJhc2UsCisJaWYg
+KGFyZ3MtPmZsYWdzICYgRFJNX1YzRF9TVUJNSVRfQ0xfRkxVU0hfQ0FDSEVfRkxBRykgeworCQlj
+bGVhbl9qb2IgPSBrY2FsbG9jKDEsIHNpemVvZigqY2xlYW5fam9iKSwgR0ZQX0tFUk5FTCk7CisJ
+CWlmICghY2xlYW5fam9iKSB7CisJCQlyZXQgPSAtRU5PTUVNOworCQkJZ290byBmYWlsOworCQl9
+CisKKwkJcmV0ID0gdjNkX2pvYl9pbml0KHYzZCwgZmlsZV9wcml2LCBjbGVhbl9qb2IsIHYzZF9q
+b2JfZnJlZSwgMCk7CisJCWlmIChyZXQpCisJCQlnb3RvIGZhaWw7CisKKwkJbGFzdF9qb2IgPSBj
+bGVhbl9qb2I7CisJfSBlbHNlIHsKKwkJbGFzdF9qb2IgPSAmcmVuZGVyLT5iYXNlOworCX0KKwor
+CXJldCA9IHYzZF9sb29rdXBfYm9zKGRldiwgZmlsZV9wcml2LCBsYXN0X2pvYiwKIAkJCSAgICAg
+YXJncy0+Ym9faGFuZGxlcywgYXJncy0+Ym9faGFuZGxlX2NvdW50KTsKIAlpZiAocmV0KQogCQln
+b3RvIGZhaWw7CiAKLQlyZXQgPSB2M2RfbG9ja19ib19yZXNlcnZhdGlvbnMoJnJlbmRlci0+YmFz
+ZSwgJmFjcXVpcmVfY3R4KTsKKwlyZXQgPSB2M2RfbG9ja19ib19yZXNlcnZhdGlvbnMobGFzdF9q
+b2IsICZhY3F1aXJlX2N0eCk7CiAJaWYgKHJldCkKIAkJZ290byBmYWlsOwogCkBAIC01OTksMjgg
+KzYxOCw0NCBAQCB2M2Rfc3VibWl0X2NsX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZv
+aWQgKmRhdGEsCiAJcmV0ID0gdjNkX3B1c2hfam9iKHYzZF9wcml2LCAmcmVuZGVyLT5iYXNlLCBW
+M0RfUkVOREVSKTsKIAlpZiAocmV0KQogCQlnb3RvIGZhaWxfdW5yZXNlcnZlOworCisJaWYgKGNs
+ZWFuX2pvYikgeworCQlzdHJ1Y3QgZG1hX2ZlbmNlICpyZW5kZXJfZmVuY2UgPQorCQkJZG1hX2Zl
+bmNlX2dldChyZW5kZXItPmJhc2UuZG9uZV9mZW5jZSk7CisJCXJldCA9IGRybV9nZW1fZmVuY2Vf
+YXJyYXlfYWRkKCZjbGVhbl9qb2ItPmRlcHMsIHJlbmRlcl9mZW5jZSk7CisJCWlmIChyZXQpCisJ
+CQlnb3RvIGZhaWxfdW5yZXNlcnZlOworCQlyZXQgPSB2M2RfcHVzaF9qb2IodjNkX3ByaXYsIGNs
+ZWFuX2pvYiwgVjNEX0NBQ0hFX0NMRUFOKTsKKwkJaWYgKHJldCkKKwkJCWdvdG8gZmFpbF91bnJl
+c2VydmU7CisJfQorCiAJbXV0ZXhfdW5sb2NrKCZ2M2QtPnNjaGVkX2xvY2spOwogCiAJdjNkX2F0
+dGFjaF9mZW5jZXNfYW5kX3VubG9ja19yZXNlcnZhdGlvbihmaWxlX3ByaXYsCi0JCQkJCQkgJnJl
+bmRlci0+YmFzZSwKKwkJCQkJCSBsYXN0X2pvYiwKIAkJCQkJCSAmYWNxdWlyZV9jdHgsCiAJCQkJ
+CQkgYXJncy0+b3V0X3N5bmMsCi0JCQkJCQkgcmVuZGVyLT5iYXNlLmRvbmVfZmVuY2UpOworCQkJ
+CQkJIGxhc3Rfam9iLT5kb25lX2ZlbmNlKTsKIAogCWlmIChiaW4pCiAJCXYzZF9qb2JfcHV0KCZi
+aW4tPmJhc2UpOwogCXYzZF9qb2JfcHV0KCZyZW5kZXItPmJhc2UpOworCWlmIChjbGVhbl9qb2Ip
+CisJCXYzZF9qb2JfcHV0KGNsZWFuX2pvYik7CiAKIAlyZXR1cm4gMDsKIAogZmFpbF91bnJlc2Vy
+dmU6CiAJbXV0ZXhfdW5sb2NrKCZ2M2QtPnNjaGVkX2xvY2spOwotCWRybV9nZW1fdW5sb2NrX3Jl
+c2VydmF0aW9ucyhyZW5kZXItPmJhc2UuYm8sCi0JCQkJICAgIHJlbmRlci0+YmFzZS5ib19jb3Vu
+dCwgJmFjcXVpcmVfY3R4KTsKKwlkcm1fZ2VtX3VubG9ja19yZXNlcnZhdGlvbnMobGFzdF9qb2It
+PmJvLAorCQkJCSAgICBsYXN0X2pvYi0+Ym9fY291bnQsICZhY3F1aXJlX2N0eCk7CiBmYWlsOgog
+CWlmIChiaW4pCiAJCXYzZF9qb2JfcHV0KCZiaW4tPmJhc2UpOwogCXYzZF9qb2JfcHV0KCZyZW5k
+ZXItPmJhc2UpOworCWlmIChjbGVhbl9qb2IpCisJCXYzZF9qb2JfcHV0KGNsZWFuX2pvYik7CiAK
+IAlyZXR1cm4gcmV0OwogfQpkaWZmIC0tZ2l0IGEvaW5jbHVkZS91YXBpL2RybS92M2RfZHJtLmgg
+Yi9pbmNsdWRlL3VhcGkvZHJtL3YzZF9kcm0uaAppbmRleCA1OGZiZTQ4YzkxZTkuLjU4ZDIwNDBl
+YTQ4YyAxMDA2NDQKLS0tIGEvaW5jbHVkZS91YXBpL2RybS92M2RfZHJtLmgKKysrIGIvaW5jbHVk
+ZS91YXBpL2RybS92M2RfZHJtLmgKQEAgLTQ4LDYgKzQ4LDggQEAgZXh0ZXJuICJDIiB7CiAjZGVm
+aW5lIERSTV9JT0NUTF9WM0RfU1VCTUlUX1RGVSAgICAgICAgICBEUk1fSU9XKERSTV9DT01NQU5E
+X0JBU0UgKyBEUk1fVjNEX1NVQk1JVF9URlUsIHN0cnVjdCBkcm1fdjNkX3N1Ym1pdF90ZnUpCiAj
+ZGVmaW5lIERSTV9JT0NUTF9WM0RfU1VCTUlUX0NTRCAgICAgICAgICBEUk1fSU9XKERSTV9DT01N
+QU5EX0JBU0UgKyBEUk1fVjNEX1NVQk1JVF9DU0QsIHN0cnVjdCBkcm1fdjNkX3N1Ym1pdF9jc2Qp
+CiAKKyNkZWZpbmUgRFJNX1YzRF9TVUJNSVRfQ0xfRkxVU0hfQ0FDSEVfRkxBRyAgICAgICAgMHgw
+MQorCiAvKioKICAqIHN0cnVjdCBkcm1fdjNkX3N1Ym1pdF9jbCAtIGlvY3RsIGFyZ3VtZW50IGZv
+ciBzdWJtaXR0aW5nIGNvbW1hbmRzIHRvIHRoZSAzRAogICogZW5naW5lLgpAQCAtNjEsNyArNjMs
+NyBAQCBleHRlcm4gIkMiIHsKICAqIGZsdXNoZWQgYnkgdGhlIHRpbWUgdGhlIHJlbmRlciBkb25l
+IElSUSBoYXBwZW5zLCB3aGljaCBpcyB0aGUKICAqIHRyaWdnZXIgZm9yIG91dF9zeW5jLiAgQW55
+IGRpcnR5aW5nIG9mIGNhY2hlbGluZXMgYnkgdGhlIGpvYiAob25seQogICogcG9zc2libGUgdXNp
+bmcgVE1VIHdyaXRlcykgbXVzdCBiZSBmbHVzaGVkIGJ5IHRoZSBjYWxsZXIgdXNpbmcgdGhlCi0g
+KiBDTCdzIGNhY2hlIGZsdXNoIGNvbW1hbmRzLgorICogRFJNX1YzRF9TVUJNSVRfQ0xfRkxVU0hf
+Q0FDSEVfRkxBRyBmbGFnLgogICovCiBzdHJ1Y3QgZHJtX3YzZF9zdWJtaXRfY2wgewogCS8qIFBv
+aW50ZXIgdG8gdGhlIGJpbm5lciBjb21tYW5kIGxpc3QuCkBAIC0xMjQsOCArMTI2LDcgQEAgc3Ry
+dWN0IGRybV92M2Rfc3VibWl0X2NsIHsKIAkvKiBOdW1iZXIgb2YgQk8gaGFuZGxlcyBwYXNzZWQg
+aW4gKHNpemUgaXMgdGhhdCB0aW1lcyA0KS4gKi8KIAlfX3UzMiBib19oYW5kbGVfY291bnQ7CiAK
+LQkvKiBQYWQsIG11c3QgYmUgemVyby1maWxsZWQuICovCi0JX191MzIgcGFkOworCV9fdTMyIGZs
+YWdzOwogfTsKIAogLyoqCi0tIAoyLjE3LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbA==
