@@ -1,48 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA36BB18D1
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2019 09:24:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD6D5B18D2
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2019 09:24:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B539E6EE93;
-	Fri, 13 Sep 2019 07:24:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6604F6EE95;
+	Fri, 13 Sep 2019 07:24:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.andi.de1.cc (mail.andi.de1.cc
- [IPv6:2a01:238:4321:8900:456f:ecd6:43e:202c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2695B6ED99
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2019 14:58:26 +0000 (UTC)
-Received: from [77.247.85.104] (helo=localhost)
- by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.89) (envelope-from <andreas@kemnade.info>)
- id 1i8QY5-0005Vh-M2; Thu, 12 Sep 2019 16:58:18 +0200
-Received: from [::1] (helo=localhost) by eeepc with esmtp (Exim 4.89)
- (envelope-from <andreas@kemnade.info>)
- id 1i8QY3-0006dy-3x; Thu, 12 Sep 2019 16:58:15 +0200
-Date: Thu, 12 Sep 2019 16:58:08 +0200
-From: Andreas Kemnade <andreas@kemnade.info>
-To: Dan Murphy <dmurphy@ti.com>
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B56406ED9A
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2019 15:03:29 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8CF3Aah046587;
+ Thu, 12 Sep 2019 10:03:10 -0500
+Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8CF3A4B029511
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 12 Sep 2019 10:03:10 -0500
+Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 12
+ Sep 2019 10:03:10 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Thu, 12 Sep 2019 10:03:09 -0500
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8CF39dk069556;
+ Thu, 12 Sep 2019 10:03:09 -0500
 Subject: Re: [PATCH v3 1/2] dt-bindings: backlight: lm3630a: add enable_gpios
-Message-ID: <20190912165808.3c38b7a2@kemnade.info>
-In-Reply-To: <ff410d6c-e1e8-7c96-e8f7-0a0deb816f6a@ti.com>
+To: Andreas Kemnade <andreas@kemnade.info>
 References: <20190911172106.12843-1-andreas@kemnade.info>
  <20190911172106.12843-2-andreas@kemnade.info>
  <ff410d6c-e1e8-7c96-e8f7-0a0deb816f6a@ti.com>
-X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; i686-pc-linux-gnu)
+ <20190912165808.3c38b7a2@kemnade.info>
+From: Dan Murphy <dmurphy@ti.com>
+Message-ID: <5c8d25ab-e780-4e60-9723-cd65553f4db3@ti.com>
+Date: Thu, 12 Sep 2019 10:03:12 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-Spam-Score: -1.0 (-)
+In-Reply-To: <20190912165808.3c38b7a2@kemnade.info>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-Mailman-Approved-At: Fri, 13 Sep 2019 07:24:41 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; 
- d=kemnade.info; s=20180802; h=Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=diUgc0I/ohhBLoo+DfzpNbJII4nieNRP6PUcXuYVoMU=; b=hRoSE76zUVKfkeRCwX+M76w5G
- A7L271OHeTUZtSSmDD3PBAO03jMYGiqNFzxpzp2TuNks8KyeaelhToRr13Axa+wk172htXGHVov6M
- 4vw+oU2WUUmlVUgilSrqTXOHbJije70cX/0hQNIkcrbAsrgHVk/0Lq+o2wGv+q2P/1wSE=;
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ti.com; s=ti-com-17Q1; t=1568300590;
+ bh=eju7yvlhMevpk8GMIglQpXBV9N/M17eV4ISPBCjwU3g=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=kofTgmSdQLex18tsgcah0ZbTuO/uSmNQEQaKu1CsVKhJD9woALdPBt0Zuwfuqe3ea
+ /UdLDlUEJScXMRjUencauLX5F5YcouKRhw3dsEmRd4V/729PJKFPxHcCd7h3piz31p
+ igneibNxmUgJPpXVu1e2WzW5E9sGWzFqRP+0P/kA=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,102 +71,41 @@ Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
  linux-fbdev@vger.kernel.org, robh+dt@kernel.org, jacek.anaszewski@gmail.com,
  pavel@ucw.cz, "H. Nikolaus Schaller" <hns@goldelico.com>, lee.jones@linaro.org,
  linux-leds@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============2073052281=="
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============2073052281==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/p=GURwKtHNf6YhQ_WKbnjoL"; protocol="application/pgp-signature"
-
---Sig_/p=GURwKtHNf6YhQ_WKbnjoL
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, 12 Sep 2019 06:39:50 -0500
-Dan Murphy <dmurphy@ti.com> wrote:
-
-> Andreas
->=20
-> On 9/11/19 12:21 PM, Andreas Kemnade wrote:
-> > add enable-gpios to describe HWEN pin
-> >
-> > Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
-> > Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
-> > ---
-> > changes in v2: added example
-> > changes in v3: added Acked-by
-> >   .../bindings/leds/backlight/lm3630a-backlight.yaml           | 5 +++++
-> >   1 file changed, 5 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/leds/backlight/lm3630a-b=
-acklight.yaml b/Documentation/devicetree/bindings/leds/backlight/lm3630a-ba=
-cklight.yaml
-> > index dc129d9a329e..1fa83feffe16 100644
-> > --- a/Documentation/devicetree/bindings/leds/backlight/lm3630a-backligh=
-t.yaml
-> > +++ b/Documentation/devicetree/bindings/leds/backlight/lm3630a-backligh=
-t.yaml
-> > @@ -29,6 +29,10 @@ properties:
-> >     '#size-cells':
-> >       const: 0
-> >  =20
-> > +  enable-gpios:
-> > +    description: GPIO to use to enable/disable the backlight (HWEN pin=
-).
-> > +    maxItems: 1
-> > +
-> >   required:
-> >     - compatible
-> >     - reg
-> > @@ -92,6 +96,7 @@ examples:
-> >       i2c {
-> >           #address-cells =3D <1>;
-> >           #size-cells =3D <0>;
-> > +        enable-gpios =3D <&gpio2 5 GPIO_ACTIVE_HIGH>;
-> >  =20
-> >           led-controller@38 {
-> >                   compatible =3D "ti,lm3630a"; =20
->=20
-> Looks good to me
->=20
-well, the enable-gpios is still at the same place as in v2. This was sent
-before your comments to v2 have been arrived.
-
-Regards,
-Andreas
-
---Sig_/p=GURwKtHNf6YhQ_WKbnjoL
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEPIWxmAFyOaBcwCpFl4jFM1s/ye8FAl16XQAACgkQl4jFM1s/
-ye8SEw/+IjRu/Eq+1Wkt7PlbCz3K+lHCVv+BKCe5EZrbK5rIIs6Xy/HaIH+R4aEX
-JNyDe6TkjAreOLuSSFoZcE3CLA7lzhi5NGVGXfpdvNSFkJfvMGL0y8AJmhcbsQUf
-4tMGEJVpF7WiUiwNynxGWKxRU1Q/++kBzcFiC0eFnewx4/0kELVCVwx+uLJQkm84
-OInsI/5n+9huEmB/I2SUr5Wa0luaMDWH2XzKYvLSzM1x1L8yMFPbwrqSuU+c83mR
-hEad0DRscDJhca01BZTiRpyf5HSRnPPwS8Q7YuWXDTY5VIs6QJNbdB2NfooYFnFb
-bKLXfSkGBfB5mNfJq0nEP7F6RumBJ5W68gokNF0uQxy8kfR9Qz9INZjOzNIphI3z
-jWvIraehnGd/1Qsu7046bj+seQIj7OjXVgsqvl2GvgYH8g9sM69sDJWvWEkXAH+8
-Y8ltoMngNcW9BMf01FPpaY/LcprUPA1ylOISy6orWbFoEczKKySovOvrBOscNXTG
-wUaz7yPeRzgJwHMfUQpw6r0TjWo424U3gqDQN38SCfiKhoo3GoInfRBemdU/Vh9E
-vjHdTKyCx3xeWiy8a4o4lVa/YGNz3dvnZSdShMu+hxD5cpcL+iHl2kMEMVMHwDit
-hjS3YcYEbtQHEtlQ88Zwv0wJmgQJ9SOExUTd8dPtJra05qtfdL0=
-=1gCA
------END PGP SIGNATURE-----
-
---Sig_/p=GURwKtHNf6YhQ_WKbnjoL--
-
---===============2073052281==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
+QW5kcmVhcwoKT24gOS8xMi8xOSA5OjU4IEFNLCBBbmRyZWFzIEtlbW5hZGUgd3JvdGU6Cj4gT24g
+VGh1LCAxMiBTZXAgMjAxOSAwNjozOTo1MCAtMDUwMAo+IERhbiBNdXJwaHkgPGRtdXJwaHlAdGku
+Y29tPiB3cm90ZToKPgo+PiBBbmRyZWFzCj4+Cj4+IE9uIDkvMTEvMTkgMTI6MjEgUE0sIEFuZHJl
+YXMgS2VtbmFkZSB3cm90ZToKPj4+IGFkZCBlbmFibGUtZ3Bpb3MgdG8gZGVzY3JpYmUgSFdFTiBw
+aW4KPj4+Cj4+PiBTaWduZWQtb2ZmLWJ5OiBBbmRyZWFzIEtlbW5hZGUgPGFuZHJlYXNAa2VtbmFk
+ZS5pbmZvPgo+Pj4gQWNrZWQtYnk6IERhbmllbCBUaG9tcHNvbiA8ZGFuaWVsLnRob21wc29uQGxp
+bmFyby5vcmc+Cj4+PiAtLS0KPj4+IGNoYW5nZXMgaW4gdjI6IGFkZGVkIGV4YW1wbGUKPj4+IGNo
+YW5nZXMgaW4gdjM6IGFkZGVkIEFja2VkLWJ5Cj4+PiAgICAuLi4vYmluZGluZ3MvbGVkcy9iYWNr
+bGlnaHQvbG0zNjMwYS1iYWNrbGlnaHQueWFtbCAgICAgICAgICAgfCA1ICsrKysrCj4+PiAgICAx
+IGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspCj4+Pgo+Pj4gZGlmZiAtLWdpdCBhL0RvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9sZWRzL2JhY2tsaWdodC9sbTM2MzBhLWJhY2ts
+aWdodC55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2xlZHMvYmFja2xp
+Z2h0L2xtMzYzMGEtYmFja2xpZ2h0LnlhbWwKPj4+IGluZGV4IGRjMTI5ZDlhMzI5ZS4uMWZhODNm
+ZWZmZTE2IDEwMDY0NAo+Pj4gLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
+L2xlZHMvYmFja2xpZ2h0L2xtMzYzMGEtYmFja2xpZ2h0LnlhbWwKPj4+ICsrKyBiL0RvY3VtZW50
+YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9sZWRzL2JhY2tsaWdodC9sbTM2MzBhLWJhY2tsaWdo
+dC55YW1sCj4+PiBAQCAtMjksNiArMjksMTAgQEAgcHJvcGVydGllczoKPj4+ICAgICAgJyNzaXpl
+LWNlbGxzJzoKPj4+ICAgICAgICBjb25zdDogMAo+Pj4gICAgCj4+PiArICBlbmFibGUtZ3Bpb3M6
+Cj4+PiArICAgIGRlc2NyaXB0aW9uOiBHUElPIHRvIHVzZSB0byBlbmFibGUvZGlzYWJsZSB0aGUg
+YmFja2xpZ2h0IChIV0VOIHBpbikuCj4+PiArICAgIG1heEl0ZW1zOiAxCj4+PiArCj4+PiAgICBy
+ZXF1aXJlZDoKPj4+ICAgICAgLSBjb21wYXRpYmxlCj4+PiAgICAgIC0gcmVnCj4+PiBAQCAtOTIs
+NiArOTYsNyBAQCBleGFtcGxlczoKPj4+ICAgICAgICBpMmMgewo+Pj4gICAgICAgICAgICAjYWRk
+cmVzcy1jZWxscyA9IDwxPjsKPj4+ICAgICAgICAgICAgI3NpemUtY2VsbHMgPSA8MD47Cj4+PiAr
+ICAgICAgICBlbmFibGUtZ3Bpb3MgPSA8JmdwaW8yIDUgR1BJT19BQ1RJVkVfSElHSD47Cj4+PiAg
+ICAKPj4+ICAgICAgICAgICAgbGVkLWNvbnRyb2xsZXJAMzggewo+Pj4gICAgICAgICAgICAgICAg
+ICAgIGNvbXBhdGlibGUgPSAidGksbG0zNjMwYSI7Cj4+IExvb2tzIGdvb2QgdG8gbWUKPj4KPiB3
+ZWxsLCB0aGUgZW5hYmxlLWdwaW9zIGlzIHN0aWxsIGF0IHRoZSBzYW1lIHBsYWNlIGFzIGluIHYy
+LiBUaGlzIHdhcyBzZW50Cj4gYmVmb3JlIHlvdXIgY29tbWVudHMgdG8gdjIgaGF2ZSBiZWVuIGFy
+cml2ZWQuCgpBaCBJIG92ZXJsb29rZWQgdGhhdC7CoCBZZWFoIHRoYXQgc3RpbGwgbmVlZHMgdG8g
+bW92ZSBJIGFzc3VtZWQgeW91IG1vdmVkIGl0LgoKRGFuCgoKPiBSZWdhcmRzLAo+IEFuZHJlYXMK
 X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2073052281==--
