@@ -2,54 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B6F6B0C04
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2019 11:56:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A6A7B0C21
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Sep 2019 12:00:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59C886EC93;
-	Thu, 12 Sep 2019 09:56:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 030E96ECA0;
+	Thu, 12 Sep 2019 10:00:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25D686EC93
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2019 09:56:00 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id d5so22981767lja.10
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2019 02:56:00 -0700 (PDT)
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EE6A6ECA0
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2019 10:00:52 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id w6so18865210lfl.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2019 03:00:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=329cG7VF2FWSqrxDIURXoF4mNurdRp+cB0ol/yD2IWM=;
- b=t3DJsa1PG5cYjIEpe/P5eS/PBbI814JJS06MGNEXf/jshGWlSi8Yqvws1k+MBUPPN7
- xJ3SBuPivAdYeyKgBJTeO874PxxkIS/PXNNy5djxAZzJYwGRehDgVYmKuS3/dfxjiIcP
- uV2CMD+jkQTPtbjfjTba/aeq1jJDjgEaaVh8ynYkv3+3j8xoY1e8pn+DohwFN5YLTm8Z
- Fp9ECafnAz9mkM5Y3jA3H4UWqPxXDqfcTppo8sNTqotF0ZjldzLm/l1BcSvJ2490kE9n
- Pxho2fOqz0dCFabjvEIe9fiDW5+rVL0b9TkkLOvPo7qhJJG3R79xJ3+9JpSI6Lqz5lTe
- rFKA==
-X-Gm-Message-State: APjAAAX+UksxKqLB5gfeCsanmdQiAIWmNko6KMKSHmtjLE8/jxl/6L9z
- YP7UYzgr+OUwQDXFtmox3wIhAclas9pYlmprkVh6/Q==
-X-Google-Smtp-Source: APXvYqxzzu1xektMPHWgtffW/ZJV0KpU2PYzjtvuUtd9AIHNy13c8WglMkiuJC9aHP7eR5XUK9IR4cvejz1fmBwj4RE=
-X-Received: by 2002:a2e:a408:: with SMTP id p8mr25771055ljn.54.1568282158508; 
- Thu, 12 Sep 2019 02:55:58 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dgRHe0c0zALMw2TSjbVcveDJfiRQV5j8z+Nv6bZbiTU=;
+ b=KP/7HNtFNKbjG+MDMARhcwH2zV5sHw1jJBCjACu5g7RZlhvs7+Hgqm6VIGced8bVWL
+ ljEbNSMUqgxhH1wC7Qbn+4Pjji1oyLrYJusTK7qtSejPnC7H28wti7B4f+jRgxFqoDvS
+ YjQlqTc5/PU5GL82Yi63oeXE64HGV1u5Z8xB3/+yrRsVeJK9Ai1o2kshWkXVXSIfJ1RT
+ CZao4JEIvnMx2gRAY0X65F2yJvEEQosfJKJDChVz30u4+mmHOtwTnHTMbVmoE+E8xAt4
+ XDjJB/b3WeIAWd13FtkH7RJ4sDGWJFUu/oXf1i6/l9RYh2c7Gky0oseyiYxgO9/MB4GP
+ vUpg==
+X-Gm-Message-State: APjAAAXO05RrcMz4nOf6/UDRxSeH166Q2fsb7KCuA8//JZb2MSgh2CH0
+ pmEcFoRmHlyGNMMglf8rSmpyvA==
+X-Google-Smtp-Source: APXvYqxc4YkOSQULHhzw8UnouJkwyCr3fFXRTqlNg0o1TvAscvTc+8yVIN44zsSWfVizJCzuqCdaKg==
+X-Received: by 2002:a19:8017:: with SMTP id b23mr26387068lfd.132.1568282451053; 
+ Thu, 12 Sep 2019 03:00:51 -0700 (PDT)
+Received: from ?IPv6:2a00:1fa0:4458:7c96:687f:e13:db32:8101?
+ ([2a00:1fa0:4458:7c96:687f:e13:db32:8101])
+ by smtp.gmail.com with ESMTPSA id l3sm6122626lfc.31.2019.09.12.03.00.49
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 12 Sep 2019 03:00:49 -0700 (PDT)
+Subject: Re: [PATCH] drm: rcar-du: Add r8a77980 support
+To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ linux-renesas-soc@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20190911192502.16609-1-kieran.bingham+renesas@ideasonboard.com>
+From: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Message-ID: <70b94265-69f3-d18f-1b67-b5b814723b1b@cogentembedded.com>
+Date: Thu, 12 Sep 2019 13:00:41 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20190911075215.78047-1-dmitry.torokhov@gmail.com>
-In-Reply-To: <20190911075215.78047-1-dmitry.torokhov@gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 12 Sep 2019 10:55:47 +0100
-Message-ID: <CACRpkdb=s67w2DCGubhbLQTtxpWtiW8S1MECMO4cvec=bF6OdA@mail.gmail.com>
-Subject: Re: [PATCH 00/11] Add support for software nodes to gpiolib
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+In-Reply-To: <20190911192502.16609-1-kieran.bingham+renesas@ideasonboard.com>
+Content-Language: en-US
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=329cG7VF2FWSqrxDIURXoF4mNurdRp+cB0ol/yD2IWM=;
- b=zQWgVC5tdLMykaX4/vwY9NwQnl84kGz+E6G4gmnU7E7z3xPgxUBAJuq/KLQlPf1oam
- RdLkgwT7ktokKveMir+dbsSJjHyajz6I6pmACAQ/vaCXqP1u+H53qJ9UGfH9Rqw4f+BS
- F8tIL5183K5mqiZie+gUfjKim5aKDftgnnpqvro3Rlrly4++DaglYIiO64u3PqxKyEqS
- vgu3cD+nTugMhX7gSo0wLYQx22Wjix5fu1vewOQSg/1dXyjPdDlBL2ZYcPZ7siq3qChf
- T+vLBgVhPJk/tcy3slq1OFZi3PAwqOrLAaNYWiAa1505El6PWxe3yZ95a9+Hy+PVW/Ih
- wamA==
+ d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=dgRHe0c0zALMw2TSjbVcveDJfiRQV5j8z+Nv6bZbiTU=;
+ b=mCEYHaiknSmh86XK9e03fuskcmgH8JP35BlF2mnj8P4vGddGJJgDkO/Str6PuZEhFJ
+ d1fle7Bp5qw0FZd+YOjt95a0BFr8sjKu/UFAH71NB9BQCF4OHxyjt/l4GlrD0mLiyCKi
+ EJQMNGKGNGxIjoUeqvg1dQE42v79xFegUa/urL4rV/iW82qETF9ASs4Ccy2vZ6ZnZfHP
+ j/E78UGKbUBPikmsnuhGu5RTZvizM6pCJWCRHTW2/TADq0WVYYtam+IVUg5vuoiRH5wR
+ yNMqSxXHLuxHo+ZVGVanOpH2wvBnUYyKzJAE6AE508a5anSURDrhzQ/6wEZMghOXdXtF
+ owNA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,39 +73,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Florian Fainelli <f.fainelli@gmail.com>,
- ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, netdev <netdev@vger.kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Russell King <linux@armlinux.org.uk>, Neil Armstrong <narmstrong@baylibre.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- "David S. Miller" <davem@davemloft.net>,
- Heiner Kallweit <hkallweit1@gmail.com>
-Content-Type: text/plain; charset="utf-8"
+Cc: David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
 Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBTZXAgMTEsIDIwMTkgYXQgODo1MiBBTSBEbWl0cnkgVG9yb2tob3YKPGRtaXRyeS50
-b3Jva2hvdkBnbWFpbC5jb20+IHdyb3RlOgoKPiBJZiB3ZSBhZ3JlZSBpbiBwcmluY2lwbGUsIEkg
-d291bGQgbGlrZSB0byBoYXZlIHRoZSB2ZXJ5IGZpcnN0IDMgcGF0Y2hlcwo+IGluIGFuIGltbXV0
-YWJsZSBicmFuY2ggb2ZmIG1heWJlIC1yYzggc28gdGhhdCBpdCBjYW4gYmUgcHVsbGVkIGludG8K
-PiBpbmRpdmlkdWFsIHN1YnN5c3RlbXMgc28gdGhhdCBwYXRjaGVzIHN3aXRjaGluZyB2YXJpb3Vz
-IGRyaXZlcnMgdG8KPiBmd25vZGVfZ3Bpb2RfZ2V0X2luZGV4KCkgY291bGQgYmUgYXBwbGllZC4K
-CkkgdGhpbmsgaXQgc2VlbXMgYSBiaXQgZW50aHVzaWFzdGljIHRvIGhhdmUgbm9uLUdQSU8gc3Vi
-c3lzdGVtcwpwaWNrIHVwIHRoZXNlIGNoYW5nZXMgdGhpcyBjbG9zZSB0byB0aGUgbWVyZ2Ugd2lu
-ZG93IHNvIG15IHBsYW4KaXMgdG8gbWVyZ2UgcGF0Y2hlcyAxLjIuMyAoMSBhbHJlYWR5IG1lcmdl
-ZCkgYW5kIHRoZW4geW91IGNvdWxkCm1hc3NhZ2UgdGhlIG90aGVyIHN1YnN5c3RlbXMgaW4gdjUu
-NC1yYzEuCgpCdXQgaWYgb3RoZXIgc3Vic3lzdGVtcyBzYXkgImhleSB3ZSB3YW50IGRvIGZpeCB0
-aGlzIGluIGxpa2UgMyBkYXlzIgp0aGVuIEknbSBnYW1lIGZvciBhbiBpbW11dGFibGUgYnJhbmNo
-IGFzIHdlbGwuCgpZb3VycywKTGludXMgV2FsbGVpagpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWw=
+SGVsbG8hCgpPbiAxMS4wOS4yMDE5IDIyOjI1LCBLaWVyYW4gQmluZ2hhbSB3cm90ZToKCj4gQWRk
+IGRpcmVjdCBzdXBwb3J0IGZvciB0aGUgcjhhNzc5ODAgKFYzSCkuCj4gCj4gVGhlIFYzSCBzaGFy
+ZXMgYSBjb21tb24sIGNvbXBhdGlibGUgY29uZmlndXJhdGlvbiB3aXRoIHRoZSByOGE3Nzk3MAo+
+IChWM00pIHNvIHRoYXQgZGV2aWNlIGluZm8gc3RydWN0dXJlIGlzIHJldXNlZC4KCiAgICBEbyB3
+ZSByZWFsbHkgbmVlZCB0byBhZGQgeWV0IGFub3RoZXIgY29tcGF0aWJsZSBpbiB0aGlzIGNhc2U/
+CkkganVzdCBhZGRlZCByOGE3Nzk3MCB0byB0aGUgY29tcGF0aWJsZSBwcm9wIGluIHRoZSByOGE3
+Nzk4MCBEVC4gVGhhdCdzIHdoeQphIHBhdGNoIGxpa2UgdGhpcyBvbmUgZGlkbid0IGdldCBwb3N0
+ZWQgYnkgbWUuCgo+IFNpZ25lZC1vZmYtYnk6IEtpZXJhbiBCaW5naGFtIDxraWVyYW4uYmluZ2hh
+bStyZW5lc2FzQGlkZWFzb25ib2FyZC5jb20+ClsuLi5dCgpNQlIsIFNlcmdlaQpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
