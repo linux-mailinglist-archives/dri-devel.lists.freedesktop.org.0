@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A75AFB18DB
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2019 09:25:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2F74B18DE
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2019 09:25:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99CF06EE99;
-	Fri, 13 Sep 2019 07:24:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6361C6EEA3;
+	Fri, 13 Sep 2019 07:24:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
- [IPv6:2607:f8b0:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 013D46EC48
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2019 09:37:39 +0000 (UTC)
-Received: by mail-pf1-x42e.google.com with SMTP id r12so15675401pfh.1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2019 02:37:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:from:subject:message-id:date:user-agent
- :mime-version:content-language;
- bh=azKPn+FrneIwWc48qQAexc2Wv+Q+SUix9Mavkn8EwPA=;
- b=pgI/QxVQrcFqYfMKJRAt+HqtYjHngOl2XYc3St8u8VGu7UBBkMjqSJei2k0iOTTRiy
- QZNfnAK9jRrgs2UeH9OiKsRFofmUUg2oA3vkwpkTh20VTmbVbndUHsEhoBtG7CJIVM7E
- QsTa+BG6y6zH5ccr7aDK1RH2/2j2hhFVaG9A00GfhkMLR2NSnhOGQeyn9B1dhMntzEF7
- BWsk2l/ldHKtqf9PDA+ft7nI9xBT09yiOIQF/6Dk5RLtEb80sU/7A8NohXjrgopdP1Av
- ToCjjXZpT8VS05eZwjHb+4jrGffvkAHOjUmsHUHLlb3PAChSiKUClbb6xqM7UPR07BKj
- nwMg==
-X-Gm-Message-State: APjAAAUyAdKJY0aQvk6aWXPyqR4cM/PhGU31ptanzYWvHoo+JpcCXMTj
- z17tWFc3qVatycsr8B7f78pxJQxn
-X-Google-Smtp-Source: APXvYqylLtuqqveCfI9uPZH1GYSULIbz9ov0h8NdWaDlqugdKZ3eYzttMaRTrr9/mlz2oT7/HTlqdA==
-X-Received: by 2002:a63:4c5c:: with SMTP id m28mr38869609pgl.333.1568281059083; 
- Thu, 12 Sep 2019 02:37:39 -0700 (PDT)
-Received: from [192.168.35.197] ([180.69.89.73])
- by smtp.gmail.com with ESMTPSA id n66sm38894352pfn.90.2019.09.12.02.37.37
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 12 Sep 2019 02:37:38 -0700 (PDT)
-To: dri-devel@lists.freedesktop.org
-From: Securecoded <securecoded@gmail.com>
-Subject: RK3288 DRM source for plane mirror..
-Message-ID: <4e004d95-ebba-be46-0c3a-2a9e57d12775@gmail.com>
-Date: Thu, 12 Sep 2019 18:37:36 +0900
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86AB26ECE7
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Sep 2019 11:40:14 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8CBdpeK074141;
+ Thu, 12 Sep 2019 06:39:51 -0500
+Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8CBdpqu008220
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 12 Sep 2019 06:39:51 -0500
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 12
+ Sep 2019 06:39:50 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Thu, 12 Sep 2019 06:39:50 -0500
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8CBdoVV107454;
+ Thu, 12 Sep 2019 06:39:50 -0500
+Subject: Re: [PATCH v3 1/2] dt-bindings: backlight: lm3630a: add enable_gpios
+To: Andreas Kemnade <andreas@kemnade.info>, <lee.jones@linaro.org>,
+ <daniel.thompson@linaro.org>, <jingoohan1@gmail.com>,
+ <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
+ <mark.rutland@arm.com>, <b.zolnierkie@samsung.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-leds@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-fbdev@vger.kernel.org>, "H. Nikolaus Schaller" <hns@goldelico.com>
+References: <20190911172106.12843-1-andreas@kemnade.info>
+ <20190911172106.12843-2-andreas@kemnade.info>
+From: Dan Murphy <dmurphy@ti.com>
+Message-ID: <ff410d6c-e1e8-7c96-e8f7-0a0deb816f6a@ti.com>
+Date: Thu, 12 Sep 2019 06:39:50 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20190911172106.12843-2-andreas@kemnade.info>
 Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-Mailman-Approved-At: Fri, 13 Sep 2019 07:24:41 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=to:from:subject:message-id:date:user-agent:mime-version
- :content-language;
- bh=azKPn+FrneIwWc48qQAexc2Wv+Q+SUix9Mavkn8EwPA=;
- b=BVbwomv93YeIYc5wE9V+3D0QhWjtyFQCr1+6QNScZVUoX8KEkOzgeh6a/J79PDhTsj
- RcXtFUIDzMBmJhXNQptZpR/4VefMZuYK/gYe1vt+g/pSt/GvV/bFeCGcRa8zq19+qJfm
- POZfyOV5TPeWqfe6p/93ahA4Y4NrV5kch45xueJsB+MeljZs1r242THIx+/lS02FfMt4
- 8HuYM/QBAm3E9nsEGWXPBUHw4G6d4oznLT58G4BkK3d/ynekA9yEXCLpi61pqfQ2ueVU
- troiAEHfuJvM0Ahl+JgIkjkvLlCwvNjVKuIpD3+KyXB0+jEZfCwXeUm+2EWRKeU5N3EJ
- utrw==
+ d=ti.com; s=ti-com-17Q1; t=1568288391;
+ bh=S3Uw7YV4iduTm2oKlG6534ijPPVci6yUlAzgg9rmfq8=;
+ h=Subject:To:References:From:Date:In-Reply-To;
+ b=GeL8p8ROhUPfObNUFk/PLBiwXl4tBAb2eJPfeob4pLukY7J5A74Wet9FPQ604ClwE
+ rpAL1zeAz19IimtEarFIGg8wkgxTmJXiAhsoH6QHTlRvWXoYz+tCcVIP6HuZq0wpV6
+ Lr956nAtEz5pNjR6KzKPBoZ6ilx+yMGFpWnRn6As=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,81 +69,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1841401104=="
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---===============1841401104==
-Content-Type: multipart/alternative;
- boundary="------------F63647C95EA9B7E7E3824B96"
-Content-Language: en-US
-
-This is a multi-part message in MIME format.
---------------F63647C95EA9B7E7E3824B96
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-Dear all,
-
-i'm jerry park and first driver porting with rk3288.
-it is really hard time for me..
-
-now i need plane mirror function, but my SDK could't do it.
-i fount your patch project 
-https://lists.freedesktop.org/archives/dri-devel/2019-January/202816.html
-but i can't  download your source file. i am not be used to patch app..
-
-so if possible could i get your patch files.
-
-drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-  drivers/gpu/drm/rockchip/rockchip_drm_vop.h
-  drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-
-if acceptable, it is really thankful for me.
-
-
---------------F63647C95EA9B7E7E3824B96
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    Dear all,<br>
-    <br>
-    i'm jerry park and first driver porting with rk3288.<br>
-    it is really hard time for me..<br>
-    <br>
-    now i need plane mirror function, but my SDK could't do it.<br>
-    i fount your patch project  <a
-href="https://lists.freedesktop.org/archives/dri-devel/2019-January/202816.html">https://lists.freedesktop.org/archives/dri-devel/2019-January/202816.html</a><br>
-    but i can't  download your source file. i am not be used to patch 
-    app..<br>
-    <br>
-    so if possible could i get your patch files.<br>
-    <pre style="white-space: pre-wrap; color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">drivers/gpu/drm/rockchip/rockchip_drm_vop.c 
- drivers/gpu/drm/rockchip/rockchip_drm_vop.h 
- drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-
-if acceptable, it is really thankful for me.
-</pre>
-  </body>
-</html>
-
---------------F63647C95EA9B7E7E3824B96--
-
---===============1841401104==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1841401104==--
+QW5kcmVhcwoKT24gOS8xMS8xOSAxMjoyMSBQTSwgQW5kcmVhcyBLZW1uYWRlIHdyb3RlOgo+IGFk
+ZCBlbmFibGUtZ3Bpb3MgdG8gZGVzY3JpYmUgSFdFTiBwaW4KPgo+IFNpZ25lZC1vZmYtYnk6IEFu
+ZHJlYXMgS2VtbmFkZSA8YW5kcmVhc0BrZW1uYWRlLmluZm8+Cj4gQWNrZWQtYnk6IERhbmllbCBU
+aG9tcHNvbiA8ZGFuaWVsLnRob21wc29uQGxpbmFyby5vcmc+Cj4gLS0tCj4gY2hhbmdlcyBpbiB2
+MjogYWRkZWQgZXhhbXBsZQo+IGNoYW5nZXMgaW4gdjM6IGFkZGVkIEFja2VkLWJ5Cj4gICAuLi4v
+YmluZGluZ3MvbGVkcy9iYWNrbGlnaHQvbG0zNjMwYS1iYWNrbGlnaHQueWFtbCAgICAgICAgICAg
+fCA1ICsrKysrCj4gICAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspCj4KPiBkaWZmIC0t
+Z2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2xlZHMvYmFja2xpZ2h0L2xt
+MzYzMGEtYmFja2xpZ2h0LnlhbWwgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
+bGVkcy9iYWNrbGlnaHQvbG0zNjMwYS1iYWNrbGlnaHQueWFtbAo+IGluZGV4IGRjMTI5ZDlhMzI5
+ZS4uMWZhODNmZWZmZTE2IDEwMDY0NAo+IC0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
+aW5kaW5ncy9sZWRzL2JhY2tsaWdodC9sbTM2MzBhLWJhY2tsaWdodC55YW1sCj4gKysrIGIvRG9j
+dW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2xlZHMvYmFja2xpZ2h0L2xtMzYzMGEtYmFj
+a2xpZ2h0LnlhbWwKPiBAQCAtMjksNiArMjksMTAgQEAgcHJvcGVydGllczoKPiAgICAgJyNzaXpl
+LWNlbGxzJzoKPiAgICAgICBjb25zdDogMAo+ICAgCj4gKyAgZW5hYmxlLWdwaW9zOgo+ICsgICAg
+ZGVzY3JpcHRpb246IEdQSU8gdG8gdXNlIHRvIGVuYWJsZS9kaXNhYmxlIHRoZSBiYWNrbGlnaHQg
+KEhXRU4gcGluKS4KPiArICAgIG1heEl0ZW1zOiAxCj4gKwo+ICAgcmVxdWlyZWQ6Cj4gICAgIC0g
+Y29tcGF0aWJsZQo+ICAgICAtIHJlZwo+IEBAIC05Miw2ICs5Niw3IEBAIGV4YW1wbGVzOgo+ICAg
+ICAgIGkyYyB7Cj4gICAgICAgICAgICNhZGRyZXNzLWNlbGxzID0gPDE+Owo+ICAgICAgICAgICAj
+c2l6ZS1jZWxscyA9IDwwPjsKPiArICAgICAgICBlbmFibGUtZ3Bpb3MgPSA8JmdwaW8yIDUgR1BJ
+T19BQ1RJVkVfSElHSD47Cj4gICAKPiAgICAgICAgICAgbGVkLWNvbnRyb2xsZXJAMzggewo+ICAg
+ICAgICAgICAgICAgICAgIGNvbXBhdGlibGUgPSAidGksbG0zNjMwYSI7CgpMb29rcyBnb29kIHRv
+IG1lCgpSZXZpZXdlZC1ieTogRGFuIE11cnBoeSA8ZG11cnBoeUB0aS5jb20+CgpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
