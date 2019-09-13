@@ -1,63 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD6DEB2404
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2019 18:23:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36439B2458
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2019 18:47:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4B706F419;
-	Fri, 13 Sep 2019 16:23:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 672AF6F421;
+	Fri, 13 Sep 2019 16:47:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa1.bahnhof.se (pio-pvt-msa1.bahnhof.se [79.136.2.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BDC36F419
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2019 16:23:29 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 2B1E23F869;
- Fri, 13 Sep 2019 18:23:27 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
- autolearn=ham autolearn_force=no
-Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Oq9M03gjm-GP; Fri, 13 Sep 2019 18:23:26 +0200 (CEST)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35]) (Authenticated sender: mb878879)
- by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 5FB423F269;
- Fri, 13 Sep 2019 18:23:20 +0200 (CEST)
-Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 9FA1E360142;
- Fri, 13 Sep 2019 18:23:20 +0200 (CEST)
-Subject: Re: [RFC PATCH 3/7] drm/ttm: TTM fault handler helpers
-To: Hillf Danton <hdanton@sina.com>, Thomas Hellstrom <thellstrom@vmware.com>
-References: <20190913093213.27254-1-thomas_os@shipmail.org>
- <20190913134039.3164-1-hdanton@sina.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= <thomas_os@shipmail.org>
-Organization: VMware Inc.
-Message-ID: <b52cd3f4-9d46-8423-29dc-c7f3c2ebd0c5@shipmail.org>
-Date: Fri, 13 Sep 2019 18:23:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E8E66F421
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2019 16:47:42 +0000 (UTC)
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 01464C057867
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2019 16:47:42 +0000 (UTC)
+Received: by mail-qk1-f200.google.com with SMTP id n125so33451906qkc.16
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2019 09:47:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=X+Gw4oltcKWp0pNSL2jvRbQwq2ryUW+pvfo0CPfINZg=;
+ b=UVpUS86ys2GgpaxZNdjCCwseoZsV6iKY4W7BWnWQJljh0NXtRnZL5eC47Af/0geL77
+ kufcy5PIb12GLKmuBALdSMyx4HeUgo25EbCJ2vbhxW/l6mVG/2fY60kiprkSTHn5pyx7
+ ZWiaFozLwqEPN4KywXNpIfNhTwlnxwemOaGKsTJvF/PT9OzVW4QYXjE0OvZLSNYvcx5o
+ abNYmKP7TR0mYmcLOiRj8lWloh0ywou9XC6Mds7sPDg69i7XqIBoFrsNjxATrgu1pPE4
+ fMzSxL7RsuTXq9KDEFArCXMOtu5Ambjm31JUcn0sUr/8XZ38neq56DPeYxrPM8srnIdC
+ Ketg==
+X-Gm-Message-State: APjAAAUhGwQciK9ni3EoxgdSvkImtYbBV6bvTsaxw1oLrmMGSX8cOLmy
+ 1JHEhKel4R186cFia4mLKVOnGl0jdbek53BfA3v21swVfBFY0X/Xng/nJJpaVa8OV8SArMSH8Le
+ yv7vQfJ38MFd1pTcwDSkNVYWPVlQE
+X-Received: by 2002:ac8:5554:: with SMTP id o20mr4083482qtr.282.1568393261362; 
+ Fri, 13 Sep 2019 09:47:41 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzIEQ980tFqyfbaeMnpk1LbA1xC7gVZZH4yzzlSooBbk3qEyQaJPmNadxlERCvjre9DT5O4aw==
+X-Received: by 2002:ac8:5554:: with SMTP id o20mr4083470qtr.282.1568393261206; 
+ Fri, 13 Sep 2019 09:47:41 -0700 (PDT)
+Received: from dhcp-10-20-1-78.bss.redhat.com ([144.121.20.162])
+ by smtp.gmail.com with ESMTPSA id n17sm15497519qke.103.2019.09.13.09.47.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Sep 2019 09:47:40 -0700 (PDT)
+Message-ID: <9ec132ccb19458e369ae55b60471ffbebe401321.camel@redhat.com>
+Subject: Re: image size is wrong in EDID, how to use EDID quirks
+From: Adam Jackson <ajax@redhat.com>
+To: "zhangn1985@outlook.com" <zhangn1985@outlook.com>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Date: Fri, 13 Sep 2019 12:47:39 -0400
+In-Reply-To: <MN2PR04MB61259770991EDF5573603645CDB30@MN2PR04MB6125.namprd04.prod.outlook.com>
+References: <MN2PR04MB61259770991EDF5573603645CDB30@MN2PR04MB6125.namprd04.prod.outlook.com>
+User-Agent: Evolution 3.33.91 (3.33.91-1.fc31) 
 MIME-Version: 1.0
-In-Reply-To: <20190913134039.3164-1-hdanton@sina.com>
-Content-Language: en-US
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=shipmail.org; s=mail; 
- t=1568391800; bh=mIcuuWQWBmGVqj9JQ0olPW5Gf42nPgrVqWnb6Umawhw=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=WVfG9T7KRLDYZjuSXF4jaCC4ppRK9FiUWZg8b47LxCpKg18xBbAgrGMcKrBptbrBP
- oed1Qnjig9yN7MwLk4OOfTHs9+IGo9NEM8iVCQEeAIS+aPqVT5h61fgIemKsLhV2fK
- 9gefmdS9q3p8cS//LBXfaOASQLqv3VimEnL/uCLQ=
-X-Mailman-Original-Authentication-Results: pio-pvt-msa1.bahnhof.se;
- dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="WVfG9T7K";
- dkim-atps=neutral
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,31 +65,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jglisse@redhat.com, Michal Hocko <mhocko@suse.com>,
- Rik van Riel <riel@surriel.com>, pv-drivers@vmware.com,
- Minchan Kim <minchan@kernel.org>, Will Deacon <will.deacon@arm.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Christoph Hellwig <hch@infradead.org>, linux-mm@kvack.org,
- Peter Zijlstra <peterz@infradead.org>, linux-graphics-maintainer@vmware.com,
- Matthew Wilcox <willy@infradead.org>, Huang Ying <ying.huang@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, christian.koenig@amd.com,
- Souptick Joarder <jrdr.linux@gmail.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gOS8xMy8xOSAzOjQwIFBNLCBIaWxsZiBEYW50b24gd3JvdGU6Cj4gT24gRnJpLCAxMyBTZXAg
-MjAxOSAxMTozMjowOSArMDIwMAo+PiAgIAllcnIgPSB0dG1fbWVtX2lvX2xvY2sobWFuLCB0cnVl
-KTsKPj4gLQlpZiAodW5saWtlbHkoZXJyICE9IDApKSB7Cj4+IC0JCXJldCA9IFZNX0ZBVUxUX05P
-UEFHRTsKPj4gLQkJZ290byBvdXRfdW5sb2NrOwo+PiAtCX0KPj4gKwlpZiAodW5saWtlbHkoZXJy
-ICE9IDApKQo+PiArCQlyZXR1cm4gVk1fRkFVTFRfTk9QQUdFOwo+PiAgIAllcnIgPSB0dG1fbWVt
-X2lvX3Jlc2VydmVfdm0oYm8pOwo+PiAtCWlmICh1bmxpa2VseShlcnIgIT0gMCkpIHsKPj4gLQkJ
-cmV0ID0gVk1fRkFVTFRfU0lHQlVTOwo+PiAtCQlnb3RvIG91dF9pb191bmxvY2s7Cj4+IC0JfQo+
-PiArCWlmICh1bmxpa2VseShlcnIgIT0gMCkpCj4+ICsJCXJldHVybiBWTV9GQVVMVF9TSUdCVVM7
-Cj4+Cj4gSGVoZSwgbm8gaHVycnkuCgpBaC4gSSBnZXQgdGhlIHBvaW50IDopIFllcywgSSdsbCB1
-cGRhdGUuIEhhdmVuJ3QgYmVlbiBsb29raW5nIGF0IHRoZXNlIApwYXRjaGVzIGZvciBhIHdoaWxl
-LgoKVGhhbmtzLAoKVGhvbWFzCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVs
+T24gRnJpLCAyMDE5LTA5LTEzIGF0IDA0OjIxICswMDAwLCB6aGFuZ24xOTg1QG91dGxvb2suY29t
+IHdyb3RlOgo+IERlYXIgZGV2ZWxvcGVycwo+ICAKPiBJIGhhdmUgYSBTYW1zdW5nIDQw4oCZIEhE
+TUkgVFYsIHdoaWNoIGhhcyB3cm9uZyBFRElELgo+ICAKPiBUaGUgYWN0YXVsIHNpemUgb2YgdGhp
+cyBUViBpcyA0MOKAmSAoODhjbSo0OWNtKSwgYnV0IGluIEVESUQgdGhlIHNpemUKPiBpcyA0OeKA
+mSAoMTA2KjYzY20pCj4gIAo+IFRodXMgbWFrZXMgaW1hZ2Ugc2l6ZSBpcyBsYXJnZXIgdGhhbiBz
+Y3JlZW4sIGJvdGggaW4gY29uc29sZSBhbmQKPiBkZXNrdG9wLgoKVGhhdCdzIG5vdCBob3cgRURJ
+RCB3b3JrcyBpbiBMaW51eC4gSXQncyBvbmx5IHVzZWQgdG8gY29tcHV0ZSB0aGUgRFBJCm9mIHRo
+ZSBzY3JlZW4sIG5vdCB0byBzY2FsZSB0aGUgaW1hZ2UuIElmIHRoZSBpbWFnZSBvbiB0aGUgVFYg
+bG9va3MKbGlrZSBpdCBleHRlbmRzIG9mZiB0aGUgZWRnZSBvZiB0aGUgVFYgeW91IG5lZWQgdG8g
+ZmluZCB0aGUgIm92ZXJzY2FuIgpzZXR0aW5nIGluIHlvdXIgVFYgYW5kIHR1cm4gaXQgb2ZmLgoK
+LSBhamF4CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
