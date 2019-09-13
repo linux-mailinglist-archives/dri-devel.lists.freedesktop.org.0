@@ -1,62 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DB3EB358F
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2019 09:28:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85568B358B
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2019 09:28:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66AC46E84C;
-	Mon, 16 Sep 2019 07:28:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCB116E840;
+	Mon, 16 Sep 2019 07:28:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD24F6F3C6
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2019 14:06:39 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8DE6Q4g085351;
- Fri, 13 Sep 2019 09:06:26 -0500
-Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8DE6QNb056725
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 13 Sep 2019 09:06:26 -0500
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 13
- Sep 2019 09:06:26 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Fri, 13 Sep 2019 09:06:25 -0500
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8DE6PlR112383;
- Fri, 13 Sep 2019 09:06:25 -0500
-Subject: Re: [PATCH v4 1/2] dt-bindings: backlight: lm3630a: add enable_gpios
-To: Andreas Kemnade <andreas@kemnade.info>, <lee.jones@linaro.org>,
- <daniel.thompson@linaro.org>, <jingoohan1@gmail.com>,
- <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
- <mark.rutland@arm.com>, <b.zolnierkie@samsung.com>,
- <dri-devel@lists.freedesktop.org>, <linux-leds@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-fbdev@vger.kernel.org>
-References: <20190912213257.24147-1-andreas@kemnade.info>
- <20190912213257.24147-2-andreas@kemnade.info>
-From: Dan Murphy <dmurphy@ti.com>
-Message-ID: <b6d9fa2c-c23b-7310-e192-cff6185a72b1@ti.com>
-Date: Fri, 13 Sep 2019 09:06:51 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F3746F3ED
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2019 15:18:08 +0000 (UTC)
+Received: from willy by bombadil.infradead.org with local (Exim 4.92.2 #3 (Red
+ Hat Linux)) id 1i8nKl-0006KN-Pf; Fri, 13 Sep 2019 15:18:03 +0000
+Date: Fri, 13 Sep 2019 08:18:03 -0700
+From: Matthew Wilcox <willy@infradead.org>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m_=28VMware=29?= <thomas_os@shipmail.org>
+Subject: Re: [RFC PATCH 3/7] drm/ttm: TTM fault handler helpers
+Message-ID: <20190913151803.GO29434@bombadil.infradead.org>
+References: <20190913093213.27254-1-thomas_os@shipmail.org>
+ <20190913093213.27254-4-thomas_os@shipmail.org>
 MIME-Version: 1.0
-In-Reply-To: <20190912213257.24147-2-andreas@kemnade.info>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <20190913093213.27254-4-thomas_os@shipmail.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-Mailman-Approved-At: Mon, 16 Sep 2019 07:28:04 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ti.com; s=ti-com-17Q1; t=1568383586;
- bh=rF+4FIKlVSHlEEHXf6QhcIJo8Cxci4JVbaPWe8BeTLU=;
- h=Subject:To:References:From:Date:In-Reply-To;
- b=Fau/Eh2RkxT2FjWYINFwq5ybCkEMljIcv/34t118YnCLwX7NW6QTXF//tC0XsvuEr
- ql/gd1dKIh53WiL5srBH0sxo3Qs8zcVuJMZqTC6/VIniqVf/Vtcwz5ixYYq2M1tRyu
- v+sIGtV0rhH7HozaZPTqdhqoMy2Py9vWLbZS3o5w=
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
+ c=relaxed/relaxed; 
+ d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Transfer-Encoding
+ :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=fxdx8ELT74pyYGT61OLGflIw6z6NXtnHEx3y22zF9/I=; b=HGJfCy214Ht+AD4xBmFC2EHL/h
+ RGMiZnEGOa0ZkY+vilO/vwXrwlw5aVSIvlxTJlhfy35kx2Hk/aCz/fPXBIfh0u4xiRil59kS16WqN
+ CY+c/HDv6hZES8flPhraJi79Tpz9SEavFg1fZFXMRI5mwNNJdUBiCFJFQIYl1DqSJWaXVqwotLrkI
+ 660Dzqxfp3iTpjh7kUAAzqrFPM72+Z6LiD0P9chN7sJkU1s05NXxtGy9NxaZYefRN/RG1jJscJbE4
+ 6htV+dd2KCxAB9XypgpTU4/6FN8Ci4QOP9ZyPmtmR7pOb2QB5fu/qm4PQs4IiI5fEeSy3ft9D+awP
+ t+Sl2VEQ==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,36 +52,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+ Thomas Hellstrom <thellstrom@vmware.com>, Michal Hocko <mhocko@suse.com>,
+ Rik van Riel <riel@surriel.com>, pv-drivers@vmware.com,
+ Minchan Kim <minchan@kernel.org>, Will Deacon <will.deacon@arm.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Christoph Hellwig <hch@infradead.org>, linux-mm@kvack.org,
+ Peter Zijlstra <peterz@infradead.org>, linux-graphics-maintainer@vmware.com,
+ Souptick Joarder <jrdr.linux@gmail.com>, Huang Ying <ying.huang@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW5kcmVhcwoKT24gOS8xMi8xOSA0OjMyIFBNLCBBbmRyZWFzIEtlbW5hZGUgd3JvdGU6Cj4gYWRk
-IGVuYWJsZS1ncGlvcyB0byBkZXNjcmliZSBIV0VOIHBpbgo+Cj4gU2lnbmVkLW9mZi1ieTogQW5k
-cmVhcyBLZW1uYWRlIDxhbmRyZWFzQGtlbW5hZGUuaW5mbz4KPiBBY2tlZC1ieTogRGFuaWVsIFRo
-b21wc29uIDxkYW5pZWwudGhvbXBzb25AbGluYXJvLm9yZz4KClJldmlld2VkLWJ5OiBEYW4gTXVy
-cGh5IDxkbXVycGh5QHRpLmNvbT4KCgo+IC0tLQo+IGNoYW5nZXMgaW4gdjI6IGFkZGVkIGV4YW1w
-bGUKPiBjaGFuZ2VzIGluIHYzOiBhZGRlZCBBY2tlZC1ieQo+IGNoYW5nZXMgaW4gdjQ6IG1vdmVk
-IGVuYWJsZS1ncGlvcyB0byB0aGUgcmlnaHQgcG9zaXRpb24KPiAgICBpbiB0aGUgZXhhbXBsZQo+
-ICAgLi4uL2JpbmRpbmdzL2xlZHMvYmFja2xpZ2h0L2xtMzYzMGEtYmFja2xpZ2h0LnlhbWwgICAg
-ICAgICAgIHwgNSArKysrKwo+ICAgMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKQo+Cj4g
-ZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9sZWRzL2JhY2ts
-aWdodC9sbTM2MzBhLWJhY2tsaWdodC55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
-bmRpbmdzL2xlZHMvYmFja2xpZ2h0L2xtMzYzMGEtYmFja2xpZ2h0LnlhbWwKPiBpbmRleCBkYzEy
-OWQ5YTMyOWUuLmM4NDcwNjI4ZmUwMiAxMDA2NDQKPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2Rldmlj
-ZXRyZWUvYmluZGluZ3MvbGVkcy9iYWNrbGlnaHQvbG0zNjMwYS1iYWNrbGlnaHQueWFtbAo+ICsr
-KyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9sZWRzL2JhY2tsaWdodC9sbTM2
-MzBhLWJhY2tsaWdodC55YW1sCj4gQEAgLTI5LDYgKzI5LDEwIEBAIHByb3BlcnRpZXM6Cj4gICAg
-ICcjc2l6ZS1jZWxscyc6Cj4gICAgICAgY29uc3Q6IDAKPiAgIAo+ICsgIGVuYWJsZS1ncGlvczoK
-PiArICAgIGRlc2NyaXB0aW9uOiBHUElPIHRvIHVzZSB0byBlbmFibGUvZGlzYWJsZSB0aGUgYmFj
-a2xpZ2h0IChIV0VOIHBpbikuCj4gKyAgICBtYXhJdGVtczogMQo+ICsKPiAgIHJlcXVpcmVkOgo+
-ICAgICAtIGNvbXBhdGlibGUKPiAgICAgLSByZWcKPiBAQCAtOTYsNiArMTAwLDcgQEAgZXhhbXBs
-ZXM6Cj4gICAgICAgICAgIGxlZC1jb250cm9sbGVyQDM4IHsKPiAgICAgICAgICAgICAgICAgICBj
-b21wYXRpYmxlID0gInRpLGxtMzYzMGEiOwo+ICAgICAgICAgICAgICAgICAgIHJlZyA9IDwweDM4
-PjsKPiArICAgICAgICAgICAgICAgIGVuYWJsZS1ncGlvcyA9IDwmZ3BpbzIgNSBHUElPX0FDVElW
-RV9ISUdIPjsKPiAgIAo+ICAgICAgICAgICAgICAgICAgICNhZGRyZXNzLWNlbGxzID0gPDE+Owo+
-ICAgICAgICAgICAgICAgICAgICNzaXplLWNlbGxzID0gPDA+OwpfX19fX19fX19fX19fX19fX19f
+T24gRnJpLCBTZXAgMTMsIDIwMTkgYXQgMTE6MzI6MDlBTSArMDIwMCwgVGhvbWFzIEhlbGxzdHLD
+tm0gKFZNd2FyZSkgd3JvdGU6Cj4gK3ZtX2ZhdWx0X3QgdHRtX2JvX3ZtX2ZhdWx0X3Jlc2VydmVk
+KHN0cnVjdCB2bV9mYXVsdCAqdm1mLAo+ICsJCQkJICAgIHBncHJvdF90IHByb3QsCj4gKwkJCQkg
+ICAgcGdvZmZfdCBudW1fcHJlZmF1bHQpCj4gK3sKPiArCXN0cnVjdCB2bV9hcmVhX3N0cnVjdCAq
+dm1hID0gdm1mLT52bWE7Cj4gKwlzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgY3ZtYSA9ICp2bWE7Cj4g
+KwlzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvID0gKHN0cnVjdCB0dG1fYnVmZmVyX29iamVj
+dCAqKQo+ICsJICAgIHZtYS0+dm1fcHJpdmF0ZV9kYXRhOwoKSXQncyBhIHZvaWQgKi4gIFRoZXJl
+J3Mgbm8gbmVlZCB0byBjYXN0IGl0LgoKCXN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8gPSB2
+bWEtPnZtX3ByaXZhdGVfZGF0YTsKCmNvbnZleXMgZXhhY3RseSB0aGUgc2FtZSBpbmZvcm1hdGlv
+biB0byBib3RoIHRoZSByZWFkZXIgYW5kIHRoZSBjb21waWxlciwKZXhjZXB0IGl0J3MgYWxsIG9u
+IG9uZSBsaW5lIGluc3RlYWQgb2Ygc3BsaXQgb3ZlciB0d28uCgpfX19fX19fX19fX19fX19fX19f
 X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
 ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
 bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
