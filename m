@@ -1,38 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A29CB217E
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2019 15:59:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE4D7B2162
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2019 15:54:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D92696F3BD;
-	Fri, 13 Sep 2019 13:59:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D04B96F3BE;
+	Fri, 13 Sep 2019 13:54:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 595 seconds by postgrey-1.36 at gabe;
- Fri, 13 Sep 2019 13:59:26 UTC
-Received: from mail.linuxsystems.it (mail.linuxsystems.it [79.7.78.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F39C36F3BD
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2019 13:59:26 +0000 (UTC)
-Received: by mail.linuxsystems.it (Postfix, from userid 33)
- id 87C7720BB8D; Fri, 13 Sep 2019 15:43:42 +0200 (CEST)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B2AF96F3BC
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2019 13:54:28 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id AF7C072167; Fri, 13 Sep 2019 13:54:28 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: Running SPICE on ppc64le
-X-PHP-Originating-Script: 0:rcube.php
+Subject: [Bug 111669] Navi GPU hang in Minecraft
+Date: Fri, 13 Sep 2019 13:54:29 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: git@dougty.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111669-502-CwJCwrYydS@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111669-502@http.bugs.freedesktop.org/>
+References: <bug-111669-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Date: Fri, 13 Sep 2019 15:43:42 +0200
-From: =?UTF-8?Q?Niccol=C3=B2_Belli?= <darkbasic@linuxsystems.it>
-Message-ID: <4f96ca2df5c0a67c6f5cb89ff759e93d@linuxsystems.it>
-X-Sender: darkbasic@linuxsystems.it
-User-Agent: Roundcube Webmail/1.1.5
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=linuxsystems.it; 
- s=linuxsystems.it; t=1568382222;
- bh=OwH3U0Cex0v+gKQbBN77dNDF14xLlIPzHQefCYGOza4=;
- h=To:Subject:Date:From:From;
- b=X6HLervjsw9g7VD7sQXh90aVSh72HumWVQXjaQMKuRaVNz/qA6Q+291DmojglOsOZ
- 4HKt6gfsrPxXNdIdx/NSOz1EtYrg0LxSK/ijo3fLXM03Tvi678sgNX93s0WyUTZ7i/
- SfRCNLYMucdGaIMcoCc2lv0m6s9JqLCWugrpj9SY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,16 +52,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============0584285299=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCklzIHRoZXJlIGFueSByZWFzb24gd2h5IFNwaWNlIGlzIG5vdCBhdmFpbGFibGUgb24gcHBj
-NjRsZT8KSSd2ZSByZWFkIHRoZXJlIGFyZSBzdGlsbCBzb21lIGlzc3VlcyB3aXRoIGJpZyBlbmRp
-YW4sIGJ1dCB3aGF0J3Mgd3JvbmcgCndpdGggbGl0dGxlIGVuZGlhbj8KSSB3b3VsZCByZWFsbHkg
-bG92ZSB0byBiZSBhYmxlIHRvIHVzZSBRWEwgYW5kIGVzcGVjaWFsbHkgVVNCIHJlZGlyZWN0aW9u
-IApvbiBteSBSYXB0b3IgQmxhY2tiaXJkIChQb3dlciA5KS4KCkJlc3RzLApOaWNjb2xvJwpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0584285299==
+Content-Type: multipart/alternative; boundary="15683828680.c1e49.16662"
+Content-Transfer-Encoding: 7bit
+
+
+--15683828680.c1e49.16662
+Date: Fri, 13 Sep 2019 13:54:28 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111669
+
+--- Comment #3 from Doug Ty <git@dougty.com> ---
+Thanks for the response.
+Still hanging, unfortunately.
+
+While the patch allows me to replay the first apitrace just fine now, I'm s=
+till
+hanging in the same spot ingame. Same messages in journalctl
+
+I've captured a new apitrace that recreates the hang with the patch for me.
+
+https://drive.google.com/open?id=3D1WMeuCoZnOOqD0Tbjix6nNpFyVkzzbd94
+
+As suggested in the other thread, AMD_DEBUG=3Dnodma seems to successfully p=
+revent
+the hang. Unsure if you can see it in the apitrace, but there are usually s=
+ome
+artifacts shortly before the hang: stretchy verts, sheep textures turning b=
+lue
+-- these are also not present with nodma
+
+
+It's worth noting that I am getting some general desktop instability and sd=
+ma
+hangs like in the other thread you linked as well. While compiling the kern=
+el
+patch I got a hang trying to watch a video in Firefox (has happened a couple
+times before), and previously I've also gotten hangs while loading Half Lif=
+e 2
+maps and closing GIMP. Not sure if any of these could be related. They happ=
+en
+so irregularly that I've been unable to reproduce or capture apitraces for
+them. Occasionally images on web pages will load corrupted and not display =
+as
+well, though I can't tell if this is a GPU problem or a browser/network
+problem.
+
+The card works great on my Windows dual boot, so I'm pretty sure it's not a
+hardware problem. (though I have to use 19.7.5 as anything newer causes Fir=
+efox
+to blue screen me)
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15683828680.c1e49.16662
+Date: Fri, 13 Sep 2019 13:54:28 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Navi GPU hang in Minecraft"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111669#c3">Commen=
+t # 3</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Navi GPU hang in Minecraft"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111669">bug 11166=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+git&#64;dougty.com" title=3D"Doug Ty &lt;git&#64;dougty.com&gt;"> <span cla=
+ss=3D"fn">Doug Ty</span></a>
+</span></b>
+        <pre>Thanks for the response.
+Still hanging, unfortunately.
+
+While the patch allows me to replay the first apitrace just fine now, I'm s=
+till
+hanging in the same spot ingame. Same messages in journalctl
+
+I've captured a new apitrace that recreates the hang with the patch for me.
+
+<a href=3D"https://drive.google.com/open?id=3D1WMeuCoZnOOqD0Tbjix6nNpFyVkzz=
+bd94">https://drive.google.com/open?id=3D1WMeuCoZnOOqD0Tbjix6nNpFyVkzzbd94<=
+/a>
+
+As suggested in the other thread, AMD_DEBUG=3Dnodma seems to successfully p=
+revent
+the hang. Unsure if you can see it in the apitrace, but there are usually s=
+ome
+artifacts shortly before the hang: stretchy verts, sheep textures turning b=
+lue
+-- these are also not present with nodma
+
+
+It's worth noting that I am getting some general desktop instability and sd=
+ma
+hangs like in the other thread you linked as well. While compiling the kern=
+el
+patch I got a hang trying to watch a video in Firefox (has happened a couple
+times before), and previously I've also gotten hangs while loading Half Lif=
+e 2
+maps and closing GIMP. Not sure if any of these could be related. They happ=
+en
+so irregularly that I've been unable to reproduce or capture apitraces for
+them. Occasionally images on web pages will load corrupted and not display =
+as
+well, though I can't tell if this is a GPU problem or a browser/network
+problem.
+
+The card works great on my Windows dual boot, so I'm pretty sure it's not a
+hardware problem. (though I have to use 19.7.5 as anything newer causes Fir=
+efox
+to blue screen me)</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15683828680.c1e49.16662--
+
+--===============0584285299==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0584285299==--
