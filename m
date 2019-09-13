@@ -1,45 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE4D7B2162
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2019 15:54:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E8FB218D
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Sep 2019 16:03:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D04B96F3BE;
-	Fri, 13 Sep 2019 13:54:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D1016F3C5;
+	Fri, 13 Sep 2019 14:03:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id B2AF96F3BC
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2019 13:54:28 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id AF7C072167; Fri, 13 Sep 2019 13:54:28 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111669] Navi GPU hang in Minecraft
-Date: Fri, 13 Sep 2019 13:54:29 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: git@dougty.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111669-502-CwJCwrYydS@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111669-502@http.bugs.freedesktop.org/>
-References: <bug-111669-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9F7FF6F3C5
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2019 14:03:38 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 53F2A1000;
+ Fri, 13 Sep 2019 07:03:38 -0700 (PDT)
+Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DF99F3F67D;
+ Fri, 13 Sep 2019 07:03:36 -0700 (PDT)
+Subject: Re: [PATCH 2/8] drm/shmem: switch shmem helper to
+ &drm_gem_object_funcs.mmap
+To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+References: <20190913122908.784-1-kraxel@redhat.com>
+ <20190913122908.784-3-kraxel@redhat.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <197fdced-cf4a-c59a-47fd-aa5dbf8e04a2@arm.com>
+Date: Fri, 13 Sep 2019 15:03:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20190913122908.784-3-kraxel@redhat.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,164 +43,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0584285299=="
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ David Airlie <airlied@linux.ie>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0584285299==
-Content-Type: multipart/alternative; boundary="15683828680.c1e49.16662"
-Content-Transfer-Encoding: 7bit
-
-
---15683828680.c1e49.16662
-Date: Fri, 13 Sep 2019 13:54:28 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111669
-
---- Comment #3 from Doug Ty <git@dougty.com> ---
-Thanks for the response.
-Still hanging, unfortunately.
-
-While the patch allows me to replay the first apitrace just fine now, I'm s=
-till
-hanging in the same spot ingame. Same messages in journalctl
-
-I've captured a new apitrace that recreates the hang with the patch for me.
-
-https://drive.google.com/open?id=3D1WMeuCoZnOOqD0Tbjix6nNpFyVkzzbd94
-
-As suggested in the other thread, AMD_DEBUG=3Dnodma seems to successfully p=
-revent
-the hang. Unsure if you can see it in the apitrace, but there are usually s=
-ome
-artifacts shortly before the hang: stretchy verts, sheep textures turning b=
-lue
--- these are also not present with nodma
-
-
-It's worth noting that I am getting some general desktop instability and sd=
-ma
-hangs like in the other thread you linked as well. While compiling the kern=
-el
-patch I got a hang trying to watch a video in Firefox (has happened a couple
-times before), and previously I've also gotten hangs while loading Half Lif=
-e 2
-maps and closing GIMP. Not sure if any of these could be related. They happ=
-en
-so irregularly that I've been unable to reproduce or capture apitraces for
-them. Occasionally images on web pages will load corrupted and not display =
-as
-well, though I can't tell if this is a GPU problem or a browser/network
-problem.
-
-The card works great on my Windows dual boot, so I'm pretty sure it's not a
-hardware problem. (though I have to use 19.7.5 as anything newer causes Fir=
-efox
-to blue screen me)
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15683828680.c1e49.16662
-Date: Fri, 13 Sep 2019 13:54:28 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Navi GPU hang in Minecraft"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111669#c3">Commen=
-t # 3</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Navi GPU hang in Minecraft"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111669">bug 11166=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-git&#64;dougty.com" title=3D"Doug Ty &lt;git&#64;dougty.com&gt;"> <span cla=
-ss=3D"fn">Doug Ty</span></a>
-</span></b>
-        <pre>Thanks for the response.
-Still hanging, unfortunately.
-
-While the patch allows me to replay the first apitrace just fine now, I'm s=
-till
-hanging in the same spot ingame. Same messages in journalctl
-
-I've captured a new apitrace that recreates the hang with the patch for me.
-
-<a href=3D"https://drive.google.com/open?id=3D1WMeuCoZnOOqD0Tbjix6nNpFyVkzz=
-bd94">https://drive.google.com/open?id=3D1WMeuCoZnOOqD0Tbjix6nNpFyVkzzbd94<=
-/a>
-
-As suggested in the other thread, AMD_DEBUG=3Dnodma seems to successfully p=
-revent
-the hang. Unsure if you can see it in the apitrace, but there are usually s=
-ome
-artifacts shortly before the hang: stretchy verts, sheep textures turning b=
-lue
--- these are also not present with nodma
-
-
-It's worth noting that I am getting some general desktop instability and sd=
-ma
-hangs like in the other thread you linked as well. While compiling the kern=
-el
-patch I got a hang trying to watch a video in Firefox (has happened a couple
-times before), and previously I've also gotten hangs while loading Half Lif=
-e 2
-maps and closing GIMP. Not sure if any of these could be related. They happ=
-en
-so irregularly that I've been unable to reproduce or capture apitraces for
-them. Occasionally images on web pages will load corrupted and not display =
-as
-well, though I can't tell if this is a GPU problem or a browser/network
-problem.
-
-The card works great on my Windows dual boot, so I'm pretty sure it's not a
-hardware problem. (though I have to use 19.7.5 as anything newer causes Fir=
-efox
-to blue screen me)</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15683828680.c1e49.16662--
-
---===============0584285299==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0584285299==--
+T24gMTMvMDkvMjAxOSAxMzoyOSwgR2VyZCBIb2ZmbWFubiB3cm90ZToKPiBTd2l0Y2ggZ2VtIHNo
+bWVtIGhlbHBlciB0byB0aGUgbmV3IG1tYXAoKSB3b3JrZmxvdywKPiBmcm9tICZnZW1fZHJpdmVy
+LmZvcHMubW1hcCB0byAmZHJtX2dlbV9vYmplY3RfZnVuY3MubW1hcC4KPiAKPiBTaWduZWQtb2Zm
+LWJ5OiBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVkaGF0LmNvbT4KPiAtLS0KPiAgaW5jbHVkZS9k
+cm0vZHJtX2dlbV9zaG1lbV9oZWxwZXIuaCAgICAgIHwgIDYgKystLS0tCj4gIGRyaXZlcnMvZ3B1
+L2RybS9kcm1fZ2VtX3NobWVtX2hlbHBlci5jICB8IDI2ICsrKysrKysrLS0tLS0tLS0tLS0tLS0t
+LS0KPiAgZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2dlbS5jIHwgIDIgKy0KPiAg
+ZHJpdmVycy9ncHUvZHJtL3YzZC92M2RfYm8uYyAgICAgICAgICAgIHwgIDIgKy0KPiAgZHJpdmVy
+cy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X29iamVjdC5jIHwgIDIgKy0KPiAgNSBmaWxlcyBjaGFu
+Z2VkLCAxMyBpbnNlcnRpb25zKCspLCAyNSBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEv
+aW5jbHVkZS9kcm0vZHJtX2dlbV9zaG1lbV9oZWxwZXIuaCBiL2luY2x1ZGUvZHJtL2RybV9nZW1f
+c2htZW1faGVscGVyLmgKPiBpbmRleCAwMWY1MTQ1MjE2ODcuLmQ4OWYyMTE2YzhhYiAxMDA2NDQK
+PiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fZ2VtX3NobWVtX2hlbHBlci5oCj4gKysrIGIvaW5jbHVk
+ZS9kcm0vZHJtX2dlbV9zaG1lbV9oZWxwZXIuaAo+IEBAIC0xMTEsNyArMTExLDcgQEAgc3RydWN0
+IGRybV9nZW1fc2htZW1fb2JqZWN0IHsKPiAgCQkucG9sbAkJPSBkcm1fcG9sbCxcCj4gIAkJLnJl
+YWQJCT0gZHJtX3JlYWQsXAo+ICAJCS5sbHNlZWsJCT0gbm9vcF9sbHNlZWssXAo+IC0JCS5tbWFw
+CQk9IGRybV9nZW1fc2htZW1fbW1hcCwgXAo+ICsJCS5tbWFwCQk9IGRybV9nZW1fbW1hcCwgXAo+
+ICAJfQo+ICAKPiAgc3RydWN0IGRybV9nZW1fc2htZW1fb2JqZWN0ICpkcm1fZ2VtX3NobWVtX2Ny
+ZWF0ZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBzaXplX3Qgc2l6ZSk7Cj4gQEAgLTE0Myw5ICsx
+NDMsNyBAQCBkcm1fZ2VtX3NobWVtX2NyZWF0ZV93aXRoX2hhbmRsZShzdHJ1Y3QgZHJtX2ZpbGUg
+KmZpbGVfcHJpdiwKPiAgaW50IGRybV9nZW1fc2htZW1fZHVtYl9jcmVhdGUoc3RydWN0IGRybV9m
+aWxlICpmaWxlLCBzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ICAJCQkgICAgICBzdHJ1Y3QgZHJt
+X21vZGVfY3JlYXRlX2R1bWIgKmFyZ3MpOwo+ICAKPiAtaW50IGRybV9nZW1fc2htZW1fbW1hcChz
+dHJ1Y3QgZmlsZSAqZmlscCwgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEpOwo+IC0KPiAtZXh0
+ZXJuIGNvbnN0IHN0cnVjdCB2bV9vcGVyYXRpb25zX3N0cnVjdCBkcm1fZ2VtX3NobWVtX3ZtX29w
+czsKPiAraW50IGRybV9nZW1fc2htZW1fbW1hcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwg
+c3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEpOwo+ICAKPiAgdm9pZCBkcm1fZ2VtX3NobWVtX3By
+aW50X2luZm8oc3RydWN0IGRybV9wcmludGVyICpwLCB1bnNpZ25lZCBpbnQgaW5kZW50LAo+ICAJ
+CQkgICAgICBjb25zdCBzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaik7Cj4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVtX2hlbHBlci5jIGIvZHJpdmVycy9ncHUvZHJt
+L2RybV9nZW1fc2htZW1faGVscGVyLmMKPiBpbmRleCBmNTkxODcwNzY3MmYuLmExMDQxNDAxNTRi
+YiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9zaG1lbV9oZWxwZXIuYwo+
+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVtX2hlbHBlci5jCj4gQEAgLTMyLDcg
+KzMyLDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZ2VtX29iamVjdF9mdW5jcyBkcm1fZ2Vt
+X3NobWVtX2Z1bmNzID0gewo+ICAJLmdldF9zZ190YWJsZSA9IGRybV9nZW1fc2htZW1fZ2V0X3Nn
+X3RhYmxlLAo+ICAJLnZtYXAgPSBkcm1fZ2VtX3NobWVtX3ZtYXAsCj4gIAkudnVubWFwID0gZHJt
+X2dlbV9zaG1lbV92dW5tYXAsCj4gLQkudm1fb3BzID0gJmRybV9nZW1fc2htZW1fdm1fb3BzLAo+
+ICsJLm1tYXAgPSBkcm1fZ2VtX3NobWVtX21tYXAsCj4gIH07Cj4gIAo+ICAvKioKPiBAQCAtNTA1
+LDM5ICs1MDUsMzAgQEAgc3RhdGljIHZvaWQgZHJtX2dlbV9zaG1lbV92bV9jbG9zZShzdHJ1Y3Qg
+dm1fYXJlYV9zdHJ1Y3QgKnZtYSkKPiAgCWRybV9nZW1fdm1fY2xvc2Uodm1hKTsKPiAgfQo+ICAK
+PiAtY29uc3Qgc3RydWN0IHZtX29wZXJhdGlvbnNfc3RydWN0IGRybV9nZW1fc2htZW1fdm1fb3Bz
+ID0gewo+ICtzdGF0aWMgY29uc3Qgc3RydWN0IHZtX29wZXJhdGlvbnNfc3RydWN0IGRybV9nZW1f
+c2htZW1fdm1fb3BzID0gewo+ICAJLmZhdWx0ID0gZHJtX2dlbV9zaG1lbV9mYXVsdCwKPiAgCS5v
+cGVuID0gZHJtX2dlbV9zaG1lbV92bV9vcGVuLAo+ICAJLmNsb3NlID0gZHJtX2dlbV9zaG1lbV92
+bV9jbG9zZSwKPiAgfTsKPiAtRVhQT1JUX1NZTUJPTF9HUEwoZHJtX2dlbV9zaG1lbV92bV9vcHMp
+Owo+ICAKPiAgLyoqCj4gICAqIGRybV9nZW1fc2htZW1fbW1hcCAtIE1lbW9yeS1tYXAgYSBzaG1l
+bSBHRU0gb2JqZWN0Cj4gLSAqIEBmaWxwOiBGaWxlIG9iamVjdAo+ICsgKiBAb2JqOiBnZW0gb2Jq
+ZWN0Cj4gICAqIEB2bWE6IFZNQSBmb3IgdGhlIGFyZWEgdG8gYmUgbWFwcGVkCj4gICAqCj4gICAq
+IFRoaXMgZnVuY3Rpb24gaW1wbGVtZW50cyBhbiBhdWdtZW50ZWQgdmVyc2lvbiBvZiB0aGUgR0VN
+IERSTSBmaWxlIG1tYXAKPiAgICogb3BlcmF0aW9uIGZvciBzaG1lbSBvYmplY3RzLiBEcml2ZXJz
+IHdoaWNoIGVtcGxveSB0aGUgc2htZW0gaGVscGVycyBzaG91bGQKPiAtICogdXNlIHRoaXMgZnVu
+Y3Rpb24gYXMgdGhlaXIgJmZpbGVfb3BlcmF0aW9ucy5tbWFwIGhhbmRsZXIgaW4gdGhlIERSTSBk
+ZXZpY2UgZmlsZSdzCj4gLSAqIGZpbGVfb3BlcmF0aW9ucyBzdHJ1Y3R1cmUuCj4gLSAqCj4gLSAq
+IEluc3RlYWQgb2YgZGlyZWN0bHkgcmVmZXJlbmNpbmcgdGhpcyBmdW5jdGlvbiwgZHJpdmVycyBz
+aG91bGQgdXNlIHRoZQo+IC0gKiBERUZJTkVfRFJNX0dFTV9TSE1FTV9GT1BTKCkgbWFjcm8uCj4g
+KyAqIHVzZSB0aGlzIGZ1bmN0aW9uIGFzIHRoZWlyICZkcm1fZ2VtX29iamVjdF9mdW5jcy5tbWFw
+IGhhbmRsZXIuCj4gICAqCj4gICAqIFJldHVybnM6Cj4gICAqIDAgb24gc3VjY2VzcyBvciBhIG5l
+Z2F0aXZlIGVycm9yIGNvZGUgb24gZmFpbHVyZS4KPiAgICovCj4gLWludCBkcm1fZ2VtX3NobWVt
+X21tYXAoc3RydWN0IGZpbGUgKmZpbHAsIHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hKQo+ICtp
+bnQgZHJtX2dlbV9zaG1lbV9tbWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLCBzdHJ1Y3Qg
+dm1fYXJlYV9zdHJ1Y3QgKnZtYSkKPiAgewo+ICAJc3RydWN0IGRybV9nZW1fc2htZW1fb2JqZWN0
+ICpzaG1lbTsKPiAgCWludCByZXQ7Cj4gIAo+IC0JcmV0ID0gZHJtX2dlbV9tbWFwKGZpbHAsIHZt
+YSk7Cj4gLQlpZiAocmV0KQo+IC0JCXJldHVybiByZXQ7Cj4gLQo+IC0Jc2htZW0gPSB0b19kcm1f
+Z2VtX3NobWVtX29iaih2bWEtPnZtX3ByaXZhdGVfZGF0YSk7Cj4gKwlzaG1lbSA9IHRvX2RybV9n
+ZW1fc2htZW1fb2JqKG9iaik7Cj4gIAo+ICAJcmV0ID0gZHJtX2dlbV9zaG1lbV9nZXRfcGFnZXMo
+c2htZW0pOwo+ICAJaWYgKHJldCkgewo+IEBAIC01NDUsOSArNTM2LDggQEAgaW50IGRybV9nZW1f
+c2htZW1fbW1hcChzdHJ1Y3QgZmlsZSAqZmlscCwgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEp
+Cj4gIAkJcmV0dXJuIHJldDsKPiAgCX0KPiAgCj4gLQkvKiBWTV9QRk5NQVAgd2FzIHNldCBieSBk
+cm1fZ2VtX21tYXAoKSAqLwo+IC0Jdm1hLT52bV9mbGFncyAmPSB+Vk1fUEZOTUFQOwo+IC0Jdm1h
+LT52bV9mbGFncyB8PSBWTV9NSVhFRE1BUDsKPiArCXZtYS0+dm1fZmxhZ3MgfD0gKFZNX01JWEVE
+TUFQfFZNX0RPTlRFWFBBTkQpOwoKSSdtIGZpbmRpbmcgdGhpcyBhIGJpdCBoYXJkIHRvIGZvbGxv
+dyAtIGJ1dCBJIHRoaW5rIGhlcmUgd2UndmUgbG9zdApWTV9JTyBhbmQgVk1fRE9OVERVTVAgd2hp
+Y2ggdXNlZCB0byBiZSBzZXQgYnkgZHJtX2dlbV9tbWFwKCkuCgpBbHNvIGl0IGxvb2tzIGxpa2Ug
+bm90aGluZyBpcyBmaWRkbGluZyB2bWEtPnZtX3BhZ2VfcHJvdCBhbnltb3JlLgoKU3RldmUKCj4g
+Kwl2bWEtPnZtX29wcyA9ICZkcm1fZ2VtX3NobWVtX3ZtX29wczsKPiAgCj4gIAkvKiBSZW1vdmUg
+dGhlIGZha2Ugb2Zmc2V0ICovCj4gIAl2bWEtPnZtX3Bnb2ZmIC09IGRybV92bWFfbm9kZV9zdGFy
+dCgmc2htZW0tPmJhc2Uudm1hX25vZGUpOwo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
+cGFuZnJvc3QvcGFuZnJvc3RfZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJv
+c3RfZ2VtLmMKPiBpbmRleCBhY2IwN2ZlMDY1ODAuLmRlY2EwYzMwYmJkNCAxMDA2NDQKPiAtLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZ2VtLmMKPiArKysgYi9kcml2ZXJz
+L2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZ2VtLmMKPiBAQCAtMTEyLDcgKzExMiw3IEBAIHN0
+YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2dlbV9vYmplY3RfZnVuY3MgcGFuZnJvc3RfZ2VtX2Z1bmNz
+ID0gewo+ICAJLmdldF9zZ190YWJsZSA9IGRybV9nZW1fc2htZW1fZ2V0X3NnX3RhYmxlLAo+ICAJ
+LnZtYXAgPSBkcm1fZ2VtX3NobWVtX3ZtYXAsCj4gIAkudnVubWFwID0gZHJtX2dlbV9zaG1lbV92
+dW5tYXAsCj4gLQkudm1fb3BzID0gJmRybV9nZW1fc2htZW1fdm1fb3BzLAo+ICsJLm1tYXAgPSBk
+cm1fZ2VtX3NobWVtX21tYXAsCj4gIH07Cj4gIAo+ICAvKioKPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9ncHUvZHJtL3YzZC92M2RfYm8uYyBiL2RyaXZlcnMvZ3B1L2RybS92M2QvdjNkX2JvLmMKPiBp
+bmRleCBhMjJiNzVhM2E1MzMuLmVkZDI5OWFiNTNkOCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vdjNkL3YzZF9iby5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3YzZC92M2RfYm8uYwo+
+IEBAIC01OCw3ICs1OCw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2dlbV9vYmplY3RfZnVu
+Y3MgdjNkX2dlbV9mdW5jcyA9IHsKPiAgCS5nZXRfc2dfdGFibGUgPSBkcm1fZ2VtX3NobWVtX2dl
+dF9zZ190YWJsZSwKPiAgCS52bWFwID0gZHJtX2dlbV9zaG1lbV92bWFwLAo+ICAJLnZ1bm1hcCA9
+IGRybV9nZW1fc2htZW1fdnVubWFwLAo+IC0JLnZtX29wcyA9ICZkcm1fZ2VtX3NobWVtX3ZtX29w
+cywKPiArCS5tbWFwID0gZHJtX2dlbV9zaG1lbV9tbWFwLAo+ICB9Owo+ICAKPiAgLyogZ2VtX2Ny
+ZWF0ZV9vYmplY3QgZnVuY3Rpb24gZm9yIGFsbG9jYXRpbmcgYSBCTyBzdHJ1Y3QgYW5kIGRvaW5n
+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9vYmplY3QuYyBi
+L2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9vYmplY3QuYwo+IGluZGV4IDY5YTNkMzEw
+ZmY3MC4uMDE3YTllMGZjM2JiIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8v
+dmlydGdwdV9vYmplY3QuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9v
+YmplY3QuYwo+IEBAIC04Niw3ICs4Niw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2dlbV9v
+YmplY3RfZnVuY3MgdmlydGlvX2dwdV9nZW1fZnVuY3MgPSB7Cj4gIAkuZ2V0X3NnX3RhYmxlID0g
+ZHJtX2dlbV9zaG1lbV9nZXRfc2dfdGFibGUsCj4gIAkudm1hcCA9IGRybV9nZW1fc2htZW1fdm1h
+cCwKPiAgCS52dW5tYXAgPSBkcm1fZ2VtX3NobWVtX3Z1bm1hcCwKPiAtCS52bV9vcHMgPSAmZHJt
+X2dlbV9zaG1lbV92bV9vcHMsCj4gKwkubW1hcCA9ICZkcm1fZ2VtX3NobWVtX21tYXAsCj4gIH07
+Cj4gIAo+ICBzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKnZpcnRpb19ncHVfY3JlYXRlX29iamVjdChz
+dHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+IAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVs
