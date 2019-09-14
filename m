@@ -1,112 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FA17B3597
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2019 09:28:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D003B3596
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2019 09:28:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D6766E854;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AA946E852;
 	Mon, 16 Sep 2019 07:28:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM01-BN3-obe.outbound.protection.outlook.com
- (mail-eopbgr740138.outbound.protection.outlook.com [40.107.74.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B68716F4B4
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Sep 2019 23:31:44 +0000 (UTC)
+Received: from NAM05-DM3-obe.outbound.protection.outlook.com
+ (mail-oln040092014107.outbound.protection.outlook.com [40.92.14.107])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBCB36F4BF
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Sep 2019 02:59:12 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Vsaz/xWagGolbbsnU1d/rXIuORXtcp1hfU2+BP5SvpgbSq1pBb096XFO8AIxbJw2sZW1xAZNlgfQv64zyLSmUkzx/qn9ORfRKGsZe6gCHF/yWJZpudTHTTERFFdHJquQ6lNSRFj2AuYIT1Rnr/aSCZOu/+pnvR7YgdtUx/HMbE71IJR+bclQsuV00ZlWu663nyGFGa2JcakdO7W7vMApbTVdQW0eghCmFCAp9hqDCFJQH3+vpDOy6kW8zxu5tzlvTTJb5xadRPQqlowaiU3GEeoXxkNe7x6+CX6vdd0/8ZDAcX6R5b0LfyvXpt2WM555ll/ESLH+u8czax3Znklb9w==
+ b=KTJZM22UL8SixCH4egp7oWDhYcQPcGBLk4yxKunl+dcckSBX3TL1FF685clPWOY7WeZ8Fmpryc1/Vr/eUogwxZSn2IFw0o/GJGg5i0n0RvLmWalsS0sZ1WnXWO0fLo+rS0+TEu9a3CabUsOhOEtn11mG8nGB5DWjKpFfoVxzJuCJJnV1B+ohwkOozCfHriiJOfdHDC9aHiBhs6UKn61U94kOZSzRv4rbhP42OjSg4eafdjhmx4fcEyI00KZvFAXsXJ7ppVIIN73JhMDl82FHSMWVUGW672OROpi38xjA6vLmNAqP4AAbL2CbCRjk2KTLnR2248uT8HNMim/BgXnk+A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nn9Nb5DL5E93ZFXy8gh3o47z1kOizl8kYGnHaMonEKM=;
- b=WKqJgKxcZ8ntAvuzpUz2bhRl7jehIiqlzMy1GnxkqB9y1mq9lyWyIx65oy2ADKWUpiXWVYizDNcXnbeQYIwCWM3+6ODd+BTtxMJhky/4jD6xasD6pt423NnoRBHz3NucdOy+/fBw8kmTpqxxciIVG8Mt52KIwN3yjxc9vh1BfihaDFEaZ6l4eaNj/gjnuNxslVVyPfctp5XlShoXgInEUhGXcLpB6+DqBRbACxk2Hqw0np88qTtr2DCoWDd8WwIBIHhjp2J/3IA2mRh0TjRvE15fDo1HVA3bnUWdFq2fHPcZUNRgkLuJ1kG/RcHy1Cr9cx/M1sDXemOXQLvanJHJ8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-Received: from DM5PR21MB0137.namprd21.prod.outlook.com (10.173.173.12) by
- DM5PR21MB0172.namprd21.prod.outlook.com (10.173.173.135) with Microsoft SMTP
+ bh=RLfIJrPTdJRJfnDejIUxXbp38gqRY6gUK8X0byeTJFM=;
+ b=E+wiOl9AyuKGNKhnvfQTYH7ws9I2G6tcgw9hxjNX0QxZV6UW6C3bcKuBkwkZB3HKyebl2GnQbBqQNNXoNaSoowaqoR92oYopDJjAoXif3WI/SevNAfKRt7yIsVuk8rmbgOEGpByj5KdHPJg0bIk1o6JLxzMB3Hqxzoo3KIZ+oMAr2dM6VxoqQno1l00kltixYVbC03Xo+HzDeXyCyfFIHs65VeidvR8w2e/20bk/G3unhDxvACApC0sz8ITm/2sFQTdQHAtDz27+jAEUOqg0/aMYSeK7grJEZG81lE1uPKGOIcqmVoCcVo002StBpp70P/lWs958eH/k3oOjc69viw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from DM3NAM05FT064.eop-nam05.prod.protection.outlook.com
+ (10.152.98.60) by DM3NAM05HT172.eop-nam05.prod.protection.outlook.com
+ (10.152.99.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2284.10; Sat, 14 Sep
+ 2019 02:59:11 +0000
+Received: from MN2PR04MB6125.namprd04.prod.outlook.com (10.152.98.53) by
+ DM3NAM05FT064.mail.protection.outlook.com (10.152.98.188) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2284.5; Fri, 13 Sep 2019 23:31:42 +0000
-Received: from DM5PR21MB0137.namprd21.prod.outlook.com
- ([fe80::7d6d:e809:21df:d028]) by DM5PR21MB0137.namprd21.prod.outlook.com
- ([fe80::7d6d:e809:21df:d028%9]) with mapi id 15.20.2284.008; Fri, 13 Sep 2019
- 23:31:42 +0000
-From: Michael Kelley <mikelley@microsoft.com>
-To: Wei Hu <weh@microsoft.com>, "rdunlap@infradead.org"
- <rdunlap@infradead.org>, "shc_work@mail.ru" <shc_work@mail.ru>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "lee.jones@linaro.org" <lee.jones@linaro.org>,
- "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
- "baijiaju1990@gmail.com" <baijiaju1990@gmail.com>,
- "fthain@telegraphics.com.au" <fthain@telegraphics.com.au>, "info@metux.net"
- <info@metux.net>, "linux-hyperv@vger.kernel.org"
- <linux-hyperv@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-fbdev@vger.kernel.org"
- <linux-fbdev@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "sashal@kernel.org" <sashal@kernel.org>,
- Stephen Hemminger <sthemmin@microsoft.com>, Haiyang Zhang
- <haiyangz@microsoft.com>, KY Srinivasan <kys@microsoft.com>, Dexuan Cui
- <decui@microsoft.com>
-Subject: RE: [PATCH v5] video: hyperv: hyperv_fb: Support deferred IO for
- Hyper-V frame buffer driver
-Thread-Topic: [PATCH v5] video: hyperv: hyperv_fb: Support deferred IO for
- Hyper-V frame buffer driver
-Thread-Index: AQHVafjiL2AndauzGUaHnigxWapFw6cqQqIA
-Date: Fri, 13 Sep 2019 23:31:42 +0000
-Message-ID: <DM5PR21MB013732C4B83792CB49AC27A6D7B30@DM5PR21MB0137.namprd21.prod.outlook.com>
-References: <20190913060209.3604-1-weh@microsoft.com>
-In-Reply-To: <20190913060209.3604-1-weh@microsoft.com>
-Accept-Language: en-US
-Content-Language: en-US
+ 15.20.2284.10 via Frontend Transport; Sat, 14 Sep 2019 02:59:11 +0000
+Received: from MN2PR04MB6125.namprd04.prod.outlook.com
+ ([fe80::a41f:653b:434b:4b37]) by MN2PR04MB6125.namprd04.prod.outlook.com
+ ([fe80::a41f:653b:434b:4b37%6]) with mapi id 15.20.2263.021; Sat, 14 Sep 2019
+ 02:59:11 +0000
+From: =?gb2312?B?1cUgxP4=?= <zhangn1985@outlook.com>
+To: Adam Jackson <ajax@redhat.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Subject: =?gb2312?B?tPC4tDogaW1hZ2Ugc2l6ZSBpcyB3cm9uZyBpbiBFRElELCBob3cgdG8gdXNl?=
+ =?gb2312?Q?_EDID_quirks?=
+Thread-Topic: image size is wrong in EDID, how to use EDID quirks
+Thread-Index: AQHVaenWnMp448ArckebpGVPnCTYL6cp0hSAgACqmH4=
+Date: Sat, 14 Sep 2019 02:59:11 +0000
+Message-ID: <MN2PR04MB61259DE54D7F5AEB0AAB6E25CDB20@MN2PR04MB6125.namprd04.prod.outlook.com>
+References: <MN2PR04MB61259770991EDF5573603645CDB30@MN2PR04MB6125.namprd04.prod.outlook.com>,
+ <9ec132ccb19458e369ae55b60471ffbebe401321.camel@redhat.com>
+In-Reply-To: <9ec132ccb19458e369ae55b60471ffbebe401321.camel@redhat.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=mikelley@ntdev.microsoft.com;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2019-09-13T23:31:40.5080268Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=38c50c3f-ce84-47e3-add5-7a6a4daaa3ad;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
-x-originating-ip: [24.22.167.197]
+x-incomingtopheadermarker: OriginalChecksum:AEC514C0534DCBB9E6627EFEAA95FDFCF6DE2EA9170972F0A571317FD3F0595E;
+ UpperCasedChecksum:F2EA8710C990F974ABB02C905F00E55FE0F2165DD09B19B1510FAA57AB4D627C;
+ SizeAsReceived:6892; Count:42
+x-tmn: [ezS6l1dNqlyBVKYFyzP95bS04IndRbpk]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 50a82dbb-92fd-4211-bbe4-08d738a288b7
-x-ms-office365-filtering-ht: Tenant
+x-incomingheadercount: 42
+x-eopattributedmessage: 0
 x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
- SRVR:DM5PR21MB0172; 
-x-ms-traffictypediagnostic: DM5PR21MB0172:|DM5PR21MB0172:
+ RULEID:(2390118)(5050001)(7020095)(20181119110)(201702061078)(5061506573)(5061507331)(1603103135)(2017031320274)(2017031324274)(2017031323274)(2017031322404)(1601125500)(1603101475)(1701031045);
+ SRVR:DM3NAM05HT172; 
+x-ms-traffictypediagnostic: DM3NAM05HT172:
+x-microsoft-antispam-message-info: 0USspz4j9JRees/wKvKWGO4ws9Km5Z1UXHXLnMDQOog1e2pAFBwqNK/84gpYa+WE7cBNlqeOVbbI/SNaP8lIaDx8XBtlZkd4IxrVbumSuqmnJ+602fMiEDzfm7wuDmMmB63wMIz2BTehh3FdoD/joyBBSE+sVDd77c6vXdW0AhD/6TsvOOucv+iS3quQ05qJ
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM5PR21MB0172B3A4680F5AA14526E3CFD7B30@DM5PR21MB0172.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 0159AC2B97
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(366004)(136003)(346002)(39860400002)(376002)(396003)(199004)(189003)(110136005)(11346002)(52536014)(10290500003)(99286004)(478600001)(53936002)(76176011)(66946007)(1250700005)(316002)(66476007)(66066001)(55016002)(1511001)(66446008)(64756008)(186003)(446003)(6506007)(26005)(5660300002)(7416002)(102836004)(22452003)(9686003)(33656002)(2906002)(71190400001)(71200400001)(486006)(476003)(6246003)(3846002)(74316002)(2201001)(229853002)(6436002)(76116006)(66556008)(81156014)(7696005)(8990500004)(14454004)(8676002)(8936002)(81166006)(2501003)(7736002)(86362001)(256004)(10090500001)(14444005)(6116002)(305945005)(25786009)(6636002)(921003)(1121003);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DM5PR21MB0172;
- H:DM5PR21MB0137.namprd21.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: microsoft.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: sF8bEA0rHAexyMY8kT2efeLyVAFGgGc+pnJQO9q4KBausKX0+FyFfLUREPQBzPlThGQ/CtoUgrQZ0Zu6gqFqPp81eqiBPocLhmlV/HlHQaSIKRefWX7edxJFmHud1hDZoAKKcrETJ8K1lp68KM8BiK5+k3lGen2KYc6ScydrsVYp4zPJiGwAkBDM19O/AK0ZnNpk5RtD/SYagSAGsStDrKjhkKs9s6BrdaM3QqKhVFYINHK7A8lMY2Jqyt0yAFPZE75sj12NOqQq2ptTrUGWlODAE8ud+bofq0KVUQ69CnvuvWUpb9ampsD2b8aiWe7xEUiGOxLoNYFOgMLoxvUrI7laYegnWmvt3dcIghwPE8vwVI4GR7LliOxbFs9RoocrulgbFPOLraaI8REzrCUu9dmchDoZWg+sdVOOXUqqrMk=
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 50a82dbb-92fd-4211-bbe4-08d738a288b7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Sep 2019 23:31:42.4455 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: H81D9WsE3f0OFmSpwmWTdCb+k9y88ko0+2JdBCykWFAij884RvEpnKPUZlqsmhPKtofJwbWTMPU7YhF2C+Q5XteQu2wwWjtFz/N29+aFpJY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR21MB0172
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: c8eb2080-e1e0-4174-5c4d-08d738bf84b4
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Sep 2019 02:59:11.1776 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3NAM05HT172
 X-Mailman-Approved-At: Mon, 16 Sep 2019 07:28:04 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microsoft.com; s=selector1;
+ d=outlook.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nn9Nb5DL5E93ZFXy8gh3o47z1kOizl8kYGnHaMonEKM=;
- b=Kgg6GBMz8Rn2owwagdnzLlysoWqGUWT9+YMO80a04Iitu7iLYI66yA/jlZrzFPAzxnULoBTaElkESB8qgmmiidO/VfKhQkHmKajPqdUjOjs/uZp961/1sZjXgSG4+lLNZeiYibek0c6GYMrJzigAaryNf0+E3Lt/Ah+zIH/YUZI=
-X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=mikelley@microsoft.com; 
+ bh=RLfIJrPTdJRJfnDejIUxXbp38gqRY6gUK8X0byeTJFM=;
+ b=WflmMiSb+tXqCgNNUbTLo2E5lW5mEPgTlzWFrdHZGD5J+C3q+ytAcbb2+jCPoTZ1/OMmKGhS6AXBG9JUyf8wIhWcR6LgB/X8PkH38BaxZUep/PgVV283xiD7+qTwUD3KVm+6pmszb/8tqFDNYc0uShoGwdR7DhmUijsbaunE53yoD0cPaas04c0vALqHWqhVvI8kKepDNnnVBBi+kDVxFAS0hZy2m0Jom/dDYgRdU3UtDzd0MRu6qifApvrG9lmXPRx9OAaTT/eBz3ZMBrQeh/za8XchYJRRSpPyagHLFRnSE+ZP/JcjRSWsB1qiHc/fFNknrZ/AfjrMGeQSoDW/KA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -119,44 +91,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0036346590=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogV2VpIEh1IDx3ZWhAbWljcm9zb2Z0LmNvbT4gU2VudDogVGh1cnNkYXksIFNlcHRlbWJl
-ciAxMiwgMjAxOSAxMTowMyBQTQo+IAo+IFdpdGhvdXQgZGVmZXJyZWQgSU8gc3VwcG9ydCwgaHlw
-ZXJ2X2ZiIGRyaXZlciBpbmZvcm1zIHRoZSBob3N0IHRvIHJlZnJlc2gKPiB0aGUgZW50aXJlIGd1
-ZXN0IGZyYW1lIGJ1ZmZlciBhdCBmaXhlZCByYXRlLCBlLmcuIGF0IDIwSHosIG5vIG1hdHRlciB0
-aGVyZQo+IGlzIHNjcmVlbiB1cGRhdGUgb3Igbm90LiBUaGlzIHBhdGNoIHN1cHBvcnRzIGRlZmVy
-cmVkIElPIGZvciBzY3JlZW5zIGluCj4gZ3JhcGhpY3MgbW9kZSBhbmQgYWxzbyBlbmFibGVzIHRo
-ZSBmcmFtZSBidWZmZXIgb24tZGVtYW5kIHJlZnJlc2guIFRoZQo+IGhpZ2hlc3QgcmVmcmVzaCBy
-YXRlIGlzIHN0aWxsIHNldCBhdCAyMEh6Lgo+IAo+IEN1cnJlbnRseSBIeXBlci1WIG9ubHkgdGFr
-ZXMgYSBwaHlzaWNhbCBhZGRyZXNzIGZyb20gZ3Vlc3QgYXMgdGhlIHN0YXJ0aW5nCj4gYWRkcmVz
-cyBvZiBmcmFtZSBidWZmZXIuIFRoaXMgaW1wbGllcyB0aGUgZ3Vlc3QgbXVzdCBhbGxvY2F0ZSBj
-b250aWd1b3VzCj4gcGh5c2ljYWwgbWVtb3J5IGZvciBmcmFtZSBidWZmZXIuIEluIGFkZGl0aW9u
-LCBIeXBlci1WIEdlbiAyIFZNcyBvbmx5Cj4gYWNjZXB0IGFkZHJlc3MgZnJvbSBNTUlPIHJlZ2lv
-biBhcyBmcmFtZSBidWZmZXIgYWRkcmVzcy4gRHVlIHRvIHRoZXNlCj4gbGltaXRhdGlvbnMgb24g
-SHlwZXItViBob3N0LCB3ZSBrZWVwIGEgc2hhZG93IGNvcHkgb2YgZnJhbWUgYnVmZmVyCj4gaW4g
-dGhlIGd1ZXN0LiBUaGlzIG1lYW5zIG9uZSBtb3JlIGNvcHkgb2YgdGhlIGRpcnR5IHJlY3Rhbmds
-ZSBpbnNpZGUKPiBndWVzdCB3aGVuIGRvaW5nIHRoZSBvbi1kZW1hbmQgcmVmcmVzaC4gVGhpcyBj
-YW4gYmUgb3B0aW1pemVkIGluIHRoZQo+IGZ1dHVyZSB3aXRoIGhlbHAgZnJvbSBob3N0LiBGb3Ig
-bm93IHRoZSBob3N0IHBlcmZvcm1hbmNlIGdhaW4gZnJvbSBkZWZlcnJlZAo+IElPIG91dHdlaWdo
-cyB0aGUgc2hhZG93IGNvcHkgaW1wYWN0IGluIHRoZSBndWVzdC4KPiAKPiBTaWduZWQtb2ZmLWJ5
-OiBXZWkgSHUgPHdlaEBtaWNyb3NvZnQuY29tPgo+IC0tLQo+ICAgICB2MjogSW5jb3Jwb3JhdGVk
-IHJldmlldyBjb21tZW50cyBmcm9tIE1pY2hhZWwgS2VsbGV5Cj4gICAgIC0gSW5jcmVhc2VkIGRp
-cnR5IHJlY3RhbmdsZSBieSBvbmUgcm93IGluIGRlZmVycmVkIElPIGNhc2Ugd2hlbiBzZW5kaW5n
-Cj4gICAgIHRvIEh5cGVyLVYuCj4gICAgIC0gQ29ycmVjdGVkIHRoZSBkaXJ0eSByZWN0YW5nbGUg
-c2l6ZSBpbiB0aGUgdGV4dCBtb2RlLgo+ICAgICAtIEFkZGVkIG1vcmUgY29tbWVudHMuCj4gICAg
-IC0gT3RoZXIgbWlub3IgY29kZSBjbGVhbnVwcy4KPiAKPiAgICAgdjM6IEluY29ycG9yYXRlZCBt
-b3JlIHJldmlldyBjb21tZW50cwo+ICAgICAtIFJlbW92ZWQgYSBmZXcgdW5uZWNlc3NhcnkgdmFy
-aWFibGUgdGVzdHMKPiAKPiAgICAgdjQ6IEluY29ycG9yYXRlZCB0ZXN0IGFuZCByZXZpZXcgZmVl
-ZGJhY2sgZnJvbSBEZXh1YW4gQ3VpCj4gICAgIC0gTm90IGRpc2FibGUgaW50ZXJydXB0IHdoaWxl
-IGFjcXVpcmluZyBkb2NvcHlfbG9jayBpbgo+ICAgICAgIGh2ZmJfdXBkYXRlX3dvcmsoKS4gVGhp
-cyBhdm9pZHMgc2lnbmlmaWNhbnQgYm9vdHVwIGRlbGF5IGluCj4gICAgICAgbGFyZ2UgdkNQVSBj
-b3VudCBWTXMuCj4gCj4gICAgIHY1OiBDb21wbGV0ZWx5IHJlbW92ZSB0aGUgdW5uZWNlc3Nhcnkg
-ZG9jb3B5X2xvY2sgYWZ0ZXIgZGlzY3Vzc2luZwo+ICAgICB3aXRoIERleHVhbiBDdWkuCj4gCgpS
-ZXZpZXdlZC1ieTogTWljaGFlbCBLZWxsZXkgPG1pa2VsbGV5QG1pY3Jvc29mdC5jb20+Cl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+--===============0036346590==
+Content-Language: zh-CN
+Content-Type: multipart/alternative;
+	boundary="_000_MN2PR04MB61259DE54D7F5AEB0AAB6E25CDB20MN2PR04MB6125namp_"
+
+--_000_MN2PR04MB61259DE54D7F5AEB0AAB6E25CDB20MN2PR04MB6125namp_
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
+
+VGhhbmsgeW91LCBhZnRlciBhZGp1c3QgVFYgaW1hZ2Ugc2V0dGluZ3MsIHNjcmVlbiBkaXNwbGF5
+IG5vcm1hbGx5Lg0KDQoNCg0KDQoNCg0KDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+Xw0Kt6K8/sjLOiBBZGFtIEphY2tzb24gPGFqYXhAcmVkaGF0LmNvbT4NCreiy83KsbzkOiBTYXR1
+cmRheSwgU2VwdGVtYmVyIDE0LCAyMDE5IDEyOjQ3OjM5IEFNDQrK1bz+yMs6IHpoYW5nbjE5ODVA
+b3V0bG9vay5jb20gPHpoYW5nbjE5ODVAb3V0bG9vay5jb20+OyBkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnIDxkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPg0K1vfM4jogUmU6
+IGltYWdlIHNpemUgaXMgd3JvbmcgaW4gRURJRCwgaG93IHRvIHVzZSBFRElEIHF1aXJrcw0KDQpP
+biBGcmksIDIwMTktMDktMTMgYXQgMDQ6MjEgKzAwMDAsIHpoYW5nbjE5ODVAb3V0bG9vay5jb20g
+d3JvdGU6DQo+IERlYXIgZGV2ZWxvcGVycw0KPg0KPiBJIGhhdmUgYSBTYW1zdW5nIDQwoa8gSERN
+SSBUViwgd2hpY2ggaGFzIHdyb25nIEVESUQuDQo+DQo+IFRoZSBhY3RhdWwgc2l6ZSBvZiB0aGlz
+IFRWIGlzIDQwoa8gKDg4Y20qNDljbSksIGJ1dCBpbiBFRElEIHRoZSBzaXplDQo+IGlzIDQ5oa8g
+KDEwNio2M2NtKQ0KPg0KPiBUaHVzIG1ha2VzIGltYWdlIHNpemUgaXMgbGFyZ2VyIHRoYW4gc2Ny
+ZWVuLCBib3RoIGluIGNvbnNvbGUgYW5kDQo+IGRlc2t0b3AuDQoNClRoYXQncyBub3QgaG93IEVE
+SUQgd29ya3MgaW4gTGludXguIEl0J3Mgb25seSB1c2VkIHRvIGNvbXB1dGUgdGhlIERQSQ0Kb2Yg
+dGhlIHNjcmVlbiwgbm90IHRvIHNjYWxlIHRoZSBpbWFnZS4gSWYgdGhlIGltYWdlIG9uIHRoZSBU
+ViBsb29rcw0KbGlrZSBpdCBleHRlbmRzIG9mZiB0aGUgZWRnZSBvZiB0aGUgVFYgeW91IG5lZWQg
+dG8gZmluZCB0aGUgIm92ZXJzY2FuIg0Kc2V0dGluZyBpbiB5b3VyIFRWIGFuZCB0dXJuIGl0IG9m
+Zi4NCg0KLSBhamF4DQoNCg==
+
+--_000_MN2PR04MB61259DE54D7F5AEB0AAB6E25CDB20MN2PR04MB6125namp_
+Content-Type: text/html; charset="gb2312"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
+<meta name=3D"Generator" content=3D"Microsoft Exchange Server">
+<!-- converted from text --><style><!-- .EmailQuote { margin-left: 1pt; pad=
+ding-left: 4pt; border-left: #800000 2px solid; } --></style>
+</head>
+<body>
+<style>
+<!--
+@font-face
+	{font-family:SimSun}
+@font-face
+	{font-family:"Cambria Math"}
+@font-face
+	{font-family:DengXian}
+@font-face
+	{font-family:DengXian}
+@font-face
+	{font-family:SimSun}
+p.x_MsoNormal, li.x_MsoNormal, div.x_MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	font-size:10.5pt;
+	font-family:DengXian}
+.x_MsoChpDefault
+	{}
+@page WordSection1
+	{margin:72.0pt 90.0pt 72.0pt 90.0pt}
+div.x_WordSection1
+	{}
+-->
+</style>
+<div lang=3D"ZH-CN" link=3D"blue" vlink=3D"#954F72">
+<div class=3D"x_WordSection1">
+<p class=3D"x_MsoNormal"><span lang=3D"EN-US">Thank you, after adjust TV im=
+age settings, screen display normally.</span></p>
+<p class=3D"x_MsoNormal"><span lang=3D"EN-US">&nbsp;</span></p>
+<p class=3D"x_MsoNormal"><span lang=3D"EN-US">&nbsp;</span></p>
+<p class=3D"x_MsoNormal"><span lang=3D"EN-US" style=3D"font-size:12.0pt; fo=
+nt-family:SimSun">&nbsp;</span></p>
+</div>
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"x_divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" =
+color=3D"#000000" style=3D"font-size:11pt"><b>=B7=A2=BC=FE=C8=CB:</b> Adam =
+Jackson &lt;ajax@redhat.com&gt;<br>
+<b>=B7=A2=CB=CD=CA=B1=BC=E4:</b> Saturday, September 14, 2019 12:47:39 AM<b=
+r>
+<b>=CA=D5=BC=FE=C8=CB:</b> zhangn1985@outlook.com &lt;zhangn1985@outlook.co=
+m&gt;; dri-devel@lists.freedesktop.org &lt;dri-devel@lists.freedesktop.org&=
+gt;<br>
+<b>=D6=F7=CC=E2:</b> Re: image size is wrong in EDID, how to use EDID quirk=
+s</font>
+<div>&nbsp;</div>
+</div>
+</div>
+<font size=3D"2"><span style=3D"font-size:11pt;">
+<div class=3D"PlainText">On Fri, 2019-09-13 at 04:21 &#43;0000, zhangn1985@=
+outlook.com wrote:<br>
+&gt; Dear developers<br>
+&gt;&nbsp; <br>
+&gt; I have a Samsung 40=A1=AF HDMI TV, which has wrong EDID.<br>
+&gt;&nbsp; <br>
+&gt; The actaul size of this TV is 40=A1=AF (88cm*49cm), but in EDID the si=
+ze<br>
+&gt; is 49=A1=AF (106*63cm)<br>
+&gt;&nbsp; <br>
+&gt; Thus makes image size is larger than screen, both in console and<br>
+&gt; desktop.<br>
+<br>
+That's not how EDID works in Linux. It's only used to compute the DPI<br>
+of the screen, not to scale the image. If the image on the TV looks<br>
+like it extends off the edge of the TV you need to find the &quot;overscan&=
+quot;<br>
+setting in your TV and turn it off.<br>
+<br>
+- ajax<br>
+<br>
+</div>
+</span></font>
+</body>
+</html>
+
+--_000_MN2PR04MB61259DE54D7F5AEB0AAB6E25CDB20MN2PR04MB6125namp_--
+
+--===============0036346590==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0036346590==--
