@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 502E3B296E
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Sep 2019 04:59:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E59D9B29E3
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Sep 2019 06:49:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90B656F4C1;
-	Sat, 14 Sep 2019 02:59:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 811CF6E0EB;
+	Sat, 14 Sep 2019 04:49:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 211266F4C1
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Sep 2019 02:59:25 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F4B06E0EB
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Sep 2019 04:49:36 +0000 (UTC)
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2019 19:59:24 -0700
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2019 21:49:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,492,1559545200"; 
- d="gz'50?scan'50,208,50";a="190502323"
+X-IronPort-AV: E=Sophos;i="5.64,503,1559545200"; 
+ d="gz'50?scan'50,208,50";a="210591638"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
- by orsmga006.jf.intel.com with ESMTP; 13 Sep 2019 19:59:22 -0700
+ by fmsmga004.fm.intel.com with ESMTP; 13 Sep 2019 21:49:33 -0700
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
  (envelope-from <lkp@intel.com>)
- id 1i8yHR-000AZu-TR; Sat, 14 Sep 2019 10:59:21 +0800
-Date: Sat, 14 Sep 2019 10:58:29 +0800
+ id 1i9005-0003gE-E9; Sat, 14 Sep 2019 12:49:33 +0800
+Date: Sat, 14 Sep 2019 12:49:14 +0800
 From: kbuild test robot <lkp@intel.com>
 To: Christian =?unknown-8bit?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: [radeon-alex:amd-staging-drm-next 1717/1730] htmldocs:
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:861: warning: Function parameter or
- member 'direct' not described in 'amdgpu_vm_alloc_pts'
-Message-ID: <201909141011.N2auIIam%lkp@intel.com>
+Subject: [radeon-alex:amd-staging-drm-next 1718/1730] htmldocs:
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:827: warning: Function parameter or
+ member 'direct' not described in 'amdgpu_vm_bo_param'
+Message-ID: <201909141209.VHxqrkOF%lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="zrfifn4elc2ypvwp"
+Content-Type: multipart/mixed; boundary="dl32a6nhgwinbdb3"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 X-Patchwork-Hint: ignore
@@ -57,14 +57,14 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---zrfifn4elc2ypvwp
+--dl32a6nhgwinbdb3
 Content-Type: text/plain; charset=unknown-8bit
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
 tree:   git://people.freedesktop.org/~agd5f/linux.git amd-staging-drm-next
 head:   cfdabd064b2d58f98ff376f1134d3cea5515a64e
-commit: 4294fe6a8b0e99314a679122ec947574e53d4af6 [1717/1730] drm/amdgpu: allow direct submission of clears
+commit: 76c44610d813f21e7f843973813c1282b2388041 [1718/1730] drm/amdgpu: allocate PDs/PTs with no_gpu_wait in a page fault
 reproduce: make htmldocs
 
 If you fix the issue, kindly add following tag
@@ -132,17 +132,18 @@ All warnings (new ones prefixed by >>):
    drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:546: warning: Function parameter or member 'start' not described in 'for_each_amdgpu_vm_pt_dfs_safe'
    drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:546: warning: Function parameter or member 'cursor' not described in 'for_each_amdgpu_vm_pt_dfs_safe'
    drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:546: warning: Function parameter or member 'entry' not described in 'for_each_amdgpu_vm_pt_dfs_safe'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:826: warning: Function parameter or member 'level' not described in 'amdgpu_vm_bo_param'
->> drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:861: warning: Function parameter or member 'direct' not described in 'amdgpu_vm_alloc_pts'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1297: warning: Function parameter or member 'params' not described in 'amdgpu_vm_update_flags'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1297: warning: Function parameter or member 'bo' not described in 'amdgpu_vm_update_flags'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1297: warning: Function parameter or member 'level' not described in 'amdgpu_vm_update_flags'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1297: warning: Function parameter or member 'pe' not described in 'amdgpu_vm_update_flags'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1297: warning: Function parameter or member 'addr' not described in 'amdgpu_vm_update_flags'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1297: warning: Function parameter or member 'count' not described in 'amdgpu_vm_update_flags'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1297: warning: Function parameter or member 'incr' not described in 'amdgpu_vm_update_flags'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1297: warning: Function parameter or member 'flags' not described in 'amdgpu_vm_update_flags'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2826: warning: Function parameter or member 'pasid' not described in 'amdgpu_vm_make_compute'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:827: warning: Function parameter or member 'level' not described in 'amdgpu_vm_bo_param'
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:827: warning: Function parameter or member 'direct' not described in 'amdgpu_vm_bo_param'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:863: warning: Function parameter or member 'direct' not described in 'amdgpu_vm_alloc_pts'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1299: warning: Function parameter or member 'params' not described in 'amdgpu_vm_update_flags'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1299: warning: Function parameter or member 'bo' not described in 'amdgpu_vm_update_flags'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1299: warning: Function parameter or member 'level' not described in 'amdgpu_vm_update_flags'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1299: warning: Function parameter or member 'pe' not described in 'amdgpu_vm_update_flags'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1299: warning: Function parameter or member 'addr' not described in 'amdgpu_vm_update_flags'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1299: warning: Function parameter or member 'count' not described in 'amdgpu_vm_update_flags'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1299: warning: Function parameter or member 'incr' not described in 'amdgpu_vm_update_flags'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1299: warning: Function parameter or member 'flags' not described in 'amdgpu_vm_update_flags'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2828: warning: Function parameter or member 'pasid' not described in 'amdgpu_vm_make_compute'
    drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c:389: warning: Excess function parameter 'entry' description in 'amdgpu_irq_dispatch'
    drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c:390: warning: Function parameter or member 'ih' not described in 'amdgpu_irq_dispatch'
    drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c:390: warning: Excess function parameter 'entry' description in 'amdgpu_irq_dispatch'
@@ -233,75 +234,42 @@ All warnings (new ones prefixed by >>):
    net/socket.c:889: warning: Excess function parameter 'flags' description in 'INDIRECT_CALLABLE_DECLARE'
    include/linux/netdevice.h:2044: warning: Function parameter or member 'gso_partial_features' not described in 'net_device'
    include/linux/netdevice.h:2044: warning: Function parameter or member 'l3mdev_ops' not described in 'net_device'
-   include/linux/netdevice.h:2044: warning: Function parameter or member 'xfrmdev_ops' not described in 'net_device'
 
-vim +861 drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+vim +827 drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
 
-e21eb2613d071a Christian König        2018-08-27  842  
-e21eb2613d071a Christian König        2018-08-27  843  /**
-98ae7f98d44b61 Felix Kuehling         2019-03-13  844   * amdgpu_vm_alloc_pts - Allocate a specific page table
-663e4577a5733f Christian König        2017-03-13  845   *
-663e4577a5733f Christian König        2017-03-13  846   * @adev: amdgpu_device pointer
-d72a6887eef880 Christian König        2018-09-01  847   * @vm: VM to allocate page tables for
-98ae7f98d44b61 Felix Kuehling         2019-03-13  848   * @cursor: Which page table to allocate
-663e4577a5733f Christian König        2017-03-13  849   *
-98ae7f98d44b61 Felix Kuehling         2019-03-13  850   * Make sure a specific page table or directory is allocated.
-7fc48e5912795c Andrey Grodzovsky      2018-06-11  851   *
-7fc48e5912795c Andrey Grodzovsky      2018-06-11  852   * Returns:
-98ae7f98d44b61 Felix Kuehling         2019-03-13  853   * 1 if page table needed to be allocated, 0 if page table was already
-98ae7f98d44b61 Felix Kuehling         2019-03-13  854   * allocated, negative errno if an error occurred.
-663e4577a5733f Christian König        2017-03-13  855   */
-0ce15d6f7d3fb1 Christian König        2019-01-30  856  static int amdgpu_vm_alloc_pts(struct amdgpu_device *adev,
-663e4577a5733f Christian König        2017-03-13  857  			       struct amdgpu_vm *vm,
-4294fe6a8b0e99 Christian König        2019-03-28  858  			       struct amdgpu_vm_pt_cursor *cursor,
-4294fe6a8b0e99 Christian König        2019-03-28  859  			       bool direct)
-663e4577a5733f Christian König        2017-03-13  860  {
-0ce15d6f7d3fb1 Christian König        2019-01-30 @861  	struct amdgpu_vm_pt *entry = cursor->entry;
-0ce15d6f7d3fb1 Christian König        2019-01-30  862  	struct amdgpu_bo_param bp;
-d72a6887eef880 Christian König        2018-09-01  863  	struct amdgpu_bo *pt;
-13307f7e1d0c05 Christian König        2018-01-24  864  	int r;
-663e4577a5733f Christian König        2017-03-13  865  
-0ce15d6f7d3fb1 Christian König        2019-01-30  866  	if (cursor->level < AMDGPU_VM_PTB && !entry->entries) {
-d72a6887eef880 Christian König        2018-09-01  867  		unsigned num_entries;
-3c8241722bc4f5 Harish Kasiviswanathan 2017-05-11  868  
-0ce15d6f7d3fb1 Christian König        2019-01-30  869  		num_entries = amdgpu_vm_num_entries(adev, cursor->level);
-d72a6887eef880 Christian König        2018-09-01  870  		entry->entries = kvmalloc_array(num_entries,
-d72a6887eef880 Christian König        2018-09-01  871  						sizeof(*entry->entries),
-0ce15d6f7d3fb1 Christian König        2019-01-30  872  						GFP_KERNEL | __GFP_ZERO);
-d72a6887eef880 Christian König        2018-09-01  873  		if (!entry->entries)
-d72a6887eef880 Christian König        2018-09-01  874  			return -ENOMEM;
-d72a6887eef880 Christian König        2018-09-01  875  	}
-d72a6887eef880 Christian König        2018-09-01  876  
-d72a6887eef880 Christian König        2018-09-01  877  	if (entry->base.bo)
-0ce15d6f7d3fb1 Christian König        2019-01-30  878  		return 0;
-d72a6887eef880 Christian König        2018-09-01  879  
-0ce15d6f7d3fb1 Christian König        2019-01-30  880  	amdgpu_vm_bo_param(adev, vm, cursor->level, &bp);
-663e4577a5733f Christian König        2017-03-13  881  
-3216c6b71d1e6a Chunming Zhou          2018-04-16  882  	r = amdgpu_bo_create(adev, &bp, &pt);
-663e4577a5733f Christian König        2017-03-13  883  	if (r)
-663e4577a5733f Christian König        2017-03-13  884  		return r;
-663e4577a5733f Christian König        2017-03-13  885  
-f566ceb165f8f3 Christian König        2016-10-27  886  	/* Keep a reference to the root directory to avoid
-f566ceb165f8f3 Christian König        2016-10-27  887  	 * freeing them up in the wrong order.
-663e4577a5733f Christian König        2017-03-13  888  	 */
-0ce15d6f7d3fb1 Christian König        2019-01-30  889  	pt->parent = amdgpu_bo_ref(cursor->parent->base.bo);
-3f4299bee6eda8 Chunming Zhou          2018-04-24  890  	amdgpu_vm_bo_base_init(&entry->base, vm, pt);
-1e2930374f5653 Christian König        2019-01-30  891  
-4294fe6a8b0e99 Christian König        2019-03-28  892  	r = amdgpu_vm_clear_bo(adev, vm, pt, direct);
-1e2930374f5653 Christian König        2019-01-30  893  	if (r)
-1e2930374f5653 Christian König        2019-01-30  894  		goto error_free_pt;
-f566ceb165f8f3 Christian König        2016-10-27  895  
-663e4577a5733f Christian König        2017-03-13  896  	return 0;
-663e4577a5733f Christian König        2017-03-13  897  
-d72a6887eef880 Christian König        2018-09-01  898  error_free_pt:
-d72a6887eef880 Christian König        2018-09-01  899  	amdgpu_bo_unref(&pt->shadow);
-d72a6887eef880 Christian König        2018-09-01  900  	amdgpu_bo_unref(&pt);
-d72a6887eef880 Christian König        2018-09-01  901  	return r;
-f566ceb165f8f3 Christian König        2016-10-27  902  }
-f566ceb165f8f3 Christian König        2016-10-27  903  
+adc7e863f68466 Christian König 2019-03-18  815  
+13307f7e1d0c05 Christian König 2018-01-24  816  /**
+e21eb2613d071a Christian König 2018-08-27  817   * amdgpu_vm_bo_param - fill in parameters for PD/PT allocation
+e21eb2613d071a Christian König 2018-08-27  818   *
+e21eb2613d071a Christian König 2018-08-27  819   * @adev: amdgpu_device pointer
+e21eb2613d071a Christian König 2018-08-27  820   * @vm: requesting vm
+e21eb2613d071a Christian König 2018-08-27  821   * @bp: resulting BO allocation parameters
+e21eb2613d071a Christian König 2018-08-27  822   */
+e21eb2613d071a Christian König 2018-08-27  823  static void amdgpu_vm_bo_param(struct amdgpu_device *adev, struct amdgpu_vm *vm,
+76c44610d813f2 Christian König 2019-07-17  824  			       int level, bool direct,
+76c44610d813f2 Christian König 2019-07-17  825  			       struct amdgpu_bo_param *bp)
+e21eb2613d071a Christian König 2018-08-27  826  {
+e21eb2613d071a Christian König 2018-08-27 @827  	memset(bp, 0, sizeof(*bp));
+e21eb2613d071a Christian König 2018-08-27  828  
+e21eb2613d071a Christian König 2018-08-27  829  	bp->size = amdgpu_vm_bo_size(adev, level);
+e21eb2613d071a Christian König 2018-08-27  830  	bp->byte_align = AMDGPU_GPU_PAGE_SIZE;
+e21eb2613d071a Christian König 2018-08-27  831  	bp->domain = AMDGPU_GEM_DOMAIN_VRAM;
+284dec4317c8e7 Christian König 2018-08-22  832  	bp->domain = amdgpu_bo_get_preferred_pin_domain(adev, bp->domain);
+284dec4317c8e7 Christian König 2018-08-22  833  	bp->flags = AMDGPU_GEM_CREATE_VRAM_CONTIGUOUS |
+284dec4317c8e7 Christian König 2018-08-22  834  		AMDGPU_GEM_CREATE_CPU_GTT_USWC;
+e21eb2613d071a Christian König 2018-08-27  835  	if (vm->use_cpu_for_update)
+e21eb2613d071a Christian König 2018-08-27  836  		bp->flags |= AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED;
+03e9dee11db0cc Felix Kuehling  2018-09-05  837  	else if (!vm->root.base.bo || vm->root.base.bo->shadow)
+03e9dee11db0cc Felix Kuehling  2018-09-05  838  		bp->flags |= AMDGPU_GEM_CREATE_SHADOW;
+e21eb2613d071a Christian König 2018-08-27  839  	bp->type = ttm_bo_type_kernel;
+76c44610d813f2 Christian König 2019-07-17  840  	bp->no_wait_gpu = direct;
+e21eb2613d071a Christian König 2018-08-27  841  	if (vm->root.base.bo)
+e21eb2613d071a Christian König 2018-08-27  842  		bp->resv = vm->root.base.bo->tbo.resv;
+e21eb2613d071a Christian König 2018-08-27  843  }
+e21eb2613d071a Christian König 2018-08-27  844  
 
-:::::: The code at line 861 was first introduced by commit
-:::::: 0ce15d6f7d3fb1162fd7de2829dbdf6d63a6a02a drm/amdgpu: allocate VM PDs/PTs on demand
+:::::: The code at line 827 was first introduced by commit
+:::::: e21eb2613d071abfaa40e353b106f01f4ce83d77 drm/amdgpu: add helper for VM PD/PT allocation parameters v3
 
 :::::: TO: Christian König <christian.koenig@amd.com>
 :::::: CC: Alex Deucher <alexander.deucher@amd.com>
@@ -310,12 +278,12 @@ f566ceb165f8f3 Christian König        2016-10-27  903
 0-DAY kernel test infrastructure                Open Source Technology Center
 https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
 
---zrfifn4elc2ypvwp
+--dl32a6nhgwinbdb3
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICIg7fF0AAy5jb25maWcAlFxbc+O2kn7Pr2AlVVszdSoT38ZxdssPEAhKiHgbAtTFLyxF
+H4sICIBtfF0AAy5jb25maWcAlFxbc+O2kn7Pr2AlVVszdSoT38ZxdssPEAhKiHgbAtTFLyxF
 ph1VbMkrycnMv99ukBRBsqHJnjpJbHTj3uj++kL/9MNPHns/7l5Xx8169fLyzXsut+V+dSwf
 vafNS/k/np94caI94Uv9CZjDzfb96y+b67tb7/Onq08XP+/Xl9603G/LF4/vtk+b53fovdlt
 f/jpB/j/T9D4+gYD7f/be16vf/7V++CXf2xWW+/XTzfQ+/LyY/UT8PIkDuS44LyQqhhzfv+t
@@ -451,7 +419,7 @@ ZDrNK2Fu5RWxymJh0PLqzz+uuiAilGUOaZwvmxMz7Q0vxb3D254MH+Yy2HQCgQ251aDnxXXK
 AObUWsx4JLeJboSUzpLYngcaHPDA/ONblsLlyPeebXK8yEud4MoJZasBpKP8Hn6w4/EvUjbG
 vpdoAAA=
 
---zrfifn4elc2ypvwp
+--dl32a6nhgwinbdb3
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -461,4 +429,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---zrfifn4elc2ypvwp--
+--dl32a6nhgwinbdb3--
