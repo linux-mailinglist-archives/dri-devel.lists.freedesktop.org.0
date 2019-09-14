@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09842B2A7A
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Sep 2019 10:35:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1FE8B2AC5
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Sep 2019 11:04:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36C546F4F0;
-	Sat, 14 Sep 2019 08:35:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B74006F4F3;
+	Sat, 14 Sep 2019 09:04:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id C0C296F4F0
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Sep 2019 08:35:13 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id BDC9472167; Sat, 14 Sep 2019 08:35:13 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39EB96F4F3
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Sep 2019 09:04:31 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111684] amdgpu-dkms 19.30-855429 fails to compiler on kernel 5.2
-Date: Sat, 14 Sep 2019 08:35:13 +0000
-X-Bugzilla-Reason: AssignedTo
+Subject: [Bug 204845] New: firmware load failed Ryzen 2500U Raven
+Date: Sat, 14 Sep 2019 09:04:30 +0000
+X-Bugzilla-Reason: None
 X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu-pro
-X-Bugzilla-Version: XOrg git
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: witold.baryluk+freedesktop@gmail.com
+X-Bugzilla-Who: tjbugs@scarlet.be
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- attachments.created
-Message-ID: <bug-111684-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-204845-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
+ message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,360 +51,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1771426963=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1771426963==
-Content-Type: multipart/alternative; boundary="15684501131.47F2.20142"
-Content-Transfer-Encoding: 7bit
-
-
---15684501131.47F2.20142
-Date: Sat, 14 Sep 2019 08:35:13 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111684
-
-            Bug ID: 111684
-           Summary: amdgpu-dkms 19.30-855429 fails to compiler on kernel
-                    5.2
-           Product: DRI
-           Version: XOrg git
-          Hardware: x86-64 (AMD64)
-                OS: Linux (All)
-            Status: NEW
-          Severity: normal
-          Priority: not set
-         Component: DRM/AMDgpu-pro
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: witold.baryluk+freedesktop@gmail.com
-
-Created attachment 145358
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145358&action=3Dedit
-make.log from attempted dkms build of amdgpu
-
-I know it is somehow expected due to very new kernel, but reporting anyway,=
- as
-maybe it is related to something else than new kernel.
-
-root@debian:/var/lib/dkms/amdgpu/19.30-855429/build# grep error make.log
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_drv.c:1238:2: err=
-or:
-implicit declaration of function =E2=80=98drm_kms_helper_poll_disable=E2=80=
-=99; did you mean
-=E2=80=98drm_fb_helper_pan_display=E2=80=99? [-Werror=3Dimplicit-function-d=
-eclaration]
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_connectors.c:735:=
-7:
-error: implicit declaration of function =E2=80=98drm_kms_helper_is_poll_wor=
-ker=E2=80=99; did
-you mean =E2=80=98drm_fb_helper_initial_config=E2=80=99?
-[-Werror=3Dimplicit-function-declaration]
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_device.c:1021:3:
-error: implicit declaration of function =E2=80=98drm_kms_helper_poll_enable=
-=E2=80=99; did you
-mean =E2=80=98drm_fb_helper_fill_info=E2=80=99? [-Werror=3Dimplicit-functio=
-n-declaration]
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_drv.c:1277:2: err=
-or:
-implicit declaration of function =E2=80=98drm_kms_helper_poll_enable=E2=80=
-=99; did you mean
-=E2=80=98drm_fb_helper_fill_info=E2=80=99? [-Werror=3Dimplicit-function-dec=
-laration]
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_connectors.c:835:=
-16:
-error: =E2=80=98drm_helper_probe_single_connector_modes=E2=80=99 undeclared=
- here (not in a
-function); did you mean =E2=80=98drm_helper_move_panel_connectors_to_head=
-=E2=80=99?
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_drv.c:1453:21: er=
-ror:
-=E2=80=98DRIVER_IRQ_SHARED=E2=80=99 undeclared here (not in a function); di=
-d you mean
-=E2=80=98TIMER_IRQSAFE=E2=80=99?
-cc1: some warnings being treated as errors
-cc1: some warnings being treated as errors
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_device.c:1024:3:
-error: implicit declaration of function =E2=80=98drm_kms_helper_poll_disabl=
-e=E2=80=99; did you
-mean =E2=80=98drm_fb_helper_pan_display=E2=80=99? [-Werror=3Dimplicit-funct=
-ion-declaration]
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_device.c:2846:4:
-error: implicit declaration of function =E2=80=98drm_crtc_force_disable_all=
-=E2=80=99; did you
-mean =E2=80=98drm_helper_force_disable_all=E2=80=99? [-Werror=3Dimplicit-fu=
-nction-declaration]
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_device.c:3110:3:
-error: implicit declaration of function =E2=80=98drm_helper_hpd_irq_event=
-=E2=80=99; did you
-mean =E2=80=98drm_fb_helper_hotplug_event=E2=80=99? [-Werror=3Dimplicit-fun=
-ction-declaration]
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_device.c:3112:3:
-error: implicit declaration of function =E2=80=98drm_kms_helper_hotplug_eve=
-nt=E2=80=99; did you
-mean =E2=80=98drm_fb_helper_hotplug_event=E2=80=99? [-Werror=3Dimplicit-fun=
-ction-declaration]
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_fb.c:270:2: error:
-implicit declaration of function =E2=80=98drm_fb_helper_fill_fix=E2=80=99; =
-did you mean
-=E2=80=98drm_fb_helper_fill_info=E2=80=99? [-Werror=3Dimplicit-function-dec=
-laration]
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_fb.c:281:2: error:
-implicit declaration of function =E2=80=98drm_fb_helper_fill_var=E2=80=99; =
-did you mean
-=E2=80=98drm_fb_helper_fill_info=E2=80=99? [-Werror=3Dimplicit-function-dec=
-laration]
-cc1: some warnings being treated as errors
-cc1: some warnings being treated as errors
-root@debian:/var/lib/dkms/amdgpu/19.30-855429/build#=20=20
-
-
-root@debian:/var/lib/dkms/amdgpu/19.30-855429/build# dpkg -l | grep linux-h=
-ead
-ii  linux-headers-5.2.0-2-amd64                                 5.2.9-2=20=
-=20=20=20=20=20=20=20
-                      amd64        Header files for Linux 5.2.0-2-amd64
-ii  linux-headers-5.2.0-2-common                                5.2.9-2=20=
-=20=20=20=20=20=20=20
-                      all          Common header files for Linux 5.2.0-2
-ii  linux-headers-amd64                                         5.2+106=20=
-=20=20=20=20=20=20=20
-                      amd64        Header files for Linux amd64 configurati=
-on
-(meta-package)
-
-
-gcc version 9.2.1 20190821 (Debian 9.2.1-4)=20
-
-Full make.log in the attachment.
-
-Thanks.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15684501131.47F2.20142
-Date: Sat, 14 Sep 2019 08:35:13 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu-dkms 19.30-855429 fails to compiler on kernel 5.2"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111684">111684</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>amdgpu-dkms 19.30-855429 fails to compiler on kernel 5.2
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>XOrg git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>x86-64 (AMD64)
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>Linux (All)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>DRM/AMDgpu-pro
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>witold.baryluk+freedesktop&#64;gmail.com
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145358=
-" name=3D"attach_145358" title=3D"make.log from attempted dkms build of amd=
-gpu">attachment 145358</a> <a href=3D"attachment.cgi?id=3D145358&amp;action=
-=3Dedit" title=3D"make.log from attempted dkms build of amdgpu">[details]</=
-a></span>
-make.log from attempted dkms build of amdgpu
-
-I know it is somehow expected due to very new kernel, but reporting anyway,=
- as
-maybe it is related to something else than new kernel.
-
-root&#64;debian:/var/lib/dkms/amdgpu/19.30-855429/build# grep error make.log
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_drv.c:1238:2: err=
-or:
-implicit declaration of function =E2=80=98drm_kms_helper_poll_disable=E2=80=
-=99; did you mean
-=E2=80=98drm_fb_helper_pan_display=E2=80=99? [-Werror=3Dimplicit-function-d=
-eclaration]
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_connectors.c:735:=
-7:
-error: implicit declaration of function =E2=80=98drm_kms_helper_is_poll_wor=
-ker=E2=80=99; did
-you mean =E2=80=98drm_fb_helper_initial_config=E2=80=99?
-[-Werror=3Dimplicit-function-declaration]
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_device.c:1021:3:
-error: implicit declaration of function =E2=80=98drm_kms_helper_poll_enable=
-=E2=80=99; did you
-mean =E2=80=98drm_fb_helper_fill_info=E2=80=99? [-Werror=3Dimplicit-functio=
-n-declaration]
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_drv.c:1277:2: err=
-or:
-implicit declaration of function =E2=80=98drm_kms_helper_poll_enable=E2=80=
-=99; did you mean
-=E2=80=98drm_fb_helper_fill_info=E2=80=99? [-Werror=3Dimplicit-function-dec=
-laration]
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_connectors.c:835:=
-16:
-error: =E2=80=98drm_helper_probe_single_connector_modes=E2=80=99 undeclared=
- here (not in a
-function); did you mean =E2=80=98drm_helper_move_panel_connectors_to_head=
-=E2=80=99?
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_drv.c:1453:21: er=
-ror:
-=E2=80=98DRIVER_IRQ_SHARED=E2=80=99 undeclared here (not in a function); di=
-d you mean
-=E2=80=98TIMER_IRQSAFE=E2=80=99?
-cc1: some warnings being treated as errors
-cc1: some warnings being treated as errors
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_device.c:1024:3:
-error: implicit declaration of function =E2=80=98drm_kms_helper_poll_disabl=
-e=E2=80=99; did you
-mean =E2=80=98drm_fb_helper_pan_display=E2=80=99? [-Werror=3Dimplicit-funct=
-ion-declaration]
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_device.c:2846:4:
-error: implicit declaration of function =E2=80=98drm_crtc_force_disable_all=
-=E2=80=99; did you
-mean =E2=80=98drm_helper_force_disable_all=E2=80=99? [-Werror=3Dimplicit-fu=
-nction-declaration]
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_device.c:3110:3:
-error: implicit declaration of function =E2=80=98drm_helper_hpd_irq_event=
-=E2=80=99; did you
-mean =E2=80=98drm_fb_helper_hotplug_event=E2=80=99? [-Werror=3Dimplicit-fun=
-ction-declaration]
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_device.c:3112:3:
-error: implicit declaration of function =E2=80=98drm_kms_helper_hotplug_eve=
-nt=E2=80=99; did you
-mean =E2=80=98drm_fb_helper_hotplug_event=E2=80=99? [-Werror=3Dimplicit-fun=
-ction-declaration]
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_fb.c:270:2: error:
-implicit declaration of function =E2=80=98drm_fb_helper_fill_fix=E2=80=99; =
-did you mean
-=E2=80=98drm_fb_helper_fill_info=E2=80=99? [-Werror=3Dimplicit-function-dec=
-laration]
-/var/lib/dkms/amdgpu/19.30-855429/build/amd/amdgpu/amdgpu_fb.c:281:2: error:
-implicit declaration of function =E2=80=98drm_fb_helper_fill_var=E2=80=99; =
-did you mean
-=E2=80=98drm_fb_helper_fill_info=E2=80=99? [-Werror=3Dimplicit-function-dec=
-laration]
-cc1: some warnings being treated as errors
-cc1: some warnings being treated as errors
-root&#64;debian:/var/lib/dkms/amdgpu/19.30-855429/build#=20=20
-
-
-root&#64;debian:/var/lib/dkms/amdgpu/19.30-855429/build# dpkg -l | grep lin=
-ux-head
-ii  linux-headers-5.2.0-2-amd64                                 5.2.9-2=20=
-=20=20=20=20=20=20=20
-                      amd64        Header files for Linux 5.2.0-2-amd64
-ii  linux-headers-5.2.0-2-common                                5.2.9-2=20=
-=20=20=20=20=20=20=20
-                      all          Common header files for Linux 5.2.0-2
-ii  linux-headers-amd64                                         5.2+106=20=
-=20=20=20=20=20=20=20
-                      amd64        Header files for Linux amd64 configurati=
-on
-(meta-package)
-
-
-gcc version 9.2.1 20190821 (Debian 9.2.1-4)=20
-
-Full make.log in the attachment.
-
-Thanks.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15684501131.47F2.20142--
-
---===============1771426963==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1771426963==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQ4NDUKCiAgICAg
+ICAgICAgIEJ1ZyBJRDogMjA0ODQ1CiAgICAgICAgICAgU3VtbWFyeTogZmlybXdhcmUgbG9hZCBm
+YWlsZWQgUnl6ZW4gMjUwMFUgUmF2ZW4KICAgICAgICAgICBQcm9kdWN0OiBEcml2ZXJzCiAgICAg
+ICAgICAgVmVyc2lvbjogMi41CiAgICBLZXJuZWwgVmVyc2lvbjogNS4yLjE0CiAgICAgICAgICBI
+YXJkd2FyZTogeDg2LTY0CiAgICAgICAgICAgICAgICBPUzogTGludXgKICAgICAgICAgICAgICBU
+cmVlOiBNYWlubGluZQogICAgICAgICAgICBTdGF0dXM6IE5FVwogICAgICAgICAgU2V2ZXJpdHk6
+IG5vcm1hbAogICAgICAgICAgUHJpb3JpdHk6IFAxCiAgICAgICAgIENvbXBvbmVudDogVmlkZW8o
+RFJJIC0gbm9uIEludGVsKQogICAgICAgICAgQXNzaWduZWU6IGRyaXZlcnNfdmlkZW8tZHJpQGtl
+cm5lbC1idWdzLm9zZGwub3JnCiAgICAgICAgICBSZXBvcnRlcjogdGpidWdzQHNjYXJsZXQuYmUK
+ICAgICAgICBSZWdyZXNzaW9uOiBObwoKQ3JlYXRlZCBhdHRhY2htZW50IDI4NDk2MwogIC0tPiBo
+dHRwczovL2J1Z3ppbGxhLmtlcm5lbC5vcmcvYXR0YWNobWVudC5jZ2k/aWQ9Mjg0OTYzJmFjdGlv
+bj1lZGl0CmZ1bGwgZG1lc2cKCkxlbm92byBUaGlua3BhZCBFNTg1CkJJT1MgUjBVRVQ3NFcgKDEu
+NTQgKSBsYXRlc3QKCmRvaW5nIGEgY29sZCBzdGFydCB0aGlzIG1vcm5pbmcgLSBubyB2aWRlbywg
+YnV0IHdhYXMgYWJsZSB0byBzc2ggaW50byB0aGUKbm90ZWJvb2sgYW5kIGluc3BlY3QgZG1lc2cg
+ZGF0YS4KZG9pbmcgYSB3YXJtIHJlc3RhcnQgZ2F2ZSB0aGUgc2FtZSBwcm9ibGVtLgoKQWZ0ZXIg
+ZG9pbmcgaGFsdCBhbmQgcG93ZXIgb2ZmLCB0aGUgbmV4dCBjb2xkIGJvb3Qgd29ya2VkLgpUaGlz
+IGhhcyBoYXBwZW5kIGZyb20gdGltZSB0byBpbWUgaW4gdGhlIHBhc3Qgd2l0aCBwcmV2aW91cyBr
+ZXJuZWxzLgoKCgpTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgICAxLjk0OTUxMF0gYW1kZ3B1
+IDAwMDA6MDU6MDAuMDoKcmVtb3ZlX2NvbmZsaWN0aW5nX3BjaV9mcmFtZWJ1ZmZlcnM6IGJhciAw
+OiAweGIwMDAwMDAwIC0+IDB4YmZmZmZmZmYKU2VwIDE0IDA4OjEyOjI0IFtrZXJuZWxdIFsgICAg
+MS45NDk1MThdIGFtZGdwdSAwMDAwOjA1OjAwLjA6CnJlbW92ZV9jb25mbGljdGluZ19wY2lfZnJh
+bWVidWZmZXJzOiBiYXIgMjogMHhjMDAwMDAwMCAtPiAweGMwMWZmZmZmClNlcCAxNCAwODoxMjoy
+NCBba2VybmVsXSBbICAgIDEuOTQ5NTI0XSBhbWRncHUgMDAwMDowNTowMC4wOgpyZW1vdmVfY29u
+ZmxpY3RpbmdfcGNpX2ZyYW1lYnVmZmVyczogYmFyIDU6IDB4YzA4MDAwMDAgLT4gMHhjMDg3ZmZm
+ZgpTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgICAxLjk0OTUzMl0gYW1kZ3B1IDAwMDA6MDU6
+MDAuMDogdmdhYXJiOiBkZWFjdGl2YXRlCnZnYSBjb25zb2xlClNlcCAxNCAwODoxMjoyNCBba2Vy
+bmVsXSBbICAgIDEuOTQ5ODEzXSBbZHJtXSBpbml0aWFsaXppbmcga2VybmVsIG1vZGVzZXR0aW5n
+CihSQVZFTiAweDEwMDI6MHgxNUREIDB4MTdBQToweDUwNkYgMHhDNCkuClNlcCAxNCAwODoxMjoy
+NCBba2VybmVsXSBbICAgIDEuOTQ5ODM4XSBbZHJtXSByZWdpc3RlciBtbWlvIGJhc2U6IDB4QzA4
+MDAwMDAKU2VwIDE0IDA4OjEyOjI0IFtrZXJuZWxdIFsgICAgMS45NDk4NDJdIFtkcm1dIHJlZ2lz
+dGVyIG1taW8gc2l6ZTogNTI0Mjg4ClNlcCAxNCAwODoxMjoyNCBba2VybmVsXSBbICAgIDEuOTQ5
+ODY0XSBbZHJtXSBhZGQgaXAgYmxvY2sgbnVtYmVyIDAKPHNvYzE1X2NvbW1vbj4KU2VwIDE0IDA4
+OjEyOjI0IFtrZXJuZWxdIFsgICAgMS45NDk4NjhdIFtkcm1dIGFkZCBpcCBibG9jayBudW1iZXIg
+MSA8Z21jX3Y5XzA+ClNlcCAxNCAwODoxMjoyNCBba2VybmVsXSBbICAgIDEuOTQ5ODcyXSBbZHJt
+XSBhZGQgaXAgYmxvY2sgbnVtYmVyIDIgPHZlZ2ExMF9paD4KU2VwIDE0IDA4OjEyOjI0IFtrZXJu
+ZWxdIFsgICAgMS45NDk4NzVdIFtkcm1dIGFkZCBpcCBibG9jayBudW1iZXIgMyA8cHNwPgpTZXAg
+MTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgICAxLjk0OTg3OV0gW2RybV0gYWRkIGlwIGJsb2NrIG51
+bWJlciA0IDxnZnhfdjlfMD4KU2VwIDE0IDA4OjEyOjI0IFtrZXJuZWxdIFsgICAgMS45NDk4ODJd
+IFtkcm1dIGFkZCBpcCBibG9jayBudW1iZXIgNSA8c2RtYV92NF8wPgpTZXAgMTQgMDg6MTI6MjQg
+W2tlcm5lbF0gWyAgICAxLjk0OTg4Nl0gW2RybV0gYWRkIGlwIGJsb2NrIG51bWJlciA2IDxwb3dl
+cnBsYXk+ClNlcCAxNCAwODoxMjoyNCBba2VybmVsXSBbICAgIDEuOTQ5ODg5XSBbZHJtXSBhZGQg
+aXAgYmxvY2sgbnVtYmVyIDcgPGRtPgpTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgICAxLjk0
+OTg5M10gW2RybV0gYWRkIGlwIGJsb2NrIG51bWJlciA4IDx2Y25fdjFfMD4KU2VwIDE0IDA4OjEy
+OjI0IFtrZXJuZWxdIFsgICAgMS45NTI0OTBdIFtkcm1dIFZDTiBkZWNvZGUgaXMgZW5hYmxlZCBp
+biBWTSBtb2RlClNlcCAxNCAwODoxMjoyNCBba2VybmVsXSBbICAgIDEuOTUyNDk3XSBbZHJtXSBW
+Q04gZW5jb2RlIGlzIGVuYWJsZWQgaW4gVk0gbW9kZQpTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0g
+WyAgICAxLjk1MjUwMV0gW2RybV0gVkNOIGpwZWcgZGVjb2RlIGlzIGVuYWJsZWQgaW4gVk0KbW9k
+ZQpTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgICAxLjk4NzQ5OF0gW2RybV0gQklPUyBzaWdu
+YXR1cmUgaW5jb3JyZWN0IDAgMApTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgICAxLjk4OTUx
+M10gQVRPTSBCSU9TOiAxMTMtUkFWRU4tMTA3ClNlcCAxNCAwODoxMjoyNCBba2VybmVsXSBbICAg
+IDEuOTg5NTU1XSBbZHJtXSBSQVMgSU5GTzogcmFzIGluaXRpYWxpemVkCnN1Y2Nlc3NmdWxseSwg
+aGFyZHdhcmUgYWJpbGl0eVswXSByYXNfbWFza1swXQpTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0g
+WyAgICAxLjk4OTU2Ml0gW2RybV0gdm0gc2l6ZSBpcyAyNjIxNDQgR0IsIDQgbGV2ZWxzLApibG9j
+ayBzaXplIGlzIDktYml0LCBmcmFnbWVudCBzaXplIGlzIDktYml0ClNlcCAxNCAwODoxMjoyNCBb
+a2VybmVsXSBbICAgIDEuOTg5NTc4XSBhbWRncHUgMDAwMDowNTowMC4wOiBWUkFNOiAyNTZNCjB4
+MDAwMDAwRjQwMDAwMDAwMCAtIDB4MDAwMDAwRjQwRkZGRkZGRiAoMjU2TSB1c2VkKQpTZXAgMTQg
+MDg6MTI6MjQgW2tlcm5lbF0gWyAgICAxLjk4OTU4Ml0gYW1kZ3B1IDAwMDA6MDU6MDAuMDogR0FS
+VDogMTAyNE0KMHgwMDAwMDAwMDAwMDAwMDAwIC0gMHgwMDAwMDAwMDNGRkZGRkZGClNlcCAxNCAw
+ODoxMjoyNCBba2VybmVsXSBbICAgIDEuOTg5NTg1XSBhbWRncHUgMDAwMDowNTowMC4wOiBBR1A6
+IDI2NzQxOTY0OE0KMHgwMDAwMDBGODAwMDAwMDAwIC0gMHgwMDAwRkZGRkZGRkZGRkZGClNlcCAx
+NCAwODoxMjoyNCBba2VybmVsXSBbICAgIDEuOTg5NTkzXSBbZHJtXSBEZXRlY3RlZCBWUkFNIFJB
+TT0yNTZNLCBCQVI9MjU2TQpTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgICAxLjk4OTU5NV0g
+W2RybV0gUkFNIHdpZHRoIDY0Yml0cyBERFI0ClNlcCAxNCAwODoxMjoyNCBba2VybmVsXSBbICAg
+IDEuOTkwMTcyXSBbVFRNXSBJbml0aWFsaXppbmcgcG9vbCBhbGxvY2F0b3IKU2VwIDE0IDA4OjEy
+OjI0IFtrZXJuZWxdIFsgICAgMS45OTAxNzddIFtUVE1dIEluaXRpYWxpemluZyBETUEgcG9vbCBh
+bGxvY2F0b3IKU2VwIDE0IDA4OjEyOjI0IFtrZXJuZWxdIFsgICAgMS45OTAyMTBdIFtkcm1dIGFt
+ZGdwdTogMjU2TSBvZiBWUkFNIG1lbW9yeSByZWFkeQpTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0g
+WyAgICAxLjk5MDIxM10gW2RybV0gYW1kZ3B1OiAzMDcyTSBvZiBHVFQgbWVtb3J5CnJlYWR5LgpT
+ZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgICAxLjk5MDIyOV0gW2RybV0gR0FSVDogbnVtIGNw
+dSBwYWdlcyAyNjIxNDQsIG51bQpncHUgcGFnZXMgMjYyMTQ0ClNlcCAxNCAwODoxMjoyNCBba2Vy
+bmVsXSBbICAgIDEuOTkwNjE4XSBbZHJtXSBQQ0lFIEdBUlQgb2YgMTAyNE0gZW5hYmxlZCAodGFi
+bGUKYXQgMHgwMDAwMDBGNDAwOTAwMDAwKS4KU2VwIDE0IDA4OjEyOjI0IFtrZXJuZWxdIFsgICAg
+MS45OTgxMjRdIFtkcm1dIHVzZV9kb29yYmVsbCBiZWluZyBzZXQgdG86IFt0cnVlXQpTZXAgMTQg
+MDg6MTI6MjQgW2tlcm5lbF0gWyAgICAyLjAwMDUwMV0gW2RybV0gRm91bmQgVkNOIGZpcm13YXJl
+IFZlcnNpb24gRU5DOgoxLjkgREVDOiAxIFZFUDogMCBSZXZpc2lvbjogMjgKU2VwIDE0IDA4OjEy
+OjI0IFtrZXJuZWxdIFsgICAgMi4wMDA1MDZdIFtkcm1dIFBTUCBsb2FkaW5nIFZDTiBmaXJtd2Fy
+ZQpTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgICAyLjAyMzYxNl0gW2RybV0gcmVzZXJ2ZSAw
+eDQwMDAwMCBmcm9tCjB4ZjQwMGMwMDAwMCBmb3IgUFNQIFRNUiBTSVpFClNlcCAxNCAwODoxMjoy
+NCBba2VybmVsXSBbICAgIDIuNTUxMzAyXSBwc21vdXNlIHNlcmlvMTogc3luYXB0aWNzOiBxdWVy
+aWVkIG1heApjb29yZGluYXRlczogeCBbLi41Njc2XSwgeSBbLi40NjkwXQpTZXAgMTQgMDg6MTI6
+MjQgW2tlcm5lbF0gWyAgICAyLjYwMjc5MF0gcHNtb3VzZSBzZXJpbzE6IHN5bmFwdGljczogcXVl
+cmllZCBtaW4KY29vcmRpbmF0ZXM6IHggWzEyNjYuLl0sIHkgWzExNjIuLl0KU2VwIDE0IDA4OjEy
+OjI0IFtrZXJuZWxdIFsgICAgMi42MDI3OThdIHBzbW91c2Ugc2VyaW8xOiBzeW5hcHRpY3M6IFRy
+eWluZyB0bwpzZXQgdXAgU01CdXMgYWNjZXNzClNlcCAxNCAwODoxMjoyNCBba2VybmVsXSBbICAg
+IDIuNjA3MTAxXSBwc21vdXNlIHNlcmlvMTogc3luYXB0aWNzOiBTTWJ1cwpjb21wYW5pb24gaXMg
+bm90IHJlYWR5IHlldApTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgICAzLjUzNDcwOF0gaW5w
+dXQ6IFBTLzIgU3luYXB0aWNzIFRvdWNoUGFkIGFzCi9kZXZpY2VzL3BsYXRmb3JtL2k4MDQyL3Nl
+cmlvMS9pbnB1dC9pbnB1dDQKU2VwIDE0IDA4OjEyOjI0IFtrZXJuZWxdIFsgICAgNi41NDc4Mjhd
+IG1vdXNlZGV2OiBQUy8yIG1vdXNlIGRldmljZSBjb21tb24gZm9yCmFsbCBtaWNlClNlcCAxNCAw
+ODoxMjoyNCBba2VybmVsXSBbICAgMjIuMDIwMDc4XSBbZHJtXSBwc3AgY29tbWFuZCBmYWlsZWQg
+YW5kIHJlc3BvbnNlCnN0YXR1cyBpcyAoMCkKU2VwIDE0IDA4OjEyOjI0IFtrZXJuZWxdIFsgICAy
+Mi4wMjAwOTBdIFtkcm06MHhmZmZmZmZmZmEwMTYxNzg0XSAqRVJST1IqIFBTUApsb2FkIHRtciBm
+YWlsZWQhClNlcCAxNCAwODoxMjoyNCBba2VybmVsXSBbICAgMjIuMDIwMDk1XSBbZHJtOjB4ZmZm
+ZmZmZmZhMDE2MWFhM10gKkVSUk9SKiBQU1AKZmlybXdhcmUgbG9hZGluZyBmYWlsZWQKU2VwIDE0
+IDA4OjEyOjI0IFtrZXJuZWxdIFsgICAyMi4wMjAxMDJdIFtkcm06MHhmZmZmZmZmZmEwMTFkYTdi
+XSAqRVJST1IqCmh3X2luaXQgb2YgSVAgYmxvY2sgPHBzcD4gZmFpbGVkIC0yMgpTZXAgMTQgMDg6
+MTI6MjQgW2tlcm5lbF0gWyAgIDIyLjAyMDExMF0gYW1kZ3B1IDAwMDA6MDU6MDAuMDoKYW1kZ3B1
+X2RldmljZV9pcF9pbml0IGZhaWxlZApTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgIDIyLjAy
+MDExN10gYW1kZ3B1IDAwMDA6MDU6MDAuMDogRmF0YWwgZXJyb3IgZHVyaW5nCkdQVSBpbml0ClNl
+cCAxNCAwODoxMjoyNCBba2VybmVsXSBbICAgMjIuMDIwMTIzXSBbZHJtXSBhbWRncHU6IGZpbmlz
+aGluZyBkZXZpY2UuClNlcCAxNCAwODoxMjoyNCBba2VybmVsXSBbICAgMjIuMDI5MzMxXSBXQVJO
+SU5HOiBDUFU6IDUgUElEOiA2NzkgYXQKZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1
+X29iamVjdC5jOjkyNSAweGZmZmZmZmZmYTAyOTY5OTMKU2VwIDE0IDA4OjEyOjI0IFtrZXJuZWxd
+IFsgICAyMi4wMjkzMzddIE1vZHVsZXMgbGlua2VkIGluOiBldmRldiBtb3VzZWRldgphbWRncHUo
+KykgYW1kX2lvbW11X3YyIGdwdV9zY2hlZCB0dG0gZHJtX2ttc19oZWxwZXIgc3lzaW1nYmx0IHN5
+c2NvcHlhcmVhCnN5c2ZpbGxyZWN0IGZiX3N5c19mb3BzIGRybSBkcm1fcGFuZWxfb3JpZW50YXRp
+b25fcXVpcmtzIGFncGdhcnQgaTJjX2FsZ29fYml0CmNmYmltZ2JsdCBjZmJjb3B5YXJlYSBjZmJm
+aWxscmVjdCBmYiBmb250IGZiZGV2IGkyY19waWl4NCBwc21vdXNlIGxpYnBzMgppMmNfY29yZSBp
+ODA0MgpTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgIDIyLjAyOTM2M10gQ1BVOiA1IFBJRDog
+Njc5IENvbW06IG1vZHByb2JlIE5vdAp0YWludGVkIDUuMi4xNCAjMzEKU2VwIDE0IDA4OjEyOjI0
+IFtrZXJuZWxdIFsgICAyMi4wMjkzNjddIEhhcmR3YXJlIG5hbWU6IExFTk9WTwoyMEtWQ1RPMVdX
+LzIwS1ZDVE8xV1csIEJJT1MgUjBVRVQ3NFcgKDEuNTQgKSAwNy8yMy8yMDE5ClNlcCAxNCAwODox
+MjoyNCBba2VybmVsXSBbICAgMjIuMDI5MzcxXSBSSVA6IDAwMTA6MHhmZmZmZmZmZmEwMjk2OTkz
+ClNlcCAxNCAwODoxMjoyNCBba2VybmVsXSBbICAgMjIuMDI5Mzc3XSBDb2RlOiA4YiAyZSBlOSA3
+MCA4MCBlOSBmZiA0OCA4YiBiYiBkMApiZiBmZiBmZiA0YyA4OSBlMiA0OCBjNyBjNiA1NyA2NSAy
+YyBhMCA4OSA0NCAyNCAwNCBlOCAxYSAwZSAwYSBlMSA4YiA0NCAyNCAwNAplOSBjYyA4MyBlOSBm
+ZiA8MGY+IDBiIDQ4IDhiIGJiIGQwIGJmIGZmIGZmIDRjIDg5IGUyIDQ4IGM3IGM2IDNmIDY1IDJj
+IGEwIGU4IDZmCjBlClNlcCAxNCAwODoxMjoyNCBba2VybmVsXSBbICAgMjIuMDI5Mzg0XSBSU1A6
+IDAwMTg6ZmZmZmM5MDAwMDMzNzk4MCBFRkxBR1M6CjAwMDEwMjQ2ClNlcCAxNCAwODoxMjoyNCBb
+a2VybmVsXSBbICAgMjIuMDI5Mzg4XSBSQVg6IGZmZmY4ODgyNDQ5ZjA4NTAgUkJYOgpmZmZmODg4
+MjQxNDM0MDMwIFJDWDogZmZmZjg4ODI0NDlmNzBmOApTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0g
+WyAgIDIyLjAyOTM5Ml0gUkRYOiAwMDAwMDAwMDAwMDAwMDAwIFJTSToKZmZmZjg4ODI0MTQzNDAz
+MCBSREk6IGZmZmY4ODgyNDQ5ZjA4MDAKU2VwIDE0IDA4OjEyOjI0IFtrZXJuZWxdIFsgICAyMi4w
+MjkzOTZdIFJCUDogZmZmZjg4ODI0MTQzNjJmOCBSMDg6CmZmZmY4ODgyNDQ5ZjA4N2MgUjA5OiBm
+ZmZmZmZmZmEwMGZhZTAwClNlcCAxNCAwODoxMjoyNCBba2VybmVsXSBbICAgMjIuMDI5NDAwXSBS
+MTA6IGZmZmY4ODgyNDE1MzkwMDAgUjExOgpmZmZmODg4MjQ2MDAzNDAwIFIxMjogZmZmZjg4ODI0
+NDlmMDgwMApTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgIDIyLjAyOTQwNF0gUjEzOiBmZmZm
+ODg4MjQxNDM2MmYwIFIxNDoKZmZmZjg4ODI0MTQzNDAzMCBSMTU6IGZmZmY4ODgyNDQ5ZjA4NTAK
+U2VwIDE0IDA4OjEyOjI0IFtrZXJuZWxdIFsgICAyMi4wMjk0MDldIEZTOiAgMDAwMDdmMmViOTE3
+M2I4MCgwMDAwKQpHUzpmZmZmODg4MjQ3MzQwMDAwKDAwMDApIGtubEdTOjAwMDAwMDAwMDAwMDAw
+MDAKU2VwIDE0IDA4OjEyOjI0IFtrZXJuZWxdIFsgICAyMi4wMjk0MTNdIENTOiAgMDAxMCBEUzog
+MDAwMCBFUzogMDAwMCBDUjA6CjAwMDAwMDAwODAwNTAwMzMKU2VwIDE0IDA4OjEyOjI0IFtrZXJu
+ZWxdIFsgICAyMi4wMjk0MTddIENSMjogMDAwMDdmYjkwYWRhMDlkMCBDUjM6CjAwMDAwMDAyNDIw
+NzYwMDAgQ1I0OiAwMDAwMDAwMDAwMTQwNmUwClNlcCAxNCAwODoxMjoyNCBba2VybmVsXSBbICAg
+MjIuMDI5NDIwXSBDYWxsIFRyYWNlOgpTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgIDIyLjAy
+OTQyN10gIDB4ZmZmZmZmZmZhMDEyZWU1NwpTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgIDIy
+LjAyOTQzMl0gIDB4ZmZmZmZmZmZhMDE3ZTVlNgpTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAg
+IDIyLjAyOTQzNl0gID8gMHhmZmZmZmZmZmEwMWQzZTZhClNlcCAxNCAwODoxMjoyNCBba2VybmVs
+XSBbICAgMjIuMDI5NDM5XSAgMHhmZmZmZmZmZmEwMjk0MmRhClNlcCAxNCAwODoxMjoyNCBba2Vy
+bmVsXSBbICAgMjIuMDI5NDQyXSAgMHhmZmZmZmZmZmEwMTIxMzQwClNlcCAxNCAwODoxMjoyNCBb
+a2VybmVsXSBbICAgMjIuMDI5NDQ2XSAgMHhmZmZmZmZmZmEwMjk0Y2U4ClNlcCAxNCAwODoxMjoy
+NCBba2VybmVsXSBbICAgMjIuMDI5NDUwXSAgMHhmZmZmZmZmZmEwMDc2NGRjClNlcCAxNCAwODox
+MjoyNCBba2VybmVsXSBbICAgMjIuMDI5NDU0XSAgPyAweGZmZmZmZmZmODEyOTk5MGEKU2VwIDE0
+IDA4OjEyOjI0IFtrZXJuZWxdIFsgICAyMi4wMjk0NThdICAweGZmZmZmZmZmYTAxMWQ0ZTQKU2Vw
+IDE0IDA4OjEyOjI0IFtrZXJuZWxdIFsgICAyMi4wMjk0NjFdICA/IDB4ZmZmZmZmZmY4MTM0NGU4
+MwpTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgIDIyLjAyOTQ2NF0gIDB4ZmZmZmZmZmY4MTI5
+ZTk2NgpTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgIDIyLjAyOTQ2OF0gIDB4ZmZmZmZmZmY4
+MTMzOWFhYQpTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgIDIyLjAyOTQ3MV0gIDB4ZmZmZmZm
+ZmY4MTMzOWRlZApTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgIDIyLjAyOTQ3NF0gIDB4ZmZm
+ZmZmZmY4MTMzOWZlOApTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgIDIyLjAyOTQ3OF0gIDB4
+ZmZmZmZmZmY4MTMzYTA0NApTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgIDIyLjAyOTQ4MV0g
+ID8gMHhmZmZmZmZmZjgxMzM5ZmYwClNlcCAxNCAwODoxMjoyNCBba2VybmVsXSBbICAgMjIuMDI5
+NDg0XSAgMHhmZmZmZmZmZjgxMzM3YjcxClNlcCAxNCAwODoxMjoyNCBba2VybmVsXSBbICAgMjIu
+MDI5NDg4XSAgMHhmZmZmZmZmZjgxMzM4YjFkClNlcCAxNCAwODoxMjoyNCBba2VybmVsXSBbICAg
+MjIuMDI5NDkxXSAgMHhmZmZmZmZmZjgxMzNhOTE3ClNlcCAxNCAwODoxMjoyNCBba2VybmVsXSBb
+ICAgMjIuMDI5NDk1XSAgPyAweGZmZmZmZmZmYTAzOTEwMDAKU2VwIDE0IDA4OjEyOjI0IFtrZXJu
+ZWxdIFsgICAyMi4wMjk0OTddICAweGZmZmZmZmZmODEwMDA0N2EKU2VwIDE0IDA4OjEyOjI0IFtr
+ZXJuZWxdIFsgICAyMi4wMjk1MDRdICA/IDB4ZmZmZmZmZmY4MTRlNTZhMApTZXAgMTQgMDg6MTI6
+MjQgW2tlcm5lbF0gWyAgIDIyLjAyOTUwN10gID8gMHhmZmZmZmZmZjgxMTE3YWQ5ClNlcCAxNCAw
+ODoxMjoyNCBba2VybmVsXSBbICAgMjIuMDI5NTEwXSAgMHhmZmZmZmZmZjgxMGIwYTYxClNlcCAx
+NCAwODoxMjoyNCBba2VybmVsXSBbICAgMjIuMDI5NTEzXSAgMHhmZmZmZmZmZjgxMGIyM2VjClNl
+cCAxNCAwODoxMjoyNCBba2VybmVsXSBbICAgMjIuMDI5NTE2XSAgPyAweGZmZmZmZmZmODEwYWZj
+YTAKU2VwIDE0IDA4OjEyOjI0IFtrZXJuZWxdIFsgICAyMi4wMjk1MjBdICAweGZmZmZmZmZmODEw
+YjI4MGQKU2VwIDE0IDA4OjEyOjI0IFtrZXJuZWxdIFsgICAyMi4wMjk1MjRdICAweGZmZmZmZmZm
+ODEwMDE1MmYKU2VwIDE0IDA4OjEyOjI0IFtrZXJuZWxdIFsgICAyMi4wMjk1MjddICA/IDB4ZmZm
+ZmZmZmY4MTAyZWRkNQpTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgIDIyLjAyOTUzMF0gIDB4
+ZmZmZmZmZmY4MTYwMDA3YwpTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgIDIyLjAyOTUzNF0g
+UklQOiAwMDMzOjB4MDAwMDdmMmViOTI1ZGIwOQpTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAg
+IDIyLjAyOTU0MF0gQ29kZTogMDAgYzMgNjYgMmUgMGYgMWYgODQgMDAgMDAgMDAgMDAKMDAgMGYg
+MWYgNDQgMDAgMDAgNDggODkgZjggNDggODkgZjcgNDggODkgZDYgNDggODkgY2EgNGQgODkgYzIg
+NGQgODkgYzggNGMgOGIKNGMgMjQgMDggMGYgMDUgPDQ4PiAzZCAwMSBmMCBmZiBmZiA3MyAwMSBj
+MyA0OCA4YiAwZCA1NyBkMyAwOCAwMCBmNyBkOCA2NCA4OSAwMQo0OApTZXAgMTQgMDg6MTI6MjQg
+W2tlcm5lbF0gWyAgIDIyLjAyOTU0N10gUlNQOiAwMDJiOjAwMDA3ZmZmY2NhMmNiYzggRUZMQUdT
+OgowMDAwMDI0NiBPUklHX1JBWDogMDAwMDAwMDAwMDAwMDEzOQpTZXAgMTQgMDg6MTI6MjQgW2tl
+cm5lbF0gWyAgIDIyLjAyOTU1Ml0gUkFYOiBmZmZmZmZmZmZmZmZmZmRhIFJCWDoKMDAwMDU1NjA4
+NDI1MTk5MCBSQ1g6IDAwMDA3ZjJlYjkyNWRiMDkKU2VwIDE0IDA4OjEyOjI0IFtrZXJuZWxdIFsg
+ICAyMi4wMjk1NTVdIFJEWDogMDAwMDAwMDAwMDAwMDAwMCBSU0k6CjAwMDA1NTYwODI4YmMzM2Ug
+UkRJOiAwMDAwMDAwMDAwMDAwMDE1ClNlcCAxNCAwODoxMjoyNCBba2VybmVsXSBbICAgMjIuMDI5
+NTU5XSBSQlA6IDAwMDAwMDAwMDAwMDAwMDAgUjA4OgowMDAwMDAwMDAwMDAwMDAwIFIwOTogMDAw
+MDAwMDAwMDAwMDAwMApTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgIDIyLjAyOTU2M10gUjEw
+OiAwMDAwMDAwMDAwMDAwMDE1IFIxMToKMDAwMDAwMDAwMDAwMDI0NiBSMTI6IDAwMDA1NTYwODQy
+NTFlYTAKU2VwIDE0IDA4OjEyOjI0IFtrZXJuZWxdIFsgICAyMi4wMjk1NjddIFIxMzogMDAwMDU1
+NjA4MjhiYzMzZSBSMTQ6CjAwMDAwMDAwMDAwNDAwMDAgUjE1OiAwMDAwMDAwMDAwMDAwMDAwClNl
+cCAxNCAwODoxMjoyNCBba2VybmVsXSBbICAgMjIuMDI5NTcyXSAtLS1bIGVuZCB0cmFjZSBlNzQw
+OTVjMDY3MGEzN2U4IF0tLS0KU2VwIDE0IDA4OjEyOjI0IFtrZXJuZWxdIFsgICAyMi4wMjk1Nzhd
+IGFtZGdwdSAwMDAwOjA1OjAwLjA6IDAwMDAwMDAwODdhNDVmYWIKdW5waW4gbm90IG5lY2Vzc2Fy
+eQpTZXAgMTQgMDg6MTI6MjQgW2tlcm5lbF0gWyAgIDIyLjAzMDExN10gLS0tLS0tLS0tLS0tWyBj
+dXQgaGVyZQoKLS0gCllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJl
+IHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
