@@ -2,41 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3FACB2D27
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Sep 2019 23:35:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 319EBB2D88
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Sep 2019 03:17:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F4886F55E;
-	Sat, 14 Sep 2019 21:35:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25B356F574;
+	Sun, 15 Sep 2019 01:17:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 047CA6F55E
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Sep 2019 21:35:25 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 14 Sep 2019 14:35:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,506,1559545200"; d="scan'208";a="201299675"
-Received: from nwadhera-mobl1.amr.corp.intel.com (HELO intel.com)
- ([10.252.3.97])
- by fmsmga001.fm.intel.com with ESMTP; 14 Sep 2019 14:35:23 -0700
-Date: Sat, 14 Sep 2019 22:35:22 +0100
-From: Eric Engestrom <eric.engestrom@intel.com>
-To: Alan Coopersmith <alan.coopersmith@oracle.com>
-Subject: Re: [PATCH libdrm] meson: Fix sys/mkdev.h detection on Solaris
-Message-ID: <20190914213522.j3b5jau7w7c3laab@intel.com>
-References: <20190909235116.19290-1-alan.coopersmith@oracle.com>
- <20190910125520.skda23msaby6otdp@intel.com>
- <857dc94f-5356-842f-fcc1-f143d63b88eb@oracle.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0044F6F56F
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Sep 2019 01:17:47 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id EEEE572167; Sun, 15 Sep 2019 01:17:47 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
+Date: Sun, 15 Sep 2019 01:16:19 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: rodamorris@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-109955-502-hZm9q3xMul@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
+References: <bug-109955-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <857dc94f-5356-842f-fcc1-f143d63b88eb@oracle.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. 1134945 - Pipers Way,
- Swindon SN3 1RJ
-User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,61 +52,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1176189894=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpZGF5LCAyMDE5LTA5LTEzIDE2OjI2OjU1IC0wNzAwLCBBbGFuIENvb3BlcnNtaXRoIHdy
-b3RlOgo+IE9uIDkvMTAvMTkgNTo1NSBBTSwgRXJpYyBFbmdlc3Ryb20gd3JvdGU6Cj4gPiBPbiBN
-b25kYXksIDIwMTktMDktMDkgMTY6NTE6MTYgLTA3MDAsIEFsYW4gQ29vcGVyc21pdGggd3JvdGU6
-Cj4gPiA+IE9uIFNvbGFyaXMsIHN5cy9zeXNtYWNyb3MuaCBoYXMgbG9uZy1kZXByZWNhdGVkIGNv
-cGllcyBvZiBtYWpvcigpICYgbWlub3IoKQo+ID4gPiBidXQgbm90IG1ha2VkZXYoKS4gIHN5cy9t
-a2Rldi5oIGhhcyBhbGwgdGhyZWUgYW5kIGlzIHRoZSBwcmVmZXJyZWQgY2hvaWNlLgo+ID4gPiAK
-PiA+ID4gU28gd2UgY2hlY2sgZm9yIHN5cy9ta2Rldi5oIGZpcnN0LCBhcyBhdXRvY29uZidzIEFD
-X0hFQURFUl9NQUpPUiBkb2VzLgo+ID4gCj4gPiBSZXZpZXdlZC1ieTogRXJpYyBFbmdlc3Ryb20g
-PGVyaWMuZW5nZXN0cm9tQGludGVsLmNvbT4KPiA+IAo+ID4gQWx0ZXJuYXRpdmVseSwgaG93IGFi
-b3V0IHRoaXM/Cj4gPiAtLS04PC0tLQo+ID4gZGlmZiAtLWdpdCBhL21lc29uLmJ1aWxkIGIvbWVz
-b24uYnVpbGQKPiA+IGluZGV4IGJjNWNmYzU4OGQwYzYyMWE5NzI1Li4yNjNmNjkxYWIyYjkxMDdm
-NWJlMSAxMDA2NDQKPiA+IC0tLSBhL21lc29uLmJ1aWxkCj4gPiArKysgYi9tZXNvbi5idWlsZAo+
-ID4gQEAgLTE4Myw5ICsxODMsMTQgQEAgZm9yZWFjaCBoZWFkZXIgOiBbJ3N5cy9zeXNjdGwuaCcs
-ICdzeXMvc2VsZWN0LmgnLCAnYWxsb2NhLmgnXQo+ID4gICAgIGNvbmZpZy5zZXQoJ0hBVkVfJyAr
-IGhlYWRlci51bmRlcnNjb3JpZnkoKS50b191cHBlcigpLAo+ID4gICAgICAgY2MuY29tcGlsZXMo
-JyNpbmNsdWRlIDxAMEA+Jy5mb3JtYXQoaGVhZGVyKSwgbmFtZSA6ICdAMEAgd29ya3MnLmZvcm1h
-dChoZWFkZXIpKSkKPiA+ICAgZW5kZm9yZWFjaAo+ID4gLWlmIGNjLmhhc19oZWFkZXJfc3ltYm9s
-KCdzeXMvc3lzbWFjcm9zLmgnLCAnbWFqb3InKQo+ID4gK2lmIChjYy5oYXNfaGVhZGVyX3N5bWJv
-bCgnc3lzL3N5c21hY3Jvcy5oJywgJ21ham9yJykgYW5kCj4gPiArICBjYy5oYXNfaGVhZGVyX3N5
-bWJvbCgnc3lzL3N5c21hY3Jvcy5oJywgJ21pbm9yJykgYW5kCj4gPiArICBjYy5oYXNfaGVhZGVy
-X3N5bWJvbCgnc3lzL3N5c21hY3Jvcy5oJywgJ21ha2VkZXYnKSkKPiA+ICAgICBjb25maWcuc2V0
-MTAoJ01BSk9SX0lOX1NZU01BQ1JPUycsIHRydWUpCj4gPiAtZWxpZiBjYy5oYXNfaGVhZGVyX3N5
-bWJvbCgnc3lzL21rZGV2LmgnLCAnbWFqb3InKQo+ID4gK2VuZGlmCj4gPiAraWYgKGNjLmhhc19o
-ZWFkZXJfc3ltYm9sKCdzeXMvbWtkZXYuaCcsICdtYWpvcicpIGFuZAo+ID4gKyAgY2MuaGFzX2hl
-YWRlcl9zeW1ib2woJ3N5cy9ta2Rldi5oJywgJ21pbm9yJykgYW5kCj4gPiArICBjYy5oYXNfaGVh
-ZGVyX3N5bWJvbCgnc3lzL21rZGV2LmgnLCAnbWFrZWRldicpKQo+ID4gICAgIGNvbmZpZy5zZXQx
-MCgnTUFKT1JfSU5fTUtERVYnLCB0cnVlKQo+ID4gICBlbmRpZgo+ID4gICBjb25maWcuc2V0MTAo
-J0hBVkVfT1BFTl9NRU1TVFJFQU0nLCBjYy5oYXNfZnVuY3Rpb24oJ29wZW5fbWVtc3RyZWFtJykp
-Cj4gPiAtLS0+OC0tLQo+ID4gCj4gPiBNYWtlcyBib3RoIGNoZWNrcyBpbmRlcGVuZGVudCBhbmQg
-cmVwcmVzZW50IHRoZSByZWFsaXR5IG9mIHdoYXQncyB3YW50ZWQKPiA+IG1vcmUgYWNjdXJhdGVs
-eSAoZGVzcGl0ZSB0aGUgaGlzdG9yaWNhbCBuYW1lIG9mIHRoZSBtYWNybykuCj4gCj4gVGhhdCB3
-b3JrczoKPiAKPiBIZWFkZXIgPHN5cy9zeXNtYWNyb3MuaD4gaGFzIHN5bWJvbCAibWFqb3IiIDog
-WUVTIChjYWNoZWQpCj4gSGVhZGVyIDxzeXMvc3lzbWFjcm9zLmg+IGhhcyBzeW1ib2wgIm1pbm9y
-IiA6IFlFUwo+IEhlYWRlciA8c3lzL3N5c21hY3Jvcy5oPiBoYXMgc3ltYm9sICJtYWtlZGV2IiA6
-IE5PCj4gSGVhZGVyIDxzeXMvbWtkZXYuaD4gaGFzIHN5bWJvbCAibWFqb3IiIDogWUVTCj4gSGVh
-ZGVyIDxzeXMvbWtkZXYuaD4gaGFzIHN5bWJvbCAibWlub3IiIDogWUVTCj4gSGVhZGVyIDxzeXMv
-bWtkZXYuaD4gaGFzIHN5bWJvbCAibWFrZWRldiIgOiBZRVMKPiAKPiBXb3VsZCB5b3UgbGlrZSBt
-ZSB0byByZXN1Ym1pdCB3aXRoIHRoYXQsIG9yIGRvIHlvdSB3YW50IHRvIHN1Ym1pdCBpdD8KPiAK
-PiBJZiB5b3Ugd2FudCB0byBnbyBhaGVhZCwgdGhlbjoKPiAKPiBSZXZpZXdlZC1ieTogQWxhbiBD
-b29wZXJzbWl0aCA8YWxhbi5jb29wZXJzbWl0aEBvcmFjbGUuY29tPgo+IFRlc3RlZC1ieTogQWxh
-biBDb29wZXJzbWl0aCA8YWxhbi5jb29wZXJzbWl0aEBvcmFjbGUuY29tPgoKSnVzdCBwdXNoZWQg
-aXQgYXMgODI3YTJhMjA0MjM1OWFjOTNhOWIwODJlZTk1ODRiNDNiYWExYTNmNzsgdGhhbmtzIGZv
-cgp0ZXN0aW5nIGl0IQoKSSd2ZSBhbHNvIHRhZ2dlZCB5b3Ugb24gYSBNZXNhIE1SIHRvIHRoZSBz
-YW1lIGVmZmVjdCwgaW4gY2FzZSB5b3Ugd2FudAp0byBnaXZlIGl0IGEgZ28gOikKCj4gCj4gLS0g
-Cj4gCS1BbGFuIENvb3BlcnNtaXRoLSAgICAgICAgICAgICAgIGFsYW4uY29vcGVyc21pdGhAb3Jh
-Y2xlLmNvbQo+IAkgT3JhY2xlIFNvbGFyaXMgRW5naW5lZXJpbmcgLSBodHRwczovL2Jsb2dzLm9y
-YWNsZS5jb20vYWxhbmMKPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1176189894==
+Content-Type: multipart/alternative; boundary="15685102671.6Cd6.5743"
+Content-Transfer-Encoding: 7bit
+
+
+--15685102671.6Cd6.5743
+Date: Sun, 15 Sep 2019 01:17:47 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+
+--- Comment #99 from Rodney A Morris <rodamorris@gmail.com> ---
+Created attachment 145366
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145366&action=3Dedit
+apitrace of Hearts of Iron IV hard lock
+
+Apitrace from hard lock playing Hearts of Iron IV without Steam.  The replay
+from this trace will hard lock the computer, though inconsistently.  I've
+replayed the trace three times. The replay hard locked computer one time.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15685102671.6Cd6.5743
+Date: Sun, 15 Sep 2019 01:17:47 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c99">Comme=
+nt # 99</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+rodamorris&#64;gmail.com" title=3D"Rodney A Morris &lt;rodamorris&#64;gmail=
+.com&gt;"> <span class=3D"fn">Rodney A Morris</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145366=
+" name=3D"attach_145366" title=3D"apitrace of Hearts of Iron IV hard lock">=
+attachment 145366</a> <a href=3D"attachment.cgi?id=3D145366&amp;action=3Ded=
+it" title=3D"apitrace of Hearts of Iron IV hard lock">[details]</a></span>
+apitrace of Hearts of Iron IV hard lock
+
+Apitrace from hard lock playing Hearts of Iron IV without Steam.  The replay
+from this trace will hard lock the computer, though inconsistently.  I've
+replayed the trace three times. The replay hard locked computer one time.</=
+pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15685102671.6Cd6.5743--
+
+--===============1176189894==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1176189894==--
