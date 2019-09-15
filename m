@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30156B2E2A
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Sep 2019 06:35:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 357BBB2E9C
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Sep 2019 08:17:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC4CE6F590;
-	Sun, 15 Sep 2019 04:35:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 274E86F588;
+	Sun, 15 Sep 2019 06:17:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id EB3736F586
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Sep 2019 04:35:43 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E6F4172167; Sun, 15 Sep 2019 04:35:43 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D31EE6F588
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Sep 2019 06:17:08 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Sun, 15 Sep 2019 04:35:43 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+Subject: [Bug 204849] New: amdgpu (RX560X) traceboot in dmesg boot output,
+ system instability
+Date: Sun, 15 Sep 2019 06:17:08 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: rodamorris@gmail.com
+X-Bugzilla-Who: justin@postgresql.org
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-109955-502-fZYEgsoJVk@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
-References: <bug-109955-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-204849-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
+ message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,1118 +52,606 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0927999402=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0927999402==
-Content-Type: multipart/alternative; boundary="15685221431.26bed45A.8675"
-Content-Transfer-Encoding: 7bit
-
-
---15685221431.26bed45A.8675
-Date: Sun, 15 Sep 2019 04:35:43 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
-
---- Comment #102 from Rodney A Morris <rodamorris@gmail.com> ---
-Created attachment 145367
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145367&action=3Dedit
-Full dmesg from Stellaris crash
-
-I had another crash and soft lockup tonight playing Stellaris through Steam=
-.=20
-Unfortunately, while I had the mesa debuginfo packages installed, I did not
-have the debug kernel installed.
-
-          /:-------------:\=20=20=20=20=20=20=20=20=20=20
-       :-------------------::        --------------------------------=20
-     :-----------/shhOHbmp---:\      OS: Fedora release 30 (Thirty) x86_64=
-=20
-   /-----------omMMMNNNMMD  ---:     Kernel: 5.2.13-200.fc30.x86_64=20
-  :-----------sMMMMNMNMP.    ---:    Uptime: 25 mins=20
- :-----------:MMMdP-------    ---\   Packages: 2202 (rpm), 27 (flatpak)=20
-,------------:MMMd--------    ---:   Shell: bash 5.0.7=20
-:------------:MMMd-------    .---:   Resolution: 2560x1440=20
-:----    oNMMMMMMMMMNho     .----:   DE: GNOME 3.32.2=20
-:--     .+shhhMMMmhhy++   .------/   WM: GNOME Shell=20
-:-    -------:MMMd--------------:    WM Theme: Adwaita=20
-:-   --------/MMMd-------------;     Theme: Adapta-Nokto-Eta [GTK2/3]=20
-:-    ------/hMMMy------------:      Icons: Adwaita [GTK2/3]=20
-:-- :dMNdhhdNMMNo------------;       Terminal: tilix=20
-:---:sdNMMMMNds:------------:        CPU: Intel i7-6850K (12) @ 4.000GHz=20
-:------:://:-------------::          GPU: AMD ATI Radeon RX Vega 56/64=20
-:---------------------://            Memory: 2478MiB / 32084MiB=20
-
-OpenGL version string: 4.5 (Compatibility Profile) Mesa 19.1.6
-
-> Game being played:=20
-
-
-Stellaris through Steam for Linux.  Like other times Discord is running.
-
-> Native or Wine or Wine+DXVK:
-
-
-Native
-
->=20
-> Crash type: Game crash? Full System freeze? System freeze but still can d=
-rop
-> to tty?
-
-
-Screen goes black suddenly while music continues plays for less than a minu=
-te;
-music begins to loop; and computer reboots.
-
->=20
-> DMESG output after the crash:
-Below is the pertinent dmesg messages.  Full file attached.
-
-[ 5292.563342] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
-for
-fences timed out or interrupted!
-[ 5297.683350] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring page1 timeou=
-t,
-signaled seq=3D97861046, emitted seq=3D97861048
-[ 5297.683465] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
-on:
-process  pid 0 thread  pid 0
-[ 5297.683470] amdgpu 0000:06:00.0: GPU reset begin!
-[ 5297.693302] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,
-signaled seq=3D1321512, emitted seq=3D1321513
-[ 5297.693406] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
-on:
-process stellaris pid 5624 thread stellaris:cs0 pid 5625
-[ 5297.693409] amdgpu 0000:06:00.0: GPU reset begin!
-[ 5297.709624] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
-received: 0000:00:03.0
-[ 5297.709631] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
-rected
-(Non-Fatal), type=3DTransaction Layer, (Requester ID)
-[ 5297.709634] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
-status/mask=3D00004000/00000000
-[ 5297.709637] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20
-(First)
-[ 5297.709706] pcieport 0000:00:03.0: AER: Device recovery failed
-[ 5302.803236] [drm:drm_atomic_helper_wait_for_flip_done [drm_kms_helper]]
-*ERROR* [CRTC:47:crtc-0] flip_done timed out
-[ 5307.923355] [drm:amdgpu_dm_atomic_check [amdgpu]] *ERROR* [CRTC:47:crtc-=
-0]
-hw_done or flip_done timed out
-[ 5318.163235] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper=
-]]
-*ERROR* [CRTC:47:crtc-0] flip_done timed out
-[ 5328.403235] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper=
-]]
-*ERROR* [PLANE:45:plane-5] flip_done timed out
-[ 5328.717149] amdgpu: [powerplay] No response from smu
-[ 5328.717151] amdgpu: [powerplay] Failed message: 0xe, input parameter: 0x=
-0,
-error code: 0x0
-[ 5329.031482] amdgpu: [powerplay] No response from smu
-[ 5329.345845] amdgpu: [powerplay] No response from smu
-[ 5329.345847] amdgpu: [powerplay] Failed message: 0x42, input parameter: 0=
-x1,
-error code: 0x0
-[ 5329.659470] amdgpu: [powerplay] No response from smu
-[ 5329.973320] amdgpu: [powerplay] No response from smu
-[ 5329.973322] amdgpu: [powerplay] Failed message: 0x24, input parameter: 0=
-x0,
-error code: 0x0
-[ 5330.044255] [drm] REG_WAIT timeout 10us * 3500 tries - dce_mi_free_dmif
-line:634
-[ 5330.044255] ------------[ cut here ]------------
-[ 5330.044355] WARNING: CPU: 9 PID: 7317 at
-drivers/gpu/drm/amd/amdgpu/../display/dc/dc_helper.c:329
-generic_reg_wait.cold+0x31/0x53 [amdgpu]
-[ 5330.044356] Modules linked in: rfcomm xt_CHECKSUM xt_MASQUERADE tun brid=
-ge
-stp llc nf_conntrack_netbios_ns nf_conntrack_broadcast xt_CT ip6t_rpfilter
-ip6t_REJECT nf_reject_ipv6 ipt_REJECT nf_reject_ipv4 xt_conntrack ebtable_n=
-at
-ip6table_nat ip6table_mangle ip6table_raw ip6table_security iptable_nat nf_=
-nat
-iptable_mangle iptable_raw iptable_security nf_conntrack nf_defrag_ipv6
-nf_defrag_ipv4 libcrc32c ip_set nfnetlink ebtable_filter ebtables
-ip6table_filter ip6_tables iptable_filter ip_tables bnep nct6775 hwmon_vid
-intel_rapl arc4 x86_pkg_temp_thermal intel_powerclamp coretemp kvm_intel vf=
-at
-fat kvm fuse irqbypass iwlmvm iTCO_wdt iTCO_vendor_support mac80211
-crct10dif_pclmul crc32_pclmul snd_hda_codec_realtek ghash_clmulni_intel
-intel_cstate btusb iwlwifi snd_hda_codec_generic btrtl btbcm btintel
-ledtrig_audio snd_hda_codec_hdmi intel_uncore bluetooth snd_hda_intel
-intel_rapl_perf snd_hda_codec cfg80211 snd_hda_core snd_hwdep mxm_wmi i2c_i=
-801
-joydev snd_seq snd_seq_device xpad ecdh_generic
-[ 5330.044372]  ff_memless snd_pcm rfkill ecc snd_timer mei_me snd mei
-soundcore lpc_ich pcc_cpufreq auth_rpcgss binfmt_misc sunrpc amdgpu
-amd_iommu_v2 gpu_sched ttm drm_kms_helper drm mpt3sas igb crc32c_intel e100=
-0e
-nvme raid_class nvme_core dca i2c_algo_bit scsi_transport_sas wmi uas
-usb_storage
-[ 5330.044380] CPU: 9 PID: 7317 Comm: kworker/9:0 Not tainted
-5.2.13-200.fc30.x86_64 #1
-[ 5330.044381] Hardware name: To Be Filled By O.E.M. To Be Filled By O.E.M.=
-/X99
-Taichi, BIOS P1.80 04/06/2018
-[ 5330.044384] Workqueue: events drm_sched_job_timedout [gpu_sched]
-[ 5330.044424] RIP: 0010:generic_reg_wait.cold+0x31/0x53 [amdgpu]
-[ 5330.044425] Code: 4c 24 18 44 89 fa 89 ee 48 c7 c7 b8 e2 7b c0 e8 fb d4 =
-a2
-fc 83 7b 20 01 0f 84 8d 14 fe ff 48 c7 c7 28 e2 7b c0 e8 e5 d4 a2 fc <0f> 0=
-b e9
-7a 14 fe ff 48 c7 c7 28 e2 7b c0 89 54 24 04 e8 ce d4 a2
-[ 5330.044426] RSP: 0000:ffffb980493f37b8 EFLAGS: 00010246
-[ 5330.044426] RAX: 0000000000000024 RBX: ffff911f70720780 RCX:
-0000000000000006
-[ 5330.044427] RDX: 0000000000000000 RSI: 0000000000000086 RDI:
-ffff911f7fa57900
-[ 5330.044427] RBP: 000000000000000a R08: 0000000000000001 R09:
-0000000000000737
-[ 5330.044428] R10: 0000000000026ddc R11: 0000000000000003 R12:
-00000000000035af
-[ 5330.044428] R13: 0000000000000dad R14: 0000000000000001 R15:
-0000000000000dac
-[ 5330.044429] FS:  0000000000000000(0000) GS:ffff911f7fa40000(0000)
-knlGS:0000000000000000
-[ 5330.044429] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 5330.044430] CR2: 000006af3a9fb000 CR3: 00000007ab40a003 CR4:
-00000000003606e0
-[ 5330.044430] DR0: 0000000000000000 DR1: 0000000000000000 DR2:
-0000000000000000
-[ 5330.044431] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7:
-0000000000000400
-[ 5330.044431] Call Trace:
-[ 5330.044487]  dce_mi_free_dmif+0xef/0x150 [amdgpu]
-[ 5330.044524]  dce110_reset_hw_ctx_wrap+0x14a/0x1e0 [amdgpu]
-[ 5330.044562]  dce110_apply_ctx_to_hw+0x4a/0x490 [amdgpu]
-[ 5330.044588]  ? amdgpu_pm_compute_clocks.part.0+0xcb/0x610 [amdgpu]
-[ 5330.044590]  ? _cond_resched+0x15/0x30
-[ 5330.044629]  ? dm_pp_apply_display_requirements+0x1a8/0x1c0 [amdgpu]
-[ 5330.044666]  dc_commit_state+0x27b/0x5c0 [amdgpu]
-[ 5330.044669]  ? number+0x31c/0x360
-[ 5330.044707]  amdgpu_dm_atomic_commit_tail+0xc15/0x1930 [amdgpu]
-[ 5330.044710]  ? va_format.isra.0+0x6e/0xa0
-[ 5330.044713]  ? sched_clock+0x5/0x10
-[ 5330.044716]  ? sched_clock_cpu+0xc/0xa0
-[ 5330.044719]  ? up+0x12/0x60
-[ 5330.044721]  ? __irq_work_queue_local+0x50/0x60
-[ 5330.044722]  ? irq_work_queue+0x46/0x50
-[ 5330.044725]  ? wake_up_klogd+0x30/0x40
-[ 5330.044726]  ? vprintk_emit+0x17c/0x260
-[ 5330.044727]  ? printk+0x58/0x6f
-[ 5330.044728]  ? __next_timer_interrupt+0xd0/0xd0
-[ 5330.044736]  ? drm_atomic_helper_wait_for_dependencies+0x1e4/0x1f0
-[drm_kms_helper]
-[ 5330.044748]  ? drm_err+0x72/0x90 [drm]
-[ 5330.044749]  ? _cond_resched+0x15/0x30
-[ 5330.044750]  ? wait_for_completion_timeout+0x38/0x170
-[ 5330.044754]  ? commit_tail+0x3c/0x70 [drm_kms_helper]
-[ 5330.044791]  ? amdgpu_dm_atomic_check+0x6d0/0x6d0 [amdgpu]
-[ 5330.044795]  commit_tail+0x3c/0x70 [drm_kms_helper]
-[ 5330.044799]  drm_atomic_helper_commit+0x108/0x110 [drm_kms_helper]
-[ 5330.044803]  drm_atomic_helper_disable_all+0x144/0x160 [drm_kms_helper]
-[ 5330.044807]  drm_atomic_helper_suspend+0x60/0xf0 [drm_kms_helper]
-[ 5330.044844]  dm_suspend+0x20/0x60 [amdgpu]
-[ 5330.044867]  amdgpu_device_ip_suspend_phase1+0x8b/0xc0 [amdgpu]
-[ 5330.044890]  amdgpu_device_ip_suspend+0x1c/0x60 [amdgpu]
-[ 5330.044927]  amdgpu_device_pre_asic_reset+0x1f4/0x209 [amdgpu]
-[ 5330.044965]  amdgpu_device_gpu_recover+0x77/0x785 [amdgpu]
-[ 5330.044998]  amdgpu_job_timedout+0xf7/0x120 [amdgpu]
-[ 5330.045000]  drm_sched_job_timedout+0x3a/0x70 [gpu_sched]
-[ 5330.045003]  process_one_work+0x19d/0x380
-[ 5330.045005]  worker_thread+0x50/0x3b0
-[ 5330.045007]  kthread+0xfb/0x130
-[ 5330.045008]  ? process_one_work+0x380/0x380
-[ 5330.045009]  ? kthread_park+0x80/0x80
-[ 5330.045010]  ret_from_fork+0x35/0x40
-[ 5330.045012] ---[ end trace 7beee32e6101e37d ]---
-[ 5330.358847] amdgpu: [powerplay] No response from smu
-[ 5330.673262] amdgpu: [powerplay] No response from smu
-[ 5330.673263] amdgpu: [powerplay] Failed message: 0x4c, input parameter: 0=
-x1,
-error code: 0x0
-[ 5330.987579] amdgpu: [powerplay] No response from smu
-[ 5331.302073] amdgpu: [powerplay] No response from smu
-[ 5331.302074] amdgpu: [powerplay] Failed message: 0x4c, input parameter: 0=
-x3,
-error code: 0x0
-[ 5331.616202] amdgpu: [powerplay] No response from smu
-[ 5331.929678] amdgpu: [powerplay] No response from smu
-[ 5331.929681] amdgpu: [powerplay] Failed message: 0x9, input parameter: 0x=
-f4,
-error code: 0x0
-[ 5332.243534] amdgpu: [powerplay] No response from smu
-[ 5332.557383] amdgpu: [powerplay] No response from smu
-[ 5332.557384] amdgpu: [powerplay] Failed message: 0xa, input parameter:
-0xa0b000, error code: 0x0
-[ 5332.871126] amdgpu: [powerplay] No response from smu
-[ 5333.185009] amdgpu: [powerplay] No response from smu
-[ 5333.185011] amdgpu: [powerplay] Failed message: 0xe, input parameter: 0x=
-0,
-error code: 0x0
-[ 5333.498596] amdgpu: [powerplay] No response from smu
-[ 5333.812147] amdgpu: [powerplay] No response from smu
-[ 5333.812155] amdgpu: [powerplay] Failed message: 0x4, input parameter: 0x=
-400,
-error code: 0x0
-[ 5334.126013] amdgpu: [powerplay] No response from smu
-[ 5334.440194] amdgpu: [powerplay] No response from smu
-[ 5334.440197] amdgpu: [powerplay] Failed message: 0x42, input parameter: 0=
-x1,
-error code: 0x0
-[ 5334.753930] amdgpu: [powerplay] No response from smu
-[ 5335.067603] amdgpu: [powerplay] No response from smu
-[ 5335.067605] amdgpu: [powerplay] Failed message: 0x24, input parameter: 0=
-x0,
-error code: 0x0
-[ 5335.083579] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
-received: 0000:00:03.0
-[ 5335.083589] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
-rected
-(Non-Fatal), type=3DTransaction Layer, (Requester ID)
-[ 5335.083599] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
-status/mask=3D00004000/00000000
-[ 5335.083603] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20
-(First)
-[ 5335.083694] pcieport 0000:00:03.0: AER: Device recovery failed
-[ 5335.101028] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
-received: 0000:00:03.0
-[ 5335.101034] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
-rected
-(Non-Fatal), type=3DTransaction Layer, (Requester ID)
-[ 5335.101036] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
-status/mask=3D00004000/00000000
-[ 5335.101039] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20
-(First)
-[ 5335.101085] pcieport 0000:00:03.0: AER: Device recovery failed
-[ 5335.118568] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
-received: 0000:00:03.0
-[ 5335.118573] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
-rected
-(Non-Fatal), type=3DTransaction Layer, (Requester ID)
-[ 5335.118575] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
-status/mask=3D00004000/00000000
-[ 5335.118577] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20
-(First)
-[ 5335.118621] pcieport 0000:00:03.0: AER: Device recovery failed
-[ 5335.136108] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
-received: 0000:00:03.0
-[ 5335.136113] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
-rected
-(Non-Fatal), type=3DTransaction Layer, (Requester ID)
-[ 5335.136116] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
-status/mask=3D00004000/00000000
-[ 5335.136118] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20
-(First)
-[ 5335.136189] pcieport 0000:00:03.0: AER: Device recovery failed
-[ 5335.153649] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
-received: 0000:00:03.0
-[ 5335.153654] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
-rected
-(Non-Fatal), type=3DTransaction Layer, (Requester ID)
-[ 5335.153656] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
-status/mask=3D00004000/00000000
-[ 5335.153658] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20
-(First)
-[ 5335.153702] pcieport 0000:00:03.0: AER: Device recovery failed
-[ 5335.171189] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
-received: 0000:00:03.0
-[ 5335.171194] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
-rected
-(Non-Fatal), type=3DTransaction Layer, (Requester ID)
-[ 5335.171196] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
-status/mask=3D00004000/00000000
-[ 5335.171199] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20
-(First)
-[ 5335.171242] pcieport 0000:00:03.0: AER: Device recovery failed
-[ 5335.188769] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
-received: 0000:00:03.0
-[ 5335.188774] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
-rected
-(Non-Fatal), type=3DTransaction Layer, (Requester ID)
-[ 5335.188776] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
-status/mask=3D00004000/00000000
-[ 5335.188778] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20
-(First)
-[ 5335.188819] pcieport 0000:00:03.0: AER: Device recovery failed
-[ 5335.206263] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
-received: 0000:00:03.0
-[ 5335.206266] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
-rected
-(Non-Fatal), type=3DTransaction Layer, (Requester ID)
-[ 5335.206267] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
-status/mask=3D00004000/00000000
-[ 5335.206268] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20
-(First)
-[ 5335.206286] pcieport 0000:00:03.0: AER: Device recovery failed
-[ 5335.223806] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
-received: 0000:00:03.0
-[ 5335.223809] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
-rected
-(Non-Fatal), type=3DTransaction Layer, (Requester ID)
-[ 5335.223811] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
-status/mask=3D00004000/00000000
-[ 5335.223812] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20
-(First)
-[ 5335.223837] pcieport 0000:00:03.0: AER: Device recovery failed
-[ 5335.241348] pcieport 0000:00:03.0: AER: Multiple Uncorrected (Non-Fatal)
-error received: 0000:00:03.0
-[ 5335.469372] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
-rected
-(Non-Fatal), type=3DTransaction Layer, (Requester ID)
-[ 5335.469374] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
-status/mask=3D00004000/00000000
-[ 5335.469375] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20
-(First)
-[ 5335.469405] pcieport 0000:00:03.0: AER: Device recovery failed
-[ 5335.469406] pcieport 0000:00:03.0: AER: Multiple Uncorrected (Non-Fatal)
-error received: 0000:00:03.0
-
-> systemd logs output after the crash (If your system froze and you get logs
-> after reboot):
-
-Sep 14 20:52:48 ezra.blanchardmorris.net kernel: Command line:
-BOOT_IMAGE=3D(hd4,gpt6)/vmlinuz-5.2.13-200.fc30.x86_64
-root=3DUUID=3De7b8b34a-e17f-4c2b-b223-eaa636249d2d ro
-resume=3DUUID=3D52cc8cd8-b06f-4613-8781-a105d0ebf44a rhgb quiet amdgpu.vm_d=
-ebug=3D1
-Sep 14 20:52:48 ezra.blanchardmorris.net kernel: Kernel command line:
-BOOT_IMAGE=3D(hd4,gpt6)/vmlinuz-5.2.13-200.fc30.x86_64
-root=3DUUID=3De7b8b34a-e17f-4c2b-b223-eaa636249d2d ro
-resume=3DUUID=3D52cc8cd8-b06f-4613-8781-a105d0ebf44a rhgb quiet amdgpu.vm_d=
-ebug=3D1
-Sep 14 20:52:49 ezra.blanchardmorris.net dracut-cmdline[363]: Using kernel
-command line parameters: BOOT_IMAGE=3D(hd4,gpt6)/vmlinuz-5.2.13-200.fc30.x8=
-6_64
-root=3DUUID=3De7b8b34a-e17f-4c2b-b223-eaa636249d2d ro
-resume=3DUUID=3D52cc8cd8-b06f-4613-8781-a105d0ebf44a rhgb quiet amdgpu.vm_d=
-ebug=3D1
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: [drm] amdgpu kernel
-modesetting enabled.
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0:
-remove_conflicting_pci_framebuffers: bar 0: 0xe0000000 -> 0xefffffff
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0:
-remove_conflicting_pci_framebuffers: bar 2: 0xf0000000 -> 0xf01fffff
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0:
-remove_conflicting_pci_framebuffers: bar 5: 0xfb600000 -> 0xfb67ffff
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: fb0: switching to amdgpudr=
-mfb
-from EFI VGA
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: vgaar=
-b:
-deactivate vga console
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: No mo=
-re
-image in the PCI ROM
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: VRAM:
-8176M 0x000000F400000000 - 0x000000F5FEFFFFFF (8176M used)
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: GART:
-512M 0x0000000000000000 - 0x000000001FFFFFFF
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: AGP:
-267419648M 0x000000F800000000 - 0x0000FFFFFFFFFFFF
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: [drm] amdgpu: 8176M of VRAM
-memory ready
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: [drm] amdgpu: 8176M of GTT
-memory ready.
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: fbcon: amdgpudrmfb (fb0) is
-primary device
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: fb0:
-amdgpudrmfb frame buffer device
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring =
-gfx
-uses VM inv eng 0 on hub 0
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-comp_1.0.0 uses VM inv eng 1 on hub 0
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-comp_1.1.0 uses VM inv eng 4 on hub 0
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-comp_1.2.0 uses VM inv eng 5 on hub 0
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-comp_1.3.0 uses VM inv eng 6 on hub 0
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-comp_1.0.1 uses VM inv eng 7 on hub 0
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-comp_1.1.1 uses VM inv eng 8 on hub 0
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-comp_1.2.1 uses VM inv eng 9 on hub 0
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-comp_1.3.1 uses VM inv eng 10 on hub 0
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-kiq_2.1.0 uses VM inv eng 11 on hub 0
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-sdma0 uses VM inv eng 0 on hub 1
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-page0 uses VM inv eng 1 on hub 1
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-sdma1 uses VM inv eng 4 on hub 1
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-page1 uses VM inv eng 5 on hub 1
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-uvd_0 uses VM inv eng 6 on hub 1
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-uvd_enc_0.0 uses VM inv eng 7 on hub 1
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-uvd_enc_0.1 uses VM inv eng 8 on hub 1
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring =
-vce0
-uses VM inv eng 9 on hub 1
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring =
-vce1
-uses VM inv eng 10 on hub 1
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring =
-vce2
-uses VM inv eng 11 on hub 1
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: [drm] Initialized amdgpu
-3.32.0 20150101 for 0000:06:00.0 on minor 0
-Sep 14 20:53:20 ezra.blanchardmorris.net /usr/libexec/gdm-x-session[1928]:
-Kernel command line: BOOT_IMAGE=3D(hd4,gpt6)/vmlinuz-5.2.13-200.fc30.x86_64
-root=3DUUID=3De7b8b34a-e17f-4c2b-b223-eaa636249d2d ro
-resume=3DUUID=3D52cc8cd8-b06f-4613-8781-a105d0ebf44a rhgb quiet amdgpu.vm_d=
-ebug=3D1
-Sep 14 20:53:20 ezra.blanchardmorris.net /usr/libexec/gdm-x-session[1928]:=
-=20=20=20=20=20
-   loading driver: amdgpu
-Sep 14 20:53:20 ezra.blanchardmorris.net /usr/libexec/gdm-x-session[1928]: =
-(=3D=3D)
-Matched amdgpu as autoconfigured driver 0
-Sep 14 20:53:20 ezra.blanchardmorris.net /usr/libexec/gdm-x-session[1928]: =
-(II)
-LoadModule: "amdgpu"
-Sep 14 20:53:20 ezra.blanchardmorris.net /usr/libexec/gdm-x-session[1928]: =
-(II)
-Loading /usr/lib64/xorg/modules/drivers/amdgpu_drv.so
-Sep 14 20:53:20 ezra.blanchardmorris.net /usr/libexec/gdm-x-session[1928]: =
-(II)
-Module amdgpu: vendor=3D"X.Org Foundation"
-Sep 14 20:53:20 ezra.blanchardmorris.net /usr/libexec/gdm-x-session[1928]:=
-=20=20=20=20=20
-   All GPUs supported by the amdgpu kernel driver
-Sep 14 22:21:05 ezra.blanchardmorris.net kernel:
-[drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting for fences timed
-out or interrupted!
-Sep 14 22:21:05 ezra.blanchardmorris.net kernel: [drm:amdgpu_job_timedout
-[amdgpu]] *ERROR* ring page1 timeout, signaled seq=3D97861046, emitted
-seq=3D97861048
-Sep 14 22:21:05 ezra.blanchardmorris.net kernel: [drm:amdgpu_job_timedout
-[amdgpu]] *ERROR* Process information: process  pid 0 thread  pid 0
-Sep 14 22:21:05 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: GPU r=
-eset
-begin!
-Sep 14 22:21:05 ezra.blanchardmorris.net kernel: [drm:amdgpu_job_timedout
-[amdgpu]] *ERROR* ring gfx timeout, signaled seq=3D1321512, emitted seq=3D1=
-321513
-Sep 14 22:21:05 ezra.blanchardmorris.net kernel: [drm:amdgpu_job_timedout
-[amdgpu]] *ERROR* Process information: process stellaris pid 5624 thread
-stellaris:cs0 pid 5625
-Sep 14 22:21:05 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: GPU r=
-eset
-begin!
-Sep 14 22:21:15 ezra.blanchardmorris.net kernel: [drm:amdgpu_dm_atomic_check
-[amdgpu]] *ERROR* [CRTC:47:crtc-0] hw_done or flip_done timed out
-Sep 14 22:21:36 ezra.blanchardmorris.net kernel: amdgpu: [powerplay] No
-response from smu
-Sep 14 22:21:36 ezra.blanchardmorris.net kernel: amdgpu: [powerplay] Failed
-message: 0xe, input parameter: 0x0, error code: 0x0
-Sep 14 22:21:36 ezra.blanchardmorris.net kernel: amdgpu: [powerplay] No
-response from smu
-Sep 14 22:21:37 ezra.blanchardmorris.net kernel: amdgpu: [powerplay] No
-response from smu
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15685221431.26bed45A.8675
-Date: Sun, 15 Sep 2019 04:35:43 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c102">Comm=
-ent # 102</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-rodamorris&#64;gmail.com" title=3D"Rodney A Morris &lt;rodamorris&#64;gmail=
-.com&gt;"> <span class=3D"fn">Rodney A Morris</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145367=
-" name=3D"attach_145367" title=3D"Full dmesg from Stellaris crash">attachme=
-nt 145367</a> <a href=3D"attachment.cgi?id=3D145367&amp;action=3Dedit" titl=
-e=3D"Full dmesg from Stellaris crash">[details]</a></span>
-Full dmesg from Stellaris crash
-
-I had another crash and soft lockup tonight playing Stellaris through Steam=
-.=20
-Unfortunately, while I had the mesa debuginfo packages installed, I did not
-have the debug kernel installed.
-
-          /:-------------:\=20=20=20=20=20=20=20=20=20=20
-       :-------------------::        --------------------------------=20
-     :-----------/shhOHbmp---:\      OS: Fedora release 30 (Thirty) x86_64=
-=20
-   /-----------omMMMNNNMMD  ---:     Kernel: 5.2.13-200.fc30.x86_64=20
-  :-----------sMMMMNMNMP.    ---:    Uptime: 25 mins=20
- :-----------:MMMdP-------    ---\   Packages: 2202 (rpm), 27 (flatpak)=20
-,------------:MMMd--------    ---:   Shell: bash 5.0.7=20
-:------------:MMMd-------    .---:   Resolution: 2560x1440=20
-:----    oNMMMMMMMMMNho     .----:   DE: GNOME 3.32.2=20
-:--     .+shhhMMMmhhy++   .------/   WM: GNOME Shell=20
-:-    -------:MMMd--------------:    WM Theme: Adwaita=20
-:-   --------/MMMd-------------;     Theme: Adapta-Nokto-Eta [GTK2/3]=20
-:-    ------/hMMMy------------:      Icons: Adwaita [GTK2/3]=20
-:-- :dMNdhhdNMMNo------------;       Terminal: tilix=20
-:---:sdNMMMMNds:------------:        CPU: Intel i7-6850K (12) &#64; 4.000GH=
-z=20
-:------:://:-------------::          GPU: AMD ATI Radeon RX Vega 56/64=20
-:---------------------://            Memory: 2478MiB / 32084MiB=20
-
-OpenGL version string: 4.5 (Compatibility Profile) Mesa 19.1.6
-
-<span class=3D"quote">&gt; Game being played: </span >
-
-
-Stellaris through Steam for Linux.  Like other times Discord is running.
-
-<span class=3D"quote">&gt; Native or Wine or Wine+DXVK:</span >
-
-
-Native
-
-<span class=3D"quote">&gt;=20
-&gt; Crash type: Game crash? Full System freeze? System freeze but still ca=
-n drop
-&gt; to tty?</span >
-
-
-Screen goes black suddenly while music continues plays for less than a minu=
-te;
-music begins to loop; and computer reboots.
-
-<span class=3D"quote">&gt;=20
-&gt; DMESG output after the crash:</span >
-Below is the pertinent dmesg messages.  Full file attached.
-
-[ 5292.563342] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
-for
-fences timed out or interrupted!
-[ 5297.683350] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring page1 timeou=
-t,
-signaled seq=3D97861046, emitted seq=3D97861048
-[ 5297.683465] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
-on:
-process  pid 0 thread  pid 0
-[ 5297.683470] amdgpu 0000:06:00.0: GPU reset begin!
-[ 5297.693302] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,
-signaled seq=3D1321512, emitted seq=3D1321513
-[ 5297.693406] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
-on:
-process stellaris pid 5624 thread stellaris:cs0 pid 5625
-[ 5297.693409] amdgpu 0000:06:00.0: GPU reset begin!
-[ 5297.709624] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
-received: 0000:00:03.0
-[ 5297.709631] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
-rected
-(Non-Fatal), type=3DTransaction Layer, (Requester ID)
-[ 5297.709634] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
-status/mask=3D00004000/00000000
-[ 5297.709637] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20
-(First)
-[ 5297.709706] pcieport 0000:00:03.0: AER: Device recovery failed
-[ 5302.803236] [drm:drm_atomic_helper_wait_for_flip_done [drm_kms_helper]]
-*ERROR* [CRTC:47:crtc-0] flip_done timed out
-[ 5307.923355] [drm:amdgpu_dm_atomic_check [amdgpu]] *ERROR* [CRTC:47:crtc-=
-0]
-hw_done or flip_done timed out
-[ 5318.163235] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper=
-]]
-*ERROR* [CRTC:47:crtc-0] flip_done timed out
-[ 5328.403235] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper=
-]]
-*ERROR* [PLANE:45:plane-5] flip_done timed out
-[ 5328.717149] amdgpu: [powerplay] No response from smu
-[ 5328.717151] amdgpu: [powerplay] Failed message: 0xe, input parameter: 0x=
-0,
-error code: 0x0
-[ 5329.031482] amdgpu: [powerplay] No response from smu
-[ 5329.345845] amdgpu: [powerplay] No response from smu
-[ 5329.345847] amdgpu: [powerplay] Failed message: 0x42, input parameter: 0=
-x1,
-error code: 0x0
-[ 5329.659470] amdgpu: [powerplay] No response from smu
-[ 5329.973320] amdgpu: [powerplay] No response from smu
-[ 5329.973322] amdgpu: [powerplay] Failed message: 0x24, input parameter: 0=
-x0,
-error code: 0x0
-[ 5330.044255] [drm] REG_WAIT timeout 10us * 3500 tries - dce_mi_free_dmif
-line:634
-[ 5330.044255] ------------[ cut here ]------------
-[ 5330.044355] WARNING: CPU: 9 PID: 7317 at
-drivers/gpu/drm/amd/amdgpu/../display/dc/dc_helper.c:329
-generic_reg_wait.cold+0x31/0x53 [amdgpu]
-[ 5330.044356] Modules linked in: rfcomm xt_CHECKSUM xt_MASQUERADE tun brid=
-ge
-stp llc nf_conntrack_netbios_ns nf_conntrack_broadcast xt_CT ip6t_rpfilter
-ip6t_REJECT nf_reject_ipv6 ipt_REJECT nf_reject_ipv4 xt_conntrack ebtable_n=
-at
-ip6table_nat ip6table_mangle ip6table_raw ip6table_security iptable_nat nf_=
-nat
-iptable_mangle iptable_raw iptable_security nf_conntrack nf_defrag_ipv6
-nf_defrag_ipv4 libcrc32c ip_set nfnetlink ebtable_filter ebtables
-ip6table_filter ip6_tables iptable_filter ip_tables bnep nct6775 hwmon_vid
-intel_rapl arc4 x86_pkg_temp_thermal intel_powerclamp coretemp kvm_intel vf=
-at
-fat kvm fuse irqbypass iwlmvm iTCO_wdt iTCO_vendor_support mac80211
-crct10dif_pclmul crc32_pclmul snd_hda_codec_realtek ghash_clmulni_intel
-intel_cstate btusb iwlwifi snd_hda_codec_generic btrtl btbcm btintel
-ledtrig_audio snd_hda_codec_hdmi intel_uncore bluetooth snd_hda_intel
-intel_rapl_perf snd_hda_codec cfg80211 snd_hda_core snd_hwdep mxm_wmi i2c_i=
-801
-joydev snd_seq snd_seq_device xpad ecdh_generic
-[ 5330.044372]  ff_memless snd_pcm rfkill ecc snd_timer mei_me snd mei
-soundcore lpc_ich pcc_cpufreq auth_rpcgss binfmt_misc sunrpc amdgpu
-amd_iommu_v2 gpu_sched ttm drm_kms_helper drm mpt3sas igb crc32c_intel e100=
-0e
-nvme raid_class nvme_core dca i2c_algo_bit scsi_transport_sas wmi uas
-usb_storage
-[ 5330.044380] CPU: 9 PID: 7317 Comm: kworker/9:0 Not tainted
-5.2.13-200.fc30.x86_64 #1
-[ 5330.044381] Hardware name: To Be Filled By O.E.M. To Be Filled By O.E.M.=
-/X99
-Taichi, BIOS P1.80 04/06/2018
-[ 5330.044384] Workqueue: events drm_sched_job_timedout [gpu_sched]
-[ 5330.044424] RIP: 0010:generic_reg_wait.cold+0x31/0x53 [amdgpu]
-[ 5330.044425] Code: 4c 24 18 44 89 fa 89 ee 48 c7 c7 b8 e2 7b c0 e8 fb d4 =
-a2
-fc 83 7b 20 01 0f 84 8d 14 fe ff 48 c7 c7 28 e2 7b c0 e8 e5 d4 a2 fc &lt;0f=
-&gt; 0b e9
-7a 14 fe ff 48 c7 c7 28 e2 7b c0 89 54 24 04 e8 ce d4 a2
-[ 5330.044426] RSP: 0000:ffffb980493f37b8 EFLAGS: 00010246
-[ 5330.044426] RAX: 0000000000000024 RBX: ffff911f70720780 RCX:
-0000000000000006
-[ 5330.044427] RDX: 0000000000000000 RSI: 0000000000000086 RDI:
-ffff911f7fa57900
-[ 5330.044427] RBP: 000000000000000a R08: 0000000000000001 R09:
-0000000000000737
-[ 5330.044428] R10: 0000000000026ddc R11: 0000000000000003 R12:
-00000000000035af
-[ 5330.044428] R13: 0000000000000dad R14: 0000000000000001 R15:
-0000000000000dac
-[ 5330.044429] FS:  0000000000000000(0000) GS:ffff911f7fa40000(0000)
-knlGS:0000000000000000
-[ 5330.044429] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 5330.044430] CR2: 000006af3a9fb000 CR3: 00000007ab40a003 CR4:
-00000000003606e0
-[ 5330.044430] DR0: 0000000000000000 DR1: 0000000000000000 DR2:
-0000000000000000
-[ 5330.044431] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7:
-0000000000000400
-[ 5330.044431] Call Trace:
-[ 5330.044487]  dce_mi_free_dmif+0xef/0x150 [amdgpu]
-[ 5330.044524]  dce110_reset_hw_ctx_wrap+0x14a/0x1e0 [amdgpu]
-[ 5330.044562]  dce110_apply_ctx_to_hw+0x4a/0x490 [amdgpu]
-[ 5330.044588]  ? amdgpu_pm_compute_clocks.part.0+0xcb/0x610 [amdgpu]
-[ 5330.044590]  ? _cond_resched+0x15/0x30
-[ 5330.044629]  ? dm_pp_apply_display_requirements+0x1a8/0x1c0 [amdgpu]
-[ 5330.044666]  dc_commit_state+0x27b/0x5c0 [amdgpu]
-[ 5330.044669]  ? number+0x31c/0x360
-[ 5330.044707]  amdgpu_dm_atomic_commit_tail+0xc15/0x1930 [amdgpu]
-[ 5330.044710]  ? va_format.isra.0+0x6e/0xa0
-[ 5330.044713]  ? sched_clock+0x5/0x10
-[ 5330.044716]  ? sched_clock_cpu+0xc/0xa0
-[ 5330.044719]  ? up+0x12/0x60
-[ 5330.044721]  ? __irq_work_queue_local+0x50/0x60
-[ 5330.044722]  ? irq_work_queue+0x46/0x50
-[ 5330.044725]  ? wake_up_klogd+0x30/0x40
-[ 5330.044726]  ? vprintk_emit+0x17c/0x260
-[ 5330.044727]  ? printk+0x58/0x6f
-[ 5330.044728]  ? __next_timer_interrupt+0xd0/0xd0
-[ 5330.044736]  ? drm_atomic_helper_wait_for_dependencies+0x1e4/0x1f0
-[drm_kms_helper]
-[ 5330.044748]  ? drm_err+0x72/0x90 [drm]
-[ 5330.044749]  ? _cond_resched+0x15/0x30
-[ 5330.044750]  ? wait_for_completion_timeout+0x38/0x170
-[ 5330.044754]  ? commit_tail+0x3c/0x70 [drm_kms_helper]
-[ 5330.044791]  ? amdgpu_dm_atomic_check+0x6d0/0x6d0 [amdgpu]
-[ 5330.044795]  commit_tail+0x3c/0x70 [drm_kms_helper]
-[ 5330.044799]  drm_atomic_helper_commit+0x108/0x110 [drm_kms_helper]
-[ 5330.044803]  drm_atomic_helper_disable_all+0x144/0x160 [drm_kms_helper]
-[ 5330.044807]  drm_atomic_helper_suspend+0x60/0xf0 [drm_kms_helper]
-[ 5330.044844]  dm_suspend+0x20/0x60 [amdgpu]
-[ 5330.044867]  amdgpu_device_ip_suspend_phase1+0x8b/0xc0 [amdgpu]
-[ 5330.044890]  amdgpu_device_ip_suspend+0x1c/0x60 [amdgpu]
-[ 5330.044927]  amdgpu_device_pre_asic_reset+0x1f4/0x209 [amdgpu]
-[ 5330.044965]  amdgpu_device_gpu_recover+0x77/0x785 [amdgpu]
-[ 5330.044998]  amdgpu_job_timedout+0xf7/0x120 [amdgpu]
-[ 5330.045000]  drm_sched_job_timedout+0x3a/0x70 [gpu_sched]
-[ 5330.045003]  process_one_work+0x19d/0x380
-[ 5330.045005]  worker_thread+0x50/0x3b0
-[ 5330.045007]  kthread+0xfb/0x130
-[ 5330.045008]  ? process_one_work+0x380/0x380
-[ 5330.045009]  ? kthread_park+0x80/0x80
-[ 5330.045010]  ret_from_fork+0x35/0x40
-[ 5330.045012] ---[ end trace 7beee32e6101e37d ]---
-[ 5330.358847] amdgpu: [powerplay] No response from smu
-[ 5330.673262] amdgpu: [powerplay] No response from smu
-[ 5330.673263] amdgpu: [powerplay] Failed message: 0x4c, input parameter: 0=
-x1,
-error code: 0x0
-[ 5330.987579] amdgpu: [powerplay] No response from smu
-[ 5331.302073] amdgpu: [powerplay] No response from smu
-[ 5331.302074] amdgpu: [powerplay] Failed message: 0x4c, input parameter: 0=
-x3,
-error code: 0x0
-[ 5331.616202] amdgpu: [powerplay] No response from smu
-[ 5331.929678] amdgpu: [powerplay] No response from smu
-[ 5331.929681] amdgpu: [powerplay] Failed message: 0x9, input parameter: 0x=
-f4,
-error code: 0x0
-[ 5332.243534] amdgpu: [powerplay] No response from smu
-[ 5332.557383] amdgpu: [powerplay] No response from smu
-[ 5332.557384] amdgpu: [powerplay] Failed message: 0xa, input parameter:
-0xa0b000, error code: 0x0
-[ 5332.871126] amdgpu: [powerplay] No response from smu
-[ 5333.185009] amdgpu: [powerplay] No response from smu
-[ 5333.185011] amdgpu: [powerplay] Failed message: 0xe, input parameter: 0x=
-0,
-error code: 0x0
-[ 5333.498596] amdgpu: [powerplay] No response from smu
-[ 5333.812147] amdgpu: [powerplay] No response from smu
-[ 5333.812155] amdgpu: [powerplay] Failed message: 0x4, input parameter: 0x=
-400,
-error code: 0x0
-[ 5334.126013] amdgpu: [powerplay] No response from smu
-[ 5334.440194] amdgpu: [powerplay] No response from smu
-[ 5334.440197] amdgpu: [powerplay] Failed message: 0x42, input parameter: 0=
-x1,
-error code: 0x0
-[ 5334.753930] amdgpu: [powerplay] No response from smu
-[ 5335.067603] amdgpu: [powerplay] No response from smu
-[ 5335.067605] amdgpu: [powerplay] Failed message: 0x24, input parameter: 0=
-x0,
-error code: 0x0
-[ 5335.083579] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
-received: 0000:00:03.0
-[ 5335.083589] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
-rected
-(Non-Fatal), type=3DTransaction Layer, (Requester ID)
-[ 5335.083599] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
-status/mask=3D00004000/00000000
-[ 5335.083603] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20
-(First)
-[ 5335.083694] pcieport 0000:00:03.0: AER: Device recovery failed
-[ 5335.101028] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
-received: 0000:00:03.0
-[ 5335.101034] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
-rected
-(Non-Fatal), type=3DTransaction Layer, (Requester ID)
-[ 5335.101036] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
-status/mask=3D00004000/00000000
-[ 5335.101039] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20
-(First)
-[ 5335.101085] pcieport 0000:00:03.0: AER: Device recovery failed
-[ 5335.118568] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
-received: 0000:00:03.0
-[ 5335.118573] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
-rected
-(Non-Fatal), type=3DTransaction Layer, (Requester ID)
-[ 5335.118575] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
-status/mask=3D00004000/00000000
-[ 5335.118577] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20
-(First)
-[ 5335.118621] pcieport 0000:00:03.0: AER: Device recovery failed
-[ 5335.136108] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
-received: 0000:00:03.0
-[ 5335.136113] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
-rected
-(Non-Fatal), type=3DTransaction Layer, (Requester ID)
-[ 5335.136116] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
-status/mask=3D00004000/00000000
-[ 5335.136118] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20
-(First)
-[ 5335.136189] pcieport 0000:00:03.0: AER: Device recovery failed
-[ 5335.153649] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
-received: 0000:00:03.0
-[ 5335.153654] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
-rected
-(Non-Fatal), type=3DTransaction Layer, (Requester ID)
-[ 5335.153656] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
-status/mask=3D00004000/00000000
-[ 5335.153658] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20
-(First)
-[ 5335.153702] pcieport 0000:00:03.0: AER: Device recovery failed
-[ 5335.171189] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
-received: 0000:00:03.0
-[ 5335.171194] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
-rected
-(Non-Fatal), type=3DTransaction Layer, (Requester ID)
-[ 5335.171196] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
-status/mask=3D00004000/00000000
-[ 5335.171199] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20
-(First)
-[ 5335.171242] pcieport 0000:00:03.0: AER: Device recovery failed
-[ 5335.188769] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
-received: 0000:00:03.0
-[ 5335.188774] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
-rected
-(Non-Fatal), type=3DTransaction Layer, (Requester ID)
-[ 5335.188776] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
-status/mask=3D00004000/00000000
-[ 5335.188778] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20
-(First)
-[ 5335.188819] pcieport 0000:00:03.0: AER: Device recovery failed
-[ 5335.206263] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
-received: 0000:00:03.0
-[ 5335.206266] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
-rected
-(Non-Fatal), type=3DTransaction Layer, (Requester ID)
-[ 5335.206267] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
-status/mask=3D00004000/00000000
-[ 5335.206268] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20
-(First)
-[ 5335.206286] pcieport 0000:00:03.0: AER: Device recovery failed
-[ 5335.223806] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
-received: 0000:00:03.0
-[ 5335.223809] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
-rected
-(Non-Fatal), type=3DTransaction Layer, (Requester ID)
-[ 5335.223811] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
-status/mask=3D00004000/00000000
-[ 5335.223812] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20
-(First)
-[ 5335.223837] pcieport 0000:00:03.0: AER: Device recovery failed
-[ 5335.241348] pcieport 0000:00:03.0: AER: Multiple Uncorrected (Non-Fatal)
-error received: 0000:00:03.0
-[ 5335.469372] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
-rected
-(Non-Fatal), type=3DTransaction Layer, (Requester ID)
-[ 5335.469374] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
-status/mask=3D00004000/00000000
-[ 5335.469375] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20
-(First)
-[ 5335.469405] pcieport 0000:00:03.0: AER: Device recovery failed
-[ 5335.469406] pcieport 0000:00:03.0: AER: Multiple Uncorrected (Non-Fatal)
-error received: 0000:00:03.0
-
-<span class=3D"quote">&gt; systemd logs output after the crash (If your sys=
-tem froze and you get logs
-&gt; after reboot):</span >
-
-Sep 14 20:52:48 ezra.blanchardmorris.net kernel: Command line:
-BOOT_IMAGE=3D(hd4,gpt6)/vmlinuz-5.2.13-200.fc30.x86_64
-root=3DUUID=3De7b8b34a-e17f-4c2b-b223-eaa636249d2d ro
-resume=3DUUID=3D52cc8cd8-b06f-4613-8781-a105d0ebf44a rhgb quiet amdgpu.vm_d=
-ebug=3D1
-Sep 14 20:52:48 ezra.blanchardmorris.net kernel: Kernel command line:
-BOOT_IMAGE=3D(hd4,gpt6)/vmlinuz-5.2.13-200.fc30.x86_64
-root=3DUUID=3De7b8b34a-e17f-4c2b-b223-eaa636249d2d ro
-resume=3DUUID=3D52cc8cd8-b06f-4613-8781-a105d0ebf44a rhgb quiet amdgpu.vm_d=
-ebug=3D1
-Sep 14 20:52:49 ezra.blanchardmorris.net dracut-cmdline[363]: Using kernel
-command line parameters: BOOT_IMAGE=3D(hd4,gpt6)/vmlinuz-5.2.13-200.fc30.x8=
-6_64
-root=3DUUID=3De7b8b34a-e17f-4c2b-b223-eaa636249d2d ro
-resume=3DUUID=3D52cc8cd8-b06f-4613-8781-a105d0ebf44a rhgb quiet amdgpu.vm_d=
-ebug=3D1
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: [drm] amdgpu kernel
-modesetting enabled.
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0:
-remove_conflicting_pci_framebuffers: bar 0: 0xe0000000 -&gt; 0xefffffff
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0:
-remove_conflicting_pci_framebuffers: bar 2: 0xf0000000 -&gt; 0xf01fffff
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0:
-remove_conflicting_pci_framebuffers: bar 5: 0xfb600000 -&gt; 0xfb67ffff
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: fb0: switching to amdgpudr=
-mfb
-from EFI VGA
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: vgaar=
-b:
-deactivate vga console
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: No mo=
-re
-image in the PCI ROM
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: VRAM:
-8176M 0x000000F400000000 - 0x000000F5FEFFFFFF (8176M used)
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: GART:
-512M 0x0000000000000000 - 0x000000001FFFFFFF
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: AGP:
-267419648M 0x000000F800000000 - 0x0000FFFFFFFFFFFF
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: [drm] amdgpu: 8176M of VRAM
-memory ready
-Sep 14 20:52:49 ezra.blanchardmorris.net kernel: [drm] amdgpu: 8176M of GTT
-memory ready.
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: fbcon: amdgpudrmfb (fb0) is
-primary device
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: fb0:
-amdgpudrmfb frame buffer device
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring =
-gfx
-uses VM inv eng 0 on hub 0
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-comp_1.0.0 uses VM inv eng 1 on hub 0
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-comp_1.1.0 uses VM inv eng 4 on hub 0
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-comp_1.2.0 uses VM inv eng 5 on hub 0
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-comp_1.3.0 uses VM inv eng 6 on hub 0
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-comp_1.0.1 uses VM inv eng 7 on hub 0
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-comp_1.1.1 uses VM inv eng 8 on hub 0
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-comp_1.2.1 uses VM inv eng 9 on hub 0
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-comp_1.3.1 uses VM inv eng 10 on hub 0
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-kiq_2.1.0 uses VM inv eng 11 on hub 0
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-sdma0 uses VM inv eng 0 on hub 1
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-page0 uses VM inv eng 1 on hub 1
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-sdma1 uses VM inv eng 4 on hub 1
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-page1 uses VM inv eng 5 on hub 1
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-uvd_0 uses VM inv eng 6 on hub 1
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-uvd_enc_0.0 uses VM inv eng 7 on hub 1
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring
-uvd_enc_0.1 uses VM inv eng 8 on hub 1
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring =
-vce0
-uses VM inv eng 9 on hub 1
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring =
-vce1
-uses VM inv eng 10 on hub 1
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: ring =
-vce2
-uses VM inv eng 11 on hub 1
-Sep 14 20:52:50 ezra.blanchardmorris.net kernel: [drm] Initialized amdgpu
-3.32.0 20150101 for 0000:06:00.0 on minor 0
-Sep 14 20:53:20 ezra.blanchardmorris.net /usr/libexec/gdm-x-session[1928]:
-Kernel command line: BOOT_IMAGE=3D(hd4,gpt6)/vmlinuz-5.2.13-200.fc30.x86_64
-root=3DUUID=3De7b8b34a-e17f-4c2b-b223-eaa636249d2d ro
-resume=3DUUID=3D52cc8cd8-b06f-4613-8781-a105d0ebf44a rhgb quiet amdgpu.vm_d=
-ebug=3D1
-Sep 14 20:53:20 ezra.blanchardmorris.net /usr/libexec/gdm-x-session[1928]:=
-=20=20=20=20=20
-   loading driver: amdgpu
-Sep 14 20:53:20 ezra.blanchardmorris.net /usr/libexec/gdm-x-session[1928]: =
-(=3D=3D)
-Matched amdgpu as autoconfigured driver 0
-Sep 14 20:53:20 ezra.blanchardmorris.net /usr/libexec/gdm-x-session[1928]: =
-(II)
-LoadModule: &quot;amdgpu&quot;
-Sep 14 20:53:20 ezra.blanchardmorris.net /usr/libexec/gdm-x-session[1928]: =
-(II)
-Loading /usr/lib64/xorg/modules/drivers/amdgpu_drv.so
-Sep 14 20:53:20 ezra.blanchardmorris.net /usr/libexec/gdm-x-session[1928]: =
-(II)
-Module amdgpu: vendor=3D&quot;X.Org Foundation&quot;
-Sep 14 20:53:20 ezra.blanchardmorris.net /usr/libexec/gdm-x-session[1928]:=
-=20=20=20=20=20
-   All GPUs supported by the amdgpu kernel driver
-Sep 14 22:21:05 ezra.blanchardmorris.net kernel:
-[drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting for fences timed
-out or interrupted!
-Sep 14 22:21:05 ezra.blanchardmorris.net kernel: [drm:amdgpu_job_timedout
-[amdgpu]] *ERROR* ring page1 timeout, signaled seq=3D97861046, emitted
-seq=3D97861048
-Sep 14 22:21:05 ezra.blanchardmorris.net kernel: [drm:amdgpu_job_timedout
-[amdgpu]] *ERROR* Process information: process  pid 0 thread  pid 0
-Sep 14 22:21:05 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: GPU r=
-eset
-begin!
-Sep 14 22:21:05 ezra.blanchardmorris.net kernel: [drm:amdgpu_job_timedout
-[amdgpu]] *ERROR* ring gfx timeout, signaled seq=3D1321512, emitted seq=3D1=
-321513
-Sep 14 22:21:05 ezra.blanchardmorris.net kernel: [drm:amdgpu_job_timedout
-[amdgpu]] *ERROR* Process information: process stellaris pid 5624 thread
-stellaris:cs0 pid 5625
-Sep 14 22:21:05 ezra.blanchardmorris.net kernel: amdgpu 0000:06:00.0: GPU r=
-eset
-begin!
-Sep 14 22:21:15 ezra.blanchardmorris.net kernel: [drm:amdgpu_dm_atomic_check
-[amdgpu]] *ERROR* [CRTC:47:crtc-0] hw_done or flip_done timed out
-Sep 14 22:21:36 ezra.blanchardmorris.net kernel: amdgpu: [powerplay] No
-response from smu
-Sep 14 22:21:36 ezra.blanchardmorris.net kernel: amdgpu: [powerplay] Failed
-message: 0xe, input parameter: 0x0, error code: 0x0
-Sep 14 22:21:36 ezra.blanchardmorris.net kernel: amdgpu: [powerplay] No
-response from smu
-Sep 14 22:21:37 ezra.blanchardmorris.net kernel: amdgpu: [powerplay] No
-response from smu</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15685221431.26bed45A.8675--
-
---===============0927999402==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQ4NDkKCiAgICAg
+ICAgICAgIEJ1ZyBJRDogMjA0ODQ5CiAgICAgICAgICAgU3VtbWFyeTogYW1kZ3B1IChSWDU2MFgp
+IHRyYWNlYm9vdCBpbiBkbWVzZyBib290IG91dHB1dCwgc3lzdGVtCiAgICAgICAgICAgICAgICAg
+ICAgaW5zdGFiaWxpdHkKICAgICAgICAgICBQcm9kdWN0OiBEcml2ZXJzCiAgICAgICAgICAgVmVy
+c2lvbjogMi41CiAgICBLZXJuZWwgVmVyc2lvbjogNS4zLXJjOAogICAgICAgICAgSGFyZHdhcmU6
+IEFsbAogICAgICAgICAgICAgICAgT1M6IExpbnV4CiAgICAgICAgICAgICAgVHJlZTogTWFpbmxp
+bmUKICAgICAgICAgICAgU3RhdHVzOiBORVcKICAgICAgICAgIFNldmVyaXR5OiBub3JtYWwKICAg
+ICAgICAgIFByaW9yaXR5OiBQMQogICAgICAgICBDb21wb25lbnQ6IFZpZGVvKERSSSAtIG5vbiBJ
+bnRlbCkKICAgICAgICAgIEFzc2lnbmVlOiBkcml2ZXJzX3ZpZGVvLWRyaUBrZXJuZWwtYnVncy5v
+c2RsLm9yZwogICAgICAgICAgUmVwb3J0ZXI6IGp1c3RpbkBwb3N0Z3Jlc3FsLm9yZwogICAgICAg
+IFJlZ3Jlc3Npb246IE5vCgpUcnlpbmcgdG8gc29ydCBvdXQgYSBzeXN0ZW0gc3RhYmlsaXR5IHBy
+b2JsZW0gd2l0aCBteSBuZXcgbGFwdG9wIChBY2VyIE5pdHJvIDUsCm1vZGVsIEFONTE1LTQyLVIz
+RUUpIHdpdGggUnl6ZW4gMjcwMFUgYW5kIFJYNTYwWC4KCmRtZXNnIG91dHB1dCBzaG93cyB0cmFj
+ZWJhY2sgZm9yIGFtZGdwdSB3aXRoIGtlcm5lbCA1LjMtcmM4LCBhbGwgcHJpb3Iga2VybmVscwpJ
+J3ZlIHRlc3RlZCAodmFyaW91cyA0LngsIGFuZCA1LjMtcmM3KSBhbHNvIGhhdmUgdmFyaW91cyB0
+cmFjZWJhY2tzIHNob3duIGluCmFtZGdwdS4KCkhlcmUncyB0aGUgNS4zLXJjOCBrZXJuZWwgb25l
+LCBub3RlIHRoZXJlIGFyZSBzZXZlcmFsIHRoYXQgc2hvdyB1cCBhdCB0aGUgc2FtZQp0aW1lIGlu
+IHRoZSBkbWVzZyBvdXRwdXQsIGFsbCBhbWRncHUgcmVsYXRlZDoKCioqKioqKioqKioqKioqKioq
+KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqCgpb
+ICAgIDUuNjYyMzE2XSAtLS0tLS0tLS0tLS1bIGN1dCBoZXJlIF0tLS0tLS0tLS0tLS0KWyAgICA1
+LjY2MjQzMF0gV0FSTklORzogQ1BVOiAyIFBJRDogNDAzIGF0CmRyaXZlcnMvZ3B1L2RybS9hbWQv
+YW1kZ3B1Ly4uL2Rpc3BsYXkvZGMvY29yZS9kY19saW5rLmM6MTg4Mgp3cml0ZV9pMmNfZGVmYXVs
+dF9yZXRpbWVyX3NldHRpbmcuY29sZCsweDQ1Ci8weGFiIFthbWRncHVdClsgICAgNS42NjI0MzFd
+IE1vZHVsZXMgbGlua2VkIGluOiBoaWRfZ2VuZXJpYyB1c2JoaWQgYW1kZ3B1KCspIGNyY3QxMGRp
+Zl9wY2xtdWwKY3JjMzJfcGNsbXVsIGNyYzMyY19pbnRlbCBydHN4X3BjaV9zZG1tYyBnaGFzaF9j
+bG11bG5pX2ludGVsIG1tY19jbwpyZSBhbWRfaW9tbXVfdjIgZ3B1X3NjaGVkIGkyY19hbGdvX2Jp
+dCBhZXNuaV9pbnRlbCBkcm1fa21zX2hlbHBlciBhZXNfeDg2XzY0CnhoY2lfcGNpIGNyeXB0b19z
+aW1kIHN5c2NvcHlhcmVhIHN5c2ZpbGxyZWN0IHhoY2lfaGNkIHN5c2ltZ2JsdCBmYl9zeXMKX2Zv
+cHMgdHRtIGNyeXB0ZCBnbHVlX2hlbHBlciBkcm0gdXNiY29yZSBzZXJpb19yYXcgcnRzeF9wY2kg
+dmlkZW8gd21pCnBpbmN0cmxfYW1kIGkyY19oaWQgYnV0dG9uIGRtX21pcnJvciBkbV9yZWdpb25f
+aGFzaCBkbV9sb2cgc2cgZG1fbXVsdGlwYXRoIGRtCl9tb2Qgc2NzaV9kaF9yZGFjIHNjc2lfZGhf
+ZW1jIHNjc2lfZGhfYWx1YSBlZml2YXJmcwpbICAgIDUuNjYyNDQ5XSBDUFU6IDIgUElEOiA0MDMg
+Q29tbTogc3lzdGVtZC11ZGV2ZCBOb3QgdGFpbnRlZAo1LjMuMC1yYzgtMi5nZDZmMGI3MS1kZWZh
+dWx0ICMxIG9wZW5TVVNFIFR1bWJsZXdlZWQgKHVucmVsZWFzZWQpClsgICAgNS42NjI0NTBdIEhh
+cmR3YXJlIG5hbWU6IEFjZXIgTml0cm8gQU41MTUtNDIvRnJlZWRfUlJTLCBCSU9TIFYxLjEzCjAy
+LzExLzIwMTkKWyAgICA1LjY2MjUzMF0gUklQOiAwMDEwOndyaXRlX2kyY19kZWZhdWx0X3JldGlt
+ZXJfc2V0dGluZy5jb2xkKzB4NDUvMHhhYgpbYW1kZ3B1XQpbICAgIDUuNjYyNTMyXSBDb2RlOiA3
+NiAyYyBiNSBkOCAwZiAwYiBlOSBhYiAxNCBmZCBmZiA0OCBjNyBjNyBjMCA3ZCBjNyBjMCBlOAo2
+MyAyYyBiNSBkOCAwZiAwYiBlOSBlYSAxMyBmZCBmZiA0OCBjNyBjNyBjMCA3ZCBjNyBjMCBlOCA1
+MCAyYyBiNSBkOCAKPDBmPiAwYiBlOSA4MyAxMyBmZCBmZiA0OCBjNyBjNyBjMCA3ZCBjNyBjMCBl
+OCAzZCAyYyBiNSBkOCAwZiAwYiBlOQpbICAgIDUuNjYyNTMzXSBSU1A6IDAwMTg6ZmZmZmFjY2Q4
+MDRiNzI0OCBFRkxBR1M6IDAwMDEwMjQ2ClsgICAgNS42NjI1MzRdIFJBWDogMDAwMDAwMDAwMDAw
+MDAyNCBSQlg6IDAwMDAwMDAwMDAwMDAwMDAgUkNYOgowMDAwMDAwMDAwMDAwMDAwClsgICAgNS42
+NjI1MzRdIFJEWDogMDAwMDAwMDAwMDAwMDAwMCBSU0k6IGZmZmY5ZWIwOGVjOTlhMTggUkRJOgpm
+ZmZmOWViMDhlYzk5YTE4ClsgICAgNS42NjI1MzVdIFJCUDogZmZmZjllYjA3N2Q0MDFiOCBSMDg6
+IGZmZmY5ZWIwOGVjOTlhMTggUjA5OgpmZmZmOWViMDhmMjE5YzQwClsgICAgNS42NjI1MzVdIFIx
+MDogMDAwMDAwMDAwMDAwMDQwNiBSMTE6IDAwMDAwMDAwMDAwZWE4YWMgUjEyOgowMDAwMDAwMDAw
+MDAwMDAwClsgICAgNS42NjI1MzZdIFIxMzogMDAwMDAwMDAwMDAwMDAwMCBSMTQ6IGZmZmY5ZWIw
+NzdjMDAwMDAgUjE1OgpmZmZmOWViMDc3Y2UzODAwClsgICAgNS42NjI1MzddIEZTOiAgMDAwMDdm
+NzczNGQzNGQ0MCgwMDAwKSBHUzpmZmZmOWViMDhlYzgwMDAwKDAwMDApCmtubEdTOjAwMDAwMDAw
+MDAwMDAwMDAKWyAgICA1LjY2MjUzN10gQ1M6ICAwMDEwIERTOiAwMDAwIEVTOiAwMDAwIENSMDog
+MDAwMDAwMDA4MDA1MDAzMwpbICAgIDUuNjYyNTM4XSBDUjI6IDAwMDA3Zjc3MmU4MzhhNzAgQ1Iz
+OiAwMDAwMDAwMjNlYmUyMDAwIENSNDoKMDAwMDAwMDAwMDM0MDZlMApbICAgIDUuNjYyNTM4XSBD
+YWxsIFRyYWNlOgpbICAgIDUuNjYyNjE5XSAgY29yZV9saW5rX2VuYWJsZV9zdHJlYW0rMHg4NjEv
+MHg4NzAgW2FtZGdwdV0KWyAgICA1LjY2MjY5Nl0gID8gZGNlMTEwX2FwcGx5X2N0eF90b19odysw
+eDRiMC8weDUzMCBbYW1kZ3B1XQpbICAgIDUuNjYyNzY5XSAgZGNlMTEwX2FwcGx5X2N0eF90b19o
+dysweDRiMC8weDUzMCBbYW1kZ3B1XQpbICAgIDUuNjYyODQ0XSAgZGNfY29tbWl0X3N0YXRlX25v
+X2NoZWNrKzB4MjE2LzB4NTQwIFthbWRncHVdClsgICAgNS42NjI5MTddICBkY19jb21taXRfc3Rh
+dGUrMHg4Zi8weGIwIFthbWRncHVdClsgICAgNS42NjI5OTNdICBhbWRncHVfZG1fYXRvbWljX2Nv
+bW1pdF90YWlsKzB4M2JmLzB4ZmIwIFthbWRncHVdClsgICAgNS42NjMwNjhdICA/IGZpbGxfZGNf
+cGxhbmVfaW5mb19hbmRfYWRkcisweDM0MC8weDM0MCBbYW1kZ3B1XQpbICAgIDUuNjYzMTQwXSAg
+PyBkbV9wbGFuZV9oZWxwZXJfcHJlcGFyZV9mYisweDIwZC8weDI5MCBbYW1kZ3B1XQpbICAgIDUu
+NjYzMTQ4XSAgPyBjb21taXRfdGFpbCsweDNjLzB4NzAgW2RybV9rbXNfaGVscGVyXQpbICAgIDUu
+NjYzMTUzXSAgY29tbWl0X3RhaWwrMHgzYy8weDcwIFtkcm1fa21zX2hlbHBlcl0KWyAgICA1LjY2
+MzE1OV0gIGRybV9hdG9taWNfaGVscGVyX2NvbW1pdCsweDEwOC8weDExMCBbZHJtX2ttc19oZWxw
+ZXJdClsgICAgNS42NjMxNzJdICBkcm1fY2xpZW50X21vZGVzZXRfY29tbWl0X2F0b21pYysweDFk
+MC8weDFmMCBbZHJtXQpbICAgIDUuNjYzMTg0XSAgZHJtX2NsaWVudF9tb2Rlc2V0X2NvbW1pdF9m
+b3JjZSsweDUwLzB4MTUwIFtkcm1dClsgICAgNS42NjMxODldICBkcm1fZmJfaGVscGVyX3Jlc3Rv
+cmVfZmJkZXZfbW9kZV91bmxvY2tlZCsweDQ5LzB4YTAKW2RybV9rbXNfaGVscGVyXQpbICAgIDUu
+NjYzMTk1XSAgZHJtX2ZiX2hlbHBlcl9zZXRfcGFyKzB4MmMvMHg1MCBbZHJtX2ttc19oZWxwZXJd
+ClsgICAgNS42NjMxOThdICBmYmNvbl9pbml0KzB4MmE5LzB4NWQwClsgICAgNS42NjMyMDFdICB2
+aXN1YWxfaW5pdCsweGNlLzB4MTMwClsgICAgNS42NjMyMDNdICBkb19iaW5kX2Nvbl9kcml2ZXIr
+MHgxYjkvMHgyYTAKWyAgICA1LjY2MzIwNV0gIGRvX3Rha2Vfb3Zlcl9jb25zb2xlKzB4MTE1LzB4
+MTgwClsgICAgNS42NjMyMDZdICBkb19mYmNvbl90YWtlb3ZlcisweDU4LzB4YjAKWyAgICA1LjY2
+MzIwOF0gIHJlZ2lzdGVyX2ZyYW1lYnVmZmVyKzB4MWU0LzB4MzAwClsgICAgNS42NjMyMTRdICBf
+X2RybV9mYl9oZWxwZXJfaW5pdGlhbF9jb25maWdfYW5kX3VubG9jaysweDJmYS8weDQ0MApbZHJt
+X2ttc19oZWxwZXJdClsgICAgNS42NjMyNjldICBhbWRncHVfZmJkZXZfaW5pdCsweGJjLzB4ZjAg
+W2FtZGdwdV0KWyAgICA1LjY2MzM0N10gIGFtZGdwdV9kZXZpY2VfaW5pdC5jb2xkKzB4NWI1LzB4
+OGVjIFthbWRncHVdClsgICAgNS42NjMzOTldICBhbWRncHVfZHJpdmVyX2xvYWRfa21zKzB4ODYv
+MHgxZjAgW2FtZGdwdV0KWyAgICA1LjY2MzQwOV0gIGRybV9kZXZfcmVnaXN0ZXIrMHgxMTEvMHgx
+NTAgW2RybV0KWyAgICA1LjY2MzQ2MF0gIGFtZGdwdV9wY2lfcHJvYmUrMHhiZC8weDEyMCBbYW1k
+Z3B1XQpbICAgIDUuNjYzNDY0XSAgPyBfX3BtX3J1bnRpbWVfcmVzdW1lKzB4NTgvMHg4MApbICAg
+IDUuNjYzNDY2XSAgbG9jYWxfcGNpX3Byb2JlKzB4NDIvMHg4MApbICAgIDUuNjYzNDY4XSAgcGNp
+X2RldmljZV9wcm9iZSsweDEwNy8weDFiMApbICAgIDUuNjYzNDcwXSAgcmVhbGx5X3Byb2JlKzB4
+ZjAvMHgzODAKWyAgICA1LjY2MzQ3MV0gIGRyaXZlcl9wcm9iZV9kZXZpY2UrMHg1OS8weGQwClsg
+ICAgNS42NjM0NzNdICBkZXZpY2VfZHJpdmVyX2F0dGFjaCsweDUzLzB4NjAKWyAgICA1LjY2MzQ3
+NF0gIF9fZHJpdmVyX2F0dGFjaCsweDhhLzB4MTUwClsgICAgNS42NjM0NzVdICA/IGRldmljZV9k
+cml2ZXJfYXR0YWNoKzB4NjAvMHg2MApbICAgIDUuNjYzNDc2XSAgYnVzX2Zvcl9lYWNoX2Rldisw
+eDc4LzB4YzAKWyAgICA1LjY2MzQ3OF0gIGJ1c19hZGRfZHJpdmVyKzB4MTRhLzB4MWUwClsgICAg
+NS42NjM0NzldICBkcml2ZXJfcmVnaXN0ZXIrMHg2Yy8weGIwClsgICAgNS42NjM0ODFdICA/IDB4
+ZmZmZmZmZmZjMDcwZTAwMApbICAgIDUuNjYzNDgzXSAgZG9fb25lX2luaXRjYWxsKzB4NDYvMHgx
+ZjQKWyAgICA1LjY2MzQ4Nl0gID8gX2NvbmRfcmVzY2hlZCsweDE1LzB4MzAKWyAgICA1LjY2MzQ4
+OF0gID8ga21lbV9jYWNoZV9hbGxvY190cmFjZSsweDFjMS8weDIxMApbICAgIDUuNjYzNDkwXSAg
+PyBkb19pbml0X21vZHVsZSsweDIzLzB4MjMwClsgICAgNS42NjM0OTFdICBkb19pbml0X21vZHVs
+ZSsweDVjLzB4MjMwClsgICAgNS42NjM0OTNdICBsb2FkX21vZHVsZSsweDE0YTgvMHgxNjEwClsg
+ICAgNS42NjM0OTVdICA/IHZtYXBfcGFnZV9yYW5nZV9ub2ZsdXNoKzB4MjNjLzB4MzUwClsgICAg
+NS42NjM0OTddICA/IF9fZG9fc3lzX2luaXRfbW9kdWxlKzB4MTZlLzB4MWEwClsgICAgNS42NjM0
+OThdICA/IF9jb25kX3Jlc2NoZWQrMHgxNS8weDMwClsgICAgNS42NjM0OTldICBfX2RvX3N5c19p
+bml0X21vZHVsZSsweDE2ZS8weDFhMApbICAgIDUuNjYzNTAxXSAgZG9fc3lzY2FsbF82NCsweDZl
+LzB4MWUwClsgICAgNS42NjM1MDNdICBlbnRyeV9TWVNDQUxMXzY0X2FmdGVyX2h3ZnJhbWUrMHg0
+OS8weGJlClsgICAgNS42NjM1MDRdIFJJUDogMDAzMzoweDdmNzczM2I3ODIzYQpbICAgIDUuNjYz
+NTA2XSBDb2RlOiA0OCA4YiAwZCA2MSBhYyAyYiAwMCBmNyBkOCA2NCA4OSAwMSA0OCA4MyBjOCBm
+ZiBjMyA2NiAyZQowZiAxZiA4NCAwMCAwMCAwMCAwMCAwMCAwZiAxZiA0NCAwMCAwMCA0OSA4OSBj
+YSBiOCBhZiAwMCAwMCAwMCAwZiAwNSA8NDg+IDNkIDAxCmYwIGZmIGZmIDczIDAxIGMzIDQ4CiA4
+YiAwZCAyZSBhYyAyYiAwMCBmNyBkOCA2NCA4OSAwMSA0OApbICAgIDUuNjYzNTA3XSBSU1A6IDAw
+MmI6MDAwMDdmZmZmYTZiYWMzOCBFRkxBR1M6IDAwMDAwMjQ2IE9SSUdfUkFYOgowMDAwMDAwMDAw
+MDAwMGFmClsgICAgNS42NjM1MDhdIFJBWDogZmZmZmZmZmZmZmZmZmZkYSBSQlg6IDAwMDA1NjQz
+YjQ4N2QxNDAgUkNYOgowMDAwN2Y3NzMzYjc4MjNhClsgICAgNS42NjM1MDldIFJEWDogMDAwMDdm
+NzczNDRhZThiZCBSU0k6IDAwMDAwMDAwMDA4NjVhNzcgUkRJOgowMDAwN2Y3NzJkZmQzMDEwClsg
+ICAgNS42NjM1MDldIFJCUDogMDAwMDdmNzczNDRhZThiZCBSMDg6IDAwMDAwMDAwMDAwMDAwMDAg
+UjA5OgowMDAwMDAwMzAwMDAwMDAxClsgICAgNS42NjM1MTBdIFIxMDogMDAwMDU2NDNiNDg4ZTQx
+MCBSMTE6IDAwMDAwMDAwMDAwMDAyNDYgUjEyOgowMDAwN2Y3NzJkZmQzMDEwClsgICAgNS42NjM1
+MTBdIFIxMzogMDAwMDU2NDNiNDg3OTk3MCBSMTQ6IDAwMDA1NjQzYjQ4OTA4OTAgUjE1OgowMDAw
+MDAwMDAzOTM4NzAwClsgICAgNS42NjM1MTFdIC0tLVsgZW5kIHRyYWNlIGUxZTliYzEzZjQwYjEx
+NTAgXS0tLQpbICAgIDUuNjYzNzMwXSAtLS0tLS0tLS0tLS1bIGN1dCBoZXJlIF0tLS0tLS0tLS0t
+LS0KWyAgICA1LjY2MzgyMF0gV0FSTklORzogQ1BVOiAyIFBJRDogNDAzIGF0CmRyaXZlcnMvZ3B1
+L2RybS9hbWQvYW1kZ3B1Ly4uL2Rpc3BsYXkvZGMvY29yZS9kY19saW5rLmM6MTg5NAp3cml0ZV9p
+MmNfZGVmYXVsdF9yZXRpbWVyX3NldHRpbmcuY29sZCsweDMyLzB4YWIgW2FtZGdwdV0KWyAgICA1
+LjY2MzgyMF0gTW9kdWxlcyBsaW5rZWQgaW46IGhpZF9nZW5lcmljIHVzYmhpZCBhbWRncHUoKykg
+Y3JjdDEwZGlmX3BjbG11bApjcmMzMl9wY2xtdWwgY3JjMzJjX2ludGVsIHJ0c3hfcGNpX3NkbW1j
+IGdoYXNoX2NsbXVsbmlfaW50ZWwgbW1jX2NvcmUKYW1kX2lvbW11X3YyIGdwdV9zY2hlZCBpMmNf
+YQpsZ29fYml0IGFlc25pX2ludGVsIGRybV9rbXNfaGVscGVyIGFlc194ODZfNjQgeGhjaV9wY2kg
+Y3J5cHRvX3NpbWQgc3lzY29weWFyZWEKc3lzZmlsbHJlY3QgeGhjaV9oY2Qgc3lzaW1nYmx0IGZi
+X3N5c19mb3BzIHR0bSBjcnlwdGQgZ2x1ZV9oZWxwZXIgZHJtIHVzYmNvcmUKc2VyaW9fcmF3IHJ0
+c3hfcGNpIHZpCmRlbyB3bWkgcGluY3RybF9hbWQgaTJjX2hpZCBidXR0b24gZG1fbWlycm9yIGRt
+X3JlZ2lvbl9oYXNoIGRtX2xvZyBzZwpkbV9tdWx0aXBhdGggZG1fbW9kIHNjc2lfZGhfcmRhYyBz
+Y3NpX2RoX2VtYyBzY3NpX2RoX2FsdWEgZWZpdmFyZnMKWyAgICA1LjY2MzgzMl0gQ1BVOiAyIFBJ
+RDogNDAzIENvbW06IHN5c3RlbWQtdWRldmQgVGFpbnRlZDogRyAgICAgICAgVyAgICAgICAgCjUu
+My4wLXJjOC0yLmdkNmYwYjcxLWRlZmF1bHQgIzEgb3BlblNVU0UgVHVtYmxld2VlZCAodW5yZWxl
+YXNlZCkKWyAgICA1LjY2MzgzM10gSGFyZHdhcmUgbmFtZTogQWNlciBOaXRybyBBTjUxNS00Mi9G
+cmVlZF9SUlMsIEJJT1MgVjEuMTMKMDIvMTEvMjAxOQpbICAgIDUuNjYzOTEyXSBSSVA6IDAwMTA6
+d3JpdGVfaTJjX2RlZmF1bHRfcmV0aW1lcl9zZXR0aW5nLmNvbGQrMHgzMi8weGFiClthbWRncHVd
+ClsgICAgNS42NjM5MTNdIENvZGU6IDg5IDJjIGI1IGQ4IDBmIDBiIGU5IDZjIDE0IGZkIGZmIDQ4
+IGM3IGM3IGMwIDdkIGM3IGMwIGU4Cjc2IDJjIGI1IGQ4IDBmIDBiIGU5IGFiIDE0IGZkIGZmIDQ4
+IGM3IGM3IGMwIDdkIGM3IGMwIGU4IDYzIDJjIGI1IGQ4IDwwZj4gMGIgZTkKZWEgMTMgZmQgZmYg
+NDggYzcgYzcKIGMwIDdkIGM3IGMwIGU4IDUwIDJjIGI1IGQ4IDBmIDBiIGU5ClsgICAgNS42NjM5
+MTNdIFJTUDogMDAxODpmZmZmYWNjZDgwNGI3MjQ4IEVGTEFHUzogMDAwMTAyNDYKWyAgICA1LjY2
+MzkxNF0gUkFYOiAwMDAwMDAwMDAwMDAwMDI0IFJCWDogMDAwMDAwMDAwMDAwMDAwMCBSQ1g6CjAw
+MDAwMDAwMDAwMDAwMDYKWyAgICA1LjY2MzkxNV0gUkRYOiAwMDAwMDAwMDAwMDAwMDAwIFJTSTog
+MDAwMDAwMDAwMDAwMDAwMiBSREk6CmZmZmY5ZWIwOGVjOTlhMTAKWyAgICA1LjY2MzkxNV0gUkJQ
+OiBmZmZmOWViMDc3ZDQwMWI4IFIwODogMDAwMDAwMDE1MTk1YWM0ZiBSMDk6CmZmZmY5ZWIwOGYy
+MTljNDAKWyAgICA1LjY2MzkxNl0gUjEwOiAwMDAwMDAwMDAwMDAwNDUzIFIxMTogMDAwMDAwMDAw
+MDBlOTJmNCBSMTI6CjAwMDAwMDAwMDAwMDAwMDAKWyAgICA1LjY2MzkxNl0gUjEzOiAwMDAwMDAw
+MDAwMDAwMDAwIFIxNDogZmZmZjllYjA3N2MwMDAwMCBSMTU6CmZmZmY5ZWIwNzdjZTM4MDAKWyAg
+ICA1LjY2MzkxN10gRlM6ICAwMDAwN2Y3NzM0ZDM0ZDQwKDAwMDApIEdTOmZmZmY5ZWIwOGVjODAw
+MDAoMDAwMCkKa25sR1M6MDAwMDAwMDAwMDAwMDAwMApbICAgIDUuNjYzOTE3XSBDUzogIDAwMTAg
+RFM6IDAwMDAgRVM6IDAwMDAgQ1IwOiAwMDAwMDAwMDgwMDUwMDMzClsgICAgNS42NjM5MThdIENS
+MjogMDAwMDdmNzcyZTgzOGE3MCBDUjM6IDAwMDAwMDAyM2ViZTIwMDAgQ1I0OgowMDAwMDAwMDAw
+MzQwNmUwClsgICAgNS42NjM5MThdIENhbGwgVHJhY2U6ClsgICAgNS42NjM5OTNdICBjb3JlX2xp
+bmtfZW5hYmxlX3N0cmVhbSsweDg2MS8weDg3MCBbYW1kZ3B1XQpbICAgIDUuNjY0MDY3XSAgPyBk
+Y2UxMTBfYXBwbHlfY3R4X3RvX2h3KzB4NGIwLzB4NTMwIFthbWRncHVdClsgICAgNS42NjQxMzld
+ICBkY2UxMTBfYXBwbHlfY3R4X3RvX2h3KzB4NGIwLzB4NTMwIFthbWRncHVdClsgICAgNS42NjQy
+MTJdICBkY19jb21taXRfc3RhdGVfbm9fY2hlY2srMHgyMTYvMHg1NDAgW2FtZGdwdV0KWyAgICA1
+LjY2NDI4NF0gIGRjX2NvbW1pdF9zdGF0ZSsweDhmLzB4YjAgW2FtZGdwdV0KWyAgICA1LjY2NDM1
+N10gIGFtZGdwdV9kbV9hdG9taWNfY29tbWl0X3RhaWwrMHgzYmYvMHhmYjAgW2FtZGdwdV0KWyAg
+ICA1LjY2NDQzMF0gID8gZmlsbF9kY19wbGFuZV9pbmZvX2FuZF9hZGRyKzB4MzQwLzB4MzQwIFth
+bWRncHVdClsgICAgNS42NjQ1MDBdICA/IGRtX3BsYW5lX2hlbHBlcl9wcmVwYXJlX2ZiKzB4MjBk
+LzB4MjkwIFthbWRncHVdClsgICAgNS42NjQ1MDddICA/IGNvbW1pdF90YWlsKzB4M2MvMHg3MCBb
+ZHJtX2ttc19oZWxwZXJdClsgICAgNS42NjQ1MTJdICBjb21taXRfdGFpbCsweDNjLzB4NzAgW2Ry
+bV9rbXNfaGVscGVyXQpbICAgIDUuNjY0NTE3XSAgZHJtX2F0b21pY19oZWxwZXJfY29tbWl0KzB4
+MTA4LzB4MTEwIFtkcm1fa21zX2hlbHBlcl0KWyAgICA1LjY2NDUyOF0gIGRybV9jbGllbnRfbW9k
+ZXNldF9jb21taXRfYXRvbWljKzB4MWQwLzB4MWYwIFtkcm1dClsgICAgNS42NjQ1MzldICBkcm1f
+Y2xpZW50X21vZGVzZXRfY29tbWl0X2ZvcmNlKzB4NTAvMHgxNTAgW2RybV0KWyAgICA1LjY2NDU0
+NV0gIGRybV9mYl9oZWxwZXJfcmVzdG9yZV9mYmRldl9tb2RlX3VubG9ja2VkKzB4NDkvMHhhMApb
+ZHJtX2ttc19oZWxwZXJdClsgICAgNS42NjQ1NTBdICBkcm1fZmJfaGVscGVyX3NldF9wYXIrMHgy
+Yy8weDUwIFtkcm1fa21zX2hlbHBlcl0KWyAgICA1LjY2NDU1MV0gIGZiY29uX2luaXQrMHgyYTkv
+MHg1ZDAKWyAgICA1LjY2NDU1M10gIHZpc3VhbF9pbml0KzB4Y2UvMHgxMzAKWyAgICA1LjY2NDU1
+NF0gIGRvX2JpbmRfY29uX2RyaXZlcisweDFiOS8weDJhMApbICAgIDUuNjY0NTU2XSAgZG9fdGFr
+ZV9vdmVyX2NvbnNvbGUrMHgxMTUvMHgxODAKWyAgICA1LjY2NDU1N10gIGRvX2ZiY29uX3Rha2Vv
+dmVyKzB4NTgvMHhiMApbICAgIDUuNjY0NTU5XSAgcmVnaXN0ZXJfZnJhbWVidWZmZXIrMHgxZTQv
+MHgzMDAKWyAgICA1LjY2NDU2NF0gIF9fZHJtX2ZiX2hlbHBlcl9pbml0aWFsX2NvbmZpZ19hbmRf
+dW5sb2NrKzB4MmZhLzB4NDQwCltkcm1fa21zX2hlbHBlcl0KWyAgICA1LjY2NDYxOF0gIGFtZGdw
+dV9mYmRldl9pbml0KzB4YmMvMHhmMCBbYW1kZ3B1XQpbICAgIDUuNjY0Njk3XSAgYW1kZ3B1X2Rl
+dmljZV9pbml0LmNvbGQrMHg1YjUvMHg4ZWMgW2FtZGdwdV0KWyAgICA1LjY2NDc0OF0gIGFtZGdw
+dV9kcml2ZXJfbG9hZF9rbXMrMHg4Ni8weDFmMCBbYW1kZ3B1XQpbICAgIDUuNjY0NzU4XSAgZHJt
+X2Rldl9yZWdpc3RlcisweDExMS8weDE1MCBbZHJtXQpbICAgIDUuNjY0ODA5XSAgYW1kZ3B1X3Bj
+aV9wcm9iZSsweGJkLzB4MTIwIFthbWRncHVdClsgICAgNS42NjQ4MTBdICA/IF9fcG1fcnVudGlt
+ZV9yZXN1bWUrMHg1OC8weDgwClsgICAgNS42NjQ4MTJdICBsb2NhbF9wY2lfcHJvYmUrMHg0Mi8w
+eDgwClsgICAgNS42NjQ4MTNdICBwY2lfZGV2aWNlX3Byb2JlKzB4MTA3LzB4MWIwClsgICAgNS42
+NjQ4MTRdICByZWFsbHlfcHJvYmUrMHhmMC8weDM4MApbICAgIDUuNjY0ODE1XSAgZHJpdmVyX3By
+b2JlX2RldmljZSsweDU5LzB4ZDAKWyAgICA1LjY2NDgxNl0gIGRldmljZV9kcml2ZXJfYXR0YWNo
+KzB4NTMvMHg2MApbICAgIDUuNjY0ODE3XSAgX19kcml2ZXJfYXR0YWNoKzB4OGEvMHgxNTAKWyAg
+ICA1LjY2NDgxOF0gID8gZGV2aWNlX2RyaXZlcl9hdHRhY2grMHg2MC8weDYwClsgICAgNS42NjQ4
+MjBdICBidXNfZm9yX2VhY2hfZGV2KzB4NzgvMHhjMApbICAgIDUuNjY0ODIxXSAgYnVzX2FkZF9k
+cml2ZXIrMHgxNGEvMHgxZTAKWyAgICA1LjY2NDgyMl0gIGRyaXZlcl9yZWdpc3RlcisweDZjLzB4
+YjAKWyAgICA1LjY2NDgyM10gID8gMHhmZmZmZmZmZmMwNzBlMDAwClsgICAgNS42NjQ4MjRdICBk
+b19vbmVfaW5pdGNhbGwrMHg0Ni8weDFmNApbICAgIDUuNjY0ODI2XSAgPyBfY29uZF9yZXNjaGVk
+KzB4MTUvMHgzMApbICAgIDUuNjY0ODI3XSAgPyBrbWVtX2NhY2hlX2FsbG9jX3RyYWNlKzB4MWMx
+LzB4MjEwClsgICAgNS42NjQ4MjhdICA/IGRvX2luaXRfbW9kdWxlKzB4MjMvMHgyMzAKWyAgICA1
+LjY2NDgyOV0gIGRvX2luaXRfbW9kdWxlKzB4NWMvMHgyMzAKWyAgICA1LjY2NDgzMF0gIGxvYWRf
+bW9kdWxlKzB4MTRhOC8weDE2MTAKWyAgICA1LjY2NDgzMl0gID8gdm1hcF9wYWdlX3JhbmdlX25v
+Zmx1c2grMHgyM2MvMHgzNTAKWyAgICA1LjY2NDgzNF0gID8gX19kb19zeXNfaW5pdF9tb2R1bGUr
+MHgxNmUvMHgxYTAKWyAgICA1LjY2NDgzNV0gID8gX2NvbmRfcmVzY2hlZCsweDE1LzB4MzAKWyAg
+ICA1LjY2NDgzNl0gIF9fZG9fc3lzX2luaXRfbW9kdWxlKzB4MTZlLzB4MWEwClsgICAgNS42NjQ4
+MzhdICBkb19zeXNjYWxsXzY0KzB4NmUvMHgxZTAKWyAgICA1LjY2NDgzOV0gIGVudHJ5X1NZU0NB
+TExfNjRfYWZ0ZXJfaHdmcmFtZSsweDQ5LzB4YmUKWyAgICA1LjY2NDg0MF0gUklQOiAwMDMzOjB4
+N2Y3NzMzYjc4MjNhClsgICAgNS42NjQ4NDFdIENvZGU6IDQ4IDhiIDBkIDYxIGFjIDJiIDAwIGY3
+IGQ4IDY0IDg5IDAxIDQ4IDgzIGM4IGZmIGMzIDY2IDJlCjBmIDFmIDg0IDAwIDAwIDAwIDAwIDAw
+IDBmIDFmIDQ0IDAwIDAwIDQ5IDg5IGNhIGI4IGFmIDAwIDAwIDAwIDBmIDA1IDw0OD4gM2QgMDEK
+ZjAgZmYgZmYgNzMgMDEgYzMgNDgKIDhiIDBkIDJlIGFjIDJiIDAwIGY3IGQ4IDY0IDg5IDAxIDQ4
+ClsgICAgNS42NjQ4NDJdIFJTUDogMDAyYjowMDAwN2ZmZmZhNmJhYzM4IEVGTEFHUzogMDAwMDAy
+NDYgT1JJR19SQVg6CjAwMDAwMDAwMDAwMDAwYWYKWyAgICA1LjY2NDg0M10gUkFYOiBmZmZmZmZm
+ZmZmZmZmZmRhIFJCWDogMDAwMDU2NDNiNDg3ZDE0MCBSQ1g6CjAwMDA3Zjc3MzNiNzgyM2EKWyAg
+ICA1LjY2NDg0M10gUkRYOiAwMDAwN2Y3NzM0NGFlOGJkIFJTSTogMDAwMDAwMDAwMDg2NWE3NyBS
+REk6CjAwMDA3Zjc3MmRmZDMwMTAKWyAgICA1LjY2NDg0NF0gUkJQOiAwMDAwN2Y3NzM0NGFlOGJk
+IFIwODogMDAwMDAwMDAwMDAwMDAwMCBSMDk6CjAwMDAwMDAzMDAwMDAwMDEKWyAgICA1LjY2NDg0
+NF0gUjEwOiAwMDAwNTY0M2I0ODhlNDEwIFIxMTogMDAwMDAwMDAwMDAwMDI0NiBSMTI6CjAwMDA3
+Zjc3MmRmZDMwMTAKWyAgICA1LjY2NDg0NF0gUjEzOiAwMDAwNTY0M2I0ODc5OTcwIFIxNDogMDAw
+MDU2NDNiNDg5MDg5MCBSMTU6CjAwMDAwMDAwMDM5Mzg3MDAKWyAgICA1LjY2NDg0Nl0gLS0tWyBl
+bmQgdHJhY2UgZTFlOWJjMTNmNDBiMTE1MSBdLS0tClsgICAgNS42NjUwNjNdIC0tLS0tLS0tLS0t
+LVsgY3V0IGhlcmUgXS0tLS0tLS0tLS0tLQpbICAgIDUuNjY1MTUwXSBXQVJOSU5HOiBDUFU6IDIg
+UElEOiA0MDMgYXQKZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvLi4vZGlzcGxheS9kYy9jb3Jl
+L2RjX2xpbmsuYzoxOTA2CndyaXRlX2kyY19kZWZhdWx0X3JldGltZXJfc2V0dGluZy5jb2xkKzB4
+Yy8weGFiIFthbWRncHVdClsgICAgNS42NjUxNTBdIE1vZHVsZXMgbGlua2VkIGluOiBoaWRfZ2Vu
+ZXJpYyB1c2JoaWQgYW1kZ3B1KCspIGNyY3QxMGRpZl9wY2xtdWwKY3JjMzJfcGNsbXVsIGNyYzMy
+Y19pbnRlbCBydHN4X3BjaV9zZG1tYyBnaGFzaF9jbG11bG5pX2ludGVsIG1tY19jb3JlCmFtZF9p
+b21tdV92MiBncHVfc2NoZWQgaTJjX2EKbGdvX2JpdCBhZXNuaV9pbnRlbCBkcm1fa21zX2hlbHBl
+ciBhZXNfeDg2XzY0IHhoY2lfcGNpIGNyeXB0b19zaW1kIHN5c2NvcHlhcmVhCnN5c2ZpbGxyZWN0
+IHhoY2lfaGNkIHN5c2ltZ2JsdCBmYl9zeXNfZm9wcyB0dG0gY3J5cHRkIGdsdWVfaGVscGVyIGRy
+bSB1c2Jjb3JlCnNlcmlvX3JhdyBydHN4X3BjaSB2aQpkZW8gd21pIHBpbmN0cmxfYW1kIGkyY19o
+aWQgYnV0dG9uIGRtX21pcnJvciBkbV9yZWdpb25faGFzaCBkbV9sb2cgc2cKZG1fbXVsdGlwYXRo
+IGRtX21vZCBzY3NpX2RoX3JkYWMgc2NzaV9kaF9lbWMgc2NzaV9kaF9hbHVhIGVmaXZhcmZzClsg
+ICAgNS42NjUxNTldIENQVTogMiBQSUQ6IDQwMyBDb21tOiBzeXN0ZW1kLXVkZXZkIFRhaW50ZWQ6
+IEcgICAgICAgIFcgICAgICAgIAo1LjMuMC1yYzgtMi5nZDZmMGI3MS1kZWZhdWx0ICMxIG9wZW5T
+VVNFIFR1bWJsZXdlZWQgKHVucmVsZWFzZWQpClsgICAgNS42NjUxNTldIEhhcmR3YXJlIG5hbWU6
+IEFjZXIgTml0cm8gQU41MTUtNDIvRnJlZWRfUlJTLCBCSU9TIFYxLjEzCjAyLzExLzIwMTkKWyAg
+ICA1LjY2NTIzOF0gUklQOiAwMDEwOndyaXRlX2kyY19kZWZhdWx0X3JldGltZXJfc2V0dGluZy5j
+b2xkKzB4Yy8weGFiClthbWRncHVdClsgICAgNS42NjUyMzldIENvZGU6IGFmIDJjIGI1IGQ4IDBm
+IDBiIGU5IGZkIDEwIGZkIGZmIDQ4IGM3IGM3IGMwIDdkIGM3IGMwIGU4CjljIDJjIGI1IGQ4IDBm
+IDBiIGU5IGQzIDBmIGZkIGZmIDQ4IGM3IGM3IGMwIDdkIGM3IGMwIGU4IDg5IDJjIGI1IGQ4IDww
+Zj4gMGIgZTkKNmMgMTQgZmQgZmYgNDggYzcgYzcKIGMwIDdkIGM3IGMwIGU4IDc2IDJjIGI1IGQ4
+IDBmIDBiIGU5ClsgICAgNS42NjUyNDBdIFJTUDogMDAxODpmZmZmYWNjZDgwNGI3MjQ4IEVGTEFH
+UzogMDAwMTAyNDYKWyAgICA1LjY2NTI0MV0gUkFYOiAwMDAwMDAwMDAwMDAwMDI0IFJCWDogMDAw
+MDAwMDAwMDAwMDAwMCBSQ1g6CjAwMDAwMDAwMDAwMDAwMDYKWyAgICA1LjY2NTI0MV0gUkRYOiAw
+MDAwMDAwMDAwMDAwMDAwIFJTSTogMDAwMDAwMDAwMDAwMDAwMiBSREk6CmZmZmY5ZWIwOGVjOTlh
+MTAKWyAgICA1LjY2NTI0MV0gUkJQOiBmZmZmOWViMDc3ZDQwMWI4IFIwODogMDAwMDAwMDE1MWFh
+MDNmNiBSMDk6CmZmZmY5ZWIwOGYyMTljNDAKWyAgICA1LjY2NTI0Ml0gUjEwOiAwMDAwMDAwMDAw
+MDAwNGEwIFIxMTogMDAwMDAwMDAwMDBlN2QyYyBSMTI6CjAwMDAwMDAwMDAwMDAwMDAKWyAgICA1
+LjY2NTI0Ml0gUjEzOiAwMDAwMDAwMDAwMDAwMDAwIFIxNDogZmZmZjllYjA3N2MwMDAwMCBSMTU6
+CmZmZmY5ZWIwNzdjZTM4MDAKWyAgICA1LjY2NTI0M10gRlM6ICAwMDAwN2Y3NzM0ZDM0ZDQwKDAw
+MDApIEdTOmZmZmY5ZWIwOGVjODAwMDAoMDAwMCkKa25sR1M6MDAwMDAwMDAwMDAwMDAwMApbICAg
+IDUuNjY1MjQ0XSBDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1IwOiAwMDAwMDAwMDgwMDUw
+MDMzClsgICAgNS42NjUyNDRdIENSMjogMDAwMDdmNzcyZTgzOGE3MCBDUjM6IDAwMDAwMDAyM2Vi
+ZTIwMDAgQ1I0OgowMDAwMDAwMDAwMzQwNmUwClsgICAgNS42NjUyNDVdIENhbGwgVHJhY2U6Clsg
+ICAgNS42NjUzMTldICBjb3JlX2xpbmtfZW5hYmxlX3N0cmVhbSsweDg2MS8weDg3MCBbYW1kZ3B1
+XQpbICAgIDUuNjY1Mzk0XSAgPyBkY2UxMTBfYXBwbHlfY3R4X3RvX2h3KzB4NGIwLzB4NTMwIFth
+bWRncHVdClsgICAgNS42NjU0NjZdICBkY2UxMTBfYXBwbHlfY3R4X3RvX2h3KzB4NGIwLzB4NTMw
+IFthbWRncHVdClsgICAgNS42NjU1MzhdICBkY19jb21taXRfc3RhdGVfbm9fY2hlY2srMHgyMTYv
+MHg1NDAgW2FtZGdwdV0KWyAgICA1LjY2NTYwOV0gIGRjX2NvbW1pdF9zdGF0ZSsweDhmLzB4YjAg
+W2FtZGdwdV0KWyAgICA1LjY2NTY4M10gIGFtZGdwdV9kbV9hdG9taWNfY29tbWl0X3RhaWwrMHgz
+YmYvMHhmYjAgW2FtZGdwdV0KWyAgICA1LjY2NTc1NV0gID8gZmlsbF9kY19wbGFuZV9pbmZvX2Fu
+ZF9hZGRyKzB4MzQwLzB4MzQwIFthbWRncHVdClsgICAgNS42NjU4MjVdICA/IGRtX3BsYW5lX2hl
+bHBlcl9wcmVwYXJlX2ZiKzB4MjBkLzB4MjkwIFthbWRncHVdClsgICAgNS42NjU4MzFdICA/IGNv
+bW1pdF90YWlsKzB4M2MvMHg3MCBbZHJtX2ttc19oZWxwZXJdClsgICAgNS42NjU4MzZdICBjb21t
+aXRfdGFpbCsweDNjLzB4NzAgW2RybV9rbXNfaGVscGVyXQpbICAgIDUuNjY1ODQyXSAgZHJtX2F0
+b21pY19oZWxwZXJfY29tbWl0KzB4MTA4LzB4MTEwIFtkcm1fa21zX2hlbHBlcl0KWyAgICA1LjY2
+NTg1M10gIGRybV9jbGllbnRfbW9kZXNldF9jb21taXRfYXRvbWljKzB4MWQwLzB4MWYwIFtkcm1d
+ClsgICAgNS42NjU4NjNdICBkcm1fY2xpZW50X21vZGVzZXRfY29tbWl0X2ZvcmNlKzB4NTAvMHgx
+NTAgW2RybV0KWyAgICA1LjY2NTg2OV0gIGRybV9mYl9oZWxwZXJfcmVzdG9yZV9mYmRldl9tb2Rl
+X3VubG9ja2VkKzB4NDkvMHhhMApbZHJtX2ttc19oZWxwZXJdClsgICAgNS42NjU4NzRdICBkcm1f
+ZmJfaGVscGVyX3NldF9wYXIrMHgyYy8weDUwIFtkcm1fa21zX2hlbHBlcl0KWyAgICA1LjY2NTg3
+Nl0gIGZiY29uX2luaXQrMHgyYTkvMHg1ZDAKWyAgICA1LjY2NTg3N10gIHZpc3VhbF9pbml0KzB4
+Y2UvMHgxMzAKWyAgICA1LjY2NTg3OV0gIGRvX2JpbmRfY29uX2RyaXZlcisweDFiOS8weDJhMApb
+ICAgIDUuNjY1ODgwXSAgZG9fdGFrZV9vdmVyX2NvbnNvbGUrMHgxMTUvMHgxODAKWyAgICA1LjY2
+NTg4MV0gIGRvX2ZiY29uX3Rha2VvdmVyKzB4NTgvMHhiMApbICAgIDUuNjY1ODgzXSAgcmVnaXN0
+ZXJfZnJhbWVidWZmZXIrMHgxZTQvMHgzMDAKWyAgICA1LjY2NTg4OF0gIF9fZHJtX2ZiX2hlbHBl
+cl9pbml0aWFsX2NvbmZpZ19hbmRfdW5sb2NrKzB4MmZhLzB4NDQwCltkcm1fa21zX2hlbHBlcl0K
+WyAgICA1LjY2NTk0M10gIGFtZGdwdV9mYmRldl9pbml0KzB4YmMvMHhmMCBbYW1kZ3B1XQpbICAg
+IDUuNjY2MDIxXSAgYW1kZ3B1X2RldmljZV9pbml0LmNvbGQrMHg1YjUvMHg4ZWMgW2FtZGdwdV0K
+WyAgICA1LjY2NjA3M10gIGFtZGdwdV9kcml2ZXJfbG9hZF9rbXMrMHg4Ni8weDFmMCBbYW1kZ3B1
+XQpbICAgIDUuNjY2MDgyXSAgZHJtX2Rldl9yZWdpc3RlcisweDExMS8weDE1MCBbZHJtXQpbICAg
+IDUuNjY2MTMzXSAgYW1kZ3B1X3BjaV9wcm9iZSsweGJkLzB4MTIwIFthbWRncHVdClsgICAgNS42
+NjYxMzVdICA/IF9fcG1fcnVudGltZV9yZXN1bWUrMHg1OC8weDgwClsgICAgNS42NjYxMzZdICBs
+b2NhbF9wY2lfcHJvYmUrMHg0Mi8weDgwClsgICAgNS42NjYxMzddICBwY2lfZGV2aWNlX3Byb2Jl
+KzB4MTA3LzB4MWIwClsgICAgNS42NjYxMzhdICByZWFsbHlfcHJvYmUrMHhmMC8weDM4MApbICAg
+IDUuNjY2MTM5XSAgZHJpdmVyX3Byb2JlX2RldmljZSsweDU5LzB4ZDAKWyAgICA1LjY2NjE0MF0g
+IGRldmljZV9kcml2ZXJfYXR0YWNoKzB4NTMvMHg2MApbICAgIDUuNjY2MTQxXSAgX19kcml2ZXJf
+YXR0YWNoKzB4OGEvMHgxNTAKWyAgICA1LjY2NjE0Ml0gID8gZGV2aWNlX2RyaXZlcl9hdHRhY2gr
+MHg2MC8weDYwClsgICAgNS42NjYxNDNdICBidXNfZm9yX2VhY2hfZGV2KzB4NzgvMHhjMApbICAg
+IDUuNjY2MTQ1XSAgYnVzX2FkZF9kcml2ZXIrMHgxNGEvMHgxZTAKWyAgICA1LjY2NjE0Nl0gIGRy
+aXZlcl9yZWdpc3RlcisweDZjLzB4YjAKWyAgICA1LjY2NjE0N10gID8gMHhmZmZmZmZmZmMwNzBl
+MDAwClsgICAgNS42NjYxNDhdICBkb19vbmVfaW5pdGNhbGwrMHg0Ni8weDFmNApbICAgIDUuNjY2
+MTQ5XSAgPyBfY29uZF9yZXNjaGVkKzB4MTUvMHgzMApbICAgIDUuNjY2MTUwXSAgPyBrbWVtX2Nh
+Y2hlX2FsbG9jX3RyYWNlKzB4MWMxLzB4MjEwClsgICAgNS42NjYxNTFdICA/IGRvX2luaXRfbW9k
+dWxlKzB4MjMvMHgyMzAKWyAgICA1LjY2NjE1M10gIGRvX2luaXRfbW9kdWxlKzB4NWMvMHgyMzAK
+WyAgICA1LjY2NjE1NF0gIGxvYWRfbW9kdWxlKzB4MTRhOC8weDE2MTAKWyAgICA1LjY2NjE1NV0g
+ID8gdm1hcF9wYWdlX3JhbmdlX25vZmx1c2grMHgyM2MvMHgzNTAKWyAgICA1LjY2NjE1N10gID8g
+X19kb19zeXNfaW5pdF9tb2R1bGUrMHgxNmUvMHgxYTAKWyAgICA1LjY2NjE1OF0gID8gX2NvbmRf
+cmVzY2hlZCsweDE1LzB4MzAKWyAgICA1LjY2NjE1OV0gIF9fZG9fc3lzX2luaXRfbW9kdWxlKzB4
+MTZlLzB4MWEwClsgICAgNS42NjYxNjFdICBkb19zeXNjYWxsXzY0KzB4NmUvMHgxZTAKWyAgICA1
+LjY2NjE2Ml0gIGVudHJ5X1NZU0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsweDQ5LzB4YmUKWyAgICA1
+LjY2NjE2M10gUklQOiAwMDMzOjB4N2Y3NzMzYjc4MjNhClsgICAgNS42NjYxNjRdIENvZGU6IDQ4
+IDhiIDBkIDYxIGFjIDJiIDAwIGY3IGQ4IDY0IDg5IDAxIDQ4IDgzIGM4IGZmIGMzIDY2IDJlCjBm
+IDFmIDg0IDAwIDAwIDAwIDAwIDAwIDBmIDFmIDQ0IDAwIDAwIDQ5IDg5IGNhIGI4IGFmIDAwIDAw
+IDAwIDBmIDA1IDw0OD4gM2QgMDEKZjAgZmYgZmYgNzMgMDEgYzMgNDgKIDhiIDBkIDJlIGFjIDJi
+IDAwIGY3IGQ4IDY0IDg5IDAxIDQ4ClsgICAgNS42NjYxNjVdIFJTUDogMDAyYjowMDAwN2ZmZmZh
+NmJhYzM4IEVGTEFHUzogMDAwMDAyNDYgT1JJR19SQVg6CjAwMDAwMDAwMDAwMDAwYWYKWyAgICA1
+LjY2NjE2Nl0gUkFYOiBmZmZmZmZmZmZmZmZmZmRhIFJCWDogMDAwMDU2NDNiNDg3ZDE0MCBSQ1g6
+CjAwMDA3Zjc3MzNiNzgyM2EKWyAgICA1LjY2NjE2Nl0gUkRYOiAwMDAwN2Y3NzM0NGFlOGJkIFJT
+STogMDAwMDAwMDAwMDg2NWE3NyBSREk6CjAwMDA3Zjc3MmRmZDMwMTAKWyAgICA1LjY2NjE2N10g
+UkJQOiAwMDAwN2Y3NzM0NGFlOGJkIFIwODogMDAwMDAwMDAwMDAwMDAwMCBSMDk6CjAwMDAwMDAz
+MDAwMDAwMDEKWyAgICA1LjY2NjE2N10gUjEwOiAwMDAwNTY0M2I0ODhlNDEwIFIxMTogMDAwMDAw
+MDAwMDAwMDI0NiBSMTI6CjAwMDA3Zjc3MmRmZDMwMTAKWyAgICA1LjY2NjE2OF0gUjEzOiAwMDAw
+NTY0M2I0ODc5OTcwIFIxNDogMDAwMDU2NDNiNDg5MDg5MCBSMTU6CjAwMDAwMDAwMDM5Mzg3MDAK
+WyAgICA1LjY2NjE2OV0gLS0tWyBlbmQgdHJhY2UgZTFlOWJjMTNmNDBiMTE1MiBdLS0tClsgICAg
+NS42NjYzOTVdIC0tLS0tLS0tLS0tLVsgY3V0IGhlcmUgXS0tLS0tLS0tLS0tLQpbICAgIDUuNjY2
+NDgxXSBXQVJOSU5HOiBDUFU6IDIgUElEOiA0MDMgYXQKZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRn
+cHUvLi4vZGlzcGxheS9kYy9jb3JlL2RjX2xpbmsuYzoxOTE4CndyaXRlX2kyY19kZWZhdWx0X3Jl
+dGltZXJfc2V0dGluZy5jb2xkKzB4MWYvMHhhYiBbYW1kZ3B1XQpbICAgIDUuNjY2NDgxXSBNb2R1
+bGVzIGxpbmtlZCBpbjogaGlkX2dlbmVyaWMgdXNiaGlkIGFtZGdwdSgrKSBjcmN0MTBkaWZfcGNs
+bXVsCmNyYzMyX3BjbG11bCBjcmMzMmNfaW50ZWwgcnRzeF9wY2lfc2RtbWMgZ2hhc2hfY2xtdWxu
+aV9pbnRlbCBtbWNfY29yZQphbWRfaW9tbXVfdjIgZ3B1X3NjaGVkIGkyY19hCmxnb19iaXQgYWVz
+bmlfaW50ZWwgZHJtX2ttc19oZWxwZXIgYWVzX3g4Nl82NCB4aGNpX3BjaSBjcnlwdG9fc2ltZCBz
+eXNjb3B5YXJlYQpzeXNmaWxscmVjdCB4aGNpX2hjZCBzeXNpbWdibHQgZmJfc3lzX2ZvcHMgdHRt
+IGNyeXB0ZCBnbHVlX2hlbHBlciBkcm0gdXNiY29yZQpzZXJpb19yYXcgcnRzeF9wY2kgdmkKZGVv
+IHdtaSBwaW5jdHJsX2FtZCBpMmNfaGlkIGJ1dHRvbiBkbV9taXJyb3IgZG1fcmVnaW9uX2hhc2gg
+ZG1fbG9nIHNnCmRtX211bHRpcGF0aCBkbV9tb2Qgc2NzaV9kaF9yZGFjIHNjc2lfZGhfZW1jIHNj
+c2lfZGhfYWx1YSBlZml2YXJmcwpbICAgIDUuNjY2NDkxXSBDUFU6IDIgUElEOiA0MDMgQ29tbTog
+c3lzdGVtZC11ZGV2ZCBUYWludGVkOiBHICAgICAgICBXICAgICAgICAKNS4zLjAtcmM4LTIuZ2Q2
+ZjBiNzEtZGVmYXVsdCAjMSBvcGVuU1VTRSBUdW1ibGV3ZWVkICh1bnJlbGVhc2VkKQpbICAgIDUu
+NjY2NDkxXSBIYXJkd2FyZSBuYW1lOiBBY2VyIE5pdHJvIEFONTE1LTQyL0ZyZWVkX1JSUywgQklP
+UyBWMS4xMwowMi8xMS8yMDE5ClsgICAgNS42NjY1NjldIFJJUDogMDAxMDp3cml0ZV9pMmNfZGVm
+YXVsdF9yZXRpbWVyX3NldHRpbmcuY29sZCsweDFmLzB4YWIKW2FtZGdwdV0KWyAgICA1LjY2NjU3
+MV0gQ29kZTogOWMgMmMgYjUgZDggMGYgMGIgZTkgZDMgMGYgZmQgZmYgNDggYzcgYzcgYzAgN2Qg
+YzcgYzAgZTgKODkgMmMgYjUgZDggMGYgMGIgZTkgNmMgMTQgZmQgZmYgNDggYzcgYzcgYzAgN2Qg
+YzcgYzAgZTggNzYgMmMgYjUgZDggPDBmPiAwYiBlOQphYiAxNCBmZCBmZiA0OCBjNyBjNwogYzAg
+N2QgYzcgYzAgZTggNjMgMmMgYjUgZDggMGYgMGIgZTkKWyAgICA1LjY2NjU3MV0gUlNQOiAwMDE4
+OmZmZmZhY2NkODA0YjcyNDggRUZMQUdTOiAwMDAxMDI0NgpbICAgIDUuNjY2NTczXSBSQVg6IDAw
+MDAwMDAwMDAwMDAwMjQgUkJYOiAwMDAwMDAwMDAwMDAwMDAwIFJDWDoKMDAwMDAwMDAwMDAwMDAw
+MApbICAgIDUuNjY2NTczXSBSRFg6IDAwMDAwMDAwMDAwMDAwMDAgUlNJOiBmZmZmOWViMDhlYzk5
+YTE4IFJESToKZmZmZjllYjA4ZWM5OWExOApbICAgIDUuNjY2NTc0XSBSQlA6IGZmZmY5ZWIwNzdk
+NDAxYjggUjA4OiBmZmZmOWViMDhlYzk5YTE4IFIwOToKZmZmZjllYjA4ZjIxOWM0MApbICAgIDUu
+NjY2NTc0XSBSMTA6IDAwMDAwMDAwMDAwMDA0ZWQgUjExOiAwMDAwMDAwMDAwMGU2NzY0IFIxMjoK
+MDAwMDAwMDAwMDAwMDAwMApbICAgIDUuNjY2NTc0XSBSMTM6IDAwMDAwMDAwMDAwMDAwMDAgUjE0
+OiBmZmZmOWViMDc3YzAwMDAwIFIxNToKZmZmZjllYjA3N2NlMzgwMApbICAgIDUuNjY2NTc1XSBG
+UzogIDAwMDA3Zjc3MzRkMzRkNDAoMDAwMCkgR1M6ZmZmZjllYjA4ZWM4MDAwMCgwMDAwKQprbmxH
+UzowMDAwMDAwMDAwMDAwMDAwClsgICAgNS42NjY1NzZdIENTOiAgMDAxMCBEUzogMDAwMCBFUzog
+MDAwMCBDUjA6IDAwMDAwMDAwODAwNTAwMzMKWyAgICA1LjY2NjU3Nl0gQ1IyOiAwMDAwN2Y3NzJl
+ODM4YTcwIENSMzogMDAwMDAwMDIzZWJlMjAwMCBDUjQ6CjAwMDAwMDAwMDAzNDA2ZTAKWyAgICA1
+LjY2NjU3N10gQ2FsbCBUcmFjZToKWyAgICA1LjY2NjY1MV0gIGNvcmVfbGlua19lbmFibGVfc3Ry
+ZWFtKzB4ODYxLzB4ODcwIFthbWRncHVdClsgICAgNS42NjY3MjRdICA/IGRjZTExMF9hcHBseV9j
+dHhfdG9faHcrMHg0YjAvMHg1MzAgW2FtZGdwdV0KWyAgICA1LjY2Njc5Nl0gIGRjZTExMF9hcHBs
+eV9jdHhfdG9faHcrMHg0YjAvMHg1MzAgW2FtZGdwdV0KWyAgICA1LjY2Njg2OF0gIGRjX2NvbW1p
+dF9zdGF0ZV9ub19jaGVjaysweDIxNi8weDU0MCBbYW1kZ3B1XQpbICAgIDUuNjY2OTQwXSAgZGNf
+Y29tbWl0X3N0YXRlKzB4OGYvMHhiMCBbYW1kZ3B1XQpbICAgIDUuNjY3MDEzXSAgYW1kZ3B1X2Rt
+X2F0b21pY19jb21taXRfdGFpbCsweDNiZi8weGZiMCBbYW1kZ3B1XQpbICAgIDUuNjY3MDg1XSAg
+PyBmaWxsX2RjX3BsYW5lX2luZm9fYW5kX2FkZHIrMHgzNDAvMHgzNDAgW2FtZGdwdV0KWyAgICA1
+LjY2NzE1NV0gID8gZG1fcGxhbmVfaGVscGVyX3ByZXBhcmVfZmIrMHgyMGQvMHgyOTAgW2FtZGdw
+dV0KWyAgICA1LjY2NzE2MV0gID8gY29tbWl0X3RhaWwrMHgzYy8weDcwIFtkcm1fa21zX2hlbHBl
+cl0KWyAgICA1LjY2NzE2Nl0gIGNvbW1pdF90YWlsKzB4M2MvMHg3MCBbZHJtX2ttc19oZWxwZXJd
+ClsgICAgNS42NjcxNzJdICBkcm1fYXRvbWljX2hlbHBlcl9jb21taXQrMHgxMDgvMHgxMTAgW2Ry
+bV9rbXNfaGVscGVyXQpbICAgIDUuNjY3MTgyXSAgZHJtX2NsaWVudF9tb2Rlc2V0X2NvbW1pdF9h
+dG9taWMrMHgxZDAvMHgxZjAgW2RybV0KWyAgICA1LjY2NzE5M10gIGRybV9jbGllbnRfbW9kZXNl
+dF9jb21taXRfZm9yY2UrMHg1MC8weDE1MCBbZHJtXQpbICAgIDUuNjY3MTk5XSAgZHJtX2ZiX2hl
+bHBlcl9yZXN0b3JlX2ZiZGV2X21vZGVfdW5sb2NrZWQrMHg0OS8weGEwCltkcm1fa21zX2hlbHBl
+cl0KWyAgICA1LjY2NzIwNF0gIGRybV9mYl9oZWxwZXJfc2V0X3BhcisweDJjLzB4NTAgW2RybV9r
+bXNfaGVscGVyXQpbICAgIDUuNjY3MjA2XSAgZmJjb25faW5pdCsweDJhOS8weDVkMApbICAgIDUu
+NjY3MjA3XSAgdmlzdWFsX2luaXQrMHhjZS8weDEzMApbICAgIDUuNjY3MjA5XSAgZG9fYmluZF9j
+b25fZHJpdmVyKzB4MWI5LzB4MmEwClsgICAgNS42NjcyMTBdICBkb190YWtlX292ZXJfY29uc29s
+ZSsweDExNS8weDE4MApbICAgIDUuNjY3MjExXSAgZG9fZmJjb25fdGFrZW92ZXIrMHg1OC8weGIw
+ClsgICAgNS42NjcyMTNdICByZWdpc3Rlcl9mcmFtZWJ1ZmZlcisweDFlNC8weDMwMApbICAgIDUu
+NjY3MjE4XSAgX19kcm1fZmJfaGVscGVyX2luaXRpYWxfY29uZmlnX2FuZF91bmxvY2srMHgyZmEv
+MHg0NDAKW2RybV9rbXNfaGVscGVyXQpbICAgIDUuNjY3MjczXSAgYW1kZ3B1X2ZiZGV2X2luaXQr
+MHhiYy8weGYwIFthbWRncHVdClsgICAgNS42NjczNTFdICBhbWRncHVfZGV2aWNlX2luaXQuY29s
+ZCsweDViNS8weDhlYyBbYW1kZ3B1XQpbICAgIDUuNjY3NDAyXSAgYW1kZ3B1X2RyaXZlcl9sb2Fk
+X2ttcysweDg2LzB4MWYwIFthbWRncHVdClsgICAgNS42Njc0MTFdICBkcm1fZGV2X3JlZ2lzdGVy
+KzB4MTExLzB4MTUwIFtkcm1dClsgICAgNS42Njc0NjJdICBhbWRncHVfcGNpX3Byb2JlKzB4YmQv
+MHgxMjAgW2FtZGdwdV0KWyAgICA1LjY2NzQ2NF0gID8gX19wbV9ydW50aW1lX3Jlc3VtZSsweDU4
+LzB4ODAKWyAgICA1LjY2NzQ2Nl0gIGxvY2FsX3BjaV9wcm9iZSsweDQyLzB4ODAKWyAgICA1LjY2
+NzQ2N10gIHBjaV9kZXZpY2VfcHJvYmUrMHgxMDcvMHgxYjAKWyAgICA1LjY2NzQ2OF0gIHJlYWxs
+eV9wcm9iZSsweGYwLzB4MzgwClsgICAgNS42Njc0NjldICBkcml2ZXJfcHJvYmVfZGV2aWNlKzB4
+NTkvMHhkMApbICAgIDUuNjY3NDcwXSAgZGV2aWNlX2RyaXZlcl9hdHRhY2grMHg1My8weDYwClsg
+ICAgNS42Njc0NzFdICBfX2RyaXZlcl9hdHRhY2grMHg4YS8weDE1MApbICAgIDUuNjY3NDcyXSAg
+PyBkZXZpY2VfZHJpdmVyX2F0dGFjaCsweDYwLzB4NjAKWyAgICA1LjY2NzQ3M10gIGJ1c19mb3Jf
+ZWFjaF9kZXYrMHg3OC8weGMwClsgICAgNS42Njc0NzVdICBidXNfYWRkX2RyaXZlcisweDE0YS8w
+eDFlMApbICAgIDUuNjY3NDc2XSAgZHJpdmVyX3JlZ2lzdGVyKzB4NmMvMHhiMApbICAgIDUuNjY3
+NDc3XSAgPyAweGZmZmZmZmZmYzA3MGUwMDAKWyAgICA1LjY2NzQ3OF0gIGRvX29uZV9pbml0Y2Fs
+bCsweDQ2LzB4MWY0ClsgICAgNS42Njc0NzldICA/IF9jb25kX3Jlc2NoZWQrMHgxNS8weDMwClsg
+ICAgNS42Njc0ODFdICA/IGttZW1fY2FjaGVfYWxsb2NfdHJhY2UrMHgxYzEvMHgyMTAKWyAgICA1
+LjY2NzQ4Ml0gID8gZG9faW5pdF9tb2R1bGUrMHgyMy8weDIzMApbICAgIDUuNjY3NDgzXSAgZG9f
+aW5pdF9tb2R1bGUrMHg1Yy8weDIzMApbICAgIDUuNjY3NDg0XSAgbG9hZF9tb2R1bGUrMHgxNGE4
+LzB4MTYxMApbICAgIDUuNjY3NDg2XSAgPyB2bWFwX3BhZ2VfcmFuZ2Vfbm9mbHVzaCsweDIzYy8w
+eDM1MApbICAgIDUuNjY3NDg4XSAgPyBfX2RvX3N5c19pbml0X21vZHVsZSsweDE2ZS8weDFhMApb
+ICAgIDUuNjY3NDg5XSAgPyBfY29uZF9yZXNjaGVkKzB4MTUvMHgzMApbICAgIDUuNjY3NDkwXSAg
+X19kb19zeXNfaW5pdF9tb2R1bGUrMHgxNmUvMHgxYTAKWyAgICA1LjY2NzQ5Ml0gIGRvX3N5c2Nh
+bGxfNjQrMHg2ZS8weDFlMApbICAgIDUuNjY3NDkzXSAgZW50cnlfU1lTQ0FMTF82NF9hZnRlcl9o
+d2ZyYW1lKzB4NDkvMHhiZQpbICAgIDUuNjY3NDk0XSBSSVA6IDAwMzM6MHg3Zjc3MzNiNzgyM2EK
+WyAgICA1LjY2NzQ5NV0gQ29kZTogNDggOGIgMGQgNjEgYWMgMmIgMDAgZjcgZDggNjQgODkgMDEg
+NDggODMgYzggZmYgYzMgNjYgMmUKMGYgMWYgODQgMDAgMDAgMDAgMDAgMDAgMGYgMWYgNDQgMDAg
+MDAgNDkgODkgY2EgYjggYWYgMDAgMDAgMDAgMGYgMDUgPDQ4PiAzZCAwMQpmMCBmZiBmZiA3MyAw
+MSBjMyA0OAogOGIgMGQgMmUgYWMgMmIgMDAgZjcgZDggNjQgODkgMDEgNDgKWyAgICA1LjY2NzQ5
+Nl0gUlNQOiAwMDJiOjAwMDA3ZmZmZmE2YmFjMzggRUZMQUdTOiAwMDAwMDI0NiBPUklHX1JBWDoK
+MDAwMDAwMDAwMDAwMDBhZgpbICAgIDUuNjY3NDk3XSBSQVg6IGZmZmZmZmZmZmZmZmZmZGEgUkJY
+OiAwMDAwNTY0M2I0ODdkMTQwIFJDWDoKMDAwMDdmNzczM2I3ODIzYQpbICAgIDUuNjY3NDk4XSBS
+RFg6IDAwMDA3Zjc3MzQ0YWU4YmQgUlNJOiAwMDAwMDAwMDAwODY1YTc3IFJESToKMDAwMDdmNzcy
+ZGZkMzAxMApbICAgIDUuNjY3NDk4XSBSQlA6IDAwMDA3Zjc3MzQ0YWU4YmQgUjA4OiAwMDAwMDAw
+MDAwMDAwMDAwIFIwOToKMDAwMDAwMDMwMDAwMDAwMQpbICAgIDUuNjY3NDk5XSBSMTA6IDAwMDA1
+NjQzYjQ4OGU0MTAgUjExOiAwMDAwMDAwMDAwMDAwMjQ2IFIxMjoKMDAwMDdmNzcyZGZkMzAxMApb
+ICAgIDUuNjY3NDk5XSBSMTM6IDAwMDA1NjQzYjQ4Nzk5NzAgUjE0OiAwMDAwNTY0M2I0ODkwODkw
+IFIxNToKMDAwMDAwMDAwMzkzODcwMApbICAgIDUuNjY3NTAwXSAtLS1bIGVuZCB0cmFjZSBlMWU5
+YmMxM2Y0MGIxMTUzIF0tLS0KWyAgICA1LjY2NzcxOF0gLS0tLS0tLS0tLS0tWyBjdXQgaGVyZSBd
+LS0tLS0tLS0tLS0tClsgICAgNS42Njc4MDRdIFdBUk5JTkc6IENQVTogMiBQSUQ6IDQwMyBhdApk
+cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8uLi9kaXNwbGF5L2RjL2NvcmUvZGNfbGluay5jOjE5
+MzAKd3JpdGVfaTJjX2RlZmF1bHRfcmV0aW1lcl9zZXR0aW5nLmNvbGQrMHg1OC8weGFiIFthbWRn
+cHVdClsgICAgNS42Njc4MDVdIE1vZHVsZXMgbGlua2VkIGluOiBoaWRfZ2VuZXJpYyB1c2JoaWQg
+YW1kZ3B1KCspIGNyY3QxMGRpZl9wY2xtdWwKY3JjMzJfcGNsbXVsIGNyYzMyY19pbnRlbCBydHN4
+X3BjaV9zZG1tYyBnaGFzaF9jbG11bG5pX2ludGVsIG1tY19jb3JlCmFtZF9pb21tdV92MiBncHVf
+c2NoZWQgaTJjX2EKbGdvX2JpdCBhZXNuaV9pbnRlbCBkcm1fa21zX2hlbHBlciBhZXNfeDg2XzY0
+IHhoY2lfcGNpIGNyeXB0b19zaW1kIHN5c2NvcHlhcmVhCnN5c2ZpbGxyZWN0IHhoY2lfaGNkIHN5
+c2ltZ2JsdCBmYl9zeXNfZm9wcyB0dG0gY3J5cHRkIGdsdWVfaGVscGVyIGRybSB1c2Jjb3JlCnNl
+cmlvX3JhdyBydHN4X3BjaSB2aQpkZW8gd21pIHBpbmN0cmxfYW1kIGkyY19oaWQgYnV0dG9uIGRt
+X21pcnJvciBkbV9yZWdpb25faGFzaCBkbV9sb2cgc2cKZG1fbXVsdGlwYXRoIGRtX21vZCBzY3Np
+X2RoX3JkYWMgc2NzaV9kaF9lbWMgc2NzaV9kaF9hbHVhIGVmaXZhcmZzClsgICAgNS42Njc4MTRd
+IENQVTogMiBQSUQ6IDQwMyBDb21tOiBzeXN0ZW1kLXVkZXZkIFRhaW50ZWQ6IEcgICAgICAgIFcg
+ICAgICAgIAo1LjMuMC1yYzgtMi5nZDZmMGI3MS1kZWZhdWx0ICMxIG9wZW5TVVNFIFR1bWJsZXdl
+ZWQgKHVucmVsZWFzZWQpClsgICAgNS42Njc4MTRdIEhhcmR3YXJlIG5hbWU6IEFjZXIgTml0cm8g
+QU41MTUtNDIvRnJlZWRfUlJTLCBCSU9TIFYxLjEzCjAyLzExLzIwMTkKWyAgICA1LjY2Nzg5Ml0g
+UklQOiAwMDEwOndyaXRlX2kyY19kZWZhdWx0X3JldGltZXJfc2V0dGluZy5jb2xkKzB4NTgvMHhh
+YgpbYW1kZ3B1XQpbICAgIDUuNjY3ODk0XSBDb2RlOiA2MyAyYyBiNSBkOCAwZiAwYiBlOSBlYSAx
+MyBmZCBmZiA0OCBjNyBjNyBjMCA3ZCBjNyBjMCBlOAo1MCAyYyBiNSBkOCAwZiAwYiBlOSA4MyAx
+MyBmZCBmZiA0OCBjNyBjNyBjMCA3ZCBjNyBjMCBlOCAzZCAyYyBiNSBkOCA8MGY+IDBiIGU5CmNk
+IDE0IGZkIGZmIDQ4IGM3IGM3CiBjMCA3ZCBjNyBjMCBlOCAyYSAyYyBiNSBkOCAwZiAwYiBlOQpb
+ICAgIDUuNjY3ODk0XSBSU1A6IDAwMTg6ZmZmZmFjY2Q4MDRiNzI0OCBFRkxBR1M6IDAwMDEwMjQ2
+ClsgICAgNS42Njc4OTZdIFJBWDogMDAwMDAwMDAwMDAwMDAyNCBSQlg6IDAwMDAwMDAwMDAwMDAw
+MDAgUkNYOgowMDAwMDAwMDAwMDAwMDA2ClsgICAgNS42Njc4OTZdIFJEWDogMDAwMDAwMDAwMDAw
+MDAwMCBSU0k6IDAwMDAwMDAwMDAwMDAwMDIgUkRJOgpmZmZmOWViMDhlYzk5YTEwClsgICAgNS42
+Njc4OTZdIFJCUDogZmZmZjllYjA3N2Q0MDFiOCBSMDg6IDAwMDAwMDAxNTFkMjg1ZGQgUjA5Ogpm
+ZmZmOWViMDhmMjE5YzQwClsgICAgNS42Njc4OTddIFIxMDogMDAwMDAwMDAwMDAwMDUzYSBSMTE6
+IDAwMDAwMDAwMDAwZTUxOWMgUjEyOgowMDAwMDAwMDAwMDAwMDAwClsgICAgNS42Njc4OTddIFIx
+MzogMDAwMDAwMDAwMDAwMDAwMCBSMTQ6IGZmZmY5ZWIwNzdjMDAwMDAgUjE1OgpmZmZmOWViMDc3
+Y2UzODAwClsgICAgNS42Njc4OThdIEZTOiAgMDAwMDdmNzczNGQzNGQ0MCgwMDAwKSBHUzpmZmZm
+OWViMDhlYzgwMDAwKDAwMDApCmtubEdTOjAwMDAwMDAwMDAwMDAwMDAKWyAgICA1LjY2Nzg5OV0g
+Q1M6ICAwMDEwIERTOiAwMDAwIEVTOiAwMDAwIENSMDogMDAwMDAwMDA4MDA1MDAzMwpbICAgIDUu
+NjY3ODk5XSBDUjI6IDAwMDA3Zjc3MmU4MzhhNzAgQ1IzOiAwMDAwMDAwMjNlYmUyMDAwIENSNDoK
+MDAwMDAwMDAwMDM0MDZlMApbICAgIDUuNjY3OTAwXSBDYWxsIFRyYWNlOgpbICAgIDUuNjY3OTcz
+XSAgY29yZV9saW5rX2VuYWJsZV9zdHJlYW0rMHg4NjEvMHg4NzAgW2FtZGdwdV0KWyAgICA1LjY2
+ODA0Nl0gID8gZGNlMTEwX2FwcGx5X2N0eF90b19odysweDRiMC8weDUzMCBbYW1kZ3B1XQpbICAg
+IDUuNjY4MTE4XSAgZGNlMTEwX2FwcGx5X2N0eF90b19odysweDRiMC8weDUzMCBbYW1kZ3B1XQpb
+ICAgIDUuNjY4MTkwXSAgZGNfY29tbWl0X3N0YXRlX25vX2NoZWNrKzB4MjE2LzB4NTQwIFthbWRn
+cHVdClsgICAgNS42NjgyNjJdICBkY19jb21taXRfc3RhdGUrMHg4Zi8weGIwIFthbWRncHVdClsg
+ICAgNS42NjgzMzRdICBhbWRncHVfZG1fYXRvbWljX2NvbW1pdF90YWlsKzB4M2JmLzB4ZmIwIFth
+bWRncHVdClsgICAgNS42Njg0MDddICA/IGZpbGxfZGNfcGxhbmVfaW5mb19hbmRfYWRkcisweDM0
+MC8weDM0MCBbYW1kZ3B1XQpbICAgIDUuNjY4NDc2XSAgPyBkbV9wbGFuZV9oZWxwZXJfcHJlcGFy
+ZV9mYisweDIwZC8weDI5MCBbYW1kZ3B1XQpbICAgIDUuNjY4NDgzXSAgPyBjb21taXRfdGFpbCsw
+eDNjLzB4NzAgW2RybV9rbXNfaGVscGVyXQpbICAgIDUuNjY4NDg4XSAgY29tbWl0X3RhaWwrMHgz
+Yy8weDcwIFtkcm1fa21zX2hlbHBlcl0KWyAgICA1LjY2ODQ5M10gIGRybV9hdG9taWNfaGVscGVy
+X2NvbW1pdCsweDEwOC8weDExMCBbZHJtX2ttc19oZWxwZXJdClsgICAgNS42Njg1MDRdICBkcm1f
+Y2xpZW50X21vZGVzZXRfY29tbWl0X2F0b21pYysweDFkMC8weDFmMCBbZHJtXQpbICAgIDUuNjY4
+NTE1XSAgZHJtX2NsaWVudF9tb2Rlc2V0X2NvbW1pdF9mb3JjZSsweDUwLzB4MTUwIFtkcm1dClsg
+ICAgNS42Njg1MjBdICBkcm1fZmJfaGVscGVyX3Jlc3RvcmVfZmJkZXZfbW9kZV91bmxvY2tlZCsw
+eDQ5LzB4YTAKW2RybV9rbXNfaGVscGVyXQpbICAgIDUuNjY4NTI2XSAgZHJtX2ZiX2hlbHBlcl9z
+ZXRfcGFyKzB4MmMvMHg1MCBbZHJtX2ttc19oZWxwZXJdClsgICAgNS42Njg1MjddICBmYmNvbl9p
+bml0KzB4MmE5LzB4NWQwClsgICAgNS42Njg1MjldICB2aXN1YWxfaW5pdCsweGNlLzB4MTMwClsg
+ICAgNS42Njg1MzBdICBkb19iaW5kX2Nvbl9kcml2ZXIrMHgxYjkvMHgyYTAKWyAgICA1LjY2ODUz
+Ml0gIGRvX3Rha2Vfb3Zlcl9jb25zb2xlKzB4MTE1LzB4MTgwClsgICAgNS42Njg1MzNdICBkb19m
+YmNvbl90YWtlb3ZlcisweDU4LzB4YjAKWyAgICA1LjY2ODUzNF0gIHJlZ2lzdGVyX2ZyYW1lYnVm
+ZmVyKzB4MWU0LzB4MzAwClsgICAgNS42Njg1NDBdICBfX2RybV9mYl9oZWxwZXJfaW5pdGlhbF9j
+b25maWdfYW5kX3VubG9jaysweDJmYS8weDQ0MApbZHJtX2ttc19oZWxwZXJdClsgICAgNS42Njg1
+OTRdICBhbWRncHVfZmJkZXZfaW5pdCsweGJjLzB4ZjAgW2FtZGdwdV0KWyAgICA1LjY2ODY3Ml0g
+IGFtZGdwdV9kZXZpY2VfaW5pdC5jb2xkKzB4NWI1LzB4OGVjIFthbWRncHVdClsgICAgNS42Njg3
+MjRdICBhbWRncHVfZHJpdmVyX2xvYWRfa21zKzB4ODYvMHgxZjAgW2FtZGdwdV0KWyAgICA1LjY2
+ODczM10gIGRybV9kZXZfcmVnaXN0ZXIrMHgxMTEvMHgxNTAgW2RybV0KWyAgICA1LjY2ODc4NF0g
+IGFtZGdwdV9wY2lfcHJvYmUrMHhiZC8weDEyMCBbYW1kZ3B1XQpbICAgIDUuNjY4Nzg1XSAgPyBf
+X3BtX3J1bnRpbWVfcmVzdW1lKzB4NTgvMHg4MApbICAgIDUuNjY4Nzg3XSAgbG9jYWxfcGNpX3By
+b2JlKzB4NDIvMHg4MApbICAgIDUuNjY4Nzg4XSAgcGNpX2RldmljZV9wcm9iZSsweDEwNy8weDFi
+MApbICAgIDUuNjY4Nzg5XSAgcmVhbGx5X3Byb2JlKzB4ZjAvMHgzODAKWyAgICA1LjY2ODc5MF0g
+IGRyaXZlcl9wcm9iZV9kZXZpY2UrMHg1OS8weGQwClsgICAgNS42Njg3OTFdICBkZXZpY2VfZHJp
+dmVyX2F0dGFjaCsweDUzLzB4NjAKWyAgICA1LjY2ODc5Ml0gIF9fZHJpdmVyX2F0dGFjaCsweDhh
+LzB4MTUwClsgICAgNS42Njg3OTNdICA/IGRldmljZV9kcml2ZXJfYXR0YWNoKzB4NjAvMHg2MApb
+ICAgIDUuNjY4Nzk0XSAgYnVzX2Zvcl9lYWNoX2RldisweDc4LzB4YzAKWyAgICA1LjY2ODc5Nl0g
+IGJ1c19hZGRfZHJpdmVyKzB4MTRhLzB4MWUwClsgICAgNS42Njg3OTddICBkcml2ZXJfcmVnaXN0
+ZXIrMHg2Yy8weGIwClsgICAgNS42Njg3OThdICA/IDB4ZmZmZmZmZmZjMDcwZTAwMApbICAgIDUu
+NjY4Nzk5XSAgZG9fb25lX2luaXRjYWxsKzB4NDYvMHgxZjQKWyAgICA1LjY2ODgwMF0gID8gX2Nv
+bmRfcmVzY2hlZCsweDE1LzB4MzAKWyAgICA1LjY2ODgwMl0gID8ga21lbV9jYWNoZV9hbGxvY190
+cmFjZSsweDFjMS8weDIxMApbICAgIDUuNjY4ODAzXSAgPyBkb19pbml0X21vZHVsZSsweDIzLzB4
+MjMwClsgICAgNS42Njg4MDRdICBkb19pbml0X21vZHVsZSsweDVjLzB4MjMwClsgICAgNS42Njg4
+MDVdICBsb2FkX21vZHVsZSsweDE0YTgvMHgxNjEwClsgICAgNS42Njg4MDddICA/IHZtYXBfcGFn
+ZV9yYW5nZV9ub2ZsdXNoKzB4MjNjLzB4MzUwClsgICAgNS42Njg4MDldICA/IF9fZG9fc3lzX2lu
+aXRfbW9kdWxlKzB4MTZlLzB4MWEwClsgICAgNS42Njg4MTBdICA/IF9jb25kX3Jlc2NoZWQrMHgx
+NS8weDMwClsgICAgNS42Njg4MTFdICBfX2RvX3N5c19pbml0X21vZHVsZSsweDE2ZS8weDFhMApb
+ICAgIDUuNjY4ODEzXSAgZG9fc3lzY2FsbF82NCsweDZlLzB4MWUwClsgICAgNS42Njg4MTRdICBl
+bnRyeV9TWVNDQUxMXzY0X2FmdGVyX2h3ZnJhbWUrMHg0OS8weGJlClsgICAgNS42Njg4MTVdIFJJ
+UDogMDAzMzoweDdmNzczM2I3ODIzYQpbICAgIDUuNjY4ODE2XSBDb2RlOiA0OCA4YiAwZCA2MSBh
+YyAyYiAwMCBmNyBkOCA2NCA4OSAwMSA0OCA4MyBjOCBmZiBjMyA2NiAyZQowZiAxZiA4NCAwMCAw
+MCAwMCAwMCAwMCAwZiAxZiA0NCAwMCAwMCA0OSA4OSBjYSBiOCBhZiAwMCAwMCAwMCAwZiAwNSA8
+NDg+IDNkIDAxCmYwIGZmIGZmIDczIDAxIGMzIDQ4CiA4YiAwZCAyZSBhYyAyYiAwMCBmNyBkOCA2
+NCA4OSAwMSA0OApbICAgIDUuNjY4ODE3XSBSU1A6IDAwMmI6MDAwMDdmZmZmYTZiYWMzOCBFRkxB
+R1M6IDAwMDAwMjQ2IE9SSUdfUkFYOgowMDAwMDAwMDAwMDAwMGFmClsgICAgNS42Njg4MThdIFJB
+WDogZmZmZmZmZmZmZmZmZmZkYSBSQlg6IDAwMDA1NjQzYjQ4N2QxNDAgUkNYOgowMDAwN2Y3NzMz
+Yjc4MjNhClsgICAgNS42Njg4MThdIFJEWDogMDAwMDdmNzczNDRhZThiZCBSU0k6IDAwMDAwMDAw
+MDA4NjVhNzcgUkRJOgowMDAwN2Y3NzJkZmQzMDEwClsgICAgNS42Njg4MTldIFJCUDogMDAwMDdm
+NzczNDRhZThiZCBSMDg6IDAwMDAwMDAwMDAwMDAwMDAgUjA5OgowMDAwMDAwMzAwMDAwMDAxClsg
+ICAgNS42Njg4MTldIFIxMDogMDAwMDU2NDNiNDg4ZTQxMCBSMTE6IDAwMDAwMDAwMDAwMDAyNDYg
+UjEyOgowMDAwN2Y3NzJkZmQzMDEwClsgICAgNS42Njg4MjBdIFIxMzogMDAwMDU2NDNiNDg3OTk3
+MCBSMTQ6IDAwMDA1NjQzYjQ4OTA4OTAgUjE1OgowMDAwMDAwMDAzOTM4NzAwClsgICAgNS42Njg4
+MjFdIC0tLVsgZW5kIHRyYWNlIGUxZTliYzEzZjQwYjExNTQgXS0tLQpbICAgIDUuNjY5MDM5XSAt
+LS0tLS0tLS0tLS1bIGN1dCBoZXJlIF0tLS0tLS0tLS0tLS0KWyAgICA1LjY2OTEyNV0gV0FSTklO
+RzogQ1BVOiAyIFBJRDogNDAzIGF0CmRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1Ly4uL2Rpc3Bs
+YXkvZGMvY29yZS9kY19saW5rLmM6MTk0Mgp3cml0ZV9pMmNfZGVmYXVsdF9yZXRpbWVyX3NldHRp
+bmcuY29sZCsweDZiLzB4YWIgW2FtZGdwdV0KWyAgICA1LjY2OTEyNV0gTW9kdWxlcyBsaW5rZWQg
+aW46IGhpZF9nZW5lcmljIHVzYmhpZCBhbWRncHUoKykgY3JjdDEwZGlmX3BjbG11bApjcmMzMl9w
+Y2xtdWwgY3JjMzJjX2ludGVsIHJ0c3hfcGNpX3NkbW1jIGdoYXNoX2NsbXVsbmlfaW50ZWwgbW1j
+X2NvcmUKYW1kX2lvbW11X3YyIGdwdV9zY2hlZCBpMmNfYQpsZ29fYml0IGFlc25pX2ludGVsIGRy
+bV9rbXNfaGVscGVyIGFlc194ODZfNjQgeGhjaV9wY2kgY3J5cHRvX3NpbWQgc3lzY29weWFyZWEK
+c3lzZmlsbHJlY3QgeGhjaV9oY2Qgc3lzaW1nYmx0IGZiX3N5c19mb3BzIHR0bSBjcnlwdGQgZ2x1
+ZV9oZWxwZXIgZHJtIHVzYmNvcmUKc2VyaW9fcmF3IHJ0c3hfcGNpIHZpCmRlbyB3bWkgcGluY3Ry
+bF9hbWQgaTJjX2hpZCBidXR0b24gZG1fbWlycm9yIGRtX3JlZ2lvbl9oYXNoIGRtX2xvZyBzZwpk
+bV9tdWx0aXBhdGggZG1fbW9kIHNjc2lfZGhfcmRhYyBzY3NpX2RoX2VtYyBzY3NpX2RoX2FsdWEg
+ZWZpdmFyZnMKWyAgICA1LjY2OTEzNF0gQ1BVOiAyIFBJRDogNDAzIENvbW06IHN5c3RlbWQtdWRl
+dmQgVGFpbnRlZDogRyAgICAgICAgVyAgICAgICAgCjUuMy4wLXJjOC0yLmdkNmYwYjcxLWRlZmF1
+bHQgIzEgb3BlblNVU0UgVHVtYmxld2VlZCAodW5yZWxlYXNlZCkKWyAgICA1LjY2OTEzNV0gSGFy
+ZHdhcmUgbmFtZTogQWNlciBOaXRybyBBTjUxNS00Mi9GcmVlZF9SUlMsIEJJT1MgVjEuMTMKMDIv
+MTEvMjAxOQpbICAgIDUuNjY5MjEzXSBSSVA6IDAwMTA6d3JpdGVfaTJjX2RlZmF1bHRfcmV0aW1l
+cl9zZXR0aW5nLmNvbGQrMHg2Yi8weGFiClthbWRncHVdClsgICAgNS42NjkyMTRdIENvZGU6IDUw
+IDJjIGI1IGQ4IDBmIDBiIGU5IDgzIDEzIGZkIGZmIDQ4IGM3IGM3IGMwIDdkIGM3IGMwIGU4CjNk
+IDJjIGI1IGQ4IDBmIDBiIGU5IGNkIDE0IGZkIGZmIDQ4IGM3IGM3IGMwIDdkIGM3IGMwIGU4IDJh
+IDJjIGI1IGQ4IDwwZj4gMGIgZTkKMGIgMTUgZmQgZmYgNDggYzcgYzcKIGMwIDdkIGM3IGMwIGU4
+IDE3IDJjIGI1IGQ4IDBmIDBiIGU5ClsgICAgNS42NjkyMTVdIFJTUDogMDAxODpmZmZmYWNjZDgw
+NGI3MjQ4IEVGTEFHUzogMDAwMTAyNDYKWyAgICA1LjY2OTIxNl0gUkFYOiAwMDAwMDAwMDAwMDAw
+MDI0IFJCWDogMDAwMDAwMDAwMDAwMDAwMCBSQ1g6CjAwMDAwMDAwMDAwMDAwMDYKWyAgICA1LjY2
+OTIxN10gUkRYOiAwMDAwMDAwMDAwMDAwMDAwIFJTSTogMDAwMDAwMDAwMDAwMDAwMiBSREk6CmZm
+ZmY5ZWIwOGVjOTlhMTAKWyAgICA1LjY2OTIxN10gUkJQOiBmZmZmOWViMDc3ZDQwMWI4IFIwODog
+MDAwMDAwMDE1MWU2YWJiMiBSMDk6CmZmZmY5ZWIwOGYyMTljNDAKWyAgICA1LjY2OTIxOF0gUjEw
+OiAwMDAwMDAwMDAwMDAwNTg3IFIxMTogMDAwMDAwMDAwMDBlM2JkNCBSMTI6CjAwMDAwMDAwMDAw
+MDAwMDAKWyAgICA1LjY2OTIxOF0gUjEzOiAwMDAwMDAwMDAwMDAwMDAwIFIxNDogZmZmZjllYjA3
+N2MwMDAwMCBSMTU6CmZmZmY5ZWIwNzdjZTM4MDAKWyAgICA1LjY2OTIxOV0gRlM6ICAwMDAwN2Y3
+NzM0ZDM0ZDQwKDAwMDApIEdTOmZmZmY5ZWIwOGVjODAwMDAoMDAwMCkKa25sR1M6MDAwMDAwMDAw
+MDAwMDAwMApbICAgIDUuNjY5MjE5XSBDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1IwOiAw
+MDAwMDAwMDgwMDUwMDMzClsgICAgNS42NjkyMjBdIENSMjogMDAwMDdmNzcyZTgzOGE3MCBDUjM6
+IDAwMDAwMDAyM2ViZTIwMDAgQ1I0OgowMDAwMDAwMDAwMzQwNmUwClsgICAgNS42NjkyMjBdIENh
+bGwgVHJhY2U6ClsgICAgNS42NjkyOTRdICBjb3JlX2xpbmtfZW5hYmxlX3N0cmVhbSsweDg2MS8w
+eDg3MCBbYW1kZ3B1XQpbICAgIDUuNjY5MzY5XSAgPyBkY2UxMTBfYXBwbHlfY3R4X3RvX2h3KzB4
+NGIwLzB4NTMwIFthbWRncHVdClsgICAgNS42Njk0NDBdICBkY2UxMTBfYXBwbHlfY3R4X3RvX2h3
+KzB4NGIwLzB4NTMwIFthbWRncHVdClsgICAgNS42Njk1MTNdICBkY19jb21taXRfc3RhdGVfbm9f
+Y2hlY2srMHgyMTYvMHg1NDAgW2FtZGdwdV0KWyAgICA1LjY2OTU4NF0gIGRjX2NvbW1pdF9zdGF0
+ZSsweDhmLzB4YjAgW2FtZGdwdV0KWyAgICA1LjY2OTY1N10gIGFtZGdwdV9kbV9hdG9taWNfY29t
+bWl0X3RhaWwrMHgzYmYvMHhmYjAgW2FtZGdwdV0KWyAgICA1LjY2OTcyOV0gID8gZmlsbF9kY19w
+bGFuZV9pbmZvX2FuZF9hZGRyKzB4MzQwLzB4MzQwIFthbWRncHVdClsgICAgNS42Njk3OThdICA/
+IGRtX3BsYW5lX2hlbHBlcl9wcmVwYXJlX2ZiKzB4MjBkLzB4MjkwIFthbWRncHVdClsgICAgNS42
+Njk4MDVdICA/IGNvbW1pdF90YWlsKzB4M2MvMHg3MCBbZHJtX2ttc19oZWxwZXJdClsgICAgNS42
+Njk4MTBdICBjb21taXRfdGFpbCsweDNjLzB4NzAgW2RybV9rbXNfaGVscGVyXQpbICAgIDUuNjY5
+ODE2XSAgZHJtX2F0b21pY19oZWxwZXJfY29tbWl0KzB4MTA4LzB4MTEwIFtkcm1fa21zX2hlbHBl
+cl0KWyAgICA1LjY2OTgyNl0gIGRybV9jbGllbnRfbW9kZXNldF9jb21taXRfYXRvbWljKzB4MWQw
+LzB4MWYwIFtkcm1dClsgICAgNS42Njk4MzddICBkcm1fY2xpZW50X21vZGVzZXRfY29tbWl0X2Zv
+cmNlKzB4NTAvMHgxNTAgW2RybV0KWyAgICA1LjY2OTg0M10gIGRybV9mYl9oZWxwZXJfcmVzdG9y
+ZV9mYmRldl9tb2RlX3VubG9ja2VkKzB4NDkvMHhhMApbZHJtX2ttc19oZWxwZXJdClsgICAgNS42
+Njk4NDhdICBkcm1fZmJfaGVscGVyX3NldF9wYXIrMHgyYy8weDUwIFtkcm1fa21zX2hlbHBlcl0K
+WyAgICA1LjY2OTg1MF0gIGZiY29uX2luaXQrMHgyYTkvMHg1ZDAKWyAgICA1LjY2OTg1Ml0gIHZp
+c3VhbF9pbml0KzB4Y2UvMHgxMzAKWyAgICA1LjY2OTg1M10gIGRvX2JpbmRfY29uX2RyaXZlcisw
+eDFiOS8weDJhMApbICAgIDUuNjY5ODU0XSAgZG9fdGFrZV9vdmVyX2NvbnNvbGUrMHgxMTUvMHgx
+ODAKWyAgICA1LjY2OTg1Nl0gIGRvX2ZiY29uX3Rha2VvdmVyKzB4NTgvMHhiMApbICAgIDUuNjY5
+ODU3XSAgcmVnaXN0ZXJfZnJhbWVidWZmZXIrMHgxZTQvMHgzMDAKWyAgICA1LjY2OTg2Ml0gIF9f
+ZHJtX2ZiX2hlbHBlcl9pbml0aWFsX2NvbmZpZ19hbmRfdW5sb2NrKzB4MmZhLzB4NDQwCltkcm1f
+a21zX2hlbHBlcl0KWyAgICA1LjY2OTkxN10gIGFtZGdwdV9mYmRldl9pbml0KzB4YmMvMHhmMCBb
+YW1kZ3B1XQpbICAgIDUuNjY5OTk1XSAgYW1kZ3B1X2RldmljZV9pbml0LmNvbGQrMHg1YjUvMHg4
+ZWMgW2FtZGdwdV0KWyAgICA1LjY3MDA0N10gIGFtZGdwdV9kcml2ZXJfbG9hZF9rbXMrMHg4Ni8w
+eDFmMCBbYW1kZ3B1XQpbICAgIDUuNjcwMDU2XSAgZHJtX2Rldl9yZWdpc3RlcisweDExMS8weDE1
+MCBbZHJtXQpbICAgIDUuNjcwMTA3XSAgYW1kZ3B1X3BjaV9wcm9iZSsweGJkLzB4MTIwIFthbWRn
+cHVdClsgICAgNS42NzAxMDldICA/IF9fcG1fcnVudGltZV9yZXN1bWUrMHg1OC8weDgwClsgICAg
+NS42NzAxMTBdICBsb2NhbF9wY2lfcHJvYmUrMHg0Mi8weDgwClsgICAgNS42NzAxMTFdICBwY2lf
+ZGV2aWNlX3Byb2JlKzB4MTA3LzB4MWIwClsgICAgNS42NzAxMTJdICByZWFsbHlfcHJvYmUrMHhm
+MC8weDM4MApbICAgIDUuNjcwMTE0XSAgZHJpdmVyX3Byb2JlX2RldmljZSsweDU5LzB4ZDAKWyAg
+ICA1LjY3MDExNV0gIGRldmljZV9kcml2ZXJfYXR0YWNoKzB4NTMvMHg2MApbICAgIDUuNjcwMTE1
+XSAgX19kcml2ZXJfYXR0YWNoKzB4OGEvMHgxNTAKWyAgICA1LjY3MDExNl0gID8gZGV2aWNlX2Ry
+aXZlcl9hdHRhY2grMHg2MC8weDYwClsgICAgNS42NzAxMThdICBidXNfZm9yX2VhY2hfZGV2KzB4
+NzgvMHhjMApbICAgIDUuNjcwMTE5XSAgYnVzX2FkZF9kcml2ZXIrMHgxNGEvMHgxZTAKWyAgICA1
+LjY3MDEyMF0gIGRyaXZlcl9yZWdpc3RlcisweDZjLzB4YjAKWyAgICA1LjY3MDEyMV0gID8gMHhm
+ZmZmZmZmZmMwNzBlMDAwClsgICAgNS42NzAxMjJdICBkb19vbmVfaW5pdGNhbGwrMHg0Ni8weDFm
+NApbICAgIDUuNjcwMTI0XSAgPyBfY29uZF9yZXNjaGVkKzB4MTUvMHgzMApbICAgIDUuNjcwMTI1
+XSAgPyBrbWVtX2NhY2hlX2FsbG9jX3RyYWNlKzB4MWMxLzB4MjEwClsgICAgNS42NzAxMjZdICA/
+IGRvX2luaXRfbW9kdWxlKzB4MjMvMHgyMzAKWyAgICA1LjY3MDEyN10gIGRvX2luaXRfbW9kdWxl
+KzB4NWMvMHgyMzAKWyAgICA1LjY3MDEyOV0gIGxvYWRfbW9kdWxlKzB4MTRhOC8weDE2MTAKWyAg
+ICA1LjY3MDEzMF0gID8gdm1hcF9wYWdlX3JhbmdlX25vZmx1c2grMHgyM2MvMHgzNTAKWyAgICA1
+LjY3MDEzMl0gID8gX19kb19zeXNfaW5pdF9tb2R1bGUrMHgxNmUvMHgxYTAKWyAgICA1LjY3MDEz
+M10gID8gX2NvbmRfcmVzY2hlZCsweDE1LzB4MzAKWyAgICA1LjY3MDEzNF0gIF9fZG9fc3lzX2lu
+aXRfbW9kdWxlKzB4MTZlLzB4MWEwClsgICAgNS42NzAxMzZdICBkb19zeXNjYWxsXzY0KzB4NmUv
+MHgxZTAKWyAgICA1LjY3MDEzN10gIGVudHJ5X1NZU0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsweDQ5
+LzB4YmUKWyAgICA1LjY3MDEzOF0gUklQOiAwMDMzOjB4N2Y3NzMzYjc4MjNhClsgICAgNS42NzAx
+MzldIENvZGU6IDQ4IDhiIDBkIDYxIGFjIDJiIDAwIGY3IGQ4IDY0IDg5IDAxIDQ4IDgzIGM4IGZm
+IGMzIDY2IDJlCjBmIDFmIDg0IDAwIDAwIDAwIDAwIDAwIDBmIDFmIDQ0IDAwIDAwIDQ5IDg5IGNh
+IGI4IGFmIDAwIDAwIDAwIDBmIDA1IDw0OD4gM2QgMDEKZjAgZmYgZmYgNzMgMDEgYzMgNDgKIDhi
+IDBkIDJlIGFjIDJiIDAwIGY3IGQ4IDY0IDg5IDAxIDQ4ClsgICAgNS42NzAxNDBdIFJTUDogMDAy
+YjowMDAwN2ZmZmZhNmJhYzM4IEVGTEFHUzogMDAwMDAyNDYgT1JJR19SQVg6CjAwMDAwMDAwMDAw
+MDAwYWYKWyAgICA1LjY3MDE0MV0gUkFYOiBmZmZmZmZmZmZmZmZmZmRhIFJCWDogMDAwMDU2NDNi
+NDg3ZDE0MCBSQ1g6CjAwMDA3Zjc3MzNiNzgyM2EKWyAgICA1LjY3MDE0Ml0gUkRYOiAwMDAwN2Y3
+NzM0NGFlOGJkIFJTSTogMDAwMDAwMDAwMDg2NWE3NyBSREk6CjAwMDA3Zjc3MmRmZDMwMTAKWyAg
+ICA1LjY3MDE0Ml0gUkJQOiAwMDAwN2Y3NzM0NGFlOGJkIFIwODogMDAwMDAwMDAwMDAwMDAwMCBS
+MDk6CjAwMDAwMDAzMDAwMDAwMDEKWyAgICA1LjY3MDE0M10gUjEwOiAwMDAwNTY0M2I0ODhlNDEw
+IFIxMTogMDAwMDAwMDAwMDAwMDI0NiBSMTI6CjAwMDA3Zjc3MmRmZDMwMTAKWyAgICA1LjY3MDE0
+M10gUjEzOiAwMDAwNTY0M2I0ODc5OTcwIFIxNDogMDAwMDU2NDNiNDg5MDg5MCBSMTU6CjAwMDAw
+MDAwMDM5Mzg3MDAKWyAgICA1LjY3MDE0NF0gLS0tWyBlbmQgdHJhY2UgZTFlOWJjMTNmNDBiMTE1
+NSBdLS0tCgoqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
+KioqKioqKioqKioqKioqKioqKioqKgoKSSdtIG9rIHdpdGggYXBwbHlpbmcgYW5kIHRlc3Rpbmcg
+a2VybmVsIHBhdGNoZXMgaWYgbmVlZCBiZS4gOykKCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlz
+IG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4K
 X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0927999402==--
