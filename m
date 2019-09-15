@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B674B2D8A
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Sep 2019 03:20:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E550B2D8B
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Sep 2019 03:21:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCBCC6F56E;
-	Sun, 15 Sep 2019 01:20:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEB936F570;
+	Sun, 15 Sep 2019 01:21:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9F8066F56F
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Sep 2019 01:20:51 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 676726F56F
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Sep 2019 01:21:14 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id AE02C72167; Sun, 15 Sep 2019 01:20:50 +0000 (UTC)
+ id D2D9072168; Sun, 15 Sep 2019 01:21:13 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Sun, 15 Sep 2019 01:20:36 +0000
+Date: Sun, 15 Sep 2019 01:21:05 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109955-502-kke78Jv5Xp@http.bugs.freedesktop.org/>
+Message-ID: <bug-109955-502-rPutqVslCl@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
 References: <bug-109955-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0211457309=="
+Content-Type: multipart/mixed; boundary="===============0866200418=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0211457309==
-Content-Type: multipart/alternative; boundary="15685104500.CE977.9634"
+--===============0866200418==
+Content-Type: multipart/alternative; boundary="15685104730.20B40D.9638"
 Content-Transfer-Encoding: 7bit
 
 
---15685104500.CE977.9634
-Date: Sun, 15 Sep 2019 01:20:50 +0000
+--15685104730.20B40D.9638
+Date: Sun, 15 Sep 2019 01:21:13 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,7 +72,7 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
 
---- Comment #100 from Rodney A Morris <rodamorris@gmail.com> ---
+--- Comment #101 from Rodney A Morris <rodamorris@gmail.com> ---
 (In reply to Rodney A Morris from comment #99)
 > Created attachment 145366 [details]
 > apitrace of Hearts of Iron IV hard lock
@@ -111,8 +111,8 @@ Note:  hard lock replayed occurred when the Discord flatpak is also running.
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15685104500.CE977.9634
-Date: Sun, 15 Sep 2019 01:20:50 +0000
+--15685104730.20B40D.9638
+Date: Sun, 15 Sep 2019 01:21:13 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -129,8 +129,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c100">Comm=
-ent # 100</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c101">Comm=
+ent # 101</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
@@ -195,9 +195,9 @@ Note:  hard lock replayed occurred when the Discord flatpak is also running=
     </body>
 </html>=
 
---15685104500.CE977.9634--
+--15685104730.20B40D.9638--
 
---===============0211457309==
+--===============0866200418==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -207,4 +207,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0211457309==--
+--===============0866200418==--
