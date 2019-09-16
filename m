@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4484BB37ED
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2019 12:19:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85076B3809
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2019 12:22:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC0786E200;
-	Mon, 16 Sep 2019 10:19:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 090116E8FC;
+	Mon, 16 Sep 2019 10:22:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1E99F89BAC
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2019 10:19:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id B36216E8FC
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2019 10:22:03 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1517472167; Mon, 16 Sep 2019 10:19:44 +0000 (UTC)
+ id AA60572167; Mon, 16 Sep 2019 10:22:03 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111691] hardware cursor corruption w/ AMD 5700 XT
-Date: Mon, 16 Sep 2019 10:19:44 +0000
+Date: Mon, 16 Sep 2019 10:22:04 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111691-502-xhaHgaIm7R@http.bugs.freedesktop.org/>
+Message-ID: <bug-111691-502-XAFzePVSYu@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111691-502@http.bugs.freedesktop.org/>
 References: <bug-111691-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0221744961=="
+Content-Type: multipart/mixed; boundary="===============1205716154=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0221744961==
-Content-Type: multipart/alternative; boundary="15686291840.2055081.13596"
+--===============1205716154==
+Content-Type: multipart/alternative; boundary="15686293230.54F8066e9.13704"
 Content-Transfer-Encoding: 7bit
 
 
---15686291840.2055081.13596
-Date: Mon, 16 Sep 2019 10:19:44 +0000
+--15686293230.54F8066e9.13704
+Date: Mon, 16 Sep 2019 10:22:03 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,19 +72,15 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111691
 
---- Comment #1 from Michael Haworth <a@bailtree.co.uk> ---
-I forgot to mention that I have been using oibaf's PPA in addition to the o=
-ther
-software. I was under the impression that I had to do this for the display =
-to
-function.
+--- Comment #2 from Michael Haworth <a@bailtree.co.uk> ---
+A workaround is to enable SWCursor in Xorg
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15686291840.2055081.13596
-Date: Mon, 16 Sep 2019 10:19:44 +0000
+--15686293230.54F8066e9.13704
+Date: Mon, 16 Sep 2019 10:22:03 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -101,8 +97,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - hardware cursor corruption w/ AMD 5700 XT"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111691#c1">Commen=
-t # 1</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111691#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - hardware cursor corruption w/ AMD 5700 XT"
@@ -112,11 +108,7 @@ t # 1</a>
 a&#64;bailtree.co.uk" title=3D"Michael Haworth &lt;a&#64;bailtree.co.uk&gt;=
 "> <span class=3D"fn">Michael Haworth</span></a>
 </span></b>
-        <pre>I forgot to mention that I have been using oibaf's PPA in addi=
-tion to the other
-software. I was under the impression that I had to do this for the display =
-to
-function.</pre>
+        <pre>A workaround is to enable SWCursor in Xorg</pre>
         </div>
       </p>
 
@@ -130,9 +122,9 @@ function.</pre>
     </body>
 </html>=
 
---15686291840.2055081.13596--
+--15686293230.54F8066e9.13704--
 
---===============0221744961==
+--===============1205716154==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -142,4 +134,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0221744961==--
+--===============1205716154==--
