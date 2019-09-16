@@ -2,52 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B95EBB377B
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2019 11:49:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 126E2B3794
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2019 11:54:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C13E86E1EC;
-	Mon, 16 Sep 2019 09:48:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BF4D6E8D3;
+	Mon, 16 Sep 2019 09:54:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38A2A6E1EC
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2019 09:48:56 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id g25so33737656otl.0
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2019 02:48:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vee23EJq8BsLqNFnBPGdLjf+1m1WAjbUvjn5m2X/PeM=;
- b=fejXdVpVfkw/LxfDvl06RtdYNByiwqgBGzuqmmGjESL8JbYY8pagoUGi/rKHZFatOa
- swkvHD9Hqfs1jajAwOJpsHaKAaRqMVUte9zsVih5f1HrkoUPMsF+xeM2lpAJq82XCkwi
- jLExMx02ZGb9jS5Z5eGvmSrP1dAovOwvpoTgPT/Wwv9MIaqh2kJ1UtWbfjfjeiimkWZD
- S3iKq/JVSA4s4TWJQ/ULoUudDIC+uOzPUNBhBIkb9CzY5S2E0TrB9sWanhWd57oaEXwF
- A1i0UV8rR/43IA1wLb1OqBxePl6nbjqh4lKIDA4ZXNVdbQ1jO8oatoIxAdvt8Za7LlWU
- dqaQ==
-X-Gm-Message-State: APjAAAVyqvlSHl+OjJzmo31zUFJl21GFmU3/7ulOXvoaFSrqXxySqhm4
- ch21lpixpOfSVS/hkTNb4A9CijSyR73lHIXDIBm2Bg==
-X-Google-Smtp-Source: APXvYqyGEugs9LTzR8LNoLKti3MeatSgzAV3j04Oj0H4m0s8a9BlQ0Y/cMDcViwMazEWBzEWeF46bnIbKXGZ0EUx4PI=
-X-Received: by 2002:a9d:6012:: with SMTP id h18mr36046347otj.204.1568627335406; 
- Mon, 16 Sep 2019 02:48:55 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C430D6E8D6
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2019 09:54:20 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id C0E5B72167; Mon, 16 Sep 2019 09:54:20 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109819] [APITRACE] Shadow of Mordor causes gpu freeze ryzen 2200g
+Date: Mon, 16 Sep 2019 09:54:20 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: dominic.letz@berlin.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109819-502-xDfSHNBp0q@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109819-502@http.bugs.freedesktop.org/>
+References: <bug-109819-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <KJRi1ROX2_eM1WjtEQ1e1-f--VK4hwMQJQt1nPaS6lcmt3v4yIfdttLIu_EOGdkwXwEMAEo66Xa7ksp7iQABWT5GuMu6UgKoiuEm6EU2N1U=@emersion.fr>
- <20190910133810.64e973f4@eldfell.localdomain>
-In-Reply-To: <20190910133810.64e973f4@eldfell.localdomain>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Mon, 16 Sep 2019 11:48:44 +0200
-Message-ID: <CAKMK7uEEuUpD_eni6wr=7sEadnYypd=7Ojf5zQ0tgXQov4F3mQ@mail.gmail.com>
-Subject: Re: [PATCH] drm: two planes with the same zpos have undefined ordering
-To: Pekka Paalanen <ppaalanen@gmail.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=vee23EJq8BsLqNFnBPGdLjf+1m1WAjbUvjn5m2X/PeM=;
- b=cN7nODh75WEQHaKwbvtojTcIjK4FPC8GgsPd9d6RKLCoCjdLxYLq3K3+wbWn1792FP
- Ge1uPTR+WOeUgnRp/Q7IBC8ffjTkUeFQGg9ZhJz2RnqIX36kWjaBc65oq83Bgall1DLh
- 7KkNvcriKJyrEwwgd7cMG47xFLDp/ggxpr8Vo=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,79 +52,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Simon Ser <contact@emersion.fr>, Daniel Stone <daniels@collabora.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1430486315=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBTZXAgMTAsIDIwMTkgYXQgMTI6MzggUE0gUGVra2EgUGFhbGFuZW4gPHBwYWFsYW5l
-bkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gT24gVHVlLCAxMCBTZXAgMjAxOSAxMDowOTo1NSArMDAw
-MAo+IFNpbW9uIFNlciA8Y29udGFjdEBlbWVyc2lvbi5mcj4gd3JvdGU6Cj4KPiA+IEN1cnJlbnRs
-eSB0aGUgcHJvcGVydHkgZG9jcyBkb24ndCBzcGVjaWZ5IHdoZXRoZXIgaXQncyBva2F5IGZvciB0
-d28gcGxhbmVzIHRvCj4gPiBoYXZlIHRoZSBzYW1lIHpwb3MgdmFsdWUgYW5kIHdoYXQgdXNlci1z
-cGFjZSBzaG91bGQgZXhwZWN0IGluIHRoaXMgY2FzZS4KPiA+Cj4gPiBUaGUgcnVsZSBtZW50aW9u
-bmVkIGluIHRoZSBwYXN0IHdhcyB0byBkaXNhbWJpZ3VhdGUgd2l0aCBvYmplY3QgSURzLiBIb3dl
-dmVyCj4gPiBzb21lIGRyaXZlcnMgYnJlYWsgdGhpcyBydWxlICh0aGF0J3Mgd2h5IHRoZSBvcmRl
-cmluZyBpcyBkb2N1bWVudGVkIGFzCj4gPiB1bnNwZWNpZmllZCBpbiBjYXNlIHRoZSB6cG9zIHBy
-b3BlcnR5IGlzIG1pc3NpbmcpLiBBZGRpdGlvbmFsbHkgaXQgZG9lc24ndAo+ID4gcmVhbGx5IG1h
-a2Ugc2Vuc2UgZm9yIGEgZHJpdmVyIHRvIHVzZXIgaWRlbnRpY2FsIHpwb3MgdmFsdWVzIGlmIGl0
-IGtub3dzIHRoZWlyCj4gPiByZWxhdGl2ZSBwb3NpdGlvbjogdGhlIGRyaXZlciBjYW4ganVzdCBw
-aWNrIGRpZmZlcmVudCB2YWx1ZXMgaW5zdGVhZC4KPiA+Cj4gPiBTbyB0d28gc29sdXRpb25zIHdv
-dWxkIG1ha2Ugc2Vuc2U6IGVpdGhlciBkaXNhbGxvdyBjb21wbGV0ZWx5IGlkZW50aWNhbCB6cG9z
-Cj4gPiB2YWx1ZXMgZm9yIHR3byBkaWZmZXJlbnQgcGxhbmVzLCBlaXRoZXIgbWFrZSB0aGUgb3Jk
-ZXJpbmcgdW5zcGVjaWZpZWQuIFRvIGFsbG93Cj4gPiBkcml2ZXJzIHRoYXQgZG9uJ3Qga25vdyB0
-aGUgcmVsYXRpdmUgb3JkZXJpbmcgYmV0d2VlbiB0d28gcGxhbmVzIHRvIHN0aWxsCj4gPiBleHBv
-c2UgdGhlIHpwb3MgcHJvcGVydHksIGNob29zZSB0aGUgbGF0dGVyIHNvbHV0aW9uLgo+ID4KPiA+
-IFNpZ25lZC1vZmYtYnk6IFNpbW9uIFNlciA8Y29udGFjdEBlbWVyc2lvbi5mcj4KPiA+IC0tLQo+
-ID4KPiA+IEVyciwgSSdtIHNvcnJ5IGFib3V0IHRoZSBkb3VibGUtcG9zdC4gSSBzZW50IHRoaXMg
-dG8gaW50ZWwtZ2Z4IGJ5IG1pc3Rha2UuCj4gPgo+ID4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fYmxl
-bmQuYyB8IDggKysrKy0tLS0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA0
-IGRlbGV0aW9ucygtKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Js
-ZW5kLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2JsZW5kLmMKPiA+IGluZGV4IGQwMjcwOWRkMmQ0
-YS4uNTFiZDU0NTRlNTBhIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9ibGVu
-ZC5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2JsZW5kLmMKPiA+IEBAIC0xMzIsMTAg
-KzEzMiwxMCBAQAo+ID4gICAqICAgcGxhbmVzLiBXaXRob3V0IHRoaXMgcHJvcGVydHkgdGhlIHBy
-aW1hcnkgcGxhbmUgaXMgYWx3YXlzIGJlbG93IHRoZSBjdXJzb3IKPiA+ICAgKiAgIHBsYW5lLCBh
-bmQgb3JkZXJpbmcgYmV0d2VlbiBhbGwgb3RoZXIgcGxhbmVzIGlzIHVuZGVmaW5lZC4gVGhlIHBv
-c2l0aXZlCj4gPiAgICogICBaIGF4aXMgcG9pbnRzIHRvd2FyZHMgdGhlIHVzZXIsIGkuZS4gcGxh
-bmVzIHdpdGggbG93ZXIgWiBwb3NpdGlvbiB2YWx1ZXMKPiA+IC0gKiAgIGFyZSB1bmRlcm5lYXRo
-IHBsYW5lcyB3aXRoIGhpZ2hlciBaIHBvc2l0aW9uIHZhbHVlcy4gTm90ZSB0aGF0IHRoZSBaCj4g
-PiAtICogICBwb3NpdGlvbiB2YWx1ZSBjYW4gYWxzbyBiZSBpbW11dGFibGUsIHRvIGluZm9ybSB1
-c2Vyc3BhY2UgYWJvdXQgdGhlCj4gPiAtICogICBoYXJkLWNvZGVkIHN0YWNraW5nIG9mIG92ZXJs
-YXkgcGxhbmVzLCBzZWUKPiA+IC0gKiAgIGRybV9wbGFuZV9jcmVhdGVfenBvc19pbW11dGFibGVf
-cHJvcGVydHkoKS4KPiA+ICsgKiAgIGFyZSB1bmRlcm5lYXRoIHBsYW5lcyB3aXRoIGhpZ2hlciBa
-IHBvc2l0aW9uIHZhbHVlcy4gVHdvIHBsYW5lcyB3aXRoIHRoZQo+ID4gKyAqICAgc2FtZSBaIHBv
-c2l0aW9uIHZhbHVlIGhhdmUgdW5kZWZpbmVkIG9yZGVyaW5nLiBOb3RlIHRoYXQgdGhlIFogcG9z
-aXRpb24KPiA+ICsgKiAgIHZhbHVlIGNhbiBhbHNvIGJlIGltbXV0YWJsZSwgdG8gaW5mb3JtIHVz
-ZXJzcGFjZSBhYm91dCB0aGUgaGFyZC1jb2RlZAo+ID4gKyAqICAgc3RhY2tpbmcgb2Ygb3Zlcmxh
-eSBwbGFuZXMsIHNlZSBkcm1fcGxhbmVfY3JlYXRlX3pwb3NfaW1tdXRhYmxlX3Byb3BlcnR5KCku
-Cj4gPiAgICoKPiA+ICAgKiBwaXhlbCBibGVuZCBtb2RlOgo+ID4gICAqICAgUGl4ZWwgYmxlbmQg
-bW9kZSBpcyBzZXQgdXAgd2l0aCBkcm1fcGxhbmVfY3JlYXRlX2JsZW5kX21vZGVfcHJvcGVydHko
-KS4KPgo+IEhpLAo+Cj4gdGhpcyBzZWVtcyB0byBjb250cmFkaWN0IHdoYXQgdGhlIGRvY3Mgc2F5
-IGluIGFub3RoZXIgcGxhY2U6Cj4KPiB6cG9zCj4KPiAgICAgUHJpb3JpdHkgb2YgdGhlIGdpdmVu
-IHBsYW5lIG9uIGNydGMgKG9wdGlvbmFsKS4KPgo+ICAgICBOb3RlIHRoYXQgbXVsdGlwbGUgYWN0
-aXZlIHBsYW5lcyBvbiB0aGUgc2FtZSBjcnRjIGNhbiBoYXZlIGFuCj4gICAgIGlkZW50aWNhbCB6
-cG9zIHZhbHVlLiBUaGUgcnVsZSB0byBzb2x2aW5nIHRoZSBjb25mbGljdCBpcyB0bwoKSSB0aGlu
-ayB3ZSBzaG91bGQgZG8gYW4gcy9ydWxlL3JlY29tbWVuZGF0aW9uIHRvIGRyaXZlcnMgdG8gYXZv
-aWQKc3VycHJpc2VzIGluIGh3IHByb2dyYW1taW5nLyBvciBzb21ldGhpbmcgbGlrZSB0aGF0LiBQ
-bHVzIHdlIGFsbG93CnRoYXQgZm9yIGxlZ2FjeSBpb2N0bCwgb3RoZXJ3YXlzIGl0J3MgaW1wb3Nz
-aWJsZSB0byBjaGFuZ2UgenBvcyB3aXRoCmxlZ2FjeSBpb2N0bHMgKG5vdCB0aGF0IEknbSBzdXJl
-IHRoYXQncyBhIHJlYXNvbmFibGUgdXNlLWNhc2UsIGJ1dAp3aGF0ZXZlcikuIFdpdGggdGhhdCBh
-bHNvIGNsYXJpZmllZCBJIHRoaW5rIFNpbW9uJ3MgcGF0Y2ggaXMgZ29vZCB0bwpnbywgc2FtZSB6
-cG9zIHZhbHVlIGlzIHJlYWxseSBub3Qgc29tZXRoaW5nIHdlIHdhbnQgdG8gZW5jb3VyYWdlLiBQ
-bHVzCiJpbXBsaWNpdCBieSBwbGFuZSBpZCIgaXMgYWxyZWFkeSBzb21ldGhpbmcgd2UgdXNlIGlu
-IG90aGVyIHBsYWNlcwoobGlrZSBmaWd1cmluZyBvdXQgd2hpY2ggcHJpbWFyeSBwbGFuIGJlbG9u
-Z3MgdG8gd2hpY2ggY3J0YyksIGFuZCBpdCdzCmp1c3QgdGVycmlibGUgdWFwaS4KLURhbmllbAoK
-PiAgICAgY29tcGFyZSB0aGUgcGxhbmUgb2JqZWN0IElEczsgdGhlIHBsYW5lIHdpdGggYSBoaWdo
-ZXIgSUQgbXVzdCBiZQo+ICAgICBzdGFja2VkIG9uIHRvcCBvZiBhIHBsYW5lIHdpdGggYSBsb3dl
-ciBJRC4KPgo+ICAgICBTZWUgZHJtX3BsYW5lX2NyZWF0ZV96cG9zX3Byb3BlcnR5KCkgYW5kCj4g
-ICAgIGRybV9wbGFuZV9jcmVhdGVfenBvc19pbW11dGFibGVfcHJvcGVydHkoKSBmb3IgbW9yZSBk
-ZXRhaWxzLgo+Cj4gZnJvbSBodHRwczovLzAxLm9yZy9saW51eGdyYXBoaWNzL2dmeC1kb2NzL2Ry
-bS9ncHUvZHJtLWttcy5odG1sI3BsYW5lLWZ1bmN0aW9ucy1yZWZlcmVuY2UKPgo+Cj4gVGhhbmtz
-LAo+IHBxCgoKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jw
-b3JhdGlvbgorNDEgKDApIDc5IDM2NSA1NyA0OCAtIGh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1430486315==
+Content-Type: multipart/alternative; boundary="15686276602.Fbdd7.8097"
+Content-Transfer-Encoding: 7bit
+
+
+--15686276602.Fbdd7.8097
+Date: Mon, 16 Sep 2019 09:54:20 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109819
+
+--- Comment #11 from Dominic <dominic.letz@berlin.de> ---
+I'm travelling right now, but can check once home again.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15686276602.Fbdd7.8097
+Date: Mon, 16 Sep 2019 09:54:20 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [APITRACE] Shadow of Mordor causes gpu freeze ryzen 2200g"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109819#c11">Comme=
+nt # 11</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [APITRACE] Shadow of Mordor causes gpu freeze ryzen 2200g"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109819">bug 10981=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+dominic.letz&#64;berlin.de" title=3D"Dominic &lt;dominic.letz&#64;berlin.de=
+&gt;"> <span class=3D"fn">Dominic</span></a>
+</span></b>
+        <pre>I'm travelling right now, but can check once home again.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15686276602.Fbdd7.8097--
+
+--===============1430486315==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1430486315==--
