@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDAEAB3FCB
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2019 19:56:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABDB0B4007
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2019 20:08:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B074F6EA1A;
-	Mon, 16 Sep 2019 17:56:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AAD76EA21;
+	Mon, 16 Sep 2019 18:08:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 90CBD6EA1A
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2019 17:56:06 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 895AD72167; Mon, 16 Sep 2019 17:56:06 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111682] use-after-free in amdgpu_vm_update_directories
-Date: Mon, 16 Sep 2019 17:56:06 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: not set
-X-Bugzilla-Who: andrey.grodzovsky@amd.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111682-502-bclM9FikHy@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111682-502@http.bugs.freedesktop.org/>
-References: <bug-111682-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from heliosphere.sirena.org.uk (heliosphere.sirena.org.uk
+ [IPv6:2a01:7e01::f03c:91ff:fed4:a3b6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1148F6EA20;
+ Mon, 16 Sep 2019 18:08:24 +0000 (UTC)
+Received: from ypsilon.sirena.org.uk ([2001:470:1f1d:6b5::7])
+ by heliosphere.sirena.org.uk with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <broonie@sirena.co.uk>)
+ id 1i9vQ9-0005Jy-2b; Mon, 16 Sep 2019 18:08:17 +0000
+Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
+ id 24F432741A0D; Mon, 16 Sep 2019 19:08:16 +0100 (BST)
+Date: Mon, 16 Sep 2019 19:08:16 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Masahiro Yamada <yamada.masahiro@socionext.com>
+Subject: Re: [PATCH] drm/amd/display: Fix compile error due to 'endif' missing
+Message-ID: <20190916180815.GK4352@sirena.co.uk>
+References: <20190916044651.GA72121@LGEARND20B15>
+ <CAK7LNARZMr5ZKGufi63GZrZ45k60faAiXr4mBB_mU9h_QifjxQ@mail.gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <CAK7LNARZMr5ZKGufi63GZrZ45k60faAiXr4mBB_mU9h_QifjxQ@mail.gmail.com>
+X-Cookie: Man and wife make one fool.
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
+ c=relaxed/relaxed; 
+ d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+ MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=IhH8eG5jrmv5K+PdK/jRPJRJORLMPGfQ9Mu0yZDLXao=; b=KwzTtsFTbybFw474V6VBrCeXi
+ EQ9ZNyYUDVea3mWV6fDFsK7Aanb7ZWj+GzYrXbtDNgrInzYj4Z9kpuBIILVqS/XXkS7RAK0ITFjG+
+ MSwdIU5caaopv9HF1cI5CDtZ1RF6vVqZUNH1Qlq8+A8Qbs46wi4iy0WP3ydsbUpI9zHLw=;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,89 +53,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2031041126=="
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, David Airlie <airlied@linux.ie>,
+ Austin Kim <austindh.kim@gmail.com>, Roman.Li@amd.com,
+ amd-gfx@lists.freedesktop.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============1406666911=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============2031041126==
-Content-Type: multipart/alternative; boundary="15686565660.a3a37a1d9.28349"
-Content-Transfer-Encoding: 7bit
+--===============1406666911==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="IKC1RK7+nRZ8SZaO"
+Content-Disposition: inline
 
 
---15686565660.a3a37a1d9.28349
-Date: Mon, 16 Sep 2019 17:56:06 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+--IKC1RK7+nRZ8SZaO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111682
+On Tue, Sep 17, 2019 at 02:46:48AM +0900, Masahiro Yamada wrote:
+> (+CC Stephen Rothwell, Mark Brown)
+>=20
+> On Mon, Sep 16, 2019 at 1:46 PM Austin Kim <austindh.kim@gmail.com> wrote:
+> >
+> > gcc throws compile error with below message:
+>=20
+> GNU Make throws ...
+>=20
+>=20
 
---- Comment #1 from Andrey Grodzovsky <andrey.grodzovsky@amd.com> ---
-Which kernel branch are you using ? I couldn't find=20
-amdgpu_vm_update_directories in latest code in amd-staging-drm-next and tur=
-ns
-out it was renamed to amdgpu_vm_update_pdes in
-78b20c2ee6788ba0df8b36b1369bc7e264262d3b back in March so seems like this is
-very outdated code.
+I don't have the original patch so I don't know what the issue being
+reported is :/  Whatever it is it wasn't caught by any of the builds
+done during the process of building -next and nothing is jumping out at
+me on KernelCI.
 
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
+> This is probably a merge mistake in linux-next.
 
---15686565660.a3a37a1d9.28349
-Date: Mon, 16 Sep 2019 17:56:06 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+> If so, this should be directly fixed in the linux-next.
 
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - use-after-free in amdgpu_vm_update_directories"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111682#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - use-after-free in amdgpu_vm_update_directories"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111682">bug 11168=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-andrey.grodzovsky&#64;amd.com" title=3D"Andrey Grodzovsky &lt;andrey.grodzo=
-vsky&#64;amd.com&gt;"> <span class=3D"fn">Andrey Grodzovsky</span></a>
-</span></b>
-        <pre>Which kernel branch are you using ? I couldn't find=20
-amdgpu_vm_update_directories in latest code in amd-staging-drm-next and tur=
-ns
-out it was renamed to amdgpu_vm_update_pdes in
-78b20c2ee6788ba0df8b36b1369bc7e264262d3b back in March so seems like this is
-very outdated code.</pre>
-        </div>
-      </p>
+> If it is not fixed in time,
+> please inform Linus to *not* follow the linux-next.
 
+It's probably worth coordinating this merge with DRM, it's not *super*
+complex but clearly there's some potential for error here and it was
+definitely annoyingly fiddly.
 
-      <hr>
-      <span>You are receiving this mail because:</span>
+--IKC1RK7+nRZ8SZaO
+Content-Type: application/pgp-signature; name="signature.asc"
 
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
+-----BEGIN PGP SIGNATURE-----
 
---15686565660.a3a37a1d9.28349--
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl1/z48ACgkQJNaLcl1U
+h9BEtAf8Cg6gsw4Wr7G6vas1AyCCbY8RUAsjUmUecWcXXaUrxAlhZINRy+3tV8pB
+1+uxPZZbpbrAtrb7GATiJZAEmCbazZP5PlHWivEgTfqSUQiHSDoX/5gvtaGdfQoq
+fEosO5kiJ1Z7uEjKLgqfdIotR0oGxYYBRAhMPs5Q+KDheHdNDVVkWjKkqfLGBMvc
+QxAbEbCfF3mk0MziIFmI4rmsREpvVE3YqWZFcp/u0dUbg/+hAf9/MKH2W1EK7qi4
+L45PCcnI9vR5hivC8iNYZnvFtg1IugOgX7kM/6Wp8g4jxvTPeZGqYG4LFfdRU2lx
+wMBC2pjSApPd0pdO0uUyA7Cjn9Tg/A==
+=cbJO
+-----END PGP SIGNATURE-----
 
---===============2031041126==
+--IKC1RK7+nRZ8SZaO--
+
+--===============1406666911==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -144,4 +128,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============2031041126==--
+--===============1406666911==--
