@@ -1,24 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AA5BB400E
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2019 20:10:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79806B4021
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Sep 2019 20:16:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 699776EA23;
-	Mon, 16 Sep 2019 18:10:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACC2A6EA24;
+	Mon, 16 Sep 2019 18:16:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8F18C6EA23
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2019 18:10:24 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4B3B36EA27
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Sep 2019 18:16:28 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 8592272167; Mon, 16 Sep 2019 18:10:24 +0000 (UTC)
+ id 1764072167; Mon, 16 Sep 2019 18:16:27 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111232] 3200 Memory Crash  My System
-Date: Mon, 16 Sep 2019 18:10:24 +0000
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Mon, 16 Sep 2019 18:16:25 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -26,17 +27,17 @@ X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: andrey.grodzovsky@amd.com
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: b747xx@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
+X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111232-502-mqi565bOdv@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111232-502@http.bugs.freedesktop.org/>
-References: <bug-111232-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111481-502-ocl2XqlSsl@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,37 +53,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0053296283=="
+Content-Type: multipart/mixed; boundary="===============1075944614=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0053296283==
-Content-Type: multipart/alternative; boundary="15686574240.B2B7327.32133"
+--===============1075944614==
+Content-Type: multipart/alternative; boundary="15686577871.93E9E.32383"
 Content-Transfer-Encoding: 7bit
 
 
---15686574240.B2B7327.32133
-Date: Mon, 16 Sep 2019 18:10:24 +0000
+--15686577871.93E9E.32383
+Date: Mon, 16 Sep 2019 18:16:27 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111232
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
 
---- Comment #9 from Andrey Grodzovsky <andrey.grodzovsky@amd.com> ---
-I noticed IOMMU page fault in the log  - is disabling iommu helps ? (from g=
-rub
-cmdline add iommu=3Doff)
+--- Comment #47 from Mathieu Belanger <b747xx@gmail.com> ---
+Naa, Random crash still occur with FileZilla, so there not totally gone for=
+ me.
+I put nodma back because I use that system for work.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15686574240.B2B7327.32133
-Date: Mon, 16 Sep 2019 18:10:24 +0000
+--15686577871.93E9E.32383
+Date: Mon, 16 Sep 2019 18:16:27 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -98,21 +99,23 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - 3200 Memory Crash My System"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111232#c9">Commen=
-t # 9</a>
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c47">Comme=
+nt # 47</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - 3200 Memory Crash My System"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111232">bug 11123=
-2</a>
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-andrey.grodzovsky&#64;amd.com" title=3D"Andrey Grodzovsky &lt;andrey.grodzo=
-vsky&#64;amd.com&gt;"> <span class=3D"fn">Andrey Grodzovsky</span></a>
+b747xx&#64;gmail.com" title=3D"Mathieu Belanger &lt;b747xx&#64;gmail.com&gt=
+;"> <span class=3D"fn">Mathieu Belanger</span></a>
 </span></b>
-        <pre>I noticed IOMMU page fault in the log  - is disabling iommu he=
-lps ? (from grub
-cmdline add iommu=3Doff)</pre>
+        <pre>Naa, Random crash still occur with FileZilla, so there not tot=
+ally gone for me.
+I put nodma back because I use that system for work.</pre>
         </div>
       </p>
 
@@ -126,9 +129,9 @@ cmdline add iommu=3Doff)</pre>
     </body>
 </html>=
 
---15686574240.B2B7327.32133--
+--15686577871.93E9E.32383--
 
---===============0053296283==
+--===============1075944614==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -138,4 +141,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0053296283==--
+--===============1075944614==--
