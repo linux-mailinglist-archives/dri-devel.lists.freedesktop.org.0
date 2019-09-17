@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFC0DB4991
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2019 10:34:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A437FB49AB
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2019 10:39:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3C666EB60;
-	Tue, 17 Sep 2019 08:34:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 984836EB65;
+	Tue, 17 Sep 2019 08:39:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B34D6EB60
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2019 08:34:27 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A8D66EB65
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2019 08:39:04 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EE30A8980E0;
- Tue, 17 Sep 2019 08:34:26 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 28DCDC058CA4;
+ Tue, 17 Sep 2019 08:39:04 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-47.ams2.redhat.com
  [10.36.116.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7D2571001281;
- Tue, 17 Sep 2019 08:34:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6259A60BF7;
+ Tue, 17 Sep 2019 08:39:03 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 5B01B17444; Tue, 17 Sep 2019 10:34:25 +0200 (CEST)
-Date: Tue, 17 Sep 2019 10:34:25 +0200
+ id 4B5D816E05; Tue, 17 Sep 2019 10:39:02 +0200 (CEST)
+Date: Tue, 17 Sep 2019 10:39:02 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 4/8] drm/ttm: factor out ttm_bo_mmap_vma_setup
-Message-ID: <20190917083425.kwwqyn463gn3mghf@sirius.home.kraxel.org>
+Subject: Re: [PATCH 8/8] drm/vram: drop DRM_VRAM_MM_FILE_OPERATIONS
+Message-ID: <20190917083902.fn32iznnjm3zhudl@sirius.home.kraxel.org>
 References: <20190913122908.784-1-kraxel@redhat.com>
- <20190913122908.784-5-kraxel@redhat.com>
- <88d5a253-ef9e-c998-6353-5ba8680129f2@suse.de>
+ <20190913122908.784-9-kraxel@redhat.com>
+ <e9712055-c6db-5515-0c11-4d7add138856@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <88d5a253-ef9e-c998-6353-5ba8680129f2@suse.de>
+In-Reply-To: <e9712055-c6db-5515-0c11-4d7add138856@suse.de>
 User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Tue, 17 Sep 2019 08:34:27 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Tue, 17 Sep 2019 08:39:04 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,39 +51,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
  open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Huang Rui <ray.huang@amd.com>, Christian Koenig <christian.koenig@amd.com>
+ "open list:DRM DRIVER FOR BOCHS VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>,
+ Xinliang Liu <z.liuxinliang@hisilicon.com>, David Airlie <airlied@linux.ie>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Chen Feng <puck.chen@hisilicon.com>, Rongrong Zou <zourongrong@gmail.com>,
+ Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBTZXAgMTMsIDIwMTkgYXQgMDM6MDU6MzRQTSArMDIwMCwgVGhvbWFzIFppbW1lcm1h
-bm4gd3JvdGU6Cgo+ID4gK3ZvaWQgdHRtX2JvX21tYXBfdm1hX3NldHVwKHN0cnVjdCB0dG1fYnVm
-ZmVyX29iamVjdCAqYm8sIHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hKQo+ID4gK3sKPiA+ICsJ
-dm1hLT52bV9vcHMgPSAmdHRtX2JvX3ZtX29wczsKPiA+ICsKPiA+ICsJLyoKPiA+ICsJICogTm90
-ZTogV2UncmUgdHJhbnNmZXJyaW5nIHRoZSBibyByZWZlcmVuY2UgdG8KPiA+ICsJICogdm1hLT52
-bV9wcml2YXRlX2RhdGEgaGVyZS4KPiA+ICsJICovCj4gPiArCj4gPiArCXZtYS0+dm1fcHJpdmF0
-ZV9kYXRhID0gYm87Cj4gPiArCj4gPiArCS8qCj4gPiArCSAqIFdlJ2QgbGlrZSB0byB1c2UgVk1f
-UEZOTUFQIG9uIHNoYXJlZCBtYXBwaW5ncywgd2hlcmUKPiA+ICsJICogKHZtYS0+dm1fZmxhZ3Mg
-JiBWTV9TSEFSRUQpICE9IDAsIGZvciBwZXJmb3JtYW5jZSByZWFzb25zLAo+ID4gKwkgKiBidXQg
-Zm9yIHNvbWUgcmVhc29uIFZNX1BGTk1BUCArIHg4NiBQQVQgKyB3cml0ZS1jb21iaW5lIGlzIHZl
-cnkKPiA+ICsJICogYmFkIGZvciBwZXJmb3JtYW5jZS4gVW50aWwgdGhhdCBoYXMgYmVlbiBzb3J0
-ZWQgb3V0LCB1c2UKPiA+ICsJICogVk1fTUlYRURNQVAgb24gYWxsIG1hcHBpbmdzLiBTZWUgZnJl
-ZWRlc2t0b3Aub3JnIGJ1ZyAjNzU3MTkKPiA+ICsJICovCj4gPiArCXZtYS0+dm1fZmxhZ3MgfD0g
-Vk1fTUlYRURNQVA7Cj4gPiArCXZtYS0+dm1fZmxhZ3MgfD0gVk1fSU8gfCBWTV9ET05URVhQQU5E
-IHwgVk1fRE9OVERVTVA7Cj4gPiArfQo+ID4gK0VYUE9SVF9TWU1CT0wodHRtX2JvX21tYXBfdm1h
-X3NldHVwKTsKPiAKPiBUbyBtZSwgdGhpcyBmdW5jdGlvbiBsb29rcyBsaWtlIGFuIGludGVybmFs
-IGhlbHBlciB0aGF0IHNob3VsZCByYXRoZXIKPiByZW1haW4gaW50ZXJuYWwuCgpXZWxsLCBJJ20g
-bW92aW5nIHRoYXQgdG8gYSBoZWxwZXIgZXhhY3RseSB0byBhdm9pZCBkcm0gZ2VtIHR0bSBoZWxw
-ZXJzCm1lc3Npbmcgd2l0aCB0dG0gaW50ZXJuYWxzLiAgVG8gbm90IHRoZW0gaW5pdGlhbGl6ZSB2
-bV9mbGFncyBmb3IKZXhhbXBsZSwgYW5kIHRvIGF2b2lkIGV4cG9ydGluZyB0dG1fYm9fdm1fb3Bz
-LiAgQWxzbyB0byBtYWtlIHN1cmUgdHRtIGJvCnZtYSdzIGFyZSBpbml0aWFsaXplZCB0aGUgc2Ft
-ZSB3YXkgbm8gbWF0dGVyIHdoaWNoIGNvZGUgcGF0aCB3YXMgdGFrZW4KdG8gbW1hcCB0aGUgb2Jq
-ZWN0LgoKPiBBcyBtZW50aW9uZWQgaW4gbXkgcmVwbHkgdG8gcGF0Y2ggNSwgbWF5YmUgcmUtdXNp
-bmcKPiB0dG1fZmJkZXZfbW1hcCgpIGNvdWxkIGhlbHAuCgpObywgdGhlIGNoZWNrIGluIHRoYXQg
-ZnVuY3Rpb24gcHJldmVudHMgdGhhdCBmcm9tIHdvcmtpbmcuCgpjaGVlcnMsCiAgR2VyZAoKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+PiA+ICBpbmNsdWRlL2RybS9kcm1fdnJhbV9tbV9oZWxwZXIuaCAgICAgICAgICAgICAgfCA4MiAr
+KysrKysrKysrKysrKysrKysrCgo+ID4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV92cmFt
+X21tX2hlbHBlci5oIGIvaW5jbHVkZS9kcm0vZHJtX3ZyYW1fbW1faGVscGVyLmgKPiA+IG5ldyBm
+aWxlIG1vZGUgMTAwNjQ0Cj4gCj4gUGxlYXNlIHJlYmFzZSBvbnRvIHRoZSBsYXRlc3QgZHJtLXRp
+cC4gVGhpcyBlbnRpcmUgZmlsZSBoYXMgYmVlbiByZW1vdmVkCj4gaW4gYSByZWNlbnQgcGF0Y2gu
+CgpJIGRpZCByZWJhc2UgYWxyZWFkeSwgdGhlbiByZS1hZGRlZCB0aGUgZmlsZSBieSBtaXN0YWtl
+LiAgRGlkbid0IHBheQplbm91Z2ggYXR0ZW50aW9uIHdoaWxlIHNvbHZpbmcgdGhlIGNvbmZsaWN0
+LiAgRml4ZWQgbm93LgoKY2hlZXJzLAogIEdlcmQKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbA==
