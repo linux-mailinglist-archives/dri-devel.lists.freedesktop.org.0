@@ -1,35 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0228B47EE
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2019 09:15:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CB5CB4824
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2019 09:18:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C6986E339;
-	Tue, 17 Sep 2019 07:15:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1212F6EB08;
+	Tue, 17 Sep 2019 07:18:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93CBA6E339
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2019 07:15:10 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 24D9828D904;
- Tue, 17 Sep 2019 08:15:09 +0100 (BST)
-Date: Tue, 17 Sep 2019 09:15:05 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 1/2] drm/panfrost: Allow passing extra information about
- BOs used by a job
-Message-ID: <20190917091505.267b93d6@collabora.com>
-In-Reply-To: <CAL_JsqLSStbn35SY9nE+SNZMnNyBZ2vP1KMH5aFjFxi6mBw2wQ@mail.gmail.com>
-References: <20190913111748.21071-1-boris.brezillon@collabora.com>
- <CAL_JsqLSStbn35SY9nE+SNZMnNyBZ2vP1KMH5aFjFxi6mBw2wQ@mail.gmail.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8318F6EB08
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2019 07:18:52 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 7E54A72167; Tue, 17 Sep 2019 07:18:52 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111682] use-after-free in amdgpu_vm_update_directories
+Date: Tue, 17 Sep 2019 07:18:52 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: pierre-eric.pelloux-prayer@amd.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-111682-502-WtSiWRyFqW@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111682-502@http.bugs.freedesktop.org/>
+References: <bug-111682-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -43,40 +52,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Steven Price <steven.price@arm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1320662594=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCAxNiBTZXAgMjAxOSAxNzoyMDoyOCAtMDUwMApSb2IgSGVycmluZyA8cm9iaEBrZXJu
-ZWwub3JnPiB3cm90ZToKCj4gT24gRnJpLCBTZXAgMTMsIDIwMTkgYXQgNjoxNyBBTSBCb3JpcyBC
-cmV6aWxsb24KPiA8Ym9yaXMuYnJlemlsbG9uQGNvbGxhYm9yYS5jb20+IHdyb3RlOgo+ID4KPiA+
-IFRoZSBSRUFEL1dSSVRFIGZsYWdzIGFyZSBwYXJ0aWN1bGFybHkgdXNlZnVsIGlmIHdlIHdhbnQg
-dG8gYXZvaWQKPiA+IHNlcmlhbGl6YXRpb24gb2Ygam9icyB0aGF0IHJlYWQgZnJvbSB0aGUgc2Ft
-ZSBCTyBidXQgbmV2ZXIgd3JpdGUgdG8gaXQuICAKPiAKPiBBbnkgZGF0YSBvbiBwZXJmb3JtYW5j
-ZSBkaWZmZXJlbmNlcz8KClVuZm9ydHVuYXRlbHkgbm8uIFdoZW4gSSBpbml0aWFsbHkgYWRkZWQg
-c3VwcG9ydCBmb3IgQk8gZmxhZ3MgSSB0aG91Z2h0Cml0IHdvdWxkIGZpeCBhIHJlZ3Jlc3Npb24g
-SSBoYWQgb24gb25lIGdsbWFyazIgdGVzdCAoaWRlYXMpLCBidXQgdGhlCnByb2JsZW0gZW5kZWQg
-dXAgYmVpbmcgc29tZXRoaW5nIGNvbXBsZXRlbHkgZGlmZmVyZW50IChvdmVyaGVhZCBvZgpjYWxs
-aW5nIGlvY3RsKFdBSVRfQk8pIG9uIGFscmVhZHkgaWRsZSBCT3MpLgoKSSBqdXN0IHJhbiBnbG1h
-cmsyIGFnYWluLCBhbmQgdGhlcmUgZG9lc24ndCBzZWVtIHRvIGJlIGEgbm90aWNlYWJsZQppbXBy
-b3ZlbWVudCB3aXRoIHRob3NlIDIgcGF0Y2hlcyBhcHBsaWVkIChhbmQgbWVzYSBwYXRjaGVkIHRv
-IHVzZSB0aGUKbmV3IGZsYWdzKS4gVGhpcyBiZWluZyBzYWlkLCB0aGUgaW1wcm92ZW1lbnQgaXMg
-bGlrZWx5IHRvIGJlIHdvcmtsb2FkCmRlcGVuZGVudCwgc28gSSB3b3VsZG4ndCBjb25zaWRlciB0
-aGVzZSBwYXRjaGVzIGFzIHVzZWxlc3MsIGJ1dCBJJ20KZmluZSBwdXR0aW5nIHRoZW0gb24gaG9s
-ZCB1bnRpbCB3ZSBzZWUgYSByZWFsIG5lZWQuCgpNYXliZSBTdGV2ZW4gaGFzIHNvbWUgcmVhbCB1
-c2UgY2FzZXMgdGhhdCBjb3VsZCBoZWxwIG91dGxpbmUgdGhlCmJlbmVmaXQgb2YgdGhlc2UgcGF0
-Y2hlcy4KCj4gCj4gPiBUaGUgTk9fSU1QTElDSVRfRkVOQ0UgbWlnaHQgYmUgdXNlZnVsIHdoZW4g
-dGhlIHVzZXIga25vd3MgdGhlIEJPIGlzCj4gPiBzaGFyZWQgYnV0IGpvYnMgYXJlIHVzaW5nIGRp
-ZmZlcmVudCBwb3J0aW9ucyBvZiB0aGUgYnVmZmVyLiAgCj4gCj4gV2h5IGRvbid0IHdlIGFkZCB0
-aGlzIHdoZW4gaXQgaXMgdXNlZnVsIHJhdGhlciB0aGFuIG1pZ2h0IGJlPwoKSSBkb24ndCBoYXZl
-IGEgbmVlZCBmb3IgdGhhdCBvbmUgeWV0LCBidXQgZXRhbnZpdiBoYXMgaXQgaW4gcGxhY2Ugc28g
-SQp0aG91Z2h0IEknZCBhZGQgYm90aCBhdCB0aGUgc2FtZSB0aW1lLgpOb3RlIHRoYXQgaXQgY291
-bGQgaGVscCB1cyByZWR1Y2UgdGhlIG51bWJlciBvZiBmZW5jZSByZXR1cm5lZCBieQpwYW5mcm9z
-dF9qb2JfZGVwZW5kZW5jeSgpLCBidXQgSSdtIG5vdCBzdXJlIGl0IG1ha2VzIGEgZGlmZmVyZW5j
-ZSBpbgp0ZXJtcyBvZiBwZXJmcy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVs
+
+--===============1320662594==
+Content-Type: multipart/alternative; boundary="15687047321.Bee6.21366"
+Content-Transfer-Encoding: 7bit
+
+
+--15687047321.Bee6.21366
+Date: Tue, 17 Sep 2019 07:18:52 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111682
+
+--- Comment #3 from Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@=
+amd.com> ---
+Created attachment 145387
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145387&action=3Dedit
+dmesg when using cfdabd064b2d(drm/amdgpu: remove the redundant null checks)
+
+Using the latest commit from amd-staging-drm-next (=3D cfdabd064b2d58f
+"drm/amdgpu: remove the redundant null checks"): the use-after-free bug is
+still there.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15687047321.Bee6.21366
+Date: Tue, 17 Sep 2019 07:18:52 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - use-after-free in amdgpu_vm_update_directories"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111682#c3">Commen=
+t # 3</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - use-after-free in amdgpu_vm_update_directories"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111682">bug 11168=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+pierre-eric.pelloux-prayer&#64;amd.com" title=3D"Pierre-Eric Pelloux-Prayer=
+ &lt;pierre-eric.pelloux-prayer&#64;amd.com&gt;"> <span class=3D"fn">Pierre=
+-Eric Pelloux-Prayer</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145387=
+" name=3D"attach_145387" title=3D"dmesg when using cfdabd064b2d(drm/amdgpu:=
+ remove the redundant null checks)">attachment 145387</a> <a href=3D"attach=
+ment.cgi?id=3D145387&amp;action=3Dedit" title=3D"dmesg when using cfdabd064=
+b2d(drm/amdgpu: remove the redundant null checks)">[details]</a></span>
+dmesg when using cfdabd064b2d(drm/amdgpu: remove the redundant null checks)
+
+Using the latest commit from amd-staging-drm-next (=3D cfdabd064b2d58f
+&quot;drm/amdgpu: remove the redundant null checks&quot;): the use-after-fr=
+ee bug is
+still there.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15687047321.Bee6.21366--
+
+--===============1320662594==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1320662594==--
