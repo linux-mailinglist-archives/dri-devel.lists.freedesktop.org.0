@@ -2,45 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF42EB53E9
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2019 19:20:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B63DFB5417
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2019 19:24:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF5976ED19;
-	Tue, 17 Sep 2019 17:20:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C515D6ED15;
+	Tue, 17 Sep 2019 17:24:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 118246ED19
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2019 17:20:29 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0E31A72167; Tue, 17 Sep 2019 17:20:29 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+X-Greylist: delayed 115018 seconds by postgrey-1.36 at gabe;
+ Tue, 17 Sep 2019 17:24:30 UTC
+Received: from mail-40132.protonmail.ch (mail-40132.protonmail.ch
+ [185.70.40.132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 576296ED15
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2019 17:24:30 +0000 (UTC)
+Date: Tue, 17 Sep 2019 17:24:20 +0000
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
- when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
-Date: Tue, 17 Sep 2019 17:20:28 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tempel.julian@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: NOTOURBUG
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110659-502-L5Mua4lvar@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
-References: <bug-110659-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+From: Simon Ser <contact@emersion.fr>
+Subject: [PATCH v2] drm: two planes with the same zpos have undefined ordering
+Message-ID: <1hklN2_EspD_s4vA3fdCCkVN9jeARGhmtkSGWDyVus-0ryZFs4xftUYRp_Z4pzsikJActaDVaTUoPNfBd-QitQX_JJTXkkqKFXxJhgMjEI0=@emersion.fr>
+In-Reply-To: <CAKMK7uEEuUpD_eni6wr=7sEadnYypd=7Ojf5zQ0tgXQov4F3mQ@mail.gmail.com>
+References: <KJRi1ROX2_eM1WjtEQ1e1-f--VK4hwMQJQt1nPaS6lcmt3v4yIfdttLIu_EOGdkwXwEMAEo66Xa7ksp7iQABWT5GuMu6UgKoiuEm6EU2N1U=@emersion.fr>
+ <20190910133810.64e973f4@eldfell.localdomain>
+ <CAKMK7uEEuUpD_eni6wr=7sEadnYypd=7Ojf5zQ0tgXQov4F3mQ@mail.gmail.com>
+Feedback-ID: FsVprHBOgyvh0T8bxcZ0CmvJCosWkwVUg658e_lOUQMnA9qynD8O1lGeniuBDfPSkDAUuhiKfOIXUZBfarMyvA==:Ext:ProtonMail
 MIME-Version: 1.0
+X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF autolearn=ham
+ autolearn_force=no version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.protonmail.ch
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=emersion.fr; s=protonmail; t=1568741067;
+ bh=XwlxkzMlUCQgqE276URVdlsNfavanldGs+g2WWWmFqw=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:
+ Feedback-ID:From;
+ b=Ynd0xUvSkUdvkZxbu+nmvl/swxTByMZ8L28J3RHnLVuAEWl3HCLnPKcJ0jCkVePv0
+ BECsLUwMYb0pYglDCkWzrIHh4go+MbJsjmKnbYUOE0el847ykfqFOhL52FciiY3asC
+ lsLpYJGMDVaukwUN3ma65UwxKHlia51WtOxNLdng=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,138 +50,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2057983255=="
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Marius Vlad <marius.vlad@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2057983255==
-Content-Type: multipart/alternative; boundary="15687408290.559a7b3.17990"
-Content-Transfer-Encoding: 7bit
-
-
---15687408290.559a7b3.17990
-Date: Tue, 17 Sep 2019 17:20:29 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
-
---- Comment #82 from tempel.julian@gmail.com ---
-(In reply to Andrew Eikum from comment #81)
-> I've submitted a patch to Wine to throttle our calls to XResetScreenSaver=
- to
-> once every five seconds: https://source.winehq.org/patches/data/169958
->=20
-> However, I'd argue our previous behavior isn't obviously wrong. What we w=
-ere
-> doing was calling XResetScreenSaver each time we received user input on a
-> joystick in order to delay the screensaver coming up despite no
-> keyboard/mouse input. It's not obvious that this behavior was incorrect. =
-Are
-> you sure you shouldn't be able to handle this behavior from a client?
-
-Thank you. Subjectively, I'd say it completely solves the issue. I don't see
-any noteworthy spikes in frametime graphs and I haven't noticed any suspici=
-ous
-stutter/blocking until now (will do some more tests to be sure).
-I'd be very happy if this could be included in 4.17 to increase chances tha=
-t it
-gets picked up by one of the next Proton releases.
-
-It'd be interesting to know at what calling rate the display driver starts =
-to
-have issues.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15687408290.559a7b3.17990
-Date: Tue, 17 Sep 2019 17:20:29 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTOURBUG - pageflipping seems to cause jittering on m=
-ouse input when running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c82">Comme=
-nt # 82</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTOURBUG - pageflipping seems to cause jittering on m=
-ouse input when running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
-ulian&#64;gmail.com</a>
-</span></b>
-        <pre>(In reply to Andrew Eikum from <a href=3D"show_bug.cgi?id=3D11=
-0659#c81">comment #81</a>)
-<span class=3D"quote">&gt; I've submitted a patch to Wine to throttle our c=
-alls to XResetScreenSaver to
-&gt; once every five seconds: <a href=3D"https://source.winehq.org/patches/=
-data/169958">https://source.winehq.org/patches/data/169958</a>
-&gt;=20
-&gt; However, I'd argue our previous behavior isn't obviously wrong. What w=
-e were
-&gt; doing was calling XResetScreenSaver each time we received user input o=
-n a
-&gt; joystick in order to delay the screensaver coming up despite no
-&gt; keyboard/mouse input. It's not obvious that this behavior was incorrec=
-t. Are
-&gt; you sure you shouldn't be able to handle this behavior from a client?<=
-/span >
-
-Thank you. Subjectively, I'd say it completely solves the issue. I don't see
-any noteworthy spikes in frametime graphs and I haven't noticed any suspici=
-ous
-stutter/blocking until now (will do some more tests to be sure).
-I'd be very happy if this could be included in 4.17 to increase chances tha=
-t it
-gets picked up by one of the next Proton releases.
-
-It'd be interesting to know at what calling rate the display driver starts =
-to
-have issues.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15687408290.559a7b3.17990--
-
---===============2057983255==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2057983255==--
+Q3VycmVudGx5IHRoZSBwcm9wZXJ0eSBkb2NzIGRvbid0IHNwZWNpZnkgd2hldGhlciBpdCdzIG9r
+YXkgZm9yIHR3byBwbGFuZXMgdG8KaGF2ZSB0aGUgc2FtZSB6cG9zIHZhbHVlIGFuZCB3aGF0IHVz
+ZXItc3BhY2Ugc2hvdWxkIGV4cGVjdCBpbiB0aGlzIGNhc2UuCgpUaGUgcnVsZSBtZW50aW9ubmVk
+IGluIHRoZSBwYXN0IHdhcyB0byBkaXNhbWJpZ3VhdGUgd2l0aCBvYmplY3QgSURzLiBIb3dldmVy
+CnNvbWUgZHJpdmVycyBicmVhayB0aGlzIHJ1bGUgKHRoYXQncyB3aHkgdGhlIG9yZGVyaW5nIGlz
+IGRvY3VtZW50ZWQgYXMKdW5zcGVjaWZpZWQgaW4gY2FzZSB0aGUgenBvcyBwcm9wZXJ0eSBpcyBt
+aXNzaW5nKS4gQWRkaXRpb25hbGx5IGl0IGRvZXNuJ3QKcmVhbGx5IG1ha2Ugc2Vuc2UgZm9yIGEg
+ZHJpdmVyIHRvIHVzZXIgaWRlbnRpY2FsIHpwb3MgdmFsdWVzIGlmIGl0IGtub3dzIHRoZWlyCnJl
+bGF0aXZlIHBvc2l0aW9uOiB0aGUgZHJpdmVyIGNhbiBqdXN0IHBpY2sgZGlmZmVyZW50IHZhbHVl
+cyBpbnN0ZWFkLgoKU28gdHdvIHNvbHV0aW9ucyB3b3VsZCBtYWtlIHNlbnNlOiBlaXRoZXIgZGlz
+YWxsb3cgY29tcGxldGVseSBpZGVudGljYWwgenBvcwp2YWx1ZXMgZm9yIHR3byBkaWZmZXJlbnQg
+cGxhbmVzLCBlaXRoZXIgbWFrZSB0aGUgb3JkZXJpbmcgdW5zcGVjaWZpZWQuIFRvIGFsbG93CmRy
+aXZlcnMgdGhhdCBkb24ndCBrbm93IHRoZSByZWxhdGl2ZSBvcmRlcmluZyBiZXR3ZWVuIHR3byBw
+bGFuZXMgdG8gc3RpbGwKZXhwb3NlIHRoZSB6cG9zIHByb3BlcnR5LCBjaG9vc2UgdGhlIGxhdHRl
+ciBzb2x1dGlvbi4KCkFkZGl0aW9uYWxseSwgdXBkYXRlIHRoZSBkcm1fcGxhbmVfc3RhdGUuenBv
+cyBkb2NzIHRvIGNsYXJpZnkgdGhhdCB6cG9zCmRpc2FtYmlndWF0aW9uIHZpYSBwbGFuZSBvYmpl
+Y3QgSURzIGlzIGEgcmVjb21tZW5kYXRpb24gZm9yIGRyaXZlcnMsIG5vdApzb21ldGhpbmcgdXNl
+ci1zcGFjZSBjYW4gcmVseSBvbi4KCnYyOiBjbGFyaWZ5IGRybV9wbGFuZV9zdGF0ZS56cG9zIGRv
+Y3MgKERhbmllbCkKClNpZ25lZC1vZmYtYnk6IFNpbW9uIFNlciA8Y29udGFjdEBlbWVyc2lvbi5m
+cj4KQ2M6IFBla2thIFBhYWxhbmVuIDxwcGFhbGFuZW5AZ21haWwuY29tPgpDYzogTWFyaXVzIFZs
+YWQgPG1hcml1cy52bGFkQGNvbGxhYm9yYS5jb20+CkNjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwu
+dmV0dGVyQGZmd2xsLmNoPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fYmxlbmQuYyB8IDggKysr
+Ky0tLS0KIGluY2x1ZGUvZHJtL2RybV9wbGFuZS5oICAgICB8IDYgKysrLS0tCiAyIGZpbGVzIGNo
+YW5nZWQsIDcgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vZHJtX2JsZW5kLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2JsZW5kLmMKaW5k
+ZXggZDAyNzA5ZGQyZDRhLi41MWJkNTQ1NGU1MGEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9kcm1fYmxlbmQuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2JsZW5kLmMKQEAgLTEzMiwx
+MCArMTMyLDEwIEBACiAgKglwbGFuZXMuIFdpdGhvdXQgdGhpcyBwcm9wZXJ0eSB0aGUgcHJpbWFy
+eSBwbGFuZSBpcyBhbHdheXMgYmVsb3cgdGhlIGN1cnNvcgogICoJcGxhbmUsIGFuZCBvcmRlcmlu
+ZyBiZXR3ZWVuIGFsbCBvdGhlciBwbGFuZXMgaXMgdW5kZWZpbmVkLiBUaGUgcG9zaXRpdmUKICAq
+CVogYXhpcyBwb2ludHMgdG93YXJkcyB0aGUgdXNlciwgaS5lLiBwbGFuZXMgd2l0aCBsb3dlciBa
+IHBvc2l0aW9uIHZhbHVlcwotICoJYXJlIHVuZGVybmVhdGggcGxhbmVzIHdpdGggaGlnaGVyIFog
+cG9zaXRpb24gdmFsdWVzLiBOb3RlIHRoYXQgdGhlIFoKLSAqCXBvc2l0aW9uIHZhbHVlIGNhbiBh
+bHNvIGJlIGltbXV0YWJsZSwgdG8gaW5mb3JtIHVzZXJzcGFjZSBhYm91dCB0aGUKLSAqCWhhcmQt
+Y29kZWQgc3RhY2tpbmcgb2Ygb3ZlcmxheSBwbGFuZXMsIHNlZQotICoJZHJtX3BsYW5lX2NyZWF0
+ZV96cG9zX2ltbXV0YWJsZV9wcm9wZXJ0eSgpLgorICoJYXJlIHVuZGVybmVhdGggcGxhbmVzIHdp
+dGggaGlnaGVyIFogcG9zaXRpb24gdmFsdWVzLiBUd28gcGxhbmVzIHdpdGggdGhlCisgKglzYW1l
+IFogcG9zaXRpb24gdmFsdWUgaGF2ZSB1bmRlZmluZWQgb3JkZXJpbmcuIE5vdGUgdGhhdCB0aGUg
+WiBwb3NpdGlvbgorICoJdmFsdWUgY2FuIGFsc28gYmUgaW1tdXRhYmxlLCB0byBpbmZvcm0gdXNl
+cnNwYWNlIGFib3V0IHRoZSBoYXJkLWNvZGVkCisgKglzdGFja2luZyBvZiBvdmVybGF5IHBsYW5l
+cywgc2VlIGRybV9wbGFuZV9jcmVhdGVfenBvc19pbW11dGFibGVfcHJvcGVydHkoKS4KICAqCiAg
+KiBwaXhlbCBibGVuZCBtb2RlOgogICoJUGl4ZWwgYmxlbmQgbW9kZSBpcyBzZXQgdXAgd2l0aCBk
+cm1fcGxhbmVfY3JlYXRlX2JsZW5kX21vZGVfcHJvcGVydHkoKS4KZGlmZiAtLWdpdCBhL2luY2x1
+ZGUvZHJtL2RybV9wbGFuZS5oIGIvaW5jbHVkZS9kcm0vZHJtX3BsYW5lLmgKaW5kZXggY2Q1OTAz
+YWQzM2Y3Li43YWM2ODA1N2IxOWQgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvZHJtL2RybV9wbGFuZS5o
+CisrKyBiL2luY2x1ZGUvZHJtL2RybV9wbGFuZS5oCkBAIC0xNDEsOSArMTQxLDkgQEAgc3RydWN0
+IGRybV9wbGFuZV9zdGF0ZSB7CiAJICogUHJpb3JpdHkgb2YgdGhlIGdpdmVuIHBsYW5lIG9uIGNy
+dGMgKG9wdGlvbmFsKS4KIAkgKgogCSAqIE5vdGUgdGhhdCBtdWx0aXBsZSBhY3RpdmUgcGxhbmVz
+IG9uIHRoZSBzYW1lIGNydGMgY2FuIGhhdmUgYW4KLQkgKiBpZGVudGljYWwgenBvcyB2YWx1ZS4g
+VGhlIHJ1bGUgdG8gc29sdmluZyB0aGUgY29uZmxpY3QgaXMgdG8gY29tcGFyZQotCSAqIHRoZSBw
+bGFuZSBvYmplY3QgSURzOyB0aGUgcGxhbmUgd2l0aCBhIGhpZ2hlciBJRCBtdXN0IGJlIHN0YWNr
+ZWQgb24KLQkgKiB0b3Agb2YgYSBwbGFuZSB3aXRoIGEgbG93ZXIgSUQuCisJICogaWRlbnRpY2Fs
+IHpwb3MgdmFsdWUuIFRvIHNvbHZlIHRoZSBjb25mbGljdCwgdGhlIHJlY29tbWVuZGF0aW9uIHRv
+CisJICogZHJpdmVycyB0byBhdm9pZCBzdXJwcmlzZXMgaXMgdG8gY29tcGFyZSB0aGUgcGxhbmUg
+b2JqZWN0IElEczsgdGhlCisJICogcGxhbmUgd2l0aCBhIGhpZ2hlciBJRCBpcyBzdGFja2VkIG9u
+IHRvcCBvZiBhIHBsYW5lIHdpdGggYSBsb3dlciBJRC4KIAkgKgogCSAqIFNlZSBkcm1fcGxhbmVf
+Y3JlYXRlX3pwb3NfcHJvcGVydHkoKSBhbmQKIAkgKiBkcm1fcGxhbmVfY3JlYXRlX3pwb3NfaW1t
+dXRhYmxlX3Byb3BlcnR5KCkgZm9yIG1vcmUgZGV0YWlscy4KLS0KMi4yMy4wCgoKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
