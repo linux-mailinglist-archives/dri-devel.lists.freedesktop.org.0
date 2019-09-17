@@ -1,22 +1,22 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83DE7B46A5
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2019 06:56:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35EAAB46AF
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2019 07:01:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CE976E0D5;
-	Tue, 17 Sep 2019 04:56:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2D5A6E0DF;
+	Tue, 17 Sep 2019 05:01:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC1036E0D5
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2019 04:56:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C95F6E0DF
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2019 05:01:08 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 204885] ryzen 2500U cause graphics glitch in all browsers with
  kernel version 5.2.x+
-Date: Tue, 17 Sep 2019 04:56:28 +0000
+Date: Tue, 17 Sep 2019 05:01:07 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,7 +32,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-204885-2300-25vxcv3YLl@https.bugzilla.kernel.org/>
+Message-ID: <bug-204885-2300-OQT877Y5DW@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-204885-2300@https.bugzilla.kernel.org/>
 References: <bug-204885-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,11 +58,11 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQ4ODUKCi0tLSBD
-b21tZW50ICMxIGZyb20gbm8yc3RhYmxlIChwUm9NTU1Nb2RFQG91dGxvb2suY29tKSAtLS0KQ3Jl
-YXRlZCBhdHRhY2htZW50IDI4NTAxOQogIC0tPiBodHRwczovL2J1Z3ppbGxhLmtlcm5lbC5vcmcv
-YXR0YWNobWVudC5jZ2k/aWQ9Mjg1MDE5JmFjdGlvbj1lZGl0CjUuMy4wIGtlcm5lbCBjb25maWcK
-Ci0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGlu
-ZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVs
+b21tZW50ICMyIGZyb20gbm8yc3RhYmxlIChwUm9NTU1Nb2RFQG91dGxvb2suY29tKSAtLS0KQ3Jl
+YXRlZCBhdHRhY2htZW50IDI4NTAyMQogIC0tPiBodHRwczovL2J1Z3ppbGxhLmtlcm5lbC5vcmcv
+YXR0YWNobWVudC5jZ2k/aWQ9Mjg1MDIxJmFjdGlvbj1lZGl0CmEgcGljdHVyZSBvZiB0aGUgZ3Jh
+cGhpYyBnbGl0Y2gKCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91
+IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
