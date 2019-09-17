@@ -1,63 +1,95 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49D7FB49B4
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2019 10:40:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93E0CB49B6
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2019 10:42:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92B786EB6A;
-	Tue, 17 Sep 2019 08:40:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C60686EB6C;
+	Tue, 17 Sep 2019 08:42:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B8916EB67;
- Tue, 17 Sep 2019 08:40:45 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id p7so2241798wmp.4;
- Tue, 17 Sep 2019 01:40:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=No1DYAFFqaXnRiq29VLXRiHR5QPMNilGMWiCBsgVxF0=;
- b=c5JNNClhpM0WlUKjma1f+uZaAUQbJismMWe8/c2QyDZOIeaAZ5rfFmsOJIGXEEvPCM
- Ty/kZ6v6H1B9C0MKgqbECvnQvIdILX2Crz8mhB7Nz4XEtX2oPKm8UCmUz73xEJs7bejN
- U3gMDwdOKLhZhGUXziGtj0LOa9/+eCKAIW+zzAFboq/xGUVnRj/3Jrc+32RM+UQkQ8/u
- o1csYXdMexs85zDiJXgb8+tiPhMrG1S1RVRsZQ9WtGqGeOoqm4kF7YFrpwip/UJ/QzJm
- nALmuppLKORyxVdLDEK+wvo0ube+j6m5LahB+0/z6A3A3+OaGN1OPzS5JgT5KUcD/Cum
- b8Sg==
-X-Gm-Message-State: APjAAAVDsLiYRX00I84QZZ9jQvAW8WDUk6fQn8SIzK+uNmIGb0j1pIA2
- LZBGd58qCEPYFx212ng9ml0=
-X-Google-Smtp-Source: APXvYqyXMmvlcivoeguL/I3PycyUG3ZkZnPP6Flvo57r+SxVYvLuAs74FVrGsKSwgU+DKMxzCvKx9A==
-X-Received: by 2002:a1c:a7d2:: with SMTP id q201mr2397784wme.146.1568709643537; 
- Tue, 17 Sep 2019 01:40:43 -0700 (PDT)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
- by smtp.gmail.com with ESMTPSA id o19sm1936122wro.50.2019.09.17.01.40.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Sep 2019 01:40:42 -0700 (PDT)
-Date: Tue, 17 Sep 2019 10:40:41 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Ben Skeggs <skeggsb@gmail.com>
-Subject: Re: [PATCH 03/11] drm/nouveau: secboot: Read WPR configuration from
- GPU registers
-Message-ID: <20190917084041.GB17854@ulmo>
-References: <20190916150412.10025-1-thierry.reding@gmail.com>
- <20190916150412.10025-4-thierry.reding@gmail.com>
- <CACAvsv6AcwWW542AJNkyR-q+aQ0GLFc0C3Sior_bYPTEjBV4LA@mail.gmail.com>
+Received: from NAM02-CY1-obe.outbound.protection.outlook.com
+ (mail-cys01nam02on0623.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe45::623])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E558A6EB6C
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2019 08:42:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=evm/O2rWcUgHRaUBZ4KmbfyIbe7WqWQlO67wRTIfoN9zXlYoWiKoDqqZoh36vT2YRYrNTddOPQIEoo51szXM0ORFvKWK9piXPOYRBRXV8mNlwYlHst31rJ8//j5OenWVoMXcYJOvKcqiarMRWXJVjQM3zQKMyjqzIw3URNhsGD0c/lqYBQfw1f4Bt+X8Qpvc+n8xGg/nJwZf8W9LisozRZKu4hTef7XEYFtyf0UPI0YwHU37af4kMhtlm8JTnKjUU1sW+og3ujCUp4hwMrj8pBWME9a5JEp9xWqyuitI3IPaQ0QYV0c5nZ1Kg66Tsql/k17Q5G4s2kJL7o+3CUXmRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K503Law0YmmIfA1mVQrAvQyUSUbgM1hnK6fcOIxo248=;
+ b=nQLdhD/87ZLy81PyZcSWCJ8jqfmWICmTSRFoPfTIFLuuh3cnSs8vQorASbEokaqthoOqAAMnnBetSmJSm6p2JOFXU6z+TGzHxwXRRDyZFRGEcGLlfsKmrzc2oMRZVeilhm6WUqtYDLLJoJdB5MWmzuYl18W8H0g+QKCgBfrvZfsHfe7AvzH+D8FlS2Mi3D5dfbhim/tKVtjb4Kd1NZGCkZL74rHVToufO95N++a4DFSeZDFfUToGo+cuf59f3teJu3tZ7h5tI+2bnC2NFzzYAq/bR1txMI0TYrU8BeJXulBUNYYAs+IzAu5FM19kywcWERoxo1Ii+SiZg9M4CdmKXw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+Received: from DM5PR12MB1705.namprd12.prod.outlook.com (10.175.88.22) by
+ DM5PR12MB1756.namprd12.prod.outlook.com (10.175.86.10) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2263.21; Tue, 17 Sep 2019 08:42:02 +0000
+Received: from DM5PR12MB1705.namprd12.prod.outlook.com
+ ([fe80::9d43:b3d4:9ef:29fc]) by DM5PR12MB1705.namprd12.prod.outlook.com
+ ([fe80::9d43:b3d4:9ef:29fc%8]) with mapi id 15.20.2263.023; Tue, 17 Sep 2019
+ 08:42:02 +0000
+From: "Koenig, Christian" <Christian.Koenig@amd.com>
+To: Steven Price <steven.price@arm.com>, dri-devel
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: blocking ops in drm_sched_cleanup_jobs()
+Thread-Topic: blocking ops in drm_sched_cleanup_jobs()
+Thread-Index: AQHVakKoOYdMRdOTwkS7yPyqGSTa5KcvkwAA
+Date: Tue, 17 Sep 2019 08:42:02 +0000
+Message-ID: <6ad57904-d145-1771-84a1-926d6e95bade@amd.com>
+References: <6ed945cb-619a-b26d-21b0-9bdaeaa69582@arm.com>
+In-Reply-To: <6ed945cb-619a-b26d-21b0-9bdaeaa69582@arm.com>
+Accept-Language: de-DE, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+x-originating-ip: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+x-clientproxiedby: AM3PR05CA0116.eurprd05.prod.outlook.com
+ (2603:10a6:207:2::18) To DM5PR12MB1705.namprd12.prod.outlook.com
+ (2603:10b6:3:10c::22)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e7c1fe03-9c1f-473d-def7-08d73b4ae92a
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(711020)(4605104)(1401327)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
+ SRVR:DM5PR12MB1756; 
+x-ms-traffictypediagnostic: DM5PR12MB1756:
+x-microsoft-antispam-prvs: <DM5PR12MB17569E6ADD60DA86E7FCB455838F0@DM5PR12MB1756.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 01630974C0
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(136003)(366004)(39860400002)(346002)(396003)(376002)(189003)(199004)(2906002)(52116002)(5660300002)(478600001)(58126008)(45080400002)(316002)(8936002)(6486002)(6436002)(66476007)(66446008)(64756008)(66556008)(476003)(65956001)(229853002)(65806001)(31686004)(46003)(446003)(71190400001)(6246003)(256004)(76176011)(186003)(386003)(7736002)(66946007)(11346002)(31696002)(110136005)(71200400001)(6512007)(14444005)(6116002)(2616005)(8676002)(36756003)(25786009)(86362001)(81166006)(81156014)(14454004)(486006)(102836004)(305945005)(99286004)(6506007);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB1756;
+ H:DM5PR12MB1705.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: cyMDgnhQoQLIjpHdK9XdKWOCAB0fnyLZiSlMfKxkFtG5z+VPDykkseEUP7YRBqibfSUlXECAeR/qJfsFa28zjkBadCgmao3vWTASb0QpHv9O14Niys/Ttny3Ob1apDKnjGYkG+ov8zKKpeFQu6rwHtQ0JoyroRrU7yfGFDw/oNGlzLmB5CLfcg29xL+Y3KzObsOLZvgGfjA1zwiWT40llgXlnwWtdw8yWktHWbYRUTMCuF1Pd4OIc8x2aOyRDzhCspQLkujiOmsWSR+vGX074AyVpyhQxy3gnn1MMkGrw25JYjsjIrcCVN5wOOOsXz1RGs1w5Nj8U5MSYbZn8uYA/b79JlitT2JS4HHe0oMoakymCT1Bw+LTrOd7h5zrTyk7JvXre3LtWCflk4hhLDaacVJTphwIj1uRGzJK0AN9QhE=
+x-ms-exchange-transport-forked: True
+Content-ID: <6C72DFB19A89FD4BAB8037A1EFC8D1B5@namprd12.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <CACAvsv6AcwWW542AJNkyR-q+aQ0GLFc0C3Sior_bYPTEjBV4LA@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7c1fe03-9c1f-473d-def7-08d73b4ae92a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Sep 2019 08:42:02.5012 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: aghfn/iX8igg9PorhIJIenGJ88j1AtcYkE68WLamRBLt8OTsRX1hM3h7RLYXedmS
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1756
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=No1DYAFFqaXnRiq29VLXRiHR5QPMNilGMWiCBsgVxF0=;
- b=bHgk5DhVF3U2wQbFMj63D1AbMCvfuYv0v063TdtctCPBiVRploqRQON7NyIOlrIDUI
- MvSEvupA12X/Q84YWCtFP4o/WILbPeeh5BLL1jPCgWpsp6eTmTIi6rlCqCsyn+PD3ytr
- K8/VuL8yWJXUlr6LPmfHYSv03rjQ2D9gUpor6loUYyFiNK3TW9EBBYJSuVtPhilFffQV
- Ag1/dYBG99IZJaJ7ekV1cmBAWqIysosR1z8Bt3Nee0oBgBQmRGAUXQnb9EzpzM3p2nA7
- 7exUs9VDksA4tOCbTfv57Tjznkw8MH10sO8FBQ7aywjXVAixA42kENvT90Sdd85XF5B9
- NuOg==
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K503Law0YmmIfA1mVQrAvQyUSUbgM1hnK6fcOIxo248=;
+ b=hbLP1r+Rjz2RZcVTTxE49L8AKs9HPNTKJtxoid7fxLcn/pHVkMhmZcO1w7OvVV8t2BZg2yjzP/djYeb0kGp5SLkCsCQbGvLg516RuVsQ30a8nf6cR62d3nnXTb3+kfUkGgFGGo9WFsyk+8NKn0KZhXHpygUIt4eA/iRHKSqvk4k=
+X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Christian.Koenig@amd.com; 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,296 +102,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, ML nouveau <nouveau@lists.freedesktop.org>,
- Ben Skeggs <bskeggs@redhat.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0649610065=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0649610065==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="1UWUbFP1cBYEclgG"
-Content-Disposition: inline
-
-
---1UWUbFP1cBYEclgG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Sep 17, 2019 at 01:49:57PM +1000, Ben Skeggs wrote:
-> On Tue, 17 Sep 2019 at 01:04, Thierry Reding <thierry.reding@gmail.com> w=
-rote:
-> >
-> > From: Thierry Reding <treding@nvidia.com>
-> >
-> > The GPUs found on Tegra SoCs have registers that can be used to read the
-> > WPR configuration. Use these registers instead of reaching into the
-> > memory controller's register space to read the same information.
-> >
-> > Signed-off-by: Thierry Reding <treding@nvidia.com>
-> > ---
-> >  .../drm/nouveau/nvkm/subdev/secboot/gm200.h   |  2 +-
-> >  .../drm/nouveau/nvkm/subdev/secboot/gm20b.c   | 81 ++++++++++++-------
-> >  .../drm/nouveau/nvkm/subdev/secboot/gp10b.c   |  4 +-
-> >  3 files changed, 53 insertions(+), 34 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm200.h b/driv=
-ers/gpu/drm/nouveau/nvkm/subdev/secboot/gm200.h
-> > index 62c5e162099a..280b1448df88 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm200.h
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm200.h
-> > @@ -41,6 +41,6 @@ int gm200_secboot_run_blob(struct nvkm_secboot *, str=
-uct nvkm_gpuobj *,
-> >                            struct nvkm_falcon *);
-> >
-> >  /* Tegra-only */
-> > -int gm20b_secboot_tegra_read_wpr(struct gm200_secboot *, u32);
-> > +int gm20b_secboot_tegra_read_wpr(struct gm200_secboot *);
-> >
-> >  #endif
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm20b.c b/driv=
-ers/gpu/drm/nouveau/nvkm/subdev/secboot/gm20b.c
-> > index df8b919dcf09..f8a543122219 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm20b.c
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm20b.c
-> > @@ -23,39 +23,65 @@
-> >  #include "acr.h"
-> >  #include "gm200.h"
-> >
-> > -#define TEGRA210_MC_BASE                       0x70019000
-> > -
-> >  #ifdef CONFIG_ARCH_TEGRA
-> > -#define MC_SECURITY_CARVEOUT2_CFG0             0xc58
-> > -#define MC_SECURITY_CARVEOUT2_BOM_0            0xc5c
-> > -#define MC_SECURITY_CARVEOUT2_BOM_HI_0         0xc60
-> > -#define MC_SECURITY_CARVEOUT2_SIZE_128K                0xc64
-> > -#define TEGRA_MC_SECURITY_CARVEOUT_CFG_LOCKED  (1 << 1)
-> >  /**
-> >   * gm20b_secboot_tegra_read_wpr() - read the WPR registers on Tegra
-> >   *
-> > - * On dGPU, we can manage the WPR region ourselves, but on Tegra the W=
-PR region
-> > - * is reserved from system memory by the bootloader and irreversibly l=
-ocked.
-> > - * This function reads the address and size of the pre-configured WPR =
-region.
-> > + * On dGPU, we can manage the WPR region ourselves, but on Tegra this =
-region
-> > + * is allocated from system memory by the secure firmware. The region =
-is then
-> > + * marked as a "secure carveout" and irreversibly locked. Furthermore,=
- the WPR
-> > + * secure carveout is also configured to be sent to the GPU via a dedi=
-cated
-> > + * serial bus between the memory controller and the GPU. The GPU reque=
-sts this
-> > + * information upon leaving reset and exposes it through a FIFO regist=
-er at
-> > + * offset 0x100cd4.
-> > + *
-> > + * The FIFO register's lower 4 bits can be used to set the read index =
-into the
-> > + * FIFO. After each read of the FIFO register, the read index is incre=
-mented.
-> > + *
-> > + * Indices 2 and 3 contain the lower and upper addresses of the WPR. T=
-hese are
-> > + * stored in units of 256 B. The WPR is inclusive of both addresses.
-> > + *
-> > + * Unfortunately, for some reason the WPR info register doesn't contai=
-n the
-> > + * correct values for the secure carveout. It seems like the upper add=
-ress is
-> > + * always too small by 128 KiB - 1. Given that the secure carvout size=
- in the
-> > + * memory controller configuration is specified in units of 128 KiB, i=
-t's
-> > + * possible that the computation of the upper address of the WPR is wr=
-ong and
-> > + * causes this difference.
-> >   */
-> >  int
-> > -gm20b_secboot_tegra_read_wpr(struct gm200_secboot *gsb, u32 mc_base)
-> > +gm20b_secboot_tegra_read_wpr(struct gm200_secboot *gsb)
-> >  {
-> > +       struct nvkm_device *device =3D gsb->base.subdev.device;
-> >         struct nvkm_secboot *sb =3D &gsb->base;
-> > -       void __iomem *mc;
-> > -       u32 cfg;
-> > +       u64 base, limit;
-> > +       u32 value;
-> >
-> > -       mc =3D ioremap(mc_base, 0xd00);
-> > -       if (!mc) {
-> > -               nvkm_error(&sb->subdev, "Cannot map Tegra MC registers\=
-n");
-> > -               return -ENOMEM;
-> > -       }
-> > -       sb->wpr_addr =3D ioread32_native(mc + MC_SECURITY_CARVEOUT2_BOM=
-_0) |
-> > -             ((u64)ioread32_native(mc + MC_SECURITY_CARVEOUT2_BOM_HI_0=
-) << 32);
-> > -       sb->wpr_size =3D ioread32_native(mc + MC_SECURITY_CARVEOUT2_SIZ=
-E_128K)
-> > -               << 17;
-> > -       cfg =3D ioread32_native(mc + MC_SECURITY_CARVEOUT2_CFG0);
-> > -       iounmap(mc);
-> > +       /* set WPR info register to point at WPR base address register =
-*/
-> > +       value =3D nvkm_rd32(device, 0x100cd4);
-> > +       value &=3D ~0xf;
-> > +       value |=3D 0x2;
-> > +       nvkm_wr32(device, 0x100cd4, value);
-> > +
-> > +       /* read base address */
-> > +       value =3D nvkm_rd32(device, 0x100cd4);
-> > +       base =3D (u64)(value >> 4) << 12;
-> > +
-> > +       /* read limit */
-> > +       value =3D nvkm_rd32(device, 0x100cd4);
-> > +       limit =3D (u64)(value >> 4) << 12;
-> acr_r352_wpr_is_set() does a similar readout to confirm the HS
-> firmware did its job on dGPU, perhaps this part of it could be
-> factored out into a function that could be used in both places?
-
-I hadn't seen that function. It looks to me like these are now both
-doing exactly the same thing. The acr_r352_wpr_is_set() also seems to
-serve only to check that what's read from these WPR info registers
-matches what was configured as the WPR region previously. This is now
-rather pointless because, unless the computations differ, the result
-must be true.
-
-Honestly, I'm not sure we really need to check this. My understanding is
-that these WPR info registers are the canonical way of obtaining the WPR
-region base and limit. The way that this works is that the GPU has a
-dedicated bus to the memory controller and it fetches these parameters
-=66rom the MC when it leaves reset.
-
-One oddity here, though, is that the code in acr_r352_wpr_is_set() does
-not account for the strange way that the limit is encoded in these
-registers. I suspect that this is some weird hardware bug that happens
-during the transfer of the WPR information to the GPU. I came across
-some documentation that specifically defines the limit register to
-contain the upper limit of the WPR in units of 256 B with the WPR being
-inclusive of both the base and the limit. I'm not exactly sure why this
-has gone unnoticed, but I think nvgpu doesn't actually test for the WPR
-size when it loads the firmware. I only ran into this when implementing
-the WPR info register readout because Nouveau would refuse to load the
-firmware because it didn't fit into what it thought was the WPR.
-
-Anyway, I've tested this on all of gm20b, gp10b and gv11b and the above
-computations give me the same values that the (SoC) firmware claims that
-it configured the WPR with.
-
-Given the above, do you see any further use for acr_r352_wpr_is_set()?
-Should I follow up with a patch removing it?
-
-Thierry
-
->=20
-> > +
-> > +       /*
-> > +        * The upper address of the WPR seems to be computed wrongly an=
-d is
-> > +        * actually SZ_128K - 1 bytes lower than it should be. Adjust t=
-he
-> > +        * value accordingly.
-> > +        */
-> > +       limit +=3D SZ_128K - 1;
-> > +
-> > +       sb->wpr_size =3D limit - base + 1;
-> > +       sb->wpr_addr =3D base;
-> > +
-> > +       nvkm_info(&sb->subdev, "WPR: %016llx-%016llx\n", sb->wpr_addr,
-> > +                 sb->wpr_addr + sb->wpr_size - 1);
-> >
-> >         /* Check that WPR settings are valid */
-> >         if (sb->wpr_size =3D=3D 0) {
-> > @@ -63,11 +89,6 @@ gm20b_secboot_tegra_read_wpr(struct gm200_secboot *g=
-sb, u32 mc_base)
-> >                 return -EINVAL;
-> >         }
-> >
-> > -       if (!(cfg & TEGRA_MC_SECURITY_CARVEOUT_CFG_LOCKED)) {
-> > -               nvkm_error(&sb->subdev, "WPR region not locked\n");
-> > -               return -EINVAL;
-> > -       }
-> > -
-> >         return 0;
-> >  }
-> >  #else
-> > @@ -85,7 +106,7 @@ gm20b_secboot_oneinit(struct nvkm_secboot *sb)
-> >         struct gm200_secboot *gsb =3D gm200_secboot(sb);
-> >         int ret;
-> >
-> > -       ret =3D gm20b_secboot_tegra_read_wpr(gsb, TEGRA210_MC_BASE);
-> > +       ret =3D gm20b_secboot_tegra_read_wpr(gsb);
-> >         if (ret)
-> >                 return ret;
-> >
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gp10b.c b/driv=
-ers/gpu/drm/nouveau/nvkm/subdev/secboot/gp10b.c
-> > index 28ca29d0eeee..d84e85825995 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gp10b.c
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gp10b.c
-> > @@ -23,15 +23,13 @@
-> >  #include "acr.h"
-> >  #include "gm200.h"
-> >
-> > -#define TEGRA186_MC_BASE                       0x02c10000
-> > -
-> >  static int
-> >  gp10b_secboot_oneinit(struct nvkm_secboot *sb)
-> >  {
-> >         struct gm200_secboot *gsb =3D gm200_secboot(sb);
-> >         int ret;
-> >
-> > -       ret =3D gm20b_secboot_tegra_read_wpr(gsb, TEGRA186_MC_BASE);
-> > +       ret =3D gm20b_secboot_tegra_read_wpr(gsb);
-> >         if (ret)
-> >                 return ret;
-> >
-> > --
-> > 2.23.0
-> >
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---1UWUbFP1cBYEclgG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2AnAYACgkQ3SOs138+
-s6G4EQ//W+7nrgwOka0kREfhnDOeKFM+h4ElazaIUv/0KnTvaAKfcBaBC+kVlcJI
-QzVIy/Fwsf9eXvCUzNH6Hz8o9A9RJYx6zemj7J/DSpCU1I1P35Jsj0KC2xsuDjL+
-EhfwmQ4ccP2xdn1S1U3BsK6SDJh7KiPLLA6IPQrdkpQTsJtdXiUr8oNYdb8V5giX
-pjZNo/CLlvkAnE2pWeS7WJvr/Vgqm9DOVWEOyT3IYGkUHfQSKWEDutkcc0BWy/zG
-ApxTZeeeLI4Z19CszAE9qjwACVO/zcKAk/PTMv7MTlDiONgTumGbk2P/AFZLfIs2
-yXClFqnxH5Ul5m4OrSTyO/emOUgbbov49HFOB6pKUCrwmBGQ74pc7H/TKTxB9gtb
-YfLmErlayVYA+eypJ1myfvpKZZibpSivhyw91+uH8E29oSY41Ctb74fAmoEfwOka
-I92ICTwqxQVt1OBSg+AFDGtsVabJbCsQOyxDjeTNKqbByNxOcSMUQgtK/74oh3kv
-Jo9QsGluXmRBOT88rCou/9GrIs+R1ufGzy1Dtmn9sbiGZmzb2gr/6tj5YSnRFR63
-tgGmA91vIyhPluBAhM6tpm5+ziTx2kTj+ZzQKNFLWMwplDLtHfeI27stYVi7FsHh
-swnuUIoLUWEy1DSCQfCu+NqlKtOnZw4BPLV4AvBzDc57k593N0Q=
-=kmci
------END PGP SIGNATURE-----
-
---1UWUbFP1cBYEclgG--
-
---===============0649610065==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0649610065==--
+SGkgU3RldmVuLA0KDQp0aG91Z2h0IGFib3V0IHRoYXQgaXNzdWUgYSBiaXQgbW9yZSBhbmQgSSB0
+aGluayBJIGNhbWUgdXAgd2l0aCBhIHNvbHV0aW9uLg0KDQpXaGF0IHlvdSBjb3VsZCBkbyBpcyB0
+byBzcGxpdCB1cCBkcm1fc2NoZWRfY2xlYW51cF9qb2JzKCkgaW50byB0d28gDQpmdW5jdGlvbnMu
+DQoNCk9uZSB0aGF0IGNoZWNrcyBpZiBqb2JzIHRvIGJlIGNsZWFuZWQgdXAgYXJlIHByZXNlbnQg
+YW5kIG9uZSB3aGljaCBkb2VzIA0KdGhlIGFjdHVhbCBjbGVhbnVwLg0KDQpUaGlzIHdheSB3ZSBj
+b3VsZCBjYWxsIGRybV9zY2hlZF9jbGVhbnVwX2pvYnMoKSBvdXRzaWRlIG9mIHRoZSANCndhaXRf
+ZXZlbnRfaW50ZXJydXB0aWJsZSgpLg0KDQpSZWdhcmRzLA0KQ2hyaXN0aWFuLg0KDQpBbSAxMy4w
+OS4xOSB1bSAxNjo1MCBzY2hyaWViIFN0ZXZlbiBQcmljZToNCj4gSGksDQo+DQo+IEkgaGl0IHRo
+ZSBiZWxvdyBzcGxhdCByYW5kb21seSB3aXRoIHBhbmZyb3N0LiBGcm9tIHdoYXQgSSBjYW4gdGVs
+bCB0aGlzDQo+IGlzIGEgbW9yZSBnZW5lcmFsIGlzc3VlIHdoaWNoIHdvdWxkIGFmZmVjdCBvdGhl
+ciBkcml2ZXJzLg0KPg0KPiAtLS0tODwtLS0tLQ0KPiBbNTg2MDQuOTEzMTMwXSAtLS0tLS0tLS0t
+LS1bIGN1dCBoZXJlIF0tLS0tLS0tLS0tLS0NCj4gWzU4NjA0LjkxODU5MF0gV0FSTklORzogQ1BV
+OiAxIFBJRDogMTc1OCBhdCBrZXJuZWwvc2NoZWQvY29yZS5jOjY1NTYgX19taWdodF9zbGVlcCsw
+eDc0LzB4OTgNCj4gWzU4NjA0LjkyNzk2NV0gZG8gbm90IGNhbGwgYmxvY2tpbmcgb3BzIHdoZW4g
+IVRBU0tfUlVOTklORzsgc3RhdGU9MSBzZXQgYXQgWzwwYzU5MDQ5ND5dIHByZXBhcmVfdG9fd2Fp
+dF9ldmVudCsweDEwNC8weDE2NA0KPiBbNTg2MDQuOTQwMDQ3XSBNb2R1bGVzIGxpbmtlZCBpbjog
+cGFuZnJvc3QgZ3B1X3NjaGVkDQo+IFs1ODYwNC45NDUzNzBdIENQVTogMSBQSUQ6IDE3NTggQ29t
+bTogcGFuX2pzIE5vdCB0YWludGVkIDUuMy4wLXJjMSsgIzEzDQo+IFs1ODYwNC45NTI1MDBdIEhh
+cmR3YXJlIG5hbWU6IFJvY2tjaGlwIChEZXZpY2UgVHJlZSkNCj4gWzU4NjA0Ljk1NzgxNV0gWzxj
+MDExMTE1MD5dICh1bndpbmRfYmFja3RyYWNlKSBmcm9tIFs8YzAxMGM5OWM+XSAoc2hvd19zdGFj
+aysweDEwLzB4MTQpDQo+IFs1ODYwNC45NjY1MjFdIFs8YzAxMGM5OWM+XSAoc2hvd19zdGFjaykg
+ZnJvbSBbPGMwN2FkYmI0Pl0gKGR1bXBfc3RhY2srMHg5Yy8weGQ0KQ0KPiBbNTg2MDQuOTc0NjM5
+XSBbPGMwN2FkYmI0Pl0gKGR1bXBfc3RhY2spIGZyb20gWzxjMDEyMWRhOD5dIChfX3dhcm4rMHhl
+OC8weDEwNCkNCj4gWzU4NjA0Ljk4MjQ2Ml0gWzxjMDEyMWRhOD5dIChfX3dhcm4pIGZyb20gWzxj
+MDEyMWUwOD5dICh3YXJuX3Nsb3dwYXRoX2ZtdCsweDQ0LzB4NmMpDQo+IFs1ODYwNC45OTA4Njdd
+IFs8YzAxMjFlMDg+XSAod2Fybl9zbG93cGF0aF9mbXQpIGZyb20gWzxjMDE0ZWNjYz5dIChfX21p
+Z2h0X3NsZWVwKzB4NzQvMHg5OCkNCj4gWzU4NjA0Ljk5OTk3M10gWzxjMDE0ZWNjYz5dIChfX21p
+Z2h0X3NsZWVwKSBmcm9tIFs8YzA3YzczZDg+XSAoX19tdXRleF9sb2NrKzB4MzgvMHg5NDgpDQo+
+IFs1ODYwNS4wMDg2OTBdIFs8YzA3YzczZDg+XSAoX19tdXRleF9sb2NrKSBmcm9tIFs8YzA3Yzdk
+MDA+XSAobXV0ZXhfbG9ja19uZXN0ZWQrMHgxOC8weDIwKQ0KPiBbNTg2MDUuMDE3ODQxXSBbPGMw
+N2M3ZDAwPl0gKG11dGV4X2xvY2tfbmVzdGVkKSBmcm9tIFs8YmYwMGI1NGM+XSAocGFuZnJvc3Rf
+Z2VtX2ZyZWVfb2JqZWN0KzB4NjAvMHgxMGMgW3BhbmZyb3N0XSkNCj4gWzU4NjA1LjAyOTQzMF0g
+WzxiZjAwYjU0Yz5dIChwYW5mcm9zdF9nZW1fZnJlZV9vYmplY3QgW3BhbmZyb3N0XSkgZnJvbSBb
+PGJmMDBjZWNjPl0gKHBhbmZyb3N0X2pvYl9wdXQrMHgxMzgvMHgxNTAgW3BhbmZyb3N0XSkNCj4g
+WzU4NjA1LjA0MjA3Nl0gWzxiZjAwY2VjYz5dIChwYW5mcm9zdF9qb2JfcHV0IFtwYW5mcm9zdF0p
+IGZyb20gWzxiZjAwMTIxYz5dIChkcm1fc2NoZWRfY2xlYW51cF9qb2JzKzB4YzgvMHhlMCBbZ3B1
+X3NjaGVkXSkNCj4gWzU4NjA1LjA1NDQxN10gWzxiZjAwMTIxYz5dIChkcm1fc2NoZWRfY2xlYW51
+cF9qb2JzIFtncHVfc2NoZWRdKSBmcm9tIFs8YmYwMDEzMDA+XSAoZHJtX3NjaGVkX21haW4rMHhj
+Yy8weDI2YyBbZ3B1X3NjaGVkXSkNCj4gWzU4NjA1LjA2NjYyMF0gWzxiZjAwMTMwMD5dIChkcm1f
+c2NoZWRfbWFpbiBbZ3B1X3NjaGVkXSkgZnJvbSBbPGMwMTQ2Y2ZjPl0gKGt0aHJlYWQrMHgxM2Mv
+MHgxNTQpDQo+IFs1ODYwNS4wNzYyMjZdIFs8YzAxNDZjZmM+XSAoa3RocmVhZCkgZnJvbSBbPGMw
+MTAxMGI0Pl0gKHJldF9mcm9tX2ZvcmsrMHgxNC8weDIwKQ0KPiBbNTg2MDUuMDg0MzQ2XSBFeGNl
+cHRpb24gc3RhY2soMHhlOTU5YmZiMCB0byAweGU5NTliZmY4KQ0KPiBbNTg2MDUuMDkwMDQ2XSBi
+ZmEwOiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAwMDAwMDAwMCAwMDAwMDAw
+MCAwMDAwMDAwMCAwMDAwMDAwMA0KPiBbNTg2MDUuMDk5MjUwXSBiZmMwOiAwMDAwMDAwMCAwMDAw
+MDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAw
+MA0KPiBbNTg2MDUuMTA4NDgwXSBiZmUwOiAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAw
+MDAwMCAwMDAwMDAxMyAwMDAwMDAwMA0KPiBbNTg2MDUuMTE2MjEwXSBpcnEgZXZlbnQgc3RhbXA6
+IDE3OQ0KPiBbNTg2MDUuMTE5OTU1XSBoYXJkaXJxcyBsYXN0ICBlbmFibGVkIGF0ICgxODcpOiBb
+PGMwMTdmN2U0Pl0gY29uc29sZV91bmxvY2srMHg1NjQvMHg1YzQNCj4gWzU4NjA1LjEyODkzNV0g
+aGFyZGlycXMgbGFzdCBkaXNhYmxlZCBhdCAoMjAyKTogWzxjMDE3ZjMwOD5dIGNvbnNvbGVfdW5s
+b2NrKzB4ODgvMHg1YzQNCj4gWzU4NjA1LjEzNzc4OF0gc29mdGlycXMgbGFzdCAgZW5hYmxlZCBh
+dCAoMjE2KTogWzxjMDEwMjMzND5dIF9fZG9fc29mdGlycSsweDE4Yy8weDU0OA0KPiBbNTg2MDUu
+MTQ2NTQzXSBzb2Z0aXJxcyBsYXN0IGRpc2FibGVkIGF0ICgyMjcpOiBbPGMwMTI5NTI4Pl0gaXJx
+X2V4aXQrMHhjNC8weDEwYw0KPiBbNTg2MDUuMTU0NjE4XSAtLS1bIGVuZCB0cmFjZSBmNjViZGJk
+OWVhOWFkZmMwIF0tLS0NCj4gLS0tLTg8LS0tLS0NCj4NCj4gVGhlIHByb2JsZW0gaXMgdGhhdCBk
+cm1fc2NoZWRfbWFpbigpIGNhbGxzIGRybV9zY2hlZF9jbGVhbnVwX2pvYnMoKSBhcw0KPiBwYXJ0
+IG9mIHRoZSBjb25kaXRpb24gb2Ygd2FpdF9ldmVudF9pbnRlcnJ1cHRpYmxlOg0KPg0KPj4gCQl3
+YWl0X2V2ZW50X2ludGVycnVwdGlibGUoc2NoZWQtPndha2VfdXBfd29ya2VyLA0KPj4gCQkJCQkg
+KGRybV9zY2hlZF9jbGVhbnVwX2pvYnMoc2NoZWQpLA0KPj4gCQkJCQkgKCFkcm1fc2NoZWRfYmxv
+Y2tlZChzY2hlZCkgJiYNCj4+IAkJCQkJICAoZW50aXR5ID0gZHJtX3NjaGVkX3NlbGVjdF9lbnRp
+dHkoc2NoZWQpKSkgfHwNCj4+IAkJCQkJIGt0aHJlYWRfc2hvdWxkX3N0b3AoKSkpOw0KPiBXaGVu
+IGRybV9zY2hlZF9jbGVhbnVwX2pvYnMoKSBpcyBjYWxsZWQgKmFmdGVyKiBhIHdhaXQgKGkuZS4g
+YWZ0ZXINCj4gcHJlcGFyZV90b193YWl0X2V2ZW50KCkgaGFzIGJlZW4gY2FsbGVkKSwgdGhlbiBh
+bnkgbWlnaHRfc2xlZXAoKSB3aWxsDQo+IG1vYW4gbG91ZGx5IGFib3V0IGl0LiBUaGlzIGRvZXNu
+J3Qgc2VlbSB0byBoYXBwZW4gb2Z0ZW4gKEkndmUgb25seQ0KPiB0cmlnZ2VyZWQgaXQgb25jZSkg
+YmVjYXVzZSB1c3VhbGx5IGRybV9zY2hlZF9jbGVhbnVwX2pvYnMoKSBlaXRoZXINCj4gZG9lc24n
+dCBzbGVlcCBvciBkb2VzIHRoZSBzbGVlcGluZyBkdXJpbmcgdGhlIGZpcnN0IGNhbGwgdGhhdA0K
+PiB3YWl0X2V2ZW50X2ludGVycnVwdGlibGUoKSBtYWtlcyAod2hpY2ggaXMgYmVmb3JlIHRoZSB0
+YXNrIHN0YXRlIGlzIHNldCkuDQo+DQo+IEkgZG9uJ3QgcmVhbGx5IHVuZGVyc3RhbmQgd2h5IGRy
+bV9zY2hlZF9jbGVhbnVwX2pvYnMoKSBuZWVkcyB0byBiZQ0KPiBjYWxsZWQgaGVyZSwgYSBzaW1w
+bGUgY2hhbmdlIGxpa2UgYmVsb3cgJ2ZpeGVzJyBpdC4gQnV0IEkgcHJlc3VtZQ0KPiB0aGVyZSdz
+IHNvbWUgcmVhc29uIGZvciB0aGUgY2FsbCBiZWluZyBwYXJ0IG9mIHRoZQ0KPiB3YWl0X2V2ZW50
+X2ludGVycnVwdGlibGUgY29uZGl0aW9uLiBDYW4gYW55b25lIHNoZWQgbGlnaHQgb24gdGhpcz8N
+Cj4NCj4gVGhlIGNvZGUgd2FzIGludHJvZHVjZWQgaW4gY29tbWl0IDU5MTgwNDVjNGVkNCAoImRy
+bS9zY2hlZHVsZXI6IHJld29yayBqb2IgZGVzdHJ1Y3Rpb24iKQ0KPg0KPiBTdGV2ZQ0KPg0KPiAt
+LS0tODwtLS0tLQ0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hl
+ZF9tYWluLmMgYi9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYw0KPiBpbmRl
+eCA5YTBlZTc0ZDgyZGMuLjUyOGYyOTVlM2EzMSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3NjaGVk
+dWxlci9zY2hlZF9tYWluLmMNCj4gQEAgLTY5OSwxMSArNjk5LDEyIEBAIHN0YXRpYyBpbnQgZHJt
+X3NjaGVkX21haW4odm9pZCAqcGFyYW0pDQo+ICAgCQlzdHJ1Y3QgZHJtX3NjaGVkX2pvYiAqc2No
+ZWRfam9iOw0KPiAgIAkJc3RydWN0IGRtYV9mZW5jZSAqZmVuY2U7DQo+ICAgDQo+ICsJCWRybV9z
+Y2hlZF9jbGVhbnVwX2pvYnMoc2NoZWQpOw0KPiArDQo+ICAgCQl3YWl0X2V2ZW50X2ludGVycnVw
+dGlibGUoc2NoZWQtPndha2VfdXBfd29ya2VyLA0KPiAtCQkJCQkgKGRybV9zY2hlZF9jbGVhbnVw
+X2pvYnMoc2NoZWQpLA0KPiAgIAkJCQkJICghZHJtX3NjaGVkX2Jsb2NrZWQoc2NoZWQpICYmDQo+
+ICAgCQkJCQkgIChlbnRpdHkgPSBkcm1fc2NoZWRfc2VsZWN0X2VudGl0eShzY2hlZCkpKSB8fA0K
+PiAtCQkJCQkga3RocmVhZF9zaG91bGRfc3RvcCgpKSk7DQo+ICsJCQkJCSBrdGhyZWFkX3Nob3Vs
+ZF9zdG9wKCkpOw0KPiAgIA0KPiAgIAkJaWYgKCFlbnRpdHkpDQo+ICAgCQkJY29udGludWU7DQoN
+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
+bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
+c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
