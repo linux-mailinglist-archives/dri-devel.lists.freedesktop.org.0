@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10974B5777
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2019 23:24:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBA7CB57A0
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2019 23:32:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02B4D6ED81;
-	Tue, 17 Sep 2019 21:24:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1762D6ED80;
+	Tue, 17 Sep 2019 21:32:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 135A86ED80
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2019 21:24:53 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 353556ED87
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2019 21:32:56 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 103D372167; Tue, 17 Sep 2019 21:24:53 +0000 (UTC)
+ id 31EB772167; Tue, 17 Sep 2019 21:32:56 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
- with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Tue, 17 Sep 2019 21:24:53 +0000
+Subject: [Bug 111244] amdgpu kernel 5.2 blank display after resume from suspend
+Date: Tue, 17 Sep 2019 21:32:55 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: DRI git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: shtetldik@gmail.com
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: miba_c@gmx.at
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
+X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-okvsmYHF8a@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
-References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-111244-502-P9R15XizUP@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111244-502@http.bugs.freedesktop.org/>
+References: <bug-111244-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,39 +52,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0825271802=="
+Content-Type: multipart/mixed; boundary="===============1861513179=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0825271802==
-Content-Type: multipart/alternative; boundary="15687554930.1eae.31661"
+--===============1861513179==
+Content-Type: multipart/alternative; boundary="15687559762.Ce3FB.869"
 Content-Transfer-Encoding: 7bit
 
 
---15687554930.1eae.31661
-Date: Tue, 17 Sep 2019 21:24:53 +0000
+--15687559762.Ce3FB.869
+Date: Tue, 17 Sep 2019 21:32:56 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111244
 
---- Comment #49 from Shmerl <shtetldik@gmail.com> ---
-Could be just a similar symptom, but I have a freeze with The Bard's Tale IV
-with the same error message:
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111591
+--- Comment #28 from miba_c@gmx.at ---
+Created attachment 145406
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145406&action=3Dedit
+failed suspend 5.2.14
 
-It's going through radeonsi path though.
+Still occasionally happens on 5.2.14. Hard to figure out what's causing this
+since it seems rather random and only happens once in a while.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15687554930.1eae.31661
-Date: Tue, 17 Sep 2019 21:24:53 +0000
+--15687559762.Ce3FB.869
+Date: Tue, 17 Sep 2019 21:32:56 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -101,30 +101,25 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c49">Comme=
-nt # 49</a>
+   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244#c28">Comme=
+nt # 28</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
+   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244">bug 11124=
+4</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-shtetldik&#64;gmail.com" title=3D"Shmerl &lt;shtetldik&#64;gmail.com&gt;"> =
-<span class=3D"fn">Shmerl</span></a>
+miba_c&#64;gmx.at" title=3D"miba_c&#64;gmx.at">miba_c&#64;gmx.at</a>
 </span></b>
-        <pre>Could be just a similar symptom, but I have a freeze with The =
-Bard's Tale IV
-with the same error message:
-<a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [radeonsi/Navi] The Bard's Tale IV causes a GPU hang"
-   href=3D"show_bug.cgi?id=3D111591">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D111591</a>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145406=
+" name=3D"attach_145406" title=3D"failed suspend 5.2.14">attachment 145406<=
+/a> <a href=3D"attachment.cgi?id=3D145406&amp;action=3Dedit" title=3D"faile=
+d suspend 5.2.14">[details]</a></span>
+failed suspend 5.2.14
 
-It's going through radeonsi path though.</pre>
+Still occasionally happens on 5.2.14. Hard to figure out what's causing this
+since it seems rather random and only happens once in a while.</pre>
         </div>
       </p>
 
@@ -138,9 +133,9 @@ It's going through radeonsi path though.</pre>
     </body>
 </html>=
 
---15687554930.1eae.31661--
+--15687559762.Ce3FB.869--
 
---===============0825271802==
+--===============1861513179==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -150,4 +145,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0825271802==--
+--===============1861513179==--
