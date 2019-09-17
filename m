@@ -2,45 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36576B5740
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2019 22:58:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26A09B576A
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2019 23:20:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 412FA6ED65;
-	Tue, 17 Sep 2019 20:58:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADF576ED07;
+	Tue, 17 Sep 2019 21:19:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5BB716ED65
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2019 20:58:10 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 583D372168; Tue, 17 Sep 2019 20:58:10 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
- when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
-Date: Tue, 17 Sep 2019 20:58:10 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tempel.julian@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: NOTOURBUG
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110659-502-xBRm2SUCoQ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
-References: <bug-110659-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+X-Greylist: delayed 358 seconds by postgrey-1.36 at gabe;
+ Tue, 17 Sep 2019 09:17:16 UTC
+Received: from mo6-p01-ob.smtp.rzone.de (mo6-p01-ob.smtp.rzone.de
+ [IPv6:2a01:238:20a:202:5301::10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B68B6EB7A
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2019 09:17:15 +0000 (UTC)
+X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzmt2bYDnKIKaws6YXTsc4="
+X-RZG-CLASS-ID: mo00
+Received: from oxapp03-03.back.ox.d0m.de by smtp-ox.front (RZmta 44.27.0 AUTH)
+ with ESMTPSA id j02f91v8H9BEA4k
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
+ with 256 ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Tue, 17 Sep 2019 11:11:14 +0200 (CEST)
+Date: Tue, 17 Sep 2019 11:11:14 +0200 (CEST)
+From: Ulrich Hecht <uli@fpond.eu>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Message-ID: <662476674.227766.1568711474317@webmail.strato.com>
+In-Reply-To: <20190917062353.16966-1-geert+renesas@glider.be>
+References: <20190917062353.16966-1-geert+renesas@glider.be>
+Subject: Re: [PATCH] drm: rcar_lvds: Fix color mismatches on R-Car H2 ES2.0
+ and later
 MIME-Version: 1.0
+X-Priority: 3
+Importance: Normal
+X-Mailer: Open-Xchange Mailer v7.10.1-Rev20
+X-Originating-IP: 85.212.142.246
+X-Originating-Client: open-xchange-appsuite
+X-Mailman-Approved-At: Tue, 17 Sep 2019 21:19:59 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ t=1568711834; 
+ s=strato-dkim-0002; d=fpond.eu;
+ h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=X70eT9BcUYyLXb8egpwm9Q9sagCspC+jA1g94oae59o=;
+ b=b13h0Je20nsfdm2FZqk23ZbOZ9z4r5w6LEMYStwr4yTZO60H0wvzlrrHbvKtmC4hQI
+ Sbn/cbN7ryNu1Rwo4UP6+F48JM/olv/Oc7GyCyDIcHcA16mPM6NXwmQaKdNQBCpVtoHK
+ 92aBbs7UFKFdE++WGjRsFKPkH6Hi+X/XlZe98n0Ny/lD3eYxfLLHbwlt+9KfXFZ7C0Xx
+ r6ZOSNHHzMcOR/+yNHwAqXZFa5Z7oiFCePgaNBSRklHVFJFMz1AYYwNbXf435QiPcn6x
+ q3Lx2j3xs1XfrKOzA3DWwmGmybrNZQrxDohyutep0zxEScFC1HSqGSkxd2ErK1lTDPUQ
+ HNdw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,104 +65,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0959250123=="
+Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0959250123==
-Content-Type: multipart/alternative; boundary="15687538901.aBb1cAeC.28069"
-Content-Transfer-Encoding: 7bit
-
-
---15687538901.aBb1cAeC.28069
-Date: Tue, 17 Sep 2019 20:58:10 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
-
---- Comment #83 from tempel.julian@gmail.com ---
-Andrew, with your patch the issue is still there in a weak shape:
-When I open the inventory in TES IV Oblivion, don't move the cursor for some
-seconds and then move it again, there is always a frametime spike:
-https://abload.de/img/screenshot_20190917_2f4jds.png
-
-It's not there with XResetScreenSaver calls completely disabled in Wine (by
-reverting the commit mentioned by Pierre-Eric). It appears 100% reproducibl=
-e.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15687538901.aBb1cAeC.28069
-Date: Tue, 17 Sep 2019 20:58:10 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTOURBUG - pageflipping seems to cause jittering on m=
-ouse input when running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c83">Comme=
-nt # 83</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTOURBUG - pageflipping seems to cause jittering on m=
-ouse input when running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
-ulian&#64;gmail.com</a>
-</span></b>
-        <pre>Andrew, with your patch the issue is still there in a weak sha=
-pe:
-When I open the inventory in TES IV Oblivion, don't move the cursor for some
-seconds and then move it again, there is always a frametime spike:
-<a href=3D"https://abload.de/img/screenshot_20190917_2f4jds.png">https://ab=
-load.de/img/screenshot_20190917_2f4jds.png</a>
-
-It's not there with XResetScreenSaver calls completely disabled in Wine (by
-reverting the commit mentioned by Pierre-Eric). It appears 100% reproducibl=
-e.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15687538901.aBb1cAeC.28069--
-
---===============0959250123==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0959250123==--
+Cj4gT24gU2VwdGVtYmVyIDE3LCAyMDE5IGF0IDg6MjMgQU0gR2VlcnQgVXl0dGVyaG9ldmVuIDxn
+ZWVydCtyZW5lc2FzQGdsaWRlci5iZT4gd3JvdGU6Cj4gCj4gCj4gQ29tbWl0IDVjY2EzMGViZTA4
+OWJlMjMgKCJkcm0vcmNhci1kdTogQWRkIExWRFNfTEFORVMgcXVpcmsiKSBzdGF0ZXMKPiB0aGF0
+IExWRFMgbGFuZXMgMSBhbmQgMyBhcmUgaW52ZXJ0ZWQgb24gUi1DYXIgSDIgRVMxIG9ubHksIGFu
+ZCB0aGF0IHRoZQo+IHByb2JsZW0gaGFzIGJlZW4gZml4ZWQgaW4gbmV3ZXIgcmV2aXNpb25zLgo+
+IAo+IEhvd2V2ZXIsIHRoZSBjb2RlIGRpZG4ndCB0YWtlIGludG8gYWNjb3VudCB0aGUgYWN0dWFs
+IGhhcmR3YXJlIHJldmlzaW9uLAo+IHRodXMgYXBwbHlpbmcgdGhlIHF1aXJrIGFsc28gb24gbmV3
+ZXIgaGFyZHdhcmUgcmV2aXNpb25zLCBjYXVzaW5nIGdyZWVuCj4gY29sb3IgcmV2ZXJzYWxzLgo+
+IAo+IEZpeCB0aGlzIGJ5IGFwcGx5aW5nIHRoZSBxdWlyayB3aGVuIHJ1bm5pbmcgb24gUi1DYXIg
+SDIgRVMxLnggb25seS4KPiAKPiBSZXBvcnRlZC1ieTogWW9zaGloaXJvIFNoaW1vZGEgPHlvc2hp
+aGlyby5zaGltb2RhLnVoQHJlbmVzYXMuY29tPgo+IEZpeGVzOiBjNmEyN2ZhNDFmYWJiMzVmICgi
+ZHJtOiByY2FyLWR1OiBDb252ZXJ0IExWRFMgZW5jb2RlciBjb2RlIHRvIGJyaWRnZSBkcml2ZXIi
+KQo+IFNpZ25lZC1vZmYtYnk6IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnQrcmVuZXNhc0BnbGlk
+ZXIuYmU+Cj4gVGVzdGVkLWJ5OiBZb3NoaWhpcm8gU2hpbW9kYSA8eW9zaGloaXJvLnNoaW1vZGEu
+dWhAcmVuZXNhcy5jb20+Cj4gLS0tCj4gRG9lcyBhbnlvbmUga25vdyBpZiB0aGlzIHdhcyBmaXhl
+ZCBpbiBFUzIuMCwgb3IgaW4gYW55IGVhcmxpZXIgRVMxLng/Cj4gCj4gV2hpbGUgdGhlIGlzc3Vl
+IHdhcyBwcmVzZW50IGJlZm9yZSBhZm9yZW1lbnRpb25lZCBjb21taXQsIEkgZG8gbm90IHRoaW5r
+Cj4gdGhlcmUgaXMgYSByZWFsIG5lZWQgdG8gZml4IHRoZSBvbGRlciBjb2RlIHZhcmlhbnQsIGFz
+IHRoZSBuZXcgTFZEUwo+IGVuY29kZXIgd2FzIGJhY2twb3J0ZWQgdG8gdjQuMTQtbHRzaS4KPiAt
+LS0KPiAgZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9sdmRzLmMgfCAyOCArKysrKysrKysr
+KysrKysrKysrKystLS0tLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAyMSBpbnNlcnRpb25zKCspLCA3
+IGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9y
+Y2FyX2x2ZHMuYyBiL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfbHZkcy5jCj4gaW5kZXgg
+M2ZjN2U2ODk5Y2FiNTg0My4uNTBjMTFhN2YwNDY3Zjc0NiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vcmNhci1kdS9yY2FyX2x2ZHMuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yY2Fy
+LWR1L3JjYXJfbHZkcy5jCj4gQEAgLTE2LDYgKzE2LDcgQEAKPiAgI2luY2x1ZGUgPGxpbnV4L29m
+X2dyYXBoLmg+Cj4gICNpbmNsdWRlIDxsaW51eC9wbGF0Zm9ybV9kZXZpY2UuaD4KPiAgI2luY2x1
+ZGUgPGxpbnV4L3NsYWIuaD4KPiArI2luY2x1ZGUgPGxpbnV4L3N5c19zb2MuaD4KPiAgCj4gICNp
+bmNsdWRlIDxkcm0vZHJtX2F0b21pYy5oPgo+ICAjaW5jbHVkZSA8ZHJtL2RybV9hdG9taWNfaGVs
+cGVyLmg+Cj4gQEAgLTg0Miw4ICs4NDMsMjMgQEAgc3RhdGljIGludCByY2FyX2x2ZHNfZ2V0X2Ns
+b2NrcyhzdHJ1Y3QgcmNhcl9sdmRzICpsdmRzKQo+ICAJcmV0dXJuIDA7Cj4gIH0KPiAgCj4gK3N0
+YXRpYyBjb25zdCBzdHJ1Y3QgcmNhcl9sdmRzX2RldmljZV9pbmZvIHJjYXJfbHZkc19yOGE3Nzkw
+ZXMxX2luZm8gPSB7Cj4gKwkuZ2VuID0gMiwKPiArCS5xdWlya3MgPSBSQ0FSX0xWRFNfUVVJUktf
+TEFORVMsCj4gKwkucGxsX3NldHVwID0gcmNhcl9sdmRzX3BsbF9zZXR1cF9nZW4yLAo+ICt9Owo+
+ICsKPiArc3RhdGljIGNvbnN0IHN0cnVjdCBzb2NfZGV2aWNlX2F0dHJpYnV0ZSBsdmRzX3F1aXJr
+X21hdGNoZXNbXSA9IHsKPiArCXsKPiArCQkuc29jX2lkID0gInI4YTc3OTAiLCAucmV2aXNpb24g
+PSAiRVMxLioiLAo+ICsJCS5kYXRhID0gJnJjYXJfbHZkc19yOGE3NzkwZXMxX2luZm8sCj4gKwl9
+LAo+ICsJeyAvKiBzZW50aW5lbCAqLyB9Cj4gK307Cj4gKwo+ICBzdGF0aWMgaW50IHJjYXJfbHZk
+c19wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQo+ICB7Cj4gKwljb25zdCBzdHJ1
+Y3Qgc29jX2RldmljZV9hdHRyaWJ1dGUgKmF0dHI7Cj4gIAlzdHJ1Y3QgcmNhcl9sdmRzICpsdmRz
+Owo+ICAJc3RydWN0IHJlc291cmNlICptZW07Cj4gIAlpbnQgcmV0Owo+IEBAIC04NTcsNiArODcz
+LDEwIEBAIHN0YXRpYyBpbnQgcmNhcl9sdmRzX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2Ug
+KnBkZXYpCj4gIAlsdmRzLT5kZXYgPSAmcGRldi0+ZGV2Owo+ICAJbHZkcy0+aW5mbyA9IG9mX2Rl
+dmljZV9nZXRfbWF0Y2hfZGF0YSgmcGRldi0+ZGV2KTsKPiAgCj4gKwlhdHRyID0gc29jX2Rldmlj
+ZV9tYXRjaChsdmRzX3F1aXJrX21hdGNoZXMpOwo+ICsJaWYgKGF0dHIpCj4gKwkJbHZkcy0+aW5m
+byA9IGF0dHItPmRhdGE7Cj4gKwo+ICAJcmV0ID0gcmNhcl9sdmRzX3BhcnNlX2R0KGx2ZHMpOwo+
+ICAJaWYgKHJldCA8IDApCj4gIAkJcmV0dXJuIHJldDsKPiBAQCAtODkzLDEyICs5MTMsNiBAQCBz
+dGF0aWMgY29uc3Qgc3RydWN0IHJjYXJfbHZkc19kZXZpY2VfaW5mbyByY2FyX2x2ZHNfZ2VuMl9p
+bmZvID0gewo+ICAJLnBsbF9zZXR1cCA9IHJjYXJfbHZkc19wbGxfc2V0dXBfZ2VuMiwKPiAgfTsK
+PiAgCj4gLXN0YXRpYyBjb25zdCBzdHJ1Y3QgcmNhcl9sdmRzX2RldmljZV9pbmZvIHJjYXJfbHZk
+c19yOGE3NzkwX2luZm8gPSB7Cj4gLQkuZ2VuID0gMiwKPiAtCS5xdWlya3MgPSBSQ0FSX0xWRFNf
+UVVJUktfTEFORVMsCj4gLQkucGxsX3NldHVwID0gcmNhcl9sdmRzX3BsbF9zZXR1cF9nZW4yLAo+
+IC19Owo+IC0KPiAgc3RhdGljIGNvbnN0IHN0cnVjdCByY2FyX2x2ZHNfZGV2aWNlX2luZm8gcmNh
+cl9sdmRzX2dlbjNfaW5mbyA9IHsKPiAgCS5nZW4gPSAzLAo+ICAJLnF1aXJrcyA9IFJDQVJfTFZE
+U19RVUlSS19QV0QsCj4gQEAgLTkzMCw3ICs5NDQsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IG9m
+X2RldmljZV9pZCByY2FyX2x2ZHNfb2ZfdGFibGVbXSA9IHsKPiAgCXsgLmNvbXBhdGlibGUgPSAi
+cmVuZXNhcyxyOGE3NzQ0LWx2ZHMiLCAuZGF0YSA9ICZyY2FyX2x2ZHNfZ2VuMl9pbmZvIH0sCj4g
+IAl7IC5jb21wYXRpYmxlID0gInJlbmVzYXMscjhhNzc0YTEtbHZkcyIsIC5kYXRhID0gJnJjYXJf
+bHZkc19nZW4zX2luZm8gfSwKPiAgCXsgLmNvbXBhdGlibGUgPSAicmVuZXNhcyxyOGE3NzRjMC1s
+dmRzIiwgLmRhdGEgPSAmcmNhcl9sdmRzX3I4YTc3OTkwX2luZm8gfSwKPiAtCXsgLmNvbXBhdGli
+bGUgPSAicmVuZXNhcyxyOGE3NzkwLWx2ZHMiLCAuZGF0YSA9ICZyY2FyX2x2ZHNfcjhhNzc5MF9p
+bmZvIH0sCj4gKwl7IC5jb21wYXRpYmxlID0gInJlbmVzYXMscjhhNzc5MC1sdmRzIiwgLmRhdGEg
+PSAmcmNhcl9sdmRzX2dlbjJfaW5mbyB9LAo+ICAJeyAuY29tcGF0aWJsZSA9ICJyZW5lc2FzLHI4
+YTc3OTEtbHZkcyIsIC5kYXRhID0gJnJjYXJfbHZkc19nZW4yX2luZm8gfSwKPiAgCXsgLmNvbXBh
+dGlibGUgPSAicmVuZXNhcyxyOGE3NzkzLWx2ZHMiLCAuZGF0YSA9ICZyY2FyX2x2ZHNfZ2VuMl9p
+bmZvIH0sCj4gIAl7IC5jb21wYXRpYmxlID0gInJlbmVzYXMscjhhNzc5NS1sdmRzIiwgLmRhdGEg
+PSAmcmNhcl9sdmRzX2dlbjNfaW5mbyB9LAo+IC0tIAo+IDIuMTcuMQoKUmV2aWV3ZWQtYnk6IFVs
+cmljaCBIZWNodCA8dWxpK3JlbmVzYXNAZnBvbmQuZXU+CgpDVQpVbGkKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
