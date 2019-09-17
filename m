@@ -2,43 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93362B46C7
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2019 07:16:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D442B46F0
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Sep 2019 07:46:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AAAF8914D;
-	Tue, 17 Sep 2019 05:16:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BD596E10B;
+	Tue, 17 Sep 2019 05:46:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6BE6E89124
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Sep 2019 05:16:39 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 6893F72168; Tue, 17 Sep 2019 05:16:39 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111236] VA-API radeonsi SIGSEGV __memmove_avx_unaligned
-Date: Tue, 17 Sep 2019 05:16:39 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 19.1
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: julien.isorce@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111236-502-n6nwhZyFhE@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111236-502@http.bugs.freedesktop.org/>
-References: <bug-111236-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 871BC6E0F8;
+ Tue, 17 Sep 2019 05:46:28 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2019 22:46:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,515,1559545200"; d="scan'208";a="201762700"
+Received: from svandens-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.54.141])
+ by fmsmga001.fm.intel.com with ESMTP; 16 Sep 2019 22:46:24 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Marek =?utf-8?B?T2zFocOhaw==?= <maraeo@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm: add drm device name
+In-Reply-To: <CAAxE2A6sESsKAi3K1etAZeCwAPgexn099G6g0aJQnavTkiH+mA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20190903214040.2386-1-sonny.jiang@amd.com>
+ <CAAxE2A45N4gMYrcETDpznGKyxLztuwenFasL19a81QQmBkYiww@mail.gmail.com>
+ <CAF6AEGvvUUOGujJC9P3t72N93AJuxiiVt0OAk8zf226Q8WmHvg@mail.gmail.com>
+ <CAKMK7uHFNhdNY4Y9ZFMNuci7gssPWCT5f5y=e4npg8s5r_jBdQ@mail.gmail.com>
+ <CAAxE2A6sESsKAi3K1etAZeCwAPgexn099G6g0aJQnavTkiH+mA@mail.gmail.com>
+Date: Tue, 17 Sep 2019 08:47:48 +0300
+Message-ID: <87woe7eanv.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -52,88 +48,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1259806554=="
+Cc: "Jiang, Sonny" <Sonny.Jiang@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1259806554==
-Content-Type: multipart/alternative; boundary="15686973991.1fa29BB.29746"
-Content-Transfer-Encoding: 7bit
-
-
---15686973991.1fa29BB.29746
-Date: Tue, 17 Sep 2019 05:16:39 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111236
-
---- Comment #15 from Julien Isorce <julien.isorce@gmail.com> ---
-https://gitlab.freedesktop.org/mesa/mesa/merge_requests/2005
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15686973991.1fa29BB.29746
-Date: Tue, 17 Sep 2019 05:16:39 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - VA-API radeonsi SIGSEGV __memmove_avx_unaligned"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111236#c15">Comme=
-nt # 15</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - VA-API radeonsi SIGSEGV __memmove_avx_unaligned"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111236">bug 11123=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-julien.isorce&#64;gmail.com" title=3D"Julien Isorce &lt;julien.isorce&#64;g=
-mail.com&gt;"> <span class=3D"fn">Julien Isorce</span></a>
-</span></b>
-        <pre><a href=3D"https://gitlab.freedesktop.org/mesa/mesa/merge_requ=
-ests/2005">https://gitlab.freedesktop.org/mesa/mesa/merge_requests/2005</a>=
-</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15686973991.1fa29BB.29746--
-
---===============1259806554==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1259806554==--
+T24gTW9uLCAxNiBTZXAgMjAxOSwgTWFyZWsgT2zFocOhayA8bWFyYWVvQGdtYWlsLmNvbT4gd3Jv
+dGU6Cj4gVGhlIHB1cnBvc2UgaXMgdG8gZ2V0IHJpZCBvZiBhbGwgUENJIElEIHRhYmxlcyBmb3Ig
+YWxsIGRyaXZlcnMgaW4KPiB1c2Vyc3BhY2UuIChvciBhdCBsZWFzdCBzdG9wIHVwZGF0aW5nIHRo
+ZW0pCj4KPiBNZXNhIGNvbW1vbiBjb2RlIGFuZCBtb2Rlc2V0dGluZyB3aWxsIHVzZSB0aGlzLgoK
+SSdkIHRoaW5rIHRoaXMgd291bGQgd2FycmFudCBhIGhpZ2ggbGV2ZWwgZGVzY3JpcHRpb24gb2Yg
+d2hhdCB5b3Ugd2FudAp0byBhY2hpZXZlIGluIHRoZSBjb21taXQgbWVzc2FnZS4KCkJSLApKYW5p
+LgoKLS0gCkphbmkgTmlrdWxhLCBJbnRlbCBPcGVuIFNvdXJjZSBHcmFwaGljcyBDZW50ZXIKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
