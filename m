@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 113CBB6C06
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:18:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E94CB6C07
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:18:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32D6C6FA43;
-	Wed, 18 Sep 2019 19:17:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADDE06FA51;
+	Wed, 18 Sep 2019 19:18:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 66D776FA43
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:17:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6BEC36FA61
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:18:35 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 640DA72167; Wed, 18 Sep 2019 19:17:56 +0000 (UTC)
+ id 68E2272167; Wed, 18 Sep 2019 19:18:35 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 86130] Some textures are not rendering correctly in apitrace
- but are fine while capturing
-Date: Wed, 18 Sep 2019 19:17:56 +0000
+Subject: [Bug 86165] [RV770] [bisected] Bad textures rendering on Serious Sam
+ 3 with sb enabled
+Date: Wed, 18 Sep 2019 19:18:35 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,10 +34,10 @@ X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-86130-502-CGDx0O8y2w@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-86130-502@http.bugs.freedesktop.org/>
-References: <bug-86130-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-86165-502-kqHnxp1Omp@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-86165-502@http.bugs.freedesktop.org/>
+References: <bug-86165-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,34 +53,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0479192116=="
+Content-Type: multipart/mixed; boundary="===============0100232461=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0479192116==
-Content-Type: multipart/alternative; boundary="15688342762.6b38022b3.26377"
+--===============0100232461==
+Content-Type: multipart/alternative; boundary="15688343156.4607D.26377"
 Content-Transfer-Encoding: 7bit
 
 
---15688342762.6b38022b3.26377
-Date: Wed, 18 Sep 2019 19:17:56 +0000
+--15688343156.4607D.26377
+Date: Wed, 18 Sep 2019 19:18:35 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D86130
+https://bugs.freedesktop.org/show_bug.cgi?id=3D86165
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-         Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
+         Resolution|---                         |MOVED
 
---- Comment #3 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
+--- Comment #5 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/532.
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/533.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688342762.6b38022b3.26377
-Date: Wed, 18 Sep 2019 19:17:56 +0000
+--15688343156.4607D.26377
+Date: Wed, 18 Sep 2019 19:18:35 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,9 +112,9 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Some textures are not rendering correctly in a=
-pitrace but are fine while capturing"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D86130">bug 86130<=
+   title=3D"RESOLVED MOVED - [RV770] [bisected] Bad textures rendering on S=
+erious Sam 3 with sb enabled"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D86165">bug 86165<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -125,33 +125,33 @@ pitrace but are fine while capturing"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>MOVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Status</td>
            <td>NEW
            </td>
            <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>MOVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Some textures are not rendering correctly in a=
-pitrace but are fine while capturing"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D86130#c3">Comment=
- # 3</a>
+   title=3D"RESOLVED MOVED - [RV770] [bisected] Bad textures rendering on S=
+erious Sam 3 with sb enabled"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D86165#c5">Comment=
+ # 5</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Some textures are not rendering correctly in a=
-pitrace but are fine while capturing"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D86130">bug 86130<=
+   title=3D"RESOLVED MOVED - [RV770] [bisected] Bad textures rendering on S=
+erious Sam 3 with sb enabled"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D86165">bug 86165<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
@@ -166,7 +166,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/532">https://gitlab.freedesktop.org/mesa/mesa/issues/532</a>.</pre>
+/issues/533">https://gitlab.freedesktop.org/mesa/mesa/issues/533</a>.</pre>
         </div>
       </p>
 
@@ -180,9 +180,9 @@ to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
     </body>
 </html>=
 
---15688342762.6b38022b3.26377--
+--15688343156.4607D.26377--
 
---===============0479192116==
+--===============0100232461==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -192,4 +192,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0479192116==--
+--===============0100232461==--
