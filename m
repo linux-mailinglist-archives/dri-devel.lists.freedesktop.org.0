@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46E4DB6B86
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:03:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA40B6B88
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:03:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85EDB6F90D;
-	Wed, 18 Sep 2019 19:03:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1DE46F916;
+	Wed, 18 Sep 2019 19:03:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id AA8696F90C
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:03:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7C0A06F911
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:03:25 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id A7EB972167; Wed, 18 Sep 2019 19:03:16 +0000 (UTC)
+ id 78E9B72167; Wed, 18 Sep 2019 19:03:25 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 65611] UVD accelerated decoding causes hangs (ARUBA - HD 7540D)
-Date: Wed, 18 Sep 2019 19:03:16 +0000
+Subject: [Bug 65714] Champions of Regnum dont show characters!
+Date: Wed, 18 Sep 2019 19:03:25 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,10 +33,10 @@ X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-65611-502-OWtIb1kM3e@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-65611-502@http.bugs.freedesktop.org/>
-References: <bug-65611-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-65714-502-Bg8r6Kgw39@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-65714-502@http.bugs.freedesktop.org/>
+References: <bug-65714-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,34 +52,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1997631860=="
+Content-Type: multipart/mixed; boundary="===============1143967813=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1997631860==
-Content-Type: multipart/alternative; boundary="15688333962.f0D5E5aF.19031"
+--===============1143967813==
+Content-Type: multipart/alternative; boundary="15688334050.4f3B.19031"
 Content-Transfer-Encoding: 7bit
 
 
---15688333962.f0D5E5aF.19031
-Date: Wed, 18 Sep 2019 19:03:16 +0000
+--15688334050.4f3B.19031
+Date: Wed, 18 Sep 2019 19:03:25 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D65611
+https://bugs.freedesktop.org/show_bug.cgi?id=3D65714
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
+             Status|NEW                         |RESOLVED
 
---- Comment #6 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
+--- Comment #4 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -87,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/442.
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/443.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688333962.f0D5E5aF.19031
-Date: Wed, 18 Sep 2019 19:03:16 +0000
+--15688334050.4f3B.19031
+Date: Wed, 18 Sep 2019 19:03:25 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -111,9 +111,8 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - UVD accelerated decoding causes hangs (ARUBA -=
- HD 7540D)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D65611">bug 65611<=
+   title=3D"RESOLVED MOVED - Champions of Regnum dont show characters!"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D65714">bug 65714<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -124,33 +123,31 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Resolution</td>
            <td>---
            </td>
            <td>MOVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - UVD accelerated decoding causes hangs (ARUBA -=
- HD 7540D)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D65611#c6">Comment=
- # 6</a>
+   title=3D"RESOLVED MOVED - Champions of Regnum dont show characters!"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D65714#c4">Comment=
+ # 4</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - UVD accelerated decoding causes hangs (ARUBA -=
- HD 7540D)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D65611">bug 65611<=
+   title=3D"RESOLVED MOVED - Champions of Regnum dont show characters!"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D65714">bug 65714<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
@@ -165,7 +162,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/442">https://gitlab.freedesktop.org/mesa/mesa/issues/442</a>.</pre>
+/issues/443">https://gitlab.freedesktop.org/mesa/mesa/issues/443</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +176,9 @@ to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
     </body>
 </html>=
 
---15688333962.f0D5E5aF.19031--
+--15688334050.4f3B.19031--
 
---===============1997631860==
+--===============1143967813==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +188,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1997631860==--
+--===============1143967813==--
