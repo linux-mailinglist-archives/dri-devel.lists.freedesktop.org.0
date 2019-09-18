@@ -1,109 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CBEAB742F
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 09:36:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85317B7436
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 09:36:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D027A6F773;
-	Thu, 19 Sep 2019 07:35:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 072FC6F8DB;
+	Thu, 19 Sep 2019 07:35:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-PU1-obe.outbound.protection.outlook.com
- (mail-eopbgr1320131.outbound.protection.outlook.com [40.107.132.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C03F26F414
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 16:45:22 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cntvWyEfj0MRLJofAVBqo1gq9xUwrDu5KwZyVWyOuM9zUEUFM5HoV8gvmpPhHhNvTz2DL1klBIJYvXqIhu5cdA8KKahua5sQhZgCv6+diWOTF1rarDt9Gl85Ql5fe30djKkn3RsVfv0wxmdmE0mND4JeFQCwQSIdBNEh/F9Zu8UTRwdUVbjuWpcRCYlRoSbaOXUYGteB86lX8I8/tO4mI+dwKgKdCBJAlUuakTSginK9do2p8jwjgEe5VTftzHeI1QHTOPbzoOWKw3w2VVxYgIYQB3aEC78w2C7Y0hmS2Emx1xB+Jq5+oaL3h9hxnpPDvbf2o0x3zxuf+Z12nWUIsQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7jwgJ4CcDfc9UT9bfJAAEbT/LSNkaNlAduOqIvC5cDA=;
- b=Ydc+XnA4KRwnQt1AY6c8URkMFpX7oj077GbzzzGijzSf0b1gNyQ5tkKU1Q4xirTscFtNf0a0XhUxePg9kg7U7rZLP7FV3D+gZyQVCsHlqoK5/6ns4p+/NLtC/qSz5594ZpvDZEtcRxyKaTSEo2l2ZpErg89VM5EIjNsnIjKp8On9fR6tiMPkPbI7cKjgYFW4FEIWiPsuAxIJuCjqkmofaNvzg24Ypz6XzfosMPs6lfnFbsD2k0dIPUewZL9dzreenpZQgHrnBYGYcatS4+lvC3NTSK9kjhcHkwt0Ncpd8cmdV0Z9qcvSMxHSwmJ/IZH08yXL6Tl5SmbXIZ8fwfXArw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-Received: from PU1P153MB0169.APCP153.PROD.OUTLOOK.COM (10.170.189.13) by
- PU1P153MB0124.APCP153.PROD.OUTLOOK.COM (10.170.188.138) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2305.3; Wed, 18 Sep 2019 16:45:18 +0000
-Received: from PU1P153MB0169.APCP153.PROD.OUTLOOK.COM
- ([fe80::fc44:a784:73e6:c1c2]) by PU1P153MB0169.APCP153.PROD.OUTLOOK.COM
- ([fe80::fc44:a784:73e6:c1c2%8]) with mapi id 15.20.2305.000; Wed, 18 Sep 2019
- 16:45:18 +0000
-From: Dexuan Cui <decui@microsoft.com>
-To: Wei Hu <weh@microsoft.com>, Michael Kelley <mikelley@microsoft.com>,
- "rdunlap@infradead.org" <rdunlap@infradead.org>, "shc_work@mail.ru"
- <shc_work@mail.ru>, "gregkh@linuxfoundation.org"
- <gregkh@linuxfoundation.org>, "lee.jones@linaro.org" <lee.jones@linaro.org>,
- "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
- "baijiaju1990@gmail.com" <baijiaju1990@gmail.com>,
- "fthain@telegraphics.com.au" <fthain@telegraphics.com.au>, "info@metux.net"
- <info@metux.net>, "linux-hyperv@vger.kernel.org"
- <linux-hyperv@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-fbdev@vger.kernel.org"
- <linux-fbdev@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "sashal@kernel.org" <sashal@kernel.org>,
- Stephen Hemminger <sthemmin@microsoft.com>, Haiyang Zhang
- <haiyangz@microsoft.com>, KY Srinivasan <kys@microsoft.com>
-Subject: RE: [PATHC v6] video: hyperv: hyperv_fb: Support deferred IO for
- Hyper-V frame buffer driver
-Thread-Topic: [PATHC v6] video: hyperv: hyperv_fb: Support deferred IO for
- Hyper-V frame buffer driver
-Thread-Index: AQHVbebF21J2EyXx3k2x6FCXKaeI5qcxpGpA
-Date: Wed, 18 Sep 2019 16:45:18 +0000
-Message-ID: <PU1P153MB016905271897CA406021BF8DBF8E0@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
-References: <20190918060227.6834-1-weh@microsoft.com>
-In-Reply-To: <20190918060227.6834-1-weh@microsoft.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=decui@microsoft.com;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2019-09-18T16:45:17.3143353Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=f9dbc63c-ae4d-4daa-bebe-7501aa67e707;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
-x-originating-ip: [2601:600:a280:7f70:9da0:245f:bd15:5f6a]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 23634abe-9efc-4ad1-a059-08d73c5796fd
-x-ms-office365-filtering-ht: Tenant
-x-ms-traffictypediagnostic: PU1P153MB0124:|PU1P153MB0124:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <PU1P153MB012464CF667B5EDCF96D53F0BF8E0@PU1P153MB0124.APCP153.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:5236;
-x-forefront-prvs: 01644DCF4A
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(366004)(346002)(376002)(396003)(39850400004)(136003)(189003)(199004)(66556008)(2501003)(8990500004)(66946007)(2906002)(33656002)(1511001)(7416002)(14444005)(256004)(10090500001)(8936002)(9686003)(486006)(81156014)(81166006)(8676002)(74316002)(305945005)(7736002)(6246003)(2201001)(86362001)(1250700005)(6116002)(52536014)(6436002)(6636002)(76116006)(558084003)(66476007)(64756008)(66446008)(316002)(55016002)(478600001)(476003)(110136005)(25786009)(46003)(71200400001)(71190400001)(229853002)(76176011)(7696005)(99286004)(102836004)(14454004)(186003)(10290500003)(446003)(5660300002)(11346002)(6506007)(22452003)(921003)(1121003);
- DIR:OUT; SFP:1102; SCL:1; SRVR:PU1P153MB0124;
- H:PU1P153MB0169.APCP153.PROD.OUTLOOK.COM; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: microsoft.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: n44Tf2OyjNSwQz5AT8cgf09U0ziZuRKg52UvLE/0+VsI0pYl/z75WdOuPmQmAkeXVSYWvoLiKS2QldktcEiMqTF3yOk3kq584P3uIPK4F9Vq8eg+sEJf3QvppuIsG4X2puRbX50tpvuUMaUBmMe6AtMfXirI6r3dFe7XeW4Gd5GOadUsyevLPxRz/glmDCRa0v4AIIE81Kqoc5lFlqdq1V4hYUoOa6CUy6vvyqdTNSJpDEz8w1sTywfZHPj1j4AVP4ZkL/4J5+HvCeyp2lShOBBrVffjhhDpKFva0HCRPxEUlX23U6f2xMbfchOlHY82ZJrHmRYEeUAEP3Puyv48AU7Q1FlLQIntdo1eQ1Q+N5duW/HJLuwQCjZvXQFMYgxWHp60ZrBlEzhRy0ocKoyR0wH9s7uq05Iu9OEASztasjU=
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
+ [IPv6:2607:f8b0:4864:20::d44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B3FD6F434;
+ Wed, 18 Sep 2019 19:05:06 +0000 (UTC)
+Received: by mail-io1-xd44.google.com with SMTP id q10so1834087iop.2;
+ Wed, 18 Sep 2019 12:05:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YxdYS1JLBCWQ/wgdV/eSCWJBQ5psEESLzConWod1fsY=;
+ b=tGtfuT8HoFLorrEuHzxA3rl4v7olFj48n6aH8XjdoWkRkI2AUjSSajSAVsYz9frHb7
+ dt5qYcfuI7+Uz3oP3YKnpQoEeDxqUKhBKwUJDh4L7SnTM158h0pGsJO36PeXLsEDDuCo
+ 9rUFSPBVIzh4nbvOeN2pF9oXJhjYGZL5r/yW4SvB7P4+JVmHWStjsG5roL0rrkomGdU9
+ nPT4EfDkNwn6kooXgsfhP61MyuDSFY2ssWj/Kq8K1aXCArkWjQ9tKMb9uY91KbyvtXzj
+ fIO38YyBiWyf2gOifIjmxNLD1nLqeuMQ2RXrByRQxn6u3JUurzx4lPbG7QIGd9ZQDYEX
+ 3igw==
+X-Gm-Message-State: APjAAAVnMdf9s/U7YOXeSPmTJkE8UJrQGfgf8sNoKqVcL1A1tLI0hIge
+ onNKqCVv+YTrdYFoVvzvtUTi/yazcKI6AOjAsnM=
+X-Google-Smtp-Source: APXvYqw28HmTogLgA33xanl+pjzTOGhtCLg4U6YzfI9W8hTTqTPZjbraV8rowFxmljuf8oJjv8SiLsDzk0TmW115s4w=
+X-Received: by 2002:a6b:c9d7:: with SMTP id z206mr6837446iof.172.1568833503715; 
+ Wed, 18 Sep 2019 12:05:03 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 23634abe-9efc-4ad1-a059-08d73c5796fd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Sep 2019 16:45:18.5172 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: V9Pe+jT87z4sPHxQnu8OeowjgPeXfdWnqli8xJv+rpoFC0ypGJzefU2CS35G4VJn0LmA+d/TiDS3OWzSOKY8Tg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU1P153MB0124
+References: <20190918160943.14105-1-navid.emamdoost@gmail.com>
+ <7bab24ff-ded7-9f76-ba25-efd07cdd30dd@amd.com>
+In-Reply-To: <7bab24ff-ded7-9f76-ba25-efd07cdd30dd@amd.com>
+From: Navid Emamdoost <navid.emamdoost@gmail.com>
+Date: Wed, 18 Sep 2019 14:04:52 -0500
+Message-ID: <CAEkB2ERC-mUq+SHkaZiiZnJTTcOvjUebRSnKACVUUckCC59a7Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: fix multiple memory leaks
+To: "Koenig, Christian" <Christian.Koenig@amd.com>
 X-Mailman-Approved-At: Thu, 19 Sep 2019 07:35:45 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microsoft.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7jwgJ4CcDfc9UT9bfJAAEbT/LSNkaNlAduOqIvC5cDA=;
- b=MS7EkrWoxv6ka+ePIJyTlotvq4c8dWDs22SP8treopPf2QnIX4GA2MYKVOyfFMr6mwpbyugFhH4hnwSPWVsFAHDdNR/tf5syA8MdctTuTl7O1Mwi9d1493sBc2MOzRpO6m4LdgTL9VrQBJYEoklMasb/ZcZwaMmheXVeUitdwKc=
-X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=decui@microsoft.com; 
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=YxdYS1JLBCWQ/wgdV/eSCWJBQ5psEESLzConWod1fsY=;
+ b=S+99aZrsEa4C/qnJNgJb68AFkEcpOkmnASNLEZU0HgCZCkuO12wP7/MkBhmbiExiZj
+ C4bDvQYmPpZHTFhy37raiIOkc8mecBcp+YH0htPPuy6VY9rdVcsua2Zr8LlWpxilK5VQ
+ iZwNuco88+rqal/+CRXyjJOzhnBoHdJGvN6WEnADh/0kMnSUVhrQvZs+tdh7U6iVnZgA
+ urBiGcmVRJt9BCokTIZJghI134GjMV+6orkRAuHnmpIAiu4GUwPEGwuZbZxxQfUJcnuv
+ 7R+bDEFMcy7CiWfdfvybclamARtI6rssx+W6nPM2V3CqgizveP+fPpAiEGGO7JFp+CnT
+ SB2w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -116,16 +64,210 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
+ "kjlu@umn.edu" <kjlu@umn.edu>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "emamd001@umn.edu" <emamd001@umn.edu>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "smccaman@umn.edu" <smccaman@umn.edu>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, Rex Zhu <Rex.Zhu@amd.com>
+Content-Type: multipart/mixed; boundary="===============1212390889=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PiBGcm9tOiBXZWkgSHUgPHdlaEBtaWNyb3NvZnQuY29tPgo+IFNlbnQ6IFR1ZXNkYXksIFNlcHRl
-bWJlciAxNywgMjAxOSAxMTowMyBQTQo+IFsuLi5dCj4gLS0tCj4gICAgIHY2OiBEbyBub3QgcmVx
-dWVzdCBob3N0IHJlZnJlc2ggd2hlbiB0aGUgVk0gZ3Vlc3Qgc2NyZWVuIGlzCj4gICAgIGNsb3Nl
-ZCBvciBtaW5pbWl6ZWQuCgpMb29rcyBnb29kIHRvIG1lLiBUaGFua3MhCgpSZXZpZXdlZC1ieTog
-RGV4dWFuIEN1aSA8ZGVjdWlAbWljcm9zb2Z0LmNvbT4KX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVs
+--===============1212390889==
+Content-Type: multipart/alternative; boundary="000000000000b366e40592d8839f"
+
+--000000000000b366e40592d8839f
+Content-Type: text/plain; charset="UTF-8"
+
+Thanks Christian for the feedback, I'll send a v2.
+
+
+
+On Wed, Sep 18, 2019 at 12:31 PM Koenig, Christian <Christian.Koenig@amd.com>
+wrote:
+
+> Am 18.09.19 um 18:09 schrieb Navid Emamdoost:
+> > In acp_hw_init there are some allocations that needs to be released in
+> > case of failure:
+> >
+> > 1- adev->acp.acp_genpd should be released if any allocation attemp for
+> > adev->acp.acp_cell, adev->acp.acp_res or i2s_pdata fails.
+> > 2- all of those allocations should be released if pm_genpd_add_device
+> > fails.
+>
+> Good catch, but please use goto error handling instead of adding more
+> and more kfree calls.
+>
+> Regards,
+> Christian.
+>
+> >
+> > Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+> > ---
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c | 10 +++++++++-
+> >   1 file changed, 9 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c
+> b/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c
+> > index eba42c752bca..dd3fa85b11c5 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c
+> > @@ -231,17 +231,21 @@ static int acp_hw_init(void *handle)
+> >       adev->acp.acp_cell = kcalloc(ACP_DEVS, sizeof(struct mfd_cell),
+> >                                                       GFP_KERNEL);
+> >
+> > -     if (adev->acp.acp_cell == NULL)
+> > +     if (adev->acp.acp_cell == NULL) {
+> > +             kfree(adev->acp.acp_genpd);
+> >               return -ENOMEM;
+> > +     }
+> >
+> >       adev->acp.acp_res = kcalloc(5, sizeof(struct resource),
+> GFP_KERNEL);
+> >       if (adev->acp.acp_res == NULL) {
+> > +             kfree(adev->acp.acp_genpd);
+> >               kfree(adev->acp.acp_cell);
+> >               return -ENOMEM;
+> >       }
+> >
+> >       i2s_pdata = kcalloc(3, sizeof(struct i2s_platform_data),
+> GFP_KERNEL);
+> >       if (i2s_pdata == NULL) {
+> > +             kfree(adev->acp.acp_genpd);
+> >               kfree(adev->acp.acp_res);
+> >               kfree(adev->acp.acp_cell);
+> >               return -ENOMEM;
+> > @@ -348,6 +352,10 @@ static int acp_hw_init(void *handle)
+> >               r = pm_genpd_add_device(&adev->acp.acp_genpd->gpd, dev);
+> >               if (r) {
+> >                       dev_err(dev, "Failed to add dev to genpd\n");
+> > +                     kfree(adev->acp.acp_genpd);
+> > +                     kfree(adev->acp.acp_res);
+> > +                     kfree(adev->acp.acp_cell);
+> > +                     kfree(i2s_pdata);
+> >                       return r;
+> >               }
+> >       }
+>
+>
+
+-- 
+Navid.
+
+--000000000000b366e40592d8839f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Thanks=C2=A0Christian for the feedback, I&#39;ll send a v2=
+.<div><br></div><div><br></div></div><br><div class=3D"gmail_quote"><div di=
+r=3D"ltr" class=3D"gmail_attr">On Wed, Sep 18, 2019 at 12:31 PM Koenig, Chr=
+istian &lt;<a href=3D"mailto:Christian.Koenig@amd.com">Christian.Koenig@amd=
+.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex">Am 18.09.19 um 18:09 schrieb Navid Emamdoost:<br>
+&gt; In acp_hw_init there are some allocations that needs to be released in=
+<br>
+&gt; case of failure:<br>
+&gt;<br>
+&gt; 1- adev-&gt;acp.acp_genpd should be released if any allocation attemp =
+for<br>
+&gt; adev-&gt;acp.acp_cell, adev-&gt;acp.acp_res or i2s_pdata fails.<br>
+&gt; 2- all of those allocations should be released if pm_genpd_add_device<=
+br>
+&gt; fails.<br>
+<br>
+Good catch, but please use goto error handling instead of adding more <br>
+and more kfree calls.<br>
+<br>
+Regards,<br>
+Christian.<br>
+<br>
+&gt;<br>
+&gt; Signed-off-by: Navid Emamdoost &lt;<a href=3D"mailto:navid.emamdoost@g=
+mail.com" target=3D"_blank">navid.emamdoost@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c | 10 +++++++++-<br=
+>
+&gt;=C2=A0 =C2=A01 file changed, 9 insertions(+), 1 deletion(-)<br>
+&gt;<br>
+&gt; diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c b/drivers/gpu/drm=
+/amd/amdgpu/amdgpu_acp.c<br>
+&gt; index eba42c752bca..dd3fa85b11c5 100644<br>
+&gt; --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c<br>
+&gt; +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c<br>
+&gt; @@ -231,17 +231,21 @@ static int acp_hw_init(void *handle)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0adev-&gt;acp.acp_cell =3D kcalloc(ACP_DEVS, =
+sizeof(struct mfd_cell),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0GFP_KERNEL);<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0if (adev-&gt;acp.acp_cell =3D=3D NULL)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (adev-&gt;acp.acp_cell =3D=3D NULL) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kfree(adev-&gt;acp.ac=
+p_genpd);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENOMEM;<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0adev-&gt;acp.acp_res =3D kcalloc(5, sizeof(s=
+truct resource), GFP_KERNEL);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (adev-&gt;acp.acp_res =3D=3D NULL) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kfree(adev-&gt;acp.ac=
+p_genpd);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kfree(adev-&gt;a=
+cp.acp_cell);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENOMEM;<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0i2s_pdata =3D kcalloc(3, sizeof(struct i2s_p=
+latform_data), GFP_KERNEL);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (i2s_pdata =3D=3D NULL) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kfree(adev-&gt;acp.ac=
+p_genpd);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kfree(adev-&gt;a=
+cp.acp_res);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kfree(adev-&gt;a=
+cp.acp_cell);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENOMEM;<=
+br>
+&gt; @@ -348,6 +352,10 @@ static int acp_hw_init(void *handle)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0r =3D pm_genpd_a=
+dd_device(&amp;adev-&gt;acp.acp_genpd-&gt;gpd, dev);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (r) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0dev_err(dev, &quot;Failed to add dev to genpd\n&quot;);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0kfree(adev-&gt;acp.acp_genpd);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0kfree(adev-&gt;acp.acp_res);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0kfree(adev-&gt;acp.acp_cell);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0kfree(i2s_pdata);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0return r;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><font col=
+or=3D"#666666">Navid.</font></div></div></div></div>
+
+--000000000000b366e40592d8839f--
+
+--===============1212390889==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1212390889==--
