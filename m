@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 221C7B6B03
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 20:52:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C29B6B04
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 20:52:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC8846F839;
-	Wed, 18 Sep 2019 18:52:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D0FC6F83F;
+	Wed, 18 Sep 2019 18:52:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id B325C6F844
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 18:52:34 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8AD216F834
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 18:52:37 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B01A172167; Wed, 18 Sep 2019 18:52:34 +0000 (UTC)
+ id 882FA72168; Wed, 18 Sep 2019 18:52:37 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 75794] Accumulation of black squares with OpenGL applications
- at high resolutions
-Date: Wed, 18 Sep 2019 18:52:35 +0000
+Subject: [Bug 76157] Gnome-shell 3.10 has distorted artifacts and fonts with
+ Gallium driver (running on Dell XT with Radeon Xpress 1250 graphics card)
+Date: Wed, 18 Sep 2019 18:52:37 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/r300
-X-Bugzilla-Version: 9.1
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: major
 X-Bugzilla-Who: gitlab-migration@fdo.invalid
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-75794-502-FGxzXWvqol@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-75794-502@http.bugs.freedesktop.org/>
-References: <bug-75794-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-76157-502-Bru9avD5fb@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-76157-502@http.bugs.freedesktop.org/>
+References: <bug-76157-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,35 +53,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1766522697=="
+Content-Type: multipart/mixed; boundary="===============0290047624=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1766522697==
-Content-Type: multipart/alternative; boundary="15688327540.f80E.15388"
+--===============0290047624==
+Content-Type: multipart/alternative; boundary="15688327571.c7E7dAa9.15388"
 Content-Transfer-Encoding: 7bit
 
 
---15688327540.f80E.15388
-Date: Wed, 18 Sep 2019 18:52:34 +0000
+--15688327571.c7E7dAa9.15388
+Date: Wed, 18 Sep 2019 18:52:37 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D75794
+https://bugs.freedesktop.org/show_bug.cgi?id=3D76157
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
+             Status|NEW                         |RESOLVED
 
---- Comment #14 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
---
+--- Comment #3 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -89,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/360.
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/361.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688327540.f80E.15388
-Date: Wed, 18 Sep 2019 18:52:34 +0000
+--15688327571.c7E7dAa9.15388
+Date: Wed, 18 Sep 2019 18:52:37 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -113,9 +112,10 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Accumulation of black squares with OpenGL appl=
-ications at high resolutions"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D75794">bug 75794<=
+   title=3D"RESOLVED MOVED - Gnome-shell 3.10 has distorted artifacts and f=
+onts with Gallium driver (running on Dell XT with Radeon Xpress 1250 graphi=
+cs card)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D76157">bug 76157<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -126,33 +126,35 @@ ications at high resolutions"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Resolution</td>
            <td>---
            </td>
            <td>MOVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Accumulation of black squares with OpenGL appl=
-ications at high resolutions"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D75794#c14">Commen=
-t # 14</a>
+   title=3D"RESOLVED MOVED - Gnome-shell 3.10 has distorted artifacts and f=
+onts with Gallium driver (running on Dell XT with Radeon Xpress 1250 graphi=
+cs card)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D76157#c3">Comment=
+ # 3</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Accumulation of black squares with OpenGL appl=
-ications at high resolutions"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D75794">bug 75794<=
+   title=3D"RESOLVED MOVED - Gnome-shell 3.10 has distorted artifacts and f=
+onts with Gallium driver (running on Dell XT with Radeon Xpress 1250 graphi=
+cs card)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D76157">bug 76157<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
@@ -167,7 +169,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/360">https://gitlab.freedesktop.org/mesa/mesa/issues/360</a>.</pre>
+/issues/361">https://gitlab.freedesktop.org/mesa/mesa/issues/361</a>.</pre>
         </div>
       </p>
 
@@ -181,9 +183,9 @@ to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
     </body>
 </html>=
 
---15688327540.f80E.15388--
+--15688327571.c7E7dAa9.15388--
 
---===============1766522697==
+--===============0290047624==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -193,4 +195,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1766522697==--
+--===============0290047624==--
