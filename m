@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D43FBB6AE1
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 20:50:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CB49B6AE2
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 20:50:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 697C86F824;
-	Wed, 18 Sep 2019 18:50:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02E876F823;
+	Wed, 18 Sep 2019 18:50:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 849EC6F824
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 18:50:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5CAD26F821
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 18:50:49 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 81EAD72167; Wed, 18 Sep 2019 18:50:41 +0000 (UTC)
+ id 5989172167; Wed, 18 Sep 2019 18:50:49 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 45913] [r300g] piglit vs-clip-vertex-const-reject fails
-Date: Wed, 18 Sep 2019 18:50:41 +0000
+Subject: [Bug 47955] Celestia hit fallback on r300g from git?
+Date: Wed, 18 Sep 2019 18:50:49 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -30,13 +30,13 @@ X-Bugzilla-Severity: normal
 X-Bugzilla-Who: gitlab-migration@fdo.invalid
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
-X-Bugzilla-Priority: low
+X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-45913-502-epVTnVacME@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-45913-502@http.bugs.freedesktop.org/>
-References: <bug-45913-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-47955-502-LMveJbgD9q@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-47955-502@http.bugs.freedesktop.org/>
+References: <bug-47955-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,34 +52,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1744054992=="
+Content-Type: multipart/mixed; boundary="===============0999261969=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1744054992==
-Content-Type: multipart/alternative; boundary="15688326412.EE47.14877"
+--===============0999261969==
+Content-Type: multipart/alternative; boundary="15688326492.8eB9.14877"
 Content-Transfer-Encoding: 7bit
 
 
---15688326412.EE47.14877
-Date: Wed, 18 Sep 2019 18:50:41 +0000
+--15688326492.8eB9.14877
+Date: Wed, 18 Sep 2019 18:50:49 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D45913
+https://bugs.freedesktop.org/show_bug.cgi?id=3D47955
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|REOPENED                    |RESOLVED
+             Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
 
---- Comment #3 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
+--- Comment #20 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
+--
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -87,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/340.
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/341.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688326412.EE47.14877
-Date: Wed, 18 Sep 2019 18:50:41 +0000
+--15688326492.8eB9.14877
+Date: Wed, 18 Sep 2019 18:50:49 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -111,9 +112,8 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [r300g] piglit vs-clip-vertex-const-reject fai=
-ls"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D45913">bug 45913<=
+   title=3D"RESOLVED MOVED - Celestia hit fallback on r300g from git?"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D47955">bug 47955<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -125,7 +125,7 @@ ls"
 
          <tr>
            <td style=3D"text-align:right;">Status</td>
-           <td>REOPENED
+           <td>NEW
            </td>
            <td>RESOLVED
            </td>
@@ -142,15 +142,13 @@ ls"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [r300g] piglit vs-clip-vertex-const-reject fai=
-ls"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D45913#c3">Comment=
- # 3</a>
+   title=3D"RESOLVED MOVED - Celestia hit fallback on r300g from git?"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D47955#c20">Commen=
+t # 20</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [r300g] piglit vs-clip-vertex-const-reject fai=
-ls"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D45913">bug 45913<=
+   title=3D"RESOLVED MOVED - Celestia hit fallback on r300g from git?"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D47955">bug 47955<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
@@ -165,7 +163,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/340">https://gitlab.freedesktop.org/mesa/mesa/issues/340</a>.</pre>
+/issues/341">https://gitlab.freedesktop.org/mesa/mesa/issues/341</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +177,9 @@ to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
     </body>
 </html>=
 
---15688326412.EE47.14877--
+--15688326492.8eB9.14877--
 
---===============1744054992==
+--===============0999261969==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +189,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1744054992==--
+--===============0999261969==--
