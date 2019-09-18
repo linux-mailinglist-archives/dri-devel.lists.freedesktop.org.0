@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8EECB6AF7
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 20:52:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44E6AB6AF8
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 20:52:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E07046F82C;
-	Wed, 18 Sep 2019 18:52:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D64756F836;
+	Wed, 18 Sep 2019 18:52:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id D30246F83B
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 18:51:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id AACC46F835
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 18:52:03 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id CEB9672167; Wed, 18 Sep 2019 18:51:59 +0000 (UTC)
+ id A31E272167; Wed, 18 Sep 2019 18:52:03 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 65327] running gnubik produces a segfault
-Date: Wed, 18 Sep 2019 18:52:00 +0000
+Subject: [Bug 70009] [r300g, bisected] some wine apps renders black
+Date: Wed, 18 Sep 2019 18:52:03 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/r300
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: regression
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: gitlab-migration@fdo.invalid
 X-Bugzilla-Status: RESOLVED
@@ -34,9 +34,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-65327-502-9tvhVWM8TE@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-65327-502@http.bugs.freedesktop.org/>
-References: <bug-65327-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-70009-502-GKpnl21I8G@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-70009-502@http.bugs.freedesktop.org/>
+References: <bug-70009-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,25 +52,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1330739068=="
+Content-Type: multipart/mixed; boundary="===============1516738176=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1330739068==
-Content-Type: multipart/alternative; boundary="15688327191.c24Cc.15388"
+--===============1516738176==
+Content-Type: multipart/alternative; boundary="15688327231.7F9C2729.15388"
 Content-Transfer-Encoding: 7bit
 
 
---15688327191.c24Cc.15388
-Date: Wed, 18 Sep 2019 18:51:59 +0000
+--15688327231.7F9C2729.15388
+Date: Wed, 18 Sep 2019 18:52:03 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D65327
+https://bugs.freedesktop.org/show_bug.cgi?id=3D70009
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
@@ -79,7 +79,8 @@ GitLab Migration User <gitlab-migration@fdo.invalid> changed:
              Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
 
---- Comment #1 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
+--- Comment #12 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
+--
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -87,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/356.
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/357.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688327191.c24Cc.15388
-Date: Wed, 18 Sep 2019 18:51:59 +0000
+--15688327231.7F9C2729.15388
+Date: Wed, 18 Sep 2019 18:52:03 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -111,8 +112,8 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - running gnubik produces a segfault"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D65327">bug 65327<=
+   title=3D"RESOLVED MOVED - [r300g, bisected] some wine apps renders black"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D70009">bug 70009<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -141,13 +142,13 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - running gnubik produces a segfault"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D65327#c1">Comment=
- # 1</a>
+   title=3D"RESOLVED MOVED - [r300g, bisected] some wine apps renders black"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D70009#c12">Commen=
+t # 12</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - running gnubik produces a segfault"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D65327">bug 65327<=
+   title=3D"RESOLVED MOVED - [r300g, bisected] some wine apps renders black"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D70009">bug 70009<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
@@ -162,7 +163,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/356">https://gitlab.freedesktop.org/mesa/mesa/issues/356</a>.</pre>
+/issues/357">https://gitlab.freedesktop.org/mesa/mesa/issues/357</a>.</pre>
         </div>
       </p>
 
@@ -176,9 +177,9 @@ to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
     </body>
 </html>=
 
---15688327191.c24Cc.15388--
+--15688327231.7F9C2729.15388--
 
---===============1330739068==
+--===============1516738176==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -188,4 +189,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1330739068==--
+--===============1516738176==--
