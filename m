@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 622F3B6BB2
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:11:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A07FB6BB3
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:11:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FBEB6F9B9;
-	Wed, 18 Sep 2019 19:11:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 069E26F9A2;
+	Wed, 18 Sep 2019 19:11:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 08B786F996
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:10:59 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 831456F42D
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:11:30 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 059A072167; Wed, 18 Sep 2019 19:10:59 +0000 (UTC)
+ id 7FEC472167; Wed, 18 Sep 2019 19:11:30 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
- when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
-Date: Wed, 18 Sep 2019 19:10:59 +0000
+Subject: [Bug 71326] [r600g] Texture artifacts when viewed from a distance in
+ WoW
+Date: Wed, 18 Sep 2019 19:11:30 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r600
+X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tempel.julian@gmail.com
+X-Bugzilla-Who: gitlab-migration@fdo.invalid
 X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: NOTOURBUG
-X-Bugzilla-Priority: high
+X-Bugzilla-Resolution: MOVED
+X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110659-502-lsHPCGkN8Z@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
-References: <bug-110659-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-71326-502-LNFWmJPY1D@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-71326-502@http.bugs.freedesktop.org/>
+References: <bug-71326-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,52 +53,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0848290363=="
+Content-Type: multipart/mixed; boundary="===============0160419327=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0848290363==
-Content-Type: multipart/alternative; boundary="15688338582.aDee87.22515"
+--===============0160419327==
+Content-Type: multipart/alternative; boundary="15688338901.f6ae450.19374"
 Content-Transfer-Encoding: 7bit
 
 
---15688338582.aDee87.22515
-Date: Wed, 18 Sep 2019 19:10:58 +0000
+--15688338901.f6ae450.19374
+Date: Wed, 18 Sep 2019 19:11:30 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
+https://bugs.freedesktop.org/show_bug.cgi?id=3D71326
 
---- Comment #86 from tempel.julian@gmail.com ---
-While the Gallium performance overlay clearly shows a spike in the game's G=
-PU
-render time, I'm fairly certain it doesn't exist in the actual display outp=
-ut.
-It's not limited to the character inventory, but instead happens anywhere, =
-even
-in the main menu. But I neither can see the cursor skipping, nor the camera=
- in
-game, despite of the graph's spike.
-I also noticed that there is no such spike when the framerate is below the
-refreshrate.
+GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
-I also tested if there's something similar to observe in Hitman 2: I reduced
-visual fidelity to achieve constant 75fps/Hz with vsync, and it always seem=
-s to
-be 100% free of stutter, also when resuming to move the mouse after suspend=
-ing
-it for a few seconds.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |MOVED
+
+--- Comment #47 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
+--
+-- GitLab Migration Automatic Message --
+
+This bug has been migrated to freedesktop.org's GitLab instance and has been
+closed from further activity.
+
+You can subscribe and participate further through the new bug through this =
+link
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/468.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688338582.aDee87.22515
-Date: Wed, 18 Sep 2019 19:10:58 +0000
+--15688338901.f6ae450.19374
+Date: Wed, 18 Sep 2019 19:11:30 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -109,43 +107,67 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:gitlab-mi=
+gration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab-migratio=
+n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - [r600g] Texture artifacts when viewed from a d=
+istance in WoW"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D71326">bug 71326<=
+/a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>MOVED
+           </td>
+         </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTOURBUG - pageflipping seems to cause jittering on m=
-ouse input when running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c86">Comme=
-nt # 86</a>
+   title=3D"RESOLVED MOVED - [r600g] Texture artifacts when viewed from a d=
+istance in WoW"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D71326#c47">Commen=
+t # 47</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTOURBUG - pageflipping seems to cause jittering on m=
-ouse input when running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
-9</a>
+   title=3D"RESOLVED MOVED - [r600g] Texture artifacts when viewed from a d=
+istance in WoW"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D71326">bug 71326<=
+/a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
-ulian&#64;gmail.com</a>
+gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
+-migration&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</=
+span></a>
 </span></b>
-        <pre>While the Gallium performance overlay clearly shows a spike in=
- the game's GPU
-render time, I'm fairly certain it doesn't exist in the actual display outp=
-ut.
-It's not limited to the character inventory, but instead happens anywhere, =
-even
-in the main menu. But I neither can see the cursor skipping, nor the camera=
- in
-game, despite of the graph's spike.
-I also noticed that there is no such spike when the framerate is below the
-refreshrate.
+        <pre>-- GitLab Migration Automatic Message --
 
-I also tested if there's something similar to observe in Hitman 2: I reduced
-visual fidelity to achieve constant 75fps/Hz with vsync, and it always seem=
-s to
-be 100% free of stutter, also when resuming to move the mouse after suspend=
-ing
-it for a few seconds.</pre>
+This bug has been migrated to freedesktop.org's GitLab instance and has been
+closed from further activity.
+
+You can subscribe and participate further through the new bug through this =
+link
+to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
+/issues/468">https://gitlab.freedesktop.org/mesa/mesa/issues/468</a>.</pre>
         </div>
       </p>
 
@@ -159,9 +181,9 @@ it for a few seconds.</pre>
     </body>
 </html>=
 
---15688338582.aDee87.22515--
+--15688338901.f6ae450.19374--
 
---===============0848290363==
+--===============0160419327==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -171,4 +193,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0848290363==--
+--===============0160419327==--
