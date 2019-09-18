@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F33DB6B07
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 20:52:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C755DB6B08
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 20:52:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DD0E6F843;
-	Wed, 18 Sep 2019 18:52:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B2A36F83C;
+	Wed, 18 Sep 2019 18:52:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id E48C86F84B
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 18:52:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3BFB26F846
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 18:52:50 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id BFFA172167; Wed, 18 Sep 2019 18:52:48 +0000 (UTC)
+ id 38E6B72167; Wed, 18 Sep 2019 18:52:50 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 87496] [r300g] Battle.net app window content rotated and
- stretched
-Date: Wed, 18 Sep 2019 18:52:49 +0000
+Subject: [Bug 88619] [r300g] multiple tex-miplevel-selection tests crash with
+ "u_blitter:494: Caught recursion. This is a driver bug."
+Date: Wed, 18 Sep 2019 18:52:50 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,10 +34,10 @@ X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-87496-502-3jQPFZRSrE@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-87496-502@http.bugs.freedesktop.org/>
-References: <bug-87496-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-88619-502-ANXqicqptz@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-88619-502@http.bugs.freedesktop.org/>
+References: <bug-88619-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,32 +53,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0564516366=="
+Content-Type: multipart/mixed; boundary="===============1156748822=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0564516366==
-Content-Type: multipart/alternative; boundary="15688327680.cBD852cA.15388"
+--===============1156748822==
+Content-Type: multipart/alternative; boundary="15688327700.1A992FD.15388"
 Content-Transfer-Encoding: 7bit
 
 
---15688327680.cBD852cA.15388
-Date: Wed, 18 Sep 2019 18:52:48 +0000
+--15688327700.1A992FD.15388
+Date: Wed, 18 Sep 2019 18:52:50 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D87496
+https://bugs.freedesktop.org/show_bug.cgi?id=3D88619
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-         Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
+         Resolution|---                         |MOVED
 
 --- Comment #1 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
 -- GitLab Migration Automatic Message --
@@ -88,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/364.
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/365.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688327680.cBD852cA.15388
-Date: Wed, 18 Sep 2019 18:52:48 +0000
+--15688327700.1A992FD.15388
+Date: Wed, 18 Sep 2019 18:52:50 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,9 +112,10 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [r300g] Battle.net app window content rotated =
-and stretched"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D87496">bug 87496<=
+   title=3D"RESOLVED MOVED - [r300g] multiple tex-miplevel-selection tests =
+crash with &quot;u_blitter:494: Caught recursion. This is a driver bug.&quo=
+t;"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D88619">bug 88619<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -125,33 +126,35 @@ and stretched"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>MOVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Status</td>
            <td>NEW
            </td>
            <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>MOVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [r300g] Battle.net app window content rotated =
-and stretched"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D87496#c1">Comment=
+   title=3D"RESOLVED MOVED - [r300g] multiple tex-miplevel-selection tests =
+crash with &quot;u_blitter:494: Caught recursion. This is a driver bug.&quo=
+t;"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D88619#c1">Comment=
  # 1</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [r300g] Battle.net app window content rotated =
-and stretched"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D87496">bug 87496<=
+   title=3D"RESOLVED MOVED - [r300g] multiple tex-miplevel-selection tests =
+crash with &quot;u_blitter:494: Caught recursion. This is a driver bug.&quo=
+t;"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D88619">bug 88619<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
@@ -166,7 +169,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/364">https://gitlab.freedesktop.org/mesa/mesa/issues/364</a>.</pre>
+/issues/365">https://gitlab.freedesktop.org/mesa/mesa/issues/365</a>.</pre>
         </div>
       </p>
 
@@ -180,9 +183,9 @@ to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
     </body>
 </html>=
 
---15688327680.cBD852cA.15388--
+--15688327700.1A992FD.15388--
 
---===============0564516366==
+--===============1156748822==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -192,4 +195,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0564516366==--
+--===============1156748822==--
