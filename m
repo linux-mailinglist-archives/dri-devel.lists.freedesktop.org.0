@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B6BDB6DC0
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 22:34:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D2BAB6DC2
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 22:34:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC5A172D04;
-	Wed, 18 Sep 2019 20:34:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A950872D21;
+	Wed, 18 Sep 2019 20:34:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id C1C5A72D0A
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 20:34:33 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5905A72D0C
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 20:34:43 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id BEC5972167; Wed, 18 Sep 2019 20:34:33 +0000 (UTC)
+ id 54AC072167; Wed, 18 Sep 2019 20:34:43 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 1633] via_alloc_texture fail
-Date: Wed, 18 Sep 2019 20:34:33 +0000
+Subject: [Bug 10966] workaround to avoid the assert main/renderbuffer.c:2041:
+ _mesa_add_renderbuffer:...
+Date: Wed, 18 Sep 2019 20:34:43 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/DRI/Unichrome
-X-Bugzilla-Version: git
+X-Bugzilla-Version: 6.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: gitlab-migration@fdo.invalid
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
-X-Bugzilla-Priority: high
+X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-1633-502-y9ktOUwfeE@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-1633-502@http.bugs.freedesktop.org/>
-References: <bug-1633-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-10966-502-y9FIU8KDc1@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-10966-502@http.bugs.freedesktop.org/>
+References: <bug-10966-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,34 +53,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0302019533=="
+Content-Type: multipart/mixed; boundary="===============0063213872=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0302019533==
-Content-Type: multipart/alternative; boundary="15688388733.6F44F.22552"
+--===============0063213872==
+Content-Type: multipart/alternative; boundary="15688388834.8DbF1Ebb.22552"
 Content-Transfer-Encoding: 7bit
 
 
---15688388733.6F44F.22552
-Date: Wed, 18 Sep 2019 20:34:33 +0000
+--15688388834.8DbF1Ebb.22552
+Date: Wed, 18 Sep 2019 20:34:43 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D1633
+https://bugs.freedesktop.org/show_bug.cgi?id=3D10966
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
+             Status|NEW                         |RESOLVED
 
---- Comment #3 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
+--- Comment #19 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
+--
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +90,14 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance:
-https://gitlab.freedesktop.org/openchrome/old-bug-database/issues/1.
+https://gitlab.freedesktop.org/openchrome/old-bug-database/issues/2.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688388733.6F44F.22552
-Date: Wed, 18 Sep 2019 20:34:33 +0000
+--15688388834.8DbF1Ebb.22552
+Date: Wed, 18 Sep 2019 20:34:43 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,8 +114,10 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - via_alloc_texture fail"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D1633">bug 1633</a>
+   title=3D"RESOLVED MOVED - workaround to avoid the assert main/renderbuff=
+er.c:2041: _mesa_add_renderbuffer:..."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D10966">bug 10966<=
+/a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -123,31 +127,34 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Resolution</td>
            <td>---
            </td>
            <td>MOVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - via_alloc_texture fail"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D1633#c3">Comment =
-# 3</a>
+   title=3D"RESOLVED MOVED - workaround to avoid the assert main/renderbuff=
+er.c:2041: _mesa_add_renderbuffer:..."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D10966#c19">Commen=
+t # 19</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - via_alloc_texture fail"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D1633">bug 1633</a>
+   title=3D"RESOLVED MOVED - workaround to avoid the assert main/renderbuff=
+er.c:2041: _mesa_add_renderbuffer:..."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D10966">bug 10966<=
+/a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
 -migration&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</=
@@ -162,7 +169,7 @@ You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance:
 <a href=3D"https://gitlab.freedesktop.org/openchrome/old-bug-database/issue=
-s/1">https://gitlab.freedesktop.org/openchrome/old-bug-database/issues/1</a=
+s/2">https://gitlab.freedesktop.org/openchrome/old-bug-database/issues/2</a=
 >.</pre>
         </div>
       </p>
@@ -177,9 +184,9 @@ s/1">https://gitlab.freedesktop.org/openchrome/old-bug-database/issues/1</a=
     </body>
 </html>=
 
---15688388733.6F44F.22552--
+--15688388834.8DbF1Ebb.22552--
 
---===============0302019533==
+--===============0063213872==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -189,4 +196,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0302019533==--
+--===============0063213872==--
