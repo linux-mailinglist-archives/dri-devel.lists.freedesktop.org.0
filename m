@@ -1,48 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3505BB61E4
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 12:53:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABEADB621B
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 13:14:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 033BE6EEC7;
-	Wed, 18 Sep 2019 10:53:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B78B96EED8;
+	Wed, 18 Sep 2019 11:14:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9E7F6EEC7
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 10:53:12 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
- [209.85.208.181])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F0296EED8
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 11:14:02 +0000 (UTC)
+Received: from [IPv6:2a02:2f0b:890b:cb00:2e0:4cff:fe22:3046] (unknown
+ [IPv6:2a02:2f0b:890b:cb00:2e0:4cff:fe22:3046])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0600221906
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 10:53:12 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id y23so6743429ljn.5
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 03:53:11 -0700 (PDT)
-X-Gm-Message-State: APjAAAUy8S6NMA6cwE29MrW5PJYPBSHtYKE6q9GpScsCzV3BddLpzwGB
- bVM8LuXjkCxiu6wa0izWqbsy0dlNLO3pNNuyows=
-X-Google-Smtp-Source: APXvYqzmTpbs4iMQpuYHlKIv22TczIe3FZwf5lGn1IC17g2fsgJ8tEyfhDTtkZdvKFCSK1xWqaUtSieVDoazmPngEGY=
-X-Received: by 2002:a2e:3806:: with SMTP id f6mr1870674lja.143.1568803990188; 
- Wed, 18 Sep 2019 03:53:10 -0700 (PDT)
+ (No client certificate requested) (Authenticated sender: mvlad)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 0C66B28E17B;
+ Wed, 18 Sep 2019 12:14:01 +0100 (BST)
+Subject: Re: [PATCH v2] drm: two planes with the same zpos have undefined
+ ordering
+To: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org
+References: <KJRi1ROX2_eM1WjtEQ1e1-f--VK4hwMQJQt1nPaS6lcmt3v4yIfdttLIu_EOGdkwXwEMAEo66Xa7ksp7iQABWT5GuMu6UgKoiuEm6EU2N1U=@emersion.fr>
+ <20190910133810.64e973f4@eldfell.localdomain>
+ <CAKMK7uEEuUpD_eni6wr=7sEadnYypd=7Ojf5zQ0tgXQov4F3mQ@mail.gmail.com>
+ <1hklN2_EspD_s4vA3fdCCkVN9jeARGhmtkSGWDyVus-0ryZFs4xftUYRp_Z4pzsikJActaDVaTUoPNfBd-QitQX_JJTXkkqKFXxJhgMjEI0=@emersion.fr>
+From: Marius Vlad <marius.vlad@collabora.com>
+Openpgp: preference=signencrypt
+Message-ID: <60c3fb6c-651a-0122-44d5-30895bbcb22c@collabora.com>
+Date: Wed, 18 Sep 2019 14:13:53 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <CGME20190913094136eucas1p1fd424b5f5a6f0a97b31af54e55fe28c1@eucas1p1.samsung.com>
- <20190913094123.23169-1-m.falkowski@samsung.com>
-In-Reply-To: <20190913094123.23169-1-m.falkowski@samsung.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Date: Wed, 18 Sep 2019 12:52:58 +0200
-X-Gmail-Original-Message-ID: <CAJKOXPcDWtT0RbqmpmjDAZw-gCWppSbZqAjOgcbZUaraT5ethA@mail.gmail.com>
-Message-ID: <CAJKOXPcDWtT0RbqmpmjDAZw-gCWppSbZqAjOgcbZUaraT5ethA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: gpu: Convert Samsung Image Scaler to
- dt-schema
-To: Maciej Falkowski <m.falkowski@samsung.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1568803992;
- bh=O/UvnMFn8YkjpKy9CUgVCFPtQ1p7llhMtTCerndVpDI=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=GzIBcwuX1dvo6+Pib7AeQw8CBUzIQPKX7uNfyw4hHGhEqegb49iD3QP7KKqDgIhJb
- H0mbtt+3dJxeu4aNw6rwQvLAf0a2UdPPOBU3dBTpP6C2EET6YLiFEO0S21+OFRQuz3
- +Dkr+xho6TvqN0tKlcAzModpSLrhyz2oPpTQPcl8=
+In-Reply-To: <1hklN2_EspD_s4vA3fdCCkVN9jeARGhmtkSGWDyVus-0ryZFs4xftUYRp_Z4pzsikJActaDVaTUoPNfBd-QitQX_JJTXkkqKFXxJhgMjEI0=@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,82 +45,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
- airlied@linux.ie,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: multipart/mixed; boundary="===============0066850456=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAxMyBTZXAgMjAxOSBhdCAxMTo0MSwgTWFjaWVqIEZhbGtvd3NraSA8bS5mYWxrb3dz
-a2lAc2Ftc3VuZy5jb20+IHdyb3RlOgo+Cj4gQ29udmVydCBTYW1zdW5nIEltYWdlIFNjYWxlciB0
-byBuZXdlciBkdC1zY2hlbWEgZm9ybWF0Lgo+Cj4gU2lnbmVkLW9mZi1ieTogTWFjaWVqIEZhbGtv
-d3NraSA8bS5mYWxrb3dza2lAc2Ftc3VuZy5jb20+Cj4gU2lnbmVkLW9mZi1ieTogTWFyZWsgU3p5
-cHJvd3NraSA8bS5zenlwcm93c2tpQHNhbXN1bmcuY29tPgo+IC0tLQo+ICAuLi4vYmluZGluZ3Mv
-Z3B1L3NhbXN1bmctc2NhbGVyLnR4dCAgICAgICAgICAgfCAyNyAtLS0tLS0tLS0KPiAgLi4uL2Jp
-bmRpbmdzL2dwdS9zYW1zdW5nLXNjYWxlci55YW1sICAgICAgICAgIHwgNTcgKysrKysrKysrKysr
-KysrKysrKwo+ICAyIGZpbGVzIGNoYW5nZWQsIDU3IGluc2VydGlvbnMoKyksIDI3IGRlbGV0aW9u
-cygtKQo+ICBkZWxldGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
-bmdzL2dwdS9zYW1zdW5nLXNjYWxlci50eHQKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50
-YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9ncHUvc2Ftc3VuZy1zY2FsZXIueWFtbAo+Cj4gZGlm
-ZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9ncHUvc2Ftc3VuZy1z
-Y2FsZXIudHh0IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2dwdS9zYW1zdW5n
-LXNjYWxlci50eHQKPiBkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKPiBpbmRleCA5YzNkOTgxMDVk
-ZmQuLjAwMDAwMDAwMDAwMAo+IC0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5n
-cy9ncHUvc2Ftc3VuZy1zY2FsZXIudHh0Cj4gKysrIC9kZXYvbnVsbAo+IEBAIC0xLDI3ICswLDAg
-QEAKPiAtKiBTYW1zdW5nIEV4eW5vcyBJbWFnZSBTY2FsZXIKPiAtCj4gLVJlcXVpcmVkIHByb3Bl
-cnRpZXM6Cj4gLSAgLSBjb21wYXRpYmxlIDogdmFsdWUgc2hvdWxkIGJlIG9uZSBvZiB0aGUgZm9s
-bG93aW5nOgo+IC0gICAgICAgKGEpICJzYW1zdW5nLGV4eW5vczU0MjAtc2NhbGVyIiBmb3IgU2Nh
-bGVyIElQIGluIEV4eW5vczU0MjAKPiAtICAgICAgIChiKSAic2Ftc3VuZyxleHlub3M1NDMzLXNj
-YWxlciIgZm9yIFNjYWxlciBJUCBpbiBFeHlub3M1NDMzCj4gLQo+IC0gIC0gcmVnIDogUGh5c2lj
-YWwgYmFzZSBhZGRyZXNzIG9mIHRoZSBJUCByZWdpc3RlcnMgYW5kIGxlbmd0aCBvZiBtZW1vcnkK
-PiAtICAgICAgICAgbWFwcGVkIHJlZ2lvbi4KPiAtCj4gLSAgLSBpbnRlcnJ1cHRzIDogSW50ZXJy
-dXB0IHNwZWNpZmllciBmb3Igc2NhbGVyIGludGVycnVwdCwgYWNjb3JkaW5nIHRvIGZvcm1hdAo+
-IC0gICAgICAgICAgICAgICAgc3BlY2lmaWMgdG8gaW50ZXJydXB0IHBhcmVudC4KPiAtCj4gLSAg
-LSBjbG9ja3MgOiBDbG9jayBzcGVjaWZpZXIgZm9yIHNjYWxlciBjbG9jaywgYWNjb3JkaW5nIHRv
-IGdlbmVyaWMgY2xvY2sKPiAtICAgICAgICAgICAgYmluZGluZ3MuIChTZWUgRG9jdW1lbnRhdGlv
-bi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Nsb2NrL2V4eW5vcyoudHh0KQo+IC0KPiAtICAtIGNsb2Nr
-LW5hbWVzIDogTmFtZXMgb2YgY2xvY2tzLiBGb3IgZXh5bm9zIHNjYWxlciwgaXQgc2hvdWxkIGJl
-ICJtc2NsIgo+IC0gICAgICAgICAgICAgICAgIG9uIDU0MjAgYW5kICJwY2xrIiwgImFjbGsiIGFu
-ZCAiYWNsa194aXUiIG9uIDU0MzMuCj4gLQo+IC1FeGFtcGxlOgo+IC0gICAgICAgc2NhbGVyQDEy
-ODAwMDAwIHsKPiAtICAgICAgICAgICAgICAgY29tcGF0aWJsZSA9ICJzYW1zdW5nLGV4eW5vczU0
-MjAtc2NhbGVyIjsKPiAtICAgICAgICAgICAgICAgcmVnID0gPDB4MTI4MDAwMDAgMHgxMjk0PjsK
-PiAtICAgICAgICAgICAgICAgaW50ZXJydXB0cyA9IDwwIDIyMCBJUlFfVFlQRV9MRVZFTF9ISUdI
-PjsKPiAtICAgICAgICAgICAgICAgY2xvY2tzID0gPCZjbG9jayBDTEtfTVNDTDA+Owo+IC0gICAg
-ICAgICAgICAgICBjbG9jay1uYW1lcyA9ICJtc2NsIjsKPiAtICAgICAgIH07Cj4gZGlmZiAtLWdp
-dCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9ncHUvc2Ftc3VuZy1zY2FsZXIu
-eWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9ncHUvc2Ftc3VuZy1zY2Fs
-ZXIueWFtbAo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0Cj4gaW5kZXggMDAwMDAwMDAwMDAwLi5lZTJj
-YWFiMjI5NzcKPiAtLS0gL2Rldi9udWxsCj4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
-L2JpbmRpbmdzL2dwdS9zYW1zdW5nLXNjYWxlci55YW1sCj4gQEAgLTAsMCArMSw1NyBAQAo+ICsj
-IFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wCj4gKyVZQU1MIDEuMgo+ICstLS0KPiAr
-JGlkOiBodHRwOi8vZGV2aWNldHJlZS5vcmcvc2NoZW1hcy9ncHUvc2Ftc3VuZy1zY2FsZXIueWFt
-bCMKPiArJHNjaGVtYTogaHR0cDovL2RldmljZXRyZWUub3JnL21ldGEtc2NoZW1hcy9jb3JlLnlh
-bWwjCj4gKwo+ICt0aXRsZTogU2Ftc3VuZyBFeHlub3MgU29DIEltYWdlIFNjYWxlcgo+ICsKPiAr
-bWFpbnRhaW5lcnM6Cj4gKyAgLSBJbmtpIERhZSA8aW5raS5kYWVAc2Ftc3VuZy5jb20+Cj4gKwo+
-ICtwcm9wZXJ0aWVzOgo+ICsgIGNvbXBhdGlibGU6Cj4gKyAgICBlbnVtOgo+ICsgICAgICAtICJz
-YW1zdW5nLGV4eW5vczU0MjAtc2NhbGVyIgo+ICsgICAgICAtICJzYW1zdW5nLGV4eW5vczU0MzMt
-c2NhbGVyIgo+ICsKPiArICByZWc6Cj4gKyAgICBtYXhJdGVtczogMQo+ICsKPiArICBpbnRlcnJ1
-cHRzOgo+ICsgICAgbWF4SXRlbXM6IDEKPiArCj4gKyAgY2xvY2tzOgo+ICsgICAgbWluSXRlbXM6
-IDEKPiArICAgIG1heEl0ZW1zOiAzCj4gKwo+ICsgIGNsb2NrLW5hbWVzOgo+ICsgICAgb25lT2Y6
-Cj4gKyAgICAgIC0gaXRlbXM6Cj4gKyAgICAgICAgICAtIGNvbnN0OiBtc2NsCj4gKyAgICAgIC0g
-aXRlbXM6Cj4gKyAgICAgICAgICAtIGNvbnN0OiBwY2xrCj4gKyAgICAgICAgICAtIGNvbnN0OiBh
-Y2xrCj4gKyAgICAgICAgICAtIGNvbnN0OiBhY2xrX3hpdQo+ICsgICAgZGVzY3JpcHRpb246IHwK
-PiArICAgICAgRm9yIGV4eW5vcyBzY2FsZXIgaXQgc2hvdWxkIGJlOgo+ICsgICAgICAtICJtc2Ns
-IiBvbiBFeHlub3M1NDIwCj4gKyAgICAgIC0gInBjbGsiLCAiYWNsayIsICJhY2xrX3hpdSIgb24g
-RXh5bm9zNTQzMwoKSGksCgpUaGlzIHNob3VsZCBiZSBjdXN0b21pemVkIHdpdGggcHJvcGVyIGlm
-IGluIGFsbE9mIHNlY3Rpb24uCgpCZXN0IHJlZ2FyZHMsCktyenlzenRvZgoKPiArCj4gK3JlcXVp
-cmVkOgo+ICsgIC0gY29tcGF0aWJsZQo+ICsgIC0gcmVnCj4gKyAgLSBpbnRlcnJ1cHRzCj4gKyAg
-LSBjbG9ja3MKPiArICAtIGNsb2NrLW5hbWVzCj4gKwo+ICtleGFtcGxlczoKPiArICAtIHwKPiAr
-ICAgIHNjYWxlckAxMjgwMDAwMCB7Cj4gKyAgICAgICAgY29tcGF0aWJsZSA9ICJzYW1zdW5nLGV4
-eW5vczU0MjAtc2NhbGVyIjsKPiArICAgICAgICByZWcgPSA8MHgxMjgwMDAwMCAweDEyOTQ+Owo+
-ICsgICAgICAgIGludGVycnVwdHMgPSA8MCAyMjAgND47IC8vIElSUV9UWVBFX0xFVkVMX0hJR0gK
-PiArICAgICAgICBjbG9ja3MgPSA8JmNsb2NrIDA+OyAvLyBDTEtfTVNDTDAKPiArICAgICAgICBj
-bG9jay1uYW1lcyA9ICJtc2NsIjsKPiArICAgIH07Cj4gKwo+IC0tCj4gMi4xNy4xCj4KX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0066850456==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="GsxDkZ4vkWQEyQr3HdEFhTAKOuK1HAH5A"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--GsxDkZ4vkWQEyQr3HdEFhTAKOuK1HAH5A
+Content-Type: multipart/mixed; boundary="03BPJXZ8xkWNGLReAz8cV5HkbneTJhlej";
+ protected-headers="v1"
+From: Marius Vlad <marius.vlad@collabora.com>
+To: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org
+Cc: Pekka Paalanen <ppaalanen@gmail.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Message-ID: <60c3fb6c-651a-0122-44d5-30895bbcb22c@collabora.com>
+Subject: Re: [PATCH v2] drm: two planes with the same zpos have undefined
+ ordering
+References: <KJRi1ROX2_eM1WjtEQ1e1-f--VK4hwMQJQt1nPaS6lcmt3v4yIfdttLIu_EOGdkwXwEMAEo66Xa7ksp7iQABWT5GuMu6UgKoiuEm6EU2N1U=@emersion.fr>
+ <20190910133810.64e973f4@eldfell.localdomain>
+ <CAKMK7uEEuUpD_eni6wr=7sEadnYypd=7Ojf5zQ0tgXQov4F3mQ@mail.gmail.com>
+ <1hklN2_EspD_s4vA3fdCCkVN9jeARGhmtkSGWDyVus-0ryZFs4xftUYRp_Z4pzsikJActaDVaTUoPNfBd-QitQX_JJTXkkqKFXxJhgMjEI0=@emersion.fr>
+In-Reply-To: <1hklN2_EspD_s4vA3fdCCkVN9jeARGhmtkSGWDyVus-0ryZFs4xftUYRp_Z4pzsikJActaDVaTUoPNfBd-QitQX_JJTXkkqKFXxJhgMjEI0=@emersion.fr>
+
+--03BPJXZ8xkWNGLReAz8cV5HkbneTJhlej
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+
+
+On 9/17/19 8:24 PM, Simon Ser wrote:
+> Currently the property docs don't specify whether it's okay for two pla=
+nes to
+> have the same zpos value and what user-space should expect in this case=
+=2E
+>=20
+> The rule mentionned in the past was to disambiguate with object IDs. Ho=
+wever
+> some drivers break this rule (that's why the ordering is documented as
+> unspecified in case the zpos property is missing). Additionally it does=
+n't
+> really make sense for a driver to user identical zpos values if it know=
+s their
+> relative position: the driver can just pick different values instead.
+>=20
+> So two solutions would make sense: either disallow completely identical=
+ zpos
+> values for two different planes, either make the ordering unspecified. =
+To allow
+> drivers that don't know the relative ordering between two planes to sti=
+ll
+> expose the zpos property, choose the latter solution.
+>=20
+> Additionally, update the drm_plane_state.zpos docs to clarify that zpos=
+
+> disambiguation via plane object IDs is a recommendation for drivers, no=
+t
+> something user-space can rely on.
+>=20
+> v2: clarify drm_plane_state.zpos docs (Daniel)
+>=20
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> Cc: Marius Vlad <marius.vlad@collabora.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> ---
+>  drivers/gpu/drm/drm_blend.c | 8 ++++----
+>  include/drm/drm_plane.h     | 6 +++---
+>  2 files changed, 7 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
+> index d02709dd2d4a..51bd5454e50a 100644
+> --- a/drivers/gpu/drm/drm_blend.c
+> +++ b/drivers/gpu/drm/drm_blend.c
+> @@ -132,10 +132,10 @@
+>   *	planes. Without this property the primary plane is always below the=
+ cursor
+>   *	plane, and ordering between all other planes is undefined. The posi=
+tive
+>   *	Z axis points towards the user, i.e. planes with lower Z position v=
+alues
+> - *	are underneath planes with higher Z position values. Note that the =
+Z
+> - *	position value can also be immutable, to inform userspace about the=
+
+> - *	hard-coded stacking of overlay planes, see
+> - *	drm_plane_create_zpos_immutable_property().
+> + *	are underneath planes with higher Z position values. Two planes wit=
+h the
+> + *	same Z position value have undefined ordering. Note that the Z posi=
+tion
+> + *	value can also be immutable, to inform userspace about the hard-cod=
+ed
+> + *	stacking of overlay planes, see drm_plane_create_zpos_immutable_pro=
+perty().
+
+stacking of overlay (and or) scanout planes?
+
+
+>   *
+>   * pixel blend mode:
+>   *	Pixel blend mode is set up with drm_plane_create_blend_mode_propert=
+y().
+> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+> index cd5903ad33f7..7ac68057b19d 100644
+> --- a/include/drm/drm_plane.h
+> +++ b/include/drm/drm_plane.h
+> @@ -141,9 +141,9 @@ struct drm_plane_state {
+>  	 * Priority of the given plane on crtc (optional).
+>  	 *
+>  	 * Note that multiple active planes on the same crtc can have an
+> -	 * identical zpos value. The rule to solving the conflict is to compa=
+re
+> -	 * the plane object IDs; the plane with a higher ID must be stacked o=
+n
+> -	 * top of a plane with a lower ID.
+> +	 * identical zpos value. To solve the conflict, the recommendation to=
+
+> +	 * drivers to avoid surprises is to compare the plane object IDs; the=
+
+> +	 * plane with a higher ID is stacked on top of a plane with a lower I=
+D.
+>  	 *
+>  	 * See drm_plane_create_zpos_property() and
+>  	 * drm_plane_create_zpos_immutable_property() for more details.
+> --
+> 2.23.0
+>=20
+>=20
+
+--=20
+Marius Vlad
+
+
+--03BPJXZ8xkWNGLReAz8cV5HkbneTJhlej--
+
+--GsxDkZ4vkWQEyQr3HdEFhTAKOuK1HAH5A
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEcDKHej6x6uPk3J379jQS5glH1u8FAl2CEXUACgkQ9jQS5glH
+1u9xRg//R5kDMFChvwpHEIyHLx5e8NGISqFaknQJ6RVgmSE/GvGh5vYE1G5pDEHO
+7qJxBpJ1zcrU52DIhdXGsMS3dq3Mir63jLzrVY1G9533Yhs5fH6jQRl9h2QT/19F
+ENc5/yuQcy1NWRgih33Byt6po9332aJqWbL7977X6Eeq4q0tYJGMnWpFYa86p7cg
+eDqA4ElriaUVR+WCn/cADqKkftas5N0NTGUP8aLxfHSbjSN0z3thOgZpZGxFljD/
+goanR2iNFYNPSJe54DQI7KsEeeYPAZ9m1Yxdgqo/6cH5NQJl+HOi7MPv7ljeDA1x
+myaYBgcUrzpNqFyOGJ+PuPl8m9ccd+ajrGKJq8jPO7oJ8s32Jg1CG1gzxnYRJTNK
+a6K5d3lp13VPUfrLhPB1lE4uSyey3iozpUD7eLu9fefb4vuvfz0D7KKYYCopXArd
+lorRogpRfA5KGvqKGJdwKnUC1e70GUKG3a6RTxcAh8Y5eBQe29r0u0BwDvXklZT+
+/XBg1GBzhjzw2Cn7UcH63RyH1bXMG/hy5Kiz+VHEoxp+kXeSJAHPzg5wH7IVgghp
+HBIIZKHXhJEolej4H0/OkVIimzfWqTf6sM+Q+3sK0ZRku9m3+HoTSD4ePCSW0fE3
+g7AAzE7S9hlSdvmvAv8zpJfZ4Do7WWhwO3f1bTPzCAiLvoa87vI=
+=4XFX
+-----END PGP SIGNATURE-----
+
+--GsxDkZ4vkWQEyQr3HdEFhTAKOuK1HAH5A--
+
+--===============0066850456==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0066850456==--
