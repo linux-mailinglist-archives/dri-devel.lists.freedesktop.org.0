@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 692D2B6888
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 18:56:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 310E7B68BA
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 19:10:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51B576F416;
-	Wed, 18 Sep 2019 16:55:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 289C76F41E;
+	Wed, 18 Sep 2019 17:10:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8EFC06F416
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 16:55:57 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 110BA6F425
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 17:10:42 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 8BED672167; Wed, 18 Sep 2019 16:55:57 +0000 (UTC)
+ id 0E22372167; Wed, 18 Sep 2019 17:10:42 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
- when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
-Date: Wed, 18 Sep 2019 16:55:57 +0000
+Subject: [Bug 3380] Dynamically generate GL dispatch functions for PowerPC
+Date: Wed, 18 Sep 2019 17:10:42 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: GLX
+X-Bugzilla-Version: 5.0.2
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: aeikum@codeweavers.com
+X-Bugzilla-Severity: enhancement
+X-Bugzilla-Who: gitlab-migration@fdo.invalid
 X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: NOTOURBUG
+X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: high
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110659-502-e9Et3OP1ns@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
-References: <bug-110659-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-3380-502-CpksTNpXj0@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-3380-502@http.bugs.freedesktop.org/>
+References: <bug-3380-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,36 +52,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1694378075=="
+Content-Type: multipart/mixed; boundary="===============1658407826=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1694378075==
-Content-Type: multipart/alternative; boundary="15688257572.aA2ed.19518"
+--===============1658407826==
+Content-Type: multipart/alternative; boundary="15688266420.494d452.22268"
 Content-Transfer-Encoding: 7bit
 
 
---15688257572.aA2ed.19518
-Date: Wed, 18 Sep 2019 16:55:57 +0000
+--15688266420.494d452.22268
+Date: Wed, 18 Sep 2019 17:10:42 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
+https://bugs.freedesktop.org/show_bug.cgi?id=3D3380
 
---- Comment #84 from Andrew Eikum <aeikum@codeweavers.com> ---
-If one call every five seconds is causing a problem, surely it's not Wine's
-bug, right?
+GitLab Migration User <gitlab-migration@fdo.invalid> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |MOVED
+
+--- Comment #9 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
+-- GitLab Migration Automatic Message --
+
+This bug has been migrated to freedesktop.org's GitLab instance and has been
+closed from further activity.
+
+You can subscribe and participate further through the new bug through this =
+link
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/46.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688257572.aA2ed.19518
-Date: Wed, 18 Sep 2019 16:55:57 +0000
+--15688266420.494d452.22268
+Date: Wed, 18 Sep 2019 17:10:42 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -93,28 +105,65 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:gitlab-mi=
+gration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab-migratio=
+n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - Dynamically generate GL dispatch functions for=
+ PowerPC"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D3380">bug 3380</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>MOVED
+           </td>
+         </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTOURBUG - pageflipping seems to cause jittering on m=
-ouse input when running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c84">Comme=
-nt # 84</a>
+   title=3D"RESOLVED MOVED - Dynamically generate GL dispatch functions for=
+ PowerPC"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D3380#c9">Comment =
+# 9</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTOURBUG - pageflipping seems to cause jittering on m=
-ouse input when running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
-9</a>
+   title=3D"RESOLVED MOVED - Dynamically generate GL dispatch functions for=
+ PowerPC"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D3380">bug 3380</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-aeikum&#64;codeweavers.com" title=3D"Andrew Eikum &lt;aeikum&#64;codeweaver=
-s.com&gt;"> <span class=3D"fn">Andrew Eikum</span></a>
+gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
+-migration&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</=
+span></a>
 </span></b>
-        <pre>If one call every five seconds is causing a problem, surely it=
-'s not Wine's
-bug, right?</pre>
+        <pre>-- GitLab Migration Automatic Message --
+
+This bug has been migrated to freedesktop.org's GitLab instance and has been
+closed from further activity.
+
+You can subscribe and participate further through the new bug through this =
+link
+to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
+/issues/46">https://gitlab.freedesktop.org/mesa/mesa/issues/46</a>.</pre>
         </div>
       </p>
 
@@ -128,9 +177,9 @@ bug, right?</pre>
     </body>
 </html>=
 
---15688257572.aA2ed.19518--
+--15688266420.494d452.22268--
 
---===============1694378075==
+--===============1658407826==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -140,4 +189,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1694378075==--
+--===============1658407826==--
