@@ -1,44 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 310E7B68BA
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 19:10:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADB50B6910
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 19:28:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 289C76F41E;
-	Wed, 18 Sep 2019 17:10:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BFEF6F5B1;
+	Wed, 18 Sep 2019 17:28:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 110BA6F425
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 17:10:42 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0E22372167; Wed, 18 Sep 2019 17:10:42 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 3380] Dynamically generate GL dispatch functions for PowerPC
-Date: Wed, 18 Sep 2019 17:10:42 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: GLX
-X-Bugzilla-Version: 5.0.2
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
-X-Bugzilla-Who: gitlab-migration@fdo.invalid
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: MOVED
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-3380-502-CpksTNpXj0@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-3380-502@http.bugs.freedesktop.org/>
-References: <bug-3380-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from anholt.net (anholt.net [50.246.234.109])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4E9C66F5B1
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 17:28:43 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id 09BC710A3821;
+ Wed, 18 Sep 2019 10:28:43 -0700 (PDT)
+X-Virus-Scanned: Debian amavisd-new at anholt.net
+Received: from anholt.net ([127.0.0.1])
+ by localhost (kingsolver.anholt.net [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id VSiWnZVPMvtf; Wed, 18 Sep 2019 10:28:41 -0700 (PDT)
+Received: from eliezer.anholt.net (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id D7A4710A3783;
+ Wed, 18 Sep 2019 10:28:40 -0700 (PDT)
+Received: by eliezer.anholt.net (Postfix, from userid 1000)
+ id C9A2E2FE2E27; Wed, 18 Sep 2019 10:28:41 -0700 (PDT)
+From: Eric Anholt <eric@anholt.net>
+To: Iago Toral Quiroga <itoral@igalia.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2] drm/v3d: clean caches at the end of render jobs on
+ request from user space
+In-Reply-To: <20190918091521.9765-1-itoral@igalia.com>
+References: <20190918091521.9765-1-itoral@igalia.com>
+User-Agent: Notmuch/0.22.2+1~gb0bcfaa (http://notmuchmail.org) Emacs/26.1
+ (x86_64-pc-linux-gnu)
+Date: Wed, 18 Sep 2019 10:28:40 -0700
+Message-ID: <87woe5econ.fsf@anholt.net>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -52,134 +47,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1658407826=="
+Cc: Iago Toral Quiroga <itoral@igalia.com>
+Content-Type: multipart/mixed; boundary="===============0926062193=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--===============0926062193==
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
 
---===============1658407826==
-Content-Type: multipart/alternative; boundary="15688266420.494d452.22268"
-Content-Transfer-Encoding: 7bit
-
-
---15688266420.494d452.22268
-Date: Wed, 18 Sep 2019 17:10:42 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+--=-=-=
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D3380
+Iago Toral Quiroga <itoral@igalia.com> writes:
 
-GitLab Migration User <gitlab-migration@fdo.invalid> changed:
+> Extends the user space ioctl for CL submissions so it can include a reque=
+st
+> to flush the cache once the CL execution has completed. Fixes memory
+> write violation messages reported by the kernel in workloads involving
+> shader memory writes (SSBOs, shader images, scratch, etc) which sometimes
+> also lead to GPU resets during Piglit and CTS workloads.
+>
+> v2: if v3d_job_init() fails we need to kfree() the job instead of
+>     v3d_job_put() it (Eric Anholt).
+>
+> Signed-off-by: Iago Toral Quiroga <itoral@igalia.com>
+> Reviewed-by: Eric Anholt <eric@anholt.net>
+> Link: https://patchwork.freedesktop.org/patch/msgid/20190912083516.13797-=
+1-itoral@igalia.com
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |MOVED
+> diff --git a/include/uapi/drm/v3d_drm.h b/include/uapi/drm/v3d_drm.h
+> index 58fbe48c91e9..58d2040ea48c 100644
+> --- a/include/uapi/drm/v3d_drm.h
+> +++ b/include/uapi/drm/v3d_drm.h
+> @@ -48,6 +48,8 @@ extern "C" {
+>  #define DRM_IOCTL_V3D_SUBMIT_TFU          DRM_IOW(DRM_COMMAND_BASE + DRM=
+_V3D_SUBMIT_TFU, struct drm_v3d_submit_tfu)
+>  #define DRM_IOCTL_V3D_SUBMIT_CSD          DRM_IOW(DRM_COMMAND_BASE + DRM=
+_V3D_SUBMIT_CSD, struct drm_v3d_submit_csd)
+>=20=20
+> +#define DRM_V3D_SUBMIT_CL_FLUSH_CACHE_FLAG        0x01
+> +
 
---- Comment #9 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
--- GitLab Migration Automatic Message --
+Hmm.  vc4, msm, panfrost, etnaviv, i915 all name their submit flags
+without "_FLAG" in the name, can we drop that?
 
-This bug has been migrated to freedesktop.org's GitLab instance and has been
-closed from further activity.
-
-You can subscribe and participate further through the new bug through this =
-link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/46.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15688266420.494d452.22268
-Date: Wed, 18 Sep 2019 17:10:42 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:gitlab-mi=
-gration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab-migratio=
-n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Dynamically generate GL dispatch functions for=
- PowerPC"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D3380">bug 3380</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>MOVED
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Dynamically generate GL dispatch functions for=
- PowerPC"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D3380#c9">Comment =
-# 9</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Dynamically generate GL dispatch functions for=
- PowerPC"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D3380">bug 3380</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
--migration&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</=
-span></a>
-</span></b>
-        <pre>-- GitLab Migration Automatic Message --
-
-This bug has been migrated to freedesktop.org's GitLab instance and has been
-closed from further activity.
-
-You can subscribe and participate further through the new bug through this =
-link
-to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/46">https://gitlab.freedesktop.org/mesa/mesa/issues/46</a>.</pre>
-        </div>
-      </p>
+Also, I just noticed: You don't have a new param to indicate the
+availability of the new flag.  You're going to need that (unless you've
+got some other clever plan?) so that new Mesa can detect an old kernel
+and not expose the GLES 3.1 features that require it.
 
 
-      <hr>
-      <span>You are receiving this mail because:</span>
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
+-----BEGIN PGP SIGNATURE-----
 
---15688266420.494d452.22268--
+iQIzBAEBCgAdFiEE/JuuFDWp9/ZkuCBXtdYpNtH8nugFAl2CaUgACgkQtdYpNtH8
+nugaBxAAhHbdmhvKALXTJJDK0hPR9jkaTEBvgzC1FXQEzQ2bgJ+r12PEwu0wFyfe
+c/nd1rXE5QikN7NJMHR+2GWhCzwPLy9tQGp/GZuo0FTO4AtkqTA7GV9tBy1O3ERH
+drEcmKomd8N91CgBXfDgpomFt6aCLTi1slJLV0BOXyx1eibKLQhidnGXse4AbZRm
+oXNkJM6Tn3x/Pxrhu9g9FuxKiAGoqNICxznC8yfno23P6AdAeuARe1yCV/MguonW
+yKoFtBeBIX7cprc+uv3uInHETT05XrYLPciZjQAAgEq35wp74OLmbdogNlzZzA37
+bwG/m4h/Yuu4ciN8B3VITix6AYzhdrP6jmYpP/Ye9LzVinke2VJ65exga2wGcYxw
+i6DW9BNUKU2j2UeTBA0sgtSqgsx1GzW9+oRAVKrQbGqAr3e4YMR5INutiHqT6Enl
+H/QsjMv0nrjzhC+OlCn0f6ilcbeQMktNdil6U0kQPt+UGGy8KOYE2NPfmZ/Cuc1q
+1OvKqgk2sV2v9kKOl6iLuM2F+F/4UeM+o8qGexHgEvpBQ4mXuc4qxOKLb0m8kHZ/
+CfnxP8/NRJtv9hAay3qvVSy5WI366ts4P/Cvm6Na7F0t/Wuzj5vJRCvQcWH1/qOc
+hliYtrRM63ERuuixoSHKVXDMsDgXWA76ZNvTP5uy7YG5dxA+RU4=
+=E47I
+-----END PGP SIGNATURE-----
+--=-=-=--
 
---===============1658407826==
+--===============0926062193==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -189,4 +130,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1658407826==--
+--===============0926062193==--
