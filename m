@@ -1,56 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A692B5F91
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 10:50:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E497B5FB2
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 10:59:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79937899F2;
-	Wed, 18 Sep 2019 08:50:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A91E06EE5B;
+	Wed, 18 Sep 2019 08:59:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8419B6EE5B
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 08:50:12 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id d5so6339742lja.10
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 01:50:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6q7uCCZSSADwRlHxFu6ux7yC9JhkduYPvph1442CL4k=;
- b=hv5juDEo0BraqNnKibYG6DQb/OIR55n3qQNQuRaP4XGquL82HLTuAxWjfUz+sKD3sc
- zJxF5/NGaUiA7TKBECMUDKRYiM29wChGUREEAhIlfl+kZ/zJNJLPpAj5EbvtWSRcIvY6
- 97JJKJm8Ax6sfq724ovFUVwicwusrV1HPoykob9eF42BP4QumDVfNaYZJz2Xw5PLzoqp
- wYrXfnlq9UyuT6AHkwklDS3wIvMilJXsc3acBLM4NzIpHIxETYZgwnPib3owq7TC4a8k
- iECKUpfMNYaPQhjHHAkN9s9UvaxyuGEm0BevAivVEPXBQhweYi7nNlRfHUiQ4n34nnlX
- NUTA==
-X-Gm-Message-State: APjAAAUOqH07GuXtjxPAzfSMt8rGzlWKYtkGzAL8ASwq87dg12LW3A01
- KWp8uzQSfSNSvr2wC2EUowGMUvKxkeVbKUZympdULCCX
-X-Google-Smtp-Source: APXvYqwBmulXcdAzd3O6e/cMwT44uI1DFSHDnjcwscnJwRvt1GO+YRyfzpqjE4KnpK5xPtc2pXODv4CXsMKTSUnQOsY=
-X-Received: by 2002:a2e:8052:: with SMTP id p18mr1474965ljg.198.1568796610579; 
- Wed, 18 Sep 2019 01:50:10 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AF1756EE5B
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 08:59:39 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id A70C572167; Wed, 18 Sep 2019 08:59:39 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111730] Xorg does not render with mesa 19.1.7
+Date: Wed, 18 Sep 2019 08:59:39 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/DRI/i915
+X-Bugzilla-Version: 19.1
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: lionel.g.landwerlin@linux.intel.com
+X-Bugzilla-Status: NEEDINFO
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status
+Message-ID: <bug-111730-502-kmwKvaaCLJ@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111730-502@http.bugs.freedesktop.org/>
+References: <bug-111730-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190909134241.23297-1-ayan.halder@arm.com>
- <20190917125301.GQ3958@phenom.ffwll.local>
-In-Reply-To: <20190917125301.GQ3958@phenom.ffwll.local>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Wed, 18 Sep 2019 09:49:40 +0100
-Message-ID: <CAPj87rPKp1ogZhk_fMrsX885zkAh1PB4usNQUd4KxNFUv4vsFw@mail.gmail.com>
-Subject: Re: [RFC PATCH] drm:- Add a modifier to denote 'protected' framebuffer
-To: Daniel Vetter <daniel@ffwll.ch>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=6q7uCCZSSADwRlHxFu6ux7yC9JhkduYPvph1442CL4k=;
- b=zxCefSD7LjgBFTHgkZwTLZfMp1f8aw6Gke6EoeuB9TJejvfN6BL0LwiSpSWvQeXSDO
- iGv1mtMtbXJoY9x7H2wnmGf2/dqhj6pebZgGqngvuLsEhtxPj83UZL/gqi/2UkHFIpgV
- odvlb14rxvpcYEh6RdkV68mEVHBoDueR6ivcq9P/qP5WywIGOeQUA+V9hFfpzehNjt1g
- RUkpDz8kVEsPGTzvbI9YtMPGP4ZpMUIlFp40wS7BqYD/y7mjmruYIY3TYVg1ecaET7qj
- RJ78TEFkiXO5c+ASuB/8fjh2Xx/oEopaoHghNF7JZmB83TRst8KBcdFFRTHERzP4vAna
- ejcw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,85 +52,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nd <nd@arm.com>, "maxime.ripard@bootlin.com" <maxime.ripard@bootlin.com>,
- Liviu Dudau <Liviu.Dudau@arm.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "airlied@linux.ie" <airlied@linux.ie>, Ayan Halder <Ayan.Halder@arm.com>,
- "sean@poorly.run" <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1094250465=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgYWxsLAoKT24gVHVlLCAxNyBTZXAgMjAxOSBhdCAxMzo1MywgRGFuaWVsIFZldHRlciA8ZGFu
-aWVsQGZmd2xsLmNoPiB3cm90ZToKPiBPbiBNb24sIFNlcCAwOSwgMjAxOSBhdCAwMTo0Mjo1M1BN
-ICswMDAwLCBBeWFuIEhhbGRlciB3cm90ZToKPiA+IExldCB1cyBpZ25vcmUgaG93IHRoZSBwcm90
-ZWN0ZWQgc3lzdGVtIG1lbW9yeSBpcyBhbGxvY2F0ZWQgYW5kIGZvciB0aGUgc2NvcGUgb2YKPiA+
-IHRoaXMgZGlzY3Vzc2lvbiwgd2Ugd2FudCB0byBmaWd1cmUgb3V0IHRoZSBiZXN0IHdheSBwb3Nz
-aWJsZSBmb3IgdGhlIHVzZXJzcGFjZQo+ID4gdG8gY29tbXVuaWNhdGUgdG8gdGhlIGRybSBkcml2
-ZXIgdG8gdHVybiB0aGUgcHJvdGVjdGVkIG1vZGUgb24gKGZvciBhY2Nlc3NpbmcgdGhlCj4gPiBm
-cmFtZWJ1ZmZlciB3aXRoIHRoZSBEUk0gY29udGVudCkgb3Igb2ZmLgo+ID4KPiA+IFRoZSBwb3Nz
-aWJsZSB3YXlzIGJ5IHdoaWNoIHRoZSB1c2Vyc3BhY2UgY291bGQgYWNoaWV2ZSB0aGlzIGlzIHZp
-YTotCj4gPgo+ID4gMS4gTW9kaWZpZXJzIDotIFRoaXMgbG9va3MgdG8gbWUgdGhlIGJlc3Qgd2F5
-IGJ5IHdoaWNoIHRoZSB1c2Vyc3BhY2UgY2FuCj4gPiBjb21tdW5pY2F0ZSB0byB0aGUga2VybmVs
-IHRvIHR1cm4gdGhlIHByb3RlY3RlZCBtb2RlIG9uIGZvciB0aGUga29tZWRhIGRyaXZlcgo+ID4g
-YXMgaXQgaXMgZ29pbmcgdG8gYWNjZXNzIG9uZSBvZiB0aGUgcHJvdGVjdGVkIGZyYW1lYnVmZmVy
-cy4gVGhlIG9ubHkgcHJvYmxlbSBpcwo+ID4gdGhhdCB0aGUgY3VycmVudCBtb2RpZmllcnMgZGVz
-Y3JpYmUgdGhlIHRpbGluZy9jb21wcmVzc2lvbiBmb3JtYXQuIEhvd2V2ZXIsIGl0Cj4gPiBkb2Vz
-IG5vdCBodXJ0IHRvIGV4dGVuZCB0aGUgbWVhbmluZyBvZiBtb2RpZmllcnMgdG8gZGVub3RlIG90
-aGVyIGF0dHJpYnV0ZXMgb2YKPiA+IHRoZSBmcmFtZWJ1ZmZlciBhcyB3ZWxsLgo+ID4KPiA+IFRo
-ZSBvdGhlciByZWFzb24gaXMgdGhhdCBvbiBBbmRyb2lkLCB3ZSBnZXQgYW4gaW5mbyBmcm9tIEdy
-YWxsb2MKPiA+IChHUkFMTE9DX1VTQUdFX1BST1RFQ1RFRCkgd2hpY2ggdGVsbHMgdXMgdGhhdCB0
-aGUgYnVmZmVyIGlzIHByb3RlY3RlZC4gVGhpcyBjYW4KPiA+IGJlIHVzZWQgdG8gc2V0IHVwIHRo
-ZSBtb2RpZmllci9zIChBZGRGQjIpIGR1cmluZyBmcmFtZWJ1ZmZlciBjcmVhdGlvbi4KPgo+IEhv
-dyBkb2VzIHRoaXMgbWVzaCB3aXRoIG90aGVyIG1vZGlmaWVycywgbGlrZSBBRkJDPyBUaGF0J3Mg
-d2hlcmUgSSBzZWUgdGhlCj4gaXNzdWUgaGVyZS4KClllYWguIE9uIG90aGVyIFNvQ3MsIHdlIGNl
-cnRhaW5seSBoYXZlIHVzZWNhc2VzIGZvciBwcm90ZWN0ZWQgY29udGVudAp3aXRoIGRpZmZlcmVu
-dCBidWZmZXIgbGF5b3V0cy4gVGhlIGkuTVg4TSBjYW4gcHJvdGVjdCBwYXJ0aWN1bGFyCm1lbW9y
-eSBhcmVhcyBhbmQgcGFydGl0aW9uIHRoZW0gdG8gcHJvdGVjdCBhY2Nlc3MgZnJvbSBwYXJ0aWN1
-bGFyCmRldmljZXMgKGUuZy4gZGlzcGxheSBjb250cm9sbGVyIGFuZCB2aWRlbyBkZWNvZGVyIG9u
-bHksIG5vdCBDUFUgb3IKR1BVKS4gVGhvc2UgbWVtb3J5IGFyZWFzIGNhbiBjb250YWluIGxpbmVh
-ciBidWZmZXJzLCBvciB0aWxlZCBidWZmZXJzLApvciBzdXBlcnRpbGVkIGJ1ZmZlcnMsIG9yIC4u
-LgoKU3RlYWxpbmcgYSBtb2RpZmllciBpc24ndCBhcHByb3ByaWF0ZS4KCj4gNi4gSnVzdCB0cmFj
-ayB0aGlzIGFzIHBhcnQgb2YgYnVmZmVyIGFsbG9jYXRpb24sIGkuZS4gSSB0aGluayBpdCBkb2Vz
-Cj4gbWF0dGVyIGhvdyB5b3UgYWxsb2NhdGUgdGhlc2UgcHJvdGVjdGVkIGJ1ZmZlcnMuIFdlIGNv
-dWxkIGFkZCBhICJpcwo+IHByb3RlY3RlZCBidWZmZXIiIGZsYWcgYXQgdGhlIGRtYV9idWYgbGV2
-ZWwgZm9yIHRoaXMuCgpJIHRvdGFsbHkgYWdyZWUuIEZyYW1lYnVmZmVycyBhcmVuJ3QgYWJvdXQg
-dGhlIHVuZGVybHlpbmcgbWVtb3J5IHRoZXkKcG9pbnQgdG8sIGJ1dCBhYm91dCBob3cgdG8gX2lu
-dGVycHJldF8gdGhhdCBtZW1vcnk6IGl0IGRlY29yYXRlcyBhCnBvaW50ZXIgd2l0aCB3aWR0aCwg
-aGVpZ2h0LCBzdHJpZGUsIGZvcm1hdCwgZXRjLCB0byBhbGxvdyB5b3UgdG8gbWFrZQpzZW5zZSBv
-ZiB0aGF0IG1lbW9yeS4gSSBzZWUgY29udGVudCBwcm90ZWN0aW9uIGFzIGJlaW5nIHRoZSBzYW1l
-IGFzCnBoeXNpY2FsIGNvbnRpZ3VpdHksIHdoaWNoIGlzIGEgcHJvcGVydHkgb2YgdGhlIHVuZGVy
-bHlpbmcgbWVtb3J5Cml0c2VsZi4gUmVnYXJkbGVzcyBvZiB0aGUgd2lkdGgsIGhlaWdodCwgb3Ig
-Zm9ybWF0LCB5b3UganVzdCBjYW5ub3QKYWNjZXNzIHRoYXQgbWVtb3J5IHVubGVzcyBpdCdzIHVu
-ZGVyIHRoZSBhcHByb3ByaWF0ZSAoJ3NlY3VyZSBlbm91Z2gnKQpjb25kaXRpb25zLgoKU28gSSB0
-aGluayBhIGRtYWJ1ZiBhdHRyaWJ1dGUgd291bGQgYmUgbW9zdCBhcHByb3ByaWF0ZSwgc2luY2Ug
-dGhhdCdzCndoZXJlIHlvdSBoYXZlIHRvIGRvIGFsbCB5b3VyIE1NVSBoYW5kbGluZywgYW5kIGV2
-ZXJ5dGhpbmcgZWxzZSB5b3UKbmVlZCB0byBkbyB0byBhbGxvdyBhY2Nlc3MgdG8gdGhhdCBidWZm
-ZXIsIGFueXdheS4KCj4gU28geWVhaCBmb3IgdGhpcyBzdHVmZiBoZXJlIEkgdGhpbmsgd2UgZG8g
-d2FudCB0aGUgZnVsbCB1c2Vyc3BhY2Ugc2lkZSwKPiBmcm9tIGFsbG9jYXRvciB0byByZW5kZXJp
-bmcgc29tZXRoaW5nIGludG8gdGhpcyBwcm90ZWN0ZWQgYnVmZmVycyAobm8gbmVlZAo+IHRvIGFs
-c28gaGF2ZSB0aGUgZW50aXJlICJkZWNvZGUgYSBwcm90ZWN0ZWQgYml0c3RyZWFtIHBhcnQiIGlt
-bywgc2luY2UKPiB0aGF0IHdpbGwgZnJlYWsgcGVvcGxlIG91dCkuIFVuZm9ydHVuYXRlbHksIGlu
-IG15IGV4cGVyaWVuY2UsIHRoYXQga2lsbHMKPiBpdCBmb3IgdXBzdHJlYW0gOi0vIEJ1dCBhbHNv
-IGluIG15IGV4cGVyaWVuY2Ugb2YgbG9va2luZyBpbnRvIHRoaXMgZm9yCj4gb3RoZXIgZ3B1J3Ms
-IHdlIHJlYWxseSBuZWVkIHRvIGhhdmUgdGhlIGZ1bGwgcGljdHVyZSBoZXJlIHRvIG1ha2Ugc3Vy
-ZQo+IHdlJ3JlIG5vdCBzY3Jld2luZyB0aGlzIHVwLgoKWWVhaC4gSSBrbm93IHRoZXJlIGFyZSBh
-IGZldyBwZW9wbGUgbG9va2luZyBhdCB0aGlzIGF0IHRoZSBtb21lbnQsIHNvCmhvcGVmdWxseSB3
-ZSBhcmUgYWJsZSB0byBnZXQgc29tZXRoaW5nIHVwIGFuZCBvdXQgaW4gdGhlIG9wZW4gYXMgYQpz
-dHJhd21hbi4KClRoZXJlJ3MgYSBsb3Qgb2YgY29tcGxleGl0eSBiZXlvbmQganVzdCAnaXQncyBw
-cm90ZWN0ZWQnOyBmb3IKaW5zdGFuY2UsIHNvbWUgQ1AgcHJvdmlkZXJzIG1hbmRhdGUgdGhhdCB0
-aGVpciBjb250ZW50IGNhbiBvbmx5IGJlCnN0cmVhbWVkIG92ZXIgSERDUCAyLjIgVHlwZS0xIHdo
-ZW4gZ29pbmcgdGhyb3VnaCBhbiBleHRlcm5hbApjb25uZWN0aW9uLiBPbmUgd2F5IHlvdSBjb3Vs
-ZCBkbyB0aGF0IGlzIHRvIHVzZSBhIHNlY3VyZSB3b3JsZAooZXh0ZXJuYWwgY29udHJvbGxlciBs
-aWtlIEludGVsJ3MgTUUsIG9yIENQVS1pbnRlcm5hbCBlbmNsYXZlIGxpa2UgU0dYCm9yIFRFRSkg
-dG8gZXhhbWluZSB0aGUgZGlzcGxheSBwaXBlIGNvbmZpZ3VyYXRpb24sIGFuZCBvbmx5IHRoZW4g
-YWxsb3cKYWNjZXNzIHRvIHRoZSBidWZmZXJzIGFuZC9vciBrZXlzLiBTdHVmZiBsaWtlIHRoYXQg
-aXMgYWx3YXlzIGdvaW5nIHRvCmJlIG91dCBpbiB0aGUgcmVhbG0gb2YgdmVuZG9yICYgcHJvZHVj
-dC1wb2xpY3ktc3BlY2lmaWMgYWRkLW9ucywgYnV0Cml0IHNob3VsZCBiZSBwb3NzaWJsZSB0byBh
-Z3JlZSBvbiBhdCBsZWFzdCB0aGUgYmFzaWMgbWVjaGFuaWNzIGFuZApleHBlY3RhdGlvbnMgb2Yg
-YSBzZWN1cmUgcGF0aCB3aXRob3V0IHRoaW5ncyBsaWtlIHRoYXQuCgpDaGVlcnMsCkRhbmllbApf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1094250465==
+Content-Type: multipart/alternative; boundary="15687971790.09Fd537.29276"
+Content-Transfer-Encoding: 7bit
+
+
+--15687971790.09Fd537.29276
+Date: Wed, 18 Sep 2019 08:59:39 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111730
+
+Lionel Landwerlin <lionel.g.landwerlin@linux.intel.com> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |NEEDINFO
+
+--- Comment #4 from Lionel Landwerlin <lionel.g.landwerlin@linux.intel.com>=
+ ---
+Could you us more details about your setup?
+
+I assume you're not just running bare X11 with no window manager/compositor?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15687971790.09Fd537.29276
+Date: Wed, 18 Sep 2019 08:59:39 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:lionel.g.=
+landwerlin&#64;linux.intel.com" title=3D"Lionel Landwerlin &lt;lionel.g.lan=
+dwerlin&#64;linux.intel.com&gt;"> <span class=3D"fn">Lionel Landwerlin</spa=
+n></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEEDINFO "
+   title=3D"NEEDINFO - Xorg does not render with mesa 19.1.7"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111730">bug 11173=
+0</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>NEEDINFO
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEEDINFO "
+   title=3D"NEEDINFO - Xorg does not render with mesa 19.1.7"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111730#c4">Commen=
+t # 4</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEEDINFO "
+   title=3D"NEEDINFO - Xorg does not render with mesa 19.1.7"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111730">bug 11173=
+0</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+lionel.g.landwerlin&#64;linux.intel.com" title=3D"Lionel Landwerlin &lt;lio=
+nel.g.landwerlin&#64;linux.intel.com&gt;"> <span class=3D"fn">Lionel Landwe=
+rlin</span></a>
+</span></b>
+        <pre>Could you us more details about your setup?
+
+I assume you're not just running bare X11 with no window manager/compositor=
+?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15687971790.09Fd537.29276--
+
+--===============1094250465==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1094250465==--
