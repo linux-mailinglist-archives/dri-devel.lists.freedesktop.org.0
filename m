@@ -1,32 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60943B6BEA
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:16:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A54B6BEB
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:16:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C418F6FA18;
-	Wed, 18 Sep 2019 19:16:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87A446FA1A;
+	Wed, 18 Sep 2019 19:16:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id E72C66FA18
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:16:13 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3C7546FA1E
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:16:16 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E3EAB72167; Wed, 18 Sep 2019 19:16:13 +0000 (UTC)
+ id 3527472167; Wed, 18 Sep 2019 19:16:16 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: =?UTF-8?B?W0J1ZyA3ODY0MV0gUmFkZW9uIG1ha2VzIEZsYXNoIHBsYXllciB3aXRoIFZE?=
- =?UTF-8?B?UEFVIGVuYWJsZWQgaGFuZyBhdCB2bFZkcERlY29kZXJEZXN0cm95IOKGkiBm?=
- =?UTF-8?B?bHVzaCDihpIgcmFkZW9uX2RybV93c19xdWV1ZV9jcw==?=
-Date: Wed, 18 Sep 2019 19:16:14 +0000
+Subject: [Bug 78669] [r600g, radeonsi]
+ layered-rendering/clear-color-all-types 3d single_level randomly fails
+Date: Wed, 18 Sep 2019 19:16:16 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/r600
-X-Bugzilla-Version: 10.1
+X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: gitlab-migration@fdo.invalid
@@ -36,9 +35,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-78641-502-QmQMvmvJhv@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-78641-502@http.bugs.freedesktop.org/>
-References: <bug-78641-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-78669-502-xigO0IOwrO@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-78669-502@http.bugs.freedesktop.org/>
+References: <bug-78669-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -54,25 +53,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0785623156=="
+Content-Type: multipart/mixed; boundary="===============0003019172=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0785623156==
-Content-Type: multipart/alternative; boundary="15688341731.51d601b.23182"
+--===============0003019172==
+Content-Type: multipart/alternative; boundary="15688341761.ab4A5de5.23182"
 Content-Transfer-Encoding: 7bit
 
 
---15688341731.51d601b.23182
-Date: Wed, 18 Sep 2019 19:16:13 +0000
+--15688341761.ab4A5de5.23182
+Date: Wed, 18 Sep 2019 19:16:16 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D78641
+https://bugs.freedesktop.org/show_bug.cgi?id=3D78669
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
@@ -81,7 +80,7 @@ GitLab Migration User <gitlab-migration@fdo.invalid> changed:
          Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
 
---- Comment #4 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
+--- Comment #8 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -89,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/509.
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/510.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688341731.51d601b.23182
-Date: Wed, 18 Sep 2019 19:16:13 +0000
+--15688341761.ab4A5de5.23182
+Date: Wed, 18 Sep 2019 19:16:16 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -113,9 +112,9 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Radeon makes Flash player with VDPAU enabled h=
-ang at vlVdpDecoderDestroy =E2=86=92 flush =E2=86=92 radeon_drm_ws_queue_cs"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D78641">bug 78641<=
+   title=3D"RESOLVED MOVED - [r600g, radeonsi] layered-rendering/clear-colo=
+r-all-types 3d single_level randomly fails"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D78669">bug 78669<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -144,15 +143,15 @@ ang at vlVdpDecoderDestroy =E2=86=92 flush =E2=86=92 radeon_drm_ws_queue_cs"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Radeon makes Flash player with VDPAU enabled h=
-ang at vlVdpDecoderDestroy =E2=86=92 flush =E2=86=92 radeon_drm_ws_queue_cs"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D78641#c4">Comment=
- # 4</a>
+   title=3D"RESOLVED MOVED - [r600g, radeonsi] layered-rendering/clear-colo=
+r-all-types 3d single_level randomly fails"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D78669#c8">Comment=
+ # 8</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Radeon makes Flash player with VDPAU enabled h=
-ang at vlVdpDecoderDestroy =E2=86=92 flush =E2=86=92 radeon_drm_ws_queue_cs"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D78641">bug 78641<=
+   title=3D"RESOLVED MOVED - [r600g, radeonsi] layered-rendering/clear-colo=
+r-all-types 3d single_level randomly fails"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D78669">bug 78669<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
@@ -167,7 +166,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/509">https://gitlab.freedesktop.org/mesa/mesa/issues/509</a>.</pre>
+/issues/510">https://gitlab.freedesktop.org/mesa/mesa/issues/510</a>.</pre>
         </div>
       </p>
 
@@ -181,9 +180,9 @@ to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
     </body>
 </html>=
 
---15688341731.51d601b.23182--
+--15688341761.ab4A5de5.23182--
 
---===============0785623156==
+--===============0003019172==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -193,4 +192,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0785623156==--
+--===============0003019172==--
