@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 381D0B6B4F
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 20:58:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65EACB6B50
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 20:59:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D77E96F8AC;
-	Wed, 18 Sep 2019 18:58:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E46176F8AD;
+	Wed, 18 Sep 2019 18:58:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id E90DD6F898
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 18:58:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7A09A6F8AF
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 18:58:57 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E5FB372167; Wed, 18 Sep 2019 18:58:52 +0000 (UTC)
+ id 72E8D72167; Wed, 18 Sep 2019 18:58:57 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 42025] [RADEON:KMS:R600] wine, Halo Trial: glPointSize error =
- INVALID_VALUE
-Date: Wed, 18 Sep 2019 18:58:53 +0000
+Subject: [Bug 44524] [radeon driver] Screen corruption when "Applications"
+ has enough apps to have a scrollbar on Gnome Desktop
+Date: Wed, 18 Sep 2019 18:58:57 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/r600
-X-Bugzilla-Version: git
+X-Bugzilla-Version: 7.11
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: gitlab-migration@fdo.invalid
@@ -34,10 +34,10 @@ X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-42025-502-dO4OVqZIo7@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-42025-502@http.bugs.freedesktop.org/>
-References: <bug-42025-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-44524-502-LbFpfgZ4oK@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-44524-502@http.bugs.freedesktop.org/>
+References: <bug-44524-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,34 +53,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1950061902=="
+Content-Type: multipart/mixed; boundary="===============2122476041=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1950061902==
-Content-Type: multipart/alternative; boundary="15688331320.1Be7EBf.18408"
+--===============2122476041==
+Content-Type: multipart/alternative; boundary="15688331370.9dA39E.18408"
 Content-Transfer-Encoding: 7bit
 
 
---15688331320.1Be7EBf.18408
-Date: Wed, 18 Sep 2019 18:58:52 +0000
+--15688331370.9dA39E.18408
+Date: Wed, 18 Sep 2019 18:58:57 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D42025
+https://bugs.freedesktop.org/show_bug.cgi?id=3D44524
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
+             Status|NEW                         |RESOLVED
 
---- Comment #2 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
+--- Comment #5 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/401.
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/402.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688331320.1Be7EBf.18408
-Date: Wed, 18 Sep 2019 18:58:52 +0000
+--15688331370.9dA39E.18408
+Date: Wed, 18 Sep 2019 18:58:57 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,9 +112,9 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [RADEON:KMS:R600] wine, Halo Trial: glPointSiz=
-e error =3D INVALID_VALUE"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D42025">bug 42025<=
+   title=3D"RESOLVED MOVED - [radeon driver] Screen corruption when &quot;A=
+pplications&quot; has enough apps to have a scrollbar on Gnome Desktop"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D44524">bug 44524<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -125,33 +125,33 @@ e error =3D INVALID_VALUE"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Resolution</td>
            <td>---
            </td>
            <td>MOVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [RADEON:KMS:R600] wine, Halo Trial: glPointSiz=
-e error =3D INVALID_VALUE"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D42025#c2">Comment=
- # 2</a>
+   title=3D"RESOLVED MOVED - [radeon driver] Screen corruption when &quot;A=
+pplications&quot; has enough apps to have a scrollbar on Gnome Desktop"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D44524#c5">Comment=
+ # 5</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [RADEON:KMS:R600] wine, Halo Trial: glPointSiz=
-e error =3D INVALID_VALUE"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D42025">bug 42025<=
+   title=3D"RESOLVED MOVED - [radeon driver] Screen corruption when &quot;A=
+pplications&quot; has enough apps to have a scrollbar on Gnome Desktop"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D44524">bug 44524<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
@@ -166,7 +166,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/401">https://gitlab.freedesktop.org/mesa/mesa/issues/401</a>.</pre>
+/issues/402">https://gitlab.freedesktop.org/mesa/mesa/issues/402</a>.</pre>
         </div>
       </p>
 
@@ -180,9 +180,9 @@ to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
     </body>
 </html>=
 
---15688331320.1Be7EBf.18408--
+--15688331370.9dA39E.18408--
 
---===============1950061902==
+--===============2122476041==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -192,4 +192,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1950061902==--
+--===============2122476041==--
