@@ -1,61 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1355AB6D3C
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 22:07:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F93DB6D4B
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 22:10:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A6026FE8E;
-	Wed, 18 Sep 2019 20:07:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8290E6FED9;
+	Wed, 18 Sep 2019 20:10:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-xc43.google.com (mail-yw1-xc43.google.com
- [IPv6:2607:f8b0:4864:20::c43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 869276FE72
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 20:07:45 +0000 (UTC)
-Received: by mail-yw1-xc43.google.com with SMTP id u65so422947ywe.4
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 13:07:45 -0700 (PDT)
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
+ [IPv6:2607:f8b0:4864:20::d43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B2D36FECD;
+ Wed, 18 Sep 2019 20:10:45 +0000 (UTC)
+Received: by mail-io1-xd43.google.com with SMTP id q10so2278873iop.2;
+ Wed, 18 Sep 2019 13:10:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=IFddt5aY5GWw1a1vYL2Vgkxg3VWg+wMgNAktbc7+gy0=;
- b=tvU2jrbbl6CKQ1rS4kcUfkIeafKbWR3z1aTrVjc0Fptx55B9rIf6JgaCK3AUNHhuON
- L80YPGfXIgisuQoWKXHWp13MjtGYKND3VI0WRsvLpdZkyUFrBOoGi+aBVsizx1FFKz4N
- bKPSi+EV9BCw83X2MwllxHPXrrk3IQ4jj//1zyQizklZuTfz44Sb4Iq4rA73NTo1e/sp
- PhJSujf6srcZIrbLlReKaE08y+1y7LdflgFqrjjAiFmh4OEZBxPgRuVHzByZrLQ4qHsD
- UTbKWWNr6dVEK+UOsGmW9mxy5J/sdCk3EB/JCRnIrrtT7vP1dOt6xZpYUjGJcfSwuKkO
- avUg==
-X-Gm-Message-State: APjAAAVNFtdvrA/svQvvNv+xsjZEWbFxo5ZfIlHBdFsVe1ThJdVE5gjE
- xd1O62ooXdgEYW/3K706Y+UAD5Hg2LREtg==
-X-Google-Smtp-Source: APXvYqxx6fpI38iCQJlejNZPNwqNQZ7+iyBVr4ix/ZCRisXesWjyTEyjAZSmlkAtYQZHLNoqh0xnLA==
-X-Received: by 2002:a81:78d0:: with SMTP id t199mr4872346ywc.344.1568837264545; 
- Wed, 18 Sep 2019 13:07:44 -0700 (PDT)
-Received: from rosewood.cam.corp.google.com
- ([2620:0:1013:11:89c6:2139:5435:371d])
- by smtp.gmail.com with ESMTPSA id 207sm1429317ywu.106.2019.09.18.13.07.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Sep 2019 13:07:44 -0700 (PDT)
-From: Sean Paul <sean@poorly.run>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 3/3] drm: Add self_refresh_state debugfs entry
-Date: Wed, 18 Sep 2019 16:07:30 -0400
-Message-Id: <20190918200734.149876-3-sean@poorly.run>
-X-Mailer: git-send-email 2.23.0.237.gc6a4ce50a0-goog
-In-Reply-To: <20190918200734.149876-1-sean@poorly.run>
-References: <20190918200734.149876-1-sean@poorly.run>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RLF29c8mhk3mL/w9rD964gcAMBKj+jBMrCTSQ1gypw8=;
+ b=frmZCgSTRYYLMxueoTyAyI7JAaOssdw4D191NOPoLqAPVIdGDxKz/rxODstH3fsWAp
+ KOXui+PBguE3UeoE47R87T52El508sI7xwtWDAYlqTl1I2IfzxxLWInRfeqiJEoHVVsY
+ M920J+rTXS/bGfpPCONb8kfdJXBH7LqIOe7FTEnC7peNpABzKiCBsbRsAxbeUaHf54Iu
+ mXg5sIGU6egCj2UIUwT1dTBOUcb7DmfQEvqrliiaVomIv/FXidZwBLzxi5P0WqPRV0BV
+ K2Q5/iByaRBE1SifByJ+lpHhlQ66BXZK85+76vfKzsVv3XnfX5vruttBluadCOfh9ouB
+ sDZg==
+X-Gm-Message-State: APjAAAUD34YgwoADYAWF81z5rcld1ZEzMyhImmxKFsuLabm5mz4z5Z2O
+ IqVuQmUHRyg2y7nQJrmLI7gYoIVz6yW66yldFps=
+X-Google-Smtp-Source: APXvYqwxnYqxWtlhTKZoJOaI7jqQmeAxiwU4g8x/V3WRyi654BHPkSEB+jn0U1U/pjFoEx7mFseTXHA3sg8vP4py7WA=
+X-Received: by 2002:a5d:8a0f:: with SMTP id w15mr7544207iod.239.1568837444539; 
+ Wed, 18 Sep 2019 13:10:44 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190903214040.2386-1-sonny.jiang@amd.com>
+ <CAAxE2A45N4gMYrcETDpznGKyxLztuwenFasL19a81QQmBkYiww@mail.gmail.com>
+ <CAF6AEGvvUUOGujJC9P3t72N93AJuxiiVt0OAk8zf226Q8WmHvg@mail.gmail.com>
+ <CAKMK7uHFNhdNY4Y9ZFMNuci7gssPWCT5f5y=e4npg8s5r_jBdQ@mail.gmail.com>
+ <CAAxE2A6sESsKAi3K1etAZeCwAPgexn099G6g0aJQnavTkiH+mA@mail.gmail.com>
+ <87woe7eanv.fsf@intel.com> <03d31464-3968-6923-5323-f63060d70f1f@gmail.com>
+ <CAKMK7uEj4FZ3YQqG-cCTa4EEaJoAk09Zaz398F9Hmo+mdXCKiw@mail.gmail.com>
+ <7540df63-e623-19b0-dde5-b89ff2b7fb89@amd.com>
+ <7535dcf4-413f-f06f-b3d1-dcffc86b43e0@daenzer.net>
+ <5d0a8619-7073-fac2-cdd6-83b55221140b@daenzer.net>
+ <b61ec704-894d-092a-253c-961ff2ea01a2@gmail.com>
+ <4d255e1c-1d4a-a754-afe0-b18776a11a7e@daenzer.net>
+ <CAAxE2A7RcsiEsWBtbsDE2Wp+Vx7n-vwM1qL6HX_qKt=KnHCd4g@mail.gmail.com>
+ <8c49e2e3-1fa1-35db-7d25-574b4b64cca0@daenzer.net>
+In-Reply-To: <8c49e2e3-1fa1-35db-7d25-574b4b64cca0@daenzer.net>
+From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+Date: Wed, 18 Sep 2019 16:10:08 -0400
+Message-ID: <CAAxE2A5niHWs=VQZO8B6d4tBx6NmYSKb7U=9injNL9087Yi_Kg@mail.gmail.com>
+Subject: Re: [PATCH] drm: add drm device name
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=poorly.run; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=IFddt5aY5GWw1a1vYL2Vgkxg3VWg+wMgNAktbc7+gy0=;
- b=AuHENxD2UQLxiv5CKU7Nw7DwmXUXuT5depUWjTeFcK8q2+LPmsyS3lat8mEhGk7A9X
- lxFltrK/zMYuOz7jg2rlrlnjQc7iCtzqAa7oG40xCOyAbglLbxodW1sv0tEj1fSS5Ic9
- bj3/j+FLyNjnKMmDY47V22qMRSlRSyTGRReDSvbDNBldH7MDU4eLVw2pxmUDL5AaI0gj
- vqXIjwoRoP2NPS5lm02wzEB0ULCj+jflZb6esxCsk36AAna8YxC//JIhG33/OX4AGRci
- tAfizqvtRXKrI8hfyJdHSVC8TjfveifXnVQpR/xA6lGbgnWmdgudWvoMNhI02nqYyT+z
- zPDw==
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=RLF29c8mhk3mL/w9rD964gcAMBKj+jBMrCTSQ1gypw8=;
+ b=UwGCHRnUfFMZv9DdSDLL5EIa9mJSYuADhjC4GfSYJGfqKyuUwmQnBR20edDjPqGdBo
+ A7WwTAljHcyn/2elPwZ6qyhQCWYn4ACK8mbGiFyJ2dVBRJfxvWoQdpU67K3del01Yw0P
+ JVe9nc88QF0Y/jqutdrJ+mKmblAbm+gVpKPtfXmuYGYOVaczs99T22iMz1Rb0zi1mVp3
+ NETPIRgeid36JZKZBI/byMj83ZCShn9yRQhIlIhRlrU7alqwFJt4IVjSGBc+xdXuaWVw
+ JZNyN6hr/BVjNMBVhZFAhTGI4+qGQgo62SK+m4Sfj6CB5+o0HRaQxLS/FOiSm6ChScEB
+ ET2w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,103 +75,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>, David Airlie <airlied@linux.ie>,
- Sean Paul <seanpaul@chromium.org>, jekarl@iki.fi, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "Jiang, Sonny" <Sonny.Jiang@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: multipart/mixed; boundary="===============2145326935=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogU2VhbiBQYXVsIDxzZWFucGF1bEBjaHJvbWl1bS5vcmc+CgpUaGlzIHBhdGNoIGFkZHMg
-YSBkZWJ1Z2ZzIGVudHJ5IHRvIHN1cmZhY2UgdGhlIGVudHJ5IGFuZCBleGl0IHRpbWVzIGFzCndl
-bGwgYXMgdGhlIGNhbGN1bGF0ZWQgZGVsYXkuCgpTdWdnZXN0ZWQtYnk6IERhbmllbCBWZXR0ZXIg
-PGRhbmllbEBmZndsbC5jaD4KU2lnbmVkLW9mZi1ieTogU2VhbiBQYXVsIDxzZWFucGF1bEBjaHJv
-bWl1bS5vcmc+CgpDaGFuZ2VzIGluIHYyOgotIEFkZGVkIHRvIHRoZSBzZXQKLS0tCgpXYXNuJ3Qg
-dG9vIHN1cmUgaG93IHRvIGluaXRpYWxpemUgdGhpcywgYXMgY2FsbGluZyB0aGUgaGVscGVyIGZ1
-bmN0aW9uCmZyb20gZHJtX2RlYnVnZnMuYyBzZWVtZWQuLi4gd3JvbmcuIEhvd2V2ZXIgdGhlcmUg
-d2VyZW4ndCBhbnkgb3RoZXIKY29tcGVsbGluZyBzb2x1dGlvbnMsIHNvIEkgZmlndXJlZCBJJ2Qg
-cG9zdCB0aGlzIGFuZCBsZWFybiBzb21ldGhpbmcKbmV3LgoKCgogZHJpdmVycy9ncHUvZHJtL2Ry
-bV9kZWJ1Z2ZzLmMgICAgICAgICAgICAgfCAxMCArKysrKwogZHJpdmVycy9ncHUvZHJtL2RybV9z
-ZWxmX3JlZnJlc2hfaGVscGVyLmMgfCA1NSArKysrKysrKysrKysrKysrKysrKysrLQogaW5jbHVk
-ZS9kcm0vZHJtX3NlbGZfcmVmcmVzaF9oZWxwZXIuaCAgICAgfCAgNiArKysKIDMgZmlsZXMgY2hh
-bmdlZCwgNjkgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vZHJtX2RlYnVnZnMuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZGVidWdmcy5j
-CmluZGV4IGVhYjBmMjY4N2NkNi4uMTc1YzI0NTFhZTcyIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vZHJtX2RlYnVnZnMuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RlYnVnZnMuYwpA
-QCAtMzgsNiArMzgsOSBAQAogI2luY2x1ZGUgPGRybS9kcm1fZWRpZC5oPgogI2luY2x1ZGUgPGRy
-bS9kcm1fZmlsZS5oPgogI2luY2x1ZGUgPGRybS9kcm1fZ2VtLmg+CisjaWYgZGVmaW5lZChDT05G
-SUdfRFJNX0tNU19IRUxQRVIpCisjaW5jbHVkZSA8ZHJtL2RybV9zZWxmX3JlZnJlc2hfaGVscGVy
-Lmg+CisjZW5kaWYKIAogI2luY2x1ZGUgImRybV9jcnRjX2ludGVybmFsLmgiCiAjaW5jbHVkZSAi
-ZHJtX2ludGVybmFsLmgiCkBAIC0yMzEsNiArMjM0LDEzIEBAIGludCBkcm1fZGVidWdmc19pbml0
-KHN0cnVjdCBkcm1fbWlub3IgKm1pbm9yLCBpbnQgbWlub3JfaWQsCiAJCQlEUk1fRVJST1IoIkZh
-aWxlZCB0byBjcmVhdGUgYXRvbWljIGRlYnVnZnMgZmlsZXNcbiIpOwogCQkJcmV0dXJuIHJldDsK
-IAkJfQorI2lmIGRlZmluZWQoQ09ORklHX0RSTV9LTVNfSEVMUEVSKQorCQlyZXQgPSBkcm1fc2Vs
-Zl9yZWZyZXNoX2RlYnVnZnNfaW5pdChtaW5vcik7CisJCWlmIChyZXQpIHsKKwkJCURSTV9FUlJP
-UigiRmFpbGVkIHRvIGluaXQgc2VsZiByZWZyZXNoIGRlYnVnZnNcbiIpOworCQkJcmV0dXJuIHJl
-dDsKKwkJfQorI2VuZGlmCiAJfQogCiAJaWYgKGRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBE
-UklWRVJfTU9ERVNFVCkpIHsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fc2VsZl9y
-ZWZyZXNoX2hlbHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9zZWxmX3JlZnJlc2hfaGVscGVy
-LmMKaW5kZXggNjhmNDc2NWE1ODk2Li5lNzU0NGFlMWU0N2IgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS9kcm1fc2VsZl9yZWZyZXNoX2hlbHBlci5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9k
-cm1fc2VsZl9yZWZyZXNoX2hlbHBlci5jCkBAIC0xNCw3ICsxNCw5IEBACiAjaW5jbHVkZSA8ZHJt
-L2RybV9hdG9taWNfaGVscGVyLmg+CiAjaW5jbHVkZSA8ZHJtL2RybV9jb25uZWN0b3IuaD4KICNp
-bmNsdWRlIDxkcm0vZHJtX2NydGMuaD4KKyNpbmNsdWRlIDxkcm0vZHJtX2RlYnVnZnMuaD4KICNp
-bmNsdWRlIDxkcm0vZHJtX2RldmljZS5oPgorI2luY2x1ZGUgPGRybS9kcm1fZmlsZS5oPgogI2lu
-Y2x1ZGUgPGRybS9kcm1fbW9kZV9jb25maWcuaD4KICNpbmNsdWRlIDxkcm0vZHJtX21vZGVzZXRf
-bG9jay5oPgogI2luY2x1ZGUgPGRybS9kcm1fcHJpbnQuaD4KQEAgLTE2Nyw2ICsxNjksMTYgQEAg
-dm9pZCBkcm1fc2VsZl9yZWZyZXNoX2hlbHBlcl91cGRhdGVfYXZnX3RpbWVzKHN0cnVjdCBkcm1f
-YXRvbWljX3N0YXRlICpzdGF0ZSwKIH0KIEVYUE9SVF9TWU1CT0woZHJtX3NlbGZfcmVmcmVzaF9o
-ZWxwZXJfdXBkYXRlX2F2Z190aW1lcyk7CiAKK3N0YXRpYyB1bnNpZ25lZCBpbnQKK2RybV9zZWxm
-X3JlZnJlc2hfY2FsY19pZGxlX2RlbGF5KHN0cnVjdCBkcm1fc2VsZl9yZWZyZXNoX2RhdGEgKnNy
-X2RhdGEpCit7CisJaWYgKFdBUk5fT04oIW11dGV4X2lzX2xvY2tlZCgmc3JfZGF0YS0+YXZnX211
-dGV4KSkpCisJICAgIHJldHVybiBTRUxGX1JFRlJFU0hfQVZHX1NFRURfTVMgKiA0OworCisJcmV0
-dXJuIChld21hX3Bzcl90aW1lX3JlYWQoJnNyX2RhdGEtPmVudHJ5X2F2Z19tcykgKworCQlld21h
-X3Bzcl90aW1lX3JlYWQoJnNyX2RhdGEtPmV4aXRfYXZnX21zKSkgKiAyOworfQorCiAvKioKICAq
-IGRybV9zZWxmX3JlZnJlc2hfaGVscGVyX2FsdGVyX3N0YXRlIC0gQWx0ZXJzIHRoZSBhdG9taWMg
-c3RhdGUgZm9yIFNSIGV4aXQKICAqIEBzdGF0ZTogdGhlIHN0YXRlIGN1cnJlbnRseSBiZWluZyBj
-aGVja2VkCkBAIC0yMDksOCArMjIxLDcgQEAgdm9pZCBkcm1fc2VsZl9yZWZyZXNoX2hlbHBlcl9h
-bHRlcl9zdGF0ZShzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpCiAJCQljb250aW51ZTsK
-IAogCQltdXRleF9sb2NrKCZzcl9kYXRhLT5hdmdfbXV0ZXgpOwotCQlkZWxheSA9IChld21hX3Bz
-cl90aW1lX3JlYWQoJnNyX2RhdGEtPmVudHJ5X2F2Z19tcykgKwotCQkJIGV3bWFfcHNyX3RpbWVf
-cmVhZCgmc3JfZGF0YS0+ZXhpdF9hdmdfbXMpKSAqIDI7CisJCWRlbGF5ID0gZHJtX3NlbGZfcmVm
-cmVzaF9jYWxjX2lkbGVfZGVsYXkoc3JfZGF0YSk7CiAJCW11dGV4X3VubG9jaygmc3JfZGF0YS0+
-YXZnX211dGV4KTsKIAogCQltb2RfZGVsYXllZF93b3JrKHN5c3RlbV93cSwgJnNyX2RhdGEtPmVu
-dHJ5X3dvcmssCkBAIC0yNzUsMyArMjg2LDQzIEBAIHZvaWQgZHJtX3NlbGZfcmVmcmVzaF9oZWxw
-ZXJfY2xlYW51cChzdHJ1Y3QgZHJtX2NydGMgKmNydGMpCiAJa2ZyZWUoc3JfZGF0YSk7CiB9CiBF
-WFBPUlRfU1lNQk9MKGRybV9zZWxmX3JlZnJlc2hfaGVscGVyX2NsZWFudXApOworCisjaWZkZWYg
-Q09ORklHX0RFQlVHX0ZTCisKK3N0YXRpYyBpbnQgZHJtX3NlbGZfcmVmcmVzaF9kZWJ1Z2ZzX3N0
-YXRlKHN0cnVjdCBzZXFfZmlsZSAqbSwgdm9pZCAqZGF0YSkKK3sKKwlzdHJ1Y3QgZHJtX2luZm9f
-bm9kZSAqbm9kZSA9IChzdHJ1Y3QgZHJtX2luZm9fbm9kZSAqKSBtLT5wcml2YXRlOworCXN0cnVj
-dCBkcm1fZGV2aWNlICpkZXYgPSBub2RlLT5taW5vci0+ZGV2OworCXN0cnVjdCBkcm1fcHJpbnRl
-ciBwID0gZHJtX3NlcV9maWxlX3ByaW50ZXIobSk7CisJc3RydWN0IGRybV9jcnRjICpjcnRjOwor
-CisJZHJtX2Zvcl9lYWNoX2NydGMoY3J0YywgZGV2KSB7CisJCXN0cnVjdCBkcm1fc2VsZl9yZWZy
-ZXNoX2RhdGEgKnNyX2RhdGEgPSBjcnRjLT5zZWxmX3JlZnJlc2hfZGF0YTsKKwkJaWYgKCFzcl9k
-YXRhKQorCQkJY29udGludWU7CisKKwkJbXV0ZXhfbG9jaygmc3JfZGF0YS0+YXZnX211dGV4KTsK
-KwkJZHJtX3ByaW50ZigmcCwgImNydGNbJXVdOiAlc1xuIiwgY3J0Yy0+YmFzZS5pZCwgY3J0Yy0+
-bmFtZSk7CisJCWRybV9wcmludGYoJnAsICJcdGVudHJ5X2F2Z19tcz0lbHVcbiIsCisJCQkgICBl
-d21hX3Bzcl90aW1lX3JlYWQoJnNyX2RhdGEtPmVudHJ5X2F2Z19tcykpOworCQlkcm1fcHJpbnRm
-KCZwLCAiXHRleGl0X2F2Z19tcz0lbHVcbiIsCisJCQkgICBld21hX3Bzcl90aW1lX3JlYWQoJnNy
-X2RhdGEtPmV4aXRfYXZnX21zKSk7CisJCWRybV9wcmludGYoJnAsICJcdGlkbGVfZGVsYXk9JXVc
-biIsCisJCQkgICBkcm1fc2VsZl9yZWZyZXNoX2NhbGNfaWRsZV9kZWxheShzcl9kYXRhKSk7CisJ
-CW11dGV4X3VubG9jaygmc3JfZGF0YS0+YXZnX211dGV4KTsKKwl9CisJcmV0dXJuIDA7Cit9CisK
-K3N0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2luZm9fbGlzdCBkcm1fYXRvbWljX2RlYnVnZnNfbGlz
-dFtdID0geworCXsic2VsZl9yZWZyZXNoX3N0YXRlIiwgZHJtX3NlbGZfcmVmcmVzaF9kZWJ1Z2Zz
-X3N0YXRlLCAwfSwKK307CisKK2ludCBkcm1fc2VsZl9yZWZyZXNoX2RlYnVnZnNfaW5pdChzdHJ1
-Y3QgZHJtX21pbm9yICptaW5vcikKK3sKKwlyZXR1cm4gZHJtX2RlYnVnZnNfY3JlYXRlX2ZpbGVz
-KGRybV9hdG9taWNfZGVidWdmc19saXN0LAorCQkJQVJSQVlfU0laRShkcm1fYXRvbWljX2RlYnVn
-ZnNfbGlzdCksCisJCQltaW5vci0+ZGVidWdmc19yb290LCBtaW5vcik7Cit9CitFWFBPUlRfU1lN
-Qk9MKGRybV9zZWxmX3JlZnJlc2hfZGVidWdmc19pbml0KTsKKyNlbmRpZgpkaWZmIC0tZ2l0IGEv
-aW5jbHVkZS9kcm0vZHJtX3NlbGZfcmVmcmVzaF9oZWxwZXIuaCBiL2luY2x1ZGUvZHJtL2RybV9z
-ZWxmX3JlZnJlc2hfaGVscGVyLmgKaW5kZXggNWI3OWQyNTNmYjQ2Li43NzlmODFlMDM1ZjEgMTAw
-NjQ0Ci0tLSBhL2luY2x1ZGUvZHJtL2RybV9zZWxmX3JlZnJlc2hfaGVscGVyLmgKKysrIGIvaW5j
-bHVkZS9kcm0vZHJtX3NlbGZfcmVmcmVzaF9oZWxwZXIuaApAQCAtMTcsNCArMTcsMTAgQEAgdm9p
-ZCBkcm1fc2VsZl9yZWZyZXNoX2hlbHBlcl91cGRhdGVfYXZnX3RpbWVzKHN0cnVjdCBkcm1fYXRv
-bWljX3N0YXRlICpzdGF0ZSwKIAogaW50IGRybV9zZWxmX3JlZnJlc2hfaGVscGVyX2luaXQoc3Ry
-dWN0IGRybV9jcnRjICpjcnRjKTsKIHZvaWQgZHJtX3NlbGZfcmVmcmVzaF9oZWxwZXJfY2xlYW51
-cChzdHJ1Y3QgZHJtX2NydGMgKmNydGMpOworCisjaWZkZWYgQ09ORklHX0RFQlVHX0ZTCitzdHJ1
-Y3QgZHJtX21pbm9yOworaW50IGRybV9zZWxmX3JlZnJlc2hfZGVidWdmc19pbml0KHN0cnVjdCBk
-cm1fbWlub3IgKm1pbm9yKTsKKyNlbmRpZgorCiAjZW5kaWYKLS0gClNlYW4gUGF1bCwgU29mdHdh
-cmUgRW5naW5lZXIsIEdvb2dsZSAvIENocm9taXVtIE9TCgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+--===============2145326935==
+Content-Type: multipart/alternative; boundary="000000000000979d7a0592d96eb0"
+
+--000000000000979d7a0592d96eb0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Sep 18, 2019 at 10:03 AM Michel D=C3=A4nzer <michel@daenzer.net> wr=
+ote:
+
+> On 2019-09-18 1:41 a.m., Marek Ol=C5=A1=C3=A1k wrote:
+> > drmVersion::name =3D amdgpu, radeon, intel, etc.
+> > drmVersion::desc =3D vega10, vega12, vega20, ...
+> >
+> > The common Mesa code will use name and desc to select the driver.
+>
+> Like the Xorg modesetting driver, that code doesn't need this kernel
+> functionality or new PCI IDs. It can just select the current driver for
+> all devices which aren't supported by older drivers (which is a fixed
+> set at this point).
+>
+>
+> > The AMD-specific Mesa code will use desc to identify the chip.
+>
+> Doesn't libdrm_amdgpu's struct amdgpu_gpu_info::family_id provide the
+> same information?
+>
+
+Not for the common code, though I guess common Mesa code could use the INFO
+ioctl. Is that what you mean?
+
+Marek
+
+--000000000000979d7a0592d96eb0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Wed, Sep 18, 2019 at 10:03 AM Michel D=C3=A4nzer &lt;<a href=3D"m=
+ailto:michel@daenzer.net">michel@daenzer.net</a>&gt; wrote:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">On 2019-09-18 1:41 a.m., Marek =
+Ol=C5=A1=C3=A1k wrote:<br>
+&gt; drmVersion::name =3D amdgpu, radeon, intel, etc.<br>
+&gt; drmVersion::desc =3D vega10, vega12, vega20, ...<br>
+&gt; <br>
+&gt; The common Mesa code will use name and desc to select the driver.<br>
+<br>
+Like the Xorg modesetting driver, that code doesn&#39;t need this kernel<br=
+>
+functionality or new PCI IDs. It can just select the current driver for<br>
+all devices which aren&#39;t supported by older drivers (which is a fixed<b=
+r>
+set at this point).<br>
+<br>
+<br>
+&gt; The AMD-specific Mesa code will use desc to identify the chip.<br>
+<br>
+Doesn&#39;t libdrm_amdgpu&#39;s struct amdgpu_gpu_info::family_id provide t=
+he<br>
+same information?<br></blockquote><div><br></div><div>Not for the common co=
+de, though I guess common Mesa code could use the INFO ioctl. Is that what =
+you mean?<br></div><div><br></div><div>Marek</div></div></div>
+
+--000000000000979d7a0592d96eb0--
+
+--===============2145326935==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2145326935==--
