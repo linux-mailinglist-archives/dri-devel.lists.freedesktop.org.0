@@ -1,25 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B22DB6BE0
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:15:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A2AEB6BE2
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:15:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4CEE6F9DC;
-	Wed, 18 Sep 2019 19:15:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 169206F9FA;
+	Wed, 18 Sep 2019 19:15:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 028076F9FC
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:15:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3795F6F9F9
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:15:43 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id F32FF72167; Wed, 18 Sep 2019 19:15:40 +0000 (UTC)
+ id 3449772167; Wed, 18 Sep 2019 19:15:43 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 75766] Unigine: LLVM ERROR: Not supported instr: <MCInst 366
- <MCOperand Expr:(LBB0_16)> <MCOperand Reg:24>>
-Date: Wed, 18 Sep 2019 19:15:41 +0000
+Subject: [Bug 75784] Octodad: Dadliest Catch - GPU crash on CAYMAN
+Date: Wed, 18 Sep 2019 19:15:43 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,10 +33,10 @@ X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-75766-502-hQoBfVaBDj@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-75766-502@http.bugs.freedesktop.org/>
-References: <bug-75766-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-75784-502-tgDKwAw6Mg@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-75784-502@http.bugs.freedesktop.org/>
+References: <bug-75784-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,34 +52,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0678616192=="
+Content-Type: multipart/mixed; boundary="===============0297201049=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0678616192==
-Content-Type: multipart/alternative; boundary="15688341400.A56c.23182"
+--===============0297201049==
+Content-Type: multipart/alternative; boundary="15688341432.c850bD3.23182"
 Content-Transfer-Encoding: 7bit
 
 
---15688341400.A56c.23182
-Date: Wed, 18 Sep 2019 19:15:40 +0000
+--15688341432.c850bD3.23182
+Date: Wed, 18 Sep 2019 19:15:43 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D75766
+https://bugs.freedesktop.org/show_bug.cgi?id=3D75784
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-         Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
+         Resolution|---                         |MOVED
 
---- Comment #1 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
+--- Comment #2 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/500.
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/501.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688341400.A56c.23182
-Date: Wed, 18 Sep 2019 19:15:40 +0000
+--15688341432.c850bD3.23182
+Date: Wed, 18 Sep 2019 19:15:43 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,9 +111,8 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Unigine: LLVM ERROR: Not supported instr: &lt;=
-MCInst 366 &lt;MCOperand Expr:(LBB0_16)&gt; &lt;MCOperand Reg:24&gt;&gt;"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D75766">bug 75766<=
+   title=3D"RESOLVED MOVED - Octodad: Dadliest Catch - GPU crash on CAYMAN"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D75784">bug 75784<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -125,33 +123,31 @@ MCInst 366 &lt;MCOperand Expr:(LBB0_16)&gt; &lt;MCOperand Reg:24&gt;&gt;"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>MOVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Status</td>
            <td>NEW
            </td>
            <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>MOVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Unigine: LLVM ERROR: Not supported instr: &lt;=
-MCInst 366 &lt;MCOperand Expr:(LBB0_16)&gt; &lt;MCOperand Reg:24&gt;&gt;"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D75766#c1">Comment=
- # 1</a>
+   title=3D"RESOLVED MOVED - Octodad: Dadliest Catch - GPU crash on CAYMAN"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D75784#c2">Comment=
+ # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Unigine: LLVM ERROR: Not supported instr: &lt;=
-MCInst 366 &lt;MCOperand Expr:(LBB0_16)&gt; &lt;MCOperand Reg:24&gt;&gt;"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D75766">bug 75766<=
+   title=3D"RESOLVED MOVED - Octodad: Dadliest Catch - GPU crash on CAYMAN"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D75784">bug 75784<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
@@ -166,7 +162,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/500">https://gitlab.freedesktop.org/mesa/mesa/issues/500</a>.</pre>
+/issues/501">https://gitlab.freedesktop.org/mesa/mesa/issues/501</a>.</pre>
         </div>
       </p>
 
@@ -180,9 +176,9 @@ to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
     </body>
 </html>=
 
---15688341400.A56c.23182--
+--15688341432.c850bD3.23182--
 
---===============0678616192==
+--===============0297201049==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -192,4 +188,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0678616192==--
+--===============0297201049==--
