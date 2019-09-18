@@ -2,24 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45CB6B6B4D
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 20:58:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 424E5B6B4E
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 20:58:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED8DF6F89C;
-	Wed, 18 Sep 2019 18:58:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 112916F8AA;
+	Wed, 18 Sep 2019 18:58:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 751576F89C
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 18:58:43 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CC13C6F8AD
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 18:58:50 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7105872167; Wed, 18 Sep 2019 18:58:43 +0000 (UTC)
+ id C8E9C72167; Wed, 18 Sep 2019 18:58:50 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 39714] Slow and choppy 3D performace on evergreen after
- pm-suspend
-Date: Wed, 18 Sep 2019 18:58:43 +0000
+Subject: [Bug 40790] r600g readPixSanity failure on RS880 Radeon HD 4250
+Date: Wed, 18 Sep 2019 18:58:50 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,10 +33,10 @@ X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-39714-502-Hy2bemszdm@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-39714-502@http.bugs.freedesktop.org/>
-References: <bug-39714-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-40790-502-vVk7GFH53e@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-40790-502@http.bugs.freedesktop.org/>
+References: <bug-40790-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,34 +52,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1805417487=="
+Content-Type: multipart/mixed; boundary="===============2025033880=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1805417487==
-Content-Type: multipart/alternative; boundary="15688331231.975eAd.18324"
+--===============2025033880==
+Content-Type: multipart/alternative; boundary="15688331302.Bffd7.18324"
 Content-Transfer-Encoding: 7bit
 
 
---15688331231.975eAd.18324
-Date: Wed, 18 Sep 2019 18:58:43 +0000
+--15688331302.Bffd7.18324
+Date: Wed, 18 Sep 2019 18:58:50 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D39714
+https://bugs.freedesktop.org/show_bug.cgi?id=3D40790
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
+             Status|REOPENED                    |RESOLVED
 
---- Comment #15 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
+--- Comment #22 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
 --
 -- GitLab Migration Automatic Message --
 
@@ -89,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/399.
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/400.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688331231.975eAd.18324
-Date: Wed, 18 Sep 2019 18:58:43 +0000
+--15688331302.Bffd7.18324
+Date: Wed, 18 Sep 2019 18:58:50 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -113,9 +112,9 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Slow and choppy 3D performace on evergreen aft=
-er pm-suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D39714">bug 39714<=
+   title=3D"RESOLVED MOVED - r600g readPixSanity failure on RS880 Radeon HD=
+ 4250"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D40790">bug 40790<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -126,33 +125,33 @@ er pm-suspend"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Resolution</td>
            <td>---
            </td>
            <td>MOVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>REOPENED
+           </td>
+           <td>RESOLVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Slow and choppy 3D performace on evergreen aft=
-er pm-suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D39714#c15">Commen=
-t # 15</a>
+   title=3D"RESOLVED MOVED - r600g readPixSanity failure on RS880 Radeon HD=
+ 4250"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D40790#c22">Commen=
+t # 22</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Slow and choppy 3D performace on evergreen aft=
-er pm-suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D39714">bug 39714<=
+   title=3D"RESOLVED MOVED - r600g readPixSanity failure on RS880 Radeon HD=
+ 4250"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D40790">bug 40790<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
@@ -167,7 +166,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/399">https://gitlab.freedesktop.org/mesa/mesa/issues/399</a>.</pre>
+/issues/400">https://gitlab.freedesktop.org/mesa/mesa/issues/400</a>.</pre>
         </div>
       </p>
 
@@ -181,9 +180,9 @@ to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
     </body>
 </html>=
 
---15688331231.975eAd.18324--
+--15688331302.Bffd7.18324--
 
---===============1805417487==
+--===============2025033880==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -193,4 +192,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1805417487==--
+--===============2025033880==--
