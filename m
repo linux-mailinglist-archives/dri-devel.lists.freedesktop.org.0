@@ -1,25 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71F16B6B87
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:03:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86456B6B85
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:03:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCB476F8FC;
-	Wed, 18 Sep 2019 19:03:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 065456F90A;
+	Wed, 18 Sep 2019 19:03:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6588D6F90C
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:03:12 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B331C6F900
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:03:13 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5E66A72167; Wed, 18 Sep 2019 19:03:12 +0000 (UTC)
+ id AFFC772167; Wed, 18 Sep 2019 19:03:13 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 65316] [r600g] Game window turns completely black occasionally
- in WoW.
-Date: Wed, 18 Sep 2019 19:03:12 +0000
+Subject: [Bug 65448] Driver fails to compile complex shaders
+Date: Wed, 18 Sep 2019 19:03:14 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,10 +33,10 @@ X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-65316-502-Th5Ss6eztd@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-65316-502@http.bugs.freedesktop.org/>
-References: <bug-65316-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-65448-502-5DhWb9lTOW@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-65448-502@http.bugs.freedesktop.org/>
+References: <bug-65448-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,32 +52,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0141024612=="
+Content-Type: multipart/mixed; boundary="===============0071653575=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0141024612==
-Content-Type: multipart/alternative; boundary="15688333921.1D13bB823.19031"
+--===============0071653575==
+Content-Type: multipart/alternative; boundary="15688333930.DfFd.19031"
 Content-Transfer-Encoding: 7bit
 
 
---15688333921.1D13bB823.19031
-Date: Wed, 18 Sep 2019 19:03:12 +0000
+--15688333930.DfFd.19031
+Date: Wed, 18 Sep 2019 19:03:13 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D65316
+https://bugs.freedesktop.org/show_bug.cgi?id=3D65448
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-         Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
+         Resolution|---                         |MOVED
 
 --- Comment #1 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
 -- GitLab Migration Automatic Message --
@@ -88,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/440.
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/441.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688333921.1D13bB823.19031
-Date: Wed, 18 Sep 2019 19:03:12 +0000
+--15688333930.DfFd.19031
+Date: Wed, 18 Sep 2019 19:03:13 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,9 +111,8 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [r600g] Game window turns completely black occ=
-asionally in WoW."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D65316">bug 65316<=
+   title=3D"RESOLVED MOVED - Driver fails to compile complex shaders"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D65448">bug 65448<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -125,33 +123,31 @@ asionally in WoW."
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>MOVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Status</td>
            <td>NEW
            </td>
            <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>MOVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [r600g] Game window turns completely black occ=
-asionally in WoW."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D65316#c1">Comment=
+   title=3D"RESOLVED MOVED - Driver fails to compile complex shaders"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D65448#c1">Comment=
  # 1</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [r600g] Game window turns completely black occ=
-asionally in WoW."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D65316">bug 65316<=
+   title=3D"RESOLVED MOVED - Driver fails to compile complex shaders"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D65448">bug 65448<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
@@ -166,7 +162,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/440">https://gitlab.freedesktop.org/mesa/mesa/issues/440</a>.</pre>
+/issues/441">https://gitlab.freedesktop.org/mesa/mesa/issues/441</a>.</pre>
         </div>
       </p>
 
@@ -180,9 +176,9 @@ to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
     </body>
 </html>=
 
---15688333921.1D13bB823.19031--
+--15688333930.DfFd.19031--
 
---===============0141024612==
+--===============0071653575==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -192,4 +188,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0141024612==--
+--===============0071653575==--
