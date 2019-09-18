@@ -2,44 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BB28B6B29
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 20:55:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53DB0B6B2A
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 20:55:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F08F66F7F9;
-	Wed, 18 Sep 2019 18:55:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 543C36F85C;
+	Wed, 18 Sep 2019 18:55:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id E4EA76F85C
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 18:55:21 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E22B072167; Wed, 18 Sep 2019 18:55:21 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
- macrotiles?)
-Date: Wed, 18 Sep 2019 18:55:21 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r300
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: gitlab-migration@fdo.invalid
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: MOVED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-110897-502-lAe6GAzxaS@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
-References: <bug-110897-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D2BE6F84E;
+ Wed, 18 Sep 2019 18:55:34 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Sep 2019 11:55:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,521,1559545200"; d="scan'208";a="388022583"
+Received: from irsmsx107.ger.corp.intel.com ([163.33.3.99])
+ by fmsmga006.fm.intel.com with ESMTP; 18 Sep 2019 11:55:32 -0700
+Received: from irsmsx106.ger.corp.intel.com ([169.254.8.184]) by
+ IRSMSX107.ger.corp.intel.com ([169.254.10.7]) with mapi id 14.03.0439.000;
+ Wed, 18 Sep 2019 19:55:31 +0100
+From: "Mun, Gwan-gyeong" <gwan-gyeong.mun@intel.com>
+To: "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: Re: [Intel-gfx] [PATCH 01/12] drm/dp: Add definitons for MSA MISC bits
+Thread-Topic: [Intel-gfx] [PATCH 01/12] drm/dp: Add definitons for MSA MISC
+ bits
+Thread-Index: AQHVPXg9b+rEchNF8UCSkIKZQRX7MKcyGY6A
+Date: Wed, 18 Sep 2019 18:55:30 +0000
+Message-ID: <4459b1a6dd6971f4ac8dfb5393213037d9853ff9.camel@intel.com>
+References: <20190718145053.25808-1-ville.syrjala@linux.intel.com>
+ <20190718145053.25808-2-ville.syrjala@linux.intel.com>
+In-Reply-To: <20190718145053.25808-2-ville.syrjala@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.237.66.162]
+Content-ID: <B0A9D4D78964D744ABCAA2D0A3DFFEEC@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -53,144 +55,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1000558985=="
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1000558985==
-Content-Type: multipart/alternative; boundary="15688329214.7977.15367"
-Content-Transfer-Encoding: 7bit
-
-
---15688329214.7977.15367
-Date: Wed, 18 Sep 2019 18:55:21 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
-
-GitLab Migration User <gitlab-migration@fdo.invalid> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-         Resolution|---                         |MOVED
-             Status|NEW                         |RESOLVED
-
---- Comment #72 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
---
--- GitLab Migration Automatic Message --
-
-This bug has been migrated to freedesktop.org's GitLab instance and has been
-closed from further activity.
-
-You can subscribe and participate further through the new bug through this =
-link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/388.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15688329214.7977.15367
-Date: Wed, 18 Sep 2019 18:55:21 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:gitlab-mi=
-gration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab-migratio=
-n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - HyperZ is broken for r300 (bad z for some micr=
-o and macrotiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
-7</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>MOVED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - HyperZ is broken for r300 (bad z for some micr=
-o and macrotiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c72">Comme=
-nt # 72</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - HyperZ is broken for r300 (bad z for some micr=
-o and macrotiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
--migration&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</=
-span></a>
-</span></b>
-        <pre>-- GitLab Migration Automatic Message --
-
-This bug has been migrated to freedesktop.org's GitLab instance and has been
-closed from further activity.
-
-You can subscribe and participate further through the new bug through this =
-link
-to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/388">https://gitlab.freedesktop.org/mesa/mesa/issues/388</a>.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15688329214.7977.15367--
-
---===============1000558985==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1000558985==--
+T24gVGh1LCAyMDE5LTA3LTE4IGF0IDE3OjUwICswMzAwLCBWaWxsZSBTeXJqYWxhIHdyb3RlOg0K
+PiBGcm9tOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPg0K
+PiANCj4gQWRkIGRlZmluaXRpb25zIGZvciB0aGUgTVNBIChNYWluIFN0cmVhbSBBdHRyaWJ1dGUp
+IE1JU0MgYml0cy4gT24NCj4gc29tZSBoYXJkd2FyZSB5b3UgY2FuIHByb2dyYW0gdGhlc2UgZGly
+ZWN0bHkgaW50byBhIHJlZ2lzdGVyLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogVmlsbGUgU3lyasOk
+bMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4NCj4gLS0tDQo+ICBpbmNsdWRlL2Ry
+bS9kcm1fZHBfaGVscGVyLmggfCA0Mg0KPiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrDQo+ICAxIGZpbGUgY2hhbmdlZCwgNDIgaW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAt
+LWdpdCBhL2luY2x1ZGUvZHJtL2RybV9kcF9oZWxwZXIuaA0KPiBiL2luY2x1ZGUvZHJtL2RybV9k
+cF9oZWxwZXIuaA0KPiBpbmRleCAzOTc4OTZiNWIyMWEuLmQzZjQyOTc5NWZlYSAxMDA2NDQNCj4g
+LS0tIGEvaW5jbHVkZS9kcm0vZHJtX2RwX2hlbHBlci5oDQo+ICsrKyBiL2luY2x1ZGUvZHJtL2Ry
+bV9kcF9oZWxwZXIuaA0KPiBAQCAtNDIsNiArNDIsNDggQEANCj4gICAqIDEuMiBmb3JtYWxseSBp
+bmNsdWRlcyBib3RoIGVEUCBhbmQgRFBJIGRlZmluaXRpb25zLg0KPiAgICovDQo+ICANCj4gKy8q
+IE1TQSAoTWFpbiBTdHJlYW0gQXR0cmlidXRlKSBNSVNDIGJpdHMgKGFzIE1JU0MxPDw4fE1JU0Mw
+KSAqLw0KPiArI2RlZmluZSBEUF9NU0FfTUlTQ19TWU5DX0NMT0NLCQkJKDEgPDwgMCkNCj4gKyNk
+ZWZpbmUgRFBfTVNBX01JU0NfSU5URVJMQUNFX1ZUT1RBTF9FVkVOCSgxIDw8IDgpDQo+ICsjZGVm
+aW5lIERQX01TQV9NSVNDX1NURVJFT19OT18zRAkJKDAgPDwgOSkNCj4gKyNkZWZpbmUgRFBfTVNB
+X01JU0NfU1RFUkVPX1BST0dfUklHSFRfRVlFCSgxIDw8IDkpDQo+ICsjZGVmaW5lIERQX01TQV9N
+SVNDX1NURVJFT19QUk9HX0xFRlRfRVlFCSgzIDw8IDkpDQo+ICsvKiBiaXRzIHBlciBjb21wb25l
+bnQgZm9yIG5vbi1SQVcgKi8NCj4gKyNkZWZpbmUgRFBfTVNBX01JU0NfNl9CUEMJCQkoMCA8PCA1
+KQ0KPiArI2RlZmluZSBEUF9NU0FfTUlTQ184X0JQQwkJCSgxIDw8IDUpDQo+ICsjZGVmaW5lIERQ
+X01TQV9NSVNDXzEwX0JQQwkJCSgyIDw8IDUpDQo+ICsjZGVmaW5lIERQX01TQV9NSVNDXzEyX0JQ
+QwkJCSgzIDw8IDUpDQo+ICsjZGVmaW5lIERQX01TQV9NSVNDXzE2X0JQQwkJCSg0IDw8IDUpDQo+
+ICsvKiBiaXRzIHBlciBjb21wb25lbnQgZm9yIFJBVyAqLw0KPiArI2RlZmluZSBEUF9NU0FfTUlT
+Q19SQVdfNl9CUEMJCQkoMSA8PCA1KQ0KPiArI2RlZmluZSBEUF9NU0FfTUlTQ19SQVdfN19CUEMJ
+CQkoMiA8PCA1KQ0KPiArI2RlZmluZSBEUF9NU0FfTUlTQ19SQVdfOF9CUEMJCQkoMyA8PCA1KQ0K
+PiArI2RlZmluZSBEUF9NU0FfTUlTQ19SQVdfMTBfQlBDCQkJKDQgPDwgNSkNCj4gKyNkZWZpbmUg
+RFBfTVNBX01JU0NfUkFXXzEyX0JQQwkJCSg1IDw8IDUpDQo+ICsjZGVmaW5lIERQX01TQV9NSVND
+X1JBV18xNF9CUEMJCQkoNiA8PCA1KQ0KPiArI2RlZmluZSBEUF9NU0FfTUlTQ19SQVdfMTZfQlBD
+CQkJKDcgPDwgNSkNCj4gKy8qIHBpeGVsIGVuY29kaW5nL2NvbG9yaW1ldHJ5IGZvcm1hdCAqLw0K
+PiArI2RlZmluZSBfRFBfTVNBX01JU0NfQ09MT1IobWlzYzFfNywgbWlzYzBfMjEsIG1pc2MwXzMs
+IG1pc2MwXzQpIFwNCj4gKwkoKG1pc2MxXzcpIDw8IDE1IHwgKG1pc2MwXzQpIDw8IDQgfCAobWlz
+YzBfMykgPDwgMyB8DQo+ICgobWlzYzBfMjEpIDw8IDEpKQ0KPiArI2RlZmluZSBEUF9NU0FfTUlT
+Q19DT0xPUl9SR0IJCQlfRFBfTVNBX01JU0NfQ08NCj4gTE9SKDAsIDAsIDAsIDApDQo+ICsjZGVm
+aW5lIERQX01TQV9NSVNDX0NPTE9SX0NFQV9SR0IJCV9EUF9NU0FfTUlTQ19DT0xPUigwLA0KPiAw
+LCAxLCAwKQ0KPiArI2RlZmluZSBEUF9NU0FfTUlTQ19DT0xPUl9SR0JfV0lERV9GSVhFRAlfRFBf
+TVNBX01JU0NfQ09MT1IoMCwNCj4gMywgMCwgMCkNCj4gKyNkZWZpbmUgRFBfTVNBX01JU0NfQ09M
+T1JfUkdCX1dJREVfRkxPQVQJX0RQX01TQV9NSVNDX0NPTE9SKDAsDQo+IDMsIDAsIDEpDQo+ICsj
+ZGVmaW5lIERQX01TQV9NSVNDX0NPTE9SX1lfT05MWQkJX0RQX01TQV9NSVNDX0NPTE9SKDEsDQo+
+IDAsIDAsIDApDQo+ICsjZGVmaW5lIERQX01TQV9NSVNDX0NPTE9SX1JBVwkJCV9EUF9NU0FfTUlT
+Q19DTw0KPiBMT1IoMSwgMSwgMCwgMCkNCj4gKyNkZWZpbmUgRFBfTVNBX01JU0NfQ09MT1JfWUNC
+Q1JfNDIyX0JUNjAxCV9EUF9NU0FfTUlTQ19DT0xPUigwLA0KPiAxLCAxLCAwKQ0KPiArI2RlZmlu
+ZSBEUF9NU0FfTUlTQ19DT0xPUl9ZQ0JDUl80MjJfQlQ3MDkJX0RQX01TQV9NSVNDX0NPTE9SKDAs
+DQo+IDEsIDEsIDEpDQo+ICsjZGVmaW5lIERQX01TQV9NSVNDX0NPTE9SX1lDQkNSXzQ0NF9CVDYw
+MQlfRFBfTVNBX01JU0NfQ09MT1IoMCwNCj4gMiwgMSwgMCkNCj4gKyNkZWZpbmUgRFBfTVNBX01J
+U0NfQ09MT1JfWUNCQ1JfNDQ0X0JUNzA5CV9EUF9NU0FfTUlTQ19DT0xPUigwLA0KPiAyLCAxLCAx
+KQ0KPiArI2RlZmluZSBEUF9NU0FfTUlTQ19DT0xPUl9YVllDQ180MjJfQlQ2MDEJX0RQX01TQV9N
+SVNDX0NPTE9SKDAsDQo+IDEsIDAsIDApDQo+ICsjZGVmaW5lIERQX01TQV9NSVNDX0NPTE9SX1hW
+WUNDXzQyMl9CVDcwOQlfRFBfTVNBX01JU0NfQ09MT1IoMCwNCj4gMSwgMCwgMSkNCj4gKyNkZWZp
+bmUgRFBfTVNBX01JU0NfQ09MT1JfWFZZQ0NfNDQ0X0JUNjAxCV9EUF9NU0FfTUlTQ19DT0xPUigw
+LA0KPiAyLCAwLCAwKQ0KPiArI2RlZmluZSBEUF9NU0FfTUlTQ19DT0xPUl9YVllDQ180NDRfQlQ3
+MDkJX0RQX01TQV9NSVNDX0NPTE9SKDAsDQo+IDIsIDAsIDEpDQo+ICsjZGVmaW5lIERQX01TQV9N
+SVNDX0NPTE9SX09QUkdCCQkJX0RQX01TQV9NSVNDX0NPDQo+IExPUigwLCAwLCAxLCAxKQ0KPiAr
+I2RlZmluZSBEUF9NU0FfTUlTQ19DT0xPUl9EQ0lfUDMJCV9EUF9NU0FfTUlTQ19DT0xPUigwLA0K
+PiAzLCAxLCAwKQ0KPiArI2RlZmluZSBEUF9NU0FfTUlTQ19DT0xPUl9DT0xPUl9QUk9GSUxFCQlf
+RFBfTVNBX01JU0NfQ08NCj4gTE9SKDAsIDMsIDEsIDEpDQo+ICsjZGVmaW5lIERQX01TQV9NSVND
+X0NPTE9SX1ZTQ19TRFAJCSgxIDw8IDE0KQ0KPiArDQo+ICAjZGVmaW5lIERQX0FVWF9NQVhfUEFZ
+TE9BRF9CWVRFUwkxNg0KPiAgDQo+ICAjZGVmaW5lIERQX0FVWF9JMkNfV1JJVEUJCTB4MA0KPiAN
+ClRoZSBjaGFuZ2VzIGxvb2sgZ29vZCB0byBtZS4NClJldmlld2VkLWJ5OiBHd2FuLWd5ZW9uZyBN
+dW4gPGd3YW4tZ3llb25nLm11bkBpbnRlbC5jb20+DQo+IC0tIA0KPiAyLjIxLjANCj4gDQo+IF9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+IEludGVsLWdm
+eCBtYWlsaW5nIGxpc3QNCj4gSW50ZWwtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPiBodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2ludGVsLWdmeA0KX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
