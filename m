@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43FDBB6C17
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:19:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10E4BB6C1A
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:19:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88F416FA4C;
-	Wed, 18 Sep 2019 19:19:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10EFA6FA4E;
+	Wed, 18 Sep 2019 19:19:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 50BD06FA66
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:19:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 155B86FA71
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:19:27 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 4D88372167; Wed, 18 Sep 2019 19:19:19 +0000 (UTC)
+ id 1258572167; Wed, 18 Sep 2019 19:19:27 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 91251] [APITRACE] [r600g] "ARK: Survival Evolved" game: shader
- errors
-Date: Wed, 18 Sep 2019 19:19:19 +0000
+Subject: [Bug 91322] Usage of 'gallium' vaapi driver crashes radeon with
+ inability to reset itself and scary pictures as if card has burned out
+Date: Wed, 18 Sep 2019 19:19:27 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/r600
-X-Bugzilla-Version: git
+X-Bugzilla-Version: 10.6
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: major
 X-Bugzilla-Who: gitlab-migration@fdo.invalid
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-91251-502-Hd1zqdYq5i@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-91251-502@http.bugs.freedesktop.org/>
-References: <bug-91251-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-91322-502-LdDZCM17pL@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-91322-502@http.bugs.freedesktop.org/>
+References: <bug-91322-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,34 +53,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1517306788=="
+Content-Type: multipart/mixed; boundary="===============0372722588=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1517306788==
-Content-Type: multipart/alternative; boundary="15688343590.904e.26891"
+--===============0372722588==
+Content-Type: multipart/alternative; boundary="15688343670.aa27f.26891"
 Content-Transfer-Encoding: 7bit
 
 
---15688343590.904e.26891
-Date: Wed, 18 Sep 2019 19:19:19 +0000
+--15688343670.aa27f.26891
+Date: Wed, 18 Sep 2019 19:19:27 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D91251
+https://bugs.freedesktop.org/show_bug.cgi?id=3D91322
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-         Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
+         Resolution|---                         |MOVED
 
---- Comment #3 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
+--- Comment #12 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
+--
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +89,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/550.
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/551.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688343590.904e.26891
-Date: Wed, 18 Sep 2019 19:19:19 +0000
+--15688343670.aa27f.26891
+Date: Wed, 18 Sep 2019 19:19:27 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,9 +113,10 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [APITRACE] [r600g] &quot;ARK: Survival Evolved=
-&quot; game: shader errors"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D91251">bug 91251<=
+   title=3D"RESOLVED MOVED - Usage of 'gallium' vaapi driver crashes radeon=
+ with inability to reset itself and scary pictures as if card has burned ou=
+t"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D91322">bug 91322<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -125,33 +127,35 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>MOVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Status</td>
            <td>NEW
            </td>
            <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>MOVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [APITRACE] [r600g] &quot;ARK: Survival Evolved=
-&quot; game: shader errors"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D91251#c3">Comment=
- # 3</a>
+   title=3D"RESOLVED MOVED - Usage of 'gallium' vaapi driver crashes radeon=
+ with inability to reset itself and scary pictures as if card has burned ou=
+t"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D91322#c12">Commen=
+t # 12</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [APITRACE] [r600g] &quot;ARK: Survival Evolved=
-&quot; game: shader errors"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D91251">bug 91251<=
+   title=3D"RESOLVED MOVED - Usage of 'gallium' vaapi driver crashes radeon=
+ with inability to reset itself and scary pictures as if card has burned ou=
+t"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D91322">bug 91322<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
@@ -166,7 +170,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/550">https://gitlab.freedesktop.org/mesa/mesa/issues/550</a>.</pre>
+/issues/551">https://gitlab.freedesktop.org/mesa/mesa/issues/551</a>.</pre>
         </div>
       </p>
 
@@ -180,9 +184,9 @@ to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
     </body>
 </html>=
 
---15688343590.904e.26891--
+--15688343670.aa27f.26891--
 
---===============1517306788==
+--===============0372722588==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -192,4 +196,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1517306788==--
+--===============0372722588==--
