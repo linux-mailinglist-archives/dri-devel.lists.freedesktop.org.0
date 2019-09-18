@@ -1,37 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02F44B69DA
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 19:49:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F21AB6A08
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 19:54:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 234BF6F635;
-	Wed, 18 Sep 2019 17:48:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD9536F61E;
+	Wed, 18 Sep 2019 17:54:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE0986F62A;
- Wed, 18 Sep 2019 17:48:56 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2019 10:48:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,521,1559545200"; d="scan'208";a="199120549"
-Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com) ([10.54.75.49])
- by orsmga002.jf.intel.com with ESMTP; 18 Sep 2019 10:48:55 -0700
-Date: Wed, 18 Sep 2019 10:50:39 -0700
-From: Manasi Navare <manasi.d.navare@intel.com>
-To: srinivasan.s@intel.com
-Subject: Re: [PATCH] drm/i915/dp: Fix DP MST error after unplugging TypeC cable
-Message-ID: <20190918175038.GA31062@intel.com>
-References: <1568770783-169735-1-git-send-email-srinivasan.s@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6310A6F629
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 17:54:49 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5FE4372167; Wed, 18 Sep 2019 17:54:49 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
+ when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
+Date: Wed, 18 Sep 2019 17:54:49 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: tempel.julian@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: NOTOURBUG
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110659-502-VYVLkp1Ass@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
+References: <bug-110659-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1568770783-169735-1-git-send-email-srinivasan.s@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,43 +53,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2131852495=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBTZXAgMTgsIDIwMTkgYXQgMDc6MDk6NDNBTSArMDUzMCwgc3Jpbml2YXNhbi5zQGlu
-dGVsLmNvbSB3cm90ZToKPiBGcm9tOiBTcmluaXZhc2FuIFMgPHNyaW5pdmFzYW4uc0BpbnRlbC5j
-b20+Cj4gCj4gVGhpcyBwYXRjaCBhdm9pZHMgRFAgTVNUIHBheWxvYWQgZXJyb3IgbWVzc2FnZSBp
-biBkbWVzZywgYXMgaXQgaXMgdHJ5aW5nCj4gdG8gcmVhZCB0aGUgcGF5bG9hZCBmcm9tIHRoZSBk
-aXNjb25uZWN0ZWQgRFAgTVNUIGRldmljZS4gQWZ0ZXIgdGhlIHVucGx1Zwo+IHRoZSBjb25uZWN0
-b3Igc3RhdHVzIGlzIGRpc2Nvbm5lY3RlZCBhbmQgd2Ugc2hvdWxkIG5vdCBiZSBsb29raW5nIGZv
-ciB0aGUKPiBwYXlsb2FkIGFuZCBoZW5jZSByZW1vdmUgdGhlIGVycm9yIGFuZCB0aHJvdyB0aGUg
-d2FybmluZy4KPiAKPiBUaGlzIGRldGFpbHMgY2FuIGJlIGZvdW5kIGluOgo+IGh0dHBzOi8vYnVn
-cy5mcmVlZGVza3RvcC5vcmcvc2hvd19idWcuY2dpP2lkPTExMTYzMgoKUGxlYXNlIGFkZCB0aGlz
-IGxpbmsgYXMgQnVnemlsbGE6IGh0dHBzOi8vYnVncy5mcmVlZGVza3RvcC5vcmcvc2hvd19idWcu
-Y2dpP2lkPTExMTYzMiBhZnRlciB0aGUgU2lnbiBvZmYKc3RhdGVtZW50Cgo+IAo+IFNpZ25lZC1v
-ZmYtYnk6IFNyaW5pdmFzYW4gUyA8c3Jpbml2YXNhbi5zQGludGVsLmNvbT4KPiAtLS0KPiAgZHJp
-dmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcF9tc3QuYyB8IDcgKysrKysrLQo+ICAx
-IGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4gCj4gZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHBfbXN0LmMgYi9kcml2
-ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwX21zdC5jCj4gaW5kZXggZWVlYjNmOTMz
-YWE0Li41YjIyNzhmZGY2NzUgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlz
-cGxheS9pbnRlbF9kcF9tc3QuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
-aW50ZWxfZHBfbXN0LmMKPiBAQCAtMjE1LDcgKzIxNSwxMiBAQCBzdGF0aWMgdm9pZCBpbnRlbF9t
-c3RfZGlzYWJsZV9kcChzdHJ1Y3QgaW50ZWxfZW5jb2RlciAqZW5jb2RlciwKPiAgCj4gIAlyZXQg
-PSBkcm1fZHBfdXBkYXRlX3BheWxvYWRfcGFydDEoJmludGVsX2RwLT5tc3RfbWdyKTsKPiAgCWlm
-IChyZXQpIHsKPiAtCQlEUk1fRVJST1IoImZhaWxlZCB0byB1cGRhdGUgcGF5bG9hZCAlZFxuIiwg
-cmV0KTsKPiArCQlpZiAoIWNvbm5lY3RvciB8fAo+ICsJCSAgICBjb25uZWN0b3ItPmJhc2Uuc3Rh
-dHVzICE9IGNvbm5lY3Rvcl9zdGF0dXNfY29ubmVjdGVkKSB7Cj4gKwkJCURSTV9XQVJOKCJEUCBN
-U1QgZGlzY29ubmVjdFxuIik7CgpNYXkgYmUgYWRkaW5nIHRoaXMgY2hlY2sgYmVmb3JlIGNhbGxp
-bmcgZHJtX2RwX3VwZGF0ZV9wYXlsb2FkX3BhcnQxKCkgaXMgYSBiZXR0ZXIgaWRlYT8KSWYgdGhl
-IGNvbm5lY3RvciBpcyBkaXNjb25uZWN0ZWQsIHdoeSB1cGRhdGUgcGF5bG9hZD8KCkphbmksIFZp
-bGxlLCB0aG91Z2h0cz8KClJlZ2FyZHMKTWFuYXNpCgo+ICsJCX0gZWxzZSB7Cj4gKwkJCURSTV9F
-UlJPUigiZmFpbGVkIHRvIHVwZGF0ZSBwYXlsb2FkICVkXG4iLCByZXQpOwo+ICsJCX0KPiAgCX0K
-PiAgCWlmIChvbGRfY3J0Y19zdGF0ZS0+aGFzX2F1ZGlvKQo+ICAJCWludGVsX2F1ZGlvX2NvZGVj
-X2Rpc2FibGUoZW5jb2RlciwKPiAtLSAKPiAyLjcuNAo+IApfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============2131852495==
+Content-Type: multipart/alternative; boundary="15688292892.04F0c4.30746"
+Content-Transfer-Encoding: 7bit
+
+
+--15688292892.04F0c4.30746
+Date: Wed, 18 Sep 2019 17:54:49 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
+
+--- Comment #85 from tempel.julian@gmail.com ---
+Thanks for the new Proton release including your fix (didn't realize you are
+the release manager :) ). As far as I can judge until now, the result is go=
+od
+enough in practice. There is this this reproducible spike, but moving the
+camera while in game seems free of stutter (a bit hard to judge, since the =
+game
+is very stuttery in general).
+
+It's definitely not the only case where atomic modesetting is hypersensitiv=
+e, I
+wouldn't be surprised if it required some kind of rather comprehensive
+restructuring to make it more resilient in general.
+E.g. there is still this aforementioned problem with gamma adjustments:
+https://bugs.freedesktop.org/show_bug.cgi?id=3D108917
+
+And there is also weak stutter each time when other windows on Xorg receive
+focus.
+
+All those issues where non-existent with old legacy DC (amdgpu.dc=3D0 on Po=
+laris
+and older). Intel probably is affected the same.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15688292892.04F0c4.30746
+Date: Wed, 18 Sep 2019 17:54:49 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED NOTOURBUG - pageflipping seems to cause jittering on m=
+ouse input when running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c85">Comme=
+nt # 85</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED NOTOURBUG - pageflipping seems to cause jittering on m=
+ouse input when running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
+ulian&#64;gmail.com</a>
+</span></b>
+        <pre>Thanks for the new Proton release including your fix (didn't r=
+ealize you are
+the release manager :) ). As far as I can judge until now, the result is go=
+od
+enough in practice. There is this this reproducible spike, but moving the
+camera while in game seems free of stutter (a bit hard to judge, since the =
+game
+is very stuttery in general).
+
+It's definitely not the only case where atomic modesetting is hypersensitiv=
+e, I
+wouldn't be surprised if it required some kind of rather comprehensive
+restructuring to make it more resilient in general.
+E.g. there is still this aforementioned problem with gamma adjustments:
+<a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - gamma adjustments cause stuttering with amdgpu.dc=3D1, es=
+pecially problematic with RedShift etc."
+   href=3D"show_bug.cgi?id=3D108917">https://bugs.freedesktop.org/show_bug.=
+cgi?id=3D108917</a>
+
+And there is also weak stutter each time when other windows on Xorg receive
+focus.
+
+All those issues where non-existent with old legacy DC (amdgpu.dc=3D0 on Po=
+laris
+and older). Intel probably is affected the same.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15688292892.04F0c4.30746--
+
+--===============2131852495==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2131852495==--
