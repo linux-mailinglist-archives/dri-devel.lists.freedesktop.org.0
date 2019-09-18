@@ -2,24 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C588B6BDD
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:15:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2518EB6BE1
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:15:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54E856F9FB;
-	Wed, 18 Sep 2019 19:15:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E47A26F9E7;
+	Wed, 18 Sep 2019 19:15:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 86D6E6F9F4
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:15:35 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5FAEE6F9F1
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:15:37 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 81BDB72167; Wed, 18 Sep 2019 19:15:35 +0000 (UTC)
+ id 5C04872167; Wed, 18 Sep 2019 19:15:37 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 75602] Unigine Heaven/Valley: Multi monitor rendering does not
- work
-Date: Wed, 18 Sep 2019 19:15:35 +0000
+Subject: [Bug 75699] mplayer crashes
+Date: Wed, 18 Sep 2019 19:15:37 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,10 +33,10 @@ X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-75602-502-C6pKa6wR8h@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-75602-502@http.bugs.freedesktop.org/>
-References: <bug-75602-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-75699-502-L0aagHCZu9@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-75699-502@http.bugs.freedesktop.org/>
+References: <bug-75699-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,35 +52,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0931430530=="
+Content-Type: multipart/mixed; boundary="===============1559607665=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0931430530==
-Content-Type: multipart/alternative; boundary="15688341350.9c85d342.23182"
+--===============1559607665==
+Content-Type: multipart/alternative; boundary="15688341371.8F5528d.23182"
 Content-Transfer-Encoding: 7bit
 
 
---15688341350.9c85d342.23182
-Date: Wed, 18 Sep 2019 19:15:35 +0000
+--15688341371.8F5528d.23182
+Date: Wed, 18 Sep 2019 19:15:37 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D75602
+https://bugs.freedesktop.org/show_bug.cgi?id=3D75699
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-         Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
+         Resolution|---                         |MOVED
 
---- Comment #10 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
---
+--- Comment #1 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -89,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/497.
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/498.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688341350.9c85d342.23182
-Date: Wed, 18 Sep 2019 19:15:35 +0000
+--15688341371.8F5528d.23182
+Date: Wed, 18 Sep 2019 19:15:37 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -113,9 +111,8 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Unigine Heaven/Valley: Multi monitor rendering=
- does not work"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D75602">bug 75602<=
+   title=3D"RESOLVED MOVED - mplayer crashes"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D75699">bug 75699<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -126,33 +123,31 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>MOVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Status</td>
            <td>NEW
            </td>
            <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>MOVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Unigine Heaven/Valley: Multi monitor rendering=
- does not work"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D75602#c10">Commen=
-t # 10</a>
+   title=3D"RESOLVED MOVED - mplayer crashes"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D75699#c1">Comment=
+ # 1</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Unigine Heaven/Valley: Multi monitor rendering=
- does not work"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D75602">bug 75602<=
+   title=3D"RESOLVED MOVED - mplayer crashes"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D75699">bug 75699<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
@@ -167,7 +162,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/497">https://gitlab.freedesktop.org/mesa/mesa/issues/497</a>.</pre>
+/issues/498">https://gitlab.freedesktop.org/mesa/mesa/issues/498</a>.</pre>
         </div>
       </p>
 
@@ -181,9 +176,9 @@ to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
     </body>
 </html>=
 
---15688341350.9c85d342.23182--
+--15688341371.8F5528d.23182--
 
---===============0931430530==
+--===============1559607665==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -193,4 +188,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0931430530==--
+--===============1559607665==--
