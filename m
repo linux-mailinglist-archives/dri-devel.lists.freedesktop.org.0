@@ -1,45 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00816B5FCA
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 11:05:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A725B5FE8
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 11:15:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAC296EE69;
-	Wed, 18 Sep 2019 09:05:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52D3089998;
+	Wed, 18 Sep 2019 09:15:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 07B5F6EE69
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 09:05:50 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id F1EB072167; Wed, 18 Sep 2019 09:05:49 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6957189998
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 09:15:24 +0000 (UTC)
+Received: from [192.168.12.205] (helo=localhost.localdomain)
+ by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1iAW3W-00076T-PC; Wed, 18 Sep 2019 11:15:22 +0200
+From: Iago Toral Quiroga <itoral@igalia.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111730] Xorg does not render with mesa 19.1.7
-Date: Wed, 18 Sep 2019 09:05:50 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/DRI/i915
-X-Bugzilla-Version: 19.1
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: edoars@gmail.com
-X-Bugzilla-Status: NEEDINFO
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111730-502-71r1odUHQp@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111730-502@http.bugs.freedesktop.org/>
-References: <bug-111730-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Subject: [PATCH v2] drm/v3d: clean caches at the end of render jobs on request
+ from user space
+Date: Wed, 18 Sep 2019 11:15:21 +0200
+Message-Id: <20190918091521.9765-1-itoral@igalia.com>
+X-Mailer: git-send-email 2.17.1
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
+ c=relaxed/relaxed; d=igalia.com; s=20170329; 
+ h=Message-Id:Date:Subject:Cc:To:From;
+ bh=SVhN+jxa94jhZGjz9CSTAzBdnszN7/TGQvyzqh0spCE=; 
+ b=cf0rSiv38Txgy0Jqwwj6IbqKMLCRYNsLwvWbl7Dvv/uADap22wa21cOV66s+hRge6bhLrKYw6kOQcIxBziqDJW5lqilJUB/rs1c3eKedgg5uuVnVxKexrBLClrnKlIHGxxGNs+NBo5KYzifq+5RulF93Ezxhxe8mHYFDurCnStWBy87QHrHfiX3WdHAM6p2nWzUgeGt4yMk7UF1B711a46EXbLYUA44IxnpyeToG67zEoJindHP/+KtbNZ6E26OS/zT++6RJmk7keOLtvTyNhnPAZ/6054X03+wJmNTXixMMfpzD0k0dD+78mN4LS4yZ6pUjvwxd4gnK3gPYV5+ucg==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,101 +40,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1810851944=="
+Cc: Iago Toral Quiroga <itoral@igalia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1810851944==
-Content-Type: multipart/alternative; boundary="15687975490.BC1b3A70.29355"
-Content-Transfer-Encoding: 7bit
-
-
---15687975490.BC1b3A70.29355
-Date: Wed, 18 Sep 2019 09:05:49 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111730
-
---- Comment #5 from Edoardo Signorini <edoars@gmail.com> ---
-(In reply to Lionel Landwerlin from comment #4)
-> Could you us more details about your setup?
->=20
-> I assume you're not just running bare X11 with no window manager/composit=
-or?
-
-I'm running bspwm with compton. I didn't try to switch to another window
-manager but running without a compositor shows even more artifacts
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15687975490.BC1b3A70.29355
-Date: Wed, 18 Sep 2019 09:05:49 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEEDINFO "
-   title=3D"NEEDINFO - Xorg does not render with mesa 19.1.7"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111730#c5">Commen=
-t # 5</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEEDINFO "
-   title=3D"NEEDINFO - Xorg does not render with mesa 19.1.7"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111730">bug 11173=
-0</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-edoars&#64;gmail.com" title=3D"Edoardo Signorini &lt;edoars&#64;gmail.com&g=
-t;"> <span class=3D"fn">Edoardo Signorini</span></a>
-</span></b>
-        <pre>(In reply to Lionel Landwerlin from <a href=3D"show_bug.cgi?id=
-=3D111730#c4">comment #4</a>)
-<span class=3D"quote">&gt; Could you us more details about your setup?
-&gt;=20
-&gt; I assume you're not just running bare X11 with no window manager/compo=
-sitor?</span >
-
-I'm running bspwm with compton. I didn't try to switch to another window
-manager but running without a compositor shows even more artifacts</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15687975490.BC1b3A70.29355--
-
---===============1810851944==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1810851944==--
+RXh0ZW5kcyB0aGUgdXNlciBzcGFjZSBpb2N0bCBmb3IgQ0wgc3VibWlzc2lvbnMgc28gaXQgY2Fu
+IGluY2x1ZGUgYSByZXF1ZXN0CnRvIGZsdXNoIHRoZSBjYWNoZSBvbmNlIHRoZSBDTCBleGVjdXRp
+b24gaGFzIGNvbXBsZXRlZC4gRml4ZXMgbWVtb3J5CndyaXRlIHZpb2xhdGlvbiBtZXNzYWdlcyBy
+ZXBvcnRlZCBieSB0aGUga2VybmVsIGluIHdvcmtsb2FkcyBpbnZvbHZpbmcKc2hhZGVyIG1lbW9y
+eSB3cml0ZXMgKFNTQk9zLCBzaGFkZXIgaW1hZ2VzLCBzY3JhdGNoLCBldGMpIHdoaWNoIHNvbWV0
+aW1lcwphbHNvIGxlYWQgdG8gR1BVIHJlc2V0cyBkdXJpbmcgUGlnbGl0IGFuZCBDVFMgd29ya2xv
+YWRzLgoKdjI6IGlmIHYzZF9qb2JfaW5pdCgpIGZhaWxzIHdlIG5lZWQgdG8ga2ZyZWUoKSB0aGUg
+am9iIGluc3RlYWQgb2YKICAgIHYzZF9qb2JfcHV0KCkgaXQgKEVyaWMgQW5ob2x0KS4KClNpZ25l
+ZC1vZmYtYnk6IElhZ28gVG9yYWwgUXVpcm9nYSA8aXRvcmFsQGlnYWxpYS5jb20+ClJldmlld2Vk
+LWJ5OiBFcmljIEFuaG9sdCA8ZXJpY0BhbmhvbHQubmV0PgpMaW5rOiBodHRwczovL3BhdGNod29y
+ay5mcmVlZGVza3RvcC5vcmcvcGF0Y2gvbXNnaWQvMjAxOTA5MTIwODM1MTYuMTM3OTctMS1pdG9y
+YWxAaWdhbGlhLmNvbQotLS0KIGRyaXZlcnMvZ3B1L2RybS92M2QvdjNkX2dlbS5jIHwgNTQgKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKystLS0tLS0KIGluY2x1ZGUvdWFwaS9kcm0vdjNkX2Ry
+bS5oICAgIHwgIDcgKysrLS0KIDIgZmlsZXMgY2hhbmdlZCwgNTAgaW5zZXJ0aW9ucygrKSwgMTEg
+ZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3YzZC92M2RfZ2VtLmMg
+Yi9kcml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9nZW0uYwppbmRleCA1ZDgwNTA3YjUzOWIuLmQ0NmQ5
+MTM0NmQwOSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3YzZC92M2RfZ2VtLmMKKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL3YzZC92M2RfZ2VtLmMKQEAgLTUzMCwxMyArNTMwLDE2IEBAIHYzZF9z
+dWJtaXRfY2xfaW9jdGwoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwKIAlzdHJ1
+Y3QgZHJtX3YzZF9zdWJtaXRfY2wgKmFyZ3MgPSBkYXRhOwogCXN0cnVjdCB2M2RfYmluX2pvYiAq
+YmluID0gTlVMTDsKIAlzdHJ1Y3QgdjNkX3JlbmRlcl9qb2IgKnJlbmRlcjsKKwlzdHJ1Y3QgdjNk
+X2pvYiAqY2xlYW5fam9iID0gTlVMTDsKKwlzdHJ1Y3QgdjNkX2pvYiAqbGFzdF9qb2I7CiAJc3Ry
+dWN0IHd3X2FjcXVpcmVfY3R4IGFjcXVpcmVfY3R4OwogCWludCByZXQgPSAwOwogCiAJdHJhY2Vf
+djNkX3N1Ym1pdF9jbF9pb2N0bCgmdjNkLT5kcm0sIGFyZ3MtPnJjbF9zdGFydCwgYXJncy0+cmNs
+X2VuZCk7CiAKLQlpZiAoYXJncy0+cGFkICE9IDApIHsKLQkJRFJNX0lORk8oInBhZCBtdXN0IGJl
+IHplcm86ICVkXG4iLCBhcmdzLT5wYWQpOworCWlmIChhcmdzLT5mbGFncyAhPSAwICYmCisJICAg
+IGFyZ3MtPmZsYWdzICE9IERSTV9WM0RfU1VCTUlUX0NMX0ZMVVNIX0NBQ0hFX0ZMQUcpIHsKKwkJ
+RFJNX0lORk8oImludmFsaWQgZmxhZ3M6ICVkXG4iLCBhcmdzLT5mbGFncyk7CiAJCXJldHVybiAt
+RUlOVkFMOwogCX0KIApAQCAtNTc1LDEyICs1NzgsMzEgQEAgdjNkX3N1Ym1pdF9jbF9pb2N0bChz
+dHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAogCQliaW4tPnJlbmRlciA9IHJlbmRl
+cjsKIAl9CiAKLQlyZXQgPSB2M2RfbG9va3VwX2JvcyhkZXYsIGZpbGVfcHJpdiwgJnJlbmRlci0+
+YmFzZSwKKwlpZiAoYXJncy0+ZmxhZ3MgJiBEUk1fVjNEX1NVQk1JVF9DTF9GTFVTSF9DQUNIRV9G
+TEFHKSB7CisJCWNsZWFuX2pvYiA9IGtjYWxsb2MoMSwgc2l6ZW9mKCpjbGVhbl9qb2IpLCBHRlBf
+S0VSTkVMKTsKKwkJaWYgKCFjbGVhbl9qb2IpIHsKKwkJCXJldCA9IC1FTk9NRU07CisJCQlnb3Rv
+IGZhaWw7CisJCX0KKworCQlyZXQgPSB2M2Rfam9iX2luaXQodjNkLCBmaWxlX3ByaXYsIGNsZWFu
+X2pvYiwgdjNkX2pvYl9mcmVlLCAwKTsKKwkJaWYgKHJldCkgeworCQkJa2ZyZWUoY2xlYW5fam9i
+KTsKKwkJCWNsZWFuX2pvYiA9IE5VTEw7CisJCQlnb3RvIGZhaWw7CisJCX0KKworCQlsYXN0X2pv
+YiA9IGNsZWFuX2pvYjsKKwl9IGVsc2UgeworCQlsYXN0X2pvYiA9ICZyZW5kZXItPmJhc2U7CisJ
+fQorCisJcmV0ID0gdjNkX2xvb2t1cF9ib3MoZGV2LCBmaWxlX3ByaXYsIGxhc3Rfam9iLAogCQkJ
+ICAgICBhcmdzLT5ib19oYW5kbGVzLCBhcmdzLT5ib19oYW5kbGVfY291bnQpOwogCWlmIChyZXQp
+CiAJCWdvdG8gZmFpbDsKIAotCXJldCA9IHYzZF9sb2NrX2JvX3Jlc2VydmF0aW9ucygmcmVuZGVy
+LT5iYXNlLCAmYWNxdWlyZV9jdHgpOworCXJldCA9IHYzZF9sb2NrX2JvX3Jlc2VydmF0aW9ucyhs
+YXN0X2pvYiwgJmFjcXVpcmVfY3R4KTsKIAlpZiAocmV0KQogCQlnb3RvIGZhaWw7CiAKQEAgLTU5
+OSwyOCArNjIxLDQ0IEBAIHYzZF9zdWJtaXRfY2xfaW9jdGwoc3RydWN0IGRybV9kZXZpY2UgKmRl
+diwgdm9pZCAqZGF0YSwKIAlyZXQgPSB2M2RfcHVzaF9qb2IodjNkX3ByaXYsICZyZW5kZXItPmJh
+c2UsIFYzRF9SRU5ERVIpOwogCWlmIChyZXQpCiAJCWdvdG8gZmFpbF91bnJlc2VydmU7CisKKwlp
+ZiAoY2xlYW5fam9iKSB7CisJCXN0cnVjdCBkbWFfZmVuY2UgKnJlbmRlcl9mZW5jZSA9CisJCQlk
+bWFfZmVuY2VfZ2V0KHJlbmRlci0+YmFzZS5kb25lX2ZlbmNlKTsKKwkJcmV0ID0gZHJtX2dlbV9m
+ZW5jZV9hcnJheV9hZGQoJmNsZWFuX2pvYi0+ZGVwcywgcmVuZGVyX2ZlbmNlKTsKKwkJaWYgKHJl
+dCkKKwkJCWdvdG8gZmFpbF91bnJlc2VydmU7CisJCXJldCA9IHYzZF9wdXNoX2pvYih2M2RfcHJp
+diwgY2xlYW5fam9iLCBWM0RfQ0FDSEVfQ0xFQU4pOworCQlpZiAocmV0KQorCQkJZ290byBmYWls
+X3VucmVzZXJ2ZTsKKwl9CisKIAltdXRleF91bmxvY2soJnYzZC0+c2NoZWRfbG9jayk7CiAKIAl2
+M2RfYXR0YWNoX2ZlbmNlc19hbmRfdW5sb2NrX3Jlc2VydmF0aW9uKGZpbGVfcHJpdiwKLQkJCQkJ
+CSAmcmVuZGVyLT5iYXNlLAorCQkJCQkJIGxhc3Rfam9iLAogCQkJCQkJICZhY3F1aXJlX2N0eCwK
+IAkJCQkJCSBhcmdzLT5vdXRfc3luYywKLQkJCQkJCSByZW5kZXItPmJhc2UuZG9uZV9mZW5jZSk7
+CisJCQkJCQkgbGFzdF9qb2ItPmRvbmVfZmVuY2UpOwogCiAJaWYgKGJpbikKIAkJdjNkX2pvYl9w
+dXQoJmJpbi0+YmFzZSk7CiAJdjNkX2pvYl9wdXQoJnJlbmRlci0+YmFzZSk7CisJaWYgKGNsZWFu
+X2pvYikKKwkJdjNkX2pvYl9wdXQoY2xlYW5fam9iKTsKIAogCXJldHVybiAwOwogCiBmYWlsX3Vu
+cmVzZXJ2ZToKIAltdXRleF91bmxvY2soJnYzZC0+c2NoZWRfbG9jayk7Ci0JZHJtX2dlbV91bmxv
+Y2tfcmVzZXJ2YXRpb25zKHJlbmRlci0+YmFzZS5ibywKLQkJCQkgICAgcmVuZGVyLT5iYXNlLmJv
+X2NvdW50LCAmYWNxdWlyZV9jdHgpOworCWRybV9nZW1fdW5sb2NrX3Jlc2VydmF0aW9ucyhsYXN0
+X2pvYi0+Ym8sCisJCQkJICAgIGxhc3Rfam9iLT5ib19jb3VudCwgJmFjcXVpcmVfY3R4KTsKIGZh
+aWw6CiAJaWYgKGJpbikKIAkJdjNkX2pvYl9wdXQoJmJpbi0+YmFzZSk7CiAJdjNkX2pvYl9wdXQo
+JnJlbmRlci0+YmFzZSk7CisJaWYgKGNsZWFuX2pvYikKKwkJdjNkX2pvYl9wdXQoY2xlYW5fam9i
+KTsKIAogCXJldHVybiByZXQ7CiB9CmRpZmYgLS1naXQgYS9pbmNsdWRlL3VhcGkvZHJtL3YzZF9k
+cm0uaCBiL2luY2x1ZGUvdWFwaS9kcm0vdjNkX2RybS5oCmluZGV4IDU4ZmJlNDhjOTFlOS4uNThk
+MjA0MGVhNDhjIDEwMDY0NAotLS0gYS9pbmNsdWRlL3VhcGkvZHJtL3YzZF9kcm0uaAorKysgYi9p
+bmNsdWRlL3VhcGkvZHJtL3YzZF9kcm0uaApAQCAtNDgsNiArNDgsOCBAQCBleHRlcm4gIkMiIHsK
+ICNkZWZpbmUgRFJNX0lPQ1RMX1YzRF9TVUJNSVRfVEZVICAgICAgICAgIERSTV9JT1coRFJNX0NP
+TU1BTkRfQkFTRSArIERSTV9WM0RfU1VCTUlUX1RGVSwgc3RydWN0IGRybV92M2Rfc3VibWl0X3Rm
+dSkKICNkZWZpbmUgRFJNX0lPQ1RMX1YzRF9TVUJNSVRfQ1NEICAgICAgICAgIERSTV9JT1coRFJN
+X0NPTU1BTkRfQkFTRSArIERSTV9WM0RfU1VCTUlUX0NTRCwgc3RydWN0IGRybV92M2Rfc3VibWl0
+X2NzZCkKIAorI2RlZmluZSBEUk1fVjNEX1NVQk1JVF9DTF9GTFVTSF9DQUNIRV9GTEFHICAgICAg
+ICAweDAxCisKIC8qKgogICogc3RydWN0IGRybV92M2Rfc3VibWl0X2NsIC0gaW9jdGwgYXJndW1l
+bnQgZm9yIHN1Ym1pdHRpbmcgY29tbWFuZHMgdG8gdGhlIDNECiAgKiBlbmdpbmUuCkBAIC02MSw3
+ICs2Myw3IEBAIGV4dGVybiAiQyIgewogICogZmx1c2hlZCBieSB0aGUgdGltZSB0aGUgcmVuZGVy
+IGRvbmUgSVJRIGhhcHBlbnMsIHdoaWNoIGlzIHRoZQogICogdHJpZ2dlciBmb3Igb3V0X3N5bmMu
+ICBBbnkgZGlydHlpbmcgb2YgY2FjaGVsaW5lcyBieSB0aGUgam9iIChvbmx5CiAgKiBwb3NzaWJs
+ZSB1c2luZyBUTVUgd3JpdGVzKSBtdXN0IGJlIGZsdXNoZWQgYnkgdGhlIGNhbGxlciB1c2luZyB0
+aGUKLSAqIENMJ3MgY2FjaGUgZmx1c2ggY29tbWFuZHMuCisgKiBEUk1fVjNEX1NVQk1JVF9DTF9G
+TFVTSF9DQUNIRV9GTEFHIGZsYWcuCiAgKi8KIHN0cnVjdCBkcm1fdjNkX3N1Ym1pdF9jbCB7CiAJ
+LyogUG9pbnRlciB0byB0aGUgYmlubmVyIGNvbW1hbmQgbGlzdC4KQEAgLTEyNCw4ICsxMjYsNyBA
+QCBzdHJ1Y3QgZHJtX3YzZF9zdWJtaXRfY2wgewogCS8qIE51bWJlciBvZiBCTyBoYW5kbGVzIHBh
+c3NlZCBpbiAoc2l6ZSBpcyB0aGF0IHRpbWVzIDQpLiAqLwogCV9fdTMyIGJvX2hhbmRsZV9jb3Vu
+dDsKIAotCS8qIFBhZCwgbXVzdCBiZSB6ZXJvLWZpbGxlZC4gKi8KLQlfX3UzMiBwYWQ7CisJX191
+MzIgZmxhZ3M7CiB9OwogCiAvKioKLS0gCjIuMTcuMQoKX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
+YW4vbGlzdGluZm8vZHJpLWRldmVs
