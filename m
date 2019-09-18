@@ -2,43 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1529DB6B7B
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:02:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDE52B6B7D
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:02:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D2306F8ED;
-	Wed, 18 Sep 2019 19:02:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B9286F8FB;
+	Wed, 18 Sep 2019 19:02:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 25ACD6F8F7
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:02:17 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 22E1C72167; Wed, 18 Sep 2019 19:02:17 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 63564] Radeon HD 5870 CP lockup / Stall with OpenGL load
-Date: Wed, 18 Sep 2019 19:02:17 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r600
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: gitlab-migration@fdo.invalid
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: MOVED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-63564-502-cLhPAL4UgR@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-63564-502@http.bugs.freedesktop.org/>
-References: <bug-63564-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54D416F8FA;
+ Wed, 18 Sep 2019 19:02:26 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Sep 2019 12:02:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,521,1559545200"; d="scan'208";a="194149334"
+Received: from irsmsx152.ger.corp.intel.com ([163.33.192.66])
+ by FMSMGA003.fm.intel.com with ESMTP; 18 Sep 2019 12:02:24 -0700
+Received: from irsmsx106.ger.corp.intel.com ([169.254.8.184]) by
+ IRSMSX152.ger.corp.intel.com ([169.254.6.150]) with mapi id 14.03.0439.000;
+ Wed, 18 Sep 2019 20:02:24 +0100
+From: "Mun, Gwan-gyeong" <gwan-gyeong.mun@intel.com>
+To: "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: Re: [Intel-gfx] [PATCH 08/12] drm/i915: Simplify
+ intel_get_crtc_ycbcr_config()
+Thread-Topic: [Intel-gfx] [PATCH 08/12] drm/i915: Simplify
+ intel_get_crtc_ycbcr_config()
+Thread-Index: AQHVPXhOwy03156n30um+1HKTjhZLKcyG3oA
+Date: Wed, 18 Sep 2019 19:02:22 +0000
+Message-ID: <301f150fb57070860f7bdf9401e9740be66e1386.camel@intel.com>
+References: <20190718145053.25808-1-ville.syrjala@linux.intel.com>
+ <20190718145053.25808-9-ville.syrjala@linux.intel.com>
+In-Reply-To: <20190718145053.25808-9-ville.syrjala@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.237.66.162]
+Content-ID: <D2EA872E3295874AA459603C77738819@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -52,143 +56,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2113671120=="
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2113671120==
-Content-Type: multipart/alternative; boundary="15688333370.ea9d0dADA.19408"
-Content-Transfer-Encoding: 7bit
-
-
---15688333370.ea9d0dADA.19408
-Date: Wed, 18 Sep 2019 19:02:17 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D63564
-
-GitLab Migration User <gitlab-migration@fdo.invalid> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |MOVED
-
---- Comment #7 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
--- GitLab Migration Automatic Message --
-
-This bug has been migrated to freedesktop.org's GitLab instance and has been
-closed from further activity.
-
-You can subscribe and participate further through the new bug through this =
-link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/432.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15688333370.ea9d0dADA.19408
-Date: Wed, 18 Sep 2019 19:02:17 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:gitlab-mi=
-gration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab-migratio=
-n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Radeon HD 5870 CP lockup / Stall with OpenGL l=
-oad"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D63564">bug 63564<=
-/a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>MOVED
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Radeon HD 5870 CP lockup / Stall with OpenGL l=
-oad"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D63564#c7">Comment=
- # 7</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Radeon HD 5870 CP lockup / Stall with OpenGL l=
-oad"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D63564">bug 63564<=
-/a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
--migration&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</=
-span></a>
-</span></b>
-        <pre>-- GitLab Migration Automatic Message --
-
-This bug has been migrated to freedesktop.org's GitLab instance and has been
-closed from further activity.
-
-You can subscribe and participate further through the new bug through this =
-link
-to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/432">https://gitlab.freedesktop.org/mesa/mesa/issues/432</a>.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15688333370.ea9d0dADA.19408--
-
---===============2113671120==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2113671120==--
+T24gVGh1LCAyMDE5LTA3LTE4IGF0IDE3OjUwICswMzAwLCBWaWxsZSBTeXJqYWxhIHdyb3RlOg0K
+PiBGcm9tOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPg0K
+PiANCj4gTWFrZSBpbnRlbF9nZXRfY3J0Y195Y2Jjcl9jb25maWcoKSBzaW1wbGVyIGFuZCByZW5h
+bWUgaXQNCj4gdG8gYmR3X2dldF9waXBlbWlzY19vdXRwdXRfZm9ybWF0KCkgdG8gYmV0dGVyIHJl
+ZmxlY3Qgd2hhdA0KPiBpdCBkb2VzLg0KPiANCj4gQWxzbyB0b3NzIGluIHNvbWUgY29tbWVudHMg
+dG8gZG9jdW1lbnQgdGhhdCB0aGUgNDoyOjAgUElQRUNPTkYNCj4gYml0cyBhcmUgZ2xrKyBvbmx5
+LiBUaGV5IGFyZSBtYnogb24gZWFybGllciBwbGF0Zm9ybXMgc28gcmVhZGluZw0KPiB0aGVtIHVu
+Y29uZGl0aW9uYWxseSBpcyBzYWZlIGhvd2V2ZXIuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBWaWxs
+ZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPg0KPiAtLS0NCj4gIGRy
+aXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheS5jIHwgNzEgKysrKysrKysr
+LS0tLS0tLS0tDQo+IC0tDQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X3JlZy5oICAgICAg
+ICAgICAgICB8ICA0ICstDQo+ICAyIGZpbGVzIGNoYW5nZWQsIDM0IGluc2VydGlvbnMoKyksIDQx
+IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rp
+c3BsYXkvaW50ZWxfZGlzcGxheS5jDQo+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9p
+bnRlbF9kaXNwbGF5LmMNCj4gaW5kZXggZmZkYzM1MGRjMjRhLi4xZGQxYWEyOWE2NDkgMTAwNjQ0
+DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheS5jDQo+
+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheS5jDQo+IEBA
+IC04NzEzLDQ3ICs4NzEzLDI0IEBAIHN0YXRpYyB2b2lkIGNodl9jcnRjX2Nsb2NrX2dldChzdHJ1
+Y3QNCj4gaW50ZWxfY3J0YyAqY3J0YywNCj4gIAlwaXBlX2NvbmZpZy0+cG9ydF9jbG9jayA9IGNo
+dl9jYWxjX2RwbGxfcGFyYW1zKHJlZmNsaywgJmNsb2NrKTsNCj4gIH0NCj4gIA0KPiAtc3RhdGlj
+IHZvaWQgaW50ZWxfZ2V0X2NydGNfeWNiY3JfY29uZmlnKHN0cnVjdCBpbnRlbF9jcnRjICpjcnRj
+LA0KPiAtCQkJCQlzdHJ1Y3QgaW50ZWxfY3J0Y19zdGF0ZQ0KPiAqcGlwZV9jb25maWcpDQo+ICtz
+dGF0aWMgZW51bSBpbnRlbF9vdXRwdXRfZm9ybWF0DQo+ICtiZHdfZ2V0X3BpcGVtaXNjX291dHB1
+dF9mb3JtYXQoc3RydWN0IGludGVsX2NydGMgKmNydGMpDQo+ICB7DQo+ICAJc3RydWN0IGRybV9p
+OTE1X3ByaXZhdGUgKmRldl9wcml2ID0gdG9faTkxNShjcnRjLT5iYXNlLmRldik7DQo+IC0JZW51
+bSBpbnRlbF9vdXRwdXRfZm9ybWF0IG91dHB1dCA9IElOVEVMX09VVFBVVF9GT1JNQVRfUkdCOw0K
+PiAtDQo+IC0JcGlwZV9jb25maWctPmxzcGNvbl9kb3duc2FtcGxpbmcgPSBmYWxzZTsNCj4gLQ0K
+PiAtCWlmIChJU19CUk9BRFdFTEwoZGV2X3ByaXYpIHx8IElOVEVMX0dFTihkZXZfcHJpdikgPj0g
+OSkgew0KPiAtCQl1MzIgdG1wID0gSTkxNV9SRUFEKFBJUEVNSVNDKGNydGMtPnBpcGUpKTsNCj4g
+LQ0KPiAtCQlpZiAodG1wICYgUElQRU1JU0NfT1VUUFVUX0NPTE9SU1BBQ0VfWVVWKSB7DQo+IC0J
+CQlib29sIHljYmNyNDIwX2VuYWJsZWQgPSB0bXAgJg0KPiBQSVBFTUlTQ19ZVVY0MjBfRU5BQkxF
+Ow0KPiAtCQkJYm9vbCBibGVuZCA9IHRtcCAmDQo+IFBJUEVNSVNDX1lVVjQyMF9NT0RFX0ZVTExf
+QkxFTkQ7DQo+IC0NCj4gLQkJCWlmICh5Y2JjcjQyMF9lbmFibGVkKSB7DQo+IC0JCQkJLyogV2Ug
+c3VwcG9ydCA0OjI6MCBpbiBmdWxsIGJsZW5kIG1vZGUNCj4gb25seSAqLw0KPiAtCQkJCWlmICgh
+YmxlbmQpDQo+IC0JCQkJCW91dHB1dCA9DQo+IElOVEVMX09VVFBVVF9GT1JNQVRfSU5WQUxJRDsN
+Cj4gLQkJCQllbHNlIGlmICghKElTX0dFTUlOSUxBS0UoZGV2X3ByaXYpIHx8DQo+IC0JCQkJCSAg
+IElOVEVMX0dFTihkZXZfcHJpdikgPj0gMTApKQ0KPiAtCQkJCQlvdXRwdXQgPQ0KPiBJTlRFTF9P
+VVRQVVRfRk9STUFUX0lOVkFMSUQ7DQo+IC0JCQkJZWxzZQ0KPiAtCQkJCQlvdXRwdXQgPQ0KPiBJ
+TlRFTF9PVVRQVVRfRk9STUFUX1lDQkNSNDIwOw0KPiAtCQkJfSBlbHNlIHsNCj4gLQkJCQkvKg0K
+PiAtCQkJCSAqIEN1cnJlbnRseSB0aGVyZSBpcyBubyBpbnRlcmZhY2UNCj4gZGVmaW5lZCB0bw0K
+PiAtCQkJCSAqIGNoZWNrIHVzZXIgcHJlZmVyZW5jZSBiZXR3ZWVuDQo+IFJHQi9ZQ0JDUjQ0NA0K
+PiAtCQkJCSAqIG9yIFlDQkNSNDIwLiBTbyB0aGUgb25seSBwb3NzaWJsZQ0KPiBjYXNlIGZvcg0K
+PiAtCQkJCSAqIFlDQkNSNDQ0IHVzYWdlIGlzIGRyaXZpbmcgWUNCQ1I0MjANCj4gb3V0cHV0DQo+
+IC0JCQkJICogd2l0aCBMU1BDT04sIHdoZW4gcGlwZSBpcyBjb25maWd1cmVkDQo+IGZvcg0KPiAt
+CQkJCSAqIFlDQkNSNDQ0IG91dHB1dCBhbmQgTFNQQ09OIHRha2VzDQo+IGNhcmUgb2YNCj4gLQkJ
+CQkgKiBkb3duc2FtcGxpbmcgaXQuDQo+IC0JCQkJICovDQo+IC0JCQkJcGlwZV9jb25maWctPmxz
+cGNvbl9kb3duc2FtcGxpbmcgPQ0KPiB0cnVlOw0KPiAtCQkJCW91dHB1dCA9IElOVEVMX09VVFBV
+VF9GT1JNQVRfWUNCQ1I0NDQ7DQo+IC0JCQl9DQo+IC0JCX0NCj4gLQl9DQo+ICsJdTMyIHRtcDsN
+Cj4gKw0KPiArCXRtcCA9IEk5MTVfUkVBRChQSVBFTUlTQyhjcnRjLT5waXBlKSk7DQo+ICANCj4g
+LQlwaXBlX2NvbmZpZy0+b3V0cHV0X2Zvcm1hdCA9IG91dHB1dDsNCj4gKwlpZiAodG1wICYgUElQ
+RU1JU0NfWVVWNDIwX0VOQUJMRSkgew0KPiArCQkvKiBXZSBzdXBwb3J0IDQ6MjowIGluIGZ1bGwg
+YmxlbmQgbW9kZSBvbmx5ICovDQo+ICsJCVdBUk5fT04oKHRtcCAmIFBJUEVNSVNDX1lVVjQyMF9N
+T0RFX0ZVTExfQkxFTkQpID09IDApOw0KPiArDQo+ICsJCXJldHVybiBJTlRFTF9PVVRQVVRfRk9S
+TUFUX1lDQkNSNDIwOw0KPiArCX0gZWxzZSBpZiAodG1wICYgUElQRU1JU0NfT1VUUFVUX0NPTE9S
+U1BBQ0VfWVVWKSB7DQo+ICsJCXJldHVybiBJTlRFTF9PVVRQVVRfRk9STUFUX1lDQkNSNDQ0Ow0K
+PiArCX0gZWxzZSB7DQo+ICsJCXJldHVybiBJTlRFTF9PVVRQVVRfRk9STUFUX1JHQjsNCj4gKwl9
+DQo+ICB9DQo+ICANCj4gIHN0YXRpYyB2b2lkIGk5eHhfZ2V0X3BpcGVfY29sb3JfY29uZmlnKHN0
+cnVjdCBpbnRlbF9jcnRjX3N0YXRlDQo+ICpjcnRjX3N0YXRlKQ0KPiBAQCAtMTA0NDUsNyArMTA0
+MjIsMjMgQEAgc3RhdGljIGJvb2wgaGFzd2VsbF9nZXRfcGlwZV9jb25maWcoc3RydWN0DQo+IGlu
+dGVsX2NydGMgKmNydGMsDQo+ICAJfQ0KPiAgDQo+ICAJaW50ZWxfZ2V0X3BpcGVfc3JjX3NpemUo
+Y3J0YywgcGlwZV9jb25maWcpOw0KPiAtCWludGVsX2dldF9jcnRjX3ljYmNyX2NvbmZpZyhjcnRj
+LCBwaXBlX2NvbmZpZyk7DQo+ICsNCj4gKwlpZiAoSU5URUxfR0VOKGRldl9wcml2KSA+PSA5IHx8
+IElTX0JST0FEV0VMTChkZXZfcHJpdikpIHsNCj4gKwkJcGlwZV9jb25maWctPm91dHB1dF9mb3Jt
+YXQgPQ0KPiArCQkJYmR3X2dldF9waXBlbWlzY19vdXRwdXRfZm9ybWF0KGNydGMpOw0KPiArDQo+
+ICsJCS8qDQo+ICsJCSAqIEN1cnJlbnRseSB0aGVyZSBpcyBubyBpbnRlcmZhY2UgZGVmaW5lZCB0
+bw0KPiArCQkgKiBjaGVjayB1c2VyIHByZWZlcmVuY2UgYmV0d2VlbiBSR0IvWUNCQ1I0NDQNCj4g
+KwkJICogb3IgWUNCQ1I0MjAuIFNvIHRoZSBvbmx5IHBvc3NpYmxlIGNhc2UgZm9yDQo+ICsJCSAq
+IFlDQkNSNDQ0IHVzYWdlIGlzIGRyaXZpbmcgWUNCQ1I0MjAgb3V0cHV0DQo+ICsJCSAqIHdpdGgg
+TFNQQ09OLCB3aGVuIHBpcGUgaXMgY29uZmlndXJlZCBmb3INCj4gKwkJICogWUNCQ1I0NDQgb3V0
+cHV0IGFuZCBMU1BDT04gdGFrZXMgY2FyZSBvZg0KPiArCQkgKiBkb3duc2FtcGxpbmcgaXQuDQo+
+ICsJCSAqLw0KPiArCQlwaXBlX2NvbmZpZy0+bHNwY29uX2Rvd25zYW1wbGluZyA9DQo+ICsJCQlw
+aXBlX2NvbmZpZy0+b3V0cHV0X2Zvcm1hdCA9PQ0KPiBJTlRFTF9PVVRQVVRfRk9STUFUX1lDQkNS
+NDQ0Ow0KPiArCX0NCj4gIA0KPiAgCXBpcGVfY29uZmlnLT5nYW1tYV9tb2RlID0gSTkxNV9SRUFE
+KEdBTU1BX01PREUoY3J0Yy0+cGlwZSkpOw0KPiAgDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vaTkxNS9pOTE1X3JlZy5oDQo+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9yZWcu
+aA0KPiBpbmRleCA5MWJmNzE0ODk3ZTUuLjY2ZjdmNDE3MjMxZiAxMDA2NDQNCj4gLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL2k5MTUvaTkxNV9yZWcuaA0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkx
+NS9pOTE1X3JlZy5oDQo+IEBAIC01ODAzLDggKzU4MDMsOCBAQCBlbnVtIHsNCj4gIA0KPiAgI2Rl
+ZmluZSBfUElQRV9NSVNDX0EJCQkweDcwMDMwDQo+ICAjZGVmaW5lIF9QSVBFX01JU0NfQgkJCTB4
+NzEwMzANCj4gLSNkZWZpbmUgICBQSVBFTUlTQ19ZVVY0MjBfRU5BQkxFCSgxIDw8IDI3KQ0KPiAt
+I2RlZmluZSAgIFBJUEVNSVNDX1lVVjQyMF9NT0RFX0ZVTExfQkxFTkQgKDEgPDwgMjYpDQo+ICsj
+ZGVmaW5lICAgUElQRU1JU0NfWVVWNDIwX0VOQUJMRQkoMSA8PCAyNykgLyogZ2xrKyAqLw0KPiAr
+I2RlZmluZSAgIFBJUEVNSVNDX1lVVjQyMF9NT0RFX0ZVTExfQkxFTkQgKDEgPDwgMjYpIC8qIGds
+aysgKi8NCj4gICNkZWZpbmUgICBQSVBFTUlTQ19IRFJfTU9ERV9QUkVDSVNJT04JKDEgPDwgMjMp
+IC8qIGljbCsgKi8NCj4gICNkZWZpbmUgICBQSVBFTUlTQ19PVVRQVVRfQ09MT1JTUEFDRV9ZVVYg
+ICgxIDw8IDExKQ0KPiAgI2RlZmluZSAgIFBJUEVNSVNDX0RJVEhFUl9CUENfTUFTSwkoNyA8PCA1
+KQ0KVGhlIGNoYW5nZXMgbG9vayBnb29kIHRvIG1lLg0KUmV2aWV3ZWQtYnk6IEd3YW4tZ3llb25n
+IE11biA8Z3dhbi1neWVvbmcubXVuQGludGVsLmNvbT4NCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
