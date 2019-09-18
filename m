@@ -2,44 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D0AEB60CE
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 11:52:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3505BB61E4
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 12:53:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D08F6EE95;
-	Wed, 18 Sep 2019 09:52:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 033BE6EEC7;
+	Wed, 18 Sep 2019 10:53:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id A26F56EE97
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 09:52:51 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9E7A972167; Wed, 18 Sep 2019 09:52:51 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Wed, 18 Sep 2019 09:52:51 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: aide.brown@googlemail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-zg0aBDVo2i@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9E7F6EEC7
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 10:53:12 +0000 (UTC)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+ [209.85.208.181])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0600221906
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 10:53:12 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id y23so6743429ljn.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 03:53:11 -0700 (PDT)
+X-Gm-Message-State: APjAAAUy8S6NMA6cwE29MrW5PJYPBSHtYKE6q9GpScsCzV3BddLpzwGB
+ bVM8LuXjkCxiu6wa0izWqbsy0dlNLO3pNNuyows=
+X-Google-Smtp-Source: APXvYqzmTpbs4iMQpuYHlKIv22TczIe3FZwf5lGn1IC17g2fsgJ8tEyfhDTtkZdvKFCSK1xWqaUtSieVDoazmPngEGY=
+X-Received: by 2002:a2e:3806:: with SMTP id f6mr1870674lja.143.1568803990188; 
+ Wed, 18 Sep 2019 03:53:10 -0700 (PDT)
 MIME-Version: 1.0
+References: <CGME20190913094136eucas1p1fd424b5f5a6f0a97b31af54e55fe28c1@eucas1p1.samsung.com>
+ <20190913094123.23169-1-m.falkowski@samsung.com>
+In-Reply-To: <20190913094123.23169-1-m.falkowski@samsung.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Date: Wed, 18 Sep 2019 12:52:58 +0200
+X-Gmail-Original-Message-ID: <CAJKOXPcDWtT0RbqmpmjDAZw-gCWppSbZqAjOgcbZUaraT5ethA@mail.gmail.com>
+Message-ID: <CAJKOXPcDWtT0RbqmpmjDAZw-gCWppSbZqAjOgcbZUaraT5ethA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: gpu: Convert Samsung Image Scaler to
+ dt-schema
+To: Maciej Falkowski <m.falkowski@samsung.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1568803992;
+ bh=O/UvnMFn8YkjpKy9CUgVCFPtQ1p7llhMtTCerndVpDI=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=GzIBcwuX1dvo6+Pib7AeQw8CBUzIQPKX7uNfyw4hHGhEqegb49iD3QP7KKqDgIhJb
+ H0mbtt+3dJxeu4aNw6rwQvLAf0a2UdPPOBU3dBTpP6C2EET6YLiFEO0S21+OFRQuz3
+ +Dkr+xho6TvqN0tKlcAzModpSLrhyz2oPpTQPcl8=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,144 +55,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0617394978=="
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+ "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
+ airlied@linux.ie,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0617394978==
-Content-Type: multipart/alternative; boundary="15688003713.8Cc01.4971"
-Content-Transfer-Encoding: 7bit
-
-
---15688003713.8Cc01.4971
-Date: Wed, 18 Sep 2019 09:52:51 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
-
---- Comment #125 from Adrian Brown <aide.brown@googlemail.com> ---
-I am also getting frequent crashes with a Radeon VII on Kubuntu 19.10 (kern=
-el
-5.0.0-29-generic). I see there is some discussion in this thread about it
-possibly being related to multiple monitors. But I don't think that's the c=
-ase.
-I have a single monitor but it is old with only a dual link DVI connection.=
- So
-I am using displayport on the GPU but connected to an active adapter to con=
-vert
-DP to a dual link DVI connection (my monitor is a Dell 3007WFP running at
-2560x1600).
-
-I often get crashes soon after boot. They tend to happen in clusters so it
-crashes a few times, then stays stable for a short time and then crashes ag=
-ain.
-I don't get these crashes on the same system when dual booted into Windows =
-10
-so the hardware itself seems good.=20
-
-One thing worth mentioning is that on Windows 10 I occasionally get a black
-screen and the monitor goes off for a couple of seconds. It then comes back=
- to
-life. Apparently this is not uncommon and the suspicion in the Windows
-community is that AMD drivers sometimes crash but Windows recovers (I never=
- had
-this with my Vega 64, only with the Radeon VII). It most likely is a comple=
-tely
-different issue of course, but thought it worth mentioning.
-
-Still hoping for a fix at some point. Also happy to help test any fix.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15688003713.8Cc01.4971
-Date: Wed, 18 Sep 2019 09:52:51 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c125">Comm=
-ent # 125</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-aide.brown&#64;googlemail.com" title=3D"Adrian Brown &lt;aide.brown&#64;goo=
-glemail.com&gt;"> <span class=3D"fn">Adrian Brown</span></a>
-</span></b>
-        <pre>I am also getting frequent crashes with a Radeon VII on Kubunt=
-u 19.10 (kernel
-5.0.0-29-generic). I see there is some discussion in this thread about it
-possibly being related to multiple monitors. But I don't think that's the c=
-ase.
-I have a single monitor but it is old with only a dual link DVI connection.=
- So
-I am using displayport on the GPU but connected to an active adapter to con=
-vert
-DP to a dual link DVI connection (my monitor is a Dell 3007WFP running at
-2560x1600).
-
-I often get crashes soon after boot. They tend to happen in clusters so it
-crashes a few times, then stays stable for a short time and then crashes ag=
-ain.
-I don't get these crashes on the same system when dual booted into Windows =
-10
-so the hardware itself seems good.=20
-
-One thing worth mentioning is that on Windows 10 I occasionally get a black
-screen and the monitor goes off for a couple of seconds. It then comes back=
- to
-life. Apparently this is not uncommon and the suspicion in the Windows
-community is that AMD drivers sometimes crash but Windows recovers (I never=
- had
-this with my Vega 64, only with the Radeon VII). It most likely is a comple=
-tely
-different issue of course, but thought it worth mentioning.
-
-Still hoping for a fix at some point. Also happy to help test any fix.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15688003713.8Cc01.4971--
-
---===============0617394978==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0617394978==--
+T24gRnJpLCAxMyBTZXAgMjAxOSBhdCAxMTo0MSwgTWFjaWVqIEZhbGtvd3NraSA8bS5mYWxrb3dz
+a2lAc2Ftc3VuZy5jb20+IHdyb3RlOgo+Cj4gQ29udmVydCBTYW1zdW5nIEltYWdlIFNjYWxlciB0
+byBuZXdlciBkdC1zY2hlbWEgZm9ybWF0Lgo+Cj4gU2lnbmVkLW9mZi1ieTogTWFjaWVqIEZhbGtv
+d3NraSA8bS5mYWxrb3dza2lAc2Ftc3VuZy5jb20+Cj4gU2lnbmVkLW9mZi1ieTogTWFyZWsgU3p5
+cHJvd3NraSA8bS5zenlwcm93c2tpQHNhbXN1bmcuY29tPgo+IC0tLQo+ICAuLi4vYmluZGluZ3Mv
+Z3B1L3NhbXN1bmctc2NhbGVyLnR4dCAgICAgICAgICAgfCAyNyAtLS0tLS0tLS0KPiAgLi4uL2Jp
+bmRpbmdzL2dwdS9zYW1zdW5nLXNjYWxlci55YW1sICAgICAgICAgIHwgNTcgKysrKysrKysrKysr
+KysrKysrKwo+ICAyIGZpbGVzIGNoYW5nZWQsIDU3IGluc2VydGlvbnMoKyksIDI3IGRlbGV0aW9u
+cygtKQo+ICBkZWxldGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
+bmdzL2dwdS9zYW1zdW5nLXNjYWxlci50eHQKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50
+YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9ncHUvc2Ftc3VuZy1zY2FsZXIueWFtbAo+Cj4gZGlm
+ZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9ncHUvc2Ftc3VuZy1z
+Y2FsZXIudHh0IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2dwdS9zYW1zdW5n
+LXNjYWxlci50eHQKPiBkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKPiBpbmRleCA5YzNkOTgxMDVk
+ZmQuLjAwMDAwMDAwMDAwMAo+IC0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5n
+cy9ncHUvc2Ftc3VuZy1zY2FsZXIudHh0Cj4gKysrIC9kZXYvbnVsbAo+IEBAIC0xLDI3ICswLDAg
+QEAKPiAtKiBTYW1zdW5nIEV4eW5vcyBJbWFnZSBTY2FsZXIKPiAtCj4gLVJlcXVpcmVkIHByb3Bl
+cnRpZXM6Cj4gLSAgLSBjb21wYXRpYmxlIDogdmFsdWUgc2hvdWxkIGJlIG9uZSBvZiB0aGUgZm9s
+bG93aW5nOgo+IC0gICAgICAgKGEpICJzYW1zdW5nLGV4eW5vczU0MjAtc2NhbGVyIiBmb3IgU2Nh
+bGVyIElQIGluIEV4eW5vczU0MjAKPiAtICAgICAgIChiKSAic2Ftc3VuZyxleHlub3M1NDMzLXNj
+YWxlciIgZm9yIFNjYWxlciBJUCBpbiBFeHlub3M1NDMzCj4gLQo+IC0gIC0gcmVnIDogUGh5c2lj
+YWwgYmFzZSBhZGRyZXNzIG9mIHRoZSBJUCByZWdpc3RlcnMgYW5kIGxlbmd0aCBvZiBtZW1vcnkK
+PiAtICAgICAgICAgbWFwcGVkIHJlZ2lvbi4KPiAtCj4gLSAgLSBpbnRlcnJ1cHRzIDogSW50ZXJy
+dXB0IHNwZWNpZmllciBmb3Igc2NhbGVyIGludGVycnVwdCwgYWNjb3JkaW5nIHRvIGZvcm1hdAo+
+IC0gICAgICAgICAgICAgICAgc3BlY2lmaWMgdG8gaW50ZXJydXB0IHBhcmVudC4KPiAtCj4gLSAg
+LSBjbG9ja3MgOiBDbG9jayBzcGVjaWZpZXIgZm9yIHNjYWxlciBjbG9jaywgYWNjb3JkaW5nIHRv
+IGdlbmVyaWMgY2xvY2sKPiAtICAgICAgICAgICAgYmluZGluZ3MuIChTZWUgRG9jdW1lbnRhdGlv
+bi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Nsb2NrL2V4eW5vcyoudHh0KQo+IC0KPiAtICAtIGNsb2Nr
+LW5hbWVzIDogTmFtZXMgb2YgY2xvY2tzLiBGb3IgZXh5bm9zIHNjYWxlciwgaXQgc2hvdWxkIGJl
+ICJtc2NsIgo+IC0gICAgICAgICAgICAgICAgIG9uIDU0MjAgYW5kICJwY2xrIiwgImFjbGsiIGFu
+ZCAiYWNsa194aXUiIG9uIDU0MzMuCj4gLQo+IC1FeGFtcGxlOgo+IC0gICAgICAgc2NhbGVyQDEy
+ODAwMDAwIHsKPiAtICAgICAgICAgICAgICAgY29tcGF0aWJsZSA9ICJzYW1zdW5nLGV4eW5vczU0
+MjAtc2NhbGVyIjsKPiAtICAgICAgICAgICAgICAgcmVnID0gPDB4MTI4MDAwMDAgMHgxMjk0PjsK
+PiAtICAgICAgICAgICAgICAgaW50ZXJydXB0cyA9IDwwIDIyMCBJUlFfVFlQRV9MRVZFTF9ISUdI
+PjsKPiAtICAgICAgICAgICAgICAgY2xvY2tzID0gPCZjbG9jayBDTEtfTVNDTDA+Owo+IC0gICAg
+ICAgICAgICAgICBjbG9jay1uYW1lcyA9ICJtc2NsIjsKPiAtICAgICAgIH07Cj4gZGlmZiAtLWdp
+dCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9ncHUvc2Ftc3VuZy1zY2FsZXIu
+eWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9ncHUvc2Ftc3VuZy1zY2Fs
+ZXIueWFtbAo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0Cj4gaW5kZXggMDAwMDAwMDAwMDAwLi5lZTJj
+YWFiMjI5NzcKPiAtLS0gL2Rldi9udWxsCj4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
+L2JpbmRpbmdzL2dwdS9zYW1zdW5nLXNjYWxlci55YW1sCj4gQEAgLTAsMCArMSw1NyBAQAo+ICsj
+IFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wCj4gKyVZQU1MIDEuMgo+ICstLS0KPiAr
+JGlkOiBodHRwOi8vZGV2aWNldHJlZS5vcmcvc2NoZW1hcy9ncHUvc2Ftc3VuZy1zY2FsZXIueWFt
+bCMKPiArJHNjaGVtYTogaHR0cDovL2RldmljZXRyZWUub3JnL21ldGEtc2NoZW1hcy9jb3JlLnlh
+bWwjCj4gKwo+ICt0aXRsZTogU2Ftc3VuZyBFeHlub3MgU29DIEltYWdlIFNjYWxlcgo+ICsKPiAr
+bWFpbnRhaW5lcnM6Cj4gKyAgLSBJbmtpIERhZSA8aW5raS5kYWVAc2Ftc3VuZy5jb20+Cj4gKwo+
+ICtwcm9wZXJ0aWVzOgo+ICsgIGNvbXBhdGlibGU6Cj4gKyAgICBlbnVtOgo+ICsgICAgICAtICJz
+YW1zdW5nLGV4eW5vczU0MjAtc2NhbGVyIgo+ICsgICAgICAtICJzYW1zdW5nLGV4eW5vczU0MzMt
+c2NhbGVyIgo+ICsKPiArICByZWc6Cj4gKyAgICBtYXhJdGVtczogMQo+ICsKPiArICBpbnRlcnJ1
+cHRzOgo+ICsgICAgbWF4SXRlbXM6IDEKPiArCj4gKyAgY2xvY2tzOgo+ICsgICAgbWluSXRlbXM6
+IDEKPiArICAgIG1heEl0ZW1zOiAzCj4gKwo+ICsgIGNsb2NrLW5hbWVzOgo+ICsgICAgb25lT2Y6
+Cj4gKyAgICAgIC0gaXRlbXM6Cj4gKyAgICAgICAgICAtIGNvbnN0OiBtc2NsCj4gKyAgICAgIC0g
+aXRlbXM6Cj4gKyAgICAgICAgICAtIGNvbnN0OiBwY2xrCj4gKyAgICAgICAgICAtIGNvbnN0OiBh
+Y2xrCj4gKyAgICAgICAgICAtIGNvbnN0OiBhY2xrX3hpdQo+ICsgICAgZGVzY3JpcHRpb246IHwK
+PiArICAgICAgRm9yIGV4eW5vcyBzY2FsZXIgaXQgc2hvdWxkIGJlOgo+ICsgICAgICAtICJtc2Ns
+IiBvbiBFeHlub3M1NDIwCj4gKyAgICAgIC0gInBjbGsiLCAiYWNsayIsICJhY2xrX3hpdSIgb24g
+RXh5bm9zNTQzMwoKSGksCgpUaGlzIHNob3VsZCBiZSBjdXN0b21pemVkIHdpdGggcHJvcGVyIGlm
+IGluIGFsbE9mIHNlY3Rpb24uCgpCZXN0IHJlZ2FyZHMsCktyenlzenRvZgoKPiArCj4gK3JlcXVp
+cmVkOgo+ICsgIC0gY29tcGF0aWJsZQo+ICsgIC0gcmVnCj4gKyAgLSBpbnRlcnJ1cHRzCj4gKyAg
+LSBjbG9ja3MKPiArICAtIGNsb2NrLW5hbWVzCj4gKwo+ICtleGFtcGxlczoKPiArICAtIHwKPiAr
+ICAgIHNjYWxlckAxMjgwMDAwMCB7Cj4gKyAgICAgICAgY29tcGF0aWJsZSA9ICJzYW1zdW5nLGV4
+eW5vczU0MjAtc2NhbGVyIjsKPiArICAgICAgICByZWcgPSA8MHgxMjgwMDAwMCAweDEyOTQ+Owo+
+ICsgICAgICAgIGludGVycnVwdHMgPSA8MCAyMjAgND47IC8vIElSUV9UWVBFX0xFVkVMX0hJR0gK
+PiArICAgICAgICBjbG9ja3MgPSA8JmNsb2NrIDA+OyAvLyBDTEtfTVNDTDAKPiArICAgICAgICBj
+bG9jay1uYW1lcyA9ICJtc2NsIjsKPiArICAgIH07Cj4gKwo+IC0tCj4gMi4xNy4xCj4KX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
