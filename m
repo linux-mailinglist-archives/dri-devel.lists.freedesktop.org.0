@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392E8B6C7B
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:26:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66B42B6C7D
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:26:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8509F6FB1C;
-	Wed, 18 Sep 2019 19:26:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF54F6FB0C;
+	Wed, 18 Sep 2019 19:26:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id E49316FB12
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:26:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id A5FDA6FB22
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:26:09 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E1FDA72167; Wed, 18 Sep 2019 19:26:04 +0000 (UTC)
+ id A338772167; Wed, 18 Sep 2019 19:26:09 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 107169] [regression] Upgrade from 18.0.4 to 18.1.0 causes
- severe stuttering in games
-Date: Wed, 18 Sep 2019 19:26:05 +0000
+Subject: [Bug 107448] [r600g] 5 of 30 piglit sanity tests fail (PCIe, ppc64,
+ mesa-18.3.4)
+Date: Wed, 18 Sep 2019 19:26:09 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/r600
-X-Bugzilla-Version: 18.0
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: gitlab-migration@fdo.invalid
@@ -35,9 +35,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-107169-502-yjtxkG1DCH@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-107169-502@http.bugs.freedesktop.org/>
-References: <bug-107169-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-107448-502-D3euUfpxpN@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-107448-502@http.bugs.freedesktop.org/>
+References: <bug-107448-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,34 +53,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1753452616=="
+Content-Type: multipart/mixed; boundary="===============1471357723=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1753452616==
-Content-Type: multipart/alternative; boundary="15688347641.931bB8CC3.27071"
+--===============1471357723==
+Content-Type: multipart/alternative; boundary="15688347691.Ff2197.27071"
 Content-Transfer-Encoding: 7bit
 
 
---15688347641.931bB8CC3.27071
-Date: Wed, 18 Sep 2019 19:26:04 +0000
+--15688347691.Ff2197.27071
+Date: Wed, 18 Sep 2019 19:26:09 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D107169
+https://bugs.freedesktop.org/show_bug.cgi?id=3D107448
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
          Resolution|---                         |MOVED
-             Status|NEEDINFO                    |RESOLVED
+             Status|NEW                         |RESOLVED
 
---- Comment #7 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
+--- Comment #10 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
+--
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +89,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/641.
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/642.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688347641.931bB8CC3.27071
-Date: Wed, 18 Sep 2019 19:26:04 +0000
+--15688347691.Ff2197.27071
+Date: Wed, 18 Sep 2019 19:26:09 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,10 +113,10 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [regression] Upgrade from 18.0.4 to 18.1.0 cau=
-ses severe stuttering in games"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107169">bug 10716=
-9</a>
+   title=3D"RESOLVED MOVED - [r600g] 5 of 30 piglit sanity tests fail (PCIe=
+, ppc64, mesa-18.3.4)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107448">bug 10744=
+8</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -134,7 +135,7 @@ ses severe stuttering in games"
 
          <tr>
            <td style=3D"text-align:right;">Status</td>
-           <td>NEEDINFO
+           <td>NEW
            </td>
            <td>RESOLVED
            </td>
@@ -143,16 +144,16 @@ ses severe stuttering in games"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [regression] Upgrade from 18.0.4 to 18.1.0 cau=
-ses severe stuttering in games"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107169#c7">Commen=
-t # 7</a>
+   title=3D"RESOLVED MOVED - [r600g] 5 of 30 piglit sanity tests fail (PCIe=
+, ppc64, mesa-18.3.4)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107448#c10">Comme=
+nt # 10</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [regression] Upgrade from 18.0.4 to 18.1.0 cau=
-ses severe stuttering in games"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107169">bug 10716=
-9</a>
+   title=3D"RESOLVED MOVED - [r600g] 5 of 30 piglit sanity tests fail (PCIe=
+, ppc64, mesa-18.3.4)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107448">bug 10744=
+8</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
 -migration&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</=
@@ -166,7 +167,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/641">https://gitlab.freedesktop.org/mesa/mesa/issues/641</a>.</pre>
+/issues/642">https://gitlab.freedesktop.org/mesa/mesa/issues/642</a>.</pre>
         </div>
       </p>
 
@@ -180,9 +181,9 @@ to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
     </body>
 </html>=
 
---15688347641.931bB8CC3.27071--
+--15688347691.Ff2197.27071--
 
---===============1753452616==
+--===============1471357723==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -192,4 +193,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1753452616==--
+--===============1471357723==--
