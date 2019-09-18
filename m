@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 674DDB6CC5
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:40:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F2D7B6CC6
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:40:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 069C36FA7E;
-	Wed, 18 Sep 2019 19:40:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2FFE6FBAF;
+	Wed, 18 Sep 2019 19:40:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id C6C226F8C6
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:40:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4B7006FB98
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:40:13 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C420D72168; Wed, 18 Sep 2019 19:40:08 +0000 (UTC)
+ id 45D7072167; Wed, 18 Sep 2019 19:40:13 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 98667] [i915] GPU HANG: ecode 6:0:0xf389fffc (Redie Beta 0.8.4)
-Date: Wed, 18 Sep 2019 19:40:08 +0000
+Subject: [Bug 98964] Chromium complains about glXGetSyncValuesOML in 13.0.2
+Date: Wed, 18 Sep 2019 19:40:13 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/DRI/i915
-X-Bugzilla-Version: 11.2
+X-Bugzilla-Version: 13.0
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
+X-Bugzilla-Severity: normal
 X-Bugzilla-Who: gitlab-migration@fdo.invalid
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
@@ -34,9 +34,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-98667-502-6TuWiBwFeH@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-98667-502@http.bugs.freedesktop.org/>
-References: <bug-98667-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-98964-502-903GuCnA28@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-98964-502@http.bugs.freedesktop.org/>
+References: <bug-98964-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,25 +52,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1170171901=="
+Content-Type: multipart/mixed; boundary="===============0129646839=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1170171901==
-Content-Type: multipart/alternative; boundary="15688356082.5f79EE.3982"
+--===============0129646839==
+Content-Type: multipart/alternative; boundary="15688356130.9aEcDe5A.3982"
 Content-Transfer-Encoding: 7bit
 
 
---15688356082.5f79EE.3982
-Date: Wed, 18 Sep 2019 19:40:08 +0000
+--15688356130.9aEcDe5A.3982
+Date: Wed, 18 Sep 2019 19:40:13 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D98667
+https://bugs.freedesktop.org/show_bug.cgi?id=3D98964
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
@@ -79,7 +79,8 @@ GitLab Migration User <gitlab-migration@fdo.invalid> changed:
          Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
 
---- Comment #5 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
+--- Comment #15 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
+--
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -87,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/773.
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/774.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688356082.5f79EE.3982
-Date: Wed, 18 Sep 2019 19:40:08 +0000
+--15688356130.9aEcDe5A.3982
+Date: Wed, 18 Sep 2019 19:40:13 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -111,9 +112,9 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [i915] GPU HANG: ecode 6:0:0xf389fffc (Redie B=
-eta 0.8.4)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98667">bug 98667<=
+   title=3D"RESOLVED MOVED - Chromium complains about glXGetSyncValuesOML i=
+n 13.0.2"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98964">bug 98964<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -142,15 +143,15 @@ eta 0.8.4)"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [i915] GPU HANG: ecode 6:0:0xf389fffc (Redie B=
-eta 0.8.4)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98667#c5">Comment=
- # 5</a>
+   title=3D"RESOLVED MOVED - Chromium complains about glXGetSyncValuesOML i=
+n 13.0.2"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98964#c15">Commen=
+t # 15</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [i915] GPU HANG: ecode 6:0:0xf389fffc (Redie B=
-eta 0.8.4)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98667">bug 98667<=
+   title=3D"RESOLVED MOVED - Chromium complains about glXGetSyncValuesOML i=
+n 13.0.2"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98964">bug 98964<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
@@ -165,7 +166,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/773">https://gitlab.freedesktop.org/mesa/mesa/issues/773</a>.</pre>
+/issues/774">https://gitlab.freedesktop.org/mesa/mesa/issues/774</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +180,9 @@ to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
     </body>
 </html>=
 
---15688356082.5f79EE.3982--
+--15688356130.9aEcDe5A.3982--
 
---===============1170171901==
+--===============0129646839==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +192,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1170171901==--
+--===============0129646839==--
