@@ -2,24 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C1BEB6B5F
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:00:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66CB5B6B60
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:00:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 595EE6F8C8;
-	Wed, 18 Sep 2019 19:00:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B15A96F8BA;
+	Wed, 18 Sep 2019 19:00:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id E8C9E6F8D4
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:00:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 533E76F8C7
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:00:24 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E5EBF72167; Wed, 18 Sep 2019 19:00:21 +0000 (UTC)
+ id 4FDBA72167; Wed, 18 Sep 2019 19:00:24 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 50657] [Evergreen,GIT,Tiling?] Occasional invalid command
- stream and subsequent performance increase
-Date: Wed, 18 Sep 2019 19:00:22 +0000
+Subject: [Bug 51787] performance regression with llvm shader compiler in ut2004
+Date: Wed, 18 Sep 2019 19:00:24 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,10 +33,10 @@ X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-50657-502-kXOke59PY2@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-50657-502@http.bugs.freedesktop.org/>
-References: <bug-50657-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-51787-502-yRRbxDISSa@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-51787-502@http.bugs.freedesktop.org/>
+References: <bug-51787-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,32 +52,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1669571280=="
+Content-Type: multipart/mixed; boundary="===============0162602027=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1669571280==
-Content-Type: multipart/alternative; boundary="15688332212.76DEb61.18408"
+--===============0162602027==
+Content-Type: multipart/alternative; boundary="15688332241.7FBB6.18408"
 Content-Transfer-Encoding: 7bit
 
 
---15688332212.76DEb61.18408
-Date: Wed, 18 Sep 2019 19:00:21 +0000
+--15688332241.7FBB6.18408
+Date: Wed, 18 Sep 2019 19:00:24 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D50657
+https://bugs.freedesktop.org/show_bug.cgi?id=3D51787
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
+             Status|NEW                         |RESOLVED
 
 --- Comment #7 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
 -- GitLab Migration Automatic Message --
@@ -88,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/412.
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/413.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688332212.76DEb61.18408
-Date: Wed, 18 Sep 2019 19:00:21 +0000
+--15688332241.7FBB6.18408
+Date: Wed, 18 Sep 2019 19:00:24 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,9 +111,9 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [Evergreen,GIT,Tiling?] Occasional invalid com=
-mand stream and subsequent performance increase"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D50657">bug 50657<=
+   title=3D"RESOLVED MOVED - performance regression with llvm shader compil=
+er in ut2004"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D51787">bug 51787<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -125,33 +124,33 @@ mand stream and subsequent performance increase"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Resolution</td>
            <td>---
            </td>
            <td>MOVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [Evergreen,GIT,Tiling?] Occasional invalid com=
-mand stream and subsequent performance increase"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D50657#c7">Comment=
+   title=3D"RESOLVED MOVED - performance regression with llvm shader compil=
+er in ut2004"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D51787#c7">Comment=
  # 7</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [Evergreen,GIT,Tiling?] Occasional invalid com=
-mand stream and subsequent performance increase"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D50657">bug 50657<=
+   title=3D"RESOLVED MOVED - performance regression with llvm shader compil=
+er in ut2004"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D51787">bug 51787<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
@@ -166,7 +165,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/412">https://gitlab.freedesktop.org/mesa/mesa/issues/412</a>.</pre>
+/issues/413">https://gitlab.freedesktop.org/mesa/mesa/issues/413</a>.</pre>
         </div>
       </p>
 
@@ -180,9 +179,9 @@ to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
     </body>
 </html>=
 
---15688332212.76DEb61.18408--
+--15688332241.7FBB6.18408--
 
---===============1669571280==
+--===============0162602027==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -192,4 +191,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1669571280==--
+--===============0162602027==--
