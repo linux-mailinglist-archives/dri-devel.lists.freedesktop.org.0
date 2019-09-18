@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3DACB6C57
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:23:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3458CB6C5B
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:24:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A11316FAD6;
-	Wed, 18 Sep 2019 19:23:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BB0D6FAE2;
+	Wed, 18 Sep 2019 19:24:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4263F6FAD6
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:23:39 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AE3C86FAE7
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:24:04 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 3F01472167; Wed, 18 Sep 2019 19:23:39 +0000 (UTC)
+ id AAF3472167; Wed, 18 Sep 2019 19:24:04 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 101787] colours all messed up
-Date: Wed, 18 Sep 2019 19:23:39 +0000
+Subject: [Bug 102013] GTK3 tooltips are corrupted after updating to mesa 17.0.7
+Date: Wed, 18 Sep 2019 19:24:04 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/r600
-X-Bugzilla-Version: 17.1
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
+X-Bugzilla-Severity: normal
 X-Bugzilla-Who: gitlab-migration@fdo.invalid
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
@@ -34,9 +34,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-101787-502-iAFygffVqC@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-101787-502@http.bugs.freedesktop.org/>
-References: <bug-101787-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-102013-502-RMREuqtVij@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-102013-502@http.bugs.freedesktop.org/>
+References: <bug-102013-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,25 +52,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0821033744=="
+Content-Type: multipart/mixed; boundary="===============2039747901=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0821033744==
-Content-Type: multipart/alternative; boundary="15688346191.58Ab9b.27521"
+--===============2039747901==
+Content-Type: multipart/alternative; boundary="15688346442.0dC7fF.27521"
 Content-Transfer-Encoding: 7bit
 
 
---15688346191.58Ab9b.27521
-Date: Wed, 18 Sep 2019 19:23:39 +0000
+--15688346442.0dC7fF.27521
+Date: Wed, 18 Sep 2019 19:24:04 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D101787
+https://bugs.freedesktop.org/show_bug.cgi?id=3D102013
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
@@ -79,7 +79,7 @@ GitLab Migration User <gitlab-migration@fdo.invalid> changed:
          Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
 
---- Comment #24 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
+--- Comment #22 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
 --
 -- GitLab Migration Automatic Message --
 
@@ -88,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/607.
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/608.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688346191.58Ab9b.27521
-Date: Wed, 18 Sep 2019 19:23:39 +0000
+--15688346442.0dC7fF.27521
+Date: Wed, 18 Sep 2019 19:24:04 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,9 +112,10 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - colours all messed up"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101787">bug 10178=
-7</a>
+   title=3D"RESOLVED MOVED - GTK3 tooltips are corrupted after updating to =
+mesa 17.0.7"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102013">bug 10201=
+3</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -142,14 +143,16 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - colours all messed up"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101787#c24">Comme=
-nt # 24</a>
+   title=3D"RESOLVED MOVED - GTK3 tooltips are corrupted after updating to =
+mesa 17.0.7"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102013#c22">Comme=
+nt # 22</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - colours all messed up"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101787">bug 10178=
-7</a>
+   title=3D"RESOLVED MOVED - GTK3 tooltips are corrupted after updating to =
+mesa 17.0.7"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102013">bug 10201=
+3</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
 -migration&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</=
@@ -163,7 +166,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/607">https://gitlab.freedesktop.org/mesa/mesa/issues/607</a>.</pre>
+/issues/608">https://gitlab.freedesktop.org/mesa/mesa/issues/608</a>.</pre>
         </div>
       </p>
 
@@ -177,9 +180,9 @@ to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
     </body>
 </html>=
 
---15688346191.58Ab9b.27521--
+--15688346442.0dC7fF.27521--
 
---===============0821033744==
+--===============2039747901==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -189,4 +192,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0821033744==--
+--===============2039747901==--
