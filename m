@@ -2,23 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FEE1B6B95
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:04:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E5ABB6B94
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:04:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6742A6F920;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 005B86F909;
 	Wed, 18 Sep 2019 19:04:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 900586F924
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:04:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 25CFE6F91E
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:04:25 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 8CF5F72167; Wed, 18 Sep 2019 19:04:23 +0000 (UTC)
+ id 236B172167; Wed, 18 Sep 2019 19:04:25 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 66880] R600_DEBUG=sb  hangs system after playing xonotic, spring
-Date: Wed, 18 Sep 2019 19:04:23 +0000
+Subject: [Bug 66883] [r600 llvm backend] Assert with 32-bit lightsmark, TF2
+ when shader dump is enabled
+Date: Wed, 18 Sep 2019 19:04:25 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,9 +35,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-66880-502-NwIOkS5nkK@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-66880-502@http.bugs.freedesktop.org/>
-References: <bug-66880-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-66883-502-UsfabSZqJi@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-66883-502@http.bugs.freedesktop.org/>
+References: <bug-66883-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,25 +53,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1614814969=="
+Content-Type: multipart/mixed; boundary="===============1149011708=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1614814969==
-Content-Type: multipart/alternative; boundary="15688334632.8Ee2DCa0b.19031"
+--===============1149011708==
+Content-Type: multipart/alternative; boundary="15688334651.D75d5C1B.19031"
 Content-Transfer-Encoding: 7bit
 
 
---15688334632.8Ee2DCa0b.19031
-Date: Wed, 18 Sep 2019 19:04:23 +0000
+--15688334651.D75d5C1B.19031
+Date: Wed, 18 Sep 2019 19:04:25 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D66880
+https://bugs.freedesktop.org/show_bug.cgi?id=3D66883
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
@@ -79,7 +80,7 @@ GitLab Migration User <gitlab-migration@fdo.invalid> changed:
          Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
 
---- Comment #2 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
+--- Comment #1 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -87,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/449.
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/450.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688334632.8Ee2DCa0b.19031
-Date: Wed, 18 Sep 2019 19:04:23 +0000
+--15688334651.D75d5C1B.19031
+Date: Wed, 18 Sep 2019 19:04:25 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -111,9 +112,9 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - R600_DEBUG=3Dsb hangs system after playing xon=
-otic, spring"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D66880">bug 66880<=
+   title=3D"RESOLVED MOVED - [r600 llvm backend] Assert with 32-bit lightsm=
+ark, TF2 when shader dump is enabled"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D66883">bug 66883<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -142,15 +143,15 @@ otic, spring"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - R600_DEBUG=3Dsb hangs system after playing xon=
-otic, spring"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D66880#c2">Comment=
- # 2</a>
+   title=3D"RESOLVED MOVED - [r600 llvm backend] Assert with 32-bit lightsm=
+ark, TF2 when shader dump is enabled"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D66883#c1">Comment=
+ # 1</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - R600_DEBUG=3Dsb hangs system after playing xon=
-otic, spring"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D66880">bug 66880<=
+   title=3D"RESOLVED MOVED - [r600 llvm backend] Assert with 32-bit lightsm=
+ark, TF2 when shader dump is enabled"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D66883">bug 66883<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
@@ -165,7 +166,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/449">https://gitlab.freedesktop.org/mesa/mesa/issues/449</a>.</pre>
+/issues/450">https://gitlab.freedesktop.org/mesa/mesa/issues/450</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +180,9 @@ to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
     </body>
 </html>=
 
---15688334632.8Ee2DCa0b.19031--
+--15688334651.D75d5C1B.19031--
 
---===============1614814969==
+--===============1149011708==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +192,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1614814969==--
+--===============1149011708==--
