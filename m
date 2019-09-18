@@ -2,23 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BBA4B6BB8
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:12:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75BD8B6BB9
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:12:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C12596F9C9;
-	Wed, 18 Sep 2019 19:12:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 795906F9CD;
+	Wed, 18 Sep 2019 19:12:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4A6CC6F9C4
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:12:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 678426F9A4
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:12:06 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 4777C72167; Wed, 18 Sep 2019 19:12:04 +0000 (UTC)
+ id 5F11172167; Wed, 18 Sep 2019 19:12:06 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 72387] Tearing at one specific part of the screen on CAYMAN
-Date: Wed, 18 Sep 2019 19:12:04 +0000
+Subject: [Bug 72699] [llvm] Europa Universalis 4 closes its window and eats
+ all memory while loading
+Date: Wed, 18 Sep 2019 19:12:06 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,10 +34,10 @@ X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-72387-502-6ppS8WkHMa@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-72387-502@http.bugs.freedesktop.org/>
-References: <bug-72387-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-72699-502-S7tQP3IVSo@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-72699-502@http.bugs.freedesktop.org/>
+References: <bug-72699-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,35 +53,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0804167609=="
+Content-Type: multipart/mixed; boundary="===============2054393296=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0804167609==
-Content-Type: multipart/alternative; boundary="15688339242.8d2bd941c.23011"
+--===============2054393296==
+Content-Type: multipart/alternative; boundary="15688339263.b78B4.23011"
 Content-Transfer-Encoding: 7bit
 
 
---15688339242.8d2bd941c.23011
-Date: Wed, 18 Sep 2019 19:12:04 +0000
+--15688339263.b78B4.23011
+Date: Wed, 18 Sep 2019 19:12:06 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D72387
+https://bugs.freedesktop.org/show_bug.cgi?id=3D72699
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-         Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
+         Resolution|---                         |MOVED
 
---- Comment #15 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
---
+--- Comment #1 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/474.
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/475.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688339242.8d2bd941c.23011
-Date: Wed, 18 Sep 2019 19:12:04 +0000
+--15688339263.b78B4.23011
+Date: Wed, 18 Sep 2019 19:12:06 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,9 +112,9 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Tearing at one specific part of the screen on =
-CAYMAN"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D72387">bug 72387<=
+   title=3D"RESOLVED MOVED - [llvm] Europa Universalis 4 closes its window =
+and eats all memory while loading"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D72699">bug 72699<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -125,33 +125,33 @@ CAYMAN"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>MOVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Status</td>
            <td>NEW
            </td>
            <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>MOVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Tearing at one specific part of the screen on =
-CAYMAN"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D72387#c15">Commen=
-t # 15</a>
+   title=3D"RESOLVED MOVED - [llvm] Europa Universalis 4 closes its window =
+and eats all memory while loading"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D72699#c1">Comment=
+ # 1</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Tearing at one specific part of the screen on =
-CAYMAN"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D72387">bug 72387<=
+   title=3D"RESOLVED MOVED - [llvm] Europa Universalis 4 closes its window =
+and eats all memory while loading"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D72699">bug 72699<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
@@ -166,7 +166,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/474">https://gitlab.freedesktop.org/mesa/mesa/issues/474</a>.</pre>
+/issues/475">https://gitlab.freedesktop.org/mesa/mesa/issues/475</a>.</pre>
         </div>
       </p>
 
@@ -180,9 +180,9 @@ to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
     </body>
 </html>=
 
---15688339242.8d2bd941c.23011--
+--15688339263.b78B4.23011--
 
---===============0804167609==
+--===============2054393296==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -192,4 +192,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0804167609==--
+--===============2054393296==--
