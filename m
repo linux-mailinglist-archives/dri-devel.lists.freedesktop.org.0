@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E972B5E37
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 09:41:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72010B5E38
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 09:42:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D4B86EE1C;
-	Wed, 18 Sep 2019 07:41:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54CBF6EE24;
+	Wed, 18 Sep 2019 07:42:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 074766EE1C
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 07:41:47 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EC1FF6EE24
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 07:42:37 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id EFE4372167; Wed, 18 Sep 2019 07:41:46 +0000 (UTC)
+ id E8BD472167; Wed, 18 Sep 2019 07:42:37 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111729] RX480 : random NULL pointer dereference on resume from
  suspend
-Date: Wed, 18 Sep 2019 07:41:46 +0000
+Date: Wed, 18 Sep 2019 07:42:38 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
@@ -34,10 +34,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- attachments.created
-Message-ID: <bug-111729-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-111729-502-wM9ZFjREAS@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111729-502@http.bugs.freedesktop.org/>
+References: <bug-111729-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0972114636=="
+Content-Type: multipart/mixed; boundary="===============1976045018=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0972114636==
-Content-Type: multipart/alternative; boundary="15687925060.3Dc41.14467"
+--===============1976045018==
+Content-Type: multipart/alternative; boundary="15687925571.991D4.14482"
 Content-Transfer-Encoding: 7bit
 
 
---15687925060.3Dc41.14467
-Date: Wed, 18 Sep 2019 07:41:46 +0000
+--15687925571.991D4.14482
+Date: Wed, 18 Sep 2019 07:42:37 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,41 +73,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111729
 
-            Bug ID: 111729
-           Summary: RX480 : random NULL pointer dereference on resume from
-                    suspend
-           Product: DRI
-           Version: XOrg git
-          Hardware: x86-64 (AMD64)
-                OS: Linux (All)
-            Status: NEW
-          Severity: major
-          Priority: not set
-         Component: DRM/AMDgpu
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: nmset@netcourrier.com
-
-Created attachment 145421
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145421&action=3Dedit
-Syslog data
-
-Since kernel 5.2.x, resuming from suspend will randomly crash amdgpu/drm wi=
-th a
-black screen. After login via SSH, rebooting or halting the host will not
-complete. A hard reset becomes unavoidable. Currently using 5.3.0-rc8, RX 4=
-80
-with one single display. Stable 5.2.x kernels don't resolve the issue. The =
-host
-does not last a week without a forced reboot.
-
-Please see the attached syslog trace. Thanks.
+--- Comment #1 from SET <nmset@netcourrier.com> ---
+Created attachment 145422
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145422&action=3Dedit
+Xorg log
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15687925060.3Dc41.14467
-Date: Wed, 18 Sep 2019 07:41:46 +0000
+--15687925571.991D4.14482
+Date: Wed, 18 Sep 2019 07:42:37 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -118,100 +94,30 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - RX480 : random NULL pointer dereference on resume from su=
 spend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111729">111729</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>RX480 : random NULL pointer dereference on resume from suspend
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>XOrg git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>x86-64 (AMD64)
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>Linux (All)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>major
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>DRM/AMDgpu
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>nmset&#64;netcourrier.com
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145421=
-" name=3D"attach_145421" title=3D"Syslog data">attachment 145421</a> <a hre=
-f=3D"attachment.cgi?id=3D145421&amp;action=3Dedit" title=3D"Syslog data">[d=
-etails]</a></span>
-Syslog data
-
-Since kernel 5.2.x, resuming from suspend will randomly crash amdgpu/drm wi=
-th a
-black screen. After login via SSH, rebooting or halting the host will not
-complete. A hard reset becomes unavoidable. Currently using 5.3.0-rc8, RX 4=
-80
-with one single display. Stable 5.2.x kernels don't resolve the issue. The =
-host
-does not last a week without a forced reboot.
-
-Please see the attached syslog trace. Thanks.</pre>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111729#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - RX480 : random NULL pointer dereference on resume from su=
+spend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111729">bug 11172=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+nmset&#64;netcourrier.com" title=3D"SET &lt;nmset&#64;netcourrier.com&gt;">=
+ <span class=3D"fn">SET</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145422=
+" name=3D"attach_145422" title=3D"Xorg log">attachment 145422</a> <a href=
+=3D"attachment.cgi?id=3D145422&amp;action=3Dedit" title=3D"Xorg log">[detai=
+ls]</a></span>
+Xorg log</pre>
         </div>
       </p>
 
@@ -225,9 +131,9 @@ Please see the attached syslog trace. Thanks.</pre>
     </body>
 </html>=
 
---15687925060.3Dc41.14467--
+--15687925571.991D4.14482--
 
---===============0972114636==
+--===============1976045018==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -237,4 +143,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0972114636==--
+--===============1976045018==--
