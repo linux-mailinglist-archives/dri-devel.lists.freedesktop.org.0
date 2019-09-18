@@ -2,43 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD9A4B6B6C
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:01:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2699FB6B6E
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:01:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 111FF6F8D9;
-	Wed, 18 Sep 2019 19:01:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 034BC6F8E4;
+	Wed, 18 Sep 2019 19:01:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8C9396F8E4
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:01:13 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 8090372167; Wed, 18 Sep 2019 19:01:13 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 55913] Vdpau driver lag
-Date: Wed, 18 Sep 2019 19:01:13 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r600
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: gitlab-migration@fdo.invalid
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: MOVED
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-55913-502-MFkG7yHYHW@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-55913-502@http.bugs.freedesktop.org/>
-References: <bug-55913-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 413876F8E0;
+ Wed, 18 Sep 2019 19:01:18 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Sep 2019 12:01:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,521,1559545200"; d="scan'208";a="186558860"
+Received: from irsmsx109.ger.corp.intel.com ([163.33.3.23])
+ by fmsmga008.fm.intel.com with ESMTP; 18 Sep 2019 12:01:15 -0700
+Received: from irsmsx106.ger.corp.intel.com ([169.254.8.184]) by
+ IRSMSX109.ger.corp.intel.com ([169.254.13.29]) with mapi id 14.03.0439.000;
+ Wed, 18 Sep 2019 20:01:15 +0100
+From: "Mun, Gwan-gyeong" <gwan-gyeong.mun@intel.com>
+To: "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: Re: [Intel-gfx] [PATCH v2 05/12] drm/i915: Never set
+ limited_color_range=true for YCbCr output
+Thread-Topic: [Intel-gfx] [PATCH v2 05/12] drm/i915: Never set
+ limited_color_range=true for YCbCr output
+Thread-Index: AQHVPYg9uItAsl+5ZkyEQTOSVtn9dacyGwkA
+Date: Wed, 18 Sep 2019 19:01:14 +0000
+Message-ID: <ce015e728c8e9f07ce8ca18fe261e140b4199f74.camel@intel.com>
+References: <20190718145053.25808-6-ville.syrjala@linux.intel.com>
+ <20190718164523.11738-1-ville.syrjala@linux.intel.com>
+In-Reply-To: <20190718164523.11738-1-ville.syrjala@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.237.66.162]
+Content-ID: <36DB3B146B454C46BC991BE389C701F3@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -52,140 +56,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0957902437=="
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0957902437==
-Content-Type: multipart/alternative; boundary="15688332732.8D17.19390"
-Content-Transfer-Encoding: 7bit
-
-
---15688332732.8D17.19390
-Date: Wed, 18 Sep 2019 19:01:13 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D55913
-
-GitLab Migration User <gitlab-migration@fdo.invalid> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|REOPENED                    |RESOLVED
-         Resolution|---                         |MOVED
-
---- Comment #6 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
--- GitLab Migration Automatic Message --
-
-This bug has been migrated to freedesktop.org's GitLab instance and has been
-closed from further activity.
-
-You can subscribe and participate further through the new bug through this =
-link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/424.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15688332732.8D17.19390
-Date: Wed, 18 Sep 2019 19:01:13 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:gitlab-mi=
-gration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab-migratio=
-n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Vdpau driver lag"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D55913">bug 55913<=
-/a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>REOPENED
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>MOVED
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Vdpau driver lag"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D55913#c6">Comment=
- # 6</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Vdpau driver lag"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D55913">bug 55913<=
-/a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
--migration&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</=
-span></a>
-</span></b>
-        <pre>-- GitLab Migration Automatic Message --
-
-This bug has been migrated to freedesktop.org's GitLab instance and has been
-closed from further activity.
-
-You can subscribe and participate further through the new bug through this =
-link
-to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/424">https://gitlab.freedesktop.org/mesa/mesa/issues/424</a>.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15688332732.8D17.19390--
-
---===============0957902437==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0957902437==--
+T24gVGh1LCAyMDE5LTA3LTE4IGF0IDE5OjQ1ICswMzAwLCBWaWxsZSBTeXJqYWxhIHdyb3RlOg0K
+PiBGcm9tOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPg0K
+PiANCj4gY3J0Y19zdGF0ZS0+bGltaXRlZF9jb2xvcl9yYW5nZSBvbmx5IGFwcGxpZXMgdG8gUkdC
+IG91dHB1dCBidXQNCj4gd2UncmUgY3VycmVudGx5IHNldHRpbmcgaXQgZXZlbiBmb3IgWUNiQ3Ig
+b3V0cHV0LiBUaGF0IHdpbGwNCj4gbGVhZCB0byBjb25mbGljdGluZyBNU0EgYW5kIFBJUEVDT05G
+IHNldHRpbmdzIHdoaWNoIGNhbiBtZXNzDQo+IHVwIHRoZSBpbWFnZS4gTGV0J3MgbWFrZSBzdXJl
+IGxpbWl0ZWRfY29sb3JfcmFuZ2Ugc3RheXMgdW5zZXQNCj4gd2l0aCBZQ2JDciBvdXRwdXQuDQo+
+IA0KPiBBbHNvIFdBUk4gaWYgd2UgZW5kIHVwIHdpdGggc3VjaCBhIGJvZ3VzIGNvbWJpbmF0aW9u
+IHdoZW4NCj4gcHJvZ3JhbW1pbmcgdGhlIE1TQSBNSVNDIGJpdHMgYXMgaXQncyBpbXBvc3NpYmxl
+IHRvIGV2ZW4NCj4gaW5kaWNhdGUgcXVhbnRpemF0aW9uIHJhbmdsZSBmb3IgWUNiQ3IgdmlhIE1T
+QSBNSVNDLiBZQ2JDcg0KPiBvdXRwdXQgaXMgc2ltcGx5IGFzc3VtZWQgdG8gYmUgbGltaXRlZCBy
+YW5nZSBhbHdheXMuIE5vdGUNCj4gdGhhdCBWU0MgU0RQIGRvZXMgcHJvdmlkZSBhIG1lY2hhbmlz
+bSBmb3IgZnVsbCByYW5nZSBZQ2JDciwNCj4gc28gaW4gdGhlIGZ1dHVyZSB3ZSBtYXkgd2FudCB0
+byByZXRoaW5rIGhvdyB3ZSBjb21wdXRlL3N0b3JlDQo+IHRoaXMgc3RhdGUuDQo+IA0KPiBBbmQg
+Zm9yIGdvb2QgbWVhc3VyZSB3ZSBhZGQgdGhlIHNhbWUgV0FSTiB0byB0aGUgSERNSSBwYXRoLg0K
+PiANCj4gdjI6IHMvPT0vIT0vIGluIHRoZSBIRE1JIFdBUk4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6
+IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+DQo+IC0tLQ0K
+PiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kZGkuYyAgfCAxMCArKysrKysr
+LS0tDQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMgICB8IDEwICsr
+KysrKysrKysNCj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfaGRtaS5jIHwg
+MjAgKysrKysrKysrKysrKysrKystLS0NCj4gIDMgZmlsZXMgY2hhbmdlZCwgMzQgaW5zZXJ0aW9u
+cygrKSwgNiBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
+aTkxNS9kaXNwbGF5L2ludGVsX2RkaS5jDQo+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxh
+eS9pbnRlbF9kZGkuYw0KPiBpbmRleCAxNTdjNTg1MWE2ODguLjdkZDU0ZjU3M2YzNSAxMDA2NDQN
+Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kZGkuYw0KPiArKysg
+Yi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RkaS5jDQo+IEBAIC0xNzA2LDkg
+KzE3MDYsNiBAQCB2b2lkIGludGVsX2RkaV9zZXRfcGlwZV9zZXR0aW5ncyhjb25zdCBzdHJ1Y3QN
+Cj4gaW50ZWxfY3J0Y19zdGF0ZSAqY3J0Y19zdGF0ZSkNCj4gIA0KPiAgCXRlbXAgPSBUUkFOU19N
+U0FfU1lOQ19DTEs7DQo+ICANCj4gLQlpZiAoY3J0Y19zdGF0ZS0+bGltaXRlZF9jb2xvcl9yYW5n
+ZSkNCj4gLQkJdGVtcCB8PSBUUkFOU19NU0FfQ0VBX1JBTkdFOw0KPiAtDQo+ICAJc3dpdGNoIChj
+cnRjX3N0YXRlLT5waXBlX2JwcCkgew0KPiAgCWNhc2UgMTg6DQo+ICAJCXRlbXAgfD0gVFJBTlNf
+TVNBXzZfQlBDOw0KPiBAQCAtMTcyNyw2ICsxNzI0LDEzIEBAIHZvaWQgaW50ZWxfZGRpX3NldF9w
+aXBlX3NldHRpbmdzKGNvbnN0IHN0cnVjdA0KPiBpbnRlbF9jcnRjX3N0YXRlICpjcnRjX3N0YXRl
+KQ0KPiAgCQlicmVhazsNCj4gIAl9DQo+ICANCj4gKwkvKiBub25zZW5zZSBjb21iaW5hdGlvbiAq
+Lw0KPiArCVdBUk5fT04oY3J0Y19zdGF0ZS0+bGltaXRlZF9jb2xvcl9yYW5nZSAmJg0KPiArCQlj
+cnRjX3N0YXRlLT5vdXRwdXRfZm9ybWF0ICE9IElOVEVMX09VVFBVVF9GT1JNQVRfUkdCKTsNCj4g
+Kw0KPiArCWlmIChjcnRjX3N0YXRlLT5saW1pdGVkX2NvbG9yX3JhbmdlKQ0KPiArCQl0ZW1wIHw9
+IFRSQU5TX01TQV9DRUFfUkFOR0U7DQo+ICsNCj4gIAkvKg0KPiAgCSAqIEFzIHBlciBEUCAxLjIg
+c3BlYyBzZWN0aW9uIDIuMy40LjMgd2hpbGUgc2VuZGluZw0KPiAgCSAqIFlDQkNSIDQ0NCBzaWdu
+YWxzIHdlIHNob3VsZCBwcm9ncmFtIE1TQSBNSVNDMS8wIGZpZWxkcyB3aXRoDQo+IGRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMNCj4gYi9kcml2ZXJz
+L2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMNCj4gaW5kZXggMGViNWQ2NmY4N2E3Li44
+NGQyNzI0ZjA4NTQgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
+aW50ZWxfZHAuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rw
+LmMNCj4gQEAgLTIxMjYsNiArMjEyNiwxNiBAQCBib29sIGludGVsX2RwX2xpbWl0ZWRfY29sb3Jf
+cmFuZ2UoY29uc3Qgc3RydWN0DQo+IGludGVsX2NydGNfc3RhdGUgKmNydGNfc3RhdGUsDQo+ICAJ
+Y29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKmFkanVzdGVkX21vZGUgPQ0KPiAgCQkmY3J0
+Y19zdGF0ZS0+YmFzZS5hZGp1c3RlZF9tb2RlOw0KPiAgDQo+ICsJLyoNCj4gKwkgKiBPdXIgWUNi
+Q3Igb3V0cHV0IGlzIGFsd2F5cyBsaW1pdGVkIHJhbmdlLg0KPiArCSAqIGNydGNfc3RhdGUtPmxp
+bWl0ZWRfY29sb3JfcmFuZ2Ugb25seSBhcHBsaWVzIHRvIFJHQiwNCj4gKwkgKiBhbmQgaXQgbXVz
+dCBuZXZlciBiZSBzZXQgZm9yIFlDYkNyIG9yIHdlIHJpc2sgc2V0dGluZw0KPiArCSAqIHNvbWUg
+Y29uZmxpY3RpbmcgYml0cyBpbiBQSVBFQ09ORiB3aGljaCB3aWxsIG1lc3MgdXANCj4gKwkgKiB0
+aGUgY29sb3JzIG9uIHRoZSBtb25pdG9yLg0KPiArCSAqLw0KPiArCWlmIChjcnRjX3N0YXRlLT5v
+dXRwdXRfZm9ybWF0ICE9IElOVEVMX09VVFBVVF9GT1JNQVRfUkdCKQ0KPiArCQlyZXR1cm4gZmFs
+c2U7DQo+ICsNCj4gIAlpZiAoaW50ZWxfY29ubl9zdGF0ZS0+YnJvYWRjYXN0X3JnYiA9PQ0KPiBJ
+TlRFTF9CUk9BRENBU1RfUkdCX0FVVE8pIHsNCj4gIAkJLyoNCj4gIAkJICogU2VlOg0KPiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9oZG1pLmMNCj4gYi9k
+cml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hkbWkuYw0KPiBpbmRleCBjYTM3N2Jh
+M2ExNWUuLjMyNWFiZDQ2MmE0NiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUv
+ZGlzcGxheS9pbnRlbF9oZG1pLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxh
+eS9pbnRlbF9oZG1pLmMNCj4gQEAgLTcyNCw2ICs3MjQsMTAgQEAgaW50ZWxfaGRtaV9jb21wdXRl
+X2F2aV9pbmZvZnJhbWUoc3RydWN0DQo+IGludGVsX2VuY29kZXIgKmVuY29kZXIsDQo+ICANCj4g
+IAlkcm1faGRtaV9hdmlfaW5mb2ZyYW1lX2NvbG9yc3BhY2UoZnJhbWUsIGNvbm5fc3RhdGUpOw0K
+PiAgDQo+ICsJLyogbm9uc2Vuc2UgY29tYmluYXRpb24gKi8NCj4gKwlXQVJOX09OKGNydGNfc3Rh
+dGUtPmxpbWl0ZWRfY29sb3JfcmFuZ2UgJiYNCj4gKwkJY3J0Y19zdGF0ZS0+b3V0cHV0X2Zvcm1h
+dCAhPSBJTlRFTF9PVVRQVVRfRk9STUFUX1JHQik7DQo+ICsNCj4gIAlpZiAoY3J0Y19zdGF0ZS0+
+b3V0cHV0X2Zvcm1hdCA9PSBJTlRFTF9PVVRQVVRfRk9STUFUX1JHQikgew0KPiAgCQlkcm1faGRt
+aV9hdmlfaW5mb2ZyYW1lX3F1YW50X3JhbmdlKGZyYW1lLCBjb25uZWN0b3IsDQo+ICAJCQkJCQkg
+ICBhZGp1c3RlZF9tb2RlLA0KPiBAQCAtMjMwNSw2ICsyMzA5LDE2IEBAIHN0YXRpYyBib29sDQo+
+IGludGVsX2hkbWlfbGltaXRlZF9jb2xvcl9yYW5nZShjb25zdCBzdHJ1Y3QgaW50ZWxfY3J0Y19z
+dGF0ZSAqY3J0Y19zDQo+ICAJY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKmFkanVzdGVk
+X21vZGUgPQ0KPiAgCQkmY3J0Y19zdGF0ZS0+YmFzZS5hZGp1c3RlZF9tb2RlOw0KPiAgDQo+ICsJ
+LyoNCj4gKwkgKiBPdXIgWUNiQ3Igb3V0cHV0IGlzIGFsd2F5cyBsaW1pdGVkIHJhbmdlLg0KPiAr
+CSAqIGNydGNfc3RhdGUtPmxpbWl0ZWRfY29sb3JfcmFuZ2Ugb25seSBhcHBsaWVzIHRvIFJHQiwN
+Cj4gKwkgKiBhbmQgaXQgbXVzdCBuZXZlciBiZSBzZXQgZm9yIFlDYkNyIG9yIHdlIHJpc2sgc2V0
+dGluZw0KPiArCSAqIHNvbWUgY29uZmxpY3RpbmcgYml0cyBpbiBQSVBFQ09ORiB3aGljaCB3aWxs
+IG1lc3MgdXANCj4gKwkgKiB0aGUgY29sb3JzIG9uIHRoZSBtb25pdG9yLg0KPiArCSAqLw0KPiAr
+CWlmIChjcnRjX3N0YXRlLT5vdXRwdXRfZm9ybWF0ICE9IElOVEVMX09VVFBVVF9GT1JNQVRfUkdC
+KQ0KPiArCQlyZXR1cm4gZmFsc2U7DQo+ICsNCj4gIAlpZiAoaW50ZWxfY29ubl9zdGF0ZS0+YnJv
+YWRjYXN0X3JnYiA9PQ0KPiBJTlRFTF9CUk9BRENBU1RfUkdCX0FVVE8pIHsNCj4gIAkJLyogU2Vl
+IENFQS04NjEtRSAtIDUuMSBEZWZhdWx0IEVuY29kaW5nIFBhcmFtZXRlcnMgKi8NCj4gIAkJcmV0
+dXJuIGNydGNfc3RhdGUtPmhhc19oZG1pX3NpbmsgJiYNCj4gQEAgLTIzNDEsOSArMjM1NSw2IEBA
+IGludCBpbnRlbF9oZG1pX2NvbXB1dGVfY29uZmlnKHN0cnVjdA0KPiBpbnRlbF9lbmNvZGVyICpl
+bmNvZGVyLA0KPiAgCWlmIChwaXBlX2NvbmZpZy0+aGFzX2hkbWlfc2luaykNCj4gIAkJcGlwZV9j
+b25maWctPmhhc19pbmZvZnJhbWUgPSB0cnVlOw0KPiAgDQo+IC0JcGlwZV9jb25maWctPmxpbWl0
+ZWRfY29sb3JfcmFuZ2UgPQ0KPiAtCQlpbnRlbF9oZG1pX2xpbWl0ZWRfY29sb3JfcmFuZ2UocGlw
+ZV9jb25maWcsDQo+IGNvbm5fc3RhdGUpOw0KPiAtDQo+ICAJaWYgKGFkanVzdGVkX21vZGUtPmZs
+YWdzICYgRFJNX01PREVfRkxBR19EQkxDTEspIHsNCj4gIAkJcGlwZV9jb25maWctPnBpeGVsX211
+bHRpcGxpZXIgPSAyOw0KPiAgCQljbG9ja184YnBjICo9IDI7DQo+IEBAIC0yMzYwLDYgKzIzNzEs
+OSBAQCBpbnQgaW50ZWxfaGRtaV9jb21wdXRlX2NvbmZpZyhzdHJ1Y3QNCj4gaW50ZWxfZW5jb2Rl
+ciAqZW5jb2RlciwNCj4gIAkJfQ0KPiAgCX0NCj4gIA0KPiArCXBpcGVfY29uZmlnLT5saW1pdGVk
+X2NvbG9yX3JhbmdlID0NCj4gKwkJaW50ZWxfaGRtaV9saW1pdGVkX2NvbG9yX3JhbmdlKHBpcGVf
+Y29uZmlnLA0KPiBjb25uX3N0YXRlKTsNCj4gKw0KPiAgCWlmIChIQVNfUENIX1NQTElUKGRldl9w
+cml2KSAmJiAhSEFTX0RESShkZXZfcHJpdikpDQo+ICAJCXBpcGVfY29uZmlnLT5oYXNfcGNoX2Vu
+Y29kZXIgPSB0cnVlOw0KPiAgDQpUaGUgY2hhbmdlcyBsb29rIGdvb2QgdG8gbWUuDQpSZXZpZXdl
+ZC1ieTogR3dhbi1neWVvbmcgTXVuIDxnd2FuLWd5ZW9uZy5tdW5AaW50ZWwuY29tPg0KX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
