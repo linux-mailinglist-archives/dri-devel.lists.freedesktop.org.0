@@ -2,47 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FD60B6B74
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:01:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36AA9B6B71
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:01:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA47E6F8F3;
-	Wed, 18 Sep 2019 19:01:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98DC86F8E2;
+	Wed, 18 Sep 2019 19:01:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCF036F8E3;
- Wed, 18 Sep 2019 19:01:51 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2019 12:01:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,521,1559545200"; d="scan'208";a="202120360"
-Received: from irsmsx108.ger.corp.intel.com ([163.33.3.3])
- by fmsmga001.fm.intel.com with ESMTP; 18 Sep 2019 12:01:43 -0700
-Received: from irsmsx106.ger.corp.intel.com ([169.254.8.184]) by
- IRSMSX108.ger.corp.intel.com ([169.254.11.112]) with mapi id 14.03.0439.000;
- Wed, 18 Sep 2019 20:01:42 +0100
-From: "Mun, Gwan-gyeong" <gwan-gyeong.mun@intel.com>
-To: "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: Re: [Intel-gfx] [PATCH 06/12] drm/i915: Switch to using
- DP_MSA_MISC_* defines
-Thread-Topic: [Intel-gfx] [PATCH 06/12] drm/i915: Switch to using
- DP_MSA_MISC_* defines
-Thread-Index: AQHVPXhIU7jswqYuK0mqbrgB0yuhjqcyG0mA
-Date: Wed, 18 Sep 2019 19:01:41 +0000
-Message-ID: <b76374f3169bc8697aac09bb1064330172ead790.camel@intel.com>
-References: <20190718145053.25808-1-ville.syrjala@linux.intel.com>
- <20190718145053.25808-7-ville.syrjala@linux.intel.com>
-In-Reply-To: <20190718145053.25808-7-ville.syrjala@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.237.66.162]
-Content-ID: <6EE375079E717F48B5CB2570E8E22CC4@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E21B56F8EC
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:01:49 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id DE9E272167; Wed, 18 Sep 2019 19:01:49 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 58033] [r300g][r600g] Black gap artifacts when playing WoW
+Date: Wed, 18 Sep 2019 19:01:50 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r600
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: gitlab-migration@fdo.invalid
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: MOVED
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-58033-502-NxPax0clIs@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-58033-502@http.bugs.freedesktop.org/>
+References: <bug-58033-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -56,78 +52,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2091370240=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAyMDE5LTA3LTE4IGF0IDE3OjUwICswMzAwLCBWaWxsZSBTeXJqYWxhIHdyb3RlOg0K
-PiBGcm9tOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPg0K
-PiANCj4gTm93IHRoYXQgd2UgaGF2ZSBzdGFuZGFyZCBkZWZpbmVzIGZvciB0aGUgTVNBIE1JU0Mg
-Yml0cyBsZXRzIHVzZQ0KPiB0aGVtIG9uIEhTVysgd2hlcmUgd2UgcHJvZ3JhbSB0aGVzZSBkaXJl
-Y3RseSBpbnRvIHRoZSBUUkFOU19NU0FfTUlTQw0KPiByZWdpc3Rlci4NCj4gDQo+IFNpZ25lZC1v
-ZmYtYnk6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+DQo+
-IC0tLQ0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kZGkuYyB8IDE4ICsr
-KysrKysrKy0tLS0tLS0tLQ0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9yZWcuaCAgICAg
-ICAgICB8IDEzICstLS0tLS0tLS0tLS0NCj4gIDIgZmlsZXMgY2hhbmdlZCwgMTAgaW5zZXJ0aW9u
-cygrKSwgMjEgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L2k5MTUvZGlzcGxheS9pbnRlbF9kZGkuYw0KPiBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3Bs
-YXkvaW50ZWxfZGRpLmMNCj4gaW5kZXggN2RkNTRmNTczZjM1Li4wYzAxNDhjOGM5OTYgMTAwNjQ0
-DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGRpLmMNCj4gKysr
-IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kZGkuYw0KPiBAQCAtMTcwNCwy
-MCArMTcwNCwyMCBAQCB2b2lkIGludGVsX2RkaV9zZXRfcGlwZV9zZXR0aW5ncyhjb25zdCBzdHJ1
-Y3QNCj4gaW50ZWxfY3J0Y19zdGF0ZSAqY3J0Y19zdGF0ZSkNCj4gIA0KPiAgCVdBUk5fT04odHJh
-bnNjb2Rlcl9pc19kc2koY3B1X3RyYW5zY29kZXIpKTsNCj4gIA0KPiAtCXRlbXAgPSBUUkFOU19N
-U0FfU1lOQ19DTEs7DQo+ICsJdGVtcCA9IERQX01TQV9NSVNDX1NZTkNfQ0xPQ0s7DQo+ICANCj4g
-IAlzd2l0Y2ggKGNydGNfc3RhdGUtPnBpcGVfYnBwKSB7DQo+ICAJY2FzZSAxODoNCj4gLQkJdGVt
-cCB8PSBUUkFOU19NU0FfNl9CUEM7DQo+ICsJCXRlbXAgfD0gRFBfTVNBX01JU0NfNl9CUEM7DQo+
-ICAJCWJyZWFrOw0KPiAgCWNhc2UgMjQ6DQo+IC0JCXRlbXAgfD0gVFJBTlNfTVNBXzhfQlBDOw0K
-PiArCQl0ZW1wIHw9IERQX01TQV9NSVNDXzhfQlBDOw0KPiAgCQlicmVhazsNCj4gIAljYXNlIDMw
-Og0KPiAtCQl0ZW1wIHw9IFRSQU5TX01TQV8xMF9CUEM7DQo+ICsJCXRlbXAgfD0gRFBfTVNBX01J
-U0NfMTBfQlBDOw0KPiAgCQlicmVhazsNCj4gIAljYXNlIDM2Og0KPiAtCQl0ZW1wIHw9IFRSQU5T
-X01TQV8xMl9CUEM7DQo+ICsJCXRlbXAgfD0gRFBfTVNBX01JU0NfMTJfQlBDOw0KPiAgCQlicmVh
-azsNCj4gIAlkZWZhdWx0Og0KPiAgCQlNSVNTSU5HX0NBU0UoY3J0Y19zdGF0ZS0+cGlwZV9icHAp
-Ow0KPiBAQCAtMTcyOSw3ICsxNzI5LDcgQEAgdm9pZCBpbnRlbF9kZGlfc2V0X3BpcGVfc2V0dGlu
-Z3MoY29uc3Qgc3RydWN0DQo+IGludGVsX2NydGNfc3RhdGUgKmNydGNfc3RhdGUpDQo+ICAJCWNy
-dGNfc3RhdGUtPm91dHB1dF9mb3JtYXQgIT0gSU5URUxfT1VUUFVUX0ZPUk1BVF9SR0IpOw0KPiAg
-DQo+ICAJaWYgKGNydGNfc3RhdGUtPmxpbWl0ZWRfY29sb3JfcmFuZ2UpDQo+IC0JCXRlbXAgfD0g
-VFJBTlNfTVNBX0NFQV9SQU5HRTsNCj4gKwkJdGVtcCB8PSBEUF9NU0FfTUlTQ19DT0xPUl9DRUFf
-UkdCOw0KPiAgDQo+ICAJLyoNCj4gIAkgKiBBcyBwZXIgRFAgMS4yIHNwZWMgc2VjdGlvbiAyLjMu
-NC4zIHdoaWxlIHNlbmRpbmcNCj4gQEAgLTE3MzcsOCArMTczNyw3IEBAIHZvaWQgaW50ZWxfZGRp
-X3NldF9waXBlX3NldHRpbmdzKGNvbnN0IHN0cnVjdA0KPiBpbnRlbF9jcnRjX3N0YXRlICpjcnRj
-X3N0YXRlKQ0KPiAgCSAqIGNvbG9yc3BhY2UgaW5mb3JtYXRpb24uDQo+ICAJICovDQo+ICAJaWYg
-KGNydGNfc3RhdGUtPm91dHB1dF9mb3JtYXQgPT0gSU5URUxfT1VUUFVUX0ZPUk1BVF9ZQ0JDUjQ0
-NCkNCj4gLQkJdGVtcCB8PSBUUkFOU19NU0FfU0FNUExJTkdfNDQ0IHwgVFJBTlNfTVNBX0NMUlNQ
-X1lDQkNSDQo+IHwNCj4gLQkJCVRSQU5TX01TQV9ZQ0JDUl9CVDcwOTsNCj4gKwkJdGVtcCB8PSBE
-UF9NU0FfTUlTQ19DT0xPUl9ZQ0JDUl80NDRfQlQ3MDk7DQo+ICANCj4gIAkvKg0KPiAgCSAqIEFz
-IHBlciBEUCAxLjRhIHNwZWMgc2VjdGlvbiAyLjIuNC4zIFtNU0EgRmllbGQgZm9yDQo+IEluZGlj
-YXRpb24NCj4gQEAgLTE3NDcsNyArMTc0Niw4IEBAIHZvaWQgaW50ZWxfZGRpX3NldF9waXBlX3Nl
-dHRpbmdzKGNvbnN0IHN0cnVjdA0KPiBpbnRlbF9jcnRjX3N0YXRlICpjcnRjX3N0YXRlKQ0KPiAg
-CSAqIGluZGljYXRlIFZTQyBTRFAgZm9yIHRoZSBQaXhlbCBFbmNvZGluZy9Db2xvcmltZXRyeSBG
-b3JtYXQuDQo+ICAJICovDQo+ICAJaWYgKGNydGNfc3RhdGUtPm91dHB1dF9mb3JtYXQgPT0gSU5U
-RUxfT1VUUFVUX0ZPUk1BVF9ZQ0JDUjQyMCkNCj4gLQkJdGVtcCB8PSBUUkFOU19NU0FfVVNFX1ZT
-Q19TRFA7DQo+ICsJCXRlbXAgfD0gRFBfTVNBX01JU0NfQ09MT1JfVlNDX1NEUDsNCj4gKw0KPiAg
-CUk5MTVfV1JJVEUoVFJBTlNfTVNBX01JU0MoY3B1X3RyYW5zY29kZXIpLCB0ZW1wKTsNCj4gIH0N
-Cj4gIA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9yZWcuaA0KPiBi
-L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfcmVnLmgNCj4gaW5kZXggMzUxMzNiMmVmNmM5Li45
-MWJmNzE0ODk3ZTUgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfcmVn
-LmgNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9yZWcuaA0KPiBAQCAtOTYwMiwx
-OCArOTYwMiw3IEBAIGVudW0gc2tsX3Bvd2VyX2dhdGUgew0KPiAgI2RlZmluZSBfVFJBTlNDX01T
-QV9NSVNDCQkweDYyNDEwDQo+ICAjZGVmaW5lIF9UUkFOU19FRFBfTVNBX01JU0MJCTB4NmY0MTAN
-Cj4gICNkZWZpbmUgVFJBTlNfTVNBX01JU0ModHJhbikgX01NSU9fVFJBTlMyKHRyYW4sIF9UUkFO
-U0FfTVNBX01JU0MpDQo+IC0NCj4gLSNkZWZpbmUgIFRSQU5TX01TQV9TWU5DX0NMSwkJKDEgPDwg
-MCkNCj4gLSNkZWZpbmUgIFRSQU5TX01TQV9TQU1QTElOR180NDQJCSgyIDw8IDEpDQo+IC0jZGVm
-aW5lICBUUkFOU19NU0FfQ0xSU1BfWUNCQ1IJCSgxIDw8IDMpDQo+IC0jZGVmaW5lICBUUkFOU19N
-U0FfWUNCQ1JfQlQ3MDkJCSgxIDw8IDQpDQo+IC0jZGVmaW5lICBUUkFOU19NU0FfNl9CUEMJCSgw
-IDw8IDUpDQo+IC0jZGVmaW5lICBUUkFOU19NU0FfOF9CUEMJCSgxIDw8IDUpDQo+IC0jZGVmaW5l
-ICBUUkFOU19NU0FfMTBfQlBDCQkoMiA8PCA1KQ0KPiAtI2RlZmluZSAgVFJBTlNfTVNBXzEyX0JQ
-QwkJKDMgPDwgNSkNCj4gLSNkZWZpbmUgIFRSQU5TX01TQV8xNl9CUEMJCSg0IDw8IDUpDQo+IC0j
-ZGVmaW5lICBUUkFOU19NU0FfQ0VBX1JBTkdFCQkoMSA8PCAzKQ0KPiAtI2RlZmluZSAgVFJBTlNf
-TVNBX1VTRV9WU0NfU0RQCQkoMSA8PCAxNCkNCj4gKy8qIFNlZSBEUF9NU0FfTUlTQ18qIGZvciB0
-aGUgYml0IGRlZmluaXRpb25zICovDQo+ICANCj4gIC8qIExDUExMIENvbnRyb2wgKi8NCj4gICNk
-ZWZpbmUgTENQTExfQ1RMCQkJX01NSU8oMHgxMzAwNDApDQpUaGUgY2hhbmdlcyBsb29rIGdvb2Qg
-dG8gbWUuDQpSZXZpZXdlZC1ieTogR3dhbi1neWVvbmcgTXVuIDxnd2FuLWd5ZW9uZy5tdW5AaW50
-ZWwuY29tPg0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2091370240==
+Content-Type: multipart/alternative; boundary="15688333091.A6ADFA0C1.19408"
+Content-Transfer-Encoding: 7bit
+
+
+--15688333091.A6ADFA0C1.19408
+Date: Wed, 18 Sep 2019 19:01:49 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D58033
+
+GitLab Migration User <gitlab-migration@fdo.invalid> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |MOVED
+
+--- Comment #21 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
+--
+-- GitLab Migration Automatic Message --
+
+This bug has been migrated to freedesktop.org's GitLab instance and has been
+closed from further activity.
+
+You can subscribe and participate further through the new bug through this =
+link
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/427.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15688333091.A6ADFA0C1.19408
+Date: Wed, 18 Sep 2019 19:01:49 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:gitlab-mi=
+gration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab-migratio=
+n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - [r300g][r600g] Black gap artifacts when playin=
+g WoW"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D58033">bug 58033<=
+/a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>MOVED
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - [r300g][r600g] Black gap artifacts when playin=
+g WoW"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D58033#c21">Commen=
+t # 21</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - [r300g][r600g] Black gap artifacts when playin=
+g WoW"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D58033">bug 58033<=
+/a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
+-migration&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</=
+span></a>
+</span></b>
+        <pre>-- GitLab Migration Automatic Message --
+
+This bug has been migrated to freedesktop.org's GitLab instance and has been
+closed from further activity.
+
+You can subscribe and participate further through the new bug through this =
+link
+to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
+/issues/427">https://gitlab.freedesktop.org/mesa/mesa/issues/427</a>.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15688333091.A6ADFA0C1.19408--
+
+--===============2091370240==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2091370240==--
