@@ -1,39 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07B2FB6A79
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 20:23:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F656B6A9B
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 20:39:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7056D6F426;
-	Wed, 18 Sep 2019 18:23:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B90A6F762;
+	Wed, 18 Sep 2019 18:39:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C0456F422;
- Wed, 18 Sep 2019 18:23:46 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2019 11:23:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,521,1559545200"; d="scan'208";a="187850232"
-Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com) ([10.54.75.49])
- by fmsmga007.fm.intel.com with ESMTP; 18 Sep 2019 11:23:45 -0700
-Date: Wed, 18 Sep 2019 11:25:28 -0700
-From: Manasi Navare <manasi.d.navare@intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH] drm/i915/dp: Fix DP MST error after unplugging TypeC cable
-Message-ID: <20190918182528.GB31062@intel.com>
-References: <1568770783-169735-1-git-send-email-srinivasan.s@intel.com>
- <20190918175038.GA31062@intel.com>
- <20190918181136.GQ1208@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D732D6F79A
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 18:39:13 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id D408372167; Wed, 18 Sep 2019 18:39:13 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 3267] Rendering errors running foobillard on Radeon 7500
+Date: Wed, 18 Sep 2019 18:39:14 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/DRI/R100
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: gitlab-migration@fdo.invalid
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: MOVED
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-3267-502-0bVA3vfDUM@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-3267-502@http.bugs.freedesktop.org/>
+References: <bug-3267-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190918181136.GQ1208@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,57 +52,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: srinivasan.s@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0106064542=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBTZXAgMTgsIDIwMTkgYXQgMDk6MTE6MzZQTSArMDMwMCwgVmlsbGUgU3lyasOkbMOk
-IHdyb3RlOgo+IE9uIFdlZCwgU2VwIDE4LCAyMDE5IGF0IDEwOjUwOjM5QU0gLTA3MDAsIE1hbmFz
-aSBOYXZhcmUgd3JvdGU6Cj4gPiBPbiBXZWQsIFNlcCAxOCwgMjAxOSBhdCAwNzowOTo0M0FNICsw
-NTMwLCBzcmluaXZhc2FuLnNAaW50ZWwuY29tIHdyb3RlOgo+ID4gPiBGcm9tOiBTcmluaXZhc2Fu
-IFMgPHNyaW5pdmFzYW4uc0BpbnRlbC5jb20+Cj4gPiA+IAo+ID4gPiBUaGlzIHBhdGNoIGF2b2lk
-cyBEUCBNU1QgcGF5bG9hZCBlcnJvciBtZXNzYWdlIGluIGRtZXNnLCBhcyBpdCBpcyB0cnlpbmcK
-PiA+ID4gdG8gcmVhZCB0aGUgcGF5bG9hZCBmcm9tIHRoZSBkaXNjb25uZWN0ZWQgRFAgTVNUIGRl
-dmljZS4gQWZ0ZXIgdGhlIHVucGx1Zwo+ID4gPiB0aGUgY29ubmVjdG9yIHN0YXR1cyBpcyBkaXNj
-b25uZWN0ZWQgYW5kIHdlIHNob3VsZCBub3QgYmUgbG9va2luZyBmb3IgdGhlCj4gPiA+IHBheWxv
-YWQgYW5kIGhlbmNlIHJlbW92ZSB0aGUgZXJyb3IgYW5kIHRocm93IHRoZSB3YXJuaW5nLgo+ID4g
-PiAKPiA+ID4gVGhpcyBkZXRhaWxzIGNhbiBiZSBmb3VuZCBpbjoKPiA+ID4gaHR0cHM6Ly9idWdz
-LmZyZWVkZXNrdG9wLm9yZy9zaG93X2J1Zy5jZ2k/aWQ9MTExNjMyCj4gPiAKPiA+IFBsZWFzZSBh
-ZGQgdGhpcyBsaW5rIGFzIEJ1Z3ppbGxhOiBodHRwczovL2J1Z3MuZnJlZWRlc2t0b3Aub3JnL3No
-b3dfYnVnLmNnaT9pZD0xMTE2MzIgYWZ0ZXIgdGhlIFNpZ24gb2ZmCj4gPiBzdGF0ZW1lbnQKPiA+
-IAo+ID4gPiAKPiA+ID4gU2lnbmVkLW9mZi1ieTogU3Jpbml2YXNhbiBTIDxzcmluaXZhc2FuLnNA
-aW50ZWwuY29tPgo+ID4gPiAtLS0KPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
-aW50ZWxfZHBfbXN0LmMgfCA3ICsrKysrKy0KPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2Vy
-dGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPiA+ID4gCj4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwX21zdC5jIGIvZHJpdmVycy9ncHUvZHJtL2k5
-MTUvZGlzcGxheS9pbnRlbF9kcF9tc3QuYwo+ID4gPiBpbmRleCBlZWViM2Y5MzNhYTQuLjViMjI3
-OGZkZjY3NSAxMDA2NDQKPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9p
-bnRlbF9kcF9tc3QuYwo+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2lu
-dGVsX2RwX21zdC5jCj4gPiA+IEBAIC0yMTUsNyArMjE1LDEyIEBAIHN0YXRpYyB2b2lkIGludGVs
-X21zdF9kaXNhYmxlX2RwKHN0cnVjdCBpbnRlbF9lbmNvZGVyICplbmNvZGVyLAo+ID4gPiAgCj4g
-PiA+ICAJcmV0ID0gZHJtX2RwX3VwZGF0ZV9wYXlsb2FkX3BhcnQxKCZpbnRlbF9kcC0+bXN0X21n
-cik7Cj4gPiA+ICAJaWYgKHJldCkgewo+ID4gPiAtCQlEUk1fRVJST1IoImZhaWxlZCB0byB1cGRh
-dGUgcGF5bG9hZCAlZFxuIiwgcmV0KTsKPiA+ID4gKwkJaWYgKCFjb25uZWN0b3IgfHwKPiA+ID4g
-KwkJICAgIGNvbm5lY3Rvci0+YmFzZS5zdGF0dXMgIT0gY29ubmVjdG9yX3N0YXR1c19jb25uZWN0
-ZWQpIHsKPiA+ID4gKwkJCURSTV9XQVJOKCJEUCBNU1QgZGlzY29ubmVjdFxuIik7Cj4gPiAKPiA+
-IE1heSBiZSBhZGRpbmcgdGhpcyBjaGVjayBiZWZvcmUgY2FsbGluZyBkcm1fZHBfdXBkYXRlX3Bh
-eWxvYWRfcGFydDEoKSBpcyBhIGJldHRlciBpZGVhPwo+ID4gSWYgdGhlIGNvbm5lY3RvciBpcyBk
-aXNjb25uZWN0ZWQsIHdoeSB1cGRhdGUgcGF5bG9hZD8KPiA+IAo+ID4gSmFuaSwgVmlsbGUsIHRo
-b3VnaHRzPwo+IAo+IE9yIGp1c3QgY29udmVydCBpdCB0byBhIGRlYnVnPwoKU3VyZSB0aGF0IHdp
-bGwgd29yaywgYnV0IGRvIHdlIHJlYWxseSB3YW50IHRvIHVwZGF0ZSB0aGUgcGF5bG9hZCBpZiB0
-aGUgY29ubmVjdG9yIHN0YXR1cyBpcyBkaXNjb25uZWN0ZWQuClNvIHNob3VsZG50IGNoZWNraW5n
-IHRoYXQgYmVmb3JlIGNhbGxpbmcgdGhlIGZ1bmN0aW9uIGJlIGEgYmV0dGVyIGZpeD8KCk1hbmFz
-aQoKPiAKPiA+IAo+ID4gUmVnYXJkcwo+ID4gTWFuYXNpCj4gPiAKPiA+ID4gKwkJfSBlbHNlIHsK
-PiA+ID4gKwkJCURSTV9FUlJPUigiZmFpbGVkIHRvIHVwZGF0ZSBwYXlsb2FkICVkXG4iLCByZXQp
-Owo+ID4gPiArCQl9Cj4gPiA+ICAJfQo+ID4gPiAgCWlmIChvbGRfY3J0Y19zdGF0ZS0+aGFzX2F1
-ZGlvKQo+ID4gPiAgCQlpbnRlbF9hdWRpb19jb2RlY19kaXNhYmxlKGVuY29kZXIsCj4gPiA+IC0t
-IAo+ID4gPiAyLjcuNAo+ID4gPiAKPiAKPiAtLSAKPiBWaWxsZSBTeXJqw6Rsw6QKPiBJbnRlbAo+
-IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbApfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0106064542==
+Content-Type: multipart/alternative; boundary="15688319532.Bc9B.10872"
+Content-Transfer-Encoding: 7bit
+
+
+--15688319532.Bc9B.10872
+Date: Wed, 18 Sep 2019 18:39:13 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D3267
+
+GitLab Migration User <gitlab-migration@fdo.invalid> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+         Resolution|---                         |MOVED
+             Status|ASSIGNED                    |RESOLVED
+
+--- Comment #10 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
+--
+-- GitLab Migration Automatic Message --
+
+This bug has been migrated to freedesktop.org's GitLab instance and has been
+closed from further activity.
+
+You can subscribe and participate further through the new bug through this =
+link
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/263.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15688319532.Bc9B.10872
+Date: Wed, 18 Sep 2019 18:39:13 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:gitlab-mi=
+gration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab-migratio=
+n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - Rendering errors running foobillard on Radeon =
+7500"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D3267">bug 3267</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>MOVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>ASSIGNED
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - Rendering errors running foobillard on Radeon =
+7500"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D3267#c10">Comment=
+ # 10</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - Rendering errors running foobillard on Radeon =
+7500"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D3267">bug 3267</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
+-migration&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</=
+span></a>
+</span></b>
+        <pre>-- GitLab Migration Automatic Message --
+
+This bug has been migrated to freedesktop.org's GitLab instance and has been
+closed from further activity.
+
+You can subscribe and participate further through the new bug through this =
+link
+to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
+/issues/263">https://gitlab.freedesktop.org/mesa/mesa/issues/263</a>.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15688319532.Bc9B.10872--
+
+--===============0106064542==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0106064542==--
