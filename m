@@ -2,34 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA64EB6046
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 11:30:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D0AEB60CE
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 11:52:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 995B86EE88;
-	Wed, 18 Sep 2019 09:30:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D08F6EE95;
+	Wed, 18 Sep 2019 09:52:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72BA26EE88
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 09:30:39 +0000 (UTC)
-Received: from [192.168.12.205] (helo=zeus) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1iAWIH-0000V3-9N; Wed, 18 Sep 2019 11:30:37 +0200
-Message-ID: <c03c13ad5b662da92cfb132bb978893e2e87c070.camel@igalia.com>
-Subject: Re: [PATCH v2] drm/v3d: clean caches at the end of render jobs on
- request from user space
-From: Iago Toral <itoral@igalia.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A26F56EE97
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 09:52:51 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 9E7A972167; Wed, 18 Sep 2019 09:52:51 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Date: Wed, 18 Sep 2019 11:30:37 +0200
-In-Reply-To: <20190918091521.9765-1-itoral@igalia.com>
-References: <20190918091521.9765-1-itoral@igalia.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; d=igalia.com; s=20170329; 
- h=Content-Transfer-Encoding:Mime-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID;
- bh=5IlwLXcJRagn8U63PMykkgy8ISanoYVUPUQqncudUWg=; 
- b=E98qgkUPUSnWPa4KOzA3tcR5ddcT022xX/wk20pT1N87Z/GHyvgL7MV0SehphPjARqVxlvCpKV6wJNttAVrbp7pCqgaOZlImXcIws+Bx9hWW9iXKdRYMDM81guV06LPaBVsbS7Ns/Qol9AkS2C6QuMTsxoAbrZfMQIBVahWYNqymqiWp8xrvYeGbE/4ZGPck76a3KRO7yCYWL9Tm1QOQHT/Oy2vFpkweCNp3XGcCOGfJZ9xMKK64IK3yuDFjRJgCEav+srrW7Bfwedv87JkCl9+wxfxyGnhQTDCqRNiR78yLhe0iJu4qqkirp31QV2sxBU2dr3cF7p9lLZf4cSe7NQ==;
+Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
+Date: Wed, 18 Sep 2019 09:52:51 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: aide.brown@googlemail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110674-502-zg0aBDVo2i@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
+References: <bug-110674-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -42,105 +52,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0617394978=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RXJpYywgY291bGQgeW91IHB1c2ggdGhpcyBmb3IgbWU/IEkgZG9uJ3QgaGF2ZSBwdXNoIHJpZ2h0
-cyB0byBEUk0geWV0LgoKSWFnbwoKT24gV2VkLCAyMDE5LTA5LTE4IGF0IDExOjE1ICswMjAwLCBJ
-YWdvIFRvcmFsIFF1aXJvZ2Egd3JvdGU6Cj4gRXh0ZW5kcyB0aGUgdXNlciBzcGFjZSBpb2N0bCBm
-b3IgQ0wgc3VibWlzc2lvbnMgc28gaXQgY2FuIGluY2x1ZGUgYQo+IHJlcXVlc3QKPiB0byBmbHVz
-aCB0aGUgY2FjaGUgb25jZSB0aGUgQ0wgZXhlY3V0aW9uIGhhcyBjb21wbGV0ZWQuIEZpeGVzIG1l
-bW9yeQo+IHdyaXRlIHZpb2xhdGlvbiBtZXNzYWdlcyByZXBvcnRlZCBieSB0aGUga2VybmVsIGlu
-IHdvcmtsb2Fkcwo+IGludm9sdmluZwo+IHNoYWRlciBtZW1vcnkgd3JpdGVzIChTU0JPcywgc2hh
-ZGVyIGltYWdlcywgc2NyYXRjaCwgZXRjKSB3aGljaAo+IHNvbWV0aW1lcwo+IGFsc28gbGVhZCB0
-byBHUFUgcmVzZXRzIGR1cmluZyBQaWdsaXQgYW5kIENUUyB3b3JrbG9hZHMuCj4gCj4gdjI6IGlm
-IHYzZF9qb2JfaW5pdCgpIGZhaWxzIHdlIG5lZWQgdG8ga2ZyZWUoKSB0aGUgam9iIGluc3RlYWQg
-b2YKPiAgICAgdjNkX2pvYl9wdXQoKSBpdCAoRXJpYyBBbmhvbHQpLgo+IAo+IFNpZ25lZC1vZmYt
-Ynk6IElhZ28gVG9yYWwgUXVpcm9nYSA8aXRvcmFsQGlnYWxpYS5jb20+Cj4gUmV2aWV3ZWQtYnk6
-IEVyaWMgQW5ob2x0IDxlcmljQGFuaG9sdC5uZXQ+Cj4gTGluazogCj4gaHR0cHM6Ly9wYXRjaHdv
-cmsuZnJlZWRlc2t0b3Aub3JnL3BhdGNoL21zZ2lkLzIwMTkwOTEyMDgzNTE2LjEzNzk3LTEtaXRv
-cmFsQGlnYWxpYS5jb20KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL3YzZC92M2RfZ2VtLmMgfCA1
-NCArKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tCj4gLS0tLQo+ICBpbmNsdWRlL3VhcGkv
-ZHJtL3YzZF9kcm0uaCAgICB8ICA3ICsrKy0tCj4gIDIgZmlsZXMgY2hhbmdlZCwgNTAgaW5zZXJ0
-aW9ucygrKSwgMTEgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS92M2QvdjNkX2dlbS5jCj4gYi9kcml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9nZW0uYwo+IGluZGV4
-IDVkODA1MDdiNTM5Yi4uZDQ2ZDkxMzQ2ZDA5IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS92M2QvdjNkX2dlbS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3YzZC92M2RfZ2VtLmMKPiBA
-QCAtNTMwLDEzICs1MzAsMTYgQEAgdjNkX3N1Ym1pdF9jbF9pb2N0bChzdHJ1Y3QgZHJtX2Rldmlj
-ZSAqZGV2LAo+IHZvaWQgKmRhdGEsCj4gIAlzdHJ1Y3QgZHJtX3YzZF9zdWJtaXRfY2wgKmFyZ3Mg
-PSBkYXRhOwo+ICAJc3RydWN0IHYzZF9iaW5fam9iICpiaW4gPSBOVUxMOwo+ICAJc3RydWN0IHYz
-ZF9yZW5kZXJfam9iICpyZW5kZXI7Cj4gKwlzdHJ1Y3QgdjNkX2pvYiAqY2xlYW5fam9iID0gTlVM
-TDsKPiArCXN0cnVjdCB2M2Rfam9iICpsYXN0X2pvYjsKPiAgCXN0cnVjdCB3d19hY3F1aXJlX2N0
-eCBhY3F1aXJlX2N0eDsKPiAgCWludCByZXQgPSAwOwo+ICAKPiAgCXRyYWNlX3YzZF9zdWJtaXRf
-Y2xfaW9jdGwoJnYzZC0+ZHJtLCBhcmdzLT5yY2xfc3RhcnQsIGFyZ3MtCj4gPnJjbF9lbmQpOwo+
-ICAKPiAtCWlmIChhcmdzLT5wYWQgIT0gMCkgewo+IC0JCURSTV9JTkZPKCJwYWQgbXVzdCBiZSB6
-ZXJvOiAlZFxuIiwgYXJncy0+cGFkKTsKPiArCWlmIChhcmdzLT5mbGFncyAhPSAwICYmCj4gKwkg
-ICAgYXJncy0+ZmxhZ3MgIT0gRFJNX1YzRF9TVUJNSVRfQ0xfRkxVU0hfQ0FDSEVfRkxBRykgewo+
-ICsJCURSTV9JTkZPKCJpbnZhbGlkIGZsYWdzOiAlZFxuIiwgYXJncy0+ZmxhZ3MpOwo+ICAJCXJl
-dHVybiAtRUlOVkFMOwo+ICAJfQo+ICAKPiBAQCAtNTc1LDEyICs1NzgsMzEgQEAgdjNkX3N1Ym1p
-dF9jbF9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+IHZvaWQgKmRhdGEsCj4gIAkJYmlu
-LT5yZW5kZXIgPSByZW5kZXI7Cj4gIAl9Cj4gIAo+IC0JcmV0ID0gdjNkX2xvb2t1cF9ib3MoZGV2
-LCBmaWxlX3ByaXYsICZyZW5kZXItPmJhc2UsCj4gKwlpZiAoYXJncy0+ZmxhZ3MgJiBEUk1fVjNE
-X1NVQk1JVF9DTF9GTFVTSF9DQUNIRV9GTEFHKSB7Cj4gKwkJY2xlYW5fam9iID0ga2NhbGxvYygx
-LCBzaXplb2YoKmNsZWFuX2pvYiksIEdGUF9LRVJORUwpOwo+ICsJCWlmICghY2xlYW5fam9iKSB7
-Cj4gKwkJCXJldCA9IC1FTk9NRU07Cj4gKwkJCWdvdG8gZmFpbDsKPiArCQl9Cj4gKwo+ICsJCXJl
-dCA9IHYzZF9qb2JfaW5pdCh2M2QsIGZpbGVfcHJpdiwgY2xlYW5fam9iLAo+IHYzZF9qb2JfZnJl
-ZSwgMCk7Cj4gKwkJaWYgKHJldCkgewo+ICsJCQlrZnJlZShjbGVhbl9qb2IpOwo+ICsJCQljbGVh
-bl9qb2IgPSBOVUxMOwo+ICsJCQlnb3RvIGZhaWw7Cj4gKwkJfQo+ICsKPiArCQlsYXN0X2pvYiA9
-IGNsZWFuX2pvYjsKPiArCX0gZWxzZSB7Cj4gKwkJbGFzdF9qb2IgPSAmcmVuZGVyLT5iYXNlOwo+
-ICsJfQo+ICsKPiArCXJldCA9IHYzZF9sb29rdXBfYm9zKGRldiwgZmlsZV9wcml2LCBsYXN0X2pv
-YiwKPiAgCQkJICAgICBhcmdzLT5ib19oYW5kbGVzLCBhcmdzLT5ib19oYW5kbGVfY291bnQpOwo+
-ICAJaWYgKHJldCkKPiAgCQlnb3RvIGZhaWw7Cj4gIAo+IC0JcmV0ID0gdjNkX2xvY2tfYm9fcmVz
-ZXJ2YXRpb25zKCZyZW5kZXItPmJhc2UsICZhY3F1aXJlX2N0eCk7Cj4gKwlyZXQgPSB2M2RfbG9j
-a19ib19yZXNlcnZhdGlvbnMobGFzdF9qb2IsICZhY3F1aXJlX2N0eCk7Cj4gIAlpZiAocmV0KQo+
-ICAJCWdvdG8gZmFpbDsKPiAgCj4gQEAgLTU5OSwyOCArNjIxLDQ0IEBAIHYzZF9zdWJtaXRfY2xf
-aW9jdGwoc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiB2b2lkICpkYXRhLAo+ICAJcmV0ID0gdjNk
-X3B1c2hfam9iKHYzZF9wcml2LCAmcmVuZGVyLT5iYXNlLCBWM0RfUkVOREVSKTsKPiAgCWlmIChy
-ZXQpCj4gIAkJZ290byBmYWlsX3VucmVzZXJ2ZTsKPiArCj4gKwlpZiAoY2xlYW5fam9iKSB7Cj4g
-KwkJc3RydWN0IGRtYV9mZW5jZSAqcmVuZGVyX2ZlbmNlID0KPiArCQkJZG1hX2ZlbmNlX2dldChy
-ZW5kZXItPmJhc2UuZG9uZV9mZW5jZSk7Cj4gKwkJcmV0ID0gZHJtX2dlbV9mZW5jZV9hcnJheV9h
-ZGQoJmNsZWFuX2pvYi0+ZGVwcywKPiByZW5kZXJfZmVuY2UpOwo+ICsJCWlmIChyZXQpCj4gKwkJ
-CWdvdG8gZmFpbF91bnJlc2VydmU7Cj4gKwkJcmV0ID0gdjNkX3B1c2hfam9iKHYzZF9wcml2LCBj
-bGVhbl9qb2IsCj4gVjNEX0NBQ0hFX0NMRUFOKTsKPiArCQlpZiAocmV0KQo+ICsJCQlnb3RvIGZh
-aWxfdW5yZXNlcnZlOwo+ICsJfQo+ICsKPiAgCW11dGV4X3VubG9jaygmdjNkLT5zY2hlZF9sb2Nr
-KTsKPiAgCj4gIAl2M2RfYXR0YWNoX2ZlbmNlc19hbmRfdW5sb2NrX3Jlc2VydmF0aW9uKGZpbGVf
-cHJpdiwKPiAtCQkJCQkJICZyZW5kZXItPmJhc2UsCj4gKwkJCQkJCSBsYXN0X2pvYiwKPiAgCQkJ
-CQkJICZhY3F1aXJlX2N0eCwKPiAgCQkJCQkJIGFyZ3MtPm91dF9zeW5jLAo+IC0JCQkJCQkgcmVu
-ZGVyLQo+ID5iYXNlLmRvbmVfZmVuY2UpOwo+ICsJCQkJCQkgbGFzdF9qb2ItPmRvbmVfZmVuY2Up
-Owo+ICAKPiAgCWlmIChiaW4pCj4gIAkJdjNkX2pvYl9wdXQoJmJpbi0+YmFzZSk7Cj4gIAl2M2Rf
-am9iX3B1dCgmcmVuZGVyLT5iYXNlKTsKPiArCWlmIChjbGVhbl9qb2IpCj4gKwkJdjNkX2pvYl9w
-dXQoY2xlYW5fam9iKTsKPiAgCj4gIAlyZXR1cm4gMDsKPiAgCj4gIGZhaWxfdW5yZXNlcnZlOgo+
-ICAJbXV0ZXhfdW5sb2NrKCZ2M2QtPnNjaGVkX2xvY2spOwo+IC0JZHJtX2dlbV91bmxvY2tfcmVz
-ZXJ2YXRpb25zKHJlbmRlci0+YmFzZS5ibywKPiAtCQkJCSAgICByZW5kZXItPmJhc2UuYm9fY291
-bnQsCj4gJmFjcXVpcmVfY3R4KTsKPiArCWRybV9nZW1fdW5sb2NrX3Jlc2VydmF0aW9ucyhsYXN0
-X2pvYi0+Ym8sCj4gKwkJCQkgICAgbGFzdF9qb2ItPmJvX2NvdW50LCAmYWNxdWlyZV9jdHgpOwo+
-ICBmYWlsOgo+ICAJaWYgKGJpbikKPiAgCQl2M2Rfam9iX3B1dCgmYmluLT5iYXNlKTsKPiAgCXYz
-ZF9qb2JfcHV0KCZyZW5kZXItPmJhc2UpOwo+ICsJaWYgKGNsZWFuX2pvYikKPiArCQl2M2Rfam9i
-X3B1dChjbGVhbl9qb2IpOwo+ICAKPiAgCXJldHVybiByZXQ7Cj4gIH0KPiBkaWZmIC0tZ2l0IGEv
-aW5jbHVkZS91YXBpL2RybS92M2RfZHJtLmggYi9pbmNsdWRlL3VhcGkvZHJtL3YzZF9kcm0uaAo+
-IGluZGV4IDU4ZmJlNDhjOTFlOS4uNThkMjA0MGVhNDhjIDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUv
-dWFwaS9kcm0vdjNkX2RybS5oCj4gKysrIGIvaW5jbHVkZS91YXBpL2RybS92M2RfZHJtLmgKPiBA
-QCAtNDgsNiArNDgsOCBAQCBleHRlcm4gIkMiIHsKPiAgI2RlZmluZSBEUk1fSU9DVExfVjNEX1NV
-Qk1JVF9URlUgICAgICAgICAgRFJNX0lPVyhEUk1fQ09NTUFORF9CQVNFICsKPiBEUk1fVjNEX1NV
-Qk1JVF9URlUsIHN0cnVjdCBkcm1fdjNkX3N1Ym1pdF90ZnUpCj4gICNkZWZpbmUgRFJNX0lPQ1RM
-X1YzRF9TVUJNSVRfQ1NEICAgICAgICAgIERSTV9JT1coRFJNX0NPTU1BTkRfQkFTRSArCj4gRFJN
-X1YzRF9TVUJNSVRfQ1NELCBzdHJ1Y3QgZHJtX3YzZF9zdWJtaXRfY3NkKQo+ICAKPiArI2RlZmlu
-ZSBEUk1fVjNEX1NVQk1JVF9DTF9GTFVTSF9DQUNIRV9GTEFHICAgICAgICAweDAxCj4gKwo+ICAv
-KioKPiAgICogc3RydWN0IGRybV92M2Rfc3VibWl0X2NsIC0gaW9jdGwgYXJndW1lbnQgZm9yIHN1
-Ym1pdHRpbmcgY29tbWFuZHMKPiB0byB0aGUgM0QKPiAgICogZW5naW5lLgo+IEBAIC02MSw3ICs2
-Myw3IEBAIGV4dGVybiAiQyIgewo+ICAgKiBmbHVzaGVkIGJ5IHRoZSB0aW1lIHRoZSByZW5kZXIg
-ZG9uZSBJUlEgaGFwcGVucywgd2hpY2ggaXMgdGhlCj4gICAqIHRyaWdnZXIgZm9yIG91dF9zeW5j
-LiAgQW55IGRpcnR5aW5nIG9mIGNhY2hlbGluZXMgYnkgdGhlIGpvYgo+IChvbmx5Cj4gICAqIHBv
-c3NpYmxlIHVzaW5nIFRNVSB3cml0ZXMpIG11c3QgYmUgZmx1c2hlZCBieSB0aGUgY2FsbGVyIHVz
-aW5nCj4gdGhlCj4gLSAqIENMJ3MgY2FjaGUgZmx1c2ggY29tbWFuZHMuCj4gKyAqIERSTV9WM0Rf
-U1VCTUlUX0NMX0ZMVVNIX0NBQ0hFX0ZMQUcgZmxhZy4KPiAgICovCj4gIHN0cnVjdCBkcm1fdjNk
-X3N1Ym1pdF9jbCB7Cj4gIAkvKiBQb2ludGVyIHRvIHRoZSBiaW5uZXIgY29tbWFuZCBsaXN0Lgo+
-IEBAIC0xMjQsOCArMTI2LDcgQEAgc3RydWN0IGRybV92M2Rfc3VibWl0X2NsIHsKPiAgCS8qIE51
-bWJlciBvZiBCTyBoYW5kbGVzIHBhc3NlZCBpbiAoc2l6ZSBpcyB0aGF0IHRpbWVzIDQpLiAqLwo+
-ICAJX191MzIgYm9faGFuZGxlX2NvdW50Owo+ICAKPiAtCS8qIFBhZCwgbXVzdCBiZSB6ZXJvLWZp
-bGxlZC4gKi8KPiAtCV9fdTMyIHBhZDsKPiArCV9fdTMyIGZsYWdzOwo+ICB9Owo+ICAKPiAgLyoq
-CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0617394978==
+Content-Type: multipart/alternative; boundary="15688003713.8Cc01.4971"
+Content-Transfer-Encoding: 7bit
+
+
+--15688003713.8Cc01.4971
+Date: Wed, 18 Sep 2019 09:52:51 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
+
+--- Comment #125 from Adrian Brown <aide.brown@googlemail.com> ---
+I am also getting frequent crashes with a Radeon VII on Kubuntu 19.10 (kern=
+el
+5.0.0-29-generic). I see there is some discussion in this thread about it
+possibly being related to multiple monitors. But I don't think that's the c=
+ase.
+I have a single monitor but it is old with only a dual link DVI connection.=
+ So
+I am using displayport on the GPU but connected to an active adapter to con=
+vert
+DP to a dual link DVI connection (my monitor is a Dell 3007WFP running at
+2560x1600).
+
+I often get crashes soon after boot. They tend to happen in clusters so it
+crashes a few times, then stays stable for a short time and then crashes ag=
+ain.
+I don't get these crashes on the same system when dual booted into Windows =
+10
+so the hardware itself seems good.=20
+
+One thing worth mentioning is that on Windows 10 I occasionally get a black
+screen and the monitor goes off for a couple of seconds. It then comes back=
+ to
+life. Apparently this is not uncommon and the suspicion in the Windows
+community is that AMD drivers sometimes crash but Windows recovers (I never=
+ had
+this with my Vega 64, only with the Radeon VII). It most likely is a comple=
+tely
+different issue of course, but thought it worth mentioning.
+
+Still hoping for a fix at some point. Also happy to help test any fix.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15688003713.8Cc01.4971
+Date: Wed, 18 Sep 2019 09:52:51 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c125">Comm=
+ent # 125</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+aide.brown&#64;googlemail.com" title=3D"Adrian Brown &lt;aide.brown&#64;goo=
+glemail.com&gt;"> <span class=3D"fn">Adrian Brown</span></a>
+</span></b>
+        <pre>I am also getting frequent crashes with a Radeon VII on Kubunt=
+u 19.10 (kernel
+5.0.0-29-generic). I see there is some discussion in this thread about it
+possibly being related to multiple monitors. But I don't think that's the c=
+ase.
+I have a single monitor but it is old with only a dual link DVI connection.=
+ So
+I am using displayport on the GPU but connected to an active adapter to con=
+vert
+DP to a dual link DVI connection (my monitor is a Dell 3007WFP running at
+2560x1600).
+
+I often get crashes soon after boot. They tend to happen in clusters so it
+crashes a few times, then stays stable for a short time and then crashes ag=
+ain.
+I don't get these crashes on the same system when dual booted into Windows =
+10
+so the hardware itself seems good.=20
+
+One thing worth mentioning is that on Windows 10 I occasionally get a black
+screen and the monitor goes off for a couple of seconds. It then comes back=
+ to
+life. Apparently this is not uncommon and the suspicion in the Windows
+community is that AMD drivers sometimes crash but Windows recovers (I never=
+ had
+this with my Vega 64, only with the Radeon VII). It most likely is a comple=
+tely
+different issue of course, but thought it worth mentioning.
+
+Still hoping for a fix at some point. Also happy to help test any fix.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15688003713.8Cc01.4971--
+
+--===============0617394978==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0617394978==--
