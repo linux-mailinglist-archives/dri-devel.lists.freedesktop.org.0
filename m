@@ -1,63 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 156EAB5F5B
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 10:43:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58787B5F5C
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 10:44:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 800CC6EE51;
-	Wed, 18 Sep 2019 08:43:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A7F06EE53;
+	Wed, 18 Sep 2019 08:43:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13FC36EE51
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 08:43:53 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id i1so5954662wro.4
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 01:43:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:references:user-agent:to:cc:subject
- :in-reply-to:date:message-id:mime-version;
- bh=Es/bmU3c9XGaRtzCiMLIVrPNjr9MNI0eTxg3xMnbUYc=;
- b=H5GSIBW1RZYXmPIlWAWNOA3qlNTKPHpXrsX6fiw/RwAUht3GS3g3fNJPhIj08dHw7z
- aljAIp3oRCYqRx5uOKYsB7VajmbNqsWy1fk1A4zE/zRoqjua2fG/9+dR1JDgnDrYrFzb
- 9z8XXgQZRtm4tKkba9Tdf5cbuOqTsHsdKthItcx2FgnRgKj5vNfZHG/us4Vjm0auZv+X
- 7ewJEFLHCd9wBNjnTPTs+WJARTCmxcCKdZWVl5Ch+OkjgSFpAFuj0PGCf2T3JCuLAnN2
- qK/CEaYoDtbXzsOw8zitB7fRWfCd4a5TEuV+AmA1A8/drBR8KvDebdcXKx0RqNXDpvJ5
- St2g==
-X-Gm-Message-State: APjAAAXCoFV1E4m9vO/e8zskc0cPuyUWOkJ1Q1WazYoCbPp+SxGYeE0x
- WAWiIX8qaS3rQTN75mMeyRWccQ==
-X-Google-Smtp-Source: APXvYqz3Kpju44v9NdaCUS71dFKfNZ3q3V7oya0OqrnOC9uxnDdFSkv5zrOWWA/QCE/CJM9pIPUidg==
-X-Received: by 2002:a5d:52c8:: with SMTP id r8mr2192409wrv.256.1568796231510; 
- Wed, 18 Sep 2019 01:43:51 -0700 (PDT)
-Received: from localhost (lmontsouris-657-1-212-31.w90-63.abo.wanadoo.fr.
- [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id q10sm9774982wrd.39.2019.09.18.01.43.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Sep 2019 01:43:50 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-X-Google-Original-From: Jerome Brunet <jbrunet@starbuckisacylon.baylibre.com>
-References: <20190918082500.209281-1-cychiang@chromium.org>
- <20190918082500.209281-3-cychiang@chromium.org>
-User-agent: mu4e 1.3.1; emacs 26.2
-To: Cheng-Yi Chiang <cychiang@chromium.org>
-Subject: Re: [PATCH v6 2/4] drm: dw-hdmi-i2s: Use fixed id for codec device
-In-reply-to: <20190918082500.209281-3-cychiang@chromium.org>
-Date: Wed, 18 Sep 2019 10:43:49 +0200
-Message-ID: <1j7e663sfu.fsf@starbuckisacylon.baylibre.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 53E0B6EE53
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 08:43:57 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 3A18372167; Wed, 18 Sep 2019 08:43:57 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111730] Xorg does not render with mesa 19.1.7
+Date: Wed, 18 Sep 2019 08:43:56 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/DRI/i915
+X-Bugzilla-Version: 19.1
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: edoars@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ qa_contact attachments.created
+Message-ID: <bug-111730-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=from:references:user-agent:to:cc:subject:in-reply-to:date
- :message-id:mime-version;
- bh=Es/bmU3c9XGaRtzCiMLIVrPNjr9MNI0eTxg3xMnbUYc=;
- b=S2FCcJGdZtO1gO4SQHnOHraw90NxGk+ySbB9OIxE1vfxheAusATdTaw/syxuwdGWQI
- 92sF2Nr9TgHxs7w9AuZJMkw35AR0EvurNbRLvbFBj0IhXv8+CtvAmZEn4/1JRD/sQl+7
- tNMt7J5QEAw5awSGxUcQ8/C/fS2112pJR0ilZf81yL8vBnGNaugVKY9xmUmAErDUp2Sh
- VlGTEU7rvD1DW5sD4FehEg9RXAfUKfdQ8YV5iBOpMAeohp1oWwhAsgleYcPMPeSmZEgO
- sl+eIrDHwIH3Ei22m0zaGRvVaJHEvtf5PLgIY9dlvf0pyHhxZ0Kxb/8q3jOurf9y3lOh
- +X0Q==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,69 +52,189 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Takashi Iwai <tiwai@suse.com>, linux-rockchip@lists.infradead.org,
- dgreid@chromium.org, tzungbi@chromium.org, Jonas Karlman <jonas@kwiboo.se>,
- Liam Girdwood <lgirdwood@gmail.com>, Russell King <rmk+kernel@armlinux.org.uk>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- linux-arm-kernel@lists.infradead.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- dianders@chromium.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1675254491=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIFdlZCAxOCBTZXAgMjAxOSBhdCAxMDoyNCwgQ2hlbmctWWkgQ2hpYW5nIDxjeWNoaWFuZ0Bj
-aHJvbWl1bS5vcmc+IHdyb3RlOgoKPiBUaGUgcHJvYmxlbSBvZiB1c2luZyBhdXRvIElEIGlzIHRo
-YXQgdGhlIGRldmljZSBuYW1lIHdpbGwgYmUgbGlrZQo+IGhkbWktYXVkaW8tY29kZWMuPGlkIG51
-bWJlcj4uYXV0by4KPgo+IFRoZSBudW1iZXIgbWlnaHQgYmUgY2hhbmdlZCB3aGVuIHRoZXJlIGFy
-ZSBvdGhlciBwbGF0Zm9ybSBkZXZpY2VzIGJlaW5nCj4gY3JlYXRlZCBiZWZvcmUgaGRtaS1hdWRp
-by1jb2RlYyBkZXZpY2UuCj4gVXNlIGEgZml4ZWQgbmFtZSBzbyBtYWNoaW5lIGRyaXZlciBjYW4g
-c2V0IGNvZGVjIG5hbWUgb24gdGhlIERBSSBsaW5rLgo+Cj4gVXNpbmcgdGhlIGZpeGVkIG5hbWUg
-c2hvdWxkIGJlIGZpbmUgYmVjYXVzZSB0aGVyZSB3aWxsIG9ubHkgYmUgb25lCj4gaGRtaS1hdWRp
-by1jb2RlYyBkZXZpY2UuCgpXaGlsZSB0aGlzIGlzIHRydWUgYWxsIHBsYXRmb3JtcyB3ZSBrbm93
-IG9mIChJIHN1cHBvc2UpLCBJdCBtaWdodCBub3QgYmUKdGhlIGNhc2UgbGF0ZXIgb24uIEkgd29u
-ZGVyIGlmIG1ha2luZyBzdWNoIGFzc3VtcHRpb24gaXMgcmVhbGx5CmRlc2lyYWJsZSBpbiBhIGNv
-ZGUgd2hpY2ggaXMgdXNlZCBieSBxdWl0ZSBhIGZldyBkaWZmZXJlbnQgcGxhdGZvcm1zLgoKSW5z
-dGVhZCBvZiB0cnlpbmcgdG8gcHJlZGljdCB3aGF0IHRoZSBkZXZpY2UgbmFtZSB3aWxsIGJlLCBj
-YW4ndCB5b3UganVzdApxdWVyeSBpdCBpbiB5b3VyIG1hY2hpbmUgZHJpdmVyID8gVXNpbmcgYSBk
-ZXZpY2UgdHJlZSBwaGFuZGxlIG1heWJlID8KCkl0IGlzIHF1aXRlIHVzdWFsIHRvIHNldCB0aGUg
-ZGFpIGxpbmtzIHRoaXMgd2F5LCAic2ltcGxlLWNhcmQiIGlzIGEgZ29vZApleGFtcGxlIG9mIHRo
-aXMuCgo+Cj4gRml4IHRoZSBjb2RlYyBuYW1lIGluIHJvY2tjaGlwIHJrMzI4OF9oZG1pX2FuYWxv
-ZyBtYWNoaW5lIGRyaXZlci4KPgo+IFNpZ25lZC1vZmYtYnk6IENoZW5nLVlpIENoaWFuZyA8Y3lj
-aGlhbmdAY2hyb21pdW0ub3JnPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9w
-c3lzL2R3LWhkbWktaTJzLWF1ZGlvLmMgfCAyICstCj4gIHNvdW5kL3NvYy9yb2NrY2hpcC9yazMy
-ODhfaGRtaV9hbmFsb2cuYyAgICAgICAgICAgICB8IDMgKystCj4gIDIgZmlsZXMgY2hhbmdlZCwg
-MyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9icmlkZ2Uvc3lub3BzeXMvZHctaGRtaS1pMnMtYXVkaW8uYyBiL2RyaXZlcnMvZ3B1
-L2RybS9icmlkZ2Uvc3lub3BzeXMvZHctaGRtaS1pMnMtYXVkaW8uYwo+IGluZGV4IGQ3ZTY1Yzg2
-OTQxNS4uODZiZDQ4MmI5Zjk0IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uv
-c3lub3BzeXMvZHctaGRtaS1pMnMtYXVkaW8uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlk
-Z2Uvc3lub3BzeXMvZHctaGRtaS1pMnMtYXVkaW8uYwo+IEBAIC0xOTMsNyArMTkzLDcgQEAgc3Rh
-dGljIGludCBzbmRfZHdfaGRtaV9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQo+
-ICAKPiAgCW1lbXNldCgmcGRldmluZm8sIDAsIHNpemVvZihwZGV2aW5mbykpOwo+ICAJcGRldmlu
-Zm8ucGFyZW50CQk9IHBkZXYtPmRldi5wYXJlbnQ7Cj4gLQlwZGV2aW5mby5pZAkJPSBQTEFURk9S
-TV9ERVZJRF9BVVRPOwo+ICsJcGRldmluZm8uaWQJCT0gUExBVEZPUk1fREVWSURfTk9ORTsKPiAg
-CXBkZXZpbmZvLm5hbWUJCT0gSERNSV9DT0RFQ19EUlZfTkFNRTsKPiAgCXBkZXZpbmZvLmRhdGEJ
-CT0gJnBkYXRhOwo+ICAJcGRldmluZm8uc2l6ZV9kYXRhCT0gc2l6ZW9mKHBkYXRhKTsKPiBkaWZm
-IC0tZ2l0IGEvc291bmQvc29jL3JvY2tjaGlwL3JrMzI4OF9oZG1pX2FuYWxvZy5jIGIvc291bmQv
-c29jL3JvY2tjaGlwL3JrMzI4OF9oZG1pX2FuYWxvZy5jCj4gaW5kZXggNzY3NzAwYzM0ZWUyLi44
-Mjg2MDI1YTg3NDcgMTAwNjQ0Cj4gLS0tIGEvc291bmQvc29jL3JvY2tjaGlwL3JrMzI4OF9oZG1p
-X2FuYWxvZy5jCj4gKysrIGIvc291bmQvc29jL3JvY2tjaGlwL3JrMzI4OF9oZG1pX2FuYWxvZy5j
-Cj4gQEAgLTE1LDYgKzE1LDcgQEAKPiAgI2luY2x1ZGUgPGxpbnV4L2dwaW8uaD4KPiAgI2luY2x1
-ZGUgPGxpbnV4L29mX2dwaW8uaD4KPiAgI2luY2x1ZGUgPHNvdW5kL2NvcmUuaD4KPiArI2luY2x1
-ZGUgPHNvdW5kL2hkbWktY29kZWMuaD4KPiAgI2luY2x1ZGUgPHNvdW5kL2phY2suaD4KPiAgI2lu
-Y2x1ZGUgPHNvdW5kL3BjbS5oPgo+ICAjaW5jbHVkZSA8c291bmQvcGNtX3BhcmFtcy5oPgo+IEBA
-IC0xNDIsNyArMTQzLDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBzbmRfc29jX29wcyBya19vcHMg
-PSB7Cj4gIFNORF9TT0NfREFJTElOS19ERUZTKGF1ZGlvLAo+ICAJREFJTElOS19DT01QX0FSUkFZ
-KENPTVBfRU1QVFkoKSksCj4gIAlEQUlMSU5LX0NPTVBfQVJSQVkoQ09NUF9DT0RFQyhOVUxMLCBO
-VUxMKSwKPiAtCQkJICAgQ09NUF9DT0RFQygiaGRtaS1hdWRpby1jb2RlYy4yLmF1dG8iLCAiaTJz
-LWhpZmkiKSksCj4gKwkJCSAgIENPTVBfQ09ERUMoSERNSV9DT0RFQ19EUlZfTkFNRSwgImkycy1o
-aWZpIikpLAo+ICAJREFJTElOS19DT01QX0FSUkFZKENPTVBfRU1QVFkoKSkpOwo+ICAKPiAgc3Rh
-dGljIHN0cnVjdCBzbmRfc29jX2RhaV9saW5rIHJrX2RhaWxpbmsgPSB7CgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1675254491==
+Content-Type: multipart/alternative; boundary="15687962370.Afe008A4F.25718"
+Content-Transfer-Encoding: 7bit
+
+
+--15687962370.Afe008A4F.25718
+Date: Wed, 18 Sep 2019 08:43:57 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111730
+
+            Bug ID: 111730
+           Summary: Xorg does not render with mesa 19.1.7
+           Product: Mesa
+           Version: 19.1
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: major
+          Priority: not set
+         Component: Drivers/DRI/i915
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: edoars@gmail.com
+        QA Contact: dri-devel@lists.freedesktop.org
+
+Created attachment 145423
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145423&action=3Dedit
+screenshot
+
+After updating to mesa 19.1.7 Xorg won't render anything except the shape of
+the windows (see screenshot attached).
+
+This happen only with mesa 19.1.7, both downgrading to 19.1.6 and upgrading=
+ to
+19.3 solve the issue.=20
+
+I will attach logs of the system when booting with mesa 19.1.7.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15687962370.Afe008A4F.25718
+Date: Wed, 18 Sep 2019 08:43:57 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Xorg does not render with mesa 19.1.7"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111730">111730</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Xorg does not render with mesa 19.1.7
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>Mesa
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>19.1
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>major
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>Drivers/DRI/i915
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>edoars&#64;gmail.com
+          </td>
+        </tr>
+
+        <tr>
+          <th>QA Contact</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145423=
+" name=3D"attach_145423" title=3D"screenshot">attachment 145423</a> <a href=
+=3D"attachment.cgi?id=3D145423&amp;action=3Dedit" title=3D"screenshot">[det=
+ails]</a></span>
+screenshot
+
+After updating to mesa 19.1.7 Xorg won't render anything except the shape of
+the windows (see screenshot attached).
+
+This happen only with mesa 19.1.7, both downgrading to 19.1.6 and upgrading=
+ to
+19.3 solve the issue.=20
+
+I will attach logs of the system when booting with mesa 19.1.7.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15687962370.Afe008A4F.25718--
+
+--===============1675254491==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1675254491==--
