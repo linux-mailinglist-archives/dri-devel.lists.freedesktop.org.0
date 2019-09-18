@@ -1,38 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E814FB62AC
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 14:04:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB3B8B62E7
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 14:14:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0877D6EEF2;
-	Wed, 18 Sep 2019 12:04:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C40126EF0A;
+	Wed, 18 Sep 2019 12:14:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id B28546EEF2
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 12:04:08 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 564DA337;
- Wed, 18 Sep 2019 05:04:08 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 18C053F575;
- Wed, 18 Sep 2019 05:04:08 -0700 (PDT)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
- id CD0B96827F6; Wed, 18 Sep 2019 13:04:06 +0100 (BST)
-Date: Wed, 18 Sep 2019 13:04:06 +0100
-From: Liviu Dudau <Liviu.Dudau@arm.com>
-To: Daniel Stone <daniel@fooishbar.org>
-Subject: Re: [RFC PATCH] drm:- Add a modifier to denote 'protected' framebuffer
-Message-ID: <20190918120406.2ylkxx2rqsbhn2te@e110455-lin.cambridge.arm.com>
-References: <20190909134241.23297-1-ayan.halder@arm.com>
- <20190917125301.GQ3958@phenom.ffwll.local>
- <CAPj87rPKp1ogZhk_fMrsX885zkAh1PB4usNQUd4KxNFUv4vsFw@mail.gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3B0476EF1C
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 12:14:55 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id F0B47723F1; Wed, 18 Sep 2019 11:36:30 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
+Date: Wed, 18 Sep 2019 11:36:31 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: reddestdream@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110674-502-63KcHJO9V1@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
+References: <bug-110674-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAPj87rPKp1ogZhk_fMrsX885zkAh1PB4usNQUd4KxNFUv4vsFw@mail.gmail.com>
-User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,103 +52,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nd <nd@arm.com>, "maxime.ripard@bootlin.com" <maxime.ripard@bootlin.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "airlied@linux.ie" <airlied@linux.ie>, Ayan Halder <Ayan.Halder@arm.com>,
- "sean@poorly.run" <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0862319060=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBTZXAgMTgsIDIwMTkgYXQgMDk6NDk6NDBBTSArMDEwMCwgRGFuaWVsIFN0b25lIHdy
-b3RlOgo+IEhpIGFsbCwKCkhpLAoKPiAKPiBPbiBUdWUsIDE3IFNlcCAyMDE5IGF0IDEzOjUzLCBE
-YW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+IHdyb3RlOgo+ID4gT24gTW9uLCBTZXAgMDks
-IDIwMTkgYXQgMDE6NDI6NTNQTSArMDAwMCwgQXlhbiBIYWxkZXIgd3JvdGU6Cj4gPiA+IExldCB1
-cyBpZ25vcmUgaG93IHRoZSBwcm90ZWN0ZWQgc3lzdGVtIG1lbW9yeSBpcyBhbGxvY2F0ZWQgYW5k
-IGZvciB0aGUgc2NvcGUgb2YKPiA+ID4gdGhpcyBkaXNjdXNzaW9uLCB3ZSB3YW50IHRvIGZpZ3Vy
-ZSBvdXQgdGhlIGJlc3Qgd2F5IHBvc3NpYmxlIGZvciB0aGUgdXNlcnNwYWNlCj4gPiA+IHRvIGNv
-bW11bmljYXRlIHRvIHRoZSBkcm0gZHJpdmVyIHRvIHR1cm4gdGhlIHByb3RlY3RlZCBtb2RlIG9u
-IChmb3IgYWNjZXNzaW5nIHRoZQo+ID4gPiBmcmFtZWJ1ZmZlciB3aXRoIHRoZSBEUk0gY29udGVu
-dCkgb3Igb2ZmLgo+ID4gPgo+ID4gPiBUaGUgcG9zc2libGUgd2F5cyBieSB3aGljaCB0aGUgdXNl
-cnNwYWNlIGNvdWxkIGFjaGlldmUgdGhpcyBpcyB2aWE6LQo+ID4gPgo+ID4gPiAxLiBNb2RpZmll
-cnMgOi0gVGhpcyBsb29rcyB0byBtZSB0aGUgYmVzdCB3YXkgYnkgd2hpY2ggdGhlIHVzZXJzcGFj
-ZSBjYW4KPiA+ID4gY29tbXVuaWNhdGUgdG8gdGhlIGtlcm5lbCB0byB0dXJuIHRoZSBwcm90ZWN0
-ZWQgbW9kZSBvbiBmb3IgdGhlIGtvbWVkYSBkcml2ZXIKPiA+ID4gYXMgaXQgaXMgZ29pbmcgdG8g
-YWNjZXNzIG9uZSBvZiB0aGUgcHJvdGVjdGVkIGZyYW1lYnVmZmVycy4gVGhlIG9ubHkgcHJvYmxl
-bSBpcwo+ID4gPiB0aGF0IHRoZSBjdXJyZW50IG1vZGlmaWVycyBkZXNjcmliZSB0aGUgdGlsaW5n
-L2NvbXByZXNzaW9uIGZvcm1hdC4gSG93ZXZlciwgaXQKPiA+ID4gZG9lcyBub3QgaHVydCB0byBl
-eHRlbmQgdGhlIG1lYW5pbmcgb2YgbW9kaWZpZXJzIHRvIGRlbm90ZSBvdGhlciBhdHRyaWJ1dGVz
-IG9mCj4gPiA+IHRoZSBmcmFtZWJ1ZmZlciBhcyB3ZWxsLgo+ID4gPgo+ID4gPiBUaGUgb3RoZXIg
-cmVhc29uIGlzIHRoYXQgb24gQW5kcm9pZCwgd2UgZ2V0IGFuIGluZm8gZnJvbSBHcmFsbG9jCj4g
-PiA+IChHUkFMTE9DX1VTQUdFX1BST1RFQ1RFRCkgd2hpY2ggdGVsbHMgdXMgdGhhdCB0aGUgYnVm
-ZmVyIGlzIHByb3RlY3RlZC4gVGhpcyBjYW4KPiA+ID4gYmUgdXNlZCB0byBzZXQgdXAgdGhlIG1v
-ZGlmaWVyL3MgKEFkZEZCMikgZHVyaW5nIGZyYW1lYnVmZmVyIGNyZWF0aW9uLgo+ID4KPiA+IEhv
-dyBkb2VzIHRoaXMgbWVzaCB3aXRoIG90aGVyIG1vZGlmaWVycywgbGlrZSBBRkJDPyBUaGF0J3Mg
-d2hlcmUgSSBzZWUgdGhlCj4gPiBpc3N1ZSBoZXJlLgo+IAo+IFllYWguIE9uIG90aGVyIFNvQ3Ms
-IHdlIGNlcnRhaW5seSBoYXZlIHVzZWNhc2VzIGZvciBwcm90ZWN0ZWQgY29udGVudAo+IHdpdGgg
-ZGlmZmVyZW50IGJ1ZmZlciBsYXlvdXRzLiBUaGUgaS5NWDhNIGNhbiBwcm90ZWN0IHBhcnRpY3Vs
-YXIKPiBtZW1vcnkgYXJlYXMgYW5kIHBhcnRpdGlvbiB0aGVtIHRvIHByb3RlY3QgYWNjZXNzIGZy
-b20gcGFydGljdWxhcgo+IGRldmljZXMgKGUuZy4gZGlzcGxheSBjb250cm9sbGVyIGFuZCB2aWRl
-byBkZWNvZGVyIG9ubHksIG5vdCBDUFUgb3IKPiBHUFUpLiBUaG9zZSBtZW1vcnkgYXJlYXMgY2Fu
-IGNvbnRhaW4gbGluZWFyIGJ1ZmZlcnMsIG9yIHRpbGVkIGJ1ZmZlcnMsCj4gb3Igc3VwZXJ0aWxl
-ZCBidWZmZXJzLCBvciAuLi4KPiAKPiBTdGVhbGluZyBhIG1vZGlmaWVyIGlzbid0IGFwcHJvcHJp
-YXRlLgoKSSB0ZW5kIHRvIGFncmVlIHdpdGggeW91IGhlcmUuIEdpdmVuIHRoYXQgdGhlIG1vZGlm
-aWVycyB3ZXJlIGludHJvZHVjZWQgbW9zdGx5IHRvCmhlbHAgdmVuZG9ycyBhZGQgdGhlaXIgaWRl
-b3N5bmNyYXRpYyBiaXRzLCBoYXZpbmcgYSBnZW5lcmljIGZsYWcgYXMgYSBtb2RpZmllciBpcwpu
-b3QgYSBnb29kIGlkZWEuCgo+IAo+ID4gNi4gSnVzdCB0cmFjayB0aGlzIGFzIHBhcnQgb2YgYnVm
-ZmVyIGFsbG9jYXRpb24sIGkuZS4gSSB0aGluayBpdCBkb2VzCj4gPiBtYXR0ZXIgaG93IHlvdSBh
-bGxvY2F0ZSB0aGVzZSBwcm90ZWN0ZWQgYnVmZmVycy4gV2UgY291bGQgYWRkIGEgImlzCj4gPiBw
-cm90ZWN0ZWQgYnVmZmVyIiBmbGFnIGF0IHRoZSBkbWFfYnVmIGxldmVsIGZvciB0aGlzLgo+IAo+
-IEkgdG90YWxseSBhZ3JlZS4gRnJhbWVidWZmZXJzIGFyZW4ndCBhYm91dCB0aGUgdW5kZXJseWlu
-ZyBtZW1vcnkgdGhleQo+IHBvaW50IHRvLCBidXQgYWJvdXQgaG93IHRvIF9pbnRlcnByZXRfIHRo
-YXQgbWVtb3J5OiBpdCBkZWNvcmF0ZXMgYQo+IHBvaW50ZXIgd2l0aCB3aWR0aCwgaGVpZ2h0LCBz
-dHJpZGUsIGZvcm1hdCwgZXRjLCB0byBhbGxvdyB5b3UgdG8gbWFrZQo+IHNlbnNlIG9mIHRoYXQg
-bWVtb3J5LiBJIHNlZSBjb250ZW50IHByb3RlY3Rpb24gYXMgYmVpbmcgdGhlIHNhbWUgYXMKPiBw
-aHlzaWNhbCBjb250aWd1aXR5LCB3aGljaCBpcyBhIHByb3BlcnR5IG9mIHRoZSB1bmRlcmx5aW5n
-IG1lbW9yeQo+IGl0c2VsZi4gUmVnYXJkbGVzcyBvZiB0aGUgd2lkdGgsIGhlaWdodCwgb3IgZm9y
-bWF0LCB5b3UganVzdCBjYW5ub3QKPiBhY2Nlc3MgdGhhdCBtZW1vcnkgdW5sZXNzIGl0J3MgdW5k
-ZXIgdGhlIGFwcHJvcHJpYXRlICgnc2VjdXJlIGVub3VnaCcpCj4gY29uZGl0aW9ucy4KPiAKPiBT
-byBJIHRoaW5rIGEgZG1hYnVmIGF0dHJpYnV0ZSB3b3VsZCBiZSBtb3N0IGFwcHJvcHJpYXRlLCBz
-aW5jZSB0aGF0J3MKPiB3aGVyZSB5b3UgaGF2ZSB0byBkbyBhbGwgeW91ciBNTVUgaGFuZGxpbmcs
-IGFuZCBldmVyeXRoaW5nIGVsc2UgeW91Cj4gbmVlZCB0byBkbyB0byBhbGxvdyBhY2Nlc3MgdG8g
-dGhhdCBidWZmZXIsIGFueXdheS4KCklzbid0IGl0IGhvdyBBTUQgY3VycmVudGx5IGltcGxlbWVu
-dHMgcHJvdGVjdGVkIGJ1ZmZlcnMgYXMgd2VsbD8KCj4gCj4gPiBTbyB5ZWFoIGZvciB0aGlzIHN0
-dWZmIGhlcmUgSSB0aGluayB3ZSBkbyB3YW50IHRoZSBmdWxsIHVzZXJzcGFjZSBzaWRlLAo+ID4g
-ZnJvbSBhbGxvY2F0b3IgdG8gcmVuZGVyaW5nIHNvbWV0aGluZyBpbnRvIHRoaXMgcHJvdGVjdGVk
-IGJ1ZmZlcnMgKG5vIG5lZWQKPiA+IHRvIGFsc28gaGF2ZSB0aGUgZW50aXJlICJkZWNvZGUgYSBw
-cm90ZWN0ZWQgYml0c3RyZWFtIHBhcnQiIGltbywgc2luY2UKPiA+IHRoYXQgd2lsbCBmcmVhayBw
-ZW9wbGUgb3V0KS4gVW5mb3J0dW5hdGVseSwgaW4gbXkgZXhwZXJpZW5jZSwgdGhhdCBraWxscwo+
-ID4gaXQgZm9yIHVwc3RyZWFtIDotLyBCdXQgYWxzbyBpbiBteSBleHBlcmllbmNlIG9mIGxvb2tp
-bmcgaW50byB0aGlzIGZvcgo+ID4gb3RoZXIgZ3B1J3MsIHdlIHJlYWxseSBuZWVkIHRvIGhhdmUg
-dGhlIGZ1bGwgcGljdHVyZSBoZXJlIHRvIG1ha2Ugc3VyZQo+ID4gd2UncmUgbm90IHNjcmV3aW5n
-IHRoaXMgdXAuCj4gCj4gWWVhaC4gSSBrbm93IHRoZXJlIGFyZSBhIGZldyBwZW9wbGUgbG9va2lu
-ZyBhdCB0aGlzIGF0IHRoZSBtb21lbnQsIHNvCj4gaG9wZWZ1bGx5IHdlIGFyZSBhYmxlIHRvIGdl
-dCBzb21ldGhpbmcgdXAgYW5kIG91dCBpbiB0aGUgb3BlbiBhcyBhCj4gc3RyYXdtYW4uCj4gCj4g
-VGhlcmUncyBhIGxvdCBvZiBjb21wbGV4aXR5IGJleW9uZCBqdXN0ICdpdCdzIHByb3RlY3RlZCc7
-IGZvcgo+IGluc3RhbmNlLCBzb21lIENQIHByb3ZpZGVycyBtYW5kYXRlIHRoYXQgdGhlaXIgY29u
-dGVudCBjYW4gb25seSBiZQo+IHN0cmVhbWVkIG92ZXIgSERDUCAyLjIgVHlwZS0xIHdoZW4gZ29p
-bmcgdGhyb3VnaCBhbiBleHRlcm5hbAo+IGNvbm5lY3Rpb24uIE9uZSB3YXkgeW91IGNvdWxkIGRv
-IHRoYXQgaXMgdG8gdXNlIGEgc2VjdXJlIHdvcmxkCj4gKGV4dGVybmFsIGNvbnRyb2xsZXIgbGlr
-ZSBJbnRlbCdzIE1FLCBvciBDUFUtaW50ZXJuYWwgZW5jbGF2ZSBsaWtlIFNHWAo+IG9yIFRFRSkg
-dG8gZXhhbWluZSB0aGUgZGlzcGxheSBwaXBlIGNvbmZpZ3VyYXRpb24sIGFuZCBvbmx5IHRoZW4g
-YWxsb3cKPiBhY2Nlc3MgdG8gdGhlIGJ1ZmZlcnMgYW5kL29yIGtleXMuIFN0dWZmIGxpa2UgdGhh
-dCBpcyBhbHdheXMgZ29pbmcgdG8KPiBiZSBvdXQgaW4gdGhlIHJlYWxtIG9mIHZlbmRvciAmIHBy
-b2R1Y3QtcG9saWN5LXNwZWNpZmljIGFkZC1vbnMsIGJ1dAo+IGl0IHNob3VsZCBiZSBwb3NzaWJs
-ZSB0byBhZ3JlZSBvbiBhdCBsZWFzdCB0aGUgYmFzaWMgbWVjaGFuaWNzIGFuZAo+IGV4cGVjdGF0
-aW9ucyBvZiBhIHNlY3VyZSBwYXRoIHdpdGhvdXQgdGhpbmdzIGxpa2UgdGhhdC4KCkkgYWxzbyBl
-eHBlY3QgdGhhdCBnb2luZyB0aHJvdWdoIHRoZSBzZWN1cmUgd29ybGQgd2lsbCBiZSBwcmV0dHkg
-bXVjaCB0cmFuc3BhcmVudCBmb3IKdGhlIGtlcm5lbCBkcml2ZXIsIGFzIHRoZSBtb3N0IGxpa2Vs
-eSBoYXJkd2FyZSBpbXBsZW1lbnRhdGlvbnMgd291bGQgZW5hYmxlCmFkZGl0aW9uYWwgc2lnbmFs
-aW5nIHRoYXQgd2lsbCBnZXQgdHJhcHBlZCBhbmQgaGFuZGxlZCBieSB0aGUgc2VjdXJlIE9TLiBJ
-J20gbm90CnRyeWluZyB0byBzaW1wbGlmeSB0aGluZ3MsIGp1c3QgdGFraW5nIHRoZSBzdGFuY2Ug
-dGhhdCBpdCBpcyB1c2Vyc3BhY2UgdGhhdCBpcwpjb29yZGluYXRpbmcgYWxsIHRoaXMsIHdlJ3Jl
-IHRyeWluZyBvbmx5IHRvIGZpbmQgYSBjb21tb24gZ3JvdW5kIG9uIGhvdyB0byBoYW5kbGUKdGhp
-cyBpbiB0aGUga2VybmVsLgoKQmVzdCByZWdhcmRzLApMaXZpdQoKPiAKPiBDaGVlcnMsCj4gRGFu
-aWVsCgotLSAKPT09PT09PT09PT09PT09PT09PT0KfCBJIHdvdWxkIGxpa2UgdG8gfAp8IGZpeCB0
-aGUgd29ybGQsICB8CnwgYnV0IHRoZXkncmUgbm90IHwKfCBnaXZpbmcgbWUgdGhlICAgfAogXCBz
-b3VyY2UgY29kZSEgIC8KICAtLS0tLS0tLS0tLS0tLS0KICAgIMKvXF8o44OEKV8vwq8KX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0862319060==
+Content-Type: multipart/alternative; boundary="15688065903.19CbEcD2.23991"
+Content-Transfer-Encoding: 7bit
+
+
+--15688065903.19CbEcD2.23991
+Date: Wed, 18 Sep 2019 11:36:30 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
+
+--- Comment #126 from ReddestDream <reddestdream@gmail.com> ---
+@Adrian Brown Your Linux issue is potentially related to the active adapter.
+Have you tried w/o it?
+
+On Windows, the flickering on/around login, at least for me, has been mostly
+resolved by using the latest AMD driver + Windows 10 1903 and all the recent
+updates. There was a Windows update about a month ago that resolved a lot of
+flickering issues by fixing a bug in Windows's 10-bit color support.
+
+Also, if you are using Ubuntu, it might be worth downgrading to 18.04.3 so =
+that
+you can use the Radeon Software for Linux Driver:
+
+https://www.amd.com/en/support/graphics/amd-radeon-2nd-generation-vega/amd-=
+radeon-2nd-generation-vega/amd-radeon-vii
+
+Currently, I hear that using AMD's driver + a supported distro is the best =
+way
+to get stability out of Radeon VII. And it's something I will probably end =
+up
+trying myself if there's no resolution to the issues forthcoming with 5.4,
+which will be the new LTS.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15688065903.19CbEcD2.23991
+Date: Wed, 18 Sep 2019 11:36:30 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c126">Comm=
+ent # 126</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+reddestdream&#64;gmail.com" title=3D"ReddestDream &lt;reddestdream&#64;gmai=
+l.com&gt;"> <span class=3D"fn">ReddestDream</span></a>
+</span></b>
+        <pre>&#64;Adrian Brown Your Linux issue is potentially related to t=
+he active adapter.
+Have you tried w/o it?
+
+On Windows, the flickering on/around login, at least for me, has been mostly
+resolved by using the latest AMD driver + Windows 10 1903 and all the recent
+updates. There was a Windows update about a month ago that resolved a lot of
+flickering issues by fixing a bug in Windows's 10-bit color support.
+
+Also, if you are using Ubuntu, it might be worth downgrading to 18.04.3 so =
+that
+you can use the Radeon Software for Linux Driver:
+
+<a href=3D"https://www.amd.com/en/support/graphics/amd-radeon-2nd-generatio=
+n-vega/amd-radeon-2nd-generation-vega/amd-radeon-vii">https://www.amd.com/e=
+n/support/graphics/amd-radeon-2nd-generation-vega/amd-radeon-2nd-generation=
+-vega/amd-radeon-vii</a>
+
+Currently, I hear that using AMD's driver + a supported distro is the best =
+way
+to get stability out of Radeon VII. And it's something I will probably end =
+up
+trying myself if there's no resolution to the issues forthcoming with 5.4,
+which will be the new LTS.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15688065903.19CbEcD2.23991--
+
+--===============0862319060==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0862319060==--
