@@ -2,44 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB3B8B62E7
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 14:14:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3637CB62F9
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 14:21:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C40126EF0A;
-	Wed, 18 Sep 2019 12:14:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B5F86EF12;
+	Wed, 18 Sep 2019 12:21:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3B0476EF1C
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 12:14:55 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id F0B47723F1; Wed, 18 Sep 2019 11:36:30 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Wed, 18 Sep 2019 11:36:31 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: reddestdream@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-63KcHJO9V1@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
+ [IPv6:2607:f8b0:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14DFD6EF12
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 12:21:02 +0000 (UTC)
+Received: by mail-ot1-x341.google.com with SMTP id 67so6134861oto.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 05:21:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ivITYsqkFGLRPATCP07meXxenbLTFdBa9xhnf9/CgTM=;
+ b=C5dMCGqng/tOLUTc9N8y5zj0ToAIBFknRcTxeF67O1V6jpWUypZuGDocYW2iWpdJN6
+ aCDBHQzITc9WaG+YGDEtu+wo10q+Kh51Yp/2m4sDej8qENMHkO/YH6Jc1w7n7PaH2elz
+ RFe+dowmoA7PhwrYod9qcEHIkEFwh8a8x7h95h7erOvGnMMrLIZJS9kmNmrBkC5eXq1x
+ Bf5eZKbCzaVUbu+wSoQZHvLreBLd3N+aVvfq1a7yWjCcIn2oh6nh0WrNwg+Pl4yyUxQS
+ ujRNqI/PhCH5KJX4a8s+LQGHgKh/awu3sGKdyBP48xGTnFgYGeVA3kp0HdOH5auItJ1/
+ /o+Q==
+X-Gm-Message-State: APjAAAW94wlDlYwBGMNZ0UDFkcTnQy58K/I/jgXkZZROgGWJgJjJBALI
+ XEdmF3i9hwZyavxPny4ZRq5oF6T15qqHtWXw1OQAww==
+X-Google-Smtp-Source: APXvYqxgR9R7y1xfcJ1HyKxQQrELRvjuaauxEhsYbeg7mF+bCmanqkcXSuQ1mqFFJ++bA3j4YpIklSWKHp6NQiufFQQ=
+X-Received: by 2002:a9d:7006:: with SMTP id k6mr2617665otj.303.1568809261264; 
+ Wed, 18 Sep 2019 05:21:01 -0700 (PDT)
 MIME-Version: 1.0
+References: <KJRi1ROX2_eM1WjtEQ1e1-f--VK4hwMQJQt1nPaS6lcmt3v4yIfdttLIu_EOGdkwXwEMAEo66Xa7ksp7iQABWT5GuMu6UgKoiuEm6EU2N1U=@emersion.fr>
+ <20190910133810.64e973f4@eldfell.localdomain>
+ <CAKMK7uEEuUpD_eni6wr=7sEadnYypd=7Ojf5zQ0tgXQov4F3mQ@mail.gmail.com>
+ <1hklN2_EspD_s4vA3fdCCkVN9jeARGhmtkSGWDyVus-0ryZFs4xftUYRp_Z4pzsikJActaDVaTUoPNfBd-QitQX_JJTXkkqKFXxJhgMjEI0=@emersion.fr>
+ <60c3fb6c-651a-0122-44d5-30895bbcb22c@collabora.com>
+In-Reply-To: <60c3fb6c-651a-0122-44d5-30895bbcb22c@collabora.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 18 Sep 2019 14:20:49 +0200
+Message-ID: <CAKMK7uG1uXU5sO81VCN7zeNn62D-JHEW1QSSoJ695AULGt3zSQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm: two planes with the same zpos have undefined
+ ordering
+To: Marius Vlad <marius.vlad@collabora.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=ivITYsqkFGLRPATCP07meXxenbLTFdBa9xhnf9/CgTM=;
+ b=F3IN9v/w69aSSPK2U/GLb4zBYdIvS0y//O0iB3HHAC6ip3zWqodCG4gdFXA+LTb92r
+ 6ioTlPhb+kwZl8ptRegd8VkrdHRn52Cuvrn/JYzdeeZFl4Y/Ri45JJnqb8rBAEgkD8KU
+ cJU+jZKAPprK3Yssgh+0j0vUesPvgw2FvhexM=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,129 +64,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0862319060=="
+Cc: Simon Ser <contact@emersion.fr>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0862319060==
-Content-Type: multipart/alternative; boundary="15688065903.19CbEcD2.23991"
-Content-Transfer-Encoding: 7bit
-
-
---15688065903.19CbEcD2.23991
-Date: Wed, 18 Sep 2019 11:36:30 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
-
---- Comment #126 from ReddestDream <reddestdream@gmail.com> ---
-@Adrian Brown Your Linux issue is potentially related to the active adapter.
-Have you tried w/o it?
-
-On Windows, the flickering on/around login, at least for me, has been mostly
-resolved by using the latest AMD driver + Windows 10 1903 and all the recent
-updates. There was a Windows update about a month ago that resolved a lot of
-flickering issues by fixing a bug in Windows's 10-bit color support.
-
-Also, if you are using Ubuntu, it might be worth downgrading to 18.04.3 so =
-that
-you can use the Radeon Software for Linux Driver:
-
-https://www.amd.com/en/support/graphics/amd-radeon-2nd-generation-vega/amd-=
-radeon-2nd-generation-vega/amd-radeon-vii
-
-Currently, I hear that using AMD's driver + a supported distro is the best =
-way
-to get stability out of Radeon VII. And it's something I will probably end =
-up
-trying myself if there's no resolution to the issues forthcoming with 5.4,
-which will be the new LTS.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15688065903.19CbEcD2.23991
-Date: Wed, 18 Sep 2019 11:36:30 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c126">Comm=
-ent # 126</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-reddestdream&#64;gmail.com" title=3D"ReddestDream &lt;reddestdream&#64;gmai=
-l.com&gt;"> <span class=3D"fn">ReddestDream</span></a>
-</span></b>
-        <pre>&#64;Adrian Brown Your Linux issue is potentially related to t=
-he active adapter.
-Have you tried w/o it?
-
-On Windows, the flickering on/around login, at least for me, has been mostly
-resolved by using the latest AMD driver + Windows 10 1903 and all the recent
-updates. There was a Windows update about a month ago that resolved a lot of
-flickering issues by fixing a bug in Windows's 10-bit color support.
-
-Also, if you are using Ubuntu, it might be worth downgrading to 18.04.3 so =
-that
-you can use the Radeon Software for Linux Driver:
-
-<a href=3D"https://www.amd.com/en/support/graphics/amd-radeon-2nd-generatio=
-n-vega/amd-radeon-2nd-generation-vega/amd-radeon-vii">https://www.amd.com/e=
-n/support/graphics/amd-radeon-2nd-generation-vega/amd-radeon-2nd-generation=
--vega/amd-radeon-vii</a>
-
-Currently, I hear that using AMD's driver + a supported distro is the best =
-way
-to get stability out of Radeon VII. And it's something I will probably end =
-up
-trying myself if there's no resolution to the issues forthcoming with 5.4,
-which will be the new LTS.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15688065903.19CbEcD2.23991--
-
---===============0862319060==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0862319060==--
+T24gV2VkLCBTZXAgMTgsIDIwMTkgYXQgMToxNCBQTSBNYXJpdXMgVmxhZCA8bWFyaXVzLnZsYWRA
+Y29sbGFib3JhLmNvbT4gd3JvdGU6Cj4KPgo+Cj4gT24gOS8xNy8xOSA4OjI0IFBNLCBTaW1vbiBT
+ZXIgd3JvdGU6Cj4gPiBDdXJyZW50bHkgdGhlIHByb3BlcnR5IGRvY3MgZG9uJ3Qgc3BlY2lmeSB3
+aGV0aGVyIGl0J3Mgb2theSBmb3IgdHdvIHBsYW5lcyB0bwo+ID4gaGF2ZSB0aGUgc2FtZSB6cG9z
+IHZhbHVlIGFuZCB3aGF0IHVzZXItc3BhY2Ugc2hvdWxkIGV4cGVjdCBpbiB0aGlzIGNhc2UuCj4g
+Pgo+ID4gVGhlIHJ1bGUgbWVudGlvbm5lZCBpbiB0aGUgcGFzdCB3YXMgdG8gZGlzYW1iaWd1YXRl
+IHdpdGggb2JqZWN0IElEcy4gSG93ZXZlcgo+ID4gc29tZSBkcml2ZXJzIGJyZWFrIHRoaXMgcnVs
+ZSAodGhhdCdzIHdoeSB0aGUgb3JkZXJpbmcgaXMgZG9jdW1lbnRlZCBhcwo+ID4gdW5zcGVjaWZp
+ZWQgaW4gY2FzZSB0aGUgenBvcyBwcm9wZXJ0eSBpcyBtaXNzaW5nKS4gQWRkaXRpb25hbGx5IGl0
+IGRvZXNuJ3QKPiA+IHJlYWxseSBtYWtlIHNlbnNlIGZvciBhIGRyaXZlciB0byB1c2VyIGlkZW50
+aWNhbCB6cG9zIHZhbHVlcyBpZiBpdCBrbm93cyB0aGVpcgo+ID4gcmVsYXRpdmUgcG9zaXRpb246
+IHRoZSBkcml2ZXIgY2FuIGp1c3QgcGljayBkaWZmZXJlbnQgdmFsdWVzIGluc3RlYWQuCj4gPgo+
+ID4gU28gdHdvIHNvbHV0aW9ucyB3b3VsZCBtYWtlIHNlbnNlOiBlaXRoZXIgZGlzYWxsb3cgY29t
+cGxldGVseSBpZGVudGljYWwgenBvcwo+ID4gdmFsdWVzIGZvciB0d28gZGlmZmVyZW50IHBsYW5l
+cywgZWl0aGVyIG1ha2UgdGhlIG9yZGVyaW5nIHVuc3BlY2lmaWVkLiBUbyBhbGxvdwo+ID4gZHJp
+dmVycyB0aGF0IGRvbid0IGtub3cgdGhlIHJlbGF0aXZlIG9yZGVyaW5nIGJldHdlZW4gdHdvIHBs
+YW5lcyB0byBzdGlsbAo+ID4gZXhwb3NlIHRoZSB6cG9zIHByb3BlcnR5LCBjaG9vc2UgdGhlIGxh
+dHRlciBzb2x1dGlvbi4KPiA+Cj4gPiBBZGRpdGlvbmFsbHksIHVwZGF0ZSB0aGUgZHJtX3BsYW5l
+X3N0YXRlLnpwb3MgZG9jcyB0byBjbGFyaWZ5IHRoYXQgenBvcwo+ID4gZGlzYW1iaWd1YXRpb24g
+dmlhIHBsYW5lIG9iamVjdCBJRHMgaXMgYSByZWNvbW1lbmRhdGlvbiBmb3IgZHJpdmVycywgbm90
+Cj4gPiBzb21ldGhpbmcgdXNlci1zcGFjZSBjYW4gcmVseSBvbi4KPiA+Cj4gPiB2MjogY2xhcmlm
+eSBkcm1fcGxhbmVfc3RhdGUuenBvcyBkb2NzIChEYW5pZWwpCj4gPgo+ID4gU2lnbmVkLW9mZi1i
+eTogU2ltb24gU2VyIDxjb250YWN0QGVtZXJzaW9uLmZyPgo+ID4gQ2M6IFBla2thIFBhYWxhbmVu
+IDxwcGFhbGFuZW5AZ21haWwuY29tPgo+ID4gQ2M6IE1hcml1cyBWbGFkIDxtYXJpdXMudmxhZEBj
+b2xsYWJvcmEuY29tPgo+ID4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwu
+Y2g+Cj4gPiAtLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2JsZW5kLmMgfCA4ICsrKystLS0t
+Cj4gPiAgaW5jbHVkZS9kcm0vZHJtX3BsYW5lLmggICAgIHwgNiArKystLS0KPiA+ICAyIGZpbGVz
+IGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKPiA+Cj4gPiBkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9ibGVuZC5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9i
+bGVuZC5jCj4gPiBpbmRleCBkMDI3MDlkZDJkNGEuLjUxYmQ1NDU0ZTUwYSAxMDA2NDQKPiA+IC0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fYmxlbmQuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L2RybV9ibGVuZC5jCj4gPiBAQCAtMTMyLDEwICsxMzIsMTAgQEAKPiA+ICAgKiAgIHBsYW5lcy4g
+V2l0aG91dCB0aGlzIHByb3BlcnR5IHRoZSBwcmltYXJ5IHBsYW5lIGlzIGFsd2F5cyBiZWxvdyB0
+aGUgY3Vyc29yCj4gPiAgICogICBwbGFuZSwgYW5kIG9yZGVyaW5nIGJldHdlZW4gYWxsIG90aGVy
+IHBsYW5lcyBpcyB1bmRlZmluZWQuIFRoZSBwb3NpdGl2ZQo+ID4gICAqICAgWiBheGlzIHBvaW50
+cyB0b3dhcmRzIHRoZSB1c2VyLCBpLmUuIHBsYW5lcyB3aXRoIGxvd2VyIFogcG9zaXRpb24gdmFs
+dWVzCj4gPiAtICogICBhcmUgdW5kZXJuZWF0aCBwbGFuZXMgd2l0aCBoaWdoZXIgWiBwb3NpdGlv
+biB2YWx1ZXMuIE5vdGUgdGhhdCB0aGUgWgo+ID4gLSAqICAgcG9zaXRpb24gdmFsdWUgY2FuIGFs
+c28gYmUgaW1tdXRhYmxlLCB0byBpbmZvcm0gdXNlcnNwYWNlIGFib3V0IHRoZQo+ID4gLSAqICAg
+aGFyZC1jb2RlZCBzdGFja2luZyBvZiBvdmVybGF5IHBsYW5lcywgc2VlCj4gPiAtICogICBkcm1f
+cGxhbmVfY3JlYXRlX3pwb3NfaW1tdXRhYmxlX3Byb3BlcnR5KCkuCj4gPiArICogICBhcmUgdW5k
+ZXJuZWF0aCBwbGFuZXMgd2l0aCBoaWdoZXIgWiBwb3NpdGlvbiB2YWx1ZXMuIFR3byBwbGFuZXMg
+d2l0aCB0aGUKPiA+ICsgKiAgIHNhbWUgWiBwb3NpdGlvbiB2YWx1ZSBoYXZlIHVuZGVmaW5lZCBv
+cmRlcmluZy4gTm90ZSB0aGF0IHRoZSBaIHBvc2l0aW9uCj4gPiArICogICB2YWx1ZSBjYW4gYWxz
+byBiZSBpbW11dGFibGUsIHRvIGluZm9ybSB1c2Vyc3BhY2UgYWJvdXQgdGhlIGhhcmQtY29kZWQK
+PiA+ICsgKiAgIHN0YWNraW5nIG9mIG92ZXJsYXkgcGxhbmVzLCBzZWUgZHJtX3BsYW5lX2NyZWF0
+ZV96cG9zX2ltbXV0YWJsZV9wcm9wZXJ0eSgpLgo+Cj4gc3RhY2tpbmcgb2Ygb3ZlcmxheSAoYW5k
+IG9yKSBzY2Fub3V0IHBsYW5lcz8KClllYWggbWlnaHQgYmUgYmV0dGVyIHRvIGRyb3AgdGhlICJv
+dmVybGF5IiBoZXJlLCB0aGlzIGlzIGZvciBwbGFuZXMgaW4KZ2VuZXJhbC4gT3ZlcmxheSB2cy4g
+b3RoZXIgcGxhbmVzIGlzIHJlYWxseSBvbmx5IHJlbGV2YW50IGZvciB0aGUKbGVnYWN5IGlvY3Rs
+cywgdG8gbWFrZSBzdXJlIHRoZXkga25vdyB3aGljaCBwbGFuZSB0byBwaWNrLiBPdGhlcndpc2UK
+dGhlcmUncyBub3RoaW5nIHNwZWNpYWwgd2l0aCB0aGVtLgotRGFuaWVsCgo+Cj4KPiA+ICAgKgo+
+ID4gICAqIHBpeGVsIGJsZW5kIG1vZGU6Cj4gPiAgICogICBQaXhlbCBibGVuZCBtb2RlIGlzIHNl
+dCB1cCB3aXRoIGRybV9wbGFuZV9jcmVhdGVfYmxlbmRfbW9kZV9wcm9wZXJ0eSgpLgo+ID4gZGlm
+ZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9wbGFuZS5oIGIvaW5jbHVkZS9kcm0vZHJtX3BsYW5l
+LmgKPiA+IGluZGV4IGNkNTkwM2FkMzNmNy4uN2FjNjgwNTdiMTlkIDEwMDY0NAo+ID4gLS0tIGEv
+aW5jbHVkZS9kcm0vZHJtX3BsYW5lLmgKPiA+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9wbGFuZS5o
+Cj4gPiBAQCAtMTQxLDkgKzE0MSw5IEBAIHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgewo+ID4gICAg
+ICAgICogUHJpb3JpdHkgb2YgdGhlIGdpdmVuIHBsYW5lIG9uIGNydGMgKG9wdGlvbmFsKS4KPiA+
+ICAgICAgICAqCj4gPiAgICAgICAgKiBOb3RlIHRoYXQgbXVsdGlwbGUgYWN0aXZlIHBsYW5lcyBv
+biB0aGUgc2FtZSBjcnRjIGNhbiBoYXZlIGFuCj4gPiAtICAgICAgKiBpZGVudGljYWwgenBvcyB2
+YWx1ZS4gVGhlIHJ1bGUgdG8gc29sdmluZyB0aGUgY29uZmxpY3QgaXMgdG8gY29tcGFyZQo+ID4g
+LSAgICAgICogdGhlIHBsYW5lIG9iamVjdCBJRHM7IHRoZSBwbGFuZSB3aXRoIGEgaGlnaGVyIElE
+IG11c3QgYmUgc3RhY2tlZCBvbgo+ID4gLSAgICAgICogdG9wIG9mIGEgcGxhbmUgd2l0aCBhIGxv
+d2VyIElELgo+ID4gKyAgICAgICogaWRlbnRpY2FsIHpwb3MgdmFsdWUuIFRvIHNvbHZlIHRoZSBj
+b25mbGljdCwgdGhlIHJlY29tbWVuZGF0aW9uIHRvCj4gPiArICAgICAgKiBkcml2ZXJzIHRvIGF2
+b2lkIHN1cnByaXNlcyBpcyB0byBjb21wYXJlIHRoZSBwbGFuZSBvYmplY3QgSURzOyB0aGUKPiA+
+ICsgICAgICAqIHBsYW5lIHdpdGggYSBoaWdoZXIgSUQgaXMgc3RhY2tlZCBvbiB0b3Agb2YgYSBw
+bGFuZSB3aXRoIGEgbG93ZXIgSUQuCj4gPiAgICAgICAgKgo+ID4gICAgICAgICogU2VlIGRybV9w
+bGFuZV9jcmVhdGVfenBvc19wcm9wZXJ0eSgpIGFuZAo+ID4gICAgICAgICogZHJtX3BsYW5lX2Ny
+ZWF0ZV96cG9zX2ltbXV0YWJsZV9wcm9wZXJ0eSgpIGZvciBtb3JlIGRldGFpbHMuCj4gPiAtLQo+
+ID4gMi4yMy4wCj4gPgo+ID4KPgo+IC0tCj4gTWFyaXVzIFZsYWQKPgoKCi0tIApEYW5pZWwgVmV0
+dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1
+NyA0OCAtIGh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbA==
