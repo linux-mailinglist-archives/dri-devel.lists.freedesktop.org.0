@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D303B6B06
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 20:52:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F33DB6B07
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 20:52:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 341C26F83B;
-	Wed, 18 Sep 2019 18:52:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DD0E6F843;
+	Wed, 18 Sep 2019 18:52:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8FE3F6F83C
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 18:52:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id E48C86F84B
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 18:52:48 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 8C37872167; Wed, 18 Sep 2019 18:52:46 +0000 (UTC)
+ id BFFA172167; Wed, 18 Sep 2019 18:52:48 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 84977] r300/compiler: register allocation pass generate invalid
- swizzle for r300/r400
-Date: Wed, 18 Sep 2019 18:52:46 +0000
+Subject: [Bug 87496] [r300g] Battle.net app window content rotated and
+ stretched
+Date: Wed, 18 Sep 2019 18:52:49 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/r300
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: gitlab-migration@fdo.invalid
@@ -35,9 +35,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-84977-502-l9yE4p2N7d@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-84977-502@http.bugs.freedesktop.org/>
-References: <bug-84977-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-87496-502-3jQPFZRSrE@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-87496-502@http.bugs.freedesktop.org/>
+References: <bug-87496-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,25 +53,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0823920480=="
+Content-Type: multipart/mixed; boundary="===============0564516366=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0823920480==
-Content-Type: multipart/alternative; boundary="15688327660.9Ec3abd3.15388"
+--===============0564516366==
+Content-Type: multipart/alternative; boundary="15688327680.cBD852cA.15388"
 Content-Transfer-Encoding: 7bit
 
 
---15688327660.9Ec3abd3.15388
-Date: Wed, 18 Sep 2019 18:52:46 +0000
+--15688327680.cBD852cA.15388
+Date: Wed, 18 Sep 2019 18:52:48 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D84977
+https://bugs.freedesktop.org/show_bug.cgi?id=3D87496
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
@@ -80,8 +80,7 @@ GitLab Migration User <gitlab-migration@fdo.invalid> changed:
          Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
 
---- Comment #12 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
---
+--- Comment #1 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -89,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/363.
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/364.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688327660.9Ec3abd3.15388
-Date: Wed, 18 Sep 2019 18:52:46 +0000
+--15688327680.cBD852cA.15388
+Date: Wed, 18 Sep 2019 18:52:48 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -113,9 +112,9 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - r300/compiler: register allocation pass genera=
-te invalid swizzle for r300/r400"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D84977">bug 84977<=
+   title=3D"RESOLVED MOVED - [r300g] Battle.net app window content rotated =
+and stretched"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D87496">bug 87496<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -144,15 +143,15 @@ te invalid swizzle for r300/r400"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - r300/compiler: register allocation pass genera=
-te invalid swizzle for r300/r400"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D84977#c12">Commen=
-t # 12</a>
+   title=3D"RESOLVED MOVED - [r300g] Battle.net app window content rotated =
+and stretched"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D87496#c1">Comment=
+ # 1</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - r300/compiler: register allocation pass genera=
-te invalid swizzle for r300/r400"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D84977">bug 84977<=
+   title=3D"RESOLVED MOVED - [r300g] Battle.net app window content rotated =
+and stretched"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D87496">bug 87496<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
@@ -167,7 +166,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/363">https://gitlab.freedesktop.org/mesa/mesa/issues/363</a>.</pre>
+/issues/364">https://gitlab.freedesktop.org/mesa/mesa/issues/364</a>.</pre>
         </div>
       </p>
 
@@ -181,9 +180,9 @@ to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
     </body>
 </html>=
 
---15688327660.9Ec3abd3.15388--
+--15688327680.cBD852cA.15388--
 
---===============0823920480==
+--===============0564516366==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -193,4 +192,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0823920480==--
+--===============0564516366==--
