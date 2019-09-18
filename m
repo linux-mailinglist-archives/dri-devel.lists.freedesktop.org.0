@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FC27B6BD1
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:13:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EF68B6BD0
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Sep 2019 21:13:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F4306F9E6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C43F6F9E2;
 	Wed, 18 Sep 2019 19:13:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3CE556F9E6
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:13:24 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F07F76F9D7
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 19:13:23 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 3A52D72167; Wed, 18 Sep 2019 19:13:24 +0000 (UTC)
+ id EDD4372167; Wed, 18 Sep 2019 19:13:23 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 75112] Meta Bug for HyperZ issues on r600g and radeonsi
+Subject: [Bug 74428] hyperz causes gpu hang in Counter-strike: Source
 Date: Wed, 18 Sep 2019 19:13:24 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: dep_changed
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/r600
@@ -28,15 +28,15 @@ X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: gitlab-migration@fdo.invalid
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-75112-502-5hXuKWERkn@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-75112-502@http.bugs.freedesktop.org/>
-References: <bug-75112-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-74428-502-pJQZg51gFl@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-74428-502@http.bugs.freedesktop.org/>
+References: <bug-74428-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,41 +52,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0851856315=="
+Content-Type: multipart/mixed; boundary="===============0617701863=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0851856315==
-Content-Type: multipart/alternative; boundary="15688340043.3F16D.23176"
+--===============0617701863==
+Content-Type: multipart/alternative; boundary="15688340030.C65a0976.23176"
 Content-Transfer-Encoding: 7bit
 
 
---15688340043.3F16D.23176
-Date: Wed, 18 Sep 2019 19:13:24 +0000
+--15688340030.C65a0976.23176
+Date: Wed, 18 Sep 2019 19:13:23 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D75112
-Bug 75112 depends on bug 74428, which changed state.
-
-Bug 74428 Summary: hyperz causes gpu hang in Counter-strike: Source
 https://bugs.freedesktop.org/show_bug.cgi?id=3D74428
+
+GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEEDINFO                    |RESOLVED
          Resolution|---                         |MOVED
+             Status|NEEDINFO                    |RESOLVED
+
+--- Comment #9 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
+-- GitLab Migration Automatic Message --
+
+This bug has been migrated to freedesktop.org's GitLab instance and has been
+closed from further activity.
+
+You can subscribe and participate further through the new bug through this =
+link
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/490.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15688340043.3F16D.23176
-Date: Wed, 18 Sep 2019 19:13:24 +0000
+--15688340030.C65a0976.23176
+Date: Wed, 18 Sep 2019 19:13:23 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -97,19 +105,16 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Meta Bug for HyperZ issues on r600g and radeonsi"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D75112">Bug 75112<=
-/a>
-          depends on
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:gitlab-mi=
+gration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab-migratio=
+n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
+</span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
    title=3D"RESOLVED MOVED - hyperz causes gpu hang in Counter-strike: Sour=
 ce"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D74428">bug 74428<=
-/a>,
-          which changed state.
+/a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -119,21 +124,49 @@ ce"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEEDINFO
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Resolution</td>
            <td>---
            </td>
            <td>MOVED
            </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEEDINFO
+           </td>
+           <td>RESOLVED
+           </td>
          </tr></table>
       <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - hyperz causes gpu hang in Counter-strike: Sour=
+ce"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D74428#c9">Comment=
+ # 9</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - hyperz causes gpu hang in Counter-strike: Sour=
+ce"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D74428">bug 74428<=
+/a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
+-migration&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</=
+span></a>
+</span></b>
+        <pre>-- GitLab Migration Automatic Message --
+
+This bug has been migrated to freedesktop.org's GitLab instance and has been
+closed from further activity.
+
+You can subscribe and participate further through the new bug through this =
+link
+to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
+/issues/490">https://gitlab.freedesktop.org/mesa/mesa/issues/490</a>.</pre>
+        </div>
       </p>
 
 
@@ -146,9 +179,9 @@ ce"
     </body>
 </html>=
 
---15688340043.3F16D.23176--
+--15688340030.C65a0976.23176--
 
---===============0851856315==
+--===============0617701863==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -158,4 +191,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0851856315==--
+--===============0617701863==--
