@@ -1,45 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C42FBB726D
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 07:03:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48953B72ED
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 07:58:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC9DF6EE1A;
-	Thu, 19 Sep 2019 05:03:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EADB6E9B0;
+	Thu, 19 Sep 2019 05:58:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8E9796ECEB
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 05:03:24 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 88ADA72168; Thu, 19 Sep 2019 05:03:24 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110645] Blender EEVEE World Volumetric flickering
-Date: Thu, 19 Sep 2019 05:03:24 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 19.0
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: shylonnature@yahoo.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: NOTABUG
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-110645-502-3wNLucUEjv@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110645-502@http.bugs.freedesktop.org/>
-References: <bug-110645-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA4FF6E9B0
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 05:58:36 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 28BD33175288;
+ Thu, 19 Sep 2019 05:58:36 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-47.ams2.redhat.com
+ [10.36.116.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6870D5D9CC;
+ Thu, 19 Sep 2019 05:58:35 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 11F5F17444; Thu, 19 Sep 2019 07:58:33 +0200 (CEST)
+Date: Thu, 19 Sep 2019 07:58:33 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 01/11] drm/vram: Add struct drm_vram_buffer to VRAM helpers
+Message-ID: <20190919055833.nswf244h3wjq5e6v@sirius.home.kraxel.org>
+References: <20190918142307.27127-1-tzimmermann@suse.de>
+ <20190918142307.27127-2-tzimmermann@suse.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190918142307.27127-2-tzimmermann@suse.de>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Thu, 19 Sep 2019 05:58:36 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,130 +50,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2033402735=="
+Cc: corbet@lwn.net, airlied@linux.ie, linux-doc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, sam@ravnborg.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2033402735==
-Content-Type: multipart/alternative; boundary="15688694041.8aF8fEB.26468"
-Content-Transfer-Encoding: 7bit
-
-
---15688694041.8aF8fEB.26468
-Date: Thu, 19 Sep 2019 05:03:24 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110645
-
-Ali Naj <shylonnature@yahoo.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-         Resolution|---                         |NOTABUG
-             Status|NEW                         |RESOLVED
-
---- Comment #1 from Ali Naj <shylonnature@yahoo.com> ---
-It is seems fixed in Blender 2.81 version
-blender-2.81-b043bef000e9-linux-glibc217-x86_64, So this is not Mesa bug an=
-d it
-seems was Blender bug,Thanks.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15688694041.8aF8fEB.26468
-Date: Thu, 19 Sep 2019 05:03:24 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:shylonnat=
-ure&#64;yahoo.com" title=3D"Ali Naj &lt;shylonnature&#64;yahoo.com&gt;"> <s=
-pan class=3D"fn">Ali Naj</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTABUG - Blender EEVEE World Volumetric flickering"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110645">bug 11064=
-5</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>NOTABUG
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTABUG - Blender EEVEE World Volumetric flickering"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110645#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTABUG - Blender EEVEE World Volumetric flickering"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110645">bug 11064=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-shylonnature&#64;yahoo.com" title=3D"Ali Naj &lt;shylonnature&#64;yahoo.com=
-&gt;"> <span class=3D"fn">Ali Naj</span></a>
-</span></b>
-        <pre>It is seems fixed in Blender 2.81 version
-blender-2.81-b043bef000e9-linux-glibc217-x86_64, So this is not Mesa bug an=
-d it
-seems was Blender bug,Thanks.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15688694041.8aF8fEB.26468--
-
---===============2033402735==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2033402735==--
+T24gV2VkLCBTZXAgMTgsIDIwMTkgYXQgMDQ6MjI6NTdQTSArMDIwMCwgVGhvbWFzIFppbW1lcm1h
+bm4gd3JvdGU6Cj4gRHJpdmVycyB3aXRoIGRlZGljYXRlZCB2aWRlbyBtZW1vcnkgb2NjYXNpb25h
+bGx5IG5lZWQgdG8gcmVzZXJ2ZSBhIG1lbW9yeQo+IGFyZWEgZm9yIGEgc3BlY2lmaWMgcHVycG9z
+ZSwgc3VjaCBhcyBjdXJzb3IgaW1hZ2VzIG9yIHNwcml0ZXMuIFVzaW5nIEdFTQo+IFZSQU0gYnVm
+ZmVyIG9iamVjdHMgY2FuIGJlIHByb2JsZW1hdGljLiBGb3Igc21hbGwgYnVmZmVycywgR0VNIFZS
+QU0gYnVmZmVyCj4gb2JqZWN0cyBhcmUgaW5lZmZpY2llbnQgYXMgdGhleSBhcmUgYWxpZ25lZCB0
+byBwYWdlIGJvdW5kYXJpZXMuCgpJIHdvdWxkIHN0aWxsIGFsbG9jYXRlIGdlbSBvYmplY3RzIGZv
+ciB0aGF0LiAgVGhlbiB1c2UgdGhlbSBhcyBwb29sCmluc3RlYWQgb2YgdXNpbmcgdGhlbSBkaXJl
+Y3RseS4KCk5vdCBzdXJlIHRoaXMgaXMgd29ydGggdGhlIHRyb3VibGUganVzdCBmb3IgdGhlIGN1
+cnNvcnMgdGhvdWdoIGFzIHRoZXkKYXJlIGJpZyBlbm91Z2ggdGhhdCBwYWdlLXNpemVkIGFsbG9j
+YXRpb25zIGRvbid0IHdhc3RlIG1lbW9yeS4KCj4gQW5kIHRoZXkgY2Fubm90IGVhc2lseSBiZSBw
+bGFjZWQgYXQgc3BlY2lmaWMgbWVtb3J5IG9mZnNldHMuIFRoaXMgY2FuCj4gbGVhZCB0byBtZW1v
+cnkgZnJhZ21lbnRhdGlvbiBhbmQgaXMgYSBwcm9ibGVtIGZvciBoYXJkd2FyZSB3aXRoIG9ubHkg
+YQo+IHNtYWxsIGFtb3VudCBvZiBtZW1vcnkuCgpOb3RlIHRoYXQgdGhlcmUgaXMgYSBmbGFnIHRv
+IGNoYW5nZSB0aGUgYWxsb2NhdGlvbiBzdHJhdGVneQooVFRNX1BMX0ZMQUdfVE9QRE9XTikuICBZ
+b3UgY291bGQgYWxsb2NhdGUgdGhlIGN1cnNvciBvYmplY3RzCndpdGggdGhlIGZsYWcgc2V0LiAg
+U2hvdWxkIGJlIGdvb2QgZW5vdWdoIHRvIGF2b2lkIGZyYWdtZW50YXRpb24uCgpJIGhhdmUgYSBw
+YXRjaCBkb2luZyBleGFjdGx5IHRoYXQgZm9yIHF4bCwgZm9yIHRoZSBzYW1lIHJlYXNvbjoKaHR0
+cHM6Ly9naXQua3JheGVsLm9yZy9jZ2l0L2xpbnV4L2NvbW1pdC8/aWQ9ZTAwZTkxM2E2NGM2ZmJh
+OTYzMGIzMTFmOGJjNzFiZDdjOTg0MjQ3OQoobm8sIHRoYXQgcGF0Y2ggd2Fzbid0IHNlbnQgdG8g
+dGhlIGxpc3QgeWV0KS4KCldlIGNvdWxkIGRvIHRoZSBzYW1lIGZvciB2cmFtIGFuZCBlaXRoZXIg
+bGV0IHRoZSBkcml2ZXIgZXhwbGljaXRseSBhc2sKZm9yIHRvcC1kb3duIGFsbG9jYXRpb24sIG9y
+IHVzZSBzb21lIHRocmVzaG9sZCBsaWtlIHRoZSBxeGwgcGF0Y2guCgpTbywgSSdtIG5vdCBjb252
+aW5jZWQgd2UgYWN0dWFsbHkgbmVlZCB0aGUgZHJtX3ZyYW1fYnVmZmVyCmluZnJhc3RydWN0dXJl
+LgoKY2hlZXJzLAogIEdlcmQKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbA==
