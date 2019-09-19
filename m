@@ -1,46 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CE43B806C
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 19:49:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7CFAB8105
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 20:47:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C664A6F8E8;
-	Thu, 19 Sep 2019 17:49:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC95C6F7FE;
+	Thu, 19 Sep 2019 18:47:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 104746F80A
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 17:49:01 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 06D3472167; Thu, 19 Sep 2019 17:49:01 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109628] WARNING at dcn10_hw_sequencer.c:868
- dcn10_verify_allow_pstate_change_high()
-Date: Thu, 19 Sep 2019 17:49:01 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: vlad@ivanov.email
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109628-502-WJdU26jFH3@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109628-502@http.bugs.freedesktop.org/>
-References: <bug-109628-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06FD26F7FE;
+ Thu, 19 Sep 2019 18:47:55 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 19 Sep 2019 11:47:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,524,1559545200"; d="scan'208";a="181568169"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga008.jf.intel.com with SMTP; 19 Sep 2019 11:47:50 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 19 Sep 2019 21:47:49 +0300
+Date: Thu, 19 Sep 2019 21:47:49 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
+Subject: Re: [PATCH 02/19] drm/atomic-helper: Make crtc helper funcs optional
+Message-ID: <20190919184749.GW1208@intel.com>
+References: <20190708125325.16576-1-ville.syrjala@linux.intel.com>
+ <20190708125325.16576-3-ville.syrjala@linux.intel.com>
+ <2d3861a00c99bb3aca18897b7cbfadd3930b843a.camel@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <2d3861a00c99bb3aca18897b7cbfadd3930b843a.camel@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,94 +48,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0626928632=="
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0626928632==
-Content-Type: multipart/alternative; boundary="15689153400.f806B5.5005"
-Content-Transfer-Encoding: 7bit
-
-
---15689153400.f806B5.5005
-Date: Thu, 19 Sep 2019 17:49:00 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109628
-
---- Comment #20 from vlad@ivanov.email ---
-Still seeing the warning with 5.4.0-0.rc0.git2.2.fc32.x86_64; waking up doe=
-sn't
-work. This is fedora kernel though and there's a possibility those patches
-aren't integrated there yet; is there a way to check?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15689153400.f806B5.5005
-Date: Thu, 19 Sep 2019 17:49:00 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - WARNING at dcn10_hw_sequencer.c:868 dcn10_verify_allow_ps=
-tate_change_high()"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109628#c20">Comme=
-nt # 20</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - WARNING at dcn10_hw_sequencer.c:868 dcn10_verify_allow_ps=
-tate_change_high()"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109628">bug 10962=
-8</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-vlad&#64;ivanov.email" title=3D"vlad&#64;ivanov.email">vlad&#64;ivanov.emai=
-l</a>
-</span></b>
-        <pre>Still seeing the warning with 5.4.0-0.rc0.git2.2.fc32.x86_64; =
-waking up doesn't
-work. This is fedora kernel though and there's a possibility those patches
-aren't integrated there yet; is there a way to check?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15689153400.f806B5.5005--
-
---===============0626928632==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0626928632==--
+T24gV2VkLCBTZXAgMTgsIDIwMTkgYXQgMDE6NDI6MDlQTSArMDAwMCwgTGlzb3Zza2l5LCBTdGFu
+aXNsYXYgd3JvdGU6Cj4gT24gTW9uLCAyMDE5LTA3LTA4IGF0IDE1OjUzICswMzAwLCBWaWxsZSBT
+eXJqYWxhIHdyb3RlOgo+ID4gRnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxp
+bnV4LmludGVsLmNvbT4KPiA+IAo+ID4gQWxsb3cgZHJpdmVycyB0byBjYWxsIGRybV9hdG9taWNf
+aGVscGVyX2NoZWNrX21vZGVzZXQoKSB3aXRob3V0Cj4gPiBoYXZpbmcgdGhlIGNydGMgaGVscGVy
+IGZ1bmNzIHNwZWNpZmllZC4gaTkxNSBkb2Vzbid0IG5lZWQgdGhvc2UKPiA+IGFueW1vcmUuCj4g
+PiAKPiA+IFNpZ25lZC1vZmYtYnk6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51
+eC5pbnRlbC5jb20+Cj4gPiAtLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY19oZWxw
+ZXIuYyB8IDIgKy0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRp
+b24oLSkKPiAKPiBSZXZpZXdlZC1ieTogU3RhbmlzbGF2IExpc292c2tpeSA8c3RhbmlzbGF2Lmxp
+c292c2tpeUBpbnRlbC5jb20+CgoxLTIgcHVzaGVkIHRvIGRybS1taXNjLW5leHQuIFRoZSByZXN0
+IHNoYWxsIHdhaXQgdW50aWwgdGhvc2UgdHdvCm1ha2UgdGhlIHJvdW5kdHJpcCBiYWNrIHRvIGRp
+bnEuCgpUaGFua3MgZm9yIHRoZSByZXZpZXdzLgoKPiAKPiA+IAo+ID4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX2hlbHBlci5jCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9k
+cm1fYXRvbWljX2hlbHBlci5jCj4gPiBpbmRleCBhYTE2ZWExN2ZmOWIuLmZiMmNlNjkyYWU1YiAx
+MDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX2hlbHBlci5jCj4gPiAr
+KysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY19oZWxwZXIuYwo+ID4gQEAgLTQ4MSw3ICs0
+ODEsNyBAQCBtb2RlX2ZpeHVwKHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSkKPiA+ICAJ
+CQljb250aW51ZTsKPiA+ICAKPiA+ICAJCWZ1bmNzID0gY3J0Yy0+aGVscGVyX3ByaXZhdGU7Cj4g
+PiAtCQlpZiAoIWZ1bmNzLT5tb2RlX2ZpeHVwKQo+ID4gKwkJaWYgKCFmdW5jcyB8fCAhZnVuY3Mt
+Pm1vZGVfZml4dXApCj4gPiAgCQkJY29udGludWU7Cj4gPiAgCj4gPiAgCQlyZXQgPSBmdW5jcy0+
+bW9kZV9maXh1cChjcnRjLCAmbmV3X2NydGNfc3RhdGUtPm1vZGUsCgotLSAKVmlsbGUgU3lyasOk
+bMOkCkludGVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
