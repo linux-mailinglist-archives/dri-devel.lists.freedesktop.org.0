@@ -2,38 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C977B76FB
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 12:02:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46F30B7735
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 12:15:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 700D76FA95;
-	Thu, 19 Sep 2019 10:02:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D697B6F6C4;
+	Thu, 19 Sep 2019 10:15:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7055E6FA61
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 10:02:30 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B95B33084032;
- Thu, 19 Sep 2019 10:02:29 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-47.ams2.redhat.com
- [10.36.116.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0F62C5D9CC;
- Thu, 19 Sep 2019 10:02:29 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 4A4159CAC; Thu, 19 Sep 2019 12:02:25 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5129D6F4F8
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 10:15:20 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 446F972167; Thu, 19 Sep 2019 10:15:20 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 11/11] drm/vram: drop DRM_VRAM_MM_FILE_OPERATIONS
-Date: Thu, 19 Sep 2019 12:02:23 +0200
-Message-Id: <20190919100223.13309-12-kraxel@redhat.com>
-In-Reply-To: <20190919100223.13309-1-kraxel@redhat.com>
-References: <20190919100223.13309-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Thu, 19 Sep 2019 10:02:30 +0000 (UTC)
+Subject: [Bug 111747] [CI][DRMTIP] igt@ - incomplete - Jenkins gives up
+Date: Thu, 19 Sep 2019 10:15:20 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: IGT
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: chris@chris-wilson.co.uk
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: short_desc qa_contact assigned_to component
+Message-ID: <bug-111747-502-dnPKEvoN5m@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111747-502@http.bugs.freedesktop.org/>
+References: <bug-111747-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,97 +52,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR BOCHS VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>,
- Xinliang Liu <z.liuxinliang@hisilicon.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Chen Feng <puck.chen@hisilicon.com>, Rongrong Zou <zourongrong@gmail.com>,
- Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2137106705=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tm90IG5lZWRlZCBhbnkgbW9yZSBiZWNhdXNlIHdlIGRvbid0IGhhdmUgdnJhbSBzcGVjaWZpYyBm
-b3BzCmFueSBtb3JlLiAgREVGSU5FX0RSTV9HRU1fRk9QUygpIGNhbiBiZSB1c2VkIGluc3RlYWQu
-CgpTaWduZWQtb2ZmLWJ5OiBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVkaGF0LmNvbT4KUmV2aWV3
-ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgotLS0KIGluY2x1
-ZGUvZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuaCAgICAgICAgICAgICAgfCAxOCAtLS0tLS0tLS0t
-LS0tLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2Rydi5jICAgICAgICAgICAgICAgICAg
-fCAgNSArLS0tLQogZHJpdmVycy9ncHUvZHJtL2JvY2hzL2JvY2hzX2Rydi5jICAgICAgICAgICAg
-ICB8ICA1ICstLS0tCiAuLi4vZ3B1L2RybS9oaXNpbGljb24vaGlibWMvaGlibWNfZHJtX2Rydi5j
-ICAgIHwgIDUgKy0tLS0KIGRyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfZHJ2LmMgICAg
-ICAgICAgfCAgNSArLS0tLQogZHJpdmVycy9ncHUvZHJtL3Zib3h2aWRlby92Ym94X2Rydi5jICAg
-ICAgICAgICB8ICA1ICstLS0tCiA2IGZpbGVzIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgMzgg
-ZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2dlbV92cmFtX2hlbHBl
-ci5oIGIvaW5jbHVkZS9kcm0vZHJtX2dlbV92cmFtX2hlbHBlci5oCmluZGV4IDA1YTc2MmM4NzMw
-NS4uODRiMzEzNzNkZGY1IDEwMDY0NAotLS0gYS9pbmNsdWRlL2RybS9kcm1fZ2VtX3ZyYW1faGVs
-cGVyLmgKKysrIGIvaW5jbHVkZS9kcm0vZHJtX2dlbV92cmFtX2hlbHBlci5oCkBAIC0xODMsMjIg
-KzE4Myw0IEBAIHN0cnVjdCBkcm1fdnJhbV9tbSAqZHJtX3ZyYW1faGVscGVyX2FsbG9jX21tKAog
-CXN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHVpbnQ2NF90IHZyYW1fYmFzZSwgc2l6ZV90IHZyYW1f
-c2l6ZSk7CiB2b2lkIGRybV92cmFtX2hlbHBlcl9yZWxlYXNlX21tKHN0cnVjdCBkcm1fZGV2aWNl
-ICpkZXYpOwogCi0vKioKLSAqIGRlZmluZSBEUk1fVlJBTV9NTV9GSUxFX09QRVJBVElPTlMgLSBk
-ZWZhdWx0IGNhbGxiYWNrIGZ1bmN0aW9ucyBmb3IgXAotCSZzdHJ1Y3QgZmlsZV9vcGVyYXRpb25z
-Ci0gKgotICogRHJpdmVycyB0aGF0IHVzZSBWUkFNIE1NIGNhbiB1c2UgdGhpcyBtYWNybyB0byBp
-bml0aWFsaXplCi0gKiAmc3RydWN0IGZpbGVfb3BlcmF0aW9ucyB3aXRoIGRlZmF1bHQgZnVuY3Rp
-b25zLgotICovCi0jZGVmaW5lIERSTV9WUkFNX01NX0ZJTEVfT1BFUkFUSU9OUyBcCi0JLmxsc2Vl
-awkJPSBub19sbHNlZWssIFwKLQkucmVhZAkJPSBkcm1fcmVhZCwgXAotCS5wb2xsCQk9IGRybV9w
-b2xsLCBcCi0JLnVubG9ja2VkX2lvY3RsID0gZHJtX2lvY3RsLCBcCi0JLmNvbXBhdF9pb2N0bAk9
-IGRybV9jb21wYXRfaW9jdGwsIFwKLQkubW1hcAkJPSBkcm1fZ2VtX21tYXAsIFwKLQkub3BlbgkJ
-PSBkcm1fb3BlbiwgXAotCS5yZWxlYXNlCT0gZHJtX3JlbGVhc2UgXAotCi0KICNlbmRpZgpkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0v
-YXN0L2FzdF9kcnYuYwppbmRleCBlMGU4NzcwNDYyYmMuLjFmMTc3OTRiMDg5MCAxMDA2NDQKLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZHJ2LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2Fz
-dC9hc3RfZHJ2LmMKQEAgLTIwMCwxMCArMjAwLDcgQEAgc3RhdGljIHN0cnVjdCBwY2lfZHJpdmVy
-IGFzdF9wY2lfZHJpdmVyID0gewogCS5kcml2ZXIucG0gPSAmYXN0X3BtX29wcywKIH07CiAKLXN0
-YXRpYyBjb25zdCBzdHJ1Y3QgZmlsZV9vcGVyYXRpb25zIGFzdF9mb3BzID0gewotCS5vd25lciA9
-IFRISVNfTU9EVUxFLAotCURSTV9WUkFNX01NX0ZJTEVfT1BFUkFUSU9OUwotfTsKK0RFRklORV9E
-Uk1fR0VNX0ZPUFMoYXN0X2ZvcHMpOwogCiBzdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgZHJpdmVy
-ID0gewogCS5kcml2ZXJfZmVhdHVyZXMgPSBEUklWRVJfTU9ERVNFVCB8IERSSVZFUl9HRU0sCmRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYm9jaHMvYm9jaHNfZHJ2LmMgYi9kcml2ZXJzL2dw
-dS9kcm0vYm9jaHMvYm9jaHNfZHJ2LmMKaW5kZXggM2I5YjBkOWJiYzE0Li4xMDQ2MDg3ODQxNGUg
-MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ib2Nocy9ib2Noc19kcnYuYworKysgYi9kcml2
-ZXJzL2dwdS9kcm0vYm9jaHMvYm9jaHNfZHJ2LmMKQEAgLTU4LDEwICs1OCw3IEBAIHN0YXRpYyBp
-bnQgYm9jaHNfbG9hZChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KQogCXJldHVybiByZXQ7CiB9CiAK
-LXN0YXRpYyBjb25zdCBzdHJ1Y3QgZmlsZV9vcGVyYXRpb25zIGJvY2hzX2ZvcHMgPSB7Ci0JLm93
-bmVyCQk9IFRISVNfTU9EVUxFLAotCURSTV9WUkFNX01NX0ZJTEVfT1BFUkFUSU9OUwotfTsKK0RF
-RklORV9EUk1fR0VNX0ZPUFMoYm9jaHNfZm9wcyk7CiAKIHN0YXRpYyBzdHJ1Y3QgZHJtX2RyaXZl
-ciBib2Noc19kcml2ZXIgPSB7CiAJLmRyaXZlcl9mZWF0dXJlcwk9IERSSVZFUl9HRU0gfCBEUklW
-RVJfTU9ERVNFVCB8IERSSVZFUl9BVE9NSUMsCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-aGlzaWxpY29uL2hpYm1jL2hpYm1jX2RybV9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9oaXNpbGlj
-b24vaGlibWMvaGlibWNfZHJtX2Rydi5jCmluZGV4IGY1YjM1ZmRlZjZmMy4uYjZmZGFjOTFlNTAy
-IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaGlzaWxpY29uL2hpYm1jL2hpYm1jX2RybV9k
-cnYuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vaGlzaWxpY29uL2hpYm1jL2hpYm1jX2RybV9kcnYu
-YwpAQCAtMjYsMTAgKzI2LDcgQEAKICNpbmNsdWRlICJoaWJtY19kcm1fZHJ2LmgiCiAjaW5jbHVk
-ZSAiaGlibWNfZHJtX3JlZ3MuaCIKIAotc3RhdGljIGNvbnN0IHN0cnVjdCBmaWxlX29wZXJhdGlv
-bnMgaGlibWNfZm9wcyA9IHsKLQkub3duZXIJCT0gVEhJU19NT0RVTEUsCi0JRFJNX1ZSQU1fTU1f
-RklMRV9PUEVSQVRJT05TCi19OworREVGSU5FX0RSTV9HRU1fRk9QUyhoaWJtY19mb3BzKTsKIAog
-c3RhdGljIGlycXJldHVybl90IGhpYm1jX2RybV9pbnRlcnJ1cHQoaW50IGlycSwgdm9pZCAqYXJn
-KQogewpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9kcnYuYyBi
-L2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfZHJ2LmMKaW5kZXggNGY5ZGYzYjkzNTk4
-Li4zOTdmOGIwYTlhZjggMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcy
-MDBfZHJ2LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9kcnYuYwpAQCAt
-NTgsMTAgKzU4LDcgQEAgc3RhdGljIHZvaWQgbWdhX3BjaV9yZW1vdmUoc3RydWN0IHBjaV9kZXYg
-KnBkZXYpCiAJZHJtX3B1dF9kZXYoZGV2KTsKIH0KIAotc3RhdGljIGNvbnN0IHN0cnVjdCBmaWxl
-X29wZXJhdGlvbnMgbWdhZzIwMF9kcml2ZXJfZm9wcyA9IHsKLQkub3duZXIgPSBUSElTX01PRFVM
-RSwKLQlEUk1fVlJBTV9NTV9GSUxFX09QRVJBVElPTlMKLX07CitERUZJTkVfRFJNX0dFTV9GT1BT
-KG1nYWcyMDBfZHJpdmVyX2ZvcHMpOwogCiBzdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgZHJpdmVy
-ID0gewogCS5kcml2ZXJfZmVhdHVyZXMgPSBEUklWRVJfR0VNIHwgRFJJVkVSX01PREVTRVQsCmRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdmJveHZpZGVvL3Zib3hfZHJ2LmMgYi9kcml2ZXJz
-L2dwdS9kcm0vdmJveHZpZGVvL3Zib3hfZHJ2LmMKaW5kZXggODYyZGI0OTVkMTExLi4wYzM3MDMy
-YzhiNjUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS92Ym94dmlkZW8vdmJveF9kcnYuYwor
-KysgYi9kcml2ZXJzL2dwdS9kcm0vdmJveHZpZGVvL3Zib3hfZHJ2LmMKQEAgLTE4OSwxMCArMTg5
-LDcgQEAgc3RhdGljIHN0cnVjdCBwY2lfZHJpdmVyIHZib3hfcGNpX2RyaXZlciA9IHsKICNlbmRp
-ZgogfTsKIAotc3RhdGljIGNvbnN0IHN0cnVjdCBmaWxlX29wZXJhdGlvbnMgdmJveF9mb3BzID0g
-ewotCS5vd25lciA9IFRISVNfTU9EVUxFLAotCURSTV9WUkFNX01NX0ZJTEVfT1BFUkFUSU9OUwot
-fTsKK0RFRklORV9EUk1fR0VNX0ZPUFModmJveF9mb3BzKTsKIAogc3RhdGljIHN0cnVjdCBkcm1f
-ZHJpdmVyIGRyaXZlciA9IHsKIAkuZHJpdmVyX2ZlYXR1cmVzID0KLS0gCjIuMTguMQoKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2137106705==
+Content-Type: multipart/alternative; boundary="15688881200.0af2.17780"
+Content-Transfer-Encoding: 7bit
+
+
+--15688881200.0af2.17780
+Date: Thu, 19 Sep 2019 10:15:20 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111747
+
+Chris Wilson <chris@chris-wilson.co.uk> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+            Summary|[CI][DRMTIP]                |[CI][DRMTIP] igt@ -
+                   |igt@gem_fenced_exec_thrash@ |incomplete - Jenkins gives
+                   |no-spare-fences -           |up
+                   |incomplete                  |
+         QA Contact|intel-gfx-bugs@lists.freede |
+                   |sktop.org                   |
+           Assignee|intel-gfx-bugs@lists.freede |dri-devel@lists.freedesktop
+                   |sktop.org                   |.org
+          Component|DRM/Intel                   |IGT
+
+--- Comment #2 from Chris Wilson <chris@chris-wilson.co.uk> ---
+[37.804681] [11/92] (958s left) gem_fenced_exec_thrash (no-spare-fences)
+Starting subtest: no-spare-fences
+[39.958307] Abort requested via Terminated, terminating children
+[39.958688] Abort requested via Terminated, terminating children
+[39.959050] Abort requested via Hangup, terminating children
+[39.959085] Abort requested via Hangup, terminating children
+[40.581122] Closing watchdogs
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15688881200.0af2.17780
+Date: Thu, 19 Sep 2019 10:15:20 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:chris&#64=
+;chris-wilson.co.uk" title=3D"Chris Wilson &lt;chris&#64;chris-wilson.co.uk=
+&gt;"> <span class=3D"fn">Chris Wilson</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI][DRMTIP] igt&#64; - incomplete - Jenkins gives up"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111747">bug 11174=
+7</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Summary</td>
+           <td>[CI][DRMTIP] igt&#64;gem_fenced_exec_thrash&#64;no-spare-fen=
+ces - incomplete
+           </td>
+           <td>[CI][DRMTIP] igt&#64; - incomplete - Jenkins gives up
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">QA Contact</td>
+           <td>intel-gfx-bugs&#64;lists.freedesktop.org
+           </td>
+           <td>
+               &nbsp;
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Assignee</td>
+           <td>intel-gfx-bugs&#64;lists.freedesktop.org
+           </td>
+           <td>dri-devel&#64;lists.freedesktop.org
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Component</td>
+           <td>DRM/Intel
+           </td>
+           <td>IGT
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI][DRMTIP] igt&#64; - incomplete - Jenkins gives up"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111747#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI][DRMTIP] igt&#64; - incomplete - Jenkins gives up"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111747">bug 11174=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+chris&#64;chris-wilson.co.uk" title=3D"Chris Wilson &lt;chris&#64;chris-wil=
+son.co.uk&gt;"> <span class=3D"fn">Chris Wilson</span></a>
+</span></b>
+        <pre>[37.804681] [11/92] (958s left) gem_fenced_exec_thrash (no-spa=
+re-fences)
+Starting subtest: no-spare-fences
+[39.958307] Abort requested via Terminated, terminating children
+[39.958688] Abort requested via Terminated, terminating children
+[39.959050] Abort requested via Hangup, terminating children
+[39.959085] Abort requested via Hangup, terminating children
+[40.581122] Closing watchdogs</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15688881200.0af2.17780--
+
+--===============2137106705==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2137106705==--
