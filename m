@@ -2,116 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98114B7357
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 08:44:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBEBDB735B
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 08:45:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57DC56F667;
-	Thu, 19 Sep 2019 06:44:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C9496F67F;
+	Thu, 19 Sep 2019 06:45:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C17766F67F
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 06:44:07 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id y21so2556315wmi.0
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Sep 2019 23:44:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=HPKpCYeZt44Wxe7+ROnpucIXUhXx7j6zkak3wJnTo8Y=;
- b=BrBQp/pN3T/ZX3trPjt04zmTur8/fNetEBawa9uPG4IVkbn3hTfccvo/6r/0wM0foS
- V3hVkTc24gt/aDIPmfialVCxdNvDaURKutt+SgbNqHo4pgOlOz4G3a6XRijcvoupVIsW
- yKCYwVeYuQa30aNdtMyxio4wGqA3ws3qXKQthVM50eBoPqC6icwPrw7hoYX42XULhNi5
- vzUPa2Y74azAvWCotprJLF+XO0j0NdUYipbJhEmLKAvXOqK15PJjw4ZMx/ikZzl+Fncd
- qIQVuUla/zPIdtPE40f6l9QQJ+dwXDDQTcX0ZgoLwhgR5dCUw4BBj1debrDud0b+sw8g
- OnQw==
-X-Gm-Message-State: APjAAAVBCmvx2iafep1YRn4h7pHHFuLOtajBZeI4zHk8180lgF91lb4d
- p4gGIo+oeZ29xBe8qbArVV2ayQ==
-X-Google-Smtp-Source: APXvYqwPFlMN526NVgaXJ44Kg4v+oAGNcZ10wIgEPPdv5d3XLuCwMsb6MWMCd9ueBzVpwgp142vw5w==
-X-Received: by 2002:a7b:c4c9:: with SMTP id g9mr1480935wmk.150.1568875446177; 
- Wed, 18 Sep 2019 23:44:06 -0700 (PDT)
-Received: from [192.168.1.62] (176-150-251-154.abo.bbox.fr. [176.150.251.154])
- by smtp.gmail.com with ESMTPSA id
- z1sm15070167wre.40.2019.09.18.23.44.05
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Sep 2019 23:44:05 -0700 (PDT)
-Subject: Re: [RFC] checking drm_framebuffer against config width/height
-To: jsanka@codeaurora.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
-References: <09ee01d56e9a$a2739380$e75aba80$@codeaurora.org>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- ZaTUOEkgIor5losDrePdPgE=
-Organization: Baylibre
-Message-ID: <db26145b-3f64-a334-f698-76f972332881@baylibre.com>
-Date: Thu, 19 Sep 2019 08:44:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D09D76F67F
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 06:45:47 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Sep 2019 23:45:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,522,1559545200"; d="scan'208";a="202224644"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+ by fmsmga001.fm.intel.com with ESMTP; 18 Sep 2019 23:45:45 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+ (envelope-from <lkp@intel.com>)
+ id 1iAqCG-0007ZY-W9; Thu, 19 Sep 2019 14:45:44 +0800
+Date: Thu, 19 Sep 2019 14:45:07 +0800
+From: kbuild test robot <lkp@intel.com>
+To: Flora Cui <flora.cui@amd.com>
+Subject: [radeon-alex:amd-mainline-dkms-5.0 3697/3724]
+ include/drm/drm_fb_helper.h:641:1: sparse:  the previous one is here
+Message-ID: <201909191458.ZRh1CjvS%lkp@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <09ee01d56e9a$a2739380$e75aba80$@codeaurora.org>
-Content-Language: en-US
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:openpgp:autocrypt:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=HPKpCYeZt44Wxe7+ROnpucIXUhXx7j6zkak3wJnTo8Y=;
- b=zng02+cP5nw7zeVwoGeTAK4jvStLBmHDSAOTw24ol+HAcD/mu18jlEjITZ7GNpIBec
- TPp85lx07+tFZrfYXvPZ3AXWtb+L9in1XLzfmLhnCL4bO4jmdIZUuyTFUDV05kaCIY/H
- Ig/8+16xlrHJIxmDwIT5MSqPp3+a/Ps3a6MHldQrEZ62Qg0MJ78RFwLDpnPqhFrU/ZVb
- wpL6BloXgF77S+A4I2ANGv05S8NZA0uC12GjmAQMUHGonoGZskio6Erm3B1cP0typbzT
- 4MkITGkKE3V3mxW+nlD6/OmBg5MO+kl1Ul7FVTdYBuXz6SxGmWkv5fuHklutiuIDBgCF
- afvQ==
+X-Patchwork-Hint: ignore
+User-Agent: NeoMutt/20170113 (1.7.2)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -124,61 +46,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: 'Sean Paul' <seanpaul@chromium.org>, sean@poorly.run
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Feifei Xu <Feifei.Xu@amd.com>, kbuild-all@01.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0871232889=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpPbiAxOS8wOS8yMDE5IDA1OjMwLCBqc2Fua2FAY29kZWF1cm9yYS5vcmcgd3JvdGU6Cj4g
-SGVsbG8gQWxsLAo+IAo+IEkgYnVtcGVkIGludG8gdGhlIGJlbG93IGNoZWNrIFsxXSBlbmZvcmNl
-ZCBpbiBkcm1fZnJhbWVidWZmZXIgY3JlYXRpb24gd2hpY2ggY2hlY2tzIHRoZSByZXF1ZXN0ZWQg
-ZnJhbWVidWZmZXIgd2lkdGgvaGVpZ2h0IHBhcmFtZXRlcnMgYWdhaW5zdCB0aGUgZHJtIG1vZGUg
-Y29uZmlnIHdpZHRoL2hlaWdodCBsaW1pdHMuIEFzIEkgdW5kZXJzdGFuZCwgZHJtX21vZGVfY29u
-ZmlnOiBtaW4vbWF4IHdpZHRoL2hlaWdodCBpbmRpY2F0ZSB0aGUgdXBwZXIgYW5kIGxvd2VyIGJv
-dW5kcyBvZiB0aGUgZGlzcGxheSBwYW5lbCAoZHJtX2Nvbm5lY3RvcikgcmVzb2x1dGlvbnMgdGhl
-IERSTSBkZXZpY2UgY2FuIHN1cHBvcnQuIEJ1dCB0aGUgcGl4ZWwgcHJvY2Vzc2luZyBwaXBlbGlu
-ZSBjYW4gYXBwbHkgY3JvcHBpbmcvc2NhbGluZyB0cmFuc2Zvcm1hdGlvbnMgb24gbXVjaCBsYXJn
-ZXIgaW5wdXQgZnJhbWVidWZmZXJzIGFuZCBmbGlwIHRoZSBidWZmZXJzIHdpdGhpbiB0aGUgZGlz
-cGxheSByZXNvbHV0aW9uLiBTdWNoIGNvbmZpZ3VyYXRpb25zIGFyZSB2ZXJ5IGNvbW1vbiBhbmQg
-dGhlIGZpbmFsIHJlc29sdXRpb24gd2lsbCBiZSBzdGlsbCB3aXRoaW4gZHJtX21vZGVfY29uZmln
-IGJvdW5kcy4gU28gSSBiZWxpZXZlIHRoZSBjaGVja3Mgc2hvdWxkIGJlIHJlbGF4ZWQgLyByZW1v
-dmVkIGZyb20gdGhlIGRybV9mcmFtZWJ1ZmZlciBjcmVhdGlvbiBhcGnigJlzLgo+IAo+IMKgCj4g
-Cj4gSWYgbXkgdW5kZXJzdGFuZGluZyBpcyBpbmNvcnJlY3QsIGNvdWxkIHNvbWVob3cgZXhwbGFp
-biB0aGUgbW90aXZhdGlvbiBiZWhpbmQgaGF2aW5nIHRoZXNlIGNoZWNrcyBoZXJlPwoKSSBhbHJl
-YWR5IHJlcG9ydGVkIHRoaXMgYSBmZXcgbW9udGhzIGFnbywgaGVyZSBpcyB0aGUgbG9nIG9mIHRo
-ZSBkaXNjdXNzaW9uIDoKaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wYXRjaC8xMDYyNTcw
-Ny8KClRMO0RSIGl0IHNob3VsZCBiZSByZW1vdmVkIGJ1dCB0aGVzZSBjaGVja3Mgc2hvdWxkIGJl
-IG1vdmVkIHRvIGNvbnRyb2wgbWF4IHNjcmVlbiBzaXplCmluIGF0b21pY19jb21taXQgcGF0aHMu
-CgpJIHBsYW5uZWQgdG8gZml4IHRoaXMsIGJ1dCBoYXZlbid0IGZvdW5kIHRpbWUgeWV0Li4uCgpO
-ZWlsCgo+IAo+IMKgCj4gCj4gVGhhbmtzIGFuZCBSZWdhcmRzLAo+IAo+IEpleWt1bWFyIFMuCj4g
-Cj4gwqAKPiAKPiBbMV0gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5l
-bC9naXQvdG9ydmFsZHMvbGludXguZ2l0L3RyZWUvZHJpdmVycy9ncHUvZHJtL2RybV9mcmFtZWJ1
-ZmZlci5jP2g9djUuMyNuMzAzCj4gCj4gwqAKPiAKPiAqc3RydWN0KmRybV9mcmFtZWJ1ZmZlciAq
-Cj4gCj4gKmRybV9pbnRlcm5hbF9mcmFtZWJ1ZmZlcl9jcmVhdGUqKCpzdHJ1Y3QqZHJtX2Rldmlj
-ZSAqZGV2LAo+IAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCAqY29uc3QqKnN0cnVjdCpkcm1fbW9kZV9mYl9jbWQyICpyLAo+IAo+
-IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCAqc3RydWN0KmRybV9maWxlICpmaWxlX3ByaXYpCj4gCj4gewo+IAo+IMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCDCoMKgwqAgwqAvKiBzbmlwICovCj4gCj4gwqAKPiAKPiDCoMKg
-wqDCoMKgwqDCoCAqaWYqKChjb25maWctPm1pbl93aWR0aCA+IHItPndpZHRoKSB8fCAoci0+d2lk
-dGggPiBjb25maWctPm1heF93aWR0aCkpIHsKPiAKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIERSTV9ERUJVR19LTVMoImJhZCBmcmFtZWJ1ZmZlciB3aWR0aCAlZCwgc2hvdWxkIGJlID49
-ICVkICYmIDw9ICVkXG4iLAo+IAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIMKgIHItPndpZHRoLCBjb25maWctPm1pbl93aWR0aCwgY29uZmlnLT5tYXhfd2lk
-dGgpOwo+IAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKnJldHVybipFUlJfUFRSKC1F
-SU5WQUwpOwo+IAo+IMKgwqDCoMKgwqDCoMKgIH0KPiAKPiDCoMKgwqDCoMKgwqDCoCAqaWYqKChj
-b25maWctPm1pbl9oZWlnaHQgPiByLT5oZWlnaHQpIHx8IChyLT5oZWlnaHQgPiBjb25maWctPm1h
-eF9oZWlnaHQpKSB7Cj4gCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBEUk1fREVCVUdf
-S01TKCJiYWQgZnJhbWVidWZmZXIgaGVpZ2h0ICVkLCBzaG91bGQgYmUgPj0gJWQgJiYgPD0gJWRc
-biIsCj4gCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgwqAg
-ci0+aGVpZ2h0LCBjb25maWctPm1pbl9oZWlnaHQsIGNvbmZpZy0+bWF4X2hlaWdodCk7Cj4gCj4g
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqcmV0dXJuKkVSUl9QVFIoLUVJTlZBTCk7Cj4g
-Cj4gwqDCoMKgwqDCoMKgwqAgfQo+IAo+IMKgwqDCoMKgwqDCoMKgIC8qIHNuaXAgKi8KPiAKPiB9
-Cj4gCj4gwqAKPiAKPiAKPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwKPiAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbA==
+--===============0871232889==
+Content-Type: text/plain; charset=unknown-8bit
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+tree:   git://people.freedesktop.org/~agd5f/linux.git amd-mainline-dkms-5.0
+head:   a51a5ad4b8daf0dd0a437d51a19c2baa98953675
+commit: f460c248a3f0bca3a875602cf40693de672485c4 [3697/3724] drm/amd/autoconf: refactor dma_fence header check
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.1-rc1-7-g2b96cd8-dirty
+        git checkout f460c248a3f0bca3a875602cf40693de672485c4
+        make ARCH=x86_64 allmodconfig
+        make C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__'
+
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
+
+
+sparse warnings: (new ones prefixed by >>)
+
+   include/kcl/kcl_drm.h:167:1: sparse: sparse: multiple definitions for function 'drm_fb_helper_remove_conflicting_pci_framebuffers'
+>> include/drm/drm_fb_helper.h:641:1: sparse:  the previous one is here
+   include/kcl/kcl_drm.h:390:28: sparse: sparse: redefinition of struct drm_format_name_buf
+
+vim +641 include/drm/drm_fb_helper.h
+
+0a3bfe29f81622 Chris Wilson    2016-08-22  627  
+c9527f0de508b1 Michał Mirosław 2018-09-07  628  /**
+c9527f0de508b1 Michał Mirosław 2018-09-07  629   * drm_fb_helper_remove_conflicting_pci_framebuffers - remove firmware-configured framebuffers for PCI devices
+c9527f0de508b1 Michał Mirosław 2018-09-07  630   * @pdev: PCI device
+c9527f0de508b1 Michał Mirosław 2018-09-07  631   * @resource_id: index of PCI BAR configuring framebuffer memory
+c9527f0de508b1 Michał Mirosław 2018-09-07  632   * @name: requesting driver name
+c9527f0de508b1 Michał Mirosław 2018-09-07  633   *
+c9527f0de508b1 Michał Mirosław 2018-09-07  634   * This function removes framebuffer devices (eg. initialized by firmware)
+c9527f0de508b1 Michał Mirosław 2018-09-07  635   * using memory range configured for @pdev's BAR @resource_id.
+c9527f0de508b1 Michał Mirosław 2018-09-07  636   *
+c9527f0de508b1 Michał Mirosław 2018-09-07  637   * The function assumes that PCI device with shadowed ROM drives a primary
+c9527f0de508b1 Michał Mirosław 2018-09-07  638   * display and so kicks out vga16fb.
+c9527f0de508b1 Michał Mirosław 2018-09-07  639   */
+4d18975c78f2d5 Michał Mirosław 2018-09-01  640  static inline int
+4d18975c78f2d5 Michał Mirosław 2018-09-01 @641  drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
+4d18975c78f2d5 Michał Mirosław 2018-09-01  642  						  int resource_id,
+4d18975c78f2d5 Michał Mirosław 2018-09-01  643  						  const char *name)
+4d18975c78f2d5 Michał Mirosław 2018-09-01  644  {
+4d18975c78f2d5 Michał Mirosław 2018-09-01  645  #if IS_REACHABLE(CONFIG_FB)
+4d18975c78f2d5 Michał Mirosław 2018-09-01  646  	return remove_conflicting_pci_framebuffers(pdev, resource_id, name);
+4d18975c78f2d5 Michał Mirosław 2018-09-01  647  #else
+4d18975c78f2d5 Michał Mirosław 2018-09-01  648  	return 0;
+4d18975c78f2d5 Michał Mirosław 2018-09-01  649  #endif
+4d18975c78f2d5 Michał Mirosław 2018-09-01  650  }
+4d18975c78f2d5 Michał Mirosław 2018-09-01  651  
+
+:::::: The code at line 641 was first introduced by commit
+:::::: 4d18975c78f2d5c91792356501cf369e67594241 fbdev: add remove_conflicting_pci_framebuffers()
+
+:::::: TO: Michał Mirosław <mirq-linux@rere.qmqm.pl>
+:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+
+--===============0871232889==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0871232889==--
