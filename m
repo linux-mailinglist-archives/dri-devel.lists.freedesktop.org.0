@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC121B8245
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 22:11:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91536B8249
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 22:12:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 052CD6F421;
-	Thu, 19 Sep 2019 20:11:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 934C86FB22;
+	Thu, 19 Sep 2019 20:12:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id DBF906FB18
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 20:11:54 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 87FC36FB29
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 20:12:54 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D89BF72167; Thu, 19 Sep 2019 20:11:54 +0000 (UTC)
+ id 84F7B72167; Thu, 19 Sep 2019 20:12:54 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
  with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Thu, 19 Sep 2019 20:11:54 +0000
+Date: Thu, 19 Sep 2019 20:12:54 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,8 +34,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111481-502-dqcHlIsCKN@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111481-502-lVaoBqLqBe@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
 References: <bug-111481-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1802219331=="
+Content-Type: multipart/mixed; boundary="===============0273931611=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1802219331==
-Content-Type: multipart/alternative; boundary="15689239142.FB3B01.31905"
+--===============0273931611==
+Content-Type: multipart/alternative; boundary="15689239742.eEe7Ac0.32044"
 Content-Transfer-Encoding: 7bit
 
 
---15689239142.FB3B01.31905
-Date: Thu, 19 Sep 2019 20:11:54 +0000
+--15689239742.eEe7Ac0.32044
+Date: Thu, 19 Sep 2019 20:12:54 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,17 +73,22 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
 
---- Comment #51 from Matthias M=C3=BCller <saldorin@web.de> ---
-Created attachment 145436
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145436&action=3Dedit
+--- Comment #52 from Matthias M=C3=BCller <saldorin@web.de> ---
+Comment on attachment 145436
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145436
 Log of divide error
+
+i just encountered a "random" freeze, too.
+And because it seems to be something "new", i thought i'd post it here - se=
+ems
+to be some kind of null pointer from what i found?
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15689239142.FB3B01.31905
-Date: Thu, 19 Sep 2019 20:11:54 +0000
+--15689239742.eEe7Ac0.32044
+Date: Thu, 19 Sep 2019 20:12:54 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -101,8 +106,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
  kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c51">Comme=
-nt # 51</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c52">Comme=
+nt # 52</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
@@ -113,11 +118,16 @@ nt # 51</a>
 saldorin&#64;web.de" title=3D"Matthias M=C3=BCller &lt;saldorin&#64;web.de&=
 gt;"> <span class=3D"fn">Matthias M=C3=BCller</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145436=
-" name=3D"attach_145436" title=3D"Log of divide error">attachment 145436</a=
-> <a href=3D"attachment.cgi?id=3D145436&amp;action=3Dedit" title=3D"Log of =
-divide error">[details]</a></span>
-Log of divide error</pre>
+        <pre>Comment on <span class=3D""><a href=3D"attachment.cgi?id=3D145=
+436" name=3D"attach_145436" title=3D"Log of divide error">attachment 145436=
+</a> <a href=3D"attachment.cgi?id=3D145436&amp;action=3Dedit" title=3D"Log =
+of divide error">[details]</a></span>
+Log of divide error
+
+i just encountered a &quot;random&quot; freeze, too.
+And because it seems to be something &quot;new&quot;, i thought i'd post it=
+ here - seems
+to be some kind of null pointer from what i found?</pre>
         </div>
       </p>
 
@@ -131,9 +141,9 @@ Log of divide error</pre>
     </body>
 </html>=
 
---15689239142.FB3B01.31905--
+--15689239742.eEe7Ac0.32044--
 
---===============1802219331==
+--===============0273931611==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -143,4 +153,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1802219331==--
+--===============0273931611==--
