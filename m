@@ -1,61 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C37D1B7FBD
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 19:11:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F28C5B7FD7
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 19:18:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E2E56F46C;
-	Thu, 19 Sep 2019 17:11:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C87636F4CA;
+	Thu, 19 Sep 2019 17:17:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id E4E446F46C;
- Thu, 19 Sep 2019 17:11:44 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 3ADAB2AA0FB;
- Thu, 19 Sep 2019 19:11:44 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id x1F0UOtU4EPY; Thu, 19 Sep 2019 19:11:42 +0200 (CEST)
-Received: from thor (116.245.63.188.dynamic.wline.res.cust.swisscom.ch
- [188.63.245.116])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id C1D592AA0C6;
- Thu, 19 Sep 2019 19:11:42 +0200 (CEST)
-Received: from localhost ([::1]) by thor with esmtp (Exim 4.92.2)
- (envelope-from <michel@daenzer.net>)
- id 1iAzy2-00041o-Fl; Thu, 19 Sep 2019 19:11:42 +0200
-Subject: Re: [PATCH] drm/radeon: fix a potential NULL pointer dereference
-To: Allen Pais <allen.pais@oracle.com>
-References: <1568824282-4081-1-git-send-email-allen.pais@oracle.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Openpgp: preference=signencrypt
-Autocrypt: addr=michel@daenzer.net; prefer-encrypt=mutual; keydata=
- mQGiBDsehS8RBACbsIQEX31aYSIuEKxEnEX82ezMR8z3LG8ktv1KjyNErUX9Pt7AUC7W3W0b
- LUhu8Le8S2va6hi7GfSAifl0ih3k6Bv1Itzgnd+7ZmSrvCN8yGJaHNQfAevAuEboIb+MaVHo
- 9EMJj4ikOcRZCmQWw7evu/D9uQdtkCnRY9iJiAGxbwCguBHtpoGMxDOINCr5UU6qt+m4O+UD
- /355ohBBzzyh49lTj0kTFKr0Ozd20G2FbcqHgfFL1dc1MPyigej2gLga2osu2QY0ObvAGkOu
- WBi3LTY8Zs8uqFGDC4ZAwMPoFy3yzu3ne6T7d/68rJil0QcdQjzzHi6ekqHuhst4a+/+D23h
- Za8MJBEcdOhRhsaDVGAJSFEQB1qLBACOs0xN+XblejO35gsDSVVk8s+FUUw3TSWJBfZa3Imp
- V2U2tBO4qck+wqbHNfdnU/crrsHahjzBjvk8Up7VoY8oT+z03sal2vXEonS279xN2B92Tttr
- AgwosujguFO/7tvzymWC76rDEwue8TsADE11ErjwaBTs8ZXfnN/uAANgPLQjTWljaGVsIERh
- ZW56ZXIgPG1pY2hlbEBkYWVuemVyLm5ldD6IXgQTEQIAHgUCQFXxJgIbAwYLCQgHAwIDFQID
- AxYCAQIeAQIXgAAKCRBaga+OatuyAIrPAJ9ykonXI3oQcX83N2qzCEStLNW47gCeLWm/QiPY
- jqtGUnnSbyuTQfIySkK5AQ0EOx6FRRAEAJZkcvklPwJCgNiw37p0GShKmFGGqf/a3xZZEpjI
- qNxzshFRFneZze4f5LhzbX1/vIm5+ZXsEWympJfZzyCmYPw86QcFxyZflkAxHx9LeD+89Elx
- bw6wT0CcLvSv8ROfU1m8YhGbV6g2zWyLD0/naQGVb8e4FhVKGNY2EEbHgFBrAAMGA/0VktFO
- CxFBdzLQ17RCTwCJ3xpyP4qsLJH0yCoA26rH2zE2RzByhrTFTYZzbFEid3ddGiHOBEL+bO+2
- GNtfiYKmbTkj1tMZJ8L6huKONaVrASFzLvZa2dlc2zja9ZSksKmge5BOTKWgbyepEc5qxSju
- YsYrX5xfLgTZC5abhhztpYhGBBgRAgAGBQI7HoVFAAoJEFqBr45q27IAlscAn2Ufk2d6/3p4
- Cuyz/NX7KpL2dQ8WAJ9UD5JEakhfofed8PSqOM7jOO3LCA==
-Message-ID: <5603dddb-8ae3-e145-69af-c6ccea68ca1b@daenzer.net>
-Date: Thu, 19 Sep 2019 19:11:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AD936F4CA
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 17:17:57 +0000 (UTC)
+Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id B41C021928;
+ Thu, 19 Sep 2019 17:17:56 +0000 (UTC)
+Date: Thu, 19 Sep 2019 19:17:54 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: roman.stratiienko@globallogic.com, Jernej Skrabec <jernej.skrabec@siol.net>
+Subject: Re: [PATCH] drm/sun4i: Use vi plane as primary
+Message-ID: <20190919171754.x6lq73cctnqsjr4v@gilmour>
+References: <20190919123703.8545-1-roman.stratiienko@globallogic.com>
 MIME-Version: 1.0
-In-Reply-To: <1568824282-4081-1-git-send-email-allen.pais@oracle.com>
-Content-Language: en-CA
+In-Reply-To: <20190919123703.8545-1-roman.stratiienko@globallogic.com>
+User-Agent: NeoMutt/20180716
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1568913477;
+ bh=yFCy4+MpB1fuov38bUgmcauo0/reXN7yqVfN2hTHm3A=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=1BHIg98sQU3RSKO5g6gKuadHx+gZTwc4PvbsYJlU5PDLAsU+nnEkskfkxWwJSEIl4
+ 3QsZ4iQa7QmLNILjU1Cn3HaCTFre3NJhVL2wkSK7uKGnbw4YnqXhtTath1ebCQgKyY
+ DT5WC5o4gYOsrt/++Dq71vwkm+ofxCbsCdnOEeg4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,36 +45,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1642155536=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAxOS0wOS0xOCA2OjMxIHAubS4sIEFsbGVuIFBhaXMgd3JvdGU6Cj4gYWxsb2Nfd29ya3F1
-ZXVlIGlzIG5vdCBjaGVja2VkIGZvciBlcnJvcnMgYW5kIGFzIGEgcmVzdWx0LAo+IGEgcG90ZW50
-aWFsIE5VTEwgZGVyZWZlcmVuY2UgY291bGQgb2NjdXIuCj4gCj4gU2lnbmVkLW9mZi1ieTogQWxs
-ZW4gUGFpcyA8YWxsZW4ucGFpc0BvcmFjbGUuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0v
-cmFkZW9uL3JhZGVvbl9kaXNwbGF5LmMgfCA0ICsrKysKPiAgMSBmaWxlIGNoYW5nZWQsIDQgaW5z
-ZXJ0aW9ucygrKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVv
-bl9kaXNwbGF5LmMgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9kaXNwbGF5LmMKPiBp
-bmRleCBiZDUyZjE1Li4xYTQxNzY0IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yYWRl
-b24vcmFkZW9uX2Rpc3BsYXkuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9u
-X2Rpc3BsYXkuYwo+IEBAIC02ODMsNiArNjgzLDEwIEBAIHN0YXRpYyB2b2lkIHJhZGVvbl9jcnRj
-X2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgaW50IGluZGV4KQo+ICAJZHJtX21vZGVfY3J0
-Y19zZXRfZ2FtbWFfc2l6ZSgmcmFkZW9uX2NydGMtPmJhc2UsIDI1Nik7Cj4gIAlyYWRlb25fY3J0
-Yy0+Y3J0Y19pZCA9IGluZGV4Owo+ICAJcmFkZW9uX2NydGMtPmZsaXBfcXVldWUgPSBhbGxvY193
-b3JrcXVldWUoInJhZGVvbi1jcnRjIiwgV1FfSElHSFBSSSwgMCk7Cj4gKwlpZiAodW5saWtlbHko
-IXJhZGVvbl9jcnRjLT5mbGlwX3F1ZXVlKSkgewo+ICsJCWtmcmVlKHJhZGVvbl9jcnRjKTsKPiAr
-CQlyZXR1cm47Cj4gKwl9Cj4gIAlyZGV2LT5tb2RlX2luZm8uY3J0Y3NbaW5kZXhdID0gcmFkZW9u
-X2NydGM7Cj4gIAo+ICAJaWYgKHJkZXYtPmZhbWlseSA+PSBDSElQX0JPTkFJUkUpIHsKPiAKCkkn
-bSBhZnJhaWQganVzdCBzaWxlbnRseSBsZWF2aW5nIHRoZSBDUlRDIHVuaW5pdGlhbGl6ZWQgaXNu
-J3QgYSBnb29kIHdheQp0byBoYW5kbGUgdGhpcy4gVGhlIGZhaWx1cmUgd291bGQgbmVlZCB0byBi
-ZSBwcm9wYWdhdGVkLCBwcm9iYWJseQpyZXN1bHRpbmcgaW4gdGhlIGRyaXZlciBhYm9ydGluZyBp
-dHMgaW5pdGlhbGl6YXRpb24gYWx0b2dldGhlci4KCgotLSAKRWFydGhsaW5nIE1pY2hlbCBEw6Ru
-emVyICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgIGh0dHBzOi8vcmVkaGF0LmNvbQpMaWJy
-ZSBzb2Z0d2FyZSBlbnRodXNpYXN0ICAgICAgICAgICAgIHwgICAgICAgICAgICAgTWVzYSBhbmQg
-WCBkZXZlbG9wZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1642155536==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="2rnnscmg2kp6rchv"
+Content-Disposition: inline
+
+
+--2rnnscmg2kp6rchv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi,
+
+On Thu, Sep 19, 2019 at 03:37:03PM +0300, roman.stratiienko@globallogic.com wrote:
+> From: Roman Stratiienko <roman.stratiienko@globallogic.com>
+>
+> DE2.0 blender does not take into the account alpha channel of vi layer.
+> Thus makes overlaying of this layer totally opaque.
+> Using vi layer as bottom solves this issue.
+>
+> Tested on Android.
+>
+> Signed-off-by: Roman Stratiienko <roman.stratiienko@globallogic.com>
+
+It sounds like a workaround more than an actual fix.
+
+If the VI planes can't use the alpha, then we should just stop
+reporting that format.
+
+Jernej, what do you think?
+
+Maxime
+
+> ---
+>  drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 33 -----------------------
+>  drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 36 +++++++++++++++++++++++++-
+>  2 files changed, 35 insertions(+), 34 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+> index dd2a1c851939..25183badc85f 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+> @@ -99,36 +99,6 @@ static int sun8i_ui_layer_update_coord(struct sun8i_mixer *mixer, int channel,
+>  	insize = SUN8I_MIXER_SIZE(src_w, src_h);
+>  	outsize = SUN8I_MIXER_SIZE(dst_w, dst_h);
+>
+> -	if (plane->type == DRM_PLANE_TYPE_PRIMARY) {
+> -		bool interlaced = false;
+> -		u32 val;
+> -
+> -		DRM_DEBUG_DRIVER("Primary layer, updating global size W: %u H: %u\n",
+> -				 dst_w, dst_h);
+> -		regmap_write(mixer->engine.regs,
+> -			     SUN8I_MIXER_GLOBAL_SIZE,
+> -			     outsize);
+> -		regmap_write(mixer->engine.regs,
+> -			     SUN8I_MIXER_BLEND_OUTSIZE(bld_base), outsize);
+> -
+> -		if (state->crtc)
+> -			interlaced = state->crtc->state->adjusted_mode.flags
+> -				& DRM_MODE_FLAG_INTERLACE;
+> -
+> -		if (interlaced)
+> -			val = SUN8I_MIXER_BLEND_OUTCTL_INTERLACED;
+> -		else
+> -			val = 0;
+> -
+> -		regmap_update_bits(mixer->engine.regs,
+> -				   SUN8I_MIXER_BLEND_OUTCTL(bld_base),
+> -				   SUN8I_MIXER_BLEND_OUTCTL_INTERLACED,
+> -				   val);
+> -
+> -		DRM_DEBUG_DRIVER("Switching display mixer interlaced mode %s\n",
+> -				 interlaced ? "on" : "off");
+> -	}
+> -
+>  	/* Set height and width */
+>  	DRM_DEBUG_DRIVER("Layer source offset X: %d Y: %d\n",
+>  			 state->src.x1 >> 16, state->src.y1 >> 16);
+> @@ -349,9 +319,6 @@ struct sun8i_ui_layer *sun8i_ui_layer_init_one(struct drm_device *drm,
+>  	if (!layer)
+>  		return ERR_PTR(-ENOMEM);
+>
+> -	if (index == 0)
+> -		type = DRM_PLANE_TYPE_PRIMARY;
+> -
+>  	/* possible crtcs are set later */
+>  	ret = drm_universal_plane_init(drm, &layer->plane, 0,
+>  				       &sun8i_ui_layer_funcs,
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> index 07c27e6a4b77..49c4074e164f 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> @@ -116,6 +116,36 @@ static int sun8i_vi_layer_update_coord(struct sun8i_mixer *mixer, int channel,
+>  	insize = SUN8I_MIXER_SIZE(src_w, src_h);
+>  	outsize = SUN8I_MIXER_SIZE(dst_w, dst_h);
+>
+> +	if (plane->type == DRM_PLANE_TYPE_PRIMARY) {
+> +		bool interlaced = false;
+> +		u32 val;
+> +
+> +		DRM_DEBUG_DRIVER("Primary layer, updating global size W: %u H: %u\n",
+> +				 dst_w, dst_h);
+> +		regmap_write(mixer->engine.regs,
+> +			     SUN8I_MIXER_GLOBAL_SIZE,
+> +			     outsize);
+> +		regmap_write(mixer->engine.regs,
+> +			     SUN8I_MIXER_BLEND_OUTSIZE(bld_base), outsize);
+> +
+> +		if (state->crtc)
+> +			interlaced = state->crtc->state->adjusted_mode.flags
+> +				& DRM_MODE_FLAG_INTERLACE;
+> +
+> +		if (interlaced)
+> +			val = SUN8I_MIXER_BLEND_OUTCTL_INTERLACED;
+> +		else
+> +			val = 0;
+> +
+> +		regmap_update_bits(mixer->engine.regs,
+> +				   SUN8I_MIXER_BLEND_OUTCTL(bld_base),
+> +				   SUN8I_MIXER_BLEND_OUTCTL_INTERLACED,
+> +				   val);
+> +
+> +		DRM_DEBUG_DRIVER("Switching display mixer interlaced mode %s\n",
+> +				 interlaced ? "on" : "off");
+> +	}
+> +
+>  	/* Set height and width */
+>  	DRM_DEBUG_DRIVER("Layer source offset X: %d Y: %d\n",
+>  			 (state->src.x1 >> 16) & ~(format->hsub - 1),
+> @@ -445,6 +475,7 @@ struct sun8i_vi_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
+>  					       struct sun8i_mixer *mixer,
+>  					       int index)
+>  {
+> +	enum drm_plane_type type = DRM_PLANE_TYPE_OVERLAY;
+>  	struct sun8i_vi_layer *layer;
+>  	unsigned int plane_cnt;
+>  	int ret;
+> @@ -453,12 +484,15 @@ struct sun8i_vi_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
+>  	if (!layer)
+>  		return ERR_PTR(-ENOMEM);
+>
+> +	if (index == 0)
+> +		type = DRM_PLANE_TYPE_PRIMARY;
+> +
+>  	/* possible crtcs are set later */
+>  	ret = drm_universal_plane_init(drm, &layer->plane, 0,
+>  				       &sun8i_vi_layer_funcs,
+>  				       sun8i_vi_layer_formats,
+>  				       ARRAY_SIZE(sun8i_vi_layer_formats),
+> -				       NULL, DRM_PLANE_TYPE_OVERLAY, NULL);
+> +				       NULL, type, NULL);
+>  	if (ret) {
+>  		dev_err(drm->dev, "Couldn't initialize layer\n");
+>  		return ERR_PTR(ret);
+> --
+> 2.17.1
+>
+
+--2rnnscmg2kp6rchv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXYO4QgAKCRDj7w1vZxhR
+xTy3AQCFKpFFunsqQpH5S3NlmWIGIAVm1V7QMGnmSYwKpmq2AAD9HuR+fErdd4gi
+hWcnK9n6BG95SzVHYdPnJwAevIKEQgQ=
+=2o4M
+-----END PGP SIGNATURE-----
+
+--2rnnscmg2kp6rchv--
+
+--===============1642155536==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1642155536==--
