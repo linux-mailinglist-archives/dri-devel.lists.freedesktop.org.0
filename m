@@ -1,45 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E971B7653
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 11:32:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40FA5B766C
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 11:37:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5BB36F99F;
-	Thu, 19 Sep 2019 09:32:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D263D6F4F9;
+	Thu, 19 Sep 2019 09:36:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3E2346F9A6
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 09:32:02 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 3157972167; Thu, 19 Sep 2019 09:32:02 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111122] 2500U: Graphics corruption on kernel 5.2
-Date: Thu, 19 Sep 2019 09:32:02 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pierre-eric.pelloux-prayer@amd.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111122-502-wNMRhiqcOG@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111122-502@http.bugs.freedesktop.org/>
-References: <bug-111122-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACE536F4F9
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 09:36:57 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id g13so2468824otp.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 02:36:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZOSBD7CGhyDOfvgbBTFvLCEJImnePecfbZLBWvYyxgo=;
+ b=s4KU4+CrbpB/2nkpM6m/6wt1IB3vh1nM3VDS9+iR/vvdvRG7Jh++o0aAt7ZGvM1Rj8
+ 0eheDS39qp5hxT8U4f/WUmjn+aLOoz9M7XbD6U8mNJYlESWL4MeHYWXh2KFd1BeEoOZB
+ o16rjZ/J+NVMVIkwdK5Wg7JUQslN4rFMtKuGSQfAaD6pHAfbz7+5BFCmhNFmXMQMVjkL
+ 0W9De6kFJY1IOLp9EpXI2Sf62j3LYcQhKVSsG6sYicsoW5dy671/RZ+hbCNTsQHGKBm/
+ +1gkifQseBk+yLeR0UMjWXf6LDotLC34O7xAMHVBH040hu4x51g/7g/VI34Zk6ZlNzL5
+ /m2w==
+X-Gm-Message-State: APjAAAVnmX//GWUkXqhaf0l2m+g/3LhXHKrzdBFsQtUHvuAjaWxWagpV
+ lbU631llDayyCbJ0affyfQ84r8vvXPgArT3r9SncqZND
+X-Google-Smtp-Source: APXvYqxTsthM04ipr/VO0yhsgq0CTkhu8GaaU+BwU3P2g+BHDRUT/cHGs3I6DMcYAA2CpPi6/pnJ02DMqUQeBLACEg4=
+X-Received: by 2002:a05:6830:1594:: with SMTP id
+ i20mr2663196otr.188.1568885816902; 
+ Thu, 19 Sep 2019 02:36:56 -0700 (PDT)
 MIME-Version: 1.0
+References: <KJRi1ROX2_eM1WjtEQ1e1-f--VK4hwMQJQt1nPaS6lcmt3v4yIfdttLIu_EOGdkwXwEMAEo66Xa7ksp7iQABWT5GuMu6UgKoiuEm6EU2N1U=@emersion.fr>
+ <20190910133810.64e973f4@eldfell.localdomain>
+ <uIh7eDYXe7Cj_3_8V0-WIdUfSrRlIHw8yb91myRQqlv5A7dS8TtfXZTsz0R84_LSQBdqkZvEHc6uWPnGJKIIqa_SnTr6RtmPRwr4d2u13JA=@emersion.fr>
+ <20190911103604.4c05ba6b@eldfell.localdomain>
+ <fNZQmqVgMDGSK8zIcxQHCsbo-z5GPhcd6GxIEVrpt6ubbauLhe9IbPo77ilXH0SccjutcCbq3iym-DnBQ5Q3wyY1WGPiDxwz3_Pj9--fgZY=@emersion.fr>
+ <20190919101836.76d735ba@eldfell.localdomain>
+ <CAKMK7uFRtFntwDtiT9+AS1QVMsfVwbA1XVMa+EEn_SphMxqp-w@mail.gmail.com>
+ <20190919120152.54875c21@eldfell.localdomain>
+In-Reply-To: <20190919120152.54875c21@eldfell.localdomain>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Thu, 19 Sep 2019 11:36:45 +0200
+Message-ID: <CAKMK7uHaYP+zVWB5rY04EM8X1y_tqixZkomZM71aHTUK5t6B0w@mail.gmail.com>
+Subject: Re: [PATCH] drm: two planes with the same zpos have undefined ordering
+To: Pekka Paalanen <ppaalanen@gmail.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=ZOSBD7CGhyDOfvgbBTFvLCEJImnePecfbZLBWvYyxgo=;
+ b=cHxoQ7KncbhJzC8g9ECqzve9ixtrbdlpz09jTENUNPczQoL0Ewzab8el+WjGNAblX0
+ tRWrPO1St2iuz79qSM2cYGjaN8DD8re6atMHKZvys8/++3ZU0naDVWDEctPsbJnSeqdY
+ BHY6Ng2gYAvpX4ycvE5eTRUGJtEyE+FPeEC0c=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,131 +67,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1717182609=="
+Cc: Simon Ser <contact@emersion.fr>,
+ "daniels@collabora.com" <daniels@collabora.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Marius-Cristian Vlad <marius.vlad@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1717182609==
-Content-Type: multipart/alternative; boundary="15688855222.A3ace00.10628"
-Content-Transfer-Encoding: 7bit
-
-
---15688855222.A3ace00.10628
-Date: Thu, 19 Sep 2019 09:32:02 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111122
-
---- Comment #28 from Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer=
-@amd.com> ---
-(In reply to Brian Schott from comment #21)
-> As far as the issue about desktop corruption and lockup on login requiring
-> the AMD_DEBUG=3Dnodcc workaround:
->=20
-> b563460b494e9228cf5bb1aa4a70ac2499ad81fe is the first bad commit
-> commit b563460b494e9228cf5bb1aa4a70ac2499ad81fe
-> Author: Marek Ol=C5=A1=C3=A1k <marek.olsak@amd.com>
-> Date:   Tue Jan 8 20:08:08 2019 -0500
->=20
->     radeonsi: enable displayable DCC on Ravens
->=20
->  src/amd/common/ac_gpu_info.c                      | 8 ++++++++
->  src/amd/vulkan/winsys/amdgpu/radv_amdgpu_winsys.c | 4 ++++
->  2 files changed, 12 insertions(+)
-
-
-Could you test this commit
-https://gitlab.freedesktop.org/mesa/mesa/merge_requests/2016/diffs?commit_i=
-d=3D4829f697ab2ceb2fc2772cc1220acc4185e6013d
-and let us know if it fixes this issue?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15688855222.A3ace00.10628
-Date: Thu, 19 Sep 2019 09:32:02 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122#c28">Comme=
-nt # 28</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122">bug 11112=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-pierre-eric.pelloux-prayer&#64;amd.com" title=3D"Pierre-Eric Pelloux-Prayer=
- &lt;pierre-eric.pelloux-prayer&#64;amd.com&gt;"> <span class=3D"fn">Pierre=
--Eric Pelloux-Prayer</span></a>
-</span></b>
-        <pre>(In reply to Brian Schott from <a href=3D"show_bug.cgi?id=3D11=
-1122#c21">comment #21</a>)
-<span class=3D"quote">&gt; As far as the issue about desktop corruption and=
- lockup on login requiring
-&gt; the AMD_DEBUG=3Dnodcc workaround:
-&gt;=20
-&gt; b563460b494e9228cf5bb1aa4a70ac2499ad81fe is the first bad commit
-&gt; commit b563460b494e9228cf5bb1aa4a70ac2499ad81fe
-&gt; Author: Marek Ol=C5=A1=C3=A1k &lt;<a href=3D"mailto:marek.olsak&#64;am=
-d.com">marek.olsak&#64;amd.com</a>&gt;
-&gt; Date:   Tue Jan 8 20:08:08 2019 -0500
-&gt;=20
-&gt;     radeonsi: enable displayable DCC on Ravens
-&gt;=20
-&gt;  src/amd/common/ac_gpu_info.c                      | 8 ++++++++
-&gt;  src/amd/vulkan/winsys/amdgpu/radv_amdgpu_winsys.c | 4 ++++
-&gt;  2 files changed, 12 insertions(+)</span >
-
-
-Could you test this commit
-<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/merge_requests/2016/dif=
-fs?commit_id=3D4829f697ab2ceb2fc2772cc1220acc4185e6013d">https://gitlab.fre=
-edesktop.org/mesa/mesa/merge_requests/2016/diffs?commit_id=3D4829f697ab2ceb=
-2fc2772cc1220acc4185e6013d</a>
-and let us know if it fixes this issue?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15688855222.A3ace00.10628--
-
---===============1717182609==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1717182609==--
+T24gVGh1LCBTZXAgMTksIDIwMTkgYXQgMTE6MDIgQU0gUGVra2EgUGFhbGFuZW4gPHBwYWFsYW5l
+bkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gT24gVGh1LCAxOSBTZXAgMjAxOSAxMDoxODowNCArMDIw
+MAo+IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+IHdyb3RlOgo+Cj4gPiBP
+biBUaHUsIFNlcCAxOSwgMjAxOSBhdCA5OjE4IEFNIFBla2thIFBhYWxhbmVuIDxwcGFhbGFuZW5A
+Z21haWwuY29tPiB3cm90ZToKPiA+ID4KPgo+IC4uLgo+Cj4gPiA+IFJpZ2h0LCBhbmQgd2UgYXJl
+IHN1ZmZlcmluZyBmcm9tIHRoYXQgY29uZnVzaW9uIGFscmVhZHkuIFNob3VsZAo+ID4gPiB1c2Vy
+c3BhY2UgdXNlIElEIG9yZGVyIGlmIHpwb3MgcHJvcGVydHkgaXMgbm90IHRoZXJlIG9yIG5vdD8g
+SSBoYXZlIG5vCj4gPiA+IGlkZWEuCj4gPgo+ID4gTm9wZS4gSSB0aGluayB0aGUgb25seSBvcHRp
+b25zIGZvciB0aGlzIGNhc2UgYXJlOgo+ID4gLSBmaWxlIGJ1ZyBhZ2FpbnN0IHVwc3RyZWFtIGRy
+aXZlciBzbyB0aGV5IGFkZCB6cG9zCj4gPiAtIHlvdSBtYWdpY2FsbHkga25vdyBob3cgcGxhbmVz
+IHdvcmsgb24gdGhhdCBodwo+ID4gLSB5b3UgZG9uJ3Qgb3ZlcmxhcCBwbGFuZXMgYXQgYWxsCj4g
+PiAtIGN1cnNvciBpcyBhYm92ZSBwcmltYXJ5LCB0aGF0IG11Y2ggd2UgY2FuIGd1YXJhbnRlZQo+
+ID4KPiA+IFllcyBpdCdzIGtpbmRhIHVhcGkgZmFpbCB3ZSBkaWRuJ3QgYWRkIHpwb3MgZnJvbSB0
+aGUgc3RhcnQgOi0vCj4KPiBHb29kLiBXZXN0b24gZG9lcyB0aGUgbGFzdCB0d28uIFRoZSBjb25m
+dXNpb24gZGlkIG5vdCBsYXN0IGxvbmcKPiBlbm91Z2ggdG8gbGV0IHVzIGFkZCBjb2RlIHVzaW5n
+IHRoZSBvYmplY3QgSUQgdG8gaW5mZXIgc3RhY2tpbmcgb3JkZXIuCj4KPiBBbHRob3VnaCwgV2Vz
+dG9uIGRvZXMgaGF2ZSB0aGUgYXNzdW1wdGlvbiB0aGF0IG92ZXJsYXlzIGFyZSBpbiB1bmtub3du
+Cj4gb3JkZXIgYmV0d2VlbiBwcmltYXJ5IGFuZCBjdXJzb3IsIHdoaWNoIG5vdyBzZWVtcyBmYWxz
+ZS4KCkkgdGhpbmsgY3Vyc29yIGlzIGFsd2F5cyBvbiB0b3AsIGJ1dCBzb21lIG9mIHRoZSBvdmVy
+bGF5cyBjYW4gYmUgdW5kZXJsYXlzLgotRGFuaWVsCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJl
+IEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1NyA0OCAtIGh0dHA6
+Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbA==
