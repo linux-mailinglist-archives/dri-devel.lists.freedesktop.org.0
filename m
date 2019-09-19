@@ -1,35 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D32C1B792C
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 14:18:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97472B792D
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 14:18:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D74AD6F757;
-	Thu, 19 Sep 2019 12:18:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FDC56F691;
+	Thu, 19 Sep 2019 12:18:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1FB36F4C3;
- Thu, 19 Sep 2019 12:18:31 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 19 Sep 2019 05:18:30 -0700
-X-IronPort-AV: E=Sophos;i="5.64,523,1559545200"; d="scan'208";a="181450577"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 19 Sep 2019 05:18:28 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Manasi Navare <manasi.d.navare@intel.com>, srinivasan.s@intel.com
-Subject: Re: [PATCH] drm/i915/dp: Fix DP MST error after unplugging TypeC cable
-In-Reply-To: <20190918175038.GA31062@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <1568770783-169735-1-git-send-email-srinivasan.s@intel.com>
- <20190918175038.GA31062@intel.com>
-Date: Thu, 19 Sep 2019 15:18:25 +0300
-Message-ID: <87impowkby.fsf@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E1AF36F691
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 12:18:42 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id D8E8072167; Thu, 19 Sep 2019 12:18:42 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111750] Navi10 GPU boot bug: Failed to pin framebuffer with
+ error -12
+Date: Thu, 19 Sep 2019 12:18:43 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: venemo@msn.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-111750-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -43,48 +52,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2145663565=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAxOCBTZXAgMjAxOSwgTWFuYXNpIE5hdmFyZSA8bWFuYXNpLmQubmF2YXJlQGludGVs
-LmNvbT4gd3JvdGU6Cj4gT24gV2VkLCBTZXAgMTgsIDIwMTkgYXQgMDc6MDk6NDNBTSArMDUzMCwg
-c3Jpbml2YXNhbi5zQGludGVsLmNvbSB3cm90ZToKPj4gRnJvbTogU3Jpbml2YXNhbiBTIDxzcmlu
-aXZhc2FuLnNAaW50ZWwuY29tPgo+PiAKPj4gVGhpcyBwYXRjaCBhdm9pZHMgRFAgTVNUIHBheWxv
-YWQgZXJyb3IgbWVzc2FnZSBpbiBkbWVzZywgYXMgaXQgaXMgdHJ5aW5nCj4+IHRvIHJlYWQgdGhl
-IHBheWxvYWQgZnJvbSB0aGUgZGlzY29ubmVjdGVkIERQIE1TVCBkZXZpY2UuIEFmdGVyIHRoZSB1
-bnBsdWcKPj4gdGhlIGNvbm5lY3RvciBzdGF0dXMgaXMgZGlzY29ubmVjdGVkIGFuZCB3ZSBzaG91
-bGQgbm90IGJlIGxvb2tpbmcgZm9yIHRoZQo+PiBwYXlsb2FkIGFuZCBoZW5jZSByZW1vdmUgdGhl
-IGVycm9yIGFuZCB0aHJvdyB0aGUgd2FybmluZy4KPj4gCj4+IFRoaXMgZGV0YWlscyBjYW4gYmUg
-Zm91bmQgaW46Cj4+IGh0dHBzOi8vYnVncy5mcmVlZGVza3RvcC5vcmcvc2hvd19idWcuY2dpP2lk
-PTExMTYzMgo+Cj4gUGxlYXNlIGFkZCB0aGlzIGxpbmsgYXMgQnVnemlsbGE6Cj4gaHR0cHM6Ly9i
-dWdzLmZyZWVkZXNrdG9wLm9yZy9zaG93X2J1Zy5jZ2k/aWQ9MTExNjMyIGFmdGVyIHRoZSBTaWdu
-IG9mZgo+IHN0YXRlbWVudAoKSVRZTSAqYmVmb3JlKiBTaWduZWQtb2ZmLWJ5LiBCdXQgeWVhaCwg
-dXNlIHRoZSBCdWd6aWxsYTogdGFnLCBhbmQgcGxlYXNlCnVzZSBnaXQgbG9nIHRvIHNlZSBwbGVu
-dHkgb2YgZXhhbXBsZXMuCgpCUiwKSmFuaS4KCj4KPj4gCj4+IFNpZ25lZC1vZmYtYnk6IFNyaW5p
-dmFzYW4gUyA8c3Jpbml2YXNhbi5zQGludGVsLmNvbT4KPj4gLS0tCj4+ICBkcml2ZXJzL2dwdS9k
-cm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwX21zdC5jIHwgNyArKysrKystCj4+ICAxIGZpbGUgY2hh
-bmdlZCwgNiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4+IAo+PiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcF9tc3QuYyBiL2RyaXZlcnMvZ3B1
-L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHBfbXN0LmMKPj4gaW5kZXggZWVlYjNmOTMzYWE0Li41
-YjIyNzhmZGY2NzUgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
-aW50ZWxfZHBfbXN0LmMKPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRl
-bF9kcF9tc3QuYwo+PiBAQCAtMjE1LDcgKzIxNSwxMiBAQCBzdGF0aWMgdm9pZCBpbnRlbF9tc3Rf
-ZGlzYWJsZV9kcChzdHJ1Y3QgaW50ZWxfZW5jb2RlciAqZW5jb2RlciwKPj4gIAo+PiAgCXJldCA9
-IGRybV9kcF91cGRhdGVfcGF5bG9hZF9wYXJ0MSgmaW50ZWxfZHAtPm1zdF9tZ3IpOwo+PiAgCWlm
-IChyZXQpIHsKPj4gLQkJRFJNX0VSUk9SKCJmYWlsZWQgdG8gdXBkYXRlIHBheWxvYWQgJWRcbiIs
-IHJldCk7Cj4+ICsJCWlmICghY29ubmVjdG9yIHx8Cj4+ICsJCSAgICBjb25uZWN0b3ItPmJhc2Uu
-c3RhdHVzICE9IGNvbm5lY3Rvcl9zdGF0dXNfY29ubmVjdGVkKSB7Cj4+ICsJCQlEUk1fV0FSTigi
-RFAgTVNUIGRpc2Nvbm5lY3RcbiIpOwo+Cj4gTWF5IGJlIGFkZGluZyB0aGlzIGNoZWNrIGJlZm9y
-ZSBjYWxsaW5nIGRybV9kcF91cGRhdGVfcGF5bG9hZF9wYXJ0MSgpIGlzIGEgYmV0dGVyIGlkZWE/
-Cj4gSWYgdGhlIGNvbm5lY3RvciBpcyBkaXNjb25uZWN0ZWQsIHdoeSB1cGRhdGUgcGF5bG9hZD8K
-Pgo+IEphbmksIFZpbGxlLCB0aG91Z2h0cz8KPgo+IFJlZ2FyZHMKPiBNYW5hc2kKPgo+PiArCQl9
-IGVsc2Ugewo+PiArCQkJRFJNX0VSUk9SKCJmYWlsZWQgdG8gdXBkYXRlIHBheWxvYWQgJWRcbiIs
-IHJldCk7Cj4+ICsJCX0KPj4gIAl9Cj4+ICAJaWYgKG9sZF9jcnRjX3N0YXRlLT5oYXNfYXVkaW8p
-Cj4+ICAJCWludGVsX2F1ZGlvX2NvZGVjX2Rpc2FibGUoZW5jb2RlciwKPj4gLS0gCj4+IDIuNy40
-Cj4+IAoKLS0gCkphbmkgTmlrdWxhLCBJbnRlbCBPcGVuIFNvdXJjZSBHcmFwaGljcyBDZW50ZXIK
+
+--===============2145663565==
+Content-Type: multipart/alternative; boundary="15688955220.dAd8D9.8719"
+Content-Transfer-Encoding: 7bit
+
+
+--15688955220.dAd8D9.8719
+Date: Thu, 19 Sep 2019 12:18:42 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111750
+
+            Bug ID: 111750
+           Summary: Navi10 GPU boot bug: Failed to pin framebuffer with
+                    error -12
+           Product: DRI
+           Version: DRI git
+          Hardware: All
+                OS: Linux (All)
+            Status: NEW
+          Severity: normal
+          Priority: not set
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: venemo@msn.com
+
+On bootup, I get the following messages from amdgpu:
+
+[    3.554976] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
+[    3.555024] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
+pin
+framebuffer with error -12
+[    3.565298] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
+[    3.565349] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
+pin
+framebuffer with error -12
+[    3.681423] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
+[    3.681474] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
+pin
+framebuffer with error -12
+[    3.686750] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
+[    3.686800] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
+pin
+framebuffer with error -12
+[    3.781617] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
+[    3.781667] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
+pin
+framebuffer with error -12
+[    3.880152] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
+[    3.880262] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
+pin
+framebuffer with error -12
+
+Hardware:
+AMD Radeon RX 5700XT (reference card, made by Sapphire)
+Dell U2718Q (two of them: one through HDMI, other through DisplayPort)
+AMD Ryzen 7 3700X
+MSI B450i
+
+Software:
+Fedora Workstation 30 x86_64
+Kernel 5.3 RC8
+Firmware: 2019-09-13
+Gnome 3.32.2
+LLVM 9 RC2
+Mesa 19.2 RC1
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15688955220.dAd8D9.8719
+Date: Thu, 19 Sep 2019 12:18:42 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Navi10 GPU boot bug: Failed to pin framebuffer with error=
+ -12"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111750">111750</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Navi10 GPU boot bug: Failed to pin framebuffer with error -12
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>DRI git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>venemo&#64;msn.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>On bootup, I get the following messages from amdgpu:
+
+[    3.554976] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
+[    3.555024] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
+pin
+framebuffer with error -12
+[    3.565298] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
+[    3.565349] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
+pin
+framebuffer with error -12
+[    3.681423] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
+[    3.681474] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
+pin
+framebuffer with error -12
+[    3.686750] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
+[    3.686800] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
+pin
+framebuffer with error -12
+[    3.781617] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
+[    3.781667] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
+pin
+framebuffer with error -12
+[    3.880152] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
+[    3.880262] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
+pin
+framebuffer with error -12
+
+Hardware:
+AMD Radeon RX 5700XT (reference card, made by Sapphire)
+Dell U2718Q (two of them: one through HDMI, other through DisplayPort)
+AMD Ryzen 7 3700X
+MSI B450i
+
+Software:
+Fedora Workstation 30 x86_64
+Kernel 5.3 RC8
+Firmware: 2019-09-13
+Gnome 3.32.2
+LLVM 9 RC2
+Mesa 19.2 RC1</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15688955220.dAd8D9.8719--
+
+--===============2145663565==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
 X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2145663565==--
