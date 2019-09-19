@@ -2,38 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED532B8208
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 21:58:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC121B8245
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 22:11:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C765D6FAF8;
-	Thu, 19 Sep 2019 19:58:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 052CD6F421;
+	Thu, 19 Sep 2019 20:11:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from anholt.net (anholt.net [50.246.234.109])
- by gabe.freedesktop.org (Postfix) with ESMTP id BFE5C6FAF8
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 19:58:19 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by anholt.net (Postfix) with ESMTP id 643D710A3845;
- Thu, 19 Sep 2019 12:58:19 -0700 (PDT)
-X-Virus-Scanned: Debian amavisd-new at anholt.net
-Received: from anholt.net ([127.0.0.1])
- by localhost (kingsolver.anholt.net [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id u3o5gnnbgz0O; Thu, 19 Sep 2019 12:58:17 -0700 (PDT)
-Received: from eliezer.anholt.net (localhost [127.0.0.1])
- by anholt.net (Postfix) with ESMTP id 208DD10A3685;
- Thu, 19 Sep 2019 12:58:17 -0700 (PDT)
-Received: by eliezer.anholt.net (Postfix, from userid 1000)
- id 6383A2FE2E28; Thu, 19 Sep 2019 12:58:17 -0700 (PDT)
-From: Eric Anholt <eric@anholt.net>
-To: Iago Toral Quiroga <itoral@igalia.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3] drm/v3d: clean caches at the end of render jobs on
- request from user space
-In-Reply-To: <20190919071016.4578-1-itoral@igalia.com>
-References: <20190919071016.4578-1-itoral@igalia.com>
-User-Agent: Notmuch/0.22.2+1~gb0bcfaa (http://notmuchmail.org) Emacs/26.1
- (x86_64-pc-linux-gnu)
-Date: Thu, 19 Sep 2019 12:58:16 -0700
-Message-ID: <871rwc9hyf.fsf@anholt.net>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DBF906FB18
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 20:11:54 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id D89BF72167; Thu, 19 Sep 2019 20:11:54 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Thu, 19 Sep 2019 20:11:54 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: saldorin@web.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-111481-502-dqcHlIsCKN@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -47,58 +53,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Iago Toral Quiroga <itoral@igalia.com>
-Content-Type: multipart/mixed; boundary="===============2040500757=="
+Content-Type: multipart/mixed; boundary="===============1802219331=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============2040500757==
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha512; protocol="application/pgp-signature"
 
---=-=-=
-Content-Type: text/plain
+--===============1802219331==
+Content-Type: multipart/alternative; boundary="15689239142.FB3B01.31905"
+Content-Transfer-Encoding: 7bit
 
-Iago Toral Quiroga <itoral@igalia.com> writes:
 
-> Extends the user space ioctl for CL submissions so it can include a request
-> to flush the cache once the CL execution has completed. Fixes memory
-> write violation messages reported by the kernel in workloads involving
-> shader memory writes (SSBOs, shader images, scratch, etc) which sometimes
-> also lead to GPU resets during Piglit and CTS workloads.
->
-> v2: if v3d_job_init() fails we need to kfree() the job instead of
->     v3d_job_put() it (Eric Anholt).
->
-> v3 (Eric Anholt):
->   - Drop _FLAG suffix from the new flag name.
->   - Add a new param so userspace can tell whether cache flushing is
->     implemented in the kernel.
+--15689239142.FB3B01.31905
+Date: Thu, 19 Sep 2019 20:11:54 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
-Appled to drm-misc-next.  Thanks!
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+--- Comment #51 from Matthias M=C3=BCller <saldorin@web.de> ---
+Created attachment 145436
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145436&action=3Dedit
+Log of divide error
 
------BEGIN PGP SIGNATURE-----
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
 
-iQIzBAEBCgAdFiEE/JuuFDWp9/ZkuCBXtdYpNtH8nugFAl2D3dgACgkQtdYpNtH8
-nugvrg//dqHlxcnk5AR9LNtOQpDYp4XFgrp3/A3M/iY5laGdZy0RSgf8Y4omjjkO
-hBgUu5uiya8JOqiwfTZbFXTsYDc9M3KdyjM6DC3YodhftmNRx7oP1cTP9Bg/2b8J
-oPajDczWyt1d+JtvzepYMR2A36zhAFIJRj9rwYtVVw//XUvx8nHU+ijvF10FfD7+
-sJDD7ZCYl0dauVOnY+CflBjEgSmED94qE9qNUVXQp3rU0Q18MIzjrznEOVYQLuSr
-97xbrKrRjqLkUJT7Xf8fNriX6RaRBk7fN2eW1Gc9lrazaXS18+whTF2xZa2fcETt
-pCC/dIxTpmpa1bzJTKejMLOH6ESvMp7tuPjiGLYu2czUhM8kdPmXHZjH4+zh0yrW
-iJDit4Ar12FO6Xsh+SNJ0utGKjjoKUu456HIXmx/mwgdSUUugJcHKeiBmkgDS663
-/vZCZn5zjFWCYkdT2NB7H3/eFUDbH3TcpGtQQHYZC2154SyOTLolt64gVUr3a0Sm
-j28zMUoEv9ZEufeMYmU7pFOmDSinlUy7ibStwgHkP+xDyQuASLspvoKc9OlM91cA
-Kpp3y5dFZyAymN6qF2/yI+hvBX0Kg/GEYsmoZnrhlxJaEBSyIdJgAbnFuGPmeaQF
-CozEqx+hUUuwKFDKRR5ua9t6ApEaY05D7W9A1EYuhEdO2E65wwA=
-=Y4oR
------END PGP SIGNATURE-----
---=-=-=--
+--15689239142.FB3B01.31905
+Date: Thu, 19 Sep 2019 20:11:54 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
---===============2040500757==
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c51">Comme=
+nt # 51</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+saldorin&#64;web.de" title=3D"Matthias M=C3=BCller &lt;saldorin&#64;web.de&=
+gt;"> <span class=3D"fn">Matthias M=C3=BCller</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145436=
+" name=3D"attach_145436" title=3D"Log of divide error">attachment 145436</a=
+> <a href=3D"attachment.cgi?id=3D145436&amp;action=3Dedit" title=3D"Log of =
+divide error">[details]</a></span>
+Log of divide error</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15689239142.FB3B01.31905--
+
+--===============1802219331==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -108,4 +143,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============2040500757==--
+--===============1802219331==--
