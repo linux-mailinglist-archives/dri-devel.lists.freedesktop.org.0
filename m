@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81724B830F
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 23:01:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A678B831A
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 23:09:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A39C6FBC9;
-	Thu, 19 Sep 2019 21:01:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 444106F552;
+	Thu, 19 Sep 2019 21:09:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 463526FBC9
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 21:01:17 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 4300572167; Thu, 19 Sep 2019 21:01:17 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 765976F552
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 21:09:02 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111691] hardware cursor corruption w/ AMD 5700 XT
-Date: Thu, 19 Sep 2019 21:01:17 +0000
-X-Bugzilla-Reason: AssignedTo
+Subject: [Bug 204227] Visual artefacts and crash from suspend on amdgpu
+Date: Thu, 19 Sep 2019 21:09:01 +0000
+X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: not set
-X-Bugzilla-Who: a@bailtree.co.uk
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: exa.exa@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111691-502-6wZnDWPDP7@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111691-502@http.bugs.freedesktop.org/>
-References: <bug-111691-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+Message-ID: <bug-204227-2300-hw6E5C6yjC@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204227-2300@https.bugzilla.kernel.org/>
+References: <bug-204227-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
+ message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,89 +51,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1739043867=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1739043867==
-Content-Type: multipart/alternative; boundary="15689268771.4ECe06C.7535"
-Content-Transfer-Encoding: 7bit
-
-
---15689268771.4ECe06C.7535
-Date: Thu, 19 Sep 2019 21:01:17 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111691
-
---- Comment #10 from Michael Haworth <a@bailtree.co.uk> ---
-issue occurs with the closed source drivers too, on kernel 4.15 (linux mint
-19.2) but to a much lesser extent
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15689268771.4ECe06C.7535
-Date: Thu, 19 Sep 2019 21:01:17 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - hardware cursor corruption w/ AMD 5700 XT"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111691#c10">Comme=
-nt # 10</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - hardware cursor corruption w/ AMD 5700 XT"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111691">bug 11169=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-a&#64;bailtree.co.uk" title=3D"Michael Haworth &lt;a&#64;bailtree.co.uk&gt;=
-"> <span class=3D"fn">Michael Haworth</span></a>
-</span></b>
-        <pre>issue occurs with the closed source drivers too, on kernel 4.1=
-5 (linux mint
-19.2) but to a much lesser extent</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15689268771.4ECe06C.7535--
-
---===============1739043867==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1739043867==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQyMjcKCi0tLSBD
+b21tZW50ICMxMyBmcm9tIE1pcmVrIEtyYXRvY2h2aWwgKGV4YS5leGFAZ21haWwuY29tKSAtLS0K
+QWZ0ZXIgdGhlIEJJT1MgdXBncmFkZSB0aGUga2VybmVsIHBhcmFtZXRlcnMgY2FuIGJlIHJlbW92
+ZWQsIGJ1dCB0aGUga2VybmVsCig1LjIuMTYpIG5vdyBsb2NrcyB1cCB3aGVuIGVudGVyaW5nIFhG
+Q0UgKGl0IHN1cnZpdmVzIGxpZ2h0ZG0gdGhvdWdoKS4gVGhlCmVycm9yIGlzIGFsbW9zdCBzYW1l
+IGFzIGFzIGluIHRoZSBwb3N0ZWQgZG1lc2c7IEknbGwgYXR0YWNoIG1pbmUgd2l0aApiYWNrdHJh
+Y2VzIGluIGEgZmV3IHNlY29uZHMuCgpIaWdobGlnaHRzOgoKVGhpcyBnZXRzIHByaW50ZWQgb3V0
+IGJlZm9yZSBlYWNoIHdhcm5pbmc6ClsgICA2Ni4xNTkxNzVdIFtkcm1dIHBzdGF0ZSBURVNUX0RF
+QlVHX0RBVEE6IDB4MzZGNjAwMDAKClIwOCBnZXRzIGluY3JlYXNlZCBieSBzb21lIHZhbHVlIGJl
+dHdlZW4gNDkgYW5kIDU2IGFmdGVyIGVhY2ggbmV4dCB3YXJuaW5nICh0aGUKdmFsdWUgaXMgc29t
+ZXRpbWVzIGluIFIxMCkKClVzZXJzcGFjZSBzZWVtcyB3b3JraW5nIG90aGVyd2lzZSAodGhlIGxv
+Z3MgYXJlIGZyb20gc3lzbG9nKSwganVzdCB0aGUgZGlzcGxheQp3b24ndCBzaG93IGFueXRoaW5n
+LgoKSSB3aWxsIHRyeSBhIGZldyBvdGhlciBrZXJuZWxzIGF2YWlsYWJsZSBmb3IgZGViaWFuIGFu
+ZCBldmVudHVhbGx5IGJpc2VjdC4KCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVj
+YXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
