@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE62EB785F
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 13:23:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98586B786C
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 13:25:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F37446FB44;
-	Thu, 19 Sep 2019 11:23:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 095446F7F7;
+	Thu, 19 Sep 2019 11:25:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E9036FB04
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 11:23:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B851C6F7F7;
+ Thu, 19 Sep 2019 11:25:41 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id D9426B077;
- Thu, 19 Sep 2019 11:23:34 +0000 (UTC)
-Subject: Re: [PATCH v3 06/11] drm/ttm: factor out ttm_bo_mmap_vma_setup
+ by mx1.suse.de (Postfix) with ESMTP id 4E4E5AE64;
+ Thu, 19 Sep 2019 11:25:40 +0000 (UTC)
+Subject: Re: [PATCH v3 07/11] drm/ttm: rename ttm_fbdev_mmap
 To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
 References: <20190919100223.13309-1-kraxel@redhat.com>
- <20190919100223.13309-7-kraxel@redhat.com>
+ <20190919100223.13309-8-kraxel@redhat.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Openpgp: preference=signencrypt
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -47,12 +47,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
  VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
  iNx9uqqx
-Message-ID: <884df31e-7c53-bf64-80b3-08bcb2e99540@suse.de>
-Date: Thu, 19 Sep 2019 13:23:30 +0200
+Message-ID: <a93f8308-3e77-59c8-548e-c0553b33e205@suse.de>
+Date: Thu, 19 Sep 2019 13:25:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190919100223.13309-7-kraxel@redhat.com>
+In-Reply-To: <20190919100223.13309-8-kraxel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,35 +66,41 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- open list <linux-kernel@vger.kernel.org>, Huang Rui <ray.huang@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
-Content-Type: multipart/mixed; boundary="===============0488487404=="
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ Huang Rui <ray.huang@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Content-Type: multipart/mixed; boundary="===============1916724901=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0488487404==
+--===============1916724901==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="uQk2DwosS2wZUX0QjolrnVXilHe4z3Tid"
+ boundary="1Vl4XQmXHd78qivdStEU98KPXVJ7s4NIH"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---uQk2DwosS2wZUX0QjolrnVXilHe4z3Tid
-Content-Type: multipart/mixed; boundary="Grr8gef2mKDnC4KQjIw0yMOpTY4I0J5YX";
+--1Vl4XQmXHd78qivdStEU98KPXVJ7s4NIH
+Content-Type: multipart/mixed; boundary="TzvBT24JB85x8wBrIXcljxPE6A7tpUr9f";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Huang Rui <ray.huang@amd.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
  open list <linux-kernel@vger.kernel.org>
-Message-ID: <884df31e-7c53-bf64-80b3-08bcb2e99540@suse.de>
-Subject: Re: [PATCH v3 06/11] drm/ttm: factor out ttm_bo_mmap_vma_setup
+Message-ID: <a93f8308-3e77-59c8-548e-c0553b33e205@suse.de>
+Subject: Re: [PATCH v3 07/11] drm/ttm: rename ttm_fbdev_mmap
 References: <20190919100223.13309-1-kraxel@redhat.com>
- <20190919100223.13309-7-kraxel@redhat.com>
-In-Reply-To: <20190919100223.13309-7-kraxel@redhat.com>
+ <20190919100223.13309-8-kraxel@redhat.com>
+In-Reply-To: <20190919100223.13309-8-kraxel@redhat.com>
 
---Grr8gef2mKDnC4KQjIw0yMOpTY4I0J5YX
+--TzvBT24JB85x8wBrIXcljxPE6A7tpUr9f
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
@@ -102,97 +108,100 @@ Content-Transfer-Encoding: quoted-printable
 Hi
 
 Am 19.09.19 um 12:02 schrieb Gerd Hoffmann:
-> Factor out ttm vma setup to a new function.
-> Reduces code duplication a bit.
+> Rename ttm_fbdev_mmap to ttm_bo_mmap_obj.  Move the vm_pgoff sanity
+> check to amdgpu_bo_fbdev_mmap (only ttm_fbdev_mmap user in tree).
+>=20
+> The ttm_bo_mmap_obj function can now be used to map any buffer object.
+> This allows to implement &drm_gem_object_funcs.mmap in gem ttm helpers.=
+
 >=20
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  drivers/gpu/drm/ttm/ttm_bo_vm.c | 46 +++++++++++++++++----------------=
 
->  1 file changed, 24 insertions(+), 22 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_=
-bo_vm.c
-> index 4aa007edffb0..b5314ef85a3d 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> @@ -426,6 +426,28 @@ static struct ttm_buffer_object *ttm_bo_vm_lookup(=
-struct ttm_bo_device *bdev,
->  	return bo;
->  }
-> =20
-> +void ttm_bo_mmap_vma_setup(struct ttm_buffer_object *bo, struct vm_are=
-a_struct *vma)
+Thanks. I find this to be a much cleaner interface than before.
 
-Internal helper, therefore 'static'.
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 Best regards
 Thomas
 
-> +{
-> +	vma->vm_ops =3D &ttm_bo_vm_ops;
-> +
-> +	/*
-> +	 * Note: We're transferring the bo reference to
-> +	 * vma->vm_private_data here.
-> +	 */
-> +
-> +	vma->vm_private_data =3D bo;
-> +
-> +	/*
-> +	 * We'd like to use VM_PFNMAP on shared mappings, where
-> +	 * (vma->vm_flags & VM_SHARED) !=3D 0, for performance reasons,
-> +	 * but for some reason VM_PFNMAP + x86 PAT + write-combine is very
-> +	 * bad for performance. Until that has been sorted out, use
-> +	 * VM_MIXEDMAP on all mappings. See freedesktop.org bug #75719
-> +	 */
-> +	vma->vm_flags |=3D VM_MIXEDMAP;
-> +	vma->vm_flags |=3D VM_IO | VM_DONTEXPAND | VM_DONTDUMP;
-> +}
-> +
->  int ttm_bo_mmap(struct file *filp, struct vm_area_struct *vma,
->  		struct ttm_bo_device *bdev)
+> ---
+>  include/drm/ttm/ttm_bo_api.h               | 10 ++++------
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |  5 ++++-
+>  drivers/gpu/drm/ttm/ttm_bo_vm.c            |  8 ++------
+>  3 files changed, 10 insertions(+), 13 deletions(-)
+>=20
+> diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.=
+h
+> index 43c4929a2171..d2277e06316d 100644
+> --- a/include/drm/ttm/ttm_bo_api.h
+> +++ b/include/drm/ttm/ttm_bo_api.h
+> @@ -710,16 +710,14 @@ int ttm_bo_kmap(struct ttm_buffer_object *bo, uns=
+igned long start_page,
+>  void ttm_bo_kunmap(struct ttm_bo_kmap_obj *map);
+> =20
+>  /**
+> - * ttm_fbdev_mmap - mmap fbdev memory backed by a ttm buffer object.
+> + * ttm_bo_mmap_obj - mmap memory backed by a ttm buffer object.
+>   *
+>   * @vma:       vma as input from the fbdev mmap method.
+> - * @bo:        The bo backing the address space. The address space wil=
+l
+> - * have the same size as the bo, and start at offset 0.
+> + * @bo:        The bo backing the address space.
+>   *
+> - * This function is intended to be called by the fbdev mmap method
+> - * if the fbdev address space is to be backed by a bo.
+> + * Maps a buffer object.
+>   */
+> -int ttm_fbdev_mmap(struct vm_area_struct *vma, struct ttm_buffer_objec=
+t *bo);
+> +int ttm_bo_mmap_obj(struct vm_area_struct *vma, struct ttm_buffer_obje=
+ct *bo);
+> =20
+>  /**
+>   * ttm_bo_mmap - mmap out of the ttm device address space.
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/d=
+rm/amd/amdgpu/amdgpu_object.c
+> index 2f11ebd95528..e5447e0d8b88 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> @@ -1051,7 +1051,10 @@ void amdgpu_bo_fini(struct amdgpu_device *adev)
+>  int amdgpu_bo_fbdev_mmap(struct amdgpu_bo *bo,
+>  			     struct vm_area_struct *vma)
 >  {
-> @@ -449,24 +471,7 @@ int ttm_bo_mmap(struct file *filp, struct vm_area_=
-struct *vma,
->  	if (unlikely(ret !=3D 0))
->  		goto out_unref;
+> -	return ttm_fbdev_mmap(vma, &bo->tbo);
+> +	if (vma->vm_pgoff !=3D 0)
+> +		return -EACCES;
+> +
+> +	return ttm_bo_mmap_obj(vma, &bo->tbo);
+>  }
 > =20
-> -	vma->vm_ops =3D &ttm_bo_vm_ops;
-> -
-> -	/*
-> -	 * Note: We're transferring the bo reference to
-> -	 * vma->vm_private_data here.
-> -	 */
-> -
-> -	vma->vm_private_data =3D bo;
-> -
-> -	/*
-> -	 * We'd like to use VM_PFNMAP on shared mappings, where
-> -	 * (vma->vm_flags & VM_SHARED) !=3D 0, for performance reasons,
-> -	 * but for some reason VM_PFNMAP + x86 PAT + write-combine is very
-> -	 * bad for performance. Until that has been sorted out, use
-> -	 * VM_MIXEDMAP on all mappings. See freedesktop.org bug #75719
-> -	 */
-> -	vma->vm_flags |=3D VM_MIXEDMAP;
-> -	vma->vm_flags |=3D VM_IO | VM_DONTEXPAND | VM_DONTDUMP;
-> +	ttm_bo_mmap_vma_setup(bo, vma);
->  	return 0;
->  out_unref:
->  	ttm_bo_put(bo);
-> @@ -481,10 +486,7 @@ int ttm_fbdev_mmap(struct vm_area_struct *vma, str=
-uct ttm_buffer_object *bo)
+>  /**
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_=
+bo_vm.c
+> index b5314ef85a3d..6688d7893161 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> @@ -479,14 +479,10 @@ int ttm_bo_mmap(struct file *filp, struct vm_area=
+_struct *vma,
+>  }
+>  EXPORT_SYMBOL(ttm_bo_mmap);
 > =20
+> -int ttm_fbdev_mmap(struct vm_area_struct *vma, struct ttm_buffer_objec=
+t *bo)
+> +int ttm_bo_mmap_obj(struct vm_area_struct *vma, struct ttm_buffer_obje=
+ct *bo)
+>  {
+> -	if (vma->vm_pgoff !=3D 0)
+> -		return -EACCES;
+> -
 >  	ttm_bo_get(bo);
-> =20
-> -	vma->vm_ops =3D &ttm_bo_vm_ops;
-> -	vma->vm_private_data =3D bo;
-> -	vma->vm_flags |=3D VM_MIXEDMAP;
-> -	vma->vm_flags |=3D VM_IO | VM_DONTEXPAND;
-> +	ttm_bo_mmap_vma_setup(bo, vma);
+> -
+>  	ttm_bo_mmap_vma_setup(bo, vma);
 >  	return 0;
 >  }
->  EXPORT_SYMBOL(ttm_fbdev_mmap);
+> -EXPORT_SYMBOL(ttm_fbdev_mmap);
+> +EXPORT_SYMBOL(ttm_bo_mmap_obj);
 >=20
 
 --=20
@@ -203,28 +212,28 @@ GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
 HRB 21284 (AG N=C3=BCrnberg)
 
 
---Grr8gef2mKDnC4KQjIw0yMOpTY4I0J5YX--
+--TzvBT24JB85x8wBrIXcljxPE6A7tpUr9f--
 
---uQk2DwosS2wZUX0QjolrnVXilHe4z3Tid
+--1Vl4XQmXHd78qivdStEU98KPXVJ7s4NIH
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl2DZTUACgkQaA3BHVML
-eiO2WAf/XcLbdOQw1iqyQGrloWaI1L+qgEa2p8Ub3/12XdLmXqFCjbLW3664EPQK
-NZlyHgu8TGIlbu+f0ujHdb6en1N0BygnCCgCKWZxDQd4FlE70f0yn7wwNI0UkSC4
-h9aDTvXz28KlhbTfV2na7DaX/z9RTh5M/t/QfK30noo2n7CC/pSQSnDB8j5BE6Ja
-Red9zy2Na2unDNjiWF8+vuprept8vHemVkAS9Vslov/hZ9xTvQKKqJhaBO2yc9uM
-d08EwwQ/3SwtjnJOy0riGWm9MrMjgtIpmkpg/iNyXPcQZJju9NuBkWzh5d4U+CZv
-sU8ADfZSu0hwKRsz1xHHEiRZlpfa1g==
-=T7cB
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl2DZbMACgkQaA3BHVML
+eiNZ8QgAkTCp+uwT0g6oLhkmYEgwDPEmHEvdPKTjp6X+r7iztEI/zXi0i6XCQqB+
+k7Bv5MZtSEe6Yg5V1JSPKxZ0fW8W7Hib5g1hfOUpHrTvXtn+2YNPaEnSsn2+eMBG
+YrBHQRrHhvUtIDQxnOgoYA3vusPw4aNQoOmBjUllBn9aVjZ6RhNOkqLi+5zqv5L7
+NQAi05BaLdaC7M4YovLHhrsi3xIlLmY9+kqlKI8vycgN/2d1bwCGXTjCNic1Y/ub
+DhUZgK7Gh+t2pQ0HCWvF8zeVk00HnQ0o7WtePndP0jCBK45WCNAHOmAoL5elh34u
+KCmlXwrGEGOoybyCaVPbq+u0kT4nSg==
+=Zvov
 -----END PGP SIGNATURE-----
 
---uQk2DwosS2wZUX0QjolrnVXilHe4z3Tid--
+--1Vl4XQmXHd78qivdStEU98KPXVJ7s4NIH--
 
---===============0488487404==
+--===============1916724901==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -234,4 +243,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0488487404==--
+--===============1916724901==--
