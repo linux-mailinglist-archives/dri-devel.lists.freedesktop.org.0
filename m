@@ -1,35 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9413DB81EC
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 21:53:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED532B8208
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 21:58:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFAA36FA7D;
-	Thu, 19 Sep 2019 19:53:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C765D6FAF8;
+	Thu, 19 Sep 2019 19:58:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C04EA6FA7D;
- Thu, 19 Sep 2019 19:53:36 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 19 Sep 2019 12:53:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,526,1559545200"; d="scan'208";a="188189760"
-Received: from helsinki.fi.intel.com ([10.237.66.129])
- by fmsmga007.fm.intel.com with ESMTP; 19 Sep 2019 12:53:34 -0700
-From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v9 8/8] drm/i915/dp: Attach HDR metadata property to DP
- connector
-Date: Thu, 19 Sep 2019 22:53:11 +0300
-Message-Id: <20190919195311.13972-9-gwan-gyeong.mun@intel.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190919195311.13972-1-gwan-gyeong.mun@intel.com>
-References: <20190919195311.13972-1-gwan-gyeong.mun@intel.com>
+Received: from anholt.net (anholt.net [50.246.234.109])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BFE5C6FAF8
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 19:58:19 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id 643D710A3845;
+ Thu, 19 Sep 2019 12:58:19 -0700 (PDT)
+X-Virus-Scanned: Debian amavisd-new at anholt.net
+Received: from anholt.net ([127.0.0.1])
+ by localhost (kingsolver.anholt.net [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id u3o5gnnbgz0O; Thu, 19 Sep 2019 12:58:17 -0700 (PDT)
+Received: from eliezer.anholt.net (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id 208DD10A3685;
+ Thu, 19 Sep 2019 12:58:17 -0700 (PDT)
+Received: by eliezer.anholt.net (Postfix, from userid 1000)
+ id 6383A2FE2E28; Thu, 19 Sep 2019 12:58:17 -0700 (PDT)
+From: Eric Anholt <eric@anholt.net>
+To: Iago Toral Quiroga <itoral@igalia.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3] drm/v3d: clean caches at the end of render jobs on
+ request from user space
+In-Reply-To: <20190919071016.4578-1-itoral@igalia.com>
+References: <20190919071016.4578-1-itoral@igalia.com>
+User-Agent: Notmuch/0.22.2+1~gb0bcfaa (http://notmuchmail.org) Emacs/26.1
+ (x86_64-pc-linux-gnu)
+Date: Thu, 19 Sep 2019 12:58:16 -0700
+Message-ID: <871rwc9hyf.fsf@anholt.net>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -43,31 +47,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, uma.shankar@intel.com,
- jani.saarinen@intel.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Iago Toral Quiroga <itoral@igalia.com>
+Content-Type: multipart/mixed; boundary="===============2040500757=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SXQgYXR0YWNoZXMgSERSIG1ldGFkYXRhIHByb3BlcnR5IHRvIERQIGNvbm5lY3RvciBvbiBHTEsr
-LgpJdCBlbmFibGVzIEhEUiBtZXRhZGF0YSBpbmZvZnJhbWUgc2RwIG9uIEdMSysgdG8gYmUgdXNl
-ZCB0byBzZW5kCkhEUiBtZXRhZGF0YSB0byBEUCBzaW5rLgoKdjI6IE1pbm9yIHN0eWxlIGZpeAoK
-U2lnbmVkLW9mZi1ieTogR3dhbi1neWVvbmcgTXVuIDxnd2FuLWd5ZW9uZy5tdW5AaW50ZWwuY29t
-PgpSZXZpZXdlZC1ieTogVW1hIFNoYW5rYXIgPHVtYS5zaGFua2FyQGludGVsLmNvbT4KLS0tCiBk
-cml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMgfCA1ICsrKysrCiAxIGZpbGUg
-Y2hhbmdlZCwgNSBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5
-MTUvZGlzcGxheS9pbnRlbF9kcC5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRl
-bF9kcC5jCmluZGV4IDk2MTI3OWJiNGE3NC4uNTdkNzg2ZGYyOGJmIDEwMDY0NAotLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMKKysrIGIvZHJpdmVycy9ncHUvZHJt
-L2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jCkBAIC02NTQyLDYgKzY1NDIsMTEgQEAgaW50ZWxfZHBf
-YWRkX3Byb3BlcnRpZXMoc3RydWN0IGludGVsX2RwICppbnRlbF9kcCwgc3RydWN0IGRybV9jb25u
-ZWN0b3IgKmNvbm5lY3QKIAogCWludGVsX2F0dGFjaF9jb2xvcnNwYWNlX3Byb3BlcnR5KGNvbm5l
-Y3Rvcik7CiAKKwlpZiAoSVNfR0VNSU5JTEFLRShkZXZfcHJpdikgfHwgSU5URUxfR0VOKGRldl9w
-cml2KSA+PSAxMSkKKwkJZHJtX29iamVjdF9hdHRhY2hfcHJvcGVydHkoJmNvbm5lY3Rvci0+YmFz
-ZSwKKwkJCQkJICAgY29ubmVjdG9yLT5kZXYtPm1vZGVfY29uZmlnLmhkcl9vdXRwdXRfbWV0YWRh
-dGFfcHJvcGVydHksCisJCQkJCSAgIDApOworCiAJaWYgKGludGVsX2RwX2lzX2VkcChpbnRlbF9k
-cCkpIHsKIAkJdTMyIGFsbG93ZWRfc2NhbGVyczsKIAotLSAKMi4yMy4wCgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+--===============2040500757==
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
+
+--=-=-=
+Content-Type: text/plain
+
+Iago Toral Quiroga <itoral@igalia.com> writes:
+
+> Extends the user space ioctl for CL submissions so it can include a request
+> to flush the cache once the CL execution has completed. Fixes memory
+> write violation messages reported by the kernel in workloads involving
+> shader memory writes (SSBOs, shader images, scratch, etc) which sometimes
+> also lead to GPU resets during Piglit and CTS workloads.
+>
+> v2: if v3d_job_init() fails we need to kfree() the job instead of
+>     v3d_job_put() it (Eric Anholt).
+>
+> v3 (Eric Anholt):
+>   - Drop _FLAG suffix from the new flag name.
+>   - Add a new param so userspace can tell whether cache flushing is
+>     implemented in the kernel.
+
+Appled to drm-misc-next.  Thanks!
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE/JuuFDWp9/ZkuCBXtdYpNtH8nugFAl2D3dgACgkQtdYpNtH8
+nugvrg//dqHlxcnk5AR9LNtOQpDYp4XFgrp3/A3M/iY5laGdZy0RSgf8Y4omjjkO
+hBgUu5uiya8JOqiwfTZbFXTsYDc9M3KdyjM6DC3YodhftmNRx7oP1cTP9Bg/2b8J
+oPajDczWyt1d+JtvzepYMR2A36zhAFIJRj9rwYtVVw//XUvx8nHU+ijvF10FfD7+
+sJDD7ZCYl0dauVOnY+CflBjEgSmED94qE9qNUVXQp3rU0Q18MIzjrznEOVYQLuSr
+97xbrKrRjqLkUJT7Xf8fNriX6RaRBk7fN2eW1Gc9lrazaXS18+whTF2xZa2fcETt
+pCC/dIxTpmpa1bzJTKejMLOH6ESvMp7tuPjiGLYu2czUhM8kdPmXHZjH4+zh0yrW
+iJDit4Ar12FO6Xsh+SNJ0utGKjjoKUu456HIXmx/mwgdSUUugJcHKeiBmkgDS663
+/vZCZn5zjFWCYkdT2NB7H3/eFUDbH3TcpGtQQHYZC2154SyOTLolt64gVUr3a0Sm
+j28zMUoEv9ZEufeMYmU7pFOmDSinlUy7ibStwgHkP+xDyQuASLspvoKc9OlM91cA
+Kpp3y5dFZyAymN6qF2/yI+hvBX0Kg/GEYsmoZnrhlxJaEBSyIdJgAbnFuGPmeaQF
+CozEqx+hUUuwKFDKRR5ua9t6ApEaY05D7W9A1EYuhEdO2E65wwA=
+=Y4oR
+-----END PGP SIGNATURE-----
+--=-=-=--
+
+--===============2040500757==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2040500757==--
