@@ -1,46 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E189B7AC3
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 15:46:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 931ABB7AD4
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 15:51:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D3016F759;
-	Thu, 19 Sep 2019 13:46:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72E666F49A;
+	Thu, 19 Sep 2019 13:51:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0440C6F76C
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 13:46:37 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 00E6D72167; Thu, 19 Sep 2019 13:46:36 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 99955] [r600g] GPU load always displayed at 100% with
- GALLIUM_HUD=GPU-load
-Date: Thu, 19 Sep 2019 13:46:37 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r600
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: 0xe2.0x9a.0x9b@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: MOVED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-99955-502-TDxceQPjiS@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-99955-502@http.bugs.freedesktop.org/>
-References: <bug-99955-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 395F06F49A
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 13:51:11 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 19 Sep 2019 06:51:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,523,1559545200"; d="scan'208";a="202287530"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+ by fmsmga001.fm.intel.com with ESMTP; 19 Sep 2019 06:51:09 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+ (envelope-from <lkp@intel.com>)
+ id 1iAwpx-0004Rp-5x; Thu, 19 Sep 2019 21:51:09 +0800
+Date: Thu, 19 Sep 2019 21:50:13 +0800
+From: kbuild test robot <lkp@intel.com>
+To: Flora Cui <flora.cui@amd.com>
+Subject: [radeon-alex:amd-mainline-dkms-5.0 3697/3724]
+ include/drm/drm_fb_helper.h:641:1: sparse:  the previous one is here
+Message-ID: <201909192107.h9Ns9qn3%lkp@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+X-Patchwork-Hint: ignore
+User-Agent: NeoMutt/20170113 (1.7.2)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,98 +47,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1969303617=="
+Cc: Feifei Xu <Feifei.Xu@amd.com>, kbuild-all@01.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1969303617==
-Content-Type: multipart/alternative; boundary="15689007962.cB6AdFb.25086"
-Content-Transfer-Encoding: 7bit
-
-
---15689007962.cB6AdFb.25086
-Date: Thu, 19 Sep 2019 13:46:36 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D99955
-
---- Comment #8 from Jan Ziak (http://atom-symbol.net) <0xe2.0x9a.0x9b@gmail=
-.com> ---
-Hi. Just a note about the migration process: Bugzilla migration to
-https://gitlab.freedesktop.org/mesa/mesa/issues/598 is failing to preserve
-newline characters found in this bug report. This seems to be the case only
-when the line starts with an $.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15689007962.cB6AdFb.25086
-Date: Thu, 19 Sep 2019 13:46:36 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [r600g] GPU load always displayed at 100% with=
- GALLIUM_HUD=3DGPU-load"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D99955#c8">Comment=
- # 8</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [r600g] GPU load always displayed at 100% with=
- GALLIUM_HUD=3DGPU-load"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D99955">bug 99955<=
-/a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-0xe2.0x9a.0x9b&#64;gmail.com" title=3D"Jan Ziak (http://atom-symbol.net) &l=
-t;0xe2.0x9a.0x9b&#64;gmail.com&gt;"> <span class=3D"fn">Jan Ziak (http://at=
-om-symbol.net)</span></a>
-</span></b>
-        <pre>Hi. Just a note about the migration process: Bugzilla migratio=
-n to
-<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/issues/598">https://git=
-lab.freedesktop.org/mesa/mesa/issues/598</a> is failing to preserve
-newline characters found in this bug report. This seems to be the case only
-when the line starts with an $.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15689007962.cB6AdFb.25086--
-
---===============1969303617==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1969303617==--
+dHJlZTogICBnaXQ6Ly9wZW9wbGUuZnJlZWRlc2t0b3Aub3JnL35hZ2Q1Zi9saW51eC5naXQgYW1k
+LW1haW5saW5lLWRrbXMtNS4wCmhlYWQ6ICAgYTUxYTVhZDRiOGRhZjBkZDBhNDM3ZDUxYTE5YzJi
+YWE5ODk1MzY3NQpjb21taXQ6IGY0NjBjMjQ4YTNmMGJjYTNhODc1NjAyY2Y0MDY5M2RlNjcyNDg1
+YzQgWzM2OTcvMzcyNF0gZHJtL2FtZC9hdXRvY29uZjogcmVmYWN0b3IgZG1hX2ZlbmNlIGhlYWRl
+ciBjaGVjawpyZXByb2R1Y2U6CiAgICAgICAgIyBhcHQtZ2V0IGluc3RhbGwgc3BhcnNlCiAgICAg
+ICAgIyBzcGFyc2UgdmVyc2lvbjogdjAuNi4xLXJjMS03LWcyYjk2Y2Q4LWRpcnR5CiAgICAgICAg
+Z2l0IGNoZWNrb3V0IGY0NjBjMjQ4YTNmMGJjYTNhODc1NjAyY2Y0MDY5M2RlNjcyNDg1YzQKICAg
+ICAgICBtYWtlIEFSQ0g9eDg2XzY0IGFsbG1vZGNvbmZpZwogICAgICAgIG1ha2UgQz0xIENGPSct
+ZmRpYWdub3N0aWMtcHJlZml4IC1EX19DSEVDS19FTkRJQU5fXycKCklmIHlvdSBmaXggdGhlIGlz
+c3VlLCBraW5kbHkgYWRkIGZvbGxvd2luZyB0YWcKUmVwb3J0ZWQtYnk6IGtidWlsZCB0ZXN0IHJv
+Ym90IDxsa3BAaW50ZWwuY29tPgoKCnNwYXJzZSB3YXJuaW5nczogKG5ldyBvbmVzIHByZWZpeGVk
+IGJ5ID4+KQoKICAgaW5jbHVkZS9rY2wva2NsX2RybS5oOjE2NzoxOiBzcGFyc2U6IHNwYXJzZTog
+bXVsdGlwbGUgZGVmaW5pdGlvbnMgZm9yIGZ1bmN0aW9uICdkcm1fZmJfaGVscGVyX3JlbW92ZV9j
+b25mbGljdGluZ19wY2lfZnJhbWVidWZmZXJzJwo+PiBpbmNsdWRlL2RybS9kcm1fZmJfaGVscGVy
+Lmg6NjQxOjE6IHNwYXJzZTogIHRoZSBwcmV2aW91cyBvbmUgaXMgaGVyZQogICBpbmNsdWRlL2tj
+bC9rY2xfZHJtLmg6MzkwOjI4OiBzcGFyc2U6IHNwYXJzZTogcmVkZWZpbml0aW9uIG9mIHN0cnVj
+dCBkcm1fZm9ybWF0X25hbWVfYnVmCgp2aW0gKzY0MSBpbmNsdWRlL2RybS9kcm1fZmJfaGVscGVy
+LmgKCjBhM2JmZTI5ZjgxNjIyIENocmlzIFdpbHNvbiAgICAyMDE2LTA4LTIyICA2MjcgIApjOTUy
+N2YwZGU1MDhiMSBNaWNoYcWCIE1pcm9zxYJhdyAyMDE4LTA5LTA3ICA2MjggIC8qKgpjOTUyN2Yw
+ZGU1MDhiMSBNaWNoYcWCIE1pcm9zxYJhdyAyMDE4LTA5LTA3ICA2MjkgICAqIGRybV9mYl9oZWxw
+ZXJfcmVtb3ZlX2NvbmZsaWN0aW5nX3BjaV9mcmFtZWJ1ZmZlcnMgLSByZW1vdmUgZmlybXdhcmUt
+Y29uZmlndXJlZCBmcmFtZWJ1ZmZlcnMgZm9yIFBDSSBkZXZpY2VzCmM5NTI3ZjBkZTUwOGIxIE1p
+Y2hhxYIgTWlyb3PFgmF3IDIwMTgtMDktMDcgIDYzMCAgICogQHBkZXY6IFBDSSBkZXZpY2UKYzk1
+MjdmMGRlNTA4YjEgTWljaGHFgiBNaXJvc8WCYXcgMjAxOC0wOS0wNyAgNjMxICAgKiBAcmVzb3Vy
+Y2VfaWQ6IGluZGV4IG9mIFBDSSBCQVIgY29uZmlndXJpbmcgZnJhbWVidWZmZXIgbWVtb3J5CmM5
+NTI3ZjBkZTUwOGIxIE1pY2hhxYIgTWlyb3PFgmF3IDIwMTgtMDktMDcgIDYzMiAgICogQG5hbWU6
+IHJlcXVlc3RpbmcgZHJpdmVyIG5hbWUKYzk1MjdmMGRlNTA4YjEgTWljaGHFgiBNaXJvc8WCYXcg
+MjAxOC0wOS0wNyAgNjMzICAgKgpjOTUyN2YwZGU1MDhiMSBNaWNoYcWCIE1pcm9zxYJhdyAyMDE4
+LTA5LTA3ICA2MzQgICAqIFRoaXMgZnVuY3Rpb24gcmVtb3ZlcyBmcmFtZWJ1ZmZlciBkZXZpY2Vz
+IChlZy4gaW5pdGlhbGl6ZWQgYnkgZmlybXdhcmUpCmM5NTI3ZjBkZTUwOGIxIE1pY2hhxYIgTWly
+b3PFgmF3IDIwMTgtMDktMDcgIDYzNSAgICogdXNpbmcgbWVtb3J5IHJhbmdlIGNvbmZpZ3VyZWQg
+Zm9yIEBwZGV2J3MgQkFSIEByZXNvdXJjZV9pZC4KYzk1MjdmMGRlNTA4YjEgTWljaGHFgiBNaXJv
+c8WCYXcgMjAxOC0wOS0wNyAgNjM2ICAgKgpjOTUyN2YwZGU1MDhiMSBNaWNoYcWCIE1pcm9zxYJh
+dyAyMDE4LTA5LTA3ICA2MzcgICAqIFRoZSBmdW5jdGlvbiBhc3N1bWVzIHRoYXQgUENJIGRldmlj
+ZSB3aXRoIHNoYWRvd2VkIFJPTSBkcml2ZXMgYSBwcmltYXJ5CmM5NTI3ZjBkZTUwOGIxIE1pY2hh
+xYIgTWlyb3PFgmF3IDIwMTgtMDktMDcgIDYzOCAgICogZGlzcGxheSBhbmQgc28ga2lja3Mgb3V0
+IHZnYTE2ZmIuCmM5NTI3ZjBkZTUwOGIxIE1pY2hhxYIgTWlyb3PFgmF3IDIwMTgtMDktMDcgIDYz
+OSAgICovCjRkMTg5NzVjNzhmMmQ1IE1pY2hhxYIgTWlyb3PFgmF3IDIwMTgtMDktMDEgIDY0MCAg
+c3RhdGljIGlubGluZSBpbnQKNGQxODk3NWM3OGYyZDUgTWljaGHFgiBNaXJvc8WCYXcgMjAxOC0w
+OS0wMSBANjQxICBkcm1fZmJfaGVscGVyX3JlbW92ZV9jb25mbGljdGluZ19wY2lfZnJhbWVidWZm
+ZXJzKHN0cnVjdCBwY2lfZGV2ICpwZGV2LAo0ZDE4OTc1Yzc4ZjJkNSBNaWNoYcWCIE1pcm9zxYJh
+dyAyMDE4LTA5LTAxICA2NDIgIAkJCQkJCSAgaW50IHJlc291cmNlX2lkLAo0ZDE4OTc1Yzc4ZjJk
+NSBNaWNoYcWCIE1pcm9zxYJhdyAyMDE4LTA5LTAxICA2NDMgIAkJCQkJCSAgY29uc3QgY2hhciAq
+bmFtZSkKNGQxODk3NWM3OGYyZDUgTWljaGHFgiBNaXJvc8WCYXcgMjAxOC0wOS0wMSAgNjQ0ICB7
+CjRkMTg5NzVjNzhmMmQ1IE1pY2hhxYIgTWlyb3PFgmF3IDIwMTgtMDktMDEgIDY0NSAgI2lmIElT
+X1JFQUNIQUJMRShDT05GSUdfRkIpCjRkMTg5NzVjNzhmMmQ1IE1pY2hhxYIgTWlyb3PFgmF3IDIw
+MTgtMDktMDEgIDY0NiAgCXJldHVybiByZW1vdmVfY29uZmxpY3RpbmdfcGNpX2ZyYW1lYnVmZmVy
+cyhwZGV2LCByZXNvdXJjZV9pZCwgbmFtZSk7CjRkMTg5NzVjNzhmMmQ1IE1pY2hhxYIgTWlyb3PF
+gmF3IDIwMTgtMDktMDEgIDY0NyAgI2Vsc2UKNGQxODk3NWM3OGYyZDUgTWljaGHFgiBNaXJvc8WC
+YXcgMjAxOC0wOS0wMSAgNjQ4ICAJcmV0dXJuIDA7CjRkMTg5NzVjNzhmMmQ1IE1pY2hhxYIgTWly
+b3PFgmF3IDIwMTgtMDktMDEgIDY0OSAgI2VuZGlmCjRkMTg5NzVjNzhmMmQ1IE1pY2hhxYIgTWly
+b3PFgmF3IDIwMTgtMDktMDEgIDY1MCAgfQo0ZDE4OTc1Yzc4ZjJkNSBNaWNoYcWCIE1pcm9zxYJh
+dyAyMDE4LTA5LTAxICA2NTEgIAoKOjo6Ojo6IFRoZSBjb2RlIGF0IGxpbmUgNjQxIHdhcyBmaXJz
+dCBpbnRyb2R1Y2VkIGJ5IGNvbW1pdAo6Ojo6OjogNGQxODk3NWM3OGYyZDVjOTE3OTIzNTY1MDFj
+ZjM2OWU2NzU5NDI0MSBmYmRldjogYWRkIHJlbW92ZV9jb25mbGljdGluZ19wY2lfZnJhbWVidWZm
+ZXJzKCkKCjo6Ojo6OiBUTzogTWljaGHFgiBNaXJvc8WCYXcgPG1pcnEtbGludXhAcmVyZS5xbXFt
+LnBsPgo6Ojo6OjogQ0M6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+Cgot
+LS0KMC1EQVkga2VybmVsIHRlc3QgaW5mcmFzdHJ1Y3R1cmUgICAgICAgICAgICAgICAgT3BlbiBT
+b3VyY2UgVGVjaG5vbG9neSBDZW50ZXIKaHR0cHM6Ly9saXN0cy4wMS5vcmcvcGlwZXJtYWlsL2ti
+dWlsZC1hbGwgICAgICAgICAgICAgICAgICAgSW50ZWwgQ29ycG9yYXRpb24KX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
