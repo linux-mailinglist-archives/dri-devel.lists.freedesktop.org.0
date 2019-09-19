@@ -2,44 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45845B8178
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 21:37:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A3E2B8180
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 21:38:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67EC76F9F0;
-	Thu, 19 Sep 2019 19:37:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D7106EE4D;
+	Thu, 19 Sep 2019 19:38:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id D9C466F9F2
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 19:37:27 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D616372167; Thu, 19 Sep 2019 19:37:27 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111244] amdgpu kernel 5.2 blank display after resume from suspend
-Date: Thu, 19 Sep 2019 19:37:28 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: nix.or.die@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111244-502-wfi2skA9Ew@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111244-502@http.bugs.freedesktop.org/>
-References: <bug-111244-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
+ [IPv6:2607:f8b0:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7180D6F9F2
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 19:38:24 +0000 (UTC)
+Received: by mail-oi1-x241.google.com with SMTP id k9so3771806oib.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 12:38:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3hooRbQOXThoD96PStoDLteQkM6Vo3aV1c9n1eXpOzY=;
+ b=QW2NRcsH8r4Ro7UXwWx9oN9m0BIEAT2xvu6BBopB0FvZbl86aRIJ4UIrDYsRisZi1y
+ JDwOkDPGiw3B7lBf47jPUR7TUBSFSI6Z4Uv8A7JzbFmO7Buk0O8LW7b/5TskxCf7TGXQ
+ F2tWCnXjEtWEFk0FYkDCYxV8G00TTCF0bHDWbcaoCuJ+Mv/8Zwk83Wmos2ldv/JLKddt
+ Pt4kg6smEGIqhQhU8cg5hSkHVFGAAFEjI+zd0/ccrpTS/NBS1eC36pSbJb5u8JWibQS6
+ eWwVASSIb2xp+K+egchLFT+pRtJ/zhc5QS4Ve7gnY7pFZaWFC0Q20zEAy8GVhvKhbknr
+ AwZQ==
+X-Gm-Message-State: APjAAAWuDLr+MnxZOxXlO6ar9eJzaXinIwMB/9L1m2Leh/8QuHKtpoQy
+ OPcmlZZWjzeYOxqIxf//z421b9MX5jI/okxQcBVuvA==
+X-Google-Smtp-Source: APXvYqzEjvYJG/4MaWUnm0x7UI/AOE5Zw0CHgNLOOItK4ERCBQuZ2DPnHRvhm+yqatUnqSEktURuPPLsmZtTLT0DLZM=
+X-Received: by 2002:aca:578a:: with SMTP id l132mr3678488oib.14.1568921903605; 
+ Thu, 19 Sep 2019 12:38:23 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190919173020.11655-1-mripard@kernel.org>
+ <CAGb2v65xgCC99x2SZG84n0mp7B7W5EDVDTgRrvQgdvVXAUxN5A@mail.gmail.com>
+In-Reply-To: <CAGb2v65xgCC99x2SZG84n0mp7B7W5EDVDTgRrvQgdvVXAUxN5A@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 19 Sep 2019 21:38:11 +0200
+Message-ID: <CAKMK7uF2tvgfYL0RX828tjOuOmU2+4bi+JSF5meieVbwsgU2yA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] MAINTAINERS: Update Allwinner DRM drivers entry
+To: Chen-Yu Tsai <wens@csie.org>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=3hooRbQOXThoD96PStoDLteQkM6Vo3aV1c9n1eXpOzY=;
+ b=HEPKFIc+NTdJlttbJ4fkdQ2EHPNIAm5PuMfakZz9CcGm2tAYrFpf4hx0n7PldhnuVf
+ egOVV9VCjA58OBhbaFeVwszwtBL6+yhpmcMN8/m+cUshKTWf4MDsj87db63fBHPpvr2n
+ 7bnuZEGmjxJ94y/Nsa7E3XyUIXgjQnjealCTw=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,137 +60,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0126675872=="
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <seanpaul@chromium.org>,
+ Maxime Ripard <mripard@kernel.org>, Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0126675872==
-Content-Type: multipart/alternative; boundary="15689218472.C7e5.24239"
-Content-Transfer-Encoding: 7bit
-
-
---15689218472.C7e5.24239
-Date: Thu, 19 Sep 2019 19:37:27 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111244
-
---- Comment #29 from Gabriel C <nix.or.die@gmail.com> ---
-Michael,
-
-I see the same on a Ryzen 7 35750H APU + RX 560x Nitro5 Laptop.
-
-reverting
-https://github.com/freedesktop/xorg-xf86-video-amdgpu/commit/a2b32e72fdaff3=
-007a79b84929997d8176c2d512
-
-fixes the problem for me.
-
-I tested kernels 5.2*, 5.3, and all have the same problem=20
-when suspending from X with that commit, without the commit
-everything is working fine.
-
-
-( will test 5.4git once drm-next is in but I tested amd-staging-drm-next
-some days ago and that didn't work also )
-
-If you need more informations please let me know.
-
-I can test any kind patches kernel/X/mesa and/or give
-you debug info if you tell me what you may need.
-
-Best Regards,
-
-Gabriel C
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15689218472.C7e5.24239
-Date: Thu, 19 Sep 2019 19:37:27 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244#c29">Comme=
-nt # 29</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244">bug 11124=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-nix.or.die&#64;gmail.com" title=3D"Gabriel C &lt;nix.or.die&#64;gmail.com&g=
-t;"> <span class=3D"fn">Gabriel C</span></a>
-</span></b>
-        <pre>Michael,
-
-I see the same on a Ryzen 7 35750H APU + RX 560x Nitro5 Laptop.
-
-reverting
-<a href=3D"https://github.com/freedesktop/xorg-xf86-video-amdgpu/commit/a2b=
-32e72fdaff3007a79b84929997d8176c2d512">https://github.com/freedesktop/xorg-=
-xf86-video-amdgpu/commit/a2b32e72fdaff3007a79b84929997d8176c2d512</a>
-
-fixes the problem for me.
-
-I tested kernels 5.2*, 5.3, and all have the same problem=20
-when suspending from X with that commit, without the commit
-everything is working fine.
-
-
-( will test 5.4git once drm-next is in but I tested amd-staging-drm-next
-some days ago and that didn't work also )
-
-If you need more informations please let me know.
-
-I can test any kind patches kernel/X/mesa and/or give
-you debug info if you tell me what you may need.
-
-Best Regards,
-
-Gabriel C</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15689218472.C7e5.24239--
-
---===============0126675872==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0126675872==--
+T24gVGh1LCBTZXAgMTksIDIwMTkgYXQgNzozNiBQTSBDaGVuLVl1IFRzYWkgPHdlbnNAY3NpZS5v
+cmc+IHdyb3RlOgo+Cj4gT24gRnJpLCBTZXAgMjAsIDIwMTkgYXQgMTozMCBBTSBNYXhpbWUgUmlw
+YXJkIDxtcmlwYXJkQGtlcm5lbC5vcmc+IHdyb3RlOgo+ID4KPiA+IFRoZSBEUk0gZHJpdmVycyBh
+cmUgbW9yZSB0aGFuIGFib3V0IHRoZSBBMTAgbm93LCBzbyBsZXQncyBtYWtlIHRoZSBlbnRyeQo+
+ID4gbmFtZSBhIGJpdCBtb3JlIGdlbmVyaWMuCj4gPgo+ID4gQWxzbywgQ2hlbi1ZdSBoYXMgYmVl
+biBhIGRlLWZhY3RvIG1haW50YWluZXIgZm9yIHRoZSBEUk0gZHJpdmVyIGZvciBhCj4gPiB3aGls
+ZSwgaXMgYSBtYWludGFpbmVyIG9mIHRoZSBBbGx3aW5uZXIgcGxhdGZvcm0gZm9yIGFuIGV2ZW4g
+bG9uZ2VyIHRpbWUsCj4gPiBhbmQgaGFzIGRybS1taXNjIGNvbW1pdCBhY2Nlc3MuIExldCdzIG1h
+a2UgaXQgZm9ybWFsIGFuZCBhZGQgaGltIGFzIGEKPgo+IEFsdGhvdWdoIEkgaGF2ZSBhbiBhY2Nv
+dW50LCBJIGhhdmVuJ3QgYWN0dWFsbHkgdHJpZWQgaWYgSSBoYXZlIGNvbW1pdCBhY2Nlc3MuCj4g
+SSBhbHNvIGRvbid0IHRoaW5rIG15IGFjY291bnQgd2FzIHByb3Blcmx5IG1pZ3JhdGVkIG92ZXIg
+dG8gR2l0TGFiLCBhcyBJCj4gaGFkIHRvIHJlLWNyZWF0ZSBvbmUuCgpUaGUgZ2l0IHJlcG8gaXMg
+c3RpbGwgb24gbGVnYWN5IGdpdCBmZC5vIHNlcnZlcnMsIGl0J3Mgbm90IHlldAptaWdyYXRlZCBv
+dmVyIHRvIGdpdGxhYi4KLURhbmllbAoKPgo+ID4gbWFpbnRhaW5lci4KPiA+Cj4gPiBTaWduZWQt
+b2ZmLWJ5OiBNYXhpbWUgUmlwYXJkIDxtcmlwYXJkQGtlcm5lbC5vcmc+Cj4KPiBBY2tlZC1ieTog
+Q2hlbi1ZdSBUc2FpIDx3ZW5zQGNzaWUub3JnPgo+Cj4gPiAtLS0KPiA+ICBNQUlOVEFJTkVSUyB8
+IDMgKystCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigt
+KQo+ID4KPiA+IGRpZmYgLS1naXQgYS9NQUlOVEFJTkVSUyBiL01BSU5UQUlORVJTCj4gPiBpbmRl
+eCBiMjMyNmRlY2UyOGUuLjU0ZTIyMmUxZDBkNiAxMDA2NDQKPiA+IC0tLSBhL01BSU5UQUlORVJT
+Cj4gPiArKysgYi9NQUlOVEFJTkVSUwo+ID4gQEAgLTUzNTIsOCArNTM1Miw5IEBAIEY6ICAgICAg
+ICBpbmNsdWRlL2RybS9kcm0qCj4gPiAgRjogICAgIGluY2x1ZGUvdWFwaS9kcm0vZHJtKgo+ID4g
+IEY6ICAgICBpbmNsdWRlL2xpbnV4L3ZnYSoKPiA+Cj4gPiAtRFJNIERSSVZFUlMgRk9SIEFMTFdJ
+Tk5FUiBBMTAKPiA+ICtEUk0gRFJJVkVSUyBGT1IgQUxMV0lOTkVSIFNPQ1MKPiA+ICBNOiAgICAg
+TWF4aW1lIFJpcGFyZCA8bXJpcGFyZEBrZXJuZWwub3JnPgo+ID4gK006ICAgICBDaGVuLVl1IFRz
+YWkgPHdlbnNAY3NpZS5vcmc+Cj4gPiAgTDogICAgIGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKPiA+ICBTOiAgICAgU3VwcG9ydGVkCj4gPiAgRjogICAgIGRyaXZlcnMvZ3B1L2RybS9z
+dW40aS8KPiA+IC0tCj4gPiAyLjIxLjAKPiA+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCgoKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVu
+Z2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1NyA0OCAtIGh0dHA6Ly9i
+bG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bA==
