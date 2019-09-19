@@ -1,44 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97472B792D
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 14:18:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1DB4B79A4
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Sep 2019 14:42:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FDC56F691;
-	Thu, 19 Sep 2019 12:18:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5DDA6F4D7;
+	Thu, 19 Sep 2019 12:42:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id E1AF36F691
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 12:18:42 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D8E8072167; Thu, 19 Sep 2019 12:18:42 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111750] Navi10 GPU boot bug: Failed to pin framebuffer with
- error -12
-Date: Thu, 19 Sep 2019 12:18:43 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: venemo@msn.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
-Message-ID: <bug-111750-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B790C6EBBE;
+ Thu, 19 Sep 2019 12:42:13 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 19 Sep 2019 05:42:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,523,1559545200"; d="scan'208";a="188078303"
+Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
+ by fmsmga007.fm.intel.com with ESMTP; 19 Sep 2019 05:42:10 -0700
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.164]) by
+ IRSMSX101.ger.corp.intel.com ([169.254.1.129]) with mapi id 14.03.0439.000;
+ Thu, 19 Sep 2019 13:42:09 +0100
+From: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
+To: "daniel@ffwll.ch" <daniel@ffwll.ch>, "Lee@google.com" <Lee@google.com>,
+ "furquan@google.com" <furquan@google.com>, "Lee, Shawn C"
+ <shawn.c.lee@intel.com>, "airlied@linux.ie" <airlied@linux.ie>,
+ "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
+ "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>, "Vivi, Rodrigo"
+ <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH v2] i915: intel_dp_aux_backlight: Fix max backlight
+ calculations
+Thread-Topic: [PATCH v2] i915: intel_dp_aux_backlight: Fix max backlight
+ calculations
+Thread-Index: AQHVN7m50kn6eCuDw0iY+uDH/sgXWaczTncA
+Date: Thu, 19 Sep 2019 12:42:09 +0000
+Message-ID: <a766c3498d3754b598a8bf66f59a76e78ec57080.camel@intel.com>
+References: <D42A2A322A1FCA4089E30E9A9BA36AC65D61CB76@PGSMSX111.gar.corp.intel.com>
+ <20190711004312.248160-1-furquan@google.com>
+In-Reply-To: <20190711004312.248160-1-furquan@google.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.237.72.89]
+Content-ID: <CBC7F3DD8E7D9B4E94397BF421B3A81C@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -52,238 +60,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2145663565=="
+Cc: "marcheu@chromium.org" <marcheu@chromium.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "rajatja@google.com" <rajatja@google.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2145663565==
-Content-Type: multipart/alternative; boundary="15688955220.dAd8D9.8719"
-Content-Transfer-Encoding: 7bit
-
-
---15688955220.dAd8D9.8719
-Date: Thu, 19 Sep 2019 12:18:42 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111750
-
-            Bug ID: 111750
-           Summary: Navi10 GPU boot bug: Failed to pin framebuffer with
-                    error -12
-           Product: DRI
-           Version: DRI git
-          Hardware: All
-                OS: Linux (All)
-            Status: NEW
-          Severity: normal
-          Priority: not set
-         Component: DRM/AMDgpu
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: venemo@msn.com
-
-On bootup, I get the following messages from amdgpu:
-
-[    3.554976] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
-[    3.555024] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
-pin
-framebuffer with error -12
-[    3.565298] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
-[    3.565349] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
-pin
-framebuffer with error -12
-[    3.681423] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
-[    3.681474] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
-pin
-framebuffer with error -12
-[    3.686750] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
-[    3.686800] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
-pin
-framebuffer with error -12
-[    3.781617] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
-[    3.781667] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
-pin
-framebuffer with error -12
-[    3.880152] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
-[    3.880262] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
-pin
-framebuffer with error -12
-
-Hardware:
-AMD Radeon RX 5700XT (reference card, made by Sapphire)
-Dell U2718Q (two of them: one through HDMI, other through DisplayPort)
-AMD Ryzen 7 3700X
-MSI B450i
-
-Software:
-Fedora Workstation 30 x86_64
-Kernel 5.3 RC8
-Firmware: 2019-09-13
-Gnome 3.32.2
-LLVM 9 RC2
-Mesa 19.2 RC1
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15688955220.dAd8D9.8719
-Date: Thu, 19 Sep 2019 12:18:42 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Navi10 GPU boot bug: Failed to pin framebuffer with error=
- -12"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111750">111750</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>Navi10 GPU boot bug: Failed to pin framebuffer with error -12
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>DRI git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>All
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>Linux (All)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>DRM/AMDgpu
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>venemo&#64;msn.com
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>On bootup, I get the following messages from amdgpu:
-
-[    3.554976] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
-[    3.555024] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
-pin
-framebuffer with error -12
-[    3.565298] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
-[    3.565349] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
-pin
-framebuffer with error -12
-[    3.681423] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
-[    3.681474] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
-pin
-framebuffer with error -12
-[    3.686750] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
-[    3.686800] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
-pin
-framebuffer with error -12
-[    3.781617] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
-[    3.781667] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
-pin
-framebuffer with error -12
-[    3.880152] amdgpu 0000:2b:00.0: 0000000037dcd558 pin failed
-[    3.880262] [drm:dm_plane_helper_prepare_fb [amdgpu]] *ERROR* Failed to =
-pin
-framebuffer with error -12
-
-Hardware:
-AMD Radeon RX 5700XT (reference card, made by Sapphire)
-Dell U2718Q (two of them: one through HDMI, other through DisplayPort)
-AMD Ryzen 7 3700X
-MSI B450i
-
-Software:
-Fedora Workstation 30 x86_64
-Kernel 5.3 RC8
-Firmware: 2019-09-13
-Gnome 3.32.2
-LLVM 9 RC2
-Mesa 19.2 RC1</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15688955220.dAd8D9.8719--
-
---===============2145663565==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2145663565==--
+T24gV2VkLCAyMDE5LTA3LTEwIGF0IDE3OjQzIC0wNzAwLCBGdXJxdWFuIFNoYWlraCB3cm90ZToN
+Cj4gTWF4IGJhY2tsaWdodCB2YWx1ZSBmb3IgdGhlIHBhbmVsIHdhcyBiZWluZyBjYWxjdWxhdGVk
+IHVzaW5nIGJ5dGUNCj4gY291bnQgaS5lLiAweGZmZmYgaWYgMiBieXRlcyBhcmUgc3VwcG9ydGVk
+IGZvciBiYWNrbGlnaHQgYnJpZ2h0bmVzcw0KPiBhbmQgMHhmZiBpZiAxIGJ5dGUgaXMgc3VwcG9y
+dGVkLiBIb3dldmVyLCBFRFBfUFdNR0VOX0JJVF9DT1VOVA0KPiBkZXRlcm1pbmVzIHRoZSBudW1i
+ZXIgb2YgYWN0aXZlIGNvbnRyb2wgYml0cyB1c2VkIGZvciB0aGUgYnJpZ2h0bmVzcw0KPiBzZXR0
+aW5nLiBUaHVzLCBldmVuIGlmIHRoZSBwYW5lbCB1c2VzIDIgYnl0ZSBzZXR0aW5nLCBpdCBtaWdo
+dCBub3QNCj4gdXNlDQo+IGFsbCB0aGUgY29udHJvbCBiaXRzLiBUaHVzLCBtYXggYmFja2xpZ2h0
+IHNob3VsZCBiZSBzZXQgYmFzZWQgb24gdGhlDQo+IHZhbHVlIG9mIEVEUF9QV01HRU5fQklUX0NP
+VU5UIGluc3RlYWQgb2YgYXNzdW1pbmcgNjU1MzUgb3IgMjU1Lg0KPiANCj4gQWRkaXRpb25hbGx5
+LCBFRFBfUFdNR0VOX0JJVF9DT1VOVCB3YXMgYmVpbmcgdXBkYXRlZCBiYXNlZCBvbiB0aGUgVkJU
+DQo+IGZyZXF1ZW5jeSB3aGljaCByZXN1bHRzIGluIGEgZGlmZmVyZW50IG1heCBiYWNrbGlnaHQg
+dmFsdWUuIFRodXMsDQo+IHNldHRpbmcgb2YgRURQX1BXTUdFTl9CSVRfQ09VTlQgaXMgbW92ZWQg
+dG8gc2V0dXAgcGhhc2UgaW5zdGVhZCBvZg0KPiBlbmFibGUgc28gdGhhdCBtYXggYmFja2xpZ2h0
+IGNhbiBiZSBjYWxjdWxhdGVkIGNvcnJlY3RseS4gT25seSB0aGUNCj4gZnJlcXVlbmN5IGRpdmlk
+ZXIgaXMgc2V0IGR1cmluZyB0aGUgZW5hYmxlIHBoYXNlIHVzaW5nIHRoZSB2YWx1ZSBvZg0KPiBF
+RFBfUFdNR0VOX0JJVF9DT1VOVC4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEZ1cnF1YW4gU2hhaWto
+IDxmdXJxdWFuQGdvb2dsZS5jb20+DQo+IFJldmlld2VkLWJ5OiBTdMOpcGhhbmUgTWFyY2hlc2lu
+IDxtYXJjaGV1QGNocm9taXVtLm9yZz4NCg0KSGksDQoNClRoYW5rIHlvdSBmb3IgeW91ciBwYXRj
+aC4gU2VlIGNvbW1lbnRzIGlubGluZS4NCg0KPiAtLS0NCj4gdjI6IEluIGNhc2Ugb2YgRFBDRCBm
+YWlsdXJlIGFuZCBwbiBiZWluZyB1bmluaXRpYWxpemVkLCByZXR1cm4NCj4gbWF4X2JhY2tsaWdo
+dCBhcyAwLg0KPiANCj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX2RwX2F1eF9iYWNrbGln
+aHQuYyB8IDEzNCArKysrKysrKysrKystLQ0KPiAtLS0tDQo+ICAxIGZpbGUgY2hhbmdlZCwgOTAg
+aW5zZXJ0aW9ucygrKSwgNDQgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvaW50ZWxfZHBfYXV4X2JhY2tsaWdodC5jDQo+IGIvZHJpdmVycy9ncHUv
+ZHJtL2k5MTUvaW50ZWxfZHBfYXV4X2JhY2tsaWdodC5jDQo+IGluZGV4IDM1NzEzNmYxN2Y4NS4u
+YjM2NzhiOGE1YjRkIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9k
+cF9hdXhfYmFja2xpZ2h0LmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfZHBf
+YXV4X2JhY2tsaWdodC5jDQo+IEBAIC0xMTAsNjEgKzExMCwzNCBAQCBzdGF0aWMgYm9vbCBpbnRl
+bF9kcF9hdXhfc2V0X3B3bV9mcmVxKHN0cnVjdA0KPiBpbnRlbF9jb25uZWN0b3IgKmNvbm5lY3Rv
+cikNCj4gIHsNCj4gIAlzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYgPSB0b19pOTE1
+KGNvbm5lY3Rvci0NCj4gPmJhc2UuZGV2KTsNCj4gIAlzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2Rw
+ID0gZW5jX3RvX2ludGVsX2RwKCZjb25uZWN0b3ItDQo+ID5lbmNvZGVyLT5iYXNlKTsNCj4gLQlp
+bnQgZnJlcSwgZnhwLCBmeHBfbWluLCBmeHBfbWF4LCBmeHBfYWN0dWFsLCBmID0gMTsNCj4gLQl1
+OCBwbiwgcG5fbWluLCBwbl9tYXg7DQo+ICsJaW50IGZyZXEsIGZ4cCwgZiwgZnhwX2FjdHVhbCwg
+ZnhwX21pbiwgZnhwX21heDsNCj4gKwl1OCBwbjsNCj4gIA0KPiAtCS8qIEZpbmQgZGVzaXJlZCB2
+YWx1ZSBvZiAoRiB4IFApDQo+IC0JICogTm90ZSB0aGF0LCBpZiBGIHggUCBpcyBvdXQgb2Ygc3Vw
+cG9ydGVkIHJhbmdlLCB0aGUgbWF4aW11bQ0KPiB2YWx1ZSBvcg0KPiAtCSAqIG1pbmltdW0gdmFs
+dWUgd2lsbCBhcHBsaWVkIGF1dG9tYXRpY2FsbHkuIFNvIG5vIG5lZWQgdG8NCj4gY2hlY2sgdGhh
+dC4NCj4gLQkgKi8NCj4gIAlmcmVxID0gZGV2X3ByaXYtPnZidC5iYWNrbGlnaHQucHdtX2ZyZXFf
+aHo7DQo+IC0JRFJNX0RFQlVHX0tNUygiVkJUIGRlZmluZWQgYmFja2xpZ2h0IGZyZXF1ZW5jeSAl
+dSBIelxuIiwgZnJlcSk7DQo+ICAJaWYgKCFmcmVxKSB7DQo+ICAJCURSTV9ERUJVR19LTVMoIlVz
+ZSBwYW5lbCBkZWZhdWx0IGJhY2tsaWdodA0KPiBmcmVxdWVuY3lcbiIpOw0KPiAgCQlyZXR1cm4g
+ZmFsc2U7DQo+ICAJfQ0KPiAgDQo+IC0JZnhwID0gRElWX1JPVU5EX0NMT1NFU1QoS0h6KERQX0VE
+UF9CQUNLTElHSFRfRlJFUV9CQVNFX0tIWiksDQo+IGZyZXEpOw0KPiAtDQo+IC0JLyogVXNlIGhp
+Z2hlc3QgcG9zc2libGUgdmFsdWUgb2YgUG4gZm9yIG1vcmUgZ3JhbnVsYXJpdHkgb2YNCj4gYnJp
+Z2h0bmVzcw0KPiAtCSAqIGFkanVzdG1lbnQgd2hpbGUgc2F0aWZ5aW5nIHRoZSBjb25kaXRpb25z
+IGJlbG93Lg0KPiAtCSAqIC0gUG4gaXMgaW4gdGhlIHJhbmdlIG9mIFBuX21pbiBhbmQgUG5fbWF4
+DQo+IC0JICogLSBGIGlzIGluIHRoZSByYW5nZSBvZiAxIGFuZCAyNTUNCj4gLQkgKiAtIEZ4UCBp
+cyB3aXRoaW4gMjUlIG9mIGRlc2lyZWQgdmFsdWUuDQo+IC0JICogICBOb3RlOiAyNSUgaXMgYXJi
+aXRyYXJ5IHZhbHVlIGFuZCBtYXkgbmVlZCBzb21lIHR3ZWFrLg0KPiAtCSAqLw0KPiAtCWlmIChk
+cm1fZHBfZHBjZF9yZWFkYigmaW50ZWxfZHAtPmF1eCwNCj4gLQkJCSAgICAgICBEUF9FRFBfUFdN
+R0VOX0JJVF9DT1VOVF9DQVBfTUlOLA0KPiAmcG5fbWluKSAhPSAxKSB7DQo+IC0JCURSTV9ERUJV
+R19LTVMoIkZhaWxlZCB0byByZWFkIHB3bWdlbiBiaXQgY291bnQgY2FwDQo+IG1pblxuIik7DQo+
+ICsJaWYgKGRybV9kcF9kcGNkX3JlYWRiKCZpbnRlbF9kcC0+YXV4LCBEUF9FRFBfUFdNR0VOX0JJ
+VF9DT1VOVCwNCj4gKwkJCSAgICAgICZwbikgPCAwKSB7DQo+ICsJCURSTV9ERUJVR19LTVMoIkZh
+aWxlZCB0byByZWFkIGF1eCBwd21nZW4gYml0IGNvdW50XG4iKTsNCj4gIAkJcmV0dXJuIGZhbHNl
+Ow0KPiAgCX0NCj4gLQlpZiAoZHJtX2RwX2RwY2RfcmVhZGIoJmludGVsX2RwLT5hdXgsDQo+IC0J
+CQkgICAgICAgRFBfRURQX1BXTUdFTl9CSVRfQ09VTlRfQ0FQX01BWCwNCj4gJnBuX21heCkgIT0g
+MSkgew0KPiAtCQlEUk1fREVCVUdfS01TKCJGYWlsZWQgdG8gcmVhZCBwd21nZW4gYml0IGNvdW50
+IGNhcA0KPiBtYXhcbiIpOw0KPiAtCQlyZXR1cm4gZmFsc2U7DQo+IC0JfQ0KPiAtCXBuX21pbiAm
+PSBEUF9FRFBfUFdNR0VOX0JJVF9DT1VOVF9NQVNLOw0KPiAtCXBuX21heCAmPSBEUF9FRFBfUFdN
+R0VOX0JJVF9DT1VOVF9NQVNLOw0KPiAgDQo+ICsJZnhwID0gRElWX1JPVU5EX0NMT1NFU1QoS0h6
+KERQX0VEUF9CQUNLTElHSFRfRlJFUV9CQVNFX0tIWiksDQo+IGZyZXEpOw0KPiArCWYgPSBjbGFt
+cChESVZfUk9VTkRfQ0xPU0VTVChmeHAsIDEgPDwgcG4pLCAxLCAyNTUpOw0KPiArCWZ4cF9hY3R1
+YWwgPSBmIDw8IHBuOw0KPiArDQo+ICsJLyogRW5zdXJlIGZyZXF1ZW5jeSBpcyB3aXRoaW4gMjUl
+IG9mIGRlc2lyZWQgdmFsdWUgKi8NCj4gIAlmeHBfbWluID0gRElWX1JPVU5EX0NMT1NFU1QoZnhw
+ICogMywgNCk7DQo+ICAJZnhwX21heCA9IERJVl9ST1VORF9DTE9TRVNUKGZ4cCAqIDUsIDQpOw0K
+PiAtCWlmIChmeHBfbWluIDwgKDEgPDwgcG5fbWluKSB8fCAoMjU1IDw8IHBuX21heCkgPCBmeHBf
+bWF4KSB7DQo+IC0JCURSTV9ERUJVR19LTVMoIlZCVCBkZWZpbmVkIGJhY2tsaWdodCBmcmVxdWVu
+Y3kgb3V0IG9mDQo+IHJhbmdlXG4iKTsNCj4gLQkJcmV0dXJuIGZhbHNlOw0KPiAtCX0NCj4gIA0K
+PiAtCWZvciAocG4gPSBwbl9tYXg7IHBuID49IHBuX21pbjsgcG4tLSkgew0KPiAtCQlmID0gY2xh
+bXAoRElWX1JPVU5EX0NMT1NFU1QoZnhwLCAxIDw8IHBuKSwgMSwgMjU1KTsNCj4gLQkJZnhwX2Fj
+dHVhbCA9IGYgPDwgcG47DQo+IC0JCWlmIChmeHBfbWluIDw9IGZ4cF9hY3R1YWwgJiYgZnhwX2Fj
+dHVhbCA8PSBmeHBfbWF4KQ0KPiAtCQkJYnJlYWs7DQo+IC0JfQ0KPiAtDQo+IC0JaWYgKGRybV9k
+cF9kcGNkX3dyaXRlYigmaW50ZWxfZHAtPmF1eCwNCj4gLQkJCSAgICAgICBEUF9FRFBfUFdNR0VO
+X0JJVF9DT1VOVCwgcG4pIDwgMCkgew0KPiAtCQlEUk1fREVCVUdfS01TKCJGYWlsZWQgdG8gd3Jp
+dGUgYXV4IHB3bWdlbiBiaXQNCj4gY291bnRcbiIpOw0KPiArCWlmIChmeHBfbWluID4gZnhwX2Fj
+dHVhbCB8fCBmeHBfYWN0dWFsID4gZnhwX21heCkgew0KPiArCQlEUk1fREVCVUdfS01TKCJBY3R1
+YWwgZnJlcXVlbmN5IG91dCBvZiByYW5nZVxuIik7DQo+ICAJCXJldHVybiBmYWxzZTsNCj4gIAl9
+DQo+ICsNCj4gIAlpZiAoZHJtX2RwX2RwY2Rfd3JpdGViKCZpbnRlbF9kcC0+YXV4LA0KPiAgCQkJ
+ICAgICAgIERQX0VEUF9CQUNLTElHSFRfRlJFUV9TRVQsICh1OCkgZikgPCAwKQ0KPiB7DQo+ICAJ
+CURSTV9ERUJVR19LTVMoIkZhaWxlZCB0byB3cml0ZSBhdXggYmFja2xpZ2h0IGZyZXFcbiIpOw0K
+PiBAQCAtMjI0LDE2ICsxOTcsODkgQEAgc3RhdGljIHZvaWQNCj4gaW50ZWxfZHBfYXV4X2Rpc2Fi
+bGVfYmFja2xpZ2h0KGNvbnN0IHN0cnVjdCBkcm1fY29ubmVjdG9yX3N0YXRlICpvbGQNCj4gIAlz
+ZXRfYXV4X2JhY2tsaWdodF9lbmFibGUoZW5jX3RvX2ludGVsX2RwKG9sZF9jb25uX3N0YXRlLQ0K
+PiA+YmVzdF9lbmNvZGVyKSwgZmFsc2UpOw0KPiAgfQ0KPiAgDQo+ICtzdGF0aWMgdTMyIGludGVs
+X2RwX2F1eF9jYWxjX21heF9iYWNrbGlnaHQoc3RydWN0IGludGVsX2Nvbm5lY3Rvcg0KPiAqY29u
+bmVjdG9yKQ0KPiArew0KPiArCXN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdiA9IHRv
+X2k5MTUoY29ubmVjdG9yLQ0KPiA+YmFzZS5kZXYpOw0KPiArCXN0cnVjdCBpbnRlbF9kcCAqaW50
+ZWxfZHAgPSBlbmNfdG9faW50ZWxfZHAoJmNvbm5lY3Rvci0NCj4gPmVuY29kZXItPmJhc2UpOw0K
+PiArCXUzMiBtYXhfYmFja2xpZ2h0ID0gMDsNCj4gKwlpbnQgZnJlcSwgZnhwLCBmeHBfbWluLCBm
+eHBfbWF4LCBmeHBfYWN0dWFsLCBmID0gMTsNCj4gKwl1OCBwbiwgcG5fbWluLCBwbl9tYXg7DQo+
+ICsNCj4gKwlpZiAoZHJtX2RwX2RwY2RfcmVhZGIoJmludGVsX2RwLT5hdXgsIERQX0VEUF9QV01H
+RU5fQklUX0NPVU5ULA0KPiArCQkJICAgICAgJnBuKSAhPSAxKQ0KPiArCQlyZXR1cm4gbWF4X2Jh
+Y2tsaWdodDsNCg0KU2hvdWxkIHdlIHJlYWxseSBmYWlsIGhlcmUgYW5kIGNhdXNlIC1FTk9ERVYg
+dG8gYmUgcmV0dXJuZWQ/IFdlIGNvdWxkDQpzaW1wbHkgdHJ5IHRvIGdvIGJhY2sgdG8gb2xkIGZh
+c2hpb24sIGkuZSBjYWxjdWxhdGUgcG4gdXNpbmcgcG5fbWluIHRvIA0KcG5fbWF4IGFsZ29yaXRo
+bSBhcyBpdCBpcyBkb25lIGN1cnJlbnRseSwgaWYgbGV0cyBzYXkgd2UgY291bGRuJ3QgcmVhZA0K
+aXQgb3IgcG4gd2FzIGdhcmJhZ2UuDQoNCj4gKw0KPiArCS8qIFVzZSBoaWdoZXN0IHBvc3NpYmxl
+IHZhbHVlIG9mIFBuIGZvciBtb3JlIGdyYW51bGFyaXR5IG9mDQo+IGJyaWdodG5lc3MNCj4gKwkg
+KiBhZGp1c3RtZW50IHdoaWxlIHNhdGlmeWluZyB0aGUgY29uZGl0aW9ucyBiZWxvdy4NCj4gKwkg
+KiAtIFBuIGlzIGluIHRoZSByYW5nZSBvZiBQbl9taW4gYW5kIFBuX21heA0KPiArCSAqIC0gRiBp
+cyBpbiB0aGUgcmFuZ2Ugb2YgMSBhbmQgMjU1DQo+ICsJICogLSBGeFAgaXMgd2l0aGluIDI1JSBv
+ZiBkZXNpcmVkIHZhbHVlLg0KPiArCSAqICAgTm90ZTogMjUlIGlzIGFyYml0cmFyeSB2YWx1ZSBh
+bmQgbWF5IG5lZWQgc29tZSB0d2Vhay4NCj4gKwkgKi8NCj4gKwlpZiAoZHJtX2RwX2RwY2RfcmVh
+ZGIoJmludGVsX2RwLT5hdXgsDQo+ICsJCQkgICAgICAgRFBfRURQX1BXTUdFTl9CSVRfQ09VTlRf
+Q0FQX01JTiwNCj4gJnBuX21pbikgIT0gMSkgew0KPiArCQlEUk1fREVCVUdfS01TKCJGYWlsZWQg
+dG8gcmVhZCBwd21nZW4gYml0IGNvdW50IGNhcA0KPiBtaW5cbiIpOw0KPiArCQlyZXR1cm4gbWF4
+X2JhY2tsaWdodDsNCj4gKwl9DQo+ICsJaWYgKGRybV9kcF9kcGNkX3JlYWRiKCZpbnRlbF9kcC0+
+YXV4LA0KPiArCQkJICAgICAgIERQX0VEUF9QV01HRU5fQklUX0NPVU5UX0NBUF9NQVgsDQo+ICZw
+bl9tYXgpICE9IDEpIHsNCj4gKwkJRFJNX0RFQlVHX0tNUygiRmFpbGVkIHRvIHJlYWQgcHdtZ2Vu
+IGJpdCBjb3VudCBjYXANCj4gbWF4XG4iKTsNCj4gKwkJcmV0dXJuIG1heF9iYWNrbGlnaHQ7DQo+
+ICsJfQ0KPiArCXBuX21pbiAmPSBEUF9FRFBfUFdNR0VOX0JJVF9DT1VOVF9NQVNLOw0KPiArCXBu
+X21heCAmPSBEUF9FRFBfUFdNR0VOX0JJVF9DT1VOVF9NQVNLOw0KPiArDQo+ICsJZnhwX21pbiA9
+IERJVl9ST1VORF9DTE9TRVNUKGZ4cCAqIDMsIDQpOw0KPiArCWZ4cF9tYXggPSBESVZfUk9VTkRf
+Q0xPU0VTVChmeHAgKiA1LCA0KTsNCj4gKwlpZiAoZnhwX21pbiA8ICgxIDw8IHBuX21pbikgfHwg
+KDI1NSA8PCBwbl9tYXgpIDwgZnhwX21heCkgew0KPiArCQlEUk1fREVCVUdfS01TKCJWQlQgZGVm
+aW5lZCBiYWNrbGlnaHQgZnJlcXVlbmN5IG91dCBvZg0KPiByYW5nZVxuIik7DQo+ICsJCXJldHVy
+biBtYXhfYmFja2xpZ2h0Ow0KPiArCX0NCg0KSWYgMjUlIG9mIGZ4cCBpcyBhbnl3YXkgYW4gYXJi
+aXRyYXJ5IHZhbHVlLCBjYW4gd2UganVzdCB0cnkgdG8gbmFycm93DQp0aGlzIFtmeHBfbWluLCBm
+eHBfbWF4XSB0byBbMSA8PCBwbl9taW4sIDI1NSA8PCBwbl9tYXhdIGlmIGl0IGhhcHBlbnMNCnRv
+IGJlIG91dHNpZGUgb2YgdGhlIHJhbmdlPyBJZiBmeHAgaXMgd2l0aGluIFsxIDw8IHBuX21pbiwg
+MjU1IDw8DQpwbl9tYXhdIEkgZ3Vlc3Mgd2Ugc3RpbGwgY2FuIHByb2NlZWQuDQoNCj4gKw0KPiAr
+CWZvciAocG4gPSBwbl9tYXg7IHBuID49IHBuX21pbjsgcG4tLSkgew0KPiArCQlmID0gY2xhbXAo
+RElWX1JPVU5EX0NMT1NFU1QoZnhwLCAxIDw8IHBuKSwgMSwgMjU1KTsNCj4gKwkJZnhwX2FjdHVh
+bCA9IGYgPDwgcG47DQo+ICsJCWlmIChmeHBfbWluIDw9IGZ4cF9hY3R1YWwgJiYgZnhwX2FjdHVh
+bCA8PSBmeHBfbWF4KQ0KPiArCQkJYnJlYWs7DQo+ICsJfQ0KPiArDQo+ICsJaWYgKGRybV9kcF9k
+cGNkX3dyaXRlYigmaW50ZWxfZHAtPmF1eCwNCj4gKwkJCSAgICAgICBEUF9FRFBfUFdNR0VOX0JJ
+VF9DT1VOVCwgcG4pIDwgMCkgew0KPiArCQlEUk1fREVCVUdfS01TKCJGYWlsZWQgdG8gd3JpdGUg
+YXV4IHB3bWdlbiBiaXQNCj4gY291bnRcbiIpOw0KPiArCQlyZXR1cm4gbWF4X2JhY2tsaWdodDsN
+Cj4gKwl9DQo+ICsNCj4gKwltYXhfYmFja2xpZ2h0ID0gKDEgPDwgcG4pIC0gMTsNCj4gKw0KPiAr
+CXJldHVybiBtYXhfYmFja2xpZ2h0Ow0KPiArfQ0KPiArDQo+ICBzdGF0aWMgaW50IGludGVsX2Rw
+X2F1eF9zZXR1cF9iYWNrbGlnaHQoc3RydWN0IGludGVsX2Nvbm5lY3Rvcg0KPiAqY29ubmVjdG9y
+LA0KPiAgCQkJCQllbnVtIHBpcGUgcGlwZSkNCj4gIHsNCj4gIAlzdHJ1Y3QgaW50ZWxfZHAgKmlu
+dGVsX2RwID0gZW5jX3RvX2ludGVsX2RwKCZjb25uZWN0b3ItDQo+ID5lbmNvZGVyLT5iYXNlKTsN
+Cj4gIAlzdHJ1Y3QgaW50ZWxfcGFuZWwgKnBhbmVsID0gJmNvbm5lY3Rvci0+cGFuZWw7DQo+ICAN
+Cj4gLQlpZiAoaW50ZWxfZHAtPmVkcF9kcGNkWzJdICYNCj4gRFBfRURQX0JBQ0tMSUdIVF9CUklH
+SFRORVNTX0JZVEVfQ09VTlQpDQo+IC0JCXBhbmVsLT5iYWNrbGlnaHQubWF4ID0gMHhGRkZGOw0K
+PiAtCWVsc2UNCj4gLQkJcGFuZWwtPmJhY2tsaWdodC5tYXggPSAweEZGOw0KPiArCXBhbmVsLT5i
+YWNrbGlnaHQubWF4ID0NCj4gaW50ZWxfZHBfYXV4X2NhbGNfbWF4X2JhY2tsaWdodChjb25uZWN0
+b3IpOw0KPiArDQo+ICsJaWYgKCFwYW5lbC0+YmFja2xpZ2h0Lm1heCkNCj4gKwkJcmV0dXJuIC1F
+Tk9ERVY7DQoNCkNhbiB3ZSBqdXN0IGZhbGxiYWNrIHRvIG9sZCB3YXkgaGVyZSwgaW5zdGVhZCBv
+ZiBmYWlsdXJlPw0KSSBzZWUgcHJldmlzb3VseSBpbnRlbF9kcF9hdXhfc2V0X3B3bV9mcmVxIHdh
+cyBjYWxsZWQgb25seQ0KaWYgd2UgaGFkIERQX0VEUF9CQUNLTElHSFRfRlJFUV9BVVhfU0VUX0NB
+UCBzZXQgYW5kIGl0J3MgDQpmYWlsdXJlIGRpZG4ndCBhZmZlY3QgcHJvZ3JhbSBmbG93IHRoYXQg
+bXVjaC4gTXkgY29uY2VybiBpcw0KdGhhdCB3ZSBoYXZlIHF1aXRlIGEgbG90IG9mIGRpZmZlcmVu
+dCBoYXJkd2FyZSwgc28gYmFpbGluZw0Kb3V0IHRoYXQgd2F5IGNvdWxkIG1ha2Ugb3VyIENJIGxp
+ZmUgYSBiaXQgd29yc2UuDQoNClNlZSBpbnRlbF9kcF9hdXhfZW5hYmxlX2JhY2tsaWdodDoNCg0K
+CWlmIChpbnRlbF9kcC0+ZWRwX2RwY2RbMl0gJiBEUF9FRFBfQkFDS0xJR0hUX0ZSRVFfQVVYX1NF
+VF9DQVApDQoJCWlmIChpbnRlbF9kcF9hdXhfc2V0X3B3bV9mcmVxKGNvbm5lY3RvcikpDQoJCQlu
+ZXdfZHBjZF9idWYgfD0gRFBfRURQX0JBQ0tMSUdIVF9GUkVRX0FVWF9TRVRfRU5BQkxFOw0KDQo+
+ICANCj4gIAlwYW5lbC0+YmFja2xpZ2h0Lm1pbiA9IDA7DQo+ICAJcGFuZWwtPmJhY2tsaWdodC5s
+ZXZlbCA9IGludGVsX2RwX2F1eF9nZXRfYmFja2xpZ2h0KGNvbm5lY3Rvcik7DQoNCkJlc3QgUmVn
+YXJkcywNCg0KTGlzb3Zza2l5IFN0YW5pc2xhdg0KDQpfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9kcmktZGV2ZWw=
