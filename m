@@ -1,40 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A8F7B975A
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2019 20:48:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66DCAB97A1
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2019 21:12:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 924846FD91;
-	Fri, 20 Sep 2019 18:48:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 059B86FD4C;
+	Fri, 20 Sep 2019 19:12:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E49976FD90;
- Fri, 20 Sep 2019 18:48:42 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2019 11:48:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,529,1559545200"; d="scan'208";a="199814260"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga002.jf.intel.com with SMTP; 20 Sep 2019 11:48:39 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 20 Sep 2019 21:48:38 +0300
-Date: Fri, 20 Sep 2019 21:48:38 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 00/12] drm/i915: YCbCr output fixes and prep work for
- YCbCr 4:4:4 output
-Message-ID: <20190920184838.GG1208@intel.com>
-References: <20190718145053.25808-1-ville.syrjala@linux.intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 57EBC6FD4C
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2019 19:12:36 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5449C72167; Fri, 20 Sep 2019 19:12:36 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
+Date: Fri, 20 Sep 2019 19:12:35 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110674-502-GiLcnO0vvE@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
+References: <bug-110674-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190718145053.25808-1-ville.syrjala@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,43 +52,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0296736884=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBKdWwgMTgsIDIwMTkgYXQgMDU6NTA6NDFQTSArMDMwMCwgVmlsbGUgU3lyamFsYSB3
-cm90ZToKPiBGcm9tOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwu
-Y29tPgo+IAo+IEkgd2FzIHBsYXlpbmcgYXJvdW5kIHdpdGggWUNiQ3IgNDo0OjQgb3V0cHV0IGFu
-ZCBub3RpY2VkIHNldmVyYWwKPiB0aGluZ3Mgd3JvbmcgaW4gb3VyIGNvZGUuIFNvIEkgZml4ZWQg
-aXQgYWxsIGFuZCB0b3NzZWQgaW4gdGhlIAo+IHByZXAgd29yayBmb3IgWUNiQ3IgNDo0OjQgb3V0
-cHV0IG9uIGlsaysuCj4gCj4gVmlsbGUgU3lyasOkbMOkICgxMik6Cj4gICBkcm0vZHA6IEFkZCBk
-ZWZpbml0b25zIGZvciBNU0EgTUlTQyBiaXRzCgpeIHB1c2hlZCB0byBkcm0tbWlzYy1uZXh0Cgo+
-ICAgZHJtL2k5MTU6IFN3aXRjaCB0byB1c2luZyBEUF9NU0FfTUlTQ18qIGRlZmluZXMKCl4gb24g
-aG9sZCB1bnRpbCB0aGUgZmlyc3QgcGF0Y2ggcHJvcGFnYXRlcyB0byBkaW5xLgoKPiAgIGRybS9p
-OTE1OiBGaXggSFNXKyBEUCBNU0EgWUNiQ3IgY29sb3JzcGFjZSBpbmRpY2F0aW9uCj4gICBkcm0v
-aTkxNTogRml4IEFWSSBpbmZvZnJhbWUgcXVhbnRpemF0aW9uIHJhbmdlIGZvciBZQ2JDciBvdXRw
-dXQKPiAgIGRybS9pOTE1OiBFeHRyYWN0IGludGVsX2hkbWlfbGltaXRlZF9jb2xvcl9yYW5nZSgp
-Cj4gICBkcm0vaTkxNTogTmV2ZXIgc2V0IGxpbWl0ZWRfY29sb3JfcmFuZ2U9dHJ1ZSBmb3IgWUNi
-Q3Igb3V0cHV0Cj4gICBkcm0vaTkxNTogRG9uJ3QgbG9vayBhdCB1bnJlbGF0ZWQgUElQRUNPTkYg
-Yml0cyBmb3IgaW50ZXJsYWNlZCByZWFkb3V0Cj4gICBkcm0vaTkxNTogU2ltcGxpZnkgaW50ZWxf
-Z2V0X2NydGNfeWNiY3JfY29uZmlnKCkKPiAgIGRybS9pOTE1OiBBZGQgUElQRUNPTkYgWUNiQ3Ig
-NDo0OjQgcHJvZ3JhbW1pbmcgZm9yIEhTVwo+ICAgZHJtL2k5MTU6IERvY3VtZW50IElMSysgcGlw
-ZSBjc2MgbWF0cml4IGJldHRlcgo+ICAgZHJtL2k5MTU6IFNldCB1cCBJTEsvU05CIGNzYyB1bml0
-IHByb3Blcmx5IGZvciBZQ2JDciBvdXRwdXQKPiAgIGRybS9pOTE1OiBBZGQgUElQRUNPTkYgWUNi
-Q3IgNDo0OjQgcHJvZ3JhbW1pbmcgZm9yIElMSy1JVkIKClRoZSByZXN0IHB1c2hlZCB0byBkaW5x
-LCB3aXRoIHR5cG9zIGZpeGVkLiBUaGFua3MgZm9yIHRoZSByZXZpZXcuCgo+IAo+ICBkcml2ZXJz
-L2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2NvbG9yLmMgICB8ICA1MSArKysrKystLQo+ICBk
-cml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RkaS5jICAgICB8ICAyOCArKystLQo+
-ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXkuYyB8IDEyMCArKysr
-KysrKysrKystLS0tLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAu
-YyAgICAgIHwgIDEwICsrCj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfaGRt
-aS5jICAgIHwgIDYxICsrKysrKystLS0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9yZWcu
-aCAgICAgICAgICAgICAgfCAgMzEgKystLS0KPiAgaW5jbHVkZS9kcm0vZHJtX2RwX2hlbHBlci5o
-ICAgICAgICAgICAgICAgICAgfCAgNDIgKysrKysrKwo+ICA3IGZpbGVzIGNoYW5nZWQsIDI0NyBp
-bnNlcnRpb25zKCspLCA5NiBkZWxldGlvbnMoLSkKPiAKPiAtLSAKPiAyLjIxLjAKCi0tIApWaWxs
-ZSBTeXJqw6Rsw6QKSW50ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVs
+
+--===============0296736884==
+Content-Type: multipart/alternative; boundary="15690067564.39520d2aF.23235"
+Content-Transfer-Encoding: 7bit
+
+
+--15690067564.39520d2aF.23235
+Date: Fri, 20 Sep 2019 19:12:36 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
+
+--- Comment #127 from Alex Deucher <alexdeucher@gmail.com> ---
+(In reply to Tom B from comment #15)
+> Have been running 5.0 since release without issue but upgraded this morni=
+ng
+> and got crashes as described here within a few seconds of boot.=20
+>
+
+Can you bisect between 5.0 and 5.1 and see what commit caused the regressio=
+n?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15690067564.39520d2aF.23235
+Date: Fri, 20 Sep 2019 19:12:36 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c127">Comm=
+ent # 127</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
+com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
+</span></b>
+        <pre>(In reply to Tom B from <a href=3D"show_bug.cgi?id=3D110674#c1=
+5">comment #15</a>)
+<span class=3D"quote">&gt; Have been running 5.0 since release without issu=
+e but upgraded this morning
+&gt; and got crashes as described here within a few seconds of boot. </span=
+ >
+&gt;
+
+Can you bisect between 5.0 and 5.1 and see what commit caused the regressio=
+n?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15690067564.39520d2aF.23235--
+
+--===============0296736884==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0296736884==--
