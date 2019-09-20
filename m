@@ -2,41 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A40DB8DFB
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2019 11:46:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1736B8E00
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2019 11:47:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B7CB6FC61;
-	Fri, 20 Sep 2019 09:46:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B18C26FC62;
+	Fri, 20 Sep 2019 09:47:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A80426FC61
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2019 09:46:42 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi
- [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 670A62F9;
- Fri, 20 Sep 2019 11:46:40 +0200 (CEST)
-Date: Fri, 20 Sep 2019 12:46:21 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Xin Ji <xji@analogixsemi.com>
-Subject: Re: [PATCH v1 1/2] dt-bindings: drm/bridge: anx7625: MIPI to DP
- transmitter binding
-Message-ID: <20190920094621.GA12950@pendragon.ideasonboard.com>
-References: <cover.1568957788.git.xji@analogixsemi.com>
- <606dba07640f0c9aba930e1dfb5d6a797f393ecc.1568957789.git.xji@analogixsemi.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A3EB36FC62
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2019 09:47:39 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 7B57572167; Fri, 20 Sep 2019 09:47:39 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111755] WARNING: CPU: 9 PID: 2908 at
+ drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_hwseq.c:1942
+ dcn20_setup_gsl_group_as_lock+0x94/0x220 [amdgpu]
+Date: Fri, 20 Sep 2019 09:47:39 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: stijn+bugs@linux-ipv6.be
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111755-502-yhGSiHV0Qe@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111755-502@http.bugs.freedesktop.org/>
+References: <bug-111755-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <606dba07640f0c9aba930e1dfb5d6a797f393ecc.1568957789.git.xji@analogixsemi.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1568972800;
- bh=bRLmjbhnSSP0moxtZ17hSqVSQInW7dHhJDatUnBMgi8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Lu8pZWubSJdCU1gSJfa5CiuZFmhlKfyPIWdZXnvUfksOgqDWy4/CeHnJJwnhIrY1a
- xkvLkVlfDzJhf7sbvbgvVp/IvsKQwAvECXx0yn+nFDRR+ZiDwC1r8+kKrqdQIHtmk8
- 6AAo75lBu2Qz8cMrrrGJPh1kPK4cFPCqtHktqoRc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,112 +54,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Sheng Pan <span@analogixsemi.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1700800896=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGVsbG8gWGluIEppLAoKVGhhbmsgeW91IGZvciB0aGUgcGF0Y2guCgpPbiBGcmksIFNlcCAyMCwg
-MjAxOSBhdCAwNjowNTowM0FNICswMDAwLCBYaW4gSmkgd3JvdGU6Cj4gVGhlIEFOWDc2MjUgaXMg
-YW4gdWx0cmEtbG93IHBvd2VyIDRLIE1vYmlsZSBIRCBUcmFuc21pdHRlciBkZXNpZ25lZAo+IGZv
-ciBwb3J0YWJsZSBkZXZpY2UuIEl0IGNvbnZlcnRzIE1JUEkgdG8gRGlzcGxheVBvcnQgMS4zIDRL
-LgoKSSBhc3N1bWUgeW91IG1lYW50IE1JUEkgRFNJID8gTUlQSSBoYXMgcmVsZWFzZWQgbW9yZSBz
-dGFuZGFyZHMgdGhhbiBEU0ksCnNvIGl0IGRvZXNuJ3QgaHVydCB0byBzcGVjaWZ5IHRoaXMgZXhw
-bGljaXRseS4KCkFjY29yZGluZyB0bwpodHRwczovL3d3dy5hbmFsb2dpeC5jb20vZW4vc3lzdGVt
-L2ZpbGVzL0FBLTAwMjI5MS1QQi02LUFOWDc2MjVfUHJvZHVjdEJyaWVmXzAucGRmLAp0aGUgQU5Y
-NzYyNSBzdXBwb3J0cyBmb3IgTUlQSSBEU0kgYW5kIERQSSBvbiB0aGUgaW5wdXQgc2lkZS4KRnVy
-dGhlcm1vcmUsIGl0IHNlZW1zIHRvIG91dHB1dCBEaXNwbGF5UG9ydCBvbiBVU0IgVHlwZS1DLiBT
-aG91bGQgdGhpcwpiZSBkb2N1bWVudGVkID8KCj4gWW91IGNhbiBhZGQgc3VwcG9ydCB0byB5b3Vy
-IGJvYXJkIHdpdGggYmluZGluZy4KPiAKPiBFeGFtcGxlOgo+IAlhbnhfYnJpZGdlOiBhbng3NjI1
-QDU4IHsKPiAJCWNvbXBhdGlibGUgPSAiYW5hbG9naXgsYW54NzYyNSI7Cj4gCQlyZWcgPSA8MHg1
-OD47Cj4gCQlsb3ctcG93ZXItbW9kZSA9IDwxPjsKPiAJCWRzaS1zdXBwb3J0ZWQgPSA8MT47Cj4g
-CQlkc2ktY2hhbm5lbC1pZCA9IDwxPjsKPiAJCWRzaS1sYW5lcy1udW0gPSA8ND47Cj4gCQlpbnRl
-cm5hbC1wYW5uZWwtc3VwcG9ydGVkID0gPDE+Owo+IAkJcG9uLWdwaW9zID0gPCZncGlvMCA0NSBH
-UElPX0FDVElWRV9MT1c+Owo+IAkJcmVzZXQtZ3Bpb3MgPSA8JmdwaW8wIDczIEdQSU9fQUNUSVZF
-X0xPVz47Cj4gCQlzdGF0dXMgPSAib2theSI7Cj4gCQlwb3J0IHsKPiAJCQlhbng3NjI1XzFfaW46
-IGVuZHBvaW50IHsKPiAJCQkJcmVtb3RlLWVuZHBvaW50ID0gPCZtaXBpX2RzaV9icmlkZ2VfMT47
-Cj4gCQkJfTsKPiAJCX07Cj4gCX07Cj4gCj4gU2lnbmVkLW9mZi1ieTogWGluIEppIDx4amlAYW5h
-bG9naXhzZW1pLmNvbT4KPiAtLS0KPiAgLi4uL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL2FueDc2
-MjUueWFtbCAgICAgICAgICAgfCA4NCArKysrKysrKysrKysrKysrKysrKysrCj4gIDEgZmlsZSBj
-aGFuZ2VkLCA4NCBpbnNlcnRpb25zKCspCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0
-aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvYW54NzYyNS55YW1sCj4gCj4g
-ZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2Jy
-aWRnZS9hbng3NjI1LnlhbWwgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlz
-cGxheS9icmlkZ2UvYW54NzYyNS55YW1sCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQKPiBpbmRleCAw
-MDAwMDAwLi45NWZlMThiCj4gLS0tIC9kZXYvbnVsbAo+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2
-aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9hbng3NjI1LnlhbWwKPiBAQCAtMCwwICsx
-LDg0IEBACj4gKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IChHUEwtMi4wIE9SIEJTRC0yLUNs
-YXVzZSkKPiArIyBDb3B5cmlnaHQgMjAxOSBBbmFsb2dpeCBTZW1pY29uZHVjdG9yLCBJbmMuCj4g
-KyVZQU1MIDEuMgo+ICstLS0KPiArJGlkOiAiaHR0cDovL2RldmljZXRyZWUub3JnL3NjaGVtYXMv
-ZGlzcGxheS9icmlkZ2UvYW54NzYyNS55YW1sIyIKPiArJHNjaGVtYTogImh0dHA6Ly9kZXZpY2V0
-cmVlLm9yZy9tZXRhLXNjaGVtYXMvY29yZS55YW1sIyIKPiArCj4gK3RpdGxlOiBBbmFsb2dpeCBB
-Tlg3NjI1IFNsaW1Qb3J0ICg0SyBNb2JpbGUgSEQgVHJhbnNtaXR0ZXIpCj4gKwo+ICttYWludGFp
-bmVyczoKPiArICAtIFhpbiBKaSA8eGppQGFuYWxvZ2l4c2VtaS5jb20+Cj4gKwo+ICtkZXNjcmlw
-dGlvbjogfAo+ICsgIFRoZSBBTlg3NjI1IGlzIGFuIHVsdHJhLWxvdyBwb3dlciA0SyBNb2JpbGUg
-SEQgVHJhbnNtaXR0ZXIKPiArICBkZXNpZ25lZCBmb3IgcG9ydGFibGUgZGV2aWNlcy4KPiArCj4g
-K3Byb3BlcnRpZXM6Cj4gKyAgY29tcGF0aWJsZToKPiArICAgIGl0ZW1zOgo+ICsgICAgICAtIGNv
-bnN0OiBhbmFsb2dpeCxhbng3NjI1Cj4gKwo+ICsgIHJlZzoKPiArICAgIG1heEl0ZW1zOiAxCj4g
-Kwo+ICsgIGxvdy1wb3dlci1ncGlvczoKPiArICAgIGRlc2NyaXB0aW9uOiBMb3cgcG93ZXIgbW9k
-ZSBzdXBwb3J0IGZlYXR1cmUKPiArICAgIG1heEl0ZW1zOiAxCj4gKwo+ICsgIGhwZC1ncGlvczoK
-PiArICAgIGRlc2NyaXB0aW9uOiB1c2VkIGZvciBIUEQgaW50ZXJydXB0Cj4gKyAgICBtYXhJdGVt
-czogMQo+ICsKPiArICBwb24tZ3Bpb3M6Cj4gKyAgICBkZXNjcmlwdGlvbjogdXNlZCBmb3IgcG93
-ZXIgb24gY2hpcCBjb250cm9sCj4gKyAgICBtYXhJdGVtczogMQo+ICsKPiArICByZXNldC1ncGlv
-czoKPiArICAgIGRlc2NyaXB0aW9uOiB1c2VkIGZvciByZXNldCBjaGlwIGNvbnRyb2wKPiArICAg
-IG1heEl0ZW1zOiAxCgpIb3cgYWJvdXQgbWVudGlvbmluZyB3aGljaCBwaW4gb2YgdGhlIEFOWDc2
-MjUgZWFjaCBHUElPIHJlZmVycyB0byA/IEZvcgp0aGUgbG93LXBvd2VyLCBwb24gYW5kIHJlc2V0
-IEdQSU9zIEkgYXNzdW1lIHRoZXkgZGlyZWN0bHkgY29udHJvbCB0aGUKY2hpcC4gV2UgaGF2ZSBz
-dGFuZGFyZCBuYW1lcyBmb3Igc29tZSBHUElPcywgc3VjaCBhcyByZXNldCBvciBlbmFibGUuIElz
-CnRoZXJlIG9uZSBvZiB0aGUgbG93LXBvd2VyIGFuZCBwb24gR1BJT3MgdGhhdCB3b3VsZCBxdWFs
-aWZ5IGFzIGFuIGVuYWJsZQpzaWduYWwgPwoKV2hhdCBpcyB0aGUgSFBEIEdQSU8gZm9yID8gRG9l
-cyB0aGUgY2hpcCBvdXRwdXQgYW5kIEhQRCBzaWduYWwgPwoKPiArCj4gKyAgZXh0Y29uLXN1cHBv
-cnRlZDoKPiArICAgIGRlc2NyaXB0aW9uOiBleHRlcm5hbCBjb25uZWN0b3IgaW50ZXJmYWNlIHN1
-cHBvcnQgZmxhZwo+ICsgICAgJHJlZjogL3NjaGVtYXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMv
-dWludDMyCj4gKwo+ICsgIGludGVybmFsLXBhbm5lbC1zdXBwb3J0ZWQ6Cj4gKyAgICBkZXNjcmlw
-dGlvbjogaW5kaWNhdGUgZG9lcyBpbnRlcm5hbCBwYW5uZWwgZXhpc3Qgb3Igbm90Cj4gKyAgICAk
-cmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50MzIKCnMvcGFubmVsL3Bh
-bmVsLwoKQXJlIHRob3NlIHR3byBwcm9wZXJ0aWVzIG11dHVhbGx5IGV4Y2x1c2l2ZSA/IElmIHNv
-IHlvdSBzaG91bGQgY29tYmluZQp0aGVtIGluIGEgc2luZ2xlIHJlcXVpcmVkIHByb3BlcnR5IHdp
-dGggdHdvIHZhbHVlcy4gTXkgZmVlbGluZyBpcyB0aGF0CnRoZXkgc2hvdWxkIGJlIGRyb3BwZWQg
-dGhvdWdoLCBwbGVhc2Ugc2VlIGJlbG93LgoKPiArCj4gKyAgZHNpLXN1cHBvcnRlZDoKPiArICAg
-IGRlc2NyaXB0aW9uOiBzdXBwb3J0IE1JUEkgRFNJIG9yIERQSQo+ICsgICAgJHJlZjogL3NjaGVt
-YXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDMyCj4gKwo+ICsgIGRzaS1jaGFubmVsLWlk
-Ogo+ICsgICAgZGVzY3JpcHRpb246IGRzaSBjaGFubmVsIGluZGV4Cj4gKyAgICAkcmVmOiAvc2No
-ZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50MzIKClRoaXMgZG9lcyBub3QgYmVsb25n
-IHRvIERULCB0aGUgdmlydHVhbCBjaGFubmVsIHVzZWQgYnkgdGhlIERTSSBzb3VyY2UKc2hvdWxk
-IGJlIHF1ZXJpZWQgYXQgcnVudGltZSBieSBjb21tdW5pY2F0aW5nIGJldHdlZW4gZHJpdmVycy4K
-Cj4gKwo+ICsgIGRzaS1sYW5lcy1udW06Cj4gKyAgICBkZXNjcmlwdGlvbjogZHNpIGxhbmVzIHVz
-ZWQgbnVtCj4gKyAgICAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50
-MzIKClBsZWFzZSB1c2UgdGhlIHN0YW5kYXJkIGRhdGEtbGFuZXMgcHJvcGVydHkgYXMgZGVmaW5l
-ZCBpbgp2aWRlby1pbnRlcmZhY2UudHh0LiBJdCBzaG91bGQgYmUgc3BlY2lmaWVkIGluIHRoZSBE
-U0kgZW5kcG9pbnRzLgoKPiArCj4gKyAgcG9ydEAwOgo+ICsgICAgdHlwZTogb2JqZWN0Cj4gKyAg
-ICBkZXNjcmlwdGlvbjoKPiArICAgICAgQSBwb3J0IG5vZGUgcG9pbnRpbmcgdG8gTUlQSSBEU0kg
-aG9zdCBwb3J0IG5vZGUuCgpZb3UgbmVlZCBhdCBsZWFzdCAzIHBvcnRzOgoKLSBhIERQSSBpbnB1
-dCBwb3J0Ci0gYSBEU0kgaW5wdXQgcG9ydAotIGFuIG91dHB1dCBwb3J0CgpUaGUgZHNpLXN1cHBv
-cnRlZCBwcm9wZXJ0eSBzaG91bGQgYmUgZHJvcHBlZCwgZGV0ZWN0aW5nIHRoZSB0eXBlIG9mCmlu
-cHV0IHNob3VsZCBiZSBkb25lIGJhc2VkIG9uIHdoaWNoIG9mIHRoZSBEUEkgb3IgRFNJIGlucHV0
-IHBvcnQgaXMKY29ubmVjdGVkLgoKQXNzdW1pbmcgdGhlIEFOWDc2MjUgY2FuIGFsc28gb3V0cHV0
-IERpc3BsYXlQb3J0IGRpcmVjdGx5IHdpdGhvdXQgZ29pbmcKdGhyb3VnaCBVU0IgVHlwZS1DIChJ
-IGNhbid0IHZlcmlmeSB0aGF0IHdpdGhvdXQgdGhlIGRhdGFzaGVldCksIEkgdGhpbmsKeW91IHNo
-b3VsZCB1c2UgdHdvIG91dHB1dCBwb3J0cywgb25lIGZvciBVU0IgVHlwZS1DIGFuZCBvbmUgZm9y
-CkRpc3BsYXlQb3J0LiBUaGUgZXh0Y29uLXN1cHBvcnRlZCBhbmQgaW50ZXJuYWwtcGFubmVsLXN1
-cHBvcnRlZApwcm9wZXJ0aWVzIHNob3VsZCBiZSByZW1vdmVkLCBhbmQgZGVkdWNlZCBmcm9tIHRo
-ZSBjb25uZWN0IG91dHB1dCBwb3J0LgoKPiArCj4gK3JlcXVpcmVkOgo+ICsgIC0gY29tcGF0aWJs
-ZQo+ICsgIC0gcmVnCj4gKyAgLSBkc2ktY2hhbm5lbC1pZAo+ICsgIC0gZHNpLWxhbmVzLW51bQo+
-ICsgIC0gcG9ydEAwCj4gKwo+ICtleGFtcGxlOgo+ICsgIC0gfAo+ICsgICAgYW54X2JyaWRnZTog
-YW54NzYyNUA1OCB7Cj4gKyAgICAgICAgY29tcGF0aWJsZSA9ICJhbmFsb2dpeCxhbng3NjI1IjsK
-PiArICAgICAgICByZWcgPSA8MHg1OD47Cj4gKyAgICAgICAgbG93LXBvd2VyLWdwaW9zID0gPDA+
-Owo+ICsgICAgICAgIGRzaS1zdXBwb3J0ZWQgPSA8MT47Cj4gKyAgICAgICAgZHNpLWNoYW5uZWwt
-aWQgPSA8MT47Cj4gKyAgICAgICAgZHNpLWxhbmVzLW51bSA9IDw0PjsKPiArICAgICAgICBocGQt
-Z3Bpb3MgPSA8JmdwaW8xIDE5IElSUV9UWVBFX0xFVkVMX0xPVz47Cj4gKyAgICAgICAgc3RhdHVz
-ID0gIm9rYXkiOwo+ICsgICAgfTsKCllvdSBtZW50aW9uIHRoZSBwb3J0QDAgbm9kZSBhcyBiZWlu
-ZyByZXF1aXJlZCwgYnV0IGl0J3MgbWlzc2luZyBmcm9tIHRoZQpleGFtcGxlLgoKLS0gClJlZ2Fy
-ZHMsCgpMYXVyZW50IFBpbmNoYXJ0Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbA==
+
+--===============1700800896==
+Content-Type: multipart/alternative; boundary="15689728590.0058Cbd1.7907"
+Content-Transfer-Encoding: 7bit
+
+
+--15689728590.0058Cbd1.7907
+Date: Fri, 20 Sep 2019 09:47:39 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111755
+
+--- Comment #12 from Stijn Tintel <stijn+bugs@linux-ipv6.be> ---
+I noticed after creating the bug that I had the proprietary nvidia kernel
+modules loaded. I briefly used this card after my HD7970 died, until my new=
+ RX
+5700 XT arrived. This card is normally assigned to a Windows VM. To rule out
+that these nvidia modules cause any trouble, I removed them, rebooted, and
+within 2 minutes of uptime the warning appears again.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15689728590.0058Cbd1.7907
+Date: Fri, 20 Sep 2019 09:47:39 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - WARNING: CPU: 9 PID: 2908 at drivers/gpu/drm/amd/amdgpu/.=
+./display/dc/dcn20/dcn20_hwseq.c:1942 dcn20_setup_gsl_group_as_lock+0x94/0x=
+220 [amdgpu]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111755#c12">Comme=
+nt # 12</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - WARNING: CPU: 9 PID: 2908 at drivers/gpu/drm/amd/amdgpu/.=
+./display/dc/dcn20/dcn20_hwseq.c:1942 dcn20_setup_gsl_group_as_lock+0x94/0x=
+220 [amdgpu]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111755">bug 11175=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+stijn+bugs&#64;linux-ipv6.be" title=3D"Stijn Tintel &lt;stijn+bugs&#64;linu=
+x-ipv6.be&gt;"> <span class=3D"fn">Stijn Tintel</span></a>
+</span></b>
+        <pre>I noticed after creating the bug that I had the proprietary nv=
+idia kernel
+modules loaded. I briefly used this card after my HD7970 died, until my new=
+ RX
+5700 XT arrived. This card is normally assigned to a Windows VM. To rule out
+that these nvidia modules cause any trouble, I removed them, rebooted, and
+within 2 minutes of uptime the warning appears again.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15689728590.0058Cbd1.7907--
+
+--===============1700800896==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1700800896==--
