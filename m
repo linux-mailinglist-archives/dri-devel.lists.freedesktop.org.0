@@ -1,46 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D510B94D6
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2019 18:03:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3D9AB94E5
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2019 18:06:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81D706FD47;
-	Fri, 20 Sep 2019 16:03:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 218916FD50;
+	Fri, 20 Sep 2019 16:06:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id E8D3A6FD47
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2019 16:03:45 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id DFBD672167; Fri, 20 Sep 2019 16:03:45 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111077] link_shader and deserialize_glsl_program suddenly
- consume huge amount of RAM
-Date: Fri, 20 Sep 2019 16:03:46 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 18.3
-X-Bugzilla-Keywords: bisected
-X-Bugzilla-Severity: blocker
-X-Bugzilla-Who: roland@rptd.ch
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111077-502-NPHpC7ZLLO@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111077-502@http.bugs.freedesktop.org/>
-References: <bug-111077-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E6566FD50;
+ Fri, 20 Sep 2019 16:06:17 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2019 09:06:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,529,1559545200"; d="scan'208";a="178410120"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga007.jf.intel.com with SMTP; 20 Sep 2019 09:06:12 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 20 Sep 2019 19:06:12 +0300
+Date: Fri, 20 Sep 2019 19:06:12 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: [PATCH] video/hdmi: Fix AVI bar unpack
+Message-ID: <20190920160612.GB1208@intel.com>
+References: <20190919132853.30954-1-ville.syrjala@linux.intel.com>
+ <20190920145853.GA10973@ulmo>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190920145853.GA10973@ulmo>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,100 +47,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0030987110=="
+Cc: Mauro Carvalho Chehab <mchehab@osg.samsung.com>,
+ intel-gfx@lists.freedesktop.org, stable@vger.kernel.org,
+ Hans Verkuil <hans.verkuil@cisco.com>, dri-devel@lists.freedesktop.org,
+ Martin Bugge <marbugge@cisco.com>, Thierry Reding <treding@nvidia.com>,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0030987110==
-Content-Type: multipart/alternative; boundary="15689954250.2BDD.14871"
-Content-Transfer-Encoding: 7bit
-
-
---15689954250.2BDD.14871
-Date: Fri, 20 Sep 2019 16:03:45 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111077
-
---- Comment #45 from roland@rptd.ch <roland@rptd.ch> ---
-That was now really rude. Anyways. I'm interested in a solution, not discus=
-sion
-so I've pulled an apitrace of the situation. This does reproduce the proble=
-m.
-It's though 60M in size. Compressed it's 8M. Can I attach such a file here =
-or
-shall I put it on an external file host?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15689954250.2BDD.14871
-Date: Fri, 20 Sep 2019 16:03:45 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
- huge amount of RAM"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077#c45">Comme=
-nt # 45</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
- huge amount of RAM"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077">bug 11107=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-roland&#64;rptd.ch" title=3D"roland&#64;rptd.ch &lt;roland&#64;rptd.ch&gt;"=
-> <span class=3D"fn">roland&#64;rptd.ch</span></a>
-</span></b>
-        <pre>That was now really rude. Anyways. I'm interested in a solutio=
-n, not discussion
-so I've pulled an apitrace of the situation. This does reproduce the proble=
-m.
-It's though 60M in size. Compressed it's 8M. Can I attach such a file here =
-or
-shall I put it on an external file host?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15689954250.2BDD.14871--
-
---===============0030987110==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0030987110==--
+T24gRnJpLCBTZXAgMjAsIDIwMTkgYXQgMDQ6NTg6NTNQTSArMDIwMCwgVGhpZXJyeSBSZWRpbmcg
+d3JvdGU6Cj4gT24gVGh1LCBTZXAgMTksIDIwMTkgYXQgMDQ6Mjg6NTNQTSArMDMwMCwgVmlsbGUg
+U3lyamFsYSB3cm90ZToKPiA+IEZyb206IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBs
+aW51eC5pbnRlbC5jb20+Cj4gPiAKPiA+IFRoZSBiYXIgdmFsdWVzIGFyZSBsaXR0bGUgZW5kaWFu
+LCBub3QgYmlnIGVuZGlhbi4gVGhlIHBhY2sKPiA+IGZ1bmN0aW9uIGRpZCBpdCByaWdodCBidXQg
+dGhlIHVucGFjayBnb3QgaXQgd3JvbmcuIEZpeCBpdC4KPiA+IAo+ID4gQ2M6IHN0YWJsZUB2Z2Vy
+Lmtlcm5lbC5vcmcKPiA+IENjOiBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcKPiA+IENjOiBN
+YXJ0aW4gQnVnZ2UgPG1hcmJ1Z2dlQGNpc2NvLmNvbT4KPiA+IENjOiBIYW5zIFZlcmt1aWwgPGhh
+bnMudmVya3VpbEBjaXNjby5jb20+Cj4gPiBDYzogVGhpZXJyeSBSZWRpbmcgPHRyZWRpbmdAbnZp
+ZGlhLmNvbT4KPiA+IENjOiBNYXVybyBDYXJ2YWxobyBDaGVoYWIgPG1jaGVoYWJAb3NnLnNhbXN1
+bmcuY29tPgo+ID4gRml4ZXM6IDJjNjc2ZjM3OGVkYiAoIlttZWRpYV0gaGRtaTogYWRkZWQgdW5w
+YWNrIGFuZCBsb2dnaW5nIGZ1bmN0aW9ucyBmb3IgSW5mb0ZyYW1lcyIpCj4gPiBTaWduZWQtb2Zm
+LWJ5OiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+ID4g
+LS0tCj4gPiAgZHJpdmVycy92aWRlby9oZG1pLmMgfCA4ICsrKystLS0tCj4gPiAgMSBmaWxlIGNo
+YW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKPiAKPiBSZXZpZXdlZC1ieTog
+VGhpZXJyeSBSZWRpbmcgPHRyZWRpbmdAbnZpZGlhLmNvbT4KClRoYW5rcy4gUHVzaGVkIHRvIGRy
+bS1taXNjLW5leHQuCgotLSAKVmlsbGUgU3lyasOkbMOkCkludGVsCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
