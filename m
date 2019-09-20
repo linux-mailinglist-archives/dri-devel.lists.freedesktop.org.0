@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A8F5B95D5
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2019 18:37:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C56D5B95DC
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2019 18:38:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2982B6FD65;
-	Fri, 20 Sep 2019 16:37:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62F136FD68;
+	Fri, 20 Sep 2019 16:38:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1D31D6FD68
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2019 16:37:38 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 60B316FD69
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2019 16:38:52 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 17F6872167; Fri, 20 Sep 2019 16:37:38 +0000 (UTC)
+ id 5E11D72167; Fri, 20 Sep 2019 16:38:52 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111759] [navi10] computer hang ring sdma1 timeout
-Date: Fri, 20 Sep 2019 16:37:38 +0000
+Subject: [Bug 111555] [amdgpu/Navi] [powerplay] Failed to send message errors
+Date: Fri, 20 Sep 2019 16:38:52 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pierre-eric.pelloux-prayer@amd.com
+X-Bugzilla-Who: shtetldik@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111759-502-BJkBPehIbM@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111759-502@http.bugs.freedesktop.org/>
-References: <bug-111759-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111555-502-16idXxcipL@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111555-502@http.bugs.freedesktop.org/>
+References: <bug-111555-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,40 +52,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0070264788=="
+Content-Type: multipart/mixed; boundary="===============1615646873=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0070264788==
-Content-Type: multipart/alternative; boundary="15689974580.8AA89.22844"
+--===============1615646873==
+Content-Type: multipart/alternative; boundary="15689975322.39608.22672"
 Content-Transfer-Encoding: 7bit
 
 
---15689974580.8AA89.22844
-Date: Fri, 20 Sep 2019 16:37:38 +0000
+--15689975322.39608.22672
+Date: Fri, 20 Sep 2019 16:38:52 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111759
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111555
 
---- Comment #1 from Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@=
-amd.com> ---
-See also https://bugs.freedesktop.org/show_bug.cgi?id=3D111481 were similar
-issues were reported.
-
-For now, it seems that the only reliable workaround is to use the Mesa
-environment variable "AMD_DEBUG=3Dnodma".
+--- Comment #6 from Shmerl <shtetldik@gmail.com> ---
+Just for the reference, my connection is DisplayPort 1.2.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15689974580.8AA89.22844
-Date: Fri, 20 Sep 2019 16:37:38 +0000
+--15689975322.39608.22672
+Date: Fri, 20 Sep 2019 16:38:52 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -101,29 +96,19 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - [navi10] computer hang ring sdma1 timeout"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111759#c1">Commen=
-t # 1</a>
+   title=3D"NEW - [amdgpu/Navi] [powerplay] Failed to send message errors"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111555#c6">Commen=
+t # 6</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - [navi10] computer hang ring sdma1 timeout"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111759">bug 11175=
-9</a>
+   title=3D"NEW - [amdgpu/Navi] [powerplay] Failed to send message errors"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111555">bug 11155=
+5</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-pierre-eric.pelloux-prayer&#64;amd.com" title=3D"Pierre-Eric Pelloux-Prayer=
- &lt;pierre-eric.pelloux-prayer&#64;amd.com&gt;"> <span class=3D"fn">Pierre=
--Eric Pelloux-Prayer</span></a>
+shtetldik&#64;gmail.com" title=3D"Shmerl &lt;shtetldik&#64;gmail.com&gt;"> =
+<span class=3D"fn">Shmerl</span></a>
 </span></b>
-        <pre>See also <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"show_bug.cgi?id=3D111481">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D111481</a> were similar
-issues were reported.
-
-For now, it seems that the only reliable workaround is to use the Mesa
-environment variable &quot;AMD_DEBUG=3Dnodma&quot;.</pre>
+        <pre>Just for the reference, my connection is DisplayPort 1.2.</pre>
         </div>
       </p>
 
@@ -137,9 +122,9 @@ environment variable &quot;AMD_DEBUG=3Dnodma&quot;.</pre>
     </body>
 </html>=
 
---15689974580.8AA89.22844--
+--15689975322.39608.22672--
 
---===============0070264788==
+--===============1615646873==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -149,4 +134,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0070264788==--
+--===============1615646873==--
