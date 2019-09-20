@@ -1,26 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFC6FB8DAE
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2019 11:26:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2756CB8DB0
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2019 11:26:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6312A6FC41;
-	Fri, 20 Sep 2019 09:26:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 053866FC4F;
+	Fri, 20 Sep 2019 09:26:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 99E886FC41
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2019 09:26:35 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0128D6FC3E
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2019 09:26:52 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9524F72167; Fri, 20 Sep 2019 09:26:35 +0000 (UTC)
+ id F209572167; Fri, 20 Sep 2019 09:26:51 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111755] WARNING: CPU: 9 PID: 2908 at
  drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_hwseq.c:1942
  dcn20_setup_gsl_group_as_lock+0x94/0x220 [amdgpu]
-Date: Fri, 20 Sep 2019 09:26:35 +0000
+Date: Fri, 20 Sep 2019 09:26:52 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -36,7 +36,7 @@ X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111755-502-1I6MOSnbdu@http.bugs.freedesktop.org/>
+Message-ID: <bug-111755-502-DvyNYa7xo2@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111755-502@http.bugs.freedesktop.org/>
 References: <bug-111755-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -54,18 +54,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1758732296=="
+Content-Type: multipart/mixed; boundary="===============1090961164=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1758732296==
-Content-Type: multipart/alternative; boundary="15689715951.bC0ea.2195"
+--===============1090961164==
+Content-Type: multipart/alternative; boundary="15689716110.915C554f.3894"
 Content-Transfer-Encoding: 7bit
 
 
---15689715951.bC0ea.2195
-Date: Fri, 20 Sep 2019 09:26:35 +0000
+--15689716110.915C554f.3894
+Date: Fri, 20 Sep 2019 09:26:51 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -74,17 +74,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111755
 
---- Comment #6 from Stijn Tintel <stijn+bugs@linux-ipv6.be> ---
-Created attachment 145446
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145446&action=3Dedit
-sudo dmidecode > dmidecode.log
+--- Comment #7 from Stijn Tintel <stijn+bugs@linux-ipv6.be> ---
+Created attachment 145447
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145447&action=3Dedit
+uname -a > uname.a.log
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15689715951.bC0ea.2195
-Date: Fri, 20 Sep 2019 09:26:35 +0000
+--15689716110.915C554f.3894
+Date: Fri, 20 Sep 2019 09:26:51 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -103,8 +103,8 @@ Auto-Submitted: auto-generated
    title=3D"NEW - WARNING: CPU: 9 PID: 2908 at drivers/gpu/drm/amd/amdgpu/.=
 ./display/dc/dcn20/dcn20_hwseq.c:1942 dcn20_setup_gsl_group_as_lock+0x94/0x=
 220 [amdgpu]"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111755#c6">Commen=
-t # 6</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111755#c7">Commen=
+t # 7</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - WARNING: CPU: 9 PID: 2908 at drivers/gpu/drm/amd/amdgpu/.=
@@ -116,11 +116,11 @@ t # 6</a>
 stijn+bugs&#64;linux-ipv6.be" title=3D"Stijn Tintel &lt;stijn+bugs&#64;linu=
 x-ipv6.be&gt;"> <span class=3D"fn">Stijn Tintel</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145446=
-" name=3D"attach_145446" title=3D"sudo dmidecode &gt; dmidecode.log">attach=
-ment 145446</a> <a href=3D"attachment.cgi?id=3D145446&amp;action=3Dedit" ti=
-tle=3D"sudo dmidecode &gt; dmidecode.log">[details]</a></span>
-sudo dmidecode &gt; dmidecode.log</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145447=
+" name=3D"attach_145447" title=3D"uname -a &gt; uname.a.log">attachment 145=
+447</a> <a href=3D"attachment.cgi?id=3D145447&amp;action=3Dedit" title=3D"u=
+name -a &gt; uname.a.log">[details]</a></span>
+uname -a &gt; uname.a.log</pre>
         </div>
       </p>
 
@@ -134,9 +134,9 @@ sudo dmidecode &gt; dmidecode.log</pre>
     </body>
 </html>=
 
---15689715951.bC0ea.2195--
+--15689716110.915C554f.3894--
 
---===============1758732296==
+--===============1090961164==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -146,4 +146,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1758732296==--
+--===============1090961164==--
