@@ -1,42 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4CBFB921E
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2019 16:29:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A289B9392
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2019 16:59:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62A0B6FD10;
-	Fri, 20 Sep 2019 14:29:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 997246FD21;
+	Fri, 20 Sep 2019 14:58:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4723E6FD10;
- Fri, 20 Sep 2019 14:29:46 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2019 07:29:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,528,1559545200"; d="scan'208";a="271559200"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga001.jf.intel.com with SMTP; 20 Sep 2019 07:29:42 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 20 Sep 2019 17:29:41 +0300
-Date: Fri, 20 Sep 2019 17:29:41 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: "Mun, Gwan-gyeong" <gwan-gyeong.mun@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 10/12] drm/i915: Document ILK+ pipe csc
- matrix better
-Message-ID: <20190920142941.GA1208@intel.com>
-References: <20190718145053.25808-1-ville.syrjala@linux.intel.com>
- <20190718145053.25808-11-ville.syrjala@linux.intel.com>
- <d9b15be4584ac023148cffd199eda733583218bd.camel@intel.com>
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E390E6FD21;
+ Fri, 20 Sep 2019 14:58:56 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id i1so7092756wro.4;
+ Fri, 20 Sep 2019 07:58:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=YWSKJigIWyYHoT79ZbcIUltwc9MAequwzDfGlnQbW5U=;
+ b=PKv6oxYJuA9uVPmSaYm0CJN08wikVp3kFchTx9JD/auYH+yqgYyJVdBJbuFYjGeq/f
+ auXmclGu08ndQgqH+WNrU8Gg+EvDFBDRYROBRArEqWXYSlCTHay8t+iFdo+R5j8ncWSC
+ JjfDy5YszNIVMfGIneMXrcrJZgFN+Y5LPicm3ULr5Lrn2EnEkeKuMNCnDCeBBjthIB5J
+ Z15emrEt+zWyHTGKQ6zJYfWcmXnT7hVJHlRe4F/XMvLu2ATBqiMaJm1Bc2ISFOfh60Iy
+ Xg+nYnKBGQyzUwyT9rfp0NpEUOE1fOdz2RJN3DXxcGUcUltiJN9OFuslvXNnFKoGKqej
+ +Aig==
+X-Gm-Message-State: APjAAAVWAZ8MC12Gnl07qwEPGUPVVnm54RYWNoepUTRmWgDUDzwU5uSS
+ EiNPH8gGCG2sZ6HVoH8+bVQ=
+X-Google-Smtp-Source: APXvYqzLyvmfe7qpco90UOMZEgel6sIS3gbWfhbSHxmPnAQ7e84rS2QeY7RN5brumlGiWzjv6fN73Q==
+X-Received: by 2002:a5d:6451:: with SMTP id d17mr5255339wrw.260.1568991535483; 
+ Fri, 20 Sep 2019 07:58:55 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+ by smtp.gmail.com with ESMTPSA id b22sm2576487wmj.36.2019.09.20.07.58.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Sep 2019 07:58:54 -0700 (PDT)
+Date: Fri, 20 Sep 2019 16:58:53 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH] video/hdmi: Fix AVI bar unpack
+Message-ID: <20190920145853.GA10973@ulmo>
+References: <20190919132853.30954-1-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <d9b15be4584ac023148cffd199eda733583218bd.camel@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190919132853.30954-1-ville.syrjala@linux.intel.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=YWSKJigIWyYHoT79ZbcIUltwc9MAequwzDfGlnQbW5U=;
+ b=uVhp6vt+uznQ0uQ4BVjgiwDmBVR4W6a/fPzdJTsheAFQRNKsE/4BCDBpdjJ7z+jL7E
+ 94lJkoNWV2BmHAa2UHw0kAk0UKWZzvKHwfeL84aHU6Ah3RkjEn4hXXzfTRv/w4HCb5v8
+ PSnMPBQOtm5ANSeKWvGEZ31bMd/clPHtcCwGQOBuQ11+X75qYtqQDHamiM/3jnqHH5KE
+ rf8u+swWQeTJGeJE30jJ+xoLpgfSABdBiz4v9wg3Y2JDMh7r+/Uzmz54ieNa3NZJiA6s
+ nVQlfZ/xWXc9OozjIU6KJGx1nqslCpkCKPf0ulcRtMUfeq/RGXiBuRR4n1xYJdzoukf3
+ 1w7A==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,73 +67,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mauro Carvalho Chehab <mchehab@osg.samsung.com>,
+ intel-gfx@lists.freedesktop.org, stable@vger.kernel.org,
+ Hans Verkuil <hans.verkuil@cisco.com>, dri-devel@lists.freedesktop.org,
+ Martin Bugge <marbugge@cisco.com>, Thierry Reding <treding@nvidia.com>,
+ linux-media@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============1275260230=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBTZXAgMjAsIDIwMTkgYXQgMDI6MjQ6MzJQTSArMDAwMCwgTXVuLCBHd2FuLWd5ZW9u
-ZyB3cm90ZToKPiBPbiBUaHUsIDIwMTktMDctMTggYXQgMTc6NTAgKzAzMDAsIFZpbGxlIFN5cmph
-bGEgd3JvdGU6Cj4gPiBGcm9tOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXgu
-aW50ZWwuY29tPgo+ID4gCj4gPiBBZGQgY29tbWVudHMgdG8gZXhwbGFpbiB0aGUgaWxrIHBpcGUg
-Y3NjIG9wZXJhdGlvbiBhIGJpdCBiZXR0ZXIuCj4gPiAKPiA+IFNpZ25lZC1vZmYtYnk6IFZpbGxl
-IFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+Cj4gPiAtLS0KPiA+ICBk
-cml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2NvbG9yLmMgfCAyNiArKysrKysrKysr
-KysrKysrKy0tLQo+ID4gLS0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMjEgaW5zZXJ0aW9ucygrKSwg
-NSBkZWxldGlvbnMoLSkKPiA+IAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1
-L2Rpc3BsYXkvaW50ZWxfY29sb3IuYwo+ID4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5
-L2ludGVsX2NvbG9yLmMKPiA+IGluZGV4IDIzYTg0ZGQ3OTg5Zi4uNzM2YzQyNzIwZGFmIDEwMDY0
-NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9jb2xvci5jCj4g
-PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2NvbG9yLmMKPiA+IEBA
-IC00Miw2ICs0MiwyMSBAQAo+ID4gIAo+ID4gICNkZWZpbmUgTEVHQUNZX0xVVF9MRU5HVEgJCTI1
-Ngo+ID4gIAo+ID4gKy8qCj4gPiArICogSUxLKyBjc2MgbWF0cml4Ogo+ID4gKyAqCj4gPiArICog
-fFIvQ3J8ICAgfCBjMCBjMSBjMiB8ICAgKCB8Ui9DcnwgICB8cHJlb2ZmMHwgKSAgIHxwb3N0b2Zm
-MHwKPiA+ICsgKiB8Ry9ZIHwgPSB8IGMzIGM0IGM1IHwgeCAoIHxHL1kgfCArIHxwcmVvZmYxfCAp
-ICsgfHBvc3RvZmYxfAo+ID4gKyAqIHxCL0NifCAgIHwgYzYgYzcgYzggfCAgICggfEIvQ2J8ICAg
-fHByZW9mZjJ8ICkgICB8cG9zdG9mZjJ8Cj4gPiArICoKPiA+ICsgKiBJTEsvU05CIGRvbid0IGhh
-dmUgZXhwbGljaXQgcG9zdCBvZmZzZXRzLCBhbmQgaW5zdGVhZAo+ID4gKyAqIENTQ19NT0RFX1lV
-Vl9UT19SR0IgYW5kIENTQ19CTEFDS19TQ1JFRU5fT0ZGU0VUIGFyZSB1c2VkOgo+ID4gKyAqICBD
-U0NfTU9ERV9ZVVZfVE9fUkdCPTAgKyBDU0NfQkxBQ0tfU0NSRUVOX09GRlNFVD0wIC0+IDEvMiwg
-MCwgMS8yCj4gPiArICogIENTQ19NT0RFX1lVVl9UT19SR0I9MCArIENTQ19CTEFDS19TQ1JFRU5f
-T0ZGU0VUPTEgLT4gMS8yLCAxLzE2LAo+ID4gMS8yCj4gSXQgc2VlbXMgdGhhdCB0aGUgY2FsY3Vs
-YXRlZCB2YWx1ZXMgYXJlIGFzc3VtZXMgSVRVLVIgQlQuNzA5IHNwZWMsCj4gaWYgeW91IGRvbid0
-IG1pbmQsIGNhbiB3ZSBhZGQgc29tZSBjb21tZW50cyB3aGljaCBpcyBiYXNlZCBvbiBJVFUtUgo+
-IEJULjcwOT8KPiA+ICsgKiAgQ1NDX01PREVfWVVWX1RPX1JHQj0xICsgQ1NDX0JMQUNLX1NDUkVF
-Tl9PRkZTRVQ9MCAtPiAwLCAwLCAwCj4gPiArICogIENTQ19NT0RFX1lVVl9UT19SR0I9MSArIENT
-Q19CTEFDS19TQ1JFRU5fT0ZGU0VUPTEgLT4gMS8xNiwgMS8xNiwKPiA+IDEvMTYKPiA+ICsgKi8K
-PiA+ICsKPiA+ICAvKgo+ID4gICAqIEV4dHJhY3QgdGhlIENTQyBjb2VmZmljaWVudCBmcm9tIGEg
-Q1RNIGNvZWZmaWNpZW50IChpbiBVMzIuMzIKPiA+IGZpeGVkIHBvaW50Cj4gPiAgICogZm9ybWF0
-KS4gVGhpcyBtYWNybyB0YWtlcyB0aGUgY29lZmZpY2llbnQgd2Ugd2FudCB0cmFuc2Zvcm1lZCBh
-bmQKPiA+IHRoZQo+ID4gQEAgLTU5LDM3ICs3NCwzOCBAQAo+ID4gIAo+ID4gICNkZWZpbmUgSUxL
-X0NTQ19QT1NUT0ZGX0xJTUlURURfUkFOR0UgKDE2ICogKDEgPDwgMTIpIC8gMjU1KQo+ID4gIAo+
-ID4gKy8qIE5vcCBwcmUvcG9zdCBvZmZzZXRzICovCj4gPiAgc3RhdGljIGNvbnN0IHUxNiBpbGtf
-Y3NjX29mZl96ZXJvWzNdID0ge307Cj4gPiAgCj4gPiArLyogSWRlbnRpdHkgbWF0cml4ICovCj4g
-PiAgc3RhdGljIGNvbnN0IHUxNiBpbGtfY3NjX2NvZWZmX2lkZW50aXR5WzldID0gewo+ID4gIAlJ
-TEtfQ1NDX0NPRUZGXzFfMCwgMCwgMCwKPiA+ICAJMCwgSUxLX0NTQ19DT0VGRl8xXzAsIDAsCj4g
-PiAgCTAsIDAsIElMS19DU0NfQ09FRkZfMV8wLAo+ID4gIH07Cj4gPiAgCj4gPiArLyogTGltaXRl
-ZCByYW5nZSBSR0IgcG9zdCBvZmZzZXRzICovCj4gPiAgc3RhdGljIGNvbnN0IHUxNiBpbGtfY3Nj
-X3Bvc3RvZmZfbGltaXRlZF9yYW5nZVszXSA9IHsKPiA+ICAJSUxLX0NTQ19QT1NUT0ZGX0xJTUlU
-RURfUkFOR0UsCj4gPiAgCUlMS19DU0NfUE9TVE9GRl9MSU1JVEVEX1JBTkdFLAo+ID4gIAlJTEtf
-Q1NDX1BPU1RPRkZfTElNSVRFRF9SQU5HRSwKPiA+ICB9Owo+ID4gIAo+ID4gKy8qIEZ1bGwgcmFu
-Z2UgUkdCIC0+IGxpbWl0ZWQgcmFuZ2UgUkdCIG1hdHJpeCAqLwo+ID4gIHN0YXRpYyBjb25zdCB1
-MTYgaWxrX2NzY19jb2VmZl9saW1pdGVkX3JhbmdlWzldID0gewo+ID4gIAlJTEtfQ1NDX0NPRUZG
-X0xJTUlURURfUkFOR0UsIDAsIDAsCj4gPiAgCTAsIElMS19DU0NfQ09FRkZfTElNSVRFRF9SQU5H
-RSwgMCwKPiA+ICAJMCwgMCwgSUxLX0NTQ19DT0VGRl9MSU1JVEVEX1JBTkdFLAo+ID4gIH07Cj4g
-PiAgCj4gPiAtLyoKPiA+IC0gKiBUaGVzZSB2YWx1ZXMgYXJlIGRpcmVjdCByZWdpc3RlciB2YWx1
-ZXMgc3BlY2lmaWVkIGluIHRoZSBCc3BlYywKPiA+IC0gKiBmb3IgUkdCLT5ZVVYgY29udmVyc2lv
-biBtYXRyaXggKGNvbG9yc3BhY2UgQlQ3MDkpCj4gPiAtICovCj4gPiArLyogQlQuNzA5IGZ1bGwg
-cmFuZ2UgUkdCIC0+IGxpbWl0ZWQgcmFuZ2UgWUNiQ3IgbWF0cml4ICovCgpUaGUgY29tbWVudCBp
-cyBoZXJlIF4KCj4gPiAgc3RhdGljIGNvbnN0IHUxNiBpbGtfY3NjX2NvZWZmX3JnYl90b195Y2Jj
-cls5XSA9IHsKPiA+ICAJMHgxZTA4LCAweDljYzAsIDB4YjUyOCwKPiA+ICAJMHgyYmE4LCAweDA5
-ZDgsIDB4MzdlOCwKPiA+ICAJMHhiY2U4LCAweDlhZDgsIDB4MWUwOCwKPiA+ICB9Owo+ID4gIAo+
-ID4gLS8qIFBvc3Qgb2Zmc2V0IHZhbHVlcyBmb3IgUkdCLT5ZQ0JDUiBjb252ZXJzaW9uICovCj4g
-PiArLyogTGltaXRlZCByYW5nZSBZQ2JDciBwb3N0IG9mZnNldHMgKi8KPiA+ICBzdGF0aWMgY29u
-c3QgdTE2IGlsa19jc2NfcG9zdG9mZl9yZ2JfdG9feWNiY3JbM10gPSB7Cj4gPiAgCTB4MDgwMCwg
-MHgwMTAwLCAweDA4MDAsCj4gPiAgfTsKPiBUaGUgY2hhbmdlcyBsb29rIGdvb2QgdG8gbWUuCj4g
-UmV2aWV3ZWQtYnk6IEd3YW4tZ3llb25nIE11biA8Z3dhbi1neWVvbmcubXVuQGludGVsLmNvbT4K
-Ci0tIApWaWxsZSBTeXJqw6Rsw6QKSW50ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVs
+
+--===============1275260230==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="8t9RHnE3ZwKMSgU+"
+Content-Disposition: inline
+
+
+--8t9RHnE3ZwKMSgU+
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Sep 19, 2019 at 04:28:53PM +0300, Ville Syrjala wrote:
+> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+>=20
+> The bar values are little endian, not big endian. The pack
+> function did it right but the unpack got it wrong. Fix it.
+>=20
+> Cc: stable@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: Martin Bugge <marbugge@cisco.com>
+> Cc: Hans Verkuil <hans.verkuil@cisco.com>
+> Cc: Thierry Reding <treding@nvidia.com>
+> Cc: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
+> Fixes: 2c676f378edb ("[media] hdmi: added unpack and logging functions fo=
+r InfoFrames")
+> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> ---
+>  drivers/video/hdmi.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+
+Reviewed-by: Thierry Reding <treding@nvidia.com>
+
+--8t9RHnE3ZwKMSgU+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2E6SkACgkQ3SOs138+
+s6HXNA/+KeSBAey7HOIxjXzG1ATuVyYPEjR0QhVdOB5wRLb6n4mq2VmoGOuHWOET
+qJ5letIjaBdJvsBNrg/OTlPhUU+KrYSu22z7q6zmfPt6jF5qSWhSyd0X8TQsguGc
+Ga+J2EQkTnU7rRVXAMkTc9ZQuF8EpM993lbJLafeLvoEdJDmkABt5V2/TkfuqehU
+9FkyH+eLg/ScFkGzV/A0j/F+2nNEbLXsCn2ChxgDGI2NiUMBrz9VWRrrbp9P+RMl
+ZHoXFBLEp8CYXe9CzLiTnHpObuE6HEh1Rls1KDB7ol0FDF+JoJEs+jTzV90X83jW
+hGffs6RMV3ZndyL/lUEEhTTPqCnrpWH4Z2X0DtuH/HLGgkyPZ8MyRdNrlapi4Ffb
+uUYR8yotEMIXpxIm5hHGIu+uBaFNx33BQFd0cB2IecANMHctudR/Tik+0a6oqzPV
+B3OqVW4XQ2T4Fa1DlkcBowkynyWW9J4vIeZTxjudK6uQ9D0W2Fz4wZcYJPprdex6
+kMDsspZ3vCzQH2iURcnK6joImUcOQOckveO1XaEJ8OCs0zZch18wTBIy4Aog72mY
+aE3Nt45YatvxYZhpEq6L7G7i4dW5sMwtNxNraCAk4H6jO4HFmQCCG0D7kWe4KCno
+zU2QjNprjt06iyWQR+sjxcuKG0DFdwefaNjqBycCKynOgh6N2Y4=
+=6tSc
+-----END PGP SIGNATURE-----
+
+--8t9RHnE3ZwKMSgU+--
+
+--===============1275260230==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1275260230==--
