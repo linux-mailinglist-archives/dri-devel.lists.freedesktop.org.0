@@ -2,43 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49E55B9085
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2019 15:19:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B14DB90BC
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2019 15:37:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69FE76FCF6;
-	Fri, 20 Sep 2019 13:19:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5831A6FCFD;
+	Fri, 20 Sep 2019 13:37:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A12E76FCF6
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2019 13:19:10 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 882856FD04
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2019 13:37:11 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 84F3A72167; Fri, 20 Sep 2019 13:37:11 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204181] NULL pointer dereference regression in amdgpu
-Date: Fri, 20 Sep 2019 13:19:09 +0000
-X-Bugzilla-Reason: None
+Subject: [Bug 60879] [radeonsi] Tahiti LE: GFX block is not functional, CP is
+ okay
+Date: Fri, 20 Sep 2019 13:37:11 +0000
+X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: virtuousfox@gmail.com
-X-Bugzilla-Status: NEW
+X-Bugzilla-Severity: blocker
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: REOPENED
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-204181-2300-PAU61G93el@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204181-2300@https.bugzilla.kernel.org/>
-References: <bug-204181-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
+Message-ID: <bug-60879-502-yVGvreHi6Q@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-60879-502@http.bugs.freedesktop.org/>
+References: <bug-60879-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
- message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,38 +53,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1446393286=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQxODEKCi0tLSBD
-b21tZW50ICM1MCBmcm9tIFNlcmdleSBLb25kYWtvdiAodmlydHVvdXNmb3hAZ21haWwuY29tKSAt
-LS0KKEluIHJlcGx5IHRvIENocmlzdG9waGVyIFNub3doaWxsIGZyb20gY29tbWVudCAjNDkpCj4g
-UlggNDgwLiBBcHBsaWVkIHBhdGNoLCBoYXZlbid0IGhhZCBhbnkgc3B1cmlvdXMgY3Jhc2hlcyBz
-aW5jZS4gVXNpbmcKPiBwYXRjaHNldCBzaW5jZSBrZXJuZWwgNS4yLjE0LCBub3cgdXNpbmcgaXQg
-b24gNS4zLiBIYXZlbid0IGhhZCBhbnkKPiBzdXNwZW5kL3dha2UgY3Jhc2hlcyB5ZXQsIGVpdGhl
-ciwgYnV0IHRoYXQgbWF5IGJlIHVucmVsYXRlZC4KPiAKPiBXaWxsIGNvbnRpbnVlIGFwcGx5aW5n
-IGl0IHRvIHN1Y2Nlc3NpdmUgNS4zIGtlcm5lbHMgdW50aWwgaXQgaXMgb2ZmaWNpYWxseQo+IGJh
-Y2twb3J0ZWQsIGFuZCB3aWxsIHJlcG9ydCBpZiB0aGVyZSBhcmUgYW55IGZ1cnRoZXIgY3Jhc2hl
-cy4KCkkgYWxzbyBidWlsdCA1LjMgd2l0aCB0aGVzZSBwYXRjaGVzLCBhbG1vc3QganVzdCBhcyBp
-dCBjYW1lIG91dDoKaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3Nlcmllcy82NDUw
-NS8KaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3Nlcmllcy82NDYxNC8KaHR0cHM6
-Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3Nlcmllcy82NTE5Mi8KCk5vIGZhaWxzIG9uIFgx
-MSdzIGFtZGdwdSBzbyBmYXIgQlVUIEkndmUgY2hhbmdlZCBib3RoIFRlYXJGcmVlIGFuZAp2bV91
-cGRhdGVfbW9kZSBvcHRpb25zIHRvIGRlZmF1bHRzIChidXQgcGNpPWJpZ19yb290X3dpbmRvdyB0
-aGF0IG1ha2VzIEJBUj1WUkFNCmlzIHN0aWxsIGFjdGl2ZSksIHNvIGl0IG1heSBiZSBqdXN0IHdv
-cmtlZCBhcm91bmQgYW5kIG5vdCBjb21wbGV0ZWx5IGdvbmUsIHdpbGwKdHJ5IHZtX3VwZGF0ZV9t
-b2RlPTMgbGF0ZXIuIFdvdWxkIGJlIG5pY2UgdG8gaGF2ZSBzb21lIGNsdWUgYWJvdXQgd2hhdCB2
-bV8qCm9wdGlvbnMgYWN0dWFsbHkgZW50YWlsIGZvciBPcGVuQ0wsIGNvbXB1dGUtc2hhZGVyIGFu
-ZCBnZW5lcmFsIHJlbmRlcmluZwpwZXJmb3JtYW5jZS4gSSBqdXN0IHNldCB0aGVtIGZvciB3aGF0
-ZXZlciwgY29kZSBpbiBhbWRncHVfdm0uYyBnb2VzIGhpZ2ggYWJvdmUKbXkgaGVhZC4KCk1vZGVz
-ZXR0aW5nIFgxMSBkcml2ZXIgYmVoYXZlcyB3ZWlyZGx5IGZvciBtZTogZW5hYmxpbmcgUGFnZUZs
-aXAgaW4gaXQgc3RpbGwKZ2l2ZXMgbWUgZXJyb3JzIGFuZCBpbiBib3RoIGNhc2VzIGl0IGp1c3Qg
-ZHJhd3MgdGhlIGJsYWNrIHNjcmVlbiB3aXRoIG1vdmFibGUKY3Vyc29yIGFib3ZlIGl0IGluc3Rl
-YWQgb2Ygc2RkbSBncmVldC1zY3JlZW4uIEJ1dCBhbWRncHUgd29ya3MsIHNvLCBmaW5lLgoKLS0g
-CllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRo
-ZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWw=
+
+--===============1446393286==
+Content-Type: multipart/alternative; boundary="15689866317.8aCD8a09b.15988"
+Content-Transfer-Encoding: 7bit
+
+
+--15689866317.8aCD8a09b.15988
+Date: Fri, 20 Sep 2019 13:37:11 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D60879
+
+--- Comment #180 from Alex Deucher <alexdeucher@gmail.com> ---
+Does booting with pci=3Dnoats on the kernel command line in grub help?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15689866317.8aCD8a09b.15988
+Date: Fri, 20 Sep 2019 13:37:11 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - [radeonsi] Tahiti LE: GFX block is not functional, C=
+P is okay"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D60879#c180">Comme=
+nt # 180</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - [radeonsi] Tahiti LE: GFX block is not functional, C=
+P is okay"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D60879">bug 60879<=
+/a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
+com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
+</span></b>
+        <pre>Does booting with pci=3Dnoats on the kernel command line in gr=
+ub help?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15689866317.8aCD8a09b.15988--
+
+--===============1446393286==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1446393286==--
