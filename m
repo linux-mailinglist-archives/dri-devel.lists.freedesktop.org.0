@@ -1,57 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EF2CB885A
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2019 02:11:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58987B8895
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2019 02:34:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D7BC6F556;
-	Fri, 20 Sep 2019 00:11:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C928C6FC2C;
+	Fri, 20 Sep 2019 00:34:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF6176F556
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2019 00:11:22 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id q64so5287358ljb.12
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2019 17:11:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2QirEQc5qlamFBqqvxkVBnRarU/sj3bjs59u63W/8Eg=;
- b=ais4CwvmtanaJjAH8Hy6l27dr3tYiBzGT1hklxmQ0aAy/QKYvKzx+yb2AFdOuUAVGd
- 3LGLq+rc41PybO43k+lWDEnpbNUn57fyl5n3rwS1ZIzXEIxddo3HerdJC6epNGDRVv+2
- EDDRaYPmG15T0/C8GnOrFbv6ymdN5hLJQh1dSjgsmC6iYHMAybtca2pq9dKDXlVqZkhb
- DGuJGboxq9BDAJvgkhKO+mhwr6YbKIFkgqHRigJzgFEiF2O+J6nyRhWGo5L8zRK8qWi+
- Hizl96XpsrbM3EdxNNmbI+NwisLxv39OkW9HK0eBRLun4bdXaC66SxonkoIDnyaopng3
- xLtA==
-X-Gm-Message-State: APjAAAXjjFm6XdpBq0DVEquuex4umNRl0UbVvJq5C7T59mxVrgyab5fo
- tJ0YQNuGQYil5E3G2O1fecpAhoFSHXPvh7NGM2s=
-X-Google-Smtp-Source: APXvYqwySQBYWwyYZO8gF/0MYjFDLzMMeCGJIZyA0GeH0w63lVsIG0gF26wesF4EguvkavYeQxrt2HdHGcNDRXhw8FE=
-X-Received: by 2002:a2e:9708:: with SMTP id r8mr6797597lji.58.1568938281104;
- Thu, 19 Sep 2019 17:11:21 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 88B1D6FC20
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2019 00:34:30 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 857BE72167; Fri, 20 Sep 2019 00:34:30 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111234] amdgpu bug: kernel NULL pointer dereference during
+ video playback
+Date: Fri, 20 Sep 2019 00:34:30 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: jamespharvey20@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111234-502-v6l70pCaDC@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111234-502@http.bugs.freedesktop.org/>
+References: <bug-111234-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <CAPM=9txTjip6SonSATB-O38TGX9ituQaw+29PnAkNJ960R1z6g@mail.gmail.com>
- <CAHk-=wjHDrmx+Rj+oJw5V4mfWjpYzpwcJbqY-L-nvsNW_d8e_g@mail.gmail.com>
-In-Reply-To: <CAHk-=wjHDrmx+Rj+oJw5V4mfWjpYzpwcJbqY-L-nvsNW_d8e_g@mail.gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 20 Sep 2019 10:11:09 +1000
-Message-ID: <CAPM=9tzLFenqZQo_NQqKd5xPQ5g-5WY+JxTotL7AHk_+6S89ow@mail.gmail.com>
-Subject: Re: [git pull] drm tree for 5.4-rc1
-To: Linus Torvalds <torvalds@linux-foundation.org>, 
- Alexandre Courbot <acourbot@chromium.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=2QirEQc5qlamFBqqvxkVBnRarU/sj3bjs59u63W/8Eg=;
- b=LYxfejZOKW0piBxjokV7xP7MYnIEo2xpdVM8iwR8MuqG5goR+tjWkPo9hmpeR9rgPA
- VGl6j/WtDdCFJhjGvMYx1BO7MZ/BPNJQPD+GeQ0mnlxtL1p/2lR8UlhRdy9IwgC+rvny
- LcFHaYuW83/7yAlmN38bnVXUOUGbxKeVIcfAg9pQyRel3d7pUp+K6mTtDDpqdyPuqffC
- gQAVcwoQGGIOl97lImxNESJOUklXk/nPITTQ1CED+EqDxBZEIdNOKJ6wpJrV69XtieAV
- U4pBWv0YOWYzYUc0t+gipYOgNuAW+QJGDXa5u7kBcAmSUhYi0OEAo6lhLxoNyGuBBhBv
- Glhw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,38 +53,531 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1407094165=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PiBIbW0uIE15IG1lcmdlIGlzbid0IGlkZW50aWNhbCB0byB0aGF0LiBJdCdzIGNsb3NlIHRob3Vn
-aC4gRGlmZmVyZW50Cj4gb3JkZXIgZm9yIG9uZSAjZGVmaW5lIHdoaWNoIG1pZ2h0IGJlIGp1c3Qg
-ZnJvbSB5b3UgYW5kIG1lIG1lcmdpbmcKPiBkaWZmZXJlbnQgZGlyZWN0aW9ucy4KPgo+IEJ1dCBJ
-IGFsc28gZW5kZWQgdXAgcmVtb3ZpbmcgdGhlIC5nZW1fcHJpbWVfZXhwb3J0IGluaXRpYWxpemF0
-aW9uIHRvCj4gZHJtX2dlbV9wcmltZV9leHBvcnQsIGJlY2F1c2UgaXQncyB0aGUgZGVmYXVsdCBp
-ZiBub25lIGV4aXN0cy4gVGhhdCdzCj4gdGhlIGxlZnQtb3ZlciBmcm9tCj4KPiAgICAgM2JhZWVi
-MjE5ODNhICgiZHJtL210azogRHJvcCBkcm1fZ2VtX3ByaW1lX2V4cG9ydC9pbXBvcnQiKQo+Cj4g
-YWZ0ZXIgdGhlIGltcG9ydCBzdGF5ZWQgYXJvdW5kIGJlY2F1c2UgaXQgZ290IHR1cm5lZCBpbnRv
-IGFuIGFjdHVhbGx5Cj4gbm9uLWRlZmF1bHQgb25lLgo+Cj4gSSB0aGluayB0aGF0IGJvdGggb2Yg
-b3VyIG1lcmdlcyBhcmUgcmlnaHQgLSBlcXVpdmFsZW50IGJ1dCBqdXN0Cj4gc2xpZ2h0bHkgZGlm
-ZmVyZW50Lgo+Cj4gQnV0IHRoZSByZWFzb24gSSdtIHBvaW50aW5nIHRoaXMgb3V0IGlzIHRoYXQg
-SSBhbHNvIGdldCB0aGUgZmVlbGluZwo+IHRoYXQgaWYgaXQgbmVlZHMgdGhhdCBkZXYtPmRldl9w
-cml2YXRlIGRpZmZlcmVuY2UgZnJvbSB0aGUgZGVmYXVsdAo+IGZ1bmN0aW9uIGluIHByaW1lX2lt
-cG9ydCgpLCB3b3VsZG4ndCBpdCBuZWVkIHRoZSBzYW1lIGZvciBwcmltZV9leHBvcnQKPiB0b28/
-Cj4KPiBJIGRvbid0IGtub3cgdGhlIGNvZGUsIGFuZCBJIGRvbid0IGtub3cgdGhlIGhhcmR3YXJl
-LCBidXQganVzdCBmcm9tIGEKPiAicGF0dGVybiBtYXRjaGluZyIgYW5nbGUgSSBqdXN0IHdhbnRl
-ZCB0byBjaGVjayB3aGV0aGVyIG1heWJlIHRoZXJlJ3MKPiBuZWVkIGZvciBhIG10a19kcm1fZ2Vt
-X3ByaW1lX2V4cG9ydCgpIHdyYXBwZXIgdGhhdCBkb2VzIHRoYXQgc2FtZQo+IHRoaW5nIHdpdGgK
-Pgo+ICAgICAgICAgc3RydWN0IG10a19kcm1fcHJpdmF0ZSAqcHJpdmF0ZSA9IGRldi0+ZGV2X3By
-aXZhdGU7Cj4KPiAgICAgICAgIC4uIHVzZSBwcml2YXRlLT5kZXYgIGluc3RlYWQgb2YgZGV2LT5k
-ZXYgLi4KPgo+IFNvIEknbSBqdXN0IGFza2luZyB0aGF0IHNvbWVib2R5IHRoYXQga25vd3MgdGhh
-dCBkcm0vbXRrIGNvZGUgc2hvdWxkCj4gZG91YmxlLWNoZWNrIHRoYXQgb2RkaXR5LgoKSSd2ZSBj
-YydlZCBBbGV4YW5kcmUgd2hvIHdyb3RlIHRoZSBpbXBvcnQgaGFsZiBvZiB0aGlzIGNvZGUgdG8g
-bG9vayBpbnRvIGl0LgoKSSd2ZSBsb29rZWQgYXQgdGhlIG90aGVyIHJlc3VsdHMgYW5kIGl0IGFs
-bCBzZWVtcyBmaW5lIHRvIG1lLgoKRGF2ZS4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVs
+
+--===============1407094165==
+Content-Type: multipart/alternative; boundary="15689396701.42f304941.8572"
+Content-Transfer-Encoding: 7bit
+
+
+--15689396701.42f304941.8572
+Date: Fri, 20 Sep 2019 00:34:30 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111234
+
+--- Comment #4 from jamespharvey20@gmail.com ---
+Just ran into this for my first time.  I've had pretty consistent problems =
+with
+the potentially related bug that Nicholas Kazlauskas mentioned at
+https://bugzilla.kernel.org/show_bug.cgi?id=3D204181
+
+Could certainly be the same bug, but definitely has a different backtrace.
+
+Also running KDE, also running multi (5) monitor.
+
+Was on linux 5.2.10, mesa 19.1.6, plasma 5.16.4.
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+05:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] V=
+ega
+10 XL/XT [Radeon RX Vega 56/64] (rev c1) (prog-if 00 [VGA controller])
+        Subsystem: Advanced Micro Devices, Inc. [AMD/ATI] RX Vega64
+        Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr-
+Stepping- SERR- FastB2B- DisINTx+
+        Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=3Dfast >TAbort- <T=
+Abort-
+<MAbort- >SERR- <PERR- INTx-
+        Latency: 0, Cache Line Size: 64 bytes
+        Interrupt: pin A routed to IRQ 76
+        NUMA node: 0
+        Region 0: Memory at c0000000 (64-bit, prefetchable) [size=3D256M]
+        Region 2: Memory at d0000000 (64-bit, prefetchable) [size=3D2M]
+        Region 4: I/O ports at 8000 [size=3D256]
+        Region 5: Memory at dfb00000 (32-bit, non-prefetchable) [size=3D512=
+K]
+        Expansion ROM at 000c0000 [disabled] [size=3D128K]
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+[drm] amdgpu kernel modesetting enabled.
+fb0: switching to amdgpudrmfb from EFI VGA
+[drm] initializing kernel modesetting (VEGA10 0x1002:0x687F 0x1002:0x0B36
+0xC1).
+[drm] register mmio base: 0xDFB00000
+[drm] register mmio size: 524288
+[drm] add ip block number 0 <soc15_common>
+[drm] add ip block number 1 <gmc_v9_0>
+[drm] add ip block number 2 <vega10_ih>
+[drm] add ip block number 3 <psp>
+[drm] add ip block number 4 <gfx_v9_0>
+[drm] add ip block number 5 <sdma_v4_0>
+[drm] add ip block number 6 <powerplay>
+[drm] add ip block number 7 <dm>
+[drm] add ip block number 8 <uvd_v7_0>
+[drm] add ip block number 9 <vce_v4_0>
+[drm] UVD(0) is enabled in VM mode
+[drm] UVD(0) ENC is enabled in VM mode
+[drm] VCE enabled in VM mode
+[drm] RAS INFO: ras initialized successfully, hardware ability[0] ras_mask[=
+0]
+[drm] vm size is 262144 GB, 4 levels, block size is 9-bit, fragment size is
+9-bit
+[drm] Detected VRAM RAM=3D8176M, BAR=3D256M
+[drm] RAM width 2048bits HBM
+[drm] amdgpu: 8176M of VRAM memory ready
+[drm] amdgpu: 8176M of GTT memory ready.
+[drm] GART: num cpu pages 131072, num gpu pages 131072
+[drm] PCIE GART of 512M enabled (table at 0x000000F400900000).
+[drm] use_doorbell being set to: [true]
+[drm] use_doorbell being set to: [true]
+[drm] Found UVD firmware Version: 65.29 Family ID: 17
+[drm] PSP loading UVD firmware
+[drm] Found VCE firmware Version: 57.4 Binary ID: 4
+[drm] PSP loading VCE firmware
+[drm] reserve 0x400000 from 0xf401000000 for PSP TMR SIZE
+[drm] Display Core initialized with v3.2.27!
+[drm] DM_MST: Differing MST start on aconnector: (____ptrval____) [id: 59]
+[drm] DM_MST: Differing MST start on aconnector: (____ptrval____) [id: 62]
+[drm] DM_MST: Differing MST start on aconnector: (____ptrval____) [id: 65]
+[drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
+[drm] Driver supports precise vblank timestamp query.
+[drm] UVD and UVD ENC initialized successfully.
+[drm] VCE initialized successfully.
+[drm] Cannot find any crtc or sizes
+[drm] ECC is not present.
+[drm] SRAM ECC is not present.
+[drm] Initialized amdgpu 3.32.0 20150101 for 0000:05:00.0 on minor 0
+[drm] amdgpu_dm_irq_schedule_work FAILED src 8
+[drm] DM_MST: added connector: (____ptrval____) [id: 70] [master:
+(____ptrval____)]
+[drm] DM_MST: added connector: (____ptrval____) [id: 74] [master:
+(____ptrval____)]
+[drm] DM_MST: added connector: (____ptrval____) [id: 78] [master:
+(____ptrval____)]
+[drm] fb mappable at 0xC1400000
+[drm] vram apper at 0xC0000000
+[drm] size 14745600
+[drm] fb depth is 24
+[drm]    pitch is 10240
+fbcon: amdgpudrmfb (fb0) is primary device
+[drm] DM_MST: added connector: (____ptrval____) [id: 85] [master:
+(____ptrval____)]
+amdgpu 0000:05:00.0: fb0: amdgpudrmfb frame buffer device
+[drm] DM_MST: added connector: (____ptrval____) [id: 89] [master:
+(____ptrval____)]
+[drm] DM_MST: added connector: (____ptrval____) [id: 93] [master:
+(____ptrval____)]
+[drm] DM_MST: added connector: (____ptrval____) [id: 97] [master:
+(____ptrval____)]
+[drm] DM_MST: added connector: (____ptrval____) [id: 107] [master:
+(____ptrval____)]
+[drm] DM_MST: added connector: (____ptrval____) [id: 113] [master:
+(____ptrval____)]
+[drm] DM_MST: added connector: (____ptrval____) [id: 117] [master:
+(____ptrval____)]
+
+..........
+
+BUG: kernel NULL pointer dereference, address: 00000000000002b4
+#PF: supervisor read access in kernel mode
+#PF: error_code(0x0000) - not-present page
+PGD 0 P4D 0
+Oops: 0000 [#1] PREEMPT SMP PTI
+CPU: 1 PID: 2678499 Comm: kworker/u65:9 Tainted: G        W  OE=20=20=20=20
+5.2.11-arch1-1-ARCH #1
+Hardware name: To Be Filled By O.E.M. To Be Filled By O.E.M./EP2C602, BIOS
+P1.90 04/12/2018
+Workqueue: events_unbound commit_work [drm_kms_helper]
+RIP: 0010:dc_stream_log+0x6/0xb0 [amdgpu]
+Code: 04 00 00 49 8b bc 02 b0 02 00 00 48 8b 07 48 8b 40 50 e8 2d 3b 14 c9 =
+b8
+01 00 00 00 c3 0f 1f 80 00 00 00 00 66 66 66 66 90 53 <8b> 86 b4 02 00 00 4=
+8 89
+f3 48 89 f2 8b 8e 10 01 00 00 bf 04 00 00
+RSP: 0018:ffffa0c6a365faf8 EFLAGS: 00010202
+RAX: 0000000000000000 RBX: 0000000000000001 RCX: 0000000000000005
+RDX: ffffffffc0547710 RSI: 0000000000000000 RDI: ffff9a4bd62e5000
+RBP: ffff9a4483080000 R08: ffff9a4483080000 R09: 0000000000000000
+R10: ffff9a4483080000 R11: 0000000000000018 R12: ffff9a4bd62e5000
+R13: ffffa0c6a365fd58 R14: ffff9a4bd67dcff0 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff9a4bdf840000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000000002b4 CR3: 0000000ffbe76005 CR4: 00000000000626e0
+Call Trace:
+ dc_commit_state+0x99/0x580 [amdgpu]
+ amdgpu_dm_atomic_commit_tail+0xc5d/0x19a0 [amdgpu]
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x40/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x40/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x40/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x40/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x40/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x40/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x40/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x40/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x40/0x70
+ ? _raw_spin_unlock_irq+0x1d/0x30
+ ? finish_task_switch+0x84/0x2d0
+ ? preempt_schedule_common+0x32/0x80
+ ? commit_tail+0x3c/0x70 [drm_kms_helper]
+ commit_tail+0x3c/0x70 [drm_kms_helper]
+ process_one_work+0x1d1/0x3e0
+ worker_thread+0x4a/0x3d0
+ kthread+0xfb/0x130
+ ? process_one_work+0x3e0/0x3e0
+ ? kthread_park+0x80/0x80
+ ret_from_fork+0x35/0x40
+Modules linked in: netlink_diag uas usb_storage xt_CHECKSUM xt_MASQUERADE
+xt_conntrack ipt_REJECT nf_reject_ipv4 xt_tcpudp iptable_mangle iptable_nat
+nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ebtable_filter ebtables
+ip6_tables iptable_filter tun rpcsec_gss_krb5 auth_rpcgss nfsv4 dns_resolver
+nfs lockd grace fscache ib_isert iscsi_target_mod msr ib_srpt nct6775 hwmon=
+_vid
+target_core_mod ib_srp scsi_transport_srp rpcrdma sunrpc rdma_ucm ib_iser
+rdma_cm ib_umad iw_cm
+ib_ipoib libiscsi scsi_transport_iscsi ib_cm mlx4_ib ib_uverbs mlx4_en ib_c=
+ore
+nls_iso8859_1 nls_cp437 vfat fat ipmi_ssif intel_rapl sb_edac
+x86_pkg_temp_thermal intel_powerclamp coretemp kvm_intel snd_hda_codec_real=
+tek
+snd_hda_codec_generic ledtrig_audio kvm snd_hda_codec_hdmi snd_hda_intel br=
+idge
+snd_hda_codec snd_hda_core stp irqbypass llc intel_cstate snd_hwdep snd_pcm
+iTCO_wdt iTCO_vendor_support snd_timer mousedev input_leds joydev pcspkr
+intel_uncore ipmi_si mlx4_core mei_me e1000e snd ioatdma
+ ipmi_devintf i2c_i801 pcc_cpufreq intel_rapl_perf lpc_ich mei soundcore dca
+wmi ipmi_msghandler evdev mac_hid vmmon(OE) vmw_vmci vboxnetflt(OE)
+vboxnetadp(OE) vboxpci(OE) vboxdrv(OE) sg crypto_user ip_tables x_tables bt=
+rfs
+xor raid6_pq dm_thin_pool dm_persistent_data dm_bio_prison dm_bufio libcrc3=
+2c
+crc32c_generic hid_generic usbhid hid sr_mod cdrom sd_mod dm_crypt dm_mod
+crct10dif_pclmul crc32_pclmul crc32c_intel ghash_clmulni_intel isci aesni_i=
+ntel
+libsas ahci aes_x86_64 crypto_simd scsi_transport_sas libahci cryptd
+glue_helper libata ehci_pci scsi_mod ehci_hcd amdgpu gpu_sched i2c_algo_bit=
+ ttm
+drm_kms_helper syscopyarea sysfillrect sysimgblt fb_sys_fops drm agpgart
+CR2: 00000000000002b4
+---[ end trace 2c71b3abb2d778a6 ]---
+RIP: 0010:dc_stream_log+0x6/0xb0 [amdgpu]
+Code: 04 00 00 49 8b bc 02 b0 02 00 00 48 8b 07 48 8b 40 50 e8 2d 3b 14 c9 =
+b8
+01 00 00 00 c3 0f 1f 80 00 00 00 00 66 66 66 66 90 53 <8b> 86 b4 02 00 00 4=
+8 89
+f3 48 89 f2 8b 8e 10 01 00 00 bf 04 00 00
+RSP: 0018:ffffa0c6a365faf8 EFLAGS: 00010202
+RAX: 0000000000000000 RBX: 0000000000000001 RCX: 0000000000000005
+RDX: ffffffffc0547710 RSI: 0000000000000000 RDI: ffff9a4bd62e5000
+RBP: ffff9a4483080000 R08: ffff9a4483080000 R09: 0000000000000000
+R10: ffff9a4483080000 R11: 0000000000000018 R12: ffff9a4bd62e5000
+R13: ffffa0c6a365fd58 R14: ffff9a4bd67dcff0 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff9a4bdf840000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000000002b4 CR3: 0000000ffbe76005 CR4: 00000000000626e0
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15689396701.42f304941.8572
+Date: Fri, 20 Sep 2019 00:34:30 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu bug: kernel NULL pointer dereference during video =
+playback"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111234#c4">Commen=
+t # 4</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu bug: kernel NULL pointer dereference during video =
+playback"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111234">bug 11123=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+jamespharvey20&#64;gmail.com" title=3D"jamespharvey20&#64;gmail.com">jamesp=
+harvey20&#64;gmail.com</a>
+</span></b>
+        <pre>Just ran into this for my first time.  I've had pretty consist=
+ent problems with
+the potentially related bug that Nicholas Kazlauskas mentioned at
+<a href=3D"https://bugzilla.kernel.org/show_bug.cgi?id=3D204181">https://bu=
+gzilla.kernel.org/show_bug.cgi?id=3D204181</a>
+
+Could certainly be the same bug, but definitely has a different backtrace.
+
+Also running KDE, also running multi (5) monitor.
+
+Was on linux 5.2.10, mesa 19.1.6, plasma 5.16.4.
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+05:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] V=
+ega
+10 XL/XT [Radeon RX Vega 56/64] (rev c1) (prog-if 00 [VGA controller])
+        Subsystem: Advanced Micro Devices, Inc. [AMD/ATI] RX Vega64
+        Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr-
+Stepping- SERR- FastB2B- DisINTx+
+        Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=3Dfast &gt;TAbort-=
+ &lt;TAbort-
+&lt;MAbort- &gt;SERR- &lt;PERR- INTx-
+        Latency: 0, Cache Line Size: 64 bytes
+        Interrupt: pin A routed to IRQ 76
+        NUMA node: 0
+        Region 0: Memory at c0000000 (64-bit, prefetchable) [size=3D256M]
+        Region 2: Memory at d0000000 (64-bit, prefetchable) [size=3D2M]
+        Region 4: I/O ports at 8000 [size=3D256]
+        Region 5: Memory at dfb00000 (32-bit, non-prefetchable) [size=3D512=
+K]
+        Expansion ROM at 000c0000 [disabled] [size=3D128K]
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+[drm] amdgpu kernel modesetting enabled.
+fb0: switching to amdgpudrmfb from EFI VGA
+[drm] initializing kernel modesetting (VEGA10 0x1002:0x687F 0x1002:0x0B36
+0xC1).
+[drm] register mmio base: 0xDFB00000
+[drm] register mmio size: 524288
+[drm] add ip block number 0 &lt;soc15_common&gt;
+[drm] add ip block number 1 &lt;gmc_v9_0&gt;
+[drm] add ip block number 2 &lt;vega10_ih&gt;
+[drm] add ip block number 3 &lt;psp&gt;
+[drm] add ip block number 4 &lt;gfx_v9_0&gt;
+[drm] add ip block number 5 &lt;sdma_v4_0&gt;
+[drm] add ip block number 6 &lt;powerplay&gt;
+[drm] add ip block number 7 &lt;dm&gt;
+[drm] add ip block number 8 &lt;uvd_v7_0&gt;
+[drm] add ip block number 9 &lt;vce_v4_0&gt;
+[drm] UVD(0) is enabled in VM mode
+[drm] UVD(0) ENC is enabled in VM mode
+[drm] VCE enabled in VM mode
+[drm] RAS INFO: ras initialized successfully, hardware ability[0] ras_mask[=
+0]
+[drm] vm size is 262144 GB, 4 levels, block size is 9-bit, fragment size is
+9-bit
+[drm] Detected VRAM RAM=3D8176M, BAR=3D256M
+[drm] RAM width 2048bits HBM
+[drm] amdgpu: 8176M of VRAM memory ready
+[drm] amdgpu: 8176M of GTT memory ready.
+[drm] GART: num cpu pages 131072, num gpu pages 131072
+[drm] PCIE GART of 512M enabled (table at 0x000000F400900000).
+[drm] use_doorbell being set to: [true]
+[drm] use_doorbell being set to: [true]
+[drm] Found UVD firmware Version: 65.29 Family ID: 17
+[drm] PSP loading UVD firmware
+[drm] Found VCE firmware Version: 57.4 Binary ID: 4
+[drm] PSP loading VCE firmware
+[drm] reserve 0x400000 from 0xf401000000 for PSP TMR SIZE
+[drm] Display Core initialized with v3.2.27!
+[drm] DM_MST: Differing MST start on aconnector: (____ptrval____) [id: 59]
+[drm] DM_MST: Differing MST start on aconnector: (____ptrval____) [id: 62]
+[drm] DM_MST: Differing MST start on aconnector: (____ptrval____) [id: 65]
+[drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
+[drm] Driver supports precise vblank timestamp query.
+[drm] UVD and UVD ENC initialized successfully.
+[drm] VCE initialized successfully.
+[drm] Cannot find any crtc or sizes
+[drm] ECC is not present.
+[drm] SRAM ECC is not present.
+[drm] Initialized amdgpu 3.32.0 20150101 for 0000:05:00.0 on minor 0
+[drm] amdgpu_dm_irq_schedule_work FAILED src 8
+[drm] DM_MST: added connector: (____ptrval____) [id: 70] [master:
+(____ptrval____)]
+[drm] DM_MST: added connector: (____ptrval____) [id: 74] [master:
+(____ptrval____)]
+[drm] DM_MST: added connector: (____ptrval____) [id: 78] [master:
+(____ptrval____)]
+[drm] fb mappable at 0xC1400000
+[drm] vram apper at 0xC0000000
+[drm] size 14745600
+[drm] fb depth is 24
+[drm]    pitch is 10240
+fbcon: amdgpudrmfb (fb0) is primary device
+[drm] DM_MST: added connector: (____ptrval____) [id: 85] [master:
+(____ptrval____)]
+amdgpu 0000:05:00.0: fb0: amdgpudrmfb frame buffer device
+[drm] DM_MST: added connector: (____ptrval____) [id: 89] [master:
+(____ptrval____)]
+[drm] DM_MST: added connector: (____ptrval____) [id: 93] [master:
+(____ptrval____)]
+[drm] DM_MST: added connector: (____ptrval____) [id: 97] [master:
+(____ptrval____)]
+[drm] DM_MST: added connector: (____ptrval____) [id: 107] [master:
+(____ptrval____)]
+[drm] DM_MST: added connector: (____ptrval____) [id: 113] [master:
+(____ptrval____)]
+[drm] DM_MST: added connector: (____ptrval____) [id: 117] [master:
+(____ptrval____)]
+
+..........
+
+BUG: kernel NULL pointer dereference, address: 00000000000002b4
+#PF: supervisor read access in kernel mode
+#PF: error_code(0x0000) - not-present page
+PGD 0 P4D 0
+Oops: 0000 [#1] PREEMPT SMP PTI
+CPU: 1 PID: 2678499 Comm: kworker/u65:9 Tainted: G        W  OE=20=20=20=20
+5.2.11-arch1-1-ARCH #1
+Hardware name: To Be Filled By O.E.M. To Be Filled By O.E.M./EP2C602, BIOS
+P1.90 04/12/2018
+Workqueue: events_unbound commit_work [drm_kms_helper]
+RIP: 0010:dc_stream_log+0x6/0xb0 [amdgpu]
+Code: 04 00 00 49 8b bc 02 b0 02 00 00 48 8b 07 48 8b 40 50 e8 2d 3b 14 c9 =
+b8
+01 00 00 00 c3 0f 1f 80 00 00 00 00 66 66 66 66 90 53 &lt;8b&gt; 86 b4 02 0=
+0 00 48 89
+f3 48 89 f2 8b 8e 10 01 00 00 bf 04 00 00
+RSP: 0018:ffffa0c6a365faf8 EFLAGS: 00010202
+RAX: 0000000000000000 RBX: 0000000000000001 RCX: 0000000000000005
+RDX: ffffffffc0547710 RSI: 0000000000000000 RDI: ffff9a4bd62e5000
+RBP: ffff9a4483080000 R08: ffff9a4483080000 R09: 0000000000000000
+R10: ffff9a4483080000 R11: 0000000000000018 R12: ffff9a4bd62e5000
+R13: ffffa0c6a365fd58 R14: ffff9a4bd67dcff0 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff9a4bdf840000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000000002b4 CR3: 0000000ffbe76005 CR4: 00000000000626e0
+Call Trace:
+ dc_commit_state+0x99/0x580 [amdgpu]
+ amdgpu_dm_atomic_commit_tail+0xc5d/0x19a0 [amdgpu]
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x40/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x40/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x40/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x40/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x40/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x40/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x40/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x40/0x70
+ ? __switch_to_asm+0x34/0x70
+ ? __switch_to_asm+0x40/0x70
+ ? _raw_spin_unlock_irq+0x1d/0x30
+ ? finish_task_switch+0x84/0x2d0
+ ? preempt_schedule_common+0x32/0x80
+ ? commit_tail+0x3c/0x70 [drm_kms_helper]
+ commit_tail+0x3c/0x70 [drm_kms_helper]
+ process_one_work+0x1d1/0x3e0
+ worker_thread+0x4a/0x3d0
+ kthread+0xfb/0x130
+ ? process_one_work+0x3e0/0x3e0
+ ? kthread_park+0x80/0x80
+ ret_from_fork+0x35/0x40
+Modules linked in: netlink_diag uas usb_storage xt_CHECKSUM xt_MASQUERADE
+xt_conntrack ipt_REJECT nf_reject_ipv4 xt_tcpudp iptable_mangle iptable_nat
+nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ebtable_filter ebtables
+ip6_tables iptable_filter tun rpcsec_gss_krb5 auth_rpcgss nfsv4 dns_resolver
+nfs lockd grace fscache ib_isert iscsi_target_mod msr ib_srpt nct6775 hwmon=
+_vid
+target_core_mod ib_srp scsi_transport_srp rpcrdma sunrpc rdma_ucm ib_iser
+rdma_cm ib_umad iw_cm
+ib_ipoib libiscsi scsi_transport_iscsi ib_cm mlx4_ib ib_uverbs mlx4_en ib_c=
+ore
+nls_iso8859_1 nls_cp437 vfat fat ipmi_ssif intel_rapl sb_edac
+x86_pkg_temp_thermal intel_powerclamp coretemp kvm_intel snd_hda_codec_real=
+tek
+snd_hda_codec_generic ledtrig_audio kvm snd_hda_codec_hdmi snd_hda_intel br=
+idge
+snd_hda_codec snd_hda_core stp irqbypass llc intel_cstate snd_hwdep snd_pcm
+iTCO_wdt iTCO_vendor_support snd_timer mousedev input_leds joydev pcspkr
+intel_uncore ipmi_si mlx4_core mei_me e1000e snd ioatdma
+ ipmi_devintf i2c_i801 pcc_cpufreq intel_rapl_perf lpc_ich mei soundcore dca
+wmi ipmi_msghandler evdev mac_hid vmmon(OE) vmw_vmci vboxnetflt(OE)
+vboxnetadp(OE) vboxpci(OE) vboxdrv(OE) sg crypto_user ip_tables x_tables bt=
+rfs
+xor raid6_pq dm_thin_pool dm_persistent_data dm_bio_prison dm_bufio libcrc3=
+2c
+crc32c_generic hid_generic usbhid hid sr_mod cdrom sd_mod dm_crypt dm_mod
+crct10dif_pclmul crc32_pclmul crc32c_intel ghash_clmulni_intel isci aesni_i=
+ntel
+libsas ahci aes_x86_64 crypto_simd scsi_transport_sas libahci cryptd
+glue_helper libata ehci_pci scsi_mod ehci_hcd amdgpu gpu_sched i2c_algo_bit=
+ ttm
+drm_kms_helper syscopyarea sysfillrect sysimgblt fb_sys_fops drm agpgart
+CR2: 00000000000002b4
+---[ end trace 2c71b3abb2d778a6 ]---
+RIP: 0010:dc_stream_log+0x6/0xb0 [amdgpu]
+Code: 04 00 00 49 8b bc 02 b0 02 00 00 48 8b 07 48 8b 40 50 e8 2d 3b 14 c9 =
+b8
+01 00 00 00 c3 0f 1f 80 00 00 00 00 66 66 66 66 90 53 &lt;8b&gt; 86 b4 02 0=
+0 00 48 89
+f3 48 89 f2 8b 8e 10 01 00 00 bf 04 00 00
+RSP: 0018:ffffa0c6a365faf8 EFLAGS: 00010202
+RAX: 0000000000000000 RBX: 0000000000000001 RCX: 0000000000000005
+RDX: ffffffffc0547710 RSI: 0000000000000000 RDI: ffff9a4bd62e5000
+RBP: ffff9a4483080000 R08: ffff9a4483080000 R09: 0000000000000000
+R10: ffff9a4483080000 R11: 0000000000000018 R12: ffff9a4bd62e5000
+R13: ffffa0c6a365fd58 R14: ffff9a4bd67dcff0 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff9a4bdf840000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000000002b4 CR3: 0000000ffbe76005 CR4: 00000000000626e0</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15689396701.42f304941.8572--
+
+--===============1407094165==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1407094165==--
