@@ -2,51 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F0CCB9063
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2019 15:09:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49E55B9085
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2019 15:19:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 383D36FCF0;
-	Fri, 20 Sep 2019 13:09:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69FE76FCF6;
+	Fri, 20 Sep 2019 13:19:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D77A6FCF0;
- Fri, 20 Sep 2019 13:09:54 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8KD9jpd085449;
- Fri, 20 Sep 2019 08:09:45 -0500
-Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8KD9jAe061131
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 20 Sep 2019 08:09:45 -0500
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 20
- Sep 2019 08:09:45 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Fri, 20 Sep 2019 08:09:40 -0500
-Received: from [10.250.98.129] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8KD9h06040282;
- Fri, 20 Sep 2019 08:09:44 -0500
-To: <matthew.d.roper@intel.com>, <maarten.lankhorst@linux.intel.com>
-From: Jean-Jacques Hiblot <jjhiblot@ti.com>
-Subject: status of the " CRTC background color" series
-Message-ID: <66150ac8-9e39-51b8-58ef-11d713802433@ti.com>
-Date: Fri, 20 Sep 2019 15:09:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A12E76FCF6
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2019 13:19:10 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 204181] NULL pointer dereference regression in amdgpu
+Date: Fri, 20 Sep 2019 13:19:09 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: virtuousfox@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-204181-2300-PAU61G93el@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204181-2300@https.bugzilla.kernel.org/>
+References: <bug-204181-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ti.com; s=ti-com-17Q1; t=1568984985;
- bh=KvyN3bWylofs/5bYuHF+N0AXlQwm45KM1KvJPeYIb/4=;
- h=To:CC:From:Subject:Date;
- b=bTTS4KNNS68PyhYdXb9AeimJ9V/hmQP90/iYdJQ/XsYvspNzqqFk2g1BaYrmOx31H
- EhgRLljjsD6h6H+jjAvCg2VagoEhWLeH+H0OAzILmBTV6kfe9d6+fITNaaS13HTS25
- fPz8XsMyPnh/qyCGXdx2hlTq8fLmtXra4JgJTH7s=
+X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
+ message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,15 +51,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, "Valkeinen, Tomi" <tomi.valkeinen@ti.com>,
- dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgYWxsLAoKQW55IHVwZGF0ZSBvbiB0aGlzIHNlcmllcyA/IExhc3QgdGltZSBJIGxvb2tlZCwg
-ZXZlcnl0aGluZyBsb29rZWQgcmVhZHkgCmFuZCB3YWl0aW5nIHRvIGJlIG1lcmdlZC4KCkpKCgoK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQxODEKCi0tLSBD
+b21tZW50ICM1MCBmcm9tIFNlcmdleSBLb25kYWtvdiAodmlydHVvdXNmb3hAZ21haWwuY29tKSAt
+LS0KKEluIHJlcGx5IHRvIENocmlzdG9waGVyIFNub3doaWxsIGZyb20gY29tbWVudCAjNDkpCj4g
+UlggNDgwLiBBcHBsaWVkIHBhdGNoLCBoYXZlbid0IGhhZCBhbnkgc3B1cmlvdXMgY3Jhc2hlcyBz
+aW5jZS4gVXNpbmcKPiBwYXRjaHNldCBzaW5jZSBrZXJuZWwgNS4yLjE0LCBub3cgdXNpbmcgaXQg
+b24gNS4zLiBIYXZlbid0IGhhZCBhbnkKPiBzdXNwZW5kL3dha2UgY3Jhc2hlcyB5ZXQsIGVpdGhl
+ciwgYnV0IHRoYXQgbWF5IGJlIHVucmVsYXRlZC4KPiAKPiBXaWxsIGNvbnRpbnVlIGFwcGx5aW5n
+IGl0IHRvIHN1Y2Nlc3NpdmUgNS4zIGtlcm5lbHMgdW50aWwgaXQgaXMgb2ZmaWNpYWxseQo+IGJh
+Y2twb3J0ZWQsIGFuZCB3aWxsIHJlcG9ydCBpZiB0aGVyZSBhcmUgYW55IGZ1cnRoZXIgY3Jhc2hl
+cy4KCkkgYWxzbyBidWlsdCA1LjMgd2l0aCB0aGVzZSBwYXRjaGVzLCBhbG1vc3QganVzdCBhcyBp
+dCBjYW1lIG91dDoKaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3Nlcmllcy82NDUw
+NS8KaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3Nlcmllcy82NDYxNC8KaHR0cHM6
+Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3Nlcmllcy82NTE5Mi8KCk5vIGZhaWxzIG9uIFgx
+MSdzIGFtZGdwdSBzbyBmYXIgQlVUIEkndmUgY2hhbmdlZCBib3RoIFRlYXJGcmVlIGFuZAp2bV91
+cGRhdGVfbW9kZSBvcHRpb25zIHRvIGRlZmF1bHRzIChidXQgcGNpPWJpZ19yb290X3dpbmRvdyB0
+aGF0IG1ha2VzIEJBUj1WUkFNCmlzIHN0aWxsIGFjdGl2ZSksIHNvIGl0IG1heSBiZSBqdXN0IHdv
+cmtlZCBhcm91bmQgYW5kIG5vdCBjb21wbGV0ZWx5IGdvbmUsIHdpbGwKdHJ5IHZtX3VwZGF0ZV9t
+b2RlPTMgbGF0ZXIuIFdvdWxkIGJlIG5pY2UgdG8gaGF2ZSBzb21lIGNsdWUgYWJvdXQgd2hhdCB2
+bV8qCm9wdGlvbnMgYWN0dWFsbHkgZW50YWlsIGZvciBPcGVuQ0wsIGNvbXB1dGUtc2hhZGVyIGFu
+ZCBnZW5lcmFsIHJlbmRlcmluZwpwZXJmb3JtYW5jZS4gSSBqdXN0IHNldCB0aGVtIGZvciB3aGF0
+ZXZlciwgY29kZSBpbiBhbWRncHVfdm0uYyBnb2VzIGhpZ2ggYWJvdmUKbXkgaGVhZC4KCk1vZGVz
+ZXR0aW5nIFgxMSBkcml2ZXIgYmVoYXZlcyB3ZWlyZGx5IGZvciBtZTogZW5hYmxpbmcgUGFnZUZs
+aXAgaW4gaXQgc3RpbGwKZ2l2ZXMgbWUgZXJyb3JzIGFuZCBpbiBib3RoIGNhc2VzIGl0IGp1c3Qg
+ZHJhd3MgdGhlIGJsYWNrIHNjcmVlbiB3aXRoIG1vdmFibGUKY3Vyc29yIGFib3ZlIGl0IGluc3Rl
+YWQgb2Ygc2RkbSBncmVldC1zY3JlZW4uIEJ1dCBhbWRncHUgd29ya3MsIHNvLCBmaW5lLgoKLS0g
+CllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRo
+ZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
+by9kcmktZGV2ZWw=
