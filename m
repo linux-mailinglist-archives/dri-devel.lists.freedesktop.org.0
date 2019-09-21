@@ -1,59 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA622BA251
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2019 14:06:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24B9EBA22D
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2019 14:04:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0EE56E876;
-	Sun, 22 Sep 2019 12:04:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53A1A6E061;
+	Sun, 22 Sep 2019 12:04:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com
- [IPv6:2607:f8b0:4864:20::749])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9938B6E04A
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2019 07:55:16 +0000 (UTC)
-Received: by mail-qk1-x749.google.com with SMTP id z128so11003432qke.8
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2019 00:55:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=kn+0r7CDFmPHQws2Z+HRgp03O+EE7Nh4RU07v5olnXQ=;
- b=WT7ZEkkHthQbKqyQHJmFYLSTKD/7Ze4FdOr9gcli9oieVF/T5qNuRKV7riJCbpDayK
- fJSyN63vozVAyESiyXv239XvsvN/GT2hbeOvBNFyM1E7eM6k49xfTw7uu+l6p3wwafFR
- jmHe9zPavn+acQokjbtdO+hWgpILfNM+lRt38vgQLtMux0NxRE9sMjaKX9hSsJVulItc
- nTx7km9yCTY9C7rZHO2VO8lKx9+x3NpI+gxEFXJYV845gBzpEWN6I27SVp5svOMYMyXB
- hyz7q1h7Xqc1BOuvKWCU2ghiusnFOIJw6/+ZUc3sYdBuNSnP9DEE+9P5bm88Eor0KUMl
- Gs9A==
-X-Gm-Message-State: APjAAAVAo1+vBkx+cze8WZlTqPh00qi6R5R9/izBRmBtU1qJ5zgScmlJ
- 0pRdEO3OQjGMed2Y6Rs0e3vRYxH0FsgSSznz3MYeUA==
-X-Google-Smtp-Source: APXvYqxDY0icLnRBjQzpPrC2KX5LTAhxTzeIRmFru7uDlGKy4Wngq/ktxjMPqmMLb+o3CaD2oHpzsIcm5TdDnm45dj3Qvw==
-X-Received: by 2002:a63:1521:: with SMTP id v33mr18113645pgl.9.1569025197473; 
- Fri, 20 Sep 2019 17:19:57 -0700 (PDT)
-Date: Fri, 20 Sep 2019 17:18:55 -0700
-In-Reply-To: <20190921001855.200947-1-brendanhiggins@google.com>
-Message-Id: <20190921001855.200947-20-brendanhiggins@google.com>
-Mime-Version: 1.0
-References: <20190921001855.200947-1-brendanhiggins@google.com>
-X-Mailer: git-send-email 2.23.0.351.gc4317032e6-goog
-Subject: [PATCH v17 19/19] kunit: fix failure to build without printk
-From: Brendan Higgins <brendanhiggins@google.com>
-To: frowand.list@gmail.com, gregkh@linuxfoundation.org, jpoimboe@redhat.com, 
- keescook@google.com, kieran.bingham@ideasonboard.com, mcgrof@kernel.org, 
- peterz@infradead.org, robh@kernel.org, sboyd@kernel.org, shuah@kernel.org, 
- tytso@mit.edu, yamada.masahiro@socionext.com
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20161025;
- h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc;
- bh=kn+0r7CDFmPHQws2Z+HRgp03O+EE7Nh4RU07v5olnXQ=;
- b=T5BJ/ml3LmuSG+0CXgZ8AJ4j+ss53JBL9GLtI0JFOUlGqadAvbBeWprW/AZkGqKCkX
- kH+CCd6NWp3Jc3Dfsrn04uqLh+OXRFB5zLZdmf4yr8rM8h51oQXGDsRMbm8jN3H9V5zX
- GFJWUdCh7XpjZFKeURyr4AhYaUOz3icGzKQtJGa/bJLEcLQ8lSP+JOdUcG0G7cZFHXGv
- dVFAxS5LFG5hd2y1mAiuV01DaT+IAC1LFJtip0AfhTTHgImrEAmywOPQNFd4CneHS5e3
- 5UihKl1AsamI2RQwYXwnS/5b5Msk2ZUnIIMIqklrqQvUzuMyaxR/3Ep8jdJC34ay8XwI
- wOSg==
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DF6FC6E0A5
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2019 06:55:15 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 8BF8E721A2; Sat, 21 Sep 2019 02:05:52 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
+Date: Sat, 21 Sep 2019 02:05:52 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: ilvipero@gmx.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109955-502-cbsa9o0eey@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
+References: <bug-109955-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,124 +52,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>, pmladek@suse.com,
- linux-doc@vger.kernel.org, amir73il@gmail.com,
- Brendan Higgins <brendanhiggins@google.com>, dri-devel@lists.freedesktop.org,
- Alexander.Levin@microsoft.com, linux-kselftest@vger.kernel.org,
- Stephen Rothwell <sfr@canb.auug.org.au>, linux-nvdimm@lists.01.org,
- khilman@baylibre.com, knut.omang@oracle.com, wfg@linux.intel.com,
- joel@jms.id.au, rientjes@google.com, jdike@addtoit.com,
- dan.carpenter@oracle.com, devicetree@vger.kernel.org,
- linux-kbuild@vger.kernel.org, Tim.Bird@sony.com, linux-um@lists.infradead.org,
- rostedt@goodmis.org, julia.lawall@lip6.fr, kunit-dev@googlegroups.com,
- richard@nod.at, torvalds@linux-foundation.org, rdunlap@infradead.org,
- linux-kernel@vger.kernel.org, mpe@ellerman.id.au,
- linux-fsdevel@vger.kernel.org, Joe Perches <joe@perches.com>,
- logang@deltatee.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1779601911=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UHJldmlvdXNseSBLVW5pdCBhc3N1bWVkIHRoYXQgcHJpbnRrIHdvdWxkIGFsd2F5cyBiZSBwcmVz
-ZW50LCB3aGljaCBpcwpub3QgYSB2YWxpZCBhc3N1bXB0aW9uIHRvIG1ha2UuIEZpeCB0aGF0IGJ5
-IHJlbW92aW5nIGNhbGwgdG8KdnByaW50a19lbWl0LCBhbmQgY2FsbGluZyBwcmludGsgZGlyZWN0
-bHkuCgpUaGlzIGZpeGVzIGEgYnVpbGQgZXJyb3JbMV0gcmVwb3J0ZWQgYnkgUmFuZHkuCgpGb3Ig
-Y29udGV4dCB0aGlzIGNoYW5nZSBjb21lcyBhZnRlciBtdWNoIGRpc2N1c3Npb24uIE15IGZpcnN0
-IHN0YWJbMl0gYXQKdGhpcyB3YXMganVzdCB0byBtYWtlIHRoZSBLVW5pdCBsb2dnaW5nIGNvZGUg
-Y29tcGlsZSBvdXQ7IGhvd2V2ZXIsIGl0CndhcyBhZ3JlZWQgdGhhdCBpZiB3ZSB3ZXJlIGdvaW5n
-IHRvIHVzZSB2cHJpbnRrX2VtaXQsIHRoZW4gdnByaW50a19lbWl0CnNob3VsZCBwcm92aWRlIGEg
-bm8tb3Agc3R1Yiwgd2hpY2ggbGVhZCB0byBteSBzZWNvbmQgYXR0ZW1wdFszXS4gSW4KcmVzcG9u
-c2UgdG8gbWUgdHJ5aW5nIHRvIHN0dWIgb3V0IHZwcmludGtfZW1pdCwgU2VyZ2V5IFNlbm96aGF0
-c2t5CnN1Z2dlc3RlZCBhIHdheSBmb3IgbWUgdG8gcmVtb3ZlIG91ciB1c2FnZSBvZiB2cHJpbnRr
-X2VtaXQsIHdoaWNoIGxlZCB0bwpteSB0aGlyZCBhdHRlbXB0IGF0IHNvbHZpbmcgdGhpc1s0XS4K
-CkluIG15IHRoaXJkIHZlcnNpb24gb2YgdGhpcyBwYXRjaFs0XSwgSSBjb21wbGV0ZWx5IHJlbW92
-ZWQgdnByaW50a19lbWl0LAphcyBzdWdnZXN0ZWQgYnkgU2VyZ2V5OyBob3dldmVyLCB0aGVyZSB3
-YXMgYSBiaXQgb2YgZGViYXRlIG92ZXIgd2hldGhlcgpTZXJnZXkncyBzb2x1dGlvbiB3YXMgdGhl
-IGJlc3QuIFRoZSBkZWJhdGUgYXJvc2UgZHVlIHRvIFNlcmdleSdzIHZlcnNpb24KcmVzdWx0aW5n
-IGluIGEgY2hlY2twYXRjaCB3YXJuaW5nLCB3aGljaCByZXN1bHRlZCBpbiBhIGRlYmF0ZSBvdmVy
-CmNvcnJlY3QgcHJpbnRrIHVzYWdlLiBKb2UgUGVyY2hlcyBvZmZlcmVkIGFuIGFsdGVybmF0aXZl
-IGZpeCB3aGljaCB3YXMKc29tZXdoYXQgbGVzcyBmYXIgcmVhY2hpbmcgdGhhbiB3aGF0IFNlcmdl
-eSBoYWQgc3VnZ2VzdGVkIGFuZAppbXBvcnRhbnRseSByZWxpZWQgb24gY29udGludWluZyB0byB1
-c2UgJXBWLiBNdWNoIG9mIHRoZSBkZWJhdGVkCmNlbnRlcmVkIGFyb3VuZCB3aGV0aGVyICVwViBz
-aG91bGQgYmUgd2lkZWx5IHVzZWQsIGFuZCB3aGV0aGVyIFNlcmdleSdzCnZlcnNpb24gd291bGQg
-cmVzdWx0IGluIG9iamVjdCBzaXplIGJsb2F0LiBVbHRpbWF0ZWx5LCB3ZSBkZWNpZGVkIHRvIGdv
-CndpdGggU2VyZ2V5J3MgdmVyc2lvbi4KClJlcG9ydGVkLWJ5OiBSYW5keSBEdW5sYXAgPHJkdW5s
-YXBAaW5mcmFkZWFkLm9yZz4KTGlua1sxXTogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgt
-a3NlbGZ0ZXN0L2M3MjI5MjU0LTBkOTAtZDkwZS1mM2RmLTViNmQ2ZmMwYjUxZkBpbmZyYWRlYWQu
-b3JnLwpMaW5rWzJdOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1rc2VsZnRlc3QvMjAx
-OTA4MjcxNzQ5MzIuNDQxNzctMS1icmVuZGFuaGlnZ2luc0Bnb29nbGUuY29tLwpMaW5rWzNdOiBo
-dHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1rc2VsZnRlc3QvMjAxOTA4MjcyMzQ4MzUuMjM0
-NDczLTEtYnJlbmRhbmhpZ2dpbnNAZ29vZ2xlLmNvbS8KTGlua1s0XTogaHR0cHM6Ly9sb3JlLmtl
-cm5lbC5vcmcvbGludXgta3NlbGZ0ZXN0LzIwMTkwODI4MDkzMTQzLjE2MzMwMi0xLWJyZW5kYW5o
-aWdnaW5zQGdvb2dsZS5jb20vCkNjOiBTdGVwaGVuIFJvdGh3ZWxsIDxzZnJAY2FuYi5hdXVnLm9y
-Zy5hdT4KQ2M6IFNlcmdleSBTZW5vemhhdHNreSA8c2VyZ2V5LnNlbm96aGF0c2t5LndvcmtAZ21h
-aWwuY29tPgpDYzogSm9lIFBlcmNoZXMgPGpvZUBwZXJjaGVzLmNvbT4KQ2M6IFRpbS5CaXJkQHNv
-bnkuY29tClNpZ25lZC1vZmYtYnk6IEJyZW5kYW4gSGlnZ2lucyA8YnJlbmRhbmhpZ2dpbnNAZ29v
-Z2xlLmNvbT4KQWNrZWQtYnk6IFJhbmR5IER1bmxhcCA8cmR1bmxhcEBpbmZyYWRlYWQub3JnPiAj
-IGJ1aWxkLXRlc3RlZApSZXZpZXdlZC1ieTogUGV0ciBNbGFkZWsgPHBtbGFkZWtAc3VzZS5jb20+
-Ci0tLQogaW5jbHVkZS9rdW5pdC90ZXN0LmggfCAgNSArKy0tCiBsaWIva3VuaXQvdGVzdC5jICAg
-ICB8IDU3ICsrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiAyIGZp
-bGVzIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgNTQgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0
-IGEvaW5jbHVkZS9rdW5pdC90ZXN0LmggYi9pbmNsdWRlL2t1bml0L3Rlc3QuaAppbmRleCA4Yjdl
-YjAzZDQ5NzEuLmRiYTQ4MzA0YjNiZCAxMDA2NDQKLS0tIGEvaW5jbHVkZS9rdW5pdC90ZXN0LmgK
-KysrIGIvaW5jbHVkZS9rdW5pdC90ZXN0LmgKQEAgLTMzOSw5ICszMzksOCBAQCBzdGF0aWMgaW5s
-aW5lIHZvaWQgKmt1bml0X2t6YWxsb2Moc3RydWN0IGt1bml0ICp0ZXN0LCBzaXplX3Qgc2l6ZSwg
-Z2ZwX3QgZ2ZwKQogCiB2b2lkIGt1bml0X2NsZWFudXAoc3RydWN0IGt1bml0ICp0ZXN0KTsKIAot
-dm9pZCBfX3ByaW50ZigzLCA0KSBrdW5pdF9wcmludGsoY29uc3QgY2hhciAqbGV2ZWwsCi0JCQkJ
-IGNvbnN0IHN0cnVjdCBrdW5pdCAqdGVzdCwKLQkJCQkgY29uc3QgY2hhciAqZm10LCAuLi4pOwor
-I2RlZmluZSBrdW5pdF9wcmludGsobHZsLCB0ZXN0LCBmbXQsIC4uLikgXAorCXByaW50ayhsdmwg
-Ilx0IyAlczogIiBmbXQsICh0ZXN0KS0+bmFtZSwgIyNfX1ZBX0FSR1NfXykKIAogLyoqCiAgKiBr
-dW5pdF9pbmZvKCkgLSBQcmludHMgYW4gSU5GTyBsZXZlbCBtZXNzYWdlIGFzc29jaWF0ZWQgd2l0
-aCBAdGVzdC4KZGlmZiAtLWdpdCBhL2xpYi9rdW5pdC90ZXN0LmMgYi9saWIva3VuaXQvdGVzdC5j
-CmluZGV4IGIyY2E5Yjk0YzM1My4uYzgzYzBmYTU5Y2JkIDEwMDY0NAotLS0gYS9saWIva3VuaXQv
-dGVzdC5jCisrKyBiL2xpYi9rdW5pdC90ZXN0LmMKQEAgLTE2LDM2ICsxNiwxMiBAQCBzdGF0aWMg
-dm9pZCBrdW5pdF9zZXRfZmFpbHVyZShzdHJ1Y3Qga3VuaXQgKnRlc3QpCiAJV1JJVEVfT05DRSh0
-ZXN0LT5zdWNjZXNzLCBmYWxzZSk7CiB9CiAKLXN0YXRpYyBpbnQga3VuaXRfdnByaW50a19lbWl0
-KGludCBsZXZlbCwgY29uc3QgY2hhciAqZm10LCB2YV9saXN0IGFyZ3MpCi17Ci0JcmV0dXJuIHZw
-cmludGtfZW1pdCgwLCBsZXZlbCwgTlVMTCwgMCwgZm10LCBhcmdzKTsKLX0KLQotc3RhdGljIGlu
-dCBrdW5pdF9wcmludGtfZW1pdChpbnQgbGV2ZWwsIGNvbnN0IGNoYXIgKmZtdCwgLi4uKQotewot
-CXZhX2xpc3QgYXJnczsKLQlpbnQgcmV0OwotCi0JdmFfc3RhcnQoYXJncywgZm10KTsKLQlyZXQg
-PSBrdW5pdF92cHJpbnRrX2VtaXQobGV2ZWwsIGZtdCwgYXJncyk7Ci0JdmFfZW5kKGFyZ3MpOwot
-Ci0JcmV0dXJuIHJldDsKLX0KLQotc3RhdGljIHZvaWQga3VuaXRfdnByaW50ayhjb25zdCBzdHJ1
-Y3Qga3VuaXQgKnRlc3QsCi0JCQkgIGNvbnN0IGNoYXIgKmxldmVsLAotCQkJICBzdHJ1Y3QgdmFf
-Zm9ybWF0ICp2YWYpCi17Ci0Ja3VuaXRfcHJpbnRrX2VtaXQobGV2ZWxbMV0gLSAnMCcsICJcdCMg
-JXM6ICVwViIsIHRlc3QtPm5hbWUsIHZhZik7Ci19Ci0KIHN0YXRpYyB2b2lkIGt1bml0X3ByaW50
-X3RhcF92ZXJzaW9uKHZvaWQpCiB7CiAJc3RhdGljIGJvb2wga3VuaXRfaGFzX3ByaW50ZWRfdGFw
-X3ZlcnNpb247CiAKIAlpZiAoIWt1bml0X2hhc19wcmludGVkX3RhcF92ZXJzaW9uKSB7Ci0JCWt1
-bml0X3ByaW50a19lbWl0KExPR0xFVkVMX0lORk8sICJUQVAgdmVyc2lvbiAxNFxuIik7CisJCXBy
-X2luZm8oIlRBUCB2ZXJzaW9uIDE0XG4iKTsKIAkJa3VuaXRfaGFzX3ByaW50ZWRfdGFwX3ZlcnNp
-b24gPSB0cnVlOwogCX0KIH0KQEAgLTY0LDEwICs0MCw4IEBAIHN0YXRpYyBzaXplX3Qga3VuaXRf
-dGVzdF9jYXNlc19sZW4oc3RydWN0IGt1bml0X2Nhc2UgKnRlc3RfY2FzZXMpCiBzdGF0aWMgdm9p
-ZCBrdW5pdF9wcmludF9zdWJ0ZXN0X3N0YXJ0KHN0cnVjdCBrdW5pdF9zdWl0ZSAqc3VpdGUpCiB7
-CiAJa3VuaXRfcHJpbnRfdGFwX3ZlcnNpb24oKTsKLQlrdW5pdF9wcmludGtfZW1pdChMT0dMRVZF
-TF9JTkZPLCAiXHQjIFN1YnRlc3Q6ICVzXG4iLCBzdWl0ZS0+bmFtZSk7Ci0Ja3VuaXRfcHJpbnRr
-X2VtaXQoTE9HTEVWRUxfSU5GTywKLQkJCSAgIlx0MS4uJXpkXG4iLAotCQkJICBrdW5pdF90ZXN0
-X2Nhc2VzX2xlbihzdWl0ZS0+dGVzdF9jYXNlcykpOworCXByX2luZm8oIlx0IyBTdWJ0ZXN0OiAl
-c1xuIiwgc3VpdGUtPm5hbWUpOworCXByX2luZm8oIlx0MS4uJXpkXG4iLCBrdW5pdF90ZXN0X2Nh
-c2VzX2xlbihzdWl0ZS0+dGVzdF9jYXNlcykpOwogfQogCiBzdGF0aWMgdm9pZCBrdW5pdF9wcmlu
-dF9va19ub3Rfb2soYm9vbCBzaG91bGRfaW5kZW50LApAQCAtODcsOSArNjEsNyBAQCBzdGF0aWMg
-dm9pZCBrdW5pdF9wcmludF9va19ub3Rfb2soYm9vbCBzaG91bGRfaW5kZW50LAogCWVsc2UKIAkJ
-b2tfbm90X29rID0gIm5vdCBvayI7CiAKLQlrdW5pdF9wcmludGtfZW1pdChMT0dMRVZFTF9JTkZP
-LAotCQkJICAiJXMlcyAlemQgLSAlc1xuIiwKLQkJCSAgaW5kZW50LCBva19ub3Rfb2ssIHRlc3Rf
-bnVtYmVyLCBkZXNjcmlwdGlvbik7CisJcHJfaW5mbygiJXMlcyAlemQgLSAlc1xuIiwgaW5kZW50
-LCBva19ub3Rfb2ssIHRlc3RfbnVtYmVyLCBkZXNjcmlwdGlvbik7CiB9CiAKIHN0YXRpYyBib29s
-IGt1bml0X3N1aXRlX2hhc19zdWNjZWVkZWQoc3RydWN0IGt1bml0X3N1aXRlICpzdWl0ZSkKQEAg
-LTEzMywxMSArMTA1LDExIEBAIHN0YXRpYyB2b2lkIGt1bml0X3ByaW50X3N0cmluZ19zdHJlYW0o
-c3RydWN0IGt1bml0ICp0ZXN0LAogCQlrdW5pdF9lcnIodGVzdCwKIAkJCSAgIkNvdWxkIG5vdCBh
-bGxvY2F0ZSBidWZmZXIsIGR1bXBpbmcgc3RyZWFtOlxuIik7CiAJCWxpc3RfZm9yX2VhY2hfZW50
-cnkoZnJhZ21lbnQsICZzdHJlYW0tPmZyYWdtZW50cywgbm9kZSkgewotCQkJa3VuaXRfZXJyKHRl
-c3QsIGZyYWdtZW50LT5mcmFnbWVudCk7CisJCQlrdW5pdF9lcnIodGVzdCwgIiVzIiwgZnJhZ21l
-bnQtPmZyYWdtZW50KTsKIAkJfQogCQlrdW5pdF9lcnIodGVzdCwgIlxuIik7CiAJfSBlbHNlIHsK
-LQkJa3VuaXRfZXJyKHRlc3QsIGJ1Zik7CisJCWt1bml0X2Vycih0ZXN0LCAiJXMiLCBidWYpOwog
-CQlrdW5pdF9rZnJlZSh0ZXN0LCBidWYpOwogCX0KIH0KQEAgLTUwNCwyMCArNDc2LDMgQEAgdm9p
-ZCBrdW5pdF9jbGVhbnVwKHN0cnVjdCBrdW5pdCAqdGVzdCkKIAkJa3VuaXRfcmVzb3VyY2VfZnJl
-ZSh0ZXN0LCByZXNvdXJjZSk7CiAJfQogfQotCi12b2lkIGt1bml0X3ByaW50ayhjb25zdCBjaGFy
-ICpsZXZlbCwKLQkJICBjb25zdCBzdHJ1Y3Qga3VuaXQgKnRlc3QsCi0JCSAgY29uc3QgY2hhciAq
-Zm10LCAuLi4pCi17Ci0Jc3RydWN0IHZhX2Zvcm1hdCB2YWY7Ci0JdmFfbGlzdCBhcmdzOwotCi0J
-dmFfc3RhcnQoYXJncywgZm10KTsKLQotCXZhZi5mbXQgPSBmbXQ7Ci0JdmFmLnZhID0gJmFyZ3M7
-Ci0KLQlrdW5pdF92cHJpbnRrKHRlc3QsIGxldmVsLCAmdmFmKTsKLQotCXZhX2VuZChhcmdzKTsK
-LX0KLS0gCjIuMjMuMC4zNTEuZ2M0MzE3MDMyZTYtZ29vZwoKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1779601911==
+Content-Type: multipart/alternative; boundary="15690315520.cc4C3.4223"
+Content-Transfer-Encoding: 7bit
+
+
+--15690315520.cc4C3.4223
+Date: Sat, 21 Sep 2019 02:05:52 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+
+--- Comment #103 from Mauro Gaspari <ilvipero@gmx.com> ---
+(In reply to Rodney A Morris from comment #101)
+> (In reply to Rodney A Morris from comment #99)
+> > Created attachment 145366 [details]
+> > apitrace of Hearts of Iron IV hard lock
+> >=20
+> > Apitrace from hard lock playing Hearts of Iron IV without Steam.  The r=
+eplay
+> > from this trace will hard lock the computer, though inconsistently.  I'=
+ve
+> > replayed the trace three times. The replay hard locked computer one tim=
+e.
+>=20
+> neofetch from hardlock:
+>=20
+>           /:-------------:\=20=20=20=20=20=20=20=20=20=20
+>        :-------------------::        --------------------------------=20
+>      :-----------/shhOHbmp---:\      OS: Fedora release 30 (Thirty) x86_6=
+4=20
+>    /-----------omMMMNNNMMD  ---:     Kernel: 5.2.13-200.fc30.x86_64=20
+>   :-----------sMMMMNMNMP.    ---:    Uptime: 25 mins=20
+>  :-----------:MMMdP-------    ---\   Packages: 2202 (rpm), 27 (flatpak)=20
+> ,------------:MMMd--------    ---:   Shell: bash 5.0.7=20
+> :------------:MMMd-------    .---:   Resolution: 2560x1440=20
+> :----    oNMMMMMMMMMNho     .----:   DE: GNOME 3.32.2=20
+> :--     .+shhhMMMmhhy++   .------/   WM: GNOME Shell=20
+> :-    -------:MMMd--------------:    WM Theme: Adwaita=20
+> :-   --------/MMMd-------------;     Theme: Adapta-Nokto-Eta [GTK2/3]=20
+> :-    ------/hMMMy------------:      Icons: Adwaita [GTK2/3]=20
+> :-- :dMNdhhdNMMNo------------;       Terminal: tilix=20
+> :---:sdNMMMMNds:------------:        CPU: Intel i7-6850K (12) @ 4.000GHz=
+=20
+> :------:://:-------------::          GPU: AMD ATI Radeon RX Vega 56/64=20
+> :---------------------://            Memory: 2478MiB / 32084MiB=20
+>=20
+> OpenGL version string: 4.5 (Compatibility Profile) Mesa 19.1.6
+>=20
+> Note:  hard lock replayed occurred when the Discord flatpak is also runni=
+ng.
+
+I also noticed some errors that pointed to discord in my logs. In my case
+discord was installed via .deb package.=20
+Could you please try and disable hardware acceleration in discord settings -
+appearance menu? Please let me know if it helps or changes anything.=20
+Thanks!
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15690315520.cc4C3.4223
+Date: Sat, 21 Sep 2019 02:05:52 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c103">Comm=
+ent # 103</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+ilvipero&#64;gmx.com" title=3D"Mauro Gaspari &lt;ilvipero&#64;gmx.com&gt;">=
+ <span class=3D"fn">Mauro Gaspari</span></a>
+</span></b>
+        <pre>(In reply to Rodney A Morris from <a href=3D"show_bug.cgi?id=
+=3D109955#c101">comment #101</a>)
+<span class=3D"quote">&gt; (In reply to Rodney A Morris from <a href=3D"sho=
+w_bug.cgi?id=3D109955#c99">comment #99</a>)
+&gt; &gt; Created <span class=3D""><a href=3D"attachment.cgi?id=3D145366" n=
+ame=3D"attach_145366" title=3D"apitrace of Hearts of Iron IV hard lock">att=
+achment 145366</a> <a href=3D"attachment.cgi?id=3D145366&amp;action=3Dedit"=
+ title=3D"apitrace of Hearts of Iron IV hard lock">[details]</a></span>
+&gt; &gt; apitrace of Hearts of Iron IV hard lock
+&gt; &gt;=20
+&gt; &gt; Apitrace from hard lock playing Hearts of Iron IV without Steam. =
+ The replay
+&gt; &gt; from this trace will hard lock the computer, though inconsistentl=
+y.  I've
+&gt; &gt; replayed the trace three times. The replay hard locked computer o=
+ne time.
+&gt;=20
+&gt; neofetch from hardlock:
+&gt;=20
+&gt;           /:-------------:\=20=20=20=20=20=20=20=20=20=20
+&gt;        :-------------------::        --------------------------------=
+=20
+&gt;      :-----------/shhOHbmp---:\      OS: Fedora release 30 (Thirty) x8=
+6_64=20
+&gt;    /-----------omMMMNNNMMD  ---:     Kernel: 5.2.13-200.fc30.x86_64=20
+&gt;   :-----------sMMMMNMNMP.    ---:    Uptime: 25 mins=20
+&gt;  :-----------:MMMdP-------    ---\   Packages: 2202 (rpm), 27 (flatpak=
+)=20
+&gt; ,------------:MMMd--------    ---:   Shell: bash 5.0.7=20
+&gt; :------------:MMMd-------    .---:   Resolution: 2560x1440=20
+&gt; :----    oNMMMMMMMMMNho     .----:   DE: GNOME 3.32.2=20
+&gt; :--     .+shhhMMMmhhy++   .------/   WM: GNOME Shell=20
+&gt; :-    -------:MMMd--------------:    WM Theme: Adwaita=20
+&gt; :-   --------/MMMd-------------;     Theme: Adapta-Nokto-Eta [GTK2/3]=
+=20
+&gt; :-    ------/hMMMy------------:      Icons: Adwaita [GTK2/3]=20
+&gt; :-- :dMNdhhdNMMNo------------;       Terminal: tilix=20
+&gt; :---:sdNMMMMNds:------------:        CPU: Intel i7-6850K (12) &#64; 4.=
+000GHz=20
+&gt; :------:://:-------------::          GPU: AMD ATI Radeon RX Vega 56/64=
+=20
+&gt; :---------------------://            Memory: 2478MiB / 32084MiB=20
+&gt;=20
+&gt; OpenGL version string: 4.5 (Compatibility Profile) Mesa 19.1.6
+&gt;=20
+&gt; Note:  hard lock replayed occurred when the Discord flatpak is also ru=
+nning.</span >
+
+I also noticed some errors that pointed to discord in my logs. In my case
+discord was installed via .deb package.=20
+Could you please try and disable hardware acceleration in discord settings -
+appearance menu? Please let me know if it helps or changes anything.=20
+Thanks!</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15690315520.cc4C3.4223--
+
+--===============1779601911==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1779601911==--
