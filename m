@@ -2,29 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC75CBA234
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2019 14:05:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F6D9BA23B
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2019 14:05:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 227496E0A2;
-	Sun, 22 Sep 2019 12:04:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FB4E6E0DC;
+	Sun, 22 Sep 2019 12:04:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail3-relais-sop.national.inria.fr
- (mail3-relais-sop.national.inria.fr [192.134.164.104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 532086E04A
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2019 06:49:48 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.64,531,1559512800"; d="scan'208";a="320165530"
-Received: from ip-215.net-89-2-7.rev.numericable.fr (HELO hadrien)
- ([89.2.7.215])
- by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2019 08:20:46 +0200
-Date: Sat, 21 Sep 2019 08:20:45 +0200 (CEST)
-From: Julia Lawall <julia.lawall@lip6.fr>
-X-X-Sender: jll@hadrien
-To: Lucas Stach <l.stach@pengutronix.de>, Andrzej Hajda <a.hajda@samsung.com>
-Subject: [PATCH] UNCLEAN: fix semicolon.cocci warnings
-Message-ID: <alpine.DEB.2.21.1909210819180.3303@hadrien>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E75616E04A
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2019 06:59:54 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id DEF1A72162; Sat, 21 Sep 2019 06:59:54 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: =?UTF-8?B?W0J1ZyAxMTE3NjFdIExhdGVzdCBHaXQgS2VybmVsIGRvZXNu4oCZdCBib290?=
+ =?UTF-8?B?IHdpdGggUmFkZW9uIE5JIHdpdGggdGhlIGRybS1uZXh0LTIwMTktMDktMTgg?=
+ =?UTF-8?B?dXBkYXRlcw==?=
+Date: Sat, 21 Sep 2019 06:59:55 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: chzigotzky@xenosoft.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-111761-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -38,37 +53,198 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Ezequiel Garcia <ezequiel@collabora.com>, kbuild-all@01.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1547650192=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbToga2J1aWxkIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+CgpSZW1vdmUgdW5uZWVkZWQg
-c2VtaWNvbG9ucy4KCkdlbmVyYXRlZCBieTogc2NyaXB0cy9jb2NjaW5lbGxlL21pc2Mvc2VtaWNv
-bG9uLmNvY2NpCgpGaXhlczogODQxYjA0NzUxZGMwICgiVU5DTEVBTjogYWRkIEhETUkgVFggZHJp
-dmVyIikKQ0M6IEx1Y2FzIFN0YWNoIDxsLnN0YWNoQHBlbmd1dHJvbml4LmRlPgpTaWduZWQtb2Zm
-LWJ5OiBrYnVpbGQgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4KU2lnbmVkLW9mZi1ieTogSnVs
-aWEgTGF3YWxsIDxqdWxpYS5sYXdhbGxAbGlwNi5mcj4KLS0tCgp0cmVlOiAgIGdpdDovL2dpdC5p
-bmZyYWRlYWQub3JnL3VzZXJzL2V6ZXF1aWVsZy9saW51eCBoYW50cm8tdnB1LXBvc3Rwcm9jLWZv
-ci01LjUtMgpoZWFkOiAgIDU0ZWQ2MTZmYjkwMTZiODliN2JjZGI5YzhjOGJkNWYwNTMyYzBkZWYK
-Y29tbWl0OiA4NDFiMDQ3NTFkYzBhNjdjY2JkYzA3YjQ0NjU1ZDlhZDM1ZTYxYWU3IFszNTgvNTEx
-XSBVTkNMRUFOOiBhZGQgSERNSSBUWCBkcml2ZXIKOjo6Ojo6IGJyYW5jaCBkYXRlOiA1IGhvdXJz
-IGFnbwo6Ojo6OjogY29tbWl0IGRhdGU6IDMgZGF5cyBhZ28KCiB1dGlsLmMgfCAgICA0ICsrLS0K
-IDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgotLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vYnJpZGdlL2Nkbi1oZHAvbWFpbGJveC1pZi91dGlsLmMKKysrIGIvZHJp
-dmVycy9ncHUvZHJtL2JyaWRnZS9jZG4taGRwL21haWxib3gtaWYvdXRpbC5jCkBAIC0xNDgsNyAr
-MTQ4LDcgQEAgdTMyIGludGVybmFsX3Zta21zZyh2b2xhdGlsZSB1OCAqZGVzdCwgaQogCQlpZiAo
-c2l6ZSA+IDApIHsKIAkJCWludGVybmFsX2l0b2JlKHZhX2FyZyh2bCwgaW50KSwgZGVzdCwgc2l6
-ZSk7CiAJCQlkZXN0ICs9IHNpemU7Ci0JCQlsZW4gKz0gc2l6ZTs7CisJCQlsZW4gKz0gc2l6ZTsK
-IAkJfSBlbHNlIHsKIAkJCW1lbWNweSgodm9pZCAqKWRlc3QsIHZhX2FyZyh2bCwgdm9pZCAqKSwg
-LXNpemUpOwogCQkJZGVzdCAtPSBzaXplOwpAQCAtMjE0LDcgKzIxNCw3IEBAIHZvaWQgaW50ZXJu
-YWxfdnJlYWRtc2coc3RhdGVfc3RydWN0ICpzdGEKIAkJCWRlZmF1bHQ6CiAJCQkJcHJfd2Fybigi
-V2FybmluZy4gVW5zdXBwb3J0ZWQgdmFyaWFibGUgc2l6ZS5cbiIpOwogCQkJCW1lbWNweShwdHIs
-IHNyYywgc2l6ZSk7Ci0JCQl9OworCQkJfQoKIAkJCXNyYyArPSBzaXplOwogCQl9IGVsc2Ugewpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1547650192==
+Content-Type: multipart/alternative; boundary="15690491940.91fC.19435"
+Content-Transfer-Encoding: 7bit
+
+
+--15690491940.91fC.19435
+Date: Sat, 21 Sep 2019 06:59:54 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111761
+
+            Bug ID: 111761
+           Summary: Latest Git Kernel doesn=E2=80=99t boot with Radeon NI w=
+ith the
+                    drm-next-2019-09-18 updates
+           Product: DRI
+           Version: DRI git
+          Hardware: All
+                OS: All
+            Status: NEW
+          Severity: critical
+          Priority: not set
+         Component: DRM/Radeon
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: chzigotzky@xenosoft.de
+
+Hello,
+
+I compiled the latest Git kernel with the new drm-next-2019-09-18 updates
+yesterday.
+
+
+Unfortunately it doesn't boot with my Radeon Northern Islands graphics cards
+anymore. I tested it with a Radeon HD6870 and with a Radeon HD4870.=20
+
+The kernel boots with a Radeon SI graphics card. (R7 240)=20
+
+I reverted the latest DRM updates and after that the kernel boots with my
+Radeon HD6870 and with my Radeon HD4870 without any problems.
+
+Could you please test the latest Git kernel with the drm-next-2019-09-18
+updates with Radeon NI graphics cards?
+
+Thanks,
+Christian
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15690491940.91fC.19435
+Date: Sat, 21 Sep 2019 06:59:54 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Latest Git Kernel doesn=E2=80=99t boot with Radeon NI wit=
+h the drm-next-2019-09-18 updates"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111761">111761</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Latest Git Kernel doesn=E2=80=99t boot with Radeon NI with th=
+e drm-next-2019-09-18 updates
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>DRI git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>critical
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/Radeon
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>chzigotzky&#64;xenosoft.de
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Hello,
+
+I compiled the latest Git kernel with the new drm-next-2019-09-18 updates
+yesterday.
+
+
+Unfortunately it doesn't boot with my Radeon Northern Islands graphics cards
+anymore. I tested it with a Radeon HD6870 and with a Radeon HD4870.=20
+
+The kernel boots with a Radeon SI graphics card. (R7 240)=20
+
+I reverted the latest DRM updates and after that the kernel boots with my
+Radeon HD6870 and with my Radeon HD4870 without any problems.
+
+Could you please test the latest Git kernel with the drm-next-2019-09-18
+updates with Radeon NI graphics cards?
+
+Thanks,
+Christian</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15690491940.91fC.19435--
+
+--===============1547650192==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1547650192==--
