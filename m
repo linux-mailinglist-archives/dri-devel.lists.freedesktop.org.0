@@ -1,44 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32048BA26A
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2019 14:07:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E9B9BA286
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2019 14:08:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EEB089FDE;
-	Sun, 22 Sep 2019 12:04:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33D916E21E;
+	Sun, 22 Sep 2019 12:06:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2574F6E075
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2019 18:31:38 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204241] amdgpu fails to resume from suspend
-Date: Sat, 21 Sep 2019 18:31:37 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: andreas.jackisch@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-204241-2300-DjuC3p9ddC@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204241-2300@https.bugzilla.kernel.org/>
-References: <bug-204241-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83D476E075
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2019 18:55:47 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id A460B2002D;
+ Sat, 21 Sep 2019 20:55:42 +0200 (CEST)
+Date: Sat, 21 Sep 2019 20:55:41 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH v3] drm: panel-lvds: Potential Oops in probe error handling
+Message-ID: <20190921185541.GA32133@ravnborg.org>
+References: <20190911104928.GA15930@mwanda>
 MIME-Version: 1.0
-X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
- message/signature format)
+Content-Disposition: inline
+In-Reply-To: <20190911104928.GA15930@mwanda>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=yPCof4ZbAAAA:8
+ a=bz466c7j6o7e4iieULIA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,29 +44,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ Liam Girdwood <lgirdwood@gmail.com>, dri-devel@lists.freedesktop.org,
+ Mark Brown <broonie@kernel.org>, Thierry Reding <thierry.reding@gmail.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQyNDEKCi0tLSBD
-b21tZW50ICMxMyBmcm9tIEFuZHJlYXMgSmFja2lzY2ggKGFuZHJlYXMuamFja2lzY2hAZ21haWwu
-Y29tKSAtLS0KQ3JlYXRlZCBhdHRhY2htZW50IDI4NTA3OQogIC0tPiBodHRwczovL2J1Z3ppbGxh
-Lmtlcm5lbC5vcmcvYXR0YWNobWVudC5jZ2k/aWQ9Mjg1MDc5JmFjdGlvbj1lZGl0Ci92YXIvbG9n
-L21lc3NhZ2VzIHcvIGtlcm5lbCA1LjMuMC1nZW50b28KCkFzIHRoZXJlIHdhcyBubyBzdWNjZXNz
-IHcvIDUuMi54IGF0IGFsbCBJIHRlc3RlZCA1LjMuMC4gSG93ZXZlciwgdGhlIHN5c3RlbSBkaWQK
-bm90IHJlc3VtZSBhZnRlciB0aGUgMm5kIGF0dGVtcHQgd2l0aCBhIGNvbXBhcmFibGUgZmFpbHVy
-ZSBtZXNzYWdlLgoKYW1kZ3B1IDAwMDA6MDY6MDAuMDogW2RybTphbWRncHVfcmluZ190ZXN0X2hl
-bHBlcl0gKkVSUk9SKiByaW5nIHNkbWEwIHRlc3QKZmFpbGVkICgtMTEwKQoKVGhpcyBpcyBzbGln
-aHRseSBkaWZmZXJlbnQgZnJvbSA1LjIueCB3aGVyZSBpdCB3YXMgCgphbWRncHUgMDAwMDowNjow
-MC4wOiBbZHJtOmFtZGdwdV9yaW5nX3Rlc3RfaGVscGVyXSAqRVJST1IqIHJpbmcgZ2Z4IHRlc3Qg
-ZmFpbGVkCigtMTEwKQoKYnV0IHRoZSByZXN1bHQgc2VlbXMgdG8gYmUgdGhlIHNhbWUuCgpJJ20g
-bm90IHN1cmUgd2hldGhlciBhbnlib2R5IGlzIHdvcmtpbmcgb24gdGhpcyBvciB0aGUgYnVnLW9w
-ZW5lciBzdGlsbCBzZWVzCnRoZSBpc3N1ZS4gQXMgbGF0ZXN0IGtlcm5lbCBzZXJpZXMgNS4xLngg
-aXMgc29tZWhvdyBvdXRkYXRlZCBub3cgSSB3aWxsIHJldmVydAp0byA0LjE5LnggTFRTLgpJZiB0
-aGVyZSBpcyBhbnkgaGludCBvciBhZHZpc2Ugd2hhdCBJIGNhbiBkbyB0byBoZWxwIHBsZWFzZSBs
-ZXQgbWUga25vdy4KCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91
-IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+SGkgRGFuLgoKT24gV2VkLCBTZXAgMTEsIDIwMTkgYXQgMDE6NDk6MjhQTSArMDMwMCwgRGFuIENh
+cnBlbnRlciB3cm90ZToKPiBUaGUgImx2ZHMtPmJhY2tsaWdodCIgcG9pbnRlciBjb3VsZCBiZSBO
+VUxMIGluIHNpdHVhdGlvbnMgd2hlcmUKPiBvZl9wYXJzZV9waGFuZGxlKCkgcmV0dXJucyBOVUxM
+LiAgVGhpcyBjb2RlIGlzIGNsZWFuZXIgaWYgd2UgdXNlIHRoZQo+IG1hbmFnZWQgZGV2bV9vZl9m
+aW5kX2JhY2tsaWdodCgpIHNvIHRoZSBjbGVhbiB1cCBpcyBhdXRvbWF0aWMuCj4gCj4gRml4ZXM6
+IDdjOWRmZjViZDY0MyAoImRybTogcGFuZWxzOiBBZGQgTFZEUyBwYW5lbCBkcml2ZXIiKQo+IFNp
+Z25lZC1vZmYtYnk6IERhbiBDYXJwZW50ZXIgPGRhbi5jYXJwZW50ZXJAb3JhY2xlLmNvbT4KPiAt
+LS0KPiB2MzogVXNlIGRldm1fb2ZfZmluZF9iYWNrbGlnaHQoKS4gIFRoaXMgdmVyc2lvbiBpcyBx
+dWl0ZSBhIGJpdCBtb3JlCj4gICAgIGFtYml0aW91cywgYW5kIEkgaGF2ZW4ndCB0ZXN0ZWQgaXQg
+c28gcGxlYXNlIHJldmlldyBjYXJlZnVsbHkuCkxvb2tzIGdvb2QuCkFwcGxpZWQgYW5kIHB1c2hl
+ZCB0byBkcm0tbWlzYy1uZXh0LgoKSXQgd2lsbCBoaXQgdXBzdHJlYW0gbm90IGF0IHRoaXMgYnV0
+IG5leHQgbWVyZ2Ugd2luZG93LgoKCVNhbQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWw=
