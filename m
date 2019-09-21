@@ -1,46 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50EA9BA268
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2019 14:07:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DA42BA269
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2019 14:07:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A70EB89DA8;
-	Sun, 22 Sep 2019 12:04:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3848B89B97;
+	Sun, 22 Sep 2019 12:04:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id CF4BE6E0CA
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2019 17:29:27 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id CBBF172162; Sat, 21 Sep 2019 17:29:27 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109246] HDMI connected monitors fail to sleep and instead turn
- back on when amdgpu.dc=1
-Date: Sat, 21 Sep 2019 17:29:27 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ariannebrink@posteo.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109246-502-e8pRYhlaLZ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109246-502@http.bugs.freedesktop.org/>
-References: <bug-109246-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 081CB6E075;
+ Sat, 21 Sep 2019 17:40:22 +0000 (UTC)
+Subject: Re: [GIT PULL] Please pull hmm related changes
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <20190916162350.GA19191@ziepe.ca>
+References: <20190916162350.GA19191@ziepe.ca>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20190916162350.GA19191@ziepe.ca>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git
+ tags/for-linus-hmm
+X-PR-Tracked-Commit-Id: 62974fc389b364d8af70e044836362222bd3ae53
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 84da111de0b4be15bd500deff773f5116f39f7be
+Message-Id: <156908762129.32622.9253749641256776927.pr-tracker-bot@kernel.org>
+Date: Sat, 21 Sep 2019 17:40:21 +0000
+To: Jason Gunthorpe <jgg@mellanox.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1569087621;
+ bh=LsJ4KroFpbZgHfIznXa/jo/IJP0ugyfdqLBIjhc8268=;
+ h=From:In-Reply-To:References:Date:To:Cc:From;
+ b=n6E7JQXe8lfUX+FaNG3J+BYya8cbdUEeLMb5493L7IbpwanV8sKgytc7F7dtJJl+X
+ YjHEfN1f8jVJtTyKyC+iccEBHw6eLdZDJyNoYh4DJSM09PrXbKWFTlSE0jE9DKn1Bn
+ V5mLYnWP9WTwNf5ger3difRJGdlkUKrHh5JlYecQ=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,98 +46,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0403280648=="
+Cc: Dimitri Sivanich <sivanich@hpe.com>, David Airlie <airlied@linux.ie>,
+ "Kuehling, Felix" <Felix.Kuehling@amd.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Christoph Hellwig <hch@lst.de>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0403280648==
-Content-Type: multipart/alternative; boundary="15690869673.cEb5.1475"
-Content-Transfer-Encoding: 7bit
-
-
---15690869673.cEb5.1475
-Date: Sat, 21 Sep 2019 17:29:27 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109246
-
---- Comment #29 from Arianne Brink <ariannebrink@posteo.de> ---
-My Vega 56 is showing the same problems. However, I noticed that by disabli=
-ng
-xfsettingsd in XFCE and kscreen in Plasma it solved the problem. It will
-suspend my monitors properly using dpms force off.  I3WM and other window
-managers don't show the same problem either, this seems to be related to
-desktop environments and the way they manage displays.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15690869673.cEb5.1475
-Date: Sat, 21 Sep 2019 17:29:27 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HDMI connected monitors fail to sleep and instead turn ba=
-ck on when amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109246#c29">Comme=
-nt # 29</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HDMI connected monitors fail to sleep and instead turn ba=
-ck on when amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109246">bug 10924=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-ariannebrink&#64;posteo.de" title=3D"Arianne Brink &lt;ariannebrink&#64;pos=
-teo.de&gt;"> <span class=3D"fn">Arianne Brink</span></a>
-</span></b>
-        <pre>My Vega 56 is showing the same problems. However, I noticed th=
-at by disabling
-xfsettingsd in XFCE and kscreen in Plasma it solved the problem. It will
-suspend my monitors properly using dpms force off.  I3WM and other window
-managers don't show the same problem either, this seems to be related to
-desktop environments and the way they manage displays.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15690869673.cEb5.1475--
-
---===============0403280648==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0403280648==--
+VGhlIHB1bGwgcmVxdWVzdCB5b3Ugc2VudCBvbiBNb24sIDE2IFNlcCAyMDE5IDE2OjIzOjU3ICsw
+MDAwOgoKPiBnaXQ6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvcmRt
+YS9yZG1hLmdpdCB0YWdzL2Zvci1saW51cy1obW0KCmhhcyBiZWVuIG1lcmdlZCBpbnRvIHRvcnZh
+bGRzL2xpbnV4LmdpdDoKaHR0cHM6Ly9naXQua2VybmVsLm9yZy90b3J2YWxkcy9jLzg0ZGExMTFk
+ZTBiNGJlMTViZDUwMGRlZmY3NzNmNTExNmYzOWY3YmUKClRoYW5rIHlvdSEKCi0tIApEZWV0LWRv
+b3QtZG90LCBJIGFtIGEgYm90LgpodHRwczovL2tvcmcud2lraS5rZXJuZWwub3JnL3VzZXJkb2Mv
+cHJ0cmFja2VyCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
