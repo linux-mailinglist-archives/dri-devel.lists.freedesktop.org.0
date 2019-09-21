@@ -1,57 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2FDABA28C
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2019 14:08:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C080BA258
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2019 14:06:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C80D6E03C;
-	Sun, 22 Sep 2019 12:08:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFF5A6E88B;
+	Sun, 22 Sep 2019 12:04:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E79166E071
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2019 08:33:51 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id b20so3852960ljj.5
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2019 01:33:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vVHjBz0BB8cuy2xTjNaEiJsirKSBRBl4VRnHu+I2Fxo=;
- b=L6jmR9LzX9EaljQmX4IRRDrpYU7w3robpJRYfyrDyKfVnpeUumpSv7MhshJiAtD8EM
- O9qMZAK0Sj+YjQ73f/HJQjfwLBEj3Ky9z1syXtE8HFsS3N2HiNnq50MXazDeuygiz6t0
- fuB9heEAXjx7jjrOOjUhwOw3Qgtel+KDKHpreJ3sIlgfaecPcs+e2oBSF4RTwDHqzT83
- Ux2qrbIvwbUEW5t0wZi1oXUbh+IZy4UUdWOqLoGwnzISov632N6udF9H3PEHGvZxCoMX
- oUf65SnMXYbbPbmb9ul84lwKsgPgd4NEhcztdn4th3aj6dldi7kK83TnEk1IXSmi40eq
- 0DMg==
-X-Gm-Message-State: APjAAAXUpVeFamYfUSPfJ/RGNvbwH44KXFrscsxRVC4kjUXODSluOW+M
- CqiIdrfVGrREsec+P4AgwivluOMmFzZ9iwPME5coBw==
-X-Google-Smtp-Source: APXvYqx8QdykREHWJt5UTda7TB3ov614FwfDxW+Hwj04LQ0rIuGw7BOBUjRl3ErLyca8Wta49A7r1qw2qvUsBWsKpTg=
-X-Received: by 2002:a2e:42c9:: with SMTP id h70mr11206135ljf.88.1569054830182; 
- Sat, 21 Sep 2019 01:33:50 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9E6FA6E06E
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2019 09:11:06 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 9B20D72162; Sat, 21 Sep 2019 09:11:06 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111077] link_shader and deserialize_glsl_program suddenly
+ consume huge amount of RAM
+Date: Sat, 21 Sep 2019 09:11:06 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 18.3
+X-Bugzilla-Keywords: bisected
+X-Bugzilla-Severity: blocker
+X-Bugzilla-Who: roland@rptd.ch
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111077-502-sNv3d5feVi@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111077-502@http.bugs.freedesktop.org/>
+References: <bug-111077-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190814171518.GL7444@phenom.ffwll.local>
- <20190902142412.27846-1-heinrich.fink@daqri.com>
- <20190902142412.27846-2-heinrich.fink@daqri.com>
- <20190903074644.GI2112@phenom.ffwll.local>
- <CAB6MLDY3q_w2Gv+x3mjriFjGvg0BuJk3w-1pJ8xfEg_3m+q90w@mail.gmail.com>
- <20190903095258.GS2112@phenom.ffwll.local>
-In-Reply-To: <20190903095258.GS2112@phenom.ffwll.local>
-From: Heinrich Fink <heinrich.fink@daqri.com>
-Date: Sat, 21 Sep 2019 10:33:39 +0200
-Message-ID: <CAB6MLDZMj0iuW2AVy0tQYOQb9E8A=XPd1m2nx2RC5vsazLeWvA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm: Add high-precision time to vblank trace event
-To: Daniel Vetter <daniel@ffwll.ch>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daqri.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=vVHjBz0BB8cuy2xTjNaEiJsirKSBRBl4VRnHu+I2Fxo=;
- b=Srz/6m0MqK/OHkMKz3gytTzo4dzY9YVCXNDqqNsjRmI060myVeb2N7Ce08hBdeuPHN
- DQByGktfVmP03ogXbuQBoG/GlWWy7+Wekj61hYIp9aPArFBlAJkdMZqVE8Or3t53cJ7x
- ovIydeVZusjQk9a2u1F0VeMhl9Si7fcvHrbUw=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,93 +53,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Keith Packard <keithp@keithp.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1665017590=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAzIFNlcCAyMDE5IGF0IDExOjUzLCBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwu
-Y2g+IHdyb3RlOgo+Cj4gT24gVHVlLCBTZXAgMDMsIDIwMTkgYXQgMTE6MTk6MTlBTSArMDIwMCwg
-SGVpbnJpY2ggRmluayB3cm90ZToKPiA+IE9uIFR1ZSwgMyBTZXAgMjAxOSBhdCAwOTo0NiwgRGFu
-aWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPiB3cm90ZToKPiA+ID4KPiA+ID4gT24gTW9uLCBT
-ZXAgMDIsIDIwMTkgYXQgMDQ6MjQ6MTJQTSArMDIwMCwgSGVpbnJpY2ggRmluayB3cm90ZToKPiA+
-ID4gPiBTdG9yZSB0aGUgdGltZXN0YW1wIG9mIHRoZSBjdXJyZW50IHZibGFuayBpbiB0aGUgbmV3
-IGZpZWxkICd0aW1lJyBvZiB0aGUKPiA+ID4gPiB2YmxhbmsgdHJhY2UgZXZlbnQuIElmIHRoZSB0
-aW1lc3RhbXAgaXMgY2FsY3VsYXRlZCBieSBhIGRyaXZlciB0aGF0Cj4gPiA+ID4gc3VwcG9ydHMg
-aGlnaC1wcmVjaXNpb24gdmJsYW5rIHRpbWluZywgc2V0IHRoZSBmaWVsZCAnaGlnaC1wcmVjJyB0
-bwo+ID4gPiA+ICd0cnVlJy4KPiA+ID4gPgo+ID4gPiA+IFVzZXIgc3BhY2UgY2FuIG5vdyBhY2Nl
-c3MgYWN0dWFsIGhhcmR3YXJlIHZibGFuayB0aW1lcyB2aWEgdGhlIHRyYWNpbmcKPiA+ID4gPiBp
-bmZyYXN0cnVjdHVyZS4gVHJhY2luZyBhcHBsaWNhdGlvbnMgKHN1Y2ggYXMgR1BVVmlzLCBzZWUg
-WzBdIGZvcgo+ID4gPiA+IHJlbGF0ZWQgZGlzY3Vzc2lvbiksIGNhbiB1c2UgdGhlIG5ld2x5IGFk
-ZGVkIGluZm9ybWF0aW9uIHRvIGNvbmR1Y3QgYQo+ID4gPiA+IG1vcmUgYWNjdXJhdGUgYW5hbHlz
-aXMgb2YgZGlzcGxheSB0aW1pbmcuCj4gPiA+ID4KPiA+ID4gPiB2MiBGaXggYXV0aG9yIG5hbWUg
-KG1pc3NpbmcgbGFzdCBuYW1lKQo+ID4gPiA+Cj4gPiA+ID4gWzBdIGh0dHBzOi8vZ2l0aHViLmNv
-bS9taWtlc2FydC9ncHV2aXMvaXNzdWVzLzMwCj4gPiA+ID4KPiA+ID4gPiBSZXZpZXdlZC1ieTog
-RGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPiA+ID4gPiBTaWduZWQtb2Zm
-LWJ5OiBIZWlucmljaCBGaW5rIDxoZWlucmljaC5maW5rQGRhcXJpLmNvbT4KPiA+ID4KPiA+ID4g
-QXBwbGllZCwgdGhhbmtzLgo+ID4KPiA+IHRoYW5rcyEgT25lIHF1ZXN0aW9uOiBBZnRlciBzZW5k
-aW5nIHYyLCBJIGdvdCBhbiBlbWFpbCBmcm9tIHBhdGNod29yawo+ID4gcG9pbnRpbmcgYXQgc29t
-ZSBmYWlsZWQgc3R5bGUgY2hlY2tzIChDSEVDSzpQQVJFTlRIRVNJU19BTElHTk1FTlQsCj4gPiBD
-SEVDSzpDT01QQVJJU09OX1RPX05VTEwpLiBKdXN0IHNvIEkga25vdyBmb3IgdGhlIGZ1dHVyZSwg
-YXJlIHRoZXNlCj4gPiBjaGVja3MgbWFuZGF0b3J5IHRvIGJlIGFkZHJlc3NlZD8gSSBoYXZlbid0
-IGhhZCBhIGNoYW5jZSB0byBhZGRyZXNzCj4gPiB0aGVtIHlldC4gRldJVywgbGludXgtdHJlZS9z
-Y3JpcHRzL2NoZWNrcGF0Y2gucGwgZGlkIG5vdCBjb21wbGFpbi4KPgo+IEl0J3MgdGhlIHNhbWUg
-c2NyaXB0LCBidXQgSSB0aGluayBDSSB1c2VzIHNvbWUgZGlmZmVyZW50IG9wdGlvbnMvZmxhZ3Mu
-IEkKPiBnZW5lcmFsbHkgaWdub3JlIHRoZXNlLCBidXQgYWxzbyBnZW5lcmFsbHkgZ29vZCB0byBz
-dGljayB0byB0aGUgc3R5bGUuCj4KPiAkIGRpbSBjaGVja3BhdGNoCj4KPiBpbiBvdXIgbWFpbnRh
-aW5lci10b29scyBzaG91bGQgZ2l2ZSB5b3UgdGhlIGRybSBmbGF2b3VyZWQgY2hlY2twYXRjaC4K
-PiAtRGFuaWVsCgpBcG9sb2dpZXMgaWYgdGhhdCdzIGEgYmFzaWMgcXVlc3Rpb24sIGJ1dCBhdCB3
-aGljaCBwb2ludCBpcyB0aGlzIHBhdGNoCmxhbmRpbmcgdXBzdHJlYW0/IEkgYW0gbW9uaXRvcmlu
-ZyB0aGUgNS40IG1lcmdlIHdpbmRvdyBhbmQgY291bGRuJ3QKZmlndXJlIG91dCB3aGF0IHRoZSBz
-dGFnZXMgYXJlIGZvciB0aGlzIHBhdGNoIHRvIGdldCB0aGVyZS4gSXMgdGhlcmUKYW55dGhpbmcg
-dGhhdCBpcyBzdGlsbCBsZWZ0IHRvIGRvIGZyb20gbXkgc2lkZT8KClRoYW5rcywgSGVpbnJpY2gK
-Cj4KPiA+Cj4gPiAtIEhlaW5yaWNoCj4gPgo+ID4gPiAtRGFuaWVsCj4gPiA+Cj4gPiA+ID4gLS0t
-Cj4gPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fdHJhY2UuaCAgfCAxNCArKysrKysrKysrLS0t
-LQo+ID4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5jIHwgIDMgKystCj4gPiA+ID4g
-IDIgZmlsZXMgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKPiA+ID4g
-Pgo+ID4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3RyYWNlLmggYi9kcml2
-ZXJzL2dwdS9kcm0vZHJtX3RyYWNlLmgKPiA+ID4gPiBpbmRleCA0NzFlYjkyNzQ3NGIuLjExYzZk
-ZDU3N2U4ZSAxMDA2NDQKPiA+ID4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3RyYWNlLmgK
-PiA+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX3RyYWNlLmgKPiA+ID4gPiBAQCAtMTMs
-MTcgKzEzLDIzIEBAIHN0cnVjdCBkcm1fZmlsZTsKPiA+ID4gPiAgI2RlZmluZSBUUkFDRV9JTkNM
-VURFX0ZJTEUgZHJtX3RyYWNlCj4gPiA+ID4KPiA+ID4gPiAgVFJBQ0VfRVZFTlQoZHJtX3ZibGFu
-a19ldmVudCwKPiA+ID4gPiAtICAgICAgICAgVFBfUFJPVE8oaW50IGNydGMsIHVuc2lnbmVkIGlu
-dCBzZXEpLAo+ID4gPiA+IC0gICAgICAgICBUUF9BUkdTKGNydGMsIHNlcSksCj4gPiA+ID4gKyAg
-ICAgICAgIFRQX1BST1RPKGludCBjcnRjLCB1bnNpZ25lZCBpbnQgc2VxLCBrdGltZV90IHRpbWUs
-IGJvb2wgaGlnaF9wcmVjKSwKPiA+ID4gPiArICAgICAgICAgVFBfQVJHUyhjcnRjLCBzZXEsIHRp
-bWUsIGhpZ2hfcHJlYyksCj4gPiA+ID4gICAgICAgICAgIFRQX1NUUlVDVF9fZW50cnkoCj4gPiA+
-ID4gICAgICAgICAgICAgICAgICAgX19maWVsZChpbnQsIGNydGMpCj4gPiA+ID4gICAgICAgICAg
-ICAgICAgICAgX19maWVsZCh1bnNpZ25lZCBpbnQsIHNlcSkKPiA+ID4gPiArICAgICAgICAgICAg
-ICAgICBfX2ZpZWxkKGt0aW1lX3QsIHRpbWUpCj4gPiA+ID4gKyAgICAgICAgICAgICAgICAgX19m
-aWVsZChib29sLCBoaWdoX3ByZWMpCj4gPiA+ID4gICAgICAgICAgICAgICAgICAgKSwKPiA+ID4g
-PiAgICAgICAgICAgVFBfZmFzdF9hc3NpZ24oCj4gPiA+ID4gICAgICAgICAgICAgICAgICAgX19l
-bnRyeS0+Y3J0YyA9IGNydGM7Cj4gPiA+ID4gICAgICAgICAgICAgICAgICAgX19lbnRyeS0+c2Vx
-ID0gc2VxOwo+ID4gPiA+IC0gICAgICAgICAgICAgICAgICksCj4gPiA+ID4gLSAgICAgICAgIFRQ
-X3ByaW50aygiY3J0Yz0lZCwgc2VxPSV1IiwgX19lbnRyeS0+Y3J0YywgX19lbnRyeS0+c2VxKQo+
-ID4gPiA+ICsgICAgICAgICAgICAgICAgIF9fZW50cnktPnRpbWUgPSB0aW1lOwo+ID4gPiA+ICsg
-ICAgICAgICAgICAgICAgIF9fZW50cnktPmhpZ2hfcHJlYyA9IGhpZ2hfcHJlYzsKPiA+ID4gPiAr
-ICAgICAgICAgICAgICAgICAgICAgKSwKPiA+ID4gPiArICAgICAgICAgVFBfcHJpbnRrKCJjcnRj
-PSVkLCBzZXE9JXUsIHRpbWU9JWxsZCwgaGlnaC1wcmVjPSVzIiwKPiA+ID4gPiArICAgICAgICAg
-ICAgICAgICAgICAgX19lbnRyeS0+Y3J0YywgX19lbnRyeS0+c2VxLCBfX2VudHJ5LT50aW1lLAo+
-ID4gPiA+ICsgICAgICAgICAgICAgICAgICAgICBfX2VudHJ5LT5oaWdoX3ByZWMgPyAidHJ1ZSIg
-OiAiZmFsc2UiKQo+ID4gPiA+ICApOwo+ID4gPiA+Cj4gPiA+ID4gIFRSQUNFX0VWRU5UKGRybV92
-YmxhbmtfZXZlbnRfcXVldWVkLAo+ID4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-ZHJtX3ZibGFuay5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYwo+ID4gPiA+IGluZGV4
-IGZkMWZiYzc3ODcxZi4uYzk5ZmVkYTI1ZGVhIDEwMDY0NAo+ID4gPiA+IC0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS9kcm1fdmJsYW5rLmMKPiA+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX3Zi
-bGFuay5jCj4gPiA+ID4gQEAgLTE3MzEsNyArMTczMSw4IEBAIHN0YXRpYyB2b2lkIGRybV9oYW5k
-bGVfdmJsYW5rX2V2ZW50cyhzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB1bnNpZ25lZCBpbnQgcGlw
-ZSkKPiA+ID4gPiAgICAgICAgICAgICAgIHNlbmRfdmJsYW5rX2V2ZW50KGRldiwgZSwgc2VxLCBu
-b3cpOwo+ID4gPiA+ICAgICAgIH0KPiA+ID4gPgo+ID4gPiA+IC0gICAgIHRyYWNlX2RybV92Ymxh
-bmtfZXZlbnQocGlwZSwgc2VxKTsKPiA+ID4gPiArICAgICB0cmFjZV9kcm1fdmJsYW5rX2V2ZW50
-KHBpcGUsIHNlcSwgbm93LAo+ID4gPiA+ICsgICAgICAgICAgICAgICAgICAgICBkZXYtPmRyaXZl
-ci0+Z2V0X3ZibGFua190aW1lc3RhbXAgIT0gTlVMTCk7Cj4gPiA+ID4gIH0KPiA+ID4gPgo+ID4g
-PiA+ICAvKioKPiA+ID4gPiAtLQo+ID4gPiA+IDIuMjMuMC5yYzEKPiA+ID4gPgo+ID4gPgo+ID4g
-PiAtLQo+ID4gPiBEYW5pZWwgVmV0dGVyCj4gPiA+IFNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBD
-b3Jwb3JhdGlvbgo+ID4gPiBodHRwOi8vYmxvZy5mZndsbC5jaAo+Cj4gLS0KPiBEYW5pZWwgVmV0
-dGVyCj4gU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCj4gaHR0cDovL2Jsb2cu
-ZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1665017590==
+Content-Type: multipart/alternative; boundary="15690570661.3D3AF50.8377"
+Content-Transfer-Encoding: 7bit
+
+
+--15690570661.3D3AF50.8377
+Date: Sat, 21 Sep 2019 09:11:06 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111077
+
+--- Comment #46 from roland@rptd.ch <roland@rptd.ch> ---
+(In reply to Marek Ol=C5=A1=C3=A1k from comment #21)
+> How do I reproduce it?
+
+Looks like the trace file is too large to be attached here. I've put the fi=
+le
+on my server to access: http://rptd.ch/misc/debug/deigde.trace.7z
+
+Replaying that trace shows the problematic behavior.
+
+With the commit reverted the trace loads very fast and memory consumption g=
+oes
+up normally. With the commit not reverted loading takes long and memory
+consumption jumps by 4G roughly.
+
+Frame 0 is maybe a bit tricky to evaluate. Here the game engine does OpenGL
+capability detection and and OpenGL implementation error checks. So you will
+find various warnings, errors and such which only serve the purpose to figu=
+re
+out if what the OpenGL claims to support is actually really supported.
+
+Frame 2279 is where the loading takes place. This is no more detection code=
+ so
+if anything is wrong in there then it's of interest.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15690570661.3D3AF50.8377
+Date: Sat, 21 Sep 2019 09:11:06 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
+ huge amount of RAM"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077#c46">Comme=
+nt # 46</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
+ huge amount of RAM"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077">bug 11107=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+roland&#64;rptd.ch" title=3D"roland&#64;rptd.ch &lt;roland&#64;rptd.ch&gt;"=
+> <span class=3D"fn">roland&#64;rptd.ch</span></a>
+</span></b>
+        <pre>(In reply to Marek Ol=C5=A1=C3=A1k from <a href=3D"show_bug.cg=
+i?id=3D111077#c21">comment #21</a>)
+<span class=3D"quote">&gt; How do I reproduce it?</span >
+
+Looks like the trace file is too large to be attached here. I've put the fi=
+le
+on my server to access: <a href=3D"http://rptd.ch/misc/debug/deigde.trace.7=
+z">http://rptd.ch/misc/debug/deigde.trace.7z</a>
+
+Replaying that trace shows the problematic behavior.
+
+With the commit reverted the trace loads very fast and memory consumption g=
+oes
+up normally. With the commit not reverted loading takes long and memory
+consumption jumps by 4G roughly.
+
+Frame 0 is maybe a bit tricky to evaluate. Here the game engine does OpenGL
+capability detection and and OpenGL implementation error checks. So you will
+find various warnings, errors and such which only serve the purpose to figu=
+re
+out if what the OpenGL claims to support is actually really supported.
+
+Frame 2279 is where the loading takes place. This is no more detection code=
+ so
+if anything is wrong in there then it's of interest.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15690570661.3D3AF50.8377--
+
+--===============1665017590==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1665017590==--
