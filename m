@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B8A1BA27F
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2019 14:08:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7877FBA25F
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2019 14:06:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0934E6E8E1;
-	Sun, 22 Sep 2019 12:05:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09F1E6E09F;
+	Sun, 22 Sep 2019 12:04:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6A56F6E093
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2019 15:57:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id A8AB56E0D0
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2019 15:59:37 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 66B9372162; Sat, 21 Sep 2019 15:57:06 +0000 (UTC)
+ id A633072162; Sat, 21 Sep 2019 15:59:37 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Sat, 21 Sep 2019 15:57:06 +0000
+Date: Sat, 21 Sep 2019 15:59:37 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110674-502-4w4xrEBYqK@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110674-502-FxjGlgKVQ5@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
 References: <bug-110674-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1232793789=="
+Content-Type: multipart/mixed; boundary="===============0206981395=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1232793789==
-Content-Type: multipart/alternative; boundary="15690814262.dCabFC8b1.15482"
+--===============0206981395==
+Content-Type: multipart/alternative; boundary="15690815779.4ed91a6.16124"
 Content-Transfer-Encoding: 7bit
 
 
---15690814262.dCabFC8b1.15482
-Date: Sat, 21 Sep 2019 15:57:06 +0000
+--15690815779.4ed91a6.16124
+Date: Sat, 21 Sep 2019 15:59:37 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,20 +72,15 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
 
---- Comment #133 from Anthony Rabbito <ted437@gmail.com> ---
-Created attachment 145459
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145459&action=3Dedit
-dsmeg log with Alex's patches
-
-Here's my dsmeg with Alex's patches. Going to mess around and see what I can
-find.
+--- Comment #134 from Anthony Rabbito <ted437@gmail.com> ---
+Wow ! All three of my monitors are working again. 2560x1440 @ 144Hz
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15690814262.dCabFC8b1.15482
-Date: Sat, 21 Sep 2019 15:57:06 +0000
+--15690815779.4ed91a6.16124
+Date: Sat, 21 Sep 2019 15:59:37 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -102,8 +97,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c133">Comm=
-ent # 133</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c134">Comm=
+ent # 134</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
@@ -113,14 +108,8 @@ ent # 133</a>
 ted437&#64;gmail.com" title=3D"Anthony Rabbito &lt;ted437&#64;gmail.com&gt;=
 "> <span class=3D"fn">Anthony Rabbito</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145459=
-" name=3D"attach_145459" title=3D"dsmeg log with Alex's patches">attachment=
- 145459</a> <a href=3D"attachment.cgi?id=3D145459&amp;action=3Dedit" title=
-=3D"dsmeg log with Alex's patches">[details]</a></span>
-dsmeg log with Alex's patches
-
-Here's my dsmeg with Alex's patches. Going to mess around and see what I can
-find.</pre>
+        <pre>Wow ! All three of my monitors are working again. 2560x1440 &#=
+64; 144Hz</pre>
         </div>
       </p>
 
@@ -134,9 +123,9 @@ find.</pre>
     </body>
 </html>=
 
---15690814262.dCabFC8b1.15482--
+--15690815779.4ed91a6.16124--
 
---===============1232793789==
+--===============0206981395==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -146,4 +135,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1232793789==--
+--===============0206981395==--
