@@ -1,32 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5653EBA2B7
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2019 14:50:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A566BA2E8
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2019 16:36:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16AEE6E176;
-	Sun, 22 Sep 2019 12:50:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8525C6E043;
+	Sun, 22 Sep 2019 14:36:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55A146E146;
- Sun, 22 Sep 2019 12:50:30 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 18576431-1500050 for multiple; Sun, 22 Sep 2019 13:50:19 +0100
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D220A6E043
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2019 14:36:27 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 203781] AMDGPU Radeon VII crashes with dual monitors
+Date: Sun, 22 Sep 2019 14:36:27 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: reddestdream@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-203781-2300-ujbbfo73Ol@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-203781-2300@https.bugzilla.kernel.org/>
+References: <bug-203781-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-To: Qiang Yu <yuq825@gmail.com>, dri-devel@lists.freedesktop.org
-From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <156915463935.21369.4938801884938429332@skylake-alporthouse-com>
-References: <20190922074900.853-1-yuq825@gmail.com>
- <156915463935.21369.4938801884938429332@skylake-alporthouse-com>
-Message-ID: <156915661567.21369.17366014102480171128@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [PATCH] dma-buf/resv: fix exclusive fence get
-Date: Sun, 22 Sep 2019 13:50:15 +0100
+X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
+ message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -39,32 +51,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
- Qiang Yu <yuq825@gmail.com>, lima@lists.freedesktop.org,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBDaHJpcyBXaWxzb24gKDIwMTktMDktMjIgMTM6MTc6MTkpCj4gUXVvdGluZyBRaWFu
-ZyBZdSAoMjAxOS0wOS0yMiAwODo0OTowMCkKPiA+IFRoaXMgY2F1c2VzIGtlcm5lbCBjcmFzaCB3
-aGVuIHRlc3RpbmcgbGltYSBkcml2ZXIuCj4gPiAKPiA+IENjOiBDaHJpc3RpYW4gS8O2bmlnIDxj
-aHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gPiBGaXhlczogYjhjMDM2ZGZjNjZmICgiZG1hLWJ1
-Zjogc2ltcGxpZnkgcmVzZXJ2YXRpb25fb2JqZWN0X2dldF9mZW5jZXNfcmN1IGEgYml0IikKPiA+
-IFNpZ25lZC1vZmYtYnk6IFFpYW5nIFl1IDx5dXE4MjVAZ21haWwuY29tPgo+ID4gLS0tCj4gPiAg
-ZHJpdmVycy9kbWEtYnVmL2RtYS1yZXN2LmMgfCAyICstCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDEg
-aW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4gPiAKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJz
-L2RtYS1idWYvZG1hLXJlc3YuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtcmVzdi5jCj4gPiBpbmRl
-eCA0MmE4ZjNmMTE2ODEuLjcwOTAwMjUxNTU1MCAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZG1h
-LWJ1Zi9kbWEtcmVzdi5jCj4gPiArKysgYi9kcml2ZXJzL2RtYS1idWYvZG1hLXJlc3YuYwo+ID4g
-QEAgLTQ3MSw3ICs0NzEsNyBAQCBpbnQgZG1hX3Jlc3ZfZ2V0X2ZlbmNlc19yY3Uoc3RydWN0IGRt
-YV9yZXN2ICpvYmosCj4gPiAgICAgICAgIGlmIChwZmVuY2VfZXhjbCkKPiA+ICAgICAgICAgICAg
-ICAgICAqcGZlbmNlX2V4Y2wgPSBmZW5jZV9leGNsOwo+ID4gICAgICAgICBlbHNlIGlmIChmZW5j
-ZV9leGNsKQo+ID4gLSAgICAgICAgICAgICAgIHNoYXJlZFsrK3NoYXJlZF9jb3VudF0gPSBmZW5j
-ZV9leGNsOwo+ID4gKyAgICAgICAgICAgICAgIHNoYXJlZFtzaGFyZWRfY291bnQrK10gPSBmZW5j
-ZV9leGNsOwo+IAo+IE9vcHMuCj4gCj4gUmV2aWV3ZWQtYnk6IENocmlzIFdpbHNvbiA8Y2hyaXNA
-Y2hyaXMtd2lsc29uLmNvLnVrPgoKQXBwbGllZCwgdGhhbmtzIGZvciB0aGUgZml4LgotQ2hyaXMK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDM3ODEKCi0tLSBD
+b21tZW50ICM4IGZyb20gUmVkZGVzdERyZWFtIChyZWRkZXN0ZHJlYW1AZ21haWwuY29tKSAtLS0K
+UHJvZ3Jlc3Mgb24gdGhpcyBpc3N1ZSBoYXMgYmVlbiBtYWRlIGhlcmU6CgpodHRwczovL2J1Z3Mu
+ZnJlZWRlc2t0b3Aub3JnL3Nob3dfYnVnLmNnaT9pZD0xMTA2NzQjYzEyOAoKLS0gCllvdSBhcmUg
+cmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25l
+ZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWw=
