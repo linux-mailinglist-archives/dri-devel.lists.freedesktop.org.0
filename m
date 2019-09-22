@@ -1,46 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D09FBA285
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2019 14:08:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E52F8BA294
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2019 14:17:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A4E06E825;
-	Sun, 22 Sep 2019 12:06:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 222EB891AF;
+	Sun, 22 Sep 2019 12:17:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id F1BCE6E03E
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2019 12:03:57 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id EE9ED72162; Sun, 22 Sep 2019 12:03:57 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
- with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Sun, 22 Sep 2019 12:03:58 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: popovic.marko@protonmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-MrFrquag1j@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
-References: <bug-111481-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A32E891AF;
+ Sun, 22 Sep 2019 12:17:40 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 18576281-1500050 for multiple; Sun, 22 Sep 2019 13:17:22 +0100
 MIME-Version: 1.0
+To: Qiang Yu <yuq825@gmail.com>, dri-devel@lists.freedesktop.org
+From: Chris Wilson <chris@chris-wilson.co.uk>
+In-Reply-To: <20190922074900.853-1-yuq825@gmail.com>
+References: <20190922074900.853-1-yuq825@gmail.com>
+Message-ID: <156915463935.21369.4938801884938429332@skylake-alporthouse-com>
+User-Agent: alot/0.6
+Subject: Re: [PATCH] dma-buf/resv: fix exclusive fence get
+Date: Sun, 22 Sep 2019 13:17:19 +0100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,106 +38,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1834191143=="
+Cc: linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
+ Qiang Yu <yuq825@gmail.com>, lima@lists.freedesktop.org,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1834191143==
-Content-Type: multipart/alternative; boundary="15691538374.aE9f.15343"
-Content-Transfer-Encoding: 7bit
-
-
---15691538374.aE9f.15343
-Date: Sun, 22 Sep 2019 12:03:57 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
-
---- Comment #62 from Marko Popovic <popovic.marko@protonmail.com> ---
-I have created a new bug report for ring_gfx created hangs since they don't
-seem to be related to ngg or dma, therefore keep those logs posted there and
-further trace files etc. https://bugs.freedesktop.org/show_bug.cgi?id=3D111=
-763
-
-Let's keep this thread limited to sdma0/sdma1 type bugs that are causing ra=
-ndom
-freezes on the desktop, since others seem to be more game-related.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15691538374.aE9f.15343
-Date: Sun, 22 Sep 2019 12:03:57 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c62">Comme=
-nt # 62</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-popovic.marko&#64;protonmail.com" title=3D"Marko Popovic &lt;popovic.marko&=
-#64;protonmail.com&gt;"> <span class=3D"fn">Marko Popovic</span></a>
-</span></b>
-        <pre>I have created a new bug report for ring_gfx created hangs sin=
-ce they don't
-seem to be related to ngg or dma, therefore keep those logs posted there and
-further trace files etc. <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - ring_gfx hangs/freezes on Navi gpus"
-   href=3D"show_bug.cgi?id=3D111763">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D111763</a>
-
-Let's keep this thread limited to sdma0/sdma1 type bugs that are causing ra=
-ndom
-freezes on the desktop, since others seem to be more game-related.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15691538374.aE9f.15343--
-
---===============1834191143==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1834191143==--
+UXVvdGluZyBRaWFuZyBZdSAoMjAxOS0wOS0yMiAwODo0OTowMCkKPiBUaGlzIGNhdXNlcyBrZXJu
+ZWwgY3Jhc2ggd2hlbiB0ZXN0aW5nIGxpbWEgZHJpdmVyLgo+IAo+IENjOiBDaHJpc3RpYW4gS8O2
+bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gRml4ZXM6IGI4YzAzNmRmYzY2ZiAoImRt
+YS1idWY6IHNpbXBsaWZ5IHJlc2VydmF0aW9uX29iamVjdF9nZXRfZmVuY2VzX3JjdSBhIGJpdCIp
+Cj4gU2lnbmVkLW9mZi1ieTogUWlhbmcgWXUgPHl1cTgyNUBnbWFpbC5jb20+Cj4gLS0tCj4gIGRy
+aXZlcnMvZG1hLWJ1Zi9kbWEtcmVzdi5jIHwgMiArLQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNl
+cnRpb24oKyksIDEgZGVsZXRpb24oLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9kbWEtYnVm
+L2RtYS1yZXN2LmMgYi9kcml2ZXJzL2RtYS1idWYvZG1hLXJlc3YuYwo+IGluZGV4IDQyYThmM2Yx
+MTY4MS4uNzA5MDAyNTE1NTUwIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtcmVz
+di5jCj4gKysrIGIvZHJpdmVycy9kbWEtYnVmL2RtYS1yZXN2LmMKPiBAQCAtNDcxLDcgKzQ3MSw3
+IEBAIGludCBkbWFfcmVzdl9nZXRfZmVuY2VzX3JjdShzdHJ1Y3QgZG1hX3Jlc3YgKm9iaiwKPiAg
+ICAgICAgIGlmIChwZmVuY2VfZXhjbCkKPiAgICAgICAgICAgICAgICAgKnBmZW5jZV9leGNsID0g
+ZmVuY2VfZXhjbDsKPiAgICAgICAgIGVsc2UgaWYgKGZlbmNlX2V4Y2wpCj4gLSAgICAgICAgICAg
+ICAgIHNoYXJlZFsrK3NoYXJlZF9jb3VudF0gPSBmZW5jZV9leGNsOwo+ICsgICAgICAgICAgICAg
+ICBzaGFyZWRbc2hhcmVkX2NvdW50KytdID0gZmVuY2VfZXhjbDsKCk9vcHMuCgpSZXZpZXdlZC1i
+eTogQ2hyaXMgV2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+Ci1DaHJpcwpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
