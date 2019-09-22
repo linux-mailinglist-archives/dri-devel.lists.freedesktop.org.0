@@ -1,43 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5DCBBA59B
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2019 21:00:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8C31BAB97
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2019 22:13:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66AAC6E87A;
-	Sun, 22 Sep 2019 19:00:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7C256E882;
+	Sun, 22 Sep 2019 20:13:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC2EC6E878;
- Sun, 22 Sep 2019 19:00:54 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DF707208C2;
- Sun, 22 Sep 2019 19:00:53 +0000 (UTC)
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 57/60] drm/amd/powerplay/smu7: enforce minimal
- VBITimeout (v2)
-Date: Sun, 22 Sep 2019 14:59:30 -0400
-Message-Id: <20190922185934.4305-57-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190922185934.4305-1-sashal@kernel.org>
-References: <20190922185934.4305-1-sashal@kernel.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C54B66E887
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2019 20:13:17 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id C2C4472162; Sun, 22 Sep 2019 20:13:17 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109628] WARNING at dcn10_hw_sequencer.c:868
+ dcn10_verify_allow_pstate_change_high()
+Date: Sun, 22 Sep 2019 20:13:17 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: towo@siduction.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109628-502-ZkyBaeEHrx@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109628-502@http.bugs.freedesktop.org/>
+References: <bug-109628-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1569178854;
- bh=cdpXAyC0QgX4B0pAmhmXYPJ+N0Wzzx+vtMzo2FD9JFw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=2P98hJA9x1wksRzMwVPbcJdYyLgccd48XX7d7UTKZHc7tBt/Wdav8xUgH4rHTEG2e
- mB9l65MEQWyb92gjbv9B0cB/KNx8IxSOUjf1AL1luMUKQPaVyz3watSKzCnokA4uhn
- FgrHvUjJKV9rJKw1EUNOJjU1i/UwZPwd0g1Y3fTo=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,37 +53,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- Ahzo <Ahzo@tutanota.com>, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2024022749=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQWh6byA8QWh6b0B0dXRhbm90YS5jb20+CgpbIFVwc3RyZWFtIGNvbW1pdCBmNjU5YmI2
-ZGFlNThjMTEzODA1ZjkyODIyZTRjMTZkZGQzMTU2Yjc5IF0KClRoaXMgZml4ZXMgc2NyZWVuIGNv
-cnJ1cHRpb24vZmxpY2tlcmluZyBvbiA3NSBIeiBkaXNwbGF5cy4KCnYyOiBtYWtlIHByaW50IHN0
-YXRlbWVudCBkZWJ1ZyBvbmx5IChBbGV4KQoKQnVnemlsbGE6IGh0dHBzOi8vYnVncy5mcmVlZGVz
-a3RvcC5vcmcvc2hvd19idWcuY2dpP2lkPTEwMjY0NgpSZXZpZXdlZC1ieTogRXZhbiBRdWFuIDxl
-dmFuLnF1YW5AYW1kLmNvbT4KU2lnbmVkLW9mZi1ieTogQWh6byA8QWh6b0B0dXRhbm90YS5jb20+
-ClNpZ25lZC1vZmYtYnk6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4K
-U2lnbmVkLW9mZi1ieTogU2FzaGEgTGV2aW4gPHNhc2hhbEBrZXJuZWwub3JnPgotLS0KIGRyaXZl
-cnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L2h3bWdyL3NtdTdfaHdtZ3IuYyB8IDUgKysrKysKIDEg
-ZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vYW1kL3Bvd2VycGxheS9od21nci9zbXU3X2h3bWdyLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1k
-L3Bvd2VycGxheS9od21nci9zbXU3X2h3bWdyLmMKaW5kZXggMzkwNzQzOTQxN2U3Ni4uYzBkYjNi
-NTdkZmU1OCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9wb3dlcnBsYXkvaHdtZ3Iv
-c211N19od21nci5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L2h3bWdyL3Nt
-dTdfaHdtZ3IuYwpAQCAtMzczOSw2ICszNzM5LDExIEBAIGludCBzbXU3X3Byb2dyYW1fZGlzcGxh
-eV9nYXAoc3RydWN0IHBwX2h3bWdyICpod21ncikKIAogCWRhdGEtPmZyYW1lX3RpbWVfeDIgPSBm
-cmFtZV90aW1lX2luX3VzICogMiAvIDEwMDsKIAorCWlmIChkYXRhLT5mcmFtZV90aW1lX3gyIDwg
-MjgwKSB7CisJCXByX2RlYnVnKCIlczogZW5mb3JjZSBtaW5pbWFsIFZCSVRpbWVvdXQ6ICVkIC0+
-IDI4MFxuIiwgX19mdW5jX18sIGRhdGEtPmZyYW1lX3RpbWVfeDIpOworCQlkYXRhLT5mcmFtZV90
-aW1lX3gyID0gMjgwOworCX0KKwogCWRpc3BsYXlfZ2FwMiA9IHByZV92YmlfdGltZV9pbl91cyAq
-IChyZWZfY2xvY2sgLyAxMDApOwogCiAJY2dzX3dyaXRlX2luZF9yZWdpc3Rlcihod21nci0+ZGV2
-aWNlLCBDR1NfSU5EX1JFR19fU01DLCBpeENHX0RJU1BMQVlfR0FQX0NOVEwyLCBkaXNwbGF5X2dh
-cDIpOwotLSAKMi4yMC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWw=
+
+--===============2024022749==
+Content-Type: multipart/alternative; boundary="15691831974.A09A86Fdf.14295"
+Content-Transfer-Encoding: 7bit
+
+
+--15691831974.A09A86Fdf.14295
+Date: Sun, 22 Sep 2019 20:13:17 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109628
+
+--- Comment #24 from towo@siduction.org ---
+Same problem here on my Ideapad 330
+
+Machine:   Type: Laptop System: LENOVO product: 81D2 v: Lenovo ideapad
+330-15ARR serial: <root required>=20
+           Mobo: LENOVO model: LNVNB161216 v: SDK0J40709 WIN serial: <root
+required> UEFI: LENOVO v: 7VCN47WW date: 04/25/2019=20
+Graphics:  Device-1: AMD Raven Ridge [Radeon Vega Series / Radeon Vega Mobi=
+le
+Series] driver: amdgpu v: kernel=20
+           Display: server: X.org 1.20.4 driver: amdgpu,ati unloaded:
+fbdev,modesetting,vesa tty: 211x40
+
+I have not used suspend. Lightdm starts without problem.
+Cinnamon is working fine but XFCE4 ends up with that kernel oops and black
+screen.
+I have found out, that the compositor in xfwm4 is the culprint, if i disable
+that compositor, xfce is running fine. Even if i use compton as compositor,
+xfce is starting fine.
+
+Then i also reveted=20
+
+https://github.com/freedesktop/xorg-xf86-video-amdgpu/commit/a2b32e72fdaff3=
+007a79b84929997d8176c2d512
+
+and now xfce is running without problem/black screen with internal composit=
+or
+activated.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15691831974.A09A86Fdf.14295
+Date: Sun, 22 Sep 2019 20:13:17 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - WARNING at dcn10_hw_sequencer.c:868 dcn10_verify_allow_ps=
+tate_change_high()"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109628#c24">Comme=
+nt # 24</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - WARNING at dcn10_hw_sequencer.c:868 dcn10_verify_allow_ps=
+tate_change_high()"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109628">bug 10962=
+8</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+towo&#64;siduction.org" title=3D"towo&#64;siduction.org">towo&#64;siduction=
+.org</a>
+</span></b>
+        <pre>Same problem here on my Ideapad 330
+
+Machine:   Type: Laptop System: LENOVO product: 81D2 v: Lenovo ideapad
+330-15ARR serial: &lt;root required&gt;=20
+           Mobo: LENOVO model: LNVNB161216 v: SDK0J40709 WIN serial: &lt;ro=
+ot
+required&gt; UEFI: LENOVO v: 7VCN47WW date: 04/25/2019=20
+Graphics:  Device-1: AMD Raven Ridge [Radeon Vega Series / Radeon Vega Mobi=
+le
+Series] driver: amdgpu v: kernel=20
+           Display: server: X.org 1.20.4 driver: amdgpu,ati unloaded:
+fbdev,modesetting,vesa tty: 211x40
+
+I have not used suspend. Lightdm starts without problem.
+Cinnamon is working fine but XFCE4 ends up with that kernel oops and black
+screen.
+I have found out, that the compositor in xfwm4 is the culprint, if i disable
+that compositor, xfce is running fine. Even if i use compton as compositor,
+xfce is starting fine.
+
+Then i also reveted=20
+
+<a href=3D"https://github.com/freedesktop/xorg-xf86-video-amdgpu/commit/a2b=
+32e72fdaff3007a79b84929997d8176c2d512">https://github.com/freedesktop/xorg-=
+xf86-video-amdgpu/commit/a2b32e72fdaff3007a79b84929997d8176c2d512</a>
+
+and now xfce is running without problem/black screen with internal composit=
+or
+activated.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15691831974.A09A86Fdf.14295--
+
+--===============2024022749==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2024022749==--
