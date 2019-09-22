@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5691BABD2
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2019 23:36:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC50BABD3
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2019 23:38:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBC2B6E102;
-	Sun, 22 Sep 2019 21:36:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4405A6E88A;
+	Sun, 22 Sep 2019 21:38:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1814D6E892
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2019 21:36:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id A8B8A6E890
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2019 21:38:31 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 14FDF72162; Sun, 22 Sep 2019 21:36:06 +0000 (UTC)
+ id A58A572162; Sun, 22 Sep 2019 21:38:31 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Sun, 22 Sep 2019 21:36:05 +0000
+Date: Sun, 22 Sep 2019 21:38:31 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-ltnQJlWGha@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110674-502-oFTcDIEwPO@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
 References: <bug-110674-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1598564576=="
+Content-Type: multipart/mixed; boundary="===============0290422738=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1598564576==
-Content-Type: multipart/alternative; boundary="15691881661.edC5.27884"
+--===============0290422738==
+Content-Type: multipart/alternative; boundary="15691883114.3eBE.28042"
 Content-Transfer-Encoding: 7bit
 
 
---15691881661.edC5.27884
-Date: Sun, 22 Sep 2019 21:36:06 +0000
+--15691883114.3eBE.28042
+Date: Sun, 22 Sep 2019 21:38:31 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,40 +72,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
 
---- Comment #137 from sehellion@gmail.com ---
-(In reply to Alex Deucher from comment #128)
-> Do these patches help?
-> https://cgit.freedesktop.org/~agd5f/linux/commit/?h=3Ddrm-
-> fixes&id=3Dc46e5df4ac898108da66a880c4e18f69c74f6c1b
-> https://cgit.freedesktop.org/~agd5f/linux/commit/?h=3Ddrm-
-> fixes&id=3Dc02d6a161395dfc0c2fdabb9e976a229017288d8
-
-Yes, these patches fix the problem.=20
-
-amdgpu: [powerplay] Failed to send message 0x28, response 0x0
-amdgpu: [powerplay] [SetHardMinFreq] Set hard min uclk failed!
-amdgpu 0000:03:00.0: [drm:amdgpu_ib_ring_tests [amdgpu]] *ERROR* IB test fa=
-iled
-on sdma0 (-110).
-amdgpu 0000:03:00.0: [drm:amdgpu_ib_ring_tests [amdgpu]] *ERROR* IB test fa=
-iled
-on page0 (-110).
-amdgpu: [powerplay] Failed to send message 0x26, response 0x0
-amdgpu: [powerplay] Failed to set soft min gfxclk !
-amdgpu: [powerplay] Failed to upload DPM Bootup Levels!
-amdgpu 0000:03:00.0: [drm:amdgpu_ib_ring_tests [amdgpu]] *ERROR* IB test fa=
-iled
-on sdma1 (-110).
-[drm:process_one_work] *ERROR* ib ring test failed (-110).
-
-In general system is stable.
+--- Comment #138 from sehellion@gmail.com ---
+Created attachment 145461
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145461&action=3Dedit
+5.3.1 with Alex's patches and dual monitors
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15691881661.edC5.27884
-Date: Sun, 22 Sep 2019 21:36:06 +0000
+--15691883114.3eBE.28042
+Date: Sun, 22 Sep 2019 21:38:31 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -122,8 +99,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c137">Comm=
-ent # 137</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c138">Comm=
+ent # 138</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
@@ -133,35 +110,12 @@ ent # 137</a>
 sehellion&#64;gmail.com" title=3D"sehellion&#64;gmail.com">sehellion&#64;gm=
 ail.com</a>
 </span></b>
-        <pre>(In reply to Alex Deucher from <a href=3D"show_bug.cgi?id=3D11=
-0674#c128">comment #128</a>)
-<span class=3D"quote">&gt; Do these patches help?
-&gt; <a href=3D"https://cgit.freedesktop.org/~agd5f/linux/commit/?h=3Ddrm">=
-https://cgit.freedesktop.org/~agd5f/linux/commit/?h=3Ddrm</a>-
-&gt; fixes&amp;id=3Dc46e5df4ac898108da66a880c4e18f69c74f6c1b
-&gt; <a href=3D"https://cgit.freedesktop.org/~agd5f/linux/commit/?h=3Ddrm">=
-https://cgit.freedesktop.org/~agd5f/linux/commit/?h=3Ddrm</a>-
-&gt; fixes&amp;id=3Dc02d6a161395dfc0c2fdabb9e976a229017288d8</span >
-
-Yes, these patches fix the problem.=20
-
-amdgpu: [powerplay] Failed to send message 0x28, response 0x0
-amdgpu: [powerplay] [SetHardMinFreq] Set hard min uclk failed!
-amdgpu 0000:03:00.0: [drm:amdgpu_ib_ring_tests [amdgpu]] *ERROR* IB test fa=
-iled
-on sdma0 (-110).
-amdgpu 0000:03:00.0: [drm:amdgpu_ib_ring_tests [amdgpu]] *ERROR* IB test fa=
-iled
-on page0 (-110).
-amdgpu: [powerplay] Failed to send message 0x26, response 0x0
-amdgpu: [powerplay] Failed to set soft min gfxclk !
-amdgpu: [powerplay] Failed to upload DPM Bootup Levels!
-amdgpu 0000:03:00.0: [drm:amdgpu_ib_ring_tests [amdgpu]] *ERROR* IB test fa=
-iled
-on sdma1 (-110).
-[drm:process_one_work] *ERROR* ib ring test failed (-110).
-
-In general system is stable.</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145461=
+" name=3D"attach_145461" title=3D"5.3.1 with Alex's patches and dual monito=
+rs">attachment 145461</a> <a href=3D"attachment.cgi?id=3D145461&amp;action=
+=3Dedit" title=3D"5.3.1 with Alex's patches and dual monitors">[details]</a=
+></span>
+5.3.1 with Alex's patches and dual monitors</pre>
         </div>
       </p>
 
@@ -175,9 +129,9 @@ In general system is stable.</pre>
     </body>
 </html>=
 
---15691881661.edC5.27884--
+--15691883114.3eBE.28042--
 
---===============1598564576==
+--===============0290422738==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -187,4 +141,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1598564576==--
+--===============0290422738==--
