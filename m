@@ -2,44 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78434BB7CD
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 17:22:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96CDBBB7F5
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 17:31:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE6736E261;
-	Mon, 23 Sep 2019 15:22:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EC9C6E947;
+	Mon, 23 Sep 2019 15:31:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E97BF6E261
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 15:22:11 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2019 08:22:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,540,1559545200"; d="scan'208";a="203143434"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga001.fm.intel.com with SMTP; 23 Sep 2019 08:22:07 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 23 Sep 2019 18:22:06 +0300
-Date: Mon, 23 Sep 2019 18:22:06 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Tony Camuso <tcamuso@redhat.com>
-Subject: Re: [PATCH] drm: assure aux_dev is nonzero before using it
-Message-ID: <20190923152206.GN1208@intel.com>
-References: <20190523110905.22445-1-tcamuso@redhat.com>
- <87v9y0mept.fsf@intel.com>
- <5111581c-9d73-530d-d3ff-4f6950bf3f8c@redhat.com>
- <20190710135617.GE5942@intel.com>
- <374b7e4e-40a2-f3c0-ae14-c533bd42243f@redhat.com>
- <20190712170657.GL5942@intel.com>
- <841db615-a353-2174-6fd6-a3302f352b08@redhat.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B3556E947
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 15:31:53 +0000 (UTC)
+Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 72105207FD;
+ Mon, 23 Sep 2019 15:31:52 +0000 (UTC)
+Date: Mon, 23 Sep 2019 17:31:50 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@siol.net>
+Subject: Re: [PATCH 2/2] MAINTAINERS: Add Jernej =?utf-8?Q?=C5=A0krabe?=
+ =?utf-8?Q?c?= as a reviewer for DE2
+Message-ID: <20190923153150.wk7tnkfcnhww4siu@gilmour>
+References: <20190919173020.11655-1-mripard@kernel.org>
+ <20190919173020.11655-2-mripard@kernel.org>
+ <47543680.g9p3ZYuVmN@jernej-laptop>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <841db615-a353-2174-6fd6-a3302f352b08@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <47543680.g9p3ZYuVmN@jernej-laptop>
+User-Agent: NeoMutt/20180716
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1569252712;
+ bh=I3s6QLN0I7/kMMc0+gEOf5zUq70NKAXt8BhNsNJjCBQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=B0Tjsa/lKijPYbhKnic69usoeCoKFqXX4+1z+KSkQLs2M6IH1Ry1R/07WOg+JuUE4
+ bv9Br/zqNqWgyd+dvDw5M8+cT8n1lBfnFSm8RgtWGp9VtYqJyX9q7R+1YyPvmjaYZN
+ fkp2Q9HVDT7i8az/ju5LDaRy6cPA32q1qWonVq04=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,84 +48,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Joe Donahue <jdonohue@redhat.com>, airlied@linux.ie,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- John Feeney <jfeeney@redhat.com>, dkwon@redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Chen-Yu Tsai <wens@csie.org>, Sean Paul <seanpaul@chromium.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: multipart/mixed; boundary="===============1301549505=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBTZXAgMjMsIDIwMTkgYXQgMTE6MDM6MzVBTSAtMDQwMCwgVG9ueSBDYW11c28gd3Jv
-dGU6Cj4gT24gNy8xMi8xOSAxOjA2IFBNLCBWaWxsZSBTeXJqw6Rsw6Qgd3JvdGU6Cj4gPiBPbiBG
-cmksIEp1bCAxMiwgMjAxOSBhdCAxMjowNzo0NlBNIC0wNDAwLCBUb255IENhbXVzbyB3cm90ZToK
-PiA+PiBPbiA3LzEwLzE5IDk6NTYgQU0sIFZpbGxlIFN5cmrDpGzDpCB3cm90ZToKPiA+Pj4gT24g
-V2VkLCBKdWwgMTAsIDIwMTkgYXQgMDk6NDc6MTFBTSAtMDQwMCwgVG9ueSBDYW11c28gd3JvdGU6
-Cj4gPj4+PiBPbiA1LzI0LzE5IDQ6MzYgQU0sIEphbmkgTmlrdWxhIHdyb3RlOgo+ID4+Pj4+IE9u
-IFRodSwgMjMgTWF5IDIwMTksIHRjYW11c28gPHRjYW11c29AcmVkaGF0LmNvbT4gd3JvdGU6Cj4g
-Pj4+Pj4+ICAgIEZyb20gRGFuaWVsIEt3b24gPGRrd29uQHJlZGhhdC5jb20+Cj4gPj4+Pj4+Cj4g
-Pj4+Pj4+IFRoZSBzeXN0ZW0gd2FzIGNyYXNoZWQgZHVlIHRvIGludmFsaWQgbWVtb3J5IGFjY2Vz
-cyB3aGlsZSB0cnlpbmcgdG8gYWNjZXNzCj4gPj4+Pj4+IGF1eGlsaWFyeSBkZXZpY2UuCj4gPj4+
-Pj4+Cj4gPj4+Pj4+IGNyYXNoPiBidAo+ID4+Pj4+PiBQSUQ6IDk4NjMgICBUQVNLOiBmZmZmODlk
-MWJkZjExMDQwICBDUFU6IDEgICBDT01NQU5EOiAiaXBtaXRvb2wiCj4gPj4+Pj4+ICAgICAjMCBb
-ZmZmZjg5Y2VkZDdmMzg2OF0gbWFjaGluZV9rZXhlYyBhdCBmZmZmZmZmZmIwNjYzNjc0Cj4gPj4+
-Pj4+ICAgICAjMSBbZmZmZjg5Y2VkZDdmMzhjOF0gX19jcmFzaF9rZXhlYyBhdCBmZmZmZmZmZmIw
-NzFjZjYyCj4gPj4+Pj4+ICAgICAjMiBbZmZmZjg5Y2VkZDdmMzk5OF0gY3Jhc2hfa2V4ZWMgYXQg
-ZmZmZmZmZmZiMDcxZDA1MAo+ID4+Pj4+PiAgICAgIzMgW2ZmZmY4OWNlZGQ3ZjM5YjBdIG9vcHNf
-ZW5kIGF0IGZmZmZmZmZmYjBkNmQ3NTgKPiA+Pj4+Pj4gICAgICM0IFtmZmZmODljZWRkN2YzOWQ4
-XSBub19jb250ZXh0IGF0IGZmZmZmZmZmYjBkNWJjZGUKPiA+Pj4+Pj4gICAgICM1IFtmZmZmODlj
-ZWRkN2YzYTI4XSBfX2JhZF9hcmVhX25vc2VtYXBob3JlIGF0IGZmZmZmZmZmYjBkNWJkNzUKPiA+
-Pj4+Pj4gICAgICM2IFtmZmZmODljZWRkN2YzYTc4XSBiYWRfYXJlYSBhdCBmZmZmZmZmZmIwZDVj
-MDg1Cj4gPj4+Pj4+ICAgICAjNyBbZmZmZjg5Y2VkZDdmM2FhMF0gX19kb19wYWdlX2ZhdWx0IGF0
-IGZmZmZmZmZmYjBkNzA4MGMKPiA+Pj4+Pj4gICAgICM4IFtmZmZmODljZWRkN2YzYjEwXSBkb19w
-YWdlX2ZhdWx0IGF0IGZmZmZmZmZmYjBkNzA5MDUKPiA+Pj4+Pj4gICAgICM5IFtmZmZmODljZWRk
-N2YzYjQwXSBwYWdlX2ZhdWx0IGF0IGZmZmZmZmZmYjBkNmM3NTgKPiA+Pj4+Pj4gICAgICAgIFtl
-eGNlcHRpb24gUklQOiBkcm1fZHBfYXV4X2Rldl9nZXRfYnlfbWlub3IrMHgzZF0KPiA+Pj4+Pj4g
-ICAgICAgIFJJUDogZmZmZmZmZmZjMGE1ODliZCAgUlNQOiBmZmZmODljZWRkN2YzYmYwICBSRkxB
-R1M6IDAwMDEwMjQ2Cj4gPj4+Pj4+ICAgICAgICBSQVg6IDAwMDAwMDAwMDAwMDAwMDAgIFJCWDog
-MDAwMDAwMDAwMDAwMDAwMCAgUkNYOiBmZmZmODljZWRkN2YzZmQ4Cj4gPj4+Pj4+ICAgICAgICBS
-RFg6IDAwMDAwMDAwMDAwMDAwMDAgIFJTSTogMDAwMDAwMDAwMDAwMDAwMCAgUkRJOiBmZmZmZmZm
-ZmMwYTYxM2UwCj4gPj4+Pj4+ICAgICAgICBSQlA6IGZmZmY4OWNlZGQ3ZjNiZjggICBSODogZmZm
-Zjg5ZjFiY2JhYmJkMCAgIFI5OiAwMDAwMDAwMDAwMDAwMDAwCj4gPj4+Pj4+ICAgICAgICBSMTA6
-IGZmZmY4OWYxYmU3YTFjYzAgIFIxMTogMDAwMDAwMDAwMDAwMDAwMCAgUjEyOiAwMDAwMDAwMDAw
-MDAwMDAwCj4gPj4+Pj4+ICAgICAgICBSMTM6IGZmZmY4OWYxYjMyYTI4MzAgIFIxNDogZmZmZjg5
-ZDE4ZmFkZmEwMCAgUjE1OiAwMDAwMDAwMDAwMDAwMDAwCj4gPj4+Pj4+ICAgICAgICBPUklHX1JB
-WDogZmZmZmZmZmZmZmZmZmZmZiAgQ1M6IDAwMTAgIFNTOiAwMDE4Cj4gPj4+Pj4+ICAgICAgICBS
-SVA6IDAwMDAyYjQ1ZjBkODBkMzAgIFJTUDogMDAwMDdmZmM0MTYwNjZhMCAgUkZMQUdTOiAwMDAx
-MDI0Ngo+ID4+Pj4+PiAgICAgICAgUkFYOiAwMDAwMDAwMDAwMDAwMDAyICBSQlg6IDAwMDA1NjA2
-MmUyMTJkODAgIFJDWDogMDAwMDdmZmM0MTYwNjgxMAo+ID4+Pj4+PiAgICAgICAgUkRYOiAwMDAw
-MDAwMDAwMDAwMDAwICBSU0k6IDAwMDAwMDAwMDAwMDAwMDIgIFJESTogMDAwMDdmZmM0MTYwNmVj
-MAo+ID4+Pj4+PiAgICAgICAgUkJQOiAwMDAwMDAwMDAwMDAwMDAwICAgUjg6IDAwMDA1NjA2MmRm
-ZWQyMjkgICBSOTogMDAwMDJiNDVmMGNkZjE0ZAo+ID4+Pj4+PiAgICAgICAgUjEwOiAwMDAwMDAw
-MDAwMDAwMDAyICBSMTE6IDAwMDAwMDAwMDAwMDAyNDYgIFIxMjogMDAwMDdmZmM0MTYwNmVjMAo+
-ID4+Pj4+PiAgICAgICAgUjEzOiAwMDAwN2ZmYzQxNjA2ZWQwICBSMTQ6IDAwMDA3ZmZjNDE2MDZl
-ZTAgIFIxNTogMDAwMDAwMDAwMDAwMDAwMAo+ID4+Pj4+PiAgICAgICAgT1JJR19SQVg6IDAwMDAw
-MDAwMDAwMDAwMDIgIENTOiAwMDMzICBTUzogMDAyYgo+ID4+Pj4+Pgo+ID4+Pj4+PiAtLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tCj4gPj4+Pj4+Cj4gPj4+Pj4+IEl0IHdhcyB0cnlpbmcgdG8gb3BlbiAnL2Rl
-di9pcG1pMCcsIGJ1dCBhcyBubyBlbnRyeSBpbiBhdXhfZGlyLCBpdCByZXR1cm5lZAo+ID4+Pj4+
-PiBOVUxMIGZyb20gJ2lkcl9maW5kKCknLiBUaGlzIGRybV9kcF9hdXhfZGV2X2dldF9ieV9taW5v
-cigpIHNob3VsZCBoYXZlIGRvbmUgYQo+ID4+Pj4+PiBjaGVjayBvbiB0aGlzLCBidXQgaGFkIGZh
-aWxlZCB0byBkbyBpdC4KPiA+Pj4+Pgo+ID4+Pj4+IEkgdGhpbmsgdGhlIGJldHRlciBxdWVzdGlv
-biBpcywgKndoeSogZG9lcyB0aGUgaWRyX2ZpbmQoKSByZXR1cm4gTlVMTD8gSQo+ID4+Pj4+IGRv
-bid0IHRoaW5rIGl0IHNob3VsZCwgdW5kZXIgYW55IGNpcmN1bXN0YW5jZXMuIEkgZmVhciBhZGRp
-bmcgdGhlIGNoZWNrCj4gPj4+Pj4gaGVyZSBwYXBlcnMgb3ZlciBzb21lIG90aGVyIHByb2JsZW0s
-IHRha2luZyB1cyBmdXJ0aGVyIGF3YXkgZnJvbSB0aGUKPiA+Pj4+PiByb290IGNhdXNlLgo+ID4+
-Pj4+Cj4gPj4+Pj4gQWxzbywgY2FuIHlvdSByZXByb2R1Y2UgdGhpcyBvbiBhIHJlY2VudCB1cHN0
-cmVhbSBrZXJuZWw/IFRoZSBhdXggZGV2aWNlCj4gPj4+Pj4gbm9kZXMgd2VyZSBpbnRyb2R1Y2Vk
-IGluIGtlcm5lbCB2NC42LiBXaGF0ZXZlciB5b3UgcmVwcm9kdWNlZCBvbiB2My4xMAo+ID4+Pj4+
-IGlzIHByZXR0eSBtdWNoIGlycmVsZXZhbnQgZm9yIHVwc3RyZWFtLgo+ID4+Pj4+Cj4gPj4+Pj4K
-PiA+Pj4+PiBCUiwKPiA+Pj4+PiBKYW5pLgo+ID4+Pj4KPiA+Pj4+IEkgaGF2ZSBub3QgYmVlbiBh
-YmxlIHRvIHJlcHJvZHVjZSB0aGlzIHByb2JsZW0uCj4gPj4+Cj4gPj4+IG1rbm9kIC9kZXYvZm9v
-IGMgPGRybV9kcF9hdXggbWFqb3I+IDI1NQo+ID4+PiBjYXQgL2Rldi9mb28KPiA+Pj4KPiA+Pj4g
-c2hvdWxkIGRvIGl0Lgo+ID4+Cj4gPj4gSG93IGRvIEkgZGV0ZXJtaW5lIDxkcm1fZHBfYXV4IG1h
-am9yPj8KPiA+IAo+ID4gbHMsZmlsZSxzdGF0LiBUYWtlIHlvdXIgcGljay4KPiA+IAo+IAo+IFBy
-b2JsZW0gaGVyZSBpcyBJIGNhbid0IGxzLGZpbGUsc3RhdCAvZGV2L2ZvbyB1bnRpbCBhZnRlciBp
-dCdzIGNyZWF0ZWQsCj4gYnV0IEkgbmVlZCB0byBrbm93IHRoZSBkcm1fZHBfYXV4IG1ham9yIG51
-bWJlciBiZWZyb2UgSSBjYW4gdXNlIG1rbm9kLgo+IAo+IFdoYXQgYW0gSSBtaXNzaW5nIGhlcmU/
-Cgp1ZGV2L3doYXRldmVyIHNob3VsZCBjcmVhdGUgYSBidW5jaCBvZiB0aGVzZSBmb3IgeW91IHNv
-IHlvdSBjYW4gY2hlY2sKZnJvbSB0aGVtLiBJZiBub3QsIHRoZW4gZGlnIGFyb3VuZCBpbiAvc3lz
-L2NsYXNzL2RybV9kcF9hdXhfZGV2LgoKLS0gClZpbGxlIFN5cmrDpGzDpApJbnRlbApfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1301549505==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="cmciu6a5u4rnz3vz"
+Content-Disposition: inline
+
+
+--cmciu6a5u4rnz3vz
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Sep 19, 2019 at 08:24:18PM +0200, Jernej =C5=A0krabec wrote:
+> Dne =C4=8Detrtek, 19. september 2019 ob 19:30:20 CEST je Maxime Ripard na=
+pisal(a):
+> > The newer Allwinner SoCs have a different layers controller than the ol=
+der
+> > ones. Jernej wrote that support and has been reviewing patches for a wh=
+ile
+> > now, so let's make him a formal reviewer.
+> >
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >  MAINTAINERS | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 54e222e1d0d6..fae328f06c17 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -5361,6 +5361,15 @@ F:	drivers/gpu/drm/sun4i/
+> >  F:	Documentation/devicetree/bindings/display/sunxi/sun4i-drm.txt
+> >  T:	git git://anongit.freedesktop.org/drm/drm-misc
+> >
+> > +DRM DRIVER FOR ALLWINNER DE2 ENGINE
+>
+> Please make that DE2 and DE3 engine, they share almost all code.
+>
+> > +M:	Maxime Ripard <mripard@kernel.org>
+> > +M:	Chen-Yu Tsai <wens@csie.org>
+> > +R:	Jernej =C5=A0krabec <jernej.skrabec@siol.net>
+>
+> Please make that "S" for consistency with other entry.
+>
+> With that:
+> Reviewed-by: Jernej Skrabec <jernej.skrabec@siol.net>
+
+Applied both patches, with your suggestions.
+
+Thanks, and welcome to the team :)
+
+Maxime
+
+--cmciu6a5u4rnz3vz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXYjlZgAKCRDj7w1vZxhR
+xVZiAQC6uSz8aaShyUZYNpqgmpidEd8SmryOJsH+L7keh/2YQwD/XI4O0MqOfAdW
+M3oC6BBgY92pG0KyEyZhHUPFYYT38wM=
+=rVsl
+-----END PGP SIGNATURE-----
+
+--cmciu6a5u4rnz3vz--
+
+--===============1301549505==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1301549505==--
