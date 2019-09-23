@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FFCEBAE26
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 08:56:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E38BAE2C
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 08:57:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5B296E122;
-	Mon, 23 Sep 2019 06:56:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D65376E11A;
+	Mon, 23 Sep 2019 06:57:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0E5C26E11B
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 06:56:05 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 44DDB6E10B
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 06:57:46 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0593172162; Mon, 23 Sep 2019 06:56:05 +0000 (UTC)
+ id 3EC7672162; Mon, 23 Sep 2019 06:57:46 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111763] ring_gfx hangs/freezes on Navi gpus
-Date: Mon, 23 Sep 2019 06:56:05 +0000
+Date: Mon, 23 Sep 2019 06:57:45 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111763-502-iGcFjYpZij@http.bugs.freedesktop.org/>
+Message-ID: <bug-111763-502-cVO3zciNXV@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111763-502@http.bugs.freedesktop.org/>
 References: <bug-111763-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0458838105=="
+Content-Type: multipart/mixed; boundary="===============0486932364=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0458838105==
-Content-Type: multipart/alternative; boundary="15692217640.2FeF.29441"
+--===============0486932364==
+Content-Type: multipart/alternative; boundary="15692218660.FbbE9F34.29408"
 Content-Transfer-Encoding: 7bit
 
 
---15692217640.2FeF.29441
-Date: Mon, 23 Sep 2019 06:56:04 +0000
+--15692218660.FbbE9F34.29408
+Date: Mon, 23 Sep 2019 06:57:46 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,17 +72,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111763
 
---- Comment #2 from Daniel Lu <daniel.lawrence.lu@gmail.com> ---
-Created attachment 145464
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145464&action=3Dedit
-dmesg output
+--- Comment #3 from Daniel Lu <daniel.lawrence.lu@gmail.com> ---
+Created attachment 145465
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145465&action=3Dedit
+output of running sudo umr -R gfx_0.0.0
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15692217640.2FeF.29441
-Date: Mon, 23 Sep 2019 06:56:04 +0000
+--15692218660.FbbE9F34.29408
+Date: Mon, 23 Sep 2019 06:57:46 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -99,8 +99,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - ring_gfx hangs/freezes on Navi gpus"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111763#c2">Commen=
-t # 2</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111763#c3">Commen=
+t # 3</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - ring_gfx hangs/freezes on Navi gpus"
@@ -110,11 +110,11 @@ t # 2</a>
 daniel.lawrence.lu&#64;gmail.com" title=3D"Daniel Lu &lt;daniel.lawrence.lu=
 &#64;gmail.com&gt;"> <span class=3D"fn">Daniel Lu</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145464=
-" name=3D"attach_145464" title=3D"dmesg output">attachment 145464</a> <a hr=
-ef=3D"attachment.cgi?id=3D145464&amp;action=3Dedit" title=3D"dmesg output">=
-[details]</a></span>
-dmesg output</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145465=
+" name=3D"attach_145465" title=3D"output of running sudo umr -R gfx_0.0.0">=
+attachment 145465</a> <a href=3D"attachment.cgi?id=3D145465&amp;action=3Ded=
+it" title=3D"output of running sudo umr -R gfx_0.0.0">[details]</a></span>
+output of running sudo umr -R gfx_0.0.0</pre>
         </div>
       </p>
 
@@ -128,9 +128,9 @@ dmesg output</pre>
     </body>
 </html>=
 
---15692217640.2FeF.29441--
+--15692218660.FbbE9F34.29408--
 
---===============0458838105==
+--===============0486932364==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -140,4 +140,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0458838105==--
+--===============0486932364==--
