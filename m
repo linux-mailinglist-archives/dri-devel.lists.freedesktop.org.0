@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 152CEBBD65
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 22:56:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95E13BBDA1
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 23:11:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B24E888052;
-	Mon, 23 Sep 2019 20:56:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70B886E99F;
+	Mon, 23 Sep 2019 21:11:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3741988052
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 20:56:50 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9B59B6E99F
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 21:11:20 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 3011772162; Mon, 23 Sep 2019 20:56:50 +0000 (UTC)
+ id 983D372162; Mon, 23 Sep 2019 21:11:20 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110457] System resumes failed and hits [drm:amdgpu_job_timedout
- [amdgpu]] *ERROR* ring gfx timeout on Acer Aspire A315-21G
-Date: Mon, 23 Sep 2019 20:56:50 +0000
+Subject: [Bug 111792] [AMD tahiti xt] amd-staging-drm-next broken since linux
+ 5.3.0-rc3 rebase
+Date: Mon, 23 Sep 2019 21:11:20 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
+X-Bugzilla-Type: new
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: darkshvein@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: DUPLICATE
-X-Bugzilla-Priority: high
+X-Bugzilla-Severity: blocker
+X-Bugzilla-Who: sylvain.bertrand@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: highest
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110457-502-9V41kcFnGU@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110457-502@http.bugs.freedesktop.org/>
-References: <bug-110457-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-111792-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,57 +52,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1701903461=="
+Content-Type: multipart/mixed; boundary="===============1352704973=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1701903461==
-Content-Type: multipart/alternative; boundary="15692722100.298D85A2.1407"
+--===============1352704973==
+Content-Type: multipart/alternative; boundary="15692730801.C2e6dA.4578"
 Content-Transfer-Encoding: 7bit
 
 
---15692722100.298D85A2.1407
-Date: Mon, 23 Sep 2019 20:56:50 +0000
+--15692730801.C2e6dA.4578
+Date: Mon, 23 Sep 2019 21:11:20 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110457
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111792
 
---- Comment #13 from darkshvein <darkshvein@gmail.com> ---
-Hello.
-please, explain.=20
-Why I work fine with FX-8320 CPU,
-but after Ryzen r5 1600 upgrade, I see this OS freezes and bug?
+            Bug ID: 111792
+           Summary: [AMD tahiti xt] amd-staging-drm-next broken since
+                    linux 5.3.0-rc3 rebase
+           Product: DRI
+           Version: XOrg git
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: blocker
+          Priority: highest
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: sylvain.bertrand@gmail.com
 
-is pcie generation any cause? planned obsolescence?
-or coincidence with amdgpu driver update?
+got the rebased amd-staging-drm-next branch today, configured and compiled
+linux, xorg hangs while probing card0. See provided logs.
 
-
-part of my log:
-[49266.138534] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,
-signaled seq=3D5660155, emitted seq=3D5660157
-[49266.138578] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
-on:
-process Civ6Sub pid 1778 thread Civ6Sub:cs0 pid 1781
-[49266.138580] [drm] GPU recovery disabled.
-[49275.866518] INFO: task Xorg:sh1:1789 blocked for more than 122 seconds.
-[49275.866521]       Tainted: G  R        O      5.2.10 #2
-
-radeon 7970.=20
-mesa utils(8.4.0-1)
-linux 5.2.10
-amdgpu Version: 18.1.99+git20190207-1
+yes, I can bisect.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15692722100.298D85A2.1407
-Date: Mon, 23 Sep 2019 20:56:50 +0000
+--15692730801.C2e6dA.4578
+Date: Mon, 23 Sep 2019 21:11:20 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -114,48 +107,90 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [AMD tahiti xt] amd-staging-drm-next broken since linux 5=
+.3.0-rc3 rebase"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111792">111792</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>[AMD tahiti xt] amd-staging-drm-next broken since linux 5.3.0=
+-rc3 rebase
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>XOrg git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>blocker
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>highest
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>sylvain.bertrand&#64;gmail.com
+          </td>
+        </tr></table>
       <p>
         <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED DUPLICATE - System resumes failed and hits [drm:amdgpu=
-_job_timedout [amdgpu]] *ERROR* ring gfx timeout on Acer Aspire A315-21G"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110457#c13">Comme=
-nt # 13</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED DUPLICATE - System resumes failed and hits [drm:amdgpu=
-_job_timedout [amdgpu]] *ERROR* ring gfx timeout on Acer Aspire A315-21G"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110457">bug 11045=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-darkshvein&#64;gmail.com" title=3D"darkshvein &lt;darkshvein&#64;gmail.com&=
-gt;"> <span class=3D"fn">darkshvein</span></a>
-</span></b>
-        <pre>Hello.
-please, explain.=20
-Why I work fine with FX-8320 CPU,
-but after Ryzen r5 1600 upgrade, I see this OS freezes and bug?
+        <pre>got the rebased amd-staging-drm-next branch today, configured =
+and compiled
+linux, xorg hangs while probing card0. See provided logs.
 
-is pcie generation any cause? planned obsolescence?
-or coincidence with amdgpu driver update?
-
-
-part of my log:
-[49266.138534] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,
-signaled seq=3D5660155, emitted seq=3D5660157
-[49266.138578] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
-on:
-process Civ6Sub pid 1778 thread Civ6Sub:cs0 pid 1781
-[49266.138580] [drm] GPU recovery disabled.
-[49275.866518] INFO: task Xorg:sh1:1789 blocked for more than 122 seconds.
-[49275.866521]       Tainted: G  R        O      5.2.10 #2
-
-radeon 7970.=20
-mesa utils(8.4.0-1)
-linux 5.2.10
-amdgpu Version: 18.1.99+git20190207-1</pre>
+yes, I can bisect.</pre>
         </div>
       </p>
 
@@ -169,9 +204,9 @@ amdgpu Version: 18.1.99+git20190207-1</pre>
     </body>
 </html>=
 
---15692722100.298D85A2.1407--
+--15692730801.C2e6dA.4578--
 
---===============1701903461==
+--===============1352704973==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -181,4 +216,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1701903461==--
+--===============1352704973==--
