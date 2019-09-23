@@ -2,34 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DE80BB554
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 15:33:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19DE0BB597
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 15:40:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31F796E90D;
-	Mon, 23 Sep 2019 13:32:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 951BD6E909;
+	Mon, 23 Sep 2019 13:40:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id A1FDC6E90D
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 13:32:57 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 58BB31000;
- Mon, 23 Sep 2019 06:32:57 -0700 (PDT)
-Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5409F3F694;
- Mon, 23 Sep 2019 06:32:56 -0700 (PDT)
-Subject: Re: [PATCH v2 04/11] drm/shmem: drop VM_IO
-To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
-References: <20190917092404.9982-1-kraxel@redhat.com>
- <20190917092404.9982-5-kraxel@redhat.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <fc529a6d-5ece-72d5-f9ca-3d403585a476@arm.com>
-Date: Mon, 23 Sep 2019 14:32:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com
+ [IPv6:2607:f8b0:4864:20::b42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBA846E909
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 13:40:11 +0000 (UTC)
+Received: by mail-yb1-xb42.google.com with SMTP id o80so5464785ybc.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 06:40:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=FUFitBHnVlCQl7UwSMp5w/FoE2mKV7N+/xkfpue4dYw=;
+ b=P+9GoFVjiAsJmoalJh8bp0qSqaUHUVfFodmsbCsvCLvGx18lSPBvxQ5bfgx7hlW7LY
+ h7ynl3cQmXQxIRXvGs+sIFHTY9G++yAVIWhUw6a5uIsbJJJod4VjDOmgv+bihPUWwF6t
+ XhtbL04oF3BxMhx8QhK6bA3M1Fwm3po/kvFr3hB8uocQg6OsX2UyYmDdwffTwqIrCK1M
+ /QUAqK58sd0abCVRnOE9twta9p7xngdawMSBbB+1t8JlwxoQ+PVpIScPeO9u5cwjk9i+
+ i8yDlxMWgeYSuQBmU8JIddIDRxgCXH4Blq+AdhSLcy2/cirR6TTz6EfSvclopl5NEGJo
+ h43Q==
+X-Gm-Message-State: APjAAAURO6djYahPWghejKMobw10Xg7c2uHp315OGU41GjAR52mOq7YO
+ mry5KvJrTcmqzyKsNH+Te+p7kA==
+X-Google-Smtp-Source: APXvYqwz2iUg8T4C+Y89Dq3TTXFOBkaA2Vv6zCCqyFe0Z0oZw7jcdRINdcbbmONDFAltN47FCRgHbw==
+X-Received: by 2002:a5b:511:: with SMTP id o17mr17985967ybp.508.1569246010961; 
+ Mon, 23 Sep 2019 06:40:10 -0700 (PDT)
+Received: from localhost ([2620:0:1013:11:89c6:2139:5435:371d])
+ by smtp.gmail.com with ESMTPSA id y67sm2624892ywd.63.2019.09.23.06.40.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Sep 2019 06:40:10 -0700 (PDT)
+Date: Mon, 23 Sep 2019 09:40:09 -0400
+From: Sean Paul <sean@poorly.run>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 1/2] drm: Fix duplicate const warning in
+ drm_gem_ttm_helper.c
+Message-ID: <20190923134009.GY218215@art_vandelay>
+References: <20190920193558.89815-1-sean@poorly.run>
+ <20190923065929.4dcs7k6sb63ueyax@sirius.home.kraxel.org>
 MIME-Version: 1.0
-In-Reply-To: <20190917092404.9982-5-kraxel@redhat.com>
-Content-Language: en-GB
+Content-Disposition: inline
+In-Reply-To: <20190923065929.4dcs7k6sb63ueyax@sirius.home.kraxel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=poorly.run; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent;
+ bh=FUFitBHnVlCQl7UwSMp5w/FoE2mKV7N+/xkfpue4dYw=;
+ b=bThh4M9UDsgIfkvn2Cew8F6LWPiboIKqeEcuge2r+pZUtbwVAl+AYBo0BcYAn7/JTa
+ PrAOSU4TtLzWdgQrvw+OCXI2VJpuOmVtWvGFr2EPUKXPCJDRAEAMrI15/uGNtZx3a3Pg
+ mX5KqBvZ9Za2K2R+LNAhrhgWoh93zoZA68lWWKbxrsD/qU6ciMOyyNCnIBvnO5yUiQ53
+ /PGrHjqx4yhPD0JDlpayjn83YXqWIzyEOZK2ITUdalzuhfLaoWE613bMVFCwonaWB95e
+ xAA3M9AewXFIlX43QdT30KeACZpTBuwAB5H+2pUk3qUPl/V6hi5TI9n6+Tm/pMjm42gW
+ JJyQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -42,32 +72,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- open list <linux-kernel@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <sean@poorly.run>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <maxime.ripard@bootlin.com>,
+ Sean Paul <seanpaul@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTcvMDkvMjAxOSAxMDoyMywgR2VyZCBIb2ZmbWFubiB3cm90ZToKPiBWTV9JTyBpcyB3cm9u
-ZyBoZXJlLCBzaG1lbSB1c2VzIG5vcm1hbCByYW0gbm90IGlvIG1lbW9yeS4KPiAKPiBTaWduZWQt
-b2ZmLWJ5OiBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVkaGF0LmNvbT4KClJldmlld2VkLWJ5OiBT
-dGV2ZW4gUHJpY2UgPHN0ZXZlbi5wcmljZUBhcm0uY29tPgoKPiAtLS0KPiAgZHJpdmVycy9ncHUv
-ZHJtL2RybV9nZW1fc2htZW1faGVscGVyLmMgfCAyICstCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
-c2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vZHJtX2dlbV9zaG1lbV9oZWxwZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVt
-X2hlbHBlci5jCj4gaW5kZXggNmVmZWRhYjE1MDE2Li4zYmM2OWIxZmZhN2QgMTAwNjQ0Cj4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVscGVyLmMKPiArKysgYi9kcml2ZXJz
-L2dwdS9kcm0vZHJtX2dlbV9zaG1lbV9oZWxwZXIuYwo+IEBAIC01MzYsNyArNTM2LDcgQEAgaW50
-IGRybV9nZW1fc2htZW1fbW1hcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwgc3RydWN0IHZt
-X2FyZWFfc3RydWN0ICp2bWEpCj4gIAkJcmV0dXJuIHJldDsKPiAgCX0KPiAgCj4gLQl2bWEtPnZt
-X2ZsYWdzIHw9IFZNX0lPIHwgVk1fTUlYRURNQVAgfCBWTV9ET05URVhQQU5EOwo+ICsJdm1hLT52
-bV9mbGFncyB8PSBWTV9NSVhFRE1BUCB8IFZNX0RPTlRFWFBBTkQ7Cj4gIAl2bWEtPnZtX3BhZ2Vf
-cHJvdCA9IHBncHJvdF93cml0ZWNvbWJpbmUodm1fZ2V0X3BhZ2VfcHJvdCh2bWEtPnZtX2ZsYWdz
-KSk7Cj4gIAl2bWEtPnZtX3BhZ2VfcHJvdCA9IHBncHJvdF9kZWNyeXB0ZWQodm1hLT52bV9wYWdl
-X3Byb3QpOwo+ICAJdm1hLT52bV9vcHMgPSAmZHJtX2dlbV9zaG1lbV92bV9vcHM7Cj4gCgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+T24gTW9uLCBTZXAgMjMsIDIwMTkgYXQgMDg6NTk6MjlBTSArMDIwMCwgR2VyZCBIb2ZmbWFubiB3
+cm90ZToKPiBPbiBGcmksIFNlcCAyMCwgMjAxOSBhdCAwMzozNTo1MVBNIC0wNDAwLCBTZWFuIFBh
+dWwgd3JvdGU6Cj4gPiBGcm9tOiBTZWFuIFBhdWwgPHNlYW5wYXVsQGNocm9taXVtLm9yZz4KPiA+
+IAo+ID4gRm9yIHRoZSB3YXJuaW5nCj4gPiAuLi9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV90dG1f
+aGVscGVyLmM6MjY6MjA6IHdhcm5pbmc6IGR1cGxpY2F0ZSDigJhjb25zdOKAmSBkZWNsYXJhdGlv
+biBzcGVjaWZpZXIgWy1XZHVwbGljYXRlLWRlY2wtc3BlY2lmaWVyXQo+IAo+IEkgaGF2ZSBhIGRy
+bV9wcmludF9iaXRzIHBhdGNoIGluIGZsaWdodCB3aGljaCBmaXhlcyB0aGlzIHRvbyAoQ2MnZWQg
+eW91Cj4gb24gdjIpLgoKQWggbmVhdCwgdGhhbmtzLgoKU2VhbgoKPiAKPiBjaGVlcnMsCj4gICBH
+ZXJkCj4gCgotLSAKU2VhbiBQYXVsLCBTb2Z0d2FyZSBFbmdpbmVlciwgR29vZ2xlIC8gQ2hyb21p
+dW0gT1MKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
+LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
