@@ -2,41 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6087EBB875
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 17:50:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40FC2BB8CB
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 18:00:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28870891F2;
-	Mon, 23 Sep 2019 15:50:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 786F6891D4;
+	Mon, 23 Sep 2019 16:00:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F05D891F2;
- Mon, 23 Sep 2019 15:50:08 +0000 (UTC)
-Received: from localhost.localdomain (unknown [194.230.155.145])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 2D06020835;
- Mon, 23 Sep 2019 15:50:03 +0000 (UTC)
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Jiri Kosina <trivial@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, lima@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org
-Subject: [PATCH trivial] gpu: Fix Kconfig indentation
-Date: Mon, 23 Sep 2019 17:49:32 +0200
-Message-Id: <20190923154932.6807-1-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1569253808;
- bh=a/gnp0VA43q9tw8vxlsMsjkP9jypIqy2k1SvccaheYU=;
- h=From:To:Cc:Subject:Date:From;
- b=bPQYcEFIvxg2tJ8VOXDkany+/p5qbWPIVaEMsk5bLaFy05XP0ZCkEdTGVN2mbLSEw
- vS5Of4Mlv3hzBkDxqzu0apHXHhplWRlPBDjTPQtqJFYn1M53Kyw6cF3iR2UOIUGLob
- s/ODlBe8DHnmg8aOKaltmArUNfPYLWGQNIPSAI0Y=
+Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4868F891D4
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 15:59:59 +0000 (UTC)
+Received: from relay12.mail.gandi.net (unknown [217.70.178.232])
+ by mslow2.mail.gandi.net (Postfix) with ESMTP id 10BCF3A7227
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 15:33:36 +0000 (UTC)
+Received: from aptenodytes (lfbn-1-17395-211.w86-250.abo.wanadoo.fr
+ [86.250.200.211])
+ (Authenticated sender: paul.kocialkowski@bootlin.com)
+ by relay12.mail.gandi.net (Postfix) with ESMTPSA id 8048020000E;
+ Mon, 23 Sep 2019 15:33:11 +0000 (UTC)
+Date: Mon, 23 Sep 2019 17:33:11 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: display: Add xylon logicvc bindings
+ documentation
+Message-ID: <20190923153311.GE57525@aptenodytes>
+References: <20190910153409.111901-1-paul.kocialkowski@bootlin.com>
+ <20190910153409.111901-2-paul.kocialkowski@bootlin.com>
+ <20190913143510.GA9504@bogus> <20190913155815.GA1554@aptenodytes>
+ <CAL_Jsq+dzT1xrfBy2QQHLx9MUNukWWq5eXyOecVV8h0z5ziC8g@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAL_Jsq+dzT1xrfBy2QQHLx9MUNukWWq5eXyOecVV8h0z5ziC8g@mail.gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,331 +45,332 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Maxime Ripard <maxime.ripard@bootlin.com>, Sean Paul <sean@poorly.run>
+Content-Type: multipart/mixed; boundary="===============0433644694=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QWRqdXN0IGluZGVudGF0aW9uIGZyb20gc3BhY2VzIHRvIHRhYiAoK29wdGlvbmFsIHR3byBzcGFj
-ZXMpIGFzIGluCmNvZGluZyBzdHlsZSB3aXRoIGNvbW1hbmQgbGlrZToKICAgICQgc2VkIC1lICdz
-L14gICAgICAgIC9cdC8nIC1pICovS2NvbmZpZwoKU2lnbmVkLW9mZi1ieTogS3J6eXN6dG9mIEtv
-emxvd3NraSA8a3J6a0BrZXJuZWwub3JnPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9LY29uZmlnICAg
-ICAgICAgICAgICAgICAgfCAgMTAgKy0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9LY29u
-ZmlnICAgICAgfCAgMjAgKystLQogZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9LY29uZmlnICAgICAg
-ICAgICB8ICAgOCArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvS2NvbmZpZyAgICAgICAgICAgICB8
-ICAxMiArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvS2NvbmZpZy5kZWJ1ZyAgICAgICB8IDE0NCAr
-KysrKysrKysrKy0tLS0tLS0tLS0tLQogZHJpdmVycy9ncHUvZHJtL2xpbWEvS2NvbmZpZyAgICAg
-ICAgICAgICB8ICAgMiArLQogZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvS2NvbmZpZyAgICAgICAg
-ICB8ICAgOCArLQogZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvS2NvbmZpZyAgICAgICAgICB8ICAg
-MiArLQogZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vZGlzcGxheXMvS2NvbmZpZyB8ICAgNiArLQog
-ZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vZHNzL0tjb25maWcgICAgICB8ICAxMiArLQogZHJpdmVy
-cy9ncHUvZHJtL3JvY2tjaGlwL0tjb25maWcgICAgICAgICB8ICAgOCArLQogZHJpdmVycy9ncHUv
-ZHJtL3VkbC9LY29uZmlnICAgICAgICAgICAgICB8ICAgMiArLQogZHJpdmVycy9ncHUvdmdhL0tj
-b25maWcgICAgICAgICAgICAgICAgICB8ICAgMiArLQogMTMgZmlsZXMgY2hhbmdlZCwgMTE4IGlu
-c2VydGlvbnMoKyksIDExOCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vS2NvbmZpZyBiL2RyaXZlcnMvZ3B1L2RybS9LY29uZmlnCmluZGV4IGU2N2MxOTRjMmFjYS4u
-N2NiNmU0ZWI5OWU4IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vS2NvbmZpZworKysgYi9k
-cml2ZXJzL2dwdS9kcm0vS2NvbmZpZwpAQCAtMjA3LDggKzIwNyw4IEBAIGNvbmZpZyBEUk1fUkFE
-RU9OCiAJdHJpc3RhdGUgIkFUSSBSYWRlb24iCiAJZGVwZW5kcyBvbiBEUk0gJiYgUENJICYmIE1N
-VQogCXNlbGVjdCBGV19MT0FERVIKLSAgICAgICAgc2VsZWN0IERSTV9LTVNfSEVMUEVSCi0gICAg
-ICAgIHNlbGVjdCBEUk1fVFRNCisJc2VsZWN0IERSTV9LTVNfSEVMUEVSCisJc2VsZWN0IERSTV9U
-VE0KIAlzZWxlY3QgUE9XRVJfU1VQUExZCiAJc2VsZWN0IEhXTU9OCiAJc2VsZWN0IEJBQ0tMSUdI
-VF9DTEFTU19ERVZJQ0UKQEAgLTIyNiw5ICsyMjYsOSBAQCBjb25maWcgRFJNX0FNREdQVQogCXRy
-aXN0YXRlICJBTUQgR1BVIgogCWRlcGVuZHMgb24gRFJNICYmIFBDSSAmJiBNTVUKIAlzZWxlY3Qg
-RldfTE9BREVSCi0gICAgICAgIHNlbGVjdCBEUk1fS01TX0hFTFBFUgorCXNlbGVjdCBEUk1fS01T
-X0hFTFBFUgogCXNlbGVjdCBEUk1fU0NIRUQKLSAgICAgICAgc2VsZWN0IERSTV9UVE0KKwlzZWxl
-Y3QgRFJNX1RUTQogCXNlbGVjdCBQT1dFUl9TVVBQTFkKIAlzZWxlY3QgSFdNT04KIAlzZWxlY3Qg
-QkFDS0xJR0hUX0NMQVNTX0RFVklDRQpAQCAtMjY2LDcgKzI2Niw3IEBAIGNvbmZpZyBEUk1fVktN
-UwogCSAgSWYgTSBpcyBzZWxlY3RlZCB0aGUgbW9kdWxlIHdpbGwgYmUgY2FsbGVkIHZrbXMuCiAK
-IGNvbmZpZyBEUk1fQVRJX1BDSUdBUlQKLSAgICAgICAgYm9vbAorCWJvb2wKIAogc291cmNlICJk
-cml2ZXJzL2dwdS9kcm0vZXh5bm9zL0tjb25maWciCiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9hbWQvZGlzcGxheS9LY29uZmlnIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L0tj
-b25maWcKaW5kZXggNzE5OTFhMjhhNzc1Li4wYTM1Y2I4ZTgwM2EgMTAwNjQ0Ci0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS9hbWQvZGlzcGxheS9LY29uZmlnCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQv
-ZGlzcGxheS9LY29uZmlnCkBAIC0yMywxNiArMjMsMTYgQEAgY29uZmlnIERSTV9BTURfRENfRENO
-Ml8wCiAJZGVwZW5kcyBvbiBEUk1fQU1EX0RDICYmIFg4NgogCWRlcGVuZHMgb24gRFJNX0FNRF9E
-Q19EQ04xXzAKIAloZWxwCi0JICAgIENob29zZSB0aGlzIG9wdGlvbiBpZiB5b3Ugd2FudCB0byBo
-YXZlCi0JICAgIE5hdmkgc3VwcG9ydCBmb3IgZGlzcGxheSBlbmdpbmUKKwkgIENob29zZSB0aGlz
-IG9wdGlvbiBpZiB5b3Ugd2FudCB0byBoYXZlCisJICBOYXZpIHN1cHBvcnQgZm9yIGRpc3BsYXkg
-ZW5naW5lCiAKIGNvbmZpZyBEUk1fQU1EX0RDX0RDTjJfMQotICAgICAgICBib29sICJEQ04gMi4x
-IGZhbWlseSIKLSAgICAgICAgZGVwZW5kcyBvbiBEUk1fQU1EX0RDICYmIFg4NgotICAgICAgICBk
-ZXBlbmRzIG9uIERSTV9BTURfRENfRENOMl8wCi0gICAgICAgIGhlbHAKLSAgICAgICAgICAgIENo
-b29zZSB0aGlzIG9wdGlvbiBpZiB5b3Ugd2FudCB0byBoYXZlCi0gICAgICAgICAgICBSZW5vaXIg
-c3VwcG9ydCBmb3IgZGlzcGxheSBlbmdpbmUKKwlib29sICJEQ04gMi4xIGZhbWlseSIKKwlkZXBl
-bmRzIG9uIERSTV9BTURfREMgJiYgWDg2CisJZGVwZW5kcyBvbiBEUk1fQU1EX0RDX0RDTjJfMAor
-CWhlbHAKKwkgIENob29zZSB0aGlzIG9wdGlvbiBpZiB5b3Ugd2FudCB0byBoYXZlCisJICBSZW5v
-aXIgc3VwcG9ydCBmb3IgZGlzcGxheSBlbmdpbmUKIAogY29uZmlnIERSTV9BTURfRENfRFNDX1NV
-UFBPUlQKIAlib29sICJEU0Mgc3VwcG9ydCIKQEAgLTQxLDggKzQxLDggQEAgY29uZmlnIERSTV9B
-TURfRENfRFNDX1NVUFBPUlQKIAlkZXBlbmRzIG9uIERSTV9BTURfRENfRENOMV8wCiAJZGVwZW5k
-cyBvbiBEUk1fQU1EX0RDX0RDTjJfMAogCWhlbHAKLQkgICAgQ2hvb3NlIHRoaXMgb3B0aW9uIGlm
-IHlvdSB3YW50IHRvIGhhdmUKLQkgICAgRHluYW1pYyBTdHJlYW0gQ29tcHJlc3Npb24gc3VwcG9y
-dAorCSAgQ2hvb3NlIHRoaXMgb3B0aW9uIGlmIHlvdSB3YW50IHRvIGhhdmUKKwkgIER5bmFtaWMg
-U3RyZWFtIENvbXByZXNzaW9uIHN1cHBvcnQKIAogY29uZmlnIERFQlVHX0tFUk5FTF9EQwogCWJv
-b2wgIkVuYWJsZSBrZ2RiIGJyZWFrIGluIERDIgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L2JyaWRnZS9LY29uZmlnIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9LY29uZmlnCmluZGV4IDFj
-YzlmNTAyYzFmMi4uYTVhYTdlYzE2MDAwIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYnJp
-ZGdlL0tjb25maWcKKysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9LY29uZmlnCkBAIC02MCwx
-MCArNjAsMTAgQEAgY29uZmlnIERSTV9NRUdBQ0hJUFNfU1REUFhYWFhfR0VfQjg1MFYzX0ZXCiAJ
-c2VsZWN0IERSTV9LTVNfSEVMUEVSCiAJc2VsZWN0IERSTV9QQU5FTAogCS0tLWhlbHAtLS0KLSAg
-ICAgICAgICBUaGlzIGlzIGEgZHJpdmVyIGZvciB0aGUgZGlzcGxheSBicmlkZ2VzIG9mCi0gICAg
-ICAgICAgR0UgQjg1MHYzIHRoYXQgY29udmVydCBkdWFsIGNoYW5uZWwgTFZEUwotICAgICAgICAg
-IHRvIERQKysuIFRoaXMgaXMgdXNlZCB3aXRoIHRoZSBpLk1YNiBpbXgtbGRiCi0gICAgICAgICAg
-ZHJpdmVyLiBZb3UgYXJlIGxpa2VseSB0byBzYXkgTiBoZXJlLgorCSAgVGhpcyBpcyBhIGRyaXZl
-ciBmb3IgdGhlIGRpc3BsYXkgYnJpZGdlcyBvZgorCSAgR0UgQjg1MHYzIHRoYXQgY29udmVydCBk
-dWFsIGNoYW5uZWwgTFZEUworCSAgdG8gRFArKy4gVGhpcyBpcyB1c2VkIHdpdGggdGhlIGkuTVg2
-IGlteC1sZGIKKwkgIGRyaXZlci4gWW91IGFyZSBsaWtlbHkgdG8gc2F5IE4gaGVyZS4KIAogY29u
-ZmlnIERSTV9OWFBfUFROMzQ2MAogCXRyaXN0YXRlICJOWFAgUFROMzQ2MCBEUC9MVkRTIGJyaWRn
-ZSIKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L0tjb25maWcgYi9kcml2ZXJzL2dw
-dS9kcm0vaTkxNS9LY29uZmlnCmluZGV4IDBkMjE0MDI5NDVhYi4uM2M2ZDU3ZGYyNjJkIDEwMDY0
-NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9LY29uZmlnCisrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L0tjb25maWcKQEAgLTc2LDcgKzc2LDcgQEAgY29uZmlnIERSTV9JOTE1X0NBUFRVUkVf
-RVJST1IKIAkgIFRoaXMgb3B0aW9uIGVuYWJsZXMgY2FwdHVyaW5nIHRoZSBHUFUgc3RhdGUgd2hl
-biBhIGhhbmcgaXMgZGV0ZWN0ZWQuCiAJICBUaGlzIGluZm9ybWF0aW9uIGlzIHZpdGFsIGZvciB0
-cmlhZ2luZyBoYW5ncyBhbmQgYXNzaXN0cyBpbiBkZWJ1Z2dpbmcuCiAJICBQbGVhc2UgcmVwb3J0
-IGFueSBoYW5nIHRvCi0gICAgICAgICAgICBodHRwczovL2J1Z3MuZnJlZWRlc2t0b3Aub3JnL2Vu
-dGVyX2J1Zy5jZ2k/cHJvZHVjdD1EUkkKKwkgICAgaHR0cHM6Ly9idWdzLmZyZWVkZXNrdG9wLm9y
-Zy9lbnRlcl9idWcuY2dpP3Byb2R1Y3Q9RFJJCiAJICBmb3IgdHJpYWdpbmcuCiAKIAkgIElmIGlu
-IGRvdWJ0LCBzYXkgIlkiLgpAQCAtMTA1LDExICsxMDUsMTEgQEAgY29uZmlnIERSTV9JOTE1X1VT
-RVJQVFIKIAkgIElmIGluIGRvdWJ0LCBzYXkgIlkiLgogCiBjb25maWcgRFJNX0k5MTVfR1ZUCi0g
-ICAgICAgIGJvb2wgIkVuYWJsZSBJbnRlbCBHVlQtZyBncmFwaGljcyB2aXJ0dWFsaXphdGlvbiBo
-b3N0IHN1cHBvcnQiCi0gICAgICAgIGRlcGVuZHMgb24gRFJNX0k5MTUKLSAgICAgICAgZGVwZW5k
-cyBvbiA2NEJJVAotICAgICAgICBkZWZhdWx0IG4KLSAgICAgICAgaGVscAorCWJvb2wgIkVuYWJs
-ZSBJbnRlbCBHVlQtZyBncmFwaGljcyB2aXJ0dWFsaXphdGlvbiBob3N0IHN1cHBvcnQiCisJZGVw
-ZW5kcyBvbiBEUk1fSTkxNQorCWRlcGVuZHMgb24gNjRCSVQKKwlkZWZhdWx0IG4KKwloZWxwCiAJ
-ICBDaG9vc2UgdGhpcyBvcHRpb24gaWYgeW91IHdhbnQgdG8gZW5hYmxlIEludGVsIEdWVC1nIGdy
-YXBoaWNzCiAJICB2aXJ0dWFsaXphdGlvbiB0ZWNobm9sb2d5IGhvc3Qgc3VwcG9ydCB3aXRoIGlu
-dGVncmF0ZWQgZ3JhcGhpY3MuCiAJICBXaXRoIEdWVC1nLCBpdCdzIHBvc3NpYmxlIHRvIGhhdmUg
-b25lIGludGVncmF0ZWQgZ3JhcGhpY3MKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1
-L0tjb25maWcuZGVidWcgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9LY29uZmlnLmRlYnVnCmluZGV4
-IDAwNzg2YTE0MmZmMC4uZWVhNzkxMjViM2VhIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-aTkxNS9LY29uZmlnLmRlYnVnCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L0tjb25maWcuZGVi
-dWcKQEAgLTEsMzQgKzEsMzQgQEAKICMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAt
-b25seQogY29uZmlnIERSTV9JOTE1X1dFUlJPUgotICAgICAgICBib29sICJGb3JjZSBHQ0MgdG8g
-dGhyb3cgYW4gZXJyb3IgaW5zdGVhZCBvZiBhIHdhcm5pbmcgd2hlbiBjb21waWxpbmciCi0gICAg
-ICAgICMgQXMgdGhpcyBtYXkgaW5hZHZlcnRlbnRseSBicmVhayB0aGUgYnVpbGQsIG9ubHkgYWxs
-b3cgdGhlIHVzZXIKLSAgICAgICAgIyB0byBzaG9vdCBvbmVzZWxmIGluIHRoZSBmb290IGlmZiB0
-aGV5IGFpbSByZWFsbHkgaGFyZAotICAgICAgICBkZXBlbmRzIG9uIEVYUEVSVAotICAgICAgICAj
-IFdlIHVzZSB0aGUgZGVwZW5kZW5jeSBvbiAhQ09NUElMRV9URVNUIHRvIG5vdCBiZSBlbmFibGVk
-IGluCi0gICAgICAgICMgYWxsbW9kY29uZmlnIG9yIGFsbHllc2NvbmZpZyBjb25maWd1cmF0aW9u
-cwotICAgICAgICBkZXBlbmRzIG9uICFDT01QSUxFX1RFU1QKKwlib29sICJGb3JjZSBHQ0MgdG8g
-dGhyb3cgYW4gZXJyb3IgaW5zdGVhZCBvZiBhIHdhcm5pbmcgd2hlbiBjb21waWxpbmciCisJIyBB
-cyB0aGlzIG1heSBpbmFkdmVydGVudGx5IGJyZWFrIHRoZSBidWlsZCwgb25seSBhbGxvdyB0aGUg
-dXNlcgorCSMgdG8gc2hvb3Qgb25lc2VsZiBpbiB0aGUgZm9vdCBpZmYgdGhleSBhaW0gcmVhbGx5
-IGhhcmQKKwlkZXBlbmRzIG9uIEVYUEVSVAorCSMgV2UgdXNlIHRoZSBkZXBlbmRlbmN5IG9uICFD
-T01QSUxFX1RFU1QgdG8gbm90IGJlIGVuYWJsZWQgaW4KKwkjIGFsbG1vZGNvbmZpZyBvciBhbGx5
-ZXNjb25maWcgY29uZmlndXJhdGlvbnMKKwlkZXBlbmRzIG9uICFDT01QSUxFX1RFU1QKIAlzZWxl
-Y3QgSEVBREVSX1RFU1QKLSAgICAgICAgZGVmYXVsdCBuCi0gICAgICAgIGhlbHAKLSAgICAgICAg
-ICBBZGQgLVdlcnJvciB0byB0aGUgYnVpbGQgZmxhZ3MgZm9yIChhbmQgb25seSBmb3IpIGk5MTUu
-a28uCi0gICAgICAgICAgRG8gbm90IGVuYWJsZSB0aGlzIHVubGVzcyB5b3UgYXJlIHdyaXRpbmcg
-Y29kZSBmb3IgdGhlIGk5MTUua28gbW9kdWxlLgorCWRlZmF1bHQgbgorCWhlbHAKKwkgIEFkZCAt
-V2Vycm9yIHRvIHRoZSBidWlsZCBmbGFncyBmb3IgKGFuZCBvbmx5IGZvcikgaTkxNS5rby4KKwkg
-IERvIG5vdCBlbmFibGUgdGhpcyB1bmxlc3MgeW91IGFyZSB3cml0aW5nIGNvZGUgZm9yIHRoZSBp
-OTE1LmtvIG1vZHVsZS4KIAotICAgICAgICAgIFJlY29tbWVuZGVkIGZvciBkcml2ZXIgZGV2ZWxv
-cGVycyBvbmx5LgorCSAgUmVjb21tZW5kZWQgZm9yIGRyaXZlciBkZXZlbG9wZXJzIG9ubHkuCiAK
-LSAgICAgICAgICBJZiBpbiBkb3VidCwgc2F5ICJOIi4KKwkgIElmIGluIGRvdWJ0LCBzYXkgIk4i
-LgogCiBjb25maWcgRFJNX0k5MTVfREVCVUcKLSAgICAgICAgYm9vbCAiRW5hYmxlIGFkZGl0aW9u
-YWwgZHJpdmVyIGRlYnVnZ2luZyIKLSAgICAgICAgZGVwZW5kcyBvbiBEUk1fSTkxNQotICAgICAg
-ICBzZWxlY3QgREVCVUdfRlMKLSAgICAgICAgc2VsZWN0IFBSRUVNUFRfQ09VTlQKLSAgICAgICAg
-c2VsZWN0IFJFRkNPVU5UX0ZVTEwKLSAgICAgICAgc2VsZWN0IEkyQ19DSEFSREVWCi0gICAgICAg
-IHNlbGVjdCBTVEFDS0RFUE9UCi0gICAgICAgIHNlbGVjdCBEUk1fRFBfQVVYX0NIQVJERVYKLSAg
-ICAgICAgc2VsZWN0IFg4Nl9NU1IgIyB1c2VkIGJ5IGlndC9wbV9ycG0KLSAgICAgICAgc2VsZWN0
-IERSTV9WR0VNICMgdXNlZCBieSBpZ3QvcHJpbWVfdmdlbSAoZG1hYnVmIGludGVyb3AgY2hlY2tz
-KQotICAgICAgICBzZWxlY3QgRFJNX0RFQlVHX01NIGlmIERSTT15CisJYm9vbCAiRW5hYmxlIGFk
-ZGl0aW9uYWwgZHJpdmVyIGRlYnVnZ2luZyIKKwlkZXBlbmRzIG9uIERSTV9JOTE1CisJc2VsZWN0
-IERFQlVHX0ZTCisJc2VsZWN0IFBSRUVNUFRfQ09VTlQKKwlzZWxlY3QgUkVGQ09VTlRfRlVMTAor
-CXNlbGVjdCBJMkNfQ0hBUkRFVgorCXNlbGVjdCBTVEFDS0RFUE9UCisJc2VsZWN0IERSTV9EUF9B
-VVhfQ0hBUkRFVgorCXNlbGVjdCBYODZfTVNSICMgdXNlZCBieSBpZ3QvcG1fcnBtCisJc2VsZWN0
-IERSTV9WR0VNICMgdXNlZCBieSBpZ3QvcHJpbWVfdmdlbSAoZG1hYnVmIGludGVyb3AgY2hlY2tz
-KQorCXNlbGVjdCBEUk1fREVCVUdfTU0gaWYgRFJNPXkKIAlzZWxlY3QgRFJNX0RFQlVHX1NFTEZU
-RVNUCiAJc2VsZWN0IERNQUJVRl9TRUxGVEVTVFMKIAlzZWxlY3QgU1dfU1lOQyAjIHNpZ25hbGlu
-ZyB2YWxpZGF0aW9uIGZyYW1ld29yayAoaWd0L3N5bmNvYmoqKQpAQCAtMzYsMTQgKzM2LDE0IEBA
-IGNvbmZpZyBEUk1fSTkxNV9ERUJVRwogCXNlbGVjdCBEUk1fSTkxNV9TRUxGVEVTVAogCXNlbGVj
-dCBEUk1fSTkxNV9ERUJVR19SVU5USU1FX1BNCiAJc2VsZWN0IERSTV9JOTE1X0RFQlVHX01NSU8K
-LSAgICAgICAgZGVmYXVsdCBuCi0gICAgICAgIGhlbHAKLSAgICAgICAgICBDaG9vc2UgdGhpcyBv
-cHRpb24gdG8gdHVybiBvbiBleHRyYSBkcml2ZXIgZGVidWdnaW5nIHRoYXQgbWF5IGFmZmVjdAot
-ICAgICAgICAgIHBlcmZvcm1hbmNlIGJ1dCB3aWxsIGNhdGNoIHNvbWUgaW50ZXJuYWwgaXNzdWVz
-LgorCWRlZmF1bHQgbgorCWhlbHAKKwkgIENob29zZSB0aGlzIG9wdGlvbiB0byB0dXJuIG9uIGV4
-dHJhIGRyaXZlciBkZWJ1Z2dpbmcgdGhhdCBtYXkgYWZmZWN0CisJICBwZXJmb3JtYW5jZSBidXQg
-d2lsbCBjYXRjaCBzb21lIGludGVybmFsIGlzc3Vlcy4KIAotICAgICAgICAgIFJlY29tbWVuZGVk
-IGZvciBkcml2ZXIgZGV2ZWxvcGVycyBvbmx5LgorCSAgUmVjb21tZW5kZWQgZm9yIGRyaXZlciBk
-ZXZlbG9wZXJzIG9ubHkuCiAKLSAgICAgICAgICBJZiBpbiBkb3VidCwgc2F5ICJOIi4KKwkgIElm
-IGluIGRvdWJ0LCBzYXkgIk4iLgogCiBjb25maWcgRFJNX0k5MTVfREVCVUdfTU1JTwogCWJvb2wg
-IkFsd2F5cyBpbnNlcnQgZXh0cmEgY2hlY2tzIGFyb3VuZCBtbWlvIGFjY2VzcyBieSBkZWZhdWx0
-IgpAQCAtNTksMTYgKzU5LDE2IEBAIGNvbmZpZyBEUk1fSTkxNV9ERUJVR19NTUlPCiAJICBJZiBp
-biBkb3VidCwgc2F5ICJOIi4KIAogY29uZmlnIERSTV9JOTE1X0RFQlVHX0dFTQotICAgICAgICBi
-b29sICJJbnNlcnQgZXh0cmEgY2hlY2tzIGludG8gdGhlIEdFTSBpbnRlcm5hbHMiCi0gICAgICAg
-IGRlZmF1bHQgbgotICAgICAgICBkZXBlbmRzIG9uIERSTV9JOTE1X1dFUlJPUgotICAgICAgICBo
-ZWxwCi0gICAgICAgICAgRW5hYmxlIGV4dHJhIHNhbml0eSBjaGVja3MgKGluY2x1ZGluZyBCVUdz
-KSBhbG9uZyB0aGUgR0VNIGRyaXZlcgotICAgICAgICAgIHBhdGhzIHRoYXQgbWF5IHNsb3cgdGhl
-IHN5c3RlbSBkb3duIGFuZCBpZiBoaXQgaGFuZyB0aGUgbWFjaGluZS4KKwlib29sICJJbnNlcnQg
-ZXh0cmEgY2hlY2tzIGludG8gdGhlIEdFTSBpbnRlcm5hbHMiCisJZGVmYXVsdCBuCisJZGVwZW5k
-cyBvbiBEUk1fSTkxNV9XRVJST1IKKwloZWxwCisJICBFbmFibGUgZXh0cmEgc2FuaXR5IGNoZWNr
-cyAoaW5jbHVkaW5nIEJVR3MpIGFsb25nIHRoZSBHRU0gZHJpdmVyCisJICBwYXRocyB0aGF0IG1h
-eSBzbG93IHRoZSBzeXN0ZW0gZG93biBhbmQgaWYgaGl0IGhhbmcgdGhlIG1hY2hpbmUuCiAKLSAg
-ICAgICAgICBSZWNvbW1lbmRlZCBmb3IgZHJpdmVyIGRldmVsb3BlcnMgb25seS4KKwkgIFJlY29t
-bWVuZGVkIGZvciBkcml2ZXIgZGV2ZWxvcGVycyBvbmx5LgogCi0gICAgICAgICAgSWYgaW4gZG91
-YnQsIHNheSAiTiIuCisJICBJZiBpbiBkb3VidCwgc2F5ICJOIi4KIAogY29uZmlnIERSTV9JOTE1
-X0VSUkxPR19HRU0KIAlib29sICJJbnNlcnQgZXh0cmEgbG9nZ2luZyAodmVyeSB2ZXJib3NlKSBm
-b3IgY29tbW9uIEdFTSBlcnJvcnMiCkBAIC0xMTEsNDEgKzExMSw0MSBAQCBjb25maWcgRFJNX0k5
-MTVfVFJBQ0VfR1RUCiAJICBJZiBpbiBkb3VidCwgc2F5ICJOIi4KIAogY29uZmlnIERSTV9JOTE1
-X1NXX0ZFTkNFX0RFQlVHX09CSkVDVFMKLSAgICAgICAgYm9vbCAiRW5hYmxlIGFkZGl0aW9uYWwg
-ZHJpdmVyIGRlYnVnZ2luZyBmb3IgZmVuY2Ugb2JqZWN0cyIKLSAgICAgICAgZGVwZW5kcyBvbiBE
-Uk1fSTkxNQotICAgICAgICBzZWxlY3QgREVCVUdfT0JKRUNUUwotICAgICAgICBkZWZhdWx0IG4K
-LSAgICAgICAgaGVscAotICAgICAgICAgIENob29zZSB0aGlzIG9wdGlvbiB0byB0dXJuIG9uIGV4
-dHJhIGRyaXZlciBkZWJ1Z2dpbmcgdGhhdCBtYXkgYWZmZWN0Ci0gICAgICAgICAgcGVyZm9ybWFu
-Y2UgYnV0IHdpbGwgY2F0Y2ggc29tZSBpbnRlcm5hbCBpc3N1ZXMuCisJYm9vbCAiRW5hYmxlIGFk
-ZGl0aW9uYWwgZHJpdmVyIGRlYnVnZ2luZyBmb3IgZmVuY2Ugb2JqZWN0cyIKKwlkZXBlbmRzIG9u
-IERSTV9JOTE1CisJc2VsZWN0IERFQlVHX09CSkVDVFMKKwlkZWZhdWx0IG4KKwloZWxwCisJICBD
-aG9vc2UgdGhpcyBvcHRpb24gdG8gdHVybiBvbiBleHRyYSBkcml2ZXIgZGVidWdnaW5nIHRoYXQg
-bWF5IGFmZmVjdAorCSAgcGVyZm9ybWFuY2UgYnV0IHdpbGwgY2F0Y2ggc29tZSBpbnRlcm5hbCBp
-c3N1ZXMuCiAKLSAgICAgICAgICBSZWNvbW1lbmRlZCBmb3IgZHJpdmVyIGRldmVsb3BlcnMgb25s
-eS4KKwkgIFJlY29tbWVuZGVkIGZvciBkcml2ZXIgZGV2ZWxvcGVycyBvbmx5LgogCi0gICAgICAg
-ICAgSWYgaW4gZG91YnQsIHNheSAiTiIuCisJICBJZiBpbiBkb3VidCwgc2F5ICJOIi4KIAogY29u
-ZmlnIERSTV9JOTE1X1NXX0ZFTkNFX0NIRUNLX0RBRwotICAgICAgICBib29sICJFbmFibGUgYWRk
-aXRpb25hbCBkcml2ZXIgZGVidWdnaW5nIGZvciBkZXRlY3RpbmcgZGVwZW5kZW5jeSBjeWNsZXMi
-Ci0gICAgICAgIGRlcGVuZHMgb24gRFJNX0k5MTUKLSAgICAgICAgZGVmYXVsdCBuCi0gICAgICAg
-IGhlbHAKLSAgICAgICAgICBDaG9vc2UgdGhpcyBvcHRpb24gdG8gdHVybiBvbiBleHRyYSBkcml2
-ZXIgZGVidWdnaW5nIHRoYXQgbWF5IGFmZmVjdAotICAgICAgICAgIHBlcmZvcm1hbmNlIGJ1dCB3
-aWxsIGNhdGNoIHNvbWUgaW50ZXJuYWwgaXNzdWVzLgorCWJvb2wgIkVuYWJsZSBhZGRpdGlvbmFs
-IGRyaXZlciBkZWJ1Z2dpbmcgZm9yIGRldGVjdGluZyBkZXBlbmRlbmN5IGN5Y2xlcyIKKwlkZXBl
-bmRzIG9uIERSTV9JOTE1CisJZGVmYXVsdCBuCisJaGVscAorCSAgQ2hvb3NlIHRoaXMgb3B0aW9u
-IHRvIHR1cm4gb24gZXh0cmEgZHJpdmVyIGRlYnVnZ2luZyB0aGF0IG1heSBhZmZlY3QKKwkgIHBl
-cmZvcm1hbmNlIGJ1dCB3aWxsIGNhdGNoIHNvbWUgaW50ZXJuYWwgaXNzdWVzLgogCi0gICAgICAg
-ICAgUmVjb21tZW5kZWQgZm9yIGRyaXZlciBkZXZlbG9wZXJzIG9ubHkuCisJICBSZWNvbW1lbmRl
-ZCBmb3IgZHJpdmVyIGRldmVsb3BlcnMgb25seS4KIAotICAgICAgICAgIElmIGluIGRvdWJ0LCBz
-YXkgIk4iLgorCSAgSWYgaW4gZG91YnQsIHNheSAiTiIuCiAKIGNvbmZpZyBEUk1fSTkxNV9ERUJV
-R19HVUMKLSAgICAgICAgYm9vbCAiRW5hYmxlIGFkZGl0aW9uYWwgZHJpdmVyIGRlYnVnZ2luZyBm
-b3IgR3VDIgotICAgICAgICBkZXBlbmRzIG9uIERSTV9JOTE1Ci0gICAgICAgIGRlZmF1bHQgbgot
-ICAgICAgICBoZWxwCi0gICAgICAgICAgQ2hvb3NlIHRoaXMgb3B0aW9uIHRvIHR1cm4gb24gZXh0
-cmEgZHJpdmVyIGRlYnVnZ2luZyB0aGF0IG1heSBhZmZlY3QKLSAgICAgICAgICBwZXJmb3JtYW5j
-ZSBidXQgd2lsbCBoZWxwIHJlc29sdmUgR3VDIHJlbGF0ZWQgaXNzdWVzLgorCWJvb2wgIkVuYWJs
-ZSBhZGRpdGlvbmFsIGRyaXZlciBkZWJ1Z2dpbmcgZm9yIEd1QyIKKwlkZXBlbmRzIG9uIERSTV9J
-OTE1CisJZGVmYXVsdCBuCisJaGVscAorCSAgQ2hvb3NlIHRoaXMgb3B0aW9uIHRvIHR1cm4gb24g
-ZXh0cmEgZHJpdmVyIGRlYnVnZ2luZyB0aGF0IG1heSBhZmZlY3QKKwkgIHBlcmZvcm1hbmNlIGJ1
-dCB3aWxsIGhlbHAgcmVzb2x2ZSBHdUMgcmVsYXRlZCBpc3N1ZXMuCiAKLSAgICAgICAgICBSZWNv
-bW1lbmRlZCBmb3IgZHJpdmVyIGRldmVsb3BlcnMgb25seS4KKwkgIFJlY29tbWVuZGVkIGZvciBk
-cml2ZXIgZGV2ZWxvcGVycyBvbmx5LgogCi0gICAgICAgICAgSWYgaW4gZG91YnQsIHNheSAiTiIu
-CisJICBJZiBpbiBkb3VidCwgc2F5ICJOIi4KIAogY29uZmlnIERSTV9JOTE1X1NFTEZURVNUCiAJ
-Ym9vbCAiRW5hYmxlIHNlbGZ0ZXN0cyB1cG9uIGRyaXZlciBsb2FkIgpAQCAtMTc4LDE1ICsxNzgs
-MTUgQEAgY29uZmlnIERSTV9JOTE1X1NFTEZURVNUX0JST0tFTgogCSAgSWYgaW4gZG91YnQsIHNh
-eSAiTiIuCiAKIGNvbmZpZyBEUk1fSTkxNV9MT1dfTEVWRUxfVFJBQ0VQT0lOVFMKLSAgICAgICAg
-Ym9vbCAiRW5hYmxlIGxvdyBsZXZlbCByZXF1ZXN0IHRyYWNpbmcgZXZlbnRzIgotICAgICAgICBk
-ZXBlbmRzIG9uIERSTV9JOTE1Ci0gICAgICAgIGRlZmF1bHQgbgotICAgICAgICBoZWxwCi0gICAg
-ICAgICAgQ2hvb3NlIHRoaXMgb3B0aW9uIHRvIHR1cm4gb24gbG93IGxldmVsIHJlcXVlc3QgdHJh
-Y2luZyBldmVudHMuCi0gICAgICAgICAgVGhpcyBwcm92aWRlcyB0aGUgYWJpbGl0eSB0byBwcmVj
-aXNlbHkgbW9uaXRvciBlbmdpbmUgdXRpbGlzYXRpb24KLSAgICAgICAgICBhbmQgYWxzbyBhbmFs
-eXplIHRoZSByZXF1ZXN0IGRlcGVuZGVuY3kgcmVzb2x2aW5nIHRpbWVsaW5lLgotCi0gICAgICAg
-ICAgSWYgaW4gZG91YnQsIHNheSAiTiIuCisJYm9vbCAiRW5hYmxlIGxvdyBsZXZlbCByZXF1ZXN0
-IHRyYWNpbmcgZXZlbnRzIgorCWRlcGVuZHMgb24gRFJNX0k5MTUKKwlkZWZhdWx0IG4KKwloZWxw
-CisJICBDaG9vc2UgdGhpcyBvcHRpb24gdG8gdHVybiBvbiBsb3cgbGV2ZWwgcmVxdWVzdCB0cmFj
-aW5nIGV2ZW50cy4KKwkgIFRoaXMgcHJvdmlkZXMgdGhlIGFiaWxpdHkgdG8gcHJlY2lzZWx5IG1v
-bml0b3IgZW5naW5lIHV0aWxpc2F0aW9uCisJICBhbmQgYWxzbyBhbmFseXplIHRoZSByZXF1ZXN0
-IGRlcGVuZGVuY3kgcmVzb2x2aW5nIHRpbWVsaW5lLgorCisJICBJZiBpbiBkb3VidCwgc2F5ICJO
-Ii4KIAogY29uZmlnIERSTV9JOTE1X0RFQlVHX1ZCTEFOS19FVkFERQogCWJvb2wgIkVuYWJsZSBl
-eHRyYSBkZWJ1ZyB3YXJuaW5ncyBmb3IgdmJsYW5rIGV2YXNpb24iCmRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vbGltYS9LY29uZmlnIGIvZHJpdmVycy9ncHUvZHJtL2xpbWEvS2NvbmZpZwpp
-bmRleCBiYjRkZGM2YmIwYTYuLjY1MmFmN2Y1MGVhOSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL2xpbWEvS2NvbmZpZworKysgYi9kcml2ZXJzL2dwdS9kcm0vbGltYS9LY29uZmlnCkBAIC0x
-MCw0ICsxMCw0IEBAIGNvbmZpZyBEUk1fTElNQQogICAgICAgIGRlcGVuZHMgb24gT0YKICAgICAg
-ICBzZWxlY3QgRFJNX1NDSEVECiAgICAgICAgaGVscAotICAgICAgICAgRFJNIGRyaXZlciBmb3Ig
-QVJNIE1hbGkgNDAwLzQ1MCBHUFVzLgorCSBEUk0gZHJpdmVyIGZvciBBUk0gTWFsaSA0MDAvNDUw
-IEdQVXMuCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9LY29uZmlnIGIvZHJp
-dmVycy9ncHUvZHJtL21nYWcyMDAvS2NvbmZpZwppbmRleCA3NmZlZTBmYmRjYWUuLjRiMzFlZjM3
-NmFiYyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvS2NvbmZpZworKysgYi9k
-cml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9LY29uZmlnCkBAIC02LDggKzYsOCBAQCBjb25maWcgRFJN
-X01HQUcyMDAKIAlzZWxlY3QgRFJNX1ZSQU1fSEVMUEVSCiAJaGVscAogCSBUaGlzIGlzIGEgS01T
-IGRyaXZlciBmb3IgdGhlIE1HQSBHMjAwIHNlcnZlciBjaGlwcywgaXQKLSAgICAgICAgIGRvZXMg
-bm90IHN1cHBvcnQgdGhlIG9yaWdpbmFsIE1HQSBHMjAwIG9yIGFueSBvZiB0aGUgZGVza3RvcAot
-ICAgICAgICAgY2hpcHMuIEl0IHJlcXVpcmVzIDAuMy4wIG9mIHRoZSBtb2Rlc2V0dGluZyB1c2Vy
-c3BhY2UgZHJpdmVyLAotICAgICAgICAgYW5kIGEgdmVyc2lvbiBvZiBtZ2EgZHJpdmVyIHRoYXQg
-d2lsbCBmYWlsIG9uIEtNUyBlbmFibGVkCi0gICAgICAgICBkZXZpY2VzLgorCSBkb2VzIG5vdCBz
-dXBwb3J0IHRoZSBvcmlnaW5hbCBNR0EgRzIwMCBvciBhbnkgb2YgdGhlIGRlc2t0b3AKKwkgY2hp
-cHMuIEl0IHJlcXVpcmVzIDAuMy4wIG9mIHRoZSBtb2Rlc2V0dGluZyB1c2Vyc3BhY2UgZHJpdmVy
-LAorCSBhbmQgYSB2ZXJzaW9uIG9mIG1nYSBkcml2ZXIgdGhhdCB3aWxsIGZhaWwgb24gS01TIGVu
-YWJsZWQKKwkgZGV2aWNlcy4KIApkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUv
-S2NvbmZpZyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L0tjb25maWcKaW5kZXggMzU1OGRmMDQz
-NTkyLi45Yzk5MDI2NmU4NzYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L0tj
-b25maWcKKysrIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvS2NvbmZpZwpAQCAtMiw3ICsyLDcg
-QEAKIGNvbmZpZyBEUk1fTk9VVkVBVQogCXRyaXN0YXRlICJOb3V2ZWF1IChOVklESUEpIGNhcmRz
-IgogCWRlcGVuZHMgb24gRFJNICYmIFBDSSAmJiBNTVUKLSAgICAgICAgc2VsZWN0IEZXX0xPQURF
-UgorCXNlbGVjdCBGV19MT0FERVIKIAlzZWxlY3QgRFJNX0tNU19IRUxQRVIKIAlzZWxlY3QgRFJN
-X1RUTQogCXNlbGVjdCBCQUNLTElHSFRfQ0xBU1NfREVWSUNFIGlmIERSTV9OT1VWRUFVX0JBQ0tM
-SUdIVApkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vZGlzcGxheXMvS2NvbmZp
-ZyBiL2RyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL2Rpc3BsYXlzL0tjb25maWcKaW5kZXggMjQwZGRh
-MTAyODQ1Li5iNTYyYThjZDYxYmYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9vbWFwZHJt
-L2Rpc3BsYXlzL0tjb25maWcKKysrIGIvZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vZGlzcGxheXMv
-S2NvbmZpZwpAQCAtOCwxOCArOCwxOCBAQCBjb25maWcgRFJNX09NQVBfRU5DT0RFUl9PUEEzNjIK
-IAkgIHRocm91Z2ggYSBHUElPLgogCiBjb25maWcgRFJNX09NQVBfRU5DT0RFUl9UUEQxMlMwMTUK
-LSAgICAgICAgdHJpc3RhdGUgIlRQRDEyUzAxNSBIRE1JIEVTRCBwcm90ZWN0aW9uIGFuZCBsZXZl
-bCBzaGlmdGVyIgorCXRyaXN0YXRlICJUUEQxMlMwMTUgSERNSSBFU0QgcHJvdGVjdGlvbiBhbmQg
-bGV2ZWwgc2hpZnRlciIKIAloZWxwCiAJICBEcml2ZXIgZm9yIFRQRDEyUzAxNSwgd2hpY2ggb2Zm
-ZXJzIEhETUkgRVNEIHByb3RlY3Rpb24gYW5kIGxldmVsCiAJICBzaGlmdGluZy4KIAogY29uZmln
-IERSTV9PTUFQX0NPTk5FQ1RPUl9IRE1JCi0gICAgICAgIHRyaXN0YXRlICJIRE1JIENvbm5lY3Rv
-ciIKKwl0cmlzdGF0ZSAiSERNSSBDb25uZWN0b3IiCiAJaGVscAogCSAgRHJpdmVyIGZvciBhIGdl
-bmVyaWMgSERNSSBjb25uZWN0b3IuCiAKIGNvbmZpZyBEUk1fT01BUF9DT05ORUNUT1JfQU5BTE9H
-X1RWCi0gICAgICAgIHRyaXN0YXRlICJBbmFsb2cgVFYgQ29ubmVjdG9yIgorCXRyaXN0YXRlICJB
-bmFsb2cgVFYgQ29ubmVjdG9yIgogCWhlbHAKIAkgIERyaXZlciBmb3IgYSBnZW5lcmljIGFuYWxv
-ZyBUViBjb25uZWN0b3IuCiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL2Rz
-cy9LY29uZmlnIGIvZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vZHNzL0tjb25maWcKaW5kZXggOTU2
-ZjIzZTE0NTJkLi43MmFlNzljMGM5YjQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9vbWFw
-ZHJtL2Rzcy9LY29uZmlnCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL2Rzcy9LY29uZmln
-CkBAIC02LDEyICs2LDEyIEBAIGNvbmZpZyBPTUFQX0RTU19CQVNFCiAJdHJpc3RhdGUKIAogbWVu
-dWNvbmZpZyBPTUFQMl9EU1MKLSAgICAgICAgdHJpc3RhdGUgIk9NQVAyKyBEaXNwbGF5IFN1YnN5
-c3RlbSBzdXBwb3J0IgorCXRyaXN0YXRlICJPTUFQMisgRGlzcGxheSBTdWJzeXN0ZW0gc3VwcG9y
-dCIKIAlzZWxlY3QgT01BUF9EU1NfQkFTRQogCXNlbGVjdCBWSURFT01PREVfSEVMUEVSUwogCXNl
-bGVjdCBPTUFQMl9EU1NfSU5JVAogCXNlbGVjdCBIRE1JCi0gICAgICAgIGhlbHAKKwloZWxwCiAJ
-ICBPTUFQMisgRGlzcGxheSBTdWJzeXN0ZW0gc3VwcG9ydC4KIAogaWYgT01BUDJfRFNTCkBAIC01
-Miw3ICs1Miw3IEBAIGNvbmZpZyBPTUFQMl9EU1NfRFBJCiAKIGNvbmZpZyBPTUFQMl9EU1NfVkVO
-QwogCWJvb2wgIlZFTkMgc3VwcG9ydCIKLSAgICAgICAgZGVmYXVsdCB5CisJZGVmYXVsdCB5CiAJ
-aGVscAogCSAgT01BUCBWaWRlbyBFbmNvZGVyIHN1cHBvcnQgZm9yIFMtVmlkZW8gYW5kIGNvbXBv
-c2l0ZSBUVi1vdXQuCiAKQEAgLTYxLDcgKzYxLDcgQEAgY29uZmlnIE9NQVAyX0RTU19IRE1JX0NP
-TU1PTgogCiBjb25maWcgT01BUDRfRFNTX0hETUkKIAlib29sICJIRE1JIHN1cHBvcnQgZm9yIE9N
-QVA0IgotICAgICAgICBkZWZhdWx0IHkKKwlkZWZhdWx0IHkKIAlzZWxlY3QgT01BUDJfRFNTX0hE
-TUlfQ09NTU9OCiAJaGVscAogCSAgSERNSSBzdXBwb3J0IGZvciBPTUFQNCBiYXNlZCBTb0NzLgpA
-QCAtODUsNyArODUsNyBAQCBjb25maWcgT01BUDVfRFNTX0hETUkKIAogY29uZmlnIE9NQVAyX0RT
-U19TREkKIAlib29sICJTREkgc3VwcG9ydCIKLSAgICAgICAgZGVmYXVsdCBuCisJZGVmYXVsdCBu
-CiAJaGVscAogCSAgU0RJIChTZXJpYWwgRGlzcGxheSBJbnRlcmZhY2UpIHN1cHBvcnQuCiAKQEAg
-LTk0LDcgKzk0LDcgQEAgY29uZmlnIE9NQVAyX0RTU19TREkKIAogY29uZmlnIE9NQVAyX0RTU19E
-U0kKIAlib29sICJEU0kgc3VwcG9ydCIKLSAgICAgICAgZGVmYXVsdCBuCisJZGVmYXVsdCBuCiAJ
-aGVscAogCSAgTUlQSSBEU0kgKERpc3BsYXkgU2VyaWFsIEludGVyZmFjZSkgc3VwcG9ydC4KIApk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL0tjb25maWcgYi9kcml2ZXJzL2dw
-dS9kcm0vcm9ja2NoaXAvS2NvbmZpZwppbmRleCA2ZjQyMjJmOGJlZWIuLjE2NzBhNWNhZTNjNyAx
-MDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL0tjb25maWcKKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL3JvY2tjaGlwL0tjb25maWcKQEAgLTI4LDE3ICsyOCwxNyBAQCBjb25maWcgUk9D
-S0NISVBfQU5BTE9HSVhfRFAKIAkgIG9uIFJLMzI4OCBvciBSSzMzOTkgYmFzZWQgU29DLCB5b3Ug
-c2hvdWxkIHNlbGVjdCB0aGlzIG9wdGlvbi4KIAogY29uZmlnIFJPQ0tDSElQX0NETl9EUAotICAg
-ICAgICBib29sICJSb2NrY2hpcCBjZG4gRFAiCisJYm9vbCAiUm9ja2NoaXAgY2RuIERQIgogCWRl
-cGVuZHMgb24gRVhUQ09OPXkgfHwgKEVYVENPTj1tICYmIERSTV9ST0NLQ0hJUD1tKQotICAgICAg
-ICBoZWxwCisJaGVscAogCSAgVGhpcyBzZWxlY3RzIHN1cHBvcnQgZm9yIFJvY2tjaGlwIFNvQyBz
-cGVjaWZpYyBleHRlbnNpb25zCiAJICBmb3IgdGhlIGNkbiBEUCBkcml2ZXIuIElmIHlvdSB3YW50
-IHRvIGVuYWJsZSBEcCBvbgogCSAgUkszMzk5IGJhc2VkIFNvQywgeW91IHNob3VsZCBzZWxlY3Qg
-dGhpcwogCSAgb3B0aW9uLgogCiBjb25maWcgUk9DS0NISVBfRFdfSERNSQotICAgICAgICBib29s
-ICJSb2NrY2hpcCBzcGVjaWZpYyBleHRlbnNpb25zIGZvciBTeW5vcHN5cyBEVyBIRE1JIgotICAg
-ICAgICBoZWxwCisJYm9vbCAiUm9ja2NoaXAgc3BlY2lmaWMgZXh0ZW5zaW9ucyBmb3IgU3lub3Bz
-eXMgRFcgSERNSSIKKwloZWxwCiAJICBUaGlzIHNlbGVjdHMgc3VwcG9ydCBmb3IgUm9ja2NoaXAg
-U29DIHNwZWNpZmljIGV4dGVuc2lvbnMKIAkgIGZvciB0aGUgU3lub3BzeXMgRGVzaWduV2FyZSBI
-RE1JIGRyaXZlci4gSWYgeW91IHdhbnQgdG8KIAkgIGVuYWJsZSBIRE1JIG9uIFJLMzI4OCBvciBS
-SzMzOTkgYmFzZWQgU29DLCB5b3Ugc2hvdWxkIHNlbGVjdApkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL3VkbC9LY29uZmlnIGIvZHJpdmVycy9ncHUvZHJtL3VkbC9LY29uZmlnCmluZGV4IGI0
-ZDE3OWI4N2YwMS4uYjEzYWEzMzk5MGYzIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vdWRs
-L0tjb25maWcKKysrIGIvZHJpdmVycy9ncHUvZHJtL3VkbC9LY29uZmlnCkBAIC04LDQgKzgsNCBA
-QCBjb25maWcgRFJNX1VETAogCXNlbGVjdCBEUk1fS01TX0hFTFBFUgogCWhlbHAKIAkgIFRoaXMg
-aXMgYSBLTVMgZHJpdmVyIGZvciB0aGUgVVNCIGRpc3BsYXlsaW5rIHZpZGVvIGFkYXB0ZXJzLgot
-ICAgICAgICAgIFNheSBNL1kgdG8gYWRkIHN1cHBvcnQgZm9yIHRoZXNlIGRldmljZXMgdmlhIGRy
-bS9rbXMgaW50ZXJmYWNlcy4KKwkgIFNheSBNL1kgdG8gYWRkIHN1cHBvcnQgZm9yIHRoZXNlIGRl
-dmljZXMgdmlhIGRybS9rbXMgaW50ZXJmYWNlcy4KZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L3Zn
-YS9LY29uZmlnIGIvZHJpdmVycy9ncHUvdmdhL0tjb25maWcKaW5kZXggYzhjNzcwYjA1ZWQ5Li4x
-YWQ0YzRlZjBiNWUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L3ZnYS9LY29uZmlnCisrKyBiL2Ry
-aXZlcnMvZ3B1L3ZnYS9LY29uZmlnCkBAIC0yOCw2ICsyOCw2IEBAIGNvbmZpZyBWR0FfU1dJVENI
-RVJPTwogCWhlbHAKIAkgIE1hbnkgbGFwdG9wcyByZWxlYXNlZCBpbiAyMDA4LzkvMTAgaGF2ZSB0
-d28gR1BVcyB3aXRoIGEgbXVsdGlwbGV4ZXIKIAkgIHRvIHN3aXRjaCBiZXR3ZWVuIHRoZW0uIFRo
-aXMgYWRkcyBzdXBwb3J0IGZvciBkeW5hbWljIHN3aXRjaGluZyB3aGVuCi0gICAgICAgICAgWCBp
-c24ndCBydW5uaW5nIGFuZCBkZWxheWVkIHN3aXRjaGluZyB1bnRpbCB0aGUgbmV4dCBsb2dvZmYu
-IFRoaXMKKwkgIFggaXNuJ3QgcnVubmluZyBhbmQgZGVsYXllZCBzd2l0Y2hpbmcgdW50aWwgdGhl
-IG5leHQgbG9nb2ZmLiBUaGlzCiAJICBmZWF0dXJlIGlzIGNhbGxlZCBoeWJyaWQgZ3JhcGhpY3Ms
-IEFUSSBQb3dlclhwcmVzcywgYW5kIE52aWRpYQogCSAgSHlicmlkUG93ZXIuCi0tIAoyLjE3LjEK
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0433644694==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Q8BnQc91gJZX4vDc"
+Content-Disposition: inline
+
+
+--Q8BnQc91gJZX4vDc
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Fri 13 Sep 19, 20:16, Rob Herring wrote:
+> On Fri, Sep 13, 2019 at 4:58 PM Paul Kocialkowski
+> <paul.kocialkowski@bootlin.com> wrote:
+> >
+> > Hi Rob and thanks for the review!
+> >
+> > On Fri 13 Sep 19, 15:35, Rob Herring wrote:
+> > > On Tue, Sep 10, 2019 at 05:34:08PM +0200, Paul Kocialkowski wrote:
+> > > > The Xylon LogiCVC is a display controller implemented as programmab=
+le
+> > > > logic in Xilinx FPGAs.
+> > > >
+> > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > > ---
+> > > >  .../bindings/display/xylon,logicvc.txt        | 188 ++++++++++++++=
+++++
+> > > >  1 file changed, 188 insertions(+)
+> > > >  create mode 100644 Documentation/devicetree/bindings/display/xylon=
+,logicvc.txt
+> > >
+> > > Consider converting this to DT schema format. See
+> > > Documentation/devicetree/writing-schema.rst (.md in 5.3).
+> >
+> > Oh right, that would certainly be much more future-proof!
+> >
+> > > > diff --git a/Documentation/devicetree/bindings/display/xylon,logicv=
+c.txt b/Documentation/devicetree/bindings/display/xylon,logicvc.txt
+> > > > new file mode 100644
+> > > > index 000000000000..eb4b1553888a
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/display/xylon,logicvc.txt
+> > > > @@ -0,0 +1,188 @@
+> > > > +Xylon LogiCVC display controller
+> > > > +
+> > > > +The Xylon LogiCVC is a display controller that supports multiple l=
+ayers.
+> > > > +It is usually implemented as programmable logic and was optimized =
+for use
+> > > > +with Xilinx Zynq-7000 SoCs and Xilinx FPGAs.
+> > > > +
+> > > > +Because the controller is intended for use in a FPGA, most of the =
+configuration
+> > > > +of the controller takes place at logic configuration bitstream syn=
+thesis time.
+> > > > +As a result, many of the device-tree bindings are meant to reflect=
+ the
+> > > > +synthesis configuration. These do not allow configuring the contro=
+ller
+> > > > +differently than synthesis configuration.
+> > > > +
+> > > > +Layers are declared in the "layers" sub-node and have dedicated co=
+nfiguration.
+> > > > +In version 3 of the controller, each layer has fixed memory offset=
+ and address
+> > > > +starting from the video memory base address for its framebuffer. W=
+ith version 4,
+> > > > +framebuffers are configured with a direct memory address instead.
+> > > > +
+> > > > +Matching synthesis parameters are provided when applicable.
+> > > > +
+> > > > +Required properties:
+> > > > +- compatible: Should be one of:
+> > > > +  "xylon,logicvc-3.02.a-display"
+> > > > +  "xylon,logicvc-4.01.a-display"
+> > > > +- reg: Physical base address and size for the controller registers.
+> > > > +- clocks: List of phandle and clock-specifier pairs, one for each =
+entry
+> > > > +  in 'clock-names'
+> > > > +- clock-names: List of clock names that should at least contain:
+> > > > +  - "vclk": The VCLK video clock input.
+> > > > +- interrupts: The interrupt to use for VBLANK signaling.
+> > > > +- xylon,display-interface: Display interface in use, should be one=
+ of:
+> > > > +  - "lvds-4bits": 4-bit LVDS interface (C_DISPLAY_INTERFACE =3D=3D=
+ 4).
+> > > > +- xylon,display-colorspace: Display output colorspace in use, shou=
+ld be one of:
+> > > > +  - "rgb": RGB colorspace (C_DISPLAY_COLOR_SPACE =3D=3D 0).
+> > > > +- xylon,display-depth: Display output depth in use (C_PIXEL_DATA_W=
+IDTH).
+> > > > +- xylon,row-stride: Fixed number of pixels in a framebuffer row (C=
+_ROW_STRIDE).
+> > > > +- xylon,layers-count: The number of available layers (C_NUM_OF_LAY=
+ERS).
+> > >
+> > > Presumably some of this is determined by the display attached. Isn't =
+it
+> > > safe to assume the IP was configured correctly for the intended displ=
+ay
+> > > and you can just get this from the panel?
+> >
+> > Layers are what corresponds to DRM planes, which are not actually indic=
+ated
+> > by the panel but are a charasteristic of the display controller. In our=
+ case,
+> > this is directly selected at bitstream synthesis time for the controlle=
+r.
+> >
+> > So I'm afraid there is no way we can auto-detect this from the driver.
+>=20
+> Sorry, I referring to the set of properties above. In particular,
+> xylon,display-interface and xylon,display-colorspace, though I don't
+> know if the latter is talking in memory format or on the wire format.
+
+Both of these are about the wire format, which is also "hardcoded" at synth=
+esis
+time with no way to be detected afterwards, as far as I know. Memory format=
+ is
+described in the layer sub-nodes.
+
+> Actually for xylon,layers-count, You should just count the child nodes
+> of 'layers'.
+
+Oh that's a good point, thanks!
+
+> > > > +Optional properties:
+> > > > +- memory-region: phandle to a node describing memory, as specified=
+ in:
+> > > > +  Documentation/devicetree/bindings/reserved-memory/reserved-memor=
+y.txt
+> > > > +- clock-names: List of clock names that can optionally contain:
+> > > > +  - "vclk2": The VCLK2 doubled-rate video clock input.
+> > > > +  - "lvdsclk": The LVDS clock.
+> > > > +  - "lvdsclkn": The LVDS clock inverted.
+> > >
+> > > How are these really optional?
+> >
+> > Well, the controller currently only supports LVDS, but more interfaces =
+may be
+> > added later, so the lvdsclk clock will be optional when another interfa=
+ce
+> > is used instead. Maybe I'm mistaken about how to categorize them though.
+> >
+> > My understanding is that the need for vclk2 and lvdsclkn depend on the =
+target
+> > FPGA family. I've developped the driver without the need for them, but =
+the
+> > datasheet states that they may be needed (but doesn't provide significa=
+nt
+> > details about their role though).
+>=20
+> Not sure what to tell you then. You'll see it becomes a bit messy to
+> describe in schema. Ideally we define the exact number, order, and
+> values possible (or sets of those).
+
+I'll try to do my best.
+
+> > > > +- xylon,syscon: Syscon phandle representing the logicvc instance.
+> > > > +- xylon,dithering: Dithering module is enabled (C_XCOLOR).
+> > > > +- xylon,background-layer: The last layer is used to display a blac=
+k background
+> > > > +  (C_USE_BACKGROUND). It must still be registered.
+> > > > +- xylon,layers-configurable: Configuration of layers' size, positi=
+on and offset
+> > > > +  is enabled (C_USE_SIZE_POSITION).
+> > >
+> > > I would think this will effectively have to be enabled to make this
+> > > usable with DRM. I'm not sure if a "standard" userspace would use any=
+ of
+> > > the layers if all this is fixed.
+> >
+> > I was going with the same assumption, but drm_atomic_helper_check_plane=
+_state
+> > has a can_position parameter, which will check that the plane covers the
+> > whole CRTC if set to false. So I guess it is somewhat expected that thi=
+s can
+> > be the case and some drivers (e.g. arm/hdlcd_crtc.c) also set this to f=
+alse.
+>=20
+> Certainly atomic can fail on anything not supported. My question is
+> more whether userspace has some minimum requirements. A cursor
+> couldn't deal with can_position=3Dfalse for example.
+
+Right, so I suppose that using an overlay plane as cursor wouldn't work
+in this situation. Well, I haven't found any formal definition of what mini=
+mal
+requirements are expected from overlay planes. I would expect userspace that
+tries to use an overlay plane as a cursor to have a software fallback as so=
+on
+as something goes wrong. My feeling is that overlay planes are provided on a
+"best-effort" basis, though contradiction is welcome here.
+
+> > I guess this falls under a more generic discussion of what should be ex=
+pected
+> > by userspace when it comes to DRM. Since drivers may reject commits bec=
+ause of
+> > any hardware-specific limitation, there is definitely a significant gre=
+y area
+> > there and apparently no common rule.
+> >
+> > > > +
+> > > > +Required sub-nodes:
+> > > > +- layers: The description of the display controller layers, contai=
+ning layer
+> > > > +  sub-nodes that each describe a registered layer.
+> > > > +- ports: The LogiCVC connection to an encoder input port. The conn=
+ection
+> > > > +  is modeled using the OF graph bindings, as specified in:
+> > > > +  Documentation/devicetree/bindings/graph.txt
+> > > > +
+> > > > +Required layer properties:
+> > > > +- reg: Layer index (from front to back, starting at 0).
+> > > > +- xylon,layer-depth: Layer depth in use (C_LAYER_0_DATA_WIDTH).
+> > > > +- xylon,layer-colorspace: Layer colorspace in use, should be one o=
+f:
+> > > > + - "rgb": RGB colorspace (C_LAYER_*_TYPE =3D=3D 0).
+> > >
+> > > Why is this needed if there's only 1?
+> >
+> > The hardware supports more but support is no implemented yet, so the bi=
+nding
+> > document may be enriched along with the driver in the future.
+> >
+> > Should I describe other colorspaces even if they are not currently supp=
+orted?
+>=20
+> Document what the h/w supports to the extent you can. Then we can make
+> better decisions.
+
+Okay then, I'll include those well-known other possibilities in the descrip=
+tion.
+Hopefully users will take the description for what it is and refrain from
+expecting that the driver currently supports all that is described.
+
+Thanks for the follow-up!
+
+Cheers,
+
+Paul
+
+> > > > +- xylon,layer-alpha-mode: Alpha mode for the layer, should be one =
+of:
+> > > > + - "layer": Alpha is configured layer-wide (C_LAYER_*_ALPHA_MODE =
+=3D=3D 0).
+> > > > + - "pixel": Alpha is configured per-pixel (C_LAYER_*_ALPHA_MODE =
+=3D=3D 1).
+> > >
+> > > Could just be boolean.
+> >
+> > In this instance too, there are other modes that are not yet implemente=
+d but
+> > supported by the hardware, so I did not describe them yet but they may =
+be added
+> > later.
+> >
+> > > > +- xylon,layer-base-offset: offset in number of lines (C_LAYER_*_OF=
+FSET) starting
+> > > > +  from the video RAM base (C_VMEM_BASEADDR), only for version 3.
+> > > > +- xylon,layer-buffer-offset: offset in number of lines (C_BUFFER_*=
+_OFFSET)
+> > > > +  starting from the layer base offset for the second buffer used in
+> > > > +  double-buffering.
+> > >
+> > > It might be better to define all this in terms of byte offsets. I'd
+> > > guess that is what CPU accesses are going to need.
+> >
+> > I agree that it is more convenient from a driver's perspective, but the
+> > rationale is that this allows copying parameters directly from the synt=
+hesis
+> > configuration file, where these are expressed as a number of lines.
+> >
+> > I would like to keep both delcarations as close to eachother as possibl=
+e, as to
+> > facilitate integration work for future users of the driver. But maybe t=
+his is a
+> > bit too much in that case. What do you think?
+>=20
+> Fair enough. I'd feel differently if I thought this would be common,
+> but this seems to be a pretty specific usecase. I guess there could be
+> other fixed at synthesis h/w.
+>=20
+> Rob
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--Q8BnQc91gJZX4vDc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl2I5bcACgkQ3cLmz3+f
+v9EgsAf/fH5F+rMgJFkv937AL/QCvDgvbz/HWC9S4a4+EjVcX3PyRHFiTnAl+cHQ
+i5g5rkx3+4rSXMCaaWEZs+XHFFwQH2BrCp5nn5qZtFjeaBr8Zk21H+pEdYccy9CX
+cQINtFy5dFUmo6Vr+nlDuNkP/V/Z0c4z+3fjnZG/Y6aZwQ0E7VrgFQ0TZpJuSKNV
+LOKxNMq37ojLPvOAtoLD+qcNUqtsGNPvYPJl0r0hSuvaeftB5b+dut9YijxJD1of
+pcBq+9zNonjJGANYH1bezu7tIes9s80zqHE19qoq2CaFS+bc9SSqFm+YgiQAcn+c
+EjOMPmY+fFS/kmaITBA3ApvcuV2M7A==
+=BNzK
+-----END PGP SIGNATURE-----
+
+--Q8BnQc91gJZX4vDc--
+
+--===============0433644694==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0433644694==--
