@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55D11BB6DA
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 16:35:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B940FBB6EE
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 16:38:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEE696E31E;
-	Mon, 23 Sep 2019 14:35:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A937B6E933;
+	Mon, 23 Sep 2019 14:38:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0E6A289BEC
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 14:35:10 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7B1386E926
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 14:38:06 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0B41372162; Mon, 23 Sep 2019 14:35:10 +0000 (UTC)
+ id 7840D72162; Mon, 23 Sep 2019 14:38:06 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111785] Registration not working
-Date: Mon, 23 Sep 2019 14:35:10 +0000
+Subject: [Bug 111784] Hang when using glWaitSync with multithreaded shared GL
+ contexts
+Date: Mon, 23 Sep 2019 14:38:06 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: General
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: venkatasaichowdary3@gmail.com
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: emmanueldurand@protonmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
+X-Bugzilla-Priority: high
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- bug_file_loc op_sys bug_status bug_severity priority component assigned_to
- reporter
-Message-ID: <bug-111785-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: priority
+Message-ID: <bug-111784-502-No94722OVM@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111784-502@http.bugs.freedesktop.org/>
+References: <bug-111784-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,48 +53,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1011363842=="
+Content-Type: multipart/mixed; boundary="===============0331947169=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1011363842==
-Content-Type: multipart/alternative; boundary="15692493100.ec5d7E388.20073"
+--===============0331947169==
+Content-Type: multipart/alternative; boundary="15692494861.1c6Bc.20267"
 Content-Transfer-Encoding: 7bit
 
 
---15692493100.ec5d7E388.20073
-Date: Mon, 23 Sep 2019 14:35:10 +0000
+--15692494861.1c6Bc.20267
+Date: Mon, 23 Sep 2019 14:38:06 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111785
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111784
 
-            Bug ID: 111785
-           Summary: Registration not working
-           Product: DRI
-           Version: DRI git
-          Hardware: Other
-               URL: http://localhost:4000
-                OS: Windows (All)
-            Status: NEW
-          Severity: major
-          Priority: not set
-         Component: General
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: venkatasaichowdary3@gmail.com
+Emmanuel Durand <emmanueldurand@protonmail.com> changed:
 
-In general Dri issues Registration not working
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+           Priority|not set                     |high
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15692493100.ec5d7E388.20073
-Date: Mon, 23 Sep 2019 14:35:10 +0000
+--15692494861.1c6Bc.20267
+Date: Mon, 23 Sep 2019 14:38:06 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -104,91 +95,32 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:emmanueld=
+urand&#64;protonmail.com" title=3D"Emmanuel Durand &lt;emmanueldurand&#64;p=
+rotonmail.com&gt;"> <span class=3D"fn">Emmanuel Durand</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Registration not working"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111785">111785</a>
-          </td>
-        </tr>
+   title=3D"NEW - Hang when using glWaitSync with multithreaded shared GL c=
+ontexts"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111784">bug 11178=
+4</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
 
-        <tr>
-          <th>Summary</th>
-          <td>Registration not working
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>DRI git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>Other
-          </td>
-        </tr>
-
-        <tr>
-          <th>URL</th>
-          <td>http://localhost:4000
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>Windows (All)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>major
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>General
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>venkatasaichowdary3&#64;gmail.com
-          </td>
-        </tr></table>
+         <tr>
+           <td style=3D"text-align:right;">Priority</td>
+           <td>not set
+           </td>
+           <td>high
+           </td>
+         </tr></table>
       <p>
-        <div>
-        <pre>In general Dri issues Registration not working</pre>
-        </div>
       </p>
 
 
@@ -201,9 +133,9 @@ Auto-Submitted: auto-generated
     </body>
 </html>=
 
---15692493100.ec5d7E388.20073--
+--15692494861.1c6Bc.20267--
 
---===============1011363842==
+--===============0331947169==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -213,4 +145,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1011363842==--
+--===============0331947169==--
