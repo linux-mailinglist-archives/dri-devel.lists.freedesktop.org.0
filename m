@@ -1,46 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4411BBB19
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 20:17:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 089E3BBB3C
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 20:23:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82B2E6E995;
-	Mon, 23 Sep 2019 18:17:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 899806E994;
+	Mon, 23 Sep 2019 18:23:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 070A16E995
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 18:17:08 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0447472162; Mon, 23 Sep 2019 18:17:08 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111789] drm/etnaviv: command buffer outside valid memory window
- (on cubox i4), Linux 5.3
-Date: Mon, 23 Sep 2019 18:17:07 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/other
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: not set
-X-Bugzilla-Who: rechner@vlado-do.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- attachments.created
-Message-ID: <bug-111789-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE7C56E994;
+ Mon, 23 Sep 2019 18:23:49 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id y91so13826086ede.9;
+ Mon, 23 Sep 2019 11:23:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3xcfsEgRrEbJyl/8rY90WK/st4+6aUCMiCigcJxvmoU=;
+ b=g/79x97gEg3Mi3c5EpzfRwZWvMByMKdH/zCvDpDIu2R/H4OM7FUfb64037Qc6w1cWi
+ stprB/cZ4JxMtfWVlim0xfFlE6HGNLDIkIWMIgZcYyoRSHXqfNSbj5jXVvg0leyPo86m
+ fJNlGHUxb/4c4xaasW3tXZqDUhBtwpDWIRfnXum8wCkkPyLeQPIRDq9xYI3PFcmj5Fzx
+ Zjiti0kIQY9JX0yeSjZdwXd2h+2YkPumAVYOfJE3Qa/yNhVLki62Zm/8lDwUd69mXxs+
+ 2ttSQ7yviYKhsEi2UqQiU3UWa3RoNfNCwFIzvY85L517J2r2wapfmN7pCBXwIGPRV8EP
+ tAPA==
+X-Gm-Message-State: APjAAAVekIZQf/8rzTuJ8lpiex4F3BcksgRrpCV2r4yzP7uaDuBBBlnC
+ pcbgOuWVwbAdJzO3O9UNf5nQELAFwTU0YfL0Uyc=
+X-Google-Smtp-Source: APXvYqxLqVRUOY5y5KZoAkOCBIZMudRu991gx5Gm+0zlcR/qBUEapUScCGc8t1hGaMG77Hp5NnKpbFZqyzAytd76La0=
+X-Received: by 2002:a05:6402:120e:: with SMTP id
+ c14mr1531255edw.272.1569263028159; 
+ Mon, 23 Sep 2019 11:23:48 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190921100439.64402-1-kholk11@gmail.com>
+ <20190921100439.64402-6-kholk11@gmail.com>
+ <CAF6AEGubLrqmc5s3hYrYyygx0z2hDYrAfsqTSetmtUJy6rq-kQ@mail.gmail.com>
+ <CAK7fi1ZKXz59yQgB0BxrZXhwXSsBmABWzWmi-CHvKo4B9bpS3g@mail.gmail.com>
+In-Reply-To: <CAK7fi1ZKXz59yQgB0BxrZXhwXSsBmABWzWmi-CHvKo4B9bpS3g@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 23 Sep 2019 11:23:36 -0700
+Message-ID: <CAF6AEGuC_YEBhUafJJ_qqm9bLd8z2BAAku5H-K2dQ90Yk_O3Sw@mail.gmail.com>
+Subject: Re: [PATCH 5/5] drm/msm/adreno: Add support for Adreno 510 GPU
+To: AngeloGioacchino Del Regno <kholk11@gmail.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=3xcfsEgRrEbJyl/8rY90WK/st4+6aUCMiCigcJxvmoU=;
+ b=NIQiIpMhxjglBAt49K8JN6VdJ2tJOQE7AfkpYKzggFWiNTdbYCLCXtUmdA3DgjVXKn
+ EhWvona4E9SvUc5qCUMIEP976sLgqifLnwXnjJv9zJ6EuynGJhEd3IbYWL2M53sM03eO
+ i9coYeCrfICrHq/fcCcRQurOGMzTFeCSqEiaOfpBFn/VERVRyI1j7yquZHSdpXEjaCix
+ hiNtMYkaGMeXpYai5qVrR8NyzTDKv5F9dS/mBd0uAczq7bcdt9Kl8Sbf8LcM9+u/Au+9
+ 31yQ0RX4brcBY37UcH4P/njJxb71KFpbr4Q1IIykvVrmX5cXNKXqq0Jt+BlOSLz4bmxv
+ yRIQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,247 +66,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1850394619=="
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ freedreno <freedreno@lists.freedesktop.org>, marijns95@gmail.com,
+ Jonathan <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Greg KH <gregkh@linuxfoundation.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Sean Paul <sean@poorly.run>, Georgi Djakov <georgi.djakov@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1850394619==
-Content-Type: multipart/alternative; boundary="15692626271.DcD5.2036"
-Content-Transfer-Encoding: 7bit
-
-
---15692626271.DcD5.2036
-Date: Mon, 23 Sep 2019 18:17:07 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111789
-
-            Bug ID: 111789
-           Summary: drm/etnaviv: command buffer outside valid memory
-                    window (on cubox i4), Linux 5.3
-           Product: DRI
-           Version: unspecified
-          Hardware: ARM
-                OS: Linux (All)
-            Status: NEW
-          Severity: not set
-          Priority: not set
-         Component: DRM/other
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: rechner@vlado-do.de
-
-Created attachment 145475
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145475&action=3Dedit
-dmesg from kernel 5.3, loading firmware
-
-I'm trying to get somewhat accelerated video output out of my CuBox i4 (imx6
-cpu, GC2000 graphics), but I don't have any luck with kernels 5.0, 5.2, or =
-5.3.
-
-I tried recent Armbian and Fedora (30 and 31 beta).
-
-The etnaviv messages from dmesg are:
-
-[   18.891291] etnaviv etnaviv: bound 130000.gpu (ops gpu_ops [etnaviv])
-[   18.895022] etnaviv etnaviv: bound 134000.gpu (ops gpu_ops [etnaviv])
-[   18.898366] etnaviv etnaviv: bound 2204000.gpu (ops gpu_ops [etnaviv])
-[   18.898385] etnaviv-gpu 130000.gpu: model: GC2000, revision: 5108
-[   18.929873] etnaviv-gpu 130000.gpu: command buffer outside valid memory
-window
-[   18.931182] etnaviv-gpu 134000.gpu: model: GC320, revision: 5007
-[   19.075240] etnaviv-gpu 134000.gpu: command buffer outside valid memory
-window
-[   19.076522] etnaviv-gpu 2204000.gpu: model: GC355, revision: 1215
-[   19.076542] etnaviv-gpu 2204000.gpu: Ignoring GPU with VG and FE2.0
-[   19.083510] [drm] Initialized etnaviv 1.2.0 20151214 for etnaviv on mino=
-r 1
-
-I'll attach the complete dmesg - or you can see it here: http://ix.io/1WAW
-
-Google brought me to Russell King's similar problem from June:
-https://lists.freedesktop.org/archives/dri-devel/2019-June/224474.html
-
-I don't know why the problem disappeared for him, though.
-
-Initially I reported the problem at the armbian forum:
-https://forum.armbian.com/topic/11539-no-hdmi-with-linux-image-dev-cubox-ke=
-rnel-5211/
-
-I'm more of a user than a developer, especially when it comes to the Linux
-kernel. But I can test switches or patches.
-
-Any help would be appreciated!
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15692626271.DcD5.2036
-Date: Mon, 23 Sep 2019 18:17:07 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - drm/etnaviv: command buffer outside valid memory window (=
-on cubox i4), Linux 5.3"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111789">111789</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>drm/etnaviv: command buffer outside valid memory window (on c=
-ubox i4), Linux 5.3
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>unspecified
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>ARM
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>Linux (All)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>DRM/other
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>rechner&#64;vlado-do.de
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145475=
-" name=3D"attach_145475" title=3D"dmesg from kernel 5.3, loading firmware">=
-attachment 145475</a> <a href=3D"attachment.cgi?id=3D145475&amp;action=3Ded=
-it" title=3D"dmesg from kernel 5.3, loading firmware">[details]</a></span>
-dmesg from kernel 5.3, loading firmware
-
-I'm trying to get somewhat accelerated video output out of my CuBox i4 (imx6
-cpu, GC2000 graphics), but I don't have any luck with kernels 5.0, 5.2, or =
-5.3.
-
-I tried recent Armbian and Fedora (30 and 31 beta).
-
-The etnaviv messages from dmesg are:
-
-[   18.891291] etnaviv etnaviv: bound 130000.gpu (ops gpu_ops [etnaviv])
-[   18.895022] etnaviv etnaviv: bound 134000.gpu (ops gpu_ops [etnaviv])
-[   18.898366] etnaviv etnaviv: bound 2204000.gpu (ops gpu_ops [etnaviv])
-[   18.898385] etnaviv-gpu 130000.gpu: model: GC2000, revision: 5108
-[   18.929873] etnaviv-gpu 130000.gpu: command buffer outside valid memory
-window
-[   18.931182] etnaviv-gpu 134000.gpu: model: GC320, revision: 5007
-[   19.075240] etnaviv-gpu 134000.gpu: command buffer outside valid memory
-window
-[   19.076522] etnaviv-gpu 2204000.gpu: model: GC355, revision: 1215
-[   19.076542] etnaviv-gpu 2204000.gpu: Ignoring GPU with VG and FE2.0
-[   19.083510] [drm] Initialized etnaviv 1.2.0 20151214 for etnaviv on mino=
-r 1
-
-I'll attach the complete dmesg - or you can see it here: <a href=3D"http://=
-ix.io/1WAW">http://ix.io/1WAW</a>
-
-Google brought me to Russell King's similar problem from June:
-<a href=3D"https://lists.freedesktop.org/archives/dri-devel/2019-June/22447=
-4.html">https://lists.freedesktop.org/archives/dri-devel/2019-June/224474.h=
-tml</a>
-
-I don't know why the problem disappeared for him, though.
-
-Initially I reported the problem at the armbian forum:
-<a href=3D"https://forum.armbian.com/topic/11539-no-hdmi-with-linux-image-d=
-ev-cubox-kernel-5211/">https://forum.armbian.com/topic/11539-no-hdmi-with-l=
-inux-image-dev-cubox-kernel-5211/</a>
-
-I'm more of a user than a developer, especially when it comes to the Linux
-kernel. But I can test switches or patches.
-
-Any help would be appreciated!</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15692626271.DcD5.2036--
-
---===============1850394619==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1850394619==--
+T24gTW9uLCBTZXAgMjMsIDIwMTkgYXQgMTA6MjcgQU0gQW5nZWxvR2lvYWNjaGlubyBEZWwgUmVn
+bm8KPGtob2xrMTFAZ21haWwuY29tPiB3cm90ZToKPgo+IElsIGdpb3JubyBsdW4gMjMgc2V0IDIw
+MTkgYWxsZSBvcmUgMTg6MzcgUm9iIENsYXJrCj4gPHJvYmRjbGFya0BnbWFpbC5jb20+IGhhIHNj
+cml0dG86Cj4gPgo+ID4gT24gU2F0LCBTZXAgMjEsIDIwMTkgYXQgMzowNCBBTSA8a2hvbGsxMUBn
+bWFpbC5jb20+IHdyb3RlOgo+ID4gPgo+ID4gPiBGcm9tOiAiQW5nZWxvIEcuIERlbCBSZWdubyIg
+PGtob2xrMTFAZ21haWwuY29tPgo+ID4gPgo+ID4gPiBUaGUgQWRyZW5vIDUxMCBHUFUgaXMgYSBz
+dHJpcHBlZCB2ZXJzaW9uIG9mIHRoZSBBZHJlbm8gNXh4LAo+ID4gPiBmb3VuZCBpbiBsb3ctZW5k
+IFNvQ3MgbGlrZSA4eDU2IGFuZCA4eDc2LCB3aGljaCBoYXMgMjU2SyBvZgo+ID4gPiBHTUVNLCB3
+aXRoIG5vIEdQTVUgbm9yIFpBUC4KPiA+ID4gQWxzbywgc2luY2UgdGhlIEFkcmVubyA1eHggcGFy
+dCBvZiB0aGlzIGRyaXZlciBzZWVtcyB0byBiZQo+ID4gPiBkZXZlbG9wZWQgd2l0aCBoaWdoLWVu
+ZCBBZHJlbm8gR1BVcyBpbiBtaW5kLCBhbmQgc2luY2UgdGhpcwo+ID4gPiBpcyBhIGxvd2VyIGVu
+ZCBvbmUsIGFkZCBhIGNvbW1lbnQgbWFraW5nIGNsZWFyIHdoaWNoIEdQVXMKPiA+ID4gd2hpY2gg
+c3VwcG9ydCBpcyBub3QgaW1wbGVtZW50ZWQgeWV0IGlzIG5vdCB1c2luZyB0aGUgR1BNVQo+ID4g
+PiByZWxhdGVkIGh3IGluaXQgY29kZSwgc28gdGhhdCBmdXR1cmUgZGV2ZWxvcGVycyB3aWxsIG5v
+dCBnbwo+ID4gPiBjcmF6eSB3aXRoIHRoYXQuCj4gPiA+Cj4gPiA+IEJ5IHRoZSB3YXksIHRoZSBs
+b3dlciBlbmQgQWRyZW5vIEdQVXMgd2l0aCBubyBHUE1VIGFyZToKPiA+ID4gQTUwNS9BNTA2L0E1
+MTAgKG5vIFpBUCBmaXJtd2FyZSkKPiA+ID4gQTUwOC9BNTA5L0E1MTIgKHdpdGggWkFQIGZpcm13
+YXJlKQo+ID4gPgo+ID4KPiA+IEhpLCB0aGFua3MgZm9yIHRoZSBwYXRjaC4uIG9uZSBjb21tZW50
+IGJlbG93IGFib3V0IHphcCBmaXJtd2FyZS4uLgo+ID4gd2hpY2ggaXMgbm90IGNvbXBsZXRlbHkg
+dG8gZG8gd2l0aCB0aGlzIHBhdGNoLCBidXQgaXMgbXkgdGhvdWdodHMgb24KPiA+IGhvdyB3ZSBz
+aG91bGQgY2xlYW4gdXAgemFwIGhhbmRsaW5nCj4gPgo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBBbmdl
+bG8gRy4gRGVsIFJlZ25vIDxraG9sazExQGdtYWlsLmNvbT4KPiA+Cj4gPiBbc25pcF0KPiA+Cj4g
+PiA+IEBAIC02NzksNyArNzE2LDggQEAgc3RhdGljIGludCBhNXh4X2h3X2luaXQoc3RydWN0IG1z
+bV9ncHUgKmdwdSkKPiA+ID4KPiA+ID4gICAgICAgICBhNXh4X3ByZWVtcHRfaHdfaW5pdChncHUp
+Owo+ID4gPgo+ID4gPiAtICAgICAgIGE1eHhfZ3BtdV91Y29kZV9pbml0KGdwdSk7Cj4gPiA+ICsg
+ICAgICAgaWYgKCFhZHJlbm9faXNfYTUxMChhZHJlbm9fZ3B1KSkKPiA+ID4gKyAgICAgICAgICAg
+ICAgIGE1eHhfZ3BtdV91Y29kZV9pbml0KGdwdSk7Cj4gPiA+Cj4gPiA+ICAgICAgICAgcmV0ID0g
+YTV4eF91Y29kZV9pbml0KGdwdSk7Cj4gPiA+ICAgICAgICAgaWYgKHJldCkKPiA+ID4gQEAgLTcx
+MiwxMiArNzUwLDE4IEBAIHN0YXRpYyBpbnQgYTV4eF9od19pbml0KHN0cnVjdCBtc21fZ3B1ICpn
+cHUpCj4gPiA+ICAgICAgICAgfQo+ID4gPgo+ID4gPiAgICAgICAgIC8qCj4gPiA+IC0gICAgICAg
+ICogVHJ5IHRvIGxvYWQgYSB6YXAgc2hhZGVyIGludG8gdGhlIHNlY3VyZSB3b3JsZC4gSWYgc3Vj
+Y2Vzc2Z1bAo+ID4gPiArICAgICAgICAqIElmIHRoZSBjaGlwIHRoYXQgd2UgYXJlIHVzaW5nIGRv
+ZXMgc3VwcG9ydCBsb2FkaW5nIG9uZSwgdGhlbgo+ID4gPiArICAgICAgICAqIHRyeSB0byBsb2Fk
+IGEgemFwIHNoYWRlciBpbnRvIHRoZSBzZWN1cmUgd29ybGQuIElmIHN1Y2Nlc3NmdWwKPiA+ID4g
+ICAgICAgICAgKiB3ZSBjYW4gdXNlIHRoZSBDUCB0byBzd2l0Y2ggb3V0IG9mIHNlY3VyZSBtb2Rl
+LiBJZiBub3QgdGhlbiB3ZQo+ID4gPiAgICAgICAgICAqIGhhdmUgbm8gcmVzb3VyY2UgYnV0IHRv
+IHRyeSB0byBzd2l0Y2ggb3Vyc2VsdmVzIG91dCBtYW51YWxseS4gSWYgd2UKPiA+ID4gICAgICAg
+ICAgKiBndWVzc2VkIHdyb25nIHRoZW4gYWNjZXNzIHRvIHRoZSBSQkJNX1NFQ1ZJRF9UUlVTVF9D
+TlRMIHJlZ2lzdGVyIHdpbGwKPiA+ID4gICAgICAgICAgKiBiZSBibG9ja2VkIGFuZCBhIHBlcm1p
+c3Npb25zIHZpb2xhdGlvbiB3aWxsIHNvb24gZm9sbG93Lgo+ID4gPiAgICAgICAgICAqLwo+ID4g
+PiArICAgICAgIGlmIChhZHJlbm9faXNfYTUxMChhZHJlbm9fZ3B1KSkgewo+ID4gPiArICAgICAg
+ICAgICAgICAgZ3B1X3dyaXRlKGdwdSwgUkVHX0E1WFhfUkJCTV9TRUNWSURfVFJVU1RfQ05UTCwg
+MHgwKTsKPiA+ID4gKyAgICAgICAgICAgICAgIGdvdG8gc2tpcF96YXA7Cj4gPiA+ICsgICAgICAg
+fQo+ID4KPiA+IFRoaXMgaXMgc29tZXRoaW5nIHdlIG5lZWQgdG8gY2xlYW51cCBvbiBhNnh4IGFz
+IHdlbGwuICBCdXQgaXQgaXMKPiA+IGFjdHVhbGx5IHBvc3NpYmxlIHRvIGhhdmUgdGhlIHNhbWUg
+R1BVIHdpdGggYW5kIHdpdGhvdXQgemFwLiAgV2UgaGF2ZQo+ID4gdGhpcyBzaXR1YXRpb24gdG9k
+YXkgd2l0aCBzZG04NDUsIGZvciBleGFtcGxlLgo+ID4KPiA+IFdoYXQgSSdkIGxpa2UgdG8gZG8g
+aXMgcmF0aGVyIHRoYW4gZ3Vlc3Mgd2hldGhlciB3ZSBjYW4gd3JpdGUKPiA+IFJCQk1fU0VDVklE
+X1RSVVNUX0NOVEwgb3Igbm90IChzaW5jZSB0aGF0IGdvZXMgc3BlY3RhY3VsYXJseSB3cm9uZwo+
+ID4gd2hlbiB3ZSBndWVzcyBpbmNvcnJlY3RseSksIGlzIGNob29zZSBiYXNlZCBvbiB0aGUgcHJl
+c2VuY2Ugb2YgdGhlCj4gPiB6YXAtc2hhZGVyIGNoaWxkIG5vZGUgaW4gZHRiLiAgKEN1cnJlbnRs
+eSBhNnh4IHRyaWVzIHRvIGNob29zZSBiYXNlZAo+ID4gb24gd2hldGhlciB6YXAgZmlybXdhcmUg
+aXMgcHJlc2VudC4uIHdoaWNoIHdlIG5lZWQgdG8gZml4LikKPiA+Cj4gPiBPcmlnaW5hbGx5IEkg
+d2FzIHRoaW5raW5nIHdlIGNvdWxkIGtlZXAgdGhlIHphcC1zaGFkZXIgbm9kZSBpbiB0aGUKPiA+
+IFNvQydzICJjb3JlIiBkdHNpIChpZS4gbXNtODk5Ni5kdHNpLCBzZG04NDUuZHRzaSwgZXRjKSBh
+bmQgdXNpbmcKPiA+IC9kZWxldGUtbm9kZS8gaW4gcGVyLWRldmljZSBkdHMgZmlsZXMgZm9yIGRl
+dmljZXMgd2l0aG91dCB6YXAuLiBidXQKPiA+IChBRkFJVSkgdGhlIHphcCBzaGFkZXIgZW5kcyB1
+cCBiZWluZyBzaWduZWQgd2l0aCBhIHZlbmRvciBrZXkgaW4gbW9zdAo+ID4gY2FzZXMsIG1lYW5p
+bmcgdGhhdCB0byBoYXZlIGEgImdlbmVyaWMiIChub3QgZGV2aWNlLXNwZWNpZmljKSBkaXN0cm8K
+PiA+IGltYWdlIG5lZWQgdG8gaGF2ZSBkaWZmZXJlbnQgemFwIGZpbGUgbmFtZXMvcGF0aHMgZm9y
+IGRldmljZXMgZnJvbQo+ID4gZGlmZmVyZW50IHZlbmRvcnMuICBHaXZlbiB0aGlzLCBJIHRoaW5r
+IGl0IG1ha2VzIG1vcmUgc2Vuc2UgdG8gbW92ZQo+ID4gdGhlIHphcC1zaGFkZXIgbm9kZSBpbnRv
+IGEgcGVyLWRldmljZSAob3IgYXQgbGVhc3QsIHBlci12ZW5kb3IpIGR0cwo+ID4gZmlsZSwgaWUu
+IHNvbWV0aGluZyBsaWtlOgo+ID4KPiA+ICAgIC8qIHNkbTg1MC1sZW5vdm8teW9nYS1jNjMwLmR0
+czogKi8KPiA+ICAgZ3B1IHsKPiA+ICAgICAgemFwLXNoYWRlciB7Cj4gPiAgICAgICAgIG1lbW9y
+eS1yZWdpb24gPSA8JmdwdV9tZW0+Owo+ID4gICAgICAgICB6YXAtcHJlZml4ID0gIkxFTk9WTyI7
+Cj4gPiAgICAgfTsKPiA+ICAgfTsKPiA+Cj4gPiB3aGljaCB3b3VsZCB0cmlnZ2VyIHRoZSBkcml2
+ZXIgdG8gdHJ5IHRvIGxvYWQKPiA+IC9saWIvZmlybXdhcmUvcWNvbS9MRU5PVk8vYTYzMF96YXAu
+bWJuCj4gPgo+ID4gKEknZCBsaWtlIHRvLCBhdCBsZWFzdCBmb3IgZGV2aWNlcyB0aGF0IGhhdmUg
+QUNQSS9TTUJJT1MgdGFibGVzLAo+ID4gc3RhbmRhcmRpemUgb24gdXNpbmcgdGhlIHZlbmRvciBu
+YW1lIGZyb20gU01CSU9TIHRhYmxlcyBhcyB0aGlzCj4gPiBwcmVmaXguLiBzbyB3ZSBoYXZlIGEg
+d2F5IHRvIGNvbnN0cnVjdCB0aGUgZmlybXdhcmUgcGF0aCBpZiB3ZQo+ID4gZXZlbnR1YWxseSBo
+YXZlIEFDUEkgYm9vdCBzdXBwb3J0IG9uIHRoZSBhYXJjaDY0IGxhcHRvcHMuKQo+ID4KPiA+IEJS
+LAo+ID4gLVIKPiA+Cj4gPiA+ICsKPiA+ID4gICAgICAgICByZXQgPSBhNXh4X3phcF9zaGFkZXJf
+aW5pdChncHUpOwo+ID4gPiAgICAgICAgIGlmICghcmV0KSB7Cj4gPiA+ICAgICAgICAgICAgICAg
+ICBPVVRfUEtUNyhncHUtPnJiWzBdLCBDUF9TRVRfU0VDVVJFX01PREUsIDEpOwo+ID4gPiBAQCAt
+NzMzLDYgKzc3Nyw3IEBAIHN0YXRpYyBpbnQgYTV4eF9od19pbml0KHN0cnVjdCBtc21fZ3B1ICpn
+cHUpCj4gPiA+ICAgICAgICAgICAgICAgICBncHVfd3JpdGUoZ3B1LCBSRUdfQTVYWF9SQkJNX1NF
+Q1ZJRF9UUlVTVF9DTlRMLCAweDApOwo+ID4gPiAgICAgICAgIH0KPiA+ID4KPiA+ID4gK3NraXBf
+emFwOgo+ID4gPiAgICAgICAgIC8qIExhc3Qgc3RlcCAtIHlpZWxkIHRoZSByaW5nYnVmZmVyICov
+Cj4gPiA+ICAgICAgICAgYTV4eF9wcmVlbXB0X3N0YXJ0KGdwdSk7Cj4gPiA+Cj4gPiA+IEBAIC0x
+MDY2LDYgKzExMTEsNyBAQCBzdGF0aWMgdm9pZCBhNXh4X2R1bXAoc3RydWN0IG1zbV9ncHUgKmdw
+dSkKPgo+IFRoYW5rcyB0byB5b3UgZm9yIHRoZSByZXZpZXcuCj4gV2hhdCBJJ3ZlIGRvY3VtZW50
+ZWQgdGhlcmUgYWJvdXQgdGhlIEE1eHggY2hpcHMgaGF2aW5nIFpBUCBhbmQgdGhlIG9uZXMgbm90
+Cj4gaGF2aW5nIGl0LCBjYW1lIG91dCBhZnRlciBhIHJlc2VhcmNoIGluIHRoZSBkb3duc3RyZWFt
+IEtHU0wgZHJpdmVyLCB3aGVyZSBxY29tCj4gZG9lcyB0aGlzIGRpc3RpbmN0aW9uIGJhc2VkIG9u
+IGp1c3QgdGhlIEFkcmVubyBtb2RlbCwgd2hpY2ggaXMgdGhlIG1haW4gcmVhc29uCj4gd2h5IEkg
+ZGlkIGl0IGxpa2UgdGhhdCA6KSkpCj4KPiBJIGFtIHBlcnNvbmFsbHkgbm90IGF3YXJlIG9mIGFu
+eSBBNXh4IGNoaXAgaGF2aW5nIHRoaXMgYmVoYXZpb3IsIHNvIHRoYXQncyB3aHkgSQo+IGRpZG4n
+dCBldmVuIHRyeSB0byB0aGluayBkaWZmZXJlbnQgYWJvdXQgdGhpcyBwYXRjaC4gSXQganVzdCBz
+ZWVtZWQgdG8KPiBiZSB0aGUgcmlnaHQKPiB0aGluZyB0byBkby4uLgoKSSdtIG5vdCBhd2FyZSBv
+ZiB0aGUgY2FzZSB3aGVyZSBhIGZ3IChoeXAvdHopIGRpZmZlcmVuY2UgbWVhbnMgeW91CmRvbid0
+IGhhdmUgemFwIHNoYWRlciBvbiBhbnkgYTV4eCBkZXZpY2UuICBCdXQgc2VlaW5nIGl0IG9uIGE2
+eHggbWFkZQptZSByZWFsaXplIHRoYXQgdGhpcyBpcyByZWFsbHkgbW9yZSBhYm91dCB0aGUgZncg
+dGhhbiB0aGUgaHcuICBXaGljaAppcyBzb21ldGhpbmcgdGhhdCBJIGRpZG4ndCByZWFsaXplIHdo
+ZW4gdGhlIGE1eHggemFwIHN1cHBvcnQgaW5pdGlhbGx5CmxhbmRlZC4KCkkgdGhpbmsgd2hhdCBJ
+J2QgZG8gZm9yIG5vdyBpcywgaW5zdGVhZCBvZiBpZiAoYWRyZW5vX2lzX1hZWigpIHx8CmFkcmVu
+b19pc19BQkMoKSB8fCAuLi4pIHsgc2tpcF96YXAgfSwgSSdkIGNoYW5nZSB0aGF0IHRvIGlmCigh
+aGFzX3phcF9ub2RlKS4uICBhbmQgZm9yIHRoZSBkdHMgZmlsZXMgd2Ugc2hvdWxkIHN0YXJ0IGFk
+ZGluZyB0aGUKemFwIG5vZGUgaW4gZGV2aWNlIHNwZWNpZmljIC5kdHMgZmlsZXMuCgpBbHNvIEkg
+c3VwcG9zZSB3ZSBtaWdodCBuZWVkIHRvIHNsaWdodGx5IGNoYW5nZSB3aGVyZSB3ZSBsb2FkIHRo
+ZSB6YXAKZncsIGllLiB3ZSBjYW4gc2tpcCB0cnlpbmcgdG8gbG9hZCB6YXAgZncgaW4gdGhlICFo
+YXNfemFwX25vZGUgY2FzZS4KCkJSLAotUgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWw=
