@@ -2,44 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 491A0BB683
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 16:20:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3EB1BB697
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 16:23:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E4B36E92B;
-	Mon, 23 Sep 2019 14:20:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F4DC6E930;
+	Mon, 23 Sep 2019 14:23:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id D44066E924
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 14:20:09 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D1A1272162; Mon, 23 Sep 2019 14:20:09 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Mon, 23 Sep 2019 14:20:09 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-u7eYscpy6j@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6530C6E92D
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 14:23:01 +0000 (UTC)
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+ by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id EFBCD20030F;
+ Mon, 23 Sep 2019 16:14:17 +0200 (CEST)
+Received: from inva024.eu-rdc02.nxp.com (inva024.eu-rdc02.nxp.com
+ [134.27.226.22])
+ by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id E2121200191;
+ Mon, 23 Sep 2019 16:14:17 +0200 (CEST)
+Received: from fsr-ub1664-121.ea.freescale.net
+ (fsr-ub1664-121.ea.freescale.net [10.171.82.171])
+ by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id 5047520613;
+ Mon, 23 Sep 2019 16:14:17 +0200 (CEST)
+From: Laurentiu Palcu <laurentiu.palcu@nxp.com>
+To: Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH 0/5] Add support for iMX8MQ Display Controller Subsystem
+Date: Mon, 23 Sep 2019 17:13:14 +0300
+Message-Id: <1569248002-2485-1-git-send-email-laurentiu.palcu@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,99 +44,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0036771193=="
+Cc: devicetree@vger.kernel.org, agx@sigxcpu.org, linux-kernel@vger.kernel.org,
+ Laurentiu Palcu <laurentiu.palcu@nxp.com>, linux-clk@vger.kernel.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0036771193==
-Content-Type: multipart/alternative; boundary="15692484097.1Aad6e16.16474"
-Content-Transfer-Encoding: 7bit
-
-
---15692484097.1Aad6e16.16474
-Date: Mon, 23 Sep 2019 14:20:09 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
-
---- Comment #141 from Alex Deucher <alexdeucher@gmail.com> ---
-(In reply to sehellion from comment #140)
-> Created attachment 145463 [details]
-> 5.3.1 with Alex's patches and dual monitors, crash
-
-That's not a crash, it's just a warning.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15692484097.1Aad6e16.16474
-Date: Mon, 23 Sep 2019 14:20:09 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c141">Comm=
-ent # 141</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
-com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
-</span></b>
-        <pre>(In reply to sehellion from <a href=3D"show_bug.cgi?id=3D11067=
-4#c140">comment #140</a>)
-<span class=3D"quote">&gt; Created <span class=3D""><a href=3D"attachment.c=
-gi?id=3D145463" name=3D"attach_145463" title=3D"5.3.1 with Alex's patches a=
-nd dual monitors, crash">attachment 145463</a> <a href=3D"attachment.cgi?id=
-=3D145463&amp;action=3Dedit" title=3D"5.3.1 with Alex's patches and dual mo=
-nitors, crash">[details]</a></span>
-&gt; 5.3.1 with Alex's patches and dual monitors, crash</span >
-
-That's not a crash, it's just a warning.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15692484097.1Aad6e16.16474--
-
---===============0036771193==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0036771193==--
+SGksCgpUaGlzIHBhdGNoc2V0IGFkZHMgaW5pdGlhbCBEQ1NTIHN1cHBvcnQgZm9yIGlNWDhNUSBj
+aGlwLiBJbml0aWFsIHN1cHBvcnQKaW5jbHVkZXMgb25seSBncmFwaGljcyBwbGFuZSBzdXBwb3J0
+IChubyB2aWRlbyBwbGFuZXMpLCBubyBIRFIxMCBjYXBhYmlsaXRpZXMsCm5vIGdyYXBoaWNzIGRl
+Y29tcHJlc3Npb24gKG9ubHkgbGluZWFyLCB0aWxlZCBhbmQgc3VwZXItdGlsZWQgYnVmZmVycyBh
+bGxvd2VkKS4KClN1cHBvcnQgZm9yIHRoZSByZXN0IG9mIHRoZSBmZWF0dXJlcyB3aWxsIGJlIGFk
+ZGVkIGluY3JlbWVudGFsbHksIGluIHN1YnNlcXVlbnQKcGF0Y2hlcy4KClRoZSBwYXRjaHNldCB3
+YXMgdGVzdGVkIHdpdGggYm90aCBIRFAgZHJpdmVyIChub3QgeWV0IHVwc3RyZWFtZWQpIGFuZCBN
+SVBJLURTSQooZHJpdmVycyBhbHJlYWR5IG9uIHRoZSBkcmktZGV2ZWwgTUwpLgoKVGhhbmtzLApM
+YXVyZW50aXUKCkxhdXJlbnRpdSBQYWxjdSAoNSk6CiAgY2xrOiBpbXg4bXE6IEFkZCBWSURFTzJf
+UExMIGNsb2NrCiAgZHJtL2lteDogY29tcGlsZSBpbXggZGlyZWN0b3J5IGJ5IGRlZmF1bHQKICBk
+cm0vaW14OiBBZGQgaW5pdGlhbCBzdXBwb3J0IGZvciBEQ1NTIG9uIGlNWDhNUQogIGR0LWJpbmRp
+bmdzOiBkaXNwbGF5OiBpbXg6IGFkZCBiaW5kaW5ncyBmb3IgRENTUwogIGFybTY0OiBkdHM6IGlt
+eDhtcTogYWRkIERDU1Mgbm9kZQoKIC4uLi9iaW5kaW5ncy9kaXNwbGF5L2lteC9ueHAsaW14OG1x
+LWRjc3MueWFtbCAgICAgIHwgIDg2ICsrKwogYXJjaC9hcm02NC9ib290L2R0cy9mcmVlc2NhbGUv
+aW14OG1xLmR0c2kgICAgICAgICAgfCAgMjUgKwogZHJpdmVycy9jbGsvaW14L2Nsay1pbXg4bXEu
+YyAgICAgICAgICAgICAgICAgICAgICAgfCAgIDQgKwogZHJpdmVycy9ncHUvZHJtL01ha2VmaWxl
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9pbXgv
+S2NvbmZpZyAgICAgICAgICAgICAgICAgICAgICAgIHwgICAyICsKIGRyaXZlcnMvZ3B1L2RybS9p
+bXgvTWFrZWZpbGUgICAgICAgICAgICAgICAgICAgICAgIHwgICAxICsKIGRyaXZlcnMvZ3B1L2Ry
+bS9pbXgvZGNzcy9LY29uZmlnICAgICAgICAgICAgICAgICAgIHwgICA3ICsKIGRyaXZlcnMvZ3B1
+L2RybS9pbXgvZGNzcy9NYWtlZmlsZSAgICAgICAgICAgICAgICAgIHwgICA2ICsKIGRyaXZlcnMv
+Z3B1L2RybS9pbXgvZGNzcy9kY3NzLWJsa2N0bC5jICAgICAgICAgICAgIHwgIDc1ICsrCiBkcml2
+ZXJzL2dwdS9kcm0vaW14L2Rjc3MvZGNzcy1jcnRjLmMgICAgICAgICAgICAgICB8IDIyMyArKysr
+KysKIGRyaXZlcnMvZ3B1L2RybS9pbXgvZGNzcy9kY3NzLWN0eGxkLmMgICAgICAgICAgICAgIHwg
+NDQ3ICsrKysrKysrKysrCiBkcml2ZXJzL2dwdS9kcm0vaW14L2Rjc3MvZGNzcy1kZXYuYyAgICAg
+ICAgICAgICAgICB8IDI4NiArKysrKysrCiBkcml2ZXJzL2dwdS9kcm0vaW14L2Rjc3MvZGNzcy1k
+ZXYuaCAgICAgICAgICAgICAgICB8IDE5NSArKysrKwogZHJpdmVycy9ncHUvZHJtL2lteC9kY3Nz
+L2Rjc3MtZHByLmMgICAgICAgICAgICAgICAgfCA1NTIgKysrKysrKysrKysrKysKIGRyaXZlcnMv
+Z3B1L2RybS9pbXgvZGNzcy9kY3NzLWRydi5jICAgICAgICAgICAgICAgIHwgMTgyICsrKysrCiBk
+cml2ZXJzL2dwdS9kcm0vaW14L2Rjc3MvZGNzcy1kdGcuYyAgICAgICAgICAgICAgICB8IDQzOCAr
+KysrKysrKysrKwogZHJpdmVycy9ncHUvZHJtL2lteC9kY3NzL2Rjc3Mta21zLmMgICAgICAgICAg
+ICAgICAgfCAzMjEgKysrKysrKysKIGRyaXZlcnMvZ3B1L2RybS9pbXgvZGNzcy9kY3NzLWttcy5o
+ICAgICAgICAgICAgICAgIHwgIDUyICsrCiBkcml2ZXJzL2dwdS9kcm0vaW14L2Rjc3MvZGNzcy1w
+bGFuZS5jICAgICAgICAgICAgICB8IDQxOCArKysrKysrKysrKwogZHJpdmVycy9ncHUvZHJtL2lt
+eC9kY3NzL2Rjc3Mtc2NhbGVyLmMgICAgICAgICAgICAgfCA4MzAgKysrKysrKysrKysrKysrKysr
+KysrCiBkcml2ZXJzL2dwdS9kcm0vaW14L2Rjc3MvZGNzcy1zcy5jICAgICAgICAgICAgICAgICB8
+IDE3OSArKysrKwogaW5jbHVkZS9kdC1iaW5kaW5ncy9jbG9jay9pbXg4bXEtY2xvY2suaCAgICAg
+ICAgICAgfCAgIDQgKy0KIDIyIGZpbGVzIGNoYW5nZWQsIDQzMzMgaW5zZXJ0aW9ucygrKSwgMiBk
+ZWxldGlvbnMoLSkKIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUv
+YmluZGluZ3MvZGlzcGxheS9pbXgvbnhwLGlteDhtcS1kY3NzLnlhbWwKIGNyZWF0ZSBtb2RlIDEw
+MDY0NCBkcml2ZXJzL2dwdS9kcm0vaW14L2Rjc3MvS2NvbmZpZwogY3JlYXRlIG1vZGUgMTAwNjQ0
+IGRyaXZlcnMvZ3B1L2RybS9pbXgvZGNzcy9NYWtlZmlsZQogY3JlYXRlIG1vZGUgMTAwNjQ0IGRy
+aXZlcnMvZ3B1L2RybS9pbXgvZGNzcy9kY3NzLWJsa2N0bC5jCiBjcmVhdGUgbW9kZSAxMDA2NDQg
+ZHJpdmVycy9ncHUvZHJtL2lteC9kY3NzL2Rjc3MtY3J0Yy5jCiBjcmVhdGUgbW9kZSAxMDA2NDQg
+ZHJpdmVycy9ncHUvZHJtL2lteC9kY3NzL2Rjc3MtY3R4bGQuYwogY3JlYXRlIG1vZGUgMTAwNjQ0
+IGRyaXZlcnMvZ3B1L2RybS9pbXgvZGNzcy9kY3NzLWRldi5jCiBjcmVhdGUgbW9kZSAxMDA2NDQg
+ZHJpdmVycy9ncHUvZHJtL2lteC9kY3NzL2Rjc3MtZGV2LmgKIGNyZWF0ZSBtb2RlIDEwMDY0NCBk
+cml2ZXJzL2dwdS9kcm0vaW14L2Rjc3MvZGNzcy1kcHIuYwogY3JlYXRlIG1vZGUgMTAwNjQ0IGRy
+aXZlcnMvZ3B1L2RybS9pbXgvZGNzcy9kY3NzLWRydi5jCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJp
+dmVycy9ncHUvZHJtL2lteC9kY3NzL2Rjc3MtZHRnLmMKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2
+ZXJzL2dwdS9kcm0vaW14L2Rjc3MvZGNzcy1rbXMuYwogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZl
+cnMvZ3B1L2RybS9pbXgvZGNzcy9kY3NzLWttcy5oCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVy
+cy9ncHUvZHJtL2lteC9kY3NzL2Rjc3MtcGxhbmUuYwogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZl
+cnMvZ3B1L2RybS9pbXgvZGNzcy9kY3NzLXNjYWxlci5jCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJp
+dmVycy9ncHUvZHJtL2lteC9kY3NzL2Rjc3Mtc3MuYwoKLS0gCjIuNy40CgpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
