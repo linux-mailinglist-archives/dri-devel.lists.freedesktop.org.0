@@ -2,57 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A241DBAE2D
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 08:58:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBDA3BAE2F
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 08:58:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25A476E10B;
-	Mon, 23 Sep 2019 06:58:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D70B6E12A;
+	Mon, 23 Sep 2019 06:58:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E37446E10B
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 06:57:58 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 2E41CAFDB;
- Mon, 23 Sep 2019 06:57:57 +0000 (UTC)
-Subject: Re: [PATCH 1/2] drm: Fix duplicate const warning in
- drm_gem_ttm_helper.c
-To: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org
-References: <20190920193558.89815-1-sean@poorly.run>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
- IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
- AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
- 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
- hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
- YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
- 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
- tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
- R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
- E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
- kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
- 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
- 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
- A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
- NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
- VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
- iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
- VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
- iNx9uqqx
-Message-ID: <02fda717-5e7b-292d-f5a1-fd85d9f6ffbc@suse.de>
-Date: Mon, 23 Sep 2019 08:57:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <20190920193558.89815-1-sean@poorly.run>
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AA9F6E12A
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 06:58:24 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id DF627308FF23;
+ Mon, 23 Sep 2019 06:58:23 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-47.ams2.redhat.com
+ [10.36.116.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2722A5C207;
+ Mon, 23 Sep 2019 06:58:16 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id F322C17535; Mon, 23 Sep 2019 08:58:14 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm: tweak drm_print_bits()
+Date: Mon, 23 Sep 2019 08:58:14 +0200
+Message-Id: <20190923065814.4797-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Mon, 23 Sep 2019 06:58:24 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,159 +44,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Maxime Ripard <maxime.ripard@bootlin.com>, Sean Paul <seanpaul@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/mixed; boundary="===============0753455067=="
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
+ open list <linux-kernel@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ seanpaul@chromium.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Sean Paul <sean@poorly.run>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0753455067==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="SD7XTMlBMkSWjprbP8GbYYn2oBXCemYAP"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---SD7XTMlBMkSWjprbP8GbYYn2oBXCemYAP
-Content-Type: multipart/mixed; boundary="6XnHIHHsqt2Qfzo8pOsUBWgdGw5yc6i5W";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Maxime Ripard <maxime.ripard@bootlin.com>, Sean Paul
- <seanpaul@chromium.org>, Gerd Hoffmann <kraxel@redhat.com>
-Message-ID: <02fda717-5e7b-292d-f5a1-fd85d9f6ffbc@suse.de>
-Subject: Re: [PATCH 1/2] drm: Fix duplicate const warning in
- drm_gem_ttm_helper.c
-References: <20190920193558.89815-1-sean@poorly.run>
-In-Reply-To: <20190920193558.89815-1-sean@poorly.run>
-
---6XnHIHHsqt2Qfzo8pOsUBWgdGw5yc6i5W
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 20.09.19 um 21:35 schrieb Sean Paul:
-> From: Sean Paul <seanpaul@chromium.org>
->=20
-> For the warning
-> ../drivers/gpu/drm/drm_gem_ttm_helper.c:26:20: warning: duplicate =E2=80=
-=98const=E2=80=99 declaration specifier [-Wduplicate-decl-specifier]
->=20
-> Reading between the lines, I think the double const is to preserve both=
-
-> the values and the pointers in the array (which makes total sense). Thi=
-s
-
-Yes it is. Thanks for fixing.
-
-Reviewed-By: Thomas Zimmermann <tzimmermann@suse.de>
-
-> patch moves the second const to achieve this (and fix the warning).
->=20
-> Fixes: ff540b76f14a ("drm/ttm: add drm gem ttm helpers, starting with d=
-rm_gem_ttm_print_info()")
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <maxime.ripard@bootlin.com>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> ---
->  drivers/gpu/drm/drm_gem_ttm_helper.c | 2 +-
->  drivers/gpu/drm/drm_print.c          | 2 +-
->  include/drm/drm_print.h              | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_gem_ttm_helper.c b/drivers/gpu/drm/drm=
-_gem_ttm_helper.c
-> index 9a4bafcf20df..ae7ba0052959 100644
-> --- a/drivers/gpu/drm/drm_gem_ttm_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_ttm_helper.c
-> @@ -23,7 +23,7 @@
->  void drm_gem_ttm_print_info(struct drm_printer *p, unsigned int indent=
-,
->  			    const struct drm_gem_object *gem)
->  {
-> -	static const char const *plname[] =3D {
-> +	static const char * const plname[] =3D {
->  		[ TTM_PL_SYSTEM ] =3D "system",
->  		[ TTM_PL_TT     ] =3D "tt",
->  		[ TTM_PL_VRAM   ] =3D "vram",
-> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-> index dfa27367ebb8..20c49c85b7a2 100644
-> --- a/drivers/gpu/drm/drm_print.c
-> +++ b/drivers/gpu/drm/drm_print.c
-> @@ -198,7 +198,7 @@ EXPORT_SYMBOL(drm_printf);
->   * @to: end of bit range to print (exclusive).
->   */
->  void drm_print_bits(struct drm_printer *p,
-> -		    unsigned long value, const char *bits[],
-> +		    unsigned long value, const char * const bits[],
->  		    unsigned int from, unsigned int to)
->  {
->  	bool first =3D true;
-> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-> index 12d4916254b4..1e6a4ee8a6b2 100644
-> --- a/include/drm/drm_print.h
-> +++ b/include/drm/drm_print.h
-> @@ -90,7 +90,7 @@ void drm_printf(struct drm_printer *p, const char *f,=
- ...);
->  void drm_puts(struct drm_printer *p, const char *str);
->  void drm_print_regset32(struct drm_printer *p, struct debugfs_regset32=
- *regset);
->  void drm_print_bits(struct drm_printer *p,
-> -		    unsigned long value, const char *bits[],
-> +		    unsigned long value, const char * const bits[],
->  		    unsigned int from, unsigned int to);
-> =20
->  __printf(2, 0)
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
-GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N=C3=BCrnberg)
-
-
---6XnHIHHsqt2Qfzo8pOsUBWgdGw5yc6i5W--
-
---SD7XTMlBMkSWjprbP8GbYYn2oBXCemYAP
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl2IbPMACgkQaA3BHVML
-eiNl8wf7BCQyRk/47EUqFhBXTBJKnYSXS0H2w4yHAl8fjyzEzbUDY2WsoJ4FFOav
-fzHCIau3OiM6E+ZS0cO3ga4IdvTF07iOvkG+g7MoBG64GpwhNkwzLlR6Z+iulJ25
-wTDI2Du0C7BRAfk3081VBO7bTE1BDEkq3LFmIrMGKBaR3lK8DLZZEDPWjtpqHCVh
-cYsDMrKaIoYwDVerEmfFdWGt1nwLuEG8sMQJl57ikzvavas3KWW8q52OVcac2aHy
-5koahwlDzjQDGQ0jtDXRtEjen/cT8xYrbPRoc1kxddniwQCTbjoob+bpf74x7o2w
-1zIpI5PeKkVk1KbQJMN2dmNTjyGtTg==
-=2J0b
------END PGP SIGNATURE-----
-
---SD7XTMlBMkSWjprbP8GbYYn2oBXCemYAP--
-
---===============0753455067==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0753455067==--
+VGhlcmUgaXMgbGl0dGxlIHJlYXNvbiBmb3IgdGhlIGZyb20vdG8gbG9naWMsIHByaW50aW5nIGEg
+c3Vic2V0IG9mCnRoZSBiaXRzIGNhbiBiZSBkb25lIGJ5IHNpbXBseSBzaGlmdGluZy9tYXNraW5n
+IHZhbHVlIGlmIG5lZWRlZC4KCkFsc28gdXNlIGZvcl9lYWNoX3NldF9iaXQoKS4KClN1Z2dlc3Rl
+ZC1ieTogSmFuaSBOaWt1bGEgPGphbmkubmlrdWxhQGxpbnV4LmludGVsLmNvbT4KU2lnbmVkLW9m
+Zi1ieTogR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+ClJldmlld2VkLWJ5OiBKYW5p
+IE5pa3VsYSA8amFuaS5uaWt1bGFAaW50ZWwuY29tPgotLS0KIGluY2x1ZGUvZHJtL2RybV9wcmlu
+dC5oICAgICAgICAgICAgICB8ICA1ICsrLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV90dG1f
+aGVscGVyLmMgfCAgNCArKy0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX3ByaW50LmMgICAgICAgICAg
+fCAyMCArKysrKysrKystLS0tLS0tLS0tLQogMyBmaWxlcyBjaGFuZ2VkLCAxMyBpbnNlcnRpb25z
+KCspLCAxNiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fcHJpbnQu
+aCBiL2luY2x1ZGUvZHJtL2RybV9wcmludC5oCmluZGV4IDEyZDQ5MTYyNTRiNC4uODlkMzhkMDcz
+MTZjIDEwMDY0NAotLS0gYS9pbmNsdWRlL2RybS9kcm1fcHJpbnQuaAorKysgYi9pbmNsdWRlL2Ry
+bS9kcm1fcHJpbnQuaApAQCAtODksOSArODksOCBAQCBfX3ByaW50ZigyLCAzKQogdm9pZCBkcm1f
+cHJpbnRmKHN0cnVjdCBkcm1fcHJpbnRlciAqcCwgY29uc3QgY2hhciAqZiwgLi4uKTsKIHZvaWQg
+ZHJtX3B1dHMoc3RydWN0IGRybV9wcmludGVyICpwLCBjb25zdCBjaGFyICpzdHIpOwogdm9pZCBk
+cm1fcHJpbnRfcmVnc2V0MzIoc3RydWN0IGRybV9wcmludGVyICpwLCBzdHJ1Y3QgZGVidWdmc19y
+ZWdzZXQzMiAqcmVnc2V0KTsKLXZvaWQgZHJtX3ByaW50X2JpdHMoc3RydWN0IGRybV9wcmludGVy
+ICpwLAotCQkgICAgdW5zaWduZWQgbG9uZyB2YWx1ZSwgY29uc3QgY2hhciAqYml0c1tdLAotCQkg
+ICAgdW5zaWduZWQgaW50IGZyb20sIHVuc2lnbmVkIGludCB0byk7Cit2b2lkIGRybV9wcmludF9i
+aXRzKHN0cnVjdCBkcm1fcHJpbnRlciAqcCwgdW5zaWduZWQgbG9uZyB2YWx1ZSwKKwkJICAgIGNv
+bnN0IGNoYXIgKiBjb25zdCBiaXRzW10sIHVuc2lnbmVkIGludCBuYml0cyk7CiAKIF9fcHJpbnRm
+KDIsIDApCiAvKioKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3R0bV9oZWxw
+ZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3R0bV9oZWxwZXIuYwppbmRleCA5YTRiYWZj
+ZjIwZGYuLmE1MzQxMDRkOGJlZSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1f
+dHRtX2hlbHBlci5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3R0bV9oZWxwZXIuYwpA
+QCAtMjMsNyArMjMsNyBAQAogdm9pZCBkcm1fZ2VtX3R0bV9wcmludF9pbmZvKHN0cnVjdCBkcm1f
+cHJpbnRlciAqcCwgdW5zaWduZWQgaW50IGluZGVudCwKIAkJCSAgICBjb25zdCBzdHJ1Y3QgZHJt
+X2dlbV9vYmplY3QgKmdlbSkKIHsKLQlzdGF0aWMgY29uc3QgY2hhciBjb25zdCAqcGxuYW1lW10g
+PSB7CisJc3RhdGljIGNvbnN0IGNoYXIgKiBjb25zdCBwbG5hbWVbXSA9IHsKIAkJWyBUVE1fUExf
+U1lTVEVNIF0gPSAic3lzdGVtIiwKIAkJWyBUVE1fUExfVFQgICAgIF0gPSAidHQiLAogCQlbIFRU
+TV9QTF9WUkFNICAgXSA9ICJ2cmFtIiwKQEAgLTQwLDcgKzQwLDcgQEAgdm9pZCBkcm1fZ2VtX3R0
+bV9wcmludF9pbmZvKHN0cnVjdCBkcm1fcHJpbnRlciAqcCwgdW5zaWduZWQgaW50IGluZGVudCwK
+IAljb25zdCBzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvID0gZHJtX2dlbV90dG1fb2ZfZ2Vt
+KGdlbSk7CiAKIAlkcm1fcHJpbnRmX2luZGVudChwLCBpbmRlbnQsICJwbGFjZW1lbnQ9Iik7Ci0J
+ZHJtX3ByaW50X2JpdHMocCwgYm8tPm1lbS5wbGFjZW1lbnQsIHBsbmFtZSwgMCwgQVJSQVlfU0la
+RShwbG5hbWUpKTsKKwlkcm1fcHJpbnRfYml0cyhwLCBiby0+bWVtLnBsYWNlbWVudCwgcGxuYW1l
+LCBBUlJBWV9TSVpFKHBsbmFtZSkpOwogCWRybV9wcmludGYocCwgIlxuIik7CiAKIAlpZiAoYm8t
+Pm1lbS5idXMuaXNfaW9tZW0pIHsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJp
+bnQuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbnQuYwppbmRleCBkZmEyNzM2N2ViYjguLjUy
+Y2M3YjM4ZWIxMiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9wcmludC5jCisrKyBi
+L2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbnQuYwpAQCAtMTg5LDI4ICsxODksMjYgQEAgRVhQT1JU
+X1NZTUJPTChkcm1fcHJpbnRmKTsKICAqIGRybV9wcmludF9iaXRzIC0gcHJpbnQgYml0cyB0byBh
+ICZkcm1fcHJpbnRlciBzdHJlYW0KICAqCiAgKiBQcmludCBiaXRzIChpbiBmbGFnIGZpZWxkcyBm
+b3IgZXhhbXBsZSkgaW4gaHVtYW4gcmVhZGFibGUgZm9ybS4KLSAqIFRoZSBmaXJzdCBuYW1lIGlu
+IHRoZSBAYml0cyBhcnJheSBpcyBmb3IgdGhlIGJpdCBpbmRleGVkIGJ5IEBmcm9tLgogICoKICAq
+IEBwOiB0aGUgJmRybV9wcmludGVyCiAgKiBAdmFsdWU6IGZpZWxkIHZhbHVlLgogICogQGJpdHM6
+IEFycmF5IHdpdGggYml0IG5hbWVzLgotICogQGZyb206IHN0YXJ0IG9mIGJpdCByYW5nZSB0byBw
+cmludCAoaW5jbHVzaXZlKS4KLSAqIEB0bzogZW5kIG9mIGJpdCByYW5nZSB0byBwcmludCAoZXhj
+bHVzaXZlKS4KKyAqIEBuYml0czogU2l6ZSBvZiBiaXQgbmFtZXMgYXJyYXkuCiAgKi8KLXZvaWQg
+ZHJtX3ByaW50X2JpdHMoc3RydWN0IGRybV9wcmludGVyICpwLAotCQkgICAgdW5zaWduZWQgbG9u
+ZyB2YWx1ZSwgY29uc3QgY2hhciAqYml0c1tdLAotCQkgICAgdW5zaWduZWQgaW50IGZyb20sIHVu
+c2lnbmVkIGludCB0bykKK3ZvaWQgZHJtX3ByaW50X2JpdHMoc3RydWN0IGRybV9wcmludGVyICpw
+LCB1bnNpZ25lZCBsb25nIHZhbHVlLAorCQkgICAgY29uc3QgY2hhciAqIGNvbnN0IGJpdHNbXSwg
+dW5zaWduZWQgaW50IG5iaXRzKQogewogCWJvb2wgZmlyc3QgPSB0cnVlOwogCXVuc2lnbmVkIGlu
+dCBpOwogCi0JZm9yIChpID0gZnJvbTsgaSA8IHRvOyBpKyspIHsKLQkJaWYgKCEodmFsdWUgJiAo
+MSA8PCBpKSkpCi0JCQljb250aW51ZTsKLQkJaWYgKFdBUk5fT05fT05DRSghYml0c1tpLWZyb21d
+KSkKKwlpZiAoV0FSTl9PTl9PTkNFKG5iaXRzID4gQklUU19QRVJfVFlQRSh2YWx1ZSkpKQorCQlu
+Yml0cyA9IEJJVFNfUEVSX1RZUEUodmFsdWUpOworCisJZm9yX2VhY2hfc2V0X2JpdChpLCAmdmFs
+dWUsIG5iaXRzKSB7CisJCWlmIChXQVJOX09OX09OQ0UoIWJpdHNbaV0pKQogCQkJY29udGludWU7
+CiAJCWRybV9wcmludGYocCwgIiVzJXMiLCBmaXJzdCA/ICIiIDogIiwiLAotCQkJICAgYml0c1tp
+LWZyb21dKTsKKwkJCSAgIGJpdHNbaV0pOwogCQlmaXJzdCA9IGZhbHNlOwogCX0KIAlpZiAoZmly
+c3QpCi0tIAoyLjE4LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbA==
