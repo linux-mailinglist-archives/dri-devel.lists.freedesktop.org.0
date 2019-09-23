@@ -1,45 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B5F5BAD00
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 06:11:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD4ABAD7D
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 07:36:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E947C6E0AB;
-	Mon, 23 Sep 2019 04:11:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A2146E0C6;
+	Mon, 23 Sep 2019 05:36:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id D312C6E0E4
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 04:11:00 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id CFE8972162; Mon, 23 Sep 2019 04:11:00 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Mon, 23 Sep 2019 04:11:00 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: sehellion@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
-Message-ID: <bug-110674-502-YsVdACNTdj@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 545986E0C6
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 05:36:28 +0000 (UTC)
+X-UUID: 401fd445ccf74d7aa1d69a70a68e4755-20190923
+X-UUID: 401fd445ccf74d7aa1d69a70a68e4755-20190923
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 1952210247; Mon, 23 Sep 2019 13:36:23 +0800
+Received: from mtkcas09.mediatek.inc (172.21.101.178) by
+ mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Mon, 23 Sep 2019 13:36:20 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas09.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Mon, 23 Sep 2019 13:36:20 +0800
+Message-ID: <1569216981.20872.3.camel@mtksdaap41>
+Subject: Re: [PATCH v7 1/5] dt-bindings: display: mediatek: update dsi
+ supported chips
+From: CK Hu <ck.hu@mediatek.com>
+To: Jitao Shi <jitao.shi@mediatek.com>
+Date: Mon, 23 Sep 2019 13:36:21 +0800
+In-Reply-To: <20190920090432.3308-2-jitao.shi@mediatek.com>
+References: <20190920090432.3308-1-jitao.shi@mediatek.com>
+ <20190920090432.3308-2-jitao.shi@mediatek.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,125 +48,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1415806656=="
+Cc: srv_heupstream@mediatek.com, David Airlie <airlied@linux.ie>,
+ stonea168@163.com, cawa.cheng@mediatek.com, dri-devel@lists.freedesktop.org,
+ sj.huang@mediatek.com, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, yingjoe.chen@mediatek.com,
+ eddie.huang@mediatek.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1415806656==
-Content-Type: multipart/alternative; boundary="156921186010.dadf.1201"
-Content-Transfer-Encoding: 7bit
-
-
---156921186010.dadf.1201
-Date: Mon, 23 Sep 2019 04:11:00 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
-
-sehellion@gmail.com changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
- Attachment #145461|0                           |1
-        is obsolete|                            |
-
---- Comment #140 from sehellion@gmail.com ---
-Created attachment 145463
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145463&action=3Dedit
-5.3.1 with Alex's patches and dual monitors, crash
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---156921186010.dadf.1201
-Date: Mon, 23 Sep 2019 04:11:00 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:sehellion=
-&#64;gmail.com" title=3D"sehellion&#64;gmail.com">sehellion&#64;gmail.com</=
-a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Attachment #145461 is obsolete</=
-td>
-           <td>
-               &nbsp;
-           </td>
-           <td>1
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c140">Comm=
-ent # 140</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-sehellion&#64;gmail.com" title=3D"sehellion&#64;gmail.com">sehellion&#64;gm=
-ail.com</a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145463=
-" name=3D"attach_145463" title=3D"5.3.1 with Alex's patches and dual monito=
-rs, crash">attachment 145463</a> <a href=3D"attachment.cgi?id=3D145463&amp;=
-action=3Dedit" title=3D"5.3.1 with Alex's patches and dual monitors, crash"=
->[details]</a></span>
-5.3.1 with Alex's patches and dual monitors, crash</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---156921186010.dadf.1201--
-
---===============1415806656==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1415806656==--
+SGksIEppdGFvOgoKT24gRnJpLCAyMDE5LTA5LTIwIGF0IDE3OjA0ICswODAwLCBKaXRhbyBTaGkg
+d3JvdGU6Cj4gVXBkYXRlIGRldmljZSB0cmVlIGJpbmRpbmcgZG9jdW1lbnRhdGlvbiBmb3IgdGhl
+IGRzaSBmb3IKPiBNZWRpYXRlayBNVDgxODMgU29Dcy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBKaXRh
+byBTaGkgPGppdGFvLnNoaUBtZWRpYXRlay5jb20+Cj4gQWNrZWQtYnk6IFJvYiBIZXJyaW5nIDxy
+b2JoQGtlcm5lbC5vcmc+CgpUaGlzIHZlcnNpb24gaXMgZGlmZmVyZW50IHdpdGggcHJldmlvdXMg
+dmVyc2lvbiBbMV0sIHNvIEkgdGhpbmsgeW91CnNob3VsZCBkcm9wIHRoZSAnQWNrZWQtYnknIHRh
+Zy4KClsxXSBodHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3BhdGNoLzExMDgxNzAxLwoKUmVn
+YXJkcywKQ0sKCj4gLS0tCj4gIC4uLi9iaW5kaW5ncy9kaXNwbGF5L21lZGlhdGVrL21lZGlhdGVr
+LGRzaS50eHQgICAgfCAxNSArKysrKysrKysrKystLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDEyIGlu
+c2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRp
+b24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L21lZGlhdGVrL21lZGlhdGVrLGRzaS50eHQg
+Yi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRlay9tZWRp
+YXRlayxkc2kudHh0Cj4gaW5kZXggZmFkZjMyN2M3Y2RmLi45OTNmZjA3OWFjMDkgMTAwNjQ0Cj4g
+LS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvbWVkaWF0ZWsv
+bWVkaWF0ZWssZHNpLnR4dAo+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5n
+cy9kaXNwbGF5L21lZGlhdGVrL21lZGlhdGVrLGRzaS50eHQKPiBAQCAtNyw3ICs3LDcgQEAgY2hh
+bm5lbCBvdXRwdXQuCj4gIAo+ICBSZXF1aXJlZCBwcm9wZXJ0aWVzOgo+ICAtIGNvbXBhdGlibGU6
+ICJtZWRpYXRlayw8Y2hpcD4tZHNpIgo+IC0gIHRoZSBzdXBwb3J0ZWQgY2hpcHMgYXJlIG10Mjcw
+MSBhbmQgbXQ4MTczLgo+ICsgIHRoZSBzdXBwb3J0ZWQgY2hpcHMgYXJlIG10MjcwMSwgbXQ4MTcz
+IGFuZCBtdDgxODMuCj4gIC0gcmVnOiBQaHlzaWNhbCBiYXNlIGFkZHJlc3MgYW5kIGxlbmd0aCBv
+ZiB0aGUgY29udHJvbGxlcidzIHJlZ2lzdGVycwo+ICAtIGludGVycnVwdHM6IFRoZSBpbnRlcnJ1
+cHQgc2lnbmFsIGZyb20gdGhlIGZ1bmN0aW9uIGJsb2NrLgo+ICAtIGNsb2NrczogZGV2aWNlIGNs
+b2Nrcwo+IEBAIC0yNiwyMiArMjYsMzEgQEAgVGhlIE1JUEkgVFggY29uZmlndXJhdGlvbiBtb2R1
+bGUgY29udHJvbHMgdGhlIE1JUEkgRC1QSFkuCj4gIAo+ICBSZXF1aXJlZCBwcm9wZXJ0aWVzOgo+
+ICAtIGNvbXBhdGlibGU6ICJtZWRpYXRlayw8Y2hpcD4tbWlwaS10eCIKPiAtICB0aGUgc3VwcG9y
+dGVkIGNoaXBzIGFyZSBtdDI3MDEgYW5kIG10ODE3My4KPiArICB0aGUgc3VwcG9ydGVkIGNoaXBz
+IGFyZSBtdDI3MDEsIG10ODE3MyBhbmQgbXQ4MTgzLgo+ICAtIHJlZzogUGh5c2ljYWwgYmFzZSBh
+ZGRyZXNzIGFuZCBsZW5ndGggb2YgdGhlIGNvbnRyb2xsZXIncyByZWdpc3RlcnMKPiAgLSBjbG9j
+a3M6IFBMTCByZWZlcmVuY2UgY2xvY2sKPiAgLSBjbG9jay1vdXRwdXQtbmFtZXM6IG5hbWUgb2Yg
+dGhlIG91dHB1dCBjbG9jayBsaW5lIHRvIHRoZSBEU0kgZW5jb2Rlcgo+ICAtICNjbG9jay1jZWxs
+czogbXVzdCBiZSA8MD47Cj4gIC0gI3BoeS1jZWxsczogbXVzdCBiZSA8MD4uCj4gIAo+ICtPcHRp
+b25hbCBwcm9wZXJ0aWVzOgo+ICstIG52bWVtLWNlbGxzOiBBIHBoYW5kbGUgdG8gdGhlIGNhbGli
+cmF0aW9uIGRhdGEgcHJvdmlkZWQgYnkgYSBudm1lbSBkZXZpY2UuIElmCj4gKyAgICAgICAgICAg
+ICAgIHVuc3BlY2lmaWVkIGRlZmF1bHQgdmFsdWVzIHNoYWxsIGJlIHVzZWQuCj4gKy0gbnZtZW0t
+Y2VsbC1uYW1lczogU2hvdWxkIGJlICJjYWxpYnJhdGlvbi1kYXRhIgo+ICstIG1pcGl0eC1jdXJy
+ZW50LWRyaXZlOiBhZGp1c3QgZHJpdmluZyBjdXJyZW50LCBzaG91bGQgYmUgMSB+IDB4Rgo+ICsK
+PiAgRXhhbXBsZToKPiAgCj4gIG1pcGlfdHgwOiBtaXBpLWRwaHlAMTAyMTUwMDAgewo+ICAJY29t
+cGF0aWJsZSA9ICJtZWRpYXRlayxtdDgxNzMtbWlwaS10eCI7Cj4gIAlyZWcgPSA8MCAweDEwMjE1
+MDAwIDAgMHgxMDAwPjsKPiAgCWNsb2NrcyA9IDwmY2xrMjZtPjsKPiAtCWNsb2NrLW91dHB1dC1u
+YW1lcyA9ICJtaXBpX3R4MF9wbGwiOwo+ICAJI2Nsb2NrLWNlbGxzID0gPDA+Owo+ICAJI3BoeS1j
+ZWxscyA9IDwwPjsKPiArCWNsb2NrLW91dHB1dC1uYW1lcyA9ICJtaXBpX3R4MF9wbGwiOwo+ICsJ
+bnZtZW0tY2VsbHM9IDwmbWlwaV90eF9jYWxpYnJhdGlvbj47Cj4gKwludm1lbS1jZWxsLW5hbWVz
+ID0gImNhbGlicmF0aW9uLWRhdGEiOwo+ICsJbWlwaXR4LWN1cnJlbnQtZHJpdmUgPSA8MHg4PjsK
+PiAgfTsKPiAgCj4gIGRzaTA6IGRzaUAxNDAxYjAwMCB7CgoKX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
