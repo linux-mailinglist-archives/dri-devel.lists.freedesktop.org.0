@@ -2,68 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 116D1BC241
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2019 09:07:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA3CFBC24B
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2019 09:08:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAD856E9BC;
-	Tue, 24 Sep 2019 07:07:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D13AE6EA01;
+	Tue, 24 Sep 2019 07:08:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 291B76E1F1
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 18:56:55 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id u17so8494521pgi.6
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 11:56:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CsMc2OBbadsF5+TBj7fbouJIZuD/T7daovw5hMpIMNM=;
- b=XJdbhQodraEohu4z5UiotpcjUWyCF83LO5lZXrlyk+AmvE3wobkBrFeLLBOiMIewGT
- CK+1CKL7SBjBeCqeqEhnMpyECbnECUpxC8Gt2qprmZUBna9e1UyJvi99ecShO2AS0wLQ
- I7YmqrezDc5oQEEYXZLsh+pIEZBNdn8T/x3TobSGsKhwLyP5q+zus/IU1IDwiiJCaNzm
- G4mFKLzOXCaOL6RdT6hVTmMwhUL4EnQ4cj29HFWkyaHGgbArmL3rtDy5DtmLRrYQHitJ
- qrRlxqpyGdCuiEkkslCQQyWd9045WxYcjdah8z2rs4/67XSZn6BprtTFhTVDPCXI7Ymh
- 52og==
-X-Gm-Message-State: APjAAAUbjhyDgYsxXJE2v5nyYsKG3zBCC8uHgvLrJhU7EsGS10SvpyJb
- MYT8P6haIIcXns2VZve33LE=
-X-Google-Smtp-Source: APXvYqwneQoUpghuUhOTZoR96inZCxNiBb0kHtbFd6BnedAcnXY3e/YuwpBwLaXm8+kvMPnmEBsRXg==
-X-Received: by 2002:a63:6c89:: with SMTP id h131mr1424775pgc.322.1569265014534; 
- Mon, 23 Sep 2019 11:56:54 -0700 (PDT)
-Received: from [10.230.28.130] ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id m2sm9484201pgc.19.2019.09.23.11.56.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Sep 2019 11:56:53 -0700 (PDT)
-Subject: Re: [PATCH] Revert "ARM: bcm283x: Switch V3D over to using the PM
- driver instead of firmware."
-To: Stefan Wahren <wahrenst@gmx.net>, Eric Anholt <eric@anholt.net>,
- Florian Fainelli <f.fainelli@gmail.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- boris.brezillon@bootlin.com
-References: <1567957493-4567-1-git-send-email-wahrenst@gmx.net>
-From: Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <26e101ad-8b5b-edef-4437-778bc57ae81f@gmail.com>
-Date: Mon, 23 Sep 2019 11:56:52 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+Received: from mail.siol.net (mailoutvs31.siol.net [185.57.226.222])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 417C16E13B
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 18:59:20 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by mail.siol.net (Postfix) with ESMTP id CDB41521C1B;
+ Mon, 23 Sep 2019 20:59:18 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta10.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+ by localhost (psrvmta10.zcs-production.pri [127.0.0.1]) (amavisd-new,
+ port 10032)
+ with ESMTP id 6fOIjpuRXjK3; Mon, 23 Sep 2019 20:59:18 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+ by mail.siol.net (Postfix) with ESMTPS id 6C483521C76;
+ Mon, 23 Sep 2019 20:59:18 +0200 (CEST)
+Received: from jernej-laptop.localnet (cpe-86-58-59-25.static.triera.net
+ [86.58.59.25]) (Authenticated sender: jernej.skrabec@siol.net)
+ by mail.siol.net (Postfix) with ESMTPA id BCAAE5216AE;
+ Mon, 23 Sep 2019 20:59:16 +0200 (CEST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+To: Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH 2/2] MAINTAINERS: Add Jernej =?UTF-8?B?xaBrcmFiZWM=?= as a
+ reviewer for DE2
+Date: Mon, 23 Sep 2019 20:59:05 +0200
+Message-ID: <25330700.GM8WoWRORn@jernej-laptop>
+In-Reply-To: <20190923153253.7bxik4olfuteifrf@gilmour>
+References: <20190919173020.11655-1-mripard@kernel.org>
+ <1884305.6y54b83Agi@jernej-laptop> <20190923153253.7bxik4olfuteifrf@gilmour>
 MIME-Version: 1.0
-In-Reply-To: <1567957493-4567-1-git-send-email-wahrenst@gmx.net>
-Content-Language: en-US
 X-Mailman-Approved-At: Tue, 24 Sep 2019 07:07:43 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=CsMc2OBbadsF5+TBj7fbouJIZuD/T7daovw5hMpIMNM=;
- b=A0fvyNz0dJYbt8WldJjdAyaAoG02SFZIB0jGAqxLBHmrKGDZbBYceILw9++VGQNfws
- jPGJC0kExLnyTbzAa+JvU3bCPJn4R7JaRednWtyMjqd1oeiIH1+FYH/ZlHN7L0TKfifP
- rp3gXi0Wgqo+PQe6rFS9K/K7UkO1EyBQDeDyO7I4u1xwZCUpGnL38peAc7JLw3iLzgBb
- vUIsWzhxZQnubTBKjQKzbfpC7bFOZq90nBo6G7EE5YeBDsFodj6psMuaRRT/uN3ZRDsK
- KHO4rejh4bN8A9ZvD1fMefRJU+P0Zhy7EiDbHlKbdVUn9BrxnKQDfFa5hgoAMKlA1erB
- pyyA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,31 +50,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Chen-Yu Tsai <wens@csie.org>,
+ Sean Paul <seanpaul@chromium.org>, Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: multipart/mixed; boundary="===============1835795740=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpPbiA5LzgvMjAxOSA4OjQ0IEFNLCBTdGVmYW4gV2FocmVuIHdyb3RlOgo+IFNpbmNlIHJlbGVh
-c2Ugb2YgdGhlIG5ldyBCQ00yODM1IFBNIGRyaXZlciB0aGVyZSBoYXMgYmVlbiBzZXZlcmFsIHJl
-cG9ydHMKPiBvZiBWM0QgcHJvYmluZyBpc3N1ZXMuIFRoaXMgaXMgY2F1c2VkIGJ5IHRpbWVvdXRz
-IGR1cmluZyBwb3dlcmluZy11cCB0aGUKPiBHUkFGWCBQTSBkb21haW46Cj4gCj4gICBiY20yODM1
-LXBvd2VyOiBUaW1lb3V0IHdhaXRpbmcgZm9yIGdyYWZ4IHBvd2VyIE9LCj4gCj4gSSB3YXMgYWJs
-ZSB0byByZXByb2R1Y2UgdGhpcyByZWxpYWJsZSBvbiBteSBSYXNwYmVycnkgUGkgM0IrIGFmdGVy
-IHNldHRpbmcKPiBmb3JjZV90dXJibz0xIGluIHRoZSBmaXJtd2FyZSBjb25maWd1cmF0aW9uLiBT
-aW5jZSB0aGVyZSBhcmUgbm8gaXNzdWVzCj4gdXNpbmcgdGhlIGZpcm13YXJlIFBNIGRyaXZlciB3
-aXRoIHRoZSBzYW1lIHNldHVwLCB0aGVyZSBtdXN0IGJlIGFuIGlzc3VlCj4gaW4gdGhlIEJDTTI4
-MzUgUE0gZHJpdmVyLgo+IAo+IFVuZm9ydHVuYXRlbHkgdGhlcmUgaGFzbid0IGJlZW4gbXVjaCBw
-cm9ncmVzcyBpbiBpZGVudGlmeWluZyB0aGUgcm9vdCBjYXVzZQo+IHNpbmNlIEp1bmUgKG1vc3Rs
-eSBpbiB0aGUgbGFjayBvZiBkb2N1bWVudGF0aW9uKSwgc28gaSBkZWNpZGVkIHRvIHN3aXRjaAo+
-IGJhY2sgdW50aWwgdGhlIGlzc3VlIGluIHRoZSBCQ00yODM1IFBNIGRyaXZlciBpcyBmaXhlZC4K
-PiAKPiBMaW5rOiBodHRwczovL2dpdGh1Yi5jb20vcmFzcGJlcnJ5cGkvbGludXgvaXNzdWVzLzMw
-NDYKPiBGaXhlczogZTFkYzJiMmUxYmVmICgiIEFSTTogYmNtMjgzeDogU3dpdGNoIFYzRCBvdmVy
-IHRvIHVzaW5nIHRoZSBQTSBkcml2ZXIgaW5zdGVhZCBvZiBmaXJtd2FyZS4iKQo+IENjOiBzdGFi
-bGVAdmdlci5rZXJuZWwub3JnCj4gU2lnbmVkLW9mZi1ieTogU3RlZmFuIFdhaHJlbiA8d2FocmVu
-c3RAZ214Lm5ldD4KCkFwcGxpZWQgdG8gZGV2aWNldHJlZS9maXhlcywgdGhhbmtzIQotLSAKRmxv
-cmlhbgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+--===============1835795740==
+Content-Type: multipart/signed; boundary="nextPart8786816.DsjuD0iXM1"; micalg="pgp-sha256"; protocol="application/pgp-signature"
+
+--nextPart8786816.DsjuD0iXM1
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+
+Dne ponedeljek, 23. september 2019 ob 17:32:53 CEST je Maxime Ripard=20
+napisal(a):
+> On Fri, Sep 20, 2019 at 10:12:30PM +0200, Jernej =C5=A0krabec wrote:
+> > Dne petek, 20. september 2019 ob 08:08:20 CEST je Maxime Ripard=20
+napisal(a):
+> > > Hi
+> > >=20
+> > > On Thu, Sep 19, 2019 at 09:39:19PM +0200, Daniel Vetter wrote:
+> > > > On Thu, Sep 19, 2019 at 7:30 PM Maxime Ripard <mripard@kernel.org>=
+=20
+wrote:
+> > > > > The newer Allwinner SoCs have a different layers controller than =
+the
+> > > > > older
+> > > > > ones. Jernej wrote that support and has been reviewing patches fo=
+r a
+> > > > > while
+> > > > > now, so let's make him a formal reviewer.
+> > > > >=20
+> > > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > > >=20
+> > > > Haz commit rights already, or do we need to fix that?
+> > >=20
+> > > He doesn't, as far as I'm remember.
+> >=20
+> > No, I don't.
+> >=20
+> > > Jernej, do you want to have drm-misc committers rights as well?
+> >=20
+> > I would be nice, yes. Thanks!
+>=20
+> You have everything needed (hopefully) there:
+> https://drm.pages.freedesktop.org/maintainer-tools/drm-misc.html
+>=20
+> Once you have requested the account, please let us know so that we can
+> ack it and move forward in the process.
+
+Here it is: https://gitlab.freedesktop.org/freedesktop/freedesktop/issues/1=
+92
+
+Thanks!
+
+Best regards,
+Jernej
+--nextPart8786816.DsjuD0iXM1
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEsR7F6zFhQ4tDs/Lff1dxEBTFtbMFAl2JFfkACgkQf1dxEBTF
+tbPyPQ//bmvkIo+4jpvGC3ChYT4/0XjsYrHoBEDxhLdfFSycNjLveupl0gGLRRHs
+V8PQOIYYH6xpd3mpSpw/8WKvaCETP0u7pT9PmyVcOKjtipg1tzptiuSAlHs4B9Hm
+N3dhS4zd/115ZMCVidnYUnr2Lz+/EIxNexrwtUO7qBw25+MtBmwcZ5DhqPgMPSFa
+KSK28IN6GvXf++bwuIPM+l0r5aBQbGRpYCh3AFVY95K3uTnnNEz9UjpvulZX5ldV
+2U7aJbWKIBGYlEOp7+u1Tvxn+B/oec5hyaUfr3rS6rFOs4WqsNHtlglZc+fkWMin
+asZdOf39Y5kqxK5LTG3m1yB9U5736UCduD2bZwu6/zztzEZ6zl70r5JuGW/nU4z9
+Yggxu8VU9l5PSkKGD/BFjPBK+fRBhFWT17shZAI0wjr8PCKcM83pQH4g68BungAy
+3lojfTuMAX08bpo0BSdX+N/EjdG44R/DyBBQiMBwFZGeZiWf2K4uztoY+TvMJGVY
+ODfyWUgRXwOBjrmyL0XfJoN0fMVaCYsr25z0qJSa6d+MelNrrMLfwB/NqFPH74wt
+HzpSSqL6nX6GZE0YmGgOJVqoFVnBWHSZieFIkIAsFha4T9ORVbpNHm1vcd72xgVW
+1GjLEYChHii5a0IoUFqMmU6YE73aCuXn34YXDZGyEqAS8w2Ygp4=
+=3CeA
+-----END PGP SIGNATURE-----
+
+--nextPart8786816.DsjuD0iXM1--
+
+
+
+
+--===============1835795740==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1835795740==--
+
+
+
