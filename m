@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84668BB691
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 16:22:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99ECDBB69C
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 16:23:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F1946E92E;
-	Mon, 23 Sep 2019 14:22:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60AE96E931;
+	Mon, 23 Sep 2019 14:23:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9F38F6E92E
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 14:22:05 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6F12F6E931
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 14:23:24 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 96A9F72162; Mon, 23 Sep 2019 14:22:05 +0000 (UTC)
+ id 6C2CD72162; Mon, 23 Sep 2019 14:23:24 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111784] Hang when using glWaitSync with multithreaded shared GL
  contexts
-Date: Mon, 23 Sep 2019 14:22:05 +0000
+Date: Mon, 23 Sep 2019 14:23:24 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -35,7 +35,7 @@ X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111784-502-JxW71zm44i@http.bugs.freedesktop.org/>
+Message-ID: <bug-111784-502-PJ4WhzjadW@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111784-502@http.bugs.freedesktop.org/>
 References: <bug-111784-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1887309088=="
+Content-Type: multipart/mixed; boundary="===============1654503325=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1887309088==
-Content-Type: multipart/alternative; boundary="15692485251.622fBFC7.17449"
+--===============1654503325==
+Content-Type: multipart/alternative; boundary="15692486041.d7a527.17275"
 Content-Transfer-Encoding: 7bit
 
 
---15692485251.622fBFC7.17449
-Date: Mon, 23 Sep 2019 14:22:05 +0000
+--15692486041.d7a527.17275
+Date: Mon, 23 Sep 2019 14:23:24 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,17 +73,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111784
 
---- Comment #1 from Emmanuel Durand <emmanueldurand@protonmail.com> ---
-Created attachment 145473
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145473&action=3Dedit
-Xorg log
+--- Comment #2 from Emmanuel Durand <emmanueldurand@protonmail.com> ---
+Created attachment 145474
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145474&action=3Dedit
+Source code exhibiting the issue
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15692485251.622fBFC7.17449
-Date: Mon, 23 Sep 2019 14:22:05 +0000
+--15692486041.d7a527.17275
+Date: Mon, 23 Sep 2019 14:23:24 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -101,8 +101,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - Hang when using glWaitSync with multithreaded shared GL c=
 ontexts"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111784#c1">Commen=
-t # 1</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111784#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Hang when using glWaitSync with multithreaded shared GL c=
@@ -113,11 +113,11 @@ ontexts"
 emmanueldurand&#64;protonmail.com" title=3D"Emmanuel Durand &lt;emmanueldur=
 and&#64;protonmail.com&gt;"> <span class=3D"fn">Emmanuel Durand</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145473=
-" name=3D"attach_145473" title=3D"Xorg log">attachment 145473</a> <a href=
-=3D"attachment.cgi?id=3D145473&amp;action=3Dedit" title=3D"Xorg log">[detai=
-ls]</a></span>
-Xorg log</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145474=
+" name=3D"attach_145474" title=3D"Source code exhibiting the issue">attachm=
+ent 145474</a> <a href=3D"attachment.cgi?id=3D145474&amp;action=3Dedit" tit=
+le=3D"Source code exhibiting the issue">[details]</a></span>
+Source code exhibiting the issue</pre>
         </div>
       </p>
 
@@ -131,9 +131,9 @@ Xorg log</pre>
     </body>
 </html>=
 
---15692485251.622fBFC7.17449--
+--15692486041.d7a527.17275--
 
---===============1887309088==
+--===============1654503325==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -143,4 +143,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1887309088==--
+--===============1654503325==--
