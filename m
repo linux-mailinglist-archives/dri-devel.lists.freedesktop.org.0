@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA302BAE38
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 08:59:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06013BAE3C
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2019 09:00:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55D9989FE6;
-	Mon, 23 Sep 2019 06:59:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB05B6E133;
+	Mon, 23 Sep 2019 07:00:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78C0A89FE6
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 06:59:48 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 063BC10DCC92;
- Mon, 23 Sep 2019 06:59:48 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-47.ams2.redhat.com
- [10.36.116.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9E489600C4;
- Mon, 23 Sep 2019 06:59:47 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id CA64217535; Mon, 23 Sep 2019 08:59:46 +0200 (CEST)
-Date: Mon, 23 Sep 2019 08:59:46 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Sean Paul <sean@poorly.run>
-Subject: Re: [PATCH 2/2] Documentation/gpu: Fix no structured comments
- warning for drm_gem_ttm_helper.h
-Message-ID: <20190923065946.rlchr5hubkogutw4@sirius.home.kraxel.org>
-References: <20190920193558.89815-1-sean@poorly.run>
- <20190920193558.89815-2-sean@poorly.run>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0500E6E131
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2019 07:00:55 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id EFC6972162; Mon, 23 Sep 2019 07:00:54 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111763] ring_gfx hangs/freezes on Navi gpus
+Date: Mon, 23 Sep 2019 07:00:55 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: daniel.lawrence.lu@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111763-502-wmLPbH2fTR@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111763-502@http.bugs.freedesktop.org/>
+References: <bug-111763-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190920193558.89815-2-sean@poorly.run>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Mon, 23 Sep 2019 06:59:48 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,19 +52,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Corbet <corbet@lwn.net>, Maxime Ripard <maxime.ripard@bootlin.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-doc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- Sean Paul <seanpaul@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1838323852=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBTZXAgMjAsIDIwMTkgYXQgMDM6MzU6NTJQTSAtMDQwMCwgU2VhbiBQYXVsIHdyb3Rl
-Ogo+IEZyb206IFNlYW4gUGF1bCA8c2VhbnBhdWxAY2hyb21pdW0ub3JnPgo+IAo+IEZpeGVzCj4g
-aW5jbHVkZS9kcm0vZHJtX2dlbV90dG1faGVscGVyLmg6MTogd2FybmluZzogbm8gc3RydWN0dXJl
-ZCBjb21tZW50cyBmb3VuZAoKUmV2aWV3ZWQtYnk6IEdlcmQgSG9mZm1hbm4gPGtyYXhlbEByZWRo
-YXQuY29tPgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1838323852==
+Content-Type: multipart/alternative; boundary="15692220540.Ec78E951.29770"
+Content-Transfer-Encoding: 7bit
+
+
+--15692220540.Ec78E951.29770
+Date: Mon, 23 Sep 2019 07:00:54 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111763
+
+--- Comment #4 from Daniel Lu <daniel.lawrence.lu@gmail.com> ---
+I am seeing a similar hang in Starcraft II. Unlike Marko, I am not using d9=
+vk
+--- instead, I'm using wine-nine. The hang doesn't happen in all games but
+seems to be particularly frequent in the coop mission "dead of night".
+
+Using mesa-git 19.3.0_devel.115092.3f5b541fc8b-1.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15692220540.Ec78E951.29770
+Date: Mon, 23 Sep 2019 07:00:54 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - ring_gfx hangs/freezes on Navi gpus"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111763#c4">Commen=
+t # 4</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - ring_gfx hangs/freezes on Navi gpus"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111763">bug 11176=
+3</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+daniel.lawrence.lu&#64;gmail.com" title=3D"Daniel Lu &lt;daniel.lawrence.lu=
+&#64;gmail.com&gt;"> <span class=3D"fn">Daniel Lu</span></a>
+</span></b>
+        <pre>I am seeing a similar hang in Starcraft II. Unlike Marko, I am=
+ not using d9vk
+--- instead, I'm using wine-nine. The hang doesn't happen in all games but
+seems to be particularly frequent in the coop mission &quot;dead of night&q=
+uot;.
+
+Using mesa-git 19.3.0_devel.115092.3f5b541fc8b-1.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15692220540.Ec78E951.29770--
+
+--===============1838323852==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1838323852==--
