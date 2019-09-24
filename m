@@ -1,52 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E28ACBCAED
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2019 17:14:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB1BBBCAF0
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2019 17:14:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AC1889D81;
-	Tue, 24 Sep 2019 15:13:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B3C56EA51;
+	Tue, 24 Sep 2019 15:14:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
- [209.85.221.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1304C89D81
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2019 15:13:58 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id l11so2396385wrx.5
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2019 08:13:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=coBOjUYllsgCSM3XkBr7tQiqGi8Er2n8uVoWjDntFHI=;
- b=bhzeDiDT98O1bQfyqiLp7DIUmq0eyyj7aLozGsui4f1H7zTjJbKG6EvaVDnDlWspEP
- hkBi4+DlOOtwhAJakflTUYQhEm6mP7c16aVnI6JPsF8lyMETRK7jiZ4j+9p6yWb4AxVb
- P9VoSawogzTyEAP5UEND9o150JxsYtaprvAPMzgkHoHLvJLBaFUmrlSHbwkfHW9Iyq4d
- EP5RWiHff2sUy6WU31aLYWN94lFctYB0+LWQWvTUvKOuOGp+l6SGrxiEaUo3IqZEvLZs
- X7TdLGUh01VusMjJU5ZA2wpACapVcq/WaTzwtMnV/xwplF0nEclwW/cW7yGy+NijpumE
- az+A==
-X-Gm-Message-State: APjAAAV75s9Rq70gbxq+R4zt1+d7HniSEXWzmC4Iz4YK8RbCHZuepP3q
- sYvnjCjv+qGIil/zxWNGC28=
-X-Google-Smtp-Source: APXvYqwYAhT1KP4wwPFsQJ6D3DukTCnqvH+HD/vm3yBh0jAByvQCpK8OR6geDKG8e7OCSpW73nEaAA==
-X-Received: by 2002:adf:f303:: with SMTP id i3mr2742770wro.242.1569338036499; 
- Tue, 24 Sep 2019 08:13:56 -0700 (PDT)
-Received: from pi3 ([194.230.155.145])
- by smtp.googlemail.com with ESMTPSA id x2sm3070208wrn.81.2019.09.24.08.13.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Sep 2019 08:13:55 -0700 (PDT)
-Date: Tue, 24 Sep 2019 17:13:51 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: Re: [PATCH v2] dt-bindings: gpu: Convert Samsung 2D Graphics
- Accelerator to dt-schema
-Message-ID: <20190924151351.GC9218@pi3>
-References: <CGME20190924134628eucas1p1586ca3285dac6b5d5cd1026ea78c436e@eucas1p1.samsung.com>
- <20190924134614.13371-1-m.szyprowski@samsung.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BB1866EA51
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2019 15:14:24 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id B7FEC72162; Tue, 24 Sep 2019 15:14:24 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111784] Hang when using glWaitSync with multithreaded shared GL
+ contexts
+Date: Tue, 24 Sep 2019 15:14:24 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: version component product qa_contact
+Message-ID: <bug-111784-502-uBkkAFH6UR@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111784-502@http.bugs.freedesktop.org/>
+References: <bug-111784-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190924134614.13371-1-m.szyprowski@samsung.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,92 +53,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, Maciej Falkowski <m.falkowski@samsung.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1337912082=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBTZXAgMjQsIDIwMTkgYXQgMDM6NDY6MTRQTSArMDIwMCwgTWFyZWsgU3p5cHJvd3Nr
-aSB3cm90ZToKPiBGcm9tOiBNYWNpZWogRmFsa293c2tpIDxtLmZhbGtvd3NraUBzYW1zdW5nLmNv
-bT4KPiAKPiBDb252ZXJ0IFNhbXN1bmcgMkQgR3JhcGhpY3MgQWNjZWxlcmF0b3IgdG8gbmV3ZXIg
-ZHQtc2NoZW1hIGZvcm1hdAo+IAo+IFNpZ25lZC1vZmYtYnk6IE1hY2llaiBGYWxrb3dza2kgPG0u
-ZmFsa293c2tpQHNhbXN1bmcuY29tPgo+IFNpZ25lZC1vZmYtYnk6IE1hcmVrIFN6eXByb3dza2kg
-PG0uc3p5cHJvd3NraUBzYW1zdW5nLmNvbT4KPiAtLS0KPiB2MjoKPiAtIEFkZGVkIGlmLXRoZW4g
-c3RhdGVtZW50cyBmb3IgJ2Nsb2NrcycgYW5kICdjbG9jay1uYW1lcycKPiBwcm9wZXJ0aWVzLgo+
-IAo+IEJlc3QgcmVnYXJkcywKPiBNYWNpZWogRmFsa293c2tpCj4gLS0tCj4gIC4uLi9kZXZpY2V0
-cmVlL2JpbmRpbmdzL2dwdS9zYW1zdW5nLWcyZC50eHQgICB8IDI3IC0tLS0tLS0KPiAgLi4uL2Rl
-dmljZXRyZWUvYmluZGluZ3MvZ3B1L3NhbXN1bmctZzJkLnlhbWwgIHwgNzYgKysrKysrKysrKysr
-KysrKysrKwo+ICAyIGZpbGVzIGNoYW5nZWQsIDc2IGluc2VydGlvbnMoKyksIDI3IGRlbGV0aW9u
-cygtKQo+ICBkZWxldGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
-bmdzL2dwdS9zYW1zdW5nLWcyZC50eHQKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRp
-b24vZGV2aWNldHJlZS9iaW5kaW5ncy9ncHUvc2Ftc3VuZy1nMmQueWFtbAo+IAo+IGRpZmYgLS1n
-aXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZ3B1L3NhbXN1bmctZzJkLnR4
-dCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9ncHUvc2Ftc3VuZy1nMmQudHh0
-Cj4gZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0Cj4gaW5kZXggMWU3OTU5MzMyZGJjLi4wMDAwMDAw
-MDAwMDAKPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZ3B1L3NhbXN1
-bmctZzJkLnR4dAo+ICsrKyAvZGV2L251bGwKPiBAQCAtMSwyNyArMCwwIEBACj4gLSogU2Ftc3Vu
-ZyAyRCBHcmFwaGljcyBBY2NlbGVyYXRvcgo+IC0KPiAtUmVxdWlyZWQgcHJvcGVydGllczoKPiAt
-ICAtIGNvbXBhdGlibGUgOiB2YWx1ZSBzaG91bGQgYmUgb25lIGFtb25nIHRoZSBmb2xsb3dpbmc6
-Cj4gLQkoYSkgInNhbXN1bmcsczVwdjIxMC1nMmQiIGZvciBHMkQgSVAgcHJlc2VudCBpbiBTNVBW
-MjEwICYgRXh5bm9zNDIxMCBTb0MKPiAtCShiKSAic2Ftc3VuZyxleHlub3M0MjEyLWcyZCIgZm9y
-IEcyRCBJUCBwcmVzZW50IGluIEV4eW5vczR4MTIgU29Dcwo+IC0JKGMpICJzYW1zdW5nLGV4eW5v
-czUyNTAtZzJkIiBmb3IgRzJEIElQIHByZXNlbnQgaW4gRXh5bm9zNTI1MCBTb0MKPiAtCj4gLSAg
-LSByZWcgOiBQaHlzaWNhbCBiYXNlIGFkZHJlc3Mgb2YgdGhlIElQIHJlZ2lzdGVycyBhbmQgbGVu
-Z3RoIG9mIG1lbW9yeQo+IC0JICBtYXBwZWQgcmVnaW9uLgo+IC0KPiAtICAtIGludGVycnVwdHMg
-OiBHMkQgaW50ZXJydXB0IG51bWJlciB0byB0aGUgQ1BVLgo+IC0gIC0gY2xvY2tzIDogZnJvbSBj
-b21tb24gY2xvY2sgYmluZGluZzogaGFuZGxlIHRvIEcyRCBjbG9ja3MuCj4gLSAgLSBjbG9jay1u
-YW1lcyA6IG5hbWVzIG9mIGNsb2NrcyBsaXN0ZWQgaW4gY2xvY2tzIHByb3BlcnR5LCBpbiB0aGUg
-c2FtZQo+IC0JCSAgb3JkZXIsIGRlcGVuZGluZyBvbiBTb0MgdHlwZToKPiAtCQkgIC0gZm9yIFM1
-UFYyMTAgYW5kIEV4eW5vczQgYmFzZWQgU29DczogImZpbWcyZCIgYW5kCj4gLQkJICAgICJzY2xr
-X2ZpbWcyZCIKPiAtCQkgIC0gZm9yIEV4eW5vczUyNTAgU29DOiAiZmltZzJkIi4KPiAtCj4gLUV4
-YW1wbGU6Cj4gLQlnMmRAMTI4MDAwMDAgewo+IC0JCWNvbXBhdGlibGUgPSAic2Ftc3VuZyxzNXB2
-MjEwLWcyZCI7Cj4gLQkJcmVnID0gPDB4MTI4MDAwMDAgMHgxMDAwPjsKPiAtCQlpbnRlcnJ1cHRz
-ID0gPDAgODkgMD47Cj4gLQkJY2xvY2tzID0gPCZjbG9jayAxNzc+LCA8JmNsb2NrIDI3Nz47Cj4g
-LQkJY2xvY2stbmFtZXMgPSAic2Nsa19maW1nMmQiLCAiZmltZzJkIjsKPiAtCX07Cj4gZGlmZiAt
-LWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9ncHUvc2Ftc3VuZy1nMmQu
-eWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9ncHUvc2Ftc3VuZy1nMmQu
-eWFtbAo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0Cj4gaW5kZXggMDAwMDAwMDAwMDAwLi41ZTA1ZThj
-Y2M4M2YKPiAtLS0gL2Rldi9udWxsCj4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
-bmRpbmdzL2dwdS9zYW1zdW5nLWcyZC55YW1sCj4gQEAgLTAsMCArMSw3NiBAQAo+ICsjIFNQRFgt
-TGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wCj4gKyVZQU1MIDEuMgo+ICstLS0KPiArJGlkOiBo
-dHRwOi8vZGV2aWNldHJlZS5vcmcvc2NoZW1hcy9ncHUvc2Ftc3VuZy1nMmQueWFtbCMKPiArJHNj
-aGVtYTogaHR0cDovL2RldmljZXRyZWUub3JnL21ldGEtc2NoZW1hcy9jb3JlLnlhbWwjCj4gKwo+
-ICt0aXRsZTogU2Ftc3VuZyBTb0MgMkQgR3JhcGhpY3MgQWNjZWxlcmF0b3IKPiArCj4gK21haW50
-YWluZXJzOgo+ICsgIC0gSW5raSBEYWUgPGlua2kuZGFlQHNhbXN1bmcuY29tPgo+ICsKPiArcHJv
-cGVydGllczoKPiArICBjb21wYXRpYmxlOgo+ICsgICAgZW51bToKPiArICAgICAgLSBzYW1zdW5n
-LHM1cHYyMTAtZzJkICAgICMgaW4gUzVQVjIxMCAmIEV4eW5vczQyMTAgU29DCj4gKyAgICAgIC0g
-c2Ftc3VuZyxleHlub3M0MjEyLWcyZCAjIGluIEV4eW5vczR4MTIgU29Dcwo+ICsgICAgICAtIHNh
-bXN1bmcsZXh5bm9zNTI1MC1nMmQKPiArCj4gKyAgcmVnOgo+ICsgICAgbWF4SXRlbXM6IDEKPiAr
-Cj4gKyAgaW50ZXJydXB0czoKPiArICAgIG1heEl0ZW1zOiAxCj4gKwoKSSB0aGluayBpdCBpcyB3
-b3J0aCB0byBsZWF2ZSB0aGUgY2xvY2tzIGFuZCBjbG9jay1uYW1lcyBoZXJlIChjb3VsZCBiZQpl
-bXB0eSBvciB3aXRoIG1pbi9tYXggdmFsdWVzIGZvciBudW1iZXIgb2YgaXRlbXMpLiBUaGlzIG1h
-a2VzIGl0IGVhc3kgdG8KZmluZCB0aGUgcHJvcGVydGllcyBieSBodW1hbnMuCgpNaWRnYXJkIGJp
-bmRpbmdzIGNvdWxkIGJlIHVzZWQgYXMgZXhhbXBsZS4KCj4gK2FsbE9mOgo+ICsgIC0gaWY6Cj4g
-KyAgICAgIHByb3BlcnRpZXM6Cj4gKyAgICAgICAgY29tcGF0aWJsZToKPiArICAgICAgICAgIGNv
-bnRhaW5zOgo+ICsgICAgICAgICAgICBjb25zdDogc2Ftc3VuZyxleHlub3M1MjUwLWcyZAo+ICsK
-PiArICAgIHRoZW46Cj4gKyAgICAgIHByb3BlcnRpZXM6Cj4gKyAgICAgICAgY2xvY2tzOgo+ICsg
-ICAgICAgICAgaXRlbXM6Cj4gKyAgICAgICAgICAgIC0gZGVzY3JpcHRpb246IGZpbWcyZCBjbG9j
-awo+ICsgICAgICAgIGNsb2NrLW5hbWVzOgo+ICsgICAgICAgICAgaXRlbXM6Cj4gKyAgICAgICAg
-ICAgIC0gY29uc3Q6IGZpbWcyZAo+ICsKPiArICAtIGlmOgoKZWxzZToKCkJlc3QgcmVnYXJkcywK
-S3J6eXN6dG9mCgo+ICsgICAgICBwcm9wZXJ0aWVzOgo+ICsgICAgICAgIGNvbXBhdGlibGU6Cj4g
-KyAgICAgICAgICBjb250YWluczoKPiArICAgICAgICAgICAgZW51bToKPiArICAgICAgICAgICAg
-ICAtIHNhbXN1bmcsczVwdjIxMC1nMmQKPiArICAgICAgICAgICAgICAtIHNhbXN1bmcsZXh5bm9z
-NDIxMi1nMmQKPiArCj4gKyAgICB0aGVuOgo+ICsgICAgICBwcm9wZXJ0aWVzOgo+ICsgICAgICAg
-IGNsb2NrczoKPiArICAgICAgICAgIGl0ZW1zOgo+ICsgICAgICAgICAgICAtIGRlc2NyaXB0aW9u
-OiBzY2xrX2ZpbWcyZCBjbG9jawo+ICsgICAgICAgICAgICAtIGRlc2NyaXB0aW9uOiBmaW1nMmQg
-Y2xvY2sKPiArICAgICAgICBjbG9jay1uYW1lczoKPiArICAgICAgICAgIGl0ZW1zOgo+ICsgICAg
-ICAgICAgICAtIGNvbnN0OiBzY2xrX2ZpbWcyZAo+ICsgICAgICAgICAgICAtIGNvbnN0OiBmaW1n
-MmQKPiArCj4gK3JlcXVpcmVkOgo+ICsgIC0gY29tcGF0aWJsZQo+ICsgIC0gcmVnCj4gKyAgLSBp
-bnRlcnJ1cHRzCj4gKyAgLSBjbG9ja3MKPiArICAtIGNsb2NrLW5hbWVzCj4gKwo+ICtleGFtcGxl
-czoKPiArICAtIHwKPiArICAgIGcyZEAxMjgwMDAwMCB7Cj4gKyAgICAgICAgY29tcGF0aWJsZSA9
-ICJzYW1zdW5nLHM1cHYyMTAtZzJkIjsKPiArICAgICAgICByZWcgPSA8MHgxMjgwMDAwMCAweDEw
-MDA+Owo+ICsgICAgICAgIGludGVycnVwdHMgPSA8MCA4OSAwPjsKPiArICAgICAgICBjbG9ja3Mg
-PSA8JmNsb2NrIDE3Nz4sIDwmY2xvY2sgMjc3PjsKPiArICAgICAgICBjbG9jay1uYW1lcyA9ICJz
-Y2xrX2ZpbWcyZCIsICJmaW1nMmQiOwo+ICsgICAgfTsKPiArCj4gLS0gCj4gMi4xNy4xCj4gCj4g
-Cj4gCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1337912082==
+Content-Type: multipart/alternative; boundary="15693380642.B6eC29.27960"
+Content-Transfer-Encoding: 7bit
+
+
+--15693380642.B6eC29.27960
+Date: Tue, 24 Sep 2019 15:14:24 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111784
+
+Alex Deucher <alexdeucher@gmail.com> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+            Version|DRI git                     |git
+          Component|DRM/AMDgpu                  |Drivers/Gallium/radeonsi
+            Product|DRI                         |Mesa
+         QA Contact|                            |dri-devel@lists.freedesktop
+                   |                            |.org
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15693380642.B6eC29.27960
+Date: Tue, 24 Sep 2019 15:14:24 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:alexdeuch=
+er&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.com&gt;">=
+ <span class=3D"fn">Alex Deucher</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Hang when using glWaitSync with multithreaded shared GL c=
+ontexts"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111784">bug 11178=
+4</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Version</td>
+           <td>DRI git
+           </td>
+           <td>git
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Component</td>
+           <td>DRM/AMDgpu
+           </td>
+           <td>Drivers/Gallium/radeonsi
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Product</td>
+           <td>DRI
+           </td>
+           <td>Mesa
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">QA Contact</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>dri-devel&#64;lists.freedesktop.org
+           </td>
+         </tr></table>
+      <p>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15693380642.B6eC29.27960--
+
+--===============1337912082==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1337912082==--
