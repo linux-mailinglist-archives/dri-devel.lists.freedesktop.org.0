@@ -1,57 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7FBBD246
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2019 21:00:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E403FBD253
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2019 21:04:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4F256EAE8;
-	Tue, 24 Sep 2019 19:00:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05F1A6EAEB;
+	Tue, 24 Sep 2019 19:04:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
- [IPv6:2607:f8b0:4864:20::d41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD9246EAE8
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2019 19:00:55 +0000 (UTC)
-Received: by mail-io1-xd41.google.com with SMTP id b136so7145854iof.3
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2019 12:00:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/poXcNaPImsCkHOsb+IHz5eVbMSJsczlFsct2m7oOgc=;
- b=JK3r6g3leq7UN1Vr/zOnhnQsqXXm7TUWp330wTsyGlusBeDUj9q9lNhtIX0+Ak8dM7
- 6G2FbEvWUPSwyfIPSuSCMc5OW0qyE49lDhbgYx+jStDJQULPO7O9D3xlVnMsGCQvQwS2
- TVs37zVh5a/X1RyWw/btvaVQf04cL5SJNUD0l3QoCzYD7bUMfNtEyvzRrKVAedl6ucPW
- YQO+2Hw36qpXE0jPYsT4mIDuj80pLNTfw3+Bdc3qmn0+0pP46NEvCmR+NZCx4iJNLfJr
- 1zjAz4W7C8cVkfg/pGVmPJI/d6DLq1PK8jI1J1DPkzONylaw2hiXHX5PnqL46NVxt5s/
- Ac9w==
-X-Gm-Message-State: APjAAAX3ZsA+yKNZ/PtrzQRFOtGxcafvRHVyfN29Urhp+Ho24VqLyL9s
- TS9t5+5qxp2UBSbSNoOSP9JFLNDb52milYe1DCg=
-X-Google-Smtp-Source: APXvYqy/VoYXHn8FHc4GUb/SVvX9H/ShxuZ2vA5n7J/xs1YmNhW/qWGzu14sSS7Rn1ed3AM95fvhp3hDB5tF927bIYs=
-X-Received: by 2002:a05:6638:3a5:: with SMTP id z5mr307586jap.95.1569351654867; 
- Tue, 24 Sep 2019 12:00:54 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 60C276EAEB
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2019 19:04:26 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5DBBD72162; Tue, 24 Sep 2019 19:04:26 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111803] Annoying GPU stucks are continued on Vega 20 with
+ Kernel 5.4 + mesa 9.3.0 + llvm 9.0.0 [drm:amdgpu_dm_atomic_commit_tail
+ [amdgpu]] *ERROR* Waiting for fences timed out!
+Date: Tue, 24 Sep 2019 19:04:26 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: mikhail.v.gavrilov@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111803-502-6f77MwNPGY@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111803-502@http.bugs.freedesktop.org/>
+References: <bug-111803-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190923134449.22326-1-aford173@gmail.com>
- <20190923134449.22326-2-aford173@gmail.com>
- <CAL_JsqJB54aTWNxh+FsEOBRFEWXBi6WZE3pzqo+LJWM781v-PQ@mail.gmail.com>
-In-Reply-To: <CAL_JsqJB54aTWNxh+FsEOBRFEWXBi6WZE3pzqo+LJWM781v-PQ@mail.gmail.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Tue, 24 Sep 2019 14:00:43 -0500
-Message-ID: <CAHCN7xJy4=gdSz5Thhy_be-NNFhf4FaJ=iv8=F3sXbPwaQu1xA@mail.gmail.com>
-Subject: Re: [PATCH V2 2/3] dt-bindings: Add Logic PD Type 28 display panel
-To: Rob Herring <robh+dt@kernel.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=/poXcNaPImsCkHOsb+IHz5eVbMSJsczlFsct2m7oOgc=;
- b=sHJ1UGr+A5LvATOEjqybLlMDMbqFel8di7dayKOPx29Eq4zK27NF6UK61rwXBgsVS8
- ExvK/uGFmCIem6mJf6kDaCQHrK9znWnzSrGVx7ZFlR8FaTy5PNI7OkBRqMErhI7G6ylc
- lRzUNSWihhvzFiExeDyjpZpO0NiW9VSiLSvJoDTyeuTlrifxOkTqM8jr1JQ188OE8+cT
- DrzKZy08l9YqSJke2WvzO4iUxr+6ObioHkazKnkgqjMV08uGMSsOAfAc+sOROOHnK8Ze
- 13vCc6G82L4dBo9XVWvaV1WMJrL0FLVmor3AFyXIB9OkMqcwcebvN6Wx1Y/he54s8kQC
- DC+Q==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,32 +54,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Adam Ford <adam.ford@logicpd.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- linux-omap <linux-omap@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0340423782=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBTZXAgMjQsIDIwMTkgYXQgMTo1NiBQTSBSb2IgSGVycmluZyA8cm9iaCtkdEBrZXJu
-ZWwub3JnPiB3cm90ZToKPgo+IE9uIE1vbiwgU2VwIDIzLCAyMDE5IGF0IDg6NDUgQU0gQWRhbSBG
-b3JkIDxhZm9yZDE3M0BnbWFpbC5jb20+IHdyb3RlOgo+ID4KPiA+IFRoaXMgcGF0Y2ggYWRkcyBk
-b2N1bWVudGF0aW9uIG9mIGRldmljZSB0cmVlIGJpbmRpbmdzIGZvciB0aGUgV1ZHQSBwYW5lbAo+
-ID4gTG9naWMgUEQgVHlwZSAyOCBkaXNwbGF5Lgo+ID4KPiA+IFNpZ25lZC1vZmYtYnk6IEFkYW0g
-Rm9yZCA8YWZvcmQxNzNAZ21haWwuY29tPgo+ID4gLS0tCj4gPiBWMjogIFVzZSBZQU1MIGluc3Rl
-YWQgb2YgVFhUIGZvciBiaW5kaW5nCj4KPiBGYWlscyB0byBidWlsZCB3aXRoICdtYWtlIGR0X2Jp
-bmRpbmdfY2hlY2snOgo+Cj4gaHR0cHM6Ly9wYXRjaHdvcmsub3psYWJzLm9yZy9wYXRjaC8xMTY2
-MDU3Lwo+Cj4gTG9va3MgbGlrZSBhIHRhYiBjaGFyYWN0ZXIgdXNlZCBwZXJoYXBzLgoKSSBhbSBu
-b3QgZmFtaWxpYXIgd2l0aCB5YW1sLiAgSSB0aG91Z2h0IEkgY29waWVkIGFuIGV4aXN0aW5nIGZp
-bGUgYnV0CmFwcGFyZW50bHkgaXQgZGlkbid0IHdvcmsuICBJcyB0aGVyZSBhIHJlY29tbWVuZGVk
-IGVkaXRvciB0aGF0IGtub3cKdGhpcyBtYXJrdXAgbGFuZ3VhZ2U/ICBCZXR0ZXIgeWV0LCBpcyB0
-aGVyZSBhIHNjcmlwdCBJIGNhbiBydW4gdG8KY29udmVydCBhIHRleHQgZmlsZSB0byB0aGUgeWFt
-bD8KCmFkYW0KPgo+IFJvYgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWw=
+
+--===============0340423782==
+Content-Type: multipart/alternative; boundary="15693518661.6aC4572ce.10546"
+Content-Transfer-Encoding: 7bit
+
+
+--15693518661.6aC4572ce.10546
+Date: Tue, 24 Sep 2019 19:04:26 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111803
+
+--- Comment #4 from mikhail.v.gavrilov@gmail.com ---
+Ups, when I uploaded the previous file, happened yet another hung on the
+machine where I filling this bugreport. This machine has also Vega 20 GPU
+aboard.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15693518661.6aC4572ce.10546
+Date: Tue, 24 Sep 2019 19:04:26 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Annoying GPU stucks are continued on Vega 20 with Kernel =
+5.4 + mesa 9.3.0 + llvm 9.0.0 [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *=
+ERROR* Waiting for fences timed out!"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111803#c4">Commen=
+t # 4</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Annoying GPU stucks are continued on Vega 20 with Kernel =
+5.4 + mesa 9.3.0 + llvm 9.0.0 [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *=
+ERROR* Waiting for fences timed out!"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111803">bug 11180=
+3</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+mikhail.v.gavrilov&#64;gmail.com" title=3D"mikhail.v.gavrilov&#64;gmail.com=
+">mikhail.v.gavrilov&#64;gmail.com</a>
+</span></b>
+        <pre>Ups, when I uploaded the previous file, happened yet another h=
+ung on the
+machine where I filling this bugreport. This machine has also Vega 20 GPU
+aboard.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15693518661.6aC4572ce.10546--
+
+--===============0340423782==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0340423782==--
