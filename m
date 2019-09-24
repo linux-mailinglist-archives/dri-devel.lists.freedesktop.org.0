@@ -1,46 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2291BD278
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2019 21:16:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2A45BD2A2
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2019 21:29:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0016E6EAF3;
-	Tue, 24 Sep 2019 19:16:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 680D46EAF1;
+	Tue, 24 Sep 2019 19:29:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id EC8706EAF3
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2019 19:16:29 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E9B8E72162; Tue, 24 Sep 2019 19:16:29 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111789] drm/etnaviv: command buffer outside valid memory window
- (on cubox i4), Linux 5.3
-Date: Tue, 24 Sep 2019 19:16:30 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/other
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: not set
-X-Bugzilla-Who: rechner@vlado-do.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111789-502-8vQe6cb3xa@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111789-502@http.bugs.freedesktop.org/>
-References: <bug-111789-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A6716EAF1;
+ Tue, 24 Sep 2019 19:29:08 +0000 (UTC)
+Received: from bell.riseup.net (bell-pn.riseup.net [10.0.1.178])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (Client CN "*.riseup.net",
+ Issuer "COMODO RSA Domain Validation Secure Server CA" (verified OK))
+ by mx1.riseup.net (Postfix) with ESMTPS id 0D0901B91C2;
+ Tue, 24 Sep 2019 12:29:08 -0700 (PDT)
+X-Riseup-User-ID: 9B303D2645E7B7D16966C5D4D924D93BEE67E6BD21EE57D2BD3339EC23879DA9
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by bell.riseup.net (Postfix) with ESMTPSA id 70B5522528A;
+ Tue, 24 Sep 2019 12:29:07 -0700 (PDT)
+From: Francisco Jerez <currojerez@riseup.net>
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 4/9] drm/i2c/sil164: use drm_debug_enabled() to check
+ for debug categories
+In-Reply-To: <f6f65ca7e27e949533e8cd1f43c61ecac73c658e.1569329774.git.jani.nikula@intel.com>
+References: <cover.1569329774.git.jani.nikula@intel.com>
+ <f6f65ca7e27e949533e8cd1f43c61ecac73c658e.1569329774.git.jani.nikula@intel.com>
+Date: Tue, 24 Sep 2019 12:29:22 -0700
+Message-ID: <875zlhwl0t.fsf@riseup.net>
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=riseup.net; s=squak; 
+ t=1569353348; bh=r+ypQCu5HAXnnweK0R8etsn44RguOiDdOTUwhNroSDI=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=YwNToPdo/KBdlWUry6EWBr6LLxzRrz69b1L5FOV7krCD9y+BO5x5dHj3Gva1BG7Lb
+ 8yhaeRa0wCA7KeFGywijVr3g4ZZrxoSivz6SWod0qzgHLoGMPlBZ6zHAa6JRH6aDdA
+ AqGdMgV18oQR1NN3BDSgedGEkZn/ZI6LAKQQbdQ8=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,97 +51,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0190760300=="
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============2043814318=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--===============2043814318==
+Content-Type: multipart/signed; boundary="==-=-=";
+	micalg=pgp-sha256; protocol="application/pgp-signature"
 
---===============0190760300==
-Content-Type: multipart/alternative; boundary="15693525891.bCBa3D19.13164"
-Content-Transfer-Encoding: 7bit
+--==-=-=
+Content-Type: multipart/mixed; boundary="=-=-="
 
-
---15693525891.bCBa3D19.13164
-Date: Tue, 24 Sep 2019 19:16:29 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+--=-=-=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111789
+Jani Nikula <jani.nikula@intel.com> writes:
 
---- Comment #3 from Vlado Plaga <rechner@vlado-do.de> ---
-Cool, thank you, "usual user"! Your "cma=3D256M@2G" works for me. No more
-"command buffer outside valid memory window", and I could start Weston with
-weston-launch! The terminal there had a nice shadow, and I could drag it ar=
-ound
-smoothly.
+> Allow better abstraction of the drm_debug global variable in the
+> future. No functional changes.
+>
+> Cc: Francisco Jerez <currojerez@riseup.net>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-(But Fedora 31 for arm apparently does not offer vlc, mplayer, or kodi... so
-I'm gonna try Armbian again next, with the switch)
+Reviewed-by: Francisco Jerez <currojerez@riseup.net>
 
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
+> ---
+>  drivers/gpu/drm/i2c/sil164_drv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i2c/sil164_drv.c b/drivers/gpu/drm/i2c/sil16=
+4_drv.c
+> index 8bcf0d199145..a839f78a4c8a 100644
+> --- a/drivers/gpu/drm/i2c/sil164_drv.c
+> +++ b/drivers/gpu/drm/i2c/sil164_drv.c
+> @@ -44,7 +44,7 @@ struct sil164_priv {
+>  	((struct sil164_priv *)to_encoder_slave(x)->slave_priv)
+>=20=20
+>  #define sil164_dbg(client, format, ...) do {				\
+> -		if (drm_debug & DRM_UT_KMS)				\
+> +		if (drm_debug_enabled(DRM_UT_KMS))			\
+>  			dev_printk(KERN_DEBUG, &client->dev,		\
+>  				   "%s: " format, __func__, ## __VA_ARGS__); \
+>  	} while (0)
+> --=20
+> 2.20.1
 
---15693525891.bCBa3D19.13164
-Date: Tue, 24 Sep 2019 19:16:29 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+--=-=-=--
 
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - drm/etnaviv: command buffer outside valid memory window (=
-on cubox i4), Linux 5.3"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111789#c3">Commen=
-t # 3</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - drm/etnaviv: command buffer outside valid memory window (=
-on cubox i4), Linux 5.3"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111789">bug 11178=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-rechner&#64;vlado-do.de" title=3D"Vlado Plaga &lt;rechner&#64;vlado-do.de&g=
-t;"> <span class=3D"fn">Vlado Plaga</span></a>
-</span></b>
-        <pre>Cool, thank you, &quot;usual user&quot;! Your &quot;cma=3D256M=
-&#64;2G&quot; works for me. No more
-&quot;command buffer outside valid memory window&quot;, and I could start W=
-eston with
-weston-launch! The terminal there had a nice shadow, and I could drag it ar=
-ound
-smoothly.
+--==-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
-(But Fedora 31 for arm apparently does not offer vlc, mplayer, or kodi... so
-I'm gonna try Armbian again next, with the switch)</pre>
-        </div>
-      </p>
+-----BEGIN PGP SIGNATURE-----
 
+iHUEAREIAB0WIQST8OekYz69PM20/4aDmTidfVK/WwUCXYpukgAKCRCDmTidfVK/
+Wwk2AP9czE/Zy6605yld8+eJTJZXt9KmRG/kGEo7qD2X2BP+uAD+NVJk0nWVB3/+
+GfvNGXqe3MXcs4OGswWjzLEYELln0D4=
+=yQVN
+-----END PGP SIGNATURE-----
+--==-=-=--
 
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15693525891.bCBa3D19.13164--
-
---===============0190760300==
+--===============2043814318==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -153,4 +123,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0190760300==--
+--===============2043814318==--
