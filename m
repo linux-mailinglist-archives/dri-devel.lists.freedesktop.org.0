@@ -1,45 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCE96BC91F
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2019 15:47:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFA6ABC943
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2019 15:54:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7700F89CA8;
-	Tue, 24 Sep 2019 13:47:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70EDA89D63;
+	Tue, 24 Sep 2019 13:54:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9BEB289CA8
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2019 13:47:35 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9916472162; Tue, 24 Sep 2019 13:47:35 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111802] SegFault missing slots in framebuffer
-Date: Tue, 24 Sep 2019 13:47:35 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: not set
-X-Bugzilla-Who: jeroen@blender.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- qa_contact
-Message-ID: <bug-111802-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B669589D60;
+ Tue, 24 Sep 2019 13:54:13 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7AC747FDCA;
+ Tue, 24 Sep 2019 13:54:09 +0000 (UTC)
+Received: from jason-ThinkPad-X1-Carbon-6th.redhat.com
+ (ovpn-12-44.pek2.redhat.com [10.72.12.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5087C5B69A;
+ Tue, 24 Sep 2019 13:53:48 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
+To: kvm@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+ kwankhede@nvidia.com, alex.williamson@redhat.com, mst@redhat.com,
+ tiwei.bie@intel.com
+Subject: [PATCH V2 0/8] mdev based hardware virtio offloading support
+Date: Tue, 24 Sep 2019 21:53:24 +0800
+Message-Id: <20190924135332.14160-1-jasowang@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.27]); Tue, 24 Sep 2019 13:54:13 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,219 +47,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0967190430=="
+Cc: christophe.de.dinechin@gmail.com, sebott@linux.ibm.com, airlied@linux.ie,
+ Jason Wang <jasowang@redhat.com>, heiko.carstens@de.ibm.com,
+ kevin.tian@intel.com, virtualization@lists.linux-foundation.org,
+ rob.miller@broadcom.com, lulu@redhat.com, eperezma@redhat.com,
+ pasic@linux.ibm.com, borntraeger@de.ibm.com, haotian.wang@sifive.com,
+ zhi.a.wang@intel.com, farman@linux.ibm.com, idos@mellanox.com,
+ gor@linux.ibm.com, cunming.liang@intel.com, rodrigo.vivi@intel.com,
+ xiao.w.wang@intel.com, freude@linux.ibm.com, parav@mellanox.com,
+ zhihong.wang@intel.com, akrowiak@linux.ibm.com, netdev@vger.kernel.org,
+ cohuck@redhat.com, oberpar@linux.ibm.com, maxime.coquelin@redhat.com,
+ lingshan.zhu@intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0967190430==
-Content-Type: multipart/alternative; boundary="15693328551.0CeedCebf.9803"
-Content-Transfer-Encoding: 7bit
-
-
---15693328551.0CeedCebf.9803
-Date: Tue, 24 Sep 2019 13:47:35 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111802
-
-            Bug ID: 111802
-           Summary: SegFault missing slots in framebuffer
-           Product: Mesa
-           Version: git
-          Hardware: x86-64 (AMD64)
-                OS: Linux (All)
-            Status: NEW
-          Severity: not set
-          Priority: not set
-         Component: Drivers/Gallium/radeonsi
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: jeroen@blender.org
-        QA Contact: dri-devel@lists.freedesktop.org
-
-This fault has been detected when using Blender (2.80 or master branch)
-Steps to reproduce the error:
-
-1. Start Blender
-2. Go to edit mode (press tab)
-3. Start Merge vertices tool (press ALT-M)
-4. Select any mode (press ENTER)
-
-And a segmentation fault happens.
-This has been tested on Mesa 18.2.2, 19.0.8 and 19.3.0~dev.
-
-The root cause is that you have a framebuffer with multiple color slots with
-empty slots in between. If there is an empty color slot between the color
-slots, all textures after this slot are apparently skipped/discarded.
-
-Our work around is to reuse empty slots with other slots.
-`gpu_framebuffer_update_attachments_and_fill_empty_slots`
-in
-https://developer.blender.org/diffusion/B/browse/master/source/blender/gpu/=
-intern/gpu_framebuffer.c$429-483
-
-This issue also existed in the official AMD drivers, but has been solved to=
- our
-knowledge.
-
-https://developer.blender.org/T70187
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15693328551.0CeedCebf.9803
-Date: Tue, 24 Sep 2019 13:47:35 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - SegFault missing slots in framebuffer"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111802">111802</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>SegFault missing slots in framebuffer
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>Mesa
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>x86-64 (AMD64)
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>Linux (All)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>Drivers/Gallium/radeonsi
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>jeroen&#64;blender.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>QA Contact</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>This fault has been detected when using Blender (2.80 or maste=
-r branch)
-Steps to reproduce the error:
-
-1. Start Blender
-2. Go to edit mode (press tab)
-3. Start Merge vertices tool (press ALT-M)
-4. Select any mode (press ENTER)
-
-And a segmentation fault happens.
-This has been tested on Mesa 18.2.2, 19.0.8 and 19.3.0~dev.
-
-The root cause is that you have a framebuffer with multiple color slots with
-empty slots in between. If there is an empty color slot between the color
-slots, all textures after this slot are apparently skipped/discarded.
-
-Our work around is to reuse empty slots with other slots.
-`gpu_framebuffer_update_attachments_and_fill_empty_slots`
-in
-<a href=3D"https://developer.blender.org/diffusion/B/browse/master/source/b=
-lender/gpu/intern/gpu_framebuffer.c$429-483">https://developer.blender.org/=
-diffusion/B/browse/master/source/blender/gpu/intern/gpu_framebuffer.c$429-4=
-83</a>
-
-This issue also existed in the official AMD drivers, but has been solved to=
- our
-knowledge.
-
-<a href=3D"https://developer.blender.org/T70187">https://developer.blender.=
-org/T70187</a></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15693328551.0CeedCebf.9803--
-
---===============0967190430==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0967190430==--
+SGkgYWxsOgoKVGhlcmUgYXJlIGhhcmR3YXJlIHRoYXQgY2FuIGRvIHZpcnRpbyBkYXRhcGF0aCBv
+ZmZsb2FkaW5nIHdoaWxlIGhhdmluZwppdHMgb3duIGNvbnRyb2wgcGF0aC4gVGhpcyBwYXRoIHRy
+aWVzIHRvIGltcGxlbWVudCBhIG1kZXYgYmFzZWQKdW5pZmllZCBBUEkgdG8gc3VwcG9ydCB1c2lu
+ZyBrZXJuZWwgdmlydGlvIGRyaXZlciB0byBkcml2ZSB0aG9zZQpkZXZpY2VzLiBUaGlzIGlzIGRv
+bmUgYnkgaW50cm9kdWNpbmcgYSBuZXcgbWRldiB0cmFuc3BvcnQgZm9yIHZpcnRpbwoodmlydGlv
+X21kZXYpIGFuZCByZWdpc3RlciBpdHNlbGYgYXMgYSBuZXcga2luZCBvZiBtZGV2IGRyaXZlci4g
+VGhlbgppdCBwcm92aWRlcyBhIHVuaWZpZWQgd2F5IGZvciBrZXJuZWwgdmlydGlvIGRyaXZlciB0
+byB0YWxrIHdpdGggbWRldgpkZXZpY2UgaW1wbGVtZW50YXRpb24uCgpUaG91Z2ggdGhlIHNlcmll
+cyBvbmx5IGNvbnRhaW5zIGtlcm5lbCBkcml2ZXIgc3VwcG9ydCwgdGhlIGdvYWwgaXMgdG8KbWFr
+ZSB0aGUgdHJhbnNwb3J0IGdlbmVyaWMgZW5vdWdoIHRvIHN1cHBvcnQgdXNlcnNwYWNlIGRyaXZl
+cnMuIFRoaXMKbWVhbnMgdmhvc3QtbWRldlsxXSBjb3VsZCBiZSBidWlsdCBvbiB0b3AgYXMgd2Vs
+bCBieSByZXN1aW5nIHRoZQp0cmFuc3BvcnQuCgpBIHNhbXBsZSBkcml2ZXIgaXMgYWxzbyBpbXBs
+ZW1lbnRlZCB3aGljaCBzaW11bGF0ZSBhIHZpcml0by1uZXQKbG9vcGJhY2sgZXRoZXJuZXQgZGV2
+aWNlIG9uIHRvcCBvZiB2cmluZ2ggKyB3b3JrcXVldWUuIFRoaXMgY291bGQgYmUKdXNlZCBhcyBh
+IHJlZmVyZW5jZSBpbXBsZW1lbnRhdGlvbiBmb3IgcmVhbCBoYXJkd2FyZSBkcml2ZXIuCgpDb25z
+aWRlciBtZGV2IGZyYW1ld29yayBvbmx5IHN1cHBvcnQgVkZJTyBkZXZpY2UgYW5kIGRyaXZlciBy
+aWdodCBub3csCnRoaXMgc2VyaWVzIGFsc28gZXh0ZW5kIGl0IHRvIHN1cHBvcnQgb3RoZXIgdHlw
+ZXMuIFRoaXMgaXMgZG9uZQp0aHJvdWdoIGludHJvZHVjaW5nIGNsYXNzIGlkIHRvIHRoZSBkZXZp
+Y2UgYW5kIHBhaXJpbmcgaXQgd2l0aAppZF90YWxiZSBjbGFpbWVkIGJ5IHRoZSBkcml2ZXIuIE9u
+IHRvcCwgdGhpcyBzZXJpcyBhbHNvIGRlY291cGxlCmRldmljZSBzcGVjaWZpYyBwYXJlbnRzIG9w
+cyBvdXQgb2YgdGhlIGNvbW1vbiBvbmVzLgoKUGt0Z2VuIHRlc3Qgd2FzIGRvbmUgd2l0aCB2aXJp
+dG8tbmV0ICsgbXZuZXQgbG9vcCBiYWNrIGRldmljZS4KClBsZWFzZSByZXZpZXcuCgpbMV0gaHR0
+cHM6Ly9sa21sLm9yZy9sa21sLzIwMTkvOS8xNi84NjkKCkNoYW5nZXMgZnJvbSBWMToKCi0gbW92
+ZSB2aXJ0aW9fbWRldi5jIHRvIGRyaXZlcnMvdmlydGlvCi0gc3RvcmUgY2xhc3NfaWQgaW4gbWRl
+dl9kZXZpY2UgaW5zdGVhZCBvZiBtZGV2X3BhcmVudAotIHN0b3JlIGRldmljZV9vcHMgaW4gbWRl
+dl9kZXZpY2UgaW5zdGVhZCBvZiBtZGV2X3BhcmVudAotIHJlb3JkZXIgdGhlIHBhdGNoLCB2cmlu
+Z2ggZml4IGNvbWVzIGZpcnN0Ci0gcmVhbGx5IHNpbGVudCBjb21waWxpbmcgd2FybmluZ3MKLSBy
+ZWFsbHkgc3dpdGNoIHRvIHVzZSB1MTYgZm9yIGNsYXNzX2lkCi0gdWV2ZW50IGFuZCBtb2Rwb3N0
+IHN1cHBvcnQgZm9yIG1kZXYgY2xhc3NfaWQKLSB2cmFpb3VzIHR3ZWFrcyBwZXIgY29tbWVudHMg
+ZnJvbSBQYXJhdgoKQ2hhbmdlcyBmcm9tIFJGQy1WMjoKCi0gc2lsZW50IGNvbXBpbGUgd2Fybmlu
+Z3Mgb24gc29tZSBzcGVjaWZpYyBjb25maWd1cmF0aW9uCi0gdXNlIHUxNiBpbnN0ZWFkIHU4IGZv
+ciBjbGFzcyBpZAotIHJlc2V2ZSBNREVWX0lEX1ZIT1NUIGZvciBmdXR1cmUgdmhvc3QtbWRldiB3
+b3JrCi0gaW50cm9kdWNlICJ2aXJ0aW8iIHR5cGUgZm9yIG12bmV0IGFuZCBtYWtlICJ2aG9zdCIg
+dHlwZSBmb3IgZnV0dXJlCiAgd29yawotIGFkZCBlbnRyaWVzIGluIE1BSU5UQUlORVIKLSB0d2Vh
+ayBhbmQgdHlwb3MgZml4ZXMgaW4gY29tbWl0IGxvZwoKQ2hhbmdlcyBmcm9tIFJGQy1WMToKCi0g
+cmVuYW1lIGRldmljZSBpZCB0byBjbGFzcyBpZAotIGFkZCBkb2NzIGZvciBjbGFzcyBpZCBhbmQg
+ZGV2aWNlIHNwZWNpZmljIG9wcyAoZGV2aWNlX29wcykKLSBzcGxpdCBkZXZpY2Vfb3BzIGludG8g
+c2VwZXJhdGUgaGVhZGVycwotIGRyb3AgdGhlIG1kZXZfc2V0X2RtYV9vcHMoKQotIHVzZSBkZXZp
+Y2Vfb3BzIHRvIGltcGxlbWVudCB0aGUgdHJhbnNwb3J0IEFQSSwgdGhlbiBpdCdzIG5vdCBhIHBh
+cnQKICBvZiBVQVBJIGFueSBtb3JlCi0gdXNlIEdGUF9BVE9NSUMgaW4gbXZuZXQgc2FtcGxlIGRl
+dmljZSBhbmQgb3RoZXIgdHdlYWtzCi0gc2V0X3ZyaW5nX2Jhc2UvZ2V0X3ZyaW5nX2Jhc2Ugc3Vw
+cG9ydCBmb3IgbXZuZXQgZGV2aWNlCgpKYXNvbiBXYW5nICg4KToKICB2cmluZ2g6IGZpeCBjb3B5
+IGRpcmVjdGlvbiBvZiB2cmluZ2hfaW92X3B1c2hfa2VybigpCiAgbWRldjogY2xhc3MgaWQgc3Vw
+cG9ydAogIG1kZXY6IGJ1cyB1ZXZlbnQgc3VwcG9ydAogIG1vZHBvc3Q6IGFkZCBzdXBwb3J0IGZv
+ciBtZGV2IGNsYXNzIGlkCiAgbWRldjogaW50cm9kdWNlIGRldmljZSBzcGVjaWZpYyBvcHMKICBt
+ZGV2OiBpbnRyb2R1Y2UgdmlydGlvIGRldmljZSBhbmQgaXRzIGRldmljZSBvcHMKICB2aXJ0aW86
+IGludHJvZHVjZSBhIG1kZXYgYmFzZWQgdHJhbnNwb3J0CiAgZG9jczogc2FtcGxlIGRyaXZlciB0
+byBkZW1vbnN0cmF0ZSBob3cgdG8gaW1wbGVtZW50IHZpcnRpby1tZGV2CiAgICBmcmFtZXdvcmsK
+CiAuLi4vZHJpdmVyLWFwaS92ZmlvLW1lZGlhdGVkLWRldmljZS5yc3QgICAgICAgfCAgIDcgKy0K
+IE1BSU5UQUlORVJTICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgMiArCiBk
+cml2ZXJzL2dwdS9kcm0vaTkxNS9ndnQva3ZtZ3QuYyAgICAgICAgICAgICAgfCAgMTggKy0KIGRy
+aXZlcnMvczM5MC9jaW8vdmZpb19jY3dfb3BzLmMgICAgICAgICAgICAgICB8ICAxOCArLQogZHJp
+dmVycy9zMzkwL2NyeXB0by92ZmlvX2FwX29wcy5jICAgICAgICAgICAgIHwgIDE0ICstCiBkcml2
+ZXJzL3ZmaW8vbWRldi9tZGV2X2NvcmUuYyAgICAgICAgICAgICAgICAgfCAgMTkgKwogZHJpdmVy
+cy92ZmlvL21kZXYvbWRldl9kcml2ZXIuYyAgICAgICAgICAgICAgIHwgIDIyICsKIGRyaXZlcnMv
+dmZpby9tZGV2L21kZXZfcHJpdmF0ZS5oICAgICAgICAgICAgICB8ICAgMiArCiBkcml2ZXJzL3Zm
+aW8vbWRldi92ZmlvX21kZXYuYyAgICAgICAgICAgICAgICAgfCAgNDUgKy0KIGRyaXZlcnMvdmhv
+c3QvdnJpbmdoLmMgICAgICAgICAgICAgICAgICAgICAgICB8ICAgOCArLQogZHJpdmVycy92aXJ0
+aW8vS2NvbmZpZyAgICAgICAgICAgICAgICAgICAgICAgIHwgICA3ICsKIGRyaXZlcnMvdmlydGlv
+L01ha2VmaWxlICAgICAgICAgICAgICAgICAgICAgICB8ICAgMSArCiBkcml2ZXJzL3ZpcnRpby92
+aXJ0aW9fbWRldi5jICAgICAgICAgICAgICAgICAgfCA0MTcgKysrKysrKysrKysKIGluY2x1ZGUv
+bGludXgvbWRldi5oICAgICAgICAgICAgICAgICAgICAgICAgICB8ICA1MiArLQogaW5jbHVkZS9s
+aW51eC9tb2RfZGV2aWNldGFibGUuaCAgICAgICAgICAgICAgIHwgICA4ICsKIGluY2x1ZGUvbGlu
+dXgvdmZpb19tZGV2LmggICAgICAgICAgICAgICAgICAgICB8ICA1MiArKwogaW5jbHVkZS9saW51
+eC92aXJ0aW9fbWRldi5oICAgICAgICAgICAgICAgICAgIHwgMTQ1ICsrKysKIHNhbXBsZXMvS2Nv
+bmZpZyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgNyArCiBzYW1wbGVzL3ZmaW8t
+bWRldi9NYWtlZmlsZSAgICAgICAgICAgICAgICAgICAgfCAgIDEgKwogc2FtcGxlcy92ZmlvLW1k
+ZXYvbWJvY2hzLmMgICAgICAgICAgICAgICAgICAgIHwgIDIwICstCiBzYW1wbGVzL3ZmaW8tbWRl
+di9tZHB5LmMgICAgICAgICAgICAgICAgICAgICAgfCAgMjAgKy0KIHNhbXBsZXMvdmZpby1tZGV2
+L210dHkuYyAgICAgICAgICAgICAgICAgICAgICB8ICAxOCArLQogc2FtcGxlcy92ZmlvLW1kZXYv
+bXZuZXQuYyAgICAgICAgICAgICAgICAgICAgIHwgNjkyICsrKysrKysrKysrKysrKysrKwogc2Ny
+aXB0cy9tb2QvZGV2aWNldGFibGUtb2Zmc2V0cy5jICAgICAgICAgICAgIHwgICAzICsKIHNjcmlw
+dHMvbW9kL2ZpbGUyYWxpYXMuYyAgICAgICAgICAgICAgICAgICAgICB8ICAxMCArCiAyNSBmaWxl
+cyBjaGFuZ2VkLCAxNTI0IGluc2VydGlvbnMoKyksIDg0IGRlbGV0aW9ucygtKQogY3JlYXRlIG1v
+ZGUgMTAwNjQ0IGRyaXZlcnMvdmlydGlvL3ZpcnRpb19tZGV2LmMKIGNyZWF0ZSBtb2RlIDEwMDY0
+NCBpbmNsdWRlL2xpbnV4L3ZmaW9fbWRldi5oCiBjcmVhdGUgbW9kZSAxMDA2NDQgaW5jbHVkZS9s
+aW51eC92aXJ0aW9fbWRldi5oCiBjcmVhdGUgbW9kZSAxMDA2NDQgc2FtcGxlcy92ZmlvLW1kZXYv
+bXZuZXQuYwoKLS0gCjIuMTkuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVs
