@@ -1,96 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2198FBC91B
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2019 15:46:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE96BC91F
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2019 15:47:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C1B789CBC;
-	Tue, 24 Sep 2019 13:46:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7700F89CA8;
+	Tue, 24 Sep 2019 13:47:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4961A89BAC
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2019 13:46:31 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20190924134629euoutp01f3653f79ee3ce836a2c0728e53494c98~HY9tuX3TQ0383903839euoutp01S
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2019 13:46:29 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20190924134629euoutp01f3653f79ee3ce836a2c0728e53494c98~HY9tuX3TQ0383903839euoutp01S
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20190924134628eucas1p2bd276c27a6f10a9c22fe01ee96c1191e~HY9tYCT0k1167611676eucas1p2s;
- Tue, 24 Sep 2019 13:46:28 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 13.A0.04309.43E1A8D5; Tue, 24
- Sep 2019 14:46:28 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20190924134628eucas1p1586ca3285dac6b5d5cd1026ea78c436e~HY9tBJLQ02098520985eucas1p1C;
- Tue, 24 Sep 2019 13:46:28 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20190924134628eusmtrp251cfad991c9cd03ca569a4a2329fdbfb~HY9s9tNxH0218002180eusmtrp2Z;
- Tue, 24 Sep 2019 13:46:28 +0000 (GMT)
-X-AuditID: cbfec7f4-ae1ff700000010d5-17-5d8a1e34e9f8
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 66.A8.04117.43E1A8D5; Tue, 24
- Sep 2019 14:46:28 +0100 (BST)
-Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20190924134627eusmtip1dd6609f10e2c9112831705383be71907~HY9sg53nY2427224272eusmtip1j;
- Tue, 24 Sep 2019 13:46:27 +0000 (GMT)
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-Subject: [PATCH v2] dt-bindings: gpu: Convert Samsung 2D Graphics
- Accelerator to dt-schema
-Date: Tue, 24 Sep 2019 15:46:14 +0200
-Message-Id: <20190924134614.13371-1-m.szyprowski@samsung.com>
-X-Mailer: git-send-email 2.17.1
-X-Brightmail-Tracker: H4sIAAAAAAAAA0VSa0hTYRju29m5OJycpuWXyqJBQuElQ+JAFhqF56eU/imHHvO0edmUHbW0
- CHN0cVrpCBwmzglleUen6KqVNt2PbGtpJaFsEiVow/ISBqJtO5r/nve5vM/Lx0cgkko0gshT
- l7AaNVMow0TCwfG/jthEqU5+zOJIoIw2B0pNrS1hlN5dJ6Sczl6cmrQ0YZTBaRVQHm03RnXZ
- ZnHqyReXgLr9yoYni+jO5k5A97VXY7S7xi6gH5jbAb3SJ01DL4qSctnCvDJWE386W6Q0TU7j
- xbPSazVuG6gEj8N1IIiAZCJ8blkT6oCIkJDPAByxLiL8sArgC5sD87sk5AqA61rFTqL26e/t
- RBuArbUN+G5CO4z6XRiZAHVeHeYXwsgqAKeGFwIuhPzlK+lvDuwNJTPhjyYH4sdC8jB8bXgU
- wGLyFGxZeYjxfQdhR++bwFGQXMTgrT89KC+chfUTLsDjULhgN+M8joJbw0YBH9ACOOfowvmh
- FsDJKsN24iR8a3f5NhG+m47AHks8T6dAx/Jn3E9DMgROe/f6acQH9YMNCE+L4b07Et4dDRvt
- 3f9rRz58RHhMQ717DuffTg71801oHZA27na1ANAOwtlSTqVgueNq9mocx6i4UrUi7nKRqg/4
- /sW7TfvqELBs5IwCkgCyYHEyqpNLUKaMK1eNAkggsjBxY5SPEucy5RWspihLU1rIcqMgkhDK
- wsXX93guSUgFU8IWsGwxq9lRBURQRCWQZmrvZr1P/dbfMDWuXB8TLCbhXLkxp+NERbVVli3q
- b0ucv2maMdc4I0Luh0bG3MiXmpTJn1ZfLp9nYo1d1sh9cmDSdrIZZ7aME9GusYIMYibV4KVa
- B7J/Dh0QHdIXp9yLD9u48n0z/+uAJ32/NzomeCntwnImfc6MebbS62VCTskkHEU0HPMP3bub
- YhMDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrGLMWRmVeSWpSXmKPExsVy+t/xu7omcl2xBgd+SVrMP3KO1eLK1/ds
- FpPuT2CxOH9+A7vF5V1z2CxmnN/HZPGgeR2bxdojd9ktll6/yGTRuvcIuwOXx5p5axg9Nq3q
- ZPO4332cyaNvyypGj8+b5AJYo/RsivJLS1IVMvKLS2yVog0tjPQMLS30jEws9QyNzWOtjEyV
- 9O1sUlJzMstSi/TtEvQyFl6+wV5wV66i+/4RxgbG2eJdjJwcEgImEj3LPrJ0MXJxCAksZZTo
- WNzBDpGQkTg5rYEVwhaW+HOtiw2i6BOjxJKVq5hBEmwChhJdbyESIgJtjBKfH19hBnGYBb4w
- Smz++wNslLBAlMT+y7PBbBYBVYn9M6aAdfMK2Eos+NzPBrFCXmL1hgPMExh5FjAyrGIUSS0t
- zk3PLTbSK07MLS7NS9dLzs/dxAgM023Hfm7Zwdj1LvgQowAHoxIPrwNrV6wQa2JZcWXuIUYJ
- DmYlEd5ZMkAh3pTEyqrUovz4otKc1OJDjKZAyycyS4km5wNjKK8k3tDU0NzC0tDc2NzYzEJJ
- nLdD4GCMkEB6YklqdmpqQWoRTB8TB6dUA6N04YdLt3oVDrTyMt14FBrayHOQbfPNbaorfGdJ
- BgkpBjSI63a5r79w/aHxh/6VU2cuu3s8L/DTvcm/udcUbmWZfjnE8nps07ynmuvlQ95mMiq9
- uP2IN0Huqsr89An/znE75Zt1vDpRLXrhpG29yO569lU9qsd8NyeKn5W4U6v4rqS1miXtmo0S
- S3FGoqEWc1FxIgDgf4sLaQIAAA==
-X-CMS-MailID: 20190924134628eucas1p1586ca3285dac6b5d5cd1026ea78c436e
-X-Msg-Generator: CA
-X-RootMTR: 20190924134628eucas1p1586ca3285dac6b5d5cd1026ea78c436e
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20190924134628eucas1p1586ca3285dac6b5d5cd1026ea78c436e
-References: <CGME20190924134628eucas1p1586ca3285dac6b5d5cd1026ea78c436e@eucas1p1.samsung.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=samsung.com; 
- s=mail20170921; t=1569332789;
- bh=hjG7mIhqoiOETo/vBYiUdDrKZ8xHLwwvqLJb2beAL28=;
- h=From:To:Cc:Subject:Date:References:From;
- b=Y49yQLmRhXpcDp+Z/DI64yse89omla7BI9frg6hfkBSFKJORfItP2jDpzinY66yH/
- 6e+RhD0a9t0FnhrxO8YUUEo7+IQqJDzyk0LnvpyvpgUY9eRjim79zZyZItgBpVfwIX
- MhJDb1v246CVPP3a5E8xBJdIMDLwBUd+hMIhZgA8=
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9BEB289CA8
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2019 13:47:35 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 9916472162; Tue, 24 Sep 2019 13:47:35 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111802] SegFault missing slots in framebuffer
+Date: Tue, 24 Sep 2019 13:47:35 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: jeroen@blender.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ qa_contact
+Message-ID: <bug-111802-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -103,83 +52,219 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Maciej Falkowski <m.falkowski@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0967190430=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogTWFjaWVqIEZhbGtvd3NraSA8bS5mYWxrb3dza2lAc2Ftc3VuZy5jb20+CgpDb252ZXJ0
-IFNhbXN1bmcgMkQgR3JhcGhpY3MgQWNjZWxlcmF0b3IgdG8gbmV3ZXIgZHQtc2NoZW1hIGZvcm1h
-dAoKU2lnbmVkLW9mZi1ieTogTWFjaWVqIEZhbGtvd3NraSA8bS5mYWxrb3dza2lAc2Ftc3VuZy5j
-b20+ClNpZ25lZC1vZmYtYnk6IE1hcmVrIFN6eXByb3dza2kgPG0uc3p5cHJvd3NraUBzYW1zdW5n
-LmNvbT4KLS0tCnYyOgotIEFkZGVkIGlmLXRoZW4gc3RhdGVtZW50cyBmb3IgJ2Nsb2NrcycgYW5k
-ICdjbG9jay1uYW1lcycKcHJvcGVydGllcy4KCkJlc3QgcmVnYXJkcywKTWFjaWVqIEZhbGtvd3Nr
-aQotLS0KIC4uLi9kZXZpY2V0cmVlL2JpbmRpbmdzL2dwdS9zYW1zdW5nLWcyZC50eHQgICB8IDI3
-IC0tLS0tLS0KIC4uLi9kZXZpY2V0cmVlL2JpbmRpbmdzL2dwdS9zYW1zdW5nLWcyZC55YW1sICB8
-IDc2ICsrKysrKysrKysrKysrKysrKysKIDIgZmlsZXMgY2hhbmdlZCwgNzYgaW5zZXJ0aW9ucygr
-KSwgMjcgZGVsZXRpb25zKC0pCiBkZWxldGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZp
-Y2V0cmVlL2JpbmRpbmdzL2dwdS9zYW1zdW5nLWcyZC50eHQKIGNyZWF0ZSBtb2RlIDEwMDY0NCBE
-b2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZ3B1L3NhbXN1bmctZzJkLnlhbWwKCmRp
-ZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZ3B1L3NhbXN1bmct
-ZzJkLnR4dCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9ncHUvc2Ftc3VuZy1n
-MmQudHh0CmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAxZTc5NTkzMzJkYmMuLjAwMDAw
-MDAwMDAwMAotLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZ3B1L3NhbXN1
-bmctZzJkLnR4dAorKysgL2Rldi9udWxsCkBAIC0xLDI3ICswLDAgQEAKLSogU2Ftc3VuZyAyRCBH
-cmFwaGljcyBBY2NlbGVyYXRvcgotCi1SZXF1aXJlZCBwcm9wZXJ0aWVzOgotICAtIGNvbXBhdGli
-bGUgOiB2YWx1ZSBzaG91bGQgYmUgb25lIGFtb25nIHRoZSBmb2xsb3dpbmc6Ci0JKGEpICJzYW1z
-dW5nLHM1cHYyMTAtZzJkIiBmb3IgRzJEIElQIHByZXNlbnQgaW4gUzVQVjIxMCAmIEV4eW5vczQy
-MTAgU29DCi0JKGIpICJzYW1zdW5nLGV4eW5vczQyMTItZzJkIiBmb3IgRzJEIElQIHByZXNlbnQg
-aW4gRXh5bm9zNHgxMiBTb0NzCi0JKGMpICJzYW1zdW5nLGV4eW5vczUyNTAtZzJkIiBmb3IgRzJE
-IElQIHByZXNlbnQgaW4gRXh5bm9zNTI1MCBTb0MKLQotICAtIHJlZyA6IFBoeXNpY2FsIGJhc2Ug
-YWRkcmVzcyBvZiB0aGUgSVAgcmVnaXN0ZXJzIGFuZCBsZW5ndGggb2YgbWVtb3J5Ci0JICBtYXBw
-ZWQgcmVnaW9uLgotCi0gIC0gaW50ZXJydXB0cyA6IEcyRCBpbnRlcnJ1cHQgbnVtYmVyIHRvIHRo
-ZSBDUFUuCi0gIC0gY2xvY2tzIDogZnJvbSBjb21tb24gY2xvY2sgYmluZGluZzogaGFuZGxlIHRv
-IEcyRCBjbG9ja3MuCi0gIC0gY2xvY2stbmFtZXMgOiBuYW1lcyBvZiBjbG9ja3MgbGlzdGVkIGlu
-IGNsb2NrcyBwcm9wZXJ0eSwgaW4gdGhlIHNhbWUKLQkJICBvcmRlciwgZGVwZW5kaW5nIG9uIFNv
-QyB0eXBlOgotCQkgIC0gZm9yIFM1UFYyMTAgYW5kIEV4eW5vczQgYmFzZWQgU29DczogImZpbWcy
-ZCIgYW5kCi0JCSAgICAic2Nsa19maW1nMmQiCi0JCSAgLSBmb3IgRXh5bm9zNTI1MCBTb0M6ICJm
-aW1nMmQiLgotCi1FeGFtcGxlOgotCWcyZEAxMjgwMDAwMCB7Ci0JCWNvbXBhdGlibGUgPSAic2Ft
-c3VuZyxzNXB2MjEwLWcyZCI7Ci0JCXJlZyA9IDwweDEyODAwMDAwIDB4MTAwMD47Ci0JCWludGVy
-cnVwdHMgPSA8MCA4OSAwPjsKLQkJY2xvY2tzID0gPCZjbG9jayAxNzc+LCA8JmNsb2NrIDI3Nz47
-Ci0JCWNsb2NrLW5hbWVzID0gInNjbGtfZmltZzJkIiwgImZpbWcyZCI7Ci0JfTsKZGlmZiAtLWdp
-dCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9ncHUvc2Ftc3VuZy1nMmQueWFt
-bCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9ncHUvc2Ftc3VuZy1nMmQueWFt
-bApuZXcgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAwMDAwMDAwMDAwMDAuLjVlMDVlOGNjYzgzZgot
-LS0gL2Rldi9udWxsCisrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9ncHUv
-c2Ftc3VuZy1nMmQueWFtbApAQCAtMCwwICsxLDc2IEBACisjIFNQRFgtTGljZW5zZS1JZGVudGlm
-aWVyOiBHUEwtMi4wCislWUFNTCAxLjIKKy0tLQorJGlkOiBodHRwOi8vZGV2aWNldHJlZS5vcmcv
-c2NoZW1hcy9ncHUvc2Ftc3VuZy1nMmQueWFtbCMKKyRzY2hlbWE6IGh0dHA6Ly9kZXZpY2V0cmVl
-Lm9yZy9tZXRhLXNjaGVtYXMvY29yZS55YW1sIworCit0aXRsZTogU2Ftc3VuZyBTb0MgMkQgR3Jh
-cGhpY3MgQWNjZWxlcmF0b3IKKworbWFpbnRhaW5lcnM6CisgIC0gSW5raSBEYWUgPGlua2kuZGFl
-QHNhbXN1bmcuY29tPgorCitwcm9wZXJ0aWVzOgorICBjb21wYXRpYmxlOgorICAgIGVudW06Cisg
-ICAgICAtIHNhbXN1bmcsczVwdjIxMC1nMmQgICAgIyBpbiBTNVBWMjEwICYgRXh5bm9zNDIxMCBT
-b0MKKyAgICAgIC0gc2Ftc3VuZyxleHlub3M0MjEyLWcyZCAjIGluIEV4eW5vczR4MTIgU29Dcwor
-ICAgICAgLSBzYW1zdW5nLGV4eW5vczUyNTAtZzJkCisKKyAgcmVnOgorICAgIG1heEl0ZW1zOiAx
-CisKKyAgaW50ZXJydXB0czoKKyAgICBtYXhJdGVtczogMQorCithbGxPZjoKKyAgLSBpZjoKKyAg
-ICAgIHByb3BlcnRpZXM6CisgICAgICAgIGNvbXBhdGlibGU6CisgICAgICAgICAgY29udGFpbnM6
-CisgICAgICAgICAgICBjb25zdDogc2Ftc3VuZyxleHlub3M1MjUwLWcyZAorCisgICAgdGhlbjoK
-KyAgICAgIHByb3BlcnRpZXM6CisgICAgICAgIGNsb2NrczoKKyAgICAgICAgICBpdGVtczoKKyAg
-ICAgICAgICAgIC0gZGVzY3JpcHRpb246IGZpbWcyZCBjbG9jaworICAgICAgICBjbG9jay1uYW1l
-czoKKyAgICAgICAgICBpdGVtczoKKyAgICAgICAgICAgIC0gY29uc3Q6IGZpbWcyZAorCisgIC0g
-aWY6CisgICAgICBwcm9wZXJ0aWVzOgorICAgICAgICBjb21wYXRpYmxlOgorICAgICAgICAgIGNv
-bnRhaW5zOgorICAgICAgICAgICAgZW51bToKKyAgICAgICAgICAgICAgLSBzYW1zdW5nLHM1cHYy
-MTAtZzJkCisgICAgICAgICAgICAgIC0gc2Ftc3VuZyxleHlub3M0MjEyLWcyZAorCisgICAgdGhl
-bjoKKyAgICAgIHByb3BlcnRpZXM6CisgICAgICAgIGNsb2NrczoKKyAgICAgICAgICBpdGVtczoK
-KyAgICAgICAgICAgIC0gZGVzY3JpcHRpb246IHNjbGtfZmltZzJkIGNsb2NrCisgICAgICAgICAg
-ICAtIGRlc2NyaXB0aW9uOiBmaW1nMmQgY2xvY2sKKyAgICAgICAgY2xvY2stbmFtZXM6CisgICAg
-ICAgICAgaXRlbXM6CisgICAgICAgICAgICAtIGNvbnN0OiBzY2xrX2ZpbWcyZAorICAgICAgICAg
-ICAgLSBjb25zdDogZmltZzJkCisKK3JlcXVpcmVkOgorICAtIGNvbXBhdGlibGUKKyAgLSByZWcK
-KyAgLSBpbnRlcnJ1cHRzCisgIC0gY2xvY2tzCisgIC0gY2xvY2stbmFtZXMKKworZXhhbXBsZXM6
-CisgIC0gfAorICAgIGcyZEAxMjgwMDAwMCB7CisgICAgICAgIGNvbXBhdGlibGUgPSAic2Ftc3Vu
-ZyxzNXB2MjEwLWcyZCI7CisgICAgICAgIHJlZyA9IDwweDEyODAwMDAwIDB4MTAwMD47CisgICAg
-ICAgIGludGVycnVwdHMgPSA8MCA4OSAwPjsKKyAgICAgICAgY2xvY2tzID0gPCZjbG9jayAxNzc+
-LCA8JmNsb2NrIDI3Nz47CisgICAgICAgIGNsb2NrLW5hbWVzID0gInNjbGtfZmltZzJkIiwgImZp
-bWcyZCI7CisgICAgfTsKKwotLSAKMi4xNy4xCgoKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0967190430==
+Content-Type: multipart/alternative; boundary="15693328551.0CeedCebf.9803"
+Content-Transfer-Encoding: 7bit
+
+
+--15693328551.0CeedCebf.9803
+Date: Tue, 24 Sep 2019 13:47:35 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111802
+
+            Bug ID: 111802
+           Summary: SegFault missing slots in framebuffer
+           Product: Mesa
+           Version: git
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: not set
+          Priority: not set
+         Component: Drivers/Gallium/radeonsi
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: jeroen@blender.org
+        QA Contact: dri-devel@lists.freedesktop.org
+
+This fault has been detected when using Blender (2.80 or master branch)
+Steps to reproduce the error:
+
+1. Start Blender
+2. Go to edit mode (press tab)
+3. Start Merge vertices tool (press ALT-M)
+4. Select any mode (press ENTER)
+
+And a segmentation fault happens.
+This has been tested on Mesa 18.2.2, 19.0.8 and 19.3.0~dev.
+
+The root cause is that you have a framebuffer with multiple color slots with
+empty slots in between. If there is an empty color slot between the color
+slots, all textures after this slot are apparently skipped/discarded.
+
+Our work around is to reuse empty slots with other slots.
+`gpu_framebuffer_update_attachments_and_fill_empty_slots`
+in
+https://developer.blender.org/diffusion/B/browse/master/source/blender/gpu/=
+intern/gpu_framebuffer.c$429-483
+
+This issue also existed in the official AMD drivers, but has been solved to=
+ our
+knowledge.
+
+https://developer.blender.org/T70187
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15693328551.0CeedCebf.9803
+Date: Tue, 24 Sep 2019 13:47:35 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - SegFault missing slots in framebuffer"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111802">111802</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>SegFault missing slots in framebuffer
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>Mesa
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>Drivers/Gallium/radeonsi
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>jeroen&#64;blender.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>QA Contact</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>This fault has been detected when using Blender (2.80 or maste=
+r branch)
+Steps to reproduce the error:
+
+1. Start Blender
+2. Go to edit mode (press tab)
+3. Start Merge vertices tool (press ALT-M)
+4. Select any mode (press ENTER)
+
+And a segmentation fault happens.
+This has been tested on Mesa 18.2.2, 19.0.8 and 19.3.0~dev.
+
+The root cause is that you have a framebuffer with multiple color slots with
+empty slots in between. If there is an empty color slot between the color
+slots, all textures after this slot are apparently skipped/discarded.
+
+Our work around is to reuse empty slots with other slots.
+`gpu_framebuffer_update_attachments_and_fill_empty_slots`
+in
+<a href=3D"https://developer.blender.org/diffusion/B/browse/master/source/b=
+lender/gpu/intern/gpu_framebuffer.c$429-483">https://developer.blender.org/=
+diffusion/B/browse/master/source/blender/gpu/intern/gpu_framebuffer.c$429-4=
+83</a>
+
+This issue also existed in the official AMD drivers, but has been solved to=
+ our
+knowledge.
+
+<a href=3D"https://developer.blender.org/T70187">https://developer.blender.=
+org/T70187</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15693328551.0CeedCebf.9803--
+
+--===============0967190430==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0967190430==--
