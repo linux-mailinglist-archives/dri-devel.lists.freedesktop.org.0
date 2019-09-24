@@ -1,159 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87C86BC28B
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2019 09:26:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55FA2BC290
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2019 09:26:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E6606E9D8;
-	Tue, 24 Sep 2019 07:26:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D20D46E9E2;
+	Tue, 24 Sep 2019 07:26:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
- (mail-eopbgr150070.outbound.protection.outlook.com [40.107.15.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A6986E9D8
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2019 07:26:37 +0000 (UTC)
-Received: from VI1PR08CA0139.eurprd08.prod.outlook.com (2603:10a6:800:d5::17)
- by VI1PR0801MB1872.eurprd08.prod.outlook.com (2603:10a6:800:86::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2284.23; Tue, 24 Sep
- 2019 07:26:33 +0000
-Received: from VE1EUR03FT005.eop-EUR03.prod.protection.outlook.com
- (2a01:111:f400:7e09::200) by VI1PR08CA0139.outlook.office365.com
- (2603:10a6:800:d5::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2284.22 via Frontend
- Transport; Tue, 24 Sep 2019 07:26:32 +0000
-Received-SPF: TempError (protection.outlook.com: error in processing during
- lookup of arm.com: DNS Timeout)
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- VE1EUR03FT005.mail.protection.outlook.com (10.152.18.172) with
- Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2284.20 via Frontend Transport; Tue, 24 Sep 2019 07:26:31 +0000
-Received: ("Tessian outbound d5a1f2820a4f:v31");
- Tue, 24 Sep 2019 07:26:25 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: d15885c2100208e0
-X-CR-MTA-TID: 64aa7808
-Received: from 331ba10d9251.2 (cr-mta-lb-1.cr-mta-net [104.47.14.52])
- by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- 698C6375-B7EC-4F03-AC6E-5818656E38EC.1; 
- Tue, 24 Sep 2019 07:26:20 +0000
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur04lp2052.outbound.protection.outlook.com [104.47.14.52])
- by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 331ba10d9251.2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
- Tue, 24 Sep 2019 07:26:20 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QUNSEf4Q1rbsgt3S9Xs/8/sqzuWBVnPXyAftuaKZW7QS/lUwxTh8qcQJh71kmWaaUOHV3YOP24GM1OL91uPlUENCU2xQ4TdZjd8xW5zsatriJWULnJygAJ3M+hNjKE+LgVrZpR6PzinSR3QqZOFzIHXkEbv2q1b90n7PtLqE+xx/tgn3ubtx1yBlhvd5Vp6scjOJLPROcvaLyiUSU8wo3xQ1zoBYqHcgfG62HeAi2kgRMbpLNnA8X3DYwjdeiHcjPtrXHXNSA7VWbCObbyF67JFVURwLIb2bGBiZPHgkyAuZ7wK1lUsFWoW1HxdMCVzTObDVqkxw3HnAUvpxoc0AqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=432SZBl+XgNRowFEJpvuppz3A/j8ZcamL456V3bwWEE=;
- b=V09qKZzUAnyeWTCv/kjNRZEO1qgC7fesC1+Da000+2YTcPCyLEX+VrlBOk2Bax3cOrKk+lib7Ibf+4/GAreZLTnbTcEgWshc6DKAA9RV4RSWjLWjDGp0vic1Ag1q2dmXyH3KdvgJyrPwQ92/pK5c1r4fD1bVirnpxszbvEtQUSCpIJ6CqHVzmQiiw1fJoGTKQ8zoAomSeOCZOz81PHqTHRn6+v1dzoBVTGGYY/a39eDRNdTORSlbShkuQjRuok4QrK7R88o9EMWniaHsxXCL7S3NVyblWvLqhtQTs3MxmBKRyy/JgeCUe44Ecv9cudxbM7ZYjmt0knu82gjjXFRBqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-Received: from VI1PR08MB5488.eurprd08.prod.outlook.com (52.133.246.150) by
- VI1PR08MB3199.eurprd08.prod.outlook.com (52.133.15.150) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2284.20; Tue, 24 Sep 2019 07:26:18 +0000
-Received: from VI1PR08MB5488.eurprd08.prod.outlook.com
- ([fe80::d09e:254b:4d3b:456b]) by VI1PR08MB5488.eurprd08.prod.outlook.com
- ([fe80::d09e:254b:4d3b:456b%3]) with mapi id 15.20.2284.023; Tue, 24 Sep 2019
- 07:26:18 +0000
-From: "Lowry Li (Arm Technology China)" <Lowry.Li@arm.com>
-To: Liviu Dudau <Liviu.Dudau@arm.com>, "james qian wang (Arm Technology
- China)" <james.qian.wang@arm.com>, "maarten.lankhorst@linux.intel.com"
- <maarten.lankhorst@linux.intel.com>, "seanpaul@chromium.org"
- <seanpaul@chromium.org>, "airlied@linux.ie" <airlied@linux.ie>, Brian Starkey
- <Brian.Starkey@arm.com>, Mihail Atanassov <Mihail.Atanassov@arm.com>
-Subject: [PATCH v2 2/2] drm/komeda: Adds layer horizontal input size
- limitation check for D71
-Thread-Topic: [PATCH v2 2/2] drm/komeda: Adds layer horizontal input size
- limitation check for D71
-Thread-Index: AQHVcqlbZ+q1ta0ytEW/DVb0H7fVog==
-Date: Tue, 24 Sep 2019 07:26:18 +0000
-Message-ID: <20190924072552.32446-3-lowry.li@arm.com>
-References: <20190924072552.32446-1-lowry.li@arm.com>
-In-Reply-To: <20190924072552.32446-1-lowry.li@arm.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [113.29.88.7]
-x-clientproxiedby: HK2P15301CA0006.APCP153.PROD.OUTLOOK.COM
- (2603:1096:202:1::16) To VI1PR08MB5488.eurprd08.prod.outlook.com
- (2603:10a6:803:137::22)
-Authentication-Results-Original: spf=none (sender IP is )
- smtp.mailfrom=Lowry.Li@arm.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.17.1
-x-ms-publictraffictype: Email
-X-MS-Office365-Filtering-Correlation-Id: 17139cc3-7052-400b-953f-08d740c0855a
-X-MS-Office365-Filtering-HT: Tenant
-X-Microsoft-Antispam-Untrusted: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
- SRVR:VI1PR08MB3199; 
-X-MS-TrafficTypeDiagnostic: VI1PR08MB3199:|VI1PR08MB3199:|VI1PR0801MB1872:
-x-ms-exchange-transport-forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR0801MB18726C2D9212951AE0D7EBF89F840@VI1PR0801MB1872.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-x-ms-oob-tlc-oobclassifiers: OLM:4941;OLM:4941;
-x-forefront-prvs: 0170DAF08C
-X-Forefront-Antispam-Report-Untrusted: SFV:NSPM;
- SFS:(10009020)(4636009)(376002)(366004)(346002)(39860400002)(136003)(396003)(199004)(189003)(6116002)(71200400001)(50226002)(6512007)(3846002)(6506007)(4326008)(66476007)(476003)(14454004)(66946007)(386003)(52116002)(66556008)(486006)(2616005)(6636002)(6436002)(14444005)(36756003)(2501003)(99286004)(110136005)(64756008)(2906002)(446003)(256004)(66066001)(54906003)(71190400001)(76176011)(81156014)(6486002)(8676002)(478600001)(55236004)(66446008)(5660300002)(81166006)(102836004)(11346002)(86362001)(2201001)(1076003)(8936002)(26005)(186003)(7736002)(316002)(305945005)(25786009);
- DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR08MB3199;
- H:VI1PR08MB5488.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: arm.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info-Original: e387BRipFUQslMY7fImmJpYXFX30B+6G6iRyQFJ4KVcj6HRUnt3YHEfFnqRQwnwwCAeCx7pQYfAtsGTsfP7fJWp4DmyI8RHOje2RqD8pPxFGw0y1RHu8IQ21/ncLi0Rc4MtmXdJhJZ8QvZqJaSbfNb5A1DxMRlax/X4bgDi3jwQGGFLMLn4mfhQvKv1i8gg1EyZ29YL4291gWnrNO9XyHYjIhuMJiCLCXJ15hhc9eDaLgKj8URcDKFF00e0YeiJeC/zrmkanrNcG7o+B7C587d1slY0tO3C25rv38AI6D5AOOtDlz5B6YGRP/nJRRy2Se2/DlwYFUTQhWmR/X4PBTTfcv9wFjCRo6NY5kYl4pIHBM3NcxN0pdai/KaNOzqdwHm34B7OhWv04mUDeuOGlf3YAVnLMnpqSki0b8K+m4MM=
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2697C6E9E2
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2019 07:26:51 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id m7so798353lji.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2019 00:26:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=ahjgYf9GvxGfM5rnd96adz8/ao4fB/ggP+x4N4uf16M=;
+ b=Sr+m/ZGMiUWKDaAhuTEvHT3N5iNes1FBMZSd/5pKYnKoHxkt0sxS5OT9rHSwA+Y9Jz
+ YjKHXDWpb86A54EIeJN3HkhAJvtjl4Mmt8foauXF+A056gwg6IBnfljqKCcb5ADIHvms
+ Flv7mIjiDLSnq3z2VRaxtNpdWk/4E6Ukj+VpL0ghbJld2B46/XAFVM0q/DSaQsYdEs0S
+ es//VcXmZm+Hs199+8Y6JlU9D4FquhN7l9VEq5OScp6zECtoWudNQXPGREIEx5ujnTCf
+ ZRvVm6ayHbkROsHkC3S3Kdt0GrswE45PoKTzX0zM45daPmOw350wwQ5wkxfno8tmm/OY
+ wDTQ==
+X-Gm-Message-State: APjAAAW7bzYgqYQcDBk0HrXcE6jqGb9BN97QYsaJv2HnMmokOjqO11bT
+ HIhpY3iXq4gDaTd+v3FRoDM=
+X-Google-Smtp-Source: APXvYqxLkSuJALN9ETw/F7zBsNNWDo36XyaN3egEh5l44tGA2yml98oCXohbo1r9V9G/oA2L6HE15Q==
+X-Received: by 2002:a2e:87c8:: with SMTP id v8mr1003221ljj.24.1569310009433;
+ Tue, 24 Sep 2019 00:26:49 -0700 (PDT)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id q5sm261216lfm.93.2019.09.24.00.26.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Sep 2019 00:26:48 -0700 (PDT)
+Date: Tue, 24 Sep 2019 10:26:39 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v4] drm: two planes with the same zpos have undefined
+ ordering
+Message-ID: <20190924102639.6d8a334b@eldfell.localdomain>
+In-Reply-To: <3FTYuSJGBfAG_MnVn604lEDUu1q2h6tI--IJOCx5Yp1SRwQig7s2AfLuleVvOS9WN1lLqAlXCWJu_Z60u3BnZfqCgFHDd_nPOUCAipaNpLk=@emersion.fr>
+References: <KJRi1ROX2_eM1WjtEQ1e1-f--VK4hwMQJQt1nPaS6lcmt3v4yIfdttLIu_EOGdkwXwEMAEo66Xa7ksp7iQABWT5GuMu6UgKoiuEm6EU2N1U=@emersion.fr>
+ <20190910133810.64e973f4@eldfell.localdomain>
+ <CAKMK7uEEuUpD_eni6wr=7sEadnYypd=7Ojf5zQ0tgXQov4F3mQ@mail.gmail.com>
+ <1hklN2_EspD_s4vA3fdCCkVN9jeARGhmtkSGWDyVus-0ryZFs4xftUYRp_Z4pzsikJActaDVaTUoPNfBd-QitQX_JJTXkkqKFXxJhgMjEI0=@emersion.fr>
+ <60c3fb6c-651a-0122-44d5-30895bbcb22c@collabora.com>
+ <CAKMK7uG1uXU5sO81VCN7zeNn62D-JHEW1QSSoJ695AULGt3zSQ@mail.gmail.com>
+ <WHzXxgNIkxb4Mn1hdeAAwutlt0P-G2onwFr4FpA083VEVh1nIcstHOBRataUD7skpgtWd7BMDPF4v0GHJmQcLrnicVF1hpaUz_5WeSBUTWk=@emersion.fr>
+ <20190919103414.08f81fda@eldfell.localdomain>
+ <3FTYuSJGBfAG_MnVn604lEDUu1q2h6tI--IJOCx5Yp1SRwQig7s2AfLuleVvOS9WN1lLqAlXCWJu_Z60u3BnZfqCgFHDd_nPOUCAipaNpLk=@emersion.fr>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3199
-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Lowry.Li@arm.com; 
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: VE1EUR03FT005.eop-EUR03.prod.protection.outlook.com
-X-Forefront-Antispam-Report: CIP:63.35.35.123; IPV:CAL; SCL:-1; CTRY:IE;
- EFV:NLI; SFV:NSPM;
- SFS:(10009020)(4636009)(396003)(376002)(136003)(39860400002)(346002)(189003)(199004)(2906002)(99286004)(22756006)(8676002)(81166006)(6486002)(81156014)(50226002)(6636002)(70206006)(66066001)(47776003)(76130400001)(26826003)(4326008)(7736002)(6506007)(14444005)(50466002)(386003)(2501003)(23756003)(478600001)(76176011)(36756003)(6512007)(63350400001)(11346002)(2616005)(486006)(476003)(86362001)(446003)(126002)(336012)(305945005)(70586007)(8746002)(2201001)(102836004)(25786009)(1076003)(356004)(186003)(26005)(6116002)(36906005)(316002)(3846002)(5660300002)(110136005)(14454004)(54906003)(8936002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR0801MB1872;
- H:64aa7808-outbound-1.mta.getcheckrecipient.com; FPR:; SPF:TempError; LANG:en;
- PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; MX:1; A:1; 
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 3f63e72f-865e-41b2-9866-08d740c07d9f
-X-Microsoft-Antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(710020)(711020)(4605104)(1401327)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
- SRVR:VI1PR0801MB1872; 
-NoDisclaimer: True
-X-Forefront-PRVS: 0170DAF08C
-X-Microsoft-Antispam-Message-Info: 5wgp5rnNUfkiNQ/GlDnTjvHkHhk90WAUm+7nQPkcGRauzrqbfbkX/X6beBX5Jn/Q+7E6m8C0/jhsuxThCzXWfCdnSbFlek/qqSsJDVkWfpkAThc6fyhUpx3fDSeTwN+yV1FuNQUC2qGH+VKQtnMmgYwm2M3/JJVoX9umUu9FK0SotxdEzEKdDdpScQIsoh4rYjUrO8JN/LiWhu3t6bPnjUd5dTs7sutWhdpRuIEB1QybzBpe4VZ+Nv7Nk7QsQxw0IG1cTdfql0YzhJ6H0nFy39WU6SJ1n108lm0VBYN8MiY0lrnuAhPMfFoFoJ5LxxSVHpfMEuLb5+3XJHvCBviN55iZUIB19qvuVkqUOILQq1Mgc8I+RcE63tZVrVE07qtdaRFmtZd84PJT6K2eU3HEdOl+HE+Uw1pIxJTmxuNakNk=
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2019 07:26:31.0368 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 17139cc3-7052-400b-953f-08d740c0855a
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
- Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0801MB1872
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=432SZBl+XgNRowFEJpvuppz3A/j8ZcamL456V3bwWEE=;
- b=ruVOeaNBE9lw8p2yR80eFIoLEAdWQgCdp70cR5PE6xaUco/pjC5NNla6DO8/hpIKol27tVY9S/Cb0JaLQ4v09TrjiuFpHVhJ4lgqTBFDpyOxErcwzj/M9ckU/KTmHRQLATzJ5AMvz9j545tBUTcVxulx4g6GZVecnDqA+FRK1eo=
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=432SZBl+XgNRowFEJpvuppz3A/j8ZcamL456V3bwWEE=;
- b=ruVOeaNBE9lw8p2yR80eFIoLEAdWQgCdp70cR5PE6xaUco/pjC5NNla6DO8/hpIKol27tVY9S/Cb0JaLQ4v09TrjiuFpHVhJ4lgqTBFDpyOxErcwzj/M9ckU/KTmHRQLATzJ5AMvz9j545tBUTcVxulx4g6GZVecnDqA+FRK1eo=
-X-Mailman-Original-Authentication-Results: spf=temperror (sender IP is
- 63.35.35.123)
- smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
- verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org; dmarc=none
- action=none header.from=arm.com;
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version;
+ bh=ahjgYf9GvxGfM5rnd96adz8/ao4fB/ggP+x4N4uf16M=;
+ b=Lh34RNfV+y62kbzR+20vcPkg+C4jT8WTbk/W09ydVHioWYuLJk0KR005v4ECT1ETnL
+ 4PXtaNX2RkZa6ffKfugjcjJezCoAggIJvgCPu7dMlFzfy5WTurBLrVF5GX38InCGfrsS
+ VhJyF3XM0FjMYG7zRGxkwukHaJiBsJUAmWpCYgJ8+IFfsx6tjLcKlcSpzQaMeOuJRkP4
+ gib3VIia8a5jkfsIkbClEY8nAlqIfcshyeW32gTIqaaf70cXvs1h3gwERWo1G0P+45K5
+ jiQeXQn3mZEG8yIcKbejy6gagpuweNic8bPKaR+mVB281M2YSbWqkRwk3oARFSsgGeKZ
+ lJEg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -166,59 +76,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ayan Halder <Ayan.Halder@arm.com>, "Jonathan Chai
- \(Arm Technology China\)" <Jonathan.Chai@arm.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Julien Yin \(Arm Technology China\)" <Julien.Yin@arm.com>, nd <nd@arm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Marius Vlad <marius.vlad@collabora.com>, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0603403316=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogIkxvd3J5IExpIChBcm0gVGVjaG5vbG9neSBDaGluYSkiIDxMb3dyeS5MaUBhcm0uY29t
-PgoKQWRkcyBtYXhpbXVtIGxpbmUgc2l6ZSBjaGVjayBhY2NvcmRpbmcgdG8gdGhlIEFGQkMgZGVj
-b2RlciBsaW1pdGF0aW9uCmFuZCBzcGVjaWFsIExpbmUgc2l6ZSBsaW1pdGF0aW9uKDIwNDYpIGZv
-ciBmb3JtYXQ6IFlVVjQyMF8xMEJJVCBhbmQgWDBMMi4KClNpZ25lZC1vZmYtYnk6IExvd3J5IExp
-IChBcm0gVGVjaG5vbG9neSBDaGluYSkgPGxvd3J5LmxpQGFybS5jb20+Ci0tLQogLi4uL2FybS9k
-aXNwbGF5L2tvbWVkYS9kNzEvZDcxX2NvbXBvbmVudC5jICAgIHwgNDkgKysrKysrKysrKysrKysr
-KysrKwogMSBmaWxlIGNoYW5nZWQsIDQ5IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2Q3MS9kNzFfY29tcG9uZW50LmMgYi9kcml2
-ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2Q3MS9kNzFfY29tcG9uZW50LmMKaW5kZXgg
-MzU3ODM3YjlkNmVkLi42NzQwYjg0MjJmMTEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9h
-cm0vZGlzcGxheS9rb21lZGEvZDcxL2Q3MV9jb21wb25lbnQuYworKysgYi9kcml2ZXJzL2dwdS9k
-cm0vYXJtL2Rpc3BsYXkva29tZWRhL2Q3MS9kNzFfY29tcG9uZW50LmMKQEAgLTM0OSw3ICszNDks
-NTYgQEAgc3RhdGljIHZvaWQgZDcxX2xheWVyX2R1bXAoc3RydWN0IGtvbWVkYV9jb21wb25lbnQg
-KmMsIHN0cnVjdCBzZXFfZmlsZSAqc2YpCiAJc2VxX3ByaW50ZihzZiwgIiVzQURfVl9DUk9QOlx0
-XHQweCVYXG4iLCBwcmVmaXgsIHZbMl0pOwogfQogCitzdGF0aWMgaW50IGQ3MV9sYXllcl92YWxp
-ZGF0ZShzdHJ1Y3Qga29tZWRhX2NvbXBvbmVudCAqYywKKwkJCSAgICAgIHN0cnVjdCBrb21lZGFf
-Y29tcG9uZW50X3N0YXRlICpzdGF0ZSkKK3sKKwlzdHJ1Y3Qga29tZWRhX2xheWVyX3N0YXRlICpz
-dCA9IHRvX2xheWVyX3N0KHN0YXRlKTsKKwlzdHJ1Y3Qga29tZWRhX2xheWVyICpsYXllciA9IHRv
-X2xheWVyKGMpOworCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKnBsYW5lX3N0OworCXN0cnVjdCBk
-cm1fZnJhbWVidWZmZXIgKmZiOworCXUzMiBmb3VyY2MsIGxpbmVfc3osIG1heF9saW5lX3N6Owor
-CisJcGxhbmVfc3QgPSBkcm1fYXRvbWljX2dldF9uZXdfcGxhbmVfc3RhdGUoc3RhdGUtPm9iai5z
-dGF0ZSwKKwkJCQkJCSAgc3RhdGUtPnBsYW5lKTsKKwlmYiA9IHBsYW5lX3N0LT5mYjsKKwlmb3Vy
-Y2MgPSBmYi0+Zm9ybWF0LT5mb3JtYXQ7CisKKwlpZiAoZHJtX3JvdGF0aW9uXzkwX29yXzI3MChz
-dC0+cm90KSkKKwkJbGluZV9zeiA9IHN0LT52c2l6ZSAtIHN0LT5hZmJjX2Nyb3BfdCAtIHN0LT5h
-ZmJjX2Nyb3BfYjsKKwllbHNlCisJCWxpbmVfc3ogPSBzdC0+aHNpemUgLSBzdC0+YWZiY19jcm9w
-X2wgLSBzdC0+YWZiY19jcm9wX3I7CisKKwlpZiAoZmItPm1vZGlmaWVyKSB7CisJCWlmICgoZmIt
-Pm1vZGlmaWVyICYgQUZCQ19GT1JNQVRfTU9EX0JMT0NLX1NJWkVfTUFTSykgPT0KKwkJCUFGQkNf
-Rk9STUFUX01PRF9CTE9DS19TSVpFXzMyeDgpCisJCQltYXhfbGluZV9zeiA9IGxheWVyLT5saW5l
-X3N6OworCQllbHNlCisJCQltYXhfbGluZV9zeiA9IGxheWVyLT5saW5lX3N6IC8gMjsKKworCQlp
-ZiAobGluZV9zeiA+IG1heF9saW5lX3N6KSB7CisJCQlEUk1fREVCVUdfQVRPTUlDKCJhZmJjIHJl
-cXVlc3QgbGluZV9zejogJWQgZXhjZWVkIHRoZSBtYXggYWZiYyBsaW5lX3N6OiAlZC5cbiIsCisJ
-CQkJCSBsaW5lX3N6LCBtYXhfbGluZV9zeik7CisJCQlyZXR1cm4gLUVJTlZBTDsKKwkJfQorCX0K
-KworCWlmIChmb3VyY2MgPT0gRFJNX0ZPUk1BVF9ZVVY0MjBfMTBCSVQgJiYgbGluZV9zeiA+IDIw
-NDYgJiYgKHN0LT5hZmJjX2Nyb3BfbCAlIDQpKSB7CisJCURSTV9ERUJVR19BVE9NSUMoIllVVjQy
-MF8xMEJJVCBpbnB1dF9oc2l6ZTogJWQgZXhjZWVkIHRoZSBtYXggc2l6ZSAyMDQ2LlxuIiwKKwkJ
-CQkgbGluZV9zeik7CisJCXJldHVybiAtRUlOVkFMOworCX0KKworCWlmIChmb3VyY2MgPT0gRFJN
-X0ZPUk1BVF9YMEwyICYmIGxpbmVfc3ogPiAyMDQ2ICYmIChzdC0+YWRkclswXSAlIDE2KSkgewor
-CQlEUk1fREVCVUdfQVRPTUlDKCJYMEwyIGlucHV0X2hzaXplOiAlZCBleGNlZWQgdGhlIG1heCBz
-aXplIDIwNDYuXG4iLAorCQkJCSBsaW5lX3N6KTsKKwkJcmV0dXJuIC1FSU5WQUw7CisJfQorCisJ
-cmV0dXJuIDA7Cit9CisKIHN0YXRpYyBjb25zdCBzdHJ1Y3Qga29tZWRhX2NvbXBvbmVudF9mdW5j
-cyBkNzFfbGF5ZXJfZnVuY3MgPSB7CisJLnZhbGlkYXRlCT0gZDcxX2xheWVyX3ZhbGlkYXRlLAog
-CS51cGRhdGUJCT0gZDcxX2xheWVyX3VwZGF0ZSwKIAkuZGlzYWJsZQk9IGQ3MV9sYXllcl9kaXNh
-YmxlLAogCS5kdW1wX3JlZ2lzdGVyCT0gZDcxX2xheWVyX2R1bXAsCi0tIAoyLjE3LjEKCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+--===============0603403316==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/JPDSRvR7zsOY3lDJotB0/0V"; protocol="application/pgp-signature"
+
+--Sig_/JPDSRvR7zsOY3lDJotB0/0V
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, 23 Sep 2019 12:39:20 +0000
+Simon Ser <contact@emersion.fr> wrote:
+
+> Currently the property docs don't specify whether it's okay for two plane=
+s to
+> have the same zpos value and what user-space should expect in this case.
+>=20
+> The rule mentionned in the past was to disambiguate with object IDs. Howe=
+ver
+> some drivers break this rule (that's why the ordering is documented as
+> unspecified in case the zpos property is missing). Additionally it doesn't
+> really make sense for a driver to user identical zpos values if it knows =
+their
+> relative position: the driver can just pick different values instead.
+>=20
+> So two solutions would make sense: either disallow completely identical z=
+pos
+> values for two different planes, either make the ordering unspecified. To=
+ allow
+> drivers that don't know the relative ordering between two planes to still
+> expose the zpos property, choose the latter solution.
+
+Hi Simon,
+
+the commit message still talks about the drivers only, and I think that
+is what lead me astray in the first place until I realized the
+duplicate zpos value issue concerns only stupid userspace, not that
+drivers were allowed to use duplicate zpos values which userspace then
+needs to untangle with ID ordering. Drivers never have undefined plane
+ordering themselves - if they do, that's a broken driver that doesn't
+know what hardware it is driving. If the driver doesn't know, then
+userspace definitely cannot know any better - if some userspace does,
+that's a gfx driver stack misdesign. So there is no reason for a driver
+to use ambiguous zpos values.
+
+Anyway, it's fine. The actual doc below is what matters here.
+
+>=20
+> While at it, remove the assumption that zpos is only for overlay planes.
+>=20
+> Additionally, update the drm_plane_state.zpos docs to clarify that zpos
+> disambiguation via plane object IDs is a recommendation for drivers, not
+> something user-space can rely on.
+>=20
+> v2: clarify drm_plane_state.zpos docs (Daniel)
+>=20
+> v3: zpos is for all planes (Marius, Daniel)
+>=20
+> v4: completely reword the drm_plane_state.zpos docs to make it clear the
+> recommendation to use plane IDs is for drivers in case user-space uses
+> duplicate zpos values (Pekka)
+>=20
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> Cc: Marius Vlad <marius.vlad@collabora.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> ---
+>  drivers/gpu/drm/drm_blend.c | 8 ++++----
+>  include/drm/drm_plane.h     | 9 +++++----
+>  2 files changed, 9 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
+> index d02709dd2d4a..121481f6aa71 100644
+> --- a/drivers/gpu/drm/drm_blend.c
+> +++ b/drivers/gpu/drm/drm_blend.c
+> @@ -132,10 +132,10 @@
+>   *	planes. Without this property the primary plane is always below the c=
+ursor
+>   *	plane, and ordering between all other planes is undefined. The positi=
+ve
+>   *	Z axis points towards the user, i.e. planes with lower Z position val=
+ues
+> - *	are underneath planes with higher Z position values. Note that the Z
+> - *	position value can also be immutable, to inform userspace about the
+> - *	hard-coded stacking of overlay planes, see
+> - *	drm_plane_create_zpos_immutable_property().
+> + *	are underneath planes with higher Z position values. Two planes with =
+the
+> + *	same Z position value have undefined ordering. Note that the Z positi=
+on
+> + *	value can also be immutable, to inform userspace about the hard-coded
+> + *	stacking of planes, see drm_plane_create_zpos_immutable_property().
+>   *
+>   * pixel blend mode:
+>   *	Pixel blend mode is set up with drm_plane_create_blend_mode_property(=
+).
+> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+> index cd5903ad33f7..328773690851 100644
+> --- a/include/drm/drm_plane.h
+> +++ b/include/drm/drm_plane.h
+> @@ -140,10 +140,11 @@ struct drm_plane_state {
+>  	 * @zpos:
+>  	 * Priority of the given plane on crtc (optional).
+>  	 *
+> -	 * Note that multiple active planes on the same crtc can have an
+> -	 * identical zpos value. The rule to solving the conflict is to compare
+> -	 * the plane object IDs; the plane with a higher ID must be stacked on
+> -	 * top of a plane with a lower ID.
+> +	 * User-space may set mutable zpos properties so that multiple active
+> +	 * planes on the same CRTC have identical zpos values. This is a
+> +	 * user-space bug, but drivers can solve the conflict by comparing the
+> +	 * plane object IDs; the plane with a higher ID is stacked on top of a
+> +	 * plane with a lower ID.
+>  	 *
+>  	 * See drm_plane_create_zpos_property() and
+>  	 * drm_plane_create_zpos_immutable_property() for more details.
+> --
+> 2.23.0
+
+Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+
+
+Thanks,
+pq
+
+--Sig_/JPDSRvR7zsOY3lDJotB0/0V
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl2JxS8ACgkQI1/ltBGq
+qqfjEw//f5NInhhb6celHM5+F+h9II510PHDVNFWP1GnIl+fBWg0qo70T3Zh49Ay
+Xoz0+TJd33D2IDrVyF2ZtHvuVI2nUif8ABXpohfLKos0edW6BGXOOks6ZONSydBR
+/k8v4HN5XwmTvreWeUHi5hN1jrg6jkvCZsfSZFlNCKOnXmYWTZr+amt1qnW+/xnP
+3uPtK3bsXMDjnEUg+QV6z3kIQCp83yIC9i5oPFP2efuumaz9RZCt2XERWENusoTH
+HIgwyzUXISCJC51MNafCsJE+9DUxIS8h+fgozhdjCa3qeaicz5yEBjjsv5xnSGrx
+mhrmAbooRLWD8J5CJQSTxv7zLmWGa4DN/3Cgjki1D0CUbmlThgtx3th1CzlSrrUA
+gB5i49iIHbWHap0/KM2+46RTjjoGNLkN4Ad4AAXmHtbKli+JR+O/myJJw5Qo0A0l
+mZ+b7y4PFbRrcHlA1jytAuJ4eXVltBSjAaupvzAnv8lLobFaIg5zpfRC50fFXj2/
+O38Kd2Vkpi1QLudqetykWlBCweghl4abU0c+epJDcA0V9Iu5cIrnfjbYNXjMxo/7
+ReH96KYJCVpo1yi09R1K+G0W5b4kDI5j3NZsf/s9mVxbQ6dcVssekwxKD9nGAhVR
+oIgzE+JZ3+Qy9pWTqg7zohy01DAC/JmLYuIHprKrIlvAdpHLN5c=
+=CD/y
+-----END PGP SIGNATURE-----
+
+--Sig_/JPDSRvR7zsOY3lDJotB0/0V--
+
+--===============0603403316==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0603403316==--
