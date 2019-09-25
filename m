@@ -2,33 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98F53BD5C3
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 02:41:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56BBFBD614
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 03:20:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9089A6EB13;
-	Wed, 25 Sep 2019 00:41:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B5AA89A56;
+	Wed, 25 Sep 2019 01:20:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D1556EB13;
- Wed, 25 Sep 2019 00:41:18 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2019 17:41:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,546,1559545200"; d="scan'208";a="390043853"
-Received: from unknown (HELO chromeserver.iind.intel.com) ([10.223.246.82])
- by fmsmga006.fm.intel.com with ESMTP; 24 Sep 2019 17:41:14 -0700
-From: srinivasan.s@intel.com
-To: intel-gfx@lists.freedesktop.org, jani.nikula@linux.intel.com,
- manasi.d.navare@intel.com, ville.syrjala@linux.intel.com,
- lakshminarayana.vudum@intel.com, dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915/dp: Fix DP MST error after unplugging TypeC cable
-Date: Wed, 25 Sep 2019 06:05:42 +0530
-Message-Id: <1569371742-109402-1-git-send-email-srinivasan.s@intel.com>
-X-Mailer: git-send-email 2.7.4
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AFAF189A56
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 01:20:49 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id AB7A972162; Wed, 25 Sep 2019 01:20:49 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111806] VDPAU broken in radeonsi by commit
+ 0692ae34e939845e5185d3bdd33ddfe4afcdb995
+Date: Wed, 25 Sep 2019 01:20:49 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: makosoft@googlemail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ qa_contact
+Message-ID: <bug-111806-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -41,34 +53,194 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Srinivasan S <srinivasan.s@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0118553561=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogU3Jpbml2YXNhbiBTIDxzcmluaXZhc2FuLnNAaW50ZWwuY29tPgoKVGhpcyBwYXRjaCBh
-dm9pZHMgRFAgTVNUIHBheWxvYWQgZXJyb3IgbWVzc2FnZSBpbiBkbWVzZywgYXMgaXQgaXMgdHJ5
-aW5nCnRvIHVwZGF0ZSB0aGUgcGF5bG9hZCB0byB0aGUgZGlzY29ubmVjdGVkIERQIE1TVCBkZXZp
-Y2UuIEFmdGVyIERQIE1TVApkZXZpY2UgaXMgZGlzY29ubmVjdGVkIHdlIHNob3VsZCBub3QgYmUg
-dXBkYXRpbmcgdGhlIHBheWxvYWQgYW5kCmhlbmNlIHJlbW92ZSB0aGUgZXJyb3IuCgp2MjogUmVt
-b3ZlZCB0aGUgY29ubmVjdG9yIHN0YXR1cyBjaGVjayBhbmQgY29udmVydGVkIGZyb20gZXJyb3Ig
-dG8gZGVidWcuCgpCdWd6aWxsYTogaHR0cHM6Ly9idWdzLmZyZWVkZXNrdG9wLm9yZy9zaG93X2J1
-Zy5jZ2k/aWQ9MTExNjMyClNpZ25lZC1vZmYtYnk6IFNyaW5pdmFzYW4gUyA8c3Jpbml2YXNhbi5z
-QGludGVsLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwX21z
-dC5jIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
-CgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcF9tc3Qu
-YyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHBfbXN0LmMKaW5kZXggZWVl
-YjNmOTMzYWE0Li40OTdhNmFlMGQyYzAgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1
-L2Rpc3BsYXkvaW50ZWxfZHBfbXN0LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxh
-eS9pbnRlbF9kcF9tc3QuYwpAQCAtMjE1LDcgKzIxNSw3IEBAIHN0YXRpYyB2b2lkIGludGVsX21z
-dF9kaXNhYmxlX2RwKHN0cnVjdCBpbnRlbF9lbmNvZGVyICplbmNvZGVyLAogCiAJcmV0ID0gZHJt
-X2RwX3VwZGF0ZV9wYXlsb2FkX3BhcnQxKCZpbnRlbF9kcC0+bXN0X21ncik7CiAJaWYgKHJldCkg
-ewotCQlEUk1fRVJST1IoImZhaWxlZCB0byB1cGRhdGUgcGF5bG9hZCAlZFxuIiwgcmV0KTsKKwkJ
-RFJNX0RFQlVHX0tNUygiZmFpbGVkIHRvIHVwZGF0ZSBwYXlsb2FkICVkXG4iLCByZXQpOwogCX0K
-IAlpZiAob2xkX2NydGNfc3RhdGUtPmhhc19hdWRpbykKIAkJaW50ZWxfYXVkaW9fY29kZWNfZGlz
-YWJsZShlbmNvZGVyLAotLSAKMi43LjQKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbA==
+
+--===============0118553561==
+Content-Type: multipart/alternative; boundary="15693744491.10A44F.9240"
+Content-Transfer-Encoding: 7bit
+
+
+--15693744491.10A44F.9240
+Date: Wed, 25 Sep 2019 01:20:49 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111806
+
+            Bug ID: 111806
+           Summary: VDPAU broken in radeonsi by commit
+                    0692ae34e939845e5185d3bdd33ddfe4afcdb995
+           Product: Mesa
+           Version: git
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: not set
+          Priority: not set
+         Component: Drivers/Gallium/radeonsi
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: makosoft@googlemail.com
+        QA Contact: dri-devel@lists.freedesktop.org
+
+VDPAU support appears to be broken on radeonsi as of git commit
+0692ae34e939845e5185d3bdd33ddfe4afcdb995 "ac: move ac_get_num_physical_sgprs
+into radeon_info". Trying to play back videos using MPV 0.29.1 with it enab=
+led
+fails with the following error within libvdpau_radeon: "LLVM failed to comp=
+ile
+a shader correctly: SGPR:VGPR usage is 56:20, but the hw limit is 0:0" (or
+0:256 without the subsequent commit that does the same thing with
+ac_get_num_physical_vgprs). I assume that information about the limits isn't
+getting set properly for some reason.
+
+Tested with a Radeon HD 7770 on Linux 5.2 with mpv 0.29.1, ffmpeg 4.2.1, the
+radeon kernel driver, and xf86-video-ati 19.0.1.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15693744491.10A44F.9240
+Date: Wed, 25 Sep 2019 01:20:49 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - VDPAU broken in radeonsi by commit 0692ae34e939845e5185d3=
+bdd33ddfe4afcdb995"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111806">111806</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>VDPAU broken in radeonsi by commit 0692ae34e939845e5185d3bdd3=
+3ddfe4afcdb995
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>Mesa
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>Drivers/Gallium/radeonsi
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>makosoft&#64;googlemail.com
+          </td>
+        </tr>
+
+        <tr>
+          <th>QA Contact</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>VDPAU support appears to be broken on radeonsi as of git commit
+0692ae34e939845e5185d3bdd33ddfe4afcdb995 &quot;ac: move ac_get_num_physical=
+_sgprs
+into radeon_info&quot;. Trying to play back videos using MPV 0.29.1 with it=
+ enabled
+fails with the following error within libvdpau_radeon: &quot;LLVM failed to=
+ compile
+a shader correctly: SGPR:VGPR usage is 56:20, but the hw limit is 0:0&quot;=
+ (or
+0:256 without the subsequent commit that does the same thing with
+ac_get_num_physical_vgprs). I assume that information about the limits isn't
+getting set properly for some reason.
+
+Tested with a Radeon HD 7770 on Linux 5.2 with mpv 0.29.1, ffmpeg 4.2.1, the
+radeon kernel driver, and xf86-video-ati 19.0.1.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15693744491.10A44F.9240--
+
+--===============0118553561==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0118553561==--
