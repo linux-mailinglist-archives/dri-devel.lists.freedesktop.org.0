@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF3EBD66F
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 04:39:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04429BD674
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 04:42:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EFDB6EB18;
-	Wed, 25 Sep 2019 02:39:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEEFE6EB19;
+	Wed, 25 Sep 2019 02:42:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 90A8D6EB18
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 02:38:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6E77F6EB19
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 02:42:43 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 85D4C72162; Wed, 25 Sep 2019 02:38:59 +0000 (UTC)
+ id 6669172162; Wed, 25 Sep 2019 02:42:43 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111807] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx
- timeout  cause process into Disk sleep state
-Date: Wed, 25 Sep 2019 02:38:57 +0000
+Subject: [Bug 111808] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx
+ timeout cause process into Disk sleep state
+Date: Wed, 25 Sep 2019 02:42:41 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: new
 X-Bugzilla-Watch-Reason: None
@@ -37,7 +37,7 @@ X-Bugzilla-Flags:
 X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
  op_sys bug_status bug_severity priority component assigned_to reporter
  attachments.created
-Message-ID: <bug-111807-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111808-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,29 +53,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1814224872=="
+Content-Type: multipart/mixed; boundary="===============1168862317=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1814224872==
-Content-Type: multipart/alternative; boundary="15693791390.F5EEFd4e.22011"
+--===============1168862317==
+Content-Type: multipart/alternative; boundary="15693793630.Fa35.20801"
 Content-Transfer-Encoding: 7bit
 
 
---15693791390.F5EEFd4e.22011
-Date: Wed, 25 Sep 2019 02:38:59 +0000
+--15693793630.Fa35.20801
+Date: Wed, 25 Sep 2019 02:42:43 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111807
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111808
 
-            Bug ID: 111807
+            Bug ID: 111808
            Summary: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx
-                    timeout  cause process into Disk sleep state
+                    timeout cause process into Disk sleep state
            Product: DRI
            Version: DRI git
           Hardware: ARM
@@ -87,8 +87,8 @@ https://bugs.freedesktop.org/show_bug.cgi?id=3D111807
           Assignee: dri-devel@lists.freedesktop.org
           Reporter: liansz@fzcyjh.com
 
-Created attachment 145506
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145506&action=3Dedit
+Created attachment 145507
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145507&action=3Dedit
 timeoutlog
 
 We ran into some gfx timeout problems.
@@ -112,8 +112,8 @@ Could you please help us out?
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15693791390.F5EEFd4e.22011
-Date: Wed, 25 Sep 2019 02:38:59 +0000
+--15693793630.Fa35.20801
+Date: Wed, 25 Sep 2019 02:42:43 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -131,14 +131,14 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeo=
 ut cause process into Disk sleep state"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111807">111807</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111808">111808</a>
           </td>
         </tr>
 
         <tr>
           <th>Summary</th>
-          <td>[drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout  =
-cause process into Disk sleep state
+          <td>[drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout c=
+ause process into Disk sleep state
           </td>
         </tr>
 
@@ -203,9 +203,9 @@ cause process into Disk sleep state
         </tr></table>
       <p>
         <div>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145506=
-" name=3D"attach_145506" title=3D"timeoutlog">attachment 145506</a> <a href=
-=3D"attachment.cgi?id=3D145506&amp;action=3Dedit" title=3D"timeoutlog">[det=
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145507=
+" name=3D"attach_145507" title=3D"timeoutlog">attachment 145507</a> <a href=
+=3D"attachment.cgi?id=3D145507&amp;action=3Dedit" title=3D"timeoutlog">[det=
 ails]</a></span>
 timeoutlog
 
@@ -238,9 +238,9 @@ Could you please help us out?</pre>
     </body>
 </html>=
 
---15693791390.F5EEFd4e.22011--
+--15693793630.Fa35.20801--
 
---===============1814224872==
+--===============1168862317==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -250,4 +250,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1814224872==--
+--===============1168862317==--
