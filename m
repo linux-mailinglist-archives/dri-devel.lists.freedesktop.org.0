@@ -2,32 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D4FBE4F1
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 20:48:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C5B0BE4F2
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 20:49:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD2336F398;
-	Wed, 25 Sep 2019 18:48:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FB226F3AC;
+	Wed, 25 Sep 2019 18:48:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id B05126F398
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 18:48:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 156C16F398
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 18:48:55 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id ABC0872162; Wed, 25 Sep 2019 18:48:53 +0000 (UTC)
+ id 0FF1572162; Wed, 25 Sep 2019 18:48:55 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109466] Frozen display with Radeon RX 580 and Open Source
- Drivers under GNU/Linux Debian Sid
-Date: Wed, 25 Sep 2019 18:48:53 +0000
+Subject: [Bug 109608] Regression from llvm-6: llvm-7 replaces 'undef' with
+ 'NaN', and generates NaN at the assembler level - This issue generates black
+ screen on some fragment shaders.
+Date: Wed, 25 Sep 2019 18:48:55 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 18.3
+X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
+X-Bugzilla-Severity: normal
 X-Bugzilla-Who: gitlab-migration@fdo.invalid
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
@@ -35,9 +36,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-109466-502-PqEvxqwrGk@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109466-502@http.bugs.freedesktop.org/>
-References: <bug-109466-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-109608-502-SbkHm86IAX@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109608-502@http.bugs.freedesktop.org/>
+References: <bug-109608-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,25 +54,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1945075097=="
+Content-Type: multipart/mixed; boundary="===============1873860748=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1945075097==
-Content-Type: multipart/alternative; boundary="15694373333.002DC1Fc.10224"
+--===============1873860748==
+Content-Type: multipart/alternative; boundary="15694373350.456B8.10224"
 Content-Transfer-Encoding: 7bit
 
 
---15694373333.002DC1Fc.10224
-Date: Wed, 25 Sep 2019 18:48:53 +0000
+--15694373350.456B8.10224
+Date: Wed, 25 Sep 2019 18:48:55 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109466
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109608
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
@@ -80,8 +81,7 @@ GitLab Migration User <gitlab-migration@fdo.invalid> changed:
              Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
 
---- Comment #10 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
---
+--- Comment #1 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -90,14 +90,14 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/137=
-0.
+2.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15694373333.002DC1Fc.10224
-Date: Wed, 25 Sep 2019 18:48:53 +0000
+--15694373350.456B8.10224
+Date: Wed, 25 Sep 2019 18:48:55 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -114,10 +114,11 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Frozen display with Radeon RX 580 and Open Sou=
-rce Drivers under GNU/Linux Debian Sid"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109466">bug 10946=
-6</a>
+   title=3D"RESOLVED MOVED - Regression from llvm-6: llvm-7 replaces 'undef=
+' with 'NaN', and generates NaN at the assembler level - This issue generat=
+es black screen on some fragment shaders."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109608">bug 10960=
+8</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -145,16 +146,18 @@ rce Drivers under GNU/Linux Debian Sid"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Frozen display with Radeon RX 580 and Open Sou=
-rce Drivers under GNU/Linux Debian Sid"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109466#c10">Comme=
-nt # 10</a>
+   title=3D"RESOLVED MOVED - Regression from llvm-6: llvm-7 replaces 'undef=
+' with 'NaN', and generates NaN at the assembler level - This issue generat=
+es black screen on some fragment shaders."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109608#c1">Commen=
+t # 1</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Frozen display with Radeon RX 580 and Open Sou=
-rce Drivers under GNU/Linux Debian Sid"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109466">bug 10946=
-6</a>
+   title=3D"RESOLVED MOVED - Regression from llvm-6: llvm-7 replaces 'undef=
+' with 'NaN', and generates NaN at the assembler level - This issue generat=
+es black screen on some fragment shaders."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109608">bug 10960=
+8</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
 -migration&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</=
@@ -168,7 +171,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/1370">https://gitlab.freedesktop.org/mesa/mesa/issues/1370</a>.</pr=
+/issues/1372">https://gitlab.freedesktop.org/mesa/mesa/issues/1372</a>.</pr=
 e>
         </div>
       </p>
@@ -183,9 +186,9 @@ e>
     </body>
 </html>=
 
---15694373333.002DC1Fc.10224--
+--15694373350.456B8.10224--
 
---===============1945075097==
+--===============1873860748==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -195,4 +198,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1945075097==--
+--===============1873860748==--
