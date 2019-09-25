@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D861BE3D0
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 19:52:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D16F1BE3D1
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 19:52:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10F706EC13;
-	Wed, 25 Sep 2019 17:52:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA4C76EC0C;
+	Wed, 25 Sep 2019 17:52:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id CA3526EC13
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 17:52:13 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9BE1D6EC16
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 17:52:18 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C782A72162; Wed, 25 Sep 2019 17:52:13 +0000 (UTC)
+ id 9903B72162; Wed, 25 Sep 2019 17:52:18 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 90668] vertical stripes/glitches on screen connected via dvi in
- 1680 x 1050 resolution only
-Date: Wed, 25 Sep 2019 17:52:14 +0000
+Subject: [Bug 91009] [radeonsi, R9 270X] Random system lockup when start to
+ play H.264 video in mplayer with VDPAU
+Date: Wed, 25 Sep 2019 17:52:18 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 10.5
+X-Bugzilla-Version: 10.6
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: gitlab-migration@fdo.invalid
@@ -35,9 +35,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-90668-502-wWcUvRJq72@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-90668-502@http.bugs.freedesktop.org/>
-References: <bug-90668-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-91009-502-YHdOrRy8uL@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-91009-502@http.bugs.freedesktop.org/>
+References: <bug-91009-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,25 +53,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1250129383=="
+Content-Type: multipart/mixed; boundary="===============1175982197=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1250129383==
-Content-Type: multipart/alternative; boundary="15694339330.bfB4ECa38.29210"
+--===============1175982197==
+Content-Type: multipart/alternative; boundary="15694339380.EFbCD34ed.29210"
 Content-Transfer-Encoding: 7bit
 
 
---15694339330.bfB4ECa38.29210
-Date: Wed, 25 Sep 2019 17:52:13 +0000
+--15694339380.EFbCD34ed.29210
+Date: Wed, 25 Sep 2019 17:52:18 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D90668
+https://bugs.freedesktop.org/show_bug.cgi?id=3D91009
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
@@ -89,15 +89,15 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/121=
-9.
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/122=
+0.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15694339330.bfB4ECa38.29210
-Date: Wed, 25 Sep 2019 17:52:13 +0000
+--15694339380.EFbCD34ed.29210
+Date: Wed, 25 Sep 2019 17:52:18 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -114,9 +114,9 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - vertical stripes/glitches on screen connected =
-via dvi in 1680 x 1050 resolution only"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D90668">bug 90668<=
+   title=3D"RESOLVED MOVED - [radeonsi, R9 270X] Random system lockup when =
+start to play H.264 video in mplayer with VDPAU"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D91009">bug 91009<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -145,15 +145,15 @@ via dvi in 1680 x 1050 resolution only"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - vertical stripes/glitches on screen connected =
-via dvi in 1680 x 1050 resolution only"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D90668#c10">Commen=
+   title=3D"RESOLVED MOVED - [radeonsi, R9 270X] Random system lockup when =
+start to play H.264 video in mplayer with VDPAU"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D91009#c10">Commen=
 t # 10</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - vertical stripes/glitches on screen connected =
-via dvi in 1680 x 1050 resolution only"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D90668">bug 90668<=
+   title=3D"RESOLVED MOVED - [radeonsi, R9 270X] Random system lockup when =
+start to play H.264 video in mplayer with VDPAU"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D91009">bug 91009<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
@@ -168,7 +168,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/1219">https://gitlab.freedesktop.org/mesa/mesa/issues/1219</a>.</pr=
+/issues/1220">https://gitlab.freedesktop.org/mesa/mesa/issues/1220</a>.</pr=
 e>
         </div>
       </p>
@@ -183,9 +183,9 @@ e>
     </body>
 </html>=
 
---15694339330.bfB4ECa38.29210--
+--15694339380.EFbCD34ed.29210--
 
---===============1250129383==
+--===============1175982197==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -195,4 +195,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1250129383==--
+--===============1175982197==--
