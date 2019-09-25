@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF1D9BE456
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 20:09:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E452BE455
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 20:09:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66A3E6EC92;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 097C56EC86;
 	Wed, 25 Sep 2019 18:09:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9F8F96EC9B
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 18:09:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id F2C8F6EC86
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 18:09:47 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 8590972162; Wed, 25 Sep 2019 18:09:46 +0000 (UTC)
+ id F054672162; Wed, 25 Sep 2019 18:09:47 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 107864] Specific Shadertoy demo renders garbage in empty parts
- of target surface
-Date: Wed, 25 Sep 2019 18:09:46 +0000
+Subject: [Bug 107912] Please add support for PIPE_CAP_TGSI_MUL_ZERO_WINS to
+ radeonsi
+Date: Wed, 25 Sep 2019 18:09:48 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -27,7 +27,7 @@ X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/radeonsi
 X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: enhancement
 X-Bugzilla-Who: gitlab-migration@fdo.invalid
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
@@ -35,9 +35,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-107864-502-iQycW5PAem@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-107864-502@http.bugs.freedesktop.org/>
-References: <bug-107864-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-107912-502-9LIpc88VbA@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-107912-502@http.bugs.freedesktop.org/>
+References: <bug-107912-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,25 +53,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0119271778=="
+Content-Type: multipart/mixed; boundary="===============1615847787=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0119271778==
-Content-Type: multipart/alternative; boundary="15694349860.96ABBdE.2747"
+--===============1615847787==
+Content-Type: multipart/alternative; boundary="15694349871.Ba86c.2747"
 Content-Transfer-Encoding: 7bit
 
 
---15694349860.96ABBdE.2747
-Date: Wed, 25 Sep 2019 18:09:46 +0000
+--15694349871.Ba86c.2747
+Date: Wed, 25 Sep 2019 18:09:47 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D107864
+https://bugs.freedesktop.org/show_bug.cgi?id=3D107912
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
@@ -80,7 +80,7 @@ GitLab Migration User <gitlab-migration@fdo.invalid> changed:
          Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
 
---- Comment #2 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
+--- Comment #1 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -89,14 +89,14 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/132=
-7.
+8.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15694349860.96ABBdE.2747
-Date: Wed, 25 Sep 2019 18:09:46 +0000
+--15694349871.Ba86c.2747
+Date: Wed, 25 Sep 2019 18:09:47 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -113,10 +113,10 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Specific Shadertoy demo renders garbage in emp=
-ty parts of target surface"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107864">bug 10786=
-4</a>
+   title=3D"RESOLVED MOVED - Please add support for PIPE_CAP_TGSI_MUL_ZERO_=
+WINS to radeonsi"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107912">bug 10791=
+2</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -144,16 +144,16 @@ ty parts of target surface"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Specific Shadertoy demo renders garbage in emp=
-ty parts of target surface"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107864#c2">Commen=
-t # 2</a>
+   title=3D"RESOLVED MOVED - Please add support for PIPE_CAP_TGSI_MUL_ZERO_=
+WINS to radeonsi"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107912#c1">Commen=
+t # 1</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Specific Shadertoy demo renders garbage in emp=
-ty parts of target surface"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107864">bug 10786=
-4</a>
+   title=3D"RESOLVED MOVED - Please add support for PIPE_CAP_TGSI_MUL_ZERO_=
+WINS to radeonsi"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107912">bug 10791=
+2</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
 -migration&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</=
@@ -167,7 +167,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/1327">https://gitlab.freedesktop.org/mesa/mesa/issues/1327</a>.</pr=
+/issues/1328">https://gitlab.freedesktop.org/mesa/mesa/issues/1328</a>.</pr=
 e>
         </div>
       </p>
@@ -182,9 +182,9 @@ e>
     </body>
 </html>=
 
---15694349860.96ABBdE.2747--
+--15694349871.Ba86c.2747--
 
---===============0119271778==
+--===============1615847787==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -194,4 +194,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0119271778==--
+--===============1615847787==--
