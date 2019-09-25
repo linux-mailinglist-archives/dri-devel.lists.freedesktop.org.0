@@ -1,34 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC9C2BE419
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 20:00:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4594BE41A
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 20:00:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 624216EC56;
-	Wed, 25 Sep 2019 18:00:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 437076EC52;
+	Wed, 25 Sep 2019 18:00:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 998AD6EC61
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 18:00:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 25F7B6EC53
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 18:00:51 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 969AF72162; Wed, 25 Sep 2019 18:00:43 +0000 (UTC)
+ id 22D0972162; Wed, 25 Sep 2019 18:00:51 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 103316] [Hawaii, FirePro, radeon] WARNING: CPU: 1 PID: 18632 at
- drivers/gpu/drm/ttm/ttm_page_alloc_dma.c:548
- ttm_dma_free_pool.part.8+0x128/0x130 [ttm]
-Date: Wed, 25 Sep 2019 18:00:43 +0000
+Subject: [Bug 103769] Unity based games do not start
+Date: Wed, 25 Sep 2019 18:00:51 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: major
 X-Bugzilla-Who: gitlab-migration@fdo.invalid
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
@@ -36,9 +34,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-103316-502-jV3x3P66a8@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-103316-502@http.bugs.freedesktop.org/>
-References: <bug-103316-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-103769-502-tS5DtsalHQ@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-103769-502@http.bugs.freedesktop.org/>
+References: <bug-103769-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -54,34 +52,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1702219081=="
+Content-Type: multipart/mixed; boundary="===============1250187887=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1702219081==
-Content-Type: multipart/alternative; boundary="15694344431.dFfce.387"
+--===============1250187887==
+Content-Type: multipart/alternative; boundary="15694344511.487DC215e.387"
 Content-Transfer-Encoding: 7bit
 
 
---15694344431.dFfce.387
-Date: Wed, 25 Sep 2019 18:00:43 +0000
+--15694344511.487DC215e.387
+Date: Wed, 25 Sep 2019 18:00:51 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D103316
+https://bugs.freedesktop.org/show_bug.cgi?id=3D103769
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
          Resolution|---                         |MOVED
-             Status|REOPENED                    |RESOLVED
+             Status|NEW                         |RESOLVED
 
---- Comment #7 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
+--- Comment #18 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
+--
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -90,14 +89,14 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/128=
-6.
+7.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15694344431.dFfce.387
-Date: Wed, 25 Sep 2019 18:00:43 +0000
+--15694344511.487DC215e.387
+Date: Wed, 25 Sep 2019 18:00:51 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -114,11 +113,9 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [Hawaii, FirePro, radeon] WARNING: CPU: 1 PID:=
- 18632 at drivers/gpu/drm/ttm/ttm_page_alloc_dma.c:548 ttm_dma_free_pool.pa=
-rt.8+0x128/0x130 [ttm]"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D103316">bug 10331=
-6</a>
+   title=3D"RESOLVED MOVED - Unity based games do not start"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D103769">bug 10376=
+9</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -137,7 +134,7 @@ rt.8+0x128/0x130 [ttm]"
 
          <tr>
            <td style=3D"text-align:right;">Status</td>
-           <td>REOPENED
+           <td>NEW
            </td>
            <td>RESOLVED
            </td>
@@ -146,18 +143,14 @@ rt.8+0x128/0x130 [ttm]"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [Hawaii, FirePro, radeon] WARNING: CPU: 1 PID:=
- 18632 at drivers/gpu/drm/ttm/ttm_page_alloc_dma.c:548 ttm_dma_free_pool.pa=
-rt.8+0x128/0x130 [ttm]"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D103316#c7">Commen=
-t # 7</a>
+   title=3D"RESOLVED MOVED - Unity based games do not start"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D103769#c18">Comme=
+nt # 18</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [Hawaii, FirePro, radeon] WARNING: CPU: 1 PID:=
- 18632 at drivers/gpu/drm/ttm/ttm_page_alloc_dma.c:548 ttm_dma_free_pool.pa=
-rt.8+0x128/0x130 [ttm]"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D103316">bug 10331=
-6</a>
+   title=3D"RESOLVED MOVED - Unity based games do not start"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D103769">bug 10376=
+9</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
 -migration&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</=
@@ -171,7 +164,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/1286">https://gitlab.freedesktop.org/mesa/mesa/issues/1286</a>.</pr=
+/issues/1287">https://gitlab.freedesktop.org/mesa/mesa/issues/1287</a>.</pr=
 e>
         </div>
       </p>
@@ -186,9 +179,9 @@ e>
     </body>
 </html>=
 
---15694344431.dFfce.387--
+--15694344511.487DC215e.387--
 
---===============1702219081==
+--===============1250187887==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -198,4 +191,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1702219081==--
+--===============1250187887==--
