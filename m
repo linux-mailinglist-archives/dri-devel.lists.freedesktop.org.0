@@ -2,30 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D77B3BE0FA
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 17:14:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A475BE0FD
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 17:15:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2898189EEB;
-	Wed, 25 Sep 2019 15:14:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8043589A86;
+	Wed, 25 Sep 2019 15:14:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 660AB89EEB
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 15:14:37 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 050E51570;
- Wed, 25 Sep 2019 08:14:37 -0700 (PDT)
-Received: from e112269-lin.arm.com (e112269-lin.cambridge.arm.com
- [10.1.196.133])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A3CDF3F59C;
- Wed, 25 Sep 2019 08:14:35 -0700 (PDT)
-From: Steven Price <steven.price@arm.com>
-To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH] drm: Don't free jobs in wait_event_interruptible()
-Date: Wed, 25 Sep 2019 16:14:04 +0100
-Message-Id: <20190925151404.23222-1-steven.price@arm.com>
-X-Mailer: git-send-email 2.20.1
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E616889AAD
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 15:14:56 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id E32E972162; Wed, 25 Sep 2019 15:14:56 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111792] [AMD tahiti xt] amd-staging-drm-next broken since linux
+ 5.3.0-rc3 rebase
+Date: Wed, 25 Sep 2019 15:14:57 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocker
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: highest
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111792-502-sOECB17cgy@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111792-502@http.bugs.freedesktop.org/>
+References: <bug-111792-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -39,75 +53,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sharat Masetty <smasetty@codeaurora.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
- Nayan Deshmukh <nayan26deshmukh@gmail.com>,
- Alex Deucher <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0007401046=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ZHJtX3NjaGVkX2NsZWFudXBfam9icygpIGF0dGVtcHRzIHRvIGZyZWUgZmluaXNoZWQgam9icywg
-aG93ZXZlciBiZWNhdXNlCml0IGlzIGNhbGxlZCBhcyB0aGUgY29uZGl0aW9uIG9mIHdhaXRfZXZl
-bnRfaW50ZXJydXB0aWJsZSgpIGl0IG11c3Qgbm90CnNsZWVwLiBVbmZvcnR1bmF0ZWx5IHNvbWUg
-ZnJlZSBjYWxsYmFja3MgKG5vdGFibHkgZm9yIFBhbmZyb3N0KSBkbyBzbGVlcC4KCkluc3RlYWQg
-bGV0J3MgcmVuYW1lIGRybV9zY2hlZF9jbGVhbnVwX2pvYnMoKSB0bwpkcm1fc2NoZWRfZ2V0X2Ns
-ZWFudXBfam9iKCkgYW5kIHNpbXBseSByZXR1cm4gYSBqb2IgZm9yIHByb2Nlc3NpbmcgaWYKdGhl
-cmUgaXMgb25lLiBUaGUgY2FsbGVyIGNhbiB0aGVuIGNhbGwgdGhlIGZyZWVfam9iKCkgY2FsbGJh
-Y2sgb3V0c2lkZQp0aGUgd2FpdF9ldmVudF9pbnRlcnJ1cHRpYmxlKCkgd2hlcmUgc2xlZXBpbmcg
-aXMgcG9zc2libGUgYmVmb3JlCnJlLWNoZWNraW5nIGFuZCByZXR1cm5pbmcgdG8gc2xlZXAgaWYg
-bmVjZXNzYXJ5LgoKU2lnbmVkLW9mZi1ieTogU3RldmVuIFByaWNlIDxzdGV2ZW4ucHJpY2VAYXJt
-LmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYyB8IDQ0ICsr
-KysrKysrKysrKysrLS0tLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMjQgaW5zZXJ0aW9ucygr
-KSwgMjAgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxl
-ci9zY2hlZF9tYWluLmMgYi9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYwpp
-bmRleCA5YTBlZTc0ZDgyZGMuLjBlZDRhYWE0ZTZkMSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxl
-ci9zY2hlZF9tYWluLmMKQEAgLTYyMiw0MyArNjIyLDQxIEBAIHN0YXRpYyB2b2lkIGRybV9zY2hl
-ZF9wcm9jZXNzX2pvYihzdHJ1Y3QgZG1hX2ZlbmNlICpmLCBzdHJ1Y3QgZG1hX2ZlbmNlX2NiICpj
-YikKIH0KIAogLyoqCi0gKiBkcm1fc2NoZWRfY2xlYW51cF9qb2JzIC0gZGVzdHJveSBmaW5pc2hl
-ZCBqb2JzCisgKiBkcm1fc2NoZWRfZ2V0X2NsZWFudXBfam9iIC0gZmV0Y2ggdGhlIG5leHQgZmlu
-aXNoZWQgam9iIHRvIGJlIGRlc3Ryb3llZAogICoKICAqIEBzY2hlZDogc2NoZWR1bGVyIGluc3Rh
-bmNlCiAgKgotICogUmVtb3ZlIGFsbCBmaW5pc2hlZCBqb2JzIGZyb20gdGhlIG1pcnJvciBsaXN0
-IGFuZCBkZXN0cm95IHRoZW0uCisgKiBSZXR1cm5zIHRoZSBuZXh0IGZpbmlzaGVkIGpvYiBmcm9t
-IHRoZSBtaXJyb3IgbGlzdCAoaWYgdGhlcmUgaXMgb25lKQorICogcmVhZHkgZm9yIGl0IHRvIGJl
-IGRlc3Ryb3llZC4KICAqLwotc3RhdGljIHZvaWQgZHJtX3NjaGVkX2NsZWFudXBfam9icyhzdHJ1
-Y3QgZHJtX2dwdV9zY2hlZHVsZXIgKnNjaGVkKQorc3RhdGljIHN0cnVjdCBkcm1fc2NoZWRfam9i
-ICoKK2RybV9zY2hlZF9nZXRfY2xlYW51cF9qb2Ioc3RydWN0IGRybV9ncHVfc2NoZWR1bGVyICpz
-Y2hlZCkKIHsKKwlzdHJ1Y3QgZHJtX3NjaGVkX2pvYiAqam9iID0gTlVMTDsKIAl1bnNpZ25lZCBs
-b25nIGZsYWdzOwogCiAJLyogRG9uJ3QgZGVzdHJveSBqb2JzIHdoaWxlIHRoZSB0aW1lb3V0IHdv
-cmtlciBpcyBydW5uaW5nICovCiAJaWYgKHNjaGVkLT50aW1lb3V0ICE9IE1BWF9TQ0hFRFVMRV9U
-SU1FT1VUICYmCiAJICAgICFjYW5jZWxfZGVsYXllZF93b3JrKCZzY2hlZC0+d29ya190ZHIpKQot
-CQlyZXR1cm47Ci0KLQotCXdoaWxlICghbGlzdF9lbXB0eSgmc2NoZWQtPnJpbmdfbWlycm9yX2xp
-c3QpKSB7Ci0JCXN0cnVjdCBkcm1fc2NoZWRfam9iICpqb2I7CisJCXJldHVybiBOVUxMOwogCi0J
-CWpvYiA9IGxpc3RfZmlyc3RfZW50cnkoJnNjaGVkLT5yaW5nX21pcnJvcl9saXN0LAorCWpvYiA9
-IGxpc3RfZmlyc3RfZW50cnlfb3JfbnVsbCgmc2NoZWQtPnJpbmdfbWlycm9yX2xpc3QsCiAJCQkJ
-ICAgICAgIHN0cnVjdCBkcm1fc2NoZWRfam9iLCBub2RlKTsKLQkJaWYgKCFkbWFfZmVuY2VfaXNf
-c2lnbmFsZWQoJmpvYi0+c19mZW5jZS0+ZmluaXNoZWQpKQotCQkJYnJlYWs7CiAKLQkJc3Bpbl9s
-b2NrX2lycXNhdmUoJnNjaGVkLT5qb2JfbGlzdF9sb2NrLCBmbGFncyk7CisJc3Bpbl9sb2NrX2ly
-cXNhdmUoJnNjaGVkLT5qb2JfbGlzdF9sb2NrLCBmbGFncyk7CisKKwlpZiAoam9iICYmIGRtYV9m
-ZW5jZV9pc19zaWduYWxlZCgmam9iLT5zX2ZlbmNlLT5maW5pc2hlZCkpIHsKIAkJLyogcmVtb3Zl
-IGpvYiBmcm9tIHJpbmdfbWlycm9yX2xpc3QgKi8KIAkJbGlzdF9kZWxfaW5pdCgmam9iLT5ub2Rl
-KTsKLQkJc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmc2NoZWQtPmpvYl9saXN0X2xvY2ssIGZsYWdz
-KTsKLQotCQlzY2hlZC0+b3BzLT5mcmVlX2pvYihqb2IpOworCX0gZWxzZSB7CisJCWpvYiA9IE5V
-TEw7CisJCS8qIHF1ZXVlIHRpbWVvdXQgZm9yIG5leHQgam9iICovCisJCWRybV9zY2hlZF9zdGFy
-dF90aW1lb3V0KHNjaGVkKTsKIAl9CiAKLQkvKiBxdWV1ZSB0aW1lb3V0IGZvciBuZXh0IGpvYiAq
-LwotCXNwaW5fbG9ja19pcnFzYXZlKCZzY2hlZC0+am9iX2xpc3RfbG9jaywgZmxhZ3MpOwotCWRy
-bV9zY2hlZF9zdGFydF90aW1lb3V0KHNjaGVkKTsKIAlzcGluX3VubG9ja19pcnFyZXN0b3JlKCZz
-Y2hlZC0+am9iX2xpc3RfbG9jaywgZmxhZ3MpOwogCisJcmV0dXJuIGpvYjsKIH0KIAogLyoqCkBA
-IC02OTgsMTIgKzY5NiwxOCBAQCBzdGF0aWMgaW50IGRybV9zY2hlZF9tYWluKHZvaWQgKnBhcmFt
-KQogCQlzdHJ1Y3QgZHJtX3NjaGVkX2ZlbmNlICpzX2ZlbmNlOwogCQlzdHJ1Y3QgZHJtX3NjaGVk
-X2pvYiAqc2NoZWRfam9iOwogCQlzdHJ1Y3QgZG1hX2ZlbmNlICpmZW5jZTsKKwkJc3RydWN0IGRy
-bV9zY2hlZF9qb2IgKmNsZWFudXBfam9iID0gTlVMTDsKIAogCQl3YWl0X2V2ZW50X2ludGVycnVw
-dGlibGUoc2NoZWQtPndha2VfdXBfd29ya2VyLAotCQkJCQkgKGRybV9zY2hlZF9jbGVhbnVwX2pv
-YnMoc2NoZWQpLAorCQkJCQkgKGNsZWFudXBfam9iID0gZHJtX3NjaGVkX2dldF9jbGVhbnVwX2pv
-YihzY2hlZCkpIHx8CiAJCQkJCSAoIWRybV9zY2hlZF9ibG9ja2VkKHNjaGVkKSAmJgogCQkJCQkg
-IChlbnRpdHkgPSBkcm1fc2NoZWRfc2VsZWN0X2VudGl0eShzY2hlZCkpKSB8fAotCQkJCQkga3Ro
-cmVhZF9zaG91bGRfc3RvcCgpKSk7CisJCQkJCSBrdGhyZWFkX3Nob3VsZF9zdG9wKCkpOworCisJ
-CXdoaWxlIChjbGVhbnVwX2pvYikgeworCQkJc2NoZWQtPm9wcy0+ZnJlZV9qb2IoY2xlYW51cF9q
-b2IpOworCQkJY2xlYW51cF9qb2IgPSBkcm1fc2NoZWRfZ2V0X2NsZWFudXBfam9iKHNjaGVkKTsK
-KwkJfQogCiAJCWlmICghZW50aXR5KQogCQkJY29udGludWU7Ci0tIAoyLjIwLjEKCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0007401046==
+Content-Type: multipart/alternative; boundary="15694244962.c061.30061"
+Content-Transfer-Encoding: 7bit
+
+
+--15694244962.c061.30061
+Date: Wed, 25 Sep 2019 15:14:56 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111792
+
+--- Comment #9 from Alex Deucher <alexdeucher@gmail.com> ---
+I'll add the patch to amd-staging-drm-next as well.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15694244962.c061.30061
+Date: Wed, 25 Sep 2019 15:14:56 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [AMD tahiti xt] amd-staging-drm-next broken since linux 5=
+.3.0-rc3 rebase"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111792#c9">Commen=
+t # 9</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [AMD tahiti xt] amd-staging-drm-next broken since linux 5=
+.3.0-rc3 rebase"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111792">bug 11179=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
+com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
+</span></b>
+        <pre>I'll add the patch to amd-staging-drm-next as well.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15694244962.c061.30061--
+
+--===============0007401046==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0007401046==--
