@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6BC1BE420
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 20:01:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04409BE421
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 20:01:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8629C6EC68;
-	Wed, 25 Sep 2019 18:01:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 942546EC53;
+	Wed, 25 Sep 2019 18:01:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6CA566EC3E
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 18:01:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 69A776EC69
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 18:01:36 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 6976672162; Wed, 25 Sep 2019 18:01:29 +0000 (UTC)
+ id 669DB72162; Wed, 25 Sep 2019 18:01:36 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 104345] X-Server hangs with showing scrambled picture, sound
- still playing.
-Date: Wed, 25 Sep 2019 18:01:29 +0000
+Subject: [Bug 104347] AMD RX 580: Hide/Show Chromium sometimes corrupts
+ screen (see screenshot)
+Date: Wed, 25 Sep 2019 18:01:36 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: 17.3
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: major
 X-Bugzilla-Who: gitlab-migration@fdo.invalid
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-104345-502-JNXA8HNDZE@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-104345-502@http.bugs.freedesktop.org/>
-References: <bug-104345-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-104347-502-QoYcaYGFmo@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-104347-502@http.bugs.freedesktop.org/>
+References: <bug-104347-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,34 +53,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1521221328=="
+Content-Type: multipart/mixed; boundary="===============1973248692=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1521221328==
-Content-Type: multipart/alternative; boundary="15694344890.0C8783AD5.734"
+--===============1973248692==
+Content-Type: multipart/alternative; boundary="15694344963.0Bdf.734"
 Content-Transfer-Encoding: 7bit
 
 
---15694344890.0C8783AD5.734
-Date: Wed, 25 Sep 2019 18:01:29 +0000
+--15694344963.0Bdf.734
+Date: Wed, 25 Sep 2019 18:01:36 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D104345
+https://bugs.freedesktop.org/show_bug.cgi?id=3D104347
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-         Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
+         Resolution|---                         |MOVED
 
---- Comment #15 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
+--- Comment #20 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
 --
 -- GitLab Migration Automatic Message --
 
@@ -90,14 +90,14 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/129=
-3.
+4.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15694344890.0C8783AD5.734
-Date: Wed, 25 Sep 2019 18:01:29 +0000
+--15694344963.0Bdf.734
+Date: Wed, 25 Sep 2019 18:01:36 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -114,10 +114,10 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - X-Server hangs with showing scrambled picture,=
- sound still playing."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104345">bug 10434=
-5</a>
+   title=3D"RESOLVED MOVED - AMD RX 580: Hide/Show Chromium sometimes corru=
+pts screen (see screenshot)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104347">bug 10434=
+7</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -127,34 +127,34 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>MOVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Status</td>
            <td>NEW
            </td>
            <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>MOVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - X-Server hangs with showing scrambled picture,=
- sound still playing."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104345#c15">Comme=
-nt # 15</a>
+   title=3D"RESOLVED MOVED - AMD RX 580: Hide/Show Chromium sometimes corru=
+pts screen (see screenshot)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104347#c20">Comme=
+nt # 20</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - X-Server hangs with showing scrambled picture,=
- sound still playing."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104345">bug 10434=
-5</a>
+   title=3D"RESOLVED MOVED - AMD RX 580: Hide/Show Chromium sometimes corru=
+pts screen (see screenshot)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104347">bug 10434=
+7</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
 -migration&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</=
@@ -168,7 +168,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/1293">https://gitlab.freedesktop.org/mesa/mesa/issues/1293</a>.</pr=
+/issues/1294">https://gitlab.freedesktop.org/mesa/mesa/issues/1294</a>.</pr=
 e>
         </div>
       </p>
@@ -183,9 +183,9 @@ e>
     </body>
 </html>=
 
---15694344890.0C8783AD5.734--
+--15694344963.0Bdf.734--
 
---===============1521221328==
+--===============1973248692==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -195,4 +195,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1521221328==--
+--===============1973248692==--
