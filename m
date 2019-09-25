@@ -1,32 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EAABBDDA9
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 14:04:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 715E1BDDAD
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 14:04:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66A348991A;
-	Wed, 25 Sep 2019 12:04:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A49589AA7;
+	Wed, 25 Sep 2019 12:04:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 251B58991A
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 12:04:02 +0000 (UTC)
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
- by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <colin.king@canonical.com>)
- id 1iD61V-0006Wm-KQ; Wed, 25 Sep 2019 12:03:57 +0000
-From: Colin King <colin.king@canonical.com>
-To: Stefan Mavrodiev <stefan@olimex.com>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/panel: clean up indentation issue
-Date: Wed, 25 Sep 2019 13:03:57 +0100
-Message-Id: <20190925120357.10408-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.20.1
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5816B89AA7
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 12:04:54 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 53EE772162; Wed, 25 Sep 2019 12:04:54 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111792] [AMD tahiti xt] amd-staging-drm-next broken since linux
+ 5.3.0-rc3 rebase
+Date: Wed, 25 Sep 2019 12:04:54 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocker
+X-Bugzilla-Who: sylvain.bertrand@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: highest
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111792-502-rGhnmppYbN@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111792-502@http.bugs.freedesktop.org/>
+References: <bug-111792-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -40,27 +53,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0257376108=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4KClRoZXJlIGlz
-IGEgY29udGludWUgc3RhdGVtZW50IHRoYXQgaXMgaW5kZW50ZWQgb25lIGxldmVsIHRvbyBkZWVw
-bHksCnJlbW92ZSB0aGUgZXh0cmFuZW91cyB0YWIuCgpTaWduZWQtb2ZmLWJ5OiBDb2xpbiBJYW4g
-S2luZyA8Y29saW4ua2luZ0BjYW5vbmljYWwuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9wYW5l
-bC9wYW5lbC1vbGltZXgtbGNkLW9saW51eGluby5jIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEg
-aW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L3BhbmVsL3BhbmVsLW9saW1leC1sY2Qtb2xpbnV4aW5vLmMgYi9kcml2ZXJzL2dwdS9kcm0vcGFu
-ZWwvcGFuZWwtb2xpbWV4LWxjZC1vbGludXhpbm8uYwppbmRleCAyYmFlMWRiM2ZmMzQuLjdkZDY3
-MjYyYTJlZCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLW9saW1leC1s
-Y2Qtb2xpbnV4aW5vLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLW9saW1leC1s
-Y2Qtb2xpbnV4aW5vLmMKQEAgLTE2MSw3ICsxNjEsNyBAQCBzdGF0aWMgaW50IGxjZF9vbGludXhp
-bm9fZ2V0X21vZGVzKHN0cnVjdCBkcm1fcGFuZWwgKnBhbmVsKQogCQkJCWxjZF9tb2RlLT5oYWN0
-aXZlLAogCQkJCWxjZF9tb2RlLT52YWN0aXZlLAogCQkJCWxjZF9tb2RlLT5yZWZyZXNoKTsKLQkJ
-CQljb250aW51ZTsKKwkJCWNvbnRpbnVlOwogCQl9CiAKIAkJbW9kZS0+Y2xvY2sgPSBsY2RfbW9k
-ZS0+cGl4ZWxjbG9jazsKLS0gCjIuMjAuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVs
+
+--===============0257376108==
+Content-Type: multipart/alternative; boundary="15694130941.FefE.26278"
+Content-Transfer-Encoding: 7bit
+
+
+--15694130941.FefE.26278
+Date: Wed, 25 Sep 2019 12:04:54 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111792
+
+--- Comment #5 from Sylvain BERTRAND <sylvain.bertrand@gmail.com> ---
+got some sleep then I noticed I have the wrong kernel log message. My bad.
+
+The kernel module is crashing in DP code. see the call stack in the about t=
+o be
+updated kernel log.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15694130941.FefE.26278
+Date: Wed, 25 Sep 2019 12:04:54 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [AMD tahiti xt] amd-staging-drm-next broken since linux 5=
+.3.0-rc3 rebase"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111792#c5">Commen=
+t # 5</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [AMD tahiti xt] amd-staging-drm-next broken since linux 5=
+.3.0-rc3 rebase"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111792">bug 11179=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+sylvain.bertrand&#64;gmail.com" title=3D"Sylvain BERTRAND &lt;sylvain.bertr=
+and&#64;gmail.com&gt;"> <span class=3D"fn">Sylvain BERTRAND</span></a>
+</span></b>
+        <pre>got some sleep then I noticed I have the wrong kernel log mess=
+age. My bad.
+
+The kernel module is crashing in DP code. see the call stack in the about t=
+o be
+updated kernel log.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15694130941.FefE.26278--
+
+--===============0257376108==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0257376108==--
