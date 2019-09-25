@@ -2,24 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2A09BE4E2
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 20:44:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A64B1BE4E4
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 20:44:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55BA36EF09;
-	Wed, 25 Sep 2019 18:44:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF8CA6EF0C;
+	Wed, 25 Sep 2019 18:44:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 732F66EF04
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 18:44:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7125C6EF0C
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 18:44:23 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 70C2372162; Wed, 25 Sep 2019 18:44:20 +0000 (UTC)
+ id 62ABE72162; Wed, 25 Sep 2019 18:44:23 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109115] Driver did not suport 8706G Readon PRO WX Vega M in
- Precision 5530 2-in-1
-Date: Wed, 25 Sep 2019 18:44:20 +0000
+Subject: [Bug 109297] AMD RX 570: Hard reset when playing games
+Date: Wed, 25 Sep 2019 18:44:23 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -35,9 +34,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-109115-502-AWG63OMMLK@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109115-502@http.bugs.freedesktop.org/>
-References: <bug-109115-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-109297-502-lGSdpkk4ck@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109297-502@http.bugs.freedesktop.org/>
+References: <bug-109297-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,25 +52,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1821795600=="
+Content-Type: multipart/mixed; boundary="===============0681567615=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1821795600==
-Content-Type: multipart/alternative; boundary="15694370601.b091C0f7.7141"
+--===============0681567615==
+Content-Type: multipart/alternative; boundary="15694370631.0b42.7141"
 Content-Transfer-Encoding: 7bit
 
 
---15694370601.b091C0f7.7141
-Date: Wed, 25 Sep 2019 18:44:20 +0000
+--15694370631.0b42.7141
+Date: Wed, 25 Sep 2019 18:44:23 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109115
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109297
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
@@ -80,7 +79,7 @@ GitLab Migration User <gitlab-migration@fdo.invalid> changed:
              Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
 
---- Comment #3 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
+--- Comment #4 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -89,14 +88,14 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/135=
-1.
+2.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15694370601.b091C0f7.7141
-Date: Wed, 25 Sep 2019 18:44:20 +0000
+--15694370631.0b42.7141
+Date: Wed, 25 Sep 2019 18:44:23 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -113,10 +112,9 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Driver did not suport 8706G Readon PRO WX Vega=
- M in Precision 5530 2-in-1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109115">bug 10911=
-5</a>
+   title=3D"RESOLVED MOVED - AMD RX 570: Hard reset when playing games"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109297">bug 10929=
+7</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -144,16 +142,14 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Driver did not suport 8706G Readon PRO WX Vega=
- M in Precision 5530 2-in-1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109115#c3">Commen=
-t # 3</a>
+   title=3D"RESOLVED MOVED - AMD RX 570: Hard reset when playing games"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109297#c4">Commen=
+t # 4</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Driver did not suport 8706G Readon PRO WX Vega=
- M in Precision 5530 2-in-1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109115">bug 10911=
-5</a>
+   title=3D"RESOLVED MOVED - AMD RX 570: Hard reset when playing games"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109297">bug 10929=
+7</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
 -migration&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</=
@@ -167,7 +163,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/1351">https://gitlab.freedesktop.org/mesa/mesa/issues/1351</a>.</pr=
+/issues/1352">https://gitlab.freedesktop.org/mesa/mesa/issues/1352</a>.</pr=
 e>
         </div>
       </p>
@@ -182,9 +178,9 @@ e>
     </body>
 </html>=
 
---15694370601.b091C0f7.7141--
+--15694370631.0b42.7141--
 
---===============1821795600==
+--===============0681567615==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -194,4 +190,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1821795600==--
+--===============0681567615==--
