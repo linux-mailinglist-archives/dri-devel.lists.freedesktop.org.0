@@ -2,23 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F2CBE403
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 19:59:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48CC8BE405
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 19:59:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77D1E6EC4C;
-	Wed, 25 Sep 2019 17:59:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BDA56EC62;
+	Wed, 25 Sep 2019 17:59:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6FDF46EC51
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 17:59:25 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1174A6EC4E
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 17:59:30 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 6CF7B72162; Wed, 25 Sep 2019 17:59:25 +0000 (UTC)
+ id 0DBBB72162; Wed, 25 Sep 2019 17:59:30 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 101384] [Hero Siege] si_shader: segfault in libLLVM-5.0.so.1
-Date: Wed, 25 Sep 2019 17:59:25 +0000
+Subject: [Bug 101584] clover: ethminer -G --benchmark: ring buffer overflow,
+ GPU faults
+Date: Wed, 25 Sep 2019 17:59:30 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,9 +35,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-101384-502-OtElsgtq24@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-101384-502@http.bugs.freedesktop.org/>
-References: <bug-101384-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-101584-502-uyqvzlVkFF@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-101584-502@http.bugs.freedesktop.org/>
+References: <bug-101584-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,25 +53,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1171939221=="
+Content-Type: multipart/mixed; boundary="===============0303751918=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1171939221==
-Content-Type: multipart/alternative; boundary="15694343653.b5fb505.32305"
+--===============0303751918==
+Content-Type: multipart/alternative; boundary="15694343700.8FB98aDEE.32305"
 Content-Transfer-Encoding: 7bit
 
 
---15694343653.b5fb505.32305
-Date: Wed, 25 Sep 2019 17:59:25 +0000
+--15694343700.8FB98aDEE.32305
+Date: Wed, 25 Sep 2019 17:59:30 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D101384
+https://bugs.freedesktop.org/show_bug.cgi?id=3D101584
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
@@ -79,8 +80,7 @@ GitLab Migration User <gitlab-migration@fdo.invalid> changed:
          Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
 
---- Comment #11 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
---
+--- Comment #2 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,15 +88,15 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/126=
-9.
+to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/127=
+0.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15694343653.b5fb505.32305
-Date: Wed, 25 Sep 2019 17:59:25 +0000
+--15694343700.8FB98aDEE.32305
+Date: Wed, 25 Sep 2019 17:59:30 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -113,9 +113,9 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [Hero Siege] si_shader: segfault in libLLVM-5.=
-0.so.1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101384">bug 10138=
+   title=3D"RESOLVED MOVED - clover: ethminer -G --benchmark: ring buffer o=
+verflow, GPU faults"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101584">bug 10158=
 4</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -144,15 +144,15 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [Hero Siege] si_shader: segfault in libLLVM-5.=
-0.so.1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101384#c11">Comme=
-nt # 11</a>
+   title=3D"RESOLVED MOVED - clover: ethminer -G --benchmark: ring buffer o=
+verflow, GPU faults"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101584#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [Hero Siege] si_shader: segfault in libLLVM-5.=
-0.so.1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101384">bug 10138=
+   title=3D"RESOLVED MOVED - clover: ethminer -G --benchmark: ring buffer o=
+verflow, GPU faults"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101584">bug 10158=
 4</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
@@ -167,7 +167,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/1269">https://gitlab.freedesktop.org/mesa/mesa/issues/1269</a>.</pr=
+/issues/1270">https://gitlab.freedesktop.org/mesa/mesa/issues/1270</a>.</pr=
 e>
         </div>
       </p>
@@ -182,9 +182,9 @@ e>
     </body>
 </html>=
 
---15694343653.b5fb505.32305--
+--15694343700.8FB98aDEE.32305--
 
---===============1171939221==
+--===============0303751918==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -194,4 +194,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1171939221==--
+--===============0303751918==--
