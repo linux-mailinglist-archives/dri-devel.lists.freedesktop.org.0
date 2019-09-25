@@ -2,89 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 471A0BE0A1
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 16:54:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6D1BE0C5
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 17:03:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9295A89DD5;
-	Wed, 25 Sep 2019 14:54:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69DA86EBDF;
+	Wed, 25 Sep 2019 15:03:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com
- (mail-eopbgr750052.outbound.protection.outlook.com [40.107.75.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A77C89D99;
- Wed, 25 Sep 2019 14:54:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iq+UMITgC48x1QdPwV466l3JyG0xGEsnKEcsVZyxjrhrFvrUGF7T2oJ5ROjB10HFjKrRxVEjOa8oe5Ulx8Tw3PvEQ3WVByWXAm/gnJtHf3saVsl5+Qj16d8atspMv29147UWpYUlehS2SEDq7l2RnYAe4oKwvcT72pwPFLDThkdqVpKYgvQ/ftlM3CKHmPjrvBcCkupj9wUumW/AZkwMlOeA/FzWYNh4AR4z2uNQwPpw1jFutir2cdUeuX3j70pgU53GLahmtlqT5fQLQTt4CrJ3P/KnapVwUh/HmkHdQ1odScSP0D3nfPbaW1ITDwhgAbjTZTM1lF9sFD+m+IHArw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jHQAU6F/wV+NTDE260+NaHeK8+QsNktU8QKf/8SnKP0=;
- b=Af9f0CBh7URhRPe6Ayrdd3GLYS1dYP+VD2TqM1PHp7gR3+k7z77dR8PkaT8fpzXj+kDBr8fos3/zCalPI6C7ES+lkpmp1TqZBpDiTe8aRExaXba4ZmRf5nt8WPfhZp0/vpdfuwjPKeZff6nnaFKAEwQnU++4dfLvjsI02NbWIu5QVvnOV7WBONu0ZUG2924l75ZhDUzTMFY2taxsC0mU3zF8mOZgNn+GLujYFtH1I/UwnJidDLiPSji4p7cCIz2uzKImovT2qAy/Rin6IQb0O0g62kzcTMzDVWTAsK+UIPKd1JpAKCwbB8d8sI0n08eEMBSWtiJhSFgoX/s73AimyQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-Received: from MN2PR12MB3309.namprd12.prod.outlook.com (20.179.83.157) by
- MN2PR12MB4093.namprd12.prod.outlook.com (52.135.51.203) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2284.20; Wed, 25 Sep 2019 14:54:50 +0000
-Received: from MN2PR12MB3309.namprd12.prod.outlook.com
- ([fe80::e105:cd24:c71d:c38d]) by MN2PR12MB3309.namprd12.prod.outlook.com
- ([fe80::e105:cd24:c71d:c38d%4]) with mapi id 15.20.2305.016; Wed, 25 Sep 2019
- 14:54:50 +0000
-From: "Huang, Ray" <Ray.Huang@amd.com>
-To: "Koenig, Christian" <Christian.Koenig@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>
-Subject: RE: [PATCH v3 10/11] drm/amdgpu: job is secure iff CS is secure (v4)
-Thread-Topic: [PATCH v3 10/11] drm/amdgpu: job is secure iff CS is secure (v4)
-Thread-Index: AQHVc67eAOP3HjJHn0i9QUAnxAtta6c8eLkAgAAA+EA=
-Date: Wed, 25 Sep 2019 14:54:50 +0000
-Message-ID: <MN2PR12MB3309B9F92121C846639C87ECEC870@MN2PR12MB3309.namprd12.prod.outlook.com>
-References: <1569422279-6609-1-git-send-email-ray.huang@amd.com>
- <e04af4ef-aa3b-534b-8c5b-e6ee11f677a5@amd.com>
-In-Reply-To: <e04af4ef-aa3b-534b-8c5b-e6ee11f677a5@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [180.167.199.189]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 52e20341-d09c-4e49-a016-08d741c8513b
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
- SRVR:MN2PR12MB4093; 
-x-ms-traffictypediagnostic: MN2PR12MB4093:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR12MB4093B813C85523981301C64FEC870@MN2PR12MB4093.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 01713B2841
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(396003)(346002)(366004)(39860400002)(376002)(136003)(13464003)(189003)(199004)(14454004)(6636002)(53546011)(7696005)(33656002)(186003)(6116002)(54906003)(99286004)(446003)(55016002)(52536014)(316002)(229853002)(6506007)(9686003)(66066001)(6246003)(3846002)(76176011)(486006)(102836004)(4326008)(476003)(64756008)(11346002)(66476007)(66446008)(25786009)(76116006)(66946007)(256004)(8676002)(450100002)(7736002)(2906002)(71190400001)(305945005)(6436002)(74316002)(86362001)(478600001)(110136005)(8936002)(81166006)(2501003)(26005)(66556008)(71200400001)(81156014)(2201001)(5660300002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:MN2PR12MB4093;
- H:MN2PR12MB3309.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: KG4ZMsx7M4VCKMJwz0CQS4mU1+L/KlcMUGls6APqIfsRqlSLQ43SWC8iiDXlEE7xRPYC2E+ZHk3jA5xau5oAZqedFI/mydtGA2CMSXGe/4XosFSTb0cyUjd/oepxbpF4pHxcUvPbxWLCEQWQvkwTjNUleAlBnvdlS1tEG+ocPP1HJGch70UHzxhIF7B+hlPE87vS7N1iiWfKJEaelvqQPjsjMxGcQLNbRct6ShTmDpF4ZZ5g1bbty50XRTFexPEHtf874PQxpOqnWboqcb+NQhCGo10GbaFaGq/oapxiXlYcOzkPnMvFIq4z7ZSIYWrgZplGjRrGGDHo8ywOCH7X1fW4atZ6hx7ZQZLACz+i0IWIWgGF57NzutoI3izlVkVw4G/vRqdqZgwCrnXUAulM61mw0XAmoXg6ZBPGQYCF0T0=
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D024F6EBDF
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 15:03:12 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id a11so7387987wrx.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 08:03:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pg8LaWiacaTb9SzlfpDlMO/cKuqFViUuINy0vykqv5c=;
+ b=dQiegNkyKT/F0e3dyptTeM8WjF+vOW3rYXhyLbeQfJLtMx8Mc/Ud0X7dILxh5HrvZ3
+ YdBUZefhJMTRtU+NMxYstc31M9U6AeSiwm7oREYQKwlreLPu0Y3t0YE+ec0JcFicSYUP
+ KhbsxQw/l1mVg25chRhYt0RFciym/pV2C91CIDXOZW5cAXON70h8YcYCXgcnz/VFTBDU
+ qzUsksa0AcgsgSovgfRJV35tEMg8FUqTLmc90Z/GPuG0q1dwVkRinbWJ6v265MoiZ6+e
+ b6Pc9QhRA63utcO821bUNUdzis7pNYEFW9dQfMvi6jyEX5vXUtkNaDmv8CuGZnB5TFNO
+ YodA==
+X-Gm-Message-State: APjAAAXREXXNNiHR6sbbjXLQEaOZbxE/JYkbVLOlXySmq6Vt3f7HNnXn
+ 62ht991w4zuOAUaNV2IdODdDOGkFHC3uoTx3TlM=
+X-Google-Smtp-Source: APXvYqwyR/hxwxMbyDoMgVatJxwHmtz5VghAI94nEJM72hPKvFnVx81/QbJUjIAWpSdYZe37t2YgI6u6ABCv7+YTC1I=
+X-Received: by 2002:adf:ef05:: with SMTP id e5mr9568395wro.127.1569423791024; 
+ Wed, 25 Sep 2019 08:03:11 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 52e20341-d09c-4e49-a016-08d741c8513b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Sep 2019 14:54:50.7151 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: t7yzwa1PiiTZ++lfV3hUzbmN4cu2S4WiFboQ9H7KNkPm/riH27AW/5Kn7UVwi9MuapGr41miCcsDHx0um1+8YQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4093
+References: <20190924212920.76103-1-john.stultz@linaro.org>
+ <CAL_JsqLR212Et5Z82Gr=DJfB5WY-4o8bN_s5peu07EnaEVEOYQ@mail.gmail.com>
+ <CALAqxLUR5ML3gmBs3SM2GvfXB+JxiO7gTUrtpVJqVzuh+hugxg@mail.gmail.com>
+ <CALAqxLWHrCKogRqe2ZQZT3dK57+8AmxKfZjKXxztvw6CFobdkg@mail.gmail.com>
+ <20190925103909.6yjozclnukkladbo@intel.com>
+In-Reply-To: <20190925103909.6yjozclnukkladbo@intel.com>
+From: Mauro Rossi <issor.oruam@gmail.com>
+Date: Wed, 25 Sep 2019 17:00:31 +0200
+Message-ID: <CAEQFVGZCZ6TbdrOP=T_sM09BRUWPhFOw9E33kEoKEMDFHXzgkA@mail.gmail.com>
+Subject: Re: [PATCH] libdrm: Convert to Android.mk to Android.bp
+To: Eric Engestrom <eric.engestrom@intel.com>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jHQAU6F/wV+NTDE260+NaHeK8+QsNktU8QKf/8SnKP0=;
- b=pjYI7v5JItfjbJiL9FMyXX5dzFzepP34tZpSTOByxZTMwp9Z4/ecFsc6S3C32CKQa2GmDrH8LapRhSOZuOEZNV19s9oUOJzvt1Cs5vC8GRG+YhTrJwQsMmf5KP9zrnniMzcVrSx5CiG8q2Pd4NFroEEsLDAHlykk1dpY6C6Pc+0=
-X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Ray.Huang@amd.com; 
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=pg8LaWiacaTb9SzlfpDlMO/cKuqFViUuINy0vykqv5c=;
+ b=JYZvFbW1CE2DWouHK2hIM356WjTucQoPug09b8NHT4XPHwadnS6qCntbGX29Da0jaO
+ y5TPSl2fZnmBgDv0OEwHJKXLgBeiDMTmMde5/Y9QAAZt3xkpZ/iRDDoOreX2zkRUbyIt
+ blkvKe8dxTRbVqC0ir3okdGBM5oB8HiYcH4t1H6+qspse6sgablFttIewBXXZLTHgzdV
+ A1e+Rgl5Px7XCgSDjlaSZdsdE8evdvnAVM+nNw6B0/OLIb6wLM8YtSJYgx8myrKuTuYg
+ NkUcdr1RdErZTMu9w0MCkWqtNv5d3BlfzUCtFegos9KyvIeoKctJQiU8JDDlvDNG2awt
+ kICw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,97 +66,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Tuikov, Luben" <Luben.Tuikov@amd.com>, "Liu, Aaron" <Aaron.Liu@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Rob Clark <robdclark@chromium.org>, Jiyong Park <jiyong@google.com>,
+ Robert Foss <robert.foss@collabora.com>,
+ Alistair Strachan <astrachan@google.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Eric Anholt <anholt@google.com>,
+ Dan Willemsen <dwillemsen@google.com>, Vishal Bhoj <vishal.bhoj@linaro.org>,
+ Sean Paul <seanpaul@chromium.org>, Emil Velikov <emil.velikov@collabora.com>
+Content-Type: multipart/mixed; boundary="===============1321986835=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBLb2VuaWcsIENocmlzdGlhbiA8
-Q2hyaXN0aWFuLktvZW5pZ0BhbWQuY29tPg0KPiBTZW50OiBXZWRuZXNkYXksIFNlcHRlbWJlciAy
-NSwgMjAxOSAxMDo0NyBQTQ0KPiBUbzogSHVhbmcsIFJheSA8UmF5Lkh1YW5nQGFtZC5jb20+OyBh
-bWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgZHJpLQ0KPiBkZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmc7IERldWNoZXIsIEFsZXhhbmRlcg0KPiA8QWxleGFuZGVyLkRldWNoZXJAYW1kLmNv
-bT4NCj4gQ2M6IFR1aWtvdiwgTHViZW4gPEx1YmVuLlR1aWtvdkBhbWQuY29tPjsgTGl1LCBBYXJv
-bg0KPiA8QWFyb24uTGl1QGFtZC5jb20+DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjMgMTAvMTFd
-IGRybS9hbWRncHU6IGpvYiBpcyBzZWN1cmUgaWZmIENTIGlzIHNlY3VyZSAodjQpDQo+IA0KPiBB
-bSAyNS4wOS4xOSB1bSAxNjozOCBzY2hyaWViIEh1YW5nLCBSYXk6DQo+ID4gTWFyayBhIGpvYiBh
-cyBzZWN1cmUsIGlmIGFuZCBvbmx5IGlmIHRoZSBjb21tYW5kIHN1Ym1pc3Npb24gZmxhZyBoYXMN
-Cj4gPiB0aGUgc2VjdXJlIGZsYWcgc2V0Lg0KPiA+DQo+ID4gdjI6IGZpeCB0aGUgbnVsbCBqb2Ig
-cG9pbnRlciB3aGlsZSBpbiB2bWlkIDAgc3VibWlzc2lvbi4NCj4gPiB2MzogQ29udGV4dCAtLT4g
-Q29tbWFuZCBzdWJtaXNzaW9uLg0KPiA+IHY0OiBmaWxsaW5nIGNzIHBhcnNlciB3aXRoIGNzLT5p
-bi5mbGFncw0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogSHVhbmcgUnVpIDxyYXkuaHVhbmdAYW1k
-LmNvbT4NCj4gPiBDby1kZXZlbG9wZWQtYnk6IEx1YmVuIFR1aWtvdiA8bHViZW4udHVpa292QGFt
-ZC5jb20+DQo+ID4gU2lnbmVkLW9mZi1ieTogTHViZW4gVHVpa292IDxsdWJlbi50dWlrb3ZAYW1k
-LmNvbT4NCj4gPiBSZXZpZXdlZC1ieTogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBh
-bWQuY29tPg0KPiA+IC0tLQ0KPiA+ICAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1
-LmggICAgIHwgIDMgKysrDQo+ID4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVf
-Y3MuYyAgfCAxMSArKysrKysrKysrLQ0KPiA+ICAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
-YW1kZ3B1X2liLmMgIHwgIDQgKystLQ0KPiA+ICAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
-YW1kZ3B1X2pvYi5oIHwgIDIgKysNCj4gPiAgIDQgZmlsZXMgY2hhbmdlZCwgMTcgaW5zZXJ0aW9u
-cygrKSwgMyBkZWxldGlvbnMoLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vYW1kL2FtZGdwdS9hbWRncHUuaA0KPiA+IGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
-YW1kZ3B1LmgNCj4gPiBpbmRleCA2OTdlOGU1Li5mZDYwNjk1IDEwMDY0NA0KPiA+IC0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdS5oDQo+ID4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL2FtZC9hbWRncHUvYW1kZ3B1LmgNCj4gPiBAQCAtNDg1LDYgKzQ4NSw5IEBAIHN0cnVjdCBh
-bWRncHVfY3NfcGFyc2VyIHsNCj4gPiAgIAl1aW50NjRfdAkJCWJ5dGVzX21vdmVkOw0KPiA+ICAg
-CXVpbnQ2NF90CQkJYnl0ZXNfbW92ZWRfdmlzOw0KPiA+DQo+ID4gKwkvKiBzZWN1cmUgY3MgKi8N
-Cj4gPiArCWJvb2wJCQkJaXNfc2VjdXJlOw0KPiA+ICsNCj4gPiAgIAkvKiB1c2VyIGZlbmNlICov
-DQo+ID4gICAJc3RydWN0IGFtZGdwdV9ib19saXN0X2VudHJ5CXVmX2VudHJ5Ow0KPiA+DQo+ID4g
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9jcy5jDQo+ID4g
-Yi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfY3MuYw0KPiA+IGluZGV4IDUxZjNk
-YjAuLjkwMzhkYzEgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
-YW1kZ3B1X2NzLmMNCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVf
-Y3MuYw0KPiA+IEBAIC0xMzMsNiArMTMzLDE0IEBAIHN0YXRpYyBpbnQgYW1kZ3B1X2NzX3BhcnNl
-cl9pbml0KHN0cnVjdA0KPiBhbWRncHVfY3NfcGFyc2VyICpwLCB1bmlvbiBkcm1fYW1kZ3B1X2Nz
-DQo+ID4gICAJCWdvdG8gZnJlZV9jaHVuazsNCj4gPiAgIAl9DQo+ID4NCj4gPiArCS8qKg0KPiA+
-ICsJICogVGhlIGNvbW1hbmQgc3VibWlzc2lvbiAoY3MpIGlzIGEgdW5pb24sIHNvIGFuIGFzc2ln
-bm1lbnQgdG8NCj4gPiArCSAqICdvdXQnIGlzIGRlc3RydWN0aXZlIHRvIHRoZSBjcyAoYXQgbGVh
-c3QgdGhlIGZpcnN0IDgNCj4gPiArCSAqIGJ5dGVzKS4gRm9yIHRoaXMgcmVhc29uLCBpbnF1aXJl
-IGFib3V0IHRoZSBmbGFncyBiZWZvcmUgdGhlDQo+ID4gKwkgKiBhc3NpZ25tZW50IHRvICdvdXQn
-Lg0KPiA+ICsJICovDQo+ID4gKwlwLT5pc19zZWN1cmUgPSBjcy0+aW4uZmxhZ3MgJiBBTURHUFVf
-Q1NfRkxBR1NfU0VDVVJFOw0KPiA+ICsNCj4gPiAgIAkvKiBnZXQgY2h1bmtzICovDQo+ID4gICAJ
-Y2h1bmtfYXJyYXlfdXNlciA9IHU2NF90b191c2VyX3B0cihjcy0+aW4uY2h1bmtzKTsNCj4gPiAg
-IAlpZiAoY29weV9mcm9tX3VzZXIoY2h1bmtfYXJyYXksIGNodW5rX2FycmF5X3VzZXIsIEBAIC0x
-MjUyLDgNCj4gPiArMTI2MCw5IEBAIHN0YXRpYyBpbnQgYW1kZ3B1X2NzX3N1Ym1pdChzdHJ1Y3Qg
-YW1kZ3B1X2NzX3BhcnNlciAqcCwNCj4gPiAgIAkJcC0+Y3R4LT5wcmVhbWJsZV9wcmVzZW50ZWQg
-PSB0cnVlOw0KPiA+ICAgCX0NCj4gPg0KPiA+IC0JY3MtPm91dC5oYW5kbGUgPSBzZXE7DQo+ID4g
-Kwlqb2ItPnNlY3VyZSA9IHAtPmlzX3NlY3VyZTsNCj4gPiAgIAlqb2ItPnVmX3NlcXVlbmNlID0g
-c2VxOw0KPiA+ICsJY3MtPm91dC5oYW5kbGUgPSBzZXE7DQo+IA0KPiBBdCBsZWFzdCBpdCBpcyBu
-byBsb25nZXIgYWNjZXNzaW5nIGNzLT5pbiwgYnV0IHRoYXQgc3RpbGwgbG9va3MgbGlrZSB0aGUg
-d3JvbmcgcGxhY2UNCj4gdG8gaW5pdGlhbGl6ZSB0aGUgam9iLg0KPiANCj4gV2h5IGNhbid0IHdl
-IGZpbGwgdGhhdCBpbiBkaXJlY3RseSBhZnRlciBhbWRncHVfam9iX2FsbG9jKCkgPw0KDQpUaGVy
-ZSBpcyBub3QgaW5wdXQgbWVtYmVyIHRoYXQgaXMgc2VjdXJlIHJlbGF0ZWQgaW4gYW1kZ3B1X2pv
-Yl9hbGxvYygpIGV4Y2VwdCBhZGQgYW4gb25lOg0KIA0KYW1kZ3B1X2pvYl9hbGxvYyhhZGV2LCBu
-dW1faWJzLCBqb2IsIHZtLCBzZWN1cmUpDQoNCkl0IGxvb2tzIHRvbyBtdWNoLCBpc24ndCBpdD8N
-Cg0KVGhhbmtzLA0KUmF5DQoNCj4gDQo+IFJlZ2FyZHMsDQo+IENocmlzdGlhbi4NCj4gDQo+ID4N
-Cj4gPiAgIAlhbWRncHVfam9iX2ZyZWVfcmVzb3VyY2VzKGpvYik7DQo+ID4NCj4gPiBkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2liLmMNCj4gPiBiL2RyaXZl
-cnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9pYi5jDQo+ID4gaW5kZXggZTFkYzIyOS4uY2I5
-YjY1MCAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVf
-aWIuYw0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9pYi5jDQo+
-ID4gQEAgLTIxMCw3ICsyMTAsNyBAQCBpbnQgYW1kZ3B1X2liX3NjaGVkdWxlKHN0cnVjdCBhbWRn
-cHVfcmluZyAqcmluZywNCj4gdW5zaWduZWQgbnVtX2licywNCj4gPiAgIAlpZiAoam9iICYmIHJp
-bmctPmZ1bmNzLT5lbWl0X2NudHhjbnRsKSB7DQo+ID4gICAJCXN0YXR1cyB8PSBqb2ItPnByZWFt
-YmxlX3N0YXR1czsNCj4gPiAgIAkJc3RhdHVzIHw9IGpvYi0+cHJlZW1wdGlvbl9zdGF0dXM7DQo+
-ID4gLQkJYW1kZ3B1X3JpbmdfZW1pdF9jbnR4Y250bChyaW5nLCBzdGF0dXMsIGZhbHNlKTsNCj4g
-PiArCQlhbWRncHVfcmluZ19lbWl0X2NudHhjbnRsKHJpbmcsIHN0YXR1cywgam9iLT5zZWN1cmUp
-Ow0KPiA+ICAgCX0NCj4gPg0KPiA+ICAgCWZvciAoaSA9IDA7IGkgPCBudW1faWJzOyArK2kpIHsN
-Cj4gPiBAQCAtMjI5LDcgKzIyOSw3IEBAIGludCBhbWRncHVfaWJfc2NoZWR1bGUoc3RydWN0IGFt
-ZGdwdV9yaW5nICpyaW5nLA0KPiB1bnNpZ25lZCBudW1faWJzLA0KPiA+ICAgCX0NCj4gPg0KPiA+
-ICAgCWlmIChyaW5nLT5mdW5jcy0+ZW1pdF90bXopDQo+ID4gLQkJYW1kZ3B1X3JpbmdfZW1pdF90
-bXoocmluZywgZmFsc2UsIGZhbHNlKTsNCj4gPiArCQlhbWRncHVfcmluZ19lbWl0X3RteihyaW5n
-LCBmYWxzZSwgam9iID8gam9iLT5zZWN1cmUgOiBmYWxzZSk7DQo+ID4NCj4gPiAgICNpZmRlZiBD
-T05GSUdfWDg2XzY0DQo+ID4gICAJaWYgKCEoYWRldi0+ZmxhZ3MgJiBBTURfSVNfQVBVKSkNCj4g
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2pvYi5oDQo+
-ID4gYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfam9iLmgNCj4gPiBpbmRleCBk
-YzdlZTkzLi5hYTBlMzc1IDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
-Z3B1L2FtZGdwdV9qb2IuaA0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Ft
-ZGdwdV9qb2IuaA0KPiA+IEBAIC02Myw2ICs2Myw4IEBAIHN0cnVjdCBhbWRncHVfam9iIHsNCj4g
-PiAgIAl1aW50NjRfdAkJdWZfYWRkcjsNCj4gPiAgIAl1aW50NjRfdAkJdWZfc2VxdWVuY2U7DQo+
-ID4NCj4gPiArCS8qIHRoZSBqb2IgaXMgZHVlIHRvIGEgc2VjdXJlIGNvbW1hbmQgc3VibWlzc2lv
-biAqLw0KPiA+ICsJYm9vbAkJCXNlY3VyZTsNCj4gPiAgIH07DQo+ID4NCj4gPiAgIGludCBhbWRn
-cHVfam9iX2FsbG9jKHN0cnVjdCBhbWRncHVfZGV2aWNlICphZGV2LCB1bnNpZ25lZCBudW1faWJz
-LA0KDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+--===============1321986835==
+Content-Type: multipart/alternative; boundary="00000000000090ee11059361f3cf"
+
+--00000000000090ee11059361f3cf
+Content-Type: text/plain; charset="UTF-8"
+
+Hello
+
+On Wed, Sep 25, 2019 at 12:39 PM Eric Engestrom <eric.engestrom@intel.com>
+wrote:
+
+> On Tuesday, 2019-09-24 23:09:08 -0700, John Stultz wrote:
+> > On Tue, Sep 24, 2019 at 4:30 PM John Stultz <john.stultz@linaro.org>
+> wrote:
+> > > On Tue, Sep 24, 2019 at 3:24 PM Rob Herring <robh@kernel.org> wrote:
+> > > > Trying to maintain something that works across more than 3 releases
+> or
+> > > > so is painful. I don't think android-x86 folks have the bandwidth to
+> > > > maintain things older than that *and* update to newer versions. So I
+> > > > think only supporting the n latest releases is good.
+>
+
+N is not a problem, per se, but if there are non supported Blueprint module
+types used
+it will not be possible to actually replicate Android.mk build rules to
+Android.bp and the build will be missing some targets (for example is not
+possible to install prebuilt files to $OUT)
+
+
+> > > >
+> > > > Are .bp files for master/Q compatible back to N (or O)? IIRC, at
+> least
+> > > > for the first couple of releases with .bp files, they seemed to have
+> > > > incompatible changes.
+> > >
+> > > I think there have possibly been some incompatible changes, as I know
+> > > early w/ bp files things were more in flux. That said, there haven't
+> > > been many changes to the libdrm bp files since the conversion was
+> > > first done in 2017 (so Android O). I'll checkout N and validate so I
+> > > can provide a more concrete assurance.
+> >
+> > Ah. Crud. You're right. The bp syntax has shifted enough over time to
+> > cause problems w/ the current file when building against older Android
+> > releases.   N falls over pretty hard, and O and even P have issues w/
+> > "recovery_available: ", and "prebuilt_etc" syntax.  So my proposed
+> > commit message mischaracterizes the state of older builds. Apologies!
+>
+
+I confirm that when trying drm_hwcomposer master build with oreo-x86
+(Android O based)
+I had to do manual procedures relying on Android.mk preliminary build +
+Android.bp build [1] with some ugly workaround [2]
+
+Procedure:
+
+First build with Android.mk versions on drm_hwcomposer and libdrm
+because /system/vendor/etc/hwdata/amdgpu.ids target required prebuild_etc
+module type
+then I used used Android.bp branches of drm_hwcomposer and libdrm
+
+[1] https://github.com/maurossi/drm/commits/blueprint_oreo-x86 NOTE:
+inspired by AOSP fa32e29 "Convert to Android.bp
+
+[2]
+https://github.com/maurossi/drm/commit/8727ddbd29e592a54ac234be99f63f262d0ff529
+
+
+> >
+> > I'll try to reach out to the android devs to see if there's any sort
+> > of compat magic that can be done to keep things working on older
+> > versions. That said, I'm still torn, as without this the current
+> > libdrm/master code is broken with AOSP/master and Q.  Its frustrating
+> > we have to have this seemingly exclusive trade off.
+> >
+> > I'm curious if folks might be willing to consider something like an
+> > upstream branch to preserve the build bits that work with prior
+> > Android releases? Or any other ideas?
+>
+> Is _not_ deleting Android.mk an option?
+>
+> That would have the obvious cost of duplicating the build system
+> maintenance effort, but if that's the only way to not drop support for
+> everything before Q...
+>
+> (fwiw, my ack only applies with "reasonable" support of previous
+> versions :] )
+>
+
+Hi Eric,
+in my case with both Android.mk and Android.bp the build is failing with
+duplicated module name error
+Mauro
+
+--00000000000090ee11059361f3cf
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hello</div><br><div class=3D"gmail_quote"><div dir=3D=
+"ltr" class=3D"gmail_attr">On Wed, Sep 25, 2019 at 12:39 PM Eric Engestrom =
+&lt;<a href=3D"mailto:eric.engestrom@intel.com">eric.engestrom@intel.com</a=
+>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On =
+Tuesday, 2019-09-24 23:09:08 -0700, John Stultz wrote:<br>
+&gt; On Tue, Sep 24, 2019 at 4:30 PM John Stultz &lt;<a href=3D"mailto:john=
+.stultz@linaro.org" target=3D"_blank">john.stultz@linaro.org</a>&gt; wrote:=
+<br>
+&gt; &gt; On Tue, Sep 24, 2019 at 3:24 PM Rob Herring &lt;<a href=3D"mailto=
+:robh@kernel.org" target=3D"_blank">robh@kernel.org</a>&gt; wrote:<br>
+&gt; &gt; &gt; Trying to maintain something that works across more than 3 r=
+eleases or<br>
+&gt; &gt; &gt; so is painful. I don&#39;t think android-x86 folks have the =
+bandwidth to<br>
+&gt; &gt; &gt; maintain things older than that *and* update to newer versio=
+ns. So I<br>
+&gt; &gt; &gt; think only supporting the n latest releases is good.<br></bl=
+ockquote><div><br></div><div>N is not a problem, per se, but if there are n=
+on supported Blueprint module types used</div><div>it will not be possible =
+to actually replicate Android.mk build rules to Android.bp and the build wi=
+ll be missing some targets (for example is not possible to install prebuilt=
+ files to $OUT)</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Are .bp files for master/Q compatible back to N (or O)? IIRC=
+, at least<br>
+&gt; &gt; &gt; for the first couple of releases with .bp files, they seemed=
+ to have<br>
+&gt; &gt; &gt; incompatible changes.<br>
+&gt; &gt;<br>
+&gt; &gt; I think there have possibly been some incompatible changes, as I =
+know<br>
+&gt; &gt; early w/ bp files things were more in flux. That said, there have=
+n&#39;t<br>
+&gt; &gt; been many changes to the libdrm bp files since the conversion was=
+<br>
+&gt; &gt; first done in 2017 (so Android O). I&#39;ll checkout N and valida=
+te so I<br>
+&gt; &gt; can provide a more concrete assurance.<br>
+&gt; <br>
+&gt; Ah. Crud. You&#39;re right. The bp syntax has shifted enough over time=
+ to<br>
+&gt; cause problems w/ the current file when building against older Android=
+<br>
+&gt; releases.=C2=A0 =C2=A0N falls over pretty hard, and O and even P have =
+issues w/<br>
+&gt; &quot;recovery_available: &quot;, and &quot;prebuilt_etc&quot; syntax.=
+=C2=A0 So my proposed<br>
+&gt; commit message mischaracterizes the state of older builds. Apologies!<=
+br></blockquote><div><br></div><div>I confirm that when trying drm_hwcompos=
+er master build with oreo-x86 (Android O based)<br></div><div>I had to do m=
+anual procedures relying on Android.mk preliminary build=C2=A0+ Android.bp =
+build [1] with some ugly workaround [2]</div><div><br></div><div>Procedure:=
+</div><div><br></div><div>First build with Android.mk versions on drm_hwcom=
+poser and libdrm<br>because /system/vendor/etc/hwdata/amdgpu.ids target req=
+uired prebuild_etc module type<br>then I used used Android.bp branches of d=
+rm_hwcomposer and libdrm<br></div><div><br></div><div>[1]=C2=A0<a href=3D"h=
+ttps://github.com/maurossi/drm/commits/blueprint_oreo-x86">https://github.c=
+om/maurossi/drm/commits/blueprint_oreo-x86</a>=C2=A0NOTE: inspired by=C2=A0=
+<span style=3D"background-color:rgb(234,245,255);color:rgb(68,77,86);font-f=
+amily:SFMono-Regular,Consolas,&quot;Liberation Mono&quot;,Menlo,monospace;f=
+ont-size:13px;white-space:pre-wrap">AOSP fa32e29 &quot;Convert to Android.b=
+p</span></div><div><br></div><div>[2]=C2=A0<a href=3D"https://github.com/ma=
+urossi/drm/commit/8727ddbd29e592a54ac234be99f63f262d0ff529">https://github.=
+com/maurossi/drm/commit/8727ddbd29e592a54ac234be99f63f262d0ff529</a></div><=
+div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+&gt; <br>
+&gt; I&#39;ll try to reach out to the android devs to see if there&#39;s an=
+y sort<br>
+&gt; of compat magic that can be done to keep things working on older<br>
+&gt; versions. That said, I&#39;m still torn, as without this the current<b=
+r>
+&gt; libdrm/master code is broken with AOSP/master and Q.=C2=A0 Its frustra=
+ting<br>
+&gt; we have to have this seemingly exclusive trade off.<br>
+&gt; <br>
+&gt; I&#39;m curious if folks might be willing to consider something like a=
+n<br>
+&gt; upstream branch to preserve the build bits that work with prior<br>
+&gt; Android releases? Or any other ideas?<br>
+<br>
+Is _not_ deleting Android.mk an option?<br>
+<br>
+That would have the obvious cost of duplicating the build system<br>
+maintenance effort, but if that&#39;s the only way to not drop support for<=
+br>
+everything before Q...<br>
+<br>
+(fwiw, my ack only applies with &quot;reasonable&quot; support of previous<=
+br>
+versions :] )<br></blockquote><div><br></div><div>Hi Eric,</div><div>in my =
+case with both Android.mk and Android.bp the build is failing with duplicat=
+ed module name error</div><div>Mauro</div></div></div>
+
+--00000000000090ee11059361f3cf--
+
+--===============1321986835==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1321986835==--
