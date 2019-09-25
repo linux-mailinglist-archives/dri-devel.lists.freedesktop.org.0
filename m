@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FF43BE3CA
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 19:51:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE092BE3CB
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 19:51:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E65736EC12;
-	Wed, 25 Sep 2019 17:51:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D23B76EC17;
+	Wed, 25 Sep 2019 17:51:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id BAFA06EC12
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 17:51:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 632D36E091
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 17:51:47 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B83F372162; Wed, 25 Sep 2019 17:51:40 +0000 (UTC)
+ id 6086972162; Wed, 25 Sep 2019 17:51:47 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 88461] The computer sometimes freezes after waking up when
- playing vdpau accelerated video
-Date: Wed, 25 Sep 2019 17:51:41 +0000
+Subject: [Bug 88886] GPU fault detected on luxmark the Room test with AMD
+ Tahiti
+Date: Wed, 25 Sep 2019 17:51:47 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 10.4
+X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: gitlab-migration@fdo.invalid
@@ -35,9 +35,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-88461-502-caNAaOL6tm@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-88461-502@http.bugs.freedesktop.org/>
-References: <bug-88461-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-88886-502-9NXvrWXRK2@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-88886-502@http.bugs.freedesktop.org/>
+References: <bug-88886-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,25 +53,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1159541958=="
+Content-Type: multipart/mixed; boundary="===============1174140830=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1159541958==
-Content-Type: multipart/alternative; boundary="15694339001.bD9a8.28962"
+--===============1174140830==
+Content-Type: multipart/alternative; boundary="15694339070.0a34fD.28962"
 Content-Transfer-Encoding: 7bit
 
 
---15694339001.bD9a8.28962
-Date: Wed, 25 Sep 2019 17:51:40 +0000
+--15694339070.0a34fD.28962
+Date: Wed, 25 Sep 2019 17:51:47 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D88461
+https://bugs.freedesktop.org/show_bug.cgi?id=3D88886
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
@@ -80,7 +80,7 @@ GitLab Migration User <gitlab-migration@fdo.invalid> changed:
              Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
 
---- Comment #6 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
+--- Comment #9 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -89,14 +89,14 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/121=
-4.
+5.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15694339001.bD9a8.28962
-Date: Wed, 25 Sep 2019 17:51:40 +0000
+--15694339070.0a34fD.28962
+Date: Wed, 25 Sep 2019 17:51:47 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -113,9 +113,9 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - The computer sometimes freezes after waking up=
- when playing vdpau accelerated video"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D88461">bug 88461<=
+   title=3D"RESOLVED MOVED - GPU fault detected on luxmark the Room test wi=
+th AMD Tahiti"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D88886">bug 88886<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -144,15 +144,15 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - The computer sometimes freezes after waking up=
- when playing vdpau accelerated video"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D88461#c6">Comment=
- # 6</a>
+   title=3D"RESOLVED MOVED - GPU fault detected on luxmark the Room test wi=
+th AMD Tahiti"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D88886#c9">Comment=
+ # 9</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - The computer sometimes freezes after waking up=
- when playing vdpau accelerated video"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D88461">bug 88461<=
+   title=3D"RESOLVED MOVED - GPU fault detected on luxmark the Room test wi=
+th AMD Tahiti"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D88886">bug 88886<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
@@ -167,7 +167,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/1214">https://gitlab.freedesktop.org/mesa/mesa/issues/1214</a>.</pr=
+/issues/1215">https://gitlab.freedesktop.org/mesa/mesa/issues/1215</a>.</pr=
 e>
         </div>
       </p>
@@ -182,9 +182,9 @@ e>
     </body>
 </html>=
 
---15694339001.bD9a8.28962--
+--15694339070.0a34fD.28962--
 
---===============1159541958==
+--===============1174140830==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -194,4 +194,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1159541958==--
+--===============1174140830==--
