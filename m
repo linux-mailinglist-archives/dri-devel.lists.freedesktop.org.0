@@ -2,63 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A286BDA90
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 11:09:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 366CABDA94
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 11:09:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 945F96EB41;
-	Wed, 25 Sep 2019 09:09:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 934806EB4F;
+	Wed, 25 Sep 2019 09:09:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B6256EB41;
- Wed, 25 Sep 2019 09:09:32 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 25 Sep 2019 02:09:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,547,1559545200"; d="scan'208";a="191280732"
-Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
- by orsmga003.jf.intel.com with ESMTP; 25 Sep 2019 02:09:29 -0700
-Received: from fmsmsx151.amr.corp.intel.com (10.18.125.4) by
- FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Wed, 25 Sep 2019 02:09:29 -0700
-Received: from shsmsx101.ccr.corp.intel.com (10.239.4.153) by
- FMSMSX151.amr.corp.intel.com (10.18.125.4) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Wed, 25 Sep 2019 02:09:23 -0700
-Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.32]) by
- SHSMSX101.ccr.corp.intel.com ([169.254.1.92]) with mapi id 14.03.0439.000;
- Wed, 25 Sep 2019 17:09:20 +0800
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: Jason Wang <jasowang@redhat.com>, "kvm@vger.kernel.org"
- <kvm@vger.kernel.org>, "linux-s390@vger.kernel.org"
- <linux-s390@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>, "intel-gvt-dev@lists.freedesktop.org"
- <intel-gvt-dev@lists.freedesktop.org>, "kwankhede@nvidia.com"
- <kwankhede@nvidia.com>, "alex.williamson@redhat.com"
- <alex.williamson@redhat.com>, "mst@redhat.com" <mst@redhat.com>, "Bie, Tiwei"
- <tiwei.bie@intel.com>
-Subject: RE: [PATCH V2 6/8] mdev: introduce virtio device and its device ops
-Thread-Topic: [PATCH V2 6/8] mdev: introduce virtio device and its device ops
-Thread-Index: AQHVct/nWfANpdabEEm3hvDI5WX0fqc8F18A
-Date: Wed, 25 Sep 2019 09:09:19 +0000
-Message-ID: <AADFC41AFE54684AB9EE6CBC0274A5D19D58F7DA@SHSMSX104.ccr.corp.intel.com>
-References: <20190924135332.14160-1-jasowang@redhat.com>
- <20190924135332.14160-7-jasowang@redhat.com>
-In-Reply-To: <20190924135332.14160-7-jasowang@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNjZkMjkzMjAtZTRmMy00NjZlLTg4NGQtMjk0MGE1YTdhNjhlIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiQStldm53XC92NkNoYndOZTZYXC9Fc1FPZEtpb3ZESVdKME9ZQ003eUw4U2tOZXl6THpyWFFoRWVkenNzc3BWclBQIn0=
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.40]
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3533F6EB51
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 09:09:34 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 31B7B72162; Wed, 25 Sep 2019 09:09:34 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111813] Ubuntu 18.04.3 + Mesa 19.3 = Login Loop
+Date: Wed, 25 Sep 2019 09:09:34 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: DirkToewe@GoogleMail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ qa_contact
+Message-ID: <bug-111813-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -72,163 +52,217 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "christophe.de.dinechin@gmail.com" <christophe.de.dinechin@gmail.com>,
- "sebott@linux.ibm.com" <sebott@linux.ibm.com>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "heiko.carstens@de.ibm.com" <heiko.carstens@de.ibm.com>,
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>,
- "rob.miller@broadcom.com" <rob.miller@broadcom.com>,
- "lulu@redhat.com" <lulu@redhat.com>,
- "eperezma@redhat.com" <eperezma@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
- "borntraeger@de.ibm.com" <borntraeger@de.ibm.com>,
- "haotian.wang@sifive.com" <haotian.wang@sifive.com>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>, "farman@linux.ibm.com" <farman@linux.ibm.com>,
- "idos@mellanox.com" <idos@mellanox.com>,
- "gor@linux.ibm.com" <gor@linux.ibm.com>, "Liang,
- Cunming" <cunming.liang@intel.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- "Wang, Xiao W" <xiao.w.wang@intel.com>,
- "freude@linux.ibm.com" <freude@linux.ibm.com>,
- "parav@mellanox.com" <parav@mellanox.com>, "Wang,
- Zhihong" <zhihong.wang@intel.com>,
- "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "oberpar@linux.ibm.com" <oberpar@linux.ibm.com>,
- "maxime.coquelin@redhat.com" <maxime.coquelin@redhat.com>, "Zhu,
- Lingshan" <lingshan.zhu@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0914714996=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PiBGcm9tOiBKYXNvbiBXYW5nIFttYWlsdG86amFzb3dhbmdAcmVkaGF0LmNvbV0KPiBTZW50OiBU
-dWVzZGF5LCBTZXB0ZW1iZXIgMjQsIDIwMTkgOTo1NCBQTQo+IAo+IFRoaXMgcGF0Y2ggaW1wbGVt
-ZW50cyBiYXNpYyBzdXBwb3J0IGZvciBtZGV2IGRyaXZlciB0aGF0IHN1cHBvcnRzCj4gdmlydGlv
-IHRyYW5zcG9ydCBmb3Iga2VybmVsIHZpcnRpbyBkcml2ZXIuCj4gCj4gU2lnbmVkLW9mZi1ieTog
-SmFzb24gV2FuZyA8amFzb3dhbmdAcmVkaGF0LmNvbT4KPiAtLS0KPiAgaW5jbHVkZS9saW51eC9t
-ZGV2LmggICAgICAgIHwgICAyICsKPiAgaW5jbHVkZS9saW51eC92aXJ0aW9fbWRldi5oIHwgMTQ1
-Cj4gKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCj4gIDIgZmlsZXMgY2hhbmdl
-ZCwgMTQ3IGluc2VydGlvbnMoKykKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvbGludXgv
-dmlydGlvX21kZXYuaAo+IAo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L21kZXYuaCBiL2lu
-Y2x1ZGUvbGludXgvbWRldi5oCj4gaW5kZXggMzQxNDMwNzMxMWYxLi43M2FjMjdiM2I4NjggMTAw
-NjQ0Cj4gLS0tIGEvaW5jbHVkZS9saW51eC9tZGV2LmgKPiArKysgYi9pbmNsdWRlL2xpbnV4L21k
-ZXYuaAo+IEBAIC0xMjYsNiArMTI2LDggQEAgc3RydWN0IG1kZXZfZGV2aWNlICptZGV2X2Zyb21f
-ZGV2KHN0cnVjdCBkZXZpY2UKPiAqZGV2KTsKPiAKPiAgZW51bSB7Cj4gIAlNREVWX0lEX1ZGSU8g
-PSAxLAo+ICsJTURFVl9JRF9WSVJUSU8gPSAyLAo+ICsJTURFVl9JRF9WSE9TVCA9IDMsCj4gIAkv
-KiBOZXcgZW50cmllcyBtdXN0IGJlIGFkZGVkIGhlcmUgKi8KPiAgfTsKPiAKPiBkaWZmIC0tZ2l0
-IGEvaW5jbHVkZS9saW51eC92aXJ0aW9fbWRldi5oIGIvaW5jbHVkZS9saW51eC92aXJ0aW9fbWRl
-di5oCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQKPiBpbmRleCAwMDAwMDAwMDAwMDAuLmQxYTQwYTcz
-OTI2Ngo+IC0tLSAvZGV2L251bGwKPiArKysgYi9pbmNsdWRlL2xpbnV4L3ZpcnRpb19tZGV2LmgK
-PiBAQCAtMCwwICsxLDE0NSBAQAo+ICsvKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIu
-MC1vbmx5ICovCj4gKy8qCj4gKyAqIFZpcnRpbyBtZWRpYXRlZCBkZXZpY2UgZHJpdmVyCj4gKyAq
-Cj4gKyAqIENvcHlyaWdodCAyMDE5LCBSZWQgSGF0IENvcnAuCj4gKyAqICAgICBBdXRob3I6IEph
-c29uIFdhbmcgPGphc293YW5nQHJlZGhhdC5jb20+Cj4gKyAqLwo+ICsjaWZuZGVmIF9MSU5VWF9W
-SVJUSU9fTURFVl9ICj4gKyNkZWZpbmUgX0xJTlVYX1ZJUlRJT19NREVWX0gKPiArCj4gKyNpbmNs
-dWRlIDxsaW51eC9pbnRlcnJ1cHQuaD4KPiArI2luY2x1ZGUgPGxpbnV4L21kZXYuaD4KPiArI2lu
-Y2x1ZGUgPHVhcGkvbGludXgvdmhvc3QuaD4KPiArCj4gKyNkZWZpbmUgVklSVElPX01ERVZfREVW
-SUNFX0FQSV9TVFJJTkcJCSJ2aXJ0aW8tbWRldiIKPiArI2RlZmluZSBWSVJUSU9fTURFVl9WRVJT
-SU9OIDB4MQoKSnVzdCBiZSBjdXJpb3VzLiBpcyB0aGlzIHZlcnNpb24gaWRlbnRpY2FsIHRvIHZp
-cnRpbyBzcGVjIHZlcnNpb24gdGhhdCBiZWxvdwpjYWxsYmFja3MgYXJlIGNyZWF0ZWQgZm9yLCBv
-ciBqdXN0IGlycmVsZXZhbnQ/Cgo+ICsKPiArc3RydWN0IHZpcnRpb19tZGV2X2NhbGxiYWNrIHsK
-PiArCWlycXJldHVybl90ICgqY2FsbGJhY2spKHZvaWQgKmRhdGEpOwo+ICsJdm9pZCAqcHJpdmF0
-ZTsKPiArfTsKPiArCj4gKy8qKgo+ICsgKiBzdHJ1Y3QgdmZpb19tZGV2X2RldmljZV9vcHMgLSBT
-dHJ1Y3R1cmUgdG8gYmUgcmVnaXN0ZXJlZCBmb3IgZWFjaAo+ICsgKiBtZGV2IGRldmljZSB0byBy
-ZWdpc3RlciB0aGUgZGV2aWNlIHRvIHZpcnRpby1tZGV2IG1vZHVsZS4KPiArICoKPiArICogQHNl
-dF92cV9hZGRyZXNzOgkJU2V0IHRoZSBhZGRyZXNzIG9mIHZpcnRxdWV1ZQo+ICsgKgkJCQlAbWRl
-djogbWVkaWF0ZWQgZGV2aWNlCj4gKyAqCQkJCUBpZHg6IHZpcnRxdWV1ZSBpbmRleAo+ICsgKgkJ
-CQlAZGVzY19hcmVhOiBhZGRyZXNzIG9mIGRlc2MgYXJlYQo+ICsgKgkJCQlAZHJpdmVyX2FyZWE6
-IGFkZHJlc3Mgb2YgZHJpdmVyIGFyZWEKPiArICoJCQkJQGRldmljZV9hcmVhOiBhZGRyZXNzIG9m
-IGRldmljZSBhcmVhCj4gKyAqCQkJCVJldHVybnMgaW50ZWdlcjogc3VjY2VzcyAoMCkgb3IgZXJy
-b3IgKDwgMCkKPiArICogQHNldF92cV9udW06CQlTZXQgdGhlIHNpemUgb2YgdmlydHF1ZXVlCj4g
-KyAqCQkJCUBtZGV2OiBtZWRpYXRlZCBkZXZpY2UKPiArICoJCQkJQGlkeDogdmlydHF1ZXVlIGlu
-ZGV4Cj4gKyAqCQkJCUBudW06IHRoZSBzaXplIG9mIHZpcnRxdWV1ZQo+ICsgKiBAa2lja192cToJ
-CQlLaWNrIHRoZSB2aXJ0cXVldWUKPiArICoJCQkJQG1kZXY6IG1lZGlhdGVkIGRldmljZQo+ICsg
-KgkJCQlAaWR4OiB2aXJ0cXVldWUgaW5kZXgKPiArICogQHNldF92cV9jYjoJCQlTZXQgdGhlIGlu
-dGVycnV0IGNhbGJhY2sgZnVuY3Rpb24gZm9yCj4gKyAqCQkJCWEgdmlydHF1ZXVlCj4gKyAqCQkJ
-CUBtZGV2OiBtZWRpYXRlZCBkZXZpY2UKPiArICoJCQkJQGlkeDogdmlydHF1ZXVlIGluZGV4Cj4g
-KyAqCQkJCUBjYjogdmlydGlvLW1kZXYgaW50ZXJydXB0IGNhbGxiYWNrCj4gc3RydWN0dXJlCj4g
-KyAqIEBzZXRfdnFfcmVhZHk6CQlTZXQgcmVhZHkgc3RhdHVzIGZvciBhIHZpcnRxdWV1ZQo+ICsg
-KgkJCQlAbWRldjogbWVkaWF0ZWQgZGV2aWNlCj4gKyAqCQkJCUBpZHg6IHZpcnRxdWV1ZSBpbmRl
-eAo+ICsgKgkJCQlAcmVhZHk6IHJlYWR5ICh0cnVlKSBub3QgcmVhZHkoZmFsc2UpCj4gKyAqIEBn
-ZXRfdnFfcmVhZHk6CQlHZXQgcmVhZHkgc3RhdHVzIGZvciBhIHZpcnRxdWV1ZQo+ICsgKgkJCQlA
-bWRldjogbWVkaWF0ZWQgZGV2aWNlCj4gKyAqCQkJCUBpZHg6IHZpcnRxdWV1ZSBpbmRleAo+ICsg
-KgkJCQlSZXR1cm5zIGJvb2xlYW46IHJlYWR5ICh0cnVlKSBvciBub3QgKGZhbHNlKQo+ICsgKiBA
-c2V0X3ZxX3N0YXRlOgkJU2V0IHRoZSBzdGF0ZSBmb3IgYSB2aXJ0cXVldWUKPiArICoJCQkJQG1k
-ZXY6IG1lZGlhdGVkIGRldmljZQo+ICsgKgkJCQlAaWR4OiB2aXJ0cXVldWUgaW5kZXgKPiArICoJ
-CQkJQHN0YXRlOiB2aXJ0cXVldWUgc3RhdGUgKGxhc3RfYXZhaWxfaWR4KQo+ICsgKgkJCQlSZXR1
-cm5zIGludGVnZXI6IHN1Y2Nlc3MgKDApIG9yIGVycm9yICg8IDApCj4gKyAqIEBnZXRfdnFfc3Rh
-dGU6CQlHZXQgdGhlIHN0YXRlIGZvciBhIHZpcnRxdWV1ZQo+ICsgKgkJCQlAbWRldjogbWVkaWF0
-ZWQgZGV2aWNlCj4gKyAqCQkJCUBpZHg6IHZpcnRxdWV1ZSBpbmRleAo+ICsgKgkJCQlSZXR1cm5z
-IHZpcnRxdWV1ZSBzdGF0ZSAobGFzdF9hdmFpbF9pZHgpCj4gKyAqIEBnZXRfdnFfYWxpZ246CQlH
-ZXQgdGhlIHZpcnRxdWV1ZSBhbGlnbiByZXF1aXJlbWVudAo+ICsgKgkJCQlmb3IgdGhlIGRldmlj
-ZQo+ICsgKgkJCQlAbWRldjogbWVkaWF0ZWQgZGV2aWNlCj4gKyAqCQkJCVJldHVybnMgdmlydHF1
-ZXVlIGFsZ2luIHJlcXVpcmVtZW50Cj4gKyAqIEBnZXRfZmVhdHVyZXM6CQlHZXQgdmlydGlvIGZl
-YXR1cmVzIHN1cHBvcnRlZCBieSB0aGUgZGV2aWNlCj4gKyAqCQkJCUBtZGV2OiBtZWRpYXRlZCBk
-ZXZpY2UKPiArICoJCQkJUmV0dXJucyB0aGUgZmVhdHVyZXMgc3VwcG9ydCBieSB0aGUKPiArICoJ
-CQkJZGV2aWNlCj4gKyAqIEBnZXRfZmVhdHVyZXM6CQlTZXQgdmlydGlvIGZlYXR1cmVzIHN1cHBv
-cnRlZCBieSB0aGUgZHJpdmVyCj4gKyAqCQkJCUBtZGV2OiBtZWRpYXRlZCBkZXZpY2UKPiArICoJ
-CQkJQGZlYXR1cmVzOiBmZWF0dXJlIHN1cHBvcnQgYnkgdGhlIGRyaXZlcgo+ICsgKgkJCQlSZXR1
-cm5zIGludGVnZXI6IHN1Y2Nlc3MgKDApIG9yIGVycm9yICg8IDApCj4gKyAqIEBzZXRfY29uZmln
-X2NiOgkJU2V0IHRoZSBjb25maWcgaW50ZXJydXB0IGNhbGxiYWNrCj4gKyAqCQkJCUBtZGV2OiBt
-ZWRpYXRlZCBkZXZpY2UKPiArICoJCQkJQGNiOiB2aXJ0aW8tbWRldiBpbnRlcnJ1cHQgY2FsbGJh
-Y2sKPiBzdHJ1Y3R1cmUKPiArICogQGdldF9kZXZpY2VfaWQ6CQlHZXQgdmlydGlvIGRldmljZSBp
-ZAo+ICsgKgkJCQlAbWRldjogbWVkaWF0ZWQgZGV2aWNlCj4gKyAqCQkJCVJldHVybnMgdTMyOiB2
-aXJ0aW8gZGV2aWNlIGlkCj4gKyAqIEBnZXRfdmVuZG9yX2lkOgkJR2V0IHZpcnRpbyB2ZW5kb3Ig
-aWQKPiArICoJCQkJQG1kZXY6IG1lZGlhdGVkIGRldmljZQo+ICsgKgkJCQlSZXR1cm5zIHUzMjog
-dmlydGlvIHZlbmRvciBpZAo+ICsgKiBAZ2V0X3N0YXR1czoJCUdldCB0aGUgZGV2aWNlIHN0YXR1
-cwo+ICsgKgkJCQlAbWRldjogbWVkaWF0ZWQgZGV2aWNlCj4gKyAqCQkJCVJldHVybnMgdTg6IHZp
-cnRpbyBkZXZpY2Ugc3RhdHVzCj4gKyAqIEBzZXRfc3RhdHVzOgkJU2V0IHRoZSBkZXZpY2Ugc3Rh
-dHVzCj4gKyAqCQkJCUBtZGV2OiBtZWRpYXRlZCBkZXZpY2UKPiArICoJCQkJQHN0YXR1czogdmly
-dGlvIGRldmljZSBzdGF0dXMKPiArICogQGdldF9jb25maWc6CQlSZWFkIGZyb20gZGV2aWNlIHNw
-ZWNpZmljIGNvbmZpdWdyYXRpb24KPiBzcGFjZQoKY29uZmlndXJhdGlvbiAoYW5kIHNpbWlsYXIg
-dHlwb3MgZG93bndhcmQpCgo+ICsgKgkJCQlAbWRldjogbWVkaWF0ZWQgZGV2aWNlCj4gKyAqCQkJ
-CUBvZmZzZXQ6IG9mZnNldCBmcm9tIHRoZSBiZWdpbm5pbmcgb2YKPiArICoJCQkJY29uZmlndXJh
-dGlvbiBzcGFjZQo+ICsgKgkJCQlAYnVmOiBidWZmZXIgdXNlZCB0byByZWFkIHRvCj4gKyAqCQkJ
-CUBsZW46IHRoZSBsZW5ndGggdG8gcmVhZCBmcm9tCj4gKyAqCQkJCWNvbmZpZ3JhdGlvbiBzcGFj
-ZQo+ICsgKiBAc2V0X2NvbmZpZzoJCVdyaXRlIHRvIGRldmljZSBzcGVjaWZpYyBjb25maXVncmF0
-aW9uIHNwYWNlCj4gKyAqCQkJCUBtZGV2OiBtZWRpYXRlZCBkZXZpY2UKPiArICoJCQkJQG9mZnNl
-dDogb2Zmc2V0IGZyb20gdGhlIGJlZ2lubmluZyBvZgo+ICsgKgkJCQljb25maWd1cmF0aW9uIHNw
-YWNlCj4gKyAqCQkJCUBidWY6IGJ1ZmZlciB1c2VkIHRvIHdyaXRlIGZyb20KPiArICoJCQkJQGxl
-bjogdGhlIGxlbmd0aCB0byB3cml0ZSB0bwo+ICsgKgkJCQljb25maWdyYXRpb24gc3BhY2UKPiAr
-ICogQGdldF92ZXJzaW9uOgkJR2V0IHRoZSB2ZXJzaW9uIG9mIHZpcnRpbyBtZGV2IGRldmljZQo+
-ICsgKgkJCQlAbWRldjogbWVkaWF0ZWQgZGV2aWNlCj4gKyAqCQkJCVJldHVybnMgaW50ZWdlcjog
-dmVyc2lvbiBvZiB0aGUgZGV2aWNlCj4gKyAqIEBnZXRfZ2VuZXJhdGlvbjoJCUdldCBkZXZpY2Ug
-Z2VuZXJhdG9uCj4gKyAqCQkJCUBtZGV2OiBtZWRpYXRlZCBkZXZpY2UKPiArICoJCQkJUmV0dXJu
-cyB1MzI6IGRldmljZSBnZW5lcmF0aW9uCj4gKyAqLwo+ICtzdHJ1Y3QgdmlydGlvX21kZXZfZGV2
-aWNlX29wcyB7Cj4gKwkvKiBWaXJ0cXVldWUgb3BzICovCj4gKwlpbnQgKCpzZXRfdnFfYWRkcmVz
-cykoc3RydWN0IG1kZXZfZGV2aWNlICptZGV2LAo+ICsJCQkgICAgICB1MTYgaWR4LCB1NjQgZGVz
-Y19hcmVhLCB1NjQgZHJpdmVyX2FyZWEsCj4gKwkJCSAgICAgIHU2NCBkZXZpY2VfYXJlYSk7Cj4g
-Kwl2b2lkICgqc2V0X3ZxX251bSkoc3RydWN0IG1kZXZfZGV2aWNlICptZGV2LCB1MTYgaWR4LCB1
-MzIgbnVtKTsKPiArCXZvaWQgKCpraWNrX3ZxKShzdHJ1Y3QgbWRldl9kZXZpY2UgKm1kZXYsIHUx
-NiBpZHgpOwo+ICsJdm9pZCAoKnNldF92cV9jYikoc3RydWN0IG1kZXZfZGV2aWNlICptZGV2LCB1
-MTYgaWR4LAo+ICsJCQkgIHN0cnVjdCB2aXJ0aW9fbWRldl9jYWxsYmFjayAqY2IpOwo+ICsJdm9p
-ZCAoKnNldF92cV9yZWFkeSkoc3RydWN0IG1kZXZfZGV2aWNlICptZGV2LCB1MTYgaWR4LCBib29s
-Cj4gcmVhZHkpOwo+ICsJYm9vbCAoKmdldF92cV9yZWFkeSkoc3RydWN0IG1kZXZfZGV2aWNlICpt
-ZGV2LCB1MTYgaWR4KTsKPiArCWludCAoKnNldF92cV9zdGF0ZSkoc3RydWN0IG1kZXZfZGV2aWNl
-ICptZGV2LCB1MTYgaWR4LCB1NjQgc3RhdGUpOwo+ICsJdTY0ICgqZ2V0X3ZxX3N0YXRlKShzdHJ1
-Y3QgbWRldl9kZXZpY2UgKm1kZXYsIHUxNiBpZHgpOwo+ICsKPiArCS8qIERldmljZSBvcHMgKi8K
-PiArCXUxNiAoKmdldF92cV9hbGlnbikoc3RydWN0IG1kZXZfZGV2aWNlICptZGV2KTsKPiArCXU2
-NCAoKmdldF9mZWF0dXJlcykoc3RydWN0IG1kZXZfZGV2aWNlICptZGV2KTsKPiArCWludCAoKnNl
-dF9mZWF0dXJlcykoc3RydWN0IG1kZXZfZGV2aWNlICptZGV2LCB1NjQgZmVhdHVyZXMpOwo+ICsJ
-dm9pZCAoKnNldF9jb25maWdfY2IpKHN0cnVjdCBtZGV2X2RldmljZSAqbWRldiwKPiArCQkJICAg
-ICAgc3RydWN0IHZpcnRpb19tZGV2X2NhbGxiYWNrICpjYik7Cj4gKwl1MTYgKCpnZXRfcXVldWVf
-bWF4KShzdHJ1Y3QgbWRldl9kZXZpY2UgKm1kZXYpOwo+ICsJdTMyICgqZ2V0X2RldmljZV9pZCko
-c3RydWN0IG1kZXZfZGV2aWNlICptZGV2KTsKPiArCXUzMiAoKmdldF92ZW5kb3JfaWQpKHN0cnVj
-dCBtZGV2X2RldmljZSAqbWRldik7Cj4gKwl1OCAoKmdldF9zdGF0dXMpKHN0cnVjdCBtZGV2X2Rl
-dmljZSAqbWRldik7Cj4gKwl2b2lkICgqc2V0X3N0YXR1cykoc3RydWN0IG1kZXZfZGV2aWNlICpt
-ZGV2LCB1OCBzdGF0dXMpOwo+ICsJdm9pZCAoKmdldF9jb25maWcpKHN0cnVjdCBtZGV2X2Rldmlj
-ZSAqbWRldiwgdW5zaWduZWQgaW50IG9mZnNldCwKPiArCQkJICAgdm9pZCAqYnVmLCB1bnNpZ25l
-ZCBpbnQgbGVuKTsKPiArCXZvaWQgKCpzZXRfY29uZmlnKShzdHJ1Y3QgbWRldl9kZXZpY2UgKm1k
-ZXYsIHVuc2lnbmVkIGludCBvZmZzZXQsCj4gKwkJCSAgIGNvbnN0IHZvaWQgKmJ1ZiwgdW5zaWdu
-ZWQgaW50IGxlbik7Cj4gKwlpbnQgKCpnZXRfdmVyc2lvbikoc3RydWN0IG1kZXZfZGV2aWNlICpt
-ZGV2KTsKPiArCXUzMiAoKmdldF9nZW5lcmF0aW9uKShzdHJ1Y3QgbWRldl9kZXZpY2UgKm1kZXYp
-Owo+ICt9OwoKSSdtIG5vdCBzdXJlIGhvdyBzdGFibGUgYWJvdmUgb3BzIGFyZS4gRG9lcyBpdCBt
-YWtlIHNlbnNlIGlmIGRlZmluaW5nCmp1c3QgdHdvIGNhbGxiYWNrcyBoZXJlLCBlLmcuIHZxX2N0
-cmwgYW5kIGRldmljZV9jdHJsLCBhbmQgdGhlbiBsZXQgdGhlCnZlbmRvciBkcml2ZXIgdG8gaGFu
-ZGxlIHNwZWNpZmljIG9wcyBpbiBlYWNoIGNhdGVnb3J5IChzaW1pbGFyIHRvIGhvdwppb2N0bCB3
-b3Jrcyk/CgpUaGFua3MKS2V2aW4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbA==
+
+--===============0914714996==
+Content-Type: multipart/alternative; boundary="15694025741.F62F26.26431"
+Content-Transfer-Encoding: 7bit
+
+
+--15694025741.F62F26.26431
+Date: Wed, 25 Sep 2019 09:09:34 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111813
+
+            Bug ID: 111813
+           Summary: Ubuntu 18.04.3 + Mesa 19.3 =3D Login Loop
+           Product: Mesa
+           Version: git
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: normal
+          Priority: not set
+         Component: Drivers/Gallium/radeonsi
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: DirkToewe@GoogleMail.com
+        QA Contact: dri-devel@lists.freedesktop.org
+
+Description
+-----------
+As of today with Oibaf's latest PPA update (19.3~git1909250730.88f909~oibaf=
+~b),
+Ubuntu 18.04.3 is stuck in a login loop, i.e. after entering the password t=
+he
+desktop background is displayed for a second and then Gnome goes back to the
+login screen. According to /var/log/syslog, there are segementation faults
+happening when Gnome tries to access GLX.
+
+Sep 25 09:07:58 kernel: [   10.405287] gnome-shell[1073]: segfault at 50 ip
+00007f1d58939291 sp 00007ffe73daced0 error 4 in
+libGLX_mesa.so.0.0.0[7f1d588f0000+73000]
+Sep 25 09:07:59 kernel: [   12.097378] gnome-shell[1323]: segfault at 50 ip
+00007f3c427b1291 sp 00007ffef7af4e50 error 4 in
+libGLX_mesa.so.0.0.0[7f3c42768000+73000]
+
+After reverting to the official Ubuntu repositories using PPA-Purge, the lo=
+gin
+works just fine. My experience with (debugging) native binaries let alone
+drivers is quite limited. Please let me know what else I can do to provide =
+more
+info if needed.
+
+Hardware
+--------
+AMD A10-7850K APU (Kaveri)
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15694025741.F62F26.26431
+Date: Wed, 25 Sep 2019 09:09:34 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Ubuntu 18.04.3 + Mesa 19.3 =3D Login Loop"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111813">111813</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Ubuntu 18.04.3 + Mesa 19.3 =3D Login Loop
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>Mesa
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>Drivers/Gallium/radeonsi
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>DirkToewe&#64;GoogleMail.com
+          </td>
+        </tr>
+
+        <tr>
+          <th>QA Contact</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Description
+-----------
+As of today with Oibaf's latest PPA update (19.3~git1909250730.88f909~oibaf=
+~b),
+Ubuntu 18.04.3 is stuck in a login loop, i.e. after entering the password t=
+he
+desktop background is displayed for a second and then Gnome goes back to the
+login screen. According to /var/log/syslog, there are segementation faults
+happening when Gnome tries to access GLX.
+
+Sep 25 09:07:58 kernel: [   10.405287] gnome-shell[1073]: segfault at 50 ip
+00007f1d58939291 sp 00007ffe73daced0 error 4 in
+libGLX_mesa.so.0.0.0[7f1d588f0000+73000]
+Sep 25 09:07:59 kernel: [   12.097378] gnome-shell[1323]: segfault at 50 ip
+00007f3c427b1291 sp 00007ffef7af4e50 error 4 in
+libGLX_mesa.so.0.0.0[7f3c42768000+73000]
+
+After reverting to the official Ubuntu repositories using PPA-Purge, the lo=
+gin
+works just fine. My experience with (debugging) native binaries let alone
+drivers is quite limited. Please let me know what else I can do to provide =
+more
+info if needed.
+
+Hardware
+--------
+AMD A10-7850K APU (Kaveri)</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15694025741.F62F26.26431--
+
+--===============0914714996==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0914714996==--
