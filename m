@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A306DBE406
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 19:59:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDF2CBE409
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 19:59:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9193F6EC5D;
-	Wed, 25 Sep 2019 17:59:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C00A989322;
+	Wed, 25 Sep 2019 17:59:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 348C66EC51
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 17:59:32 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DB0356EC42
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 17:59:38 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 31E1072162; Wed, 25 Sep 2019 17:59:32 +0000 (UTC)
+ id D81A372162; Wed, 25 Sep 2019 17:59:38 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 101675] Peace, Death! crashed on start-up
-Date: Wed, 25 Sep 2019 17:59:32 +0000
+Subject: [Bug 101769] 2X performance regression on Mesa 17.1 vs 17.0
+Date: Wed, 25 Sep 2019 17:59:39 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
+X-Bugzilla-Version: 17.1
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: major
 X-Bugzilla-Who: gitlab-migration@fdo.invalid
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
@@ -34,9 +34,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-101675-502-VDmkmOJm4v@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-101675-502@http.bugs.freedesktop.org/>
-References: <bug-101675-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-101769-502-WGQXh81bV6@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-101769-502@http.bugs.freedesktop.org/>
+References: <bug-101769-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,34 +52,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2137135233=="
+Content-Type: multipart/mixed; boundary="===============2042724079=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============2137135233==
-Content-Type: multipart/alternative; boundary="15694343720.b5D3.32305"
+--===============2042724079==
+Content-Type: multipart/alternative; boundary="15694343781.5CAE686E.32305"
 Content-Transfer-Encoding: 7bit
 
 
---15694343720.b5D3.32305
-Date: Wed, 25 Sep 2019 17:59:32 +0000
+--15694343781.5CAE686E.32305
+Date: Wed, 25 Sep 2019 17:59:38 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D101675
+https://bugs.freedesktop.org/show_bug.cgi?id=3D101769
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
+             Status|NEEDINFO                    |RESOLVED
          Resolution|---                         |MOVED
 
---- Comment #3 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
+--- Comment #4 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +88,14 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/127=
-1.
+3.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15694343720.b5D3.32305
-Date: Wed, 25 Sep 2019 17:59:32 +0000
+--15694343781.5CAE686E.32305
+Date: Wed, 25 Sep 2019 17:59:38 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,9 +112,9 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Peace, Death! crashed on start-up"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101675">bug 10167=
-5</a>
+   title=3D"RESOLVED MOVED - 2X performance regression on Mesa 17.1 vs 17.0"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101769">bug 10176=
+9</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -125,7 +125,7 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 
          <tr>
            <td style=3D"text-align:right;">Status</td>
-           <td>NEW
+           <td>NEEDINFO
            </td>
            <td>RESOLVED
            </td>
@@ -142,14 +142,14 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Peace, Death! crashed on start-up"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101675#c3">Commen=
-t # 3</a>
+   title=3D"RESOLVED MOVED - 2X performance regression on Mesa 17.1 vs 17.0"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101769#c4">Commen=
+t # 4</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Peace, Death! crashed on start-up"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101675">bug 10167=
-5</a>
+   title=3D"RESOLVED MOVED - 2X performance regression on Mesa 17.1 vs 17.0"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101769">bug 10176=
+9</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
 -migration&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</=
@@ -163,7 +163,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/1271">https://gitlab.freedesktop.org/mesa/mesa/issues/1271</a>.</pr=
+/issues/1273">https://gitlab.freedesktop.org/mesa/mesa/issues/1273</a>.</pr=
 e>
         </div>
       </p>
@@ -178,9 +178,9 @@ e>
     </body>
 </html>=
 
---15694343720.b5D3.32305--
+--15694343781.5CAE686E.32305--
 
---===============2137135233==
+--===============2042724079==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -190,4 +190,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============2137135233==--
+--===============2042724079==--
