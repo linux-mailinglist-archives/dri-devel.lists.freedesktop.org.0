@@ -2,30 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3934BE437
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 20:03:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC53BE439
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 20:04:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A92076EC6D;
-	Wed, 25 Sep 2019 18:03:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C8566EC6F;
+	Wed, 25 Sep 2019 18:04:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 024B06EC6E
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 18:03:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 88AD26EC74
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 18:03:57 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id F303772162; Wed, 25 Sep 2019 18:03:41 +0000 (UTC)
+ id 84E8D72162; Wed, 25 Sep 2019 18:03:57 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 106493] "New game" in stellaris triggers Assertion
- `rtex->surface.u.legacy.level[level].dcc_fast_clear_size' failed.
-Date: Wed, 25 Sep 2019 18:03:42 +0000
+Subject: [Bug 106671] Frequent lock ups for AMD RX 550 graphics card
+Date: Wed, 25 Sep 2019 18:03:57 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
+X-Bugzilla-Version: 18.0
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: gitlab-migration@fdo.invalid
@@ -34,10 +33,10 @@ X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-106493-502-jFBg4oFbXd@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-106493-502@http.bugs.freedesktop.org/>
-References: <bug-106493-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-106671-502-2KX9VPYGp0@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-106671-502@http.bugs.freedesktop.org/>
+References: <bug-106671-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,34 +52,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1231980496=="
+Content-Type: multipart/mixed; boundary="===============1729744502=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1231980496==
-Content-Type: multipart/alternative; boundary="15694346211.5fcA49bF.2066"
+--===============1729744502==
+Content-Type: multipart/alternative; boundary="15694346372.8bfAd64b.2066"
 Content-Transfer-Encoding: 7bit
 
 
---15694346211.5fcA49bF.2066
-Date: Wed, 25 Sep 2019 18:03:41 +0000
+--15694346372.8bfAd64b.2066
+Date: Wed, 25 Sep 2019 18:03:57 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D106493
+https://bugs.freedesktop.org/show_bug.cgi?id=3D106671
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-         Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
+         Resolution|---                         |MOVED
 
---- Comment #2 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
+--- Comment #37 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
+--
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -89,14 +89,14 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/131=
-3.
+4.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15694346211.5fcA49bF.2066
-Date: Wed, 25 Sep 2019 18:03:41 +0000
+--15694346372.8bfAd64b.2066
+Date: Wed, 25 Sep 2019 18:03:57 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -113,10 +113,9 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - &quot;New game&quot; in stellaris triggers Ass=
-ertion `rtex-&gt;surface.u.legacy.level[level].dcc_fast_clear_size' failed."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D106493">bug 10649=
-3</a>
+   title=3D"RESOLVED MOVED - Frequent lock ups for AMD RX 550 graphics card"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D106671">bug 10667=
+1</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -126,34 +125,32 @@ ertion `rtex-&gt;surface.u.legacy.level[level].dcc_fast_clear_size' failed."
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>MOVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Status</td>
            <td>NEW
            </td>
            <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>MOVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - &quot;New game&quot; in stellaris triggers Ass=
-ertion `rtex-&gt;surface.u.legacy.level[level].dcc_fast_clear_size' failed."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D106493#c2">Commen=
-t # 2</a>
+   title=3D"RESOLVED MOVED - Frequent lock ups for AMD RX 550 graphics card"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D106671#c37">Comme=
+nt # 37</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - &quot;New game&quot; in stellaris triggers Ass=
-ertion `rtex-&gt;surface.u.legacy.level[level].dcc_fast_clear_size' failed."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D106493">bug 10649=
-3</a>
+   title=3D"RESOLVED MOVED - Frequent lock ups for AMD RX 550 graphics card"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D106671">bug 10667=
+1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
 -migration&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</=
@@ -167,7 +164,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/1313">https://gitlab.freedesktop.org/mesa/mesa/issues/1313</a>.</pr=
+/issues/1314">https://gitlab.freedesktop.org/mesa/mesa/issues/1314</a>.</pr=
 e>
         </div>
       </p>
@@ -182,9 +179,9 @@ e>
     </body>
 </html>=
 
---15694346211.5fcA49bF.2066--
+--15694346372.8bfAd64b.2066--
 
---===============1231980496==
+--===============1729744502==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -194,4 +191,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1231980496==--
+--===============1729744502==--
