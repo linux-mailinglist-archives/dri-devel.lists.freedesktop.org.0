@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD71BBE4FC
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 20:49:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 510A1BE4FE
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 20:49:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 220ED6F3AB;
-	Wed, 25 Sep 2019 18:49:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 706DF6F3B9;
+	Wed, 25 Sep 2019 18:49:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 41CB56F3BD
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 18:49:19 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 528F86F3C4
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 18:49:26 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 3E24F72162; Wed, 25 Sep 2019 18:49:19 +0000 (UTC)
+ id 5016572162; Wed, 25 Sep 2019 18:49:26 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110472] Graphical Fault (Desktop Freeze) on Specific OpenGL
- Application
-Date: Wed, 25 Sep 2019 18:49:19 +0000
+Subject: [Bug 110509] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx
+ timeout
+Date: Wed, 25 Sep 2019 18:49:26 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -35,9 +35,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-110472-502-uWh2Ryxo0b@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110472-502@http.bugs.freedesktop.org/>
-References: <bug-110472-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110509-502-yLbm5q0NZO@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110509-502@http.bugs.freedesktop.org/>
+References: <bug-110509-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,25 +53,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1640532807=="
+Content-Type: multipart/mixed; boundary="===============0350770953=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1640532807==
-Content-Type: multipart/alternative; boundary="15694373592.9C2EeD.10224"
+--===============0350770953==
+Content-Type: multipart/alternative; boundary="15694373661.1acFb72Dc.10224"
 Content-Transfer-Encoding: 7bit
 
 
---15694373592.9C2EeD.10224
-Date: Wed, 25 Sep 2019 18:49:19 +0000
+--15694373661.1acFb72Dc.10224
+Date: Wed, 25 Sep 2019 18:49:26 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110472
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110509
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
@@ -80,7 +80,8 @@ GitLab Migration User <gitlab-migration@fdo.invalid> changed:
              Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
 
---- Comment #7 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
+--- Comment #16 from GitLab Migration User <gitlab-migration@fdo.invalid> -=
+--
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -89,14 +90,14 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/138=
-8.
+9.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15694373592.9C2EeD.10224
-Date: Wed, 25 Sep 2019 18:49:19 +0000
+--15694373661.1acFb72Dc.10224
+Date: Wed, 25 Sep 2019 18:49:26 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -113,10 +114,10 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Graphical Fault (Desktop Freeze) on Specific O=
-penGL Application"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110472">bug 11047=
-2</a>
+   title=3D"RESOLVED MOVED - [drm:amdgpu_job_timedout [amdgpu]] *ERROR* rin=
+g gfx timeout"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110509">bug 11050=
+9</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -144,16 +145,16 @@ penGL Application"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Graphical Fault (Desktop Freeze) on Specific O=
-penGL Application"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110472#c7">Commen=
-t # 7</a>
+   title=3D"RESOLVED MOVED - [drm:amdgpu_job_timedout [amdgpu]] *ERROR* rin=
+g gfx timeout"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110509#c16">Comme=
+nt # 16</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Graphical Fault (Desktop Freeze) on Specific O=
-penGL Application"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110472">bug 11047=
-2</a>
+   title=3D"RESOLVED MOVED - [drm:amdgpu_job_timedout [amdgpu]] *ERROR* rin=
+g gfx timeout"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110509">bug 11050=
+9</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
 -migration&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</=
@@ -167,7 +168,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/1388">https://gitlab.freedesktop.org/mesa/mesa/issues/1388</a>.</pr=
+/issues/1389">https://gitlab.freedesktop.org/mesa/mesa/issues/1389</a>.</pr=
 e>
         </div>
       </p>
@@ -182,9 +183,9 @@ e>
     </body>
 </html>=
 
---15694373592.9C2EeD.10224--
+--15694373661.1acFb72Dc.10224--
 
---===============1640532807==
+--===============0350770953==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -194,4 +195,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1640532807==--
+--===============0350770953==--
