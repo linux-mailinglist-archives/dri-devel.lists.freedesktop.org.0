@@ -1,46 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B92BDF9F
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 16:04:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C158BDFA4
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 16:06:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58D966EBC5;
-	Wed, 25 Sep 2019 14:04:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 097636EBC6;
+	Wed, 25 Sep 2019 14:06:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2C8626EBC5
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 14:04:06 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 2919072162; Wed, 25 Sep 2019 14:04:06 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111792] [AMD tahiti xt] amd-staging-drm-next broken since linux
- 5.3.0-rc3 rebase
-Date: Wed, 25 Sep 2019 14:04:06 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocker
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: highest
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111792-502-RiyCGvBlwQ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111792-502@http.bugs.freedesktop.org/>
-References: <bug-111792-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 78A6E6EBC6
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 14:06:46 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 18EF728;
+ Wed, 25 Sep 2019 07:06:46 -0700 (PDT)
+Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B70973F59C;
+ Wed, 25 Sep 2019 07:06:45 -0700 (PDT)
+From: Steven Price <steven.price@arm.com>
+Subject: Re: blocking ops in drm_sched_cleanup_jobs()
+To: "Koenig, Christian" <Christian.Koenig@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+References: <6ed945cb-619a-b26d-21b0-9bdaeaa69582@arm.com>
+ <6ad57904-d145-1771-84a1-926d6e95bade@amd.com>
+ <1c56e435-f05b-e40b-372e-5b6af2f25291@arm.com>
+ <1a7dfdda-03d9-b13a-d45b-e6501bf6975d@amd.com>
+Message-ID: <35f11ace-942e-c29f-87f3-3063f7b05b4b@arm.com>
+Date: Wed, 25 Sep 2019 15:06:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <1a7dfdda-03d9-b13a-d45b-e6501bf6975d@amd.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,94 +45,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0642897953=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0642897953==
-Content-Type: multipart/alternative; boundary="15694202460.263A.14866"
-Content-Transfer-Encoding: 7bit
-
-
---15694202460.263A.14866
-Date: Wed, 25 Sep 2019 14:04:06 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111792
-
---- Comment #7 from Alex Deucher <alexdeucher@gmail.com> ---
-You need this patch:
-https://cgit.freedesktop.org/drm/drm-misc/commit/?h=3Ddrm-misc-next-fixes&i=
-d=3De0f32f78e51b9989ee89f608fd0dd10e9c230652
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15694202460.263A.14866
-Date: Wed, 25 Sep 2019 14:04:06 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [AMD tahiti xt] amd-staging-drm-next broken since linux 5=
-.3.0-rc3 rebase"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111792#c7">Commen=
-t # 7</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [AMD tahiti xt] amd-staging-drm-next broken since linux 5=
-.3.0-rc3 rebase"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111792">bug 11179=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
-com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
-</span></b>
-        <pre>You need this patch:
-<a href=3D"https://cgit.freedesktop.org/drm/drm-misc/commit/?h=3Ddrm-misc-n=
-ext-fixes&amp;id=3De0f32f78e51b9989ee89f608fd0dd10e9c230652">https://cgit.f=
-reedesktop.org/drm/drm-misc/commit/?h=3Ddrm-misc-next-fixes&amp;id=3De0f32f=
-78e51b9989ee89f608fd0dd10e9c230652</a></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15694202460.263A.14866--
-
---===============0642897953==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0642897953==--
+T24gMjQvMDkvMjAxOSAxMDo1NSwgS29lbmlnLCBDaHJpc3RpYW4gd3JvdGU6Cj4gU29ycnkgZm9y
+IHRoZSBkZWxheWVkIHJlc3BvbnNlLCBoYXZlIGJlZW4gYnVzeSBvbiBvdGhlciBzdHVmZiBsYXN0
+IHdlZWsuCj4gCj4gQW0gMTcuMDkuMTkgdW0gMTQ6NDYgc2NocmllYiBTdGV2ZW4gUHJpY2U6Cj4+
+IE9uIDE3LzA5LzIwMTkgMDk6NDIsIEtvZW5pZywgQ2hyaXN0aWFuIHdyb3RlOgo+Pj4gSGkgU3Rl
+dmVuLAo+Pj4KPj4+IHRob3VnaHQgYWJvdXQgdGhhdCBpc3N1ZSBhIGJpdCBtb3JlIGFuZCBJIHRo
+aW5rIEkgY2FtZSB1cCB3aXRoIGEgCj4+PiBzb2x1dGlvbi4KPj4+Cj4+PiBXaGF0IHlvdSBjb3Vs
+ZCBkbyBpcyB0byBzcGxpdCB1cCBkcm1fc2NoZWRfY2xlYW51cF9qb2JzKCkgaW50byB0d28KPj4+
+IGZ1bmN0aW9ucy4KPj4+Cj4+PiBPbmUgdGhhdCBjaGVja3MgaWYgam9icyB0byBiZSBjbGVhbmVk
+IHVwIGFyZSBwcmVzZW50IGFuZCBvbmUgd2hpY2ggZG9lcwo+Pj4gdGhlIGFjdHVhbCBjbGVhbnVw
+Lgo+Pj4KPj4+IFRoaXMgd2F5IHdlIGNvdWxkIGNhbGwgZHJtX3NjaGVkX2NsZWFudXBfam9icygp
+IG91dHNpZGUgb2YgdGhlCj4+PiB3YWl0X2V2ZW50X2ludGVycnVwdGlibGUoKS4KPj4KPj4gWWVz
+IHRoYXQgc2VlbXMgbGlrZSBhIGdvb2Qgc29sdXRpb24gLSB0aGVyZSBkb2Vzbid0IHNlZW0gdG8g
+YmUgYSBnb29kIAo+PiByZWFzb24gd2h5IHRoZSBhY3R1YWwgam9iIGNsZWFudXAgbmVlZHMgdG8g
+YmUgZG9uZSB3aXRoaW4gdGhlIAo+PiB3YWl0X2V2ZW50X2ludGVycnVwdGlibGUoKSBjb25kaXRp
+b24uIEkgZGlkIGJyaWVmbHkgYXR0ZW1wdCB0aGF0IAo+PiBiZWZvcmUsIGJ1dCBJIGNvdWxkbid0
+IHdvcmsgb3V0IGV4YWN0bHkgd2hhdCB0aGUgY29uZGl0aW9uIGlzIHdoaWNoIAo+PiBzaG91bGQg
+Y2F1c2UgdGhlIHdha2UgKG15IGluaXRpYWwgYXR0ZW1wdCBjYXVzZWQgY29udGludW91cyB3YWtl
+LXVwcykuCj4gCj4gQmFzaWNhbGx5IHlvdSBuZWVkIHNvbWV0aGluZyBsaWtlIHRoZSBmb2xsb3dp
+bmc6Cj4gCj4gMS4gVGVzdCBpcyB0aW1lb3V0IHdvcmtlciBpcyBydW5uaW5nOgo+IAo+IGlmIChz
+Y2hlZC0+dGltZW91dCAhPSBNQVhfU0NIRURVTEVfVElNRU9VVCAmJgo+ICDCoMKgwqAgIWNhbmNl
+bF9kZWxheWVkX3dvcmsoJnNjaGVkLT53b3JrX3RkcikpCj4gIMKgwqDCoCDCoMKgwqAgcmV0dXJu
+IGZhbHNlOwo+IAo+IDIuIFRlc3QgaWYgdGhlcmUgaXMgYW55IGpvYiByZWFkeSB0byBiZSBjbGVh
+bmVkIHVwLgo+IAo+IGpvYiA9IGxpc3RfZmlyc3RfZW50cnlfb3JfbnVsbCgmc2NoZWQtPnJpbmdf
+bWlycm9yX2xpc3QsIHN0cnVjdCAKPiBkcm1fc2NoZWRfam9iLCBub2RlKTsKPiBpZiAoIWpvYiB8
+fCAhZG1hX2ZlbmNlX2lzX3NpZ25hbGVkKCZqb2ItPnNfZmVuY2UtPmZpbmlzaGVkKSkKPiAgwqDC
+oMKgIHJldHVybiBmYWxzZTsKPiAKPiBUaGF0IHNob3VsZCBiYXNpY2FsbHkgZG8gaXQuCgpUaGFu
+a3MgZm9yIHRoZSBwb2ludGVycy4gSSB3YXNuJ3Qgc3VyZSBpZiB0aGUgInF1ZXVlIHRpbWVvdXQg
+Zm9yIG5leHQKam9iIiBwYXJ0IHdhcyBuZWNlc3Nhcnkgb3Igbm90IGlmIHN0ZXAgMiBhYm92ZSBy
+ZXR1cm5zIGZhbHNlLgoKSSd2ZSBiZWVuIHRlc3RpbmcgdGhlIGZvbGxvd2luZyBwYXRjaCB3aGlj
+aCBzaW1wbHkgcHVsbHMgdGhlCnNjaGVkLT5vcHMtPmZyZWVfam9iKCkgb3V0IG9mIHRoZSB3YWl0
+X2V2ZW50X2ludGVycnVwdGlibGUoKS4KCkknbGwgdHJ5IHdpdGgganVzdCB0aGUgdGVzdHMgeW91
+J3ZlIGRlc2NyaWJlZC4KCi0tLS04PC0tLS0tCkZyb20gODczYzE4MTYzOTRiZWVlNzI5MDRlNjRh
+YTJlZTBmMTY5ZTc2OGQ3NiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKRnJvbTogU3RldmVuIFBy
+aWNlIDxzdGV2ZW4ucHJpY2VAYXJtLmNvbT4KRGF0ZTogTW9uLCAyMyBTZXAgMjAxOSAxMTowODo1
+MCArMDEwMApTdWJqZWN0OiBbUEFUQ0hdIGRybTogRG9uJ3QgZnJlZSBqb2JzIGluIHdhaXRfZXZl
+bnRfaW50ZXJydXB0aWJsZSgpCgpkcm1fc2NoZWRfY2xlYW51cF9qb2JzKCkgYXR0ZW1wdHMgdG8g
+ZnJlZSBmaW5pc2hlZCBqb2JzLCBob3dldmVyIGJlY2F1c2UKaXQgaXMgY2FsbGVkIGFzIHRoZSBj
+b25kaXRpb24gb2Ygd2FpdF9ldmVudF9pbnRlcnJ1cHRpYmxlKCkgaXQgbXVzdCBub3QKc2xlZXAu
+IFVuZm9ydHVhbnRseSBzb21lIGZyZWUgY2FsbGJhY2tzIChub3RpYmx5IGZvciBQYW5mcm9zdCkg
+ZG8gc2xlZXAuCgpJbnN0ZWFkIGxldCdzIHJlbmFtZSBkcm1fc2NoZWRfY2xlYW51cF9qb2JzKCkg
+dG8KZHJtX3NjaGVkX2dldF9jbGVhbnVwX2pvYigpIGFuZCBzaW1wbHkgcmV0dXJuIGEgam9iIGZv
+ciBwcm9jZXNzaW5nIGlmCnRoZXJlIGlzIG9uZS4gVGhlIGNhbGxlciBjYW4gdGhlbiBjYWxsIHRo
+ZSBmcmVlX2pvYigpIGNhbGxiYWNrIG91dHNpZGUKdGhlIHdhaXRfZXZlbnRfaW50ZXJydXB0aWJs
+ZSgpIHdoZXJlIHNsZWVwaW5nIGlzIHBvc3NpYmxlIGJlZm9yZQpyZS1jaGVja2luZyBhbmQgcmV0
+dXJuaW5nIHRvIHNsZWVwIGlmIG5lY2Vzc2FyeS4KClNpZ25lZC1vZmYtYnk6IFN0ZXZlbiBQcmlj
+ZSA8c3RldmVuLnByaWNlQGFybS5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9z
+Y2hlZF9tYWluLmMgfCAyMiArKysrKysrKysrKysrKystLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwg
+MTUgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYyBiL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIv
+c2NoZWRfbWFpbi5jCmluZGV4IDlhMGVlNzRkODJkYy4uYmY5YjQ5MzFkZGZkIDEwMDY0NAotLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYworKysgYi9kcml2ZXJzL2dw
+dS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYwpAQCAtNjIyLDIwICs2MjIsMjEgQEAgc3RhdGlj
+IHZvaWQgZHJtX3NjaGVkX3Byb2Nlc3Nfam9iKHN0cnVjdCBkbWFfZmVuY2UgKmYsIHN0cnVjdCBk
+bWFfZmVuY2VfY2IgKmNiKQogfQogCiAvKioKLSAqIGRybV9zY2hlZF9jbGVhbnVwX2pvYnMgLSBk
+ZXN0cm95IGZpbmlzaGVkIGpvYnMKKyAqIGRybV9zY2hlZF9nZXRfY2xlYW51cF9qb2IgLSBmZXRj
+aCB0aGUgbmV4dCBmaW5pc2hlZCBqb2IgdG8gYmUgZGVzdHJveWVkCiAgKgogICogQHNjaGVkOiBz
+Y2hlZHVsZXIgaW5zdGFuY2UKICAqCi0gKiBSZW1vdmUgYWxsIGZpbmlzaGVkIGpvYnMgZnJvbSB0
+aGUgbWlycm9yIGxpc3QgYW5kIGRlc3Ryb3kgdGhlbS4KKyAqIFJldHVybnMgdGhlIG5leHQgZmlu
+aXNoZWQgam9iIGZyb20gdGhlIG1pcnJvciBsaXN0IChpZiB0aGVyZSBpcyBvbmUpCisgKiByZWFk
+eSBmb3IgaXQgdG8gYmUgZGVzdHJveWVkLgogICovCi1zdGF0aWMgdm9pZCBkcm1fc2NoZWRfY2xl
+YW51cF9qb2JzKHN0cnVjdCBkcm1fZ3B1X3NjaGVkdWxlciAqc2NoZWQpCitzdGF0aWMgc3RydWN0
+IGRybV9zY2hlZF9qb2IgKmRybV9zY2hlZF9nZXRfY2xlYW51cF9qb2Ioc3RydWN0IGRybV9ncHVf
+c2NoZWR1bGVyICpzY2hlZCkKIHsKIAl1bnNpZ25lZCBsb25nIGZsYWdzOwogCiAJLyogRG9uJ3Qg
+ZGVzdHJveSBqb2JzIHdoaWxlIHRoZSB0aW1lb3V0IHdvcmtlciBpcyBydW5uaW5nICovCiAJaWYg
+KHNjaGVkLT50aW1lb3V0ICE9IE1BWF9TQ0hFRFVMRV9USU1FT1VUICYmCiAJICAgICFjYW5jZWxf
+ZGVsYXllZF93b3JrKCZzY2hlZC0+d29ya190ZHIpKQotCQlyZXR1cm47CisJCXJldHVybiBOVUxM
+OwogCiAKIAl3aGlsZSAoIWxpc3RfZW1wdHkoJnNjaGVkLT5yaW5nX21pcnJvcl9saXN0KSkgewpA
+QCAtNjUxLDcgKzY1Miw3IEBAIHN0YXRpYyB2b2lkIGRybV9zY2hlZF9jbGVhbnVwX2pvYnMoc3Ry
+dWN0IGRybV9ncHVfc2NoZWR1bGVyICpzY2hlZCkKIAkJbGlzdF9kZWxfaW5pdCgmam9iLT5ub2Rl
+KTsKIAkJc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmc2NoZWQtPmpvYl9saXN0X2xvY2ssIGZsYWdz
+KTsKIAotCQlzY2hlZC0+b3BzLT5mcmVlX2pvYihqb2IpOworCQlyZXR1cm4gam9iOwogCX0KIAog
+CS8qIHF1ZXVlIHRpbWVvdXQgZm9yIG5leHQgam9iICovCkBAIC02NTksNiArNjYwLDcgQEAgc3Rh
+dGljIHZvaWQgZHJtX3NjaGVkX2NsZWFudXBfam9icyhzdHJ1Y3QgZHJtX2dwdV9zY2hlZHVsZXIg
+KnNjaGVkKQogCWRybV9zY2hlZF9zdGFydF90aW1lb3V0KHNjaGVkKTsKIAlzcGluX3VubG9ja19p
+cnFyZXN0b3JlKCZzY2hlZC0+am9iX2xpc3RfbG9jaywgZmxhZ3MpOwogCisJcmV0dXJuIE5VTEw7
+CiB9CiAKIC8qKgpAQCAtNjk4LDEyICs3MDAsMTggQEAgc3RhdGljIGludCBkcm1fc2NoZWRfbWFp
+bih2b2lkICpwYXJhbSkKIAkJc3RydWN0IGRybV9zY2hlZF9mZW5jZSAqc19mZW5jZTsKIAkJc3Ry
+dWN0IGRybV9zY2hlZF9qb2IgKnNjaGVkX2pvYjsKIAkJc3RydWN0IGRtYV9mZW5jZSAqZmVuY2U7
+CisJCXN0cnVjdCBkcm1fc2NoZWRfam9iICpjbGVhbnVwX2pvYiA9IE5VTEw7CiAKIAkJd2FpdF9l
+dmVudF9pbnRlcnJ1cHRpYmxlKHNjaGVkLT53YWtlX3VwX3dvcmtlciwKLQkJCQkJIChkcm1fc2No
+ZWRfY2xlYW51cF9qb2JzKHNjaGVkKSwKKwkJCQkJIChjbGVhbnVwX2pvYiA9IGRybV9zY2hlZF9n
+ZXRfY2xlYW51cF9qb2Ioc2NoZWQpKSB8fAogCQkJCQkgKCFkcm1fc2NoZWRfYmxvY2tlZChzY2hl
+ZCkgJiYKIAkJCQkJICAoZW50aXR5ID0gZHJtX3NjaGVkX3NlbGVjdF9lbnRpdHkoc2NoZWQpKSkg
+fHwKLQkJCQkJIGt0aHJlYWRfc2hvdWxkX3N0b3AoKSkpOworCQkJCQkga3RocmVhZF9zaG91bGRf
+c3RvcCgpKTsKKworCQl3aGlsZSAoY2xlYW51cF9qb2IpIHsKKwkJCXNjaGVkLT5vcHMtPmZyZWVf
+am9iKGNsZWFudXBfam9iKTsKKwkJCWNsZWFudXBfam9iID0gZHJtX3NjaGVkX2dldF9jbGVhbnVw
+X2pvYihzY2hlZCk7CisJCX0KIAogCQlpZiAoIWVudGl0eSkKIAkJCWNvbnRpbnVlOwotLSAKMi4y
+MC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
