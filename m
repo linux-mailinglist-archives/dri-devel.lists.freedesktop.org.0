@@ -2,38 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9928BECB6
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2019 09:42:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DE92BECB8
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2019 09:42:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D56D76EDE4;
-	Thu, 26 Sep 2019 07:42:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C6EA6EDFA;
+	Thu, 26 Sep 2019 07:42:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F49C6EBEA
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 14:50:33 +0000 (UTC)
-Date: Wed, 25 Sep 2019 16:50:25 +0200
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 29/36] drm/ingenic: use bpp instead of cpp for
- drm_format_info
-To: Sandy Huang <hjc@rock-chips.com>
-Message-Id: <1569423025.1909.1@crapouillou.net>
-In-Reply-To: <1569243189-183445-4-git-send-email-hjc@rock-chips.com>
-References: <1569243189-183445-1-git-send-email-hjc@rock-chips.com>
- <1569243189-183445-4-git-send-email-hjc@rock-chips.com>
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AA046EBD5;
+ Wed, 25 Sep 2019 14:53:04 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 47F59AEE1;
+ Wed, 25 Sep 2019 14:53:02 +0000 (UTC)
+Message-ID: <d1a31a2ec8eb2f226b1fb41f6c24ffb47c3bf7c7.camel@suse.de>
+Subject: Re: [PATCH 00/11] of: Fix DMA configuration for non-DT masters
+From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To: Rob Herring <robh+dt@kernel.org>
+Date: Wed, 25 Sep 2019 16:52:59 +0200
+In-Reply-To: <CAL_Jsq+v+svTyna7UzQdRVqfNc5Z_bgWzxNRXv7-Wqv3NwDu2g@mail.gmail.com>
+References: <20190924181244.7159-1-nsaenzjulienne@suse.de>
+ <CAL_Jsq+v+svTyna7UzQdRVqfNc5Z_bgWzxNRXv7-Wqv3NwDu2g@mail.gmail.com>
+User-Agent: Evolution 3.32.4 
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 26 Sep 2019 07:42:05 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=crapouillou.net; 
- s=mail; t=1569423030; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZDBS8kzsJvkPXNA7E89mme3Edh+YPdmEM5FwJycTpEo=;
- b=lazSvqe+/UcqO20OmSwiSPUafrOafmGhAjFhLu4g0o10d9MQ2m7nnZG04er+DtGS71YLKt
- 7bdANLZHL3Dr2qWisn7gqrm7wQy3Uk535r/HvbQZeN5mMZR/hMz0Tqeyc8hCRMTZ4a1WWC
- pKKvARrAkPtAVzvYkh7BR+AyhTlqY9E=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,32 +39,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: freedreno <freedreno@lists.freedesktop.org>, devicetree@vger.kernel.org,
+ Matthias Brugger <mbrugger@suse.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ linux-wireless <linux-wireless@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, etnaviv@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
+ Stefan Wahren <wahrenst@gmx.net>, james.quinlan@broadcom.com,
+ linux-pci@vger.kernel.org, "open list:DMA GENERIC OFFLOAD ENGINE
+ SUBSYSTEM" <dmaengine@vger.kernel.org>, xen-devel@lists.xenproject.org,
+ Dan Williams <dan.j.williams@intel.com>, Robin Murphy <robin.murphy@arm.com>,
+ Frank Rowand <frowand.list@gmail.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============0453264836=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgU2FuZHksCgoKTGUgbHVuLiAyMyBzZXB0LiAyMDE5IMOgIDE0OjUzLCBTYW5keSBIdWFuZyA8
-aGpjQHJvY2stY2hpcHMuY29tPiBhIArDqWNyaXQgOgo+IGNwcFtCeXRlUGVyUGxhbmVdIGNhbid0
-IGRlc2NyaWJlIHRoZSAxMGJpdCBkYXRhIGZvcm1hdCBjb3JyZWN0bHksCj4gU28gd2UgdXNlIGJw
-cFtCaXRQZXJQbGFuZV0gdG8gaW5zdGVhZCBjcHAuCj4gCj4gU2lnbmVkLW9mZi1ieTogU2FuZHkg
-SHVhbmcgPGhqY0Byb2NrLWNoaXBzLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2luZ2Vu
-aWMvaW5nZW5pYy1kcm0uYyB8IDIgKy0KPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCsp
-LCAxIGRlbGV0aW9uKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pbmdlbmlj
-L2luZ2VuaWMtZHJtLmMgCj4gYi9kcml2ZXJzL2dwdS9kcm0vaW5nZW5pYy9pbmdlbmljLWRybS5j
-Cj4gaW5kZXggZWMzMmUxYy4uNzBjY2VjNSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-aW5nZW5pYy9pbmdlbmljLWRybS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2luZ2VuaWMvaW5n
-ZW5pYy1kcm0uYwo+IEBAIC0zNzUsNyArMzc1LDcgQEAgc3RhdGljIHZvaWQgCj4gaW5nZW5pY19k
-cm1fcGxhbmVfYXRvbWljX3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKPiAKPiAgCXdp
-ZHRoID0gc3RhdGUtPmNydGMtPnN0YXRlLT5hZGp1c3RlZF9tb2RlLmhkaXNwbGF5Owo+ICAJaGVp
-Z2h0ID0gc3RhdGUtPmNydGMtPnN0YXRlLT5hZGp1c3RlZF9tb2RlLnZkaXNwbGF5Owo+IC0JY3Bw
-ID0gc3RhdGUtPmZiLT5mb3JtYXQtPmNwcFtwbGFuZS0+aW5kZXhdOwo+ICsJY3BwID0gc3RhdGUt
-PmZiLT5mb3JtYXQtPmJwcFtwbGFuZS0+aW5kZXhdIC8gODsKClRoYXQgd291bGRuJ3Qgd29yayB3
-aXRoIDE1LWJpdCByZ2I1NTUuLi4KCgo+IAo+ICAJcHJpdi0+ZG1hX2h3ZGVzYy0+YWRkciA9IGRy
-bV9mYl9jbWFfZ2V0X2dlbV9hZGRyKHN0YXRlLT5mYiwgc3RhdGUsIAo+IDApOwo+ICAJcHJpdi0+
-ZG1hX2h3ZGVzYy0+Y21kID0gd2lkdGggKiBoZWlnaHQgKiBjcHAgLyA0Owo+IC0tCj4gMi43LjQK
-PiAKPiAKPiAKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0453264836==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-5Mzcra9IsjRjM5vnaomh"
+
+
+--=-5Mzcra9IsjRjM5vnaomh
+Content-Type: multipart/mixed; boundary="=-QzsDiLgE5dpWVAyKk5Wj"
+
+
+--=-QzsDiLgE5dpWVAyKk5Wj
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, 2019-09-24 at 16:59 -0500, Rob Herring wrote:
+> On Tue, Sep 24, 2019 at 1:12 PM Nicolas Saenz Julienne
+> <nsaenzjulienne@suse.de> wrote:
+> > Hi All,
+> > this series tries to address one of the issues blocking us from
+> > upstreaming Broadcom's STB PCIe controller[1]. Namely, the fact that
+> > devices not represented in DT which sit behind a PCI bus fail to get th=
+e
+> > bus' DMA addressing constraints.
+> >=20
+> > This is due to the fact that of_dma_configure() assumes it's receiving =
+a
+> > DT node representing the device being configured, as opposed to the PCI=
+e
+> > bridge node we currently pass. This causes the code to directly jump
+> > into PCI's parent node when checking for 'dma-ranges' and misses
+> > whatever was set there.
+> >=20
+> > To address this I create a new API in OF - inspired from Robin Murphys
+> > original proposal[2] - which accepts a bus DT node as it's input in
+> > order to configure a device's DMA constraints. The changes go deep into
+> > of/address.c's implementation, as a device being having a DT node
+> > assumption was pretty strong.
+> >=20
+> > On top of this work, I also cleaned up of_dma_configure() removing its
+> > redundant arguments and creating an alternative function for the specia=
+l
+> > cases
+> > not applicable to either the above case or the default usage.
+> >=20
+> > IMO the resulting functions are more explicit. They will probably
+> > surface some hacky usages that can be properly fixed as I show with the
+> > DT fixes on the Layerscape platform.
+> >=20
+> > This was also tested on a Raspberry Pi 4 with a custom PCIe driver and
+> > on a Seattle AMD board.
+>=20
+> Humm, I've been working on this issue too. Looks similar though yours
+> has a lot more churn and there's some other bugs I've found.
+
+That's good news, and yes now that I see it, some stuff on my series is ove=
+rly
+complicated. Specially around of_translate_*().
+
+On top of that, you removed in of_dma_get_range():
+
+-	/*
+-	 * At least empty ranges has to be defined for parent node if
+-	 * DMA is supported
+-	 */
+-	if (!ranges)
+-		break;
+
+Which I assumed was bound to the standard and makes things easier.
+
+> Can you test out this branch[1]. I don't have any h/w needing this,
+> but wrote a unittest and tested with modified QEMU.
+
+I reviewed everything, I did find a minor issue, see the patch attached.
+
+Also I tested your branch both on an RPi4, with a PCI device that depends o=
+n
+these changes and by comparing the OF debugs logs on a Layerscape board whi=
+ch
+uses dma-ranges, dma-coherent and IOMMU. All works as expected.
+
+Will you send this series for v5.5? Please keep me in the loop, I'll review=
+ and
+test the final version.
+
+Regards,
+Nicolas
+
+
+--=-QzsDiLgE5dpWVAyKk5Wj
+Content-Disposition: attachment;
+	filename*0=0001-of-device-do-not-bail-of_dma_configure-when-force_dm.pat;
+	filename*1=ch
+Content-Type: text/x-patch;
+	name="0001-of-device-do-not-bail-of_dma_configure-when-force_dm.patch";
+	charset="UTF-8"
+Content-Transfer-Encoding: base64
+
+RnJvbSAyNmQ1MTg1M2MyNWMwNGMyOGRiYzA5MDYxOTUxYTkzYzEwMmRhYmNkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBOaWNvbGFzIFNhZW56IEp1bGllbm5lIDxuc2FlbnpqdWxpZW5u
+ZUBzdXNlLmRlPgpEYXRlOiBXZWQsIDI1IFNlcCAyMDE5IDE2OjI2OjU3ICswMjAwClN1YmplY3Q6
+IFtQQVRDSF0gb2Y6IGRldmljZTogZG8gbm90IGJhaWwgb2ZfZG1hX2NvbmZpZ3VyZSgpIHdoZW4g
+Zm9yY2VfZG1hIGlzCiBzZXQKClNvbWUgWGVuIGRldmljZXMgY2FsbCBvZl9kbWFfY29uZmlndXJl
+KCkgd2l0aG91dCBhbiBhY3R1YWwgRFQgbm9kZSBpbgpvcmRlciBmb3IgaXQgdG8gc2V0IGl0cyAn
+ZG1hX29wcycuIFRoYXQncyB0aGUgb3JpZ2luYWwgaW50ZW50IG9mCidmb3JjZV9kbWEnLCBob25v
+ciB0aGF0IGJlaGF2aW91ci4KClNpZ25lZC1vZmYtYnk6IE5pY29sYXMgU2FlbnogSnVsaWVubmUg
+PG5zYWVuemp1bGllbm5lQHN1c2UuZGU+Ci0tLQogZHJpdmVycy9vZi9kZXZpY2UuYyB8IDIgLS0K
+IDEgZmlsZSBjaGFuZ2VkLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvb2Yv
+ZGV2aWNlLmMgYi9kcml2ZXJzL29mL2RldmljZS5jCmluZGV4IGE0NTI2MWUyMTE0NC4uN2JjMDBm
+NzI0NjhmIDEwMDY0NAotLS0gYS9kcml2ZXJzL29mL2RldmljZS5jCisrKyBiL2RyaXZlcnMvb2Yv
+ZGV2aWNlLmMKQEAgLTEwMCw4ICsxMDAsNiBAQCBpbnQgb2ZfZG1hX2NvbmZpZ3VyZShzdHJ1Y3Qg
+ZGV2aWNlICpkZXYsIHN0cnVjdCBkZXZpY2Vfbm9kZSAqcGFyZW50LCBib29sIGZvcmNlXwogCW5w
+ID0gZGV2LT5vZl9ub2RlOwogCWlmICghbnApCiAJCW5wID0gcGFyZW50OwotCWlmICghbnApCi0J
+CXJldHVybiAtRU5PREVWOwogCiAJcmV0ID0gb2ZfZG1hX2dldF9yYW5nZShucCwgJmRtYV9hZGRy
+LCAmcGFkZHIsICZzaXplKTsKIAlpZiAocmV0IDwgMCkgewotLSAKMi4yMy4wCgo=
+
+
+--=-QzsDiLgE5dpWVAyKk5Wj--
+
+--=-5Mzcra9IsjRjM5vnaomh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl2Lf0sACgkQlfZmHno8
+x/7mvQf6A++shc7v4vCUvlFLh6kIZ0UPBKuSnxpUpUn+R3BMoS6J5Ce/ma0SOzIJ
+MRQmawROuL2F6qf0g3ykdpnaSD14TAEB9UnJzLoTkprKRFRhdq4pQjCDGDWIpWSO
+fW6GnBbCLaTa0r38siU1DvnV3ZXCNnmN+lO5mqEp380R7cLwMj0hrH4mzkNuSUHK
+uKWLMd/ZZyDk7e2j1qZ2bXg6PRRSfXZfU7Oqtwt6k7JNoPB/HneraMxoO43EyzDA
+qt4Fxx6cDsZQAPbqJPChpSN4USdi0rN171NlKW3+PRsGfZN4LzUF3MoK2uvReV0n
+DhW7JoNOzqhh0pk2iPTRov0M+zbYEg==
+=jmQ8
+-----END PGP SIGNATURE-----
+
+--=-5Mzcra9IsjRjM5vnaomh--
+
+
+--===============0453264836==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0453264836==--
+
