@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63AC0BE524
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 20:51:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20E30BE528
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 20:51:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5841B6F3E0;
-	Wed, 25 Sep 2019 18:51:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C30526F3BB;
+	Wed, 25 Sep 2019 18:51:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id C12E66F3D8
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 18:50:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 61EC56F3CC
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 18:50:54 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B948572162; Wed, 25 Sep 2019 18:50:52 +0000 (UTC)
+ id 5D79772162; Wed, 25 Sep 2019 18:50:54 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111784] Hang when using glWaitSync with multithreaded shared GL
- contexts
-Date: Wed, 25 Sep 2019 18:50:52 +0000
+Subject: [Bug 111791] mesa-19.2-rc4: Fails to execute OpenCL kernel (ac_rtld
+ error: !s->is_rx) on AMD64 and armhf at least
+Date: Wed, 25 Sep 2019 18:50:54 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
+X-Bugzilla-Version: 19.2
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: critical
 X-Bugzilla-Who: gitlab-migration@fdo.invalid
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
-X-Bugzilla-Priority: high
+X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-111784-502-MRv1w4hbeq@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111784-502@http.bugs.freedesktop.org/>
-References: <bug-111784-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111791-502-FDCM4aSww9@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111791-502@http.bugs.freedesktop.org/>
+References: <bug-111791-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,25 +53,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0059602877=="
+Content-Type: multipart/mixed; boundary="===============2097716173=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0059602877==
-Content-Type: multipart/alternative; boundary="15694374521.ec95950.10224"
+--===============2097716173==
+Content-Type: multipart/alternative; boundary="15694374541.ceB5.10224"
 Content-Transfer-Encoding: 7bit
 
 
---15694374521.ec95950.10224
-Date: Wed, 25 Sep 2019 18:50:52 +0000
+--15694374541.ceB5.10224
+Date: Wed, 25 Sep 2019 18:50:54 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111784
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111791
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
@@ -80,7 +80,7 @@ GitLab Migration User <gitlab-migration@fdo.invalid> changed:
          Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
 
---- Comment #4 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
+--- Comment #1 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -89,14 +89,14 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/143=
-0.
+1.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15694374521.ec95950.10224
-Date: Wed, 25 Sep 2019 18:50:52 +0000
+--15694374541.ceB5.10224
+Date: Wed, 25 Sep 2019 18:50:54 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -113,10 +113,10 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Hang when using glWaitSync with multithreaded =
-shared GL contexts"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111784">bug 11178=
-4</a>
+   title=3D"RESOLVED MOVED - mesa-19.2-rc4: Fails to execute OpenCL kernel =
+(ac_rtld error: !s-&gt;is_rx) on AMD64 and armhf at least"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111791">bug 11179=
+1</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -144,16 +144,16 @@ shared GL contexts"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Hang when using glWaitSync with multithreaded =
-shared GL contexts"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111784#c4">Commen=
-t # 4</a>
+   title=3D"RESOLVED MOVED - mesa-19.2-rc4: Fails to execute OpenCL kernel =
+(ac_rtld error: !s-&gt;is_rx) on AMD64 and armhf at least"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111791#c1">Commen=
+t # 1</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Hang when using glWaitSync with multithreaded =
-shared GL contexts"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111784">bug 11178=
-4</a>
+   title=3D"RESOLVED MOVED - mesa-19.2-rc4: Fails to execute OpenCL kernel =
+(ac_rtld error: !s-&gt;is_rx) on AMD64 and armhf at least"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111791">bug 11179=
+1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
 -migration&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</=
@@ -167,7 +167,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/1430">https://gitlab.freedesktop.org/mesa/mesa/issues/1430</a>.</pr=
+/issues/1431">https://gitlab.freedesktop.org/mesa/mesa/issues/1431</a>.</pr=
 e>
         </div>
       </p>
@@ -182,9 +182,9 @@ e>
     </body>
 </html>=
 
---15694374521.ec95950.10224--
+--15694374541.ceB5.10224--
 
---===============0059602877==
+--===============2097716173==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -194,4 +194,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0059602877==--
+--===============2097716173==--
