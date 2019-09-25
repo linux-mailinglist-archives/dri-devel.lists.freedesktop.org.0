@@ -1,60 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 353E9BE771
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 23:35:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EF9ABE78F
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 23:37:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 464696FDD3;
-	Wed, 25 Sep 2019 21:35:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A65D57AC74;
+	Wed, 25 Sep 2019 21:37:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com
- [IPv6:2607:f8b0:4864:20::836])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07DD36FDD2;
- Wed, 25 Sep 2019 21:35:12 +0000 (UTC)
-Received: by mail-qt1-x836.google.com with SMTP id w14so245728qto.9;
- Wed, 25 Sep 2019 14:35:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dosPEOfaBwxo48jsF5z4dH+L6ejjcGhuwNbvUtND8vw=;
- b=mPQKiLEFmv2bxxQ4nF3NX7Ff/HAZT4g5sctqT1Om/cqEvfadKAjpyHqYp9aXNgOIYf
- Zm5Oa/BVHuk7gP1z8m2eMcDELpIMBBkL9hLrwVwRSTpzsD8S+0FuWp5jEaxVu6hAZHEp
- xwplMO+yO/eLQRb0Zg1h49HdvmLthSYfoz63SYtpW1ZKFnk4OLGDFRerfiGX/rMP82Ae
- /a6mrOVXO2STO3tQBMN59rLKUgQjhL+4AXVrnIhO7yY2HT+ssXJBbByPtrHz2Y7Ng7zh
- 9wODgADSFAmFNo1rgIQbFvejMqBSzG9W2NVCrLMjlW26iRz74um8mwZXI3754E92vFLF
- OUrw==
-X-Gm-Message-State: APjAAAW3Hz6X5wVwiT2Kew1P/QImJnld0iz3vmKpc3m9tohXOGpubzld
- U0XEP4lYStwjXeF4hbaML5QQfGDk
-X-Google-Smtp-Source: APXvYqzWZDt/jtiggNtrfctXlnFJGYo0kGMEXNU83GbcDKXMv5TJGsHVJsge2mm607X8Ve4c+LAwcg==
-X-Received: by 2002:a0c:fc4a:: with SMTP id w10mr1639992qvp.46.1569447311499; 
- Wed, 25 Sep 2019 14:35:11 -0700 (PDT)
-Received: from localhost.localdomain ([71.219.73.178])
- by smtp.gmail.com with ESMTPSA id s23sm78842qte.72.2019.09.25.14.35.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Sep 2019 14:35:10 -0700 (PDT)
-From: Alex Deucher <alexdeucher@gmail.com>
-X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, daniel.vetter@ffwll.ch
-Subject: [pull] amdgpu drm-fixes-5.4
-Date: Wed, 25 Sep 2019 16:35:00 -0500
-Message-Id: <20190925213500.3490-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.20.1
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B145D7AC68
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 21:37:12 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id AC11E72162; Wed, 25 Sep 2019 21:37:12 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 102322] System crashes after "[drm] IP block:gmc_v8_0 is hung!"
+ / [drm] IP block:sdma_v3_0 is hung!
+Date: Wed, 25 Sep 2019 21:37:12 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: freedesktop@jeroenimo.nl
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-102322-502-TTvEHGmGpN@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-102322-502@http.bugs.freedesktop.org/>
+References: <bug-102322-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dosPEOfaBwxo48jsF5z4dH+L6ejjcGhuwNbvUtND8vw=;
- b=W4sjRE51gokX0zv5HeOooJgsN7oLZrdGkJzV3CekyhziPDtVMREzzBy+F0I0fzzGTh
- EToSk/EU+ojYklMtPcOXs80dP4CbCBgDF9PDf7+zbUXyWWXt8Fb75zkz8XiPw4vy6fqd
- tRWehmW+T2wmwA0TrB6owt30wfjkpK1wtBZiOPOTVmGDlm7E5lC1DFZySnUhrbhkqQ04
- XScLbonOcvhhxeXm5btePRUp7CNfD3KKOWzdUz08HScTB/TWdQyikQA6nQ5akJ/TQnw+
- ZVpeePKgCwxl2UprK8ERGMuvC3nCRwE/TJUDvNinJc0I4LFsqD4TCPBYrJ6vnmlO0lQL
- IvwA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,40 +53,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0078018959=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGF2ZSwgRGFuaWVsLAoKTW9yZSBmaXhlcyBmb3IgNS40LiAgTm90aGluZyBtYWpvci4KClRo
-ZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21taXQgZTE2YTdjYmNlZDcxMTA4NjZkY2RlODRl
-NTA0OTA5ZWE4NTA5OWJiZDoKCiAgZHJtL2FtZGdwdTogZmxhZyBuYXZpMTIgYW5kIDE0IGFzIGV4
-cGVyaW1lbnRhbCBmb3IgNS40ICgyMDE5LTA5LTE4IDA4OjI5OjMwIC0wNTAwKQoKYXJlIGF2YWls
-YWJsZSBpbiB0aGUgR2l0IHJlcG9zaXRvcnkgYXQ6CgogIGdpdDovL3Blb3BsZS5mcmVlZGVza3Rv
-cC5vcmcvfmFnZDVmL2xpbnV4IHRhZ3MvZHJtLWZpeGVzLTUuNC0yMDE5LTA5LTI1Cgpmb3IgeW91
-IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8gMTA0YzMwNzE0N2FkMzc5NjE3NDcyZGQ5MWE1YmNiMzY4
-ZDcyYmQ2ZDoKCiAgZHJtL2FtZC9kaXNwbGF5OiBwcmV2ZW50IG1lbW9yeSBsZWFrICgyMDE5LTA5
-LTI1IDE0OjU4OjM4IC0wNTAwKQoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpkcm0tZml4ZXMtNS40LTIwMTktMDktMjU6Cgph
-bWRncHU6Ci0gRml4IGEgNjQgYml0IGRpdmlkZQotIFByZXZlbnQgYSBtZW1vcnkgbGVhayBpbiBh
-IGZhaWx1cmUgY2FzZSBpbiBkYwotIExvYWQgcHJvcGVyIGdmeCBmaXJtd2FyZSBvbiBuYXZpMTQg
-dmFyaWFudHMKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0KQWxleCBEZXVjaGVyICgyKToKICAgICAgZHJtL2FtZGdwdS9kaXNw
-bGF5OiBmaXggNjQgYml0IGRpdmlkZQogICAgICBkcm0vYW1kZ3B1L2Rpc3BsYXk6IGluY2x1ZGUg
-c2xhYi5oIGluIGRjbjIxX3Jlc291cmNlLmMKCk5hdmlkIEVtYW1kb29zdCAoMSk6CiAgICAgIGRy
-bS9hbWQvZGlzcGxheTogcHJldmVudCBtZW1vcnkgbGVhawoKVGlhbmNpLllpbiAoMSk6CiAgICAg
-IGRybS9hbWRncHUvZ2Z4MTA6IGFkZCBzdXBwb3J0IGZvciB3a3MgZmlybXdhcmUgbG9hZGluZwoK
-IGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2dmeF92MTBfMC5jICAgICAgICAgICAgIHwgMjIg
-KysrKysrKysrKysrKysrKy0tLS0tLQogLi4uL2FtZC9kaXNwbGF5L2RjL2Nsa19tZ3IvZGNlMTEw
-L2RjZTExMF9jbGtfbWdyLmMgfCAgNCArKystCiAuLi4vZHJtL2FtZC9kaXNwbGF5L2RjL2RjZTEw
-MC9kY2UxMDBfcmVzb3VyY2UuYyAgICB8ICAxICsKIC4uLi9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNl
-MTEwL2RjZTExMF9yZXNvdXJjZS5jICAgIHwgIDEgKwogLi4uL2RybS9hbWQvZGlzcGxheS9kYy9k
-Y2UxMTIvZGNlMTEyX3Jlc291cmNlLmMgICAgfCAgMSArCiAuLi4vZHJtL2FtZC9kaXNwbGF5L2Rj
-L2RjZTEyMC9kY2UxMjBfcmVzb3VyY2UuYyAgICB8ICAxICsKIC4uLi9ncHUvZHJtL2FtZC9kaXNw
-bGF5L2RjL2RjbjEwL2RjbjEwX3Jlc291cmNlLmMgIHwgIDEgKwogLi4uL2dwdS9kcm0vYW1kL2Rp
-c3BsYXkvZGMvZGNuMjEvZGNuMjFfcmVzb3VyY2UuYyAgfCAgMiArKwogOCBmaWxlcyBjaGFuZ2Vk
-LCAyNiBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0078018959==
+Content-Type: multipart/alternative; boundary="15694474322.95D76FD.18131"
+Content-Transfer-Encoding: 7bit
+
+
+--15694474322.95D76FD.18131
+Date: Wed, 25 Sep 2019 21:37:12 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D102322
+
+--- Comment #88 from jeroenimo <freedesktop@jeroenimo.nl> ---
+Found this thread while googling the error from the log.
+
+AMD Ryzen 3600
+Asrock B350 motherboard
+ASrock RX560 Radeon GPU
+
+
+Ubuntu and Xubuntu  18.04 and 19.04 both lockups so not useable, after login
+almost imminent black screen, ssh access still possible. Seems a newer kern=
+el
+and mesa drivers. sometimes 5 min , sometimes after 2 secomds
+
+Linux mint 19.2
+Seems a lot more stable but so far only  1 lockup with black screen
+
+uname -a
+Linux jeroenimo-amd 4.15.0-64-generic #73-Ubuntu SMP Thu Sep 12 13:16:13 UTC
+2019 x86_64 x86_64 x86_64 GNU/Linux
+
+
+Last log from mint:
+
+Sep 25 23:01:57 jeroenimo-amd kernel: [ 4980.207322]
+[drm:drm_atomic_helper_wait_for_flip_done [drm_kms_helper]] *ERROR*
+[CRTC:43:crtc-0] flip_done timed out
+Sep 25 23:01:57 jeroenimo-amd kernel: [ 4980.207331]
+[drm:drm_atomic_helper_wait_for_flip_done [drm_kms_helper]] *ERROR*
+[CRTC:45:crtc-1] flip_done timed out
+Sep 25 23:02:07 jeroenimo-amd kernel: [ 4990.451366]
+[drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]] *ERROR*
+[CRTC:43:crtc-0] flip_done timed out
+
+ I suspect I'm in the same trouble as most.
+
+Win 10 flawless so it's really software..
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15694474322.95D76FD.18131
+Date: Wed, 25 Sep 2019 21:37:12 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - System crashes after &quot;[drm] IP block:gmc_v8_0 is hun=
+g!&quot; / [drm] IP block:sdma_v3_0 is hung!"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102322#c88">Comme=
+nt # 88</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - System crashes after &quot;[drm] IP block:gmc_v8_0 is hun=
+g!&quot; / [drm] IP block:sdma_v3_0 is hung!"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102322">bug 10232=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+freedesktop&#64;jeroenimo.nl" title=3D"jeroenimo &lt;freedesktop&#64;jeroen=
+imo.nl&gt;"> <span class=3D"fn">jeroenimo</span></a>
+</span></b>
+        <pre>Found this thread while googling the error from the log.
+
+AMD Ryzen 3600
+Asrock B350 motherboard
+ASrock RX560 Radeon GPU
+
+
+Ubuntu and Xubuntu  18.04 and 19.04 both lockups so not useable, after login
+almost imminent black screen, ssh access still possible. Seems a newer kern=
+el
+and mesa drivers. sometimes 5 min , sometimes after 2 secomds
+
+Linux mint 19.2
+Seems a lot more stable but so far only  1 lockup with black screen
+
+uname -a
+Linux jeroenimo-amd 4.15.0-64-generic #73-Ubuntu SMP Thu Sep 12 13:16:13 UTC
+2019 x86_64 x86_64 x86_64 GNU/Linux
+
+
+Last log from mint:
+
+Sep 25 23:01:57 jeroenimo-amd kernel: [ 4980.207322]
+[drm:drm_atomic_helper_wait_for_flip_done [drm_kms_helper]] *ERROR*
+[CRTC:43:crtc-0] flip_done timed out
+Sep 25 23:01:57 jeroenimo-amd kernel: [ 4980.207331]
+[drm:drm_atomic_helper_wait_for_flip_done [drm_kms_helper]] *ERROR*
+[CRTC:45:crtc-1] flip_done timed out
+Sep 25 23:02:07 jeroenimo-amd kernel: [ 4990.451366]
+[drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]] *ERROR*
+[CRTC:43:crtc-0] flip_done timed out
+
+ I suspect I'm in the same trouble as most.
+
+Win 10 flawless so it's really software..</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15694474322.95D76FD.18131--
+
+--===============0078018959==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0078018959==--
