@@ -2,24 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCDC9BE494
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 20:29:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D75BBE495
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 20:29:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 263AF6ED8D;
-	Wed, 25 Sep 2019 18:29:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F95A6ED80;
+	Wed, 25 Sep 2019 18:29:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id EF2246ED60
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 18:29:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 295DC6ED83
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 18:29:23 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id EBF3F72162; Wed, 25 Sep 2019 18:29:15 +0000 (UTC)
+ id 25E5472162; Wed, 25 Sep 2019 18:29:23 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 108711] [apitrace] GPU hangs in some opengl 1.x applications on
- RAVEN
-Date: Wed, 25 Sep 2019 18:29:16 +0000
+Subject: [Bug 108771] [amdgpu] hang with The Last Story on the Dolphin emulator
+Date: Wed, 25 Sep 2019 18:29:23 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -27,7 +26,7 @@ X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/radeonsi
 X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
+X-Bugzilla-Severity: normal
 X-Bugzilla-Who: gitlab-migration@fdo.invalid
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
@@ -35,9 +34,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-108711-502-fb1fRcLGjT@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-108711-502@http.bugs.freedesktop.org/>
-References: <bug-108711-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-108771-502-00ayHD5TlS@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-108771-502@http.bugs.freedesktop.org/>
+References: <bug-108771-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,25 +52,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1193868839=="
+Content-Type: multipart/mixed; boundary="===============1920230585=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1193868839==
-Content-Type: multipart/alternative; boundary="15694361551.5B6419F4.5438"
+--===============1920230585==
+Content-Type: multipart/alternative; boundary="15694361631.a3CEB57A.5438"
 Content-Transfer-Encoding: 7bit
 
 
---15694361551.5B6419F4.5438
-Date: Wed, 25 Sep 2019 18:29:15 +0000
+--15694361631.a3CEB57A.5438
+Date: Wed, 25 Sep 2019 18:29:23 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D108711
+https://bugs.freedesktop.org/show_bug.cgi?id=3D108771
 
 GitLab Migration User <gitlab-migration@fdo.invalid> changed:
 
@@ -80,7 +79,7 @@ GitLab Migration User <gitlab-migration@fdo.invalid> changed:
          Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
 
---- Comment #5 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
+--- Comment #9 from GitLab Migration User <gitlab-migration@fdo.invalid> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -89,14 +88,14 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: https://gitlab.freedesktop.org/mesa/mesa/issues/133=
-8.
+9.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15694361551.5B6419F4.5438
-Date: Wed, 25 Sep 2019 18:29:15 +0000
+--15694361631.a3CEB57A.5438
+Date: Wed, 25 Sep 2019 18:29:23 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -113,9 +112,9 @@ n&#64;fdo.invalid&gt;"> <span class=3D"fn">GitLab Migration User</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [apitrace] GPU hangs in some opengl 1.x applic=
-ations on RAVEN"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108711">bug 10871=
+   title=3D"RESOLVED MOVED - [amdgpu] hang with The Last Story on the Dolph=
+in emulator"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108771">bug 10877=
 1</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -144,15 +143,15 @@ ations on RAVEN"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [apitrace] GPU hangs in some opengl 1.x applic=
-ations on RAVEN"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108711#c5">Commen=
-t # 5</a>
+   title=3D"RESOLVED MOVED - [amdgpu] hang with The Last Story on the Dolph=
+in emulator"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108771#c9">Commen=
+t # 9</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [apitrace] GPU hangs in some opengl 1.x applic=
-ations on RAVEN"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108711">bug 10871=
+   title=3D"RESOLVED MOVED - [amdgpu] hang with The Last Story on the Dolph=
+in emulator"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108771">bug 10877=
 1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 gitlab-migration&#64;fdo.invalid" title=3D"GitLab Migration User &lt;gitlab=
@@ -167,7 +166,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa=
-/issues/1338">https://gitlab.freedesktop.org/mesa/mesa/issues/1338</a>.</pr=
+/issues/1339">https://gitlab.freedesktop.org/mesa/mesa/issues/1339</a>.</pr=
 e>
         </div>
       </p>
@@ -182,9 +181,9 @@ e>
     </body>
 </html>=
 
---15694361551.5B6419F4.5438--
+--15694361631.a3CEB57A.5438--
 
---===============1193868839==
+--===============1920230585==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -194,4 +193,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1193868839==--
+--===============1920230585==--
