@@ -2,44 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7B26BD8B2
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 09:03:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FE2ABD935
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2019 09:37:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 051956E143;
-	Wed, 25 Sep 2019 07:03:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDCEC6E8A8;
+	Wed, 25 Sep 2019 07:37:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 829486E143
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 07:03:46 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7F4E872162; Wed, 25 Sep 2019 07:03:46 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111811] Ryzen7 3700U display hang on resume from suspend
-Date: Wed, 25 Sep 2019 07:03:46 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: not set
-X-Bugzilla-Who: dan@reactivated.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- attachments.created
-Message-ID: <bug-111811-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 310036E8A8
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2019 07:37:13 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8P7b6r0008327;
+ Wed, 25 Sep 2019 02:37:06 -0500
+Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8P7b639020486
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 25 Sep 2019 02:37:06 -0500
+Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 25
+ Sep 2019 02:37:05 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Wed, 25 Sep 2019 02:37:05 -0500
+Received: from [10.1.3.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8P7b2mU007724;
+ Wed, 25 Sep 2019 02:37:03 -0500
+Subject: Re: [PATCH] drm/bridge: tc358767: fix max_tu_symbol value
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>, <dri-devel@lists.freedesktop.org>, 
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Andrzej Hajda
+ <a.hajda@samsung.com>
+References: <20190924131702.9988-1-tomi.valkeinen@ti.com>
+From: Jyri Sarha <jsarha@ti.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <fa751629-8338-1601-8b4b-1c7fe02d2d61@ti.com>
+Date: Wed, 25 Sep 2019 10:37:02 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20190924131702.9988-1-tomi.valkeinen@ti.com>
+Content-Language: en-GB
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ti.com; s=ti-com-17Q1; t=1569397026;
+ bh=SnPFtZZzIqdMoaH2slT79ddNkSe417tITfyHBpdJU5Y=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=dfMq0i1gEPh721RQ9hpre/6sDO+Hg+8oWWOgMXFUs5mM2Hl973SYqnSCDFvUt1HVh
+ y4uukdmUCuAioQd8XmhlEF8OT43AMDBBYB8hOiRFjv4bdkW3Z5Afrduhlw/xYTfP9P
+ lpY5e0Z0CW0k/oqP9Wh9fSpA+XTHu9lgr43qqmxs=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,288 +106,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0169341318=="
+Cc: Andrey Gusakov <andrey.gusakov@cogentembedded.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0169341318==
-Content-Type: multipart/alternative; boundary="15693950260.4Facc97.3217"
-Content-Transfer-Encoding: 7bit
-
-
---15693950260.4Facc97.3217
-Date: Wed, 25 Sep 2019 07:03:46 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111811
-
-            Bug ID: 111811
-           Summary: Ryzen7 3700U display hang on resume from suspend
-           Product: DRI
-           Version: unspecified
-          Hardware: Other
-                OS: All
-            Status: NEW
-          Severity: not set
-          Priority: not set
-         Component: DRM/AMDgpu
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: dan@reactivated.net
-
-Created attachment 145510
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145510&action=3Dedit
-full dmesg
-
-We are working with a new consumer laptop based on Ryzen 7 3700U.
-
-amdgpu device:
-
-03:00.0 VGA compatible controller [0300]: Advanced Micro Devices, Inc.
-[AMD/ATI] Picasso [1002:15d8] (rev c1) (prog-if 00 [VGA controller])
-
-Upon suspend/resume (this platform uses s2idle), the pre-suspend image can =
-be
-seen on screen, but the display is totally hung. These kernel messages can =
-be
-seen in the resume process:
-
-[  281.293412] [drm] PCIE GART of 1024M enabled (table at 0x000000F40090000=
-0).
-[  281.293465] [drm] PSP is resuming...
-[  281.313495] [drm] reserve 0x400000 from 0xf47fc00000 for PSP TMR
-[  281.316389] [drm] psp command failed and response status is (0x7)
-[  281.603206] ata1: SATA link down (SStatus 0 SControl 300)
-[  282.538559] amdgpu: [powerplay] dpm has been enabled
-[  282.748112] [drm] VCN decode and encode initialized successfully(under D=
-PG
-Mode).
-[  282.748141] amdgpu 0000:03:00.0: ring gfx uses VM inv eng 0 on hub 0
-[  282.748143] amdgpu 0000:03:00.0: ring comp_1.0.0 uses VM inv eng 1 on hu=
-b 0
-[  282.748144] amdgpu 0000:03:00.0: ring comp_1.1.0 uses VM inv eng 4 on hu=
-b 0
-[  282.748146] amdgpu 0000:03:00.0: ring comp_1.2.0 uses VM inv eng 5 on hu=
-b 0
-[  282.748147] amdgpu 0000:03:00.0: ring comp_1.3.0 uses VM inv eng 6 on hu=
-b 0
-[  282.748148] amdgpu 0000:03:00.0: ring comp_1.0.1 uses VM inv eng 7 on hu=
-b 0
-[  282.748150] amdgpu 0000:03:00.0: ring comp_1.1.1 uses VM inv eng 8 on hu=
-b 0
-[  282.748151] amdgpu 0000:03:00.0: ring comp_1.2.1 uses VM inv eng 9 on hu=
-b 0
-[  282.748152] amdgpu 0000:03:00.0: ring comp_1.3.1 uses VM inv eng 10 on h=
-ub 0
-[  282.748154] amdgpu 0000:03:00.0: ring kiq_2.1.0 uses VM inv eng 11 on hu=
-b 0
-[  282.748155] amdgpu 0000:03:00.0: ring sdma0 uses VM inv eng 0 on hub 1
-[  282.748157] amdgpu 0000:03:00.0: ring vcn_dec uses VM inv eng 1 on hub 1
-[  282.748157] amdgpu 0000:03:00.0: ring vcn_enc0 uses VM inv eng 4 on hub 1
-[  282.748158] amdgpu 0000:03:00.0: ring vcn_enc1 uses VM inv eng 5 on hub 1
-[  282.748160] amdgpu 0000:03:00.0: ring vcn_jpeg uses VM inv eng 6 on hub 1
-[  283.133649] [drm] Fence fallback timer expired on ring sdma0
-[  283.261764] [drm] Fence fallback timer expired on ring gfx
-[  283.261809] amdgpu 0000:03:00.0: [drm:amdgpu_ib_ring_tests] *ERROR* IB t=
-est
-failed on gfx (-22).
-[  283.261814] [drm:process_one_work] *ERROR* ib ring test failed (-22).
-
-This has been reproduced on Linux 5.2 and linus master as of today. As this=
- is
-a brand new platform there is no previous known working version. It does
-suspend/resume fine under Windows 10.
-
-Please let me know how I can help further. We'd be happy to ship a product
-sample to AMD developers for diagnosis.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15693950260.4Facc97.3217
-Date: Wed, 25 Sep 2019 07:03:46 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Ryzen7 3700U display hang on resume from suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111811">111811</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>Ryzen7 3700U display hang on resume from suspend
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>unspecified
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>Other
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>All
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>DRM/AMDgpu
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>dan&#64;reactivated.net
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145510=
-" name=3D"attach_145510" title=3D"full dmesg">attachment 145510</a> <a href=
-=3D"attachment.cgi?id=3D145510&amp;action=3Dedit" title=3D"full dmesg">[det=
-ails]</a></span>
-full dmesg
-
-We are working with a new consumer laptop based on Ryzen 7 3700U.
-
-amdgpu device:
-
-03:00.0 VGA compatible controller [0300]: Advanced Micro Devices, Inc.
-[AMD/ATI] Picasso [1002:15d8] (rev c1) (prog-if 00 [VGA controller])
-
-Upon suspend/resume (this platform uses s2idle), the pre-suspend image can =
-be
-seen on screen, but the display is totally hung. These kernel messages can =
-be
-seen in the resume process:
-
-[  281.293412] [drm] PCIE GART of 1024M enabled (table at 0x000000F40090000=
-0).
-[  281.293465] [drm] PSP is resuming...
-[  281.313495] [drm] reserve 0x400000 from 0xf47fc00000 for PSP TMR
-[  281.316389] [drm] psp command failed and response status is (0x7)
-[  281.603206] ata1: SATA link down (SStatus 0 SControl 300)
-[  282.538559] amdgpu: [powerplay] dpm has been enabled
-[  282.748112] [drm] VCN decode and encode initialized successfully(under D=
-PG
-Mode).
-[  282.748141] amdgpu 0000:03:00.0: ring gfx uses VM inv eng 0 on hub 0
-[  282.748143] amdgpu 0000:03:00.0: ring comp_1.0.0 uses VM inv eng 1 on hu=
-b 0
-[  282.748144] amdgpu 0000:03:00.0: ring comp_1.1.0 uses VM inv eng 4 on hu=
-b 0
-[  282.748146] amdgpu 0000:03:00.0: ring comp_1.2.0 uses VM inv eng 5 on hu=
-b 0
-[  282.748147] amdgpu 0000:03:00.0: ring comp_1.3.0 uses VM inv eng 6 on hu=
-b 0
-[  282.748148] amdgpu 0000:03:00.0: ring comp_1.0.1 uses VM inv eng 7 on hu=
-b 0
-[  282.748150] amdgpu 0000:03:00.0: ring comp_1.1.1 uses VM inv eng 8 on hu=
-b 0
-[  282.748151] amdgpu 0000:03:00.0: ring comp_1.2.1 uses VM inv eng 9 on hu=
-b 0
-[  282.748152] amdgpu 0000:03:00.0: ring comp_1.3.1 uses VM inv eng 10 on h=
-ub 0
-[  282.748154] amdgpu 0000:03:00.0: ring kiq_2.1.0 uses VM inv eng 11 on hu=
-b 0
-[  282.748155] amdgpu 0000:03:00.0: ring sdma0 uses VM inv eng 0 on hub 1
-[  282.748157] amdgpu 0000:03:00.0: ring vcn_dec uses VM inv eng 1 on hub 1
-[  282.748157] amdgpu 0000:03:00.0: ring vcn_enc0 uses VM inv eng 4 on hub 1
-[  282.748158] amdgpu 0000:03:00.0: ring vcn_enc1 uses VM inv eng 5 on hub 1
-[  282.748160] amdgpu 0000:03:00.0: ring vcn_jpeg uses VM inv eng 6 on hub 1
-[  283.133649] [drm] Fence fallback timer expired on ring sdma0
-[  283.261764] [drm] Fence fallback timer expired on ring gfx
-[  283.261809] amdgpu 0000:03:00.0: [drm:amdgpu_ib_ring_tests] *ERROR* IB t=
-est
-failed on gfx (-22).
-[  283.261814] [drm:process_one_work] *ERROR* ib ring test failed (-22).
-
-This has been reproduced on Linux 5.2 and linus master as of today. As this=
- is
-a brand new platform there is no previous known working version. It does
-suspend/resume fine under Windows 10.
-
-Please let me know how I can help further. We'd be happy to ship a product
-sample to AMD developers for diagnosis.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15693950260.4Facc97.3217--
-
---===============0169341318==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0169341318==--
+T24gMjQvMDkvMjAxOSAxNjoxNywgVG9taSBWYWxrZWluZW4gd3JvdGU6Cj4gbWF4X3R1X3N5bWJv
+bCB3YXMgcHJvZ3JhbW1lZCB0byBUVV9TSVpFX1JFQ09NTUVOREVEIC0gMSwgd2hpY2ggaXMgbm90
+Cj4gd2hhdCB0aGUgc3BlYyBzYXlzLiBUaGUgc3BlYyBzYXlzOgo+IAo+IHJvdW5kdXAgKChpbnB1
+dCBhY3RpdmUgdmlkZW8gYmFuZHdpZHRoIGluIGJ5dGVzL291dHB1dCBhY3RpdmUgdmlkZW8KPiBi
+YW5kd2lkdGggaW4gYnl0ZXMpICogdHVfc2l6ZSkKPiAKPiBJdCBpcyBub3QgcXVpdGUgY2xlYXIg
+d2hhdCB0aGUgYWJvdmUgbWVhbnMsIGJ1dCBjYWxjdWxhdGluZwo+IG1heF90dV9zeW1ib2wgPSAo
+aW5wdXQgQnBzIC8gb3V0cHV0IEJwcykgKiB0dV9zaXplIHNlZW1zIHRvIHdvcmsgYW5kCj4gZml4
+ZXMgdGhlIGlzc3VlcyBzZWVuLgo+IAo+IFRoaXMgZml4ZXMgYXJ0aWZhY3RzIGluIHNvbWUgdmlk
+ZW9tb2RlcyAoZS5nLiAxMDI0eDc2OEA2MCBvbiAyLWxhbmVzICYKPiAxLjYyR2JwcyB3YXMgcHJl
+dHR5IGJhZCBmb3IgbWUpLgo+IAo+IFNpZ25lZC1vZmYtYnk6IFRvbWkgVmFsa2VpbmVuIDx0b21p
+LnZhbGtlaW5lbkB0aS5jb20+CgpJIGNvdWxkIHJlcHJvZHVjZSB0aGUgcHJvYmxlbSBhbmQgc2Vl
+IHRoYXQgdGhlIHBhdGNoIGZpeGVzIGl0LCBzbzoKClRlc3RlZC1ieTogSnlyaSBTYXJoYSA8anNh
+cmhhQHRpLmNvbT4KCgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY3LmMg
+fCA3ICsrKysrKy0KPiAgMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlv
+bigtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY3LmMg
+Yi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY3LmMKPiBpbmRleCAxM2FkZTI4YTM2YTgu
+LmI2YWExYmQ0N2UxZCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4
+NzY3LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY3LmMKPiBAQCAtNjc3
+LDYgKzY3Nyw4IEBAIHN0YXRpYyBpbnQgdGNfc2V0X3ZpZGVvX21vZGUoc3RydWN0IHRjX2RhdGEg
+KnRjLAo+ICAJaW50IHVwcGVyX21hcmdpbiA9IG1vZGUtPnZ0b3RhbCAtIG1vZGUtPnZzeW5jX2Vu
+ZDsKPiAgCWludCBsb3dlcl9tYXJnaW4gPSBtb2RlLT52c3luY19zdGFydCAtIG1vZGUtPnZkaXNw
+bGF5Owo+ICAJaW50IHZzeW5jX2xlbiA9IG1vZGUtPnZzeW5jX2VuZCAtIG1vZGUtPnZzeW5jX3N0
+YXJ0Owo+ICsJdTMyIGJpdHNfcGVyX3BpeGVsID0gMjQ7Cj4gKwl1MzIgaW5fYncsIG91dF9idzsK
+PiAgCj4gIAkvKgo+ICAJICogUmVjb21tZW5kZWQgbWF4aW11bSBudW1iZXIgb2Ygc3ltYm9scyB0
+cmFuc2ZlcnJlZCBpbiBhIHRyYW5zZmVyIHVuaXQ6Cj4gQEAgLTY4NCw3ICs2ODYsMTAgQEAgc3Rh
+dGljIGludCB0Y19zZXRfdmlkZW9fbW9kZShzdHJ1Y3QgdGNfZGF0YSAqdGMsCj4gIAkgKiAgICAg
+ICAgICAgICAgKG91dHB1dCBhY3RpdmUgdmlkZW8gYmFuZHdpZHRoIGluIGJ5dGVzKSkKPiAgCSAq
+IE11c3QgYmUgbGVzcyB0aGFuIHR1X3NpemUuCj4gIAkgKi8KPiAtCW1heF90dV9zeW1ib2wgPSBU
+VV9TSVpFX1JFQ09NTUVOREVEIC0gMTsKPiArCj4gKwlpbl9idyA9IG1vZGUtPmNsb2NrICogYml0
+c19wZXJfcGl4ZWwgLyA4Owo+ICsJb3V0X2J3ID0gdGMtPmxpbmsuYmFzZS5udW1fbGFuZXMgKiB0
+Yy0+bGluay5iYXNlLnJhdGU7Cj4gKwltYXhfdHVfc3ltYm9sID0gRElWX1JPVU5EX1VQKGluX2J3
+ICogVFVfU0laRV9SRUNPTU1FTkRFRCwgb3V0X2J3KTsKPiAgCj4gIAlkZXZfZGJnKHRjLT5kZXYs
+ICJzZXQgbW9kZSAlZHglZFxuIiwKPiAgCQltb2RlLT5oZGlzcGxheSwgbW9kZS0+dmRpc3BsYXkp
+Owo+IAoKCi0tIApUZXhhcyBJbnN0cnVtZW50cyBGaW5sYW5kIE95LCBQb3Jra2FsYW5rYXR1IDIy
+LCAwMDE4MCBIZWxzaW5raS4KWS10dW5udXMvQnVzaW5lc3MgSUQ6IDA2MTU1MjEtNC4gS290aXBh
+aWtrYS9Eb21pY2lsZTogSGVsc2lua2kKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVs
