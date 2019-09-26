@@ -2,55 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 570BDBF37A
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2019 14:55:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66E41BF388
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2019 14:56:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBBC06ED0F;
-	Thu, 26 Sep 2019 12:55:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B08206ED11;
+	Thu, 26 Sep 2019 12:56:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B58696ED0F
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2019 12:55:29 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8QCtRUR046524;
- Thu, 26 Sep 2019 07:55:27 -0500
-Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8QCtR40004527
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 26 Sep 2019 07:55:27 -0500
-Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 26
- Sep 2019 07:55:19 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Thu, 26 Sep 2019 07:55:19 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8QCtP1u095739;
- Thu, 26 Sep 2019 07:55:26 -0500
-Subject: Re: [PATCH 3/7] drm/omap: fix missing scaler pixel fmt limitations
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20190902125359.18001-1-tomi.valkeinen@ti.com>
- <20190902125359.18001-4-tomi.valkeinen@ti.com>
- <20190903151245.GA8247@pendragon.ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <6c3f41f7-7877-60ff-6628-ca5b95cd8a7d@ti.com>
-Date: Thu, 26 Sep 2019 15:55:25 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 489B16ED12
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2019 12:56:08 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 452D572162; Thu, 26 Sep 2019 12:56:08 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
+Date: Thu, 26 Sep 2019 12:56:08 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: freedesktop@jeroenimo.nl
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109955-502-kqPOwizFs5@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
+References: <bug-109955-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20190903151245.GA8247@pendragon.ideasonboard.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ti.com; s=ti-com-17Q1; t=1569502527;
- bh=O0y4NHS8Poaz7wawv/kYI/Qf4FN0h1+Cx+GqUARoeoU=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=yYqABV29/cOiGjqVfjcMPtBMiZSogXJq79Winv2I0xayRhnzC0geypeHWbDr35KQ5
- oyD/O9RUZnSkyqTlC+o9unKwHR3aslZNaGvbZKaRkQ2HHSoRTisGIoyfVHzTwVDEDN
- 5sXUQxKku8B//uXN10QYv7tBG+lWL1rHGoVxJC24=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,22 +52,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jyri Sarha <jsarha@ti.com>, dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============0075087960=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMDMvMDkvMjAxOSAxODoxMiwgTGF1cmVudCBQaW5jaGFydCB3cm90ZToKCj4+IEBAIC0yNDk4
-LDYgKzI0OTksMTkgQEAgc3RhdGljIGludCBkaXNwY19vdmxfY2FsY19zY2FsaW5nKHN0cnVjdCBk
-aXNwY19kZXZpY2UgKmRpc3BjLAo+PiAgIAlpZiAod2lkdGggPT0gb3V0X3dpZHRoICYmIGhlaWdo
-dCA9PSBvdXRfaGVpZ2h0KQo+PiAgIAkJcmV0dXJuIDA7Cj4+ICAgCj4+ICsJaWYgKGRpc3BjLT5m
-ZWF0LT5zdXBwb3J0ZWRfc2NhbGVyX2NvbG9yX21vZGVzKSB7Cj4+ICsJCWNvbnN0IHUzMiAqbW9k
-ZXMgPSBkaXNwYy0+ZmVhdC0+c3VwcG9ydGVkX3NjYWxlcl9jb2xvcl9tb2RlczsKPj4gKwkJaW50
-IGk7Cj4gCj4gaSBpcyBuZXZlciBuZWdhdGl2ZSBhbmQgY2FuIHRodXMgYmUgYW4gdW5zaWduZWQg
-aW50LiBBcGFydCBmcm9tIHRoYXQsCgpUaGFua3MsIGZpeGVkIHRoYXQuCgogIFRvbWkKCi0tIApU
-ZXhhcyBJbnN0cnVtZW50cyBGaW5sYW5kIE95LCBQb3Jra2FsYW5rYXR1IDIyLCAwMDE4MCBIZWxz
-aW5raS4KWS10dW5udXMvQnVzaW5lc3MgSUQ6IDA2MTU1MjEtNC4gS290aXBhaWtrYS9Eb21pY2ls
-ZTogSGVsc2lua2kKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0075087960==
+Content-Type: multipart/alternative; boundary="15695025681.f76bf4.14644"
+Content-Transfer-Encoding: 7bit
+
+
+--15695025681.f76bf4.14644
+Date: Thu, 26 Sep 2019 12:56:08 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+
+--- Comment #107 from jeroenimo <freedesktop@jeroenimo.nl> ---
+I have a workaround that at least makes the system workable.
+
+After some testing I managed to run glmark2 at the lowest and second lowest
+clock speed on my RX560
+
+From root:
+echo manual > /sys/class/drm/card0/device/power_dpm_force_performance_level
+echo 1 > /sys/class/drm/card0/device/pp_dpm_sclk
+
+giving me this
+cat /sys/class/drm/card0/device/pp_dpm_sclk=20
+0: 214Mhz=20
+1: 387Mhz *
+2: 843Mhz=20
+3: 995Mhz=20
+4: 1062Mhz=20
+5: 1108Mhz=20
+6: 1149Mhz=20
+7: 1176Mhz=20
+
+Obviously this decreases performance big time, but I don't really game so it
+makes my system usable.
+
+Any clock speeds over 4: 1062Mhz crashes my system immediately..
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15695025681.f76bf4.14644
+Date: Thu, 26 Sep 2019 12:56:08 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c107">Comm=
+ent # 107</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+freedesktop&#64;jeroenimo.nl" title=3D"jeroenimo &lt;freedesktop&#64;jeroen=
+imo.nl&gt;"> <span class=3D"fn">jeroenimo</span></a>
+</span></b>
+        <pre>I have a workaround that at least makes the system workable.
+
+After some testing I managed to run glmark2 at the lowest and second lowest
+clock speed on my RX560
+
+From root:
+echo manual &gt; /sys/class/drm/card0/device/power_dpm_force_performance_le=
+vel
+echo 1 &gt; /sys/class/drm/card0/device/pp_dpm_sclk
+
+giving me this
+cat /sys/class/drm/card0/device/pp_dpm_sclk=20
+0: 214Mhz=20
+1: 387Mhz *
+2: 843Mhz=20
+3: 995Mhz=20
+4: 1062Mhz=20
+5: 1108Mhz=20
+6: 1149Mhz=20
+7: 1176Mhz=20
+
+Obviously this decreases performance big time, but I don't really game so it
+makes my system usable.
+
+Any clock speeds over 4: 1062Mhz crashes my system immediately..</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15695025681.f76bf4.14644--
+
+--===============0075087960==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0075087960==--
