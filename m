@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77EA6BEBE6
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2019 08:20:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D524BEBE8
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2019 08:21:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BEFC6ECAE;
-	Thu, 26 Sep 2019 06:20:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FAF86ECCC;
+	Thu, 26 Sep 2019 06:21:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id E629C6ECAE
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2019 06:20:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id A602A6ECCC
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2019 06:21:07 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E2F2572162; Thu, 26 Sep 2019 06:20:15 +0000 (UTC)
+ id A268472162; Thu, 26 Sep 2019 06:21:07 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111819] When starting Signal or Steam via Flatpak: [gfxhub]
  retry page fault (src_id:0 ring:0 vmid:1 pasid:32770, for process X pid 2148
  thread X:cs0 pid 2151) in page starting at address 0x0000000107720000 from
  27, VM_L2_PROTECTION_FAULT_STATUS:0x00101031
-Date: Thu, 26 Sep 2019 06:20:15 +0000
+Date: Thu, 26 Sep 2019 06:21:07 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -37,7 +37,7 @@ X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111819-502-bzUHN6VK0C@http.bugs.freedesktop.org/>
+Message-ID: <bug-111819-502-FLTdmnHXwj@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111819-502@http.bugs.freedesktop.org/>
 References: <bug-111819-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -55,18 +55,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1693297777=="
+Content-Type: multipart/mixed; boundary="===============0483015480=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1693297777==
-Content-Type: multipart/alternative; boundary="15694788151.eFa94A52.5671"
+--===============0483015480==
+Content-Type: multipart/alternative; boundary="15694788671.DF847.6145"
 Content-Transfer-Encoding: 7bit
 
 
---15694788151.eFa94A52.5671
-Date: Thu, 26 Sep 2019 06:20:15 +0000
+--15694788671.DF847.6145
+Date: Thu, 26 Sep 2019 06:21:07 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,17 +75,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111819
 
---- Comment #2 from Dennis Schridde <devurandom@gmx.net> ---
-Created attachment 145520
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145520&action=3Dedit
-glxinfo
+--- Comment #3 from Dennis Schridde <devurandom@gmx.net> ---
+Created attachment 145521
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145521&action=3Dedit
+cpuinfo.log
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15694788151.eFa94A52.5671
-Date: Thu, 26 Sep 2019 06:20:15 +0000
+--15694788671.DF847.6145
+Date: Thu, 26 Sep 2019 06:21:07 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -105,8 +105,8 @@ Auto-Submitted: auto-generated
  page fault (src_id:0 ring:0 vmid:1 pasid:32770, for process X pid 2148 thr=
 ead X:cs0 pid 2151) in page starting at address 0x0000000107720000 from 27,=
  VM_L2_PROTECTION_FAULT_STATUS:0x00101031"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111819#c2">Commen=
-t # 2</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111819#c3">Commen=
+t # 3</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - When starting Signal or Steam via Flatpak: [gfxhub] retry=
@@ -119,11 +119,11 @@ ead X:cs0 pid 2151) in page starting at address 0x0000000107720000 from 27,=
 devurandom&#64;gmx.net" title=3D"Dennis Schridde &lt;devurandom&#64;gmx.net=
 &gt;"> <span class=3D"fn">Dennis Schridde</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145520=
-" name=3D"attach_145520" title=3D"glxinfo">attachment 145520</a> <a href=3D=
-"attachment.cgi?id=3D145520&amp;action=3Dedit" title=3D"glxinfo">[details]<=
-/a></span>
-glxinfo</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145521=
+" name=3D"attach_145521" title=3D"cpuinfo.log">attachment 145521</a> <a hre=
+f=3D"attachment.cgi?id=3D145521&amp;action=3Dedit" title=3D"cpuinfo.log">[d=
+etails]</a></span>
+cpuinfo.log</pre>
         </div>
       </p>
 
@@ -137,9 +137,9 @@ glxinfo</pre>
     </body>
 </html>=
 
---15694788151.eFa94A52.5671--
+--15694788671.DF847.6145--
 
---===============1693297777==
+--===============0483015480==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -149,4 +149,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1693297777==--
+--===============0483015480==--
