@@ -2,27 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D154ABEA0B
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2019 03:23:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15C17BEAAF
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2019 04:37:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ABFE6EE7D;
-	Thu, 26 Sep 2019 01:23:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98BB06E0C0;
+	Thu, 26 Sep 2019 02:37:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C628F6ED2A;
- Thu, 26 Sep 2019 01:23:16 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: koike) with ESMTPSA id 0959E28ED13
-From: Helen Koike <helen.koike@collabora.com>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Subject: [PATCH v11 2/2] drm/i915: update cursors asynchronously through atomic
-Date: Wed, 25 Sep 2019 22:22:43 -0300
-Message-Id: <20190926012243.4893-2-helen.koike@collabora.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190926012243.4893-1-helen.koike@collabora.com>
-References: <20190926012243.4893-1-helen.koike@collabora.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A90E26E0C0
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2019 02:37:28 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id A5B6472162; Thu, 26 Sep 2019 02:37:28 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111811] Ryzen7 3700U display hang on resume from suspend
+Date: Thu, 26 Sep 2019 02:37:28 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: dan@reactivated.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111811-502-MIn0l84UnU@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111811-502@http.bugs.freedesktop.org/>
+References: <bug-111811-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -36,159 +52,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mcasas@google.com, zhenyu.z.wang@intel.com, airlied@linux.ie,
- daniel.vetter@ffwll.ch, tina.zhang@intel.com, linux-kernel@vger.kernel.org,
- tfiga@chromium.org, gustavo.padovan@collabora.com,
- Helen Koike <helen.koike@collabora.com>, rodrigo.vivi@intel.com,
- enric.balletbo@collabora.com, kernel@collabora.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0148444950=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogR3VzdGF2byBQYWRvdmFuIDxndXN0YXZvLnBhZG92YW5AY29sbGFib3JhLmNvbT4KClJl
-cGxhY2UgdGhlIGxlZ2FjeSBjdXJzb3IgaW1wbGVtZW50YXRpb24gYnkgdGhlIGFzeW5jIGNhbGxi
-YWNrcwoKU2lnbmVkLW9mZi1ieTogR3VzdGF2byBQYWRvdmFuIDxndXN0YXZvLnBhZG92YW5AY29s
-bGFib3JhLmNvbT4KU2lnbmVkLW9mZi1ieTogRW5yaWMgQmFsbGV0Ym8gaSBTZXJyYSA8ZW5yaWMu
-YmFsbGV0Ym9AY29sbGFib3JhLmNvbT4KU2lnbmVkLW9mZi1ieTogSGVsZW4gS29pa2UgPGhlbGVu
-LmtvaWtlQGNvbGxhYm9yYS5jb20+CgotLS0KCkNoYW5nZXMgaW4gdjExOiBOb25lCkNoYW5nZXMg
-aW4gdjEwOiBOb25lCkNoYW5nZXMgaW4gdjk6CiAtIHY4OiBodHRwczovL3BhdGNod29yay5rZXJu
-ZWwub3JnL3BhdGNoLzEwODQzMzk3LwogLSByZWJhc2VkIGFuZCBmaXhlZCBjb25mbGljdHMgb24g
-dG9wIG9mIGRybS10aXAKCkNoYW5nZXMgaW4gdjg6CiAtIHY3OiBodHRwczovL2xrbWwub3JnL2xr
-bWwvMjAxOC82LzgvMTY4CiAtIHY3IHdhcyBzcGxpdGVkIGluIHR3bywgb25lIHRoYXQgYWRkcyB0
-aGUgYXN5bmMgY2FsbGJhY2tzIGFuZCBhbm90aGVyCiB0aGF0IHVwZGF0ZXMgdGhlIGN1cnNvci4K
-IC0gVXBkYXRlIGNvbW1lbnQgaW4gaW50ZWxfcG0uYyB0aGF0IHdhcyByZWZlcmVuY2luZwogaW50
-ZWxfcGxhbmVfYXRvbWljX2FzeW5jX3VwZGF0ZSgpCgpDaGFuZ2VzIGluIHY3OiBOb25lCkNoYW5n
-ZXMgaW4gdjY6IE5vbmUKQ2hhbmdlcyBpbiB2NTogTm9uZQpDaGFuZ2VzIGluIHY0OiBOb25lCkNo
-YW5nZXMgaW4gdjM6IE5vbmUKCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rp
-c3BsYXkuYyB8IDE2MyArLS0tLS0tLS0tLS0tLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9p
-bnRlbF9wbS5jICAgICAgICAgICAgICB8ICAgMiArLQogMiBmaWxlcyBjaGFuZ2VkLCA2IGluc2Vy
-dGlvbnMoKyksIDE1OSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-aTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXkuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3Bs
-YXkvaW50ZWxfZGlzcGxheS5jCmluZGV4IDhlZTc0Y2RhNWI0NS4uMTE1NDBhYWU3NmE5IDEwMDY0
-NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXkuYworKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXkuYwpAQCAtMTM2NDMs
-NiArMTM2NDMsMTAgQEAgc3RhdGljIGludCBpbnRlbF9hdG9taWNfY2hlY2soc3RydWN0IGRybV9k
-ZXZpY2UgKmRldiwKIAlpZiAocmV0KQogCQlnb3RvIGZhaWw7CiAKKwlpZiAoX3N0YXRlLT5sZWdh
-Y3lfY3Vyc29yX3VwZGF0ZSkKKwkJX3N0YXRlLT5hc3luY191cGRhdGUgPSAhZHJtX2F0b21pY19o
-ZWxwZXJfYXN5bmNfY2hlY2soZGV2LAorCQkJCQkJCQkgICAgIF9zdGF0ZSk7CisKIAlpbnRlbF9m
-YmNfY2hvb3NlX2NydGMoZGV2X3ByaXYsIHN0YXRlKTsKIAlyZXQgPSBjYWxjX3dhdGVybWFya19k
-YXRhKHN0YXRlKTsKIAlpZiAocmV0KQpAQCAtMTQxMzksMzQgKzE0MTQzLDYgQEAgc3RhdGljIGlu
-dCBpbnRlbF9hdG9taWNfY29tbWl0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCiAKIAlkcm1fYXRv
-bWljX3N0YXRlX2dldCgmc3RhdGUtPmJhc2UpOwogCi0JLyoKLQkgKiBUaGUgaW50ZWxfbGVnYWN5
-X2N1cnNvcl91cGRhdGUoKSBmYXN0IHBhdGggdGFrZXMgY2FyZQotCSAqIG9mIGF2b2lkaW5nIHRo
-ZSB2Ymxhbmsgd2FpdHMgZm9yIHNpbXBsZSBjdXJzb3IKLQkgKiBtb3ZlbWVudCBhbmQgZmxpcHMu
-IEZvciBjdXJzb3Igb24vb2ZmIGFuZCBzaXplIGNoYW5nZXMsCi0JICogd2Ugd2FudCB0byBwZXJm
-b3JtIHRoZSB2Ymxhbmsgd2FpdHMgc28gdGhhdCB3YXRlcm1hcmsKLQkgKiB1cGRhdGVzIGhhcHBl
-biBkdXJpbmcgdGhlIGNvcnJlY3QgZnJhbWVzLiBHZW45KyBoYXZlCi0JICogZG91YmxlIGJ1ZmZl
-cmVkIHdhdGVybWFya3MgYW5kIHNvIHNob3VsZG4ndCBuZWVkIHRoaXMuCi0JICoKLQkgKiBVbnNl
-dCBzdGF0ZS0+bGVnYWN5X2N1cnNvcl91cGRhdGUgYmVmb3JlIHRoZSBjYWxsIHRvCi0JICogZHJt
-X2F0b21pY19oZWxwZXJfc2V0dXBfY29tbWl0KCkgYmVjYXVzZSBvdGhlcndpc2UKLQkgKiBkcm1f
-YXRvbWljX2hlbHBlcl93YWl0X2Zvcl9mbGlwX2RvbmUoKSBpcyBhIG5vb3AgYW5kCi0JICogd2Ug
-Z2V0IEZJRk8gdW5kZXJydW5zIGJlY2F1c2Ugd2UgZGlkbid0IHdhaXQKLQkgKiBmb3IgdmJsYW5r
-LgotCSAqCi0JICogRklYTUUgZG9pbmcgd2F0ZXJtYXJrcyBhbmQgZmIgY2xlYW51cCBmcm9tIGEg
-dmJsYW5rIHdvcmtlcgotCSAqIChhc3N1bWluZyB3ZSBoYWQgYW55KSB3b3VsZCBzb2x2ZSB0aGVz
-ZSBwcm9ibGVtcy4KLQkgKi8KLQlpZiAoSU5URUxfR0VOKGRldl9wcml2KSA8IDkgJiYgc3RhdGUt
-PmJhc2UubGVnYWN5X2N1cnNvcl91cGRhdGUpIHsKLQkJc3RydWN0IGludGVsX2NydGNfc3RhdGUg
-Km5ld19jcnRjX3N0YXRlOwotCQlzdHJ1Y3QgaW50ZWxfY3J0YyAqY3J0YzsKLQkJaW50IGk7Ci0K
-LQkJZm9yX2VhY2hfbmV3X2ludGVsX2NydGNfaW5fc3RhdGUoc3RhdGUsIGNydGMsIG5ld19jcnRj
-X3N0YXRlLCBpKQotCQkJaWYgKG5ld19jcnRjX3N0YXRlLT53bS5uZWVkX3Bvc3R2YmxfdXBkYXRl
-IHx8Ci0JCQkgICAgbmV3X2NydGNfc3RhdGUtPnVwZGF0ZV93bV9wb3N0KQotCQkJCXN0YXRlLT5i
-YXNlLmxlZ2FjeV9jdXJzb3JfdXBkYXRlID0gZmFsc2U7Ci0JfQotCiAJcmV0ID0gaW50ZWxfYXRv
-bWljX3ByZXBhcmVfY29tbWl0KHN0YXRlKTsKIAlpZiAocmV0KSB7CiAJCURSTV9ERUJVR19BVE9N
-SUMoIlByZXBhcmluZyBzdGF0ZSBmYWlsZWQgd2l0aCAlaVxuIiwgcmV0KTsKQEAgLTE0NjU4LDEz
-NyArMTQ2MzQsOCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9wbGFuZV9mdW5jcyBpOHh4X3Bs
-YW5lX2Z1bmNzID0gewogCS5mb3JtYXRfbW9kX3N1cHBvcnRlZCA9IGk4eHhfcGxhbmVfZm9ybWF0
-X21vZF9zdXBwb3J0ZWQsCiB9OwogCi1zdGF0aWMgaW50Ci1pbnRlbF9sZWdhY3lfY3Vyc29yX3Vw
-ZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKLQkJCSAgIHN0cnVjdCBkcm1fY3J0YyAqY3J0
-YywKLQkJCSAgIHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiLAotCQkJICAgaW50IGNydGNfeCwg
-aW50IGNydGNfeSwKLQkJCSAgIHVuc2lnbmVkIGludCBjcnRjX3csIHVuc2lnbmVkIGludCBjcnRj
-X2gsCi0JCQkgICB1MzIgc3JjX3gsIHUzMiBzcmNfeSwKLQkJCSAgIHUzMiBzcmNfdywgdTMyIHNy
-Y19oLAotCQkJICAgc3RydWN0IGRybV9tb2Rlc2V0X2FjcXVpcmVfY3R4ICpjdHgpCi17Ci0Jc3Ry
-dWN0IGRybV9pOTE1X3ByaXZhdGUgKmRldl9wcml2ID0gdG9faTkxNShjcnRjLT5kZXYpOwotCXN0
-cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm9sZF9wbGFuZV9zdGF0ZSwgKm5ld19wbGFuZV9zdGF0ZTsK
-LQlzdHJ1Y3QgaW50ZWxfcGxhbmUgKmludGVsX3BsYW5lID0gdG9faW50ZWxfcGxhbmUocGxhbmUp
-OwotCXN0cnVjdCBpbnRlbF9jcnRjX3N0YXRlICpjcnRjX3N0YXRlID0KLQkJdG9faW50ZWxfY3J0
-Y19zdGF0ZShjcnRjLT5zdGF0ZSk7Ci0Jc3RydWN0IGludGVsX2NydGNfc3RhdGUgKm5ld19jcnRj
-X3N0YXRlOwotCWludCByZXQ7Ci0KLQkvKgotCSAqIFdoZW4gY3J0YyBpcyBpbmFjdGl2ZSBvciB0
-aGVyZSBpcyBhIG1vZGVzZXQgcGVuZGluZywKLQkgKiB3YWl0IGZvciBpdCB0byBjb21wbGV0ZSBp
-biB0aGUgc2xvd3BhdGgKLQkgKi8KLQlpZiAoIWNydGNfc3RhdGUtPmJhc2UuYWN0aXZlIHx8IG5l
-ZWRzX21vZGVzZXQoY3J0Y19zdGF0ZSkgfHwKLQkgICAgY3J0Y19zdGF0ZS0+dXBkYXRlX3BpcGUp
-Ci0JCWdvdG8gc2xvdzsKLQotCW9sZF9wbGFuZV9zdGF0ZSA9IHBsYW5lLT5zdGF0ZTsKLQkvKgot
-CSAqIERvbid0IGRvIGFuIGFzeW5jIHVwZGF0ZSBpZiB0aGVyZSBpcyBhbiBvdXRzdGFuZGluZyBj
-b21taXQgbW9kaWZ5aW5nCi0JICogdGhlIHBsYW5lLiAgVGhpcyBwcmV2ZW50cyBvdXIgYXN5bmMg
-dXBkYXRlJ3MgY2hhbmdlcyBmcm9tIGdldHRpbmcKLQkgKiBvdmVycmlkZGVuIGJ5IGEgcHJldmlv
-dXMgc3luY2hyb25vdXMgdXBkYXRlJ3Mgc3RhdGUuCi0JICovCi0JaWYgKG9sZF9wbGFuZV9zdGF0
-ZS0+Y29tbWl0ICYmCi0JICAgICF0cnlfd2FpdF9mb3JfY29tcGxldGlvbigmb2xkX3BsYW5lX3N0
-YXRlLT5jb21taXQtPmh3X2RvbmUpKQotCQlnb3RvIHNsb3c7Ci0KLQkvKgotCSAqIElmIGFueSBw
-YXJhbWV0ZXJzIGNoYW5nZSB0aGF0IG1heSBhZmZlY3Qgd2F0ZXJtYXJrcywKLQkgKiB0YWtlIHRo
-ZSBzbG93cGF0aC4gT25seSBjaGFuZ2luZyBmYiBvciBwb3NpdGlvbiBzaG91bGQgYmUKLQkgKiBp
-biB0aGUgZmFzdHBhdGguCi0JICovCi0JaWYgKG9sZF9wbGFuZV9zdGF0ZS0+Y3J0YyAhPSBjcnRj
-IHx8Ci0JICAgIG9sZF9wbGFuZV9zdGF0ZS0+c3JjX3cgIT0gc3JjX3cgfHwKLQkgICAgb2xkX3Bs
-YW5lX3N0YXRlLT5zcmNfaCAhPSBzcmNfaCB8fAotCSAgICBvbGRfcGxhbmVfc3RhdGUtPmNydGNf
-dyAhPSBjcnRjX3cgfHwKLQkgICAgb2xkX3BsYW5lX3N0YXRlLT5jcnRjX2ggIT0gY3J0Y19oIHx8
-Ci0JICAgICFvbGRfcGxhbmVfc3RhdGUtPmZiICE9ICFmYikKLQkJZ290byBzbG93OwotCi0JbmV3
-X3BsYW5lX3N0YXRlID0gaW50ZWxfcGxhbmVfZHVwbGljYXRlX3N0YXRlKHBsYW5lKTsKLQlpZiAo
-IW5ld19wbGFuZV9zdGF0ZSkKLQkJcmV0dXJuIC1FTk9NRU07Ci0KLQluZXdfY3J0Y19zdGF0ZSA9
-IHRvX2ludGVsX2NydGNfc3RhdGUoaW50ZWxfY3J0Y19kdXBsaWNhdGVfc3RhdGUoY3J0YykpOwot
-CWlmICghbmV3X2NydGNfc3RhdGUpIHsKLQkJcmV0ID0gLUVOT01FTTsKLQkJZ290byBvdXRfZnJl
-ZTsKLQl9Ci0KLQlkcm1fYXRvbWljX3NldF9mYl9mb3JfcGxhbmUobmV3X3BsYW5lX3N0YXRlLCBm
-Yik7Ci0KLQluZXdfcGxhbmVfc3RhdGUtPnNyY194ID0gc3JjX3g7Ci0JbmV3X3BsYW5lX3N0YXRl
-LT5zcmNfeSA9IHNyY195OwotCW5ld19wbGFuZV9zdGF0ZS0+c3JjX3cgPSBzcmNfdzsKLQluZXdf
-cGxhbmVfc3RhdGUtPnNyY19oID0gc3JjX2g7Ci0JbmV3X3BsYW5lX3N0YXRlLT5jcnRjX3ggPSBj
-cnRjX3g7Ci0JbmV3X3BsYW5lX3N0YXRlLT5jcnRjX3kgPSBjcnRjX3k7Ci0JbmV3X3BsYW5lX3N0
-YXRlLT5jcnRjX3cgPSBjcnRjX3c7Ci0JbmV3X3BsYW5lX3N0YXRlLT5jcnRjX2ggPSBjcnRjX2g7
-Ci0KLQlyZXQgPSBpbnRlbF9wbGFuZV9hdG9taWNfY2hlY2tfd2l0aF9zdGF0ZShjcnRjX3N0YXRl
-LCBuZXdfY3J0Y19zdGF0ZSwKLQkJCQkJCSAgdG9faW50ZWxfcGxhbmVfc3RhdGUob2xkX3BsYW5l
-X3N0YXRlKSwKLQkJCQkJCSAgdG9faW50ZWxfcGxhbmVfc3RhdGUobmV3X3BsYW5lX3N0YXRlKSk7
-Ci0JaWYgKHJldCkKLQkJZ290byBvdXRfZnJlZTsKLQotCXJldCA9IG11dGV4X2xvY2tfaW50ZXJy
-dXB0aWJsZSgmZGV2X3ByaXYtPmRybS5zdHJ1Y3RfbXV0ZXgpOwotCWlmIChyZXQpCi0JCWdvdG8g
-b3V0X2ZyZWU7Ci0KLQlyZXQgPSBpbnRlbF9wbGFuZV9waW5fZmIodG9faW50ZWxfcGxhbmVfc3Rh
-dGUobmV3X3BsYW5lX3N0YXRlKSk7Ci0JaWYgKHJldCkKLQkJZ290byBvdXRfdW5sb2NrOwotCi0J
-aW50ZWxfZnJvbnRidWZmZXJfZmx1c2godG9faW50ZWxfZnJvbnRidWZmZXIoZmIpLCBPUklHSU5f
-RkxJUCk7Ci0JaW50ZWxfZnJvbnRidWZmZXJfdHJhY2sodG9faW50ZWxfZnJvbnRidWZmZXIob2xk
-X3BsYW5lX3N0YXRlLT5mYiksCi0JCQkJdG9faW50ZWxfZnJvbnRidWZmZXIoZmIpLAotCQkJCWlu
-dGVsX3BsYW5lLT5mcm9udGJ1ZmZlcl9iaXQpOwotCi0JLyogU3dhcCBwbGFuZSBzdGF0ZSAqLwot
-CXBsYW5lLT5zdGF0ZSA9IG5ld19wbGFuZV9zdGF0ZTsKLQotCS8qCi0JICogV2UgY2Fubm90IHN3
-YXAgY3J0Y19zdGF0ZSBhcyBpdCBtYXkgYmUgaW4gdXNlIGJ5IGFuIGF0b21pYyBjb21taXQgb3IK
-LQkgKiBwYWdlIGZsaXAgdGhhdCdzIHJ1bm5pbmcgc2ltdWx0YW5lb3VzbHkuIElmIHdlIHN3YXAg
-Y3J0Y19zdGF0ZSBhbmQKLQkgKiBkZXN0cm95IHRoZSBvbGQgc3RhdGUsIHdlIHdpbGwgY2F1c2Ug
-YSB1c2UtYWZ0ZXItZnJlZSB0aGVyZS4KLQkgKgotCSAqIE9ubHkgdXBkYXRlIGFjdGl2ZV9wbGFu
-ZXMsIHdoaWNoIGlzIG5lZWRlZCBmb3Igb3VyIGludGVybmFsCi0JICogYm9va2tlZXBpbmcuIEVp
-dGhlciB2YWx1ZSB3aWxsIGRvIHRoZSByaWdodCB0aGluZyB3aGVuIHVwZGF0aW5nCi0JICogcGxh
-bmVzIGF0b21pY2FsbHkuIElmIHRoZSBjdXJzb3Igd2FzIHBhcnQgb2YgdGhlIGF0b21pYyB1cGRh
-dGUgdGhlbgotCSAqIHdlIHdvdWxkIGhhdmUgdGFrZW4gdGhlIHNsb3dwYXRoLgotCSAqLwotCWNy
-dGNfc3RhdGUtPmFjdGl2ZV9wbGFuZXMgPSBuZXdfY3J0Y19zdGF0ZS0+YWN0aXZlX3BsYW5lczsK
-LQotCWlmIChwbGFuZS0+c3RhdGUtPnZpc2libGUpCi0JCWludGVsX3VwZGF0ZV9wbGFuZShpbnRl
-bF9wbGFuZSwgY3J0Y19zdGF0ZSwKLQkJCQkgICB0b19pbnRlbF9wbGFuZV9zdGF0ZShwbGFuZS0+
-c3RhdGUpKTsKLQllbHNlCi0JCWludGVsX2Rpc2FibGVfcGxhbmUoaW50ZWxfcGxhbmUsIGNydGNf
-c3RhdGUpOwotCi0JaW50ZWxfcGxhbmVfdW5waW5fZmIodG9faW50ZWxfcGxhbmVfc3RhdGUob2xk
-X3BsYW5lX3N0YXRlKSk7Ci0KLW91dF91bmxvY2s6Ci0JbXV0ZXhfdW5sb2NrKCZkZXZfcHJpdi0+
-ZHJtLnN0cnVjdF9tdXRleCk7Ci1vdXRfZnJlZToKLQlpZiAobmV3X2NydGNfc3RhdGUpCi0JCWlu
-dGVsX2NydGNfZGVzdHJveV9zdGF0ZShjcnRjLCAmbmV3X2NydGNfc3RhdGUtPmJhc2UpOwotCWlm
-IChyZXQpCi0JCWludGVsX3BsYW5lX2Rlc3Ryb3lfc3RhdGUocGxhbmUsIG5ld19wbGFuZV9zdGF0
-ZSk7Ci0JZWxzZQotCQlpbnRlbF9wbGFuZV9kZXN0cm95X3N0YXRlKHBsYW5lLCBvbGRfcGxhbmVf
-c3RhdGUpOwotCXJldHVybiByZXQ7Ci0KLXNsb3c6Ci0JcmV0dXJuIGRybV9hdG9taWNfaGVscGVy
-X3VwZGF0ZV9wbGFuZShwbGFuZSwgY3J0YywgZmIsCi0JCQkJCSAgICAgIGNydGNfeCwgY3J0Y195
-LCBjcnRjX3csIGNydGNfaCwKLQkJCQkJICAgICAgc3JjX3gsIHNyY195LCBzcmNfdywgc3JjX2gs
-IGN0eCk7Ci19Ci0KIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX3BsYW5lX2Z1bmNzIGludGVsX2N1
-cnNvcl9wbGFuZV9mdW5jcyA9IHsKLQkudXBkYXRlX3BsYW5lID0gaW50ZWxfbGVnYWN5X2N1cnNv
-cl91cGRhdGUsCisJLnVwZGF0ZV9wbGFuZSA9IGRybV9hdG9taWNfaGVscGVyX3VwZGF0ZV9wbGFu
-ZSwKIAkuZGlzYWJsZV9wbGFuZSA9IGRybV9hdG9taWNfaGVscGVyX2Rpc2FibGVfcGxhbmUsCiAJ
-LmRlc3Ryb3kgPSBpbnRlbF9wbGFuZV9kZXN0cm95LAogCS5hdG9taWNfZHVwbGljYXRlX3N0YXRl
-ID0gaW50ZWxfcGxhbmVfZHVwbGljYXRlX3N0YXRlLApkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL2k5MTUvaW50ZWxfcG0uYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX3BtLmMKaW5k
-ZXggNzVlZTAyN2FiYjgwLi4xNGZjMjhhMjljZDIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2ludGVsX3BtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfcG0uYwpA
-QCAtODI2LDcgKzgyNiw3IEBAIHN0YXRpYyBib29sIGludGVsX3dtX3BsYW5lX3Zpc2libGUoY29u
-c3Qgc3RydWN0IGludGVsX2NydGNfc3RhdGUgKmNydGNfc3RhdGUsCiAJICogY2FuIGhhcHBlbiBm
-YXN0ZXIgdGhhbiB0aGUgdnJlZnJlc2ggcmF0ZSwgYW5kIHRoZSBjdXJyZW50CiAJICogd2F0ZXJt
-YXJrIGNvZGUgZG9lc24ndCBoYW5kbGUgdGhhdCBjb3JyZWN0bHkuIEN1cnNvciB1cGRhdGVzCiAJ
-ICogd2hpY2ggc2V0L2NsZWFyIHRoZSBmYiBvciBjaGFuZ2UgdGhlIGN1cnNvciBzaXplIGFyZSBn
-b2luZwotCSAqIHRvIGdldCB0aHJvdHRsZWQgYnkgaW50ZWxfbGVnYWN5X2N1cnNvcl91cGRhdGUo
-KSB0byB3b3JrCisJICogdG8gZ2V0IHRocm90dGxlZCBieSBpbnRlbF9wbGFuZV9hdG9taWNfYXN5
-bmNfdXBkYXRlKCkgdG8gd29yawogCSAqIGFyb3VuZCB0aGlzIHByb2JsZW0gd2l0aCB0aGUgd2F0
-ZXJtYXJrIGNvZGUuCiAJICovCiAJaWYgKHBsYW5lLT5pZCA9PSBQTEFORV9DVVJTT1IpCi0tIAoy
-LjIyLjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0148444950==
+Content-Type: multipart/alternative; boundary="15694654481.45Ed03.2177"
+Content-Transfer-Encoding: 7bit
+
+
+--15694654481.45Ed03.2177
+Date: Thu, 26 Sep 2019 02:37:28 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111811
+
+--- Comment #2 from Daniel Drake <dan@reactivated.net> ---
+This is an ACPI reduced hardware platform, S3 suspend is not available.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15694654481.45Ed03.2177
+Date: Thu, 26 Sep 2019 02:37:28 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Ryzen7 3700U display hang on resume from suspend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111811#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Ryzen7 3700U display hang on resume from suspend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111811">bug 11181=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+dan&#64;reactivated.net" title=3D"Daniel Drake &lt;dan&#64;reactivated.net&=
+gt;"> <span class=3D"fn">Daniel Drake</span></a>
+</span></b>
+        <pre>This is an ACPI reduced hardware platform, S3 suspend is not a=
+vailable.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15694654481.45Ed03.2177--
+
+--===============0148444950==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0148444950==--
