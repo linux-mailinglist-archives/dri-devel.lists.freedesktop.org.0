@@ -2,44 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66E41BF388
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2019 14:56:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B4D8BF38A
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2019 14:56:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B08206ED11;
-	Thu, 26 Sep 2019 12:56:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C80D26ED14;
+	Thu, 26 Sep 2019 12:56:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 489B16ED12
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2019 12:56:08 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 452D572162; Thu, 26 Sep 2019 12:56:08 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Thu, 26 Sep 2019 12:56:08 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: freedesktop@jeroenimo.nl
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109955-502-kqPOwizFs5@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
-References: <bug-109955-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 856606ED14
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2019 12:56:22 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20190926125620euoutp01082c6b0c1c2aa8aa1a9580b1b10cea1b~H-kgFf7V_3244132441euoutp01I
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2019 12:56:20 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20190926125620euoutp01082c6b0c1c2aa8aa1a9580b1b10cea1b~H-kgFf7V_3244132441euoutp01I
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20190926125620eucas1p29b39ec3cfd0a15952e064f6643dba2d3~H-kf3K8vG1380113801eucas1p28;
+ Thu, 26 Sep 2019 12:56:20 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 03.0A.04374.475BC8D5; Thu, 26
+ Sep 2019 13:56:20 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20190926125619eucas1p249ac149ef1e1a3eb975dae94b08cd7be~H-kfkPKTa2227022270eucas1p2X;
+ Thu, 26 Sep 2019 12:56:19 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20190926125619eusmtrp108d0625b63966590fcef45b2fd324cf6~H-kfkFhCI0264802648eusmtrp1s;
+ Thu, 26 Sep 2019 12:56:19 +0000 (GMT)
+X-AuditID: cbfec7f5-4ddff70000001116-6b-5d8cb574fb0d
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 53.A8.04166.375BC8D5; Thu, 26
+ Sep 2019 13:56:19 +0100 (BST)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20190926125619eusmtip2a47b589aeba0c6fa54c368a75966592a~H-kfAr7cm1774917749eusmtip2L;
+ Thu, 26 Sep 2019 12:56:19 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+Subject: [PATCH v2] dt-bindings: gpu: Convert Samsung Image Scaler to dt-schema
+Date: Thu, 26 Sep 2019 14:56:14 +0200
+Message-Id: <20190926125614.10408-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA0VSe0hTURzu7D52HV25TsGDidKgICHNCrqQRmbEMgSDoFwsW/OmopuyO18J
+ YYqla9lQTJlmBmYyHw2z5QYOnaMRhku3yqChhVOxTMFXRmpu1+y/73k++HEIRLiJhhFZSjWj
+ UspyRLgANb1Zdx5Wv9JKj7wd49NP7CMY7V5ZwOmaCR1KO51GPu2yNOF0g9PKoyfLu3G6y+7h
+ 088+jfLoin47/7RA3NncCcQ9hipcPHHfwRNX9xqAeKknIgWTCOLSmZysAkYVc+q6IHPiRyuW
+ VxdRNDhLl4LpUA0gCEgdh0MfzmiAgBBS7QA+cpTzObIMYH+dCXBkCcA7LgdPAwL8jTb3Ux5n
+ PAewtckCdivfW7y4L4VTsVAzr8F9RghVBqDbPOd/GKEWARx82exPBVMX4bMWL+bDKHUA6qaH
+ /Jik4mGtx7qzFwk7jAOIrwypGRwuPXTinHEWvm5sxjgcDOccvXwOh8PhWi3KFcoB/DrSxeeI
+ FkBXWQPgUifhkGMU8x0BoQ7BF5YYTk6AHd/WMO42gXB8PsgnI9uwxlSPcDIJK+8KufRBqHd0
+ 784Ovh/biYhhneWSTxZSUmgqW8F1IEL/f6oFAAMIZfJZRQbDHlMyhdGsTMHmKzOi5bmKHrD9
+ K4Y3HSt9wPrnhg1QBBDtJRsMWqkQkxWwxQobgAQiCiGTU7clMl1WfItR5aap8nMY1gb2Eago
+ lCzZM3lVSGXI1Ew2w+Qxqn8ujwgIKwVof1yJsHfq9upqUHx7o46nffyz81fV4sLWRmMbNtaa
+ NBItP3pt3Jq9fCI5od5sVxvbJbMVennxRuTHVC8wi7fSo7xxnpTEL+ue8O5Cidu2PPU7/EFl
+ 2jm9O6nImnsz0XjlvPnCmisgNXBGu19OklLJgP6e3Pn5suVdvKa6T4SymbLYKETFyv4CCpMY
+ FhEDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrKLMWRmVeSWpSXmKPExsVy+t/xe7rFW3tiDc4fNrSYf+Qcq8WVr+/Z
+ LCbdn8Bicf78BnaLy7vmsFnMOL+PyeJB8zo2i7VH7rJbLL1+kcmide8RdgcujzXz1jB6bFrV
+ yeZxv/s4k0ffllWMHp83yQWwRunZFOWXlqQqZOQXl9gqRRtaGOkZWlroGZlY6hkam8daGZkq
+ 6dvZpKTmZJalFunbJehl3H+zhLVgqlzFwRcWDYzPxLsYOTkkBEwkll1ZyNTFyMUhJLCUUWL5
+ jH2sEAkZiZPTGqBsYYk/17rYIIo+MUpMe3+aBSTBJmAo0fUWIiEi0MYo8fnxFWYQh1ngC6PE
+ 5r8/2EGqhAX8JZpX3wMbxSKgKjHh2WEwm1fAVmLy3X1MECvkJVZvOMA8gZFnASPDKkaR1NLi
+ 3PTcYkO94sTc4tK8dL3k/NxNjMAg3Xbs5+YdjJc2Bh9iFOBgVOLh/bCmJ1aINbGsuDL3EKME
+ B7OSCK9vJFCINyWxsiq1KD++qDQntfgQoynQ8onMUqLJ+cAIyiuJNzQ1NLewNDQ3Njc2s1AS
+ 5+0QOBgjJJCeWJKanZpakFoE08fEwSnVwBgjuuLWFHO32WIiHRrO5gqdfus+3yxoChO6/eJb
+ uu+eXy/2LVyowrBvcpogs1XLTUuNfPmDBn1T9l115LPRPV5cIFFm6Gf5K/nAytj9/q/PHXJ9
+ n1Yx6VmiMs8r5gV3U5Pip9bPnyNbuvBfYV1ZocbWvWUzRRPYVoRcuhQRLvu4iiXs9kq72Uos
+ xRmJhlrMRcWJAOCT+6JoAgAA
+X-CMS-MailID: 20190926125619eucas1p249ac149ef1e1a3eb975dae94b08cd7be
+X-Msg-Generator: CA
+X-RootMTR: 20190926125619eucas1p249ac149ef1e1a3eb975dae94b08cd7be
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20190926125619eucas1p249ac149ef1e1a3eb975dae94b08cd7be
+References: <CGME20190926125619eucas1p249ac149ef1e1a3eb975dae94b08cd7be@eucas1p2.samsung.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=samsung.com; 
+ s=mail20170921; t=1569502580;
+ bh=2qQDxqYPHhCVF57kJMr4/wROezjZFSeNjBWmnGfCzE4=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=Ysn18o/NKgSQWz5nZnHoey2tB3+H37fdZ9XMu6Hu8GkkgBOTAICpi0bPt8bkKzaIE
+ ZkVwyTpkr/W56FWtYOCS5VHh5cAMHH0ZREwSGr1tbqLT6KHlKwBpSSMqgQ0B+YtY5v
+ JXg5hoQvz/NPAcvzuABZMmxbCvHW83+vwJyyI+84=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,133 +102,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0075087960=="
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Maciej Falkowski <m.falkowski@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0075087960==
-Content-Type: multipart/alternative; boundary="15695025681.f76bf4.14644"
-Content-Transfer-Encoding: 7bit
-
-
---15695025681.f76bf4.14644
-Date: Thu, 26 Sep 2019 12:56:08 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
-
---- Comment #107 from jeroenimo <freedesktop@jeroenimo.nl> ---
-I have a workaround that at least makes the system workable.
-
-After some testing I managed to run glmark2 at the lowest and second lowest
-clock speed on my RX560
-
-From root:
-echo manual > /sys/class/drm/card0/device/power_dpm_force_performance_level
-echo 1 > /sys/class/drm/card0/device/pp_dpm_sclk
-
-giving me this
-cat /sys/class/drm/card0/device/pp_dpm_sclk=20
-0: 214Mhz=20
-1: 387Mhz *
-2: 843Mhz=20
-3: 995Mhz=20
-4: 1062Mhz=20
-5: 1108Mhz=20
-6: 1149Mhz=20
-7: 1176Mhz=20
-
-Obviously this decreases performance big time, but I don't really game so it
-makes my system usable.
-
-Any clock speeds over 4: 1062Mhz crashes my system immediately..
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15695025681.f76bf4.14644
-Date: Thu, 26 Sep 2019 12:56:08 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c107">Comm=
-ent # 107</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-freedesktop&#64;jeroenimo.nl" title=3D"jeroenimo &lt;freedesktop&#64;jeroen=
-imo.nl&gt;"> <span class=3D"fn">jeroenimo</span></a>
-</span></b>
-        <pre>I have a workaround that at least makes the system workable.
-
-After some testing I managed to run glmark2 at the lowest and second lowest
-clock speed on my RX560
-
-From root:
-echo manual &gt; /sys/class/drm/card0/device/power_dpm_force_performance_le=
-vel
-echo 1 &gt; /sys/class/drm/card0/device/pp_dpm_sclk
-
-giving me this
-cat /sys/class/drm/card0/device/pp_dpm_sclk=20
-0: 214Mhz=20
-1: 387Mhz *
-2: 843Mhz=20
-3: 995Mhz=20
-4: 1062Mhz=20
-5: 1108Mhz=20
-6: 1149Mhz=20
-7: 1176Mhz=20
-
-Obviously this decreases performance big time, but I don't really game so it
-makes my system usable.
-
-Any clock speeds over 4: 1062Mhz crashes my system immediately..</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15695025681.f76bf4.14644--
-
---===============0075087960==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0075087960==--
+RnJvbTogTWFjaWVqIEZhbGtvd3NraSA8bS5mYWxrb3dza2lAc2Ftc3VuZy5jb20+CgpDb252ZXJ0
+IFNhbXN1bmcgSW1hZ2UgU2NhbGVyIHRvIG5ld2VyIGR0LXNjaGVtYSBmb3JtYXQuCgpTaWduZWQt
+b2ZmLWJ5OiBNYWNpZWogRmFsa293c2tpIDxtLmZhbGtvd3NraUBzYW1zdW5nLmNvbT4KU2lnbmVk
+LW9mZi1ieTogTWFyZWsgU3p5cHJvd3NraSA8bS5zenlwcm93c2tpQHNhbXN1bmcuY29tPgotLS0K
+djI6Ci0gUmVtb3ZlZCBxdW90YXRpb24gbWFya3MgZnJvbSBzdHJpbmcgaW4gJ2NvbXBhdGlibGUn
+IHByb3BlcnR5Ci0gQWRkZWQgaWYtdGhlbiBzdGF0ZW1lbnQgZm9yICdjbG9ja3MnIGFuZCAnY2xv
+Y2stbmFtZXMnIHByb3BlcnR5Ci0gQWRkZWQgaW5jbHVkZSBkaXJlY3RpdmUgdG8gZXhhbXBsZQot
+IEFkZGVkIEdJQ19TUEkgbWFjcm8gdG8gZXhhbXBsZQoKQmVzdCByZWdhcmRzLApNYWNpZWogRmFs
+a293c2tpCi0tLQogLi4uL2JpbmRpbmdzL2dwdS9zYW1zdW5nLXNjYWxlci50eHQgICAgICAgICAg
+IHwgMjcgLS0tLS0tLQogLi4uL2JpbmRpbmdzL2dwdS9zYW1zdW5nLXNjYWxlci55YW1sICAgICAg
+ICAgIHwgNzEgKysrKysrKysrKysrKysrKysrKwogMiBmaWxlcyBjaGFuZ2VkLCA3MSBpbnNlcnRp
+b25zKCspLCAyNyBkZWxldGlvbnMoLSkKIGRlbGV0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9u
+L2RldmljZXRyZWUvYmluZGluZ3MvZ3B1L3NhbXN1bmctc2NhbGVyLnR4dAogY3JlYXRlIG1vZGUg
+MTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9ncHUvc2Ftc3VuZy1zY2Fs
+ZXIueWFtbAoKZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9n
+cHUvc2Ftc3VuZy1zY2FsZXIudHh0IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
+L2dwdS9zYW1zdW5nLXNjYWxlci50eHQKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDlj
+M2Q5ODEwNWRmZC4uMDAwMDAwMDAwMDAwCi0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
+aW5kaW5ncy9ncHUvc2Ftc3VuZy1zY2FsZXIudHh0CisrKyAvZGV2L251bGwKQEAgLTEsMjcgKzAs
+MCBAQAotKiBTYW1zdW5nIEV4eW5vcyBJbWFnZSBTY2FsZXIKLQotUmVxdWlyZWQgcHJvcGVydGll
+czoKLSAgLSBjb21wYXRpYmxlIDogdmFsdWUgc2hvdWxkIGJlIG9uZSBvZiB0aGUgZm9sbG93aW5n
+OgotCShhKSAic2Ftc3VuZyxleHlub3M1NDIwLXNjYWxlciIgZm9yIFNjYWxlciBJUCBpbiBFeHlu
+b3M1NDIwCi0JKGIpICJzYW1zdW5nLGV4eW5vczU0MzMtc2NhbGVyIiBmb3IgU2NhbGVyIElQIGlu
+IEV4eW5vczU0MzMKLQotICAtIHJlZyA6IFBoeXNpY2FsIGJhc2UgYWRkcmVzcyBvZiB0aGUgSVAg
+cmVnaXN0ZXJzIGFuZCBsZW5ndGggb2YgbWVtb3J5Ci0JICBtYXBwZWQgcmVnaW9uLgotCi0gIC0g
+aW50ZXJydXB0cyA6IEludGVycnVwdCBzcGVjaWZpZXIgZm9yIHNjYWxlciBpbnRlcnJ1cHQsIGFj
+Y29yZGluZyB0byBmb3JtYXQKLQkJIHNwZWNpZmljIHRvIGludGVycnVwdCBwYXJlbnQuCi0KLSAg
+LSBjbG9ja3MgOiBDbG9jayBzcGVjaWZpZXIgZm9yIHNjYWxlciBjbG9jaywgYWNjb3JkaW5nIHRv
+IGdlbmVyaWMgY2xvY2sKLQkgICAgIGJpbmRpbmdzLiAoU2VlIERvY3VtZW50YXRpb24vZGV2aWNl
+dHJlZS9iaW5kaW5ncy9jbG9jay9leHlub3MqLnR4dCkKLQotICAtIGNsb2NrLW5hbWVzIDogTmFt
+ZXMgb2YgY2xvY2tzLiBGb3IgZXh5bm9zIHNjYWxlciwgaXQgc2hvdWxkIGJlICJtc2NsIgotCQkg
+IG9uIDU0MjAgYW5kICJwY2xrIiwgImFjbGsiIGFuZCAiYWNsa194aXUiIG9uIDU0MzMuCi0KLUV4
+YW1wbGU6Ci0Jc2NhbGVyQDEyODAwMDAwIHsKLQkJY29tcGF0aWJsZSA9ICJzYW1zdW5nLGV4eW5v
+czU0MjAtc2NhbGVyIjsKLQkJcmVnID0gPDB4MTI4MDAwMDAgMHgxMjk0PjsKLQkJaW50ZXJydXB0
+cyA9IDwwIDIyMCBJUlFfVFlQRV9MRVZFTF9ISUdIPjsKLQkJY2xvY2tzID0gPCZjbG9jayBDTEtf
+TVNDTDA+OwotCQljbG9jay1uYW1lcyA9ICJtc2NsIjsKLQl9OwpkaWZmIC0tZ2l0IGEvRG9jdW1l
+bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2dwdS9zYW1zdW5nLXNjYWxlci55YW1sIGIvRG9j
+dW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2dwdS9zYW1zdW5nLXNjYWxlci55YW1sCm5l
+dyBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDAwMDAwMDAwMDAwMC4uYWYxOTkzMGQwNTJlCi0tLSAv
+ZGV2L251bGwKKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2dwdS9zYW1z
+dW5nLXNjYWxlci55YW1sCkBAIC0wLDAgKzEsNzEgQEAKKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZp
+ZXI6IEdQTC0yLjAKKyVZQU1MIDEuMgorLS0tCiskaWQ6IGh0dHA6Ly9kZXZpY2V0cmVlLm9yZy9z
+Y2hlbWFzL2dwdS9zYW1zdW5nLXNjYWxlci55YW1sIworJHNjaGVtYTogaHR0cDovL2RldmljZXRy
+ZWUub3JnL21ldGEtc2NoZW1hcy9jb3JlLnlhbWwjCisKK3RpdGxlOiBTYW1zdW5nIEV4eW5vcyBT
+b0MgSW1hZ2UgU2NhbGVyCisKK21haW50YWluZXJzOgorICAtIElua2kgRGFlIDxpbmtpLmRhZUBz
+YW1zdW5nLmNvbT4KKworcHJvcGVydGllczoKKyAgY29tcGF0aWJsZToKKyAgICBlbnVtOgorICAg
+ICAgLSBzYW1zdW5nLGV4eW5vczU0MjAtc2NhbGVyCisgICAgICAtIHNhbXN1bmcsZXh5bm9zNTQz
+My1zY2FsZXIKKworICByZWc6CisgICAgbWF4SXRlbXM6IDEKKworICBpbnRlcnJ1cHRzOgorICAg
+IG1heEl0ZW1zOiAxCisKK2lmOgorICBwcm9wZXJ0aWVzOgorICAgIGNvbXBhdGlibGU6CisgICAg
+ICBjb250YWluczoKKyAgICAgICAgY29uc3Q6IHNhbXN1bmcsZXh5bm9zNTQyMC1zY2FsZXIKK3Ro
+ZW46CisgIHByb3BlcnRpZXM6CisgICAgY2xvY2tzOgorICAgICAgaXRlbXM6CisgICAgICAgIC0g
+ZGVzY3JpcHRpb246IG1zY2wgY2xvY2sKKworICAgIGNsb2NrLW5hbWVzOgorICAgICAgaXRlbXM6
+CisgICAgICAgIC0gY29uc3Q6IG1zY2wKK2Vsc2U6CisgIHByb3BlcnRpZXM6CisgICAgY2xvY2tz
+OgorICAgICAgaXRlbXM6CisgICAgICAgIC0gZGVzY3JpcHRpb246IG1zY2wgY2xvY2sKKyAgICAg
+ICAgLSBkZXNjcmlwdGlvbjogYWNsayBjbG9jaworICAgICAgICAtIGRlc2NyaXB0aW9uOiBhY2xr
+X3hpdSBjbG9jaworCisgICAgY2xvY2stbmFtZXM6CisgICAgICBpdGVtczoKKyAgICAgICAgLSBj
+b25zdDogcGNsaworICAgICAgICAtIGNvbnN0OiBhY2xrCisgICAgICAgIC0gY29uc3Q6IGFjbGtf
+eGl1CisKK3JlcXVpcmVkOgorICAtIGNvbXBhdGlibGUKKyAgLSByZWcKKyAgLSBpbnRlcnJ1cHRz
+CisgIC0gY2xvY2tzCisgIC0gY2xvY2stbmFtZXMKKworZXhhbXBsZXM6CisgIC0gfAorICAgICNp
+bmNsdWRlIDxkdC1iaW5kaW5ncy9jbG9jay9leHlub3M1NDIwLmg+CisgICAgI2luY2x1ZGUgPGR0
+LWJpbmRpbmdzL2ludGVycnVwdC1jb250cm9sbGVyL2FybS1naWMuaD4KKworICAgIHNjYWxlckAx
+MjgwMDAwMCB7CisgICAgICAgIGNvbXBhdGlibGUgPSAic2Ftc3VuZyxleHlub3M1NDIwLXNjYWxl
+ciI7CisgICAgICAgIHJlZyA9IDwweDEyODAwMDAwIDB4MTI5ND47CisgICAgICAgIGludGVycnVw
+dHMgPSA8R0lDX1NQSSAyMjAgSVJRX1RZUEVfTEVWRUxfSElHSD47CisgICAgICAgIGNsb2NrcyA9
+IDwmY2xvY2sgQ0xLX01TQ0wwPjsKKyAgICAgICAgY2xvY2stbmFtZXMgPSAibXNjbCI7CisgICAg
+fTsKKwotLSAKMi4xNy4xCgoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbA==
