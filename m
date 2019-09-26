@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 086DEBF99B
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2019 20:51:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3D17BF99C
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2019 20:51:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFA846EDE3;
-	Thu, 26 Sep 2019 18:51:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DB1A6EDE8;
+	Thu, 26 Sep 2019 18:51:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id C6A8B6EDE3
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2019 18:51:05 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6DAE16EDDD
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2019 18:51:18 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C366A72162; Thu, 26 Sep 2019 18:51:05 +0000 (UTC)
+ id 6A2BF72162; Thu, 26 Sep 2019 18:51:18 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111803] Annoying GPU stucks are continued on Vega 20 with
- Kernel 5.4 + mesa 9.3.0 + llvm 9.0.0 [drm:amdgpu_dm_atomic_commit_tail
- [amdgpu]] *ERROR* Waiting for fences timed out!
-Date: Thu, 26 Sep 2019 18:51:05 +0000
+Subject: [Bug 111819] When starting Atom, Signal or Steam via Flatpak:
+ [gfxhub] retry page fault (src_id:0 ring:0 vmid:1 pasid:32770, for process X
+ pid 2148 thread X:cs0 pid 2151) in page starting at address
+ 0x0000000107720000 from 27, VM_L2_PROTECTION_FAULT_STATUS:0x00101031
+Date: Thu, 26 Sep 2019 18:51:18 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: not set
-X-Bugzilla-Who: mikhail.v.gavrilov@gmail.com
+X-Bugzilla-Who: devurandom@gmx.net
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111803-502-TtiCRMWxOm@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111803-502@http.bugs.freedesktop.org/>
-References: <bug-111803-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111819-502-0G7xuIvxqu@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111819-502@http.bugs.freedesktop.org/>
+References: <bug-111819-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -54,37 +55,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0956238874=="
+Content-Type: multipart/mixed; boundary="===============0991421260=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0956238874==
-Content-Type: multipart/alternative; boundary="15695238650.eD458ae3.18398"
+--===============0991421260==
+Content-Type: multipart/alternative; boundary="15695238780.97cc98657.18513"
 Content-Transfer-Encoding: 7bit
 
 
---15695238650.eD458ae3.18398
-Date: Thu, 26 Sep 2019 18:51:05 +0000
+--15695238780.97cc98657.18513
+Date: Thu, 26 Sep 2019 18:51:18 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111803
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111819
 
---- Comment #14 from mikhail.v.gavrilov@gmail.com ---
-Created attachment 145534
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145534&action=3Dedit
-./umr -O many,bits -r *.*.mmCP_ME_HEADER_DUMP
+--- Comment #7 from Dennis Schridde <devurandom@gmx.net> ---
+Created attachment 145535
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145535&action=3Dedit
+flatpak info (-M) $app
+
+I attached the output of:
+```
+for app in com.skype.Client com.valvesoftware.Steam io.atom.Atom
+org.signal.Signal org.zulip.Zulip
+  flatpak info $app
+  echo Permissions:
+  flatpak info -M $app
+end
+```
+
+What sticks out is that the applications crashing all have `devices=3Dall` =
+or
+`devices=3Ddri` permissions -- i.e. they can access the GPU directly.
+
+Running /var/lib/flatpak/app/io.atom.Atom/current/active/files/bin/atom-real
+directly, without Flatpak, locks up the entire system hard -- ctrl+alt+f2,
+ctrl+alt+del, SysReq+REISUB all do not help and I have to hard reset the
+machine.  No logs are available from this run.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15695238650.eD458ae3.18398
-Date: Thu, 26 Sep 2019 18:51:05 +0000
+--15695238780.97cc98657.18513
+Date: Thu, 26 Sep 2019 18:51:18 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -100,28 +120,48 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Annoying GPU stucks are continued on Vega 20 with Kernel =
-5.4 + mesa 9.3.0 + llvm 9.0.0 [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *=
-ERROR* Waiting for fences timed out!"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111803#c14">Comme=
-nt # 14</a>
+   title=3D"NEW - When starting Atom, Signal or Steam via Flatpak: [gfxhub]=
+ retry page fault (src_id:0 ring:0 vmid:1 pasid:32770, for process X pid 21=
+48 thread X:cs0 pid 2151) in page starting at address 0x0000000107720000 fr=
+om 27, VM_L2_PROTECTION_FAULT_STATUS:0x00101031"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111819#c7">Commen=
+t # 7</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Annoying GPU stucks are continued on Vega 20 with Kernel =
-5.4 + mesa 9.3.0 + llvm 9.0.0 [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *=
-ERROR* Waiting for fences timed out!"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111803">bug 11180=
-3</a>
+   title=3D"NEW - When starting Atom, Signal or Steam via Flatpak: [gfxhub]=
+ retry page fault (src_id:0 ring:0 vmid:1 pasid:32770, for process X pid 21=
+48 thread X:cs0 pid 2151) in page starting at address 0x0000000107720000 fr=
+om 27, VM_L2_PROTECTION_FAULT_STATUS:0x00101031"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111819">bug 11181=
+9</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-mikhail.v.gavrilov&#64;gmail.com" title=3D"mikhail.v.gavrilov&#64;gmail.com=
-">mikhail.v.gavrilov&#64;gmail.com</a>
+devurandom&#64;gmx.net" title=3D"Dennis Schridde &lt;devurandom&#64;gmx.net=
+&gt;"> <span class=3D"fn">Dennis Schridde</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145534=
-" name=3D"attach_145534" title=3D"./umr -O many,bits -r *.*.mmCP_ME_HEADER_=
-DUMP">attachment 145534</a> <a href=3D"attachment.cgi?id=3D145534&amp;actio=
-n=3Dedit" title=3D"./umr -O many,bits -r *.*.mmCP_ME_HEADER_DUMP">[details]=
-</a></span>
-./umr -O many,bits -r *.*.mmCP_ME_HEADER_DUMP</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145535=
+" name=3D"attach_145535" title=3D"flatpak info (-M) $app">attachment 145535=
+</a> <a href=3D"attachment.cgi?id=3D145535&amp;action=3Dedit" title=3D"flat=
+pak info (-M) $app">[details]</a></span>
+flatpak info (-M) $app
+
+I attached the output of:
+```
+for app in com.skype.Client com.valvesoftware.Steam io.atom.Atom
+org.signal.Signal org.zulip.Zulip
+  flatpak info $app
+  echo Permissions:
+  flatpak info -M $app
+end
+```
+
+What sticks out is that the applications crashing all have `devices=3Dall` =
+or
+`devices=3Ddri` permissions -- i.e. they can access the GPU directly.
+
+Running /var/lib/flatpak/app/io.atom.Atom/current/active/files/bin/atom-real
+directly, without Flatpak, locks up the entire system hard -- ctrl+alt+f2,
+ctrl+alt+del, SysReq+REISUB all do not help and I have to hard reset the
+machine.  No logs are available from this run.</pre>
         </div>
       </p>
 
@@ -135,9 +175,9 @@ n=3Dedit" title=3D"./umr -O many,bits -r *.*.mmCP_ME_HEADER_DUMP">[details]=
     </body>
 </html>=
 
---15695238650.eD458ae3.18398--
+--15695238780.97cc98657.18513--
 
---===============0956238874==
+--===============0991421260==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -147,4 +187,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0956238874==--
+--===============0991421260==--
