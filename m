@@ -1,46 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39872BF2FB
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2019 14:29:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7D98BF305
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2019 14:30:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F24BC6ED0B;
-	Thu, 26 Sep 2019 12:29:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CCC86EC65;
+	Thu, 26 Sep 2019 12:30:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0405F6ED04
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2019 12:29:04 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 010BA72162; Thu, 26 Sep 2019 12:29:03 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 102322] System crashes after "[drm] IP block:gmc_v8_0 is hung!"
- / [drm] IP block:sdma_v3_0 is hung!
-Date: Thu, 26 Sep 2019 12:29:04 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: freedesktop@jeroenimo.nl
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-102322-502-vhyc9WfKr8@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-102322-502@http.bugs.freedesktop.org/>
-References: <bug-102322-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CD5576EC65
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2019 12:30:37 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 323F7142F;
+ Thu, 26 Sep 2019 05:30:37 -0700 (PDT)
+Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2C2DC3F67D;
+ Thu, 26 Sep 2019 05:30:36 -0700 (PDT)
+Subject: Re: [PATCH v2] drm: Don't free jobs in wait_event_interruptible()
+To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20190926095458.50020-1-steven.price@arm.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <f57a2a51-16c6-3a05-71ba-a680bc7012a7@arm.com>
+Date: Thu, 26 Sep 2019 13:30:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <20190926095458.50020-1-steven.price@arm.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,143 +42,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1935622349=="
+Cc: Nayan Deshmukh <nayan26deshmukh@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Sharat Masetty <smasetty@codeaurora.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1935622349==
-Content-Type: multipart/alternative; boundary="15695009431.2fde.9640"
-Content-Transfer-Encoding: 7bit
-
-
---15695009431.2fde.9640
-Date: Thu, 26 Sep 2019 12:29:03 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D102322
-
---- Comment #90 from jeroenimo <freedesktop@jeroenimo.nl> ---
-I managed to run glmark2 without crashing the system with=20
-
-By running the card manual at lowest frequency
-
-from root shell:
-echo manual > /sys/class/drm/card0/device/power_dpm_force_performance_level
-echo 0 > /sys/class/drm/card0/device/pp_dpm_sclk
-
-root@jeroenimo-amd:/home/jeroen# cat /sys/class/drm/card0/device/pp_dpm_scl=
-k=20
-0: 214Mhz *
-1: 387Mhz=20
-2: 843Mhz=20
-3: 995Mhz=20
-4: 1062Mhz=20
-5: 1108Mhz=20
-6: 1149Mhz=20
-7: 1176Mhz=20
-root@jeroenimo-amd:/home/jeroen#=20
-
-If I go to higher e.g. 2: 843Mhz I manage to crash it.. although it takes a
-while before it crashes.=20
-
-when I force the card to anything above 4 I get an immediate crash without =
-even
-starting glmark2
-
-I hope this helps!
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15695009431.2fde.9640
-Date: Thu, 26 Sep 2019 12:29:03 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - System crashes after &quot;[drm] IP block:gmc_v8_0 is hun=
-g!&quot; / [drm] IP block:sdma_v3_0 is hung!"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102322#c90">Comme=
-nt # 90</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - System crashes after &quot;[drm] IP block:gmc_v8_0 is hun=
-g!&quot; / [drm] IP block:sdma_v3_0 is hung!"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102322">bug 10232=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-freedesktop&#64;jeroenimo.nl" title=3D"jeroenimo &lt;freedesktop&#64;jeroen=
-imo.nl&gt;"> <span class=3D"fn">jeroenimo</span></a>
-</span></b>
-        <pre>I managed to run glmark2 without crashing the system with=20
-
-By running the card manual at lowest frequency
-
-from root shell:
-echo manual &gt; /sys/class/drm/card0/device/power_dpm_force_performance_le=
-vel
-echo 0 &gt; /sys/class/drm/card0/device/pp_dpm_sclk
-
-root&#64;jeroenimo-amd:/home/jeroen# cat /sys/class/drm/card0/device/pp_dpm=
-_sclk=20
-0: 214Mhz *
-1: 387Mhz=20
-2: 843Mhz=20
-3: 995Mhz=20
-4: 1062Mhz=20
-5: 1108Mhz=20
-6: 1149Mhz=20
-7: 1176Mhz=20
-root&#64;jeroenimo-amd:/home/jeroen#=20
-
-If I go to higher e.g. 2: 843Mhz I manage to crash it.. although it takes a
-while before it crashes.=20
-
-when I force the card to anything above 4 I get an immediate crash without =
-even
-starting glmark2
-
-I hope this helps!</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15695009431.2fde.9640--
-
---===============1935622349==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1935622349==--
+T24gMjYvMDkvMjAxOSAxMDo1NCwgU3RldmVuIFByaWNlIHdyb3RlOgo+IGRybV9zY2hlZF9jbGVh
+bnVwX2pvYnMoKSBhdHRlbXB0cyB0byBmcmVlIGZpbmlzaGVkIGpvYnMsIGhvd2V2ZXIgYmVjYXVz
+ZQo+IGl0IGlzIGNhbGxlZCBhcyB0aGUgY29uZGl0aW9uIG9mIHdhaXRfZXZlbnRfaW50ZXJydXB0
+aWJsZSgpIGl0IG11c3Qgbm90Cj4gc2xlZXAuIFVuZm9ydHVhbnRseSBzb21lIGZyZWUgY2FsbGJh
+Y2tzIChub3RpYmx5IGZvciBQYW5mcm9zdCkgZG8gc2xlZXAuCj4gCj4gSW5zdGVhZCBsZXQncyBy
+ZW5hbWUgZHJtX3NjaGVkX2NsZWFudXBfam9icygpIHRvCj4gZHJtX3NjaGVkX2dldF9jbGVhbnVw
+X2pvYigpIGFuZCBzaW1wbHkgcmV0dXJuIGEgam9iIGZvciBwcm9jZXNzaW5nIGlmCj4gdGhlcmUg
+aXMgb25lLiBUaGUgY2FsbGVyIGNhbiB0aGVuIGNhbGwgdGhlIGZyZWVfam9iKCkgY2FsbGJhY2sg
+b3V0c2lkZQo+IHRoZSB3YWl0X2V2ZW50X2ludGVycnVwdGlibGUoKSB3aGVyZSBzbGVlcGluZyBp
+cyBwb3NzaWJsZSBiZWZvcmUKPiByZS1jaGVja2luZyBhbmQgcmV0dXJuaW5nIHRvIHNsZWVwIGlm
+IG5lY2Vzc2FyeS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBTdGV2ZW4gUHJpY2UgPHN0ZXZlbi5wcmlj
+ZUBhcm0uY29tPgo+IC0tLQo+IAo+IENoYW5nZXMgZnJvbSB2MToKPiAgKiBNb3ZlIGxpc3RfZmly
+c3RfZW50cnlfb3JfbnVsbCgpIHdpdGhpbiB0aGUgbG9jawoKT3IgcmF0aGVyIHRoYXQgd2FzIG15
+IGludGVudGlvbiAtIGJ1dCBhcHBhcmVudGx5IEkgZmF0IGZpbmdlcmVkIGFuZApkaWRuJ3QgYWN0
+dWFsbHkgaW5jbHVkZSB0aGlzIGNoYW5nZS4gU29ycnkgLSB2MyBvbiBpdCdzIHdheSEKClN0ZXZl
+Cgo+IAo+ICBkcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYyB8IDQ0ICsrKysr
+KysrKysrKysrLS0tLS0tLS0tLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAyNCBpbnNlcnRpb25zKCsp
+LCAyMCBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3NjaGVk
+dWxlci9zY2hlZF9tYWluLmMgYi9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4u
+Ywo+IGluZGV4IDlhMGVlNzRkODJkYy4uMGVkNGFhYTRlNmQxIDEwMDY0NAo+IC0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L3NjaGVkdWxlci9zY2hlZF9tYWluLmMKPiBAQCAtNjIyLDQzICs2MjIsNDEgQEAgc3RhdGljIHZv
+aWQgZHJtX3NjaGVkX3Byb2Nlc3Nfam9iKHN0cnVjdCBkbWFfZmVuY2UgKmYsIHN0cnVjdCBkbWFf
+ZmVuY2VfY2IgKmNiKQo+ICB9Cj4gIAo+ICAvKioKPiAtICogZHJtX3NjaGVkX2NsZWFudXBfam9i
+cyAtIGRlc3Ryb3kgZmluaXNoZWQgam9icwo+ICsgKiBkcm1fc2NoZWRfZ2V0X2NsZWFudXBfam9i
+IC0gZmV0Y2ggdGhlIG5leHQgZmluaXNoZWQgam9iIHRvIGJlIGRlc3Ryb3llZAo+ICAgKgo+ICAg
+KiBAc2NoZWQ6IHNjaGVkdWxlciBpbnN0YW5jZQo+ICAgKgo+IC0gKiBSZW1vdmUgYWxsIGZpbmlz
+aGVkIGpvYnMgZnJvbSB0aGUgbWlycm9yIGxpc3QgYW5kIGRlc3Ryb3kgdGhlbS4KPiArICogUmV0
+dXJucyB0aGUgbmV4dCBmaW5pc2hlZCBqb2IgZnJvbSB0aGUgbWlycm9yIGxpc3QgKGlmIHRoZXJl
+IGlzIG9uZSkKPiArICogcmVhZHkgZm9yIGl0IHRvIGJlIGRlc3Ryb3llZC4KPiAgICovCj4gLXN0
+YXRpYyB2b2lkIGRybV9zY2hlZF9jbGVhbnVwX2pvYnMoc3RydWN0IGRybV9ncHVfc2NoZWR1bGVy
+ICpzY2hlZCkKPiArc3RhdGljIHN0cnVjdCBkcm1fc2NoZWRfam9iICoKPiArZHJtX3NjaGVkX2dl
+dF9jbGVhbnVwX2pvYihzdHJ1Y3QgZHJtX2dwdV9zY2hlZHVsZXIgKnNjaGVkKQo+ICB7Cj4gKwlz
+dHJ1Y3QgZHJtX3NjaGVkX2pvYiAqam9iID0gTlVMTDsKPiAgCXVuc2lnbmVkIGxvbmcgZmxhZ3M7
+Cj4gIAo+ICAJLyogRG9uJ3QgZGVzdHJveSBqb2JzIHdoaWxlIHRoZSB0aW1lb3V0IHdvcmtlciBp
+cyBydW5uaW5nICovCj4gIAlpZiAoc2NoZWQtPnRpbWVvdXQgIT0gTUFYX1NDSEVEVUxFX1RJTUVP
+VVQgJiYKPiAgCSAgICAhY2FuY2VsX2RlbGF5ZWRfd29yaygmc2NoZWQtPndvcmtfdGRyKSkKPiAt
+CQlyZXR1cm47Cj4gLQo+IC0KPiAtCXdoaWxlICghbGlzdF9lbXB0eSgmc2NoZWQtPnJpbmdfbWly
+cm9yX2xpc3QpKSB7Cj4gLQkJc3RydWN0IGRybV9zY2hlZF9qb2IgKmpvYjsKPiArCQlyZXR1cm4g
+TlVMTDsKPiAgCj4gLQkJam9iID0gbGlzdF9maXJzdF9lbnRyeSgmc2NoZWQtPnJpbmdfbWlycm9y
+X2xpc3QsCj4gKwlqb2IgPSBsaXN0X2ZpcnN0X2VudHJ5X29yX251bGwoJnNjaGVkLT5yaW5nX21p
+cnJvcl9saXN0LAo+ICAJCQkJICAgICAgIHN0cnVjdCBkcm1fc2NoZWRfam9iLCBub2RlKTsKPiAt
+CQlpZiAoIWRtYV9mZW5jZV9pc19zaWduYWxlZCgmam9iLT5zX2ZlbmNlLT5maW5pc2hlZCkpCj4g
+LQkJCWJyZWFrOwo+ICAKPiAtCQlzcGluX2xvY2tfaXJxc2F2ZSgmc2NoZWQtPmpvYl9saXN0X2xv
+Y2ssIGZsYWdzKTsKPiArCXNwaW5fbG9ja19pcnFzYXZlKCZzY2hlZC0+am9iX2xpc3RfbG9jaywg
+ZmxhZ3MpOwo+ICsKPiArCWlmIChqb2IgJiYgZG1hX2ZlbmNlX2lzX3NpZ25hbGVkKCZqb2ItPnNf
+ZmVuY2UtPmZpbmlzaGVkKSkgewo+ICAJCS8qIHJlbW92ZSBqb2IgZnJvbSByaW5nX21pcnJvcl9s
+aXN0ICovCj4gIAkJbGlzdF9kZWxfaW5pdCgmam9iLT5ub2RlKTsKPiAtCQlzcGluX3VubG9ja19p
+cnFyZXN0b3JlKCZzY2hlZC0+am9iX2xpc3RfbG9jaywgZmxhZ3MpOwo+IC0KPiAtCQlzY2hlZC0+
+b3BzLT5mcmVlX2pvYihqb2IpOwo+ICsJfSBlbHNlIHsKPiArCQlqb2IgPSBOVUxMOwo+ICsJCS8q
+IHF1ZXVlIHRpbWVvdXQgZm9yIG5leHQgam9iICovCj4gKwkJZHJtX3NjaGVkX3N0YXJ0X3RpbWVv
+dXQoc2NoZWQpOwo+ICAJfQo+ICAKPiAtCS8qIHF1ZXVlIHRpbWVvdXQgZm9yIG5leHQgam9iICov
+Cj4gLQlzcGluX2xvY2tfaXJxc2F2ZSgmc2NoZWQtPmpvYl9saXN0X2xvY2ssIGZsYWdzKTsKPiAt
+CWRybV9zY2hlZF9zdGFydF90aW1lb3V0KHNjaGVkKTsKPiAgCXNwaW5fdW5sb2NrX2lycXJlc3Rv
+cmUoJnNjaGVkLT5qb2JfbGlzdF9sb2NrLCBmbGFncyk7Cj4gIAo+ICsJcmV0dXJuIGpvYjsKPiAg
+fQo+ICAKPiAgLyoqCj4gQEAgLTY5OCwxMiArNjk2LDE4IEBAIHN0YXRpYyBpbnQgZHJtX3NjaGVk
+X21haW4odm9pZCAqcGFyYW0pCj4gIAkJc3RydWN0IGRybV9zY2hlZF9mZW5jZSAqc19mZW5jZTsK
+PiAgCQlzdHJ1Y3QgZHJtX3NjaGVkX2pvYiAqc2NoZWRfam9iOwo+ICAJCXN0cnVjdCBkbWFfZmVu
+Y2UgKmZlbmNlOwo+ICsJCXN0cnVjdCBkcm1fc2NoZWRfam9iICpjbGVhbnVwX2pvYiA9IE5VTEw7
+Cj4gIAo+ICAJCXdhaXRfZXZlbnRfaW50ZXJydXB0aWJsZShzY2hlZC0+d2FrZV91cF93b3JrZXIs
+Cj4gLQkJCQkJIChkcm1fc2NoZWRfY2xlYW51cF9qb2JzKHNjaGVkKSwKPiArCQkJCQkgKGNsZWFu
+dXBfam9iID0gZHJtX3NjaGVkX2dldF9jbGVhbnVwX2pvYihzY2hlZCkpIHx8Cj4gIAkJCQkJICgh
+ZHJtX3NjaGVkX2Jsb2NrZWQoc2NoZWQpICYmCj4gIAkJCQkJICAoZW50aXR5ID0gZHJtX3NjaGVk
+X3NlbGVjdF9lbnRpdHkoc2NoZWQpKSkgfHwKPiAtCQkJCQkga3RocmVhZF9zaG91bGRfc3RvcCgp
+KSk7Cj4gKwkJCQkJIGt0aHJlYWRfc2hvdWxkX3N0b3AoKSk7Cj4gKwo+ICsJCXdoaWxlIChjbGVh
+bnVwX2pvYikgewo+ICsJCQlzY2hlZC0+b3BzLT5mcmVlX2pvYihjbGVhbnVwX2pvYik7Cj4gKwkJ
+CWNsZWFudXBfam9iID0gZHJtX3NjaGVkX2dldF9jbGVhbnVwX2pvYihzY2hlZCk7Cj4gKwkJfQo+
+ICAKPiAgCQlpZiAoIWVudGl0eSkKPiAgCQkJY29udGludWU7Cj4gCgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
