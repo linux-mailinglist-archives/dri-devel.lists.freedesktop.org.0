@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4C0BBF99F
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2019 20:52:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22073BF9A5
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2019 20:53:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 403636EDDD;
-	Thu, 26 Sep 2019 18:52:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA9BC6EDEC;
+	Thu, 26 Sep 2019 18:53:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0BAAC6EDDD
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2019 18:52:44 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 98F836EDEC
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2019 18:53:05 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 081EB72162; Thu, 26 Sep 2019 18:52:44 +0000 (UTC)
+ id 9579872162; Thu, 26 Sep 2019 18:53:05 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111803] Annoying GPU stucks are continued on Vega 20 with
  Kernel 5.4 + mesa 9.3.0 + llvm 9.0.0 [drm:amdgpu_dm_atomic_commit_tail
  [amdgpu]] *ERROR* Waiting for fences timed out!
-Date: Thu, 26 Sep 2019 18:52:44 +0000
+Date: Thu, 26 Sep 2019 18:53:05 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -35,8 +35,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.description
-Message-ID: <bug-111803-502-lcUigjvIhg@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: attachments.filename
+Message-ID: <bug-111803-502-9KDKAR3U8B@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111803-502@http.bugs.freedesktop.org/>
 References: <bug-111803-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -54,18 +54,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1572082953=="
+Content-Type: multipart/mixed; boundary="===============0981162385=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1572082953==
-Content-Type: multipart/alternative; boundary="15695239630.9eF9.19674"
+--===============0981162385==
+Content-Type: multipart/alternative; boundary="15695239851.b1ab4.19791"
 Content-Transfer-Encoding: 7bit
 
 
---15695239630.9eF9.19674
-Date: Thu, 26 Sep 2019 18:52:43 +0000
+--15695239851.b1ab4.19791
+Date: Thu, 26 Sep 2019 18:53:05 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -78,15 +78,15 @@ mikhail.v.gavrilov@gmail.com changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
- Attachment #145529|halt_waves                  |./umr -O halt_waves -wa
-        description|                            |
+ Attachment #145530|umr -R gfx[.]               |gfx.txt
+           filename|                            |
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15695239630.9eF9.19674
-Date: Thu, 26 Sep 2019 18:52:43 +0000
+--15695239851.b1ab4.19791
+Date: Thu, 26 Sep 2019 18:53:05 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -117,11 +117,10 @@ ERROR* Waiting for fences timed out!"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Attachment #145529 description</=
-td>
-           <td>halt_waves
+           <td style=3D"text-align:right;">Attachment #145530 filename</td>
+           <td>umr -R gfx[.]
            </td>
-           <td>./umr -O halt_waves -wa
+           <td>gfx.txt
            </td>
          </tr></table>
       <p>
@@ -137,9 +136,9 @@ td>
     </body>
 </html>=
 
---15695239630.9eF9.19674--
+--15695239851.b1ab4.19791--
 
---===============1572082953==
+--===============0981162385==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -149,4 +148,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1572082953==--
+--===============0981162385==--
