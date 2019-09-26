@@ -1,53 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C139BED1D
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2019 10:12:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D1FBED3D
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2019 10:17:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C954A6EE5A;
-	Thu, 26 Sep 2019 08:12:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE72C6EE57;
+	Thu, 26 Sep 2019 08:17:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E79D66EE51;
- Thu, 26 Sep 2019 08:12:52 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EDECB10DCC92;
- Thu, 26 Sep 2019 08:12:51 +0000 (UTC)
-Received: from [10.72.12.101] (ovpn-12-101.pek2.redhat.com [10.72.12.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5601D60C80;
- Thu, 26 Sep 2019 08:12:23 +0000 (UTC)
-Subject: Re: [PATCH V2 6/8] mdev: introduce virtio device and its device ops
-To: "Tian, Kevin" <kevin.tian@intel.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "mst@redhat.com" <mst@redhat.com>, "Bie, Tiwei" <tiwei.bie@intel.com>
-References: <20190924135332.14160-1-jasowang@redhat.com>
- <20190924135332.14160-7-jasowang@redhat.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D58F7DA@SHSMSX104.ccr.corp.intel.com>
- <2210d23d-38e4-e654-e53d-7867348de86a@redhat.com>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D590FE4@SHSMSX104.ccr.corp.intel.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <6ba16bf8-8e8a-343a-335d-ab77d7cda195@redhat.com>
-Date: Thu, 26 Sep 2019 16:12:07 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <AADFC41AFE54684AB9EE6CBC0274A5D19D590FE4@SHSMSX104.ccr.corp.intel.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Thu, 26 Sep 2019 08:12:52 +0000 (UTC)
+Received: from lucky1.263xmail.com (lucky1.263xmail.com [211.157.147.134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04E916EE5F
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2019 08:17:39 +0000 (UTC)
+Received: from localhost (unknown [192.168.167.110])
+ by lucky1.263xmail.com (Postfix) with ESMTP id 6D07A4409B
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2019 16:17:33 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ADDR-CHECKED4: 1
+X-ANTISPAM-LEVEL: 2
+X-ABS-CHECKED: 0
+Received: from localhost.localdomain (unknown [58.22.7.114])
+ by smtp.263.net (postfix) whith ESMTP id
+ P17590T140626737747712S1569485851176425_; 
+ Thu, 26 Sep 2019 16:17:32 +0800 (CST)
+X-IP-DOMAINF: 1
+X-UNIQUE-TAG: <e874c4183dbd5347332a24fc9ab23b59>
+X-RL-SENDER: hjc@rock-chips.com
+X-SENDER: hjc@rock-chips.com
+X-LOGIN-NAME: hjc@rock-chips.com
+X-FST-TO: dri-devel@lists.freedesktop.org
+X-SENDER-IP: 58.22.7.114
+X-ATTACHMENT-NUM: 0
+X-DNS-TYPE: 0
+From: Sandy Huang <hjc@rock-chips.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/3] Add some yuv 10bit support
+Date: Thu, 26 Sep 2019 16:17:25 +0800
+Message-Id: <1569485848-151295-1-git-send-email-hjc@rock-chips.com>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,59 +51,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "christophe.de.dinechin@gmail.com" <christophe.de.dinechin@gmail.com>,
- "sebott@linux.ibm.com" <sebott@linux.ibm.com>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "heiko.carstens@de.ibm.com" <heiko.carstens@de.ibm.com>,
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>,
- "rob.miller@broadcom.com" <rob.miller@broadcom.com>,
- "lulu@redhat.com" <lulu@redhat.com>,
- "eperezma@redhat.com" <eperezma@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
- "borntraeger@de.ibm.com" <borntraeger@de.ibm.com>,
- "haotian.wang@sifive.com" <haotian.wang@sifive.com>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>, "farman@linux.ibm.com" <farman@linux.ibm.com>,
- "idos@mellanox.com" <idos@mellanox.com>,
- "gor@linux.ibm.com" <gor@linux.ibm.com>, "Liang,
- Cunming" <cunming.liang@intel.com>, "Wang, Xiao W" <xiao.w.wang@intel.com>,
- "freude@linux.ibm.com" <freude@linux.ibm.com>,
- "parav@mellanox.com" <parav@mellanox.com>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>, "Zhu, Lingshan" <lingshan.zhu@intel.com>,
- "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "oberpar@linux.ibm.com" <oberpar@linux.ibm.com>,
- "maxime.coquelin@redhat.com" <maxime.coquelin@redhat.com>, "Wang,
- Zhihong" <zhihong.wang@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDIwMTkvOS8yNiDkuIrljYg4OjQ4LCBUaWFuLCBLZXZpbiB3cm90ZToKPj4+PiArfTsKPj4+
-IEknbSBub3Qgc3VyZSBob3cgc3RhYmxlIGFib3ZlIG9wcyBhcmUuCj4+IEl0J3MgdGhlIGtlcm5l
-bCBpbnRlcm5hbCBBUEksIHNvIHRoZXJlJ3Mgbm8gc3RyaWN0IHJlcXVpcmVtZW50IGZvciB0aGlz
-Lgo+PiBXZSB3aWxsIGV4cG9ydCBhIHZlcnNpb24gdmFsdWUgZm9yIHVzZXJzcGFjZSBmb3IgY29t
-cGF0aWJpbGl0eS4KPj4KPj4KPj4+IERvZXMgaXQgbWFrZSBzZW5zZSBpZiBkZWZpbmluZwo+Pj4g
-anVzdCB0d28gY2FsbGJhY2tzIGhlcmUsIGUuZy4gdnFfY3RybCBhbmQgZGV2aWNlX2N0cmwsIGFu
-ZCB0aGVuIGxldCB0aGUKPj4+IHZlbmRvciBkcml2ZXIgdG8gaGFuZGxlIHNwZWNpZmljIG9wcyBp
-biBlYWNoIGNhdGVnb3J5IChzaW1pbGFyIHRvIGhvdwo+Pj4gaW9jdGwgd29ya3MpPwo+PiBNeSB1
-bmRlcnN0YW5kaW5nIGlzIHRoYXQgaXQgaW50cm9kdWNlIGFub3RoZXIgaW5kaXJlY3Rpb24sIHlv
-dSBzdGlsbAo+PiBuZWVkIHRvIGRpZmZlciBmcm9tIGRpZmZlcmVudCBjb21tYW5kLCBhbmQgaXQn
-cyBsZXNzIGZsZXhpYmxlIHRoYW4KPj4gZGlyZWN0IGNhbGxiYWNrLgo+Pgo+PiBXaGF0J3MgdGhl
-IHZhbHVlIG9mIGRvaW5nIHRoaXM/Cj4+Cj4gSSBqdXN0IHRob3VnaHQgZG9pbmcgc28gbWF5IHBy
-b3ZpZGUgYmV0dGVyIGNvbXBhdGliaWxpdHkgdG8gdGhlCj4gcGFyZW50IGRyaXZlci4gRXZlbiB3
-aGVuIG5ldyBvcCBpcyBpbnRyb2R1Y2VkLCBhIHBhcmVudCBkcml2ZXIKPiB0aGF0IHdhcyBkZXZl
-bG9wZWQgYWdhaW5zdCB0aGUgb2xkIHNldCBjYW4gc3RpbGwgYmUgbG9hZGVkIGluIHRoZQo+IG5l
-dyBrZXJuZWwuIEl0IGp1c3QgcmV0dXJucyBlcnJvciB3aGVuIHVucmVjb2duaXplZCBvcHMgYXJl
-Cj4gcm91dGVkIHRocm91Z2ggdnFfY3RybCBhbmQgZGV2aWNlX2N0cmwsIGlmIHRoZSB1c2Vyc3Bh
-Y2UgZG9lc24ndAo+IGZhdm9yIHRoZSBleHBvc2VkIHZlcnNpb24gdmFsdWUuIEJ1dCBpZiBhYm92
-ZSBvcHMgc2V0IGlzIHByZXR0eQo+IHN0YWJsZSwgdGhlbiB0aGlzIGNvbW1lbnQgY2FuIGJlIGln
-bm9yZWQuCgoKVGhpcyBpcyByZWFsbHkgZ29vZCBwb2ludCwgd2Ugc2hvdWxkIGtlZXAgaXQgc3Rh
-YmxlIGFzIGEgcmVhbCB0cmFuc3BvcnQuIApBbmQgd2hlbiB0aGVyZSdzIG1ham9yIGNoYW5nZXMs
-IHdlIHNob3VsZCBhZHZlcnRpc2UgdGhyb3VnaCB2ZXJzaW9uIHRoZW4gCndlIGNhbiBwcm92aWRl
-IGEgbmV3IHNldCBvZiBmdW5jdGlvbnMuCgpUaGFua3MKCgo+Cj4gVGhhbmtzCj4gS2V2aW4KX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+VGhlc2Ugc2VyaWVzIHBhdGNoZXMgaXMgdG8gYWRkIHNvbWUgbmV3IGZvcm1hdCBzdXBwb3J0ZWQg
+Ynkgc29tZSByb2NrY2hpcApzb2NzLCBpbmNsdWRlOgogIFJLMzI4OC9SSzMyMjgvUkszMzI4L1JL
+MzM2OC9SSzMzOTkKCnRoZXNlIG5ldyBmb3JtYXQgbGF5b3V0IGFzIGZvbGxvd2luZyBydWxlOgoy
+IHBsYW5lIFlDYkNyCiAgaW5kZXggMCA9IFkgcGxhbmUsIFkzOlkyOlkxOlkwIDEwOjEwOjEwOjEw
+CiAgaW5kZXggMSA9IENiOkNyIHBsYW5lLCBDYjM6Q3IzOkNiMjpDcjI6Q2IxOkNyMTpDYjA6Q3Iw
+IDEwOjEwOjEwOjEwOjEwOjEwOjEwOjEwCiAgb3IKICBpbmRleCAxID0gQ3I6Q2IgcGxhbmUsIENy
+MzpDYjM6Q3IyOkNiMjpDcjE6Q2IxOkNyMDpDYjAgMTA6MTA6MTA6MTA6MTA6MTA6MTA6MTAKCnYy
+OgogIDEuIGFkZCBkZXNjcmliZSBmb3IgbmV3IGZvcm1hdDsKICAyLiB1c2UgYmxvY2sgZm9ybWF0
+cyB0byBkZXNjcmliZSBuZXcgZm9ybWF0OwoKU2FuZHkgSHVhbmcgKDMpOgogIGRybTogQWRkIHNv
+bWUgbmV3IGZvcm1hdCBEUk1fRk9STUFUX05WWFhfMTAKICBkcm0vcm9ja2NoaXA6IEFkZCB2b3Bf
+Zm9ybWF0X2dldF9icHAgdG8gZ2V0IGZvcm1hdCBicHAKICBkcm0vcm9ja2NoaXA6IEFkZCBzdXBw
+b3J0IDEwYml0IHl1diBmb3JtYXQKCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2ZvdXJjYy5jICAgICAg
+ICAgICAgICAgIHwgMTggKysrKysrKwogZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlw
+X2RybV92b3AuYyB8IDc3ICsrKysrKysrKysrKysrKysrKysrKysrKystLS0tCiBkcml2ZXJzL2dw
+dS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcC5oIHwgIDEgKwogZHJpdmVycy9ncHUvZHJt
+L3JvY2tjaGlwL3JvY2tjaGlwX3ZvcF9yZWcuYyB8ICAyICsKIGluY2x1ZGUvdWFwaS9kcm0vZHJt
+X2ZvdXJjYy5oICAgICAgICAgICAgICAgfCAxNCArKysrKysKIDUgZmlsZXMgY2hhbmdlZCwgMTAz
+IGluc2VydGlvbnMoKyksIDkgZGVsZXRpb25zKC0pCgotLSAKMi43LjQKCgoKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
