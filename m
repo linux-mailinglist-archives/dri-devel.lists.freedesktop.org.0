@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 657FCBFFFF
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2019 09:26:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7F8EC000F
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2019 09:31:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19FF36EE6C;
-	Fri, 27 Sep 2019 07:26:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A4246EE6E;
+	Fri, 27 Sep 2019 07:31:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF7FF6EE6C
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2019 07:26:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE5A26EE6E
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2019 07:31:20 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 203471] Tearing on Raven Ridge and RX560X PRIME setup even with
  Vsync enabled
-Date: Fri, 27 Sep 2019 07:26:36 +0000
+Date: Fri, 27 Sep 2019 07:31:20 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -31,8 +31,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-203471-2300-Svs0JgWjiw@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-203471-2300-Xl7TscwkgG@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-203471-2300@https.bugzilla.kernel.org/>
 References: <bug-203471-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -57,17 +57,12 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDM0NzEKCkhheGsy
-MCAoaGF4azYxMkBnbWFpbC5jb20pIGNoYW5nZWQ6CgogICAgICAgICAgIFdoYXQgICAgfFJlbW92
-ZWQgICAgICAgICAgICAgICAgICAgICB8QWRkZWQKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogICAgICAg
-ICAgICAgU3RhdHVzfFJFU09MVkVEICAgICAgICAgICAgICAgICAgICB8UkVPUEVORUQKICAgICAg
-ICAgUmVzb2x1dGlvbnxDT0RFX0ZJWCAgICAgICAgICAgICAgICAgICAgfC0tLQoKLS0tIENvbW1l
-bnQgIzE4IGZyb20gSGF4azIwIChoYXhrNjEyQGdtYWlsLmNvbSkgLS0tCldlbGwgaSB3YXMgYmxp
-bmQgaXQgc2VlbXMuIFRoZSB0ZWFyaW5nIGlzIHNtYWxsIGJ1dCBzdGlsbCBpcyBzdXJlbHkgdGhl
-cmUKc2FkbHkuIFRlYXJpbmcgaXMgZ29uZSBpZiB1c2luZyBqdXN0IGlHUFUuIFdoZW4gdXNpbmcg
-ZEdQVSB3aXRoIFBSSU1FIHRoZW4KdGVhcmluZyBpcyB0aGVyZS4KCi0tIApZb3UgYXJlIHJlY2Vp
-dmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2Yg
-dGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDM0NzEKCi0tLSBD
+b21tZW50ICMxOSBmcm9tIEhheGsyMCAoaGF4azYxMkBnbWFpbC5jb20pIC0tLQpBbmQgeWVzIGlt
+IHJ1bm5pbmcgbGludXgga2VybmVsIGZyb20gbWFzdGVyIHNvIHRoZSBEUk0gcGF0Y2hlcyBmb3IK
+c2NhdHRoZXIvZ2F0aGVyIGFyZSB0aGVyZS4gU3RpbGwgdGVhcmluZyBldmVuIHRobyB0aGV5IGFy
+ZSB0aGVyZS4KSGVscCA/CgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6
+CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
