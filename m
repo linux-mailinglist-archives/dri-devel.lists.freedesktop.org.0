@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25110C0012
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2019 09:31:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80E97C001F
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2019 09:39:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 632086EE6F;
-	Fri, 27 Sep 2019 07:31:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A83C6EE7B;
+	Fri, 27 Sep 2019 07:39:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 794FA6EE6F
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2019 07:31:52 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EB0CB6EE7F
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2019 07:39:00 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id E744F72162; Fri, 27 Sep 2019 07:39:00 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 203471] Tearing on Raven Ridge and RX560X PRIME setup even with
- Vsync enabled
-Date: Fri, 27 Sep 2019 07:31:52 +0000
-X-Bugzilla-Reason: None
+Subject: [Bug 111747] [CI][DRMTIP] igt@ - incomplete - Jenkins gives up
+Date: Fri, 27 Sep 2019 07:39:00 +0000
+X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: IGT
+X-Bugzilla-Version: DRI git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: haxk612@gmail.com
-X-Bugzilla-Status: REOPENED
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: cibuglog@gmail.com
+X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cf_kernel_version
-Message-ID: <bug-203471-2300-ZT4YSckR3J@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-203471-2300@https.bugzilla.kernel.org/>
-References: <bug-203471-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111747-502-8hFnUyDKEP@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111747-502@http.bugs.freedesktop.org/>
+References: <bug-111747-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
- message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,19 +52,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1091136874=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDM0NzEKCkhheGsy
-MCAoaGF4azYxMkBnbWFpbC5jb20pIGNoYW5nZWQ6CgogICAgICAgICAgIFdoYXQgICAgfFJlbW92
-ZWQgICAgICAgICAgICAgICAgICAgICB8QWRkZWQKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogICAgIEtl
-cm5lbCBWZXJzaW9ufDUuMSByYzYgYW5kICAgICAgICAgICAgICAgICB8Z2l0IG1hc3RlcgogICAg
-ICAgICAgICAgICAgICAgfGRybS1uZXh0LTUuMi13aXAgICAgICAgICAgICB8CgotLSAKWW91IGFy
-ZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2ln
-bmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbA==
+
+--===============1091136874==
+Content-Type: multipart/alternative; boundary="15695699403.dcCcF61ca.29831"
+Content-Transfer-Encoding: 7bit
+
+
+--15695699403.dcCcF61ca.29831
+Date: Fri, 27 Sep 2019 07:39:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111747
+
+--- Comment #8 from CI Bug Log <cibuglog@gmail.com> ---
+A CI Bug Log filter associated to this bug has been updated:
+
+{- TGL: igt@* -incomplete - Abort requested by .* terminating children -}
+{+ TGL: igt@* -incomplete - Abort requested by .* terminating children +}
+
+
+  No new failures caught with the new filter
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15695699403.dcCcF61ca.29831
+Date: Fri, 27 Sep 2019 07:39:00 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI][DRMTIP] igt&#64; - incomplete - Jenkins gives up"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111747#c8">Commen=
+t # 8</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI][DRMTIP] igt&#64; - incomplete - Jenkins gives up"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111747">bug 11174=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+cibuglog&#64;gmail.com" title=3D"CI Bug Log &lt;cibuglog&#64;gmail.com&gt;"=
+> <span class=3D"fn">CI Bug Log</span></a>
+</span></b>
+        <pre>A CI Bug Log filter associated to this bug has been updated:
+
+{- TGL: igt&#64;* -incomplete - Abort requested by .* terminating children =
+-}
+{+ TGL: igt&#64;* -incomplete - Abort requested by .* terminating children =
++}
+
+
+  No new failures caught with the new filter</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15695699403.dcCcF61ca.29831--
+
+--===============1091136874==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1091136874==--
