@@ -2,35 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55BBBC03B0
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2019 12:48:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12E0AC03B2
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2019 12:49:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B52176EE4C;
-	Fri, 27 Sep 2019 10:48:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDE6B6EF03;
+	Fri, 27 Sep 2019 10:49:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id A19096EE4C
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2019 10:48:32 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E949628;
- Fri, 27 Sep 2019 03:48:31 -0700 (PDT)
-Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8EE103F67D;
- Fri, 27 Sep 2019 03:48:30 -0700 (PDT)
-From: Steven Price <steven.price@arm.com>
-Subject: Re: drm_sched with panfrost crash on T820
-To: Neil Armstrong <narmstrong@baylibre.com>, daniel@ffwll.ch,
- airlied@linux.ie, =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <e450fbe6-dec7-2704-59c2-db7e869d67f5@baylibre.com>
- <3fb178d8-f069-0ae2-1ed3-4ded84a71951@arm.com>
-Message-ID: <26ae2a4d-8df1-e8db-3060-41638ed63e2a@arm.com>
-Date: Fri, 27 Sep 2019 11:48:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 594696EF03
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2019 10:49:21 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 55E5A72162; Fri, 27 Sep 2019 10:49:21 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111482] Sapphire Pulse RX 5700 XT power consumption
+Date: Fri, 27 Sep 2019 10:49:21 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: leon@tutanota.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111482-502-xjXTQZvdSr@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111482-502@http.bugs.freedesktop.org/>
+References: <bug-111482-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <3fb178d8-f069-0ae2-1ed3-4ded84a71951@arm.com>
-Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -43,91 +52,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
- Erico Nunes <nunes.erico@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1697699693=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjcvMDkvMjAxOSAxMDo1NSwgU3RldmVuIFByaWNlIHdyb3RlOgpbLi4uXQo+IE9uZSBvYnZp
-b3VzIGlzc3VlIHdpdGggdGhlIERSTSBzY2hlZHVsZXIgaXMgdGhhdCB0aGVyZSBpcyBhIGNhbGwg
-dG8KPiBjYW5jZWxfZGVsYXllZF93b3JrKCkgaW4gZHJtX3NjaGVkX3N0b3AoKSB3aGljaCB0byBt
-ZSBsb29rcyBsaWtlIGl0Cj4gc2hvdWxkIGJlIGNhbmNlbF9kZWxheWVkX3dvcmtfc3luYygpIHRv
-IGVuc3VyZSB0aGF0IHRoZSB0aW1lb3V0IGhhbmRsaW5nCj4gaGFzIGNvbXBsZXRlZC4KPiAKPiBI
-b3dldmVyIGluIHRoZSBhYm92ZSBzY2VuYXJpbyBhIF9zeW5jKCkgdmFyaWV0eSB3b3VsZCB0aGVu
-IGNhdXNlIGEKPiBkZWFkbG9jayAob25lIHRocmVhZCBoYXMgcGZkZXYtPnJlc2V0X2xvY2sgYW5k
-IGlzIHdhaXRpbmcgZm9yIHRoZSBvdGhlcgo+IHRocmVhZCB3aGljaCBpcyB0cnlpbmcgdG8gdGFr
-ZSB0aGUgbG9jaykuCj4gCj4gU28gd2UgbmVlZCB0byB1cGRhdGUgUGFuZnJvc3Qgc28gdGhhdCBp
-dCBjYW4gY29vcmRpbmF0ZSB0aGUgcmVzZXQKPiBiZXR3ZWVuIHNjaGVkdWxlcnMuIENhbiB5b3Ug
-dHJ5IHNvbWV0aGluZyBsaWtlIHRoZSBmb2xsb3dpbmcgKHVudGVzdGVkKToKCkFuZCBhY3R1YWxs
-eSB0ZXN0aW5nIGl0IEkgb2YgY291cnNlIGRpc2NvdmVyIGl0IGRvZXNuJ3QgcXVpdGUgd29yay4g
-V2UKZG8gbmVlZCB0aGUgY2FuY2VsX2RlbGF5ZWRfd29ya19zeW5jKCkgaW4gdGhlIERSTSBzY2hl
-ZHVsZXIgKHdoZW4Kc3RvcHBpbmcgYSBkaWZmZXJlbnQgc2NoZWR1bGVyKSBhbmQgd2UgbmVlZCB0
-byBhdm9pZCBob2xkaW5nIHRoZQpyZXNldF9sb2NrIGR1cmluZyB0aGUgZHJtX3NjaGVkX3N0b3Ao
-KSBjYWxsIHRvIHByZXZlbnQgZGVhZGxvY2tpbmcgd2l0aAphbm90aGVyIHRocmVhZCBoYW5kbGlu
-ZyBhIHRpbWVvdXQuCgpDYW4geW91IGdpdmUgdGhlIGZvbGxvd2luZyBwYXRjaCBhIHNwaW4/IEkg
-ZG9uJ3QgaGF2ZSBhIGdyZWF0CnJlcHJvZHVjdGlvbiBjYXNlLCBzbyBpdCB3b3VsZCBiZSBnb29k
-IHRvIGdldCBzb21lIGNvbmZpZGVuY2UgaXQgZml4ZXMKdGhlIHByb2JsZW0uCgotLS0tODwtLS0t
-CkZyb20gNTIxYTI4Njc4OTI2MDE5N2FlOTRmNjk4OTMyZWJmMzY5ZWZjNDVhZCBNb24gU2VwIDE3
-IDAwOjAwOjAwIDIwMDEKRnJvbTogU3RldmVuIFByaWNlIDxzdGV2ZW4ucHJpY2VAYXJtLmNvbT4K
-RGF0ZTogRnJpLCAyNyBTZXAgMjAxOSAxMTo0Mjo0MCArMDEwMApTdWJqZWN0OiBbUEFUQ0hdIGRy
-bS9wYW5mcm9zdDogSGFuZGxlIHJlc2V0dGluZyBvbiB0aW1lb3V0IGJldHRlcgoKUGFuZnJvc3Qg
-dXNlcyBtdWx0aXBsZSBzY2hlZHVsZXJzIChvbmUgZm9yIGVhY2ggc2xvdCwgc28gMiBpbiByZWFs
-aXR5KSwKYW5kIG9uIGEgdGltZW91dCBoYXMgdG8gc3RvcCBhbGwgdGhlIHNjaGVkdWxlcnMgdG8g
-c2FmZWx5IHBlcmZvcm0gYQpyZXNldC4gSG93ZXZlciBtb3JlIHRoYW4gb25lIHNjaGVkdWxlciBj
-YW4gdHJpZ2dlciBhIHRpbWVvdXQgYXQgdGhlIHNhbWUKdGltZS4gVGhpcyByYWNlIGNvbmRpdGlv
-biByZXN1bHRzIGluIGpvYnMgYmVpbmcgZnJlZWQgd2hpbGUgdGhleSBhcmUKc3RpbGwgaW4gdXNl
-LgoKTW9kaWZ5IGRybV9zY2hlZF9zdG9wKCkgdG8gY2FsbCBjYW5jZWxfZGVsYXllZF93b3JrX3N5
-bmMoKSB3aGVuIHN0b3BwaW5nCmEgZGlmZmVyZW50IHNjaGVkdWxlciB0byB0aGUgb25lIGJlbG9u
-Z2luZyB0byB0aGUgcGFzc2VkIGluIGpvYi4KcGFuZnJvc3Rfam9iX3RpbWVkb3V0KCkgaXMgYWxz
-byBtb2RpZmllZCB0byBvbmx5IGFsbG93IG9uZSB0aHJlYWQgYXQgYQp0aW1lIHRvIGhhbmRsZSB0
-aGUgcmVzZXQuIEFueSBzdWJzZXF1ZW50IHRocmVhZHMgc2ltcGx5IHJldHVybiBhc3N1bWluZwp0
-aGF0IHRoZSBmaXJzdCB0aHJlYWQgd2lsbCBoYW5kbGUgdGhlIHNpdHVhdGlvbi4KClNpZ25lZC1v
-ZmYtYnk6IFN0ZXZlbiBQcmljZSA8c3RldmVuLnByaWNlQGFybS5jb20+Ci0tLQogZHJpdmVycy9n
-cHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmljZS5oIHwgIDIgKysKIGRyaXZlcnMvZ3B1L2Ry
-bS9wYW5mcm9zdC9wYW5mcm9zdF9qb2IuYyAgICB8IDExICsrKysrKysrKystCiBkcml2ZXJzL2dw
-dS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYyAgICAgfCAgNSArKysrLQogMyBmaWxlcyBjaGFu
-Z2VkLCAxNiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZpY2UuaCBiL2RyaXZlcnMvZ3B1L2RybS9w
-YW5mcm9zdC9wYW5mcm9zdF9kZXZpY2UuaAppbmRleCBmNTAzYzU2NmU5OWYuLjY0NDFjN2ZiYTZj
-NCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmljZS5o
-CisrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZpY2UuaApAQCAtOTks
-NiArOTksOCBAQCBzdHJ1Y3QgcGFuZnJvc3RfZGV2aWNlIHsKIAkJdW5zaWduZWQgbG9uZyBjdXJf
-dm9sdDsKIAkJc3RydWN0IHBhbmZyb3N0X2RldmZyZXFfc2xvdCBzbG90W05VTV9KT0JfU0xPVFNd
-OwogCX0gZGV2ZnJlcTsKKworCWJvb2wgaXNfcmVzZXR0aW5nOwogfTsKIAogc3RydWN0IHBhbmZy
-b3N0X21tdSB7CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3Rf
-am9iLmMgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3Rfam9iLmMKaW5kZXggMDVj
-ODVmNDVhMGRlLi4xYjIwMTllMDhiNDMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5m
-cm9zdC9wYW5mcm9zdF9qb2IuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJv
-c3Rfam9iLmMKQEAgLTM4OCwxMyArMzg4LDIxIEBAIHN0YXRpYyB2b2lkIHBhbmZyb3N0X2pvYl90
-aW1lZG91dChzdHJ1Y3QgZHJtX3NjaGVkX2pvYiAqc2NoZWRfam9iKQogCiAJbXV0ZXhfbG9jaygm
-cGZkZXYtPnJlc2V0X2xvY2spOwogCisJaWYgKHBmZGV2LT5pc19yZXNldHRpbmcpIHsKKwkJbXV0
-ZXhfdW5sb2NrKCZwZmRldi0+cmVzZXRfbG9jayk7CisJCXJldHVybjsKKwl9CisJcGZkZXYtPmlz
-X3Jlc2V0dGluZyA9IHRydWU7CisKKwltdXRleF91bmxvY2soJnBmZGV2LT5yZXNldF9sb2NrKTsK
-KwogCWZvciAoaSA9IDA7IGkgPCBOVU1fSk9CX1NMT1RTOyBpKyspCiAJCWRybV9zY2hlZF9zdG9w
-KCZwZmRldi0+anMtPnF1ZXVlW2ldLnNjaGVkLCBzY2hlZF9qb2IpOwogCiAJaWYgKHNjaGVkX2pv
-YikKIAkJZHJtX3NjaGVkX2luY3JlYXNlX2thcm1hKHNjaGVkX2pvYik7CiAKLQkvKiBwYW5mcm9z
-dF9jb3JlX2R1bXAocGZkZXYpOyAqLworCW11dGV4X2xvY2soJnBmZGV2LT5yZXNldF9sb2NrKTsK
-IAogCXBhbmZyb3N0X2RldmZyZXFfcmVjb3JkX3RyYW5zaXRpb24ocGZkZXYsIGpzKTsKIAlwYW5m
-cm9zdF9kZXZpY2VfcmVzZXQocGZkZXYpOwpAQCAtNDA2LDYgKzQxNCw3IEBAIHN0YXRpYyB2b2lk
-IHBhbmZyb3N0X2pvYl90aW1lZG91dChzdHJ1Y3QgZHJtX3NjaGVkX2pvYiAqc2NoZWRfam9iKQog
-CWZvciAoaSA9IDA7IGkgPCBOVU1fSk9CX1NMT1RTOyBpKyspCiAJCWRybV9zY2hlZF9zdGFydCgm
-cGZkZXYtPmpzLT5xdWV1ZVtpXS5zY2hlZCwgdHJ1ZSk7CiAKKwlwZmRldi0+aXNfcmVzZXR0aW5n
-ID0gZmFsc2U7CiAJbXV0ZXhfdW5sb2NrKCZwZmRldi0+cmVzZXRfbG9jayk7CiB9CiAKZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5jIGIvZHJpdmVycy9n
-cHUvZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMKaW5kZXggMTQ4NDY4NDQ3YmE5Li5iYzZkMTg2
-MmVjOGEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5j
-CisrKyBiL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5jCkBAIC00MTUsNyAr
-NDE1LDEwIEBAIHZvaWQgZHJtX3NjaGVkX3N0b3Aoc3RydWN0IGRybV9ncHVfc2NoZWR1bGVyICpz
-Y2hlZCwgc3RydWN0IGRybV9zY2hlZF9qb2IgKmJhZCkKIAkgKiB0aGlzIFREUiBmaW5pc2hlZCBh
-bmQgYmVmb3JlIHRoZSBuZXdseSByZXN0YXJ0ZWQgam9icyBoYWQgYQogCSAqIGNoYW5jZSB0byBj
-b21wbGV0ZS4KIAkgKi8KLQljYW5jZWxfZGVsYXllZF93b3JrKCZzY2hlZC0+d29ya190ZHIpOwor
-CWlmIChiYWQtPnNjaGVkICE9IHNjaGVkKQorCQljYW5jZWxfZGVsYXllZF93b3JrX3N5bmMoJnNj
-aGVkLT53b3JrX3Rkcik7CisJZWxzZQorCQljYW5jZWxfZGVsYXllZF93b3JrKCZzY2hlZC0+d29y
-a190ZHIpOwogfQogCiBFWFBPUlRfU1lNQk9MKGRybV9zY2hlZF9zdG9wKTsKLS0gCjIuMjAuMQoK
+
+--===============1697699693==
+Content-Type: multipart/alternative; boundary="15695813611.01Ad.31010"
+Content-Transfer-Encoding: 7bit
+
+
+--15695813611.01Ad.31010
+Date: Fri, 27 Sep 2019 10:49:21 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111482
+
+--- Comment #18 from Leon <leon@tutanota.de> ---
+I have the same problem. Sapphire 5700 XT Nitro, x470 motherboard (asrock
+taichi), running arch with kernel 5.3.1. My resolution is 2560x1440 144Hz, =
+with
+30Watts idle and 70 Celsius at the memory :( ... Unlike you changing the
+refresh rate doesn't seem to improve anything though, and I don't have the =
+same
+problem using windows 10.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15695813611.01Ad.31010
+Date: Fri, 27 Sep 2019 10:49:21 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482#c18">Comme=
+nt # 18</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482">bug 11148=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+leon&#64;tutanota.de" title=3D"Leon &lt;leon&#64;tutanota.de&gt;"> <span cl=
+ass=3D"fn">Leon</span></a>
+</span></b>
+        <pre>I have the same problem. Sapphire 5700 XT Nitro, x470 motherbo=
+ard (asrock
+taichi), running arch with kernel 5.3.1. My resolution is 2560x1440 144Hz, =
+with
+30Watts idle and 70 Celsius at the memory :( ... Unlike you changing the
+refresh rate doesn't seem to improve anything though, and I don't have the =
+same
+problem using windows 10.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15695813611.01Ad.31010--
+
+--===============1697699693==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
 X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1697699693==--
