@@ -2,44 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15048C191C
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Sep 2019 21:30:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B865C1931
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Sep 2019 21:47:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF6B36E317;
-	Sun, 29 Sep 2019 19:30:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 385A06E31C;
+	Sun, 29 Sep 2019 19:47:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 519CF6E323
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Sep 2019 19:30:24 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 4EE0772162; Sun, 29 Sep 2019 19:30:24 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Sun, 29 Sep 2019 19:30:24 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: linedot@xcpp.org
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110674-502-LoQapHXXJV@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80E876EF1C
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2019 15:37:44 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8RFbeYx051670;
+ Fri, 27 Sep 2019 10:37:40 -0500
+Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8RFbeNn015785;
+ Fri, 27 Sep 2019 10:37:40 -0500
+Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 27
+ Sep 2019 10:37:32 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Fri, 27 Sep 2019 10:37:40 -0500
+Received: from [127.0.0.1] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8RFba8k044922;
+ Fri, 27 Sep 2019 10:37:37 -0500
+Subject: Re: [PATCH] drm/omap: Migrate minimum FCK/PCK ratio from Kconfig to
+ dts
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>, Adam Ford <aford173@gmail.com>
+References: <20190510194229.20628-1-aford173@gmail.com>
+ <af325707-3e42-493d-e858-77878ef06138@ti.com>
+ <CAHCN7xLzoCNW6q5yDCsqMHeNvdNegkGhd0N+q9+Gd8JUGbG=_g@mail.gmail.com>
+ <7ada0752-6f65-2906-cb29-a47c9490fd57@ti.com>
+ <CAHCN7xJexJvh71vyb31ETgo=n_y_CupHH-AZwVK9mZe3GzJfEQ@mail.gmail.com>
+ <845055e2-8182-de74-2077-629fdf50ac6c@ti.com>
+ <CAHCN7xJFrTLOnbqrnH2W_T2whR8Xji0EMNR_cy8GYkDV-JDodQ@mail.gmail.com>
+ <854f6130-c8a8-81cb-aa76-4830f218ae54@ti.com>
+ <CAHCN7xKocdiWOdmoWQV3POr84qte6WNt0QbQRAwxKSvU8COB_w@mail.gmail.com>
+ <0473526e-df0a-94a5-5c22-debd0084ab16@ti.com>
+From: Tero Kristo <t-kristo@ti.com>
+Message-ID: <36369388-e9c8-22cd-8c19-e2bdf2d0389b@ti.com>
+Date: Fri, 27 Sep 2019 18:37:35 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <0473526e-df0a-94a5-5c22-debd0084ab16@ti.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Mailman-Approved-At: Sun, 29 Sep 2019 19:47:08 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ti.com; s=ti-com-17Q1; t=1569598661;
+ bh=Lqo9bBRFGck3umPvJYDrWptfCEGsJ4lcKhD97BGvgh4=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=tw1025iq5dUXluSa0qqR4U6Bp2835f/huQP/igQAdoBf7BB9A6bmoqA6aXnTtrg0O
+ Ci6gi14TCsYVDllFYOrN+WaIZG6gl6l46r44G4j7qzkkMdu8wcV2nGcTS4qr+7kJNV
+ EK90yh8PU6/aLkGC+Q3CDLZh1e5gb7RHko52UUCk=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,96 +71,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1502103636=="
+Cc: devicetree <devicetree@vger.kernel.org>, Tony Lindgren <tony@atomide.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Beno=c3=aet_Cousson?= <bcousson@baylibre.com>,
+ Linux-OMAP <linux-omap@vger.kernel.org>, Adam Ford <adam.ford@logicpd.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1502103636==
-Content-Type: multipart/alternative; boundary="15697854244.b7EcFde8.29070"
-Content-Transfer-Encoding: 7bit
-
-
---15697854244.b7EcFde8.29070
-Date: Sun, 29 Sep 2019 19:30:24 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
-
---- Comment #151 from linedot@xcpp.org ---
-Created attachment 145583
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145583&action=3Dedit
-5.3.1 patched, xorg crash
-
-And here is a dmesg of just an X session crashing
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15697854244.b7EcFde8.29070
-Date: Sun, 29 Sep 2019 19:30:24 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c151">Comm=
-ent # 151</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-linedot&#64;xcpp.org" title=3D"linedot&#64;xcpp.org">linedot&#64;xcpp.org</=
-a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145583=
-" name=3D"attach_145583" title=3D"5.3.1 patched, xorg crash">attachment 145=
-583</a> <a href=3D"attachment.cgi?id=3D145583&amp;action=3Dedit" title=3D"5=
-.3.1 patched, xorg crash">[details]</a></span>
-5.3.1 patched, xorg crash
-
-And here is a dmesg of just an X session crashing</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15697854244.b7EcFde8.29070--
-
---===============1502103636==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1502103636==--
+T24gMjcvMDkvMjAxOSAxNjo0NywgVG9taSBWYWxrZWluZW4gd3JvdGU6Cj4gT24gMjcvMDkvMjAx
+OSAxNTozMywgQWRhbSBGb3JkIHdyb3RlOgo+IAo+Pj4gSXQgbG9va3MgbGlrZSBhIGJ1ZyBpbiBv
+bWFwIGNsb2NrIGhhbmRsaW5nLgo+Pj4KPj4+IERTUyB1c2VzIGRzczFfYWx3b25fZmNrXzM0MzBl
+czIgYXMgZmNsay4gZHNzMV9hbHdvbl9mY2tfMzQzMGVzMiBjb21lcwo+Pj4gZnJvbSBkcGxsNF9j
+aywgYW5kIHRoZXJlJ3MgYSBkaXZpZGVyIGFmdGVyIHRoZSBQTEwsIGRwbGw0X200X2NrLgo+Pj4K
+Pj4+IFdoZW4gdGhlIERTUyBkcml2ZXIgc2V0cyBkc3MxX2Fsd29uX2Zja18zNDMwZXMyIHJhdGUg
+dG8gMjcwMDAwMDAgb3IKPj4+IDI3ODcwOTY3LCB3aGljaCBjYW4gYmUgY3JlYXRlZCB3aXRoIG00
+IGRpdmlkZXJzIDMyIGFuZCAzMSwgaXQgbG9va3MgbGlrZQo+Pj4gdGhlIGRpdmlkZXIgZ29lcyB0
+byBieXBhc3MsIG9yIHRvIGEgdmVyeSBzbWFsbCB2YWx1ZS4gRFNTIGdldHMgYSB2ZXJ5Cj4+PiBo
+aWdoIGNsb2NrIHJhdGUgYW5kIGJyZWFrcyBkb3duLgo+Pgo+PiBJcyB0aGVyZSBhbnl0aGluZyBJ
+IGNhbiBkbyB0byBoZWxwIHRyb3VibGVzaG9vdCB0aGlzP8KgIEkgY291bGQgaW5zZXJ0Cj4+IGEg
+aGFjayB0aGF0IGNoZWNrcyBpZiB3ZSdyZSBvbWFwMyBhbmQgaWYgc28gbWFrZSB0aGUgZGl2aWRl
+ciBlcXVhbCB0bwo+PiA0LCBidXQgdGhhdCBzZWVtcyBsaWtlIGp1c3QgYSBoYWNrLgo+PiBJIGNh
+biBydW4gbW9yZSB0ZXN0cyBvciBpbnNlcnQgY29kZSBzb21ld2hlcmUgaWYgeW91IHdhbnQuCj4g
+Cj4gSSB0aGluayBpdCdzIHVwIHRvIHNvbWVvbmUgd2hvJ3Mga25vd2xlZGdlYWJsZSBpbiBvbWFw
+IGNsb2NrIGZyYW1ld29yay4gCj4gSSdtIGtpbmQgb2YgaG9waW5nIHRoYXQgVGVybyBvciBUb255
+IHdvdWxkIGJlIHdpbGxpbmcgdG8gZGVidWcgPSkuIEkgY2FuIAo+IHRyeSB0byBmaW5kIHRpbWUg
+dG8gZGVidWcgdGhlIG9tYXAgY2xrIGZyYW1ld29yaywgYnV0IEknbGwgYmUgZ29pbmcgb24gCj4g
+YmxpbmRseSB0aGVyZS4KCklmIHlvdSBjYW4gcHJvdmlkZSBkZXRhaWxzIGFib3V0IHdoYXQgY2xv
+Y2sgZnJhbWV3b3JrIC8gZHJpdmVyIGRvZXMgCndyb25nIChzYW1wbGUgY2xrX3NldF94eXogY2Fs
+bCBzZXF1ZW5jZSwgZXhwZWN0ZWQgcmVzdWx0cyB2aWEgCmNsa19nZXRfeHl6LCBhbmQgd2hhdCBm
+YWlscyksIEkgY2FuIHRha2UgYSBsb29rIGF0IGl0LiBKdXN0IHJlcG9ydGluZyAKYXJiaXRyYXJ5
+IGRpc3BsYXkgZHJpdmVyIGlzc3VlcyBJIHdvbid0IGJlIGFibGUgdG8gZGVidWcgYXQgYWxsIChJ
+IGRvbid0IApoYXZlIGFjY2VzcyB0byBhbnkgb2YgdGhlIGRpc3BsYXlzLCBub3IgZG8gSSB3YW50
+IHRvIHdhc3RlIHRpbWUgCmRlYnVnZ2luZyB0aGVtIHdpdGhvdXQgYWJzb2x1dGVseSBubyBrbm93
+bGVkZ2Ugd2hhdHNvZXZlci4pCgotVGVybwotLQpUZXhhcyBJbnN0cnVtZW50cyBGaW5sYW5kIE95
+LCBQb3Jra2FsYW5rYXR1IDIyLCAwMDE4MCBIZWxzaW5raS4gWS10dW5udXMvQnVzaW5lc3MgSUQ6
+IDA2MTU1MjEtNC4gS290aXBhaWtrYS9Eb21pY2lsZTogSGVsc2lua2kKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
