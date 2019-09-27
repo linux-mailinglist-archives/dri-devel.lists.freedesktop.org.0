@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E0AC03B2
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2019 12:49:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10A1BC03B5
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2019 12:51:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDE6B6EF03;
-	Fri, 27 Sep 2019 10:49:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A62A66EF01;
+	Fri, 27 Sep 2019 10:51:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 594696EF03
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2019 10:49:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id C21816EF01
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2019 10:51:48 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 55E5A72162; Fri, 27 Sep 2019 10:49:21 +0000 (UTC)
+ id BADD572162; Fri, 27 Sep 2019 10:51:48 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111482] Sapphire Pulse RX 5700 XT power consumption
-Date: Fri, 27 Sep 2019 10:49:21 +0000
+Date: Fri, 27 Sep 2019 10:51:49 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111482-502-xjXTQZvdSr@http.bugs.freedesktop.org/>
+Message-ID: <bug-111482-502-WMvKGJIXcF@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111482-502@http.bugs.freedesktop.org/>
 References: <bug-111482-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1697699693=="
+Content-Type: multipart/mixed; boundary="===============1442691476=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1697699693==
-Content-Type: multipart/alternative; boundary="15695813611.01Ad.31010"
+--===============1442691476==
+Content-Type: multipart/alternative; boundary="15695815080.DBFfF4f.32326"
 Content-Transfer-Encoding: 7bit
 
 
---15695813611.01Ad.31010
-Date: Fri, 27 Sep 2019 10:49:21 +0000
+--15695815080.DBFfF4f.32326
+Date: Fri, 27 Sep 2019 10:51:48 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,21 +72,16 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111482
 
---- Comment #18 from Leon <leon@tutanota.de> ---
-I have the same problem. Sapphire 5700 XT Nitro, x470 motherboard (asrock
-taichi), running arch with kernel 5.3.1. My resolution is 2560x1440 144Hz, =
-with
-30Watts idle and 70 Celsius at the memory :( ... Unlike you changing the
-refresh rate doesn't seem to improve anything though, and I don't have the =
-same
-problem using windows 10.
+--- Comment #19 from Leon <leon@tutanota.de> ---
+By the way, since I have a x470 mb, it cannot be related to PCI express 4.0.
+It's also not related to dual displays, since I'm running just one.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15695813611.01Ad.31010
-Date: Fri, 27 Sep 2019 10:49:21 +0000
+--15695815080.DBFfF4f.32326
+Date: Fri, 27 Sep 2019 10:51:48 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -103,8 +98,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482#c18">Comme=
-nt # 18</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482#c19">Comme=
+nt # 19</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
@@ -114,14 +109,9 @@ nt # 18</a>
 leon&#64;tutanota.de" title=3D"Leon &lt;leon&#64;tutanota.de&gt;"> <span cl=
 ass=3D"fn">Leon</span></a>
 </span></b>
-        <pre>I have the same problem. Sapphire 5700 XT Nitro, x470 motherbo=
-ard (asrock
-taichi), running arch with kernel 5.3.1. My resolution is 2560x1440 144Hz, =
-with
-30Watts idle and 70 Celsius at the memory :( ... Unlike you changing the
-refresh rate doesn't seem to improve anything though, and I don't have the =
-same
-problem using windows 10.</pre>
+        <pre>By the way, since I have a x470 mb, it cannot be related to PC=
+I express 4.0.
+It's also not related to dual displays, since I'm running just one.</pre>
         </div>
       </p>
 
@@ -135,9 +125,9 @@ problem using windows 10.</pre>
     </body>
 </html>=
 
---15695813611.01Ad.31010--
+--15695815080.DBFfF4f.32326--
 
---===============1697699693==
+--===============1442691476==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -147,4 +137,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1697699693==--
+--===============1442691476==--
