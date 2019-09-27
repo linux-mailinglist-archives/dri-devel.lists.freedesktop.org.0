@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF14EC09E0
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2019 18:55:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7EAFC09E1
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2019 18:56:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 190306E14E;
-	Fri, 27 Sep 2019 16:55:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8642E6E159;
+	Fri, 27 Sep 2019 16:56:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8AA986E157
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2019 16:55:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 212C06E159
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2019 16:56:00 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 879B172162; Fri, 27 Sep 2019 16:55:44 +0000 (UTC)
+ id 1E10872162; Fri, 27 Sep 2019 16:56:00 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111803] Annoying GPU stucks are continued on Vega 20 with
  Kernel 5.4 + mesa 9.3.0 + llvm 9.0.0 [drm:amdgpu_dm_atomic_commit_tail
  [amdgpu]] *ERROR* Waiting for fences timed out!
-Date: Fri, 27 Sep 2019 16:55:44 +0000
+Date: Fri, 27 Sep 2019 16:56:00 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -36,7 +36,7 @@ X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111803-502-wYWaehKM0b@http.bugs.freedesktop.org/>
+Message-ID: <bug-111803-502-yW2usMIRtl@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111803-502@http.bugs.freedesktop.org/>
 References: <bug-111803-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -54,18 +54,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1226935651=="
+Content-Type: multipart/mixed; boundary="===============0902134270=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1226935651==
-Content-Type: multipart/alternative; boundary="15696033441.fd0D1cBA7.14270"
+--===============0902134270==
+Content-Type: multipart/alternative; boundary="15696033601.4D837.14273"
 Content-Transfer-Encoding: 7bit
 
 
---15696033441.fd0D1cBA7.14270
-Date: Fri, 27 Sep 2019 16:55:44 +0000
+--15696033601.4D837.14273
+Date: Fri, 27 Sep 2019 16:56:00 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -74,17 +74,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111803
 
---- Comment #20 from mikhail.v.gavrilov@gmail.com ---
-Created attachment 145555
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145555&action=3Dedit
-./umr -O many,bits -r *.*.mmCP_EOP_*
+--- Comment #21 from mikhail.v.gavrilov@gmail.com ---
+Created attachment 145556
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145556&action=3Dedit
+./umr -O many,bits -r *.*.mmCP_PFP_HEADER_DUMP
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15696033441.fd0D1cBA7.14270
-Date: Fri, 27 Sep 2019 16:55:44 +0000
+--15696033601.4D837.14273
+Date: Fri, 27 Sep 2019 16:56:00 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -103,8 +103,8 @@ Auto-Submitted: auto-generated
    title=3D"NEW - Annoying GPU stucks are continued on Vega 20 with Kernel =
 5.4 + mesa 9.3.0 + llvm 9.0.0 [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *=
 ERROR* Waiting for fences timed out!"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111803#c20">Comme=
-nt # 20</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111803#c21">Comme=
+nt # 21</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Annoying GPU stucks are continued on Vega 20 with Kernel =
@@ -116,11 +116,12 @@ ERROR* Waiting for fences timed out!"
 mikhail.v.gavrilov&#64;gmail.com" title=3D"mikhail.v.gavrilov&#64;gmail.com=
 ">mikhail.v.gavrilov&#64;gmail.com</a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145555=
-" name=3D"attach_145555" title=3D"./umr -O many,bits -r *.*.mmCP_EOP_*">att=
-achment 145555</a> <a href=3D"attachment.cgi?id=3D145555&amp;action=3Dedit"=
- title=3D"./umr -O many,bits -r *.*.mmCP_EOP_*">[details]</a></span>
-./umr -O many,bits -r *.*.mmCP_EOP_*</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145556=
+" name=3D"attach_145556" title=3D"./umr -O many,bits -r *.*.mmCP_PFP_HEADER=
+_DUMP">attachment 145556</a> <a href=3D"attachment.cgi?id=3D145556&amp;acti=
+on=3Dedit" title=3D"./umr -O many,bits -r *.*.mmCP_PFP_HEADER_DUMP">[detail=
+s]</a></span>
+./umr -O many,bits -r *.*.mmCP_PFP_HEADER_DUMP</pre>
         </div>
       </p>
 
@@ -134,9 +135,9 @@ achment 145555</a> <a href=3D"attachment.cgi?id=3D145555&amp;action=3Dedit"=
     </body>
 </html>=
 
---15696033441.fd0D1cBA7.14270--
+--15696033601.4D837.14273--
 
---===============1226935651==
+--===============0902134270==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -146,4 +147,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1226935651==--
+--===============0902134270==--
