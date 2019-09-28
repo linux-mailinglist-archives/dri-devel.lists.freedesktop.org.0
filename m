@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1D77C1072
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Sep 2019 11:35:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAEF8C1073
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Sep 2019 11:35:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13FB96E0FF;
-	Sat, 28 Sep 2019 09:35:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCBED6E104;
+	Sat, 28 Sep 2019 09:35:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4C3396E0FF
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Sep 2019 09:35:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 58E996E104
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Sep 2019 09:35:27 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 48FD772162; Sat, 28 Sep 2019 09:35:08 +0000 (UTC)
+ id 551BA72162; Sat, 28 Sep 2019 09:35:27 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111848] AMDGPU and display fails after resume from suspend
-Date: Sat, 28 Sep 2019 09:35:08 +0000
+Date: Sat, 28 Sep 2019 09:35:27 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111848-502-sItCQRlVwj@http.bugs.freedesktop.org/>
+Message-ID: <bug-111848-502-tpUyhgLfju@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111848-502@http.bugs.freedesktop.org/>
 References: <bug-111848-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0752012950=="
+Content-Type: multipart/mixed; boundary="===============1445615025=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0752012950==
-Content-Type: multipart/alternative; boundary="15696633080.E0Dc02.32169"
+--===============1445615025==
+Content-Type: multipart/alternative; boundary="15696633271.cF3C6367D.32231"
 Content-Transfer-Encoding: 7bit
 
 
---15696633080.E0Dc02.32169
-Date: Sat, 28 Sep 2019 09:35:08 +0000
+--15696633271.cF3C6367D.32231
+Date: Sat, 28 Sep 2019 09:35:27 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,17 +72,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111848
 
---- Comment #9 from Martin J=C3=B8rgensen <mkj@gotu.dk> ---
-Created attachment 145571
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145571&action=3Dedit
-modinfo amdgpu output
+--- Comment #10 from Martin J=C3=B8rgensen <mkj@gotu.dk> ---
+Created attachment 145572
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145572&action=3Dedit
+package log output
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15696633080.E0Dc02.32169
-Date: Sat, 28 Sep 2019 09:35:08 +0000
+--15696633271.cF3C6367D.32231
+Date: Sat, 28 Sep 2019 09:35:27 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -99,8 +99,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - AMDGPU and display fails after resume from suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111848#c9">Commen=
-t # 9</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111848#c10">Comme=
+nt # 10</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - AMDGPU and display fails after resume from suspend"
@@ -110,11 +110,11 @@ t # 9</a>
 mkj&#64;gotu.dk" title=3D"Martin J=C3=B8rgensen &lt;mkj&#64;gotu.dk&gt;"> <=
 span class=3D"fn">Martin J=C3=B8rgensen</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145571=
-" name=3D"attach_145571" title=3D"modinfo amdgpu output">attachment 145571<=
-/a> <a href=3D"attachment.cgi?id=3D145571&amp;action=3Dedit" title=3D"modin=
-fo amdgpu output">[details]</a></span>
-modinfo amdgpu output</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145572=
+" name=3D"attach_145572" title=3D"package log output">attachment 145572</a>=
+ <a href=3D"attachment.cgi?id=3D145572&amp;action=3Dedit" title=3D"package =
+log output">[details]</a></span>
+package log output</pre>
         </div>
       </p>
 
@@ -128,9 +128,9 @@ modinfo amdgpu output</pre>
     </body>
 </html>=
 
---15696633080.E0Dc02.32169--
+--15696633271.cF3C6367D.32231--
 
---===============0752012950==
+--===============1445615025==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -140,4 +140,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0752012950==--
+--===============1445615025==--
