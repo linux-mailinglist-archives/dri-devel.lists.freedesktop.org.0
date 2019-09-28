@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEA55C1116
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Sep 2019 16:55:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D45CC1125
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Sep 2019 17:15:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3CC56E14B;
-	Sat, 28 Sep 2019 14:54:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F19FE6E13F;
+	Sat, 28 Sep 2019 15:15:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6D7376E142
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Sep 2019 14:54:57 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D464C6E13F
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Sep 2019 15:15:06 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 6AAA072162; Sat, 28 Sep 2019 14:54:57 +0000 (UTC)
+ id CC18B72162; Sat, 28 Sep 2019 15:15:06 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111747] [CI][DRMTIP] igt@ - incomplete - Jenkins gives up
-Date: Sat, 28 Sep 2019 14:54:57 +0000
+Date: Sat, 28 Sep 2019 15:15:07 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111747-502-DYW0lXpljd@http.bugs.freedesktop.org/>
+Message-ID: <bug-111747-502-9Lbx13m3Sv@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111747-502@http.bugs.freedesktop.org/>
 References: <bug-111747-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0256102896=="
+Content-Type: multipart/mixed; boundary="===============0261244918=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0256102896==
-Content-Type: multipart/alternative; boundary="15696824973.d6C058.6099"
+--===============0261244918==
+Content-Type: multipart/alternative; boundary="15696837060.ED94DBf.11421"
 Content-Transfer-Encoding: 7bit
 
 
---15696824973.d6C058.6099
-Date: Sat, 28 Sep 2019 14:54:57 +0000
+--15696837060.ED94DBf.11421
+Date: Sat, 28 Sep 2019 15:15:06 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,7 +72,7 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111747
 
---- Comment #10 from CI Bug Log <cibuglog@gmail.com> ---
+--- Comment #11 from CI Bug Log <cibuglog@gmail.com> ---
 A CI Bug Log filter associated to this bug has been updated:
 
 {- TGL: igt@* -incomplete - Abort requested by .* terminating children -}
@@ -81,24 +81,48 @@ A CI Bug Log filter associated to this bug has been updated:
 New failures caught by the filter:
 
   *
-https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6964/shard-tglb4/igt@kms_bu=
-sy@basic-modeset-a.html
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6967/shard-tglb2/igt@gem_pr=
+ead@uncached.html
   *
-https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6967/re-tgl1-display/igt@km=
-s_ccs@pipe-b-ccs-on-another-bo.html
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6968/shard-tglb1/igt@kms_fr=
+ontbuffer_tracking@fbcpsr-rgb101010-draw-blt.html
   *
-https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6967/re-tgl1-display/igt@km=
-s_cursor_crc@pipe-b-cursor-128x128-random.html
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6968/shard-tglb3/igt@kms_fl=
+ip@dpms-vs-vblank-race.html
   *
-https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6967/re-tgl1-display/igt@km=
-s_vblank@pipe-a-wait-busy-hang.html
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6968/shard-tglb4/igt@kms_fr=
+ontbuffer_tracking@fbcpsr-rgb101010-draw-mmap-gtt.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6969/shard-tglb3/igt@kms_fr=
+ontbuffer_tracking@fbc-rgb101010-draw-mmap-cpu.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6969/shard-tglb6/igt@gem_ex=
+ec_parallel@vcs1-fds.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_379/fi-tgl-u/igt@drm_import=
+_export@import-close-race-prime.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_379/fi-tgl-u2/igt@gem_tiled=
+_blits@normal.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_379/fi-tgl-u2/igt@kms_atomi=
+c_interruptible@legacy-pageflip.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_379/fi-tgl-u2/igt@drm_impor=
+t_export@import-close-race-prime.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6970/shard-tglb4/igt@kms_vb=
+lank@pipe-c-query-idle-hang.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6971/shard-tglb3/igt@kms_bi=
+g_fb@y-tiled-64bpp-rotate-180.html
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15696824973.d6C058.6099
-Date: Sat, 28 Sep 2019 14:54:57 +0000
+--15696837060.ED94DBf.11421
+Date: Sat, 28 Sep 2019 15:15:06 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -115,8 +139,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - [CI][DRMTIP] igt&#64; - incomplete - Jenkins gives up"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111747#c10">Comme=
-nt # 10</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111747#c11">Comme=
+nt # 11</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - [CI][DRMTIP] igt&#64; - incomplete - Jenkins gives up"
@@ -136,25 +160,63 @@ cibuglog&#64;gmail.com" title=3D"CI Bug Log &lt;cibuglog&#64;gmail.com&gt;"=
 New failures caught by the filter:
 
   *
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6964/shard-tglb4=
-/igt&#64;kms_busy&#64;basic-modeset-a.html">https://intel-gfx-ci.01.org/tre=
-e/drm-tip/CI_DRM_6964/shard-tglb4/igt&#64;kms_busy&#64;basic-modeset-a.html=
-</a>
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6967/shard-tglb2=
+/igt&#64;gem_pread&#64;uncached.html">https://intel-gfx-ci.01.org/tree/drm-=
+tip/CI_DRM_6967/shard-tglb2/igt&#64;gem_pread&#64;uncached.html</a>
   *
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6967/re-tgl1-dis=
-play/igt&#64;kms_ccs&#64;pipe-b-ccs-on-another-bo.html">https://intel-gfx-c=
-i.01.org/tree/drm-tip/CI_DRM_6967/re-tgl1-display/igt&#64;kms_ccs&#64;pipe-=
-b-ccs-on-another-bo.html</a>
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6968/shard-tglb1=
+/igt&#64;kms_frontbuffer_tracking&#64;fbcpsr-rgb101010-draw-blt.html">https=
+://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6968/shard-tglb1/igt&#64;kms_fro=
+ntbuffer_tracking&#64;fbcpsr-rgb101010-draw-blt.html</a>
   *
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6967/re-tgl1-dis=
-play/igt&#64;kms_cursor_crc&#64;pipe-b-cursor-128x128-random.html">https://=
-intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6967/re-tgl1-display/igt&#64;kms_cu=
-rsor_crc&#64;pipe-b-cursor-128x128-random.html</a>
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6968/shard-tglb3=
+/igt&#64;kms_flip&#64;dpms-vs-vblank-race.html">https://intel-gfx-ci.01.org=
+/tree/drm-tip/CI_DRM_6968/shard-tglb3/igt&#64;kms_flip&#64;dpms-vs-vblank-r=
+ace.html</a>
   *
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6967/re-tgl1-dis=
-play/igt&#64;kms_vblank&#64;pipe-a-wait-busy-hang.html">https://intel-gfx-c=
-i.01.org/tree/drm-tip/CI_DRM_6967/re-tgl1-display/igt&#64;kms_vblank&#64;pi=
-pe-a-wait-busy-hang.html</a></pre>
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6968/shard-tglb4=
+/igt&#64;kms_frontbuffer_tracking&#64;fbcpsr-rgb101010-draw-mmap-gtt.html">=
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6968/shard-tglb4/igt&#64;km=
+s_frontbuffer_tracking&#64;fbcpsr-rgb101010-draw-mmap-gtt.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6969/shard-tglb3=
+/igt&#64;kms_frontbuffer_tracking&#64;fbc-rgb101010-draw-mmap-cpu.html">htt=
+ps://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6969/shard-tglb3/igt&#64;kms_f=
+rontbuffer_tracking&#64;fbc-rgb101010-draw-mmap-cpu.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6969/shard-tglb6=
+/igt&#64;gem_exec_parallel&#64;vcs1-fds.html">https://intel-gfx-ci.01.org/t=
+ree/drm-tip/CI_DRM_6969/shard-tglb6/igt&#64;gem_exec_parallel&#64;vcs1-fds.=
+html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_379/fi-tgl-u/igt=
+&#64;drm_import_export&#64;import-close-race-prime.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/drmtip_379/fi-tgl-u/igt&#64;drm_import_export&#64;im=
+port-close-race-prime.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_379/fi-tgl-u2/ig=
+t&#64;gem_tiled_blits&#64;normal.html">https://intel-gfx-ci.01.org/tree/drm=
+-tip/drmtip_379/fi-tgl-u2/igt&#64;gem_tiled_blits&#64;normal.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_379/fi-tgl-u2/ig=
+t&#64;kms_atomic_interruptible&#64;legacy-pageflip.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/drmtip_379/fi-tgl-u2/igt&#64;kms_atomic_interruptibl=
+e&#64;legacy-pageflip.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_379/fi-tgl-u2/ig=
+t&#64;drm_import_export&#64;import-close-race-prime.html">https://intel-gfx=
+-ci.01.org/tree/drm-tip/drmtip_379/fi-tgl-u2/igt&#64;drm_import_export&#64;=
+import-close-race-prime.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6970/shard-tglb4=
+/igt&#64;kms_vblank&#64;pipe-c-query-idle-hang.html">https://intel-gfx-ci.0=
+1.org/tree/drm-tip/CI_DRM_6970/shard-tglb4/igt&#64;kms_vblank&#64;pipe-c-qu=
+ery-idle-hang.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6971/shard-tglb3=
+/igt&#64;kms_big_fb&#64;y-tiled-64bpp-rotate-180.html">https://intel-gfx-ci=
+.01.org/tree/drm-tip/CI_DRM_6971/shard-tglb3/igt&#64;kms_big_fb&#64;y-tiled=
+-64bpp-rotate-180.html</a></pre>
         </div>
       </p>
 
@@ -168,9 +230,9 @@ pe-a-wait-busy-hang.html</a></pre>
     </body>
 </html>=
 
---15696824973.d6C058.6099--
+--15696837060.ED94DBf.11421--
 
---===============0256102896==
+--===============0261244918==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -180,4 +242,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0256102896==--
+--===============0261244918==--
