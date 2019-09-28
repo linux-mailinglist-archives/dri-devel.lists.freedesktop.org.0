@@ -1,42 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D45CC1125
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Sep 2019 17:15:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1590C11AC
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Sep 2019 20:04:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F19FE6E13F;
-	Sat, 28 Sep 2019 15:15:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3A5E6E169;
+	Sat, 28 Sep 2019 18:04:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id D464C6E13F
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Sep 2019 15:15:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id EEE4B6E169
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Sep 2019 18:04:23 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id CC18B72162; Sat, 28 Sep 2019 15:15:06 +0000 (UTC)
+ id E92FC72162; Sat, 28 Sep 2019 18:04:23 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111747] [CI][DRMTIP] igt@ - incomplete - Jenkins gives up
-Date: Sat, 28 Sep 2019 15:15:07 +0000
+Subject: [Bug 110886] After S3 resume, kernel: [drm] psp command failed and
+ response status is (-65529) at 27th time of S3. 28th time of S3 freeze the
+ system.
+Date: Sat, 28 Sep 2019 18:04:24 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: IGT
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: not set
-X-Bugzilla-Who: cibuglog@gmail.com
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: kai.heng.feng@canonical.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
+X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111747-502-9Lbx13m3Sv@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111747-502@http.bugs.freedesktop.org/>
-References: <bug-111747-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110886-502-LZxkKzoMkj@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110886-502@http.bugs.freedesktop.org/>
+References: <bug-110886-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,77 +54,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0261244918=="
+Content-Type: multipart/mixed; boundary="===============1278773797=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0261244918==
-Content-Type: multipart/alternative; boundary="15696837060.ED94DBf.11421"
+--===============1278773797==
+Content-Type: multipart/alternative; boundary="15696938632.072179.20854"
 Content-Transfer-Encoding: 7bit
 
 
---15696837060.ED94DBf.11421
-Date: Sat, 28 Sep 2019 15:15:06 +0000
+--15696938632.072179.20854
+Date: Sat, 28 Sep 2019 18:04:23 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111747
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110886
 
---- Comment #11 from CI Bug Log <cibuglog@gmail.com> ---
-A CI Bug Log filter associated to this bug has been updated:
+--- Comment #22 from Kai-Heng Feng <kai.heng.feng@canonical.com> ---
+(In reply to Andrey Grodzovsky from comment #21)
+> In fact please rebase latest drm-next from here -
+> https://cgit.freedesktop.org/~agd5f/linux/log/?h=3Damd-staging-drm-next, =
+there
+> are 2 changes by Alex in communication with PSP with might help=20
+>=20
+> drm/amdgpu/psp: invalidate the hdp read cache before reading the psp
+> response=20=20=20
+> drm/amdgpu/psp: flush HDP write fifo after submitting cmds to the psp=20=
+=20
+>=20
+> See if the PSP errors go away with that.
 
-{- TGL: igt@* -incomplete - Abort requested by .* terminating children -}
-{+ TGL: igt@* -incomplete - Abort requested by .* terminating children +}
+The slightly different error message still popped out after 27th S3, and 28=
+th
+S3 attempt froze the system:
+Sep 28 05:38:44 u-HP-ProBook-645-G4 kernel: [drm:psp_hw_start.cold [amdgpu]]
+*ERROR* PSP load asd failed!
+Sep 28 05:38:44 u-HP-ProBook-645-G4 kernel: [drm:psp_resume [amdgpu]] *ERRO=
+R*
+PSP resume failed
+Sep 28 05:38:44 u-HP-ProBook-645-G4 kernel: [drm:amdgpu_device_fw_loading
+[amdgpu]] *ERROR* resume of IP block <psp> failed -22
+Sep 28 05:38:44 u-HP-ProBook-645-G4 kernel: [drm:amdgpu_device_resume [amdg=
+pu]]
+*ERROR* amdgpu_device_ip_resume failed (-22).
+Sep 28 05:38:44 u-HP-ProBook-645-G4 kernel: PM: dpm_run_callback():
+pci_pm_resume+0x0/0xa0 returns -22
+Sep 28 05:38:44 u-HP-ProBook-645-G4 kernel: PM: Device 0000:04:00.0 failed =
+to
+resume async: error -22
 
-New failures caught by the filter:
-
-  *
-https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6967/shard-tglb2/igt@gem_pr=
-ead@uncached.html
-  *
-https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6968/shard-tglb1/igt@kms_fr=
-ontbuffer_tracking@fbcpsr-rgb101010-draw-blt.html
-  *
-https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6968/shard-tglb3/igt@kms_fl=
-ip@dpms-vs-vblank-race.html
-  *
-https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6968/shard-tglb4/igt@kms_fr=
-ontbuffer_tracking@fbcpsr-rgb101010-draw-mmap-gtt.html
-  *
-https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6969/shard-tglb3/igt@kms_fr=
-ontbuffer_tracking@fbc-rgb101010-draw-mmap-cpu.html
-  *
-https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6969/shard-tglb6/igt@gem_ex=
-ec_parallel@vcs1-fds.html
-  *
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_379/fi-tgl-u/igt@drm_import=
-_export@import-close-race-prime.html
-  *
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_379/fi-tgl-u2/igt@gem_tiled=
-_blits@normal.html
-  *
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_379/fi-tgl-u2/igt@kms_atomi=
-c_interruptible@legacy-pageflip.html
-  *
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_379/fi-tgl-u2/igt@drm_impor=
-t_export@import-close-race-prime.html
-  *
-https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6970/shard-tglb4/igt@kms_vb=
-lank@pipe-c-query-idle-hang.html
-  *
-https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6971/shard-tglb3/igt@kms_bi=
-g_fb@y-tiled-64bpp-rotate-180.html
+$ journalctl -b -1 -k | grep "suspend entry (deep)" | wc -l
+28
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15696837060.ED94DBf.11421
-Date: Sat, 28 Sep 2019 15:15:06 +0000
+--15696938632.072179.20854
+Date: Sat, 28 Sep 2019 18:04:23 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -138,85 +131,58 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - [CI][DRMTIP] igt&#64; - incomplete - Jenkins gives up"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111747#c11">Comme=
-nt # 11</a>
+   title=3D"NEW - After S3 resume, kernel: [drm] psp command failed and res=
+ponse status is (-65529) at 27th time of S3. 28th time of S3 freeze the sys=
+tem."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110886#c22">Comme=
+nt # 22</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - [CI][DRMTIP] igt&#64; - incomplete - Jenkins gives up"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111747">bug 11174=
-7</a>
+   title=3D"NEW - After S3 resume, kernel: [drm] psp command failed and res=
+ponse status is (-65529) at 27th time of S3. 28th time of S3 freeze the sys=
+tem."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110886">bug 11088=
+6</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-cibuglog&#64;gmail.com" title=3D"CI Bug Log &lt;cibuglog&#64;gmail.com&gt;"=
-> <span class=3D"fn">CI Bug Log</span></a>
+kai.heng.feng&#64;canonical.com" title=3D"Kai-Heng Feng &lt;kai.heng.feng&#=
+64;canonical.com&gt;"> <span class=3D"fn">Kai-Heng Feng</span></a>
 </span></b>
-        <pre>A CI Bug Log filter associated to this bug has been updated:
+        <pre>(In reply to Andrey Grodzovsky from <a href=3D"show_bug.cgi?id=
+=3D110886#c21">comment #21</a>)
+<span class=3D"quote">&gt; In fact please rebase latest drm-next from here -
+&gt; <a href=3D"https://cgit.freedesktop.org/~agd5f/linux/log/?h=3Damd-stag=
+ing-drm-next">https://cgit.freedesktop.org/~agd5f/linux/log/?h=3Damd-stagin=
+g-drm-next</a>, there
+&gt; are 2 changes by Alex in communication with PSP with might help=20
+&gt;=20
+&gt; drm/amdgpu/psp: invalidate the hdp read cache before reading the psp
+&gt; response=20=20=20
+&gt; drm/amdgpu/psp: flush HDP write fifo after submitting cmds to the psp=
+=20=20
+&gt;=20
+&gt; See if the PSP errors go away with that.</span >
 
-{- TGL: igt&#64;* -incomplete - Abort requested by .* terminating children =
--}
-{+ TGL: igt&#64;* -incomplete - Abort requested by .* terminating children =
-+}
+The slightly different error message still popped out after 27th S3, and 28=
+th
+S3 attempt froze the system:
+Sep 28 05:38:44 u-HP-ProBook-645-G4 kernel: [drm:psp_hw_start.cold [amdgpu]]
+*ERROR* PSP load asd failed!
+Sep 28 05:38:44 u-HP-ProBook-645-G4 kernel: [drm:psp_resume [amdgpu]] *ERRO=
+R*
+PSP resume failed
+Sep 28 05:38:44 u-HP-ProBook-645-G4 kernel: [drm:amdgpu_device_fw_loading
+[amdgpu]] *ERROR* resume of IP block &lt;psp&gt; failed -22
+Sep 28 05:38:44 u-HP-ProBook-645-G4 kernel: [drm:amdgpu_device_resume [amdg=
+pu]]
+*ERROR* amdgpu_device_ip_resume failed (-22).
+Sep 28 05:38:44 u-HP-ProBook-645-G4 kernel: PM: dpm_run_callback():
+pci_pm_resume+0x0/0xa0 returns -22
+Sep 28 05:38:44 u-HP-ProBook-645-G4 kernel: PM: Device 0000:04:00.0 failed =
+to
+resume async: error -22
 
-New failures caught by the filter:
-
-  *
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6967/shard-tglb2=
-/igt&#64;gem_pread&#64;uncached.html">https://intel-gfx-ci.01.org/tree/drm-=
-tip/CI_DRM_6967/shard-tglb2/igt&#64;gem_pread&#64;uncached.html</a>
-  *
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6968/shard-tglb1=
-/igt&#64;kms_frontbuffer_tracking&#64;fbcpsr-rgb101010-draw-blt.html">https=
-://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6968/shard-tglb1/igt&#64;kms_fro=
-ntbuffer_tracking&#64;fbcpsr-rgb101010-draw-blt.html</a>
-  *
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6968/shard-tglb3=
-/igt&#64;kms_flip&#64;dpms-vs-vblank-race.html">https://intel-gfx-ci.01.org=
-/tree/drm-tip/CI_DRM_6968/shard-tglb3/igt&#64;kms_flip&#64;dpms-vs-vblank-r=
-ace.html</a>
-  *
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6968/shard-tglb4=
-/igt&#64;kms_frontbuffer_tracking&#64;fbcpsr-rgb101010-draw-mmap-gtt.html">=
-https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6968/shard-tglb4/igt&#64;km=
-s_frontbuffer_tracking&#64;fbcpsr-rgb101010-draw-mmap-gtt.html</a>
-  *
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6969/shard-tglb3=
-/igt&#64;kms_frontbuffer_tracking&#64;fbc-rgb101010-draw-mmap-cpu.html">htt=
-ps://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6969/shard-tglb3/igt&#64;kms_f=
-rontbuffer_tracking&#64;fbc-rgb101010-draw-mmap-cpu.html</a>
-  *
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6969/shard-tglb6=
-/igt&#64;gem_exec_parallel&#64;vcs1-fds.html">https://intel-gfx-ci.01.org/t=
-ree/drm-tip/CI_DRM_6969/shard-tglb6/igt&#64;gem_exec_parallel&#64;vcs1-fds.=
-html</a>
-  *
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_379/fi-tgl-u/igt=
-&#64;drm_import_export&#64;import-close-race-prime.html">https://intel-gfx-=
-ci.01.org/tree/drm-tip/drmtip_379/fi-tgl-u/igt&#64;drm_import_export&#64;im=
-port-close-race-prime.html</a>
-  *
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_379/fi-tgl-u2/ig=
-t&#64;gem_tiled_blits&#64;normal.html">https://intel-gfx-ci.01.org/tree/drm=
--tip/drmtip_379/fi-tgl-u2/igt&#64;gem_tiled_blits&#64;normal.html</a>
-  *
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_379/fi-tgl-u2/ig=
-t&#64;kms_atomic_interruptible&#64;legacy-pageflip.html">https://intel-gfx-=
-ci.01.org/tree/drm-tip/drmtip_379/fi-tgl-u2/igt&#64;kms_atomic_interruptibl=
-e&#64;legacy-pageflip.html</a>
-  *
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_379/fi-tgl-u2/ig=
-t&#64;drm_import_export&#64;import-close-race-prime.html">https://intel-gfx=
--ci.01.org/tree/drm-tip/drmtip_379/fi-tgl-u2/igt&#64;drm_import_export&#64;=
-import-close-race-prime.html</a>
-  *
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6970/shard-tglb4=
-/igt&#64;kms_vblank&#64;pipe-c-query-idle-hang.html">https://intel-gfx-ci.0=
-1.org/tree/drm-tip/CI_DRM_6970/shard-tglb4/igt&#64;kms_vblank&#64;pipe-c-qu=
-ery-idle-hang.html</a>
-  *
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6971/shard-tglb3=
-/igt&#64;kms_big_fb&#64;y-tiled-64bpp-rotate-180.html">https://intel-gfx-ci=
-.01.org/tree/drm-tip/CI_DRM_6971/shard-tglb3/igt&#64;kms_big_fb&#64;y-tiled=
--64bpp-rotate-180.html</a></pre>
+$ journalctl -b -1 -k | grep &quot;suspend entry (deep)&quot; | wc -l
+28</pre>
         </div>
       </p>
 
@@ -230,9 +196,9 @@ ery-idle-hang.html</a>
     </body>
 </html>=
 
---15696837060.ED94DBf.11421--
+--15696938632.072179.20854--
 
---===============0261244918==
+--===============1278773797==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -242,4 +208,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0261244918==--
+--===============1278773797==--
