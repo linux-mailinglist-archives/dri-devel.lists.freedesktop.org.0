@@ -2,42 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6283CC0F71
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Sep 2019 05:13:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3908FC0F7A
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Sep 2019 05:23:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5C886E0B6;
-	Sat, 28 Sep 2019 03:13:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4550A6E0CF;
+	Sat, 28 Sep 2019 03:23:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 20C946E0B6
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Sep 2019 03:13:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id CA87C6E0CF
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Sep 2019 03:23:18 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0D4B872162; Sat, 28 Sep 2019 03:13:33 +0000 (UTC)
+ id C55E472162; Sat, 28 Sep 2019 03:23:18 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111750] Navi10 GPU boot bug: Failed to pin framebuffer with
- error -12
-Date: Sat, 28 Sep 2019 03:13:33 +0000
+Subject: [Bug 111819] Running apps via Flatpak with DRI device access:
+ [gfxhub] retry page fault (src_id:0 ring:0 vmid:1 pasid:32770, for process X
+ pid 2148 thread X:cs0 pid 2151) in page starting at address
+ 0x0000000107720000 from 27, VM_L2_PROTECTION_FAULT_STATUS:0x00101031
+Date: Sat, 28 Sep 2019 03:23:18 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: parkervcp@gmail.com
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: devurandom@gmx.net
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111750-502-mmp2y2Ecl4@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111750-502@http.bugs.freedesktop.org/>
-References: <bug-111750-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: short_desc
+Message-ID: <bug-111819-502-jcUN0gWDWA@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111819-502@http.bugs.freedesktop.org/>
+References: <bug-111819-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,35 +55,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1896666949=="
+Content-Type: multipart/mixed; boundary="===============1695928146=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1896666949==
-Content-Type: multipart/alternative; boundary="15696404120.0E32.9817"
+--===============1695928146==
+Content-Type: multipart/alternative; boundary="15696409983.E7A6bdcEd.12536"
 Content-Transfer-Encoding: 7bit
 
 
---15696404120.0E32.9817
-Date: Sat, 28 Sep 2019 03:13:32 +0000
+--15696409983.E7A6bdcEd.12536
+Date: Sat, 28 Sep 2019 03:23:18 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111750
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111819
 
---- Comment #2 from Michael Parker <parkervcp@gmail.com> ---
-While I can now boot and sign in I am still seeing these types of errors.
+Dennis Schridde <devurandom@gmx.net> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+            Summary|When starting Atom, Signal  |Running apps via Flatpak
+                   |or Steam via Flatpak:       |with DRI device access:
+                   |[gfxhub] retry page fault   |[gfxhub] retry page fault
+                   |(src_id:0 ring:0 vmid:1     |(src_id:0 ring:0 vmid:1
+                   |pasid:32770, for process X  |pasid:32770, for process X
+                   |pid 2148 thread X:cs0 pid   |pid 2148 thread X:cs0 pid
+                   |2151) in page starting at   |2151) in page starting at
+                   |address 0x0000000107720000  |address 0x0000000107720000
+                   |from 27,                    |from 27,
+                   |VM_L2_PROTECTION_FAULT_STAT |VM_L2_PROTECTION_FAULT_STAT
+                   |US:0x00101031               |US:0x00101031
+
+--- Comment #9 from Dennis Schridde <devurandom@gmx.net> ---
+This prevents the graphical system lockup: `flatpak run --nodevice=3Ddri
+org.signal.Signal`
+
+For some reason `flatpak run --nodevice=3Dall org.signal.Signal` does not h=
+elp,
+it needs to be the more specific `dri`.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15696404120.0E32.9817
-Date: Sat, 28 Sep 2019 03:13:32 +0000
+--15696409983.E7A6bdcEd.12536
+Date: Sat, 28 Sep 2019 03:23:18 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -92,27 +115,68 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:devurando=
+m&#64;gmx.net" title=3D"Dennis Schridde &lt;devurandom&#64;gmx.net&gt;"> <s=
+pan class=3D"fn">Dennis Schridde</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Running apps via Flatpak with DRI device access: [gfxhub]=
+ retry page fault (src_id:0 ring:0 vmid:1 pasid:32770, for process X pid 21=
+48 thread X:cs0 pid 2151) in page starting at address 0x0000000107720000 fr=
+om 27, VM_L2_PROTECTION_FAULT_STATUS:0x00101031"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111819">bug 11181=
+9</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Summary</td>
+           <td>When starting Atom, Signal or Steam via Flatpak: [gfxhub] re=
+try page fault (src_id:0 ring:0 vmid:1 pasid:32770, for process X pid 2148 =
+thread X:cs0 pid 2151) in page starting at address 0x0000000107720000 from =
+27, VM_L2_PROTECTION_FAULT_STATUS:0x00101031
+           </td>
+           <td>Running apps via Flatpak with DRI device access: [gfxhub] re=
+try page fault (src_id:0 ring:0 vmid:1 pasid:32770, for process X pid 2148 =
+thread X:cs0 pid 2151) in page starting at address 0x0000000107720000 from =
+27, VM_L2_PROTECTION_FAULT_STATUS:0x00101031
+           </td>
+         </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Navi10 GPU boot bug: Failed to pin framebuffer with error=
- -12"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111750#c2">Commen=
-t # 2</a>
+   title=3D"NEW - Running apps via Flatpak with DRI device access: [gfxhub]=
+ retry page fault (src_id:0 ring:0 vmid:1 pasid:32770, for process X pid 21=
+48 thread X:cs0 pid 2151) in page starting at address 0x0000000107720000 fr=
+om 27, VM_L2_PROTECTION_FAULT_STATUS:0x00101031"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111819#c9">Commen=
+t # 9</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Navi10 GPU boot bug: Failed to pin framebuffer with error=
- -12"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111750">bug 11175=
-0</a>
+   title=3D"NEW - Running apps via Flatpak with DRI device access: [gfxhub]=
+ retry page fault (src_id:0 ring:0 vmid:1 pasid:32770, for process X pid 21=
+48 thread X:cs0 pid 2151) in page starting at address 0x0000000107720000 fr=
+om 27, VM_L2_PROTECTION_FAULT_STATUS:0x00101031"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111819">bug 11181=
+9</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-parkervcp&#64;gmail.com" title=3D"Michael Parker &lt;parkervcp&#64;gmail.co=
-m&gt;"> <span class=3D"fn">Michael Parker</span></a>
+devurandom&#64;gmx.net" title=3D"Dennis Schridde &lt;devurandom&#64;gmx.net=
+&gt;"> <span class=3D"fn">Dennis Schridde</span></a>
 </span></b>
-        <pre>While I can now boot and sign in I am still seeing these types=
- of errors.</pre>
+        <pre>This prevents the graphical system lockup: `flatpak run --node=
+vice=3Ddri
+org.signal.Signal`
+
+For some reason `flatpak run --nodevice=3Dall org.signal.Signal` does not h=
+elp,
+it needs to be the more specific `dri`.</pre>
         </div>
       </p>
 
@@ -126,9 +190,9 @@ m&gt;"> <span class=3D"fn">Michael Parker</span></a>
     </body>
 </html>=
 
---15696404120.0E32.9817--
+--15696409983.E7A6bdcEd.12536--
 
---===============1896666949==
+--===============1695928146==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -138,4 +202,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1896666949==--
+--===============1695928146==--
