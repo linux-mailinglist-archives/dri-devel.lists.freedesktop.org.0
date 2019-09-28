@@ -1,45 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7BD0C0EF3
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Sep 2019 02:14:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE94EC0F22
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Sep 2019 03:28:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A99E66E2E1;
-	Sat, 28 Sep 2019 00:14:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B85F06E0A5;
+	Sat, 28 Sep 2019 01:28:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 839666E2E1
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Sep 2019 00:14:26 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7A22E72162; Sat, 28 Sep 2019 00:14:26 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111847] Radeon 7, no audio over hdmi 2.0 4k and accelerated
- audio over displayport in fullhd display
-Date: Sat, 28 Sep 2019 00:14:26 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: not set
-X-Bugzilla-Who: sebastianlacuesta@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
-Message-ID: <bug-111847-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Received: from smtp.codeaurora.org (smtp.codeaurora.org [198.145.29.96])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 973ED6E0A5
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Sep 2019 01:28:42 +0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+ id 633EF60A60; Sat, 28 Sep 2019 01:28:42 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ pdx-caf-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ DKIM_INVALID,DKIM_SIGNED,SPF_NONE autolearn=no autolearn_force=no
+ version=3.4.0
+Received: from jeykumar-linux.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: jsanka@smtp.codeaurora.org)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 4D5DA60A60;
+ Sat, 28 Sep 2019 01:28:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 4D5DA60A60
+From: Jeykumar Sankaran <jsanka@codeaurora.org>
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] Add framebuffer max width/height fields to drm_mode_config
+Date: Fri, 27 Sep 2019 18:28:35 -0700
+Message-Id: <1569634116-13819-1-git-send-email-jsanka@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=codeaurora.org; s=default; t=1569634122;
+ bh=kbPZarCkYnlJWtdPyEyjjRJbhqhbOcPRYQvgulMnMvY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=hdjZvkQZo2N+fUk7Sx+pYGkNYjzSyMvZT38pn3PYdm7pQAs0Z3qsvEyV44v7ScS/t
+ Sif3OgTgCkQ0naYjj2QCwvY/UxLf4S7oRZzL9XuZxiuHqvAzfJKt3xhC9MaU3pcrjr
+ RBtI32eHFqnm68rJEIs9TU9VHQGulDaJXNtUjcQc=
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=codeaurora.org; s=default; t=1569634121;
+ bh=kbPZarCkYnlJWtdPyEyjjRJbhqhbOcPRYQvgulMnMvY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ZXuRnuDCeN548AzE5Wzs5ogkd43oGCUNkvpy/bo8I7X1pOQsCewBHv/NRGmDl/8bg
+ 26XNsi/tdBUxPZBoFCPe9MKQAMsozB0+CCjNlGj2SSRpFY697HZEYnRPCEc/xpG+rl
+ OWAse0U8VGHT5ZFU044ZavT1lLYK2WoGOgqiQySI=
+X-Mailman-Original-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
+ dmarc=none (p=none dis=none)
+ header.from=codeaurora.org
+X-Mailman-Original-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
+ spf=none
+ smtp.mailfrom=jsanka@codeaurora.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,238 +67,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0970364197=="
+Cc: seanpaul@chromium.org, narmstrong@baylibre.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0970364197==
-Content-Type: multipart/alternative; boundary="15696296660.89bFaf.4586"
-Content-Transfer-Encoding: 7bit
-
-
---15696296660.89bFaf.4586
-Date: Sat, 28 Sep 2019 00:14:26 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111847
-
-            Bug ID: 111847
-           Summary: Radeon 7, no audio over hdmi 2.0 4k and accelerated
-                    audio over displayport in fullhd display
-           Product: DRI
-           Version: XOrg git
-          Hardware: Other
-                OS: All
-            Status: NEW
-          Severity: not set
-          Priority: not set
-         Component: DRM/AMDgpu
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: sebastianlacuesta@gmail.com
-
-When I connect a fullhd monitor over display port and a 4k tv over hdmi at
-60Hz, then sound is like accelerated on monitor and completely absent on tv.
-Using my soundcard, sound it's good.
-Hdmi cable is 2.0. Videocard is Radeon 7. I'm using amdgpu kernel module.
-
-Some info about packages:
-
-$ uname -a
-Linux debian 5.2.0-2-amd64 #1 SMP Debian 5.2.9-2 (2019-08-21) x86_64 GNU/Li=
-nux
-
-$ dpkg -s mesa-vulkan-drivers:amd64
-Package: mesa-vulkan-drivers
-Status: install ok installed
-Priority: optional
-Section: libs
-Installed-Size: 11750
-Maintainer: Debian X Strike Force <debian-x@lists.debian.org>
-Architecture: amd64
-Multi-Arch: same
-Source: mesa
-Version: 19.2.0~rc4-1
-Provides: vulkan-icd
-Depends: libvulkan1, libc6 (>=3D 2.29), libdrm-amdgpu1 (>=3D 2.4.97), libdr=
-m2 (>=3D
-2.4.89), libelf1 (>=3D 0.142), libexpat1 (>=3D 2.0.1), libgcc1 (>=3D 1:3.4)=
-, libllvm9
-(>=3D 1:9~svn298832-1~), libstdc++6 (>=3D 5.2), libwayland-client0 (>=3D 1.=
-15.0),
-libx11-xcb1, libxcb-dri3-0 (>=3D 1.13), libxcb-present0, libxcb-randr0 (>=
-=3D 1.13),
-libxcb-sync1, libxcb1 (>=3D 1.9.2), libxshmfence1, zlib1g (>=3D 1:1.1.4)
-Description: Mesa Vulkan graphics drivers
- Vulkan is a low-overhead 3D graphics and compute API. This package
- includes Vulkan drivers provided by the Mesa project.
-Homepage: https://mesa3d.org/
-
-Feel free to ask for more info. I'm glad to help.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15696296660.89bFaf.4586
-Date: Sat, 28 Sep 2019 00:14:26 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Radeon 7, no audio over hdmi 2.0 4k and accelerated audio=
- over displayport in fullhd display"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111847">111847</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>Radeon 7, no audio over hdmi 2.0 4k and accelerated audio ove=
-r displayport in fullhd display
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>XOrg git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>Other
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>All
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>DRM/AMDgpu
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>sebastianlacuesta&#64;gmail.com
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>When I connect a fullhd monitor over display port and a 4k tv =
-over hdmi at
-60Hz, then sound is like accelerated on monitor and completely absent on tv.
-Using my soundcard, sound it's good.
-Hdmi cable is 2.0. Videocard is Radeon 7. I'm using amdgpu kernel module.
-
-Some info about packages:
-
-$ uname -a
-Linux debian 5.2.0-2-amd64 #1 SMP Debian 5.2.9-2 (2019-08-21) x86_64 GNU/Li=
-nux
-
-$ dpkg -s mesa-vulkan-drivers:amd64
-Package: mesa-vulkan-drivers
-Status: install ok installed
-Priority: optional
-Section: libs
-Installed-Size: 11750
-Maintainer: Debian X Strike Force &lt;<a href=3D"mailto:debian-x&#64;lists.=
-debian.org">debian-x&#64;lists.debian.org</a>&gt;
-Architecture: amd64
-Multi-Arch: same
-Source: mesa
-Version: 19.2.0~rc4-1
-Provides: vulkan-icd
-Depends: libvulkan1, libc6 (&gt;=3D 2.29), libdrm-amdgpu1 (&gt;=3D 2.4.97),=
- libdrm2 (&gt;=3D
-2.4.89), libelf1 (&gt;=3D 0.142), libexpat1 (&gt;=3D 2.0.1), libgcc1 (&gt;=
-=3D 1:3.4), libllvm9
-(&gt;=3D 1:9~svn298832-1~), libstdc++6 (&gt;=3D 5.2), libwayland-client0 (&=
-gt;=3D 1.15.0),
-libx11-xcb1, libxcb-dri3-0 (&gt;=3D 1.13), libxcb-present0, libxcb-randr0 (=
-&gt;=3D 1.13),
-libxcb-sync1, libxcb1 (&gt;=3D 1.9.2), libxshmfence1, zlib1g (&gt;=3D 1:1.1=
-.4)
-Description: Mesa Vulkan graphics drivers
- Vulkan is a low-overhead 3D graphics and compute API. This package
- includes Vulkan drivers provided by the Mesa project.
-Homepage: <a href=3D"https://mesa3d.org/">https://mesa3d.org/</a>
-
-Feel free to ask for more info. I'm glad to help.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15696296660.89bFaf.4586--
-
---===============0970364197==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0970364197==--
+QmVsb3cgdHdvIGRpc2N1c3Npb24gdGhyZWFkcyB3aWxsIHByb3ZpZGUgdGhlIGNvbnRleHQgYmVo
+aW5kIHRoaXMgcGF0Y2guCgpodHRwczovL3d3dy5zcGluaWNzLm5ldC9saXN0cy9kcmktZGV2ZWwv
+bXNnMjI5MDcwLmh0bWwKaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtYXJtLW1zbS9kYjI2
+MTQ1Yi0zZjY0LWEzMzQtZjY5OC03NmY5NzIzMzI4ODFAYmF5bGlicmUuY29tL1QvCgpTZXBlcmF0
+aW5nIG91dCB0aGUgY29yZSBmcmFtZXdvcmsgcGF0Y2ggZnJvbSB2ZW5kb3IgaW1wbGVtZW50YXRp
+b24uCgpKZXlrdW1hciBTYW5rYXJhbiAoMSk6CiAgZHJtOiBhZGQgZmIgbWF4IHdpZHRoL2hlaWdo
+dCBmaWVsZHMgdG8gZHJtX21vZGVfY29uZmlnCgogZHJpdmVycy9ncHUvZHJtL2RybV9mcmFtZWJ1
+ZmZlci5jIHwgMTcgKysrKysrKysrKysrKy0tLS0KIGluY2x1ZGUvZHJtL2RybV9tb2RlX2NvbmZp
+Zy5oICAgICB8ICAzICsrKwogMiBmaWxlcyBjaGFuZ2VkLCAxNiBpbnNlcnRpb25zKCspLCA0IGRl
+bGV0aW9ucygtKQoKLS0gClRoZSBRdWFsY29tbSBJbm5vdmF0aW9uIENlbnRlciwgSW5jLiBpcyBh
+IG1lbWJlciBvZiB0aGUgQ29kZSBBdXJvcmEgRm9ydW0sCmEgTGludXggRm91bmRhdGlvbiBDb2xs
+YWJvcmF0aXZlIFByb2plY3QKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbA==
