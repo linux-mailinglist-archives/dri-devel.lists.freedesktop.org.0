@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09018C0F2B
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Sep 2019 03:29:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3DD1C0F30
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Sep 2019 03:31:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B321B89CF7;
-	Sat, 28 Sep 2019 01:29:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C14F89E03;
+	Sat, 28 Sep 2019 01:31:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp.codeaurora.org (smtp.codeaurora.org [198.145.29.96])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C00CD89CF7
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Sep 2019 01:29:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D142889DBC
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Sep 2019 01:31:40 +0000 (UTC)
 Received: by smtp.codeaurora.org (Postfix, from userid 1000)
- id 7D98161515; Sat, 28 Sep 2019 01:29:44 +0000 (UTC)
+ id 9835061230; Sat, 28 Sep 2019 01:31:39 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  pdx-caf-mail.web.codeaurora.org
 X-Spam-Level: 
@@ -25,30 +25,30 @@ Received: from jeykumar-linux.qualcomm.com (i-global254.qualcomm.com
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: jsanka@smtp.codeaurora.org)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id A229461213;
- Sat, 28 Sep 2019 01:29:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A229461213
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 24380611CE;
+ Sat, 28 Sep 2019 01:31:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 24380611CE
 From: Jeykumar Sankaran <jsanka@codeaurora.org>
 To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org
 Subject: [PATCH] Add framebuffer max width/height fields to drm_mode_config
-Date: Fri, 27 Sep 2019 18:29:30 -0700
-Message-Id: <1569634171-13970-1-git-send-email-jsanka@codeaurora.org>
+Date: Fri, 27 Sep 2019 18:31:23 -0700
+Message-Id: <1569634284-14147-1-git-send-email-jsanka@codeaurora.org>
 X-Mailer: git-send-email 1.9.1
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=codeaurora.org; s=default; t=1569634184;
+ d=codeaurora.org; s=default; t=1569634300;
  bh=kbPZarCkYnlJWtdPyEyjjRJbhqhbOcPRYQvgulMnMvY=;
  h=From:To:Cc:Subject:Date:From;
- b=KzP1ej4f4iI1qU8X43fnEsgqdxkbzPmd2NRAv7b5GdiVHrM2Up2PO47cwks0MUjST
- G3keEYaxGsE9F2V+3pdw1Ru7q8HCSnjLDdphYvSgNS/TU9lld3NL9su6erlHpo+AZu
- sV5xeMWTnQJmylse77VcBXgCuvvbbd35CLm3Nrp8=
+ b=ZgJNyfhIufwD3ROwcVCGbYxttuM5nM6lIoZe9MncugIXtcVz04XorYzet1E9Em4+A
+ mtZSqV8zY3KhwkJfIOiI/SNuqW0+2vj5jj9uPRxHHjXQZPtvxAwh5tsYC2RpPBH2z9
+ 8nm36lFaoSbgtRP5iESRK3Sy3fPCONXVir69uRnw=
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=codeaurora.org; s=default; t=1569634184;
+ d=codeaurora.org; s=default; t=1569634298;
  bh=kbPZarCkYnlJWtdPyEyjjRJbhqhbOcPRYQvgulMnMvY=;
  h=From:To:Cc:Subject:Date:From;
- b=KzP1ej4f4iI1qU8X43fnEsgqdxkbzPmd2NRAv7b5GdiVHrM2Up2PO47cwks0MUjST
- G3keEYaxGsE9F2V+3pdw1Ru7q8HCSnjLDdphYvSgNS/TU9lld3NL9su6erlHpo+AZu
- sV5xeMWTnQJmylse77VcBXgCuvvbbd35CLm3Nrp8=
+ b=SYpMtrN3M8ycqPoCelDO5aK2Q6TAcF5bObmiS0aMtEXE+Sv//8nX6DwCBY2W9WXSi
+ ndSDxBHXZx1Rw+njpIVpwQWbFUB7ta8mrPmFlomSJhNizLLYt2Fi2liS6KdE95MtCP
+ dPYQAEtZG/zAwSbtRENgFDo4/OrOU2f7St0XqpJE=
 X-Mailman-Original-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
  dmarc=none (p=none dis=none)
  header.from=codeaurora.org
