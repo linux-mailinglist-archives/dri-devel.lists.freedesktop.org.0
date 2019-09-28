@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 013D1C106D
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Sep 2019 11:34:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97681C106F
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Sep 2019 11:34:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E6226E0EE;
-	Sat, 28 Sep 2019 09:34:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CAD86E0FE;
+	Sat, 28 Sep 2019 09:34:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 939696E0EE
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Sep 2019 09:34:23 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 50FBE6E0FE
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Sep 2019 09:34:40 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9003C72162; Sat, 28 Sep 2019 09:34:23 +0000 (UTC)
+ id 4B62172162; Sat, 28 Sep 2019 09:34:40 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111848] AMDGPU and display fails after resume from suspend
-Date: Sat, 28 Sep 2019 09:34:23 +0000
+Date: Sat, 28 Sep 2019 09:34:40 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111848-502-VcF7d2EJiU@http.bugs.freedesktop.org/>
+Message-ID: <bug-111848-502-4zn8VyvyJY@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111848-502@http.bugs.freedesktop.org/>
 References: <bug-111848-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0514026356=="
+Content-Type: multipart/mixed; boundary="===============0058574544=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0514026356==
-Content-Type: multipart/alternative; boundary="15696632630.fCC40d.32082"
+--===============0058574544==
+Content-Type: multipart/alternative; boundary="15696632801.7610bB.32148"
 Content-Transfer-Encoding: 7bit
 
 
---15696632630.fCC40d.32082
-Date: Sat, 28 Sep 2019 09:34:23 +0000
+--15696632801.7610bB.32148
+Date: Sat, 28 Sep 2019 09:34:40 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,17 +72,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111848
 
---- Comment #7 from Martin J=C3=B8rgensen <mkj@gotu.dk> ---
-Created attachment 145569
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145569&action=3Dedit
-lspic -nn output
+--- Comment #8 from Martin J=C3=B8rgensen <mkj@gotu.dk> ---
+Created attachment 145570
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145570&action=3Dedit
+lspci -vnn output
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15696632630.fCC40d.32082
-Date: Sat, 28 Sep 2019 09:34:23 +0000
+--15696632801.7610bB.32148
+Date: Sat, 28 Sep 2019 09:34:40 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -99,8 +99,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - AMDGPU and display fails after resume from suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111848#c7">Commen=
-t # 7</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111848#c8">Commen=
+t # 8</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - AMDGPU and display fails after resume from suspend"
@@ -110,11 +110,11 @@ t # 7</a>
 mkj&#64;gotu.dk" title=3D"Martin J=C3=B8rgensen &lt;mkj&#64;gotu.dk&gt;"> <=
 span class=3D"fn">Martin J=C3=B8rgensen</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145569=
-" name=3D"attach_145569" title=3D"lspic -nn output">attachment 145569</a> <=
-a href=3D"attachment.cgi?id=3D145569&amp;action=3Dedit" title=3D"lspic -nn =
-output">[details]</a></span>
-lspic -nn output</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145570=
+" name=3D"attach_145570" title=3D"lspci -vnn output">attachment 145570</a> =
+<a href=3D"attachment.cgi?id=3D145570&amp;action=3Dedit" title=3D"lspci -vn=
+n output">[details]</a></span>
+lspci -vnn output</pre>
         </div>
       </p>
 
@@ -128,9 +128,9 @@ lspic -nn output</pre>
     </body>
 </html>=
 
---15696632630.fCC40d.32082--
+--15696632801.7610bB.32148--
 
---===============0514026356==
+--===============0058574544==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -140,4 +140,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0514026356==--
+--===============0058574544==--
