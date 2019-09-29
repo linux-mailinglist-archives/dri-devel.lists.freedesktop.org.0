@@ -2,152 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61949C1392
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Sep 2019 08:19:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BEDFC13B0
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Sep 2019 08:54:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79D9F6E2C8;
-	Sun, 29 Sep 2019 06:19:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D39E6E2D7;
+	Sun, 29 Sep 2019 06:54:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
- (mail-eopbgr150040.outbound.protection.outlook.com [40.107.15.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C21DC6E2C8
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Sep 2019 06:19:18 +0000 (UTC)
-Received: from VI1PR0802CA0035.eurprd08.prod.outlook.com
- (2603:10a6:800:a9::21) by AM6PR08MB4279.eurprd08.prod.outlook.com
- (2603:10a6:20b:bb::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2284.21; Sun, 29 Sep
- 2019 06:19:15 +0000
-Received: from VE1EUR03FT052.eop-EUR03.prod.protection.outlook.com
- (2a01:111:f400:7e09::209) by VI1PR0802CA0035.outlook.office365.com
- (2603:10a6:800:a9::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2305.16 via Frontend
- Transport; Sun, 29 Sep 2019 06:19:14 +0000
-Received-SPF: TempError (protection.outlook.com: error in processing during
- lookup of arm.com: DNS Timeout)
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- VE1EUR03FT052.mail.protection.outlook.com (10.152.19.173) with
- Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.2305.15 via Frontend Transport; Sun, 29 Sep 2019 06:19:14 +0000
-Received: ("Tessian outbound 081de437afc7:v33");
- Sun, 29 Sep 2019 06:19:03 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 72a203cab4710ca1
-X-CR-MTA-TID: 64aa7808
-Received: from ed6bda481be6.2 (ip-172-16-0-2.eu-west-1.compute.internal
- [104.47.2.54]) by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- 16C1A047-E96A-43B2-8E73-6A983D2D6621.1; 
- Sun, 29 Sep 2019 06:18:57 +0000
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
- (mail-db5eur01lp2054.outbound.protection.outlook.com [104.47.2.54])
- by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id ed6bda481be6.2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384);
- Sun, 29 Sep 2019 06:18:57 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n7Q1Es/t3PBsoFS4hTX4j9JMtoLNiyPVc1mwNSUi8Ux0Ks1GIFvknSLnDpSdlNTmqqohjVf8XosLEq36NH1uYdI8Z3imilut2km+4wLY8ccgzRG0Gpggewp+tMsT5BSlP75LzeuZ4PhcYBH2XTnz0TD2ujHY7B0JQzIN5rMuXlUJCa5hyzbF9cEna5yIdVemmvT8UJIM9WKBdKrNmn6dec7TFxiB8/ZyRCF9ojfSXLXKHN8YOUGDgBybeiKx5dX2esB9xRJFkDGsZuiNM08P2cEoPum9+My37Q8VrxYQaaosP+07zxack9UZ0XsDOL3/GgmauqbYyDC1yR+3Shi27Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1i66CD8zMe2VMNNH4WML4pyxCs7cKHEBPw/SKU1qXlE=;
- b=XyCX/VFjk9styitS8xje6up4o1fBLR6tGzZwXjE8P0ARYSa9usQjzkmhNaQhpeKEL4qUp1PiNmumevDNnxAYSd8q+m1S6DNPKykMJz8rHSFd+2RipXPiTwFD8jpO9vG1iNObN+1uCkJ8+FYKTYr1kNXjUYXoV7sUPEzw+wdPcijUq5vpGnwSeLAOTYvhDm5jG/ZCaUSdeZ0F95W0Jf3zelPrTfLMiAeOJDJDr109s2Gs92zG/8LSv99v9vLLoE4DeAWok0lQbdNaSP0C7vOzcxFUOK0Kt4vk32UW+2jwyJGnl7S/LkiHYXCObAX5PZ9X+K7coWUpuf24HaXTHB7f7w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-Received: from VE1PR08MB5006.eurprd08.prod.outlook.com (10.255.159.31) by
- VE1PR08MB5245.eurprd08.prod.outlook.com (20.179.31.32) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2305.20; Sun, 29 Sep 2019 06:18:56 +0000
-Received: from VE1PR08MB5006.eurprd08.prod.outlook.com
- ([fe80::a0a6:ad4c:b7a7:f879]) by VE1PR08MB5006.eurprd08.prod.outlook.com
- ([fe80::a0a6:ad4c:b7a7:f879%5]) with mapi id 15.20.2284.028; Sun, 29 Sep 2019
- 06:18:56 +0000
-From: "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
-To: Mihail Atanassov <Mihail.Atanassov@arm.com>
-Subject: Re: [v2] drm/komeda: Workaround for broken FLIP_COMPLETE timestamps
-Thread-Topic: [v2] drm/komeda: Workaround for broken FLIP_COMPLETE timestamps
-Thread-Index: AQHVdo3GfdMAC9qVAUSxM4QfhIA3AQ==
-Date: Sun, 29 Sep 2019 06:18:56 +0000
-Message-ID: <20190929061849.GA29382@jamwan02-TSP300>
-References: <20190923101017.35114-1-mihail.atanassov@arm.com>
-In-Reply-To: <20190923101017.35114-1-mihail.atanassov@arm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mutt/1.10.1 (2018-07-13)
-x-originating-ip: [113.29.88.7]
-x-clientproxiedby: HK0P153CA0040.APCP153.PROD.OUTLOOK.COM
- (2603:1096:203:17::28) To VE1PR08MB5006.eurprd08.prod.outlook.com
- (2603:10a6:803:113::31)
-Authentication-Results-Original: spf=none (sender IP is )
- smtp.mailfrom=james.qian.wang@arm.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-X-MS-Office365-Filtering-Correlation-Id: 28fd185e-c433-4acb-4674-08d744a4f347
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-TrafficTypeDiagnostic: VE1PR08MB5245:|VE1PR08MB5245:|AM6PR08MB4279:
-X-MS-Exchange-PUrlCount: 1
-x-ms-exchange-transport-forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4279A55E76DC208D14B315FBB3830@AM6PR08MB4279.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-x-ms-oob-tlc-oobclassifiers: OLM:6790;OLM:6790;
-x-forefront-prvs: 017589626D
-X-Forefront-Antispam-Report-Untrusted: SFV:NSPM;
- SFS:(10009020)(7916004)(4636009)(346002)(376002)(136003)(366004)(396003)(39850400004)(189003)(199004)(54906003)(305945005)(66446008)(66556008)(6486002)(6636002)(58126008)(81156014)(7736002)(81166006)(229853002)(6116002)(3846002)(64756008)(66946007)(6512007)(6436002)(14454004)(66476007)(8936002)(8676002)(486006)(476003)(11346002)(478600001)(2906002)(33716001)(9686003)(316002)(446003)(14444005)(256004)(186003)(6246003)(26005)(25786009)(86362001)(6862004)(76176011)(1076003)(52116002)(99286004)(102836004)(5660300002)(66066001)(71190400001)(6306002)(71200400001)(4326008)(55236004)(6506007)(386003)(33656002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:VE1PR08MB5245;
- H:VE1PR08MB5006.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: arm.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: ffU22a7RCFoK0CFZI8vnpPjhul7uEqnMgneAG8zjTZdzTYwFGuwATqWBnmZ2kZRtUX1kqJsDtT5r1XVZfmm9qjyEQv0dGM//VJOUYeI2SVY1gDb95XFFSie3eq0B2kUJwF0JIytMpl3jH19iEuEskYocCX6xOooRzpLKZB43+vcxnhw54uvnNN7NU0Mwijvwv/crSQS8X7JvmABN0cR+PYAWzYYXWuqk6K0/EmVi3UO8FOGSLROV7NbEuEiCobrRsSx/HJPHHsIlBImYMrQK5zGj6Mwj3YA4WwXqaJc+tdfsZoGJy80tMryc7Ze0iKfPVRIdvBaTbWkwp+s33pkISJBO5vQHaa7/jbO2IrpCX574p6npcwnwqazQR2gUtjfRM+3xB51/6laqZ+VZMiFX/g0CYuS92wV2u5Nnd8RBQ36WWqxER1EJPNBxWQuT48jhW21t0ljj5uhj9iLrDZId6A==
-Content-ID: <19F74D5288858D4B93C4CCB2292F0DAD@eurprd08.prod.outlook.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 77D4A6E2D7
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Sep 2019 06:54:50 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 7117A72162; Sun, 29 Sep 2019 06:54:50 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111729] RX480 : random NULL pointer dereference on resume from
+ suspend
+Date: Sun, 29 Sep 2019 06:54:50 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: phg@phi-gamma.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111729-502-ZAAKa24Ldb@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111729-502@http.bugs.freedesktop.org/>
+References: <bug-111729-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5245
-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=james.qian.wang@arm.com; 
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: VE1EUR03FT052.eop-EUR03.prod.protection.outlook.com
-X-Forefront-Antispam-Report: CIP:63.35.35.123; IPV:CAL; SCL:-1; CTRY:IE;
- EFV:NLI; SFV:NSPM;
- SFS:(10009020)(4636009)(7916004)(39850400004)(376002)(346002)(136003)(396003)(199004)(189003)(4326008)(486006)(97756001)(11346002)(446003)(107886003)(33716001)(86362001)(476003)(478600001)(50466002)(126002)(22756006)(63350400001)(305945005)(54906003)(76130400001)(356004)(186003)(1076003)(26005)(336012)(102836004)(386003)(6506007)(229853002)(6862004)(6246003)(76176011)(6116002)(2906002)(23726003)(25786009)(99286004)(33656002)(6512007)(9686003)(14444005)(70586007)(6636002)(6306002)(70206006)(5660300002)(47776003)(6486002)(36906005)(26826003)(3846002)(66066001)(8936002)(8746002)(46406003)(14454004)(58126008)(81166006)(316002)(81156014)(8676002)(7736002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:AM6PR08MB4279;
- H:64aa7808-outbound-1.mta.getcheckrecipient.com; FPR:; SPF:TempError; LANG:en;
- PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; A:1; MX:1; 
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 167f86c9-d66f-4ff4-a913-08d744a4e882
-X-Microsoft-Antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(710020)(711020)(4605104)(1401327)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
- SRVR:AM6PR08MB4279; 
-NoDisclaimer: True
-X-Forefront-PRVS: 017589626D
-X-Microsoft-Antispam-Message-Info: AmIRaWguYcpaB3Ce3rEuqH3r0XFRpsqTo24twLKpI+YU8+YbeAqTFAhJTkKzku16lNgPzacy9ao2i6HbMJozcKev+i8adJQRzx7+vWSQ/a2BqHyKHezu7wyETgp8ShDgPnqnRlSiZz5v2CtvX23h4I7EYiapdZHNLQ9suOrTRNFlwqwhdrREMWLUkSIk6m7a7hcttF4+ZSjbWRbzHc78abi2rngH9Eftj6JFMbLnr4CCILYKPAXfvf88t6zk/5cHDQp7ummZ0okBEP8ZuXQ2ctLJyRQ5s9JcCLFEbu2T1Pcz7G2hM5aXZjFMszm58cC82lFVddqbfQLEd4XjLMOAPoRiVcImGrolWueAwUENyImZbmdn6rFjUpXZAd2l949B5eA4p82ZKQ5kqMt2LvboOLw2wpbbCK4yueFD5kf7aoHeqrg5XBYhHEEqXQvk+TBBu1goPx+QRV2ezomU9S2ixQ==
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2019 06:19:14.1993 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 28fd185e-c433-4acb-4674-08d744a4f347
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
- Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4279
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1i66CD8zMe2VMNNH4WML4pyxCs7cKHEBPw/SKU1qXlE=;
- b=ob5wViHFYBi8JYZ8aL3EGcfzwCtoTxEnTmenrkfoXrgsnL9A52HzZ87qwgXLNZbVztsQ7WOiOwWMbLR4/k+YNW2nPsKjao4+KnDfBNUH3htl8ap33ppk8fRL4cZDscXn4N4LaaswjPKQj/PcQvowuyBY5GGz8ryJXuf8TZJ/dQg=
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1i66CD8zMe2VMNNH4WML4pyxCs7cKHEBPw/SKU1qXlE=;
- b=ob5wViHFYBi8JYZ8aL3EGcfzwCtoTxEnTmenrkfoXrgsnL9A52HzZ87qwgXLNZbVztsQ7WOiOwWMbLR4/k+YNW2nPsKjao4+KnDfBNUH3htl8ap33ppk8fRL4cZDscXn4N4LaaswjPKQj/PcQvowuyBY5GGz8ryJXuf8TZJ/dQg=
-X-Mailman-Original-Authentication-Results: spf=temperror (sender IP is
- 63.35.35.123)
- smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
- verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org; dmarc=none
- action=none header.from=arm.com;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -160,53 +53,415 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- Liviu Dudau <Liviu.Dudau@arm.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>, nd <nd@arm.com>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0784797825=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBTZXAgMjMsIDIwMTkgYXQgMTA6MTA6MjZBTSArMDAwMCwgTWloYWlsIEF0YW5hc3Nv
-diB3cm90ZToKPiBXaGVuIGluaXRpYWxseSB0dXJuaW5nIGEgY3J0YyBvbiwgZHJtX3Jlc2V0X3Zi
-bGFua190aW1lc3RhbXAgd2lsbAo+IHNldCB0aGUgdmJsYW5rIHRpbWVzdGFtcCB0byAwIGZvciBh
-bnkgZHJpdmVyIHRoYXQgZG9lc24ndCBwcm92aWRlCj4gYSAtPmdldF92YmxhbmtfdGltZXN0YW1w
-KCkgaG9vay4KPiAKPiBVbmZvcnR1bmF0ZWx5LCB0aGUgRkxJUF9DT01QTEVURSBldmVudCBkZXBl
-bmRzIG9uIHRoYXQgdGltZXN0YW1wLAo+IGFuZCB0aGUgb25seSB3YXkgdG8gcmVnZW5lcmF0ZSBh
-IHZhbGlkIG9uZSBpcyB0byBoYXZlIHZibGFuawo+IGludGVycnVwdHMgZW5hYmxlZCBhbmQgaGF2
-ZSBhIHZhbGlkIGluLUlTUiBjYWxsIHRvCj4gZHJtX2NydGNfaGFuZGxlX3ZibGFuay4KPiAKPiBB
-ZGRpdGlvbmFsbHksIGlmIHRoZSB1c2VyIGRvZXNuJ3QgcmVxdWVzdCB2YmxhbmtzIGJ1dCBfZG9l
-c18gcmVxdWVzdAo+IEZMSVBfQ09NUExFVEUgZXZlbnRzLCB3ZSBzdGlsbCBkb24ndCBoYXZlIGEg
-Z29vZCB0aW1lc3RhbXA6IGl0J2xsIGJlIHRoZQo+IHNhbWUgc3RhbXAgYXMgdGhlIGxhc3QgdmJs
-YW5rIG9uZS4KPiAKPiBXb3JrIGFyb3VuZCB0aGUgaXNzdWUgYnkgYWx3YXlzIGVuYWJsaW5nIHZi
-bGFua3Mgd2hlbiB0aGUgQ1JUQyBpcyBvbi4KPiBSZWR1Y2luZyB0aGUgYW1vdW50IG9mIHRpbWUg
-dGhhdCBQTDAgaGFzIHRvIGJlIHVubWFza2VkIHdvdWxkIGJlIG5pY2UgdG8KPiBmaXggYXQgYSBs
-YXRlciB0aW1lLgo+IAo+IENoYW5nZXMgc2luY2UgdjEgW2h0dHBzOi8vcGF0Y2h3b3JrLmZyZWVk
-ZXNrdG9wLm9yZy9wYXRjaC8zMzE3MjcvXToKPiAgLSBtb3ZlZCBkcm1fY3J0Y192YmxhbmtfcHV0
-IGNhbGwgdG8gdGhlIC0+YXRvbWljX2Rpc2FibGUoKSBob29rCj4gCj4gQ2M6IERhbmllbCBWZXR0
-ZXIgPGRhbmllbEBmZndsbC5jaD4KPiBDYzogTGl2aXUgRHVkYXUgPExpdml1LkR1ZGF1QGFybS5j
-b20+Cj4gU2lnbmVkLW9mZi1ieTogTWloYWlsIEF0YW5hc3NvdiA8bWloYWlsLmF0YW5hc3NvdkBh
-cm0uY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVk
-YV9jcnRjLmMgfCAyICsrCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKykKPiAKPiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfY3J0
-Yy5jIGIvZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfY3J0Yy5jCj4g
-aW5kZXggMzRiYzczY2ExOGJjLi5kMDY2NzlhZmIyMjggMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfY3J0Yy5jCj4gKysrIGIvZHJpdmVycy9n
-cHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfY3J0Yy5jCj4gQEAgLTQ4OSw2ICs0ODks
-NyBAQCBrb21lZGFfY3J0Y19hdG9taWNfZW5hYmxlKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKPiAg
-CXBtX3J1bnRpbWVfZ2V0X3N5bmMoY3J0Yy0+ZGV2LT5kZXYpOwo+ICAJa29tZWRhX2NydGNfcHJl
-cGFyZSh0b19rY3J0YyhjcnRjKSk7Cj4gIAlkcm1fY3J0Y192Ymxhbmtfb24oY3J0Yyk7Cj4gKwlX
-QVJOX09OKGRybV9jcnRjX3ZibGFua19nZXQoY3J0YykpOwo+ICAJa29tZWRhX2NydGNfZG9fZmx1
-c2goY3J0Yywgb2xkKTsKPiAgfQo+ICAKPiBAQCAtNTgxLDYgKzU4Miw3IEBAIGtvbWVkYV9jcnRj
-X2F0b21pY19kaXNhYmxlKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKPiAgCQlrb21lZGFfY3J0Y19m
-bHVzaF9hbmRfd2FpdF9mb3JfZmxpcF9kb25lKGtjcnRjLCBkaXNhYmxlX2RvbmUpOwo+ICAJfQo+
-ICAKPiArCWRybV9jcnRjX3ZibGFua19wdXQoY3J0Yyk7Cj4gIAlkcm1fY3J0Y192Ymxhbmtfb2Zm
-KGNydGMpOwo+ICAJa29tZWRhX2NydGNfdW5wcmVwYXJlKGtjcnRjKTsKPiAgCXBtX3J1bnRpbWVf
-cHV0KGNydGMtPmRldi0+ZGV2KTsKCkxvb2tzIGdvb2QgdG8gbWUuCgpSZXZpZXdlZC1ieTogSmFt
-ZXMgUWlhbiBXYW5nIChBcm0gVGVjaG5vbG9neSBDaGluYSkgPGphbWVzLnFpYW4ud2FuZ0Bhcm0u
-Y29tPgoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0784797825==
+Content-Type: multipart/alternative; boundary="15697400901.C7b82d.15634"
+Content-Transfer-Encoding: 7bit
+
+
+--15697400901.C7b82d.15634
+Date: Sun, 29 Sep 2019 06:54:50 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111729
+
+--- Comment #2 from phg@phi-gamma.net ---
+I can confirm this bug.
+
+Same phenomenology here with 5.2.11, two screens, and a
+01:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] L=
+exa
+PRO [Radeon RX 550/550X] (rev c7)
+
+
+Sep 29 08:26:39 phlegethon kernel: PM: suspend exit
+Sep 29 08:26:40 phlegethon kernel: [drm] schedsdma0 is not ready, skipping
+Sep 29 08:26:58 phlegethon kernel: [drm] schedsdma1 is not ready, skipping
+Sep 29 08:26:58 phlegethon kernel: BUG: kernel NULL pointer dereference,
+address: 0000000000000008
+Sep 29 08:26:58 phlegethon kernel: #PF: supervisor read access in kernel mo=
+de
+Sep 29 08:26:58 phlegethon kernel: #PF: error_code(0x0000) - not-present pa=
+ge
+Sep 29 08:26:59 phlegethon kernel: PGD 6032ef067 P4D 6032ef067 PUD 603c09067
+PMD 0=20
+Sep 29 08:26:59 phlegethon kernel: Oops: 0000 [#1] SMP NOPTI
+Sep 29 08:26:59 phlegethon kernel: CPU: 0 PID: 1429 Comm: X Tainted: G     =
+   W
+        5.2.11 #1-NixOS
+Sep 29 08:26:59 phlegethon kernel: Hardware name: Gigabyte Technology Co., =
+Ltd.
+GA-78LMT-USB3 6.0/GA-78LMT-USB3 6.0, BIOS F2 11/25/2014
+Sep 29 08:26:59 phlegethon kernel: RIP: 0010:amdgpu_vm_sdma_commit+0x46/0x1=
+40
+[amdgpu]
+Sep 29 08:26:59 phlegethon kernel: Code: 18 65 48 8b 04 25 28 00 00 00 48 8=
+9 44
+24 08 31 c0 48 8b 47 08 48 8b aa a8 01 00 00 4c 8b a8 80 00 00 00 48 8b 80 =
+c8
+00 00 00 <4c> 8b 70 08 8b 45 08 85 c0 4d 8d 7e 88 0f 84 c2 00 00 00 49 8b 46
+Sep 29 08:26:59 phlegethon kernel: RSP: 0018:ffff99bb838ffad8 EFLAGS: 00010=
+246
+Sep 29 08:26:59 phlegethon kernel: RAX: 0000000000000000 RBX: ffff99bb838ff=
+b20
+RCX: 0000000000103c00
+Sep 29 08:26:59 phlegethon kernel: RDX: ffff89abd64a4000 RSI: ffff99bb838ff=
+ba8
+RDI: ffff99bb838ffb20
+Sep 29 08:26:59 phlegethon kernel: RBP: ffff89abd64a4210 R08: ffff99bb838ff=
+a6c
+R09: ffff99bb838ffa70
+Sep 29 08:26:59 phlegethon kernel: R10: 0000000000103804 R11: 0000000000000=
+021
+R12: ffff99bb838ffba8
+Sep 29 08:26:59 phlegethon kernel: R13: ffff89ac48fc6000 R14: 0000000000103=
+803
+R15: 0000000000000000
+Sep 29 08:26:59 phlegethon kernel: FS:  00007fd089d18e40(0000)
+GS:ffff89ac67a00000(0000) knlGS:0000000000000000
+Sep 29 08:26:59 phlegethon kernel: CS:  0010 DS: 0000 ES: 0000 CR0:
+0000000080050033
+Sep 29 08:26:59 phlegethon kernel: CR2: 0000000000000008 CR3: 0000000603afa=
+000
+CR4: 00000000000006f0
+Sep 29 08:26:59 phlegethon kernel: Call Trace:
+Sep 29 08:26:59 phlegethon kernel:  amdgpu_vm_bo_update_mapping+0xcd/0xe0
+[amdgpu]
+Sep 29 08:26:59 phlegethon kernel:  amdgpu_vm_clear_freed+0xbe/0x190 [amdgp=
+u]
+Sep 29 08:26:59 phlegethon kernel:  amdgpu_gem_va_ioctl+0x488/0x4f0 [amdgpu]
+Sep 29 08:26:59 phlegethon kernel:  ? amdgpu_gem_metadata_ioctl+0x1b0/0x1b0
+[amdgpu]
+Sep 29 08:26:59 phlegethon kernel:  ? drm_ioctl_kernel+0xac/0xf0 [drm]
+Sep 29 08:26:59 phlegethon kernel:  drm_ioctl_kernel+0xac/0xf0 [drm]
+Sep 29 08:26:59 phlegethon kernel:  ? sock_write_iter+0x8f/0xf0
+Sep 29 08:26:59 phlegethon kernel:  drm_ioctl+0x2e6/0x3a0 [drm]
+Sep 29 08:26:59 phlegethon kernel:  ? amdgpu_gem_metadata_ioctl+0x1b0/0x1b0
+[amdgpu]
+Sep 29 08:26:59 phlegethon kernel:  ? do_iter_write+0xe2/0x190
+Sep 29 08:26:59 phlegethon kernel:  amdgpu_drm_ioctl+0x49/0x80 [amdgpu]
+Sep 29 08:26:59 phlegethon kernel:  do_vfs_ioctl+0xa4/0x630
+Sep 29 08:26:59 phlegethon kernel:  ksys_ioctl+0x70/0x80
+Sep 29 08:26:59 phlegethon kernel:  __x64_sys_ioctl+0x16/0x20
+Sep 29 08:26:59 phlegethon kernel:  do_syscall_64+0x4e/0x130
+Sep 29 08:26:59 phlegethon kernel:  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+Sep 29 08:26:59 phlegethon kernel: RIP: 0033:0x7fd08a3c4b57
+Sep 29 08:26:59 phlegethon kernel: Code: 00 00 00 48 8b 05 29 53 0c 00 64 c=
+7 00
+26 00 00 00 48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 =
+00
+00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d f9 52 0c 00 f7 d8 64 89 01 48
+Sep 29 08:26:59 phlegethon kernel: RSP: 002b:00007fff6a6738b8 EFLAGS: 00000=
+246
+ORIG_RAX: 0000000000000010
+Sep 29 08:26:59 phlegethon kernel: RAX: ffffffffffffffda RBX: 0000000000000=
+000
+RCX: 00007fd08a3c4b57
+Sep 29 08:26:59 phlegethon kernel: RDX: 00007fff6a673900 RSI: 00000000c0286=
+448
+RDI: 0000000000000012
+Sep 29 08:26:59 phlegethon kernel: RBP: 00007fff6a673900 R08: 0000000103400=
+000
+R09: 000000000000000e
+Sep 29 08:26:59 phlegethon kernel: R10: 0000000000000026 R11: 0000000000000=
+246
+R12: 00000000c0286448
+Sep 29 08:26:59 phlegethon kernel: R13: 0000000000000012 R14: 0000000000000=
+002
+R15: 00000000043d74a0
+Sep 29 08:26:59 phlegethon kernel: Modules linked in: fuse bridge stp llc
+cfg80211 msr rfkill 8021q ext4 crc16 mbcache jbd2 amdgpu wmi_bmof ppdev
+gpu_sched edac_core ttm drm_kms_helper snd_hda_codec_realtek k10temp
+snd_hda_codec_generic ledtrig_audio snd_hda_codec_hdmi drm snd_hda_intel jo=
+ydev
+r8169 ata_generic snd_hda_codec sp5100_tco uas agpgart watchdog i2c_algo_bit
+pata_acpi evdev fb_sys_fops syscopyarea i2c_piix4 mousedev sysfillrect real=
+tek
+sysimgblt mac_hid snd_hda_core backlight libphy i2c_core parport_pc snd_hwd=
+ep
+parport wmi button pcc_cpufreq acpi_cpufreq iptable_nat nf_nat xt_conntrack
+nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip6t_rpfilter ipt_rpfilter
+ip6table_raw iptable_raw xt_pkttype nf_log_ipv6 nf_log_ipv4 nf_log_common
+xt_LOG xt_tcpudp ip6table_filter ip6_tables iptable_filter snd_pcm_oss
+snd_mixer_oss snd_pcm snd_timer snd soundcore atkbd libps2 serio loop
+cpufreq_ondemand edac_mce_amd kvm irqbypass ip_tables x_tables ipv6 crc_cci=
+tt
+autofs4 crypto_simd cryptd glue_helper input_leds led_class
+Sep 29 08:26:59 phlegethon kernel:  usb_storage sd_mod xhci_pci pata_atiixp
+ahci xhci_hcd ohci_pci libahci libata ehci_pci ohci_hcd scsi_mod ehci_hcd
+rtc_cmos aes_x86_64 serpent_generic btrfs zstd_decompress zstd_compress
+libcrc32c crc32c_generic xor raid6_pq dm_crypt dm_mod usbhid usbcore usb_co=
+mmon
+hid_generic hid_microsoft ff_memless hid
+Sep 29 08:26:59 phlegethon kernel: CR2: 0000000000000008
+Sep 29 08:26:59 phlegethon kernel: ---[ end trace b0432b776c251e2d ]---
+Sep 29 08:26:59 phlegethon kernel: RIP: 0010:amdgpu_vm_sdma_commit+0x46/0x1=
+40
+[amdgpu]
+Sep 29 08:26:59 phlegethon kernel: Code: 18 65 48 8b 04 25 28 00 00 00 48 8=
+9 44
+24 08 31 c0 48 8b 47 08 48 8b aa a8 01 00 00 4c 8b a8 80 00 00 00 48 8b 80 =
+c8
+00 00 00 <4c> 8b 70 08 8b 45 08 85 c0 4d 8d 7e 88 0f 84 c2 00 00 00 49 8b 46
+Sep 29 08:26:59 phlegethon kernel: RSP: 0018:ffff99bb838ffad8 EFLAGS: 00010=
+246
+Sep 29 08:26:59 phlegethon kernel: RAX: 0000000000000000 RBX: ffff99bb838ff=
+b20
+RCX: 0000000000103c00
+Sep 29 08:26:59 phlegethon kernel: RDX: ffff89abd64a4000 RSI: ffff99bb838ff=
+ba8
+RDI: ffff99bb838ffb20
+Sep 29 08:26:59 phlegethon kernel: RBP: ffff89abd64a4210 R08: ffff99bb838ff=
+a6c
+R09: ffff99bb838ffa70
+Sep 29 08:26:59 phlegethon kernel: R10: 0000000000103804 R11: 0000000000000=
+021
+R12: ffff99bb838ffba8
+Sep 29 08:26:59 phlegethon kernel: R13: ffff89ac48fc6000 R14: 0000000000103=
+803
+R15: 0000000000000000
+Sep 29 08:26:59 phlegethon kernel: FS:  00007fd089d18e40(0000)
+GS:ffff89ac67a00000(0000) knlGS:0000000000000000
+Sep 29 08:26:59 phlegethon kernel: CS:  0010 DS: 0000 ES: 0000 CR0:
+0000000080050033
+Sep 29 08:26:59 phlegethon kernel: CR2: 0000000000000008 CR3: 0000000603afa=
+000
+CR4: 00000000000006f0
+Sep 29 08:30:10 phlegethon kernel: sysrq: Keyboard mode set to system defau=
+lt
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15697400901.C7b82d.15634
+Date: Sun, 29 Sep 2019 06:54:50 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - RX480 : random NULL pointer dereference on resume from su=
+spend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111729#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - RX480 : random NULL pointer dereference on resume from su=
+spend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111729">bug 11172=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+phg&#64;phi-gamma.net" title=3D"phg&#64;phi-gamma.net">phg&#64;phi-gamma.ne=
+t</a>
+</span></b>
+        <pre>I can confirm this bug.
+
+Same phenomenology here with 5.2.11, two screens, and a
+01:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] L=
+exa
+PRO [Radeon RX 550/550X] (rev c7)
+
+
+Sep 29 08:26:39 phlegethon kernel: PM: suspend exit
+Sep 29 08:26:40 phlegethon kernel: [drm] schedsdma0 is not ready, skipping
+Sep 29 08:26:58 phlegethon kernel: [drm] schedsdma1 is not ready, skipping
+Sep 29 08:26:58 phlegethon kernel: BUG: kernel NULL pointer dereference,
+address: 0000000000000008
+Sep 29 08:26:58 phlegethon kernel: #PF: supervisor read access in kernel mo=
+de
+Sep 29 08:26:58 phlegethon kernel: #PF: error_code(0x0000) - not-present pa=
+ge
+Sep 29 08:26:59 phlegethon kernel: PGD 6032ef067 P4D 6032ef067 PUD 603c09067
+PMD 0=20
+Sep 29 08:26:59 phlegethon kernel: Oops: 0000 [#1] SMP NOPTI
+Sep 29 08:26:59 phlegethon kernel: CPU: 0 PID: 1429 Comm: X Tainted: G     =
+   W
+        5.2.11 #1-NixOS
+Sep 29 08:26:59 phlegethon kernel: Hardware name: Gigabyte Technology Co., =
+Ltd.
+GA-78LMT-USB3 6.0/GA-78LMT-USB3 6.0, BIOS F2 11/25/2014
+Sep 29 08:26:59 phlegethon kernel: RIP: 0010:amdgpu_vm_sdma_commit+0x46/0x1=
+40
+[amdgpu]
+Sep 29 08:26:59 phlegethon kernel: Code: 18 65 48 8b 04 25 28 00 00 00 48 8=
+9 44
+24 08 31 c0 48 8b 47 08 48 8b aa a8 01 00 00 4c 8b a8 80 00 00 00 48 8b 80 =
+c8
+00 00 00 &lt;4c&gt; 8b 70 08 8b 45 08 85 c0 4d 8d 7e 88 0f 84 c2 00 00 00 4=
+9 8b 46
+Sep 29 08:26:59 phlegethon kernel: RSP: 0018:ffff99bb838ffad8 EFLAGS: 00010=
+246
+Sep 29 08:26:59 phlegethon kernel: RAX: 0000000000000000 RBX: ffff99bb838ff=
+b20
+RCX: 0000000000103c00
+Sep 29 08:26:59 phlegethon kernel: RDX: ffff89abd64a4000 RSI: ffff99bb838ff=
+ba8
+RDI: ffff99bb838ffb20
+Sep 29 08:26:59 phlegethon kernel: RBP: ffff89abd64a4210 R08: ffff99bb838ff=
+a6c
+R09: ffff99bb838ffa70
+Sep 29 08:26:59 phlegethon kernel: R10: 0000000000103804 R11: 0000000000000=
+021
+R12: ffff99bb838ffba8
+Sep 29 08:26:59 phlegethon kernel: R13: ffff89ac48fc6000 R14: 0000000000103=
+803
+R15: 0000000000000000
+Sep 29 08:26:59 phlegethon kernel: FS:  00007fd089d18e40(0000)
+GS:ffff89ac67a00000(0000) knlGS:0000000000000000
+Sep 29 08:26:59 phlegethon kernel: CS:  0010 DS: 0000 ES: 0000 CR0:
+0000000080050033
+Sep 29 08:26:59 phlegethon kernel: CR2: 0000000000000008 CR3: 0000000603afa=
+000
+CR4: 00000000000006f0
+Sep 29 08:26:59 phlegethon kernel: Call Trace:
+Sep 29 08:26:59 phlegethon kernel:  amdgpu_vm_bo_update_mapping+0xcd/0xe0
+[amdgpu]
+Sep 29 08:26:59 phlegethon kernel:  amdgpu_vm_clear_freed+0xbe/0x190 [amdgp=
+u]
+Sep 29 08:26:59 phlegethon kernel:  amdgpu_gem_va_ioctl+0x488/0x4f0 [amdgpu]
+Sep 29 08:26:59 phlegethon kernel:  ? amdgpu_gem_metadata_ioctl+0x1b0/0x1b0
+[amdgpu]
+Sep 29 08:26:59 phlegethon kernel:  ? drm_ioctl_kernel+0xac/0xf0 [drm]
+Sep 29 08:26:59 phlegethon kernel:  drm_ioctl_kernel+0xac/0xf0 [drm]
+Sep 29 08:26:59 phlegethon kernel:  ? sock_write_iter+0x8f/0xf0
+Sep 29 08:26:59 phlegethon kernel:  drm_ioctl+0x2e6/0x3a0 [drm]
+Sep 29 08:26:59 phlegethon kernel:  ? amdgpu_gem_metadata_ioctl+0x1b0/0x1b0
+[amdgpu]
+Sep 29 08:26:59 phlegethon kernel:  ? do_iter_write+0xe2/0x190
+Sep 29 08:26:59 phlegethon kernel:  amdgpu_drm_ioctl+0x49/0x80 [amdgpu]
+Sep 29 08:26:59 phlegethon kernel:  do_vfs_ioctl+0xa4/0x630
+Sep 29 08:26:59 phlegethon kernel:  ksys_ioctl+0x70/0x80
+Sep 29 08:26:59 phlegethon kernel:  __x64_sys_ioctl+0x16/0x20
+Sep 29 08:26:59 phlegethon kernel:  do_syscall_64+0x4e/0x130
+Sep 29 08:26:59 phlegethon kernel:  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+Sep 29 08:26:59 phlegethon kernel: RIP: 0033:0x7fd08a3c4b57
+Sep 29 08:26:59 phlegethon kernel: Code: 00 00 00 48 8b 05 29 53 0c 00 64 c=
+7 00
+26 00 00 00 48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 =
+00
+00 0f 05 &lt;48&gt; 3d 01 f0 ff ff 73 01 c3 48 8b 0d f9 52 0c 00 f7 d8 64 8=
+9 01 48
+Sep 29 08:26:59 phlegethon kernel: RSP: 002b:00007fff6a6738b8 EFLAGS: 00000=
+246
+ORIG_RAX: 0000000000000010
+Sep 29 08:26:59 phlegethon kernel: RAX: ffffffffffffffda RBX: 0000000000000=
+000
+RCX: 00007fd08a3c4b57
+Sep 29 08:26:59 phlegethon kernel: RDX: 00007fff6a673900 RSI: 00000000c0286=
+448
+RDI: 0000000000000012
+Sep 29 08:26:59 phlegethon kernel: RBP: 00007fff6a673900 R08: 0000000103400=
+000
+R09: 000000000000000e
+Sep 29 08:26:59 phlegethon kernel: R10: 0000000000000026 R11: 0000000000000=
+246
+R12: 00000000c0286448
+Sep 29 08:26:59 phlegethon kernel: R13: 0000000000000012 R14: 0000000000000=
+002
+R15: 00000000043d74a0
+Sep 29 08:26:59 phlegethon kernel: Modules linked in: fuse bridge stp llc
+cfg80211 msr rfkill 8021q ext4 crc16 mbcache jbd2 amdgpu wmi_bmof ppdev
+gpu_sched edac_core ttm drm_kms_helper snd_hda_codec_realtek k10temp
+snd_hda_codec_generic ledtrig_audio snd_hda_codec_hdmi drm snd_hda_intel jo=
+ydev
+r8169 ata_generic snd_hda_codec sp5100_tco uas agpgart watchdog i2c_algo_bit
+pata_acpi evdev fb_sys_fops syscopyarea i2c_piix4 mousedev sysfillrect real=
+tek
+sysimgblt mac_hid snd_hda_core backlight libphy i2c_core parport_pc snd_hwd=
+ep
+parport wmi button pcc_cpufreq acpi_cpufreq iptable_nat nf_nat xt_conntrack
+nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip6t_rpfilter ipt_rpfilter
+ip6table_raw iptable_raw xt_pkttype nf_log_ipv6 nf_log_ipv4 nf_log_common
+xt_LOG xt_tcpudp ip6table_filter ip6_tables iptable_filter snd_pcm_oss
+snd_mixer_oss snd_pcm snd_timer snd soundcore atkbd libps2 serio loop
+cpufreq_ondemand edac_mce_amd kvm irqbypass ip_tables x_tables ipv6 crc_cci=
+tt
+autofs4 crypto_simd cryptd glue_helper input_leds led_class
+Sep 29 08:26:59 phlegethon kernel:  usb_storage sd_mod xhci_pci pata_atiixp
+ahci xhci_hcd ohci_pci libahci libata ehci_pci ohci_hcd scsi_mod ehci_hcd
+rtc_cmos aes_x86_64 serpent_generic btrfs zstd_decompress zstd_compress
+libcrc32c crc32c_generic xor raid6_pq dm_crypt dm_mod usbhid usbcore usb_co=
+mmon
+hid_generic hid_microsoft ff_memless hid
+Sep 29 08:26:59 phlegethon kernel: CR2: 0000000000000008
+Sep 29 08:26:59 phlegethon kernel: ---[ end trace b0432b776c251e2d ]---
+Sep 29 08:26:59 phlegethon kernel: RIP: 0010:amdgpu_vm_sdma_commit+0x46/0x1=
+40
+[amdgpu]
+Sep 29 08:26:59 phlegethon kernel: Code: 18 65 48 8b 04 25 28 00 00 00 48 8=
+9 44
+24 08 31 c0 48 8b 47 08 48 8b aa a8 01 00 00 4c 8b a8 80 00 00 00 48 8b 80 =
+c8
+00 00 00 &lt;4c&gt; 8b 70 08 8b 45 08 85 c0 4d 8d 7e 88 0f 84 c2 00 00 00 4=
+9 8b 46
+Sep 29 08:26:59 phlegethon kernel: RSP: 0018:ffff99bb838ffad8 EFLAGS: 00010=
+246
+Sep 29 08:26:59 phlegethon kernel: RAX: 0000000000000000 RBX: ffff99bb838ff=
+b20
+RCX: 0000000000103c00
+Sep 29 08:26:59 phlegethon kernel: RDX: ffff89abd64a4000 RSI: ffff99bb838ff=
+ba8
+RDI: ffff99bb838ffb20
+Sep 29 08:26:59 phlegethon kernel: RBP: ffff89abd64a4210 R08: ffff99bb838ff=
+a6c
+R09: ffff99bb838ffa70
+Sep 29 08:26:59 phlegethon kernel: R10: 0000000000103804 R11: 0000000000000=
+021
+R12: ffff99bb838ffba8
+Sep 29 08:26:59 phlegethon kernel: R13: ffff89ac48fc6000 R14: 0000000000103=
+803
+R15: 0000000000000000
+Sep 29 08:26:59 phlegethon kernel: FS:  00007fd089d18e40(0000)
+GS:ffff89ac67a00000(0000) knlGS:0000000000000000
+Sep 29 08:26:59 phlegethon kernel: CS:  0010 DS: 0000 ES: 0000 CR0:
+0000000080050033
+Sep 29 08:26:59 phlegethon kernel: CR2: 0000000000000008 CR3: 0000000603afa=
+000
+CR4: 00000000000006f0
+Sep 29 08:30:10 phlegethon kernel: sysrq: Keyboard mode set to system defau=
+lt</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15697400901.C7b82d.15634--
+
+--===============0784797825==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0784797825==--
