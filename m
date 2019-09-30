@@ -2,68 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45C71C238E
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2019 16:44:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C563C238C
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2019 16:44:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE9896E463;
-	Mon, 30 Sep 2019 14:44:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B5356E461;
+	Mon, 30 Sep 2019 14:43:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B10D6E219
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2019 08:53:53 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8U8rnne053094;
- Mon, 30 Sep 2019 03:53:49 -0500
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8U8rnOB077951
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 30 Sep 2019 03:53:49 -0500
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 30
- Sep 2019 03:53:49 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Mon, 30 Sep 2019 03:53:40 -0500
-Received: from [127.0.0.1] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8U8rg90106105;
- Mon, 30 Sep 2019 03:53:45 -0500
-Subject: Re: [PATCH] drm/omap: Migrate minimum FCK/PCK ratio from Kconfig to
- dts
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>, Adam Ford <aford173@gmail.com>
-References: <20190510194229.20628-1-aford173@gmail.com>
- <af325707-3e42-493d-e858-77878ef06138@ti.com>
- <CAHCN7xLzoCNW6q5yDCsqMHeNvdNegkGhd0N+q9+Gd8JUGbG=_g@mail.gmail.com>
- <7ada0752-6f65-2906-cb29-a47c9490fd57@ti.com>
- <CAHCN7xJexJvh71vyb31ETgo=n_y_CupHH-AZwVK9mZe3GzJfEQ@mail.gmail.com>
- <845055e2-8182-de74-2077-629fdf50ac6c@ti.com>
- <CAHCN7xJFrTLOnbqrnH2W_T2whR8Xji0EMNR_cy8GYkDV-JDodQ@mail.gmail.com>
- <854f6130-c8a8-81cb-aa76-4830f218ae54@ti.com>
- <CAHCN7xKocdiWOdmoWQV3POr84qte6WNt0QbQRAwxKSvU8COB_w@mail.gmail.com>
- <0473526e-df0a-94a5-5c22-debd0084ab16@ti.com>
- <36369388-e9c8-22cd-8c19-e2bdf2d0389b@ti.com>
- <eb2eb1f6-3c9b-7ecb-667e-819033af9c14@ti.com>
- <23eba53a-9304-2ceb-d97e-01891ec0b3ed@ti.com>
-From: Tero Kristo <t-kristo@ti.com>
-Message-ID: <cb028b1e-05ca-9b22-be5d-c63f5fd56cc4@ti.com>
-Date: Mon, 30 Sep 2019 11:53:42 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96A526E056;
+ Mon, 30 Sep 2019 09:29:38 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2019 02:29:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,565,1559545200"; d="scan'208";a="204793408"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.157])
+ by fmsmga001.fm.intel.com with SMTP; 30 Sep 2019 02:29:35 -0700
+Received: by lahna (sSMTP sendmail emulation); Mon, 30 Sep 2019 12:29:34 +0300
+Date: Mon, 30 Sep 2019 12:29:34 +0300
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Karol Herbst <kherbst@redhat.com>
+Subject: Re: [RFC PATCH] pci: prevent putting pcie devices into lower device
+ states on certain intel bridges
+Message-ID: <20190930092934.GT2714@lahna.fi.intel.com>
+References: <20190927144421.22608-1-kherbst@redhat.com>
+ <20190927214252.GA65801@google.com>
+ <CACO55tuaY1jFXpJPeC9M4PoWEDyy547_tE8MpLaTDb+C+ffsbg@mail.gmail.com>
+ <20190930080534.GS2714@lahna.fi.intel.com>
+ <CACO55tuMo1aAA7meGtEey6J6sOS-ZA0ebZeL52i2zfkWtPqe_g@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <23eba53a-9304-2ceb-d97e-01891ec0b3ed@ti.com>
-Content-Type: multipart/mixed; boundary="------------B5AFA04857B85D38A2202EDD"
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <CACO55tuMo1aAA7meGtEey6J6sOS-ZA0ebZeL52i2zfkWtPqe_g@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-Mailman-Approved-At: Mon, 30 Sep 2019 14:43:56 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ti.com; s=ti-com-17Q1; t=1569833629;
- bh=FBo4lWc7SZQBiee+AyR2fEK/fVeMfl/F1lYaJqHGLP8=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=MjfBujUM20XH57MtrMg+Vrs8uHkvkjJTNSdsGFCiAWNO2/1viMNZgVmu+ZsPL45WW
- 2p1QLEwauehWW8KMTwhG2Zd1bZth+qvrC3jeYxTGQSLs2G9GcrdK6VjvJWYQDMHrPq
- M52XOxvIo9cP+aI0WKjaqN9kvLtOg1thEiwzmudk=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,120 +52,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>, Tony Lindgren <tony@atomide.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Cc: Linux PM <linux-pm@vger.kernel.org>,
+ nouveau <nouveau@lists.freedesktop.org>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>, LKML <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Beno=c3=aet_Cousson?= <bcousson@baylibre.com>,
- Linux-OMAP <linux-omap@vger.kernel.org>, Adam Ford <adam.ford@logicpd.com>
+ Bjorn Helgaas <helgaas@kernel.org>, Linux PCI <linux-pci@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------B5AFA04857B85D38A2202EDD
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 30/09/2019 09:45, Tomi Valkeinen wrote:
-> Hi,
-> 
-> On 27/09/2019 18:47, Tomi Valkeinen wrote:
->> On 27/09/2019 18:37, Tero Kristo wrote:
->>
->>> If you can provide details about what clock framework / driver does 
->>> wrong (sample clk_set_xyz call sequence, expected results via 
->>> clk_get_xyz, and what fails), I can take a look at it. Just reporting 
->>> arbitrary display driver issues I won't be able to debug at all (I 
->>> don't have access to any of the displays, nor do I want to waste time 
->>> debugging them without absolutely no knowledge whatsoever.)
->>
->> I used your hack patches to allow changing rates via debugfs. And set 
->> dss1_alwon_fck_3430es2 to 27000000 or 27870967. The end result was 
->> that DSS gets some very high clock from dss1_alwon_fck_3430es2, as the 
->> frame rate jumps to many hundreds fps.
->>
->> So, these numbers are not real, but to give the idea what I saw. 
->> Running first with 50 MHz, I can see, say, 40 fps. Then I set the 
->> clock to 30 MHz, and fps dropped to, say, 30fps, as expected with 
->> lower clock. Then I set the clock to 27MHz (or the other one), 
->> expecting a bit lower fps, but instead I saw hundreds of fps.
->>
->> I don't know if there's any other way to observe the wrong clock rate 
->> but have the dss enabled and running kmstest or similar. I can help 
->> you set that up next week, should be trivial. You don't need a display 
->> for that.
-> 
-> Here's how to reproduce. I have the attached patches. Three of them are 
-> the clk-debug ones, and one of mine to make it easy to test without a 
-> display, and without underflow flood halting the device. There are on 
-> top of v5.3. Kernel config also attached.
-> 
-> kmstest is from kms++ project (https://github.com/tomba/kmsxx). It 
-> should be straightforward to compile, but kmstest binary is also 
-> included in TI's rootfs.
-
-Ok, I ignored all your test code and just fiddled with my trusty clk 
-debugfs patches. I don't like debugging with test code I have no 
-experience with. :)
-
-Anyways, it seems the dpll4_m4_ck max divider value is wrong, it only 
-accepts values upto 16 at least on my board. The setting for this in DT 
-is 32, and it is most likely SoC specific what happens if you write an 
-invalid value to the divider.
-
-The best action here is probably to drop the max-div value for this 
-clock to 16. Can someone check this with their display setup and see 
-what happens? Attached patch should do the trick.
-
--Tero
-
---
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki. Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
---------------B5AFA04857B85D38A2202EDD
-Content-Type: text/x-patch;
-	name="0001-ARM-dts-omap3-fix-DPLL4-M4-divider-max-value.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename="0001-ARM-dts-omap3-fix-DPLL4-M4-divider-max-value.patch"
-
-From 28bfaaa3747e9033b6d4cd7bb06eb72dc04580a5 Mon Sep 17 00:00:00 2001
-From: Tero Kristo <t-kristo@ti.com>
-Date: Mon, 30 Sep 2019 11:49:39 +0300
-Subject: [PATCH 1/1] ARM: dts: omap3: fix DPLL4 M4 divider max value
-
-The maximum divider value for DPLL4 M4 divider appears wrong. For most
-OMAP3 family SoCs this is 16, but it is defined as 32, which is maybe
-only valid for omap36xx. To avoid any overflows in trying to write this
-register, set the max to 16 for all omap3 family.
-
-Signed-off-by: Tero Kristo <t-kristo@ti.com>
----
- arch/arm/boot/dts/omap3xxx-clocks.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/arm/boot/dts/omap3xxx-clocks.dtsi b/arch/arm/boot/dts/omap3xxx-clocks.dtsi
-index 685c82a9d03e..0656c32439d2 100644
---- a/arch/arm/boot/dts/omap3xxx-clocks.dtsi
-+++ b/arch/arm/boot/dts/omap3xxx-clocks.dtsi
-@@ -416,7 +416,7 @@
- 		#clock-cells = <0>;
- 		compatible = "ti,divider-clock";
- 		clocks = <&dpll4_ck>;
--		ti,max-div = <32>;
-+		ti,max-div = <16>;
- 		reg = <0x0e40>;
- 		ti,index-starts-at-one;
- 	};
--- 
-2.17.1
-
-
---------------B5AFA04857B85D38A2202EDD
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---------------B5AFA04857B85D38A2202EDD--
+T24gTW9uLCBTZXAgMzAsIDIwMTkgYXQgMTE6MTU6NDhBTSArMDIwMCwgS2Fyb2wgSGVyYnN0IHdy
+b3RlOgo+IE9uIE1vbiwgU2VwIDMwLCAyMDE5IGF0IDEwOjA1IEFNIE1pa2EgV2VzdGVyYmVyZwo+
+IDxtaWthLndlc3RlcmJlcmdAbGludXguaW50ZWwuY29tPiB3cm90ZToKPiA+Cj4gPiBIaSBLYXJv
+bCwKPiA+Cj4gPiBPbiBGcmksIFNlcCAyNywgMjAxOSBhdCAxMTo1Mzo0OFBNICswMjAwLCBLYXJv
+bCBIZXJic3Qgd3JvdGU6Cj4gPiA+ID4gV2hhdCBleGFjdGx5IGlzIHRoZSBzZXJpb3VzIGlzc3Vl
+PyAgSSBndWVzcyBpdCdzIHRoYXQgdGhlIHJlc2Nhbgo+ID4gPiA+IGRvZXNuJ3QgZGV0ZWN0IHRo
+ZSBHUFUsIHdoaWNoIG1lYW5zIGl0J3Mgbm90IHJlc3BvbmRpbmcgdG8gY29uZmlnCj4gPiA+ID4g
+YWNjZXNzZXM/ICBJcyB0aGVyZSBhbnkgdGltaW5nIGNvbXBvbmVudCBoZXJlLCBlLmcuLCBtYXli
+ZSB3ZSdyZQo+ID4gPiA+IG1pc3Npbmcgc29tZSBkZWxheSBsaWtlIHRoZSBvbmVzIE1pa2EgaXMg
+YWRkaW5nIHRvIHRoZSByZXNldCBwYXRocz8KPiA+ID4KPiA+ID4gV2hlbiBJIHdhcyBjaGVja2lu
+ZyB1cCBvbiBzb21lIG9mIHRoZSBQQ0kgcmVnaXN0ZXJzIG9mIHRoZSBicmlkZ2UKPiA+ID4gY29u
+dHJvbGxlciwgdGhlIHNsb3QgZGV0ZWN0aW9uIHRvbGQgbWUgdGhhdCB0aGVyZSBpcyBubyBkZXZp
+Y2UKPiA+ID4gcmVjb2duaXplZCBhbnltb3JlLiBJIGRvbid0IGtub3cgd2hpY2ggcmVnaXN0ZXIg
+aXQgd2FzIGFueW1vcmUsIHRob3VnaAo+ID4gPiBJIGd1ZXNzIG9uZSBjb3VsZCByZWFkIGl0IHVw
+IGluIHRoZSBTb0Mgc3BlYyBkb2N1bWVudCBieSBJbnRlbC4KPiA+ID4KPiA+ID4gTXkgZ3Vlc3Mg
+aXMsIHRoYXQgdGhlIGJyaWRnZSBjb250cm9sbGVyIGZhaWxzIHRvIGRldGVjdCB0aGUgR1BVIGJl
+aW5nCj4gPiA+IGhlcmUgb3IgYWN0aXZlbHkgdGhyZXcgaXQgb2YgdGhlIGJ1cyBvciBzb21ldGhp
+bmcuIEJ1dCBhIG5vcm1hbCBzeXN0ZW0KPiA+ID4gc3VzcGVuZC9yZXN1bWUgY3ljbGUgYnJpbmdz
+IHRoZSBHUFUgYmFjayBvbmxpbmUgKGRvaW5nIGEgcmVzY2FuIHZpYQo+ID4gPiBzeXNmcyBnZXRz
+IHRoZSBkZXZpY2UgZGV0ZWN0ZWQgYWdhaW4pCj4gPgo+ID4gQ2FuIHlvdSBlbGFib3JhdGUgYSBi
+aXQgd2hhdCBraW5kIG9mIHNjZW5hcmlvIHRoZSBpc3N1ZSBoYXBwZW5zIChlLmcKPiA+IHN0ZXBz
+IGhvdyBpdCByZXByb2R1Y2VzKT8gSXQgd2FzIG5vdCAxMDAlIGNsZWFyIGZyb20gdGhlIGNoYW5n
+ZWxvZy4gQWxzbwo+ID4gd2hhdCB0aGUgcmVzdWx0IHdoZW4gdGhlIGZhaWx1cmUgaGFwcGVucz8K
+PiA+Cj4gCj4geWVhaCwgSSBhbHJlYWR5IGhhdmUgYW4gdXBkYXRlZCBwYXRjaCBpbiB0aGUgd29y
+a3Mgd2hpY2ggYWxzbyBkb2VzIHRoZQo+IHJld29yayBCam9ybiBzdWdnZXN0ZWQuIEhhZCBubyB0
+aW1lIHlldCB0byB0ZXN0IGlmIEkgZGlkbid0IG1lc3MgaXQKPiB1cC4KPiAKPiBJIGFtIGFsc28g
+dGhpbmtpbmcgb2YgYWRkaW5nIGEga2VybmVsIHBhcmFtZXRlciB0byBlbmFibGUgdGhpcwo+IHdv
+cmthcm91bmQgb24gZGVtYW5kLCBidXQgbm90IHF1aXRlIHN1cmUgb24gdGhhdCBvbmUgeWV0LgoK
+UmlnaHQsIEkgdGhpbmsgaXQgd291bGQgYmUgZ29vZCB0byBmaWd1cmUgb3V0IHRoZSByb290IGNh
+dXNlIGJlZm9yZQphZGRpbmcgYW55IHdvcmthcm91bmRzIDstKSBJdCBtaWdodCB2ZXJ5IHdlbGwg
+YmUgdGhhdCB3ZSBhcmUganVzdAptaXNzaW5nIHNvbWV0aGluZyB0aGUgUENJZSBzcGVjIHJlcXVp
+cmVzIGJ1dCBub3QgaW1wbGVtZW50ZWQgaW4gTGludXguCgo+ID4gSSBzZWUgdGhlcmUgaXMgYSBz
+Y3JpcHQgdGhhdCBkb2VzIHNvbWV0aGluZyBidXQgdW5mb3J0dW5hdGVseSBJJ20gbm90Cj4gPiBm
+bHVlbnQgaW4gUHl0aG9uIHNvIGNhbid0IGV4dHJhY3QgdGhlIHN0ZXBzIGhvdyB0aGUgaXNzdWUg
+Y2FuIGJlCj4gPiByZXByb2R1Y2VkIDstKQo+ID4KPiA+IE9uZSB0aGluZyB0aGF0IEknbSB3b3Jr
+aW5nIG9uIGlzIHRoYXQgTGludXggUENJIHN1YnN5c3RlbSBtaXNzZXMgY2VydGFpbgo+ID4gZGVs
+YXlzIHRoYXQgYXJlIG5lZWRlZCBhZnRlciBEM2NvbGQgLT4gRDAgdHJhbnNpdGlvbiwgb3RoZXJ3
+aXNlIHRoZQo+ID4gZGV2aWNlIGFuZC9vciBsaW5rIG1heSBub3QgYmUgcmVhZHkgYmVmb3JlIHdl
+IGFjY2VzcyBpdC4gV2hhdCB5b3UgYXJlCj4gPiBleHBlcmllbmNpbmcgc291bmRzIHNpbWlsYXIu
+IEkgd29uZGVyIGlmIHlvdSBjb3VsZCB0cnkgdGhlIGZvbGxvd2luZwo+ID4gcGF0Y2ggYW5kIHNl
+ZSBpZiBpdCBtYWtlcyBhbnkgZGlmZmVyZW5jZT8KPiA+Cj4gPiBodHRwczovL3BhdGNod29yay5r
+ZXJuZWwub3JnL3BhdGNoLzExMTA2NjExLwo+IAo+IEkgdGhpbmsgSSBhbHJlYWR5IHRyaWVkIHRo
+aXMgcGF0aC4gVGhlIHByb2JsZW0gaXNuJ3QgdGhhdCB0aGUgZGV2aWNlCj4gaXNuJ3QgYWNjZXNz
+aWJsZSB0b28gbGF0ZSwgYnV0IHRoYXQgaXQgc2VlbXMgdGhhdCB0aGUgZGV2aWNlCj4gY29tcGxl
+dGVseSBmYWxscyBvZmYgdGhlIGJ1cy4gQnV0IEkgY2FuIHJldGVzdCBhZ2FpbiBqdXN0IHRvIGJl
+IHN1cmUuCgpZZXMsIHBsZWFzZSB0cnkgaXQgYW5kIHNoYXJlIGZ1bGwgZG1lc2cgaWYvd2hlbiB0
+aGUgZmFpbHVyZSBzdGlsbCBoYXBwZW5zLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWw=
