@@ -1,44 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF65C23FD
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2019 17:10:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCC25C2434
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2019 17:25:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63D356E46E;
-	Mon, 30 Sep 2019 15:10:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68F666E46D;
+	Mon, 30 Sep 2019 15:25:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id A6E3C6E471
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2019 15:10:38 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id A416472162; Mon, 30 Sep 2019 15:10:38 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111763] ring_gfx hangs/freezes on Navi gpus
-Date: Mon, 30 Sep 2019 15:10:38 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: popovic.marko@protonmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111763-502-iRMFHbmZ9p@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111763-502@http.bugs.freedesktop.org/>
-References: <bug-111763-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A2ED36E46D
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2019 15:25:24 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 096E01000;
+ Mon, 30 Sep 2019 08:25:24 -0700 (PDT)
+Received: from e110467-lin.cambridge.arm.com (e110467-lin.cambridge.arm.com
+ [10.1.197.57])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C561D3F706;
+ Mon, 30 Sep 2019 08:25:22 -0700 (PDT)
+From: Robin Murphy <robin.murphy@arm.com>
+To: robh@kernel.org,
+	tomeu.vizoso@collabora.com,
+	sudeep.holla@arm.com
+Subject: [PATCH 1/2] arm64: dts: juno: add GPU subsystem
+Date: Mon, 30 Sep 2019 16:24:58 +0100
+Message-Id: <88dc6386929b3dcd7a65ba8063628c62b66b330c.1569856049.git.robin.murphy@arm.com>
+X-Mailer: git-send-email 2.21.0.dirty
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -52,139 +40,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1182637513=="
+Cc: devicetree@vger.kernel.org, lorenzo.pieralisi@arm.com, liviu.dudau@arm.com,
+ dri-devel@lists.freedesktop.org, steven.price@arm.com,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1182637513==
-Content-Type: multipart/alternative; boundary="15698562383.FeE056bFc.14037"
-Content-Transfer-Encoding: 7bit
-
-
---15698562383.FeE056bFc.14037
-Date: Mon, 30 Sep 2019 15:10:38 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111763
-
---- Comment #6 from Marko Popovic <popovic.marko@protonmail.com> ---
-(In reply to Doug Ty from comment #5)
-> I've been getting this too with Minecraft:=20=20
-> https://bugs.freedesktop.org/show_bug.cgi?id=3D111669
->=20
-> For my particular case at least, AMD_DEBUG=3Dnodma seems to fix it
-
-(In reply to Marko Popovic from comment #0)
-> There is another type of freeze/hang happening when playing Starcraft II =
-via
-> D9VK. This one doesn't seem to be related to either ngg or dma because I
-> have them both disabled by AMD_DEBUG=3Dnodma and AMD_DEBUG=3Dnongg and th=
-e hangs
-> occur anyway, on exactly the same place every time.
-
-You are refering to sdma0 / sdma1 type hang which is tracked
-here:https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
-
-For ring_gfx hangs they're quite more reproducible and are not affected by
-AMD_DEBUG=3Dnodma or AMD_DEBUG=3Dnongg which I already mentioned above in t=
-he bug
-description.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15698562383.FeE056bFc.14037
-Date: Mon, 30 Sep 2019 15:10:38 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - ring_gfx hangs/freezes on Navi gpus"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111763#c6">Commen=
-t # 6</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - ring_gfx hangs/freezes on Navi gpus"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111763">bug 11176=
-3</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-popovic.marko&#64;protonmail.com" title=3D"Marko Popovic &lt;popovic.marko&=
-#64;protonmail.com&gt;"> <span class=3D"fn">Marko Popovic</span></a>
-</span></b>
-        <pre>(In reply to Doug Ty from <a href=3D"show_bug.cgi?id=3D111763#=
-c5">comment #5</a>)
-<span class=3D"quote">&gt; I've been getting this too with Minecraft:=20=20
-&gt; <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Navi GPU hang in Minecraft"
-   href=3D"show_bug.cgi?id=3D111669">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D111669</a>
-&gt;=20
-&gt; For my particular case at least, AMD_DEBUG=3Dnodma seems to fix it</sp=
-an >
-
-(In reply to Marko Popovic from <a href=3D"show_bug.cgi?id=3D111763#c0">com=
-ment #0</a>)
-<span class=3D"quote">&gt; There is another type of freeze/hang happening w=
-hen playing Starcraft II via
-&gt; D9VK. This one doesn't seem to be related to either ngg or dma because=
- I
-&gt; have them both disabled by AMD_DEBUG=3Dnodma and AMD_DEBUG=3Dnongg and=
- the hangs
-&gt; occur anyway, on exactly the same place every time.</span >
-
-You are refering to sdma0 / sdma1 type hang which is tracked
-here:<a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"show_bug.cgi?id=3D111481">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D111481</a>
-
-For ring_gfx hangs they're quite more reproducible and are not affected by
-AMD_DEBUG=3Dnodma or AMD_DEBUG=3Dnongg which I already mentioned above in t=
-he bug
-description.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15698562383.FeE056bFc.14037--
-
---===============1182637513==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1182637513==--
+U2luY2Ugd2Ugbm93IGhhdmUgYmluZGluZ3MgZm9yIE1hbGkgTWlkZ2FyZCBHUFVzLCBsZXQncyB1
+c2UgdGhlbSB0bwpkZXNjcmliZSBKdW5vJ3MgR1BVIHN1YnN5c3RlbSwgaWYgb25seSBiZWNhdXNl
+IHdlIGNhbi4gSnVubyBzcG9ydHMgYQpNYWxpLVQ2MjQgaW50ZWdyYXRlZCBiZWhpbmQgYW4gTU1V
+LTQwMCAoYXMgYSBnZXN0dXJlIHRvd2FyZHMKdmlydHVhbGlzYXRpb24pLCBpbiB0aGVpciBvd24g
+ZGVkaWNhdGVkIHBvd2VyIGRvbWFpbiB3aXRoIERWRlMKY29udHJvbGxlZCBieSB0aGUgU0NQLgoK
+Q0M6IExpdml1IER1ZGF1IDxsaXZpdS5kdWRhdUBhcm0uY29tPgpDQzogU3VkZWVwIEhvbGxhIDxz
+dWRlZXAuaG9sbGFAYXJtLmNvbT4KQ0M6IExvcmVuem8gUGllcmFsaXNpIDxsb3JlbnpvLnBpZXJh
+bGlzaUBhcm0uY29tPgpTaWduZWQtb2ZmLWJ5OiBSb2JpbiBNdXJwaHkgPHJvYmluLm11cnBoeUBh
+cm0uY29tPgotLS0KIC4uLi9iaW5kaW5ncy9ncHUvYXJtLG1hbGktbWlkZ2FyZC55YW1sICAgICAg
+ICB8ICA1ICsrKy0KIGFyY2gvYXJtNjQvYm9vdC9kdHMvYXJtL2p1bm8tYmFzZS5kdHNpICAgICAg
+ICB8IDI3ICsrKysrKysrKysrKysrKysrKysKIDIgZmlsZXMgY2hhbmdlZCwgMzEgaW5zZXJ0aW9u
+cygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJl
+ZS9iaW5kaW5ncy9ncHUvYXJtLG1hbGktbWlkZ2FyZC55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZp
+Y2V0cmVlL2JpbmRpbmdzL2dwdS9hcm0sbWFsaS1taWRnYXJkLnlhbWwKaW5kZXggNDdiYzFhYzM2
+NDI2Li4wMThmM2FlNGI0M2MgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
+aW5kaW5ncy9ncHUvYXJtLG1hbGktbWlkZ2FyZC55YW1sCisrKyBiL0RvY3VtZW50YXRpb24vZGV2
+aWNldHJlZS9iaW5kaW5ncy9ncHUvYXJtLG1hbGktbWlkZ2FyZC55YW1sCkBAIC0yMiw2ICsyMiwx
+MCBAQCBwcm9wZXJ0aWVzOgogICAgICAgICAgIC0gZW51bToKICAgICAgICAgICAgICAtIGFtbG9n
+aWMsbWVzb24tZ3htLW1hbGkKICAgICAgICAgICAtIGNvbnN0OiBhcm0sbWFsaS10ODIwCisgICAg
+ICAtIGl0ZW1zOgorICAgICAgICAgIC0gZW51bToKKyAgICAgICAgICAgICAtIGFybSxqdW5vLW1h
+bGkKKyAgICAgICAgICAtIGNvbnN0OiBhcm0sbWFsaS10NjI0CiAgICAgICAtIGl0ZW1zOgogICAg
+ICAgICAgIC0gZW51bToKICAgICAgICAgICAgICAtIHJvY2tjaGlwLHJrMzI4OC1tYWxpCkBAIC0z
+OSw3ICs0Myw2IEBAIHByb3BlcnRpZXM6CiAgICAgICAgICAgICAgLSBzYW1zdW5nLGV4eW5vczU0
+MzMtbWFsaQogICAgICAgICAgIC0gY29uc3Q6IGFybSxtYWxpLXQ3NjAKIAotICAgICAgICAgICMg
+ImFybSxtYWxpLXQ2MjQiCiAgICAgICAgICAgIyAiYXJtLG1hbGktdDYyOCIKICAgICAgICAgICAj
+ICJhcm0sbWFsaS10ODMwIgogICAgICAgICAgICMgImFybSxtYWxpLXQ4ODAiCmRpZmYgLS1naXQg
+YS9hcmNoL2FybTY0L2Jvb3QvZHRzL2FybS9qdW5vLWJhc2UuZHRzaSBiL2FyY2gvYXJtNjQvYm9v
+dC9kdHMvYXJtL2p1bm8tYmFzZS5kdHNpCmluZGV4IDI2YTAzOWEwMjhiOC4uOWUzZThjZTZhZGZl
+IDEwMDY0NAotLS0gYS9hcmNoL2FybTY0L2Jvb3QvZHRzL2FybS9qdW5vLWJhc2UuZHRzaQorKysg
+Yi9hcmNoL2FybTY0L2Jvb3QvZHRzL2FybS9qdW5vLWJhc2UuZHRzaQpAQCAtMzUsNiArMzUsMTgg
+QEAKIAkJY2xvY2stbmFtZXMgPSAiYXBiX3BjbGsiOwogCX07CiAKKwlzbW11X2dwdTogaW9tbXVA
+MmI0MDAwMDAgeworCQljb21wYXRpYmxlID0gImFybSxtbXUtNDAwIiwgImFybSxzbW11LXYxIjsK
+KwkJcmVnID0gPDB4MCAweDJiNDAwMDAwIDB4MCAweDEwMDAwPjsKKwkJaW50ZXJydXB0cyA9IDxH
+SUNfU1BJIDM4IElSUV9UWVBFX0xFVkVMX0hJR0g+LAorCQkJICAgICA8R0lDX1NQSSAzOCBJUlFf
+VFlQRV9MRVZFTF9ISUdIPjsKKwkJI2lvbW11LWNlbGxzID0gPDE+OworCQkjZ2xvYmFsLWludGVy
+cnVwdHMgPSA8MT47CisJCXBvd2VyLWRvbWFpbnMgPSA8JnNjcGlfZGV2cGQgMT47CisJCWRtYS1j
+b2hlcmVudDsKKwkJc3RhdHVzID0gImRpc2FibGVkIjsKKwl9OworCiAJc21tdV9wY2llOiBpb21t
+dUAyYjUwMDAwMCB7CiAJCWNvbXBhdGlibGUgPSAiYXJtLG1tdS00MDEiLCAiYXJtLHNtbXUtdjEi
+OwogCQlyZWcgPSA8MHgwIDB4MmI1MDAwMDAgMHgwIDB4MTAwMDA+OwpAQCAtNDg3LDYgKzQ5OSwy
+MSBAQAogCQl9OwogCX07CiAKKwlncHU6IGdwdUAyZDAwMDAwMCB7CisJCWNvbXBhdGlibGUgPSAi
+YXJtLGp1bm8tbWFsaSIsICJhcm0sbWFsaS10NjI0IjsKKwkJcmVnID0gPDAgMHgyZDAwMDAwMCAw
+IDB4MTAwMDA+OworCQlpbnRlcnJ1cHRzID0gPEdJQ19TUEkgMzIgSVJRX1RZUEVfTEVWRUxfSElH
+SD4sCisJCQkgICAgIDxHSUNfU1BJIDMzIElSUV9UWVBFX0xFVkVMX0hJR0g+LAorCQkJICAgICA8
+R0lDX1NQSSAzNCBJUlFfVFlQRV9MRVZFTF9ISUdIPjsKKwkJaW50ZXJydXB0LW5hbWVzID0gImdw
+dSIsICJqb2IiLCAibW11IjsKKwkJY2xvY2tzID0gPCZzY3BpX2R2ZnMgMj47CisJCXBvd2VyLWRv
+bWFpbnMgPSA8JnNjcGlfZGV2cGQgMT47CisJCWRtYS1jb2hlcmVudDsKKwkJLyogVGhlIFNNTVUg
+aXMgb25seSByZWFsbHkgb2YgaW50ZXJlc3QgdG8gYmFyZS1tZXRhbCBoeXBlcnZpc29ycyAqLwor
+CQkvKiBpb21tdXMgPSA8JnNtbXVfZ3B1IDA+OyAqLworCQlzdGF0dXMgPSAiZGlzYWJsZWQiOwor
+CX07CisKIAlzcmFtOiBzcmFtQDJlMDAwMDAwIHsKIAkJY29tcGF0aWJsZSA9ICJhcm0sanVuby1z
+cmFtLW5zIiwgIm1taW8tc3JhbSI7CiAJCXJlZyA9IDwweDAgMHgyZTAwMDAwMCAweDAgMHg4MDAw
+PjsKLS0gCjIuMjEuMC5kaXJ0eQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVs
