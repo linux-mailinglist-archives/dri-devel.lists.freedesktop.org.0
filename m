@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C97FC1BB5
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2019 08:46:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34468C1BB4
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2019 08:46:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E86E6E375;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7778B6E37C;
 	Mon, 30 Sep 2019 06:46:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0413F6E379
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2019 06:46:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id E659A6E35D
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2019 06:46:14 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id DE274729CC; Mon, 30 Sep 2019 01:57:02 +0000 (UTC)
+ id 3CB5B729DC; Mon, 30 Sep 2019 02:00:11 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111858] [ICL] IGT tests kms_ccs and kms_frontbuffer_tracking
  fail on latest drm-tip kernel
-Date: Mon, 30 Sep 2019 01:57:03 +0000
+Date: Mon, 30 Sep 2019 02:00:11 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,8 +34,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111858-502-FxsUPMPrNk@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111858-502-ubVFnM4SBU@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111858-502@http.bugs.freedesktop.org/>
 References: <bug-111858-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1869218517=="
+Content-Type: multipart/mixed; boundary="===============0064550808=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1869218517==
-Content-Type: multipart/alternative; boundary="15698086220.fd0c6C1.3125"
+--===============0064550808==
+Content-Type: multipart/alternative; boundary="15698088110.61b5e.2900"
 Content-Transfer-Encoding: 7bit
 
 
---15698086220.fd0c6C1.3125
-Date: Mon, 30 Sep 2019 01:57:02 +0000
+--15698088110.61b5e.2900
+Date: Mon, 30 Sep 2019 02:00:11 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,17 +73,15 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111858
 
---- Comment #2 from HeYue <yue.he@intel.com> ---
-Created attachment 145587
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145587&action=3Dedit
-gem_basic
+--- Comment #3 from HeYue <yue.he@intel.com> ---
+ICL D0 is Gen 11.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15698086220.fd0c6C1.3125
-Date: Mon, 30 Sep 2019 01:57:02 +0000
+--15698088110.61b5e.2900
+Date: Mon, 30 Sep 2019 02:00:11 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -101,8 +99,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - [ICL] IGT tests kms_ccs and kms_frontbuffer_tracking fail=
  on latest drm-tip kernel"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111858#c2">Commen=
-t # 2</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111858#c3">Commen=
+t # 3</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - [ICL] IGT tests kms_ccs and kms_frontbuffer_tracking fail=
@@ -113,11 +111,7 @@ t # 2</a>
 yue.he&#64;intel.com" title=3D"HeYue &lt;yue.he&#64;intel.com&gt;"> <span c=
 lass=3D"fn">HeYue</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145587=
-" name=3D"attach_145587" title=3D"gem_basic">attachment 145587</a> <a href=
-=3D"attachment.cgi?id=3D145587&amp;action=3Dedit" title=3D"gem_basic">[deta=
-ils]</a></span>
-gem_basic</pre>
+        <pre>ICL D0 is Gen 11.</pre>
         </div>
       </p>
 
@@ -131,9 +125,9 @@ gem_basic</pre>
     </body>
 </html>=
 
---15698086220.fd0c6C1.3125--
+--15698088110.61b5e.2900--
 
---===============1869218517==
+--===============0064550808==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -143,4 +137,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1869218517==--
+--===============0064550808==--
