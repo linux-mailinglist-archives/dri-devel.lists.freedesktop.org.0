@@ -1,26 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5F22C1C28
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2019 09:37:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89F14C1C29
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2019 09:38:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D7A86E3AA;
-	Mon, 30 Sep 2019 07:37:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 401826E3AE;
+	Mon, 30 Sep 2019 07:38:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9BD316E3AA
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2019 07:37:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id E729F6E3AE
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2019 07:38:45 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9461072162; Mon, 30 Sep 2019 07:37:50 +0000 (UTC)
+ id E453172162; Mon, 30 Sep 2019 07:38:45 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111860] Crasg in AMDGPU after resume on VegaM
-Date: Mon, 30 Sep 2019 07:37:50 +0000
+Date: Mon, 30 Sep 2019 07:38:46 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
@@ -33,10 +33,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- attachments.created
-Message-ID: <bug-111860-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111860-502-VDtXWdie7j@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111860-502@http.bugs.freedesktop.org/>
+References: <bug-111860-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1296535083=="
+Content-Type: multipart/mixed; boundary="===============1079619412=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1296535083==
-Content-Type: multipart/alternative; boundary="15698290700.6c04A.28760"
+--===============1079619412==
+Content-Type: multipart/alternative; boundary="15698291250.C5aef9D3.28849"
 Content-Transfer-Encoding: 7bit
 
 
---15698290700.6c04A.28760
-Date: Mon, 30 Sep 2019 07:37:50 +0000
+--15698291250.C5aef9D3.28849
+Date: Mon, 30 Sep 2019 07:38:45 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,34 +72,15 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111860
 
-            Bug ID: 111860
-           Summary: Crasg in AMDGPU after resume on VegaM
-           Product: DRI
-           Version: DRI git
-          Hardware: Other
-                OS: All
-            Status: NEW
-          Severity: not set
-          Priority: not set
-         Component: DRM/AMDgpu
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: phusho@yahoo.com
-
-Created attachment 145590
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145590&action=3Dedit
-dmesg
-
-Driver will crash after resume on VegaM 8906G. Dell Precision 5530 2-in-1.
-Ubuntu 18.04.3 with 5.2.17, it will crash with previous versions too .16, .=
-15
-and so on.
+--- Comment #1 from Dimitar Atanasov <phusho@yahoo.com> ---
+CPU is 8706G.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15698290700.6c04A.28760
-Date: Mon, 30 Sep 2019 07:37:50 +0000
+--15698291250.C5aef9D3.28849
+Date: Mon, 30 Sep 2019 07:38:45 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -110,93 +91,24 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crasg in AMDGPU after resume on VegaM"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111860">111860</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>Crasg in AMDGPU after resume on VegaM
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>DRI git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>Other
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>All
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>DRM/AMDgpu
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>phusho&#64;yahoo.com
-          </td>
-        </tr></table>
+    <body>
       <p>
         <div>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145590=
-" name=3D"attach_145590" title=3D"dmesg">attachment 145590</a> <a href=3D"a=
-ttachment.cgi?id=3D145590&amp;action=3Dedit" title=3D"dmesg">[details]</a><=
-/span>
-dmesg
-
-Driver will crash after resume on VegaM 8906G. Dell Precision 5530 2-in-1.
-Ubuntu 18.04.3 with 5.2.17, it will crash with previous versions too .16, .=
-15
-and so on.</pre>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crasg in AMDGPU after resume on VegaM"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111860#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crasg in AMDGPU after resume on VegaM"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111860">bug 11186=
+0</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+phusho&#64;yahoo.com" title=3D"Dimitar Atanasov &lt;phusho&#64;yahoo.com&gt=
+;"> <span class=3D"fn">Dimitar Atanasov</span></a>
+</span></b>
+        <pre>CPU is 8706G.</pre>
         </div>
       </p>
 
@@ -210,9 +122,9 @@ and so on.</pre>
     </body>
 </html>=
 
---15698290700.6c04A.28760--
+--15698291250.C5aef9D3.28849--
 
---===============1296535083==
+--===============1079619412==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -222,4 +134,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1296535083==--
+--===============1079619412==--
