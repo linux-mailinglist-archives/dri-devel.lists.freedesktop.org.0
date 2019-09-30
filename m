@@ -1,44 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6CA8C2941
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2019 00:02:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6EE6C297B
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2019 00:28:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB3616E4B3;
-	Mon, 30 Sep 2019 22:02:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2AE189D99;
+	Mon, 30 Sep 2019 22:28:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id CCF3E89DB7
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2019 22:02:22 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C57B572162; Mon, 30 Sep 2019 22:02:22 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E339989D99
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2019 22:28:15 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: ezequiel) with ESMTPSA id 2D967283BA6
+From: Ezequiel Garcia <ezequiel@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111763] ring_gfx hangs/freezes on Navi gpus
-Date: Mon, 30 Sep 2019 22:02:23 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: popovic.marko@protonmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111763-502-56ArTrxQSf@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111763-502@http.bugs.freedesktop.org/>
-References: <bug-111763-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH v3 0/5] RK3288 Gamma LUT
+Date: Mon, 30 Sep 2019 19:27:57 -0300
+Message-Id: <20190930222802.32088-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -52,176 +33,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2110600511=="
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Jacopo Mondi <jacopo@jmondi.org>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Douglas Anderson <dianders@chromium.org>,
+ linux-rockchip@lists.infradead.org,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Sean Paul <seanpaul@chromium.org>, kernel@collabora.com,
+ Ezequiel Garcia <ezequiel@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2110600511==
-Content-Type: multipart/alternative; boundary="15698809420.Fe4Bd4D7.28164"
-Content-Transfer-Encoding: 7bit
-
-
---15698809420.Fe4Bd4D7.28164
-Date: Mon, 30 Sep 2019 22:02:22 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111763
-
---- Comment #8 from Marko Popovic <popovic.marko@protonmail.com> ---
-(In reply to Doug Ty from comment #7)
-> (In reply to Marko Popovic from comment #6)
-> > (In reply to Doug Ty from comment #5)
-> > > I've been getting this too with Minecraft:=20=20
-> > > https://bugs.freedesktop.org/show_bug.cgi?id=3D111669
-> > >=20
-> > > For my particular case at least, AMD_DEBUG=3Dnodma seems to fix it
-> >=20
-> > You are refering to sdma0 / sdma1 type hang which is tracked
-> > here:https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
-> >=20
-> > For ring_gfx hangs they're quite more reproducible and are not affected=
- by
-> > AMD_DEBUG=3Dnodma or AMD_DEBUG=3Dnongg which I already mentioned above =
-in the
-> > bug description.
->=20
-> Sorry, but this is incorrect. My Minecraft hang is most definitely a ring
-> gfx hang, *not* sdma. I've posted logs and apitraces in the linked thread=
- if
-> you'd like to check for yourself.
->=20
-> I can't explain why nodma isn't working for you, perhaps it doesn't work =
-for
-> game? Have you tried putting it in /etc/environment so it's system-wide? I
-> don't know what to tell you regarding nodma, but my hang is definitely ri=
-ng
-> gfx as well.
-
-I guess we just have many different types of hangs then... ring_gfx hangs a=
-re
-more mysterious than sdma0/1 hangs it seems, since there is no "universal"
-workaround for them. nodma works for stopping global sdma-type hangs for me,
-nongg works for stopping the citra-related hang of ring_gfx type, but none =
-of
-those 2 variables work for stopping Starcraft II and RoTR ring_gfx-type han=
-gs
-for me, so it's really really confusing.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15698809420.Fe4Bd4D7.28164
-Date: Mon, 30 Sep 2019 22:02:22 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - ring_gfx hangs/freezes on Navi gpus"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111763#c8">Commen=
-t # 8</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - ring_gfx hangs/freezes on Navi gpus"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111763">bug 11176=
-3</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-popovic.marko&#64;protonmail.com" title=3D"Marko Popovic &lt;popovic.marko&=
-#64;protonmail.com&gt;"> <span class=3D"fn">Marko Popovic</span></a>
-</span></b>
-        <pre>(In reply to Doug Ty from <a href=3D"show_bug.cgi?id=3D111763#=
-c7">comment #7</a>)
-<span class=3D"quote">&gt; (In reply to Marko Popovic from <a href=3D"show_=
-bug.cgi?id=3D111763#c6">comment #6</a>)
-&gt; &gt; (In reply to Doug Ty from <a href=3D"show_bug.cgi?id=3D111763#c5"=
->comment #5</a>)
-&gt; &gt; &gt; I've been getting this too with Minecraft:=20=20
-&gt; &gt; &gt; <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Navi GPU hang in Minecraft"
-   href=3D"show_bug.cgi?id=3D111669">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D111669</a>
-&gt; &gt; &gt;=20
-&gt; &gt; &gt; For my particular case at least, AMD_DEBUG=3Dnodma seems to =
-fix it
-&gt; &gt;=20
-&gt; &gt; You are refering to sdma0 / sdma1 type hang which is tracked
-&gt; &gt; here:<a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"show_bug.cgi?id=3D111481">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D111481</a>
-&gt; &gt;=20
-&gt; &gt; For ring_gfx hangs they're quite more reproducible and are not af=
-fected by
-&gt; &gt; AMD_DEBUG=3Dnodma or AMD_DEBUG=3Dnongg which I already mentioned =
-above in the
-&gt; &gt; bug description.
-&gt;=20
-&gt; Sorry, but this is incorrect. My Minecraft hang is most definitely a r=
-ing
-&gt; gfx hang, *not* sdma. I've posted logs and apitraces in the linked thr=
-ead if
-&gt; you'd like to check for yourself.
-&gt;=20
-&gt; I can't explain why nodma isn't working for you, perhaps it doesn't wo=
-rk for
-&gt; game? Have you tried putting it in /etc/environment so it's system-wid=
-e? I
-&gt; don't know what to tell you regarding nodma, but my hang is definitely=
- ring
-&gt; gfx as well.</span >
-
-I guess we just have many different types of hangs then... ring_gfx hangs a=
-re
-more mysterious than sdma0/1 hangs it seems, since there is no &quot;univer=
-sal&quot;
-workaround for them. nodma works for stopping global sdma-type hangs for me,
-nongg works for stopping the citra-related hang of ring_gfx type, but none =
-of
-those 2 variables work for stopping Starcraft II and RoTR ring_gfx-type han=
-gs
-for me, so it's really really confusing.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15698809420.Fe4Bd4D7.28164--
-
---===============2110600511==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2110600511==--
+TGV0J3Mgc3VwcG9ydCBHYW1tYSBMVVQgY29uZmlndXJhdGlvbiBvbiBSSzMyODggU29Dcy4KCklu
+IG9yZGVyIHRvIGRvIHNvLCB0aGlzIHNlcmllcyBhZGRzIGEgbmV3IGFuZCBvcHRpb25hbAphZGRy
+ZXNzIHJlc291cmNlLgogICAgCkEgc2VwYXJhdGUgYWRkcmVzcyByZXNvdXJjZSBpcyByZXF1aXJl
+ZCBiZWNhdXNlIG9uIHRoaXMgUkszMjg4LAp0aGUgTFVUIGFkZHJlc3MgaXMgYWZ0ZXIgdGhlIE1N
+VSBhZGRyZXNzLCB3aGljaCBpcyByZXF1ZXN0ZWQKYnkgdGhlIGlvbW11IGRyaXZlci4gVGhpcyBw
+cmV2ZW50cyB0aGUgRFJNIGRyaXZlcgpmcm9tIHJlcXVlc3RpbmcgYW4gZW50aXJlIHJlZ2lzdGVy
+IHNwYWNlLgoKVGhlIGN1cnJlbnQgaW1wbGVtZW50YXRpb24gd29ya3MgZm9yIFJHQiAxMC1iaXQg
+dGFibGVzLCBhcyB0aGF0CmlzIHdoYXQgc2VlbXMgdG8gd29yayBvbiBSSzMyODguCgpUaGlzIGhh
+cyBiZWVuIHRlc3RlZCBvbiBhIFJvY2syIFNxdWFyZSBib2FyZCwgdXNpbmcKJ21vZGV0ZXN0JyB0
+b29sIChtb2RldGVzdCBub3cgc3VwcG9ydHMgR0FNTUFfTFVUIHByb3BlcnR5KSwKd2l0aCBsZWdh
+Y3kgYW5kIGF0b21pYyBBUElzLgoKSW4gYWRkaXRpb24sIEkndmUgdGVzdGVkIGl0IHdpdGggSmFj
+b3BvJ3MgbW9kaWZpZWQga21zeHggWzFdLApTZWUgdGhlIHJjYXItZHUgY29sb3IgbWFuYWdlbWVu
+dCBzZXJpZXMgZm9yIG1vcmUgaW5mb3JtYXRpb24gWzJdLgoKWzFdIGh0dHBzOi8vam1vbmRpLm9y
+Zy9jZ2l0L2ttc3h4LwpbMl0gaHR0cHM6Ly9sa21sLm9yZy9sa21sLzIwMTkvOS82LzQ5MAoKVGhh
+bmtzLApFemUKCkNoYW5nZXMgZnJvbSB2MjoKKiByZXZlcnQgU2VhbiBQYXVsJ3MgcGF0Y2gsIGlu
+IG9yZGVyIHRvIHVzZQogIGF0b21pY19jb21taXRfdGFpbCBob29rLgoqIGFkZCBSRkMvcGF0Y2gg
+Zm9yIGNvbG9yIG1hbmFnZW1lbnQgb24gcmVzdW1lLgoKQ2hhbmdlcyBmcm9tIHYxOgoqIGRyb3Ag
+ZXhwbGljaXQgbGluZWFyIExVVCBhZnRlciBmaW5kaW5nIGEgcHJvcGVyCiAgd2F5IHRvIGRpc2Fi
+bGUgZ2FtbWEgY29ycmVjdGlvbi4KKiBhdm9pZCBzZXR0aW5nIGdhbW1hIGlzIHRoZSBDUlRDIGlz
+IG5vdCBhY3RpdmUuCiogcy9pbnQvdW5zaWduZWQgaW50IGFzIHN1Z2dlc3RlZCBieSBKYWNvcG8u
+Ciogb25seSBlbmFibGUgY29sb3IgbWFuYWdlbWVudCBhbmQgc2V0IGdhbW1hIHNpemUKICBpZiBn
+YW1tYSBMVVQgaXMgc3VwcG9ydGVkLCBzdWdnZXN0ZWQgYnkgRG91Zy4KKiBkcm9wIHRoZSByZWct
+bmFtZXMgdXNhZ2UsIGFuZCBpbnN0ZWFkIGp1c3QgdXNlIGluZGV4ZWQgcmVnCiAgc3BlY2lmaWVy
+cywgc3VnZ2VzdGVkIGJ5IERvdWcuCgpDaGFuZ2VzIGZyb20gUkZDOgoqIFJlcXVlc3QgKGFuIG9w
+dGlvbmFsKSBhZGRyZXNzIHJlc291cmNlIGZvciB0aGUgTFVULgoqIEFkZCBkZXZpY2V0cmVlIGNo
+YW5nZXMuCiogRHJvcCBzdXBwb3J0IGZvciBSSzMzOTksIHdoaWNoIGRvZXNuJ3Qgc2VlbSB0byB3
+b3JrCiAgb3V0IG9mIHRoZSBib3ggYW5kIG5lZWRzIG1vcmUgcmVzZWFyY2guCiogU3VwcG9ydCBw
+YXNzLXRocnUgc2V0dGluZyB3aGVuIEdBTU1BX0xVVCBpcyBOVUxMLgoqIEFkZCBhIGNoZWNrIGZv
+ciB0aGUgZ2FtbWEgc2l6ZSwgYXMgc3VnZ2VzdGVkIGJ5IElsaWEuCiogTW92ZSBnYW1tYSBzZXR0
+aW5nIHRvIGF0b21pY19jb21taXRfdGFpbCwgYXMgcG9pbnRlZAogIG91dCBieSBKYWNvcG8vTGF1
+cmVudCwgaXMgdGhlIGNvcnJlY3Qgd2F5LgoKRXplcXVpZWwgR2FyY2lhICg1KToKICBSZXZlcnQg
+ImRybS9yb2NrY2hpcDogVXNlIGRybV9hdG9taWNfaGVscGVyX2NvbW1pdF90YWlsX3JwbSIKICBk
+dC1iaW5kaW5nczogZGlzcGxheTogcm9ja2NoaXA6IGRvY3VtZW50IFZPUCBnYW1tYSBMVVQgYWRk
+cmVzcwogIGRybS9yb2NrY2hpcDogQWRkIG9wdGlvbmFsIHN1cHBvcnQgZm9yIENSVEMgZ2FtbWEg
+TFVUCiAgQVJNOiBkdHM6IHJvY2tjaGlwOiBBZGQgUkszMjg4IFZPUCBnYW1tYSBMVVQgYWRkcmVz
+cwogIFJGQzogZHJtL2F0b21pYy1oZWxwZXI6IFJlYXBwbHkgY29sb3IgdHJhbnNmb3JtYXRpb24g
+YWZ0ZXIgcmVzdW1lCgogLi4uL2Rpc3BsYXkvcm9ja2NoaXAvcm9ja2NoaXAtdm9wLnR4dCAgICAg
+ICAgIHwgICA2ICstCiBhcmNoL2FybS9ib290L2R0cy9yazMyODguZHRzaSAgICAgICAgICAgICAg
+ICAgfCAgIDQgKy0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX2hlbHBlci5jICAgICAgICAg
+ICB8ICAxMiArKwogZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9mYi5jICAg
+IHwgIDI0ICsrKy0KIGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wLmMg
+ICB8IDExNCArKysrKysrKysrKysrKysrKysKIGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2Nr
+Y2hpcF9kcm1fdm9wLmggICB8ICAgNyArKwogZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tj
+aGlwX3ZvcF9yZWcuYyAgIHwgICAyICsKIDcgZmlsZXMgY2hhbmdlZCwgMTY1IGluc2VydGlvbnMo
+KyksIDQgZGVsZXRpb25zKC0pCgotLSAKMi4yMi4wCgpfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9kcmktZGV2ZWw=
