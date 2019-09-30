@@ -2,40 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2028C28E2
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2019 23:36:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20721C292D
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2019 23:56:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E38EF89EF7;
-	Mon, 30 Sep 2019 21:36:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC35A6E4EA;
+	Mon, 30 Sep 2019 21:55:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF82289EBB;
- Mon, 30 Sep 2019 21:36:10 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AD89A3084244;
- Mon, 30 Sep 2019 21:36:09 +0000 (UTC)
-Received: from x1.home (ovpn-118-102.phx2.redhat.com [10.3.118.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2DEF460872;
- Mon, 30 Sep 2019 21:36:02 +0000 (UTC)
-Date: Mon, 30 Sep 2019 15:36:01 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Parav Pandit <parav@mellanox.com>
-Subject: Re: [PATCH V2 6/8] mdev: introduce virtio device and its device ops
-Message-ID: <20190930153601.31e29f7e@x1.home>
-In-Reply-To: <AM0PR05MB48662BA1D397D74DF4F5B9AFD1810@AM0PR05MB4866.eurprd05.prod.outlook.com>
-References: <20190924135332.14160-1-jasowang@redhat.com>
- <20190924135332.14160-7-jasowang@redhat.com>
- <20190924170640.1da03bae@x1.home>
- <AM0PR05MB48662BA1D397D74DF4F5B9AFD1810@AM0PR05MB4866.eurprd05.prod.outlook.com>
-Organization: Red Hat
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9FCCE6E4EA
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2019 21:55:56 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 7D1EA72167; Mon, 30 Sep 2019 21:55:56 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111763] ring_gfx hangs/freezes on Navi gpus
+Date: Mon, 30 Sep 2019 21:55:56 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: git@dougty.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111763-502-eqhQyD2KFN@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111763-502@http.bugs.freedesktop.org/>
+References: <bug-111763-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Mon, 30 Sep 2019 21:36:10 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,115 +52,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "christophe.de.dinechin@gmail.com" <christophe.de.dinechin@gmail.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "mst@redhat.com" <mst@redhat.com>,
- "airlied@linux.ie" <airlied@linux.ie>, Jason Wang <jasowang@redhat.com>,
- "heiko.carstens@de.ibm.com" <heiko.carstens@de.ibm.com>,
- "kevin.tian@intel.com" <kevin.tian@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>,
- "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
- "rob.miller@broadcom.com" <rob.miller@broadcom.com>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- "sebott@linux.ibm.com" <sebott@linux.ibm.com>,
- "lulu@redhat.com" <lulu@redhat.com>,
- "eperezma@redhat.com" <eperezma@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
- "borntraeger@de.ibm.com" <borntraeger@de.ibm.com>,
- "haotian.wang@sifive.com" <haotian.wang@sifive.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "zhi.a.wang@intel.com" <zhi.a.wang@intel.com>,
- "farman@linux.ibm.com" <farman@linux.ibm.com>, Ido Shamay <idos@mellanox.com>,
- "gor@linux.ibm.com" <gor@linux.ibm.com>,
- "cunming.liang@intel.com" <cunming.liang@intel.com>,
- "rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>,
- "xiao.w.wang@intel.com" <xiao.w.wang@intel.com>,
- "freude@linux.ibm.com" <freude@linux.ibm.com>,
- "zhihong.wang@intel.com" <zhihong.wang@intel.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>,
- "oberpar@linux.ibm.com" <oberpar@linux.ibm.com>,
- "tiwei.bie@intel.com" <tiwei.bie@intel.com>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "maxime.coquelin@redhat.com" <maxime.coquelin@redhat.com>,
- "lingshan.zhu@intel.com" <lingshan.zhu@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0119069257=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyNyBTZXAgMjAxOSAxNjoyNToxMyArMDAwMApQYXJhdiBQYW5kaXQgPHBhcmF2QG1l
-bGxhbm94LmNvbT4gd3JvdGU6Cgo+IEhpIEFsZXgsCj4gCj4gCj4gPiAtLS0tLU9yaWdpbmFsIE1l
-c3NhZ2UtLS0tLQo+ID4gRnJvbTogQWxleCBXaWxsaWFtc29uIDxhbGV4LndpbGxpYW1zb25AcmVk
-aGF0LmNvbT4KPiA+IFNlbnQ6IFR1ZXNkYXksIFNlcHRlbWJlciAyNCwgMjAxOSA2OjA3IFBNCj4g
-PiBUbzogSmFzb24gV2FuZyA8amFzb3dhbmdAcmVkaGF0LmNvbT4KPiA+IENjOiBrdm1Admdlci5r
-ZXJuZWwub3JnOyBsaW51eC1zMzkwQHZnZXIua2VybmVsLm9yZzsgbGludXgtCj4gPiBrZXJuZWxA
-dmdlci5rZXJuZWwub3JnOyBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBpbnRlbC0K
-PiA+IGdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGludGVsLWd2dC1kZXZAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnOwo+ID4ga3dhbmtoZWRlQG52aWRpYS5jb207IG1zdEByZWRoYXQuY29tOyB0aXdl
-aS5iaWVAaW50ZWwuY29tOwo+ID4gdmlydHVhbGl6YXRpb25AbGlzdHMubGludXgtZm91bmRhdGlv
-bi5vcmc7IG5ldGRldkB2Z2VyLmtlcm5lbC5vcmc7Cj4gPiBjb2h1Y2tAcmVkaGF0LmNvbTsgbWF4
-aW1lLmNvcXVlbGluQHJlZGhhdC5jb207Cj4gPiBjdW5taW5nLmxpYW5nQGludGVsLmNvbTsgemhp
-aG9uZy53YW5nQGludGVsLmNvbTsKPiA+IHJvYi5taWxsZXJAYnJvYWRjb20uY29tOyB4aWFvLncu
-d2FuZ0BpbnRlbC5jb207Cj4gPiBoYW90aWFuLndhbmdAc2lmaXZlLmNvbTsgemhlbnl1d0BsaW51
-eC5pbnRlbC5jb207IHpoaS5hLndhbmdAaW50ZWwuY29tOwo+ID4gamFuaS5uaWt1bGFAbGludXgu
-aW50ZWwuY29tOyBqb29uYXMubGFodGluZW5AbGludXguaW50ZWwuY29tOwo+ID4gcm9kcmlnby52
-aXZpQGludGVsLmNvbTsgYWlybGllZEBsaW51eC5pZTsgZGFuaWVsQGZmd2xsLmNoOwo+ID4gZmFy
-bWFuQGxpbnV4LmlibS5jb207IHBhc2ljQGxpbnV4LmlibS5jb207IHNlYm90dEBsaW51eC5pYm0u
-Y29tOwo+ID4gb2JlcnBhckBsaW51eC5pYm0uY29tOyBoZWlrby5jYXJzdGVuc0BkZS5pYm0uY29t
-OyBnb3JAbGludXguaWJtLmNvbTsKPiA+IGJvcm50cmFlZ2VyQGRlLmlibS5jb207IGFrcm93aWFr
-QGxpbnV4LmlibS5jb207IGZyZXVkZUBsaW51eC5pYm0uY29tOwo+ID4gbGluZ3NoYW4uemh1QGlu
-dGVsLmNvbTsgSWRvIFNoYW1heSA8aWRvc0BtZWxsYW5veC5jb20+Owo+ID4gZXBlcmV6bWFAcmVk
-aGF0LmNvbTsgbHVsdUByZWRoYXQuY29tOyBQYXJhdiBQYW5kaXQKPiA+IDxwYXJhdkBtZWxsYW5v
-eC5jb20+OyBjaHJpc3RvcGhlLmRlLmRpbmVjaGluQGdtYWlsLmNvbTsKPiA+IGtldmluLnRpYW5A
-aW50ZWwuY29tCj4gPiBTdWJqZWN0OiBSZTogW1BBVENIIFYyIDYvOF0gbWRldjogaW50cm9kdWNl
-IHZpcnRpbyBkZXZpY2UgYW5kIGl0cyBkZXZpY2Ugb3BzCj4gPiAKPiA+IE9uIFR1ZSwgMjQgU2Vw
-IDIwMTkgMjE6NTM6MzAgKzA4MDAKPiA+IEphc29uIFdhbmcgPGphc293YW5nQHJlZGhhdC5jb20+
-IHdyb3RlOgo+ID4gICAKPiA+ID4gVGhpcyBwYXRjaCBpbXBsZW1lbnRzIGJhc2ljIHN1cHBvcnQg
-Zm9yIG1kZXYgZHJpdmVyIHRoYXQgc3VwcG9ydHMKPiA+ID4gdmlydGlvIHRyYW5zcG9ydCBmb3Ig
-a2VybmVsIHZpcnRpbyBkcml2ZXIuCj4gPiA+Cj4gPiA+IFNpZ25lZC1vZmYtYnk6IEphc29uIFdh
-bmcgPGphc293YW5nQHJlZGhhdC5jb20+Cj4gPiA+IC0tLQo+ID4gPiAgaW5jbHVkZS9saW51eC9t
-ZGV2LmggICAgICAgIHwgICAyICsKPiA+ID4gIGluY2x1ZGUvbGludXgvdmlydGlvX21kZXYuaCB8
-IDE0NQo+ID4gPiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPiA+ID4gIDIg
-ZmlsZXMgY2hhbmdlZCwgMTQ3IGluc2VydGlvbnMoKykKPiA+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0
-NCBpbmNsdWRlL2xpbnV4L3ZpcnRpb19tZGV2LmgKPiA+ID4KPiA+ID4gZGlmZiAtLWdpdCBhL2lu
-Y2x1ZGUvbGludXgvbWRldi5oIGIvaW5jbHVkZS9saW51eC9tZGV2LmggaW5kZXgKPiA+ID4gMzQx
-NDMwNzMxMWYxLi43M2FjMjdiM2I4NjggMTAwNjQ0Cj4gPiA+IC0tLSBhL2luY2x1ZGUvbGludXgv
-bWRldi5oCj4gPiA+ICsrKyBiL2luY2x1ZGUvbGludXgvbWRldi5oCj4gPiA+IEBAIC0xMjYsNiAr
-MTI2LDggQEAgc3RydWN0IG1kZXZfZGV2aWNlICptZGV2X2Zyb21fZGV2KHN0cnVjdCBkZXZpY2UK
-PiA+ID4gKmRldik7Cj4gPiA+Cj4gPiA+ICBlbnVtIHsKPiA+ID4gIAlNREVWX0lEX1ZGSU8gPSAx
-LAo+ID4gPiArCU1ERVZfSURfVklSVElPID0gMiwKPiA+ID4gKwlNREVWX0lEX1ZIT1NUID0gMywg
-IAo+ID4gCj4gPiBNREVWX0lEX1ZIT1NUIGlzbid0IHVzZWQgeWV0IGhlcmUuICBBbHNvLCBnaXZl
-biB0aGUgc3Ryb25nIGludGVyZGVwZW5kZW5jZQo+ID4gYmV0d2VlbiB0aGUgY2xhc3NfaWQgYW5k
-IHRoZSBvcHMgc3RydWN0dXJlLCB3ZSBtaWdodCB3YW5kIHRvIGRlZmluZSB0aGVtIGluCj4gPiB0
-aGUgc2FtZSBwbGFjZS4gIFRoYW5rcywKPiA+ICAgCj4gCj4gV2hlbiBtbHg1X2NvcmUgY3JlYXRl
-cyBtZGV2cyAocGFyZW50LT5vcHMtPmNyZWF0ZSgpIGFuZCBpdCB3YW50cyB0bwo+IGJpbmQgdG8g
-bWx4NSBtZGV2IGRyaXZlciAod2hpY2ggZG9lcyBtZGV2X3JlZ2lzdGVyX2RyaXZlcigpKSwgbWx4
-NQo+IGNvcmUgZHJpdmVyIHdpbGwgcHVibGlzaCBNREVWX0lEX01MWDVfTkVUIGRlZmluZWQgaW4g
-Y2VudHJhbCBwbGFjZSBhcwo+IGluY2x1ZGUvbGludXgvbWRldi5oIHdpdGhvdXQgYW55IG9wcyBz
-dHJ1Y3R1cmUuIEJlY2F1c2Ugc3VjaCBvcHMgYXJlCj4gbm90IHJlbGV2YW50LiBJdCB1c2VzIHVz
-dWFsLCBzdGFuZGFyZCBvcHMgcHJvYmUoKSByZW1vdmUoKSBvbiB0aGUKPiBtZGV2IChzaW1pbGFy
-IHRvIGEgcmVndWxhciBQQ0kgZGV2aWNlKS4gU28gZm9yIFZIT1NUIGNhc2Ugb3BzIG1heSBiZQo+
-IGNsb3NlbHkgcmVsYXRlZCB0byBJRCwgYnV0IG5vdCBmb3Igb3RoZXIgdHlwZSBvZiBJRC4KPiAK
-PiBKdXN0IHdhbnQgdG8gbWFrZSBzdXJlLCB0aGF0IHNjb3BlIG9mIElEIGNvdmVycyB0aGlzIGNh
-c2UuCgpBSVVJLCB0aGVzZSBkZXZpY2Utb3BzIGFyZSBwcmltYXJpbHkgbWVhbnQgdG8gaGF2ZSAx
-Ok4gbXVsdGlwbGV4aW5nIG9mCnRoZSBtZGV2IGJ1cyBkcml2ZXIuICBPbmUgbWRldiBidXMgZHJp
-dmVyIHN1cHBvcnRzIE4gdmVuZG9yIGRyaXZlcnMgdmlhCmEgY29tbW9uICJwcm90b2NvbCIgZGVm
-aW5lZCBieSB0aGlzIHN0cnVjdHVyZS4gIHZmaW8tbWRldiBzdXBwb3J0cwpHVlQtZywgR1JJRCwg
-YW5kIHNldmVyYWwgc2FtcGxlIGRyaXZlcnMuICBJIHRoaW5rIEphc29uIGFuZCBUaXdlaSBhcmUK
-YXR0ZW1wdGluZyBzb21ldGhpbmcgc2ltaWxhciBpZiB3ZSBoYXZlIG11bHRpcGxlIHZlbmRvcnMg
-dGhhdCBtYXkKcHJvdmlkZSB2aXJ0aW8vdmhvc3QgcGFyZW50IGRyaXZlcnMuICBJZiB5b3UgaGF2
-ZSBhIDE6MSBtb2RlbCB3aXRoCm1seDUgd2hlcmUgeW91J3JlIG5vdCB0cnlpbmcgdG8gYWJzdHJh
-Y3QgYSBjb21tb24gY2hhbm5lbCBiZXR3ZWVuIHRoZQptZGV2IGJ1cyBkcml2ZXIgYW5kIHRoZSBt
-ZGV2IHZlbmRvciBkcml2ZXIsIHRoZW4gSSBzdXBwb3NlIHlvdSBtaWdodApub3QgdXNlIHRoZSBk
-ZXZpY2Utb3BzIGNhcGFiaWxpdGllcyBvZiB0aGUgbWRldi1jb3JlLiAgRGlkIEkgaW50ZXJwcmV0
-CnRoZSBxdWVzdGlvbiBjb3JyZWN0bHk/ICBJIHRoaW5rIHRoYXQncyBwcm9iYWJseSBmaW5lLCBt
-ZGV2LWNvcmUKc2hvdWxkbid0IGhhdmUgYW55IGRlcGVuZGVuY2llcyBvbiB0aGUgZGV2aWNlLW9w
-cyBhbmQgd2Ugc2hvdWxkbid0CnJlYWxseSBiZSBkaWN0YXRpbmcgdGhlIGJ1cy92ZW5kb3IgbGlu
-ayB0aHJvdWdoIG1kZXYuICBUaGFua3MsCgpBbGV4Cl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0119069257==
+Content-Type: multipart/alternative; boundary="15698805561.aDecF2d.27624"
+Content-Transfer-Encoding: 7bit
+
+
+--15698805561.aDecF2d.27624
+Date: Mon, 30 Sep 2019 21:55:56 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111763
+
+--- Comment #7 from Doug Ty <git@dougty.com> ---
+(In reply to Marko Popovic from comment #6)
+> (In reply to Doug Ty from comment #5)
+> > I've been getting this too with Minecraft:=20=20
+> > https://bugs.freedesktop.org/show_bug.cgi?id=3D111669
+> >=20
+> > For my particular case at least, AMD_DEBUG=3Dnodma seems to fix it
+>=20
+> You are refering to sdma0 / sdma1 type hang which is tracked
+> here:https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+>=20
+> For ring_gfx hangs they're quite more reproducible and are not affected by
+> AMD_DEBUG=3Dnodma or AMD_DEBUG=3Dnongg which I already mentioned above in=
+ the
+> bug description.
+
+Sorry, but this is incorrect. My Minecraft hang is most definitely a ring g=
+fx
+hang, *not* sdma. I've posted logs and apitraces in the linked thread if yo=
+u'd
+like to check for yourself.
+
+I can't explain why nodma isn't working for you, perhaps it doesn't work for
+game? Have you tried putting it in /etc/environment so it's system-wide? I
+don't know what to tell you regarding nodma, but my hang is definitely ring=
+ gfx
+as well.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15698805561.aDecF2d.27624
+Date: Mon, 30 Sep 2019 21:55:56 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - ring_gfx hangs/freezes on Navi gpus"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111763#c7">Commen=
+t # 7</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - ring_gfx hangs/freezes on Navi gpus"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111763">bug 11176=
+3</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+git&#64;dougty.com" title=3D"Doug Ty &lt;git&#64;dougty.com&gt;"> <span cla=
+ss=3D"fn">Doug Ty</span></a>
+</span></b>
+        <pre>(In reply to Marko Popovic from <a href=3D"show_bug.cgi?id=3D1=
+11763#c6">comment #6</a>)
+<span class=3D"quote">&gt; (In reply to Doug Ty from <a href=3D"show_bug.cg=
+i?id=3D111763#c5">comment #5</a>)
+&gt; &gt; I've been getting this too with Minecraft:=20=20
+&gt; &gt; <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - Navi GPU hang in Minecraft"
+   href=3D"show_bug.cgi?id=3D111669">https://bugs.freedesktop.org/show_bug.=
+cgi?id=3D111669</a>
+&gt; &gt;=20
+&gt; &gt; For my particular case at least, AMD_DEBUG=3Dnodma seems to fix it
+&gt;=20
+&gt; You are refering to sdma0 / sdma1 type hang which is tracked
+&gt; here:<a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"show_bug.cgi?id=3D111481">https://bugs.freedesktop.org/show_bug.=
+cgi?id=3D111481</a>
+&gt;=20
+&gt; For ring_gfx hangs they're quite more reproducible and are not affecte=
+d by
+&gt; AMD_DEBUG=3Dnodma or AMD_DEBUG=3Dnongg which I already mentioned above=
+ in the
+&gt; bug description.</span >
+
+Sorry, but this is incorrect. My Minecraft hang is most definitely a ring g=
+fx
+hang, *not* sdma. I've posted logs and apitraces in the linked thread if yo=
+u'd
+like to check for yourself.
+
+I can't explain why nodma isn't working for you, perhaps it doesn't work for
+game? Have you tried putting it in /etc/environment so it's system-wide? I
+don't know what to tell you regarding nodma, but my hang is definitely ring=
+ gfx
+as well.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15698805561.aDecF2d.27624--
+
+--===============0119069257==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0119069257==--
