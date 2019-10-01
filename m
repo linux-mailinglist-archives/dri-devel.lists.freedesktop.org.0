@@ -1,57 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88197C3FDD
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2019 20:30:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FACEC3FFD
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2019 20:38:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AEBB6E878;
-	Tue,  1 Oct 2019 18:30:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F3D26E882;
+	Tue,  1 Oct 2019 18:38:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 598456E878
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2019 18:29:40 +0000 (UTC)
-Received: by mail-pl1-x644.google.com with SMTP id k7so5912063pll.1
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Oct 2019 11:29:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=xnyZjNCbO2ap2oxzis7QRBMw3/itYSPcHMr8ypFsW4s=;
- b=LqyF3k/ZKAON3WmqII4sih2tyfEpv6WiaHfuSnEXE+rnFXGEgGt/+zs3MCRLCn1wj5
- RxLlmsdYGtTocqay+fe6wTe4vPzIU1Bz8F2nXvYYuS88xUre4hrL2gFCJ2GJr+aLaJOg
- i3l7wYrbHmnaIenQoTUJwK6uTQ4VBd4IgKPlsQD6klSFuEIkfmS/CRPgCYlf/UBcF/5l
- TUpGgcQeFZ1pfnkY/BfPB+jmt/4W0PjxeCrmaRdpwvr3t5HLuXpOkUz6T5/B9w1LOL6L
- eXSZa8c1D5mZREdLmOIyvy4/ofhlebiNBQP6vPKebcfNwvj6YUdyMOc8cJBG71zEhfc1
- 77yQ==
-X-Gm-Message-State: APjAAAVGP4HQu2OIn5swRpvbECeK7CVttb1wnEqR+8tMi+NWm4vywCSe
- j/4Kxol3MPYaUSYAexalePkOMw==
-X-Google-Smtp-Source: APXvYqyRbXISq3SO34OqGRk8drfBkKPU3mD55VSiIQPo3ZwrS0eL4A9EHXkMC5c+SdGyZCp4LNxRBQ==
-X-Received: by 2002:a17:902:a413:: with SMTP id
- p19mr25389237plq.210.1569954579845; 
- Tue, 01 Oct 2019 11:29:39 -0700 (PDT)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
- by smtp.gmail.com with ESMTPSA id
- e10sm18189221pfh.77.2019.10.01.11.29.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Oct 2019 11:29:39 -0700 (PDT)
-From: John Stultz <john.stultz@linaro.org>
-To: lkml <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm: lima: Add support for multiple reset lines
-Date: Tue,  1 Oct 2019 18:29:27 +0000
-Message-Id: <20191001182927.70448-1-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.17.1
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=xnyZjNCbO2ap2oxzis7QRBMw3/itYSPcHMr8ypFsW4s=;
- b=EDl7kJK+Gu6PPzl7r1r30j5jzkLc7XveE/hrfDIc7KKwn7fy7suEKGSogHMdKjOd00
- yzcV94dCp+XLbLJis3rCbnPcYAS711/Ww8/+QjGhEg0kSJZ5iz/d5tdK6bX9JBBoUX9O
- yc4DDEUpP8g1EQg/LtRUKyG10i2hRG9v/Ap4b2HKb+/JnAuNq0Mk+/OYuuTIes0uU1Lf
- rEtVzLU3kBNTfc4URdkmz5wkQd50NZqtmJVf0z6lIEhKfOQV5WM9QmYblnsbcJfLVIH1
- SIa1r+a+Ujn/fcA1PgwtC/5T80nlbwOZi0CVKOBHlBjdcJJFRGu7rPo84QIE0r31U2Gx
- mS0Q==
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B9226E882
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2019 18:38:36 +0000 (UTC)
+Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id B34D12133F;
+ Tue,  1 Oct 2019 18:38:35 +0000 (UTC)
+Date: Tue, 1 Oct 2019 14:38:34 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Dexuan Cui <decui@microsoft.com>
+Subject: Re: [PATCH] video: hyperv_fb: Add the support of hibernation
+Message-ID: <20191001183834.GA8171@sasha-vm>
+References: <1568244833-66476-1-git-send-email-decui@microsoft.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1568244833-66476-1-git-send-email-decui@microsoft.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1569955116;
+ bh=SFNaZVvdlStLpfO46A2b6K/AG9EpSTq9sMu/WFeNxPE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GFVKmnlvkOhetuVuOA+0dp0CketPneA2Uq5efIkAWIQuB5H9UowQytql9ORm979zW
+ OzZpZEFG9VNZ4o2AySWIXL6b8eDo0ygO8c1lY5fKZb3zJ9tSoDTx+bHUdUAtxQcYYC
+ 7KJpMNgaUHd1E5BgSTs6aQCDzq3k/MjiRsm9XcyQ=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,35 +46,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lima@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Peter Griffin <peter.griffin@linaro.org>,
- Qiang Yu <yuq825@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Cc: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ Stephen Hemminger <sthemmin@microsoft.com>,
+ "b.zolnierkie@samsung.com" <b.zolnierkie@samsung.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ KY Srinivasan <kys@microsoft.com>, Michael Kelley <mikelley@microsoft.com>
 Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogUGV0ZXIgR3JpZmZpbiA8cGV0ZXIuZ3JpZmZpbkBsaW5hcm8ub3JnPgoKU29tZSBTb0Nz
-IGxpa2UgSGlLZXkgaGF2ZSAyIHJlc2V0IGxpbmVzLCBzbyB1cGRhdGUKdG8gdXNlIHRoZSBkZXZt
-X3Jlc2V0X2NvbnRyb2xfYXJyYXlfKiB2YXJpYW50IG9mIHRoZQpBUEkgc28gdGhhdCBtdWx0aXBs
-ZSByZXNldHMgY2FuIGJlIHNwZWNpZmllZCBpbiBEVC4KCkNjOiBRaWFuZyBZdSA8eXVxODI1QGdt
-YWlsLmNvbT4KQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KQ2M6IERhbmllbCBW
-ZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKQ2M6IGxpbWFAbGlzdHMuZnJlZWRlc2t0b3Aub3JnClNpZ25lZC1vZmYtYnk6IFBldGVyIEdy
-aWZmaW4gPHBldGVyLmdyaWZmaW5AbGluYXJvLm9yZz4KU2lnbmVkLW9mZi1ieTogSm9obiBTdHVs
-dHogPGpvaG4uc3R1bHR6QGxpbmFyby5vcmc+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2xpbWEvbGlt
-YV9kZXZpY2UuYyB8IDMgKystCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxIGRl
-bGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2xpbWEvbGltYV9kZXZpY2Uu
-YyBiL2RyaXZlcnMvZ3B1L2RybS9saW1hL2xpbWFfZGV2aWNlLmMKaW5kZXggZDg2YjhkODFhNDgz
-Li5lM2UwY2ExMTM4MmUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9saW1hL2xpbWFfZGV2
-aWNlLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2xpbWEvbGltYV9kZXZpY2UuYwpAQCAtMTA1LDcg
-KzEwNSw4IEBAIHN0YXRpYyBpbnQgbGltYV9jbGtfaW5pdChzdHJ1Y3QgbGltYV9kZXZpY2UgKmRl
-dikKIAlpZiAoZXJyKQogCQlnb3RvIGVycm9yX291dDA7CiAKLQlkZXYtPnJlc2V0ID0gZGV2bV9y
-ZXNldF9jb250cm9sX2dldF9vcHRpb25hbChkZXYtPmRldiwgTlVMTCk7CisJZGV2LT5yZXNldCA9
-IGRldm1fcmVzZXRfY29udHJvbF9hcnJheV9nZXRfb3B0aW9uYWxfc2hhcmVkKGRldi0+ZGV2KTsK
-KwogCWlmIChJU19FUlIoZGV2LT5yZXNldCkpIHsKIAkJZXJyID0gUFRSX0VSUihkZXYtPnJlc2V0
-KTsKIAkJaWYgKGVyciAhPSAtRVBST0JFX0RFRkVSKQotLSAKMi4xNy4xCgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+T24gV2VkLCBTZXAgMTEsIDIwMTkgYXQgMTE6MzQ6MTBQTSArMDAwMCwgRGV4dWFuIEN1aSB3cm90
+ZToKPlRoaXMgcGF0Y2ggZGVwZW5kcyBvbiB0aGUgdm1idXMgc2lkZSBjaGFuZ2Ugb2YgdGhlIGRl
+ZmluaXRpb24gb2YKPnN0cnVjdCBodl9kcml2ZXIuCj4KPlNpZ25lZC1vZmYtYnk6IERleHVhbiBD
+dWkgPGRlY3VpQG1pY3Jvc29mdC5jb20+CgpRdWV1ZWQgdXAgZm9yIGh5cGVydi1uZXh0LCB0aGFu
+a3MhCgotLQpUaGFua3MsClNhc2hhCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbA==
