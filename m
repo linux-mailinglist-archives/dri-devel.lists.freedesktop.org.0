@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7016C388B
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2019 17:07:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91E5AC389A
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2019 17:11:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FA1B6E82B;
-	Tue,  1 Oct 2019 15:07:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7C566E82E;
+	Tue,  1 Oct 2019 15:10:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 29A336E82B
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2019 15:07:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9923C6E82E
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2019 15:10:56 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 2620C72162; Tue,  1 Oct 2019 15:07:29 +0000 (UTC)
+ id 95EE572162; Tue,  1 Oct 2019 15:10:56 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111877] AMDKFD crash with VegaM
-Date: Tue, 01 Oct 2019 15:07:29 +0000
+Date: Tue, 01 Oct 2019 15:10:56 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -27,14 +27,14 @@ X-Bugzilla-Component: DRM/amdkfd
 X-Bugzilla-Version: DRI git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: not set
-X-Bugzilla-Who: phusho@yahoo.com
+X-Bugzilla-Who: alexdeucher@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111877-502-cRhVyVRZL6@http.bugs.freedesktop.org/>
+Message-ID: <bug-111877-502-HIAT8dEdqr@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111877-502@http.bugs.freedesktop.org/>
 References: <bug-111877-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1110726152=="
+Content-Type: multipart/mixed; boundary="===============0968728096=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1110726152==
-Content-Type: multipart/alternative; boundary="15699424490.BCAABF7.12654"
+--===============0968728096==
+Content-Type: multipart/alternative; boundary="15699426562.dCDAb.13623"
 Content-Transfer-Encoding: 7bit
 
 
---15699424490.BCAABF7.12654
-Date: Tue, 1 Oct 2019 15:07:29 +0000
+--15699426562.dCDAb.13623
+Date: Tue, 1 Oct 2019 15:10:56 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,15 +72,15 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111877
 
---- Comment #1 from Dimitar Atanasov <phusho@yahoo.com> ---
-CPU 8706G Precision 5530 2-in-1 Ubuntu 18.04.3 kernel 5.3.1
+--- Comment #2 from Alex Deucher <alexdeucher@gmail.com> ---
+Does appending amdgpu.runpm=3D0 to the kernel command line in grub help?
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15699424490.BCAABF7.12654
-Date: Tue, 1 Oct 2019 15:07:29 +0000
+--15699426562.dCDAb.13623
+Date: Tue, 1 Oct 2019 15:10:56 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -97,19 +97,19 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - AMDKFD crash with VegaM"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111877#c1">Commen=
-t # 1</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111877#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - AMDKFD crash with VegaM"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111877">bug 11187=
 7</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-phusho&#64;yahoo.com" title=3D"Dimitar Atanasov &lt;phusho&#64;yahoo.com&gt=
-;"> <span class=3D"fn">Dimitar Atanasov</span></a>
+alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
+com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
 </span></b>
-        <pre>CPU 8706G Precision 5530 2-in-1 Ubuntu 18.04.3 kernel 5.3.1</p=
-re>
+        <pre>Does appending amdgpu.runpm=3D0 to the kernel command line in =
+grub help?</pre>
         </div>
       </p>
 
@@ -123,9 +123,9 @@ re>
     </body>
 </html>=
 
---15699424490.BCAABF7.12654--
+--15699426562.dCDAb.13623--
 
---===============1110726152==
+--===============0968728096==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -135,4 +135,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1110726152==--
+--===============0968728096==--
