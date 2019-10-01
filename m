@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67640C40D4
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2019 21:16:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 579A2C40D8
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2019 21:17:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75AF66E07D;
-	Tue,  1 Oct 2019 19:16:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53DD66E3DA;
+	Tue,  1 Oct 2019 19:17:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 874C76E07D
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2019 19:16:26 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C93B56E3DA
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2019 19:17:10 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7FA7772162; Tue,  1 Oct 2019 19:16:26 +0000 (UTC)
+ id C5FD472162; Tue,  1 Oct 2019 19:17:10 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111879] GPU reset during hibernation
-Date: Tue, 01 Oct 2019 19:16:26 +0000
+Date: Tue, 01 Oct 2019 19:17:11 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: short_desc
-Message-ID: <bug-111879-502-4R2sGSLYf5@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111879-502-LiaIhPbQCU@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111879-502@http.bugs.freedesktop.org/>
 References: <bug-111879-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1698383262=="
+Content-Type: multipart/mixed; boundary="===============0528003030=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1698383262==
-Content-Type: multipart/alternative; boundary="15699573860.790b.29360"
+--===============0528003030==
+Content-Type: multipart/alternative; boundary="15699574301.73b3Cda2B.29397"
 Content-Transfer-Encoding: 7bit
 
 
---15699573860.790b.29360
-Date: Tue, 1 Oct 2019 19:16:26 +0000
+--15699574301.73b3Cda2B.29397
+Date: Tue, 1 Oct 2019 19:17:10 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,19 +72,16 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111879
 
-Yuxuan Shui <yshuiv7@gmail.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-            Summary|Failed to initialize parser |GPU reset during
-                   |after resuming from disk    |hibernation
+--- Comment #1 from Yuxuan Shui <yshuiv7@gmail.com> ---
+Looks like a GPU reset was triggered during hibernation and that's what's
+causing the "Failed to initialize parser" error.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15699573860.790b.29360
-Date: Tue, 1 Oct 2019 19:16:26 +0000
+--15699574301.73b3Cda2B.29397
+Date: Tue, 1 Oct 2019 19:17:10 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -95,31 +92,27 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:yshuiv7&#=
-64;gmail.com" title=3D"Yuxuan Shui &lt;yshuiv7&#64;gmail.com&gt;"> <span cl=
-ass=3D"fn">Yuxuan Shui</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - GPU reset during hibernation"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111879#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - GPU reset during hibernation"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111879">bug 11187=
 9</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Summary</td>
-           <td>Failed to initialize parser after resuming from disk
-           </td>
-           <td>GPU reset during hibernation
-           </td>
-         </tr></table>
-      <p>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+yshuiv7&#64;gmail.com" title=3D"Yuxuan Shui &lt;yshuiv7&#64;gmail.com&gt;">=
+ <span class=3D"fn">Yuxuan Shui</span></a>
+</span></b>
+        <pre>Looks like a GPU reset was triggered during hibernation and th=
+at's what's
+causing the &quot;Failed to initialize parser&quot; error.</pre>
+        </div>
       </p>
 
 
@@ -132,9 +125,9 @@ ass=3D"fn">Yuxuan Shui</span></a>
     </body>
 </html>=
 
---15699573860.790b.29360--
+--15699574301.73b3Cda2B.29397--
 
---===============1698383262==
+--===============0528003030==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -144,4 +137,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1698383262==--
+--===============0528003030==--
