@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA05DC389C
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2019 17:11:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE85BC389F
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2019 17:11:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4571A6E52A;
-	Tue,  1 Oct 2019 15:11:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3922E6E82D;
+	Tue,  1 Oct 2019 15:11:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 177CF6E52A
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2019 15:11:06 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 265E96E82D
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2019 15:11:36 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 14E6F72162; Tue,  1 Oct 2019 15:11:06 +0000 (UTC)
+ id 2374272162; Tue,  1 Oct 2019 15:11:36 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111860] Crash in AMDGPU after resume on VegaM
-Date: Tue, 01 Oct 2019 15:11:06 +0000
+Date: Tue, 01 Oct 2019 15:11:36 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111860-502-3BLqSQzQs9@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111860-502-CxDiMB6Q1T@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111860-502@http.bugs.freedesktop.org/>
 References: <bug-111860-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1933372324=="
+Content-Type: multipart/mixed; boundary="===============1016591711=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1933372324==
-Content-Type: multipart/alternative; boundary="15699426660.5BcfF37FA.13603"
+--===============1016591711==
+Content-Type: multipart/alternative; boundary="15699426960.d7EA2cE69.13585"
 Content-Transfer-Encoding: 7bit
 
 
---15699426660.5BcfF37FA.13603
-Date: Tue, 1 Oct 2019 15:11:06 +0000
+--15699426960.d7EA2cE69.13585
+Date: Tue, 1 Oct 2019 15:11:36 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,17 +72,15 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111860
 
---- Comment #5 from Dimitar Atanasov <phusho@yahoo.com> ---
-Created attachment 145604
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145604&action=3Dedit
-dmesg_full
+--- Comment #6 from Dimitar Atanasov <phusho@yahoo.com> ---
+It was working with 5.1.x but since 5.2.x it is not
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15699426660.5BcfF37FA.13603
-Date: Tue, 1 Oct 2019 15:11:06 +0000
+--15699426960.d7EA2cE69.13585
+Date: Tue, 1 Oct 2019 15:11:36 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -99,8 +97,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Crash in AMDGPU after resume on VegaM"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111860#c5">Commen=
-t # 5</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111860#c6">Commen=
+t # 6</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Crash in AMDGPU after resume on VegaM"
@@ -110,11 +108,7 @@ t # 5</a>
 phusho&#64;yahoo.com" title=3D"Dimitar Atanasov &lt;phusho&#64;yahoo.com&gt=
 ;"> <span class=3D"fn">Dimitar Atanasov</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145604=
-" name=3D"attach_145604" title=3D"dmesg_full">attachment 145604</a> <a href=
-=3D"attachment.cgi?id=3D145604&amp;action=3Dedit" title=3D"dmesg_full">[det=
-ails]</a></span>
-dmesg_full</pre>
+        <pre>It was working with 5.1.x but since 5.2.x it is not</pre>
         </div>
       </p>
 
@@ -128,9 +122,9 @@ dmesg_full</pre>
     </body>
 </html>=
 
---15699426660.5BcfF37FA.13603--
+--15699426960.d7EA2cE69.13585--
 
---===============1933372324==
+--===============1016591711==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -140,4 +134,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1933372324==--
+--===============1016591711==--
