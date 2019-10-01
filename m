@@ -1,39 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4915C2D8F
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2019 08:40:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86A62C2D9C
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2019 08:51:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 797E489E86;
-	Tue,  1 Oct 2019 06:40:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F6546E48D;
+	Tue,  1 Oct 2019 06:51:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BF1989E86;
- Tue,  1 Oct 2019 06:40:32 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2019 23:40:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,570,1559545200"; d="scan'208";a="185088697"
-Received: from nvishwa1-desk.sc.intel.com ([10.3.160.185])
- by orsmga008.jf.intel.com with ESMTP; 30 Sep 2019 23:40:31 -0700
-Date: Mon, 30 Sep 2019 23:28:32 -0700
-From: Niranjan Vishwanathapura <niranjana.vishwanathapura@intel.com>
-To: Matthew Auld <matthew.auld@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v3 35/37] drm/i915: Introduce
- GEM_OBJECT_SETPARAM with I915_PARAM_MEMORY_REGION
-Message-ID: <20191001062832.GS16938@nvishwa1-DESK.sc.intel.com>
-References: <20190809222643.23142-1-matthew.auld@intel.com>
- <20190809222643.23142-36-matthew.auld@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 090F16E0D1
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2019 06:51:14 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id F3A5872162; Tue,  1 Oct 2019 06:51:13 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111599] [CI][RESUME] igt@gem_ctx_isolation@* - skip - Test
+ requirement: !(gen > LAST_KNOWN_GEN), SKIP
+Date: Tue, 01 Oct 2019 06:51:14 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: IGT
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: cibuglog@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111599-502-cGMjFeNUDt@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111599-502@http.bugs.freedesktop.org/>
+References: <bug-111599-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190809222643.23142-36-matthew.auld@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,79 +53,306 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============0237414391=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBBdWcgMDksIDIwMTkgYXQgMTE6MjY6NDFQTSArMDEwMCwgTWF0dGhldyBBdWxkIHdy
-b3RlOgo+RnJvbTogQWJkaWVsIEphbnVsZ3VlIDxhYmRpZWwuamFudWxndWVAbGludXguaW50ZWwu
-Y29tPgo+Cj5UaGlzIGNhbGwgd2lsbCBzcGVjaWZ5IHdoaWNoIG1lbW9yeSByZWdpb24gYW4gb2Jq
-ZWN0IHNob3VsZCBiZSBwbGFjZWQuCj4KPk5vdGUgdGhhdCBjaGFuZ2luZyB0aGUgb2JqZWN0J3Mg
-YmFja2luZyBzdG9yYWdlIHNob3VsZCBiZSBpbW1lZGlhdGVseQo+ZG9uZSBhZnRlciBhbiBvYmpl
-Y3QgaXMgY3JlYXRlZCBvciBpZiBpdCdzIG5vdCB5ZXQgaW4gdXNlLCBvdGhlcndpc2UKPnRoaXMg
-d2lsbCBmYWlsIG9uIGEgYnVzeSBvYmplY3QuCj4KPlNpZ25lZC1vZmYtYnk6IEFiZGllbCBKYW51
-bGd1ZSA8YWJkaWVsLmphbnVsZ3VlQGxpbnV4LmludGVsLmNvbT4KPkNjOiBKb29uYXMgTGFodGlu
-ZW4gPGpvb25hcy5sYWh0aW5lbkBsaW51eC5pbnRlbC5jb20+Cgo+ZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9jb250ZXh0LmggYi9kcml2ZXJzL2dwdS9kcm0v
-aTkxNS9nZW0vaTkxNV9nZW1fY29udGV4dC5oCj5pbmRleCAxMDZlMmNjZjdhNGMuLjFjZmNmMWU2
-YmJiOSAxMDA2NDQKPi0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9jb250
-ZXh0LmgKPisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9jb250ZXh0LmgK
-PkBAIC0xNTcsNiArMTU3LDggQEAgaW50IGk5MTVfZ2VtX2NvbnRleHRfZ2V0cGFyYW1faW9jdGwo
-c3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwKPiAJCQkJICAgIHN0cnVjdCBkcm1f
-ZmlsZSAqZmlsZV9wcml2KTsKPiBpbnQgaTkxNV9nZW1fY29udGV4dF9zZXRwYXJhbV9pb2N0bChz
-dHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAo+IAkJCQkgICAgc3RydWN0IGRybV9m
-aWxlICpmaWxlX3ByaXYpOwoKVGhpcyBmdW5jdGlvbiBkZWNsYXJhdGlvbiBjYW4gYmUgcmVtb3Zl
-ZCBhbmQgY2FuIGJlIGRlY2xhcmVkIHN0YXRpYy4KCj4raW50IGk5MTVfZ2VtX3NldHBhcmFtX2lv
-Y3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsCj4rCQkJICAgIHN0cnVjdCBk
-cm1fZmlsZSAqZmlsZSk7Cj4gaW50IGk5MTVfZ2VtX2NvbnRleHRfcmVzZXRfc3RhdHNfaW9jdGwo
-c3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwKPiAJCQkJICAgICAgIHN0cnVjdCBk
-cm1fZmlsZSAqZmlsZSk7Cj4KCj5kaWZmIC0tZ2l0IGEvaW5jbHVkZS91YXBpL2RybS9pOTE1X2Ry
-bS5oIGIvaW5jbHVkZS91YXBpL2RybS9pOTE1X2RybS5oCj5pbmRleCBmYjg0YWVkMTA4MjUuLjc1
-ZDc5YzE3ZTkxYiAxMDA2NDQKPi0tLSBhL2luY2x1ZGUvdWFwaS9kcm0vaTkxNV9kcm0uaAo+Kysr
-IGIvaW5jbHVkZS91YXBpL2RybS9pOTE1X2RybS5oCj5AQCAtMzYwLDYgKzM2MCw3IEBAIHR5cGVk
-ZWYgc3RydWN0IF9kcm1faTkxNV9zYXJlYSB7Cj4gI2RlZmluZSBEUk1fSTkxNV9HRU1fVk1fQ1JF
-QVRFCQkweDNhCj4gI2RlZmluZSBEUk1fSTkxNV9HRU1fVk1fREVTVFJPWQkJMHgzYgo+ICNkZWZp
-bmUgRFJNX0k5MTVfR0VNX01NQVBfT0ZGU0VUICAgCURSTV9JOTE1X0dFTV9NTUFQX0dUVAo+KyNk
-ZWZpbmUgRFJNX0k5MTVfR0VNX09CSkVDVF9TRVRQQVJBTQlEUk1fSTkxNV9HRU1fQ09OVEVYVF9T
-RVRQQVJBTQo+IC8qIE11c3QgYmUga2VwdCBjb21wYWN0IC0tIG5vIGhvbGVzICovCj4KPiAjZGVm
-aW5lIERSTV9JT0NUTF9JOTE1X0lOSVQJCURSTV9JT1coIERSTV9DT01NQU5EX0JBU0UgKyBEUk1f
-STkxNV9JTklULCBkcm1faTkxNV9pbml0X3QpCj5AQCAtNDIzLDYgKzQyNCw3IEBAIHR5cGVkZWYg
-c3RydWN0IF9kcm1faTkxNV9zYXJlYSB7Cj4gI2RlZmluZSBEUk1fSU9DVExfSTkxNV9HRU1fVk1f
-Q1JFQVRFCURSTV9JT1dSKERSTV9DT01NQU5EX0JBU0UgKyBEUk1fSTkxNV9HRU1fVk1fQ1JFQVRF
-LCBzdHJ1Y3QgZHJtX2k5MTVfZ2VtX3ZtX2NvbnRyb2wpCj4gI2RlZmluZSBEUk1fSU9DVExfSTkx
-NV9HRU1fVk1fREVTVFJPWQlEUk1fSU9XIChEUk1fQ09NTUFORF9CQVNFICsgRFJNX0k5MTVfR0VN
-X1ZNX0RFU1RST1ksIHN0cnVjdCBkcm1faTkxNV9nZW1fdm1fY29udHJvbCkKPiAjZGVmaW5lIERS
-TV9JT0NUTF9JOTE1X0dFTV9NTUFQX09GRlNFVAkJRFJNX0lPV1IoRFJNX0NPTU1BTkRfQkFTRSAr
-IERSTV9JOTE1X0dFTV9NTUFQX09GRlNFVCwgc3RydWN0IGRybV9pOTE1X2dlbV9tbWFwX29mZnNl
-dCkKPisjZGVmaW5lIERSTV9JT0NUTF9JOTE1X0dFTV9PQkpFQ1RfU0VUUEFSQU0JRFJNX0lPV1Io
-RFJNX0NPTU1BTkRfQkFTRSArIERSTV9JOTE1X0dFTV9PQkpFQ1RfU0VUUEFSQU0sIHN0cnVjdCBk
-cm1faTkxNV9nZW1fb2JqZWN0X3BhcmFtKQo+Cj4gLyogQWxsb3cgZHJpdmVycyB0byBzdWJtaXQg
-YmF0Y2hidWZmZXJzIGRpcmVjdGx5IHRvIGhhcmR3YXJlLCByZWx5aW5nCj4gICogb24gdGhlIHNl
-Y3VyaXR5IG1lY2hhbmlzbXMgcHJvdmlkZWQgYnkgaGFyZHdhcmUuCj5AQCAtMTYwMSw2ICsxNjAz
-LDI3IEBAIHN0cnVjdCBkcm1faTkxNV9nZW1fY29udGV4dF9wYXJhbSB7Cj4gCV9fdTY0IHZhbHVl
-Owo+IH07Cj4KPitzdHJ1Y3QgZHJtX2k5MTVfZ2VtX29iamVjdF9wYXJhbSB7Cj4rCS8qKiBIYW5k
-bGUgZm9yIHRoZSBvYmplY3QgKi8KPisJX191MzIgaGFuZGxlOwo+Kwo+KwlfX3UzMiBzaXplOwo+
-Kwo+KwkvKiogU2V0IHRoZSBtZW1vcnkgcmVnaW9uIGZvciB0aGUgb2JqZWN0IGxpc3RlZCBpbiBw
-cmVmZXJlbmNlIG9yZGVyCj4rCSAqICBhcyBhbiBhcnJheSBvZiByZWdpb24gaWRzIHdpdGhpbiBk
-YXRhLiBUbyBmb3JjZSBhbiBvYmplY3QKPisJICogIHRvIGEgcGFydGljdWxhciBtZW1vcnkgcmVn
-aW9uLCBzZXQgdGhlIHJlZ2lvbiBhcyB0aGUgc29sZSBlbnRyeS4KPisJICoKPisJICogIFZhbGlk
-IHJlZ2lvbiBpZHMgYXJlIGRlcml2ZWQgZnJvbSB0aGUgaWQgZmllbGQgb2YKPisJICogIHN0cnVj
-dCBkcm1faTkxNV9tZW1vcnlfcmVnaW9uX2luZm8uCj4rCSAqICBTZWUgc3RydWN0IGRybV9pOTE1
-X3F1ZXJ5X21lbW9yeV9yZWdpb25faW5mby4KPisJICovCj4rI2RlZmluZSBJOTE1X09CSkVDVF9Q
-QVJBTSAgKDF1bGw8PDMyKQo+KyNkZWZpbmUgSTkxNV9QQVJBTV9NRU1PUllfUkVHSU9OIDB4MQo+
-KwlfX3U2NCBwYXJhbTsKPisKPisJX191NjQgZGF0YTsKPit9Owo+KwoKTWF5IGJlIGFub3RoZXIg
-Y2xhc3MgdGhhdCBwcm9iYWJseSBjYW4gdXNlIHRoaXMgR0VUL1NFVFBBUkFNIGludGVyZmFjZSBp
-cyB0aGUgYWRkcmVzcyBzcGFjZSAodm0pLgpQcm9iYWJseSB3ZSBjYW4gYWxsb3cgdXNlciB0byBx
-dWVyeSBmb3IgUFBHVFQgc2l6ZSBvZiB2bSBvYmplY3QgKG5vdCBqdXN0IGNvbnRleHQpLgpOb3Qg
-cmVsYXRlZCB0byB0aGlzIHBhdGNoIHNlcmllcywgYnV0IGFub3RoZXIgdHlwZS9jbGFzcyBkZWZp
-bml0aW9uIGhlcmUgKEk5MTVfVk1fUEFSQU0/KS4KV2UgcHJvYmFibHkgc2hvdWxkIGRlZmluZSB0
-aGVzZSBjbGFzc2VzIGluIG9uZSBwbGFjZS4KCk5pcmFuamFuYQoKPiAvKioKPiAgKiBDb250ZXh0
-IFNTRVUgcHJvZ3JhbW1pbmcKPiAgKgo+LS0gCj4yLjIwLjEKPgo+X19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPkludGVsLWdmeCBtYWlsaW5nIGxpc3QKPklu
-dGVsLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vaW50ZWwtZ2Z4Cl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0237414391==
+Content-Type: multipart/alternative; boundary="15699126730.4fdb95D4a.22601"
+Content-Transfer-Encoding: 7bit
+
+
+--15699126730.4fdb95D4a.22601
+Date: Tue, 1 Oct 2019 06:51:13 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111599
+
+--- Comment #2 from CI Bug Log <cibuglog@gmail.com> ---
+A CI Bug Log filter associated to this bug has been updated:
+
+{- TGL: igt@gem_ctx_isolation@* - skip - Test requirement: !(gen &gt;
+LAST_KNOWN_GEN), SKIP -}
+{+ TGL: igt@gem_ctx_isolation@* - skip - Test requirement: !(gen &gt;
+LAST_KNOWN_GEN), SKIP +}
+
+New failures caught by the filter:
+
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6974/shard-tglb2/igt@gem_ct=
+x_isolation@vecs0-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6974/shard-tglb3/igt@gem_ct=
+x_isolation@rcs0-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6974/shard-tglb5/igt@gem_ct=
+x_isolation@vcs2-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6975/shard-tglb2/igt@gem_ct=
+x_isolation@vcs2-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6975/shard-tglb6/igt@gem_ct=
+x_isolation@rcs0-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6975/shard-tglb6/igt@gem_ct=
+x_isolation@vecs0-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6976/shard-tglb5/igt@gem_ct=
+x_isolation@rcs0-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6976/shard-tglb5/igt@gem_ct=
+x_isolation@vcs2-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6976/shard-tglb6/igt@gem_ct=
+x_isolation@bcs0-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6976/shard-tglb6/igt@gem_ct=
+x_isolation@vcs0-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6977/shard-tglb1/igt@gem_ct=
+x_isolation@rcs0-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6977/shard-tglb1/igt@gem_ct=
+x_isolation@vcs2-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6977/shard-tglb2/igt@gem_ct=
+x_isolation@bcs0-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6977/shard-tglb2/igt@gem_ct=
+x_isolation@vcs0-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6977/shard-tglb5/igt@gem_ct=
+x_isolation@vecs0-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6978/shard-tglb1/igt@gem_ct=
+x_isolation@vcs2-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6978/shard-tglb2/igt@gem_ct=
+x_isolation@bcs0-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6978/shard-tglb2/igt@gem_ct=
+x_isolation@vcs0-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6978/shard-tglb2/igt@gem_ct=
+x_isolation@rcs0-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6979/shard-tglb1/igt@gem_ct=
+x_isolation@vecs0-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6979/shard-tglb4/igt@gem_ct=
+x_isolation@vcs2-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6979/shard-tglb5/igt@gem_ct=
+x_isolation@bcs0-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6979/shard-tglb5/igt@gem_ct=
+x_isolation@vcs0-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6979/shard-tglb6/igt@gem_ct=
+x_isolation@rcs0-nonpriv-switch.html
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6979/shard-tglb6/igt@gem_ct=
+x_isolation@vcs1-nonpriv-switch.html
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15699126730.4fdb95D4a.22601
+Date: Tue, 1 Oct 2019 06:51:13 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI][RESUME] igt&#64;gem_ctx_isolation&#64;* - skip - Tes=
+t requirement: !(gen &gt; LAST_KNOWN_GEN), SKIP"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111599#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI][RESUME] igt&#64;gem_ctx_isolation&#64;* - skip - Tes=
+t requirement: !(gen &gt; LAST_KNOWN_GEN), SKIP"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111599">bug 11159=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+cibuglog&#64;gmail.com" title=3D"CI Bug Log &lt;cibuglog&#64;gmail.com&gt;"=
+> <span class=3D"fn">CI Bug Log</span></a>
+</span></b>
+        <pre>A CI Bug Log filter associated to this bug has been updated:
+
+{- TGL: igt&#64;gem_ctx_isolation&#64;* - skip - Test requirement: !(gen &a=
+mp;gt;
+LAST_KNOWN_GEN), SKIP -}
+{+ TGL: igt&#64;gem_ctx_isolation&#64;* - skip - Test requirement: !(gen &a=
+mp;gt;
+LAST_KNOWN_GEN), SKIP +}
+
+New failures caught by the filter:
+
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6974/shard-tglb2=
+/igt&#64;gem_ctx_isolation&#64;vecs0-nonpriv-switch.html">https://intel-gfx=
+-ci.01.org/tree/drm-tip/CI_DRM_6974/shard-tglb2/igt&#64;gem_ctx_isolation&#=
+64;vecs0-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6974/shard-tglb3=
+/igt&#64;gem_ctx_isolation&#64;rcs0-nonpriv-switch.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/CI_DRM_6974/shard-tglb3/igt&#64;gem_ctx_isolation&#6=
+4;rcs0-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6974/shard-tglb5=
+/igt&#64;gem_ctx_isolation&#64;vcs2-nonpriv-switch.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/CI_DRM_6974/shard-tglb5/igt&#64;gem_ctx_isolation&#6=
+4;vcs2-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6975/shard-tglb2=
+/igt&#64;gem_ctx_isolation&#64;vcs2-nonpriv-switch.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/CI_DRM_6975/shard-tglb2/igt&#64;gem_ctx_isolation&#6=
+4;vcs2-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6975/shard-tglb6=
+/igt&#64;gem_ctx_isolation&#64;rcs0-nonpriv-switch.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/CI_DRM_6975/shard-tglb6/igt&#64;gem_ctx_isolation&#6=
+4;rcs0-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6975/shard-tglb6=
+/igt&#64;gem_ctx_isolation&#64;vecs0-nonpriv-switch.html">https://intel-gfx=
+-ci.01.org/tree/drm-tip/CI_DRM_6975/shard-tglb6/igt&#64;gem_ctx_isolation&#=
+64;vecs0-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6976/shard-tglb5=
+/igt&#64;gem_ctx_isolation&#64;rcs0-nonpriv-switch.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/CI_DRM_6976/shard-tglb5/igt&#64;gem_ctx_isolation&#6=
+4;rcs0-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6976/shard-tglb5=
+/igt&#64;gem_ctx_isolation&#64;vcs2-nonpriv-switch.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/CI_DRM_6976/shard-tglb5/igt&#64;gem_ctx_isolation&#6=
+4;vcs2-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6976/shard-tglb6=
+/igt&#64;gem_ctx_isolation&#64;bcs0-nonpriv-switch.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/CI_DRM_6976/shard-tglb6/igt&#64;gem_ctx_isolation&#6=
+4;bcs0-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6976/shard-tglb6=
+/igt&#64;gem_ctx_isolation&#64;vcs0-nonpriv-switch.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/CI_DRM_6976/shard-tglb6/igt&#64;gem_ctx_isolation&#6=
+4;vcs0-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6977/shard-tglb1=
+/igt&#64;gem_ctx_isolation&#64;rcs0-nonpriv-switch.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/CI_DRM_6977/shard-tglb1/igt&#64;gem_ctx_isolation&#6=
+4;rcs0-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6977/shard-tglb1=
+/igt&#64;gem_ctx_isolation&#64;vcs2-nonpriv-switch.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/CI_DRM_6977/shard-tglb1/igt&#64;gem_ctx_isolation&#6=
+4;vcs2-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6977/shard-tglb2=
+/igt&#64;gem_ctx_isolation&#64;bcs0-nonpriv-switch.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/CI_DRM_6977/shard-tglb2/igt&#64;gem_ctx_isolation&#6=
+4;bcs0-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6977/shard-tglb2=
+/igt&#64;gem_ctx_isolation&#64;vcs0-nonpriv-switch.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/CI_DRM_6977/shard-tglb2/igt&#64;gem_ctx_isolation&#6=
+4;vcs0-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6977/shard-tglb5=
+/igt&#64;gem_ctx_isolation&#64;vecs0-nonpriv-switch.html">https://intel-gfx=
+-ci.01.org/tree/drm-tip/CI_DRM_6977/shard-tglb5/igt&#64;gem_ctx_isolation&#=
+64;vecs0-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6978/shard-tglb1=
+/igt&#64;gem_ctx_isolation&#64;vcs2-nonpriv-switch.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/CI_DRM_6978/shard-tglb1/igt&#64;gem_ctx_isolation&#6=
+4;vcs2-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6978/shard-tglb2=
+/igt&#64;gem_ctx_isolation&#64;bcs0-nonpriv-switch.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/CI_DRM_6978/shard-tglb2/igt&#64;gem_ctx_isolation&#6=
+4;bcs0-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6978/shard-tglb2=
+/igt&#64;gem_ctx_isolation&#64;vcs0-nonpriv-switch.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/CI_DRM_6978/shard-tglb2/igt&#64;gem_ctx_isolation&#6=
+4;vcs0-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6978/shard-tglb2=
+/igt&#64;gem_ctx_isolation&#64;rcs0-nonpriv-switch.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/CI_DRM_6978/shard-tglb2/igt&#64;gem_ctx_isolation&#6=
+4;rcs0-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6979/shard-tglb1=
+/igt&#64;gem_ctx_isolation&#64;vecs0-nonpriv-switch.html">https://intel-gfx=
+-ci.01.org/tree/drm-tip/CI_DRM_6979/shard-tglb1/igt&#64;gem_ctx_isolation&#=
+64;vecs0-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6979/shard-tglb4=
+/igt&#64;gem_ctx_isolation&#64;vcs2-nonpriv-switch.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/CI_DRM_6979/shard-tglb4/igt&#64;gem_ctx_isolation&#6=
+4;vcs2-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6979/shard-tglb5=
+/igt&#64;gem_ctx_isolation&#64;bcs0-nonpriv-switch.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/CI_DRM_6979/shard-tglb5/igt&#64;gem_ctx_isolation&#6=
+4;bcs0-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6979/shard-tglb5=
+/igt&#64;gem_ctx_isolation&#64;vcs0-nonpriv-switch.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/CI_DRM_6979/shard-tglb5/igt&#64;gem_ctx_isolation&#6=
+4;vcs0-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6979/shard-tglb6=
+/igt&#64;gem_ctx_isolation&#64;rcs0-nonpriv-switch.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/CI_DRM_6979/shard-tglb6/igt&#64;gem_ctx_isolation&#6=
+4;rcs0-nonpriv-switch.html</a>
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6979/shard-tglb6=
+/igt&#64;gem_ctx_isolation&#64;vcs1-nonpriv-switch.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/CI_DRM_6979/shard-tglb6/igt&#64;gem_ctx_isolation&#6=
+4;vcs1-nonpriv-switch.html</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15699126730.4fdb95D4a.22601--
+
+--===============0237414391==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0237414391==--
