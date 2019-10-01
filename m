@@ -2,24 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CDEAC375D
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2019 16:29:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68501C377D
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2019 16:33:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBF8089CF8;
-	Tue,  1 Oct 2019 14:29:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 035A66E7F5;
+	Tue,  1 Oct 2019 14:33:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id D938489CF8
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2019 14:29:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 008976E7F5
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2019 14:33:40 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D168272162; Tue,  1 Oct 2019 14:29:54 +0000 (UTC)
+ id EB48972162; Tue,  1 Oct 2019 14:33:39 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111876] AMD 5700 XT / Navi - BenQ XL2420G - No EDID read with
- DP connector, HDMI works fine
-Date: Tue, 01 Oct 2019 14:29:55 +0000
+Subject: [Bug 111860] Crash in AMDGPU after resume on VegaM
+Date: Tue, 01 Oct 2019 14:33:40 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -28,16 +27,16 @@ X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: DRI git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: not set
-X-Bugzilla-Who: christopherjordan87@gmail.com
+X-Bugzilla-Who: alexdeucher@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111876-502-ps0poTZcU6@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111876-502@http.bugs.freedesktop.org/>
-References: <bug-111876-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111860-502-agaqWxaPNS@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111860-502@http.bugs.freedesktop.org/>
+References: <bug-111860-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,43 +52,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0592892061=="
+Content-Type: multipart/mixed; boundary="===============1661985102=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0592892061==
-Content-Type: multipart/alternative; boundary="15699401940.02116Ff.4509"
+--===============1661985102==
+Content-Type: multipart/alternative; boundary="15699404190.BF3fd.6235"
 Content-Transfer-Encoding: 7bit
 
 
---15699401940.02116Ff.4509
-Date: Tue, 1 Oct 2019 14:29:54 +0000
+--15699404190.BF3fd.6235
+Date: Tue, 1 Oct 2019 14:33:39 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111876
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111860
 
---- Comment #4 from Christopher Jordan <christopherjordan87@gmail.com> ---
-I forgot to mention - when using DP, after that EDID error, my screen displ=
-ays
-a 640x480 tty. I can start X with it, but xrandr shows no other resolutions=
- to
-use (probably because the KMS has no EDID info). I haven't been brave enoug=
-h to
-manually generate and force EDIDs, but I figure that something else is wron=
-g,
-as this all works fine under Windows.
+--- Comment #2 from Alex Deucher <alexdeucher@gmail.com> ---
+That's just a warning.  Does the driver still work properly?
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15699401940.02116Ff.4509
-Date: Tue, 1 Oct 2019 14:29:54 +0000
+--15699404190.BF3fd.6235
+Date: Tue, 1 Oct 2019 14:33:39 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -105,30 +96,20 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - AMD 5700 XT / Navi - BenQ XL2420G - No EDID read with DP =
-connector, HDMI works fine"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111876#c4">Commen=
-t # 4</a>
+   title=3D"NEW - Crash in AMDGPU after resume on VegaM"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111860#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - AMD 5700 XT / Navi - BenQ XL2420G - No EDID read with DP =
-connector, HDMI works fine"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111876">bug 11187=
-6</a>
+   title=3D"NEW - Crash in AMDGPU after resume on VegaM"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111860">bug 11186=
+0</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-christopherjordan87&#64;gmail.com" title=3D"Christopher Jordan &lt;christop=
-herjordan87&#64;gmail.com&gt;"> <span class=3D"fn">Christopher Jordan</span=
-></a>
+alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
+com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
 </span></b>
-        <pre>I forgot to mention - when using DP, after that EDID error, my=
- screen displays
-a 640x480 tty. I can start X with it, but xrandr shows no other resolutions=
- to
-use (probably because the KMS has no EDID info). I haven't been brave enoug=
-h to
-manually generate and force EDIDs, but I figure that something else is wron=
-g,
-as this all works fine under Windows.</pre>
+        <pre>That's just a warning.  Does the driver still work properly?</=
+pre>
         </div>
       </p>
 
@@ -142,9 +123,9 @@ as this all works fine under Windows.</pre>
     </body>
 </html>=
 
---15699401940.02116Ff.4509--
+--15699404190.BF3fd.6235--
 
---===============0592892061==
+--===============1661985102==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -154,4 +135,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0592892061==--
+--===============1661985102==--
