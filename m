@@ -1,64 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 382B0C3750
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2019 16:29:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CDEAC375D
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2019 16:29:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE1976E7E2;
-	Tue,  1 Oct 2019 14:29:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBF8089CF8;
+	Tue,  1 Oct 2019 14:29:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 431C86E7E2
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2019 14:29:22 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id b24so3486030wmj.5
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Oct 2019 07:29:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Zbs/Q3MsdenwE0g7FlmKiMlk/SOvniNFvpDInB7/8lg=;
- b=R30Dpaet5+2Bnyq0y5PiiOW8pCuMSbEbjYfC6imGvprTozI8iwwg+cR7E6fyXR4byF
- rVOMRkpXB+ljpJh/L/4iCa+jND3mvRjLg+sNDDsQiX5MsbbZkHZ18q7GSQ7iQ0ZZRI0Q
- G0Z1xDyOmFmtPFh4As6TIqffBKqPqsr9wExL3KHhNncr9ivuJFveML5Jt+hU2FT+6wwk
- uqX4AN9jZH2ssNJ4AAbh5MyRHg2MluXLKayk4y7uDma0M2JeR62/q/hR58YIKQELTlNH
- gRnGcs1gF84cCOG8J7jzYeWL7Odo86kYcPzFzCeCo5nJX3WnDvSV7CA7zVgTWqiOTAeu
- rwYg==
-X-Gm-Message-State: APjAAAUbwwxN35lhraf4WHjnRWXM5jxDCNOXZ01uxpqVAPcBGeW/PUYO
- 3GXMzcUzpGoRIANkZyzl0fsI1w==
-X-Google-Smtp-Source: APXvYqxXALWaJtwvVfsLlZFYYua2CQBoHGuUym/bKHxQZ190WXx8BwxxVFOpKgosan9NU4AewmAYlQ==
-X-Received: by 2002:a05:600c:2290:: with SMTP id
- 16mr805781wmf.161.1569940160774; 
- Tue, 01 Oct 2019 07:29:20 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
- [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id l18sm15404308wrc.18.2019.10.01.07.29.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Oct 2019 07:29:20 -0700 (PDT)
-Date: Tue, 1 Oct 2019 15:29:18 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: Re: [PATCH v4 1/7] backlight: gpio: remove unneeded include
-Message-ID: <20191001142918.gjifvlkz574dbihr@holly.lan>
-References: <20191001125837.4472-1-brgl@bgdev.pl>
- <20191001125837.4472-2-brgl@bgdev.pl>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D938489CF8
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2019 14:29:54 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id D168272162; Tue,  1 Oct 2019 14:29:54 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111876] AMD 5700 XT / Navi - BenQ XL2420G - No EDID read with
+ DP connector, HDMI works fine
+Date: Tue, 01 Oct 2019 14:29:55 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: christopherjordan87@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111876-502-ps0poTZcU6@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111876-502@http.bugs.freedesktop.org/>
+References: <bug-111876-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191001125837.4472-2-brgl@bgdev.pl>
-User-Agent: NeoMutt/20180716
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=Zbs/Q3MsdenwE0g7FlmKiMlk/SOvniNFvpDInB7/8lg=;
- b=Ab78udnPe3CRWuo1p82gth5GZPwVCa619kuHOdLyJPwlTZWd8o67QnPGzfD0g5txa/
- Hgmc/jnJuqVkWi7VwGXZ8lnqFcojAh6LTJrrJsydA11V+jKR6g2nJ0wuW/S4lTboC/SW
- bKo1z1nPOemI8ZG34YVv5PlBByBjHVtciX91NVR8dL7DIiy+x5UgDPi2wQ1vDO2VxRbo
- /LSQmlDGgjSUsQ9KL2o+b0G21XyHl0ICmPWF5a+VKrekFyLvwoa18e0ac+vetvM4EHav
- V6wM6F4HzCA1IGEfa0dNVeVcb5gPTSNz9p4iL163mCfdf3Xyy3seTMimN6B43VNWdJQD
- 8H5w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,36 +53,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jacopo Mondi <jacopo@jmondi.org>, Rich Felker <dalias@libc.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jingoo Han <jingoohan1@gmail.com>, linux-sh@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, linux-fbdev@vger.kernel.org,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Lee Jones <lee.jones@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0592892061=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBPY3QgMDEsIDIwMTkgYXQgMDI6NTg6MzFQTSArMDIwMCwgQmFydG9zeiBHb2xhc3pl
-d3NraSB3cm90ZToKPiBGcm9tOiBCYXJ0b3N6IEdvbGFzemV3c2tpIDxiZ29sYXN6ZXdza2lAYmF5
-bGlicmUuY29tPgo+IAo+IFdlIG5vIGxvbmdlciB1c2UgYW55IHN5bWJvbHMgZnJvbSBvZl9ncGlv
-LmguIFJlbW92ZSB0aGlzIGluY2x1ZGUuCj4gCj4gU2lnbmVkLW9mZi1ieTogQmFydG9zeiBHb2xh
-c3pld3NraSA8YmdvbGFzemV3c2tpQGJheWxpYnJlLmNvbT4KClJldmlld2VkLWJ5OiBEYW5pZWwg
-VGhvbXBzb24gPGRhbmllbC50aG9tcHNvbkBsaW5hcm8ub3JnPgoKPiAtLS0KPiAgZHJpdmVycy92
-aWRlby9iYWNrbGlnaHQvZ3Bpb19iYWNrbGlnaHQuYyB8IDEgLQo+ICAxIGZpbGUgY2hhbmdlZCwg
-MSBkZWxldGlvbigtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9n
-cGlvX2JhY2tsaWdodC5jIGIvZHJpdmVycy92aWRlby9iYWNrbGlnaHQvZ3Bpb19iYWNrbGlnaHQu
-Ywo+IGluZGV4IDE4ZTA1M2U0NzE2Yy4uN2UxOTkwMTk5ZmFlIDEwMDY0NAo+IC0tLSBhL2RyaXZl
-cnMvdmlkZW8vYmFja2xpZ2h0L2dwaW9fYmFja2xpZ2h0LmMKPiArKysgYi9kcml2ZXJzL3ZpZGVv
-L2JhY2tsaWdodC9ncGlvX2JhY2tsaWdodC5jCj4gQEAgLTEyLDcgKzEyLDYgQEAKPiAgI2luY2x1
-ZGUgPGxpbnV4L2tlcm5lbC5oPgo+ICAjaW5jbHVkZSA8bGludXgvbW9kdWxlLmg+Cj4gICNpbmNs
-dWRlIDxsaW51eC9vZi5oPgo+IC0jaW5jbHVkZSA8bGludXgvb2ZfZ3Bpby5oPgo+ICAjaW5jbHVk
-ZSA8bGludXgvcGxhdGZvcm1fZGF0YS9ncGlvX2JhY2tsaWdodC5oPgo+ICAjaW5jbHVkZSA8bGlu
-dXgvcGxhdGZvcm1fZGV2aWNlLmg+Cj4gICNpbmNsdWRlIDxsaW51eC9wcm9wZXJ0eS5oPgo+IC0t
-IAo+IDIuMjMuMAo+IApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWw=
+
+--===============0592892061==
+Content-Type: multipart/alternative; boundary="15699401940.02116Ff.4509"
+Content-Transfer-Encoding: 7bit
+
+
+--15699401940.02116Ff.4509
+Date: Tue, 1 Oct 2019 14:29:54 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111876
+
+--- Comment #4 from Christopher Jordan <christopherjordan87@gmail.com> ---
+I forgot to mention - when using DP, after that EDID error, my screen displ=
+ays
+a 640x480 tty. I can start X with it, but xrandr shows no other resolutions=
+ to
+use (probably because the KMS has no EDID info). I haven't been brave enoug=
+h to
+manually generate and force EDIDs, but I figure that something else is wron=
+g,
+as this all works fine under Windows.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15699401940.02116Ff.4509
+Date: Tue, 1 Oct 2019 14:29:54 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD 5700 XT / Navi - BenQ XL2420G - No EDID read with DP =
+connector, HDMI works fine"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111876#c4">Commen=
+t # 4</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD 5700 XT / Navi - BenQ XL2420G - No EDID read with DP =
+connector, HDMI works fine"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111876">bug 11187=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+christopherjordan87&#64;gmail.com" title=3D"Christopher Jordan &lt;christop=
+herjordan87&#64;gmail.com&gt;"> <span class=3D"fn">Christopher Jordan</span=
+></a>
+</span></b>
+        <pre>I forgot to mention - when using DP, after that EDID error, my=
+ screen displays
+a 640x480 tty. I can start X with it, but xrandr shows no other resolutions=
+ to
+use (probably because the KMS has no EDID info). I haven't been brave enoug=
+h to
+manually generate and force EDIDs, but I figure that something else is wron=
+g,
+as this all works fine under Windows.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15699401940.02116Ff.4509--
+
+--===============0592892061==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0592892061==--
