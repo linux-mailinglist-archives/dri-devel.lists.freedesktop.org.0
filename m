@@ -1,45 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20FE7C3806
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2019 16:48:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D562C380C
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2019 16:50:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05ED76E811;
-	Tue,  1 Oct 2019 14:48:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF6106E81A;
+	Tue,  1 Oct 2019 14:50:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id A347D6E811
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2019 14:48:49 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9B03472162; Tue,  1 Oct 2019 14:48:49 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111846] Suspend to RAM cause screen to glitch on navi10
-Date: Tue, 01 Oct 2019 14:48:49 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111846-502-HhXTnUF6UB@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111846-502@http.bugs.freedesktop.org/>
-References: <bug-111846-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 785D66E81A
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2019 14:50:46 +0000 (UTC)
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it
+ [2.224.242.101]) (Authenticated sender: jacopo@jmondi.org)
+ by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 4BF9D40004;
+ Tue,  1 Oct 2019 14:50:39 +0000 (UTC)
+Date: Tue, 1 Oct 2019 16:52:22 +0200
+From: Jacopo Mondi <jacopo@jmondi.org>
+To: Ezequiel Garcia <ezequiel@collabora.com>
+Subject: Re: [PATCH v3 5/5] RFC: drm/atomic-helper: Reapply color
+ transformation after resume
+Message-ID: <20191001145222.32aapomoqlaxpvbb@uno.localdomain>
+References: <20190930222802.32088-1-ezequiel@collabora.com>
+ <20190930222802.32088-6-ezequiel@collabora.com>
 MIME-Version: 1.0
+In-Reply-To: <20190930222802.32088-6-ezequiel@collabora.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,80 +41,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1724395948=="
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>, linux-rockchip@lists.infradead.org,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Sean Paul <seanpaul@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ kernel@collabora.com
+Content-Type: multipart/mixed; boundary="===============0893996964=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1724395948==
-Content-Type: multipart/alternative; boundary="15699413290.Af2cf9.8906"
-Content-Transfer-Encoding: 7bit
+--===============0893996964==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="zl62uyu5oe5zzls3"
+Content-Disposition: inline
 
 
---15699413290.Af2cf9.8906
-Date: Tue, 1 Oct 2019 14:48:49 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+--zl62uyu5oe5zzls3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111846
+Hi Ezequiel,
 
---- Comment #1 from Alex Deucher <alexdeucher@gmail.com> ---
-Please attach your xorg log (if using X) and your dmesg output.
+On Mon, Sep 30, 2019 at 07:28:02PM -0300, Ezequiel Garcia wrote:
+> Some platforms are not able to maintain the color transformation
+> state after a system suspend/resume cycle.
+>
+> Set the colog_mgmt_changed flag so that CMM on the CRTCs in
 
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
+CMM is the name of the Renesas unit for color enanchement. It should
+not be used here as this will apply to all platforms.
 
---15699413290.Af2cf9.8906
-Date: Tue, 1 Oct 2019 14:48:49 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+> the suspend state are reapplied after system resume.
+>
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> ---
+> This is an RFC, and it's mostly based on Jacopo Mondi's work https://lkml.org/lkml/2019/9/6/498.
+>
+> Changes from v2:
+> * New patch.
+> ---
+>  drivers/gpu/drm/drm_atomic_helper.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index e41db0f202ca..518488125575 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -3234,8 +3234,20 @@ int drm_atomic_helper_resume(struct drm_device *dev,
+>  			     struct drm_atomic_state *state)
+>  {
+>  	struct drm_modeset_acquire_ctx ctx;
+> +	struct drm_crtc_state *crtc_state;
+> +	struct drm_crtc *crtc;
+> +	unsigned int i;
+>  	int err;
+>
+> +	for_each_new_crtc_in_state(state, crtc, crtc_state, i) {
+> +		/*
+> +		 * Force re-enablement of CMM after system resume if any
+> +		 * of the DRM color transformation properties was set in
+> +		 * the state saved at system suspend time.
+> +		 */
+> +		if (crtc_state->gamma_lut)
 
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Suspend to RAM cause screen to glitch on navi10"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111846#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Suspend to RAM cause screen to glitch on navi10"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111846">bug 11184=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
-com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
-</span></b>
-        <pre>Please attach your xorg log (if using X) and your dmesg output=
-.</pre>
-        </div>
-      </p>
+Please note that in my original patch I only took gamma_lut into
+account as that's what our CMM supports at the moment, but you should
+here consider the degamma_lut and cmt flags in the crtc_state.
 
+> +			crtc_state->color_mgmt_changed = true;
+> +	}
+>  	drm_mode_config_reset(dev);
+>
+>  	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, err);
+> --
+> 2.22.0
+>
 
-      <hr>
-      <span>You are receiving this mail because:</span>
+--zl62uyu5oe5zzls3
+Content-Type: application/pgp-signature; name="signature.asc"
 
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
+-----BEGIN PGP SIGNATURE-----
 
---15699413290.Af2cf9.8906--
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl2TaCYACgkQcjQGjxah
+VjyNJA//aSwBuTdB7lLcaiEaE+P3RsAcLZl6sS/EGaTO5tsvgJD43qhcW0FyAZdV
+8ABNJ3e+W7ZgTzkHWVBvs6Y5eQlE3AvvAhXFPEjL9ca9Y/rRLgcF6mQ8GQCqsYO7
+dvBkd1bpWG7XBOO5KzSLSDbIsjDRmDbpFVQHtTWDJZN/LzIqZHoGPZL9Tc7yoAY7
+9MW3av52glPOWqTJj9zscg/Y7BWuapCmmPPV97iLUPKVtvN/G+2fgIVxushM2e3K
+TJvYsU63CZ5pzKX1U02UBbs0KKsENRRjWCTcGs2gf5xq0WhBs+lC0uZAclNkw/lu
+wd5ehPD3CaE2NiBECnHtptxEZE+jMzzP7jmDojYHILG0NqV6pcVVHdZsYK7AE/qb
+CfqDtLn6HnbaZZcia7Smp50QpTGY5z46Qe9l15CH/wtzjywwyKyl9GvuEK18ycx5
+6iwGZW0PYHJnAQwh0U4F92akAXIOf5xfpW2358jlIr8iwmSE5UgrqA4YcDDPGDfs
+7YvBDUBn/Bs0RYUetb/+HI5rcYZsWdBkpL/cHP6y+8yItmdS9IyYlHS6pXxm3X04
+dS7tEaUs29GYJKsVshqq7ORctg0pd4ebsSsZeyqTLq7YmzXefjzpHihSvuKt0oMU
+pqCdnYKZkFUm70gLJXTHVVjSty7YOBB428DgPlWTFmgNUvVUqec=
+=hYRk
+-----END PGP SIGNATURE-----
 
---===============1724395948==
+--zl62uyu5oe5zzls3--
+
+--===============0893996964==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -135,4 +151,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1724395948==--
+--===============0893996964==--
