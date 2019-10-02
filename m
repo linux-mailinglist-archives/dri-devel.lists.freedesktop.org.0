@@ -2,37 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51BDEC4B8E
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2019 12:36:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9380DC4BA2
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2019 12:39:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EA756E92C;
-	Wed,  2 Oct 2019 10:36:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EEA16E92D;
+	Wed,  2 Oct 2019 10:39:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E7396E92C
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2019 10:36:45 +0000 (UTC)
-Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 8DBAC218DE;
- Wed,  2 Oct 2019 10:36:44 +0000 (UTC)
-Date: Wed, 2 Oct 2019 12:36:42 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Icenowy Zheng <icenowy@aosc.io>
-Subject: Re: [PATCH 0/3] drm/sun4i: dsi: misc timing fixes
-Message-ID: <20191002103642.jlbs44v4kwnxhrge@gilmour>
-References: <20191001080253.6135-1-icenowy@aosc.io>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0E7A6E92D
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2019 10:39:31 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 201957] amdgpu: ring gfx timeout
+Date: Wed, 02 Oct 2019 10:39:30 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: lekto@o2.pl
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-201957-2300-bLQ4j63eIe@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
+References: <bug-201957-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20191001080253.6135-1-icenowy@aosc.io>
-User-Agent: NeoMutt/20180716
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1570012605;
- bh=OTtxUEjlO9HcUPpiugCSBkopkvyXz2JCDw8OEY6QwX8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Dop77VND9yEdv1ixP06TuVIV/36nU/gRS6iesokjS2CL7ZPgJdrbgDpvt2Aoxzgu2
- d5u137d5vOTMdKWAjM2hICqZFYPs7zzfRGPDLEKyrpW0K9Z2k28AGKCwWGyw0Bwo42
- t1VdFm3KNA9hZoIoMuUDxnLyR/+3oztIWtrtXmsE=
+X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
+ message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,75 +51,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-sunxi@googlegroups.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Chen-Yu Tsai <wens@csie.org>, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0208782038=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0208782038==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="6keczcenlhnwont6"
-Content-Disposition: inline
-
-
---6keczcenlhnwont6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi,
-
-On Tue, Oct 01, 2019 at 04:02:50PM +0800, Icenowy Zheng wrote:
-> This patchset fixes some portion of timing calculation in sun6i_mipi_dsi
-> driver according to the BSP driver.
->
-> Two of the patches are reverting, one is fixing some misread of the BSP
-> source code, another is fixing a wrong refactor that actually breaks the
-> formula.
->
-> The other non-reverting patch is fixing a porch error which is usually
-> seen in the original driver commit. Most of porch errors are then fixed,
-> but this one gets ignored.
->
-> By applying these patches, several DSI panels are tested to be driven
-> properly by the timing provided by the vendor, including the LCD panel
-> of PinePhone "Don't Be Evil" DevKit, the final PinePhone panel and the
-> panel on PineTab. Without these patches they need dirty timing hacks to
-> work.
-
-Thanks for going after that issue. Can you provide references to the
-BSP on the various patches?
-
-Ideally, having the panel drivers, and the panel datasheet would help.
-
-Thanks!
-Maxime
-
-PS: where can we get one of those devices?
-
---6keczcenlhnwont6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXZR9ugAKCRDj7w1vZxhR
-xY0/AQC5eQr1MF2JwZuR7J6/60HoAsW6kKoOVaBBWurj6iMNTAD+JwOOdlDSQqrT
-fievw3+uVVe3O0xnWQxGHYInw9LB6g4=
-=q4a2
------END PGP SIGNATURE-----
-
---6keczcenlhnwont6--
-
---===============0208782038==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0208782038==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDE5NTcKCmxla3Rv
+IChsZWt0b0BvMi5wbCkgY2hhbmdlZDoKCiAgICAgICAgICAgV2hhdCAgICB8UmVtb3ZlZCAgICAg
+ICAgICAgICAgICAgICAgIHxBZGRlZAotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiAgICAgICAgICAgICAg
+ICAgQ0N8ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHxsZWt0b0BvMi5wbAoKLS0tIENvbW1l
+bnQgIzExIGZyb20gbGVrdG8gKGxla3RvQG8yLnBsKSAtLS0KU2FtZSBwcm9ibGVtIGhlcmUuIEl0
+IGhhcHBlbnMgd2hlbiBJIHJ1biBsb29raW5nLWdsYXNzIFsxXSwgYnV0IG5vdCBldmVyeXRpbWUu
+CkkgdGllZCBkb3duZ3JhZGluZyBteSBrZXJuZWwgZnJvbSA1LjMuMSB0byA1LjIuMTEgKEknbSBw
+cmV0dHkgc3VyZSBpdCB3b3JrZWQKdGhlbiksIGRvd25ncmFkaW5nIG1lc2EgZnJvbSAxOS4yLjAg
+dG8gMTkuMS43IChJJ20gc3VyZSBpdCB3b3JrZWQgd2l0aAoxOS4yLjAtcmMpIGFuZCBkb3duZ3Jh
+ZGluZyBteSBmaXJtd2FyZSB0byAyMDE5LTA5LTIzIChvbGRlc3QgaW4gcmVwbykuCgpXaGVuIGl0
+IGhhcHBlbnMgbG9va2luZyBnbGFzcyBzdGFydHMgYmxpbmtpbmcgYW5kIHNvbWV0aW1lcyBteSBv
+dGhlciBtb25pdG9yCnN0dWNrIHRoYXQgSSBjYW4gb25seSBtb3ZlIGN1cnNvciBvbiBpdC4KClNw
+ZWM6CkdlbnRvbyB+YW1kNjQKUnl6ZW4gMTYwMCAob3RoZXIgaGF2ZSBSeXplbiB0b28sIGNvaW5j
+aWRlbmNlPykKTGludXggR1BVOiBSNyAyNDAgKHdpdGggcmFkZW9uIGRyaXZlcikKV2luZG93cyBH
+UFU6IFJYNTgwCkFTUm9jayBYMzcwIEdhbWluZyBYCgoKWzFdIGh0dHBzOi8vbG9va2luZy1nbGFz
+cy5ob3N0Zmlzc2lvbi5jb20vCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1
+c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
