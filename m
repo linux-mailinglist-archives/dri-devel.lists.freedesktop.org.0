@@ -1,45 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D660CC448E
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2019 01:44:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8717C4550
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2019 03:13:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06B0C6E8CE;
-	Tue,  1 Oct 2019 23:44:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE64F6E570;
+	Wed,  2 Oct 2019 01:13:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6345F6E8C5
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2019 23:44:38 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 591D072162; Tue,  1 Oct 2019 23:44:38 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26F886E570
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2019 01:13:06 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Tue, 01 Oct 2019 23:44:38 +0000
-X-Bugzilla-Reason: AssignedTo
+Subject: [Bug 204611] amdgpu error scheduling IBs when waking from sleep
+Date: Wed, 02 Oct 2019 01:13:05 +0000
+X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: reddestdream@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: tones111@hotmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-al6yStknaE@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+Message-ID: <bug-204611-2300-1Pbl1dgaTi@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204611-2300@https.bugzilla.kernel.org/>
+References: <bug-204611-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
+ message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,89 +51,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1944206208=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1944206208==
-Content-Type: multipart/alternative; boundary="15699734780.2aC4c4ec.9642"
-Content-Transfer-Encoding: 7bit
-
-
---15699734780.2aC4c4ec.9642
-Date: Tue, 1 Oct 2019 23:44:38 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
-
---- Comment #153 from ReddestDream <reddestdream@gmail.com> ---
-Just FYI, it appears that kernel 5.3.2 does not have the Vega 20 fix commits
-that Alex Deucher mentioned.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15699734780.2aC4c4ec.9642
-Date: Tue, 1 Oct 2019 23:44:38 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c153">Comm=
-ent # 153</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-reddestdream&#64;gmail.com" title=3D"ReddestDream &lt;reddestdream&#64;gmai=
-l.com&gt;"> <span class=3D"fn">ReddestDream</span></a>
-</span></b>
-        <pre>Just FYI, it appears that kernel 5.3.2 does not have the Vega =
-20 fix commits
-that Alex Deucher mentioned.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15699734780.2aC4c4ec.9642--
-
---===============1944206208==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1944206208==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQ2MTEKCi0tLSBD
+b21tZW50ICM0IGZyb20gdG9uZXMxMTFAaG90bWFpbC5jb20gLS0tCkkndmUgYmVlbiBhYmxlIHRv
+IG5hcnJvdyB0aGUgcHJvYmxlbSBkb3duIGEgYml0LgoKVGhlIGZpcnN0IGNvbW1pdCB3aGVyZSBJ
+IGdldCB0aGUgc2Nyb2xsaW5nIGFtZGdwdSBlcnJvcnMgaXMKNGY4YjQ5MDkyYzM3Y2YwYzg3YzQz
+YmIyNjk4ZDQzYzcxY2YwZTRlNQoKVW5mb3J0dW5hdGVseSB0aGF0J3MgYSBtZXJnZSBjb21taXQu
+Ck9uZSBvZiB0aGUgcGFyZW50cyBhcHBlYXJzIHRvIGJlIGdvb2QKY2VhY2JjMGUxNDVlM2IyN2Q4
+YjEyZWVjYjg4MWY5ZDg3NzAyNzY1YQoKVGhlIG90aGVyIHBhcmVudAo1ZGQ2YzQ5MzM5MTI2YzJj
+OGRmMjE3OTA0MTM3MzIyMjM2MmQ2ZTQ5CmNhdXNlcyBsb2NrdXBzIHRoYXQgZG9uJ3QgaGF2ZSBh
+bnkgam91cm5hbCBtZXNzYWdlcyBhZnRlciBnb2luZyB0byBzbGVlcC4gIEkndmUKdHJpZWQgYmlz
+ZWN0aW5nIHRoaXMgYmFjayB0byB2NS4xLXJjMSAoZ29vZCkgYnV0IHRoZSBsb2NrdXBzIGJlY29t
+ZSBtdWNoIGxlc3MKY29uc2lzdGVudC4KCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwg
+YmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
