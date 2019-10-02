@@ -1,46 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82BE5C492B
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2019 10:08:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F212C49A5
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2019 10:37:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9803A6E8F3;
-	Wed,  2 Oct 2019 08:08:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFE1A6E8F6;
+	Wed,  2 Oct 2019 08:37:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 076796E8F3
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2019 08:08:14 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 030D472162; Wed,  2 Oct 2019 08:08:14 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111228] PRIME output screen stays black on 1002:15d8 with 128MB
- VRAM
-Date: Wed, 02 Oct 2019 08:08:14 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: hhfeuer@gmx.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111228-502-djsmUHp87U@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111228-502@http.bugs.freedesktop.org/>
-References: <bug-111228-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 759626E8F6
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2019 08:37:15 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0959018C8906;
+ Wed,  2 Oct 2019 08:37:15 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-117-252.ams2.redhat.com
+ [10.36.117.252])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9FAD91C928;
+ Wed,  2 Oct 2019 08:37:14 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 997AE11AAA; Wed,  2 Oct 2019 10:37:13 +0200 (CEST)
+Date: Wed, 2 Oct 2019 10:37:13 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Gurchetan Singh <gurchetansingh@chromium.org>
+Subject: Re: [PATCH 1/2] drm/virtgpu: plumb fix for virtgpu_drm.h /
+ virtio_gpu.h discrepancy
+Message-ID: <20191002083713.y4rdt37n7jjhx6ro@sirius.home.kraxel.org>
+References: <20191002014935.33171-1-gurchetansingh@chromium.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20191002014935.33171-1-gurchetansingh@chromium.org>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Wed, 02 Oct 2019 08:37:15 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,96 +50,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2072425274=="
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2072425274==
-Content-Type: multipart/alternative; boundary="15700036931.7772.1889"
-Content-Transfer-Encoding: 7bit
-
-
---15700036931.7772.1889
-Date: Wed, 2 Oct 2019 08:08:13 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111228
-
---- Comment #8 from Maik Freudenberg <hhfeuer@gmx.de> ---
-A note on amdgpu the amount of VRAM amdgpu is reporting:
-This is the amount of system memory dedicated to the iGPU. Strange enough, =
-this
-doesn't seem to be bios configurable, which would be an easy workaround. It
-seems to be hardcoded, some machines set to 128 MB, others to 2GB.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15700036931.7772.1889
-Date: Wed, 2 Oct 2019 08:08:13 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - PRIME output screen stays black on 1002:15d8 with 128MB V=
-RAM"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111228#c8">Commen=
-t # 8</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - PRIME output screen stays black on 1002:15d8 with 128MB V=
-RAM"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111228">bug 11122=
-8</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-hhfeuer&#64;gmx.de" title=3D"Maik Freudenberg &lt;hhfeuer&#64;gmx.de&gt;"> =
-<span class=3D"fn">Maik Freudenberg</span></a>
-</span></b>
-        <pre>A note on amdgpu the amount of VRAM amdgpu is reporting:
-This is the amount of system memory dedicated to the iGPU. Strange enough, =
-this
-doesn't seem to be bios configurable, which would be an easy workaround. It
-seems to be hardcoded, some machines set to 128 MB, others to 2GB.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15700036931.7772.1889--
-
---===============2072425274==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2072425274==--
+T24gVHVlLCBPY3QgMDEsIDIwMTkgYXQgMDY6NDk6MzRQTSAtMDcwMCwgR3VyY2hldGFuIFNpbmdo
+IHdyb3RlOgo+IHZpcmdscmVuZGVyZXIgaGFzIGxvZ2ljIHRvIHZhbGlkYXRlIGJvdGggc3RyaWRl
+IGFuZCBsYXllcl9zdHJpZGUsCj4gYnV0IGJvdGggYXJlIGFsd2F5cyB6ZXJvLiBUaGUgZmFsbGJh
+Y2sgZm9yIHRoYXQgY2FzZSBpczoKPiAKPiBzdHJpZGUgPSB3aWR0aCAqIGJ5dGVzX3Blcl9waXhl
+bAo+IGxheWVyX3N0cmlkZSA9IHN0cmlkZSAqIG51bV9sYXllcnMKPiAKPiBIb3dldmVyLCB0aGlz
+IGFzc3VtcHRpb24gY2F1c2VzIHRyb3VibGUgaW4gdGhlIGZvbGxvd2luZyBjYXNlczoKPiAKPiAx
+KSBXaGVuIGFsbG9jYXRpbmcgaG9zdC1jb21wYXRpYmxlIGJ1ZmZlcnMgZm9yIHRoZSBwbGFubmVk
+IHdheWxhbmQgaW50ZWdyYXRpb24uCgotLXZlcmJvc2UgcGxlYXNlLgoKSSBrbm93IHdheWxhbmQg
+cm91bmRzIHVwIHRvIGEgbXVsdGlwbGUgb2YgNjQuICBCdXQgdGhhdCBpc24ndCBhIHByb2JsZW0K
+dG9kYXkuICBZb3UgY2FuIGhhdmUgdmlydGlvLWdwdSBvYmplY3RzIHdpdGggd2lkdGggPSA4MzIg
+YW5kIGRlZmluZSBhCmRybV9mcmFtZWJ1ZmZlciB1c2luZyB0aGF0IHdpdGggd2lkdGg9ODAwIGFu
+ZCBzdHJpZGUgc2V0IGFjY29yZGluZ2x5LgoKY2hlZXJzLAogIEdlcmQKCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
