@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8717C4550
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2019 03:13:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF73C4553
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2019 03:14:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE64F6E570;
-	Wed,  2 Oct 2019 01:13:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85D4289A1E;
+	Wed,  2 Oct 2019 01:14:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26F886E570
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2019 01:13:06 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3E80289A1E
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2019 01:14:44 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 3B92372162; Wed,  2 Oct 2019 01:14:44 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204611] amdgpu error scheduling IBs when waking from sleep
-Date: Wed, 02 Oct 2019 01:13:05 +0000
-X-Bugzilla-Reason: None
+Subject: [Bug 111879] GPU reset during hibernation
+Date: Wed, 02 Oct 2019 01:14:44 +0000
+X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tones111@hotmail.com
+X-Bugzilla-Who: yshuiv7@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-204611-2300-1Pbl1dgaTi@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204611-2300@https.bugzilla.kernel.org/>
-References: <bug-204611-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
+Message-ID: <bug-111879-502-xwbCq2LSDy@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111879-502@http.bugs.freedesktop.org/>
+References: <bug-111879-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
- message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,23 +52,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0559424576=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQ2MTEKCi0tLSBD
-b21tZW50ICM0IGZyb20gdG9uZXMxMTFAaG90bWFpbC5jb20gLS0tCkkndmUgYmVlbiBhYmxlIHRv
-IG5hcnJvdyB0aGUgcHJvYmxlbSBkb3duIGEgYml0LgoKVGhlIGZpcnN0IGNvbW1pdCB3aGVyZSBJ
-IGdldCB0aGUgc2Nyb2xsaW5nIGFtZGdwdSBlcnJvcnMgaXMKNGY4YjQ5MDkyYzM3Y2YwYzg3YzQz
-YmIyNjk4ZDQzYzcxY2YwZTRlNQoKVW5mb3J0dW5hdGVseSB0aGF0J3MgYSBtZXJnZSBjb21taXQu
-Ck9uZSBvZiB0aGUgcGFyZW50cyBhcHBlYXJzIHRvIGJlIGdvb2QKY2VhY2JjMGUxNDVlM2IyN2Q4
-YjEyZWVjYjg4MWY5ZDg3NzAyNzY1YQoKVGhlIG90aGVyIHBhcmVudAo1ZGQ2YzQ5MzM5MTI2YzJj
-OGRmMjE3OTA0MTM3MzIyMjM2MmQ2ZTQ5CmNhdXNlcyBsb2NrdXBzIHRoYXQgZG9uJ3QgaGF2ZSBh
-bnkgam91cm5hbCBtZXNzYWdlcyBhZnRlciBnb2luZyB0byBzbGVlcC4gIEkndmUKdHJpZWQgYmlz
-ZWN0aW5nIHRoaXMgYmFjayB0byB2NS4xLXJjMSAoZ29vZCkgYnV0IHRoZSBsb2NrdXBzIGJlY29t
-ZSBtdWNoIGxlc3MKY29uc2lzdGVudC4KCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwg
-YmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0559424576==
+Content-Type: multipart/alternative; boundary="15699788841.E307a.25223"
+Content-Transfer-Encoding: 7bit
+
+
+--15699788841.E307a.25223
+Date: Wed, 2 Oct 2019 01:14:44 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111879
+
+--- Comment #4 from Yuxuan Shui <yshuiv7@gmail.com> ---
+(In reply to Alex Deucher from comment #3)
+> Created attachment 145608 [details] [review]
+> possible fix
+>=20
+> Does this patch fix the issue?
+
+I hiberate/resumed with this patch a couple of times, the problem hasn't
+occurred so far. Looks like this fixes the problem.
+
+Thanks.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15699788841.E307a.25223
+Date: Wed, 2 Oct 2019 01:14:44 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - GPU reset during hibernation"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111879#c4">Commen=
+t # 4</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - GPU reset during hibernation"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111879">bug 11187=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+yshuiv7&#64;gmail.com" title=3D"Yuxuan Shui &lt;yshuiv7&#64;gmail.com&gt;">=
+ <span class=3D"fn">Yuxuan Shui</span></a>
+</span></b>
+        <pre>(In reply to Alex Deucher from <a href=3D"show_bug.cgi?id=3D11=
+1879#c3">comment #3</a>)
+<span class=3D"quote">&gt; Created <span class=3D""><a href=3D"attachment.c=
+gi?id=3D145608" name=3D"attach_145608" title=3D"possible fix">attachment 14=
+5608</a> <a href=3D"attachment.cgi?id=3D145608&amp;action=3Dedit" title=3D"=
+possible fix">[details]</a></span> <a href=3D'page.cgi?id=3Dsplinter.html&a=
+mp;bug=3D111879&amp;attachment=3D145608'>[review]</a> [review]
+&gt; possible fix
+&gt;=20
+&gt; Does this patch fix the issue?</span >
+
+I hiberate/resumed with this patch a couple of times, the problem hasn't
+occurred so far. Looks like this fixes the problem.
+
+Thanks.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15699788841.E307a.25223--
+
+--===============0559424576==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0559424576==--
