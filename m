@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27CB5C48D0
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2019 09:51:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82BE5C492B
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2019 10:08:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4727F6E8D5;
-	Wed,  2 Oct 2019 07:51:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9803A6E8F3;
+	Wed,  2 Oct 2019 08:08:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
- [209.85.210.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B36BF6E871;
- Wed,  2 Oct 2019 07:51:23 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id 89so8360958oth.13;
- Wed, 02 Oct 2019 00:51:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nicjUzK1aCzTPXfkiTszftUB1bSootFU4r9Af2VZdd4=;
- b=TKnT9dg081IC0/HW2zbTj9T71RHMNcFv9gfSHN6DQvl/nUGEGAMXmrZ3zdqZzwl7cp
- S6lNDfVvjTeRXoLWtqQ1HJc+bz79z4zaDz/YYDXRjnSQ7uYMT3zI4Sk8UMjjGWXReKrB
- hSyzeHCW2vh1z7UdzoZJyYtJKMT9S4fH3r+ZiBHBE7/Kulk/P4eVVXRay+CHec2ee8Ha
- E2Ti0AaEkpdjpNxPFr3nB484vfwX9y2vsbMtcNM3XbIwoqS23UkAq3KaK3/kFPdgdEIJ
- Wni5CfBDz5S1KRl4Gyqc/NqIA8RHmvyUnJcmySEVmeqEP+rCtl8LqZmvgL+EIM00KB1c
- UDiQ==
-X-Gm-Message-State: APjAAAUuQH+hweuxdSyLdPUQZ7pBgHB3+aY6YxwDOYPcK2HpIpFysoO7
- x0/KjAYfjV68Iv8p45H9rsTiZRPvgyHpso2kKiA=
-X-Google-Smtp-Source: APXvYqz71nTjSqBxRr4QDswp1ob5aZ+KAvXvpMiCwA5SDyyXDIdUmYP20t6SgsKoFSgzFPZdmYYH4mgWrEHkD4h0TFc=
-X-Received: by 2002:a9d:6a16:: with SMTP id g22mr1570217otn.118.1570002682809; 
- Wed, 02 Oct 2019 00:51:22 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 076796E8F3
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2019 08:08:14 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 030D472162; Wed,  2 Oct 2019 08:08:14 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111228] PRIME output screen stays black on 1002:15d8 with 128MB
+ VRAM
+Date: Wed, 02 Oct 2019 08:08:14 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: hhfeuer@gmx.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111228-502-djsmUHp87U@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111228-502@http.bugs.freedesktop.org/>
+References: <bug-111228-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <CACO55tvjFPAMgz6DMGmJQ3adtJBX6yYnFRO9gVBEpMVTEBu0og@mail.gmail.com>
- <20191001193427.GA59137@google.com>
-In-Reply-To: <20191001193427.GA59137@google.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 2 Oct 2019 09:51:10 +0200
-Message-ID: <CAJZ5v0gUddEhOPqNvTboO9mL6vcxu5HeCEC+-pJMzippTiAy9Q@mail.gmail.com>
-Subject: Re: [RFC PATCH] pci: prevent putting pcie devices into lower device
- states on certain intel bridges
-To: Bjorn Helgaas <helgaas@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,83 +53,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, Linux PM <linux-pm@vger.kernel.org>,
- Linux PCI <linux-pci@vger.kernel.org>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Robert Moore <robert.moore@intel.com>, "Schmauss,
- Erik" <erik.schmauss@intel.com>,
- ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
- nouveau <nouveau@lists.freedesktop.org>,
- Mika Westerberg <mika.westerberg@linux.intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2072425274=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBPY3QgMSwgMjAxOSBhdCA5OjM0IFBNIEJqb3JuIEhlbGdhYXMgPGhlbGdhYXNAa2Vy
-bmVsLm9yZz4gd3JvdGU6Cj4KPiBPbiBUdWUsIE9jdCAwMSwgMjAxOSBhdCAwNjoyMToyOFBNICsw
-MjAwLCBLYXJvbCBIZXJic3Qgd3JvdGU6Cj4gPiBPbiBUdWUsIE9jdCAxLCAyMDE5IGF0IDM6Mjcg
-UE0gQmpvcm4gSGVsZ2FhcyA8aGVsZ2Fhc0BrZXJuZWwub3JnPiB3cm90ZToKPiA+ID4gT24gTW9u
-LCBTZXAgMzAsIDIwMTkgYXQgMDY6MzY6MTJQTSArMDIwMCwgS2Fyb2wgSGVyYnN0IHdyb3RlOgo+
-ID4gPiA+IE9uIE1vbiwgU2VwIDMwLCAyMDE5IGF0IDY6MzAgUE0gTWlrYSBXZXN0ZXJiZXJnCj4g
-PiA+ID4gPG1pa2Eud2VzdGVyYmVyZ0BsaW51eC5pbnRlbC5jb20+IHdyb3RlOgo+ID4gPiA+ID4K
-PiA+ID4gPiA+IE9uIE1vbiwgU2VwIDMwLCAyMDE5IGF0IDA2OjA1OjE0UE0gKzAyMDAsIEthcm9s
-IEhlcmJzdCB3cm90ZToKPiA+ID4gPiA+ID4gc3RpbGwgaGFwcGVucyB3aXRoIHlvdXIgcGF0Y2gg
-YXBwbGllZC4gVGhlIG1hY2hpbmUgc2ltcGx5IGdldHMgc2h1dCBkb3duLgo+ID4gPiA+ID4gPgo+
-ID4gPiA+ID4gPiBkbWVzZyBjYW4gYmUgZm91bmQgaGVyZToKPiA+ID4gPiA+ID4gaHR0cHM6Ly9n
-aXN0LmdpdGh1YnVzZXJjb250ZW50LmNvbS9rYXJvbGhlcmJzdC80MGViMDkxYzdiN2IzM2VmOTkz
-NTI1ZGU2NjBmMWEzYi9yYXcvMjM4MGUzMWY1NjZlOTNlNWJhN2M4N2VmNTQ1NDIwOTY1ZDRjNDky
-Yy9naXN0ZmlsZTEudHh0Cj4gPiA+ID4gPgo+ID4gPiA+ID4gTG9va2luZyB5b3VyIGRtZXNnOgo+
-ID4gPiA+ID4KPiA+ID4gPiA+IFNlcCAzMCAxNzoyNDoyNyBrZXJuZWw6IG5vdXZlYXUgMDAwMDow
-MTowMC4wOiBEUk06IERDQiB2ZXJzaW9uIDQuMQo+ID4gPiA+ID4gU2VwIDMwIDE3OjI0OjI3IGtl
-cm5lbDogbm91dmVhdSAwMDAwOjAxOjAwLjA6IERSTTogTU06IHVzaW5nIENPUFkgZm9yIGJ1ZmZl
-ciBjb3BpZXMKPiA+ID4gPiA+IFNlcCAzMCAxNzoyNDoyNyBrZXJuZWw6IFtkcm1dIEluaXRpYWxp
-emVkIG5vdXZlYXUgMS4zLjEgMjAxMjA4MDEgZm9yIDAwMDA6MDE6MDAuMCBvbiBtaW5vciAxCj4g
-PiA+ID4gPgo+ID4gPiA+ID4gSSB3b3VsZCBhc3N1bWUgaXQgcnVudGltZSBzdXNwZW5kcyBoZXJl
-LiBUaGVuIGl0IHdha2VzIHVwIGJlY2F1c2Ugb2YgUENJCj4gPiA+ID4gPiBhY2Nlc3MgZnJvbSB1
-c2Vyc3BhY2U6Cj4gPiA+ID4gPgo+ID4gPiA+ID4gU2VwIDMwIDE3OjI0OjQyIGtlcm5lbDogcGNp
-X3Jhd19zZXRfcG93ZXJfc3RhdGU6IDU2IGNhbGxiYWNrcyBzdXBwcmVzc2VkCj4gPiA+ID4gPgo+
-ID4gPiA+ID4gYW5kIGZvciBzb21lIHJlYXNvbiBpdCBkb2VzIG5vdCBnZXQgcmVzdW1lZCBwcm9w
-ZXJseS4gVGhlcmUgYXJlIGFsc28gZmV3Cj4gPiA+ID4gPiB3YXJuaW5ncyBmcm9tIEFDUEkgdGhh
-dCBtaWdodCBiZSByZWxldmFudDoKPiA+ID4gPiA+Cj4gPiA+ID4gPiBTZXAgMzAgMTc6MjQ6Mjcg
-a2VybmVsOiBBQ1BJIFdhcm5pbmc6IFxfU0IuUENJMC5HRlgwLl9EU006IEFyZ3VtZW50ICM0IHR5
-cGUgbWlzbWF0Y2ggLSBGb3VuZCBbQnVmZmVyXSwgQUNQSSByZXF1aXJlcyBbUGFja2FnZV0gKDIw
-MTkwNTA5L25zYXJndW1lbnRzLTU5KQo+ID4gPiA+ID4gU2VwIDMwIDE3OjI0OjI3IGtlcm5lbDog
-QUNQSSBXYXJuaW5nOiBcX1NCLlBDSTAuUEVHMC5QRUdQLl9EU006IEFyZ3VtZW50ICM0IHR5cGUg
-bWlzbWF0Y2ggLSBGb3VuZCBbQnVmZmVyXSwgQUNQSSByZXF1aXJlcyBbUGFja2FnZV0gKDIwMTkw
-NTA5L25zYXJndW1lbnRzLTU5KQo+ID4gPiA+Cj4gPiA+ID4gYWZhaWsgdGhpcyBpcyB0aGUgY2Fz
-ZSBmb3IgZXNzZW50aWFsbHkgZXZlcnkgbGFwdG9wIG91dCB0aGVyZS4KPiA+ID4KPiA+ID4gSSB0
-aGluayB3ZSBzaG91bGQgbG9vayBpbnRvIHRoaXMgYSBsaXR0bGUgYml0Lgo+ID4gPiBhY3BpX25z
-X2NoZWNrX2FyZ3VtZW50X3R5cGVzKCkgY2hlY2tzIHRoZSBhcmd1bWVudCB0eXBlIGFuZCBwcmlu
-dHMKPiA+ID4gdGhpcyBtZXNzYWdlLCBidXQgQUZBSUNUIGl0IGRvZXNuJ3QgYWN0dWFsbHkgZml4
-IGFueXRoaW5nIG9yIHByZXZlbnQKPiA+ID4gZXhlY3V0aW9uIG9mIHRoZSBtZXRob2QsIHNvIEkg
-aGF2ZSBubyBpZGVhIHdoYXQgaGFwcGVucyB3aGVuIHdlCj4gPiA+IGFjdHVhbGx5IGV4ZWN1dGUg
-dGhlIF9EU00uCj4gPgo+ID4gSSBjYW4gYXNzdXJlIHlvdSB0aGF0IHRoaXMgd2FybmluZyBoYXBw
-ZW5zIG9uIGV2ZXJ5IHNpbmdsZSBsYXB0b3Agb3V0Cj4gPiB0aGVyZSB3aXRoIGR1YWwgTnZpZGlh
-IGdyYXBoaWNzIGFuZCBpdCdzIGVzc2VudGlhbGx5IGp1c3QgYSBmaXJtd2FyZQo+ID4gYnVnLiBB
-bmQgaXQgbmV2ZXIgY2F1c2VkIGFueSBpc3N1ZXMgb24gYW55IG9mIHRoZSBvbGRlciBsYXB0b3Bz
-IChvcgo+ID4gbmV3ZXN0IG9uZSBmb3IgdGhhdCBtYXR0ZXIpLgo+Cj4gUmFmYWVsLCBkbyB5b3Ug
-a25vdyBhbnl0aGluZyBhYm91dCB0aGlzPwoKSUlSQyBBQ1BJQ0Egd2lsbCBzaW1wbHkgcnVuIHRo
-ZSBtZXRob2Qgd2l0aCB0aGUgYXNzdW1wdGlvbiB0aGF0IHRoZQpBTUwgaW4gdGhlcmUgd2lsbCBk
-ZWFsIHdpdGggdGhlIGFyZ3VtZW50cyBwcm9wZXJseSBhbnl3YXkuCgo+IElmIEFDUEkgaGFzIHNv
-bWUgc29ydCBvZiB3b3JrYXJvdW5kIHNvIGl0IGNhbiBleGVjdXRlIHRoZSBtZXRob2QgY29ycmVj
-dGx5Cj4gYW55d2F5LCBtYXliZSB3ZSBzaG91bGQgcmVtb3ZlIG9yIHJld29yZCB0aGUgd2Fybmlu
-Zz8KCkkgY2FuIGFncmVlIHRoYXQgcHJpbnRpbmcgdGhlc2Ugd2FybmluZ3Mgb24gYSB1c2VyIHN5
-c3RlbSBieSBkZWZhdWx0CmlzIG5vdCB2ZXJ5IHVzZWZ1bCwgYXQgbGVhc3QgYXMgbG9uZyBhcyBu
-byB2aXNpYmxlIGZ1bmN0aW9uYWwgaXNzdWVzCmFyZSBwcmVzZW50LCBidXQgaWYgdGhlcmUgYXJl
-IHN1Y2ggaXNzdWVzLCBpdCBpcyBnb29kIHRvIGtub3cgdGhhdApzb21ldGhpbmcgZmlzaHkgaXMg
-Z29pbmcgb24uICBGb3IgaW5zdGFuY2UsIHdoaWxlIHRoZSBtZXRob2QgbWF5CmV4ZWN1dGUgc3Vj
-Y2Vzc2Z1bGx5LCB0aGUgcmVzdWx0IG9mIHRoYXQgbWF5IG5vdCBiZSBhcyBleHBlY3RlZC4KClNv
-IG1heWJlIHRoZXkgc2hvdWxkIGJlIGRlYnVnIGxldmVsIG9yIHNpbWlsYXIuCgo+IE9yIGlmIHRo
-aXMgZG9lcyBwcmV2ZW50IGV4ZWN1dGlvbiBvZiB0aGUgbWV0aG9kLCBtYXliZSB3ZSBuZWVkIHRv
-IGFkZAo+IGEgd29ya2Fyb3VuZCBzaW5jZSB0aGUgcHJvYmxlbSBpcyBzbyBwcmV2YWxlbnQgaW4g
-dGhlIGZpZWxkPwoKQXMgcGFyIHRoZSBhYm92ZSwgbm8gd29ya2Fyb3VuZHMgc2hvdWxkIGJlIG5l
-ZWRlZCwgYnV0IEknbGwgbGV0IEJvYgphbmQgRXJpayAoQ0NlZCBub3cpIGNvbmZpcm0gb3IgZGVu
-eSB0aGlzLgoKQSBzaWRlIG5vdGU6IHBsZWFzZSBDQyBhbGwgZGlzY3Vzc2lvbnMgcmVnYXJkaW5n
-IGdlbmVyYWwgQUNQSSBpc3N1ZXMKdG8gbGludXgtYWNwaSwgc28gdGhleSBjYW4gZ2V0IHRoZSBh
-dHRlbnRpb24gb2YgYWxsIG9mIHRoZSByaWdodApwZW9wbGUgKHdobyBtYXkgbm90IHN1YnNjcmli
-ZSBsaW51eC1wY2ksIGZvciBleGFtcGxlKS4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVs
+
+--===============2072425274==
+Content-Type: multipart/alternative; boundary="15700036931.7772.1889"
+Content-Transfer-Encoding: 7bit
+
+
+--15700036931.7772.1889
+Date: Wed, 2 Oct 2019 08:08:13 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111228
+
+--- Comment #8 from Maik Freudenberg <hhfeuer@gmx.de> ---
+A note on amdgpu the amount of VRAM amdgpu is reporting:
+This is the amount of system memory dedicated to the iGPU. Strange enough, =
+this
+doesn't seem to be bios configurable, which would be an easy workaround. It
+seems to be hardcoded, some machines set to 128 MB, others to 2GB.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15700036931.7772.1889
+Date: Wed, 2 Oct 2019 08:08:13 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - PRIME output screen stays black on 1002:15d8 with 128MB V=
+RAM"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111228#c8">Commen=
+t # 8</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - PRIME output screen stays black on 1002:15d8 with 128MB V=
+RAM"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111228">bug 11122=
+8</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+hhfeuer&#64;gmx.de" title=3D"Maik Freudenberg &lt;hhfeuer&#64;gmx.de&gt;"> =
+<span class=3D"fn">Maik Freudenberg</span></a>
+</span></b>
+        <pre>A note on amdgpu the amount of VRAM amdgpu is reporting:
+This is the amount of system memory dedicated to the iGPU. Strange enough, =
+this
+doesn't seem to be bios configurable, which would be an easy workaround. It
+seems to be hardcoded, some machines set to 128 MB, others to 2GB.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15700036931.7772.1889--
+
+--===============2072425274==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2072425274==--
