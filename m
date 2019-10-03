@@ -1,62 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78FB1C9B6B
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 12:02:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E02AC9BC6
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 12:11:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F16136E0E7;
-	Thu,  3 Oct 2019 10:02:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 986856E0EA;
+	Thu,  3 Oct 2019 10:10:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A736F6E0E7
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 10:02:10 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id n14so2237894wrw.9
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Oct 2019 03:02:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=xbihRq/Slo3PYnJ3Dz7r1d50po3jOI3cDT0TFE0FHsY=;
- b=hNl/KFaPJithv09jgCZG7rCbJ5L4S1ZrFG9sy2T3BRtv7tH4+ez5Fe+UV7TC4y1Y10
- qcm5njdnxYnaFIBd73i36O4xwGdb0+82rEa9kPhv8CXKpeOCYu+vPWjwSz/ZSyMPA0JO
- IgZK9vQRQ/ze5+3DFPkhEofk4LMCJF1U7lMKqD3cH7T+4DoKm+7uS7rzRAYvtK7IR+V/
- pguSmB3HBqXRKEXCOy7It8mmCstRtNMv1ol4CeDkaGkxMHnrc6ZbbJvvoUBAg4OKTtgM
- F0KNz6ZsGDmkWAka2AMDzlyMoQHBGpzb2Vla61DGdVznz/t05qfx3jzpZWyknNsZWIo2
- W11g==
-X-Gm-Message-State: APjAAAUi4lZX/8S3WuCrLCfmEW+KnjhZXP+mxDBMCT2BsZR7NYbCK1t0
- ihkqUJukqHdCO89doP7eQoIQWQ==
-X-Google-Smtp-Source: APXvYqzXFwNjg21UC+vD/IXHxOJFRXUta5uNXiTTkdPFWBNH8Vus6TTdVG1q7oc8ZNLY0TQzsVeKTw==
-X-Received: by 2002:adf:e60d:: with SMTP id p13mr5980140wrm.298.1570096929136; 
- Thu, 03 Oct 2019 03:02:09 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
- [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id v6sm1894952wrn.50.2019.10.03.03.02.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Oct 2019 03:02:08 -0700 (PDT)
-Date: Thu, 3 Oct 2019 11:02:06 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Matthias Kaehlcke <mka@chromium.org>
-Subject: Re: [PATCH v2] backlight: pwm_bl: Don't assign levels table repeatedly
-Message-ID: <20191003100206.ws35dbgifjwjicuv@holly.lan>
-References: <20191002095541.v2.1.I4f2ede1f55ddd1c72b0303b7fd7f73a782fa33e5@changeid>
+Received: from EUR02-VE1-obe.outbound.protection.outlook.com
+ (mail-oln040092069038.outbound.protection.outlook.com [40.92.69.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D85C16E0EA
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 10:10:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UBjERe7xYQlyh73IQ1B5bOIsxUQcmeRVXQW34ETtyOK5Vit+8yB7ifoDD3sY4sgcp1dtG1J19UadS3nRMHAJwSWyqXmBWNhjoNXpWJXlsBxUxu0QQI32LiDaHS5wj13KuDK8Yo9PQQcUKp1yuDVRWnQ07wsQdGII9J35LmebU1U2OE2bffDM9U9wbCuuzWFYU5QMQti62M3CkwpQUtl+pj0JGdAsrNJyrKjvRsYVVCsefjaNjHGfYtiMW18vpon6+4QJ6Q1eb02SnkKaf6FQShSwd3LzQhn04VOBDNy4yRiP03mXNxOkf7mTk+AUELzWcBpRAMds4Sj/gpOyt8r3eQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eq7L/PafIckjzNicPWNb3eWJHGPQGQ0nMqWqHylArgE=;
+ b=jes5QCgSzEv/ul5sWLMqQKbwBThiGzLkfHuPNr8+mIFDgNPBf5+y+4ZJLQSGx/gjDN5zPB805K4ANL4LiOJNWhnQgU0mVh7gKMRiU9QzKPRcMRc6vvmCsLzBsKAcFk0CEh6VvviRUTOJOTxLurnQBVG43cTlk6oMIgcoArbH10ZVI/Q6z13TF0H2BDWL3uNSIVH6QnUAbkD8Tb7PnX8AEUdRf6TCLXwUYleq2ApfGwBsgviCocz5bDp3MLuc2MOiATs0XOC75aSej7dn2K8goNoK/wgpv/hOw13rmb2umX6Zzp9feoOp8P3BAipebVPXlAbh7fDelVbZf2lN18ivTQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from HE1EUR02FT027.eop-EUR02.prod.protection.outlook.com
+ (10.152.10.55) by HE1EUR02HT231.eop-EUR02.prod.protection.outlook.com
+ (10.152.11.116) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2327.20; Thu, 3 Oct
+ 2019 10:10:54 +0000
+Received: from DB8PR09MB4439.eurprd09.prod.outlook.com (10.152.10.59) by
+ HE1EUR02FT027.mail.protection.outlook.com (10.152.10.72) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2327.20 via Frontend Transport; Thu, 3 Oct 2019 10:10:54 +0000
+Received: from DB8PR09MB4439.eurprd09.prod.outlook.com
+ ([fe80::3026:7d4e:9d73:1921]) by DB8PR09MB4439.eurprd09.prod.outlook.com
+ ([fe80::3026:7d4e:9d73:1921%2]) with mapi id 15.20.2305.023; Thu, 3 Oct 2019
+ 10:10:54 +0000
+From: evan chime <evanchime@outlook.com>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: Outreachy applicant - "dri-devel aka kernel GPU subsystem" Project
+Thread-Topic: Outreachy applicant - "dri-devel aka kernel GPU subsystem"
+ Project
+Thread-Index: AQHVedFviTficpbCHk6BW6Vigh+B9g==
+Date: Thu, 3 Oct 2019 10:10:54 +0000
+Message-ID: <DB8PR09MB4439183999EB2427EDE5CCE1AA9F0@DB8PR09MB4439.eurprd09.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-incomingtopheadermarker: OriginalChecksum:594BF68421B2CD673E50E74A1BDDBD3688E48ECF5B3059BD4E663108ECB893BE;
+ UpperCasedChecksum:0983A84FD5122BBE7E7B5770AEECC27B0A7E3D1DE142D5B3D0F12A9499869B12;
+ SizeAsReceived:6827; Count:41
+x-tmn: [ZZ2JbooLUX+KKAqtC8AlGhP9ZGR69LxP6R2QhE76R+u8/Ag7+WI6T8cmZtwgdSMV]
+x-ms-publictraffictype: Email
+x-incomingheadercount: 41
+x-eopattributedmessage: 0
+x-ms-traffictypediagnostic: HE1EUR02HT231:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 5L8hBsC53Y4NzX1kgAFTt6WU2E/hJtioH9vX9Fss6olWVQnZiQHpm6p4Qw6RKesiwIOp/EK9cDaBOL6MUGkm6axFSD/Ab00Wu4Yg6jYaiAkyIqtpP0QjVDu3k8VrFiZHlIin6D4uqx5xwtkIOk9g71wDg3Wp2dS6Wjb+7aWIxN4sgK5dN9EBa5y9jydWtwp7oSPBtCQT9QbU2XZnJtIubBMgqYu9zuH0ySKPFmPtGm0=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191002095541.v2.1.I4f2ede1f55ddd1c72b0303b7fd7f73a782fa33e5@changeid>
-User-Agent: NeoMutt/20180716
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 58c6d100-2e9d-4e31-eed6-08d747e9fa1d
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Oct 2019 10:10:54.4061 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1EUR02HT231
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=xbihRq/Slo3PYnJ3Dz7r1d50po3jOI3cDT0TFE0FHsY=;
- b=P3u6I6k9FG6wGcenAZdZUkqFpKCkLJ5BrfZdAQNV1t/3dHsDMQyM8r2XrM+wD6sgYK
- faa6vzUIukLSr1lEXgXbE6ovU+sLWZMq/C9uGiEL7uvb3ULew1rOoYLgvUAnVfHfKPT0
- gT4fThu51hUT4jGN5Fe+CQEcOpAjpUZR2rlU0a7BJF0h1tw36yytfE5SRyas8yy+/GnG
- bxsQv8nqpVvV5l+aZP2TqENOWdnwyQ+cqyGq2zqOYW06tb/Mmr1CQdtbmiX4wBh+r9Ly
- 7RIIXb6ZOyk4xtXIDKP0HzMq5J8FgsMFMVlDhVd2zWfFlrO2jea9qrD9uiPxUbk3lS0w
- KNPA==
+ d=outlook.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eq7L/PafIckjzNicPWNb3eWJHGPQGQ0nMqWqHylArgE=;
+ b=K2TLKaGKeYsOdVtikpxvMMxHZOqirqYzMKkBW02r6H3CMVTDHaqs18uikbCXPbvR+HW0racza1gj3F9NvhW56kDd/qYtsQP1b6m521S5MxslNCmV9ZLiuLXuflJ5bkHw54h+HqZSuo0Dz/7US7zujh/64/IXxKwmKPl3GZnRZBHZ/TogpcMz7MAef5TaRFea605wnBXz2HE6lLOqBQbP6piR1j4Xxuiu0gAto5MPENCBHcVnUOYqHGBFpScAnUQ1Krvaf6sWCaw3mkuuW371jo9mmy5BFyI1gEGLHz0l5zFAroVqjzvOSCulpqX+V4kbNVh1r9UoLpetyeNaMqtJPg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,46 +85,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jingoo Han <jingoohan1@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Lee Jones <lee.jones@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1519310436=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBPY3QgMDIsIDIwMTkgYXQgMDk6NTY6MDFBTSAtMDcwMCwgTWF0dGhpYXMgS2FlaGxj
-a2Ugd3JvdGU6Cj4gcHdtX2JhY2tsaWdodF9wcm9iZSgpIHJlLWFzc2lnbnMgcGItPmxldmVscyBm
-b3IgZXZlcnkgYnJpZ2h0bmVzcwo+IGxldmVsLiBUaGlzIGlzIG5vdCBuZWVkZWQgYW5kIHdhcyBs
-aWtlbHkgbm90IGludGVuZGVkLCBzaW5jZQo+IG5laXRoZXIgc2lkZSBvZiB0aGUgYXNzaWdubWVu
-dCBjaGFuZ2VzIGR1cmluZyB0aGUgbG9vcC4gQXNzaWduCj4gdGhlIGZpZWxkIG9ubHkgb25jZS4K
-PiAKPiBTaWduZWQtb2ZmLWJ5OiBNYXR0aGlhcyBLYWVobGNrZSA8bWthQGNocm9taXVtLm9yZz4K
-ClJldmlld2VkLWJ5OiBEYW5pZWwgVGhvbXBzb24gPGRhbmllbC50aG9tcHNvbkBsaW5hcm8ub3Jn
-PgoKPiAtLS0KPiAKPiBDaGFuZ2VzIGluIHYyOgo+IC0gcmVtb3ZlZCBjdXJseSBicmFjZXMgZnJv
-bSBmb3IgbG9vcAo+IAo+ICBkcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9wd21fYmwuYyB8IDcgKysr
-LS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQo+
-IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9wd21fYmwuYyBiL2RyaXZl
-cnMvdmlkZW8vYmFja2xpZ2h0L3B3bV9ibC5jCj4gaW5kZXggNzQ2ZWViYzQxMWRmLi4wNWQzYjM4
-MDI2NTggMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy92aWRlby9iYWNrbGlnaHQvcHdtX2JsLmMKPiAr
-KysgYi9kcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9wd21fYmwuYwo+IEBAIC01NjQsMTggKzU2NCwx
-NyBAQCBzdGF0aWMgaW50IHB3bV9iYWNrbGlnaHRfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2Rldmlj
-ZSAqcGRldikKPiAgCW1lbXNldCgmcHJvcHMsIDAsIHNpemVvZihzdHJ1Y3QgYmFja2xpZ2h0X3By
-b3BlcnRpZXMpKTsKPiAgCj4gIAlpZiAoZGF0YS0+bGV2ZWxzKSB7Cj4gKwkJcGItPmxldmVscyA9
-IGRhdGEtPmxldmVsczsKPiArCj4gIAkJLyoKPiAgCQkgKiBGb3IgdGhlIERUIGNhc2UsIG9ubHkg
-d2hlbiBicmlnaHRuZXNzIGxldmVscyBpcyBkZWZpbmVkCj4gIAkJICogZGF0YS0+bGV2ZWxzIGlz
-IGZpbGxlZC4gRm9yIHRoZSBub24tRFQgY2FzZSwgZGF0YS0+bGV2ZWxzCj4gIAkJICogY2FuIGNv
-bWUgZnJvbSBwbGF0Zm9ybSBkYXRhLCBob3dldmVyIGlzIG5vdCB1c3VhbC4KPiAgCQkgKi8KPiAt
-CQlmb3IgKGkgPSAwOyBpIDw9IGRhdGEtPm1heF9icmlnaHRuZXNzOyBpKyspIHsKPiArCQlmb3Ig
-KGkgPSAwOyBpIDw9IGRhdGEtPm1heF9icmlnaHRuZXNzOyBpKyspCj4gIAkJCWlmIChkYXRhLT5s
-ZXZlbHNbaV0gPiBwYi0+c2NhbGUpCj4gIAkJCQlwYi0+c2NhbGUgPSBkYXRhLT5sZXZlbHNbaV07
-Cj4gIAo+IC0JCQlwYi0+bGV2ZWxzID0gZGF0YS0+bGV2ZWxzOwo+IC0JCX0KPiAtCj4gIAkJaWYg
-KHB3bV9iYWNrbGlnaHRfaXNfbGluZWFyKGRhdGEpKQo+ICAJCQlwcm9wcy5zY2FsZSA9IEJBQ0tM
-SUdIVF9TQ0FMRV9MSU5FQVI7Cj4gIAkJZWxzZQo+IC0tIAo+IDIuMjMuMC40NDQuZzE4ZWViNWEy
-NjUtZ29vZwo+IAo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+--===============1519310436==
+Content-Language: en-GB
+Content-Type: multipart/alternative;
+	boundary="_000_DB8PR09MB4439183999EB2427EDE5CCE1AA9F0DB8PR09MB4439eurp_"
+
+--_000_DB8PR09MB4439183999EB2427EDE5CCE1AA9F0DB8PR09MB4439eurp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+Hello everyone
+
+Am Evan Chime, an Outreachy applicant for the December to march Outreachy i=
+nternship round. Am excited to be here and will like to let you guys know t=
+hat any help I receive will be highly appreciated.
+
+Looking forward to working with you guys
+
+Kind regards
+Evan
+
+Get Outlook for iOS<https://aka.ms/o0ukef>
+
+--_000_DB8PR09MB4439183999EB2427EDE5CCE1AA9F0DB8PR09MB4439eurp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:o=3D"urn:schemas-microsoft-com:office:office" xmlns:w=3D"urn:sc=
+hemas-microsoft-com:office:word" xmlns:m=3D"http://schemas.microsoft.com/of=
+fice/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:HelveticaNeue;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+.MsoChpDefault
+	{mso-style-type:export-only;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style>
+</head>
+<body lang=3D"EN-GB" link=3D"blue" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal" style=3D"line-height:150%">Hello everyone</p>
+<p class=3D"MsoNormal" style=3D"line-height:150%"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal" style=3D"line-height:150%">Am Evan Chime, an Outreac=
+hy applicant for the December to march Outreachy internship round. Am excit=
+ed to be here and will like to let you guys know that any help I receive wi=
+ll be highly appreciated.
+</p>
+<p class=3D"MsoNormal" style=3D"line-height:150%"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal" style=3D"line-height:150%">Looking forward to workin=
+g with you guys</p>
+<p class=3D"MsoNormal" style=3D"line-height:150%"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal" style=3D"line-height:150%">Kind regards</p>
+<p class=3D"MsoNormal" style=3D"line-height:150%">Evan<span style=3D"font-f=
+amily:&quot;HelveticaNeue&quot;,serif;color:#333333"><o:p></o:p></span></p>
+<div>
+<p class=3D"MsoNormal" style=3D"line-height:150%"><span style=3D"font-famil=
+y:&quot;HelveticaNeue&quot;,serif;color:#333333"><o:p>&nbsp;</o:p></span></=
+p>
+</div>
+<p class=3D"MsoNormal" style=3D"line-height:150%"><span style=3D"font-famil=
+y:&quot;HelveticaNeue&quot;,serif;color:#333333">Get
+<a href=3D"https://aka.ms/o0ukef">Outlook for iOS</a><o:p></o:p></span></p>
+</div>
+</body>
+</html>
+
+--_000_DB8PR09MB4439183999EB2427EDE5CCE1AA9F0DB8PR09MB4439eurp_--
+
+--===============1519310436==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1519310436==--
