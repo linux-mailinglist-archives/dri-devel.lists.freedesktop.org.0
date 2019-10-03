@@ -1,31 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FCEDCB54C
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2019 09:40:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D2F0CB54D
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2019 09:40:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FB346EACB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 872516EAC7;
 	Fri,  4 Oct 2019 07:39:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECE9A6E0FE
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 10:42:31 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
- with ESMTPSA id A801228FA88
-Received: by earth.universe (Postfix, from userid 1000)
- id DD71E3C0CA1; Thu,  3 Oct 2019 12:42:28 +0200 (CEST)
-Date: Thu, 3 Oct 2019 12:42:28 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Jean-Jacques Hiblot <jjhiblot@ti.com>
-Subject: Re: [PATCH v8 2/5] leds: Add of_led_get() and led_put()
-Message-ID: <20191003104228.c5nho6eimwzqwxpt@earth.universe>
-References: <20191003082812.28491-1-jjhiblot@ti.com>
- <20191003082812.28491-3-jjhiblot@ti.com>
+Received: from haggis.mythic-beasts.com (haggis.mythic-beasts.com
+ [IPv6:2a00:1098:0:86:1000:0:2:1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3310E6E132
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 13:04:25 +0000 (UTC)
+Received: from [199.195.250.187] (port=36041 helo=hermes.aosc.io)
+ by haggis.mythic-beasts.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92.3)
+ (envelope-from <icenowy@aosc.io>)
+ id 1iG0mG-0003Lf-AW; Thu, 03 Oct 2019 14:04:20 +0100
+Received: from localhost (localhost [127.0.0.1]) (Authenticated sender:
+ icenowy@aosc.io)
+ by hermes.aosc.io (Postfix) with ESMTPSA id 6FBCB8236F;
+ Thu,  3 Oct 2019 13:04:12 +0000 (UTC)
+Date: Thu, 03 Oct 2019 21:04:03 +0800
+In-Reply-To: <20191003114733.56mlar666l76uoyb@gilmour>
+References: <20191003064527.15128-1-jagan@amarulasolutions.com>
+ <20191003064527.15128-5-jagan@amarulasolutions.com>
+ <20191003114733.56mlar666l76uoyb@gilmour>
 MIME-Version: 1.0
-In-Reply-To: <20191003082812.28491-3-jjhiblot@ti.com>
-User-Agent: NeoMutt/20180716
+Subject: Re: [PATCH v11 4/7] dt-bindings: sun6i-dsi: Add VCC-DSI supply
+ property
+To: linux-arm-kernel@lists.infradead.org, Maxime Ripard <mripard@kernel.org>,
+ Jagan Teki <jagan@amarulasolutions.com>
+From: Icenowy Zheng <icenowy@aosc.io>
+Message-ID: <0086CD40-F161-4B33-8D76-8DCA20E7DB07@aosc.io>
+X-BlackCat-Spam-Score: 0
+X-Spam-Status: No, score=-0.1
 X-Mailman-Approved-At: Fri, 04 Oct 2019 07:38:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -39,176 +49,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, daniel.thompson@linaro.org, tomi.valkeinen@ti.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
- lee.jones@linaro.org, linux-leds@vger.kernel.org, dmurphy@ti.com
-Content-Type: multipart/mixed; boundary="===============0744714972=="
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Chen-Yu Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-sunxi <linux-sunxi@googlegroups.com>,
+ michael@amarulasolutions.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0744714972==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="j3dwpceevmlujtme"
-Content-Disposition: inline
-
-
---j3dwpceevmlujtme
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Thu, Oct 03, 2019 at 10:28:09AM +0200, Jean-Jacques Hiblot wrote:
-> From: Tomi Valkeinen <tomi.valkeinen@ti.com>
->=20
-> This patch adds basic support for a kernel driver to get a LED device.
-> This will be used by the led-backlight driver.
->=20
-> Only OF version is implemented for now, and the behavior is similar to
-> PWM's of_pwm_get() and pwm_put().
->=20
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
-> Acked-by: Pavel Machek <pavel@ucw.cz>
-> ---
->  drivers/leds/led-class.c | 44 ++++++++++++++++++++++++++++++++++++++++
->  include/linux/leds.h     |  4 ++++
->  2 files changed, 48 insertions(+)
->=20
-> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-> index c2167b66b61f..455545f5d663 100644
-> --- a/drivers/leds/led-class.c
-> +++ b/drivers/leds/led-class.c
-> @@ -19,6 +19,7 @@
->  #include <linux/spinlock.h>
->  #include <linux/timer.h>
->  #include <uapi/linux/uleds.h>
-> +#include <linux/of.h>
->  #include "leds.h"
-> =20
->  static struct class *leds_class;
-> @@ -214,6 +215,49 @@ static int led_resume(struct device *dev)
-> =20
->  static SIMPLE_DEV_PM_OPS(leds_class_dev_pm_ops, led_suspend, led_resume);
-> =20
-> +/**
-> + * of_led_get() - request a LED device via the LED framework
-> + * @np: device node to get the LED device from
-> + * @index: the index of the LED
-> + *
-> + * Returns the LED device parsed from the phandle specified in the "leds"
-> + * property of a device tree node or a negative error-code on failure.
-> + */
-> +struct led_classdev *of_led_get(struct device_node *np, int index)
-> +{
-> +	struct device *led_dev;
-> +	struct led_classdev *led_cdev;
-> +	struct device_node *led_node;
-> +
-> +	led_node =3D of_parse_phandle(np, "leds", index);
-> +	if (!led_node)
-> +		return ERR_PTR(-ENOENT);
-> +
-> +	led_dev =3D class_find_device_by_of_node(leds_class, led_node);
-
-If you convert led_node into a fwnode, you can use
-class_find_device_by_fwnode() instead. That way the
-first patch can just be dropped.
-
--- Sebastian
-
-> +	of_node_put(led_node);
-> +
-> +	if (!led_dev)
-> +		return ERR_PTR(-EPROBE_DEFER);
-> +
-> +	led_cdev =3D dev_get_drvdata(led_dev);
-> +
-> +	if (!try_module_get(led_cdev->dev->parent->driver->owner))
-> +		return ERR_PTR(-ENODEV);
-> +
-> +	return led_cdev;
-> +}
-> +EXPORT_SYMBOL_GPL(of_led_get);
-> +
-> +/**
-> + * led_put() - release a LED device
-> + * @led_cdev: LED device
-> + */
-> +void led_put(struct led_classdev *led_cdev)
-> +{
-> +	module_put(led_cdev->dev->parent->driver->owner);
-> +}
-> +EXPORT_SYMBOL_GPL(led_put);
-> +
->  static int led_classdev_next_name(const char *init_name, char *name,
->  				  size_t len)
->  {
-> diff --git a/include/linux/leds.h b/include/linux/leds.h
-> index b8df71193329..6f7371bc7757 100644
-> --- a/include/linux/leds.h
-> +++ b/include/linux/leds.h
-> @@ -20,6 +20,7 @@
-> =20
->  struct device;
->  struct led_pattern;
-> +struct device_node;
->  /*
->   * LED Core
->   */
-> @@ -196,6 +197,9 @@ extern void devm_led_classdev_unregister(struct devic=
-e *parent,
->  extern void led_classdev_suspend(struct led_classdev *led_cdev);
->  extern void led_classdev_resume(struct led_classdev *led_cdev);
-> =20
-> +extern struct led_classdev *of_led_get(struct device_node *np, int index=
-);
-> +extern void led_put(struct led_classdev *led_cdev);
-> +
->  /**
->   * led_blink_set - set blinking with software fallback
->   * @led_cdev: the LED to start blinking
-> --=20
-> 2.17.1
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---j3dwpceevmlujtme
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl2V0GcACgkQ2O7X88g7
-+prmzg/9E0CAs3oiLnssD5zcaRUXA/TReOyQrGD1nboLusSjJFrB/8qx4spJtmBt
-qewY2Ra2ekk/xSk6RAxIhuDmUubU2pCqBgSzbB3rrqEVHLO/cp4oSZP8sDb/Jzbr
-GA2Uy/0p+sa/mAaSBUofsX0n7A0yeYlUHObix8dt+Jhdw9oW7zOj2EBGgd/zjZpb
-GG24jamgRTIDgXgwzUJ/xDQOkRbSZAXcbt1L/kptrz6h23bOoF3pka6SUOKm9FNq
-yRqBFEyEZENyNgS33z4nXVH4Iy/IR+C2dve9Q6JMzpvCNumygszhN3g5vbf7iJU3
-sJdZVhOTvhMja9WiU179X8zQbYyy7TD/f0HoDI5gJZN1Z4LkHK35pwr8ymr1sQtK
-vw8tE8Ij7c6x01YhugFrWkdYCa1W/FbVc6xtmkH9Udl1bjcTv0uZk6Ol586JMbbS
-1OKQJ8BhWQsvw5kq7IPXQ/wvrtUMSIUpneBzgApdtD5eFRQgRm9J/Pl3PXhAA0Bh
-+HA9sf7JHoqLhx/tmCS2/X+cvhjJPagSG054/NjYKdibl5wlbsMRqkGnYHx8nM1B
-4Lsk4+SmrQOd36w06KQtQ1zPqTytk/UbykCp6VdPTaxIFH+0zJCt3ApAkXUBYmNr
-pUzKvFILC12lHMAn5obK54+Kh4oYWppTbbL84ZjEMsPdFh2zsw8=
-=HisU
------END PGP SIGNATURE-----
-
---j3dwpceevmlujtme--
-
---===============0744714972==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0744714972==--
+Cgrkuo4gMjAxOeW5tDEw5pyIM+aXpSBHTVQrMDg6MDAg5LiL5Y2INzo0NzozMywgTWF4aW1lIFJp
+cGFyZCA8bXJpcGFyZEBrZXJuZWwub3JnPiDlhpnliLA6Cj5PbiBUaHUsIE9jdCAwMywgMjAxOSBh
+dCAxMjoxNToyNFBNICswNTMwLCBKYWdhbiBUZWtpIHdyb3RlOgo+PiBBbGx3aW5uZXIgTUlQSSBE
+U0kgY29udHJvbGxlcnMgYXJlIHN1cHBsaWVkIHdpdGggU29DIERTSQo+PiBwb3dlciByYWlscyB2
+aWEgVkNDLURTSSBwaW4uCj4+Cj4+IFNvbWUgYm9hcmQgc3RpbGwgd29yayB3aXRob3V0IHN1cHBs
+eWluZyB0aGlzIGJ1dCBnaXZlIG1vcmUKPj4gZmFpdGggb24gZGF0YXNoZWV0IGFuZCBoYXJkd2Fy
+ZSBzY2hlbWF0aWNzIGFuZCBkb2N1bWVudCB0aGlzCj4+IHN1cHBseSBwcm9wZXJ0eSBpbiByZXF1
+aXJlZCBwcm9wZXJ0eSBsaXN0Lgo+Pgo+PiBSZXZpZXdlZC1ieTogUm9iIEhlcnJpbmcgPHJvYmhA
+a2VybmVsLm9yZz4KPj4gVGVzdGVkLWJ5OiBNZXJsaWpuIFdhamVyIDxtZXJsaWpuQHdpenp1cC5v
+cmc+Cj4+IFNpZ25lZC1vZmYtYnk6IEphZ2FuIFRla2kgPGphZ2FuQGFtYXJ1bGFzb2x1dGlvbnMu
+Y29tPgo+PiAtLS0KPj4gIC4uLi9iaW5kaW5ncy9kaXNwbGF5L2FsbHdpbm5lcixzdW42aS1hMzEt
+bWlwaS1kc2kueWFtbCAgICAgICAgIHwgMwo+KysrCj4+ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNl
+cnRpb25zKCspCj4+Cj4+IGRpZmYgLS1naXQKPmEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
+bmRpbmdzL2Rpc3BsYXkvYWxsd2lubmVyLHN1bjZpLWEzMS1taXBpLWRzaS55YW1sCj5iL0RvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2FsbHdpbm5lcixzdW42aS1hMzEt
+bWlwaS1kc2kueWFtbAo+PiBpbmRleCA0Nzk1MGZjZWQyOGQuLjlkNGMyNWIxMDRmNiAxMDA2NDQK
+Pj4gLS0tCj5hL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2FsbHdp
+bm5lcixzdW42aS1hMzEtbWlwaS1kc2kueWFtbAo+PiArKysKPmIvRG9jdW1lbnRhdGlvbi9kZXZp
+Y2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYWxsd2lubmVyLHN1bjZpLWEzMS1taXBpLWRzaS55YW1s
+Cj4+IEBAIC0zNiw2ICszNiw5IEBAIHByb3BlcnRpZXM6Cj4+ICAgIHJlc2V0czoKPj4gICAgICBt
+YXhJdGVtczogMQo+Pgo+PiArICB2Y2MtZHNpLXN1cHBseToKPj4gKyAgICBkZXNjcmlwdGlvbjog
+VkNDLURTSSBwb3dlciBzdXBwbHkgb2YgdGhlIERTSSBlbmNvZGVyCj4+ICsKPgo+VGhlIGRyaXZl
+ciB0cmVhdHMgaXQgYXMgbWFuZGF0b3J5LCBzbyBJJ3ZlIGFkZGVkIGl0IHRvIHRoZSBiaW5kaW5n
+LCBhcwo+c3VnZ2VzdGVkIGJ5IHRoZSBjb21taXQgbG9nLgoKTm8uIFRoZSByZWd1bGF0b3JfZ2V0
+IGZ1bmN0aW9uIHdpbGwgcmV0dXJuIGR1bW15IHJlZ3VsYXRvciwgcmF0aGVyIHRoYW4KZmFpbCwg
+aWYgdGhlIHJlZ3VsYXRvciBpcyBub3Qgc3BlY2lmaWVkLgoKPgo+TWF4aW1lCgotLSAK5L2/55So
+IEstOSBNYWlsIOWPkemAgeiHquaIkeeahEFuZHJvaWTorr7lpIfjgIIKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
