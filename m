@@ -1,52 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 969D0CA01D
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 16:12:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28BFECA022
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 16:15:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F14486E9EC;
-	Thu,  3 Oct 2019 14:12:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 339FE6E9EF;
+	Thu,  3 Oct 2019 14:14:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1AC26E9EC;
- Thu,  3 Oct 2019 14:12:39 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2019 07:12:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,252,1566889200"; d="scan'208";a="185927483"
-Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
- by orsmga008.jf.intel.com with ESMTP; 03 Oct 2019 07:12:38 -0700
-Received: from fmsmsx107.amr.corp.intel.com ([169.254.6.84]) by
- FMSMSX106.amr.corp.intel.com ([169.254.5.215]) with mapi id 14.03.0439.000;
- Thu, 3 Oct 2019 07:12:38 -0700
-From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
-To: Chris Wilson <chris@chris-wilson.co.uk>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>
-Subject: RE: [Intel-gfx] [PATCH v3] dma-fence: Serialise signal enabling
- (dma_fence_enable_sw_signaling)
-Thread-Topic: [Intel-gfx] [PATCH v3] dma-fence: Serialise signal enabling
- (dma_fence_enable_sw_signaling)
-Thread-Index: AQHVee3mL9xC85iAXUGxFpFx/f/amKdI83UQ
-Date: Thu, 3 Oct 2019 14:12:38 +0000
-Message-ID: <14063C7AD467DE4B82DEDB5C278E8663D9C0292F@fmsmsx107.amr.corp.intel.com>
-References: <20191003093639.10186-2-chris@chris-wilson.co.uk>
- <20191003132422.32730-1-chris@chris-wilson.co.uk>
-In-Reply-To: <20191003132422.32730-1-chris@chris-wilson.co.uk>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZGFmNTUxN2UtYmQzMC00ZTQwLTljNDQtZTFmZWUxMTg0YTBlIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiWllPSU5TYTF0N01sREVzeVg0d3lCNFwvXC8xK1FaVEpJQ1ZaWUhmUTlQVkJHZGRaTDlMUUNWbzZNY0FNYWo3OXFwIn0=
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.108]
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0779F6E9EF
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 14:14:57 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id EC6237296E; Thu,  3 Oct 2019 14:14:56 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111729] RX480 : random NULL pointer dereference on resume from
+ suspend
+Date: Thu, 03 Oct 2019 14:14:57 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: me@cschwarz.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-111729-502-ndR5kj75AQ@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111729-502@http.bugs.freedesktop.org/>
+References: <bug-111729-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -60,105 +53,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0372268113=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogSW50ZWwtZ2Z4IFttYWlsdG86aW50
-ZWwtZ2Z4LWJvdW5jZXNAbGlzdHMuZnJlZWRlc2t0b3Aub3JnXSBPbiBCZWhhbGYgT2YNCj5DaHJp
-cyBXaWxzb24NCj5TZW50OiBUaHVyc2RheSwgT2N0b2JlciAzLCAyMDE5IDk6MjQgQU0NCj5Ubzog
-aW50ZWwtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPkNjOiBkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnDQo+U3ViamVjdDogW0ludGVsLWdmeF0gW1BBVENIIHYzXSBkbWEtZmVuY2U6
-IFNlcmlhbGlzZSBzaWduYWwgZW5hYmxpbmcNCj4oZG1hX2ZlbmNlX2VuYWJsZV9zd19zaWduYWxp
-bmcpDQo+DQo+TWFrZSBkbWFfZmVuY2VfZW5hYmxlX3N3X3NpZ25hbGluZygpIGJlaGF2ZSBsaWtl
-IGl0cw0KPmRtYV9mZW5jZV9hZGRfY2FsbGJhY2soKSBhbmQgZG1hX2ZlbmNlX2RlZmF1bHRfd2Fp
-dCgpIGNvdW50ZXJwYXJ0cyBhbmQNCj5wZXJmb3JtIHRoZSB0ZXN0IHRvIGVuYWJsZSBzaWduYWxp
-bmcgdW5kZXIgdGhlIGZlbmNlLT5sb2NrLCBhbG9uZyB3aXRoDQo+dGhlIGFjdGlvbiB0byBkbyBz
-by4gVGhpcyBlbnN1cmUgdGhhdCBzaG91bGQgYW4gaW1wbGVtZW50YXRpb24gYmUgdHJ5aW5nDQo+
-dG8gZmx1c2ggdGhlIGNiX2xpc3QgKGJ5IHNpZ25hbGluZykgb24gcmV0aXJlbWVudCBiZWZvcmUg
-ZnJlZWluZyB0aGUNCj5mZW5jZSwgaXQgY2FuIGRvIHNvIGluIGEgcmFjZS1mcmVlIG1hbm5lci4N
-Cj4NCj5TZWUgYWxzbyAwZmM4OWI2ODAyYmEgKCJkbWEtZmVuY2U6IFNpbXBseSB3cmFwIGRtYV9m
-ZW5jZV9zaWduYWxfbG9ja2VkDQo+d2l0aCBkbWFfZmVuY2Vfc2lnbmFsIikuDQo+DQo+djI6IFJl
-ZmFjdG9yIGFsbCAzIGVuYWJsZV9zaWduYWxpbmcgcGF0aHMgdG8gdXNlIGEgY29tbW9uIGZ1bmN0
-aW9uLg0KPg0KPlNpZ25lZC1vZmYtYnk6IENocmlzIFdpbHNvbiA8Y2hyaXNAY2hyaXMtd2lsc29u
-LmNvLnVrPg0KPi0tLQ0KPlJldHVybiBmYWxzZSBmb3IgImNvdWxkIG5vdCBfZW5hYmxlXyBzaWdu
-YWxpbmcgYXMgaXQgd2FzIGFscmVhZHkNCj5zaWduYWxlZCINCj4tLS0NCj4gZHJpdmVycy9kbWEt
-YnVmL2RtYS1mZW5jZS5jIHwgNzggKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tLS0t
-LQ0KPiAxIGZpbGUgY2hhbmdlZCwgMzUgaW5zZXJ0aW9ucygrKSwgNDMgZGVsZXRpb25zKC0pDQo+
-DQo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtZmVuY2UuYyBiL2RyaXZlcnMvZG1h
-LWJ1Zi9kbWEtZmVuY2UuYw0KPmluZGV4IDJjMTM2YWVlM2U3OS4uYjU4NTI4YzFjYzlkIDEwMDY0
-NA0KPi0tLSBhL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtZmVuY2UuYw0KPisrKyBiL2RyaXZlcnMvZG1h
-LWJ1Zi9kbWEtZmVuY2UuYw0KPkBAIC0yNzMsNiArMjczLDMwIEBAIHZvaWQgZG1hX2ZlbmNlX2Zy
-ZWUoc3RydWN0IGRtYV9mZW5jZSAqZmVuY2UpDQo+IH0NCj4gRVhQT1JUX1NZTUJPTChkbWFfZmVu
-Y2VfZnJlZSk7DQo+DQo+K3N0YXRpYyBib29sIF9fZG1hX2ZlbmNlX2VuYWJsZV9zaWduYWxpbmco
-c3RydWN0IGRtYV9mZW5jZSAqZmVuY2UpDQo+K3sNCj4rCWJvb2wgd2FzX3NldDsNCj4rDQo+Kwls
-b2NrZGVwX2Fzc2VydF9oZWxkKGZlbmNlLT5sb2NrKTsNCg0KV2l0aCB0aGlzIGhlbGQuLi4NCg0K
-PisJd2FzX3NldCA9DQo+dGVzdF9hbmRfc2V0X2JpdChETUFfRkVOQ0VfRkxBR19FTkFCTEVfU0lH
-TkFMX0JJVCwNCj4rCQkJCSAgICZmZW5jZS0+ZmxhZ3MpOw0KPisNCj4rCWlmICh0ZXN0X2JpdChE
-TUFfRkVOQ0VfRkxBR19TSUdOQUxFRF9CSVQsICZmZW5jZS0+ZmxhZ3MpKQ0KPisJCXJldHVybiBm
-YWxzZTsNCg0KV291bGQgbWFraW5nIHRoZXNlIHRoZSBub24tYXRvbWljIHZlcnNpb25zIGJlIHVz
-ZWZ1bCAoYW5kL29yIHJlYXNvbmFibGUpPw0KDQpNaWtlDQoNCj4rDQo+KwlpZiAoIXdhc19zZXQg
-JiYgZmVuY2UtPm9wcy0+ZW5hYmxlX3NpZ25hbGluZykgew0KPisJCWlmICghZmVuY2UtPm9wcy0+
-ZW5hYmxlX3NpZ25hbGluZyhmZW5jZSkpIHsNCj4rCQkJZG1hX2ZlbmNlX3NpZ25hbF9sb2NrZWQo
-ZmVuY2UpOw0KPisJCQlyZXR1cm4gZmFsc2U7DQo+KwkJfQ0KPisNCj4rCQl0cmFjZV9kbWFfZmVu
-Y2VfZW5hYmxlX3NpZ25hbChmZW5jZSk7DQo+Kwl9DQo+Kw0KPisJcmV0dXJuIHRydWU7DQo+K30N
-Cj4rDQo+IC8qKg0KPiAgKiBkbWFfZmVuY2VfZW5hYmxlX3N3X3NpZ25hbGluZyAtIGVuYWJsZSBz
-aWduYWxpbmcgb24gZmVuY2UNCj4gICogQGZlbmNlOiB0aGUgZmVuY2UgdG8gZW5hYmxlDQo+QEAg
-LTI4NSwxOSArMzA5LDEyIEBAIHZvaWQgZG1hX2ZlbmNlX2VuYWJsZV9zd19zaWduYWxpbmcoc3Ry
-dWN0DQo+ZG1hX2ZlbmNlICpmZW5jZSkNCj4gew0KPiAJdW5zaWduZWQgbG9uZyBmbGFnczsNCj4N
-Cj4tCWlmICghdGVzdF9hbmRfc2V0X2JpdChETUFfRkVOQ0VfRkxBR19FTkFCTEVfU0lHTkFMX0JJ
-VCwNCj4tCQkJICAgICAgJmZlbmNlLT5mbGFncykgJiYNCj4tCSAgICAhdGVzdF9iaXQoRE1BX0ZF
-TkNFX0ZMQUdfU0lHTkFMRURfQklULCAmZmVuY2UtPmZsYWdzKSAmJg0KPi0JICAgIGZlbmNlLT5v
-cHMtPmVuYWJsZV9zaWduYWxpbmcpIHsNCj4tCQl0cmFjZV9kbWFfZmVuY2VfZW5hYmxlX3NpZ25h
-bChmZW5jZSk7DQo+LQ0KPi0JCXNwaW5fbG9ja19pcnFzYXZlKGZlbmNlLT5sb2NrLCBmbGFncyk7
-DQo+LQ0KPi0JCWlmICghZmVuY2UtPm9wcy0+ZW5hYmxlX3NpZ25hbGluZyhmZW5jZSkpDQo+LQkJ
-CWRtYV9mZW5jZV9zaWduYWxfbG9ja2VkKGZlbmNlKTsNCj4rCWlmICh0ZXN0X2JpdChETUFfRkVO
-Q0VfRkxBR19TSUdOQUxFRF9CSVQsICZmZW5jZS0+ZmxhZ3MpKQ0KPisJCXJldHVybjsNCj4NCj4t
-CQlzcGluX3VubG9ja19pcnFyZXN0b3JlKGZlbmNlLT5sb2NrLCBmbGFncyk7DQo+LQl9DQo+Kwlz
-cGluX2xvY2tfaXJxc2F2ZShmZW5jZS0+bG9jaywgZmxhZ3MpOw0KPisJX19kbWFfZmVuY2VfZW5h
-YmxlX3NpZ25hbGluZyhmZW5jZSk7DQo+KwlzcGluX3VubG9ja19pcnFyZXN0b3JlKGZlbmNlLT5s
-b2NrLCBmbGFncyk7DQo+IH0NCj4gRVhQT1JUX1NZTUJPTChkbWFfZmVuY2VfZW5hYmxlX3N3X3Np
-Z25hbGluZyk7DQo+DQo+QEAgLTMzMSw3ICszNDgsNiBAQCBpbnQgZG1hX2ZlbmNlX2FkZF9jYWxs
-YmFjayhzdHJ1Y3QgZG1hX2ZlbmNlDQo+KmZlbmNlLCBzdHJ1Y3QgZG1hX2ZlbmNlX2NiICpjYiwN
-Cj4gew0KPiAJdW5zaWduZWQgbG9uZyBmbGFnczsNCj4gCWludCByZXQgPSAwOw0KPi0JYm9vbCB3
-YXNfc2V0Ow0KPg0KPiAJaWYgKFdBUk5fT04oIWZlbmNlIHx8ICFmdW5jKSkNCj4gCQlyZXR1cm4g
-LUVJTlZBTDsNCj5AQCAtMzQzLDI1ICszNTksMTQgQEAgaW50IGRtYV9mZW5jZV9hZGRfY2FsbGJh
-Y2soc3RydWN0IGRtYV9mZW5jZQ0KPipmZW5jZSwgc3RydWN0IGRtYV9mZW5jZV9jYiAqY2IsDQo+
-DQo+IAlzcGluX2xvY2tfaXJxc2F2ZShmZW5jZS0+bG9jaywgZmxhZ3MpOw0KPg0KPi0Jd2FzX3Nl
-dCA9DQo+dGVzdF9hbmRfc2V0X2JpdChETUFfRkVOQ0VfRkxBR19FTkFCTEVfU0lHTkFMX0JJVCwN
-Cj4tCQkJCSAgICZmZW5jZS0+ZmxhZ3MpOw0KPi0NCj4tCWlmICh0ZXN0X2JpdChETUFfRkVOQ0Vf
-RkxBR19TSUdOQUxFRF9CSVQsICZmZW5jZS0+ZmxhZ3MpKQ0KPi0JCXJldCA9IC1FTk9FTlQ7DQo+
-LQllbHNlIGlmICghd2FzX3NldCAmJiBmZW5jZS0+b3BzLT5lbmFibGVfc2lnbmFsaW5nKSB7DQo+
-LQkJdHJhY2VfZG1hX2ZlbmNlX2VuYWJsZV9zaWduYWwoZmVuY2UpOw0KPi0NCj4tCQlpZiAoIWZl
-bmNlLT5vcHMtPmVuYWJsZV9zaWduYWxpbmcoZmVuY2UpKSB7DQo+LQkJCWRtYV9mZW5jZV9zaWdu
-YWxfbG9ja2VkKGZlbmNlKTsNCj4tCQkJcmV0ID0gLUVOT0VOVDsNCj4tCQl9DQo+LQl9DQo+LQ0K
-Pi0JaWYgKCFyZXQpIHsNCj4rCWlmIChfX2RtYV9mZW5jZV9lbmFibGVfc2lnbmFsaW5nKGZlbmNl
-KSkgew0KPiAJCWNiLT5mdW5jID0gZnVuYzsNCj4gCQlsaXN0X2FkZF90YWlsKCZjYi0+bm9kZSwg
-JmZlbmNlLT5jYl9saXN0KTsNCj4tCX0gZWxzZQ0KPisJfSBlbHNlIHsNCj4gCQlJTklUX0xJU1Rf
-SEVBRCgmY2ItPm5vZGUpOw0KPisJCXJldCA9IC1FTk9FTlQ7DQo+Kwl9DQo+Kw0KPiAJc3Bpbl91
-bmxvY2tfaXJxcmVzdG9yZShmZW5jZS0+bG9jaywgZmxhZ3MpOw0KPg0KPiAJcmV0dXJuIHJldDsN
-Cj5AQCAtNDYxLDcgKzQ2Niw2IEBAIGRtYV9mZW5jZV9kZWZhdWx0X3dhaXQoc3RydWN0IGRtYV9m
-ZW5jZSAqZmVuY2UsDQo+Ym9vbCBpbnRyLCBzaWduZWQgbG9uZyB0aW1lb3V0KQ0KPiAJc3RydWN0
-IGRlZmF1bHRfd2FpdF9jYiBjYjsNCj4gCXVuc2lnbmVkIGxvbmcgZmxhZ3M7DQo+IAlzaWduZWQg
-bG9uZyByZXQgPSB0aW1lb3V0ID8gdGltZW91dCA6IDE7DQo+LQlib29sIHdhc19zZXQ7DQo+DQo+
-IAlpZiAodGVzdF9iaXQoRE1BX0ZFTkNFX0ZMQUdfU0lHTkFMRURfQklULCAmZmVuY2UtPmZsYWdz
-KSkNCj4gCQlyZXR1cm4gcmV0Ow0KPkBAIC00NzMsMjEgKzQ3Nyw5IEBAIGRtYV9mZW5jZV9kZWZh
-dWx0X3dhaXQoc3RydWN0IGRtYV9mZW5jZSAqZmVuY2UsDQo+Ym9vbCBpbnRyLCBzaWduZWQgbG9u
-ZyB0aW1lb3V0KQ0KPiAJCWdvdG8gb3V0Ow0KPiAJfQ0KPg0KPi0Jd2FzX3NldCA9DQo+dGVzdF9h
-bmRfc2V0X2JpdChETUFfRkVOQ0VfRkxBR19FTkFCTEVfU0lHTkFMX0JJVCwNCj4tCQkJCSAgICZm
-ZW5jZS0+ZmxhZ3MpOw0KPi0NCj4tCWlmICh0ZXN0X2JpdChETUFfRkVOQ0VfRkxBR19TSUdOQUxF
-RF9CSVQsICZmZW5jZS0+ZmxhZ3MpKQ0KPisJaWYgKCFfX2RtYV9mZW5jZV9lbmFibGVfc2lnbmFs
-aW5nKGZlbmNlKSkNCj4gCQlnb3RvIG91dDsNCj4NCj4tCWlmICghd2FzX3NldCAmJiBmZW5jZS0+
-b3BzLT5lbmFibGVfc2lnbmFsaW5nKSB7DQo+LQkJdHJhY2VfZG1hX2ZlbmNlX2VuYWJsZV9zaWdu
-YWwoZmVuY2UpOw0KPi0NCj4tCQlpZiAoIWZlbmNlLT5vcHMtPmVuYWJsZV9zaWduYWxpbmcoZmVu
-Y2UpKSB7DQo+LQkJCWRtYV9mZW5jZV9zaWduYWxfbG9ja2VkKGZlbmNlKTsNCj4tCQkJZ290byBv
-dXQ7DQo+LQkJfQ0KPi0JfQ0KPi0NCj4gCWlmICghdGltZW91dCkgew0KPiAJCXJldCA9IDA7DQo+
-IAkJZ290byBvdXQ7DQo+LS0NCj4yLjIzLjANCj4NCj5fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXw0KPkludGVsLWdmeCBtYWlsaW5nIGxpc3QNCj5JbnRlbC1n
-ZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9pbnRlbC1nZngNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0372268113==
+Content-Type: multipart/alternative; boundary="15701120962.77E4A3fCF.8525"
+Content-Transfer-Encoding: 7bit
+
+
+--15701120962.77E4A3fCF.8525
+Date: Thu, 3 Oct 2019 14:14:56 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111729
+
+me@cschwarz.com changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |me@cschwarz.com
+
+--- Comment #3 from me@cschwarz.com ---
+Can also confirm this bug, doesn't happen on 4.20.16-200.fc29.x86_64, which=
+ is
+the last fc29 kernel. All 5.X series fc30 kernels seem to be affected.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15701120962.77E4A3fCF.8525
+Date: Thu, 3 Oct 2019 14:14:56 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:me&#64;cs=
+chwarz.com" title=3D"me&#64;cschwarz.com">me&#64;cschwarz.com</a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - RX480 : random NULL pointer dereference on resume from su=
+spend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111729">bug 11172=
+9</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">CC</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>me&#64;cschwarz.com
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - RX480 : random NULL pointer dereference on resume from su=
+spend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111729#c3">Commen=
+t # 3</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - RX480 : random NULL pointer dereference on resume from su=
+spend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111729">bug 11172=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+me&#64;cschwarz.com" title=3D"me&#64;cschwarz.com">me&#64;cschwarz.com</a>
+</span></b>
+        <pre>Can also confirm this bug, doesn't happen on 4.20.16-200.fc29.=
+x86_64, which is
+the last fc29 kernel. All 5.X series fc30 kernels seem to be affected.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15701120962.77E4A3fCF.8525--
+
+--===============0372268113==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0372268113==--
