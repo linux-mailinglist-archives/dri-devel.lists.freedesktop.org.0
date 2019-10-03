@@ -1,31 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3221CCB0BC
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 23:01:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B708CB11D
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 23:29:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 434E96EA86;
-	Thu,  3 Oct 2019 21:01:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D0B46EA7D;
+	Thu,  3 Oct 2019 21:29:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05A6A6EA86;
- Thu,  3 Oct 2019 21:01:27 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from haswell.alporthouse.com (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 18715183-1500050 
- for multiple; Thu, 03 Oct 2019 22:01:04 +0100
-From: Chris Wilson <chris@chris-wilson.co.uk>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 5/5] drm/mm: Use clear_bit_unlock() for releasing the
- drm_mm_node()
-Date: Thu,  3 Oct 2019 22:01:00 +0100
-Message-Id: <20191003210100.22250-5-chris@chris-wilson.co.uk>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191003210100.22250-1-chris@chris-wilson.co.uk>
-References: <20191003210100.22250-1-chris@chris-wilson.co.uk>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 626016EA7D
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 21:29:20 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5F8D772162; Thu,  3 Oct 2019 21:29:20 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111902] too much trees
+Date: Thu, 03 Oct 2019 21:29:20 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: General
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: bisected
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: nanditapillai1999@gmail.com
+X-Bugzilla-Status: ASSIGNED
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ bug_file_loc op_sys bug_status keywords bug_severity priority component
+ assigned_to reporter attachments.created
+Message-ID: <bug-111902-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -39,65 +52,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, tvrtko.ursulin@intel.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0718546446=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QSBmZXcgY2FsbGVycyBuZWVkIHRvIHNlcmlhbGlzZSB0aGUgZGVzdHJ1Y3Rpb24gb2YgdGhlaXIg
-ZHJtX21tX25vZGUgYW5kCmVuc3VyZSBpdCBpcyByZW1vdmVkIGZyb20gdGhlIGRybV9tbSBiZWZv
-cmUgZnJlZWluZy4gSG93ZXZlciwgdG8gYmUKY29tcGxldGVseSBzdXJlIHRoYXQgYW55IGFjY2Vz
-cyBmcm9tIGFub3RoZXIgdGhyZWFkIGlzIGNvbXBsZXRlIGJlZm9yZQp3ZSBmcmVlIHRoZSBzdHJ1
-Y3QsIHdlIHJlcXVpcmUgdGhlIFJFTEVBU0Ugc2VtYW50aWNzIG9mCmNsZWFyX2JpdF91bmxvY2so
-KS4KClRoaXMgYWxsb3dzIHRoZSBjb25kaXRpb25hbCBsb2NraW5nIHN1Y2ggYXMKClRocmVhZCBB
-CQkJCVRocmVhZCBCCiAgICBtdXRleF9sb2NrKG1tX2xvY2spOyAgICAgICAgICAgICAgICBpZiAo
-ZHJtX21tX25vZGVfYWxsb2NhdGVkKG5vZGUpKSB7CiAgICBkcm1fbW1fbm9kZV9yZW1vdmUobm9k
-ZSk7ICAgICAgICAgICAgICAgbXV0ZXhfbG9jayhtbV9sb2NrKTsKICAgIG11dGV4X3VubG9jayht
-bV9sb2NrKTsgICAgICAgICAgICAgICAgICBkcm1fbW1fbm9kZV9yZW1vdmUobm9kZSk7CiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbXV0ZXhfdW5sb2NrKG1tX2xv
-Y2spOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBrZnJlZShub2RlKTsKCnRvIHNlcmlhbGlz
-ZSBjb3JyZWN0bHkgd2l0aG91dCBhbnkgbGluZ2VyaW5nIGFjY2Vzc2VzIGZyb20gQSB0byB0aGUK
-ZnJlZWQgbm9kZS4gQWxsb2NhdGlvbiAvIGluc2VydGlvbiBvZiB0aGUgbm9kZSBpcyBhc3N1bWVk
-IG5ldmVyIHRvIHJhY2UKd2l0aCByZW1vdmFsIG9yIGV2aWN0aW9uIHNjYW5uaW5nLgoKU2lnbmVk
-LW9mZi1ieTogQ2hyaXMgV2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+Ci0tLQogZHJp
-dmVycy9ncHUvZHJtL2RybV9tbS5jIHwgMTEgKysrKysrLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCA2
-IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL2RybV9tbS5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9tbS5jCmluZGV4IGE5Y2FiNWU1Mzcz
-MS4uMmE2ZTM0NjYzMTQ2IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX21tLmMKKysr
-IGIvZHJpdmVycy9ncHUvZHJtL2RybV9tbS5jCkBAIC00MjQsOSArNDI0LDkgQEAgaW50IGRybV9t
-bV9yZXNlcnZlX25vZGUoc3RydWN0IGRybV9tbSAqbW0sIHN0cnVjdCBkcm1fbW1fbm9kZSAqbm9k
-ZSkKIAogCW5vZGUtPm1tID0gbW07CiAKKwlfX3NldF9iaXQoRFJNX01NX05PREVfQUxMT0NBVEVE
-X0JJVCwgJm5vZGUtPmZsYWdzKTsKIAlsaXN0X2FkZCgmbm9kZS0+bm9kZV9saXN0LCAmaG9sZS0+
-bm9kZV9saXN0KTsKIAlkcm1fbW1faW50ZXJ2YWxfdHJlZV9hZGRfbm9kZShob2xlLCBub2RlKTsK
-LQlfX3NldF9iaXQoRFJNX01NX05PREVfQUxMT0NBVEVEX0JJVCwgJm5vZGUtPmZsYWdzKTsKIAlu
-b2RlLT5ob2xlX3NpemUgPSAwOwogCiAJcm1faG9sZShob2xlKTsKQEAgLTU0Myw5ICs1NDMsOSBA
-QCBpbnQgZHJtX21tX2luc2VydF9ub2RlX2luX3JhbmdlKHN0cnVjdCBkcm1fbW0gKiBjb25zdCBt
-bSwKIAkJbm9kZS0+Y29sb3IgPSBjb2xvcjsKIAkJbm9kZS0+aG9sZV9zaXplID0gMDsKIAorCQlf
-X3NldF9iaXQoRFJNX01NX05PREVfQUxMT0NBVEVEX0JJVCwgJm5vZGUtPmZsYWdzKTsKIAkJbGlz
-dF9hZGQoJm5vZGUtPm5vZGVfbGlzdCwgJmhvbGUtPm5vZGVfbGlzdCk7CiAJCWRybV9tbV9pbnRl
-cnZhbF90cmVlX2FkZF9ub2RlKGhvbGUsIG5vZGUpOwotCQlfX3NldF9iaXQoRFJNX01NX05PREVf
-QUxMT0NBVEVEX0JJVCwgJm5vZGUtPmZsYWdzKTsKIAogCQlybV9ob2xlKGhvbGUpOwogCQlpZiAo
-YWRqX3N0YXJ0ID4gaG9sZV9zdGFydCkKQEAgLTU4OSwxMSArNTg5LDEyIEBAIHZvaWQgZHJtX21t
-X3JlbW92ZV9ub2RlKHN0cnVjdCBkcm1fbW1fbm9kZSAqbm9kZSkKIAogCWRybV9tbV9pbnRlcnZh
-bF90cmVlX3JlbW92ZShub2RlLCAmbW0tPmludGVydmFsX3RyZWUpOwogCWxpc3RfZGVsKCZub2Rl
-LT5ub2RlX2xpc3QpOwotCV9fY2xlYXJfYml0KERSTV9NTV9OT0RFX0FMTE9DQVRFRF9CSVQsICZu
-b2RlLT5mbGFncyk7CiAKIAlpZiAoZHJtX21tX2hvbGVfZm9sbG93cyhwcmV2X25vZGUpKQogCQly
-bV9ob2xlKHByZXZfbm9kZSk7CiAJYWRkX2hvbGUocHJldl9ub2RlKTsKKworCWNsZWFyX2JpdF91
-bmxvY2soRFJNX01NX05PREVfQUxMT0NBVEVEX0JJVCwgJm5vZGUtPmZsYWdzKTsKIH0KIEVYUE9S
-VF9TWU1CT0woZHJtX21tX3JlbW92ZV9ub2RlKTsKIApAQCAtNjE0LDYgKzYxNSw3IEBAIHZvaWQg
-ZHJtX21tX3JlcGxhY2Vfbm9kZShzdHJ1Y3QgZHJtX21tX25vZGUgKm9sZCwgc3RydWN0IGRybV9t
-bV9ub2RlICpuZXcpCiAKIAkqbmV3ID0gKm9sZDsKIAorCV9fc2V0X2JpdChEUk1fTU1fTk9ERV9B
-TExPQ0FURURfQklULCAmbmV3LT5mbGFncyk7CiAJbGlzdF9yZXBsYWNlKCZvbGQtPm5vZGVfbGlz
-dCwgJm5ldy0+bm9kZV9saXN0KTsKIAlyYl9yZXBsYWNlX25vZGVfY2FjaGVkKCZvbGQtPnJiLCAm
-bmV3LT5yYiwgJm1tLT5pbnRlcnZhbF90cmVlKTsKIApAQCAtNjI3LDggKzYyOSw3IEBAIHZvaWQg
-ZHJtX21tX3JlcGxhY2Vfbm9kZShzdHJ1Y3QgZHJtX21tX25vZGUgKm9sZCwgc3RydWN0IGRybV9t
-bV9ub2RlICpuZXcpCiAJCQkJJm1tLT5ob2xlc19hZGRyKTsKIAl9CiAKLQlfX2NsZWFyX2JpdChE
-Uk1fTU1fTk9ERV9BTExPQ0FURURfQklULCAmb2xkLT5mbGFncyk7Ci0JX19zZXRfYml0KERSTV9N
-TV9OT0RFX0FMTE9DQVRFRF9CSVQsICZuZXctPmZsYWdzKTsKKwljbGVhcl9iaXRfdW5sb2NrKERS
-TV9NTV9OT0RFX0FMTE9DQVRFRF9CSVQsICZvbGQtPmZsYWdzKTsKIH0KIEVYUE9SVF9TWU1CT0wo
-ZHJtX21tX3JlcGxhY2Vfbm9kZSk7CiAKLS0gCjIuMjMuMAoKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0718546446==
+Content-Type: multipart/alternative; boundary="15701381601.daA7A2f0F.5298"
+Content-Transfer-Encoding: 7bit
+
+
+--15701381601.daA7A2f0F.5298
+Date: Thu, 3 Oct 2019 21:29:20 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111902
+
+            Bug ID: 111902
+           Summary: too much trees
+           Product: DRI
+           Version: XOrg git
+          Hardware: x86-64 (AMD64)
+               URL: http://mu.ac.in/portal/
+                OS: Windows (All)
+            Status: ASSIGNED
+          Keywords: bisected
+          Severity: normal
+          Priority: high
+         Component: General
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: nanditapillai1999@gmail.com
+
+Created attachment 145632
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145632&action=3Dedit
+too much trees
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15701381601.daA7A2f0F.5298
+Date: Thu, 3 Oct 2019 21:29:20 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_ASSIGNED "
+   title=3D"ASSIGNED - too much trees"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111902">111902</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>too much trees
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>XOrg git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>URL</th>
+          <td>http://mu.ac.in/portal/
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Windows (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>ASSIGNED
+          </td>
+        </tr>
+
+        <tr>
+          <th>Keywords</th>
+          <td>bisected
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>high
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>General
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>nanditapillai1999&#64;gmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145632=
+" name=3D"attach_145632" title=3D"too much trees">attachment 145632</a> <a =
+href=3D"attachment.cgi?id=3D145632&amp;action=3Dedit" title=3D"too much tre=
+es">[details]</a></span>
+too much trees</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15701381601.daA7A2f0F.5298--
+
+--===============0718546446==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0718546446==--
