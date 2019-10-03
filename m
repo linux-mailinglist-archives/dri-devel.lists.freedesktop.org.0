@@ -1,65 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 465D6C9D91
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 13:42:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B5DC9D92
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 13:42:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 880D76E12C;
-	Thu,  3 Oct 2019 11:42:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8E636E99D;
+	Thu,  3 Oct 2019 11:42:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D952A6E12C
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 11:42:31 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id y135so7072500wmc.1
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Oct 2019 04:42:31 -0700 (PDT)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AA886E99D
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 11:42:48 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id q9so2560299wrm.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Oct 2019 04:42:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to:user-agent;
- bh=cHvDsFcekIPBjH5IQouCdyPdPjje7XItWyIIEhMEyPI=;
- b=LX2+aEKEaW8kVWkk8/rOISHDvYIwys5PTpw2jYyza3dXaUdyv9bqmYEZuZXkbL8MHs
- 40oI/5KwbDuZ6bE4MTkC8ib9p8k07zdWxS4n6d9Ld16YuExUZSlS1fn5Nh8WSI2GaesL
- EcuuISQ32MzCTm/cG/J2xos+lBcr8y5D6BsB4Onk9Y0eUJCQLIJZwmedfUq4EtuA6Jz7
- RvhpB6MHvH+qOAtlJA+NqNsac4hGzHpk+KTMoh4z6T/JpcQIJ7s4TveacYe/pcfO6h9g
- MP8FmRy3t6Vgfm2q04neov9ggumxTMw6jnyUqHkqED2kbFMt/t7RCQDgWLD56DilhDT9
- +JAw==
-X-Gm-Message-State: APjAAAVylcLmqV8KB72eDlItkrV8ebx2A5AgICsTQuL7yAV6XL9deglS
- xK+AtZF/v1a9NSvHmCLiDB98BA==
-X-Google-Smtp-Source: APXvYqw1NwetRlcDBzEKd3mk6MdQNZN+YmmIwRP4K/p2HZFkqtNAeXNCEmkgLAMiYM73jRZWrIMe1w==
-X-Received: by 2002:a7b:cf12:: with SMTP id l18mr7069293wmg.25.1570102950452; 
- Thu, 03 Oct 2019 04:42:30 -0700 (PDT)
+ bh=jT+9een9mM2KMQc2NI2nr4Y5VakV7H0J0wclQgkUils=;
+ b=GUiGLTuGFnIUKRZ+GF3WWql3OSjYiS4BjNu9O9oWRRR5sbvIrUiSv4RdgDUHC4DCRt
+ nSSCOCCbnRxxuOK58DGx8+Q/aoBRtxno4QQti0TRKLlgRbTNWO+BpgEhwS6oAufoGt4q
+ grSIy6NKpjmYcC+1imPFIZ8eMn9O//3l5Nxz+9fcYGV+LrbUhcNFOINqqqjhzFBpyJv2
+ TmRE5IBew0mdOD2GRtBJMqcPAuC4a17DVhCvR6V1Q9SP94pRajhEQUSkEisK7ofxzdXE
+ Xby8cj+Crzf9oa3yYXj40yx7zgFhGJ+WCfR1pWaQxmXkq1QCp7aVqXBqYIYDPZ3S2WWp
+ hNxg==
+X-Gm-Message-State: APjAAAXE7yAdFbipLwcCU5LOOe80C3D0/fWFI0i6VAIQX0nRAKt7K1dT
+ AaW0BgrmXu0GwwWS6PJUjCGj7Q==
+X-Google-Smtp-Source: APXvYqz82V76dcSOpmIIaTo777Rc74WPo1TLzktFeak8EAx8pWm//EW5b77wEGmszSGc+Q2Gg+GDIw==
+X-Received: by 2002:a5d:6704:: with SMTP id o4mr6839593wru.365.1570102966533; 
+ Thu, 03 Oct 2019 04:42:46 -0700 (PDT)
 Received: from dell ([2.27.167.122])
- by smtp.gmail.com with ESMTPSA id m62sm2235472wmm.35.2019.10.03.04.42.28
+ by smtp.gmail.com with ESMTPSA id 36sm3014735wrp.30.2019.10.03.04.42.44
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Oct 2019 04:42:29 -0700 (PDT)
-Date: Thu, 3 Oct 2019 12:42:26 +0100
+ Thu, 03 Oct 2019 04:42:46 -0700 (PDT)
+Date: Thu, 3 Oct 2019 12:42:42 +0100
 From: Lee Jones <lee.jones@linaro.org>
 To: Andreas Kemnade <andreas@kemnade.info>
-Subject: Re: [PATCH v4 1/2] dt-bindings: backlight: lm3630a: Add enable-gpios
- to describe HWEN pin
-Message-ID: <20191003114226.GD21172@dell>
+Subject: Re: [PATCH v4 2/2] backlight: lm3630a: Add an enable gpio for the
+ HWEN pin
+Message-ID: <20191003114242.GE21172@dell>
 References: <20190912213257.24147-1-andreas@kemnade.info>
- <20190912213257.24147-2-andreas@kemnade.info>
+ <20190912213257.24147-3-andreas@kemnade.info>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20190912213257.24147-2-andreas@kemnade.info>
+In-Reply-To: <20190912213257.24147-3-andreas@kemnade.info>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to
  :user-agent;
- bh=cHvDsFcekIPBjH5IQouCdyPdPjje7XItWyIIEhMEyPI=;
- b=KUHnsWOZhhK6SSsl82Z+eu8JxSen5PB6zveEcc7ZS/DZqL2xMoZCrsOM+Cgj/s/GZU
- jm2bl+2+AgLJLDfMc0Rgk0E8CwafVlGkNSIEa2jrBFRY2tZxr5dHjI4NXYJ1BSl49Vy6
- chNXh8bWIusGKFXGeCSOxPhRTfC0FQOeSssodjmRhFw6ZuJKZ2mXORD2jeT5hi0qDFnh
- oyV4QmcBNWJvY4STPmI08IqiWkcXLqNGzrkm7U24CqRxt/ucuuBeDSqJeVkDwEPoForM
- ZhCxnXCK2QTLZbkH8OL2+8qxHL9O5N1zLJXAEMU4ZS5vjfOKggq2k2pD9y4XKySoKnoD
- /BpQ==
+ bh=jT+9een9mM2KMQc2NI2nr4Y5VakV7H0J0wclQgkUils=;
+ b=fwQKUaUFQ6a/78eZtJv4rTrh8NiDMuR7wU5XIhUa32e5TXH0+uEfqBrFFkdozLykq1
+ GQSrne3+R37jhPKfIGFJf311r73w02PYfez7FjwTcAvND4U6++vYOlaw9c7WX4E2oyY2
+ nikycED8a/vkMoQonBwpaQpGZVVqHZtSoxd6HWOawqobtNEPaBTphaIe8FghuMyKs8M7
+ Si1Ey/dynw5twF+TVb6+G/a0w5QVMtNTUe+ZkLXqRKR5eM/AqOW7nzpR5fVSezqZ8q7p
+ 32T39Ez4eEhSJ4vkH30VuovExTH5yDqeqWSaWP4tiMu+75u2sBIPXVp+uzQum8/3hiUN
+ VJwg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,19 +82,21 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAxMiBTZXAgMjAxOSwgQW5kcmVhcyBLZW1uYWRlIHdyb3RlOgoKPiBQcm92aWRlIERU
-IGRvY3VtZW50YXRpb24gZm9yIGVuYWJsZS1ncGlvcy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBBbmRy
-ZWFzIEtlbW5hZGUgPGFuZHJlYXNAa2VtbmFkZS5pbmZvPgo+IEFja2VkLWJ5OiBEYW5pZWwgVGhv
-bXBzb24gPGRhbmllbC50aG9tcHNvbkBsaW5hcm8ub3JnPgo+IFJldmlld2VkLWJ5OiBSb2IgSGVy
-cmluZyA8cm9iaEBrZXJuZWwub3JnPgo+IFJldmlld2VkLWJ5OiBEYW4gTXVycGh5IDxkbXVycGh5
-QHRpLmNvbT4KPiAtLS0KPiBjaGFuZ2VzIGluIHYyOiBhZGRlZCBleGFtcGxlCj4gY2hhbmdlcyBp
-biB2MzogYWRkZWQgQWNrZWQtYnkKPiBjaGFuZ2VzIGluIHY0OiBtb3ZlZCBlbmFibGUtZ3Bpb3Mg
-dG8gdGhlIHJpZ2h0IHBvc2l0aW9uCj4gICBpbiB0aGUgZXhhbXBsZQo+ICAuLi4vYmluZGluZ3Mv
-bGVkcy9iYWNrbGlnaHQvbG0zNjMwYS1iYWNrbGlnaHQueWFtbCAgICAgICAgICAgfCA1ICsrKysr
-Cj4gIDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKykKCkFwcGxpZWQsIHRoYW5rcy4KCi0t
-IApMZWUgSm9uZXMgW+adjueQvOaWr10KTGluYXJvIFNlcnZpY2VzIFRlY2huaWNhbCBMZWFkCkxp
-bmFyby5vcmcg4pSCIE9wZW4gc291cmNlIHNvZnR3YXJlIGZvciBBUk0gU29DcwpGb2xsb3cgTGlu
-YXJvOiBGYWNlYm9vayB8IFR3aXR0ZXIgfCBCbG9nCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbA==
+T24gVGh1LCAxMiBTZXAgMjAxOSwgQW5kcmVhcyBLZW1uYWRlIHdyb3RlOgoKPiBGb3Igbm93IGp1
+c3QgZW5hYmxlIGl0IGluIHRoZSBwcm9iZSBmdW5jdGlvbiB0byBhbGxvdyBJMkMKPiBhY2Nlc3Mu
+IERpc2FibGluZyBhbHNvIG1lYW5zIHJlc2V0dGluZyB0aGUgcmVnaXN0ZXIgdmFsdWVzCj4gdG8g
+ZGVmYXVsdCBhbmQgYWNjb3JkaW5nIHRvIHRoZSBkYXRhc2hlZXQgZG9lcyBub3QgZ2l2ZQo+IHBv
+d2VyIHNhdmluZ3MuCj4gCj4gVGVzdGVkIG9uIEtvYm8gQ2xhcmEgSEQuCj4gCj4gU2lnbmVkLW9m
+Zi1ieTogQW5kcmVhcyBLZW1uYWRlIDxhbmRyZWFzQGtlbW5hZGUuaW5mbz4KPiBSZXZpZXdlZC1i
+eTogRGFuIE11cnBoeSA8ZG11cnBoeUB0aS5jb20+Cj4gUmV2aWV3ZWQtYnk6IERhbmllbCBUaG9t
+cHNvbiA8ZGFuaWVsLnRob21wc29uQGxpbmFyby5vcmc+Cj4gLS0tCj4gY2hhbmdlcyBpbiB2MjoK
+PiAtIHNpbXBsaWZpY2F0aW9uCj4gLSBjb3JyZWN0IGdwaW8gZGlyZWN0aW9uIGluaXRpYWxpc2F0
+aW9uCj4gCj4gY2hhbmdlcyBpbiB2MzoKPiAtIHJlbW92ZWQgbGVnYWN5IGluY2x1ZGUKPiAKPiAg
+ZHJpdmVycy92aWRlby9iYWNrbGlnaHQvbG0zNjMwYV9ibC5jIHwgOSArKysrKysrKysKPiAgMSBm
+aWxlIGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygrKQoKQXBwbGllZCwgdGhhbmtzLgoKLS0gCkxlZSBK
+b25lcyBb5p2O55C85pavXQpMaW5hcm8gU2VydmljZXMgVGVjaG5pY2FsIExlYWQKTGluYXJvLm9y
+ZyDilIIgT3BlbiBzb3VyY2Ugc29mdHdhcmUgZm9yIEFSTSBTb0NzCkZvbGxvdyBMaW5hcm86IEZh
+Y2Vib29rIHwgVHdpdHRlciB8IEJsb2cKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVs
