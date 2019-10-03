@@ -1,42 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B44DDC9D05
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 13:17:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA51C9D09
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 13:17:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51F9E6E11A;
-	Thu,  3 Oct 2019 11:17:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D3626E0FD;
+	Thu,  3 Oct 2019 11:17:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23CC46E11A
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 11:17:16 +0000 (UTC)
-Received: from earth.universe (dyndsl-037-138-174-173.ewe-ip-backbone.de
- [37.138.174.173])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D48992133F;
- Thu,  3 Oct 2019 11:17:15 +0000 (UTC)
-Received: by earth.universe (Postfix, from userid 1000)
- id 627E53C0CA1; Thu,  3 Oct 2019 13:17:13 +0200 (CEST)
-Date: Thu, 3 Oct 2019 13:17:13 +0200
-From: Sebastian Reichel <sre@kernel.org>
-To: Jean-Jacques Hiblot <jjhiblot@ti.com>
-Subject: Re: [PATCH v8 4/5] dt-bindings: backlight: Add led-backlight binding
-Message-ID: <20191003111713.ooc4n3isz47wnn4v@earth.universe>
-References: <20191003082812.28491-1-jjhiblot@ti.com>
- <20191003082812.28491-5-jjhiblot@ti.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 795BE6E9A9
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 11:17:24 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 75E2372162; Thu,  3 Oct 2019 11:17:24 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Thu, 03 Oct 2019 11:17:24 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: popovic.marko@protonmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111481-502-xU3hmzovN5@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20191003082812.28491-5-jjhiblot@ti.com>
-User-Agent: NeoMutt/20180716
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1570101436;
- bh=II5B/sbWqqiAcZ3eAEeX7O3XDip0LCoLkQ4L9GRTQ2M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VpJ5/IipiXKNzI8lzhlon8MhIlvdAt34WVQ+nhC8kv4TZaZQM+IehGjALlJ+orVm6
- X/EEqiWnlkguK/AD4MTEkh3xImJjycY57g0QrBMESoAptsETJ6OIPZlSclljKfA31K
- TJaYLCHam+49GN/TWu4ryWPfKpVlhHTgeLu32MvE=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,115 +53,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, daniel.thompson@linaro.org, tomi.valkeinen@ti.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
- lee.jones@linaro.org, linux-leds@vger.kernel.org, dmurphy@ti.com
-Content-Type: multipart/mixed; boundary="===============0317327352=="
+Content-Type: multipart/mixed; boundary="===============1904873158=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0317327352==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ujrlezysj74uzozf"
-Content-Disposition: inline
+--===============1904873158==
+Content-Type: multipart/alternative; boundary="15701014447.E0Af.7017"
+Content-Transfer-Encoding: 7bit
 
 
---ujrlezysj74uzozf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--15701014447.E0Af.7017
+Date: Thu, 3 Oct 2019 11:17:24 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
-Hi,
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
 
-On Thu, Oct 03, 2019 at 10:28:11AM +0200, Jean-Jacques Hiblot wrote:
-> Add DT binding for led-backlight.
->=20
-> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
-> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+--- Comment #67 from Marko Popovic <popovic.marko@protonmail.com> ---
+(In reply to Shmerl from comment #65)
+> I also don't see this patch landing in 5.4 (rc1 doesn't have it). Should =
+we
+> keep applying it manually for now?
 
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+We probably don't need the WIP version since it didn't work, I was just
+wondering if the team has any official news on the issue.
 
--- Sebastian
+I will be trying 5.4 RC series in the following days and see if anything
+changes regarding the sdma or any other types of hangs due to those Navi
+related fixes.
 
-> ---
->  .../bindings/leds/backlight/led-backlight.txt | 28 +++++++++++++++++++
->  1 file changed, 28 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/led-=
-backlight.txt
->=20
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/led-backlig=
-ht.txt b/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
-> new file mode 100644
-> index 000000000000..4c7dfbe7f67a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
-> @@ -0,0 +1,28 @@
-> +led-backlight bindings
-> +
-> +This binding is used to describe a basic backlight device made of LEDs.
-> +It can also be used to describe a backlight device controlled by the out=
-put of
-> +a LED driver.
-> +
-> +Required properties:
-> +  - compatible: "led-backlight"
-> +  - leds: a list of LEDs
-> +
-> +Optional properties:
-> +  - brightness-levels: Array of distinct brightness levels. The levels m=
-ust be
-> +                       in the range accepted by the underlying LED devic=
-es.
-> +                       This is used to translate a backlight brightness =
-level
-> +                       into a LED brightness level. If it is not provide=
-d, the
-> +                       identity mapping is used.
-> +
-> +  - default-brightness-level: The default brightness level.
-> +
-> +Example:
-> +
-> +	backlight {
-> +		compatible =3D "led-backlight";
-> +
-> +		leds =3D <&led1>, <&led2>;
-> +		brightness-levels =3D <0 4 8 16 32 64 128 255>;
-> +		default-brightness-level =3D <6>;
-> +	};
-> --=20
-> 2.17.1
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
 
---ujrlezysj74uzozf
-Content-Type: application/pgp-signature; name="signature.asc"
+--15701014447.E0Af.7017
+Date: Thu, 3 Oct 2019 11:17:24 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
------BEGIN PGP SIGNATURE-----
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c67">Comme=
+nt # 67</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+popovic.marko&#64;protonmail.com" title=3D"Marko Popovic &lt;popovic.marko&=
+#64;protonmail.com&gt;"> <span class=3D"fn">Marko Popovic</span></a>
+</span></b>
+        <pre>(In reply to Shmerl from <a href=3D"show_bug.cgi?id=3D111481#c=
+65">comment #65</a>)
+<span class=3D"quote">&gt; I also don't see this patch landing in 5.4 (rc1 =
+doesn't have it). Should we
+&gt; keep applying it manually for now?</span >
 
-iQIzBAEBCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl2V2KoACgkQ2O7X88g7
-+prCPg//Y+6iSy63FAPebAskUElu3y0Mfdiy76jSPcbO9/0s55cmBxyzra2So8Cu
-q9wfbVm0swD+BZz/XTnKdYWzNUt4WORzSAM4liazcED+GYFN52dYFe9CRv1HMMYn
-q5mYggZgMquemXXS9xsXhAu9mVKLZqfqfhbQyaWxsUnnkVob1NaIL466CxY4w67Z
-aWDfXjcykV6VxszFA8fJbUeitO94ajYf2v641mCAbsZb9gpk92QbnncqvCxb2R+c
-xfVHwS9UPDhzKUYAPwLH38VdCU3TLsvkC8F4ZEPEB6jyQ+BMFZgXRxYtkiBzKrbV
-WmCepLcxr6jScH95iUBbkctDzFNtkg3kqEt/uUEuitws+nwuYYndeAs+RhYdYtzd
-CPI/lOZyeqb9faA0A5UJXMewt+4ZW6DnYZN3gaSAgk+3R48oluC/7ZD4PgYOe0Yd
-nIj25DS/WJuUYxtSeE9f3WZE4rgngBhtPRFlXr1HxCf2m/MFh8sxI9dVPIUj2GJn
-xuiE/osyU3W+oF9+KP1rwJ/9byZh57qqgrNglqi6S3qHKrLgHDFOGhAtmJpQjKV3
-ro/uuZsIxZvr1hKE5FFIFB70EmbhJImJMkhqT95cPOBBQOOvX5oZjN6WeNp6y8sa
-KWZcp3HmeJCUYbFrKkJRG+4L/rkL/EI16rV87xkViyAPRMuwvkM=
-=WVML
------END PGP SIGNATURE-----
+We probably don't need the WIP version since it didn't work, I was just
+wondering if the team has any official news on the issue.
 
---ujrlezysj74uzozf--
+I will be trying 5.4 RC series in the following days and see if anything
+changes regarding the sdma or any other types of hangs due to those Navi
+related fixes.</pre>
+        </div>
+      </p>
 
---===============0317327352==
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15701014447.E0Af.7017--
+
+--===============1904873158==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -167,4 +158,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0317327352==--
+--===============1904873158==--
