@@ -1,58 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6F75C980D
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 07:56:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86CA5C9834
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 08:25:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE35A6E1F3;
-	Thu,  3 Oct 2019 05:56:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D58BD6E207;
+	Thu,  3 Oct 2019 06:25:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 601906E1F3
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 05:56:25 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x935uHKw127747;
- Thu, 3 Oct 2019 00:56:17 -0500
-Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x935uHDh027690
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 3 Oct 2019 00:56:17 -0500
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 3 Oct
- 2019 00:56:06 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Thu, 3 Oct 2019 00:56:06 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x935uF3I043768;
- Thu, 3 Oct 2019 00:56:16 -0500
-Subject: Re: [PATCH v2 13/50] drm/bridge: panel: Implement bridge connector
- operations
-To: Sam Ravnborg <sam@ravnborg.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>
-References: <20190820011721.30136-1-laurent.pinchart@ideasonboard.com>
- <20190820011721.30136-14-laurent.pinchart@ideasonboard.com>
- <20190820103706.GB9745@ravnborg.org>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <e9e47b5f-4da5-7131-d09c-92a7ec8ba46a@ti.com>
-Date: Thu, 3 Oct 2019 08:56:15 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8D52F6E207
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 06:25:32 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 8A5C672162; Thu,  3 Oct 2019 06:25:32 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111889] Severe glitches in cinnamon/gnome3 affecting small
+ rectangular areas (menus, dialogs)
+Date: Thu, 03 Oct 2019 06:25:32 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: sdiconov@mail.ru
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ attachments.created
+Message-ID: <bug-111889-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20190820103706.GB9745@ravnborg.org>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ti.com; s=ti-com-17Q1; t=1570082177;
- bh=xKvie4GnCaKycv3lfJbdYaF9e1PFJ9YLaC+SWVsPwmE=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=GpufL3lGKK5qLAG1hGF+2rDHg2Za3XHdOkzeJP/YjMBJkg+cJVdWFX407d7LJ48hP
- FAwCp+w1uwK6mOHN33ztxM4jtJzQbZNS1e31MCiaew8gqkFkz9BehfvCD+CVtez1XV
- xMnsnfPhQiCEXlS2DPcX6Y3WD6LqSEJhcBS9I5bw=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,40 +53,242 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>, Sean Paul <sean@poorly.run>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============0649375048=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgU2FtLAoKT24gMjAvMDgvMjAxOSAxMzozNywgU2FtIFJhdm5ib3JnIHdyb3RlOgoKPj4gQEAg
-LTEyMyw2ICsxMjMsMTggQEAgc3RhdGljIHZvaWQgcGFuZWxfYnJpZGdlX3Bvc3RfZGlzYWJsZShz
-dHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlKQo+PiAgIAlkcm1fcGFuZWxfdW5wcmVwYXJlKHBhbmVs
-X2JyaWRnZS0+cGFuZWwpOwo+PiAgIH0KPj4gICAKPj4gK3N0YXRpYyBpbnQgcGFuZWxfYnJpZGdl
-X2dldF9tb2RlcyhzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlLAo+PiArCQkJCSAgc3RydWN0IGRy
-bV9jb25uZWN0b3IgKmNvbm5lY3RvcikKPj4gK3sKPj4gKwlzdHJ1Y3QgcGFuZWxfYnJpZGdlICpw
-YW5lbF9icmlkZ2UgPSBkcm1fYnJpZGdlX3RvX3BhbmVsX2JyaWRnZShicmlkZ2UpOwo+PiArCj4+
-ICsJLyoKPj4gKwkgKiBGSVhNRTogZHJtX3BhbmVsX2dldF9tb2RlcygpIHNob3VsZCB0YWtlIHRo
-ZSBjb25uZWN0b3IgYXMgYW4KPj4gKwkgKiBhcmd1bWVudC4KPj4gKwkgKi8KPiBOb3RlZCwgSSBo
-YXZlIHBhdGNoZXMgdG8gZml4IHRoaXMuIE5lZWRzIGEgbGl0dGxlIHRlc3RpbmcvcG9saXNoaW5n
-Cj4gYmVmb3JlIEkgcG9zdCB0aGVtLgoKRG8geW91IGhhdmUgYW55IHRlc3RhYmxlIHBhdGNoZXMg
-Zm9yIHRoaXM/CgpJIHdhcyB0ZXN0aW5nIHRoaXMgc2VyaWVzIHdpdGggYSBUb3NoaWJhIERQSS0y
-LURTSSBicmlkZ2UgYW5kIGEgRFNJIApwYW5lbCwgYW5kIHdhcyBoaXR0aW5nIGEgY3Jhc2ggYXMg
-c2ltcGxlLXBhbmVsIGNvdWxkbid0IGdldCB0aGUgY29ubmVjdG9yLgoKTGF1cmVudCBjb21tZW50
-ZWQ6Cgo+IHBhbmVsX2JyaWRnZV9hdHRhY2goKSBzaG91bGQgYmUgbW9kaWZpZWQgdG8gY2FsbCBk
-cm1fcGFuZWxfYXR0YWNoKCkgZXZlbgo+IHdoZW4gZmxhZ3MgJiBEUk1fQlJJREdFX0FUVEFDSF9O
-T19DT05ORUNUT1IsIHdpdGggdGhlIGNvbm5jdG9yIHBhcmFtZXRlcgo+IHNldCB0byBOVUxMLiBU
-aGF0J3MgZWFzeSwgYW5kIGRybV9wYW5lbF9hdHRhY2goKSB3b24ndCBjb21wbGFpbiBhbmQKPiBo
-YXBwaWx5IHNldCBwYW5lbC0+Y29ubmVjdG9yIHRvIE5VTEwuIFRoZSB0cm91YmxlIGlzIHRoYXQg
-dGhlIHBhbmVsCj4gZHJpdmVycyByZWx5IG9uIHBhbmVsLT5jb25uZWN0b3IgaW4gdGhlaXIgZ2V0
-X21vZGVzKCkgaW1wbGVtZW50YXRpb24uCj4gVGhhdCBmdW5jdGlvbiBuZWVkcyB0byBiZSBtb2Rp
-ZmllZCB0byB0YWtlIHRoZSBjb25uZWN0b3IgcG9pbnRlciBpbnN0ZWFkCj4gb2YgcmV0cmlldmlu
-ZyBpdCBmcm9tIHBhbmVsLT5jb25uZWN0b3IgKHdoaWNoIGNhbiB0aGVuIGJlIHJlbW92ZWQpLgoK
-ICBUb21pCgotLSAKVGV4YXMgSW5zdHJ1bWVudHMgRmlubGFuZCBPeSwgUG9ya2thbGFua2F0dSAy
-MiwgMDAxODAgSGVsc2lua2kuClktdHVubnVzL0J1c2luZXNzIElEOiAwNjE1NTIxLTQuIEtvdGlw
-YWlra2EvRG9taWNpbGU6IEhlbHNpbmtpCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbA==
+
+--===============0649375048==
+Content-Type: multipart/alternative; boundary="15700839321.c4a4AF9C.16114"
+Content-Transfer-Encoding: 7bit
+
+
+--15700839321.c4a4AF9C.16114
+Date: Thu, 3 Oct 2019 06:25:32 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111889
+
+            Bug ID: 111889
+           Summary: Severe glitches in cinnamon/gnome3 affecting small
+                    rectangular areas (menus, dialogs)
+           Product: DRI
+           Version: XOrg git
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: major
+          Priority: not set
+         Component: DRM/Radeon
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: sdiconov@mail.ru
+
+Created attachment 145618
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145618&action=3Dedit
+Unreadable file copy dialog (cinnamon filemanager)
+
+I witness a gradually developing regression that results in increasingly na=
+sty
+graphical glitches in the cinnamon and gnome3 desktop environments. It has
+reached the point when it becomes impossible to see, what GUI button or menu
+item you are clicking, which makes the whole desktop unusable.
+
+The bug affects relatively small rectangular areas containing individual GUI
+elements. See attached screenshots.=20
+* Dialogs that are close to a square in shape are less likely to be garbled,
+Wider dialogs look worse.
+* The bug disappears immediately if I run a different desktop compositor us=
+ing
+commands like "compiz --replace".
+
+Affected DE-s:=20
+- Cinnamon  (strong)
+- Gnome3 (less)
+
+Not affected DEs|WMs:
+- mate
+- muffin (cinnamon wm run independently of its DE)
+- compiz
+
+KDE not tested by me.
+
+My hardware and kernel:
+01:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] T=
+urks
+XT [Radeon HD 6670/7670]
+Linux kernel 4.19.72, radeon.ko driver=20
+
+The regression started with small systray icons, than it spread to hint and
+notification boxes. Since about a week ago (my latest update) it affects me=
+nus
+and dialog boxes as well. The same dialogs that become ureadable in cinnamon
+may look normal in gnome3 (without normal wm titlebar).
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15700839321.c4a4AF9C.16114
+Date: Thu, 3 Oct 2019 06:25:32 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Severe glitches in cinnamon/gnome3 affecting small rectan=
+gular areas (menus, dialogs)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111889">111889</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Severe glitches in cinnamon/gnome3 affecting small rectangula=
+r areas (menus, dialogs)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>XOrg git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>major
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/Radeon
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>sdiconov&#64;mail.ru
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145618=
+" name=3D"attach_145618" title=3D"Unreadable file copy dialog (cinnamon fil=
+emanager)">attachment 145618</a> <a href=3D"attachment.cgi?id=3D145618&amp;=
+action=3Dedit" title=3D"Unreadable file copy dialog (cinnamon filemanager)"=
+>[details]</a></span>
+Unreadable file copy dialog (cinnamon filemanager)
+
+I witness a gradually developing regression that results in increasingly na=
+sty
+graphical glitches in the cinnamon and gnome3 desktop environments. It has
+reached the point when it becomes impossible to see, what GUI button or menu
+item you are clicking, which makes the whole desktop unusable.
+
+The bug affects relatively small rectangular areas containing individual GUI
+elements. See attached screenshots.=20
+* Dialogs that are close to a square in shape are less likely to be garbled,
+Wider dialogs look worse.
+* The bug disappears immediately if I run a different desktop compositor us=
+ing
+commands like &quot;compiz --replace&quot;.
+
+Affected DE-s:=20
+- Cinnamon  (strong)
+- Gnome3 (less)
+
+Not affected DEs|WMs:
+- mate
+- muffin (cinnamon wm run independently of its DE)
+- compiz
+
+KDE not tested by me.
+
+My hardware and kernel:
+01:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] T=
+urks
+XT [Radeon HD 6670/7670]
+Linux kernel 4.19.72, radeon.ko driver=20
+
+The regression started with small systray icons, than it spread to hint and
+notification boxes. Since about a week ago (my latest update) it affects me=
+nus
+and dialog boxes as well. The same dialogs that become ureadable in cinnamon
+may look normal in gnome3 (without normal wm titlebar).</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15700839321.c4a4AF9C.16114--
+
+--===============0649375048==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0649375048==--
