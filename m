@@ -2,44 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A2EDC9A65
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 11:03:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C976CC9AF8
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 11:47:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71A256E130;
-	Thu,  3 Oct 2019 09:03:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 969E86E0CB;
+	Thu,  3 Oct 2019 09:47:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4FBBF6E97D
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 09:03:00 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 4C48A72162; Thu,  3 Oct 2019 09:03:00 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
- with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Thu, 03 Oct 2019 09:03:00 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: shtetldik@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-FcqLSHvwbS@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
-References: <bug-111481-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from cloudserver094114.home.pl (cloudserver094114.home.pl
+ [79.96.170.134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 468CE6E0CB;
+ Thu,  3 Oct 2019 09:47:21 +0000 (UTC)
+Received: from 79.184.253.225.ipv4.supernova.orange.pl (79.184.253.225) (HELO
+ kreacher.localnet)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.292)
+ id eb26d2c531e81b51; Thu, 3 Oct 2019 11:47:18 +0200
+From: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To: Karol Herbst <kherbst@redhat.com>
+Subject: Re: [RFC PATCH] pci: prevent putting pcie devices into lower device
+ states on certain intel bridges
+Date: Thu, 03 Oct 2019 11:47:17 +0200
+Message-ID: <6813970.88v0tjFSgF@kreacher>
+In-Reply-To: <CACO55ttqP8hnse0f2x0Tat-fCLBWjg9jmZHNb+ayZ5k7gSO7bw@mail.gmail.com>
+References: <20190927214252.GA65801@google.com>
+ <20191001091134.GD2714@lahna.fi.intel.com>
+ <CACO55ttqP8hnse0f2x0Tat-fCLBWjg9jmZHNb+ayZ5k7gSO7bw@mail.gmail.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -53,93 +40,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1437492574=="
+Cc: Linux PM <linux-pm@vger.kernel.org>, Linux PCI <linux-pci@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Helgaas <helgaas@kernel.org>, nouveau <nouveau@lists.freedesktop.org>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1437492574==
-Content-Type: multipart/alternative; boundary="15700933804.f1023864.13088"
-Content-Transfer-Encoding: 7bit
-
-
---15700933804.f1023864.13088
-Date: Thu, 3 Oct 2019 09:03:00 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
-
---- Comment #66 from Shmerl <shtetldik@gmail.com> ---
-I wonder if fixes for powerplay related issues are part of this patchset:
-https://lists.freedesktop.org/archives/dri-devel/2019-October/238442.html
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15700933804.f1023864.13088
-Date: Thu, 3 Oct 2019 09:03:00 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c66">Comme=
-nt # 66</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-shtetldik&#64;gmail.com" title=3D"Shmerl &lt;shtetldik&#64;gmail.com&gt;"> =
-<span class=3D"fn">Shmerl</span></a>
-</span></b>
-        <pre>I wonder if fixes for powerplay related issues are part of thi=
-s patchset:
-<a href=3D"https://lists.freedesktop.org/archives/dri-devel/2019-October/23=
-8442.html">https://lists.freedesktop.org/archives/dri-devel/2019-October/23=
-8442.html</a></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15700933804.f1023864.13088--
-
---===============1437492574==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1437492574==--
+T24gVHVlc2RheSwgT2N0b2JlciAxLCAyMDE5IDEyOjAwOjUwIFBNIENFU1QgS2Fyb2wgSGVyYnN0
+IHdyb3RlOgo+IE9uIFR1ZSwgT2N0IDEsIDIwMTkgYXQgMTE6MTEgQU0gTWlrYSBXZXN0ZXJiZXJn
+Cj4gPG1pa2Eud2VzdGVyYmVyZ0BsaW51eC5pbnRlbC5jb20+IHdyb3RlOgo+ID4KPiA+IE9uIFR1
+ZSwgT2N0IDAxLCAyMDE5IGF0IDEwOjU2OjM5QU0gKzAyMDAsIEthcm9sIEhlcmJzdCB3cm90ZToK
+PiA+ID4gT24gVHVlLCBPY3QgMSwgMjAxOSBhdCAxMDo0NyBBTSBNaWthIFdlc3RlcmJlcmcKPiA+
+ID4gPG1pa2Eud2VzdGVyYmVyZ0BsaW51eC5pbnRlbC5jb20+IHdyb3RlOgo+ID4gPiA+Cj4gPiA+
+ID4gT24gTW9uLCBTZXAgMzAsIDIwMTkgYXQgMDY6MzY6MTJQTSArMDIwMCwgS2Fyb2wgSGVyYnN0
+IHdyb3RlOgo+ID4gPiA+ID4gT24gTW9uLCBTZXAgMzAsIDIwMTkgYXQgNjozMCBQTSBNaWthIFdl
+c3RlcmJlcmcKPiA+ID4gPiA+IDxtaWthLndlc3RlcmJlcmdAbGludXguaW50ZWwuY29tPiB3cm90
+ZToKPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gT24gTW9uLCBTZXAgMzAsIDIwMTkgYXQgMDY6MDU6
+MTRQTSArMDIwMCwgS2Fyb2wgSGVyYnN0IHdyb3RlOgo+ID4gPiA+ID4gPiA+IHN0aWxsIGhhcHBl
+bnMgd2l0aCB5b3VyIHBhdGNoIGFwcGxpZWQuIFRoZSBtYWNoaW5lIHNpbXBseSBnZXRzIHNodXQg
+ZG93bi4KPiA+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiA+IGRtZXNnIGNhbiBiZSBmb3VuZCBoZXJl
+Ogo+ID4gPiA+ID4gPiA+IGh0dHBzOi8vZ2lzdC5naXRodWJ1c2VyY29udGVudC5jb20va2Fyb2xo
+ZXJic3QvNDBlYjA5MWM3YjdiMzNlZjk5MzUyNWRlNjYwZjFhM2IvcmF3LzIzODBlMzFmNTY2ZTkz
+ZTViYTdjODdlZjU0NTQyMDk2NWQ0YzQ5MmMvZ2lzdGZpbGUxLnR4dAo+ID4gPiA+ID4gPgo+ID4g
+PiA+ID4gPiBMb29raW5nIHlvdXIgZG1lc2c6Cj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+IFNlcCAz
+MCAxNzoyNDoyNyBrZXJuZWw6IG5vdXZlYXUgMDAwMDowMTowMC4wOiBEUk06IERDQiB2ZXJzaW9u
+IDQuMQo+ID4gPiA+ID4gPiBTZXAgMzAgMTc6MjQ6Mjcga2VybmVsOiBub3V2ZWF1IDAwMDA6MDE6
+MDAuMDogRFJNOiBNTTogdXNpbmcgQ09QWSBmb3IgYnVmZmVyIGNvcGllcwo+ID4gPiA+ID4gPiBT
+ZXAgMzAgMTc6MjQ6Mjcga2VybmVsOiBbZHJtXSBJbml0aWFsaXplZCBub3V2ZWF1IDEuMy4xIDIw
+MTIwODAxIGZvciAwMDAwOjAxOjAwLjAgb24gbWlub3IgMQo+ID4gPiA+ID4gPgo+ID4gPiA+ID4g
+PiBJIHdvdWxkIGFzc3VtZSBpdCBydW50aW1lIHN1c3BlbmRzIGhlcmUuIFRoZW4gaXQgd2FrZXMg
+dXAgYmVjYXVzZSBvZiBQQ0kKPiA+ID4gPiA+ID4gYWNjZXNzIGZyb20gdXNlcnNwYWNlOgo+ID4g
+PiA+ID4gPgo+ID4gPiA+ID4gPiBTZXAgMzAgMTc6MjQ6NDIga2VybmVsOiBwY2lfcmF3X3NldF9w
+b3dlcl9zdGF0ZTogNTYgY2FsbGJhY2tzIHN1cHByZXNzZWQKPiA+ID4gPiA+ID4KPiA+ID4gPiA+
+ID4gYW5kIGZvciBzb21lIHJlYXNvbiBpdCBkb2VzIG5vdCBnZXQgcmVzdW1lZCBwcm9wZXJseS4g
+VGhlcmUgYXJlIGFsc28gZmV3Cj4gPiA+ID4gPiA+IHdhcm5pbmdzIGZyb20gQUNQSSB0aGF0IG1p
+Z2h0IGJlIHJlbGV2YW50Ogo+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiBTZXAgMzAgMTc6MjQ6Mjcg
+a2VybmVsOiBBQ1BJIFdhcm5pbmc6IFxfU0IuUENJMC5HRlgwLl9EU006IEFyZ3VtZW50ICM0IHR5
+cGUgbWlzbWF0Y2ggLSBGb3VuZCBbQnVmZmVyXSwgQUNQSSByZXF1aXJlcyBbUGFja2FnZV0gKDIw
+MTkwNTA5L25zYXJndW1lbnRzLTU5KQo+ID4gPiA+ID4gPiBTZXAgMzAgMTc6MjQ6Mjcga2VybmVs
+OiBBQ1BJIFdhcm5pbmc6IFxfU0IuUENJMC5QRUcwLlBFR1AuX0RTTTogQXJndW1lbnQgIzQgdHlw
+ZSBtaXNtYXRjaCAtIEZvdW5kIFtCdWZmZXJdLCBBQ1BJIHJlcXVpcmVzIFtQYWNrYWdlXSAoMjAx
+OTA1MDkvbnNhcmd1bWVudHMtNTkpCj4gPiA+ID4gPiA+Cj4gPiA+ID4gPgo+ID4gPiA+ID4gYWZh
+aWsgdGhpcyBpcyB0aGUgY2FzZSBmb3IgZXNzZW50aWFsbHkgZXZlcnkgbGFwdG9wIG91dCB0aGVy
+ZS4KPiA+ID4gPgo+ID4gPiA+IE9LLCBzbyB0aGV5IGFyZSBoYXJtbGVzcz8KPiA+ID4gPgo+ID4g
+Pgo+ID4gPiB5ZXMKPiA+ID4KPiA+ID4gPiA+ID4gVGhpcyBzZWVtcyB0byBiZSBEZWxsIFhQUyA5
+NTYwIHdoaWNoIEkgdGhpbmsgaGFzIGJlZW4gYXJvdW5kIHNvbWUgdGltZQo+ID4gPiA+ID4gPiBh
+bHJlYWR5IHNvIEkgd29uZGVyIHdoeSB3ZSBvbmx5IHNlZSBpc3N1ZXMgbm93LiBIYXMgaXQgZXZl
+ciB3b3JrZWQgZm9yCj4gPiA+ID4gPiA+IHlvdSBvciBtYXliZSB0aGVyZSBpcyBhIHJlZ3Jlc3Np
+b24gdGhhdCBjYXVzZXMgaXQgdG8gaGFwcGVuIG5vdz8KPiA+ID4gPiA+Cj4gPiA+ID4gPiBvaCwg
+aXQncyBicm9rZW4gc2luY2UgZm9yZXZlciwgd2UganVzdCB0cmllZCB0byBnZXQgbW9yZSBpbmZv
+cm1hdGlvbgo+ID4gPiA+ID4gZnJvbSBOdmlkaWEgaWYgdGhleSBrbm93IHdoYXQgdGhpcyBpcyBh
+bGwgYWJvdXQsIGJ1dCB3ZSBnb3Qgbm90aGluZwo+ID4gPiA+ID4gdXNlZnVsLgo+ID4gPiA+ID4K
+PiA+ID4gPiA+IFdlIHdlcmUgYWxzbyBob3BpbmcgdG8gZmluZCBhIHJlbGlhYmxlIGZpeCBvciB3
+b3JrYXJvdW5kIHdlIGNvdWxkIGhhdmUKPiA+ID4gPiA+IGluc2lkZSBub3V2ZWF1IHRvIGZpeCB0
+aGF0IGFzIEkgdGhpbmsgbm91dmVhdSBpcyB0aGUgb25seSBkcml2ZXIKPiA+ID4gPiA+IGFjdHVh
+bGx5IGhpdCBieSB0aGlzIGlzc3VlLCBidXQgbm90aGluZyB0dXJuZWQgb3V0IHRvIGJlIHJlbGlh
+YmxlCj4gPiA+ID4gPiBlbm91Z2guCj4gPiA+ID4KPiA+ID4gPiBDYW4ndCB5b3UganVzdCBibG9j
+ayBydW50aW1lIFBNIGZyb20gdGhlIG5vdXZlYXUgZHJpdmVyIHVudGlsIHRoaXMgaXMKPiA+ID4g
+PiB1bmRlcnN0b29kIGJldHRlcj8gVGhhdCBjYW4gYmUgZG9uZSBieSBjYWxsaW5nIHBtX3J1bnRp
+bWVfZm9yYmlkKCkgKG9yCj4gPiA+ID4gbm90IGNhbGxpbmcgcG1fcnVudGltZV9hbGxvdygpIGlu
+IHRoZSBkcml2ZXIpLiBPciBpbiBjYXNlIG9mIFBDSSBkcml2ZXIKPiA+ID4gPiB5b3UganVzdCBk
+b24ndCBkZWNyZWFzZSB0aGUgcmVmZXJlbmNlIGNvdW50IHdoZW4gcHJvYmUoKSBlbmRzLgo+ID4g
+PiA+Cj4gPiA+Cj4gPiA+IHRoZSB0aGluZyBpcywgaXQgZG9lcyB3b3JrIGZvciBhIGxvdCBvZiBs
+YXB0b3BzLiBXZSBjb3VsZCBvbmx5IG9ic2VydmUKPiA+ID4gdGhpcyBvbiBrYWJ5IGxha2UgYW5k
+IHNreWxha2Ugb25lcy4gRXZlbiBvbiBDYW5ub24gTGFrZXMgaXQgc2VlbXMgdG8KPiA+ID4gd29y
+ayBqdXN0IGZpbmUuCj4gPgo+ID4gQ2FuJ3QgeW91IHRoZW4gbGltaXQgaXQgdG8gdGhvc2U/Cj4g
+Pgo+ID4gSSd2ZSBleHBlcmllbmNlZCB0aGF0IEthYnlsYWtlIHJvb3QgcG9ydHMgY2FuIGVudGVy
+IGFuZCBleGl0IGluIEQzY29sZAo+ID4ganVzdCBmaW5lIGJlY2F1c2Ugd2UgZG8gdGhhdCBmb3Ig
+VGh1bmRlcmJvbHQgZm9yIGV4YW1wbGUuIEJ1dCB0aGF0Cj4gPiBhbHdheXMgcmVxdWlyZXMgaGVs
+cCBmcm9tIEFDUEkuIElmIHRoZSBzeXN0ZW0gaXMgdXNpbmcgbm9uLXN0YW5kYXJkIEFDUEkKPiA+
+IG1ldGhvZHMgZm9yIGV4YW1wbGUgdGhhdCBtYXkgcmVxdWlyZSBzb21lIHRyaWNrcyBpbiB0aGUg
+ZHJpdmVyIHNpZGUuCj4gPgo+IAo+IHllYWguLiBJIGFtIG5vdCBxdWl0ZSBzdXJlIHdoYXQncyBh
+Y3R1YWxseSB0aGUgcm9vdCBjYXVzZS4gSSB3YXMgYWxzbwo+IHRyeWluZyB0byB1c2UgdGhlIHNh
+bWUgUENJIHJlZ2lzdGVycyBBQ1BJIGlzIHVzaW5nIHRvIHRyaWdnZXIgdGhpcwo+IGlzc3VlIG9u
+IGEgbm9ybWFsIGRlc2t0b3AsIG5vIGx1Y2suIFVzaW5nIHRoZSBzYW1lIHJlZ2lzdGVycyBkb2Vz
+Cj4gdHJpZ2dlciB0aGUgaXNzdWUgKGhlbmNlIHRoZSBzY3JpcHQpLgo+IAo+IFRoZSBzY3JpcHQg
+aXMgZXNzZW50aWFsbHkganVzdCBkb2luZyB3aGF0IEFDUEkgZG9lcywganVzdCBza2lwcGluZyBh
+IGxvdC4KPiAKPiA+ID4gPiBJIHRoaW5rIHRoYXQgd291bGQgYmUgbXVjaCBiZXR0ZXIgdGhhbiBi
+bG9ja2luZyBhbnkgZGV2aWNlcyBiZWhpbmQKPiA+ID4gPiBLYWJ5bGFrZSBQQ0llIHJvb3QgcG9y
+dHMgZnJvbSBlbnRlcmluZyBEMyAoSSBkb24ndCByZWFsbHkgdGhpbmsgdGhlCj4gPiA+ID4gcHJv
+YmxlbSBpcyBpbiB0aGUgcm9vdCBwb3J0cyBpdHNlbGYgYnV0IHRoZXJlIGlzIHNvbWV0aGluZyB3
+ZSBhcmUKPiA+ID4gPiBtaXNzaW5nIHdoZW4gdGhlIE5WSURJQSBHUFUgaXMgcHV0IGludG8gRDNj
+b2xkIG9yIGJhY2sgZnJvbSB0aGVyZSkuCj4gPiA+Cj4gPiA+IEkgaGlnaGx5IGRvdWJ0IHRoZXJl
+IGlzIGFueXRoaW5nIHdyb25nIHdpdGggdGhlIEdQVSBhbG9uZSBhcyB3ZSBoYXZlCj4gPiA+IHRv
+byBtYW55IGluZGljYXRpb25zIHdoaWNoIHRlbGwgdXMgb3RoZXJ3aXNlLgo+ID4gPgo+ID4gPiBB
+bnl3YXksIGF0IHRoaXMgcG9pbnQgSSBkb24ndCBrbm93IHdoZXJlIHRvIGxvb2sgZnVydGhlciBm
+b3Igd2hhdCdzCj4gPiA+IGFjdHVhbGx5IHdyb25nLiBBbmQgYXBwYXJlbnRseSBpdCB3b3JrcyBv
+biBXaW5kb3dzLCBidXQgSSBkb24ndCBrbm93Cj4gPiA+IHdoeSBhbmQgSSBoYXZlIG5vIGlkZWEg
+d2hhdCBXaW5kb3dzIGRvZXMgb24gc3VjaCBzeXN0ZW1zIHRvIG1ha2UgaXQKPiA+ID4gd29yayBy
+ZWxpYWJseS4KPiA+Cj4gPiBCeSB3b3JrcyB5b3UgbWVhbiB0aGF0IFdpbmRvd3MgaXMgYWJsZSB0
+byBwdXQgaXQgaW50byBEM2NvbGQgYW5kIGJhY2s/Cj4gPiBJZiB0aGF0J3MgdGhlIGNhc2UgaXQg
+bWF5IGJlIHRoYXQgdGhlcmUgaXMgc29tZSBBQ1BJIG1hZ2ljIHRoYXQgdGhlCj4gPiBXaW5kb3dz
+IGRyaXZlciBkb2VzIGFuZCB3ZSBvZiBjb3Vyc2UgYXJlIG1pc3NpbmcgaW4gTGludXguCj4gCj4g
+QWZhaWsgdGhhdCdzIHRoZSBjYXNlLiBXZSB3ZXJlIHRhbGtpbmcgd2l0aCBOdmlkaWEgYWJvdXQg
+aXQsIGJ1dCB0aGV5Cj4gYXJlIG5vdCBhd2FyZSBvZiBhbnkgaXNzdWVzIGdlbmVyYWxseS4gKG9u
+IFdpbmRvd3MsIG5vciB0aGUgaGFyZHdhcmUpLgo+IE5vIGlkZWEgaWYgd2UgY2FuIHRydXN0IHRo
+ZWlyIHN0YXRlbWVudHMgdGhvdWdoLgo+IAo+IEJ1dCB5ZWFoLCBpdCBtaWdodCBiZSB0aGF0IG9u
+IFdpbmRvd3MgdGhleSBzdGlsbCBkbyBfRFNNIGNhbGxzIG9yCj4gc29tZXRoaW5nLi4uIGJ1dCB1
+bnRpbCB0b2RheSwgTnZpZGlhIGRpZG4ndCBwcm92aWRlIGFueSBkb2N1bWVudGF0aW9uCj4gdG8g
+dXMgZm9yIHRoYXQuCgpTbyBJTU8gaW4gdGhhdCBjYXNlIHRoZSByaWdodCBhcHByb2FjaCBpcyB0
+byBxdWlyayB0aGUgY29tYmluYXRpb25zIG9mCkdQVS9yb290IGNvbXBsZXggdGhhdCBhcmUga25v
+d24gcHJvYmxlbWF0aWMuCgpRdWlya2luZyB0aGUgcm9vdCBjb21wbGV4IGFsb25lIGlzIGxpa2Vs
+eSB0byBhZmZlY3Qgd29ya2luZyBjb25maWd1cmF0aW9ucwp3aGljaCBnZW5lcmFsbHkgc2hvdWxk
+IGJlIGF2b2lkZWQuCgoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbA==
