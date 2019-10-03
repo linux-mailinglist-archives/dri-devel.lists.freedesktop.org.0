@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EFEFCB166
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 23:40:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5303DCB185
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 23:52:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E5F26EA7F;
-	Thu,  3 Oct 2019 21:40:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 355236EA81;
+	Thu,  3 Oct 2019 21:52:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from youngberry.canonical.com (youngberry.canonical.com
  [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 658A06EA7F;
- Thu,  3 Oct 2019 21:40:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B70546EA81;
+ Thu,  3 Oct 2019 21:52:29 +0000 (UTC)
 Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
  by youngberry.canonical.com with esmtpsa
  (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
  (envelope-from <colin.king@canonical.com>)
- id 1iG8qA-00071M-5a; Thu, 03 Oct 2019 21:40:50 +0000
+ id 1iG91P-0000qg-D8; Thu, 03 Oct 2019 21:52:27 +0000
 From: Colin King <colin.king@canonical.com>
 To: Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  David Zhou <David1.Zhou@amd.com>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH][next] drm/amdgpu: remove redundant variable r and redundant
- return statement
-Date: Thu,  3 Oct 2019 22:40:49 +0100
-Message-Id: <20191003214049.23067-1-colin.king@canonical.com>
+Subject: [PATCH][next] drm/amdgpu: fix uninitialized variable
+ pasid_mapping_needed
+Date: Thu,  3 Oct 2019 22:52:27 +0100
+Message-Id: <20191003215227.23540-1-colin.king@canonical.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -48,27 +48,26 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4KClRoZXJlIGlz
-IGEgcmV0dXJuIHN0YXRlbWVudCB0aGF0IGlzIG5vdCByZWFjaGFibGUgYW5kIGEgdmFyaWFibGUg
-dGhhdAppcyBub3QgdXNlZC4gIFJlbW92ZSB0aGVtLgoKQWRkcmVzc2VzLUNvdmVyaXR5OiAoIlN0
-cnVjdHVyYWxseSBkZWFkIGNvZGUiKQpGaXhlczogZGU3YjQ1YmFiZDliICgiZHJtL2FtZGdwdTog
-Y2xlYW51cCBjcmVhdGluZyBCT3MgYXQgZml4ZWQgbG9jYXRpb24gKHYyKSIpClNpZ25lZC1vZmYt
-Ynk6IENvbGluIElhbiBLaW5nIDxjb2xpbi5raW5nQGNhbm9uaWNhbC5jb20+Ci0tLQogZHJpdmVy
-cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jIHwgMiAtLQogMSBmaWxlIGNoYW5nZWQs
-IDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
-YW1kZ3B1X3R0bS5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jCmlu
-ZGV4IDQ4MWU0YzM4MTA4My4uODE0MTU5ZjE1NjMzIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRn
-cHUvYW1kZ3B1X3R0bS5jCkBAIC0xNjM2LDcgKzE2MzYsNiBAQCBzdGF0aWMgdm9pZCBhbWRncHVf
-dHRtX2Z3X3Jlc2VydmVfdnJhbV9maW5pKHN0cnVjdCBhbWRncHVfZGV2aWNlICphZGV2KQogc3Rh
-dGljIGludCBhbWRncHVfdHRtX2Z3X3Jlc2VydmVfdnJhbV9pbml0KHN0cnVjdCBhbWRncHVfZGV2
-aWNlICphZGV2KQogewogCXVpbnQ2NF90IHZyYW1fc2l6ZSA9IGFkZXYtPmdtYy52aXNpYmxlX3Zy
-YW1fc2l6ZTsKLQlpbnQgcjsKIAogCWFkZXYtPmZ3X3ZyYW1fdXNhZ2UudmEgPSBOVUxMOwogCWFk
-ZXYtPmZ3X3ZyYW1fdXNhZ2UucmVzZXJ2ZWRfYm8gPSBOVUxMOwpAQCAtMTY1MSw3ICsxNjUwLDYg
-QEAgc3RhdGljIGludCBhbWRncHVfdHRtX2Z3X3Jlc2VydmVfdnJhbV9pbml0KHN0cnVjdCBhbWRn
-cHVfZGV2aWNlICphZGV2KQogCQkJCQkgIEFNREdQVV9HRU1fRE9NQUlOX1ZSQU0sCiAJCQkJCSAg
-JmFkZXYtPmZ3X3ZyYW1fdXNhZ2UucmVzZXJ2ZWRfYm8sCiAJCQkJCSAgJmFkZXYtPmZ3X3ZyYW1f
-dXNhZ2UudmEpOwotCXJldHVybiByOwogfQogCiAvKioKLS0gCjIuMjAuMQoKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+RnJvbTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4KClRoZSBib29s
+ZWFuIHZhcmlhYmxlIHBhc2lkX21hcHBpbmdfbmVlZGVkIGlzIG5vdCBpbml0aWFsaXplZCBhbmQK
+dGhlcmUgYXJlIGNvZGUgcGF0aHMgdGhhdCBkbyBub3QgYXNzaWduIGl0IGFueSB2YWx1ZSBiZWZv
+cmUgaXQgaXMKaXMgcmVhZCBsYXRlci4gIEZpeCB0aGlzIGJ5IGluaXRpYWxpemluZyBwYXNpZF9t
+YXBwaW5nX25lZWRlZCB0bwpmYWxzZS4KCkFkZHJlc3Nlcy1Db3Zlcml0eTogKCJVbmluaXRpYWxp
+emVkIHNjYWxhciB2YXJpYWJsZSIpCkZpeGVzOiA2ODE3YmYyODNiMmIgKCJkcm0vYW1kZ3B1OiBn
+cmFiIHRoZSBpZCBtZ3IgbG9jayB3aGlsZSBhY2Nlc3NpbmcgcGFzc2lkX21hcHBpbmciKQpTaWdu
+ZWQtb2ZmLWJ5OiBDb2xpbiBJYW4gS2luZyA8Y29saW4ua2luZ0BjYW5vbmljYWwuY29tPgotLS0K
+IGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV92bS5jIHwgMiArLQogMSBmaWxlIGNo
+YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3ZtLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
+ZGdwdS9hbWRncHVfdm0uYwppbmRleCBhMmM3OTdlMzRhMjkuLmJlMTBlNGI5YTk0ZCAxMDA2NDQK
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3ZtLmMKKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3ZtLmMKQEAgLTEwNTUsNyArMTA1NSw3IEBAIGlu
+dCBhbWRncHVfdm1fZmx1c2goc3RydWN0IGFtZGdwdV9yaW5nICpyaW5nLCBzdHJ1Y3QgYW1kZ3B1
+X2pvYiAqam9iLAogCQlpZC0+b2Ffc2l6ZSAhPSBqb2ItPm9hX3NpemUpOwogCWJvb2wgdm1fZmx1
+c2hfbmVlZGVkID0gam9iLT52bV9uZWVkc19mbHVzaDsKIAlzdHJ1Y3QgZG1hX2ZlbmNlICpmZW5j
+ZSA9IE5VTEw7Ci0JYm9vbCBwYXNpZF9tYXBwaW5nX25lZWRlZDsKKwlib29sIHBhc2lkX21hcHBp
+bmdfbmVlZGVkID0gZmFsc2U7CiAJdW5zaWduZWQgcGF0Y2hfb2Zmc2V0ID0gMDsKIAlpbnQgcjsK
+IAotLSAKMi4yMC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWw=
