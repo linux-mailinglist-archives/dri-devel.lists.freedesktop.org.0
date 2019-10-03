@@ -2,38 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0D51CADED
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 20:16:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9360CAE02
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 20:19:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CFF76EA37;
-	Thu,  3 Oct 2019 18:16:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 134ED6EA41;
+	Thu,  3 Oct 2019 18:19:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB6A56EA37
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 18:16:00 +0000 (UTC)
-Received: from kernel.org (unknown [104.132.0.74])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7D6F22070B;
- Thu,  3 Oct 2019 18:16:00 +0000 (UTC)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7B0D66EA3E
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 18:19:01 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 7427072162; Thu,  3 Oct 2019 18:19:01 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111729] RX480 : random NULL pointer dereference on resume from
+ suspend
+Date: Thu, 03 Oct 2019 18:19:01 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: nmset@netcourrier.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111729-502-hIdeCDAWHZ@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111729-502@http.bugs.freedesktop.org/>
+References: <bug-111729-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20191002164047.14499-1-krzk@kernel.org>
-References: <20191002164047.14499-1-krzk@kernel.org>
-From: Stephen Boyd <sboyd@kernel.org>
-To: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>, Krzysztof Kozlowski <krzk@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-pwm@vger.kernel.org, linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: pwm: Convert PWM bindings to
- json-schema
-User-Agent: alot/0.8.1
-Date: Thu, 03 Oct 2019 11:15:59 -0700
-Message-Id: <20191003181600.7D6F22070B@mail.kernel.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1570126560;
- bh=nY0LFXVk/SNSsj/nGuYEk8lLimBHZ/kip/5QktLE30M=;
- h=In-Reply-To:References:From:To:Cc:Subject:Date:From;
- b=2gRfkDNay4GQ8GVL40xt/FVRFNW/T6303w/jbXj7QQJVtdz7LzvfbC54mYR4mS8r6
- KQrbne3Qg2j5ZURd8qpfR/Rh1gEJ2uKXn/h1RYTKEuhbn9SwE6Q8jFz72JIOLIqf2W
- RxAgIOfeWXuJqXwwCg4HHAy4gJrGQtAqfIWHrd38=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,22 +53,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0900584779=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBLcnp5c3p0b2YgS296bG93c2tpICgyMDE5LTEwLTAyIDA5OjQwOjQ2KQo+IENvbnZl
-cnQgZ2VuZXJpYyBQV00gYmluZGluZ3MgdG8gRFQgc2NoZW1hIGZvcm1hdCB1c2luZyBqc29uLXNj
-aGVtYS4gIFRoZQo+IGNvbnN1bWVyIGJpbmRpbmdzIGFyZSBzcGxpdCB0byBzZXBhcmF0ZSBmaWxl
-Lgo+IAo+IFNpZ25lZC1vZmYtYnk6IEtyenlzenRvZiBLb3psb3dza2kgPGtyemtAa2VybmVsLm9y
-Zz4KPiAKPiAtLS0KPiAKPiBDaGFuZ2VzIHNpbmNlIHYyOgo+IDEuIENoYW5nZSBhbHNvIHB3bS1z
-cHJkLnR4dAo+IAo+IENoYW5nZXMgc2luY2UgdjE6Cj4gMS4gSW5kZW50IGV4YW1wbGUgd2l0aCBm
-b3VyIHNwYWNlcyAobW9yZSByZWFkYWJsZSksCj4gMi4gQ2hhbmdlIHBhdHRlcm4gZm9yIHB3bSBu
-b2RlcywKPiAzLiBSZW1vdmUgJHJlZiBmcm9tICNjZWxscy4KPiAtLS0KPiAgLi4uL2RldmljZXRy
-ZWUvYmluZGluZ3MvY2xvY2svcHdtLWNsb2NrLnR4dCAgIHwgIDIgKy0KCkFja2VkLWJ5OiBTdGVw
-aGVuIEJveWQgPHNib3lkQGtlcm5lbC5vcmc+CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0900584779==
+Content-Type: multipart/alternative; boundary="15701267410.DE9AC.30158"
+Content-Transfer-Encoding: 7bit
+
+
+--15701267410.DE9AC.30158
+Date: Thu, 3 Oct 2019 18:19:01 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111729
+
+--- Comment #5 from SET <nmset@netcourrier.com> ---
+(In reply to Alex Deucher from comment #4)
+> Can you bisect?
+
+Bisecting would be of great help. I doubt it's feasible in practice. The bug
+happens after an undetermined number of syspend/resume cycles. It would take
+weeks or months to isolate the searched patch. By that time, it may well be=
+come
+invalid due to other changes.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15701267410.DE9AC.30158
+Date: Thu, 3 Oct 2019 18:19:01 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - RX480 : random NULL pointer dereference on resume from su=
+spend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111729#c5">Commen=
+t # 5</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - RX480 : random NULL pointer dereference on resume from su=
+spend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111729">bug 11172=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+nmset&#64;netcourrier.com" title=3D"SET &lt;nmset&#64;netcourrier.com&gt;">=
+ <span class=3D"fn">SET</span></a>
+</span></b>
+        <pre>(In reply to Alex Deucher from <a href=3D"show_bug.cgi?id=3D11=
+1729#c4">comment #4</a>)
+<span class=3D"quote">&gt; Can you bisect?</span >
+
+Bisecting would be of great help. I doubt it's feasible in practice. The bug
+happens after an undetermined number of syspend/resume cycles. It would take
+weeks or months to isolate the searched patch. By that time, it may well be=
+come
+invalid due to other changes.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15701267410.DE9AC.30158--
+
+--===============0900584779==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0900584779==--
