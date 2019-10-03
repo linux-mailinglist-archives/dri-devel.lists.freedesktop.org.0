@@ -1,52 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C852CA4C2
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 18:34:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8958CA59B
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 18:40:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCD7C89B69;
-	Thu,  3 Oct 2019 16:34:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A6696EA2D;
+	Thu,  3 Oct 2019 16:40:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBBE989B69;
- Thu,  3 Oct 2019 16:34:05 +0000 (UTC)
-Received: from kernel.org (unknown [104.132.0.74])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4263921783;
- Thu,  3 Oct 2019 16:34:05 +0000 (UTC)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B69966EA25
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 16:40:14 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id ADDE372167; Thu,  3 Oct 2019 16:40:14 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 107731] radeon (amdgpu) DisplayPort loss of max-resolution on
+ DP monitor (after monitor power saving / idle)
+Date: Thu, 03 Oct 2019 16:40:14 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: Chryseus8080@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-107731-502-Nmd6nZsoTd@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-107731-502@http.bugs.freedesktop.org/>
+References: <bug-107731-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20191002160632.11140-1-krzk@kernel.org>
-References: <20191002160632.11140-1-krzk@kernel.org>
-From: Stephen Boyd <sboyd@kernel.org>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- Kevin Hilman <khilman@baylibre.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Michael Turquette <mturquette@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
- Sudeep Holla <sudeep.holla@arm.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] dt-bindings: power: Convert Generic Power Domain
- bindings to json-schema
-User-Agent: alot/0.8.1
-Date: Thu, 03 Oct 2019 09:34:04 -0700
-Message-Id: <20191003163405.4263921783@mail.kernel.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1570120445;
- bh=3Bz1OUoxGDjgeT98hppsGEw91e3Ye36LUrMKlBtqcSU=;
- h=In-Reply-To:References:From:To:Cc:Subject:Date:From;
- b=j/K162GHR8smbdtnU3kJ9VWiqmsrEwDD+5DiuSNo/q0iv/ITY+YoqW2+yjI1POSoX
- UhSWY7N6nAoeYF55YeI0ITa7Ya91LlcNCgn/L8LsNRbxn5mYuNKwbhWSHK+NX8cnXW
- fLO2UPAEPnRh95wTpBNoIcAzJl/2QPOMSTploa9s=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,17 +53,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0654616662=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBLcnp5c3p0b2YgS296bG93c2tpICgyMDE5LTEwLTAyIDA5OjA2OjMwKQo+IENvbnZl
-cnQgR2VuZXJpYyBQb3dlciBEb21haW4gYmluZGluZ3MgdG8gRFQgc2NoZW1hIGZvcm1hdCB1c2lu
-Zwo+IGpzb24tc2NoZW1hLiAgVGhlIGNvbnN1bWVyIGJpbmRpbmdzIGFyZSBzcGxpdCB0byBzZXBh
-cmF0ZSBmaWxlLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEtyenlzenRvZiBLb3psb3dza2kgPGtyemtA
-a2VybmVsLm9yZz4KPiAKPiAtLS0KCkFja2VkLWJ5OiBTdGVwaGVuIEJveWQgPHNib3lkQGtlcm5l
-bC5vcmc+CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0654616662==
+Content-Type: multipart/alternative; boundary="15701208141.AAdc6.8087"
+Content-Transfer-Encoding: 7bit
+
+
+--15701208141.AAdc6.8087
+Date: Thu, 3 Oct 2019 16:40:14 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D107731
+
+--- Comment #14 from James Wood <Chryseus8080@gmail.com> ---
+I was about to report having the same bug but it seems the today's Mesa
+19.2.0-2 update has solved the problem, I will include what I was originally
+going to post in case it's of use to anyone.
+
+---
+
+I've began to have this bug in the last week or two, I have two monitors on=
+e an
+Asus PA238 connected via DVI has no issues, the other a AOC 2270W connected=
+ via
+DP changes to a lower resolution after wakeup, typically 800x600 which cann=
+ot
+be changed back to normal.
+
+I can reproduce this consistently by using 'xset -display :0 dpms force
+standby' and waiting about one minute.
+Running 'xrandr --output DisplayPort-2 --auto' restores the display to its
+normal native resolution.
+
+The system log shows the following error:
+[drm] enabling link 2 failed: 15
+[drm:dm_restore_drm_connector_state [amdgpu]] *ERROR* Restoring old state
+failed with -22
+Stack trace: https://pastebin.com/yguN5NUk
+
+System specification:
+OS: Arch linux 5.3.1-arch1-1-ARCH
+GPU: AMD Radeon RX 590 using AMDGPU-Pro
+DE: KDE Plasma 5.16.5
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15701208141.AAdc6.8087
+Date: Thu, 3 Oct 2019 16:40:14 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - radeon (amdgpu) DisplayPort loss of max-resolution on DP =
+monitor (after monitor power saving / idle)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107731#c14">Comme=
+nt # 14</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - radeon (amdgpu) DisplayPort loss of max-resolution on DP =
+monitor (after monitor power saving / idle)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107731">bug 10773=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+Chryseus8080&#64;gmail.com" title=3D"James Wood &lt;Chryseus8080&#64;gmail.=
+com&gt;"> <span class=3D"fn">James Wood</span></a>
+</span></b>
+        <pre>I was about to report having the same bug but it seems the tod=
+ay's Mesa
+19.2.0-2 update has solved the problem, I will include what I was originally
+going to post in case it's of use to anyone.
+
+---
+
+I've began to have this bug in the last week or two, I have two monitors on=
+e an
+Asus PA238 connected via DVI has no issues, the other a AOC 2270W connected=
+ via
+DP changes to a lower resolution after wakeup, typically 800x600 which cann=
+ot
+be changed back to normal.
+
+I can reproduce this consistently by using 'xset -display :0 dpms force
+standby' and waiting about one minute.
+Running 'xrandr --output DisplayPort-2 --auto' restores the display to its
+normal native resolution.
+
+The system log shows the following error:
+[drm] enabling link 2 failed: 15
+[drm:dm_restore_drm_connector_state [amdgpu]] *ERROR* Restoring old state
+failed with -22
+Stack trace: <a href=3D"https://pastebin.com/yguN5NUk">https://pastebin.com=
+/yguN5NUk</a>
+
+System specification:
+OS: Arch linux 5.3.1-arch1-1-ARCH
+GPU: AMD Radeon RX 590 using AMDGPU-Pro
+DE: KDE Plasma 5.16.5</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15701208141.AAdc6.8087--
+
+--===============0654616662==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0654616662==--
