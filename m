@@ -2,43 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E9E2CB05B
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 22:43:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5E00CB0BA
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 23:01:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 237F36EA77;
-	Thu,  3 Oct 2019 20:43:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1F6E6EA7E;
+	Thu,  3 Oct 2019 21:01:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7EA5C6EA77
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 20:43:50 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7B6C772162; Thu,  3 Oct 2019 20:43:50 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110865] Rx480 consumes 20w more power in idle than under Windows
-Date: Thu, 03 Oct 2019 20:43:50 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
-X-Bugzilla-Who: tempel.julian@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110865-502-BJjYDw8W5X@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110865-502@http.bugs.freedesktop.org/>
-References: <bug-110865-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8F796EA7A;
+ Thu,  3 Oct 2019 21:01:26 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from haswell.alporthouse.com (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 18715179-1500050 
+ for multiple; Thu, 03 Oct 2019 22:01:03 +0100
+From: Chris Wilson <chris@chris-wilson.co.uk>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 1/5] drm/i915/execlists: Skip redundant resubmission
+Date: Thu,  3 Oct 2019 22:00:56 +0100
+Message-Id: <20191003210100.22250-1-chris@chris-wilson.co.uk>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -52,119 +36,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0385054138=="
+Cc: dri-devel@lists.freedesktop.org, tvrtko.ursulin@intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0385054138==
-Content-Type: multipart/alternative; boundary="15701354303.Af6e3c823.29255"
-Content-Transfer-Encoding: 7bit
-
-
---15701354303.Af6e3c823.29255
-Date: Thu, 3 Oct 2019 20:43:50 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110865
-
---- Comment #36 from tempel.julian@gmail.com ---
-(In reply to Dieter N=C3=BCtzel from comment #28)
-> I've tried solving the flicker with both fixes (sent by magist3r) from th=
-is
-> bug
->=20
-> Bug 102646 - Screen flickering under amdgpu-experimental [buggy auto power
-> profile]
-> https://bugs.freedesktop.org/show_bug.cgi?id=3D102646
->=20
-> But no success.
-
-Have you also applied Ahzo's patch, just in case?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15701354303.Af6e3c823.29255
-Date: Thu, 3 Oct 2019 20:43:50 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865#c36">Comme=
-nt # 36</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865">bug 11086=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
-ulian&#64;gmail.com</a>
-</span></b>
-        <pre>(In reply to Dieter N=C3=BCtzel from <a href=3D"show_bug.cgi?i=
-d=3D110865#c28">comment #28</a>)
-<span class=3D"quote">&gt; I've tried solving the flicker with both fixes (=
-sent by magist3r) from this
-&gt; bug
-&gt;=20
-&gt; <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
-ower profile]"
-   href=3D"show_bug.cgi?id=3D102646">Bug 102646</a> - Screen flickering und=
-er amdgpu-experimental [buggy auto power
-&gt; profile]
-&gt; <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
-ower profile]"
-   href=3D"show_bug.cgi?id=3D102646">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D102646</a>
-&gt;=20
-&gt; But no success.</span >
-
-Have you also applied Ahzo's patch, just in case?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15701354303.Af6e3c823.29255--
-
---===============0385054138==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0385054138==--
+SWYgd2UgdW53aW5kIHRoZSBhY3RpdmUgcmVxdWVzdHMsIGFuZCBvbiByZXN1Ym1pc3Npb24gZGlz
+Y292ZXIgdGhhdCB3ZQppbnRlbmQgdG8gcHJlZW1wdCB0aGUgYWN0aXZlIGNvbnRleHQgd2l0aCBp
+dHNlbGYsIHNpbXBseSBza2lwIHRoZSBFTFNQCnN1Ym1pc3Npb24uCgpTaWduZWQtb2ZmLWJ5OiBD
+aHJpcyBXaWxzb24gPGNocmlzQGNocmlzLXdpbHNvbi5jby51az4KLS0tCiBkcml2ZXJzL2dwdS9k
+cm0vaTkxNS9ndC9pbnRlbF9scmMuYyB8IDE3ICsrKysrKysrKysrKysrKystCiAxIGZpbGUgY2hh
+bmdlZCwgMTYgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2xyYy5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3Qv
+aW50ZWxfbHJjLmMKaW5kZXggNDMxZDNiOGMzMzcxLi4zY2ZlYTE3NThmZDIgMTAwNjQ0Ci0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2xyYy5jCisrKyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9pOTE1L2d0L2ludGVsX2xyYy5jCkBAIC0xNzM5LDExICsxNzM5LDI2IEBAIHN0YXRpYyB2b2lk
+IGV4ZWNsaXN0c19kZXF1ZXVlKHN0cnVjdCBpbnRlbF9lbmdpbmVfY3MgKmVuZ2luZSkKIAogCWlm
+IChzdWJtaXQpIHsKIAkJKnBvcnQgPSBleGVjbGlzdHNfc2NoZWR1bGVfaW4obGFzdCwgcG9ydCAt
+IGV4ZWNsaXN0cy0+cGVuZGluZyk7Ci0JCW1lbXNldChwb3J0ICsgMSwgMCwgKGxhc3RfcG9ydCAt
+IHBvcnQpICogc2l6ZW9mKCpwb3J0KSk7CiAJCWV4ZWNsaXN0cy0+c3dpdGNoX3ByaW9yaXR5X2hp
+bnQgPQogCQkJc3dpdGNoX3ByaW8oZW5naW5lLCAqZXhlY2xpc3RzLT5wZW5kaW5nKTsKKworCQkv
+KgorCQkgKiBTa2lwIGlmIHdlIGVuZGVkIHVwIHdpdGggZXhhY3RseSB0aGUgc2FtZSBzZXQgb2Yg
+cmVxdWVzdHMsCisJCSAqIGUuZy4gdHJ5aW5nIHRvIHRpbWVzbGljZSBhIHBhaXIgb2Ygb3JkZXJl
+ZCBjb250ZXh0cworCQkgKi8KKwkJaWYgKCFtZW1jbXAoZXhlY2xpc3RzLT5hY3RpdmUsIGV4ZWNs
+aXN0cy0+cGVuZGluZywKKwkJCSAgICAocG9ydCAtIGV4ZWNsaXN0cy0+cGVuZGluZyArIDEpICog
+c2l6ZW9mKCpwb3J0KSkpIHsKKwkJCWRvCisJCQkJZXhlY2xpc3RzX3NjaGVkdWxlX291dChmZXRj
+aF9hbmRfemVybyhwb3J0KSk7CisJCQl3aGlsZSAocG9ydC0tICE9IGV4ZWNsaXN0cy0+cGVuZGlu
+Zyk7CisKKwkJCWdvdG8gc2tpcF9zdWJtaXQ7CisJCX0KKworCQltZW1zZXQocG9ydCArIDEsIDAs
+IChsYXN0X3BvcnQgLSBwb3J0KSAqIHNpemVvZigqcG9ydCkpOwogCQlleGVjbGlzdHNfc3VibWl0
+X3BvcnRzKGVuZ2luZSk7CiAJfSBlbHNlIHsKK3NraXBfc3VibWl0OgogCQlyaW5nX3NldF9wYXVz
+ZWQoZW5naW5lLCAwKTsKIAl9CiB9Ci0tIAoyLjIzLjAKCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
