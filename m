@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25569C9F2F
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 15:16:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 068C2C9F36
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 15:17:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B431B6E9C6;
-	Thu,  3 Oct 2019 13:16:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 008D46E9C9;
+	Thu,  3 Oct 2019 13:17:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B47786E9C4;
- Thu,  3 Oct 2019 13:16:06 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2019 06:16:05 -0700
-X-IronPort-AV: E=Sophos;i="5.67,252,1566889200"; d="scan'208";a="191264962"
-Received: from paaron-mobl.ger.corp.intel.com (HELO [10.251.93.134])
- ([10.251.93.134])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/AES256-SHA;
- 03 Oct 2019 06:16:04 -0700
-Subject: Re: [Intel-gfx] [PATCH 1/2] dma-fence: Serialise signal enabling
- (dma_fence_enable_sw_signaling)
-To: Chris Wilson <chris@chris-wilson.co.uk>, dri-devel@lists.freedesktop.org
-References: <20190915184539.16724-1-chris@chris-wilson.co.uk>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <306bc53e-741e-1a23-c37d-b83400c38794@linux.intel.com>
-Date: Thu, 3 Oct 2019 14:16:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B18AA6E9C9
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 13:17:40 +0000 (UTC)
+Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0D11E20862;
+ Thu,  3 Oct 2019 13:17:39 +0000 (UTC)
+Date: Thu, 3 Oct 2019 15:17:37 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [PATCH v11 1/7] drm/sun4i: dsi: Fix TCON DRQ set bits
+Message-ID: <20191003131737.bvpf5quds66qtsmy@gilmour>
+References: <20191003064527.15128-1-jagan@amarulasolutions.com>
+ <20191003064527.15128-2-jagan@amarulasolutions.com>
 MIME-Version: 1.0
-In-Reply-To: <20190915184539.16724-1-chris@chris-wilson.co.uk>
-Content-Language: en-US
+In-Reply-To: <20191003064527.15128-2-jagan@amarulasolutions.com>
+User-Agent: NeoMutt/20180716
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1570108660;
+ bh=4XdzpLb9uj0tLiXrscinkGNfd+vwMzBSlrUPK+GONLE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ojn1iPijJrAcmt7DBl6ln8cTNWbgIL4AIUpLXgdi9CqcGMxefPxGPeXOOh5G3LpQg
+ O3GJhROjQ0gwEfpWHvEVV3vt1mWiKV6h9S3mCzANSP382VGsVzb9CLa46XE4MkAkgt
+ f5mNRTrLoGeXeC5F5iXM4lNf9Kkp392SmNfAQykw=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,46 +46,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-sunxi <linux-sunxi@googlegroups.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
+ michael@amarulasolutions.com, linux-arm-kernel@lists.infradead.org,
+ Icenowy Zheng <icenowy@aosc.io>
+Content-Type: multipart/mixed; boundary="===============0554904402=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDE1LzA5LzIwMTkgMTk6NDUsIENocmlzIFdpbHNvbiB3cm90ZToKPiBNYWtlIGRtYV9mZW5j
-ZV9lbmFibGVfc3dfc2lnbmFsaW5nKCkgYmVoYXZlIGxpa2UgaXRzCj4gZG1hX2ZlbmNlX2FkZF9j
-YWxsYmFjaygpIGFuZCBkbWFfZmVuY2VfZGVmYXVsdF93YWl0KCkgY291bnRlcnBhcnRzIGFuZAo+
-IHBlcmZvcm0gdGhlIHRlc3QgdG8gZW5hYmxlIHNpZ25hbGluZyB1bmRlciB0aGUgZmVuY2UtPmxv
-Y2ssIGFsb25nIHdpdGgKPiB0aGUgYWN0aW9uIHRvIGRvIHNvLiBUaGlzIGVuc3VyZSB0aGF0IHNo
-b3VsZCBhbiBpbXBsZW1lbnRhdGlvbiBiZSB0cnlpbmcKPiB0byBmbHVzaCB0aGUgY2JfbGlzdCAo
-Ynkgc2lnbmFsaW5nKSBvbiByZXRpcmVtZW50IGJlZm9yZSBmcmVlaW5nIHRoZQo+IGZlbmNlLCBp
-dCBjYW4gZG8gc28gaW4gYSByYWNlLWZyZWUgbWFubmVyLgo+IAo+IFNlZSBhbHNvIDBmYzg5YjY4
-MDJiYSAoImRtYS1mZW5jZTogU2ltcGx5IHdyYXAgZG1hX2ZlbmNlX3NpZ25hbF9sb2NrZWQKPiB3
-aXRoIGRtYV9mZW5jZV9zaWduYWwiKS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBDaHJpcyBXaWxzb24g
-PGNocmlzQGNocmlzLXdpbHNvbi5jby51az4KPiAtLS0KPiAgIGRyaXZlcnMvZG1hLWJ1Zi9kbWEt
-ZmVuY2UuYyB8IDExICsrKysrLS0tLS0tCj4gICAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25z
-KCspLCA2IGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2RtYS1idWYvZG1h
-LWZlbmNlLmMgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLmMKPiBpbmRleCAyYzEzNmFlZTNl
-NzkuLjU4NzcyNzA4OTEzNCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNl
-LmMKPiArKysgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLmMKPiBAQCAtMjg1LDE5ICsyODUs
-MTggQEAgdm9pZCBkbWFfZmVuY2VfZW5hYmxlX3N3X3NpZ25hbGluZyhzdHJ1Y3QgZG1hX2ZlbmNl
-ICpmZW5jZSkKPiAgIHsKPiAgIAl1bnNpZ25lZCBsb25nIGZsYWdzOwo+ICAgCj4gKwlpZiAodGVz
-dF9iaXQoRE1BX0ZFTkNFX0ZMQUdfU0lHTkFMRURfQklULCAmZmVuY2UtPmZsYWdzKSkKPiArCQly
-ZXR1cm47Cj4gKwo+ICsJc3Bpbl9sb2NrX2lycXNhdmUoZmVuY2UtPmxvY2ssIGZsYWdzKTsKPiAg
-IAlpZiAoIXRlc3RfYW5kX3NldF9iaXQoRE1BX0ZFTkNFX0ZMQUdfRU5BQkxFX1NJR05BTF9CSVQs
-CgpJIGRhcmUgbm90IHRvIGFzayBpZiB0aGlzIGNvdWxkbid0IGJlIHRoZSBub24tYXRvbWljIHZl
-cnNpb24sIGJ1dCBJIGhhdmUgCmVtcGlyaWNhbGx5IHByb3ZlbiB0byBteXNlbGYgdGhpbmdzIGFy
-ZSBub3QgdGhhdCBzdHJhaWdodGZvcndhcmQgYXJvdW5kIApoZXJlLgoKPiAgIAkJCSAgICAgICZm
-ZW5jZS0+ZmxhZ3MpICYmCj4gLQkgICAgIXRlc3RfYml0KERNQV9GRU5DRV9GTEFHX1NJR05BTEVE
-X0JJVCwgJmZlbmNlLT5mbGFncykgJiYKPiAgIAkgICAgZmVuY2UtPm9wcy0+ZW5hYmxlX3NpZ25h
-bGluZykgewo+ICAgCQl0cmFjZV9kbWFfZmVuY2VfZW5hYmxlX3NpZ25hbChmZW5jZSk7Cj4gLQo+
-IC0JCXNwaW5fbG9ja19pcnFzYXZlKGZlbmNlLT5sb2NrLCBmbGFncyk7Cj4gLQo+ICAgCQlpZiAo
-IWZlbmNlLT5vcHMtPmVuYWJsZV9zaWduYWxpbmcoZmVuY2UpKQo+ICAgCQkJZG1hX2ZlbmNlX3Np
-Z25hbF9sb2NrZWQoZmVuY2UpOwo+IC0KPiAtCQlzcGluX3VubG9ja19pcnFyZXN0b3JlKGZlbmNl
-LT5sb2NrLCBmbGFncyk7Cj4gICAJfQo+ICsJc3Bpbl91bmxvY2tfaXJxcmVzdG9yZShmZW5jZS0+
-bG9jaywgZmxhZ3MpOwo+ICAgfQo+ICAgRVhQT1JUX1NZTUJPTChkbWFfZmVuY2VfZW5hYmxlX3N3
-X3NpZ25hbGluZyk7Cj4gICAKPiAKClJldmlld2VkLWJ5OiBUdnJ0a28gVXJzdWxpbiA8dHZydGtv
-LnVyc3VsaW5AaW50ZWwuY29tPgoKUmVnYXJkcywKClR2cnRrbwpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0554904402==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="nyn2rzxruc4qrbyu"
+Content-Disposition: inline
+
+
+--nyn2rzxruc4qrbyu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Thu, Oct 03, 2019 at 12:15:21PM +0530, Jagan Teki wrote:
+> The LCD timing definitions between Linux DRM vs Allwinner are different,
+> below diagram shows this clear differences.
+>
+>            Active                 Front           Sync           Back
+>            Region                 Porch                          Porch
+> <-----------------------><----------------><--------------><-------------->
+>   //////////////////////|
+>  ////////////////////// |
+> //////////////////////  |..................                ................
+>                                            ________________
+> <----- [hv]display ----->
+> <------------- [hv]sync_start ------------>
+> <--------------------- [hv]sync_end ---------------------->
+> <-------------------------------- [hv]total ------------------------------>
+>
+> <----- lcd_[xy] -------->		  <- lcd_[hv]spw ->
+> 					  <---------- lcd_[hv]bp --------->
+> <-------------------------------- lcd_[hv]t ------------------------------>
+>
+> The DSI driver misinterpreted the hbp term from the BSP code to refer
+> only to the backporch, when in fact it was backporch + sync. Thus the
+> driver incorrectly used the horizontal front porch plus sync in its
+> calculation of the DRQ set bit value, when it should not have included
+> the sync timing.
+>
+> Including additional sync timings leads to flip_done timed out as:
+>
+> WARNING: CPU: 0 PID: 31 at drivers/gpu/drm/drm_atomic_helper.c:1429 drm_atomic_helper_wait_for_vblanks.part.1+0x298/0x2a0
+> [CRTC:46:crtc-0] vblank wait timed out
+> Modules linked in:
+> CPU: 0 PID: 31 Comm: kworker/0:1 Not tainted 5.1.0-next-20190514-00026-g01f0c75b902d-dirty #13
+> Hardware name: Allwinner sun8i Family
+> Workqueue: events deferred_probe_work_func
+> [<c010ed54>] (unwind_backtrace) from [<c010b76c>] (show_stack+0x10/0x14)
+> [<c010b76c>] (show_stack) from [<c0688c70>] (dump_stack+0x84/0x98)
+> [<c0688c70>] (dump_stack) from [<c011d9e4>] (__warn+0xfc/0x114)
+> [<c011d9e4>] (__warn) from [<c011da40>] (warn_slowpath_fmt+0x44/0x68)
+> [<c011da40>] (warn_slowpath_fmt) from [<c040cd50>] (drm_atomic_helper_wait_for_vblanks.part.1+0x298/0x2a0)
+> [<c040cd50>] (drm_atomic_helper_wait_for_vblanks.part.1) from [<c040e694>] (drm_atomic_helper_commit_tail_rpm+0x5c/0x6c)
+> [<c040e694>] (drm_atomic_helper_commit_tail_rpm) from [<c040e4dc>] (commit_tail+0x40/0x6c)
+> [<c040e4dc>] (commit_tail) from [<c040e5cc>] (drm_atomic_helper_commit+0xbc/0x128)
+> [<c040e5cc>] (drm_atomic_helper_commit) from [<c0411b64>] (restore_fbdev_mode_atomic+0x1cc/0x1dc)
+> [<c0411b64>] (restore_fbdev_mode_atomic) from [<c04156f8>] (drm_fb_helper_restore_fbdev_mode_unlocked+0x54/0xa0)
+> [<c04156f8>] (drm_fb_helper_restore_fbdev_mode_unlocked) from [<c0415774>] (drm_fb_helper_set_par+0x30/0x54)
+> [<c0415774>] (drm_fb_helper_set_par) from [<c03ad450>] (fbcon_init+0x560/0x5ac)
+> [<c03ad450>] (fbcon_init) from [<c03eb8a0>] (visual_init+0xbc/0x104)
+> [<c03eb8a0>] (visual_init) from [<c03ed1b8>] (do_bind_con_driver+0x1b0/0x390)
+> [<c03ed1b8>] (do_bind_con_driver) from [<c03ed780>] (do_take_over_console+0x13c/0x1c4)
+> [<c03ed780>] (do_take_over_console) from [<c03ad800>] (do_fbcon_takeover+0x74/0xcc)
+> [<c03ad800>] (do_fbcon_takeover) from [<c013c9c8>] (notifier_call_chain+0x44/0x84)
+> [<c013c9c8>] (notifier_call_chain) from [<c013cd20>] (__blocking_notifier_call_chain+0x48/0x60)
+> [<c013cd20>] (__blocking_notifier_call_chain) from [<c013cd50>] (blocking_notifier_call_chain+0x18/0x20)
+> [<c013cd50>] (blocking_notifier_call_chain) from [<c03a6e44>] (register_framebuffer+0x1e0/0x2f8)
+> [<c03a6e44>] (register_framebuffer) from [<c04153c0>] (__drm_fb_helper_initial_config_and_unlock+0x2fc/0x50c)
+> [<c04153c0>] (__drm_fb_helper_initial_config_and_unlock) from [<c04158c8>] (drm_fbdev_client_hotplug+0xe8/0x1b8)
+> [<c04158c8>] (drm_fbdev_client_hotplug) from [<c0415a20>] (drm_fbdev_generic_setup+0x88/0x118)
+> [<c0415a20>] (drm_fbdev_generic_setup) from [<c043f060>] (sun4i_drv_bind+0x128/0x160)
+> [<c043f060>] (sun4i_drv_bind) from [<c044b598>] (try_to_bring_up_master+0x164/0x1a0)
+> [<c044b598>] (try_to_bring_up_master) from [<c044b668>] (__component_add+0x94/0x140)
+> [<c044b668>] (__component_add) from [<c0445e1c>] (sun6i_dsi_probe+0x144/0x234)
+> [<c0445e1c>] (sun6i_dsi_probe) from [<c0452ef4>] (platform_drv_probe+0x48/0x9c)
+> [<c0452ef4>] (platform_drv_probe) from [<c04512cc>] (really_probe+0x1dc/0x2c8)
+> [<c04512cc>] (really_probe) from [<c0451518>] (driver_probe_device+0x60/0x160)
+> [<c0451518>] (driver_probe_device) from [<c044f7a4>] (bus_for_each_drv+0x74/0xb8)
+> [<c044f7a4>] (bus_for_each_drv) from [<c045107c>] (__device_attach+0xd0/0x13c)
+> [<c045107c>] (__device_attach) from [<c0450474>] (bus_probe_device+0x84/0x8c)
+> [<c0450474>] (bus_probe_device) from [<c0450900>] (deferred_probe_work_func+0x64/0x90)
+> [<c0450900>] (deferred_probe_work_func) from [<c0135970>] (process_one_work+0x204/0x420)
+> [<c0135970>] (process_one_work) from [<c013690c>] (worker_thread+0x274/0x5a0)
+> [<c013690c>] (worker_thread) from [<c013b3d8>] (kthread+0x11c/0x14c)
+> [<c013b3d8>] (kthread) from [<c01010e8>] (ret_from_fork+0x14/0x2c)
+> Exception stack(0xde539fb0 to 0xde539ff8)
+> 9fa0:                                     00000000 00000000 00000000 00000000
+> 9fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+> 9fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+> ---[ end trace b57eb1e5c64c6b8b ]---
+> random: fast init done
+> [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CRTC:46:crtc-0] flip_done timed out
+> [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CONNECTOR:48:DSI-1] flip_done timed out
+> [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [PLANE:30:plane-0] flip_done timed out
+>
+> With the terms(as described in above diagram) fixed, the panel
+> displays correctly without any timeouts.
+>
+> Tested-by: Merlijn Wajer <merlijn@wizzup.org>
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+
+Applied, thanks
+
+Maxime
+
+--nyn2rzxruc4qrbyu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXZX08QAKCRDj7w1vZxhR
+xUvSAQC1+eHRqpwuII3FsX6/2/rGgktLFdlm0zpUDUebhtPfSQD8D69ULjkMCaWG
+JHIFGLff08YHZZ1WN8LzroPPbhBDjA8=
+=qst1
+-----END PGP SIGNATURE-----
+
+--nyn2rzxruc4qrbyu--
+
+--===============0554904402==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0554904402==--
