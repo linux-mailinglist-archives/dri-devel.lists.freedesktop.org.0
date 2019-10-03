@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EDD5C9839
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 08:27:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ED5AC983F
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 08:28:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0366A6E1F6;
-	Thu,  3 Oct 2019 06:27:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 265E76E216;
+	Thu,  3 Oct 2019 06:28:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 331456E1F6
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 06:27:18 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 260516E216
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 06:28:54 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 193AD72162; Thu,  3 Oct 2019 06:27:18 +0000 (UTC)
+ id 21CF572162; Thu,  3 Oct 2019 06:28:54 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111889] Severe glitches in cinnamon/gnome3 affecting small
  rectangular areas (menus, dialogs)
-Date: Thu, 03 Oct 2019 06:27:18 +0000
+Date: Thu, 03 Oct 2019 06:28:54 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -35,7 +35,7 @@ X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111889-502-UNaSXP56kk@http.bugs.freedesktop.org/>
+Message-ID: <bug-111889-502-P9wWM95JnX@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111889-502@http.bugs.freedesktop.org/>
 References: <bug-111889-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0730776298=="
+Content-Type: multipart/mixed; boundary="===============1260731028=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0730776298==
-Content-Type: multipart/alternative; boundary="15700840380.B63B.16155"
+--===============1260731028==
+Content-Type: multipart/alternative; boundary="15700841340.a802Dc7.16479"
 Content-Transfer-Encoding: 7bit
 
 
---15700840380.B63B.16155
-Date: Thu, 3 Oct 2019 06:27:18 +0000
+--15700841340.a802Dc7.16479
+Date: Thu, 3 Oct 2019 06:28:54 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,17 +73,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111889
 
---- Comment #2 from sdiconov@mail.ru ---
-Created attachment 145620
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145620&action=3Dedit
-Audacity exit dialog in 3 different DEs
+--- Comment #3 from sdiconov@mail.ru ---
+Created attachment 145621
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145621&action=3Dedit
+Cinnamon filemanager Help menu (other menus in other apps look the same)
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15700840380.B63B.16155
-Date: Thu, 3 Oct 2019 06:27:18 +0000
+--15700841340.a802Dc7.16479
+Date: Thu, 3 Oct 2019 06:28:54 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -101,8 +101,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - Severe glitches in cinnamon/gnome3 affecting small rectan=
 gular areas (menus, dialogs)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111889#c2">Commen=
-t # 2</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111889#c3">Commen=
+t # 3</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Severe glitches in cinnamon/gnome3 affecting small rectan=
@@ -113,11 +113,13 @@ gular areas (menus, dialogs)"
 sdiconov&#64;mail.ru" title=3D"sdiconov&#64;mail.ru">sdiconov&#64;mail.ru</=
 a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145620=
-" name=3D"attach_145620" title=3D"Audacity exit dialog in 3 different DEs">=
-attachment 145620</a> <a href=3D"attachment.cgi?id=3D145620&amp;action=3Ded=
-it" title=3D"Audacity exit dialog in 3 different DEs">[details]</a></span>
-Audacity exit dialog in 3 different DEs</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145621=
+" name=3D"attach_145621" title=3D"Cinnamon filemanager Help menu (other men=
+us in other apps look the same)">attachment 145621</a> <a href=3D"attachmen=
+t.cgi?id=3D145621&amp;action=3Dedit" title=3D"Cinnamon filemanager Help men=
+u (other menus in other apps look the same)">[details]</a></span>
+Cinnamon filemanager Help menu (other menus in other apps look the same)</p=
+re>
         </div>
       </p>
 
@@ -131,9 +133,9 @@ Audacity exit dialog in 3 different DEs</pre>
     </body>
 </html>=
 
---15700840380.B63B.16155--
+--15700841340.a802Dc7.16479--
 
---===============0730776298==
+--===============1260731028==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -143,4 +145,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0730776298==--
+--===============1260731028==--
