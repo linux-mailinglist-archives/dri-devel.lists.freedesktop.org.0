@@ -1,35 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C083CA02F
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 16:18:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18FD5CA034
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 16:20:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 849406E9F3;
-	Thu,  3 Oct 2019 14:18:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 880F06E9F7;
+	Thu,  3 Oct 2019 14:20:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A47E16E9F3;
- Thu,  3 Oct 2019 14:18:47 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 18709076-1500050 for multiple; Thu, 03 Oct 2019 15:18:44 +0100
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 037D76E9F7
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 14:20:04 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id EEC1E72162; Thu,  3 Oct 2019 14:20:03 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111848] AMDGPU and display fails after resume from suspend
+Date: Thu, 03 Oct 2019 14:20:04 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: me@cschwarz.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111848-502-BSTiSSuomV@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111848-502@http.bugs.freedesktop.org/>
+References: <bug-111848-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <14063C7AD467DE4B82DEDB5C278E8663D9C0292F@fmsmsx107.amr.corp.intel.com>
-References: <20191003093639.10186-2-chris@chris-wilson.co.uk>
- <20191003132422.32730-1-chris@chris-wilson.co.uk>
- <14063C7AD467DE4B82DEDB5C278E8663D9C0292F@fmsmsx107.amr.corp.intel.com>
-Message-ID: <157011232171.2173.4977692617014194927@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: RE: [Intel-gfx] [PATCH v3] dma-fence: Serialise signal enabling
- (dma_fence_enable_sw_signaling)
-Date: Thu, 03 Oct 2019 15:18:41 +0100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -42,53 +52,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1148736935=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBSdWhsLCBNaWNoYWVsIEogKDIwMTktMTAtMDMgMTU6MTI6MzgpCj4gPi0tLS0tT3Jp
-Z2luYWwgTWVzc2FnZS0tLS0tCj4gPkZyb206IEludGVsLWdmeCBbbWFpbHRvOmludGVsLWdmeC1i
-b3VuY2VzQGxpc3RzLmZyZWVkZXNrdG9wLm9yZ10gT24gQmVoYWxmIE9mCj4gPkNocmlzIFdpbHNv
-bgo+ID5TZW50OiBUaHVyc2RheSwgT2N0b2JlciAzLCAyMDE5IDk6MjQgQU0KPiA+VG86IGludGVs
-LWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+Q2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKPiA+U3ViamVjdDogW0ludGVsLWdmeF0gW1BBVENIIHYzXSBkbWEtZmVuY2U6IFNl
-cmlhbGlzZSBzaWduYWwgZW5hYmxpbmcKPiA+KGRtYV9mZW5jZV9lbmFibGVfc3dfc2lnbmFsaW5n
-KQo+ID4KPiA+TWFrZSBkbWFfZmVuY2VfZW5hYmxlX3N3X3NpZ25hbGluZygpIGJlaGF2ZSBsaWtl
-IGl0cwo+ID5kbWFfZmVuY2VfYWRkX2NhbGxiYWNrKCkgYW5kIGRtYV9mZW5jZV9kZWZhdWx0X3dh
-aXQoKSBjb3VudGVycGFydHMgYW5kCj4gPnBlcmZvcm0gdGhlIHRlc3QgdG8gZW5hYmxlIHNpZ25h
-bGluZyB1bmRlciB0aGUgZmVuY2UtPmxvY2ssIGFsb25nIHdpdGgKPiA+dGhlIGFjdGlvbiB0byBk
-byBzby4gVGhpcyBlbnN1cmUgdGhhdCBzaG91bGQgYW4gaW1wbGVtZW50YXRpb24gYmUgdHJ5aW5n
-Cj4gPnRvIGZsdXNoIHRoZSBjYl9saXN0IChieSBzaWduYWxpbmcpIG9uIHJldGlyZW1lbnQgYmVm
-b3JlIGZyZWVpbmcgdGhlCj4gPmZlbmNlLCBpdCBjYW4gZG8gc28gaW4gYSByYWNlLWZyZWUgbWFu
-bmVyLgo+ID4KPiA+U2VlIGFsc28gMGZjODliNjgwMmJhICgiZG1hLWZlbmNlOiBTaW1wbHkgd3Jh
-cCBkbWFfZmVuY2Vfc2lnbmFsX2xvY2tlZAo+ID53aXRoIGRtYV9mZW5jZV9zaWduYWwiKS4KPiA+
-Cj4gPnYyOiBSZWZhY3RvciBhbGwgMyBlbmFibGVfc2lnbmFsaW5nIHBhdGhzIHRvIHVzZSBhIGNv
-bW1vbiBmdW5jdGlvbi4KPiA+Cj4gPlNpZ25lZC1vZmYtYnk6IENocmlzIFdpbHNvbiA8Y2hyaXNA
-Y2hyaXMtd2lsc29uLmNvLnVrPgo+ID4tLS0KPiA+UmV0dXJuIGZhbHNlIGZvciAiY291bGQgbm90
-IF9lbmFibGVfIHNpZ25hbGluZyBhcyBpdCB3YXMgYWxyZWFkeQo+ID5zaWduYWxlZCIKPiA+LS0t
-Cj4gPiBkcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLmMgfCA3OCArKysrKysrKysrKysrKysrKy0t
-LS0tLS0tLS0tLS0tLS0tLS0tCj4gPiAxIGZpbGUgY2hhbmdlZCwgMzUgaW5zZXJ0aW9ucygrKSwg
-NDMgZGVsZXRpb25zKC0pCj4gPgo+ID5kaWZmIC0tZ2l0IGEvZHJpdmVycy9kbWEtYnVmL2RtYS1m
-ZW5jZS5jIGIvZHJpdmVycy9kbWEtYnVmL2RtYS1mZW5jZS5jCj4gPmluZGV4IDJjMTM2YWVlM2U3
-OS4uYjU4NTI4YzFjYzlkIDEwMDY0NAo+ID4tLS0gYS9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNl
-LmMKPiA+KysrIGIvZHJpdmVycy9kbWEtYnVmL2RtYS1mZW5jZS5jCj4gPkBAIC0yNzMsNiArMjcz
-LDMwIEBAIHZvaWQgZG1hX2ZlbmNlX2ZyZWUoc3RydWN0IGRtYV9mZW5jZSAqZmVuY2UpCj4gPiB9
-Cj4gPiBFWFBPUlRfU1lNQk9MKGRtYV9mZW5jZV9mcmVlKTsKPiA+Cj4gPitzdGF0aWMgYm9vbCBf
-X2RtYV9mZW5jZV9lbmFibGVfc2lnbmFsaW5nKHN0cnVjdCBkbWFfZmVuY2UgKmZlbmNlKQo+ID4r
-ewo+ID4rICAgICAgYm9vbCB3YXNfc2V0Owo+ID4rCj4gPisgICAgICBsb2NrZGVwX2Fzc2VydF9o
-ZWxkKGZlbmNlLT5sb2NrKTsKPiAKPiBXaXRoIHRoaXMgaGVsZC4uLgo+IAo+ID4rICAgICAgd2Fz
-X3NldCA9Cj4gPnRlc3RfYW5kX3NldF9iaXQoRE1BX0ZFTkNFX0ZMQUdfRU5BQkxFX1NJR05BTF9C
-SVQsCj4gPisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAmZmVuY2UtPmZsYWdzKTsK
-PiA+Kwo+ID4rICAgICAgaWYgKHRlc3RfYml0KERNQV9GRU5DRV9GTEFHX1NJR05BTEVEX0JJVCwg
-JmZlbmNlLT5mbGFncykpCj4gPisgICAgICAgICAgICAgIHJldHVybiBmYWxzZTsKPiAKPiBXb3Vs
-ZCBtYWtpbmcgdGhlc2UgdGhlIG5vbi1hdG9taWMgdmVyc2lvbnMgYmUgdXNlZnVsIChhbmQvb3Ig
-cmVhc29uYWJsZSk/CgpUaGF0IGRlcGVuZHMgb24gYWxsIG1vZGlmaWNhdGlvbnMgdG8gdGhlIGR3
-b3JkIChub3QganVzdCB0aGUgYml0KSBiZWluZwpzZXJpYWxpc2VkIGJ5IHRoZSBzYW1lIGxvY2sg
-KG9yIG90aGVyd2lzZSBndWFyYW50ZWVkIHRvIGJlIHNlcmlhbCBhbmQKY29oZXJlbnQpLCB3aGlj
-aCBhcyBUdnJ0a28gcmVkaXNjb3ZlcmVkIGlzIG5vdCB0aGUgY2FzZS4gZG1hX2ZlbmNlLmZsYWdz
-CmlzIGFsc28gaG9tZSB0byBhIG51bWJlciBvZiB1c2VyIGZsYWdzLgotQ2hyaXMKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1148736935==
+Content-Type: multipart/alternative; boundary="15701124032.66ce044.9083"
+Content-Transfer-Encoding: 7bit
+
+
+--15701124032.66ce044.9083
+Date: Thu, 3 Oct 2019 14:20:03 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111848
+
+--- Comment #13 from me@cschwarz.com ---
+Can confirm this problem on
+
+kernel-5.2.17-200.fc30=20
+kernel-5.2.9-200.fc30
+kernel-5.2.5-200.fc30
+kernel-5.3.1-150.vanilla.knurd.1.fc30
+
+Suspend & resume work flawlessly on
+
+kernel-4.20.16-200.fc29
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15701124032.66ce044.9083
+Date: Thu, 3 Oct 2019 14:20:03 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMDGPU and display fails after resume from suspend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111848#c13">Comme=
+nt # 13</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMDGPU and display fails after resume from suspend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111848">bug 11184=
+8</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+me&#64;cschwarz.com" title=3D"me&#64;cschwarz.com">me&#64;cschwarz.com</a>
+</span></b>
+        <pre>Can confirm this problem on
+
+kernel-5.2.17-200.fc30=20
+kernel-5.2.9-200.fc30
+kernel-5.2.5-200.fc30
+kernel-5.3.1-150.vanilla.knurd.1.fc30
+
+Suspend &amp; resume work flawlessly on
+
+kernel-4.20.16-200.fc29</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15701124032.66ce044.9083--
+
+--===============1148736935==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1148736935==--
