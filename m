@@ -1,27 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 335EBCB54E
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2019 09:40:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33E34CB539
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2019 09:39:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D8216EADB;
-	Fri,  4 Oct 2019 07:39:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 739926EABE;
+	Fri,  4 Oct 2019 07:38:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B70386E1FB;
- Thu,  3 Oct 2019 07:43:10 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: pq)
- with ESMTPSA id 03BAA28F5FD
-Date: Thu, 3 Oct 2019 10:42:58 +0300
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-Subject: Re: [PATCH V6] drm/drm_vblank: Change EINVAL by the correct errno
-Message-ID: <20191003104258.119d72e9.pekka.paalanen@collabora.com>
-In-Reply-To: <20191002140516.adeyj3htylimmlmg@smtp.gmail.com>
-References: <20191002140516.adeyj3htylimmlmg@smtp.gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from mail3-162.sinamail.sina.com.cn (mail3-162.sinamail.sina.com.cn
+ [202.108.3.162])
+ by gabe.freedesktop.org (Postfix) with SMTP id 7AC7C6E2DF
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 08:26:09 +0000 (UTC)
+Received: from unknown (HELO localhost.localdomain)([124.64.2.167])
+ by sina.com with ESMTP
+ id 5D95B00D0003713B; Thu, 3 Oct 2019 16:23:43 +0800 (CST)
+X-Sender: hdanton@sina.com
+X-Auth-ID: hdanton@sina.com
+X-SMAIL-MID: 29860649283206
+From: Hillf Danton <hdanton@sina.com>
+To: Frediano Ziglio <fziglio@redhat.com>,
+	Jaak Ristioja <jaak@ristioja.ee>
+Subject: Re: [Spice-devel] Xorg indefinitely hangs in kernelspace
+Date: Thu,  3 Oct 2019 16:23:30 +0800
+Message-Id: <20191003082330.15260-1-hdanton@sina.com>
+In-Reply-To: <1174991123.3693721.1569850187145.JavaMail.zimbra@redhat.com>
+References: <92785039-0941-4626-610b-f4e3d9613069@ristioja.ee>
+ <20190905071407.47iywqcqomizs3yr@sirius.home.kraxel.org>
+ <e4b7d889-15f3-0c90-3b9f-d395344499c0@ristioja.ee>
+ <ccafdbaf-7f8e-8616-5543-2a178bd63828@ristioja.ee>
+ <1174991123.3693721.1569850187145.JavaMail.zimbra@redhat.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Fri, 04 Oct 2019 07:38:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -36,154 +45,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Keith Packard <keithp@keithp.com>,
- Maxime Ripard <maxime.ripard@bootlin.com>, kernel-janitors@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- Sean Paul <sean@poorly.run>
-Content-Type: multipart/mixed; boundary="===============0481804427=="
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
+ spice-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0481804427==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/o+JZAc3u12D=Y2_U=czydx8"; protocol="application/pgp-signature"
-
---Sig_/o+JZAc3u12D=Y2_U=czydx8
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, 2 Oct 2019 11:05:16 -0300
-Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com> wrote:
-
-> For historical reasons, the function drm_wait_vblank_ioctl always return
-> -EINVAL if something gets wrong. This scenario limits the flexibility
-> for the userspace to make detailed verification of any problem and take
-> some action. In particular, the validation of =E2=80=9Cif (!dev->irq_enab=
-led)=E2=80=9D
-> in the drm_wait_vblank_ioctl is responsible for checking if the driver
-> support vblank or not. If the driver does not support VBlank, the
-> function drm_wait_vblank_ioctl returns EINVAL, which does not represent
-> the real issue; this patch changes this behavior by return EOPNOTSUPP.
-> Additionally, drm_crtc_get_sequence_ioctl and
-> drm_crtc_queue_sequence_ioctl, also returns EINVAL if vblank is not
-> supported; this patch also changes the return value to EOPNOTSUPP in
-> these functions. Lastly, these functions are invoked by libdrm, which is
-> used by many compositors; because of this, it is important to check if
-> this change breaks any compositor. In this sense, the following projects
-> were examined:
->=20
-> * Drm-hwcomposer
-> * Kwin
-> * Sway
-> * Wlroots
-> * Wayland
-> * Weston
-> * Mutter
-> * Xorg (67 different drivers)
->=20
-> For each repository the verification happened in three steps:
->=20
-> * Update the main branch
-> * Look for any occurrence of "drmCrtcQueueSequence",
->   "drmCrtcGetSequence", and "drmWaitVBlank" with the command git grep -n
->   "STRING".
-> * Look in the git history of the project with the command
-> git log -S<STRING>
->=20
-> None of the above projects validate the use of EINVAL when using
-> drmWaitVBlank(), which make safe, at least for these projects, to change
-> the return values. On the other hand, mesa and xserver project uses
-> drmCrtcQueueSequence() and drmCrtcGetSequence(); this change is harmless
-> for both projects.
->=20
-> Change since V5 (Pekka Paalanen):
->  - Check if the change also affects Mutter
->=20
-> Change since V4 (Daniel):
->  - Also return EOPNOTSUPP in drm_crtc_[get|queue]_sequence_ioctl
->=20
-> Change since V3:
->  - Return EINVAL for _DRM_VBLANK_SIGNAL (Daniel)
->=20
-> Change since V2:
->  Daniel Vetter and Chris Wilson
->  - Replace ENOTTY by EOPNOTSUPP
->  - Return EINVAL if the parameters are wrong
->=20
-> Cc: Keith Packard <keithp@keithp.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Signed-off-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> ---
->  drivers/gpu/drm/drm_vblank.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-> index 9c6899758bc9..71cf2633ac58 100644
-> --- a/drivers/gpu/drm/drm_vblank.c
-> +++ b/drivers/gpu/drm/drm_vblank.c
-> @@ -1610,7 +1610,7 @@ int drm_wait_vblank_ioctl(struct drm_device *dev, v=
-oid *data,
->  	unsigned int flags, pipe, high_pipe;
-> =20
->  	if (!dev->irq_enabled)
-> -		return -EINVAL;
-> +		return -EOPNOTSUPP;
-> =20
->  	if (vblwait->request.type & _DRM_VBLANK_SIGNAL)
->  		return -EINVAL;
-
-Hi,
-
-this part looks safe for Weston indeed, so this part:
-
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-
-There is no need to check the "Wayland" project, it will never do
-anything with DRM.
-
-(What looks extremely suspicious though is the libdrm implementation of
-drmWaitVblank() in case the ioctl returns EINTR, but that's unrelated.)
-
-
-Thanks,
-pq
-
---Sig_/o+JZAc3u12D=Y2_U=czydx8
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl2VpoIACgkQI1/ltBGq
-qqdxlRAAjTrqbU3NrK1kJ8lgwsXFGgwwlLVU2uu56fq5vVb6wyZb0coZEe01/OP8
-KCunoHBG0e6I7HKgmay2y73JKvy9HA93YZ4tm0ErI4KqTIc+EqnKVCMfnVr3HSCh
-cbEqjVdAVmfYRHmEu4UczgQdeGg1Vqfvfq5UVCI0v2vrPzVpAnqfJ6btVYX8f4tM
-FkXUAAyVgPyHojcwUopU+XiuKruDekrfv/n5edC2uP9gi/bM5n2Gu3Nq+s7+kzGZ
-PW01We28veJ9b1jjWhrvbW1J8M2ot35HXRtgNwDBcpoWtb8qcZk/n3M2+J2CdjCx
-W8Q7ZLfq/j6ee0XlE4ZJRzy19FNzyl2lLzhp3GxR5vbZ7ml3A4yUY5vjQxpcADgu
-dUjXLSdw2VPyJmzsc8A5hGjjH8Pv17Va3zkjOtKJiW6Bmq1D0z8m7hdcFy6zxZKh
-/SrcBq/U6y8Cvo33tRElcsDVQ3zQWECAJFmaZ4AG3xtVXvO17fmly4saU7jwOx1f
-/2K5NiENNhJ8vpHBh3jz6KDRHiiVmDC5DtLStk4O7JqDvErlMRUMHdY0V6XMoRqu
-CWRvYDB3+E5FykEPYIoTpOf/LLX41I0EpFXuzh6tWmOHgtl8CgIUrQS5HX0u/Oo8
-JjOBP+oWKotSmqD7eS95ug7N3EVuk4/9bWun+kFe8pKzLDg+Ws4=
-=AcvH
------END PGP SIGNATURE-----
-
---Sig_/o+JZAc3u12D=Y2_U=czydx8--
-
---===============0481804427==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0481804427==--
+Ck9uIFRodSwgMyBPY3QgMjAxOSAwOTo0NTo1NSArMDMwMCBKYWFrIFJpc3Rpb2phIHdyb3RlOgo+
+IE9uIDMwLjA5LjE5IDE2OjI5LCBGcmVkaWFubyBaaWdsaW8gd3JvdGU6Cj4gPiAgIFdoeSBkaWRu
+J3QgeW91IHVwZGF0ZSBidWcgYXQgaHR0cHM6Ly9idWdzLmxhdW5jaHBhZC5uZXQvdWJ1bnR1Lytz
+b3VyY2UvbGludXgvK2J1Zy8xODEzNjIwPwo+ID4gSSBrbm93IGl0IGNhbiBzZWVtIHRlZGlvdXMg
+YnV0IHdvdWxkIGhlbHAgdHJhY2tpbmcgaXQuCj4gCj4gSSBzdXBwb3NlIHRoZSBsYWNrIG9uIGNl
+bnRyYWxpemVkIHRyYWNraW5nIGFuZCBoYW5kbGluZyBvZiBMaW51eCBrZXJuZWwKPiBidWdzIGlz
+IGEgZGVsaWNhdGUgdG9waWMsIHNvIEkgZG9uJ3Qgd2FudCB0byByYW50IG11Y2ggbW9yZSBvbiB0
+aGF0Lgo+IFVwZGF0aW5nIHRoYXQgYnVnIHdvdWxkIHRlZGlvdXMgYW5kIHRpbWUtY29uc3VtaW5n
+IGluZGVlZCwgd2hpY2ggaXMgd2h5Cj4gSSBoYXZlbid0IGRvbmUgdGhhdC4gVG8gYmUgaG9uZXN0
+LCBJIGRvbid0IGhhdmUgZW5vdWdoIHRpbWUgYW5kIG1vdGl2YXRpb24uCgpHaXZlIHRoZSBkaWZm
+IGJlbG93IGEgZ28gb25seSB3aGVuIGl0IGlzIGNvbnZlbmllbnQgYW5kIG9ubHkgaWYgaXQgbWFr
+ZXMKYSBiaXQgb2Ygc2Vuc2UgdG8geW91LgoKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1f
+ZXhlY2J1Zl91dGlsLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fZXhlY2J1Zl91dGls
+LmMKQEAgLTExMCw2ICsxMTAsNyBAQCBpbnQgdHRtX2V1X3Jlc2VydmVfYnVmZmVycyhzdHJ1Y3Qg
+d3dfYWNxCiAJCXd3X2FjcXVpcmVfaW5pdCh0aWNrZXQsICZyZXNlcnZhdGlvbl93d19jbGFzcyk7
+CiAKIAlsaXN0X2Zvcl9lYWNoX2VudHJ5KGVudHJ5LCBsaXN0LCBoZWFkKSB7CisJCWJvb2wgbG9j
+a29uID0gZmFsc2U7CiAJCXN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8gPSBlbnRyeS0+Ym87
+CiAKIAkJcmV0ID0gX190dG1fYm9fcmVzZXJ2ZShibywgaW50ciwgKHRpY2tldCA9PSBOVUxMKSwg
+dGlja2V0KTsKQEAgLTE1MCw2ICsxNTEsNyBAQCBpbnQgdHRtX2V1X3Jlc2VydmVfYnVmZmVycyhz
+dHJ1Y3Qgd3dfYWNxCiAJCQkJZG1hX3Jlc3ZfbG9ja19zbG93KGJvLT5iYXNlLnJlc3YsIHRpY2tl
+dCk7CiAJCQkJcmV0ID0gMDsKIAkJCX0KKwkJCWxvY2tvbiA9ICFyZXQ7CiAJCX0KIAogCQlpZiAo
+IXJldCAmJiBlbnRyeS0+bnVtX3NoYXJlZCkKQEAgLTE1Nyw2ICsxNTksOCBAQCBpbnQgdHRtX2V1
+X3Jlc2VydmVfYnVmZmVycyhzdHJ1Y3Qgd3dfYWNxCiAJCQkJCQkJCWVudHJ5LT5udW1fc2hhcmVk
+KTsKIAogCQlpZiAodW5saWtlbHkocmV0ICE9IDApKSB7CisJCQlpZiAobG9ja29uKQorCQkJCWRt
+YV9yZXN2X3VubG9jayhiby0+YmFzZS5yZXN2KTsKIAkJCWlmIChyZXQgPT0gLUVJTlRSKQogCQkJ
+CXJldCA9IC1FUkVTVEFSVFNZUzsKIAkJCWlmICh0aWNrZXQpIHsKCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
