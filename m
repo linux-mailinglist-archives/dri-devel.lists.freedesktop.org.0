@@ -2,38 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF927CAF58
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 21:37:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23203CAF70
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 21:41:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C46D6EA6A;
-	Thu,  3 Oct 2019 19:37:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF2526EA6E;
+	Thu,  3 Oct 2019 19:41:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA2186EA68;
- Thu,  3 Oct 2019 19:37:16 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2019 12:37:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,253,1566889200"; d="scan'208";a="196444159"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga006.jf.intel.com with SMTP; 03 Oct 2019 12:37:12 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 03 Oct 2019 22:37:11 +0300
-Date: Thu, 3 Oct 2019 22:37:11 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [Intel-gfx] [PULL] drm-intel-fixes
-Message-ID: <20191003193711.GS1208@intel.com>
-References: <20191003193051.GA26421@intel.com>
+Received: from heliosphere.sirena.org.uk (heliosphere.sirena.org.uk
+ [172.104.155.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13C9C6EA70
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 19:41:45 +0000 (UTC)
+Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net
+ ([82.37.168.47] helo=ypsilon.sirena.org.uk)
+ by heliosphere.sirena.org.uk with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <broonie@sirena.co.uk>)
+ id 1iG6yr-0006mn-I8; Thu, 03 Oct 2019 19:41:41 +0000
+Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
+ id 9365D2740210; Thu,  3 Oct 2019 20:41:40 +0100 (BST)
+Date: Thu, 3 Oct 2019 20:41:40 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Subject: Re: [PATCH v8 2/5] leds: Add of_led_get() and led_put()
+Message-ID: <20191003194140.GE6090@sirena.co.uk>
+References: <20191003082812.28491-1-jjhiblot@ti.com>
+ <20191003082812.28491-3-jjhiblot@ti.com>
+ <20191003104228.c5nho6eimwzqwxpt@earth.universe>
+ <acd11fe1-1d51-eda5-f807-c16319514c3a@ti.com>
+ <62591735-9082-1fd7-d791-07929ddaa223@gmail.com>
+ <20191003183554.GA37096@sirena.co.uk>
+ <25b9614f-d6be-9da5-0fe5-eb58c8c93850@gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191003193051.GA26421@intel.com>
+In-Reply-To: <25b9614f-d6be-9da5-0fe5-eb58c8c93850@gmail.com>
+X-Cookie: Reactor error - core dumped!
 User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
+ c=relaxed/relaxed; 
+ d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+ MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=wolzDgDMk9sKmqcxXojGudZpWkj6Nd/XyboZ8g6aoLU=; b=oqZQ9iDTqA7nBBFIsZYY2eeSy
+ ao5SiVDrx3xEQnnjGRGGGocTNZ2+mQZPM10gIsbI+nEWxKEXexTbz/5O7rVHh69Uv8ZM0zcs9vEbB
+ nBcCTbbChcuSNDIwQk5hMraR+s1AH1yzLRS2/JE80ByH5Xzba4Haxhv8gNZX7Mh7EW4dU=;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,61 +59,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- dri-devel@lists.freedesktop.org,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: mark.rutland@arm.com, daniel.thompson@linaro.org,
+ Liam Girdwood <lgirdwood@gmail.com>, tomi.valkeinen@ti.com,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ robh+dt@kernel.org, dmurphy@ti.com, pavel@ucw.cz,
+ Jean-Jacques Hiblot <jjhiblot@ti.com>, lee.jones@linaro.org,
+ linux-leds@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============0331630497=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBPY3QgMDMsIDIwMTkgYXQgMTI6MzA6NTFQTSAtMDcwMCwgUm9kcmlnbyBWaXZpIHdy
-b3RlOgo+IEhpIERhdmUgYW5kIERhbmllbCwKPiAKPiBUaGlzIHYyIGNvbnRhaW5zIGEgY3JpdGlj
-YWwgRFAtTVNUIGZpeCB0aGF0IGl0IHdvdWxkIGJlIHJlYWxseSBnb29kIHRvIGJlCj4gcHJvcGFn
-YXRlZCBhcyBzb29uIGFzIHBvc3NpYmxlLgo+IAo+IEJlc2lkZXMgYWxsIHRoZSBkcm0taW50ZWwt
-bmV4dC1maXhlcyB0aGF0IEkgbWVudGlvbmVkIG9uIHByZXZpb3VzIGVtYWlsLgo+IAo+IEhlcmUg
-Z29lcyBkcm0taW50ZWwtZml4ZXMtMjAxOS0xMC0wMy0xOgo+IC0gRml4IERQLU1TVCBjcnRjX21h
-c2sKPiAtIEZpeCBkc2MgZHBwIGNhbGN1bGF0aW9ucwo+IC0gRml4IGc0eCBzcHJpdGUgc2NhbGlu
-ZyBzdHJpZGUgY2hlY2sgd2l0aCBHVFQgcmVtYXBwaW5nCj4gCj4gU2hvcnQgc3VtbWFyeSBvZiBm
-aXhlcyBwdWxsIChsZXNzIHRoYW4gd2hhdCBnaXQgc2hvcnRsb2cgcHJvdmlkZXMpOgo+IC0gZXhw
-bGFpbiBhbnl0aGluZyBub24tZml4ZXMgKGUuZy4gY2xlYW51cHMpIGFuZCB3aHkgaXQncyBhcHBy
-b3ByaWF0ZQo+IC0gaGlnaGxpZ2h0IHJlZ3Jlc3Npb25zCj4gLSBzdW1tYXJpemUgcHVsbCByZXF1
-ZXN0cyBjb250YWluZWQKPiBUaGlzIHNob3VsZG4ndCBiZSBtb3JlIHRoYW4gYSBmZXcgbGluZXMg
-KG9yIGl0IGluZGljYXRlcyB5b3VyIGZpeGVzIHB1bGwgaXMgYQo+IGJpdCB0b28gYmlnKS4KPiAK
-PiBUaGFua3MsCj4gUm9kcmlnby4KPiAKPiBUaGUgZm9sbG93aW5nIGNoYW5nZXMgc2luY2UgY29t
-bWl0IDU0ZWNiOGY3MDI4YzVlYjNkNzQwYmI4MmIwZjFkOTBmMmRmNjNjNWM6Cj4gCj4gICBMaW51
-eCA1LjQtcmMxICgyMDE5LTA5LTMwIDEwOjM1OjQwIC0wNzAwKQo+IAo+IGFyZSBhdmFpbGFibGUg
-aW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0Ogo+IAo+ICAgZ2l0Oi8vYW5vbmdpdC5mcmVlZGVza3Rv
-cC5vcmcvZHJtL2RybS1pbnRlbCB0YWdzL2RybS1pbnRlbC1maXhlcy0yMDE5LTEwLTAzLTEKPiAK
-PiBmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8gNDg1ZjY4MmJlOWZjOGQ0MTM3NjkzNmEz
-YjAxNDIzZWRkMDdiOWE3NToKPiAKPiAgIFJldmVydCAiZHJtL2k5MTU6IEZpeCBEUC1NU1QgY3J0
-Y19tYXNrIiAoMjAxOS0xMC0wMyAxMjoyMzowNyAtMDcwMCkKPiAKPiAtLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gLSBGaXgg
-RFAtTVNUIGNydGNfbWFzawo+IC0gRml4IGRzYyBkcHAgY2FsY3VsYXRpb25zCj4gLSBGaXggZzR4
-IHNwcml0ZSBzY2FsaW5nIHN0cmlkZSBjaGVjayB3aXRoIEdUVCByZW1hcHBpbmcKPiAKPiBTaG9y
-dCBzdW1tYXJ5IG9mIGZpeGVzIHB1bGwgKGxlc3MgdGhhbiB3aGF0IGdpdCBzaG9ydGxvZyBwcm92
-aWRlcyk6Cj4gLSBleHBsYWluIGFueXRoaW5nIG5vbi1maXhlcyAoZS5nLiBjbGVhbnVwcykgYW5k
-IHdoeSBpdCdzIGFwcHJvcHJpYXRlCj4gLSBoaWdobGlnaHQgcmVncmVzc2lvbnMKPiAtIHN1bW1h
-cml6ZSBwdWxsIHJlcXVlc3RzIGNvbnRhaW5lZAo+IFRoaXMgc2hvdWxkbid0IGJlIG1vcmUgdGhh
-biBhIGZldyBsaW5lcyAob3IgaXQgaW5kaWNhdGVzIHlvdXIgZml4ZXMgcHVsbCBpcyBhCj4gYml0
-IHRvbyBiaWcpLgo+IAo+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiBNYWFydGVuIExhbmtob3JzdCAoMSk6Cj4gICAgICAg
-ZHJtL2k5MTUvZHA6IEZpeCBkc2MgYnBwIGNhbGN1bGF0aW9ucywgdjUuCj4gCj4gVmlsbGUgU3ly
-asOkbMOkICgyKToKPiAgICAgICBkcm0vaTkxNTogRml4IGc0eCBzcHJpdGUgc2NhbGluZyBzdHJp
-ZGUgY2hlY2sgd2l0aCBHVFQgcmVtYXBwaW5nCj4gICAgICAgUmV2ZXJ0ICJkcm0vaTkxNTogRml4
-IERQLU1TVCBjcnRjX21hc2siCgpOb3cgSSBjYW4gc2xlZXAgYmV0dGVyIDopIFRoYW5rcyBmb3Ig
-cmVzcGlubmluZy4KCj4gCj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlz
-cGxheS5jIHwgIDEyICstCj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlz
-cGxheS5oIHwgICAyICstCj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAu
-YyAgICAgIHwgMTg0ICsrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLQo+ICBkcml2ZXJzL2dwdS9k
-cm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmggICAgICB8ICAgNiArLQo+ICBkcml2ZXJzL2dwdS9k
-cm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwX21zdC5jICB8ICAgNCArLQo+ICBkcml2ZXJzL2dwdS9k
-cm0vaTkxNS9kaXNwbGF5L2ludGVsX3Nwcml0ZS5jICB8ICAgNSArLQo+ICA2IGZpbGVzIGNoYW5n
-ZWQsIDExMSBpbnNlcnRpb25zKCspLCAxMDIgZGVsZXRpb25zKC0pCj4gX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBJbnRlbC1nZnggbWFpbGluZyBsaXN0
-Cj4gSW50ZWwtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vaW50ZWwtZ2Z4CgotLSAKVmlsbGUgU3lyasOkbMOk
-CkludGVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0331630497==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="J4XPiPrVK1ev6Sgr"
+Content-Disposition: inline
+
+
+--J4XPiPrVK1ev6Sgr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Thu, Oct 03, 2019 at 09:21:06PM +0200, Jacek Anaszewski wrote:
+> On 10/3/19 8:35 PM, Mark Brown wrote:
+> > On Thu, Oct 03, 2019 at 07:43:17PM +0200, Jacek Anaszewski wrote:
+> >> On 10/3/19 2:47 PM, Jean-Jacques Hiblot wrote:
+> >>> On 03/10/2019 12:42, Sebastian Reichel wrote:
+> >>>> On Thu, Oct 03, 2019 at 10:28:09AM +0200, Jean-Jacques Hiblot wrote:
+
+> > This mail has nothing relevant in the subject line and pages of quotes
+> > before the question for me, it's kind of lucky I noticed it....
+
+> Isn't it all about creating proper filters?
+
+My point there is that there's nothing obvious in the mail that suggests
+it should get past filters - just being CCed on a mail isn't super
+reliable, people often get pulled in due to things like checkpatch or
+someone copying a CC list from an earlier patch series where there were
+things were relevant.
+
+> >> I wonder if it wouldn't make sense to add support for fwnode
+> >> parsing to regulator core. Or maybe it is either somehow supported
+> >> or not supported on purpose?
+
+> > Anything attempting to use the regulator DT bindings in ACPI has very
+> > serious problems, ACPI has its own power model which isn't compatible
+> > with that used in DT.
+
+> We have a means for checking if fwnode refers to of_node:
+
+> is_of_node(const struct fwnode_handle *fwnode)
+
+> Couldn't it be employed for OF case?
+
+Why would we want to do that?  We'd continue to support only DT systems,
+just with code that's less obviously DT only and would need to put
+checks in.  I'm not seeing an upside here.
+
+--J4XPiPrVK1ev6Sgr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl2WTvMACgkQJNaLcl1U
+h9Auugf+M/zn9qkTET9ib5D1e+yMi2/IZ7fTAai9T2B+PpfoT99g1OPogSJsmjH6
+HFm1fxQ2S4yyqCMx65spqqfXAj4vYAaIJ16BrkPv0ykL+QFaH7SyMZyvdMgYDsME
+HmmjAAFt0Ljk6UMHcD6Vrcb9eqjkgioH3z/veVZaDY8M/fPzVTyIOEKCwnIB+3vo
+mXiO62YHBVozTQTPVGfqkny8R4gz21SCuCdEs5n7WEyrNz5Sea/EDJ0cqYElJbLP
+qPOeooxCrYZcTQXKiS4FnTZH4iAPT9Ly7zrmlxKT2V0PDhRof+X93bNuQ2p6iLQg
+hZP2riCEv2AXWMZUQy8Mv4/5N2O+Mw==
+=+gP7
+-----END PGP SIGNATURE-----
+
+--J4XPiPrVK1ev6Sgr--
+
+--===============0331630497==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0331630497==--
