@@ -2,33 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5303DCB185
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2019 23:52:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A88FDCB1A1
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2019 00:02:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 355236EA81;
-	Thu,  3 Oct 2019 21:52:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64A5289A9F;
+	Thu,  3 Oct 2019 22:02:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B70546EA81;
- Thu,  3 Oct 2019 21:52:29 +0000 (UTC)
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
- by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <colin.king@canonical.com>)
- id 1iG91P-0000qg-D8; Thu, 03 Oct 2019 21:52:27 +0000
-From: Colin King <colin.king@canonical.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Zhou <David1.Zhou@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH][next] drm/amdgpu: fix uninitialized variable
- pasid_mapping_needed
-Date: Thu,  3 Oct 2019 22:52:27 +0100
-Message-Id: <20191003215227.23540-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.20.1
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E764A89A9F
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2019 22:02:21 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id E16A372162; Thu,  3 Oct 2019 22:02:21 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111881] [kernel 5.4-rc1][amdgpu][CIK]: FW bug: No PASID in KFD
+ interrupt
+Date: Thu, 03 Oct 2019 22:02:22 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/amdkfd
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: erhard_f@mailbox.org
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: MOVED
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-111881-502-TfEQRAZ0dV@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111881-502@http.bugs.freedesktop.org/>
+References: <bug-111881-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -42,32 +53,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0180709932=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4KClRoZSBib29s
-ZWFuIHZhcmlhYmxlIHBhc2lkX21hcHBpbmdfbmVlZGVkIGlzIG5vdCBpbml0aWFsaXplZCBhbmQK
-dGhlcmUgYXJlIGNvZGUgcGF0aHMgdGhhdCBkbyBub3QgYXNzaWduIGl0IGFueSB2YWx1ZSBiZWZv
-cmUgaXQgaXMKaXMgcmVhZCBsYXRlci4gIEZpeCB0aGlzIGJ5IGluaXRpYWxpemluZyBwYXNpZF9t
-YXBwaW5nX25lZWRlZCB0bwpmYWxzZS4KCkFkZHJlc3Nlcy1Db3Zlcml0eTogKCJVbmluaXRpYWxp
-emVkIHNjYWxhciB2YXJpYWJsZSIpCkZpeGVzOiA2ODE3YmYyODNiMmIgKCJkcm0vYW1kZ3B1OiBn
-cmFiIHRoZSBpZCBtZ3IgbG9jayB3aGlsZSBhY2Nlc3NpbmcgcGFzc2lkX21hcHBpbmciKQpTaWdu
-ZWQtb2ZmLWJ5OiBDb2xpbiBJYW4gS2luZyA8Y29saW4ua2luZ0BjYW5vbmljYWwuY29tPgotLS0K
-IGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV92bS5jIHwgMiArLQogMSBmaWxlIGNo
-YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3ZtLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
-ZGdwdS9hbWRncHVfdm0uYwppbmRleCBhMmM3OTdlMzRhMjkuLmJlMTBlNGI5YTk0ZCAxMDA2NDQK
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3ZtLmMKKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3ZtLmMKQEAgLTEwNTUsNyArMTA1NSw3IEBAIGlu
-dCBhbWRncHVfdm1fZmx1c2goc3RydWN0IGFtZGdwdV9yaW5nICpyaW5nLCBzdHJ1Y3QgYW1kZ3B1
-X2pvYiAqam9iLAogCQlpZC0+b2Ffc2l6ZSAhPSBqb2ItPm9hX3NpemUpOwogCWJvb2wgdm1fZmx1
-c2hfbmVlZGVkID0gam9iLT52bV9uZWVkc19mbHVzaDsKIAlzdHJ1Y3QgZG1hX2ZlbmNlICpmZW5j
-ZSA9IE5VTEw7Ci0JYm9vbCBwYXNpZF9tYXBwaW5nX25lZWRlZDsKKwlib29sIHBhc2lkX21hcHBp
-bmdfbmVlZGVkID0gZmFsc2U7CiAJdW5zaWduZWQgcGF0Y2hfb2Zmc2V0ID0gMDsKIAlpbnQgcjsK
-IAotLSAKMi4yMC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWw=
+
+--===============0180709932==
+Content-Type: multipart/alternative; boundary="15701401411.90921d.11331"
+Content-Transfer-Encoding: 7bit
+
+
+--15701401411.90921d.11331
+Date: Thu, 3 Oct 2019 22:02:21 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111881
+
+erhard_f@mailbox.org changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |MOVED
+
+--- Comment #2 from erhard_f@mailbox.org ---
+Forgot for a moment about the GitLab Tracker...
+
+Moved over there: https://gitlab.freedesktop.org/mesa/mesa/issues/1881
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15701401411.90921d.11331
+Date: Thu, 3 Oct 2019 22:02:21 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:erhard_f&=
+#64;mailbox.org" title=3D"erhard_f&#64;mailbox.org">erhard_f&#64;mailbox.or=
+g</a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - [kernel 5.4-rc1][amdgpu][CIK]: FW bug: No PASI=
+D in KFD interrupt"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111881">bug 11188=
+1</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>MOVED
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - [kernel 5.4-rc1][amdgpu][CIK]: FW bug: No PASI=
+D in KFD interrupt"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111881#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - [kernel 5.4-rc1][amdgpu][CIK]: FW bug: No PASI=
+D in KFD interrupt"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111881">bug 11188=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+erhard_f&#64;mailbox.org" title=3D"erhard_f&#64;mailbox.org">erhard_f&#64;m=
+ailbox.org</a>
+</span></b>
+        <pre>Forgot for a moment about the GitLab Tracker...
+
+Moved over there: <a href=3D"https://gitlab.freedesktop.org/mesa/mesa/issue=
+s/1881">https://gitlab.freedesktop.org/mesa/mesa/issues/1881</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15701401411.90921d.11331--
+
+--===============0180709932==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0180709932==--
