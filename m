@@ -2,45 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D7E7CC024
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2019 18:07:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77C6CCC051
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2019 18:13:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5606989F2A;
-	Fri,  4 Oct 2019 16:07:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83A276EBE4;
+	Fri,  4 Oct 2019 16:13:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id BE74F89F2A
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2019 16:07:19 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B6EA272162; Fri,  4 Oct 2019 16:07:19 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111599] [CI][RESUME] igt@gem_ctx_isolation@* - skip - Test
- requirement: !(gen > LAST_KNOWN_GEN), SKIP
-Date: Fri, 04 Oct 2019 16:07:20 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: IGT
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: not set
-X-Bugzilla-Who: chris@chris-wilson.co.uk
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-111599-502-Nz7vplKI1B@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111599-502@http.bugs.freedesktop.org/>
-References: <bug-111599-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E74346EBDA
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2019 16:13:04 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x94GCvqx072936;
+ Fri, 4 Oct 2019 11:12:57 -0500
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x94GCv0L037657
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 4 Oct 2019 11:12:57 -0500
+Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 4 Oct
+ 2019 11:12:55 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Fri, 4 Oct 2019 11:12:55 -0500
+Received: from [10.250.99.146] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x94GCrQZ006137;
+ Fri, 4 Oct 2019 11:12:53 -0500
+Subject: Re: Should regulator core support parsing OF based fwnode?
+To: Mark Brown <broonie@kernel.org>
+References: <acd11fe1-1d51-eda5-f807-c16319514c3a@ti.com>
+ <62591735-9082-1fd7-d791-07929ddaa223@gmail.com>
+ <20191003183554.GA37096@sirena.co.uk>
+ <25b9614f-d6be-9da5-0fe5-eb58c8c93850@gmail.com>
+ <20191003194140.GE6090@sirena.co.uk>
+ <a9f668f9-ad26-4e18-178a-8403b8b3b1db@gmail.com>
+ <20191004113942.GB4866@sirena.co.uk>
+ <b6318ba5-e76e-dc1c-6921-a702abf6749c@ti.com>
+ <20191004144029.GC4866@sirena.co.uk>
+ <6df68ecb-f92e-fd9c-7f55-f66fa463263a@ti.com>
+ <20191004155838.GE4866@sirena.co.uk>
+From: Jean-Jacques Hiblot <jjhiblot@ti.com>
+Message-ID: <95a43632-57d0-2705-a2d3-d64827212692@ti.com>
+Date: Fri, 4 Oct 2019 18:12:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20191004155838.GE4866@sirena.co.uk>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ti.com; s=ti-com-17Q1; t=1570205577;
+ bh=0PAb9wQ779A+UUuanlZ/JxOdY2JJP1B4/U8SIFI1PX4=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=jhTqWXoqKdfQs2prUz5qSrpTe/i+PJ068NeZP5ioQbUlnGP0ZMB40KVgT5vc9NyD0
+ DSkdXI4EFzYxyFWptINVbhDHyaOm1CAn1How2no7p+crNP/iwrIYCcFM6cDKXFuFIr
+ 6D2qf0r0gKQ4vwSYjFozQChr7cunbSYZh/IaYTQk=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,171 +71,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0590061794=="
+Cc: mark.rutland@arm.com, daniel.thompson@linaro.org,
+ linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+ dri-devel@lists.freedesktop.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>, robh+dt@kernel.org,
+ tomi.valkeinen@ti.com, Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+ pavel@ucw.cz, lee.jones@linaro.org, linux-leds@vger.kernel.org, dmurphy@ti.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0590061794==
-Content-Type: multipart/alternative; boundary="15702052390.00D8f.22124"
-Content-Transfer-Encoding: 7bit
-
-
---15702052390.00D8f.22124
-Date: Fri, 4 Oct 2019 16:07:19 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111599
-
-Chris Wilson <chris@chris-wilson.co.uk> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-         Resolution|---                         |FIXED
-             Status|NEW                         |RESOLVED
-
---- Comment #3 from Chris Wilson <chris@chris-wilson.co.uk> ---
-commit d17a484b3c22706b2b004ef1577f367d79235e43 (upstream/master,
-origin/master, origin/HEAD)
-Author: Chris Wilson <chris@chris-wilson.co.uk>
-Date:   Wed Oct 2 12:22:29 2019 +0100
-
-    i915/gem_ctx_isolation: Bump support for Tigerlake
-
-    There's very little variation in non-privileged registers for Tigerlake,
-    so we can mostly inherit the set from gen11. There is no whitelist at
-    present, so we do not need to add any special registers.
-
-    v2: Add COMMON_SLICE_CHICKEN2, GEN9_SLICE_COMMON_ECO_CHICKEN1 and a
-    variety of huc readonly status registers.
-
-    Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=3D111599
-    Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-    Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-    Reviewed-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15702052390.00D8f.22124
-Date: Fri, 4 Oct 2019 16:07:19 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:chris&#64=
-;chris-wilson.co.uk" title=3D"Chris Wilson &lt;chris&#64;chris-wilson.co.uk=
-&gt;"> <span class=3D"fn">Chris Wilson</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - [CI][RESUME] igt&#64;gem_ctx_isolation&#64;* -=
- skip - Test requirement: !(gen &gt; LAST_KNOWN_GEN), SKIP"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111599">bug 11159=
-9</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>FIXED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - [CI][RESUME] igt&#64;gem_ctx_isolation&#64;* -=
- skip - Test requirement: !(gen &gt; LAST_KNOWN_GEN), SKIP"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111599#c3">Commen=
-t # 3</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - [CI][RESUME] igt&#64;gem_ctx_isolation&#64;* -=
- skip - Test requirement: !(gen &gt; LAST_KNOWN_GEN), SKIP"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111599">bug 11159=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-chris&#64;chris-wilson.co.uk" title=3D"Chris Wilson &lt;chris&#64;chris-wil=
-son.co.uk&gt;"> <span class=3D"fn">Chris Wilson</span></a>
-</span></b>
-        <pre>commit d17a484b3c22706b2b004ef1577f367d79235e43 (upstream/mast=
-er,
-origin/master, origin/HEAD)
-Author: Chris Wilson &lt;<a href=3D"mailto:chris&#64;chris-wilson.co.uk">ch=
-ris&#64;chris-wilson.co.uk</a>&gt;
-Date:   Wed Oct 2 12:22:29 2019 +0100
-
-    i915/gem_ctx_isolation: Bump support for Tigerlake
-
-    There's very little variation in non-privileged registers for Tigerlake,
-    so we can mostly inherit the set from gen11. There is no whitelist at
-    present, so we do not need to add any special registers.
-
-    v2: Add COMMON_SLICE_CHICKEN2, GEN9_SLICE_COMMON_ECO_CHICKEN1 and a
-    variety of huc readonly status registers.
-
-    Bugzilla: <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - [CI][RESUME] igt&#64;gem_ctx_isolation&#64;* -=
- skip - Test requirement: !(gen &gt; LAST_KNOWN_GEN), SKIP"
-   href=3D"show_bug.cgi?id=3D111599">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D111599</a>
-    Signed-off-by: Chris Wilson &lt;<a href=3D"mailto:chris&#64;chris-wilso=
-n.co.uk">chris&#64;chris-wilson.co.uk</a>&gt;
-    Cc: Mika Kuoppala &lt;<a href=3D"mailto:mika.kuoppala&#64;linux.intel.c=
-om">mika.kuoppala&#64;linux.intel.com</a>&gt;
-    Reviewed-by: Mika Kuoppala &lt;<a href=3D"mailto:mika.kuoppala&#64;linu=
-x.intel.com">mika.kuoppala&#64;linux.intel.com</a>&gt;</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15702052390.00D8f.22124--
-
---===============0590061794==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0590061794==--
+Ck9uIDA0LzEwLzIwMTkgMTc6NTgsIE1hcmsgQnJvd24gd3JvdGU6Cj4gT24gRnJpLCBPY3QgMDQs
+IDIwMTkgYXQgMDU6MTM6MTNQTSArMDIwMCwgSmVhbi1KYWNxdWVzIEhpYmxvdCB3cm90ZToKPj4g
+T24gMDQvMTAvMjAxOSAxNjo0MCwgTWFyayBCcm93biB3cm90ZToKPj4+IFdoeSBpcyB0aGUgTEVE
+IGNvcmUgcG9wdWxhdGluZyBhbnl0aGluZz8gIElzIHRoZSBMRUQgY29yZSBjb3B5aW5nIGJpdHMK
+Pj4+IG91dCBvZiB0aGUgc3RydWN0IGRldmljZSBmb3IgdGhlIGFjdHVhbCBkZXZpY2UgaW50byBh
+IHN5bnRoZXRpYyBkZXZpY2UKPj4+IHJhdGhlciB0aGFuIHBhc3NpbmcgdGhlIGFjdHVhbCBkZXZp
+Y2UgaW4/ICBUaGF0IHJlYWxseSBkb2Vzbid0IHNlZW0gbGlrZQo+Pj4gYSBnb29kIGlkZWEsIGl0
+J3MgbGlrZWx5IHRvIGxlYWQgdG8gdGhpbmdzIGxpa2UgdGhpcyB3aGVyZSB5b3UgZG9uJ3QKPj4+
+IGNvcHkgc29tZXRoaW5nIHRoYXQncyByZXF1aXJlZCAob3Igd29yc2Ugd2hlcmUgc29tZXRoaW5n
+IGRpcmVjdGx5IGluIHRoZQo+Pj4gc3RydWN0IGRldmljZSB0aGF0IGNhbid0IGJlIGNvcGllZCBp
+cyBuZWVkZWQpLgo+PiBUaGlzIGlzIG5vdCBhIGNvcHkgb2YgYSBkZXZpY2Ugb2YgcGFyZW50J3Mg
+b2Zfbm9kZSBvciBzb21ldGhpbmcgbGlrZSB0aGF0Lgo+PiBZb3UgY2FuIHRoaW5rIG9mIGEgTEVE
+IGNvbnRyb2xsZXIgYXMgYSBidXMuIEl0ICdlbnVtZXJhdGVzJyBpdHMgY2hpbGRyZW4KPj4gTEVE
+LCBjcmVhdGUgdGhlIGNoaWxkcmVuIGRldmljZXMgKG9uZSBwZXIgTEVEKSBhbmQgcHJvdmlkZXMg
+dGhlIGZ1bmN0aW9ucyB0bwo+PiBpbnRlcmFjdCB3aXRoIHRoZW0uCj4+IFRoZSBkZXZpY2Ugbm9k
+ZSB3ZSBhcmUgdGFsa2luZyBhYm91dCBoZXJlIGlzIGEgcGVyLUxFRCB0aGluZywgaXQgaXMgYSBj
+aGlsZAo+PiBub2RlIG9mIHRoZSBub2RlIG9mIHRoZSBMRUQgY29udHJvbGxlci4KPj4gaGVyZSBp
+cyBhbiBleGFtcGxlOgo+Pgo+PiAgwqDCoMKgIHRsYzU5MTA4OiB0bGM1OTExNkA0MCB7IC8qIHRo
+aXMgaXMgdGhlIG5vZGUgZm9yIHRoZSBMRUQgY29udHJvbGxlciAqLwo+PiAgwqDCoMKgIMKgwqDC
+oCBzdGF0dXMgPSAib2theSI7Cj4+ICDCoMKgwqAgwqDCoMKgICNhZGRyZXNzLWNlbGxzID0gPDE+
+Owo+PiAgwqDCoMKgIMKgwqDCoCAjc2l6ZS1jZWxscyA9IDwwPjsKPj4gIMKgwqDCoCDCoMKgwqAg
+Y29tcGF0aWJsZSA9ICJ0aSx0bGM1OTEwOCI7Cj4+ICDCoMKgwqAgwqDCoMKgIHJlZyA9IDwweDQw
+PjsKPj4KPj4gIMKgwqDCoCDCoMKgwqAgYmFja2xpZ2h0X2xlZDogbGVkQDIgeyAvKiB0aGlzIGlz
+IHRoZSBub2RlIG9mIG9uZSBMRUQgYXR0YWNoZWQgdG8KPj4gcGluIzIgb2YgdGhlIExFRCBjb250
+cm9sbGVyICovCj4+ICDCoMKgwqAgwqDCoMKgIMKgwqDCoCBwb3dlci1zdXBwbHkgPSA8JmJrbF9m
+aXhlZD47Cj4+ICDCoMKgwqAgwqDCoMKgIMKgwqDCoCByZWcgPSA8MHgyPjsKPj4gIMKgwqDCoCDC
+oMKgwqAgfTsKPiBSZWd1bGF0b3Igc3VwcGxpZXMgYXJlIHN1cHBvc2VkIHRvIGJlIGRlZmluZWQg
+YXQgdGhlIGNoaXAgbGV2ZWwgcmF0aGVyCj4gdGhhbiBzdWJmdW5jdGlvbnMgd2l0aCBuYW1lcyBj
+b3JyZXNwb25kaW5nIHRvIHRoZSBuYW1lcyBvbiB0aGUgY2hpcC4KPiBUaGlzIGVuc3VyZXMgdGhh
+dCBhbGwgY2hpcHMgbG9vayBzaW1pbGFyIHdoZW4geW91J3JlIG1hcHBpbmcgdGhlCj4gc2NoZW1h
+dGljIGludG8gYSBEVCwgeW91IHNob3VsZG4ndCBuZWVkIHRvIGtub3cgYWJvdXQgdGhlIGJpbmRp
+bmcgZm9yIGEKPiBnaXZlbiBjaGlwIHRvIHdyaXRlIGEgRFQgZm9yIGl0IGFuZCBpZiBtdWx0aXBs
+ZSBwZW9wbGUgKHBlcmhhcHMgd29ya2luZwo+IG9uIGRpZmZlcmVudCBPU3MpIHdyaXRlIGJpbmRp
+bmdzIGZvciB0aGUgc2FtZSBjaGlwIHRoZXJlIHNob3VsZCBiZSBhCj4gZ29vZCBjaGFuY2UgdGhh
+dCB0aGV5IGNvbWUgdXAgd2l0aCB0aGUgc2FtZSBtYXBwaW5nLiAgVGhlIHN1cHBseV9hbGlhcwo+
+IGludGVyZmFjZSBpcyB0aGVyZSB0byBhbGxvdyBtYXBwaW5nIHRoZXNlIHRocm91Z2ggdG8gc3Vi
+ZnVuY3Rpb25zIGlmCj4gbmVlZGVkLCBpdCBsb29rcyBsaWtlIHRoZSBMRUQgZnJhbWV3b3JrIHNo
+b3VsZCBiZSB1c2luZyB0aGlzLgoKSW4gY2FzZSBvZiBjdXJyZW50LXNpbmsgTEVEIGRyaXZlcnMs
+IGVhY2ggTEVEIGNhbiBiZSBwb3dlcmVkIGJ5IGEgCmRpZmZlcmVudCByZWd1bGF0b3IsIGJlY2F1
+c2UgdGhlIGRyaXZlciBpcyBvbmx5IGEgc3dpdGNoIGJldHdlZW4gdGhlIExFRCAKY2F0aG9kIGFu
+ZCB0aGUgZ3JvdW5kLgoKPgo+IFRoYXQgc2FpZCBpZiB5b3UgYXJlIGRvaW5nIHRoZSBhYm92ZSBh
+bmQgdGhlIExFRHMgYXJlIGFwcGVhcmluZyBhcwo+IGRldmljZXMgaXQncyBleHRyZW1lbHkgc3Vy
+cHJpc2luZyB0aGF0IHRoZWlyIG9mX25vZGUgbWlnaHQgbm90IGJlCj4gaW5pdGlhbGl6ZWQuCgpU
+aGF0IGlzIGJlY2F1c2UgdGhpcyBpcyB1c3VhbGx5IGRvbmUgYnkgdGhlIHBsYXRmb3JtIGNvcmUg
+d2hpY2ggaXMgbm90IAppbnZvbHZlZCBoZXJlLgoKSkoKCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
