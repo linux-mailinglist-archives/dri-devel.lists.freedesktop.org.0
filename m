@@ -2,64 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 852DBCC4FA
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2019 23:42:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6975DCC50F
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2019 23:44:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2DE56E33C;
-	Fri,  4 Oct 2019 21:42:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77F3C6E347;
+	Fri,  4 Oct 2019 21:44:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C4B16E33C
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2019 21:42:38 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id d1so7884709ljl.13
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Oct 2019 14:42:38 -0700 (PDT)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C102B6E347
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2019 21:44:42 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id m13so7881737ljj.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Oct 2019 14:44:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=kSvi6bN3MgmA9q6zMgIL0cUcdQWLY9tbHblghBTgstI=;
- b=mWQNmFw19U8G5nKhA9xTCNiRTcg4bDmCMzM6jmRRYHpnE6EWB+kf62D7uKDJDgZztD
- VQRaWoX/jiuW5/a85BBY0B3J8R34BRpmgsbUxfhD5HsRgEZw8XY4KPDpU0Vjkdc3chrD
- jNExWuXAkQC4x6XIgicH7BBAe2wr1xrESOjS3k3b/aM5BO1x8GxygcWBRUXHHlVAZWuU
- jlKlI8rPqn/Ja7PoFEzkzYcjU0QpGg5vHKdNcQ1y1SzcEpQblDdJSMn6Sc9gOA7yhht/
- pk+BIJsjU7pmzxsNUzebvkAj0xVVUN6jbX9ahjEvnSvVPsGXMGkY47IaH4bsdnBKeET+
- dqGQ==
-X-Gm-Message-State: APjAAAVwMFPCs857JM8qeo8tcsf1tZdIMXnUHmdlWgQEOBY0wr7kCWKn
- Ilx9mSpHvYdy7pBOPMmbI50N+/UIXFY=
-X-Google-Smtp-Source: APXvYqygJtWquaHUL0s33337XtWvoAoEDWuSIeq6GKL4yWRGlUBR/1oO4cWdn+KI89zzAOwnjW5JmA==
-X-Received: by 2002:a2e:7a04:: with SMTP id v4mr10905733ljc.237.1570225355977; 
- Fri, 04 Oct 2019 14:42:35 -0700 (PDT)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com.
- [209.85.167.47])
- by smtp.gmail.com with ESMTPSA id e21sm1371490lfj.10.2019.10.04.14.42.33
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Oct 2019 14:42:34 -0700 (PDT)
-Received: by mail-lf1-f47.google.com with SMTP id y127so5485530lfc.0
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Oct 2019 14:42:33 -0700 (PDT)
-X-Received: by 2002:a19:7d55:: with SMTP id y82mr10113290lfc.106.1570225353484; 
- Fri, 04 Oct 2019 14:42:33 -0700 (PDT)
+ bh=Am86CuSg4L4/4SThzqZ+x3OfLvEnqGtERkpRQqbTyyo=;
+ b=C5tp7WBmAsH3tftGdWJ3rmAQX0w8e2BU50y780Nn0W843+Aac0wWIhF0dkB8uxACTH
+ lTb6Qu3IXLLrBA05rGR9Fu+OCaT0xvpKm5pUQhbuEKuwPF1gFWQUTZx0qnY0pEsPh5Oh
+ Hmv1CdCXiTUi8MJ2vGTGJrrGzZVK7xzHC6WK9TYy1o8gJpGQGdevvs4c/4mB2P53ZwOz
+ T/k1E5f4acIij27SGUaGlMhIaETEAGe+DJefmn+cTV68Rd134Mi7oQOf5SbEn42G7C8V
+ 9D0vd9aIwMfy8JCYW445J2ONjXG0SeX3YHcg4RKBeyq3UjJQlMcBYpHfdJDBx5ClvRiT
+ yHsA==
+X-Gm-Message-State: APjAAAV1TjYoabpiYsJTMkg8y33GqplqD3WHccW2Md9V7iOxIrXVHCea
+ Co2j7wF5Xj2J9rPTsseL8z1aRB0apfawPQziPMxDqA==
+X-Google-Smtp-Source: APXvYqwroM5221kd6DE0lMFbDD6+AtmXgtU5HwVqu+4VQvfXVATqsHb0Kap1NezC3fWlTCLdds9tQ/fVqjmiw3vaPP0=
+X-Received: by 2002:a2e:894b:: with SMTP id b11mr10681582ljk.152.1570225481142; 
+ Fri, 04 Oct 2019 14:44:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190923090249.127984-1-brendanhiggins@google.com>
- <20191004213812.GA24644@mit.edu>
-In-Reply-To: <20191004213812.GA24644@mit.edu>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Fri, 4 Oct 2019 14:42:17 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whX-JbpM2Sc85epng_GAgGGzxRAJ2SSKkMf9N1Lsqe+OA@mail.gmail.com>
-Message-ID: <CAHk-=whX-JbpM2Sc85epng_GAgGGzxRAJ2SSKkMf9N1Lsqe+OA@mail.gmail.com>
-Subject: Re: [PATCH v18 00/19] kunit: introduce KUnit, the Linux kernel unit
- testing framework
-To: "Theodore Y. Ts'o" <tytso@mit.edu>
+References: <20190911075215.78047-1-dmitry.torokhov@gmail.com>
+ <CACRpkdb=s67w2DCGubhbLQTtxpWtiW8S1MECMO4cvec=bF6OdA@mail.gmail.com>
+ <20190917002207.GJ237523@dtor-ws> <20190930224456.GV237523@dtor-ws>
+In-Reply-To: <20190930224456.GV237523@dtor-ws>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 4 Oct 2019 23:44:29 +0200
+Message-ID: <CACRpkdZB2Z5fgbgq=aqBmw7wJ_uSE0_fyeOx6f7JvxJwfwjjMg@mail.gmail.com>
+Subject: Re: [PATCH 00/11] Add support for software nodes to gpiolib
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
+ d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc;
- bh=kSvi6bN3MgmA9q6zMgIL0cUcdQWLY9tbHblghBTgstI=;
- b=hBuewRInP5i+6gtlRLW9UtlDY0YPe0z67E0xbXSSSKYA7biQf+uXTlrPp7zLuAUPeq
- 5uQ2rwixtXebf99m1RfUdMDyjGKPh3VgF3DuF8NvshRtQGRa2wNkvwDCWMNQ0VKjXHWB
- ZmI6XqYkyQwmdmiffnmLI1+ZMJ0oT9STysqR8=
+ bh=Am86CuSg4L4/4SThzqZ+x3OfLvEnqGtERkpRQqbTyyo=;
+ b=mHoyMz44D2WiAxEQObuEHX6G00RlGGHzOJlRf4ram5Uw4WSYGsCgGObrFsOGL0bJUT
+ aiOzQh7CHwV1qQrdMAcusBqOeNWE6EjE6sSFbCZcwuTGGZn02ga15PNfBS2AMwITwVdF
+ EgKmzjP7XWS2xGmR0xPdrifdKD01SMM9eyR/Bt3tAd77+2Ivj48bbb+2FqdbrTquiFwI
+ AcH8C6wUr68r8TNz0boFXRi344UGq9c9qA49TbQE5FyalLJ0dE328a/7G+MyE//kvAAz
+ jYVahOt3Ou685MUsdu1JMEGKJNG2KJmxEad8vqpvyFD797Go+4+z9KOMWd+4luzNMZhI
+ +H7w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,50 +64,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Petr Mladek <pmladek@suse.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Amir Goldstein <amir73il@gmail.com>,
- Brendan Higgins <brendanhiggins@google.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Sasha Levin <Alexander.Levin@microsoft.com>,
- Masahiro Yamada <yamada.masahiro@socionext.com>,
- Michael Ellerman <mpe@ellerman.id.au>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Shuah Khan <shuah@kernel.org>, linux-nvdimm <linux-nvdimm@lists.01.org>,
- Frank Rowand <frowand.list@gmail.com>, knut.omang@oracle.com,
- kieran.bingham@ideasonboard.com, wfg@linux.intel.com,
- Joel Stanley <joel@jms.id.au>, David Rientjes <rientjes@google.com>,
- jdike@addtoit.com, Dan Carpenter <dan.carpenter@oracle.com>,
- devicetree@vger.kernel.org,
- Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, Tim.Bird@sony.com,
- linux-um@lists.infradead.org, Steven Rostedt <rostedt@goodmis.org>,
- Julia Lawall <julia.lawall@lip6.fr>, Josh Poimboeuf <jpoimboe@redhat.com>,
- kunit-dev@googlegroups.com, Richard Weinberger <richard@nod.at>,
- Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <keescook@google.com>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>, logang@deltatee.com,
- khilman@baylibre.com
+Cc: Andrew Lunn <andrew@lunn.ch>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, netdev <netdev@vger.kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Russell King <linux@armlinux.org.uk>, Neil Armstrong <narmstrong@baylibre.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Heiner Kallweit <hkallweit1@gmail.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBPY3QgNCwgMjAxOSBhdCAyOjM5IFBNIFRoZW9kb3JlIFkuIFRzJ28gPHR5dHNvQG1p
-dC5lZHU+IHdyb3RlOgo+Cj4gVGhpcyBxdWVzdGlvbiBpcyBwcmltYXJpbHkgZGlyZWN0ZWQgYXQg
-U2h1YWggYW5kIExpbnVzLi4uLgo+Cj4gV2hhdCdzIHRoZSBjdXJyZW50IHN0YXR1cyBvZiB0aGUg
-a3VuaXQgc2VyaWVzIG5vdyB0aGF0IEJyZW5kYW4gaGFzCj4gbW92ZWQgaXQgb3V0IG9mIHRoZSB0
-b3AtbGV2ZWwga3VuaXQgZGlyZWN0b3J5IGFzIExpbnVzIGhhcyByZXF1ZXN0ZWQ/CgpXZSBzZWVt
-ZWQgdG8gZGVjaWRlIHRvIGp1c3Qgd2FpdCBmb3IgNS41LCBidXQgdGhlcmUgaXMgbm90aGluZyB0
-aGF0Cmxvb2tzIHRvIGJsb2NrIHRoYXQuIEFuZCBJIGVuY291cmFnZWQgU2h1YWggdG8gZmluZCBt
-b3JlIGt1bml0IGNhc2VzCmZvciB3aGVuIGl0IF9kb2VzXyBnZXQgbWVyZ2VkLgoKU28gaWYgdGhl
-IGt1bml0IGJyYW5jaCBpcyBzdGFibGUsIGFuZCBwZW9wbGUgd2FudCB0byBzdGFydCB1c2luZyBp
-dApmb3IgdGhlaXIgdW5pdCB0ZXN0cywgdGhlbiBJIHRoaW5rIHRoYXQgd291bGQgYmUgYSBnb29k
-IGlkZWEsIGFuZCB0aGVuCmR1cmluZyB0aGUgNS41IG1lcmdlIHdpbmRvdyB3ZSdsbCBub3QganVz
-dCBnZXQgdGhlIGluZnJhc3RydWN0dXJlLAp3ZSdsbCBnZXQgYSBmZXcgbW9yZSB1c2VycyB0b28g
-YW5kIG5vdCBqdXN0IGV4YW1wbGVzLgoKICAgICAgICAgICAgIExpbnVzCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+T24gVHVlLCBPY3QgMSwgMjAxOSBhdCAxMjo0NSBBTSBEbWl0cnkgVG9yb2tob3YKPGRtaXRyeS50
+b3Jva2hvdkBnbWFpbC5jb20+IHdyb3RlOgoKPiBTbyBJIGd1ZXNzIHdlIG1pc3NlZCAtcmMxLiBB
+bnkgY2hhbmNlIHdlIGNvdWxkIGdldCBhbiBpbW11dGFibGUgYnJhbmNoCj4gb2ZmIC1yYzEgdGhh
+dCB5b3Ugd2lsbCBwdWxsIGludG8geW91ciBtYWluIGJyYW5jaCBhbmQgSSBob3BlZnVsbHkgY2Fu
+Cj4gcGVyc3VhZGUgb3RoZXIgbWFpbnRhaW5lcnMgdG8gcHVsbCBhcyB3ZWxsIHNvIHdlIGRvIG5v
+dCBuZWVkIHRvIGRyYWcgaXQKPiBvdmVyIDIrIG1lcmdlIHdpbmRvd3M/CgpZZXMgSSdtIHNvcnJ5
+LiBJIHdhcyBzd2FtcGVkIHdpdGggc3RhYmlsaXppbmcgdGhlIGtlcm5lbC4KSSBtYWRlIGFuIGlt
+bXV0YWJsZSBicmFuY2ggYW5kIHRyaWVkIHRvIHVzZSB6ZXJvZGF5IGZvciB0ZXN0aW5nCmJ1dCBp
+dCB0aW1lZCBvdXQgc28gSSBmb2xkZWQgaXQgaW4gZm9yLW5leHQgYW55d2F5cyBhZnRlciBzb20g
+YmFzaWMKdGVzdHMuCgpZb3VycywKTGludXMgV2FsbGVpagpfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
