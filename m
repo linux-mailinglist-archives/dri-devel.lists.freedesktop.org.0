@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE70CB56E
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2019 09:41:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE4ACB56F
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2019 09:42:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43B33899E6;
-	Fri,  4 Oct 2019 07:41:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F09E89D83;
+	Fri,  4 Oct 2019 07:42:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 116CE89ABA
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2019 07:41:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9FA4C89D83
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2019 07:42:12 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0E95472162; Fri,  4 Oct 2019 07:41:52 +0000 (UTC)
+ id 9C5DB72162; Fri,  4 Oct 2019 07:42:12 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111900] clutterrerddd
-Date: Fri, 04 Oct 2019 07:41:52 +0000
+Subject: [Bug 111902] too much trees
+Date: Fri, 04 Oct 2019 07:42:12 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Spam
 X-Bugzilla-Component: Two
 X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
+X-Bugzilla-Keywords: bisected
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: a9016009@gmx.de
 X-Bugzilla-Status: RESOLVED
@@ -33,11 +33,11 @@ X-Bugzilla-Resolution: INVALID
 X-Bugzilla-Priority: high
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status version bug_group product
+X-Bugzilla-Changed-Fields: resolution bug_status version product bug_group
  component
-Message-ID: <bug-111900-502-iR8LApnNva@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111900-502@http.bugs.freedesktop.org/>
-References: <bug-111900-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111902-502-LImzJD0ODF@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111902-502@http.bugs.freedesktop.org/>
+References: <bug-111902-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,25 +53,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1216465728=="
+Content-Type: multipart/mixed; boundary="===============1224348465=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1216465728==
-Content-Type: multipart/alternative; boundary="15701749120.38F1.22865"
+--===============1224348465==
+Content-Type: multipart/alternative; boundary="15701749320.9e3fd.22643"
 Content-Transfer-Encoding: 7bit
 
 
---15701749120.38F1.22865
-Date: Fri, 4 Oct 2019 07:41:52 +0000
+--15701749320.9e3fd.22643
+Date: Fri, 4 Oct 2019 07:42:12 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111900
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111902
 
 Andre Klapper <a9016009@gmx.de> changed:
 
@@ -80,8 +80,8 @@ Andre Klapper <a9016009@gmx.de> changed:
          Resolution|---                         |INVALID
              Status|ASSIGNED                    |RESOLVED
             Version|XOrg git                    |unspecified
-              Group|                            |spam
             Product|DRI                         |Spam
+              Group|                            |spam
           Component|General                     |Two
 
 --- Comment #1 from Andre Klapper <a9016009@gmx.de> ---
@@ -91,8 +91,8 @@ Go away and test somewhere else.
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15701749120.38F1.22865
-Date: Fri, 4 Oct 2019 07:41:52 +0000
+--15701749320.9e3fd.22643
+Date: Fri, 4 Oct 2019 07:42:12 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -109,9 +109,9 @@ s=3D"fn">Andre Klapper</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - clutterrerddd"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111900">bug 11190=
-0</a>
+   title=3D"RESOLVED INVALID - too much trees"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111902">bug 11190=
+2</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -145,19 +145,19 @@ s=3D"fn">Andre Klapper</span></a>
          </tr>
 
          <tr>
+           <td style=3D"text-align:right;">Product</td>
+           <td>DRI
+           </td>
+           <td>Spam
+           </td>
+         </tr>
+
+         <tr>
            <td style=3D"text-align:right;">Group</td>
            <td>
                &nbsp;
            </td>
            <td>spam
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Product</td>
-           <td>DRI
-           </td>
-           <td>Spam
            </td>
          </tr>
 
@@ -172,14 +172,14 @@ s=3D"fn">Andre Klapper</span></a>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - clutterrerddd"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111900#c1">Commen=
+   title=3D"RESOLVED INVALID - too much trees"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111902#c1">Commen=
 t # 1</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - clutterrerddd"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111900">bug 11190=
-0</a>
+   title=3D"RESOLVED INVALID - too much trees"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111902">bug 11190=
+2</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 a9016009&#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <=
 span class=3D"fn">Andre Klapper</span></a>
@@ -198,9 +198,9 @@ span class=3D"fn">Andre Klapper</span></a>
     </body>
 </html>=
 
---15701749120.38F1.22865--
+--15701749320.9e3fd.22643--
 
---===============1216465728==
+--===============1224348465==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -210,4 +210,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1216465728==--
+--===============1224348465==--
