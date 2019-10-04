@@ -2,46 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 012C1CC301
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2019 20:53:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C45B5CC357
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2019 21:08:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AA2B6EC1B;
-	Fri,  4 Oct 2019 18:53:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B71916EC18;
+	Fri,  4 Oct 2019 19:08:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0A0DF6EC1B
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2019 18:53:17 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 06D3072162; Fri,  4 Oct 2019 18:53:17 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110886] After S3 resume, kernel: [drm] psp command failed and
- response status is (-65529) at 27th time of S3. 28th time of S3 freeze the
- system.
-Date: Fri, 04 Oct 2019 18:53:16 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: andrey.grodzovsky@amd.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110886-502-7oKqsW3bYa@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110886-502@http.bugs.freedesktop.org/>
-References: <bug-110886-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E999F6EC18
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2019 19:08:30 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2019 12:08:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,257,1566889200"; d="scan'208";a="196758338"
+Received: from lpindor-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.252.17.203])
+ by orsmga006.jf.intel.com with ESMTP; 04 Oct 2019 12:08:27 -0700
+Date: Fri, 4 Oct 2019 20:08:26 +0100
+From: Eric Engestrom <eric.engestrom@intel.com>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH] drm: Fix comment doc for format_modifiers
+Message-ID: <20191004190826.x26gb5wnurmwobej@intel.com>
+References: <20191002183011.GA29177@ravnborg.org>
+ <20191003075118.6257-1-andrzej.p@collabora.com>
+ <20191003135318.GH1208@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20191003135318.GH1208@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. 1134945 - Pipers Way,
+ Swindon SN3 1RJ
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,119 +49,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0869237757=="
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ dri-devel@lists.freedesktop.org, kernel@collabora.com,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0869237757==
-Content-Type: multipart/alternative; boundary="15702151964.1579eDa.23601"
-Content-Transfer-Encoding: 7bit
-
-
---15702151964.1579eDa.23601
-Date: Fri, 4 Oct 2019 18:53:16 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110886
-
---- Comment #24 from Andrey Grodzovsky <andrey.grodzovsky@amd.com> ---
-(In reply to Kai-Heng Feng from comment #23)
-> Created attachment 145576 [details]
-> journalctl last boot kernel message
-
-Can u retry with latest FW from
-https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git
-
-and also load kernel with drm.debug=3D1 as there seems  a failure in PSP co=
-mmand
-submission during FW loading but the actual code of failure is now under de=
-bug
-log level.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15702151964.1579eDa.23601
-Date: Fri, 4 Oct 2019 18:53:16 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - After S3 resume, kernel: [drm] psp command failed and res=
-ponse status is (-65529) at 27th time of S3. 28th time of S3 freeze the sys=
-tem."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110886#c24">Comme=
-nt # 24</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - After S3 resume, kernel: [drm] psp command failed and res=
-ponse status is (-65529) at 27th time of S3. 28th time of S3 freeze the sys=
-tem."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110886">bug 11088=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-andrey.grodzovsky&#64;amd.com" title=3D"Andrey Grodzovsky &lt;andrey.grodzo=
-vsky&#64;amd.com&gt;"> <span class=3D"fn">Andrey Grodzovsky</span></a>
-</span></b>
-        <pre>(In reply to Kai-Heng Feng from <a href=3D"show_bug.cgi?id=3D1=
-10886#c23">comment #23</a>)
-<span class=3D"quote">&gt; Created <span class=3D""><a href=3D"attachment.c=
-gi?id=3D145576" name=3D"attach_145576" title=3D"journalctl last boot kernel=
- message">attachment 145576</a> <a href=3D"attachment.cgi?id=3D145576&amp;a=
-ction=3Dedit" title=3D"journalctl last boot kernel message">[details]</a></=
-span>
-&gt; journalctl last boot kernel message</span >
-
-Can u retry with latest FW from
-<a href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-f=
-irmware.git">https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux=
--firmware.git</a>
-
-and also load kernel with drm.debug=3D1 as there seems  a failure in PSP co=
-mmand
-submission during FW loading but the actual code of failure is now under de=
-bug
-log level.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15702151964.1579eDa.23601--
-
---===============0869237757==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0869237757==--
+T24gVGh1cnNkYXksIDIwMTktMTAtMDMgMTY6NTM6MTggKzAzMDAsIFZpbGxlIFN5cmrDpGzDpCB3
+cm90ZToKPiBPbiBUaHUsIE9jdCAwMywgMjAxOSBhdCAwOTo1MToxOEFNICswMjAwLCBBbmRyemVq
+IFBpZXRyYXNpZXdpY3ogd3JvdGU6Cj4gPiBUbyBodW1hbiByZWFkZXJzCj4gCj4gVGhlIGNvbW1p
+dCBtZXNzYWdlIGlzIGFsd2F5cyBmb3IgaHVtYW4gcmVhZGVycywgbm8gbmVlZCB0byBwb2ludCB0
+aGF0Cj4gb3V0Li4uCj4gCj4gPiAKPiA+ICJhcnJheSBvZiBzdHJ1Y3QgZHJtX2Zvcm1hdCBtb2Rp
+ZmllcnMiIGlzIGFsbW9zdCBpbmRpc3Rpbmd1aXNoYWJsZSBmcm9tCj4gPiAiYXJyYXkgb2Ygc3Ry
+dWN0IGRybV9mb3JtYXRfbW9kaWZpZXJzIiwgZXNwZWNpYWxseSBnaXZlbiB0aGF0Cj4gPiBzdHJ1
+Y3QgZHJtX2Zvcm1hdF9tb2RpZmllciBkb2VzIGV4aXN0Lgo+IAo+IC4uYnV0IHRoaXMgcGFyYWdy
+YXBoIHN0aWxsIG1hbmFnZXMgdG8gMTAwJSBjb25mdXNlIHRoaXMgcGFydGljdWxhciBodW1hbi4K
+ClRoZXJlJ3MgYW4gdW5kZXJzY29yZSBpbnN0ZWFkIG9mIGEgc3BhY2Ugb24gdGhlIHNlY29uZCBs
+aW5lCihzL2RybV9mb3JtYXQgbW9kaWZpZXJzL2RybV9mb3JtYXRfbW9kaWZpZXJzLykuCgpJdCBz
+aG91bGQgZGVmaW5pdGVseSBiZSByZXdvcmRlZCB0byBiZSBtdWNoIGNsZWFyZXIuCgo+IAo+IFRo
+ZSBhY3R1YWwgY29kZSBjaGFuZ2VzIGxndG0sIHNvIHdpdGggdGhlIGNvbW1pdCBtZXNzYWdlIHJl
+d29yZGVkCj4gdGhpcyBwYXRjaCBpcwo+IFJldmlld2VkLWJ5OiBWaWxsZSBTeXJqw6Rsw6QgPHZp
+bGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+IAo+ID4gCj4gPiBBbmQgaW5kZWVkIHRoZSBw
+YXJhbWV0ZXIgcGFzc2VzIGFuIGFycmF5IG9mIHVpbnQ2NF90IHJhdGhlciB0aGFuIGFuIGFycmF5
+Cj4gPiBvZiBzdHJ1Y3RzLCBidXQgdGhlIGZpcnN0IHdvcmRzIG9mIHRoZSBjb21tZW50IHN1Z2dl
+c3QgdGhhdCBpdCBwYXNzZXMKPiA+IAo+ID4gU2lnbmVkLW9mZi1ieTogQW5kcnplaiBQaWV0cmFz
+aWV3aWN6IDxhbmRyemVqLnBAY29sbGFib3JhLmNvbT4KPiA+IC0tLQo+ID4gIGRyaXZlcnMvZ3B1
+L2RybS9kcm1fcGxhbmUuYyB8IDIgKy0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24o
+KyksIDEgZGVsZXRpb24oLSkKPiA+IAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9k
+cm1fcGxhbmUuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGxhbmUuYwo+ID4gaW5kZXggZDZhZDYw
+YWIwZDM4Li4wZDRmOTE3MmMwZGQgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJt
+X3BsYW5lLmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGxhbmUuYwo+ID4gQEAgLTE2
+MCw3ICsxNjAsNyBAQCBzdGF0aWMgaW50IGNyZWF0ZV9pbl9mb3JtYXRfYmxvYihzdHJ1Y3QgZHJt
+X2RldmljZSAqZGV2LCBzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZQo+ID4gICAqIEBmdW5jczogY2Fs
+bGJhY2tzIGZvciB0aGUgbmV3IHBsYW5lCj4gPiAgICogQGZvcm1hdHM6IGFycmF5IG9mIHN1cHBv
+cnRlZCBmb3JtYXRzIChEUk1fRk9STUFUXF9cKikKPiA+ICAgKiBAZm9ybWF0X2NvdW50OiBudW1i
+ZXIgb2YgZWxlbWVudHMgaW4gQGZvcm1hdHMKPiA+IC0gKiBAZm9ybWF0X21vZGlmaWVyczogYXJy
+YXkgb2Ygc3RydWN0IGRybV9mb3JtYXQgbW9kaWZpZXJzIHRlcm1pbmF0ZWQgYnkKPiA+ICsgKiBA
+Zm9ybWF0X21vZGlmaWVyczogYXJyYXkgb2YgZm9ybWF0IG1vZGlmaWVycyB0ZXJtaW5hdGVkIGJ5
+Cj4gPiAgICogICAgICAgICAgICAgICAgICAgIERSTV9GT1JNQVRfTU9EX0lOVkFMSUQKPiA+ICAg
+KiBAdHlwZTogdHlwZSBvZiBwbGFuZSAob3ZlcmxheSwgcHJpbWFyeSwgY3Vyc29yKQo+ID4gICAq
+IEBuYW1lOiBwcmludGYgc3R5bGUgZm9ybWF0IHN0cmluZyBmb3IgdGhlIHBsYW5lIG5hbWUsIG9y
+IE5VTEwgZm9yIGRlZmF1bHQgbmFtZQo+ID4gLS0gCj4gPiAyLjE3LjEKPiA+IAo+ID4gX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiA+IGRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKPiA+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+IGh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCj4gCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
+LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
