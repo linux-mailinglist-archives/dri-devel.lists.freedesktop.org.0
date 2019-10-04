@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E874DCB4C0
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2019 09:02:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80A94CB4C1
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2019 09:02:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C04116EAA8;
-	Fri,  4 Oct 2019 07:02:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3641A6EAA9;
+	Fri,  4 Oct 2019 07:02:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 152446EAA8
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2019 07:02:37 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 459FF6EAA9
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2019 07:02:47 +0000 (UTC)
 Received: from pendragon.ideasonboard.com
  (modemcable151.96-160-184.mc.videotron.ca [184.160.96.151])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 59CB8592;
- Fri,  4 Oct 2019 09:02:34 +0200 (CEST)
-Date: Fri, 4 Oct 2019 10:02:21 +0300
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 55CAB2E5;
+ Fri,  4 Oct 2019 09:02:44 +0200 (CEST)
+Date: Fri, 4 Oct 2019 10:02:31 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das@bp.renesas.com>
-Subject: Re: [PATCH 0/4] Add RZ/G2N DU support
-Message-ID: <20190930231125.GA10149@pendragon.ideasonboard.com>
-References: <1569834905-42868-1-git-send-email-biju.das@bp.renesas.com>
+To: Yizhuo <yzhai003@ucr.edu>
+Subject: Re: [PATCH] drm/bridge: sii902x: Variable status in
+ sii902x_connector_detect() could be uninitialized if regmap_read() fails
+Message-ID: <20190930231948.GB10149@pendragon.ideasonboard.com>
+References: <20190930044502.18734-1-yzhai003@ucr.edu>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1569834905-42868-1-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <20190930044502.18734-1-yzhai003@ucr.edu>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1570172554;
- bh=+8JuRiBylKBi8jvQtiwjfnTISZPsR2OZbRJ1IJE/Qjg=;
+ d=ideasonboard.com; s=mail; t=1570172565;
+ bh=zrmGFbzG/xfE9YuhXNxnTY76RKJI2smtQphq1F+z+qg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=f0wsefBx4ByR1SKVDBPpdCB/G1spyTdTPPXi/abj8hinwRwwIZeYXWfSZ28WXADCp
- ojOpgdUQh9RBmePajh/c12wfnBme7Aeto3lm66hIMeYwk0vgKDKmnz6ZS/UTc9QaWH
- n+rZekhxnkk3BJoV7NSjbNNqIaHajANR5xvdMIB4=
+ b=OsTRP76d6DshPuBsb+yJthu1LXvQRz2gJ/DeNpO+FRr80VEQBegUxgXQB/Xk4XNA7
+ Z2Oa1uF1bX19rXANY+O6G5WWa1svRYuun46yNIarOMkrP1BziraQjA+ePnMcjxX9Wv
+ CQh80E7fSvDHK7yJ3klcIw+WS5aefuRxP9r9JWiA=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,36 +47,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Chris Paterson <Chris.Paterson2@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- Simon Horman <horms@verge.net.au>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
- Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Cc: csong@cs.ucr.edu, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Neil Armstrong <narmstrong@baylibre.com>, zhiyunq@cs.ucr.edu,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQmlqdSwKClRoYW5rIHlvdSBmb3IgdGhlIHBhdGNoZXM7CgpPbiBNb24sIFNlcCAzMCwgMjAx
-OSBhdCAxMDoxNTowMUFNICswMTAwLCBCaWp1IERhcyB3cm90ZToKPiBUaGlzIHBhdGNoIHNlcmll
-cyBhaW1zIHRvIGFkZCBiaW5kaW5nL2RyaXZlciBzdXBwb3J0IGZvcgo+IFI4QTc3NEIxKGEuay5h
-IFJaL0cyTikgRFUgKHdoaWNoIGlzIHZlcnkgc2ltaWxhciB0byB0aGUgUjhBNzc5NjUgRFUpOwo+
-IGl0IGhhcyBvbmUgUkdCIG91dHB1dCwgb25lIExWRFMgb3V0cHV0IGFuZCBvbmUgSERNSSBvdXRw
-dXQuCj4gCj4gQmlqdSBEYXMgKDQpOgo+ICAgZHQtYmluZGluZ3M6IGRpc3BsYXk6IHJlbmVzYXM6
-IGR1OiBEb2N1bWVudCB0aGUgcjhhNzc0YjEgYmluZGluZ3MKPiAgIGRybTogcmNhci1kdTogQWRk
-IFI4QTc3NEIxIHN1cHBvcnQKPiAgIGR0LWJpbmRpbmdzOiBkaXNwbGF5OiByZW5lc2FzOiBsdmRz
-OiBEb2N1bWVudCByOGE3NzRiMSBiaW5kaW5ncwo+ICAgZHJtOiByY2FyLWR1OiBsdmRzOiBBZGQg
-cjhhNzc0YjEgc3VwcG9ydAoKRm9yIHRoZSB3aG9sZSBzZXJpZXMsCgpSZXZpZXdlZC1ieTogTGF1
-cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPgoKYW5kIGFw
-cGxpZWQgdG8gbXkgdHJlZS4KCj4gIC4uLi9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9yZW5lc2Fz
-LGx2ZHMudHh0ICAgICAgIHwgIDEgKwo+ICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5
-L3JlbmVzYXMsZHUudHh0ICAgICB8ICAyICsrCj4gIGRyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3Jj
-YXJfZHVfZHJ2LmMgICAgICAgICAgICAgIHwgMzAgKysrKysrKysrKysrKysrKysrKysrKwo+ICBk
-cml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2x2ZHMuYyAgICAgICAgICAgICAgICB8ICAxICsK
-PiAgNCBmaWxlcyBjaGFuZ2VkLCAzNCBpbnNlcnRpb25zKCspCgotLSAKUmVnYXJkcywKCkxhdXJl
-bnQgUGluY2hhcnQKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+SGkgWWl6aHVvLAoKVGhhbmsgeW91IGZvciB0aGUgcGF0Y2guCgpPbiBTdW4sIFNlcCAyOSwgMjAx
+OSBhdCAwOTo0NTowMlBNIC0wNzAwLCBZaXpodW8gd3JvdGU6Cj4gSW4gZnVuY3Rpb24gc2lpOTAy
+eF9jb25uZWN0b3JfZGV0ZWN0KCksIHZhcmlhYmxlICJzdGF0dXMiIGNvdWxkIGJlCj4gaW5pdGlh
+bGl6ZWQgaWYgcmVnbWFwX3JlYWQoKSBmYWlscy4gSG93ZXZlciwgInN0YXR1cyIgaXMgdXNlZCB0
+bwoKSSBhc3N1bWUgeW91IG1lYW50ICJjb3VsZCBiZSB1bmluaXRpYWxpemVkIiA/Cgo+IGRlY2lk
+ZSB0aGUgcmV0dXJuIHZhbHVlLCB3aGljaCBpcyBwb3RlbnRpYWxseSB1bnNhZmUuCj4gCj4gU2ln
+bmVkLW9mZi1ieTogWWl6aHVvIDx5emhhaTAwM0B1Y3IuZWR1Pgo+IC0tLQo+ICBkcml2ZXJzL2dw
+dS9kcm0vYnJpZGdlL3NpaTkwMnguYyB8IDIgKy0KPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
+aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9i
+cmlkZ2Uvc2lpOTAyeC5jIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zaWk5MDJ4LmMKPiBpbmRl
+eCAzOGY3NWFjNTgwZGYuLmFmY2U2NGY1MWZmMiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9k
+cm0vYnJpZGdlL3NpaTkwMnguYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc2lpOTAy
+eC5jCj4gQEAgLTI0Niw3ICsyNDYsNyBAQCBzdGF0aWMgZW51bSBkcm1fY29ubmVjdG9yX3N0YXR1
+cwo+ICBzaWk5MDJ4X2Nvbm5lY3Rvcl9kZXRlY3Qoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5l
+Y3RvciwgYm9vbCBmb3JjZSkKPiAgewo+ICAJc3RydWN0IHNpaTkwMnggKnNpaTkwMnggPSBjb25u
+ZWN0b3JfdG9fc2lpOTAyeChjb25uZWN0b3IpOwo+IC0JdW5zaWduZWQgaW50IHN0YXR1czsKPiAr
+CXVuc2lnbmVkIGludCBzdGF0dXMgPSAwOwo+ICAKPiAgCW11dGV4X2xvY2soJnNpaTkwMngtPm11
+dGV4KTsKCkknbGwgYWRkIGEgYml0IG1vcmUgY29udGV4dDoKCj4gCXJlZ21hcF9yZWFkKHNpaTkw
+MngtPnJlZ21hcCwgU0lJOTAyWF9JTlRfU1RBVFVTLCAmc3RhdHVzKTsKPgo+IAltdXRleF91bmxv
+Y2soJnNpaTkwMngtPm11dGV4KTsKPgo+IAlyZXR1cm4gKHN0YXR1cyAmIFNJSTkwMlhfUExVR0dF
+RF9TVEFUVVMpID8KPiAJICAgICAgIGNvbm5lY3Rvcl9zdGF0dXNfY29ubmVjdGVkIDogY29ubmVj
+dG9yX3N0YXR1c19kaXNjb25uZWN0ZWQ7CgpJZiByZWdtYXAgcmVhZCBmYWlscywgc2hvdWxkbid0
+IHdlIHJldHVybiBjb25uZWN0b3Jfc3RhdHVzX3Vua25vd24gPwoKLS0gClJlZ2FyZHMsCgpMYXVy
+ZW50IFBpbmNoYXJ0Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bA==
