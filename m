@@ -1,55 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8325CCBFE4
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2019 17:58:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1751DCBFF3
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2019 18:02:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 587B56EBDC;
-	Fri,  4 Oct 2019 15:58:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 695E56EBD9;
+	Fri,  4 Oct 2019 16:02:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from heliosphere.sirena.org.uk (heliosphere.sirena.org.uk
- [172.104.155.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E37226EBDC
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2019 15:58:42 +0000 (UTC)
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net
- ([82.37.168.47] helo=ypsilon.sirena.org.uk)
- by heliosphere.sirena.org.uk with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <broonie@sirena.co.uk>)
- id 1iGPyZ-0003TW-6m; Fri, 04 Oct 2019 15:58:39 +0000
-Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
- id 52C2D2741EF0; Fri,  4 Oct 2019 16:58:38 +0100 (BST)
-Date: Fri, 4 Oct 2019 16:58:38 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Jean-Jacques Hiblot <jjhiblot@ti.com>
-Subject: Re: Should regulator core support parsing OF based fwnode?
-Message-ID: <20191004155838.GE4866@sirena.co.uk>
-References: <acd11fe1-1d51-eda5-f807-c16319514c3a@ti.com>
- <62591735-9082-1fd7-d791-07929ddaa223@gmail.com>
- <20191003183554.GA37096@sirena.co.uk>
- <25b9614f-d6be-9da5-0fe5-eb58c8c93850@gmail.com>
- <20191003194140.GE6090@sirena.co.uk>
- <a9f668f9-ad26-4e18-178a-8403b8b3b1db@gmail.com>
- <20191004113942.GB4866@sirena.co.uk>
- <b6318ba5-e76e-dc1c-6921-a702abf6749c@ti.com>
- <20191004144029.GC4866@sirena.co.uk>
- <6df68ecb-f92e-fd9c-7f55-f66fa463263a@ti.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B9D7F6EBD9
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2019 16:02:16 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1E8C41597;
+ Fri,  4 Oct 2019 09:02:16 -0700 (PDT)
+Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D59923F68E;
+ Fri,  4 Oct 2019 09:02:14 -0700 (PDT)
+Subject: Re: drm_sched with panfrost crash on T820
+To: "Koenig, Christian" <Christian.Koenig@amd.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ "Grodzovsky, Andrey" <Andrey.Grodzovsky@amd.com>,
+ Hillf Danton <hdanton@sina.com>
+References: <e450fbe6-dec7-2704-59c2-db7e869d67f5@baylibre.com>
+ <f0ab487e-8d49-987b-12b8-7a115a6543e1@amd.com>
+ <20190930145228.14000-1-hdanton@sina.com>
+ <d2888614-8644-7d04-b73b-3ab7c6623e9a@amd.com>
+ <7339b7a1-2d1c-4379-89a0-daf8b28d81c8@baylibre.com>
+ <94096e4e-0f60-79d1-69b5-c7c3e59a4d78@amd.com>
+ <f44204b4-ce5c-b26e-580d-5bb21314be1f@baylibre.com>
+ <8c4ecad8-c2e2-eec1-9132-48e126577baa@arm.com>
+ <590a1c78-5c86-92e2-01a1-92bd31397be5@amd.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <a09950d8-dba7-e359-da07-7383e7ac946e@arm.com>
+Date: Fri, 4 Oct 2019 17:02:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <6df68ecb-f92e-fd9c-7f55-f66fa463263a@ti.com>
-X-Cookie: core error - bus dumped
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; 
- d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=sOKlWykXlh+1/D/OVbEd1hyxD1BzgK7qGyNgFtzbN8U=; b=U469b3ccy/WKsbY0yysCHSowX
- ioxTGlZ4liWahE1r4i+sR0ALlJagyRLQv8v22lRdjSTNTDPeKRoCpdunhDypbDvr5MDbEGc82BcBG
- Opo4hB+zxAsfW75C94nYIMP+sr0X5uqSJxRROt3ao+NEtcHcUS/lTfaECHPbpOXRFDa/A=;
+In-Reply-To: <590a1c78-5c86-92e2-01a1-92bd31397be5@amd.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,105 +52,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, daniel.thompson@linaro.org,
- linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel@lists.freedesktop.org,
- Sebastian Reichel <sebastian.reichel@collabora.com>, robh+dt@kernel.org,
- tomi.valkeinen@ti.com, Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- pavel@ucw.cz, lee.jones@linaro.org, linux-leds@vger.kernel.org, dmurphy@ti.com
-Content-Type: multipart/mixed; boundary="===============0685005002=="
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+ Erico Nunes <nunes.erico@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0685005002==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jKBxcB1XkHIR0Eqt"
-Content-Disposition: inline
-
-
---jKBxcB1XkHIR0Eqt
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Oct 04, 2019 at 05:13:13PM +0200, Jean-Jacques Hiblot wrote:
-> On 04/10/2019 16:40, Mark Brown wrote:
-
-> > Why is the LED core populating anything?  Is the LED core copying bits
-> > out of the struct device for the actual device into a synthetic device
-> > rather than passing the actual device in?  That really doesn't seem like
-> > a good idea, it's likely to lead to things like this where you don't
-> > copy something that's required (or worse where something directly in the
-> > struct device that can't be copied is needed).
-
-> This is not a copy of a device of parent's of_node or something like that.
-
-> You can think of a LED controller as a bus. It 'enumerates' its children
-> LED, create the children devices (one per LED) and provides the functions=
- to
-> interact with them.
-
-> The device node we are talking about here is a per-LED thing, it is a chi=
-ld
-> node of the node of the LED controller.
-
-> here is an example:
->=20
-> =A0=A0=A0 tlc59108: tlc59116@40 { /* this is the node for the LED control=
-ler */
-> =A0=A0=A0 =A0=A0=A0 status =3D "okay";
-> =A0=A0=A0 =A0=A0=A0 #address-cells =3D <1>;
-> =A0=A0=A0 =A0=A0=A0 #size-cells =3D <0>;
-> =A0=A0=A0 =A0=A0=A0 compatible =3D "ti,tlc59108";
-> =A0=A0=A0 =A0=A0=A0 reg =3D <0x40>;
->=20
-> =A0=A0=A0 =A0=A0=A0 backlight_led: led@2 { /* this is the node of one LED=
- attached to
-> pin#2 of the LED controller */
-> =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 power-supply =3D <&bkl_fixed>;
-> =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 reg =3D <0x2>;
-> =A0=A0=A0 =A0=A0=A0 };
-
-Regulator supplies are supposed to be defined at the chip level rather
-than subfunctions with names corresponding to the names on the chip.
-This ensures that all chips look similar when you're mapping the
-schematic into a DT, you shouldn't need to know about the binding for a
-given chip to write a DT for it and if multiple people (perhaps working
-on different OSs) write bindings for the same chip there should be a
-good chance that they come up with the same mapping.  The supply_alias
-interface is there to allow mapping these through to subfunctions if
-needed, it looks like the LED framework should be using this.
-
-That said if you are doing the above and the LEDs are appearing as
-devices it's extremely surprising that their of_node might not be
-initialized.
-
---jKBxcB1XkHIR0Eqt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl2XbC0ACgkQJNaLcl1U
-h9CmMwf9ECgZ2ghDJUYkumszQL7edht7aQckB9pgZYkckEmwTq38eVilMfRXG/tJ
-mRbJ2jFnduiEXOXn5qNm+bj918hFDgfAPdAVOx6ZFCz79rtrR6eqNK7lZoVnalln
-tt62hjS3w74fYHKokbcd6s59q0dV1oVSVwxLx6ZENzkhZOA8mgp+xx43Tx2NrQVN
-rO+XtTKTMsAnvEYJZYT2K9PkvPCNb6358cr/etapbLTHEje7priUojy2vRwoh1CA
-Gwm5fir1Sxr3DL9MKQZ+Z9DMPWEQWURu+Ewslbhcb0jxKzPIP9vcJTKrlRW8JBhl
-94yp9Hat1NShg+SsPvwQ3ROQmDssTQ==
-=BPJg
------END PGP SIGNATURE-----
-
---jKBxcB1XkHIR0Eqt--
-
---===============0685005002==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0685005002==--
+T24gMDQvMTAvMjAxOSAxNjozNCwgS29lbmlnLCBDaHJpc3RpYW4gd3JvdGU6Cj4gQW0gMDQuMTAu
+MTkgdW0gMTc6Mjcgc2NocmllYiBTdGV2ZW4gUHJpY2U6Cj4+IE9uIDA0LzEwLzIwMTkgMTY6MDMs
+IE5laWwgQXJtc3Ryb25nIHdyb3RlOgo+Pj4gT24gMDQvMTAvMjAxOSAxNjo1MywgR3JvZHpvdnNr
+eSwgQW5kcmV5IHdyb3RlOgo+Pj4+IE9uIDEwLzMvMTkgNDozNCBBTSwgTmVpbCBBcm1zdHJvbmcg
+d3JvdGU6Cj4+Pj4+IEhpIEFuZHJleSwKPj4+Pj4KPj4+Pj4gTGUgMDIvMTAvMjAxOSDDoCAxNjo0
+MCwgR3JvZHpvdnNreSwgQW5kcmV5IGEgw6ljcml0IDoKPj4+Pj4+IE9uIDkvMzAvMTkgMTA6NTIg
+QU0sIEhpbGxmIERhbnRvbiB3cm90ZToKPj4+Pj4+PiBPbiBNb24sIDMwIFNlcCAyMDE5IDExOjE3
+OjQ1ICswMjAwIE5laWwgQXJtc3Ryb25nIHdyb3RlOgo+Pj4+Pj4+PiBEaWQgYSBuZXcgcnVuIGZy
+b20gNS4zOgo+Pj4+Pj4+Pgo+Pj4+Pj4+PiBbICAgMzUuOTcxOTcyXSBDYWxsIHRyYWNlOgo+Pj4+
+Pj4+PiBbICAgMzUuOTc0MzkxXSAgZHJtX3NjaGVkX2luY3JlYXNlX2thcm1hKzB4NWMvMHhmMAo+
+Pj4+Pj4+PiAJCQlmZmZmMDAwMDEwNjY3ZjM4CUZGRkYwMDAwMTA2NjdGOTQKPj4+Pj4+Pj4gCQkJ
+ZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmM6MzM1Cj4+Pj4+Pj4+Cj4+Pj4+
+Pj4+IFRoZSBjcmFzaGluZyBsaW5lIGlzIDoKPj4+Pj4+Pj4gICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICBpZiAoYmFkLT5zX2ZlbmNlLT5zY2hlZHVsZWQuY29udGV4dCA9PQo+Pj4+
+Pj4+PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBlbnRpdHktPmZlbmNl
+X2NvbnRleHQpIHsKPj4+Pj4+Pj4KPj4+Pj4+Pj4gRG9lc24ndCBzZWVtIHJlbGF0ZWQgdG8gZ3Vp
+bHR5IGpvYi4KPj4+Pj4+PiBCYWlsIG91dCBpZiBzX2ZlbmNlIGlzIG5vIGxvbmdlciBmcmVzaC4K
+Pj4+Pj4+Pgo+Pj4+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFp
+bi5jCj4+Pj4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMK
+Pj4+Pj4+PiBAQCAtMzMzLDYgKzMzMywxMCBAQCB2b2lkIGRybV9zY2hlZF9pbmNyZWFzZV9rYXJt
+YShzdHJ1Y3QgZHJtCj4+Pj4+Pj4gICAgIAo+Pj4+Pj4+ICAgICAJCQlzcGluX2xvY2soJnJxLT5s
+b2NrKTsKPj4+Pj4+PiAgICAgCQkJbGlzdF9mb3JfZWFjaF9lbnRyeV9zYWZlKGVudGl0eSwgdG1w
+LCAmcnEtPmVudGl0aWVzLCBsaXN0KSB7Cj4+Pj4+Pj4gKwkJCQlpZiAoIXNtcF9sb2FkX2FjcXVp
+cmUoJmJhZC0+c19mZW5jZSkpIHsKPj4+Pj4+PiArCQkJCQlzcGluX3VubG9jaygmcnEtPmxvY2sp
+Owo+Pj4+Pj4+ICsJCQkJCXJldHVybjsKPj4+Pj4+PiArCQkJCX0KPj4+Pj4+PiAgICAgCQkJCWlm
+IChiYWQtPnNfZmVuY2UtPnNjaGVkdWxlZC5jb250ZXh0ID09Cj4+Pj4+Pj4gICAgIAkJCQkgICAg
+ZW50aXR5LT5mZW5jZV9jb250ZXh0KSB7Cj4+Pj4+Pj4gICAgIAkJCQkJaWYgKGF0b21pY19yZWFk
+KCZiYWQtPmthcm1hKSA+Cj4+Pj4+Pj4gQEAgLTU0Myw3ICs1NDcsNyBAQCBFWFBPUlRfU1lNQk9M
+KGRybV9zY2hlZF9qb2JfaW5pdCk7Cj4+Pj4+Pj4gICAgIHZvaWQgZHJtX3NjaGVkX2pvYl9jbGVh
+bnVwKHN0cnVjdCBkcm1fc2NoZWRfam9iICpqb2IpCj4+Pj4+Pj4gICAgIHsKPj4+Pj4+PiAgICAg
+CWRtYV9mZW5jZV9wdXQoJmpvYi0+c19mZW5jZS0+ZmluaXNoZWQpOwo+Pj4+Pj4+IC0Jam9iLT5z
+X2ZlbmNlID0gTlVMTDsKPj4+Pj4+PiArCXNtcF9zdG9yZV9yZWxlYXNlKCZqb2ItPnNfZmVuY2Us
+IDApOwo+Pj4+Pj4+ICAgICB9Cj4+Pj4+Pj4gICAgIEVYUE9SVF9TWU1CT0woZHJtX3NjaGVkX2pv
+Yl9jbGVhbnVwKTsKPj4+Pj4gVGhpcyBmaXhlZCB0aGUgcHJvYmxlbSBvbiB0aGUgMTAgQ0kgcnVu
+cy4KPj4+Pj4KPj4+Pj4gTmVpbAo+Pj4+Cj4+Pj4gVGhlc2UgYXJlIGdvb2QgbmV3cyBidXQgSSBz
+dGlsbCBmYWlsIHRvIHNlZSBob3cgdGhpcyBmaXhlcyB0aGUgcHJvYmxlbSAtCj4+Pj4gSGlsbGYs
+IGRvIHlvdSBtaW5kIGV4cGxhaW5pbmcgaG93IHlvdSBjYW1lIHVwIHdpdGggdGhpcyBwYXJ0aWN1
+bGFyIGZpeCAtCj4+Pj4gd2hhdCB3YXMgdGhlIGJ1ZyB5b3Ugc2F3ID8KPj4+IEFzIFN0ZXZlbiBl
+eHBsYWluZWQsIHNlZW1zIHRoZSBzYW1lIGpvYiB3YXMgc3VibWl0dGVkIG9uIGJvdGggSFcgc2xv
+dHMsCj4+PiBhbmQgdGhlbiB3aGVuIHRpbWVvdXQgb2NjdXJzIGVhY2ggdGhyZWFkIGNhbGxzIHBh
+bmZyb3N0X2pvYl90aW1lZG91dAo+Pj4gd2hpY2ggbGVhZHMgdG8gZHJtX3NjaGVkX3N0b3AoKSBv
+biB0aGUgZmlyc3QgY2FsbCBhbmQgb24gdGhlCj4+PiBzZWNvbmQgY2FsbCB0aGUgam9iIHdhcyBh
+bHJlYWR5IGZyZWVkLgo+Pj4KPj4+IFN0ZXZlbiBwcm9wb3NlZCBhIHdvcmtpbmcgZml4LCBhbmQg
+dGhpcyBvbmUgZG9lcyB0aGUgc2FtZSBidXQgb24KPj4+IHRoZSBkcm1fc2NoZWQgc2lkZS4gVGhp
+cyBvbmUgbG9va3MgY2xlYW5lciwgYnV0IHBhbmZyb3N0IHNob3VsZAo+Pj4gbm90IGNhbGwgZHJt
+X3NjaGVkX3N0b3AoKSB0d2ljZSBmb3IgdGhlIHNhbWUgam9iLgo+PiBJJ20gbm90IHN1cmUgdGhh
+dCBIaWxsZidzIGZpeCBpcyBzdWZmaWNpZW50LiBJbiBwYXJ0aWN1bGFyIGluCj4+IGRybV9zY2hl
+ZF9pbmNyZWFzZV9rYXJtYSgpIEkgZG9uJ3QgdW5kZXJzdGFuZCBob3cgdGhlIHNtcF9sb2FkX2Fj
+cXVpcmUoKQo+PiBjYWxsIHByZXZlbnRzIGJhZC0+c19mZW5jZSBiZWNvbWluZyBOVUxMIGltbWVk
+aWF0ZWx5IGFmdGVyd2FyZHMgKGJ1dAo+PiBhZG1pdHRlZGx5IHRoZSB3aW5kb3cgaXMgbXVjaCBz
+bWFsbGVyKS4gQnV0IHJlYWxseSB0aGlzIGlzIGp1c3QgYQo+PiBQYW5mcm9zdCBidWcgKGNhbGxp
+bmcgZHJtX3NjaGVkX3N0b3AoKSB0d2ljZSBvbiB0aGUgc2FtZSBqb2IpLgo+Pgo+PiBUaGUgcGFy
+dCBvZiBteSBjaGFuZ2UgdGhhdCBJJ2Qgd2VsY29tZSBmZWVkYmFjayBvbiBpcyBjaGFuZ2luZwo+
+PiBjYW5jZWxfZGVsYXllZF93b3JrKCkgdG8gY2FuY2VsX2RlbGF5ZWRfd29ya19zeW5jKCkgaW4g
+ZHJtX3NjaGVkX3N0b3AoKQo+PiB3aGVuIGNhbGxlZCBvbiBkaWZmZXJlbnQgc2NoZWR1bGVyIHRv
+IHRoZSBiYWQgam9iLiBJdCdzIG5vdCBjbGVhciB0byBtZQo+PiBleGFjdGx5IHdoYXQgdGhlIHNl
+bWFudGljcyBvZiB0aGUgZnVuY3Rpb24gc2hvdWxkIGJlLCBhbmQgSSBoYXZlbid0Cj4+IHRlc3Rl
+ZCB0aGUgZWZmZWN0IG9mIHRoZSBjaGFuZ2Ugb24gZHJpdmVycyBvdGhlciB0aGFuIFBhbmZyb3N0
+Lgo+IAo+IFllYWgsIGF0IGxlYXN0IG9mIGhhbmQgdGhhdCBjaGFuZ2UgZG9lc24ndCBzZWVtIHRv
+IG1ha2Ugc2Vuc2UgdG8gbWUuCgpXZSBuZWVkIHRvIGVuc3VyZSB0aGF0IGFueSBvdGhlciB0aW1l
+b3V0cyB0aGF0IG1pZ2h0IGhhdmUgc3RhcnRlZApwcm9jZXNzaW5nIGFyZSBjb21wbGV0ZSBiZWZv
+cmUgYWN0dWFsbHkgcmVzZXR0aW5nIHRoZSBoYXJkd2FyZS4KT3RoZXJ3aXNlIGFmdGVyIHRoZSBy
+ZXNldCBhbm90aGVyIHRocmVhZCBjb3VsZCBjb21lIGFsb25nIGFuZCBhdHRlbXB0IHRvCnJlc2V0
+IHRoZSBoYXJkd2FyZSBhZ2FpbiAoYW5kIGNhdXNlIGEgZG91YmxlIGZyZWUgb2YgYSBqb2IpLiBN
+eSBjaGFuZ2UKdG8gdXNlIHRoZSBfc3luYygpIHZhcmlhbnQgcHJldmVudHMgdGhpcyBoYXBwZW5p
+bmcuCgo+IE11bHRpcGxlIHRpbWVvdXQgd29ya2VycyBjYW4gcGVyZmVjdGx5IHJ1biBpbiBwYXJh
+bGxlbCwgUGFuZnJvc3QgbmVlZHMgCj4gdG8gbWFrZSBzdXJlIHRoYXQgdGhleSBkb24ndCBhZmZl
+Y3QgZWFjaCBvdGhlci4KPiAKPiBUaGUgc2ltcGxlc3Qgd2F5IG9mIGRvaW5nIHRoaXMgaXMgdG8g
+aGF2ZSBhIG11dGV4IHlvdSB0cnlsb2NrIHdoZW4gCj4gc3RhcnRpbmcgdGhlIHJlc2V0Lgo+IAo+
+IFRoZSBmaXJzdCBvbmUgZ3JhYmJpbmcgaXQgd2lucywgYWxsIG90aGVyIGp1c3Qgc2lsZW50bHkg
+cmV0dXJuLgoKQWggdGhhdCB3b3VsZCBzaW1wbGlmeSBteSBjaGFuZ2UgcmVtb3ZpbmcgdGhlIG5l
+ZWQgZm9yIHRoZSBuZXcgdmFyaWFibGUuCkkgaGFkbid0IHRob3VnaHQgdG8gdXNlIHRyeWxvY2su
+IEknbGwgZ2l2ZSB0aGF0IGEgc3BpbiBhbmQgcG9zdCBhIG5ldwpzaW1wbGVyIHZlcnNpb24uCgpU
+aGFua3MsCgpTdGV2ZQoKPiBSZWdhcmRzLAo+IENocmlzdGlhbi4KPiAKPj4KPj4gU3RldmUKPj4K
+Pj4+IE5laWwKPj4+Cj4+Pj4gQW5kcmV5Cj4+Pj4KPj4+Pj4+IERvZXMgdGhpcyBjaGFuZ2UgaGVs
+cCB0aGUgcHJvYmxlbSA/IE5vdGUgdGhhdCBkcm1fc2NoZWRfam9iX2NsZWFudXAgaXMKPj4+Pj4+
+IGNhbGxlZCBmcm9tIHNjaGVkdWxlciB0aHJlYWQgd2hpY2ggaXMgc3RvcHBlZCBhdCBhbGwgdGlt
+ZXMgd2hlbiB3b3JrX3Rkcgo+Pj4+Pj4gdGhyZWFkIGlzIHJ1bm5pbmcgYW5kIGFueXdheSB0aGUg
+J2JhZCcgam9iIGlzIHN0aWxsIGluIHRoZQo+Pj4+Pj4gcmluZ19taXJyb3JfbGlzdCB3aGlsZSBp
+dCdzIGJlaW5nIGFjY2Vzc2VkIGZyb20KPj4+Pj4+IGRybV9zY2hlZF9pbmNyZWFzZV9rYXJtYSBz
+byBJIGRvbid0IHRoaW5rIGRybV9zY2hlZF9qb2JfY2xlYW51cCBjYW4gYmUKPj4+Pj4+IGNhbGxl
+ZCBmb3IgaXQgQkVGT1JFIG9yIHdoaWxlIGRybV9zY2hlZF9pbmNyZWFzZV9rYXJtYSBpcyBleGVj
+dXRlZC4KPj4+Pj4+Cj4+Pj4+PiBBbmRyZXkKPj4+Pj4+Cj4+Pj4+Pgo+Pj4+Pj4+ICAgICAKPj4+
+Pj4+PiAtLQo+Pj4+Pj4+Cj4+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwo+Pj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+Pj4gZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwo+Pj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9kcmktZGV2ZWwKPj4+Cj4gCj4gX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCj4gCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWw=
