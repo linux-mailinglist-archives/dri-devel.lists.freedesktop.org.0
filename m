@@ -2,45 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AD49CC4EA
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2019 23:40:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08CEACC529
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2019 23:47:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0100A6E340;
-	Fri,  4 Oct 2019 21:40:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BA856E348;
+	Fri,  4 Oct 2019 21:47:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5E30F6E340
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2019 21:40:02 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 578E972167; Fri,  4 Oct 2019 21:40:02 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
- with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Fri, 04 Oct 2019 21:40:02 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: popovic.marko@protonmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-RsA2GmKN7R@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
-References: <bug-111481-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+X-Greylist: delayed 444 seconds by postgrey-1.36 at gabe;
+ Fri, 04 Oct 2019 21:47:13 UTC
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23C7C6E348
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2019 21:47:13 +0000 (UTC)
+Received: from callcc.thunk.org (guestnat-104-133-0-98.corp.google.com
+ [104.133.0.98] (may be forged)) (authenticated bits=0)
+ (User authenticated as tytso@ATHENA.MIT.EDU)
+ by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x94LcCr9027392
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 4 Oct 2019 17:38:15 -0400
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+ id 9FA7C42088C; Fri,  4 Oct 2019 17:38:12 -0400 (EDT)
+Date: Fri, 4 Oct 2019 17:38:12 -0400
+From: "Theodore Y. Ts'o" <tytso@mit.edu>
+To: Brendan Higgins <brendanhiggins@google.com>
+Subject: Re: [PATCH v18 00/19] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+Message-ID: <20191004213812.GA24644@mit.edu>
+References: <20190923090249.127984-1-brendanhiggins@google.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190923090249.127984-1-brendanhiggins@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,143 +45,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1666459699=="
+Cc: pmladek@suse.com, linux-doc@vger.kernel.org, peterz@infradead.org,
+ amir73il@gmail.com, dri-devel@lists.freedesktop.org,
+ Alexander.Levin@microsoft.com, yamada.masahiro@socionext.com,
+ mpe@ellerman.id.au, linux-kselftest@vger.kernel.org, shuah@kernel.org,
+ linux-nvdimm@lists.01.org, frowand.list@gmail.com, knut.omang@oracle.com,
+ kieran.bingham@ideasonboard.com, torvalds@linux-foundation.org,
+ wfg@linux.intel.com, joel@jms.id.au, rientjes@google.com, jdike@addtoit.com,
+ dan.carpenter@oracle.com, devicetree@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, Tim.Bird@sony.com, linux-um@lists.infradead.org,
+ rostedt@goodmis.org, julia.lawall@lip6.fr, jpoimboe@redhat.com,
+ kunit-dev@googlegroups.com, richard@nod.at, sboyd@kernel.org,
+ gregkh@linuxfoundation.org, rdunlap@infradead.org,
+ linux-kernel@vger.kernel.org, mcgrof@kernel.org, keescook@google.com,
+ linux-fsdevel@vger.kernel.org, logang@deltatee.com, khilman@baylibre.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1666459699==
-Content-Type: multipart/alternative; boundary="15702252021.ecDAbE8a.21050"
-Content-Transfer-Encoding: 7bit
-
-
---15702252021.ecDAbE8a.21050
-Date: Fri, 4 Oct 2019 21:40:02 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
-
---- Comment #72 from Marko Popovic <popovic.marko@protonmail.com> ---
-(In reply to Shmerl from comment #71)
-> (In reply to Marko Popovic from comment #70)
-> >=20
-> > Yes, I can confirm that with 5.4 RC1 and MESA-git from 04.10. (with radv
-> > patches included) I can reproduce all 4 types of hangs, random desktop =
-hang,
-> > Rise of the Tomb Raider Hang, Starcraft II hang and even Citra hang
-> > (eventhough those patches supposedly fix the ngg) so that's a huge bumm=
-er.
->=20
-> Just to clarify, those fixes were added post rc1 tag, so you'd need to bu=
-ild
-> the master branch of Linus's repo (it would produce 5.4-rc1+).
-
-Sorry I wrote poorly, I'm using 5.4 daily build.
-
-These hangs on Navi seem to be quite a hard nut to crack for AMD it seems, =
-they
-are trying with different types of patches from amdgpu, firmware, kernel and
-even mesa, and yet nothing ever changes :(
-
-Maybe this issue should get a high priority at least considering that hangs
-basically render desktop unusable for many things, quite a few dxvk games
-produce hangs even with nodma and nongg applied, so no idea what could be g=
-oing
-on there. Why do those flags work for some things and not for the others...
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15702252021.ecDAbE8a.21050
-Date: Fri, 4 Oct 2019 21:40:02 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c72">Comme=
-nt # 72</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-popovic.marko&#64;protonmail.com" title=3D"Marko Popovic &lt;popovic.marko&=
-#64;protonmail.com&gt;"> <span class=3D"fn">Marko Popovic</span></a>
-</span></b>
-        <pre>(In reply to Shmerl from <a href=3D"show_bug.cgi?id=3D111481#c=
-71">comment #71</a>)
-<span class=3D"quote">&gt; (In reply to Marko Popovic from <a href=3D"show_=
-bug.cgi?id=3D111481#c70">comment #70</a>)
-&gt; &gt;=20
-&gt; &gt; Yes, I can confirm that with 5.4 RC1 and MESA-git from 04.10. (wi=
-th radv
-&gt; &gt; patches included) I can reproduce all 4 types of hangs, random de=
-sktop hang,
-&gt; &gt; Rise of the Tomb Raider Hang, Starcraft II hang and even Citra ha=
-ng
-&gt; &gt; (eventhough those patches supposedly fix the ngg) so that's a hug=
-e bummer.
-&gt;=20
-&gt; Just to clarify, those fixes were added post rc1 tag, so you'd need to=
- build
-&gt; the master branch of Linus's repo (it would produce 5.4-rc1+).</span >
-
-Sorry I wrote poorly, I'm using 5.4 daily build.
-
-These hangs on Navi seem to be quite a hard nut to crack for AMD it seems, =
-they
-are trying with different types of patches from amdgpu, firmware, kernel and
-even mesa, and yet nothing ever changes :(
-
-Maybe this issue should get a high priority at least considering that hangs
-basically render desktop unusable for many things, quite a few dxvk games
-produce hangs even with nodma and nongg applied, so no idea what could be g=
-oing
-on there. Why do those flags work for some things and not for the others...=
-</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15702252021.ecDAbE8a.21050--
-
---===============1666459699==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1666459699==--
+T24gTW9uLCBTZXAgMjMsIDIwMTkgYXQgMDI6MDI6MzBBTSAtMDcwMCwgQnJlbmRhbiBIaWdnaW5z
+IHdyb3RlOgo+ICMjIFRMO0RSCj4gCj4gVGhpcyByZXZpc2lvbiBhZGRyZXNzZXMgY29tbWVudHMg
+ZnJvbSBMaW51c1sxXSBhbmQgUmFuZHlbMl0sIGJ5IG1vdmluZwo+IHRvcCBsZXZlbCBga3VuaXQv
+YCBkaXJlY3RvcnkgdG8gYGxpYi9rdW5pdC9gIGFuZCBsaWtld2lzZSBtb3ZlcyB0b3AKPiBsZXZl
+bCBLY29uZmlnIGVudHJ5IHVuZGVyIGxpYi9LY29uZmlnLmRlYnVnLCBzbyB0aGUgS1VuaXQgc3Vi
+bWVudSBub3cKPiBzaG93cyB1cCB1bmRlciB0aGUgIktlcm5lbCBIYWNraW5nIiBtZW51LgoKVGhp
+cyBxdWVzdGlvbiBpcyBwcmltYXJpbHkgZGlyZWN0ZWQgYXQgU2h1YWggYW5kIExpbnVzLi4uLgoK
+V2hhdCdzIHRoZSBjdXJyZW50IHN0YXR1cyBvZiB0aGUga3VuaXQgc2VyaWVzIG5vdyB0aGF0IEJy
+ZW5kYW4gaGFzCm1vdmVkIGl0IG91dCBvZiB0aGUgdG9wLWxldmVsIGt1bml0IGRpcmVjdG9yeSBh
+cyBMaW51cyBoYXMgcmVxdWVzdGVkPwoKVGhlcmUgZG9lc24ndCBhcHBlYXIgdG8gaGF2ZSBiZWVu
+IG1hbnkgY29tbWVudHMgb3IgY2hhbmdlcyBzaW5jZSBzaW5jZQpTZXB0ZW1iZXIgMjNyZCwgYW5k
+IEkgd2FzIHZlcnkgbXVjaCBob3BpbmcgdGhleSBjb3VsZCBsYW5kIGJlZm9yZQotcmMyLCBzaW5j
+ZSBJJ3ZlIGJlZW4gaG9waW5nIHRvIGFkZCB1bml0IHRlc3RzIGZvciBleHQ0LgoKSXMga3VuaXQg
+bGlrZWx5IHRvIGJlIGFibGUgdG8gYmUgbGFuZGVkIGluIExpbnVzJ3MgdHJlZSBkdXJpbmcgdGhp
+cwpkZXZlbG9wbWVudCBjeWNsZT8KCk1hbnkgdGhhbmtzIQoKCQkJCQktIFRlZApfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
