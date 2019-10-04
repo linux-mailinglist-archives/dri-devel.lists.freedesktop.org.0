@@ -1,41 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C81FCB2E0
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2019 03:10:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67799CB339
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2019 04:13:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8005D6E284;
-	Fri,  4 Oct 2019 01:10:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65B346E293;
+	Fri,  4 Oct 2019 02:12:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9E906E284
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2019 01:10:30 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 46ksHg47mrz9sPl;
- Fri,  4 Oct 2019 11:10:22 +1000 (AEST)
-Date: Fri, 4 Oct 2019 11:10:22 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexdeucher@gmail.com>
-Subject: linux-next: manual merge of the drm-misc tree with the admgpu tree
-Message-ID: <20191004111022.28bde6dc@canb.auug.org.au>
-MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=canb.auug.org.au; s=201702; t=1570151426;
- bh=9xF7O4ugUmejFoawtgnL4B57TpXYia5KNWt+3CH/1g8=;
- h=Date:From:To:Cc:Subject:From;
- b=UaPcZXUZg71Ts9S4FUbZm6EyJxMlZFWwNe3cic0VtyosMGTo1wJD6LwY1O6luwA8w
- Legev33i238czsZjmfXEGWX50N3+GhxRCzWy4dr/ObVWTRqv2ifZG1677nacnHBUAw
- Y0MLNP4s8XaZgq/Fa6uY2pTJArOrjsMe5m65blpD8+kk59cWWigzCcLvusX/8yCl2D
- YNJjJZ2PYsnGn7Hw398Qh9NNWD91H/VbS4lSlmc8JW8/ncs174zt6pgLrpMLSPW3Z7
- gyeSoxY5HPykDuPiTrrtl4mY7/Aw48WAZDomvyZgcGIkunnniBBPw07yuzXqM9NILR
- 3GCNq8UR33DFA==
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 526DB6E293
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2019 02:12:56 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id 23so2863181pgk.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Oct 2019 19:12:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+ bh=CbztEByvGzHsECJN5H1J52dAe2UKr0hWe9DWy6b2oF0=;
+ b=qM7sQwi6VCCtRICWmUnzkLoZLVdNJYBCvXBPDTHf3R8gaKE16m2VJRb4wjjgQEzSkr
+ 2MTv2V2J2rca1d4EQPVazzOKBscQ4PXm7KBDJyiKpM2ezH+2ucMl08CwEX+8q5YWt9P1
+ Kb7t5+20ckuF11lQwpuogzDAkFkU0d2YtYkA6gm6hG63sX+u/MtvxIw49ZyYzny/qkXE
+ C3VzwILXOTZtdTV+PtaP4qcLj1qrl21nSQLN2VQQu4exXxYqA0M2mAeIJlmfUlFrhzm7
+ VVyHzd6MqxqoUUkAR0MI4Ntxs8FWT8wWWGjhYdgU8gUOnOv6CWXoU6sVOkrQh7eVNE53
+ Bu9A==
+X-Gm-Message-State: APjAAAXzHqdNGQaz1oRMGgPfdsfiYYMXAw6gascyBsxktifNkCMHdaq9
+ yP8M5Ky2zsnHE8biLbgYP9siWklmINo=
+X-Google-Smtp-Source: APXvYqxRX5bHjaCZd18s/RsczWVFfcIuQE4XX1YoAQzjW6pzaxprLgtXd5n+fKE7R/3mzfqVeQ7KzA==
+X-Received: by 2002:a17:90a:17c5:: with SMTP id
+ q63mr13993070pja.106.1570155175811; 
+ Thu, 03 Oct 2019 19:12:55 -0700 (PDT)
+Received: from software.domain.org ([103.118.43.97])
+ by smtp.gmail.com with ESMTPSA id b14sm4324037pfi.95.2019.10.03.19.12.50
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Thu, 03 Oct 2019 19:12:55 -0700 (PDT)
+From: Huacai Chen <chenhc@lemote.com>
+To: David Airlie <airlied@linux.ie>
+Subject: [PATCH] drm/amdgpu: Fix build error when !CONFIG_PERF_EVENTS
+Date: Fri,  4 Oct 2019 10:15:11 +0800
+Message-Id: <1570155311-1272-1-git-send-email-chenhc@lemote.com>
+X-Mailer: git-send-email 2.7.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id;
+ bh=CbztEByvGzHsECJN5H1J52dAe2UKr0hWe9DWy6b2oF0=;
+ b=cssnydM97Ir5FPA/VgrUlaL8jHxaVn2a5xX5DYEtZ/Wiok4lDv9ytd82qT55JOJ/1n
+ OrWNeiMSYrdH9FEoy1LPKMMrBY0OQeTaEkBREo3phtwVobv0jcQdlwMAUElWxBZYEdXj
+ vI7j2YhQN4T9uPZj5mCugJ6YvyFWVY5CmzU9dxyK2kkdfZGpZbJWspWlGwCzxyLF6dUA
+ +pIADK2R8P1yyVQeco18Q1mwQyXAdYQbwbcaN8HSMV1zbqOfxCboWm9Ey/P+2U48RxRE
+ aFo6QLnziQB1dCAXpJAYJA2/2dk4ipAhrydgDcClPI2Ho7lcAJMhoWsWyPT5Dc1POzYu
+ ymOQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,94 +63,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Dariusz Marcinkiewicz <darekm@google.com>
-Content-Type: multipart/mixed; boundary="===============2067211459=="
+Cc: dri-devel@lists.freedesktop.org, Luben Tuikov <Luben.Tuikov@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Huacai Chen <chenhc@lemote.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============2067211459==
-Content-Type: multipart/signed; boundary="Sig_/7L4.J4D3cO5/Rn4FGcSo6.9";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-
---Sig_/7L4.J4D3cO5/Rn4FGcSo6.9
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi all,
-
-Today's linux-next merge of the drm-misc tree got a conflict in:
-
-  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-
-between commit:
-
-  2f232cf29e03 ("drm/amdgpu/dm/mst: Don't create MST topology managers for =
-eDP ports")
-
-from the admgpu tree and commit:
-
-  ae85b0df124f ("drm_dp_cec: add connector info support.")
-
-from the drm-misc tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-index 3af2b429ff1b,5ec14efd4d8c..000000000000
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-@@@ -414,11 -416,7 +414,11 @@@ void amdgpu_dm_initialize_dp_connector(
- =20
-  	drm_dp_aux_register(&aconnector->dm_dp_aux.aux);
-  	drm_dp_cec_register_connector(&aconnector->dm_dp_aux.aux,
-- 				      aconnector->base.name, dm->adev->dev);
-+ 				      &aconnector->base);
- +
- +	if (aconnector->base.connector_type =3D=3D DRM_MODE_CONNECTOR_eDP)
- +		return;
- +
-  	aconnector->mst_mgr.cbs =3D &dm_mst_cbs;
-  	drm_dp_mst_topology_mgr_init(
-  		&aconnector->mst_mgr,
-
---Sig_/7L4.J4D3cO5/Rn4FGcSo6.9
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl2Wm/4ACgkQAVBC80lX
-0GzFRwf/WBPiEvkFmJsMLMuNNIGQgrcVmlJ29OLPyMqVGih9Pn++RZOa2LMBzbck
-p7mk5w6cEU4nhpk7tIYfcwrDA1ymh9RtqANl60h+wjkEDCnCOBLyKWSYX3+9NsVZ
-5HfuYp2vTKlJ39rRfRlhmBUMvaVA+0dtdH7OKRDB6BT3/bhlRIZKVsWwWRcQI9mP
-irBzxPH/qMY2eER6FuGYRot6P9H3B8PWwyYFEh9gjHL9eZ/OD3g8zpMoTL62lMY7
-+ZzcNwrpmZf39EQtnmI3//LZM22USRC53JFFTPXgzcN96OdV/+dlfZON++AkaQvZ
-7XdAF9cBY4Vtj+jElHvMZczwACiA8Q==
-=PU8N
------END PGP SIGNATURE-----
-
---Sig_/7L4.J4D3cO5/Rn4FGcSo6.9--
-
---===============2067211459==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2067211459==--
+SW4gcHJldmlvdXMgcmVsZWFzZSBhbWRncHVfcG11Lm8gaXMgb25seSBidWlsdCB3aGVuIENPTkZJ
+R19QRVJGX0VWRU5UUwppcyBzZWxlY3RlZC4gQnV0IGFmdGVyIGNvbW1pdCA2NGY1NWU2MjkyMzdl
+NDc1MmRiMSAoImRybS9hbWRncHU6IEFkZCBSQVMKRUVQUk9NIHRhYmxlLiIpIGl0IGlzIGR1cGxp
+Y2F0ZWQgaW4gYW1kZ3B1LXkuIFRoaXMgY2hhbmdlIGNhdXNlcyBhIGJ1aWxkCmVycm9yIHdoZW4g
+IUNPTkZJR19QRVJGX0VWRU5UUywgc28gZml4IGl0LgoKRml4ZXM6IDY0ZjU1ZTYyOTIzN2U0NzUy
+ZGIxICgiZHJtL2FtZGdwdTogQWRkIFJBUyBFRVBST00gdGFibGUuIikKQ2M6IEFuZHJleSBHcm9k
+em92c2t5IDxhbmRyZXkuZ3JvZHpvdnNreUBhbWQuY29tPgpDYzogTHViZW4gVHVpa292IDxMdWJl
+bi5UdWlrb3ZAYW1kLmNvbT4KU2lnbmVkLW9mZi1ieTogSHVhY2FpIENoZW4gPGNoZW5oY0BsZW1v
+dGUuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L01ha2VmaWxlIHwgMiArLQog
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvTWFrZWZpbGUgYi9kcml2ZXJzL2dwdS9kcm0v
+YW1kL2FtZGdwdS9NYWtlZmlsZQppbmRleCA0MmUyYzFmLi4wMDk2MmE2IDEwMDY0NAotLS0gYS9k
+cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9NYWtlZmlsZQorKysgYi9kcml2ZXJzL2dwdS9kcm0v
+YW1kL2FtZGdwdS9NYWtlZmlsZQpAQCAtNTQsNyArNTQsNyBAQCBhbWRncHUteSArPSBhbWRncHVf
+ZGV2aWNlLm8gYW1kZ3B1X2ttcy5vIFwKIAlhbWRncHVfZ3R0X21nci5vIGFtZGdwdV92cmFtX21n
+ci5vIGFtZGdwdV92aXJ0Lm8gYW1kZ3B1X2F0b21maXJtd2FyZS5vIFwKIAlhbWRncHVfdmZfZXJy
+b3IubyBhbWRncHVfc2NoZWQubyBhbWRncHVfZGVidWdmcy5vIGFtZGdwdV9pZHMubyBcCiAJYW1k
+Z3B1X2dtYy5vIGFtZGdwdV94Z21pLm8gYW1kZ3B1X2NzYS5vIGFtZGdwdV9yYXMubyBhbWRncHVf
+dm1fY3B1Lm8gXAotCWFtZGdwdV92bV9zZG1hLm8gYW1kZ3B1X3BtdS5vIGFtZGdwdV9kaXNjb3Zl
+cnkubyBhbWRncHVfcmFzX2VlcHJvbS5vIHNtdV92MTFfMF9pMmMubworCWFtZGdwdV92bV9zZG1h
+Lm8gYW1kZ3B1X2Rpc2NvdmVyeS5vIGFtZGdwdV9yYXNfZWVwcm9tLm8gc211X3YxMV8wX2kyYy5v
+CiAKIGFtZGdwdS0kKENPTkZJR19QRVJGX0VWRU5UUykgKz0gYW1kZ3B1X3BtdS5vCiAKLS0gCjIu
+Ny4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
