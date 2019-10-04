@@ -2,54 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D290CB950
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2019 13:39:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A868CCB9B6
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2019 14:01:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 646006EB3F;
-	Fri,  4 Oct 2019 11:39:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6398E6EB56;
+	Fri,  4 Oct 2019 12:01:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from heliosphere.sirena.org.uk (heliosphere.sirena.org.uk
- [172.104.155.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B95EE6EB3F
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2019 11:39:46 +0000 (UTC)
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net
- ([82.37.168.47] helo=ypsilon.sirena.org.uk)
- by heliosphere.sirena.org.uk with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <broonie@sirena.co.uk>)
- id 1iGLvz-0001uM-AQ; Fri, 04 Oct 2019 11:39:43 +0000
-Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
- id 887BE2741EF0; Fri,  4 Oct 2019 12:39:42 +0100 (BST)
-Date: Fri, 4 Oct 2019 12:39:42 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Subject: Re: Should regulator core support parsing OF based fwnode? (was: Re:
- [PATCH v8 2/5] leds: Add of_led_get() and led_put())
-Message-ID: <20191004113942.GB4866@sirena.co.uk>
-References: <20191003082812.28491-1-jjhiblot@ti.com>
- <20191003082812.28491-3-jjhiblot@ti.com>
- <20191003104228.c5nho6eimwzqwxpt@earth.universe>
- <acd11fe1-1d51-eda5-f807-c16319514c3a@ti.com>
- <62591735-9082-1fd7-d791-07929ddaa223@gmail.com>
- <20191003183554.GA37096@sirena.co.uk>
- <25b9614f-d6be-9da5-0fe5-eb58c8c93850@gmail.com>
- <20191003194140.GE6090@sirena.co.uk>
- <a9f668f9-ad26-4e18-178a-8403b8b3b1db@gmail.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7F356EB51;
+ Fri,  4 Oct 2019 12:01:40 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2019 05:01:39 -0700
+X-IronPort-AV: E=Sophos;i="5.67,256,1566889200"; d="scan'208";a="191559246"
+Received: from paaron-mobl.ger.corp.intel.com (HELO [10.251.93.134])
+ ([10.251.93.134])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/AES256-SHA;
+ 04 Oct 2019 05:01:38 -0700
+Subject: Re: [Intel-gfx] [PATCH 5/5] drm/mm: Use clear_bit_unlock() for
+ releasing the drm_mm_node()
+To: Chris Wilson <chris@chris-wilson.co.uk>, intel-gfx@lists.freedesktop.org
+References: <20191003210100.22250-1-chris@chris-wilson.co.uk>
+ <20191003210100.22250-5-chris@chris-wilson.co.uk>
+ <fc1d813f-5f57-0a5c-a7ff-ba8db1399d32@linux.intel.com>
+ <157018723052.12925.12334881894790832202@skylake-alporthouse-com>
+ <157018786025.12925.9929624154459883899@skylake-alporthouse-com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <0b89ccc5-1b44-121b-4601-f8ae3f67b039@linux.intel.com>
+Date: Fri, 4 Oct 2019 13:01:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <a9f668f9-ad26-4e18-178a-8403b8b3b1db@gmail.com>
-X-Cookie: core error - bus dumped
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; 
- d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=uxkER/QipwAak3j6xLb6XLIxFP8Zl0rvqGk64ybuFnk=; b=XkhiTwr9rNVXDBGU85RAUGh/z
- V9hc/cYKA7+fP3dgX1OOfE7x1jAzO5iZx+bMl1C205sdm87GEwuLPWSiRd5HQdDbT9L7XT9OvfEIP
- JxNgmR+utm/pQV7O9LhM4X9+d2+8VhWkj+CT5JurPuBL18Vcpz4S9wUZWTTSbo+wIoIlM=;
+In-Reply-To: <157018786025.12925.9929624154459883899@skylake-alporthouse-com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,83 +51,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, daniel.thompson@linaro.org,
- Liam Girdwood <lgirdwood@gmail.com>, tomi.valkeinen@ti.com,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- robh+dt@kernel.org, dmurphy@ti.com, pavel@ucw.cz,
- Jean-Jacques Hiblot <jjhiblot@ti.com>, lee.jones@linaro.org,
- linux-leds@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============1219124175=="
+Cc: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1219124175==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="98e8jtXdkpgskNou"
-Content-Disposition: inline
-
-
---98e8jtXdkpgskNou
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Thu, Oct 03, 2019 at 10:27:26PM +0200, Jacek Anaszewski wrote:
-> On 10/3/19 9:41 PM, Mark Brown wrote:
-
-> > Why would we want to do that?  We'd continue to support only DT systems,
-> > just with code that's less obviously DT only and would need to put
-> > checks in.  I'm not seeing an upside here.
-
-> For instance few weeks ago we had a patch [0] in the LED core switching
-> from using struct device's of_node property to fwnode for conveying
-> device property data. And this transition to fwnode property API can be
-> observed as a frequent pattern across subsystems.
-
-For most subsystems the intent is to reuse DT bindings on embedded ACPI
-systems via _DSD.
-
-> Recently there is an ongoing effort aiming to add generic support for
-> handling regulators in the LED core [1], but it turns out to require
-> bringing back initialization of of_node property for
-> devm_regulator_get_optional() to work properly.
-
-Consumers should just be able to request a regulator without having to
-worry about how that's being provided - they should have no knowledge at
-all of firmware bindings or platform data for defining this.  If they
-do that suggests there's an abstraction issue somewhere, what makes you
-think that doing something with of_node is required?
-
-Further, unless you have LEDs that work without power you probably
-shouldn't be using _get_optional() for their supply.  That interface is
-intended only for supplies that may be physically absent.
-
---98e8jtXdkpgskNou
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl2XL30ACgkQJNaLcl1U
-h9Bl/Af/YOdwSUwNR5lUVgKAFW2pr2ik2c3HTxDJRohY7d7c9SAjDU0BMEXYIPFM
-eC0e7q+wlO+6BS603W/HM+P0a5vIBN6s/THgmPZI9ZqkCf/yfDMcrZvBrkZgihie
-eHb0vUpC9r+PYo2YLAXIB2SPav+9hrMm9sy9PFTbzAD1rzIfoNjrjDgPcrQDZnBD
-82toS6OhmV2ycspOQIk0j4Y97n7FoFnW/YcT43Qu1LqHVYv7mVoS6VcRMlmlUCAh
-g2XNf42osnLjTWk1to+LFx3a3I+u6PkBFXOxvBukXXhx5w2GpZDb8auZiKliGe9U
-XiA9FkkaTcFWIJjx861STbwGn0CRSw==
-=7d+U
------END PGP SIGNATURE-----
-
---98e8jtXdkpgskNou--
-
---===============1219124175==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1219124175==--
+Ck9uIDA0LzEwLzIwMTkgMTI6MTcsIENocmlzIFdpbHNvbiB3cm90ZToKPiBRdW90aW5nIENocmlz
+IFdpbHNvbiAoMjAxOS0xMC0wNCAxMjowNzoxMCkKPj4gUXVvdGluZyBUdnJ0a28gVXJzdWxpbiAo
+MjAxOS0xMC0wNCAxMDoxNToyMCkKPj4+Cj4+PiBPbiAwMy8xMC8yMDE5IDIyOjAxLCBDaHJpcyBX
+aWxzb24gd3JvdGU6Cj4+Pj4gQSBmZXcgY2FsbGVycyBuZWVkIHRvIHNlcmlhbGlzZSB0aGUgZGVz
+dHJ1Y3Rpb24gb2YgdGhlaXIgZHJtX21tX25vZGUgYW5kCj4+Pj4gZW5zdXJlIGl0IGlzIHJlbW92
+ZWQgZnJvbSB0aGUgZHJtX21tIGJlZm9yZSBmcmVlaW5nLiBIb3dldmVyLCB0byBiZQo+Pj4+IGNv
+bXBsZXRlbHkgc3VyZSB0aGF0IGFueSBhY2Nlc3MgZnJvbSBhbm90aGVyIHRocmVhZCBpcyBjb21w
+bGV0ZSBiZWZvcmUKPj4+PiB3ZSBmcmVlIHRoZSBzdHJ1Y3QsIHdlIHJlcXVpcmUgdGhlIFJFTEVB
+U0Ugc2VtYW50aWNzIG9mCj4+Pj4gY2xlYXJfYml0X3VubG9jaygpLgo+Pj4+Cj4+Pj4gVGhpcyBh
+bGxvd3MgdGhlIGNvbmRpdGlvbmFsIGxvY2tpbmcgc3VjaCBhcwo+Pj4+Cj4+Pj4gVGhyZWFkIEEg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBUaHJlYWQgQgo+Pj4+ICAgICAgIG11dGV4X2xv
+Y2sobW1fbG9jayk7ICAgICAgICAgICAgICAgIGlmIChkcm1fbW1fbm9kZV9hbGxvY2F0ZWQobm9k
+ZSkpIHsKPj4+PiAgICAgICBkcm1fbW1fbm9kZV9yZW1vdmUobm9kZSk7ICAgICAgICAgICAgICAg
+bXV0ZXhfbG9jayhtbV9sb2NrKTsKPj4+PiAgICAgICBtdXRleF91bmxvY2sobW1fbG9jayk7ICAg
+ICAgICAgICAgICAgICAgZHJtX21tX25vZGVfcmVtb3ZlKG5vZGUpOwo+Pj4+ICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBtdXRleF91bmxvY2sobW1fbG9jayk7
+Cj4+Pj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIH0KPj4+PiAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAga2ZyZWUobm9kZSk7Cj4+
+Pgo+Pj4gTXkgdW5kZXJzdGFuZGluZyBpcyB0aGF0IHJlbGVhc2Ugc2VtYW50aWNzIG9uIG5vZGUg
+YWxsb2NhdGVkIG1lYW4gMSAtPiAwCj4+PiB0cmFuc2l0aW9uIGlzIGd1YXJhbnRlZWQgdG8gYmUg
+c2VlbiBvbmx5IHdoZW4gdGhyZWFkIEEKPj4+IGRybV9tbV9ub2RlX3JlbW92ZSBpcyBmdWxseSBk
+b25lIHdpdGggdGhlIHJlbW92YWwuIEJ1dCBpZiBpdCBpcyBpbiB0aGUKPj4+IG1pZGRsZSBvZiBy
+ZW1vdmFsLCBub2RlIGlzIHN0aWxsIHNlZW4gYXMgYWxsb2NhdGVkIG91dHNpZGUgYW5kIHRocmVh
+ZCBCCj4+PiBjYW4gZW50ZXIgdGhlIGlmLWJvZHksIHdhaXQgZm9yIHRoZSBsb2NrLCBhbmQgdGhl
+biBkcm1fbW1fbm9kZV9yZW1vdmUKPj4+IHdpbGwgYXR0ZW1wdCBhIGRvdWJsZSByZW1vdmFsLiBT
+byBJIHRoaW5rIGFub3RoZXIgZHJtX21tX25vZGVfYWxsb2NhdGVkCj4+PiB1bmRlciB0aGUgbG9j
+ayBpcyBuZWVkZWQuCj4+Cj4+IFllcy4gQ2hlY2sgYWZ0ZXIgdGhlIGxvY2sgaXMgaW5kZWVkIHJl
+cXVpcmVkIGluIHRoaXMgc2NlbmFyaW8uIEFuZAo+PiBkcm1fbW1fbm9kZV9yZW1vdmUoKSBpbnNp
+c3RzIHRoZSBjYWxsZXIgZG9lc24ndCB0cnkgYSBkb3VibGUgcmVtb3ZlLgo+IAo+IEkgaGFkIHRv
+IGdvIGJhY2sgYW5kIGRvdWJsZSBjaGVjayB0aGUgdm1hIGNvZGUsIGFuZCB0aGF0J3MgZmluZS4K
+PiAoV2UgaGl0IHRoaXMgY2FzZSB3aGVyZSBvbmUgdGhyZWFkIGlzIGV2aWN0aW5nIGFuZCBhbm90
+aGVyIHRocmVhZCBpcwo+IGRlc3Ryb3lpbmcgdGhlIG9iamVjdC4gQW5kIGZvciB1cyB3ZSBkbyB0
+aGUgY2hlY2sgdW5kZXIgdGhlIGxvY2sgaW5zaWRlCj4gX19pOTE1X3ZtYV91bmJpbmQoKSBvbiB0
+aGUgZGVzdHJveSBwYXRoLikKClNvIEkgdGhpbmsgaWYgeW91IGFtZW5kIHRoZSBjb21taXQgbWVz
+c2FnZSB0byBjb250YWluIHRoZSByZXBlYXRlZCBjaGVjayAKdW5kZXIgdGhlIGxvY2sgcGF0Y2gg
+bG9va3MgZ29vZCB0byBtZS4gV2l0aCB0aGF0OgoKUmV2aWV3ZWQtYnk6IFR2cnRrbyBVcnN1bGlu
+IDx0dnJ0a28udXJzdWxpbkBpbnRlbC5jb20+CgpSZWdhcmRzLAoKVHZydGtvCgoKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
