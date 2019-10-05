@@ -1,24 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EC44CCD05
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Oct 2019 00:13:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11CD9CCD0B
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Oct 2019 00:17:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 588F86E3EE;
-	Sat,  5 Oct 2019 22:13:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E582D6E3EF;
+	Sat,  5 Oct 2019 22:17:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id DECF66E3EE
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Oct 2019 22:13:02 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 234F26E402
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Oct 2019 22:17:38 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1A68772167; Sat,  5 Oct 2019 22:13:02 +0000 (UTC)
+ id 2073F72162; Sat,  5 Oct 2019 22:17:38 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111229] Unable to unbind GPU from amdgpu
-Date: Sat, 05 Oct 2019 22:13:02 +0000
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Sat, 05 Oct 2019 22:17:38 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -26,17 +27,17 @@ X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: eugene@shatsky.net
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: popovic.marko@protonmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
+X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111229-502-yiGliNmfqC@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111229-502@http.bugs.freedesktop.org/>
-References: <bug-111229-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111481-502-lBPIPaJoCZ@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,41 +53,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0072283473=="
+Content-Type: multipart/mixed; boundary="===============0312599415=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0072283473==
-Content-Type: multipart/alternative; boundary="15703135821.fe428F19.30420"
+--===============0312599415==
+Content-Type: multipart/alternative; boundary="15703138582.ebBf.30808"
 Content-Transfer-Encoding: 7bit
 
 
---15703135821.fe428F19.30420
-Date: Sat, 5 Oct 2019 22:13:02 +0000
+--15703138582.ebBf.30808
+Date: Sat, 5 Oct 2019 22:17:38 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111229
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
 
---- Comment #10 from Eugene Shatsky <eugene@shatsky.net> ---
-I confirm that on on 5.3-rc7 I could unbind/bind RX470 multiple times and s=
-hut
-the system down cleanly afterwards. Got some warning with a trace in dmesg,=
- now
-going to check if this does affect system stability and whether my goal of
-switching the Radeon-powered seat between Linux desktop (without persistent
-session, of course) and virtual machine is now reachable.
+--- Comment #75 from Marko Popovic <popovic.marko@protonmail.com> ---
+(In reply to ans.belfodil from comment #73)
+> According to this
+> https://www.phoronix.com/scan.php?page=3Dnews_item&px=3DAMDGPU-Bulk-Moves=
+-Lands
+> and my tests (Linux 5.3.1 and packages from
+> https://pkgbuild.com/~lcarlier/mesa-git/x86_64/), the hangs are gone on
+> Rocket League.
+
+I was able to reproduce the RL hang by running Rocket League 2 times, so it=
+'s
+definitely not gone, also I don't see how those patches would affect the la=
+unch
+of Rocket League anyways, it uses OpenGL and induces SDMA type hang, and th=
+ose
+patches are for RADV vulkan driver and ngg (which are different type of han=
+gs
+that show themselves as ring_gfx hangs)
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15703135821.fe428F19.30420
-Date: Sat, 5 Oct 2019 22:13:02 +0000
+--15703138582.ebBf.30808
+Date: Sat, 5 Oct 2019 22:17:38 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -102,25 +113,40 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Unable to unbind GPU from amdgpu"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111229#c10">Comme=
-nt # 10</a>
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c75">Comme=
+nt # 75</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Unable to unbind GPU from amdgpu"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111229">bug 11122=
-9</a>
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-eugene&#64;shatsky.net" title=3D"Eugene Shatsky &lt;eugene&#64;shatsky.net&=
-gt;"> <span class=3D"fn">Eugene Shatsky</span></a>
+popovic.marko&#64;protonmail.com" title=3D"Marko Popovic &lt;popovic.marko&=
+#64;protonmail.com&gt;"> <span class=3D"fn">Marko Popovic</span></a>
 </span></b>
-        <pre>I confirm that on on 5.3-rc7 I could unbind/bind RX470 multipl=
-e times and shut
-the system down cleanly afterwards. Got some warning with a trace in dmesg,=
- now
-going to check if this does affect system stability and whether my goal of
-switching the Radeon-powered seat between Linux desktop (without persistent
-session, of course) and virtual machine is now reachable.</pre>
+        <pre>(In reply to ans.belfodil from <a href=3D"show_bug.cgi?id=3D11=
+1481#c73">comment #73</a>)
+<span class=3D"quote">&gt; According to this
+&gt; <a href=3D"https://www.phoronix.com/scan.php?page=3Dnews_item&amp;px=
+=3DAMDGPU-Bulk-Moves-Lands">https://www.phoronix.com/scan.php?page=3Dnews_i=
+tem&amp;px=3DAMDGPU-Bulk-Moves-Lands</a>
+&gt; and my tests (Linux 5.3.1 and packages from
+&gt; <a href=3D"https://pkgbuild.com/~lcarlier/mesa-git/x86_64/">https://pk=
+gbuild.com/~lcarlier/mesa-git/x86_64/</a>), the hangs are gone on
+&gt; Rocket League.</span >
+
+I was able to reproduce the RL hang by running Rocket League 2 times, so it=
+'s
+definitely not gone, also I don't see how those patches would affect the la=
+unch
+of Rocket League anyways, it uses OpenGL and induces SDMA type hang, and th=
+ose
+patches are for RADV vulkan driver and ngg (which are different type of han=
+gs
+that show themselves as ring_gfx hangs)</pre>
         </div>
       </p>
 
@@ -134,9 +160,9 @@ session, of course) and virtual machine is now reachable.</pre>
     </body>
 </html>=
 
---15703135821.fe428F19.30420--
+--15703138582.ebBf.30808--
 
---===============0072283473==
+--===============0312599415==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -146,4 +172,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0072283473==--
+--===============0312599415==--
