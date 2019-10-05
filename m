@@ -1,19 +1,21 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 334DACCB2C
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ED4BCCB2D
 	for <lists+dri-devel@lfdr.de>; Sat,  5 Oct 2019 18:37:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 622096E394;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 773E36E395;
 	Sat,  5 Oct 2019 16:37:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 931 seconds by postgrey-1.36 at gabe;
+ Sat, 05 Oct 2019 02:53:08 UTC
 Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD09B6E113;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA36E6E0C0;
  Sat,  5 Oct 2019 02:53:08 +0000 (UTC)
 Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id C26F57F23DF5AE015C21;
+ by Forcepoint Email with ESMTP id C8E86ADEAC5B6B2683EF;
  Sat,  5 Oct 2019 10:37:33 +0800 (CST)
 Received: from huawei.com (10.90.53.225) by DGGEMS410-HUB.china.huawei.com
  (10.3.19.210) with Microsoft SMTP Server id 14.3.439.0; Sat, 5 Oct 2019
@@ -23,9 +25,10 @@ To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
  <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
  <David1.Zhou@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
  <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 1/5] drm/amd/display: Make function wait_for_alt_mode static
-Date: Sat, 5 Oct 2019 10:44:32 +0800
-Message-ID: <1570243476-44419-2-git-send-email-zhengbin13@huawei.com>
+Subject: [PATCH 2/5] drm/amd/display: Remove set but not used variable
+ 'source_bpp'
+Date: Sat, 5 Oct 2019 10:44:33 +0800
+Message-ID: <1570243476-44419-3-git-send-email-zhengbin13@huawei.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1570243476-44419-1-git-send-email-zhengbin13@huawei.com>
 References: <1570243476-44419-1-git-send-email-zhengbin13@huawei.com>
@@ -51,22 +54,32 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4IHNwYXJzZSB3YXJuaW5nczoKCmRyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9jb3Jl
-L2RjX2xpbmsuYzo2ODc6Njogd2FybmluZzogc3ltYm9sICd3YWl0X2Zvcl9hbHRfbW9kZScgd2Fz
-IG5vdCBkZWNsYXJlZC4gU2hvdWxkIGl0IGJlIHN0YXRpYz8KClJlcG9ydGVkLWJ5OiBIdWxrIFJv
-Ym90IDxodWxrY2lAaHVhd2VpLmNvbT4KU2lnbmVkLW9mZi1ieTogemhlbmdiaW4gPHpoZW5nYmlu
-MTNAaHVhd2VpLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvY29yZS9k
-Y19saW5rLmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRp
-b24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvY29yZS9k
-Y19saW5rLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvY29yZS9kY19saW5rLmMK
-aW5kZXggMzNkNGNjNC4uMTUyYzU2NCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9k
-aXNwbGF5L2RjL2NvcmUvZGNfbGluay5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxh
-eS9kYy9jb3JlL2RjX2xpbmsuYwpAQCAtNjg1LDcgKzY4NSw3IEBAIHN0YXRpYyBib29sIGlzX3Nh
-bWVfZWRpZChzdHJ1Y3QgZGNfZWRpZCAqb2xkX2VkaWQsIHN0cnVjdCBkY19lZGlkICpuZXdfZWRp
-ZCkKIAlyZXR1cm4gKG1lbWNtcChvbGRfZWRpZC0+cmF3X2VkaWQsIG5ld19lZGlkLT5yYXdfZWRp
-ZCwgbmV3X2VkaWQtPmxlbmd0aCkgPT0gMCk7CiB9CgotYm9vbCB3YWl0X2Zvcl9hbHRfbW9kZShz
-dHJ1Y3QgZGNfbGluayAqbGluaykKK3N0YXRpYyBib29sIHdhaXRfZm9yX2FsdF9tb2RlKHN0cnVj
-dCBkY19saW5rICpsaW5rKQogewoKIAkvKioKLS0KMi43LjQKCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+Rml4ZXMgZ2NjICctV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlJyB3YXJuaW5nOgoKZHJpdmVycy9n
+cHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RzYy9yY19jYWxjLmM6IEluIGZ1bmN0aW9uIGNhbGNfcmNf
+cGFyYW1zOgpkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZHNjL3JjX2NhbGMuYzoxODA6
+Njogd2FybmluZzogdmFyaWFibGUgc291cmNlX2JwcCBzZXQgYnV0IG5vdCB1c2VkIFstV3VudXNl
+ZC1idXQtc2V0LXZhcmlhYmxlXQoKSXQgaXMgbm90IHVzZWQgc2luY2UgY29tbWl0IDk3YmRhMDMy
+MmI4YSAoImRybS9hbWQvZGlzcGxheToKQWRkIERTQyBzdXBwb3J0IGZvciBOYXZpICh2MikiKQoK
+UmVwb3J0ZWQtYnk6IEh1bGsgUm9ib3QgPGh1bGtjaUBodWF3ZWkuY29tPgpTaWduZWQtb2ZmLWJ5
+OiB6aGVuZ2JpbiA8emhlbmdiaW4xM0BodWF3ZWkuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9h
+bWQvZGlzcGxheS9kYy9kc2MvcmNfY2FsYy5jIHwgMyAtLS0KIDEgZmlsZSBjaGFuZ2VkLCAzIGRl
+bGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9k
+c2MvcmNfY2FsYy5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RzYy9yY19jYWxj
+LmMKaW5kZXggY2E1MWU4My4uNzZjNGIxMiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9kaXNwbGF5L2RjL2RzYy9yY19jYWxjLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNw
+bGF5L2RjL2RzYy9yY19jYWxjLmMKQEAgLTE3Nyw3ICsxNzcsNiBAQCB2b2lkIGNhbGNfcmNfcGFy
+YW1zKHN0cnVjdCByY19wYXJhbXMgKnJjLCBlbnVtIGNvbG91cl9tb2RlIGNtLCBlbnVtIGJpdHNf
+cGVyX2NvbQogewogCWZsb2F0IGJwcF9ncm91cDsKIAlmbG9hdCBpbml0aWFsX3htaXRfZGVsYXlf
+ZmFjdG9yOwotCWludCBzb3VyY2VfYnBwOwogCWludCBwYWRkaW5nX3BpeGVsczsKIAlpbnQgaTsK
+CkBAIC0yMTcsOCArMjE2LDYgQEAgdm9pZCBjYWxjX3JjX3BhcmFtcyhzdHJ1Y3QgcmNfcGFyYW1z
+ICpyYywgZW51bSBjb2xvdXJfbW9kZSBjbSwgZW51bSBiaXRzX3Blcl9jb20KIAkJCXJjLT5pbml0
+aWFsX3htaXRfZGVsYXkrKzsKIAl9CgotCXNvdXJjZV9icHAgPSBNT0RFX1NFTEVDVChicGMgKiAz
+LCBicGMgKiAyLCBicGMgKiAxLjUpOwotCiAJcmMtPmZsYXRuZXNzX21pbl9xcCAgICAgPSAoKGJw
+YyA9PSBCUENfOCkgPyAgKDMpIDogKChicGMgPT0gQlBDXzEwKSA/ICg3KSAgOiAoMTEpKSkgLSAo
+KG1pbm9yX3ZlcnNpb24gPT0gMSAmJiBjbSA9PSBDTV80NDQpID8gMSA6IDApOwogCXJjLT5mbGF0
+bmVzc19tYXhfcXAgICAgID0gKChicGMgPT0gQlBDXzgpID8gKDEyKSA6ICgoYnBjID09IEJQQ18x
+MCkgPyAoMTYpIDogKDIwKSkpIC0gKChtaW5vcl92ZXJzaW9uID09IDEgJiYgY20gPT0gQ01fNDQ0
+KSA/IDEgOiAwKTsKIAlyYy0+ZmxhdG5lc3NfZGV0X3RocmVzaCA9IDIgPDwgKGJwYyAtIDgpOwot
+LQoyLjcuNAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
