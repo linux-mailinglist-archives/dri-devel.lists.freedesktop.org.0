@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED98CCC901
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Oct 2019 11:17:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5457FCC904
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Oct 2019 11:18:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC2436E34E;
-	Sat,  5 Oct 2019 09:17:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EB9B6E351;
+	Sat,  5 Oct 2019 09:18:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id C82E96E34E
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Oct 2019 09:17:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 886346E351
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Oct 2019 09:18:21 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C50A172162; Sat,  5 Oct 2019 09:17:52 +0000 (UTC)
+ id 8547572162; Sat,  5 Oct 2019 09:18:21 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111803] Annoying GPU stucks are continued on Vega 20 with
  Kernel 5.4 + mesa 9.3.0 + llvm 9.0.0 [drm:amdgpu_dm_atomic_commit_tail
  [amdgpu]] *ERROR* Waiting for fences timed out!
-Date: Sat, 05 Oct 2019 09:17:52 +0000
+Date: Sat, 05 Oct 2019 09:18:21 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -36,7 +36,7 @@ X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111803-502-CXdBzT4mJF@http.bugs.freedesktop.org/>
+Message-ID: <bug-111803-502-rPeQzYPLMO@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111803-502@http.bugs.freedesktop.org/>
 References: <bug-111803-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -54,18 +54,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0612555926=="
+Content-Type: multipart/mixed; boundary="===============0271302482=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0612555926==
-Content-Type: multipart/alternative; boundary="15702670721.C8D57dFfC.15177"
+--===============0271302482==
+Content-Type: multipart/alternative; boundary="15702671011.3B9E4.15262"
 Content-Transfer-Encoding: 7bit
 
 
---15702670721.C8D57dFfC.15177
-Date: Sat, 5 Oct 2019 09:17:52 +0000
+--15702671011.3B9E4.15262
+Date: Sat, 5 Oct 2019 09:18:21 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -74,17 +74,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111803
 
---- Comment #26 from mikhail.v.gavrilov@gmail.com ---
-Created attachment 145655
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145655&action=3Dedit
-./umr -O halt_waves -wa
+--- Comment #27 from mikhail.v.gavrilov@gmail.com ---
+Created attachment 145656
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145656&action=3Dedit
+./umr -R gfx[.]
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15702670721.C8D57dFfC.15177
-Date: Sat, 5 Oct 2019 09:17:52 +0000
+--15702671011.3B9E4.15262
+Date: Sat, 5 Oct 2019 09:18:21 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -103,8 +103,8 @@ Auto-Submitted: auto-generated
    title=3D"NEW - Annoying GPU stucks are continued on Vega 20 with Kernel =
 5.4 + mesa 9.3.0 + llvm 9.0.0 [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *=
 ERROR* Waiting for fences timed out!"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111803#c26">Comme=
-nt # 26</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111803#c27">Comme=
+nt # 27</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Annoying GPU stucks are continued on Vega 20 with Kernel =
@@ -116,11 +116,11 @@ ERROR* Waiting for fences timed out!"
 mikhail.v.gavrilov&#64;gmail.com" title=3D"mikhail.v.gavrilov&#64;gmail.com=
 ">mikhail.v.gavrilov&#64;gmail.com</a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145655=
-" name=3D"attach_145655" title=3D"./umr -O halt_waves -wa">attachment 14565=
-5</a> <a href=3D"attachment.cgi?id=3D145655&amp;action=3Dedit" title=3D"./u=
-mr -O halt_waves -wa">[details]</a></span>
-./umr -O halt_waves -wa</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145656=
+" name=3D"attach_145656" title=3D"./umr -R gfx[.]">attachment 145656</a> <a=
+ href=3D"attachment.cgi?id=3D145656&amp;action=3Dedit" title=3D"./umr -R gf=
+x[.]">[details]</a></span>
+./umr -R gfx[.]</pre>
         </div>
       </p>
 
@@ -134,9 +134,9 @@ mr -O halt_waves -wa">[details]</a></span>
     </body>
 </html>=
 
---15702670721.C8D57dFfC.15177--
+--15702671011.3B9E4.15262--
 
---===============0612555926==
+--===============0271302482==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -146,4 +146,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0612555926==--
+--===============0271302482==--
