@@ -2,40 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 636F3CD47B
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Oct 2019 19:26:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E3B2CD41A
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Oct 2019 19:22:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0A686E421;
-	Sun,  6 Oct 2019 17:26:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A22356E420;
+	Sun,  6 Oct 2019 17:22:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C0906E421
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Oct 2019 17:26:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E8C26E420
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Oct 2019 17:22:54 +0000 (UTC)
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
  [83.86.89.107])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 90B082077B;
- Sun,  6 Oct 2019 17:26:20 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6F36F2077B;
+ Sun,  6 Oct 2019 17:22:53 +0000 (UTC)
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 4.14 04/68] drm/bridge: tc358767: Increase AUX transfer length
+Subject: [PATCH 4.9 01/47] drm/bridge: tc358767: Increase AUX transfer length
  limit
-Date: Sun,  6 Oct 2019 19:20:40 +0200
-Message-Id: <20191006171110.124883581@linuxfoundation.org>
+Date: Sun,  6 Oct 2019 19:20:48 +0200
+Message-Id: <20191006172016.964736192@linuxfoundation.org>
 X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191006171108.150129403@linuxfoundation.org>
-References: <20191006171108.150129403@linuxfoundation.org>
+In-Reply-To: <20191006172016.873463083@linuxfoundation.org>
+References: <20191006172016.873463083@linuxfoundation.org>
 User-Agent: quilt/0.66
+X-stable: review
+X-Patchwork-Hint: ignore
 MIME-Version: 1.0
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1570382781;
- bh=KlSB4HBw84tIqwEJl/ZN5F7suGhn/NvkDm8CJqPjPb0=;
+ d=kernel.org; s=default; t=1570382573;
+ bh=WvrT+YqFB9XJFBgglofhWHy2h/WI6wolVdh3GnWYFJo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oazCHXbnPqEadcW1M9plmFRnYV4MBcMCnZuyCm0qUIgCTyu2BpUR4fQOzsi4u+w7R
- SI5X/nP+SMd1TZdv4zwRrkiqictB7bXeuoYIKFtxDm01jyTh3ceQuAMFaau0+iOGjM
- 3jidb5rKdjMjpf3xc8vVy3Sa8RdRlWLBhnjVsO2Q=
+ b=yWKj9cN6BLiENxcyWbMZkQUYb01X2qEJ2WX2YIu1wpLe9KWX3OiYMqFQJ2gYcs7or
+ ifqyop04Qw26Nmo3bDTMDwmR9JZUXXc1JQiHXQN0B2vp+A3IaOjswuA5LqY4/NjEq+
+ +fKcxdLhjXySW1apCUwtwUJqATHW4xAGsBeEpy1A=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,8 +87,8 @@ MDUyNzE2LjE2ODMxLTktYW5kcmV3LnNtaXJub3ZAZ21haWwuY29tClNpZ25lZC1vZmYtYnk6IFNh
 c2hhIExldmluIDxzYXNoYWxAa2VybmVsLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdl
 L3RjMzU4NzY3LmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVs
 ZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY3LmMg
-Yi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY3LmMKaW5kZXggOTcwNWNhMTk3YjkwZC4u
-Y2VmYTJjMTY4NWJhNCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90YzM1ODc2
+Yi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY3LmMKaW5kZXggODA5OTNhODczNGUwOC4u
+OGI2ZjhmYWM5MmU4OSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90YzM1ODc2
 Ny5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGMzNTg3NjcuYwpAQCAtMzAwLDcgKzMw
 MCw3IEBAIHN0YXRpYyBzc2l6ZV90IHRjX2F1eF90cmFuc2ZlcihzdHJ1Y3QgZHJtX2RwX2F1eCAq
 YXV4LAogCQkJICAgICAgIHN0cnVjdCBkcm1fZHBfYXV4X21zZyAqbXNnKQogewogCXN0cnVjdCB0
