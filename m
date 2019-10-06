@@ -1,33 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5AB1CDC13
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2019 09:02:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF123CDC09
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2019 09:02:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2114D6E46E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2617F6E46F;
 	Mon,  7 Oct 2019 07:01:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from atrey.karlin.mff.cuni.cz (atrey.karlin.mff.cuni.cz
- [195.113.26.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED3F96E0BB
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Oct 2019 11:04:59 +0000 (UTC)
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
- id 9D38780476; Sun,  6 Oct 2019 13:04:41 +0200 (CEST)
-Date: Sun, 6 Oct 2019 13:04:56 +0200
-From: Pavel Machek <pavel@denx.de>
-To: Daniel Thompson <daniel.thompson@linaro.org>, alex@alexanderweb.de,
- andriy.shevchenko@linux.intel.com
-Subject: Re: New sysfs interface for privacy screens
-Message-ID: <20191006110455.GC24605@amd>
-References: <CAL_quvRknSSVvXN3q_Se0hrziw2oTNS3ENNoeHYhvciCRq9Yww@mail.gmail.com>
- <20191002094650.3fc06a85@lwn.net> <87muei9r7i.fsf@intel.com>
- <20191003102254.dmwl6qimdca3dbrv@holly.lan>
+Received: from mo6-p02-ob.smtp.rzone.de (mo6-p02-ob.smtp.rzone.de
+ [IPv6:2a01:238:20a:202:5302::11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44AB76E0A8
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Oct 2019 12:33:55 +0000 (UTC)
+X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzmt2bYDnKIKaws6YXTsc4="
+X-RZG-CLASS-ID: mo00
+Received: from oxapp01-01.back.ox.d0m.de by smtp-ox.front (RZmta 44.28.0 AUTH)
+ with ESMTPSA id i07086v96CWqeEb
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
+ with 256 ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Sun, 6 Oct 2019 14:32:52 +0200 (CEST)
+Date: Sun, 6 Oct 2019 14:32:52 +0200 (CEST)
+From: Ulrich Hecht <uli@fpond.eu>
+To: Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ jitao.shi@mediatek.com
+Message-ID: <218822936.516770.1570365172065@webmail.strato.com>
+In-Reply-To: <4df984a5-a917-753e-5870-7453f3d5438e@gmail.com>
+References: <1570216148-22802-1-git-send-email-uli@fpond.eu>
+ <4df984a5-a917-753e-5870-7453f3d5438e@gmail.com>
+Subject: Re: [PATCH v19 0/2] PS8640 MIPI-to-eDP bridge
 MIME-Version: 1.0
-In-Reply-To: <20191003102254.dmwl6qimdca3dbrv@holly.lan>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Priority: 3
+Importance: Normal
+X-Mailer: Open-Xchange Mailer v7.10.1-Rev20
+X-Originating-IP: 85.212.38.149
+X-Originating-Client: open-xchange-appsuite
 X-Mailman-Approved-At: Mon, 07 Oct 2019 07:01:51 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ t=1570365232; 
+ s=strato-dkim-0002; d=fpond.eu;
+ h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=+jNs+aIhzCrlui+txGTHIfOIsQHf0wQLk5jIMpzux4g=;
+ b=pio4+ByQOLJFaAH4cPLi1ojQ9vJMbkCJimLZ92l+GOv5KhUZesC+gzeGnPN8DabGeX
+ MYdBFwjq2Hc4lphGA//IcTbtPjlCwILPOsyiELHPiWMrQU+9YbW0garyuqNVRTbeQkmE
+ 2O22rZc/1yP1JiWeAdWWqM1xslp9/zqt8fpsOT2HZWocrfsCkj/lhLsSmJWweyKs8qyg
+ SoffsBzNpl4a0X8ip+hE/BYFU691Q4VAdlnEmOoSeTPbnd5WdEERijGb6jCqX8EJwJ4u
+ LH9vBxa5oWdrtuev8mAbxL9aTSbhECV0HeLwVbiL8Do4ZRZGr53oiRSOKBaqNo7xeyQX
+ fiew==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -40,88 +62,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, rafael@kernel.org,
- gregkh@linuxfoundation.org, Jonathan Corbet <corbet@lwn.net>,
- Ross Zwisler <zwisler@google.com>, linux-kernel@vger.kernel.org,
- Mat King <mathewk@google.com>, dri-devel@lists.freedesktop.org,
- Jingoo Han <jingoohan1@gmail.com>, Rajat Jain <rajatja@google.com>,
- Lee Jones <lee.jones@linaro.org>, Alexander Schremmer <alex@alexanderweb.de>
-Content-Type: multipart/mixed; boundary="===============0993026460=="
+Cc: mark.rutland@arm.com, stonea168@163.com, ajaykumar.rs@samsung.com,
+ architt@codeaurora.org, vpalatin@chromium.org, cawa.cheng@mediatek.com,
+ yingjoe.chen@mediatek.com, devicetree@vger.kernel.org, pawel.moll@arm.com,
+ ijc+devicetree@hellion.org.uk, robh+dt@kernel.org, seanpaul@chromium.org,
+ eddie.huang@mediatek.com, rahul.sharma@samsung.com, kernel@pengutronix.de,
+ galak@codeaurora.org, enric.balletbo@collabora.com, andy.yan@rock-chips.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0993026460==
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="zCKi3GIZzVBPywwA"
-Content-Disposition: inline
-
-
---zCKi3GIZzVBPywwA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-> > >> I have been looking into adding Linux support for electronic privacy
-> > >> screens which is a feature on some new laptops which is built into t=
-he
-> > >> display and allows users to turn it on instead of needing to use a
-> > >> physical privacy filter. In discussions with my colleagues the idea =
-of
-> > >> using either /sys/class/backlight or /sys/class/leds but this new
-> > >> feature does not seem to quite fit into either of those classes.
-> > >
-> > > FWIW, it seems that you're not alone in this; 5.4 got some support for
-> > > such screens if I understand things correctly:
-> > >
-> > >   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/=
-commit/?id=3D110ea1d833ad
-> >=20
-> > Oh, I didn't realize it got merged already, I thought this was
-> > related...
-> >=20
-> > So we've already replicated the backlight sysfs interface problem for
-> > privacy screens. :(
->=20
-> I guess... although the Thinkpad code hasn't added any standard
-> interfaces (no other laptop should be placing controls for a privacy
-> screen in /proc/acpi/ibm/... ). Maybe its not too late.
-
-There's new interface for controlling privacyguard... but perhaps we
-need better solution than what went in 5.4. Perhaps it should be
-reconsidered?
-
-Best regards,
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---zCKi3GIZzVBPywwA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl2ZylcACgkQMOfwapXb+vIvLwCgv8pM8435FkksDHNB1TjTxnow
-Zm8AoKrwhCDI1rdvOj6Y2H8UU21KaV9E
-=xgty
------END PGP SIGNATURE-----
-
---zCKi3GIZzVBPywwA--
-
---===============0993026460==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0993026460==--
+Cj4gT24gT2N0b2JlciA1LCAyMDE5IGF0IDE6MTYgUE0gTWF0dGhpYXMgQnJ1Z2dlciA8bWF0dGhp
+YXMuYmdnQGdtYWlsLmNvbT4gd3JvdGU6Cj4gCj4gCj4gSGkgVWxpLAo+IAo+IE9uIDA0LzEwLzIw
+MTkgMjE6MDksIFVscmljaCBIZWNodCB3cm90ZToKPiA+IEhpIQo+ID4gCj4gPiBUaGlzIGRyaXZl
+ciBzZWVtcyB0byBoYXZlIGZhbGxlbiBieSB0aGUgd2F5c2lkZSBiZWNhdXNlLCB3aGlsZSBvdGhl
+cndpc2UKPiA+IGZpbmUsIGl0IGhhcyBhIGZpcm13YXJlIHVwZGF0ZSBmZWF0dXJlIHRoYXQgcmVx
+dWlyZXMgYSBibG9iIHRoYXQgaXMgbm90IGluCj4gPiB0aGUgbGludXgtZmlybXdhcmUgcmVwby5b
+MV0KPiA+IAo+ID4gV2hhdGV2ZXIgdGhlIGNhdXNlIGZvciB0aGF0IG1heSBiZSwgdGhlIHVwZGF0
+ZSBjb2RlIGlzIGVudGlyZWx5IG9wdGlvbmFsCj4gPiAobXkgY2hpcCB3b3JrcyBmaW5lIHdpdGgg
+d2hhdGV2ZXIgZmlybXdhcmUgaXMgY3VycmVudGx5IGluc3RhbGxlZCksIHNvIEkKPiA+IGhhdmUg
+cmVtb3ZlZCBpdCBpbiBvcmRlciB0byBnZXQgdGhpcyBtZXJnZWQgYWZ0ZXIgYWxsLiBJIGhhdmUg
+YWxzbwo+ID4gZm9sbG93ZWQgdmFyaW91cyB0cml2aWFsIEFQSSBjaGFuZ2VzIHRoYXQgaGF2ZSBw
+aWxlZCB1cCBzaW5jZSAyMDE2OyBzZWUKPiA+IHRoZSBpbmRpdmlkdWFsIHBhdGNoZXMgZm9yIGRl
+dGFpbHMuCj4gPiAKPiA+IEknbSB1c2luZyB0aGlzIGRyaXZlciBvbiBhbiBBY2VyIENocm9tZWJv
+b2sgUjEzICgiRWxtIik7IHNlZQo+ID4gaHR0cHM6Ly9naXRodWIuY29tL3VsaS9rZXJuZWwvdHJl
+ZS9lbG0td29ya2luZy01LjQuCj4gPiAKPiAKPiBUaGFua3MgZm9yIHlvdXIgZWZmb3J0IHRvIGdl
+dCB0aGluZ3MgdXBzdHJlYW0uCj4gSSBqdXN0IHRyaWVkIHlvdXIgYnJhbmNoIG9uIG15IFIxMy4g
+SSBoYWQgdG8gZG8gYSB0cml2aWFsIGNvbmZpZyBjaGFuZ2UgSSBoYWQgdG8KPiBkbywgYXMgSSBk
+b24ndCBoYXZlIGFuZCBjYXJlIGFib3V0IHRoZSBibHVldG9vdGggRlcgcmlnaHQgbm93LgoKVGhh
+bmsgeW91IGZvciB0ZXN0aW5nIQoKPiBCdXQgYWZ0ZXIgdGhhdCBteSBzY3JlZW4ga2VlcHMgYmxh
+Y2suIEkgd2FzIGFibGUgdG8gYnVpbGQgYW5kIGJvb3QKPiBlbG0td29ya2luZy01LjMgYW5kIGVs
+bS13b3JraW5nLTUuMi4KPiAKPiBVbmZvcnR1bmF0bGV5IEkgZG9uJ3QgaGF2ZSBhIHNlcmlhbCBj
+b25zb2xlIG9uIHRoZSBDaHJvbWVib29rLCBzbyBpdCdzIGRpZmZpY3VsdAo+IHRvIGZpbmQgb3V0
+IHdoZXJlIGl0IGhhbmdzLiBDYW4geW91IHBsZWFzZSBkb3VibGUgY2hlY2sgaWYgeW91ciBuZXcK
+PiBlbG0td29ya2luZy01LjQgYWN0dWFsbHkgcmVhbGx5IHdvcmtzPwoKTm8sIGl0IGRvZXNuJ3Qu
+IDooIEl0IHNlZW1zIEkgZm9yZ290IHRvIHJ1biBta2ltYWdlL3ZidXRpbF9rZXJuZWwgd2hlbiB0
+ZXN0aW5nLi4uCkkgaGF2ZSBwdXNoZWQgYSBmaXggdG8gdGhlIGVsbS13b3JraW5nLTUuNCB0cmVl
+LCBhbmQgSSB3aWxsIHNlbmQgYSB2MjAgdG9tb3Jyb3cuIFNvcnJ5IGZvciB0aGUgaW5jb252ZW5p
+ZW5jZS4KCkNVClVsaQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWw=
