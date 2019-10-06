@@ -1,26 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 118DCCD8A2
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Oct 2019 20:37:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEDB6CD8A3
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Oct 2019 20:38:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E935C6E43F;
-	Sun,  6 Oct 2019 18:37:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3EFB6E441;
+	Sun,  6 Oct 2019 18:38:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 496086E43F
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Oct 2019 18:37:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id B448B6E43C
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Oct 2019 18:38:09 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 466D672162; Sun,  6 Oct 2019 18:37:38 +0000 (UTC)
+ id B0E8172162; Sun,  6 Oct 2019 18:38:09 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110886] After S3 resume, kernel: [drm] psp command failed and
  response status is (-65529) at 27th time of S3. 28th time of S3 freeze the
  system.
-Date: Sun, 06 Oct 2019 18:37:38 +0000
+Date: Sun, 06 Oct 2019 18:38:09 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -36,7 +36,7 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110886-502-3x8eBDJX6V@http.bugs.freedesktop.org/>
+Message-ID: <bug-110886-502-KpsGVi7iuU@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110886-502@http.bugs.freedesktop.org/>
 References: <bug-110886-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -54,18 +54,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1493699630=="
+Content-Type: multipart/mixed; boundary="===============1729522237=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1493699630==
-Content-Type: multipart/alternative; boundary="15703870582.406FcfBeB.22304"
+--===============1729522237==
+Content-Type: multipart/alternative; boundary="15703870891.Ec760.22517"
 Content-Transfer-Encoding: 7bit
 
 
---15703870582.406FcfBeB.22304
-Date: Sun, 6 Oct 2019 18:37:38 +0000
+--15703870891.Ec760.22517
+Date: Sun, 6 Oct 2019 18:38:09 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -74,17 +74,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110886
 
---- Comment #26 from Kai-Heng Feng <kai.heng.feng@canonical.com> ---
-Created attachment 145666
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145666&action=3Dedit
-PSP failed with drm.debug=3D1
+--- Comment #27 from Kai-Heng Feng <kai.heng.feng@canonical.com> ---
+Created attachment 145667
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145667&action=3Dedit
+ring test failed with drm.debug=3D1
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15703870582.406FcfBeB.22304
-Date: Sun, 6 Oct 2019 18:37:38 +0000
+--15703870891.Ec760.22517
+Date: Sun, 6 Oct 2019 18:38:09 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -103,8 +103,8 @@ Auto-Submitted: auto-generated
    title=3D"NEW - After S3 resume, kernel: [drm] psp command failed and res=
 ponse status is (-65529) at 27th time of S3. 28th time of S3 freeze the sys=
 tem."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110886#c26">Comme=
-nt # 26</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110886#c27">Comme=
+nt # 27</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - After S3 resume, kernel: [drm] psp command failed and res=
@@ -116,11 +116,11 @@ tem."
 kai.heng.feng&#64;canonical.com" title=3D"Kai-Heng Feng &lt;kai.heng.feng&#=
 64;canonical.com&gt;"> <span class=3D"fn">Kai-Heng Feng</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145666=
-" name=3D"attach_145666" title=3D"PSP failed with drm.debug=3D1">attachment=
- 145666</a> <a href=3D"attachment.cgi?id=3D145666&amp;action=3Dedit" title=
-=3D"PSP failed with drm.debug=3D1">[details]</a></span>
-PSP failed with drm.debug=3D1</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145667=
+" name=3D"attach_145667" title=3D"ring test failed with drm.debug=3D1">atta=
+chment 145667</a> <a href=3D"attachment.cgi?id=3D145667&amp;action=3Dedit" =
+title=3D"ring test failed with drm.debug=3D1">[details]</a></span>
+ring test failed with drm.debug=3D1</pre>
         </div>
       </p>
 
@@ -134,9 +134,9 @@ PSP failed with drm.debug=3D1</pre>
     </body>
 </html>=
 
---15703870582.406FcfBeB.22304--
+--15703870891.Ec760.22517--
 
---===============1493699630==
+--===============1729522237==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -146,4 +146,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1493699630==--
+--===============1729522237==--
