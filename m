@@ -2,37 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCDAFCDC22
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2019 09:02:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9A48CDC1A
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2019 09:02:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B35A96E483;
-	Mon,  7 Oct 2019 07:01:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47AEF6E48D;
+	Mon,  7 Oct 2019 07:01:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99F836E0B8;
- Sun,  6 Oct 2019 10:57:56 +0000 (UTC)
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 926D158369EC033520F0;
- Sun,  6 Oct 2019 18:57:54 +0800 (CST)
-Received: from localhost (10.133.213.239) by DGGEMS407-HUB.china.huawei.com
- (10.3.19.207) with Microsoft SMTP Server id 14.3.439.0; Sun, 6 Oct 2019
- 18:57:45 +0800
-From: YueHaibing <yuehaibing@huawei.com>
-To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
- <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
- <David1.Zhou@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <Bhawanpreet.Lakha@amd.com>, <Anthony.Koo@amd.com>, <aric.cyr@amd.com>,
- <Harmanprit.Tatla@amd.com>, <bayan.zabihiyan@amd.com>,
- <ahmad.othman@amd.com>, <Reza.Amini@amd.com>
-Subject: [PATCH -next] drm/amd/display: remove set but not used variable
- 'core_freesync'
-Date: Sun, 6 Oct 2019 18:57:35 +0800
-Message-ID: <20191006105735.60708-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.10.2.windows.1
+Received: from atrey.karlin.mff.cuni.cz (atrey.karlin.mff.cuni.cz
+ [195.113.26.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D7296E243
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Oct 2019 10:58:53 +0000 (UTC)
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+ id CF2FC80471; Sun,  6 Oct 2019 12:58:35 +0200 (CEST)
+Date: Sun, 6 Oct 2019 12:58:50 +0200
+From: Pavel Machek <pavel@denx.de>
+To: Mat King <mathewk@google.com>
+Subject: Re: New sysfs interface for privacy screens
+Message-ID: <20191006105850.GA24605@amd>
+References: <CAL_quvRknSSVvXN3q_Se0hrziw2oTNS3ENNoeHYhvciCRq9Yww@mail.gmail.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.133.213.239]
-X-CFilter-Loop: Reflected
+In-Reply-To: <CAL_quvRknSSVvXN3q_Se0hrziw2oTNS3ENNoeHYhvciCRq9Yww@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 X-Mailman-Approved-At: Mon, 07 Oct 2019 07:01:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -46,36 +37,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: YueHaibing <yuehaibing@huawei.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Daniel Thompson <daniel.thompson@linaro.org>, rafael@kernel.org,
+ gregkh@linuxfoundation.org, Ross Zwisler <zwisler@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jingoo Han <jingoohan1@gmail.com>, Rajat Jain <rajatja@google.com>,
+ Lee Jones <lee.jones@linaro.org>
+Content-Type: multipart/mixed; boundary="===============0908002421=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXMgZ2NjICctV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlJyB3YXJuaW5nOgoKcml2ZXJzL2dw
-dS9kcm0vYW1kL2FtZGdwdS8uLi9kaXNwbGF5L21vZHVsZXMvZnJlZXN5bmMvZnJlZXN5bmMuYzoK
-IEluIGZ1bmN0aW9uIG1vZF9mcmVlc3luY19nZXRfc2V0dGluZ3M6CmRyaXZlcnMvZ3B1L2RybS9h
-bWQvYW1kZ3B1Ly4uL2Rpc3BsYXkvbW9kdWxlcy9mcmVlc3luYy9mcmVlc3luYy5jOjk4NDoyNDoK
-IHdhcm5pbmc6IHZhcmlhYmxlIGNvcmVfZnJlZXN5bmMgc2V0IGJ1dCBub3QgdXNlZCBbLVd1bnVz
-ZWQtYnV0LXNldC12YXJpYWJsZV0KCkl0IGlzIG5vdCB1c2VkIHNpbmNlIGNvbW1pdCA5OGU2NDM2
-ZDNhZjUgKCJkcm0vYW1kL2Rpc3BsYXk6IFJlZmFjdG9yIEZyZWVTeW5jIG1vZHVsZSIpCgpSZXBv
-cnRlZC1ieTogSHVsayBSb2JvdCA8aHVsa2NpQGh1YXdlaS5jb20+ClNpZ25lZC1vZmYtYnk6IFl1
-ZUhhaWJpbmcgPHl1ZWhhaWJpbmdAaHVhd2VpLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vYW1k
-L2Rpc3BsYXkvbW9kdWxlcy9mcmVlc3luYy9mcmVlc3luYy5jIHwgNCAtLS0tCiAxIGZpbGUgY2hh
-bmdlZCwgNCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rp
-c3BsYXkvbW9kdWxlcy9mcmVlc3luYy9mcmVlc3luYy5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9k
-aXNwbGF5L21vZHVsZXMvZnJlZXN5bmMvZnJlZXN5bmMuYwppbmRleCA5Y2U1NmE4Li4yMzdkZGE3
-IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvbW9kdWxlcy9mcmVlc3lu
-Yy9mcmVlc3luYy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9tb2R1bGVzL2Zy
-ZWVzeW5jL2ZyZWVzeW5jLmMKQEAgLTk4MSwxMyArOTgxLDkgQEAgdm9pZCBtb2RfZnJlZXN5bmNf
-Z2V0X3NldHRpbmdzKHN0cnVjdCBtb2RfZnJlZXN5bmMgKm1vZF9mcmVlc3luYywKIAkJdW5zaWdu
-ZWQgaW50ICppbnNlcnRlZF9mcmFtZXMsCiAJCXVuc2lnbmVkIGludCAqaW5zZXJ0ZWRfZHVyYXRp
-b25faW5fdXMpCiB7Ci0Jc3RydWN0IGNvcmVfZnJlZXN5bmMgKmNvcmVfZnJlZXN5bmMgPSBOVUxM
-OwotCiAJaWYgKG1vZF9mcmVlc3luYyA9PSBOVUxMKQogCQlyZXR1cm47CiAKLQljb3JlX2ZyZWVz
-eW5jID0gTU9EX0ZSRUVTWU5DX1RPX0NPUkUobW9kX2ZyZWVzeW5jKTsKLQogCWlmICh2cnItPnN1
-cHBvcnRlZCkgewogCQkqdl90b3RhbF9taW4gPSB2cnItPmFkanVzdC52X3RvdGFsX21pbjsKIAkJ
-KnZfdG90YWxfbWF4ID0gdnJyLT5hZGp1c3Qudl90b3RhbF9tYXg7Ci0tIAoyLjcuNAoKCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0908002421==
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="liOOAslEiF7prFVr"
+Content-Disposition: inline
+
+
+--liOOAslEiF7prFVr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue 2019-10-01 10:09:46, Mat King wrote:
+> Resending in plain text mode
+>=20
+> I have been looking into adding Linux support for electronic privacy
+> screens which is a feature on some new laptops which is built into the
+> display and allows users to turn it on instead of needing to use a
+> physical privacy filter. In discussions with my colleagues the idea of
+> using either /sys/class/backlight or /sys/class/leds but this new
+> feature does not seem to quite fit into either of those classes.
+
+Thank you for not trying to push it as a LED ;-).
+
+> I am proposing adding a class called "privacy_screen" to interface
+> with these devices. The initial API would be simple just a single
+> property called "privacy_state" which when set to 1 would mean that
+> privacy is enabled and 0 when privacy is disabled.
+>=20
+> Current known use cases will use ACPI _DSM in order to interface with
+> the privacy screens, but this class would allow device driver authors
+> to use other interfaces as well.
+>=20
+> Example:
+>=20
+> # get privacy screen state
+> cat /sys/class/privacy_screen/cros_privacy/privacy_state # 1: privacy
+> enabled 0: privacy disabled
+>=20
+> # set privacy enabled
+> echo 1 > /sys/class/privacy_screen/cros_privacy/privacy_state
+>=20
+>  Does this approach seem to be reasonable?
+
+Not really. How does the userland know which displays this will
+affect?
+
+This sounds like something that should go through drm drivers,
+probably to be selected by xrandr, rather than separate file somewhere
+in sysfs.
+
+Best regards,
+									Pavel
+
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--liOOAslEiF7prFVr
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl2ZyOoACgkQMOfwapXb+vIIUACeJ2pN1CHDcsdh0BG2KltFUGBJ
+sOEAn1IE5e0NufSQ0G4RhwqmtYb04UbY
+=Loez
+-----END PGP SIGNATURE-----
+
+--liOOAslEiF7prFVr--
+
+--===============0908002421==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0908002421==--
