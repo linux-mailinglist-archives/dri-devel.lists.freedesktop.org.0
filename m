@@ -1,43 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E3B2CD41A
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Oct 2019 19:22:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35B27CD538
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Oct 2019 19:33:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A22356E420;
-	Sun,  6 Oct 2019 17:22:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A5786E425;
+	Sun,  6 Oct 2019 17:33:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E8C26E420
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Oct 2019 17:22:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3928B6E424
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Oct 2019 17:33:50 +0000 (UTC)
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
  [83.86.89.107])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6F36F2077B;
- Sun,  6 Oct 2019 17:22:53 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6744D2087E;
+ Sun,  6 Oct 2019 17:33:49 +0000 (UTC)
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 4.9 01/47] drm/bridge: tc358767: Increase AUX transfer length
- limit
-Date: Sun,  6 Oct 2019 19:20:48 +0200
-Message-Id: <20191006172016.964736192@linuxfoundation.org>
+Subject: [PATCH 5.2 027/137] drm/bridge: tc358767: Increase AUX transfer
+ length limit
+Date: Sun,  6 Oct 2019 19:20:11 +0200
+Message-Id: <20191006171211.422546202@linuxfoundation.org>
 X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191006172016.873463083@linuxfoundation.org>
-References: <20191006172016.873463083@linuxfoundation.org>
+In-Reply-To: <20191006171209.403038733@linuxfoundation.org>
+References: <20191006171209.403038733@linuxfoundation.org>
 User-Agent: quilt/0.66
-X-stable: review
-X-Patchwork-Hint: ignore
 MIME-Version: 1.0
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1570382573;
- bh=WvrT+YqFB9XJFBgglofhWHy2h/WI6wolVdh3GnWYFJo=;
+ d=kernel.org; s=default; t=1570383230;
+ bh=B//54cTN9ny2uyPRhgBIXUEIyTuOUXxy8EKcxT8jk1s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=yWKj9cN6BLiENxcyWbMZkQUYb01X2qEJ2WX2YIu1wpLe9KWX3OiYMqFQJ2gYcs7or
- ifqyop04Qw26Nmo3bDTMDwmR9JZUXXc1JQiHXQN0B2vp+A3IaOjswuA5LqY4/NjEq+
- +fKcxdLhjXySW1apCUwtwUJqATHW4xAGsBeEpy1A=
+ b=O3E9uAJxFGSN5fIzDiuaS+Gw8TAU/Qc7GmSCe9r0Bgv+ic2NBWbGIU8JHJCPY7lXY
+ XcI0augCFLu/XDJedLm/ED/Z4PIq2CxUkEejYGaDOynOkByhZTPo7UxHhDLoTeuajD
+ pKGAN9K0NAZYl16X7M4Pk0hBzrM/SBzS54cfsBds=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,10 +85,10 @@ MDUyNzE2LjE2ODMxLTktYW5kcmV3LnNtaXJub3ZAZ21haWwuY29tClNpZ25lZC1vZmYtYnk6IFNh
 c2hhIExldmluIDxzYXNoYWxAa2VybmVsLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdl
 L3RjMzU4NzY3LmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVs
 ZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY3LmMg
-Yi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY3LmMKaW5kZXggODA5OTNhODczNGUwOC4u
-OGI2ZjhmYWM5MmU4OSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90YzM1ODc2
-Ny5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGMzNTg3NjcuYwpAQCAtMzAwLDcgKzMw
-MCw3IEBAIHN0YXRpYyBzc2l6ZV90IHRjX2F1eF90cmFuc2ZlcihzdHJ1Y3QgZHJtX2RwX2F1eCAq
+Yi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY3LmMKaW5kZXggZjU5YTUxZTE5ZGFiMC4u
+ZDUxNWM3Y2ViYjljNCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90YzM1ODc2
+Ny5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGMzNTg3NjcuYwpAQCAtMjkzLDcgKzI5
+Myw3IEBAIHN0YXRpYyBzc2l6ZV90IHRjX2F1eF90cmFuc2ZlcihzdHJ1Y3QgZHJtX2RwX2F1eCAq
 YXV4LAogCQkJICAgICAgIHN0cnVjdCBkcm1fZHBfYXV4X21zZyAqbXNnKQogewogCXN0cnVjdCB0
 Y19kYXRhICp0YyA9IGF1eF90b190YyhhdXgpOwotCXNpemVfdCBzaXplID0gbWluX3Qoc2l6ZV90
 LCA4LCBtc2ctPnNpemUpOworCXNpemVfdCBzaXplID0gbWluX3Qoc2l6ZV90LCBEUF9BVVhfTUFY
