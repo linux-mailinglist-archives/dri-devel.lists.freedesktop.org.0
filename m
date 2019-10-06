@@ -1,41 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FAC3CD5CD
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Oct 2019 19:40:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E1B6CD892
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Oct 2019 20:16:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14A476E424;
-	Sun,  6 Oct 2019 17:40:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3F1D6E430;
+	Sun,  6 Oct 2019 18:16:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CEEA6E424
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Oct 2019 17:40:11 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6A08B20700;
- Sun,  6 Oct 2019 17:40:10 +0000 (UTC)
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.3 003/166] drm/bridge: tc358767: Increase AUX transfer
- length limit
-Date: Sun,  6 Oct 2019 19:19:29 +0200
-Message-Id: <20191006171213.063117533@linuxfoundation.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191006171212.850660298@linuxfoundation.org>
-References: <20191006171212.850660298@linuxfoundation.org>
-User-Agent: quilt/0.66
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5F42A6E430
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Oct 2019 18:15:59 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 53F9272162; Sun,  6 Oct 2019 18:15:59 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111889] Severe glitches in cinnamon/gnome3 affecting small
+ rectangular areas (menus, dialogs)
+Date: Sun, 06 Oct 2019 18:15:59 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: sdiconov@mail.ru
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111889-502-qOpV1bCTKx@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111889-502@http.bugs.freedesktop.org/>
+References: <bug-111889-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1570383610;
- bh=rVZbbjAhkHux7zJ+PirVH6htCfn1dxxVKBY20QsjSAI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fCjEz0QMcAXsCKjlu70A3ADMVrph03A0mZfC3dNtkjKEyvjrA82XYN94blXsCqYU8
- lhTP5XLkQ1Yhfrdj6894LiYkNuW2nk65tmyQZvqxy9Q5ZgY+KPdKYm8A15e10ek/jZ
- waDPUjHyCeDXvSv0nQdSi5wdSegTSdhy9jYnuSlo=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,53 +53,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Cory Tusar <cory.tusar@zii.aero>, Sasha Levin <sashal@kernel.org>,
- Andrey Smirnov <andrew.smirnov@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org,
- Andrey Gusakov <andrey.gusakov@cogentembedded.com>, stable@vger.kernel.org,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Chris Healy <cphealy@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0370662624=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQW5kcmV5IFNtaXJub3YgPGFuZHJldy5zbWlybm92QGdtYWlsLmNvbT4KClsgVXBzdHJl
-YW0gY29tbWl0IGUwNjU1ZmVhZWM2MmQ1MTM5YjZiMTNhN2IxYmJiMWFiOGYxYzJkODMgXQoKQWNj
-b3JkaW5nIHRvIHRoZSBkYXRhc2hlZXQgdGMzNTg3NjcgY2FuIHRyYW5zZmVyIHVwIHRvIDE2IGJ5
-dGVzIHZpYQppdHMgQVVYIGNoYW5uZWwsIHNvIHRoZSBhcnRpZmljaWFsIGxpbWl0IG9mIDggYXBw
-ZWFycyB0byBiZSB0b28KbG93LiBIb3dldmVyIG9ubHkgdXAgdG8gMTUtYnl0ZXMgc2VlbSB0byBi
-ZSBhY3R1YWxseSBzdXBwb3J0ZWQgYW5kCnRyeWluZyB0byB1c2UgMTYtYnl0ZSB0cmFuc2ZlcnMg
-cmVzdWx0cyBpbiB0cmFuc2ZlcnMgZmFpbGluZwpzcG9yYWRpY2FsbHkgKHdpdGggYm9ndXMgc3Rh
-dHVzIGluIGNhc2Ugb2YgSTJDIHRyYW5zZmVycyksIHNvIGxpbWl0IGl0CnRvIDE1LgoKU2lnbmVk
-LW9mZi1ieTogQW5kcmV5IFNtaXJub3YgPGFuZHJldy5zbWlybm92QGdtYWlsLmNvbT4KUmV2aWV3
-ZWQtYnk6IEFuZHJ6ZWogSGFqZGEgPGEuaGFqZGFAc2Ftc3VuZy5jb20+ClJldmlld2VkLWJ5OiBU
-b21pIFZhbGtlaW5lbiA8dG9taS52YWxrZWluZW5AdGkuY29tPgpDYzogQW5kcnplaiBIYWpkYSA8
-YS5oYWpkYUBzYW1zdW5nLmNvbT4KQ2M6IExhdXJlbnQgUGluY2hhcnQgPExhdXJlbnQucGluY2hh
-cnRAaWRlYXNvbmJvYXJkLmNvbT4KQ2M6IFRvbWkgVmFsa2VpbmVuIDx0b21pLnZhbGtlaW5lbkB0
-aS5jb20+CkNjOiBBbmRyZXkgR3VzYWtvdiA8YW5kcmV5Lmd1c2Frb3ZAY29nZW50ZW1iZWRkZWQu
-Y29tPgpDYzogUGhpbGlwcCBaYWJlbCA8cC56YWJlbEBwZW5ndXRyb25peC5kZT4KQ2M6IENvcnkg
-VHVzYXIgPGNvcnkudHVzYXJAemlpLmFlcm8+CkNjOiBDaHJpcyBIZWFseSA8Y3BoZWFseUBnbWFp
-bC5jb20+CkNjOiBMdWNhcyBTdGFjaCA8bC5zdGFjaEBwZW5ndXRyb25peC5kZT4KQ2M6IGRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKQ2M6IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5v
-cmcKU2lnbmVkLW9mZi1ieTogQW5kcnplaiBIYWpkYSA8YS5oYWpkYUBzYW1zdW5nLmNvbT4KTGlu
-azogaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3BhdGNoL21zZ2lkLzIwMTkwNjE5
-MDUyNzE2LjE2ODMxLTktYW5kcmV3LnNtaXJub3ZAZ21haWwuY29tClNpZ25lZC1vZmYtYnk6IFNh
-c2hhIExldmluIDxzYXNoYWxAa2VybmVsLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdl
-L3RjMzU4NzY3LmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVs
-ZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY3LmMg
-Yi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY3LmMKaW5kZXggMTNhZGUyOGEzNmE4YS4u
-YjNhN2Q1ZjEyNTBjOCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90YzM1ODc2
-Ny5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGMzNTg3NjcuYwpAQCAtMzEzLDcgKzMx
-Myw3IEBAIHN0YXRpYyBzc2l6ZV90IHRjX2F1eF90cmFuc2ZlcihzdHJ1Y3QgZHJtX2RwX2F1eCAq
-YXV4LAogCQkJICAgICAgIHN0cnVjdCBkcm1fZHBfYXV4X21zZyAqbXNnKQogewogCXN0cnVjdCB0
-Y19kYXRhICp0YyA9IGF1eF90b190YyhhdXgpOwotCXNpemVfdCBzaXplID0gbWluX3Qoc2l6ZV90
-LCA4LCBtc2ctPnNpemUpOworCXNpemVfdCBzaXplID0gbWluX3Qoc2l6ZV90LCBEUF9BVVhfTUFY
-X1BBWUxPQURfQllURVMgLSAxLCBtc2ctPnNpemUpOwogCXU4IHJlcXVlc3QgPSBtc2ctPnJlcXVl
-c3QgJiB+RFBfQVVYX0kyQ19NT1Q7CiAJdTggKmJ1ZiA9IG1zZy0+YnVmZmVyOwogCXUzMiB0bXAg
-PSAwOwotLSAKMi4yMC4xCgoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbA==
+
+--===============0370662624==
+Content-Type: multipart/alternative; boundary="15703857590.D2f86D32.17716"
+Content-Transfer-Encoding: 7bit
+
+
+--15703857590.D2f86D32.17716
+Date: Sun, 6 Oct 2019 18:15:59 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111889
+
+--- Comment #7 from sdiconov@mail.ru ---
+(In reply to Alex Deucher from comment #6)
+> What component (mesa, kernel, etc.) did you change which caused the
+> regression?
+
+It is difficult to tell exactly. The regression developed during a series of
+whole-system upgrades executed by the command "apt-get dist-upgrade". It
+included minor kernel upgrades in the range of 4.19.xx.
+
+I primarily suspected cinnamon built-in compositor before. Now I would prob=
+ably
+blame the code coming in the packeage "xorg-drv-radeon". I lack the knowled=
+ge
+needed to say if mesa or gtk3 are responsible too.
+
+Current versions are:
+xorg-drv-radeon-19.0.1-alt1.x86_64
+
+libGLX-mesa-19.1.7-alt1.x86_64
+libEGL-mesa-19.1.7-alt1.x86_64
+
+libclutter-gtk3-1.8.4-alt1.x86_64
+libgtk+3-3.24.11-alt1.x86_64
+cinnamon-4.2.4-alt2.x86_64
+
+if that helps.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15703857590.D2f86D32.17716
+Date: Sun, 6 Oct 2019 18:15:59 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Severe glitches in cinnamon/gnome3 affecting small rectan=
+gular areas (menus, dialogs)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111889#c7">Commen=
+t # 7</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Severe glitches in cinnamon/gnome3 affecting small rectan=
+gular areas (menus, dialogs)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111889">bug 11188=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+sdiconov&#64;mail.ru" title=3D"sdiconov&#64;mail.ru">sdiconov&#64;mail.ru</=
+a>
+</span></b>
+        <pre>(In reply to Alex Deucher from <a href=3D"show_bug.cgi?id=3D11=
+1889#c6">comment #6</a>)
+<span class=3D"quote">&gt; What component (mesa, kernel, etc.) did you chan=
+ge which caused the
+&gt; regression?</span >
+
+It is difficult to tell exactly. The regression developed during a series of
+whole-system upgrades executed by the command &quot;apt-get dist-upgrade&qu=
+ot;. It
+included minor kernel upgrades in the range of 4.19.xx.
+
+I primarily suspected cinnamon built-in compositor before. Now I would prob=
+ably
+blame the code coming in the packeage &quot;xorg-drv-radeon&quot;. I lack t=
+he knowledge
+needed to say if mesa or gtk3 are responsible too.
+
+Current versions are:
+xorg-drv-radeon-19.0.1-alt1.x86_64
+
+libGLX-mesa-19.1.7-alt1.x86_64
+libEGL-mesa-19.1.7-alt1.x86_64
+
+libclutter-gtk3-1.8.4-alt1.x86_64
+libgtk+3-3.24.11-alt1.x86_64
+cinnamon-4.2.4-alt2.x86_64
+
+if that helps.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15703857590.D2f86D32.17716--
+
+--===============0370662624==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0370662624==--
