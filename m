@@ -1,22 +1,21 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8238DCD1DF
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Oct 2019 14:25:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 982DACD205
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Oct 2019 15:20:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67F516E0A0;
-	Sun,  6 Oct 2019 12:25:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB2016E0A8;
+	Sun,  6 Oct 2019 13:20:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E17DC6E0A0
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Oct 2019 12:25:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A9F16E0A8
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Oct 2019 13:20:44 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205093] [amdgpu] resume of IP block <gfx_v8_0> failed -110 (GPU
- crash into black screen)
-Date: Sun, 06 Oct 2019 12:25:48 +0000
+Subject: [Bug 204611] amdgpu error scheduling IBs when waking from sleep
+Date: Sun, 06 Oct 2019 13:20:43 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -25,16 +24,16 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kat.zygfryd@gmail.com
+X-Bugzilla-Who: carmen@carmenbianca.eu
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: short_desc
-Message-ID: <bug-205093-2300-2gSl0m5nLv@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205093-2300@https.bugzilla.kernel.org/>
-References: <bug-205093-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-204611-2300-sHopCokMu8@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204611-2300@https.bugzilla.kernel.org/>
+References: <bug-204611-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -57,16 +56,17 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDUwOTMKCk1hcmNp
-biBQIChrYXQuenlnZnJ5ZEBnbWFpbC5jb20pIGNoYW5nZWQ6CgogICAgICAgICAgIFdoYXQgICAg
-fFJlbW92ZWQgICAgICAgICAgICAgICAgICAgICB8QWRkZWQKLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQog
-ICAgICAgICAgICBTdW1tYXJ5fFthbWRncHVdIHJlc3VtZSBvZiBJUCBibG9jayB8W2FtZGdwdV0g
-cmVzdW1lIG9mIElQIGJsb2NrCiAgICAgICAgICAgICAgICAgICB8PGdmeF92OF8wPiBmYWlsZWQg
-LTExMCAgICAgIHw8Z2Z4X3Y4XzA+IGZhaWxlZCAtMTEwIChHUFUKICAgICAgICAgICAgICAgICAg
-IHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgfGNyYXNoIGludG8gYmxhY2sgc2NyZWVuKQoK
-LS0gCllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5n
-IHRoZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWw=
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQ2MTEKCkNhcm1l
+biBCaWFuY2EgQmFra2VyIChjYXJtZW5AY2FybWVuYmlhbmNhLmV1KSBjaGFuZ2VkOgoKICAgICAg
+ICAgICBXaGF0ICAgIHxSZW1vdmVkICAgICAgICAgICAgICAgICAgICAgfEFkZGVkCi0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0KICAgICAgICAgICAgICAgICBDQ3wgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgfGNhcm1lbkBjYXJtZW5iaWFuY2EuZXUKCi0tLSBDb21tZW50ICM1IGZyb20gQ2FybWVuIEJp
+YW5jYSBCYWtrZXIgKGNhcm1lbkBjYXJtZW5iaWFuY2EuZXUpIC0tLQpJIGhhdmUgdGhlIHNhbWUg
+cHJvYmxlbSBvbiBhIFRoaW5rcGFkIFgzOTUsIFJ5emVuIDUgMzUwMFUuIEkgaGF2ZSBhIGRvd25z
+dHJlYW0KYnVnIHJlcG9ydCBhdCBodHRwczovL2J1Z3ppbGxhLnJlZGhhdC5jb20vc2hvd19idWcu
+Y2dpP2lkPTE3MzE5MTUKCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToK
+WW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
