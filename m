@@ -1,46 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 707B6CECC1
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2019 21:28:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7D1CCED01
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2019 21:53:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 483B26E192;
-	Mon,  7 Oct 2019 19:28:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17BCB6E199;
+	Mon,  7 Oct 2019 19:53:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 643AD6E1A7
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2019 19:28:31 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 60B9072162; Mon,  7 Oct 2019 19:28:31 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111483] FreeSync LFC breaks under certain circumstances,
- causing either tearing or stutter
-Date: Mon, 07 Oct 2019 19:28:31 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tempel.julian@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111483-502-sBPVzXLJGO@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111483-502@http.bugs.freedesktop.org/>
-References: <bug-111483-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-yw1-xc42.google.com (mail-yw1-xc42.google.com
+ [IPv6:2607:f8b0:4864:20::c42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3F4B6E19A
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2019 19:53:17 +0000 (UTC)
+Received: by mail-yw1-xc42.google.com with SMTP id e205so5585208ywc.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Oct 2019 12:53:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=9fZ4Zp2LoFUBEHKFC3VfGjyFqFgPFxRmJbq4J4sKygI=;
+ b=aYExVIQSCCxzuiuaLmIvFPnNrUhxSCwJu0qmx8x5z90Q3ICZCMICjknE3Aiztsj1j3
+ SCwbgb9kjcASne1AtlhenetM7NfkSOlPthE9DNRqEXhOitUQmf2aalkmqZqpX/hoZwJy
+ BT2vloYZP/0pIFsXkfwM4YAkDyWTOAU8l3ERMJpyWg0QMq6MZ/DpS+OXQ8a5lZOXwk3L
+ Kf3scotjsSomlvb2qTQqH8UP1Xv+gq6pYQ64n+JnpU3boyGzG7ePv+N2KRabpDoKVnzQ
+ Q4FjzNNPEybePNvEfWgeE7j9GLdsyA7Wk3xU1bS26MqOKGlLekX/LPcNOo0wYvymfvMx
+ cEQQ==
+X-Gm-Message-State: APjAAAXD+7ZadakzWbM3CEoYBuVanAMFc9nZtQH52XHKSOhncONeuTOA
+ 86owHdWQ2JoIz3zIh8nh3ehysQ==
+X-Google-Smtp-Source: APXvYqx0/UOMSXjbMdivkqZ9diKgs0ZXY4cBBAObwfQmK6XoKoKFnSw2Xz3U14z04SAGBLrvjMSbYg==
+X-Received: by 2002:a81:c202:: with SMTP id z2mr22914112ywc.47.1570477996643; 
+ Mon, 07 Oct 2019 12:53:16 -0700 (PDT)
+Received: from localhost ([2620:0:1013:11:89c6:2139:5435:371d])
+ by smtp.gmail.com with ESMTPSA id y63sm3905006ywg.5.2019.10.07.12.53.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Oct 2019 12:53:15 -0700 (PDT)
+Date: Mon, 7 Oct 2019 15:53:15 -0400
+From: Sean Paul <sean@poorly.run>
+To: Rajat Jain <rajatja@google.com>
+Subject: Re: New sysfs interface for privacy screens
+Message-ID: <20191007195315.GH126146@art_vandelay>
+References: <CAL_quvRknSSVvXN3q_Se0hrziw2oTNS3ENNoeHYhvciCRq9Yww@mail.gmail.com>
+ <87h84rbile.fsf@intel.com>
+ <20191002102428.zaid63hp6wpd7w34@holly.lan>
+ <8736gbbf2b.fsf@intel.com>
+ <CAL_quvQkFjkBjJC5wH2t5XmyEq9OKWYSbAv39BJWT1hrKO7j8g@mail.gmail.com>
+ <87h84q9pcj.fsf@intel.com>
+ <CAL_quvQoWnWqS5OQAqbLcBO-bR9_obr1FBc6f6mA1T00n1DJNQ@mail.gmail.com>
+ <CAOw6vbJ7XX8=nrJDENfn2pacf4MqQOkP+x8JV0wbqzoMfLvZWQ@mail.gmail.com>
+ <CAL_quvTe_v9Vsbd0u4URitojmD-_VFeaOQ1BBYZ_UGwYWynjVA@mail.gmail.com>
+ <CACK8Z6H+tBHproaH2hf59mYF406ohYhAWj8szYn=Fjao2SUZVA@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CACK8Z6H+tBHproaH2hf59mYF406ohYhAWj8szYn=Fjao2SUZVA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=poorly.run; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=9fZ4Zp2LoFUBEHKFC3VfGjyFqFgPFxRmJbq4J4sKygI=;
+ b=fND51JmAB40TXr2jZ5eaHDzLl4XiNMU2z/A8DUIdoeHdSxlaLKDARWw5QToebjJ1cU
+ k2FzGi4WjW2CCpFkro3qR8q+3jR8xfuwIBq9arKrI0JaYlZQgdpq9lOla4lnGKfxnsYv
+ H/XvxeIgTStoFvvnmHWGtuMxnqU5LDCh6zJES9cB+ZmkqijzHewwmRhKxJ1xy2XVwivI
+ tz7xwvRw9VPWbdM1NDkc6EDP3zY2fxqNAJUsHJMK9ldiuxTpvd7elXxcnSj2HAdx6qG4
+ Uj5hYHPMy+aFeNxacsCgeMbG23QnaEURwZebNzRe4QvcZjXKILEJapcEjl1cDFvuuK/w
+ u+MA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,103 +77,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1505687529=="
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
+ Ross Zwisler <zwisler@google.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Mat King <mathewk@google.com>,
+ Sean Paul <seanpaul@chromium.org>, Jingoo Han <jingoohan1@gmail.com>,
+ David Airlie <airlied@redhat.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Lee Jones <lee.jones@linaro.org>, Alexander Schremmer <alex@alexanderweb.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1505687529==
-Content-Type: multipart/alternative; boundary="15704765111.2f7BEF011.27798"
-Content-Transfer-Encoding: 7bit
-
-
---15704765111.2f7BEF011.27798
-Date: Mon, 7 Oct 2019 19:28:31 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111483
-
---- Comment #1 from tempel.julian@gmail.com ---
-I think there is a realistic chance that this issue has been tackled by this
-commit:
-https://cgit.freedesktop.org/~agd5f/linux/commit/?h=3Ddrm-next-5.5-wip&id=
-=3D109b3e3e13507ad0908ff00bc7eb759ed41b88be
-
-However, I don't own an LFC capable display anymore and can't test.
-Though I think it might be a candidate for backporting to 5.4?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15704765111.2f7BEF011.27798
-Date: Mon, 7 Oct 2019 19:28:31 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - FreeSync LFC breaks under certain circumstances, causing =
-either tearing or stutter"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111483#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - FreeSync LFC breaks under certain circumstances, causing =
-either tearing or stutter"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111483">bug 11148=
-3</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
-ulian&#64;gmail.com</a>
-</span></b>
-        <pre>I think there is a realistic chance that this issue has been t=
-ackled by this
-commit:
-<a href=3D"https://cgit.freedesktop.org/~agd5f/linux/commit/?h=3Ddrm-next-5=
-.5-wip&amp;id=3D109b3e3e13507ad0908ff00bc7eb759ed41b88be">https://cgit.free=
-desktop.org/~agd5f/linux/commit/?h=3Ddrm-next-5.5-wip&amp;id=3D109b3e3e1350=
-7ad0908ff00bc7eb759ed41b88be</a>
-
-However, I don't own an LFC capable display anymore and can't test.
-Though I think it might be a candidate for backporting to 5.4?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15704765111.2f7BEF011.27798--
-
---===============1505687529==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1505687529==--
+T24gTW9uLCBPY3QgMDcsIDIwMTkgYXQgMTI6MzE6MDhQTSAtMDcwMCwgUmFqYXQgSmFpbiB3cm90
+ZToKPiBPbiBNb24sIE9jdCA3LCAyMDE5IGF0IDk6MTkgQU0gTWF0IEtpbmcgPG1hdGhld2tAZ29v
+Z2xlLmNvbT4gd3JvdGU6Cj4gPgo+ID4gT24gTW9uLCBPY3QgNywgMjAxOSBhdCA3OjA5IEFNIFNl
+YW4gUGF1bCA8c2VhbnBhdWxAY2hyb21pdW0ub3JnPiB3cm90ZToKPiA+ID4KPiA+ID4gT24gVGh1
+LCBPY3QgMywgMjAxOSBhdCAzOjU3IFBNIE1hdCBLaW5nIDxtYXRoZXdrQGdvb2dsZS5jb20+IHdy
+b3RlOgo+ID4gPiA+Cj4gPiA+ID4gT24gVGh1LCBPY3QgMywgMjAxOSBhdCAyOjU5IEFNIEphbmkg
+TmlrdWxhIDxqYW5pLm5pa3VsYUBsaW51eC5pbnRlbC5jb20+IHdyb3RlOgo+ID4gPiA+ID4KPiA+
+ID4gPiA+IE9uIFdlZCwgMDIgT2N0IDIwMTksIE1hdCBLaW5nIDxtYXRoZXdrQGdvb2dsZS5jb20+
+IHdyb3RlOgo+ID4gPiA+ID4gPiBPbiBXZWQsIE9jdCAyLCAyMDE5IGF0IDQ6NDYgQU0gSmFuaSBO
+aWt1bGEgPGphbmkubmlrdWxhQGxpbnV4LmludGVsLmNvbT4gd3JvdGU6Cj4gPiA+ID4gPiA+Pgo+
+ID4gPiA+ID4gPj4gT24gV2VkLCAwMiBPY3QgMjAxOSwgRGFuaWVsIFRob21wc29uIDxkYW5pZWwu
+dGhvbXBzb25AbGluYXJvLm9yZz4gd3JvdGU6Cj4gPiA+ID4gPiA+PiA+IE9uIFdlZCwgT2N0IDAy
+LCAyMDE5IGF0IDEyOjMwOjA1UE0gKzAzMDAsIEphbmkgTmlrdWxhIHdyb3RlOgo+ID4gPiA+ID4g
+Pj4gPj4gT24gVHVlLCAwMSBPY3QgMjAxOSwgTWF0IEtpbmcgPG1hdGhld2tAZ29vZ2xlLmNvbT4g
+d3JvdGU6Cj4gPiA+ID4gPiA+PiA+PiA+IFJlc2VuZGluZyBpbiBwbGFpbiB0ZXh0IG1vZGUKPiA+
+ID4KPiA+ID4gL3NuaXAKPiA+ID4KPiA+ID4gPgo+ID4gPiA+IFNvIG15IHByb3Bvc2FsIHdvdWxk
+IG5vdyBiZSB0byBhZGQgYSBuZXcgc3RhbmRhcmQgcHJvcGVydHkgdG8KPiA+ID4gPiBkcm1fY29u
+bmVjdG9yIGNhbGxlZCAicHJpdmFjeV9zY3JlZW4iIHRoaXMgcHJvcGVydHkgd291bGQgYmUgYW4g
+ZW51bQo+ID4gPiA+IHdoaWNoIGNhbiB0YWtlIG9uZSBvZiB0aHJlZSB2YWx1ZXMuCj4gPiA+ID4K
+PiA+ID4gPiBQUklWQUNZX1VOU1VQUE9SVEVEIC0gUHJpdmFjeSBpcyBub3QgYXZhaWxhYmxlIGZv
+ciB0aGlzIGNvbm5lY3Rvcgo+ID4gPiA+IFBSSVZBQ1lfRElTQUJMRUQgLSBQcml2YWN5IGlzIGF2
+YWlsYWJsZSBidXQgdHVybmVkIG9mZgo+ID4gPiA+IFBSSVZBQ1lfRU5BQkxFRCAtIFByaXZhY3kg
+aXMgYXZhaWxhYmxlIGFuZCB0dXJuZWQgb24KPiA+ID4KPiA+ID4gQWdyZWUgd2l0aCBKYW5pLCB1
+c2UgdGhlIHByb3BlcnR5IHByZXNlbmNlIHRvIGRldGVybWluZSBpZiBpdCdzIHN1cHBvcnRlZAo+
+ID4KPiA+IFRoYXQgbWFrZXMgc2Vuc2U7IGp1c3QgdG8gY29uZmlybSBjYW4gYSBwcm9wZXJ0eSBi
+ZSBhZGRlZCBvciByZW1vdmVkCj4gPiBhZnRlciB0aGUgY29ubmVjdG9yIGlzIHJlZ2lzdGVyZWQ/
+Cj4gPgo+ID4gPgo+ID4gPiA+Cj4gPiA+ID4gV2hlbiB0aGUgY29ubmVjdG9yIGlzIGluaXRpemVk
+IHRoZSBwcml2YWN5IHNjcmVlbiBwcm9wZXJ0eSBpcyBzZXQgdG8KPiA+ID4gPiBQUklWQUNZX1VO
+U1VQUE9SVEVEIGFuZCBjYW5ub3QgYmUgY2hhbmdlZCB1bmxlc3MgYSBkcm1fcHJpdmFjeV9zY3Jl
+ZW4KPiA+ID4gPiBpcyByZWdpc3RlcmVkIHRvIHRoZSBjb25uZWN0b3IuIGRybV9wcml2YWN5X3Nj
+cmVlbiB3aWxsIGxvb2sgc29tZXRoaW5nCj4gPiA+ID4gbGlrZQo+ID4gPiA+Cj4gPiA+ID4gc3Ry
+dWN0IGRybV9wcml2YWN5X3NjcmVlbl9vcHMgewo+ID4gPiA+ICAgICBpbnQgKCpnZXRfcHJpdmFj
+eV9zdGF0ZSkoc3RydWN0IGRybV9wcml2YWN5X3NjcmVlbiAqKTsKPiA+ID4gPiAgICAgaW50ICgq
+c2V0X3ByaXZhY3lfc3RhdGUpKHN0cnVjdCBkcm1fcHJpdmFjeV9zY3JlZW4gKiwgaW50KTsKPiA+
+ID4gPiB9Cj4gPiA+ID4KPiA+ID4gPiBzdHJ1Y3QgZHJtX3ByaXZhY3lfc2NyZWVuIHsKPiA+ID4g
+PiAgICAgLyogVGhlIHByaXZhY3kgc2NyZWVuIGRldmljZSAqLwo+ID4gPiA+ICAgICBzdHJ1Y3Qg
+ZGV2aWNlICpkZXY7Cj4gPiA+ID4KPiA+ID4gPiAgICAgLyogVGhlIGNvbm5lY3RvciB0aGF0IHRo
+ZSBwcml2YWN5IHNjcmVlbiBpcyBhdHRhY2hlZCAqLwo+ID4gPiA+ICAgICBzdHJ1Y3QgZHJtX2Nv
+bm5lY3RvciAqY29ubmVjdG9yOwo+ID4gPiA+Cj4gPiA+ID4gICAgIC8qIE9wcyB0byBnZXQgYW5k
+IHNldCB0aGUgcHJpdmFjeSBzY3JlZW4gc3RhdGUgKi8KPiA+ID4gPiAgICAgc3RydWN0IGRybV9w
+cml2YWN5X3NjcmVlbl9vcHMgKm9wczsKPiA+ID4gPgo+ID4gPiA+ICAgICAvKiBUaGUgY3VycmVu
+dCBzdGF0ZSBvZiB0aGUgcHJpdmFjeSBzY3JlZW4gKi8KPiA+ID4gPiAgICAgaW50IHN0YXRlOwo+
+ID4gPiA+IH0KPiA+ID4gPgo+ID4gPiA+IFByaXZhY3kgc2NyZWVuIGRldmljZSBkcml2ZXJzIHdp
+bGwgY2FsbCBhIGZ1bmN0aW9uIHRvIHJlZ2lzdGVyIHRoZQo+ID4gPiA+IHByaXZhY3kgc2NyZWVu
+IHdpdGggdGhlIGNvbm5lY3Rvci4KPiA+ID4KPiA+ID4gRG8gd2UgYWN0dWFsbHkgbmVlZCBkZWRp
+Y2F0ZWQgZHJpdmVycyBmb3IgcHJpdmFjeSBzY3JlZW4/IEl0IHNlZW1zCj4gPiA+IGxpa2Ugc29t
+ZXRoaW5nIHRoYXQgaXMgcGFuZWwtc3BlY2lmaWMgaGFyZHdhcmUsIHNvIEknZCBzdWdnZXN0IGp1
+c3QKPiA+ID4gdXNpbmcgdGhlIHBhbmVsIGRyaXZlci4KPiA+Cj4gPiBUaGUgcHJpdmFjeSBzY3Jl
+ZW4gaXMgcGh5c2ljYWxseSBwYXJ0IG9mIHRoZSBkaXNwbGF5IGJ1dCB0aGUgY29udHJvbAo+ID4g
+aW50ZXJmYWNlLCBhdCBsZWFzdCBpbiBhbGwgY3VycmVudCB1c2UgY2FzZXMsIGlzIEFDUEkuIElz
+IHRoZXJlIGEgd2F5Cj4gPiB0byBjb250cm9sIGFuIEFDUEkgZGV2aWNlIHdpdGggdGhlIHBhbmVs
+IGRyaXZlcj8KPiAKPiBJIGZlZWwgdGhhdCBkb2luZyBpdCBpbiBhIGRlZGljYXRlZCBkcml2ZXIg
+aGFzIHRoZSBhZHZhbnRhZ2UgdGhhdCBpZgo+IHdlIGNhbiBzdGFuZGFyZGlzZSB0aGUgY29udHJv
+bCBpbnRlcmZhY2UsIGl0IGNhbiBiZSB1c2VkIGFjcm9zcwo+IGRpZmZlcmVudCBwYW5lbHMuIFNv
+IGEgbmV3IHBhbmVsIGNhbiBiZSBzdXBwb3J0ZWQgdXNpbmcgdGhlIGV4aXN0aW5nCj4gZHJpdmVy
+IGJ5IG1lcmVseSBpbnN0YW50aWF0aW5nIHRoZSByaWdodCBBQ1BJIEhJRCAicHJpdmFjeSBzY3Jl
+ZW4iCj4gZGV2aWNlIGFzIGEgY2hpbGQgZGV2aWNlIG9mIHRoZSBwYXJlbnQgZGlzcGxheSAvIHBh
+bmVsIGRldmljZS4gVGhpcwo+IHBhcmVudC1jaGlsZCByZWxhdGlvbiB3b3VsZCBhbHNvIGdpdmUg
+dGhlIGtlcm5lbCB0aGUgY29ubmVjdGlvbiBuZWVkZWQKPiBhYm91dCAid2hpY2ggZGlzcGxheSBk
+b2VzIHRoaXMgcHJpdmFjeSBzY3JlZW4gYXR0YWNoIHRvIi4gSW4gZnV0dXJlLGlmCj4gbm9uLXg4
+NiBwbGF0Zm9ybXMgbmVlZCB0aGUgZmVhdHVyZSB1c2luZyBhIGRpZmZlcmVudCBjb250cm9sIGlu
+dGVyZmFjZQo+IChzYXkgdmlhIGEgR1BJTyBkcml2ZXIpLCB0aGUgcHJpdmFjeSBzY3JlZW4gZHJp
+dmVyIGNhbiBiZSB1cGRhdGVkIHRvCj4gc3VwcG9ydCB0aGF0IGFsc28uCgoKSSBtaWdodCBiZSBt
+aXN1bmRlcnN0YW5kaW5nIHRoZSBzY29wZSBvZiB0aGlzLCBidXQgaWYgZXZlcnl0aGluZyBpcyBj
+b250cm9sbGVkCnZpYSBkcm0gcHJvcGVydGllcywgeW91IGNvdWxkIGp1c3QgdXNlIGEgaGVscGVy
+IGZ1bmN0aW9uIHRvIHRvZ2dsZSBpdCBvbi9vZmY/IFdlCmhhdmUgaGVscGVyIGxpYnJhcmllcyBm
+b3IgYSBwbGV0aG9yYSBvZiBvcHRpb25hbCBoYXJkd2FyZSBmZWF0dXJlcyBhbHJlYWR5LgoKU2Vh
+bgoKPiAKPiBUaGFua3MsCj4gCj4gUmFqYXQKPiAKPiA+Cj4gPiA+Cj4gPiA+IFNlYW4KPiA+ID4K
+PiA+ID4gPgo+ID4gPiA+IGludCBkcm1fcHJpdmFjeV9zY3JlZW5fcmVnaXN0ZXIoc3RydWN0IGRy
+bV9wcml2YWN5X3NjcmVlbl9vcHMgKm9wcywKPiA+ID4gPiBzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0
+cnVjdCBkcm1fY29ubmVjdG9yICopOwo+ID4gPiA+Cj4gPiA+ID4gQ2FsbGluZyB0aGlzIHdpbGwg
+c2V0IGEgbmV3IGZpZWxkIG9uIHRoZSBjb25uZWN0b3IgInN0cnVjdAo+ID4gPiA+IGRybV9wcml2
+YWN5X3NjcmVlbiAqcHJpdmFjeV9zY3JlZW4iIGFuZCBjaGFuZ2UgdGhlIHZhbHVlIG9mIHRoZQo+
+ID4gPiA+IHByb3BlcnR5IHRvIG9wcy0+Z2V0X3ByaXZhY3lfc3RhdGUoKS4gV2hlbgo+ID4gPiA+
+IGRybV9tb2RlX2Nvbm5lY3Rvcl9zZXRfb2JqX3Byb3AoKSBpcyBjYWxsZWQgd2l0aCB0aGUKPiA+
+ID4gPiBwcml2YWN5X3NjcmVlbl9wcm9wdGVyeSBpZiBhIHByaXZhY3lfc2NyZWVuIGlzIHJlZ2lz
+dGVyZWQgdG8gdGhlCj4gPiA+ID4gY29ubmVjdG9yIHRoZSBvcHMtPnNldF9wcml2YWN5X3N0YXRl
+KCkgd2lsbCBiZSBjYWxsZWQgd2l0aCB0aGUgbmV3Cj4gPiA+ID4gdmFsdWUuCj4gPiA+ID4KPiA+
+ID4gPiBTZXR0aW5nIG9mIHRoaXMgcHJvcGVydHkgKGFuZCBhbGwgZHJtIHByb3BlcnRpZXMpIGlz
+IGRvbmUgaW4gdXNlcgo+ID4gPiA+IHNwYWNlIHVzaW5nIGlvY3RybC4KPiA+ID4gPgo+ID4gPiA+
+IFJlZ2lzdGVyaW5nIHRoZSBwcml2YWN5IHNjcmVlbiB3aXRoIGEgY29ubmVjdG9yIG1heSBiZSB0
+cmlja3kgYmVjYXVzZQo+ID4gPiA+IHRoZSBkcml2ZXIgZm9yIHRoZSBwcml2YWN5IHNjcmVlbiB3
+aWxsIG5lZWQgdG8gYmUgYWJsZSB0byBpZGVudGlmeQo+ID4gPiA+IHdoaWNoIGNvbm5lY3RvciBp
+dCBiZWxvbmdzIHRvIGFuZCB3ZSB3aWxsIGhhdmUgdG8gZGVhbCB3aXRoIGNvbm5lY3RvcnMKPiA+
+ID4gPiBiZWluZyBhZGRlZCBib3RoIGJlZm9yZSBhbmQgYWZ0ZXIgdGhlIHByaXZhY3kgc2NyZWVu
+IGRldmljZSBpcyBhZGRlZAo+ID4gPiA+IGJ5IGl0J3MgZHJpdmVyLgo+ID4gPiA+Cj4gPiA+ID4g
+SG93IGRvZXMgdGhhdCBzb3VuZD8gSSB3aWxsIHdvcmsgb24gYSBwYXRjaCBpZiB0aGF0IGFsbCBz
+b3VuZHMgYWJvdXQgcmlnaHQuCj4gPiA+ID4KPiA+ID4gPiBPbmUgcXVlc3Rpb24gSSBzdGlsbCBo
+YXZlIGlzIHRoZXJlIGEgd2F5IHRvIG5vdCBhY2NlcHQgYSB2YWx1ZSB0aGF0IGlzCj4gPiA+ID4g
+cGFzc2VkIHRvIGRybV9tb2RlX2Nvbm5lY3Rvcl9zZXRfb2JqX3Byb3AoKT8gSW4gdGhpcyBjYXNl
+IGlmIGEgcHJpdmFjeQo+ID4gPiA+IHNjcmVlbiBpcyBub3QgcmVnaXN0ZXJlZCB0aGUgcHJvcGVy
+dHkgbXVzdCBzdGF5IFBSSVZBQ1lfVU5TVVBQT1JURUQKPiA+ID4gPiBhbmQgaWYgYSBwcml2YWN5
+IHNjcmVlbiBpcyByZWdpc3RlcmVkIHRoZW4gUFJJVkFDWV9VTlNVUFBPUlRFRCBtdXN0Cj4gPiA+
+ID4gbmV2ZXIgYmUgc2V0LgoKLS0gClNlYW4gUGF1bCwgU29mdHdhcmUgRW5naW5lZXIsIEdvb2ds
+ZSAvIENocm9taXVtIE9TCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbA==
