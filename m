@@ -1,57 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70780CEBCA
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2019 20:29:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51B01CEC01
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2019 20:35:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9549D6E149;
-	Mon,  7 Oct 2019 18:28:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A6136E673;
+	Mon,  7 Oct 2019 18:35:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 393746E149
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2019 18:28:55 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id r2so9974517lfn.8
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Oct 2019 11:28:55 -0700 (PDT)
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 671F06E162
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2019 18:35:10 +0000 (UTC)
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id ED5303680A
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2019 18:35:09 +0000 (UTC)
+Received: by mail-qt1-f199.google.com with SMTP id o34so16167018qtf.22
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Oct 2019 11:35:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FvtqkEan1ZkFtYbeA8YiibFmBMRN4yk0NT1pJkGguxU=;
- b=EBrDzi2/oY7yxPhnfQFr7c9L2+lZZ0AId6xWODd5QGMyW8BxyUMg0R3H+JuTX7HuXA
- jzUu8Y1NyNLydaDKgxdwjJCSoAiSTvBojXe5xNuvLlC4Ysovo/YK/PCYE2Pg+15IVdG7
- n3xHqFfPNrMAf/DxgYB2VQP1HAbp5uUrtkZxGRuVQ+MDCHm51GDPiv+qFGm+kT/kbvbM
- Kbn3IpvS4iO5LpcB2mUdVZxNaAKaLCt3IEGEkxeOEnRfQ7NSTxdJUO0ugR/vFf6jWbIR
- wzS5SHFgxN2xkV/1DfaUTViIqb4meT9KPqrTt8ZnmpNNJFlwhN9BvNji9pa2Acdcu/N0
- lnHw==
-X-Gm-Message-State: APjAAAVysjvYFykXwCEILgCaq8cX8lU118c/JGdnSAcaCEKYJAHj+7Jh
- 5YHfFp3IDg5FsRB15W642BNVvwnFiPACz2sw26vOedG67So=
-X-Google-Smtp-Source: APXvYqwv3nObKiu0NXipQ1vS2k+EljFq/NVizO81krNPaXa8SNIsUElJ10daM9vHEy98wC45TLIoUXEz8Tr6dvdJ9Bw=
-X-Received: by 2002:ac2:4a89:: with SMTP id l9mr10789801lfp.122.1570472933345; 
- Mon, 07 Oct 2019 11:28:53 -0700 (PDT)
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=DTzJgj8lOnF6nPaOYuQDCDQJ3WcNkGbHe0aG10fzyBc=;
+ b=QrvWhBnCkX73JHNOvCvCr88s5KJFZdt5w4AZq3J1OxuZ9NiwnN4bKIwl1IB1r9tu43
+ CXNBFOf8xFXWsQsK1MBB9WlexUhrn1OEXhAAOnVgC2bokjjgm80FBZ+myFqgxUKd13ec
+ exKXyqWOH/4YtJWfZ4x1x+mtzKoO8p2JAKo6O1Vs71roLFoeoz23BK1W1HjoZ3TtIOdl
+ KWgwCwdb6jmDSrb8p7TDgdLe+qvsnsacDYPA3dmuRxMT6qPsMubGRcKGSciBoexhO4PS
+ nct37DM5Q+5O7o93AkggAhZf1aIWCWouhTEh3QhD0eJGqqZ6kAdMyNy+t4wbZk82Y4q9
+ yGRg==
+X-Gm-Message-State: APjAAAVJ3dfso+hWPns8vifb+epf6l1BovTAyVOZbA7cJjqpIsmeZo2W
+ WTU8aiBjrQAGAhIdOd0QPelv8Mo1Luw7IKBWtACwPi4qsITPA2lqSz/BXuF7FiomiDd9jvhpehu
+ Wnv0ZpuYfKpiUhnol+AlGUnQ3oI6y
+X-Received: by 2002:ac8:6650:: with SMTP id j16mr12702480qtp.4.1570473309324; 
+ Mon, 07 Oct 2019 11:35:09 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwgecP3wR9qiYhE2XoZghpS/9ZwBEAGROF9BAEtPhfxXFU8hbG5wZKmjKvs5/nOUxCgfDZRFQ==
+X-Received: by 2002:ac8:6650:: with SMTP id j16mr12702447qtp.4.1570473308994; 
+ Mon, 07 Oct 2019 11:35:08 -0700 (PDT)
+Received: from dhcp-10-20-1-34.bss.redhat.com ([144.121.20.162])
+ by smtp.gmail.com with ESMTPSA id v4sm7824368qkj.28.2019.10.07.11.35.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Oct 2019 11:35:08 -0700 (PDT)
+Message-ID: <f8226ad38e282370e9c7023c039fead48fac63bc.camel@redhat.com>
+Subject: Re: [PATCH v1 1/2] drm_dp_cec: drop use of drmP.h
+From: Lyude Paul <lyude@redhat.com>
+To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+Date: Mon, 07 Oct 2019 14:35:07 -0400
+In-Reply-To: <20191007171224.1581-2-sam@ravnborg.org>
+References: <20191007171224.1581-1-sam@ravnborg.org>
+ <20191007171224.1581-2-sam@ravnborg.org>
+Organization: Red Hat
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
 MIME-Version: 1.0
-References: <87y2xzqimw.fsf@keithp.com>
- <CAPj87rM5f1v9ETPJ3KhA7gQKKQoxhqbUx3at5Xi75+5nFQ79Sg@mail.gmail.com>
- <871rvopgjj.fsf@keithp.com>
-In-Reply-To: <871rvopgjj.fsf@keithp.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Mon, 7 Oct 2019 19:28:38 +0100
-Message-ID: <CAPj87rNdxxUX8P=mVe+EVCSXJ5-YcJWXdUHbQJpHO+2ewK0zqw@mail.gmail.com>
-Subject: Re: liboutput: thoughts about shared library on top of DRM/KMS
-To: Keith Packard <keithp@keithp.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=FvtqkEan1ZkFtYbeA8YiibFmBMRN4yk0NT1pJkGguxU=;
- b=ztgC4NXKgj/i5ZZTGLwAdju9RN0lYSKM+J6SyDA67Fjkh1lzczfTfOvP5NM/1apiR1
- SPU0xQOuQvTcwI97oI2amD9RDXZxKk+Bq2GDI+UjTZSq487gL64xSI9QpyY5ySu3j/cj
- GT/ihacUn4r+ONl13gTJ6u1UTXYt7e18t6M8T1qgKISl26f8At7oh0eY+fFG5fpF1MjC
- SHETAr4Xl0jKmsH0Fi8uLHr5AiFqGSQghWXKVePERD4J0KJqTUiVVkT1sR0VD1p0yqiM
- Lid8TN6yPnq4kQHv8wmej4YS7ICHPX/ieQ65vI6J3Z8AKu8N7E4dQcYvbn+HrkZN1vQS
- 6h1g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,26 +67,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, Maxime Ripard <mripard@kernel.org>,
+ Ben Skeggs <bskeggs@redhat.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Dariusz Marcinkiewicz <darekm@google.com>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCA3IE9jdCAyMDE5IGF0IDE5OjE2LCBLZWl0aCBQYWNrYXJkIDxrZWl0aHBAa2VpdGhw
-LmNvbT4gd3JvdGU6Cj4gRGFuaWVsIFN0b25lIDxkYW5pZWxAZm9vaXNoYmFyLm9yZz4gd3JpdGVz
-Ogo+ID4gSSB0aGluayB0aGVyZSB3b3VsZCBiZSBhIGxvYWQgb2YgdmFsdWUgaW4gc3RhcnRpbmcg
-d2l0aCBzaW1wbGUgaGVscGVycwo+ID4gd2hpY2ggY2FuIGJlIHVzZWQgaW5kZXBlbmRlbnRseSBv
-ZiBhbnkgbGFyZ2VyIHNjaGVtZSwgdGFja2xpbmcgdGhhdAo+ID4gbGlzdCBhYm92ZS4KPgo+IFll
-YWgsIGEgaGVscGVyIGxpYnJhcnkgdGhhdCBkaWRuJ3QgZW5mb3JjZSBhdCB0b25uZSBvZiBwb2xp
-Y3kgYW5kIGp1c3QKPiBsZXQgdGhlIHVzZXIgZ2x1ZSB0aGluZ3MgdG9nZXRoZXIgb24gdGhlaXIg
-b3duIGlzIHByb2JhYmx5IGdvaW5nIHRvIGJlCj4gbW9yZSBnZW5lcmFsbHkgdXNhYmxlIGJ5IGV4
-aXN0aW5nIGFuZCBuZXcgc3lzdGVtcy4KPgo+IEkgZGVmaW5pdGVseSBsaWtlIHRoZSBpZGVhIG9m
-IHN0ZWFsaW5nIHRoZSBiZXN0IHBhcnRzIG9mIGFsbCBleGlzdGluZwo+IHN5c3RlbXMgYW5kIHRy
-eWluZyB0byBtYWtlIHRoZW0gd29yayB0b2dldGhlci4KPgo+IEhvdyBtYW55IGxpYnJhcmllcyB3
-ZSBlbmQgdXAgd2l0aCBpc24ndCBuZWFybHkgYXMgaW1wb3J0YW50IHRvIG1lIGFzCj4gbWFraW5n
-IHN1cmUgdGhleSB3b3JrIHdlbGwgdG9nZXRoZXI7IGNvbW1vbiBkYXRhIHR5cGVzLCBzaW1pbGFy
-IHN0eWxlLAo+IGV0Yy4KClllYWgsIHRvdGFsbHkgQU9MLgoKQ2hlZXJzLApEYW5pZWwKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+UmV2aWV3ZWQtYnk6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+CgpPbiBNb24sIDIwMTkt
+MTAtMDcgYXQgMTk6MTIgKzAyMDAsIFNhbSBSYXZuYm9yZyB3cm90ZToKPiBkcm1QLmggaXMgZGVw
+cmVjYXRlZCBhbmQgd2lsbCBiZSBkZWxldGVkLgo+IFJlcGxhY2UgdXNlIHdpdGggcHJvcGVyIGhl
+YWRlci4KPiAKPiBEaXZpZGUgaGVhZGVyIGluY2x1ZGVzIGluIGJsb2NrcyB3aGlsZSB0b3VjaGlu
+ZyB0aGVzZS4KPiAKPiBCdWlsZCB0ZXN0ZWQgd2l0aCB2YXJpb3VzIGFyY2h0ZWN0dXJlcyBhbmQg
+Y29uZmlncy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5v
+cmc+Cj4gRml4ZXM6IGFlODViMGRmMTI0ZjY5MjggKCJkcm1fZHBfY2VjOiBhZGQgY29ubmVjdG9y
+IGluZm8gc3VwcG9ydC4iKQo+IENjOiBEYXJpdXN6IE1hcmNpbmtpZXdpY3ogPGRhcmVrbUBnb29n
+bGUuY29tPgo+IENjOiBIYW5zIFZlcmt1aWwgPGh2ZXJrdWlsLWNpc2NvQHhzNGFsbC5ubD4KPiBD
+YzogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KPiBDYzogQmVuIFNrZWdncyA8YnNrZWdn
+c0ByZWRoYXQuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2RwX2NlYy5jIHwgNiAr
+KysrLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkK
+PiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9jZWMuYyBiL2RyaXZlcnMv
+Z3B1L2RybS9kcm1fZHBfY2VjLmMKPiBpbmRleCBiNDU3YzE2YzNhOGIuLjNhYjI2MDlmOWVjNyAx
+MDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX2NlYy5jCj4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2RybV9kcF9jZWMuYwo+IEBAIC04LDEwICs4LDEyIEBACj4gICNpbmNsdWRlIDxs
+aW51eC9rZXJuZWwuaD4KPiAgI2luY2x1ZGUgPGxpbnV4L21vZHVsZS5oPgo+ICAjaW5jbHVkZSA8
+bGludXgvc2xhYi5oPgo+ICsKPiArI2luY2x1ZGUgPG1lZGlhL2NlYy5oPgo+ICsKPiAgI2luY2x1
+ZGUgPGRybS9kcm1fY29ubmVjdG9yLmg+Cj4gKyNpbmNsdWRlIDxkcm0vZHJtX2RldmljZS5oPgo+
+ICAjaW5jbHVkZSA8ZHJtL2RybV9kcF9oZWxwZXIuaD4KPiAtI2luY2x1ZGUgPGRybS9kcm1QLmg+
+Cj4gLSNpbmNsdWRlIDxtZWRpYS9jZWMuaD4KPiAgCj4gIC8qCj4gICAqIFVuZm9ydHVuYXRlbHkg
+aXQgdHVybnMgb3V0IHRoYXQgd2UgaGF2ZSBhIGNoaWNrZW4tYW5kLWVnZyBzaXR1YXRpb24KLS0g
+CkNoZWVycywKCUx5dWRlIFBhdWwKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbA==
