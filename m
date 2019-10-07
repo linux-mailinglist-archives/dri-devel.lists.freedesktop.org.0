@@ -2,44 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4EFDCDBB3
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2019 08:00:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 105B8CDBA4
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2019 07:52:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 048776E454;
-	Mon,  7 Oct 2019 06:00:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05AD46E452;
+	Mon,  7 Oct 2019 05:52:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 959446E455
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2019 05:59:58 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 929A472162; Mon,  7 Oct 2019 05:59:58 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 476126E452
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2019 05:52:36 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 06 Oct 2019 22:52:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,265,1566889200"; d="scan'208";a="222808699"
+Received: from shawnle1-build-machine.itwn.intel.com ([10.5.253.9])
+ by fmsmga002.fm.intel.com with ESMTP; 06 Oct 2019 22:52:34 -0700
+From: Lee Shawn C <shawn.c.lee@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109628] WARNING at dcn10_hw_sequencer.c:868
- dcn10_verify_allow_pstate_change_high()
-Date: Mon, 07 Oct 2019 05:59:58 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: johannes.hirte@datenkhaos.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109628-502-TSXfuy5iyV@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109628-502@http.bugs.freedesktop.org/>
-References: <bug-109628-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH v2] drm/edid: Select DMT timing if EDID's display feature not
+ support GTF
+Date: Mon,  7 Oct 2019 21:51:27 +0800
+Message-Id: <20191007135127.9538-1-shawn.c.lee@intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190806113021.6586-1-shawn.c.lee@intel.com>
+References: <20190806113021.6586-1-shawn.c.lee@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -53,121 +43,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1205330839=="
+Cc: Cooper Chiou <cooper.chiou@intel.com>, Jani Nikula <jani.nikula@intel.com>,
+ Lee Shawn C <shawn.c.lee@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1205330839==
-Content-Type: multipart/alternative; boundary="15704279982.E438.10910"
-Content-Transfer-Encoding: 7bit
-
-
---15704279982.E438.10910
-Date: Mon, 7 Oct 2019 05:59:58 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109628
-
---- Comment #28 from Johannes Hirte <johannes.hirte@datenkhaos.de> ---
-(In reply to John Smith from comment #22)
-> (In reply to Johannes Hirte from comment #21)
-> > Any possibility to test with 5.3 kernel? It seems it's fixed but not
-> > backported.
->=20
-> If I'm understanding it correctly, backported means it already should be =
-in
-> 5.4, no?
-
-You're right, I've read it wrong.=20
-
-From the reports, it seems to be compositor related. For me, kwin with Open=
-GL
-3.1 backend works fine. xfwm4 seems to trigger the bug, maybe other composi=
-tors
-too.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15704279982.E438.10910
-Date: Mon, 7 Oct 2019 05:59:58 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - WARNING at dcn10_hw_sequencer.c:868 dcn10_verify_allow_ps=
-tate_change_high()"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109628#c28">Comme=
-nt # 28</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - WARNING at dcn10_hw_sequencer.c:868 dcn10_verify_allow_ps=
-tate_change_high()"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109628">bug 10962=
-8</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-johannes.hirte&#64;datenkhaos.de" title=3D"Johannes Hirte &lt;johannes.hirt=
-e&#64;datenkhaos.de&gt;"> <span class=3D"fn">Johannes Hirte</span></a>
-</span></b>
-        <pre>(In reply to John Smith from <a href=3D"show_bug.cgi?id=3D1096=
-28#c22">comment #22</a>)
-<span class=3D"quote">&gt; (In reply to Johannes Hirte from <a href=3D"show=
-_bug.cgi?id=3D109628#c21">comment #21</a>)
-&gt; &gt; Any possibility to test with 5.3 kernel? It seems it's fixed but =
-not
-&gt; &gt; backported.
-&gt;=20
-&gt; If I'm understanding it correctly, backported means it already should =
-be in
-&gt; 5.4, no?</span >
-
-You're right, I've read it wrong.=20
-
-From the reports, it seems to be compositor related. For me, kwin with Open=
-GL
-3.1 backend works fine. xfwm4 seems to trigger the bug, maybe other composi=
-tors
-too.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15704279982.E438.10910--
-
---===============1205330839==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1205330839==--
+UmVmZXIgdG8gRURJRCAxLjMgc3BlYywgZGlzcGxheSBGRUFUVVJFIChieXRlIDE4aCkgYml0ICMw
+IHNhaWQKIklmIHRoaXMgYml0IGlzIHNldCB0byAxLCB0aGUgZGlzcGxheSBzdXBwb3J0cyB0aW1p
+bmdzIGJhc2VkIG9uIHRoZQpHVEYgc3RhbmRhcmQgdXNpbmcgZGVmYXVsdCBHVEYgcGFyYW1ldGVy
+IHZhbHVlcyIuCgpBbmQgRURJRCAxLjQgc3BlYyBzaG93cyAiSWYgYml0IDAgaXMgc2V0IHRvIDAs
+IHRoZW4gdGhlIGRpc3BsYXkKaXMgbm9uY29udGludW91cyBmcmVxdWVuY3kgKG11bHRpLW1vZGUp
+IGFuZCBpcyBvbmx5IHNwZWNpZmllZCB0byBhY2NlcHQKdGhlIHZpZGVvIHRpbWluZyBmb3JtYXRz
+IHRoYXQgYXJlIGxpc3RlZCBpbiBCQVNFIEVESUQgYW5kIGNlcnRhaW4KRVhURU5TSU9OIEJsb2Nr
+cy4KCldoZW4gZGlzcGxheSBmZWF0dXJlIGRpZCBub3Qgc3VwcG9ydCBDVlQgb3IgR0ZUMiBhbmQg
+bW9uaXRvcidzIEVESUQgdmVyc2lvbgpncmVhdGVyIHRoYW4gb3IgZXF1YWwgdG8gIjEuMiIuIERS
+TSBkcml2ZXIgd291bGQgc2VsZWN0IEdURiBhcyBkZWZhdWx0CmZvciBzdGFuZGFyZCB0aW1pbmcg
+Y2FsY3VsYXRpb24uIEl0IG1heSBnZW5lcmF0ZWQgc29tZSB2aWRlbyB0aW1pbmcKdGhhdCBjYW4n
+dCBkaXNwbGF5IHByb3Blcmx5IGJ5IGV4dGVybmFsIG1vbml0b3IuCgpGb3IgZXhhbXBsZS4gV2hl
+biBkcml2ZXIgcmV0cmlldmVkICIweEQxIDB4RkMiIChGSEQsIDEyMEh6KSBhbmQKIjB4RDEgMHhF
+OCIgKEZIRCwgMTAwSHopIGZyb20gIlN0YW5kYXJkIFRpbWluZ3MiLiBHVEYgZm9ybXVsYQp3b3Vs
+ZCBnZW5lcmF0ZSB2aWRlbyB0aW1pbmcgbGlrZSBiZWxvdy4gSXQgYWxyZWFkeSBvdmVyIG1vbml0
+b3IncwpzcGVjIHRvIGNhdXNlIGJsYWNrIHNjcmVlbiBpc3N1ZS4KIjE5MjB4MTA4MCIgMTIwIDM2
+ODg4MSAxOTIwIDIwNzIgMjI4OCAyNjU2IDEwODAgMTA4MSAxMDg0IDExNTcgMHgwIDB4NgoiMTky
+MHgxMDgwIiAxMDAgMzAxOTkyIDE5MjAgMjA3MiAyMjgwIDI2NDAgMTA4MCAxMDgxIDEwODQgMTE0
+NCAweDAgMHg2Cgp2MjogSnVzdCBjb25maXJtIEdURiBmbGFnIGFuZCBvbWl0IHRoZSByZXZpc2lv
+biBjaGVjay4KCkNjOiBKYW5pIE5pa3VsYSA8amFuaS5uaWt1bGFAaW50ZWwuY29tPgpDYzogTWFh
+cnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4KQ2M6IFZp
+bGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+CkNjOiBBZGFtIEph
+Y2tzb24gPGFqYXhAcmVkaGF0LmNvbT4KQ2M6IENvb3BlciBDaGlvdSA8Y29vcGVyLmNoaW91QGlu
+dGVsLmNvbT4KU2lnbmVkLW9mZi1ieTogTGVlIFNoYXduIEMgPHNoYXduLmMubGVlQGludGVsLmNv
+bT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYyB8IDMgKystCiAxIGZpbGUgY2hhbmdl
+ZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
+cHUvZHJtL2RybV9lZGlkLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYwppbmRleCA1YWVl
+MGViYzIwMGUuLjI2ZWIwNDgyMGI1MiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9l
+ZGlkLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMKQEAgLTIxOTMsNyArMjE5Myw4
+IEBAIHN0YXRpYyBpbnQgc3RhbmRhcmRfdGltaW5nX2xldmVsKHN0cnVjdCBlZGlkICplZGlkKQog
+CQkJcmV0dXJuIExFVkVMX0NWVDsKIAkJaWYgKGRybV9ndGYyX2hicmVhayhlZGlkKSkKIAkJCXJl
+dHVybiBMRVZFTF9HVEYyOwotCQlyZXR1cm4gTEVWRUxfR1RGOworCQlpZiAoZWRpZC0+ZmVhdHVy
+ZXMgJiBEUk1fRURJRF9GRUFUVVJFX0RFRkFVTFRfR1RGKQorCQkJcmV0dXJuIExFVkVMX0dURjsK
+IAl9CiAJcmV0dXJuIExFVkVMX0RNVDsKIH0KLS0gCjIuMTcuMQoKX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
