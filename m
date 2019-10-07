@@ -1,37 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F407CE0D9
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2019 13:50:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3419ECE0E1
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2019 13:51:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDB9F6E5AB;
-	Mon,  7 Oct 2019 11:49:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38FE6890C2;
+	Mon,  7 Oct 2019 11:51:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC6AF6E5AB;
- Mon,  7 Oct 2019 11:49:56 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2019 04:49:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,268,1566889200"; d="scan'208";a="197363996"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga006.jf.intel.com with SMTP; 07 Oct 2019 04:49:53 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 07 Oct 2019 14:49:50 +0300
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/i915: Refactor timestamping constants update
-Date: Mon,  7 Oct 2019 14:49:43 +0300
-Message-Id: <20191007114943.29307-3-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191007114943.29307-1-ville.syrjala@linux.intel.com>
-References: <20191007114943.29307-1-ville.syrjala@linux.intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDD77890C2
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2019 11:51:50 +0000 (UTC)
+Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 435C9206C2;
+ Mon,  7 Oct 2019 11:51:50 +0000 (UTC)
+Date: Mon, 7 Oct 2019 13:51:48 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Icenowy Zheng <icenowy@aosc.io>
+Subject: Re: [PATCH v2 1/3] drm/sun4i: dsi: Fix video start delay computation
+Message-ID: <20191007115148.vlu2ptmrfyng4p3r@gilmour>
+References: <20191006160303.24413-1-icenowy@aosc.io>
+ <20191006160303.24413-2-icenowy@aosc.io>
 MIME-Version: 1.0
+In-Reply-To: <20191006160303.24413-2-icenowy@aosc.io>
+User-Agent: NeoMutt/20180716
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1570449110;
+ bh=NxqMa2fK6t/d1ElaNHjGh/HPXo2f714iDYRP59YB2SQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=j8fLsx4MPnXnRMS/JtkqUyGl3MPCBW6gOr8mWXxREtm1cmaEO3GGM/7G/CI3duZVE
+ gSWbfLgytGFa0hw4+z3MishM6Y2I0RLIf0Cfol0b6PT4j8QY+sb2rqRRq/+t5X5aU7
+ 7D/Jf1lK9vfCQ72ibemx20yd7Pbz18ZmvLAYN55Q=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,73 +46,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, linux-sunxi@googlegroups.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Chen-Yu Tsai <wens@csie.org>, Jagan Teki <jagan@amarulasolutions.com>,
+ Merlijn Wajer <merlijn@wizzup.org>, linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============1262273261=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KCk9u
-Y2Ugd2UgZG8gdGhlIGh3IHZzLiB1YXBpIHNwbGl0IHdlIGNhbiBubyBsb25nZXIgdXNlCmRybV9h
-dG9taWNfaGVscGVyX2NhbGNfdGltZXN0YW1waW5nX2NvbnN0YW50cygpIGFzIGl0J2xsCmNvbnN1
-bHQgdGhlIHVhcGkgc3RhdGUgaW5zdGVhZCBvZiB0aGUgaHcgc3RhdGUuCgpTbyBsZXQncyBqdXN0
-IHVwZGF0ZSB0aGUgdmJsYW5rIHRpbWVzdGFtcGluZyBjb25zdGFudHMgd2hlbmV2ZXIKd2UgdXBk
-YXRlIHRoZSBzY2FubGluZSBvZmZzZXQuIFdlIHVzZSBib3RoIHRvIGNvbnZlcnQgdGhlIGh3CnNj
-YW5saW5lIGNvdW50IHRvIHNvbWV0aGluZyB3aGljaCBtYXRjaGVzIHRoZSBzb2Z0d2FyZSB0aW1p
-bmcKdmFsdWVzLgoKRmlyc3QgSSB0aG91Z2h0IHRvIHB1dCB0aGVzZSBpbnRvIGludGVsX2NydGNf
-dmJsYW5rX29uKCkgYnV0CndlIG1heSB3YW50IHRvIGdldCB0aGUgc2NhbmxpbmUgY291bnRlciB2
-YWx1ZSBiZWZvcmUgdGhhdCAoZWcuCmZyb20gc29tZSBlYXJseSB0cmFjZXBvaW50cyksIHNvIGxl
-dCdzIHN0aWNrIHRvIHVwZGF0aW5nIHRoZW0KYSBiaXQgZWFybGllciB0aGFuIGludGVsX2NydGNf
-dmJsYW5rX29uKCkuCgpTaWduZWQtb2ZmLWJ5OiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmph
-bGFAbGludXguaW50ZWwuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50
-ZWxfZGlzcGxheS5jIHwgMTkgKysrKysrKysrKystLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDEx
-IGluc2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5LmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9k
-aXNwbGF5L2ludGVsX2Rpc3BsYXkuYwppbmRleCBiODBkODY0Y2M4ZjEuLmFlNWZhNTg0ZDlhZSAx
-MDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5LmMK
-KysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5LmMKQEAgLTEz
-MzYxLDEwICsxMzM2MSwxNSBAQCBpbnRlbF9tb2Rlc2V0X3ZlcmlmeV9kaXNhYmxlZChzdHJ1Y3Qg
-ZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYsCiAJdmVyaWZ5X2Rpc2FibGVkX2RwbGxfc3RhdGUo
-ZGV2X3ByaXYpOwogfQogCi1zdGF0aWMgdm9pZCB1cGRhdGVfc2NhbmxpbmVfb2Zmc2V0KGNvbnN0
-IHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRlICpjcnRjX3N0YXRlKQorc3RhdGljIHZvaWQKK2ludGVs
-X2NydGNfdXBkYXRlX2FjdGl2ZV90aW1pbmdzKGNvbnN0IHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRl
-ICpjcnRjX3N0YXRlKQogewogCXN0cnVjdCBpbnRlbF9jcnRjICpjcnRjID0gdG9faW50ZWxfY3J0
-YyhjcnRjX3N0YXRlLT5iYXNlLmNydGMpOwogCXN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZf
-cHJpdiA9IHRvX2k5MTUoY3J0Yy0+YmFzZS5kZXYpOworCWNvbnN0IHN0cnVjdCBkcm1fZGlzcGxh
-eV9tb2RlICphZGp1c3RlZF9tb2RlID0KKwkJJmNydGNfc3RhdGUtPmJhc2UuYWRqdXN0ZWRfbW9k
-ZTsKKworCWRybV9jYWxjX3RpbWVzdGFtcGluZ19jb25zdGFudHMoJmNydGMtPmJhc2UsIGFkanVz
-dGVkX21vZGUpOwogCiAJLyoKIAkgKiBUaGUgc2NhbmxpbmUgY291bnRlciBpbmNyZW1lbnRzIGF0
-IHRoZSBsZWFkaW5nIGVkZ2Ugb2YgaHN5bmMuCkBAIC0xMzM5NCw3ICsxMzM5OSw2IEBAIHN0YXRp
-YyB2b2lkIHVwZGF0ZV9zY2FubGluZV9vZmZzZXQoY29uc3Qgc3RydWN0IGludGVsX2NydGNfc3Rh
-dGUgKmNydGNfc3RhdGUpCiAJICogYW5zd2VyIHRoYXQncyBzbGlnaHRseSBpbiB0aGUgZnV0dXJl
-LgogCSAqLwogCWlmIChJU19HRU4oZGV2X3ByaXYsIDIpKSB7Ci0JCWNvbnN0IHN0cnVjdCBkcm1f
-ZGlzcGxheV9tb2RlICphZGp1c3RlZF9tb2RlID0gJmNydGNfc3RhdGUtPmJhc2UuYWRqdXN0ZWRf
-bW9kZTsKIAkJaW50IHZ0b3RhbDsKIAogCQl2dG90YWwgPSBhZGp1c3RlZF9tb2RlLT5jcnRjX3Z0
-b3RhbDsKQEAgLTEzNDA1LDggKzEzNDA5LDkgQEAgc3RhdGljIHZvaWQgdXBkYXRlX3NjYW5saW5l
-X29mZnNldChjb25zdCBzdHJ1Y3QgaW50ZWxfY3J0Y19zdGF0ZSAqY3J0Y19zdGF0ZSkKIAl9IGVs
-c2UgaWYgKEhBU19EREkoZGV2X3ByaXYpICYmCiAJCSAgIGludGVsX2NydGNfaGFzX3R5cGUoY3J0
-Y19zdGF0ZSwgSU5URUxfT1VUUFVUX0hETUkpKSB7CiAJCWNydGMtPnNjYW5saW5lX29mZnNldCA9
-IDI7Ci0JfSBlbHNlCisJfSBlbHNlIHsKIAkJY3J0Yy0+c2NhbmxpbmVfb2Zmc2V0ID0gMTsKKwl9
-CiB9CiAKIHN0YXRpYyB2b2lkIGludGVsX21vZGVzZXRfY2xlYXJfcGxscyhzdHJ1Y3QgaW50ZWxf
-YXRvbWljX3N0YXRlICpzdGF0ZSkKQEAgLTEzNzA3LDcgKzEzNzEyLDggQEAgc3RhdGljIHZvaWQg
-aW50ZWxfdXBkYXRlX2NydGMoc3RydWN0IGludGVsX2NydGMgKmNydGMsCiAJCQkJCQkgdG9faW50
-ZWxfcGxhbmUoY3J0Yy0+YmFzZS5wcmltYXJ5KSk7CiAKIAlpZiAobW9kZXNldCkgewotCQl1cGRh
-dGVfc2NhbmxpbmVfb2Zmc2V0KG5ld19jcnRjX3N0YXRlKTsKKwkJaW50ZWxfY3J0Y191cGRhdGVf
-YWN0aXZlX3RpbWluZ3MobmV3X2NydGNfc3RhdGUpOworCiAJCWRldl9wcml2LT5kaXNwbGF5LmNy
-dGNfZW5hYmxlKG5ld19jcnRjX3N0YXRlLCBzdGF0ZSk7CiAKIAkJLyogdmJsYW5rcyB3b3JrIGFn
-YWluLCByZS1lbmFibGUgcGlwZSBDUkMuICovCkBAIC0xMzk4MCw3ICsxMzk4Niw2IEBAIHN0YXRp
-YyB2b2lkIGludGVsX2F0b21pY19jb21taXRfdGFpbChzdHJ1Y3QgaW50ZWxfYXRvbWljX3N0YXRl
-ICpzdGF0ZSkKIAogCWlmIChzdGF0ZS0+bW9kZXNldCkgewogCQlkcm1fYXRvbWljX2hlbHBlcl91
-cGRhdGVfbGVnYWN5X21vZGVzZXRfc3RhdGUoZGV2LCAmc3RhdGUtPmJhc2UpOwotCQlkcm1fYXRv
-bWljX2hlbHBlcl9jYWxjX3RpbWVzdGFtcGluZ19jb25zdGFudHMoJnN0YXRlLT5iYXNlKTsKIAog
-CQlpbnRlbF9zZXRfY2RjbGtfcHJlX3BsYW5lX3VwZGF0ZShkZXZfcHJpdiwKIAkJCQkJCSAmc3Rh
-dGUtPmNkY2xrLmFjdHVhbCwKQEAgLTE2Nzg3LDkgKzE2NzkyLDcgQEAgc3RhdGljIHZvaWQgaW50
-ZWxfbW9kZXNldF9yZWFkb3V0X2h3X3N0YXRlKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpCiAJCQkJ
-CW1pbl9jZGNsayA9IDA7CiAJCQl9CiAKLQkJCWRybV9jYWxjX3RpbWVzdGFtcGluZ19jb25zdGFu
-dHMoJmNydGMtPmJhc2UsCi0JCQkJCQkJJmNydGNfc3RhdGUtPmJhc2UuYWRqdXN0ZWRfbW9kZSk7
-Ci0JCQl1cGRhdGVfc2NhbmxpbmVfb2Zmc2V0KGNydGNfc3RhdGUpOworCQkJaW50ZWxfY3J0Y191
-cGRhdGVfYWN0aXZlX3RpbWluZ3MoY3J0Y19zdGF0ZSk7CiAJCX0KIAogCQlkZXZfcHJpdi0+bWlu
-X2NkY2xrW2NydGMtPnBpcGVdID0gbWluX2NkY2xrOwotLSAKMi4yMS4wCgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1262273261==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="mvyysf4wnnowwhd4"
+Content-Disposition: inline
+
+
+--mvyysf4wnnowwhd4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Mon, Oct 07, 2019 at 12:03:00AM +0800, Icenowy Zheng wrote:
+> From: Jagan Teki <jagan@amarulasolutions.com>
+>
+> The LCD timing definitions between Linux DRM vs Allwinner are different,
+> below diagram shows this clear differences.
+>
+>            Active                 Front           Sync           Back
+>            Region                 Porch                          Porch
+> <-----------------------><----------------><--------------><-------------->
+>   //////////////////////|
+>  ////////////////////// |
+> //////////////////////  |..................                ................
+>                                            ________________
+> <----- [hv]display ----->
+> <------------- [hv]sync_start ------------>
+> <--------------------- [hv]sync_end ---------------------->
+> <-------------------------------- [hv]total ------------------------------>
+>
+> <----- lcd_[xy] -------->		  <- lcd_[hv]spw ->
+> 					  <---------- lcd_[hv]bp --------->
+> <-------------------------------- lcd_[hv]t ------------------------------>
+>
+> The DSI driver misinterpreted the vbp term from the BSP code to refer
+> only to the backporch, when in fact it was backporch + sync. Thus the
+> driver incorrectly used the vertical front porch plus sync in its
+> calculation of the DRQ set bit value, when it should not have included
+> the sync timing.
+>
+> Including additional sync timings leads to flip_done timed out as:
+>
+> WARNING: CPU: 0 PID: 31 at drivers/gpu/drm/drm_atomic_helper.c:1429 drm_atomic_helper_wait_for_vblanks.part.1+0x298/0x2a0
+> [CRTC:46:crtc-0] vblank wait timed out
+> Modules linked in:
+> CPU: 0 PID: 31 Comm: kworker/0:1 Not tainted 5.1.0-next-20190514-00029-g09e5b0ed0a58 #18
+> Hardware name: Allwinner sun8i Family
+> Workqueue: events deferred_probe_work_func
+> [<c010ed54>] (unwind_backtrace) from [<c010b76c>] (show_stack+0x10/0x14)
+> [<c010b76c>] (show_stack) from [<c0688c70>] (dump_stack+0x84/0x98)
+> [<c0688c70>] (dump_stack) from [<c011d9e4>] (__warn+0xfc/0x114)
+> [<c011d9e4>] (__warn) from [<c011da40>] (warn_slowpath_fmt+0x44/0x68)
+> [<c011da40>] (warn_slowpath_fmt) from [<c040cd50>] (drm_atomic_helper_wait_for_vblanks.part.1+0x298/0x2a0)
+> [<c040cd50>] (drm_atomic_helper_wait_for_vblanks.part.1) from [<c040e694>] (drm_atomic_helper_commit_tail_rpm+0x5c/0x6c)
+> [<c040e694>] (drm_atomic_helper_commit_tail_rpm) from [<c040e4dc>] (commit_tail+0x40/0x6c)
+> [<c040e4dc>] (commit_tail) from [<c040e5cc>] (drm_atomic_helper_commit+0xbc/0x128)
+> [<c040e5cc>] (drm_atomic_helper_commit) from [<c0411b64>] (restore_fbdev_mode_atomic+0x1cc/0x1dc)
+> [<c0411b64>] (restore_fbdev_mode_atomic) from [<c04156f8>] (drm_fb_helper_restore_fbdev_mode_unlocked+0x54/0xa0)
+> [<c04156f8>] (drm_fb_helper_restore_fbdev_mode_unlocked) from [<c0415774>] (drm_fb_helper_set_par+0x30/0x54)
+> [<c0415774>] (drm_fb_helper_set_par) from [<c03ad450>] (fbcon_init+0x560/0x5ac)
+> [<c03ad450>] (fbcon_init) from [<c03eb8a0>] (visual_init+0xbc/0x104)
+> [<c03eb8a0>] (visual_init) from [<c03ed1b8>] (do_bind_con_driver+0x1b0/0x390)
+> [<c03ed1b8>] (do_bind_con_driver) from [<c03ed780>] (do_take_over_console+0x13c/0x1c4)
+> [<c03ed780>] (do_take_over_console) from [<c03ad800>] (do_fbcon_takeover+0x74/0xcc)
+> [<c03ad800>] (do_fbcon_takeover) from [<c013c9c8>] (notifier_call_chain+0x44/0x84)
+> [<c013c9c8>] (notifier_call_chain) from [<c013cd20>] (__blocking_notifier_call_chain+0x48/0x60)
+> [<c013cd20>] (__blocking_notifier_call_chain) from [<c013cd50>] (blocking_notifier_call_chain+0x18/0x20)
+> [<c013cd50>] (blocking_notifier_call_chain) from [<c03a6e44>] (register_framebuffer+0x1e0/0x2f8)
+> [<c03a6e44>] (register_framebuffer) from [<c04153c0>] (__drm_fb_helper_initial_config_and_unlock+0x2fc/0x50c)
+> [<c04153c0>] (__drm_fb_helper_initial_config_and_unlock) from [<c04158c8>] (drm_fbdev_client_hotplug+0xe8/0x1b8)
+> [<c04158c8>] (drm_fbdev_client_hotplug) from [<c0415a20>] (drm_fbdev_generic_setup+0x88/0x118)
+> [<c0415a20>] (drm_fbdev_generic_setup) from [<c043f060>] (sun4i_drv_bind+0x128/0x160)
+> [<c043f060>] (sun4i_drv_bind) from [<c044b598>] (try_to_bring_up_master+0x164/0x1a0)
+> [<c044b598>] (try_to_bring_up_master) from [<c044b668>] (__component_add+0x94/0x140)
+> [<c044b668>] (__component_add) from [<c0445e1c>] (sun6i_dsi_probe+0x144/0x234)
+> [<c0445e1c>] (sun6i_dsi_probe) from [<c0452ef4>] (platform_drv_probe+0x48/0x9c)
+> [<c0452ef4>] (platform_drv_probe) from [<c04512cc>] (really_probe+0x1dc/0x2c8)
+> [<c04512cc>] (really_probe) from [<c0451518>] (driver_probe_device+0x60/0x160)
+> [<c0451518>] (driver_probe_device) from [<c044f7a4>] (bus_for_each_drv+0x74/0xb8)
+> [<c044f7a4>] (bus_for_each_drv) from [<c045107c>] (__device_attach+0xd0/0x13c)
+> [<c045107c>] (__device_attach) from [<c0450474>] (bus_probe_device+0x84/0x8c)
+> [<c0450474>] (bus_probe_device) from [<c0450900>] (deferred_probe_work_func+0x64/0x90)
+> [<c0450900>] (deferred_probe_work_func) from [<c0135970>] (process_one_work+0x204/0x420)
+> [<c0135970>] (process_one_work) from [<c013690c>] (worker_thread+0x274/0x5a0)
+> [<c013690c>] (worker_thread) from [<c013b3d8>] (kthread+0x11c/0x14c)
+> [<c013b3d8>] (kthread) from [<c01010e8>] (ret_from_fork+0x14/0x2c)
+> Exception stack(0xde539fb0 to 0xde539ff8)
+> 9fa0:                                     00000000 00000000 00000000 00000000
+> 9fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+> 9fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+> ---[ end trace 495200a78b24980e ]---
+> random: fast init done
+> [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CRTC:46:crtc-0] flip_done timed out
+> [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CONNECTOR:48:DSI-1] flip_done timed out
+> [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [PLANE:30:plane-0] flip_done timed out
+>
+> With the terms(as described in above diagram) fixed, the panel
+> displays correctly without any timeouts.
+>
+> Tested-by: Merlijn Wajer <merlijn@wizzup.org>
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+
+you should have your SoB here.
+
+All the patches look fine, so there's no need to resend a new
+version. I'll add it if you can give it.
+
+Maxime
+
+--mvyysf4wnnowwhd4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXZsm1AAKCRDj7w1vZxhR
+xc9VAPsEb55VR99Kw0sCcM0i8dH+KxAOHTdQo/I+My1hhiSzzQEAsGt/j9E+Lstn
+zXlCA4KDXC8Mtusd9AHycGI3RcLAqw4=
+=pIhD
+-----END PGP SIGNATURE-----
+
+--mvyysf4wnnowwhd4--
+
+--===============1262273261==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1262273261==--
