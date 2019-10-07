@@ -1,41 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 569DFCEA66
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2019 19:16:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C984CEA84
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2019 19:23:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BEA56E090;
-	Mon,  7 Oct 2019 17:16:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FBEF6E0AF;
+	Mon,  7 Oct 2019 17:23:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 408F86E090
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2019 17:16:40 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (modemcable118.64-20-96.mc.videotron.ca [96.20.64.118])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 67FCFB2D;
- Mon,  7 Oct 2019 19:16:38 +0200 (CEST)
-Date: Mon, 7 Oct 2019 20:16:35 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Andreas Kemnade <andreas@kemnade.info>
-Subject: Re: [PATCH] drm: panels: fix spi aliases of former omap panels
-Message-ID: <20191007171635.GC11781@pendragon.ideasonboard.com>
-References: <20191007164130.31534-1-andreas@kemnade.info>
- <20191007170446.yotb24s6jhe6nx3r@earth.universe>
- <20191007191428.016ddcd4@aktux>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE4B46E0AF
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2019 17:23:03 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 941EA80516;
+ Mon,  7 Oct 2019 19:22:58 +0200 (CEST)
+Date: Mon, 7 Oct 2019 19:22:56 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 0/5] Fix SPI module alias for panels used by omapdrm
+Message-ID: <20191007172256.GA1956@ravnborg.org>
+References: <20191007170801.27647-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191007191428.016ddcd4@aktux>
+In-Reply-To: <20191007170801.27647-1-laurent.pinchart@ideasonboard.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1570468598;
- bh=yeGcY0TtxD7c9pfFdsT6/oUxOBZyIhvn1OM7dinxI3E=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aHiUTT9rltB1HpUJW0LhlBgqYRX5nzr2vv+HTQd5V9+DeM97FL65SdgZ19n0ORsxO
- zrkNz2OJQkoiyFYrKPvB9FsRlemo6YEDDZUhoYYDt3Rx6XbQrtEOZYO+CN9/fOVG8U
- fC9KF0SRLvYp/zjxxgXvKmVSK+jXEhAFH64+JP1U=
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+ a=9T81fxlNLQDmeR1-j4EA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=pHzHmUro8NiASowvMSCR:22 a=Ew2E2A-JSTLzCXPT_086:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,51 +45,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux-OMAP <linux-omap@vger.kernel.org>, airlied@linux.ie,
- omi Valkeinen <tomi.valkeinen@ti.com>, Sebastian Reichel <sre@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Tony Lindgren <tony@atomide.com>, thierry.reding@gmail.com,
- Jyri Sarha <jsarha@ti.com>,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- sam@ravnborg.org, linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Cc: linux-omap@vger.kernel.org, Tony Lindgren <tony@atomide.com>,
+ "H. Nikolaus Schaller" <hns@goldelico.com>, dri-devel@lists.freedesktop.org,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, thierry.reding@gmail.com,
+ Jyri Sarha <jsarha@ti.com>, letux-kernel@openphoenux.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQW5kcmVhcywKCk9uIE1vbiwgT2N0IDA3LCAyMDE5IGF0IDA3OjE0OjI4UE0gKzAyMDAsIEFu
-ZHJlYXMgS2VtbmFkZSB3cm90ZToKPiBPbiBNb24sIDcgT2N0IDIwMTkgMTk6MDQ6NDYgKzAyMDAg
-U2ViYXN0aWFuIFJlaWNoZWwgd3JvdGU6Cj4gPiBPbiBNb24sIE9jdCAwNywgMjAxOSBhdCAwNjo0
-MTozMFBNICswMjAwLCBBbmRyZWFzIEtlbW5hZGUgd3JvdGU6Cj4gPiA+IFdoZW4gdGhlIHBhbmVs
-cyB3ZXJlIG1vdmVkIGZyb20gb21hcC9kaXNwbGF5cy8gdG8gcGFuZWwvCj4gPiA+IG9tYXBkc3Mg
-cHJlZml4IHdhcyBzdHJpcHBlZCwgd2hpY2ggY2F1c2Ugc3BpIG1vZGFsaWFzCj4gPiA+IHRvIG5v
-dCBjb250YWluIHRoZSB2ZW5kb3ItcHJlZml4IGFueW1vcmUuCj4gPiA+IAo+ID4gPiBzbyB3ZSBo
-YWQgZS5nLiBpbiBmb3JtZXIgdGltZXM6Cj4gPiA+IGNvbXBhdGlibGU9b21hcGRzcyx0cG8sdGQw
-Mjh0dGVjMSAtPiBtb2RhbGlhcz1zcGk6dHBvLHRkMDI4dHRlYzEKPiA+ID4gbm93Ogo+ID4gPiBj
-b21wYXRpYmxlPXRwbyx0ZDAyOHR0ZWMxIC0+IG1vZGFsaWFzPXNwaTp0ZDAyOHR0ZWMxCj4gPiA+
-IAo+ID4gPiBUaGlzIGlzIGNvbnNpc3RlbnQgd2l0aCBvdGhlciBkcml2ZXJzLiBUZXN0ZWQgdGhl
-IHRkMDI4dHRlYy5jCj4gPiA+IG9ubHksIGJ1dCB0aGUgcGF0dGVybiBsb29rcyB0aGUgc2FtZSBm
-b3IgdGhlIG90aGVyIG9uZXMuCj4gPiA+IAo+ID4gPiBGaXhlczogNDVmMTZjODJkYjdlOCAoImRy
-bS9vbWFwOiBkaXNwbGF5czogUmVtb3ZlIHVudXNlZCBwYW5lbCBkcml2ZXJzIikKPiA+ID4gU2ln
-bmVkLW9mZi1ieTogQW5kcmVhcyBLZW1uYWRlIDxhbmRyZWFzQGtlbW5hZGUuaW5mbz4KPiA+ID4g
-LS0tICAKPiA+IAo+ID4gUGF0Y2ggbG9va3MgZ29vZCB0byBtZSwgYnV0IHlvdSBoYXZlIG9uZSBm
-YWxzZSBwb3NpdGl2ZS4KPiA+IAo+ID4gPiBbLi4uXQo+ID4gPgo+ID4gPiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNoYXJwLWxzMDM3djdkdzAxLmMgYi9kcml2ZXJz
-L2dwdS9kcm0vcGFuZWwvcGFuZWwtc2hhcnAtbHMwMzd2N2R3MDEuYwo+ID4gPiBpbmRleCA0NmNk
-OWEyNTAxMjk4Li44MzhkMzlhMjYzZjUzIDEwMDY0NAo+ID4gPiAtLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vcGFuZWwvcGFuZWwtc2hhcnAtbHMwMzd2N2R3MDEuYwo+ID4gPiArKysgYi9kcml2ZXJzL2dw
-dS9kcm0vcGFuZWwvcGFuZWwtc2hhcnAtbHMwMzd2N2R3MDEuYwo+ID4gPiBAQCAtMjA0LDcgKzIw
-NCw3IEBAIHN0YXRpYyBpbnQgbHMwMzd2N2R3MDFfcmVtb3ZlKHN0cnVjdCBwbGF0Zm9ybV9kZXZp
-Y2UgKnBkZXYpCj4gPiA+ICB9Cj4gPiA+ICAKPiA+ID4gIHN0YXRpYyBjb25zdCBzdHJ1Y3Qgb2Zf
-ZGV2aWNlX2lkIGxzMDM3djdkdzAxX29mX21hdGNoW10gPSB7Cj4gPiA+IC0JeyAuY29tcGF0aWJs
-ZSA9ICJzaGFycCxsczAzN3Y3ZHcwMSIsIH0sCj4gPiA+ICsJeyAuY29tcGF0aWJsZSA9ICJsczAz
-N3Y3ZHcwMSIsIH0sCj4gPiA+ICAJeyAvKiBzZW50aW5lbCAqLyB9LAo+ID4gPiAgfTsKPiA+IAo+
-ID4gVGhlIERUIGNvbXBhdGlibGUgc2hvdWxkIGhhdmUgYSB2ZW5kb3IgcHJlZml4Lgo+IAo+IG9v
-cHMsIHNvcnJ5LCBidXQgSSBpdCBzZWVtcyB0aGF0IExhdXJlbnQgYWxyZWFkeSBoYXMgc3VibWl0
-dGVkIGEgZml4LgoKU2VlbXMgd2UndmUgYmVlbiByYWNpbmcgZWFjaCBvdGhlciA6LVMgRmVlbCBm
-cmVlIHRvIHN1Ym1pdCBhIHYyIG9mIHRoaXMKcGF0Y2ggaWYgeW91IHRoaW5rIGl0J3MgYmV0dGVy
-IHRoYW4gbXkgc2VyaWVzLiBBcyBsb25nIGFzIHRoZSBwcm9ibGVtCmdldHMgZml4ZWQsIEknbGwg
-YmUgaGFwcHkgOi0pCgotLSAKUmVnYXJkcywKCkxhdXJlbnQgUGluY2hhcnQKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+SGkgTGF1cmVudC4KT24gTW9uLCBPY3QgMDcsIDIwMTkgYXQgMDg6MDc6NTZQTSArMDMwMCwgTGF1
+cmVudCBQaW5jaGFydCB3cm90ZToKPiBIZWxsbywKPiAKPiBUaGlzIHBhdGNoIHNlcmllcyBmaXhl
+cyBhIG1vZHVsZSBhbGlhcyBpc3N1ZSB3aXRoIHRoZSBmaXZlIHJlY2VudGx5Cj4gYWRkZWQgcGFu
+ZWwgZHJpdmVycyB1c2VkIGJ5IG9tYXBkcm0uCj4gCj4gQmVmb3JlIHRob3NlIHBhbmVsIGRyaXZl
+cnMsIG9tYXBkcm0gaGFkIGN1c3RvbSBkcml2ZXJzIGZvciB0aGUgcGFuZWxzLAo+IGFuZCBwcmVm
+aXhlZCB0aGUgT0YgY29tcGF0aWJsZSBzdHJpbmdzIHdpdGggYW4gIm9tYXBkc3MsIiBwcmVmaXgu
+IFRoZQo+IFNQSSBkZXZpY2UgSURzIGFyZSBjb25zdHJ1Y3RlZCBieSBzdHJpcHBpbmcgdGhlIE9G
+IGNvbXBhdGlibGUgc3RyaW5nCj4gZnJvbSB0aGUgcHJlZml4LCByZXN1bHRpbmcgaW4gdGhlICJv
+bWFwZHNzLCIgcHJlZml4IGJlaW5nIHJlbW92ZWQsIGJ1dAo+IHRoZSBzdWJzZXF1ZW5jZSBPRiB2
+ZW5kb3IgcHJlZml4IGJlaW5nIGtlcHQuIFRoZSBTUEkgZHJpdmVycyB0aHVzIGhhZAo+IG1vZHVs
+ZXMgYWxpYXNlcyB0aGF0IGNvbnRhaW5lZCB0aGUgdmVuZG9yIHByZWZpeC4KPiAKPiBOb3cgdGhh
+dCB0aGUgcGFuZWxzIGFyZSBzdXBwb3J0ZWQgYnkgc3RhbmRhcmQgZHJpdmVycyBhbmQgdGhlICJv
+bWFwZHNzLCIKPiBwcmVmaXggaXMgcmVtb3ZlZCwgdGhlIFNQSSBkZXZpY2UgSURzIGFyZSBzdHJp
+cHBlZCBmcm9tIHRoZSBPRiB2ZW5kb3IKPiBwcmVmaXguIEFzIHRoZSBuZXcgcGFuZWwgZHJpdmVy
+cyBjb3BpZWQgdGhlIG1vZHVsZSBhbGlhc2VzIGZyb20gdGhlCj4gb21hcGRybS1zcGVjaWZpYyBk
+cml2ZXJzLCB0aGV5IGNvbnRhaW4gdGhlIHZlbmRvciBwcmVmaXggaW4gdGhlaXIgU1BJCj4gbW9k
+dWxlIGFsaWFzZXMsIGFuZCBhcmUgdGh1cyBub3QgbG9hZGVkIGF1dG9tYXRpY2FsbHkuCj4gCj4g
+Rml4IHRoaXMgYnkgcmVtb3ZpbmcgdGhlIHZlbmRvciBwcmVmaXggZnJvbSB0aGUgU1BJIG1vZHVs
+ZXMgYWxpYXNlcyBpbgo+IHRoZSBkcml2ZXJzLiBGb3IgY29uc2lzdGVuY3kgcmVhc29uLCB0aGUg
+bWFudWFsIG1vZHVsZSBhbGlhc2VzIGFyZSBhbHNvCj4gbW92ZWQgdG8gdXNlIGFuIFNQSSBtb2R1
+bGUgdGFibGUuCgpHb29kIGV4cGxhbmF0aW9uIC0gdGhhbmtzLgoKPiAKPiBUaGVzZSBwYXRjaGVz
+IGFyZSBiYXNlZCBvbiB0aGUgZHJtLW1pc2MtZml4ZXMgYnJhbmNoIGFzIHRoZXkgZml4IHY1LjQK
+PiByZWdyZXNzaW9ucy4KPiAKPiBMYXVyZW50IFBpbmNoYXJ0ICg1KToKPiAgIGRybS9wYW5lbDog
+bGctbGIwMzVxMDI6IEZpeCBTUEkgYWxpYXMKPiAgIGRybS9wYW5lbDogbmVjLW5sODA0OGhsMTE6
+IEZpeCBTUEkgYWxpYXMKPiAgIGRybS9wYW5lbDogc29ueS1hY3g1NjVha206IEZpeCBTUEkgYWxp
+YXMKPiAgIGRybS9wYW5lbDogdHBvLXRkMDI4dHRlYzE6IEZpeCBTUEkgYWxpYXMKPiAgIGRybS9w
+YW5lbDogdHBvLXRkMDQzbXRlYTE6IEZpeCBTUEkgYWxpYXMKCkZ1bGwgc2VyaWVzIGlzOgpBY2tl
+ZC1ieTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgoKSSBleHBlY3Qgc29tZW9uZSBl
+bHNlIHRvIHBpY2sgdGhlbSB1cCBvciB0aGF0IHlvdSBhcHBseSB0aGVtLgoKCVNhbQpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
