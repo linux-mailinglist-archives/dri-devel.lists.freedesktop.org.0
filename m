@@ -2,63 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5529ACDC07
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2019 09:02:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2441CDCFA
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2019 10:16:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BF8C6E462;
-	Mon,  7 Oct 2019 07:01:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14B526E4B0;
+	Mon,  7 Oct 2019 08:16:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E124C6E252
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2019 05:48:05 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id y72so7875761pfb.12
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Oct 2019 22:48:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=5tzoF5jEWBGYn2YEncgp+nUwEVI8tjzoOCexGDe1hVc=;
- b=fGujlVDVV7tUNAVhSBIWRMVTlKWtV2vzjfIaOaRXPOFoc+9Ek+bvig+quaiBc0qfUM
- GyHiI0EnSOYH7190areYS2wixpt4/P+5vLoM3qMQ1+sVB2YicJj68Wnn/vFKf2r4B3xw
- /J+8pJwcnFPaSgCZH44aVRNzZGkupNQDCxxbsDuP0yV+zoTJggX4Iq5HjJBibr7+w+TB
- lByRoEJ4JnLoxt837WtcLy8blwQQVOUbUBn4V2pVZ+BqqYxF58Oqab5lwf2sxcLyHnkb
- ZQ2noEBouuaquSahrJK025PHlgIiZLOIezfjz8UaAk9kNnMA3/sKAfJtORKvuVk2uWXj
- 6csw==
-X-Gm-Message-State: APjAAAWxd0tAM7My6di/5ioSeFEesUSc57ZJb6qY21uKyBU5iLD7XGSv
- IwasazuNzlxbhLmVYML7oHnwRg==
-X-Google-Smtp-Source: APXvYqx8wMELgRKaVDfwPVaxFK4vskD26Isa8VG9p6kFK7Fr+X+pG18Z3YrxVjib5kmWx8LxnhwKbg==
-X-Received: by 2002:a65:504c:: with SMTP id k12mr16046935pgo.252.1570427285224; 
- Sun, 06 Oct 2019 22:48:05 -0700 (PDT)
-Received: from tuxbook-pro (104-188-17-28.lightspeed.sndgca.sbcglobal.net.
- [104.188.17.28])
- by smtp.gmail.com with ESMTPSA id u7sm5730980pfn.61.2019.10.06.22.48.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Oct 2019 22:48:04 -0700 (PDT)
-Date: Sun, 6 Oct 2019 22:48:01 -0700
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Brian Masney <masneyb@onstation.org>
-Subject: Re: [PATCH RFC v2 3/5] ARM: dts: qcom: pm8941: add 5vs2 regulator node
-Message-ID: <20191007054801.GH6390@tuxbook-pro>
-References: <20191007014509.25180-1-masneyb@onstation.org>
- <20191007014509.25180-4-masneyb@onstation.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 73C666E4BB
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2019 08:16:37 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 70ADF72162; Mon,  7 Oct 2019 08:16:37 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109628] WARNING at dcn10_hw_sequencer.c:868
+ dcn10_verify_allow_pstate_change_high()
+Date: Mon, 07 Oct 2019 08:16:37 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: michel@daenzer.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109628-502-PWhbH4n9mc@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109628-502@http.bugs.freedesktop.org/>
+References: <bug-109628-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191007014509.25180-4-masneyb@onstation.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Mailman-Approved-At: Mon, 07 Oct 2019 07:01:51 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=5tzoF5jEWBGYn2YEncgp+nUwEVI8tjzoOCexGDe1hVc=;
- b=iWm2gbrxXJtQbLIiHmiKtOzlK0kdACMqzvNyCI0Bvt31xz+eLXkAX3gfjASqtsyxd2
- pibAMwyUux/rIge9wN9ApuhvjHkiHSb6pKraakhzlhJbh8JgeyELWbZL3PIl53pLUXyM
- iC4fFVNWHchNI0Y9vRlKepoKrk43B7Q/GtfRWIqXe+L/euPWh53pNl7YkRPu2Px87Ijb
- ti4S14CzINDFcQoHtWJxeSosRNR3kd6DjPJfm/4b+LrhRudNDYrseCHJvA0sPBhBVIts
- zkUet9HlTvXp/wvmIvi/ZrzCOh/d/RQI2xYxO0LV3j4KYxlVl9xwzjWI37g1ahIIy/6B
- m2Gg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,39 +53,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, jonathan@marek.ca, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Laurent.pinchart@ideasonboard.com,
- sean@poorly.run
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1216368778=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU3VuIDA2IE9jdCAxODo0NSBQRFQgMjAxOSwgQnJpYW4gTWFzbmV5IHdyb3RlOgoKPiBwbTg5
-NDEgaXMgbWlzc2luZyB0aGUgNXZzMiByZWd1bGF0b3Igbm9kZSBzbyBsZXQncyBhZGQgaXQgc2lu
-Y2UgaXRzCj4gbmVlZGVkIHRvIGdldCB0aGUgZXh0ZXJuYWwgZGlzcGxheSB3b3JraW5nLiBUaGlz
-IHJlZ3VsYXRvciB3YXMgYWxyZWFkeQo+IGNvbmZpZ3VyZWQgaW4gdGhlIGludGVycnVwdHMgcHJv
-cGVydHkgb24gdGhlIHBhcmVudCBub2RlLgo+IAo+IE5vdGUgdGhhdCB0aGlzIHJlZ3VsYXRvciBp
-cyByZWZlcnJlZCB0byBhcyBtdnMyIGluIHRoZSBkb3duc3RyZWFtIE1TTQo+IGtlcm5lbCBzb3Vy
-Y2VzLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEJyaWFuIE1hc25leSA8bWFzbmV5YkBvbnN0YXRpb24u
-b3JnPgo+IFJldmlld2VkLWJ5OiBMaW51cyBXYWxsZWlqIDxsaW51cy53YWxsZWlqQGxpbmFyby5v
-cmc+CgpQaWNrZWQgdGhpcyBwYXRjaCBmb3Igbm93LCBvbmNlIHRoZSBkcml2ZXIgdXBkYXRlcyBh
-cmUgbGFuZGVkIEkgd2lsbAp0YWtlIHRoZSBsYXN0IHR3byBkdHMgcGF0Y2hlcy4KClJlZ2FyZHMs
-CkJqb3JuCgo+IC0tLQo+IENoYW5nZXMgc2luY2UgdjE6Cj4gLSBOb25lCj4gCj4gIGFyY2gvYXJt
-L2Jvb3QvZHRzL3Fjb20tcG04OTQxLmR0c2kgfCAxMCArKysrKysrKysrCj4gIDEgZmlsZSBjaGFu
-Z2VkLCAxMCBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAtLWdpdCBhL2FyY2gvYXJtL2Jvb3QvZHRz
-L3Fjb20tcG04OTQxLmR0c2kgYi9hcmNoL2FybS9ib290L2R0cy9xY29tLXBtODk0MS5kdHNpCj4g
-aW5kZXggZjE5ODQ4MGM4ZWY0Li5jMWYyMDEyZDFjOGIgMTAwNjQ0Cj4gLS0tIGEvYXJjaC9hcm0v
-Ym9vdC9kdHMvcWNvbS1wbTg5NDEuZHRzaQo+ICsrKyBiL2FyY2gvYXJtL2Jvb3QvZHRzL3Fjb20t
-cG04OTQxLmR0c2kKPiBAQCAtMTc4LDYgKzE3OCwxNiBAQAo+ICAJCQkJcWNvbSx2cy1zb2Z0LXN0
-YXJ0LXN0cmVuZ3RoID0gPDA+Owo+ICAJCQkJcmVndWxhdG9yLWluaXRpYWwtbW9kZSA9IDwxPjsK
-PiAgCQkJfTsKPiArCj4gKwkJCXBtODk0MV81dnMyOiA1dnMyIHsKPiArCQkJCXJlZ3VsYXRvci1l
-bmFibGUtcmFtcC1kZWxheSA9IDwxMDAwPjsKPiArCQkJCXJlZ3VsYXRvci1wdWxsLWRvd247Cj4g
-KwkJCQlyZWd1bGF0b3Itb3Zlci1jdXJyZW50LXByb3RlY3Rpb247Cj4gKwkJCQlxY29tLG9jcC1t
-YXgtcmV0cmllcyA9IDwxMD47Cj4gKwkJCQlxY29tLG9jcC1yZXRyeS1kZWxheSA9IDwzMD47Cj4g
-KwkJCQlxY29tLHZzLXNvZnQtc3RhcnQtc3RyZW5ndGggPSA8MD47Cj4gKwkJCQlyZWd1bGF0b3It
-aW5pdGlhbC1tb2RlID0gPDE+Owo+ICsJCQl9Owo+ICAJCX07Cj4gIAl9Owo+ICB9Owo+IC0tIAo+
-IDIuMjEuMAo+IApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1216368778==
+Content-Type: multipart/alternative; boundary="15704361975.4F24.1337"
+Content-Transfer-Encoding: 7bit
+
+
+--15704361975.4F24.1337
+Date: Mon, 7 Oct 2019 08:16:37 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109628
+
+--- Comment #29 from Michel D=C3=A4nzer <michel@daenzer.net> ---
+(In reply to Mirek Kratochvil from comment #27)
+> Anyway, the latest X driver from git is broken as well. Should the issue =
+be
+> reported there, or is it better to fix it in kernel layer?
+
+It should be fixed in the kernel, since the xf86-video-amdgpu change in
+question is already in the 19.0 releases.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15704361975.4F24.1337
+Date: Mon, 7 Oct 2019 08:16:37 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - WARNING at dcn10_hw_sequencer.c:868 dcn10_verify_allow_ps=
+tate_change_high()"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109628#c29">Comme=
+nt # 29</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - WARNING at dcn10_hw_sequencer.c:868 dcn10_verify_allow_ps=
+tate_change_high()"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109628">bug 10962=
+8</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
+net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
+</span></b>
+        <pre>(In reply to Mirek Kratochvil from <a href=3D"show_bug.cgi?id=
+=3D109628#c27">comment #27</a>)
+<span class=3D"quote">&gt; Anyway, the latest X driver from git is broken a=
+s well. Should the issue be
+&gt; reported there, or is it better to fix it in kernel layer?</span >
+
+It should be fixed in the kernel, since the xf86-video-amdgpu change in
+question is already in the 19.0 releases.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15704361975.4F24.1337--
+
+--===============1216368778==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1216368778==--
