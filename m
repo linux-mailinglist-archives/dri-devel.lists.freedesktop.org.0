@@ -1,54 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB08FCDE59
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2019 11:43:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE3B5CDE70
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2019 11:45:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADA166E509;
-	Mon,  7 Oct 2019 09:43:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3817889D7C;
+	Mon,  7 Oct 2019 09:45:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61EBF6E509;
- Mon,  7 Oct 2019 09:43:04 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2019 02:43:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,267,1566889200"; 
- d="scan'208,217";a="192236459"
-Received: from pgsmsx112-dag.png.intel.com (HELO PGSMSX112.gar.corp.intel.com)
- ([10.108.55.234])
- by fmsmga008.fm.intel.com with ESMTP; 07 Oct 2019 02:43:01 -0700
-Received: from pgsmsx111.gar.corp.intel.com ([169.254.2.128]) by
- PGSMSX112.gar.corp.intel.com ([169.254.3.2]) with mapi id 14.03.0439.000;
- Mon, 7 Oct 2019 17:43:01 +0800
-From: "Lee, Shawn C" <shawn.c.lee@intel.com>
-To: "'intel-gfx@lists.freedesktop.org'" <intel-gfx@lists.freedesktop.org>,
- "'dri-devel@lists.freedesktop.org'" <dri-devel@lists.freedesktop.org>
-Subject: RE: RE: [PATCH] drm/i915: customize DPCD brightness control for
- specific panel
-Thread-Topic: RE: [PATCH] drm/i915: customize DPCD brightness control for
- specific panel
-Thread-Index: AdV88vsdl8Cfxm6zTQG8mTcXovO5QwAADVuQ
-Date: Mon, 7 Oct 2019 09:43:01 +0000
-Message-ID: <D42A2A322A1FCA4089E30E9A9BA36AC65D6AA2A5@PGSMSX111.gar.corp.intel.com>
-References: <D42A2A322A1FCA4089E30E9A9BA36AC65D6AA27E@PGSMSX111.gar.corp.intel.com>
-In-Reply-To: <D42A2A322A1FCA4089E30E9A9BA36AC65D6AA27E@PGSMSX111.gar.corp.intel.com>
-Accept-Language: zh-TW, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNjQ2MzViMzItM2YyOS00ZmU3LTgyMzctY2JkNTJiZDZiODgzIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoieFRXVG9XZDd2V2ZiXC9KZ3pISmJsdFQ4UEVBRXBMSlhpVXRPNW1xXC9qREFiKzl5THF5VDlRWU4rOW9sdFE4aW9CIn0=
-x-ctpclassification: CTP_NT
-x-originating-ip: [172.30.20.206]
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA4DA89D40
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2019 09:45:42 +0000 (UTC)
+Received: from [179.95.33.153] (helo=coco.lan)
+ by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
+ id 1iHPaH-0007Ze-7Y; Mon, 07 Oct 2019 09:45:41 +0000
+Date: Mon, 7 Oct 2019 06:45:36 -0300
+From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH] cec: add cec_adapter to cec_notifier_cec_adap_unregister()
+Message-ID: <20191007064536.3cc5f9ad@coco.lan>
+In-Reply-To: <e9fc8740-6be6-43a7-beee-ce2d7b54936e@xs4all.nl>
+References: <e9fc8740-6be6-43a7-beee-ce2d7b54936e@xs4all.nl>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
+ c=relaxed/relaxed; 
+ d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+ Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+ From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=tdUiGvAGimHW/S+sZVPg2XUlDCd7dRZRMyjfnFD47SA=; b=IG0RGY9yOJzM4RtM81iQUF08h
+ 2mRj7mx80HIL9oYtbHXz4vnybFwmdK1tdYLAt5oUcEdHgWvYVqXhspdsgJyhbH1yW7Xmv769GYeec
+ 7l670wQP+vJWJPs1uSd+dOuVRVV1s9IzA7HeJqogEmpmduTTETyo0p3AmCvpqI7sJEi1vJdHnZ2sA
+ /U05sqpFg7IT0nGBE0cZ4Eq8SaYlWTaKEtvRAJFH/OBThreD0og/K4YpvJKs6Hw+9aK1JrSpghdOD
+ i2KLZXQoJVsJDoz5ueqdUoUBXsMMzyLVAY4hrHUqTMp5AEFdOSaqznSQc0Gos4F4Um0VlSUT4BhAk
+ 4hZ6buZiw==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,472 +50,210 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: "20191004215851.31446-1-shawn.c.lee@intel.com"
- <20191004215851.31446-1-shawn.c.lee@intel.com>
-Content-Type: multipart/mixed; boundary="===============1331710496=="
+Cc: Dariusz Marcinkiewicz <darekm@google.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1331710496==
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_D42A2A322A1FCA4089E30E9A9BA36AC65D6AA2A5PGSMSX111garcor_"
-
---_000_D42A2A322A1FCA4089E30E9A9BA36AC65D6AA2A5PGSMSX111garcor_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-
-On Mon, 07 Oct 2019, "Jani Nikula" <jani.nikula@intel.com<mailto:jani.nikul=
-a@intel.com>> wrote:
->On Mon, 07 Oct 2019, "Lee, Shawn C" <shawn.c.lee@intel.com<mailto:shawn.c.=
-lee@intel.com>> wrote:
->> On Fri, 04 Oct 2019, Jani Nikula <jani.nikula@intel.com<mailto:jani.niku=
-la@intel.com>> wrote:
->>>On Fri, 04 Oct 2019, Adam Jackson <ajax@redhat.com<mailto:ajax@redhat.co=
-m>> wrote:
->>>> On Sat, 2019-10-05 at 05:58 +0800, Lee Shawn C wrote:
->>>>> This panel (manufacturer is SDC, product ID is 0x4141) used
->>>>> manufacturer defined DPCD register to control brightness that not
->>>>> defined in eDP spec so far. This change follow panel vendor's
->>>>> instruction to support brightness adjustment.
->>>>
->>>> I'm sure this works, but this smells a little funny to me.
->>>
->>>That was kindly put. ;)
->>>
->>>>> + /* Samsung eDP panel */
->>>>> + { "SDC", 0x4141, EDID_QUIRK_NON_STD_BRIGHTNESS_CONTROL },
->>>>
->>>> It feels a bit like a layering violation to identify eDP behavior
->>>> changes based on EDID. But I'm not sure there's any obvious way to
->>>> identify this device by its DPCD. The Sink OUI (from the linked
->>>> bugzilla) seems to be 0011F8, which doesn't match up to anything in my
->>>> oui.txt...
->>>
->>>We have the DPCD quirk stuff in drm_dp_helper.c, but IIUC in this case
->>>there's only the OUI, and the device id etc. are all zeros. Otherwise I
->>>think that would be the natural thing to do, and all this could be
->>>better hidden away in i915.
->>>
->>
->> Below is what we dumped from this panel. Only sink OUI (ba-41-59) in it
->> and nothing else.
->> 00000400  ba 41 59 00 00 00 00 00  00 00 00 00 00 00 00 00  |.AY........=
-.....|
->> 00000410  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |...........=
-.....
->>
->> That's why the patch to identify EDID's manufacturer and product ID
->> to make sure this method applied on specific panel.
->>
->>>>
->>>>> @@ -1953,6 +1956,7 @@ static u32 edid_get_quirks(const struct edid
->>>>> *edid)
->>>>>
->>>>>    return 0;
->>>>>  }
->>>>> +EXPORT_SYMBOL(edid_get_quirks);
->>>>
->>>> If we're going to export this it should probably get a drm_ prefix.
->>
->> Yes! It will be better to have drm_ prefix for export funciton.
->>
->>>>
->>>>> +#define DPCD_EDP_GETSET_CTRL_PARAMS                         0x344
->>>>> +#define DPCD_EDP_CONTENT_LUMINANCE                        0x346
->>>>> +#define DPCD_EDP_PANEL_LUMINANCE_OVERRIDE         0x34a
->>>>> +#define DPCD_EDP_BRIGHTNESS_NITS                   0x354
->>>>> +#define DPCD_EDP_BRIGHTNESS_OPTIMIZATION               0x358
->>>>> +
->>>>> +#define EDP_CUSTOMIZE_MAX_BRIGHTNESS_LEVEL         (512)
->>>>
->>>> This also seems a bit weird, the 0x300-0x3FF registers belong to the
->>>> _source_ DP device. But then later...
->>>>
->>>>> + /* write source OUI */
->>>>> + write_val[0] =3D 0x00;
->>>>> + write_val[1] =3D 0xaa;
->>>>> + write_val[2] =3D 0x01;
->>>>
->>>> Oh hey, you're writing (an) Intel OUI to the Source OUI, so now it
->>>> makes sense that you're writing to registers whose behavior the source
->>>> defines. But this does raise the question: is this just a convention
->>>> between Intel and this particular panel? Would we expect this to work
->>>> with other similar panels? Is there any way to know to expect this
->>>> convention from DPCD instead?
->>
->> TCON would reply on source OUI to configure its capability. And these
->> DPCD registers were defined by vendor and Intel. This change should work=
-s
->> with similar panels (with same TCON). Seems there is another issue so
->> vendor decide to use non standard way to setup brightness.
->>
->>>For one thing, it's not standard. I honestly don't know, but I'd assume
->>>you wouldn't find behaviour with Intel OUI in non-Intel designs... and a
->>>quirk of some sort seems like the only way to make this work.
->>>
->>>I suppose we could start off with a DPCD quirk that only looks at the
->>>sink OUI, and then, if needed, limit by DMI matching or by checking for
->>>some DPCD registers (what, I am not sure, perhaps write the source OUI
->>>and see how it behaves).
->>>
->>>That would avoid the mildly annoying change in the EDID quirk interface
->>>and how it's being used.
->>>
->>>Thoughts?
->>>
->>>
->>>BR,
->>>Jani.
->>>
->>
->> To be honest. Panel vendor did not provide enough sink info in DPCD.
->> That's why hard to recognize it and we have to confirm EDID instead of D=
-PCD.
->>
->> Do you mean just confirm sink OUI only from DPCD quirk? I'm afraid it
->> may impact the other panels with the same TCON. Any suggestion?
->
->The problem with the EDID quirks is that exposing the quirks sticks out
->like a sore thumb. Thus far all of it has been contained in drm_edid.c
->and they affect how the EDID gets parsed, for all drivers. Obviously
->this could be changed, but is it the right thing to do?
->
->What I suggested was, check the OUI only, and if it matches, do
->more. Perhaps there's something in the 0x300 range of DPCD offsets that
->you can read? Or perhaps you need to write the source OUI first, and
->then do that.
->
->BR,
->Jani.
->
-
-These bytes are RO. Seems we can used it to identify this panel
-as well. I will use DPCD quirk and renew this patch again.
-
->
->>
->>>
->>>--
->>>Jani Nikula, Intel Open Source Graphics Center
->>>
-
-
---_000_D42A2A322A1FCA4089E30E9A9BA36AC65D6AA2A5PGSMSX111garcor_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:PMingLiU;
-	panose-1:2 1 6 1 0 1 1 1 1 1;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"\@PMingLiU";
-	panose-1:2 1 6 1 0 1 1 1 1 1;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p.msonormal0, li.msonormal0, div.msonormal0
-	{mso-style-name:msonormal;
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle18
-	{mso-style-type:personal;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-span.EmailStyle20
-	{mso-style-type:personal-reply;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">On Mon, 07 Oct 2019, &quot;Jani Nikula&quot; &lt;<a =
-href=3D"mailto:jani.nikula@intel.com">jani.nikula@intel.com</a>&gt; wrote:<=
-o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;On Mon, 07 Oct 2019, &quot;Lee, Shawn C&quot; &l=
-t;<a href=3D"mailto:shawn.c.lee@intel.com">shawn.c.lee@intel.com</a>&gt; wr=
-ote:<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt; On Fri, 04 Oct 2019, Jani Nikula &lt;<a hre=
-f=3D"mailto:jani.nikula@intel.com">jani.nikula@intel.com</a>&gt; wrote:<o:p=
-></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;On Fri, 04 Oct 2019, Adam Jackson &lt;<a=
- href=3D"mailto:ajax@redhat.com">ajax@redhat.com</a>&gt; wrote:<o:p></o:p><=
-/p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt; On Sat, 2019-10-05 at 05:58 &#43;08=
-00, Lee Shawn C wrote:<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt; This panel (manufacturer is SDC=
-, product ID is 0x4141) used
-<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt; manufacturer defined DPCD regis=
-ter to control brightness that not
-<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt; defined in eDP spec so far. Thi=
-s change follow panel vendor's
-<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt; instruction to support brightne=
-ss adjustment.<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt; I'm sure this works, but this smell=
-s a little funny to me.<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;That was kindly put. ;)<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt; &#43; /* Samsung eDP panel */<o=
-:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt; &#43; { &quot;SDC&quot;, 0x4141=
-, EDID_QUIRK_NON_STD_BRIGHTNESS_CONTROL },<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt; It feels a bit like a layering viol=
-ation to identify eDP behavior
-<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt; changes based on EDID. But I'm not =
-sure there's any obvious way to
-<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt; identify this device by its DPCD. T=
-he Sink OUI (from the linked<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt; bugzilla) seems to be 0011F8, which=
- doesn't match up to anything in my
-<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt; oui.txt...<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;We have the DPCD quirk stuff in drm_dp_h=
-elper.c, but IIUC in this case
-<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;there's only the OUI, and the device id =
-etc. are all zeros. Otherwise I<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;think that would be the natural thing to=
- do, and all this could be<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;better hidden away in i915.<o:p></o:p></=
-p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt; Below is what we dumped from this panel. On=
-ly sink OUI (ba-41-59) in it<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt; and nothing else. <o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt; 00000400&nbsp; ba 41 59 00 00 00 00 00&nbsp=
-; 00 00 00 00 00 00 00 00&nbsp; |.AY.............|<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt; 00000410&nbsp; 00 00 00 00 00 00 00 00&nbsp=
-; 00 00 00 00 00 00 00 00&nbsp; |................<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt; That's why the patch to identify EDID's man=
-ufacturer and product ID<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt; to make sure this method applied on specifi=
-c panel.<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt; @@ -1953,6 &#43;1956,7 @@ stati=
-c u32 edid_get_quirks(const struct edid
-<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt; *edid)<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt;&nbsp; <o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt;&nbsp; &nbsp; return 0;<o:p></o:=
-p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt;&nbsp; }<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt; &#43;EXPORT_SYMBOL(edid_get_qui=
-rks);<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt; If we're going to export this it sh=
-ould probably get a drm_ prefix.<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt; Yes! It will be better to have drm_ prefix =
-for export funciton.<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt; &#43;#define DPCD_EDP_GETSET_CT=
-RL_PARAMS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; 0x344<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt; &#43;#define DPCD_EDP_CONTENT_L=
-UMINANCE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0x3=
-46<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt; &#43;#define DPCD_EDP_PANEL_LUM=
-INANCE_OVERRIDE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0x34a<o:p><=
-/o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt; &#43;#define DPCD_EDP_BRIGHTNES=
-S_NITS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0x354<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt; &#43;#define DPCD_EDP_BRIGHTNES=
-S_OPTIMIZATION&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp; 0x358<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt; &#43;<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt; &#43;#define EDP_CUSTOMIZE_MAX_=
-BRIGHTNESS_LEVEL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (512)<o:p>=
-</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt; This also seems a bit weird, the 0x=
-300-0x3FF registers belong to the
-<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt; _source_ DP device. But then later.=
-..<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt; &#43; /* write source OUI */<o:=
-p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt; &#43; write_val[0] =3D 0x00;<o:=
-p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt; &#43; write_val[1] =3D 0xaa;<o:=
-p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt; &#43; write_val[2] =3D 0x01;<o:=
-p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt; Oh hey, you're writing (an) Intel O=
-UI to the Source OUI, so now it
-<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt; makes sense that you're writing to =
-registers whose behavior the source
-<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt; defines. But this does raise the qu=
-estion: is this just a convention
-<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt; between Intel and this particular p=
-anel? Would we expect this to work
-<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt; with other similar panels? Is there=
- any way to know to expect this
-<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;&gt; convention from DPCD instead?<o:p><=
-/o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt; TCON would reply on source OUI to configure=
- its capability. And these<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt; DPCD registers were defined by vendor and I=
-ntel. This change should works<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt; with similar panels (with same TCON). Seems=
- there is another issue so<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt; vendor decide to use non standard way to se=
-tup brightness.<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;For one thing, it's not standard. I hone=
-stly don't know, but I'd assume<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;you wouldn't find behaviour with Intel O=
-UI in non-Intel designs... and a<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;quirk of some sort seems like the only w=
-ay to make this work.<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;I suppose we could start off with a DPCD=
- quirk that only looks at the<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;sink OUI, and then, if needed, limit by =
-DMI matching or by checking for<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;some DPCD registers (what, I am not sure=
-, perhaps write the source OUI<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;and see how it behaves).<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;That would avoid the mildly annoying cha=
-nge in the EDID quirk interface<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;and how it's being used.<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;Thoughts?<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;BR,<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;Jani.<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt; To be honest. Panel vendor did not provide =
-enough sink info in DPCD.<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt; That's why hard to recognize it and we have=
- to confirm EDID instead of DPCD.<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt; Do you mean just confirm sink OUI only from=
- DPCD quirk? I'm afraid it<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt; may impact the other panels with the same T=
-CON. Any suggestion?<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;The problem with the EDID quirks is that exposin=
-g the quirks sticks out<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;like a sore thumb. Thus far all of it has been c=
-ontained in drm_edid.c<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;and they affect how the EDID gets parsed, for al=
-l drivers. Obviously<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;this could be changed, but is it the right thing=
- to do?<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;What I suggested was, check the OUI only, and if=
- it matches, do<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;more. Perhaps there's something in the 0x300 ran=
-ge of DPCD offsets that<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;you can read? Or perhaps you need to write the s=
-ource OUI first, and<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;then do that.<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;BR,<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;Jani.<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">These bytes are RO. Seems we can used it to identify=
- this panel<o:p></o:p></p>
-<p class=3D"MsoNormal">as well. I will use DPCD quirk and renew this patch =
-again.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;--<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;Jani Nikula, Intel Open Source Graphics =
-Center<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;<o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
-
---_000_D42A2A322A1FCA4089E30E9A9BA36AC65D6AA2A5PGSMSX111garcor_--
-
---===============1331710496==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1331710496==--
+RW0gRnJpLCA0IE9jdCAyMDE5IDEzOjA0OjI0ICswMjAwCkhhbnMgVmVya3VpbCA8aHZlcmt1aWxA
+eHM0YWxsLm5sPiBlc2NyZXZldToKCj4gSXQgaXMgcG9zc2libGUgZm9yIG9uZSBIRE1JIGNvbm5l
+Y3RvciB0byBoYXZlIG11bHRpcGxlIENFQyBhZGFwdGVycy4gVGhlCj4gdHlwaWNhbCByZWFsLXdv
+cmxkIHNjZW5hcmlvIGlzIHRoYXQgd2hlcmUgb25lIGFkYXB0ZXIgaXMgdXNlZCB3aGVuIHRoZSBk
+ZXZpY2UKPiBpcyBpbiBzdGFuZGJ5LCBhbmQgb25lIHRoYXQncyBiZXR0ZXIvc21hcnRlciB3aGVu
+IHRoZSBkZXZpY2UgaXMgcG93ZXJlZCB1cC4KPiAKPiBUaGUgY2VjLW5vdGlmaWVyIGNoYW5nZXMg
+d2VyZSBtYWRlIHdpdGggdGhhdCBpbiBtaW5kLCBidXQgSSBtaXNzZWQgdGhhdCBpbgo+IG9yZGVy
+IHRvIHN1cHBvcnQgdGhpcyB5b3UgbmVlZCB0byB0ZWxsIGNlY19ub3RpZmllcl9jZWNfYWRhcF91
+bnJlZ2lzdGVyKCkKPiB3aGljaCBhZGFwdGVyIHlvdSBhcmUgdW5yZWdpc3RlcmluZyBmcm9tIHRo
+ZSBub3RpZmllci4KPiAKPiBBZGQgdGhpcyBhZGRpdGlvbmFsIGFyZ3VtZW50LiBJdCBpcyBjdXJy
+ZW50bHkgdW51c2VkLCBidXQgb25jZSBhbGwgZHJpdmVycwo+IHVzZSB0aGlzLCB0aGUgQ0VDIGNv
+cmUgd2lsbCBiZSBhZGFwdGVkIGZvciB0aGVzZSB1c2UtY2FzZXMuCj4gCj4gU2lnbmVkLW9mZi1i
+eTogSGFucyBWZXJrdWlsIDxodmVya3VpbC1jaXNjb0B4czRhbGwubmw+Cj4gLS0tCj4gVGhpcyBw
+YXRjaCBzaG91bGQgZ28gaW4gdmlhIHRoZSBkcm0gc3Vic3lzdGVtIHNpbmNlIGFsbCBDRUMgYWRh
+cHRlcnMgaW4gdGhlCj4gZHJtIHN1YnN5c3RlbSBoYXZlIGJlZW4gY29udmVydGVkIHRvIHVzZSBj
+ZWNfbm90aWZpZXJfY2VjX2FkYXBfdW5yZWdpc3RlcigpLgo+IFRoZSBtZWRpYSBzdWJzeXN0ZW0g
+c3RpbGwgaGFzIG9sZGVyIGRybSBkcml2ZXJzIHRoYXQgd2VyZW4ndCBjb252ZXJ0ZWQgdG8gdXNl
+Cj4gY2VjX25vdGlmaWVyX2NlY19hZGFwX3VucmVnaXN0ZXIoKS4KPiAKPiBUaGlzIHdpbGwgb25s
+eSBiZSBhIHByb2JsZW0gaWYgYSBuZXcgQ0VDIGFkYXB0ZXIgZHJpdmVyIGlzIGFkZGVkIHRvIHRo
+ZSBtZWRpYQo+IHN1YnN5c3RlbSBmb3IgdjUuNSwgYnV0IEkgYW0gbm90IGF3YXJlIG9mIGFueSBw
+bGFucyBmb3IgdGhhdC4gU2hvdWxkIGl0IGhhcHBlbiwKPiB0aGVuIHRoYXQganVzdCBtZWFucyB0
+aGF0IHRoZSBtZWRpYSBzdWJzeXN0ZW0gbmVlZHMgdG8gcmVzb2x2ZSBhIGZhaXJseSB0cml2aWFs
+Cj4gbWVyZ2UgY29uZmxpY3QuCj4gCj4gVmlsbGUsIE1hdXJvLCBjYW4geW91IHJldmlldy9hY2s/
+CgpZZWFoLCBmZWVsIGZyZWUgdG8gbWVyZ2UgdGhpcyB2aWEgRFJNOgoKQWNrZWQtYnk6IE1hdXJv
+IENhcnZhbGhvIENoZWhhYiA8bWNoZWhhYitzYW1zdW5nQGtlcm5lbC5vcmc+CgoKPiAtLS0KPiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1oZG1pLWNlYy5j
+IGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1oZG1pLWNlYy5jCj4gaW5kZXgg
+YWMxZTAwMWQwODgyLi43MGFiNGZiZGMyM2UgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L2JyaWRnZS9zeW5vcHN5cy9kdy1oZG1pLWNlYy5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2Jy
+aWRnZS9zeW5vcHN5cy9kdy1oZG1pLWNlYy5jCj4gQEAgLTI4NSw3ICsyODUsNyBAQCBzdGF0aWMg
+aW50IGR3X2hkbWlfY2VjX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gCj4g
+IAlyZXQgPSBjZWNfcmVnaXN0ZXJfYWRhcHRlcihjZWMtPmFkYXAsIHBkZXYtPmRldi5wYXJlbnQp
+Owo+ICAJaWYgKHJldCA8IDApIHsKPiAtCQljZWNfbm90aWZpZXJfY2VjX2FkYXBfdW5yZWdpc3Rl
+cihjZWMtPm5vdGlmeSk7Cj4gKwkJY2VjX25vdGlmaWVyX2NlY19hZGFwX3VucmVnaXN0ZXIoY2Vj
+LT5ub3RpZnksIGNlYy0+YWRhcCk7Cj4gIAkJcmV0dXJuIHJldDsKPiAgCX0KPiAKPiBAQCAtMzAy
+LDcgKzMwMiw3IEBAIHN0YXRpYyBpbnQgZHdfaGRtaV9jZWNfcmVtb3ZlKHN0cnVjdCBwbGF0Zm9y
+bV9kZXZpY2UgKnBkZXYpCj4gIHsKPiAgCXN0cnVjdCBkd19oZG1pX2NlYyAqY2VjID0gcGxhdGZv
+cm1fZ2V0X2RydmRhdGEocGRldik7Cj4gCj4gLQljZWNfbm90aWZpZXJfY2VjX2FkYXBfdW5yZWdp
+c3RlcihjZWMtPm5vdGlmeSk7Cj4gKwljZWNfbm90aWZpZXJfY2VjX2FkYXBfdW5yZWdpc3Rlcihj
+ZWMtPm5vdGlmeSwgY2VjLT5hZGFwKTsKPiAgCWNlY191bnJlZ2lzdGVyX2FkYXB0ZXIoY2VjLT5h
+ZGFwKTsKPiAKPiAgCXJldHVybiAwOwo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTJj
+L3RkYTk5NTAuYyBiL2RyaXZlcnMvZ3B1L2RybS9pMmMvdGRhOTk1MC5jCj4gaW5kZXggYTVhNzVi
+ZGViN2E1Li41YjAzZmRkMWVhYTQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2kyYy90
+ZGE5OTUwLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTJjL3RkYTk5NTAuYwo+IEBAIC00NjUs
+NyArNDY1LDcgQEAgc3RhdGljIGludCB0ZGE5OTUwX3Byb2JlKHN0cnVjdCBpMmNfY2xpZW50ICpj
+bGllbnQsCj4gCj4gIAlyZXQgPSBjZWNfcmVnaXN0ZXJfYWRhcHRlcihwcml2LT5hZGFwLCBwcml2
+LT5oZG1pKTsKPiAgCWlmIChyZXQgPCAwKSB7Cj4gLQkJY2VjX25vdGlmaWVyX2NlY19hZGFwX3Vu
+cmVnaXN0ZXIocHJpdi0+bm90aWZ5KTsKPiArCQljZWNfbm90aWZpZXJfY2VjX2FkYXBfdW5yZWdp
+c3Rlcihwcml2LT5ub3RpZnksIHByaXYtPmFkYXApOwo+ICAJCXJldHVybiByZXQ7Cj4gIAl9Cj4g
+Cj4gQEAgLTQ4Miw3ICs0ODIsNyBAQCBzdGF0aWMgaW50IHRkYTk5NTBfcmVtb3ZlKHN0cnVjdCBp
+MmNfY2xpZW50ICpjbGllbnQpCj4gIHsKPiAgCXN0cnVjdCB0ZGE5OTUwX3ByaXYgKnByaXYgPSBp
+MmNfZ2V0X2NsaWVudGRhdGEoY2xpZW50KTsKPiAKPiAtCWNlY19ub3RpZmllcl9jZWNfYWRhcF91
+bnJlZ2lzdGVyKHByaXYtPm5vdGlmeSk7Cj4gKwljZWNfbm90aWZpZXJfY2VjX2FkYXBfdW5yZWdp
+c3Rlcihwcml2LT5ub3RpZnksIHByaXYtPmFkYXApOwo+ICAJY2VjX3VucmVnaXN0ZXJfYWRhcHRl
+cihwcml2LT5hZGFwKTsKPiAKPiAgCXJldHVybiAwOwo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21l
+ZGlhL2NlYy9jZWMtbm90aWZpZXIuYyBiL2RyaXZlcnMvbWVkaWEvY2VjL2NlYy1ub3RpZmllci5j
+Cj4gaW5kZXggNGQ4MmE1NTIyMDcyLi43Y2Y0MmIxMzNkYmMgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVy
+cy9tZWRpYS9jZWMvY2VjLW5vdGlmaWVyLmMKPiArKysgYi9kcml2ZXJzL21lZGlhL2NlYy9jZWMt
+bm90aWZpZXIuYwo+IEBAIC0xNTMsMTMgKzE1MywxNCBAQCBjZWNfbm90aWZpZXJfY2VjX2FkYXBf
+cmVnaXN0ZXIoc3RydWN0IGRldmljZSAqaGRtaV9kZXYsIGNvbnN0IGNoYXIgKmNvbm5fbmFtZSwK
+PiAgfQo+ICBFWFBPUlRfU1lNQk9MX0dQTChjZWNfbm90aWZpZXJfY2VjX2FkYXBfcmVnaXN0ZXIp
+Owo+IAo+IC12b2lkIGNlY19ub3RpZmllcl9jZWNfYWRhcF91bnJlZ2lzdGVyKHN0cnVjdCBjZWNf
+bm90aWZpZXIgKm4pCj4gK3ZvaWQgY2VjX25vdGlmaWVyX2NlY19hZGFwX3VucmVnaXN0ZXIoc3Ry
+dWN0IGNlY19ub3RpZmllciAqbiwKPiArCQkJCSAgICAgIHN0cnVjdCBjZWNfYWRhcHRlciAqYWRh
+cCkKPiAgewo+ICAJaWYgKCFuKQo+ICAJCXJldHVybjsKPiAKPiAgCW11dGV4X2xvY2soJm4tPmxv
+Y2spOwo+IC0Jbi0+Y2VjX2FkYXAtPm5vdGlmaWVyID0gTlVMTDsKPiArCWFkYXAtPm5vdGlmaWVy
+ID0gTlVMTDsKPiAgCW4tPmNlY19hZGFwID0gTlVMTDsKPiAgCW4tPmNhbGxiYWNrID0gTlVMTDsK
+PiAgCW11dGV4X3VubG9jaygmbi0+bG9jayk7Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEv
+cGxhdGZvcm0vY3Jvcy1lYy1jZWMvY3Jvcy1lYy1jZWMuYyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZv
+cm0vY3Jvcy1lYy1jZWMvY3Jvcy1lYy1jZWMuYwo+IGluZGV4IDRhM2IzODEwZmQ4OS4uZjA0OGU4
+OTk0Nzg1IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vY3Jvcy1lYy1jZWMv
+Y3Jvcy1lYy1jZWMuYwo+ICsrKyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vY3Jvcy1lYy1jZWMv
+Y3Jvcy1lYy1jZWMuYwo+IEBAIC0zMTQsNyArMzE0LDggQEAgc3RhdGljIGludCBjcm9zX2VjX2Nl
+Y19wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQo+ICAJcmV0dXJuIDA7Cj4gCj4g
+IG91dF9wcm9iZV9ub3RpZnk6Cj4gLQljZWNfbm90aWZpZXJfY2VjX2FkYXBfdW5yZWdpc3Rlcihj
+cm9zX2VjX2NlYy0+bm90aWZ5KTsKPiArCWNlY19ub3RpZmllcl9jZWNfYWRhcF91bnJlZ2lzdGVy
+KGNyb3NfZWNfY2VjLT5ub3RpZnksCj4gKwkJCQkJIGNyb3NfZWNfY2VjLT5hZGFwKTsKPiAgb3V0
+X3Byb2JlX2FkYXB0ZXI6Cj4gIAljZWNfZGVsZXRlX2FkYXB0ZXIoY3Jvc19lY19jZWMtPmFkYXAp
+Owo+ICAJcmV0dXJuIHJldDsKPiBAQCAtMzM1LDcgKzMzNiw4IEBAIHN0YXRpYyBpbnQgY3Jvc19l
+Y19jZWNfcmVtb3ZlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gIAkJcmV0dXJuIHJl
+dDsKPiAgCX0KPiAKPiAtCWNlY19ub3RpZmllcl9jZWNfYWRhcF91bnJlZ2lzdGVyKGNyb3NfZWNf
+Y2VjLT5ub3RpZnkpOwo+ICsJY2VjX25vdGlmaWVyX2NlY19hZGFwX3VucmVnaXN0ZXIoY3Jvc19l
+Y19jZWMtPm5vdGlmeSwKPiArCQkJCQkgY3Jvc19lY19jZWMtPmFkYXApOwo+ICAJY2VjX3VucmVn
+aXN0ZXJfYWRhcHRlcihjcm9zX2VjX2NlYy0+YWRhcCk7Cj4gCj4gIAlyZXR1cm4gMDsKPiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tZXNvbi9hby1jZWMtZzEyYS5jIGIvZHJp
+dmVycy9tZWRpYS9wbGF0Zm9ybS9tZXNvbi9hby1jZWMtZzEyYS5jCj4gaW5kZXggM2IzOWU4NzUy
+OTJlLi43MGY4NzViNGEwMWUgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9t
+ZXNvbi9hby1jZWMtZzEyYS5jCj4gKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tZXNvbi9h
+by1jZWMtZzEyYS5jCj4gQEAgLTczNiw3ICs3MzYsNyBAQCBzdGF0aWMgaW50IG1lc29uX2FvX2Nl
+Y19nMTJhX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gIAljbGtfZGlzYWJs
+ZV91bnByZXBhcmUoYW9fY2VjLT5jb3JlKTsKPiAKPiAgb3V0X3Byb2JlX25vdGlmeToKPiAtCWNl
+Y19ub3RpZmllcl9jZWNfYWRhcF91bnJlZ2lzdGVyKGFvX2NlYy0+bm90aWZ5KTsKPiArCWNlY19u
+b3RpZmllcl9jZWNfYWRhcF91bnJlZ2lzdGVyKGFvX2NlYy0+bm90aWZ5LCBhb19jZWMtPmFkYXAp
+Owo+IAo+ICBvdXRfcHJvYmVfYWRhcHRlcjoKPiAgCWNlY19kZWxldGVfYWRhcHRlcihhb19jZWMt
+PmFkYXApOwo+IEBAIC03NTIsNyArNzUyLDcgQEAgc3RhdGljIGludCBtZXNvbl9hb19jZWNfZzEy
+YV9yZW1vdmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKPiAKPiAgCWNsa19kaXNhYmxl
+X3VucHJlcGFyZShhb19jZWMtPmNvcmUpOwo+IAo+IC0JY2VjX25vdGlmaWVyX2NlY19hZGFwX3Vu
+cmVnaXN0ZXIoYW9fY2VjLT5ub3RpZnkpOwo+ICsJY2VjX25vdGlmaWVyX2NlY19hZGFwX3VucmVn
+aXN0ZXIoYW9fY2VjLT5ub3RpZnksIGFvX2NlYy0+YWRhcCk7Cj4gCj4gIAljZWNfdW5yZWdpc3Rl
+cl9hZGFwdGVyKGFvX2NlYy0+YWRhcCk7Cj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEv
+cGxhdGZvcm0vbWVzb24vYW8tY2VjLmMgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL21lc29uL2Fv
+LWNlYy5jCj4gaW5kZXggNjRlZDU0OWJmMDEyLi45Mjg1OWE2ZDAwNmYgMTAwNjQ0Cj4gLS0tIGEv
+ZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tZXNvbi9hby1jZWMuYwo+ICsrKyBiL2RyaXZlcnMvbWVk
+aWEvcGxhdGZvcm0vbWVzb24vYW8tY2VjLmMKPiBAQCAtNjg4LDcgKzY4OCw3IEBAIHN0YXRpYyBp
+bnQgbWVzb25fYW9fY2VjX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gIAlj
+bGtfZGlzYWJsZV91bnByZXBhcmUoYW9fY2VjLT5jb3JlKTsKPiAKPiAgb3V0X3Byb2JlX25vdGlm
+eToKPiAtCWNlY19ub3RpZmllcl9jZWNfYWRhcF91bnJlZ2lzdGVyKGFvX2NlYy0+bm90aWZ5KTsK
+PiArCWNlY19ub3RpZmllcl9jZWNfYWRhcF91bnJlZ2lzdGVyKGFvX2NlYy0+bm90aWZ5LCBhb19j
+ZWMtPmFkYXApOwo+IAo+ICBvdXRfcHJvYmVfYWRhcHRlcjoKPiAgCWNlY19kZWxldGVfYWRhcHRl
+cihhb19jZWMtPmFkYXApOwo+IEBAIC03MDQsNyArNzA0LDcgQEAgc3RhdGljIGludCBtZXNvbl9h
+b19jZWNfcmVtb3ZlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gCj4gIAljbGtfZGlz
+YWJsZV91bnByZXBhcmUoYW9fY2VjLT5jb3JlKTsKPiAKPiAtCWNlY19ub3RpZmllcl9jZWNfYWRh
+cF91bnJlZ2lzdGVyKGFvX2NlYy0+bm90aWZ5KTsKPiArCWNlY19ub3RpZmllcl9jZWNfYWRhcF91
+bnJlZ2lzdGVyKGFvX2NlYy0+bm90aWZ5LCBhb19jZWMtPmFkYXApOwo+ICAJY2VjX3VucmVnaXN0
+ZXJfYWRhcHRlcihhb19jZWMtPmFkYXApOwo+IAo+ICAJcmV0dXJuIDA7Cj4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vczVwLWNlYy9zNXBfY2VjLmMgYi9kcml2ZXJzL21lZGlh
+L3BsYXRmb3JtL3M1cC1jZWMvczVwX2NlYy5jCj4gaW5kZXggNmRkY2MzNWIwYmJkLi4yYTNlN2Zm
+ZWZlMGEgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9zNXAtY2VjL3M1cF9j
+ZWMuYwo+ICsrKyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vczVwLWNlYy9zNXBfY2VjLmMKPiBA
+QCAtMjM5LDcgKzIzOSw3IEBAIHN0YXRpYyBpbnQgczVwX2NlY19wcm9iZShzdHJ1Y3QgcGxhdGZv
+cm1fZGV2aWNlICpwZGV2KQo+ICAJcmV0dXJuIDA7Cj4gCj4gIGVycl9ub3RpZmllcjoKPiAtCWNl
+Y19ub3RpZmllcl9jZWNfYWRhcF91bnJlZ2lzdGVyKGNlYy0+bm90aWZpZXIpOwo+ICsJY2VjX25v
+dGlmaWVyX2NlY19hZGFwX3VucmVnaXN0ZXIoY2VjLT5ub3RpZmllciwgY2VjLT5hZGFwKTsKPiAK
+PiAgZXJyX2RlbGV0ZV9hZGFwdGVyOgo+ICAJY2VjX2RlbGV0ZV9hZGFwdGVyKGNlYy0+YWRhcCk7
+Cj4gQEAgLTI1MCw3ICsyNTAsNyBAQCBzdGF0aWMgaW50IHM1cF9jZWNfcmVtb3ZlKHN0cnVjdCBw
+bGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gIHsKPiAgCXN0cnVjdCBzNXBfY2VjX2RldiAqY2VjID0g
+cGxhdGZvcm1fZ2V0X2RydmRhdGEocGRldik7Cj4gCj4gLQljZWNfbm90aWZpZXJfY2VjX2FkYXBf
+dW5yZWdpc3RlcihjZWMtPm5vdGlmaWVyKTsKPiArCWNlY19ub3RpZmllcl9jZWNfYWRhcF91bnJl
+Z2lzdGVyKGNlYy0+bm90aWZpZXIsIGNlYy0+YWRhcCk7Cj4gIAljZWNfdW5yZWdpc3Rlcl9hZGFw
+dGVyKGNlYy0+YWRhcCk7Cj4gIAlwbV9ydW50aW1lX2Rpc2FibGUoJnBkZXYtPmRldik7Cj4gIAly
+ZXR1cm4gMDsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9zZWNvLWNlYy9z
+ZWNvLWNlYy5jIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9zZWNvLWNlYy9zZWNvLWNlYy5jCj4g
+aW5kZXggOWNkNjBmZTE4NjdjLi41NGIwZDUxZTljNTUgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9t
+ZWRpYS9wbGF0Zm9ybS9zZWNvLWNlYy9zZWNvLWNlYy5jCj4gKysrIGIvZHJpdmVycy9tZWRpYS9w
+bGF0Zm9ybS9zZWNvLWNlYy9zZWNvLWNlYy5jCj4gQEAgLTY3MSw3ICs2NzEsNyBAQCBzdGF0aWMg
+aW50IHNlY29jZWNfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKPiAgCXJldHVy
+biByZXQ7Cj4gCj4gIGVycl9ub3RpZmllcjoKPiAtCWNlY19ub3RpZmllcl9jZWNfYWRhcF91bnJl
+Z2lzdGVyKHNlY29jZWMtPm5vdGlmaWVyKTsKPiArCWNlY19ub3RpZmllcl9jZWNfYWRhcF91bnJl
+Z2lzdGVyKHNlY29jZWMtPm5vdGlmaWVyLCBzZWNvY2VjLT5jZWNfYWRhcCk7Cj4gIGVycl9kZWxl
+dGVfYWRhcHRlcjoKPiAgCWNlY19kZWxldGVfYWRhcHRlcihzZWNvY2VjLT5jZWNfYWRhcCk7Cj4g
+IGVycjoKPiBAQCAtNjkyLDcgKzY5Miw3IEBAIHN0YXRpYyBpbnQgc2Vjb2NlY19yZW1vdmUoc3Ry
+dWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKPiAKPiAgCQlkZXZfZGJnKCZwZGV2LT5kZXYsICJJ
+UiBkaXNhYmxlZCIpOwo+ICAJfQo+IC0JY2VjX25vdGlmaWVyX2NlY19hZGFwX3VucmVnaXN0ZXIo
+c2Vjb2NlYy0+bm90aWZpZXIpOwo+ICsJY2VjX25vdGlmaWVyX2NlY19hZGFwX3VucmVnaXN0ZXIo
+c2Vjb2NlYy0+bm90aWZpZXIsIHNlY29jZWMtPmNlY19hZGFwKTsKPiAgCWNlY191bnJlZ2lzdGVy
+X2FkYXB0ZXIoc2Vjb2NlYy0+Y2VjX2FkYXApOwo+IAo+ICAJcmVsZWFzZV9yZWdpb24oQlJBX1NN
+Ql9CQVNFX0FERFIsIDcpOwo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL3N0
+aS9jZWMvc3RpaC1jZWMuYyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vc3RpL2NlYy9zdGloLWNl
+Yy5jCj4gaW5kZXggODExOGM3MzY1ZDNmLi5mMGM3M2U2NGI1ODYgMTAwNjQ0Cj4gLS0tIGEvZHJp
+dmVycy9tZWRpYS9wbGF0Zm9ybS9zdGkvY2VjL3N0aWgtY2VjLmMKPiArKysgYi9kcml2ZXJzL21l
+ZGlhL3BsYXRmb3JtL3N0aS9jZWMvc3RpaC1jZWMuYwo+IEBAIC0zNTksNyArMzU5LDcgQEAgc3Rh
+dGljIGludCBzdGloX2NlY19wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQo+ICAJ
+cmV0dXJuIDA7Cj4gCj4gIGVycl9ub3RpZmllcjoKPiAtCWNlY19ub3RpZmllcl9jZWNfYWRhcF91
+bnJlZ2lzdGVyKGNlYy0+bm90aWZpZXIpOwo+ICsJY2VjX25vdGlmaWVyX2NlY19hZGFwX3VucmVn
+aXN0ZXIoY2VjLT5ub3RpZmllciwgY2VjLT5hZGFwKTsKPiAKPiAgZXJyX2RlbGV0ZV9hZGFwdGVy
+Ogo+ICAJY2VjX2RlbGV0ZV9hZGFwdGVyKGNlYy0+YWRhcCk7Cj4gQEAgLTM3MCw3ICszNzAsNyBA
+QCBzdGF0aWMgaW50IHN0aWhfY2VjX3JlbW92ZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2
+KQo+ICB7Cj4gIAlzdHJ1Y3Qgc3RpaF9jZWMgKmNlYyA9IHBsYXRmb3JtX2dldF9kcnZkYXRhKHBk
+ZXYpOwo+IAo+IC0JY2VjX25vdGlmaWVyX2NlY19hZGFwX3VucmVnaXN0ZXIoY2VjLT5ub3RpZmll
+cik7Cj4gKwljZWNfbm90aWZpZXJfY2VjX2FkYXBfdW5yZWdpc3RlcihjZWMtPm5vdGlmaWVyLCBj
+ZWMtPmFkYXApOwo+ICAJY2VjX3VucmVnaXN0ZXJfYWRhcHRlcihjZWMtPmFkYXApOwo+IAo+ICAJ
+cmV0dXJuIDA7Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vdGVncmEtY2Vj
+L3RlZ3JhX2NlYy5jIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS90ZWdyYS1jZWMvdGVncmFfY2Vj
+LmMKPiBpbmRleCBhNjMyNjAyMTMxZjIuLmE5OWNhYWM1OWY0NCAxMDA2NDQKPiAtLS0gYS9kcml2
+ZXJzL21lZGlhL3BsYXRmb3JtL3RlZ3JhLWNlYy90ZWdyYV9jZWMuYwo+ICsrKyBiL2RyaXZlcnMv
+bWVkaWEvcGxhdGZvcm0vdGVncmEtY2VjL3RlZ3JhX2NlYy5jCj4gQEAgLTQwOSw3ICs0MDksNyBA
+QCBzdGF0aWMgaW50IHRlZ3JhX2NlY19wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2
+KQo+ICAJcmV0dXJuIDA7Cj4gCj4gIGVycl9ub3RpZmllcjoKPiAtCWNlY19ub3RpZmllcl9jZWNf
+YWRhcF91bnJlZ2lzdGVyKGNlYy0+bm90aWZpZXIpOwo+ICsJY2VjX25vdGlmaWVyX2NlY19hZGFw
+X3VucmVnaXN0ZXIoY2VjLT5ub3RpZmllciwgY2VjLT5hZGFwKTsKPiAgZXJyX2FkYXB0ZXI6Cj4g
+IAljZWNfZGVsZXRlX2FkYXB0ZXIoY2VjLT5hZGFwKTsKPiAgZXJyX2NsazoKPiBAQCAtNDIzLDcg
+KzQyMyw3IEBAIHN0YXRpYyBpbnQgdGVncmFfY2VjX3JlbW92ZShzdHJ1Y3QgcGxhdGZvcm1fZGV2
+aWNlICpwZGV2KQo+IAo+ICAJY2xrX2Rpc2FibGVfdW5wcmVwYXJlKGNlYy0+Y2xrKTsKPiAKPiAt
+CWNlY19ub3RpZmllcl9jZWNfYWRhcF91bnJlZ2lzdGVyKGNlYy0+bm90aWZpZXIpOwo+ICsJY2Vj
+X25vdGlmaWVyX2NlY19hZGFwX3VucmVnaXN0ZXIoY2VjLT5ub3RpZmllciwgY2VjLT5hZGFwKTsK
+PiAgCWNlY191bnJlZ2lzdGVyX2FkYXB0ZXIoY2VjLT5hZGFwKTsKPiAKPiAgCXJldHVybiAwOwo+
+IGRpZmYgLS1naXQgYS9pbmNsdWRlL21lZGlhL2NlYy1ub3RpZmllci5oIGIvaW5jbHVkZS9tZWRp
+YS9jZWMtbm90aWZpZXIuaAo+IGluZGV4IGYxNjFmOGE0OTNhYy4uOTg1YWZlYTFlZTM2IDEwMDY0
+NAo+IC0tLSBhL2luY2x1ZGUvbWVkaWEvY2VjLW5vdGlmaWVyLmgKPiArKysgYi9pbmNsdWRlL21l
+ZGlhL2NlYy1ub3RpZmllci5oCj4gQEAgLTkzLDggKzkzLDEwIEBAIGNlY19ub3RpZmllcl9jZWNf
+YWRhcF9yZWdpc3RlcihzdHJ1Y3QgZGV2aWNlICpoZG1pX2RldiwgY29uc3QgY2hhciAqY29ubl9u
+YW1lLAo+ICAgKiBjZWNfbm90aWZpZXJfY2VjX2FkYXBfdW5yZWdpc3RlciAtIGRlY3JlYXNlIHJl
+ZmNvdW50IGFuZCBkZWxldGUgd2hlbiB0aGUKPiAgICogcmVmY291bnQgcmVhY2hlcyAwLgo+ICAg
+KiBAbjogbm90aWZpZXIuIElmIE5VTEwsIHRoZW4gdGhpcyBmdW5jdGlvbiBkb2VzIG5vdGhpbmcu
+Cj4gKyAqIEBhZGFwOiB0aGUgY2VjIGFkYXB0ZXIgdGhhdCByZWdpc3RlcmVkIHRoaXMgbm90aWZp
+ZXIuCj4gICAqLwo+IC12b2lkIGNlY19ub3RpZmllcl9jZWNfYWRhcF91bnJlZ2lzdGVyKHN0cnVj
+dCBjZWNfbm90aWZpZXIgKm4pOwo+ICt2b2lkIGNlY19ub3RpZmllcl9jZWNfYWRhcF91bnJlZ2lz
+dGVyKHN0cnVjdCBjZWNfbm90aWZpZXIgKm4sCj4gKwkJCQkgICAgICBzdHJ1Y3QgY2VjX2FkYXB0
+ZXIgKmFkYXApOwo+IAo+ICAvKioKPiAgICogY2VjX25vdGlmaWVyX3NldF9waHlzX2FkZHIgLSBz
+ZXQgYSBuZXcgcGh5c2ljYWwgYWRkcmVzcy4KPiBAQCAtMTYwLDcgKzE2Miw4IEBAIGNlY19ub3Rp
+Zmllcl9jZWNfYWRhcF9yZWdpc3RlcihzdHJ1Y3QgZGV2aWNlICpoZG1pX2RldiwgY29uc3QgY2hh
+ciAqY29ubl9uYW1lLAo+ICAJcmV0dXJuIChzdHJ1Y3QgY2VjX25vdGlmaWVyICopMHhkZWFkZmVl
+ZDsKPiAgfQo+IAo+IC1zdGF0aWMgaW5saW5lIHZvaWQgY2VjX25vdGlmaWVyX2NlY19hZGFwX3Vu
+cmVnaXN0ZXIoc3RydWN0IGNlY19ub3RpZmllciAqbikKPiArc3RhdGljIGlubGluZSB2b2lkIGNl
+Y19ub3RpZmllcl9jZWNfYWRhcF91bnJlZ2lzdGVyKHN0cnVjdCBjZWNfbm90aWZpZXIgKm4sCj4g
+KwkJCQkJCSAgICBzdHJ1Y3QgY2VjX2FkYXB0ZXIgKmFkYXApCj4gIHsKPiAgfQo+IAoKCgpUaGFu
+a3MsCk1hdXJvCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
