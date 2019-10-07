@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76545CDC0A
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2019 09:02:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D44C0CDC0B
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2019 09:02:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9F096E457;
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE8D56E461;
 	Mon,  7 Oct 2019 07:01:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47FB26E44D
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2019 03:31:06 +0000 (UTC)
-Received: by mail-pl1-x643.google.com with SMTP id c3so4720499plo.2
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Oct 2019 20:31:06 -0700 (PDT)
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
+ [IPv6:2607:f8b0:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B63296E44D
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2019 03:32:03 +0000 (UTC)
+Received: by mail-pg1-x543.google.com with SMTP id e1so7331827pgj.6
+ for <dri-devel@lists.freedesktop.org>; Sun, 06 Oct 2019 20:32:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=m6ZVj+HV49loAv95ReQOh5GSunOnE35wX2Bc+0q93oo=;
- b=K+ixpmBsWWmEpRlhNusODKEqTIIvmCxDpLQCRMVkIqkZDJKMUuQg1HKhTmjOpQWI9m
- ht3H71/EacTA/O+Bk3Gr0tiiMatwbbwxx3WSg5fmZiu8ksaLCkJu+2KfGk7icEJf128q
- Wzqt4NoONL0ZJhPU0dluG2F+tQkEYFBkDf174KzYu5C8iOd6MNNI4iibntzWGJ4pby1W
- FIoEKCxNiQjv4U6YXzWAJHWpH1vIZIZMKTY8dcikLVVySFPoaygbqeuubfynf5g5RRpo
- 4apq3OAKTDmGVucg+i5Ff+O71ko/vTTxygYcyIATKLaxrstuyXAQp791lIsPO68GPtC/
- qLUg==
-X-Gm-Message-State: APjAAAX2UaPMGewZ2GNh8ywC0Ilz3Z5XXl5EyUoIcsic7agAzxnhdDQj
- r9/Eupdm3Hf4h6cYcj6dALgeew==
-X-Google-Smtp-Source: APXvYqyK0cGcQPhMCq/YDWqIcKNCnGXD/gye49/b2NpR1/JcBFAoohrPihSNRV8mJk6K6mrH0RrbQw==
-X-Received: by 2002:a17:902:8b83:: with SMTP id
- ay3mr25944522plb.143.1570419066195; 
- Sun, 06 Oct 2019 20:31:06 -0700 (PDT)
+ b=OIiCRy4yyPODH8ZrdIZZ0PK1PzhsksmGrnPSYQyHU3ov2PR3F4kofr1k15chqCxqIT
+ bffFLnsn3UDCDMTgNvPCaL9uZi0rCqLVqsaQ1cnpbSywE4zNQC5p7n484EYcxmGtNETS
+ bo7s3CiFYRoPVDACzWco27ZxZjDk2DCD2qcMUUUOfh0twmhUvL/uDuAYEEdjMqCMq6Xq
+ Czi+mdV9D9X5/iRUIK9Hf36KMaruD0/NFkBon1l4MOnTiq3VpOFCzVKMdPJG3qqM4Yg/
+ NjmAaOIEDnh63xJC6IktEG/QK5E3OPGrW9TSIJoDszkBbm1yvVa5fWJl5IQp/v0MBgU0
+ W+SQ==
+X-Gm-Message-State: APjAAAW5AghsEXVlMRmX8jzre2mvR4+BhOkeJmSKcL3CMSwvu8pVlWEh
+ 0y0L18ByKKbRK9qoCVosO27hUQ==
+X-Google-Smtp-Source: APXvYqzOOwyanRyMiJGsVbmq0P686Fa+QDrzb4QYm1IDHlrNgzTjC4nRJtm6F85fOzT8iD4OWtQP0g==
+X-Received: by 2002:a17:90a:3387:: with SMTP id
+ n7mr29905561pjb.26.1570419123161; 
+ Sun, 06 Oct 2019 20:32:03 -0700 (PDT)
 Received: from debian-brgl.local (96-95-220-76-static.hfc.comcastbusiness.net.
  [96.95.220.76])
- by smtp.gmail.com with ESMTPSA id r28sm15025580pfg.62.2019.10.06.20.31.04
+ by smtp.gmail.com with ESMTPSA id x10sm16377720pfr.44.2019.10.06.20.32.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Oct 2019 20:31:05 -0700 (PDT)
+ Sun, 06 Oct 2019 20:32:02 -0700 (PDT)
 From: Bartosz Golaszewski <brgl@bgdev.pl>
 To: Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
  Lee Jones <lee.jones@linaro.org>,
@@ -47,8 +47,8 @@ To: Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Jacopo Mondi <jacopo@jmondi.org>
 Subject: [PATCH v5 0/7] backlight: gpio: simplify the driver
-Date: Mon,  7 Oct 2019 05:30:54 +0200
-Message-Id: <20191007033101.13343-1-brgl@bgdev.pl>
+Date: Mon,  7 Oct 2019 05:31:53 +0200
+Message-Id: <20191007033200.13443-1-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 07 Oct 2019 07:01:51 +0000
@@ -57,12 +57,12 @@ X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=m6ZVj+HV49loAv95ReQOh5GSunOnE35wX2Bc+0q93oo=;
- b=YFfCnyCDD3PB6NmfHCvMPu4D33I3gel2/ZiQH7/oNm+0P6Vb31d0cOZtFqmxJe7s4b
- NDIz0EAz6COcMXSH0q8CbgvDr7hWY8KEICppEuUvMOd5PQ2oL7sKJ6qi8Wm2whbWIal6
- KNTtNHDBwyZFpSluNwVRAezxYHNw04FE8jrlENf7RwOcNhPKafLezLW2cNwzT8CzXMby
- 2/TgEjatxwc0FrXbCP0SrG9oTuFqYcWEXgRJlOeQIqImOHIdLYqAcpoA+HSJlAnaXeke
- zyB39m8imjKnTWIAO+rY+2oTqtAlnD/UO1m+SdTZcEC4urp8OUa0afre5skaUcylBwsb
- ZKaw==
+ b=KpBM+zmvrOzbdWsfbpdXfUOh/HlwxVlM6JtPhdxdQrGG/iNat1s44Xk1dIe5G0yytN
+ g4uFYUJgcL/7ZzJwYBoBSxbzLFp1yUnec+Kny7Hh9U0uLRzHbCgQ1JisnLiswN2gc5KV
+ uWItlqydSYWsSq6Bfpsfzu9YC5jWFxlOelQ4GueEHJkh+czXgYhKgiYvDM0mMVsRgkXu
+ 9rm2kFk2xxohwng1/1LGytYCrVv7SpCWybwGabJEkzbE2+w5xiJQCpuU5Qy5ywjhif9l
+ aAYdY0MmHol877lte5vNPlPFhXptGVMnqp1pXpQ37tF8TGcxxvOs7VAB08YCFBw63bvU
+ jpmw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
