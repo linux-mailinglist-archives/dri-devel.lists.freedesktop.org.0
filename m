@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C62ACDE51
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2019 11:39:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB08FCDE59
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2019 11:43:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 081806E507;
-	Mon,  7 Oct 2019 09:39:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADA166E509;
+	Mon,  7 Oct 2019 09:43:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31E406E507;
- Mon,  7 Oct 2019 09:39:37 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61EBF6E509;
+ Mon,  7 Oct 2019 09:43:04 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2019 02:39:36 -0700
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 07 Oct 2019 02:43:03 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.67,267,1566889200"; 
- d="scan'208,217";a="344687415"
-Received: from pgsmsx108.gar.corp.intel.com ([10.221.44.103])
- by orsmga004.jf.intel.com with ESMTP; 07 Oct 2019 02:39:34 -0700
+ d="scan'208,217";a="192236459"
+Received: from pgsmsx112-dag.png.intel.com (HELO PGSMSX112.gar.corp.intel.com)
+ ([10.108.55.234])
+ by fmsmga008.fm.intel.com with ESMTP; 07 Oct 2019 02:43:01 -0700
 Received: from pgsmsx111.gar.corp.intel.com ([169.254.2.128]) by
- PGSMSX108.gar.corp.intel.com ([169.254.8.87]) with mapi id 14.03.0439.000;
- Mon, 7 Oct 2019 17:39:32 +0800
+ PGSMSX112.gar.corp.intel.com ([169.254.3.2]) with mapi id 14.03.0439.000;
+ Mon, 7 Oct 2019 17:43:01 +0800
 From: "Lee, Shawn C" <shawn.c.lee@intel.com>
-To: "20191004215851.31446-1-shawn.c.lee@intel.com"
- <20191004215851.31446-1-shawn.c.lee@intel.com>, "Nikula, Jani"
- <jani.nikula@intel.com>, 'Adam Jackson' <ajax@redhat.com>,
- "'intel-gfx@lists.freedesktop.org'" <intel-gfx@lists.freedesktop.org>,
+To: "'intel-gfx@lists.freedesktop.org'" <intel-gfx@lists.freedesktop.org>,
  "'dri-devel@lists.freedesktop.org'" <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH] drm/i915: customize DPCD brightness control for
+Subject: RE: RE: [PATCH] drm/i915: customize DPCD brightness control for
  specific panel
 Thread-Topic: RE: [PATCH] drm/i915: customize DPCD brightness control for
  specific panel
-Thread-Index: AdV88vsdl8Cfxm6zTQG8mTcXovO5Qw==
-Date: Mon, 7 Oct 2019 09:39:32 +0000
-Message-ID: <D42A2A322A1FCA4089E30E9A9BA36AC65D6AA27E@PGSMSX111.gar.corp.intel.com>
+Thread-Index: AdV88vsdl8Cfxm6zTQG8mTcXovO5QwAADVuQ
+Date: Mon, 7 Oct 2019 09:43:01 +0000
+Message-ID: <D42A2A322A1FCA4089E30E9A9BA36AC65D6AA2A5@PGSMSX111.gar.corp.intel.com>
+References: <D42A2A322A1FCA4089E30E9A9BA36AC65D6AA27E@PGSMSX111.gar.corp.intel.com>
+In-Reply-To: <D42A2A322A1FCA4089E30E9A9BA36AC65D6AA27E@PGSMSX111.gar.corp.intel.com>
 Accept-Language: zh-TW, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -61,26 +61,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Chiou, Cooper" <cooper.chiou@intel.com>,
- 'Gustavo Padovan' <gustavo@padovan.org>
-Content-Type: multipart/mixed; boundary="===============0591650654=="
+Reply-To: "20191004215851.31446-1-shawn.c.lee@intel.com"
+ <20191004215851.31446-1-shawn.c.lee@intel.com>
+Content-Type: multipart/mixed; boundary="===============1331710496=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0591650654==
+--===============1331710496==
 Content-Language: en-US
 Content-Type: multipart/alternative;
-	boundary="_000_D42A2A322A1FCA4089E30E9A9BA36AC65D6AA27EPGSMSX111garcor_"
+	boundary="_000_D42A2A322A1FCA4089E30E9A9BA36AC65D6AA2A5PGSMSX111garcor_"
 
---_000_D42A2A322A1FCA4089E30E9A9BA36AC65D6AA27EPGSMSX111garcor_
+--_000_D42A2A322A1FCA4089E30E9A9BA36AC65D6AA2A5PGSMSX111garcor_
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
 
-On Mon, 07 Oct 2019, "Jani Nikula" <jani.nikula@intel.com> wrote:
->On Mon, 07 Oct 2019, "Lee, Shawn C" <shawn.c.lee@intel.com> wrote:
->> On Fri, 04 Oct 2019, Jani Nikula <jani.nikula@intel.com> wrote:
->>>On Fri, 04 Oct 2019, Adam Jackson <ajax@redhat.com> wrote:
+On Mon, 07 Oct 2019, "Jani Nikula" <jani.nikula@intel.com<mailto:jani.nikul=
+a@intel.com>> wrote:
+>On Mon, 07 Oct 2019, "Lee, Shawn C" <shawn.c.lee@intel.com<mailto:shawn.c.=
+lee@intel.com>> wrote:
+>> On Fri, 04 Oct 2019, Jani Nikula <jani.nikula@intel.com<mailto:jani.niku=
+la@intel.com>> wrote:
+>>>On Fri, 04 Oct 2019, Adam Jackson <ajax@redhat.com<mailto:ajax@redhat.co=
+m>> wrote:
 >>>> On Sat, 2019-10-05 at 05:58 +0800, Lee Shawn C wrote:
 >>>>> This panel (manufacturer is SDC, product ID is 0x4141) used
 >>>>> manufacturer defined DPCD register to control brightness that not
@@ -209,7 +213,7 @@ as well. I will use DPCD quirk and renew this patch again.
 >>>
 
 
---_000_D42A2A322A1FCA4089E30E9A9BA36AC65D6AA27EPGSMSX111garcor_
+--_000_D42A2A322A1FCA4089E30E9A9BA36AC65D6AA2A5PGSMSX111garcor_
 Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
@@ -249,13 +253,25 @@ a:visited, span.MsoHyperlinkFollowed
 	{mso-style-priority:99;
 	color:#954F72;
 	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
+p.msonormal0, li.msonormal0, div.msonormal0
+	{mso-style-name:msonormal;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle18
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle20
+	{mso-style-type:personal-reply;
 	font-family:"Calibri",sans-serif;
 	color:windowtext;}
 .MsoChpDefault
 	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
+	font-size:10.0pt;}
 @page WordSection1
 	{size:8.5in 11.0in;
 	margin:1.0in 1.0in 1.0in 1.0in;}
@@ -271,14 +287,18 @@ div.WordSection1
 <body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
 <div class=3D"WordSection1">
 <p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">On Mon, 07 Oct 2019, &quot;Jani Nikula&quot; &lt;jan=
-i.nikula@intel.com&gt; wrote:<o:p></o:p></p>
+<p class=3D"MsoNormal">On Mon, 07 Oct 2019, &quot;Jani Nikula&quot; &lt;<a =
+href=3D"mailto:jani.nikula@intel.com">jani.nikula@intel.com</a>&gt; wrote:<=
+o:p></o:p></p>
 <p class=3D"MsoNormal">&gt;On Mon, 07 Oct 2019, &quot;Lee, Shawn C&quot; &l=
-t;shawn.c.lee@intel.com&gt; wrote:<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt; On Fri, 04 Oct 2019, Jani Nikula &lt;jani.n=
-ikula@intel.com&gt; wrote:<o:p></o:p></p>
-<p class=3D"MsoNormal">&gt;&gt;&gt;On Fri, 04 Oct 2019, Adam Jackson &lt;aj=
-ax@redhat.com&gt; wrote:<o:p></o:p></p>
+t;<a href=3D"mailto:shawn.c.lee@intel.com">shawn.c.lee@intel.com</a>&gt; wr=
+ote:<o:p></o:p></p>
+<p class=3D"MsoNormal">&gt;&gt; On Fri, 04 Oct 2019, Jani Nikula &lt;<a hre=
+f=3D"mailto:jani.nikula@intel.com">jani.nikula@intel.com</a>&gt; wrote:<o:p=
+></o:p></p>
+<p class=3D"MsoNormal">&gt;&gt;&gt;On Fri, 04 Oct 2019, Adam Jackson &lt;<a=
+ href=3D"mailto:ajax@redhat.com">ajax@redhat.com</a>&gt; wrote:<o:p></o:p><=
+/p>
 <p class=3D"MsoNormal">&gt;&gt;&gt;&gt; On Sat, 2019-10-05 at 05:58 &#43;08=
 00, Lee Shawn C wrote:<o:p></o:p></p>
 <p class=3D"MsoNormal">&gt;&gt;&gt;&gt;&gt; This panel (manufacturer is SDC=
@@ -497,9 +517,9 @@ Center<o:p></o:p></p>
 </body>
 </html>
 
---_000_D42A2A322A1FCA4089E30E9A9BA36AC65D6AA27EPGSMSX111garcor_--
+--_000_D42A2A322A1FCA4089E30E9A9BA36AC65D6AA2A5PGSMSX111garcor_--
 
---===============0591650654==
+--===============1331710496==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -509,4 +529,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0591650654==--
+--===============1331710496==--
