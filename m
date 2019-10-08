@@ -1,43 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1074D0431
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2019 01:33:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AB4CD0435
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2019 01:38:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F9E86E8B3;
-	Tue,  8 Oct 2019 23:33:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 462DF6E8B5;
+	Tue,  8 Oct 2019 23:38:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 86554 seconds by postgrey-1.36 at gabe;
- Tue, 08 Oct 2019 23:33:24 UTC
-Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 382E36E8B2;
- Tue,  8 Oct 2019 23:33:24 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 46ntvJ56D9z9sPL;
- Wed,  9 Oct 2019 10:33:15 +1100 (AEDT)
-Date: Wed, 9 Oct 2019 10:33:15 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, Dave Airlie <airlied@linux.ie>, DRI
- <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm-misc tree with the drm tree
-Message-ID: <20191009103315.2f51e079@canb.auug.org.au>
+Received: from elaine.keithp.com (home.keithp.com [63.227.221.253])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B454A6E8B5
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2019 23:38:24 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by elaine.keithp.com (Postfix) with ESMTP id C706C3F2960D;
+ Tue,  8 Oct 2019 16:38:23 -0700 (PDT)
+X-Virus-Scanned: Debian amavisd-new at keithp.com
+Received: from elaine.keithp.com ([127.0.0.1])
+ by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id zHeyEpz58WxQ; Tue,  8 Oct 2019 16:38:23 -0700 (PDT)
+Received: from keithp.com (koto.keithp.com [10.0.0.2])
+ by elaine.keithp.com (Postfix) with ESMTPSA id 3ACEB3F2960C;
+ Tue,  8 Oct 2019 16:38:23 -0700 (PDT)
+Received: by keithp.com (Postfix, from userid 1000)
+ id B52D815822F0; Tue,  8 Oct 2019 19:38:22 -0400 (EDT)
+From: "Keith Packard" <keithp@keithp.com>
+To: Neil Armstrong <narmstrong@baylibre.com>,
+ "dri-devel\@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: Re: liboutput: thoughts about shared library on top of DRM/KMS
+In-Reply-To: <62e06d9c-64ec-17c5-d89c-70ef6ac8debc@baylibre.com>
+References: <87y2xzqimw.fsf@keithp.com>
+ <62e06d9c-64ec-17c5-d89c-70ef6ac8debc@baylibre.com>
+Date: Tue, 08 Oct 2019 19:38:22 -0400
+Message-ID: <87zhian6z5.fsf@keithp.com>
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=canb.auug.org.au; s=201702; t=1570577600;
- bh=fCLq555CwsBdqSzNieFbT3yrcFvZ41mOJHpYKXLuEEk=;
- h=Date:From:To:Cc:Subject:From;
- b=kNyrXxEEy+s6GUEsPHqrCt1SsWqkv2V8WnRI98eGaBKtXJLJdtrHpaijx4vD32OH+
- tBCU/BXR6DCnkCBzMejqLrvWOmYLU4CwjQRkUD47HJbkHyy3dZhbl8KDVu4EzqhPRg
- DuHvY1usvbNtiojl78qd0leCOnXgMWrtKRJFW54bXxSZQv6eUBQ4mltZxtk3LGUUA+
- XMk3ZxX4Ue0tvTlO5YuZIsUI0NidWXtu/FseB+igHF9CJ62nAdrIwAi5pqgZ1s/GXz
- /pJUkNodm3Qmuxdlt0sWAl629X/ghl5RNWXG2SvT4XcrfFRJIejyjxkw/all4oJH5r
- viVf/on8Sne+A==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,82 +46,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============0329963900=="
+Content-Type: multipart/mixed; boundary="===============1687255717=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0329963900==
-Content-Type: multipart/signed; boundary="Sig_/17ltTepqDW3c3omnX4kN7Pe";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+--===============1687255717==
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha256; protocol="application/pgp-signature"
 
---Sig_/17ltTepqDW3c3omnX4kN7Pe
-Content-Type: text/plain; charset=US-ASCII
+--=-=-=
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 
-Hi all,
+Neil Armstrong <narmstrong@baylibre.com> writes:
 
-Today's linux-next merge of the drm-misc tree got a conflict in:
+> Seeing the description, it seems to be a libdrm with steroids,
+> why libdrm doesn't handle all this already ?
 
-  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+That'd be a lot of steroids; we're talking about creating helper
+functions all the way up to rendering images into scanout buffers
+(presumably using Vulkan?) for format conversion or flattening.
 
-between commit:
+> Is there a plan to maybe use it as a foundation for projects like
+> wlroots or drm_hwcomposer for example ?
 
-  8a9a982767b7 ("drm/i915: use a separate context for gpu relocs")
+Yes, the goal is to start to share code across a wide range of DRM
+users, instead of having everyone roll their own.
 
-from the drm tree and commit:
+=2D-=20
+=2Dkeith
 
-  4ee92c7149da ("drm/mm: Convert drm_mm_node booleans to bitops")
-
-from the drm-misc tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index e8ddc2320efa,493f07806b08..000000000000
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@@ -908,8 -902,7 +908,8 @@@ static void reloc_cache_init(struct rel
-  	cache->use_64bit_reloc =3D HAS_64BIT_RELOC(i915);
-  	cache->has_fence =3D cache->gen < 4;
-  	cache->needs_unfenced =3D INTEL_INFO(i915)->unfenced_needs_alignment;
-- 	cache->node.allocated =3D false;
-+ 	cache->node.flags =3D 0;
- +	cache->ce =3D NULL;
-  	cache->rq =3D NULL;
-  	cache->rq_size =3D 0;
-  }
-
---Sig_/17ltTepqDW3c3omnX4kN7Pe
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl2dHLsACgkQAVBC80lX
-0GyUDwf8DQY+OK3S0jTEKtPrN9FJni3BxWGnlJpZVm9VEKhrVjMKXG3jyvRf/td5
-FkO8KaQA0Xp0wzpW3aa3fkX7upqcay0MUtW1UVbGmujGJm7puWf34caBRYVUv8uZ
-KLANW8GNcfY7t+SiB4HGr0pKRXH3FI5dDCEIlvmpb18Lrvv8bubQIuWyarn43+Oh
-0Ie/366XKJJhT/tZPCVgwk6UKEEHDXenh3KeAzNhf43/JTZA1NytPqovvLGsr7ls
-2mikO2tfzWAs4jxXCcXday5JP3HF+OBOO18SrNuPMbZMwGT1XDSb32kqE1uzuMHu
-NhKK/OIaUOBBsq4txKSGWdmc6qyjqQ==
-=xhhf
+iQIzBAEBCAAdFiEEw4O3eCVWE9/bQJ2R2yIaaQAAABEFAl2dHe4ACgkQ2yIaaQAA
+ABGoVhAAkakBHIh5AgUi5QQpapEDVD9kDsEiVXWwgBeZXpd+6RwE91ONQxcsbkNr
+FI4stQR+cLMKRk8RJKjWvaQ3WtY4Kx3PrIrnHgn8YePW9g5BPE+sRly2PPUHVfF1
+3EtuQN2/kbdP/SHnnz63EmdYXMQikAMNcS7hIOnxeplWLyy8k3qZ0Y4QrBuN4Oha
+wfZiDfciy2HB9gtr0+P+IWIjOyoxLfQIeR374ZzbjgEjaw6vm/Pa2VKcxNCduDsQ
+oZoiL/eNB0yRQtOpUGiE2lap2i8N3G+YJC+MSH3lfUr/odhw3c6gLWX+zSRc/puj
+Gor9pCpZ9CfsoTcPNWnMkHLebJX7rWk9q+kPyUxw0yo16ugYST3wtOazxWniS4YA
+uSvR2Iqi9q+fcmM/S3lOPMA1nMKLQZoyHzfpBq3YyAcp+zf/T0I+dxifgdWsTpcW
+CZwDioHjr8+ksfQJWiTCprYFiXXmuIQe26UkcUjpqUu8Al+/C8DOJ/f+bOc4y2Np
+gYGhIkaZUQ3qdWGVOWnZIh/czUUkcZnEKRbpuocSlMnVhhYsqFfC+GVjMVmfKUPa
+cgkFkCv9Vras7hnaZWb9toERN7kO2WWcc6oB2rq0MDrDb2wSVgd7UJAsf1n4/ePC
+8QgN20YD9+6gqFmwiRoKDR+ClTc8WWKMdICMt8md5GPUWc8XQdw=
+=BpUy
 -----END PGP SIGNATURE-----
+--=-=-=--
 
---Sig_/17ltTepqDW3c3omnX4kN7Pe--
-
---===============0329963900==
+--===============1687255717==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -135,4 +107,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0329963900==--
+--===============1687255717==--
