@@ -1,45 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03D91CF465
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2019 10:00:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 072D4CF47D
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2019 10:04:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 885E56E255;
-	Tue,  8 Oct 2019 08:00:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3941789350;
+	Tue,  8 Oct 2019 08:04:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id B49296E241
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2019 08:00:09 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id DFB3872158; Tue,  8 Oct 2019 08:00:08 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111921] GPU crash on VegaM (amdgpu: The CS has been rejected)
-Date: Tue, 08 Oct 2019 08:00:07 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: rverschelde@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111921-502-KH7e8KfqSN@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111921-502@http.bugs.freedesktop.org/>
-References: <bug-111921-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from NAM01-BY2-obe.outbound.protection.outlook.com
+ (mail-eopbgr810084.outbound.protection.outlook.com [40.107.81.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0980189350
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2019 08:04:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kob+Alsvq9HWqO6A+XQ4e7yWqcPsSpFsHz9G0SAtugekmJlqm0pgpv6uZVOWfRdru9SFZxAKd8UqmBWu+fQh4F2p7oIybHH1WEHCOYMrQmDmuhe9eDHvdDJ4/+TvrluPo3jN7swRy4CARxeHlhLpF0RbKVuFfRCV3mmeqtCKjzKOXs4Cy8Y1cIhx3hcV/vNy2CWAsD+XTakEBI7WoSDSWfnmgsTba5KhNZBhM79yFeLNX2iSlj7GS76D3gMsoOCufHUgK+nMa6OOomcpLqUNJwO1NN8wE+oELsPVWCrW5NzccPoI+X8+v8JRmbfuBExyuuprZmgZ2VRHZ3teik/PxQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qPthsMPMd81Z06zABYxE1Q+JpA0q0Q63t7FE+9QLuu4=;
+ b=Z/1lyTLNhJir3FKRoqjS0OHQFRiOO+9J0xk1/azLe/3/uyUT+TlNCEUsY2j/cdrAz34T8deLHsDBW8KeMB5UZZE+eUXSqpndWBMZMMiVDWXZYlMFcGu2E+iCGK+iVaNRiUckDGMSAi6/GkXpjeXElZFlmYDcw5oivdels0+A81z95kE6/0IGX9/Ig+cCbKhEmxk2G4iXRaEs8thryGoSDGgkK2vo1BNtdbUa3AetlU8Wa4rLAE4AVtM6Us4tpW5EnTNTz4zYNOiB8w2j1eNNb8yLiPfExEoC7j4lyrQ+RSusqrmOX4XzeEwMAqVZUTnvkCEUQr6lNdJUsuM0+ckKnQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+Received: from DM5PR12MB1705.namprd12.prod.outlook.com (10.175.88.22) by
+ DM5PR12MB1130.namprd12.prod.outlook.com (10.168.237.147) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2327.24; Tue, 8 Oct 2019 08:04:25 +0000
+Received: from DM5PR12MB1705.namprd12.prod.outlook.com
+ ([fe80::7428:f6b3:a0b1:a02e]) by DM5PR12MB1705.namprd12.prod.outlook.com
+ ([fe80::7428:f6b3:a0b1:a02e%10]) with mapi id 15.20.2327.025; Tue, 8 Oct 2019
+ 08:04:25 +0000
+From: "Koenig, Christian" <Christian.Koenig@amd.com>
+To: Dave Airlie <airlied@gmail.com>
+Subject: Re: [pull] ttm drm-fixes-5.4
+Thread-Topic: [pull] ttm drm-fixes-5.4
+Thread-Index: AQHVfUmXvjZaF5zfJEekUt8X3OCS/KdQY2iA
+Date: Tue, 8 Oct 2019 08:04:25 +0000
+Message-ID: <eb4fe229-8f8d-baca-7bc5-93bcefa63ed1@amd.com>
+References: <1eba1bc0-ba0c-b948-6a3d-51a98f4e5c27@gmail.com>
+ <CAPM=9tyivSLW_DUJuZo9XQ8-0DsdCuPxrzqLUC-1u9riihqLSg@mail.gmail.com>
+In-Reply-To: <CAPM=9tyivSLW_DUJuZo9XQ8-0DsdCuPxrzqLUC-1u9riihqLSg@mail.gmail.com>
+Accept-Language: de-DE, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+x-originating-ip: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+x-clientproxiedby: AM0PR02CA0051.eurprd02.prod.outlook.com
+ (2603:10a6:208:d2::28) To DM5PR12MB1705.namprd12.prod.outlook.com
+ (2603:10b6:3:10c::22)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5ea38632-abc1-419b-6b1b-08d74bc622be
+x-ms-office365-filtering-ht: Tenant
+x-ms-traffictypediagnostic: DM5PR12MB1130:
+x-ms-exchange-purlcount: 1
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM5PR12MB11301BC37750A3D09D0944C9839A0@DM5PR12MB1130.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4502;
+x-forefront-prvs: 01842C458A
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(366004)(376002)(136003)(39860400002)(346002)(396003)(199004)(189003)(6436002)(102836004)(2616005)(8936002)(6306002)(58126008)(36756003)(11346002)(476003)(52116002)(54906003)(305945005)(486006)(5660300002)(6246003)(81166006)(81156014)(6486002)(46003)(8676002)(1411001)(31686004)(6916009)(99286004)(2906002)(6512007)(4326008)(446003)(256004)(25786009)(14444005)(66556008)(66476007)(65956001)(31696002)(71200400001)(386003)(86362001)(478600001)(6116002)(65806001)(66446008)(64756008)(186003)(14454004)(66946007)(229853002)(66574012)(7736002)(966005)(76176011)(71190400001)(6506007)(316002);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB1130;
+ H:DM5PR12MB1705.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 8PoysF30ivmC4spCbTv3wdZhmqWT3a9BpEwZBvWfP7KJj/n694jlEFayHrJRjndexxdgDe49HdHlpx3YK6Hlf1aoE6V8yH2VsKtkv1IKEhRhpV3lCq7z8sJ4KZtqghwEAGYN5O0zIZfbCFUKFzi06OLDUaffNokmlY1b3oCcDS5p2XES/bUpEp2ZBbkV5UwPaG7Z0f/NrqAMZuy0GpQNxD1DVSCri6JUKDnL9HQrOyEx4/CRN5JcvTCYOGTTRuSFGXc8Vng/eud02gEvarWDbx173nMfojzK+p+HhsG94THIcKgE0VOBLjCUgHtr8HBBxasOrm3L7QQPZKaCS+FJkfGmBnXi+aZaAjE0u7IWeNmKpkCrOyFVkzCE0ZagkruZQF6WpQre9LSfWw8xxtTQn6bDIpRY+f/RfjTG3TBCZMC8bdLe7PpYI+2BIMBWPKO4Q9U9AXWBwq49Qm6WRfgOxQ==
+Content-ID: <798E6E6374F4A54C8E275957D8D7BBA2@namprd12.prod.outlook.com>
 MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ea38632-abc1-419b-6b1b-08d74bc622be
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Oct 2019 08:04:25.7325 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: e1rMoyDrrSSgQDZkRnNx1nAxfqK4fnEO9EosSkcoc5/+Nd5ozHu9Np0qw2SuH8Go
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1130
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qPthsMPMd81Z06zABYxE1Q+JpA0q0Q63t7FE+9QLuu4=;
+ b=uwYV8SPFnhQCy1w8lC62JRlxvc8omzXxIsxpjsvOtaTGg2Ou//purqAqag4bf7C5p+Fz20prNJO8fe6gEBHfVGLSqdgSz9qb8MCMN9dUAGwXOFTJ5tsWwt3PfGMQ/QfV4L2YhxnQdAJ51UymSFb6B55lgExYUbKsNXUZZ6rzT0s=
+X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Christian.Koenig@amd.com; 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,414 +100,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1155004887=="
+Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, "Huang, Ray" <Ray.Huang@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1155004887==
-Content-Type: multipart/alternative; boundary="15705216080.65E0D.31084"
-Content-Transfer-Encoding: 7bit
-
-
---15705216080.65E0D.31084
-Date: Tue, 8 Oct 2019 08:00:08 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111921
-
---- Comment #1 from R=C3=A9mi Verschelde <rverschelde@gmail.com> ---
-Pasting relevant part of `dmesg` log:
-```
-[ 7813.339782] [drm] PCIE GART of 256M enabled (table at 0x000000F400000000=
-).
-[ 7813.454656] [drm] UVD and UVD ENC initialized successfully.
-[ 7813.565585] [drm] VCE initialized successfully.
-[ 7836.109655] amdgpu 0000:01:00.0: GPU pci config reset
-[ 7852.253685] [drm] PCIE GART of 256M enabled (table at 0x000000F400000000=
-).
-[ 7852.479940] amdgpu 0000:01:00.0: [drm:amdgpu_ring_test_helper [amdgpu]]
-*ERROR* ring gfx test failed (-110)
-[ 7852.479971] [drm:amdgpu_device_ip_resume_phase2 [amdgpu]] *ERROR* resume=
- of
-IP block <gfx_v8_0> failed -110
-[ 7852.480000] [drm:amdgpu_device_resume [amdgpu]] *ERROR*
-amdgpu_device_ip_resume failed (-110).
-[ 7852.497697] [drm] schedsdma0 is not ready, skipping
-[ 7852.497697] [drm] schedsdma1 is not ready, skipping
-[ 7852.508213] Move buffer fallback to memcpy unavailable
-[ 7852.508264] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to process the
-buffer list -19!
-[ 7852.508377] BUG: kernel NULL pointer dereference, address: 0000000000000=
-008
-[ 7852.508379] #PF: supervisor read access in kernel mode
-[ 7852.508379] #PF: error_code(0x0000) - not-present page
-[ 7852.508380] PGD 800000030ef3d067 P4D 800000030ef3d067 PUD 30e4e3067 PMD =
-0=20
-[ 7852.508383] Oops: 0000 [#1] SMP PTI
-[ 7852.508384] CPU: 0 PID: 30196 Comm: godot.x11.:cs0 Tainted: G        W  =
-O=20=20=20
-  5.3.2-desktop-1.mga7 #1
-[ 7852.508385] Hardware name: HP HP Spectre x360 Convertible/83BB, BIOS F.30
-03/07/2019
-[ 7852.508433] RIP: 0010:amdgpu_vm_sdma_commit+0x46/0x110 [amdgpu]
-[ 7852.508434] Code: 18 65 48 8b 04 25 28 00 00 00 48 89 44 24 08 31 c0 48 =
-8b
-47 08 48 8b aa 88 01 00 00 4c 8b a8 80 00 00 00 48 8b 80 c8 00 00 00 <4c> 8=
-b 70
-08 8b 45 08 4d 8d 7e 88 85 c0 0f 84 1c 0e 1f 00 49 8b 46
-[ 7852.508435] RSP: 0018:ffffb5d70ec939e0 EFLAGS: 00010246
-[ 7852.508436] RAX: 0000000000000000 RBX: ffffb5d70ec93a28 RCX:
-0000000000000800
-[ 7852.508437] RDX: ffff988d83c97c00 RSI: ffff988c8e5ae9b8 RDI:
-ffffb5d70ec93a28
-[ 7852.508438] RBP: ffff988d83c97df8 R08: 0000000000001000 R09:
-0000000000000011
-[ 7852.508438] R10: 0000000000000600 R11: 000000000000000d R12:
-ffff988c8e5ae9b8
-[ 7852.508439] R13: ffff988d922cc000 R14: 00000000000005ff R15:
-0000000000000071
-[ 7852.508440] FS:  00007f2cf7602700(0000) GS:ffff988e31c00000(0000)
-knlGS:0000000000000000
-[ 7852.508441] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 7852.508441] CR2: 0000000000000008 CR3: 0000000308aca001 CR4:
-00000000003606f0
-[ 7852.508442] Call Trace:
-[ 7852.508482]  amdgpu_vm_bo_update_mapping+0xcd/0xe0 [amdgpu]
-[ 7852.508518]  amdgpu_vm_bo_update+0x336/0x730 [amdgpu]
-[ 7852.508552]  amdgpu_cs_ioctl+0x1324/0x1a40 [amdgpu]
-[ 7852.508555]  ? __switch_to_asm+0x34/0x70
-[ 7852.508591]  ? amdgpu_cs_find_mapping+0x110/0x110 [amdgpu]
-[ 7852.508600]  drm_ioctl_kernel+0xac/0xf0 [drm]
-[ 7852.508608]  drm_ioctl+0x201/0x3a0 [drm]
-[ 7852.508640]  ? amdgpu_cs_find_mapping+0x110/0x110 [amdgpu]
-[ 7852.508643]  ? do_futex+0xca/0xb70
-[ 7852.508674]  amdgpu_drm_ioctl+0x49/0x80 [amdgpu]
-[ 7852.508677]  do_vfs_ioctl+0xa4/0x630
-[ 7852.508678]  ? __x64_sys_futex+0x13c/0x180
-[ 7852.508680]  ksys_ioctl+0x60/0x90
-[ 7852.508681]  __x64_sys_ioctl+0x16/0x20
-[ 7852.508683]  do_syscall_64+0x69/0x1d0
-[ 7852.508684]  ? prepare_exit_to_usermode+0x4c/0xb0
-[ 7852.508686]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[ 7852.508687] RIP: 0033:0x7f2d0c21f2b7
-[ 7852.508688] Code: 0f 1f 00 64 48 8b 14 25 00 00 00 00 48 8b 05 d0 8b 0c =
-00
-c7 04 02 26 00 00 00 48 c7 c0 ff ff ff ff c3 90 b8 10 00 00 00 0f 05 <48> 3=
-d 01
-f0 ff ff 73 01 c3 48 8b 0d a9 8b 0c 00 f7 d8 64 89 01 48
-[ 7852.508689] RSP: 002b:00007f2cf7601af8 EFLAGS: 00000246 ORIG_RAX:
-0000000000000010
-[ 7852.508690] RAX: ffffffffffffffda RBX: 00007f2cf7601bf8 RCX:
-00007f2d0c21f2b7
-[ 7852.508691] RDX: 00007f2cf7601b60 RSI: 00000000c0186444 RDI:
-0000000000000006
-[ 7852.508691] RBP: 00007f2cf7601b60 R08: 00007f2cf7601c50 R09:
-0000000000000020
-[ 7852.508692] R10: 00007f2cf7601c50 R11: 0000000000000246 R12:
-00000000c0186444
-[ 7852.508693] R13: 0000000000000006 R14: 00000000073bb160 R15:
-00000000073bb1e8
-[ 7852.508694] Modules linked in: cmac rfcomm msr ip6t_REJECT nf_reject_ipv6
-xt_comment ip6table_mangle ip6table_nat ip6table_raw nf_log_ipv6
-ip6table_filter ip6_tables xt_recent ipt_IFWLOG ipt_psd xt_set ip_set_hash_=
-ip
-ip_set ipt_REJECT nf_reject_ipv4 xt_conntrack xt_hashlimit xt_addrtype xt_m=
-ark
-iptable_mangle iptable_nat xt_CT xt_tcpudp iptable_raw nfnetlink_log xt_NFL=
-OG
-nf_log_ipv4 nf_log_common xt_LOG nf_nat_tftp nf_nat_snmp_basic
-nf_conntrack_snmp nf_nat_sip nf_nat_pptp nf_nat_irc nf_nat_h323 nf_nat_ftp
-nf_nat_amanda ts_kmp nf_conntrack_amanda nf_nat nf_conntrack_sane
-nf_conntrack_tftp nf_conntrack_sip nf_conntrack_pptp nf_conntrack_netlink
-nfnetlink nf_conntrack_netbios_ns nf_conntrack_broadcast nf_conntrack_irc
-nf_conntrack_h323 nf_conntrack_ftp nf_conntrack nf_defrag_ipv4 iptable_filt=
-er
-ccm af_packet bnep vboxnetadp(O) vboxnetflt(O) vboxdrv(O) fuse nls_iso8859_1
-nls_cp437 vfat fat dm_mirror dm_region_hash dm_log dm_mod btusb uvcvideo bt=
-bcm
-btrtl btintel videobuf2_vmalloc
-[ 7852.508713]  videobuf2_memops bluetooth videobuf2_v4l2 videobuf2_common
-videodev mc usbhid ecdh_generic ecc snd_hda_codec_hdmi x86_pkg_temp_thermal
-intel_powerclamp snd_hda_codec_realtek coretemp iwlmvm snd_hda_codec_generic
-ledtrig_audio kvm_intel joydev snd_hda_intel mac80211 kvm libarc4 snd_hda_c=
-odec
-irqbypass crc32_pclmul snd_hda_core iwlwifi crc32c_intel spi_pxa2xx_platform
-dw_dmac dw_dmac_core hid_multitouch 8250_dw ghash_clmulni_intel
-hid_sensor_magn_3d hid_sensor_gyro_3d hid_sensor_incl_3d aesni_intel
-hid_sensor_rotation hid_sensor_accel_3d iTCO_wdt iTCO_vendor_support
-hid_sensor_trigger industrialio_triggered_buffer aes_x86_64 tpm_crb kfifo_b=
-uf
-crypto_simd snd_hwdep cryptd hid_sensor_iio_common industrialio cfg80211
-glue_helper snd_pcm intel_cstate intel_uncore mei_hdcp snd_timer hp_wmi
-ucsi_acpi tpm_tis typec_ucsi tpm_tis_core snd hid_sensor_hub psmouse
-intel_rapl_msr intel_rapl_perf wmi_bmof soundcore intel_wmi_thunderbolt rfk=
-ill
-i2c_i801 rtsx_pci_ms input_leds hid_generic
-[ 7852.508731]  memstick pinctrl_sunrisepoint idma64 int3403_thermal thermal
-typec battery pinctrl_intel virt_dma tpm hp_wireless intel_vbtn sparse_keym=
-ap
-int3400_thermal acpi_pad acpi_thermal_rel ac intel_ishtp_loader button mei_=
-me
-mei intel_lpss_pci intel_pch_thermal intel_ishtp_hid processor_thermal_devi=
-ce
-intel_lpss cros_ec_ishtp intel_rapl_common int340x_thermal_zone cros_ec_core
-intel_soc_dts_iosf evdev sch_fq_codel nvram binfmt_misc efivarfs ip_tables
-x_tables ipv6 crc_ccitt nf_defrag_ipv6 autofs4 amdgpu xhci_pci xhci_hcd
-rtsx_pci_sdmmc mmc_block mmc_core usbcore rtsx_pci amd_iommu_v2 serio_raw
-gpu_sched intel_ish_ipc intel_ishtp ttm usb_common i915 i2c_hid hid
-i2c_algo_bit wmi drm_kms_helper video drm
-[ 7852.508746] CR2: 0000000000000008
-[ 7852.508748] ---[ end trace 4ad3d7dd37eb10d6 ]---
-[ 7852.508787] RIP: 0010:amdgpu_vm_sdma_commit+0x46/0x110 [amdgpu]
-[ 7852.508788] Code: 18 65 48 8b 04 25 28 00 00 00 48 89 44 24 08 31 c0 48 =
-8b
-47 08 48 8b aa 88 01 00 00 4c 8b a8 80 00 00 00 48 8b 80 c8 00 00 00 <4c> 8=
-b 70
-08 8b 45 08 4d 8d 7e 88 85 c0 0f 84 1c 0e 1f 00 49 8b 46
-[ 7852.508789] RSP: 0018:ffffb5d70ec939e0 EFLAGS: 00010246
-[ 7852.508790] RAX: 0000000000000000 RBX: ffffb5d70ec93a28 RCX:
-0000000000000800
-[ 7852.508790] RDX: ffff988d83c97c00 RSI: ffff988c8e5ae9b8 RDI:
-ffffb5d70ec93a28
-[ 7852.508791] RBP: ffff988d83c97df8 R08: 0000000000001000 R09:
-0000000000000011
-[ 7852.508792] R10: 0000000000000600 R11: 000000000000000d R12:
-ffff988c8e5ae9b8
-[ 7852.508792] R13: ffff988d922cc000 R14: 00000000000005ff R15:
-0000000000000071
-[ 7852.508793] FS:  00007f2cf7602700(0000) GS:ffff988e31c00000(0000)
-knlGS:0000000000000000
-[ 7852.508794] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 7852.508795] CR2: 0000000000000008 CR3: 0000000308aca001 CR4:
-00000000003606f0
-```
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15705216080.65E0D.31084
-Date: Tue, 8 Oct 2019 08:00:08 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - GPU crash on VegaM (amdgpu: The CS has been rejected)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111921#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - GPU crash on VegaM (amdgpu: The CS has been rejected)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111921">bug 11192=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-rverschelde&#64;gmail.com" title=3D"R=C3=A9mi Verschelde &lt;rverschelde&#6=
-4;gmail.com&gt;"> <span class=3D"fn">R=C3=A9mi Verschelde</span></a>
-</span></b>
-        <pre>Pasting relevant part of `dmesg` log:
-```
-[ 7813.339782] [drm] PCIE GART of 256M enabled (table at 0x000000F400000000=
-).
-[ 7813.454656] [drm] UVD and UVD ENC initialized successfully.
-[ 7813.565585] [drm] VCE initialized successfully.
-[ 7836.109655] amdgpu 0000:01:00.0: GPU pci config reset
-[ 7852.253685] [drm] PCIE GART of 256M enabled (table at 0x000000F400000000=
-).
-[ 7852.479940] amdgpu 0000:01:00.0: [drm:amdgpu_ring_test_helper [amdgpu]]
-*ERROR* ring gfx test failed (-110)
-[ 7852.479971] [drm:amdgpu_device_ip_resume_phase2 [amdgpu]] *ERROR* resume=
- of
-IP block &lt;gfx_v8_0&gt; failed -110
-[ 7852.480000] [drm:amdgpu_device_resume [amdgpu]] *ERROR*
-amdgpu_device_ip_resume failed (-110).
-[ 7852.497697] [drm] schedsdma0 is not ready, skipping
-[ 7852.497697] [drm] schedsdma1 is not ready, skipping
-[ 7852.508213] Move buffer fallback to memcpy unavailable
-[ 7852.508264] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to process the
-buffer list -19!
-[ 7852.508377] BUG: kernel NULL pointer dereference, address: 0000000000000=
-008
-[ 7852.508379] #PF: supervisor read access in kernel mode
-[ 7852.508379] #PF: error_code(0x0000) - not-present page
-[ 7852.508380] PGD 800000030ef3d067 P4D 800000030ef3d067 PUD 30e4e3067 PMD =
-0=20
-[ 7852.508383] Oops: 0000 [#1] SMP PTI
-[ 7852.508384] CPU: 0 PID: 30196 Comm: godot.x11.:cs0 Tainted: G        W  =
-O=20=20=20
-  5.3.2-desktop-1.mga7 #1
-[ 7852.508385] Hardware name: HP HP Spectre x360 Convertible/83BB, BIOS F.30
-03/07/2019
-[ 7852.508433] RIP: 0010:amdgpu_vm_sdma_commit+0x46/0x110 [amdgpu]
-[ 7852.508434] Code: 18 65 48 8b 04 25 28 00 00 00 48 89 44 24 08 31 c0 48 =
-8b
-47 08 48 8b aa 88 01 00 00 4c 8b a8 80 00 00 00 48 8b 80 c8 00 00 00 &lt;4c=
-&gt; 8b 70
-08 8b 45 08 4d 8d 7e 88 85 c0 0f 84 1c 0e 1f 00 49 8b 46
-[ 7852.508435] RSP: 0018:ffffb5d70ec939e0 EFLAGS: 00010246
-[ 7852.508436] RAX: 0000000000000000 RBX: ffffb5d70ec93a28 RCX:
-0000000000000800
-[ 7852.508437] RDX: ffff988d83c97c00 RSI: ffff988c8e5ae9b8 RDI:
-ffffb5d70ec93a28
-[ 7852.508438] RBP: ffff988d83c97df8 R08: 0000000000001000 R09:
-0000000000000011
-[ 7852.508438] R10: 0000000000000600 R11: 000000000000000d R12:
-ffff988c8e5ae9b8
-[ 7852.508439] R13: ffff988d922cc000 R14: 00000000000005ff R15:
-0000000000000071
-[ 7852.508440] FS:  00007f2cf7602700(0000) GS:ffff988e31c00000(0000)
-knlGS:0000000000000000
-[ 7852.508441] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 7852.508441] CR2: 0000000000000008 CR3: 0000000308aca001 CR4:
-00000000003606f0
-[ 7852.508442] Call Trace:
-[ 7852.508482]  amdgpu_vm_bo_update_mapping+0xcd/0xe0 [amdgpu]
-[ 7852.508518]  amdgpu_vm_bo_update+0x336/0x730 [amdgpu]
-[ 7852.508552]  amdgpu_cs_ioctl+0x1324/0x1a40 [amdgpu]
-[ 7852.508555]  ? __switch_to_asm+0x34/0x70
-[ 7852.508591]  ? amdgpu_cs_find_mapping+0x110/0x110 [amdgpu]
-[ 7852.508600]  drm_ioctl_kernel+0xac/0xf0 [drm]
-[ 7852.508608]  drm_ioctl+0x201/0x3a0 [drm]
-[ 7852.508640]  ? amdgpu_cs_find_mapping+0x110/0x110 [amdgpu]
-[ 7852.508643]  ? do_futex+0xca/0xb70
-[ 7852.508674]  amdgpu_drm_ioctl+0x49/0x80 [amdgpu]
-[ 7852.508677]  do_vfs_ioctl+0xa4/0x630
-[ 7852.508678]  ? __x64_sys_futex+0x13c/0x180
-[ 7852.508680]  ksys_ioctl+0x60/0x90
-[ 7852.508681]  __x64_sys_ioctl+0x16/0x20
-[ 7852.508683]  do_syscall_64+0x69/0x1d0
-[ 7852.508684]  ? prepare_exit_to_usermode+0x4c/0xb0
-[ 7852.508686]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[ 7852.508687] RIP: 0033:0x7f2d0c21f2b7
-[ 7852.508688] Code: 0f 1f 00 64 48 8b 14 25 00 00 00 00 48 8b 05 d0 8b 0c =
-00
-c7 04 02 26 00 00 00 48 c7 c0 ff ff ff ff c3 90 b8 10 00 00 00 0f 05 &lt;48=
-&gt; 3d 01
-f0 ff ff 73 01 c3 48 8b 0d a9 8b 0c 00 f7 d8 64 89 01 48
-[ 7852.508689] RSP: 002b:00007f2cf7601af8 EFLAGS: 00000246 ORIG_RAX:
-0000000000000010
-[ 7852.508690] RAX: ffffffffffffffda RBX: 00007f2cf7601bf8 RCX:
-00007f2d0c21f2b7
-[ 7852.508691] RDX: 00007f2cf7601b60 RSI: 00000000c0186444 RDI:
-0000000000000006
-[ 7852.508691] RBP: 00007f2cf7601b60 R08: 00007f2cf7601c50 R09:
-0000000000000020
-[ 7852.508692] R10: 00007f2cf7601c50 R11: 0000000000000246 R12:
-00000000c0186444
-[ 7852.508693] R13: 0000000000000006 R14: 00000000073bb160 R15:
-00000000073bb1e8
-[ 7852.508694] Modules linked in: cmac rfcomm msr ip6t_REJECT nf_reject_ipv6
-xt_comment ip6table_mangle ip6table_nat ip6table_raw nf_log_ipv6
-ip6table_filter ip6_tables xt_recent ipt_IFWLOG ipt_psd xt_set ip_set_hash_=
-ip
-ip_set ipt_REJECT nf_reject_ipv4 xt_conntrack xt_hashlimit xt_addrtype xt_m=
-ark
-iptable_mangle iptable_nat xt_CT xt_tcpudp iptable_raw nfnetlink_log xt_NFL=
-OG
-nf_log_ipv4 nf_log_common xt_LOG nf_nat_tftp nf_nat_snmp_basic
-nf_conntrack_snmp nf_nat_sip nf_nat_pptp nf_nat_irc nf_nat_h323 nf_nat_ftp
-nf_nat_amanda ts_kmp nf_conntrack_amanda nf_nat nf_conntrack_sane
-nf_conntrack_tftp nf_conntrack_sip nf_conntrack_pptp nf_conntrack_netlink
-nfnetlink nf_conntrack_netbios_ns nf_conntrack_broadcast nf_conntrack_irc
-nf_conntrack_h323 nf_conntrack_ftp nf_conntrack nf_defrag_ipv4 iptable_filt=
-er
-ccm af_packet bnep vboxnetadp(O) vboxnetflt(O) vboxdrv(O) fuse nls_iso8859_1
-nls_cp437 vfat fat dm_mirror dm_region_hash dm_log dm_mod btusb uvcvideo bt=
-bcm
-btrtl btintel videobuf2_vmalloc
-[ 7852.508713]  videobuf2_memops bluetooth videobuf2_v4l2 videobuf2_common
-videodev mc usbhid ecdh_generic ecc snd_hda_codec_hdmi x86_pkg_temp_thermal
-intel_powerclamp snd_hda_codec_realtek coretemp iwlmvm snd_hda_codec_generic
-ledtrig_audio kvm_intel joydev snd_hda_intel mac80211 kvm libarc4 snd_hda_c=
-odec
-irqbypass crc32_pclmul snd_hda_core iwlwifi crc32c_intel spi_pxa2xx_platform
-dw_dmac dw_dmac_core hid_multitouch 8250_dw ghash_clmulni_intel
-hid_sensor_magn_3d hid_sensor_gyro_3d hid_sensor_incl_3d aesni_intel
-hid_sensor_rotation hid_sensor_accel_3d iTCO_wdt iTCO_vendor_support
-hid_sensor_trigger industrialio_triggered_buffer aes_x86_64 tpm_crb kfifo_b=
-uf
-crypto_simd snd_hwdep cryptd hid_sensor_iio_common industrialio cfg80211
-glue_helper snd_pcm intel_cstate intel_uncore mei_hdcp snd_timer hp_wmi
-ucsi_acpi tpm_tis typec_ucsi tpm_tis_core snd hid_sensor_hub psmouse
-intel_rapl_msr intel_rapl_perf wmi_bmof soundcore intel_wmi_thunderbolt rfk=
-ill
-i2c_i801 rtsx_pci_ms input_leds hid_generic
-[ 7852.508731]  memstick pinctrl_sunrisepoint idma64 int3403_thermal thermal
-typec battery pinctrl_intel virt_dma tpm hp_wireless intel_vbtn sparse_keym=
-ap
-int3400_thermal acpi_pad acpi_thermal_rel ac intel_ishtp_loader button mei_=
-me
-mei intel_lpss_pci intel_pch_thermal intel_ishtp_hid processor_thermal_devi=
-ce
-intel_lpss cros_ec_ishtp intel_rapl_common int340x_thermal_zone cros_ec_core
-intel_soc_dts_iosf evdev sch_fq_codel nvram binfmt_misc efivarfs ip_tables
-x_tables ipv6 crc_ccitt nf_defrag_ipv6 autofs4 amdgpu xhci_pci xhci_hcd
-rtsx_pci_sdmmc mmc_block mmc_core usbcore rtsx_pci amd_iommu_v2 serio_raw
-gpu_sched intel_ish_ipc intel_ishtp ttm usb_common i915 i2c_hid hid
-i2c_algo_bit wmi drm_kms_helper video drm
-[ 7852.508746] CR2: 0000000000000008
-[ 7852.508748] ---[ end trace 4ad3d7dd37eb10d6 ]---
-[ 7852.508787] RIP: 0010:amdgpu_vm_sdma_commit+0x46/0x110 [amdgpu]
-[ 7852.508788] Code: 18 65 48 8b 04 25 28 00 00 00 48 89 44 24 08 31 c0 48 =
-8b
-47 08 48 8b aa 88 01 00 00 4c 8b a8 80 00 00 00 48 8b 80 c8 00 00 00 &lt;4c=
-&gt; 8b 70
-08 8b 45 08 4d 8d 7e 88 85 c0 0f 84 1c 0e 1f 00 49 8b 46
-[ 7852.508789] RSP: 0018:ffffb5d70ec939e0 EFLAGS: 00010246
-[ 7852.508790] RAX: 0000000000000000 RBX: ffffb5d70ec93a28 RCX:
-0000000000000800
-[ 7852.508790] RDX: ffff988d83c97c00 RSI: ffff988c8e5ae9b8 RDI:
-ffffb5d70ec93a28
-[ 7852.508791] RBP: ffff988d83c97df8 R08: 0000000000001000 R09:
-0000000000000011
-[ 7852.508792] R10: 0000000000000600 R11: 000000000000000d R12:
-ffff988c8e5ae9b8
-[ 7852.508792] R13: ffff988d922cc000 R14: 00000000000005ff R15:
-0000000000000071
-[ 7852.508793] FS:  00007f2cf7602700(0000) GS:ffff988e31c00000(0000)
-knlGS:0000000000000000
-[ 7852.508794] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 7852.508795] CR2: 0000000000000008 CR3: 0000000308aca001 CR4:
-00000000003606f0
-```</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15705216080.65E0D.31084--
-
---===============1155004887==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1155004887==--
+TXkgZ2l0IHZlcnNpb24gc2hvdWxkIGJlIHJlbGF0aXZlIG5ldywgYnV0IEknbSB1c3VhbGx5IHVz
+aW5nIHRodW5kZXJiaXJkIA0KdG8gc2VuZCBwdWxsIHJlcXVlc3RzIG5vdCBnaXQgaXRzZWxmIHNp
+bmNlIEkgd2FudCB0byBlZGl0IHRoZSBtZXNzYWdlIA0KYmVmb3JlIHNlbmRpbmcuDQoNCkhvdyB3
+b3VsZCBJIGRvIHRoaXMgaW4gYSB3YXkgcGF0Y2h3b3JrIGxpa2VzIGl0IHdpdGggZ2l0Pw0KDQpU
+aGFua3MsDQpDaHJpc3RpYW4uDQoNCkFtIDA3LjEwLjE5IHVtIDIxOjU4IHNjaHJpZWIgRGF2ZSBB
+aXJsaWU6DQo+IEZvciBzb21lIHJlYXNvbiB0aGlzIGRpZG4ndCBlbmQgdXAgaW4gcGF0Y2h3b3Jr
+IHdoaWNoIG1ha2VzIGl0IGhhcmQNCj4gZm9yIG1lIHRvIHByb2Nlc3MuDQo+DQo+IFVzdWFsIHN1
+c3BlY3RzIGFyZSB1c2luZyB0b28gb2xkIGEgZ2l0IHRvIHNlbmQgaXQgb3IgbWF5YmUgaXQgZ290
+IGN0cmwtTXMgaW4gaXQuDQo+DQo+IERhdmUuDQo+DQo+IE9uIFRodSwgMyBPY3QgMjAxOSBhdCAw
+MTo0NCwgQ2hyaXN0aWFuIEvDtm5pZw0KPiA8Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBnbWFpbC5j
+b20+IHdyb3RlOg0KPj4gSGkgRGF2ZSwgRGFuaWVsLA0KPj4NCj4+IHdlIGhhZCBzb21lIHByb2Js
+ZW1zIHRoaXMgY3ljbGUgc2VuZGluZyBvdXQgVFRNIGZpeGVzIGJlY2F1c2Ugb2YgbGFjayBvZg0K
+Pj4gdGltZSB0byByZWJhc2UgYW1kLXN0YWdpbmctZHJtLW5leHQuDQo+Pg0KPj4gQmVjYXVzZSBv
+ZiB0aGlzIEFsZXggYW5kIEkgZGVjaWRlZCB0aGF0IEknbSBnb2luZyB0byBzZW5kIG91dCBUVE0g
+cHVsbA0KPj4gcmVxdWVzdHMgc2VwYXJhdGVseSBub3cuIFNvIHRoaXMgaXMgdGhlIGZpcnN0IHNt
+YWxsIGJ1bmNoIG9mIGZpeGVzIGZvciA1LjQuDQo+Pg0KPj4gVGhlIGZvbGxvd2luZyBjaGFuZ2Vz
+IHNpbmNlIGNvbW1pdCA1NGVjYjhmNzAyOGM1ZWIzZDc0MGJiODJiMGYxZDkwZjJkZjYzYzVjOg0K
+Pj4NCj4+ICAgICBMaW51eCA1LjQtcmMxICgyMDE5LTA5LTMwIDEwOjM1OjQwIC0wNzAwKQ0KPj4N
+Cj4+IGFyZSBhdmFpbGFibGUgaW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0Og0KPj4NCj4+ICAgICBo
+dHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvY2tvZW5pZy9saW51eC1kcm0uZ2l0IGRybS10
+dG0tZml4ZXMNCj4+DQo+PiBmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8gM2VlZmNmZTlh
+NjQ0YmU0NDA5NjkxYjQ0YzNiMmQ2MjlkMTc3ZmI5YToNCj4+DQo+PiAgICAgZHJtL3R0bTogUmVz
+dG9yZSB0dG0gcHJlZmF1bHRpbmcgKDIwMTktMTAtMDIgMTU6NTc6MzQgKzAyMDApDQo+Pg0KPj4g
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLQ0KPj4gQ2hyaXN0aWFuIEvDtm5pZyAoMSk6DQo+PiAgICAgICAgIGRybS90dG06IGZp
+eCBidXN5IHJlZmVyZW5jZSBpbiB0dG1fbWVtX2V2aWN0X2ZpcnN0DQo+Pg0KPj4gVGhvbWFzIEhl
+bGxzdHJvbSAoMSk6DQo+PiAgICAgICAgIGRybS90dG06IFJlc3RvcmUgdHRtIHByZWZhdWx0aW5n
+DQo+Pg0KPj4gICAgZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYyAgICB8ICA0ICsrLS0NCj4+
+ICAgIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3ZtLmMgfCAxNiArKysrKysrLS0tLS0tLS0t
+DQo+PiAgICAyIGZpbGVzIGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygrKSwgMTEgZGVsZXRpb25zKC0p
+DQo+Pg0KPj4gUmVnYXJkcywNCj4+IENocmlzdGlhbi4NCg0KX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
