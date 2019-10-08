@@ -1,39 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AB4CD0435
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2019 01:38:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C6B3D0439
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2019 01:38:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 462DF6E8B5;
-	Tue,  8 Oct 2019 23:38:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DDF16E8B8;
+	Tue,  8 Oct 2019 23:38:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from elaine.keithp.com (home.keithp.com [63.227.221.253])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B454A6E8B5
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2019 23:38:24 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by elaine.keithp.com (Postfix) with ESMTP id C706C3F2960D;
- Tue,  8 Oct 2019 16:38:23 -0700 (PDT)
-X-Virus-Scanned: Debian amavisd-new at keithp.com
-Received: from elaine.keithp.com ([127.0.0.1])
- by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id zHeyEpz58WxQ; Tue,  8 Oct 2019 16:38:23 -0700 (PDT)
-Received: from keithp.com (koto.keithp.com [10.0.0.2])
- by elaine.keithp.com (Postfix) with ESMTPSA id 3ACEB3F2960C;
- Tue,  8 Oct 2019 16:38:23 -0700 (PDT)
-Received: by keithp.com (Postfix, from userid 1000)
- id B52D815822F0; Tue,  8 Oct 2019 19:38:22 -0400 (EDT)
-From: "Keith Packard" <keithp@keithp.com>
-To: Neil Armstrong <narmstrong@baylibre.com>,
- "dri-devel\@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: Re: liboutput: thoughts about shared library on top of DRM/KMS
-In-Reply-To: <62e06d9c-64ec-17c5-d89c-70ef6ac8debc@baylibre.com>
-References: <87y2xzqimw.fsf@keithp.com>
- <62e06d9c-64ec-17c5-d89c-70ef6ac8debc@baylibre.com>
-Date: Tue, 08 Oct 2019 19:38:22 -0400
-Message-ID: <87zhian6z5.fsf@keithp.com>
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06F856E8B6;
+ Tue,  8 Oct 2019 23:38:34 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 46nv1M3pwyz9sPL;
+ Wed,  9 Oct 2019 10:38:31 +1100 (AEDT)
+Date: Wed, 9 Oct 2019 10:38:30 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, Dave Airlie <airlied@linux.ie>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm-misc tree with the drm tree
+Message-ID: <20191009103830.0b75dbb5@canb.auug.org.au>
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=canb.auug.org.au; s=201702; t=1570577912;
+ bh=1lm8mYQPJzPKDhit1Mo4RGEcsekl2gAaPnzcVPSg8Kc=;
+ h=Date:From:To:Cc:Subject:From;
+ b=W4sgBgjRAs1uMxPyDwilr2XyPJu8Kd3VendqHI5I/LNoH9HRtFnFOMO6X/2rC1TgU
+ 6r4bWFEq3QIYPsp2uggQu9RWNPQYhBDa5Y/KVzWjk5Kv+3effK4wA/niIEqHvOOxaf
+ sHRdqJ+A+8kyNslxgtGlX+CvJwoscjzWEo0e+27Q4C7EwpvZEWFoAABPGHX0gsvIJn
+ I27wHx81r4y5FcDfro0cOJ/a0D2mNKpoDwFg4tXchTvzwGere1c+ghLu6StSdQzQuU
+ LK8ttSP08+QZAsb9N2jxtceaiSAU7KjDur2v7YjD8LqQTSP/ig1xaVOImP3w1Yr93t
+ 39LVOWPoFno0w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,58 +48,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1687255717=="
+Cc: Jani Nikula <jani.nikula@intel.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: multipart/mixed; boundary="===============1517716992=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1687255717==
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha256; protocol="application/pgp-signature"
+--===============1517716992==
+Content-Type: multipart/signed; boundary="Sig_/_/zJcqceIEDcW/o/wfX083J";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
---=-=-=
-Content-Type: text/plain
+--Sig_/_/zJcqceIEDcW/o/wfX083J
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Neil Armstrong <narmstrong@baylibre.com> writes:
+Hi all,
 
-> Seeing the description, it seems to be a libdrm with steroids,
-> why libdrm doesn't handle all this already ?
+Today's linux-next merge of the drm-misc tree got a conflict in:
 
-That'd be a lot of steroids; we're talking about creating helper
-functions all the way up to rendering images into scanout buffers
-(presumably using Vulkan?) for format conversion or flattening.
+  drivers/gpu/drm/i915/i915_drv.c
 
-> Is there a plan to maybe use it as a foundation for projects like
-> wlroots or drm_hwcomposer for example ?
+between commit:
 
-Yes, the goal is to start to share code across a wide range of DRM
-users, instead of having everyone roll their own.
+  2d6f6f359fd8 ("drm/i915: add i915_driver_modeset_remove()")
 
-=2D-=20
-=2Dkeith
+from the drm tree and commit:
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+  f2521f7731ed ("drm/i915: switch to drm_fb_helper_remove_conflicting_pci_f=
+ramebuffers")
+
+from the drm-misc tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/gpu/drm/i915/i915_drv.c
+index 15abad5c2d62,1c4ff8b5b0a2..000000000000
+--- a/drivers/gpu/drm/i915/i915_drv.c
++++ b/drivers/gpu/drm/i915/i915_drv.c
+@@@ -350,44 -422,6 +350,19 @@@ out
+  	return ret;
+  }
+ =20
+- static int i915_kick_out_firmware_fb(struct drm_i915_private *dev_priv)
+- {
+- 	struct apertures_struct *ap;
+- 	struct pci_dev *pdev =3D dev_priv->drm.pdev;
+- 	struct i915_ggtt *ggtt =3D &dev_priv->ggtt;
+- 	bool primary;
+- 	int ret;
+-=20
+- 	ap =3D alloc_apertures(1);
+- 	if (!ap)
+- 		return -ENOMEM;
+-=20
+- 	ap->ranges[0].base =3D ggtt->gmadr.start;
+- 	ap->ranges[0].size =3D ggtt->mappable_end;
+-=20
+- 	primary =3D
+- 		pdev->resource[PCI_ROM_RESOURCE].flags & IORESOURCE_ROM_SHADOW;
+-=20
+- 	ret =3D drm_fb_helper_remove_conflicting_framebuffers(ap, "inteldrmfb", =
+primary);
+-=20
+- 	kfree(ap);
+-=20
+- 	return ret;
+- }
+-=20
+ +static void i915_driver_modeset_remove(struct drm_i915_private *i915)
+ +{
+ +	intel_modeset_driver_remove(i915);
+ +
+ +	intel_bios_driver_remove(i915);
+ +
+ +	i915_switcheroo_unregister(i915);
+ +
+ +	intel_vga_unregister(i915);
+ +
+ +	intel_csr_ucode_fini(i915);
+ +}
+ +
+  static void intel_init_dpio(struct drm_i915_private *dev_priv)
+  {
+  	/*
+
+--Sig_/_/zJcqceIEDcW/o/wfX083J
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEw4O3eCVWE9/bQJ2R2yIaaQAAABEFAl2dHe4ACgkQ2yIaaQAA
-ABGoVhAAkakBHIh5AgUi5QQpapEDVD9kDsEiVXWwgBeZXpd+6RwE91ONQxcsbkNr
-FI4stQR+cLMKRk8RJKjWvaQ3WtY4Kx3PrIrnHgn8YePW9g5BPE+sRly2PPUHVfF1
-3EtuQN2/kbdP/SHnnz63EmdYXMQikAMNcS7hIOnxeplWLyy8k3qZ0Y4QrBuN4Oha
-wfZiDfciy2HB9gtr0+P+IWIjOyoxLfQIeR374ZzbjgEjaw6vm/Pa2VKcxNCduDsQ
-oZoiL/eNB0yRQtOpUGiE2lap2i8N3G+YJC+MSH3lfUr/odhw3c6gLWX+zSRc/puj
-Gor9pCpZ9CfsoTcPNWnMkHLebJX7rWk9q+kPyUxw0yo16ugYST3wtOazxWniS4YA
-uSvR2Iqi9q+fcmM/S3lOPMA1nMKLQZoyHzfpBq3YyAcp+zf/T0I+dxifgdWsTpcW
-CZwDioHjr8+ksfQJWiTCprYFiXXmuIQe26UkcUjpqUu8Al+/C8DOJ/f+bOc4y2Np
-gYGhIkaZUQ3qdWGVOWnZIh/czUUkcZnEKRbpuocSlMnVhhYsqFfC+GVjMVmfKUPa
-cgkFkCv9Vras7hnaZWb9toERN7kO2WWcc6oB2rq0MDrDb2wSVgd7UJAsf1n4/ePC
-8QgN20YD9+6gqFmwiRoKDR+ClTc8WWKMdICMt8md5GPUWc8XQdw=
-=BpUy
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl2dHfYACgkQAVBC80lX
+0GwyhAf/ebekB2v3yeFzeOUNfR+hb/RMJVxhfa8dyuaoqO8jX8X+QuyDPM0ZoyZ1
+M/MMTW1aEcPn4c+1j9u/ctM92gklAaJGVYmhM+mRN0Jk2zt1+7oZ9tewCXDSFtiv
+63EVFP3/L75/38bhe7PVyGkDWo8hBgteXVc06+MY+ZTQpqLCt69u86RqVTCvo5ss
+hbNjJBVZW9hAcXMYF3bfxDByFDDCku+FysGkBPj2TG5tndGY08CHURV7tXipdHb4
+psKyOZdwKPwJCyZxaFuti1kCAAX53HJBswWZ9rIlcUASXwp+rOmabO33PrPCErBZ
+/PhBPCa4dyaU6v5hRH/6IyEbJAhudg==
+=UVGC
 -----END PGP SIGNATURE-----
---=-=-=--
 
---===============1687255717==
+--Sig_/_/zJcqceIEDcW/o/wfX083J--
+
+--===============1517716992==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -107,4 +171,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1687255717==--
+--===============1517716992==--
