@@ -1,19 +1,19 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08517D07F8
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2019 09:13:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3CA3D07F1
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2019 09:13:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 685866E8FB;
-	Wed,  9 Oct 2019 07:13:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 138BA6E8F2;
+	Wed,  9 Oct 2019 07:12:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C81536E87A
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66DBE6E878
  for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2019 17:17:34 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id w12so20347881wro.5
+Received: by mail-wr1-x443.google.com with SMTP id w12so20347852wro.5
  for <dri-devel@lists.freedesktop.org>; Tue, 08 Oct 2019 10:17:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
@@ -21,19 +21,19 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
  bh=ZE8PGEIi76YGMsXY8il0PtLXvzSxK3hR1oe5Tgh3d28=;
- b=Uz3YsBFWNAAWHjzIc7VnZmq7crlyWRtuI6zjlmHLowzri9VdhD5ABrURDaKX1Pm+tw
- rA5M2VYNiGlPS4BU51z6djERYun9TSc02yeMQyCl46M0uCIojyoBmYs8hp45pBeYz3oo
- OXbXd2yTSrXR/7r8z7Vgvzz0pLERlIFwg6WaxzGhRF3xCE37mPjTiDnlukZERHWJSJnR
- Fd3po/t0u7tnkJbZm2O0XWNddgQ97dk3uJIA7KpHVBfXGpGyBCrQ18dlTN2kHOPgG3mT
- hRAsRK6U+Y6CiFX1CiG7hXJ4qy/S2PIudCK73z6B/9nfPG2+IkDGxE1/c1kxP/OsQL7J
- GACg==
-X-Gm-Message-State: APjAAAWqbSjYsuCNL1MCY373O3BxuT+/NtU8Im/n5yUiiWVxN4Tv9d69
- sZ9HACVeKLPot9B0tl2LBJsz+zxp
-X-Google-Smtp-Source: APXvYqwdvHBwsG2mR58wj08mieKyPRIn3OlKuHJNjL0SDJXT3RQKCGDdtrc6V1G1wPnCYqtirzLW8Q==
-X-Received: by 2002:a5d:67c3:: with SMTP id n3mr6371932wrw.294.1570555053468; 
+ b=UyqyKerZ7QHoPZTJ4o3BRJcn/ABIAtbGLUl9UHQa91J6Mu8a7EtS9iFsBkTw33vw8a
+ owwJd2xs7TYErTj8y05PEMnObTwqQv/p8I2OraWNq/HQVImO03dHkLaEkPaM36Q9yh8R
+ /O95cyksRu9aoTZsTWb0fIJb3n5oDX/ClYBjw2vwZz6iC7B2fmGIftf71i+LsVSfa1yq
+ Ds6oo53D+QdilbDoIq1bURWlR1q0vb0PWT2ExMRRym8qt/kuKK23qOS07qINJV4Jjjza
+ izuKfCrZr7MlN3y0LVwRNVm0RFxUNq7n21Ph4FItfctyBazJb/qWJH5y0hG3IP57hDTO
+ Qg8A==
+X-Gm-Message-State: APjAAAUzmZoo0imr8KVsqzCun006pj75mL+YaSPcyWzaXUklPd6K4Qap
+ pEefSMFlibTdjeFvlSVhcHI=
+X-Google-Smtp-Source: APXvYqy2bdvWWVGsdauftl8KYOQK2Cgl5ukUts+LsdvewFRq1Tg7hCgZbbPe7PQNQeEDqzqemrd8qw==
+X-Received: by 2002:a5d:4983:: with SMTP id r3mr21266968wrq.194.1570555053006; 
  Tue, 08 Oct 2019 10:17:33 -0700 (PDT)
 Received: from [192.168.1.19] (bgs228.neoplus.adsl.tpnet.pl. [83.28.82.228])
- by smtp.gmail.com with ESMTPSA id t123sm4621928wma.40.2019.10.08.10.17.31
+ by smtp.gmail.com with ESMTPSA id s9sm4891585wme.36.2019.10.08.10.17.31
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
  Tue, 08 Oct 2019 10:17:32 -0700 (PDT)
 Subject: Re: [PATCH v9 4/5] dt-bindings: backlight: Add led-backlight binding
@@ -102,7 +102,7 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <80378f6c-24ed-ff6b-fef5-1865c3f84b60@gmail.com>
+Message-ID: <edadb121-cebd-b8ea-e07d-f5495a581dfd@gmail.com>
 Date: Tue, 8 Oct 2019 19:17:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
@@ -116,12 +116,12 @@ X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
  bh=ZE8PGEIi76YGMsXY8il0PtLXvzSxK3hR1oe5Tgh3d28=;
- b=Cu35hN4/32NXTftmvQFvaafUTxd+iPBleiXiw2Ks90GzL30vMoWvDweANUS8D9JqlC
- mwMIbnX7h19b95PsHYAOQ2qP6wjwLRf5+ZQWojwf/07NznY4AF4Q9lpo1jCyMC0K6mmA
- A0tHJFLGCONzrPvtzsJu5lyImqH4odlEr5NoGNiVr/OcKrlIvV0gutSashqEfWpY4SBb
- eYE9/ODb5Rgsut9KNYw+7LXDWvwcunScgV5MW1P10IN1BJgAui4R8kAcQshqcuPnsD0Y
- hSdx794zEJs2pAIsQusO1VDxDz0PQQlPToOyGvQ60vCdyaiQ9bPQxm4DxlmFJ/F5VOvB
- endA==
+ b=RxZqeu6jgSrqT4kqT1iSbT2OORuSOCIw/HTA4JdmixgnxwSe89je1O0xW80y9UyrgE
+ QHAHxg9ks8hE1Ssfo8LmTF0GENd3zSdydQPqCEPid5JmB/lRbXKh13Oiyrs9mUk/COx0
+ Kw9sbeC7+ajUgnUm0vfEAyFC1/zW0SXOoeMRNsksu5zmHIuPXGvv39P/zv6GYRi6FRig
+ YLX3BLUN+HBdM/Qfm5yQDjlT7BP+evPf0BiaEpO0vfvLYC3r/qqwhZ0B9u7LAwg7EBT3
+ M9rEdLOVDH3PKO+MEatPK8Kch5vzn9uNwhLQJBzb5dZFmGhVdC4zPp6bLvisLlfNh9FE
+ 9D2g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
