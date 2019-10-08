@@ -1,45 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CC05CF00B
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2019 02:57:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B205DCF0DF
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2019 04:40:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFDB36E196;
-	Tue,  8 Oct 2019 00:57:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFCE26E03E;
+	Tue,  8 Oct 2019 02:40:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7EB1D6E1A8
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2019 00:57:02 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7B90772162; Tue,  8 Oct 2019 00:57:02 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110865] Rx480 consumes 20w more power in idle than under Windows
-Date: Tue, 08 Oct 2019 00:57:02 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
-X-Bugzilla-Who: Dieter@nuetzel-hh.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110865-502-4Ta6Rm3GLO@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110865-502@http.bugs.freedesktop.org/>
-References: <bug-110865-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from regular1.263xmail.com (regular1.263xmail.com [211.150.70.205])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D24B6E03E
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2019 02:40:30 +0000 (UTC)
+Received: from localhost (unknown [192.168.167.16])
+ by regular1.263xmail.com (Postfix) with ESMTP id D34F44C7;
+ Tue,  8 Oct 2019 10:40:22 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ADDR-CHECKED4: 1
+X-ANTISPAM-LEVEL: 2
+X-SKE-CHECKED: 1
+X-ABS-CHECKED: 1
+Received: from [172.16.10.69] (unknown [58.22.7.114])
+ by smtp.263.net (postfix) whith ESMTP id
+ P24810T140293581747968S1570502420990609_; 
+ Tue, 08 Oct 2019 10:40:22 +0800 (CST)
+X-IP-DOMAINF: 1
+X-UNIQUE-TAG: <caf3e72bb905e033806c9ef93bfde02d>
+X-RL-SENDER: hjc@rock-chips.com
+X-SENDER: hjc@rock-chips.com
+X-LOGIN-NAME: hjc@rock-chips.com
+X-FST-TO: linux-kernel@vger.kernel.org
+X-SENDER-IP: 58.22.7.114
+X-ATTACHMENT-NUM: 0
+X-DNS-TYPE: 0
+Subject: Re: [PATCH v2 1/3] drm: Add some new format DRM_FORMAT_NVXX_10
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <1569486289-152061-1-git-send-email-hjc@rock-chips.com>
+ <1569486289-152061-2-git-send-email-hjc@rock-chips.com>
+ <20190930104849.GA1208@intel.com>
+From: "sandy.huang" <hjc@rock-chips.com>
+Message-ID: <2c46d532-f810-392d-b9c0-3b9aaccae7f4@rock-chips.com>
+Date: Tue, 8 Oct 2019 10:40:20 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20190930104849.GA1208@intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,135 +59,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1254393644=="
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Sean Paul <sean@poorly.run>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1254393644==
-Content-Type: multipart/alternative; boundary="15704962223.0defF.21816"
-Content-Transfer-Encoding: 7bit
-
-
---15704962223.0defF.21816
-Date: Tue, 8 Oct 2019 00:57:02 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110865
-
---- Comment #37 from Dieter N=C3=BCtzel <Dieter@nuetzel-hh.de> ---
-(In reply to tempel.julian from comment #36)
-> (In reply to Dieter N=C3=BCtzel from comment #28)
-> > I've tried solving the flicker with both fixes (sent by magist3r) from =
-this
-> > bug
-> >=20
-> > Bug 102646 - Screen flickering under amdgpu-experimental [buggy auto po=
-wer
-> > profile]
-> > https://bugs.freedesktop.org/show_bug.cgi?id=3D102646
-> >=20
-> > But no success.
->=20
-> Have you also applied Ahzo's patch, just in case?
-
-Thanks for the hint.
-
-v2 is already in 'amd-staging-drm-next'
-f659bb6dae58c113805f92822e4c16ddd3156b79
-drm/amd/powerplay/smu7: enforce minimal VBITimeout (v2)
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15704962223.0defF.21816
-Date: Tue, 8 Oct 2019 00:57:02 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865#c37">Comme=
-nt # 37</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865">bug 11086=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-Dieter&#64;nuetzel-hh.de" title=3D"Dieter N=C3=BCtzel &lt;Dieter&#64;nuetze=
-l-hh.de&gt;"> <span class=3D"fn">Dieter N=C3=BCtzel</span></a>
-</span></b>
-        <pre>(In reply to tempel.julian from <a href=3D"show_bug.cgi?id=3D1=
-10865#c36">comment #36</a>)
-<span class=3D"quote">&gt; (In reply to Dieter N=C3=BCtzel from <a href=3D"=
-show_bug.cgi?id=3D110865#c28">comment #28</a>)
-&gt; &gt; I've tried solving the flicker with both fixes (sent by magist3r)=
- from this
-&gt; &gt; bug
-&gt; &gt;=20
-&gt; &gt; <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
-ower profile]"
-   href=3D"show_bug.cgi?id=3D102646">Bug 102646</a> - Screen flickering und=
-er amdgpu-experimental [buggy auto power
-&gt; &gt; profile]
-&gt; &gt; <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
-ower profile]"
-   href=3D"show_bug.cgi?id=3D102646">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D102646</a>
-&gt; &gt;=20
-&gt; &gt; But no success.
-&gt;=20
-&gt; Have you also applied Ahzo's patch, just in case?</span >
-
-Thanks for the hint.
-
-v2 is already in 'amd-staging-drm-next'
-f659bb6dae58c113805f92822e4c16ddd3156b79
-drm/amd/powerplay/smu7: enforce minimal VBITimeout (v2)</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15704962223.0defF.21816--
-
---===============1254393644==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1254393644==--
+SGkgdmlsbGUgc3lyamFsYSwKCuWcqCAyMDE5LzkvMzAg5LiL5Y2INjo0OCwgVmlsbGUgU3lyasOk
+bMOkIOWGmemBkzoKPiBPbiBUaHUsIFNlcCAyNiwgMjAxOSBhdCAwNDoyNDo0N1BNICswODAwLCBT
+YW5keSBIdWFuZyB3cm90ZToKPj4gVGhlc2UgbmV3IGZvcm1hdCBpcyBzdXBwb3J0ZWQgYnkgc29t
+ZSByb2NrY2hpcCBzb2NzOgo+Pgo+PiBEUk1fRk9STUFUX05WMTJfMTAvRFJNX0ZPUk1BVF9OVjIx
+XzEwCj4+IERSTV9GT1JNQVRfTlYxNl8xMC9EUk1fRk9STUFUX05WNjFfMTAKPj4gRFJNX0ZPUk1B
+VF9OVjI0XzEwL0RSTV9GT1JNQVRfTlY0Ml8xMAo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBTYW5keSBI
+dWFuZyA8aGpjQHJvY2stY2hpcHMuY29tPgo+PiAtLS0KPj4gICBkcml2ZXJzL2dwdS9kcm0vZHJt
+X2ZvdXJjYy5jICB8IDE4ICsrKysrKysrKysrKysrKysrKwo+PiAgIGluY2x1ZGUvdWFwaS9kcm0v
+ZHJtX2ZvdXJjYy5oIHwgMTQgKysrKysrKysrKysrKysKPj4gICAyIGZpbGVzIGNoYW5nZWQsIDMy
+IGluc2VydGlvbnMoKykKPj4KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZm91
+cmNjLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZvdXJjYy5jCj4+IGluZGV4IGM2MzAwNjQuLmNj
+ZDc4YTMgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZm91cmNjLmMKPj4gKysr
+IGIvZHJpdmVycy9ncHUvZHJtL2RybV9mb3VyY2MuYwo+PiBAQCAtMjYxLDYgKzI2MSwyNCBAQCBj
+b25zdCBzdHJ1Y3QgZHJtX2Zvcm1hdF9pbmZvICpfX2RybV9mb3JtYXRfaW5mbyh1MzIgZm9ybWF0
+KQo+PiAgIAkJeyAuZm9ybWF0ID0gRFJNX0ZPUk1BVF9QMDE2LAkJLmRlcHRoID0gMCwgIC5udW1f
+cGxhbmVzID0gMiwKPj4gICAJCSAgLmNoYXJfcGVyX2Jsb2NrID0geyAyLCA0LCAwIH0sIC5ibG9j
+a193ID0geyAxLCAwLCAwIH0sIC5ibG9ja19oID0geyAxLCAwLCAwIH0sCj4+ICAgCQkgIC5oc3Vi
+ID0gMiwgLnZzdWIgPSAyLCAuaXNfeXV2ID0gdHJ1ZX0sCj4+ICsJCXsgLmZvcm1hdCA9IERSTV9G
+T1JNQVRfTlYxMl8xMCwJCS5kZXB0aCA9IDAsICAubnVtX3BsYW5lcyA9IDIsCj4+ICsJCSAgLmNo
+YXJfcGVyX2Jsb2NrID0geyA1LCAxMCwgMCB9LCAuYmxvY2tfdyA9IHsgNCwgNCwgMCB9LCAuYmxv
+Y2tfaCA9IHsgNCwgNCwgMCB9LAo+PiArCQkgIC5oc3ViID0gMiwgLnZzdWIgPSAyLCAuaXNfeXV2
+ID0gdHJ1ZX0sCj4+ICsJCXsgLmZvcm1hdCA9IERSTV9GT1JNQVRfTlYyMV8xMCwJCS5kZXB0aCA9
+IDAsICAubnVtX3BsYW5lcyA9IDIsCj4+ICsJCSAgLmNoYXJfcGVyX2Jsb2NrID0geyA1LCAxMCwg
+MCB9LCAuYmxvY2tfdyA9IHsgNCwgNCwgMCB9LCAuYmxvY2tfaCA9IHsgNCwgNCwgMCB9LAo+PiAr
+CQkgIC5oc3ViID0gMiwgLnZzdWIgPSAyLCAuaXNfeXV2ID0gdHJ1ZX0sCj4+ICsJCXsgLmZvcm1h
+dCA9IERSTV9GT1JNQVRfTlYxNl8xMCwJCS5kZXB0aCA9IDAsICAubnVtX3BsYW5lcyA9IDIsCj4+
+ICsJCSAgLmNoYXJfcGVyX2Jsb2NrID0geyA1LCAxMCwgMCB9LCAuYmxvY2tfdyA9IHsgNCwgNCwg
+MCB9LCAuYmxvY2tfaCA9IHsgNCwgNCwgMCB9LAo+PiArCQkgIC5oc3ViID0gMiwgLnZzdWIgPSAx
+LCAuaXNfeXV2ID0gdHJ1ZX0sCj4+ICsJCXsgLmZvcm1hdCA9IERSTV9GT1JNQVRfTlY2MV8xMCwJ
+CS5kZXB0aCA9IDAsICAubnVtX3BsYW5lcyA9IDIsCj4+ICsJCSAgLmNoYXJfcGVyX2Jsb2NrID0g
+eyA1LCAxMCwgMCB9LCAuYmxvY2tfdyA9IHsgNCwgNCwgMCB9LCAuYmxvY2tfaCA9IHsgNCwgNCwg
+MCB9LAo+PiArCQkgIC5oc3ViID0gMiwgLnZzdWIgPSAxLCAuaXNfeXV2ID0gdHJ1ZX0sCj4+ICsJ
+CXsgLmZvcm1hdCA9IERSTV9GT1JNQVRfTlYyNF8xMCwJCS5kZXB0aCA9IDAsICAubnVtX3BsYW5l
+cyA9IDIsCj4+ICsJCSAgLmNoYXJfcGVyX2Jsb2NrID0geyA1LCAxMCwgMCB9LCAuYmxvY2tfdyA9
+IHsgNCwgNCwgMCB9LCAuYmxvY2tfaCA9IHsgNCwgNCwgMCB9LAo+PiArCQkgIC5oc3ViID0gMSwg
+LnZzdWIgPSAxLCAuaXNfeXV2ID0gdHJ1ZX0sCj4+ICsJCXsgLmZvcm1hdCA9IERSTV9GT1JNQVRf
+TlY0Ml8xMCwJCS5kZXB0aCA9IDAsICAubnVtX3BsYW5lcyA9IDIsCj4+ICsJCSAgLmNoYXJfcGVy
+X2Jsb2NrID0geyA1LCAxMCwgMCB9LCAuYmxvY2tfdyA9IHsgNCwgNCwgMCB9LCAuYmxvY2tfaCA9
+IHsgNCwgNCwgMCB9LAo+PiArCQkgIC5oc3ViID0gMSwgLnZzdWIgPSAxLCAuaXNfeXV2ID0gdHJ1
+ZX0sCj4+ICAgCQl7IC5mb3JtYXQgPSBEUk1fRk9STUFUX1AyMTAsCQkuZGVwdGggPSAwLAo+PiAg
+IAkJICAubnVtX3BsYW5lcyA9IDIsIC5jaGFyX3Blcl9ibG9jayA9IHsgMiwgNCwgMCB9LAo+PiAg
+IAkJICAuYmxvY2tfdyA9IHsgMSwgMCwgMCB9LCAuYmxvY2tfaCA9IHsgMSwgMCwgMCB9LCAuaHN1
+YiA9IDIsCj4+IGRpZmYgLS1naXQgYS9pbmNsdWRlL3VhcGkvZHJtL2RybV9mb3VyY2MuaCBiL2lu
+Y2x1ZGUvdWFwaS9kcm0vZHJtX2ZvdXJjYy5oCj4+IGluZGV4IDNmZWVhYTMuLjA4ZTIyMjEgMTAw
+NjQ0Cj4+IC0tLSBhL2luY2x1ZGUvdWFwaS9kcm0vZHJtX2ZvdXJjYy5oCj4+ICsrKyBiL2luY2x1
+ZGUvdWFwaS9kcm0vZHJtX2ZvdXJjYy5oCj4+IEBAIC0yMzgsNiArMjM4LDIwIEBAIGV4dGVybiAi
+QyIgewo+PiAgICNkZWZpbmUgRFJNX0ZPUk1BVF9OVjQyCQlmb3VyY2NfY29kZSgnTicsICdWJywg
+JzQnLCAnMicpIC8qIG5vbi1zdWJzYW1wbGVkIENiOkNyIHBsYW5lICovCj4+ICAgCj4+ICAgLyoK
+Pj4gKyAqIDIgcGxhbmUgWUNiQ3IKPj4gKyAqIGluZGV4IDAgPSBZIHBsYW5lLCBZMzpZMjpZMTpZ
+MCAxMDoxMDoxMDoxMAo+PiArICogaW5kZXggMSA9IENiOkNyIHBsYW5lLCBDYjM6Q3IzOkNiMjpD
+cjI6Q2IxOkNyMTpDYjA6Q3IwIDEwOjEwOjEwOjEwOjEwOjEwOjEwOjEwCj4+ICsgKiBvcgo+PiAr
+ICogaW5kZXggMSA9IENyOkNiIHBsYW5lLCBDcjM6Q2IzOkNyMjpDYjI6Q3IxOkNiMTpDcjA6Q2Iw
+IDEwOjEwOjEwOjEwOjEwOjEwOjEwOjEwCj4gU28gbm93IHlvdSdyZSBkZWZpbmluZyBpdCBhcyBz
+b21lIGtpbmQgb2YgYnl0ZSBhbGlnbmVkIGJsb2NrLgo+IFdpdGggdGhhdCBzcGVjaWZ5aW5nIGVu
+ZGlhbm5lc3Mgd291bGQgbm93IG1ha2Ugc2Vuc2Ugc2luY2UKPiBvdGhlcndpc2UgdGhpcyB0ZWxs
+cyB1cyBhYnNvbHV0ZWx5IG5vdGhpbmcgYWJvdXQgdGhlIG1lbW9yeQo+IGxheW91dC4KPgo+IFNv
+IEknZCBlaXRoZXIgZG8gdGhhdCwgb3IgZ28gYmFjayB0byBub3Qgc3BlY2lmeWluZyBhbnl0aGlu
+ZyBhbmQKPiB1c2Ugc29tZSB3ZWFzZWwgd29yZHMgbGlrZSAibWFtb3J5IGxheW91dCBpcyBpbXBs
+ZW1lbnRhdGlvbiBkZWZpbmVkIgo+IHdoaWNoIG9mIGNvdXJzZSBtZWFucyBubyBvbmUgY2FuIHVz
+ZSBpdCBmb3IgYW55dGhpbmcgdGhhdCBpbnZvbHZlcwo+IGFueSBraW5kIG9mIGNyb3NzIHZlbmRv
+ciBzdHVmZi4KLyoKIMKgKiAyIHBsYW5lIFlDYkNyCiDCoCogaW5kZXggMCA9IFkgcGxhbmUsIFsz
+OTogMF0gWTM6WTI6WTE6WTAgMTA6MTA6MTA6MTDCoCBsaXR0bGUgZW5kaWFuCiDCoCogaW5kZXgg
+MSA9IENiOkNyIHBsYW5lLCBbNzk6IDBdIENiMzpDcjM6Q2IyOkNyMjpDYjE6Q3IxOkNiMDpDcjAg
+CjEwOjEwOjEwOjEwOjEwOjEwOjEwOjEwwqAgbGl0dGxlIGVuZGlhbgogwqAqIG9yCiDCoCogaW5k
+ZXggMSA9IENyOkNiIHBsYW5lLCBbNzk6IDBdIENyMzpDYjM6Q3IyOkNiMjpDcjE6Q2IxOkNyMDpD
+YjAgCjEwOjEwOjEwOjEwOjEwOjEwOjEwOjEwwqAgbGl0dGxlIGVuZGlhbgogwqAqLwoKSXMgdGhp
+cyBkZXNjcmlwdGlvbiBvaz8KCj4+ICsgKi8KPj4gKyNkZWZpbmUgRFJNX0ZPUk1BVF9OVjEyXzEw
+CWZvdXJjY19jb2RlKCdOJywgJ0EnLCAnMScsICcyJykgLyogMngyIHN1YnNhbXBsZWQgQ3I6Q2Ig
+cGxhbmUgKi8KPj4gKyNkZWZpbmUgRFJNX0ZPUk1BVF9OVjIxXzEwCWZvdXJjY19jb2RlKCdOJywg
+J0EnLCAnMicsICcxJykgLyogMngyIHN1YnNhbXBsZWQgQ2I6Q3IgcGxhbmUgKi8KPj4gKyNkZWZp
+bmUgRFJNX0ZPUk1BVF9OVjE2XzEwCWZvdXJjY19jb2RlKCdOJywgJ0EnLCAnMScsICc2JykgLyog
+MngxIHN1YnNhbXBsZWQgQ3I6Q2IgcGxhbmUgKi8KPj4gKyNkZWZpbmUgRFJNX0ZPUk1BVF9OVjYx
+XzEwCWZvdXJjY19jb2RlKCdOJywgJ0EnLCAnNicsICcxJykgLyogMngxIHN1YnNhbXBsZWQgQ2I6
+Q3IgcGxhbmUgKi8KPj4gKyNkZWZpbmUgRFJNX0ZPUk1BVF9OVjI0XzEwCWZvdXJjY19jb2RlKCdO
+JywgJ0EnLCAnMicsICc0JykgLyogbm9uLXN1YnNhbXBsZWQgQ3I6Q2IgcGxhbmUgKi8KPj4gKyNk
+ZWZpbmUgRFJNX0ZPUk1BVF9OVjQyXzEwCWZvdXJjY19jb2RlKCdOJywgJ0EnLCAnNCcsICcyJykg
+Lyogbm9uLXN1YnNhbXBsZWQgQ2I6Q3IgcGxhbmUgKi8KPj4gKwo+PiArLyoKPj4gICAgKiAyIHBs
+YW5lIFlDYkNyIE1TQiBhbGlnbmVkCj4+ICAgICogaW5kZXggMCA9IFkgcGxhbmUsIFsxNTowXSBZ
+OnggWzEwOjZdIGxpdHRsZSBlbmRpYW4KPj4gICAgKiBpbmRleCAxID0gQ3I6Q2IgcGxhbmUsIFsz
+MTowXSBDcjp4OkNiOnggWzEwOjY6MTA6Nl0gbGl0dGxlIGVuZGlhbgo+PiAtLSAKPj4gMi43LjQK
+Pj4KPj4KPj4KPj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KPj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCj4+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVsCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
