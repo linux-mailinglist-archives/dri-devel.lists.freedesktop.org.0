@@ -1,64 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F252ECF8A9
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2019 13:39:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64769CF8CF
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2019 13:49:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27F9C6E115;
-	Tue,  8 Oct 2019 11:39:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA9706E11B;
+	Tue,  8 Oct 2019 11:49:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7637F6E115
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2019 11:39:48 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id f5so17148357ljg.8
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Oct 2019 04:39:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=J4beejq8o/5JgWyav+dttcLxtnjhbwjwA7Yz0invu3s=;
- b=obC8PdQqbKvaANEMDqFDL/nzJyWCZbyzRfFFxB0AvaqAOI/SDYIar2yuEXuqMW/5Yn
- 9ngC8CSPvcyQQgKBKlLRKomEtRJ5MNjKzrTst1Py2jUBfTMl8WbLUDo3KNrrbMNpZhuS
- cX5NI7SzsiZ4Xms33IfIZpVuWbZ52ps+Zmke4RyGe8U6Qi0G4Ddv2+tanCRJsnoA88K5
- QfArAwYJ/3cEnoZvHnYvxRmi5x+Qu1/Pp8NQ5PN42ZIpiVnU86pHx6lj6idP0tvGeu8+
- dJcmtjRBIzrK9d7e2CHZlu6Tw7BkQFDNveUJeTh2uPOaLT4WhBt/fnSN10guTLFjxHEu
- 4sSA==
-X-Gm-Message-State: APjAAAWnrxnEE+6hXvG/a4pc7olPoVzRKEfTFbu84xzmN9B5EEOgMsXf
- d/0zCJILp0Q7/FxJsCOIaWA=
-X-Google-Smtp-Source: APXvYqxEEEanso29qMg4+S8uPqV/geLQoqyOJxUdqW9T3C7AoBFovphItu5ZUgpVmc1VpCrxwEv5Jw==
-X-Received: by 2002:a2e:98ce:: with SMTP id s14mr21515381ljj.108.1570534786678; 
- Tue, 08 Oct 2019 04:39:46 -0700 (PDT)
-Received: from eldfell.localdomain ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id 134sm3584465lfk.70.2019.10.08.04.39.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Oct 2019 04:39:46 -0700 (PDT)
-Date: Tue, 8 Oct 2019 14:39:36 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [v4] drm: two planes with the same zpos have undefined ordering
-Message-ID: <20191008143936.6f49b098@eldfell.localdomain>
-In-Reply-To: <20191008095904.GL16989@phenom.ffwll.local>
-References: <3FTYuSJGBfAG_MnVn604lEDUu1q2h6tI--IJOCx5Yp1SRwQig7s2AfLuleVvOS9WN1lLqAlXCWJu_Z60u3BnZfqCgFHDd_nPOUCAipaNpLk=@emersion.fr>
- <20190929061549.GA28809@jamwan02-TSP300>
- <3q-AW_DkhdIpH9Ip7_2kdcVNHwdKnhIH4k2PjfN-80KlJ0Qe3jIVH6CxMSQc-niJGdLyzzKsUcXjUyu1z9fTjHwg5-eWvOWbhnblUurueKo=@emersion.fr>
- <20190930100707.178723d1@eldfell.localdomain>
- <20191008095904.GL16989@phenom.ffwll.local>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from regular1.263xmail.com (regular1.263xmail.com [211.150.70.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAFCE6E11B
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2019 11:49:38 +0000 (UTC)
+Received: from localhost (unknown [192.168.167.13])
+ by regular1.263xmail.com (Postfix) with ESMTP id D7C533DD;
+ Tue,  8 Oct 2019 19:49:34 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ADDR-CHECKED4: 1
+X-ANTISPAM-LEVEL: 2
+X-SKE-CHECKED: 1
+X-ABS-CHECKED: 1
+Received: from [172.16.10.69] (unknown [58.22.7.114])
+ by smtp.263.net (postfix) whith ESMTP id
+ P5322T139950326527744S1570535374143958_; 
+ Tue, 08 Oct 2019 19:49:34 +0800 (CST)
+X-IP-DOMAINF: 1
+X-UNIQUE-TAG: <22671dc7acf9fc0b92f2f382ec646b55>
+X-RL-SENDER: hjc@rock-chips.com
+X-SENDER: hjc@rock-chips.com
+X-LOGIN-NAME: hjc@rock-chips.com
+X-FST-TO: linux-kernel@vger.kernel.org
+X-SENDER-IP: 58.22.7.114
+X-ATTACHMENT-NUM: 0
+X-DNS-TYPE: 0
+Subject: Re: [PATCH v2 1/3] drm: Add some new format DRM_FORMAT_NVXX_10
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <1569486289-152061-1-git-send-email-hjc@rock-chips.com>
+ <1569486289-152061-2-git-send-email-hjc@rock-chips.com>
+ <20190930104849.GA1208@intel.com>
+ <2c46d532-f810-392d-b9c0-3b9aaccae7f4@rock-chips.com>
+ <20191008113338.GP1208@intel.com>
+From: "sandy.huang" <hjc@rock-chips.com>
+Message-ID: <a5fa3d8e-9e8e-8aa8-8abb-f00e8357acb5@rock-chips.com>
+Date: Tue, 8 Oct 2019 19:49:33 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version;
- bh=J4beejq8o/5JgWyav+dttcLxtnjhbwjwA7Yz0invu3s=;
- b=HviY/krPPgs3pA/EvfB32HlqIUlvELo8ku+jWz6Jefe7yVil1O7bjmxzegrzW+pV7J
- x6snAf3XAnTGgy+yTV7ur3JLyfslXyRN+CQzOod7+r2c4da9N1Nzhw+hXiu7VXFCJZw4
- 4bqm0LFNIILXB05IHyKNJX+URk4BRZtlR7dvzt9GrHC6Det7x6h+W9mPjJ/jrDwUXOCf
- ziPeUDAWY0xSvNXzuMIFklpI4xsqXAq4gcurCcV+HLMv1j+m24t72vhxpTqew3Yl1tOO
- YxK/nFFdmoJEt8a5wlc/1q+4c8qt3NyIvlDIaOIK3AG1dgMCZwBAaD7AaoxHpLWNX8oN
- MWXA==
+In-Reply-To: <20191008113338.GP1208@intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,150 +61,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Simon Ser <contact@emersion.fr>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "james qian wang \(Arm Technology
- China\)" <james.qian.wang@arm.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- nd <nd@arm.com>, Marius Vlad <marius.vlad@collabora.com>
-Content-Type: multipart/mixed; boundary="===============1052862816=="
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Sean Paul <sean@poorly.run>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1052862816==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/i5SNKftMMeKN4MtpstyKo+C"; protocol="application/pgp-signature"
-
---Sig_/i5SNKftMMeKN4MtpstyKo+C
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, 8 Oct 2019 11:59:04 +0200
-Daniel Vetter <daniel@ffwll.ch> wrote:
-
-> On Mon, Sep 30, 2019 at 10:07:07AM +0300, Pekka Paalanen wrote:
-> > On Sun, 29 Sep 2019 20:30:44 +0000
-> > Simon Ser <contact@emersion.fr> wrote:
-> >  =20
-> > > Hi,
-> > >  =20
-> > > > On Mon, Sep 23, 2019 at 12:39:20PM +0000, Simon Ser wrote:   =20
-> > > > > Currently the property docs don't specify whether it's okay for t=
-wo planes to
-> > > > > have the same zpos value and what user-space should expect in thi=
-s case.
-> > > > >
-> > > > > The rule mentionned in the past was to disambiguate with object I=
-Ds. However
-> > > > > some drivers break this rule (that's why the ordering is document=
-ed as
-> > > > > unspecified in case the zpos property is missing). Additionally i=
-t doesn't
-> > > > > really make sense for a driver to user identical zpos values if i=
-t knows their
-> > > > > relative position: the driver can just pick different values inst=
-ead.
-> > > > >
-> > > > > So two solutions would make sense: either disallow completely ide=
-ntical zpos
-> > > > > values for two different planes, either make the ordering unspeci=
-fied. To allow
-> > > > > drivers that don't know the relative ordering between two planes =
-to still
-> > > > > expose the zpos property, choose the latter solution.   =20
-> > > >
-> > > > Some Arm's usage cases about two planes with same zpos.
-> > > >
-> > > > - "Smart layer"
-> > > > which can accepts 4 different fbs with different src/display rect,
-> > > > but this smart layer has one restriction:
-> > > >
-> > > > 4 display rects must have no overlaps in V direction
-> > > > (A optimization for android window like Toolbar/Navigation bar)
-> > > >
-> > > > So when map this Smart-layer to drm world, it might be 4 different
-> > > > drm-planes, but with same zorder to indicate that these 4 planes are
-> > > > smart-laye planes.
-> > > >
-> > > > - "VR-Layer"
-> > > > One VR-layer comprises two different viewports which can be configu=
-red
-> > > > with totoally different fbs, src/display rect.
-> > > > we use two differernt drm-planes to drive on HW "VR-Layer", and the=
-se
-> > > > two drm-planes must be configured with same zpos.   =20
-> > >=20
-> > > Thanks a lot for your feedback James, that's exactly what I was looki=
-ng for.
-> > > Both of these use-cases make sense to me.
-> > >=20
-> > > I think user-space should be prepared to handle identical immutable z=
-pos values.
-> > > Pekka and Daniel, thoughts? =20
-> >=20
-> > Hi,
-> >=20
-> > given those explained use cases, sure, I agree.
-> >  =20
-> > > In any case, this doesn't change the patch itself. Probably something=
- worth
-> > > mentionning in the commit message. =20
-> >=20
-> > Yes, recording these use cases would be very nice. =20
->=20
-> There's a lot more hw that does the same tricks (qualcom is one for sure).
-> Imo before we encode this we should make sure that:
-> a) everyone is happy with this new uapi
-
-Sorry, what new UAPI?
-
-We're just trying to make the documentation match what currently
-happens, right?
-
-
-Thanks,
-pq
-
-
-> b) drivers are consistent
-> c) maybe even testcases in igt
-> d) definitely an open source user
-> e) no breaking of existing userspace
->=20
-> I.e. definitely a separate patch.
-> -Daniel
-
-
---Sig_/i5SNKftMMeKN4MtpstyKo+C
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl2cdXgACgkQI1/ltBGq
-qqe6WQ//Vz2JLwg9bSi8qjCALxnTT1IQxLY/fSIB7sDUJCSQObZRq99+pQC4OnsI
-gKrueoUnbdPhvwEWY1bKGPCn6koggJkIJutpZ36OZ+yBBNHHE0Mt6ynE0url0/hO
-4cT5uqXVK/x5DHGZQVm+HSpgTlnmasUm+pu577dYalomnKLHXbEu9bQ+/7lWzHky
-1ISd1lpOF19r0ouRFxeEUqvr3KtFhjHWazYs4syUHtuiKZueywlgKQNyNd3E2Ixd
-V4HZY/GFbfN8fzkXP/WNfCT26qBfB/HlaPhLsm7+YQ30wBJymstpKuFRX8QNv0+t
-lMq7b02K5EoUxxdbLe+xl26Exzhkp/6l9C6GGzKPKE7iHz/uLwrBrLBJ4DzDsIyY
-kUwRsgvhrKr3imzH/pu6bKfBB0kJ34HKlEHX0xBjswPXzSQlescGE+MSRnzrczTc
-vajoP6zhpCvzPounmqL2MwoJzxtBdffsIvP9ClFc5BnKHSnVXMR5xbadnle0UmqU
-E00H4ZYhsXhb6jUQ31wWP3Pkp7u6PHi+2iLKg5eFETK1lKo+rGU8yTeWAP7aFVRw
-e6WFLsYax72PBDGiFe35SXg/DC0/k+FXPnATeKtgfGluIGYp25cr2ickqKI122A2
-5Otb2QEsKeVwmEzM/EGjxK4E568SwdQya+OZ4W5OUkySX0k84K4=
-=BuXl
------END PGP SIGNATURE-----
-
---Sig_/i5SNKftMMeKN4MtpstyKo+C--
-
---===============1052862816==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1052862816==--
+CuWcqCAyMDE5LzEwLzgg5LiL5Y2INzozMywgVmlsbGUgU3lyasOkbMOkIOWGmemBkzoKPiBPbiBU
+dWUsIE9jdCAwOCwgMjAxOSBhdCAxMDo0MDoyMEFNICswODAwLCBzYW5keS5odWFuZyB3cm90ZToK
+Pj4gSGkgdmlsbGUgc3lyamFsYSwKPj4KPj4g5ZyoIDIwMTkvOS8zMCDkuIvljYg2OjQ4LCBWaWxs
+ZSBTeXJqw6Rsw6Qg5YaZ6YGTOgo+Pj4gT24gVGh1LCBTZXAgMjYsIDIwMTkgYXQgMDQ6MjQ6NDdQ
+TSArMDgwMCwgU2FuZHkgSHVhbmcgd3JvdGU6Cj4+Pj4gVGhlc2UgbmV3IGZvcm1hdCBpcyBzdXBw
+b3J0ZWQgYnkgc29tZSByb2NrY2hpcCBzb2NzOgo+Pj4+Cj4+Pj4gRFJNX0ZPUk1BVF9OVjEyXzEw
+L0RSTV9GT1JNQVRfTlYyMV8xMAo+Pj4+IERSTV9GT1JNQVRfTlYxNl8xMC9EUk1fRk9STUFUX05W
+NjFfMTAKPj4+PiBEUk1fRk9STUFUX05WMjRfMTAvRFJNX0ZPUk1BVF9OVjQyXzEwCj4+Pj4KPj4+
+PiBTaWduZWQtb2ZmLWJ5OiBTYW5keSBIdWFuZyA8aGpjQHJvY2stY2hpcHMuY29tPgo+Pj4+IC0t
+LQo+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZm91cmNjLmMgIHwgMTggKysrKysrKysrKysr
+KysrKysrCj4+Pj4gICAgaW5jbHVkZS91YXBpL2RybS9kcm1fZm91cmNjLmggfCAxNCArKysrKysr
+KysrKysrKwo+Pj4+ICAgIDIgZmlsZXMgY2hhbmdlZCwgMzIgaW5zZXJ0aW9ucygrKQo+Pj4+Cj4+
+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZm91cmNjLmMgYi9kcml2ZXJzL2dw
+dS9kcm0vZHJtX2ZvdXJjYy5jCj4+Pj4gaW5kZXggYzYzMDA2NC4uY2NkNzhhMyAxMDA2NDQKPj4+
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZvdXJjYy5jCj4+Pj4gKysrIGIvZHJpdmVycy9n
+cHUvZHJtL2RybV9mb3VyY2MuYwo+Pj4+IEBAIC0yNjEsNiArMjYxLDI0IEBAIGNvbnN0IHN0cnVj
+dCBkcm1fZm9ybWF0X2luZm8gKl9fZHJtX2Zvcm1hdF9pbmZvKHUzMiBmb3JtYXQpCj4+Pj4gICAg
+CQl7IC5mb3JtYXQgPSBEUk1fRk9STUFUX1AwMTYsCQkuZGVwdGggPSAwLCAgLm51bV9wbGFuZXMg
+PSAyLAo+Pj4+ICAgIAkJICAuY2hhcl9wZXJfYmxvY2sgPSB7IDIsIDQsIDAgfSwgLmJsb2NrX3cg
+PSB7IDEsIDAsIDAgfSwgLmJsb2NrX2ggPSB7IDEsIDAsIDAgfSwKPj4+PiAgICAJCSAgLmhzdWIg
+PSAyLCAudnN1YiA9IDIsIC5pc195dXYgPSB0cnVlfSwKPj4+PiArCQl7IC5mb3JtYXQgPSBEUk1f
+Rk9STUFUX05WMTJfMTAsCQkuZGVwdGggPSAwLCAgLm51bV9wbGFuZXMgPSAyLAo+Pj4+ICsJCSAg
+LmNoYXJfcGVyX2Jsb2NrID0geyA1LCAxMCwgMCB9LCAuYmxvY2tfdyA9IHsgNCwgNCwgMCB9LCAu
+YmxvY2tfaCA9IHsgNCwgNCwgMCB9LAo+Pj4+ICsJCSAgLmhzdWIgPSAyLCAudnN1YiA9IDIsIC5p
+c195dXYgPSB0cnVlfSwKPj4+PiArCQl7IC5mb3JtYXQgPSBEUk1fRk9STUFUX05WMjFfMTAsCQku
+ZGVwdGggPSAwLCAgLm51bV9wbGFuZXMgPSAyLAo+Pj4+ICsJCSAgLmNoYXJfcGVyX2Jsb2NrID0g
+eyA1LCAxMCwgMCB9LCAuYmxvY2tfdyA9IHsgNCwgNCwgMCB9LCAuYmxvY2tfaCA9IHsgNCwgNCwg
+MCB9LAo+Pj4+ICsJCSAgLmhzdWIgPSAyLCAudnN1YiA9IDIsIC5pc195dXYgPSB0cnVlfSwKPj4+
+PiArCQl7IC5mb3JtYXQgPSBEUk1fRk9STUFUX05WMTZfMTAsCQkuZGVwdGggPSAwLCAgLm51bV9w
+bGFuZXMgPSAyLAo+Pj4+ICsJCSAgLmNoYXJfcGVyX2Jsb2NrID0geyA1LCAxMCwgMCB9LCAuYmxv
+Y2tfdyA9IHsgNCwgNCwgMCB9LCAuYmxvY2tfaCA9IHsgNCwgNCwgMCB9LAo+Pj4+ICsJCSAgLmhz
+dWIgPSAyLCAudnN1YiA9IDEsIC5pc195dXYgPSB0cnVlfSwKPj4+PiArCQl7IC5mb3JtYXQgPSBE
+Uk1fRk9STUFUX05WNjFfMTAsCQkuZGVwdGggPSAwLCAgLm51bV9wbGFuZXMgPSAyLAo+Pj4+ICsJ
+CSAgLmNoYXJfcGVyX2Jsb2NrID0geyA1LCAxMCwgMCB9LCAuYmxvY2tfdyA9IHsgNCwgNCwgMCB9
+LCAuYmxvY2tfaCA9IHsgNCwgNCwgMCB9LAo+Pj4+ICsJCSAgLmhzdWIgPSAyLCAudnN1YiA9IDEs
+IC5pc195dXYgPSB0cnVlfSwKPj4+PiArCQl7IC5mb3JtYXQgPSBEUk1fRk9STUFUX05WMjRfMTAs
+CQkuZGVwdGggPSAwLCAgLm51bV9wbGFuZXMgPSAyLAo+Pj4+ICsJCSAgLmNoYXJfcGVyX2Jsb2Nr
+ID0geyA1LCAxMCwgMCB9LCAuYmxvY2tfdyA9IHsgNCwgNCwgMCB9LCAuYmxvY2tfaCA9IHsgNCwg
+NCwgMCB9LAo+Pj4+ICsJCSAgLmhzdWIgPSAxLCAudnN1YiA9IDEsIC5pc195dXYgPSB0cnVlfSwK
+Pj4+PiArCQl7IC5mb3JtYXQgPSBEUk1fRk9STUFUX05WNDJfMTAsCQkuZGVwdGggPSAwLCAgLm51
+bV9wbGFuZXMgPSAyLAo+Pj4+ICsJCSAgLmNoYXJfcGVyX2Jsb2NrID0geyA1LCAxMCwgMCB9LCAu
+YmxvY2tfdyA9IHsgNCwgNCwgMCB9LCAuYmxvY2tfaCA9IHsgNCwgNCwgMCB9LAo+Pj4+ICsJCSAg
+LmhzdWIgPSAxLCAudnN1YiA9IDEsIC5pc195dXYgPSB0cnVlfSwKPj4+PiAgICAJCXsgLmZvcm1h
+dCA9IERSTV9GT1JNQVRfUDIxMCwJCS5kZXB0aCA9IDAsCj4+Pj4gICAgCQkgIC5udW1fcGxhbmVz
+ID0gMiwgLmNoYXJfcGVyX2Jsb2NrID0geyAyLCA0LCAwIH0sCj4+Pj4gICAgCQkgIC5ibG9ja193
+ID0geyAxLCAwLCAwIH0sIC5ibG9ja19oID0geyAxLCAwLCAwIH0sIC5oc3ViID0gMiwKPj4+PiBk
+aWZmIC0tZ2l0IGEvaW5jbHVkZS91YXBpL2RybS9kcm1fZm91cmNjLmggYi9pbmNsdWRlL3VhcGkv
+ZHJtL2RybV9mb3VyY2MuaAo+Pj4+IGluZGV4IDNmZWVhYTMuLjA4ZTIyMjEgMTAwNjQ0Cj4+Pj4g
+LS0tIGEvaW5jbHVkZS91YXBpL2RybS9kcm1fZm91cmNjLmgKPj4+PiArKysgYi9pbmNsdWRlL3Vh
+cGkvZHJtL2RybV9mb3VyY2MuaAo+Pj4+IEBAIC0yMzgsNiArMjM4LDIwIEBAIGV4dGVybiAiQyIg
+ewo+Pj4+ICAgICNkZWZpbmUgRFJNX0ZPUk1BVF9OVjQyCQlmb3VyY2NfY29kZSgnTicsICdWJywg
+JzQnLCAnMicpIC8qIG5vbi1zdWJzYW1wbGVkIENiOkNyIHBsYW5lICovCj4+Pj4gICAgCj4+Pj4g
+ICAgLyoKPj4+PiArICogMiBwbGFuZSBZQ2JDcgo+Pj4+ICsgKiBpbmRleCAwID0gWSBwbGFuZSwg
+WTM6WTI6WTE6WTAgMTA6MTA6MTA6MTAKPj4+PiArICogaW5kZXggMSA9IENiOkNyIHBsYW5lLCBD
+YjM6Q3IzOkNiMjpDcjI6Q2IxOkNyMTpDYjA6Q3IwIDEwOjEwOjEwOjEwOjEwOjEwOjEwOjEwCj4+
+Pj4gKyAqIG9yCj4+Pj4gKyAqIGluZGV4IDEgPSBDcjpDYiBwbGFuZSwgQ3IzOkNiMzpDcjI6Q2Iy
+OkNyMTpDYjE6Q3IwOkNiMCAxMDoxMDoxMDoxMDoxMDoxMDoxMDoxMAo+Pj4gU28gbm93IHlvdSdy
+ZSBkZWZpbmluZyBpdCBhcyBzb21lIGtpbmQgb2YgYnl0ZSBhbGlnbmVkIGJsb2NrLgo+Pj4gV2l0
+aCB0aGF0IHNwZWNpZnlpbmcgZW5kaWFubmVzcyB3b3VsZCBub3cgbWFrZSBzZW5zZSBzaW5jZQo+
+Pj4gb3RoZXJ3aXNlIHRoaXMgdGVsbHMgdXMgYWJzb2x1dGVseSBub3RoaW5nIGFib3V0IHRoZSBt
+ZW1vcnkKPj4+IGxheW91dC4KPj4+Cj4+PiBTbyBJJ2QgZWl0aGVyIGRvIHRoYXQsIG9yIGdvIGJh
+Y2sgdG8gbm90IHNwZWNpZnlpbmcgYW55dGhpbmcgYW5kCj4+PiB1c2Ugc29tZSB3ZWFzZWwgd29y
+ZHMgbGlrZSAibWFtb3J5IGxheW91dCBpcyBpbXBsZW1lbnRhdGlvbiBkZWZpbmVkIgo+Pj4gd2hp
+Y2ggb2YgY291cnNlIG1lYW5zIG5vIG9uZSBjYW4gdXNlIGl0IGZvciBhbnl0aGluZyB0aGF0IGlu
+dm9sdmVzCj4+PiBhbnkga2luZCBvZiBjcm9zcyB2ZW5kb3Igc3R1ZmYuCj4+IC8qCj4+ICAgwqAq
+IDIgcGxhbmUgWUNiQ3IKPj4gICDCoCogaW5kZXggMCA9IFkgcGxhbmUsIFszOTogMF0gWTM6WTI6
+WTE6WTAgMTA6MTA6MTA6MTDCoCBsaXR0bGUgZW5kaWFuCj4+ICAgwqAqIGluZGV4IDEgPSBDYjpD
+ciBwbGFuZSwgWzc5OiAwXSBDYjM6Q3IzOkNiMjpDcjI6Q2IxOkNyMTpDYjA6Q3IwCj4+IDEwOjEw
+OjEwOjEwOjEwOjEwOjEwOjEwwqAgbGl0dGxlIGVuZGlhbgo+PiAgIMKgKiBvcgo+PiAgIMKgKiBp
+bmRleCAxID0gQ3I6Q2IgcGxhbmUsIFs3OTogMF0gQ3IzOkNiMzpDcjI6Q2IyOkNyMTpDYjE6Q3Iw
+OkNiMAo+PiAxMDoxMDoxMDoxMDoxMDoxMDoxMDoxMMKgIGxpdHRsZSBlbmRpYW4KPj4gICDCoCov
+Cj4+Cj4+IElzIHRoaXMgZGVzY3JpcHRpb24gb2s/Cj4gU2VlbXMgT0sgdG8gbWUsIGlmIGl0IGFj
+dHVhbGx5IGRlc2NyaWJlcyB0aGUgZm9ybWF0IGNvcnJlY3RseS4KPgo+IFRob3VnaCBJJ20gbm90
+IHN1cmUgd2h5IHRoZSBDYkNyIGlzIGRlZmluZXMgYXMgYW4gODBiaXQgYmxvY2sKPiBhbmQgWSBo
+YXMgYSA0MGJpdCBibG9jay4gNDBiaXRzIHNob3VsZCBiZSBlbm91Z2ggZm9yIENiQ3IgYXMgd2Vs
+bC4KPgp3ZWxsLCB0aGlzIGlzIHRha2VuIGludG8gYWNjb3VudCB5dXY0NDQswqAgNCB5IHBvaW50
+IGNvcnJlc3BvbmRpbmcgd2l0aCA0IAp1diBwb2ludC4KCmlmIG9ubHkgZGVzY3JpYmVzIHRoZSBs
+YXlvdXQgbWVtb3J5LCBoZXJlIGNhbiBjaGFuZ2UgdG8gNDBiaXQgYmxvY2suCgp0aGFua3MuCgo+
+Pj4+ICsgKi8KPj4+PiArI2RlZmluZSBEUk1fRk9STUFUX05WMTJfMTAJZm91cmNjX2NvZGUoJ04n
+LCAnQScsICcxJywgJzInKSAvKiAyeDIgc3Vic2FtcGxlZCBDcjpDYiBwbGFuZSAqLwo+Pj4+ICsj
+ZGVmaW5lIERSTV9GT1JNQVRfTlYyMV8xMAlmb3VyY2NfY29kZSgnTicsICdBJywgJzInLCAnMScp
+IC8qIDJ4MiBzdWJzYW1wbGVkIENiOkNyIHBsYW5lICovCj4+Pj4gKyNkZWZpbmUgRFJNX0ZPUk1B
+VF9OVjE2XzEwCWZvdXJjY19jb2RlKCdOJywgJ0EnLCAnMScsICc2JykgLyogMngxIHN1YnNhbXBs
+ZWQgQ3I6Q2IgcGxhbmUgKi8KPj4+PiArI2RlZmluZSBEUk1fRk9STUFUX05WNjFfMTAJZm91cmNj
+X2NvZGUoJ04nLCAnQScsICc2JywgJzEnKSAvKiAyeDEgc3Vic2FtcGxlZCBDYjpDciBwbGFuZSAq
+Lwo+Pj4+ICsjZGVmaW5lIERSTV9GT1JNQVRfTlYyNF8xMAlmb3VyY2NfY29kZSgnTicsICdBJywg
+JzInLCAnNCcpIC8qIG5vbi1zdWJzYW1wbGVkIENyOkNiIHBsYW5lICovCj4+Pj4gKyNkZWZpbmUg
+RFJNX0ZPUk1BVF9OVjQyXzEwCWZvdXJjY19jb2RlKCdOJywgJ0EnLCAnNCcsICcyJykgLyogbm9u
+LXN1YnNhbXBsZWQgQ2I6Q3IgcGxhbmUgKi8KPj4+PiArCj4+Pj4gKy8qCj4+Pj4gICAgICogMiBw
+bGFuZSBZQ2JDciBNU0IgYWxpZ25lZAo+Pj4+ICAgICAqIGluZGV4IDAgPSBZIHBsYW5lLCBbMTU6
+MF0gWTp4IFsxMDo2XSBsaXR0bGUgZW5kaWFuCj4+Pj4gICAgICogaW5kZXggMSA9IENyOkNiIHBs
+YW5lLCBbMzE6MF0gQ3I6eDpDYjp4IFsxMDo2OjEwOjZdIGxpdHRsZSBlbmRpYW4KPj4+PiAtLSAK
+Pj4+PiAyLjcuNAo+Pj4+Cj4+Pj4KPj4+Pgo+Pj4+IF9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCj4+Pj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+Pj4+IGRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPj4+PiBodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAoKCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
