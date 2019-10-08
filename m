@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 668C6CF917
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2019 14:02:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02BE0CF94B
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2019 14:07:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D51126E796;
-	Tue,  8 Oct 2019 12:02:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28B676E1D5;
+	Tue,  8 Oct 2019 12:07:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id C55EC6E796
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2019 12:02:05 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C1F4772162; Tue,  8 Oct 2019 12:02:05 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DF906E1D5
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2019 12:07:49 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111913] AMD Navi10 GPU powerplay issues when using two
- DisplayPort connectors
-Date: Tue, 08 Oct 2019 12:02:05 +0000
-X-Bugzilla-Reason: AssignedTo
+Subject: [Bug 204885] ryzen 2500U cause graphics glitch in all browsers with
+ kernel version 5.2.x+
+Date: Tue, 08 Oct 2019 12:07:48 +0000
+X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Other
+X-Bugzilla-Component: Other
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: stefan@rehm.email
+X-Bugzilla-Who: pierre-eric.pelloux-prayer@amd.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111913-502-YDFAWnizMn@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111913-502@http.bugs.freedesktop.org/>
-References: <bug-111913-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-204885-2300-XQojqTuylK@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204885-2300@https.bugzilla.kernel.org/>
+References: <bug-204885-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
+ message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,88 +52,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1906374011=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1906374011==
-Content-Type: multipart/alternative; boundary="15705361252.6FC64.7674"
-Content-Transfer-Encoding: 7bit
-
-
---15705361252.6FC64.7674
-Date: Tue, 8 Oct 2019 12:02:05 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111913
-
---- Comment #6 from Stefan Rehm <stefan@rehm.email> ---
-Yes, both monitors run at 60 Hz.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15705361252.6FC64.7674
-Date: Tue, 8 Oct 2019 12:02:05 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi10 GPU powerplay issues when using two DisplayPor=
-t connectors"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111913#c6">Commen=
-t # 6</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi10 GPU powerplay issues when using two DisplayPor=
-t connectors"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111913">bug 11191=
-3</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-stefan&#64;rehm.email" title=3D"Stefan Rehm &lt;stefan&#64;rehm.email&gt;">=
- <span class=3D"fn">Stefan Rehm</span></a>
-</span></b>
-        <pre>Yes, both monitors run at 60 Hz.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15705361252.6FC64.7674--
-
---===============1906374011==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1906374011==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQ4ODUKClBpZXJy
+ZS1FcmljIFBlbGxvdXgtUHJheWVyIChwaWVycmUtZXJpYy5wZWxsb3V4LXByYXllckBhbWQuY29t
+KSBjaGFuZ2VkOgoKICAgICAgICAgICBXaGF0ICAgIHxSZW1vdmVkICAgICAgICAgICAgICAgICAg
+ICAgfEFkZGVkCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KICAgICAgICAgICAgICAgICBDQ3wgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgfHBpZXJyZS1lcmljLnBlbGxvdXgtcHJheWVyQAogICAgICAg
+ICAgICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICB8YW1kLmNvbQoKLS0tIENv
+bW1lbnQgIzQgZnJvbSBQaWVycmUtRXJpYyBQZWxsb3V4LVByYXllciAocGllcnJlLWVyaWMucGVs
+bG91eC1wcmF5ZXJAYW1kLmNvbSkgLS0tClRoaXMgYnVnIGxvb2tzIHNpbWlsYXIgdG8gaHR0cHM6
+Ly9idWdzLmZyZWVkZXNrdG9wLm9yZy9zaG93X2J1Zy5jZ2k/aWQ9MTExMTIyCgpDb3VsZCB5b3Ug
+dHJ5IHRoZSB2YXJpb3VzIHdvcmthcm91bmRzIHByb3Bvc2VkIHRoZXJlIGFuZCBzZWUgaWYgaXQg
+aGVscHM6CiAgLSBhZGRpbmcgdGhlIGlvbW11PXB0IGtlcm5lbCBib290IHBhcmFtZXRlciAoc2Vl
+Cmh0dHBzOi8vd2lraS5hcmNobGludXgub3JnL2luZGV4LnBocC9rZXJuZWxfcGFyYW1ldGVycyNH
+UlVCKQogIC0gb3IgdXNpbmcgdGhlIEFNRF9ERUJVRz1ub2RjYyBlbnZpcm9ubWVudCB2YXJpYWJs
+ZSAoZm9yIGluc3RhbmNlLCB0cnkgYWRkaW5nCmEgbmV3IGxpbmUgd2l0aCAiQU1EX0RFQlVHPW5v
+ZGNjIiBpbiB0aGUgL2V0Yy9lbnZpcm9ubWVudCBmaWxlIGFuZCByZWJvb3QpCiAgLSBvciB1cGRh
+dGluZyBNZXNhIHRvIHRoZSBsYXRlc3QgdmVyc2lvbgoKLS0gCllvdSBhcmUgcmVjZWl2aW5nIHRo
+aXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0aGUgYnVn
+LgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
