@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F9D0CFF3B
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2019 18:48:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23EDECFF47
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2019 18:52:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CC6589CDE;
-	Tue,  8 Oct 2019 16:48:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CFAB6E873;
+	Tue,  8 Oct 2019 16:52:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2660189CDD
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2019 16:48:31 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2019 09:48:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,270,1566889200"; d="scan'208";a="187343294"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga008.jf.intel.com with SMTP; 08 Oct 2019 09:48:18 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 08 Oct 2019 19:48:17 +0300
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4604E6E873
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2019 16:52:01 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 9119B80569;
+ Tue,  8 Oct 2019 18:51:56 +0200 (CEST)
+Date: Tue, 8 Oct 2019 18:51:54 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/vc4: Use drm_hdmi_avi_infoframe_bars()
-Date: Tue,  8 Oct 2019 19:48:14 +0300
-Message-Id: <20191008164814.5894-2-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191008164814.5894-1-ville.syrjala@linux.intel.com>
-References: <20191008164814.5894-1-ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH v1 0/2]: Finally delete drmP.h
+Message-ID: <20191008165154.GA7988@ravnborg.org>
+References: <20191007171224.1581-1-sam@ravnborg.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20191007171224.1581-1-sam@ravnborg.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
+ a=NK3XpDyz14cDD-FjOBUA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,31 +44,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Boris Brezillon <boris.brezillon@bootlin.com>
+Cc: David Airlie <airlied@linux.ie>, Maxime Ripard <mripard@kernel.org>,
+ Ben Skeggs <bskeggs@redhat.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Dariusz Marcinkiewicz <darekm@google.com>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KClVz
-ZSB0aGUgbmV3IGRybV9oZG1pX2F2aV9pbmZvZnJhbWVfYmFycygpIGhlbHBlciBpbnN0ZWFkCm9m
-IGhhbmQgcm9sbGluZyBpdC4KCkNjOiBFcmljIEFuaG9sdCA8ZXJpY0BhbmhvbHQubmV0PgpDYzog
-Qm9yaXMgQnJlemlsbG9uIDxib3Jpcy5icmV6aWxsb25AYm9vdGxpbi5jb20+ClNpZ25lZC1vZmYt
-Ynk6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+Ci0tLQog
-ZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfaGRtaS5jIHwgNSArLS0tLQogMSBmaWxlIGNoYW5nZWQs
-IDEgaW5zZXJ0aW9uKCspLCA0IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS92YzQvdmM0X2hkbWkuYyBiL2RyaXZlcnMvZ3B1L2RybS92YzQvdmM0X2hkbWkuYwppbmRl
-eCAwODUzYjk4MGJjYjMuLjFjNjJjNmM5MjQ0YiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJt
-L3ZjNC92YzRfaGRtaS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS92YzQvdmM0X2hkbWkuYwpAQCAt
-Mzk4LDEwICszOTgsNyBAQCBzdGF0aWMgdm9pZCB2YzRfaGRtaV9zZXRfYXZpX2luZm9mcmFtZShz
-dHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29kZXIpCiAJCQkJCSAgIEhETUlfUVVBTlRJWkFUSU9OX1JB
-TkdFX0xJTUlURUQgOgogCQkJCQkgICBIRE1JX1FVQU5USVpBVElPTl9SQU5HRV9GVUxMKTsKIAot
-CWZyYW1lLmF2aS5yaWdodF9iYXIgPSBjc3RhdGUtPnR2Lm1hcmdpbnMucmlnaHQ7Ci0JZnJhbWUu
-YXZpLmxlZnRfYmFyID0gY3N0YXRlLT50di5tYXJnaW5zLmxlZnQ7Ci0JZnJhbWUuYXZpLnRvcF9i
-YXIgPSBjc3RhdGUtPnR2Lm1hcmdpbnMudG9wOwotCWZyYW1lLmF2aS5ib3R0b21fYmFyID0gY3N0
-YXRlLT50di5tYXJnaW5zLmJvdHRvbTsKKwlkcm1faGRtaV9hdmlfaW5mb2ZyYW1lX2JhcnMoJmZy
-YW1lLmF2aSwgY3N0YXRlKTsKIAogCXZjNF9oZG1pX3dyaXRlX2luZm9mcmFtZShlbmNvZGVyLCAm
-ZnJhbWUpOwogfQotLSAKMi4yMS4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWw=
+T24gTW9uLCBPY3QgMDcsIDIwMTkgYXQgMDc6MTI6MjJQTSArMDIwMCwgU2FtIFJhdm5ib3JnIHdy
+b3RlOgo+IE9uZSB1c2VyIG9mIGRybVAuaCBzbmVha2VkIGluIGFmdGVyIHRoZSBtZXJnZSB3aW5k
+b3cuCj4gRHJvcCB0aGUgdXNlIG9mIGRybVAuaCBhbmQgZGVsZXRlIHRoZSBoZWFkZXIgZmlsZSBm
+b3IgZ29vZC4KPiAKPiBTbWFsbCBiYW5kLWFpZCBvbiB0b3Agb2Ygbm90IGdvaW5nIHRvIHhkYyA6
+LSkKPiAKPiBCdWlsZCB0ZXN0ZWQgd2l0aCB2YXJpb3VzIGFyY2hpdGVjdHVyZXMgYW5kIGNvbmZp
+Z3MuCgpBcHBsaWVkIGFuZCBwdXNoZWQgdG8gZHJtLW1pc2MtbmV4dC4KCglTYW0KX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
