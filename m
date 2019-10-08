@@ -1,47 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A936CF42D
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2019 09:48:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 058B6CF44F
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2019 09:52:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 997376E0C6;
-	Tue,  8 Oct 2019 07:48:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3998C6E221;
+	Tue,  8 Oct 2019 07:52:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 333286E0C6
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2019 07:48:34 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id o18so18087468wrv.13
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Oct 2019 00:48:34 -0700 (PDT)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AFE56E221
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2019 07:52:18 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id r5so18082253wrm.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Oct 2019 00:52:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=QF+MCcIV1ioc5xu/kdZzoZqX+5uryu1YOTjuH3YAzmA=;
- b=kZEf1BA1rqDmocGhNsbzLnZvcCnfLPVWAuk80DqSuHBbB+NvxhxX8HBg5BrMPFkyBO
- K8njrPHhHkrWuwOfa0BCQPclBYn/B11sHIJVJ+ep1FmojZhWjRF5J+798NV3RvJfLT5U
- 3gsOz3ZdyCSaFSJbJRVUX+PR+6o7dVPqb7KGJtyB3w5g2aAFyy6gCM1Eof2WGLNMCsQp
- 8/wKxo6bKWWPiUaoERsnHFFF+vD0ZCUwQCoUezTpfY570PWC7PkroRtTe4AW2JExSnqT
- lAxjHYmVs3+zVEFyK4K2Hc/yaCAJ9Kfz1PmjZUnGYYgPAqMZ23JZ9jwIAGDm3h65+15m
- 97vw==
-X-Gm-Message-State: APjAAAXoLIc1C6khmnQ4kg/7wG5EcwTY18jP+hnIPtvL9hOdHkGlB689
- Wf8WKnQrvRmJ6ycpdQixbsftrg==
-X-Google-Smtp-Source: APXvYqwdRrGqQkg+5BHEgo4ci1/p+vaJqkBfzpIWnIhpQnIJ4SA4i83A298Sr3JG2hyf2fe352ZO0w==
-X-Received: by 2002:a5d:62d0:: with SMTP id o16mr12464952wrv.2.1570520912500; 
- Tue, 08 Oct 2019 00:48:32 -0700 (PDT)
+ h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+ :organization:message-id:date:user-agent:mime-version:in-reply-to;
+ bh=RSVAzxvmOIv+u8w7CQ8RsCCLK+QmovemPwEtRxTysLo=;
+ b=AZv8nyjVuQIF6VumuJ/3gHPTXmBc8az9dGN4DuEY+7iJDzgIrCbGYqfafzfWuF/9bS
+ XFZRkJEsA+nYPsi60LEaZiF0TxrPPvgvoiTcEycboMe/+BFuxraCgCGNAzCUaIaCFFqk
+ p0db46lCYU59lF/xprN5UeTe6pPf6yPo4JfYujowbbJIf8Ev/8jfxBsxR6CgMZIObWMk
+ hEcie5RKpDuPo1/x5pEXUWkJLEKWc1DpTzzE/Tuqx3Bi+yLuDra97JKBxyVFPbyDhA+3
+ eUsRE85zPHsCyIBER8lX24LELIbey1g/Cjdgaa6O+/MUntVZXbI2qtoHa/x+3QDUy6h2
+ W2VA==
+X-Gm-Message-State: APjAAAU3/1nrxaqPj0S5aJzZGWrsrhTYW3/pLc8qM/oK678YAi2zP1L6
+ 8Codc3h2WV0j5VYcqu21SKtEyxYGABu3bg==
+X-Google-Smtp-Source: APXvYqzuuSSdYYlsNVqyMDCsB6JN4fi2sMHMoE67awuZoLCV6ZdfTcGiwKP2MzG9q5osSJFzZkq4iw==
+X-Received: by 2002:adf:b3d2:: with SMTP id x18mr27133910wrd.264.1570521136240; 
+ Tue, 08 Oct 2019 00:52:16 -0700 (PDT)
 Received: from [10.1.2.12] (lmontsouris-657-1-212-31.w90-63.abo.wanadoo.fr.
  [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id o4sm36817536wre.91.2019.10.08.00.48.31
+ by smtp.gmail.com with ESMTPSA id r18sm2825999wme.48.2019.10.08.00.52.15
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 08 Oct 2019 00:48:31 -0700 (PDT)
-Subject: Re: [PATCH] drm/panfrost: Handle resetting on timeout better
-To: Steven Price <steven.price@arm.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, Rob Herring <robh@kernel.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>
-References: <20191007125014.12595-1-steven.price@arm.com>
+ Tue, 08 Oct 2019 00:52:15 -0700 (PDT)
+Subject: Re: liboutput: thoughts about shared library on top of DRM/KMS
+To: Keith Packard <keithp@keithp.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+References: <87y2xzqimw.fsf@keithp.com>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
@@ -94,25 +92,23 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  VsbXrP9BZ6snXyHfebPnno/te5XRqZTL9aJOytB/1iUna+1MAwBxGFPvqeEUUyT+gx1l3Acl
  ZaTUOEkgIor5losDrePdPgE=
 Organization: Baylibre
-Message-ID: <769293a3-e244-a2a9-98fa-afdfd92c5cf4@baylibre.com>
-Date: Tue, 8 Oct 2019 09:48:31 +0200
+Message-ID: <62e06d9c-64ec-17c5-d89c-70ef6ac8debc@baylibre.com>
+Date: Tue, 8 Oct 2019 09:52:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20191007125014.12595-1-steven.price@arm.com>
-Content-Language: en-US
+In-Reply-To: <87y2xzqimw.fsf@keithp.com>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:openpgp:autocrypt:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=QF+MCcIV1ioc5xu/kdZzoZqX+5uryu1YOTjuH3YAzmA=;
- b=njdKTP+whTSV+mcB9q7dhAIpZnAyy0fro9oO2CPh+rloMlvbWTMbB5cfxgC9GvyqhX
- ZRaqd/rimHnJ9Hew49gEUX2JBHi4fgw3XV/25BDbuCpvXGlqtmEiRB2kTpU1Tamqv7j8
- 9oX2Tv+qq1s9z6DWN7aZSblW1b2nXs3PRNMkKOVuseLJv/flPlLugBC7EAn6ozKHwB1o
- Ix8lRe+ugvrmj2a/N/QF8iWB/uztDnCc+wCzs0hbs+WcSTIyHPT4uFw2izTsaVwxuHR4
- K424lMZRT6+Qw0ENTcU/X3pYg0gJqbmUJsVoAwH3trlCos26JfFdH3kF6gK4nsubd378
- ZZkg==
+ h=subject:to:references:from:openpgp:autocrypt:organization
+ :message-id:date:user-agent:mime-version:in-reply-to;
+ bh=RSVAzxvmOIv+u8w7CQ8RsCCLK+QmovemPwEtRxTysLo=;
+ b=XztelgeksfcqOh4Msw6cnVQBxor65Sz0KZNnJzEFv9g3XdYVjtupvGpdWCIQ2BaY6U
+ LGm/lX4Xf2yssfbrfiweAlJM0MbPnSzl4P4Xx/JRocLkJ+hsVe8Yp/1QN6WInEfjfrSt
+ zXe5GCKcVk9ReO3bnlAaGl1i7K/6jr1plxopeWnPRsKA9KuvbB+0WdepLzLYeuM27A7E
+ 1aHlXoDG1baAC67h2KxZz/CC2kx7kAp22h+fjhSJ5wDVpcDxB3v25yoFswY/1+I22iMe
+ w7vQxtDDjMFskqB0cOoWeSu/zIdbTeiXPA+kF6Q1D4G0syj5PofIkMRus7Kgsf7fJEBF
+ JJeg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -125,63 +121,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0910986528=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMDcvMTAvMjAxOSAxNDo1MCwgU3RldmVuIFByaWNlIHdyb3RlOgo+IFBhbmZyb3N0IHVzZXMg
-bXVsdGlwbGUgc2NoZWR1bGVycyAob25lIGZvciBlYWNoIHNsb3QsIHNvIDIgaW4gcmVhbGl0eSks
-Cj4gYW5kIG9uIGEgdGltZW91dCBoYXMgdG8gc3RvcCBhbGwgdGhlIHNjaGVkdWxlcnMgdG8gc2Fm
-ZWx5IHBlcmZvcm0gYQo+IHJlc2V0LiBIb3dldmVyIG1vcmUgdGhhbiBvbmUgc2NoZWR1bGVyIGNh
-biB0cmlnZ2VyIGEgdGltZW91dCBhdCB0aGUgc2FtZQo+IHRpbWUuIFRoaXMgcmFjZSBjb25kaXRp
-b24gcmVzdWx0cyBpbiBqb2JzIGJlaW5nIGZyZWVkIHdoaWxlIHRoZXkgYXJlCj4gc3RpbGwgaW4g
-dXNlLgo+IAo+IFdoZW4gc3RvcHBpbmcgb3RoZXIgc2xvdHMgdXNlIGNhbmNlbF9kZWxheWVkX3dv
-cmtfc3luYygpIHRvIGVuc3VyZSB0aGF0Cj4gYW55IHRpbWVvdXQgc3RhcnRlZCBmb3IgdGhhdCBz
-bG90IGhhcyBjb21wbGV0ZWQuIEFsc28gdXNlCj4gbXV0ZXhfdHJ5bG9jaygpIHRvIG9idGFpbiBy
-ZXNldF9sb2NrLiBUaGlzIG1lYW5zIHRoYXQgb25seSBvbmUgdGhyZWFkCj4gYXR0ZW1wdHMgdGhl
-IHJlc2V0LCB0aGUgb3RoZXIgdGhyZWFkcyB3aWxsIHNpbXBseSBjb21wbGV0ZSB3aXRob3V0IGRv
-aW5nCj4gYW55dGhpbmcgKHRoZSBmaXJzdCB0aHJlYWQgd2lsbCB3YWl0IGZvciB0aGlzIGluIHRo
-ZSBjYWxsIHRvCj4gY2FuY2VsX2RlbGF5ZWRfd29ya19zeW5jKCkpLgo+IAo+IFdoaWxlIHdlJ3Jl
-IGhlcmUgYW5kIHNpbmNlIHRoZSBmdW5jdGlvbiBpcyBhbHJlYWR5IGRlcGVuZGVudCBvbgo+IHNj
-aGVkX2pvYiBub3QgYmVpbmcgTlVMTCwgbGV0J3MgcmVtb3ZlIHRoZSB1bm5lY2Vzc2FyeSBjaGVj
-a3MsIGFsb25nCj4gd2l0aCBhIGNvbW1lbnRlZCBvdXQgY2FsbCB0byBwYW5mcm9zdF9jb3JlX2R1
-bXAoKSB3aGljaCBoYXMgbmV2ZXIKPiBleGlzdGVkIGluIG1haW5saW5lLgo+IAo+IFNpZ25lZC1v
-ZmYtYnk6IFN0ZXZlbiBQcmljZSA8c3RldmVuLnByaWNlQGFybS5jb20+Cj4gLS0tCj4gVGhpcyBp
-cyBhIHRpZGllZCB1cCB2ZXJzaW9uIG9mIHRoZSBwYXRjaCBvcmdpbmFsbHkgcG9zdGVkIGhlcmU6
-Cj4gaHR0cDovL2xrbWwua2VybmVsLm9yZy9yLzI2YWUyYTRkLThkZjEtZThkYi0zMDYwLTQxNjM4
-ZWQ2M2UyYSU0MGFybS5jb20KPiAKPiAgZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0
-X2pvYi5jIHwgMTcgKysrKysrKysrKystLS0tLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDExIGluc2Vy
-dGlvbnMoKyksIDYgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS9wYW5mcm9zdC9wYW5mcm9zdF9qb2IuYyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5m
-cm9zdF9qb2IuYwo+IGluZGV4IGE1ODU1MTY2OGQ5YS4uZGNjOWE3NjAzNjg1IDEwMDY0NAo+IC0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9qb2IuYwo+ICsrKyBiL2RyaXZl
-cnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9qb2IuYwo+IEBAIC0zODEsMTMgKzM4MSwxOSBA
-QCBzdGF0aWMgdm9pZCBwYW5mcm9zdF9qb2JfdGltZWRvdXQoc3RydWN0IGRybV9zY2hlZF9qb2Ig
-KnNjaGVkX2pvYikKPiAgCQlqb2JfcmVhZChwZmRldiwgSlNfVEFJTF9MTyhqcykpLAo+ICAJCXNj
-aGVkX2pvYik7Cj4gIAo+IC0JbXV0ZXhfbG9jaygmcGZkZXYtPnJlc2V0X2xvY2spOwo+ICsJaWYg
-KCFtdXRleF90cnlsb2NrKCZwZmRldi0+cmVzZXRfbG9jaykpCj4gKwkJcmV0dXJuOwo+ICAKPiAt
-CWZvciAoaSA9IDA7IGkgPCBOVU1fSk9CX1NMT1RTOyBpKyspCj4gLQkJZHJtX3NjaGVkX3N0b3Ao
-JnBmZGV2LT5qcy0+cXVldWVbaV0uc2NoZWQsIHNjaGVkX2pvYik7Cj4gKwlmb3IgKGkgPSAwOyBp
-IDwgTlVNX0pPQl9TTE9UUzsgaSsrKSB7Cj4gKwkJc3RydWN0IGRybV9ncHVfc2NoZWR1bGVyICpz
-Y2hlZCA9ICZwZmRldi0+anMtPnF1ZXVlW2ldLnNjaGVkOwo+ICsKPiArCQlkcm1fc2NoZWRfc3Rv
-cChzY2hlZCwgc2NoZWRfam9iKTsKPiArCQlpZiAoanMgIT0gaSkKPiArCQkJLyogRW5zdXJlIGFu
-eSB0aW1lb3V0cyBvbiBvdGhlciBzbG90cyBoYXZlIGZpbmlzaGVkICovCj4gKwkJCWNhbmNlbF9k
-ZWxheWVkX3dvcmtfc3luYygmc2NoZWQtPndvcmtfdGRyKTsKPiArCX0KPiAgCj4gLQlpZiAoc2No
-ZWRfam9iKQo+IC0JCWRybV9zY2hlZF9pbmNyZWFzZV9rYXJtYShzY2hlZF9qb2IpOwo+ICsJZHJt
-X3NjaGVkX2luY3JlYXNlX2thcm1hKHNjaGVkX2pvYik7Cj4gIAo+ICAJc3Bpbl9sb2NrX2lycXNh
-dmUoJnBmZGV2LT5qcy0+am9iX2xvY2ssIGZsYWdzKTsKPiAgCWZvciAoaSA9IDA7IGkgPCBOVU1f
-Sk9CX1NMT1RTOyBpKyspIHsKPiBAQCAtMzk4LDcgKzQwNCw2IEBAIHN0YXRpYyB2b2lkIHBhbmZy
-b3N0X2pvYl90aW1lZG91dChzdHJ1Y3QgZHJtX3NjaGVkX2pvYiAqc2NoZWRfam9iKQo+ICAJfQo+
-ICAJc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmcGZkZXYtPmpzLT5qb2JfbG9jaywgZmxhZ3MpOwo+
-ICAKPiAtCS8qIHBhbmZyb3N0X2NvcmVfZHVtcChwZmRldik7ICovCj4gIAo+ICAJcGFuZnJvc3Rf
-ZGV2ZnJlcV9yZWNvcmRfdHJhbnNpdGlvbihwZmRldiwganMpOwo+ICAJcGFuZnJvc3RfZGV2aWNl
-X3Jlc2V0KHBmZGV2KTsKPiAKCkl0IHJhbiBzdWNjZXNzZnVsbHkgMTAgZEVRUCB0ZXN0cyB3aXRo
-b3V0IGNyYXNoaW5nIHRoZSBBbWxvZ2ljIFM5MTIgd2l0aCBNYWxpIFQ4MjA6ClRlc3RlZC1ieTog
-TmVpbCBBcm1zdHJvbmcgPG5hcm1zdHJvbmdAYmF5bGlicmUuY29tPgpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0910986528==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature";
+ boundary="2mto5Wrj1H91ZjHRyujczdeMAZjbvNeHc"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--2mto5Wrj1H91ZjHRyujczdeMAZjbvNeHc
+Content-Type: multipart/mixed; boundary="X7r27OvfAwq9Ca6BxxoAfoCyWLfAWpuKY";
+ protected-headers="v1"
+From: Neil Armstrong <narmstrong@baylibre.com>
+To: Keith Packard <keithp@keithp.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Message-ID: <62e06d9c-64ec-17c5-d89c-70ef6ac8debc@baylibre.com>
+Subject: Re: liboutput: thoughts about shared library on top of DRM/KMS
+References: <87y2xzqimw.fsf@keithp.com>
+In-Reply-To: <87y2xzqimw.fsf@keithp.com>
+
+--X7r27OvfAwq9Ca6BxxoAfoCyWLfAWpuKY
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On 05/10/2019 18:09, Keith Packard wrote:
+>=20
+> During XDC this year, we heard a few presentations and had a lot of
+> hallway talk about sharing code for driving DRM/KMS for display.
+>=20
+> I think the general consensus is that there is enough shared
+> functionality between all of the various DRM/KMS clients that we can
+> start thinking about building a library that deals with the complexity
+> of DRM/KMS and can help take full advantage of the hardware.
+
+Seeing the description, it seems to be a libdrm with steroids,
+why libdrm doesn't handle all this already ?
+
+Is there a plan to maybe use it as a foundation for projects like
+wlroots or drm_hwcomposer for example ?
+
+Neil
+
+>=20
+> I've started writing up some ideas, mostly just goals, but also some
+> random thoughts about how this might work. This is all in the
+> 'liboutput' project on freedesktop.org:
+>=20
+>         https://gitlab.freedesktop.org/xorg/liboutput
+>=20
+> I picked a spot in the 'xorg' namespace, not to confine this to X
+> systems, but to reflect the goal that this be a library shared across
+> all x.org-related projects, including Wayland compositors, EGL and
+> Vulkan direct applications and the X server.
+>=20
+> All there is at this point is a README.md file; I'd like to generate
+> some consensus on a direction for the project before we start writing
+> any actual design documents.
+>=20
+> Please submit MRs to that repo, or respond to this email as you prefer.=
+
+>=20
+>=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+
+
+--X7r27OvfAwq9Ca6BxxoAfoCyWLfAWpuKY--
+
+--2mto5Wrj1H91ZjHRyujczdeMAZjbvNeHc
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEPVPGJshWBf4d9CyLd9zb2sjISdEFAl2cQC8ACgkQd9zb2sjI
+SdHhCQ//cbUz133sPfLuu/5fTaKVTtn5E1NEp8rN9+SQ4fsPY86xX/xSxZTr3HUD
+ljDkmmf5QvSH9tkB3PQO6XU2uCyTh59d4yq+KvKEaAAXAmhkeseXQ6BTZPZVaSV7
+iFTbKE+pITDiotshjtVMrl4a5l49BeI85MLR2x1uRh42e+G7Axxy8/WRhSbbNTmb
+3C0hi7YtBwXCguTwXgIfbSCdQsvQ66yzNXv7Tj7zSozrpLJyq5cfi5ZAVFr81hFJ
+ruAWQsgMyFaCn4gDXWVk3l/x3htzWFzULwBKuh3vXUsD12h99m8K3s7bw5pR2Tk1
+xYlmQ9ZyuX5qlsdVEE+4oO5Y+Gx3vuNrWnVEKvt+w3R1oihTykIP3SzHYjUkn19F
+2I0LfEPUwh2oSRC3fw1+56kt0SSg9igMwvIWyQnzStHZimFmWBdf9O3Ddz6h4aGF
+IIcDiMcZ4y+/PXSqNnNwgoN4/BSe9VdqmD5849CFHhWVdaG6ivi9/4IuTCJrJKTX
+ulzpBm5mgCrNnSm+juMXf7ZP0I0kTEEjvEYxa/ucFF3Jr9S7k8HsKkCUC4DHyXk/
+ziDDXJxhMPB37JmS/cUv0whhSTgSx1e705+CcfPpyOFgoqy4oQ+lUT3JTaKftCwF
+s3h2DgJQZzlCV2QYRTHcyQOT+D9p4cyoBEsNuFMe8axCGdJOyzE=
+=soyj
+-----END PGP SIGNATURE-----
+
+--2mto5Wrj1H91ZjHRyujczdeMAZjbvNeHc--
+
+--===============0910986528==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0910986528==--
