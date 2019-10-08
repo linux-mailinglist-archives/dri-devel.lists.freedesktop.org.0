@@ -2,70 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FFDED014C
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2019 21:41:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3712D0186
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2019 21:55:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D60966E16B;
-	Tue,  8 Oct 2019 19:41:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EB1289939;
+	Tue,  8 Oct 2019 19:55:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1307 seconds by postgrey-1.36 at gabe;
- Tue, 08 Oct 2019 19:41:11 UTC
-Received: from merlin.infradead.org (merlin.infradead.org
- [IPv6:2001:8b0:10b:1231::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 421D66E16B;
- Tue,  8 Oct 2019 19:41:11 +0000 (UTC)
-Received: from j217100.upc-j.chello.nl ([24.132.217.100]
- helo=noisy.programming.kicks-ass.net)
- by merlin.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iHv0B-0005Vw-5M; Tue, 08 Oct 2019 19:18:31 +0000
-Received: from hirez.programming.kicks-ass.net
- (hirez.programming.kicks-ass.net [192.168.1.225])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client did not present a certificate)
- by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 5DDCD305EE1;
- Tue,  8 Oct 2019 21:17:34 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
- id 876CE202448A4; Tue,  8 Oct 2019 21:18:25 +0200 (CEST)
-Date: Tue, 8 Oct 2019 21:18:25 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Qian Cai <cai@lca.pw>, akpm@linux-foundation.org, mingo@redhat.com,
- will@kernel.org, linux-kernel@vger.kernel.org,
- linux-api@vger.kernel.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, sean@poorly.run, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
- jslaby@suse.com, viro@zeniv.linux.org.uk,
- linux-fsdevel@vger.kernel.org, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, intel-gfx@lists.freedesktop.org,
- tytso@mit.edu, jack@suse.com, linux-ext4@vger.kernel.org,
- tj@kernel.org, mark@fasheh.com, jlbec@evilplan.or,
- joseph.qi@linux.alibaba.com, ocfs2-devel@oss.oracle.com,
- davem@davemloft.net, st@kernel.org, daniel@iogearbox.net,
- netdev@vger.kernel.org, bpf@vger.kernel.org, duyuyang@gmail.com,
- juri.lelli@redhat.com, vincent.guittot@linaro.org,
- hannes@cmpxchg.org, mhocko@kernel.org, vdavydov.dev@gmail.com,
- cgroups@vger.kernel.org, linux-mm@kvack.org, alexander.levin@microsoft.com
-Subject: Re: [PATCH -next] treewide: remove unused argument in lock_release()
-Message-ID: <20191008191825.GH2328@hirez.programming.kicks-ass.net>
-References: <1568909380-32199-1-git-send-email-cai@lca.pw>
- <20191008163351.GR16989@phenom.ffwll.local>
+Received: from atrey.karlin.mff.cuni.cz (atrey.karlin.mff.cuni.cz
+ [195.113.26.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B2B389939
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2019 19:55:16 +0000 (UTC)
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+ id E22FA803F9; Tue,  8 Oct 2019 21:54:56 +0200 (CEST)
+Date: Tue, 8 Oct 2019 21:55:11 +0200
+From: Pavel Machek <pavel@ucw.cz>
+To: Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH v8 0/5] Add a generic driver for LED-based backlight
+Message-ID: <20191008195511.GA18412@amd>
+References: <20191003082812.28491-1-jjhiblot@ti.com>
+ <20191003114028.GC21172@dell>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191008163351.GR16989@phenom.ffwll.local>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; 
- d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:To:From:Date:Sender:Reply-To:Cc:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Nx1tfnzncNr1/2YEe91mPr6s9qQb805exoxZT/kE+5Y=; b=j7TTiFOjt+1RkFZcxcir9K79v
- ZPi31CptFJa+ykSk5Z+i5oziljqs8kVg1nPlVm+qbBJFrD7o6IIEEsZQ846CG5HsDnSZmvG+89G2r
- oc2zghrxJEsFKl6qIc4A+oKr3OHRvirmk6PB6iWnregY3vI5UUiMcdToXZQN6biyWfRBsOvjdb3xE
- vfgA+nwWKe+50/+B34tlL7g3aXyfewvRAw9dI0yNHqRBGSbBXWaAgnpWqXiPpsCrdZhrLPzNDnmrW
- 6hVi5ESd2k1ui1G1zQoJ7/kcjloHIWCL6wSZGKB/SK/i0nNVSchQ7K7fNquDuo+Dw7VIpR2sMG1rp
- VXOfdODOQ==;
+In-Reply-To: <20191003114028.GC21172@dell>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,23 +37,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: mark.rutland@arm.com, daniel.thompson@linaro.org, tomi.valkeinen@ti.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, jacek.anaszewski@gmail.com,
+ Jean-Jacques Hiblot <jjhiblot@ti.com>, linux-leds@vger.kernel.org,
+ dmurphy@ti.com
+Content-Type: multipart/mixed; boundary="===============1944528981=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBPY3QgMDgsIDIwMTkgYXQgMDY6MzM6NTFQTSArMDIwMCwgRGFuaWVsIFZldHRlciB3
-cm90ZToKPiBPbiBUaHUsIFNlcCAxOSwgMjAxOSBhdCAxMjowOTo0MFBNIC0wNDAwLCBRaWFuIENh
-aSB3cm90ZToKPiA+IFNpbmNlIHRoZSBjb21taXQgYjRhZGZlOGUwNWYxICgibG9ja2luZy9sb2Nr
-ZGVwOiBSZW1vdmUgdW51c2VkIGFyZ3VtZW50Cj4gPiBpbiBfX2xvY2tfcmVsZWFzZSIpLCBAbmVz
-dGVkIGlzIG5vIGxvbmdlciB1c2VkIGluIGxvY2tfcmVsZWFzZSgpLCBzbwo+ID4gcmVtb3ZlIGl0
-IGZyb20gYWxsIGxvY2tfcmVsZWFzZSgpIGNhbGxzIGFuZCBmcmllbmRzLgo+ID4gCj4gPiBTaWdu
-ZWQtb2ZmLWJ5OiBRaWFuIENhaSA8Y2FpQGxjYS5wdz4KPiAKPiBBY2sgb24gdGhlIGNvbmNlcHQg
-YW5kIGZvciB0aGUgZHJtIHBhcnRzIChhbmQgZmVlbCBmcmVlIHRvIGtlZXAgdGhlIGFjayBpZgo+
-IHlvdSBpbmV2aXRhYmx5IGhhdmUgdG8gcmVzcGluIHRoaXMgbGF0ZXIgb24pLiBNaWdodCByZXN1
-bHQgaW4gc29tZQo+IGNvbmZsaWN0cywgYnV0IHdlbHAgd2UgbmVlZCB0byBrZWVwIExpbnVzIGJ1
-c3kgOi0pCj4gCj4gQWNrZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwu
-Y2g+CgpUaGFua3MgRGFuaWVsIQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWw=
+
+--===============1944528981==
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="vtzGhvizbBRQ85DL"
+Content-Disposition: inline
+
+
+--vtzGhvizbBRQ85DL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu 2019-10-03 12:40:28, Lee Jones wrote:
+> On Thu, 03 Oct 2019, Jean-Jacques Hiblot wrote:
+>=20
+> > This series aims to add a led-backlight driver, similar to pwm-backligh=
+t,
+> > but using a LED class device underneath.
+> >=20
+> > A few years ago (2015), Tomi Valkeinen posted a series implementing a
+> > backlight driver on top of a LED device:
+> > https://patchwork.kernel.org/patch/7293991/
+> > https://patchwork.kernel.org/patch/7294001/
+> > https://patchwork.kernel.org/patch/7293981/
+> >=20
+> > The discussion stopped because Tomi lacked the time to work on it.
+>=20
+> [...]
+>=20
+> >  .../bindings/leds/backlight/led-backlight.txt |  28 ++
+> >  drivers/leds/led-class.c                      |  98 ++++++-
+> >  drivers/video/backlight/Kconfig               |   7 +
+> >  drivers/video/backlight/Makefile              |   1 +
+> >  drivers/video/backlight/led_bl.c              | 260 ++++++++++++++++++
+> >  include/linux/leds.h                          |   6 +
+> >  6 files changed, 399 insertions(+), 1 deletion(-)
+> >  create mode 100644 Documentation/devicetree/bindings/leds/backlight/le=
+d-backlight.txt
+> >  create mode 100644 drivers/video/backlight/led_bl.c
+>=20
+> How should this set be processed?  I'm happy to take it through
+> Backlight via an immutable branch and PR to be consumed by LED.
+
+That would make sense to me.
+
+For the record, series is Tested-by: Pavel Machek <pavel@ucw.cz> .
+
+Best regards,
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--vtzGhvizbBRQ85DL
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl2c6Z4ACgkQMOfwapXb+vIK8gCgvJrxfKNoHu2ieHmTclJsB+9j
+meEAoJXF0QGnU4ymvSKDTKD+Ge/pLySm
+=+WdX
+-----END PGP SIGNATURE-----
+
+--vtzGhvizbBRQ85DL--
+
+--===============1944528981==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1944528981==--
