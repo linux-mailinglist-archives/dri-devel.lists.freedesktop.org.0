@@ -1,51 +1,102 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7B3ACFC2D
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2019 16:17:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 117FBCFC3A
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2019 16:20:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 571D26E7C0;
-	Tue,  8 Oct 2019 14:17:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4554C6E7D2;
+	Tue,  8 Oct 2019 14:20:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 565E36E7C0
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2019 14:17:29 +0000 (UTC)
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
- [209.85.222.169])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id EEB9B218DE
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2019 14:17:28 +0000 (UTC)
-Received: by mail-qk1-f169.google.com with SMTP id y144so16874174qkb.7
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Oct 2019 07:17:28 -0700 (PDT)
-X-Gm-Message-State: APjAAAVo8ZQBiHY+JTGkWMYj/HHR7Jc3/c1ahIMuDfGkB6pczH/0AavA
- y+rYNbA4hM6TCdkZxPTTM+DVCrT4OxVr+bHB5g==
-X-Google-Smtp-Source: APXvYqyTPIbp6uB/NbQrlXR7mbW5oj8qd3GbQh+SZbdKWrINRREVDB6tFYwAesJBD5TWAI4QGnzN+RkckREb5FLBngg=
-X-Received: by 2002:a05:620a:7da:: with SMTP id
- 26mr27191277qkb.119.1570544248015; 
- Tue, 08 Oct 2019 07:17:28 -0700 (PDT)
+Received: from NAM01-BY2-obe.outbound.protection.outlook.com
+ (mail-eopbgr810088.outbound.protection.outlook.com [40.107.81.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83EB66E7D2;
+ Tue,  8 Oct 2019 14:20:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=P9qgNtn1UXpb7wqMPbwSeTGD788TSwDTrWsYKekwgTnbMZMPxbRIvOdpDZaMOTneqrd4p+glEGkHCgftsIXaWLPd/29sgld9nRdJ15Kn8VmugAUO2xvNbDFcUgBAvtYyUFdIIicYX62ekM1KPo4TeLcwFNf39lX7jrUWjJBgybLUDYi23vix3gH5tiJJVZvxfb+eo3Md6mH/8HcqzPr5v3odTvg8d4sHLhtUFNhbsJ6rBMCXDUDHF0tkyl6+8vm5y0TF8ZA1iUGt43XRdBw3CuPTdA9ba4YtLRvTNlbuv50IqAOt/3o2oC1URSghGEl4uWKVwNSrLwHRXcbrmaqiBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jv5jqfljkOrEZnwzYe0DvzctcO3O5bfpu7WYT4IIimg=;
+ b=I2iUlMvzpRWDFWKINNt3RPspzqxvnEXG0x1p2R/PW2YWdbtPf0DonwG4fIEUDpSLknQsQF/EfWC0yP+uau/og6oOjUCNsfAXfw/O4vxqz2wIbcZvbhIq2eNH673hCJ0loa0/NouKxUIexzhaLq6ofy0Fb9EDYk0zujfynzrD7HZYvxN4gfumiISnjUZJqu9Af0MOzysZafqWfqRVsHYCAnh7bdHQTHLt4A2MQQuFB+CYGFrCTD4ePmMbL+LqSWTX2x2rJjnoT7G877Sq8t8fUzG+EOVjv3l8vaRv7SqKJO/mUGHaIGMvxrUL0hNcC6cUkKiqJhaGLeGCgNfj/fMkWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+Received: from CY4PR1201MB0230.namprd12.prod.outlook.com (10.172.79.7) by
+ CY4PR1201MB0149.namprd12.prod.outlook.com (10.172.78.19) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2327.24; Tue, 8 Oct 2019 14:20:28 +0000
+Received: from CY4PR1201MB0230.namprd12.prod.outlook.com
+ ([fe80::5471:f58b:733e:1a61]) by CY4PR1201MB0230.namprd12.prod.outlook.com
+ ([fe80::5471:f58b:733e:1a61%7]) with mapi id 15.20.2347.016; Tue, 8 Oct 2019
+ 14:20:28 +0000
+From: Harry Wentland <hwentlan@amd.com>
+To: Joe Perches <joe@perches.com>, Colin King <colin.king@canonical.com>,
+ "Wentland, Harry" <Harry.Wentland@amd.com>, "Li, Sun peng (Leo)"
+ <Sunpeng.Li@amd.com>, "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>, "Zhou, David(ChunMing)"
+ <David1.Zhou@amd.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH] drm/amdgpu/display: make various arrays static, makes
+ object smaller
+Thread-Topic: [PATCH] drm/amdgpu/display: make various arrays static, makes
+ object smaller
+Thread-Index: AQHVfVpui/Yh/EJ0Nk64F3CjP4dHw6dQxXKAgAABQYCAAAWkAA==
+Date: Tue, 8 Oct 2019 14:20:27 +0000
+Message-ID: <128afe86-e426-3596-4d91-a8cc19e19a21@amd.com>
+References: <20191007215857.14720-1-colin.king@canonical.com>
+ <9579bfae-1db5-d282-79ea-df1966f4c123@amd.com>
+ <05e9cf0254790321433fd7d2c19129ec952bb3ac.camel@perches.com>
+In-Reply-To: <05e9cf0254790321433fd7d2c19129ec952bb3ac.camel@perches.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [165.204.55.251]
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
+x-clientproxiedby: YTOPR0101CA0034.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:15::47) To CY4PR1201MB0230.namprd12.prod.outlook.com
+ (2603:10b6:910:1e::7)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 72e497da-731b-498b-7eb9-08d74bfaaae0
+x-ms-office365-filtering-ht: Tenant
+x-ms-traffictypediagnostic: CY4PR1201MB0149:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <CY4PR1201MB01492CBD7EB689CCCAA6EF2C8C9A0@CY4PR1201MB0149.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4714;
+x-forefront-prvs: 01842C458A
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(376002)(366004)(39860400002)(396003)(136003)(346002)(189003)(199004)(66476007)(64756008)(66556008)(3846002)(36756003)(66446008)(65806001)(65956001)(66066001)(99286004)(256004)(4326008)(6116002)(2906002)(66946007)(81166006)(31696002)(81156014)(2201001)(8676002)(8936002)(71200400001)(5660300002)(71190400001)(4744005)(53546011)(26005)(6506007)(6246003)(386003)(305945005)(2616005)(476003)(446003)(186003)(2501003)(11346002)(110136005)(54906003)(486006)(102836004)(31686004)(76176011)(316002)(25786009)(58126008)(6486002)(14454004)(478600001)(7736002)(6436002)(229853002)(52116002)(6512007)(921003)(1121003);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR1201MB0149;
+ H:CY4PR1201MB0230.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: yGCte9BQbJ1iGUzGn9r+r7gpro2ZD0JVDyf+GbMXtcBvNDBp+/zDEkVwGSZGiXjB7HVgFNCW7wlAwklyHpjgwMoS6hVwea2C7jxj5etZnD39qp+mVdhPZNJO5/XH/kzmSn+mhfGB4Y7sHIWtYntyC8ZQIWadziIAdjNqjYdgLQGFwif8sxMhad33BwZNV/LuRp6K6oDIVd3moGz/+p6i+rhyYpaENTckXknT1wucmAhbIOuRwk++Z2Wz5B97oPQCJXO0KWFk2PZVFJi1kqMPhgZTYMdTlTlOOPCBlxPXgit3dHauOt7b/guDPiV6YN11exk+1aisNpG5g/+2Ozg/2AZ/K1XHcGd/51Z2fevck7+5gRNYY4RZ81KGR28X+smyl+eCPp5/O0zgfTwTxnCNKJlKv9lf0YSiqiT8L66njDc=
+Content-ID: <1FBFE8A44A4EEE4DB8DB9AA2D5F6FA62@namprd12.prod.outlook.com>
 MIME-Version: 1.0
-References: <20191004151414.8458-1-krzk@kernel.org>
- <CAL_JsqJDTcHu5oXG6zszGHCBhTE6EW94AANUjyMV78SkKcn5yA@mail.gmail.com>
- <20191008125038.GA2550@pi3>
- <CAL_Jsq+GcsUWN6kjBLkyr1rHGh6_4=w6JL6+k7DBXkBcvHcSBw@mail.gmail.com>
-In-Reply-To: <CAL_Jsq+GcsUWN6kjBLkyr1rHGh6_4=w6JL6+k7DBXkBcvHcSBw@mail.gmail.com>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Tue, 8 Oct 2019 09:17:16 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKBzZCShxx99aB4z15XYNbUionVicmfNNXEfq=iohWLCA@mail.gmail.com>
-Message-ID: <CAL_JsqKBzZCShxx99aB4z15XYNbUionVicmfNNXEfq=iohWLCA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: arm: samsung: Force clkoutN names to be
- unique in PMU
-To: Krzysztof Kozlowski <krzk@kernel.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1570544249;
- bh=k4z9UTPnrwAqsKFn+N7lEY6KbuTPenqCQZ8tcmJoBhg=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=UTZUXZWmKAZ+ukH2V5cR5yyrA+9EdRZtK3FpVZAV4WniOq8YQvCkqeVoAdDyf69Qc
- o9g71ju8By4N/y/+jdb/34FLQN3VUYdRqi5Nl06xPEZK+r667vLIJj/NALBGqpqFwC
- gMpYCctOvHKsCCJqxdhpxMOA2H6//QkiJwPLHgZk=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72e497da-731b-498b-7eb9-08d74bfaaae0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Oct 2019 14:20:27.9779 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: HCBV/Ru0cLldujp/3FXhP0bvawWvFwrG/1cXE6Q0/Ii4mYqa8ax3hxosH6PZ3Drs/l0HMLTYL9egKe+bOiqUdg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0149
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jv5jqfljkOrEZnwzYe0DvzctcO3O5bfpu7WYT4IIimg=;
+ b=nWXnxTUofWdLvuRJFzcpjLttf6VD7w707P2aqs7aRY4Ze7PcekpULYGFhInHAyf34tUSIyP8ig5aGzKRtB3IO3fKtv5FypZVdGtEXwvdfOAbHRgAN6grhy1TsFjki7Vwl6Rl4W2e81aAFGH/uweITp7ZKJsAWRBBvrb7MLMovXE=
+X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Harry.Wentland@amd.com; 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,65 +109,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Maciej Falkowski <m.falkowski@samsung.com>,
- "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
- David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Kukjin Kim <kgene@kernel.org>,
- Lee Jones <lee.jones@linaro.org>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBPY3QgOCwgMjAxOSBhdCA5OjA1IEFNIFJvYiBIZXJyaW5nIDxyb2JoK2R0QGtlcm5l
-bC5vcmc+IHdyb3RlOgo+Cj4gT24gVHVlLCBPY3QgOCwgMjAxOSBhdCA3OjUwIEFNIEtyenlzenRv
-ZiBLb3psb3dza2kgPGtyemtAa2VybmVsLm9yZz4gd3JvdGU6Cj4gPgo+ID4gT24gVHVlLCBPY3Qg
-MDgsIDIwMTkgYXQgMDc6Mzg6MTRBTSAtMDUwMCwgUm9iIEhlcnJpbmcgd3JvdGU6Cj4gPiA+IE9u
-IEZyaSwgT2N0IDQsIDIwMTkgYXQgMTA6MTQgQU0gS3J6eXN6dG9mIEtvemxvd3NraSA8a3J6a0Br
-ZXJuZWwub3JnPiB3cm90ZToKPiA+ID4gPgo+ID4gPiA+IFRoZSBjbGtvdXROIG5hbWVzIG9mIGNs
-b2NrcyBtdXN0IGJlIHVuaXF1ZSBiZWNhdXNlIHRoZXkgcmVwcmVzZW50Cj4gPiA+ID4gdW5pcXVl
-IGlucHV0cyBvZiBjbG9jayBtdWx0aXBsZXhlci4KPiA+ID4gPgo+ID4gPiA+IFNpZ25lZC1vZmYt
-Ynk6IEtyenlzenRvZiBLb3psb3dza2kgPGtyemtAa2VybmVsLm9yZz4KPiA+ID4gPiAtLS0KPiA+
-ID4gPiAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9zYW1zdW5nL3BtdS55
-YW1sIHwgNiArKysrLS0KPiA+ID4gPiAgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwg
-MiBkZWxldGlvbnMoLSkKPiA+ID4gPgo+ID4gPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9u
-L2RldmljZXRyZWUvYmluZGluZ3MvYXJtL3NhbXN1bmcvcG11LnlhbWwgYi9Eb2N1bWVudGF0aW9u
-L2RldmljZXRyZWUvYmluZGluZ3MvYXJtL3NhbXN1bmcvcG11LnlhbWwKPiA+ID4gPiBpbmRleCA3
-M2I1NmZjNWJmNTguLmQ4ZTAzNzE2ZjVkMiAxMDA2NDQKPiA+ID4gPiAtLS0gYS9Eb2N1bWVudGF0
-aW9uL2RldmljZXRyZWUvYmluZGluZ3MvYXJtL3NhbXN1bmcvcG11LnlhbWwKPiA+ID4gPiArKysg
-Yi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvYXJtL3NhbXN1bmcvcG11LnlhbWwK
-PiA+ID4gPiBAQCAtNTMsOCArNTMsMTAgQEAgcHJvcGVydGllczoKPiA+ID4gPiAgICAgICAgTGlz
-dCBvZiBjbG9jayBuYW1lcyBmb3IgcGFydGljdWxhciBDTEtPVVQgbXV4IGlucHV0cwo+ID4gPiA+
-ICAgICAgbWluSXRlbXM6IDEKPiA+ID4gPiAgICAgIG1heEl0ZW1zOiAzMgo+ID4gPiA+IC0gICAg
-aXRlbXM6Cj4gPiA+ID4gLSAgICAgIHBhdHRlcm46ICdeY2xrb3V0KFswLTldfFsxMl1bMC05XXwz
-WzAtMV0pJCcKPiA+ID4gPiArICAgIGFsbE9mOgo+ID4gPiA+ICsgICAgICAtIGl0ZW1zOgo+ID4g
-PiA+ICsgICAgICAgICAgcGF0dGVybjogJ15jbGtvdXQoWzAtOV18WzEyXVswLTldfDNbMC0xXSkk
-Jwo+ID4gPiA+ICsgICAgICAtIHVuaXF1ZUl0ZW1zOiB0cnVlCj4gPiA+Cj4gPiA+IFlvdSBzaG91
-bGRuJ3QgbmVlZCB0aGUgJ2FsbE9mJywganVzdCBhZGQgdW5pcXVlSXRlbXMgYXQgdGhlIHNhbWUg
-bGV2ZWwgYXMgaXRlbXMuCj4gPgo+ID4gSWYgeW91IG1lYW4gc29tZXRoaW5nIGxpa2U6Cj4gPiAg
-IDU2ICAgICB1bmlxdWVJdGVtczogdHJ1ZQo+ID4gICA1NyAgICAgaXRlbXM6Cj4gPiAgIDU4ICAg
-ICAgIHBhdHRlcm46ICdeY2xrb3V0KFswLTldfFsxMl1bMC05XXwzWzAtMV0pJCcKPiA+Cj4gPiBU
-aGVuIHRoZSBkdF9iaW5kaW5nX2NoZWNrIGZhaWxzOgo+ID4KPiA+IGRldi9saW51eC9Eb2N1bWVu
-dGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvYXJtL3NhbXN1bmcvcG11LnlhbWw6IHByb3BlcnRp
-ZXM6Y2xvY2stbmFtZXM6Cj4gPiAndW5pcXVlSXRlbXMnIGlzIG5vdCBvbmUgb2YgWyckcmVmJywg
-J2FkZGl0aW9uYWxJdGVtcycsICdhZGRpdGlvbmFsUHJvcGVydGllcycsICdhbGxPZicsICdhbnlP
-ZicsICdjb25zdCcsICdjb250YWlucycsICdkZWZhdWx0JywgJ2RlcGVuZGVuY2llcycsICdkZXBy
-ZWNhdGVkJywgJ2Rlc2NyaXB0aW9uJywgJ2Vsc2UnLCAnZW51bScsICdpdGVtcycsICdpZicsICdt
-aW5JdGVtcycsICdtaW5pbXVtJywgJ21heEl0ZW1zJywgJ21heGltdW0nLCAnbm90JywgJ29uZU9m
-JywgJ3BhdHRlcm4nLCAncGF0dGVyblByb3BlcnRpZXMnLCAncHJvcGVydGllcycsICdyZXF1aXJl
-ZCcsICd0aGVuJywgJ3R5cGUnLCAndHlwZVNpemUnLCAndW5ldmFsdWF0ZWRQcm9wZXJ0aWVzJ10K
-Pgo+IEkgY2FuIGFkZCBpdC4KPgo+IFRoZSBvdGhlciBvcHRpb24gaXMgdG8gZml4IHRoaXMgaW4g
-dGhlIGNsb2NrIHNjaGVtYS4gSSdtIG5vdCBzdXJlIGlmCj4gdGhlcmUncyBhIG5lZWQgZm9yIGR1
-cGxpY2F0ZSBjbG9jay1uYW1lcy4gU2VlbXMgdW5saWtlbHkuIEknbGwgdGVzdAo+IHRoYXQuCgpB
-Y3R1YWxseSwgY2xvY2stbmFtZXMgaXMgYWxyZWFkeSBzZXQgdG8gYmUgdW5pcXVlLiBEaWQgeW91
-IHNlZSBvdGhlcndpc2U/CgpSb2IKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVs
+T24gMjAxOS0xMC0wOCAxMDowMCBhLm0uLCBKb2UgUGVyY2hlcyB3cm90ZToNCj4gT24gVHVlLCAy
+MDE5LTEwLTA4IGF0IDEzOjU2ICswMDAwLCBIYXJyeSBXZW50bGFuZCB3cm90ZToNCj4gW10NCj4+
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2Jpb3MvYmlvc19w
+YXJzZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9iaW9zL2Jpb3NfcGFyc2Vy
+LmMNCj4+IFtdDQo+Pj4gQEAgLTI3NDUsNyArMjc0NSw3IEBAIHN0YXRpYyBlbnVtIGJwX3Jlc3Vs
+dCBiaW9zX2dldF9ib2FyZF9sYXlvdXRfaW5mbygNCj4+PiAgCXN0cnVjdCBiaW9zX3BhcnNlciAq
+YnA7DQo+Pj4gIAllbnVtIGJwX3Jlc3VsdCByZWNvcmRfcmVzdWx0Ow0KPj4+ICANCj4+PiAtCWNv
+bnN0IHVuc2lnbmVkIGludCBzbG90X2luZGV4X3RvX3ZiaW9zX2lkW01BWF9CT0FSRF9TTE9UU10g
+PSB7DQo+Pj4gKwlzdGF0aWMgY29uc3QgdW5zaWduZWQgaW50IHNsb3RfaW5kZXhfdG9fdmJpb3Nf
+aWRbTUFYX0JPQVJEX1NMT1RTXSA9IHsNCj4+DQo+PiBXb24ndCB0aGlzIGJyZWFrIHRoZSBtdWx0
+aS1HUFUgY2FzZSB3aGVyZSB5b3UnbGwgaGF2ZSBtdWx0aXBsZSBkcml2ZXINCj4+IGluc3RhbmNl
+cyB3aXRoIGRpZmZlcmVudCBsYXlvdXQ/DQo+IA0KPiBBcyB0aGUgYXJyYXkgaXMgcmVhZC1vbmx5
+LCBob3cgY291bGQgdGhhdCBoYXBwZW4/DQo+IA0KDQpZb3UncmUgcmlnaHQuDQoNClBhdGNoIGlz
+DQpSZXZpZXdlZC1ieTogSGFycnkgV2VudGxhbmQgPGhhcnJ5LndlbnRsYW5kQGFtZC5jb20+DQoN
+CkhhcnJ5DQoNCj4gDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWw=
