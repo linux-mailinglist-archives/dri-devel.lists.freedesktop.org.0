@@ -2,45 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FEB2D04BF
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2019 02:24:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34E4FD04CD
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2019 02:36:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9595B6E8C3;
-	Wed,  9 Oct 2019 00:24:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02F6E6E8C2;
+	Wed,  9 Oct 2019 00:36:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 687C36E8C3
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2019 00:24:16 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 659D872162; Wed,  9 Oct 2019 00:24:16 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111913] AMD Navi10 GPU powerplay issues when using two
- DisplayPort connectors
-Date: Wed, 09 Oct 2019 00:24:16 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: asheldon55@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111913-502-Vq09WjXmH7@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111913-502@http.bugs.freedesktop.org/>
-References: <bug-111913-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 096366E8C2;
+ Wed,  9 Oct 2019 00:36:01 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 46nwHf173jz9sDB;
+ Wed,  9 Oct 2019 11:35:58 +1100 (AEDT)
+Date: Wed, 9 Oct 2019 11:35:57 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexdeucher@gmail.com>
+Subject: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20191009113557.41ced49e@canb.auug.org.au>
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=canb.auug.org.au; s=201702; t=1570581359;
+ bh=hjJjL/ozQrg33SwOSe/5cE0JrIJlL2UK7Xv7UiyjKvU=;
+ h=Date:From:To:Cc:Subject:From;
+ b=Q5c1fMRcW2DjlwospuJTfTmx6lD90/9vQLamOPSg49xJbmdptqXpRhjYu4jVllD36
+ 8zE0swWHmMB688MmGmzrACzpEA8CZXJ1nJZX9b0wfCUxt4qYEvRKAro2TIVQkKV3GR
+ L1Y418l2N7+ABK/4SjHuJJYX4vxzSlC6tztgI6ep6oHuA4/Y+Yf4DfEbZ35QyiF+0t
+ RNHPcgZkGr3RL0uCpxSWul8wZXFtPSa0uGTYQ5Ul7JB4UrVU4Qn/7Guf7VXjHNMJvT
+ i5dZFv0l5JqlHyG7qimG9xWJs2qQ41K4VI5v7tk5fKG56dsyYxwNO+6Tmv47pbIfCu
+ +Hk9hQknr/p3w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,142 +48,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0076168318=="
+Cc: Sam Ravnborg <sam@ravnborg.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============0370689799=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--===============0370689799==
+Content-Type: multipart/signed; boundary="Sig_/fCeB9E99v+6r5u9dD0w7vTz";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
---===============0076168318==
-Content-Type: multipart/alternative; boundary="15705806561.D6ab0.17569"
-Content-Transfer-Encoding: 7bit
-
-
---15705806561.D6ab0.17569
-Date: Wed, 9 Oct 2019 00:24:16 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+--Sig_/fCeB9E99v+6r5u9dD0w7vTz
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111913
+Hi all,
 
---- Comment #9 from Andrew Sheldon <asheldon55@gmail.com> ---
-(In reply to Stefan Rehm from comment #8)
-> In my case the resolution of both monitors is 2560x1440
+After merging the drm-misc tree, today's linux-next build (x86_64
+allmodconfig) failed like this:
 
-You could try overclocking (or underclocking) one or both monitors to see if
-the bug still exists, using:
-https://github.com/kevinlekiller/cvt_modeline_calculator_12
+In file included from drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_module.c:25:
+drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_priv.h:40:10: fatal error: drm/drm=
+P.h: No such file or directory
+   40 | #include <drm/drmP.h>
+      |          ^~~~~~~~~~~~
+In file included from drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_chardev.c:38:
+drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_priv.h:40:10: fatal error: drm/drm=
+P.h: No such file or directory
+   40 | #include <drm/drmP.h>
+      |          ^~~~~~~~~~~~
+In file included from drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device.c:26:
+drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_priv.h:40:10: fatal error: drm/drm=
+P.h: No such file or directory
+   40 | #include <drm/drmP.h>
+      |          ^~~~~~~~~~~~
+In file included from drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:3=
+4:
+drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_priv.h:40:10: fatal error: drm/drm=
+P.h: No such file or directory
+   40 | #include <drm/drmP.h>
+      |          ^~~~~~~~~~~~
 
-I recommend using the "-b" option which uses reduced blanking V2 mode, but =
-you
-could experiment with different options.
 
-Then to use it:
+Caused by commit
 
-xrandr --output <monitor output> --newmode <modeline name> <modeline details
-from cvt>
+  4e98f871bcff ("drm: delete drmP.h + drm_os_linux.h")
 
-xrandr --output <monitor output> --addmode <monitor output> <modeline name>
+interacting with commit
 
-xrandr --output <monitor output> --mode <modeline name>
+  6b855f7b83d2 ("drm/amdkfd: Check against device cgroup")
 
-Modeline name being whatever you like.
+from the amdgpu tree.
 
-You'll probably have to launch X with one of the monitors disconnected (as =
-the
-bug may trigger before you can apply the modeline change). I believe the am=
-dgpu
-DDX has support for specifying modelines, but I don't know the syntax off t=
-he
-top of my head.
+I added the following merge fix patch for today:
+
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Wed, 9 Oct 2019 11:24:38 +1100
+Subject: [PATCH] drm/amdkfd: update for drmP.h removal
+
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/am=
+dkfd/kfd_priv.h
+index b8b4485c8f74..41bc0428bfc0 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+@@ -37,7 +37,9 @@
+ #include <linux/kref.h>
+ #include <linux/sysfs.h>
+ #include <linux/device_cgroup.h>
+-#include <drm/drmP.h>
++#include <drm/drm_file.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_device.h>
+ #include <kgd_kfd_interface.h>
+=20
+ #include "amd_shared.h"
+@@ -49,8 +51,6 @@
+ /* GPU ID hash width in bits */
+ #define KFD_GPU_ID_HASH_WIDTH 16
+=20
+-struct drm_device;
+-
+ /* Use upper bits of mmap offset to store KFD driver specific information.
+  * BITS[63:62] - Encode MMAP type
+  * BITS[61:46] - Encode gpu_id. To identify to which GPU the offset belong=
+s to
+--=20
+2.23.0
 
 --=20
-You are receiving this mail because:
-You are the assignee for the bug.=
+Cheers,
+Stephen Rothwell
 
---15705806561.D6ab0.17569
-Date: Wed, 9 Oct 2019 00:24:16 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+--Sig_/fCeB9E99v+6r5u9dD0w7vTz
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi10 GPU powerplay issues when using two DisplayPor=
-t connectors"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111913#c9">Commen=
-t # 9</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi10 GPU powerplay issues when using two DisplayPor=
-t connectors"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111913">bug 11191=
-3</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-asheldon55&#64;gmail.com" title=3D"Andrew Sheldon &lt;asheldon55&#64;gmail.=
-com&gt;"> <span class=3D"fn">Andrew Sheldon</span></a>
-</span></b>
-        <pre>(In reply to Stefan Rehm from <a href=3D"show_bug.cgi?id=3D111=
-913#c8">comment #8</a>)
-<span class=3D"quote">&gt; In my case the resolution of both monitors is 25=
-60x1440</span >
+-----BEGIN PGP SIGNATURE-----
 
-You could try overclocking (or underclocking) one or both monitors to see if
-the bug still exists, using:
-<a href=3D"https://github.com/kevinlekiller/cvt_modeline_calculator_12">htt=
-ps://github.com/kevinlekiller/cvt_modeline_calculator_12</a>
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl2dK20ACgkQAVBC80lX
+0Gxn3gf+IeA2Y+XMWHNmZjY3J/ZSjXHuL2Fk4IL8EYqsPnnO3a7bgqa06ZbtfepV
+ai4XV/7ox+aTGpSXiR5nDAxW9iJSavwGWDT+25V60542eBSijPOkCqSeKza27yL0
+HSpjg+1ZKfY/pbN2oyBKoSbvO22NQGA0hy4K6hUuzYA00KzFLd6b/7LiX2461qeW
+0uA7DpyHc+Fw3D8kprrYnmI+0xPpM/ZyVtvDtMPVpoAPobQJB6DNYjroxsdiRPqb
+jp4dBlxBVMHCOSqbMIe6KnyF6/+NwSxsHvw6fiTDCvwMBkszFZwTWaNiW5tyvpLi
+GgTYESuyuDaEIXT64VFFz0wjhNdmJg==
+=mmD0
+-----END PGP SIGNATURE-----
 
-I recommend using the &quot;-b&quot; option which uses reduced blanking V2 =
-mode, but you
-could experiment with different options.
+--Sig_/fCeB9E99v+6r5u9dD0w7vTz--
 
-Then to use it:
-
-xrandr --output &lt;monitor output&gt; --newmode &lt;modeline name&gt; &lt;=
-modeline details
-from cvt&gt;
-
-xrandr --output &lt;monitor output&gt; --addmode &lt;monitor output&gt; &lt=
-;modeline name&gt;
-
-xrandr --output &lt;monitor output&gt; --mode &lt;modeline name&gt;
-
-Modeline name being whatever you like.
-
-You'll probably have to launch X with one of the monitors disconnected (as =
-the
-bug may trigger before you can apply the modeline change). I believe the am=
-dgpu
-DDX has support for specifying modelines, but I don't know the syntax off t=
-he
-top of my head.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15705806561.D6ab0.17569--
-
---===============0076168318==
+--===============0370689799==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -198,4 +174,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0076168318==--
+--===============0370689799==--
