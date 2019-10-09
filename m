@@ -2,65 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32BE0D10E4
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2019 16:09:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD1EDD1103
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2019 16:18:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E90BE6E9B4;
-	Wed,  9 Oct 2019 14:09:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C05C46E9B2;
+	Wed,  9 Oct 2019 14:18:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFA1E6E9AF
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2019 14:09:17 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id v8so2173563eds.2
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2019 07:09:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to:user-agent;
- bh=Ggm5FnPBWudwKM7bMG2DlNAhhZbMe/QrjNBGIC21iLE=;
- b=uMw2j/Ga/Zv+g5q3XLLeWCi5APoFS4UVAijKNFslQneBBwGJIqMh+GBUz1h6ouNVHc
- UZyxZlZeok8n/0v0DwvrCxnH/n3DrwH2nOM+GpWpzsvxrC1bN8498q2/OmrX4b1JcON7
- 8QGIFac2TAznYJbNWycoKeAar+llWCTw1YScN0NN9wyW3/fJ5PCxmzjZQ0/W7EC0R2Rr
- 8BFwcDKllfu2/rCxl+HUtqR9LZU6DXQQFHFSksm/kCwbnre5F8qvcPc0SsvEFlDpbxp/
- yulLh26w4HA1neYpb+5uOwPfT2kUoSwPNcoeoWp7AOqJ2hVXYFebDbw2/3GXUohK2pqs
- u50g==
-X-Gm-Message-State: APjAAAVVnbQuQU4br+3f2BsOvQYmsh7iIi7xy0twDIllBSoLT2EyciTD
- co96X/8aRd4PKHgi9ZMmbFeMjg==
-X-Google-Smtp-Source: APXvYqzkirb8on6ORe6NpqSckThXHb3Tav3Cj0WPhAo5jbAa/jP+L4b2aIMdTn9K+fFgrnr9a9Um2w==
-X-Received: by 2002:a17:906:fcac:: with SMTP id
- qw12mr2982663ejb.31.1570630156129; 
- Wed, 09 Oct 2019 07:09:16 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net.
- [212.51.149.96])
- by smtp.gmail.com with ESMTPSA id t22sm375873edd.79.2019.10.09.07.09.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Oct 2019 07:09:15 -0700 (PDT)
-Date: Wed, 9 Oct 2019 16:09:12 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: christian.koenig@amd.com
-Subject: Re: [PATCH 2/4] drm/ttm: use the parent resv for ghost objects v2
-Message-ID: <20191009140912.GY16989@phenom.ffwll.local>
-References: <20190829142917.13058-1-christian.koenig@amd.com>
- <20190829142917.13058-3-christian.koenig@amd.com>
- <20191008092552.GG16989@phenom.ffwll.local>
- <d36c1631-1262-8c73-e62b-bbbddb708f1e@gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AA7A56E9B5
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2019 14:18:31 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id A76F072162; Wed,  9 Oct 2019 14:18:31 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111921] GPU crash on VegaM (amdgpu: The CS has been rejected)
+Date: Wed, 09 Oct 2019 14:18:31 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: andrey.grodzovsky@amd.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111921-502-qy8ZjwyPP3@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111921-502@http.bugs.freedesktop.org/>
+References: <bug-111921-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <d36c1631-1262-8c73-e62b-bbbddb708f1e@gmail.com>
-X-Operating-System: Linux phenom 5.2.0-2-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent;
- bh=Ggm5FnPBWudwKM7bMG2DlNAhhZbMe/QrjNBGIC21iLE=;
- b=YnqCuIIF4UjVn4HFsfE/AMYmTYKiPdUIcORH84mX/PlfmNBc/fSAWjPbb+SFtiEaj5
- CJwG0TCw8MvXNqBwWvRa5icbOZLDJc9LfzGCi4ILVlt+b596PwwqKJi2If4srCw+yT/J
- 9iuCxay/yJEpJJgrY0i5Ld8SI7b05zSZ/NLc8=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,106 +52,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1777262703=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBPY3QgMDksIDIwMTkgYXQgMDM6MTA6MDlQTSArMDIwMCwgQ2hyaXN0aWFuIEvDtm5p
-ZyB3cm90ZToKPiBBbSAwOC4xMC4xOSB1bSAxMToyNSBzY2hyaWViIERhbmllbCBWZXR0ZXI6Cj4g
-PiBPbiBUaHUsIEF1ZyAyOSwgMjAxOSBhdCAwNDoyOToxNVBNICswMjAwLCBDaHJpc3RpYW4gS8O2
-bmlnIHdyb3RlOgo+ID4gPiBUaGlzIHdheSB3ZSBjYW4gZXZlbiBwaXBlbGluZSBpbXBvcnRlZCBC
-TyBldmljdGlvbnMuCj4gPiA+IAo+ID4gPiB2MjogTGltaXQgdGhpcyB0byBvbmx5IGNhc2VzIHdo
-ZW4gdGhlIHBhcmVudCBvYmplY3QgdXNlcyBhIHNlcGFyYXRlCj4gPiA+ICAgICAgcmVzZXJ2YXRp
-b24gb2JqZWN0IGFzIHdlbGwuIFRoaXMgZml4ZXMgYW5vdGhlciBPT00gcHJvYmxlbS4KPiA+ID4g
-Cj4gPiA+IFNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdA
-YW1kLmNvbT4KPiA+IFNpbmNlIEkgcmVhZCBxdWl0ZSBhIGJpdCBvZiB0dG0gSSBmaWd1cmVkIEkn
-bGwgcmV2aWV3IHRoaXMgdG9vLCBidXQgSSdtCj4gPiB0b3RhbGx5IGxvc3QuIEFuZCBnaXQgYmxh
-bWUgZ2l2ZXMgbWUgYXQgYmVzdCBjb21taXRzIHdpdGggb25lLWxpbmVyIGNvbW1pdAo+ID4gbWVz
-c2FnZXMsIGFuZCB0aGUgZG9jcyBhcmVuJ3QgZXhwbGFpbmluZyBtdWNoIGF0IGFsbCBlaXRoZXIg
-KGFuZCBnZW5lcmFsbHkKPiA+IHRoZXkgZGlkbid0IGdldCB1cGRhdGVkIGF0IGFsbCB3aXRoIGFs
-bCB0aGUgY2hhbmdlcyBpbiB0aGUgcGFzdCB5ZWFycykuCj4gPiAKPiA+IEkgaGF2ZSBhIHZhZ3Vl
-IGlkZWEgb2Ygd2hhdCB5b3UncmUgZG9pbmcgaGVyZSwgYnV0IG5vdCBlbm91Z2ggdG8gZG8gcmV2
-aWV3Cj4gPiB3aXRoIGFueSBjb25maWRlbmNlLiBBbmQgZnJvbSBvdGhlciB0dG0gcGF0Y2hlcyBm
-cm9tIGFtZCBpdCBmZWVscyBhIGxvdAo+ID4gbGlrZSB3ZSBoYXZlIGVzc2VudGlhbGx5IGEgYnVz
-IGZhY3RvciBvZiAxIGZvciBhbGwgdGhpbmdzIHR0bSA6LS8KPiAKPiBZZWFoLCB0aGF0J3Mgb25l
-IG9mIGEgY291cGxlIG9mIHJlYXNvbnMgd2h5IEkgd2FudCB0byBnZXQgcmlkIG9mIFRUTSBpbiB0
-aGUKPiBsb25nIHRlcm0uCj4gCj4gQmFzaWNhbGx5IHRoaXMgaXMgYSBidWcgZml4IGZvciBkZWxh
-eSBmcmVlaW5nIHR0bSBvYmplY3RzLiBXaGVuIHdlIGhhbmcgdGhlCj4gdHRtIG9iamVjdCBvbiBh
-IGdob3N0IG9iamVjdCB0byBiZSBmcmVlZCBhbmQgdGhlIHR0bSBvYmplY3QgaXMgYW4gaW1wb3J0
-ZWQKPiBETUEtYnVmIHdlIHJ1biBpbnRvIHRoZSBwcm9ibGVtIHRoYXQgd2Ugd2FudCB0byBkcm9w
-IHRoZSBtYXBwaW5nLCBidXQgaGF2ZQo+IHRoZSB3cm9uZyBsb2NrIHRha2VuICh0aGUgbG9jayBv
-ZiB0aGUgZ2hvc3QgYW5kIG5vdCBvZiB0aGUgcGFyZW50KS4KCkdvdCBpbnRyaWd1ZWQsIGRpZCBz
-b21lIG1vcmUgZGlnZ2luZywgSSBndWVzcyB0aGUgYnVnZml4IHBhcnQgaXMgcmVsYXRlZAp0bzoK
-CmNvbW1pdCA4NDFlNzYzYjQwNzY0YTc2OTlhZTA3ZjRjYjE5MjFhZjYyZDYzMTZkCkF1dGhvcjog
-Q2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpEYXRlOiAgIFRodSBK
-dWwgMjAgMjA6NTU6MDYgMjAxNyArMDIwMAoKICAgIGRybS90dG06IGluZGl2aWR1YWxpemUgQk8g
-cmVzZXJ2YXRpb24gb2JqIHdoZW4gdGhleSBhcmUgZnJlZWQKCmFuZCB0aGF0J3Mgd2h5IHlvdSBz
-d2l0Y2ggZXZlcnl0aGluZyBvdmVyIHRvIHVzZWluZyBfcmVzdiBpbnN0ZWFkIG9mIHRoZQpwb2lu
-dGVyLiBCdXQgdGhlbiBJIHN0aWxsIGRvbid0IGZvbGxvdyB0aGUgZGV0YWlscyAuLi4KCj4gCgo+
-IFJlZ2FyZHMsCj4gQ2hyaXN0aWFuLgo+IAo+ID4gLURhbmllbAo+ID4gCj4gPiA+IC0tLQo+ID4g
-PiAgIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3V0aWwuYyB8IDE2ICsrKysrKysrKy0tLS0t
-LS0KPiA+ID4gICAxIGZpbGUgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygt
-KQo+ID4gPiAKPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3V0
-aWwuYyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3V0aWwuYwo+ID4gPiBpbmRleCBmZTgx
-YzU2NWU3ZWYuLjJlYmU5ZmU3ZjZjOCAxMDA2NDQKPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
-L3R0bS90dG1fYm9fdXRpbC5jCj4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2Jv
-X3V0aWwuYwo+ID4gPiBAQCAtNTE3LDcgKzUxNyw5IEBAIHN0YXRpYyBpbnQgdHRtX2J1ZmZlcl9v
-YmplY3RfdHJhbnNmZXIoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKPiA+ID4gICAJa3Jl
-Zl9pbml0KCZmYm8tPmJhc2Uua3JlZik7Cj4gPiA+ICAgCWZiby0+YmFzZS5kZXN0cm95ID0gJnR0
-bV90cmFuc2ZlcmVkX2Rlc3Ryb3k7Cj4gPiA+ICAgCWZiby0+YmFzZS5hY2Nfc2l6ZSA9IDA7Cj4g
-PiA+IC0JZmJvLT5iYXNlLmJhc2UucmVzdiA9ICZmYm8tPmJhc2UuYmFzZS5fcmVzdjsKPiA+ID4g
-KwlpZiAoYm8tPmJhc2UucmVzdiA9PSAmYm8tPmJhc2UuX3Jlc3YpCj4gPiA+ICsJCWZiby0+YmFz
-ZS5iYXNlLnJlc3YgPSAmZmJvLT5iYXNlLmJhc2UuX3Jlc3Y7CgpJIGdvdCBjb25mdXNlZCBhIGJp
-dCBhdCBmaXJzdCwgdW50aWwgSSBzcG90dGVkIHRoZQoKCWZiby0+YmFzZSA9ICpibzsKCnNvbWV3
-aGVyZSBhYm92ZS4gU28gSSB0aGluayB0aGF0IHBhcnQgbWFrZXMgc2Vuc2UsIHRvZ2V0aGVyIHdp
-dGggdGhlIGFib3ZlCmNpdGVkIHBhdGNoLiBJIHRoaW5rIGF0IGxlYXN0LCBjb25maWRlbmNlIG9u
-IHRoaXMgaXMgdmVyeSBsb3cgLi4uCgo+ID4gPiArCj4gPiA+ICAgCWRtYV9yZXN2X2luaXQoZmJv
-LT5iYXNlLmJhc2UucmVzdik7Cj4gPiA+ICAgCXJldCA9IGRtYV9yZXN2X3RyeWxvY2soZmJvLT5i
-YXNlLmJhc2UucmVzdik7CgpTaG91bGRuJ3QgdGhpcyBiZSBzd2l0Y2hlZCBvdmVyIHRvIF9yZXN2
-IHRvbz8gT3RoZXJ3aXNlIGZlZWxzIGxpa2UKdW5iYWxhbmNlZCBsb2NraW5nLgoKPiA+ID4gICAJ
-V0FSTl9PTighcmV0KTsKPiA+ID4gQEAgLTcxNiw3ICs3MTgsNyBAQCBpbnQgdHRtX2JvX21vdmVf
-YWNjZWxfY2xlYW51cChzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+ID4gPiAgIAkJaWYg
-KHJldCkKPiA+ID4gICAJCQlyZXR1cm4gcmV0Owo+ID4gPiAtCQlkbWFfcmVzdl9hZGRfZXhjbF9m
-ZW5jZShnaG9zdF9vYmotPmJhc2UucmVzdiwgZmVuY2UpOwo+ID4gPiArCQlkbWFfcmVzdl9hZGRf
-ZXhjbF9mZW5jZSgmZ2hvc3Rfb2JqLT5iYXNlLl9yZXN2LCBmZW5jZSk7Cj4gPiA+ICAgCQkvKioK
-PiA+ID4gICAJCSAqIElmIHdlJ3JlIG5vdCBtb3ZpbmcgdG8gZml4ZWQgbWVtb3J5LCB0aGUgVFRN
-IG9iamVjdAo+ID4gPiBAQCAtNzI5LDcgKzczMSw3IEBAIGludCB0dG1fYm9fbW92ZV9hY2NlbF9j
-bGVhbnVwKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sCj4gPiA+ICAgCQllbHNlCj4gPiA+
-ICAgCQkJYm8tPnR0bSA9IE5VTEw7Cj4gPiA+IC0JCXR0bV9ib191bnJlc2VydmUoZ2hvc3Rfb2Jq
-KTsKPiA+ID4gKwkJZG1hX3Jlc3ZfdW5sb2NrKCZnaG9zdF9vYmotPmJhc2UuX3Jlc3YpOwo+ID4g
-PiAgIAkJdHRtX2JvX3B1dChnaG9zdF9vYmopOwo+ID4gPiAgIAl9Cj4gPiA+IEBAIC03NzIsNyAr
-Nzc0LDcgQEAgaW50IHR0bV9ib19waXBlbGluZV9tb3ZlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVj
-dCAqYm8sCj4gPiA+ICAgCQlpZiAocmV0KQo+ID4gPiAgIAkJCXJldHVybiByZXQ7Cj4gPiA+IC0J
-CWRtYV9yZXN2X2FkZF9leGNsX2ZlbmNlKGdob3N0X29iai0+YmFzZS5yZXN2LCBmZW5jZSk7Cj4g
-PiA+ICsJCWRtYV9yZXN2X2FkZF9leGNsX2ZlbmNlKCZnaG9zdF9vYmotPmJhc2UuX3Jlc3YsIGZl
-bmNlKTsKPiA+ID4gICAJCS8qKgo+ID4gPiAgIAkJICogSWYgd2UncmUgbm90IG1vdmluZyB0byBm
-aXhlZCBtZW1vcnksIHRoZSBUVE0gb2JqZWN0Cj4gPiA+IEBAIC03ODUsNyArNzg3LDcgQEAgaW50
-IHR0bV9ib19waXBlbGluZV9tb3ZlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sCj4gPiA+
-ICAgCQllbHNlCj4gPiA+ICAgCQkJYm8tPnR0bSA9IE5VTEw7Cj4gPiA+IC0JCXR0bV9ib191bnJl
-c2VydmUoZ2hvc3Rfb2JqKTsKPiA+ID4gKwkJZG1hX3Jlc3ZfdW5sb2NrKCZnaG9zdF9vYmotPmJh
-c2UuX3Jlc3YpOwoKSSBndWVzcyBkcm9wcGluZyB0aGUgbHJ1IHBhcnQgaGVyZSAoYXNpZGUgZnJv
-bSBzd2l0Y2hpbmcgZnJvbSAtPnJlc3YgdG8KLT5fcmVzdiwgd2hpY2ggaXMgeW91ciBidWdmaXgg
-SSB0aGluaykgZG9lc24ndCBtYXR0ZXIgc2luY2UgdGhlIGdob3N0Cm9iamVjdCBnb3QgYWxsIGNs
-ZWFyZWQgdXAgYW5kIGlzbid0IG9uIGFueSBsaXN0cyBhbnl3YXk/IE90b2ggaG93IGRvZXMgaXQK
-d29yayB0aGVuIC4uLgoKTm90IGNsZWFyIHRvIG1lIHdoeSB0aGlzIGlzIHNhZmUuCgo+ID4gPiAg
-IAkJdHRtX2JvX3B1dChnaG9zdF9vYmopOwo+ID4gPiAgIAl9IGVsc2UgaWYgKGZyb20tPmZsYWdz
-ICYgVFRNX01FTVRZUEVfRkxBR19GSVhFRCkgewo+ID4gPiBAQCAtODQxLDcgKzg0Myw3IEBAIGlu
-dCB0dG1fYm9fcGlwZWxpbmVfZ3V0dGluZyhzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvKQo+
-ID4gPiAgIAlpZiAocmV0KQo+ID4gPiAgIAkJcmV0dXJuIHJldDsKPiA+ID4gLQlyZXQgPSBkbWFf
-cmVzdl9jb3B5X2ZlbmNlcyhnaG9zdC0+YmFzZS5yZXN2LCBiby0+YmFzZS5yZXN2KTsKPiA+ID4g
-KwlyZXQgPSBkbWFfcmVzdl9jb3B5X2ZlbmNlcygmZ2hvc3QtPmJhc2UuX3Jlc3YsIGJvLT5iYXNl
-LnJlc3YpOwo+ID4gPiAgIAkvKiBMYXN0IHJlc29ydCwgd2FpdCBmb3IgdGhlIEJPIHRvIGJlIGlk
-bGUgd2hlbiB3ZSBhcmUgT09NICovCj4gPiA+ICAgCWlmIChyZXQpCj4gPiA+ICAgCQl0dG1fYm9f
-d2FpdChibywgZmFsc2UsIGZhbHNlKTsKPiA+ID4gQEAgLTg1MCw3ICs4NTIsNyBAQCBpbnQgdHRt
-X2JvX3BpcGVsaW5lX2d1dHRpbmcoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibykKPiA+ID4g
-ICAJYm8tPm1lbS5tZW1fdHlwZSA9IFRUTV9QTF9TWVNURU07Cj4gPiA+ICAgCWJvLT50dG0gPSBO
-VUxMOwo+ID4gPiAtCXR0bV9ib191bnJlc2VydmUoZ2hvc3QpOwo+ID4gPiArCWRtYV9yZXN2X3Vu
-bG9jaygmZ2hvc3QtPmJhc2UuX3Jlc3YpOwo+ID4gPiAgIAl0dG1fYm9fcHV0KGdob3N0KTsKPiA+
-ID4gICAJcmV0dXJuIDA7Cj4gPiA+IC0tIAo+ID4gPiAyLjE3LjEKLS0gCkRhbmllbCBWZXR0ZXIK
-U29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNo
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1777262703==
+Content-Type: multipart/alternative; boundary="15706307112.590aeBE.28710"
+Content-Transfer-Encoding: 7bit
+
+
+--15706307112.590aeBE.28710
+Date: Wed, 9 Oct 2019 14:18:31 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111921
+
+--- Comment #9 from Andrey Grodzovsky <andrey.grodzovsky@amd.com> ---
+(In reply to R=C3=A9mi Verschelde from comment #8)
+> (In reply to Andrey Grodzovsky from comment #2)
+> > Hey, I noticed a lot of 'amdgpu 0000:01:00.0: GPU pci config reset' the=
+re.
+>=20
+> These actually happen every time I change the focus between an application
+> running on the AMD GPU (with `DRI_PRIME=3D1`) and another application (e.=
+g.
+> desktop environment, firefox, terminal) running on the Intel HD 630 IGP
+> (`DRI_PRIME=3D0`, default).
+
+So i guess the problem only happens when you run in DRI PRIME mode when
+different apps render of off different GPUs ?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15706307112.590aeBE.28710
+Date: Wed, 9 Oct 2019 14:18:31 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - GPU crash on VegaM (amdgpu: The CS has been rejected)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111921#c9">Commen=
+t # 9</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - GPU crash on VegaM (amdgpu: The CS has been rejected)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111921">bug 11192=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+andrey.grodzovsky&#64;amd.com" title=3D"Andrey Grodzovsky &lt;andrey.grodzo=
+vsky&#64;amd.com&gt;"> <span class=3D"fn">Andrey Grodzovsky</span></a>
+</span></b>
+        <pre>(In reply to R=C3=A9mi Verschelde from <a href=3D"show_bug.cgi=
+?id=3D111921#c8">comment #8</a>)
+<span class=3D"quote">&gt; (In reply to Andrey Grodzovsky from <a href=3D"s=
+how_bug.cgi?id=3D111921#c2">comment #2</a>)
+&gt; &gt; Hey, I noticed a lot of 'amdgpu 0000:01:00.0: GPU pci config rese=
+t' there.
+&gt;=20
+&gt; These actually happen every time I change the focus between an applica=
+tion
+&gt; running on the AMD GPU (with `DRI_PRIME=3D1`) and another application =
+(e.g.
+&gt; desktop environment, firefox, terminal) running on the Intel HD 630 IGP
+&gt; (`DRI_PRIME=3D0`, default).</span >
+
+So i guess the problem only happens when you run in DRI PRIME mode when
+different apps render of off different GPUs ?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15706307112.590aeBE.28710--
+
+--===============1777262703==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1777262703==--
