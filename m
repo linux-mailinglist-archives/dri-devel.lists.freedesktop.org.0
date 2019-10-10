@@ -2,58 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDECED1E1F
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2019 04:02:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CFEDD1E58
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2019 04:14:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC9856EA7E;
-	Thu, 10 Oct 2019 02:02:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4577E89DBA;
+	Thu, 10 Oct 2019 02:14:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
- [IPv6:2607:f8b0:4864:20::d43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34AE06EA7A;
- Thu, 10 Oct 2019 02:02:43 +0000 (UTC)
-Received: by mail-io1-xd43.google.com with SMTP id h144so10135338iof.7;
- Wed, 09 Oct 2019 19:02:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ymBNUcZ+iAHOTwpXAUkZZx/DYlsjMZQoKcUDZ3tN8zU=;
- b=NiSXK7ientP82TElKIvtvgS95qpdFf1wBW0DkFaSaFSGPkfXgbfV68SlG/aTh6tata
- sEGoNOvL5p15fl8ceboWKaklpd9U5RXpAHaiacK6PxExYVXU8NsibyOt7sXvVdeln6iL
- pbsRNAli0s5FUNQBvDQO6jfFTq+wEklHlny9rPniIPjdsPtGGBSIQg8H1/X7imhUqh96
- eAfdclxSF6R1PC9vt3ubMPKPoxs5Cswu6+74RBT7aYgzxGEvITfTjSJpIp7oUsv658Js
- dTMrcpyJKhnRJ8Znd5eoPPYHxAWzk9fmcAcSUIqSrWvyZNcpi8v/G/AlJKco4bZSxSvb
- b9Aw==
-X-Gm-Message-State: APjAAAXyl+Eds0JLaYNRrPbn5aMYd4u1vUndyLhMIPuoizKqdVe9Z1yU
- hrD6C4Dkc63qFR7KzD43E/mUlEiyfFHhLrR0ZQIKj6WB
-X-Google-Smtp-Source: APXvYqyl7t15Z1FSLZOzR9bYPIiT1q6JOsRvMmqa4v9DeCEXoHRbovpSXM0N/BxfnAWfIbHrhN5jdttubYrj7Zos3PI=
-X-Received: by 2002:a6b:f415:: with SMTP id i21mr7321297iog.109.1570672962537; 
- Wed, 09 Oct 2019 19:02:42 -0700 (PDT)
+Received: from ozlabs.org (ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DC3C89DBA
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2019 02:14:51 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 46pZRF0SZzz9sCJ;
+ Thu, 10 Oct 2019 13:14:49 +1100 (AEDT)
+Date: Thu, 10 Oct 2019 13:14:48 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@elte.hu>, "H.
+ Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, Dave
+ Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build failure after merge of the tip tree
+Message-ID: <20191010131448.482da2b2@canb.auug.org.au>
 MIME-Version: 1.0
-References: <20190926141046.30758-1-yuq825@gmail.com>
- <20190926141046.30758-3-yuq825@gmail.com>
- <CAL_JsqJOP90jmeDDCsf3tNs6Q13U4GSUsToHsggT3js3=+R94w@mail.gmail.com>
- <CAKGbVbs7ZN=gTkRhY0YqMfUd1=_Rux3WjsDcxbKA9SUaH5F-iw@mail.gmail.com>
- <20191009145748.GC16989@phenom.ffwll.local>
-In-Reply-To: <20191009145748.GC16989@phenom.ffwll.local>
-From: Qiang Yu <yuq825@gmail.com>
-Date: Thu, 10 Oct 2019 10:02:31 +0800
-Message-ID: <CAKGbVbubcSaR0kqj4Ak4Bqs=adtZRZs9XirsBXOxGDYatGdXfg@mail.gmail.com>
-Subject: Re: [PATCH 1/6] drm/gem: refine drm_gem_objects_lookup
-To: Daniel Vetter <daniel@ffwll.ch>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ymBNUcZ+iAHOTwpXAUkZZx/DYlsjMZQoKcUDZ3tN8zU=;
- b=mD7o3sNjaMjnJzTjUZowupP8lr6tkGHjOZQ0/Uy81aJpNuutTaO03UITowXsIoUSen
- bl7Vx7zLM9hF7ViVfratmT1Kz8eChvDJEszMhYUExDnPg8rsdhdA6E1qUqdD1XcEUmeQ
- 9i9s5bo6MCfshvus7dZpef0tZMhTGdmZesDxggfS368CBDgXcoaAsqlsHqZJ+PY0BS/y
- H6Lm4jkiYiqOoCSHmkrLtNHJRs9bQaa729ttkxQPyMPVI1zpR+mpilRWgU5a1BLkQfkp
- UbbDaOaLZJWXs3aIxfhHp2gcPkkGKquWp137cl+WVr8WQa1UXcOlEBbsiHZUoXaohUaP
- 5S4A==
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=canb.auug.org.au; s=201702; t=1570673689;
+ bh=US5I/EC1xPBjcQV9p/7vh2IOLopNQKaX8IfXhKo0P3A=;
+ h=Date:From:To:Cc:Subject:From;
+ b=JYqoesr60pub86cCjT+cgHuw7g24ZA8AxQ52D09Dto/OtUaukQ3MeAJYP1aR1/KIu
+ X4g0Bg5Gsxv6i9d1Aql2vHpW5OR52l3jvh8QAYxre5voqiIFbK86TcxJEFBKHrpFlF
+ eZ4vEZ3qhBgMohrR3+pEa9iIoOEHStDVtZxHVNlgsF+cBOnUKsqQ4Od4PyN5g+tXeV
+ FmJE0S0Jtz2jin/6KcQE1SSFMfdvIrkmllkH//VSCQNEHraM++Np8frKh0++tJ1VmK
+ DcPLzBFs0j2CBNurPZUYMrWowJYtRYHDvmp2e8AHrY/Qtr1aHS8e85HkOIHF6jU+kU
+ ncM4jn8GBUNwg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,81 +48,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, lima@lists.freedesktop.org,
- Maxime Ripard <maxime.ripard@bootlin.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>, David Airlie <airlied@linux.ie>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>, Qian Cai <cai@lca.pw>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============1544103332=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBPY3QgOSwgMjAxOSBhdCAxMDo1NyBQTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3
-bGwuY2g+IHdyb3RlOgo+Cj4gT24gRnJpLCBTZXAgMjcsIDIwMTkgYXQgMDg6MDk6NTJBTSArMDgw
-MCwgUWlhbmcgWXUgd3JvdGU6Cj4gPiBPbiBUaHUsIFNlcCAyNiwgMjAxOSBhdCAxMTowMSBQTSBS
-b2IgSGVycmluZyA8cm9iaEBrZXJuZWwub3JnPiB3cm90ZToKPiA+ID4KPiA+ID4gT24gVGh1LCBT
-ZXAgMjYsIDIwMTkgYXQgOToxMiBBTSBRaWFuZyBZdSA8eXVxODI1QGdtYWlsLmNvbT4gd3JvdGU6
-Cj4gPiA+ID4KPiA+ID4gPiBEbyBub3QgdXNlIHVzZXIgc3BhY2UgYm8gaGFuZGxlcyBkaXJlY3Rs
-eSBhbmQgbGVmdCB0aGUgdXNlcgo+ID4gPiA+IHRvIGtlcm5lbCBjb3B5IHdvcmsgdG8gZHJpdmVy
-cyBjYWxsaW5nIHRoaXMgZnVuY3Rpb24uCj4gPiA+ID4KPiA+ID4gPiBUaGlzIGlzIGZvciBkcml2
-ZXIgbGlrZSBsaW1hIHdoaWNoIGRvZXMgbm90IHBhc3MgZ2VtIGJvCj4gPiA+ID4gaGFuZGxlcyBj
-b250aW5vdXNseSBpbiBhbiBhcnJheSBpbiBpb2N0bCBhcmd1bWVudC4KPiA+ID4gPgo+ID4gPiA+
-IENjOiBSb2IgSGVycmluZyA8cm9iaEBrZXJuZWwub3JnPgo+ID4gPiA+IENjOiBUb21ldSBWaXpv
-c28gPHRvbWV1LnZpem9zb0Bjb2xsYWJvcmEuY29tPgo+ID4gPiA+IENjOiBTdGV2ZW4gUHJpY2Ug
-PHN0ZXZlbi5wcmljZUBhcm0uY29tPgo+ID4gPiA+IENjOiBBbHlzc2EgUm9zZW56d2VpZyA8YWx5
-c3NhLnJvc2VuendlaWdAY29sbGFib3JhLmNvbT4KPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBRaWFu
-ZyBZdSA8eXVxODI1QGdtYWlsLmNvbT4KPiA+ID4gPiAtLS0KPiA+ID4gPiAgZHJpdmVycy9ncHUv
-ZHJtL2RybV9nZW0uYyAgICAgICAgICAgICAgIHwgMjggKysrKysrKy0tLS0tLS0tLS0tLS0tLS0t
-LQo+ID4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZHJ2LmMgfCAyMyAr
-KysrKysrKysrKysrKysrKy0tLQo+ID4gPgo+ID4gPiBQbGVhc2Uga2VlcCB0aGUgY3VycmVudCB2
-YXJpYW50LiBXaGlsZSBvbmx5IHBhbmZyb3N0IGlzIGNvbnZlcnRlZCBBVE0sCj4gPiA+IHZjNCBh
-bmQgdjNkIHdpbGwgdXNlIHRoaXMgdG9vLgo+ID4gPgo+ID4gPiA+ICBpbmNsdWRlL2RybS9kcm1f
-Z2VtLmggICAgICAgICAgICAgICAgICAgfCAgMiArLQo+ID4gPiA+ICAzIGZpbGVzIGNoYW5nZWQs
-IDI5IGluc2VydGlvbnMoKyksIDI0IGRlbGV0aW9ucygtKQo+ID4gPiA+Cj4gPiA+ID4gZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2dl
-bS5jCj4gPiA+ID4gaW5kZXggNjg1NGY1ODY3ZDUxLi45ZjczZTVmM2I1M2YgMTAwNjQ0Cj4gPiA+
-ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW0uYwo+ID4gPiA+ICsrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9kcm1fZ2VtLmMKPiA+ID4gPiBAQCAtNjc5LDExICs2NzksMTEgQEAgc3RhdGljIGlu
-dCBvYmplY3RzX2xvb2t1cChzdHJ1Y3QgZHJtX2ZpbGUgKmZpbHAsIHUzMiAqaGFuZGxlLCBpbnQg
-Y291bnQsCj4gPiA+ID4gIC8qKgo+ID4gPiA+ICAgKiBkcm1fZ2VtX29iamVjdHNfbG9va3VwIC0g
-bG9vayB1cCBHRU0gb2JqZWN0cyBmcm9tIGFuIGFycmF5IG9mIGhhbmRsZXMKPiA+ID4gPiAgICog
-QGZpbHA6IERSTSBmaWxlIHByaXZhdGUgZGF0ZQo+ID4gPiA+IC0gKiBAYm9faGFuZGxlczogdXNl
-ciBwb2ludGVyIHRvIGFycmF5IG9mIHVzZXJzcGFjZSBoYW5kbGUKPiA+ID4gPiArICogQGJvX2hh
-bmRsZXM6IGFycmF5IG9mIEdFTSBvYmplY3QgaGFuZGxlcwo+ID4gPiA+ICAgKiBAY291bnQ6IHNp
-emUgb2YgaGFuZGxlIGFycmF5Cj4gPiA+ID4gICAqIEBvYmpzX291dDogcmV0dXJuZWQgcG9pbnRl
-ciB0byBhcnJheSBvZiBkcm1fZ2VtX29iamVjdCBwb2ludGVycwo+ID4gPiA+ICAgKgo+ID4gPiA+
-IC0gKiBUYWtlcyBhbiBhcnJheSBvZiB1c2Vyc3BhY2UgaGFuZGxlcyBhbmQgcmV0dXJucyBhIG5l
-d2x5IGFsbG9jYXRlZCBhcnJheSBvZgo+ID4gPiA+ICsgKiBUYWtlcyBhbiBhcnJheSBvZiBHRU0g
-b2JqZWN0IGhhbmRsZXMgYW5kIHJldHVybnMgYSBuZXdseSBhbGxvY2F0ZWQgYXJyYXkgb2YKPiA+
-ID4gPiAgICogR0VNIG9iamVjdHMuCj4gPiA+ID4gICAqCj4gPiA+ID4gICAqIEZvciBhIHNpbmds
-ZSBoYW5kbGUgbG9va3VwLCB1c2UgZHJtX2dlbV9vYmplY3RfbG9va3VwKCkuCj4gPiA+ID4gQEAg
-LTY5NSwxMSArNjk1LDEwIEBAIHN0YXRpYyBpbnQgb2JqZWN0c19sb29rdXAoc3RydWN0IGRybV9m
-aWxlICpmaWxwLCB1MzIgKmhhbmRsZSwgaW50IGNvdW50LAo+ID4gPiA+ICAgKiBmYWlsdXJlLiAw
-IGlzIHJldHVybmVkIG9uIHN1Y2Nlc3MuCj4gPiA+ID4gICAqCj4gPiA+ID4gICAqLwo+ID4gPiA+
-IC1pbnQgZHJtX2dlbV9vYmplY3RzX2xvb2t1cChzdHJ1Y3QgZHJtX2ZpbGUgKmZpbHAsIHZvaWQg
-X191c2VyICpib19oYW5kbGVzLAo+ID4gPiA+ICtpbnQgZHJtX2dlbV9vYmplY3RzX2xvb2t1cChz
-dHJ1Y3QgZHJtX2ZpbGUgKmZpbHAsIHUzMiAqYm9faGFuZGxlcywKPiA+ID4gPiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICBpbnQgY291bnQsIHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqKipvYmpz
-X291dCkKPiA+ID4KPiA+ID4gRWl0aGVyIHNwbGl0IGludG8gZHJtX2dlbV9vYmplY3RzX2xvb2t1
-cCgpIGFuZCBhCj4gPiA+IGRybV9nZW1fb2JqZWN0c19sb29rdXBfdXNlcigpIHdpdGggdGhlIGxh
-dHRlciBjYWxsaW5nIHRoZSBmb3JtZXIgb3IKPiA+ID4ganVzdCBtYWtlIHRoZSBoZWxwZXIgdGFr
-ZSBib3RoIGEgdXNlciBhbmQgdTMyKiBwdHIgd2l0aCB0aGUKPiA+ID4gZXhwZWN0YXRpb24gdGhh
-dCBvbmx5IG9uZSBvZiB0aGVtIGlzIG5vbi1OVUxMLgo+ID4gPgo+ID4gT0ssIEkgcHJlZmVyIHRo
-ZSBmaXJzdCB3YXksIHdpbGwgc2VuZCB2MiBmb3IgaXQuCj4KPiBOb3RlIHRoYXQgaG9wZWZ1bGx5
-IHNvb24gKENocmlzdGlhbiBLw7ZuaWcgaXMgd29ya2luZyBvbiBpdCkgd2UnbGwgaGF2ZQo+IHd3
-X211dGV4IGxvY2tpbmcgaGVscGVycywgd2hpY2ggd2lsbCBpbnRyb2R1Y2UgYSBkcm1fZ2VtX29w
-ZXJhdGlvbl9jdHguCj4gT25jZSB3ZSBoYXZlIHRoYXQgSSB0aGluayB3ZSBjYW4gdW5pZnkgYSBs
-b3Qgb2YgdGhlc2UgaGVscGVycyAoR2VyZAo+IEhvZmZtYW5uIGhhcyBsb29rZWQgaW50byBpdCkg
-YWxsIHdoaWxlIG1ha2luZyB0aGVtIG1vcmUgZmxleGlibGUgKGkuZS4gbm90Cj4gb25seSB3b3Jr
-cyB3aXRoIGFycmF5cykuIFNvIG1pZ2h0IGJlIHdvcnRoIHRvIGNvb3JkaW5hdGUgYSBiaXQgaGVy
-ZSwgYW5kCj4gbWF5YmUgaG9sZCBvZmYgb24ganVzdCB0aGlzIHBhcnQgZm9yIGxpbWEgZm9yIGEg
-Yml0LgoKSSBkb24ndCBrbm93IHRoZSBjb250ZXh0IG9mIHRoZXNlIHdvcmtzLCBzbyBJIHRoaW5r
-IEknZCBiZXR0ZXIgd2FpdCBzb21lIHRpbWUKZm9yIHRoZSBuZXcgaW50ZXJmYWNlIGFuZCBzZW5k
-IHRoZSByZXN0IG9mIGxpbWEgcGF0Y2hlcyBhcyB2NC4KClRoYW5rcywKUWlhbmcKCj4gLURhbmll
-bAo+IC0tCj4gRGFuaWVsIFZldHRlcgo+IFNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3Jh
-dGlvbgo+IGh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbA==
+--===============1544103332==
+Content-Type: multipart/signed; boundary="Sig_/tve78WH0Gamrq1gOajK=ZLX";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/tve78WH0Gamrq1gOajK=ZLX
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi all,
+
+After merging the tip tree, today's linux-next build (x86_64 allmodconfig)
+failed like this:
+
+drivers/gpu/drm/i915/gt/intel_gt_pm.c: In function 'intel_gt_resume':
+drivers/gpu/drm/i915/gt/intel_gt_pm.c:183:54: error: macro "mutex_release" =
+passed 3 arguments, but takes just 2
+  183 |    mutex_release(&ce->pin_mutex.dep_map, 0, _THIS_IP_);
+      |                                                      ^
+In file included from include/linux/spinlock_types.h:18,
+                 from include/linux/spinlock.h:83,
+                 from include/linux/mmzone.h:8,
+                 from include/linux/gfp.h:6,
+                 from include/linux/slab.h:15,
+                 from include/linux/io-mapping.h:10,
+                 from drivers/gpu/drm/i915/i915_drv.h:36,
+                 from drivers/gpu/drm/i915/gt/intel_gt_pm.c:7:
+include/linux/lockdep.h:605: note: macro "mutex_release" defined here
+  605 | #define mutex_release(l, i)   lock_release(l, i)
+      |=20
+drivers/gpu/drm/i915/gt/intel_lrc.c: In function '__context_pin_release':
+drivers/gpu/drm/i915/gt/intel_lrc.c:245:51: error: macro "mutex_release" pa=
+ssed 3 arguments, but takes just 2
+  245 |  mutex_release(&ce->pin_mutex.dep_map, 0, _RET_IP_);
+      |                                                   ^
+In file included from include/linux/hardirq.h:6,
+                 from include/linux/interrupt.h:11,
+                 from drivers/gpu/drm/i915/gt/intel_lrc.c:134:
+include/linux/lockdep.h:605: note: macro "mutex_release" defined here
+  605 | #define mutex_release(l, i)   lock_release(l, i)
+      |=20
+
+Caused by commit
+
+  5facae4f3549 ("locking/lockdep: Remove unused @nested argument from lock_=
+release()")
+
+interacting with commits
+
+  dffa8feb3084 ("drm/i915/perf: Assert locking for i915_init_oa_perf_state(=
+)")
+  fcde8c7eea60 ("drm/i915/selftests: Exercise potential false lite-restore")
+  b1e3177bd1d8 ("drm/i915: Coordinate i915_active with its own mutex")
+
+from the drm tree.
+
+I added the following merge fix patch for today:
+
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Thu, 10 Oct 2019 13:08:43 +1100
+Subject: [PATCH] drm/i915: update for mutex_release API change
+
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+---
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c | 2 +-
+ drivers/gpu/drm/i915/gt/intel_lrc.c   | 2 +-
+ drivers/gpu/drm/i915/i915_active.c    | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/g=
+t/intel_gt_pm.c
+index b52e2ba3d092..d195e05a701f 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+@@ -180,7 +180,7 @@ int intel_gt_resume(struct intel_gt *gt)
+ 			GEM_BUG_ON(!intel_context_is_pinned(ce));
+ 			mutex_acquire(&ce->pin_mutex.dep_map, 0, 0, _THIS_IP_);
+ 			ce->ops->reset(ce);
+-			mutex_release(&ce->pin_mutex.dep_map, 0, _THIS_IP_);
++			mutex_release(&ce->pin_mutex.dep_map, _THIS_IP_);
+ 		}
+=20
+ 		engine->serial++; /* kernel context lost */
+diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/=
+intel_lrc.c
+index a2155d6bcdd2..aa61b0101bf8 100644
+--- a/drivers/gpu/drm/i915/gt/intel_lrc.c
++++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
+@@ -242,7 +242,7 @@ static void __context_pin_acquire(struct intel_context =
+*ce)
+=20
+ static void __context_pin_release(struct intel_context *ce)
+ {
+-	mutex_release(&ce->pin_mutex.dep_map, 0, _RET_IP_);
++	mutex_release(&ce->pin_mutex.dep_map, _RET_IP_);
+ }
+=20
+ static void mark_eio(struct i915_request *rq)
+diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915=
+_active.c
+index aa37c07004b9..a47387174434 100644
+--- a/drivers/gpu/drm/i915/i915_active.c
++++ b/drivers/gpu/drm/i915/i915_active.c
+@@ -385,7 +385,7 @@ void i915_active_set_exclusive(struct i915_active *ref,=
+ struct dma_fence *f)
+ 	mutex_acquire(&ref->mutex.dep_map, 0, 0, _THIS_IP_);
+ 	if (!__i915_active_fence_set(&ref->excl, f))
+ 		atomic_inc(&ref->count);
+-	mutex_release(&ref->mutex.dep_map, 0, _THIS_IP_);
++	mutex_release(&ref->mutex.dep_map, _THIS_IP_);
+ }
+=20
+ bool i915_active_acquire_if_busy(struct i915_active *ref)
+--=20
+2.23.0
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/tve78WH0Gamrq1gOajK=ZLX
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl2elBgACgkQAVBC80lX
+0Gw2egf/Y4FgkdtrPAbnehtM6s8zKblYjS1EPTxKNIG06WFjRhtl1bJJBJ+/2ush
+fXn3h+p06DWXyvvQmohuHtuwljf13Ratu9ao118WXWwIObmkTTSo4Uh+W3QZOXCb
+kr/UB+6oZE7n5UtzHg4zi1KtKPL5e1XpHd7xfpF4UoWkllnf3IDCsdz81JZqINlj
+uKspqQ4YfZpfRO86a9JDS0thNztxiv+T9AZc9P/32mujz/I7NCCI219j+7S2qYv/
+HfNdWh9+DqNirqPjpFLza7VzonkwDiIxuyCBq2WUpgxPQtgcxQayOXU3Sw1y/wEB
+4XLB1K8QlUdvDB8OjLqtqTRIur9N3w==
+=FtTq
+-----END PGP SIGNATURE-----
+
+--Sig_/tve78WH0Gamrq1gOajK=ZLX--
+
+--===============1544103332==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1544103332==--
