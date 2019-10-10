@@ -2,24 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3665ED295E
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2019 14:19:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CE81D2960
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2019 14:19:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6A526EB1A;
-	Thu, 10 Oct 2019 12:18:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A3A56EAEC;
+	Thu, 10 Oct 2019 12:19:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 32E146EB19
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2019 12:18:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8F3806EAEC
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2019 12:19:16 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 2F067729DA; Thu, 10 Oct 2019 12:18:57 +0000 (UTC)
+ id 8B9277296E; Thu, 10 Oct 2019 12:19:16 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111932] driconf: TypeError: cannot concatenate 'str' and 'int'
- objects
-Date: Thu, 10 Oct 2019 12:18:57 +0000
+Subject: [Bug 111933] driconf-0.9.1-r2 - assert iter or allowNone
+Date: Thu, 10 Oct 2019 12:19:16 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -35,9 +34,9 @@ X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_file_loc
-Message-ID: <bug-111932-502-uUGLetDXN7@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111932-502@http.bugs.freedesktop.org/>
-References: <bug-111932-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111933-502-KKuQOoXlz3@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111933-502@http.bugs.freedesktop.org/>
+References: <bug-111933-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,39 +52,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1047756520=="
+Content-Type: multipart/mixed; boundary="===============1974430062=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1047756520==
-Content-Type: multipart/alternative; boundary="15707099371.70D860.1101"
+--===============1974430062==
+Content-Type: multipart/alternative; boundary="15707099560.c36bbB5.1066"
 Content-Transfer-Encoding: 7bit
 
 
---15707099371.70D860.1101
-Date: Thu, 10 Oct 2019 12:18:57 +0000
+--15707099560.c36bbB5.1066
+Date: Thu, 10 Oct 2019 12:19:16 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111932
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111933
 
 mmokrejs@fold.natur.cuni.cz <mmokrejs@gmail.com> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
                 URL|                            |https://sourceforge.net/p/d
-                   |                            |riconf/bugs/6/
+                   |                            |riconf/bugs/7/
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15707099371.70D860.1101
-Date: Thu, 10 Oct 2019 12:18:57 +0000
+--15707099560.c36bbB5.1066
+Date: Thu, 10 Oct 2019 12:19:16 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -102,10 +101,9 @@ ail.com&gt;"> <span class=3D"fn">mmokrejs&#64;fold.natur.cuni.cz</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - driconf: TypeError: cannot concatenate 'str'=
- and 'int' objects"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111932">bug 11193=
-2</a>
+   title=3D"RESOLVED INVALID - driconf-0.9.1-r2 - assert iter or allowNone"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111933">bug 11193=
+3</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -119,7 +117,7 @@ ail.com&gt;"> <span class=3D"fn">mmokrejs&#64;fold.natur.cuni.cz</span></a>
            <td>
                &nbsp;
            </td>
-           <td>https://sourceforge.net/p/driconf/bugs/6/
+           <td>https://sourceforge.net/p/driconf/bugs/7/
            </td>
          </tr></table>
       <p>
@@ -135,9 +133,9 @@ ail.com&gt;"> <span class=3D"fn">mmokrejs&#64;fold.natur.cuni.cz</span></a>
     </body>
 </html>=
 
---15707099371.70D860.1101--
+--15707099560.c36bbB5.1066--
 
---===============1047756520==
+--===============1974430062==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -147,4 +145,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1047756520==--
+--===============1974430062==--
