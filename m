@@ -2,35 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 797CFD27BA
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2019 13:07:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22EEFD27E7
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2019 13:23:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D12566EAFB;
-	Thu, 10 Oct 2019 11:07:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE33B6EAFF;
+	Thu, 10 Oct 2019 11:23:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 315396EAF9;
- Thu, 10 Oct 2019 11:07:01 +0000 (UTC)
-Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6B103206A1;
- Thu, 10 Oct 2019 11:07:00 +0000 (UTC)
-Date: Thu, 10 Oct 2019 12:51:37 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20191010105137.j6juxht5dsobgxph@gilmour>
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D32536EAFF
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2019 11:23:37 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 46ppcL5t44z9sPL;
+ Thu, 10 Oct 2019 22:23:30 +1100 (AEDT)
+Date: Thu, 10 Oct 2019 22:23:21 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Ingo Molnar <mingo@kernel.org>
+Subject: Re: linux-next: build failure after merge of the tip tree
+Message-ID: <20191010222210.1365d50b@canb.auug.org.au>
+In-Reply-To: <20191010080207.GA22099@gmail.com>
+References: <20191010131448.482da2b2@canb.auug.org.au>
+ <20191010080207.GA22099@gmail.com>
 MIME-Version: 1.0
-User-Agent: NeoMutt/20180716
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1570705620;
- bh=XIXoGht5sAkYqNe6zJvv60n25EPc7Wgsn4jWbF/FKuc=;
- h=Date:From:To:Cc:Subject:From;
- b=c9q3fGK8SdbMUgKefRjFZPyI9lHzXF1pSZz/RNPloZZLVMc99ywffcKdpf/V4sgTy
- n32VExRkIHBX+RnlM7HwiWTizcPJ6td6v9mhuJCk/MC8TgnEg3HXx9J1zeHDZlkboD
- nCOcYuI/DqU7Ixh8ZpEzTdwULkDwxNzdcAuXmaAo=
+ d=canb.auug.org.au; s=201702; t=1570706615;
+ bh=SKvuq9XCZSxjTmAESVOMU/T/c3K6J/ZB921ZjzgPyK8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=gArhLL17y49ll02VycRXfx2H0amayp6lE4CpKDGv/uf94p+05FRR+ILB9oru1h2Ms
+ l4o83nNWJQJO81H9oaTIKzA/rXVrlNh8v+pmOn63t/hhqOzuiWNnfApBX2vg6HOB1+
+ Nca+/j/U9XmEf/f+e+CGncdo9MbPGVX5IVn37HQywUQaGfosqhJLwHbgq+wO6dd9Ly
+ pgqLv/cGngabnX/dCr+iCXEVV50YU+jfLs36QGMhB0l106wCCWYiUW86euMM9ar1Zu
+ 2eUIRbuFMr/eb80KnXrhZKhk72I59fS8cmHFbLbu3rL859Jdt/Hjf51xt4AqCqfmAC
+ G//cs8IN7Ar+g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -43,85 +49,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0961828470=="
+Cc: Peter Zijlstra <peterz@infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>, Dave Airlie <airlied@linux.ie>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>, Qian Cai <cai@lca.pw>,
+ "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@elte.hu>
+Content-Type: multipart/mixed; boundary="===============1665344316=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--===============1665344316==
+Content-Type: multipart/signed; boundary="Sig_/R2lbok_WC7n/wPBSA32mK._";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
---===============0961828470==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="qltvgbtpm3xthqog"
-Content-Disposition: inline
+--Sig_/R2lbok_WC7n/wPBSA32mK._
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
+Hi Ingo,
 
---qltvgbtpm3xthqog
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Thu, 10 Oct 2019 10:02:07 +0200 Ingo Molnar <mingo@kernel.org> wrote:
+>
+> I suspect -next will have to carry this semantic merge conflict=20
+> resolution until the DRM tree is merged upstream.
 
-Hi Dave, Daniel,
+Yep, its not a real problem, I get a few like this every cycle.
 
-Here's this week drm-misc-fixes PR, dealing mostly with SPI probing
-related issues.
+--=20
+Cheers,
+Stephen Rothwell
 
-Maxime
-
-drm-misc-fixes-2019-10-10:
-Short summary of fixes pull (less than what git shortlog provides):
-- SPI Aliases fixes for panels
-- One fix for the tc358767 bridge dealing with visual artifacts
-The following changes since commit b6559bf3ac32acfe34e17c73d68581e7f7415785:
-
-  Merge drm-misc-next-fixes-2019-10-02 into drm-misc-fixes (2019-10-03 10:00:13 +0200)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2019-10-10
-
-for you to fetch changes up to fd70c7755bf0172ddd33b558aef69c322de3b5cf:
-
-  drm/bridge: tc358767: fix max_tu_symbol value (2019-10-10 11:15:45 +0200)
-
-----------------------------------------------------------------
-Short summary of fixes pull (less than what git shortlog provides):
-- SPI Aliases fixes for panels
-- One fix for the tc358767 bridge dealing with visual artifacts
-
-----------------------------------------------------------------
-Laurent Pinchart (5):
-      drm/panel: lg-lb035q02: Fix SPI alias
-      drm/panel: nec-nl8048hl11: Fix SPI alias
-      drm/panel: sony-acx565akm: Fix SPI alias
-      drm/panel: tpo-td028ttec1: Fix SPI alias
-      drm/panel: tpo-td043mtea1: Fix SPI alias
-
-Tomi Valkeinen (1):
-      drm/bridge: tc358767: fix max_tu_symbol value
-
- drivers/gpu/drm/bridge/tc358767.c            | 7 ++++++-
- drivers/gpu/drm/panel/panel-lg-lb035q02.c    | 9 ++++++++-
- drivers/gpu/drm/panel/panel-nec-nl8048hl11.c | 9 ++++++++-
- drivers/gpu/drm/panel/panel-sony-acx565akm.c | 9 ++++++++-
- drivers/gpu/drm/panel/panel-tpo-td028ttec1.c | 3 +--
- drivers/gpu/drm/panel/panel-tpo-td043mtea1.c | 9 ++++++++-
- 6 files changed, 39 insertions(+), 7 deletions(-)
-
---qltvgbtpm3xthqog
-Content-Type: application/pgp-signature; name="signature.asc"
+--Sig_/R2lbok_WC7n/wPBSA32mK._
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXZ8NOQAKCRDj7w1vZxhR
-xXzTAPwPco7KW0PYaAHi0RfRrD5AAZcjhDcGL3s2gCz5d2DkzQEA7NoRN9dHqSo4
-a6Es/Oi+gpwslvGiKZgCJwS766TPkws=
-=u4qv
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl2fFKkACgkQAVBC80lX
+0Gxk2Qf+O7qxMGH0AbcdDkqDOFIScBIa9xy0yrxppIhsVr6Q9Pv9EzY0BsJ4Dabh
+diDN+NEj1/JMU22gVBUCHqoPjWcFHPGp83PZX8VEC2Sherq54a3ModGTkx7ydgTa
+TV4x3ZJoRNGrjbEqaGwwRav8HrNu4cg3EMi6schpiSfyAX3CgQGD42s/ciOKDSUS
+klcFr1/1ct579cXMmQS+CU0OKfGDmYKNSXFHGRe8o1IPXFFAT9HlRl4qp9RIq4PK
+A6l3b4nhwoeJlkQq/nnOmmgTsYCCxmMAl6qfLiC3zXd4P7e3dQj/kYs2PMlrO8or
+0MfJW72cLArYva06fCV/BrOyWNVIcQ==
+=pG6L
 -----END PGP SIGNATURE-----
 
---qltvgbtpm3xthqog--
+--Sig_/R2lbok_WC7n/wPBSA32mK._--
 
---===============0961828470==
+--===============1665344316==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -131,4 +108,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0961828470==--
+--===============1665344316==--
