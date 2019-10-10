@@ -1,34 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97CD2D399E
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2019 08:49:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 326FDD3994
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2019 08:48:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 042966EBBA;
-	Fri, 11 Oct 2019 06:48:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40AEB6EBA7;
+	Fri, 11 Oct 2019 06:48:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3413F6E22C
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2019 11:52:49 +0000 (UTC)
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 0A6F3BE7D10C9D4D2960;
- Thu, 10 Oct 2019 19:52:46 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
- 14.3.439.0; Thu, 10 Oct 2019 19:52:37 +0800
-From: YueHaibing <yuehaibing@huawei.com>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Haneen Mohammed
- <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, David Airlie
- <airlied@linux.ie>
-Subject: [PATCH -next] drm/vkms: Remove duplicated include from vkms_drv.c
-Date: Thu, 10 Oct 2019 11:52:13 +0000
-Message-ID: <20191010115213.115706-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.20.1
+Received: from muru.com (muru.com [72.249.23.125])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A9CB36EB38
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2019 13:24:11 +0000 (UTC)
+Received: from atomide.com (localhost [127.0.0.1])
+ by muru.com (Postfix) with ESMTPS id 565B580BB;
+ Thu, 10 Oct 2019 13:24:44 +0000 (UTC)
+Date: Thu, 10 Oct 2019 06:24:07 -0700
+From: Tony Lindgren <tony@atomide.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCHv2 7/7] drm/omap: hdmi4: fix use of uninitialized var
+Message-ID: <20191010132407.GS5610@atomide.com>
+References: <20190930103840.18970-1-tomi.valkeinen@ti.com>
+ <20190930103840.18970-8-tomi.valkeinen@ti.com>
+ <20191008141335.GB5610@atomide.com>
+ <ffb498fb-5041-d3e9-2702-879f3d389adf@ti.com>
+ <20191008142153.GD5610@atomide.com>
+ <59381248-5ded-7ea9-40a6-cbfb58a3c5b1@ti.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.175.113.25]
-X-CFilter-Loop: Reflected
+Content-Disposition: inline
+In-Reply-To: <59381248-5ded-7ea9-40a6-cbfb58a3c5b1@ti.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-Mailman-Approved-At: Fri, 11 Oct 2019 06:48:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -42,24 +43,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, YueHaibing <yuehaibing@huawei.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-omap@vger.kernel.org, Jyri Sarha <jsarha@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UmVtb3ZlIGR1cGxpY2F0ZWQgaW5jbHVkZS4KClNpZ25lZC1vZmYtYnk6IFl1ZUhhaWJpbmcgPHl1
-ZWhhaWJpbmdAaHVhd2VpLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vdmttcy92a21zX2Rydi5j
-IHwgMSAtCiAxIGZpbGUgY2hhbmdlZCwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS92a21zL3ZrbXNfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vdmttcy92a21zX2Ry
-di5jCmluZGV4IDU0NzAzNDYzZDk2Ni4uZDFmZTE0NGFhMjg5IDEwMDY0NAotLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vdmttcy92a21zX2Rydi5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS92a21zL3ZrbXNf
-ZHJ2LmMKQEAgLTE5LDcgKzE5LDYgQEAKICNpbmNsdWRlIDxkcm0vZHJtX2Rydi5oPgogI2luY2x1
-ZGUgPGRybS9kcm1fZmJfaGVscGVyLmg+CiAjaW5jbHVkZSA8ZHJtL2RybV9maWxlLmg+Ci0jaW5j
-bHVkZSA8ZHJtL2RybV9nZW0uaD4KICNpbmNsdWRlIDxkcm0vZHJtX2dlbV9mcmFtZWJ1ZmZlcl9o
-ZWxwZXIuaD4KICNpbmNsdWRlIDxkcm0vZHJtX2lvY3RsLmg+CiAjaW5jbHVkZSA8ZHJtL2RybV9w
-cm9iZV9oZWxwZXIuaD4KCgoKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWw=
+KiBUb21pIFZhbGtlaW5lbiA8dG9taS52YWxrZWluZW5AdGkuY29tPiBbMTkxMDEwIDA2OjQ4XToK
+PiBPbiAwOC8xMC8yMDE5IDE3OjIxLCBUb255IExpbmRncmVuIHdyb3RlOgo+ID4gKiBUb21pIFZh
+bGtlaW5lbiA8dG9taS52YWxrZWluZW5AdGkuY29tPiBbMTkxMDA4IDE0OjE3XToKPiA+ID4gT24g
+MDgvMTAvMjAxOSAxNzoxMywgVG9ueSBMaW5kZ3JlbiB3cm90ZToKPiA+ID4gPiAqIFRvbWkgVmFs
+a2VpbmVuIDx0b21pLnZhbGtlaW5lbkB0aS5jb20+IFsxOTA5MzAgMTA6MzhdOgo+ID4gPiA+ID4g
+SWYgdXNlX21jbGsgaXMgZmFsc2UsIG1jbGtfbW9kZSBpcyB3cml0dGVuIHRvIGEgcmVnaXN0ZXIg
+d2l0aG91dAo+ID4gPiA+ID4gaW5pdGlhbGl6YXRpb24uIFRoaXMgZG9lc24ndCBjYXVzZSBhbnkg
+aWxsIGVmZmVjdHMgYXMgdGhlIHdyaXR0ZW4gdmFsdWUKPiA+ID4gPiA+IGlzIG5vdCB1c2VkIHdo
+ZW4gdXNlX21jbGsgaXMgZmFsc2UuCj4gPiA+ID4gPiAKPiA+ID4gPiA+IFRvIGZpeCB0aGlzLCB3
+cml0ZSB1c2VfbWNsayBvbmx5IHdoZW4gdXNlX21jbGsgaXMgdHJ1ZS4KPiA+ID4gPiAKPiA+ID4g
+PiBIZXkgbmljZSBjYXRjaC4gQmFzZWQgb24gYSBxdWljayB0ZXN0IGxvb2tzIGxpa2UgdGhpcyBm
+aXhlcyBhbgo+ID4gPiA+IGlzc3VlIHdoZXJlIHBvd2VyIGNvbnN1bXB0aW9uIHN0YXlzIGhpZ2hl
+ciBhZnRlciB1c2luZyBIRE1JLgo+ID4gPiA+IAo+ID4gPiA+IFdvdWxkIGJlIG5pY2UgdG8gaGF2
+ZSBtZXJnZWQgaW4gdGhlIHY1LjQtcmMgc2VyaWVzOgo+ID4gPiA+IAo+ID4gPiA+IFRlc3RlZC1i
+eTogVG9ueSBMaW5kZ3JlbiA8dG9ueUBhdG9taWRlLmNvbT4KPiA+ID4gCj4gPiA+IFJlYWxseT8g
+T2ssIHdlbGwsIHRoZW4gaXQgd2FzIGEgZ29vZCByYW5kb20gZmluZCA9KS4KPiA+IAo+ID4gWWVh
+aCBzbyBpdCBzZWVtcyA6KSBFYXJsaWVyIEkgdGhvdWdodCB0aGVyZSdzIHN0aWxsIHNvbWUKPiA+
+IGNsa2N0cmwgc2V0dGluZyB3cm9uZyBhZnRlciB1c2luZyBIRE1JLCBidXQgZGlkIG5vdCBzZWUK
+PiA+IGFueXRoaW5nIGRpZmZpbmcgdGhlIGNsa2N0cmwgcmVnaXN0ZXJzIGJlZm9yZSBhbmQgYWZ0
+ZXIKPiA+IGFuZCBnYXZlIHVwLgo+ID4gCj4gPiA+IEkgZGlkIGFscmVhZHkgcHVzaCB0aGlzIHRv
+IGRybS1taXNjLW5leHQsIGFzIEkgdGhvdWdodCBpdCBkb2VzIG5vdCBoYXZlIGFueQo+ID4gPiBy
+ZWFsIGVmZmVjdC4gSSdsbCBjaGVjayBpZiBpdCdzIG9rIHRvIHB1c2ggdG8gZHJtLW1pc2MtZml4
+ZXMgdG9vLCB3aXRoIENjCj4gPiA+IHN0YWJsZS4KPiA+IAo+ID4gT0sgZ3JlYXQgdGhhbmtzLgo+
+IAo+IFB1c2hpbmcgdGhpcyB0byBmaXhlcyB0b28gd291bGQgY2F1c2UgY29uZmxpY3RzLCBzbyB3
+ZSBzaG91bGRuJ3QgcHVzaAo+IHdpdGhvdXQgZ29vZCByZWFzb24uIEhvdyBtdWNoIHBvd2VyIHNh
+dmluZyB5b3Ugc2VlPwoKU3VyZSBubyBydXNoIHdpdGggdGhpcyBvbmUuIEkgc2hvdWxkIGFsc28g
+dGVzdCBhZ2FpbiB0aGF0IGl0CnJlYWxseSBmaXhlcyB0aGUgaXNzdWUgSSdtIHNlZWluZy4KCkht
+bSBzbyB3aGF0IHJlZ2lzdGVyIGRvZXMgdGhpcyBjbG9jayBhY3R1YWxseSBjaGFuZ2U/CgpJJ20g
+c2VlaW5nIGFuIGluY3JlYXNlIG9mIGZldyB0ZW5zIG9mIGV4dHJhIG1XLCB3aGljaCBtZWFucyBh
+dApsZWFzdCBvbmUgZGF5IG9mIHN0YW5kYnkgdGltZSBsZXNzIGZvciBtZSA6KSBJdCBkb2VzIG5v
+dCBoYXBwZW4KYWx3YXlzLCBtYXliZSBoYWxmIG9mIHRoZSB0aW1lLgoKPiBJIHRoaW5rIHRoaXMg
+Y2FuIHN0aWxsIGJlIHNlbnQgdG8gc3RhYmxlIGxhdGVyLCBhZnRlciBpdCBoYXMgYmVlbiBtZXJn
+ZWQgdG8KPiBtYWlubGluZS4KClllcyBzdXJlLgoKVGhhbmtzLAoKVG9ueQpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
