@@ -1,56 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69786D274E
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2019 12:39:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 797CFD27BA
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2019 13:07:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47E806EAF2;
-	Thu, 10 Oct 2019 10:39:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D12566EAFB;
+	Thu, 10 Oct 2019 11:07:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7AE76EAF2
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2019 10:39:53 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9AAdq7s004297;
- Thu, 10 Oct 2019 05:39:52 -0500
-Received: from DFLE101.ent.ti.com (dfle101.ent.ti.com [10.64.6.22])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x9AAdqIg052598
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 10 Oct 2019 05:39:52 -0500
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 10
- Oct 2019 05:39:51 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Thu, 10 Oct 2019 05:39:48 -0500
-Received: from [10.250.99.146] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9AAdoxB108033;
- Thu, 10 Oct 2019 05:39:50 -0500
-Subject: Re: [PATCH v4 0/8] drm/omap: OMAP_BO flags
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>, <airlied@linux.ie>,
- <daniel@ffwll.ch>
-References: <20191010093445.11069-1-jjhiblot@ti.com>
- <fc2c9bec-c3b8-bac2-1ec5-92a2f3b31694@ti.com>
-From: Jean-Jacques Hiblot <jjhiblot@ti.com>
-Message-ID: <831cd8a9-5f50-ae3b-7ec9-7c8b579ba315@ti.com>
-Date: Thu, 10 Oct 2019 12:39:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 315396EAF9;
+ Thu, 10 Oct 2019 11:07:01 +0000 (UTC)
+Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6B103206A1;
+ Thu, 10 Oct 2019 11:07:00 +0000 (UTC)
+Date: Thu, 10 Oct 2019 12:51:37 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20191010105137.j6juxht5dsobgxph@gilmour>
 MIME-Version: 1.0
-In-Reply-To: <fc2c9bec-c3b8-bac2-1ec5-92a2f3b31694@ti.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ti.com; s=ti-com-17Q1; t=1570703992;
- bh=UzDqO8fCb86mfGdxZvmdH/F0/4Eq3BbP0vWkAAK5sQw=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=wqsbz9XU0ypGfLpVsYOmd2/UJeVYRXl1+S/eSaH+q3eIgLguxKMw1fE+LGmF01yNP
- 1zr7KyFPS4ZI0PBG6eKvKNt+0DbmEkXP5PySYis50OgHXLX8kUVTAN29/xkS/ovlqW
- PrUy3CZSJumMfRedjcpBiKNTJLAdfo/VBL1SjogM=
+User-Agent: NeoMutt/20180716
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1570705620;
+ bh=XIXoGht5sAkYqNe6zJvv60n25EPc7Wgsn4jWbF/FKuc=;
+ h=Date:From:To:Cc:Subject:From;
+ b=c9q3fGK8SdbMUgKefRjFZPyI9lHzXF1pSZz/RNPloZZLVMc99ywffcKdpf/V4sgTy
+ n32VExRkIHBX+RnlM7HwiWTizcPJ6td6v9mhuJCk/MC8TgnEg3HXx9J1zeHDZlkboD
+ nCOcYuI/DqU7Ixh8ZpEzTdwULkDwxNzdcAuXmaAo=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,37 +43,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jsarha@ti.com, dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0961828470=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDEwLzEwLzIwMTkgMTE6NDUsIFRvbWkgVmFsa2VpbmVuIHdyb3RlOgo+IEhpIEpKLAo+Cj4g
-T24gMTAvMTAvMjAxOSAxMjozNCwgSmVhbi1KYWNxdWVzIEhpYmxvdCB3cm90ZToKPj4gQSBmaXJz
-dCB2ZXJzaW9uIG9mIHRoaXMgd29yayBoYWQgYmVlbiBzZW50IGJ5IFRvbWkgVmFsa2VpbmVuIGlu
-IG1heSAyMDE3Cj4+IChodHRwczovL3d3dy5zcGluaWNzLm5ldC9saXN0cy9kcmktZGV2ZWwvbXNn
-MTQwNjYzLmh0bWwpLgo+Pgo+PiBUaGlzIHNlcmllcyBhZGRzIGEgZmV3IG5ldyBPTUFQX0JPIGZs
-YWdzIHRvIGhlbHAgdGhlIHVzZXJzcGFjZSBtYW5hZ2UKPj4gc2l0dWF0aW9ucyB3aGVyZSBpdCBu
-ZWVkcyB0byB1c2UgbG90cyBvZiBidWZmZXJzLCBhbmQgd291bGQgY3VycmVudGx5IAo+PiBydW4K
-Pj4gb3V0IG9mIFRJTEVSIHNwYWNlLiBUaGUgVElMRVIgc3BhY2UgaXMgbGltaXRlZCB0byBtYXBw
-aW5nIDEyOE1CIGF0IAo+PiBhbnkgZ2l2ZW4KPj4gdGltZSBhbmQgc29tZSBhcHBsaWNhdGlvbnMg
-bWlnaHQgbmVlZCBtb3JlLgo+Pgo+PiBUaGlzIHNlcmVzIGlzIGFsc28gdGhlIG9wcG9ydHVuaXR5
-IHRvIGRvIHNvbWUgY2xlYW51cCBpbiB0aGUgZmxhZ3MgYW5kCj4+IGltcHJvdmUgdGhlIGNvbW1l
-bnRzIGRlc2NyaWJpbmcgdGhlbS4KPj4KPj4gVGhlIHVzZXItc3BhY2UgcGF0Y2hlcyBmb3IgbGli
-ZHJtLCBhbHRob3VnaCByZWFkeSwgaGF2ZW4ndCBiZWVuIAo+PiBwb3N0ZWQgeWV0Lgo+PiBJdCB3
-aWxsIGJlIGJlIGRvbmUgd2hlbiB0aGlzIHNlcmllcyBoYXZlIGJlZW4gZGlzY3Vzc2VkIGFuZCBo
-b3BlZnVsbHkgaW4KPj4gdGhlIHByb2Nlc3Mgb2YgZ2V0dGluZyBtZXJnZWQuCj4+Cj4+IEpKCj4+
-Cj4+IGNoYW5nZXMgaW4gdjQ6Cj4+IC0gZml4ZWQgaW5jcmVtZW50YWwgYnVpbGQgaXNzdWUgaW50
-cm9kdWNlZCBieSBwYXRjaCAjMSBhbmQgbGF0ZXIgCj4+IGZpeGVkIGJ5Cj4+IMKgwqAgcGF0Y2gg
-IzIuCj4+IC0gQWRkZWQgbXkgcmV2aWV3ZWQtYnkgdG8gVG9taXMncyBwYXRjaAo+Cj4gVGhpcyBk
-b2Vzbid0IGNvbXBpbGUgb24gdG9wIG9mIDUuNCBhcyB0aGUgbGFzdCBwYXRjaCBpcyB1c2luZyAK
-PiBkbWFfZnJlZV93cml0ZWNvbWJpbmUgaW5zdGVhZCBvZiBkbWFfZnJlZV93Yy4gSW4gdjMsIGl0
-IHdhcyBjb3JyZWN0LCAKPiBidXQgdGhlIGNoYW5nZW5vdGVzIGRvbid0IG1lbnRpb24gdGhlIGNo
-YW5nZS4KPgo+IFdhcyB0aGVyZSBzb21lIG1peCB1cD8gV2hhdCBrZXJuZWwgYXJlIHlvdXIgcGF0
-Y2hlcyBiYXNlZCBvbj8KClllcyBJIHJ1c2hlZCBhbiB0aGVuIGdvdCB0aGluZ3MgbWl4ZWQgdXAs
-IGRvaW5nIG90aGVyIHN0dWZmIGluIHBhcmFsbGVsLiAKU29ycnkgYWJvdXQgdGhhdC4KCkV4cGVj
-dCBhIGZpeGVkIHZlcnNpb24gYmFzZWQgb24gdjUuNC1yYzIgc29vbi4KCkpKCgoKPgo+IMKgVG9t
-aQo+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0961828470==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="qltvgbtpm3xthqog"
+Content-Disposition: inline
+
+
+--qltvgbtpm3xthqog
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Dave, Daniel,
+
+Here's this week drm-misc-fixes PR, dealing mostly with SPI probing
+related issues.
+
+Maxime
+
+drm-misc-fixes-2019-10-10:
+Short summary of fixes pull (less than what git shortlog provides):
+- SPI Aliases fixes for panels
+- One fix for the tc358767 bridge dealing with visual artifacts
+The following changes since commit b6559bf3ac32acfe34e17c73d68581e7f7415785:
+
+  Merge drm-misc-next-fixes-2019-10-02 into drm-misc-fixes (2019-10-03 10:00:13 +0200)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2019-10-10
+
+for you to fetch changes up to fd70c7755bf0172ddd33b558aef69c322de3b5cf:
+
+  drm/bridge: tc358767: fix max_tu_symbol value (2019-10-10 11:15:45 +0200)
+
+----------------------------------------------------------------
+Short summary of fixes pull (less than what git shortlog provides):
+- SPI Aliases fixes for panels
+- One fix for the tc358767 bridge dealing with visual artifacts
+
+----------------------------------------------------------------
+Laurent Pinchart (5):
+      drm/panel: lg-lb035q02: Fix SPI alias
+      drm/panel: nec-nl8048hl11: Fix SPI alias
+      drm/panel: sony-acx565akm: Fix SPI alias
+      drm/panel: tpo-td028ttec1: Fix SPI alias
+      drm/panel: tpo-td043mtea1: Fix SPI alias
+
+Tomi Valkeinen (1):
+      drm/bridge: tc358767: fix max_tu_symbol value
+
+ drivers/gpu/drm/bridge/tc358767.c            | 7 ++++++-
+ drivers/gpu/drm/panel/panel-lg-lb035q02.c    | 9 ++++++++-
+ drivers/gpu/drm/panel/panel-nec-nl8048hl11.c | 9 ++++++++-
+ drivers/gpu/drm/panel/panel-sony-acx565akm.c | 9 ++++++++-
+ drivers/gpu/drm/panel/panel-tpo-td028ttec1.c | 3 +--
+ drivers/gpu/drm/panel/panel-tpo-td043mtea1.c | 9 ++++++++-
+ 6 files changed, 39 insertions(+), 7 deletions(-)
+
+--qltvgbtpm3xthqog
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXZ8NOQAKCRDj7w1vZxhR
+xXzTAPwPco7KW0PYaAHi0RfRrD5AAZcjhDcGL3s2gCz5d2DkzQEA7NoRN9dHqSo4
+a6Es/Oi+gpwslvGiKZgCJwS766TPkws=
+=u4qv
+-----END PGP SIGNATURE-----
+
+--qltvgbtpm3xthqog--
+
+--===============0961828470==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0961828470==--
