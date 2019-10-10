@@ -1,46 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06102D2068
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2019 07:43:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5781DD2083
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2019 07:49:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E68276EA8D;
-	Thu, 10 Oct 2019 05:43:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 597996EA92;
+	Thu, 10 Oct 2019 05:49:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id BBE406EA8D
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2019 05:43:54 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B66D272162; Thu, 10 Oct 2019 05:43:54 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111506] [amdgpu] VRR/Freesync below the range (LFC) flickering
- (5700 XT)
-Date: Thu, 10 Oct 2019 05:43:54 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: not set
-X-Bugzilla-Who: asheldon55@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111506-502-R2zN31JFb9@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111506-502@http.bugs.freedesktop.org/>
-References: <bug-111506-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 233086EA92
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2019 05:49:26 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 371DB2A09A3;
+ Thu, 10 Oct 2019 05:49:25 +0000 (UTC)
+Received: from [10.72.12.46] (ovpn-12-46.pek2.redhat.com [10.72.12.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 69C6D600C4;
+ Thu, 10 Oct 2019 05:49:18 +0000 (UTC)
+Subject: Re: [PATCH 07/11] vhost: convert vhost_umem_interval_tree to half
+ closed intervals
+To: Davidlohr Bueso <dave@stgolabs.net>, akpm@linux-foundation.org
+References: <20191003201858.11666-1-dave@stgolabs.net>
+ <20191003201858.11666-8-dave@stgolabs.net>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <294467e3-5545-9a76-a975-4798f096ac4b@redhat.com>
+Date: Thu, 10 Oct 2019 13:49:17 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20191003201858.11666-8-dave@stgolabs.net>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Thu, 10 Oct 2019 05:49:25 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,97 +49,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1084322844=="
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, peterz@infradead.org,
+ Davidlohr Bueso <dbueso@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linux-mm@kvack.org, walken@google.com, linux-rdma@vger.kernel.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1084322844==
-Content-Type: multipart/alternative; boundary="15706862341.4fD2C7f57.30761"
-Content-Transfer-Encoding: 7bit
-
-
---15706862341.4fD2C7f57.30761
-Date: Thu, 10 Oct 2019 05:43:54 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111506
-
---- Comment #2 from Andrew Sheldon <asheldon55@gmail.com> ---
-Looks to be fixed by commit 109b3e3e13507ad0908ff00bc7eb759ed41b88be
-
-drm/amd/display: Improve LFC behaviour
-
-It now smoothly transitions between LFC and VRR without flickering.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15706862341.4fD2C7f57.30761
-Date: Thu, 10 Oct 2019 05:43:54 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [amdgpu] VRR/Freesync below the range (LFC) flickering (5=
-700 XT)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111506#c2">Commen=
-t # 2</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [amdgpu] VRR/Freesync below the range (LFC) flickering (5=
-700 XT)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111506">bug 11150=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-asheldon55&#64;gmail.com" title=3D"Andrew Sheldon &lt;asheldon55&#64;gmail.=
-com&gt;"> <span class=3D"fn">Andrew Sheldon</span></a>
-</span></b>
-        <pre>Looks to be fixed by commit 109b3e3e13507ad0908ff00bc7eb759ed4=
-1b88be
-
-drm/amd/display: Improve LFC behaviour
-
-It now smoothly transitions between LFC and VRR without flickering.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15706862341.4fD2C7f57.30761--
-
---===============1084322844==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1084322844==--
+Ck9uIDIwMTkvMTAvNCDkuIrljYg0OjE4LCBEYXZpZGxvaHIgQnVlc28gd3JvdGU6Cj4gVGhlIHZo
+b3N0X3VtZW0gaW50ZXJ2YWwgdHJlZSByZWFsbHkgd2FudHMgW2EsIGIpIGludGVydmFscywKPiBu
+b3QgZnVsbHkgY2xvc2VkIGFzIGN1cnJlbnRseS4gQXMgc3VjaCBjb252ZXJ0IGl0IHRvIHVzZSB0
+aGUKPiBuZXcgaW50ZXJ2YWxfdHJlZV9nZW4uaCwgYW5kIGFsc28gcmVuYW1lIHRoZSAnbGFzdCcg
+ZW5kcG9pbnQKPiBpbiB0aGUgbm9kZSB0byAnZW5kJywgd2hpY2ggYm90aCBhIG1vcmUgc3VpdGFi
+bGUgbmFtZSBmb3IKPiB0aGUgaGFsZiBjbG9zZWQgaW50ZXJ2YWwgYW5kIGFsc28gcmVkdWNlcyB0
+aGUgY2hhbmNlcyBvZiBzb21lCj4gY2FsbGVyIGJlaW5nIG1pc3NlZC4KPgo+IENjOiBNaWNoYWVs
+IFMuIFRzaXJraW4iIDxtc3RAcmVkaGF0LmNvbT4KPiBDYzogSmFzb24gV2FuZyA8amFzb3dhbmdA
+cmVkaGF0LmNvbT4KPiBDYzogdmlydHVhbGl6YXRpb25AbGlzdHMubGludXgtZm91bmRhdGlvbi5v
+cmcKPiBTaWduZWQtb2ZmLWJ5OiBEYXZpZGxvaHIgQnVlc28gPGRidWVzb0BzdXNlLmRlPgo+IC0t
+LQo+ICAgZHJpdmVycy92aG9zdC92aG9zdC5jIHwgMTkgKysrKysrKysrLS0tLS0tLS0tLQo+ICAg
+ZHJpdmVycy92aG9zdC92aG9zdC5oIHwgIDQgKystLQo+ICAgMiBmaWxlcyBjaGFuZ2VkLCAxMSBp
+bnNlcnRpb25zKCspLCAxMiBkZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3Zo
+b3N0L3Zob3N0LmMgYi9kcml2ZXJzL3Zob3N0L3Zob3N0LmMKPiBpbmRleCAzNmNhMmNmNDE5YmYu
+LjgwYzNjY2EyNGRjNyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3Zob3N0L3Zob3N0LmMKPiArKysg
+Yi9kcml2ZXJzL3Zob3N0L3Zob3N0LmMKPiBAQCAtMjgsNyArMjgsNyBAQAo+ICAgI2luY2x1ZGUg
+PGxpbnV4L3NvcnQuaD4KPiAgICNpbmNsdWRlIDxsaW51eC9zY2hlZC9tbS5oPgo+ICAgI2luY2x1
+ZGUgPGxpbnV4L3NjaGVkL3NpZ25hbC5oPgo+IC0jaW5jbHVkZSA8bGludXgvaW50ZXJ2YWxfdHJl
+ZV9nZW5lcmljLmg+Cj4gKyNpbmNsdWRlIDxsaW51eC9pbnRlcnZhbF90cmVlX2dlbi5oPgo+ICAg
+I2luY2x1ZGUgPGxpbnV4L25vc3BlYy5oPgo+ICAgCj4gICAjaW5jbHVkZSAidmhvc3QuaCIKPiBA
+QCAtNTEsNyArNTEsNyBAQCBlbnVtIHsKPiAgIAo+ICAgSU5URVJWQUxfVFJFRV9ERUZJTkUoc3Ry
+dWN0IHZob3N0X3VtZW1fbm9kZSwKPiAgIAkJICAgICByYiwgX191NjQsIF9fc3VidHJlZV9sYXN0
+LAo+IC0JCSAgICAgU1RBUlQsIExBU1QsIHN0YXRpYyBpbmxpbmUsIHZob3N0X3VtZW1faW50ZXJ2
+YWxfdHJlZSk7Cj4gKwkJICAgICBTVEFSVCwgRU5ELCBzdGF0aWMgaW5saW5lLCB2aG9zdF91bWVt
+X2ludGVydmFsX3RyZWUpOwo+ICAgCj4gICAjaWZkZWYgQ09ORklHX1ZIT1NUX0NST1NTX0VORElB
+Tl9MRUdBQ1kKPiAgIHN0YXRpYyB2b2lkIHZob3N0X2Rpc2FibGVfY3Jvc3NfZW5kaWFuKHN0cnVj
+dCB2aG9zdF92aXJ0cXVldWUgKnZxKQo+IEBAIC0xMDM0LDcgKzEwMzQsNyBAQCBzdGF0aWMgaW50
+IHZob3N0X25ld191bWVtX3JhbmdlKHN0cnVjdCB2aG9zdF91bWVtICp1bWVtLAo+ICAgCj4gICAJ
+bm9kZS0+c3RhcnQgPSBzdGFydDsKPiAgIAlub2RlLT5zaXplID0gc2l6ZTsKPiAtCW5vZGUtPmxh
+c3QgPSBlbmQ7Cj4gKwlub2RlLT5lbmQgPSBlbmQ7Cj4gICAJbm9kZS0+dXNlcnNwYWNlX2FkZHIg
+PSB1c2Vyc3BhY2VfYWRkcjsKPiAgIAlub2RlLT5wZXJtID0gcGVybTsKPiAgIAlJTklUX0xJU1Rf
+SEVBRCgmbm9kZS0+bGluayk7Cj4gQEAgLTExMTIsNyArMTExMiw3IEBAIHN0YXRpYyBpbnQgdmhv
+c3RfcHJvY2Vzc19pb3RsYl9tc2coc3RydWN0IHZob3N0X2RldiAqZGV2LAo+ICAgCQl9Cj4gICAJ
+CXZob3N0X3ZxX21ldGFfcmVzZXQoZGV2KTsKPiAgIAkJaWYgKHZob3N0X25ld191bWVtX3Jhbmdl
+KGRldi0+aW90bGIsIG1zZy0+aW92YSwgbXNnLT5zaXplLAo+IC0JCQkJCSBtc2ctPmlvdmEgKyBt
+c2ctPnNpemUgLSAxLAo+ICsJCQkJCSBtc2ctPmlvdmEgKyBtc2ctPnNpemUsCj4gICAJCQkJCSBt
+c2ctPnVhZGRyLCBtc2ctPnBlcm0pKSB7Cj4gICAJCQlyZXQgPSAtRU5PTUVNOwo+ICAgCQkJYnJl
+YWs7Cj4gQEAgLTExMjYsNyArMTEyNiw3IEBAIHN0YXRpYyBpbnQgdmhvc3RfcHJvY2Vzc19pb3Rs
+Yl9tc2coc3RydWN0IHZob3N0X2RldiAqZGV2LAo+ICAgCQl9Cj4gICAJCXZob3N0X3ZxX21ldGFf
+cmVzZXQoZGV2KTsKPiAgIAkJdmhvc3RfZGVsX3VtZW1fcmFuZ2UoZGV2LT5pb3RsYiwgbXNnLT5p
+b3ZhLAo+IC0JCQkJICAgICBtc2ctPmlvdmEgKyBtc2ctPnNpemUgLSAxKTsKPiArCQkJCSAgICAg
+bXNnLT5pb3ZhICsgbXNnLT5zaXplKTsKPiAgIAkJYnJlYWs7Cj4gICAJZGVmYXVsdDoKPiAgIAkJ
+cmV0ID0gLUVJTlZBTDsKPiBAQCAtMTMyMCwxNSArMTMyMCwxNCBAQCBzdGF0aWMgYm9vbCBpb3Rs
+Yl9hY2Nlc3Nfb2soc3RydWN0IHZob3N0X3ZpcnRxdWV1ZSAqdnEsCj4gICB7Cj4gICAJY29uc3Qg
+c3RydWN0IHZob3N0X3VtZW1fbm9kZSAqbm9kZTsKPiAgIAlzdHJ1Y3Qgdmhvc3RfdW1lbSAqdW1l
+bSA9IHZxLT5pb3RsYjsKPiAtCXU2NCBzID0gMCwgc2l6ZSwgb3JpZ19hZGRyID0gYWRkciwgbGFz
+dCA9IGFkZHIgKyBsZW4gLSAxOwo+ICsJdTY0IHMgPSAwLCBzaXplLCBvcmlnX2FkZHIgPSBhZGRy
+LCBsYXN0ID0gYWRkciArIGxlbjsKPiAgIAo+ICAgCWlmICh2aG9zdF92cV9tZXRhX2ZldGNoKHZx
+LCBhZGRyLCBsZW4sIHR5cGUpKQo+ICAgCQlyZXR1cm4gdHJ1ZTsKPiAgIAo+ICAgCXdoaWxlIChs
+ZW4gPiBzKSB7Cj4gICAJCW5vZGUgPSB2aG9zdF91bWVtX2ludGVydmFsX3RyZWVfaXRlcl9maXJz
+dCgmdW1lbS0+dW1lbV90cmVlLAo+IC0JCQkJCQkJICAgYWRkciwKPiAtCQkJCQkJCSAgIGxhc3Qp
+Owo+ICsJCQkJCQkJICAgYWRkciwgbGFzdCk7Cj4gICAJCWlmIChub2RlID09IE5VTEwgfHwgbm9k
+ZS0+c3RhcnQgPiBhZGRyKSB7Cj4gICAJCQl2aG9zdF9pb3RsYl9taXNzKHZxLCBhZGRyLCBhY2Nl
+c3MpOwo+ICAgCQkJcmV0dXJuIGZhbHNlOwo+IEBAIC0xNDU1LDcgKzE0NTQsNyBAQCBzdGF0aWMg
+bG9uZyB2aG9zdF9zZXRfbWVtb3J5KHN0cnVjdCB2aG9zdF9kZXYgKmQsIHN0cnVjdCB2aG9zdF9t
+ZW1vcnkgX191c2VyICptKQo+ICAgCQkJCQkgcmVnaW9uLT5ndWVzdF9waHlzX2FkZHIsCj4gICAJ
+CQkJCSByZWdpb24tPm1lbW9yeV9zaXplLAo+ICAgCQkJCQkgcmVnaW9uLT5ndWVzdF9waHlzX2Fk
+ZHIgKwo+IC0JCQkJCSByZWdpb24tPm1lbW9yeV9zaXplIC0gMSwKPiArCQkJCQkgcmVnaW9uLT5t
+ZW1vcnlfc2l6ZSwKPiAgIAkJCQkJIHJlZ2lvbi0+dXNlcnNwYWNlX2FkZHIsCj4gICAJCQkJCSBW
+SE9TVF9BQ0NFU1NfUlcpKQo+ICAgCQkJZ290byBlcnI7Cj4gQEAgLTIwNTUsNyArMjA1NCw3IEBA
+IHN0YXRpYyBpbnQgdHJhbnNsYXRlX2Rlc2Moc3RydWN0IHZob3N0X3ZpcnRxdWV1ZSAqdnEsIHU2
+NCBhZGRyLCB1MzIgbGVuLAo+ICAgCQl9Cj4gICAKPiAgIAkJbm9kZSA9IHZob3N0X3VtZW1faW50
+ZXJ2YWxfdHJlZV9pdGVyX2ZpcnN0KCZ1bWVtLT51bWVtX3RyZWUsCj4gLQkJCQkJCQlhZGRyLCBh
+ZGRyICsgbGVuIC0gMSk7Cj4gKwkJCQkJCQkgICBhZGRyLCBhZGRyICsgbGVuKTsKPiAgIAkJaWYg
+KG5vZGUgPT0gTlVMTCB8fCBub2RlLT5zdGFydCA+IGFkZHIpIHsKPiAgIAkJCWlmICh1bWVtICE9
+IGRldi0+aW90bGIpIHsKPiAgIAkJCQlyZXQgPSAtRUZBVUxUOwo+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL3Zob3N0L3Zob3N0LmggYi9kcml2ZXJzL3Zob3N0L3Zob3N0LmgKPiBpbmRleCBlOWVkMjcy
+MmI2MzMuLmJiMzZjYjllZDVlYyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3Zob3N0L3Zob3N0LmgK
+PiArKysgYi9kcml2ZXJzL3Zob3N0L3Zob3N0LmgKPiBAQCAtNTMsMTMgKzUzLDEzIEBAIHN0cnVj
+dCB2aG9zdF9sb2cgewo+ICAgfTsKPiAgIAo+ICAgI2RlZmluZSBTVEFSVChub2RlKSAoKG5vZGUp
+LT5zdGFydCkKPiAtI2RlZmluZSBMQVNUKG5vZGUpICgobm9kZSktPmxhc3QpCj4gKyNkZWZpbmUg
+RU5EKG5vZGUpICgobm9kZSktPmVuZCkKPiAgIAo+ICAgc3RydWN0IHZob3N0X3VtZW1fbm9kZSB7
+Cj4gICAJc3RydWN0IHJiX25vZGUgcmI7Cj4gICAJc3RydWN0IGxpc3RfaGVhZCBsaW5rOwo+ICAg
+CV9fdTY0IHN0YXJ0Owo+IC0JX191NjQgbGFzdDsKPiArCV9fdTY0IGVuZDsKPiAgIAlfX3U2NCBz
+aXplOwo+ICAgCV9fdTY0IHVzZXJzcGFjZV9hZGRyOwo+ICAgCV9fdTMyIHBlcm07CgoKUmV2aWV3
+ZWQtYnk6IEphc29uIFdhbmcgPGphc293YW5nQHJlZGhhdC5jb20+CgoKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
