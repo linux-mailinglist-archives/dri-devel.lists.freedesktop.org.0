@@ -1,45 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FFD7D2A01
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2019 14:50:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EAFED2A5E
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2019 15:07:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 936126EB27;
-	Thu, 10 Oct 2019 12:50:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B7A06EA33;
+	Thu, 10 Oct 2019 13:07:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id C166A6E369
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2019 12:50:44 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id BE1777296E; Thu, 10 Oct 2019 12:50:44 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Thu, 10 Oct 2019 12:50:44 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: reddestdream@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-YAI0CGduRl@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F69F6EA33
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2019 13:07:31 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2019 06:07:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,280,1566889200"; d="scan'208";a="193203563"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga008.fm.intel.com with SMTP; 10 Oct 2019 06:07:27 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 10 Oct 2019 16:07:26 +0300
+Date: Thu, 10 Oct 2019 16:07:26 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: Re: [PATCH] drm/plane: Clarify our expectations for src/dst rectangles
+Message-ID: <20191010130726.GF1208@intel.com>
+References: <20191010112918.15724-1-maarten.lankhorst@linux.intel.com>
+ <20191010123624.GD1208@intel.com>
+ <8c14f6fc-d6d6-9bad-9fe7-cab119e2fec2@linux.intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <8c14f6fc-d6d6-9bad-9fe7-cab119e2fec2@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,89 +48,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2098094384=="
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>, David Airlie <airlied@linux.ie>,
+ Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2098094384==
-Content-Type: multipart/alternative; boundary="15707118442.A44A.6734"
-Content-Transfer-Encoding: 7bit
-
-
---15707118442.A44A.6734
-Date: Thu, 10 Oct 2019 12:50:44 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
-
---- Comment #160 from ReddestDream <reddestdream@gmail.com> ---
-Well, today I had a hard freeze using more than one display with Radeon VII.
-Back to Radeon VII + iGPU . . . :(
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15707118442.A44A.6734
-Date: Thu, 10 Oct 2019 12:50:44 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c160">Comm=
-ent # 160</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-reddestdream&#64;gmail.com" title=3D"ReddestDream &lt;reddestdream&#64;gmai=
-l.com&gt;"> <span class=3D"fn">ReddestDream</span></a>
-</span></b>
-        <pre>Well, today I had a hard freeze using more than one display wi=
-th Radeon VII.
-Back to Radeon VII + iGPU . . . :(</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15707118442.A44A.6734--
-
---===============2098094384==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2098094384==--
+T24gVGh1LCBPY3QgMTAsIDIwMTkgYXQgMDI6NDY6MjZQTSArMDIwMCwgTWFhcnRlbiBMYW5raG9y
+c3Qgd3JvdGU6Cj4gT3AgMTAtMTAtMjAxOSBvbSAxNDozNiBzY2hyZWVmIFZpbGxlIFN5cmrDpGzD
+pDoKPiA+IE9uIFRodSwgT2N0IDEwLCAyMDE5IGF0IDAxOjI5OjE3UE0gKzAyMDAsIE1hYXJ0ZW4g
+TGFua2hvcnN0IHdyb3RlOgo+ID4+IFRoZSByZWN0YW5nbGVzIGFyZSB1c3VhbGx5IGNsaXBwZWQs
+IGJ1dCBpdCBjYW4gYmUgdXNlZnVsIHRvIGhhdmUKPiA+PiB0aGVtIHVuY2xpcHBlZCwgZm9yIGV4
+YW1wbGUgZm9yIGN1cnNvciBwbGFuZXMuCj4gPj4KPiA+PiBTaWduZWQtb2ZmLWJ5OiBNYWFydGVu
+IExhbmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwuY29tPgo+ID4+IC0tLQo+
+ID4+ICBpbmNsdWRlL2RybS9kcm1fcGxhbmUuaCB8IDIyICsrKysrKysrKysrKysrKysrKysrLS0K
+PiA+PiAgMSBmaWxlIGNoYW5nZWQsIDIwIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4g
+Pj4KPiA+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX3BsYW5lLmggYi9pbmNsdWRlL2Ry
+bS9kcm1fcGxhbmUuaAo+ID4+IGluZGV4IGNkNTkwM2FkMzNmNy4uOTRiYmJmMjE1MTAwIDEwMDY0
+NAo+ID4+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9wbGFuZS5oCj4gPj4gKysrIGIvaW5jbHVkZS9k
+cm0vZHJtX3BsYW5lLmgKPiA+PiBAQCAtMTgzLDggKzE4MywyNiBAQCBzdHJ1Y3QgZHJtX3BsYW5l
+X3N0YXRlIHsKPiA+PiAgCSAqLwo+ID4+ICAJc3RydWN0IGRybV9wcm9wZXJ0eV9ibG9iICpmYl9k
+YW1hZ2VfY2xpcHM7Cj4gPj4gIAo+ID4+IC0JLyoqIEBzcmM6IGNsaXBwZWQgc291cmNlIGNvb3Jk
+aW5hdGVzIG9mIHRoZSBwbGFuZSAoaW4gMTYuMTYpICovCj4gPj4gLQkvKiogQGRzdDogY2xpcHBl
+ZCBkZXN0aW5hdGlvbiBjb29yZGluYXRlcyBvZiB0aGUgcGxhbmUgKi8KPiA+PiArCS8qKgo+ID4+
+ICsJICogQHNyYzoKPiA+PiArCSAqCj4gPj4gKwkgKiBzb3VyY2UgY29vcmRpbmF0ZXMgb2YgdGhl
+IHBsYW5lIChpbiAxNi4xNikuCj4gPj4gKwkgKgo+ID4+ICsJICogV2hlbiB1c2luZyBkcm1fYXRv
+bWljX2hlbHBlcl9jaGVja19wbGFuZV9zdGF0ZSgpLAo+ID4+ICsJICogdGhlIGNvb3JkaW5hdGVz
+IGFyZSBjbGlwcGVkLCBidXQgdGhlIGRyaXZlciBtYXkgY2hvb3NlCj4gPj4gKwkgKiB0byB1c2Ug
+dW5jbGlwcGVkIGNvb3JkaW5hdGVzIGluc3RlYWQuCj4gPj4gKwkgKgo+ID4+ICsJICogVGhpcyBj
+YW4gYmUgdXNlZnVsIHdoZW4gdXNpbmcgYSBoYXJkY29kZWQgc2l6ZSBpbiBhIGN1cnNvciBwbGFu
+ZS4KPiA+IEkgd291bGQgaW5zdGVhZCBzYXkgc29tZXRoaW5nIGxpa2UgIndoZW4gdGhlIGhhcmR3
+YXJlIHBlcmZvcm1zCj4gPiB0aGUgY2xpcHBpbmcgYXV0b21hZ2ljYWxseSIuCj4gCj4gCj4gV2l0
+aCB0aGF0IGZpeGVkLCByLWI/CgpBeWUKClJldmlld2VkLWJ5OiBWaWxsZSBTeXJqw6Rsw6QgPHZp
+bGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgoKLS0gClZpbGxlIFN5cmrDpGzDpApJbnRlbApf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
+bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
