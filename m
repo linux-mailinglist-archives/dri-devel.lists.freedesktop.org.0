@@ -2,37 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 683BDD45CB
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2019 18:52:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5BBDD4646
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2019 19:10:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95A7D6EC68;
-	Fri, 11 Oct 2019 16:52:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDF1C6EC6D;
+	Fri, 11 Oct 2019 17:10:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from muru.com (muru.com [72.249.23.125])
- by gabe.freedesktop.org (Postfix) with ESMTP id 118DB6EC61
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2019 16:10:12 +0000 (UTC)
-Received: from atomide.com (localhost [127.0.0.1])
- by muru.com (Postfix) with ESMTPS id 1EE8D80EA;
- Fri, 11 Oct 2019 16:10:45 +0000 (UTC)
-Date: Fri, 11 Oct 2019 09:10:08 -0700
-From: Tony Lindgren <tony@atomide.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCHv2 7/7] drm/omap: hdmi4: fix use of uninitialized var
-Message-ID: <20191011161008.GY5610@atomide.com>
-References: <20190930103840.18970-1-tomi.valkeinen@ti.com>
- <20190930103840.18970-8-tomi.valkeinen@ti.com>
- <20191008141335.GB5610@atomide.com>
- <ffb498fb-5041-d3e9-2702-879f3d389adf@ti.com>
- <20191008142153.GD5610@atomide.com>
- <59381248-5ded-7ea9-40a6-cbfb58a3c5b1@ti.com>
- <20191010132407.GS5610@atomide.com>
- <d7cb0f2a-1645-29ff-aaf2-2ec5188dbc24@ti.com>
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA91B6EC6D
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2019 17:10:06 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id q64so10508458ljb.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2019 10:10:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FAb7TTIfB1eKP+9X+4TjkS/R2nmg1fZu2y5q/Z7MNno=;
+ b=A378hkzLo9lxqVqwCRpGRobRZ3evGK8h+FXIMNW7oVDRImR3WB7a44KKTU31T3rIxb
+ rFo4yEzTohvZy2Nw/jNVcPg6FafM/LaFZgc8IkH7w8w5Zezjs7ZzMwJf8aQ9G5DvaayZ
+ iSQAQSUDBg35wbo5as/HGK6T5k/AwzJa99rUGdBMyijkQDEBLJx2NlXMZZ9AUuK6/9+g
+ qk7MAMlN36jTzhPoONSks+Q4SN+l0rh21+mANkWGrXw+1ja2B20J2bYYjvz972LLhtsY
+ MoTy9MAcMRnV7v6ZcpTyfL1Bx1N8uK4oqtmUA1GblEFgBTPM2w0TS4U5EQEG95xmuA0A
+ 1RSw==
+X-Gm-Message-State: APjAAAXf29CmypUtn/EYlhv/Hr5iTm0yObzU88CGTHrbVokuJHJDl9+1
+ wWQNE+dzwXY+wr1smBpMl1mNVDtWaNbGExibPzUS3Q==
+X-Google-Smtp-Source: APXvYqxicieVD9XpC34f0SjQFrHhduHt4S/eo1Ck+YwKbmGCFbjKQ0/6bLBsMQ64JQyox66EUhPz7GbWdA2M+TAGeXM=
+X-Received: by 2002:a2e:2901:: with SMTP id u1mr9968122lje.78.1570813804723;
+ Fri, 11 Oct 2019 10:10:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <d7cb0f2a-1645-29ff-aaf2-2ec5188dbc24@ti.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Mailman-Approved-At: Fri, 11 Oct 2019 16:52:25 +0000
+References: <20191011143009.17503-1-rohan.garg@collabora.com>
+In-Reply-To: <20191011143009.17503-1-rohan.garg@collabora.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Fri, 11 Oct 2019 18:09:52 +0100
+Message-ID: <CAPj87rOMMdi0zUdjEKeiUsLpfQkTPf3adEfw13ur6UQtNdNUxQ@mail.gmail.com>
+Subject: Re: [PATCH v4] drm/ioctl: Add a ioctl to label GEM objects
+To: Rohan Garg <rohan.garg@collabora.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=FAb7TTIfB1eKP+9X+4TjkS/R2nmg1fZu2y5q/Z7MNno=;
+ b=fJGm+C0x5kb+JW0XC06cl0YB05fB5cZgEKEyc4s8YV53wuuTS0fjXtJ/bOQR7XO08f
+ mFx6UfpFgzQQSC4ZBEGySU+GwF/WoqG7OS65EpmaC3SXjpDDiVmEoVmqM0iRKgx8gK9x
+ TK+UO7tMBQ3rKdPURlWpKlcLxebwPHT6s/H7xRlWlmQtAC2eeU37jUeQcRv+bFH9rs3v
+ QYHGo4mAXMr+QaIJ4PKRpi2MCOb4V2ep2KilEvs9o3liDwt9XU/GS/d1Z9gnVJTuFVyU
+ l//RCNKCLafUC6cNdL2tFl6RIa/Op/NF3XYlcZDmFKYQeM+bikmWvc+cx1p8ckOfVDg4
+ b0Ww==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,30 +62,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Ujfalusi <peter.ujfalusi@ti.com>, linux-omap@vger.kernel.org,
- Jyri Sarha <jsarha@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
+Cc: kernel@collabora.com, dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-KiBUb21pIFZhbGtlaW5lbiA8dG9taS52YWxrZWluZW5AdGkuY29tPiBbMTkxMDExIDEwOjI1XToK
-PiBPbiAxMC8xMC8yMDE5IDE2OjI0LCBUb255IExpbmRncmVuIHdyb3RlOgo+IAo+ID4gSG1tIHNv
-IHdoYXQgcmVnaXN0ZXIgZG9lcyB0aGlzIGNsb2NrIGFjdHVhbGx5IGNoYW5nZT8KPiA+IAo+ID4g
-SSdtIHNlZWluZyBhbiBpbmNyZWFzZSBvZiBmZXcgdGVucyBvZiBleHRyYSBtVywgd2hpY2ggbWVh
-bnMgYXQKPiA+IGxlYXN0IG9uZSBkYXkgb2Ygc3RhbmRieSB0aW1lIGxlc3MgZm9yIG1lIDopIEl0
-IGRvZXMgbm90IGhhcHBlbgo+ID4gYWx3YXlzLCBtYXliZSBoYWxmIG9mIHRoZSB0aW1lLgo+IAo+
-IEkgaGF2ZSBubyBpZGVhIHdoeSB0aGlzIHdvdWxkIGFmZmVjdCBwb3dlciBjb25zdW1wdGlvbi4g
-QXMgZmFyIGFzIEkgY2FuCj4gdW5kZXJzdGFuZCwgdGhlIGJpdHMgd3JpdHRlbiBoZXJlIGFyZSBh
-IGNsayBkaXZpZGVyIE1DTEsuIEkgZG9uJ3Qgc2VlIHdoeQo+IHRoYXQgd291bGQgYWZmZWN0LgoK
-WWVhaCB5b3UncmUgcmlnaHQsIGFuZCBJIGp1c3QgZ290IGx1Y2t5IGluaXRpYWxseS4KCkkgaGF2
-ZSBzZWVuIHRoZSBwb3dlciBjb25zdW1wdGlvbiBzdGF5IGhpZ2hlciBhbHJlYWR5IHdpdGgKdGhl
-IHBhdGNoIGFwcGxpZWQuIFRoZSBjbG9ja3Mgc2VlbSBqdXN0IGZpbmUuCgo+IE1heWJlIEp5cmkg
-b3IgUGV0ZXIgaGFzIGFuIGlkZWEsIEkgaGF2ZSBuZXZlciBsb29rZWQgYXQgdGhlIEhETUkgYXVk
-aW8gc2lkZS4KCkknbGwgdHJ5IGR1bXBpbmcgb3V0IHRoZSBoZG1pIHJlZ2lzdGVycyBiZWZvcmUg
-YW5kIGFmdGVyCndoZW4gSSBnZXQgYSBjaGFuY2UuCgpSZWdhcmRzLAoKVG9ueQpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+SGkgUm9oYW4sCgpPbiBGcmksIDExIE9jdCAyMDE5IGF0IDE1OjMwLCBSb2hhbiBHYXJnIDxyb2hh
+bi5nYXJnQGNvbGxhYm9yYS5jb20+IHdyb3RlOgo+IERSTV9JT0NUTF9EVU1CX1NFVF9MQUJFTCBs
+ZXRzIHlvdSBsYWJlbCBHRU0gb2JqZWN0cywgbWFraW5nIGl0Cj4gZWFzaWVyIHRvIGRlYnVnIGlz
+c3VlcyBpbiB1c2Vyc3BhY2UgYXBwbGljYXRpb25zLgoKSSdtIG5vdCBzdXJlIGlmIHRoaXMgd2Fz
+IHBvaW50ZWQgb3V0IGFscmVhZHksIGJ1dCBkdW1iIGJ1ZmZlcnMgIT0gR0VNCmJ1ZmZlcnMuIEdF
+TSBidWZmZXJzIF9jYW5fIGJlIGR1bWIsIGJ1dCBtaWdodCBub3QgYmUuCgpDb3VsZCB5b3UgcGxl
+YXNlIHJlbmFtZSB0byBHRU1fU0VUX0xBQkVMPwoKQ2hlZXJzLApEYW5pZWwKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
