@@ -2,38 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5FBBD4511
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2019 18:10:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 272C7D4534
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2019 18:18:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64EA76EC5F;
-	Fri, 11 Oct 2019 16:10:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 650AF6EC62;
+	Fri, 11 Oct 2019 16:17:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FE186EC5F
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2019 16:10:06 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 5.4-rc3
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9ty05BvFP8P0UB+uNupSbe7XTwO8My7XnXQC0iucBxw=rQ@mail.gmail.com>
-References: <CAPM=9ty05BvFP8P0UB+uNupSbe7XTwO8My7XnXQC0iucBxw=rQ@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAPM=9ty05BvFP8P0UB+uNupSbe7XTwO8My7XnXQC0iucBxw=rQ@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2019-10-11
-X-PR-Tracked-Commit-Id: 4adbcff22e676d28de185dfd391a6fe56b3e6284
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 9892f9f6cf83e8ecaacc5ec7847cf5ba033119d2
-Message-Id: <157081020565.21776.7490614053068406440.pr-tracker-bot@kernel.org>
-Date: Fri, 11 Oct 2019 16:10:05 +0000
-To: Dave Airlie <airlied@gmail.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1570810205;
- bh=EHe1DVQKdCmISqd9rDP9OzdB7C6HqG58pl0sFURpOG0=;
- h=From:In-Reply-To:References:Date:To:Cc:From;
- b=QXLyhwokECuevFtWeqxSlwtK7/L+8IUw8HyZJpzSbBGU45h4JAwGiVoao7NMJIcSo
- t/lYsQZGE72SHLlw1la8SLJoRP4ufcxCX9maSoAJmqaedp8/WKC7Sxw9B7Z0etrTy5
- 3M10DxV8DUymP0rsfbUH8+k6ZTZmEdW++udFTOnw=
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 491406EC63
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2019 16:17:57 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 4515B7296E; Fri, 11 Oct 2019 16:17:57 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111691] inconsistent cursor movement speed when using AMD 5700 XT
+Date: Fri, 11 Oct 2019 16:17:57 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: takios+fdbugs@takios.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111691-502-HKglXjdEPm@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111691-502@http.bugs.freedesktop.org/>
+References: <bug-111691-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,22 +52,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0280393827=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIHB1bGwgcmVxdWVzdCB5b3Ugc2VudCBvbiBGcmksIDExIE9jdCAyMDE5IDE0OjM2OjAzICsx
-MDAwOgoKPiBnaXQ6Ly9hbm9uZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJtIHRhZ3MvZHJtLWZp
-eGVzLTIwMTktMTAtMTEKCmhhcyBiZWVuIG1lcmdlZCBpbnRvIHRvcnZhbGRzL2xpbnV4LmdpdDoK
-aHR0cHM6Ly9naXQua2VybmVsLm9yZy90b3J2YWxkcy9jLzk4OTJmOWY2Y2Y4M2U4ZWNhYWNjNWVj
-Nzg0N2NmNWJhMDMzMTE5ZDIKClRoYW5rIHlvdSEKCi0tIApEZWV0LWRvb3QtZG90LCBJIGFtIGEg
-Ym90LgpodHRwczovL2tvcmcud2lraS5rZXJuZWwub3JnL3VzZXJkb2MvcHJ0cmFja2VyCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0280393827==
+Content-Type: multipart/alternative; boundary="15708106773.28Ae84.29591"
+Content-Transfer-Encoding: 7bit
+
+
+--15708106773.28Ae84.29591
+Date: Fri, 11 Oct 2019 16:17:57 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111691
+
+--- Comment #16 from takios+fdbugs@takios.de ---
+I ran into the same issue but after installing linux kernel 5.4rc2 it was
+fixed.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15708106773.28Ae84.29591
+Date: Fri, 11 Oct 2019 16:17:57 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - inconsistent cursor movement speed when using AMD 5700 XT"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111691#c16">Comme=
+nt # 16</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - inconsistent cursor movement speed when using AMD 5700 XT"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111691">bug 11169=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+takios+fdbugs&#64;takios.de" title=3D"takios+fdbugs&#64;takios.de">takios+f=
+dbugs&#64;takios.de</a>
+</span></b>
+        <pre>I ran into the same issue but after installing linux kernel 5.=
+4rc2 it was
+fixed.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15708106773.28Ae84.29591--
+
+--===============0280393827==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0280393827==--
