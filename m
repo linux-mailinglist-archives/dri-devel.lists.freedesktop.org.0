@@ -1,45 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E54A7D41ED
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2019 15:57:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6DD4D41FB
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2019 16:00:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 698326EC49;
-	Fri, 11 Oct 2019 13:57:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CAEF6E0B9;
+	Fri, 11 Oct 2019 14:00:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 655D46EC46
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2019 13:57:17 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5D4017296E; Fri, 11 Oct 2019 13:57:17 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111763] ring_gfx hangs/freezes on Navi gpus
-Date: Fri, 11 Oct 2019 13:57:17 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: popovic.marko@protonmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111763-502-9gSqXmNs6z@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111763-502@http.bugs.freedesktop.org/>
-References: <bug-111763-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0D146E0B9
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2019 14:00:42 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9BE0dVT047423;
+ Fri, 11 Oct 2019 09:00:39 -0500
+Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x9BE0dXM043333
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 11 Oct 2019 09:00:39 -0500
+Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 11
+ Oct 2019 09:00:35 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Fri, 11 Oct 2019 09:00:34 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9BE0bgJ085049;
+ Fri, 11 Oct 2019 09:00:37 -0500
+Subject: Re: [PATCH v5 0/8] drm/omap: OMAP_BO flags
+To: Jean-Jacques Hiblot <jjhiblot@ti.com>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>
+References: <20191010120000.1421-1-jjhiblot@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <3ab2ea11-5ce3-d018-2054-b2b5f79d79c2@ti.com>
+Date: Fri, 11 Oct 2019 17:00:36 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <20191010120000.1421-1-jjhiblot@ti.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ti.com; s=ti-com-17Q1; t=1570802439;
+ bh=GsAaLuVLTVW3YhGlRjDS05TPMUdl2L0G272KKrnYIY8=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=E6dqgj66q0d2pzYNysQAghRpOu+s1FAP/R3X+vpHViZcEPFnlGnvBENd8tV1myeUH
+ Rc69w+QE8/un5ghds31Ta6ui5p9+qqTaZ/0eIDrej70HE3QQUMAF+4R++QHThVSoKS
+ EMyjC2HTb2pHzU3y5ugsMOkd4Zumfho7WA6ZP960=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,122 +62,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1229701239=="
+Cc: jsarha@ti.com, dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1229701239==
-Content-Type: multipart/alternative; boundary="15708022370.2BCbb3cA1.32618"
-Content-Transfer-Encoding: 7bit
-
-
---15708022370.2BCbb3cA1.32618
-Date: Fri, 11 Oct 2019 13:57:17 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111763
-
---- Comment #11 from Marko Popovic <popovic.marko@protonmail.com> ---
-(In reply to takios+fdbugs from comment #10)
-> (In reply to Marko Popovic from comment #9)
-> > https://cgit.freedesktop.org/mesa/mesa/commit/
-> > ?id=3Da2a68d551c1c2a4f13761ffa8f3f6f13fee7a384
-> >=20
-> > This might actually fix the ring_gfx type hangs or even sdma ones at le=
-ast
-> > for Vulkan API? Not exactly sure but will also be testing the latest ME=
-SA
-> > builds from Oibaf's PPA in following days and report back on the issue =
-:)
->=20
-> Sadly, I'm still getting the ring_gfx hangs after a few minutes of playing
-> Trackmania 2.
-
-Oh yes I forgot to add a reply here. It didn't solve any of the hangs for me
-either.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15708022370.2BCbb3cA1.32618
-Date: Fri, 11 Oct 2019 13:57:17 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - ring_gfx hangs/freezes on Navi gpus"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111763#c11">Comme=
-nt # 11</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - ring_gfx hangs/freezes on Navi gpus"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111763">bug 11176=
-3</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-popovic.marko&#64;protonmail.com" title=3D"Marko Popovic &lt;popovic.marko&=
-#64;protonmail.com&gt;"> <span class=3D"fn">Marko Popovic</span></a>
-</span></b>
-        <pre>(In reply to takios+fdbugs from <a href=3D"show_bug.cgi?id=3D1=
-11763#c10">comment #10</a>)
-<span class=3D"quote">&gt; (In reply to Marko Popovic from <a href=3D"show_=
-bug.cgi?id=3D111763#c9">comment #9</a>)
-&gt; &gt; <a href=3D"https://cgit.freedesktop.org/mesa/mesa/commit/">https:=
-//cgit.freedesktop.org/mesa/mesa/commit/</a>
-&gt; &gt; ?id=3Da2a68d551c1c2a4f13761ffa8f3f6f13fee7a384
-&gt; &gt;=20
-&gt; &gt; This might actually fix the ring_gfx type hangs or even sdma ones=
- at least
-&gt; &gt; for Vulkan API? Not exactly sure but will also be testing the lat=
-est MESA
-&gt; &gt; builds from Oibaf's PPA in following days and report back on the =
-issue :)
-&gt;=20
-&gt; Sadly, I'm still getting the ring_gfx hangs after a few minutes of pla=
-ying
-&gt; Trackmania 2.</span >
-
-Oh yes I forgot to add a reply here. It didn't solve any of the hangs for me
-either.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15708022370.2BCbb3cA1.32618--
-
---===============1229701239==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1229701239==--
+T24gMTAvMTAvMjAxOSAxNDo1OSwgSmVhbi1KYWNxdWVzIEhpYmxvdCB3cm90ZToKPiBBIGZpcnN0
+IHZlcnNpb24gb2YgdGhpcyB3b3JrIGhhZCBiZWVuIHNlbnQgYnkgVG9taSBWYWxrZWluZW4gaW4g
+bWF5IDIwMTcKPiAoaHR0cHM6Ly93d3cuc3Bpbmljcy5uZXQvbGlzdHMvZHJpLWRldmVsL21zZzE0
+MDY2My5odG1sKS4KPiAKPiBUaGlzIHNlcmllcyBhZGRzIGEgZmV3IG5ldyBPTUFQX0JPIGZsYWdz
+IHRvIGhlbHAgdGhlIHVzZXJzcGFjZSBtYW5hZ2UKPiBzaXR1YXRpb25zIHdoZXJlIGl0IG5lZWRz
+IHRvIHVzZSBsb3RzIG9mIGJ1ZmZlcnMsIGFuZCB3b3VsZCBjdXJyZW50bHkgcnVuCj4gb3V0IG9m
+IFRJTEVSIHNwYWNlLiBUaGUgVElMRVIgc3BhY2UgaXMgbGltaXRlZCB0byBtYXBwaW5nIDEyOE1C
+IGF0IGFueSBnaXZlbgo+IHRpbWUgYW5kIHNvbWUgYXBwbGljYXRpb25zIG1pZ2h0IG5lZWQgbW9y
+ZS4KPiAKPiBUaGlzIHNlcmVzIGlzIGFsc28gdGhlIG9wcG9ydHVuaXR5IHRvIGRvIHNvbWUgY2xl
+YW51cCBpbiB0aGUgZmxhZ3MgYW5kCj4gaW1wcm92ZSB0aGUgY29tbWVudHMgZGVzY3JpYmluZyB0
+aGVtLgo+IAo+IFRoZSB1c2VyLXNwYWNlIHBhdGNoZXMgZm9yIGxpYmRybSwgYWx0aG91Z2ggcmVh
+ZHksIGhhdmVuJ3QgYmVlbiBwb3N0ZWQgeWV0Lgo+IEl0IHdpbGwgYmUgYmUgZG9uZSB3aGVuIHRo
+aXMgc2VyaWVzIGhhdmUgYmVlbiBkaXNjdXNzZWQgYW5kIGhvcGVmdWxseSBpbgo+IHRoZSBwcm9j
+ZXNzIG9mIGdldHRpbmcgbWVyZ2VkLgoKVGhhbmtzISBJJ2xsIHF1ZXVlIHRoZXNlIHVwLgoKICBU
+b21pCgotLSAKVGV4YXMgSW5zdHJ1bWVudHMgRmlubGFuZCBPeSwgUG9ya2thbGFua2F0dSAyMiwg
+MDAxODAgSGVsc2lua2kuClktdHVubnVzL0J1c2luZXNzIElEOiAwNjE1NTIxLTQuIEtvdGlwYWlr
+a2EvRG9taWNpbGU6IEhlbHNpbmtpCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbA==
