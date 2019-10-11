@@ -1,71 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA305D3D52
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2019 12:27:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC899D3D97
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2019 12:41:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A171A6EC0A;
-	Fri, 11 Oct 2019 10:27:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A36D36EC05;
+	Fri, 11 Oct 2019 10:41:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A479B6EC0A
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2019 10:27:45 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9BAO55M188694;
- Fri, 11 Oct 2019 10:27:32 GMT
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2120.oracle.com with ESMTP id 2vek4r0p5v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 11 Oct 2019 10:27:32 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9BAPrKo097601;
- Fri, 11 Oct 2019 10:27:32 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3030.oracle.com with ESMTP id 2vjdykqb79-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 11 Oct 2019 10:27:32 +0000
-Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9BARMgi017104;
- Fri, 11 Oct 2019 10:27:22 GMT
-Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 11 Oct 2019 10:27:21 +0000
-Date: Fri, 11 Oct 2019 13:27:11 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Xin Ji <xji@analogixsemi.com>
-Subject: Re: [PATCH v2 0/2] Add initial support for slimport anx7625
-Message-ID: <20191011102711.GP13286@kadam>
-References: <cover.1570760115.git.xji@analogixsemi.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 95A786EC05
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2019 10:41:16 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 927DB7296E; Fri, 11 Oct 2019 10:41:16 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111979] [5.2/5.3][drm:amdgpu_dm_atomic_commit_tail [amdgpu]]
+ *ERROR* Waiting for fences timed out or interrupted!
+Date: Fri, 11 Oct 2019 10:41:16 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: udovdh@xs4all.nl
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-111979-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <cover.1570760115.git.xji@analogixsemi.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9406
- signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1908290000 definitions=main-1910110099
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9406
- signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
- definitions=main-1910110099
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2019-08-05;
- bh=Q+0VIr151B1mn8oR6VfAD9KdaxNSMZsIBKXR7z/rOdE=;
- b=jO3L995q1kkhqBcUj9rOzRGx05DgAsVSKEbaBs5Lb9IiAZoI2Af4gHePVpomAhxBWWyQ
- 9RlOX1nWekuadvnoOeG9d5tyCkm8Y1zUrcPvBrFrikWGS1zpaxVtau9UlcCWp4rzKORT
- K6QTr44dbHHIxQ7v0r7K9iV+cm3W2QyOjRkAgCLagUacxojECxLJt7CeDUWDmxttevg5
- vRj8JTMyw7mFaCrumI5xpEQN7Ncx85ajwIJfG9lR8tQZGxzUo9oDHwHagV5SW/Zn+8YU
- DYjZ4DaJXNrsCGJfUvE1XsIW2dkrgmpgHoHWEJ5ndWuR51eD3PZADJrGreNslHF7Q8wW Ig== 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,28 +52,223 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Nicolas Boichat <drinkcat@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sheng Pan <span@analogixsemi.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1537107335=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBPY3QgMTEsIDIwMTkgYXQgMDI6MjA6NDdBTSArMDAwMCwgWGluIEppIHdyb3RlOgo+
-IEhpIGFsbCwKPiAKPiBUaGUgZm9sbG93aW5nIHNlcmllcyBhZGQgaW5pdGlhbCBzdXBwb3J0IGZv
-ciB0aGUgU2xpbXBvcnQgQU5YNzYyNSB0cmFuc21pdHRlciwgYQo+IHVsdHJhLWxvdyBwb3dlciBG
-dWxsLUhEIDRLIE1JUEkgdG8gRFAgdHJhbnNtaXR0ZXIgZGVzaWduZWQgZm9yIHBvcnRhYmxlIGRl
-dmljZS4KPiAKPiBUaGlzIGlzIHRoZSBpbml0aWFsIHZlcnNpb24sIGFueSBtaXN0YWtlcywgcGxl
-YXNlIGxldCBtZSBrbm93LCBJIHdpbGwgZml4IGl0IGluCj4gdGhlIG5leHQgc2VyaWVzLgo+IAo+
-IFRoYW5rcywKPiBYaW4KPiAKCkknbSBub3QgYSBkb21haW4gZXhwZXJ0IGJ1dCBJIGxpa2UgdGhl
-c2UgcGF0Y2hlcyBub3cuCgpSZXZpZXdlZC1ieTogRGFuIENhcnBlbnRlciA8ZGFuLmNhcnBlbnRl
-ckBvcmFjbGUuY29tPgoKcmVnYXJkcywKZGFuIGNhcnBlbnRlcgoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1537107335==
+Content-Type: multipart/alternative; boundary="15707904761.8bfDe976.29169"
+Content-Transfer-Encoding: 7bit
+
+
+--15707904761.8bfDe976.29169
+Date: Fri, 11 Oct 2019 10:41:16 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111979
+
+            Bug ID: 111979
+           Summary: [5.2/5.3][drm:amdgpu_dm_atomic_commit_tail [amdgpu]]
+                    *ERROR* Waiting for fences timed out or interrupted!
+           Product: DRI
+           Version: XOrg git
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: major
+          Priority: not set
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: udovdh@xs4all.nl
+
+Seen on both AMD 2400g and 3400g APU's, we find these in dmesg of 5.3.5.:
+
+   85.232749] fuse: init (API version 7.31)
+[18161.173791] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out or interrupted!
+[18166.037697] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
+ but
+soft recovered
+[18171.153568] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out or interrupted!
+[18186.261621] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
+ but
+soft recovered
+
+or on 5.2.17 sometimes:
+
+[ 7596.392996] sd 11:0:0:0: [sde] Synchronize Cache(10) failed: Result:
+hostbyte=3D0x01 driverbyte=3D0x00
+[97954.657336] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out or interrupted!
+[97959.535278] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,
+signaled seq=3D2542528, emitted seq=3D2542531
+[97959.535342] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
+on:
+process  pid 0 thread  pid 0
+[97959.535346] [drm] GPU recovery disabled.
+
+Then the graphics stop working and the machine GUI is unusable until reboot.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15707904761.8bfDe976.29169
+Date: Fri, 11 Oct 2019 10:41:16 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [5.2/5.3][drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERR=
+OR* Waiting for fences timed out or interrupted!"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111979">111979</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>[5.2/5.3][drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* =
+Waiting for fences timed out or interrupted!
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>XOrg git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>major
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>udovdh&#64;xs4all.nl
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Seen on both AMD 2400g and 3400g APU's, we find these in dmesg=
+ of 5.3.5.:
+
+   85.232749] fuse: init (API version 7.31)
+[18161.173791] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out or interrupted!
+[18166.037697] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
+ but
+soft recovered
+[18171.153568] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out or interrupted!
+[18186.261621] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
+ but
+soft recovered
+
+or on 5.2.17 sometimes:
+
+[ 7596.392996] sd 11:0:0:0: [sde] Synchronize Cache(10) failed: Result:
+hostbyte=3D0x01 driverbyte=3D0x00
+[97954.657336] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out or interrupted!
+[97959.535278] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,
+signaled seq=3D2542528, emitted seq=3D2542531
+[97959.535342] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
+on:
+process  pid 0 thread  pid 0
+[97959.535346] [drm] GPU recovery disabled.
+
+Then the graphics stop working and the machine GUI is unusable until reboot=
+.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15707904761.8bfDe976.29169--
+
+--===============1537107335==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1537107335==--
