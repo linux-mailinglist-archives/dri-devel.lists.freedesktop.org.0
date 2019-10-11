@@ -1,46 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C618D3CF0
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2019 12:02:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2717D3D08
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2019 12:12:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1F816EC06;
-	Fri, 11 Oct 2019 10:02:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1684C6E072;
+	Fri, 11 Oct 2019 10:12:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 264DE6EC06
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2019 10:02:33 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 228627296E; Fri, 11 Oct 2019 10:02:33 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 107877] deepin-desktop: xdg-email: no method available for
- opening 'mailto:'
-Date: Fri, 11 Oct 2019 10:02:33 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: security
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: michel@daenzer.net
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_file_loc
-Message-ID: <bug-107877-502-A7KmkZzxnj@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-107877-502@http.bugs.freedesktop.org/>
-References: <bug-107877-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB7BA6E072;
+ Fri, 11 Oct 2019 10:12:47 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2019 03:12:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,283,1566889200"; d="scan'208";a="188273034"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga008.jf.intel.com with SMTP; 11 Oct 2019 03:12:44 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 11 Oct 2019 13:12:43 +0300
+Date: Fri, 11 Oct 2019 13:12:43 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: John Maguire <jmaguire2013@gmail.com>
+Subject: Re: Kernel crash on 4.19.77-1-lts (Arch Linux / ThinkPad T470p)
+Message-ID: <20191011101243.GI1208@intel.com>
+References: <CAEk+mvvz1SJQD0Yo8s0oB8=jN4yh2ZbURmZ8Ln1VKxcfBE96DQ@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAEk+mvvz1SJQD0Yo8s0oB8=jN4yh2ZbURmZ8Ln1VKxcfBE96DQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,97 +46,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1693822895=="
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1693822895==
-Content-Type: multipart/alternative; boundary="15707881531.2a239140.22842"
-Content-Transfer-Encoding: 7bit
-
-
---15707881531.2a239140.22842
-Date: Fri, 11 Oct 2019 10:02:33 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D107877
-
-Michel D=C3=A4nzer <michel@daenzer.net> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                URL|https://www.monktech.us/    |
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15707881531.2a239140.22842
-Date: Fri, 11 Oct 2019 10:02:33 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:michel&#6=
-4;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.net&gt;">=
- <span class=3D"fn">Michel D=C3=A4nzer</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - deepin-desktop: xdg-email: no method available=
- for opening 'mailto:'"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107877">bug 10787=
-7</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">URL</td>
-           <td>https://www.monktech.us/
-           </td>
-           <td>
-               &nbsp;
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15707881531.2a239140.22842--
-
---===============1693822895==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1693822895==--
+T24gVGh1LCBPY3QgMTAsIDIwMTkgYXQgMDE6MTU6MDlQTSAtMDQwMCwgSm9obiBNYWd1aXJlIHdy
+b3RlOgo+IEhpIHRoZXJlLAo+IAo+IEkgd2Fzbid0IHN1cmUgd2hpY2ggbWFpbGluZyBsaXN0IHRv
+IHVzZSBzbyBJIEJDQydkCj4gaW50ZWwtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZyBhbmQgZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwoKSnVzdCB1c2UgQ2MuIFdlIHdhbnQgYWxsIHJl
+cGxpZXMgdG8gZ28gdG8gdGhlIGxpc3QocykgYXMgd2VsbC4KCj4gCj4gSSdtIHVzaW5nIGEgTGVu
+b3ZvIFRoaW5rcGFkIFQ0NzBwIGFuZCBydW5uaW5nIHRoZSA0LjE5Ljc3LTEtbHRzIGtlcm5lbCBv
+bgo+IEFyY2ggTGludXguIFJlY2VudGx5LCBJJ3ZlIHN0YXJ0ZWQgZ2V0dGluZyBmcmVlemVzIGVh
+Y2ggZGF5LiBBdWRpbyBjYW4KPiBzdGlsbCBiZSBoZWFyZCwgYnV0IHZpZGVvIG91dHB1dCBzdG9w
+cy4gSSB3YXMgYWJsZSB0byByZXRyaWV2ZSBhIGNhbGwgdHJhY2UKPiBmcm9tIGpvdXJuYWxkLgo+
+IAo+IEkndmUgYXR0YWNoZWQgdGhlIG91dHB1dCBvZiAic3VkbyBsc3BjaSAtdnZ2IiBhcyB3ZWxs
+IGFzIHRoZSBtZXNzYWdlIGZyb20KPiBqb3VybmFsZCAobnVsbCBwb2ludGVyIGRlcmVmZXJlbmNl
+KS4KCk9jdCAxMCAxMjo1MzozMCBzY29ycGlvbiBrZXJuZWw6IFJJUDogMDAxMDpkbWFfZmVuY2Vf
+c2lnbmFsX2xvY2tlZCsweDMwLzB4ZTAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIAoKTG9va3MgbGlrZSBpdCBjb3VsZCBiZQpodHRwczovL2J1Z3MuZnJlZWRlc2t0
+b3Aub3JnL3Nob3dfYnVnLmNnaT9pZD0xMTEzODEKCmluIHdoaWNoIGNhc2UgeW91IGp1c3QgbmVl
+ZCB0byB1cGdyYWRlIHRvIDQuMTkuNzggYW5kIGl0IHNob3VsZCBiZQpmaXhlZC4KCi0tIApWaWxs
+ZSBTeXJqw6Rsw6QKSW50ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVs
