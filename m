@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BEE1D45CA
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2019 18:52:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31CECD45C9
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2019 18:52:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C926E6EC6A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A3EC6EC69;
 	Fri, 11 Oct 2019 16:52:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21D0F6EB3D;
- Fri, 11 Oct 2019 13:39:45 +0000 (UTC)
-Received: by mail-pl1-x643.google.com with SMTP id c3so4505072plo.2;
- Fri, 11 Oct 2019 06:39:45 -0700 (PDT)
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
+ [IPv6:2607:f8b0:4864:20::832])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FEAF6E084;
+ Fri, 11 Oct 2019 15:34:12 +0000 (UTC)
+Received: by mail-qt1-x832.google.com with SMTP id n7so14435210qtb.6;
+ Fri, 11 Oct 2019 08:34:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=qGkUWDkWuy9rCgnYrcxxUjy8YGrJ1whz/5MzqghbV70=;
- b=E73Ce50egW7z7bsjF7nggrII4lZbFxYZUzfqS6UmY+hlHMY9FLR5SHLmK4qdrGrsp0
- W0IPXQXxp5jhGh/DjYx4zr2/wgJnPFMIaX04AS6FYXmmWToMWwkTJW30bHxuCC1oh8to
- VGRg8vZSwFFJFHjGROYPp0/CFlCBThtAEtmpO2f/wxGlaDtpq9GqbLJs9r+Cu4avxGCx
- Ggef+dRkHB6N8sjCY3UhVqJkY9LNj9643cp5vJExpBotEu+3ru9GekTg/A3Fhxerp4Ss
- Uzx82gMXkRHO+XFMyoqGQH6Ghco8GrcRet5gk09qewisID6/OTk7WGylrfkd1fRg6esr
- J0DA==
-X-Gm-Message-State: APjAAAXJDqzJ00/V3VAJqKqh58YsVNgxlRfcDW14j5bwaZQhAXvBj89K
- sVxKPoy1AyfERl1mqVAI/G0=
-X-Google-Smtp-Source: APXvYqzeKH3l7K1RGHl7x8YfH51uO/BfgM5UGC2UadrBOkHc4M/Qz6TjJKWUTWI/gQ0YBexfLEapqg==
-X-Received: by 2002:a17:902:d909:: with SMTP id
- c9mr15296242plz.216.1570801184611; 
- Fri, 11 Oct 2019 06:39:44 -0700 (PDT)
-Received: from aw-bldr-10.qualcomm.com (i-global254.qualcomm.com.
- [199.106.103.254])
- by smtp.gmail.com with ESMTPSA id n2sm11961743pgg.77.2019.10.11.06.39.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Oct 2019 06:39:43 -0700 (PDT)
-From: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-To: robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH v2] drm/msm/dsi: Implement reset correctly
-Date: Fri, 11 Oct 2019 06:39:39 -0700
-Message-Id: <20191011133939.16551-1-jeffrey.l.hugo@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=V7OJkDZoc7MpF2VpVhlcYlKrjQTfWtwuo6XXDvDozPk=;
+ b=fbFFB/1bGY2pLPCtQ6oj2vkpTY6eaQ+oljJb1ToLLDDHuCbhFwHsq6T3cU3/5WkqAc
+ toVQ2eCxUl++6Ekv0tou1iegYFJZwzboASBTPkuHcIFS0Wjw8MtcJ/xtYrkEELzj+p2Y
+ 7R0RKUMwDkDj0bzCw2HqjKIHNeBsjnVy6SNXazBxpJOo20cizT0b+5ZLapDEqsrbUT4c
+ rglbqlEldvuroqDEG9/Qd3oM1SGL5ROIdZHAbW/zmavpzwzBO4JlQOsSw4l6j5NWwR+K
+ fyWwExGHAremp2mh6Ui8p4QVT8utA6Ri/WDfEZoUEoU+YMqKMOXDvBKKwuqipNKhQ732
+ au7Q==
+X-Gm-Message-State: APjAAAWqR/RahXqgkRFDwKmRSKBU71y+lk1rMJwF3qWLHgwVTnSdC7Gv
+ h+UZ+eJH4E/Z53Vuglj143J55mpVc5Ccj83Q3tBOpBE0WQY=
+X-Google-Smtp-Source: APXvYqzEowOkaeSUUQD7RyBBGm9NZTOZj9CXulBnBsaWcFVe/NZ7n3iB+OLVAKSjoZg+Hb0MiHHHqBTUGCRvrrp4RIs=
+X-Received: by 2002:ac8:2727:: with SMTP id g36mr13576324qtg.202.1570808051286; 
+ Fri, 11 Oct 2019 08:34:11 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAEk+mvvz1SJQD0Yo8s0oB8=jN4yh2ZbURmZ8Ln1VKxcfBE96DQ@mail.gmail.com>
+ <20191011101243.GI1208@intel.com>
+In-Reply-To: <20191011101243.GI1208@intel.com>
+From: John Maguire <jmaguire2013@gmail.com>
+Date: Fri, 11 Oct 2019 11:33:58 -0400
+Message-ID: <CAEk+mvtupRAM9TX6q0v=Zsq3EFRkxFkH0sxfKMUdDPKMczUOwg@mail.gmail.com>
+Subject: Re: Kernel crash on 4.19.77-1-lts (Arch Linux / ThinkPad T470p)
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
 X-Mailman-Approved-At: Fri, 11 Oct 2019 16:52:25 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=qGkUWDkWuy9rCgnYrcxxUjy8YGrJ1whz/5MzqghbV70=;
- b=NBk7HErwPAcy77r0BblRtX/FoKDf2xjanp1mb1ZicXMdBKqGs5cEf1d7iE96FH7akP
- gKHm4cPXwNja+OJ9wpWO5FctGJPduKDGTPyNHifr9IfLDlbHJgQziStyDnJh6oZ5nvBZ
- P2NNw1hCrejdrWxN+NATA5AKvvdq47YXCu0BkvDbmW9icN7/1TdjjH8MjK2B1Ck++djP
- WUew6Fo/9SDjaafj3VvjUN4G0VbT0/yTIkuFHDoPdEEb7WwjqMdjOHbj+Fn7HHwth1Lf
- UuKH66p+BcF0DJGdS/qiI+HBgFFhNfXim9fSmvYApTfdzOKiPEhRikzCLsjApt3Tv6S5
- 84QA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=V7OJkDZoc7MpF2VpVhlcYlKrjQTfWtwuo6XXDvDozPk=;
+ b=ZrBinj/lBMEOKeKaw/43xtoNESntV3FMcvBLALdu4s6nhuQ3xkuzYSOtpjAD03ww51
+ 6nqnYuZ8/S3b6Liv8sFK1tsNQPcUGV/u6GPdkFiNNj/sHZpGCQAw4XSRyqATAmZMkCHm
+ 3RF/VoyGWxBfQzGI8QimLqXnnZRfe8WFL8VYDWsmVopQ0mPN/saxjC6C9GxCLmUNgqSF
+ t5dwBNcKueZDK1+9909gia3vmzDORBt0/gOm0LIZo4HegP88ABbFg2zIfqjZ8BnWV858
+ 3dyJWVKh/ihwrhjI3dV8VpyOZl3KOgdgY/WJkDmd5TQkbTh++KST8xwybf18TRIlzZNX
+ tTTg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,55 +64,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0884411103=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gbXNtODk5OCwgdmJsYW5rIHRpbWVvdXRzIGFyZSBvYnNlcnZlZCBiZWNhdXNlIHRoZSBEU0kg
-Y29udHJvbGxlciBpcyBub3QKcmVzZXQgcHJvcGVybHksIHdoaWNoIGVuZHMgdXAgc3RhbGxpbmcg
-dGhlIE1EUC4gIFRoaXMgaXMgYmVjYXVzZSB0aGUgcmVzZXQKbG9naWMgaXMgbm90IGNvcnJlY3Qg
-cGVyIHRoZSBoYXJkd2FyZSBkb2N1bWVudGF0aW9uLgoKVGhlIGRvY3VtZW50YXRpb24gc3RhdGVz
-IHRoYXQgYWZ0ZXIgYXNzZXJ0aW5nIHJlc2V0LCBzb2Z0d2FyZSBzaG91bGQgd2FpdApzb21lIHRp
-bWUgKG5vIGluZGljYXRpb24gb2YgaG93IGxvbmcpLCBvciBwb2xsIHRoZSBzdGF0dXMgcmVnaXN0
-ZXIgdW50aWwgaXQKcmV0dXJucyAwIGJlZm9yZSBkZWFzc2VydGluZyByZXNldC4KCndtYigpIGlz
-IGluc3VmZmljaWVudCBmb3IgdGhpcyBwdXJwb3NlIHNpbmNlIGl0IGp1c3QgZW5zdXJlcyBvcmRl
-cmluZywgbm90CnRpbWluZyBiZXR3ZWVuIHdyaXRlcy4gIFNpbmNlIGFzc2VydGluZyBhbmQgZGVh
-c3NlcnRpbmcgcmVzZXQgb2NjdXJzIG9uIHRoZQpzYW1lIHJlZ2lzdGVyLCBvcmRlcmluZyBpcyBh
-bHJlYWR5IGd1YXJhbnRlZWQgYnkgdGhlIGFyY2hpdGVjdHVyZSwgbWFraW5nCnRoZSB3bWIgZXh0
-cmFuZW91cy4KClNpbmNlIHdlIHdvdWxkIGRlZmluZSBhIHRpbWVvdXQgZm9yIHBvbGxpbmcgdGhl
-IHN0YXR1cyByZWdpc3RlciB0byBhdm9pZCBhCnBvc3NpYmxlIGluZmluaXRlIGxvb3AsIGxldHMg
-anVzdCB1c2UgYSBzdGF0aWMgZGVsYXkgb2YgMjAgbXMsIHNpbmNlIDE2LjY2NgptcyBpcyB0aGUg
-dGltZSBhdmFpbGFibGUgdG8gcHJvY2VzcyBvbmUgZnJhbWUgYXQgNjAgZnBzLgoKRml4ZXM6IGE2
-ODk1NTRiYTZlZCAoZHJtL21zbTogSW5pdGlhbCBhZGQgRFNJIGNvbm5lY3RvciBzdXBwb3J0KQpT
-aWduZWQtb2ZmLWJ5OiBKZWZmcmV5IEh1Z28gPGplZmZyZXkubC5odWdvQGdtYWlsLmNvbT4KUmV2
-aWV3ZWQtYnk6IFNlYW4gUGF1bCA8c2VhbkBwb29ybHkucnVuPgotLS0KCnYyOgotbWFrZSBhIERF
-RklORSBmb3IgdGhlIGRlbGF5CgogZHJpdmVycy9ncHUvZHJtL21zbS9kc2kvZHNpX2hvc3QuYyB8
-IDYgKysrKy0tCiAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygt
-KQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tc20vZHNpL2RzaV9ob3N0LmMgYi9kcml2
-ZXJzL2dwdS9kcm0vbXNtL2RzaS9kc2lfaG9zdC5jCmluZGV4IDY2M2ZmOWY0ZmFjOS4uOWE4MTcw
-NTMwMWM2IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2RzaS9kc2lfaG9zdC5jCisr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vZHNpL2RzaV9ob3N0LmMKQEAgLTI2LDYgKzI2LDggQEAK
-ICNpbmNsdWRlICJkc2lfY2ZnLmgiCiAjaW5jbHVkZSAibXNtX2ttcy5oIgogCisjZGVmaW5lIFJF
-U0VUX0RFTEFZIDIwCisKIHN0YXRpYyBpbnQgZHNpX2dldF92ZXJzaW9uKGNvbnN0IHZvaWQgX19p
-b21lbSAqYmFzZSwgdTMyICptYWpvciwgdTMyICptaW5vcikKIHsKIAl1MzIgdmVyOwpAQCAtOTg2
-LDcgKzk4OCw3IEBAIHN0YXRpYyB2b2lkIGRzaV9zd19yZXNldChzdHJ1Y3QgbXNtX2RzaV9ob3N0
-ICptc21faG9zdCkKIAl3bWIoKTsgLyogY2xvY2tzIG5lZWQgdG8gYmUgZW5hYmxlZCBiZWZvcmUg
-cmVzZXQgKi8KIAogCWRzaV93cml0ZShtc21faG9zdCwgUkVHX0RTSV9SRVNFVCwgMSk7Ci0Jd21i
-KCk7IC8qIG1ha2Ugc3VyZSByZXNldCBoYXBwZW4gKi8KKwltc2xlZXAoUkVTRVRfREVMQVkpOyAv
-KiBtYWtlIHN1cmUgcmVzZXQgaGFwcGVuICovCiAJZHNpX3dyaXRlKG1zbV9ob3N0LCBSRUdfRFNJ
-X1JFU0VULCAwKTsKIH0KIApAQCAtMTM5Niw3ICsxMzk4LDcgQEAgc3RhdGljIHZvaWQgZHNpX3N3
-X3Jlc2V0X3Jlc3RvcmUoc3RydWN0IG1zbV9kc2lfaG9zdCAqbXNtX2hvc3QpCiAKIAkvKiBkc2kg
-Y29udHJvbGxlciBjYW4gb25seSBiZSByZXNldCB3aGlsZSBjbG9ja3MgYXJlIHJ1bm5pbmcgKi8K
-IAlkc2lfd3JpdGUobXNtX2hvc3QsIFJFR19EU0lfUkVTRVQsIDEpOwotCXdtYigpOwkvKiBtYWtl
-IHN1cmUgcmVzZXQgaGFwcGVuICovCisJbXNsZWVwKFJFU0VUX0RFTEFZKTsJLyogbWFrZSBzdXJl
-IHJlc2V0IGhhcHBlbiAqLwogCWRzaV93cml0ZShtc21faG9zdCwgUkVHX0RTSV9SRVNFVCwgMCk7
-CiAJd21iKCk7CS8qIGNvbnRyb2xsZXIgb3V0IG9mIHJlc2V0ICovCiAJZHNpX3dyaXRlKG1zbV9o
-b3N0LCBSRUdfRFNJX0NUUkwsIGRhdGEwKTsKLS0gCjIuMTcuMQoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+--===============0884411103==
+Content-Type: multipart/alternative; boundary="000000000000e847210594a43fae"
+
+--000000000000e847210594a43fae
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+> Just use Cc. We want all replies to go to the list(s) as well.
+Sorry, I wasn't sure and wanted to err on the side of not spamming the
+wrong people.
+
+> Oct 10 12:53:30 scorpion kernel: RIP:
+0010:dma_fence_signal_locked+0x30/0xe0
+
+>
+> Looks like it could be
+> https://bugs.freedesktop.org/show_bug.cgi?id=3D111381
+>
+> in which case you just need to upgrade to 4.19.78 and it should be
+> fixed.
+
+Thanks a bunch, not sure how I missed there was a new LTS kernel out. I
+have upgraded and will report back if I continue to see the issue.
+
+Thanks for the quick support,
+John
+
+On Fri, Oct 11, 2019 at 6:12 AM Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linu=
+x.intel.com>
+wrote:
+
+> On Thu, Oct 10, 2019 at 01:15:09PM -0400, John Maguire wrote:
+> > Hi there,
+> >
+> > I wasn't sure which mailing list to use so I BCC'd
+> > intel-gfx@lists.freedesktop.org and dri-devel@lists.freedesktop.org
+>
+> Just use Cc. We want all replies to go to the list(s) as well.
+>
+> >
+> > I'm using a Lenovo Thinkpad T470p and running the 4.19.77-1-lts kernel =
+on
+> > Arch Linux. Recently, I've started getting freezes each day. Audio can
+> > still be heard, but video output stops. I was able to retrieve a call
+> trace
+> > from journald.
+> >
+> > I've attached the output of "sudo lspci -vvv" as well as the message fr=
+om
+> > journald (null pointer dereference).
+>
+> Oct 10 12:53:30 scorpion kernel: RIP:
+> 0010:dma_fence_signal_locked+0x30/0xe0
+>
+>
+> Looks like it could be
+> https://bugs.freedesktop.org/show_bug.cgi?id=3D111381
+>
+> in which case you just need to upgrade to 4.19.78 and it should be
+> fixed.
+>
+> --
+> Ville Syrj=C3=A4l=C3=A4
+> Intel
+>
+
+--000000000000e847210594a43fae
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">&gt; Just use Cc. We want all replies to go to the list(s)=
+ as well.<span class=3D"gmail-im" style=3D"color:rgb(80,0,80)"><br></span><=
+div>Sorry, I wasn&#39;t sure and wanted to err on the side of not spamming =
+the wrong people.</div><div><br></div><div>&gt; Oct 10 12:53:30 scorpion ke=
+rnel: RIP: 0010:dma_fence_signal_locked+0x30/0xe0=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0</div>&gt;=C2=A0<br>=
+&gt; Looks like it could be<br>&gt;=C2=A0<a href=3D"https://bugs.freedeskto=
+p.org/show_bug.cgi?id=3D111381" rel=3D"noreferrer" target=3D"_blank">https:=
+//bugs.freedesktop.org/show_bug.cgi?id=3D111381</a><br>&gt;=C2=A0<br>&gt; i=
+n which case you just need to upgrade to 4.19.78 and it should be<br>&gt; f=
+ixed.<span class=3D"gmail-HOEnZb"><font color=3D"#888888"><br></font></span=
+><div><br></div><div>Thanks a bunch, not sure how I missed there was a new =
+LTS kernel out. I have upgraded and will report back if I continue to see t=
+he issue.</div><div><br></div><div>Thanks for the quick support,</div><div>=
+John</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gm=
+ail_attr">On Fri, Oct 11, 2019 at 6:12 AM Ville Syrj=C3=A4l=C3=A4 &lt;<a hr=
+ef=3D"mailto:ville.syrjala@linux.intel.com">ville.syrjala@linux.intel.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On=
+ Thu, Oct 10, 2019 at 01:15:09PM -0400, John Maguire wrote:<br>
+&gt; Hi there,<br>
+&gt; <br>
+&gt; I wasn&#39;t sure which mailing list to use so I BCC&#39;d<br>
+&gt; <a href=3D"mailto:intel-gfx@lists.freedesktop.org" target=3D"_blank">i=
+ntel-gfx@lists.freedesktop.org</a> and <a href=3D"mailto:dri-devel@lists.fr=
+eedesktop.org" target=3D"_blank">dri-devel@lists.freedesktop.org</a><br>
+<br>
+Just use Cc. We want all replies to go to the list(s) as well.<br>
+<br>
+&gt; <br>
+&gt; I&#39;m using a Lenovo Thinkpad T470p and running the 4.19.77-1-lts ke=
+rnel on<br>
+&gt; Arch Linux. Recently, I&#39;ve started getting freezes each day. Audio=
+ can<br>
+&gt; still be heard, but video output stops. I was able to retrieve a call =
+trace<br>
+&gt; from journald.<br>
+&gt; <br>
+&gt; I&#39;ve attached the output of &quot;sudo lspci -vvv&quot; as well as=
+ the message from<br>
+&gt; journald (null pointer dereference).<br>
+<br>
+Oct 10 12:53:30 scorpion kernel: RIP: 0010:dma_fence_signal_locked+0x30/0xe=
+0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 <br>
+<br>
+Looks like it could be<br>
+<a href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111381" rel=3D"no=
+referrer" target=3D"_blank">https://bugs.freedesktop.org/show_bug.cgi?id=3D=
+111381</a><br>
+<br>
+in which case you just need to upgrade to 4.19.78 and it should be<br>
+fixed.<br>
+<br>
+-- <br>
+Ville Syrj=C3=A4l=C3=A4<br>
+Intel<br>
+</blockquote></div>
+
+--000000000000e847210594a43fae--
+
+--===============0884411103==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0884411103==--
