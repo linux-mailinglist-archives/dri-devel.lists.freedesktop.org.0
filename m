@@ -2,43 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BFE2D4C1E
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Oct 2019 04:23:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E210D4C42
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Oct 2019 05:07:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E3A86E443;
-	Sat, 12 Oct 2019 02:23:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B5396E44A;
+	Sat, 12 Oct 2019 03:07:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5D0026E443
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Oct 2019 02:23:48 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 597967296E; Sat, 12 Oct 2019 02:23:48 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111983] quan ly
-Date: Sat, 12 Oct 2019 02:23:48 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: General
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: not set
-X-Bugzilla-Who: mongkhang26@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
-Message-ID: <bug-111983-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8F7406E44A
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Oct 2019 03:07:39 +0000 (UTC)
+X-UUID: f4786114ad30410caee12130dced414c-20191012
+X-UUID: f4786114ad30410caee12130dced414c-20191012
+Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+ (envelope-from <jitao.shi@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLS)
+ with ESMTP id 735632940; Sat, 12 Oct 2019 11:07:32 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N2.mediatek.inc
+ (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Sat, 12 Oct 2019 11:07:30 +0800
+Received: from mszsdclx1018.gcn.mediatek.inc (172.27.4.253) by
+ MTKCAS36.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
+ 15.0.1395.4 via Frontend Transport; Sat, 12 Oct 2019 11:07:29 +0800
+From: Jitao Shi <jitao.shi@mediatek.com>
+To: Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>, Daniel
+ Vetter <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v7 0/8] add driver for "boe, tv101wum-nl6", "boe, tv101wum-n53",
+ "auo, kd101n80-45na" and "auo, b101uan08.3" panels
+Date: Sat, 12 Oct 2019 11:07:12 +0800
+Message-ID: <20191012030720.27127-1-jitao.shi@mediatek.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
+X-TM-SNTS-SMTP: F7B07B99A81EF4E5D242E6BC593B327DF1589564B8DF92733C3F20695BD5F6C22000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,158 +48,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0673853907=="
+Cc: Jitao Shi <jitao.shi@mediatek.com>, srv_heupstream@mediatek.com,
+ stonea168@163.com, cawa.cheng@mediatek.com, linux-mediatek@lists.infradead.org,
+ yingjoe.chen@mediatek.com, eddie.huang@mediatek.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0673853907==
-Content-Type: multipart/alternative; boundary="15708470281.2c6196AA.15854"
-Content-Transfer-Encoding: 7bit
-
-
---15708470281.2c6196AA.15854
-Date: Sat, 12 Oct 2019 02:23:48 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111983
-
-            Bug ID: 111983
-           Summary: quan ly
-           Product: DRI
-           Version: XOrg git
-          Hardware: Other
-                OS: All
-            Status: NEW
-          Severity: not set
-          Priority: not set
-         Component: General
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: mongkhang26@gmail.com
-
-quan ly
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15708470281.2c6196AA.15854
-Date: Sat, 12 Oct 2019 02:23:48 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - quan ly"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111983">111983</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>quan ly
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>XOrg git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>Other
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>All
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>General
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>mongkhang26&#64;gmail.com
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>quan ly</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15708470281.2c6196AA.15854--
-
---===============0673853907==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0673853907==--
+Q2hhbmdlcyBzaW5jZSB2NjoKIC0gZml4IGJvZV9wYW5lbF9pbml0IGVyciB1bmluaXQuCiAtIGFk
+anVzdCB0aGUgZGVsYXkgb2YgYmFja2xpZ2h0IG9uLgoKQ2hhbmdlcyBzaW5jZSB2NToKIC0gY292
+ZXJ0IHRoZSBkb2N1bWVudHMgdG8geWFtbAogLSBmaW5lIHR1bmUgYm9lLCB0djEwMXd1bS1uNTMg
+cGFuZWwgdmlkZW8gdGltaW5lCgpDaGFuZ2VzIHNpbmNlIHY0OgogLSBhZGQgYXVvLGIxMDF1YW4w
+OC4zIHBhbmVsIGZvciB0aGlzIGRyaXZlci4KIC0gYWRkIGJvZSx0djEwMXd1bS1uNTMgcGFuZWwg
+Zm9yIHRoaXMgZHJpdmVyLgoKQ2hhbmdlcyBzaW5jZSB2MzoKIC0gcmVtb3ZlIGNoZWNrIGVuYWJs
+ZV9ncGlvLgogLSBmaW5lIHR1bmUgdGhlIGF1byxrZDEwMW44MC00NW5hIHBhbmVsJ3MgcG93ZXIg
+b24gdGltaW5nLgoKQ2hhbmdlcyBzaW5jZSB2MjoKIC0gY29ycmVjdCB0aGUgcGFuZWwgc2l6ZQog
+LSByZW1vdmUgYmxhbmsgbGluZSBpbiBLY29uZmlnCiAtIG1vdmUgYXVvLGtkMTAxbjgwLTQ1bmEg
+cGFuZWwgZHJpdmVyIGluIHRoaXMgc2VyaWVzLgoKQ2hhbmdlcyBzaW5jZSB2MToKCiAtIHVwZGF0
+ZSB0eXBvIG5sNiAtPiBuMTYuCiAtIHVwZGF0ZSBuZXcgcGFuZWwgY29uZmlnIGFuZCBtYWtlZmls
+ZSBhcmUgYWRkZWQgaW4gYWxwaGFiZXRpY2FsbHkgb3JkZXIuCiAtIGFkZCB0aGUgcGFuZWwgbW9k
+ZSBhbmQgcGFuZWwgaW5mbyBpbiBkcml2ZXIgZGF0YS4KIC0gbWVyZ2UgYXVvLGtkMTAxbjgwLTQ1
+YSBhbmQgYm9lLHR2MTAxd3VtLW5sNiBpbiBvbmUgZHJpdmVyCgpKaXRhbyBTaGkgKDgpOgogIGR0
+LWJpbmRpbmdzOiBkaXNwbGF5OiBwYW5lbDogQWRkIEJPRSB0djEwMXd1bS1uMTYgcGFuZWwgYmlu
+ZGluZ3MKICBkcm0vcGFuZWw6IHN1cHBvcnQgZm9yIEJPRSB0djEwMXd1bS1ubDYgd3V4Z2EgZHNp
+IHZpZGVvIG1vZGUgcGFuZWwKICBkdC1iaW5kaW5nczogZGlzcGxheTogcGFuZWw6IGFkZCBhdW8g
+a2QxMDFuODAtNDVuYSBwYW5lbCBiaW5kaW5ncwogIGRybS9wYW5lbDogc3VwcG9ydCBmb3IgYXVv
+LGtkMTAxbjgwLTQ1bmEgd3V4Z2EgZHNpIHZpZGVvIG1vZGUgcGFuZWwKICBkdC1iaW5kaW5nczog
+ZGlzcGxheTogcGFuZWw6IGFkZCBib2UgdHYxMDF3dW0tbjUzIHBhbmVsIGRvY3VtZW50YXRpb24K
+ICBkcm0vcGFuZWw6IHN1cHBvcnQgZm9yIGJvZSx0djEwMXd1bS1uNTMgd3V4Z2EgZHNpIHZpZGVv
+IG1vZGUgcGFuZWwKICBkdC1iaW5kaW5nczogZGlzcGxheTogcGFuZWw6IGFkZCBBVU8gYXVvLGIx
+MDF1YW4wOC4zIHBhbmVsCiAgICBkb2N1bWVudGF0aW9uCiAgZHJtL3BhbmVsOiBzdXBwb3J0IGZv
+ciBhdW8sYjEwMXVhbjA4LjMgd3V4Z2EgZHNpIHZpZGVvIG1vZGUgcGFuZWwKCiAuLi4vZGlzcGxh
+eS9wYW5lbC9hdW8sYjEwMXVhbjA4LjMueWFtbCAgICAgICAgfCAgNjcgKysKIC4uLi9kaXNwbGF5
+L3BhbmVsL2F1byxrZDEwMW44MC00NW5hLnlhbWwgICAgICB8ICA2NyArKwogLi4uL2Rpc3BsYXkv
+cGFuZWwvYm9lLHR2MTAxd3VtLW41My55YW1sICAgICAgIHwgIDY3ICsrCiAuLi4vZGlzcGxheS9w
+YW5lbC9ib2UsdHYxMDF3dW0tbmw2LnlhbWwgICAgICAgfCAgNjcgKysKIGRyaXZlcnMvZ3B1L2Ry
+bS9wYW5lbC9LY29uZmlnICAgICAgICAgICAgICAgICB8ICAgOSArCiBkcml2ZXJzL2dwdS9kcm0v
+cGFuZWwvTWFrZWZpbGUgICAgICAgICAgICAgICAgfCAgIDEgKwogLi4uL2dwdS9kcm0vcGFuZWwv
+cGFuZWwtYm9lLXR2MTAxd3VtLW5sNi5jICAgIHwgODgwICsrKysrKysrKysrKysrKysrKwogNyBm
+aWxlcyBjaGFuZ2VkLCAxMTU4IGluc2VydGlvbnMoKykKIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1
+bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9hdW8sYjEwMXVhbjA4
+LjMueWFtbAogY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5k
+aW5ncy9kaXNwbGF5L3BhbmVsL2F1byxrZDEwMW44MC00NW5hLnlhbWwKIGNyZWF0ZSBtb2RlIDEw
+MDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9ib2Us
+dHYxMDF3dW0tbjUzLnlhbWwKIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2Rldmlj
+ZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9ib2UsdHYxMDF3dW0tbmw2LnlhbWwKIGNyZWF0
+ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtYm9lLXR2MTAxd3VtLW5s
+Ni5jCgotLSAKMi4yMS4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWw=
