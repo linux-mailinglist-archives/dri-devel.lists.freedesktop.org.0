@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA434D51F0
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Oct 2019 21:05:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A08ADD51F1
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Oct 2019 21:06:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC3846E075;
-	Sat, 12 Oct 2019 19:05:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95E166E07B;
+	Sat, 12 Oct 2019 19:06:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05DC86E075
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Oct 2019 19:05:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5276089D84
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Oct 2019 19:06:24 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 205089] amdgpu : drm:amdgpu_cs_ioctl : Failed to initialize
  parser -125
-Date: Sat, 12 Oct 2019 19:05:12 +0000
+Date: Sat, 12 Oct 2019 19:06:23 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -31,8 +31,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205089-2300-Ppdt33gbM4@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-205089-2300-T2RwOvS0rI@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205089-2300@https.bugzilla.kernel.org/>
 References: <bug-205089-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,18 +58,11 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDUwODkKCi0tLSBD
-b21tZW50ICM2IGZyb20gQnJ1bm8gSmFjcXVldCAobWF4aWphY0BmcmVlLmZyKSAtLS0KSGVsbG8g
-QWxleCwKCldlbGwgbXkgdGVzdCBjYXNlIGlzIHN0aWxsIHZlcnkgcmFuZG9tLCBidXQgSSBmaW5h
-bGx5IG1hbmFnZWQgdG8gZ2V0IHRoZSBmdWxsCmRtZXNnLCB0aGUgaW5pdGlhbCBlcnJvciBzZWVt
-cyB0byBiZSB0aGlzOgpbMzQ4NTYuODE3NTU0XSBbZHJtOmFtZGdwdV9kbV9hdG9taWNfY29tbWl0
-X3RhaWwgW2FtZGdwdV1dICpFUlJPUiogV2FpdGluZyBmb3IKZmVuY2VzIHRpbWVkIG91dCBvciBp
-bnRlcnJ1cHRlZCEKWzM0ODU4LjMyMDgxMl0gW2RybTphbWRncHVfam9iX3RpbWVkb3V0IFthbWRn
-cHVdXSAqRVJST1IqIHJpbmcgZ2Z4IHRpbWVvdXQsCnNpZ25hbGVkIHNlcT02MzM3Njc0LCBlbWl0
-dGVkIHNlcT02MzM3Njc2ClszNDg1OC4zMjA4NTRdIFtkcm06YW1kZ3B1X2pvYl90aW1lZG91dCBb
-YW1kZ3B1XV0gKkVSUk9SKiBQcm9jZXNzIGluZm9ybWF0aW9uOgpwcm9jZXNzIGNzZ29fbGludXg2
-NCBwaWQgMTI1ODcgdGhyZWFkIGNzZ29fbGludXg6Y3MwIHBpZCAxMjU5NQpbMzQ4NTguMzIwODU3
-XSBhbWRncHUgMDAwMDoxZjowMC4wOiBHUFUgcmVzZXQgYmVnaW4hCgotLSAKWW91IGFyZSByZWNl
-aXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9m
-IHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+b21tZW50ICM3IGZyb20gQnJ1bm8gSmFjcXVldCAobWF4aWphY0BmcmVlLmZyKSAtLS0KQ3JlYXRl
+ZCBhdHRhY2htZW50IDI4NTQ4MwogIC0tPiBodHRwczovL2J1Z3ppbGxhLmtlcm5lbC5vcmcvYXR0
+YWNobWVudC5jZ2k/aWQ9Mjg1NDgzJmFjdGlvbj1lZGl0CmRtZXNnIG9mIGZlbmNlIHRpbWVvdXQg
+ZXJyb3IKCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3
+YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
+YW4vbGlzdGluZm8vZHJpLWRldmVs
