@@ -2,41 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DACCD5352
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2019 01:34:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2948D5354
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2019 01:42:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D52226E0DB;
-	Sat, 12 Oct 2019 23:34:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C330E6E0E1;
+	Sat, 12 Oct 2019 23:42:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id D14C06E0E2
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Oct 2019 23:34:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id A601B6E0E2
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Oct 2019 23:42:12 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id CE3317296E; Sat, 12 Oct 2019 23:34:19 +0000 (UTC)
+ id A2AF57296E; Sat, 12 Oct 2019 23:42:12 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Sat, 12 Oct 2019 23:34:19 +0000
+Subject: [Bug 111804] Annoying GPU stucks are continued on Vega 20 with
+ Kernel 5.4 + mesa 9.2.0 RC4 + llvm 9.0.0
+ [drm:drm_atomic_helper_wait_for_flip_done [drm_kms_helper]] *ERROR*
+ [CRTC:47:crtc-0] flip_done timed out
+Date: Sat, 12 Oct 2019 23:42:12 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: g@rgoyle.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: jamespharvey20@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-bpPcoVdFXX@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111804-502-uFUzS4Li9W@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111804-502@http.bugs.freedesktop.org/>
+References: <bug-111804-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,72 +55,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1352762270=="
+Content-Type: multipart/mixed; boundary="===============2033182334=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1352762270==
-Content-Type: multipart/alternative; boundary="157092325910.c7ff3A1.30731"
+--===============2033182334==
+Content-Type: multipart/alternative; boundary="15709237322.EF0fcC64.31967"
 Content-Transfer-Encoding: 7bit
 
 
---157092325910.c7ff3A1.30731
-Date: Sat, 12 Oct 2019 23:34:19 +0000
+--15709237322.EF0fcC64.31967
+Date: Sat, 12 Oct 2019 23:42:12 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111804
 
---- Comment #161 from Gargoyle <g@rgoyle.com> ---
-Hi there. I've been trying to solve some lockups and pauses with my system =
-and
-have just read this entire thread.=20
+--- Comment #8 from jamespharvey20@gmail.com ---
+Just ran into this with the Vega 64.  No games open.  Only KDE, suckless
+terminal, firefox, and remote-viewer.
 
-The good news is that I am another Radeon VII owner having the same problems
-and I am willing to do whatever I can to help.
+Thankfully, I'm not sure of any negative effects.  I'm not even sure I need=
+ to
+reboot, and only saw this while looking at journalctl for another reason.
 
-My current situation is:-
+Currently running 5.3.0, mesa 19.2.0, and llvm 8.0.1.  Going to be upgradin=
+g to
+5.3.5, 19.2.1, and 9.0.0 soon, but haven't done so yet.
 
-- I'm running dual 2560x1440@60Hz via display port.
 
-- I am running the beta of ubuntu 19:10 (Linux ryzen1910 5.3.0-18-generic
-#19-Ubuntu SMP Tue Oct 8 20:14:06 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux).
 
-- I don't push the R:VII at all under Linux. I boot into Windows 10 to play
-games.
+Oct 11 00:13:53 newKvm kernel: [drm] amdgpu_dm_irq_schedule_work FAILED src=
+ 11
+(yeah, nothing else with this message almost 2 days before this problem)
 
-- I have disabled IOMMU in BIOS/EFI. With IOMMU enabled things are MUCH wor=
-se.
-
-- My system is mostly stable. If the displays blank, sometimes after waking
-them I get the 15-30 second freeze. Then the "amdgpu [powerplay] Failed..."
-messages and then everything continues ok. I can semi-reliably recreate thi=
-s by
-using the "xset dpms force off" command someone posted earlier. I've not
-managed to find any kind of pattern yet, but 8 out of 10 times running that
-command and then waking the system with a keypress/mouse click will cause t=
-he
-freeze.
-
-- I use X11 and not wayland. Not sure that is significant, but with Ubuntu
-19:10 it seems wayland is started temporarily and then stopped during boot /
-starting gdm. If I enable IOMMU my GDM login screen will be completely corr=
-upt.
-However, if I press enter (to select my user) and enter my password, my X11
-gnome session starts. Although there are LOTS of pauses and warnings and er=
-rors
-all over the place in "journalctl -f".
+Oct 12 19:34:58 newKvm kernel: kworker/u65:4   D    0 2652517      2 0x8000=
+4080
+Oct 12 19:34:58 newKvm kernel: Workqueue: events_unbound commit_work
+[drm_kms_helper]
+Oct 12 19:34:58 newKvm kernel: Call Trace:
+Oct 12 19:34:58 newKvm kernel:  ? __schedule+0x27f/0x6d0
+Oct 12 19:34:58 newKvm kernel:  schedule+0x43/0xd0
+Oct 12 19:34:58 newKvm kernel:  schedule_timeout+0x1cf/0x3d0
+Oct 12 19:34:58 newKvm kernel:  ? collect_expired_timers+0xb0/0xb0
+Oct 12 19:34:58 newKvm kernel:  wait_for_common+0xeb/0x190
+Oct 12 19:34:58 newKvm kernel:  ? wake_up_q+0x60/0x60
+Oct 12 19:34:58 newKvm kernel:  drm_atomic_helper_wait_for_flip_done+0x5f/0=
+xb0
+[drm_kms_helper]
+Oct 12 19:34:58 newKvm kernel:  amdgpu_dm_atomic_commit_tail+0x1898/0x1d00
+[amdgpu]
+Oct 12 19:34:58 newKvm kernel:  ? commit_tail+0x3c/0x70 [drm_kms_helper]
+Oct 12 19:34:58 newKvm kernel:  commit_tail+0x3c/0x70 [drm_kms_helper]
+Oct 12 19:34:58 newKvm kernel:  process_one_work+0x1d1/0x3a0
+Oct 12 19:34:58 newKvm kernel:  worker_thread+0x4a/0x3d0
+Oct 12 19:34:58 newKvm kernel:  kthread+0xfb/0x130
+Oct 12 19:34:58 newKvm kernel:  ? process_one_work+0x3a0/0x3a0
+Oct 12 19:34:58 newKvm kernel:  ? kthread_park+0x80/0x80
+Oct 12 19:34:58 newKvm kernel:  ret_from_fork+0x35/0x40
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---157092325910.c7ff3A1.30731
-Date: Sat, 12 Oct 2019 23:34:19 +0000
+--15709237322.EF0fcC64.31967
+Date: Sat, 12 Oct 2019 23:42:12 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -132,59 +138,65 @@ Auto-Submitted: auto-generated
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c161">Comm=
-ent # 161</a>
+          bz_status_NEW "
+   title=3D"NEW - Annoying GPU stucks are continued on Vega 20 with Kernel =
+5.4 + mesa 9.2.0 RC4 + llvm 9.0.0 [drm:drm_atomic_helper_wait_for_flip_done=
+ [drm_kms_helper]] *ERROR* [CRTC:47:crtc-0] flip_done timed out"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111804#c8">Commen=
+t # 8</a>
               on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
+          bz_status_NEW "
+   title=3D"NEW - Annoying GPU stucks are continued on Vega 20 with Kernel =
+5.4 + mesa 9.2.0 RC4 + llvm 9.0.0 [drm:drm_atomic_helper_wait_for_flip_done=
+ [drm_kms_helper]] *ERROR* [CRTC:47:crtc-0] flip_done timed out"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111804">bug 11180=
 4</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-g&#64;rgoyle.com" title=3D"Gargoyle &lt;g&#64;rgoyle.com&gt;"> <span class=
-=3D"fn">Gargoyle</span></a>
+jamespharvey20&#64;gmail.com" title=3D"jamespharvey20&#64;gmail.com">jamesp=
+harvey20&#64;gmail.com</a>
 </span></b>
-        <pre>Hi there. I've been trying to solve some lockups and pauses wi=
-th my system and
-have just read this entire thread.=20
+        <pre>Just ran into this with the Vega 64.  No games open.  Only KDE=
+, suckless
+terminal, firefox, and remote-viewer.
 
-The good news is that I am another Radeon VII owner having the same problems
-and I am willing to do whatever I can to help.
+Thankfully, I'm not sure of any negative effects.  I'm not even sure I need=
+ to
+reboot, and only saw this while looking at journalctl for another reason.
 
-My current situation is:-
+Currently running 5.3.0, mesa 19.2.0, and llvm 8.0.1.  Going to be upgradin=
+g to
+5.3.5, 19.2.1, and 9.0.0 soon, but haven't done so yet.
 
-- I'm running dual 2560x1440&#64;60Hz via display port.
 
-- I am running the beta of ubuntu 19:10 (Linux ryzen1910 5.3.0-18-generic
-#19-Ubuntu SMP Tue Oct 8 20:14:06 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux).
 
-- I don't push the R:VII at all under Linux. I boot into Windows 10 to play
-games.
+Oct 11 00:13:53 newKvm kernel: [drm] amdgpu_dm_irq_schedule_work FAILED src=
+ 11
+(yeah, nothing else with this message almost 2 days before this problem)
 
-- I have disabled IOMMU in BIOS/EFI. With IOMMU enabled things are MUCH wor=
-se.
-
-- My system is mostly stable. If the displays blank, sometimes after waking
-them I get the 15-30 second freeze. Then the &quot;amdgpu [powerplay] Faile=
-d...&quot;
-messages and then everything continues ok. I can semi-reliably recreate thi=
-s by
-using the &quot;xset dpms force off&quot; command someone posted earlier. I=
-'ve not
-managed to find any kind of pattern yet, but 8 out of 10 times running that
-command and then waking the system with a keypress/mouse click will cause t=
-he
-freeze.
-
-- I use X11 and not wayland. Not sure that is significant, but with Ubuntu
-19:10 it seems wayland is started temporarily and then stopped during boot /
-starting gdm. If I enable IOMMU my GDM login screen will be completely corr=
-upt.
-However, if I press enter (to select my user) and enter my password, my X11
-gnome session starts. Although there are LOTS of pauses and warnings and er=
-rors
-all over the place in &quot;journalctl -f&quot;.</pre>
+Oct 12 19:34:58 newKvm kernel: kworker/u65:4   D    0 2652517      2 0x8000=
+4080
+Oct 12 19:34:58 newKvm kernel: Workqueue: events_unbound commit_work
+[drm_kms_helper]
+Oct 12 19:34:58 newKvm kernel: Call Trace:
+Oct 12 19:34:58 newKvm kernel:  ? __schedule+0x27f/0x6d0
+Oct 12 19:34:58 newKvm kernel:  schedule+0x43/0xd0
+Oct 12 19:34:58 newKvm kernel:  schedule_timeout+0x1cf/0x3d0
+Oct 12 19:34:58 newKvm kernel:  ? collect_expired_timers+0xb0/0xb0
+Oct 12 19:34:58 newKvm kernel:  wait_for_common+0xeb/0x190
+Oct 12 19:34:58 newKvm kernel:  ? wake_up_q+0x60/0x60
+Oct 12 19:34:58 newKvm kernel:  drm_atomic_helper_wait_for_flip_done+0x5f/0=
+xb0
+[drm_kms_helper]
+Oct 12 19:34:58 newKvm kernel:  amdgpu_dm_atomic_commit_tail+0x1898/0x1d00
+[amdgpu]
+Oct 12 19:34:58 newKvm kernel:  ? commit_tail+0x3c/0x70 [drm_kms_helper]
+Oct 12 19:34:58 newKvm kernel:  commit_tail+0x3c/0x70 [drm_kms_helper]
+Oct 12 19:34:58 newKvm kernel:  process_one_work+0x1d1/0x3a0
+Oct 12 19:34:58 newKvm kernel:  worker_thread+0x4a/0x3d0
+Oct 12 19:34:58 newKvm kernel:  kthread+0xfb/0x130
+Oct 12 19:34:58 newKvm kernel:  ? process_one_work+0x3a0/0x3a0
+Oct 12 19:34:58 newKvm kernel:  ? kthread_park+0x80/0x80
+Oct 12 19:34:58 newKvm kernel:  ret_from_fork+0x35/0x40</pre>
         </div>
       </p>
 
@@ -198,9 +210,9 @@ all over the place in &quot;journalctl -f&quot;.</pre>
     </body>
 </html>=
 
---157092325910.c7ff3A1.30731--
+--15709237322.EF0fcC64.31967--
 
---===============1352762270==
+--===============2033182334==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -210,4 +222,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1352762270==--
+--===============2033182334==--
