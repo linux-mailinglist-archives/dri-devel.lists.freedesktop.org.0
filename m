@@ -1,46 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1935D55A4
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2019 12:25:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFC30D55AB
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2019 12:38:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 916D86E11F;
-	Sun, 13 Oct 2019 10:25:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD94B6E0DA;
+	Sun, 13 Oct 2019 10:38:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 16B6A6E11F
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2019 10:25:16 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 101C0729DA; Sun, 13 Oct 2019 10:25:16 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EE676E0DA
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2019 10:38:54 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111987] Unstable performance (periodic and repeating patterns
- of fps change) and changing VDDGFX
-Date: Sun, 13 Oct 2019 10:25:16 +0000
-X-Bugzilla-Reason: AssignedTo
+Subject: [Bug 204609] amdgpu: powerplay failed send message
+Date: Sun, 13 Oct 2019 10:38:53 +0000
+X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: witold.baryluk+freedesktop@gmail.com
+X-Bugzilla-Who: baryluk@smp.if.uj.edu.pl
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111987-502-WZFONvijbb@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111987-502@http.bugs.freedesktop.org/>
-References: <bug-111987-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-204609-2300-Vy6gUH4f2v@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204609-2300@https.bugzilla.kernel.org/>
+References: <bug-204609-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
+ message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,144 +51,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1643760511=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1643760511==
-Content-Type: multipart/alternative; boundary="15709623160.dbdaB8c7E.28267"
-Content-Transfer-Encoding: 7bit
-
-
---15709623160.dbdaB8c7E.28267
-Date: Sun, 13 Oct 2019 10:25:16 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111987
-
---- Comment #10 from Witold Baryluk <witold.baryluk+freedesktop@gmail.com> =
----
-Firmware signatures:
-
-user@debian:/lib/firmware/amdgpu$ sha256sum fiji_*
-615693b2736f13c4ef3cd9220efe4d55df3c5d82fe128d3f1b34a45edba65fbd  fiji_ce.b=
-in
-b0d51dc0b361afa07bcefa0f4670c344679b1fcbe1be68c06e727eaaf0098236  fiji_mc.b=
-in
-953747f5b93bd743bb75747b950be3e4ccbe481ac1f7110a58d399ac840f158a  fiji_me.b=
-in
-cd1133103874ce368c4f46eeb38fe293caad5f77e4fee8567f6f6be9c47687c4  fiji_mec2=
-.bin
-cd1133103874ce368c4f46eeb38fe293caad5f77e4fee8567f6f6be9c47687c4  fiji_mec.=
-bin
-91bda514a4d0d846d48321aa4d3c92ff1049fe53cbf3e007686553a29a9018de  fiji_pfp.=
-bin
-f0fa903f16502cff35dc073a77c1ef382f4218ec2928f23a173400888f90400d  fiji_rlc.=
-bin
-1c5ab71e854cc59e4998559ed07c436d05b2a97b0df0a51a3924b1c240398949=20
-fiji_sdma1.bin
-b5cf6b3a3b7e6839a68a92ac8651d53d0ae41e1caee28c68155b2d7865f1cf4c  fiji_sdma=
-.bin
-fd13fe6b32cef9129f1b75f46b014babcf4075ebc8a715bf19da573be8b68223  fiji_smc.=
-bin
-b7401cfda1087ee5cf71acef19163f311c71775802b331ca82b9177119e4d97b  fiji_uvd.=
-bin
-0fe1a2e4e2e4f6f8d5600d8c13cb60a8bc87089cd37c766fef2f95ccd5e277ac  fiji_vce.=
-bin
-user@debian:/lib/firmware/amdgpu$
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15709623160.dbdaB8c7E.28267
-Date: Sun, 13 Oct 2019 10:25:16 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Unstable performance (periodic and repeating patterns of =
-fps change) and changing VDDGFX"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111987#c10">Comme=
-nt # 10</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Unstable performance (periodic and repeating patterns of =
-fps change) and changing VDDGFX"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111987">bug 11198=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-witold.baryluk+freedesktop&#64;gmail.com" title=3D"Witold Baryluk &lt;witol=
-d.baryluk+freedesktop&#64;gmail.com&gt;"> <span class=3D"fn">Witold Baryluk=
-</span></a>
-</span></b>
-        <pre>Firmware signatures:
-
-user&#64;debian:/lib/firmware/amdgpu$ sha256sum fiji_*
-615693b2736f13c4ef3cd9220efe4d55df3c5d82fe128d3f1b34a45edba65fbd  fiji_ce.b=
-in
-b0d51dc0b361afa07bcefa0f4670c344679b1fcbe1be68c06e727eaaf0098236  fiji_mc.b=
-in
-953747f5b93bd743bb75747b950be3e4ccbe481ac1f7110a58d399ac840f158a  fiji_me.b=
-in
-cd1133103874ce368c4f46eeb38fe293caad5f77e4fee8567f6f6be9c47687c4  fiji_mec2=
-.bin
-cd1133103874ce368c4f46eeb38fe293caad5f77e4fee8567f6f6be9c47687c4  fiji_mec.=
-bin
-91bda514a4d0d846d48321aa4d3c92ff1049fe53cbf3e007686553a29a9018de  fiji_pfp.=
-bin
-f0fa903f16502cff35dc073a77c1ef382f4218ec2928f23a173400888f90400d  fiji_rlc.=
-bin
-1c5ab71e854cc59e4998559ed07c436d05b2a97b0df0a51a3924b1c240398949=20
-fiji_sdma1.bin
-b5cf6b3a3b7e6839a68a92ac8651d53d0ae41e1caee28c68155b2d7865f1cf4c  fiji_sdma=
-.bin
-fd13fe6b32cef9129f1b75f46b014babcf4075ebc8a715bf19da573be8b68223  fiji_smc.=
-bin
-b7401cfda1087ee5cf71acef19163f311c71775802b331ca82b9177119e4d97b  fiji_uvd.=
-bin
-0fe1a2e4e2e4f6f8d5600d8c13cb60a8bc87089cd37c766fef2f95ccd5e277ac  fiji_vce.=
-bin
-user&#64;debian:/lib/firmware/amdgpu$</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15709623160.dbdaB8c7E.28267--
-
---===============1643760511==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1643760511==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQ2MDkKCldpdG9s
+ZCBCYXJ5bHVrIChiYXJ5bHVrQHNtcC5pZi51ai5lZHUucGwpIGNoYW5nZWQ6CgogICAgICAgICAg
+IFdoYXQgICAgfFJlbW92ZWQgICAgICAgICAgICAgICAgICAgICB8QWRkZWQKLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLQogICAgICAgICAgICAgICAgIENDfCAgICAgICAgICAgICAgICAgICAgICAgICAgICB8
+YmFyeWx1a0BzbXAuaWYudWouZWR1LnBsCgotLS0gQ29tbWVudCAjMSBmcm9tIFdpdG9sZCBCYXJ5
+bHVrIChiYXJ5bHVrQHNtcC5pZi51ai5lZHUucGwpIC0tLQpEbyB5b3UgdXNlIHR3byBkaXNwbGF5
+cyBieSBhbnkgY2hhbmNlPwoKLS0gCllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNl
+OgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
