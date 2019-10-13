@@ -2,43 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0602D57F4
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2019 22:05:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BFFCD5813
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2019 22:25:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 533BD89F75;
-	Sun, 13 Oct 2019 20:05:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C85E689CD4;
+	Sun, 13 Oct 2019 20:25:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 416AD89FCA
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2019 20:05:34 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 3DF167296E; Sun, 13 Oct 2019 20:05:34 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109887] vega56 undervolting/overclocking voltage issues
-Date: Sun, 13 Oct 2019 20:05:34 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: stefanspr94@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109887-502-NBSZQbtqN6@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109887-502@http.bugs.freedesktop.org/>
-References: <bug-109887-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5A1E89CD4
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2019 20:25:27 +0000 (UTC)
+Received: from i59f7e23a.versanet.de ([89.247.226.58] helo=phil.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.89) (envelope-from <heiko@sntech.de>)
+ id 1iJkQY-0004d0-4f; Sun, 13 Oct 2019 22:25:18 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Ezequiel Garcia <ezequiel@collabora.com>
+Subject: Re: [PATCH v5 3/3] ARM: dts: rockchip: Add RK3288 VOP gamma LUT
+ address
+Date: Sun, 13 Oct 2019 22:25:06 +0200
+Message-ID: <10075567.55hLz0bBqu@phil>
+In-Reply-To: <20191010194351.17940-4-ezequiel@collabora.com>
+References: <20191010194351.17940-1-ezequiel@collabora.com>
+ <20191010194351.17940-4-ezequiel@collabora.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -52,90 +38,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1920982077=="
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Jacopo Mondi <jacopo@jmondi.org>, Rob Herring <robh+dt@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>, linux-rockchip@lists.infradead.org,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Sean Paul <seanpaul@chromium.org>, kernel@collabora.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1920982077==
-Content-Type: multipart/alternative; boundary="15709971343.5768CF0.25831"
-Content-Transfer-Encoding: 7bit
-
-
---15709971343.5768CF0.25831
-Date: Sun, 13 Oct 2019 20:05:34 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109887
-
---- Comment #12 from Stefan Springer <stefanspr94@gmail.com> ---
-Actually, it gets reset to 1200mV every time the resolution changes. I.e. w=
-hen
-launching a fullscreen game or restarting the display manager.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15709971343.5768CF0.25831
-Date: Sun, 13 Oct 2019 20:05:34 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - vega56 undervolting/overclocking voltage issues"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109887#c12">Comme=
-nt # 12</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - vega56 undervolting/overclocking voltage issues"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109887">bug 10988=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-stefanspr94&#64;gmail.com" title=3D"Stefan Springer &lt;stefanspr94&#64;gma=
-il.com&gt;"> <span class=3D"fn">Stefan Springer</span></a>
-</span></b>
-        <pre>Actually, it gets reset to 1200mV every time the resolution ch=
-anges. I.e. when
-launching a fullscreen game or restarting the display manager.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15709971343.5768CF0.25831--
-
---===============1920982077==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1920982077==--
+QW0gRG9ubmVyc3RhZywgMTAuIE9rdG9iZXIgMjAxOSwgMjE6NDM6NTEgQ0VTVCBzY2hyaWViIEV6
+ZXF1aWVsIEdhcmNpYToKPiBSSzMyODggU29DIFZPUHMgaGF2ZSBvcHRpb25hbCBzdXBwb3J0IEdh
+bW1hIExVVCBzZXR0aW5nLAo+IHdoaWNoIHJlcXVpcmVzIHNwZWNpZnlpbmcgdGhlIEdhbW1hIExV
+VCBhZGRyZXNzIGluIHRoZSBkZXZpY2V0cmVlLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEV6ZXF1aWVs
+IEdhcmNpYSA8ZXplcXVpZWxAY29sbGFib3JhLmNvbT4KPiBSZXZpZXdlZC1ieTogRG91Z2xhcyBB
+bmRlcnNvbiA8ZGlhbmRlcnNAY2hyb21pdW0ub3JnPgoKYXBwbGllZCBmb3IgNS41CgpUaGFua3MK
+SGVpa28KCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
