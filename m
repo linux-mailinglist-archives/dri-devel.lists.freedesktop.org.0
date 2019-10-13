@@ -2,23 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 151A7D5689
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2019 16:53:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 705FBD5693
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2019 17:13:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EE9B6E135;
-	Sun, 13 Oct 2019 14:53:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BFC46E136;
+	Sun, 13 Oct 2019 15:13:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id DE3206E135
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2019 14:53:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 273686E149
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2019 15:13:07 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D0CF67296E; Sun, 13 Oct 2019 14:53:50 +0000 (UTC)
+ id 2424B7296E; Sun, 13 Oct 2019 15:13:07 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111986] 5700 XT hangs entire system in games
-Date: Sun, 13 Oct 2019 14:53:51 +0000
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Sun, 13 Oct 2019 15:13:07 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -27,16 +28,16 @@ X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: critical
-X-Bugzilla-Who: danielsuarez369@protonmail.com
+X-Bugzilla-Who: popovic.marko@protonmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
+X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_severity
-Message-ID: <bug-111986-502-uChQ3wXPt9@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111986-502@http.bugs.freedesktop.org/>
-References: <bug-111986-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111481-502-ErOiOvgzd1@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,38 +53,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1798536552=="
+Content-Type: multipart/mixed; boundary="===============0527345792=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1798536552==
-Content-Type: multipart/alternative; boundary="15709784300.B7d379C.20336"
+--===============0527345792==
+Content-Type: multipart/alternative; boundary="15709795872.6cFd10BA.24926"
 Content-Transfer-Encoding: 7bit
 
 
---15709784300.B7d379C.20336
-Date: Sun, 13 Oct 2019 14:53:50 +0000
+--15709795872.6cFd10BA.24926
+Date: Sun, 13 Oct 2019 15:13:07 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111986
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
 
-Daniel Suarez <danielsuarez369@protonmail.com> changed:
+--- Comment #89 from Marko Popovic <popovic.marko@protonmail.com> ---
+(In reply to Shmerl from comment #88)
+> (In reply to Marko Popovic from comment #87)
+> > All of the hangs are still present for me, so this patch changed nothin=
+g.
+>=20
+> Does Firefox hang for you still?
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-           Severity|major                       |critical
+Actually I was too fast to judge!
+
+The desktop itself did never hang for me out of the blue like before since
+using this patch.
+
+Rise of the Tomb Raider, Starcraft II and Rocket League hangs still happen
+though.
+
+I will keep using this without nodma and let you guys know if random hangs =
+come
+back.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15709784300.B7d379C.20336
-Date: Sun, 13 Oct 2019 14:53:50 +0000
+--15709795872.6cFd10BA.24926
+Date: Sun, 13 Oct 2019 15:13:07 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -94,31 +109,46 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:danielsua=
-rez369&#64;protonmail.com" title=3D"Daniel Suarez &lt;danielsuarez369&#64;p=
-rotonmail.com&gt;"> <span class=3D"fn">Daniel Suarez</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - 5700 XT hangs entire system in games"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111986">bug 11198=
-6</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Severity</td>
-           <td>major
-           </td>
-           <td>critical
-           </td>
-         </tr></table>
+    <body>
       <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c89">Comme=
+nt # 89</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+popovic.marko&#64;protonmail.com" title=3D"Marko Popovic &lt;popovic.marko&=
+#64;protonmail.com&gt;"> <span class=3D"fn">Marko Popovic</span></a>
+</span></b>
+        <pre>(In reply to Shmerl from <a href=3D"show_bug.cgi?id=3D111481#c=
+88">comment #88</a>)
+<span class=3D"quote">&gt; (In reply to Marko Popovic from <a href=3D"show_=
+bug.cgi?id=3D111481#c87">comment #87</a>)
+&gt; &gt; All of the hangs are still present for me, so this patch changed =
+nothing.
+&gt;=20
+&gt; Does Firefox hang for you still?</span >
+
+Actually I was too fast to judge!
+
+The desktop itself did never hang for me out of the blue like before since
+using this patch.
+
+Rise of the Tomb Raider, Starcraft II and Rocket League hangs still happen
+though.
+
+I will keep using this without nodma and let you guys know if random hangs =
+come
+back.</pre>
+        </div>
       </p>
 
 
@@ -131,9 +161,9 @@ rotonmail.com&gt;"> <span class=3D"fn">Daniel Suarez</span></a>
     </body>
 </html>=
 
---15709784300.B7d379C.20336--
+--15709795872.6cFd10BA.24926--
 
---===============1798536552==
+--===============0527345792==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -143,4 +173,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1798536552==--
+--===============0527345792==--
