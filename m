@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F2E0D5414
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2019 06:06:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18AFFD5415
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2019 06:07:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6A206E03E;
-	Sun, 13 Oct 2019 04:06:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3BA86E047;
+	Sun, 13 Oct 2019 04:07:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id E41EA6E03E
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2019 04:06:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8913B6E047
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2019 04:07:22 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E142A7296E; Sun, 13 Oct 2019 04:06:46 +0000 (UTC)
+ id 858957296E; Sun, 13 Oct 2019 04:07:22 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111986] 5700 XT hangs entire system in games
-Date: Sun, 13 Oct 2019 04:06:46 +0000
+Date: Sun, 13 Oct 2019 04:07:22 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111986-502-D2vN62R173@http.bugs.freedesktop.org/>
+Message-ID: <bug-111986-502-CoHDcw4y9G@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111986-502@http.bugs.freedesktop.org/>
 References: <bug-111986-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0611259372=="
+Content-Type: multipart/mixed; boundary="===============1465234456=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0611259372==
-Content-Type: multipart/alternative; boundary="15709396061.b744.17858"
+--===============1465234456==
+Content-Type: multipart/alternative; boundary="15709396421.AEC14.17807"
 Content-Transfer-Encoding: 7bit
 
 
---15709396061.b744.17858
-Date: Sun, 13 Oct 2019 04:06:46 +0000
+--15709396421.AEC14.17807
+Date: Sun, 13 Oct 2019 04:07:22 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,28 +72,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111986
 
---- Comment #2 from Daniel Suarez <danielsuarez369@protonmail.com> ---
-Created attachment 145720
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145720&action=3Dedit
-Apitrace
-
-I think I was able to get an apitrace by doing=20
-
-DEBUGGER=3D"apitrace trace" steam steam://rungameid/20920 > ApiTrace.txt=20
-
-For The Witcher 2 and Space Engineers respectably and then=20
-
-DEBUGGER=3D"apitrace trace" gfxbench=20
-
-For Gfxbench, I include the results of these since I am able to recover them
-since they save after I am forced to shutdown my PC
+--- Comment #3 from Daniel Suarez <danielsuarez369@protonmail.com> ---
+Created attachment 145721
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145721&action=3Dedit
+Apitrace GFXBench
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15709396061.b744.17858
-Date: Sun, 13 Oct 2019 04:06:46 +0000
+--15709396421.AEC14.17807
+Date: Sun, 13 Oct 2019 04:07:22 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -110,8 +99,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - 5700 XT hangs entire system in games"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111986#c2">Commen=
-t # 2</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111986#c3">Commen=
+t # 3</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - 5700 XT hangs entire system in games"
@@ -121,23 +110,11 @@ t # 2</a>
 danielsuarez369&#64;protonmail.com" title=3D"Daniel Suarez &lt;danielsuarez=
 369&#64;protonmail.com&gt;"> <span class=3D"fn">Daniel Suarez</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145720=
-" name=3D"attach_145720" title=3D"Apitrace">attachment 145720</a> <a href=
-=3D"attachment.cgi?id=3D145720&amp;action=3Dedit" title=3D"Apitrace">[detai=
-ls]</a></span>
-Apitrace
-
-I think I was able to get an apitrace by doing=20
-
-DEBUGGER=3D&quot;apitrace trace&quot; steam steam://rungameid/20920 &gt; Ap=
-iTrace.txt=20
-
-For The Witcher 2 and Space Engineers respectably and then=20
-
-DEBUGGER=3D&quot;apitrace trace&quot; gfxbench=20
-
-For Gfxbench, I include the results of these since I am able to recover them
-since they save after I am forced to shutdown my PC</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145721=
+" name=3D"attach_145721" title=3D"Apitrace GFXBench">attachment 145721</a> =
+<a href=3D"attachment.cgi?id=3D145721&amp;action=3Dedit" title=3D"Apitrace =
+GFXBench">[details]</a></span>
+Apitrace GFXBench</pre>
         </div>
       </p>
 
@@ -151,9 +128,9 @@ since they save after I am forced to shutdown my PC</pre>
     </body>
 </html>=
 
---15709396061.b744.17858--
+--15709396421.AEC14.17807--
 
---===============0611259372==
+--===============1465234456==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -163,4 +140,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0611259372==--
+--===============1465234456==--
