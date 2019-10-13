@@ -2,43 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C255D55AE
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2019 12:47:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92124D561D
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2019 14:10:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B4606E0DF;
-	Sun, 13 Oct 2019 10:47:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BD2C6E0ED;
+	Sun, 13 Oct 2019 12:10:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97B716E0DF
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2019 10:47:30 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204241] amdgpu fails to resume from suspend
-Date: Sun, 13 Oct 2019 10:47:29 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: Ahzo@tutanota.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-204241-2300-GjItO1lQGx@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204241-2300@https.bugzilla.kernel.org/>
-References: <bug-204241-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from atrey.karlin.mff.cuni.cz (atrey.karlin.mff.cuni.cz
+ [195.113.26.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A13AF6E0ED
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2019 12:10:00 +0000 (UTC)
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+ id 43A738023D; Sun, 13 Oct 2019 14:09:41 +0200 (CEST)
+Date: Sun, 13 Oct 2019 14:09:52 +0200
+From: Pavel Machek <pavel@ucw.cz>
+To: Jean-Jacques Hiblot <jjhiblot@ti.com>
+Subject: Re: [PATCH v9 3/5] leds: Add managed API to get a LED from a device
+ driver
+Message-ID: <20191013120952.GL5653@amd>
+References: <20191007124437.20367-1-jjhiblot@ti.com>
+ <20191007124437.20367-4-jjhiblot@ti.com>
 MIME-Version: 1.0
-X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
- message/signature format)
+In-Reply-To: <20191007124437.20367-4-jjhiblot@ti.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,25 +38,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: mark.rutland@arm.com, daniel.thompson@linaro.org, tomi.valkeinen@ti.com,
+ sre@kernel.org, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ robh+dt@kernel.org, jacek.anaszewski@gmail.com, lee.jones@linaro.org,
+ linux-leds@vger.kernel.org, dmurphy@ti.com
+Content-Type: multipart/mixed; boundary="===============0504244152=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQyNDEKCi0tLSBD
-b21tZW50ICMyOCBmcm9tIEFoem9AdHV0YW5vdGEuY29tIC0tLQooSW4gcmVwbHkgdG8gQW5kcmVh
-cyBKYWNraXNjaCBmcm9tIGNvbW1lbnQgIzI3KQo+IEluIGJyaWVmIC0gdGhlIHBhdGNoCj4gIjAw
-MDEtZHJtLWFtZGdwdS11dmQ2LWZpeC1hbGxvY2F0aW9uLXNpemUtaW4tZW5jLXJpbmctdGVzdC5w
-YXRjaCIgZGlkbid0Cj4gd29yayBmb3IgbWUuIEFmdGVyIGFib3V0IDEwIHN1c3BlbmQvcmVzdW1l
-IGN5Y2xlcyB0aGUgdHlwaWNhbCBpc3N1ZSBvY2N1cnJlZAo+IGFnYWluIGFuZCBJIGhhZCB0byBT
-eXNScSB0aGUgc3lzdGVtLgoKSW5kZWVkLCB0aGUgMDAwMS1kcm0tYW1kZ3B1LXV2ZDYtZml4LWFs
-bG9jYXRpb24tc2l6ZS1pbi1lbmMtcmluZy10ZXN0IHBhdGNoCihhdHRhY2hlbWVudCAyODU0NzMp
-IGRvZXNuJ3Qgd29yay4KQXBwYXJlbnRseSBJIGdvdCAodW4pbHVja3kgZW5vdWdoIHRoYXQgaXQg
-c3Vydml2ZWQgMzAgc3VzcGVuZC9yZXN1bWUgY3ljbGVzLApidXQgdGVzdGluZyBpdCBhZ2Fpbiwg
-aXQgZmFpbGVkLgoKT24gdGhlIG90aGVyIGhhbmQsIHRoZQowMDAxLWRybS1hbWRncHUtdXZkNi11
-c2UtMC1hcy1kdW1teS1wb2ludGVyLWluLWVuYy1yaW5nLXQgcGF0Y2ggKGF0dGFjaGVtZW50CjI4
-NTQ2OSkgc3Vydml2ZWQgMTAwIGN5Y2xlcy4KCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1h
-aWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0504244152==
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="zH41lVBEV8cLJnCl"
+Content-Disposition: inline
+
+
+--zH41lVBEV8cLJnCl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi!
+
+> If the LED is acquired by a consumer device with devm_led_get(), it is
+> automatically released when the device is detached.
+>=20
+> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
+> Acked-by: Pavel Machek <pavel@ucw.cz>
+> ---
+>  drivers/leds/led-class.c | 49 ++++++++++++++++++++++++++++++++++++++++
+>  include/linux/leds.h     |  2 ++
+>  2 files changed, 51 insertions(+)
+>=20
+> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+> index 1d1f1d546dc7..639224392ffa 100644
+> --- a/drivers/leds/led-class.c
+> +++ b/drivers/leds/led-class.c
+> @@ -264,6 +264,55 @@ void led_put(struct led_classdev *led_cdev)
+>  }
+>  EXPORT_SYMBOL_GPL(led_put);
+> =20
+> +static void devm_led_release(struct device *dev, void *res)
+> +{
+> +	struct led_classdev **p =3D res;
+> +
+> +	led_put(*p);
+> +}
+> +
+> +/**
+> + * devm_of_led_get - Resource-managed request of a LED device
+> + * @dev:	LED consumer
+> + * @index:	index of the LED to obtain in the consumer
+> + *
+> + * The device node of the device is parse to find the request LED device.
+> + * The LED device returned from this function is automatically released
+> + * on driver detach.
+> + *
+> + * @return a pointer to a LED device or ERR_PTR(errno) on failure.
+> + */
+> +struct led_classdev *__must_check devm_of_led_get(struct device *dev,
+> +						  int index)
+> +{
+> +	struct led_classdev *led;
+> +	struct led_classdev **dr;
+> +
+> +	if (!dev)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	/* Consummer not using device tree? */
+
+Typo "consumer". I may fix it before applying the patch.
+
+Best regards,
+									Pavel
+
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--zH41lVBEV8cLJnCl
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl2jFBAACgkQMOfwapXb+vLi0ACghzv7nZ4xe3dVsGeLJ7I8UIbL
+ZHoAoLAAx5gbRTPv4Bm9i1/pPNfJgf7j
+=R/Sy
+-----END PGP SIGNATURE-----
+
+--zH41lVBEV8cLJnCl--
+
+--===============0504244152==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0504244152==--
