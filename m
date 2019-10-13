@@ -1,31 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A39BED5623
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2019 14:10:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED082D562B
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2019 14:17:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97E1A6E0FD;
-	Sun, 13 Oct 2019 12:10:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F7BE6E0FF;
+	Sun, 13 Oct 2019 12:17:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from atrey.karlin.mff.cuni.cz (atrey.karlin.mff.cuni.cz
- [195.113.26.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 204A86E0FD
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2019 12:10:53 +0000 (UTC)
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
- id 7A3FA8025A; Sun, 13 Oct 2019 14:10:34 +0200 (CEST)
-Date: Sun, 13 Oct 2019 14:10:46 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Kiran Gunda <kgunda@codeaurora.org>
-Subject: Re: [PATCH V6 2/8] backlight: qcom-wled: restructure the qcom-wled
- bindings
-Message-ID: <20191013121045.GN5653@amd>
-References: <1569825553-26039-1-git-send-email-kgunda@codeaurora.org>
- <1569825553-26039-3-git-send-email-kgunda@codeaurora.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E69D16E0FF
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2019 12:17:16 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id DD8717296E; Sun, 13 Oct 2019 12:17:16 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111948] [Vega10][bisected] Vega56 VM_L2_PROTECTION_FAULT when
+ logging into KDE with kernel 5.3.0-rc1 and newer
+Date: Sun, 13 Oct 2019 12:17:17 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: freedesktop@forsaken.se
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-111948-502-IFY1L2dTH6@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111948-502@http.bugs.freedesktop.org/>
+References: <bug-111948-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <1569825553-26039-3-git-send-email-kgunda@codeaurora.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -38,64 +53,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- daniel.thompson@linaro.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, robh+dt@kernel.org, jacek.anaszewski@gmail.com,
- linux-arm-msm@vger.kernel.org, lee.jones@linaro.org,
- linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>
-Content-Type: multipart/mixed; boundary="===============1249840067=="
+Content-Type: multipart/mixed; boundary="===============1778956292=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1249840067==
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="aSnC4ZPPfhCvD8sN"
-Content-Disposition: inline
+--===============1778956292==
+Content-Type: multipart/alternative; boundary="15709690360.daB4C1Ce.18565"
+Content-Transfer-Encoding: 7bit
 
 
---aSnC4ZPPfhCvD8sN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--15709690360.daB4C1Ce.18565
+Date: Sun, 13 Oct 2019 12:17:16 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
-On Mon 2019-09-30 12:09:07, Kiran Gunda wrote:
-> Restructure the qcom-wled bindings for the better readability.
->=20
-> Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
-> Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
-> Acked-by: Pavel Machek <pavel@ucw.cz>
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111948
 
-I applied 1,2 to my branch, it should appear in -next shortly.
+Andreas <freedesktop@forsaken.se> changed:
 
-yaml conversion can be done in a followup...
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |FIXED
 
-Best regards,
-								Pavel
-							=09
+--- Comment #1 from Andreas <freedesktop@forsaken.se> ---
+Kernel 5.3.6 seems to have fixed the issue.
+
 --=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
+You are receiving this mail because:
+You are the assignee for the bug.=
 
---aSnC4ZPPfhCvD8sN
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+--15709690360.daB4C1Ce.18565
+Date: Sun, 13 Oct 2019 12:17:16 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:freedeskt=
+op&#64;forsaken.se" title=3D"Andreas &lt;freedesktop&#64;forsaken.se&gt;"> =
+<span class=3D"fn">Andreas</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - [Vega10][bisected] Vega56 VM_L2_PROTECTION_FAU=
+LT when logging into KDE with kernel 5.3.0-rc1 and newer"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111948">bug 11194=
+8</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
 
-iEYEARECAAYFAl2jFEUACgkQMOfwapXb+vIpIgCfdMwca9CUvoL/C0TtvEIIn2qE
-fhkAnikG/2Cv/Oc9PYANCpjnBy8OHGiN
-=wClR
------END PGP SIGNATURE-----
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
 
---aSnC4ZPPfhCvD8sN--
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>FIXED
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - [Vega10][bisected] Vega56 VM_L2_PROTECTION_FAU=
+LT when logging into KDE with kernel 5.3.0-rc1 and newer"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111948#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - [Vega10][bisected] Vega56 VM_L2_PROTECTION_FAU=
+LT when logging into KDE with kernel 5.3.0-rc1 and newer"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111948">bug 11194=
+8</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+freedesktop&#64;forsaken.se" title=3D"Andreas &lt;freedesktop&#64;forsaken.=
+se&gt;"> <span class=3D"fn">Andreas</span></a>
+</span></b>
+        <pre>Kernel 5.3.6 seems to have fixed the issue.</pre>
+        </div>
+      </p>
 
---===============1249840067==
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15709690360.daB4C1Ce.18565--
+
+--===============1778956292==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -105,4 +176,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1249840067==--
+--===============1778956292==--
