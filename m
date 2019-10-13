@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 705FBD5693
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2019 17:13:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AE04D56AF
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2019 17:51:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BFC46E136;
-	Sun, 13 Oct 2019 15:13:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C17966E139;
+	Sun, 13 Oct 2019 15:51:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 273686E149
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2019 15:13:07 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 444C76E14D
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2019 15:51:55 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 2424B7296E; Sun, 13 Oct 2019 15:13:07 +0000 (UTC)
+ id 4127E7296E; Sun, 13 Oct 2019 15:51:55 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
  with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Sun, 13 Oct 2019 15:13:07 +0000
+Date: Sun, 13 Oct 2019 15:51:54 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -28,14 +28,14 @@ X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: critical
-X-Bugzilla-Who: popovic.marko@protonmail.com
+X-Bugzilla-Who: shtetldik@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-ErOiOvgzd1@http.bugs.freedesktop.org/>
+Message-ID: <bug-111481-502-DuOO5lJLSK@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
 References: <bug-111481-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0527345792=="
+Content-Type: multipart/mixed; boundary="===============1023589682=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0527345792==
-Content-Type: multipart/alternative; boundary="15709795872.6cFd10BA.24926"
+--===============1023589682==
+Content-Type: multipart/alternative; boundary="15709819153.eFf0183f.1622"
 Content-Transfer-Encoding: 7bit
 
 
---15709795872.6cFd10BA.24926
-Date: Sun, 13 Oct 2019 15:13:07 +0000
+--15709819153.eFf0183f.1622
+Date: Sun, 13 Oct 2019 15:51:55 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,32 +73,16 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
 
---- Comment #89 from Marko Popovic <popovic.marko@protonmail.com> ---
-(In reply to Shmerl from comment #88)
-> (In reply to Marko Popovic from comment #87)
-> > All of the hangs are still present for me, so this patch changed nothin=
-g.
->=20
-> Does Firefox hang for you still?
-
-Actually I was too fast to judge!
-
-The desktop itself did never hang for me out of the blue like before since
-using this patch.
-
-Rise of the Tomb Raider, Starcraft II and Rocket League hangs still happen
-though.
-
-I will keep using this without nodma and let you guys know if random hangs =
-come
-back.
+--- Comment #90 from Shmerl <shtetldik@gmail.com> ---
+Those hangs are likely shader related, so not the same thing. But desktop
+(Firefox specifically for me) hangs look indeed fixed to me so far.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15709795872.6cFd10BA.24926
-Date: Sun, 13 Oct 2019 15:13:07 +0000
+--15709819153.eFf0183f.1622
+Date: Sun, 13 Oct 2019 15:51:55 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -116,8 +100,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
  kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c89">Comme=
-nt # 89</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c90">Comme=
+nt # 90</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
@@ -125,29 +109,12 @@ nt # 89</a>
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
 1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-popovic.marko&#64;protonmail.com" title=3D"Marko Popovic &lt;popovic.marko&=
-#64;protonmail.com&gt;"> <span class=3D"fn">Marko Popovic</span></a>
+shtetldik&#64;gmail.com" title=3D"Shmerl &lt;shtetldik&#64;gmail.com&gt;"> =
+<span class=3D"fn">Shmerl</span></a>
 </span></b>
-        <pre>(In reply to Shmerl from <a href=3D"show_bug.cgi?id=3D111481#c=
-88">comment #88</a>)
-<span class=3D"quote">&gt; (In reply to Marko Popovic from <a href=3D"show_=
-bug.cgi?id=3D111481#c87">comment #87</a>)
-&gt; &gt; All of the hangs are still present for me, so this patch changed =
-nothing.
-&gt;=20
-&gt; Does Firefox hang for you still?</span >
-
-Actually I was too fast to judge!
-
-The desktop itself did never hang for me out of the blue like before since
-using this patch.
-
-Rise of the Tomb Raider, Starcraft II and Rocket League hangs still happen
-though.
-
-I will keep using this without nodma and let you guys know if random hangs =
-come
-back.</pre>
+        <pre>Those hangs are likely shader related, so not the same thing. =
+But desktop
+(Firefox specifically for me) hangs look indeed fixed to me so far.</pre>
         </div>
       </p>
 
@@ -161,9 +128,9 @@ back.</pre>
     </body>
 </html>=
 
---15709795872.6cFd10BA.24926--
+--15709819153.eFf0183f.1622--
 
---===============0527345792==
+--===============1023589682==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -173,4 +140,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0527345792==--
+--===============1023589682==--
