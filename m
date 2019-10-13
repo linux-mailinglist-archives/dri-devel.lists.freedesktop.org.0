@@ -1,22 +1,22 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16BD3D5588
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2019 11:43:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14411D558E
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2019 11:54:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C549E6E0C6;
-	Sun, 13 Oct 2019 09:43:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88C786E0E0;
+	Sun, 13 Oct 2019 09:54:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26F8D6E0C6
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2019 09:43:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A88FB6E0E0
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2019 09:54:47 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 205169] AMDGPU driver with Navi card hangs Xorg in fullscreen
  only.
-Date: Sun, 13 Oct 2019 09:43:37 +0000
+Date: Sun, 13 Oct 2019 09:54:47 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,7 +32,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205169-2300-XTWvqHlB1s@https.bugzilla.kernel.org/>
+Message-ID: <bug-205169-2300-e13Olkorj8@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205169-2300@https.bugzilla.kernel.org/>
 References: <bug-205169-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,23 +58,17 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDUxNjkKCi0tLSBD
-b21tZW50ICM4IGZyb20gRG1pdHJpIFNlbGV0c2tpIChkcmpvbXNAZ21haWwuY29tKSAtLS0KKElu
-IHJlcGx5IHRvIFBpZXJyZS1FcmljIFBlbGxvdXgtUHJheWVyIGZyb20gY29tbWVudCAjNykKPiAo
-SW4gcmVwbHkgdG8gRG1pdHJpIFNlbGV0c2tpIGZyb20gY29tbWVudCAjMCkKPiA+IEkgaGF2ZSBh
-bm90aGVyIHByb2JsZW0gbG9nZ2VkIHdpdGggTmF2aSArIEFNREdQVSBkcml2ZXJzLiBJdCdzIHRy
-aWdnZXJlZAo+ID4gaW5kZXBlbmRlbnRseSBhbmQgcmVsaWFibGUuCj4gPiBodHRwczovL2J1Z3pp
-bGxhLmtlcm5lbC5vcmcvc2hvd19idWcuY2dpP2lkPTIwNDcyNQo+ID4gCj4gPiBXaXRoIHRoYXQg
-c2FpZCwgc3RhcnRpbmcgc3RyaWN0bHkgYW5kIHNwZWNpZmljYWxseSB3aXRoIGtlcm5lbCB2ZXJz
-aW9uCj4gPiA1LjQuMCogSSBoYXZlIG5ldyBwcm9ibGVtLgo+ID4gCj4gCj4gV2hhdCBrZXJuZWwg
-dmVyc2lvbiB3ZXJlIHlvdSB1c2luZyBiZWZvcmUgdGhhdCBkaWRuJ3QgaGF2ZSB0aGUgcHJvYmxl
-bT8KCkl0IHdhcyA1LjMuKiB3aGVuIEkgY291bGQgb3BlbiBhbmQgdXNlIE9wZW5HTCBhbmQgVnVs
-a2FuIGFwcHMgZnVsbCBzY3JlZW4gYW5kCml0IHdvdWxkbid0IGNyYXNoLiBUaGlzIGlzIGxpc3Qg
-b2Yga2VybmVscyBJIHVzZWQgZnJvbSA1LjMuKgoKbHMgL2Jvb3QvIHxncmVwIHZtbGludXotNS4z
-LiAKdm1saW51ei01LjMuMCsKdm1saW51ei01LjMuMC1uZXh0LTIwMTkwOTIwCnZtbGludXotNS4z
-LjArLm9sZAp2bWxpbnV6LTUuMy4wLXJjNgp2bWxpbnV6LTUuMy4wLXJjNisKdm1saW51ei01LjMu
-MC1yYzYrLm9sZAp2bWxpbnV6LTUuMy4wLXJjOAp2bWxpbnV6LTUuMy4wLXJjOC5vbGQKCi0tIApZ
-b3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUg
-YXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVs
+b21tZW50ICM5IGZyb20gRG1pdHJpIFNlbGV0c2tpIChkcmpvbXNAZ21haWwuY29tKSAtLS0KaSBo
+YWQgYSBjb3VwbGUgb2YgTExWTSB2ZXJzaW9ucy5pIHJlbW92ZWQgYWxsLiBOb3cgSSBoYXZlIHZl
+cnNpb24gOS4wLjAKZGlta29AKG5vbmUpZGlta28ncyBEZXNrdG9wIH4gJCBscyAvYm9vdC8gfGdy
+ZXAgdm1saW51ei01LjMuIAoKIHN5cy1kZXZlbC9sbHZtCiAgICAgIExhdGVzdCB2ZXJzaW9uIGF2
+YWlsYWJsZTogOS4wLjAKICAgICAgTGF0ZXN0IHZlcnNpb24gaW5zdGFsbGVkOiA5LjAuMAoKSSBo
+YXZlIHJlY29tcGlsZWQgTWVzYSB3aXRoIGxsdm0gOShwcmV2aW91c2x5IHdhcyBjb21waWxlZCB3
+aXRoIGxsdm0gMTAgd2hpY2ggaQpyZW1vdmVkIG9mZiB0aGUgc3lzdGVtIG1hbnVhbGx5KQoKZ2x4
+aW5mbyB8IGdyZXAgIk9wZW5HTCB2ZXJzaW9uIgpPcGVuR0wgdmVyc2lvbiBzdHJpbmc6IDQuNSAo
+Q29tcGF0aWJpbGl0eSBQcm9maWxlKSBNZXNhIDE5LjMuMC1kZXZlbAooZ2l0LTEyOTRmMDFlMDYp
+CgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hp
+bmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbA==
