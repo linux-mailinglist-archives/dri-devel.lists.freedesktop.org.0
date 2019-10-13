@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5933DD54A6
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2019 07:03:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 106A5D54A7
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2019 07:04:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EC346E03C;
-	Sun, 13 Oct 2019 05:03:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9CA36E105;
+	Sun, 13 Oct 2019 05:04:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4D3FD6E03C
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2019 05:03:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9E6BE6E105
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2019 05:04:44 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 499177296E; Sun, 13 Oct 2019 05:03:47 +0000 (UTC)
+ id 9AF177296E; Sun, 13 Oct 2019 05:04:44 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111987] Unstable performance (periodic and repeating patterns
  of fps change) and changing VDDGFX
-Date: Sun, 13 Oct 2019 05:03:47 +0000
+Date: Sun, 13 Oct 2019 05:04:44 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -35,7 +35,7 @@ X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111987-502-5V8lmKcS4K@http.bugs.freedesktop.org/>
+Message-ID: <bug-111987-502-LQxZDhPkaZ@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111987-502@http.bugs.freedesktop.org/>
 References: <bug-111987-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0765022149=="
+Content-Type: multipart/mixed; boundary="===============0833307897=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0765022149==
-Content-Type: multipart/alternative; boundary="15709430270.D7Ffb.28566"
+--===============0833307897==
+Content-Type: multipart/alternative; boundary="15709430840.E63f91.28626"
 Content-Transfer-Encoding: 7bit
 
 
---15709430270.D7Ffb.28566
-Date: Sun, 13 Oct 2019 05:03:47 +0000
+--15709430840.E63f91.28626
+Date: Sun, 13 Oct 2019 05:04:44 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,19 +73,19 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111987
 
---- Comment #1 from Witold Baryluk <witold.baryluk+freedesktop@gmail.com> -=
+--- Comment #2 from Witold Baryluk <witold.baryluk+freedesktop@gmail.com> -=
 --
-Created attachment 145723
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145723&action=3Dedit
-Frametimes during execution of The Talos Principle (64-bit) while looking at
-the ground/wall
+Created attachment 145724
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145724&action=3Dedit
+Frametimes during run of Overwatch (Wine+DXVK) and OBS in background (not
+recording or even previewing!).
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15709430270.D7Ffb.28566
-Date: Sun, 13 Oct 2019 05:03:47 +0000
+--15709430840.E63f91.28626
+Date: Sun, 13 Oct 2019 05:04:44 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -103,8 +103,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - Unstable performance (periodic and repeating patterns of =
 fps change) and changing VDDGFX"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111987#c1">Commen=
-t # 1</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111987#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Unstable performance (periodic and repeating patterns of =
@@ -116,14 +116,14 @@ witold.baryluk+freedesktop&#64;gmail.com" title=3D"Witold Baryluk &lt;witol=
 d.baryluk+freedesktop&#64;gmail.com&gt;"> <span class=3D"fn">Witold Baryluk=
 </span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145723=
-" name=3D"attach_145723" title=3D"Frametimes during execution of The Talos =
-Principle (64-bit) while looking at the ground/wall">attachment 145723</a> =
-<a href=3D"attachment.cgi?id=3D145723&amp;action=3Dedit" title=3D"Frametime=
-s during execution of The Talos Principle (64-bit) while looking at the gro=
-und/wall">[details]</a></span>
-Frametimes during execution of The Talos Principle (64-bit) while looking at
-the ground/wall</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145724=
+" name=3D"attach_145724" title=3D"Frametimes during run of Overwatch (Wine+=
+DXVK) and OBS in background (not recording or even previewing!).">attachmen=
+t 145724</a> <a href=3D"attachment.cgi?id=3D145724&amp;action=3Dedit" title=
+=3D"Frametimes during run of Overwatch (Wine+DXVK) and OBS in background (n=
+ot recording or even previewing!).">[details]</a></span>
+Frametimes during run of Overwatch (Wine+DXVK) and OBS in background (not
+recording or even previewing!).</pre>
         </div>
       </p>
 
@@ -137,9 +137,9 @@ the ground/wall</pre>
     </body>
 </html>=
 
---15709430270.D7Ffb.28566--
+--15709430840.E63f91.28626--
 
---===============0765022149==
+--===============0833307897==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -149,4 +149,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0765022149==--
+--===============0833307897==--
