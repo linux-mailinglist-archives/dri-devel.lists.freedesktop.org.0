@@ -1,42 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C7B8D6FFA
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2019 09:13:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6646AD6FEE
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2019 09:12:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B95616E612;
-	Tue, 15 Oct 2019 07:13:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F7FD6E5FE;
+	Tue, 15 Oct 2019 07:12:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F1456E209
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 09:39:41 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2019 02:39:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,295,1566889200"; d="scan'208";a="194175343"
-Received: from alinamex-mobl3.ger.corp.intel.com (HELO [10.252.56.163])
- ([10.252.56.163])
- by fmsmga008.fm.intel.com with ESMTP; 14 Oct 2019 02:39:38 -0700
-Subject: Re: WARNING in drm_mode_createblob_ioctl
-To: syzbot <syzbot+fb77e97ebf0612ee6914@syzkaller.appspotmail.com>,
- airlied@linux.ie, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, mripard@kernel.org, sean@poorly.run,
- syzkaller-bugs@googlegroups.com
-References: <000000000000b2de3a0594d8b4ca@google.com>
- <20191014091635.GI11828@phenom.ffwll.local>
-From: syzbot <syzbot+fb77e97ebf0612ee6914@syzkaller.appspotmail.com>
-Message-ID: <67fb1a91-7ef3-9036-2d1b-877e394bcab2@linux.intel.com>
-Date: Mon, 14 Oct 2019 11:39:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C87D6E235;
+ Mon, 14 Oct 2019 10:00:29 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 01915B744;
+ Mon, 14 Oct 2019 10:00:27 +0000 (UTC)
+Message-ID: <f6262e61f858c6f50164416f4ea816e203c0704f.camel@suse.de>
+Subject: Re: [PATCH 07/11] dts: arm64: layerscape: add dma-ranges property
+ to qoric-mc node
+From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To: Shawn Guo <shawnguo@kernel.org>
+Date: Mon, 14 Oct 2019 12:00:25 +0200
+In-Reply-To: <20191014082847.GH12262@dragon>
+References: <20190924181244.7159-1-nsaenzjulienne@suse.de>
+ <20190924181244.7159-8-nsaenzjulienne@suse.de>
+ <20191014082847.GH12262@dragon>
+User-Agent: Evolution 3.32.4 
 MIME-Version: 1.0
-In-Reply-To: <20191014091635.GI11828@phenom.ffwll.local>
-Content-Language: en-US
 X-Mailman-Approved-At: Tue, 15 Oct 2019 07:12:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -50,76 +41,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ mbrugger@suse.com, robin.murphy@arm.com, linux-arm-msm@vger.kernel.org,
+ f.fainelli@gmail.com, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, linux-tegra@vger.kernel.org, robh+dt@kernel.org,
+ wahrenst@gmx.net, james.quinlan@broadcom.com, linux-pci@vger.kernel.org,
+ dmaengine@vger.kernel.org, xen-devel@lists.xenproject.org,
+ Li Yang <leoyang.li@nxp.com>, frowand.list@gmail.com,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============1481985063=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T3AgMTQtMTAtMjAxOSBvbSAxMToxNiBzY2hyZWVmIERhbmllbCBWZXR0ZXI6Cj4gT24gU3VuLCBP
-Y3QgMTMsIDIwMTkgYXQgMTE6MDk6MDlQTSAtMDcwMCwgc3l6Ym90IHdyb3RlOgo+PiBIZWxsbywK
-Pj4KPj4gc3l6Ym90IGZvdW5kIHRoZSBmb2xsb3dpbmcgY3Jhc2ggb246Cj4+Cj4+IEhFQUQgY29t
-bWl0OiAgICA4YWRhMjI4YSBBZGQgbGludXgtbmV4dCBzcGVjaWZpYyBmaWxlcyBmb3IgMjAxOTEw
-MTEKPj4gZ2l0IHRyZWU6ICAgICAgIGxpbnV4LW5leHQKPj4gY29uc29sZSBvdXRwdXQ6IGh0dHBz
-Oi8vc3l6a2FsbGVyLmFwcHNwb3QuY29tL3gvbG9nLnR4dD94PTE0MjNhODdmNjAwMDAwCj4+IGtl
-cm5lbCBjb25maWc6ICBodHRwczovL3N5emthbGxlci5hcHBzcG90LmNvbS94Ly5jb25maWc/eD03
-Y2Y0ZWVkNWZlNDJjMzFhCj4+IGRhc2hib2FyZCBsaW5rOiBodHRwczovL3N5emthbGxlci5hcHBz
-cG90LmNvbS9idWc/ZXh0aWQ9ZmI3N2U5N2ViZjA2MTJlZTY5MTQKPj4gY29tcGlsZXI6ICAgICAg
-IGdjYyAoR0NDKSA5LjAuMCAyMDE4MTIzMSAoZXhwZXJpbWVudGFsKQo+Pgo+PiBVbmZvcnR1bmF0
-ZWx5LCBJIGRvbid0IGhhdmUgYW55IHJlcHJvZHVjZXIgZm9yIHRoaXMgY3Jhc2ggeWV0Lgo+IEht
-IG9ubHkgdGhpbmcgdGhhdCBjb3VsZCBnbyB3cm9uZyBpcyBob3cgd2UgYWxsb2NhdGUgdGhlIHRh
-cmdldCBmb3IgdGhlCj4gdXNlcl9jb3B5LCB3aGljaCBpcyBhbiBhcmd1bWVudCBkaXJlY3RseSBm
-cm9tIHRoZSBpb2N0bCBwYXJhbWV0ZXIgc3RydWN0Lgo+IERvZXMgc3l6Ym90IG5vdCB0cmFjayB0
-aGF0PyBXZSB1c2UgdGhlIHN0YW5kYXJkIGxpbnV4IGlvY3RsIHN0cnVjdAo+IGVuY29kaW5nIGlu
-IGRybS4KPgo+IE90aGVyd2lzZSBJIGhhdmUgbm8gaWRlYSB3aHkgaXQgY2FuJ3QgY3JlYXRlIGEg
-cmVsaWFibGUgcmVwcm9kdWNlciBmb3IKPiB0aGlzIC4uLiBJJ20gYWxzbyBub3Qgc2VlaW5nIHRo
-ZSBidWcsIGFsbCB0aGUgaW5wdXQgdmFsaWRhdGlvbiB3ZSBoYXZlCj4gc2VlbXMgY29ycmVjdCA6
-LS8KCkkgd291bGQgbGlrZSB0byBzZWUgdGhlIGVudGlyZSBkbWVzZz8KCmluIHBhcnRpY3VsYXIg
-YmVjYXVzZSBpdCdzIGxpa2VseSBXQVJOKDEsICJCdWZmZXIgb3ZlcmZsb3cgZGV0ZWN0ZWQgKCVk
-IDwgJWx1KSFcbiIsIHNpemUsIGNvdW50KSwKCnNvIEknZCBsaWtlIHRvIHNlZSB0aGUgc2l6ZSBp
-dCB0aGlua3MgZm9yIGJvdGguLgoKPiAtRGFuaWVsCj4+IElNUE9SVEFOVDogaWYgeW91IGZpeCB0
-aGUgYnVnLCBwbGVhc2UgYWRkIHRoZSBmb2xsb3dpbmcgdGFnIHRvIHRoZSBjb21taXQ6Cj4+IFJl
-cG9ydGVkLWJ5OiBzeXpib3QrZmI3N2U5N2ViZjA2MTJlZTY5MTRAc3l6a2FsbGVyLmFwcHNwb3Rt
-YWlsLmNvbQo+Pgo+PiAtLS0tLS0tLS0tLS1bIGN1dCBoZXJlIF0tLS0tLS0tLS0tLS0KPj4gV0FS
-TklORzogQ1BVOiAxIFBJRDogMzA0NDkgYXQgaW5jbHVkZS9saW51eC90aHJlYWRfaW5mby5oOjE1
-MAo+PiBjaGVja19jb3B5X3NpemUgaW5jbHVkZS9saW51eC90aHJlYWRfaW5mby5oOjE1MCBbaW5s
-aW5lXQo+PiBXQVJOSU5HOiBDUFU6IDEgUElEOiAzMDQ0OSBhdCBpbmNsdWRlL2xpbnV4L3RocmVh
-ZF9pbmZvLmg6MTUwIGNvcHlfZnJvbV91c2VyCj4+IGluY2x1ZGUvbGludXgvdWFjY2Vzcy5oOjE0
-MyBbaW5saW5lXQo+PiBXQVJOSU5HOiBDUFU6IDEgUElEOiAzMDQ0OSBhdCBpbmNsdWRlL2xpbnV4
-L3RocmVhZF9pbmZvLmg6MTUwCj4+IGRybV9tb2RlX2NyZWF0ZWJsb2JfaW9jdGwrMHgzOTgvMHg0
-OTAgZHJpdmVycy9ncHUvZHJtL2RybV9wcm9wZXJ0eS5jOjgwMAo+PiBLZXJuZWwgcGFuaWMgLSBu
-b3Qgc3luY2luZzogcGFuaWNfb25fd2FybiBzZXQgLi4uCj4+IENQVTogMSBQSUQ6IDMwNDQ5IENv
-bW06IHN5ei1leGVjdXRvci41IE5vdCB0YWludGVkIDUuNC4wLXJjMi1uZXh0LTIwMTkxMDExCj4+
-ICMwCj4+IEhhcmR3YXJlIG5hbWU6IEdvb2dsZSBHb29nbGUgQ29tcHV0ZSBFbmdpbmUvR29vZ2xl
-IENvbXB1dGUgRW5naW5lLCBCSU9TCj4+IEdvb2dsZSAwMS8wMS8yMDExCj4+IENhbGwgVHJhY2U6
-Cj4+ICBfX2R1bXBfc3RhY2sgbGliL2R1bXBfc3RhY2suYzo3NyBbaW5saW5lXQo+PiAgZHVtcF9z
-dGFjaysweDE3Mi8weDFmMCBsaWIvZHVtcF9zdGFjay5jOjExMwo+PiAgcGFuaWMrMHgyZTMvMHg3
-NWMga2VybmVsL3BhbmljLmM6MjIxCj4+ICBfX3dhcm4uY29sZCsweDJmLzB4MzUga2VybmVsL3Bh
-bmljLmM6NTgyCj4+ICByZXBvcnRfYnVnKzB4Mjg5LzB4MzAwIGxpYi9idWcuYzoxOTUKPj4gIGZp
-eHVwX2J1ZyBhcmNoL3g4Ni9rZXJuZWwvdHJhcHMuYzoxNzQgW2lubGluZV0KPj4gIGZpeHVwX2J1
-ZyBhcmNoL3g4Ni9rZXJuZWwvdHJhcHMuYzoxNjkgW2lubGluZV0KPj4gIGRvX2Vycm9yX3RyYXAr
-MHgxMWIvMHgyMDAgYXJjaC94ODYva2VybmVsL3RyYXBzLmM6MjY3Cj4+ICBkb19pbnZhbGlkX29w
-KzB4MzcvMHg1MCBhcmNoL3g4Ni9rZXJuZWwvdHJhcHMuYzoyODYKPj4gIGludmFsaWRfb3ArMHgy
-My8weDMwIGFyY2gveDg2L2VudHJ5L2VudHJ5XzY0LlM6MTAyOAo+PiBSSVA6IDAwMTA6Y2hlY2tf
-Y29weV9zaXplIGluY2x1ZGUvbGludXgvdGhyZWFkX2luZm8uaDoxNTAgW2lubGluZV0KPj4gUklQ
-OiAwMDEwOmNvcHlfZnJvbV91c2VyIGluY2x1ZGUvbGludXgvdWFjY2Vzcy5oOjE0MyBbaW5saW5l
-XQo+PiBSSVA6IDAwMTA6ZHJtX21vZGVfY3JlYXRlYmxvYl9pb2N0bCsweDM5OC8weDQ5MAo+PiBk
-cml2ZXJzL2dwdS9kcm0vZHJtX3Byb3BlcnR5LmM6ODAwCj4+IENvZGU6IGMxIGVhIDAzIDgwIDNj
-IDAyIDAwIDBmIDg1IGVkIDAwIDAwIDAwIDQ5IDg5IDVkIDAwIGU4IDNjIDI4IGNiIGZkIDRjCj4+
-IDg5IGY3IGU4IDY0IDkyIDllIDAzIDMxIGMwIGU5IDc1IGZkIGZmIGZmIGU4IDI4IDI4IGNiIGZk
-IDwwZj4gMGIgZTggMjEgMjggY2IKPj4gZmQgNGQgODUgZTQgYjggZjIgZmYgZmYgZmYgMGYgODQg
-NWIgZmQgZmYgZmYgODkKPj4gUlNQOiAwMDE4OmZmZmY4ODgwNTg0ZWZhYTggRUZMQUdTOiAwMDAx
-MDI0Ngo+PiBSQVg6IDAwMDAwMDAwMDAwNDAwMDAgUkJYOiBmZmZmODg4MGEzYTkwMDAwIFJDWDog
-ZmZmZmM5MDAxMDlkYTAwMAo+PiBSRFg6IDAwMDAwMDAwMDAwNDAwMDAgUlNJOiBmZmZmZmZmZjgz
-YTdlYWY4IFJESTogMDAwMDAwMDAwMDAwMDAwNwo+PiBSQlA6IGZmZmY4ODgwNTg0ZWZhZTggUjA4
-OiBmZmZmODg4MDk2YzQwMDgwIFIwOTogZmZmZmVkMTAxNDc1MjExMAo+PiBSMTA6IGZmZmZlZDEw
-MTQ3NTIxMGYgUjExOiBmZmZmODg4MGEzYTkwODdmIFIxMjogZmZmZmM5MDAxNDkwNzAwMAo+PiBS
-MTM6IGZmZmY4ODgwMjhhYTAwMDAgUjE0OiAwMDAwMDAwMDlhNmM3OTY5IFIxNTogZmZmZmM5MDAx
-NDkwNzA1OAo+Pgo+Pgo+PiAtLS0KPj4gVGhpcyBidWcgaXMgZ2VuZXJhdGVkIGJ5IGEgYm90LiBJ
-dCBtYXkgY29udGFpbiBlcnJvcnMuCj4+IFNlZSBodHRwczovL2dvby5nbC90cHNtRUogZm9yIG1v
-cmUgaW5mb3JtYXRpb24gYWJvdXQgc3l6Ym90Lgo+PiBzeXpib3QgZW5naW5lZXJzIGNhbiBiZSBy
-ZWFjaGVkIGF0IHN5emthbGxlckBnb29nbGVncm91cHMuY29tLgo+Pgo+PiBzeXpib3Qgd2lsbCBr
-ZWVwIHRyYWNrIG9mIHRoaXMgYnVnIHJlcG9ydC4gU2VlOgo+PiBodHRwczovL2dvby5nbC90cHNt
-RUojc3RhdHVzIGZvciBob3cgdG8gY29tbXVuaWNhdGUgd2l0aCBzeXpib3QuCgoKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1481985063==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-ZhF7YshJftYaREkjx+2D"
+
+
+--=-ZhF7YshJftYaREkjx+2D
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, 2019-10-14 at 16:28 +0800, Shawn Guo wrote:
+> On Tue, Sep 24, 2019 at 08:12:38PM +0200, Nicolas Saenz Julienne wrote:
+> > qoriq-mc's dpmacs DMA configuration is inherited from their parent node=
+,
+> > which acts a bus in this regard. So far it maked all devices as
+> > dma-coherent but no dma-ranges recommendation is made.
+> >=20
+> > The truth is that the underlying interconnect has DMA constraints, so
+> > add an empty dma-ranges in qoriq-mc's node in order for DT's DMA
+> > configuration code to get the DMA constraints from it.
+> >=20
+> > Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+>=20
+> Updated subject prefix as 'arm64: dts: ...', and applied the patch.
+
+Hi Shawn,
+these two patches are no longer needed. This series has been superseded by =
+this
+patch[1] 951d48855d ('of: Make of_dma_get_range() work on bus nodes', avail=
+able
+in linux-next) which fixed the issue directly in OF code.
+
+Sorry for the noise.
+
+Regards,
+Nicolas
+
+[1] https://lkml.org/lkml/2019/10/8/870
+
+
+--=-ZhF7YshJftYaREkjx+2D
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl2kRzkACgkQlfZmHno8
+x/7Fhwf+OOorwS/yz7Mxwwgctc4wXslUVL4P1ubRvAEQYZ0UGUVtM1WJqXjukymn
+ydYIWe6mnmNSQqGYAEBcjzP/We/MxjMkpvpyMWkiJXiZvwXRs43BAcW5/eyvHNfD
+EEF3n4HCXZYSbmR9kDBwpZPKeoMCsQJbZuEF6rHwGNZeKA+tVpMZFEC17BGhW8LW
+MGx2W+1mXq7lLuDI5AIfnMt5Cqgl1IcsCzq4a2uRzNLXEDiQ5MFXaHVzroE0wWOQ
+O6GCM0HAcnR1wi0pZgEgDQyFQeiI4txKfLZ0P1z8zgVM+bFtNum4qIrtLbYm0Ny0
+y7htdJL8WlxXRHkbLVXIj0D71OiRYQ==
+=Ip4t
+-----END PGP SIGNATURE-----
+
+--=-ZhF7YshJftYaREkjx+2D--
+
+
+--===============1481985063==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1481985063==--
+
