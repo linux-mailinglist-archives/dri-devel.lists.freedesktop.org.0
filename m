@@ -2,42 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCBB7D62E5
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2019 14:48:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B84E3D62DC
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2019 14:44:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F1246E2B1;
-	Mon, 14 Oct 2019 12:48:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D90386E2A8;
+	Mon, 14 Oct 2019 12:44:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 436 seconds by postgrey-1.36 at gabe;
- Mon, 14 Oct 2019 12:48:13 UTC
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [IPv6:2a02:418:6a02::a2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47D116E2B1
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 12:48:13 +0000 (UTC)
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
- by mail.kmu-office.ch (Postfix) with ESMTPSA id C0FD35C2968;
- Mon, 14 Oct 2019 14:40:55 +0200 (CEST)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B06CF6E2A8
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 12:44:15 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id ACBE47296E; Mon, 14 Oct 2019 12:44:15 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110139] Driver throws exceptions when external display is
+ connected over HDMI
+Date: Mon, 14 Oct 2019 12:44:15 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/other
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: bastiborchers@gmx.net
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-110139-502-39G67ZoI1i@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110139-502@http.bugs.freedesktop.org/>
+References: <bug-110139-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Date: Mon, 14 Oct 2019 14:40:55 +0200
-From: Stefan Agner <stefan@agner.ch>
-To: Robert Chiras <robert.chiras@nxp.com>
-Subject: Re: [PATCH v4 13/14] drm/mxsfb: Add support for horizontal stride
-In-Reply-To: <1567078215-31601-14-git-send-email-robert.chiras@nxp.com>
-References: <1567078215-31601-1-git-send-email-robert.chiras@nxp.com>
- <1567078215-31601-14-git-send-email-robert.chiras@nxp.com>
-Message-ID: <3f346b1f809e77d343117dabc00c0402@agner.ch>
-X-Sender: stefan@agner.ch
-User-Agent: Roundcube Webmail/1.3.9
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=agner.ch; s=dkim; t=1571056855;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YrWET6MwKgu6ijCwF1dhxci/n4n0Vg1dUxqCWKvLfYI=;
- b=Cd9Tp17/bN/gVz6dvVu67YBFVDnn7pdCVMWM9b9Nsd3CWRgrZjB4nKYjhCF5rsujmLA9b5
- 03ItSqHrudgjtO8J+OMeENMsYh/ubOHvYtZovvwmBzpRRy2tLpu3QC+KOXueJvk64QQfZq
- M80bvjrKzHqCYNhbUajdL3zRtxiUhXg=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,136 +53,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Mark Rutland <mark.rutland@arm.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>,
- =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- NXP Linux Team <linux-imx@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0916066860=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgUm9iZXJ0LAoKU29ycnkgaXQgdG9vayBtZSBzbyBsb25nIHRvIGhhdmUgYSBjbG9zZXIgbG9v
-ayBhdCB0aGlzIHBhdGNoc2V0LgoKSSB3aWxsIGRlZmluaXRlbHkgbWVyZ2UgcGFydCBvZiBpdCwg
-YnV0IHRoaXMgcGFydGljdWxhciBwYXRjaCBhY3R1YWxseQpicmVha3MgaS5NWCA3LiBJIGhhdmUg
-dmVydGljYWwgc3RyaXBlcyBvbiBteSBkaXNwbGF5IHdpdGggdGhpcyBwYXRjaAphcHBsaWVkICh1
-c2luZyBXZXN0b24gd2l0aCBEUk0gYmFja2VuZCkuIE5vdCBzdXJlIHdoeSB0aGlzIGV4YWN0bHkK
-aGFwcGVucywgZnJvbSB3aGF0IEkgdW5kZXJzdGFuZCB0aGlzIHNob3VsZCBvbmx5IGFmZmVjdCBJ
-UCBWZXJzaW9uIDQuCgpTb21lIG5vdGVzIGJlbG93OgoKCk9uIDIwMTktMDgtMjkgMTM6MzAsIFJv
-YmVydCBDaGlyYXMgd3JvdGU6Cj4gQmVzaWRlcyB0aGUgZUxDRElGIGJsb2NrLCB0aGVyZSBpcyBh
-bm90aGVyIElQIGJsb2NrLCB1c2VkIGluIHRoZSBwYXN0Cj4gZm9yIEVQREMgcGFuZWxzLiBTaW5j
-ZSB0aGUgaU1YLjhtcSBkb2Vzbid0IGhhdmUgYW4gRVBEQyBjb25uZWN0b3IsIHRoaXMKPiBibG9j
-ayBpcyBub3QgZG9jdW1lbnRlZCwgYnV0IHdlIGNhbiB1c2UgaXQgdG8gZG8gYWRkaXRpb25hbCBv
-cGVyYXRpb25zCj4gb24gdGhlIGZyYW1lIGJ1ZmZlci4KCkhtLCBidXQgdGhpcyBibG9jayBpcyBw
-YXJ0IG9mIHRoZSBFTENESUYgYmxvY2ssIGluIHRlcm1zIG9mIGNsb2NrLCBwb3dlcgpkb21haW4g
-ZXRjPwoKPiBJbiB0aGlzIGNhc2UsIHdlIGNhbiB1c2UgdGhlIHBpZ2VvbiByZWdpc3RlcnMgZnJv
-bSB0aGlzIElQIGJsb2NrIGluCj4gb3JkZXIgdG8gZG8gaG9yaXpvbnRhbCBjcm9wIG9uIHRoZSBm
-cmFtZSBidWZmZXIgcHJvY2Vzc2VkIGJ5IHRoZSBlTENESUYKPiBibG9jay4KPiAKPiBTaWduZWQt
-b2ZmLWJ5OiBSb2JlcnQgQ2hpcmFzIDxyb2JlcnQuY2hpcmFzQG54cC5jb20+Cj4gVGVzdGVkLWJ5
-OiBHdWlkbyBHw7xudGhlciA8YWd4QHNpZ3hjcHUub3JnPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9k
-cm0vbXhzZmIvbXhzZmJfY3J0Yy5jIHwgNzkgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrLS0KPiAgZHJpdmVycy9ncHUvZHJtL214c2ZiL214c2ZiX2Rydi5jICB8ICAxICsKPiAg
-ZHJpdmVycy9ncHUvZHJtL214c2ZiL214c2ZiX3JlZ3MuaCB8IDE2ICsrKysrKysrCj4gIDMgZmls
-ZXMgY2hhbmdlZCwgOTIgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9ncHUvZHJtL214c2ZiL214c2ZiX2NydGMuYwo+IGIvZHJpdmVycy9ncHUv
-ZHJtL214c2ZiL214c2ZiX2NydGMuYwo+IGluZGV4IGExMmY1M2QuLjMxNzU3NWUgMTAwNjQ0Cj4g
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL214c2ZiL214c2ZiX2NydGMuYwo+ICsrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9teHNmYi9teHNmYl9jcnRjLmMKPiBAQCAtMTUsNiArMTUsNyBAQAo+ICAKPiAgI2lu
-Y2x1ZGUgPHZpZGVvL3ZpZGVvbW9kZS5oPgo+ICAKPiArI2luY2x1ZGUgPGRybS9kcm1fYXRvbWlj
-Lmg+Cj4gICNpbmNsdWRlIDxkcm0vZHJtX2F0b21pY19oZWxwZXIuaD4KPiAgI2luY2x1ZGUgPGRy
-bS9kcm1fY3J0Yy5oPgo+ICAjaW5jbHVkZSA8ZHJtL2RybV9mYl9jbWFfaGVscGVyLmg+Cj4gQEAg
-LTQzNSwxMyArNDM2LDY2IEBAIHZvaWQgbXhzZmJfY3J0Y19kaXNhYmxlKHN0cnVjdCBteHNmYl9k
-cm1fcHJpdmF0ZSAqbXhzZmIpCj4gIAljbGtfZGlzYWJsZV91bnByZXBhcmUobXhzZmItPmNsa19h
-eGkpOwo+ICB9Cj4gIAo+ICt2b2lkIG14c2ZiX3NldF9mYl9oY3JvcChzdHJ1Y3QgbXhzZmJfZHJt
-X3ByaXZhdGUgKm14c2ZiLCB1MzIgc3JjX3csIHUzMiBmYl93KQo+ICt7Cj4gKwl1MzIgbWFza19j
-bnQsIGh0b3RhbCwgaGNvdW50Owo+ICsJdTMyIHZkY3RybDIsIHZkY3RybDMsIHZkY3RybDQsIHRy
-YW5zZmVyX2NvdW50Owo+ICsJdTMyIHBpZ2Vvbl8xMl8wLCBwaWdlb25fMTJfMSwgcGlnZW9uXzEy
-XzI7Cj4gKwo+ICsJaWYgKHNyY193ID09IGZiX3cpIHsKPiArCQl3cml0ZWwoMHgwLCBteHNmYi0+
-YmFzZSArIEhXX0VQRENfUElHRU9OXzEyXzApOwo+ICsJCXdyaXRlbCgweDAsIG14c2ZiLT5iYXNl
-ICsgSFdfRVBEQ19QSUdFT05fMTJfMSk7Cj4gKwo+ICsJCXJldHVybjsKPiArCX0KPiArCj4gKwl0
-cmFuc2Zlcl9jb3VudCA9IHJlYWRsKG14c2ZiLT5iYXNlICsgTENEQ19WNF9UUkFOU0ZFUl9DT1VO
-VCk7Cj4gKwloY291bnQgPSBUUkFOU0ZFUl9DT1VOVF9HRVRfSENPVU5UKHRyYW5zZmVyX2NvdW50
-KTsKPiArCj4gKwl0cmFuc2Zlcl9jb3VudCAmPSB+VFJBTlNGRVJfQ09VTlRfU0VUX0hDT1VOVCgw
-eGZmZmYpOwo+ICsJdHJhbnNmZXJfY291bnQgfD0gVFJBTlNGRVJfQ09VTlRfU0VUX0hDT1VOVChm
-Yl93KTsKPiArCXdyaXRlbCh0cmFuc2Zlcl9jb3VudCwgbXhzZmItPmJhc2UgKyBMQ0RDX1Y0X1RS
-QU5TRkVSX0NPVU5UKTsKPiArCj4gKwl2ZGN0cmwyID0gcmVhZGwobXhzZmItPmJhc2UgKyBMQ0RD
-X1ZEQ1RSTDIpOwo+ICsJaHRvdGFsICA9IFZEQ1RSTDJfR0VUX0hTWU5DX1BFUklPRCh2ZGN0cmwy
-KTsKPiArCWh0b3RhbCAgKz0gZmJfdyAtIGhjb3VudDsKPiArCXZkY3RybDIgJj0gflZEQ1RSTDJf
-U0VUX0hTWU5DX1BFUklPRCgweDNmZmZmKTsKPiArCXZkY3RybDIgfD0gVkRDVFJMMl9TRVRfSFNZ
-TkNfUEVSSU9EKGh0b3RhbCk7Cj4gKwl3cml0ZWwodmRjdHJsMiwgbXhzZmItPmJhc2UgKyBMQ0RD
-X1ZEQ1RSTDIpOwo+ICsKPiArCXZkY3RybDQgPSByZWFkbChteHNmYi0+YmFzZSArIExDRENfVkRD
-VFJMNCk7Cj4gKwl2ZGN0cmw0ICY9IH5TRVRfRE9UQ0xLX0hfVkFMSURfREFUQV9DTlQoMHgzZmZm
-Zik7Cj4gKwl2ZGN0cmw0IHw9IFNFVF9ET1RDTEtfSF9WQUxJRF9EQVRBX0NOVChmYl93KTsKPiAr
-CXdyaXRlbCh2ZGN0cmw0LCBteHNmYi0+YmFzZSArIExDRENfVkRDVFJMNCk7Cj4gKwo+ICsJLyog
-Y29uZmlndXJlIHJlbGF0ZWQgcGlnZW9uIHJlZ2lzdGVycyAqLwo+ICsJdmRjdHJsMyAgPSByZWFk
-bChteHNmYi0+YmFzZSArIExDRENfVkRDVFJMMyk7Cj4gKwltYXNrX2NudCA9IEdFVF9IT1JfV0FJ
-VF9DTlQodmRjdHJsMykgLSA1Owo+ICsKPiArCXBpZ2Vvbl8xMl8wID0gUElHRU9OXzEyXzBfU0VU
-X1NUQVRFX01BU0soMHgyNCkJCXwKPiArCQkgICAgICBQSUdFT05fMTJfMF9TRVRfTUFTS19DTlQo
-bWFza19jbnQpCXwKPiArCQkgICAgICBQSUdFT05fMTJfMF9TRVRfTUFTS19DTlRfU0VMKDB4NikJ
-CXwKPiArCQkgICAgICBQSUdFT05fMTJfMF9QT0xfQUNUSVZFX0xPVwkJfAo+ICsJCSAgICAgIFBJ
-R0VPTl8xMl8wX0VOOwo+ICsJd3JpdGVsKHBpZ2Vvbl8xMl8wLCBteHNmYi0+YmFzZSArIEhXX0VQ
-RENfUElHRU9OXzEyXzApOwo+ICsKPiArCXBpZ2Vvbl8xMl8xID0gUElHRU9OXzEyXzFfU0VUX0NM
-Ul9DTlQoc3JjX3cpIHwKPiArCQkgICAgICBQSUdFT05fMTJfMV9TRVRfU0VUX0NOVCgweDApOwo+
-ICsJd3JpdGVsKHBpZ2Vvbl8xMl8xLCBteHNmYi0+YmFzZSArIEhXX0VQRENfUElHRU9OXzEyXzEp
-Owo+ICsKPiArCXBpZ2Vvbl8xMl8yID0gMHgwOwo+ICsJd3JpdGVsKHBpZ2Vvbl8xMl8yLCBteHNm
-Yi0+YmFzZSArIEhXX0VQRENfUElHRU9OXzEyXzIpOwo+ICt9Cj4gKwo+ICB2b2lkIG14c2ZiX3Bs
-YW5lX2F0b21pY191cGRhdGUoc3RydWN0IG14c2ZiX2RybV9wcml2YXRlICpteHNmYiwKPiAgCQkJ
-ICAgICAgIHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKnN0YXRlKQo+ICB7Cj4gIAlzdHJ1Y3QgZHJt
-X3NpbXBsZV9kaXNwbGF5X3BpcGUgKnBpcGUgPSAmbXhzZmItPnBpcGU7Cj4gIAlzdHJ1Y3QgZHJt
-X2NydGMgKmNydGMgPSAmcGlwZS0+Y3J0YzsKPiArCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5l
-d19zdGF0ZSA9IHBpcGUtPnBsYW5lLnN0YXRlOwo+ICsJc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAq
-ZmIgPSBwaXBlLT5wbGFuZS5zdGF0ZS0+ZmI7Cj4gIAlzdHJ1Y3QgZHJtX3BlbmRpbmdfdmJsYW5r
-X2V2ZW50ICpldmVudDsKPiAtCWRtYV9hZGRyX3QgcGFkZHI7Cj4gKwl1MzIgZmJfYWRkciwgc3Jj
-X29mZiwgc3JjX3csIHN0cmlkZSwgY3BwID0gMDsKCmRtYV9hZGRyX3Qgc2VlbXMgdG8gYmUgdGhl
-IGJldHRlciB0eXBlIGhlcmUsIHdoeSBjaGFuZ2U/Cgo+ICAKPiAgCXNwaW5fbG9ja19pcnEoJmNy
-dGMtPmRldi0+ZXZlbnRfbG9jayk7Cj4gIAlldmVudCA9IGNydGMtPnN0YXRlLT5ldmVudDsKPiBA
-QCAtNDU2LDEwICs1MTAsMjcgQEAgdm9pZCBteHNmYl9wbGFuZV9hdG9taWNfdXBkYXRlKHN0cnVj
-dAo+IG14c2ZiX2RybV9wcml2YXRlICpteHNmYiwKPiAgCX0KPiAgCXNwaW5fdW5sb2NrX2lycSgm
-Y3J0Yy0+ZGV2LT5ldmVudF9sb2NrKTsKPiAgCj4gLQlwYWRkciA9IG14c2ZiX2dldF9mYl9wYWRk
-cihteHNmYik7Cj4gLQlpZiAocGFkZHIpIHsKPiArCWlmICghZmIpCj4gKwkJcmV0dXJuOwo+ICsK
-PiArCWZiX2FkZHIgPSBteHNmYl9nZXRfZmJfcGFkZHIobXhzZmIpOwo+ICsJaWYgKG14c2ZiLT5k
-ZXZkYXRhLT5pcHZlcnNpb24gPj0gNCkgewo+ICsJCWNwcCA9IGZiLT5mb3JtYXQtPmNwcFswXTsK
-PiArCQlzcmNfb2ZmID0gKG5ld19zdGF0ZS0+c3JjX3kgPj4gMTYpICogZmItPnBpdGNoZXNbMF0g
-Kwo+ICsJCQkgIChuZXdfc3RhdGUtPnNyY194ID4+IDE2KSAqIGNwcDsKPiArCQlmYl9hZGRyICs9
-IGZiLT5vZmZzZXRzWzBdICsgc3JjX29mZjsKPiArCX0KPiArCj4gKwlpZiAoZmJfYWRkcikgewo+
-ICAJCWNsa19wcmVwYXJlX2VuYWJsZShteHNmYi0+Y2xrX2F4aSk7Cj4gLQkJd3JpdGVsKHBhZGRy
-LCBteHNmYi0+YmFzZSArIG14c2ZiLT5kZXZkYXRhLT5uZXh0X2J1Zik7Cj4gKwkJd3JpdGVsKGZi
-X2FkZHIsIG14c2ZiLT5iYXNlICsgbXhzZmItPmRldmRhdGEtPm5leHRfYnVmKTsKPiAgCQljbGtf
-ZGlzYWJsZV91bnByZXBhcmUobXhzZmItPmNsa19heGkpOwo+ICAJfQo+ICsKPiArCWlmIChteHNm
-Yi0+ZGV2ZGF0YS0+aXB2ZXJzaW9uID49IDQgJiYKPiArCSAgICB1bmxpa2VseShkcm1fYXRvbWlj
-X2NydGNfbmVlZHNfbW9kZXNldChuZXdfc3RhdGUtPmNydGMtPnN0YXRlKSkpIHsKPiArCQlzdHJp
-ZGUgPSBESVZfUk9VTkRfVVAoZmItPnBpdGNoZXNbMF0sIGNwcCk7Cj4gKwkJc3JjX3cgPSBuZXdf
-c3RhdGUtPnNyY193ID4+IDE2Owo+ICsJCW14c2ZiX3NldF9mYl9oY3JvcChteHNmYiwgc3JjX3cs
-IHN0cmlkZSk7Cj4gKwl9Cj4gIH0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL214c2Zi
-L214c2ZiX2Rydi5jCj4gYi9kcml2ZXJzL2dwdS9kcm0vbXhzZmIvbXhzZmJfZHJ2LmMKPiBpbmRl
-eCA4ODhiNTIwLi4wNmQzYmYwIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9teHNmYi9t
-eHNmYl9kcnYuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9teHNmYi9teHNmYl9kcnYuYwo+IEBA
-IC0xMzMsNiArMTMzLDcgQEAgc3RhdGljIGludCBteHNmYl9hdG9taWNfaGVscGVyX2NoZWNrKHN0
-cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gIAkJaWYgKG9sZF9icHAgIT0gbmV3X2JwcCkKPiAgCQkJ
-bmV3X3N0YXRlLT5tb2RlX2NoYW5nZWQgPSB0cnVlOwo+ICAJfQo+ICsKCkNhbiB5b3UgYWxzbyBk
-cm9wIHRoaXMgdW5yZWxhdGVkIGNoYW5nZT8KCi0tClN0ZWZhbgoKPiAgCXJldHVybiByZXQ7Cj4g
-IH0KPiAgCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9teHNmYi9teHNmYl9yZWdzLmgK
-PiBiL2RyaXZlcnMvZ3B1L2RybS9teHNmYi9teHNmYl9yZWdzLmgKPiBpbmRleCAwZjYzYmExLi5k
-ZjMyNzliIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9teHNmYi9teHNmYl9yZWdzLmgK
-PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbXhzZmIvbXhzZmJfcmVncy5oCj4gQEAgLTE0NSw2ICsx
-NDUsMjIgQEAKPiAgI2RlZmluZSBERUJVRzBfSFNZTkMJCQlCSVQoMjYpCj4gICNkZWZpbmUgREVC
-VUcwX1ZTWU5DCQkJQklUKDI1KQo+ICAKPiArLyogcGlnZW9uIHJlZ2lzdGVycyBmb3IgY3JvcCAq
-Lwo+ICsjZGVmaW5lIEhXX0VQRENfUElHRU9OXzEyXzAJCTB4YjAwCj4gKyNkZWZpbmUgSFdfRVBE
-Q19QSUdFT05fMTJfMQkJMHhiMTAKPiArI2RlZmluZSBIV19FUERDX1BJR0VPTl8xMl8yCQkweGIy
-MAo+ICsKPiArI2RlZmluZSBQSUdFT05fMTJfMF9TRVRfU1RBVEVfTUFTSyh4KQlSRUdfUFVUKCh4
-KSwgMzEsIDI0KQo+ICsjZGVmaW5lIFBJR0VPTl8xMl8wX1NFVF9NQVNLX0NOVCh4KQlSRUdfUFVU
-KCh4KSwgMjMsIDEyKQo+ICsjZGVmaW5lIFBJR0VPTl8xMl8wX1NFVF9NQVNLX0NOVF9TRUwoeCkJ
-UkVHX1BVVCgoeCksIDExLCAgOCkKPiArI2RlZmluZSBQSUdFT05fMTJfMF9TRVRfT0ZGU0VUKHgp
-CVJFR19QVVQoKHgpLCAgNywgIDQpCj4gKyNkZWZpbmUgUElHRU9OXzEyXzBfU0VUX0lOQ19TRUwo
-eCkJUkVHX1BVVCgoeCksICAzLCAgMikKPiArI2RlZmluZSBQSUdFT05fMTJfMF9QT0xfQUNUSVZF
-X0xPVwlCSVQoMSkKPiArI2RlZmluZSBQSUdFT05fMTJfMF9FTgkJCUJJVCgwKQo+ICsKPiArI2Rl
-ZmluZSBQSUdFT05fMTJfMV9TRVRfQ0xSX0NOVCh4KQlSRUdfUFVUKCh4KSwgMzEsIDE2KQo+ICsj
-ZGVmaW5lIFBJR0VPTl8xMl8xX1NFVF9TRVRfQ05UKHgpCVJFR19QVVQoKHgpLCAxNSwgIDApCj4g
-Kwo+ICAjZGVmaW5lIE1YU0ZCX01JTl9YUkVTCQkJMTIwCj4gICNkZWZpbmUgTVhTRkJfTUlOX1lS
-RVMJCQkxMjAKPiAgI2RlZmluZSBNWFNGQl9NQVhfWFJFUwkJCTB4ZmZmZgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0916066860==
+Content-Type: multipart/alternative; boundary="15710570551.C04c666e.22603"
+Content-Transfer-Encoding: 7bit
+
+
+--15710570551.C04c666e.22603
+Date: Mon, 14 Oct 2019 12:44:15 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110139
+
+bastiborchers@gmx.net changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+         Resolution|---                         |FIXED
+             Status|NEW                         |RESOLVED
+
+--- Comment #3 from bastiborchers@gmx.net ---
+Hello, I have to add now that at some point this was fixed. Not a problem
+anymore
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15710570551.C04c666e.22603
+Date: Mon, 14 Oct 2019 12:44:15 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:bastiborc=
+hers&#64;gmx.net" title=3D"bastiborchers&#64;gmx.net">bastiborchers&#64;gmx=
+.net</a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Driver throws exceptions when external display=
+ is connected over HDMI"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110139">bug 11013=
+9</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>FIXED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Driver throws exceptions when external display=
+ is connected over HDMI"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110139#c3">Commen=
+t # 3</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Driver throws exceptions when external display=
+ is connected over HDMI"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110139">bug 11013=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+bastiborchers&#64;gmx.net" title=3D"bastiborchers&#64;gmx.net">bastiborcher=
+s&#64;gmx.net</a>
+</span></b>
+        <pre>Hello, I have to add now that at some point this was fixed. No=
+t a problem
+anymore</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15710570551.C04c666e.22603--
+
+--===============0916066860==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0916066860==--
