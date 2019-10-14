@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BFCFD63CB
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2019 15:21:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF7E0D63FA
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2019 15:22:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8205189AEE;
-	Mon, 14 Oct 2019 13:20:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12E866E509;
+	Mon, 14 Oct 2019 13:21:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 53D346E4C9
+ by gabe.freedesktop.org (Postfix) with ESMTP id D8997896C7
  for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 13:20:27 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E4627729DC; Mon, 14 Oct 2019 13:20:25 +0000 (UTC)
+ id 9615F72A06; Mon, 14 Oct 2019 13:20:26 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 51042] Turning off connector polling in drm_kms_helper inhibits
- HDMI hot plug
+Subject: [Bug 93718] nouveau + moveablecore => endless havoc (possibly a
+ general drm problem)
 Date: Mon, 14 Oct 2019 13:20:26 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
@@ -35,9 +35,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-51042-502-Q1pjGtQhmD@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-51042-502@http.bugs.freedesktop.org/>
-References: <bug-51042-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-93718-502-c9AqXfCmct@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-93718-502@http.bugs.freedesktop.org/>
+References: <bug-93718-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,25 +53,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0227883032=="
+Content-Type: multipart/mixed; boundary="===============0874226819=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0227883032==
-Content-Type: multipart/alternative; boundary="157105922510.5dDd1E.29307"
+--===============0874226819==
+Content-Type: multipart/alternative; boundary="15710592266.20Ee05.29307"
 Content-Transfer-Encoding: 7bit
 
 
---157105922510.5dDd1E.29307
-Date: Mon, 14 Oct 2019 13:20:25 +0000
+--15710592266.20Ee05.29307
+Date: Mon, 14 Oct 2019 13:20:26 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D51042
+https://bugs.freedesktop.org/show_bug.cgi?id=3D93718
 
 Martin Peres <martin.peres@free.fr> changed:
 
@@ -80,7 +80,7 @@ Martin Peres <martin.peres@free.fr> changed:
          Resolution|---                         |INVALID
              Status|NEW                         |RESOLVED
 
---- Comment #2 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #1 from Martin Peres <martin.peres@free.fr> ---
 Hi,
 
 Freedesktop's Bugzilla instance is EOLed and open bugs are about to be migr=
@@ -100,8 +100,8 @@ Sorry about the noise!
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---157105922510.5dDd1E.29307
-Date: Mon, 14 Oct 2019 13:20:25 +0000
+--15710592266.20Ee05.29307
+Date: Mon, 14 Oct 2019 13:20:26 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -118,9 +118,9 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - Turning off connector polling in drm_kms_hel=
-per inhibits HDMI hot plug"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D51042">bug 51042<=
+   title=3D"RESOLVED INVALID - nouveau + moveablecore =3D&gt; endless havoc=
+ (possibly a general drm problem)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D93718">bug 93718<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -149,15 +149,15 @@ per inhibits HDMI hot plug"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - Turning off connector polling in drm_kms_hel=
-per inhibits HDMI hot plug"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D51042#c2">Comment=
- # 2</a>
+   title=3D"RESOLVED INVALID - nouveau + moveablecore =3D&gt; endless havoc=
+ (possibly a general drm problem)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D93718#c1">Comment=
+ # 1</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - Turning off connector polling in drm_kms_hel=
-per inhibits HDMI hot plug"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D51042">bug 51042<=
+   title=3D"RESOLVED INVALID - nouveau + moveablecore =3D&gt; endless havoc=
+ (possibly a general drm problem)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D93718">bug 93718<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
@@ -191,9 +191,9 @@ Sorry about the noise!</pre>
     </body>
 </html>=
 
---157105922510.5dDd1E.29307--
+--15710592266.20Ee05.29307--
 
---===============0227883032==
+--===============0874226819==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -203,4 +203,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0227883032==--
+--===============0874226819==--
