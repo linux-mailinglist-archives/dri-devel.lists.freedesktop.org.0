@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B36E3D63B2
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2019 15:20:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0D3ED63B6
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2019 15:20:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9345D6E484;
-	Mon, 14 Oct 2019 13:20:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DB876E4CF;
+	Mon, 14 Oct 2019 13:20:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id D10E66E499
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 13:20:10 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 324306E39C
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 13:20:11 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id CD55E7296E; Mon, 14 Oct 2019 13:20:10 +0000 (UTC)
+ id 2F9EE7296E; Mon, 14 Oct 2019 13:20:11 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 16731] Investigate changes to via driver published by via
+Subject: [Bug 97816] EDID checksum is invalid - PHL 247ELH
 Date: Mon, 14 Oct 2019 13:20:11 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/other
-X-Bugzilla-Version: XOrg git
+X-Bugzilla-Component: General
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
@@ -33,10 +33,10 @@ X-Bugzilla-Resolution: INVALID
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-16731-502-Nx75gM24Y8@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-16731-502@http.bugs.freedesktop.org/>
-References: <bug-16731-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-97816-502-8ff28gQ7uR@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-97816-502@http.bugs.freedesktop.org/>
+References: <bug-97816-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,32 +52,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0054751421=="
+Content-Type: multipart/mixed; boundary="===============0093541356=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0054751421==
-Content-Type: multipart/alternative; boundary="15710592108.99C807.29307"
+--===============0093541356==
+Content-Type: multipart/alternative; boundary="15710592110.baf9ED7E4.29307"
 Content-Transfer-Encoding: 7bit
 
 
---15710592108.99C807.29307
-Date: Mon, 14 Oct 2019 13:20:10 +0000
+--15710592110.baf9ED7E4.29307
+Date: Mon, 14 Oct 2019 13:20:11 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D16731
+https://bugs.freedesktop.org/show_bug.cgi?id=3D97816
 
 Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
          Resolution|---                         |INVALID
+             Status|NEW                         |RESOLVED
 
 --- Comment #2 from Martin Peres <martin.peres@free.fr> ---
 Hi,
@@ -99,8 +99,8 @@ Sorry about the noise!
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15710592108.99C807.29307
-Date: Mon, 14 Oct 2019 13:20:10 +0000
+--15710592110.baf9ED7E4.29307
+Date: Mon, 14 Oct 2019 13:20:11 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -117,9 +117,8 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - Investigate changes to via driver published =
-by via"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D16731">bug 16731<=
+   title=3D"RESOLVED INVALID - EDID checksum is invalid - PHL 247ELH"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D97816">bug 97816<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -130,33 +129,31 @@ by via"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Resolution</td>
            <td>---
            </td>
            <td>INVALID
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - Investigate changes to via driver published =
-by via"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D16731#c2">Comment=
+   title=3D"RESOLVED INVALID - EDID checksum is invalid - PHL 247ELH"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D97816#c2">Comment=
  # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - Investigate changes to via driver published =
-by via"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D16731">bug 16731<=
+   title=3D"RESOLVED INVALID - EDID checksum is invalid - PHL 247ELH"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D97816">bug 97816<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
@@ -190,9 +187,9 @@ Sorry about the noise!</pre>
     </body>
 </html>=
 
---15710592108.99C807.29307--
+--15710592110.baf9ED7E4.29307--
 
---===============0054751421==
+--===============0093541356==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -202,4 +199,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0054751421==--
+--===============0093541356==--
