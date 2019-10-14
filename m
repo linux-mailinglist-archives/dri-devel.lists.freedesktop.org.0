@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A366D63E2
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2019 15:22:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D30D63D3
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2019 15:21:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1F206E4D2;
-	Mon, 14 Oct 2019 13:21:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47D3E6E4B0;
+	Mon, 14 Oct 2019 13:20:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id AC4EC891D7
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 13:20:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id BF39A89C8F
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 13:20:20 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id A701F729DC; Mon, 14 Oct 2019 13:20:21 +0000 (UTC)
+ id BC8B37296E; Mon, 14 Oct 2019 13:20:20 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 69675] audio broken in 24Hz/24p since 3.11 (regression)
+Subject: [Bug 80628] The way KMS works doesn't support HDMI/DP well
 Date: Mon, 14 Oct 2019 13:20:21 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/other
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: enhancement
 X-Bugzilla-Who: martin.peres@free.fr
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: INVALID
@@ -34,9 +34,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-69675-502-DEEEqE58pI@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-69675-502@http.bugs.freedesktop.org/>
-References: <bug-69675-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-80628-502-Vxf7kLe2y3@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-80628-502@http.bugs.freedesktop.org/>
+References: <bug-80628-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,34 +52,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1056758132=="
+Content-Type: multipart/mixed; boundary="===============0927479754=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1056758132==
-Content-Type: multipart/alternative; boundary="15710592218.C394.29307"
+--===============0927479754==
+Content-Type: multipart/alternative; boundary="15710592208.a9a0cC65b.29307"
 Content-Transfer-Encoding: 7bit
 
 
---15710592218.C394.29307
-Date: Mon, 14 Oct 2019 13:20:21 +0000
+--15710592208.a9a0cC65b.29307
+Date: Mon, 14 Oct 2019 13:20:20 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D69675
+https://bugs.freedesktop.org/show_bug.cgi?id=3D80628
 
 Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
          Resolution|---                         |INVALID
-             Status|REOPENED                    |RESOLVED
+             Status|NEW                         |RESOLVED
 
---- Comment #54 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #1 from Martin Peres <martin.peres@free.fr> ---
 Hi,
 
 Freedesktop's Bugzilla instance is EOLed and open bugs are about to be migr=
@@ -99,8 +99,8 @@ Sorry about the noise!
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15710592218.C394.29307
-Date: Mon, 14 Oct 2019 13:20:21 +0000
+--15710592208.a9a0cC65b.29307
+Date: Mon, 14 Oct 2019 13:20:20 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -117,9 +117,9 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - audio broken in 24Hz/24p since 3.11 (regress=
-ion)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D69675">bug 69675<=
+   title=3D"RESOLVED INVALID - The way KMS works doesn't support HDMI/DP we=
+ll"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D80628">bug 80628<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -139,7 +139,7 @@ ion)"
 
          <tr>
            <td style=3D"text-align:right;">Status</td>
-           <td>REOPENED
+           <td>NEW
            </td>
            <td>RESOLVED
            </td>
@@ -148,15 +148,15 @@ ion)"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - audio broken in 24Hz/24p since 3.11 (regress=
-ion)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D69675#c54">Commen=
-t # 54</a>
+   title=3D"RESOLVED INVALID - The way KMS works doesn't support HDMI/DP we=
+ll"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D80628#c1">Comment=
+ # 1</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - audio broken in 24Hz/24p since 3.11 (regress=
-ion)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D69675">bug 69675<=
+   title=3D"RESOLVED INVALID - The way KMS works doesn't support HDMI/DP we=
+ll"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D80628">bug 80628<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
@@ -190,9 +190,9 @@ Sorry about the noise!</pre>
     </body>
 </html>=
 
---15710592218.C394.29307--
+--15710592208.a9a0cC65b.29307--
 
---===============1056758132==
+--===============0927479754==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -202,4 +202,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1056758132==--
+--===============0927479754==--
