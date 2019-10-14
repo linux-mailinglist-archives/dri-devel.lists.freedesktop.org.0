@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52710D6988
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2019 20:37:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A9FD69DD
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2019 21:06:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 202126E5B4;
-	Mon, 14 Oct 2019 18:37:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4737C891C0;
+	Mon, 14 Oct 2019 19:06:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0B3E46E5B4
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 18:37:47 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0849A7296E; Mon, 14 Oct 2019 18:37:47 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111948] [Vega10][bisected] Vega56 VM_L2_PROTECTION_FAULT when
- logging into KDE with kernel 5.3.0-rc1 and newer
-Date: Mon, 14 Oct 2019 18:37:47 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: freedesktop@forsaken.se
-X-Bugzilla-Status: REOPENED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-111948-502-vPrJR0WbSs@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111948-502@http.bugs.freedesktop.org/>
-References: <bug-111948-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B8ED891C0
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 19:06:09 +0000 (UTC)
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
+ [209.85.222.176])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id CA24D21835
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 19:06:08 +0000 (UTC)
+Received: by mail-qk1-f176.google.com with SMTP id 201so16836334qkd.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 12:06:08 -0700 (PDT)
+X-Gm-Message-State: APjAAAWlC9rFMaXoRSLWvJxhYYoMrw3zH4k7LDNiziReIxsDH2NrNG94
+ MR4+kav7cHh963SCG8cJKGgfgEyiA8c6NqDQoQ==
+X-Google-Smtp-Source: APXvYqxtt56ct5CSujEjO+VWcC3CyHrQK6hvv1inNbBfhWj56N00Mfeotm8P/o2BF7zwHgnpKhBrYpD4dvfThQMyIgE=
+X-Received: by 2002:a37:2f81:: with SMTP id
+ v123mr32072393qkh.254.1571079967909; 
+ Mon, 14 Oct 2019 12:06:07 -0700 (PDT)
 MIME-Version: 1.0
+References: <20191014151515.13839-1-steven.price@arm.com>
+In-Reply-To: <20191014151515.13839-1-steven.price@arm.com>
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 14 Oct 2019 14:05:56 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLG0csuGqg50xmAGdiEqHBkbU5+im2mhTWtxXKpPBGpkg@mail.gmail.com>
+Message-ID: <CAL_JsqLG0csuGqg50xmAGdiEqHBkbU5+im2mhTWtxXKpPBGpkg@mail.gmail.com>
+Subject: Re: [PATCH] drm/panfrost: Add missing GPU feature registers
+To: Steven Price <steven.price@arm.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1571079968;
+ bh=cugcVS6BwVMErWDImtXeHcuGvGtmF4IDDsE8pSs+D38=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=yfAwrlnOJlhGWfDrZYYsQxOSSvxIsO2fMDjg5l9ecX3X1157aY/5VXpe7atrM9R7f
+ hpE79GqClgjgRmq0UZFqgQN7nJ/o8fICyeAaz/I6I1EExlRXQOkx/JZSAykCokkpbs
+ R83vEFxegTrSpw7v0N8r+72zYh7Z7Z0bPUqk3OHE=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,128 +54,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0633706204=="
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0633706204==
-Content-Type: multipart/alternative; boundary="15710782661.24D6A.1838"
-Content-Transfer-Encoding: 7bit
-
-
---15710782661.24D6A.1838
-Date: Mon, 14 Oct 2019 18:37:46 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111948
-
-Andreas <freedesktop@forsaken.se> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|RESOLVED                    |REOPENED
-         Resolution|FIXED                       |---
-
---- Comment #2 from Andreas <freedesktop@forsaken.se> ---
-I spoke too soon, I'm getting it on 5.3.6 now as well as on 5.4.0-rc3
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15710782661.24D6A.1838
-Date: Mon, 14 Oct 2019 18:37:46 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:freedeskt=
-op&#64;forsaken.se" title=3D"Andreas &lt;freedesktop&#64;forsaken.se&gt;"> =
-<span class=3D"fn">Andreas</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_REOPENED "
-   title=3D"REOPENED - [Vega10][bisected] Vega56 VM_L2_PROTECTION_FAULT whe=
-n logging into KDE with kernel 5.3.0-rc1 and newer"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111948">bug 11194=
-8</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>RESOLVED
-           </td>
-           <td>REOPENED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>FIXED
-           </td>
-           <td>---
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_REOPENED "
-   title=3D"REOPENED - [Vega10][bisected] Vega56 VM_L2_PROTECTION_FAULT whe=
-n logging into KDE with kernel 5.3.0-rc1 and newer"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111948#c2">Commen=
-t # 2</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_REOPENED "
-   title=3D"REOPENED - [Vega10][bisected] Vega56 VM_L2_PROTECTION_FAULT whe=
-n logging into KDE with kernel 5.3.0-rc1 and newer"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111948">bug 11194=
-8</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-freedesktop&#64;forsaken.se" title=3D"Andreas &lt;freedesktop&#64;forsaken.=
-se&gt;"> <span class=3D"fn">Andreas</span></a>
-</span></b>
-        <pre>I spoke too soon, I'm getting it on 5.3.6 now as well as on 5.=
-4.0-rc3</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15710782661.24D6A.1838--
-
---===============0633706204==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0633706204==--
+T24gTW9uLCBPY3QgMTQsIDIwMTkgYXQgMTA6MTUgQU0gU3RldmVuIFByaWNlIDxzdGV2ZW4ucHJp
+Y2VAYXJtLmNvbT4gd3JvdGU6Cj4KPiBUaHJlZSBmZWF0dXJlIHJlZ2lzdGVycyB3ZXJlIGRlY2xh
+cmVkIGJ1dCBuZXZlciBhY3R1YWxseSByZWFkIGZyb20gdGhlCj4gR1BVLiBBZGQgVEhSRUFEX01B
+WF9USFJFQURTLCBUSFJFQURfTUFYX1dPUktHUk9VUF9TSVpFIGFuZAo+IFRIUkVBRF9NQVhfQkFS
+UklFUl9TSVpFIHNvIHRoYXQgdGhlIGNvbXBsZXRlIHNldCBhcmUgYXZhaWxhYmxlLgo+Cj4gRml4
+ZXM6IDRiY2VkOGJlYTA5NCAoImRybS9wYW5mcm9zdDogRXhwb3J0IGFsbCBHUFUgZmVhdHVyZSBy
+ZWdpc3RlcnMiKQo+IFNpZ25lZC1vZmYtYnk6IFN0ZXZlbiBQcmljZSA8c3RldmVuLnByaWNlQGFy
+bS5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9ncHUuYyB8
+IDMgKysrCj4gIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKykKCkFwcGxpZWQgdG8gZHJt
+LW1pc2MtZml4ZXMuCgpSb2IKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVs
