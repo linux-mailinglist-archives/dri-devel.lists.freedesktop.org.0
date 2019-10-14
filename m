@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80300D6A8F
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2019 22:04:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83294D6AB0
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2019 22:18:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5521489D79;
-	Mon, 14 Oct 2019 20:04:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1F616E57E;
+	Mon, 14 Oct 2019 20:18:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 019C489D79
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 20:04:43 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 14CA56E588
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 20:17:38 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id EC1CC72167; Mon, 14 Oct 2019 20:17:37 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205169] AMDGPU driver with Navi card hangs Xorg in fullscreen
- only.
-Date: Mon, 14 Oct 2019 20:04:43 +0000
-X-Bugzilla-Reason: None
+Subject: [Bug 111986] 5700 XT hangs entire system in games
+Date: Mon, 14 Oct 2019 20:17:36 +0000
+X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: drjoms@gmail.com
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: pierre-eric.pelloux-prayer@amd.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205169-2300-hbnxJRjiYC@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205169-2300@https.bugzilla.kernel.org/>
-References: <bug-205169-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
+Message-ID: <bug-111986-502-SYjn43uTql@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111986-502@http.bugs.freedesktop.org/>
+References: <bug-111986-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
- message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,29 +52,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0182413565=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDUxNjkKCi0tLSBD
-b21tZW50ICMxMSBmcm9tIERtaXRyaSBTZWxldHNraSAoZHJqb21zQGdtYWlsLmNvbSkgLS0tCihJ
-biByZXBseSB0byBQaWVycmUtRXJpYyBQZWxsb3V4LVByYXllciBmcm9tIGNvbW1lbnQgIzEwKQo+
-ICJnaXQgYmlzZWN0IiBpZGVudGlmaWVzIHRoaXMgY29tbWl0IGFzIHRoZSBwcm9ibGVtYXRpYyBv
-bmU6IDYxNzA4OWQ1ODM3YQo+ICgiZHJtL2FtZC9kaXNwbGF5OiByZXZlcnQgd2FpdCBpbiBwaXBl
-bG9jayIpLgo+IAo+IFJldmVydGluZyB0aGlzIGNvbW1pdCBvbiB0b3Agb2YgYW1kLXN0YWdpbmct
-ZHJtLW5leHQgc2VlbXMgdG8gd29yayBmaW5lLgoKdW5hbWUgLWEKTGludXggKG5vbmUpZGlta28n
-cyBEZXNrdG9wIDUuMy4wLXJjMysgIzMgU01QIFBSRUVNUFQgTW9uIE9jdCAxNCAyMDo0OTowMiBJ
-U1QKMjAxOSB4ODZfNjQgQU1EIFJ5emVuIDUgMTYwMCBTaXgtQ29yZSBQcm9jZXNzb3IgQXV0aGVu
-dGljQU1EIEdOVS9MaW51eAoKCmdpdCBjaGVja291dCA2MTcwODlkNTgzN2FeCgpJc3N1ZSBubyBs
-b25nZXIgaGFwcGVucwoKTWFqb3IgZG93bmdyYWRlLCBidXQgbm8gbW9yZSBwcm9ibGVtLgpXaGlj
-aCBjb21taXQgY2FuIEkgdXNlIHRvIHNvbHZlIHRoaXMgaXNzdWU/CgpCdWcgMjA1MTY5IC0gQU1E
-R1BVIGRyaXZlciB3aXRoIE5hdmkgY2FyZCBoYW5ncyBYb3JnIGluIGZ1bGxzY3JlZW4gb25seS4g
-KGVkaXQpIApodHRwczovL2J1Z3ppbGxhLmtlcm5lbC5vcmcvc2hvd19idWcuY2dpP2lkPTIwNDcy
-NQoKU29ycnkgdGhhdCBJIHRha2UgYWR2YW50YWdlIG9mIHlvdSBoZXJlLgpJIHdpbGwgdHJ5IHRv
-IGZpbmQgNS4zLjAgY29tbWl0LiBJIGFtIG5ldyBpbnRvIGFsbCB0aGlzIHN0dWZmLgoKLS0gCllv
-dSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBh
-c3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWw=
+
+--===============0182413565==
+Content-Type: multipart/alternative; boundary="15710842572.83EC.20119"
+Content-Transfer-Encoding: 7bit
+
+
+--15710842572.83EC.20119
+Date: Mon, 14 Oct 2019 20:17:37 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111986
+
+--- Comment #11 from Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer=
+@amd.com> ---
+(In reply to Daniel Suarez from comment #10)
+> Created attachment 145736 [details]
+> Got by running sudo journalctl -b > dmesg.log
+>=20
+> Thanks to the explanation by someone I believe I understand now what you
+> meant. I went ahead and reproduced the hang by running gfxbench and when =
+the
+> system hanged at around 3:23 I force shutdown seconds later, once I booted
+> in I ran "sudo journalctl -b > dmesg.log" and I am sending you the output=
+ now
+
+You need to use "sudo journalctl -b -1 > dmesg.log" to get the logs from the
+previous boot (=3D the one that hanged).
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15710842572.83EC.20119
+Date: Mon, 14 Oct 2019 20:17:37 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - 5700 XT hangs entire system in games"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111986#c11">Comme=
+nt # 11</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - 5700 XT hangs entire system in games"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111986">bug 11198=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+pierre-eric.pelloux-prayer&#64;amd.com" title=3D"Pierre-Eric Pelloux-Prayer=
+ &lt;pierre-eric.pelloux-prayer&#64;amd.com&gt;"> <span class=3D"fn">Pierre=
+-Eric Pelloux-Prayer</span></a>
+</span></b>
+        <pre>(In reply to Daniel Suarez from <a href=3D"show_bug.cgi?id=3D1=
+11986#c10">comment #10</a>)
+<span class=3D"quote">&gt; Created <span class=3D""><a href=3D"attachment.c=
+gi?id=3D145736" name=3D"attach_145736" title=3D"Got by running sudo journal=
+ctl -b &gt; dmesg.log">attachment 145736</a> <a href=3D"attachment.cgi?id=
+=3D145736&amp;action=3Dedit" title=3D"Got by running sudo journalctl -b &gt=
+; dmesg.log">[details]</a></span>
+&gt; Got by running sudo journalctl -b &gt; dmesg.log
+&gt;=20
+&gt; Thanks to the explanation by someone I believe I understand now what y=
+ou
+&gt; meant. I went ahead and reproduced the hang by running gfxbench and wh=
+en the
+&gt; system hanged at around 3:23 I force shutdown seconds later, once I bo=
+oted
+&gt; in I ran &quot;sudo journalctl -b &gt; dmesg.log&quot; and I am sendin=
+g you the output now</span >
+
+You need to use &quot;sudo journalctl -b -1 &gt; dmesg.log&quot; to get the=
+ logs from the
+previous boot (=3D the one that hanged).</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15710842572.83EC.20119--
+
+--===============0182413565==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0182413565==--
