@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD99AD63BD
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2019 15:20:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6682D63EC
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2019 15:22:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1029F6E4A6;
-	Mon, 14 Oct 2019 13:20:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BED626E4EA;
+	Mon, 14 Oct 2019 13:21:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id D7557899E8
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 13:20:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 94E7489A88
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 13:20:22 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D4F58729DA; Mon, 14 Oct 2019 13:20:21 +0000 (UTC)
+ id 9247F729DA; Mon, 14 Oct 2019 13:20:22 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 19690] x crash when enabling kde 4 effects on intel 865G
+Subject: [Bug 92481] [Patch] Mostly cosmetic changes for drm_dp_mst_i2c_xfer
+ in Linux 4.3-rc5
 Date: Mon, 14 Oct 2019 13:20:22 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: General
+X-Bugzilla-Component: DRM/other
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
+X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: INVALID
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-19690-502-LohKQRVUbD@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-19690-502@http.bugs.freedesktop.org/>
-References: <bug-19690-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-92481-502-zn8U3cOAMC@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-92481-502@http.bugs.freedesktop.org/>
+References: <bug-92481-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,32 +53,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1157350592=="
+Content-Type: multipart/mixed; boundary="===============1930317997=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1157350592==
-Content-Type: multipart/alternative; boundary="157105922110.0A844.29307"
+--===============1930317997==
+Content-Type: multipart/alternative; boundary="15710592226.83479FF1.29307"
 Content-Transfer-Encoding: 7bit
 
 
---157105922110.0A844.29307
-Date: Mon, 14 Oct 2019 13:20:21 +0000
+--15710592226.83479FF1.29307
+Date: Mon, 14 Oct 2019 13:20:22 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D19690
+https://bugs.freedesktop.org/show_bug.cgi?id=3D92481
 
 Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-         Resolution|---                         |INVALID
              Status|NEW                         |RESOLVED
+         Resolution|---                         |INVALID
 
 --- Comment #1 from Martin Peres <martin.peres@free.fr> ---
 Hi,
@@ -99,8 +100,8 @@ Sorry about the noise!
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---157105922110.0A844.29307
-Date: Mon, 14 Oct 2019 13:20:21 +0000
+--15710592226.83479FF1.29307
+Date: Mon, 14 Oct 2019 13:20:22 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -117,9 +118,9 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - x crash when enabling kde 4 effects on intel=
- 865G"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D19690">bug 19690<=
+   title=3D"RESOLVED INVALID - [Patch] Mostly cosmetic changes for drm_dp_m=
+st_i2c_xfer in Linux 4.3-rc5"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D92481">bug 92481<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -130,33 +131,33 @@ span class=3D"fn">Martin Peres</span></a>
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>INVALID
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Status</td>
            <td>NEW
            </td>
            <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>INVALID
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - x crash when enabling kde 4 effects on intel=
- 865G"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D19690#c1">Comment=
+   title=3D"RESOLVED INVALID - [Patch] Mostly cosmetic changes for drm_dp_m=
+st_i2c_xfer in Linux 4.3-rc5"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D92481#c1">Comment=
  # 1</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - x crash when enabling kde 4 effects on intel=
- 865G"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D19690">bug 19690<=
+   title=3D"RESOLVED INVALID - [Patch] Mostly cosmetic changes for drm_dp_m=
+st_i2c_xfer in Linux 4.3-rc5"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D92481">bug 92481<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
@@ -190,9 +191,9 @@ Sorry about the noise!</pre>
     </body>
 </html>=
 
---157105922110.0A844.29307--
+--15710592226.83479FF1.29307--
 
---===============1157350592==
+--===============1930317997==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -202,4 +203,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1157350592==--
+--===============1930317997==--
