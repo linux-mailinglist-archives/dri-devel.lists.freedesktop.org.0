@@ -1,45 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C480D68E3
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2019 19:54:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19563D6949
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2019 20:16:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 565CF6E58E;
-	Mon, 14 Oct 2019 17:54:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D03BC6E598;
+	Mon, 14 Oct 2019 18:16:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id C97246E595
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 17:54:48 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C53F77296E; Mon, 14 Oct 2019 17:54:48 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111986] 5700 XT hangs entire system in games
-Date: Mon, 14 Oct 2019 17:54:48 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: danielsuarez369@protonmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111986-502-XMsm04oywk@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111986-502@http.bugs.freedesktop.org/>
-References: <bug-111986-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF8A96E598
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 18:16:13 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id d1so17518503ljl.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 11:16:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=AB5JQ/O7JG0ArAm5BxhmGB/H9BuQfrpgLr5qHh7r6bo=;
+ b=bFUlV2HEx9YmJ4EvX4QrZw9RC5MgY5OClGK0Mt65HyEzRJNi42bEUJ7H8ZwKZqh82t
+ qP84Ty9Qx3mYKfkQSbRP9lH205dTwhGujISby5Ms2VLrGMEC8zFNe8+TKqnhUXbmMrAZ
+ jcbddkXZ614V16aMU5YnlOV7SzRwMisct8gSS0U262Wcj52EAmwaQBl+Z1HkxJjs3SVu
+ vbaBJIRduSUtrO8lMCQU0ak6qg6MHToLdTRMrt7QmG7k0wdwu0rbJgcLgs0NWKYZq47+
+ 7zev/GXKKFpW2skDlCOPrB/tQmSQk08gd6buFZSGLiVmhs/cTe78mbcaC5Ak2QBL88Fz
+ ufqw==
+X-Gm-Message-State: APjAAAVnfHXqsmX1QK3TF8ke6PxNP4TR04ILBrxxgCaVmRSkK5RLh6WB
+ USs4zLipHdDKuGmkitiHP0Zo+1RC+z497LvQIzAOXA==
+X-Google-Smtp-Source: APXvYqzubD2q+lo+wiCpMfIWcjR+395MtvsvYrKtYkeIx63wti5yuf6LERcV7C1IHomrUIEwrisBayD+lNaiLbD/N44=
+X-Received: by 2002:a2e:b819:: with SMTP id u25mr11590406ljo.223.1571076971843; 
+ Mon, 14 Oct 2019 11:16:11 -0700 (PDT)
 MIME-Version: 1.0
+From: Dave Airlie <airlied@gmail.com>
+Date: Tue, 15 Oct 2019 04:16:00 +1000
+Message-ID: <CAPM=9txm6udXT9KtW=ROVMf2xRjd4sbPN9OPEQ--taP2vi-mmQ@mail.gmail.com>
+Subject: [RFC] new uapi policy for drm
+To: dri-devel <dri-devel@lists.freedesktop.org>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=AB5JQ/O7JG0ArAm5BxhmGB/H9BuQfrpgLr5qHh7r6bo=;
+ b=FcMcOdmkz7zXbtB4oqJb594stQqWnj6OB7zUq4cd1gZPkc/i7ws4d/i3VaPb4R/QyL
+ dz8f4ndJBam4p5Jw35eBnWlaIsj7mqgKSrWkbOz28i0qYJgE3q/wDo8FEqHgCyWJ80PK
+ 4aLhRyjHZURgNfXt0LjchKZaezGFbXyWTn8MtU9JNSsCg/4YwgLwhDpqTwkf5h88SjEQ
+ rTDpi6u8xl36+HgKZunsmo2N3voC3u7TvOUtgARbZxIqnewJcO2pKhY0wCOMGxS8NBnv
+ SneGg5vqo+S0jh0bnJz0+Aczm7zylxdBIWg/q2ycF8dMMFlUVf6MB07wGzMhpqMcTcLv
+ aryQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,92 +58,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1861084471=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1861084471==
-Content-Type: multipart/alternative; boundary="15710756881.35112AaF.25163"
-Content-Transfer-Encoding: 7bit
-
-
---15710756881.35112AaF.25163
-Date: Mon, 14 Oct 2019 17:54:48 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111986
-
---- Comment #9 from Daniel Suarez <danielsuarez369@protonmail.com> ---
-Created attachment 145735
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145735&action=3Dedit
-Xorg log 2
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15710756881.35112AaF.25163
-Date: Mon, 14 Oct 2019 17:54:48 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - 5700 XT hangs entire system in games"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111986#c9">Commen=
-t # 9</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - 5700 XT hangs entire system in games"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111986">bug 11198=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-danielsuarez369&#64;protonmail.com" title=3D"Daniel Suarez &lt;danielsuarez=
-369&#64;protonmail.com&gt;"> <span class=3D"fn">Daniel Suarez</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145735=
-" name=3D"attach_145735" title=3D"Xorg log 2">attachment 145735</a> <a href=
-=3D"attachment.cgi?id=3D145735&amp;action=3Dedit" title=3D"Xorg log 2">[det=
-ails]</a></span>
-Xorg log 2</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15710756881.35112AaF.25163--
-
---===============1861084471==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1861084471==--
+SSd2ZSBraWNrZWQgdGhpcyBhcm91bmQgaW4gbXkgaGVhZCBvdmVyIHRoZSBwYXN0IGZldyB3ZWVr
+cyBidXQgd2FudGVkCnRvIGdldCBzb21lIGZlZWRiYWNrIG9uIHdoZXRoZXIgaXQncyBhIGdvb2Qg
+aWRlYSBvciB3aGF0IGltcGFjdCBpdAptaWdodCBoYXZlIHRoYXQgSSBoYXZlbid0IGNvbnNpZGVy
+ZWQuCgpXZSBhcmUgZ2V0dGluZyByZXF1ZXN0cyB2aWEgYm90aCBhbWRncHUvYW1ka2ZkIGFuZCBp
+OTE1IGZvciBuZXcgdXNlcgpBUElzIGZvciB1c2Vyc3BhY2UgZHJpdmVycyB0aGF0IHRocm93IGNv
+ZGUgb3ZlciB0aGUgd2FsbCBpbnN0ZWFkIG9mCmJlaW5nIG9wZW4gc291cmNlIGRldmVsb3BlZCBw
+cm9qZWN0cywgYnV0IHdlIGFyZSBhbHNvIHNlZWluZyBpdCBmb3IKYW5kcm9pZCBkcml2ZXJzIGFu
+ZCBrbXMgcHJvcGVydGllcywgYW5kIHdlIGhhZCB0aGF0IGk5MTUgY3JhcHB5IGNydGMKYmFja2dy
+b3VuZCB0aGluZyB0aGF0IHdhcyBmb3IgQ2hyb21lIGJ1dCBDaHJvbWUgZGlkbid0IHdhbnQgaXQu
+CgpOb3cgdGhpcyBwcmVzZW50cyBhIGNvdXBsZSBvZiBpc3N1ZXM6CgphKSB0aGVzZSBwcm9qZWN0
+cyBkb24ndCBzZWVtIHRvIHRoYXQgZ29vZCBhdCBmb2xsb3dpbmcgb3VyIGRldmVsb3BtZW50Cmd1
+aWRlbGluZXMsIGF2b2lkIGRldmVsb3BpbmcgdXNlcnNwYWNlIGZlYXR1cmVzIGluIHBhcmFsbGVs
+IGluIHRoZQpvcGVuIGFuZCBoYXZpbmcgZ29vZCBkZXZlbG9wbWVudCBpbXBsZW1lbnRhdGlvbnMg
+YmVmb3JlIHN1Ym1pdHRpbmcKdXBzdHJlYW0uCgpiKSB0aGVzZSBwcm9qZWN0cyBkb24ndCBoYXZl
+IGV4cGVyaWVuY2VkIHVzZXJzcGFjZSBkZXZlbG9wZXJzCnJldmlld2luZyB0aGVpciBrZXJuZWwg
+dWFwaXMuIE9uZSBiaWcgYWR2YW50YWdlIG9mIGFkZGluZyB1YXBpcyB3aXRoCm1lc2EgZGV2ZWxv
+cGVycyBpcyB0aGV5IGhhdmUgYSBsb3Qgb2YgZXhwZXJpZW5jZSBpbiB0aGUgYXJlYSBhcyB3ZWxs
+LgoKSXQncyBsZWFkaW5nIG1lIHRvIHRoaW5rIEkgd2FudCB0byBqdXN0IHN0b3AgYWxsIHVhcGkg
+c3VibWlzc2lvbnMgdmlhCmRyaXZlciB0cmVlcywgYW5kIGluc3RlYWQgbWFuZGF0ZSB0aGF0IGFs
+bCBkcml2ZXIgdWFwaSBjaGFuZ2VzIGFyZQpzZW50IGluIHNlcGFyYXRlIGdpdCBwdWxsIHJlcXVl
+c3RzIHRvIGRyaS1kZXZlbCwgSSdkIHRyeSAod2l0aCBzb21lCmhlbHApIHRvIGNhdGNoIGFsbCB1
+YXBpIG1vZGlmaWNhdGlvbnMgaW4gbm9ybWFsIHRyZWVzLCBhbmQgcmVmdXNlCnB1bGxzIHRoYXQg
+bW9kaWZpZWQgdWFwaS4KCkF0IGxlYXN0IEknbSBjb25zaWRlcmVkIHdyaXRpbmcgdGhlIHNjcmlw
+dCBhbmQgcmVmdXNpbmcgYW5kIHB1bGxzIHRoYXQKaGF2ZSBhIHVhcGkgY2hhbmdlIHRoYXQgZG9l
+c24ndCBjb250YWluIGEgbGluayB0byB0aGUgdXNlcnNwYWNlCmNoYW5nZXMgcmVxdWlyZWQgZm9y
+IGl0IGluIGEgcHVibGljIGRldmVsb3BlZCByZXBvLgoKVGhvdWdodHM/CgpEYXZlLgpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
