@@ -1,46 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC87DD62AE
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2019 14:38:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94A2AD62B0
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2019 14:38:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EF846E25E;
-	Mon, 14 Oct 2019 12:38:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7389C6E296;
+	Mon, 14 Oct 2019 12:38:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 042FE6E25E
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 12:38:06 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 00AC97296E; Mon, 14 Oct 2019 12:38:05 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3805D6E296
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 12:38:33 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id v8so19556630wrt.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 05:38:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qHlgrBNnQvZHdlIhaAIwv1P7BiVcNY7YDyLmFn9uKVI=;
+ b=XYIJoD6tXBuIdCBDC4krxtaeBXY8LktihKaloyu/a/0gjVmKfxdk3RZNN+IZPUeGlp
+ QoPgV9/WU0lQVxcfr7DIypS7+YNboJKQ8q/Dn1Bs7TjrSffKpDuMuh6HDbcQMmgz4QEP
+ V1suCSt92J4MveoJaafMLIauqXHXGWMZx39KzXgYJ2OX5CpVavwQtrEQgAiYavLGVyxE
+ T+LEEDtESLeTnJvTIcWAGIM7yReLVqS9Z6mURODQGz1EDY1cktbBDCTCvjvhqVTco50P
+ Z3FNdKRmUqi9Rm/SS2wyexMdA8njYysUxRccjIqF8WaVtQ/9g79JNTMdjn2PQNE683jn
+ vO0Q==
+X-Gm-Message-State: APjAAAUMfHdpukuBhJYe2dBlx/dz8t1nVAZU9CLdWGi6rhubN0TBQzRw
+ wCEGDdcXhZkOTIDq9/JPur4agAFtj+IdlQ==
+X-Google-Smtp-Source: APXvYqwMn8mKSsHjusTUrOEZvm5C0ca3mShMRyG8qq1fHYhQEd05XeLBSOf4JIln1DHYZGqjzagwvw==
+X-Received: by 2002:a5d:6592:: with SMTP id q18mr27503680wru.382.1571056711338; 
+ Mon, 14 Oct 2019 05:38:31 -0700 (PDT)
+Received: from bender.baylibre.local
+ (lmontsouris-657-1-212-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+ by smtp.gmail.com with ESMTPSA id 3sm19171203wmo.22.2019.10.14.05.38.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Oct 2019 05:38:30 -0700 (PDT)
+From: Neil Armstrong <narmstrong@baylibre.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110139] Driver throws exceptions when external display is
- connected over HDMI
-Date: Mon, 14 Oct 2019 12:38:06 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/other
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: martin.peres@free.fr
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: component
-Message-ID: <bug-110139-502-3tRQBC6WBM@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110139-502@http.bugs.freedesktop.org/>
-References: <bug-110139-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH v2 0/7] drm/meson: add AFBC support
+Date: Mon, 14 Oct 2019 14:38:19 +0200
+Message-Id: <20191014123826.27629-1-narmstrong@baylibre.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qHlgrBNnQvZHdlIhaAIwv1P7BiVcNY7YDyLmFn9uKVI=;
+ b=mz58iYxSQEYvYf9X0tiVoBtwk4DpjvkN3/8wfK1vhAFu/n1X/1t+LEo+7+LgmeDQQA
+ s4Y98uW35kkjrTLOwvRflsDq+B9qxcprU9J6wEJ0v8XewRroDzR3ihShCkB4zv3sLNl4
+ KNwSA1L8XO9OO5fDEB5+xGr97e8TVBI2HLPPCtjHVdYWwHCkNJtvcGZJg154gJEvtxF5
+ rrJobAtc/hw4Ath1WvhV1+fZuLMqiK+HSRcaDOu5B4NsOjqu+ff/1liJ/u8A8LiXqoTV
+ ybTFITLEt56+xLWFLN3Bt4xjD3MbMS6n+g5o+HLB5HDX5FvNspjFvGPW0NhPhRTrq903
+ HJYA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,96 +66,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1189788441=="
+Cc: Neil Armstrong <narmstrong@baylibre.com>, khilman@baylibre.com,
+ linux-amlogic@lists.infradead.org, ayan.halder@arm.com,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1189788441==
-Content-Type: multipart/alternative; boundary="15710566850.cD3af.21250"
-Content-Transfer-Encoding: 7bit
-
-
---15710566850.cD3af.21250
-Date: Mon, 14 Oct 2019 12:38:05 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110139
-
-Martin Peres <martin.peres@free.fr> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-          Component|General                     |DRM/other
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15710566850.cD3af.21250
-Date: Mon, 14 Oct 2019 12:38:05 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:martin.pe=
-res&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.fr&gt;"> <=
-span class=3D"fn">Martin Peres</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Driver throws exceptions when external display is connect=
-ed over HDMI"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110139">bug 11013=
-9</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Component</td>
-           <td>General
-           </td>
-           <td>DRM/other
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15710566850.cD3af.21250--
-
---===============1189788441==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1189788441==--
+VGhpcyBhZGRzIHN1cHBvcnQgZm9yIHRoZSBBUk0gRnJhbWVidWZmZXIgQ29tcHJlc3Npb24gZGVj
+b2RlcnMgZm91bmQKaW4gdGhlIEFtbG9naWMgR1hNIGFuZCBHMTJBIFNvQ3MuCgpUaGUgQW1sb2dp
+YyBHWE0gYW5kIEcxMkEgQUZCQyBkZWNvZGVyIGFyZSB0b3RhbGx5IGRpZmZlcmVudCwgdGhlIEdY
+TSBvbmx5CmhhbmRsaW5nIG9ubHkgdGhlIEFGQkMgdjEuMCBtb2RlcyBhbmQgdGhlIEcxMkEgZGVj
+b2RlciBoYW5kbGluZyB0aGUKQUZCQyB2MS4yIG1vZGVzLgoKVGhlIEcxMkEgQUZCQyBkZWNvZGVy
+IGlzIGFuIGV4dGVybmFsIElQIGludGVncmF0ZWQgaW4gdGhlIHZpZGVvIHBpcGVsaW5lLAphbmQg
+dGhlIEdYTSBBRkJDIGRlY29kZXIgc2VlbXMgdG8gdGhlIGFuIEFtbG9naWMgY3VzdG9tIGRlY29k
+ZXIgbW9yZQp0aWdobHkgaW50ZWdyYXRlZCBpbiB0aGUgdmlkZW8gcGlwZWxpbmUuCgpUaGUgR1hN
+IEFGQkMgZGVjb2RlciBjYW4gaGFuZGxlIG9ubHkgb25lIEFGQkMgcGxhbmUgZm9yIDIgYXZhaWxh
+YmxlCk9TRCBwbGFuZXMgYXZhaWxhYmxlIGluIEhXLCBhbmQgdGhlIEcxMkEgQUZCQyBkZWNvZGVy
+IGNhbiBoYW5kbGUgdXAKdG8gNCBBRkJDIHBsYW5lcyBmb3IgdXAgdG8gMyBPU0QgcGxhbmVzIGF2
+YWlsYWJsZSBpbiBIVy4KClRoZSBBbWxvZ2ljIEdYTSBzdXBwb3J0cyAxNngxNiBTUEFSU0UgYW5k
+IDE2eDE2IFNQTElUIEFGQkMgYnVmZmVycyB1cAp0byA0ay4KCk9uIHRoZSBvdGhlciBzaWRlLCBm
+b3IgRzEyQSBTUExJVCBpcyBtYW5kYXRvcnkgaW4gMTZ4MTYgYmxvY2sgbW9kZSwgYnV0CmZvciA0
+ayBtb2RlcyAzMng4K1NQTElUIEFGQkMgYnVmZmVycyBpcyBtYW5hZGF0b3J5IGZvciBwZXJmb3Jt
+YW5jZXMgcmVhc29ucy4KClRoZSBBbWxvZ2ljIEdYTSBhbmQgRzEyQSBBRkJDIGRlY29kZXJzIGFy
+ZSBpbnRlZ3JhdGVkIHZlcnkgZGlmZmVyZW50bHkuCgpUaGUgQW1sb2dpYyBHWE0gaGFzIGEgZGly
+ZWN0IG91dHB1dCBwYXRoIHRvIHRoZSBPU0QxIFZJVSBwaXhlbCBpbnB1dCwKYmVjYXVzZSB0aGUg
+R1hNIEFGQkMgZGVjb2RlciBzZWVtIHRvIGJlIGEgY3VzdG9tIElQIGRldmVsb3BlZCBieSBBbWxv
+Z2ljLgoKT24gdGhlIG90aGVyIHNpZGUsIHRoZSBBbWxvZ2ljIEcxMkEgQUZCQyBkZWNvZGVyIHNl
+ZW1zIHRvIGJlIGFuIGV4dGVybmFsCklQIHRoYXQgZW1pdCBwaXhlbHMgb24gYW4gQVhJIG1hc3Rl
+ciBob29rZWQgdG8gYSAiTWFsaSBVbnBhY2siIGJsb2NrCmZlZWRpbmcgdGhlIE9TRDEgVklVIHBp
+eGVsIGlucHV0LgpUaGlzIHVzZXMgYSB3ZWlyZCAiMHgxMDAwMDAwIiBpbnRlcm5hbCBIVyBwaHlz
+aWNhbCBhZGRyZXNzIG9uIGJvdGgKc2lkZXMgdG8gdHJhbnNmZXIgdGhlIHBpeGVscy4KCkZvciBB
+bWxvZ2ljIEdYTSwgdGhlIHN1cHBvcnRlZCBwaXhlbCBmb3JtYXRzIGFyZSB0aGUgc2FtZSBhcyB0
+aGUgbm9ybWFsCmxpbmVhciBPU0QxIG1vZGUuCgpPbiB0aGUgb3RoZXIgc2lkZSwgQW1sb2dpYyBh
+ZGRlZCBzdXBwb3J0IGZvciBhbGwgQUZCQyB2MS4yIGZvcm1hdHMgZm9yCnRoZSBHMTJBIEFGQkMg
+aW50ZWdyYXRpb24uCgpGb3IgdGVzdGluZywgdGhlIG9ubHkgYXZhaWxhYmxlIEFGQkMgYnVmZmVy
+IGdlbmVyYXRpb24gaXMgdGhlIEFuZHJvaWQKWXVrYXdhIER2YWxpbiBBbmRyb2lkIE1hbGkgYmxv
+YnMgZm91bmQgYXQgWzFdLgoKQm90aCBTb0NzIGhhcyBiZWVuIHRlc3RlZCB1c2luZyBidWZmZXJz
+IGdlbmVyYXRlZCB1bmRlciBBT1NQLCBidXQgb25seQpHMTJBIHdhcyB0ZXN0ZWQgdXNpbmcgYSBy
+dW50aW1lIHN0cmVhbSBvZiBBRkJDIGJ1ZmZlcnMsIEdYTSB3YXMgb25seQp0ZXN0ZWQgdXNpbmcg
+c3RhdGljIGJ1ZmZlcnMgbG9hZGVkIGZyb20gZmlsZXMuCgpDaGFuZ2VzIHNpbmNlIHYxIGF0IFsy
+XToKLSBEaXNjYXJkcyBYUkdCIG1vZGVzIHdpdGggWVRSLCBvbmx5IGFsbG93IFhCR1Igd2l0aCBZ
+VFIKLSBBZGQgbm9uLVlUUiBtb2RpZmllcnMgZm9yIEcxMkEKLSBEaXNhYmxlIGNvbXBsZXRlbHkg
+WFJHQiBtb2RlcyBmb3IgR1hNLCB1bnRpbCB3ZSBmaW5kIGhvdyB0byBkaXNhYmxlIFlUUgotIEFk
+ZCBwcm9wZXIgYXJnYiByZW1hcCBmb3IgWFJHQiBtb2RlcwotIEVuYWJsZSBPU0RfU1RBVCBzeW5j
+IHNpZ25hbAoKWzFdIGh0dHBzOi8vYW5kcm9pZC5nb29nbGVzb3VyY2UuY29tL2RldmljZS9hbWxv
+Z2ljL3l1a2F3YS8rL3JlZnMvaGVhZHMvbWFzdGVyL2dwdS8KWzJdIGh0dHBzOi8vcGF0Y2h3b3Jr
+LmZyZWVkZXNrdG9wLm9yZy9zZXJpZXMvNjc4MzIvI3JldjEKCk5laWwgQXJtc3Ryb25nICg3KToK
+ICBkcm0vbWVzb246IGFkZCBBRkJDIGRlY29kZXIgcmVnaXN0ZXJzIGZvciBHWE0gYW5kIEcxMkEK
+ICBkcm0vbWVzb246IHN0b3JlIHRoZSBmcmFtZWJ1ZmZlciB3aWR0aCBmb3IgcGxhbmUgY29tbWl0
+CiAgZHJtL21lc29uOiBBZGQgQUZCQ0QgbW9kdWxlIGRyaXZlcgogIGRybS9tZXNvbjogcGxhbmU6
+IGFkZCBzdXBwb3J0IGZvciBBRkJDIG1vZGUgZm9yIE9TRDEgcGxhbmUKICBkcm0vbWVzb246IHZp
+dTogYWRkIEFGQkMgbW9kdWxlcyByb3V0aW5nIGZ1bmN0aW9ucwogIGRybS9tZXNvbjogaG9sZCAz
+MiBsaW5lcyBhZnRlciB2c3luYyB0byBnaXZlIHRpbWUgZm9yIEFGQkMgc3RhcnQKICBkcm0vbWVz
+b246IGNydGM6IGFkZCBPU0QxIHBsYW5lIEFGQkMgY29tbWl0CgogZHJpdmVycy9ncHUvZHJtL21l
+c29uL01ha2VmaWxlICAgICAgICAgIHwgICAxICsKIGRyaXZlcnMvZ3B1L2RybS9tZXNvbi9tZXNv
+bl9jcnRjLmMgICAgICB8ICA4MSArKysrLQogZHJpdmVycy9ncHUvZHJtL21lc29uL21lc29uX2Ry
+di5jICAgICAgIHwgIDM4ICsrLQogZHJpdmVycy9ncHUvZHJtL21lc29uL21lc29uX2Rydi5oICAg
+ICAgIHwgIDE3ICsrCiBkcml2ZXJzL2dwdS9kcm0vbWVzb24vbWVzb25fb3NkX2FmYmNkLmMgfCAz
+NzUgKysrKysrKysrKysrKysrKysrKysrKysrCiBkcml2ZXJzL2dwdS9kcm0vbWVzb24vbWVzb25f
+b3NkX2FmYmNkLmggfCAgMjggKysKIGRyaXZlcnMvZ3B1L2RybS9tZXNvbi9tZXNvbl9wbGFuZS5j
+ICAgICB8IDIyNCArKysrKysrKysrKystLQogZHJpdmVycy9ncHUvZHJtL21lc29uL21lc29uX3Jl
+Z2lzdGVycy5oIHwgIDYyICsrKysKIGRyaXZlcnMvZ3B1L2RybS9tZXNvbi9tZXNvbl92aXUuYyAg
+ICAgICB8ICA3OCArKysrLQogZHJpdmVycy9ncHUvZHJtL21lc29uL21lc29uX3ZpdS5oICAgICAg
+IHwgIDE5ICsrCiAxMCBmaWxlcyBjaGFuZ2VkLCA4ODAgaW5zZXJ0aW9ucygrKSwgNDMgZGVsZXRp
+b25zKC0pCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL21lc29uL21lc29uX29z
+ZF9hZmJjZC5jCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL21lc29uL21lc29u
+X29zZF9hZmJjZC5oCgotLSAKMi4yMi4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWw=
