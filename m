@@ -2,70 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C139D6B1C
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2019 23:14:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D87D6B92
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2019 00:12:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2F426E320;
-	Mon, 14 Oct 2019 21:14:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EF7A6E339;
+	Mon, 14 Oct 2019 22:12:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B10AD6E1C4
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 21:14:07 +0000 (UTC)
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-4AaFgcRZPxGUiJufDS-XUA-1; Mon, 14 Oct 2019 17:14:04 -0400
-Received: by mail-qk1-f198.google.com with SMTP id n135so18114284qke.23
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 14:14:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:date:organization
- :user-agent:mime-version:content-transfer-encoding;
- bh=LbFOhj2iV6JJmdZr9t9v+6z/c4zH5yur3zOQj5gMCis=;
- b=m8osZHg3C/st83CS27KGUBsy3Fk+2vVi/zg09CmCzHjLtznRV+bJQDDo+ba6HV6jOU
- ENLxO47xWdfpqkcH9/hRIdz3hXPOA8zC4pK3DLIz20Zr5FLA45t1j2u9UAGl6OQxQofE
- +Yf5vFSvXb2DeeoyddUHTEsyk70cSvjZsWXqdC0qzcJlBMTeyeDxEaVc6n1MAqzLWXpV
- TxekGBrtF8RxbpdADYXiYy1D9Uxnk0zbV9Ap1AU9Q8GL9jECRRkPcDJwfxNF5jpQ0soD
- Lm+YSn6qmO9ssS17/rgXQiB824AQoQAgn3Em69bCDyYPUICSXOT4rdQpHfLEh4abZm4j
- lyvQ==
-X-Gm-Message-State: APjAAAX8vfC+9siuDkq0jZJQ55fATLTZVi9Hc3Kxr3STvOxZD9WxHhaH
- TlPqyE/drmFRZ4DxHIGi5PCfsWBCc1Se/KnqNYJwEwIxuS/bI06mkwjZpOXH+qajQz16EdkdDXk
- 477GEqr5hitNmmSX3lVPVRqmAb6Pc
-X-Received: by 2002:a0c:e6a6:: with SMTP id j6mr32580292qvn.74.1571087643832; 
- Mon, 14 Oct 2019 14:14:03 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwpyrq2JxiDyjP3NFmeNOqhT2ajF1qqd5Ni3GWoqykpEn01szX3VQX8L8MelUgDJUpO61MTvg==
-X-Received: by 2002:a0c:e6a6:: with SMTP id j6mr32580273qvn.74.1571087643470; 
- Mon, 14 Oct 2019 14:14:03 -0700 (PDT)
-Received: from malachite.lyude.net
- (static-173-76-190-23.bstnma.ftas.verizon.net. [173.76.190.23])
- by smtp.gmail.com with ESMTPSA id o38sm11126930qtc.39.2019.10.14.14.14.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 14:14:02 -0700 (PDT)
-Message-ID: <ac54b1a7f9270972bd13674f6fe362c92b429445.camel@redhat.com>
-Subject: Anyone interested in CoC training courtesy of X.Org?
-From: Lyude Paul <lyude@redhat.com>
-To: dri-devel <dri-devel@lists.freedesktop.org>, xorg-devel
- <xorg-devel@lists.x.org>, events@lists.x.org,
- mesa-dev@lists.freedesktop.org,  "wayland-devel@lists.freedesktop.org"
- <wayland-devel@lists.freedesktop.org>, "members@x.org" <members@x.org>, 
- "X.Org Foundation Board" <board@foundation.x.org>
-Date: Mon, 14 Oct 2019 17:14:01 -0400
-Organization: Red Hat
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30)
+Received: from hqemgate14.nvidia.com (hqemgate14.nvidia.com [216.228.121.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 686DF6E330;
+ Mon, 14 Oct 2019 22:12:53 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5da4f2e90000>; Mon, 14 Oct 2019 15:12:57 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Mon, 14 Oct 2019 15:12:52 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Mon, 14 Oct 2019 15:12:52 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 14 Oct
+ 2019 22:12:52 +0000
+Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 14 Oct 2019 22:12:52 +0000
+Received: from jajones-aftershock.nvidia.com (Not Verified[172.20.40.63]) by
+ hqnvemgw01.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
+ id <B5da4f2e40000>; Mon, 14 Oct 2019 15:12:52 -0700
+From: James Jones <jajones@nvidia.com>
+To: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>, Daniel
+ Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm: Generalized NV Block Linear DRM format mod
+Date: Mon, 14 Oct 2019 15:13:20 -0700
+Message-ID: <20191014221321.8163-1-jajones@nvidia.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-MC-Unique: 4AaFgcRZPxGUiJufDS-XUA-1
-X-Mimecast-Spam-Score: 0
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=redhat.com; 
- s=mimecast20190719; t=1571087646;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=CYAlrKUHJg5GTLx3oS8cnjzs2H4w9zCSjkFH4Snl9mE=;
- b=ivgSFzqhuIir+aJvq5g1QD1kqGfxWDot/ce1eOYcAgKDPPEe2eQ+EdfXSqRiEtjq9526Sn
- /Mn/CPyFZuH/mnkXA5jdRbE3KO0a4Iu7ivCLubKBGJDLJxlOtrloxQbErFWnQBWZCE22sl
- kbKc2edT8yETUYVSBhWCV5M/ap9Syzs=
+ d=nvidia.com; s=n1; 
+ t=1571091177; bh=DpUsHNWgfOMHC7uh5vZMsW+lpKal+jwwkdVsjG7c57Q=;
+ h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+ MIME-Version:Content-Type;
+ b=YsyndEm7Zcg75J3HUj4KkyQ+5ZC9tsx5gqRWnFOJv6T0i6t/4Wqd5YcEB9PZ3p1Ci
+ 1vbgl1oIJ4GrzSMANGAyoLX2kb4HJyHoK/y6liCsN/cH0ZQvXF9RlH5yUN8T96TBq1
+ jyWdhiWKj3lg63kKnPEcszVYsdRAME+oYs5KZWWW/YVIOV4OhoBfhrbvFc8cQAixwp
+ Kr8fKiRmSeJfuoN/Z14v9QHnVt2Ock90ET7V//jDXTYliZWubeFnjjWT0q/1X/t+iH
+ a/UhSk2pf3qpdUVqUWDOuJCxsvNrNnJrwUII/3+CcIPHVOrMagnccT1YsZHlDUwb5j
+ ZIPgLEiJCiUTg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,30 +60,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkhIFRoaXMgeWVhciB3ZSBkZWNpZGVkIHRvIHN0YXJ0IHB1dHRpbmcgbWVtYmVycyBvZiB0aGUg
-Q29DIHRlYW1zIGZvciBYb3JnCmFuZCBYREMgdGhyb3VnaCBjb2RlIG9mIGNvbmR1Y3QgdHJhaW5p
-bmcsIHBhaWQgZm9yIGJ5IHRoZSBYLk9yZyBmb3VuZGF0aW9uIGFuZApydW4gYnkgT3R0ZXIgVGVj
-aDoKCmh0dHBzOi8vb3R0ZXIudGVjaG5vbG9neS9jb2RlLW9mLWNvbmR1Y3QtdHJhaW5pbmcvCgpU
-aGUgdHJhaW5pbmcgZ29lcyBvdmVyIHByYWN0aWNpbmcgdGFraW5nIGluY2lkZW50IHJlcG9ydHMs
-IGZvbGxvd2luZyB1cCB3aXRoCnJlcG9ydGVycywgZGlzY3Vzc2lvbiBvbiBpc3N1ZXMgc3VjaCBh
-cyBtaWNyb2FnZ3Jlc3Npb25zIGFuZCBwZXJzb25hbApjb25mbGljdHNsLCBhbmQgZnJhbWV3b3Jr
-cyBmb3IgZXZhbHVhdGluZyByZXNwb25zZXMgdG8gcmVwb3J0cy4KCkhhdmluZyBnb25lIHRocm91
-Z2ggdGhlIHRyYWluaW5nIG15c2VsZiwgSSBjYW4gZGVmaW5pdGVseSBJIGxlYXJuZWQgcXVpdGUg
-YQpiaXQgZnJvbSBpdCBhbmQgd291bGQgaGlnaGx5IHJlY29tbWVuZCB0aGlzIHRvIG90aGVycyB3
-aG8gYXJlIHBsYW5uaW5nIG9uCm1vZGVyYXRpbmcgY29tbXVuaXRpZXMuIFNvIHNpbmNlIHdlIGhh
-dmUgdGhlIHJlc291cmNlcyB0byBwdXQgbW9yZSBYb3JnCm1lbWJlcnMgdGhyb3VnaCB0cmFpbmlu
-ZyB3ZSBhcmUgY29uc2lkZXJpbmcgdGhlIGlkZWEgb2Ygc3BvbnNvcmluZyBvdGhlciBYb3JnCm1l
-bWJlcnMgdG8gZ28gdGhyb3VnaCB0aGlzIHRyYWluaW5nIGFzIHdlbGwsIHNpbmNlIHRoaXMgc2Vl
-bWVkIHRvIGdhcm5lciBhCmRlY2VudCBhbW91bnQgb2YgaW50ZXJlc3QgZHVyaW5nIFhEQy4gU28s
-IEknbSBnb2luZyBhcm91bmQgYW5kIHBva2luZyBhIGZldwpkaWZmZXJlbnQgcHJvamVjdHMgdG8g
-ZmlndXJlIG91dCB3aG8gYWxsIHdvdWxkIGJlIGludGVyZXN0ZWQgaW4gc3VjaCB0cmFpbmluZy4K
-SWYgdGhlcmUncyBhbnkgdGFrZXJzLCBvciBhbnlvbmUgaGFzIGFueSBxdWVzdGlvbnMsIGZlZWwg
-ZnJlZSB0byByZXNwb25kIGFuZApsZXQgdXMga25vdyEgCi0tIApDaGVlcnMsCglMeXVkZSBQYXVs
-CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+QmV5b25kIGdlbmVyYWwgcmV2aWV3LCBJJ20gbG9va2luZyBmb3IgZmVlZGJhY2sgb24gYSBmZXcg
+dGhpbmdzCnNwZWNpZmljYWxseSBoZXJlOgoKLUlzIHRoZSBsZXZlbCBvZiBiYWNrd2FyZHMgY29t
+cGF0aWJpbGl0eSBkZXNjcmliZWQgaGVyZSBzdWZmaWNpZW50PwogVGVjaG5pY2FsbHkgSSBjYW4g
+bWFrZSB0aGUgdXNlciBzcGFjZSBkcml2ZXJzIHN1cHBvcnQgdGhlIG9sZAogbW9kaWZpZXJzIHRv
+bywgYnV0IHRoYXQgd291bGQgbWVhbiB0aGUgbGF5b3V0IHRoZXkgc3BlY2lmeSB3b3VsZAogbW9y
+cGggYmFzZWQgb24gdGhlIEdQVSB0aGV5J3JlIGJlaW5nIHVzZWQgb24sIGFuZCBzaGFyaW5nIGJ1
+ZmZlcnMKIGJldHdlZW4gdHdvIGRpZmZlcmVudCBOViBHUFVzLCB3aGljaCB3b3VsZCBhcHBlYXIg
+dG8gYmUgcG9zc2libGUsCiB3b3VsZCByZXN1bHQgaW4gY29ycnVwdGlvbiBvbiBvbmUgc2lkZSBv
+ciB0aGUgb3RoZXIuCgotSSB1c2VkICJtYWdpYyIgbnVtYmVycyBmb3IgYWxsIHRoZSBiaXQgc2hp
+ZnRpbmcuICBXb3VsZCBpdCBiZQogYmV0dGVyIHRvIHVzZSBfX2ZvdXJjY19YWFggY29uc3RhbnRz
+IGxpa2UgdGhlIGJyb2FkY29tIG1vZGlmaWVycwogZG8/ICBJIHdhc24ndCBzdXJlIHdoaWNoIHN0
+eWxlIHdhcyBwcmVmZXJyZWQuICBUaGUgbm91dmVhdSBjb2RlIGlzCiBmdWxsIG9mIG1hZ2ljIG51
+bWJlcnMsIGJ1dCB0aGF0J3MgYSBiaXQgbG93ZXIgbGV2ZWwgdGhhbiB0aGlzIGZpbGUuCgpJZiBw
+cmVmZXJyZWQsIEkgY2FuIHNlbmQgdGhpcyBvdXQgYXMgcGFydCBvZiBhIHBhdGNoc2V0IHRoYXQg
+YWRkcwpzdXBwb3J0IGZvciB0aGUgbW9kaWZpZXJzIHRvIG5vdXZlYXUgYW5kIFRlZ3JhRFJNLCBi
+dXQgSSBoYXZlIHNvbWUKdGhpbmdzIHRvIGNsZWFuIHVwIHRoZXJlIGJlZm9yZSBpdCdzIHJlYWR5
+IGZvciBwcm9wZXIgcmV2aWV3LCBhbmQKSSBkaWRuJ3Qgd2FudCB0byBibG9jayByZXZpZXcgb2Yg
+dGhlIGJhc2ljIG1vZGlmaWVyIGxheW91dCBvbiB0aGF0CndvcmsuCgoKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
