@@ -2,44 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6120FD5E69
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2019 11:15:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5BC8D5E6F
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2019 11:16:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98A6D893DB;
-	Mon, 14 Oct 2019 09:15:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 761648938C;
+	Mon, 14 Oct 2019 09:16:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1C60A8938C
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 09:15:30 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 188997296E; Mon, 14 Oct 2019 09:15:30 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Mon, 14 Oct 2019 09:15:30 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: linedot@xcpp.org
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110674-502-NqbtExeYAj@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F3508938C
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 09:16:39 +0000 (UTC)
+Received: by mail-ed1-x544.google.com with SMTP id c4so14170425edl.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 02:16:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to:user-agent;
+ bh=d8Jpp+ZNyeMIECLhU8stIu5ojWvnBY0aBAMY/MpsQ2k=;
+ b=YSsYn35jsKuUjG75UmOgHZZ5uWcP1AkWoCFC6ZEwfvj1bu2U1kJKWZ0LmU1fT3d5yr
+ GYg4ZZNmQExUKSL4JFuHHQ7u0P1TMO7wdQD63mHCOSOOIuXHpwPATvq5aDDAEo9UVVYf
+ AKX2t0cKmHcAW4N3pbJylktBQI3r8VqELMXE6MmH/4kkTNzGTffz6u3nLLP0eHl4Je9I
+ +6lhjkW6UpAmb2EZovDCO4VqU4PxndFqLguJNkJi88GuZ0SvA/rsRzRcM9yVHwOGozN1
+ d8ZzsqAQ7Zn9aTxilTBFZ2Pdpccyc8noZARxGR7I9/d50hPd9gN1M5+HGeLNS9Ir6a4X
+ sPKQ==
+X-Gm-Message-State: APjAAAURrTp9d2eZ/0T4A1dcff78y00x7q15UYKXfesSxWjo+PiICBIK
+ 3gXCXAdf1nsA/baXi5dcamBjUw==
+X-Google-Smtp-Source: APXvYqzV5ULbBVu4tlr7KIdPTRWorn11s+O/SdFjTBjSfIeo8Hcbdl95adE/jj1Lg/k1T3ENwiaOhg==
+X-Received: by 2002:aa7:c556:: with SMTP id s22mr27059909edr.105.1571044598174; 
+ Mon, 14 Oct 2019 02:16:38 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net.
+ [212.51.149.96])
+ by smtp.gmail.com with ESMTPSA id gx14sm2239181ejb.38.2019.10.14.02.16.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Oct 2019 02:16:37 -0700 (PDT)
+Date: Mon, 14 Oct 2019 11:16:35 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: syzbot <syzbot+fb77e97ebf0612ee6914@syzkaller.appspotmail.com>
+Subject: Re: WARNING in drm_mode_createblob_ioctl
+Message-ID: <20191014091635.GI11828@phenom.ffwll.local>
+Mail-Followup-To: syzbot
+ <syzbot+fb77e97ebf0612ee6914@syzkaller.appspotmail.com>, 
+ airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, sean@poorly.run,
+ syzkaller-bugs@googlegroups.com
+References: <000000000000b2de3a0594d8b4ca@google.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <000000000000b2de3a0594d8b4ca@google.com>
+X-Operating-System: Linux phenom 5.2.0-2-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=sender:date:from:to:cc:subject:message-id:mail-followup-to
+ :references:mime-version:content-disposition:in-reply-to:user-agent;
+ bh=d8Jpp+ZNyeMIECLhU8stIu5ojWvnBY0aBAMY/MpsQ2k=;
+ b=b4CjXUhaDh5V5oSXdLp/N67GUtShbU8b5VZIcqzq+wEro6yUGpwdYVnICq9N5M6nhJ
+ LlieGbgdTyq7BMwUYDZ/uzN6u+XXNRaLJp9Idz+cgPdc5xMZWiR8EtNKrhuJvWyTvI+H
+ JBxzlPf6+MC9ADl4y7sVAeie/ybms+opGMWy4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,122 +74,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1401021299=="
+Cc: airlied@linux.ie, syzkaller-bugs@googlegroups.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, sean@poorly.run
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1401021299==
-Content-Type: multipart/alternative; boundary="15710445300.e5BDaA7b.11305"
-Content-Transfer-Encoding: 7bit
-
-
---15710445300.e5BDaA7b.11305
-Date: Mon, 14 Oct 2019 09:15:30 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
-
---- Comment #162 from linedot@xcpp.org ---
-Created attachment 145730
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145730&action=3Dedit
-Freeze/Black screen/Crash on 5.3.6
-
-Apologies, I have been on vacation and thus away from my main System.
-
-Attached is the dmesg log of another crash with kernel version 5.3.6. Here =
-is a
-description of what the crash looked like:
-1) Successfully booted up to login manager
-2) Logged into a graphical session
-3) Shortly after, the screen freezes
-4) Screen flashes to black (~5-10 sec)
-5) Screen flashes back to the frozen desktop (~5-10 sec)
-6) Screen goes black (not off), no response to input, switching to tty does=
-n't
-work. I was able to ssh into the machine from a laptop and get the dmesg
-output.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15710445300.e5BDaA7b.11305
-Date: Mon, 14 Oct 2019 09:15:30 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c162">Comm=
-ent # 162</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-linedot&#64;xcpp.org" title=3D"linedot&#64;xcpp.org">linedot&#64;xcpp.org</=
-a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145730=
-" name=3D"attach_145730" title=3D"Freeze/Black screen/Crash on 5.3.6">attac=
-hment 145730</a> <a href=3D"attachment.cgi?id=3D145730&amp;action=3Dedit" t=
-itle=3D"Freeze/Black screen/Crash on 5.3.6">[details]</a></span>
-Freeze/Black screen/Crash on 5.3.6
-
-Apologies, I have been on vacation and thus away from my main System.
-
-Attached is the dmesg log of another crash with kernel version 5.3.6. Here =
-is a
-description of what the crash looked like:
-1) Successfully booted up to login manager
-2) Logged into a graphical session
-3) Shortly after, the screen freezes
-4) Screen flashes to black (~5-10 sec)
-5) Screen flashes back to the frozen desktop (~5-10 sec)
-6) Screen goes black (not off), no response to input, switching to tty does=
-n't
-work. I was able to ssh into the machine from a laptop and get the dmesg
-output.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15710445300.e5BDaA7b.11305--
-
---===============1401021299==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1401021299==--
+T24gU3VuLCBPY3QgMTMsIDIwMTkgYXQgMTE6MDk6MDlQTSAtMDcwMCwgc3l6Ym90IHdyb3RlOgo+
+IEhlbGxvLAo+IAo+IHN5emJvdCBmb3VuZCB0aGUgZm9sbG93aW5nIGNyYXNoIG9uOgo+IAo+IEhF
+QUQgY29tbWl0OiAgICA4YWRhMjI4YSBBZGQgbGludXgtbmV4dCBzcGVjaWZpYyBmaWxlcyBmb3Ig
+MjAxOTEwMTEKPiBnaXQgdHJlZTogICAgICAgbGludXgtbmV4dAo+IGNvbnNvbGUgb3V0cHV0OiBo
+dHRwczovL3N5emthbGxlci5hcHBzcG90LmNvbS94L2xvZy50eHQ/eD0xNDIzYTg3ZjYwMDAwMAo+
+IGtlcm5lbCBjb25maWc6ICBodHRwczovL3N5emthbGxlci5hcHBzcG90LmNvbS94Ly5jb25maWc/
+eD03Y2Y0ZWVkNWZlNDJjMzFhCj4gZGFzaGJvYXJkIGxpbms6IGh0dHBzOi8vc3l6a2FsbGVyLmFw
+cHNwb3QuY29tL2J1Zz9leHRpZD1mYjc3ZTk3ZWJmMDYxMmVlNjkxNAo+IGNvbXBpbGVyOiAgICAg
+ICBnY2MgKEdDQykgOS4wLjAgMjAxODEyMzEgKGV4cGVyaW1lbnRhbCkKPiAKPiBVbmZvcnR1bmF0
+ZWx5LCBJIGRvbid0IGhhdmUgYW55IHJlcHJvZHVjZXIgZm9yIHRoaXMgY3Jhc2ggeWV0LgoKSG0g
+b25seSB0aGluZyB0aGF0IGNvdWxkIGdvIHdyb25nIGlzIGhvdyB3ZSBhbGxvY2F0ZSB0aGUgdGFy
+Z2V0IGZvciB0aGUKdXNlcl9jb3B5LCB3aGljaCBpcyBhbiBhcmd1bWVudCBkaXJlY3RseSBmcm9t
+IHRoZSBpb2N0bCBwYXJhbWV0ZXIgc3RydWN0LgpEb2VzIHN5emJvdCBub3QgdHJhY2sgdGhhdD8g
+V2UgdXNlIHRoZSBzdGFuZGFyZCBsaW51eCBpb2N0bCBzdHJ1Y3QKZW5jb2RpbmcgaW4gZHJtLgoK
+T3RoZXJ3aXNlIEkgaGF2ZSBubyBpZGVhIHdoeSBpdCBjYW4ndCBjcmVhdGUgYSByZWxpYWJsZSBy
+ZXByb2R1Y2VyIGZvcgp0aGlzIC4uLiBJJ20gYWxzbyBub3Qgc2VlaW5nIHRoZSBidWcsIGFsbCB0
+aGUgaW5wdXQgdmFsaWRhdGlvbiB3ZSBoYXZlCnNlZW1zIGNvcnJlY3QgOi0vCi1EYW5pZWwKPiAK
+PiBJTVBPUlRBTlQ6IGlmIHlvdSBmaXggdGhlIGJ1ZywgcGxlYXNlIGFkZCB0aGUgZm9sbG93aW5n
+IHRhZyB0byB0aGUgY29tbWl0Ogo+IFJlcG9ydGVkLWJ5OiBzeXpib3QrZmI3N2U5N2ViZjA2MTJl
+ZTY5MTRAc3l6a2FsbGVyLmFwcHNwb3RtYWlsLmNvbQo+IAo+IC0tLS0tLS0tLS0tLVsgY3V0IGhl
+cmUgXS0tLS0tLS0tLS0tLQo+IFdBUk5JTkc6IENQVTogMSBQSUQ6IDMwNDQ5IGF0IGluY2x1ZGUv
+bGludXgvdGhyZWFkX2luZm8uaDoxNTAKPiBjaGVja19jb3B5X3NpemUgaW5jbHVkZS9saW51eC90
+aHJlYWRfaW5mby5oOjE1MCBbaW5saW5lXQo+IFdBUk5JTkc6IENQVTogMSBQSUQ6IDMwNDQ5IGF0
+IGluY2x1ZGUvbGludXgvdGhyZWFkX2luZm8uaDoxNTAgY29weV9mcm9tX3VzZXIKPiBpbmNsdWRl
+L2xpbnV4L3VhY2Nlc3MuaDoxNDMgW2lubGluZV0KPiBXQVJOSU5HOiBDUFU6IDEgUElEOiAzMDQ0
+OSBhdCBpbmNsdWRlL2xpbnV4L3RocmVhZF9pbmZvLmg6MTUwCj4gZHJtX21vZGVfY3JlYXRlYmxv
+Yl9pb2N0bCsweDM5OC8weDQ5MCBkcml2ZXJzL2dwdS9kcm0vZHJtX3Byb3BlcnR5LmM6ODAwCj4g
+S2VybmVsIHBhbmljIC0gbm90IHN5bmNpbmc6IHBhbmljX29uX3dhcm4gc2V0IC4uLgo+IENQVTog
+MSBQSUQ6IDMwNDQ5IENvbW06IHN5ei1leGVjdXRvci41IE5vdCB0YWludGVkIDUuNC4wLXJjMi1u
+ZXh0LTIwMTkxMDExCj4gIzAKPiBIYXJkd2FyZSBuYW1lOiBHb29nbGUgR29vZ2xlIENvbXB1dGUg
+RW5naW5lL0dvb2dsZSBDb21wdXRlIEVuZ2luZSwgQklPUwo+IEdvb2dsZSAwMS8wMS8yMDExCj4g
+Q2FsbCBUcmFjZToKPiAgX19kdW1wX3N0YWNrIGxpYi9kdW1wX3N0YWNrLmM6NzcgW2lubGluZV0K
+PiAgZHVtcF9zdGFjaysweDE3Mi8weDFmMCBsaWIvZHVtcF9zdGFjay5jOjExMwo+ICBwYW5pYysw
+eDJlMy8weDc1YyBrZXJuZWwvcGFuaWMuYzoyMjEKPiAgX193YXJuLmNvbGQrMHgyZi8weDM1IGtl
+cm5lbC9wYW5pYy5jOjU4Mgo+ICByZXBvcnRfYnVnKzB4Mjg5LzB4MzAwIGxpYi9idWcuYzoxOTUK
+PiAgZml4dXBfYnVnIGFyY2gveDg2L2tlcm5lbC90cmFwcy5jOjE3NCBbaW5saW5lXQo+ICBmaXh1
+cF9idWcgYXJjaC94ODYva2VybmVsL3RyYXBzLmM6MTY5IFtpbmxpbmVdCj4gIGRvX2Vycm9yX3Ry
+YXArMHgxMWIvMHgyMDAgYXJjaC94ODYva2VybmVsL3RyYXBzLmM6MjY3Cj4gIGRvX2ludmFsaWRf
+b3ArMHgzNy8weDUwIGFyY2gveDg2L2tlcm5lbC90cmFwcy5jOjI4Ngo+ICBpbnZhbGlkX29wKzB4
+MjMvMHgzMCBhcmNoL3g4Ni9lbnRyeS9lbnRyeV82NC5TOjEwMjgKPiBSSVA6IDAwMTA6Y2hlY2tf
+Y29weV9zaXplIGluY2x1ZGUvbGludXgvdGhyZWFkX2luZm8uaDoxNTAgW2lubGluZV0KPiBSSVA6
+IDAwMTA6Y29weV9mcm9tX3VzZXIgaW5jbHVkZS9saW51eC91YWNjZXNzLmg6MTQzIFtpbmxpbmVd
+Cj4gUklQOiAwMDEwOmRybV9tb2RlX2NyZWF0ZWJsb2JfaW9jdGwrMHgzOTgvMHg0OTAKPiBkcml2
+ZXJzL2dwdS9kcm0vZHJtX3Byb3BlcnR5LmM6ODAwCj4gQ29kZTogYzEgZWEgMDMgODAgM2MgMDIg
+MDAgMGYgODUgZWQgMDAgMDAgMDAgNDkgODkgNWQgMDAgZTggM2MgMjggY2IgZmQgNGMKPiA4OSBm
+NyBlOCA2NCA5MiA5ZSAwMyAzMSBjMCBlOSA3NSBmZCBmZiBmZiBlOCAyOCAyOCBjYiBmZCA8MGY+
+IDBiIGU4IDIxIDI4IGNiCj4gZmQgNGQgODUgZTQgYjggZjIgZmYgZmYgZmYgMGYgODQgNWIgZmQg
+ZmYgZmYgODkKPiBSU1A6IDAwMTg6ZmZmZjg4ODA1ODRlZmFhOCBFRkxBR1M6IDAwMDEwMjQ2Cj4g
+UkFYOiAwMDAwMDAwMDAwMDQwMDAwIFJCWDogZmZmZjg4ODBhM2E5MDAwMCBSQ1g6IGZmZmZjOTAw
+MTA5ZGEwMDAKPiBSRFg6IDAwMDAwMDAwMDAwNDAwMDAgUlNJOiBmZmZmZmZmZjgzYTdlYWY4IFJE
+STogMDAwMDAwMDAwMDAwMDAwNwo+IFJCUDogZmZmZjg4ODA1ODRlZmFlOCBSMDg6IGZmZmY4ODgw
+OTZjNDAwODAgUjA5OiBmZmZmZWQxMDE0NzUyMTEwCj4gUjEwOiBmZmZmZWQxMDE0NzUyMTBmIFIx
+MTogZmZmZjg4ODBhM2E5MDg3ZiBSMTI6IGZmZmZjOTAwMTQ5MDcwMDAKPiBSMTM6IGZmZmY4ODgw
+MjhhYTAwMDAgUjE0OiAwMDAwMDAwMDlhNmM3OTY5IFIxNTogZmZmZmM5MDAxNDkwNzA1OAo+IAo+
+IAo+IC0tLQo+IFRoaXMgYnVnIGlzIGdlbmVyYXRlZCBieSBhIGJvdC4gSXQgbWF5IGNvbnRhaW4g
+ZXJyb3JzLgo+IFNlZSBodHRwczovL2dvby5nbC90cHNtRUogZm9yIG1vcmUgaW5mb3JtYXRpb24g
+YWJvdXQgc3l6Ym90Lgo+IHN5emJvdCBlbmdpbmVlcnMgY2FuIGJlIHJlYWNoZWQgYXQgc3l6a2Fs
+bGVyQGdvb2dsZWdyb3Vwcy5jb20uCj4gCj4gc3l6Ym90IHdpbGwga2VlcCB0cmFjayBvZiB0aGlz
+IGJ1ZyByZXBvcnQuIFNlZToKPiBodHRwczovL2dvby5nbC90cHNtRUojc3RhdHVzIGZvciBob3cg
+dG8gY29tbXVuaWNhdGUgd2l0aCBzeXpib3QuCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBF
+bmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
