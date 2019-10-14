@@ -1,36 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88846D5D49
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2019 10:21:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D38ECD5D4B
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2019 10:21:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B79689CDF;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D60989F99;
 	Mon, 14 Oct 2019 08:21:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BC3C89CDF
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E334789CDF
  for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2019 08:21:16 +0000 (UTC)
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2019 01:21:15 -0700
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 14 Oct 2019 01:21:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,295,1566889200"; d="scan'208";a="185427916"
+X-IronPort-AV: E=Sophos;i="5.67,295,1566889200"; d="scan'208";a="199341831"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
- by orsmga007.jf.intel.com with ESMTP; 14 Oct 2019 01:21:12 -0700
+ by orsmga006.jf.intel.com with ESMTP; 14 Oct 2019 01:21:13 -0700
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
  (envelope-from <lkp@intel.com>)
- id 1iJvbM-000AQz-Ag; Mon, 14 Oct 2019 16:21:12 +0800
-Date: Mon, 14 Oct 2019 16:20:35 +0800
+ id 1iJvbM-000AU2-MO; Mon, 14 Oct 2019 16:21:12 +0800
+Date: Mon, 14 Oct 2019 16:20:37 +0800
 From: kbuild test robot <lkp@intel.com>
 To: Xin Ji <xji@analogixsemi.com>
-Subject: Re: [PATCH v2 2/2] drm/bridge: anx7625: Add anx7625 MIPI DSI/DPI to
- DP bridge driver
-Message-ID: <201910141613.yQjiYkB1%lkp@intel.com>
+Subject: [RFC PATCH] drm/bridge: anx7625: ANX_OUI[] can be static
+Message-ID: <20191014082037.crfdamwf3jcqcsit@332d0cec05f4>
 References: <55295c49503a963f3417b917fd7163feb26ed0b6.1570760115.git.xji@analogixsemi.com>
 MIME-Version: 1.0
 Content-Disposition: inline
@@ -63,27 +62,19 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgWGluLAoKVGhhbmsgeW91IGZvciB0aGUgcGF0Y2ghIFBlcmhhcHMgc29tZXRoaW5nIHRvIGlt
-cHJvdmU6CgpbYXV0byBidWlsZCB0ZXN0IFdBUk5JTkcgb24gbGludXMvbWFzdGVyXQpbY2Fubm90
-IGFwcGx5IHRvIHY1LjQtcmMzIG5leHQtMjAxOTEwMTFdCltpZiB5b3VyIHBhdGNoIGlzIGFwcGxp
-ZWQgdG8gdGhlIHdyb25nIGdpdCB0cmVlLCBwbGVhc2UgZHJvcCB1cyBhIG5vdGUgdG8gaGVscApp
-bXByb3ZlIHRoZSBzeXN0ZW0uIEJUVywgd2UgYWxzbyBzdWdnZXN0IHRvIHVzZSAnLS1iYXNlJyBv
-cHRpb24gdG8gc3BlY2lmeSB0aGUKYmFzZSB0cmVlIGluIGdpdCBmb3JtYXQtcGF0Y2gsIHBsZWFz
-ZSBzZWUgaHR0cHM6Ly9zdGFja292ZXJmbG93LmNvbS9hLzM3NDA2OTgyXQoKdXJsOiAgICBodHRw
-czovL2dpdGh1Yi5jb20vMGRheS1jaS9saW51eC9jb21taXRzL1hpbi1KaS9kdC1iaW5kaW5ncy1k
-cm0tYnJpZGdlLWFueDc2MjUtTUlQSS10by1EUC10cmFuc21pdHRlci1iaW5kaW5nLzIwMTkxMDE0
-LTA0MzAxOQpyZXByb2R1Y2U6CiAgICAgICAgIyBhcHQtZ2V0IGluc3RhbGwgc3BhcnNlCiAgICAg
-ICAgIyBzcGFyc2UgdmVyc2lvbjogdjAuNi4xLXJjMS00My1nMGNjYjNiNC1kaXJ0eQogICAgICAg
-IG1ha2UgQVJDSD14ODZfNjQgYWxsbW9kY29uZmlnCiAgICAgICAgbWFrZSBDPTEgQ0Y9Jy1mZGlh
-Z25vc3RpYy1wcmVmaXggLURfX0NIRUNLX0VORElBTl9fJwoKSWYgeW91IGZpeCB0aGUgaXNzdWUs
-IGtpbmRseSBhZGQgZm9sbG93aW5nIHRhZwpSZXBvcnRlZC1ieToga2J1aWxkIHRlc3Qgcm9ib3Qg
-PGxrcEBpbnRlbC5jb20+CgoKc3BhcnNlIHdhcm5pbmdzOiAobmV3IG9uZXMgcHJlZml4ZWQgYnkg
-Pj4pCgo+PiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2FuYWxvZ2l4L2FueDc2MjUuYzo3MzE6MTA6
-IHNwYXJzZTogc3BhcnNlOiBzeW1ib2wgJ0FOWF9PVUknIHdhcyBub3QgZGVjbGFyZWQuIFNob3Vs
-ZCBpdCBiZSBzdGF0aWM/CgpQbGVhc2UgcmV2aWV3IGFuZCBwb3NzaWJseSBmb2xkIHRoZSBmb2xs
-b3d1cCBwYXRjaC4KCi0tLQowLURBWSBrZXJuZWwgdGVzdCBpbmZyYXN0cnVjdHVyZSAgICAgICAg
-ICAgICAgICBPcGVuIFNvdXJjZSBUZWNobm9sb2d5IENlbnRlcgpodHRwczovL2xpc3RzLjAxLm9y
-Zy9waXBlcm1haWwva2J1aWxkLWFsbCAgICAgICAgICAgICAgICAgICBJbnRlbCBDb3Jwb3JhdGlv
-bgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+CkZpeGVzOiAxNTJhODJiNjc0N2YgKCJkcm0vYnJpZGdlOiBhbng3NjI1OiBBZGQgYW54NzYyNSBN
+SVBJIERTSS9EUEkgdG8gRFAgYnJpZGdlIGRyaXZlciIpClNpZ25lZC1vZmYtYnk6IGtidWlsZCB0
+ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPgotLS0KIGFueDc2MjUuYyB8ICAgIDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvZ3B1L2RybS9icmlkZ2UvYW5hbG9naXgvYW54NzYyNS5jIGIvZHJpdmVycy9ncHUvZHJt
+L2JyaWRnZS9hbmFsb2dpeC9hbng3NjI1LmMKaW5kZXggOTZhZGYzYjg5ZDdmMC4uYTI2MWY0ZDMx
+ZWE4OCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hbmFsb2dpeC9hbng3NjI1
+LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hbmFsb2dpeC9hbng3NjI1LmMKQEAgLTcy
+OCw3ICs3MjgsNyBAQCBzdGF0aWMgaW50IGFueDc2MjVfZHBpX2NvbmZpZyhzdHJ1Y3QgYW54NzYy
+NV9kYXRhICpjdHgpCiAJcmV0dXJuIHJldDsKIH0KIAotY29uc3QgdTggQU5YX09VSVszXSA9IHsg
+MHgwMCwgMHgyMiwgMHhCOSB9Oworc3RhdGljIGNvbnN0IHU4IEFOWF9PVUlbM10gPSB7IDB4MDAs
+IDB4MjIsIDB4QjkgfTsKIHN0YXRpYyBpbnQgaXNfYW54X2RvbmdsZShzdHJ1Y3QgYW54NzYyNV9k
+YXRhICpjdHgpCiB7CiAJdTggYnVmWzNdOwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWw=
