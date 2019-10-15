@@ -1,46 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C64AD7744
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2019 15:17:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD8ABD774A
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2019 15:18:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32A976E05C;
-	Tue, 15 Oct 2019 13:17:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 706E46E25B;
+	Tue, 15 Oct 2019 13:18:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7B166E05C
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2019 13:17:44 +0000 (UTC)
-Received: from [192.168.0.20]
- (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7A81A324;
- Tue, 15 Oct 2019 15:17:41 +0200 (CEST)
-Subject: Re: [PATCH v5 3/8] drm: rcar-du: Add support for CMM
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To: Jacopo Mondi <jacopo+renesas@jmondi.org>,
- laurent.pinchart@ideasonboard.com, geert@linux-m68k.org, horms@verge.net.au,
- uli+renesas@fpond.eu, VenkataRajesh.Kalakodima@in.bosch.com
-References: <20191015104621.62514-1-jacopo+renesas@jmondi.org>
- <20191015104621.62514-4-jacopo+renesas@jmondi.org>
- <2aefe646-45db-aafa-b22b-e1cf9616259d@ideasonboard.com>
-Openpgp: preference=signencrypt
-Organization: Ideas on Board
-Message-ID: <f0c787a4-9267-b75b-047f-de5142ea437e@ideasonboard.com>
-Date: Tue, 15 Oct 2019 14:17:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1E926E25B;
+ Tue, 15 Oct 2019 13:18:44 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 15 Oct 2019 06:18:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,300,1566889200"; d="scan'208";a="208181089"
+Received: from mcretu-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.56.150])
+ by fmsmga001.fm.intel.com with ESMTP; 15 Oct 2019 06:18:38 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Matthew Wilcox <willy@infradead.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] kernel-doc: rename the kernel-doc directive 'functions'
+ to 'specific'
+In-Reply-To: <20191015115439.GE32665@bombadil.infradead.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20191013055359.23312-1-changbin.du@gmail.com>
+ <875zkrd7nq.fsf@intel.com>
+ <ECADFF3FD767C149AD96A924E7EA6EAF977CAF09@USCULXMSG01.am.sony.com>
+ <7e7557b5-469f-3e63-6254-53dab2d7234a@suse.de>
+ <20191015115439.GE32665@bombadil.infradead.org>
+Date: Tue, 15 Oct 2019 16:19:36 +0300
+Message-ID: <8736fub0yf.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <2aefe646-45db-aafa-b22b-e1cf9616259d@ideasonboard.com>
-Content-Language: en-GB
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1571145462;
- bh=OGe73LjqajbcudlitAMvXu0BZp8hvWsmr33UvUWk+Zg=;
- h=Reply-To:Subject:From:To:Cc:References:Date:In-Reply-To:From;
- b=luQ+FPeyeNVCv5hr4rd5zjNDri+A8NvWV0MfQLtzRmautNAcLsHYFCUeMp8Tr48J2
- D4X6kTWkcEmh5iM7A2FJFTQLj7W4dVKxD53p4YgbQSx6frlM+nXkSlwuBxxmvZ+14V
- LeK/Rhudg6Z+iBa6p6vsXQ7pOQfQh2MbZ/mwhsCc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,28 +49,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Cc: muroya@ksk.co.jp, airlied@linux.ie, koji.matsuoka.xm@renesas.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, seanpaul@chromium.org,
- Harsha.ManjulaMallikarjun@in.bosch.com, ezequiel@collabora.com
+Cc: linux-usb@vger.kernel.org, corbet@lwn.net, linux-pci@vger.kernel.org,
+ Tim.Bird@sony.com, linux-doc@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, linux-crypto@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-fpga@vger.kernel.org, changbin.du@gmail.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgSmFjb3BvLAoKT25lIG1pbm9yIGFkZGl0aW9uYWwgY2F0Y2ggaGVyZToKCk9uIDE1LzEwLzIw
-MTkgMTI6NTMsIEtpZXJhbiBCaW5naGFtIHdyb3RlOgo+IEhpIEphY29wbywKCjxzbmlwcGVkPgoK
-Pj4gKwo+PiArLyoKPj4gKyAqIHJjYXJfY21tX2x1dF93cml0ZSgpIC0gU2NhbGUgdGhlIERSTSBM
-VVQgdGFibGUgZW50cmllcyB0byBoYXJkd2FyZSBwcmVjaXNpb24KPj4gKyAqCQkJICBhbmQgd3Jp
-dGUgdG8gdGhlIENNTSByZWdpc3RlcnMuCj4+ICsgKiBAcmNtbTogUG9pbnRlciB0byB0aGUgQ01N
-IGRldmljZQo+PiArICogQGRybV9sdXQ6IFBvaW50ZXIgdG8gdGhlIERSTSBMVVQgdGFibGUKPj4g
-KyAqLwo+PiArc3RhdGljIHZvaWQgcmNhcl9jbW1fbHV0X3dyaXRlKHN0cnVjdCByY2FyX2NtbSAq
-cmNtbSwKPj4gKwkJCSAgICAgICBjb25zdCBzdHJ1Y3QgZHJtX2NvbG9yX2x1dCAqZHJtX2x1dCkK
-Pj4gK3sKPj4gKwl1bnNpZ25lZCBpbnQgaTsKPj4gKwo+PiArCWZvciAoaSA9IDA7IGkgPCBDTTJf
-TFVUX1NJWkU7ICsraSkgewo+PiArCQl1MzIgZW50cnkgPSAgZHJtX2NvbG9yX2x1dF9leHRyYWN0
-KGRybV9sdXRbaV0ucmVkLCA4KSA8PCAxNgoKVGhlcmUncyBhbiBleHRyYSBzcGFjZSBiZXR3ZWVu
-ID0gYW5kICdkcm1fY29sb3IuLi4nIGhlcmUuCgo8c25pcHBlZD4KCi0tCktpZXJhbgpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+T24gVHVlLCAxNSBPY3QgMjAxOSwgTWF0dGhldyBXaWxjb3ggPHdpbGx5QGluZnJhZGVhZC5vcmc+
+IHdyb3RlOgo+IE9uIFR1ZSwgT2N0IDE1LCAyMDE5IGF0IDExOjI1OjUzQU0gKzAyMDAsIFRob21h
+cyBaaW1tZXJtYW5uIHdyb3RlOgo+PiA+IE15IHByZWZlcmVuY2Ugd291bGQgYmUgdG8gdXNlICdz
+eW1ib2xzJy4gIEkgdHJpZWQgdG8gY29tZSB1cCB3aXRoIHNvbWV0aGluZwo+PiA+IGJ1dCAnc3lt
+Ym9scycgaXMgYmV0dGVyIHRoYW4gYW55dGhpbmcgSSBjYW1lIHVwIHdpdGguCj4+IAo+PiBNYXli
+ZSAnaW50ZXJmYWNlcycgb3IgJ2FydGlmYWN0cycuIFRoZSB0ZXJtICdzeW1ib2xzJyBpcyBqdXN0
+IGFzCj4+IGltcHJlY2lzZSBhcyAnZnVuY3Rpb25zJy4KPgo+IEkgc3VnZ2VzdGVkICdpZGVudGlm
+aWVyJyBiZWNhdXNlIHRoYXQncyB0aGUgdGVybSB1c2VkIGluIHRoZSBDIHNwZWMgKDYuMi4xKToK
+Pgo+IDogQW4gaWRlbnRpZmllciBjYW4gZGVub3RlIGFuIG9iamVjdDsgYSBmdW5jdGlvbjsgYSB0
+YWcgb3IgYSBtZW1iZXIKPiA6IG9mIGEgc3RydWN0dXJlLCB1bmlvbiwgb3IgZW51bWVyYXRpb247
+IGEgdHlwZWRlZiBuYW1lOyBhIGxhYmVsIG5hbWU7Cj4gOiBhIG1hY3JvIG5hbWU7IG9yIGEgbWFj
+cm8gcGFyYW1ldGVyLgo+Cj4gV2UgZG9uJ3QgYWxsb3cgZG9jdW1lbnRpbmcgYWxsIHRob3NlIHRo
+aW5ncyBzZXBhcmF0ZWx5LCBidXQgaXQgZG9lcyBjb3Zlcgo+IGFsbCB0aGUgdGhpbmdzIHdlIGRv
+IGFsbG93IHRvIGJlIGluZGl2aWR1YWxseSBkb2N1bWVudGVkLgoKQWdyZWVkLgoKQlIsCkphbmku
+CgoKLS0gCkphbmkgTmlrdWxhLCBJbnRlbCBPcGVuIFNvdXJjZSBHcmFwaGljcyBDZW50ZXIKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
