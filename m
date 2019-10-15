@@ -2,88 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBAC2D7FAF
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2019 21:15:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98FC8D7FB5
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2019 21:16:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FA656E3B2;
-	Tue, 15 Oct 2019 19:15:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D6F26E3A4;
+	Tue, 15 Oct 2019 19:16:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM01-SN1-obe.outbound.protection.outlook.com
- (mail-eopbgr820044.outbound.protection.outlook.com [40.107.82.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B51B6E3A4
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2019 19:15:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KH4YaEMpmaoA+Phz51tHS6hO1BJJvORX5YtyRelPgOOa7uV7lpGgfYIjXdrgmIzLAaskzl4ScS8pcIrUwQUhS+7CkCmuSaOO9Hj3w9aUWW/SNFvHYWxua33NVJrk9oj6B8d4Xfa0oYdHuTjU0l1rkGR1Pzxu+/3a8eMVGSk8mG5Ez8QsU61nbws8QTk46hT9h/v6g4Dq9W7JT1rRaPPyXwTURrVisgzpDoJXIfZtl8d9ZjYB7oIcnmCotv6BeXjeE1GfnplVdPRXFepBXhbvdvCJ780cdv1bFMx4zaQttGfK/9kAnGkqIJjx7U6xsWy8P+TRtjgTM/k+DPyRwNBxMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=seI6TbLbW8Se7sKaud8olhdkBZJ6KoGqXBHfj9FmowI=;
- b=FBgi5pITFTIG3SDBxVEdMrdTwfy6+QxLBnqKLeHb/sUvtR7veK/LYmDgHUAbCO0gB8lHQ9Wk6nIUXsvfnbadAjZRP8H+G3o0P1Hiqn3fqKq0sEYA4k93d41iDbegHqiALZdyhCoXJEGc2ETFA3Dq9zbxt9cUcsKknXGYU/lAWZmQL/U/58YtbnxPALQBCfxWvcUBD03LCfGWul31x8U45ugbGzeNQhcL5x8f6w5wG9SYA2wUVXVgIgFPnsTHMe7avSnsFL0FvGN7JeyorR8BZNGL+4y+6c9Y94KSiF+w61/c8/0g8rilWDVrecHmRmGlNHiwkg/mrOVSJLKF5WzzSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com (20.178.198.25) by
- DM6PR12MB3497.namprd12.prod.outlook.com (20.178.199.20) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2347.16; Tue, 15 Oct 2019 19:15:05 +0000
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::88a6:9681:d4cd:51d2]) by DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::88a6:9681:d4cd:51d2%6]) with mapi id 15.20.2347.023; Tue, 15 Oct 2019
- 19:15:05 +0000
-From: "Siqueira, Rodrigo" <Rodrigo.Siqueira@amd.com>
-To: =?iso-8859-1?Q?Ville_Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH] drm: Add LT-tunable PHY repeater mode operations
-Thread-Topic: [PATCH] drm: Add LT-tunable PHY repeater mode operations
-Thread-Index: AQHVg14R21/cmlYs3kCpQ3lK2eqOFKdbuQoAgABZ6QA=
-Date: Tue, 15 Oct 2019 19:15:04 +0000
-Message-ID: <20191015191502.zrngl6arydwazwr5@outlook.office365.com>
-References: <20191015134010.26zwopwnrbsmz5az@outlook.office365.com>
- <20191015135314.GE1208@intel.com>
-In-Reply-To: <20191015135314.GE1208@intel.com>
-Accept-Language: en-CA, en-US
-Content-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: YTXPR0101CA0046.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00:1::23) To DM6PR12MB3370.namprd12.prod.outlook.com
- (2603:10b6:5:38::25)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [165.204.55.250]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ac1f49db-b617-45d8-adf1-08d751a3fc0e
-x-ms-office365-filtering-ht: Tenant
-x-ms-traffictypediagnostic: DM6PR12MB3497:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR12MB34972B29E7E957AA8A84DCD798930@DM6PR12MB3497.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1443;
-x-forefront-prvs: 01917B1794
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(396003)(376002)(366004)(39860400002)(136003)(346002)(189003)(199004)(66556008)(66946007)(64756008)(66616009)(66476007)(66066001)(2906002)(11346002)(52116002)(6246003)(99286004)(966005)(446003)(186003)(66446008)(76176011)(6916009)(6512007)(9686003)(14454004)(6486002)(6436002)(256004)(26005)(25786009)(71200400001)(6306002)(8676002)(102836004)(81166006)(229853002)(81156014)(86362001)(5660300002)(1076003)(486006)(4326008)(316002)(8936002)(6116002)(478600001)(6506007)(71190400001)(386003)(54906003)(305945005)(476003)(3846002)(99936001)(7736002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR12MB3497;
- H:DM6PR12MB3370.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: hFdR+riYSceEf+mPBDoedb0Fy0Ro9KLejZ3/qwM5dshKGVvJECGyEpKlESFscJhRaBaUjKlSaKFK6ZyiE1F5l9RJFlYbJ0iSl5pPMZrARqi85/OatlWMkOrTXVvGpMhs7Z3IFVVr1r97P2aQquzy4+fgNNtTY/l8WTkTDqFPglSSjMwPP+9ykXS/JmtVKNWlCNkI11qpgcO8YmKgr8Yg6/MqNWxtR2sQyhLfHtXHRTMPsYhBHBYoUqO2ApXX+HVMOxVt3kSF7OY9MziE4j05YQXizQtS/ipVlwCT10ArEQLB0AMRQ4oNKuP4U872dHOdM7eT8zMTJAJX83/CclBvLMQwcDclHZlqCaNkmj3wkyaPyx0uvY3QxBrJZTShGSXhmlomoLjRr9+yErrcb4OGxI+CHuSoA1A3rnY5rge8DG0=
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C5676E3A4
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2019 19:16:13 +0000 (UTC)
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it
+ [2.224.242.101]) (Authenticated sender: jacopo@jmondi.org)
+ by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id E68C740005;
+ Tue, 15 Oct 2019 19:16:05 +0000 (UTC)
+Date: Tue, 15 Oct 2019 21:17:54 +0200
+From: Jacopo Mondi <jacopo@jmondi.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v5 5/8] drm: rcar-du: crtc: Control CMM operations
+Message-ID: <20191015191754.hil5xc45lbzn3226@uno.localdomain>
+References: <20191015104621.62514-1-jacopo+renesas@jmondi.org>
+ <20191015104621.62514-6-jacopo+renesas@jmondi.org>
+ <42ae76b8-c65f-8c5e-e83a-fc6a422d2624@ideasonboard.com>
+ <20191015133752.oyb3p6iyr3ekjxic@uno.localdomain>
+ <20191015175422.GN4875@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac1f49db-b617-45d8-adf1-08d751a3fc0e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Oct 2019 19:15:04.9132 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: TZ+bRyM1bB5rm1AwFJ0N4C5ozV/IAGYLnhzCau9CxTW5Fis1a27OkX95HMqIr1XMjLD8LiFYD6JgXjLtPdErTA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3497
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=seI6TbLbW8Se7sKaud8olhdkBZJ6KoGqXBHfj9FmowI=;
- b=vtdo8zeLAGcGDWPEftfy1EPRdgSQgoZQxwie18anpcmRENQn1JvhG4izkWc7+MU/af2B+oex3AfrWjXopm2FocG0LpQ86kMAw3WPC5gNZgggvyaF+Vn3YRu0sNwJ7SY2N+cKggbiAb5L6KOb6gryAnbL8f9kMDPQ8mTaVDIBdl0=
-X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Rodrigo.Siqueira@amd.com; 
+In-Reply-To: <20191015175422.GN4875@pendragon.ideasonboard.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,103 +43,391 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Li, Sun peng \(Leo\)" <Sunpeng.Li@amd.com>, "Berthe,
- Abdoulaye" <Abdoulaye.Berthe@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Manasi Navare <manasi.d.navare@intel.com>
-Content-Type: multipart/mixed; boundary="===============1184027052=="
+Cc: muroya@ksk.co.jp, horms@verge.net.au, VenkataRajesh.Kalakodima@in.bosch.com,
+ airlied@linux.ie, koji.matsuoka.xm@renesas.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, geert@linux-m68k.org,
+ seanpaul@chromium.org, Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Harsha.ManjulaMallikarjun@in.bosch.com, uli+renesas@fpond.eu,
+ ezequiel@collabora.com
+Content-Type: multipart/mixed; boundary="===============1763416765=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1184027052==
-Content-Language: en-US
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="udp5nohy3qs232fn"
 
---udp5nohy3qs232fn
-Content-Type: text/plain; charset=iso-8859-1
+--===============1763416765==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ahlhhwwxjeyfb4yu"
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Applied to drm-misc-next.
+
+--ahlhhwwxjeyfb4yu
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+Hi Laurent,
+
+On Tue, Oct 15, 2019 at 08:54:22PM +0300, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> Thank you for the patch.
+>
+> On Tue, Oct 15, 2019 at 03:37:52PM +0200, Jacopo Mondi wrote:
+> > On Tue, Oct 15, 2019 at 02:15:35PM +0100, Kieran Bingham wrote:
+> > > On 15/10/2019 11:46, Jacopo Mondi wrote:
+> > > > Implement CMM handling in the crtc begin and enable atomic callbacks,
+> > > > and enable CMM unit through the Display Extensional Functions
+> > >
+> > > Extensional ?
+> > >
+> > > Perhaps this should just be Display Extension Functions?
+> > > Wow - that's actually what they call it in the data-sheet.
+> > >
+> > > > register at group setup time.
+> > >
+> > > Only a trivial extra blank line below that I can find... so
+> > >
+> > > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > >
+> > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > > ---
+> > > >  drivers/gpu/drm/rcar-du/rcar_du_crtc.c  | 79 +++++++++++++++++++++++++
+> > > >  drivers/gpu/drm/rcar-du/rcar_du_group.c |  5 ++
+> > > >  drivers/gpu/drm/rcar-du/rcar_du_regs.h  |  5 ++
+> > > >  3 files changed, 89 insertions(+)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> > > > index 23f1d6cc1719..4bc50a3f4a00 100644
+> > > > --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> > > > +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> > > > @@ -21,6 +21,7 @@
+> > > >  #include <drm/drm_plane_helper.h>
+> > > >  #include <drm/drm_vblank.h>
+> > > >
+> > > > +#include "rcar_cmm.h"
+> > > >  #include "rcar_du_crtc.h"
+> > > >  #include "rcar_du_drv.h"
+> > > >  #include "rcar_du_encoder.h"
+> > > > @@ -474,6 +475,70 @@ static void rcar_du_crtc_wait_page_flip(struct rcar_du_crtc *rcrtc)
+> > > >  	rcar_du_crtc_finish_page_flip(rcrtc);
+> > > >  }
+> > > >
+> > > > +/* -----------------------------------------------------------------------------
+> > > > + * Color Management Module (CMM)
+> > > > + */
+>
+> Missing blank line.
+>
+> > > > +static int rcar_du_cmm_enable(struct drm_crtc *crtc)
+> > > > +{
+> > > > +	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
+> > > > +
+> > > > +	if (!rcrtc->cmm)
+> > > > +		return 0;
+> > > > +
+> > > > +	return rcar_cmm_enable(rcrtc->cmm);
+> > > > +}
+> > > > +
+> > > > +static void rcar_du_cmm_disable(struct drm_crtc *crtc)
+> > > > +{
+> > > > +	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
+> > > > +
+> > > > +	if (!rcrtc->cmm)
+> > > > +		return;
+> > > > +
+> > > > +	rcar_cmm_disable(rcrtc->cmm);
+> > > > +}
+>
+> I think I would have inlined those two functions in their only call site
+> as
+>
+> 	if (rcrtc->cmm)
+> 		rcar_cmm_enable(rcrtc->cmm);
+>
+> but that's up to you.
+>
+
+Mmm, I preferred to avoid if() in the caller, but as this is a small
+increment to an existing big driver, I'll go for the most consistent
+way
+
+> > > > +
+> > > > +static int rcar_du_cmm_check(struct drm_crtc *crtc,
+> > > > +			     struct drm_crtc_state *state)
+> > > > +{
+> > > > +	struct drm_property_blob *drm_lut = state->gamma_lut;
+> > > > +	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
+> > > > +	struct device *dev = rcrtc->dev->dev;
+> > > > +
+> > > > +	if (!rcrtc->cmm || !drm_lut)
+> > > > +		return 0;
+> > > > +
+> > > > +	/* We only accept fully populated LUT tables. */
+> > > > +	if (CM2_LUT_SIZE * sizeof(struct drm_color_lut) !=
+> > > > +	    drm_lut->length) {
+>
+> How about
+>
+> 	if (drm_color_lut_size(drm_lut) != CM2_LUT_SIZE)
+>
+> ?
+>
+
+Better :)
+
+> > > > +		dev_err(dev, "invalid gamma lut size: %lu bytes\n",
+> > > > +			drm_lut->length);
+> > > > +		return -EINVAL;
+> > > > +	}
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +
+> > > > +static void rcar_du_cmm_setup(struct drm_crtc *crtc)
+> > > > +{
+> > > > +	struct drm_property_blob *drm_lut = crtc->state->gamma_lut;
+> > > > +	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
+> > > > +	struct rcar_cmm_config cmm_config = {};
+> > > > +
+> > > > +	if (!rcrtc->cmm)
+> > > > +		return;
+> > > > +
+> > > > +	if (drm_lut) {
+> > > > +		cmm_config.lut.enable = true;
+> > > > +		cmm_config.lut.table = (struct drm_color_lut *)drm_lut->data;
+> > > > +
+> > > > +	} else {
+> > > > +		cmm_config.lut.enable = false;
+> > > > +	}
+>
+> This could be changed to
+>
+> 	if (drm_lut)
+> 		cmm_config.lut.table = (struct drm_color_lut *)drm_lut->data;
+>
+> if we dropped the enable field.
+>
+
+Dropping enable seems good
+
+> > > > +
+> > > > +	rcar_cmm_setup(rcrtc->cmm, &cmm_config);
+> > > > +}
+> > > > +
+> > > >  /* -----------------------------------------------------------------------------
+> > > >   * Start/Stop and Suspend/Resume
+> > > >   */
+> > > > @@ -619,6 +684,8 @@ static void rcar_du_crtc_stop(struct rcar_du_crtc *rcrtc)
+> > > >  	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
+> > > >  		rcar_du_vsp_disable(rcrtc);
+> > > >
+> > > > +	rcar_du_cmm_disable(crtc);
+> > > > +
+> > > >  	/*
+> > > >  	 * Select switch sync mode. This stops display operation and configures
+> > > >  	 * the HSYNC and VSYNC signals as inputs.
+> > > > @@ -631,6 +698,7 @@ static void rcar_du_crtc_stop(struct rcar_du_crtc *rcrtc)
+> > > >  					   DSYSR_TVM_SWITCH);
+> > > >
+> > > >  	rcar_du_group_start_stop(rcrtc->group, false);
+> > > > +
+> > >
+> > > Extra blank line...
+> >
+> > Thanks for spotting this. I'm quite sure I run checkpatch (I just
+> > re-did) and not warnings for the extra white space in the previous
+> > patch, or this extra blank line o_0
+> >
+> > > >  }
+> > > >
+> > > >  /* -----------------------------------------------------------------------------
+> > > > @@ -642,6 +710,11 @@ static int rcar_du_crtc_atomic_check(struct drm_crtc *crtc,
+> > > >  {
+> > > >  	struct rcar_du_crtc_state *rstate = to_rcar_crtc_state(state);
+> > > >  	struct drm_encoder *encoder;
+> > > > +	int ret;
+> > > > +
+> > > > +	ret = rcar_du_cmm_check(crtc, state);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > >
+> > > >  	/* Store the routes from the CRTC output to the DU outputs. */
+> > > >  	rstate->outputs = 0;
+> > > > @@ -667,6 +740,7 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
+> > > >  	struct rcar_du_crtc_state *rstate = to_rcar_crtc_state(crtc->state);
+> > > >  	struct rcar_du_device *rcdu = rcrtc->dev;
+> > > >
+> > > > +	rcar_du_cmm_enable(crtc);
+> > > >  	rcar_du_crtc_get(rcrtc);
+> > > >
+> > > >  	/*
+> > > > @@ -686,6 +760,7 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
+> > > >  	}
+> > > >
+> > > >  	rcar_du_crtc_start(rcrtc);
+> > > > +	rcar_du_cmm_setup(crtc);
+>
+> This is the only part that really bothers me, we setup the LUT after
+> starting the CRTC, so the first frame will be output with a disabled
+> LUT, or possibly even with the LUT enabled in the middle of the frame.
+
+I tested by programming a gamma_table to the very first frame, and the
+table gets set. I cannot tell at the naked eye if it actually takes effect
+on the first one though :)
+
+> Do I recall correctly that moving setup before start causes issues ?
+> Could you explain what happens ?
+
+Simply, the machine hangs :0
+
+The chip manual prescribes to ("35A.3.2 CMM Setting")
+
+4) LUT Activation: Set LUT_EN bit of CMM_LUT_CTRL register to 1
+5) DU Activation
+6) LUT updates: (In case of single buffer mode)
+        Any accesses to update LUT table after next frame start,
+        output value from CMM is not guaranteed.
+
+What we do is actually
+5) 4) 6) as 4 and 6 happens in cmm_setup()
+
+It seems anyway from point 6 description that there are not many ways
+to programm a LUT table -before- DU activation, but it might depends
+if DU activation implies only clock and power activation, or the
+actual routing and compositor activation as it happens in
+rcar_du_crtc_start().
+
+I could actually try to program the CMM just before the VSP compositor
+is activated... Is it worth it ?
+
+>
+> > > >  }
+> > > >
+> > > >  static void rcar_du_crtc_atomic_disable(struct drm_crtc *crtc,
+> > > > @@ -739,6 +814,10 @@ static void rcar_du_crtc_atomic_begin(struct drm_crtc *crtc,
+> > > >  	 */
+> > > >  	rcar_du_crtc_get(rcrtc);
+> > > >
+> > > > +	/* If the active state changed, we let .atomic_enable handle CMM. */
+> > > > +	if (crtc->state->color_mgmt_changed && !crtc->state->active_changed)
+> > > > +		rcar_du_cmm_setup(crtc);
+> > >
+> > > Aha, this is quite neat for handling the timings.
+> >
+> > Yes, much more streamlined than what we had. Thanks Sean and Ezequiel :)
+>
+> Yes, it guarantees that the CRTC is enabled, so we should be safe with
+> the assumption from patch 3/8 that rcar_du_cmm_setup() is always called
+> with the CMM enabled.
+>
+> Interestingly though, this doesn't implement atomicity. That will be a
+> very interesting challenge. We should use double buffering of the LUT in
+> the CMM to avoid it being modified in the middle of the frame, but how
+> to update it in sync with the commit, and thus the VSP, remains to be
+> researched.
+>
+> Could you maybe add a TODO comment in patch 3/8 to mention that we
+> should use double buffering ?
+>
+
+Yes, that should probably be supported
+
+> > > > +
+> > > >  	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
+> > > >  		rcar_du_vsp_atomic_begin(rcrtc);
+> > > >  }
+> > > > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+> > > > index 9eee47969e77..583de800a66d 100644
+> > > > --- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
+> > > > +++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+> > > > @@ -135,6 +135,7 @@ static void rcar_du_group_setup_didsr(struct rcar_du_group *rgrp)
+> > > >  static void rcar_du_group_setup(struct rcar_du_group *rgrp)
+> > > >  {
+> > > >  	struct rcar_du_device *rcdu = rgrp->dev;
+> > > > +	u32 defr7 = DEFR7_CODE;
+> > > >
+> > > >  	/* Enable extended features */
+> > > >  	rcar_du_group_write(rgrp, DEFR, DEFR_CODE | DEFR_DEFE);
+> > > > @@ -147,6 +148,10 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
+> > > >
+> > > >  	rcar_du_group_setup_pins(rgrp);
+> > > >
+>
+> Could you please add a comment here to mention that we shouldn't route
+> through CMM if no color management feature is used ?
+>
+> 	/*
+> 	 * TODO: Handling routing the DU output to CMM dynamically, as we should
+> 	 * bypass CMM completely when no color management feature is used.
+> 	 */
+
+I'm not sure I get what you mean. If CMM is not enabled we do not
+enable the corresponding DEFR7_CMMEx
+
+Or do you mean we should disable CMM if not gamma_table (or CLU table,
+or other CMM functions) is provided ? I assume if any of those
+functions is not enabled the pixels are not routed through the CMM (in
+example if LUT_EN is not set, not lookup is performed). Am I wrong ?
 
 Thanks
+  j
 
-On 10/15, Ville Syrj=E4l=E4 wrote:
-> On Tue, Oct 15, 2019 at 01:40:12PM +0000, Siqueira, Rodrigo wrote:
-> > LT-tunable PHY Repeaters can operate in two different modes: transparent
-> > (default) and non-transparent. The value 0x55 specifies the transparent
-> > mode, and 0xaa represents the non-transparent; this commit adds these
-> > two values as definitions.
-> >=20
-> > Cc: Abdoulaye Berthe <Abdoulaye.Berthe@amd.com>
-> > Cc: Harry Wentland <harry.wentland@amd.com>
-> > Cc: Leo Li <sunpeng.li@amd.com>
-> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> > Cc: Manasi Navare <manasi.d.navare@intel.com>
-> > Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > Signed-off-by: Abdoulaye Berthe <Abdoulaye.Berthe@amd.com>
-> > Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
->=20
-> Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
->=20
-> > ---
-> >  include/drm/drm_dp_helper.h | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >=20
-> > diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-> > index bf62b43aaf2b..cfadeeef8492 100644
-> > --- a/include/drm/drm_dp_helper.h
-> > +++ b/include/drm/drm_dp_helper.h
-> > @@ -1034,6 +1034,10 @@
-> >  #define DP_SYMBOL_ERROR_COUNT_LANE3_PHY_REPEATER1	    0xf003b /* 1.3 */
-> >  #define DP_FEC_STATUS_PHY_REPEATER1			    0xf0290 /* 1.4 */
-> > =20
-> > +/* Repeater modes */
-> > +#define DP_PHY_REPEATER_MODE_TRANSPARENT		    0x55    /* 1.3 */
-> > +#define DP_PHY_REPEATER_MODE_NON_TRANSPARENT		    0xaa    /* 1.3 */
-> > +
-> >  /* DP HDCP message start offsets in DPCD address space */
-> >  #define DP_HDCP_2_2_AKE_INIT_OFFSET		DP_HDCP_2_2_REG_RTX_OFFSET
-> >  #define DP_HDCP_2_2_AKE_SEND_CERT_OFFSET	DP_HDCP_2_2_REG_CERT_RX_OFFSET
-> > --=20
-> > 2.23.0
->=20
->=20
->=20
-> --=20
-> Ville Syrj=E4l=E4
-> Intel
 
---=20
-Rodrigo Siqueira
-Software Engineer, Advanced Micro Devices (AMD)
-https://siqueira.tech
+>
+> > > > +	defr7 |= (rgrp->cmms_mask & BIT(1) ? DEFR7_CMME1 : 0) |
+> > > > +		 (rgrp->cmms_mask & BIT(0) ? DEFR7_CMME0 : 0);
+> > > > +	rcar_du_group_write(rgrp, DEFR7, defr7);
+> > > > +
+> > > >  	if (rcdu->info->gen >= 2) {
+> > > >  		rcar_du_group_setup_defr8(rgrp);
+> > > >  		rcar_du_group_setup_didsr(rgrp);
+> > > > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_regs.h b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
+> > > > index bc87f080b170..fb9964949368 100644
+> > > > --- a/drivers/gpu/drm/rcar-du/rcar_du_regs.h
+> > > > +++ b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
+> > > > @@ -197,6 +197,11 @@
+> > > >  #define DEFR6_MLOS1		(1 << 2)
+> > > >  #define DEFR6_DEFAULT		(DEFR6_CODE | DEFR6_TCNE1)
+> > > >
+> > > > +#define DEFR7			0x000ec
+> > > > +#define DEFR7_CODE		(0x7779 << 16)
+> > > > +#define DEFR7_CMME1		BIT(6)
+> > > > +#define DEFR7_CMME0		BIT(4)
+> > > > +
+> > > >  /* -----------------------------------------------------------------------------
+> > > >   * R8A7790-only Control Registers
+> > > >   */
+> > > >
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
---udp5nohy3qs232fn
+--ahlhhwwxjeyfb4yu
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl2mGrUACgkQWJzP/com
-vP9E+A//UaVzf/8YhouHYfbmraLJHyggL0dmRR9dfGUUUNBF94Nzpv0PCs08h5k0
-KWc/OwKJQq8pLkEqxw8w3AHIjfxJ9ElyTQAUEs4hR23egw8m3h+zCsO5y+TO6NU3
-SrZc2tQiX+7d5njYJXSzfVoZIiozl4ttsdA8uOXMNPSWAkk7aobgfTIxL2q0dvxq
-n3FtCFipfmtKJFTRKueZqfNfgQw4t9EPUsEYAmOmPTUlQd1l4dh1nL2+RkSTT8xs
-pEiVl+14aRU4yTmqQJbWQ10GBWBjs7pPw8/lJ0WUTy1ZMyZayOcjwwgrEWGCadfo
-JHLaqi2kyDCfDDGGUPAj94J/C4cc96fpiqyNlOKJdRHHPPelpJZ2kTvu6bkvSdhw
-FgPh1kapeKCP20sCeyGEBnuasMqyMoJGnZIMovsV5u8WbALUTzawGk/Zl8LxW06I
-Eod0t795DE3vOhTa8ip1lUi5rZigP2B7LmZ8/e0TtoiGbjgl9anqFVLuecwszaHm
-hXk1KuqQ0Ozlx7Q7DgFy5CnUPTovvT/i44TbG1+uWwGrWLGCcW8DnTpbjm5/WIkr
-QAN3PjBwkhWV+FQGlozYl4zc7WiQ7WqG168lUfcsFKTLyJpPyEAFudaTLazuJzq7
-0i3KKiCfVV5nxbfC+yVadM6wEkAqJiEr0dgiBTJuwI5yJ1wiuao=
-=OsbP
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl2mG2IACgkQcjQGjxah
+VjyJ+RAAi41XiFprAJP0fOW2xJfcIgnt43NdApFCqPa/S8n1EmYdk6+qyVVKj9z0
+mIGbKEDHifqiCyJDpDXoIUgjk9se1pSdEqVdo1KrOFtjxauoWs8zB8f4mdz4bhfz
+cHT+nwkPgT4SL0QJ1sMdekgudg/DApUH1iMhLY+0NSVmSINlQxFrYU/w93egw7RB
+qp+pEkvlJEgcw0Wxia6XizgloEVe5dPG9UfVaTOn6qv1TGc1VHu6Ub328g8zHwqP
+0H5mLSQQEDhdtz3mbul38W4a+sujheG1eCkP9m+M6QYpRQ7U60e6jASem/kxo68A
+3PK6IN4RVyp500DtSOJzktBJULBUdU5s124sU7r07uLUx/V031UzQINnT/SfwxwK
+4n7vWtuFjz0syUyUV3j6nl0FOqS1W1CGgAcAB1tSjoVonzBlT++MWX/jB4EE4jpM
+6/XoJMpQ/uL37pK4h1V7ZTyXjGYKLCEMDhNWLS9wEmRFg0BZ8x4VR3+w+2D5Gp9e
+ezPw9rZm6eHOKQ3mPSLaGuHr6kQoKGNQzMip5/nL6lUuOm37Wjd4UoOqJcKsNjuu
+eC8fiER/7thEvU+erDG4A2zoIMrKKfhMkADNUbJ3Wv81F3LpdNbnOdOD7ZlciEYG
+4lD4cM4y5ENogFpSmxwfV8jEv0JMfoNuFME3SRLYrTjYorh9nrc=
+=+fPV
 -----END PGP SIGNATURE-----
 
---udp5nohy3qs232fn--
+--ahlhhwwxjeyfb4yu--
 
---===============1184027052==
+--===============1763416765==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -202,4 +437,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1184027052==--
+--===============1763416765==--
