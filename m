@@ -1,57 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8983CD8435
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2019 01:04:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E7DFD845D
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2019 01:18:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 803676E8AE;
-	Tue, 15 Oct 2019 23:04:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C0A46E8AF;
+	Tue, 15 Oct 2019 23:18:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
- [IPv6:2607:f8b0:4864:20::d41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48ECB6E8AC
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2019 23:04:34 +0000 (UTC)
-Received: by mail-io1-xd41.google.com with SMTP id c6so50411393ioo.13
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2019 16:04:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OMEog+wPJDcpfHAz1VlWbAAsJEgb+2P3a4y6+6INojk=;
- b=S14GPBrJD47vBUHlzoRA3sU2cIwj0wWuPjwPXoiX9BRqDHUMy0mpwOIUns++Ji8vMu
- RBREksMs8IhdzcBTOrLOgjlJN8TziAovvx2eI5OkEPcAX6HvFp6dmBTXQR+YlKEgrN7h
- h3T3Mc0zDtgELkS02ANH+x7rxzSBeSTtSwYpMUwC7Mog9Moos3/QdIwpRRY+ez03CPLW
- swbvPhlwMzdNBY9hn0LxBNado2STYD6ETIpnXlprJSmcyNTQS7URTzZEN9uaafUGABi+
- CVQu8YD/+5gIuPBHEvDBPIW7tSSZ952I3I87c65eJhcjxOIL5u9Ha5OLczEKXt0UVYqf
- SgYw==
-X-Gm-Message-State: APjAAAXl7GXyeI5mIUylr3MkyS4s30ojmhG2FybRlyYuaPNTGH++vcDe
- TC7NEdnLTBBHvnAOLikQ47GlJciFLRAVqmvR4iU=
-X-Google-Smtp-Source: APXvYqyAkKfWw91fNt9acZ0ggGpKVfsdElaKZqDrMgeJhsX3kIbaPP6Oz/3n0UI7fRmVIdKLKMyr1yzMfCv4UK97Hrg=
-X-Received: by 2002:a02:7741:: with SMTP id g62mr5970832jac.3.1571180673056;
- Tue, 15 Oct 2019 16:04:33 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D12486E8B0
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2019 23:18:36 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id CE66B7296E; Tue, 15 Oct 2019 23:18:36 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111651] [CI][RESUME] igt@gem_ctx_shared@q-independent-bsd[12] -
+ Skip - mmio base not known
+Date: Tue, 15 Oct 2019 23:18:36 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: IGT
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: ashutosh.dixit@intel.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111651-502-99yr7hAWVY@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111651-502@http.bugs.freedesktop.org/>
+References: <bug-111651-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20191001233923.16514-1-aford173@gmail.com>
- <20191001233923.16514-5-aford173@gmail.com>
- <20191009233130.GA1002@bogus>
-In-Reply-To: <20191009233130.GA1002@bogus>
-From: Adam Ford <aford173@gmail.com>
-Date: Tue, 15 Oct 2019 18:04:21 -0500
-Message-ID: <CAHCN7xLCvN1v00H10KUX625awz+nea6rhA_LYnftspjaZ+od-g@mail.gmail.com>
-Subject: Re: [PATCH V4 2/3] dt-bindings: Add Logic PD Type 28 display panel
-To: Rob Herring <robh@kernel.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=OMEog+wPJDcpfHAz1VlWbAAsJEgb+2P3a4y6+6INojk=;
- b=GBy7Tojzyuh3LBnx3XMAb8N6tVMOpYI3ENvomU1LDqz4tw5pB4anuTXNH95ihqU9tO
- 8EbpEbxrj1/zP989X6Xmw+0rjv+B1Smrw+u1B+mm1MTe3espVYjx3pDz7kQ9/BFRlA7K
- IBNGnKVqhHwj2NTytrFxF/xCUyPgmfJ8yI1KU1O0iuowbOc/v12drXde6Fy4TQ4O1pKB
- zm9fqzXYetxvtaGrNbGceSq6ghpGZWt6U7r/aKjDEHDmAyx8ZNhyWfLb5cal+mU5+8cm
- vPZlJcN17b3FQAWkmlizaW+injhx64njtwFbW7IjLPofaQoIon3jtlzE3n1PQniMuJ65
- GKDg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,86 +53,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Adam Ford <adam.ford@logicpd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Linux-OMAP <linux-omap@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0737666117=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBPY3QgOSwgMjAxOSBhdCA2OjMxIFBNIFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5v
-cmc+IHdyb3RlOgo+Cj4gT24gVHVlLCBPY3QgMDEsIDIwMTkgYXQgMDY6Mzk6MjJQTSAtMDUwMCwg
-QWRhbSBGb3JkIHdyb3RlOgo+ID4gVGhpcyBwYXRjaCBhZGRzIGRvY3VtZW50YXRpb24gb2YgZGV2
-aWNlIHRyZWUgYmluZGluZ3MgZm9yIHRoZSBXVkdBIHBhbmVsCj4gPiBMb2dpYyBQRCBUeXBlIDI4
-IGRpc3BsYXkuCj4gPgo+ID4gU2lnbmVkLW9mZi1ieTogQWRhbSBGb3JkIDxhZm9yZDE3M0BnbWFp
-bC5jb20+Cj4gPiAtLS0KPiA+IFY0OiAgVXBkYXRlIHBlciBSb2IgSCdzIHN1Z2dlc3Rpb25zIGFu
-ZCBjb3B5IG90aGVyIHBhbmVsIHlhbWwgZXhhbXBsZSBmcm9tIDUuNC1yYzEKPiA+IFYzOiAgQ29y
-cmVjdCBidWlsZCBlcnJvcnMgZnJvbSAnbWFrZSBkdF9iaW5kaW5nX2NoZWNrJwo+Cj4gVGhlIGV4
-YW1wbGUgc3RpbGwgZmFpbHMgdG8gYnVpbGQgaGVyZS4KCkkgY2Fubm90IHJlcGxpY2F0ZSB0aGUg
-YnVpbGQgZXJyb3Igb24gNS40LVJDMyBhdCBsZWFzdCBmb3IgdGhpcwpiaW5kaW5nIG9uIFY0IG9m
-IHRoZSBwYXRjaC4gIEkgZ2V0IGJ1aWxkIGVycm9yIG9uIG90aGVyIGJpbmRpbmdzLgoKJCBtYWtl
-IGR0X2JpbmRpbmdfY2hlY2sgQVJDSD1hcm0Kc2NyaXB0cy9rY29uZmlnL2NvbmYgIC0tc3luY2Nv
-bmZpZyBLY29uZmlnCiAgU0NIRU1BICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
-cHJvY2Vzc2VkLXNjaGVtYS55YW1sCi9ob21lL2Fmb3JkL3NyYy9saW51eC9Eb2N1bWVudGF0aW9u
-L2RldmljZXRyZWUvYmluZGluZ3MvbmV0L2FkaSxhZGluLnlhbWw6Cmlnbm9yaW5nLCBlcnJvciBp
-biBzY2hlbWEgJ2FkaSxyeC1pbnRlcm5hbC1kZWxheS1wcycKd2FybmluZzogbm8gc2NoZW1hIGZv
-dW5kIGluIGZpbGU6CkRvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9uZXQvYWRpLGFk
-aW4ueWFtbAovaG9tZS9hZm9yZC9zcmMvbGludXgvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
-bmRpbmdzL3JlZ3VsYXRvci9maXhlZC1yZWd1bGF0b3IueWFtbDoKaWdub3JpbmcsIGVycm9yIGlu
-IHNjaGVtYSAnMCcKd2FybmluZzogbm8gc2NoZW1hIGZvdW5kIGluIGZpbGU6CkRvY3VtZW50YXRp
-b24vZGV2aWNldHJlZS9iaW5kaW5ncy9yZWd1bGF0b3IvZml4ZWQtcmVndWxhdG9yLnlhbWwKICBD
-SEtEVCAgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0vYW1sb2dpYy9hbWxv
-Z2ljLG1lc29uLWd4LWFvLXNlY3VyZS55YW1sCiAgLi4uLgogIENIS0RUICAgRG9jdW1lbnRhdGlv
-bi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvdHBvLHRwZzExMC55YW1sCiAgQ0hL
-RFQgICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9hbXBp
-cmUsYW0tNDgwMjcyaDN0bXF3LXQwMWgueWFtbAogIENIS0RUICAgRG9jdW1lbnRhdGlvbi9kZXZp
-Y2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvbG9naWNwZCx0eXBlMjgueWFtbAogIENIS0RU
-ICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvcm9uYm8s
-cmIwNzBkMzAueWFtbAogLi4uCiBDSEtEVCAgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5k
-aW5ncy9tZWRpYS9hbGx3aW5uZXIsc3VuNGktYTEwLWlyLnlhbWwKICBDSEtEVCAgIERvY3VtZW50
-YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9hbGx3aW5uZXIsc3VuNGktYTEwLWNzaS55
-YW1sCkRvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9hbGx3aW5uZXIsc3Vu
-NGktYTEwLWNzaS55YW1sOgokaWQ6IHBhdGgvZmlsZW5hbWUgJ2FybS9hbGx3aW5uZXIsc3VuNGkt
-YTEwLWNzaS55YW1sJyBkb2Vzbid0IG1hdGNoCmFjdHVhbCBmaWxlbmFtZQpEb2N1bWVudGF0aW9u
-L2RldmljZXRyZWUvYmluZGluZ3MvTWFrZWZpbGU6MTI6IHJlY2lwZSBmb3IgdGFyZ2V0CidEb2N1
-bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvYWxsd2lubmVyLHN1bjRpLWExMC1j
-c2kuZXhhbXBsZS5kdHMnCmZhaWxlZAptYWtlWzFdOiAqKiogW0RvY3VtZW50YXRpb24vZGV2aWNl
-dHJlZS9iaW5kaW5ncy9tZWRpYS9hbGx3aW5uZXIsc3VuNGktYTEwLWNzaS5leGFtcGxlLmR0c10K
-RXJyb3IgMQpNYWtlZmlsZToxMjYzOiByZWNpcGUgZm9yIHRhcmdldCAnZHRfYmluZGluZ19jaGVj
-aycgZmFpbGVkCm1ha2U6ICoqKiBbZHRfYmluZGluZ19jaGVja10gRXJyb3IgMgoKCkkgdG9vayBv
-dXQgc29tZSBvZiB0aGUgbG9ncyB0byBtYWtlIGl0IGxlc3MgY2hhdHR5LiAgSSBkb24ndCBrbm93
-CmFueXRoaW5nIGFib3V0IHlhbWwgb3Igd2hhdCB0aGUgZXhwZWN0YXRpb25zIGFyZSwgc28gaWYg
-dGhlcmUgaXMgYQp0ZXN0IGJleW9uZCAnbWFrZSBkdF9iaW5kaW5nX2NoZWNrJyBwbGVhc2UgbGV0
-IG1lIGtub3cuCgpUaGFuayB5b3UsCgphZGFtCgo+Cj4gPiBWMjogIFVzZSBZQU1MIGluc3RlYWQg
-b2YgVFhUIGZvciBiaW5kaW5nCj4gPgo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2
-aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL2xvZ2ljcGQsdHlwZTI4LnlhbWwgYi9Eb2N1
-bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9sb2dpY3BkLHR5cGUy
-OC55YW1sCj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NAo+ID4gaW5kZXggMDAwMDAwMDAwMDAwLi5l
-MmM2MmU4ZjFkYjQKPiA+IC0tLSAvZGV2L251bGwKPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2
-aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL2xvZ2ljcGQsdHlwZTI4LnlhbWwKPiA+IEBA
-IC0wLDAgKzEsNDIgQEAKPiA+ICsjIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wCj4g
-PiArJVlBTUwgMS4yCj4gPiArLS0tCj4gPiArJGlkOiBodHRwOi8vZGV2aWNldHJlZS5vcmcvc2No
-ZW1hcy9kaXNwbGF5L3BhbmVsL2xvZ2ljcGQsdHlwZTI4LnlhbWwjCj4gPiArJHNjaGVtYTogaHR0
-cDovL2RldmljZXRyZWUub3JnL21ldGEtc2NoZW1hcy9jb3JlLnlhbWwjCj4gPiArCj4gPiArdGl0
-bGU6IExvZ2ljIFBEIFR5cGUgMjggNC4zIiBXUVZHQSBURlQgTENEIHBhbmVsCj4gPiArCj4gPiAr
-bWFpbnRhaW5lcnM6Cj4gPiArICAtIEFkYW0gRm9yZCA8YWZvcmQxNzNAZ21haWwuY29tPgo+ID4g
-Kwo+ID4gK2FsbE9mOgo+ID4gKyAgLSAkcmVmOiBwYW5lbC1jb21tb24ueWFtbCMKPiA+ICsKPiA+
-ICtwcm9wZXJ0aWVzOgo+ID4gKyAgY29tcGF0aWJsZToKPiA+ICsgICAgY29uc3Q6IGxvZ2ljcGQs
-dHlwZTI4Cj4gPiArCj4gPiArICBwb3dlci1zdXBwbHk6IHRydWUKPiA+ICsgIGVuYWJsZS1ncGlv
-czogdHJ1ZQo+ID4gKyAgYmFja2xpZ2h0OiB0cnVlCj4gPiArICBwb3J0OiB0cnVlCj4gPiArCj4g
-PiArcmVxdWlyZWQ6Cj4gPiArICAtIGNvbXBhdGlibGUKPiA+ICsKPiA+ICthZGRpdGlvbmFsUHJv
-cGVydGllczogZmFsc2UKPiA+ICsKPiA+ICtleGFtcGxlczoKPiA+ICsgIC0gfAo+ID4gKyAgICBs
-Y2QwOiBkaXNwbGF5IHsKPiA+ICsgICAgICBjb21wYXRpYmxlID0gImxvZ2ljcGQsdHlwZTI4IjsK
-PiA+ICsgICAgICBlbmFibGUtZ3Bpb3MgPSA8JmdwaW81IDI3IEdQSU9fQUNUSVZFX0hJR0g+Owo+
-ID4gKyAgICAgIGJhY2tsaWdodCA9IDwmYmFja2xpZ2h0PjsKPiA+ICsgICAgICBwb3J0IHsKPiA+
-ICsgICAgICAgIGxjZF9pbjogZW5kcG9pbnQgewo+ID4gKyAgICAgICAgICByZW1vdGUtZW5kcG9p
-bnQgPSA8JmRwaV9vdXQ+Owo+ID4gKyAgICAgICAgfTsKPiA+ICsgICAgICB9Owo+ID4gKyAgICB9
-Owo+ID4gKwo+ID4gKy4uLgo+ID4gLS0KPiA+IDIuMTcuMQo+ID4KX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0737666117==
+Content-Type: multipart/alternative; boundary="15711815163.3b4d.19359"
+Content-Transfer-Encoding: 7bit
+
+
+--15711815163.3b4d.19359
+Date: Tue, 15 Oct 2019 23:18:36 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111651
+
+--- Comment #4 from ashutosh.dixit@intel.com ---
+Should probably start by looking at what the mmio_base values are and why b=
+sd
+is commented out? This will skip on all platforms for BSD engine, not just =
+TGL
+correct? See https://bugs.freedesktop.org/show_bug.cgi?id=3D110839.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15711815163.3b4d.19359
+Date: Tue, 15 Oct 2019 23:18:36 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI][RESUME] igt&#64;gem_ctx_shared&#64;q-independent-bsd=
+[12] - Skip - mmio base not known"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111651#c4">Commen=
+t # 4</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI][RESUME] igt&#64;gem_ctx_shared&#64;q-independent-bsd=
+[12] - Skip - mmio base not known"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111651">bug 11165=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+ashutosh.dixit&#64;intel.com" title=3D"ashutosh.dixit&#64;intel.com">ashuto=
+sh.dixit&#64;intel.com</a>
+</span></b>
+        <pre>Should probably start by looking at what the mmio_base values =
+are and why bsd
+is commented out? This will skip on all platforms for BSD engine, not just =
+TGL
+correct? See <a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - [CI][SHARDS] igt&#64;gem_ctx_shared&#64;q-independen=
+t-bsd - skip - mmio base not known"
+   href=3D"show_bug.cgi?id=3D110839">https://bugs.freedesktop.org/show_bug.=
+cgi?id=3D110839</a>.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15711815163.3b4d.19359--
+
+--===============0737666117==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0737666117==--
