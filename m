@@ -2,45 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81AE8D6DAB
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2019 05:25:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E6E8D6DB7
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2019 05:28:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ABA56E5CA;
-	Tue, 15 Oct 2019 03:25:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5B8C6E5DD;
+	Tue, 15 Oct 2019 03:27:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 771206E5CA
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2019 03:25:24 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 73C6F7296E; Tue, 15 Oct 2019 03:25:24 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112008] eDP -> Dual Channel LVDS bridge unable to accept any
- modelines: Corrupt display!
-Date: Tue, 15 Oct 2019 03:25:24 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: Babblebones@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-112008-502-DUCNJXpEjh@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-112008-502@http.bugs.freedesktop.org/>
-References: <bug-112008-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 023456E16F;
+ Tue, 15 Oct 2019 03:27:55 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2C69085543;
+ Tue, 15 Oct 2019 03:27:55 +0000 (UTC)
+Received: from [10.72.12.168] (ovpn-12-168.pek2.redhat.com [10.72.12.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 79BB75C1D6;
+ Tue, 15 Oct 2019 03:27:34 +0000 (UTC)
+Subject: Re: [PATCH V3 5/7] mdev: introduce virtio device and its device ops
+To: Stefan Hajnoczi <stefanha@gmail.com>
+References: <20191011081557.28302-1-jasowang@redhat.com>
+ <20191011081557.28302-6-jasowang@redhat.com>
+ <20191014172301.GA5359@stefanha-x1.localdomain>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <97d93729-9bc2-4cb5-5e4f-678285044c7f@redhat.com>
+Date: Tue, 15 Oct 2019 11:27:32 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20191014172301.GA5359@stefanha-x1.localdomain>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.28]); Tue, 15 Oct 2019 03:27:55 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,94 +49,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0946459859=="
+Cc: christophe.de.dinechin@gmail.com, kvm@vger.kernel.org, mst@redhat.com,
+ airlied@linux.ie, heiko.carstens@de.ibm.com, kevin.tian@intel.com,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ kwankhede@nvidia.com, rob.miller@broadcom.com, linux-s390@vger.kernel.org,
+ sebott@linux.ibm.com, lulu@redhat.com, eperezma@redhat.com,
+ pasic@linux.ibm.com, borntraeger@de.ibm.com, haotian.wang@sifive.com,
+ cunming.liang@intel.com, zhi.a.wang@intel.com, farman@linux.ibm.com,
+ idos@mellanox.com, gor@linux.ibm.com, intel-gfx@lists.freedesktop.org,
+ alex.williamson@redhat.com, xiao.w.wang@intel.com, freude@linux.ibm.com,
+ parav@mellanox.com, zhihong.wang@intel.com, rodrigo.vivi@intel.com,
+ intel-gvt-dev@lists.freedesktop.org, akrowiak@linux.ibm.com,
+ oberpar@linux.ibm.com, tiwei.bie@intel.com, netdev@vger.kernel.org,
+ cohuck@redhat.com, linux-kernel@vger.kernel.org, maxime.coquelin@redhat.com,
+ lingshan.zhu@intel.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0946459859==
-Content-Type: multipart/alternative; boundary="15711099241.cC6674C9b.8309"
-Content-Transfer-Encoding: 7bit
-
-
---15711099241.cC6674C9b.8309
-Date: Tue, 15 Oct 2019 03:25:24 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112008
-
---- Comment #3 from Babblebones@gmail.com ---
-Created attachment 145748
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145748&action=3Dedit
-EDID.bin
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15711099241.cC6674C9b.8309
-Date: Tue, 15 Oct 2019 03:25:24 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - eDP -&gt; Dual Channel LVDS bridge unable to accept any m=
-odelines: Corrupt display!"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112008#c3">Commen=
-t # 3</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - eDP -&gt; Dual Channel LVDS bridge unable to accept any m=
-odelines: Corrupt display!"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112008">bug 11200=
-8</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-Babblebones&#64;gmail.com" title=3D"Babblebones&#64;gmail.com">Babblebones&=
-#64;gmail.com</a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145748=
-" name=3D"attach_145748" title=3D"EDID.bin">attachment 145748</a> <a href=
-=3D"attachment.cgi?id=3D145748&amp;action=3Dedit" title=3D"EDID.bin">[detai=
-ls]</a></span>
-EDID.bin</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15711099241.cC6674C9b.8309--
-
---===============0946459859==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0946459859==--
+Ck9uIDIwMTkvMTAvMTUg5LiK5Y2IMToyMywgU3RlZmFuIEhham5vY3ppIHdyb3RlOgo+IE9uIEZy
+aSwgT2N0IDExLCAyMDE5IGF0IDA0OjE1OjU1UE0gKzA4MDAsIEphc29uIFdhbmcgd3JvdGU6Cj4+
+ICsgKiBAc2V0X3ZxX2NiOgkJCVNldCB0aGUgaW50ZXJydXQgY2FsYmFjayBmdW5jdGlvbiBmb3IK
+PiBzL2ludGVycnV0L2ludGVycnVwdC8KPgo+IHMvY2FsYmFjay9jYWxsYmFjay8KCgpGaXhlZC4K
+ClRoYW5rcwoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
