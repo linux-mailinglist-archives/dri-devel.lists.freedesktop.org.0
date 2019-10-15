@@ -1,24 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46F1AD75C4
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2019 14:07:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74BE6D75D0
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2019 14:08:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CFC26E7BD;
-	Tue, 15 Oct 2019 12:07:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 813476E7CA;
+	Tue, 15 Oct 2019 12:08:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C42026E7BD
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2019 12:07:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB18A6E7C1;
+ Tue, 15 Oct 2019 12:08:07 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 305F3B12C;
- Tue, 15 Oct 2019 12:07:06 +0000 (UTC)
-Subject: Re: [PATCH] drm: Funnel drm logs to tracepoints
-To: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org
-References: <20191010204823.195540-1-sean@poorly.run>
+ by mx1.suse.de (Postfix) with ESMTP id 0D9E7B12C;
+ Tue, 15 Oct 2019 12:08:06 +0000 (UTC)
+Subject: Re: [PATCH] kernel-doc: rename the kernel-doc directive 'functions'
+ to 'specific'
+To: Matthew Wilcox <willy@infradead.org>
+References: <20191013055359.23312-1-changbin.du@gmail.com>
+ <875zkrd7nq.fsf@intel.com>
+ <ECADFF3FD767C149AD96A924E7EA6EAF977CAF09@USCULXMSG01.am.sony.com>
+ <7e7557b5-469f-3e63-6254-53dab2d7234a@suse.de>
+ <20191015115439.GE32665@bombadil.infradead.org>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
@@ -45,12 +50,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
  HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
  3H26qrE=
-Message-ID: <242462f0-ac8d-ab8a-e567-74678da3f68f@suse.de>
-Date: Tue, 15 Oct 2019 14:07:00 +0200
+Message-ID: <f4157a18-6c2e-9854-40a2-dd78c9bde5ea@suse.de>
+Date: Tue, 15 Oct 2019 14:08:04 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191010204823.195540-1-sean@poorly.run>
+In-Reply-To: <20191015115439.GE32665@bombadil.infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,458 +68,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Sean Paul <seanpaul@chromium.org>
-Content-Type: multipart/mixed; boundary="===============1059314769=="
+Cc: linux-usb@vger.kernel.org, corbet@lwn.net, linux-pci@vger.kernel.org,
+ Tim.Bird@sony.com, linux-doc@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org, linux-mm@kvack.org,
+ dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-fpga@vger.kernel.org,
+ changbin.du@gmail.com
+Content-Type: multipart/mixed; boundary="===============1316855125=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1059314769==
+--===============1316855125==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="h5M2aBBapi0e0gcZb5qTQbPO1JpuKz88L"
+ boundary="xXjpgUbLDdBAUlDObA57HUQXDHzBsVHcH"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---h5M2aBBapi0e0gcZb5qTQbPO1JpuKz88L
-Content-Type: multipart/mixed; boundary="FbHNr0PQ8WPwdRgCNlQEvjAS8MSs1VbOO";
+--xXjpgUbLDdBAUlDObA57HUQXDHzBsVHcH
+Content-Type: multipart/mixed; boundary="z434XuCeAEdMMPGCrDECpwMF4D7beqFx1";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org
-Cc: David Airlie <airlied@linux.ie>, Sean Paul <seanpaul@chromium.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Message-ID: <242462f0-ac8d-ab8a-e567-74678da3f68f@suse.de>
-Subject: Re: [PATCH] drm: Funnel drm logs to tracepoints
-References: <20191010204823.195540-1-sean@poorly.run>
-In-Reply-To: <20191010204823.195540-1-sean@poorly.run>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Tim.Bird@sony.com, jani.nikula@linux.intel.com, changbin.du@gmail.com,
+ corbet@lwn.net, linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-fpga@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-crypto@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org
+Message-ID: <f4157a18-6c2e-9854-40a2-dd78c9bde5ea@suse.de>
+Subject: Re: [PATCH] kernel-doc: rename the kernel-doc directive 'functions'
+ to 'specific'
+References: <20191013055359.23312-1-changbin.du@gmail.com>
+ <875zkrd7nq.fsf@intel.com>
+ <ECADFF3FD767C149AD96A924E7EA6EAF977CAF09@USCULXMSG01.am.sony.com>
+ <7e7557b5-469f-3e63-6254-53dab2d7234a@suse.de>
+ <20191015115439.GE32665@bombadil.infradead.org>
+In-Reply-To: <20191015115439.GE32665@bombadil.infradead.org>
 
---FbHNr0PQ8WPwdRgCNlQEvjAS8MSs1VbOO
+--z434XuCeAEdMMPGCrDECpwMF4D7beqFx1
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 10.10.19 um 22:48 schrieb Sean Paul:
-> From: Sean Paul <seanpaul@chromium.org>
+Am 15.10.19 um 13:54 schrieb Matthew Wilcox:
+> On Tue, Oct 15, 2019 at 11:25:53AM +0200, Thomas Zimmermann wrote:
+>>> My preference would be to use 'symbols'.  I tried to come up with som=
+ething
+>>> but 'symbols' is better than anything I came up with.
+>>
+>> Maybe 'interfaces' or 'artifacts'. The term 'symbols' is just as
+>> imprecise as 'functions'.
 >=20
-> *Record scratch* You read that subject correctly, I bet you're wonderin=
-g
-> how we got here. At least hear me out before you flame :-)
+> I suggested 'identifier' because that's the term used in the C spec (6.=
+2.1):
 >=20
-> For a long while now, we (ChromeOS) have been struggling getting any
-> value out of user feedback reports of display failures (notably externa=
-l
-> displays not working). The problem is that all logging, even fatal
-> errors (well, fatal in the sense that a display won't light up) are
-> logged at DEBUG log level. So in order to extract these logs, you need
-> to be able to turn on logging, and reproduce the issue with debug
-> enabled. Unfortunately, this isn't really something we can ask CrOS use=
-rs
-> I spoke with airlied about this and RHEL has similar issues.
+> : An identifier can denote an object; a function; a tag or a member
+> : of a structure, union, or enumeration; a typedef name; a label name;
+> : a macro name; or a macro parameter.
 >=20
-> This is the point where you ask me, "So Sean, why don't you just enable=
-
-> DRM_UT_BLAH?". Good question! Here are the reasons in ascending order o=
-f
-> severity:
->  1- People aren't consistent with their categories, so we'd have to
->     enable a bunch to get proper coverage
->  2- We don't want to overwhelm syslog with drm spam, others have to use=
-
->     it too
->  3- Console logging is slow
+> We don't allow documenting all those things separately, but it does cov=
+er
+> all the things we do allow to be individually documented.
 >=20
-> Hopefully you're with me so far. I have a problem that has no existing
-> solution. What I really want is a ringbuffer of the most recent logs
-> (in the categories I'm interested in) exposed via debugfs so I can
-> extract it when users file feedback.
 
-For bug reports, I don't want categories or anything else that users can
-switch on/off. All I'd want is a simple way of retrieving the last ~100
-messages from DRM (ala: "please attach the content of the file at
-/sys/debug...").
-
-> It just so happens that there is something which does _exactly_ this! I=
-
-> can dump the most recent logs into tracepoints, turn them on and off
-> depending on which category I want, and pull them from debugfs on deman=
-d.
->=20
-> "What about trace_printk()?" You'll say. It doesn't give us the control=
- we
-> get from using tracepoints and it's not meant to be left sprinkled arou=
-nd
-> in code.
->=20
-> So that is how we got here, now it's time for you to tell me why this i=
-s
-> a horrible idea :-)
-
-Tracepoints are considered stable uapi, right? As a distro person (SUSE)
-I don't want us to have to maintain debugging messages forever.
-
-
-The problem itself doesn't seem related to DRM. Do other subsystems have
-similar requirements?
+Yeah, makes sense.
 
 Best regards
 Thomas
-
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> ---
->  drivers/gpu/drm/drm_print.c      | 143 ++++++++++++++++++++++++++-----=
-
->  include/trace/events/drm_print.h | 116 +++++++++++++++++++++++++
->  2 files changed, 239 insertions(+), 20 deletions(-)
->  create mode 100644 include/trace/events/drm_print.h
->=20
-> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-> index 9a25d73c155c..f591292811aa 100644
-> --- a/drivers/gpu/drm/drm_print.c
-> +++ b/drivers/gpu/drm/drm_print.c
-> @@ -27,11 +27,15 @@
-> =20
->  #include <stdarg.h>
-> =20
-> +#include <linux/bitops.h>
->  #include <linux/io.h>
->  #include <linux/moduleparam.h>
->  #include <linux/seq_file.h>
->  #include <linux/slab.h>
-> =20
-> +#define CREATE_TRACE_POINTS
-> +#include <trace/events/drm_print.h>
-> +
->  #include <drm/drm.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_print.h>
-> @@ -241,10 +245,10 @@ void drm_dev_printk(const struct device *dev, con=
-st char *level,
->  	struct va_format vaf;
->  	va_list args;
-> =20
-> -	va_start(args, format);
->  	vaf.fmt =3D format;
->  	vaf.va =3D &args;
-> =20
-> +	va_start(args, format);
->  	if (dev)
->  		dev_printk(level, dev, "[" DRM_NAME ":%ps] %pV",
->  			   __builtin_return_address(0), &vaf);
-> @@ -253,49 +257,145 @@ void drm_dev_printk(const struct device *dev, co=
-nst char *level,
->  		       level, __builtin_return_address(0), &vaf);
-> =20
->  	va_end(args);
-> +
-> +	va_start(args, format);
-> +	trace_drm_log(level, dev, &vaf);
-> +	va_end(args);
->  }
->  EXPORT_SYMBOL(drm_dev_printk);
-> =20
-> +static unsigned int drm_trace_enabled(unsigned int category)
-> +{
-> +	unsigned int bit;
-> +
-> +	for_each_set_bit(bit, (unsigned long*)&category, sizeof(category) * 8=
-) {
-> +		switch (BIT(bit)) {
-> +		case DRM_UT_NONE:
-> +			return trace_drm_dbg_none_enabled();
-> +		case DRM_UT_CORE:
-> +			return trace_drm_dbg_core_enabled();
-> +		case DRM_UT_DRIVER:
-> +			return trace_drm_dbg_driver_enabled();
-> +		case DRM_UT_KMS:
-> +			return trace_drm_dbg_kms_enabled();
-> +		case DRM_UT_PRIME:
-> +			return trace_drm_dbg_prime_enabled();
-> +		case DRM_UT_ATOMIC:
-> +			return trace_drm_dbg_atomic_enabled();
-> +		case DRM_UT_VBL:
-> +			return trace_drm_dbg_vbl_enabled();
-> +		case DRM_UT_STATE:
-> +			return trace_drm_dbg_state_enabled();
-> +		case DRM_UT_LEASE:
-> +			return trace_drm_dbg_lease_enabled();
-> +		case DRM_UT_DP:
-> +			return trace_drm_dbg_dp_enabled();
-> +		default:
-> +			return trace_drm_dbg_unknown_enabled();
-> +		}
-> +	}
-> +	return false;
-> +}
-> +
-> +static void drm_do_trace(const struct device *dev, unsigned int catego=
-ry,
-> +			 struct va_format *vaf)
-> +{
-> +	WARN_ON(hweight32(category) > 1);
-> +
-> +	switch (category) {
-> +	case DRM_UT_NONE:
-> +		trace_drm_dbg_none(dev, vaf);
-> +		break;
-> +	case DRM_UT_CORE:
-> +		trace_drm_dbg_core(dev, vaf);
-> +		break;
-> +	case DRM_UT_DRIVER:
-> +		trace_drm_dbg_driver(dev, vaf);
-> +		break;
-> +	case DRM_UT_KMS:
-> +		trace_drm_dbg_kms(dev, vaf);
-> +		break;
-> +	case DRM_UT_PRIME:
-> +		trace_drm_dbg_prime(dev, vaf);
-> +		break;
-> +	case DRM_UT_ATOMIC:
-> +		trace_drm_dbg_atomic(dev, vaf);
-> +		break;
-> +	case DRM_UT_VBL:
-> +		trace_drm_dbg_vbl(dev, vaf);
-> +		break;
-> +	case DRM_UT_STATE:
-> +		trace_drm_dbg_state(dev, vaf);
-> +		break;
-> +	case DRM_UT_LEASE:
-> +		trace_drm_dbg_lease(dev, vaf);
-> +		break;
-> +	case DRM_UT_DP:
-> +		trace_drm_dbg_dp(dev, vaf);
-> +		break;
-> +	default:
-> +		trace_drm_dbg_unknown(dev, vaf);
-> +		break;
-> +	}
-> +}
-> +
->  void drm_dev_dbg(const struct device *dev, unsigned int category,
->  		 const char *format, ...)
->  {
->  	struct va_format vaf;
-> +	unsigned int bit;
->  	va_list args;
-> =20
-> -	if (!drm_debug_enabled(category))
-> -		return;
-> -
-> -	va_start(args, format);
->  	vaf.fmt =3D format;
->  	vaf.va =3D &args;
-> =20
-> -	if (dev)
-> -		dev_printk(KERN_DEBUG, dev, "[" DRM_NAME ":%ps] %pV",
-> -			   __builtin_return_address(0), &vaf);
-> -	else
-> -		printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
-> -		       __builtin_return_address(0), &vaf);
-> +	if (drm_debug_enabled(category)) {
-> +		va_start(args, format);
-> +		if (dev)
-> +			dev_printk(KERN_DEBUG, dev, "[" DRM_NAME ":%ps] %pV",
-> +				   __builtin_return_address(0), &vaf);
-> +		else
-> +			printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
-> +			       __builtin_return_address(0), &vaf);
-> +		va_end(args);
-> +	}
-> +
-> +	if (!drm_trace_enabled(category))
-> +		return;
-> +
-> +	for_each_set_bit(bit, (unsigned long*)&category, sizeof(category) * 8=
-) {
-> +		va_start(args, format);
-> +		drm_do_trace(dev, BIT(bit), &vaf);
-> +		va_end(args);
-> +	}
-> =20
-> -	va_end(args);
->  }
->  EXPORT_SYMBOL(drm_dev_dbg);
-> =20
->  void drm_dbg(unsigned int category, const char *format, ...)
->  {
->  	struct va_format vaf;
-> +	unsigned int bit;
->  	va_list args;
-> =20
-> -	if (!drm_debug_enabled(category))
-> -		return;
-> -
-> -	va_start(args, format);
->  	vaf.fmt =3D format;
->  	vaf.va =3D &args;
-> =20
-> -	printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
-> -	       __builtin_return_address(0), &vaf);
-> +	if (drm_debug_enabled(category)) {
-> +		va_start(args, format);
-> +		printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
-> +		       __builtin_return_address(0), &vaf);
-> +		va_end(args);
-> +	}
-> =20
-> -	va_end(args);
-> +	if (!drm_trace_enabled(category))
-> +		return;
-> +
-> +	for_each_set_bit(bit, (unsigned long*)&category, sizeof(category) * 8=
-) {
-> +		va_start(args, format);
-> +		drm_do_trace(NULL, BIT(bit), &vaf);
-> +		va_end(args);
-> +	}
->  }
->  EXPORT_SYMBOL(drm_dbg);
-> =20
-> @@ -304,13 +404,16 @@ void drm_err(const char *format, ...)
->  	struct va_format vaf;
->  	va_list args;
-> =20
-> -	va_start(args, format);
->  	vaf.fmt =3D format;
->  	vaf.va =3D &args;
-> =20
-> +	va_start(args, format);
->  	printk(KERN_ERR "[" DRM_NAME ":%ps] *ERROR* %pV",
->  	       __builtin_return_address(0), &vaf);
-> +	va_end(args);
-> =20
-> +	va_start(args, format);
-> +	trace_drm_err(NULL, &vaf);
->  	va_end(args);
->  }
->  EXPORT_SYMBOL(drm_err);
-> diff --git a/include/trace/events/drm_print.h b/include/trace/events/dr=
-m_print.h
-> new file mode 100644
-> index 000000000000..cc93c69f3fe4
-> --- /dev/null
-> +++ b/include/trace/events/drm_print.h
-> @@ -0,0 +1,116 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright (C) 2019 Google, Inc.
-> + *
-> + * Authors:
-> + * Sean Paul <seanpaul@chromium.org>
-> + */
-> +#undef TRACE_SYSTEM
-> +#define TRACE_SYSTEM drm_print
-> +
-> +#if !defined(_TRACE_DRM_PRINT_H) || defined(TRACE_HEADER_MULTI_READ)
-> +
-> +#include <linux/device.h>
-> +#include <linux/tracepoint.h>
-> +
-> +#define DRM_PRINT_MAX 256
-> +
-> +#define _TRACE_DRM_PRINT_H
-> +
-> +TRACE_EVENT(drm_log,
-> +	TP_PROTO(const char * level, const struct device *dev,
-> +		 struct va_format *vaf),
-> +	TP_ARGS(level, dev, vaf),
-> +	TP_STRUCT__entry(
-> +		__field(const char *,		level			)
-> +		__field(const struct device *,	dev			)
-> +		__dynamic_array(char,		msg,	DRM_PRINT_MAX	)
-> +		__field(int,			len			)
-> +	),
-> +	TP_fast_assign(
-> +		__entry->level =3D level;
-> +		__entry->dev =3D dev;
-> +		__entry->len =3D vsnprintf(__get_str(msg), DRM_PRINT_MAX,
-> +					 vaf->fmt, *vaf->va);
-> +		if (__entry->len > 0 &&
-> +		    __get_str(msg)[__entry->len - 1] =3D=3D '\n')
-> +			__get_str(msg)[--__entry->len] =3D '\0';
-> +	),
-> +	TP_printk("%s %s %s: %s", __entry->level,
-> +		  __entry->dev ? dev_driver_string(__entry->dev) : "(NULL):",
-> +		  __entry->dev ? dev_name(__entry->dev) : "", __get_str(msg))
-> +);
-> +
-> +TRACE_EVENT(class_drm_category_log,
-> +	TP_PROTO(const struct device *dev, struct va_format *vaf),
-> +	TP_ARGS(dev, vaf),
-> +	TP_STRUCT__entry(
-> +		__field(const struct device *,	dev			)
-> +		__dynamic_array(char,		msg,	DRM_PRINT_MAX	)
-> +		__field(int,			len			)
-> +	),
-> +	TP_fast_assign(
-> +		__entry->dev =3D dev;
-> +		__entry->len =3D vsnprintf(__get_str(msg), DRM_PRINT_MAX,
-> +					 vaf->fmt, *vaf->va);
-> +		if (__entry->len > 0 &&
-> +		    __get_str(msg)[__entry->len - 1] =3D=3D '\n')
-> +			__get_str(msg)[--__entry->len] =3D '\0';
-> +	),
-> +	TP_printk("%s %s%s%s",
-> +		  __entry->dev ? dev_driver_string(__entry->dev) : "",
-> +		  __entry->dev ? dev_name(__entry->dev) : "",
-> +		  __entry->dev ? ": " : "", __get_str(msg))
-> +);
-> +DEFINE_EVENT(class_drm_category_log, drm_err,
-> +	TP_PROTO(const struct device *dev, struct va_format *vaf),
-> +	TP_ARGS(dev, vaf)
-> +);
-> +DEFINE_EVENT(class_drm_category_log, drm_dbg_none,
-> +	TP_PROTO(const struct device *dev, struct va_format *vaf),
-> +	TP_ARGS(dev, vaf)
-> +);
-> +DEFINE_EVENT(class_drm_category_log, drm_dbg_core,
-> +	TP_PROTO(const struct device *dev, struct va_format *vaf),
-> +	TP_ARGS(dev, vaf)
-> +);
-> +DEFINE_EVENT(class_drm_category_log, drm_dbg_driver,
-> +	TP_PROTO(const struct device *dev, struct va_format *vaf),
-> +	TP_ARGS(dev, vaf)
-> +);
-> +DEFINE_EVENT(class_drm_category_log, drm_dbg_kms,
-> +	TP_PROTO(const struct device *dev, struct va_format *vaf),
-> +	TP_ARGS(dev, vaf)
-> +);
-> +DEFINE_EVENT(class_drm_category_log, drm_dbg_prime,
-> +	TP_PROTO(const struct device *dev, struct va_format *vaf),
-> +	TP_ARGS(dev, vaf)
-> +);
-> +DEFINE_EVENT(class_drm_category_log, drm_dbg_atomic,
-> +	TP_PROTO(const struct device *dev, struct va_format *vaf),
-> +	TP_ARGS(dev, vaf)
-> +);
-> +DEFINE_EVENT(class_drm_category_log, drm_dbg_vbl,
-> +	TP_PROTO(const struct device *dev, struct va_format *vaf),
-> +	TP_ARGS(dev, vaf)
-> +);
-> +DEFINE_EVENT(class_drm_category_log, drm_dbg_state,
-> +	TP_PROTO(const struct device *dev, struct va_format *vaf),
-> +	TP_ARGS(dev, vaf)
-> +);
-> +DEFINE_EVENT(class_drm_category_log, drm_dbg_lease,
-> +	TP_PROTO(const struct device *dev, struct va_format *vaf),
-> +	TP_ARGS(dev, vaf)
-> +);
-> +DEFINE_EVENT(class_drm_category_log, drm_dbg_dp,
-> +	TP_PROTO(const struct device *dev, struct va_format *vaf),
-> +	TP_ARGS(dev, vaf)
-> +);
-> +DEFINE_EVENT(class_drm_category_log, drm_dbg_unknown,
-> +	TP_PROTO(const struct device *dev, struct va_format *vaf),
-> +	TP_ARGS(dev, vaf)
-> +);
-> +#endif
-> +
-> +/* This part must be outside protection */
-> +#include <trace/define_trace.h>
->=20
 
 --=20
 Thomas Zimmermann
@@ -525,28 +149,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---FbHNr0PQ8WPwdRgCNlQEvjAS8MSs1VbOO--
+--z434XuCeAEdMMPGCrDECpwMF4D7beqFx1--
 
---h5M2aBBapi0e0gcZb5qTQbPO1JpuKz88L
+--xXjpgUbLDdBAUlDObA57HUQXDHzBsVHcH
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl2ltmQACgkQaA3BHVML
-eiMsjAf+JAP5Qu0C4gmlejJZ/G7rJcqlEal7jaqr2jtt0SuxZiMg6VhUq9QAW9hz
-UX32N7GJbfSA//0Ru8oXpz2UQkDb8AafVqYAaDhUTI3YNuPkY5w4+Rfz0iegODNq
-bfYL8NNNJWb/MDyfXcBvcjXmt2ZtK76TL5aYoO6VFNG95tMbZP6wi6ee+ntAdPEl
-I39RoSgq3gI68jTAXcLlQJNdtK4VF4xO+Un4c9ROi96AXuBEJMOL39xhxkhLAGCg
-VhO7MxkNPQ4Nsm0gzzjXKEkDbmTT+aVWk4fVKMeAC4A5Yo2IxHr5fDPChWMl6cm5
-IjD6mT1M6u6gNiJLDXhzwY+Ng9wRZQ==
-=UhsI
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl2ltqUACgkQaA3BHVML
+eiO7bAf8DqpVa41x8h+LyR771/7XD6R9SM1oSqopIn1EaGndzepL2obOpvv7TM8J
+xdFUMac1FMD7pBfjtTfs6Ax/+KSIBGMJQxiiiGhsZ2Z9RXIiNMJpVV0pFwkEBCic
+Xwxmem2Hn+LhB98tlmtb1rUid5ZEWIqxJn0HEfOht/Y7iu+RZUfVre1GHP2W5OG+
+KSJSTG5ZwTIBzXvMS++NOh0kJWyzTiKY7Gaxl0ck76UKp34bdsTqFNVlOqNgfdiW
+tEmx0i6R/9ZZp3HGgsbN7waSqxjcYWI4M8sPApl7aPDDpTZC2ydWX1J5qzmp9/LF
+uRn+WrOCEMHCMSPfYsv/311cYx9oLw==
+=fbgk
 -----END PGP SIGNATURE-----
 
---h5M2aBBapi0e0gcZb5qTQbPO1JpuKz88L--
+--xXjpgUbLDdBAUlDObA57HUQXDHzBsVHcH--
 
---===============1059314769==
+--===============1316855125==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -556,4 +180,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1059314769==--
+--===============1316855125==--
