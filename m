@@ -1,42 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF16FD7647
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2019 14:17:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF7BAD76C4
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2019 14:46:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5758C6E7D5;
-	Tue, 15 Oct 2019 12:17:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04DF889D89;
+	Tue, 15 Oct 2019 12:46:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D86F46E7BC;
- Tue, 15 Oct 2019 12:17:33 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 12DEBC05B00E;
- Tue, 15 Oct 2019 12:17:33 +0000 (UTC)
-Received: from [10.72.12.168] (ovpn-12-168.pek2.redhat.com [10.72.12.168])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 99C9760BE2;
- Tue, 15 Oct 2019 12:17:02 +0000 (UTC)
-Subject: Re: [PATCH V3 4/7] mdev: introduce device specific ops
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20191011081557.28302-1-jasowang@redhat.com>
- <20191011081557.28302-5-jasowang@redhat.com>
- <20191015124137.4f948bd2.cohuck@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <eb7ecd99-7465-6be4-7ecd-84c11f66e0ac@redhat.com>
-Date: Tue, 15 Oct 2019 20:17:01 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7573D89D89
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2019 12:46:46 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id B083DB427;
+ Tue, 15 Oct 2019 12:46:44 +0000 (UTC)
+Subject: Re: [PATCH v2 14/15] staging/mgakms: Import matroxfb driver source
+ code
+To: airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, sean@poorly.run, b.zolnierkie@samsung.com,
+ ajax@redhat.com, ville.syrjala@linux.intel.com, malat@debian.org,
+ michel@daenzer.net, corbet@lwn.net, gregkh@linuxfoundation.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+References: <20191014140416.28517-1-tzimmermann@suse.de>
+ <20191014140416.28517-15-tzimmermann@suse.de> <20191015114843.GB4104@sci.fi>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <a1e6a1a8-c6b3-26fb-7d96-480a5a7caf65@suse.de>
+Date: Tue, 15 Oct 2019 14:46:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191015124137.4f948bd2.cohuck@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Tue, 15 Oct 2019 12:17:33 +0000 (UTC)
+In-Reply-To: <20191015114843.GB4104@sci.fi>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,109 +69,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: christophe.de.dinechin@gmail.com, kvm@vger.kernel.org, mst@redhat.com,
- airlied@linux.ie, heiko.carstens@de.ibm.com, kevin.tian@intel.com,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- kwankhede@nvidia.com, rob.miller@broadcom.com, linux-s390@vger.kernel.org,
- sebott@linux.ibm.com, lulu@redhat.com, eperezma@redhat.com,
- pasic@linux.ibm.com, borntraeger@de.ibm.com, haotian.wang@sifive.com,
- cunming.liang@intel.com, zhi.a.wang@intel.com, farman@linux.ibm.com,
- idos@mellanox.com, gor@linux.ibm.com, intel-gfx@lists.freedesktop.org,
- alex.williamson@redhat.com, xiao.w.wang@intel.com, freude@linux.ibm.com,
- parav@mellanox.com, zhihong.wang@intel.com, rodrigo.vivi@intel.com,
- intel-gvt-dev@lists.freedesktop.org, akrowiak@linux.ibm.com,
- oberpar@linux.ibm.com, tiwei.bie@intel.com, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, maxime.coquelin@redhat.com,
- lingshan.zhu@intel.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============1351266982=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDIwMTkvMTAvMTUg5LiL5Y2INjo0MSwgQ29ybmVsaWEgSHVjayB3cm90ZToKPiBPbiBGcmks
-IDExIE9jdCAyMDE5IDE2OjE1OjU0ICswODAwCj4gSmFzb24gV2FuZyA8amFzb3dhbmdAcmVkaGF0
-LmNvbT4gd3JvdGU6Cj4KPj4gQ3VycmVudGx5LCBleGNlcHQgZm9yIHRoZSBjcmVhdGUgYW5kIHJl
-bW92ZSwgdGhlIHJlc3Qgb2YKPj4gbWRldl9wYXJlbnRfb3BzIGlzIGRlc2lnbmVkIGZvciB2Zmlv
-LW1kZXYgZHJpdmVyIG9ubHkgYW5kIG1heSBub3QgaGVscAo+PiBmb3Iga2VybmVsIG1kZXYgZHJp
-dmVyLiBXaXRoIHRoZSBoZWxwIG9mIGNsYXNzIGlkLCB0aGlzIHBhdGNoCj4+IGludHJvZHVjZXMg
-ZGV2aWNlIHNwZWNpZmljIGNhbGxiYWNrcyBpbnNpZGUgbWRldl9kZXZpY2UKPj4gc3RydWN0dXJl
-LiBUaGlzIGFsbG93cyBkaWZmZXJlbnQgc2V0IG9mIGNhbGxiYWNrIHRvIGJlIHVzZWQgYnkKPj4g
-dmZpby1tZGV2IGFuZCB2aXJ0aW8tbWRldi4KPj4KPj4gU2lnbmVkLW9mZi1ieTogSmFzb24gV2Fu
-ZyA8amFzb3dhbmdAcmVkaGF0LmNvbT4KPj4gLS0tCj4+ICAgLi4uL2RyaXZlci1hcGkvdmZpby1t
-ZWRpYXRlZC1kZXZpY2UucnN0ICAgICAgIHwgMjIgKysrKystLS0KPj4gICBNQUlOVEFJTkVSUyAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMSArCj4+ICAgZHJpdmVycy9ncHUv
-ZHJtL2k5MTUvZ3Z0L2t2bWd0LmMgICAgICAgICAgICAgIHwgMTggKysrKy0tLQo+PiAgIGRyaXZl
-cnMvczM5MC9jaW8vdmZpb19jY3dfb3BzLmMgICAgICAgICAgICAgICB8IDE4ICsrKystLS0KPj4g
-ICBkcml2ZXJzL3MzOTAvY3J5cHRvL3ZmaW9fYXBfb3BzLmMgICAgICAgICAgICAgfCAxNCArKyst
-LQo+PiAgIGRyaXZlcnMvdmZpby9tZGV2L21kZXZfY29yZS5jICAgICAgICAgICAgICAgICB8ICA5
-ICsrKy0KPj4gICBkcml2ZXJzL3ZmaW8vbWRldi9tZGV2X3ByaXZhdGUuaCAgICAgICAgICAgICAg
-fCAgMSArCj4+ICAgZHJpdmVycy92ZmlvL21kZXYvdmZpb19tZGV2LmMgICAgICAgICAgICAgICAg
-IHwgMzcgKysrKysrLS0tLS0tLQo+PiAgIGluY2x1ZGUvbGludXgvbWRldi5oICAgICAgICAgICAg
-ICAgICAgICAgICAgICB8IDQyICsrKy0tLS0tLS0tLS0tLQo+PiAgIGluY2x1ZGUvbGludXgvdmZp
-b19tZGV2LmggICAgICAgICAgICAgICAgICAgICB8IDUyICsrKysrKysrKysrKysrKysrKysKPj4g
-ICBzYW1wbGVzL3ZmaW8tbWRldi9tYm9jaHMuYyAgICAgICAgICAgICAgICAgICAgfCAyMCArKysr
-LS0tCj4+ICAgc2FtcGxlcy92ZmlvLW1kZXYvbWRweS5jICAgICAgICAgICAgICAgICAgICAgIHwg
-MjEgKysrKystLS0KPj4gICBzYW1wbGVzL3ZmaW8tbWRldi9tdHR5LmMgICAgICAgICAgICAgICAg
-ICAgICAgfCAxOCArKysrLS0tCj4+ICAgMTMgZmlsZXMgY2hhbmdlZCwgMTc3IGluc2VydGlvbnMo
-KyksIDk2IGRlbGV0aW9ucygtKQo+PiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBpbmNsdWRlL2xpbnV4
-L3ZmaW9fbWRldi5oCj4+Cj4+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RyaXZlci1hcGkv
-dmZpby1tZWRpYXRlZC1kZXZpY2UucnN0IGIvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL3ZmaW8t
-bWVkaWF0ZWQtZGV2aWNlLnJzdAo+PiBpbmRleCAyMDM1ZTQ4ZGE3YjIuLjU1MzU3NGViYmE3MyAx
-MDA2NDQKPj4gLS0tIGEvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL3ZmaW8tbWVkaWF0ZWQtZGV2
-aWNlLnJzdAo+PiArKysgYi9Eb2N1bWVudGF0aW9uL2RyaXZlci1hcGkvdmZpby1tZWRpYXRlZC1k
-ZXZpY2UucnN0Cj4+IEBAIC0xNTIsMTEgKzE1MiwyMCBAQCBjYWxsYmFja3MgcGVyIG1kZXYgcGFy
-ZW50IGRldmljZSwgcGVyIG1kZXYgdHlwZSwgb3IgYW55IG90aGVyIGNhdGVnb3JpemF0aW9uLgo+
-PiAgIFZlbmRvciBkcml2ZXJzIGFyZSBleHBlY3RlZCB0byBiZSBmdWxseSBhc3luY2hyb25vdXMg
-aW4gdGhpcyByZXNwZWN0IG9yCj4+ICAgcHJvdmlkZSB0aGVpciBvd24gaW50ZXJuYWwgcmVzb3Vy
-Y2UgcHJvdGVjdGlvbi4pCj4+ICAgCj4+IC1UaGUgY2FsbGJhY2tzIGluIHRoZSBtZGV2X3BhcmVu
-dF9vcHMgc3RydWN0dXJlIGFyZSBhcyBmb2xsb3dzOgo+PiArSW4gb3JkZXIgdG8gc3VwcG9ydCBt
-dWx0aXBsZSB0eXBlcyBvZiBkZXZpY2UvZHJpdmVyLCBkZXZpY2UgbmVlZHMgdG8KPj4gK3Byb3Zp
-ZGUgYm90aCBjbGFzc19pZCBhbmQgZGV2aWNlX29wcyB0aHJvdWdoOgo+ICJBcyBtdWx0aXBsZSB0
-eXBlcyBvZiBtZWRpYXRlZCBkZXZpY2VzIG1heSBiZSBzdXBwb3J0ZWQsIHRoZSBkZXZpY2UKPiBu
-ZWVkcyB0byBzZXQgdXAgdGhlIGNsYXNzIGlkIGFuZCB0aGUgZGV2aWNlIHNwZWNpZmljIGNhbGxi
-YWNrcyB2aWE6Igo+Cj4gPwo+Cj4+ICAgCj4+IC0qIG9wZW46IG9wZW4gY2FsbGJhY2sgb2YgbWVk
-aWF0ZWQgZGV2aWNlCj4+IC0qIGNsb3NlOiBjbG9zZSBjYWxsYmFjayBvZiBtZWRpYXRlZCBkZXZp
-Y2UKPj4gLSogaW9jdGw6IGlvY3RsIGNhbGxiYWNrIG9mIG1lZGlhdGVkIGRldmljZQo+PiArICAg
-IHZvaWQgbWRldl9zZXRfY2xhc3Moc3RydWN0IG1kZXZfZGV2aWNlICptZGV2LCB1MTYgaWQsIGNv
-bnN0IHZvaWQgKm9wcyk7Cj4+ICsKPj4gK1RoZSBjbGFzc19pZCBpcyB1c2VkIHRvIGJlIHBhaXJl
-ZCB3aXRoIGlkcyBpbiBpZF90YWJsZSBpbiBtZGV2X2RyaXZlcgo+PiArc3RydWN0dXJlIGZvciBw
-cm9iaW5nIHRoZSBjb3JyZWN0IGRyaXZlci4KPiAiVGhlIGNsYXNzIGlkICAoc3BlY2lmaWVkIGlu
-IGlkKSBpcyB1c2VkIHRvIG1hdGNoIGEgZGV2aWNlIHdpdGggYW4gbWRldgo+IGRyaXZlciB2aWEg
-aXRzIGlkIHRhYmxlLiIKPgo+ID8KPgo+PiBUaGUgZGV2aWNlX29wcyBpcyBkZXZpY2UKPj4gK3Nw
-ZWNpZmljIGNhbGxiYWNrcyB3aGljaCBjYW4gYmUgZ2V0IHRocm91Z2ggbWRldl9nZXRfZGV2X29w
-cygpCj4+ICtmdW5jdGlvbiBieSBtZGV2IGJ1cyBkcml2ZXIuCj4gIlRoZSBkZXZpY2Ugc3BlY2lm
-aWMgY2FsbGJhY2tzIChzcGVjaWZpZWQgaW4gKm9wcykgYXJlIG9idGFpbmFibGUgdmlhCj4gbWRl
-dl9nZXRfZGV2X29wcygpIChmb3IgdXNlIGJ5IHRoZSBtZGV2IGJ1cyBkcml2ZXIuKSIKPgo+ID8K
-Pgo+PiBGb3IgdmZpby1tZGV2IGRldmljZSwgaXRzIGRldmljZSBzcGVjaWZpYwo+PiArb3BzIGFy
-ZSBhcyBmb2xsb3dzOgo+ICJBIHZmaW8tbWRldiBkZXZpY2UgKGNsYXNzIGlkIE1ERVZfSURfVkZJ
-TykgdXNlcyB0aGUgZm9sbG93aW5nCj4gZGV2aWNlLXNwZWNpZmljIG9wczoiCj4KPiA/CgoKQWxs
-IHlvdSBwcm9wb3NlIGlzIGJldHRlciB0aGFuIHdoYXQgSSB3cm90ZSwgd2lsbCBjaGFuZ2UgdGhl
-IGRvY3MuCgoKPgo+PiArCj4+ICsqIG9wZW46IG9wZW4gY2FsbGJhY2sgb2YgdmZpbyBtZWRpYXRl
-ZCBkZXZpY2UKPj4gKyogY2xvc2U6IGNsb3NlIGNhbGxiYWNrIG9mIHZmaW8gbWVkaWF0ZWQgZGV2
-aWNlCj4+ICsqIGlvY3RsOiBpb2N0bCBjYWxsYmFjayBvZiB2ZmlvIG1lZGlhdGVkIGRldmljZQo+
-PiAgICogcmVhZCA6IHJlYWQgZW11bGF0aW9uIGNhbGxiYWNrCj4+ICAgKiB3cml0ZTogd3JpdGUg
-ZW11bGF0aW9uIGNhbGxiYWNrCj4+ICAgKiBtbWFwOiBtbWFwIGVtdWxhdGlvbiBjYWxsYmFjawo+
-PiBAQCAtMTY3LDkgKzE3NiwxMCBAQCByZWdpc3RlciBpdHNlbGYgd2l0aCB0aGUgbWRldiBjb3Jl
-IGRyaXZlcjo6Cj4+ICAgCWV4dGVybiBpbnQgIG1kZXZfcmVnaXN0ZXJfZGV2aWNlKHN0cnVjdCBk
-ZXZpY2UgKmRldiwKPj4gICAJICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY29uc3Qg
-c3RydWN0IG1kZXZfcGFyZW50X29wcyAqb3BzKTsKPj4gICAKPj4gLUl0IGlzIGFsc28gcmVxdWly
-ZWQgdG8gc3BlY2lmeSB0aGUgY2xhc3NfaWQgdGhyb3VnaDo6Cj4+ICtJdCBpcyBhbHNvIHJlcXVp
-cmVkIHRvIHNwZWNpZnkgdGhlIGNsYXNzX2lkIGFuZCBkZXZpY2Ugc3BlY2lmaWMgb3BzIHRocm91
-Z2g6Ogo+PiAgIAo+PiAtCWV4dGVybiBpbnQgbWRldl9zZXRfY2xhc3Moc3RydWN0IGRldmljZSAq
-ZGV2LCB1MTYgaWQpOwo+PiArCWV4dGVybiBpbnQgbWRldl9zZXRfY2xhc3Moc3RydWN0IGRldmlj
-ZSAqZGV2LCB1MTYgaWQsCj4+ICsJICAgICAgICAgICAgICAgICAgICAgICAgICBjb25zdCB2b2lk
-ICpvcHMpOwo+IEFwb2xvZ2llcyBpZiB0aGF0IGhhcyBhbHJlYWR5IGJlZW4gZGlzY3Vzc2VkLCBi
-dXQgZG8gd2Ugd2FudCBhIDE6MQo+IHJlbGF0aW9uc2hpcCBiZXR3ZWVuIGlkIGFuZCBvcHMsIG9y
-IGNhbiBkaWZmZXJlbnQgZGV2aWNlcyB3aXRoIHRoZSBzYW1lCj4gaWQgcmVnaXN0ZXIgZGlmZmVy
-ZW50IG9wcz8KCgpJIHRoaW5rIHdlIGhhdmUgYSBOOjEgbWFwcGluZyBiZXR3ZWVuIGlkIGFuZCBv
-cHMsIGUuZyB3ZSB3YW50IGJvdGggCnZpcnRpby1tZGV2IGFuZCB2aG9zdC1tZGV2IHVzZSBhIHNp
-bmdsZSBzZXQgb2YgZGV2aWNlIG9wcy4KClRoYW5rcwoKCj4gSWYgdGhlIGZvcm1lciwgd291bGQg
-aXQgbWFrZSBzZW5zZSB0byBmaXJzdAo+IHJlZ2lzdGVyIHRoZSBvcHMgZm9yIGFuIGlkIChvbmNl
-KSwgYW5kIHRoZW4gaGF2ZSB0aGUgLT5jcmVhdGUgY2FsbGJhY2sKPiBvbmx5IHNldCB0aGUgY2xh
-c3MgaWQgKHdpdGggdGhlIGNvcmUgZG9pbmcgdGhlIGxvb2t1cCBvZiB0aGUgb3BzKT8KPgo+PiAg
-IAo+PiAgIEhvd2V2ZXIsIHRoZSBtZGV2X3BhcmVudF9vcHMgc3RydWN0dXJlIGlzIG5vdCByZXF1
-aXJlZCBpbiB0aGUgZnVuY3Rpb24gY2FsbAo+PiAgIHRoYXQgYSBkcml2ZXIgc2hvdWxkIHVzZSB0
-byB1bnJlZ2lzdGVyIGl0c2VsZiB3aXRoIHRoZSBtZGV2IGNvcmUgZHJpdmVyOjoKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1351266982==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="DxI2wuFLtAZwXF1Npl9I8uthO5WLEGxjr"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--DxI2wuFLtAZwXF1Npl9I8uthO5WLEGxjr
+Content-Type: multipart/mixed; boundary="or6SuiZEUMjCLZSYl83jywjClSUgfMvcX";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, sean@poorly.run, b.zolnierkie@samsung.com,
+ ajax@redhat.com, ville.syrjala@linux.intel.com, malat@debian.org,
+ michel@daenzer.net, corbet@lwn.net, gregkh@linuxfoundation.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Message-ID: <a1e6a1a8-c6b3-26fb-7d96-480a5a7caf65@suse.de>
+Subject: Re: [PATCH v2 14/15] staging/mgakms: Import matroxfb driver source
+ code
+References: <20191014140416.28517-1-tzimmermann@suse.de>
+ <20191014140416.28517-15-tzimmermann@suse.de> <20191015114843.GB4104@sci.fi>
+In-Reply-To: <20191015114843.GB4104@sci.fi>
+
+--or6SuiZEUMjCLZSYl83jywjClSUgfMvcX
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 15.10.19 um 13:48 schrieb Ville Syrj=C3=A4l=C3=A4:
+> On Mon, Oct 14, 2019 at 04:04:15PM +0200, Thomas Zimmermann wrote:
+>> Only code is being copied, no functional changes are made.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>  drivers/staging/mgakms/g450_pll.c         |  539 +++++a
+>=20
+> ...
+>=20
+> Personally I would start from scratch. In fact some years (*cough*
+> decade) ago I did just that and started writing a new driver for
+> matrox stuff. Unfortunately I ran out of steam after figuring out
+> most of the interesting hardware quirks and whatnot, so I never
+> finished it. The end result is that it still runs in userspace
+> but kinda looks like a kernel driver if you squint a bit.
+>=20
+> Anyways, I just slapped a MIT license on it  dumped the whole
+> thing here:
+> https://gitlab.com/syrjala/mga
+> The development history was, shall we say, not really useful
+> so I just squashed it.
+>=20
+> You, or someone else, might find it interesting. I think in
+> terms of hardware support it's a superset of any other driver,
+> apart from the blob.
+>=20
+
+Just to make this clear: I do not intend to port every single fbdev
+driver to DRM. :)
+
+I did, however, began to convert that Matrox driver. First, to see if
+the approach does work in general; and because matroxfb is one of the
+more complex drivers. If it can be converted, any other driver should be
+convertible as well. I split up the driver code by HW generation and can
+now refactor each generation on its own. I expect to end up with several
+duplicated functions, which can be re-merged.
+
+Maybe our repo can be helpful. Thanks for the link.
+
+Best regards
+Thomas
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--or6SuiZEUMjCLZSYl83jywjClSUgfMvcX--
+
+--DxI2wuFLtAZwXF1Npl9I8uthO5WLEGxjr
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl2lv7AACgkQaA3BHVML
+eiPwZwf+IMs4lQgb5EFMtlul00cQVEgRs/BG6p8f07qlJYu3E2SZsdIGQhXVPd9O
+9x93JT+l1oh00VhSlRy50+7NJnGVLz7D+H1iO33I+N/qW/4tZaJxe9MpTR0EGTl/
+mEJUmOg8HAeOa1DEMAgHzVB342Wi/A06kBdHmfFORhCvTA2/fkXmGrJDik7oieb9
+Ck7q0nDpF65NkPedVLasvT/uM9hrV3wvEPSAy9Cvyr8zLpUFA7iOcZ4sI73Hyomk
+4pLY/6s5cEwii81xuFLYm7Z06ZohPpEoFkxVcYR8ViegOpbVFWFw6MlnIpjM1Hft
+/vmm4OpfYO/r/7H3XyJULqIlpA5iAw==
+=UdgA
+-----END PGP SIGNATURE-----
+
+--DxI2wuFLtAZwXF1Npl9I8uthO5WLEGxjr--
+
+--===============1351266982==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1351266982==--
