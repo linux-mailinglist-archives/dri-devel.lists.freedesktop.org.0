@@ -1,46 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CB7DD8097
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2019 21:57:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 674D7D80A0
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2019 22:02:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70A9D6E3C1;
-	Tue, 15 Oct 2019 19:57:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38C956E3C7;
+	Tue, 15 Oct 2019 20:02:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 009176E3C1
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2019 19:56:58 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id EA1437296E; Tue, 15 Oct 2019 19:56:58 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112008] eDP -> Dual Channel LVDS bridge unable to accept any
- modelines: Corrupt display!
-Date: Tue, 15 Oct 2019 19:56:59 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: Babblebones@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-112008-502-UpMAfWOVar@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-112008-502@http.bugs.freedesktop.org/>
-References: <bug-112008-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06FDC6E3C7
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2019 20:02:38 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 15 Oct 2019 13:02:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,300,1566889200"; d="scan'208";a="208246817"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga001.fm.intel.com with SMTP; 15 Oct 2019 13:02:34 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 15 Oct 2019 23:02:33 +0300
+Date: Tue, 15 Oct 2019 23:02:33 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Sean Paul <sean@poorly.run>
+Subject: Re: [PATCH] drm: Funnel drm logs to tracepoints
+Message-ID: <20191015200233.GK1208@intel.com>
+References: <20191010204823.195540-1-sean@poorly.run>
+ <242462f0-ac8d-ab8a-e567-74678da3f68f@suse.de>
+ <20191015191156.GW85762@art_vandelay>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20191015191156.GW85762@art_vandelay>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,157 +48,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0908858654=="
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0908858654==
-Content-Type: multipart/alternative; boundary="15711694180.6efF4ae.11969"
-Content-Transfer-Encoding: 7bit
-
-
---15711694180.6efF4ae.11969
-Date: Tue, 15 Oct 2019 19:56:58 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112008
-
---- Comment #5 from Babblebones@gmail.com ---
-(In reply to Alex Deucher from comment #4)
-> Can you use git bisect the issue and find the exact commit that broke it =
-or
-> narrow down when the regression happened?  E.g., working in 4.17-rc3 and
-> broken in 4.17-rc4?
-
-I have two commits that break my EDID reading and cause the exact same issu=
-e so
-far.
-
-bisected the mainline to try and find the issue, trailed into your drm-next
-git...
-
-The first commit I found that broke my EDID read:
-https://cgit.freedesktop.org/~agd5f/linux/commit/?h=3Damd-staging-drm-next&=
-id=3D8a61bc085ffab3071c59efcbeff4044c034e7490
-Was later reverted.
-
-Followed more commits after this one down a branch and into here...
-https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?h=3Dx86=
--urgent-for-linus&id=3Dbd4caed47a19f25fe8674344ea06d469c27ac314
-
-Surprisingly, swapping out the memory allocs actually breaks the EDID read =
-in
-this commit/ branch too. I know for a fact Ubuntu's old kernel 4.18 reverted
-this specific and the treewide memory allocation change, which worked!? I
-stopped about here, my head was starting to spin as to why THAT would do
-anything.
-
-I am ready and able to fork over any binary/parameter/debug dumps to help s=
-olve
-this.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15711694180.6efF4ae.11969
-Date: Tue, 15 Oct 2019 19:56:58 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - eDP -&gt; Dual Channel LVDS bridge unable to accept any m=
-odelines: Corrupt display!"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112008#c5">Commen=
-t # 5</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - eDP -&gt; Dual Channel LVDS bridge unable to accept any m=
-odelines: Corrupt display!"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112008">bug 11200=
-8</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-Babblebones&#64;gmail.com" title=3D"Babblebones&#64;gmail.com">Babblebones&=
-#64;gmail.com</a>
-</span></b>
-        <pre>(In reply to Alex Deucher from <a href=3D"show_bug.cgi?id=3D11=
-2008#c4">comment #4</a>)
-<span class=3D"quote">&gt; Can you use git bisect the issue and find the ex=
-act commit that broke it or
-&gt; narrow down when the regression happened?  E.g., working in 4.17-rc3 a=
-nd
-&gt; broken in 4.17-rc4?</span >
-
-I have two commits that break my EDID reading and cause the exact same issu=
-e so
-far.
-
-bisected the mainline to try and find the issue, trailed into your drm-next
-git...
-
-The first commit I found that broke my EDID read:
-<a href=3D"https://cgit.freedesktop.org/~agd5f/linux/commit/?h=3Damd-stagin=
-g-drm-next&amp;id=3D8a61bc085ffab3071c59efcbeff4044c034e7490">https://cgit.=
-freedesktop.org/~agd5f/linux/commit/?h=3Damd-staging-drm-next&amp;id=3D8a61=
-bc085ffab3071c59efcbeff4044c034e7490</a>
-Was later reverted.
-
-Followed more commits after this one down a branch and into here...
-<a href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/comm=
-it/?h=3Dx86-urgent-for-linus&amp;id=3Dbd4caed47a19f25fe8674344ea06d469c27ac=
-314">https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?h=
-=3Dx86-urgent-for-linus&amp;id=3Dbd4caed47a19f25fe8674344ea06d469c27ac314</=
-a>
-
-Surprisingly, swapping out the memory allocs actually breaks the EDID read =
-in
-this commit/ branch too. I know for a fact Ubuntu's old kernel 4.18 reverted
-this specific and the treewide memory allocation change, which worked!? I
-stopped about here, my head was starting to spin as to why THAT would do
-anything.
-
-I am ready and able to fork over any binary/parameter/debug dumps to help s=
-olve
-this.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15711694180.6efF4ae.11969--
-
---===============0908858654==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0908858654==--
+T24gVHVlLCBPY3QgMTUsIDIwMTkgYXQgMDM6MTE6NTZQTSAtMDQwMCwgU2VhbiBQYXVsIHdyb3Rl
+Ogo+IE9uIFR1ZSwgT2N0IDE1LCAyMDE5IGF0IDAyOjA3OjAwUE0gKzAyMDAsIFRob21hcyBaaW1t
+ZXJtYW5uIHdyb3RlOgo+ID4gSGkKPiA+IAo+IAo+IEhpIFRob21hcyAoYW5kIERhbmllbC9Kb29u
+YXMvUm9iKSwKPiBUaGFua3MgZm9yIHlvdXIgZmVlZGJhY2sKPiAKPiA+IEFtIDEwLjEwLjE5IHVt
+IDIyOjQ4IHNjaHJpZWIgU2VhbiBQYXVsOgo+ID4gPiBGcm9tOiBTZWFuIFBhdWwgPHNlYW5wYXVs
+QGNocm9taXVtLm9yZz4KPiA+ID4gCj4gPiA+ICpSZWNvcmQgc2NyYXRjaCogWW91IHJlYWQgdGhh
+dCBzdWJqZWN0IGNvcnJlY3RseSwgSSBiZXQgeW91J3JlIHdvbmRlcmluZwo+ID4gPiBob3cgd2Ug
+Z290IGhlcmUuIEF0IGxlYXN0IGhlYXIgbWUgb3V0IGJlZm9yZSB5b3UgZmxhbWUgOi0pCj4gPiA+
+IAo+ID4gPiBGb3IgYSBsb25nIHdoaWxlIG5vdywgd2UgKENocm9tZU9TKSBoYXZlIGJlZW4gc3Ry
+dWdnbGluZyBnZXR0aW5nIGFueQo+ID4gPiB2YWx1ZSBvdXQgb2YgdXNlciBmZWVkYmFjayByZXBv
+cnRzIG9mIGRpc3BsYXkgZmFpbHVyZXMgKG5vdGFibHkgZXh0ZXJuYWwKPiA+ID4gZGlzcGxheXMg
+bm90IHdvcmtpbmcpLiBUaGUgcHJvYmxlbSBpcyB0aGF0IGFsbCBsb2dnaW5nLCBldmVuIGZhdGFs
+Cj4gPiA+IGVycm9ycyAod2VsbCwgZmF0YWwgaW4gdGhlIHNlbnNlIHRoYXQgYSBkaXNwbGF5IHdv
+bid0IGxpZ2h0IHVwKSBhcmUKPiA+ID4gbG9nZ2VkIGF0IERFQlVHIGxvZyBsZXZlbC4gU28gaW4g
+b3JkZXIgdG8gZXh0cmFjdCB0aGVzZSBsb2dzLCB5b3UgbmVlZAo+ID4gPiB0byBiZSBhYmxlIHRv
+IHR1cm4gb24gbG9nZ2luZywgYW5kIHJlcHJvZHVjZSB0aGUgaXNzdWUgd2l0aCBkZWJ1Zwo+ID4g
+PiBlbmFibGVkLiBVbmZvcnR1bmF0ZWx5LCB0aGlzIGlzbid0IHJlYWxseSBzb21ldGhpbmcgd2Ug
+Y2FuIGFzayBDck9TIHVzZXJzCj4gPiA+IEkgc3Bva2Ugd2l0aCBhaXJsaWVkIGFib3V0IHRoaXMg
+YW5kIFJIRUwgaGFzIHNpbWlsYXIgaXNzdWVzLgo+ID4gPiAKPiA+ID4gVGhpcyBpcyB0aGUgcG9p
+bnQgd2hlcmUgeW91IGFzayBtZSwgIlNvIFNlYW4sIHdoeSBkb24ndCB5b3UganVzdCBlbmFibGUK
+PiA+ID4gRFJNX1VUX0JMQUg/Ii4gR29vZCBxdWVzdGlvbiEgSGVyZSBhcmUgdGhlIHJlYXNvbnMg
+aW4gYXNjZW5kaW5nIG9yZGVyIG9mCj4gPiA+IHNldmVyaXR5Ogo+ID4gPiAgMS0gUGVvcGxlIGFy
+ZW4ndCBjb25zaXN0ZW50IHdpdGggdGhlaXIgY2F0ZWdvcmllcywgc28gd2UnZCBoYXZlIHRvCj4g
+PiA+ICAgICBlbmFibGUgYSBidW5jaCB0byBnZXQgcHJvcGVyIGNvdmVyYWdlCj4gPiA+ICAyLSBX
+ZSBkb24ndCB3YW50IHRvIG92ZXJ3aGVsbSBzeXNsb2cgd2l0aCBkcm0gc3BhbSwgb3RoZXJzIGhh
+dmUgdG8gdXNlCj4gPiA+ICAgICBpdCB0b28KPiA+ID4gIDMtIENvbnNvbGUgbG9nZ2luZyBpcyBz
+bG93Cj4gPiA+IAo+ID4gPiBIb3BlZnVsbHkgeW91J3JlIHdpdGggbWUgc28gZmFyLiBJIGhhdmUg
+YSBwcm9ibGVtIHRoYXQgaGFzIG5vIGV4aXN0aW5nCj4gPiA+IHNvbHV0aW9uLiBXaGF0IEkgcmVh
+bGx5IHdhbnQgaXMgYSByaW5nYnVmZmVyIG9mIHRoZSBtb3N0IHJlY2VudCBsb2dzCj4gPiA+IChp
+biB0aGUgY2F0ZWdvcmllcyBJJ20gaW50ZXJlc3RlZCBpbikgZXhwb3NlZCB2aWEgZGVidWdmcyBz
+byBJIGNhbgo+ID4gPiBleHRyYWN0IGl0IHdoZW4gdXNlcnMgZmlsZSBmZWVkYmFjay4KPiA+IAo+
+ID4gRm9yIGJ1ZyByZXBvcnRzLCBJIGRvbid0IHdhbnQgY2F0ZWdvcmllcyBvciBhbnl0aGluZyBl
+bHNlIHRoYXQgdXNlcnMgY2FuCj4gPiBzd2l0Y2ggb24vb2ZmLiBBbGwgSSdkIHdhbnQgaXMgYSBz
+aW1wbGUgd2F5IG9mIHJldHJpZXZpbmcgdGhlIGxhc3QgfjEwMAo+ID4gbWVzc2FnZXMgZnJvbSBE
+Uk0gKGFsYTogInBsZWFzZSBhdHRhY2ggdGhlIGNvbnRlbnQgb2YgdGhlIGZpbGUgYXQKPiA+IC9z
+eXMvZGVidWcuLi4iKS4KPiA+IAo+IAo+IFllYWgsIHRoaXMgaXMgYmFzaWNhbGx5IHdoYXQgSSdt
+IGxvb2tpbmcgZm9yIChhbHRob3VnaCBJJ2QgZmlsdGVyIG91dCBhIGZldwo+IGNhdGVnb3JpZXMg
+dGhhdCBhcmUgcGFydGljdWxhcmx5IG5vaXN5IGFuZCBidW1wIE4gdG8gYXMgYmlnIGFzIEkgY2Fu
+IGdldCBhd2F5Cj4gd2l0aCkuCj4gCj4gPiA+IEl0IGp1c3Qgc28gaGFwcGVucyB0aGF0IHRoZXJl
+IGlzIHNvbWV0aGluZyB3aGljaCBkb2VzIF9leGFjdGx5XyB0aGlzISBJCj4gPiA+IGNhbiBkdW1w
+IHRoZSBtb3N0IHJlY2VudCBsb2dzIGludG8gdHJhY2Vwb2ludHMsIHR1cm4gdGhlbSBvbiBhbmQg
+b2ZmCj4gPiA+IGRlcGVuZGluZyBvbiB3aGljaCBjYXRlZ29yeSBJIHdhbnQsIGFuZCBwdWxsIHRo
+ZW0gZnJvbSBkZWJ1Z2ZzIG9uIGRlbWFuZC4KPiA+ID4gCj4gPiA+ICJXaGF0IGFib3V0IHRyYWNl
+X3ByaW50aygpPyIgWW91J2xsIHNheS4gSXQgZG9lc24ndCBnaXZlIHVzIHRoZSBjb250cm9sIHdl
+Cj4gPiA+IGdldCBmcm9tIHVzaW5nIHRyYWNlcG9pbnRzIGFuZCBpdCdzIG5vdCBtZWFudCB0byBi
+ZSBsZWZ0IHNwcmlua2xlZCBhcm91bmQKPiA+ID4gaW4gY29kZS4KPiA+ID4gCj4gPiA+IFNvIHRo
+YXQgaXMgaG93IHdlIGdvdCBoZXJlLCBub3cgaXQncyB0aW1lIGZvciB5b3UgdG8gdGVsbCBtZSB3
+aHkgdGhpcyBpcwo+ID4gPiBhIGhvcnJpYmxlIGlkZWEgOi0pCj4gPiAKPiA+IFRyYWNlcG9pbnRz
+IGFyZSBjb25zaWRlcmVkIHN0YWJsZSB1YXBpLCByaWdodD8gQXMgYSBkaXN0cm8gcGVyc29uIChT
+VVNFKQo+ID4gSSBkb24ndCB3YW50IHVzIHRvIGhhdmUgdG8gbWFpbnRhaW4gZGVidWdnaW5nIG1l
+c3NhZ2VzIGZvcmV2ZXIuCj4gPiAKPiAKPiBUaGlzIGlzIHNvbWV0aGluZyBJIHdhc24ndCBhd2Fy
+ZSBvZiAodGhhdCdzIHdoYXQgcmV2aWV3cyBhcmUgZm9yLCByaWdodD8hKS4gU28KPiB0aGlzIGlk
+ZWEgaXMgcGVyaGFwcyBkZWFkIGluIHRoZSB3YXRlci4gSSBjb3VsZCBwcm9iYWJseSBpbnRlZ3Jh
+dGUgd2l0aAo+IHJpbmdidWZmZXIgYXQgYSBsb3dlciBsZXZlbCBhbmQgZXhwb3NlIGEgZHJtLXNw
+ZWNpZmljIGRlYnVnZnMgbm9kZSB3aXRob3V0IF90b29fCj4gbXVjaCBleHRyYSBnb28sIGJ1dCBb
+YWJddXNpbmcgdHJhY2Vwb2ludHMgc2VlbWVkIHByZXR0eSBuYXR1cmFsLiBUaGUKPiBvdGhlciBi
+ZW5lZml0IHRvIHRoaXMgYXBwcm9hY2ggaXMgdGhhdCBiYWNrcG9ydGluZyBpdCBpbnRvIGRpc3Ry
+byBrZXJuZWxzIGlzCj4gcmVsYXRpdmVseSBlYXN5Lgo+IAo+ID4gCj4gPiBUaGUgcHJvYmxlbSBp
+dHNlbGYgZG9lc24ndCBzZWVtIHJlbGF0ZWQgdG8gRFJNLiBEbyBvdGhlciBzdWJzeXN0ZW1zIGhh
+dmUKPiA+IHNpbWlsYXIgcmVxdWlyZW1lbnRzPwo+IAo+IEkgdGhpbmsgb3RoZXIgc3Vic3lzdGVt
+cyBhcmUgY2hhdHRpZXIgdGhhbiBvdXJzIChpZTogd2hlbiBhbiBlcnJvciBvY2N1cnMgdGhleQo+
+IGFjdHVhbGx5IGxvZyBzb21ldGhpbmcpLiBTb21lIG9mIG91ciBkcml2ZXJzIGluIGRybSBhcmUg
+bW9yZSBoZWxwZnVsIHRoYW4gb3RoZXJzCj4gYXMgZmFyIGFzIGNvbXBsYWluaW5nIHdoZW4gc29t
+ZXRoaW5nIHVuZXhwZWN0ZWQgaGFwcGVucy4gVGhlIGNvcmUgaW4gcGFydGljdWxhcgo+IGlzIHJl
+YWxseSBjb25zZXJ2YXRpdmUgYWJvdXQgaXNzdWluZyBlcnJvcnMgKHdoaWNoIG1ha2VzIHNlbnNl
+IHNpbmNlIGEgbG90IG9mCj4gdGhlIGZhaWx1cmVzIGFyZSBleHBlY3RlZCAoYXRvbWljIHRlc3Rp
+bmcgaXMgbWVzc3kpLCBvbmx5IHRoZSBjb21wb3NpdG9yIHJlYWxseQo+IGtub3dzIHdoaWNoIG9u
+ZXMgYXJlIG5vdGV3b3J0aHkpLgoKQXBhcnQgZnJvbSB0aGUgImxldCdzIG5vdCBzcGFtIHRoZSBs
+b2dzIGlmIHVzZXJzcGFjZSBpcyBmdXp6aW5nIG91cgp1YXBpIiBpc3N1ZSBJIHRoaW5rIHRoZSBv
+dGhlciBtYWluIHJlYXNvbiBmb3IgY29uc2VydmF0aXNtIGlzIGhvdHBsdWcsCm9yIHJhdGhlciB1
+bnBsdWcuIFdoZW4gdGhlIG90aGVyIGVuZCBvZiB0aGUgY2FibGUgaXMgZmxhcHBpbmcgYXJvdW5k
+CmluIHRoZSBicmVlemUgaXQncyBoYXJkIHRvIHRhbGsgdG8gd2hvZXZlciB5b3UgdGhpbmsgeW91
+J3JlIHRhbGtpbmcKdG8uIEFuZCBpdCBkb2Vzbid0IGhlbHAgdGhhdCBvZnRlbiB0aGUgb3RoZXIg
+ZW5kIGRlY2lkZXMgdG8gaGFuZyB1cAphbmQgZ28gZm9yIGEgbmFwIGV2ZW4gaWYgdGhlIGNhYmxl
+IGlzIHN1cGVyZ2x1ZWQgb24uCgpJZiB3ZSBkaWRuJ3QgaGF2ZSBob3RwbHVnZ2FibGUgZGlzcGxh
+eXMgaXQgd291bGQgdG90YWxseSBtYWtlIHNlbnNlCnRvIHR1cm4gYWxsIGNvbW1pdCBwaGFzZSBk
+ZWJ1Z3MgaW50byBlcnJvcnMuIEFzIGl0IHN0YW5kcyB3ZSd2ZSBoYWQKdG8gZG8gdGhlIGV4YWN0
+IG9wcHBvc2l0ZSBvciBDSSBpbiBwYXJ0aWN1bGFyIHdvdWxkIGRyb3duIGluIG5vaXNlLgpJZiBv
+bmx5IHRob3NlIERQIGNvbm5lY3RvciBob29rcyB3ZXJlIG1vdG9yaXplZCBhbmQgd2UgY291bGQg
+bG9jawp0aGVtIGZyb20gdGhlIGRyaXZlci4uLgoKLS0gClZpbGxlIFN5cmrDpGzDpApJbnRlbApf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
+bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
