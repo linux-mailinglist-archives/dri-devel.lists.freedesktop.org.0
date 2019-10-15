@@ -2,69 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29F87D7233
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2019 11:26:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2250D723B
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2019 11:26:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50A496E33A;
-	Tue, 15 Oct 2019 09:25:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C33756E79A;
+	Tue, 15 Oct 2019 09:26:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 749526E33A;
- Tue, 15 Oct 2019 09:25:58 +0000 (UTC)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9F9O8k1024816;
- Tue, 15 Oct 2019 09:25:55 GMT
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2130.oracle.com with ESMTP id 2vk68uej90-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 15 Oct 2019 09:25:55 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9F9NNgn184744;
- Tue, 15 Oct 2019 09:25:55 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 2vnb0es7jd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 15 Oct 2019 09:25:54 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x9F9PrVv025464;
- Tue, 15 Oct 2019 09:25:53 GMT
-Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 15 Oct 2019 09:25:52 +0000
-Date: Tue, 15 Oct 2019 12:25:40 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: kbuild@lists.01.org, Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: [drm-intel:drm-intel-next-queued 1/1]
- drivers/gpu/drm/i915/i915_irq.c:2283 icp_irq_handler() error: uninitialized
- symbol 'tc_port_hotplug_long_detect'.
-Message-ID: <20191015092540.GE21344@kadam>
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 463F26E799;
+ Tue, 15 Oct 2019 09:26:01 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 489D9AC59;
+ Tue, 15 Oct 2019 09:25:59 +0000 (UTC)
+Subject: Re: [PATCH] kernel-doc: rename the kernel-doc directive 'functions'
+ to 'specific'
+To: Tim.Bird@sony.com, jani.nikula@linux.intel.com, changbin.du@gmail.com,
+ corbet@lwn.net
+References: <20191013055359.23312-1-changbin.du@gmail.com>
+ <875zkrd7nq.fsf@intel.com>
+ <ECADFF3FD767C149AD96A924E7EA6EAF977CAF09@USCULXMSG01.am.sony.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <7e7557b5-469f-3e63-6254-53dab2d7234a@suse.de>
+Date: Tue, 15 Oct 2019 11:25:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9410
- signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1908290000 definitions=main-1910150087
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9410
- signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
- definitions=main-1910150087
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2019-08-05;
- bh=YXF/77Vp3+UIlaxz+Cz7qPhnDIy73AFWkSC2BAFOe2w=;
- b=fOhRraZf/HPOBk9i514vBE8hYouZ8RYj7PwJLrjyYmu0Gzuo7NBRvCxgvnd2bY9Pgmjr
- cs+FPrpxR3G2wzBA7IVqsoYreA/xrY5n72Jrr442eDbPA/VCquORmiwvE9tLdcrwk0LH
- o74wrwrhWqJ6aAfAkh9ibj2ZkuCfwQ7T8HMSw8EwNhPWm3rPwX786TLmhL/ovgXTJqjt
- qnlN50pzDaMSThCHXtkcgDbMu1TP3wmM75+sve5y9+V1S8U1vtwuv5KxmHMmes2WiRSl
- 7cPqhhinELrJZMVppc0n0OR6FLJOpSgZaC4HsFRipyFofbUX6DYc6zMMyZvgrOr0HCQ5 Fg== 
+In-Reply-To: <ECADFF3FD767C149AD96A924E7EA6EAF977CAF09@USCULXMSG01.am.sony.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,103 +67,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, kbuild-all@lists.01.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-fpga@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-crypto@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1930313797=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-dHJlZTogICBnaXQ6Ly9hbm9uZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0taW50ZWwgZHJtLWludGVs
-LW5leHQtcXVldWVkCmhlYWQ6ICAgNTM0NDhhZWQ3YjgwNWNmMzZlY2M1OWVkNWZlOGU1MzgxNWNl
-NGZlOApjb21taXQ6IDUzNDQ4YWVkN2I4MDVjZjM2ZWNjNTllZDVmZThlNTM4MTVjZTRmZTggWzEv
-MV0gZHJtL2k5MTUvZWhsOiBQb3J0IEMncyBob3RwbHVnIGludGVycnVwdCBpcyBhc3NvY2lhdGVk
-IHdpdGggVEMxIGJpdHMKCklmIHlvdSBmaXggdGhlIGlzc3VlLCBraW5kbHkgYWRkIGZvbGxvd2lu
-ZyB0YWcKUmVwb3J0ZWQtYnk6IGtidWlsZCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPgpSZXBv
-cnRlZC1ieTogRGFuIENhcnBlbnRlciA8ZGFuLmNhcnBlbnRlckBvcmFjbGUuY29tPgoKc21hdGNo
-IHdhcm5pbmdzOgpkcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2lycS5jOjIyODMgaWNwX2lycV9o
-YW5kbGVyKCkgZXJyb3I6IHVuaW5pdGlhbGl6ZWQgc3ltYm9sICd0Y19wb3J0X2hvdHBsdWdfbG9u
-Z19kZXRlY3QnLgoKZ2l0IHJlbW90ZSBhZGQgZHJtLWludGVsIGdpdDovL2Fub25naXQuZnJlZWRl
-c2t0b3Aub3JnL2RybS1pbnRlbApnaXQgcmVtb3RlIHVwZGF0ZSBkcm0taW50ZWwKZ2l0IGNoZWNr
-b3V0IDUzNDQ4YWVkN2I4MDVjZjM2ZWNjNTllZDVmZThlNTM4MTVjZTRmZTgKdmltICsvdGNfcG9y
-dF9ob3RwbHVnX2xvbmdfZGV0ZWN0ICsyMjgzIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfaXJx
-LmMKCjU4Njc2YWY2OWMyZWIxIEx1Y2FzIERlIE1hcmNoaSAyMDE5LTA4LTI5ICAyMjM5ICBzdGF0
-aWMgdm9pZCBpY3BfaXJxX2hhbmRsZXIoc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRldl9wcml2
-LCB1MzIgcGNoX2lpcikKMzE2MDQyMjI1MWIyMTQgQW51c2hhIFNyaXZhdHNhIDIwMTgtMDYtMjYg
-IDIyNDAgIHsKNTg2NzZhZjY5YzJlYjEgTHVjYXMgRGUgTWFyY2hpIDIwMTktMDgtMjkgIDIyNDEg
-IAl1MzIgZGRpX2hvdHBsdWdfdHJpZ2dlciwgdGNfaG90cGx1Z190cmlnZ2VyOwozMTYwNDIyMjUx
-YjIxNCBBbnVzaGEgU3JpdmF0c2EgMjAxOC0wNi0yNiAgMjI0MiAgCXUzMiBwaW5fbWFzayA9IDAs
-IGxvbmdfbWFzayA9IDA7CjU4Njc2YWY2OWMyZWIxIEx1Y2FzIERlIE1hcmNoaSAyMDE5LTA4LTI5
-ICAyMjQzICAJYm9vbCAoKnRjX3BvcnRfaG90cGx1Z19sb25nX2RldGVjdCkoZW51bSBocGRfcGlu
-IHBpbiwgdTMyIHZhbCk7CjU4Njc2YWY2OWMyZWIxIEx1Y2FzIERlIE1hcmNoaSAyMDE5LTA4LTI5
-ICAyMjQ0ICAJY29uc3QgdTMyICpwaW5zOwozMTYwNDIyMjUxYjIxNCBBbnVzaGEgU3JpdmF0c2Eg
-MjAxOC0wNi0yNiAgMjI0NSAgCjU4Njc2YWY2OWMyZWIxIEx1Y2FzIERlIE1hcmNoaSAyMDE5LTA4
-LTI5ICAyMjQ2ICAJaWYgKEhBU19QQ0hfVEdQKGRldl9wcml2KSkgewo1ODY3NmFmNjljMmViMSBM
-dWNhcyBEZSBNYXJjaGkgMjAxOS0wOC0yOSAgMjI0NyAgCQlkZGlfaG90cGx1Z190cmlnZ2VyID0g
-cGNoX2lpciAmIFNERV9ERElfTUFTS19UR1A7CjU4Njc2YWY2OWMyZWIxIEx1Y2FzIERlIE1hcmNo
-aSAyMDE5LTA4LTI5ICAyMjQ4ICAJCXRjX2hvdHBsdWdfdHJpZ2dlciA9IHBjaF9paXIgJiBTREVf
-VENfTUFTS19UR1A7CjU4Njc2YWY2OWMyZWIxIEx1Y2FzIERlIE1hcmNoaSAyMDE5LTA4LTI5ICAy
-MjQ5ICAJCXRjX3BvcnRfaG90cGx1Z19sb25nX2RldGVjdCA9IHRncF90Y19wb3J0X2hvdHBsdWdf
-bG9uZ19kZXRlY3Q7CjU4Njc2YWY2OWMyZWIxIEx1Y2FzIERlIE1hcmNoaSAyMDE5LTA4LTI5ICAy
-MjUwICAJCXBpbnMgPSBocGRfdGdwOwo1ODY3NmFmNjljMmViMSBMdWNhcyBEZSBNYXJjaGkgMjAx
-OS0wOC0yOSAgMjI1MSAgCX0gZWxzZSBpZiAoSEFTX1BDSF9NQ0MoZGV2X3ByaXYpKSB7CjUzNDQ4
-YWVkN2I4MDVjIFZpdmVrIEthc2lyZWRkeSAyMDE5LTEwLTEwICAyMjUyICAJCWRkaV9ob3RwbHVn
-X3RyaWdnZXIgPSBwY2hfaWlyICYgU0RFX0RESV9NQVNLX0lDUDsKNTM0NDhhZWQ3YjgwNWMgVml2
-ZWsgS2FzaXJlZGR5IDIwMTktMTAtMTAgIDIyNTMgIAkJdGNfaG90cGx1Z190cmlnZ2VyID0gcGNo
-X2lpciAmIFNERV9UQ19IT1RQTFVHX0lDUChQT1JUX1RDMSk7Cgp0Y19wb3J0X2hvdHBsdWdfbG9u
-Z19kZXRlY3QgbmVlZHMgdG8gYmUgc2V0IGhlcmUuCgpkMDlhZDNlN2FmM2FiMiBNYXR0IFJvcGVy
-ICAgICAgMjAxOS0wOS0xOCAgMjI1NCAgCQlwaW5zID0gaHBkX2ljcDsKOGVmN2UzNDA5Y2VjY2Ug
-TWF0dCBSb3BlciAgICAgIDIwMTktMDctMzAgIDIyNTUgIAl9IGVsc2Ugewo4ZWY3ZTM0MDljZWNj
-ZSBNYXR0IFJvcGVyICAgICAgMjAxOS0wNy0zMCAgMjI1NiAgCQlkZGlfaG90cGx1Z190cmlnZ2Vy
-ID0gcGNoX2lpciAmIFNERV9ERElfTUFTS19JQ1A7CjhlZjdlMzQwOWNlY2NlIE1hdHQgUm9wZXIg
-ICAgICAyMDE5LTA3LTMwICAyMjU3ICAJCXRjX2hvdHBsdWdfdHJpZ2dlciA9IHBjaF9paXIgJiBT
-REVfVENfTUFTS19JQ1A7CjU4Njc2YWY2OWMyZWIxIEx1Y2FzIERlIE1hcmNoaSAyMDE5LTA4LTI5
-ICAyMjU4ICAJCXRjX3BvcnRfaG90cGx1Z19sb25nX2RldGVjdCA9IGljcF90Y19wb3J0X2hvdHBs
-dWdfbG9uZ19kZXRlY3Q7CjU4Njc2YWY2OWMyZWIxIEx1Y2FzIERlIE1hcmNoaSAyMDE5LTA4LTI5
-ICAyMjU5ICAJCXBpbnMgPSBocGRfaWNwOwo4ZWY3ZTM0MDljZWNjZSBNYXR0IFJvcGVyICAgICAg
-MjAxOS0wNy0zMCAgMjI2MCAgCX0KOGVmN2UzNDA5Y2VjY2UgTWF0dCBSb3BlciAgICAgIDIwMTkt
-MDctMzAgIDIyNjEgIAozMTYwNDIyMjUxYjIxNCBBbnVzaGEgU3JpdmF0c2EgMjAxOC0wNi0yNiAg
-MjI2MiAgCWlmIChkZGlfaG90cGx1Z190cmlnZ2VyKSB7CjMxNjA0MjIyNTFiMjE0IEFudXNoYSBT
-cml2YXRzYSAyMDE4LTA2LTI2ICAyMjYzICAJCXUzMiBkaWdfaG90cGx1Z19yZWc7CjMxNjA0MjIy
-NTFiMjE0IEFudXNoYSBTcml2YXRzYSAyMDE4LTA2LTI2ICAyMjY0ICAKMzE2MDQyMjI1MWIyMTQg
-QW51c2hhIFNyaXZhdHNhIDIwMTgtMDYtMjYgIDIyNjUgIAkJZGlnX2hvdHBsdWdfcmVnID0gSTkx
-NV9SRUFEKFNIT1RQTFVHX0NUTF9EREkpOwozMTYwNDIyMjUxYjIxNCBBbnVzaGEgU3JpdmF0c2Eg
-MjAxOC0wNi0yNiAgMjI2NiAgCQlJOTE1X1dSSVRFKFNIT1RQTFVHX0NUTF9EREksIGRpZ19ob3Rw
-bHVnX3JlZyk7CjMxNjA0MjIyNTFiMjE0IEFudXNoYSBTcml2YXRzYSAyMDE4LTA2LTI2ICAyMjY3
-ICAKMzE2MDQyMjI1MWIyMTQgQW51c2hhIFNyaXZhdHNhIDIwMTgtMDYtMjYgIDIyNjggIAkJaW50
-ZWxfZ2V0X2hwZF9waW5zKGRldl9wcml2LCAmcGluX21hc2ssICZsb25nX21hc2ssCjMxNjA0MjIy
-NTFiMjE0IEFudXNoYSBTcml2YXRzYSAyMDE4LTA2LTI2ICAyMjY5ICAJCQkJICAgZGRpX2hvdHBs
-dWdfdHJpZ2dlciwKYzZmN2FjYjgwYWJmNWYgTWF0dCBSb3BlciAgICAgIDIwMTktMDYtMTQgIDIy
-NzAgIAkJCQkgICBkaWdfaG90cGx1Z19yZWcsIHBpbnMsCjMxNjA0MjIyNTFiMjE0IEFudXNoYSBT
-cml2YXRzYSAyMDE4LTA2LTI2ICAyMjcxICAJCQkJICAgaWNwX2RkaV9wb3J0X2hvdHBsdWdfbG9u
-Z19kZXRlY3QpOwozMTYwNDIyMjUxYjIxNCBBbnVzaGEgU3JpdmF0c2EgMjAxOC0wNi0yNiAgMjI3
-MiAgCX0KMzE2MDQyMjI1MWIyMTQgQW51c2hhIFNyaXZhdHNhIDIwMTgtMDYtMjYgIDIyNzMgIAoz
-MTYwNDIyMjUxYjIxNCBBbnVzaGEgU3JpdmF0c2EgMjAxOC0wNi0yNiAgMjI3NCAgCWlmICh0Y19o
-b3RwbHVnX3RyaWdnZXIpIHsKMzE2MDQyMjI1MWIyMTQgQW51c2hhIFNyaXZhdHNhIDIwMTgtMDYt
-MjYgIDIyNzUgIAkJdTMyIGRpZ19ob3RwbHVnX3JlZzsKMzE2MDQyMjI1MWIyMTQgQW51c2hhIFNy
-aXZhdHNhIDIwMTgtMDYtMjYgIDIyNzYgIAozMTYwNDIyMjUxYjIxNCBBbnVzaGEgU3JpdmF0c2Eg
-MjAxOC0wNi0yNiAgMjI3NyAgCQlkaWdfaG90cGx1Z19yZWcgPSBJOTE1X1JFQUQoU0hPVFBMVUdf
-Q1RMX1RDKTsKMzE2MDQyMjI1MWIyMTQgQW51c2hhIFNyaXZhdHNhIDIwMTgtMDYtMjYgIDIyNzgg
-IAkJSTkxNV9XUklURShTSE9UUExVR19DVExfVEMsIGRpZ19ob3RwbHVnX3JlZyk7CjMxNjA0MjIy
-NTFiMjE0IEFudXNoYSBTcml2YXRzYSAyMDE4LTA2LTI2ICAyMjc5ICAKMzE2MDQyMjI1MWIyMTQg
-QW51c2hhIFNyaXZhdHNhIDIwMTgtMDYtMjYgIDIyODAgIAkJaW50ZWxfZ2V0X2hwZF9waW5zKGRl
-dl9wcml2LCAmcGluX21hc2ssICZsb25nX21hc2ssCjMxNjA0MjIyNTFiMjE0IEFudXNoYSBTcml2
-YXRzYSAyMDE4LTA2LTI2ICAyMjgxICAJCQkJICAgdGNfaG90cGx1Z190cmlnZ2VyLApjNmY3YWNi
-ODBhYmY1ZiBNYXR0IFJvcGVyICAgICAgMjAxOS0wNi0xNCAgMjI4MiAgCQkJCSAgIGRpZ19ob3Rw
-bHVnX3JlZywgcGlucywKNTg2NzZhZjY5YzJlYjEgTHVjYXMgRGUgTWFyY2hpIDIwMTktMDgtMjkg
-QDIyODMgIAkJCQkgICB0Y19wb3J0X2hvdHBsdWdfbG9uZ19kZXRlY3QpOwo1MmRmZGJhMGE5ODc2
-OCBMdWNhcyBEZSBNYXJjaGkgMjAxOS0wNy0yNSAgMjI4NCAgCX0KNTJkZmRiYTBhOTg3NjggTHVj
-YXMgRGUgTWFyY2hpIDIwMTktMDctMjUgIDIyODUgIAo1MmRmZGJhMGE5ODc2OCBMdWNhcyBEZSBN
-YXJjaGkgMjAxOS0wNy0yNSAgMjI4NiAgCWlmIChwaW5fbWFzaykKNTJkZmRiYTBhOTg3NjggTHVj
-YXMgRGUgTWFyY2hpIDIwMTktMDctMjUgIDIyODcgIAkJaW50ZWxfaHBkX2lycV9oYW5kbGVyKGRl
-dl9wcml2LCBwaW5fbWFzaywgbG9uZ19tYXNrKTsKNTJkZmRiYTBhOTg3NjggTHVjYXMgRGUgTWFy
-Y2hpIDIwMTktMDctMjUgIDIyODggIAo1MmRmZGJhMGE5ODc2OCBMdWNhcyBEZSBNYXJjaGkgMjAx
-OS0wNy0yNSAgMjI4OSAgCWlmIChwY2hfaWlyICYgU0RFX0dNQlVTX0lDUCkKNTJkZmRiYTBhOTg3
-NjggTHVjYXMgRGUgTWFyY2hpIDIwMTktMDctMjUgIDIyOTAgIAkJZ21idXNfaXJxX2hhbmRsZXIo
-ZGV2X3ByaXYpOwo1MmRmZGJhMGE5ODc2OCBMdWNhcyBEZSBNYXJjaGkgMjAxOS0wNy0yNSAgMjI5
-MSAgfQoKLS0tCjAtREFZIGtlcm5lbCB0ZXN0IGluZnJhc3RydWN0dXJlICAgICAgICAgICAgICAg
-IE9wZW4gU291cmNlIFRlY2hub2xvZ3kgQ2VudGVyCmh0dHBzOi8vbGlzdHMuMDEub3JnL3BpcGVy
-bWFpbC9rYnVpbGQtYWxsICAgICAgICAgICAgICAgICAgIEludGVsIENvcnBvcmF0aW9uCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1930313797==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="xhqojG6Suv0J68B6aAC9CpKobUD0Yg8Vm"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--xhqojG6Suv0J68B6aAC9CpKobUD0Yg8Vm
+Content-Type: multipart/mixed; boundary="e6U1SKLtu8YetFMprVb1L54zX2NmQYBjI";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Tim.Bird@sony.com, jani.nikula@linux.intel.com, changbin.du@gmail.com,
+ corbet@lwn.net
+Cc: linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-fpga@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-crypto@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org
+Message-ID: <7e7557b5-469f-3e63-6254-53dab2d7234a@suse.de>
+Subject: Re: [PATCH] kernel-doc: rename the kernel-doc directive 'functions'
+ to 'specific'
+References: <20191013055359.23312-1-changbin.du@gmail.com>
+ <875zkrd7nq.fsf@intel.com>
+ <ECADFF3FD767C149AD96A924E7EA6EAF977CAF09@USCULXMSG01.am.sony.com>
+In-Reply-To: <ECADFF3FD767C149AD96A924E7EA6EAF977CAF09@USCULXMSG01.am.sony.com>
+
+--e6U1SKLtu8YetFMprVb1L54zX2NmQYBjI
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 14.10.19 um 22:48 schrieb Tim.Bird@sony.com:
+>=20
+>=20
+>> -----Original Message-----
+>> From: Jani Nikula on October 13, 2019 11:00 PM
+>> On Sun, 13 Oct 2019, Changbin Du <changbin.du@gmail.com> wrote:
+>>> The 'functions' directive is not only for functions, but also works f=
+or
+>>> structs/unions. So the name is misleading. This patch renames it to
+>>> 'specific', so now we have export/internal/specific directives to lim=
+it
+>>> the functions/types to be included in documentation. Meanwhile we
+>> improved
+>>> the warning message.
+>>
+>> Agreed on "functions" being less than perfect. It directly exposes the=
+
+>> idiosyncrasies of scripts/kernel-doc. I'm not sure "specific" is any
+>> better, though.
+>=20
+> I strongly agree with this.  'specific' IMHO, has no semantic value and=
+
+> I'd rather just leave the only-sometimes-wrong 'functions' than convert=
+
+> to something that obscures the meaning always.
+>=20
+>>
+>> Perhaps "symbols" would be more self-explanatory. Or, actually make
+>> "functions" only work on functions, and add a separate keyword for oth=
+er
+>> stuff. *shrug*
+> My preference would be to use 'symbols'.  I tried to come up with somet=
+hing
+> but 'symbols' is better than anything I came up with.
+
+Maybe 'interfaces' or 'artifacts'. The term 'symbols' is just as
+imprecise as 'functions'.
+
+Best regards
+Thomas
+
+>>
+>> Seems like the patch is way too big. I'd probably add "symbols" (or
+>> whatever) as a synonym for "functions" for starters, and convert
+>> documents piecemeal, and finally drop the old one.
+>>
+>> The scripts/kernel-doc change should be a patch of its own.
+> Agreed on these two points as well.
+>=20
+> Just adding my 2 cents.
+>  -- Tim
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--e6U1SKLtu8YetFMprVb1L54zX2NmQYBjI--
+
+--xhqojG6Suv0J68B6aAC9CpKobUD0Yg8Vm
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl2lkKUACgkQaA3BHVML
+eiPfCAf/W0bkytCWyMq99ercABUIKnlOK53TBUZ9NR3Teor0EJtwx1giKdxBOLbe
+qAjTTABU3EcEtmCxmmsKLUEyDrBEmK+/T4YDbASwYt9qSRZQ5rJXRY7RrTsiIfkF
+TWYe27RbVMt7Vn4UC1f1FsShMPxv6fIrpyNoXtB8cCE/aFSLpdPafv0zNxvHFBe+
+SnDdVv+dR767Yhm8etpDlgpFtAD03PTH4hN+ZD9dLD/qgJh7NQiI1zyirt2ns6kv
+2RhyIDmEVltSEhgVDCMg+LOZG41UNmIqpjgNEUF1ReeJeYX3MecovgE4mdzYA4TD
+7q4r9GeyLGeoqsEUu0A4mGRY+ZBZ8g==
+=b8IK
+-----END PGP SIGNATURE-----
+
+--xhqojG6Suv0J68B6aAC9CpKobUD0Yg8Vm--
+
+--===============1930313797==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1930313797==--
