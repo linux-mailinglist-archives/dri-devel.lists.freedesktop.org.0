@@ -2,56 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97D13D7DB9
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2019 19:28:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2F15D7DC0
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2019 19:29:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FDB089915;
-	Tue, 15 Oct 2019 17:28:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 588326E874;
+	Tue, 15 Oct 2019 17:29:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB31089915
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2019 17:28:49 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id CE1ADAD49;
- Tue, 15 Oct 2019 17:28:47 +0000 (UTC)
-Subject: Re: [PATCH v2 00/15] DRM fbconv helpers for converting fbdev drivers
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20191014140416.28517-1-tzimmermann@suse.de>
- <20191015143318.GP11828@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <5241e699-f66a-d212-03a5-bb736639e66b@suse.de>
-Date: Tue, 15 Oct 2019 19:28:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D67116E874
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2019 17:29:27 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 15 Oct 2019 10:29:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,300,1566889200"; d="scan'208";a="208221415"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+ by fmsmga001.fm.intel.com with ESMTP; 15 Oct 2019 10:29:24 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+ (envelope-from <lkp@intel.com>)
+ id 1iKQdQ-000H71-0W; Wed, 16 Oct 2019 01:29:24 +0800
+Date: Wed, 16 Oct 2019 01:28:50 +0800
+From: kbuild test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 08/15] drm/fbconv: Add plane-state check and update
+Message-ID: <201910160147.NR8eNv8Z%lkp@intel.com>
+References: <20191014140416.28517-9-tzimmermann@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20191015143318.GP11828@phenom.ffwll.local>
+Content-Disposition: inline
+In-Reply-To: <20191014140416.28517-9-tzimmermann@suse.de>
+X-Patchwork-Hint: ignore
+User-Agent: NeoMutt/20170113 (1.7.2)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,337 +48,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com, airlied@linux.ie,
- gregkh@linuxfoundation.org, michel@daenzer.net, corbet@lwn.net,
- malat@debian.org, dri-devel@lists.freedesktop.org, sean@poorly.run
-Content-Type: multipart/mixed; boundary="===============0734828238=="
+Cc: linux-fbdev@vger.kernel.org, kbuild-all@lists.01.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, b.zolnierkie@samsung.com,
+ airlied@linux.ie, gregkh@linuxfoundation.org, michel@daenzer.net,
+ corbet@lwn.net, malat@debian.org, dri-devel@lists.freedesktop.org,
+ sean@poorly.run
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0734828238==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="5VUqdQIYROeNHXTUMY64yOuiNULBt7IlO"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---5VUqdQIYROeNHXTUMY64yOuiNULBt7IlO
-Content-Type: multipart/mixed; boundary="vetiopZEuHfbchxGZNIHeDlrkz6zMaIOr";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: airlied@linux.ie, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- sean@poorly.run, b.zolnierkie@samsung.com, ajax@redhat.com,
- ville.syrjala@linux.intel.com, malat@debian.org, michel@daenzer.net,
- corbet@lwn.net, gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org
-Message-ID: <5241e699-f66a-d212-03a5-bb736639e66b@suse.de>
-Subject: Re: [PATCH v2 00/15] DRM fbconv helpers for converting fbdev drivers
-References: <20191014140416.28517-1-tzimmermann@suse.de>
- <20191015143318.GP11828@phenom.ffwll.local>
-In-Reply-To: <20191015143318.GP11828@phenom.ffwll.local>
-
---vetiopZEuHfbchxGZNIHeDlrkz6zMaIOr
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi Daniel
-
-Am 15.10.19 um 16:33 schrieb Daniel Vetter:
-> Hi Thomas,
->=20
-> On Mon, Oct 14, 2019 at 04:04:01PM +0200, Thomas Zimmermann wrote:
->> (was: DRM driver for fbdev devices)
->>
->> This is version 2 of the fbdev conversion helpers. It's more or less a=
-
->> rewrite of the original patchset.
->>
->> The fbdev subsystem is considered legacy and will probably be removed =
-at
->> some point. This would mean the loss of a signifanct number of drivers=
-=2E
->> Some of the affected hardware is not in use any longer, but some hardw=
-are
->> is still around and provides good(-enough) framebuffers.
->>
->> The fbconv helpers allow for running the current DRM stack on top of f=
-bdev
->> drivers. It's a set of functions that convert between fbdev interfaces=
- and
->> DRM interfaces. Based on SHMEM and simple KMS helpers, it only offers =
-the
->> basic functionality of a framebuffer, but should be compatible with mo=
-st
->> existing fbdev drivers.
->>
->> A DRM driver using fbconv helpers consists of
->>
->>   * DRM stub code that calls into fbconv helpers, and
->>   * the original fbdev driver code.
->>
->> The fbdev driver code has to be modified to register itself with the
->> stub driver instead of the fbdev core framework. A tutorial on how to =
-use
->> the helpers is part of this patchset. The resulting driver hybrid can =
-be
->> refactored into a first-class DRM driver. The fbconv helpers contain a=
-
->> number of comments, labeled 'DRM porting note', which explain the requ=
-ired
->> steps.
->>
->> I tested the current patchset with the following drivers: atyfb, aty12=
-8fb,
->> matroxfb, pm2fb, pm3fb, rivafb, s3fb, savagefb, sisfb, tdfxfb and trid=
-entfb.
->> With each, I was able to successfully start with fbcon enabled, run we=
-ston and
->> X11. The drivers are available at [1]. For reference, the patchset inc=
-ludes
->> the Matrox stub driver.
->=20
-> So I really don't want to rain on the parade here, since if you think t=
-his
-> is useful when converting fbdev drivers I'll buy that, and I'm all for
-> getting more modern drivers into drm.
->=20
-> But I have a bunch of concerns with the approach you're proposing here:=
-
->=20
-> - we've tried staging for drm driver refactoring, it hurts. Separate tr=
-ee
->   plus the quick pace in refactoring create lots of pains. And for smal=
-l
->   drivers refacotoring before it's not buying you anything above
->   refactoring in your own personal tree. And for big drivers we're fair=
-ly
->   lenient with merging drivers that aren't fully polished yet, if there=
-'s
->   a team serious enough with cleaning up the mess. I think even merging=
-
->   partial drivers directly under drivers/gpu (but behind CONFIG_BROKEN)=
- is
->   better than staging.
-
-I mostly put this into staging, because it's the kind of code you'd
-expect there.
-
-> - we've had conversion helpers before (for the legacy kms -> atomic
->   upgrade). They constantly broke, pretty much every release when someo=
-ne
->   wanted to use them they first had to fix them up again. I think havin=
-g
->   those helpers is good, but better to just have them in some branch
->   somewhere where it's clear that they might not work anymore on latest=
-
->   upstream.
->=20
-> - especially for some of these simple fbdev drivers I feel like just
->   typing a new driver from scratch might be simpler.
->=20
-> A few more concerns specifically for your mga example:
->=20
-> - We already have a mga driver. Might be better to integrate support fo=
-r
->   older mgas into that than have a parallel driver.
-
-Two colleagues of mine, Takashi and Egbert, send a patch that added
-support for desktop G200s to mgag200. [1] But it was rejected because
-the devices are two old and not relevant any longer. If that opinion has
-changed in the meantime, I wouldn't mind adding support for desktop GPUs
-to the driver.
-
-> - Your helper is based on simple display pipe, and I think for these ol=
-d
->   mga chips (especially the dual pipe mga 450 and 550) simple display p=
-ipe
->   helper is more a hindering detour than actual help. From a quick read=
-
->   through the code (especially all the custom ioctls) you definitely wa=
-nt
->   separate TV-out connector to expose all the tv mode properties (inste=
-ad
->   of the custom ioctls).
-
-Around the G100, there's something like a change in generation. Before,
-devices had only a single output and less than 8 MiB of RAM. This works
-well with GEM SHMEM and simple KMS. Afterwards, devices have 8 MiB or
-more and multiple outputs. GEM VRAM and the full set of helpers fit this
-much better. Maybe having 2 drivers that share common code (or 3 with
-the Server Engine chipsets) makes most sense.
-
->=20
-> - On the topic of ioctls, looks like we could add FBIOGET_VBLANK to our=
-
->   generic implementation in the fbdev helpers.
->=20
-> So here's my alternative proposal:
->=20
-> - You push this as a branch onto a gitlab repo (freedesktop.org or
->   wherever you feel like).
->=20
-> - You add a gitlab CI target to autobuild the very nice kerneldoc you'v=
-e
->   created. Feel free to also do this with anything else you're familiar=
-
->   with, it's just I know gitlab and it's real simple to get a few docs
->   autogenerated and published with it.
->=20
-> - We add a todo.rst patch linking to your branch and the docs and a few=
-
->   lines on how to best convert an fbdev driver over to kms/atomic.
-
-Yes we can do that.
-
-Best regards
-Thomas
-
-[1] https://lists.freedesktop.org/archives/dri-devel/2017-July/147868.htm=
-l
-
->=20
-> And all the drivers would land the usual way, like any of the other
-> drivers we've added to drivers/gpu/drm over the past few years.
->=20
-> Thoughts?
->=20
-> Cheers, Daniel
->>
->> v2:
->> 	* rename to fbconv helpers
->> 	* rewrite as helper library
->> 	* switch over to simple KMS helpers
->> 	* switch over to SHMEM
->> 	* add documentation
->>
->> [1] https://gitlab.freedesktop.org/tzimmermann/linux/commits/fbconv-pl=
-us-drivers
->>
->> Thomas Zimmermann (15):
->>   fbdev: Export fb_check_foreignness()
->>   fbdev: Export FBPIXMAPSIZE
->>   drm/simple-kms-helper: Add mode_fixup() to simple display pipe
->>   drm: Add fbconv helper module
->>   drm/fbconv: Add DRM <-> fbdev pixel-format conversion
->>   drm/fbconv: Add mode conversion DRM <-> fbdev
->>   drm/fbconv: Add modesetting infrastructure
->>   drm/fbconv: Add plane-state check and update
->>   drm/fbconv: Mode-setting pipeline enable / disable
->>   drm/fbconv: Reimplement several fbdev interfaces
->>   drm/fbconv: Add helpers for init and cleanup of fb_info structures
->>   drm/fbconv: Add helper documentation
->>   staging: Add mgakms driver
->>   staging/mgakms: Import matroxfb driver source code
->>   staging/mgakms: Update matroxfb driver code for DRM
->>
->>  Documentation/gpu/drm-kms-helpers.rst     |   12 +
->>  Documentation/gpu/todo.rst                |   15 +
->>  drivers/gpu/drm/Kconfig                   |   11 +
->>  drivers/gpu/drm/Makefile                  |    1 +
->>  drivers/gpu/drm/drm_fbconv_helper.c       | 2126 +++++++++++++++++
->>  drivers/gpu/drm/drm_simple_kms_helper.c   |   15 +
->>  drivers/staging/Kconfig                   |    2 +
->>  drivers/staging/Makefile                  |    1 +
->>  drivers/staging/mgakms/Kconfig            |   18 +
->>  drivers/staging/mgakms/Makefile           |   17 +
->>  drivers/staging/mgakms/g450_pll.c         |  539 +++++
->>  drivers/staging/mgakms/g450_pll.h         |   13 +
->>  drivers/staging/mgakms/i2c-matroxfb.c     |  238 ++
->>  drivers/staging/mgakms/matroxfb_DAC1064.c | 1082 +++++++++
->>  drivers/staging/mgakms/matroxfb_DAC1064.h |  174 ++
->>  drivers/staging/mgakms/matroxfb_Ti3026.c  |  746 ++++++
->>  drivers/staging/mgakms/matroxfb_Ti3026.h  |   10 +
->>  drivers/staging/mgakms/matroxfb_accel.c   |  519 +++++
->>  drivers/staging/mgakms/matroxfb_accel.h   |    9 +
->>  drivers/staging/mgakms/matroxfb_base.c    | 2592 ++++++++++++++++++++=
-+
->>  drivers/staging/mgakms/matroxfb_base.h    |  700 ++++++
->>  drivers/staging/mgakms/matroxfb_crtc2.h   |   35 +
->>  drivers/staging/mgakms/matroxfb_g450.c    |  640 +++++
->>  drivers/staging/mgakms/matroxfb_g450.h    |   10 +
->>  drivers/staging/mgakms/matroxfb_maven.h   |   21 +
->>  drivers/staging/mgakms/matroxfb_misc.c    |  815 +++++++
->>  drivers/staging/mgakms/matroxfb_misc.h    |   22 +
->>  drivers/staging/mgakms/mga_device.c       |   68 +
->>  drivers/staging/mgakms/mga_device.h       |   30 +
->>  drivers/staging/mgakms/mga_drv.c          |  129 +
->>  drivers/staging/mgakms/mga_drv.h          |   14 +
->>  drivers/video/fbdev/core/fbmem.c          |    5 +-
->>  include/drm/drm_fbconv_helper.h           |  150 ++
->>  include/drm/drm_simple_kms_helper.h       |   43 +
->>  include/linux/fb.h                        |    3 +
->>  35 files changed, 10822 insertions(+), 3 deletions(-)
->>  create mode 100644 drivers/gpu/drm/drm_fbconv_helper.c
->>  create mode 100644 drivers/staging/mgakms/Kconfig
->>  create mode 100644 drivers/staging/mgakms/Makefile
->>  create mode 100644 drivers/staging/mgakms/g450_pll.c
->>  create mode 100644 drivers/staging/mgakms/g450_pll.h
->>  create mode 100644 drivers/staging/mgakms/i2c-matroxfb.c
->>  create mode 100644 drivers/staging/mgakms/matroxfb_DAC1064.c
->>  create mode 100644 drivers/staging/mgakms/matroxfb_DAC1064.h
->>  create mode 100644 drivers/staging/mgakms/matroxfb_Ti3026.c
->>  create mode 100644 drivers/staging/mgakms/matroxfb_Ti3026.h
->>  create mode 100644 drivers/staging/mgakms/matroxfb_accel.c
->>  create mode 100644 drivers/staging/mgakms/matroxfb_accel.h
->>  create mode 100644 drivers/staging/mgakms/matroxfb_base.c
->>  create mode 100644 drivers/staging/mgakms/matroxfb_base.h
->>  create mode 100644 drivers/staging/mgakms/matroxfb_crtc2.h
->>  create mode 100644 drivers/staging/mgakms/matroxfb_g450.c
->>  create mode 100644 drivers/staging/mgakms/matroxfb_g450.h
->>  create mode 100644 drivers/staging/mgakms/matroxfb_maven.h
->>  create mode 100644 drivers/staging/mgakms/matroxfb_misc.c
->>  create mode 100644 drivers/staging/mgakms/matroxfb_misc.h
->>  create mode 100644 drivers/staging/mgakms/mga_device.c
->>  create mode 100644 drivers/staging/mgakms/mga_device.h
->>  create mode 100644 drivers/staging/mgakms/mga_drv.c
->>  create mode 100644 drivers/staging/mgakms/mga_drv.h
->>  create mode 100644 include/drm/drm_fbconv_helper.h
->>
->> --
->> 2.23.0
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---vetiopZEuHfbchxGZNIHeDlrkz6zMaIOr--
-
---5VUqdQIYROeNHXTUMY64yOuiNULBt7IlO
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl2mAcoACgkQaA3BHVML
-eiOV9Af/UHqAiq+XxZfRBxD2KFdgxR5gFwI5RPyqr6oZGNstsfqJp6OFlvhlbO0H
-pK69aUgAgAf5oS9HW9c8qkL6emPHt+iyGd23KwPkj9cChpVEpaj5XpHNH0xylthx
-TCCANLBpMcZ7F7F7vPz4HiSACS0Ud6BBa5J48WpinZcLYz/OAA1oo873NdnoTKSI
-SWBf79V+5db3T6tXcMp0N0tjLXBtWHH4EI9j8Ksv+I5AEh0NK2EdwHS0d+IZdpWS
-J9uX5PA9J6k2hnCzV33weo7GRo1sqWWYx0SCQsbYtd5BrC8EsGBwFh1irW9eQALG
-sjlKooKNzLgSMivU/cMAL9kb68htNg==
-=l58t
------END PGP SIGNATURE-----
-
---5VUqdQIYROeNHXTUMY64yOuiNULBt7IlO--
-
---===============0734828238==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0734828238==--
+SGkgVGhvbWFzLAoKVGhhbmsgeW91IGZvciB0aGUgcGF0Y2ghIFBlcmhhcHMgc29tZXRoaW5nIHRv
+IGltcHJvdmU6CgpbYXV0byBidWlsZCB0ZXN0IFdBUk5JTkcgb24gbGludXMvbWFzdGVyXQpbY2Fu
+bm90IGFwcGx5IHRvIHY1LjQtcmMzIG5leHQtMjAxOTEwMTRdCltpZiB5b3VyIHBhdGNoIGlzIGFw
+cGxpZWQgdG8gdGhlIHdyb25nIGdpdCB0cmVlLCBwbGVhc2UgZHJvcCB1cyBhIG5vdGUgdG8gaGVs
+cAppbXByb3ZlIHRoZSBzeXN0ZW0uIEJUVywgd2UgYWxzbyBzdWdnZXN0IHRvIHVzZSAnLS1iYXNl
+JyBvcHRpb24gdG8gc3BlY2lmeSB0aGUKYmFzZSB0cmVlIGluIGdpdCBmb3JtYXQtcGF0Y2gsIHBs
+ZWFzZSBzZWUgaHR0cHM6Ly9zdGFja292ZXJmbG93LmNvbS9hLzM3NDA2OTgyXQoKdXJsOiAgICBo
+dHRwczovL2dpdGh1Yi5jb20vMGRheS1jaS9saW51eC9jb21taXRzL1Rob21hcy1aaW1tZXJtYW5u
+L0RSTS1mYmNvbnYtaGVscGVycy1mb3ItY29udmVydGluZy1mYmRldi1kcml2ZXJzLzIwMTkxMDE1
+LTE1MjIzMQpyZXByb2R1Y2U6CiAgICAgICAgIyBhcHQtZ2V0IGluc3RhbGwgc3BhcnNlCiAgICAg
+ICAgIyBzcGFyc2UgdmVyc2lvbjogdjAuNi4xLWRpcnR5CiAgICAgICAgbWFrZSBBUkNIPXg4Nl82
+NCBhbGxtb2Rjb25maWcKICAgICAgICBtYWtlIEM9MSBDRj0nLWZkaWFnbm9zdGljLXByZWZpeCAt
+RF9fQ0hFQ0tfRU5ESUFOX18nCgpJZiB5b3UgZml4IHRoZSBpc3N1ZSwga2luZGx5IGFkZCBmb2xs
+b3dpbmcgdGFnClJlcG9ydGVkLWJ5OiBrYnVpbGQgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4K
+CgpzcGFyc2Ugd2FybmluZ3M6IChuZXcgb25lcyBwcmVmaXhlZCBieSA+PikKCj4+IGRyaXZlcnMv
+Z3B1L2RybS9kcm1fZmJjb252X2hlbHBlci5jOjk4MTozOTogc3BhcnNlOiBzcGFyc2U6IGluY29y
+cmVjdCB0eXBlIGluIGFyZ3VtZW50IDEgKGRpZmZlcmVudCBhZGRyZXNzIHNwYWNlcykgQEAgICAg
+ZXhwZWN0ZWQgdm9pZCBbbm9kZXJlZl0gPGFzbjoyPiAqZHN0IEBAICAgIGdvdCBuOjI+ICpkc3Qg
+QEAKPj4gZHJpdmVycy9ncHUvZHJtL2RybV9mYmNvbnZfaGVscGVyLmM6OTgxOjM5OiBzcGFyc2U6
+ICAgIGV4cGVjdGVkIHZvaWQgW25vZGVyZWZdIDxhc246Mj4gKmRzdAo+PiBkcml2ZXJzL2dwdS9k
+cm0vZHJtX2ZiY29udl9oZWxwZXIuYzo5ODE6Mzk6IHNwYXJzZTogICAgZ290IHZvaWQgKmRzdAog
+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2ZiY29udl9oZWxwZXIuYzo5ODU6NTE6IHNwYXJzZTogc3Bh
+cnNlOiBpbmNvcnJlY3QgdHlwZSBpbiBhcmd1bWVudCAxIChkaWZmZXJlbnQgYWRkcmVzcyBzcGFj
+ZXMpIEBAICAgIGV4cGVjdGVkIHZvaWQgW25vZGVyZWZdIDxhc246Mj4gKmRzdCBAQCAgICBnb3Qg
+bjoyPiAqZHN0IEBACiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZmJjb252X2hlbHBlci5jOjk4NTo1
+MTogc3BhcnNlOiAgICBleHBlY3RlZCB2b2lkIFtub2RlcmVmXSA8YXNuOjI+ICpkc3QKICAgZHJp
+dmVycy9ncHUvZHJtL2RybV9mYmNvbnZfaGVscGVyLmM6OTg1OjUxOiBzcGFyc2U6ICAgIGdvdCB2
+b2lkICpkc3QKICAgZHJpdmVycy9ncHUvZHJtL2RybV9mYmNvbnZfaGVscGVyLmM6OTkwOjUxOiBz
+cGFyc2U6IHNwYXJzZTogaW5jb3JyZWN0IHR5cGUgaW4gYXJndW1lbnQgMSAoZGlmZmVyZW50IGFk
+ZHJlc3Mgc3BhY2VzKSBAQCAgICBleHBlY3RlZCB2b2lkIFtub2RlcmVmXSA8YXNuOjI+ICpkc3Qg
+QEAgICAgZ290IG46Mj4gKmRzdCBAQAogICBkcml2ZXJzL2dwdS9kcm0vZHJtX2ZiY29udl9oZWxw
+ZXIuYzo5OTA6NTE6IHNwYXJzZTogICAgZXhwZWN0ZWQgdm9pZCBbbm9kZXJlZl0gPGFzbjoyPiAq
+ZHN0CiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZmJjb252X2hlbHBlci5jOjk5MDo1MTogc3BhcnNl
+OiAgICBnb3Qgdm9pZCAqZHN0Cj4+IGRyaXZlcnMvZ3B1L2RybS9kcm1fZmJjb252X2hlbHBlci5j
+OjEyOTE6MjE6IHNwYXJzZTogc3BhcnNlOiBpbmNvcnJlY3QgdHlwZSBpbiBhc3NpZ25tZW50IChk
+aWZmZXJlbnQgYWRkcmVzcyBzcGFjZXMpIEBAICAgIGV4cGVjdGVkIHZvaWQgKnNjcmVlbl9iYXNl
+IEBAICAgIGdvdCBjaGFyIFtub2RlcmVmXSA8YXN2b2lkICpzY3JlZW5fYmFzZSBAQAo+PiBkcml2
+ZXJzL2dwdS9kcm0vZHJtX2ZiY29udl9oZWxwZXIuYzoxMjkxOjIxOiBzcGFyc2U6ICAgIGV4cGVj
+dGVkIHZvaWQgKnNjcmVlbl9iYXNlCj4+IGRyaXZlcnMvZ3B1L2RybS9kcm1fZmJjb252X2hlbHBl
+ci5jOjEyOTE6MjE6IHNwYXJzZTogICAgZ290IGNoYXIgW25vZGVyZWZdIDxhc246Mj4gKnNjcmVl
+bl9iYXNlCj4+IGRyaXZlcnMvZ3B1L2RybS9kcm1fZmJjb252X2hlbHBlci5jOjEyOTQ6Mjk6IHNw
+YXJzZTogc3BhcnNlOiBpbmNvcnJlY3QgdHlwZSBpbiBhc3NpZ25tZW50IChkaWZmZXJlbnQgYWRk
+cmVzcyBzcGFjZXMpIEBAICAgIGV4cGVjdGVkIHZvaWQgKnNjcmVlbl9iYXNlIEBAICAgIGdvdCB2
+b2lkIFtub2RlcmVmXSA8YXN2b2lkICpzY3JlZW5fYmFzZSBAQAogICBkcml2ZXJzL2dwdS9kcm0v
+ZHJtX2ZiY29udl9oZWxwZXIuYzoxMjk0OjI5OiBzcGFyc2U6ICAgIGV4cGVjdGVkIHZvaWQgKnNj
+cmVlbl9iYXNlCj4+IGRyaXZlcnMvZ3B1L2RybS9kcm1fZmJjb252X2hlbHBlci5jOjEyOTQ6Mjk6
+IHNwYXJzZTogICAgZ290IHZvaWQgW25vZGVyZWZdIDxhc246Mj4gKgo+PiBkcml2ZXJzL2dwdS9k
+cm0vZHJtX2ZiY29udl9oZWxwZXIuYzoxMzE4OjI1OiBzcGFyc2U6IHNwYXJzZTogaW5jb3JyZWN0
+IHR5cGUgaW4gYXJndW1lbnQgMSAoZGlmZmVyZW50IGFkZHJlc3Mgc3BhY2VzKSBAQCAgICBleHBl
+Y3RlZCB2b2lkIHZvbGF0aWxlIFtub2RlcmVmXSA8YXNuOjI+ICphZGRyIEBAICAgIGdvdCBuOjI+
+ICphZGRyIEBACj4+IGRyaXZlcnMvZ3B1L2RybS9kcm1fZmJjb252X2hlbHBlci5jOjEzMTg6MjU6
+IHNwYXJzZTogICAgZXhwZWN0ZWQgdm9pZCB2b2xhdGlsZSBbbm9kZXJlZl0gPGFzbjoyPiAqYWRk
+cgo+PiBkcml2ZXJzL2dwdS9kcm0vZHJtX2ZiY29udl9oZWxwZXIuYzoxMzE4OjI1OiBzcGFyc2U6
+ICAgIGdvdCB2b2lkICpzY3JlZW5fYmFzZQogICBkcml2ZXJzL2dwdS9kcm0vZHJtX2ZiY29udl9o
+ZWxwZXIuYzoxMzQ2OjM4OiBzcGFyc2U6IHNwYXJzZTogaW5jb3JyZWN0IHR5cGUgaW4gYXJndW1l
+bnQgMSAoZGlmZmVyZW50IGFkZHJlc3Mgc3BhY2VzKSBAQCAgICBleHBlY3RlZCB2b2lkIHZvbGF0
+aWxlIFtub2RlcmVmXSA8YXNuOjI+ICphZGRyIEBAICAgIGdvdCBuOjI+ICphZGRyIEBACiAgIGRy
+aXZlcnMvZ3B1L2RybS9kcm1fZmJjb252X2hlbHBlci5jOjEzNDY6Mzg6IHNwYXJzZTogICAgZXhw
+ZWN0ZWQgdm9pZCB2b2xhdGlsZSBbbm9kZXJlZl0gPGFzbjoyPiAqYWRkcgogICBkcml2ZXJzL2dw
+dS9kcm0vZHJtX2ZiY29udl9oZWxwZXIuYzoxMzQ2OjM4OiBzcGFyc2U6ICAgIGdvdCB2b2lkICpz
+Y3JlZW5fYmFzZQoKdmltICs5ODEgZHJpdmVycy9ncHUvZHJtL2RybV9mYmNvbnZfaGVscGVyLmMK
+CiAgIDk1NgkKICAgOTU3CS8qKgogICA5NTgJICogZHJtX2ZiY29udl9ibGl0X3JlY3QgLSBjb3B5
+IGFuIGFyZWEgb2YgcGl4ZWwgZGF0YSBmcm9tIGEgZnJhbWVidWZmZXIKICAgOTU5CSAqCXRvIHRo
+ZSBoYXJkd2FyZSBidWZmZXIKICAgOTYwCSAqIEBkc3Q6CXRoZSBvbi1zY3JlZW4gaGFyZHdhcmUg
+YnVmZmVyCiAgIDk2MQkgKiBAdmFkZHI6CXRoZSBzb3VyY2UgYnVmZmVyIGluIGtlcm5lbCBhZGRy
+ZXNzIHNwYWNlCiAgIDk2MgkgKiBAZmI6CQl0aGUgZnJhbWVidWZmZXIgb2YgdGhlIHNvdXJjZSBi
+dWZmZXIKICAgOTYzCSAqIEByZWN0Ogl0aGUgYXJlYSB0byBjb3B5CiAgIDk2NAkgKiBSZXR1cm5z
+OgogICA5NjUJICoJMCBvbiBzdWNjZXNzLCBvcgogICA5NjYJICoJYSBuZWdhdGl2ZSBlcnJvciBj
+b2RlIG90aGVyd2lzZS4KICAgOTY3CSAqCiAgIDk2OAkgKiBUaGlzIGZ1bmN0aW9uIGNvcGllcyB0
+aGUgcGl4ZWwgZGF0YSBmcm9tIGEgRFJNIGZyYW1lYnVmZmVyIHRvIGEgaGFyZHdhcmUKICAgOTY5
+CSAqIGJ1ZmZlcjsgZG9pbmcgbmVjZXNzYXJ5IGZvcm1hdCBjb252ZXJzaW9uIGluIHRoZSBwcm9j
+ZXNzLiBOb3QgYWxsCiAgIDk3MAkgKiBjb21iaW5hdGlvbnMgb2Ygc291cmNlIGFuZCBkZXN0aW5h
+dGlvbiBmb3JtYXRzIGFyZSBjdXJyZW50bHkgc3VwcG9ydGVkLgogICA5NzEJICovCiAgIDk3Mglp
+bnQgZHJtX2ZiY29udl9ibGl0X3JlY3Qodm9pZCAqZHN0LCB2b2lkICp2YWRkciwgc3RydWN0IGRy
+bV9mcmFtZWJ1ZmZlciAqZmIsCiAgIDk3MwkJCQkgc3RydWN0IGRybV9yZWN0ICpyZWN0KQogICA5
+NzQJewogICA5NzUJCXN0cnVjdCBkcm1fZGV2aWNlICpkZXYgPSBmYi0+ZGV2OwogICA5NzYJCiAg
+IDk3NwkJaWYgKCF2YWRkcikKICAgOTc4CQkJcmV0dXJuIDA7IC8qIG5vIGZyYW1lYnVmZmVyIHNl
+dCBmb3IgcGxhbmU7IG5vIGVycm9yICovCiAgIDk3OQkKICAgOTgwCQlpZiAoZGV2LT5tb2RlX2Nv
+bmZpZy5wcmVmZXJyZWRfZGVwdGggPT0gKGZiLT5mb3JtYXQtPmNwcFswXSAqIDgpKQogPiA5ODEJ
+CQlkcm1fZmJfbWVtY3B5X2RzdGNsaXAoZHN0LCB2YWRkciwgZmIsIHJlY3QpOwogICA5ODIJCiAg
+IDk4MwkJZWxzZSBpZiAoZmItPmZvcm1hdC0+Y3BwWzBdID09IDQgJiYKICAgOTg0CQkJIGRldi0+
+bW9kZV9jb25maWcucHJlZmVycmVkX2RlcHRoID09IDE2KQogPiA5ODUJCQlkcm1fZmJfeHJnYjg4
+ODhfdG9fcmdiNTY1X2RzdGNsaXAoZHN0LCBmYi0+cGl0Y2hlc1swXSwKICAgOTg2CQkJCQkJCSAg
+dmFkZHIsIGZiLCByZWN0LCBmYWxzZSk7CiAgIDk4NwkKICAgOTg4CQllbHNlIGlmIChmYi0+Zm9y
+bWF0LT5jcHBbMF0gPT0gNCAmJgogICA5ODkJCQkgZGV2LT5tb2RlX2NvbmZpZy5wcmVmZXJyZWRf
+ZGVwdGggPT0gMjQpCiA+IDk5MAkJCWRybV9mYl94cmdiODg4OF90b19yZ2I4ODhfZHN0Y2xpcChk
+c3QsIGZiLT5waXRjaGVzWzBdLAogICA5OTEJCQkJCQkJICB2YWRkciwgZmIsIHJlY3QpOwogICA5
+OTIJCiAgIDk5MwkJZWxzZSB7CiAgIDk5NAkJCS8qIFRPRE86IGFkZCB0aGUgbWlzc2luZyBjb252
+ZXJzaW9uICovCiAgIDk5NQkJCURSTV9FUlJPUigiZmJjb252OiBtaXNtYXRjaGluZyBwaXhlbCBm
+b3JtYXRzXG4iKTsKICAgOTk2CQkJcmV0dXJuIC1FSU5WQUw7CiAgIDk5NwkJfQogICA5OTgJCiAg
+IDk5OQkJcmV0dXJuIDA7CiAgMTAwMAl9CiAgMTAwMQlFWFBPUlRfU1lNQk9MKGRybV9mYmNvbnZf
+YmxpdF9yZWN0KTsKICAxMDAyCQoKLS0tCjAtREFZIGtlcm5lbCB0ZXN0IGluZnJhc3RydWN0dXJl
+ICAgICAgICAgICAgICAgIE9wZW4gU291cmNlIFRlY2hub2xvZ3kgQ2VudGVyCmh0dHBzOi8vbGlz
+dHMuMDEub3JnL3BpcGVybWFpbC9rYnVpbGQtYWxsICAgICAgICAgICAgICAgICAgIEludGVsIENv
+cnBvcmF0aW9uCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
