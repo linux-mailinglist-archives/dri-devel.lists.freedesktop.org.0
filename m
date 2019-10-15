@@ -2,20 +2,20 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F99D8359
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2019 00:11:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C739ED835B
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2019 00:12:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8ACB6E89A;
-	Tue, 15 Oct 2019 22:11:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7115A6E89C;
+	Tue, 15 Oct 2019 22:12:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71B416E89A
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2019 22:11:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2D1D6E89C
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2019 22:12:20 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 204241] amdgpu fails to resume from suspend
-Date: Tue, 15 Oct 2019 22:11:53 +0000
+Date: Tue, 15 Oct 2019 22:12:20 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -31,7 +31,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
-Message-ID: <bug-204241-2300-Il0J5E2Vft@https.bugzilla.kernel.org/>
+Message-ID: <bug-204241-2300-zQ060co58s@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-204241-2300@https.bugzilla.kernel.org/>
 References: <bug-204241-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -60,14 +60,13 @@ aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQyNDEKCkFsZXgg
 RGV1Y2hlciAoYWxleGRldWNoZXJAZ21haWwuY29tKSBjaGFuZ2VkOgoKICAgICAgICAgICBXaGF0
 ICAgIHxSZW1vdmVkICAgICAgICAgICAgICAgICAgICAgfEFkZGVkCi0tLS0tLS0tLS0tLS0tLS0t
 LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0KIEF0dGFjaG1lbnQgIzI4NTQ3M3wwICAgICAgICAgICAgICAgICAgICAgICAgICAgfDEKICAg
+LS0KIEF0dGFjaG1lbnQgIzI4NTQ3NXwwICAgICAgICAgICAgICAgICAgICAgICAgICAgfDEKICAg
 ICAgICBpcyBvYnNvbGV0ZXwgICAgICAgICAgICAgICAgICAgICAgICAgICAgfAoKLS0tIENvbW1l
-bnQgIzI5IGZyb20gQWxleCBEZXVjaGVyIChhbGV4ZGV1Y2hlckBnbWFpbC5jb20pIC0tLQpDcmVh
-dGVkIGF0dGFjaG1lbnQgMjg1NTA3CiAgLS0+IGh0dHBzOi8vYnVnemlsbGEua2VybmVsLm9yZy9h
-dHRhY2htZW50LmNnaT9pZD0yODU1MDcmYWN0aW9uPWVkaXQKcG9zc2libGUgZml4IGZvciB1dmQ2
-CgpUaGUgc2Vzc2lvbiBpbmZvIGlzIDEyOEsgYWNjb3JkaW5nIHRvIG1lc2EuCgotLSAKWW91IGFy
-ZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2ln
-bmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbA==
+bnQgIzMwIGZyb20gQWxleCBEZXVjaGVyIChhbGV4ZGV1Y2hlckBnbWFpbC5jb20pIC0tLQpDcmVh
+dGVkIGF0dGFjaG1lbnQgMjg1NTA5CiAgLS0+IGh0dHBzOi8vYnVnemlsbGEua2VybmVsLm9yZy9h
+dHRhY2htZW50LmNnaT9pZD0yODU1MDkmYWN0aW9uPWVkaXQKcG9zc2libGUgZml4IHV2ZDcKClVw
+ZGF0ZWQgcGF0Y2ggZm9yIHV2ZDcKCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVj
+YXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
