@@ -1,43 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4167AD7EFD
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2019 20:28:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9617D7F15
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2019 20:33:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D38C66E87C;
-	Tue, 15 Oct 2019 18:28:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 566A96E3A0;
+	Tue, 15 Oct 2019 18:33:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 226216E87C
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2019 18:28:34 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 15 Oct 2019 11:28:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,300,1566889200"; d="scan'208";a="279275250"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga001.jf.intel.com with SMTP; 15 Oct 2019 11:28:28 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 15 Oct 2019 21:28:27 +0300
-Date: Tue, 15 Oct 2019 21:28:27 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v2 00/15] DRM fbconv helpers for converting fbdev drivers
-Message-ID: <20191015182827.GJ1208@intel.com>
-References: <20191014140416.28517-1-tzimmermann@suse.de>
- <20191015143318.GP11828@phenom.ffwll.local>
- <5241e699-f66a-d212-03a5-bb736639e66b@suse.de>
- <CAKMK7uGTAxYNhS7TqEFVA+Gd+-4WOMq7JXPZRF8_a9EP69TkTQ@mail.gmail.com>
- <20191015181337.GG1208@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1A9E66E3A0
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2019 18:33:18 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 178D87296E; Tue, 15 Oct 2019 18:33:18 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109389] memory leak in `amdgpu_bo_create()`
+Date: Tue, 15 Oct 2019 18:33:18 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: czbd@o2.pl
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109389-502-EUFDGE4JZE@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109389-502@http.bugs.freedesktop.org/>
+References: <bug-109389-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191015181337.GG1208@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,133 +52,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Dave Airlie <airlied@linux.ie>, Greg KH <gregkh@linuxfoundation.org>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
- Jonathan Corbet <corbet@lwn.net>, Mathieu Malaterre <malat@debian.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1156341813=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBPY3QgMTUsIDIwMTkgYXQgMDk6MTM6MzdQTSArMDMwMCwgVmlsbGUgU3lyasOkbMOk
-IHdyb3RlOgo+IE9uIFR1ZSwgT2N0IDE1LCAyMDE5IGF0IDA3OjQ4OjI5UE0gKzAyMDAsIERhbmll
-bCBWZXR0ZXIgd3JvdGU6Cj4gPiBPbiBUdWUsIE9jdCAxNSwgMjAxOSBhdCA3OjI4IFBNIFRob21h
-cyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPiB3cm90ZToKPiA+ID4KPiA+ID4gSGkg
-RGFuaWVsCj4gPiA+Cj4gPiA+IEFtIDE1LjEwLjE5IHVtIDE2OjMzIHNjaHJpZWIgRGFuaWVsIFZl
-dHRlcjoKPiA+ID4gPiBIaSBUaG9tYXMsCj4gPiA+ID4KPiA+ID4gPiBPbiBNb24sIE9jdCAxNCwg
-MjAxOSBhdCAwNDowNDowMVBNICswMjAwLCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToKPiA+ID4g
-Pj4gKHdhczogRFJNIGRyaXZlciBmb3IgZmJkZXYgZGV2aWNlcykKPiA+ID4gPj4KPiA+ID4gPj4g
-VGhpcyBpcyB2ZXJzaW9uIDIgb2YgdGhlIGZiZGV2IGNvbnZlcnNpb24gaGVscGVycy4gSXQncyBt
-b3JlIG9yIGxlc3MgYQo+ID4gPiA+PiByZXdyaXRlIG9mIHRoZSBvcmlnaW5hbCBwYXRjaHNldC4K
-PiA+ID4gPj4KPiA+ID4gPj4gVGhlIGZiZGV2IHN1YnN5c3RlbSBpcyBjb25zaWRlcmVkIGxlZ2Fj
-eSBhbmQgd2lsbCBwcm9iYWJseSBiZSByZW1vdmVkIGF0Cj4gPiA+ID4+IHNvbWUgcG9pbnQuIFRo
-aXMgd291bGQgbWVhbiB0aGUgbG9zcyBvZiBhIHNpZ25pZmFuY3QgbnVtYmVyIG9mIGRyaXZlcnMu
-Cj4gPiA+ID4+IFNvbWUgb2YgdGhlIGFmZmVjdGVkIGhhcmR3YXJlIGlzIG5vdCBpbiB1c2UgYW55
-IGxvbmdlciwgYnV0IHNvbWUgaGFyZHdhcmUKPiA+ID4gPj4gaXMgc3RpbGwgYXJvdW5kIGFuZCBw
-cm92aWRlcyBnb29kKC1lbm91Z2gpIGZyYW1lYnVmZmVycy4KPiA+ID4gPj4KPiA+ID4gPj4gVGhl
-IGZiY29udiBoZWxwZXJzIGFsbG93IGZvciBydW5uaW5nIHRoZSBjdXJyZW50IERSTSBzdGFjayBv
-biB0b3Agb2YgZmJkZXYKPiA+ID4gPj4gZHJpdmVycy4gSXQncyBhIHNldCBvZiBmdW5jdGlvbnMg
-dGhhdCBjb252ZXJ0IGJldHdlZW4gZmJkZXYgaW50ZXJmYWNlcyBhbmQKPiA+ID4gPj4gRFJNIGlu
-dGVyZmFjZXMuIEJhc2VkIG9uIFNITUVNIGFuZCBzaW1wbGUgS01TIGhlbHBlcnMsIGl0IG9ubHkg
-b2ZmZXJzIHRoZQo+ID4gPiA+PiBiYXNpYyBmdW5jdGlvbmFsaXR5IG9mIGEgZnJhbWVidWZmZXIs
-IGJ1dCBzaG91bGQgYmUgY29tcGF0aWJsZSB3aXRoIG1vc3QKPiA+ID4gPj4gZXhpc3RpbmcgZmJk
-ZXYgZHJpdmVycy4KPiA+ID4gPj4KPiA+ID4gPj4gQSBEUk0gZHJpdmVyIHVzaW5nIGZiY29udiBo
-ZWxwZXJzIGNvbnNpc3RzIG9mCj4gPiA+ID4+Cj4gPiA+ID4+ICAgKiBEUk0gc3R1YiBjb2RlIHRo
-YXQgY2FsbHMgaW50byBmYmNvbnYgaGVscGVycywgYW5kCj4gPiA+ID4+ICAgKiB0aGUgb3JpZ2lu
-YWwgZmJkZXYgZHJpdmVyIGNvZGUuCj4gPiA+ID4+Cj4gPiA+ID4+IFRoZSBmYmRldiBkcml2ZXIg
-Y29kZSBoYXMgdG8gYmUgbW9kaWZpZWQgdG8gcmVnaXN0ZXIgaXRzZWxmIHdpdGggdGhlCj4gPiA+
-ID4+IHN0dWIgZHJpdmVyIGluc3RlYWQgb2YgdGhlIGZiZGV2IGNvcmUgZnJhbWV3b3JrLiBBIHR1
-dG9yaWFsIG9uIGhvdyB0byB1c2UKPiA+ID4gPj4gdGhlIGhlbHBlcnMgaXMgcGFydCBvZiB0aGlz
-IHBhdGNoc2V0LiBUaGUgcmVzdWx0aW5nIGRyaXZlciBoeWJyaWQgY2FuIGJlCj4gPiA+ID4+IHJl
-ZmFjdG9yZWQgaW50byBhIGZpcnN0LWNsYXNzIERSTSBkcml2ZXIuIFRoZSBmYmNvbnYgaGVscGVy
-cyBjb250YWluIGEKPiA+ID4gPj4gbnVtYmVyIG9mIGNvbW1lbnRzLCBsYWJlbGVkICdEUk0gcG9y
-dGluZyBub3RlJywgd2hpY2ggZXhwbGFpbiB0aGUgcmVxdWlyZWQKPiA+ID4gPj4gc3RlcHMuCj4g
-PiA+ID4+Cj4gPiA+ID4+IEkgdGVzdGVkIHRoZSBjdXJyZW50IHBhdGNoc2V0IHdpdGggdGhlIGZv
-bGxvd2luZyBkcml2ZXJzOiBhdHlmYiwgYXR5MTI4ZmIsCj4gPiA+ID4+IG1hdHJveGZiLCBwbTJm
-YiwgcG0zZmIsIHJpdmFmYiwgczNmYiwgc2F2YWdlZmIsIHNpc2ZiLCB0ZGZ4ZmIgYW5kIHRyaWRl
-bnRmYi4KPiA+ID4gPj4gV2l0aCBlYWNoLCBJIHdhcyBhYmxlIHRvIHN1Y2Nlc3NmdWxseSBzdGFy
-dCB3aXRoIGZiY29uIGVuYWJsZWQsIHJ1biB3ZXN0b24gYW5kCj4gPiA+ID4+IFgxMS4gVGhlIGRy
-aXZlcnMgYXJlIGF2YWlsYWJsZSBhdCBbMV0uIEZvciByZWZlcmVuY2UsIHRoZSBwYXRjaHNldCBp
-bmNsdWRlcwo+ID4gPiA+PiB0aGUgTWF0cm94IHN0dWIgZHJpdmVyLgo+ID4gPiA+Cj4gPiA+ID4g
-U28gSSByZWFsbHkgZG9uJ3Qgd2FudCB0byByYWluIG9uIHRoZSBwYXJhZGUgaGVyZSwgc2luY2Ug
-aWYgeW91IHRoaW5rIHRoaXMKPiA+ID4gPiBpcyB1c2VmdWwgd2hlbiBjb252ZXJ0aW5nIGZiZGV2
-IGRyaXZlcnMgSSdsbCBidXkgdGhhdCwgYW5kIEknbSBhbGwgZm9yCj4gPiA+ID4gZ2V0dGluZyBt
-b3JlIG1vZGVybiBkcml2ZXJzIGludG8gZHJtLgo+ID4gPiA+Cj4gPiA+ID4gQnV0IEkgaGF2ZSBh
-IGJ1bmNoIG9mIGNvbmNlcm5zIHdpdGggdGhlIGFwcHJvYWNoIHlvdSdyZSBwcm9wb3NpbmcgaGVy
-ZToKPiA+ID4gPgo+ID4gPiA+IC0gd2UndmUgdHJpZWQgc3RhZ2luZyBmb3IgZHJtIGRyaXZlciBy
-ZWZhY3RvcmluZywgaXQgaHVydHMuIFNlcGFyYXRlIHRyZWUKPiA+ID4gPiAgIHBsdXMgdGhlIHF1
-aWNrIHBhY2UgaW4gcmVmYWN0b3JpbmcgY3JlYXRlIGxvdHMgb2YgcGFpbnMuIEFuZCBmb3Igc21h
-bGwKPiA+ID4gPiAgIGRyaXZlcnMgcmVmYWNvdG9yaW5nIGJlZm9yZSBpdCdzIG5vdCBidXlpbmcg
-eW91IGFueXRoaW5nIGFib3ZlCj4gPiA+ID4gICByZWZhY3RvcmluZyBpbiB5b3VyIG93biBwZXJz
-b25hbCB0cmVlLiBBbmQgZm9yIGJpZyBkcml2ZXJzIHdlJ3JlIGZhaXJseQo+ID4gPiA+ICAgbGVu
-aWVudCB3aXRoIG1lcmdpbmcgZHJpdmVycyB0aGF0IGFyZW4ndCBmdWxseSBwb2xpc2hlZCB5ZXQs
-IGlmIHRoZXJlJ3MKPiA+ID4gPiAgIGEgdGVhbSBzZXJpb3VzIGVub3VnaCB3aXRoIGNsZWFuaW5n
-IHVwIHRoZSBtZXNzLiBJIHRoaW5rIGV2ZW4gbWVyZ2luZwo+ID4gPiA+ICAgcGFydGlhbCBkcml2
-ZXJzIGRpcmVjdGx5IHVuZGVyIGRyaXZlcnMvZ3B1IChidXQgYmVoaW5kIENPTkZJR19CUk9LRU4p
-IGlzCj4gPiA+ID4gICBiZXR0ZXIgdGhhbiBzdGFnaW5nLgo+ID4gPgo+ID4gPiBJIG1vc3RseSBw
-dXQgdGhpcyBpbnRvIHN0YWdpbmcsIGJlY2F1c2UgaXQncyB0aGUga2luZCBvZiBjb2RlIHlvdSdk
-Cj4gPiA+IGV4cGVjdCB0aGVyZS4KPiA+IAo+ID4gWWVhaCwgZXhjZXB0IHdlIHRyaWVkLCBpdCdz
-IGEgcmVhbCBwYWluLiBDb25jbHVzaW9uIGJ5IGV2ZXJ5b25lCj4gPiBpbnZvbHZlZCBpcyB0aGF0
-IHN0YWdpbmcgZG9lc24ndCB3b3JrIGZvciB0aGUgZHJtIHN1YnN5c3RlbS4KPiA+IAo+ID4gPiA+
-IC0gd2UndmUgaGFkIGNvbnZlcnNpb24gaGVscGVycyBiZWZvcmUgKGZvciB0aGUgbGVnYWN5IGtt
-cyAtPiBhdG9taWMKPiA+ID4gPiAgIHVwZ3JhZGUpLiBUaGV5IGNvbnN0YW50bHkgYnJva2UsIHBy
-ZXR0eSBtdWNoIGV2ZXJ5IHJlbGVhc2Ugd2hlbiBzb21lb25lCj4gPiA+ID4gICB3YW50ZWQgdG8g
-dXNlIHRoZW0gdGhleSBmaXJzdCBoYWQgdG8gZml4IHRoZW0gdXAgYWdhaW4uIEkgdGhpbmsgaGF2
-aW5nCj4gPiA+ID4gICB0aG9zZSBoZWxwZXJzIGlzIGdvb2QsIGJ1dCBiZXR0ZXIgdG8ganVzdCBo
-YXZlIHRoZW0gaW4gc29tZSBicmFuY2gKPiA+ID4gPiAgIHNvbWV3aGVyZSB3aGVyZSBpdCdzIGNs
-ZWFyIHRoYXQgdGhleSBtaWdodCBub3Qgd29yayBhbnltb3JlIG9uIGxhdGVzdAo+ID4gPiA+ICAg
-dXBzdHJlYW0uCj4gPiA+ID4KPiA+ID4gPiAtIGVzcGVjaWFsbHkgZm9yIHNvbWUgb2YgdGhlc2Ug
-c2ltcGxlIGZiZGV2IGRyaXZlcnMgSSBmZWVsIGxpa2UganVzdAo+ID4gPiA+ICAgdHlwaW5nIGEg
-bmV3IGRyaXZlciBmcm9tIHNjcmF0Y2ggbWlnaHQgYmUgc2ltcGxlci4KPiA+ID4gPgo+ID4gPiA+
-IEEgZmV3IG1vcmUgY29uY2VybnMgc3BlY2lmaWNhbGx5IGZvciB5b3VyIG1nYSBleGFtcGxlOgo+
-ID4gPiA+Cj4gPiA+ID4gLSBXZSBhbHJlYWR5IGhhdmUgYSBtZ2EgZHJpdmVyLiBNaWdodCBiZSBi
-ZXR0ZXIgdG8gaW50ZWdyYXRlIHN1cHBvcnQgZm9yCj4gPiA+ID4gICBvbGRlciBtZ2FzIGludG8g
-dGhhdCB0aGFuIGhhdmUgYSBwYXJhbGxlbCBkcml2ZXIuCj4gPiA+Cj4gPiA+IFR3byBjb2xsZWFn
-dWVzIG9mIG1pbmUsIFRha2FzaGkgYW5kIEVnYmVydCwgc2VuZCBhIHBhdGNoIHRoYXQgYWRkZWQK
-PiA+ID4gc3VwcG9ydCBmb3IgZGVza3RvcCBHMjAwcyB0byBtZ2FnMjAwLiBbMV0gQnV0IGl0IHdh
-cyByZWplY3RlZCBiZWNhdXNlCj4gPiA+IHRoZSBkZXZpY2VzIGFyZSB0d28gb2xkIGFuZCBub3Qg
-cmVsZXZhbnQgYW55IGxvbmdlci4gSWYgdGhhdCBvcGluaW9uIGhhcwo+ID4gPiBjaGFuZ2VkIGlu
-IHRoZSBtZWFudGltZSwgSSB3b3VsZG4ndCBtaW5kIGFkZGluZyBzdXBwb3J0IGZvciBkZXNrdG9w
-IEdQVXMKPiA+ID4gdG8gdGhlIGRyaXZlci4KPiA+IAo+ID4gSG0gdGhhdCBzZWVtcyB0byBoYXZl
-IHBldGVyZWQgb3V0IGluY29uY2x1c2l2ZS4gSSBkZWZpbml0ZWx5IHRoaW5rIGEKPiA+IG1lcmdl
-ZCBtZ2EgZHJpdmVyIGlzIGJldHRlciB0aGFuIDIgZHJtIGF0b21pYyBrbXMgZHJpdmVycyBmb3Ig
-cm91Z2hseQo+ID4gdGhlIHNhbWUgaGFyZHdhcmUuIEknbSBhbHNvIGFzc3VtaW5nIHRoYXQgYXQg
-bGVhc3QgZm9yIG5vdyBubyBvbmUKPiA+IHBsYW5zIHRvIHJlc3VycmVjdCB0aGUgM2QgYWNjZWxl
-cmF0aW9uIHN1cHBvcnQgZm9yIHRoZXNlIG9sZCBjaGlwcy4KPiA+IEJ1dCBldmVuIHRoZW4gaXQn
-cyBmYWlybHkgZWFzeSB0byBkaXNhYmxlIGFsbCB0aGF0IG9uIHRoZSBzZXJ2ZXIKPiA+IGNoaXBz
-Lgo+ID4gCj4gPiA+ID4gLSBZb3VyIGhlbHBlciBpcyBiYXNlZCBvbiBzaW1wbGUgZGlzcGxheSBw
-aXBlLCBhbmQgSSB0aGluayBmb3IgdGhlc2Ugb2xkCj4gPiA+ID4gICBtZ2EgY2hpcHMgKGVzcGVj
-aWFsbHkgdGhlIGR1YWwgcGlwZSBtZ2EgNDUwIGFuZCA1NTApIHNpbXBsZSBkaXNwbGF5IHBpcGUK
-PiA+ID4gPiAgIGhlbHBlciBpcyBtb3JlIGEgaGluZGVyaW5nIGRldG91ciB0aGFuIGFjdHVhbCBo
-ZWxwLiBGcm9tIGEgcXVpY2sgcmVhZAo+ID4gPiA+ICAgdGhyb3VnaCB0aGUgY29kZSAoZXNwZWNp
-YWxseSBhbGwgdGhlIGN1c3RvbSBpb2N0bHMpIHlvdSBkZWZpbml0ZWx5IHdhbnQKPiA+ID4gPiAg
-IHNlcGFyYXRlIFRWLW91dCBjb25uZWN0b3IgdG8gZXhwb3NlIGFsbCB0aGUgdHYgbW9kZSBwcm9w
-ZXJ0aWVzIChpbnN0ZWFkCj4gPiA+ID4gICBvZiB0aGUgY3VzdG9tIGlvY3RscykuCj4gPiA+Cj4g
-PiA+IEFyb3VuZCB0aGUgRzEwMCwgdGhlcmUncyBzb21ldGhpbmcgbGlrZSBhIGNoYW5nZSBpbiBn
-ZW5lcmF0aW9uLiBCZWZvcmUsCj4gPiA+IGRldmljZXMgaGFkIG9ubHkgYSBzaW5nbGUgb3V0cHV0
-IGFuZCBsZXNzIHRoYW4gOCBNaUIgb2YgUkFNLiBUaGlzIHdvcmtzCj4gPiA+IHdlbGwgd2l0aCBH
-RU0gU0hNRU0gYW5kIHNpbXBsZSBLTVMuIEFmdGVyd2FyZHMsIGRldmljZXMgaGF2ZSA4IE1pQiBv
-cgo+ID4gPiBtb3JlIGFuZCBtdWx0aXBsZSBvdXRwdXRzLiBHRU0gVlJBTSBhbmQgdGhlIGZ1bGwg
-c2V0IG9mIGhlbHBlcnMgZml0IHRoaXMKPiA+ID4gbXVjaCBiZXR0ZXIuIE1heWJlIGhhdmluZyAy
-IGRyaXZlcnMgdGhhdCBzaGFyZSBjb21tb24gY29kZSAob3IgMyB3aXRoCj4gPiA+IHRoZSBTZXJ2
-ZXIgRW5naW5lIGNoaXBzZXRzKSBtYWtlcyBtb3N0IHNlbnNlLgo+ID4gCj4gPiBZZWFoIGlmIHRo
-YXQncyB0aGUgY2FzZSBtYXliZSBhIG1nYTEwMCBhbmQgbWdhMjAwZyBkcml2ZXIgZml0cyBiZXR0
-ZXIuCj4gPiBGb3JtZXIgYmFzZWQgb24gc2ltcGxlIGRpc3BsYXkgcGlwZS4KPiAKPiBUaGUgZGlz
-cGxheSBoYXJkd2FyZSBkaWZmZXJlbmNlcyBhcmUgcXVpdGUgbWluaW1hbCBmcm9tIAo+IDEwNjRT
-RyB0byBHMjAwLiBHNDAwIGRpZCBhZGQgdGhlIHNlY29uZCBDUlRDIGJ1dCBlc3NlbnRpYWxseQo+
-IG5vdGhpbmcgZWxzZSBjaGFuZ2VkIGZyb20gRzIwMCBkaXNwbGF5LiBHNDUwL0c1NTAgY2hhbmdl
-ZAo+IHRoZSBQTExTIGFyb3VuZCBhIGJpdCBqdXN0IGZvciB0aGUgaGVjayBvZiBpdCwgYW5kIGlu
-dGVncmF0ZWQgCj4gdGhlIFRNRFMgdHJhbnNtaXR0ZXIgYW5kIFRWIGVuY29kZXIuIEFuZCB0aGVu
-IHRoZXkgZGlkIGV2ZW4KPiBtb3JlIFBMTCBtYWRuZXNzIHdpdGggdGhlIGRpZmZlcmVudCBHMjAw
-IHNlcnZlciBjaGlwIHZhcmlhbnRzLgo+IAo+IFNvIElNTyBmcm9tIGRpc3BsYXkgaHcgUE9WIEcx
-MDAgdnMuIEcyMDAgc3BsaXQgZG9lc24ndCByZWFsbHkKPiBtYWtlIHNlbnNlLgoKQWgsIEkgZGlk
-IGZvcmdldCB0aGF0IEcxMDAgYW5kIGVhcmxpZXIgZG9uJ3Qgc3VwcG9ydCB0aGUKY3Vyc29yIDE2
-IGNvbG9yIG1vZGUgdGhhdCBHMjAwKyBoYXZlLiBTbyBJIGd1ZXNzIHRoZXJlIGlzIGEKbGl0dGxl
-IGJpdCBvZiBhIGRpZmZlcmVuY2UgdGhlcmUuCgotLSAKVmlsbGUgU3lyasOkbMOkCkludGVsCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1156341813==
+Content-Type: multipart/alternative; boundary="15711643980.d9C3cbf4C.28270"
+Content-Transfer-Encoding: 7bit
+
+
+--15711643980.d9C3cbf4C.28270
+Date: Tue, 15 Oct 2019 18:33:18 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109389
+
+--- Comment #9 from Czcibor Bohusz-Dobosz <czbd@o2.pl> ---
+As far as I'm able to test after bcc memleak decided to randomly stop worki=
+ng
+on my machine, the leak is gone with Linux 5.3.6-arch1-1-ARCH and Mesa 19.2=
+.1.
+
+Great thanks to whoever managed to resolve this crippling issue!
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15711643980.d9C3cbf4C.28270
+Date: Tue, 15 Oct 2019 18:33:18 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - memory leak in `amdgpu_bo_create()`"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109389#c9">Commen=
+t # 9</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - memory leak in `amdgpu_bo_create()`"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109389">bug 10938=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+czbd&#64;o2.pl" title=3D"Czcibor Bohusz-Dobosz &lt;czbd&#64;o2.pl&gt;"> <sp=
+an class=3D"fn">Czcibor Bohusz-Dobosz</span></a>
+</span></b>
+        <pre>As far as I'm able to test after bcc memleak decided to random=
+ly stop working
+on my machine, the leak is gone with Linux 5.3.6-arch1-1-ARCH and Mesa 19.2=
+.1.
+
+Great thanks to whoever managed to resolve this crippling issue!</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15711643980.d9C3cbf4C.28270--
+
+--===============1156341813==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1156341813==--
