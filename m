@@ -2,20 +2,20 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C739ED835B
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2019 00:12:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E3EDD835D
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2019 00:13:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7115A6E89C;
-	Tue, 15 Oct 2019 22:12:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76C906E89B;
+	Tue, 15 Oct 2019 22:13:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2D1D6E89C
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2019 22:12:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B9176E89B
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2019 22:12:59 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 204241] amdgpu fails to resume from suspend
-Date: Tue, 15 Oct 2019 22:12:20 +0000
+Date: Tue, 15 Oct 2019 22:12:58 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -30,8 +30,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
-Message-ID: <bug-204241-2300-zQ060co58s@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-204241-2300-VtUKlc9mY4@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-204241-2300@https.bugzilla.kernel.org/>
 References: <bug-204241-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -56,17 +56,12 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQyNDEKCkFsZXgg
-RGV1Y2hlciAoYWxleGRldWNoZXJAZ21haWwuY29tKSBjaGFuZ2VkOgoKICAgICAgICAgICBXaGF0
-ICAgIHxSZW1vdmVkICAgICAgICAgICAgICAgICAgICAgfEFkZGVkCi0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0KIEF0dGFjaG1lbnQgIzI4NTQ3NXwwICAgICAgICAgICAgICAgICAgICAgICAgICAgfDEKICAg
-ICAgICBpcyBvYnNvbGV0ZXwgICAgICAgICAgICAgICAgICAgICAgICAgICAgfAoKLS0tIENvbW1l
-bnQgIzMwIGZyb20gQWxleCBEZXVjaGVyIChhbGV4ZGV1Y2hlckBnbWFpbC5jb20pIC0tLQpDcmVh
-dGVkIGF0dGFjaG1lbnQgMjg1NTA5CiAgLS0+IGh0dHBzOi8vYnVnemlsbGEua2VybmVsLm9yZy9h
-dHRhY2htZW50LmNnaT9pZD0yODU1MDkmYWN0aW9uPWVkaXQKcG9zc2libGUgZml4IHV2ZDcKClVw
-ZGF0ZWQgcGF0Y2ggZm9yIHV2ZDcKCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVj
-YXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQyNDEKCi0tLSBD
+b21tZW50ICMzMSBmcm9tIEFsZXggRGV1Y2hlciAoYWxleGRldWNoZXJAZ21haWwuY29tKSAtLS0K
+Q3JlYXRlZCBhdHRhY2htZW50IDI4NTUxMQogIC0tPiBodHRwczovL2J1Z3ppbGxhLmtlcm5lbC5v
+cmcvYXR0YWNobWVudC5jZ2k/aWQ9Mjg1NTExJmFjdGlvbj1lZGl0CnBvc3NpYmxlIGZpeCBmb3Ig
+dmNuCgpTYW1lIGZpeCBmb3IgdmNuLgoKLS0gCllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBi
+ZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
