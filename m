@@ -1,59 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 635CFD9104
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2019 14:34:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 060FFD9113
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2019 14:36:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60CBB6E95C;
-	Wed, 16 Oct 2019 12:34:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B96D66E0BB;
+	Wed, 16 Oct 2019 12:36:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DAFF6E95C
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2019 12:34:09 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id a22so23845680ljd.0
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2019 05:34:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9EysGKwAMgXXygyzOXkQ7pShV2hQHXICJ75+QvsLTBY=;
- b=bLB3cdaAGqlbkem68UUJHtg752pkKrcI9qgbMD7mQx953TK37alKURFVXkvAgQ4UPv
- MOvcF/DaP3Y8M9ZRR2xAd36s6OE0H0DtEzgkOxkZGEcz/s1NPx/ofhJB4NSt0B5gaPvb
- swnfms2r89DNhTK+itNmNeUstAG/PWiZurvj5tl4IT4IBtg8KD3elVlz+FluO3PXyglC
- 7gj/w3T7t6SJOh6odcMXrlDq2yUc1yfWdysOFOPzNTigb7B2JJIJgLJivr/nhSCZ5mH+
- WLaRir6/8io0wsW9tzwL1LAhYOx1gbTFVyqsd9p9DCaIaXKWCTnJnP8S5dwi2DLOXnan
- fmoA==
-X-Gm-Message-State: APjAAAXPxe1a0tqUSLTHYLbMd2hW4Z8oPhiTbu0mNSkKj/grBoEd2BlB
- EY8D83JxoWhz0LPfOWdvUSTPpUh1
-X-Google-Smtp-Source: APXvYqwHt7sCh5g0ZTnwvcbI6A3r0Iyc2Qv0wChRhGIC4CIAL/V7habUytiOLi16NvB9mQL5JEMXcg==
-X-Received: by 2002:a2e:9a4c:: with SMTP id k12mr26347766ljj.213.1571229247533; 
- Wed, 16 Oct 2019 05:34:07 -0700 (PDT)
-Received: from workstation.lan (81-229-85-231-no13.tbcn.telia.com.
- [81.229.85.231])
- by smtp.gmail.com with ESMTPSA id 207sm8605119lfn.0.2019.10.16.05.34.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Oct 2019 05:34:06 -0700 (PDT)
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B02A96E0BB
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2019 12:36:32 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id ACB217296E; Wed, 16 Oct 2019 12:36:32 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/scdc: Fix typo in bit definition of SCDC_STATUS_FLAGS
-Date: Wed, 16 Oct 2019 14:33:42 +0200
-Message-Id: <20191016123342.19119-1-patrik.r.jakobsson@gmail.com>
-X-Mailer: git-send-email 2.23.0
+Subject: [Bug 111599] [CI][RESUME] igt@gem_ctx_isolation@* - skip - Test
+ requirement: !(gen > LAST_KNOWN_GEN), SKIP
+Date: Wed, 16 Oct 2019 12:36:33 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: IGT
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: martin.peres@free.fr
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111599-502-yVUsum16fW@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111599-502@http.bugs.freedesktop.org/>
+References: <bug-111599-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9EysGKwAMgXXygyzOXkQ7pShV2hQHXICJ75+QvsLTBY=;
- b=HLlv0MeD2E9hs6is28aAs7TiTNwhmn/o8yknVMgs7CtznyDtUhmE4WqzWbmtdEhTEw
- S82uxowSCTfXLgrrpu3BKca7UbPBMptLGgKeISmGBpqeLrsHALwYdZ/mxwR4Q7m+lNe4
- fZyaGKze9yPewQcFzr4L4IFT/7E3DOlrlHFFmgYVHUVGiYJKsjaKZJMOCbqmmD+5nf3I
- Z8OfG77Ns56FlOdXRl4HNITcWI3ZVs2ME5Txl35hnP60CUmmkhXnzV3CwlGCocQBGQ2e
- hNsL5JYJJQGh10rCL3Rnc4KdZP4PRxUsQz/UDVi/Tjx/UtpAXBugovlc/WceAt14S0r3
- 1v7g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,28 +53,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0967090778=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4IHR5cG8gd2hlcmUgYml0cyBnb3QgY29tcGFyZWQgKHggPCB5KSBpbnN0ZWFkIG9mIHNoaWZ0
-ZWQgKHggPDwgeSkuCgpTaWduZWQtb2ZmLWJ5OiBQYXRyaWsgSmFrb2Jzc29uIDxwYXRyaWsuci5q
-YWtvYnNzb25AZ21haWwuY29tPgotLS0KIGluY2x1ZGUvZHJtL2RybV9zY2RjX2hlbHBlci5oIHwg
-NiArKystLS0KIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0p
-CgpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX3NjZGNfaGVscGVyLmggYi9pbmNsdWRlL2Ry
-bS9kcm1fc2NkY19oZWxwZXIuaAppbmRleCBmOTJlYjIwOTRkNmIuLjZhNDgzNTMzYWFlNCAxMDA2
-NDQKLS0tIGEvaW5jbHVkZS9kcm0vZHJtX3NjZGNfaGVscGVyLmgKKysrIGIvaW5jbHVkZS9kcm0v
-ZHJtX3NjZGNfaGVscGVyLmgKQEAgLTUwLDkgKzUwLDkgQEAKICNkZWZpbmUgIFNDRENfUkVBRF9S
-RVFVRVNUX0VOQUJMRSAoMSA8PCAwKQogCiAjZGVmaW5lIFNDRENfU1RBVFVTX0ZMQUdTXzAgMHg0
-MAotI2RlZmluZSAgU0NEQ19DSDJfTE9DSyAoMSA8IDMpCi0jZGVmaW5lICBTQ0RDX0NIMV9MT0NL
-ICgxIDwgMikKLSNkZWZpbmUgIFNDRENfQ0gwX0xPQ0sgKDEgPCAxKQorI2RlZmluZSAgU0NEQ19D
-SDJfTE9DSyAoMSA8PCAzKQorI2RlZmluZSAgU0NEQ19DSDFfTE9DSyAoMSA8PCAyKQorI2RlZmlu
-ZSAgU0NEQ19DSDBfTE9DSyAoMSA8PCAxKQogI2RlZmluZSAgU0NEQ19DSF9MT0NLX01BU0sgKFND
-RENfQ0gyX0xPQ0sgfCBTQ0RDX0NIMV9MT0NLIHwgU0NEQ19DSDBfTE9DSykKICNkZWZpbmUgIFND
-RENfQ0xPQ0tfREVURUNUICgxIDw8IDApCiAKLS0gCjIuMjMuMAoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0967090778==
+Content-Type: multipart/alternative; boundary="15712293920.C0a3Ea.4406"
+Content-Transfer-Encoding: 7bit
+
+
+--15712293920.C0a3Ea.4406
+Date: Wed, 16 Oct 2019 12:36:32 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111599
+
+--- Comment #4 from Martin Peres <martin.peres@free.fr> ---
+(In reply to Chris Wilson from comment #3)
+> commit d17a484b3c22706b2b004ef1577f367d79235e43 (upstream/master,
+> origin/master, origin/HEAD)
+> Author: Chris Wilson <chris@chris-wilson.co.uk>
+> Date:   Wed Oct 2 12:22:29 2019 +0100
+>=20
+>     i915/gem_ctx_isolation: Bump support for Tigerlake
+>=20=20=20=20=20
+>     There's very little variation in non-privileged registers for Tigerla=
+ke,
+>     so we can mostly inherit the set from gen11. There is no whitelist at
+>     present, so we do not need to add any special registers.
+>=20=20=20=20=20
+>     v2: Add COMMON_SLICE_CHICKEN2, GEN9_SLICE_COMMON_ECO_CHICKEN1 and a
+>     variety of huc readonly status registers.
+>=20=20=20=20=20
+>     Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=3D111599
+>     Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+>     Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+>     Reviewed-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+
+Looks good, thanks!
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15712293920.C0a3Ea.4406
+Date: Wed, 16 Oct 2019 12:36:32 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - [CI][RESUME] igt&#64;gem_ctx_isolation&#64;* -=
+ skip - Test requirement: !(gen &gt; LAST_KNOWN_GEN), SKIP"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111599#c4">Commen=
+t # 4</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - [CI][RESUME] igt&#64;gem_ctx_isolation&#64;* -=
+ skip - Test requirement: !(gen &gt; LAST_KNOWN_GEN), SKIP"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111599">bug 11159=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
+r&gt;"> <span class=3D"fn">Martin Peres</span></a>
+</span></b>
+        <pre>(In reply to Chris Wilson from <a href=3D"show_bug.cgi?id=3D11=
+1599#c3">comment #3</a>)
+<span class=3D"quote">&gt; commit d17a484b3c22706b2b004ef1577f367d79235e43 =
+(upstream/master,
+&gt; origin/master, origin/HEAD)
+&gt; Author: Chris Wilson &lt;<a href=3D"mailto:chris&#64;chris-wilson.co.u=
+k">chris&#64;chris-wilson.co.uk</a>&gt;
+&gt; Date:   Wed Oct 2 12:22:29 2019 +0100
+&gt;=20
+&gt;     i915/gem_ctx_isolation: Bump support for Tigerlake
+&gt;=20=20=20=20=20
+&gt;     There's very little variation in non-privileged registers for Tige=
+rlake,
+&gt;     so we can mostly inherit the set from gen11. There is no whitelist=
+ at
+&gt;     present, so we do not need to add any special registers.
+&gt;=20=20=20=20=20
+&gt;     v2: Add COMMON_SLICE_CHICKEN2, GEN9_SLICE_COMMON_ECO_CHICKEN1 and a
+&gt;     variety of huc readonly status registers.
+&gt;=20=20=20=20=20
+&gt;     Bugzilla: <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - [CI][RESUME] igt&#64;gem_ctx_isolation&#64;* -=
+ skip - Test requirement: !(gen &gt; LAST_KNOWN_GEN), SKIP"
+   href=3D"show_bug.cgi?id=3D111599">https://bugs.freedesktop.org/show_bug.=
+cgi?id=3D111599</a>
+&gt;     Signed-off-by: Chris Wilson &lt;<a href=3D"mailto:chris&#64;chris-=
+wilson.co.uk">chris&#64;chris-wilson.co.uk</a>&gt;
+&gt;     Cc: Mika Kuoppala &lt;<a href=3D"mailto:mika.kuoppala&#64;linux.in=
+tel.com">mika.kuoppala&#64;linux.intel.com</a>&gt;
+&gt;     Reviewed-by: Mika Kuoppala &lt;<a href=3D"mailto:mika.kuoppala&#64=
+;linux.intel.com">mika.kuoppala&#64;linux.intel.com</a>&gt;</span >
+
+Looks good, thanks!</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15712293920.C0a3Ea.4406--
+
+--===============0967090778==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0967090778==--
