@@ -1,46 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B857FD88BF
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2019 08:45:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 139DED88C5
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2019 08:52:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 908056E8C6;
-	Wed, 16 Oct 2019 06:45:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F8926E8C8;
+	Wed, 16 Oct 2019 06:52:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 409E16E8C6
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2019 06:45:42 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 3D14F7296E; Wed, 16 Oct 2019 06:45:42 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111979] [5.2/5.3][drm:amdgpu_dm_atomic_commit_tail [amdgpu]]
- *ERROR* Waiting for fences timed out or interrupted!
-Date: Wed, 16 Oct 2019 06:45:42 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: udovdh@xs4all.nl
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111979-502-BSaFYlvMXi@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111979-502@http.bugs.freedesktop.org/>
-References: <bug-111979-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com
+ [IPv6:2607:f8b0:4864:20::944])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39B416E8C8
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2019 06:52:08 +0000 (UTC)
+Received: by mail-ua1-x944.google.com with SMTP id j5so6856358uak.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2019 23:52:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=+yZ4tUEflU1wot9Y3TZUGwsQJDcRC6cRj494J8rN2Ig=;
+ b=BHKiR78pSiaEwkfEWa5KGQN4C2YrnsYBo+6MPQd4/UKVI7gNJURWchq5n+lkR4urM2
+ oB3Z2vARt0wlnpMuhgiIhOE9YYznnLqZqU1hRQ4y2TLg+hz33JN31V6dRcjK7zFZjqvd
+ ixWPiYxwtaW6T0f7nYJjuf4tkYp7AwKvjFrOjHtlX+ETBprSx45RLzHgH+X/27eqLyeI
+ CEZtaLun6eXrq0oOWd+owNvjhoc53qPmlJ7eIjkSJL2xuBwHQW2hgNedS9B/x4tvd75a
+ zkwzHLGfpKtsvk6KsB5faiSZljjybht//SR48VzDgv+o+jpzUD1lccWLQf+tSou2flF4
+ jQ5Q==
+X-Gm-Message-State: APjAAAUoM9CvyY7fi+QUPN8VFIfp1Ab1eV189QNKUdcMb8e8rpSwutfQ
+ paXgqS10Yj5DpMJySLEUPILPOxFRzNNAejbP3VU=
+X-Google-Smtp-Source: APXvYqwYe2I/kz08nX4fY0/iraBX0nqPJ5J5F4ZWecritIBG2AouvIB4Clj8Mw7kT19YLKlDwJdAsmcM/nGU8rRJXww=
+X-Received: by 2002:ab0:7008:: with SMTP id k8mr15269916ual.70.1571208727054; 
+ Tue, 15 Oct 2019 23:52:07 -0700 (PDT)
 MIME-Version: 1.0
+References: <CAOuPNLgH=JQeT3=tZ_AdBsV0e-S_JNEe4CtpFW8Wj5NfYW5PsA@mail.gmail.com>
+ <CAOuPNLjqm+Dv5RARP6dzZRKSttCvqoLe7MNYOeChAGUWX1krRA@mail.gmail.com>
+ <CAOuPNLgZ3kjBaCmXkXHZrncYqUxsNYKiXQqptoDBT_EWfjpNqg@mail.gmail.com>
+ <CAOuPNLjMFPn5WLcotG26wy_ROhJZn39iywwOYG0imzjqeQ3jeg@mail.gmail.com>
+In-Reply-To: <CAOuPNLjMFPn5WLcotG26wy_ROhJZn39iywwOYG0imzjqeQ3jeg@mail.gmail.com>
+From: Pintu Agarwal <pintu.ping@gmail.com>
+Date: Wed, 16 Oct 2019 12:21:55 +0530
+Message-ID: <CAOuPNLje_kRyEy1JEv1RSSERKGa+WKzmybmR6svqiUcSduNDcg@mail.gmail.com>
+Subject: Re: imx6: i2c-transfer timeout issue after resume
+To: p.zabel@pengutronix.de, bob.beckett@collabora.com, 
+ dri-devel@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>, 
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>, linux-pm@vger.kernel.org
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=+yZ4tUEflU1wot9Y3TZUGwsQJDcRC6cRj494J8rN2Ig=;
+ b=qKznEtbUYog0qWpVHk5hQ5CTH+HjZ+1M8PCv9jYmJM6e5Ga3cJuHQMHkBxpWibX/y/
+ yZYngAzpG7DbJobb3gOI18s84UnRSDk3JhgHlaUpAXge+GXf7lqnSfhT+S9HeryZcUWL
+ dnDFQ5Fe42A4M1ra6hX+atjJop1QXwqd8mmVkdWy7TaCSyBuksnALn/pfJJqxs95VrU5
+ MmN/8kyKRSy+G2znswjxpNWVQRUTapfSj3LXLEKg2mP6VWXPar0of9rpBSDYv1DIu96z
+ 1a+lM9D9GdThIthIcztKMefMzT7PgLrYLZpa0z8gpJjU7FPZzBsGiRbJggbpNQQt41qw
+ yvJQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,88 +67,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0989272864=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0989272864==
-Content-Type: multipart/alternative; boundary="15712083421.4D3E9b5.6574"
-Content-Transfer-Encoding: 7bit
-
-
---15712083421.4D3E9b5.6574
-Date: Wed, 16 Oct 2019 06:45:42 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111979
-
---- Comment #2 from udo <udovdh@xs4all.nl> ---
-5.3.6 has similar issues.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15712083421.4D3E9b5.6574
-Date: Wed, 16 Oct 2019 06:45:42 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [5.2/5.3][drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERR=
-OR* Waiting for fences timed out or interrupted!"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111979#c2">Commen=
-t # 2</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [5.2/5.3][drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERR=
-OR* Waiting for fences timed out or interrupted!"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111979">bug 11197=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-udovdh&#64;xs4all.nl" title=3D"udo &lt;udovdh&#64;xs4all.nl&gt;"> <span cla=
-ss=3D"fn">udo</span></a>
-</span></b>
-        <pre>5.3.6 has similar issues.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15712083421.4D3E9b5.6574--
-
---===============0989272864==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0989272864==--
+T24gRnJpLCBPY3QgNCwgMjAxOSBhdCAzOjQ3IFBNIFBpbnR1IEFnYXJ3YWwgPHBpbnR1LnBpbmdA
+Z21haWwuY29tPiB3cm90ZToKPgo+IEhpLAo+Cj4gT24gU3VuLCBTZXAgMjksIDIwMTkgYXQgMTA6
+MjQgUE0gUGludHUgQWdhcndhbCA8cGludHUucGluZ0BnbWFpbC5jb20+IHdyb3RlOgo+ID4KPiA+
+ID4KPiA+ID4gT24gTW9uLCBTZXAgMjMsIDIwMTkgYXQgMToyOCBQTSBQaW50dSBBZ2Fyd2FsIDxw
+aW50dS5waW5nQGdtYWlsLmNvbT4gd3JvdGU6Cj4gPiA+ID4KPiA+ID4gPiBEZWFyIFBoaWxpcHAs
+Cj4gPiA+ID4KPiA+ID4gPiBJIGhhdmUgYSBpTVg2ZGwgY3VzdG9tIGJvYXJkIHdpdGggY3VzdG9t
+IExpbnV4IEtlcm5lbCA0LjguCj4gPiA+ID4gSSBoYXZlIGJvdGggTENEIGFuZCBIRE1JIGNvbm5l
+Y3RlZCB0byB0aGUgYm9hcmQuCj4gPiA+ID4gQW5kIHdlIGFyZSB1c2luZyB3ZXN0b24vd2F5bGFu
+ZCBhcyB0aGUgZGlzcGxheSBpbnRlcmZhY2UuCj4gPiA+ID4gSW4gbm9ybWFsIGJvb3QsIGJvdGgg
+TENEIGFuZCBIRE1JIGRpc3BsYXkgaXMgd29ya2luZyBmaW5lLgo+ID4gPiA+Cj4gPiA+ID4gQnV0
+LCBjdXJyZW50bHksIGZvciBvbmUgb2YgdGhlIHJlcXVpcmVtZW50LCBJIGFtIHRyeWluZyB0byBl
+eHBsb3JlIGFuZAo+ID4gPiA+IHN1cHBvcnQgaGliZXJuYXRpb24gaW1hZ2UgYm9vdGluZyBvbiBp
+dC4KPiA+ID4gPiBDdXJyZW50bHksIHdlIGFyZSBhYmxlIHRvIHJlc3VtZSB0aGUgc3lzdGVtIHdp
+dGhvdXQgZGlzcGxheS4KPiA+ID4gPiBBbHNvLCBpZiB3ZSBtYWtlIHRoZSBlbnRpcmUgaW14LWRy
+bSBhcyBtb2R1bGVzLCBhbmQgdGhlbiBpbnN0YWxsIHRoZQo+ID4gPiA+IG1vZHVsZXMgYWZ0ZXIg
+cmVzdW1lLCBldmVuIExDRCBpcyBhbHNvIGNvbWluZyB1cC4KPiA+ID4gPiBCdXQgSERNSSBkaXNw
+bGF5IGlzIGJsYWNrIG91dC4KPiA+ID4gPgo+Cj4gSSBqdXN0IGZvdW5kIHRoZSBtYWluIHJvb3Qg
+Y2F1c2Ugb2YgdGhlIEhETUkgc2NyZWVuIGJsYWNrb3V0IGlzc3VlCj4gYWZ0ZXIgc3lzdGVtIHJl
+c3VtZS4KPiAqIEhETUkgaXMgdHJ5aW5nIHRvIGdldCBFRElEIGRhdGEgZnJvbSB0aGUgbW9uaXRv
+ciB1c2luZyBJMkMgaW50ZXJmYWNlLgo+ICogQnV0IGl0cyBzZWVtcyBpMmNfdHJhbnNmZXIgaXMg
+Z2V0dGluZyB0aW1lb3V0IGFmdGVyIDUgcmV0cmllcy4KPiAqIFRodXMgRURJRCBkYXRhIGlzIGZh
+aWxpbmcsIGFuZCBIRE1JIGNvdWxkIG5vdCBhYmxlIHRvIGRldGVjdCB0aGUgbW9uaXRvci4KPgo+
+IFRoaXMgaXMgdGhlIGxvZ3M6Cj4KPiBbICA0NDEuMTA0OTg5XSBbZHJtOmRybV9oZWxwZXJfcHJv
+YmVfc2luZ2xlX2Nvbm5lY3Rvcl9tb2Rlc10KPiBbQ09OTkVDVE9SOjI5OkhETUktQS0xXSBzdGF0
+dXMgdXBkYXRlZCBmcm9tIHVua25vd24gdG8gY29ubmVjdGVkCj4gWyAgNDQxLjExNjA4MF06IGRy
+bV9oZWxwZXJfcHJvYmVfc2luZ2xlX2Nvbm5lY3Rvcl9tb2RlcyAtIGluc2lkZSAtCj4gZWxzZSBv
+dmVycmlkZV9lZGlkCj4gWyAgNDQxLjEyNDQxNl06IGRybV9oZWxwZXJfcHJvYmVfc2luZ2xlX2Nv
+bm5lY3Rvcl9tb2RlcyAtIGluc2lkZSAtCj4gZWxzZSAtIGRybV9sb2FkX2VkaWRfZmlybXdhcmU6
+IGNvdW50OiAwCj4gWyAgNDQxLjEzNDU0Nl06IGRybV9oZWxwZXJfcHJvYmVfc2luZ2xlX2Nvbm5l
+Y3Rvcl9tb2RlcyAtIGNhbGxpbmcgLSBnZXRfbW9kZXMKPiBbICA0NDEuMTQyMTU3XTogZHdfaGRt
+aV9jb25uZWN0b3JfZ2V0X21vZGVzIDogY2FsbGVkCj4gWyAgNDQxLjE0NzY1Ml06IGR3X2hkbWlf
+Y29ubmVjdG9yX2dldF9tb2RlcyA6IGNhbGxlZCAtIGNhbGxpbmcgLT4gZHJtX2dldF9lZGlkCj4g
+WyAgNDQxLjE1NTM0Nl06IGRybV9kb19wcm9iZV9kZGNfZWRpZCA6IGNhbGxlZCEKPiBbICA0NDEu
+NjYwNzU5XTogZHJtX2RvX3Byb2JlX2RkY19lZGlkIDogaTJjX3RyYW5zZmVyOiByZXQ6IC0xMTAs
+IHJldHJ5OiA1Cj4gWyAgNDQyLjE3MDc1OF06IGRybV9kb19wcm9iZV9kZGNfZWRpZCA6IGkyY190
+cmFuc2ZlcjogcmV0OiAtMTEwLCByZXRyeTogNAo+IFsgIDQ0Mi42ODA3NTVdOiBkcm1fZG9fcHJv
+YmVfZGRjX2VkaWQgOiBpMmNfdHJhbnNmZXI6IHJldDogLTExMCwgcmV0cnk6IDMKPiBbICA0NDMu
+MTkwNzU1XTogZHJtX2RvX3Byb2JlX2RkY19lZGlkIDogaTJjX3RyYW5zZmVyOiByZXQ6IC0xMTAs
+IHJldHJ5OiAyCj4gWyAgNDQzLjcwMDc1NF06IGRybV9kb19wcm9iZV9kZGNfZWRpZCA6IGkyY190
+cmFuc2ZlcjogcmV0OiAtMTEwLCByZXRyeTogMQo+IFsgIDQ0My43MDc5ODldOiBkcm1fZ2V0X2Vk
+aWQgOiBjYWxsZWQgLSBkcm1fcHJvYmVfZGRjIC0gZmFpbGVkCj4gWyAgNDQzLjcxNDMwM10gZHdo
+ZG1pLWlteCAxMjAwMDAuaGRtaTogZmFpbGVkIHRvIGdldCBlZGlkCj4KPiBJcyB0aGVyZSBhbnkg
+Y2x1ZSwgaG93IHRvIHJlc29sdmUgdGhpcyBpMmMgZmFpbHVyZSBpc3N1ZSwgYWZ0ZXIgcmVzdW1l
+Pwo+IFRoaXMgZG9lcyBub3QgaGFwcGVuIGluIG5vcm1hbCBib290aW5nIGNhc2UuCj4KPiBUaGVz
+ZSBhcmUgdGhlIHN0ZXBzIEkgZm9sbG93Ogo+ICogQm9vdCB0aGUgc3lzdGVtIG5vcm1hbGx5ICh3
+aXRob3V0IGRpc3BsYXkpIGFuZCBpbnN0YWxsIGFsbCBpbXgtZHJtIGFzIG1vZHVsZXMuCj4gKiBU
+aGVuIHVuaW5zdGFsbCB0aGUgbW9kdWxlcyBpbiByZXZlcnNlIG9yZGVyLgo+ICogVGFrZSB0aGUg
+c25hcHNob3Qgb2YgdGhlIHN5c3RlbSAoc3VzcGVuZCB0byBkaXNrKS4KPiAqIFJlYm9vdCB0aGUg
+c3lzdGVtIGFuZCBib290IHdpdGggdGhlIGltYWdlLgo+ICogSW5zdGFsbCBhbGwgdGhlIG1vZHVs
+ZXMgYWdhaW4uCj4gKiBUaGVuIGxhdW5jaCB0aGUgV2VzdG9uLgo+ICogRHVyaW5nIHRoZSB3ZXN0
+b24gbGF1bmNoIGluIHRoZSBiZWdpbm5pbmcgd2Ugb2JzZXJ2ZSB0aGlzIGVycm9yLgo+CgoqIENo
+YW5naW5nIHRoZSBzdWJqZWN0IHRvIGJlIG1vcmUgcmVsZXZhbnQuCgpJIG5lZWQgc29tZSBwb2lu
+dGVycyBpbiBkZWJ1Z2dpbmcgdGhpcyBpMmNfdHJhbnNmZXIgdGltZW91dCBpc3N1ZSwKYWZ0ZXIg
+c3lzdGVtIHJlc3VtZS4KSSBhbSBub3Qgc28gbXVjaCBmYW1pbGlhciB3aXRoIGkyYywgc28gSSBh
+bSBsb29raW5nIGZvciBzb21lIGNsdWUgaGVyZS4KCmkyYy1leHBlcnRzIChvciBwbSBleHBlcnRz
+KSwgcGxlYXNlIGhlbHAgbWUgdG8gZmluZCB0aGUgcm9vdCBjYXVzZSBhbmQKZGVidWcgZnVydGhl
+ci4KClRoYW5rcywKUGludHUKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVs
