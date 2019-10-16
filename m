@@ -2,62 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 196DAD8A4A
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2019 09:52:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E07E8D8A71
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2019 10:03:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F7A5891B9;
-	Wed, 16 Oct 2019 07:52:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F178889E69;
+	Wed, 16 Oct 2019 08:03:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7939D891B9
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2019 07:52:22 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id 7so1742137wme.1
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2019 00:52:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=l+eDQw7b9v7Rw46oLorXW5Yed3sU+eig9M618FB+PL4=;
- b=ivwd/VsLKBXS8Wh/wpiszVADn4rtj58XuTiOkrVnmXThcKey12L9RhrQP18mQtOa+1
- xTa4nu1tIDr81SEu+PrtXsQvwoQGB58Qn3BYi+KJKzz//n+vXcRERUcS7EI4WofJgkel
- D5IVifVfKbMI6asrjDJRDvsbegrLyJMw18itEx2hLKZCfzz9R8xE7IATt1gewJgiYTLB
- okoIawjkHgkb9pt8MM5dKAw3TOErCC04QzY52nFYmolK/r32K6hGS4C9PZ7VfeorRHWK
- fnbZHWUvIgKOzhUWP6q8VekpeKqkRo/mwT8RsZObeFGo/QrUa+SpaYxDey/CkBTbX9GV
- odqg==
-X-Gm-Message-State: APjAAAW0v2L0BUma96ivywpFq36LPQECj7tfpqDVcZ0TnPT0K3tU9dzT
- zFCqvtqjoX1Kskyign7+p02tTg==
-X-Google-Smtp-Source: APXvYqy2R+5UwjDoVktwSQkiSJQLn97WIr2FWHdpPx/CIry4HyNQrzJNEJ4i9wILKyZVVU8qvWRaBA==
-X-Received: by 2002:a7b:cf05:: with SMTP id l5mr2044282wmg.119.1571212340927; 
- Wed, 16 Oct 2019 00:52:20 -0700 (PDT)
-Received: from dell ([95.149.164.86])
- by smtp.gmail.com with ESMTPSA id l11sm1630442wmh.34.2019.10.16.00.52.20
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 16 Oct 2019 00:52:20 -0700 (PDT)
-Date: Wed, 16 Oct 2019 08:52:18 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Matthias Kaehlcke <mka@chromium.org>
-Subject: Re: [PATCH v2] backlight: pwm_bl: Don't assign levels table repeatedly
-Message-ID: <20191016075218.GB4365@dell>
-References: <20191002095541.v2.1.I4f2ede1f55ddd1c72b0303b7fd7f73a782fa33e5@changeid>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C27889E69
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2019 08:03:10 +0000 (UTC)
+Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 95F022168B;
+ Wed, 16 Oct 2019 08:03:09 +0000 (UTC)
+Date: Wed, 16 Oct 2019 10:03:06 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [PATCH v10 5/6] arm64: dts: allwinner: a64: Add MIPI DSI pipeline
+Message-ID: <20191016080306.44pmo3rfmtnkgosq@gilmour>
+References: <20191005141913.22020-1-jagan@amarulasolutions.com>
+ <20191005141913.22020-6-jagan@amarulasolutions.com>
+ <20191007105708.raxavxk4n7bvxh7x@gilmour>
+ <CAMty3ZCiwOGgwbsjTHvEZhwHGhsgb6_FeBs9hHgLai9=rV2_HQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191002095541.v2.1.I4f2ede1f55ddd1c72b0303b7fd7f73a782fa33e5@changeid>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent;
- bh=l+eDQw7b9v7Rw46oLorXW5Yed3sU+eig9M618FB+PL4=;
- b=Zprs0y8kBPQ3qjTVj/r66c07zEzYHAzGc1PwpC8CEkHTDvqlLmt7M9IKkPG10MDX01
- D861ajFGmQM6HGs3TOMfSMF0Pe83Ip5jRZ55/ycWUp9KZ9IK11efTLb8xGOQhKdgb0wF
- xJjMI/h6Nl++vvudQQmifg+LMHoaMDAbSZKphm54kioxj9bGuPlc+qtMQ+nkiv/iSpel
- EhhAppoZJC+rVWeLFhgJb7pSEBRI7Xr5x3Xjkb+zL6MH+BhLHPhaESB7c8B95pqXhR1N
- q6WBHssNi/PNZA9Jkx8v2UHWiXPdNn7uPZ2K1uQsUWs+xYohzd7Ue5lt8SD9gFiVq90Y
- RpBQ==
+In-Reply-To: <CAMty3ZCiwOGgwbsjTHvEZhwHGhsgb6_FeBs9hHgLai9=rV2_HQ@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1571212990;
+ bh=wM/nUTK3S5psgEypnAz0OtgZ+jpM99/JuUjxmXaJLbI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=QCPGi1WVH+6Crkf1iDbM7YIS4z1GKzHDuhctLzfeInuMMn5u5nDXy5q+iDHNmXvrb
+ M2GYnuqAUqL+5tCNIq8sknLo9+qH3E7ER6Gi7uJGEPEhb4YoZL80odrE/w5vwRzqYJ
+ KnYL7dFRNfLvSpXT4Csnnc3JMz0IYoC5vjRwliAg=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,28 +48,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jingoo Han <jingoohan1@gmail.com>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-sunxi <linux-sunxi@googlegroups.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Michael Trimarchi <michael@amarulasolutions.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Icenowy Zheng <icenowy@aosc.io>
+Content-Type: multipart/mixed; boundary="===============0534481325=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAwMiBPY3QgMjAxOSwgTWF0dGhpYXMgS2FlaGxja2Ugd3JvdGU6Cgo+IHB3bV9iYWNr
-bGlnaHRfcHJvYmUoKSByZS1hc3NpZ25zIHBiLT5sZXZlbHMgZm9yIGV2ZXJ5IGJyaWdodG5lc3MK
-PiBsZXZlbC4gVGhpcyBpcyBub3QgbmVlZGVkIGFuZCB3YXMgbGlrZWx5IG5vdCBpbnRlbmRlZCwg
-c2luY2UKPiBuZWl0aGVyIHNpZGUgb2YgdGhlIGFzc2lnbm1lbnQgY2hhbmdlcyBkdXJpbmcgdGhl
-IGxvb3AuIEFzc2lnbgo+IHRoZSBmaWVsZCBvbmx5IG9uY2UuCj4gCj4gU2lnbmVkLW9mZi1ieTog
-TWF0dGhpYXMgS2FlaGxja2UgPG1rYUBjaHJvbWl1bS5vcmc+Cj4gLS0tCj4gCj4gQ2hhbmdlcyBp
-biB2MjoKPiAtIHJlbW92ZWQgY3VybHkgYnJhY2VzIGZyb20gZm9yIGxvb3AKPiAKPiAgZHJpdmVy
-cy92aWRlby9iYWNrbGlnaHQvcHdtX2JsLmMgfCA3ICsrKy0tLS0KPiAgMSBmaWxlIGNoYW5nZWQs
-IDMgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKCkFwcGxpZWQsIHRoYW5rcy4KCi0tIApM
-ZWUgSm9uZXMgW+adjueQvOaWr10KTGluYXJvIFNlcnZpY2VzIFRlY2huaWNhbCBMZWFkCkxpbmFy
-by5vcmcg4pSCIE9wZW4gc291cmNlIHNvZnR3YXJlIGZvciBBUk0gU29DcwpGb2xsb3cgTGluYXJv
-OiBGYWNlYm9vayB8IFR3aXR0ZXIgfCBCbG9nCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0534481325==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="daxw7i7armk2zq3y"
+Content-Disposition: inline
+
+
+--daxw7i7armk2zq3y
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Mon, Oct 14, 2019 at 05:37:50PM +0530, Jagan Teki wrote:
+> On Mon, Oct 7, 2019 at 4:27 PM Maxime Ripard <mripard@kernel.org> wrote:
+> >
+> > On Sat, Oct 05, 2019 at 07:49:12PM +0530, Jagan Teki wrote:
+> > > Add MIPI DSI pipeline for Allwinner A64.
+> > >
+> > > - dsi node, with A64 compatible since it doesn't support
+> > >   DSI_SCLK gating unlike A33
+> > > - dphy node, with A64 compatible with A33 fallback since
+> > >   DPHY on A64 and A33 is similar
+> > > - finally, attach the dsi_in to tcon0 for complete MIPI DSI
+> > >
+> > > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> > > Tested-by: Merlijn Wajer <merlijn@wizzup.org>
+> > > ---
+> > >  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 38 +++++++++++++++++++
+> > >  1 file changed, 38 insertions(+)
+> > >
+> > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+> > > index 69128a6dfc46..ad4170b8aee0 100644
+> > > --- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+> > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+> > > @@ -382,6 +382,12 @@
+> > >                                       #address-cells = <1>;
+> > >                                       #size-cells = <0>;
+> > >                                       reg = <1>;
+> > > +
+> > > +                                     tcon0_out_dsi: endpoint@1 {
+> > > +                                             reg = <1>;
+> > > +                                             remote-endpoint = <&dsi_in_tcon0>;
+> > > +                                             allwinner,tcon-channel = <1>;
+> > > +                                     };
+> > >                               };
+> > >                       };
+> > >               };
+> > > @@ -1003,6 +1009,38 @@
+> > >                       status = "disabled";
+> > >               };
+> > >
+> > > +             dsi: dsi@1ca0000 {
+> > > +                     compatible = "allwinner,sun50i-a64-mipi-dsi";
+> > > +                     reg = <0x01ca0000 0x1000>;
+> > > +                     interrupts = <GIC_SPI 89 IRQ_TYPE_LEVEL_HIGH>;
+> > > +                     clocks = <&ccu CLK_BUS_MIPI_DSI>;
+> > > +                     clock-names = "bus";
+> >
+> > This won't validate with the bindings you have either here, since it
+> > still expects bus and mod.
+> >
+> > I guess in that cas, we can just drop clock-names, which will require
+> > a bit of work on the driver side as well.
+>
+> Okay.
+> mod clock is not required for a64, ie reason we have has_mod_clk quirk
+> patch. Adjust the clock-names: on dt-bindings would make sense here,
+> what do you think?
+
+I'm confused, what are you suggesting?
+
+Maxime
+
+--daxw7i7armk2zq3y
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXabOugAKCRDj7w1vZxhR
+xaRxAQCMC8f5R5O0x3PDOXjho8DhgMeHnD0ME5PLyqwkpk557QD+JbRITmjTlYf0
+FHZLWNsA4avNld7ActyJrkctTuut3AM=
+=aBRs
+-----END PGP SIGNATURE-----
+
+--daxw7i7armk2zq3y--
+
+--===============0534481325==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0534481325==--
