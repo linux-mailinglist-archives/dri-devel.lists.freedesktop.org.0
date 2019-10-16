@@ -2,52 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D25C1D98D0
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2019 20:01:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93E58D9996
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2019 20:53:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 506116E419;
-	Wed, 16 Oct 2019 18:01:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A0786E9CB;
+	Wed, 16 Oct 2019 18:53:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from heliosphere.sirena.org.uk (heliosphere.sirena.org.uk
- [172.104.155.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F4FC6E419
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2019 18:01:14 +0000 (UTC)
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net
- ([82.37.168.47] helo=ypsilon.sirena.org.uk)
- by heliosphere.sirena.org.uk with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <broonie@sirena.co.uk>)
- id 1iKnaw-0005xp-G2; Wed, 16 Oct 2019 18:00:22 +0000
-Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
- id 822562741FCE; Wed, 16 Oct 2019 19:00:21 +0100 (BST)
-Date: Wed, 16 Oct 2019 19:00:21 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v2 05/11] drm/tinydrm: Remove
- tinydrm_spi_max_transfer_size()
-Message-ID: <20191016180021.GF4881@sirena.co.uk>
-References: <20190719155916.62465-1-noralf@tronnes.org>
- <20190719155916.62465-6-noralf@tronnes.org>
- <20191015143236.GA5363@smile.fi.intel.com>
- <253aec49-e51c-b35b-4e7d-53a8a948655d@tronnes.org>
- <20191015155720.GQ11828@phenom.ffwll.local>
- <20191016161300.GW32742@smile.fi.intel.com>
- <CAKMK7uEp39uvLtgyTTj31u-GYVoPiVJDTVbUThtn7NU_EoKk3A@mail.gmail.com>
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B076E6E9CB
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2019 18:53:00 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9GIqfgo083570;
+ Wed, 16 Oct 2019 13:52:41 -0500
+Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x9GIqffr082253
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 16 Oct 2019 13:52:41 -0500
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 16
+ Oct 2019 13:52:34 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Wed, 16 Oct 2019 13:52:41 -0500
+Received: from legion.dal.design.ti.com (legion.dal.design.ti.com
+ [128.247.22.53])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9GIqfNF081989;
+ Wed, 16 Oct 2019 13:52:41 -0500
+Received: from localhost ([10.250.79.55])
+ by legion.dal.design.ti.com (8.11.7p1+Sun/8.11.7) with ESMTP id x9GIqdZ11777; 
+ Wed, 16 Oct 2019 13:52:39 -0500 (CDT)
+From: "Andrew F. Davis" <afd@ti.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Sean Paul <sean@poorly.run>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm: Move radeon and amdgpu Kconfig options into their
+ directories
+Date: Wed, 16 Oct 2019 14:52:30 -0400
+Message-ID: <20191016185230.27824-1-afd@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uEp39uvLtgyTTj31u-GYVoPiVJDTVbUThtn7NU_EoKk3A@mail.gmail.com>
-X-Cookie: Serenity through viciousness.
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; 
- d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=831oddvIWDaezyLXT0EnzHzEYss/MUysoe0QwJq3uNQ=; b=gAFB/hHicc7uy5LIn8t9nPyB/
- qeAS4PGIEL6BtBtRC9ZN9rXJgQ94wgGK5g44/LpjQpTSG/TSCY0jjpcp7114PLlmkU2JDiuAhRxDr
- MBiGt+IONZ7aCEvA8wGU88NXDqSAnRoK/VfQEfsf3jYzF+M3tnGfpHzewAiLqI4BrayOA=;
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ti.com; s=ti-com-17Q1; t=1571251961;
+ bh=vUHHm6TQrzUaqF3WoeACMdoEVSPvSP0FUJ+Io/gdxSQ=;
+ h=From:To:CC:Subject:Date;
+ b=VW4V+/aZg20RkpZf9MraYhWlL5qZKFA7AkTCmXqpdrkBW9KjrD4toiuNnGTspLQ79
+ UYG7axKc2ttmfLszbY1LuCOPKm3uISbwZdy3ay49JBzkkFeKuIKZSHzdadMYFzJWWN
+ WqjjS2pAofIqHhrRTEKcK3+mQEzTRLZKEA9L4EqQ=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,77 +64,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>,
- Haojian Zhuang <haojian.zhuang@gmail.com>, linux-spi@vger.kernel.org,
- Jarkko Nikula <jarkko.nikula@linux.intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sam Ravnborg <sam@ravnborg.org>,
- Daniel Mack <daniel@zonque.org>, David Lechner <david@lechnology.com>
-Content-Type: multipart/mixed; boundary="===============0492929857=="
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, "Andrew
+ F . Davis" <afd@ti.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0492929857==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fwqqG+mf3f7vyBCB"
-Content-Disposition: inline
-
-
---fwqqG+mf3f7vyBCB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Wed, Oct 16, 2019 at 07:44:51PM +0200, Daniel Vetter wrote:
-> On Wed, Oct 16, 2019 at 6:13 PM Andy Shevchenko
-> > On Tue, Oct 15, 2019 at 05:57:20PM +0200, Daniel Vetter wrote:
-
-> > > Something like this, as a test patch.
-
-> > max_transfer_size should be a function. In that case it works.
-
-> Why do you want to make it a function? At least from my reading of the
-> code, the dma vs pio decision seems to be done once. So no need to
-> change this at runtime. Changing at runtime would also be a pretty big
-> surprise I think for users of spi.
-
-Yeah, I'd expect it to be a fixed property of the hardware that doesn't
-vary at runtime though I'm sure there must be some innovation out there
-which challenges that assumption.
-
-> > However I'm not sure it's the best approach, thus, Cc to SPI PXA people.
-
-> Hm didn't spot the pxa people, added them. Mark, should I just go
-> ahead and bake this into a proper patch for discussion? Or
-> fundamentally wrong approach?
-
-That seems sensible enough, it should certainly fix the immediate issue.
-
---fwqqG+mf3f7vyBCB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl2nWrQACgkQJNaLcl1U
-h9ACpgf9FYcLQbfzOaqA6bv23GWM5kYHA1UQOKHgZlYLGC2Aw2IeM1XqAs7af+EZ
-fzW3MX3jF1BIV508BV4aPBDjos8meM4SQLXnHHzAn1Kvtfky92yyKuQJuz3/S8Q8
-kU6Eg9MYfC32v/Ii1T8Xo/Du9uNI9cmdBkO7D3jteSBIztHjJGWKbD4zvJ7DZIfO
-pA3aKflUVJoigqGqpCC/DCiksKAlcLVML61jwSDl611fibVqYSOmfsjsTl9M+FMm
-REE2KZdwbugKtbhrNA0oLIJqG8lEVbx23IFjHixlGJfOmHk/Aqw8yF75f/DIofxt
-lXwPoa9S1SUlO1mBG3bonq/CynXuZg==
-=Ib+9
------END PGP SIGNATURE-----
-
---fwqqG+mf3f7vyBCB--
-
---===============0492929857==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0492929857==--
+TW9zdCBLY29uZmlnIG9wdGlvbnMgdG8gZW5hYmxlIGEgZHJpdmVyIGFyZSBpbiB0aGUgS2NvbmZp
+ZyBmaWxlCmluc2lkZSB0aGUgcmVsZXZhbnQgZGlyZWN0b3J5LCBtb3ZlIHRoZXNlIHR3byB0byB0
+aGUgc2FtZS4KClNpZ25lZC1vZmYtYnk6IEFuZHJldyBGLiBEYXZpcyA8YWZkQHRpLmNvbT4KLS0t
+CiBkcml2ZXJzL2dwdS9kcm0vS2NvbmZpZyAgICAgICAgICAgIHwgMzQgLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9LY29uZmlnIHwgMTgg
+KysrKysrKysrKysrKysrKwogZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9LY29uZmlnICAgICB8IDE4
+ICsrKysrKysrKysrKysrKysKIDMgZmlsZXMgY2hhbmdlZCwgMzYgaW5zZXJ0aW9ucygrKSwgMzQg
+ZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL0tjb25maWcgYi9kcml2
+ZXJzL2dwdS9kcm0vS2NvbmZpZwppbmRleCBlNjdjMTk0YzJhY2EuLmJjNTMyOWI2OTdhZCAxMDA2
+NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL0tjb25maWcKKysrIGIvZHJpdmVycy9ncHUvZHJtL0tj
+b25maWcKQEAgLTIwMyw0MiArMjAzLDggQEAgc291cmNlICJkcml2ZXJzL2dwdS9kcm0vaTJjL0tj
+b25maWciCiAKIHNvdXJjZSAiZHJpdmVycy9ncHUvZHJtL2FybS9LY29uZmlnIgogCi1jb25maWcg
+RFJNX1JBREVPTgotCXRyaXN0YXRlICJBVEkgUmFkZW9uIgotCWRlcGVuZHMgb24gRFJNICYmIFBD
+SSAmJiBNTVUKLQlzZWxlY3QgRldfTE9BREVSCi0gICAgICAgIHNlbGVjdCBEUk1fS01TX0hFTFBF
+UgotICAgICAgICBzZWxlY3QgRFJNX1RUTQotCXNlbGVjdCBQT1dFUl9TVVBQTFkKLQlzZWxlY3Qg
+SFdNT04KLQlzZWxlY3QgQkFDS0xJR0hUX0NMQVNTX0RFVklDRQotCXNlbGVjdCBJTlRFUlZBTF9U
+UkVFCi0JaGVscAotCSAgQ2hvb3NlIHRoaXMgb3B0aW9uIGlmIHlvdSBoYXZlIGFuIEFUSSBSYWRl
+b24gZ3JhcGhpY3MgY2FyZC4gIFRoZXJlCi0JICBhcmUgYm90aCBQQ0kgYW5kIEFHUCB2ZXJzaW9u
+cy4gIFlvdSBkb24ndCBuZWVkIHRvIGNob29zZSB0aGlzIHRvCi0JICBydW4gdGhlIFJhZGVvbiBp
+biBwbGFpbiBWR0EgbW9kZS4KLQotCSAgSWYgTSBpcyBzZWxlY3RlZCwgdGhlIG1vZHVsZSB3aWxs
+IGJlIGNhbGxlZCByYWRlb24uCi0KIHNvdXJjZSAiZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9LY29u
+ZmlnIgogCi1jb25maWcgRFJNX0FNREdQVQotCXRyaXN0YXRlICJBTUQgR1BVIgotCWRlcGVuZHMg
+b24gRFJNICYmIFBDSSAmJiBNTVUKLQlzZWxlY3QgRldfTE9BREVSCi0gICAgICAgIHNlbGVjdCBE
+Uk1fS01TX0hFTFBFUgotCXNlbGVjdCBEUk1fU0NIRUQKLSAgICAgICAgc2VsZWN0IERSTV9UVE0K
+LQlzZWxlY3QgUE9XRVJfU1VQUExZCi0Jc2VsZWN0IEhXTU9OCi0Jc2VsZWN0IEJBQ0tMSUdIVF9D
+TEFTU19ERVZJQ0UKLQlzZWxlY3QgSU5URVJWQUxfVFJFRQotCXNlbGVjdCBDSEFTSAotCWhlbHAK
+LQkgIENob29zZSB0aGlzIG9wdGlvbiBpZiB5b3UgaGF2ZSBhIHJlY2VudCBBTUQgUmFkZW9uIGdy
+YXBoaWNzIGNhcmQuCi0KLQkgIElmIE0gaXMgc2VsZWN0ZWQsIHRoZSBtb2R1bGUgd2lsbCBiZSBj
+YWxsZWQgYW1kZ3B1LgotCiBzb3VyY2UgImRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L0tjb25m
+aWciCiAKIHNvdXJjZSAiZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvS2NvbmZpZyIKZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L0tjb25maWcgYi9kcml2ZXJzL2dwdS9kcm0v
+YW1kL2FtZGdwdS9LY29uZmlnCmluZGV4IDJlOThjMDE2Y2I0Ny4uYTUzNTU0NTU3Y2M2IDEwMDY0
+NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9LY29uZmlnCisrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9hbWQvYW1kZ3B1L0tjb25maWcKQEAgLTEsNCArMSwyMiBAQAogIyBTUERYLUxpY2Vu
+c2UtSWRlbnRpZmllcjogR1BMLTIuMC1vbmx5CisKK2NvbmZpZyBEUk1fQU1ER1BVCisJdHJpc3Rh
+dGUgIkFNRCBHUFUiCisJZGVwZW5kcyBvbiBEUk0gJiYgUENJICYmIE1NVQorCXNlbGVjdCBGV19M
+T0FERVIKKwlzZWxlY3QgRFJNX0tNU19IRUxQRVIKKwlzZWxlY3QgRFJNX1NDSEVECisJc2VsZWN0
+IERSTV9UVE0KKwlzZWxlY3QgUE9XRVJfU1VQUExZCisJc2VsZWN0IEhXTU9OCisJc2VsZWN0IEJB
+Q0tMSUdIVF9DTEFTU19ERVZJQ0UKKwlzZWxlY3QgSU5URVJWQUxfVFJFRQorCXNlbGVjdCBDSEFT
+SAorCWhlbHAKKwkgIENob29zZSB0aGlzIG9wdGlvbiBpZiB5b3UgaGF2ZSBhIHJlY2VudCBBTUQg
+UmFkZW9uIGdyYXBoaWNzIGNhcmQuCisKKwkgIElmIE0gaXMgc2VsZWN0ZWQsIHRoZSBtb2R1bGUg
+d2lsbCBiZSBjYWxsZWQgYW1kZ3B1LgorCiBjb25maWcgRFJNX0FNREdQVV9TSQogCWJvb2wgIkVu
+YWJsZSBhbWRncHUgc3VwcG9ydCBmb3IgU0kgcGFydHMiCiAJZGVwZW5kcyBvbiBEUk1fQU1ER1BV
+CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL0tjb25maWcgYi9kcml2ZXJzL2dw
+dS9kcm0vcmFkZW9uL0tjb25maWcKaW5kZXggNmY2MGY0ODQwY2M1Li5iYTY3Yjg3OWQzMWQgMTAw
+NjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vS2NvbmZpZworKysgYi9kcml2ZXJzL2dw
+dS9kcm0vcmFkZW9uL0tjb25maWcKQEAgLTEsNCArMSwyMiBAQAogIyBTUERYLUxpY2Vuc2UtSWRl
+bnRpZmllcjogR1BMLTIuMC1vbmx5CisKK2NvbmZpZyBEUk1fUkFERU9OCisJdHJpc3RhdGUgIkFU
+SSBSYWRlb24iCisJZGVwZW5kcyBvbiBEUk0gJiYgUENJICYmIE1NVQorCXNlbGVjdCBGV19MT0FE
+RVIKKwlzZWxlY3QgRFJNX0tNU19IRUxQRVIKKwlzZWxlY3QgRFJNX1RUTQorCXNlbGVjdCBQT1dF
+Ul9TVVBQTFkKKwlzZWxlY3QgSFdNT04KKwlzZWxlY3QgQkFDS0xJR0hUX0NMQVNTX0RFVklDRQor
+CXNlbGVjdCBJTlRFUlZBTF9UUkVFCisJaGVscAorCSAgQ2hvb3NlIHRoaXMgb3B0aW9uIGlmIHlv
+dSBoYXZlIGFuIEFUSSBSYWRlb24gZ3JhcGhpY3MgY2FyZC4gIFRoZXJlCisJICBhcmUgYm90aCBQ
+Q0kgYW5kIEFHUCB2ZXJzaW9ucy4gIFlvdSBkb24ndCBuZWVkIHRvIGNob29zZSB0aGlzIHRvCisJ
+ICBydW4gdGhlIFJhZGVvbiBpbiBwbGFpbiBWR0EgbW9kZS4KKworCSAgSWYgTSBpcyBzZWxlY3Rl
+ZCwgdGhlIG1vZHVsZSB3aWxsIGJlIGNhbGxlZCByYWRlb24uCisKIGNvbmZpZyBEUk1fUkFERU9O
+X1VTRVJQVFIKIAlib29sICJBbHdheXMgZW5hYmxlIHVzZXJwdHIgc3VwcG9ydCIKIAlkZXBlbmRz
+IG9uIERSTV9SQURFT04KLS0gCjIuMTcuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVs
