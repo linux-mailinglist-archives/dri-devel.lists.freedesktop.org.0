@@ -2,70 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6344BD8AE2
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2019 10:27:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 351C3D8B95
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2019 10:44:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A16FC6E8F8;
-	Wed, 16 Oct 2019 08:27:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01C966E8FA;
+	Wed, 16 Oct 2019 08:44:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
- [IPv6:2a00:1450:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E3D86E8F6
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2019 08:27:21 +0000 (UTC)
-Received: by mail-ed1-x542.google.com with SMTP id l21so20626882edr.5
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2019 01:27:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hIVVy6cMJGB/802PPmCv+d212rxtmpqIPcdcqOUFqaw=;
- b=Fq82W8S7NDGfniStBVsM3CadRAcrl0rSvlcwyPJmFyW4PD1LhvdRTatzgHGvfEcaqv
- VYO0irF08DMJ1kt8UDL4eVR8YkzShx9S/wrkt3ojD/GUWF7HmYgnUK5vO2o7hmXf51gg
- g1+BH4TCqiWws4vkd+tpr9/1vkTTUNcnx3INaSFi/WWA7O7eNl4AKWx/znCyMad7JTEw
- BVHFAKX9wW24HV4B0cTaMCCeu13y2GUMtgnIgcAlby1YQp49a3nmZsim9uuvJNIUuJmB
- YCCAeFrxqTmJRYlLObvG248N4B6Tq6gSI3l5oMDbF8J0I0VbxdPN9x6ageCPA5GlvH4t
- 57VQ==
-X-Gm-Message-State: APjAAAXJTWf9yPF/MU6keV7fJ7nvQD0ssvB7fIazFLJ8a8A/CuySBO84
- xY4/c5rKPpcKMkxNTDAG1FgHb/2nMzBGiA==
-X-Google-Smtp-Source: APXvYqzHopTVzN54ZSn7MbvKwd2E2L0i/KdmpmWg2AAmCogjXTAD+l1YXJ6FBWqM4RaS2a4lVzJRBw==
-X-Received: by 2002:a17:906:3e41:: with SMTP id
- t1mr16371212eji.103.1571214439718; 
- Wed, 16 Oct 2019 01:27:19 -0700 (PDT)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com.
- [209.85.221.52])
- by smtp.gmail.com with ESMTPSA id f21sm4008574edt.52.2019.10.16.01.27.16
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Oct 2019 01:27:18 -0700 (PDT)
-Received: by mail-wr1-f52.google.com with SMTP id n14so26885496wrw.9
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2019 01:27:16 -0700 (PDT)
-X-Received: by 2002:adf:f3c9:: with SMTP id g9mr1541264wrp.7.1571214436369;
- Wed, 16 Oct 2019 01:27:16 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AEED36E8FA
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2019 08:44:10 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id AC55A7296E; Wed, 16 Oct 2019 08:44:10 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 112017] [CI][SHARDS]igt@kms_frontbuffer_tracking@* - fail -
+ Failed assertion: drm.bufmgr
+Date: Wed, 16 Oct 2019 08:44:07 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: IGT
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: chris@chris-wilson.co.uk
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: component qa_contact resolution bug_status
+ assigned_to
+Message-ID: <bug-112017-502-MWWlUDSaUC@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-112017-502@http.bugs.freedesktop.org/>
+References: <bug-112017-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190912094121.228435-1-tfiga@chromium.org>
- <20190917132305.GV3958@phenom.ffwll.local>
- <CAAFQd5ADmObo1yVnFGaWDU=DHF+tex3tWJxTZLkxv=EdGNNM7A@mail.gmail.com>
- <20191008100328.GN16989@phenom.ffwll.local>
- <CAAFQd5CR2YhyNoSv7=nUhPQ7Nap6n36DrtsCfqS+-iWydAqbNA@mail.gmail.com>
- <20191008150435.GO16989@phenom.ffwll.local>
- <CAAFQd5DhKn_2uSA=1JDSj0H98aT8X9UjxWaTBwZCDfOC7YR5Sg@mail.gmail.com>
- <20191016061201.iinqjcw6trx5qztq@sirius.home.kraxel.org>
-In-Reply-To: <20191016061201.iinqjcw6trx5qztq@sirius.home.kraxel.org>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Wed, 16 Oct 2019 17:27:04 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5B2KRJ4hKuh2rwYvgY+FLzAR-ZqNthz9XrsaPm3v3Rsnw@mail.gmail.com>
-Message-ID: <CAAFQd5B2KRJ4hKuh2rwYvgY+FLzAR-ZqNthz9XrsaPm3v3Rsnw@mail.gmail.com>
-Subject: Re: [RFC PATCH] drm/virtio: Export resource handles via DMA-buf API
-To: Gerd Hoffmann <kraxel@redhat.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=hIVVy6cMJGB/802PPmCv+d212rxtmpqIPcdcqOUFqaw=;
- b=VvfuWundF+ym1IvwwPUppv/LB2L6Z21+F3nWhnuESRQu/dDkWkWnxN0HOvt5o37maW
- N782ZuvA6/DkOtFY9J/AVKwZM2Nn7izbDjEItH/mnqH72fr1AqBGLm+iAvRBRvnsyG1Y
- Nx9XjRhpxAQnyGW6SpPO85uINTa/rxfc30qNE=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,25 +54,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zach Reizner <zachr@chromium.org>, David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- virtualization@lists.linux-foundation.org,
- Keiichi Watanabe <keiichiw@chromium.org>, stevensd@chromium.org,
- =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
- Pawel Osciak <posciak@chromium.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1505319908=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBPY3QgMTYsIDIwMTkgYXQgMzoxMiBQTSBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVk
-aGF0LmNvbT4gd3JvdGU6Cj4KPiAgIEhpLAo+Cj4gPiB1cCBsYXRlciB3aGVuIGdpdmVuIGEgYnVm
-ZmVyIGluZGV4LiBCdXQgd2Ugd291bGQgc3RpbGwgbmVlZCB0byBtYWtlCj4gPiB0aGUgRE1BLWJ1
-ZiBpdHNlbGYgaW1wb3J0YWJsZS4gRm9yIHZpcnRpby1ncHUgSSBndWVzcyB0aGF0IHdvdWxkIG1l
-YW4KPiA+IHJldHVybmluZyBhbiBzZ190YWJsZSBiYWNrZWQgYnkgdGhlIHNoYWRvdyBidWZmZXIg
-cGFnZXMuCj4KPiBUaGUgdmlydGlvLWdwdSBkcml2ZXIgaW4gZHJtLW1pc2MtbmV4dCBzdXBwb3J0
-cyBkbWEtYnVmIGV4cG9ydHMuCgpHb29kIHRvIGtub3csIHRoYW5rcy4KCkJlc3QgcmVnYXJkcywK
-VG9tYXN6Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1505319908==
+Content-Type: multipart/alternative; boundary="15712154501.6F1d3B.25432"
+Content-Transfer-Encoding: 7bit
+
+
+--15712154501.6F1d3B.25432
+Date: Wed, 16 Oct 2019 08:44:10 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112017
+
+Chris Wilson <chris@chris-wilson.co.uk> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+          Component|DRM/Intel                   |IGT
+         QA Contact|intel-gfx-bugs@lists.freede |
+                   |sktop.org                   |
+         Resolution|---                         |FIXED
+             Status|NEW                         |RESOLVED
+           Assignee|intel-gfx-bugs@lists.freede |dri-devel@lists.freedesktop
+                   |sktop.org                   |.org
+
+--- Comment #2 from Chris Wilson <chris@chris-wilson.co.uk> ---
+Glitch in the build matrix.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15712154501.6F1d3B.25432
+Date: Wed, 16 Oct 2019 08:44:10 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:chris&#64=
+;chris-wilson.co.uk" title=3D"Chris Wilson &lt;chris&#64;chris-wilson.co.uk=
+&gt;"> <span class=3D"fn">Chris Wilson</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - [CI][SHARDS]igt&#64;kms_frontbuffer_tracking&#=
+64;* - fail - Failed assertion: drm.bufmgr"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112017">bug 11201=
+7</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Component</td>
+           <td>DRM/Intel
+           </td>
+           <td>IGT
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">QA Contact</td>
+           <td>intel-gfx-bugs&#64;lists.freedesktop.org
+           </td>
+           <td>
+               &nbsp;
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>FIXED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Assignee</td>
+           <td>intel-gfx-bugs&#64;lists.freedesktop.org
+           </td>
+           <td>dri-devel&#64;lists.freedesktop.org
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - [CI][SHARDS]igt&#64;kms_frontbuffer_tracking&#=
+64;* - fail - Failed assertion: drm.bufmgr"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112017#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - [CI][SHARDS]igt&#64;kms_frontbuffer_tracking&#=
+64;* - fail - Failed assertion: drm.bufmgr"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112017">bug 11201=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+chris&#64;chris-wilson.co.uk" title=3D"Chris Wilson &lt;chris&#64;chris-wil=
+son.co.uk&gt;"> <span class=3D"fn">Chris Wilson</span></a>
+</span></b>
+        <pre>Glitch in the build matrix.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15712154501.6F1d3B.25432--
+
+--===============1505319908==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1505319908==--
