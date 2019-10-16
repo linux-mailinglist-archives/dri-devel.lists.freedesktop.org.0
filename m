@@ -1,56 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16F04D91B3
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2019 14:57:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98BD0D91F1
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2019 15:03:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4098D89DF7;
-	Wed, 16 Oct 2019 12:57:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA1C86E976;
+	Wed, 16 Oct 2019 13:03:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
- [IPv6:2607:f8b0:4864:20::742])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23AE089DF7
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2019 12:57:10 +0000 (UTC)
-Received: by mail-qk1-x742.google.com with SMTP id y189so22627493qkc.3
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2019 05:57:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iKYnCxXI+enDKKpRO1ujL8VETmHUaDu3E+T33R6ISPM=;
- b=V8SHJoWoRVrQKkMm01+3qQsBuGglhbFMGCZKGXhk9xlIayAd0YlW3oSf3Oh2Weg03v
- 0ZJPWVCyISbUaWchx26RGdWpwbhbyJ9oQ2u7LElzU7BnNzXo+6DIg4U1jFv5r/7IMOjb
- RB8/y3OPCC5QcyQsh8JPQOTd+XL71Dm9pwdBZaW8hjni1PU1MFEPCgMNL7eynJYQoYzc
- T5IoU48slnGgHzB7Y2j3fJmo6wHx/xnRhTNkVUyIn5YlGKjxy1//ZiZa6ptIu0Fwb8ea
- V10/oL2A1gXowv6usks/EKbgNFjnEyJDHGVk5MJZIAyxbDQIJQybccapZMBPZxN8EEAQ
- 9svA==
-X-Gm-Message-State: APjAAAXQ4HBnpliX6bURs/zUf2yj2LPcJFK9EE8zWbuvtoXP+bbiU8Ov
- 6sHUkNuYe4ltnBUacIeAJW2JKx5jO8Ck2GFnj5JawQ==
-X-Google-Smtp-Source: APXvYqznfR9xVNBpGb36Jsp8fvtPYC6w0IX8Z65LGupMXk2zMNyuYFGC3dG8oecpreWNjUjM4OyYtcubd/IaRbgJffA=
-X-Received: by 2002:a05:620a:34b:: with SMTP id
- t11mr38227900qkm.213.1571230629198; 
- Wed, 16 Oct 2019 05:57:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191007033200.13443-1-brgl@bgdev.pl> <20191014081220.GK4545@dell>
-In-Reply-To: <20191014081220.GK4545@dell>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 16 Oct 2019 14:56:57 +0200
-Message-ID: <CACRpkda9Kco-bVPw1OA6FMpQ1L8dZ4WFJ227wTCM9rh5JE7-+A@mail.gmail.com>
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B022A6E976
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2019 13:03:52 +0000 (UTC)
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it
+ [2.224.242.101]) (Authenticated sender: jacopo@jmondi.org)
+ by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id E6C754001D;
+ Wed, 16 Oct 2019 13:03:47 +0000 (UTC)
+Date: Wed, 16 Oct 2019 15:05:36 +0200
+From: Jacopo Mondi <jacopo@jmondi.org>
+To: Linus Walleij <linus.walleij@linaro.org>
 Subject: Re: [PATCH v5 0/7] backlight: gpio: simplify the driver
-To: Lee Jones <lee.jones@linaro.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=iKYnCxXI+enDKKpRO1ujL8VETmHUaDu3E+T33R6ISPM=;
- b=g+hwROET54h2vndrV5UvySYq7yp4qvTU86tqp4hmxXDtqKunS2ZAkElaa58Q5b4Q8D
- M1ywHBIht82QXc0sQVnbrPHvj/77gY5eosNK8hQ57ufu93BZWmbfvHTwXMyNa6fnpzXa
- 1PN3FvGDq+leBePGK/7aSGNWvUDLqMkfCcbyiVYHfRQtVyXktxQg8UuNek2nnYs/epA9
- LTtVGWlzRReML6keZeXR3wcPzCm8eQWLQk3G/4OKsBlnUS3D94qdF20EvR61SCA9XRva
- ssR4DyZSN19wIDjz3MgR9L2lJCmq5uSYaMwXvKF0seOtB1wgHwYAWSVCE58/8T/cafDj
- cjzg==
+Message-ID: <20191016130536.222vsi5whkoy6vzo@uno.localdomain>
+References: <20191007033200.13443-1-brgl@bgdev.pl> <20191014081220.GK4545@dell>
+ <CACRpkda9Kco-bVPw1OA6FMpQ1L8dZ4WFJ227wTCM9rh5JE7-+A@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CACRpkda9Kco-bVPw1OA6FMpQ1L8dZ4WFJ227wTCM9rh5JE7-+A@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,23 +44,84 @@ Cc: Daniel Thompson <daniel.thompson@linaro.org>, Rich Felker <dalias@libc.org>,
  Yoshinori Sato <ysato@users.sourceforge.jp>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
  Jingoo Han <jingoohan1@gmail.com>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Linux-sh list <linux-sh@vger.kernel.org>, Jacopo Mondi <jacopo@jmondi.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Linux-sh list <linux-sh@vger.kernel.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
  Bartosz Golaszewski <bgolaszewski@baylibre.com>,
  Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Lee Jones <lee.jones@linaro.org>
+Content-Type: multipart/mixed; boundary="===============0248627059=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBPY3QgMTQsIDIwMTkgYXQgMTA6MTIgQU0gTGVlIEpvbmVzIDxsZWUuam9uZXNAbGlu
-YXJvLm9yZz4gd3JvdGU6Cgo+ID4gIGFyY2gvc2gvYm9hcmRzL21hY2gtZWNvdmVjMjQvc2V0dXAu
-YyAgICAgICAgIHwgIDMzICsrKystLQo+Cj4gSSBndWVzcyB3ZSdyZSBqdXN0IHdhaXRpbmcgZm9y
-IHRoZSBTSCBBY2tzIG5vdz8KClRoZSBvbmUgbWFpbnRhaW5lciB3aXRoIHRoaXMgYm9hcmQgaXMg
-cHJvYmFibHkgb3ZlcmxvYWRlZC4KCkkgd291bGQgc2F5IGp1c3QgYXBwbHkgaXQsIGl0IGNhbid0
-IGhvbGQgYmFjayB0aGUgZW50aXJlIHNlcmllcy4KCllvdXJzLApMaW51cyBXYWxsZWlqCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0248627059==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="obmlgf7bnd7gsis3"
+Content-Disposition: inline
+
+
+--obmlgf7bnd7gsis3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+Hi, sorry for not having replied earlier
+
+On Wed, Oct 16, 2019 at 02:56:57PM +0200, Linus Walleij wrote:
+> On Mon, Oct 14, 2019 at 10:12 AM Lee Jones <lee.jones@linaro.org> wrote:
+>
+> > >  arch/sh/boards/mach-ecovec24/setup.c         |  33 ++++--
+> >
+> > I guess we're just waiting for the SH Acks now?
+>
+> The one maintainer with this board is probably overloaded.
+>
+> I would say just apply it, it can't hold back the entire series.
+
+I've been able to resurect the Ecovec, and I've also been given a copy
+of its schematics file a few weeks ago.
+
+It's in my TODO list to test this series but I didn't manage to find
+time. If I pinky promise I get back to you before end of the week,
+could you wait for me ? :)
+
+Thanks and sorry again!
+
+>
+> Yours,
+> Linus Walleij
+
+--obmlgf7bnd7gsis3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl2nFaAACgkQcjQGjxah
+VjzoFBAAhwhZPZe4vv+vLpIH9nXV/zZkAZjerr/FDZoeAm13GfCbvATlAG3xuN2O
+/yt4lmoNa0HPZn59BxgVUsCZC5/uTUg8NosCm33YOUGtYU1bhqo9dvBIQc2U7OXJ
+u+CxQrlsXVXJtF+51bzDbU0dQRXgccwVhl8F0KMtq/OwyzboyFOl400CN5CqIKHP
+Htq5yUN7BPhMNWtSM9ar/CfZpLQUvhl2P/h4id6uuPhM8CQtlDEHxHSULFxtJBwl
+w7y0N5f+7wUKtrPVsJ5M6ya3iPrhda49XWtcEPuYGGkOxgM3DiLJENLnStTf78Bh
+4hde/25m0jCdbqqRENmccyBcznO1ljcdQOYTAZty+ufXtTWFcJwNk7+Obaz2P447
+09kuzxY+Syp7QWAmjh9R1gxaxBpfHCkALgttNqws8jLhou70YeglHSgA/4z/aHgK
+wgTcAz2HrzgbtJA15KTO9x+99Gyr/NzJE7ffXSNPXket5u9U2O0r+efDKeCMAGVl
+O1YQD4zAnk460taT03o8QndflimZp1kq8Wg8PlXgV3y4XAsIgq64Dc2QGqzLaxI6
+30Ak7ph277+RSc6SU6lMazid9TF/b8sf1Rk8tc/usVoWrN7BoHhyFSJj9tdFG71f
+kFfg9ieXD+Lno9Ri03PmblRxX1Qted/2kJzw6YX65On55W72l0A=
+=RcMR
+-----END PGP SIGNATURE-----
+
+--obmlgf7bnd7gsis3--
+
+--===============0248627059==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0248627059==--
