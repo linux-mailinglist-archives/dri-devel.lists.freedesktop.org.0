@@ -1,38 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4361DCE53
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2019 20:39:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43D9ADCE29
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2019 20:38:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FF536EB97;
-	Fri, 18 Oct 2019 18:39:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEC7E6EB99;
+	Fri, 18 Oct 2019 18:37:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F3236E086;
- Wed, 16 Oct 2019 11:16:11 +0000 (UTC)
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id EACCDA952248D822D464;
- Wed, 16 Oct 2019 19:16:04 +0800 (CST)
-Received: from localhost (10.133.213.239) by DGGEMS410-HUB.china.huawei.com
- (10.3.19.210) with Microsoft SMTP Server id 14.3.439.0; Wed, 16 Oct 2019
- 19:15:57 +0800
-From: YueHaibing <yuehaibing@huawei.com>
-To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
- <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
- <David1.Zhou@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <Bhawanpreet.Lakha@amd.com>, <Jun.Lei@amd.com>, <Anthony.Koo@amd.com>,
- <Eric.Yang2@amd.com>, <Wenjing.Liu@amd.com>, <David.Francis@amd.com>,
- <nikola.cornij@amd.com>, <Chris.Park@amd.com>, <martin.leung@amd.com>,
- <david.galiffi@amd.com>
-Subject: [PATCH -next] drm/amd/display: Make dc_link_detect_helper static
-Date: Wed, 16 Oct 2019 19:15:41 +0800
-Message-ID: <20191016111541.20208-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.10.2.windows.1
+Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net
+ [194.109.24.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 166796E97E
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2019 13:39:24 +0000 (UTC)
+Received: from tschai.fritz.box ([46.9.232.237])
+ by smtp-cloud8.xs4all.net with ESMTPA
+ id KjWGiHz9CPduvKjWKirEmL; Wed, 16 Oct 2019 15:39:22 +0200
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Subject: [PATCHv8 0/2] drm: tda998x: use cec_notifier_conn_(un)register
+Date: Wed, 16 Oct 2019 15:39:14 +0200
+Message-Id: <20191016133916.21475-1-hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-X-Originating-IP: [10.133.213.239]
-X-CFilter-Loop: Reflected
+X-CMAE-Envelope: MS4wfE2wvjBYiAvhFfBUXuFE0uMfRS1MwR8IivP7xwmNNc/ArZH/TjkyUtk5waN0KoBCfZzKcT5iPgx+6XudQezFQaB/S9MyqEhsb++uoaDd2B1kVEYo2sVs
+ F/xRpiagZmJcyfwQwp4ka3NOP9cdsmjRLOPnlxtTFRIPE3bj0JPZsErnRUKOCg2OngAnulh2mvs5DD9iCu1/ThVD52Idx8c5gbjgMQGg3YT5yFdoRPeVfJmD
+ uJuNkJoSh3IbnO67SKMI5b6u3BGSQwOP8PtN0/QTw0CezN5F4OWM4PjeE8LVvoePR71TZkmfRPYuLkf0BL2ka3NA4hMk6q7DJ4nb6pQHtmNqxsMb/KqsTeaf
+ p6+Ut512G8F19k3azUMSVq3xQ7QXHg==
 X-Mailman-Approved-At: Fri, 18 Oct 2019 18:37:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -46,32 +40,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: YueHaibing <yuehaibing@huawei.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Dariusz Marcinkiewicz <darekm@google.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, Russell King <linux@armlinux.org.uk>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4IHNwYXJzZSB3YXJuaW5nOgoKZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvLi4vZGlzcGxh
-eS9kYy9jb3JlL2RjX2xpbmsuYzo3NDY6NjoKIHdhcm5pbmc6IHN5bWJvbCAnZGNfbGlua19kZXRl
-Y3RfaGVscGVyJyB3YXMgbm90IGRlY2xhcmVkLiBTaG91bGQgaXQgYmUgc3RhdGljPwoKUmVwb3J0
-ZWQtYnk6IEh1bGsgUm9ib3QgPGh1bGtjaUBodWF3ZWkuY29tPgpTaWduZWQtb2ZmLWJ5OiBZdWVI
-YWliaW5nIDx5dWVoYWliaW5nQGh1YXdlaS5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9k
-aXNwbGF5L2RjL2NvcmUvZGNfbGluay5jIHwgMyArKy0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2Vy
-dGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1k
-L2Rpc3BsYXkvZGMvY29yZS9kY19saW5rLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkv
-ZGMvY29yZS9kY19saW5rLmMKaW5kZXggZmIxODY4MS4uOTM1MDUzNiAxMDA2NDQKLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2NvcmUvZGNfbGluay5jCisrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9hbWQvZGlzcGxheS9kYy9jb3JlL2RjX2xpbmsuYwpAQCAtNzQzLDcgKzc0Myw4IEBA
-IHN0YXRpYyBib29sIHdhaXRfZm9yX2FsdF9tb2RlKHN0cnVjdCBkY19saW5rICpsaW5rKQogICog
-VGhpcyBkb2VzIG5vdCBjcmVhdGUgcmVtb3RlIHNpbmtzIGJ1dCB3aWxsIHRyaWdnZXIgRE0KICAq
-IHRvIHN0YXJ0IE1TVCBkZXRlY3Rpb24gaWYgYSBicmFuY2ggaXMgZGV0ZWN0ZWQuCiAgKi8KLWJv
-b2wgZGNfbGlua19kZXRlY3RfaGVscGVyKHN0cnVjdCBkY19saW5rICpsaW5rLCBlbnVtIGRjX2Rl
-dGVjdF9yZWFzb24gcmVhc29uKQorc3RhdGljIGJvb2wgZGNfbGlua19kZXRlY3RfaGVscGVyKHN0
-cnVjdCBkY19saW5rICpsaW5rLAorCQkJCSAgZW51bSBkY19kZXRlY3RfcmVhc29uIHJlYXNvbikK
-IHsKIAlzdHJ1Y3QgZGNfc2lua19pbml0X2RhdGEgc2lua19pbml0X2RhdGEgPSB7IDAgfTsKIAlz
-dHJ1Y3QgZGlzcGxheV9zaW5rX2NhcGFiaWxpdHkgc2lua19jYXBzID0geyAwIH07Ci0tIAoyLjcu
-NAoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+VGhpcyBzcGxpdHMgdGhlIHByZXZpb3VzIHY3LjIgcGF0Y2ggKDEpIGludG8gdHdvIHBhcnRzOiBv
+bmUgdGhhdCByZXBsYWNlcwpjZWNfbm90aWZpZXJfZ2V0L3B1dCBieSBjZWNfbm90aWZpZXJfY29u
+bl8odW4pcmVnaXN0ZXIsIGFuZCBvbmUgdGhhdApzZXRzIHRoZSBjb25uZWN0b3IgaW5mby4KClRo
+YXQgc2Vjb25kIHBhdGNoIG1vdmVzIHRoZSBDRUMgbm90aWZpZXIgY29kZSB0byB0ZGE5OTh4X2Jy
+aWRnZV9kZXRhY2gsCmJ1dCBMYXVyZW50IGlzIG1ha2luZyBjaGFuZ2VzIGluIHRoYXQgYXJlYSBh
+bmQgcHJlZmVycyB0aGF0IHRoaXMgaXNuJ3QKaW1wbGVtZW50ZWQgeWV0LgoKQnV0IHRoZSByZXBs
+YWNlbWVudCBvZiB0aGUgY2VjX25vdGlmaWVyX2dldC9wdXQgZnVuY3Rpb25zIGlzIHNvbWV0aGlu
+Zwp0aGF0IG5lZWRzIHRvIGJlIGZpbmlzaGVkIGZvciB2NS41LgoKQnkgc3BsaXR0aW5nIHRoaXMg
+cGF0Y2ggdXAgSSBjYW4gbWVyZ2UgdGhlIGZpcnN0IGhhbGYsIGJ1dCBkZWxheSB0aGUKc2Vjb25k
+IGhhbGYuIFRoaXMgdGRhIGRyaXZlciBqdXN0IHdvbid0IGJlIGFibGUgdG8gcmVwb3J0IHRoZSBj
+b25uZWN0b3IKaW5mb3JtYXRpb24gaW4gdGhlIG1lYW50aW1lLgoKUmVnYXJkcywKCglIYW5zCgoo
+MSkgaHR0cHM6Ly9wYXRjaHdvcmsubGludXh0di5vcmcvcGF0Y2gvNTg0NjQvCgpEYXJpdXN6IE1h
+cmNpbmtpZXdpY3ogKDIpOgogIGRybTogdGRhOTk4eDogdXNlIGNlY19ub3RpZmllcl9jb25uXyh1
+bilyZWdpc3RlcgogIGRybTogdGRhOTk4eDogc2V0IHRoZSBjb25uZWN0b3IgaW5mbwoKIGRyaXZl
+cnMvZ3B1L2RybS9pMmMvdGRhOTk4eF9kcnYuYyB8IDM4ICsrKysrKysrKysrKysrKysrKysrKyst
+LS0tLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCAyNyBpbnNlcnRpb25zKCspLCAxMSBkZWxldGlvbnMo
+LSkKCi0tIAoyLjIzLjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbA==
