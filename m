@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F44EDB78B
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2019 21:32:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20438DB78E
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2019 21:33:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9449C6EA37;
-	Thu, 17 Oct 2019 19:32:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F71A6EA3F;
+	Thu, 17 Oct 2019 19:33:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 650866EA44
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2019 19:32:05 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0FA0B6EA3F
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2019 19:33:03 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 61D867296E; Thu, 17 Oct 2019 19:32:05 +0000 (UTC)
+ id 0CAEF7296E; Thu, 17 Oct 2019 19:33:03 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
  with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Thu, 17 Oct 2019 19:31:26 +0000
+Date: Thu, 17 Oct 2019 19:33:02 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,8 +34,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111481-502-0825tmJwnA@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111481-502-WfV1xwdYaI@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
 References: <bug-111481-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0719917587=="
+Content-Type: multipart/mixed; boundary="===============0237538828=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0719917587==
-Content-Type: multipart/alternative; boundary="15713407254.eB1bf07E.30702"
+--===============0237538828==
+Content-Type: multipart/alternative; boundary="15713407830.9f5D96.30702"
 Content-Transfer-Encoding: 7bit
 
 
---15713407254.eB1bf07E.30702
-Date: Thu, 17 Oct 2019 19:32:05 +0000
+--15713407830.9f5D96.30702
+Date: Thu, 17 Oct 2019 19:33:02 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,23 +73,25 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
 
---- Comment #101 from Marko Popovic <popovic.marko@protonmail.com> ---
-Created attachment 145766
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145766&action=3Dedit
-APITrace from Rocket League successful launch
+--- Comment #102 from Marko Popovic <popovic.marko@protonmail.com> ---
+(In reply to Marko Popovic from comment #101)
+> Created attachment 145766 [details]
+> APITrace from Rocket League successful launch
+>=20
+> Ok so since it was unable to be reproduced with that 1 frame long trace,
+> here I'm attaching a trace file that happens when Rocket League launches
+> successfully... Maybe you guys can get some information out of the trace =
+on
+> what might cause the SDMA hangs 80% of the time when launching the game.
 
-Ok so since it was unable to be reproduced with that 1 frame long trace, he=
-re
-I'm attaching a trace file that happens when Rocket League launches
-successfully... Maybe you guys can get some information out of the trace on
-what might cause the SDMA hangs 80% of the time when launching the game.
+PS: Hang usually occurs immidiately when games try to launch itself.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15713407254.eB1bf07E.30702
-Date: Thu, 17 Oct 2019 19:32:05 +0000
+--15713407830.9f5D96.30702
+Date: Thu, 17 Oct 2019 19:33:03 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -107,8 +109,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
  kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c101">Comm=
-ent # 101</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c102">Comm=
+ent # 102</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
@@ -119,19 +121,25 @@ ent # 101</a>
 popovic.marko&#64;protonmail.com" title=3D"Marko Popovic &lt;popovic.marko&=
 #64;protonmail.com&gt;"> <span class=3D"fn">Marko Popovic</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145766=
-" name=3D"attach_145766" title=3D"APITrace from Rocket League successful la=
-unch">attachment 145766</a> <a href=3D"attachment.cgi?id=3D145766&amp;actio=
-n=3Dedit" title=3D"APITrace from Rocket League successful launch">[details]=
-</a></span>
-APITrace from Rocket League successful launch
+        <pre>(In reply to Marko Popovic from <a href=3D"show_bug.cgi?id=3D1=
+11481#c101">comment #101</a>)
+<span class=3D"quote">&gt; Created <span class=3D""><a href=3D"attachment.c=
+gi?id=3D145766" name=3D"attach_145766" title=3D"APITrace from Rocket League=
+ successful launch">attachment 145766</a> <a href=3D"attachment.cgi?id=3D14=
+5766&amp;action=3Dedit" title=3D"APITrace from Rocket League successful lau=
+nch">[details]</a></span>
+&gt; APITrace from Rocket League successful launch
+&gt;=20
+&gt; Ok so since it was unable to be reproduced with that 1 frame long trac=
+e,
+&gt; here I'm attaching a trace file that happens when Rocket League launch=
+es
+&gt; successfully... Maybe you guys can get some information out of the tra=
+ce on
+&gt; what might cause the SDMA hangs 80% of the time when launching the gam=
+e.</span >
 
-Ok so since it was unable to be reproduced with that 1 frame long trace, he=
-re
-I'm attaching a trace file that happens when Rocket League launches
-successfully... Maybe you guys can get some information out of the trace on
-what might cause the SDMA hangs 80% of the time when launching the game.</p=
-re>
+PS: Hang usually occurs immidiately when games try to launch itself.</pre>
         </div>
       </p>
 
@@ -145,9 +153,9 @@ re>
     </body>
 </html>=
 
---15713407254.eB1bf07E.30702--
+--15713407830.9f5D96.30702--
 
---===============0719917587==
+--===============0237538828==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -157,4 +165,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0719917587==--
+--===============0237538828==--
