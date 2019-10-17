@@ -1,42 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F911DA5F5
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2019 09:06:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E109DA655
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2019 09:22:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0AA86E9F4;
-	Thu, 17 Oct 2019 07:06:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 803F06E453;
+	Thu, 17 Oct 2019 07:22:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D1606E9F4
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2019 07:06:43 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2019 00:06:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,306,1566889200"; d="scan'208";a="221031393"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by fmsmga004.fm.intel.com with ESMTP; 17 Oct 2019 00:06:40 -0700
-Received: from andy by smile with local (Exim 4.92.2)
- (envelope-from <andriy.shevchenko@intel.com>)
- id 1iKzrr-0008G3-03; Thu, 17 Oct 2019 10:06:39 +0300
-Date: Thu, 17 Oct 2019 10:06:38 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] spi: pxa2xx: Set controller->max_transfer_size in dma mode
-Message-ID: <20191017070638.GB32742@smile.fi.intel.com>
-References: <20191016195721.3714-1-daniel.vetter@ffwll.ch>
- <20191017064426.30814-1-daniel.vetter@ffwll.ch>
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 543FB6E453
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2019 07:22:28 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id b20so1382478ljj.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2019 00:22:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=uZdFfHnySTEwK72wxovqAAx7jEJGQ4Xo3h3H48qnX3Y=;
+ b=Yf4+8naoPbV4xPC7BgewAP1KSNQay1Dz+fgTyK5etlZ4q2cP71m+EQXdqSCKugrZw0
+ 6zCBhLTGAnqWn4HFywLUsEnl5Awl1H13wdwL8D2OJBqNWC2yKKDWKQ5yRXpdShmLh/t3
+ duZ11UNDK4Lv5I6AxWUzCEiRBfDReHwuU5KDCr11aSENVwTlsp+GsCuUsNMbBs2hYGx2
+ HWCfzGLPUQ8dibN0KCvA5Q0GkYrK2F2b979IzTGhIuGErspL89amsTaeip8kBAmd1SB2
+ Cr+cAhnXIeGD5NJtprY9sp/fGmRRIKSLjQaskDSimJmDz9h+bV31tar+bViroiStGx+B
+ k/ag==
+X-Gm-Message-State: APjAAAUi4fEgM9mw/1gE+EoLAxW45x+LEXMQD2G5IPvWsfpYANqM7EEi
+ vkCB8lEHqUnFmyi5RxL7Jw4=
+X-Google-Smtp-Source: APXvYqy7/Hl13kES7WG8q3Kkoz4qWbu9PFVnKV3wCYvXiaLJoIqZvN19blJSJUWCvR6bIEeqb4e84Q==
+X-Received: by 2002:a2e:8197:: with SMTP id e23mr1454067ljg.218.1571296946611; 
+ Thu, 17 Oct 2019 00:22:26 -0700 (PDT)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id s7sm565140ljs.16.2019.10.17.00.22.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Oct 2019 00:22:26 -0700 (PDT)
+Date: Thu, 17 Oct 2019 10:22:16 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm: Funnel drm logs to tracepoints
+Message-ID: <20191017102216.20f98533@eldfell.localdomain>
+In-Reply-To: <d6b47400-c254-4f6b-5fac-59693571dee0@suse.de>
+References: <20191010204823.195540-1-sean@poorly.run>
+ <242462f0-ac8d-ab8a-e567-74678da3f68f@suse.de>
+ <20191015191156.GW85762@art_vandelay>
+ <20191015200233.GK1208@intel.com>
+ <CAKMK7uE_DiXH_Gz6JBObv_Fs7cUhkH1wTVw4LDx2GZVueqYAPA@mail.gmail.com>
+ <20191016160557.73b634c9@eldfell.localdomain>
+ <d6b47400-c254-4f6b-5fac-59693571dee0@suse.de>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191017064426.30814-1-daniel.vetter@ffwll.ch>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version;
+ bh=uZdFfHnySTEwK72wxovqAAx7jEJGQ4Xo3h3H48qnX3Y=;
+ b=oLecQv9YV7wC8yIGP5tOMKYXEHicb6YgOgybmfZv7zbkqOUh7EBNWjWwzYgOZzPdQ/
+ gbfN42k3Nw29CxPTkaJt+zWdlmvH9x/E46MtDTcuofc5uHo+NM16oE6Q6dJGfdRfXLek
+ RO7AWi+kbGz7mhAvpY3vwwAsBjvKPJ1uSHUxrJdJJhW7Wo/tVmJbEa2G8LPNr9Nzc1l3
+ NGoGe3XcQHZfUnR3Jk1SVkYPmlQcscZcof8heGYCB8abVQP17YkKkZxBOBr7NJG8wKRQ
+ qA0Gzz6rlPeM8s9CO0fnWc61CIPMYxaxonmdZXHdwAy/2gAK2nt1k85JWWNMsU9T/8Qx
+ Jpxg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,61 +73,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>,
- Mark Brown <broonie@kernel.org>, Haojian Zhuang <haojian.zhuang@gmail.com>,
- linux-spi@vger.kernel.org, DRI Development <dri-devel@lists.freedesktop.org>,
- Robert Jarzmik <robert.jarzmik@free.fr>, Daniel Mack <daniel@zonque.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <seanpaul@chromium.org>,
+ Sean Paul <sean@poorly.run>
+Content-Type: multipart/mixed; boundary="===============1374107109=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBPY3QgMTcsIDIwMTkgYXQgMDg6NDQ6MjZBTSArMDIwMCwgRGFuaWVsIFZldHRlciB3
-cm90ZToKPiBJbiBETUEgbW9kZSB3ZSBoYXZlIGEgbWF4aW11bSB0cmFuc2ZlciBzaXplLCBwYXN0
-IHRoYXQgdGhlIGRyaXZlcgo+IGZhbGxzIGJhY2sgdG8gUElPIChzZWUgdGhlIGNoZWNrIGF0IHRo
-ZSB0b3Agb2YgcHhhMnh4X3NwaV90cmFuc2Zlcl9vbmUpLgo+IEZhbGxpbmcgYmFjayB0byBQSU8g
-Zm9yIGJpZyB0cmFuc2ZlcnMgZGVmZWF0cyB0aGUgcG9pbnQgb2YgYSBkbWEgZW5naW5lLAo+IGhl
-bmNlIHNldCB0aGUgbWF4IHRyYW5zZmVyIHNpemUgdG8gaW5mb3JtIHNwaSBjbGllbnRzIHRoYXQg
-dGhleSBuZWVkCj4gdG8gZG8gc29tZXRoaW5nIHNtYXJ0ZXIuCj4gCj4gVGhpcyB3YXMgdW5jb3Zl
-cmVkIGJ5IHRoZSBkcm1fbWlwaV9kYmkgc3BpIHBhbmVsIGNvZGUsIHdoaWNoIGRvZXMKPiBsYXJn
-ZSBzcGkgdHJhbnNmZXJzLCBidXQgc3RvcHBlZCBzcGxpdHRpbmcgdGhlbSBhZnRlcjoKPiAKPiBj
-b21taXQgZTE0MzM2NGI0YzE3NzRmNjhlOTIzYTVhMGJiMGZjYTI4YWMyNTg4OAo+IEF1dGhvcjog
-Tm9yYWxmIFRyw7hubmVzIDxub3JhbGZAdHJvbm5lcy5vcmc+Cj4gRGF0ZTogICBGcmkgSnVsIDE5
-IDE3OjU5OjEwIDIwMTkgKzAyMDAKPiAKPiAgICAgZHJtL3Rpbnlkcm06IFJlbW92ZSB0aW55ZHJt
-X3NwaV9tYXhfdHJhbnNmZXJfc2l6ZSgpCj4gCj4gQWZ0ZXIgdGhpcyBjb21taXQgdGhlIGNvZGUg
-cmVsaWVkIG9uIHRoZSBzcGkgY29yZSB0byBzcGxpdCB0cmFuc2ZlcnMKPiBpbnRvIG1heCBkbWEt
-YWJsZSBibG9ja3MsIHdoaWNoIGFsc28gcGFwZXJlZCBvdmVyIHRoZSBQSU8gZmFsbGJhY2sgaXNz
-dWUuCj4gCj4gRml4IHRoaXMgYnkgc2V0dGluZyB0aGUgb3ZlcmFsbCBtYXggdHJhbnNmZXIgc2l6
-ZSB0byB0aGUgRE1BIGxpbWl0LAo+IGJ1dCBvbmx5IHdoZW4gdGhlIGNvbnRyb2xsZXIgcnVucyBp
-biBETUEgbW9kZS4KPiAKClRoYW5rIHlvdSwgRGFuaWVsIQoKPiBGaXhlczogZTE0MzM2NGI0YzE3
-ICgiZHJtL3Rpbnlkcm06IFJlbW92ZSB0aW55ZHJtX3NwaV9tYXhfdHJhbnNmZXJfc2l6ZSgpIikK
-PiBDYzogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgo+IENjOiBOb3JhbGYgVHLDuG5u
-ZXMgPG5vcmFsZkB0cm9ubmVzLm9yZz4KPiBDYzogQW5keSBTaGV2Y2hlbmtvIDxhbmRyaXkuc2hl
-dmNoZW5rb0BpbnRlbC5jb20+Cj4gUmVwb3J0ZWQtYW5kLXRlc3RlZC1ieTogQW5keSBTaGV2Y2hl
-bmtvIDxhbmRyaXkuc2hldmNoZW5rb0BpbnRlbC5jb20+Cj4gQ2M6IERhbmllbCBNYWNrIDxkYW5p
-ZWxAem9ucXVlLm9yZz4KPiBDYzogSGFvamlhbiBaaHVhbmcgPGhhb2ppYW4uemh1YW5nQGdtYWls
-LmNvbT4KPiBDYzogUm9iZXJ0IEphcnptaWsgPHJvYmVydC5qYXJ6bWlrQGZyZWUuZnI+Cj4gQ2M6
-IE1hcmsgQnJvd24gPGJyb29uaWVAa2VybmVsLm9yZz4KPiBDYzogbGludXgtYXJtLWtlcm5lbEBs
-aXN0cy5pbmZyYWRlYWQub3JnCj4gQ2M6IGxpbnV4LXNwaUB2Z2VyLmtlcm5lbC5vcmcKPiBTaWdu
-ZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgo+IC0tCj4g
-djI6IEJyb3duIHBhcGVyIGJhZyBlZGl0aW9uLCBpdCBuZWVkcyB0byBiZSBhIGZ1bmN0aW9uIC4u
-Lgo+IC0tLQo+ICBkcml2ZXJzL3NwaS9zcGktcHhhMnh4LmMgfCA3ICsrKysrKysKPiAgMSBmaWxl
-IGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygrKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3NwaS9z
-cGktcHhhMnh4LmMgYi9kcml2ZXJzL3NwaS9zcGktcHhhMnh4LmMKPiBpbmRleCBiYjZhMTRkMWFi
-MGYuLjA2OGMyMTAzNzY3OSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3NwaS9zcGktcHhhMnh4LmMK
-PiArKysgYi9kcml2ZXJzL3NwaS9zcGktcHhhMnh4LmMKPiBAQCAtMTYwMiw2ICsxNjAyLDExIEBA
-IHN0YXRpYyBpbnQgcHhhMnh4X3NwaV9md190cmFuc2xhdGVfY3Moc3RydWN0IHNwaV9jb250cm9s
-bGVyICpjb250cm9sbGVyLAo+ICAJcmV0dXJuIGNzOwo+ICB9Cj4gIAo+ICtzdGF0aWMgc2l6ZV90
-IHB4YTJ4eF9zcGlfbWF4X2RtYV90cmFuc2Zlcl9zaXplKHN0cnVjdCBzcGlfZGV2aWNlICpzcGkp
-Cj4gK3sKPiArCXJldHVybiBNQVhfRE1BX0xFTjsKPiArfQo+ICsKPiAgc3RhdGljIGludCBweGEy
-eHhfc3BpX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gIHsKPiAgCXN0cnVj
-dCBkZXZpY2UgKmRldiA9ICZwZGV2LT5kZXY7Cj4gQEAgLTE3MDcsNiArMTcxMiw4IEBAIHN0YXRp
-YyBpbnQgcHhhMnh4X3NwaV9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQo+ICAJ
-CX0gZWxzZSB7Cj4gIAkJCWNvbnRyb2xsZXItPmNhbl9kbWEgPSBweGEyeHhfc3BpX2Nhbl9kbWE7
-Cj4gIAkJCWNvbnRyb2xsZXItPm1heF9kbWFfbGVuID0gTUFYX0RNQV9MRU47Cj4gKwkJCWNvbnRy
-b2xsZXItPm1heF90cmFuc2Zlcl9zaXplID0KPiArCQkJCXB4YTJ4eF9zcGlfbWF4X2RtYV90cmFu
-c2Zlcl9zaXplOwo+ICAJCX0KPiAgCX0KPiAgCj4gLS0gCj4gMi4yMy4wCj4gCgotLSAKV2l0aCBC
-ZXN0IFJlZ2FyZHMsCkFuZHkgU2hldmNoZW5rbwoKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbA==
+--===============1374107109==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/ueu3hbQR1BEgUBw8zqwu85e"; protocol="application/pgp-signature"
+
+--Sig_/ueu3hbQR1BEgUBw8zqwu85e
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, 16 Oct 2019 15:23:45 +0200
+Thomas Zimmermann <tzimmermann@suse.de> wrote:
+
+> Hi
+>=20
+> Am 16.10.19 um 15:05 schrieb Pekka Paalanen:
+
+> > specifically be available in production. So a new file in some fs
+> > somewhere it should be, and userspace in production can read it at will
+> > to attach to a bug report.
+> >=20
+> > Those semantics, "only use this content for attaching into a bug
+> > report" should be made very clear in the UAPI. =20
+>=20
+> Has this ever worked? As soon as a userspace program starts depending on
+> the content of this file, it becomes kabi. From the incidents I know,
+> Linus has always been quite strict about this. Even for broken interfaces.
+
+The kernel log content is not kabi, is it? I've seen it change plenty
+during the years. This would be just another similar log with free-form
+text.
+
+
+Thanks,
+pq
+
+--Sig_/ueu3hbQR1BEgUBw8zqwu85e
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl2oFqgACgkQI1/ltBGq
+qqdtgxAAhgLNYtWGWk8fEwO+DxtAMsqB6idCLwVIyNwAAzNKqX81vsoFthQGGHx5
+69Jbo7M3n1EFJyff9V+8g5KRaUeI0tKDX/y4v+Dh1yo1c4CAtq+8QCsUmIdYmW6S
+se5Yykfrh49MNSmTReAj9JXN6uVCOVDs+eo/WRw19HRhNH85IqMoRm5JF64/bNB5
+qj+uU6W7RISW5FPGognQcZrb5Ho+FRkbq4Ms6fJ/41hyB6+icdz+t6q3lnm0g0qv
+g07IEW9leiDc/KKV+4wkitYyq5+CLoat9ccYdee1krmMjHNyDfU9z6cepliHGmPQ
+Qt+KwOXS752Dw1nm0mXWD0onOWzcj5fS5CVIJhBg738tMWfcmMC6Ff6UY0w+6DC3
+NRXaDKtn/ZOcju2X/eik7EAHmLFa92GikOF9OHmy46E9csikibg6FyvOrzGEmRvl
+w+2LuEKF54Ejs2cq/KUibe7EeenL1IdM868sdNx/A1zlYV6WnBluimeRrJ1kw3Mx
+lvumxIwDuaQd837WYv8I+xgqTq6yiOmYGbpMpkTOas621EUuK4F9OxvvrCJEhdEX
+tAxaLD9wH8gLjMQ1pUIoyP0+m452TgcUHLJ90ecdZCv3xpknL9zN/DzVRyBJj36C
+/eV6zGOaWGUDwAEM1F+rCfjuAq+o1kOxcbVnLWhoBenVZjKYaRk=
+=v/JI
+-----END PGP SIGNATURE-----
+
+--Sig_/ueu3hbQR1BEgUBw8zqwu85e--
+
+--===============1374107109==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1374107109==--
