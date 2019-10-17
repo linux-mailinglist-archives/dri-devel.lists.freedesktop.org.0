@@ -1,66 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24047DCE35
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2019 20:38:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22C73DCE27
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2019 20:38:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 153A06EBAC;
-	Fri, 18 Oct 2019 18:37:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0E606EB9B;
+	Fri, 18 Oct 2019 18:37:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2A8B6EA2D;
- Thu, 17 Oct 2019 09:43:44 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id i16so1836278wmd.3;
- Thu, 17 Oct 2019 02:43:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=j33Q+AxJlhfJ2zQyBdLBD2zOlPBTBa+TDiJdmF/d4B0=;
- b=I/Z3+JT/xLYZrguo80fjCE59CpRolyJWt/lJQvJACPa1/DdQ0pbqIt2ye0yusuO8lD
- sRxQua9KR24rbX1Sqj9CRfu5SFwHyvUpCxXN3yam93r3kYYOzFli+YnXazdRE18yup4U
- zvbzH+MXS+I3iDPUCN/ZYhIzvEyATwdUkUT4Igwy8gWvaGaL3l64dkF0eccn5g6bIMze
- TW3A3kYxfcmN+YeIuFWY3l+URDZO+Bfd3HkBI4tU0sOJZrpG2BJLuY6VapijsXmEA064
- HSDDmFdeGH1btQ/6QhwUoV42oninUx8uytee14tGOHIhQXZYsvSa0Y+8PwN30YQE9w2C
- aOkg==
-X-Gm-Message-State: APjAAAUO9AtvXDp6kvBmRWZGZOKSoU+GfeLPl3crSJmO7cBPRNNswpvL
- 035PW4JQSl3oyobcQHVIHgk=
-X-Google-Smtp-Source: APXvYqxHJt9ec/ig4bgPywnDn38DGreAT5nDreVbx5QqzUYuzF0nTYOT9L67QUVhr9q6+o+HntA0Mw==
-X-Received: by 2002:a05:600c:21d2:: with SMTP id
- x18mr2121283wmj.146.1571305423433; 
- Thu, 17 Oct 2019 02:43:43 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id l6sm2029963wmg.2.2019.10.17.02.43.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2019 02:43:42 -0700 (PDT)
-Date: Thu, 17 Oct 2019 10:43:41 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH V3 0/7] mdev based hardware virtio offloading support
-Message-ID: <20191017094341.GF23557@stefanha-x1.localdomain>
-References: <20191011081557.28302-1-jasowang@redhat.com>
- <20191014174946.GC5359@stefanha-x1.localdomain>
- <6d12ad8f-8137-e07d-d735-da59a326e8ed@redhat.com>
- <20191015143720.GA13108@stefanha-x1.localdomain>
- <ba81e603-cb7d-b152-8fae-97f070a7e460@redhat.com>
+X-Greylist: delayed 300 seconds by postgrey-1.36 at gabe;
+ Thu, 17 Oct 2019 09:53:13 UTC
+Received: from uho.ysoft.cz (uho.ysoft.cz [81.19.3.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC44D6EA3C
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2019 09:53:13 +0000 (UTC)
+Received: from [10.1.8.111] (unknown [10.1.8.111])
+ by uho.ysoft.cz (Postfix) with ESMTP id 361F5A4D02;
+ Thu, 17 Oct 2019 11:48:08 +0200 (CEST)
+Subject: Re: [PATCH] backlight: pwm_bl: configure pwm only once per backlight
+ toggle
+To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Adam Ford <aford173@gmail.com>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Lee Jones <lee.jones@linaro.org>, Jingoo Han <jingoohan1@gmail.com>
+References: <20191017081059.31761-1-u.kleine-koenig@pengutronix.de>
+From: =?UTF-8?B?TWljaGFsIFZva8OhxI0=?= <michal.vokac@ysoft.com>
+Message-ID: <c89925bd-857d-874f-b74f-c5700d4c9fbd@ysoft.com>
+Date: Thu, 17 Oct 2019 11:48:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <ba81e603-cb7d-b152-8fae-97f070a7e460@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20191017081059.31761-1-u.kleine-koenig@pengutronix.de>
+Content-Language: en-US
 X-Mailman-Approved-At: Fri, 18 Oct 2019 18:37:46 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=j33Q+AxJlhfJ2zQyBdLBD2zOlPBTBa+TDiJdmF/d4B0=;
- b=PBJfc4iKYLoGVwZHVtTO0lO3ez5BpGeXPZAlj4Qxx0c4NWNvQiQJdK1Zm22yFqjtaV
- XO4FHG92jwHETc95eBaAqW8My3/55VjWzgdzO1Z7VFGBKZ6/SSKp6CTcrfC3PtlNKUqL
- Gz5RKw3w65f80M9hxVCyoUP5nbQbEGYqA7zONJtbqiZZSQ4kJoIXDkriUorZx149Ov6V
- hp2VI/XVNAKT6jIOvk6lx29b+UyYLiw1dTHMppE7KWb8k9vetl5lYmF5oE0pBsoCnQOR
- RSu0PTM8fVta3TCkFFq1fEmhNZJQ4CHICquFivetIufuHrOzmlAiCgVnt5JDfNQxaSMU
- /cUg==
+ d=ysoft.com; 
+ s=20160406-ysoft-com; t=1571305688;
+ bh=eQCarCOp3f/nSqL9V45D90qKfVpFX2IgEmm6tHGaB+4=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=eGnaUyai1q/cVnWvAKyPX0U39wGAh5sALY+umUGE5zV7ptro0/0CF4eChkRW3sNht
+ r9IKVgffvNejQMbjfqPGwJCDFAyl/zpy/c3RPn69eZsKGE5Gu02Oz/Z6KxtNC+TRpG
+ dmPa8e9nmnv4ykPUOOEsFXJtcz4jRL0OZr9kV09U=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,146 +54,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: christophe.de.dinechin@gmail.com, kvm@vger.kernel.org, mst@redhat.com,
- airlied@linux.ie, heiko.carstens@de.ibm.com, kevin.tian@intel.com,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- kwankhede@nvidia.com, rob.miller@broadcom.com, linux-s390@vger.kernel.org,
- sebott@linux.ibm.com, lulu@redhat.com, eperezma@redhat.com,
- pasic@linux.ibm.com, borntraeger@de.ibm.com, haotian.wang@sifive.com,
- cunming.liang@intel.com, zhi.a.wang@intel.com, farman@linux.ibm.com,
- idos@mellanox.com, gor@linux.ibm.com, intel-gfx@lists.freedesktop.org,
- alex.williamson@redhat.com, xiao.w.wang@intel.com, freude@linux.ibm.com,
- parav@mellanox.com, zhihong.wang@intel.com, rodrigo.vivi@intel.com,
- intel-gvt-dev@lists.freedesktop.org, akrowiak@linux.ibm.com,
- oberpar@linux.ibm.com, tiwei.bie@intel.com, netdev@vger.kernel.org,
- cohuck@redhat.com, linux-kernel@vger.kernel.org, maxime.coquelin@redhat.com,
- lingshan.zhu@intel.com
-Content-Type: multipart/mixed; boundary="===============0419971690=="
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0419971690==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Pql/uPZNXIm1JCle"
-Content-Disposition: inline
-
-
---Pql/uPZNXIm1JCle
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Oct 17, 2019 at 09:42:53AM +0800, Jason Wang wrote:
->=20
-> On 2019/10/15 =E4=B8=8B=E5=8D=8810:37, Stefan Hajnoczi wrote:
-> > On Tue, Oct 15, 2019 at 11:37:17AM +0800, Jason Wang wrote:
-> > > On 2019/10/15 =E4=B8=8A=E5=8D=881:49, Stefan Hajnoczi wrote:
-> > > > On Fri, Oct 11, 2019 at 04:15:50PM +0800, Jason Wang wrote:
-> > > > > There are hardware that can do virtio datapath offloading while h=
-aving
-> > > > > its own control path. This path tries to implement a mdev based
-> > > > > unified API to support using kernel virtio driver to drive those
-> > > > > devices. This is done by introducing a new mdev transport for vir=
-tio
-> > > > > (virtio_mdev) and register itself as a new kind of mdev driver. T=
-hen
-> > > > > it provides a unified way for kernel virtio driver to talk with m=
-dev
-> > > > > device implementation.
-> > > > >=20
-> > > > > Though the series only contains kernel driver support, the goal i=
-s to
-> > > > > make the transport generic enough to support userspace drivers. T=
-his
-> > > > > means vhost-mdev[1] could be built on top as well by resuing the
-> > > > > transport.
-> > > > >=20
-> > > > > A sample driver is also implemented which simulate a virito-net
-> > > > > loopback ethernet device on top of vringh + workqueue. This could=
- be
-> > > > > used as a reference implementation for real hardware driver.
-> > > > >=20
-> > > > > Consider mdev framework only support VFIO device and driver right=
- now,
-> > > > > this series also extend it to support other types. This is done
-> > > > > through introducing class id to the device and pairing it with
-> > > > > id_talbe claimed by the driver. On top, this seris also decouple
-> > > > > device specific parents ops out of the common ones.
-> > > > I was curious so I took a quick look and posted comments.
-> > > >=20
-> > > > I guess this driver runs inside the guest since it registers virtio
-> > > > devices?
-> > >=20
-> > > It could run in either guest or host. But the main focus is to run in=
- the
-> > > host then we can use virtio drivers in containers.
-> > >=20
-> > >=20
-> > > > If this is used with physical PCI devices that support datapath
-> > > > offloading then how are physical devices presented to the guest wit=
-hout
-> > > > SR-IOV?
-> > >=20
-> > > We will do control path meditation through vhost-mdev[1] and vhost-vf=
-io[2].
-> > > Then we will present a full virtio compatible ethernet device for gue=
-st.
-> > >=20
-> > > SR-IOV is not a must, any mdev device that implements the API defined=
- in
-> > > patch 5 can be used by this framework.
-> > What I'm trying to understand is: if you want to present a virtio-pci
-> > device to the guest (e.g. using vhost-mdev or vhost-vfio), then how is
-> > that related to this patch series?
->=20
->=20
-> This series introduce some infrastructure that would be used by vhost-mde=
-v:
->=20
-> 1) allow new type of mdev devices/drivers other than vfio (through class_=
-id
-> and device ops)
->=20
-> 2) a set of virtio specific callbacks that will be used by both vhost-mdev
-> and virtio-mdev defined in patch 5
->=20
-> Then vhost-mdev can be implemented on top: a new mdev class id but reuse =
-the
-> callback defined in 2. Through this way the parent can provides a single =
-set
-> of callbacks (device ops) for both kernel virtio driver (through
-> virtio-mdev) or userspace virtio driver (through vhost-mdev).
-
-Okay, thanks for explaining!
-
-Stefan
-
---Pql/uPZNXIm1JCle
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2oN8wACgkQnKSrs4Gr
-c8gqswf/fQBq+qX21L3QGLUXUsf7OZ9kLP3ksR+9RYfGDJaFva/fV/aULknTmAiO
-OA0s+Eiw7K5Hy2ooKGPQXPYgAJhgnHqmhKgOEdsOGDWyCilYAiJzk/YXkpPvaCTp
-ovWC5Fz/shXyY3m2YGPXuwnWjbCam7cqMCRVPrmzJWoS6kdvsYsPxBVnhGFOm0Ms
-gbll/8mZQDQWsOZ8ZFeXLXCcHifXaiLa+yiGcZfxtV37oHsSapT+MOXEstGy4jEe
-uvos/V8tSLLMOJ+zgMYGOI0oOJIejMOrLU2zxPlktTbBVcM1RQtpJL69F30gi89K
-qCue5w57Z1UNfPVbXLiobIkPcZBGVw==
-=EXDt
------END PGP SIGNATURE-----
-
---Pql/uPZNXIm1JCle--
-
---===============0419971690==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0419971690==--
+T24gMTcuIDEwLiAxOSAxMDoxMCwgVXdlIEtsZWluZS1Lw7ZuaWcgd3JvdGU6Cj4gQSBwcmV2aW91
+cyBjaGFuZ2UgaW4gdGhlIHB3bSBjb3JlIChuYW1lbHkgMDFjY2Y5MDNlZGQ2ICgicHdtOiBMZXQK
+PiBwd21fZ2V0X3N0YXRlKCkgcmV0dXJuIHRoZSBsYXN0IGltcGxlbWVudGVkIHN0YXRlIikpIGNo
+YW5nZWQgdGhlCj4gc2VtYW50aWMgb2YgcHdtX2dldF9zdGF0ZSgpIGFuZCBkaXNjbG9zZWQgYW4g
+KGFzIGl0IHNlZW1zKSBjb21tb24KPiBwcm9ibGVtIGluIGxvd2xldmVsIFBXTSBkcml2ZXJzLiBC
+eSBub3QgcmVseWluZyBvbiB0aGUgcGVyaW9kIGFuZCBkdXR5Cj4gY3ljbGUgYmVpbmcgcmV0cmll
+dmFibGUgZnJvbSBhIGRpc2FibGVkIFBXTSB0aGlzIHR5cGUgb2YgcHJvYmxlbSBpcwo+IHdvcmtl
+ZCBhcm91bmQuCj4gCj4gQXBhcnQgZnJvbSB0aGlzIGlzc3VlIG9ubHkgY2FsbGluZyB0aGUgcHdt
+X2dldF9zdGF0ZS9wd21fYXBwbHlfc3RhdGUKPiBjb21ibyBvbmNlIGlzIGFsc28gbW9yZSBlZmZl
+Y3RpdmUuCj4gCj4gU2lnbmVkLW9mZi1ieTogVXdlIEtsZWluZS1Lw7ZuaWcgPHUua2xlaW5lLWtv
+ZW5pZ0BwZW5ndXRyb25peC5kZT4KPiAtLS0KPiBIZWxsbywKPiAKPiBUaGVyZSBhcmUgbm93IHR3
+byByZXBvcnRzIGFib3V0IDAxY2NmOTAzZWRkNiBicmVha2luZyBhIGJhY2tsaWdodC4gQXMKPiBm
+YXIgYXMgSSB1bmRlcnN0YW5kIHRoZSBwcm9ibGVtIHRoaXMgaXMgYSBjb21iaW5hdGlvbiBvZiB0
+aGUgYmFja2VuZCBwd20KPiBkcml2ZXIgeWllbGRpbmcgc3VycHJpc2luZyByZXN1bHRzIGFuZCB0
+aGUgcHdtLWJsIGRyaXZlciBkb2luZyB0aGluZ3MKPiBtb3JlIGNvbXBsaWNhdGVkIHRoYW4gbmVj
+ZXNzYXJ5Lgo+IAo+IFNvIEkgZ3Vlc3MgdGhpcyBwYXRjaCB3b3JrcyBhcm91bmQgdGhlc2UgcHJv
+YmxlbXMuIFN0aWxsIGl0IHdvdWxkIGJlCj4gaW50ZXJlc3RpbmcgdG8gZmluZCBvdXQgdGhlIGRl
+dGFpbHMgaW4gdGhlIGlteCBkcml2ZXIgdGhhdCB0cmlnZ2VycyB0aGUKPiBwcm9ibGVtLiBTbyBB
+ZGFtLCBjYW4geW91IHBsZWFzZSBpbnN0cnVtZW50IHRoZSBwd20taW14MjcgZHJpdmVyIHRvCj4g
+cHJpbnQgKnN0YXRlIGF0IHRoZSBiZWdpbm5pbmcgb2YgcHdtX2lteDI3X2FwcGx5KCkgYW5kIHRo
+ZSBlbmQgb2YKPiBwd21faW14MjdfZ2V0X3N0YXRlKCkgYW5kIHByb3ZpZGUgdGhlIHJlc3VsdHM/
+Cj4gCj4gTm90ZSBJIG9ubHkgY29tcGlsZSB0ZXN0ZWQgdGhpcyBjaGFuZ2UuCgpIaSBVd2UsCkkg
+d2FzIGp1c3QgYWJvdXQgdG8gcmVzcG9uZCB0byB0aGUgInB3bV9ibCBvbiBpLk1YNlEgYnJva2Vu
+IG9uIDUuNC1SQzErIgp0aHJlYWQgdGhhdCBJIGhhdmUgYSBzaW1pbGFyIHByb2JsZW0gd2hlbiB5
+b3Ugc3VibWl0dGVkIHRoaXMgcGF0Y2guCgpTbyBoZXJlIGFyZSBteSBmZXcgY2VudHM6CgpNeSBz
+ZXR1cCBpcyBhcyBmb2xsb3dzOgogIC0gaW14NmRsLXlhcHA0LWRyYWNvIHdpdGggaS5NWDZTb2xv
+CiAgLSBiYWNrbGlnaHQgaXMgY29udHJvbGxlZCB3aXRoIGludmVydGVkIFBXTSBzaWduYWwKICAt
+IG1heCBicmlnaHRuZXNzIGxldmVsID0gMzIsIGRlZmF1bHQgYnJpZ2h0bmVzcyBsZXZlbCBzZXQg
+dG8gMzIgaW4gRFQuCgoxLiBBbG1vc3QgY29ycmVjdCBiYWNrbGlnaHQgYmVoYXZpb3IgYmVmb3Jl
+IDAxY2NmOTAzZWRkNiAoInB3bTogTGV0CiAgICBwd21fZ2V0X3N0YXRlKCkgcmV0dXJuIHRoZSBs
+YXN0IGltcGxlbWVudGVkIHN0YXRlKToKCiAgLSBTeXN0ZW0gYm9vdHMgdG8gdXNlcnNwYWNlIGFu
+ZCBiYWNrbGlnaHQgaXMgZW5hYmxlZCBhbGwgdGhlIHRpbWUgZnJvbQogICAgcG93ZXIgdXAuCgog
+ICAgJCBkbWVzZyB8IGdyZXAgc3RhdGUKICAgIFsgICAgMS43NjMzODFdIGdldCBzdGF0ZSBlbmQ6
+IC0xODExMzYwNjA4LCBlbmFibGVkOiAwCiAgICBbICAgIDQuOTM5NjU4XSBhcHBseSBzdGF0ZSBz
+dGFydDogLTE3OTc5OTczMDgsIGVuYWJsZWQ6IDAKICAgIFsgICAgNC45NDY0MzddIGFwcGx5IHN0
+YXRlIHN0YXJ0OiAtMTc5Nzk5NzQzNiwgZW5hYmxlZDogMAogICAgWyAgICA0Ljk1MjkzNl0gYXBw
+bHkgc3RhdGUgc3RhcnQ6IC0xNzk3OTk3NDIwLCBlbmFibGVkOiAxCgogIC0gJCBjYXQgYnJpZ2h0
+bmVzcwogICAgMzIKCiAgLSAkIGVjaG8gMzIgPiBicmlnaHRuZXNzICMgbm90aGluZyBoYXBwZW5z
+LCBtYXguIGJyaWdodG5lc3MKCiAgLSAkIGVjaG8gMSA+IGJyaWdodG5lc3MgIyBiYWNrbGlnaHQg
+Z29lcyBkb3duIHRvIGxvd2VzdCBsZXZlbAogICAgWyAgIDU5Ljg3NjU2MV0gYXBwbHkgc3RhdGUg
+c3RhcnQ6IC0xNzExMjc2NjM2LCBlbmFibGVkOiAxCgogIC0gJCBlY2hvIDAgPiBicmlnaHRuZXNz
+ICMgYmFja2xpZ2h0IGdvZXMgdXAgdG8gbWF4LiBsZXZlbCwgdGhpcyBpcwogICAgICAgICAgICAg
+ICAgICAgICAgICAgICMgcHJvYmxlbSBvZiB0aGUgaW52ZXJ0ZWQgUFdNIG9uIGkuTVggd2UgYXR0
+ZW1wdGVkCiAgICAgICAgICAgICAgICAgICAgICAgICAgIyB0byBzb2x2ZSBzb21lIHRpbWUgYWdv
+LgogICAgWyAgMTAyLjQ1NjU4Ml0gYXBwbHkgc3RhdGUgc3RhcnQ6IC0xNzExMjc2NzAwLCBlbmFi
+bGVkOiAwCiAgIAoyLiBCYWNrbGlnaHQgYmVoYXZpb3Igb24gdjUuNC1yYzM6CgogIC0gU3lzdGVt
+IGJvb3RzIHRvIHVzZXJzcGFjZSBhbmQgYmFja2xpZ2h0IGlzIGVuYWJsZWQgYWxsIHRoZSB0aW1l
+IGZyb20KICAgIHBvd2VyIHVwLgoKICAtICQgZG1lc2cgfCBncmVwIHN0YXRlCiAgICBbICAgIDEu
+NzczMDU2XSBnZXQgc3RhdGUgZW5kOiAtMTgxMTMxOTUyMCwgZW5hYmxlZDogMAogICAgWyAgICA0
+Ljk5NDAwM10gYXBwbHkgc3RhdGUgc3RhcnQ6IC0xNzk3OTQ4MTYwLCBlbmFibGVkOiAwCiAgICBb
+ICAgIDUuMDAwNjE3XSBnZXQgc3RhdGUgZW5kOiAtMTgxMTMxOTUyMCwgZW5hYmxlZDogMAogICAg
+WyAgICA1LjAwNjk1MF0gYXBwbHkgc3RhdGUgc3RhcnQ6IC0xNzk3OTQ4MjkyLCBlbmFibGVkOiAw
+CiAgICBbICAgIDUuMDEzNDQ2XSBnZXQgc3RhdGUgZW5kOiAtMTgxMTMxOTUyMCwgZW5hYmxlZDog
+MAogICAgWyAgICA1LjAxOTYwMl0gYXBwbHkgc3RhdGUgc3RhcnQ6IC0xNzk3OTQ4Mjc2LCBlbmFi
+bGVkOiAxCiAgICBbICAgIDUuMDI3NTM2XSBnZXQgc3RhdGUgZW5kOiAtMTgxMTMxOTUyMCwgZW5h
+YmxlZDogMQoKICAtICQgY2F0IGJyaWdodG5lc3MKICAgIDMyCgogIC0gJCBlY2hvIDMyID4gYnJp
+Z2h0bmVzcyAjIGJhY2tsaWdodCBnb2VzIGRvd24KICAgIFsgIDE4OS45NTY3NTZdIGFwcGx5IHN0
+YXRlIHN0YXJ0OiAtMTcxMTkyMzgwNCwgZW5hYmxlZDogMQogICAgWyAgMTg5Ljk2NTkwN10gZ2V0
+IHN0YXRlIGVuZDogLTE4MTEzMTk1MjAsIGVuYWJsZWQ6IDEKCiAgLSAkIGVjaG8gMSA+IGJyaWdo
+dG5lc3MgIyBiYWNrbGlnaHQgZ29lcyB1cCB0byBoaWdoIGxldmVsCiAgICBbICA0NjQuMTM2NjMz
+XSBhcHBseSBzdGF0ZSBzdGFydDogLTE3MTE5MjM4MDQsIGVuYWJsZWQ6IDEKICAgIFsgIDQ2NC4x
+NDU2MjVdIGdldCBzdGF0ZSBlbmQ6IC0xODExMzE5NTIwLCBlbmFibGVkOiAxCgogIC0gJCBlY2hv
+IDAgPiBicmlnaHRuZXNzICMgYmFja2xpZ2h0IGdvZXMgdXAgdG8gaGlnaGVzdCBsZXZlbAogICAg
+WyAgNTI3LjEzNjY0MF0gYXBwbHkgc3RhdGUgc3RhcnQ6IC0xNzExOTIzODY4LCBlbmFibGVkOiAw
+CiAgICBbICA1MjcuMTQ1NTM4XSBnZXQgc3RhdGUgZW5kOiAtMTgxMTMxOTUyMCwgZW5hYmxlZDog
+MAoKU28gdGhlIGJlaGF2aW9yIGlzIGNsZWFybHkgaW52ZXJ0ZWQgdG8gaG93IGl0IHdvcmtlZCBw
+cmlvciB0byAwMWNjZjkwM2VkZDYKd2l0aCB0aGUgd2VpcmQgZXhjZXB0aW9uIHRoYXQgdGhlIGlu
+aXRpYWwgYnJpZ2h0bmVzcyBsZXZlbCAzMiBpcwpub3QgYXBwbGllZC4KCjMuIEJhY2tsaWdodCBi
+ZWhhdmlvciBvbiB2NS40LXJjMyArIHRoaXMgcGF0Y2g6CgogIC0gU3lzdGVtIGJvb3RzIHdpdGgg
+YmFja2xpZ2h0IGVuYWJsZWQuIEluIHRoZSBtaWRkbGUgb2Yga2VybmVsIGJvb3QKICAgIGJhY2ts
+aWdodCBpcyBkaXNhYmxlZC4KCiAgLSAkIGRtZXNnIHwgZ3JlcCBzdGF0ZQogICAgWyAgICAxLjc3
+MzIzM10gZ2V0IHN0YXRlIGVuZDogLTE4MTEzMTk1MjAsIGVuYWJsZWQ6IDAKICAgIFsgICAgNS4w
+MDI3NTNdIGFwcGx5IHN0YXRlIHN0YXJ0OiAtMTc5Nzk0ODE2MCwgZW5hYmxlZDogMAogICAgWyAg
+ICA1LjAwOTM5N10gZ2V0IHN0YXRlIGVuZDogLTE4MTEzMTk1MjAsIGVuYWJsZWQ6IDAKICAgIFsg
+ICAgNS4wMTU2NTJdIGFwcGx5IHN0YXRlIHN0YXJ0OiAtMTc5Nzk0ODI3NiwgZW5hYmxlZDogMQog
+ICAgWyAgICA1LjAyNjY4Ml0gZ2V0IHN0YXRlIGVuZDogLTE4MTEzMTk1MjAsIGVuYWJsZWQ6IDEK
+CiAgLSAkIGNhdCBicmlnaHRuZXNzCiAgICAzMgoKICAtICQgZWNobyAzMiA+IGJyaWdodG5lc3Mg
+IyBub3RoaW5nIGhhcHBlbnMsIGJhY2tsaWdodCBpcyBkb3duCgogIC0gJCBlY2hvIDEgPiBicmln
+aHRuZXNzICMgYmFja2xpZ2h0IGdvZXMgdG8gaGlnaCBsZXZlbAogICAgWyAgMzA1LjM3NzI3NF0g
+YXBwbHkgc3RhdGUgc3RhcnQ6IC0xNzExOTE1NTk2LCBlbmFibGVkOiAxCiAgICBbICAzMDUuMzg2
+Mzc0XSBnZXQgc3RhdGUgZW5kOiAtMTgxMTMxOTUyMCwgZW5hYmxlZDogMQoKICAtICQgZWNobyAw
+ID4gYnJpZ2h0bmVzcyAjIGJhY2tsaWdodCBnb2VzIHRvIG1heCBicmlnaHRuZXNzCiAgICBbICAz
+NjIuNjM3Mjk3XSBhcHBseSBzdGF0ZSBzdGFydDogLTE3MTE5MTU1OTYsIGVuYWJsZWQ6IDAKICAg
+IFsgIDM2Mi42NDYzMjVdIGdldCBzdGF0ZSBlbmQ6IC0xODExMzE5NTIwLCBlbmFibGVkOiAwCgpT
+YW1lIGJlaGF2aW9yIGFzICgyKSBidXQgdGhlIGRlZmF1bHQgc3RhdGUgZnJvbSBEVCBpcyBhcHBh
+cmVudGx5IGFwcGxpZWQuCgpJIG9ubHkgZGlkIHRoaXMgZXhwZXJpbWVudHMuIEkgZGlkIG5vdCBk
+ZWx2ZSBpbnRvIHRoZSBjb2RlIHRvIHRyYWNrIHdoYXQgaXMKZ29pbmcgb24gaW4gdGhlcmUgeWV0
+LgoKSG9wZWZ1bGx5IHRoaXMgaGVscHMgeW91IGEgYml0IGFuZCBmZWVsIGZyZWUgdG8gcmVxdWVz
+dCBvdGhlciBleHBlcmltZW50cywKTWljaGFsCgo+ICAgZHJpdmVycy92aWRlby9iYWNrbGlnaHQv
+cHdtX2JsLmMgfCAzNCArKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+ICAgMSBmaWxl
+IGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKyksIDIyIGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1n
+aXQgYS9kcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9wd21fYmwuYyBiL2RyaXZlcnMvdmlkZW8vYmFj
+a2xpZ2h0L3B3bV9ibC5jCj4gaW5kZXggNzQ2ZWViYzQxMWRmLi5kZGViZDYyYjM5NzggMTAwNjQ0
+Cj4gLS0tIGEvZHJpdmVycy92aWRlby9iYWNrbGlnaHQvcHdtX2JsLmMKPiArKysgYi9kcml2ZXJz
+L3ZpZGVvL2JhY2tsaWdodC9wd21fYmwuYwo+IEBAIC00MiwxMCArNDIsOCBAQCBzdHJ1Y3QgcHdt
+X2JsX2RhdGEgewo+ICAgCj4gICBzdGF0aWMgdm9pZCBwd21fYmFja2xpZ2h0X3Bvd2VyX29uKHN0
+cnVjdCBwd21fYmxfZGF0YSAqcGIpCj4gICB7Cj4gLQlzdHJ1Y3QgcHdtX3N0YXRlIHN0YXRlOwo+
+ICAgCWludCBlcnI7Cj4gICAKPiAtCXB3bV9nZXRfc3RhdGUocGItPnB3bSwgJnN0YXRlKTsKPiAg
+IAlpZiAocGItPmVuYWJsZWQpCj4gICAJCXJldHVybjsKPiAgIAo+IEBAIC01Myw5ICs1MSw2IEBA
+IHN0YXRpYyB2b2lkIHB3bV9iYWNrbGlnaHRfcG93ZXJfb24oc3RydWN0IHB3bV9ibF9kYXRhICpw
+YikKPiAgIAlpZiAoZXJyIDwgMCkKPiAgIAkJZGV2X2VycihwYi0+ZGV2LCAiZmFpbGVkIHRvIGVu
+YWJsZSBwb3dlciBzdXBwbHlcbiIpOwo+ICAgCj4gLQlzdGF0ZS5lbmFibGVkID0gdHJ1ZTsKPiAt
+CXB3bV9hcHBseV9zdGF0ZShwYi0+cHdtLCAmc3RhdGUpOwo+IC0KPiAgIAlpZiAocGItPnBvc3Rf
+cHdtX29uX2RlbGF5KQo+ICAgCQltc2xlZXAocGItPnBvc3RfcHdtX29uX2RlbGF5KTsKPiAgIAo+
+IEBAIC02Nyw0MCArNjIsMjcgQEAgc3RhdGljIHZvaWQgcHdtX2JhY2tsaWdodF9wb3dlcl9vbihz
+dHJ1Y3QgcHdtX2JsX2RhdGEgKnBiKQo+ICAgCj4gICBzdGF0aWMgdm9pZCBwd21fYmFja2xpZ2h0
+X3Bvd2VyX29mZihzdHJ1Y3QgcHdtX2JsX2RhdGEgKnBiKQo+ICAgewo+IC0Jc3RydWN0IHB3bV9z
+dGF0ZSBzdGF0ZTsKPiAtCj4gLQlwd21fZ2V0X3N0YXRlKHBiLT5wd20sICZzdGF0ZSk7Cj4gLQlp
+ZiAoIXBiLT5lbmFibGVkKQo+IC0JCXJldHVybjsKPiAtCj4gICAJaWYgKHBiLT5lbmFibGVfZ3Bp
+bykKPiAgIAkJZ3Bpb2Rfc2V0X3ZhbHVlX2NhbnNsZWVwKHBiLT5lbmFibGVfZ3BpbywgMCk7Cj4g
+ICAKPiAgIAlpZiAocGItPnB3bV9vZmZfZGVsYXkpCj4gICAJCW1zbGVlcChwYi0+cHdtX29mZl9k
+ZWxheSk7Cj4gICAKPiAtCXN0YXRlLmVuYWJsZWQgPSBmYWxzZTsKPiAtCXN0YXRlLmR1dHlfY3lj
+bGUgPSAwOwo+IC0JcHdtX2FwcGx5X3N0YXRlKHBiLT5wd20sICZzdGF0ZSk7Cj4gLQo+ICAgCXJl
+Z3VsYXRvcl9kaXNhYmxlKHBiLT5wb3dlcl9zdXBwbHkpOwo+ICAgCXBiLT5lbmFibGVkID0gZmFs
+c2U7Cj4gICB9Cj4gICAKPiAtc3RhdGljIGludCBjb21wdXRlX2R1dHlfY3ljbGUoc3RydWN0IHB3
+bV9ibF9kYXRhICpwYiwgaW50IGJyaWdodG5lc3MpCj4gK3N0YXRpYyBpbnQgY29tcHV0ZV9kdXR5
+X2N5Y2xlKHN0cnVjdCBwd21fYmxfZGF0YSAqcGIsIGludCBicmlnaHRuZXNzLCBzdHJ1Y3QgcHdt
+X3N0YXRlICpzdGF0ZSkKPiAgIHsKPiAgIAl1bnNpZ25lZCBpbnQgbHRoID0gcGItPmx0aF9icmln
+aHRuZXNzOwo+IC0Jc3RydWN0IHB3bV9zdGF0ZSBzdGF0ZTsKPiAgIAl1NjQgZHV0eV9jeWNsZTsK
+PiAgIAo+IC0JcHdtX2dldF9zdGF0ZShwYi0+cHdtLCAmc3RhdGUpOwo+IC0KPiAgIAlpZiAocGIt
+PmxldmVscykKPiAgIAkJZHV0eV9jeWNsZSA9IHBiLT5sZXZlbHNbYnJpZ2h0bmVzc107Cj4gICAJ
+ZWxzZQo+ICAgCQlkdXR5X2N5Y2xlID0gYnJpZ2h0bmVzczsKPiAgIAo+IC0JZHV0eV9jeWNsZSAq
+PSBzdGF0ZS5wZXJpb2QgLSBsdGg7Cj4gKwlkdXR5X2N5Y2xlICo9IHN0YXRlLT5wZXJpb2QgLSBs
+dGg7Cj4gICAJZG9fZGl2KGR1dHlfY3ljbGUsIHBiLT5zY2FsZSk7Cj4gICAKPiAgIAlyZXR1cm4g
+ZHV0eV9jeWNsZSArIGx0aDsKPiBAQCAtMTIyLDEyICsxMDQsMjAgQEAgc3RhdGljIGludCBwd21f
+YmFja2xpZ2h0X3VwZGF0ZV9zdGF0dXMoc3RydWN0IGJhY2tsaWdodF9kZXZpY2UgKmJsKQo+ICAg
+Cj4gICAJaWYgKGJyaWdodG5lc3MgPiAwKSB7Cj4gICAJCXB3bV9nZXRfc3RhdGUocGItPnB3bSwg
+JnN0YXRlKTsKPiAtCQlzdGF0ZS5kdXR5X2N5Y2xlID0gY29tcHV0ZV9kdXR5X2N5Y2xlKHBiLCBi
+cmlnaHRuZXNzKTsKPiArCQlzdGF0ZS5kdXR5X2N5Y2xlID0gY29tcHV0ZV9kdXR5X2N5Y2xlKHBi
+LCBicmlnaHRuZXNzLCAmc3RhdGUpOwo+ICsJCXN0YXRlLmVuYWJsZWQgPSB0cnVlOwo+ICAgCQlw
+d21fYXBwbHlfc3RhdGUocGItPnB3bSwgJnN0YXRlKTsKPiArCj4gICAJCXB3bV9iYWNrbGlnaHRf
+cG93ZXJfb24ocGIpOwo+IC0JfSBlbHNlCj4gKwl9IGVsc2Ugewo+ICAgCQlwd21fYmFja2xpZ2h0
+X3Bvd2VyX29mZihwYik7Cj4gICAKPiArCQlwd21fZ2V0X3N0YXRlKHBiLT5wd20sICZzdGF0ZSk7
+Cj4gKwkJc3RhdGUuZW5hYmxlZCA9IGZhbHNlOwo+ICsJCXN0YXRlLmR1dHlfY3ljbGUgPSAwOwo+
+ICsJCXB3bV9hcHBseV9zdGF0ZShwYi0+cHdtLCAmc3RhdGUpOwo+ICsJfQo+ICsKPiAgIAlpZiAo
+cGItPm5vdGlmeV9hZnRlcikKPiAgIAkJcGItPm5vdGlmeV9hZnRlcihwYi0+ZGV2LCBicmlnaHRu
+ZXNzKTsKPiAgIAo+IAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVs
