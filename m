@@ -2,44 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F304DDABBE
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2019 14:09:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62B21DABC6
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2019 14:13:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E47F36EA5D;
-	Thu, 17 Oct 2019 12:09:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F3B86EA64;
+	Thu, 17 Oct 2019 12:12:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20CC06EA5D
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2019 12:09:23 +0000 (UTC)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1iL4al-0007IQ-IQ; Thu, 17 Oct 2019 14:09:19 +0200
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
- (envelope-from <ukl@pengutronix.de>)
- id 1iL4aj-0005J5-JR; Thu, 17 Oct 2019 14:09:17 +0200
-Date: Thu, 17 Oct 2019 14:09:17 +0200
-From: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [PATCH] backlight: pwm_bl: configure pwm only once per backlight
- toggle
-Message-ID: <20191017120917.fcb7x4fq4tbl2iat@pengutronix.de>
-References: <20191017081059.31761-1-u.kleine-koenig@pengutronix.de>
- <c89925bd-857d-874f-b74f-c5700d4c9fbd@ysoft.com>
- <20191017101116.3d5okxmto5coecad@pengutronix.de>
- <20191017111131.GB3122066@ulmo>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4C7266EA60
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2019 12:12:57 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 492197296E; Thu, 17 Oct 2019 12:12:57 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 107296] WARNING: CPU: 0 PID: 370 at
+ drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:1355
+ dcn_bw_update_from_pplib+0x16b/0x280 [amdgpu]
+Date: Thu, 17 Oct 2019 12:12:56 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: janpieter.sollie@dommel.be
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
+Message-ID: <bug-107296-502-FyfUiPHpIG@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-107296-502@http.bugs.freedesktop.org/>
+References: <bug-107296-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191017111131.GB3122066@ulmo>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,123 +54,215 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- Michal =?utf-8?B?Vm9rw6HEjQ==?= <michal.vokac@ysoft.com>,
- Jingoo Han <jingoohan1@gmail.com>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Lee Jones <lee.jones@linaro.org>, Adam Ford <aford173@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1674320961=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBPY3QgMTcsIDIwMTkgYXQgMDE6MTE6MzFQTSArMDIwMCwgVGhpZXJyeSBSZWRpbmcg
-d3JvdGU6Cj4gT24gVGh1LCBPY3QgMTcsIDIwMTkgYXQgMTI6MTE6MTZQTSArMDIwMCwgVXdlIEts
-ZWluZS1Lw7ZuaWcgd3JvdGU6Cj4gPiBPbiBUaHUsIE9jdCAxNywgMjAxOSBhdCAxMTo0ODowOEFN
-ICswMjAwLCBNaWNoYWwgVm9rw6HEjSB3cm90ZToKPiA+ID4gT24gMTcuIDEwLiAxOSAxMDoxMCwg
-VXdlIEtsZWluZS1Lw7ZuaWcgd3JvdGU6Cj4gPiA+ID4gQSBwcmV2aW91cyBjaGFuZ2UgaW4gdGhl
-IHB3bSBjb3JlIChuYW1lbHkgMDFjY2Y5MDNlZGQ2ICgicHdtOiBMZXQKPiA+ID4gPiBwd21fZ2V0
-X3N0YXRlKCkgcmV0dXJuIHRoZSBsYXN0IGltcGxlbWVudGVkIHN0YXRlIikpIGNoYW5nZWQgdGhl
-Cj4gPiA+ID4gc2VtYW50aWMgb2YgcHdtX2dldF9zdGF0ZSgpIGFuZCBkaXNjbG9zZWQgYW4gKGFz
-IGl0IHNlZW1zKSBjb21tb24KPiA+ID4gPiBwcm9ibGVtIGluIGxvd2xldmVsIFBXTSBkcml2ZXJz
-LiBCeSBub3QgcmVseWluZyBvbiB0aGUgcGVyaW9kIGFuZCBkdXR5Cj4gPiA+ID4gY3ljbGUgYmVp
-bmcgcmV0cmlldmFibGUgZnJvbSBhIGRpc2FibGVkIFBXTSB0aGlzIHR5cGUgb2YgcHJvYmxlbSBp
-cwo+ID4gPiA+IHdvcmtlZCBhcm91bmQuCj4gPiA+ID4gCj4gPiA+ID4gQXBhcnQgZnJvbSB0aGlz
-IGlzc3VlIG9ubHkgY2FsbGluZyB0aGUgcHdtX2dldF9zdGF0ZS9wd21fYXBwbHlfc3RhdGUKPiA+
-ID4gPiBjb21ibyBvbmNlIGlzIGFsc28gbW9yZSBlZmZlY3RpdmUuCj4gPiA+ID4gCj4gPiA+ID4g
-U2lnbmVkLW9mZi1ieTogVXdlIEtsZWluZS1Lw7ZuaWcgPHUua2xlaW5lLWtvZW5pZ0BwZW5ndXRy
-b25peC5kZT4KPiA+ID4gPiAtLS0KPiA+ID4gPiBIZWxsbywKPiA+ID4gPiAKPiA+ID4gPiBUaGVy
-ZSBhcmUgbm93IHR3byByZXBvcnRzIGFib3V0IDAxY2NmOTAzZWRkNiBicmVha2luZyBhIGJhY2ts
-aWdodC4gQXMKPiA+ID4gPiBmYXIgYXMgSSB1bmRlcnN0YW5kIHRoZSBwcm9ibGVtIHRoaXMgaXMg
-YSBjb21iaW5hdGlvbiBvZiB0aGUgYmFja2VuZCBwd20KPiA+ID4gPiBkcml2ZXIgeWllbGRpbmcg
-c3VycHJpc2luZyByZXN1bHRzIGFuZCB0aGUgcHdtLWJsIGRyaXZlciBkb2luZyB0aGluZ3MKPiA+
-ID4gPiBtb3JlIGNvbXBsaWNhdGVkIHRoYW4gbmVjZXNzYXJ5Lgo+ID4gPiA+IAo+ID4gPiA+IFNv
-IEkgZ3Vlc3MgdGhpcyBwYXRjaCB3b3JrcyBhcm91bmQgdGhlc2UgcHJvYmxlbXMuIFN0aWxsIGl0
-IHdvdWxkIGJlCj4gPiA+ID4gaW50ZXJlc3RpbmcgdG8gZmluZCBvdXQgdGhlIGRldGFpbHMgaW4g
-dGhlIGlteCBkcml2ZXIgdGhhdCB0cmlnZ2VycyB0aGUKPiA+ID4gPiBwcm9ibGVtLiBTbyBBZGFt
-LCBjYW4geW91IHBsZWFzZSBpbnN0cnVtZW50IHRoZSBwd20taW14MjcgZHJpdmVyIHRvCj4gPiA+
-ID4gcHJpbnQgKnN0YXRlIGF0IHRoZSBiZWdpbm5pbmcgb2YgcHdtX2lteDI3X2FwcGx5KCkgYW5k
-IHRoZSBlbmQgb2YKPiA+ID4gPiBwd21faW14MjdfZ2V0X3N0YXRlKCkgYW5kIHByb3ZpZGUgdGhl
-IHJlc3VsdHM/Cj4gPiA+ID4gCj4gPiA+ID4gTm90ZSBJIG9ubHkgY29tcGlsZSB0ZXN0ZWQgdGhp
-cyBjaGFuZ2UuCj4gPiA+IAo+ID4gPiBIaSBVd2UsCj4gPiA+IEkgd2FzIGp1c3QgYWJvdXQgdG8g
-cmVzcG9uZCB0byB0aGUgInB3bV9ibCBvbiBpLk1YNlEgYnJva2VuIG9uIDUuNC1SQzErIgo+ID4g
-PiB0aHJlYWQgdGhhdCBJIGhhdmUgYSBzaW1pbGFyIHByb2JsZW0gd2hlbiB5b3Ugc3VibWl0dGVk
-IHRoaXMgcGF0Y2guCj4gPiA+IAo+ID4gPiBTbyBoZXJlIGFyZSBteSBmZXcgY2VudHM6Cj4gPiA+
-IAo+ID4gPiBNeSBzZXR1cCBpcyBhcyBmb2xsb3dzOgo+ID4gPiAgLSBpbXg2ZGwteWFwcDQtZHJh
-Y28gd2l0aCBpLk1YNlNvbG8KPiA+ID4gIC0gYmFja2xpZ2h0IGlzIGNvbnRyb2xsZWQgd2l0aCBp
-bnZlcnRlZCBQV00gc2lnbmFsCj4gPiA+ICAtIG1heCBicmlnaHRuZXNzIGxldmVsID0gMzIsIGRl
-ZmF1bHQgYnJpZ2h0bmVzcyBsZXZlbCBzZXQgdG8gMzIgaW4gRFQuCj4gPiA+IAo+ID4gPiAxLiBB
-bG1vc3QgY29ycmVjdCBiYWNrbGlnaHQgYmVoYXZpb3IgYmVmb3JlIDAxY2NmOTAzZWRkNiAoInB3
-bTogTGV0Cj4gPiA+ICAgIHB3bV9nZXRfc3RhdGUoKSByZXR1cm4gdGhlIGxhc3QgaW1wbGVtZW50
-ZWQgc3RhdGUpOgo+ID4gPiAKPiA+ID4gIC0gU3lzdGVtIGJvb3RzIHRvIHVzZXJzcGFjZSBhbmQg
-YmFja2xpZ2h0IGlzIGVuYWJsZWQgYWxsIHRoZSB0aW1lIGZyb20KPiA+ID4gICAgcG93ZXIgdXAu
-Cj4gPiA+IAo+ID4gPiAgICAkIGRtZXNnIHwgZ3JlcCBzdGF0ZQo+ID4gPiAgICBbICAgIDEuNzYz
-MzgxXSBnZXQgc3RhdGUgZW5kOiAtMTgxMTM2MDYwOCwgZW5hYmxlZDogMAo+ID4gCj4gPiBXaGF0
-IGlzIC0xODExMzYwNjA4PyBXaGVuIEkgd3JvdGUgInByaW50ICpzdGF0ZSIgYWJvdmUsIEkgdGhv
-dWdodCBhYm91dAo+ID4gc29tZXRoaW5nIGxpa2U6Cj4gPiAKPiA+IAlwcl9pbmZvKCIlczogcGVy
-aW9kOiAldSwgZHV0eTogJXUsIHBvbGFyaXR5OiAlZCwgZW5hYmxlZDogJWQiLAo+ID4gCQlfX2Z1
-bmNfXywgc3RhdGUtPnBlcmlvZCwgc3RhdGUtPmR1dHlfY3ljbGUsIHN0YXRlLT5wb2xhcml0eSwg
-c3RhdGUtPmVuYWJsZWQpOwo+ID4gCj4gPiBBIHF1aWNrIGxvb2sgaW50byBkcml2ZXJzL3B3bS9w
-d20taW14MjcuYyBzaG93cyB0aGF0IHRoaXMgaXMgYW5vdGhlcgo+ID4gZHJpdmVyIHRoYXQgeWll
-bGRzIGR1dHlfY3ljbGUgPSAwIHdoZW4gdGhlIGhhcmR3YXJlIGlzIG9mZi4KPiAKPiBJdCBzZWVt
-cyB0byBtZSBsaWtlIHRoZSBiZXN0IHJlY291cnNlIHRvIGZpeCB0aGlzIGZvciBub3cgd291bGQg
-YmUgdG8KPiBwYXRjaCB1cCB0aGUgZHJpdmVycyB0aGF0IHJldHVybiAwIHdoZW4gdGhlIGhhcmR3
-YXJlIGlzIG9mZiBieSBjYWNoaW5nCj4gdGhlIGN1cnJlbnRseSBjb25maWd1cmVkIGR1dHkgY3lj
-bGUuCj4gCj4gSG93IGFib3V0IHRoZSBwYXRjaCBiZWxvdz8KPiAKPiBUaGllcnJ5Cj4gCj4gLS0t
-ID44IC0tLQo+IEZyb20gMTVhNTJhN2YxYjkxMDgwNGZhYmQ3NGE1ODgyYmVmZDNmOWQ2YmIzNyBN
-b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKPiBGcm9tOiBUaGllcnJ5IFJlZGluZyA8dGhpZXJyeS5y
-ZWRpbmdAZ21haWwuY29tPgo+IERhdGU6IFRodSwgMTcgT2N0IDIwMTkgMTI6NTY6MDAgKzAyMDAK
-PiBTdWJqZWN0OiBbUEFUQ0hdIHB3bTogaW14Mjc6IENhY2hlIGR1dHkgY3ljbGUgcmVnaXN0ZXIg
-dmFsdWUKPiAKPiBUaGUgaGFyZHdhcmUgcmVnaXN0ZXIgY29udGFpbmluZyB0aGUgZHV0eSBjeWNs
-ZSB2YWx1ZSBjYW5ub3QgYmUgYWNjZXNzZWQKPiB3aGVuIHRoZSBQV00gaXMgZGlzYWJsZWQuIFRo
-aXMgY2F1c2VzIHRoZSAtPmdldF9zdGF0ZSgpIGNhbGxiYWNrIHRvIHJlYWQKPiBiYWNrIGEgZHV0
-eSBjeWNsZSB2YWx1ZSBvZiAwLCB3aGljaCBjYW4gY29uZnVzZSBjb25zdW1lciBkcml2ZXJzLgo+
-IAo+IFNpZ25lZC1vZmYtYnk6IFRoaWVycnkgUmVkaW5nIDx0aGllcnJ5LnJlZGluZ0BnbWFpbC5j
-b20+Cj4gLS0tCj4gIGRyaXZlcnMvcHdtL3B3bS1pbXgyNy5jIHwgMzEgKysrKysrKysrKysrKysr
-KysrKysrKysrLS0tLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgMjQgaW5zZXJ0aW9ucygrKSwgNyBk
-ZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9wd20vcHdtLWlteDI3LmMgYi9k
-cml2ZXJzL3B3bS9wd20taW14MjcuYwo+IGluZGV4IGFlMTFkODU3N2YxOC4uNDExM2Q1Y2Q0YzYy
-IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvcHdtL3B3bS1pbXgyNy5jCj4gKysrIGIvZHJpdmVycy9w
-d20vcHdtLWlteDI3LmMKPiBAQCAtODUsNiArODUsMTMgQEAgc3RydWN0IHB3bV9pbXgyN19jaGlw
-IHsKPiAgCXN0cnVjdCBjbGsJKmNsa19wZXI7Cj4gIAl2b2lkIF9faW9tZW0JKm1taW9fYmFzZTsK
-PiAgCXN0cnVjdCBwd21fY2hpcAljaGlwOwo+ICsKPiArCS8qCj4gKwkgKiBUaGUgZHJpdmVyIGNh
-bm5vdCByZWFkIHRoZSBjdXJyZW50IGR1dHkgY3ljbGUgZnJvbSB0aGUgaGFyZHdhcmUgaWYKPiAr
-CSAqIHRoZSBoYXJkd2FyZSBpcyBkaXNhYmxlZC4gQ2FjaGUgdGhlIGxhc3QgcHJvZ3JhbW1lZCBk
-dXR5IGN5Y2xlCj4gKwkgKiB2YWx1ZSB0byByZXR1cm4gaW4gdGhhdCBjYXNlLgo+ICsJICovCj4g
-Kwl1bnNpZ25lZCBpbnQgZHV0eV9jeWNsZTsKPiAgfTsKPiAgCj4gICNkZWZpbmUgdG9fcHdtX2lt
-eDI3X2NoaXAoY2hpcCkJY29udGFpbmVyX29mKGNoaXAsIHN0cnVjdCBwd21faW14MjdfY2hpcCwg
-Y2hpcCkKPiBAQCAtMTU1LDE0ICsxNjIsMTcgQEAgc3RhdGljIHZvaWQgcHdtX2lteDI3X2dldF9z
-dGF0ZShzdHJ1Y3QgcHdtX2NoaXAgKmNoaXAsCj4gIAl0bXAgPSBOU0VDX1BFUl9TRUMgKiAodTY0
-KShwZXJpb2QgKyAyKTsKPiAgCXN0YXRlLT5wZXJpb2QgPSBESVZfUk9VTkRfQ0xPU0VTVF9VTEwo
-dG1wLCBwd21fY2xrKTsKPiAgCj4gLQkvKiBQV01TQVIgY2FuIGJlIHJlYWQgb25seSBpZiBQV00g
-aXMgZW5hYmxlZCAqLwo+IC0JaWYgKHN0YXRlLT5lbmFibGVkKSB7Cj4gKwkvKgo+ICsJICogUFdN
-U0FSIGNhbiBiZSByZWFkIG9ubHkgaWYgUFdNIGlzIGVuYWJsZWQuIElmIHRoZSBQV00gaXMgZGlz
-YWJsZWQsCj4gKwkgKiB1c2UgdGhlIGNhY2hlZCB2YWx1ZS4KPiArCSAqLwo+ICsJaWYgKHN0YXRl
-LT5lbmFibGVkKQo+ICAJCXZhbCA9IHJlYWRsKGlteC0+bW1pb19iYXNlICsgTVgzX1BXTVNBUik7
-Cj4gLQkJdG1wID0gTlNFQ19QRVJfU0VDICogKHU2NCkodmFsKTsKPiAtCQlzdGF0ZS0+ZHV0eV9j
-eWNsZSA9IERJVl9ST1VORF9DTE9TRVNUX1VMTCh0bXAsIHB3bV9jbGspOwo+IC0JfSBlbHNlIHsK
-PiAtCQlzdGF0ZS0+ZHV0eV9jeWNsZSA9IDA7Cj4gLQl9Cj4gKwllbHNlCj4gKwkJdmFsID0gaW14
-LT5kdXR5X2N5Y2xlOwo+ICsKPiArCXRtcCA9IE5TRUNfUEVSX1NFQyAqICh1NjQpKHZhbCk7Cj4g
-KwlzdGF0ZS0+ZHV0eV9jeWNsZSA9IERJVl9ST1VORF9DTE9TRVNUX1VMTCh0bXAsIHB3bV9jbGsp
-Owo+ICAKPiAgCWlmICghc3RhdGUtPmVuYWJsZWQpCj4gIAkJcHdtX2lteDI3X2Nsa19kaXNhYmxl
-X3VucHJlcGFyZShjaGlwKTsKPiBAQCAtMjYxLDYgKzI3MSwxMyBAQCBzdGF0aWMgaW50IHB3bV9p
-bXgyN19hcHBseShzdHJ1Y3QgcHdtX2NoaXAgKmNoaXAsIHN0cnVjdCBwd21fZGV2aWNlICpwd20s
-Cj4gIAkJd3JpdGVsKGR1dHlfY3ljbGVzLCBpbXgtPm1taW9fYmFzZSArIE1YM19QV01TQVIpOwo+
-ICAJCXdyaXRlbChwZXJpb2RfY3ljbGVzLCBpbXgtPm1taW9fYmFzZSArIE1YM19QV01QUik7Cj4g
-IAo+ICsJCS8qCj4gKwkJICogU3RvcmUgdGhlIGR1dHkgY3ljbGUgZm9yIGZ1dHVyZSByZWZlcmVu
-Y2UgaW4gY2FzZXMgd2hlcmUKPiArCQkgKiB0aGUgTVgzX1BXTVNBUiByZWdpc3RlciBjYW4ndCBi
-ZSByZWFkIChpLmUuIHdoZW4gdGhlIFBXTQo+ICsJCSAqIGlzIGRpc2FibGVkKS4KPiArCQkgKi8K
-PiArCQlpbXgtPmR1dHlfY3ljbGUgPSBkdXR5X2N5Y2xlczsKPiArCgpJIHdvbmRlciBpZiBpdCB3
-b3VsZCBiZSBtb3JlIHNlbnNpYmxlIHRvIGRvIHRoaXMgaW4gdGhlIHB3bSBjb3JlCmluc3RlYWQu
-IEN1cnJlbnRseSB0aGVyZSBhcmUgdHdvIGRyaXZlcnMga25vd24gd2l0aCB0aGlzIHByb2JsZW0u
-IEkKd291bGRuJ3QgYmUgc3VycHJpc2VkIGlmIHRoZXJlIHdlcmUgbW9yZS4KCklmIHdlIHdhbnQg
-dG8gbW92ZSBjbGllbnRzIHRvIG5vdCByZWx5IG9uIC5wZXJpb2QgYW5kIC5kdXR5X2N5Y2xlIGZv
-ciBhCmRpc2FibGVkIFBXTSAoZG8gd2U/KSBhIHNpbmdsZSBjaGFuZ2UgaW4gdGhlIGNvcmUgaXMg
-YWxzbyBiZW5lZmljaWFsCmNvbXBhcmVkIHRvIGZpeGluZyBzZXZlcmFsIGxvd2xldmVsIGRyaXZl
-cnMuCgpCZXN0IHJlZ2FyZHMKVXdlCgotLSAKUGVuZ3V0cm9uaXggZS5LLiAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHwgVXdlIEtsZWluZS1Lw7ZuaWcgICAgICAgICAgICB8CkluZHVzdHJpYWwg
-TGludXggU29sdXRpb25zICAgICAgICAgICAgICAgICB8IGh0dHA6Ly93d3cucGVuZ3V0cm9uaXgu
-ZGUvICB8Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1674320961==
+Content-Type: multipart/alternative; boundary="15713143772.b2FDC3Be.5399"
+Content-Transfer-Encoding: 7bit
+
+
+--15713143772.b2FDC3Be.5399
+Date: Thu, 17 Oct 2019 12:12:57 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D107296
+
+Janpieter Sollie <janpieter.sollie@dommel.be> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+ Attachment #144689|0                           |1
+        is obsolete|                            |
+
+--- Comment #21 from Janpieter Sollie <janpieter.sollie@dommel.be> ---
+Created attachment 145764
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145764&action=3Dedit
+dmesg of PPLIB error
+
+still present on linux 5.3, with the following exceptions:
+- the values in mV seem to be initialized,
+- DRM does not complain about 'Cannot find any crtc or sizes' after GPU add=
+ing
+- DRM: construct error is gone
+
+So it's going the good way, I guess ...
+I investigated the source around dcn_bw_update_from_pplib
+
+And I saw the following code in gpu/drm/amd/display/dc/calcs/dcn_calcs.c
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+        bool res;
+
+        /* TODO: This is not the proper way to obtain
+fabric_and_dram_bandwidth, should be min(fclk, memclk) */
+        res =3D dm_pp_get_clock_levels_by_type_with_voltage(
+                        ctx, DM_PP_CLOCK_TYPE_FCLK, &fclks);
+
+        kernel_fpu_begin();
+
+        if (res)
+                res =3D verify_clock_values(&fclks);
+
+        if (res) {
+//unimportant, left out
+        } else
+                BREAK_TO_DEBUGGER();
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+which probably explains what happens: fclks gets a number of clock values f=
+rom
+dm_pp_get_clock_levels_by_type_with_voltage, setting res to true.
+It tries to validate the clock values then, which fails because of the inva=
+lid
+numbers
+After that, it breaks to debugger.
+
+Is it possible the vega11 needs more time to initialize its clock limits?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15713143772.b2FDC3Be.5399
+Date: Thu, 17 Oct 2019 12:12:57 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:janpieter=
+.sollie&#64;dommel.be" title=3D"Janpieter Sollie &lt;janpieter.sollie&#64;d=
+ommel.be&gt;"> <span class=3D"fn">Janpieter Sollie</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - WARNING: CPU: 0 PID: 370 at drivers/gpu/drm/amd/amdgpu/..=
+/display/dc/calcs/dcn_calcs.c:1355 dcn_bw_update_from_pplib+0x16b/0x280 [am=
+dgpu]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107296">bug 10729=
+6</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Attachment #144689 is obsolete</=
+td>
+           <td>
+               &nbsp;
+           </td>
+           <td>1
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - WARNING: CPU: 0 PID: 370 at drivers/gpu/drm/amd/amdgpu/..=
+/display/dc/calcs/dcn_calcs.c:1355 dcn_bw_update_from_pplib+0x16b/0x280 [am=
+dgpu]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107296#c21">Comme=
+nt # 21</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - WARNING: CPU: 0 PID: 370 at drivers/gpu/drm/amd/amdgpu/..=
+/display/dc/calcs/dcn_calcs.c:1355 dcn_bw_update_from_pplib+0x16b/0x280 [am=
+dgpu]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107296">bug 10729=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+janpieter.sollie&#64;dommel.be" title=3D"Janpieter Sollie &lt;janpieter.sol=
+lie&#64;dommel.be&gt;"> <span class=3D"fn">Janpieter Sollie</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145764=
+" name=3D"attach_145764" title=3D"dmesg of PPLIB error">attachment 145764</=
+a> <a href=3D"attachment.cgi?id=3D145764&amp;action=3Dedit" title=3D"dmesg =
+of PPLIB error">[details]</a></span>
+dmesg of PPLIB error
+
+still present on linux 5.3, with the following exceptions:
+- the values in mV seem to be initialized,
+- DRM does not complain about 'Cannot find any crtc or sizes' after GPU add=
+ing
+- DRM: construct error is gone
+
+So it's going the good way, I guess ...
+I investigated the source around dcn_bw_update_from_pplib
+
+And I saw the following code in gpu/drm/amd/display/dc/calcs/dcn_calcs.c
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+        bool res;
+
+        /* TODO: This is not the proper way to obtain
+fabric_and_dram_bandwidth, should be min(fclk, memclk) */
+        res =3D dm_pp_get_clock_levels_by_type_with_voltage(
+                        ctx, DM_PP_CLOCK_TYPE_FCLK, &amp;fclks);
+
+        kernel_fpu_begin();
+
+        if (res)
+                res =3D verify_clock_values(&amp;fclks);
+
+        if (res) {
+//unimportant, left out
+        } else
+                BREAK_TO_DEBUGGER();
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+which probably explains what happens: fclks gets a number of clock values f=
+rom
+dm_pp_get_clock_levels_by_type_with_voltage, setting res to true.
+It tries to validate the clock values then, which fails because of the inva=
+lid
+numbers
+After that, it breaks to debugger.
+
+Is it possible the vega11 needs more time to initialize its clock limits?</=
+pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15713143772.b2FDC3Be.5399--
+
+--===============1674320961==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1674320961==--
