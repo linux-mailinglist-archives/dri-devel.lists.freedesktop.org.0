@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E975DAAFA
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2019 13:11:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F95DAB36
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2019 13:29:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0307589A8B;
-	Thu, 17 Oct 2019 11:11:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 002C16EA56;
+	Thu, 17 Oct 2019 11:29:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B027989A8B
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2019 11:11:35 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id b9so1886474wrs.0
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2019 04:11:35 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8716F6EA56
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2019 11:29:45 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id y21so2169241wmi.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2019 04:29:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=uVoXPPtms2OBj9SVIoZ3oN8jHS0q6WrUSpAbwHPKjrg=;
- b=OIjIyMgvx9VFrpYKEsZCb0fXEvhCjmDyIebhvmtN/RPPKzkLePElOjpYYgr2iDIx4x
- CmalRYaOOTWu4QthNeaIQOKylr5/hIG5zeI00kkL7mcG4wtNG95kVAYLZ9mB240o4QfB
- TokXab66noXt/gUBCxRUwm/YncOGrAYOSzexCtmFSVIiRXBapllc0BIiHm2DIxTaWgoG
- /cmgF76bufWWYS0iiBMKZjWfd+IOu5cJQCGkRqZNnorafTqFYzPgbkIdy0Fi9yd4Vylb
- 0IdbFcPGfiumEboWDnJK0NJYjUrvQWkbe7QrEmec7BLgsfQj8cFjsT5P0EscAfR2I75R
- baVw==
-X-Gm-Message-State: APjAAAXU7iuLGAZP02bELHhID000vBIFhbvQc2Dl0Hpfadg4n/bd02E2
- rYZbComOqAvlYAJ59qxIZ0w=
-X-Google-Smtp-Source: APXvYqzO6ItEC3kt8jHNlX8r4xUT/KN/LQBY0LzMSmWlc636G/V/pvm/CFIOecA2do+FFkDUPQMN7w==
-X-Received: by 2002:a5d:544a:: with SMTP id w10mr2479776wrv.271.1571310694122; 
- Thu, 17 Oct 2019 04:11:34 -0700 (PDT)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
- by smtp.gmail.com with ESMTPSA id n1sm1959172wrg.67.2019.10.17.04.11.32
+ bh=y25SQvHW6/7riw64/wdhH01byzi//dz718QUhzJWQoM=;
+ b=c/VtfVjDLatB7pdwyNovQ0qIGonpYQjH0bvLzfeGnQZEe11b5uk85U9QMpFhtqVQgS
+ 801DCmnIXqoHikvVCTjw6N3dftBW6L4F9G1deyIDKlHydjnUNmqStEnQMj8W6cmpZXfk
+ /1HZ3Xi9VSdxSv41cfbZLzIiKpIKhbacbZEw6yMWZ9Yzx/17YqkQo3W2V9wNF0T2s1gS
+ hKpWGX//A00/qQQU3UqCi8UYMrwKGAGO8xgIoefmtLM/6Pg6fWqqDXZCifRQoOsrRttq
+ na/nJsb8zC7Ufu83u7Qjd2QR0XqSs45OJwoDyzbXcEPs7C0KTBDXEaIwRB1wfYoy6tLy
+ J82g==
+X-Gm-Message-State: APjAAAUTksKRiVWKxxNbPibnuBCJtXn8eweClZckZIwRs8NSnix15VYb
+ Zb2cLdDVPQwXt1zNiTxxlVefmw==
+X-Google-Smtp-Source: APXvYqy315waZYadAwtLx/wuKd4IUjaUiXe5iNXNBULrE+UNqPPTqxikRQdXUrJkHirN8ZpFE3jJ2w==
+X-Received: by 2002:a1c:e057:: with SMTP id x84mr2365727wmg.72.1571311784048; 
+ Thu, 17 Oct 2019 04:29:44 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
+ [86.9.19.6])
+ by smtp.gmail.com with ESMTPSA id q22sm1795666wmj.5.2019.10.17.04.29.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2019 04:11:32 -0700 (PDT)
-Date: Thu, 17 Oct 2019 13:11:31 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH] backlight: pwm_bl: configure pwm only once per backlight
- toggle
-Message-ID: <20191017111131.GB3122066@ulmo>
-References: <20191017081059.31761-1-u.kleine-koenig@pengutronix.de>
- <c89925bd-857d-874f-b74f-c5700d4c9fbd@ysoft.com>
- <20191017101116.3d5okxmto5coecad@pengutronix.de>
+ Thu, 17 Oct 2019 04:29:43 -0700 (PDT)
+Date: Thu, 17 Oct 2019 12:29:41 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Kiran Gunda <kgunda@codeaurora.org>
+Subject: Re: [PATCH V7 6/6] backlight: qcom-wled: Add auto string detection
+ logic
+Message-ID: <20191017112941.qqvgboyambzw63i3@holly.lan>
+References: <1571220826-7740-1-git-send-email-kgunda@codeaurora.org>
+ <1571220826-7740-7-git-send-email-kgunda@codeaurora.org>
 MIME-Version: 1.0
-In-Reply-To: <20191017101116.3d5okxmto5coecad@pengutronix.de>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Content-Disposition: inline
+In-Reply-To: <1571220826-7740-7-git-send-email-kgunda@codeaurora.org>
+User-Agent: NeoMutt/20180716
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
+ d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=uVoXPPtms2OBj9SVIoZ3oN8jHS0q6WrUSpAbwHPKjrg=;
- b=gPxNkUdZqcMM9+6sy0HJERWLjuFkJJrrDGM3u6HPwRkjvFaYvif8HzG8KxxboGrVIW
- TkOyUKHGLyFD3mmiC84rYOnRuQZ/m7H9uVVNhQE1ffUmYGADEnvzc2B2loGuS/0FbvbX
- S8X8yHPvCxJ5rDSqd4ywqqp0m+7UdbnzcKDJKdwYLCvOGvapxjBBkUlGz8/2AxHNiCu0
- HlZ/fk+cKj5DsqEpzAPLzDWVu/p+K5Qi+779lELsQZwdYioMB6bZaFyCHAuAlow39aTx
- EoSffv1+i4P9aZhE9254IQkehTP6dy4v4kOf4if3PGbVEDotsL4HZgNKtN4QX8R6TxV8
- +ShQ==
+ bh=y25SQvHW6/7riw64/wdhH01byzi//dz718QUhzJWQoM=;
+ b=LZ2BxUT3XYkN17tFc8dU93+VqpMf/c0mPGTp3UVIyg3upGlb3iY+XDdf1yfAjNQUV9
+ MEbhUG/4TIwoL/i8Lg8m5fewSbe3O7KW9XX4meNTSrHGz/tZpRsIOHp0b43jn04q0XCI
+ lO2jcDZa4Y8HiPEG3fP63QY6pTT7blXEh1CEunMeL+cA/8ticCfbt7sVTYaoXZEXw1ke
+ 5sRkxNtiy98Ej84gJCr8gbkGZ+Xxk1gqz+P34xf6RGTNU0XuTkJ9F5jUvo8ZbLcpK/t2
+ wEUD0CrW6jFNo5lUiEKuA4upAA7nY7xJYPs35VaGodmJRe61wsS6q1Mh0BQ+ZhYxEVZu
+ Z/lQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,208 +71,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- Michal =?utf-8?B?Vm9rw6HEjQ==?= <michal.vokac@ysoft.com>,
- Lee Jones <lee.jones@linaro.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
- Jingoo Han <jingoohan1@gmail.com>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Adam Ford <aford173@gmail.com>
-Content-Type: multipart/mixed; boundary="===============1448861735=="
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
+ Andy Gross <agross@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
+ robh+dt@kernel.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
+ linux-arm-msm@vger.kernel.org, lee.jones@linaro.org,
+ linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1448861735==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="hQiwHBbRI9kgIhsi"
-Content-Disposition: inline
-
-
---hQiwHBbRI9kgIhsi
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Oct 17, 2019 at 12:11:16PM +0200, Uwe Kleine-K=C3=B6nig wrote:
-> On Thu, Oct 17, 2019 at 11:48:08AM +0200, Michal Vok=C3=A1=C4=8D wrote:
-> > On 17. 10. 19 10:10, Uwe Kleine-K=C3=B6nig wrote:
-> > > A previous change in the pwm core (namely 01ccf903edd6 ("pwm: Let
-> > > pwm_get_state() return the last implemented state")) changed the
-> > > semantic of pwm_get_state() and disclosed an (as it seems) common
-> > > problem in lowlevel PWM drivers. By not relying on the period and duty
-> > > cycle being retrievable from a disabled PWM this type of problem is
-> > > worked around.
-> > >=20
-> > > Apart from this issue only calling the pwm_get_state/pwm_apply_state
-> > > combo once is also more effective.
-> > >=20
-> > > Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> > > ---
-> > > Hello,
-> > >=20
-> > > There are now two reports about 01ccf903edd6 breaking a backlight. As
-> > > far as I understand the problem this is a combination of the backend =
-pwm
-> > > driver yielding surprising results and the pwm-bl driver doing things
-> > > more complicated than necessary.
-> > >=20
-> > > So I guess this patch works around these problems. Still it would be
-> > > interesting to find out the details in the imx driver that triggers t=
-he
-> > > problem. So Adam, can you please instrument the pwm-imx27 driver to
-> > > print *state at the beginning of pwm_imx27_apply() and the end of
-> > > pwm_imx27_get_state() and provide the results?
-> > >=20
-> > > Note I only compile tested this change.
-> >=20
-> > Hi Uwe,
-> > I was just about to respond to the "pwm_bl on i.MX6Q broken on 5.4-RC1+"
-> > thread that I have a similar problem when you submitted this patch.
-> >=20
-> > So here are my few cents:
-> >=20
-> > My setup is as follows:
-> >  - imx6dl-yapp4-draco with i.MX6Solo
-> >  - backlight is controlled with inverted PWM signal
-> >  - max brightness level =3D 32, default brightness level set to 32 in D=
-T.
-> >=20
-> > 1. Almost correct backlight behavior before 01ccf903edd6 ("pwm: Let
-> >    pwm_get_state() return the last implemented state):
-> >=20
-> >  - System boots to userspace and backlight is enabled all the time from
-> >    power up.
-> >=20
-> >    $ dmesg | grep state
-> >    [    1.763381] get state end: -1811360608, enabled: 0
->=20
-> What is -1811360608? When I wrote "print *state" above, I thought about
-> something like:
->=20
-> 	pr_info("%s: period: %u, duty: %u, polarity: %d, enabled: %d",
-> 		__func__, state->period, state->duty_cycle, state->polarity, state->ena=
-bled);
->=20
-> A quick look into drivers/pwm/pwm-imx27.c shows that this is another
-> driver that yields duty_cycle =3D 0 when the hardware is off.
-
-It seems to me like the best recourse to fix this for now would be to
-patch up the drivers that return 0 when the hardware is off by caching
-the currently configured duty cycle.
-
-How about the patch below?
-
-Thierry
-
---- >8 ---
-=46rom 15a52a7f1b910804fabd74a5882befd3f9d6bb37 Mon Sep 17 00:00:00 2001
-=46rom: Thierry Reding <thierry.reding@gmail.com>
-Date: Thu, 17 Oct 2019 12:56:00 +0200
-Subject: [PATCH] pwm: imx27: Cache duty cycle register value
-
-The hardware register containing the duty cycle value cannot be accessed
-when the PWM is disabled. This causes the ->get_state() callback to read
-back a duty cycle value of 0, which can confuse consumer drivers.
-
-Signed-off-by: Thierry Reding <thierry.reding@gmail.com>
----
- drivers/pwm/pwm-imx27.c | 31 ++++++++++++++++++++++++-------
- 1 file changed, 24 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/pwm/pwm-imx27.c b/drivers/pwm/pwm-imx27.c
-index ae11d8577f18..4113d5cd4c62 100644
---- a/drivers/pwm/pwm-imx27.c
-+++ b/drivers/pwm/pwm-imx27.c
-@@ -85,6 +85,13 @@ struct pwm_imx27_chip {
- 	struct clk	*clk_per;
- 	void __iomem	*mmio_base;
- 	struct pwm_chip	chip;
-+
-+	/*
-+	 * The driver cannot read the current duty cycle from the hardware if
-+	 * the hardware is disabled. Cache the last programmed duty cycle
-+	 * value to return in that case.
-+	 */
-+	unsigned int duty_cycle;
- };
-=20
- #define to_pwm_imx27_chip(chip)	container_of(chip, struct pwm_imx27_chip, =
-chip)
-@@ -155,14 +162,17 @@ static void pwm_imx27_get_state(struct pwm_chip *chip,
- 	tmp =3D NSEC_PER_SEC * (u64)(period + 2);
- 	state->period =3D DIV_ROUND_CLOSEST_ULL(tmp, pwm_clk);
-=20
--	/* PWMSAR can be read only if PWM is enabled */
--	if (state->enabled) {
-+	/*
-+	 * PWMSAR can be read only if PWM is enabled. If the PWM is disabled,
-+	 * use the cached value.
-+	 */
-+	if (state->enabled)
- 		val =3D readl(imx->mmio_base + MX3_PWMSAR);
--		tmp =3D NSEC_PER_SEC * (u64)(val);
--		state->duty_cycle =3D DIV_ROUND_CLOSEST_ULL(tmp, pwm_clk);
--	} else {
--		state->duty_cycle =3D 0;
--	}
-+	else
-+		val =3D imx->duty_cycle;
-+
-+	tmp =3D NSEC_PER_SEC * (u64)(val);
-+	state->duty_cycle =3D DIV_ROUND_CLOSEST_ULL(tmp, pwm_clk);
-=20
- 	if (!state->enabled)
- 		pwm_imx27_clk_disable_unprepare(chip);
-@@ -261,6 +271,13 @@ static int pwm_imx27_apply(struct pwm_chip *chip, stru=
-ct pwm_device *pwm,
- 		writel(duty_cycles, imx->mmio_base + MX3_PWMSAR);
- 		writel(period_cycles, imx->mmio_base + MX3_PWMPR);
-=20
-+		/*
-+		 * Store the duty cycle for future reference in cases where
-+		 * the MX3_PWMSAR register can't be read (i.e. when the PWM
-+		 * is disabled).
-+		 */
-+		imx->duty_cycle =3D duty_cycles;
-+
- 		cr =3D MX3_PWMCR_PRESCALER_SET(prescale) |
- 		     MX3_PWMCR_STOPEN | MX3_PWMCR_DOZEN | MX3_PWMCR_WAITEN |
- 		     FIELD_PREP(MX3_PWMCR_CLKSRC, MX3_PWMCR_CLKSRC_IPG_HIGH) |
---=20
-2.23.0
-
-
---hQiwHBbRI9kgIhsi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2oTGAACgkQ3SOs138+
-s6ErwRAAqDNujr5rVterfUV5MOpCMJiGtVSWik2J4qpL+Sz0dMupM5exBLxllNkO
-18mgYX5ioHsCvKjW1bEaqivlvpig65n33OBuq3/TT0XxXZd7pQNWckf8vngK7xIo
-MSlKUGyDekWVVt7zocpTpVWoVpV5bXAZ1MTcQCrbKkUsvgE/TU5R4vdXgXX/qd1I
-7QNygG/tj2rjHVfIQaG2RnOf8sEof4NHBR+GrLR9IVMfQjGW0eVqJ4Vjqc4P/JIj
-dvKptasZHRZvuN7zpywh1Jt5x4/GSr9Bhctfv1YwyrJs0HBrGyMsHDgRBVn02Wux
-P395+fNsA554ih7iS4uE8eiqX/TTeRZw2cUgAptzlZsQgAJIIU18ziLkA4xyqSbV
-NQz8AXcpDQGr5iYyxEwc2Z4GohO5wGaGP+yryUhrRnYvw38gejzYQKe7D87c2WnF
-653wEbBWeX3OJQWjYY3MorS22TpSX1R4/xPC+AhS25Japo8JJPOihRwqWGt3JTec
-NpqUyihBg23rnlgkjN68z5iaXtWqtonug4VKExySDZqW8Reg6eITMoEyWHoJ54mx
-C+EKCBSnKNVEmMoAeIavscOrUWuxtNo5NUmHIbOxLL3vaiK330JrUSEkNjVPBEmF
-HKuzBeOHKtBYhgXW7IxyXmvpSPGyTjsmyT3rOXDxn9dZIKasHuI=
-=GrXG
------END PGP SIGNATURE-----
-
---hQiwHBbRI9kgIhsi--
-
---===============1448861735==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1448861735==--
+T24gV2VkLCBPY3QgMTYsIDIwMTkgYXQgMDM6NDM6NDZQTSArMDUzMCwgS2lyYW4gR3VuZGEgd3Jv
+dGU6Cj4gVGhlIGF1dG8gc3RyaW5nIGRldGVjdGlvbiBhbGdvcml0aG0gY2hlY2tzIGlmIHRoZSBj
+dXJyZW50IFdMRUQKPiBzaW5rIGNvbmZpZ3VyYXRpb24gaXMgdmFsaWQuIEl0IHRyaWVzIGVuYWJs
+aW5nIGV2ZXJ5IHNpbmsgYW5kCj4gY2hlY2tzIGlmIHRoZSBPVlAgZmF1bHQgaXMgb2JzZXJ2ZWQu
+IEJhc2VkIG9uIHRoaXMgaW5mb3JtYXRpb24KPiBpdCBkZXRlY3RzIGFuZCBlbmFibGVzIHRoZSB2
+YWxpZCBzaW5rIGNvbmZpZ3VyYXRpb24uCj4gQXV0byBjYWxpYnJhdGlvbiB3aWxsIGJlIHRyaWdn
+ZXJlZCB3aGVuIHRoZSBPVlAgZmF1bHQgaW50ZXJydXB0cwo+IGFyZSBzZWVuIGZyZXF1ZW50bHkg
+dGhlcmVieSBpdCB0cmllcyB0byBmaXggdGhlIHNpbmsgY29uZmlndXJhdGlvbi4KPiAKPiBUaGUg
+YXV0by1kZXRlY3Rpb24gYWxzbyBraWNrcyBpbiB3aGVuIHRoZSBjb25uZWN0ZWQgTEVEIHN0cmlu
+Zwo+IG9mIHRoZSBkaXNwbGF5LWJhY2tsaWdodCBtYWxmdW5jdGlvbnMgKGJlY2F1c2Ugb2YgZGFt
+YWdlKSBhbmQKPiByZXF1aXJlcyB0aGUgZGFtYWdlZCBzdHJpbmcgdG8gYmUgdHVybmVkIG9mZiB0
+byBwcmV2ZW50IHRoZQo+IGNvbXBsZXRlIHBhbmVsIGFuZC9vciBib2FyZCBmcm9tIGJlaW5nIGRh
+bWFnZWQuCj4gCj4gU2lnbmVkLW9mZi1ieTogS2lyYW4gR3VuZGEgPGtndW5kYUBjb2RlYXVyb3Jh
+Lm9yZz4KCkl0J3MgYSBjb21wbGV4IGJpdCBvZiBjb2RlIGJ1dCBJJ20gT0sgd2l0aCBpdCBpbiBw
+cmluY2lwbGUuIEV2ZXJ5dGhpbmcKYmVsb3cgaXMgYWJvdXQgc21hbGwgZGV0YWlscyBhbmQvb3Ig
+bml0cGlja2luZy4KCgo+ICtzdGF0aWMgdm9pZCB3bGVkX292cF93b3JrKHN0cnVjdCB3b3JrX3N0
+cnVjdCAqd29yaykKPiArewo+ICsJc3RydWN0IHdsZWQgKndsZWQgPSBjb250YWluZXJfb2Yod29y
+aywKPiArCQkJCQkgc3RydWN0IHdsZWQsIG92cF93b3JrLndvcmspOwo+ICsJZW5hYmxlX2lycSh3
+bGVkLT5vdnBfaXJxKTsKPiArfQo+ICsKCkEgYml0IG9mIGNvbW1lbnRpbmcgYWJvdXQgd2h5IHdl
+IGhhdmUgdG8gd2FpdCAxMG1zIGJlZm9yZSBlbmFibGluZyB0aGUKT1ZQIGludGVycnVwdCB3b3Vs
+ZCBiZSBhcHByZWNpYXRlZC4KCgo+ICtzdGF0aWMgaXJxcmV0dXJuX3Qgd2xlZF9vdnBfaXJxX2hh
+bmRsZXIoaW50IGlycSwgdm9pZCAqX3dsZWQpCj4gK3sKPiArCXN0cnVjdCB3bGVkICp3bGVkID0g
+X3dsZWQ7Cj4gKwlpbnQgcmM7Cj4gKwl1MzIgaW50X3N0cywgZmF1bHRfc3RzOwo+ICsKPiArCXJj
+ID0gcmVnbWFwX3JlYWQod2xlZC0+cmVnbWFwLAo+ICsJCQkgd2xlZC0+Y3RybF9hZGRyICsgV0xF
+RDNfQ1RSTF9SRUdfSU5UX1JUX1NUUywgJmludF9zdHMpOwo+ICsJaWYgKHJjIDwgMCkgewo+ICsJ
+CWRldl9lcnIod2xlZC0+ZGV2LCAiRXJyb3IgaW4gcmVhZGluZyBXTEVEM19JTlRfUlRfU1RTIHJj
+PSVkXG4iLAo+ICsJCQlyYyk7Cj4gKwkJcmV0dXJuIElSUV9IQU5ETEVEOwo+ICsJfQo+ICsKPiAr
+CXJjID0gcmVnbWFwX3JlYWQod2xlZC0+cmVnbWFwLCB3bGVkLT5jdHJsX2FkZHIgKwo+ICsJCQkg
+V0xFRDNfQ1RSTF9SRUdfRkFVTFRfU1RBVFVTLCAmZmF1bHRfc3RzKTsKPiArCWlmIChyYyA8IDAp
+IHsKPiArCQlkZXZfZXJyKHdsZWQtPmRldiwgIkVycm9yIGluIHJlYWRpbmcgV0xFRF9GQVVMVF9T
+VEFUVVMgcmM9JWRcbiIsCj4gKwkJCXJjKTsKPiArCQlyZXR1cm4gSVJRX0hBTkRMRUQ7Cj4gKwl9
+Cj4gKwo+ICsJaWYgKGZhdWx0X3N0cyAmCj4gKwkJKFdMRUQzX0NUUkxfUkVHX09WUF9GQVVMVF9C
+SVQgfCBXTEVEM19DVFJMX1JFR19JTElNX0ZBVUxUX0JJVCkpCj4gKwkJZGV2X2RiZyh3bGVkLT5k
+ZXYsICJXTEVEIE9WUCBmYXVsdCBkZXRlY3RlZCwgaW50X3N0cz0leCBmYXVsdF9zdHM9ICV4XG4i
+LAo+ICsJCQlpbnRfc3RzLCBmYXVsdF9zdHMpOwo+ICsKPiArCWlmIChmYXVsdF9zdHMgJiBXTEVE
+M19DVFJMX1JFR19PVlBfRkFVTFRfQklUKSB7Cj4gKwkJbXV0ZXhfbG9jaygmd2xlZC0+bG9jayk7
+Cj4gKwkJZGlzYWJsZV9pcnFfbm9zeW5jKHdsZWQtPm92cF9pcnEpOwoKV2UncmUgY3VycmVudGx5
+IHJ1bm5pbmcgdGhlIHRocmVhZGVkIElTUiBmb3IgdGhpcyBpcnEuIERvIHdlIHJlYWxseSBuZWVk
+CnRvIGRpc2FibGUgaXQ/Cgo+ICsKPiArCQlpZiAod2xlZF9hdXRvX2RldGVjdGlvbl9yZXF1aXJl
+ZCh3bGVkKSkKPiArCQkJd2xlZF9hdXRvX3N0cmluZ19kZXRlY3Rpb24od2xlZCk7Cj4gKwo+ICsJ
+CWVuYWJsZV9pcnEod2xlZC0+b3ZwX2lycSk7Cj4gKwo+ICsJCW11dGV4X3VubG9jaygmd2xlZC0+
+bG9jayk7Cj4gKwl9Cj4gKwo+ICsJcmV0dXJuIElSUV9IQU5ETEVEOwo+ICt9Cj4gKwoKU25pcC4K
+Cgo+ICtzdGF0aWMgaW50IHdsZWRfcmVtb3ZlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYp
+Cj4gK3sKPiArCXN0cnVjdCB3bGVkICp3bGVkID0gZGV2X2dldF9kcnZkYXRhKCZwZGV2LT5kZXYp
+Owo+ICsKPiArCWNhbmNlbF9kZWxheWVkX3dvcmtfc3luYygmd2xlZC0+b3ZwX3dvcmspOwo+ICsJ
+bXV0ZXhfZGVzdHJveSgmd2xlZC0+bG9jayk7CgpIYXZlIHRoZSBpcnEgaGFuZGxlcnMgYmVlbiBk
+aXNhYmxlZCBhdCB0aGlzIHBvaW50PwoKQWxzbywgaWYgeW91IHdhbnQgdG8gZGVzdHJveSB0aGUg
+bXV0ZXggc2hvdWxkbid0IHRoYXQgY29kZSBiZSAKaW50cm9kdWNlZCBpbiB0aGUgc2FtZSBwYXRj
+aCB0aGF0IGludHJvZHVjZXMgdGhlIG11dGV4Pwo+ICsKPiArCXJldHVybiAwOwo+ICt9CgoKRGFu
+aWVsLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
