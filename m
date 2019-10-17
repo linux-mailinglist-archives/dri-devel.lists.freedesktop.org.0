@@ -2,45 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6236DB7A0
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2019 21:38:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 091B3DB7AC
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2019 21:39:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B5386EA3D;
-	Thu, 17 Oct 2019 19:38:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 869676EA7A;
+	Thu, 17 Oct 2019 19:39:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 67A856EAD0
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2019 19:38:10 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 64C827296E; Thu, 17 Oct 2019 19:38:10 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
- with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Thu, 17 Oct 2019 19:38:10 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: shtetldik@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-9yx9M1WSfE@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
-References: <bug-111481-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78CC06EA6E;
+ Thu, 17 Oct 2019 19:39:30 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id v17so3742791wml.4;
+ Thu, 17 Oct 2019 12:39:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UT7xyfmARtbEtz9Y3P51WBO86VZDU8L5BW9LMX2rhrk=;
+ b=C3xOoSJJWJX8LTmHGRMhLOc8aAsQRAY/Y6TVmvp/hcPZCTqNAVPICnWoFmD8RAOSew
+ g+61+bspES7yYzcAGIHrb38cZiJ4K8154EOPWypwg30EAtE+ih3Qc5C88gfqIXApRifP
+ MFc8bGEN4VGVeL9HtLZXY4tBAUUNciZEol0wrdAu/qmEO0p62xephng3cEhYXAf5LK1g
+ 4Or5VxswFoxonajhoVrcvLCPKvfOoBjwLDvXmv6QwAt4o+0jNGXNeLOEZUwJQYepVB6G
+ mdxOM14ar0KchLl1Gg6pzbtKik6A/JDaLMejrvM4X1drvGOjRc9BA6NTcfOOqdhAAxs9
+ p50A==
+X-Gm-Message-State: APjAAAX/XrDPkSURxHwgJ10Sqj/o55knoGrntti1pwO5hdeD/jcMUcdY
+ ntvWrOM0wNlB+MRzxEFmV0o9U8qkpZHDQ+vrVxw=
+X-Google-Smtp-Source: APXvYqxFc+O7akcYwllXsKik8VtXmNju27+Py4FJrgLhvBrH3SJUxpMt75kL12Si+WJaOepzoTSxsq6QlFhuCtYQfzU=
+X-Received: by 2002:a1c:968b:: with SMTP id y133mr4217351wmd.141.1571341168937; 
+ Thu, 17 Oct 2019 12:39:28 -0700 (PDT)
 MIME-Version: 1.0
+References: <20191017091216.GA31278@mwanda>
+In-Reply-To: <20191017091216.GA31278@mwanda>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 17 Oct 2019 15:39:14 -0400
+Message-ID: <CADnq5_N50-qL9KStb9_1kSqHgXb3fO=AzqOgAVzKDHSONZPXvw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu/vi: silence an uninitialized variable warning
+To: Dan Carpenter <dan.carpenter@oracle.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=UT7xyfmARtbEtz9Y3P51WBO86VZDU8L5BW9LMX2rhrk=;
+ b=fdnqU84kyd8LvUPwLhr4cU06XsQnW+iWOwh9twDQARCEVUUCeR/EG9BQnruYq5KaUq
+ U0J+C4bu06SKnm5OI6m/GqQz/uWYB486DTxbeSORe9UK/4sKl8GRzKSFb08sSR2RVjdw
+ IlRsy9gjFXiCgzttMxmuXAyqGVoLL+pbE3qmz5W24lfpyB0vvFef+It3zFnLE2h5F67e
+ MP51W49M4gws0b1zF4k1uJSE2N3Ac3kQYzRHbSeJQc2F9FKW1oORO5UueuY4lw1ptGho
+ n6cQXkPVqE/DlQ3cI54zFqGNgn6L6Ryzjpi7ZEk70eIiKdFC3t1xrIkME7nOoMcH280C
+ AWkw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,117 +62,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0453428751=="
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Jim Qu <Jim.Qu@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
+ Rex Zhu <rex.zhu@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0453428751==
-Content-Type: multipart/alternative; boundary="15713410908.9bA2d.32527"
-Content-Transfer-Encoding: 7bit
-
-
---15713410908.9bA2d.32527
-Date: Thu, 17 Oct 2019 19:38:10 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
-
---- Comment #103 from Shmerl <shtetldik@gmail.com> ---
-I just got a random Firefox freeze with all three above patches applied. So
-it's clearly not fixed yet (though such hangs are a lot less common than be=
-fore
-now):
-
-[78836.138723] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
-for
-fences timed out!
-[78841.770422] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma1 timeou=
-t,
-signaled seq=3D133096, emitted seq=3D133098
-[78841.770490] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
-on:
-process GPU Process pid 1882 thread firefox-bi:cs0 pid 2034
-[78841.770493] [drm] GPU recovery disabled.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15713410908.9bA2d.32527
-Date: Thu, 17 Oct 2019 19:38:10 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c103">Comm=
-ent # 103</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-shtetldik&#64;gmail.com" title=3D"Shmerl &lt;shtetldik&#64;gmail.com&gt;"> =
-<span class=3D"fn">Shmerl</span></a>
-</span></b>
-        <pre>I just got a random Firefox freeze with all three above patche=
-s applied. So
-it's clearly not fixed yet (though such hangs are a lot less common than be=
-fore
-now):
-
-[78836.138723] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
-for
-fences timed out!
-[78841.770422] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma1 timeou=
-t,
-signaled seq=3D133096, emitted seq=3D133098
-[78841.770490] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
-on:
-process GPU Process pid 1882 thread firefox-bi:cs0 pid 2034
-[78841.770493] [drm] GPU recovery disabled.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15713410908.9bA2d.32527--
-
---===============0453428751==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0453428751==--
+T24gVGh1LCBPY3QgMTcsIDIwMTkgYXQgNToxMiBBTSBEYW4gQ2FycGVudGVyIDxkYW4uY2FycGVu
+dGVyQG9yYWNsZS5jb20+IHdyb3RlOgo+Cj4gU21hdGNoIGNvbXBsYWlucyB0aGF0IHdlIG5lZWQg
+dG8gaW5pdGlhbGl6ZWQgIipjYXAiIG90aGVyd2lzZSBpdCBjYW4KPiBsZWFkIHRvIGFuIHVuaW5p
+dGlhbGl6ZWQgdmFyaWFibGUgYnVnIGluIHRoZSBjYWxsZXIuICBUaGlzIHNlZW1zIGxpa2UgYQo+
+IHJlYXNvbmFibGUgd2FybmluZyBhbmQgaXQgZG9lc24ndCBodXJ0IHRvIHNpbGVuY2UgaXQgYXQg
+bGVhc3QuCj4KPiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS92aS5jOjc2NyB2aV9hc2ljX3Jl
+c2V0X21ldGhvZCgpIGVycm9yOiB1bmluaXRpYWxpemVkIHN5bWJvbCAnYmFjb19yZXNldCcuCj4K
+PiBGaXhlczogNDI1ZGIyNTUzZTQzICgiZHJtL2FtZGdwdTogZXhwb3NlIEJBQ08gaW50ZXJmYWNl
+cyB0byB1cHBlciBsZXZlbCBmcm9tIFBQIikKPiBTaWduZWQtb2ZmLWJ5OiBEYW4gQ2FycGVudGVy
+IDxkYW4uY2FycGVudGVyQG9yYWNsZS5jb20+CgpBcHBsaWVkLiAgdGhhbmtzIQoKQWxleAoKPiAt
+LS0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9wb3dlcnBsYXkvYW1kX3Bvd2VycGxheS5jIHwgMSAr
+Cj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L2FtZF9wb3dlcnBsYXkuYyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9hbWQvcG93ZXJwbGF5L2FtZF9wb3dlcnBsYXkuYwo+IGluZGV4IDgzMTk2Yjc5ZWRkNS4uZjRm
+ZjE1Mzc4ZTYxIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L2Ft
+ZF9wb3dlcnBsYXkuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L2FtZF9w
+b3dlcnBsYXkuYwo+IEBAIC0xNDIxLDYgKzE0MjEsNyBAQCBzdGF0aWMgaW50IHBwX2dldF9hc2lj
+X2JhY29fY2FwYWJpbGl0eSh2b2lkICpoYW5kbGUsIGJvb2wgKmNhcCkKPiAgewo+ICAgICAgICAg
+c3RydWN0IHBwX2h3bWdyICpod21nciA9IGhhbmRsZTsKPgo+ICsgICAgICAgKmNhcCA9IGZhbHNl
+Owo+ICAgICAgICAgaWYgKCFod21ncikKPiAgICAgICAgICAgICAgICAgcmV0dXJuIC1FSU5WQUw7
+Cj4KPiAtLQo+IDIuMjAuMQo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KPiBhbWQtZ2Z4IG1haWxpbmcgbGlzdAo+IGFtZC1nZnhAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
+by9hbWQtZ2Z4Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
