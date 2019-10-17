@@ -1,34 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E29BDAC7F
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2019 14:42:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F6DEDACD2
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2019 14:49:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 612296EA67;
-	Thu, 17 Oct 2019 12:42:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 139C86EA70;
+	Thu, 17 Oct 2019 12:49:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E58866EA67
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2019 12:42:06 +0000 (UTC)
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it
- [2.224.242.101]) (Authenticated sender: jacopo@jmondi.org)
- by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id E9679240005;
- Thu, 17 Oct 2019 12:41:59 +0000 (UTC)
-Date: Thu, 17 Oct 2019 14:43:49 +0200
-From: Jacopo Mondi <jacopo@jmondi.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B3DB6EA70
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2019 12:49:05 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi
+ [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 60A404FE;
+ Thu, 17 Oct 2019 14:49:02 +0200 (CEST)
+Date: Thu, 17 Oct 2019 15:48:58 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo@jmondi.org>
 Subject: Re: [PATCH v6 3/8] drm: rcar-du: Add support for CMM
-Message-ID: <20191017124349.ncay2wc75bwpcd7d@uno.localdomain>
+Message-ID: <20191017124858.GC4901@pendragon.ideasonboard.com>
 References: <20191016085548.105703-1-jacopo+renesas@jmondi.org>
  <20191016085548.105703-4-jacopo+renesas@jmondi.org>
  <20191016134526.GD5175@pendragon.ideasonboard.com>
+ <20191017124349.ncay2wc75bwpcd7d@uno.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20191016134526.GD5175@pendragon.ideasonboard.com>
-User-Agent: NeoMutt/20180716
+Content-Disposition: inline
+In-Reply-To: <20191017124349.ncay2wc75bwpcd7d@uno.localdomain>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=ideasonboard.com; s=mail; t=1571316542;
+ bh=am+uOpdI+ho7mL+qVMRN9g6DQWKhznIbEbe6dJWl4J4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UhvlRvm+nvok0+ajNYX5s2lXMG7PQIyvuBwKZvwpdOiqX2CmrzR+drQtVN0+VdeIw
+ AxrsDIYwlcq0kjTfPu0HjtuWhb7k1ZQtBkoZD1dEyrUGALmOtSlgZXEM123lVcoWi+
+ xiwy2C8Tm/l84etAASfkd/pUEDEvJu+ino3qb3iU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,417 +54,233 @@ Cc: horms@verge.net.au, airlied@linux.ie, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
  kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
  Jacopo Mondi <jacopo+renesas@jmondi.org>, uli+renesas@fpond.eu
-Content-Type: multipart/mixed; boundary="===============0639846377=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0639846377==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="s2atx54st7begqc2"
-Content-Disposition: inline
-
-
---s2atx54st7begqc2
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-
-Hi Laurent,
-
-On Wed, Oct 16, 2019 at 04:45:26PM +0300, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> Thank you for the patch.
->
-> On Wed, Oct 16, 2019 at 10:55:43AM +0200, Jacopo Mondi wrote:
-> > Add a driver for the R-Car Display Unit Color Correction Module.
-> >
-> > In most of Gen3 SoCs, each DU output channel is provided with a CMM unit
-> > to perform image enhancement and color correction.
-> >
-> > Add support for CMM through a driver that supports configuration of
-> > the 1-dimensional LUT table. More advanced CMM features will be
-> > implemented on top of this initial one.
-> >
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  drivers/gpu/drm/rcar-du/Kconfig    |   7 +
-> >  drivers/gpu/drm/rcar-du/Makefile   |   1 +
-> >  drivers/gpu/drm/rcar-du/rcar_cmm.c | 212 +++++++++++++++++++++++++++++
-> >  drivers/gpu/drm/rcar-du/rcar_cmm.h |  58 ++++++++
-> >  4 files changed, 278 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.c
-> >  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.h
-> >
-> > diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-> > index 1529849e217e..539d232790d1 100644
-> > --- a/drivers/gpu/drm/rcar-du/Kconfig
-> > +++ b/drivers/gpu/drm/rcar-du/Kconfig
-> > @@ -13,6 +13,13 @@ config DRM_RCAR_DU
-> >  	  Choose this option if you have an R-Car chipset.
-> >  	  If M is selected the module will be called rcar-du-drm.
-> >
-> > +config DRM_RCAR_CMM
-> > +	bool "R-Car DU Color Management Module (CMM) Support"
-> > +	depends on DRM && OF
-> > +	depends on DRM_RCAR_DU
-> > +	help
-> > +	  Enable support for R-Car Color Management Module (CMM).
-> > +
-> >  config DRM_RCAR_DW_HDMI
-> >  	tristate "R-Car DU Gen3 HDMI Encoder Support"
-> >  	depends on DRM && OF
-> > diff --git a/drivers/gpu/drm/rcar-du/Makefile b/drivers/gpu/drm/rcar-du/Makefile
-> > index 6c2ed9c46467..4d1187ccc3e5 100644
-> > --- a/drivers/gpu/drm/rcar-du/Makefile
-> > +++ b/drivers/gpu/drm/rcar-du/Makefile
-> > @@ -15,6 +15,7 @@ rcar-du-drm-$(CONFIG_DRM_RCAR_LVDS)	+= rcar_du_of.o \
-> >  rcar-du-drm-$(CONFIG_DRM_RCAR_VSP)	+= rcar_du_vsp.o
-> >  rcar-du-drm-$(CONFIG_DRM_RCAR_WRITEBACK) += rcar_du_writeback.o
-> >
-> > +obj-$(CONFIG_DRM_RCAR_CMM)		+= rcar_cmm.o
-> >  obj-$(CONFIG_DRM_RCAR_DU)		+= rcar-du-drm.o
-> >  obj-$(CONFIG_DRM_RCAR_DW_HDMI)		+= rcar_dw_hdmi.o
-> >  obj-$(CONFIG_DRM_RCAR_LVDS)		+= rcar_lvds.o
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.c b/drivers/gpu/drm/rcar-du/rcar_cmm.c
-> > new file mode 100644
-> > index 000000000000..4170626208cf
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.c
-> > @@ -0,0 +1,212 @@
-> > +// SPDX-License-Identifier: GPL-2.0+
-> > +/*
-> > + * rcar_cmm.c -- R-Car Display Unit Color Management Module
-> > + *
-> > + * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > + */
-> > +
-> > +#include <linux/io.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/pm_runtime.h>
-> > +
-> > +#include <drm/drm_color_mgmt.h>
-> > +
-> > +#include "rcar_cmm.h"
-> > +
-> > +#define CM2_LUT_CTRL		0x0000
-> > +#define CM2_LUT_CTRL_LUT_EN	BIT(0)
-> > +#define CM2_LUT_TBL_BASE	0x0600
-> > +#define CM2_LUT_TBL(__i)	(CM2_LUT_TBL_BASE + (__i) * 4)
-> > +
-> > +struct rcar_cmm {
-> > +	void __iomem *base;
-> > +
-> > +	/*
-> > +	 * @lut:		1D-LUT state
-> > +	 * @lut.enabled:	1D-LUT enabled flag
-> > +	 */
-> > +	struct {
-> > +		bool enabled;
-> > +	} lut;
-> > +};
-> > +
-> > +static inline int rcar_cmm_read(struct rcar_cmm *rcmm, u32 reg)
-> > +{
-> > +	return ioread32(rcmm->base + reg);
-> > +}
-> > +
-> > +static inline void rcar_cmm_write(struct rcar_cmm *rcmm, u32 reg, u32 data)
-> > +{
-> > +	iowrite32(data, rcmm->base + reg);
-> > +}
-> > +
-> > +/*
-> > + * rcar_cmm_lut_write() - Scale the DRM LUT table entries to hardware precision
-> > + *			  and write to the CMM registers
-> > + * @rcmm: Pointer to the CMM device
-> > + * @drm_lut: Pointer to the DRM LUT table
-> > + */
-> > +static void rcar_cmm_lut_write(struct rcar_cmm *rcmm,
-> > +			       const struct drm_color_lut *drm_lut)
-> > +{
-> > +	unsigned int i;
-> > +
-> > +	for (i = 0; i < CM2_LUT_SIZE; ++i) {
-> > +		u32 entry = drm_color_lut_extract(drm_lut[i].red, 8) << 16
-> > +			  | drm_color_lut_extract(drm_lut[i].green, 8) << 8
-> > +			  | drm_color_lut_extract(drm_lut[i].blue, 8);
-> > +
-> > +		rcar_cmm_write(rcmm, CM2_LUT_TBL(i), entry);
-> > +	}
-> > +}
-> > +
-> > +/*
-> > + * rcar_cmm_setup() - Configure the CMM unit
-> > + * @pdev: The platform device associated with the CMM instance
-> > + * @config: The CMM unit configuration
-> > + *
-> > + * Configure the CMM unit with the given configuration. Currently enabling,
-> > + * disabling and programming of the 1-D LUT unit is supported.
->
-> Did you miss the comment in the previous version about explaining when
-> rcar_cmm_setup() can be called (basically requiring the CMM to be
-> enabled) ? I can fix this when applying if you tell me what I should
-> write.
->
-
-No I didn't.
-
-As the DU is the only user of this function, I don't get why we should
-specify here which is the order of the calls, as they are performed by
-the crct driver in the right order already.
-
-Please feel free to add whatever you consider appropriate to this
-comment section when applying.
-
-Thanks
-   j
-
-> > + *
-> > + * TODO: Add support for LUT double buffer operations to avoid updating the
-> > + * LUT table entries while a frame is being displayed.
-> > + */
-> > +int rcar_cmm_setup(struct platform_device *pdev,
-> > +		   const struct rcar_cmm_config *config)
-> > +{
-> > +	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
-> > +
-> > +	/* Disable LUT if no table is provided. */
-> > +	if (!config->lut.table) {
-> > +		if (rcmm->lut.enabled) {
-> > +			rcar_cmm_write(rcmm, CM2_LUT_CTRL, 0);
-> > +			rcmm->lut.enabled = false;
-> > +		}
-> > +
-> > +		return 0;
-> > +	}
-> > +
-> > +	/* Enable LUT and program the new gamma table values. */
-> > +	if (!rcmm->lut.enabled) {
-> > +		rcar_cmm_write(rcmm, CM2_LUT_CTRL, CM2_LUT_CTRL_LUT_EN);
-> > +		rcmm->lut.enabled = true;
-> > +	}
-> > +
-> > +	rcar_cmm_lut_write(rcmm, config->lut.table);
-> > +
-> > +	return 0;
-> > +}
-> > +EXPORT_SYMBOL_GPL(rcar_cmm_setup);
-> > +
-> > +/*
-> > + * rcar_cmm_enable() - Enable the CMM unit
-> > + * @pdev: The platform device associated with the CMM instance
-> > + *
-> > + * When the output of the corresponding DU channel is routed to the CMM unit,
-> > + * the unit shall be enabled before the DU channel is started, and remain
-> > + * enabled until the channel is stopped. The CMM unit shall be disabled with
-> > + * rcar_cmm_disable().
-> > + *
-> > + * Calls to rcar_cmm_enable() and rcar_cmm_disable() are not reference-counted.
-> > + * It is an error to attempt to enable an already enabled CMM unit, or to
-> > + * attempt to disable a disabled unit.
-> > + */
-> > +int rcar_cmm_enable(struct platform_device *pdev)
-> > +{
-> > +	int ret;
-> > +
-> > +	ret = pm_runtime_get_sync(&pdev->dev);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	return 0;
-> > +}
-> > +EXPORT_SYMBOL_GPL(rcar_cmm_enable);
-> > +
-> > +/*
-> > + * rcar_cmm_disable() - Disable the CMM unit
-> > + * @pdev: The platform device associated with the CMM instance
-> > + *
-> > + * See rcar_cmm_enable() for usage information.
-> > + *
-> > + * Disabling the CMM unit disable all the internal processing blocks. The CMM
-> > + * state shall thus be restored with rcar_cmm_setup() when re-enabling the CMM
-> > + * unit after the next rcar_cmm_enable() call.
-> > + */
-> > +void rcar_cmm_disable(struct platform_device *pdev)
-> > +{
-> > +	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
-> > +
-> > +	rcar_cmm_write(rcmm, CM2_LUT_CTRL, 0);
-> > +	rcmm->lut.enabled = false;
-> > +
-> > +	pm_runtime_put(&pdev->dev);
-> > +}
-> > +EXPORT_SYMBOL_GPL(rcar_cmm_disable);
-> > +
-> > +/*
-> > + * rcar_cmm_init() - Initialize the CMM unit
-> > + * @pdev: The platform device associated with the CMM instance
-> > + *
-> > + * Return: 0 on success, -EPROBE_DEFER if the CMM is not available yet,
-> > + *         -ENODEV if the DRM_RCAR_CMM config option is disabled
-> > + */
-> > +int rcar_cmm_init(struct platform_device *pdev)
-> > +{
-> > +	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
-> > +
-> > +	if (!rcmm)
-> > +		return -EPROBE_DEFER;
-> > +
-> > +	return 0;
-> > +}
-> > +EXPORT_SYMBOL_GPL(rcar_cmm_init);
-> > +
-> > +static int rcar_cmm_probe(struct platform_device *pdev)
-> > +{
-> > +	struct rcar_cmm *rcmm;
-> > +
-> > +	rcmm = devm_kzalloc(&pdev->dev, sizeof(*rcmm), GFP_KERNEL);
-> > +	if (!rcmm)
-> > +		return -ENOMEM;
-> > +	platform_set_drvdata(pdev, rcmm);
-> > +
-> > +	rcmm->base = devm_platform_ioremap_resource(pdev, 0);
-> > +	if (IS_ERR(rcmm->base))
-> > +		return PTR_ERR(rcmm->base);
-> > +
-> > +	pm_runtime_enable(&pdev->dev);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int rcar_cmm_remove(struct platform_device *pdev)
-> > +{
-> > +	pm_runtime_disable(&pdev->dev);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct of_device_id rcar_cmm_of_table[] = {
-> > +	{ .compatible = "renesas,rcar-gen3-cmm", },
-> > +	{ .compatible = "renesas,rcar-gen2-cmm", },
-> > +	{ },
-> > +};
-> > +MODULE_DEVICE_TABLE(of, rcar_cmm_of_table);
-> > +
-> > +static struct platform_driver rcar_cmm_platform_driver = {
-> > +	.probe		= rcar_cmm_probe,
-> > +	.remove		= rcar_cmm_remove,
-> > +	.driver		= {
-> > +		.name	= "rcar-cmm",
-> > +		.of_match_table = rcar_cmm_of_table,
-> > +	},
-> > +};
-> > +
-> > +module_platform_driver(rcar_cmm_platform_driver);
-> > +
-> > +MODULE_AUTHOR("Jacopo Mondi <jacopo+renesas@jmondi.org>");
-> > +MODULE_DESCRIPTION("Renesas R-Car CMM Driver");
-> > +MODULE_LICENSE("GPL v2");
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.h b/drivers/gpu/drm/rcar-du/rcar_cmm.h
-> > new file mode 100644
-> > index 000000000000..b5f7ec6db04a
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.h
-> > @@ -0,0 +1,58 @@
-> > +/* SPDX-License-Identifier: GPL-2.0+ */
-> > +/*
-> > + * rcar_cmm.h -- R-Car Display Unit Color Management Module
-> > + *
-> > + * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > + */
-> > +
-> > +#ifndef __RCAR_CMM_H__
-> > +#define __RCAR_CMM_H__
-> > +
-> > +#define CM2_LUT_SIZE		256
-> > +
-> > +struct drm_color_lut;
-> > +struct platform_device;
-> > +
-> > +/**
-> > + * struct rcar_cmm_config - CMM configuration
-> > + *
-> > + * @lut:	1D-LUT configuration
-> > + * @lut.table:	1D-LUT table entries. Disable LUT operations when NULL
-> > + */
-> > +struct rcar_cmm_config {
-> > +	struct {
-> > +		struct drm_color_lut *table;
-> > +	} lut;
-> > +};
-> > +
-> > +#if IS_ENABLED(CONFIG_DRM_RCAR_CMM)
-> > +int rcar_cmm_init(struct platform_device *pdev);
-> > +
-> > +int rcar_cmm_enable(struct platform_device *pdev);
-> > +void rcar_cmm_disable(struct platform_device *pdev);
-> > +
-> > +int rcar_cmm_setup(struct platform_device *pdev,
-> > +		   const struct rcar_cmm_config *config);
-> > +#else
-> > +static inline int rcar_cmm_init(struct platform_device *pdev)
-> > +{
-> > +	return -ENODEV;
-> > +}
-> > +
-> > +static inline int rcar_cmm_enable(struct platform_device *pdev)
-> > +{
-> > +	return 0;
-> > +}
-> > +
-> > +static inline void rcar_cmm_disable(struct platform_device *pdev)
-> > +{
-> > +}
-> > +
-> > +static inline int rcar_cmm_setup(struct platform_device *pdev,
-> > +				 const struct rcar_cmm_config *config)
-> > +{
-> > +	return 0;
-> > +}
-> > +#endif /* IS_ENABLED(CONFIG_DRM_RCAR_CMM) */
-> > +
-> > +#endif /* __RCAR_CMM_H__ */
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
---s2atx54st7begqc2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl2oYgUACgkQcjQGjxah
-VjwiBQ//eQ3+KakGd43Q45rEyakp7nVinWW6wZfvMBCF+aci17r47cWw8q9AsVT+
-/Hxi4ujAHOdAsMpBT/rUODlSK5beGWk+tmxeTHkTF0J5Xfj8tmduKcXIdONf+k1Y
-eOLK24MXCgAFbG6jSe4XzBewt+5BoSBSQOKpxkosKB1Rrge1aZmnXAvnNd/EHDW1
-ZuHGl803ohm9TQlXtzpilGxr/9o0qmilshgLMLzuuHl8RZQDoY4JiuY4k/p6z0s1
-MsNSxrJyGmVAPEyhs6GdPQPElebOqOKe2/0qBx5WoReP34IWaO4t+tr+8tDMKKHm
-BasPS/92dTu2c41Mg9KD44hmMVfc1OC97Am3vRLfV80dcEbr9d+NAI3Qd70VYIA1
-3X2mKC+2n3dNox6FQVV3XHVIUu3qhQnwPNDZPdOnpzU3fjLOZAqA3IdQEDxY7Rmg
-sOMo0FPiSaBF33P2Eq1lH8mgHmYMtOripC4pZEHHoUeGwVrZ/Hu65FfohjcDXLc3
-NxgzI1TDblBU1K59fjJy019SNk4QXCRNLhKiiJPACBjRsp4CEiLBwLjitbV8EEwU
-5dbM2l3vM2Kq+Skz8SEJtDorqi/ZzntL5g3iZMMT4XPanUJ+siTbER07MS2CluDY
-sx98L6zpiL2QPNgXo2wfNBeN94ZoIWp8rhlMHKv1iRsghBEc/cE=
-=Ad+p
------END PGP SIGNATURE-----
-
---s2atx54st7begqc2--
-
---===============0639846377==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0639846377==--
+SGkgSmFjb3BvLAoKT24gVGh1LCBPY3QgMTcsIDIwMTkgYXQgMDI6NDM6NDlQTSArMDIwMCwgSmFj
+b3BvIE1vbmRpIHdyb3RlOgo+IE9uIFdlZCwgT2N0IDE2LCAyMDE5IGF0IDA0OjQ1OjI2UE0gKzAz
+MDAsIExhdXJlbnQgUGluY2hhcnQgd3JvdGU6Cj4gPiBPbiBXZWQsIE9jdCAxNiwgMjAxOSBhdCAx
+MDo1NTo0M0FNICswMjAwLCBKYWNvcG8gTW9uZGkgd3JvdGU6Cj4gPiA+IEFkZCBhIGRyaXZlciBm
+b3IgdGhlIFItQ2FyIERpc3BsYXkgVW5pdCBDb2xvciBDb3JyZWN0aW9uIE1vZHVsZS4KPiA+ID4K
+PiA+ID4gSW4gbW9zdCBvZiBHZW4zIFNvQ3MsIGVhY2ggRFUgb3V0cHV0IGNoYW5uZWwgaXMgcHJv
+dmlkZWQgd2l0aCBhIENNTSB1bml0Cj4gPiA+IHRvIHBlcmZvcm0gaW1hZ2UgZW5oYW5jZW1lbnQg
+YW5kIGNvbG9yIGNvcnJlY3Rpb24uCj4gPiA+Cj4gPiA+IEFkZCBzdXBwb3J0IGZvciBDTU0gdGhy
+b3VnaCBhIGRyaXZlciB0aGF0IHN1cHBvcnRzIGNvbmZpZ3VyYXRpb24gb2YKPiA+ID4gdGhlIDEt
+ZGltZW5zaW9uYWwgTFVUIHRhYmxlLiBNb3JlIGFkdmFuY2VkIENNTSBmZWF0dXJlcyB3aWxsIGJl
+Cj4gPiA+IGltcGxlbWVudGVkIG9uIHRvcCBvZiB0aGlzIGluaXRpYWwgb25lLgo+ID4gPgo+ID4g
+PiBSZXZpZXdlZC1ieTogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29u
+Ym9hcmQuY29tPgo+ID4gPiBSZXZpZXdlZC1ieTogS2llcmFuIEJpbmdoYW0gPGtpZXJhbi5iaW5n
+aGFtK3JlbmVzYXNAaWRlYXNvbmJvYXJkLmNvbT4KPiA+ID4gU2lnbmVkLW9mZi1ieTogSmFjb3Bv
+IE1vbmRpIDxqYWNvcG8rcmVuZXNhc0BqbW9uZGkub3JnPgo+ID4gPiAtLS0KPiA+ID4gIGRyaXZl
+cnMvZ3B1L2RybS9yY2FyLWR1L0tjb25maWcgICAgfCAgIDcgKwo+ID4gPiAgZHJpdmVycy9ncHUv
+ZHJtL3JjYXItZHUvTWFrZWZpbGUgICB8ICAgMSArCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vcmNh
+ci1kdS9yY2FyX2NtbS5jIHwgMjEyICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrCj4gPiA+
+ICBkcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2NtbS5oIHwgIDU4ICsrKysrKysrCj4gPiA+
+ICA0IGZpbGVzIGNoYW5nZWQsIDI3OCBpbnNlcnRpb25zKCspCj4gPiA+ICBjcmVhdGUgbW9kZSAx
+MDA2NDQgZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9jbW0uYwo+ID4gPiAgY3JlYXRlIG1v
+ZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfY21tLmgKPiA+ID4KPiA+ID4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L0tjb25maWcgYi9kcml2ZXJzL2dw
+dS9kcm0vcmNhci1kdS9LY29uZmlnCj4gPiA+IGluZGV4IDE1Mjk4NDllMjE3ZS4uNTM5ZDIzMjc5
+MGQxIDEwMDY0NAo+ID4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9LY29uZmlnCj4g
+PiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L0tjb25maWcKPiA+ID4gQEAgLTEzLDYg
+KzEzLDEzIEBAIGNvbmZpZyBEUk1fUkNBUl9EVQo+ID4gPiAgCSAgQ2hvb3NlIHRoaXMgb3B0aW9u
+IGlmIHlvdSBoYXZlIGFuIFItQ2FyIGNoaXBzZXQuCj4gPiA+ICAJICBJZiBNIGlzIHNlbGVjdGVk
+IHRoZSBtb2R1bGUgd2lsbCBiZSBjYWxsZWQgcmNhci1kdS1kcm0uCj4gPiA+Cj4gPiA+ICtjb25m
+aWcgRFJNX1JDQVJfQ01NCj4gPiA+ICsJYm9vbCAiUi1DYXIgRFUgQ29sb3IgTWFuYWdlbWVudCBN
+b2R1bGUgKENNTSkgU3VwcG9ydCIKPiA+ID4gKwlkZXBlbmRzIG9uIERSTSAmJiBPRgo+ID4gPiAr
+CWRlcGVuZHMgb24gRFJNX1JDQVJfRFUKPiA+ID4gKwloZWxwCj4gPiA+ICsJICBFbmFibGUgc3Vw
+cG9ydCBmb3IgUi1DYXIgQ29sb3IgTWFuYWdlbWVudCBNb2R1bGUgKENNTSkuCj4gPiA+ICsKPiA+
+ID4gIGNvbmZpZyBEUk1fUkNBUl9EV19IRE1JCj4gPiA+ICAJdHJpc3RhdGUgIlItQ2FyIERVIEdl
+bjMgSERNSSBFbmNvZGVyIFN1cHBvcnQiCj4gPiA+ICAJZGVwZW5kcyBvbiBEUk0gJiYgT0YKPiA+
+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L01ha2VmaWxlIGIvZHJpdmVy
+cy9ncHUvZHJtL3JjYXItZHUvTWFrZWZpbGUKPiA+ID4gaW5kZXggNmMyZWQ5YzQ2NDY3Li40ZDEx
+ODdjY2MzZTUgMTAwNjQ0Cj4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L01ha2Vm
+aWxlCj4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L01ha2VmaWxlCj4gPiA+IEBA
+IC0xNSw2ICsxNSw3IEBAIHJjYXItZHUtZHJtLSQoQ09ORklHX0RSTV9SQ0FSX0xWRFMpCSs9IHJj
+YXJfZHVfb2YubyBcCj4gPiA+ICByY2FyLWR1LWRybS0kKENPTkZJR19EUk1fUkNBUl9WU1ApCSs9
+IHJjYXJfZHVfdnNwLm8KPiA+ID4gIHJjYXItZHUtZHJtLSQoQ09ORklHX0RSTV9SQ0FSX1dSSVRF
+QkFDSykgKz0gcmNhcl9kdV93cml0ZWJhY2subwo+ID4gPgo+ID4gPiArb2JqLSQoQ09ORklHX0RS
+TV9SQ0FSX0NNTSkJCSs9IHJjYXJfY21tLm8KPiA+ID4gIG9iai0kKENPTkZJR19EUk1fUkNBUl9E
+VSkJCSs9IHJjYXItZHUtZHJtLm8KPiA+ID4gIG9iai0kKENPTkZJR19EUk1fUkNBUl9EV19IRE1J
+KQkJKz0gcmNhcl9kd19oZG1pLm8KPiA+ID4gIG9iai0kKENPTkZJR19EUk1fUkNBUl9MVkRTKQkJ
+Kz0gcmNhcl9sdmRzLm8KPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1
+L3JjYXJfY21tLmMgYi9kcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2NtbS5jCj4gPiA+IG5l
+dyBmaWxlIG1vZGUgMTAwNjQ0Cj4gPiA+IGluZGV4IDAwMDAwMDAwMDAwMC4uNDE3MDYyNjIwOGNm
+Cj4gPiA+IC0tLSAvZGV2L251bGwKPiA+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JjYXItZHUv
+cmNhcl9jbW0uYwo+ID4gPiBAQCAtMCwwICsxLDIxMiBAQAo+ID4gPiArLy8gU1BEWC1MaWNlbnNl
+LUlkZW50aWZpZXI6IEdQTC0yLjArCj4gPiA+ICsvKgo+ID4gPiArICogcmNhcl9jbW0uYyAtLSBS
+LUNhciBEaXNwbGF5IFVuaXQgQ29sb3IgTWFuYWdlbWVudCBNb2R1bGUKPiA+ID4gKyAqCj4gPiA+
+ICsgKiBDb3B5cmlnaHQgKEMpIDIwMTkgSmFjb3BvIE1vbmRpIDxqYWNvcG8rcmVuZXNhc0BqbW9u
+ZGkub3JnPgo+ID4gPiArICovCj4gPiA+ICsKPiA+ID4gKyNpbmNsdWRlIDxsaW51eC9pby5oPgo+
+ID4gPiArI2luY2x1ZGUgPGxpbnV4L21vZHVsZS5oPgo+ID4gPiArI2luY2x1ZGUgPGxpbnV4L29m
+Lmg+Cj4gPiA+ICsjaW5jbHVkZSA8bGludXgvcGxhdGZvcm1fZGV2aWNlLmg+Cj4gPiA+ICsjaW5j
+bHVkZSA8bGludXgvcG1fcnVudGltZS5oPgo+ID4gPiArCj4gPiA+ICsjaW5jbHVkZSA8ZHJtL2Ry
+bV9jb2xvcl9tZ210Lmg+Cj4gPiA+ICsKPiA+ID4gKyNpbmNsdWRlICJyY2FyX2NtbS5oIgo+ID4g
+PiArCj4gPiA+ICsjZGVmaW5lIENNMl9MVVRfQ1RSTAkJMHgwMDAwCj4gPiA+ICsjZGVmaW5lIENN
+Ml9MVVRfQ1RSTF9MVVRfRU4JQklUKDApCj4gPiA+ICsjZGVmaW5lIENNMl9MVVRfVEJMX0JBU0UJ
+MHgwNjAwCj4gPiA+ICsjZGVmaW5lIENNMl9MVVRfVEJMKF9faSkJKENNMl9MVVRfVEJMX0JBU0Ug
+KyAoX19pKSAqIDQpCj4gPiA+ICsKPiA+ID4gK3N0cnVjdCByY2FyX2NtbSB7Cj4gPiA+ICsJdm9p
+ZCBfX2lvbWVtICpiYXNlOwo+ID4gPiArCj4gPiA+ICsJLyoKPiA+ID4gKwkgKiBAbHV0OgkJMUQt
+TFVUIHN0YXRlCj4gPiA+ICsJICogQGx1dC5lbmFibGVkOgkxRC1MVVQgZW5hYmxlZCBmbGFnCj4g
+PiA+ICsJICovCj4gPiA+ICsJc3RydWN0IHsKPiA+ID4gKwkJYm9vbCBlbmFibGVkOwo+ID4gPiAr
+CX0gbHV0Owo+ID4gPiArfTsKPiA+ID4gKwo+ID4gPiArc3RhdGljIGlubGluZSBpbnQgcmNhcl9j
+bW1fcmVhZChzdHJ1Y3QgcmNhcl9jbW0gKnJjbW0sIHUzMiByZWcpCj4gPiA+ICt7Cj4gPiA+ICsJ
+cmV0dXJuIGlvcmVhZDMyKHJjbW0tPmJhc2UgKyByZWcpOwo+ID4gPiArfQo+ID4gPiArCj4gPiA+
+ICtzdGF0aWMgaW5saW5lIHZvaWQgcmNhcl9jbW1fd3JpdGUoc3RydWN0IHJjYXJfY21tICpyY21t
+LCB1MzIgcmVnLCB1MzIgZGF0YSkKPiA+ID4gK3sKPiA+ID4gKwlpb3dyaXRlMzIoZGF0YSwgcmNt
+bS0+YmFzZSArIHJlZyk7Cj4gPiA+ICt9Cj4gPiA+ICsKPiA+ID4gKy8qCj4gPiA+ICsgKiByY2Fy
+X2NtbV9sdXRfd3JpdGUoKSAtIFNjYWxlIHRoZSBEUk0gTFVUIHRhYmxlIGVudHJpZXMgdG8gaGFy
+ZHdhcmUgcHJlY2lzaW9uCj4gPiA+ICsgKgkJCSAgYW5kIHdyaXRlIHRvIHRoZSBDTU0gcmVnaXN0
+ZXJzCj4gPiA+ICsgKiBAcmNtbTogUG9pbnRlciB0byB0aGUgQ01NIGRldmljZQo+ID4gPiArICog
+QGRybV9sdXQ6IFBvaW50ZXIgdG8gdGhlIERSTSBMVVQgdGFibGUKPiA+ID4gKyAqLwo+ID4gPiAr
+c3RhdGljIHZvaWQgcmNhcl9jbW1fbHV0X3dyaXRlKHN0cnVjdCByY2FyX2NtbSAqcmNtbSwKPiA+
+ID4gKwkJCSAgICAgICBjb25zdCBzdHJ1Y3QgZHJtX2NvbG9yX2x1dCAqZHJtX2x1dCkKPiA+ID4g
+K3sKPiA+ID4gKwl1bnNpZ25lZCBpbnQgaTsKPiA+ID4gKwo+ID4gPiArCWZvciAoaSA9IDA7IGkg
+PCBDTTJfTFVUX1NJWkU7ICsraSkgewo+ID4gPiArCQl1MzIgZW50cnkgPSBkcm1fY29sb3JfbHV0
+X2V4dHJhY3QoZHJtX2x1dFtpXS5yZWQsIDgpIDw8IDE2Cj4gPiA+ICsJCQkgIHwgZHJtX2NvbG9y
+X2x1dF9leHRyYWN0KGRybV9sdXRbaV0uZ3JlZW4sIDgpIDw8IDgKPiA+ID4gKwkJCSAgfCBkcm1f
+Y29sb3JfbHV0X2V4dHJhY3QoZHJtX2x1dFtpXS5ibHVlLCA4KTsKPiA+ID4gKwo+ID4gPiArCQly
+Y2FyX2NtbV93cml0ZShyY21tLCBDTTJfTFVUX1RCTChpKSwgZW50cnkpOwo+ID4gPiArCX0KPiA+
+ID4gK30KPiA+ID4gKwo+ID4gPiArLyoKPiA+ID4gKyAqIHJjYXJfY21tX3NldHVwKCkgLSBDb25m
+aWd1cmUgdGhlIENNTSB1bml0Cj4gPiA+ICsgKiBAcGRldjogVGhlIHBsYXRmb3JtIGRldmljZSBh
+c3NvY2lhdGVkIHdpdGggdGhlIENNTSBpbnN0YW5jZQo+ID4gPiArICogQGNvbmZpZzogVGhlIENN
+TSB1bml0IGNvbmZpZ3VyYXRpb24KPiA+ID4gKyAqCj4gPiA+ICsgKiBDb25maWd1cmUgdGhlIENN
+TSB1bml0IHdpdGggdGhlIGdpdmVuIGNvbmZpZ3VyYXRpb24uIEN1cnJlbnRseSBlbmFibGluZywK
+PiA+ID4gKyAqIGRpc2FibGluZyBhbmQgcHJvZ3JhbW1pbmcgb2YgdGhlIDEtRCBMVVQgdW5pdCBp
+cyBzdXBwb3J0ZWQuCj4gPgo+ID4gRGlkIHlvdSBtaXNzIHRoZSBjb21tZW50IGluIHRoZSBwcmV2
+aW91cyB2ZXJzaW9uIGFib3V0IGV4cGxhaW5pbmcgd2hlbgo+ID4gcmNhcl9jbW1fc2V0dXAoKSBj
+YW4gYmUgY2FsbGVkIChiYXNpY2FsbHkgcmVxdWlyaW5nIHRoZSBDTU0gdG8gYmUKPiA+IGVuYWJs
+ZWQpID8gSSBjYW4gZml4IHRoaXMgd2hlbiBhcHBseWluZyBpZiB5b3UgdGVsbCBtZSB3aGF0IEkg
+c2hvdWxkCj4gPiB3cml0ZS4KPiAKPiBObyBJIGRpZG4ndC4KPiAKPiBBcyB0aGUgRFUgaXMgdGhl
+IG9ubHkgdXNlciBvZiB0aGlzIGZ1bmN0aW9uLCBJIGRvbid0IGdldCB3aHkgd2Ugc2hvdWxkCj4g
+c3BlY2lmeSBoZXJlIHdoaWNoIGlzIHRoZSBvcmRlciBvZiB0aGUgY2FsbHMsIGFzIHRoZXkgYXJl
+IHBlcmZvcm1lZCBieQo+IHRoZSBjcmN0IGRyaXZlciBpbiB0aGUgcmlnaHQgb3JkZXIgYWxyZWFk
+eS4KCkkgdGhpbmsgaXQncyBpbXBvcnRhbnQgYXMgd2UncmUgZGVhbGluZyB3aXRoIHR3byBkaWZm
+ZXJlbnQgZHJpdmVycy4gV2l0aApwcm9wZXIgQVBJIGRvY3VtZW50YXRpb24gd29ya2luZyBvbiB0
+aGUgRFUgZHJpdmVyIHdvbid0IHJlcXVpcmUgaGF2aW5nCmFjdGl2ZSBrbm93bGVkZ2Ugb2YgdGhl
+IENNTSBkcml2ZXIgZGVzaWduLCBhbmQgdmljZS12ZXJzYS4gT25seSB3aGVuCmNoYW5naW5nIEFQ
+SSBpbiBhIHdheSB0aGF0IHdvdWxkIGJyZWFrIHRoZSBjb250cmFjdCB3b3VsZCB3ZSBuZWVkIHRv
+CmNhcmVmdWxseSBzdHVkeSBib3RoIHNpZGVzLiBJdCdzIGVhc3kgdG9kYXksIHRoZSBkb2N1bWVu
+dGF0aW9uIGlzIGZvciBpbgphIGZldyBtb250aHMgd2hlbiB0aGlzIHdvbid0IGJlIGZyZXNoIGlu
+IHlvdXIgbWVtb3J5IGFueW1vcmUgOi0pCgo+IFBsZWFzZSBmZWVsIGZyZWUgdG8gYWRkIHdoYXRl
+dmVyIHlvdSBjb25zaWRlciBhcHByb3ByaWF0ZSB0byB0aGlzCj4gY29tbWVudCBzZWN0aW9uIHdo
+ZW4gYXBwbHlpbmcuCj4gCj4gPiA+ICsgKgo+ID4gPiArICogVE9ETzogQWRkIHN1cHBvcnQgZm9y
+IExVVCBkb3VibGUgYnVmZmVyIG9wZXJhdGlvbnMgdG8gYXZvaWQgdXBkYXRpbmcgdGhlCj4gPiA+
+ICsgKiBMVVQgdGFibGUgZW50cmllcyB3aGlsZSBhIGZyYW1lIGlzIGJlaW5nIGRpc3BsYXllZC4K
+PiA+ID4gKyAqLwo+ID4gPiAraW50IHJjYXJfY21tX3NldHVwKHN0cnVjdCBwbGF0Zm9ybV9kZXZp
+Y2UgKnBkZXYsCj4gPiA+ICsJCSAgIGNvbnN0IHN0cnVjdCByY2FyX2NtbV9jb25maWcgKmNvbmZp
+ZykKPiA+ID4gK3sKPiA+ID4gKwlzdHJ1Y3QgcmNhcl9jbW0gKnJjbW0gPSBwbGF0Zm9ybV9nZXRf
+ZHJ2ZGF0YShwZGV2KTsKPiA+ID4gKwo+ID4gPiArCS8qIERpc2FibGUgTFVUIGlmIG5vIHRhYmxl
+IGlzIHByb3ZpZGVkLiAqLwo+ID4gPiArCWlmICghY29uZmlnLT5sdXQudGFibGUpIHsKPiA+ID4g
+KwkJaWYgKHJjbW0tPmx1dC5lbmFibGVkKSB7Cj4gPiA+ICsJCQlyY2FyX2NtbV93cml0ZShyY21t
+LCBDTTJfTFVUX0NUUkwsIDApOwo+ID4gPiArCQkJcmNtbS0+bHV0LmVuYWJsZWQgPSBmYWxzZTsK
+PiA+ID4gKwkJfQo+ID4gPiArCj4gPiA+ICsJCXJldHVybiAwOwo+ID4gPiArCX0KPiA+ID4gKwo+
+ID4gPiArCS8qIEVuYWJsZSBMVVQgYW5kIHByb2dyYW0gdGhlIG5ldyBnYW1tYSB0YWJsZSB2YWx1
+ZXMuICovCj4gPiA+ICsJaWYgKCFyY21tLT5sdXQuZW5hYmxlZCkgewo+ID4gPiArCQlyY2FyX2Nt
+bV93cml0ZShyY21tLCBDTTJfTFVUX0NUUkwsIENNMl9MVVRfQ1RSTF9MVVRfRU4pOwo+ID4gPiAr
+CQlyY21tLT5sdXQuZW5hYmxlZCA9IHRydWU7Cj4gPiA+ICsJfQo+ID4gPiArCj4gPiA+ICsJcmNh
+cl9jbW1fbHV0X3dyaXRlKHJjbW0sIGNvbmZpZy0+bHV0LnRhYmxlKTsKPiA+ID4gKwo+ID4gPiAr
+CXJldHVybiAwOwo+ID4gPiArfQo+ID4gPiArRVhQT1JUX1NZTUJPTF9HUEwocmNhcl9jbW1fc2V0
+dXApOwo+ID4gPiArCj4gPiA+ICsvKgo+ID4gPiArICogcmNhcl9jbW1fZW5hYmxlKCkgLSBFbmFi
+bGUgdGhlIENNTSB1bml0Cj4gPiA+ICsgKiBAcGRldjogVGhlIHBsYXRmb3JtIGRldmljZSBhc3Nv
+Y2lhdGVkIHdpdGggdGhlIENNTSBpbnN0YW5jZQo+ID4gPiArICoKPiA+ID4gKyAqIFdoZW4gdGhl
+IG91dHB1dCBvZiB0aGUgY29ycmVzcG9uZGluZyBEVSBjaGFubmVsIGlzIHJvdXRlZCB0byB0aGUg
+Q01NIHVuaXQsCj4gPiA+ICsgKiB0aGUgdW5pdCBzaGFsbCBiZSBlbmFibGVkIGJlZm9yZSB0aGUg
+RFUgY2hhbm5lbCBpcyBzdGFydGVkLCBhbmQgcmVtYWluCj4gPiA+ICsgKiBlbmFibGVkIHVudGls
+IHRoZSBjaGFubmVsIGlzIHN0b3BwZWQuIFRoZSBDTU0gdW5pdCBzaGFsbCBiZSBkaXNhYmxlZCB3
+aXRoCj4gPiA+ICsgKiByY2FyX2NtbV9kaXNhYmxlKCkuCj4gPiA+ICsgKgo+ID4gPiArICogQ2Fs
+bHMgdG8gcmNhcl9jbW1fZW5hYmxlKCkgYW5kIHJjYXJfY21tX2Rpc2FibGUoKSBhcmUgbm90IHJl
+ZmVyZW5jZS1jb3VudGVkLgo+ID4gPiArICogSXQgaXMgYW4gZXJyb3IgdG8gYXR0ZW1wdCB0byBl
+bmFibGUgYW4gYWxyZWFkeSBlbmFibGVkIENNTSB1bml0LCBvciB0bwo+ID4gPiArICogYXR0ZW1w
+dCB0byBkaXNhYmxlIGEgZGlzYWJsZWQgdW5pdC4KPiA+ID4gKyAqLwo+ID4gPiAraW50IHJjYXJf
+Y21tX2VuYWJsZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQo+ID4gPiArewo+ID4gPiAr
+CWludCByZXQ7Cj4gPiA+ICsKPiA+ID4gKwlyZXQgPSBwbV9ydW50aW1lX2dldF9zeW5jKCZwZGV2
+LT5kZXYpOwo+ID4gPiArCWlmIChyZXQgPCAwKQo+ID4gPiArCQlyZXR1cm4gcmV0Owo+ID4gPiAr
+Cj4gPiA+ICsJcmV0dXJuIDA7Cj4gPiA+ICt9Cj4gPiA+ICtFWFBPUlRfU1lNQk9MX0dQTChyY2Fy
+X2NtbV9lbmFibGUpOwo+ID4gPiArCj4gPiA+ICsvKgo+ID4gPiArICogcmNhcl9jbW1fZGlzYWJs
+ZSgpIC0gRGlzYWJsZSB0aGUgQ01NIHVuaXQKPiA+ID4gKyAqIEBwZGV2OiBUaGUgcGxhdGZvcm0g
+ZGV2aWNlIGFzc29jaWF0ZWQgd2l0aCB0aGUgQ01NIGluc3RhbmNlCj4gPiA+ICsgKgo+ID4gPiAr
+ICogU2VlIHJjYXJfY21tX2VuYWJsZSgpIGZvciB1c2FnZSBpbmZvcm1hdGlvbi4KPiA+ID4gKyAq
+Cj4gPiA+ICsgKiBEaXNhYmxpbmcgdGhlIENNTSB1bml0IGRpc2FibGUgYWxsIHRoZSBpbnRlcm5h
+bCBwcm9jZXNzaW5nIGJsb2Nrcy4gVGhlIENNTQo+ID4gPiArICogc3RhdGUgc2hhbGwgdGh1cyBi
+ZSByZXN0b3JlZCB3aXRoIHJjYXJfY21tX3NldHVwKCkgd2hlbiByZS1lbmFibGluZyB0aGUgQ01N
+Cj4gPiA+ICsgKiB1bml0IGFmdGVyIHRoZSBuZXh0IHJjYXJfY21tX2VuYWJsZSgpIGNhbGwuCj4g
+PiA+ICsgKi8KPiA+ID4gK3ZvaWQgcmNhcl9jbW1fZGlzYWJsZShzdHJ1Y3QgcGxhdGZvcm1fZGV2
+aWNlICpwZGV2KQo+ID4gPiArewo+ID4gPiArCXN0cnVjdCByY2FyX2NtbSAqcmNtbSA9IHBsYXRm
+b3JtX2dldF9kcnZkYXRhKHBkZXYpOwo+ID4gPiArCj4gPiA+ICsJcmNhcl9jbW1fd3JpdGUocmNt
+bSwgQ00yX0xVVF9DVFJMLCAwKTsKPiA+ID4gKwlyY21tLT5sdXQuZW5hYmxlZCA9IGZhbHNlOwo+
+ID4gPiArCj4gPiA+ICsJcG1fcnVudGltZV9wdXQoJnBkZXYtPmRldik7Cj4gPiA+ICt9Cj4gPiA+
+ICtFWFBPUlRfU1lNQk9MX0dQTChyY2FyX2NtbV9kaXNhYmxlKTsKPiA+ID4gKwo+ID4gPiArLyoK
+PiA+ID4gKyAqIHJjYXJfY21tX2luaXQoKSAtIEluaXRpYWxpemUgdGhlIENNTSB1bml0Cj4gPiA+
+ICsgKiBAcGRldjogVGhlIHBsYXRmb3JtIGRldmljZSBhc3NvY2lhdGVkIHdpdGggdGhlIENNTSBp
+bnN0YW5jZQo+ID4gPiArICoKPiA+ID4gKyAqIFJldHVybjogMCBvbiBzdWNjZXNzLCAtRVBST0JF
+X0RFRkVSIGlmIHRoZSBDTU0gaXMgbm90IGF2YWlsYWJsZSB5ZXQsCj4gPiA+ICsgKiAgICAgICAg
+IC1FTk9ERVYgaWYgdGhlIERSTV9SQ0FSX0NNTSBjb25maWcgb3B0aW9uIGlzIGRpc2FibGVkCj4g
+PiA+ICsgKi8KPiA+ID4gK2ludCByY2FyX2NtbV9pbml0KHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2Ug
+KnBkZXYpCj4gPiA+ICt7Cj4gPiA+ICsJc3RydWN0IHJjYXJfY21tICpyY21tID0gcGxhdGZvcm1f
+Z2V0X2RydmRhdGEocGRldik7Cj4gPiA+ICsKPiA+ID4gKwlpZiAoIXJjbW0pCj4gPiA+ICsJCXJl
+dHVybiAtRVBST0JFX0RFRkVSOwo+ID4gPiArCj4gPiA+ICsJcmV0dXJuIDA7Cj4gPiA+ICt9Cj4g
+PiA+ICtFWFBPUlRfU1lNQk9MX0dQTChyY2FyX2NtbV9pbml0KTsKPiA+ID4gKwo+ID4gPiArc3Rh
+dGljIGludCByY2FyX2NtbV9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQo+ID4g
+PiArewo+ID4gPiArCXN0cnVjdCByY2FyX2NtbSAqcmNtbTsKPiA+ID4gKwo+ID4gPiArCXJjbW0g
+PSBkZXZtX2t6YWxsb2MoJnBkZXYtPmRldiwgc2l6ZW9mKCpyY21tKSwgR0ZQX0tFUk5FTCk7Cj4g
+PiA+ICsJaWYgKCFyY21tKQo+ID4gPiArCQlyZXR1cm4gLUVOT01FTTsKPiA+ID4gKwlwbGF0Zm9y
+bV9zZXRfZHJ2ZGF0YShwZGV2LCByY21tKTsKPiA+ID4gKwo+ID4gPiArCXJjbW0tPmJhc2UgPSBk
+ZXZtX3BsYXRmb3JtX2lvcmVtYXBfcmVzb3VyY2UocGRldiwgMCk7Cj4gPiA+ICsJaWYgKElTX0VS
+UihyY21tLT5iYXNlKSkKPiA+ID4gKwkJcmV0dXJuIFBUUl9FUlIocmNtbS0+YmFzZSk7Cj4gPiA+
+ICsKPiA+ID4gKwlwbV9ydW50aW1lX2VuYWJsZSgmcGRldi0+ZGV2KTsKPiA+ID4gKwo+ID4gPiAr
+CXJldHVybiAwOwo+ID4gPiArfQo+ID4gPiArCj4gPiA+ICtzdGF0aWMgaW50IHJjYXJfY21tX3Jl
+bW92ZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQo+ID4gPiArewo+ID4gPiArCXBtX3J1
+bnRpbWVfZGlzYWJsZSgmcGRldi0+ZGV2KTsKPiA+ID4gKwo+ID4gPiArCXJldHVybiAwOwo+ID4g
+PiArfQo+ID4gPiArCj4gPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IG9mX2RldmljZV9pZCByY2Fy
+X2NtbV9vZl90YWJsZVtdID0gewo+ID4gPiArCXsgLmNvbXBhdGlibGUgPSAicmVuZXNhcyxyY2Fy
+LWdlbjMtY21tIiwgfSwKPiA+ID4gKwl7IC5jb21wYXRpYmxlID0gInJlbmVzYXMscmNhci1nZW4y
+LWNtbSIsIH0sCj4gPiA+ICsJeyB9LAo+ID4gPiArfTsKPiA+ID4gK01PRFVMRV9ERVZJQ0VfVEFC
+TEUob2YsIHJjYXJfY21tX29mX3RhYmxlKTsKPiA+ID4gKwo+ID4gPiArc3RhdGljIHN0cnVjdCBw
+bGF0Zm9ybV9kcml2ZXIgcmNhcl9jbW1fcGxhdGZvcm1fZHJpdmVyID0gewo+ID4gPiArCS5wcm9i
+ZQkJPSByY2FyX2NtbV9wcm9iZSwKPiA+ID4gKwkucmVtb3ZlCQk9IHJjYXJfY21tX3JlbW92ZSwK
+PiA+ID4gKwkuZHJpdmVyCQk9IHsKPiA+ID4gKwkJLm5hbWUJPSAicmNhci1jbW0iLAo+ID4gPiAr
+CQkub2ZfbWF0Y2hfdGFibGUgPSByY2FyX2NtbV9vZl90YWJsZSwKPiA+ID4gKwl9LAo+ID4gPiAr
+fTsKPiA+ID4gKwo+ID4gPiArbW9kdWxlX3BsYXRmb3JtX2RyaXZlcihyY2FyX2NtbV9wbGF0Zm9y
+bV9kcml2ZXIpOwo+ID4gPiArCj4gPiA+ICtNT0RVTEVfQVVUSE9SKCJKYWNvcG8gTW9uZGkgPGph
+Y29wbytyZW5lc2FzQGptb25kaS5vcmc+Iik7Cj4gPiA+ICtNT0RVTEVfREVTQ1JJUFRJT04oIlJl
+bmVzYXMgUi1DYXIgQ01NIERyaXZlciIpOwo+ID4gPiArTU9EVUxFX0xJQ0VOU0UoIkdQTCB2MiIp
+Owo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9jbW0uaCBi
+L2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfY21tLmgKPiA+ID4gbmV3IGZpbGUgbW9kZSAx
+MDA2NDQKPiA+ID4gaW5kZXggMDAwMDAwMDAwMDAwLi5iNWY3ZWM2ZGIwNGEKPiA+ID4gLS0tIC9k
+ZXYvbnVsbAo+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2NtbS5oCj4g
+PiA+IEBAIC0wLDAgKzEsNTggQEAKPiA+ID4gKy8qIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBH
+UEwtMi4wKyAqLwo+ID4gPiArLyoKPiA+ID4gKyAqIHJjYXJfY21tLmggLS0gUi1DYXIgRGlzcGxh
+eSBVbml0IENvbG9yIE1hbmFnZW1lbnQgTW9kdWxlCj4gPiA+ICsgKgo+ID4gPiArICogQ29weXJp
+Z2h0IChDKSAyMDE5IEphY29wbyBNb25kaSA8amFjb3BvK3JlbmVzYXNAam1vbmRpLm9yZz4KPiA+
+ID4gKyAqLwo+ID4gPiArCj4gPiA+ICsjaWZuZGVmIF9fUkNBUl9DTU1fSF9fCj4gPiA+ICsjZGVm
+aW5lIF9fUkNBUl9DTU1fSF9fCj4gPiA+ICsKPiA+ID4gKyNkZWZpbmUgQ00yX0xVVF9TSVpFCQky
+NTYKPiA+ID4gKwo+ID4gPiArc3RydWN0IGRybV9jb2xvcl9sdXQ7Cj4gPiA+ICtzdHJ1Y3QgcGxh
+dGZvcm1fZGV2aWNlOwo+ID4gPiArCj4gPiA+ICsvKioKPiA+ID4gKyAqIHN0cnVjdCByY2FyX2Nt
+bV9jb25maWcgLSBDTU0gY29uZmlndXJhdGlvbgo+ID4gPiArICoKPiA+ID4gKyAqIEBsdXQ6CTFE
+LUxVVCBjb25maWd1cmF0aW9uCj4gPiA+ICsgKiBAbHV0LnRhYmxlOgkxRC1MVVQgdGFibGUgZW50
+cmllcy4gRGlzYWJsZSBMVVQgb3BlcmF0aW9ucyB3aGVuIE5VTEwKPiA+ID4gKyAqLwo+ID4gPiAr
+c3RydWN0IHJjYXJfY21tX2NvbmZpZyB7Cj4gPiA+ICsJc3RydWN0IHsKPiA+ID4gKwkJc3RydWN0
+IGRybV9jb2xvcl9sdXQgKnRhYmxlOwo+ID4gPiArCX0gbHV0Owo+ID4gPiArfTsKPiA+ID4gKwo+
+ID4gPiArI2lmIElTX0VOQUJMRUQoQ09ORklHX0RSTV9SQ0FSX0NNTSkKPiA+ID4gK2ludCByY2Fy
+X2NtbV9pbml0KHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpOwo+ID4gPiArCj4gPiA+ICtp
+bnQgcmNhcl9jbW1fZW5hYmxlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpOwo+ID4gPiAr
+dm9pZCByY2FyX2NtbV9kaXNhYmxlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpOwo+ID4g
+PiArCj4gPiA+ICtpbnQgcmNhcl9jbW1fc2V0dXAoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRl
+diwKPiA+ID4gKwkJICAgY29uc3Qgc3RydWN0IHJjYXJfY21tX2NvbmZpZyAqY29uZmlnKTsKPiA+
+ID4gKyNlbHNlCj4gPiA+ICtzdGF0aWMgaW5saW5lIGludCByY2FyX2NtbV9pbml0KHN0cnVjdCBw
+bGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gPiA+ICt7Cj4gPiA+ICsJcmV0dXJuIC1FTk9ERVY7Cj4g
+PiA+ICt9Cj4gPiA+ICsKPiA+ID4gK3N0YXRpYyBpbmxpbmUgaW50IHJjYXJfY21tX2VuYWJsZShz
+dHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQo+ID4gPiArewo+ID4gPiArCXJldHVybiAwOwo+
+ID4gPiArfQo+ID4gPiArCj4gPiA+ICtzdGF0aWMgaW5saW5lIHZvaWQgcmNhcl9jbW1fZGlzYWJs
+ZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQo+ID4gPiArewo+ID4gPiArfQo+ID4gPiAr
+Cj4gPiA+ICtzdGF0aWMgaW5saW5lIGludCByY2FyX2NtbV9zZXR1cChzdHJ1Y3QgcGxhdGZvcm1f
+ZGV2aWNlICpwZGV2LAo+ID4gPiArCQkJCSBjb25zdCBzdHJ1Y3QgcmNhcl9jbW1fY29uZmlnICpj
+b25maWcpCj4gPiA+ICt7Cj4gPiA+ICsJcmV0dXJuIDA7Cj4gPiA+ICt9Cj4gPiA+ICsjZW5kaWYg
+LyogSVNfRU5BQkxFRChDT05GSUdfRFJNX1JDQVJfQ01NKSAqLwo+ID4gPiArCj4gPiA+ICsjZW5k
+aWYgLyogX19SQ0FSX0NNTV9IX18gKi8KCi0tIApSZWdhcmRzLAoKTGF1cmVudCBQaW5jaGFydApf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
+bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
