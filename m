@@ -1,61 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96120DA80E
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2019 11:10:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7B93DA819
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2019 11:12:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 075DB6E457;
-	Thu, 17 Oct 2019 09:10:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5414A89C63;
+	Thu, 17 Oct 2019 09:12:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB9CA6EA12;
- Thu, 17 Oct 2019 09:09:56 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id q12so1233789lfc.11;
- Thu, 17 Oct 2019 02:09:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=Hy1s5qBOipPdCc612UplfJSTsYxLuHrl23z2YQ5DVmU=;
- b=ZVmT9JVSsHNYqIkzh5vmpqSKS9m81fO6m8mg7bjYQjZMONB/3AU1SczPZp6P+YPegQ
- WmsmT3pishBe4JgtKOKurmP+H5i3bxcFQ4fYRtQJaSi65TokYDznaaGmNB2zhDekCzuJ
- euPqAy/gG5oaf0oEz2TkyzAgRjaXg8fS9RPwdrFgEMtlPmVxmU2U3pGLCE+GBaLHUz3c
- bFeQtsOuIta09x15EcUlpQmzDzrz8Q6KRfrtYLxWmwSK52G+F2grQrrOVn0P/KAAiXi0
- ugpVxz3IvojA1k/NKiRaGJm90eM190EYqwqgjzU8bfbbBbxRwlH1HNJfUOPro8IbOMss
- +HWA==
-X-Gm-Message-State: APjAAAUWphPwfHazd8p4Cg0ENpZy0QAU8ipdyYSeleXTBkzqn2993Nzh
- MdTiZKPUhO56j4GQjGU+/Wo=
-X-Google-Smtp-Source: APXvYqx76SitEOqtfeDor5Hrh+WeUwpBmKrqMo2NHtpi2fDd5R6RQtcPrnIWknGywOhCSawSpg3iNA==
-X-Received: by 2002:a19:750:: with SMTP id 77mr1572490lfh.81.1571303395003;
- Thu, 17 Oct 2019 02:09:55 -0700 (PDT)
-Received: from eldfell.localdomain ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id q124sm729482ljb.28.2019.10.17.02.09.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2019 02:09:54 -0700 (PDT)
-Date: Thu, 17 Oct 2019 12:09:44 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: James Jones <jajones@nvidia.com>, Scott Anderson <scott@anderso.nz>
-Subject: Re: XDC allocator workshop and Wayland dmabuf hints
-Message-ID: <20191017120944.09877cd3@eldfell.localdomain>
-In-Reply-To: <0c34116b-a234-f436-2691-55dca6aecaca@nvidia.com>
-References: <febd361d-7594-e6f6-a55c-247e2c770830@anderso.nz>
- <0c34116b-a234-f436-2691-55dca6aecaca@nvidia.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4167489C53;
+ Thu, 17 Oct 2019 09:12:38 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9H93ugn068229;
+ Thu, 17 Oct 2019 09:12:29 GMT
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2130.oracle.com with ESMTP id 2vk68uvyg9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 17 Oct 2019 09:12:29 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9H98RXO077953;
+ Thu, 17 Oct 2019 09:12:29 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3030.oracle.com with ESMTP id 2vp3bk9pac-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 17 Oct 2019 09:12:29 +0000
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9H9CPgp032685;
+ Thu, 17 Oct 2019 09:12:26 GMT
+Received: from mwanda (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 17 Oct 2019 09:12:25 +0000
+Date: Thu, 17 Oct 2019 12:12:16 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Rex Zhu <rex.zhu@amd.com>, Jim Qu <Jim.Qu@amd.com>
+Subject: [PATCH] drm/amdgpu/vi: silence an uninitialized variable warning
+Message-ID: <20191017091216.GA31278@mwanda>
 MIME-Version: 1.0
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9412
+ signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1908290000 definitions=main-1910170082
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9412
+ signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
+ definitions=main-1910170082
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version;
- bh=Hy1s5qBOipPdCc612UplfJSTsYxLuHrl23z2YQ5DVmU=;
- b=ByF5CECMiJ1HH2WvehCBtxjBoUasRprBBUprYrbNiVgdpAeU8wjrGmvMxRZ3/2XFXW
- vQ6ROpp3v/VQcZmqsaIvwcjhfC4Ru5PftaYN9vH42LCUvUapCWeOlrwlN0NUi0jKcFoN
- vrgx4THcGh103FNX9qRWLbFPm+zzUXZzNkpky9RwBowUIANgEbKfpwwNKe4ehH7v9k+M
- 7HIKvvK//kBXvgMN1B56xRQI2xIr1+6C81wVajmBzhff7NfJgFOVIj2+1VPyiTq+RfDC
- ntLEumyXJdEBh5w5dc85JEbMDioa9j64o3H/x3Op+hH+hLKrifTihzePF6Y1J+xzEpeH
- 1rmw==
+ d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2019-08-05;
+ bh=Zrwqg2bLXgsav5RbPkzHmjIiiQ7AKGewzLzk8pHVAxU=;
+ b=QI5e57E+HaKyYh//wP9cMvuKgbEn0cAlW2jqkKwDRen6u7svp+dclF2hUgpZkKQeFxyK
+ SO9uYymR5P2lm+MekkTrNcU4kZ4j4vtQPTk17cB7hpIzbaM3VURDH3vEXIFmH09CpLoL
+ PrR/0t16CdF37Cf8r6gqaG4jQCBFDNOKu8jIMvupeelJYdj37YXCAFsuJC4ocrGpTXgG
+ zL5XWQ6N+V3buE0piuz9d7rK8gQm75TmekIPi+SeJhcI33J4NGJhgtzJfPYZEnJQW3nn
+ IOQLx+bWqA7hChaQkK2Ai6lcqoalTcoNKCYp6v5kvE93nGygt4ydVHAv/MXtmUJg9KdG WA== 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,98 +76,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, wayland-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1102992993=="
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1102992993==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/Q.UyAlm1u+9aJK5b8Da2eZ8"; protocol="application/pgp-signature"
-
---Sig_/Q.UyAlm1u+9aJK5b8Da2eZ8
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, 14 Oct 2019 06:02:59 -0700
-James Jones <jajones@nvidia.com> wrote:
-
-> On 10/13/19 2:05 PM, Scott Anderson wrote:
-> > (Sorry to CCs for spam, I made an error in my first posting)
-> >=20
-> > Hi,
-> >=20
-> > There were certainly some interesting changes discussed at the allocator
-> > workshop during XDC this year, and I'd like to just summarise my
-> > thoughts on it and make sure everybody is on the same page.
-
-Hi Scott and James,
-
-thanks for the write-up, it all sounds good to me FWI'mW.
-
-
-> -As you note, this limits things to formats/layouts that can be=20
-> composited (basically, things that can be textures).  "Things that can=20
-> be textures" is a superset of "Things that can be scanned out" for these=
-=20
-> purposes on our HW, so that's fine for NVIDIA.  Does that hold up=20
-> elsewhere?  A secondary motivation for me was that the compositor could=20
-> transition back to compositing from overlay compositing without=20
-> requiring a blit or a new frame from the client in cases where that=20
-> didn't hold up, but I don't know if that's interesting or not.
-
-It is interesting.
-
-The compositor transitioning back from overlay to compositing without
-requiring a new frame from the client is a minimum requirement under
-normal circumstances in Wayland architecture. If a compositor cannot do
-that because of a buffer format, how could a conversion blit be
-possible either?
-
-In Wayland architecture, having the compositor (display server) wait
-for any client before it is able to update the screen is unacceptable
-because it has a high risk of disturbing visual glitches.
-
-OTOH, I have heard of special use cases, where all buffers should
-always go on overlays and falling back to composition would be
-considered a bug. For such cases, there are some ideas towards that at
-https://gitlab.freedesktop.org/wayland/weston/issues/244 .
-
-
-Thanks,
-pq
-
---Sig_/Q.UyAlm1u+9aJK5b8Da2eZ8
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl2oL9gACgkQI1/ltBGq
-qqeavg//cG46lYsiXfQJOtNHRqR8RfG6jPzjwKvEdVh5FsWwN0iJQZBVoD8BW7oJ
-A3l+/jwesUv7zbVa/H1bwHi3hfGUFk6oYGTgY4lNSXZbWVUREM4Us2XpNI4/6B4K
-1Kp8878jbM9Cp+KkCJEQrgQWjbs1LWf7wFtE1YX6Asch7Sx4cG1rjmRZRJpYg83f
-qLGabMWqn7KpEjVYz0m/UmXCmURa5LY/X9349mbBKjbdwcyU8gLKa3srTn6FIMTz
-2YmNekm4m3vZTQreexxu8sF5isqGkqxRR/tnUyKrKTPS99ayzPA3o6vgULME4mw6
-MG8b8WqmQgoBnC4JUN4m8uU6sGXc/Ep1wym3pDZqkgVwRjBxtV3F129Ob2Rq/dYp
-LLCmSiabzKBsdWFN81GGiigu9IcWF9ID3C5l5CSvvmWN1FSWhjg47QjbZKuobNy+
-PJ31hodSZTaGJJJjdDT15BAWNOJ5WZZlavZAn4AjA2V72adLZhVDYPFLjhdh4hs/
-6HqPnGT/u9q4uEI46KLWNBZI2zU1K604sa0c95YV9CBV/bB9fM4NFzpTAiPiXAHU
-RhKsS/RJG0bLFoucIeo3Th6RL2NlVW21KRPbh+/gZpYxUDUf51YPA7yXzL2TMsiU
-gojUDkrYLsqr9Re+83RbdXNPeWVAZxdCr9wrQII9iuRBb/6u5ro=
-=Flnh
------END PGP SIGNATURE-----
-
---Sig_/Q.UyAlm1u+9aJK5b8Da2eZ8--
-
---===============1102992993==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1102992993==--
+U21hdGNoIGNvbXBsYWlucyB0aGF0IHdlIG5lZWQgdG8gaW5pdGlhbGl6ZWQgIipjYXAiIG90aGVy
+d2lzZSBpdCBjYW4KbGVhZCB0byBhbiB1bmluaXRpYWxpemVkIHZhcmlhYmxlIGJ1ZyBpbiB0aGUg
+Y2FsbGVyLiAgVGhpcyBzZWVtcyBsaWtlIGEKcmVhc29uYWJsZSB3YXJuaW5nIGFuZCBpdCBkb2Vz
+bid0IGh1cnQgdG8gc2lsZW5jZSBpdCBhdCBsZWFzdC4KCmRyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
+Z3B1L3ZpLmM6NzY3IHZpX2FzaWNfcmVzZXRfbWV0aG9kKCkgZXJyb3I6IHVuaW5pdGlhbGl6ZWQg
+c3ltYm9sICdiYWNvX3Jlc2V0Jy4KCkZpeGVzOiA0MjVkYjI1NTNlNDMgKCJkcm0vYW1kZ3B1OiBl
+eHBvc2UgQkFDTyBpbnRlcmZhY2VzIHRvIHVwcGVyIGxldmVsIGZyb20gUFAiKQpTaWduZWQtb2Zm
+LWJ5OiBEYW4gQ2FycGVudGVyIDxkYW4uY2FycGVudGVyQG9yYWNsZS5jb20+Ci0tLQogZHJpdmVy
+cy9ncHUvZHJtL2FtZC9wb3dlcnBsYXkvYW1kX3Bvd2VycGxheS5jIHwgMSArCiAxIGZpbGUgY2hh
+bmdlZCwgMSBpbnNlcnRpb24oKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL3Bv
+d2VycGxheS9hbWRfcG93ZXJwbGF5LmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL3Bvd2VycGxheS9h
+bWRfcG93ZXJwbGF5LmMKaW5kZXggODMxOTZiNzllZGQ1Li5mNGZmMTUzNzhlNjEgMTAwNjQ0Ci0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L2FtZF9wb3dlcnBsYXkuYworKysgYi9k
+cml2ZXJzL2dwdS9kcm0vYW1kL3Bvd2VycGxheS9hbWRfcG93ZXJwbGF5LmMKQEAgLTE0MjEsNiAr
+MTQyMSw3IEBAIHN0YXRpYyBpbnQgcHBfZ2V0X2FzaWNfYmFjb19jYXBhYmlsaXR5KHZvaWQgKmhh
+bmRsZSwgYm9vbCAqY2FwKQogewogCXN0cnVjdCBwcF9od21nciAqaHdtZ3IgPSBoYW5kbGU7CiAK
+KwkqY2FwID0gZmFsc2U7CiAJaWYgKCFod21ncikKIAkJcmV0dXJuIC1FSU5WQUw7CiAKLS0gCjIu
+MjAuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
+LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
