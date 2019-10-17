@@ -2,63 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 324A8DAAE6
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2019 13:09:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E975DAAFA
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2019 13:11:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DACCC6EA58;
-	Thu, 17 Oct 2019 11:09:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0307589A8B;
+	Thu, 17 Oct 2019 11:11:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 876806EA56
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2019 11:09:49 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id m18so2105640wmc.1
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2019 04:09:49 -0700 (PDT)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B027989A8B
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2019 11:11:35 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id b9so1886474wrs.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2019 04:11:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=qCyVynuK7PaSvkeosZV34szIPo2U5n7bK+UWhJ6bjPY=;
- b=lIHetoXcOQlnLjq+IhuMoOvhc+zl/LMv1pjTQ6ug0miBT25h2Hf8LNxTeNZrbe0XX+
- xVPIQR8KbPSybCuuNuTJsakXq7Q4Fd56K6OQBoQX53RbvVnF4xV2x9ctMF/v0ko1dFWS
- ypKbJuSgNWZCB+UECFcJ5movkBqPBpKhiqSEX1w7RjF730LmqOKw5J6FfP4ST6aduOjV
- gP4jowzmSt4jcek026+uUsWYip5p2e07X0GHM5rlqIJ9jmxx0FosMQbyhNdcDz1jIiGM
- ITOeQ7pHFC2gGdS/gJo6u4V8WaTEgHZai4m+Vc6UmvetQe+v4W6P5JTfCxAUPvOqM3aP
- gaiw==
-X-Gm-Message-State: APjAAAX92j+RVkZgJF+XQkZk3uUdOUM1xho5GiKLWD2u0aMe5SfPtKV1
- d43Lf4dIc0u5ZS2eRt6+KrfvRw==
-X-Google-Smtp-Source: APXvYqylxkpYUC0YR/BT7g7dc/nso2TOI0NcgI5CsiSqzmU5I4fsasacsNe9XwwS9TKTyn1Xxp0ywQ==
-X-Received: by 2002:a7b:cc07:: with SMTP id f7mr2301642wmh.56.1571310587778;
- Thu, 17 Oct 2019 04:09:47 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
- [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id y13sm3163455wrg.8.2019.10.17.04.09.46
+ bh=uVoXPPtms2OBj9SVIoZ3oN8jHS0q6WrUSpAbwHPKjrg=;
+ b=OIjIyMgvx9VFrpYKEsZCb0fXEvhCjmDyIebhvmtN/RPPKzkLePElOjpYYgr2iDIx4x
+ CmalRYaOOTWu4QthNeaIQOKylr5/hIG5zeI00kkL7mcG4wtNG95kVAYLZ9mB240o4QfB
+ TokXab66noXt/gUBCxRUwm/YncOGrAYOSzexCtmFSVIiRXBapllc0BIiHm2DIxTaWgoG
+ /cmgF76bufWWYS0iiBMKZjWfd+IOu5cJQCGkRqZNnorafTqFYzPgbkIdy0Fi9yd4Vylb
+ 0IdbFcPGfiumEboWDnJK0NJYjUrvQWkbe7QrEmec7BLgsfQj8cFjsT5P0EscAfR2I75R
+ baVw==
+X-Gm-Message-State: APjAAAXU7iuLGAZP02bELHhID000vBIFhbvQc2Dl0Hpfadg4n/bd02E2
+ rYZbComOqAvlYAJ59qxIZ0w=
+X-Google-Smtp-Source: APXvYqzO6ItEC3kt8jHNlX8r4xUT/KN/LQBY0LzMSmWlc636G/V/pvm/CFIOecA2do+FFkDUPQMN7w==
+X-Received: by 2002:a5d:544a:: with SMTP id w10mr2479776wrv.271.1571310694122; 
+ Thu, 17 Oct 2019 04:11:34 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+ by smtp.gmail.com with ESMTPSA id n1sm1959172wrg.67.2019.10.17.04.11.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2019 04:09:46 -0700 (PDT)
-Date: Thu, 17 Oct 2019 12:09:45 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Kiran Gunda <kgunda@codeaurora.org>
-Subject: Re: [PATCH V7 5/6] backlight: qcom-wled: add support for short
- circuit handling.
-Message-ID: <20191017110945.6dbldlrykumvlpqm@holly.lan>
-References: <1571220826-7740-1-git-send-email-kgunda@codeaurora.org>
- <1571220826-7740-6-git-send-email-kgunda@codeaurora.org>
+ Thu, 17 Oct 2019 04:11:32 -0700 (PDT)
+Date: Thu, 17 Oct 2019 13:11:31 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH] backlight: pwm_bl: configure pwm only once per backlight
+ toggle
+Message-ID: <20191017111131.GB3122066@ulmo>
+References: <20191017081059.31761-1-u.kleine-koenig@pengutronix.de>
+ <c89925bd-857d-874f-b74f-c5700d4c9fbd@ysoft.com>
+ <20191017101116.3d5okxmto5coecad@pengutronix.de>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1571220826-7740-6-git-send-email-kgunda@codeaurora.org>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20191017101116.3d5okxmto5coecad@pengutronix.de>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
+ d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=qCyVynuK7PaSvkeosZV34szIPo2U5n7bK+UWhJ6bjPY=;
- b=h8UffXa2hhVQYJJ/wxhWdOwKrjrPLX/WdcMY/ndNiZuY6l4OKj0WKif0p8Wsrvv33C
- O9gjsNrzDxHyzZ/TOeAsuKMCt7MdjkMlsA3w4Vx/Pv8tkyXOthkuqva6vtiF/qf7iozA
- LUidAJEkf/ejnJ7cTXSY6aIp7mVZCzAU/vlvTf+kBJzbl1VxwX0Q0CQzIcS6GTuxvK60
- b9ome2O1dpYgTC8B1y8DHSXAyetStGZ5Oskw2ogh6OEVAbQZVSSG1VKs/1ExFpUjeVRa
- pnHZtSgNe89CeG/xnWQ8rqok5uGR5Ze+qRNxLDr9RMZGIRp2cnCnIpjZ8HwJ7LBYFp5y
- s1yQ==
+ bh=uVoXPPtms2OBj9SVIoZ3oN8jHS0q6WrUSpAbwHPKjrg=;
+ b=gPxNkUdZqcMM9+6sy0HJERWLjuFkJJrrDGM3u6HPwRkjvFaYvif8HzG8KxxboGrVIW
+ TkOyUKHGLyFD3mmiC84rYOnRuQZ/m7H9uVVNhQE1ffUmYGADEnvzc2B2loGuS/0FbvbX
+ S8X8yHPvCxJ5rDSqd4ywqqp0m+7UdbnzcKDJKdwYLCvOGvapxjBBkUlGz8/2AxHNiCu0
+ HlZ/fk+cKj5DsqEpzAPLzDWVu/p+K5Qi+779lELsQZwdYioMB6bZaFyCHAuAlow39aTx
+ EoSffv1+i4P9aZhE9254IQkehTP6dy4v4kOf4if3PGbVEDotsL4HZgNKtN4QX8R6TxV8
+ +ShQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,160 +70,208 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
- Andy Gross <agross@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
- robh+dt@kernel.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
- linux-arm-msm@vger.kernel.org, lee.jones@linaro.org,
- linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-pwm@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ Michal =?utf-8?B?Vm9rw6HEjQ==?= <michal.vokac@ysoft.com>,
+ Lee Jones <lee.jones@linaro.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
+ Jingoo Han <jingoohan1@gmail.com>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Adam Ford <aford173@gmail.com>
+Content-Type: multipart/mixed; boundary="===============1448861735=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBPY3QgMTYsIDIwMTkgYXQgMDM6NDM6NDVQTSArMDUzMCwgS2lyYW4gR3VuZGEgd3Jv
-dGU6Cj4gSGFuZGxlIHRoZSBzaG9ydCBjaXJjdWl0IGludGVycnVwdCBhbmQgY2hlY2sgaWYgdGhl
-IHNob3J0IGNpcmN1aXQKPiBpbnRlcnJ1cHQgaXMgdmFsaWQuIFJlLWVuYWJsZSB0aGUgbW9kdWxl
-IHRvIGNoZWNrIGlmIGl0IGdvZXMKPiBhd2F5LiBEaXNhYmxlIHRoZSBtb2R1bGUgYWx0b2dldGhl
-ciBpZiB0aGUgc2hvcnQgY2lyY3VpdCBldmVudAo+IHBlcnNpc3RzLgo+IAo+IFNpZ25lZC1vZmYt
-Ynk6IEtpcmFuIEd1bmRhIDxrZ3VuZGFAY29kZWF1cm9yYS5vcmc+Cj4gUmV2aWV3ZWQtYnk6IEJq
-b3JuIEFuZGVyc3NvbiA8Ympvcm4uYW5kZXJzc29uQGxpbmFyby5vcmc+CgpSZXZpZXdlZC1ieTog
-RGFuaWVsIFRob21wc29uIDxkYW5pZWwudGhvbXBzb25AbGluYXJvLm9yZz4KCj4gLS0tCj4gIGRy
-aXZlcnMvdmlkZW8vYmFja2xpZ2h0L3Fjb20td2xlZC5jIHwgMTMyICsrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKystLQo+ICAxIGZpbGUgY2hhbmdlZCwgMTI4IGluc2VydGlvbnMoKyks
-IDQgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8vYmFja2xpZ2h0
-L3Fjb20td2xlZC5jIGIvZHJpdmVycy92aWRlby9iYWNrbGlnaHQvcWNvbS13bGVkLmMKPiBpbmRl
-eCAyODA3YjRiLi5iNWIxMjVjIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvdmlkZW8vYmFja2xpZ2h0
-L3Fjb20td2xlZC5jCj4gKysrIGIvZHJpdmVycy92aWRlby9iYWNrbGlnaHQvcWNvbS13bGVkLmMK
-PiBAQCAtMiw2ICsyLDkgQEAKPiAgLyogQ29weXJpZ2h0IChjKSAyMDE1LCBTb255IE1vYmlsZSBD
-b21tdW5pY2F0aW9ucywgQUIuCj4gICAqLwo+ICAKPiArI2luY2x1ZGUgPGxpbnV4L2RlbGF5Lmg+
-Cj4gKyNpbmNsdWRlIDxsaW51eC9pbnRlcnJ1cHQuaD4KPiArI2luY2x1ZGUgPGxpbnV4L2t0aW1l
-Lmg+Cj4gICNpbmNsdWRlIDxsaW51eC9rZXJuZWwuaD4KPiAgI2luY2x1ZGUgPGxpbnV4L2JhY2ts
-aWdodC5oPgo+ICAjaW5jbHVkZSA8bGludXgvbW9kdWxlLmg+Cj4gQEAgLTU2LDYgKzU5LDE2IEBA
-Cj4gICNkZWZpbmUgV0xFRDNfU0lOS19SRUdfU1RSX0NBQkMobikJCQkoMHg2NiArIChuICogMHgx
-MCkpCj4gICNkZWZpbmUgIFdMRUQzX1NJTktfUkVHX1NUUl9DQUJDX01BU0sJCQlCSVQoNykKPiAg
-Cj4gKy8qIFdMRUQ0IHNwZWNpZmljIGNvbnRyb2wgcmVnaXN0ZXJzICovCj4gKyNkZWZpbmUgV0xF
-RDRfQ1RSTF9SRUdfU0hPUlRfUFJPVEVDVAkJCTB4NWUKPiArI2RlZmluZSAgV0xFRDRfQ1RSTF9S
-RUdfU0hPUlRfRU5fTUFTSwkJCUJJVCg3KQo+ICsKPiArI2RlZmluZSBXTEVENF9DVFJMX1JFR19T
-RUNfQUNDRVNTCQkJMHhkMAo+ICsjZGVmaW5lICBXTEVENF9DVFJMX1JFR19TRUNfVU5MT0NLCQkJ
-MHhhNQo+ICsKPiArI2RlZmluZSBXTEVENF9DVFJMX1JFR19URVNUMQkJCQkweGUyCj4gKyNkZWZp
-bmUgIFdMRUQ0X0NUUkxfUkVHX1RFU1QxX0VYVF9GRVRfRFRFU1QyCQkweDA5Cj4gKwo+ICAvKiBX
-TEVENCBzcGVjaWZpYyBzaW5rIHJlZ2lzdGVycyAqLwo+ICAjZGVmaW5lIFdMRUQ0X1NJTktfUkVH
-X0NVUlJfU0lOSwkJCTB4NDYKPiAgI2RlZmluZSAgV0xFRDRfU0lOS19SRUdfQ1VSUl9TSU5LX01B
-U0sJCQlHRU5NQVNLKDcsIDQpCj4gQEAgLTEwNSwxNyArMTE4LDIzIEBAIHN0cnVjdCB3bGVkX2Nv
-bmZpZyB7Cj4gIAlib29sIGNzX291dF9lbjsKPiAgCWJvb2wgZXh0X2dlbjsKPiAgCWJvb2wgY2Fi
-YzsKPiArCWJvb2wgZXh0ZXJuYWxfcGZldDsKPiAgfTsKPiAgCj4gIHN0cnVjdCB3bGVkIHsKPiAg
-CWNvbnN0IGNoYXIgKm5hbWU7Cj4gIAlzdHJ1Y3QgZGV2aWNlICpkZXY7Cj4gIAlzdHJ1Y3QgcmVn
-bWFwICpyZWdtYXA7Cj4gKwlzdHJ1Y3QgbXV0ZXggbG9jazsJLyogTG9jayB0byBhdm9pZCByYWNl
-IGZyb20gdGhyZWFkIGlycSBoYW5kbGVyICovCj4gKwlrdGltZV90IGxhc3Rfc2hvcnRfZXZlbnQ7
-Cj4gIAl1MTYgY3RybF9hZGRyOwo+ICAJdTE2IHNpbmtfYWRkcjsKPiAgCXUxNiBtYXhfc3RyaW5n
-X2NvdW50Owo+ICAJdTMyIGJyaWdodG5lc3M7Cj4gIAl1MzIgbWF4X2JyaWdodG5lc3M7Cj4gKwl1
-MzIgc2hvcnRfY291bnQ7Cj4gKwlib29sIGRpc2FibGVkX2J5X3Nob3J0Owo+ICsJYm9vbCBoYXNf
-c2hvcnRfZGV0ZWN0Owo+ICAKPiAgCXN0cnVjdCB3bGVkX2NvbmZpZyBjZmc7Cj4gIAlpbnQgKCp3
-bGVkX3NldF9icmlnaHRuZXNzKShzdHJ1Y3Qgd2xlZCAqd2xlZCwgdTE2IGJyaWdodG5lc3MpOwo+
-IEBAIC0xNjYsNiArMTg1LDkgQEAgc3RhdGljIGludCB3bGVkX21vZHVsZV9lbmFibGUoc3RydWN0
-IHdsZWQgKndsZWQsIGludCB2YWwpCj4gIHsKPiAgCWludCByYzsKPiAgCj4gKwlpZiAod2xlZC0+
-ZGlzYWJsZWRfYnlfc2hvcnQpCj4gKwkJcmV0dXJuIC1FTlhJTzsKPiArCj4gIAlyYyA9IHJlZ21h
-cF91cGRhdGVfYml0cyh3bGVkLT5yZWdtYXAsIHdsZWQtPmN0cmxfYWRkciArCj4gIAkJCQlXTEVE
-M19DVFJMX1JFR19NT0RfRU4sCj4gIAkJCQlXTEVEM19DVFJMX1JFR19NT0RfRU5fTUFTSywKPiBA
-QCAtMjAyLDE4ICsyMjQsMTkgQEAgc3RhdGljIGludCB3bGVkX3VwZGF0ZV9zdGF0dXMoc3RydWN0
-IGJhY2tsaWdodF9kZXZpY2UgKmJsKQo+ICAJICAgIGJsLT5wcm9wcy5zdGF0ZSAmIEJMX0NPUkVf
-RkJCTEFOSykKPiAgCQlicmlnaHRuZXNzID0gMDsKPiAgCj4gKwltdXRleF9sb2NrKCZ3bGVkLT5s
-b2NrKTsKPiAgCWlmIChicmlnaHRuZXNzKSB7Cj4gIAkJcmMgPSB3bGVkLT53bGVkX3NldF9icmln
-aHRuZXNzKHdsZWQsIGJyaWdodG5lc3MpOwo+ICAJCWlmIChyYyA8IDApIHsKPiAgCQkJZGV2X2Vy
-cih3bGVkLT5kZXYsICJ3bGVkIGZhaWxlZCB0byBzZXQgYnJpZ2h0bmVzcyByYzolZFxuIiwKPiAg
-CQkJCXJjKTsKPiAtCQkJcmV0dXJuIHJjOwo+ICsJCQlnb3RvIHVubG9ja19tdXRleDsKPiAgCQl9
-Cj4gIAo+ICAJCXJjID0gd2xlZF9zeW5jX3RvZ2dsZSh3bGVkKTsKPiAgCQlpZiAocmMgPCAwKSB7
-Cj4gIAkJCWRldl9lcnIod2xlZC0+ZGV2LCAid2xlZCBzeW5jIGZhaWxlZCByYzolZFxuIiwgcmMp
-Owo+IC0JCQlyZXR1cm4gcmM7Cj4gKwkJCWdvdG8gdW5sb2NrX211dGV4Owo+ICAJCX0KPiAgCX0K
-PiAgCj4gQEAgLTIyMSwxNSArMjQ0LDYxIEBAIHN0YXRpYyBpbnQgd2xlZF91cGRhdGVfc3RhdHVz
-KHN0cnVjdCBiYWNrbGlnaHRfZGV2aWNlICpibCkKPiAgCQlyYyA9IHdsZWRfbW9kdWxlX2VuYWJs
-ZSh3bGVkLCAhIWJyaWdodG5lc3MpOwo+ICAJCWlmIChyYyA8IDApIHsKPiAgCQkJZGV2X2Vycih3
-bGVkLT5kZXYsICJ3bGVkIGVuYWJsZSBmYWlsZWQgcmM6JWRcbiIsIHJjKTsKPiAtCQkJcmV0dXJu
-IHJjOwo+ICsJCQlnb3RvIHVubG9ja19tdXRleDsKPiAgCQl9Cj4gIAl9Cj4gIAo+ICAJd2xlZC0+
-YnJpZ2h0bmVzcyA9IGJyaWdodG5lc3M7Cj4gIAo+ICt1bmxvY2tfbXV0ZXg6Cj4gKwltdXRleF91
-bmxvY2soJndsZWQtPmxvY2spOwo+ICsKPiAgCXJldHVybiByYzsKPiAgfQo+ICAKPiArI2RlZmlu
-ZSBXTEVEX1NIT1JUX0RMWV9NUwkJCTIwCj4gKyNkZWZpbmUgV0xFRF9TSE9SVF9DTlRfTUFYCQkJ
-NQo+ICsjZGVmaW5lIFdMRURfU0hPUlRfUkVTRVRfQ05UX0RMWV9VUwkJVVNFQ19QRVJfU0VDCj4g
-Kwo+ICtzdGF0aWMgaXJxcmV0dXJuX3Qgd2xlZF9zaG9ydF9pcnFfaGFuZGxlcihpbnQgaXJxLCB2
-b2lkICpfd2xlZCkKPiArewo+ICsJc3RydWN0IHdsZWQgKndsZWQgPSBfd2xlZDsKPiArCWludCBy
-YzsKPiArCXM2NCBlbGFwc2VkX3RpbWU7Cj4gKwo+ICsJd2xlZC0+c2hvcnRfY291bnQrKzsKPiAr
-CW11dGV4X2xvY2soJndsZWQtPmxvY2spOwo+ICsJcmMgPSB3bGVkX21vZHVsZV9lbmFibGUod2xl
-ZCwgZmFsc2UpOwo+ICsJaWYgKHJjIDwgMCkgewo+ICsJCWRldl9lcnIod2xlZC0+ZGV2LCAid2xl
-ZCBkaXNhYmxlIGZhaWxlZCByYzolZFxuIiwgcmMpOwo+ICsJCWdvdG8gdW5sb2NrX211dGV4Owo+
-ICsJfQo+ICsKPiArCWVsYXBzZWRfdGltZSA9IGt0aW1lX3VzX2RlbHRhKGt0aW1lX2dldCgpLAo+
-ICsJCQkJICAgICAgd2xlZC0+bGFzdF9zaG9ydF9ldmVudCk7Cj4gKwlpZiAoZWxhcHNlZF90aW1l
-ID4gV0xFRF9TSE9SVF9SRVNFVF9DTlRfRExZX1VTKQo+ICsJCXdsZWQtPnNob3J0X2NvdW50ID0g
-MTsKPiArCj4gKwlpZiAod2xlZC0+c2hvcnRfY291bnQgPiBXTEVEX1NIT1JUX0NOVF9NQVgpIHsK
-PiArCQlkZXZfZXJyKHdsZWQtPmRldiwgIlNob3J0IHRyaWdnZWQgJWQgdGltZXMsIGRpc2FibGlu
-ZyBXTEVEIGZvcmV2ZXIhXG4iLAo+ICsJCQl3bGVkLT5zaG9ydF9jb3VudCk7Cj4gKwkJd2xlZC0+
-ZGlzYWJsZWRfYnlfc2hvcnQgPSB0cnVlOwo+ICsJCWdvdG8gdW5sb2NrX211dGV4Owo+ICsJfQo+
-ICsKPiArCXdsZWQtPmxhc3Rfc2hvcnRfZXZlbnQgPSBrdGltZV9nZXQoKTsKPiArCj4gKwltc2xl
-ZXAoV0xFRF9TSE9SVF9ETFlfTVMpOwo+ICsJcmMgPSB3bGVkX21vZHVsZV9lbmFibGUod2xlZCwg
-dHJ1ZSk7Cj4gKwlpZiAocmMgPCAwKQo+ICsJCWRldl9lcnIod2xlZC0+ZGV2LCAid2xlZCBlbmFi
-bGUgZmFpbGVkIHJjOiVkXG4iLCByYyk7Cj4gKwo+ICt1bmxvY2tfbXV0ZXg6Cj4gKwltdXRleF91
-bmxvY2soJndsZWQtPmxvY2spOwo+ICsKPiArCXJldHVybiBJUlFfSEFORExFRDsKPiArfQo+ICsK
-PiAgc3RhdGljIGludCB3bGVkM19zZXR1cChzdHJ1Y3Qgd2xlZCAqd2xlZCkKPiAgewo+ICAJdTE2
-IGFkZHI7Cj4gQEAgLTMxOCw3ICszODcsNyBAQCBzdGF0aWMgaW50IHdsZWQ0X3NldHVwKHN0cnVj
-dCB3bGVkICp3bGVkKQo+ICAJaW50IHJjLCB0ZW1wLCBpLCBqOwo+ICAJdTE2IGFkZHI7Cj4gIAl1
-OCBzaW5rX2VuID0gMDsKPiAtCXUzMiBzaW5rX2NmZyA9IDA7Cj4gKwl1MzIgc2lua19jZmc7Cj4g
-IAo+ICAJcmMgPSByZWdtYXBfdXBkYXRlX2JpdHMod2xlZC0+cmVnbWFwLAo+ICAJCQkJd2xlZC0+
-Y3RybF9hZGRyICsgV0xFRDNfQ1RSTF9SRUdfT1ZQLAo+IEBAIC0zNDAsNiArNDA5LDIxIEBAIHN0
-YXRpYyBpbnQgd2xlZDRfc2V0dXAoc3RydWN0IHdsZWQgKndsZWQpCj4gIAlpZiAocmMgPCAwKQo+
-ICAJCXJldHVybiByYzsKPiAgCj4gKwlpZiAod2xlZC0+Y2ZnLmV4dGVybmFsX3BmZXQpIHsKPiAr
-CQkvKiBVbmxvY2sgdGhlIHNlY3VyZSByZWdpc3RlciBhY2Nlc3MgKi8KPiArCQlyYyA9IHJlZ21h
-cF93cml0ZSh3bGVkLT5yZWdtYXAsIHdsZWQtPmN0cmxfYWRkciArCj4gKwkJCQkgIFdMRUQ0X0NU
-UkxfUkVHX1NFQ19BQ0NFU1MsCj4gKwkJCQkgIFdMRUQ0X0NUUkxfUkVHX1NFQ19VTkxPQ0spOwo+
-ICsJCWlmIChyYyA8IDApCj4gKwkJCXJldHVybiByYzsKPiArCj4gKwkJcmMgPSByZWdtYXBfd3Jp
-dGUod2xlZC0+cmVnbWFwLAo+ICsJCQkJICB3bGVkLT5jdHJsX2FkZHIgKyBXTEVENF9DVFJMX1JF
-R19URVNUMSwKPiArCQkJCSAgV0xFRDRfQ1RSTF9SRUdfVEVTVDFfRVhUX0ZFVF9EVEVTVDIpOwo+
-ICsJCWlmIChyYyA8IDApCj4gKwkJCXJldHVybiByYzsKPiArCX0KPiArCj4gIAlyYyA9IHJlZ21h
-cF9yZWFkKHdsZWQtPnJlZ21hcCwgd2xlZC0+c2lua19hZGRyICsKPiAgCQkJIFdMRUQ0X1NJTktf
-UkVHX0NVUlJfU0lOSywgJnNpbmtfY2ZnKTsKPiAgCWlmIChyYyA8IDApCj4gQEAgLTQyNSw2ICs1
-MDksNyBAQCBzdGF0aWMgaW50IHdsZWQ0X3NldHVwKHN0cnVjdCB3bGVkICp3bGVkKQo+ICAJLm51
-bV9zdHJpbmdzID0gNCwKPiAgCS5zd2l0Y2hfZnJlcSA9IDExLAo+ICAJLmNhYmMgPSBmYWxzZSwK
-PiArCS5leHRlcm5hbF9wZmV0ID0gZmFsc2UsCj4gIH07Cj4gIAo+ICBzdGF0aWMgY29uc3QgdTMy
-IHdsZWQzX2Jvb3N0X2lfbGltaXRfdmFsdWVzW10gPSB7Cj4gQEAgLTU5MCw2ICs2NzUsNyBAQCBz
-dGF0aWMgaW50IHdsZWRfY29uZmlndXJlKHN0cnVjdCB3bGVkICp3bGVkLCBpbnQgdmVyc2lvbikK
-PiAgCQl7ICJxY29tLGNzLW91dCIsICZjZmctPmNzX291dF9lbiwgfSwKPiAgCQl7ICJxY29tLGV4
-dC1nZW4iLCAmY2ZnLT5leHRfZ2VuLCB9LAo+ICAJCXsgInFjb20sY2FiYyIsICZjZmctPmNhYmMs
-IH0sCj4gKwkJeyAicWNvbSxleHRlcm5hbC1wZmV0IiwgJmNmZy0+ZXh0ZXJuYWxfcGZldCwgfSwK
-PiAgCX07Cj4gIAo+ICAJcHJvcF9hZGRyID0gb2ZfZ2V0X2FkZHJlc3MoZGV2LT5vZl9ub2RlLCAw
-LCBOVUxMLCBOVUxMKTsKPiBAQCAtNjc4LDYgKzc2NCwzOCBAQCBzdGF0aWMgaW50IHdsZWRfY29u
-ZmlndXJlKHN0cnVjdCB3bGVkICp3bGVkLCBpbnQgdmVyc2lvbikKPiAgCXJldHVybiAwOwo+ICB9
-Cj4gIAo+ICtzdGF0aWMgaW50IHdsZWRfY29uZmlndXJlX3Nob3J0X2lycShzdHJ1Y3Qgd2xlZCAq
-d2xlZCwKPiArCQkJCSAgICBzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQo+ICt7Cj4gKwlp
-bnQgcmMsIHNob3J0X2lycTsKPiArCj4gKwlpZiAoIXdsZWQtPmhhc19zaG9ydF9kZXRlY3QpCj4g
-KwkJcmV0dXJuIDA7Cj4gKwo+ICsJcmMgPSByZWdtYXBfdXBkYXRlX2JpdHMod2xlZC0+cmVnbWFw
-LCB3bGVkLT5jdHJsX2FkZHIgKwo+ICsJCQkJV0xFRDRfQ1RSTF9SRUdfU0hPUlRfUFJPVEVDVCwK
-PiArCQkJCVdMRUQ0X0NUUkxfUkVHX1NIT1JUX0VOX01BU0ssCj4gKwkJCQlXTEVENF9DVFJMX1JF
-R19TSE9SVF9FTl9NQVNLKTsKPiArCWlmIChyYyA8IDApCj4gKwkJcmV0dXJuIHJjOwo+ICsKPiAr
-CXNob3J0X2lycSA9IHBsYXRmb3JtX2dldF9pcnFfYnluYW1lKHBkZXYsICJzaG9ydCIpOwo+ICsJ
-aWYgKHNob3J0X2lycSA8IDApIHsKPiArCQlkZXZfZGJnKCZwZGV2LT5kZXYsICJzaG9ydCBpcnEg
-aXMgbm90IHVzZWRcbiIpOwo+ICsJCXJldHVybiAwOwo+ICsJfQo+ICsKPiArCXJjID0gZGV2bV9y
-ZXF1ZXN0X3RocmVhZGVkX2lycSh3bGVkLT5kZXYsIHNob3J0X2lycSwKPiArCQkJCSAgICAgICBO
-VUxMLCB3bGVkX3Nob3J0X2lycV9oYW5kbGVyLAo+ICsJCQkJICAgICAgIElSUUZfT05FU0hPVCwK
-PiArCQkJCSAgICAgICAid2xlZF9zaG9ydF9pcnEiLCB3bGVkKTsKPiArCWlmIChyYyA8IDApCj4g
-KwkJZGV2X2Vycih3bGVkLT5kZXYsICJVbmFibGUgdG8gcmVxdWVzdCBzaG9ydF9pcnEgKGVycjol
-ZClcbiIsCj4gKwkJCXJjKTsKPiArCj4gKwlyZXR1cm4gcmM7Cj4gK30KPiArCj4gIHN0YXRpYyBj
-b25zdCBzdHJ1Y3QgYmFja2xpZ2h0X29wcyB3bGVkX29wcyA9IHsKPiAgCS51cGRhdGVfc3RhdHVz
-ID0gd2xlZF91cGRhdGVfc3RhdHVzLAo+ICB9Owo+IEBAIC03MTEsNiArODI5LDcgQEAgc3RhdGlj
-IGludCB3bGVkX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gIAkJcmV0dXJu
-IC1FTk9ERVY7Cj4gIAl9Cj4gIAo+ICsJbXV0ZXhfaW5pdCgmd2xlZC0+bG9jayk7Cj4gIAlyYyA9
-IHdsZWRfY29uZmlndXJlKHdsZWQsIHZlcnNpb24pOwo+ICAJaWYgKHJjKQo+ICAJCXJldHVybiBy
-YzsKPiBAQCAtNzI1LDYgKzg0NCw3IEBAIHN0YXRpYyBpbnQgd2xlZF9wcm9iZShzdHJ1Y3QgcGxh
-dGZvcm1fZGV2aWNlICpwZGV2KQo+ICAJCWJyZWFrOwo+ICAKPiAgCWNhc2UgNDoKPiArCQl3bGVk
-LT5oYXNfc2hvcnRfZGV0ZWN0ID0gdHJ1ZTsKPiAgCQlyYyA9IHdsZWQ0X3NldHVwKHdsZWQpOwo+
-ICAJCWlmIChyYykgewo+ICAJCQlkZXZfZXJyKCZwZGV2LT5kZXYsICJ3bGVkNF9zZXR1cCBmYWls
-ZWRcbiIpOwo+IEBAIC03MzcsNiArODU3LDEwIEBAIHN0YXRpYyBpbnQgd2xlZF9wcm9iZShzdHJ1
-Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQo+ICAJCWJyZWFrOwo+ICAJfQo+ICAKPiArCXJjID0g
-d2xlZF9jb25maWd1cmVfc2hvcnRfaXJxKHdsZWQsIHBkZXYpOwo+ICsJaWYgKHJjIDwgMCkKPiAr
-CQlyZXR1cm4gcmM7Cj4gKwo+ICAJdmFsID0gV0xFRF9ERUZBVUxUX0JSSUdIVE5FU1M7Cj4gIAlv
-Zl9wcm9wZXJ0eV9yZWFkX3UzMihwZGV2LT5kZXYub2Zfbm9kZSwgImRlZmF1bHQtYnJpZ2h0bmVz
-cyIsICZ2YWwpOwo+ICAKPiAtLSAKPiBUaGUgUXVhbGNvbW0gSW5ub3ZhdGlvbiBDZW50ZXIsIElu
-Yy4gaXMgYSBtZW1iZXIgb2YgdGhlIENvZGUgQXVyb3JhIEZvcnVtLAo+ICBhIExpbnV4IEZvdW5k
-YXRpb24gQ29sbGFib3JhdGl2ZSBQcm9qZWN0Cj4gCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1448861735==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="hQiwHBbRI9kgIhsi"
+Content-Disposition: inline
+
+
+--hQiwHBbRI9kgIhsi
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Oct 17, 2019 at 12:11:16PM +0200, Uwe Kleine-K=C3=B6nig wrote:
+> On Thu, Oct 17, 2019 at 11:48:08AM +0200, Michal Vok=C3=A1=C4=8D wrote:
+> > On 17. 10. 19 10:10, Uwe Kleine-K=C3=B6nig wrote:
+> > > A previous change in the pwm core (namely 01ccf903edd6 ("pwm: Let
+> > > pwm_get_state() return the last implemented state")) changed the
+> > > semantic of pwm_get_state() and disclosed an (as it seems) common
+> > > problem in lowlevel PWM drivers. By not relying on the period and duty
+> > > cycle being retrievable from a disabled PWM this type of problem is
+> > > worked around.
+> > >=20
+> > > Apart from this issue only calling the pwm_get_state/pwm_apply_state
+> > > combo once is also more effective.
+> > >=20
+> > > Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> > > ---
+> > > Hello,
+> > >=20
+> > > There are now two reports about 01ccf903edd6 breaking a backlight. As
+> > > far as I understand the problem this is a combination of the backend =
+pwm
+> > > driver yielding surprising results and the pwm-bl driver doing things
+> > > more complicated than necessary.
+> > >=20
+> > > So I guess this patch works around these problems. Still it would be
+> > > interesting to find out the details in the imx driver that triggers t=
+he
+> > > problem. So Adam, can you please instrument the pwm-imx27 driver to
+> > > print *state at the beginning of pwm_imx27_apply() and the end of
+> > > pwm_imx27_get_state() and provide the results?
+> > >=20
+> > > Note I only compile tested this change.
+> >=20
+> > Hi Uwe,
+> > I was just about to respond to the "pwm_bl on i.MX6Q broken on 5.4-RC1+"
+> > thread that I have a similar problem when you submitted this patch.
+> >=20
+> > So here are my few cents:
+> >=20
+> > My setup is as follows:
+> >  - imx6dl-yapp4-draco with i.MX6Solo
+> >  - backlight is controlled with inverted PWM signal
+> >  - max brightness level =3D 32, default brightness level set to 32 in D=
+T.
+> >=20
+> > 1. Almost correct backlight behavior before 01ccf903edd6 ("pwm: Let
+> >    pwm_get_state() return the last implemented state):
+> >=20
+> >  - System boots to userspace and backlight is enabled all the time from
+> >    power up.
+> >=20
+> >    $ dmesg | grep state
+> >    [    1.763381] get state end: -1811360608, enabled: 0
+>=20
+> What is -1811360608? When I wrote "print *state" above, I thought about
+> something like:
+>=20
+> 	pr_info("%s: period: %u, duty: %u, polarity: %d, enabled: %d",
+> 		__func__, state->period, state->duty_cycle, state->polarity, state->ena=
+bled);
+>=20
+> A quick look into drivers/pwm/pwm-imx27.c shows that this is another
+> driver that yields duty_cycle =3D 0 when the hardware is off.
+
+It seems to me like the best recourse to fix this for now would be to
+patch up the drivers that return 0 when the hardware is off by caching
+the currently configured duty cycle.
+
+How about the patch below?
+
+Thierry
+
+--- >8 ---
+=46rom 15a52a7f1b910804fabd74a5882befd3f9d6bb37 Mon Sep 17 00:00:00 2001
+=46rom: Thierry Reding <thierry.reding@gmail.com>
+Date: Thu, 17 Oct 2019 12:56:00 +0200
+Subject: [PATCH] pwm: imx27: Cache duty cycle register value
+
+The hardware register containing the duty cycle value cannot be accessed
+when the PWM is disabled. This causes the ->get_state() callback to read
+back a duty cycle value of 0, which can confuse consumer drivers.
+
+Signed-off-by: Thierry Reding <thierry.reding@gmail.com>
+---
+ drivers/pwm/pwm-imx27.c | 31 ++++++++++++++++++++++++-------
+ 1 file changed, 24 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/pwm/pwm-imx27.c b/drivers/pwm/pwm-imx27.c
+index ae11d8577f18..4113d5cd4c62 100644
+--- a/drivers/pwm/pwm-imx27.c
++++ b/drivers/pwm/pwm-imx27.c
+@@ -85,6 +85,13 @@ struct pwm_imx27_chip {
+ 	struct clk	*clk_per;
+ 	void __iomem	*mmio_base;
+ 	struct pwm_chip	chip;
++
++	/*
++	 * The driver cannot read the current duty cycle from the hardware if
++	 * the hardware is disabled. Cache the last programmed duty cycle
++	 * value to return in that case.
++	 */
++	unsigned int duty_cycle;
+ };
+=20
+ #define to_pwm_imx27_chip(chip)	container_of(chip, struct pwm_imx27_chip, =
+chip)
+@@ -155,14 +162,17 @@ static void pwm_imx27_get_state(struct pwm_chip *chip,
+ 	tmp =3D NSEC_PER_SEC * (u64)(period + 2);
+ 	state->period =3D DIV_ROUND_CLOSEST_ULL(tmp, pwm_clk);
+=20
+-	/* PWMSAR can be read only if PWM is enabled */
+-	if (state->enabled) {
++	/*
++	 * PWMSAR can be read only if PWM is enabled. If the PWM is disabled,
++	 * use the cached value.
++	 */
++	if (state->enabled)
+ 		val =3D readl(imx->mmio_base + MX3_PWMSAR);
+-		tmp =3D NSEC_PER_SEC * (u64)(val);
+-		state->duty_cycle =3D DIV_ROUND_CLOSEST_ULL(tmp, pwm_clk);
+-	} else {
+-		state->duty_cycle =3D 0;
+-	}
++	else
++		val =3D imx->duty_cycle;
++
++	tmp =3D NSEC_PER_SEC * (u64)(val);
++	state->duty_cycle =3D DIV_ROUND_CLOSEST_ULL(tmp, pwm_clk);
+=20
+ 	if (!state->enabled)
+ 		pwm_imx27_clk_disable_unprepare(chip);
+@@ -261,6 +271,13 @@ static int pwm_imx27_apply(struct pwm_chip *chip, stru=
+ct pwm_device *pwm,
+ 		writel(duty_cycles, imx->mmio_base + MX3_PWMSAR);
+ 		writel(period_cycles, imx->mmio_base + MX3_PWMPR);
+=20
++		/*
++		 * Store the duty cycle for future reference in cases where
++		 * the MX3_PWMSAR register can't be read (i.e. when the PWM
++		 * is disabled).
++		 */
++		imx->duty_cycle =3D duty_cycles;
++
+ 		cr =3D MX3_PWMCR_PRESCALER_SET(prescale) |
+ 		     MX3_PWMCR_STOPEN | MX3_PWMCR_DOZEN | MX3_PWMCR_WAITEN |
+ 		     FIELD_PREP(MX3_PWMCR_CLKSRC, MX3_PWMCR_CLKSRC_IPG_HIGH) |
+--=20
+2.23.0
+
+
+--hQiwHBbRI9kgIhsi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2oTGAACgkQ3SOs138+
+s6ErwRAAqDNujr5rVterfUV5MOpCMJiGtVSWik2J4qpL+Sz0dMupM5exBLxllNkO
+18mgYX5ioHsCvKjW1bEaqivlvpig65n33OBuq3/TT0XxXZd7pQNWckf8vngK7xIo
+MSlKUGyDekWVVt7zocpTpVWoVpV5bXAZ1MTcQCrbKkUsvgE/TU5R4vdXgXX/qd1I
+7QNygG/tj2rjHVfIQaG2RnOf8sEof4NHBR+GrLR9IVMfQjGW0eVqJ4Vjqc4P/JIj
+dvKptasZHRZvuN7zpywh1Jt5x4/GSr9Bhctfv1YwyrJs0HBrGyMsHDgRBVn02Wux
+P395+fNsA554ih7iS4uE8eiqX/TTeRZw2cUgAptzlZsQgAJIIU18ziLkA4xyqSbV
+NQz8AXcpDQGr5iYyxEwc2Z4GohO5wGaGP+yryUhrRnYvw38gejzYQKe7D87c2WnF
+653wEbBWeX3OJQWjYY3MorS22TpSX1R4/xPC+AhS25Japo8JJPOihRwqWGt3JTec
+NpqUyihBg23rnlgkjN68z5iaXtWqtonug4VKExySDZqW8Reg6eITMoEyWHoJ54mx
+C+EKCBSnKNVEmMoAeIavscOrUWuxtNo5NUmHIbOxLL3vaiK330JrUSEkNjVPBEmF
+HKuzBeOHKtBYhgXW7IxyXmvpSPGyTjsmyT3rOXDxn9dZIKasHuI=
+=GrXG
+-----END PGP SIGNATURE-----
+
+--hQiwHBbRI9kgIhsi--
+
+--===============1448861735==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1448861735==--
