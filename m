@@ -1,46 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BA74DC453
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2019 14:05:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6447BDC4A9
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2019 14:24:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F13DC6EB2E;
-	Fri, 18 Oct 2019 12:05:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E43246E0EA;
+	Fri, 18 Oct 2019 12:23:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id D6E606EB37
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2019 12:05:18 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D3CB17296E; Fri, 18 Oct 2019 12:05:18 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 089E66E123
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2019 12:23:57 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 47EAA307C656;
+ Fri, 18 Oct 2019 12:23:56 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-43.ams2.redhat.com
+ [10.36.116.43])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6200060BF1;
+ Fri, 18 Oct 2019 12:23:53 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 5739616E08; Fri, 18 Oct 2019 14:23:52 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
- with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Fri, 18 Oct 2019 12:05:18 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: popovic.marko@protonmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-oICBgl8SeY@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
-References: <bug-111481-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Subject: [PATCH] drm/virtio: move byteorder handling into
+ virtio_gpu_cmd_transfer_to_host_2d function
+Date: Fri, 18 Oct 2019 14:23:52 +0200
+Message-Id: <20191018122352.17019-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Fri, 18 Oct 2019 12:23:56 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,127 +45,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1368244588=="
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1368244588==
-Content-Type: multipart/alternative; boundary="15714003187.51e8Aa.5860"
-Content-Transfer-Encoding: 7bit
-
-
---15714003187.51e8Aa.5860
-Date: Fri, 18 Oct 2019 12:05:18 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
-
---- Comment #107 from Marko Popovic <popovic.marko@protonmail.com> ---
-(In reply to Daniel Suarez from comment #106)
-> I do agree we should remain civilized in this, but user is correct, this =
-is
-> ridiculous.=20
->=20
-> This would be somewhat understandable if this was a GPU from the business
-> line and it was a GPU barely anyone owns, but this is a popular GPU and it
-> is constantly recommended to others.
-
-Yes, Imagine if a bussiness with 100 linux workstations went for Navi cards=
- and
-faced these issues... it would be a tremendous loss for them, I really don't
-think that this was fair to AMD Linux customers at all, but calling them na=
-mes
-won't get us anywhere.
-
-and just as we speak about that I had a random SDMA hang in Firefox, they a=
-re
-way less frequent in FF now, but very much still present.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15714003187.51e8Aa.5860
-Date: Fri, 18 Oct 2019 12:05:18 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c107">Comm=
-ent # 107</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-popovic.marko&#64;protonmail.com" title=3D"Marko Popovic &lt;popovic.marko&=
-#64;protonmail.com&gt;"> <span class=3D"fn">Marko Popovic</span></a>
-</span></b>
-        <pre>(In reply to Daniel Suarez from <a href=3D"show_bug.cgi?id=3D1=
-11481#c106">comment #106</a>)
-<span class=3D"quote">&gt; I do agree we should remain civilized in this, b=
-ut user is correct, this is
-&gt; ridiculous.=20
-&gt;=20
-&gt; This would be somewhat understandable if this was a GPU from the busin=
-ess
-&gt; line and it was a GPU barely anyone owns, but this is a popular GPU an=
-d it
-&gt; is constantly recommended to others.</span >
-
-Yes, Imagine if a bussiness with 100 linux workstations went for Navi cards=
- and
-faced these issues... it would be a tremendous loss for them, I really don't
-think that this was fair to AMD Linux customers at all, but calling them na=
-mes
-won't get us anywhere.
-
-and just as we speak about that I had a random SDMA hang in Firefox, they a=
-re
-way less frequent in FF now, but very much still present.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15714003187.51e8Aa.5860--
-
---===============1368244588==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1368244588==--
+QmUgY29uc2lzdGVudCB3aXRoIHRoZSByZXN0IG9mIHRoZSBjb2RlIGJhc2UuCgpTaWduZWQtb2Zm
+LWJ5OiBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVkaGF0LmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9k
+cm0vdmlydGlvL3ZpcnRncHVfZHJ2LmggICB8ICA0ICsrLS0KIGRyaXZlcnMvZ3B1L2RybS92aXJ0
+aW8vdmlydGdwdV9wbGFuZS5jIHwgMTIgKysrKysrLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vdmly
+dGlvL3ZpcnRncHVfdnEuYyAgICB8IDEyICsrKysrKy0tLS0tLQogMyBmaWxlcyBjaGFuZ2VkLCAx
+NCBpbnNlcnRpb25zKCspLCAxNCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vdmlydGlvL3ZpcnRncHVfZHJ2LmggYi9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRn
+cHVfZHJ2LmgKaW5kZXggMzE0ZTAyZjk0ZDljLi4wYjU2YmEwMDVlMjUgMTAwNjQ0Ci0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9kcnYuaAorKysgYi9kcml2ZXJzL2dwdS9kcm0v
+dmlydGlvL3ZpcnRncHVfZHJ2LmgKQEAgLTI2Nyw4ICsyNjcsOCBAQCB2b2lkIHZpcnRpb19ncHVf
+Y21kX3VucmVmX3Jlc291cmNlKHN0cnVjdCB2aXJ0aW9fZ3B1X2RldmljZSAqdmdkZXYsCiAJCQkJ
+ICAgdWludDMyX3QgcmVzb3VyY2VfaWQpOwogdm9pZCB2aXJ0aW9fZ3B1X2NtZF90cmFuc2Zlcl90
+b19ob3N0XzJkKHN0cnVjdCB2aXJ0aW9fZ3B1X2RldmljZSAqdmdkZXYsCiAJCQkJCXVpbnQ2NF90
+IG9mZnNldCwKLQkJCQkJX19sZTMyIHdpZHRoLCBfX2xlMzIgaGVpZ2h0LAotCQkJCQlfX2xlMzIg
+eCwgX19sZTMyIHksCisJCQkJCXVpbnQzMl90IHdpZHRoLCB1aW50MzJfdCBoZWlnaHQsCisJCQkJ
+CXVpbnQzMl90IHgsIHVpbnQzMl90IHksCiAJCQkJCXN0cnVjdCB2aXJ0aW9fZ3B1X29iamVjdF9h
+cnJheSAqb2JqcywKIAkJCQkJc3RydWN0IHZpcnRpb19ncHVfZmVuY2UgKmZlbmNlKTsKIHZvaWQg
+dmlydGlvX2dwdV9jbWRfcmVzb3VyY2VfZmx1c2goc3RydWN0IHZpcnRpb19ncHVfZGV2aWNlICp2
+Z2RldiwKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9wbGFuZS5j
+IGIvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X3BsYW5lLmMKaW5kZXggZjRiNzM2MDI4
+MmNlLi4zOTA1MjQxNDMxMzkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmly
+dGdwdV9wbGFuZS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9wbGFuZS5j
+CkBAIC0xMzIsMTAgKzEzMiwxMCBAQCBzdGF0aWMgdm9pZCB2aXJ0aW9fZ3B1X3ByaW1hcnlfcGxh
+bmVfdXBkYXRlKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLAogCQkJdmlydGlvX2dwdV9hcnJheV9h
+ZGRfb2JqKG9ianMsIHZnZmItPmJhc2Uub2JqWzBdKTsKIAkJCXZpcnRpb19ncHVfY21kX3RyYW5z
+ZmVyX3RvX2hvc3RfMmQKIAkJCQkodmdkZXYsIDAsCi0JCQkJIGNwdV90b19sZTMyKHBsYW5lLT5z
+dGF0ZS0+c3JjX3cgPj4gMTYpLAotCQkJCSBjcHVfdG9fbGUzMihwbGFuZS0+c3RhdGUtPnNyY19o
+ID4+IDE2KSwKLQkJCQkgY3B1X3RvX2xlMzIocGxhbmUtPnN0YXRlLT5zcmNfeCA+PiAxNiksCi0J
+CQkJIGNwdV90b19sZTMyKHBsYW5lLT5zdGF0ZS0+c3JjX3kgPj4gMTYpLAorCQkJCSBwbGFuZS0+
+c3RhdGUtPnNyY193ID4+IDE2LAorCQkJCSBwbGFuZS0+c3RhdGUtPnNyY19oID4+IDE2LAorCQkJ
+CSBwbGFuZS0+c3RhdGUtPnNyY194ID4+IDE2LAorCQkJCSBwbGFuZS0+c3RhdGUtPnNyY195ID4+
+IDE2LAogCQkJCSBvYmpzLCBOVUxMKTsKIAkJfQogCX0gZWxzZSB7CkBAIC0yMzQsOCArMjM0LDgg
+QEAgc3RhdGljIHZvaWQgdmlydGlvX2dwdV9jdXJzb3JfcGxhbmVfdXBkYXRlKHN0cnVjdCBkcm1f
+cGxhbmUgKnBsYW5lLAogCQl2aXJ0aW9fZ3B1X2FycmF5X2FkZF9vYmoob2JqcywgdmdmYi0+YmFz
+ZS5vYmpbMF0pOwogCQl2aXJ0aW9fZ3B1X2NtZF90cmFuc2Zlcl90b19ob3N0XzJkCiAJCQkodmdk
+ZXYsIDAsCi0JCQkgY3B1X3RvX2xlMzIocGxhbmUtPnN0YXRlLT5jcnRjX3cpLAotCQkJIGNwdV90
+b19sZTMyKHBsYW5lLT5zdGF0ZS0+Y3J0Y19oKSwKKwkJCSBwbGFuZS0+c3RhdGUtPmNydGNfdywK
+KwkJCSBwbGFuZS0+c3RhdGUtPmNydGNfaCwKIAkJCSAwLCAwLCBvYmpzLCB2Z2ZiLT5mZW5jZSk7
+CiAJCWRtYV9mZW5jZV93YWl0KCZ2Z2ZiLT5mZW5jZS0+ZiwgdHJ1ZSk7CiAJCWRtYV9mZW5jZV9w
+dXQoJnZnZmItPmZlbmNlLT5mKTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8v
+dmlydGdwdV92cS5jIGIvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X3ZxLmMKaW5kZXgg
+ODAxNzZmMzc5YWQ1Li43NGFkM2JjM2ViZTggMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS92
+aXJ0aW8vdmlydGdwdV92cS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV92
+cS5jCkBAIC01NDksOCArNTQ5LDggQEAgdm9pZCB2aXJ0aW9fZ3B1X2NtZF9yZXNvdXJjZV9mbHVz
+aChzdHJ1Y3QgdmlydGlvX2dwdV9kZXZpY2UgKnZnZGV2LAogCiB2b2lkIHZpcnRpb19ncHVfY21k
+X3RyYW5zZmVyX3RvX2hvc3RfMmQoc3RydWN0IHZpcnRpb19ncHVfZGV2aWNlICp2Z2RldiwKIAkJ
+CQkJdWludDY0X3Qgb2Zmc2V0LAotCQkJCQlfX2xlMzIgd2lkdGgsIF9fbGUzMiBoZWlnaHQsCi0J
+CQkJCV9fbGUzMiB4LCBfX2xlMzIgeSwKKwkJCQkJdWludDMyX3Qgd2lkdGgsIHVpbnQzMl90IGhl
+aWdodCwKKwkJCQkJdWludDMyX3QgeCwgdWludDMyX3QgeSwKIAkJCQkJc3RydWN0IHZpcnRpb19n
+cHVfb2JqZWN0X2FycmF5ICpvYmpzLAogCQkJCQlzdHJ1Y3QgdmlydGlvX2dwdV9mZW5jZSAqZmVu
+Y2UpCiB7CkBAIC01NzEsMTAgKzU3MSwxMCBAQCB2b2lkIHZpcnRpb19ncHVfY21kX3RyYW5zZmVy
+X3RvX2hvc3RfMmQoc3RydWN0IHZpcnRpb19ncHVfZGV2aWNlICp2Z2RldiwKIAljbWRfcC0+aGRy
+LnR5cGUgPSBjcHVfdG9fbGUzMihWSVJUSU9fR1BVX0NNRF9UUkFOU0ZFUl9UT19IT1NUXzJEKTsK
+IAljbWRfcC0+cmVzb3VyY2VfaWQgPSBjcHVfdG9fbGUzMihiby0+aHdfcmVzX2hhbmRsZSk7CiAJ
+Y21kX3AtPm9mZnNldCA9IGNwdV90b19sZTY0KG9mZnNldCk7Ci0JY21kX3AtPnIud2lkdGggPSB3
+aWR0aDsKLQljbWRfcC0+ci5oZWlnaHQgPSBoZWlnaHQ7Ci0JY21kX3AtPnIueCA9IHg7Ci0JY21k
+X3AtPnIueSA9IHk7CisJY21kX3AtPnIud2lkdGggPSBjcHVfdG9fbGUzMih3aWR0aCk7CisJY21k
+X3AtPnIuaGVpZ2h0ID0gY3B1X3RvX2xlMzIoaGVpZ2h0KTsKKwljbWRfcC0+ci54ID0gY3B1X3Rv
+X2xlMzIoeCk7CisJY21kX3AtPnIueSA9IGNwdV90b19sZTMyKHkpOwogCiAJdmlydGlvX2dwdV9x
+dWV1ZV9mZW5jZWRfY3RybF9idWZmZXIodmdkZXYsIHZidWYsICZjbWRfcC0+aGRyLCBmZW5jZSk7
+CiB9Ci0tIAoyLjE4LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbA==
