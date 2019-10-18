@@ -1,42 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28844DD1EF
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2019 00:07:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5EB6DD2B9
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2019 00:14:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B4A289798;
-	Fri, 18 Oct 2019 22:07:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C058789D8D;
+	Fri, 18 Oct 2019 22:14:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49CFA89798;
- Fri, 18 Oct 2019 22:07:36 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4DC442245C;
- Fri, 18 Oct 2019 22:07:35 +0000 (UTC)
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 088/100] drm/amdgpu: fix memory leak
-Date: Fri, 18 Oct 2019 18:05:13 -0400
-Message-Id: <20191018220525.9042-88-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191018220525.9042-1-sashal@kernel.org>
-References: <20191018220525.9042-1-sashal@kernel.org>
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
+ [IPv6:2607:f8b0:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3412289D8D
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2019 22:14:03 +0000 (UTC)
+Received: by mail-oi1-x242.google.com with SMTP id x3so6528505oig.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2019 15:14:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kpGdJAgP5VyIrmcPriy9SUkqsK3IEC6W1JN2iY2pC+g=;
+ b=WOgmAd3fh5HES9q7Wn2gK6Sx7DxzBf2smmMjq9AolCI6JApipTgJH8JzkRxuWnmyRH
+ 9kGLBvXxn9gPQ6vlpKFPSz8woSG2X4w3Kdds8prds3NTy6YqY169CeSlJFCFdIidsQ6p
+ u4Pvtc+BoIwbNbUT8NPWhMbhWTwrsV4vlPBUBJsB3FGfnXCZgsWkM1EGUYJH6GJXD4MU
+ CN5Q1wlttNtP7Aang3V5P3w2Z/R1HDHkipsosi6WtWdt5OAMzMhb3qHNe+lH+Uwc2Nq5
+ EOFs0vfjyVL4rhnGhNg2cKYC8AY3GgHdixLPinVWnUNlo1tSujDSu9juTJWDPVWRjYlV
+ CzmA==
+X-Gm-Message-State: APjAAAXP6cdyFGx7YpFOKqL9JQHPFCW/8K45NdogPbcz4AufFpfH9cM4
+ sRkbfiFiF3/jKvAkodQcO4F3fsoT+Lkk1aixV2E=
+X-Google-Smtp-Source: APXvYqwL3f4RwtsiD5dAoivSF6V47bqWFNik/bD0/kMwRIe9vdeiKgffSIQflLJQg3n03AfDPoDi0/PFE+SWGNHhPaQ=
+X-Received: by 2002:aca:4c56:: with SMTP id z83mr10116922oia.113.1571436842257; 
+ Fri, 18 Oct 2019 15:14:02 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1571436456;
- bh=Dr07u1IWmJ4xY9s/UFzSO3UPZDv9wy6lz4GnA0jH21c=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CPsydKzTrc5LiDxwsvoOGFXDa0IXRmdDoW+XVp6hW3MVTPFhl7oyKsAbVAn82oppJ
- ENCDtTRmlnZ32IbH+UBQiI95N8DRYnCp4qj6nehuiuE5azkl178+WRPh9PEHILBi6B
- PLUfevcVyV+zwPanyKtFQX+5i+fdQyGn3PSJh1uc=
+References: <20191018163004.23498-1-sudipm.mukherjee@gmail.com>
+ <20191018172728.GA11857@lenoch>
+In-Reply-To: <20191018172728.GA11857@lenoch>
+From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Date: Fri, 18 Oct 2019 23:13:25 +0100
+Message-ID: <CADVatmOHom0nLkezfHGrdQZBD97OiWGkEXVjhoSaCC6F8ymM7A@mail.gmail.com>
+Subject: Re: [PATCH] omapfb: reduce stack usage
+To: Ladislav Michl <ladis@linux-mips.org>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=kpGdJAgP5VyIrmcPriy9SUkqsK3IEC6W1JN2iY2pC+g=;
+ b=YVmZjpFjZN7tPIhYSUPM1CYOEqLOk3DO5dHuJH16qUVHHDv/HXRuPVboU5h99xjvy4
+ Axik4eiG0QiD5aFzPGvmAfbJbTxNiUFqDcFW06wJUvfXF7camDE2dALS8p36jDDktzL/
+ d9PXMMscLp4qp/3FeGatOofQ7qGK17WMMgloWWI5/hHvKp2jj2ZRLgppciS9c8eJpcev
+ KG6zbvAkfYeAjz05rhOVeAT8X/sM37dmUFFQWrRwYyfpDxOwQx1qMDYqTvWVa/gnYcsB
+ UgjWkqM5iJjQZ1WNeHExR/6FfBdWacsA98USuB/WGnNSpyqpkRbB50Co+qJ1qVjlsQlr
+ fcpg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,48 +63,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- Nirmoy Das <nirmoy.das@amd.com>, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: LFBDEV <linux-fbdev@vger.kernel.org>, linux-omap@vger.kernel.org,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Content-Type: multipart/mixed; boundary="===============1745734681=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogTmlybW95IERhcyA8bmlybW95LmRhc0BhbWQuY29tPgoKWyBVcHN0cmVhbSBjb21taXQg
-MDgzMTY0ZGJkYjE3YzVlYTRhZDkyYzE3ODJiNTljOWQ3NTU2Nzc5MCBdCgpjbGVhbnVwIGVycm9y
-IGhhbmRsaW5nIGNvZGUgYW5kIG1ha2Ugc3VyZSB0ZW1wb3JhcnkgaW5mbyBhcnJheQp3aXRoIHRo
-ZSBoYW5kbGVzIGFyZSBmcmVlZCBieSBhbWRncHVfYm9fbGlzdF9wdXQoKSBvbgppZHJfcmVwbGFj
-ZSgpJ3MgZmFpbHVyZS4KClNpZ25lZC1vZmYtYnk6IE5pcm1veSBEYXMgPG5pcm1veS5kYXNAYW1k
-LmNvbT4KUmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1k
-LmNvbT4KU2lnbmVkLW9mZi1ieTogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQu
-Y29tPgpTaWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2FzaGFsQGtlcm5lbC5vcmc+Ci0tLQog
-ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2JvX2xpc3QuYyB8IDE0ICsrKysrKyst
-LS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQoK
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9ib19saXN0LmMg
-Yi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfYm9fbGlzdC5jCmluZGV4IGI4MDI0
-M2QzOTcyZTQuLmNlN2YxOGM1Y2NiMjYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQv
-YW1kZ3B1L2FtZGdwdV9ib19saXN0LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
-YW1kZ3B1X2JvX2xpc3QuYwpAQCAtMjY0LDcgKzI2NCw3IEBAIGludCBhbWRncHVfYm9fbGlzdF9p
-b2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAogCiAJciA9IGFtZGdwdV9i
-b19jcmVhdGVfbGlzdF9lbnRyeV9hcnJheSgmYXJncy0+aW4sICZpbmZvKTsKIAlpZiAocikKLQkJ
-Z290byBlcnJvcl9mcmVlOworCQlyZXR1cm4gcjsKIAogCXN3aXRjaCAoYXJncy0+aW4ub3BlcmF0
-aW9uKSB7CiAJY2FzZSBBTURHUFVfQk9fTElTVF9PUF9DUkVBVEU6CkBAIC0yNzcsOCArMjc3LDcg
-QEAgaW50IGFtZGdwdV9ib19saXN0X2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQg
-KmRhdGEsCiAJCXIgPSBpZHJfYWxsb2MoJmZwcml2LT5ib19saXN0X2hhbmRsZXMsIGxpc3QsIDEs
-IDAsIEdGUF9LRVJORUwpOwogCQltdXRleF91bmxvY2soJmZwcml2LT5ib19saXN0X2xvY2spOwog
-CQlpZiAociA8IDApIHsKLQkJCWFtZGdwdV9ib19saXN0X3B1dChsaXN0KTsKLQkJCXJldHVybiBy
-OworCQkJZ290byBlcnJvcl9wdXRfbGlzdDsKIAkJfQogCiAJCWhhbmRsZSA9IHI7CkBAIC0zMDAs
-OSArMjk5LDggQEAgaW50IGFtZGdwdV9ib19saXN0X2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpk
-ZXYsIHZvaWQgKmRhdGEsCiAJCW11dGV4X3VubG9jaygmZnByaXYtPmJvX2xpc3RfbG9jayk7CiAK
-IAkJaWYgKElTX0VSUihvbGQpKSB7Ci0JCQlhbWRncHVfYm9fbGlzdF9wdXQobGlzdCk7CiAJCQly
-ID0gUFRSX0VSUihvbGQpOwotCQkJZ290byBlcnJvcl9mcmVlOworCQkJZ290byBlcnJvcl9wdXRf
-bGlzdDsKIAkJfQogCiAJCWFtZGdwdV9ib19saXN0X3B1dChvbGQpOwpAQCAtMzE5LDggKzMxNywx
-MCBAQCBpbnQgYW1kZ3B1X2JvX2xpc3RfaW9jdGwoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9p
-ZCAqZGF0YSwKIAogCXJldHVybiAwOwogCitlcnJvcl9wdXRfbGlzdDoKKwlhbWRncHVfYm9fbGlz
-dF9wdXQobGlzdCk7CisKIGVycm9yX2ZyZWU6Ci0JaWYgKGluZm8pCi0JCWt2ZnJlZShpbmZvKTsK
-KwlrdmZyZWUoaW5mbyk7CiAJcmV0dXJuIHI7CiB9Ci0tIAoyLjIwLjEKCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+--===============1745734681==
+Content-Type: multipart/alternative; boundary="000000000000c514aa059536a637"
+
+--000000000000c514aa059536a637
+Content-Type: text/plain; charset="UTF-8"
+
+On Fri, Oct 18, 2019 at 6:27 PM Ladislav Michl <ladis@linux-mips.org> wrote:
+
+> On Fri, Oct 18, 2019 at 05:30:04PM +0100, Sudip Mukherjee wrote:
+> > The build of xtensa allmodconfig is giving a warning of:
+> > In function 'dsi_dump_dsidev_irqs':
+> > warning: the frame size of 1120 bytes is larger than 1024 bytes
+> >
+> > Allocate the memory for 'struct dsi_irq_stats' dynamically instead
+> > of assigning it in stack.
+>
+> So now function can fail silently, executes longer, code is sligthly
+> bigger... And all that to silent warning about exceeding frame size.
+> Is it really worth "fixing"?
+>
+
+The only point of failure is if kmalloc() fails and if kmalloc() fails then
+there will be error prints in dmesg to tell the user that there is no
+memory left in the system. About the size bigger, it seems
+the drivers/video/fbdev/omap2/omapfb/dss/dsi.o file is smaller with the
+patch.
+This is without the patch:
+wo_patch
+-rw-r--r-- 1 sudip sudip 316856 Oct 18 22:27
+drivers/video/fbdev/omap2/omapfb/dss/dsi.o
+And this is with the patch:
+-rw-r--r-- 1 sudip sudip 316436 Oct 18 20:09
+drivers/video/fbdev/omap2/omapfb/dss/dsi.o
+
+And also, objdump shows me that <dsi_dump_dsidev_irqs> was taking up 0xD7D
+bytes, and now with the patch it is taking up 0xBED bytes, thats a saving
+of 400 bytes. If it has 400 bytes of less code to execute will it not be
+faster now?
+
+But, I may be totally wrong in my thinking, and in that case, please feel
+free to reject the patch.
+
+-- 
+Regards
+Sudip
+
+--000000000000c514aa059536a637
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 18, 2019 at 6:27 PM Ladis=
+lav Michl &lt;<a href=3D"mailto:ladis@linux-mips.org">ladis@linux-mips.org<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">O=
+n Fri, Oct 18, 2019 at 05:30:04PM +0100, Sudip Mukherjee wrote:<br>
+&gt; The build of xtensa allmodconfig is giving a warning of:<br>
+&gt; In function &#39;dsi_dump_dsidev_irqs&#39;:<br>
+&gt; warning: the frame size of 1120 bytes is larger than 1024 bytes<br>
+&gt; <br>
+&gt; Allocate the memory for &#39;struct dsi_irq_stats&#39; dynamically ins=
+tead<br>
+&gt; of assigning it in stack.<br>
+<br>
+So now function can fail silently, executes longer, code is sligthly<br>
+bigger... And all that to silent warning about exceeding frame size.<br>
+Is it really worth &quot;fixing&quot;?<br></blockquote><div><br></div><div>=
+The only point of failure is if kmalloc() fails and if kmalloc() fails then=
+ there will be error prints in dmesg to tell the user that there is no memo=
+ry left in the system. About the size bigger, it seems the=C2=A0drivers/vid=
+eo/fbdev/omap2/omapfb/dss/dsi.o file is smaller with the patch.</div><div>T=
+his is without the patch:</div><div>wo_patch<br>-rw-r--r-- 1 sudip sudip 31=
+6856 Oct 18 22:27 drivers/video/fbdev/omap2/omapfb/dss/dsi.o<br></div><div>=
+And this is with the patch:</div><div>-rw-r--r-- 1 sudip sudip 316436 Oct 1=
+8 20:09 drivers/video/fbdev/omap2/omapfb/dss/dsi.o<br></div><div><br></div>=
+<div>And also, objdump shows me that &lt;dsi_dump_dsidev_irqs&gt; was takin=
+g up 0xD7D bytes, and now with the patch it is taking up 0xBED bytes, thats=
+ a saving of 400 bytes. If it has 400 bytes of less code to execute will it=
+ not be faster now?</div><div><br></div><div>But, I may be totally wrong in=
+ my thinking, and in that case, please feel free to reject the patch.</div>=
+<div><br></div><div>--=C2=A0<br></div></div><div dir=3D"ltr" class=3D"gmail=
+_signature">Regards<br>Sudip</div></div>
+
+--000000000000c514aa059536a637--
+
+--===============1745734681==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1745734681==--
