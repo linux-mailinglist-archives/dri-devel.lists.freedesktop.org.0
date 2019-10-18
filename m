@@ -1,64 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4E31DC772
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2019 16:34:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58DAADC801
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2019 17:02:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 332FD6EB61;
-	Fri, 18 Oct 2019 14:34:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 541416E11A;
+	Fri, 18 Oct 2019 15:02:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2946B6EB61;
- Fri, 18 Oct 2019 14:34:43 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id r22so4917767lfm.1;
- Fri, 18 Oct 2019 07:34:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=bk12Jz6CO2TEep7aClieECJ5Hx90RwIh+IaSubynCJ0=;
- b=Kvg+sJIRkNSiXjxbvCVcQr55XjEuDuZYhaLk5E60QmBAiZghm39GU3G/vl4pntBkGq
- hcoLHp2DZpcU3hW81waf2wS9E/+DH/covg7rno07p/VxsP2W3MRl0mOFVzEidQbNnaV5
- jf/MZelg6+/DiHzljgv4PsojzIL89j2iXn0GRyA/DWd3SSczSG0Y5LLbzk0kPHq9Vrte
- 5HQFayVvMofNFLBvUAEA3TZNGtq9msl/VzuAXrhIuEOKKOJox2804CVq1+PonvPEv5JH
- gx4NF5hCI9kRo39r1CLuf+qVg+0ijU3/9PX2qv+mS5duP9WTcId3/Bb0A29VJ3rKl9l3
- 3hmg==
-X-Gm-Message-State: APjAAAXMjGnq4c1/PTFk/Oaxn8pexEOIPheztKa4jZkK/gz3mdrCEyEd
- ZazbH4gYCAucTyAQQM43794=
-X-Google-Smtp-Source: APXvYqwQETMI9nu9pupp1krvciWvYk+tw4zvF0Pn3PZiNdA1CrYF89NEBITX4JYUfFbamyQrwf+8Yw==
-X-Received: by 2002:a05:6512:49d:: with SMTP id
- v29mr6252851lfq.161.1571409281375; 
- Fri, 18 Oct 2019 07:34:41 -0700 (PDT)
-Received: from eldfell.localdomain ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id q21sm2303260lfc.2.2019.10.18.07.34.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Oct 2019 07:34:41 -0700 (PDT)
-Date: Fri, 18 Oct 2019 17:34:37 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH v7] unstable/drm-lease: DRM lease protocol support
-Message-ID: <20191018173437.0c07c2db@eldfell.localdomain>
-In-Reply-To: <CAKMK7uHw42R6m0UYrbWnaMRuQm7VQ7_0Ta8eqaGNGKtve43row@mail.gmail.com>
-References: <20191018122130.0f880724@eldfell.localdomain>
- <BXSMP84X56T9.317VNFYFVMCWW@homura>
- <20191018164329.412b14ca@eldfell.localdomain>
- <CAKMK7uHw42R6m0UYrbWnaMRuQm7VQ7_0Ta8eqaGNGKtve43row@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C464D6E11A
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2019 15:02:42 +0000 (UTC)
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it
+ [2.224.242.101]) (Authenticated sender: jacopo@jmondi.org)
+ by relay11.mail.gandi.net (Postfix) with ESMTPSA id 7412A100004;
+ Fri, 18 Oct 2019 15:02:36 +0000 (UTC)
+Date: Fri, 18 Oct 2019 17:04:26 +0200
+From: Jacopo Mondi <jacopo@jmondi.org>
+To: Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH v5 0/7] backlight: gpio: simplify the driver
+Message-ID: <20191018150426.7w5q55nhkiqbqhuk@uno.localdomain>
+References: <20191007033200.13443-1-brgl@bgdev.pl> <20191014081220.GK4545@dell>
+ <CACRpkda9Kco-bVPw1OA6FMpQ1L8dZ4WFJ227wTCM9rh5JE7-+A@mail.gmail.com>
+ <20191016130536.222vsi5whkoy6vzo@uno.localdomain>
+ <20191017072550.GK4365@dell>
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version;
- bh=bk12Jz6CO2TEep7aClieECJ5Hx90RwIh+IaSubynCJ0=;
- b=u/l/LEnTbqVOKa4V7gPPNa7qxyn77p0pmRJkaAyvgu7XwUqMqyribqAKTdzEbwoA0i
- VtZ/GxhYuEZEL3dT1CocuFeuFOzZ0rr7iK1SJ90Tke42IoupHRyErPBNpJ1ovtIzkmFh
- sSMz6TS95uC94A0Zs8OAp4uJsi5NN1QgTcezY4M572ljUSQ3YJo5YDJDz3roxz55Fupg
- E8Q/2yQ0xgQlp5N9F74e9/ilc1YK4rrrMoIfsIubEE+6H+n6ArHM/IktHzP7dvygR+W3
- iAM0nR5ATw9XRNon3PEEKsSD72zC8fsl6YCZFzSCrUCbx+Ql3NnxISBw+aQS5oXgEaSi
- tkUA==
+In-Reply-To: <20191017072550.GK4365@dell>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,144 +40,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marius Vlad <marius.vlad@collabora.com>, Drew DeVault <sir@cmpwn.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- wayland <wayland-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0032476312=="
+Cc: Daniel Thompson <daniel.thompson@linaro.org>, Rich Felker <dalias@libc.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jingoo Han <jingoohan1@gmail.com>, Linux-sh list <linux-sh@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Bartosz Golaszewski <brgl@bgdev.pl>
+Content-Type: multipart/mixed; boundary="===============0973981515=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0032476312==
+
+--===============0973981515==
 Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/5sBh_HL/bIqXwtESU+hjP6J"; protocol="application/pgp-signature"
+	protocol="application/pgp-signature"; boundary="jig6tcqnwznz3xde"
+Content-Disposition: inline
 
---Sig_/5sBh_HL/bIqXwtESU+hjP6J
-Content-Type: text/plain; charset=US-ASCII
+
+--jig6tcqnwznz3xde
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-
-On Fri, 18 Oct 2019 16:19:33 +0200
-Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-
-> On Fri, Oct 18, 2019 at 3:43 PM Pekka Paalanen <ppaalanen@gmail.com> wrot=
-e:
-> >
-> > On Fri, 18 Oct 2019 07:54:50 -0400
-> > "Drew DeVault" <sir@cmpwn.com> wrote:
-> > =20
-> > > On Fri Oct 18, 2019 at 12:21 PM Pekka Paalanen wrote: =20
-> > > > One thing I did not know the last time was that apparently
-> > > > systemd-logind may not like to give out non-master DRM fds. That mi=
-ght
-> > > > need fixing in logind implementations. I hope someone would step up=
- to
-> > > > look into that.
-> > > >
-> > > > This protocol aims to deliver a harmless "read-only" DRM device file
-> > > > description to a client, so that the client can enumerate all DRM
-> > > > resources, fetch EDID and other properties to be able to decide whi=
-ch
-> > > > connector it would want to lease. The client should not be able to
-> > > > change any KMS state through this fd, and it should not be able to =
-e.g.
-> > > > spy on display contents. The assumption is that a non-master DRM fd
-> > > > from a fresh open() would be fine for this, but is it? =20
-> > >
-> > > What I do for wlroots is call drmGetDeviceNameFromFd2, which returns =
-the
-> > > path to the device file, and then I open() it and use
-> > > drmIsMaster/drmDropMaster to make sure it's not a master fd. This see=
-ms
-> > > to work correctly in practice. =20
-> >
-> > That is nice.
-> >
-> > Personally I'm specifically worried about a setup where the user has no
-> > access permissions to open the DRM device node directly, as is (or
-> > should be) the case with input devices.
-> >
-> > However, since DRM has the master concept which input devices do not,
-> > maybe there is no reason to prevent a normal user from opening a DRM
-> > device directly. That is, if our assumption that a non-master DRM fd is
-> > harmless holds.
-> >
-> > (Wayland display servers usually run as a normal user, while logind
-> > or another service runs with elevated privileges and opens input and
-> > DRM devices on behalf of the display server.) =20
->=20
-> So the rules are (if I'm not making a mistake)
-> - If you're not CAP_SYS_ADMIN you can't get/drop_master.
 
 Hi,
 
-not able to drop, yikes. So if someone pokes the Wayland DRM leasing
-interface while the display server is VT switched away (does not have
-DRM master), and maybe no-one else has DRM master either (you're
-hacking in VT text mode), then a new DRM fd would be master with no way
-out?
+On Thu, Oct 17, 2019 at 08:25:50AM +0100, Lee Jones wrote:
+> On Wed, 16 Oct 2019, Jacopo Mondi wrote:
+>
+> > Hi, sorry for not having replied earlier
+> >
+> > On Wed, Oct 16, 2019 at 02:56:57PM +0200, Linus Walleij wrote:
+> > > On Mon, Oct 14, 2019 at 10:12 AM Lee Jones <lee.jones@linaro.org> wro=
+te:
+> > >
+> > > > >  arch/sh/boards/mach-ecovec24/setup.c         |  33 ++++--
+> > > >
+> > > > I guess we're just waiting for the SH Acks now?
+> > >
+> > > The one maintainer with this board is probably overloaded.
+> > >
+> > > I would say just apply it, it can't hold back the entire series.
+> >
+> > I've been able to resurect the Ecovec, and I've also been given a copy
+> > of its schematics file a few weeks ago.
+> >
+> > It's in my TODO list to test this series but I didn't manage to find
+> > time. If I pinky promise I get back to you before end of the week,
+> > could you wait for me ? :)
 
-So Wayland display servers should make sure they have master themselves
-before sending a supposedly non-master DRM fd to anyone else. I wonder
-if the Wayland protocol extension needs to consider that the compositor
-might not be able to send any fd soon. Being able to defer sending the
-fd should probably be mentioned in the protocol spec, so that clients
-do not expect a simple roundtrip to be enough to ensure the fd has
-arrived.
+Finally had some time to spend on this.
 
-> - This is a bit awkward, since non-root can become a master, when
-> there's no other master right at this point. So if you want to be able
-> to do this, we should probably clarify this part of the uapi somehow
-> (either de-priv drop_master or make sure non-root can't become master,
-> but the latter probably will break something somewhere). Plus igts to
-> lock down this behaviour. Note that if logind does a vt switch there's
-> a race window where no one is master and you might be able to squeeze
-> in. So perhaps we do want to stop this behaviour and require
-> CAP_SYS_ADMIN to become master, even accidentally.
+As I've reported to Bartosz, this version does not work on Ecovec out
+of the box, as the GPIO line connected to the backlight needs to be
+configured to work in output mode before registering the backlight
+device.
 
-That would close the loophole that Ville mentioned, too, otherwise
-distributions should aim to not give permissions to open the DRM device
-node.
+With this simple change:
 
-> - I thought you can always re-open your own fd through proc? Which
-> should be good enough for this use-case here.
+$ git diff
+diff --git a/arch/sh/boards/mach-ecovec24/setup.c b/arch/sh/boards/mach-eco=
+vec24/setup.c
+index dd427bac5cde..eec6e805c3ed 100644
+--- a/arch/sh/boards/mach-ecovec24/setup.c
++++ b/arch/sh/boards/mach-ecovec24/setup.c
+@@ -1473,6 +1473,7 @@ static int __init arch_setup(void)
+ #endif
+ #endif
 
-We can? And that creates a new file description the same way as open()
-in the original device node?
++       gpio_direction_output(GPIO_PTR1, 1);
+        gpiod_add_lookup_table(&gpio_backlight_lookup);
+        gpio_backlight_device =3D platform_device_register_full(
+                                        &gpio_backlight_device_info);
 
-Does that avoid becoming master in the above VT-switched-away scenario?
+I can now control the gpio through the backlight interface.
 
-> - Non-master primary node should indeed give you all the GET* ioctls
-> for kms, and nothing else useful or at least dangerous (you might be
-> able to render with that thing). Just make sure you dont authenticate
-> that new fd. Again maybe we should clarify our docs a bit to make this
-> use case official.
+So please add this bit on top of next iteration and add my:
+Tested-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-Awesome, thanks,
-pq
+Thanks and sorry for the long time it took!
 
---Sig_/5sBh_HL/bIqXwtESU+hjP6J
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+>
+> Yes, no problem.
+>
+> --
+> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
+> Linaro Services Technical Lead
+> Linaro.org =E2=94=82 Open source software for ARM SoCs
+> Follow Linaro: Facebook | Twitter | Blog
+
+--jig6tcqnwznz3xde
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl2pzX0ACgkQI1/ltBGq
-qqfNOg/+PReDi7ENyLQ5bW6Elf7STqLLKtct35jhLGA30NtvnfZANsQWaqlNL2ao
-6TB5736zr7RPWLw+GV5VMSR3Blc1XGxV49/D8DWezqMcNE6a/GgTOzpaZGQJMXsv
-xtEPAe/IneBEnNSpn+cu8vZ4g2DOx6xNSsyUTAqA7vEkPftHqiINtqSbmHYFmRcM
-52njm+YGFxYXwVzkDrwxGb6cPbqCd5qFN1kSckGe3SEOUMn/LWqJxyKqpvRIkFj2
-Yft3IRNX9OxUdD98KioktarjDgv3mZehpysKFdkW7VSpdr5CPtR3Rq6MFuJGjvR5
-7MUWriFlbJU2vGHfRkbrHoelcsf0U4oBY9boUbgeM2uNEaBH3yufd3P1L6+BJalM
-1IMseqRlkme3eFA7EoRSmJnSjqfMsG/PfELNtLxsq1lLqITYTra6fLFPkqsDx+Bc
-WFn74H9hnB79aT1+pPYREwBD4lWK9i6XIdQcWthCjXu5OX3Hvrd3R67ll7U4P/Ls
-anQAAf4vcaRwQzlo0JrYOEuufTkqIp5cBbqV+hmn/h9VjU9i/rdsIMh1I2aIAzfZ
-CtUSwkL0pDIetCw/wcVN4QyE/MjQpPfgvLk3cDqYdrYv/gGwb5ozhlEHyPVSjmQs
-f7nOX9gJFReozZ/uM7MN1dybTcL3wckPO7o8k+I1J0PbsnoT7bY=
-=NdqO
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl2p1HoACgkQcjQGjxah
+Vjw07Q//bXUAvYL4NvrQlWy03A4kCrvX0kolkx71JTQHnVprfyCz2qyP1BvfL7Cc
+VM0CnuW2dGjWKd1/9Fx9ltM25fbm/OJzGLCa+OLeGH54sTUzDTAwdkDkpqLAVM16
+lOx7QxHu+prPYDwbjwnS6lvO+SppEigTCV+NPXT2Y7qKkYiNb9COLsiYu+hkXAia
+lxyogP5H+JWKEPLK5uYhASSqKCcxgu39dIWxItj7+mfjOBiUHOFCpHIee2kY1+Q2
++wrIXrET20X4YDvCQPZd2egXin5k+hLD0LtR9Gcel+w4Eikg7vB8vRm7I0NJ2g5a
+FbOpRDdyLj+7uh4vyNeW8gbrnsJ4qPhtb5KxUlQ48WVrIhtLsfLnYqN/WjN4n2ET
+lR6BKAjyZuo7PQ9xBzU0/O2s7bCOsLVHTu3iH97ZWy5KMbXEuKMCxK4UGiGjyYmX
+mhqSDXEamf7x/8NqJmEZ/iam4/9GbrMa7p0uQVODMz3xJjgkjMbSvWCNMoqe4vv+
+hM5JyuSDKvrJ7DHXi8TNXb6l5iInQVijhRPh/k2YrwA22DKcxrn42QMb1XmIZgTh
+1Db7DHdBOULpQIxDjzJ7zOOOH1GbCO6SlMtRzwMuT8O2PuX8W6PkFd32UDjZgyPQ
+tAy24dJqceX2t2EVUY86PWKi3hH6fmtkTzVbVw8JNLl61ZATd3I=
+=T0RW
 -----END PGP SIGNATURE-----
 
---Sig_/5sBh_HL/bIqXwtESU+hjP6J--
+--jig6tcqnwznz3xde--
 
---===============0032476312==
+--===============0973981515==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -218,4 +164,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0032476312==--
+--===============0973981515==--
