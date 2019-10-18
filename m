@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E9FDDC39C
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2019 13:05:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD58ADC3B8
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2019 13:13:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A755489CA2;
-	Fri, 18 Oct 2019 11:05:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B63316EB17;
+	Fri, 18 Oct 2019 11:13:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5B16489C1B
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2019 11:05:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2B4776E0DF
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2019 11:13:40 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5812D7296E; Fri, 18 Oct 2019 11:05:49 +0000 (UTC)
+ id 27C297296E; Fri, 18 Oct 2019 11:13:40 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
  with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Fri, 18 Oct 2019 11:05:49 +0000
+Date: Fri, 18 Oct 2019 11:13:40 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -28,14 +28,14 @@ X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: critical
-X-Bugzilla-Who: kinovavi@webmaild.net
+X-Bugzilla-Who: popovic.marko@protonmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-KU0IU2SzlO@http.bugs.freedesktop.org/>
+Message-ID: <bug-111481-502-1axKikgbOO@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
 References: <bug-111481-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1020033170=="
+Content-Type: multipart/mixed; boundary="===============1243257860=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1020033170==
-Content-Type: multipart/alternative; boundary="15713967494.D1cAa2.28121"
+--===============1243257860==
+Content-Type: multipart/alternative; boundary="15713972200.4C2aC.29466"
 Content-Transfer-Encoding: 7bit
 
 
---15713967494.D1cAa2.28121
-Date: Fri, 18 Oct 2019 11:05:49 +0000
+--15713972200.4C2aC.29466
+Date: Fri, 18 Oct 2019 11:13:40 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,26 +73,34 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
 
---- Comment #104 from kinovavi@webmaild.net ---
-Are these bugs going to be fixed anytime soon? With much respect, this is
-insane. The card has been out for some 4 months now and it still isn=E2=80=
-=99t usable
-for most on Linux. Yes, for some the patches at least let them browse firef=
-ox
-effectively, but for some it doesn=E2=80=99t. We=E2=80=99re Amd customers l=
-ike anyone else,
-support was supposed to be introduced on Mesa 19.2 and improved on Mesa 19.=
-3,
-so far none of these two versions work properly. Please get your shit toget=
-her
-Amd, this is ridiculous.
+--- Comment #105 from Marko Popovic <popovic.marko@protonmail.com> ---
+(In reply to kinovavi from comment #104)
+> Are these bugs going to be fixed anytime soon? With much respect, this is
+> insane. The card has been out for some 4 months now and it still isn=E2=
+=80=99t
+> usable for most on Linux. Yes, for some the patches at least let them bro=
+wse
+> firefox effectively, but for some it doesn=E2=80=99t. We=E2=80=99re Amd c=
+ustomers like
+> anyone else, support was supposed to be introduced on Mesa 19.2 and impro=
+ved
+> on Mesa 19.3, so far none of these two versions work properly. Please get
+> your shit together Amd, this is ridiculous.
+
+With all respect to you sir, calling names and aggressiveness isn't going to
+fix any issues.
+AMD team is aware of the issues, but debugging hangs that are hardly
+reproducable or even random in some cases is very hard. Now I'm not entirely
+defending AMD here, it is manufacturers' job to support the hardware if they
+claim on the box that they do, however calling names isn't going to get
+anything fixed.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15713967494.D1cAa2.28121
-Date: Fri, 18 Oct 2019 11:05:49 +0000
+--15713972200.4C2aC.29466
+Date: Fri, 18 Oct 2019 11:13:40 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -110,8 +118,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
  kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c104">Comm=
-ent # 104</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c105">Comm=
+ent # 105</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
@@ -119,22 +127,32 @@ ent # 104</a>
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
 1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-kinovavi&#64;webmaild.net" title=3D"kinovavi&#64;webmaild.net">kinovavi&#64=
-;webmaild.net</a>
+popovic.marko&#64;protonmail.com" title=3D"Marko Popovic &lt;popovic.marko&=
+#64;protonmail.com&gt;"> <span class=3D"fn">Marko Popovic</span></a>
 </span></b>
-        <pre>Are these bugs going to be fixed anytime soon? With much respe=
-ct, this is
-insane. The card has been out for some 4 months now and it still isn=E2=80=
-=99t usable
-for most on Linux. Yes, for some the patches at least let them browse firef=
-ox
-effectively, but for some it doesn=E2=80=99t. We=E2=80=99re Amd customers l=
-ike anyone else,
-support was supposed to be introduced on Mesa 19.2 and improved on Mesa 19.=
-3,
-so far none of these two versions work properly. Please get your shit toget=
-her
-Amd, this is ridiculous.</pre>
+        <pre>(In reply to kinovavi from <a href=3D"show_bug.cgi?id=3D111481=
+#c104">comment #104</a>)
+<span class=3D"quote">&gt; Are these bugs going to be fixed anytime soon? W=
+ith much respect, this is
+&gt; insane. The card has been out for some 4 months now and it still isn=
+=E2=80=99t
+&gt; usable for most on Linux. Yes, for some the patches at least let them =
+browse
+&gt; firefox effectively, but for some it doesn=E2=80=99t. We=E2=80=99re Am=
+d customers like
+&gt; anyone else, support was supposed to be introduced on Mesa 19.2 and im=
+proved
+&gt; on Mesa 19.3, so far none of these two versions work properly. Please =
+get
+&gt; your shit together Amd, this is ridiculous.</span >
+
+With all respect to you sir, calling names and aggressiveness isn't going to
+fix any issues.
+AMD team is aware of the issues, but debugging hangs that are hardly
+reproducable or even random in some cases is very hard. Now I'm not entirely
+defending AMD here, it is manufacturers' job to support the hardware if they
+claim on the box that they do, however calling names isn't going to get
+anything fixed.</pre>
         </div>
       </p>
 
@@ -148,9 +166,9 @@ Amd, this is ridiculous.</pre>
     </body>
 </html>=
 
---15713967494.D1cAa2.28121--
+--15713972200.4C2aC.29466--
 
---===============1020033170==
+--===============1243257860==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -160,4 +178,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1020033170==--
+--===============1243257860==--
