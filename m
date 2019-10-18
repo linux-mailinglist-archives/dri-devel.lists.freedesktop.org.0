@@ -2,36 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD075DCBAE
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2019 18:39:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6989EDCBBC
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2019 18:42:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC79C6E153;
-	Fri, 18 Oct 2019 16:39:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C9EC6EB53;
+	Fri, 18 Oct 2019 16:42:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 176F76E153
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2019 16:39:28 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 620483086213;
- Fri, 18 Oct 2019 16:39:27 +0000 (UTC)
-Received: from datura.bss.redhat.com (dhcp-10-20-1-78.bss.redhat.com
- [10.20.1.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1697F60A97;
- Fri, 18 Oct 2019 16:39:27 +0000 (UTC)
-From: Adam Jackson <ajax@redhat.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2BFC96EB53
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2019 16:42:47 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 263237296E; Fri, 18 Oct 2019 16:42:47 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/fourcc: Fix undefined left shift in DRM_FORMAT_BIG_ENDIAN
- macros
-Date: Fri, 18 Oct 2019 12:39:26 -0400
-Message-Id: <20191018163926.598570-1-ajax@redhat.com>
+Subject: [Bug 111980] Rebbot and shutdown doesn't work on specific hardware
+Date: Fri, 18 Oct 2019 16:42:47 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111980-502-dXUuxEkAZb@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111980-502@http.bugs.freedesktop.org/>
+References: <bug-111980-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 18 Oct 2019 16:39:27 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,27 +52,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Eric Engestrom <eric.engestrom@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1765358965=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MTw8MzEgaXMgdW5kZWZpbmVkIGJlY2F1c2UgaXQncyBhIHNpZ25lZCBpbnQgYW5kIEMgaXMgdGVy
-cmlibGUuCgpSZXZpZXdlZC1ieTogRXJpYyBFbmdlc3Ryb20gPGVyaWMuZW5nZXN0cm9tQGludGVs
-LmNvbT4KLS0tCiBpbmNsdWRlL3VhcGkvZHJtL2RybV9mb3VyY2MuaCB8IDIgKy0KIDEgZmlsZSBj
-aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2luY2x1
-ZGUvdWFwaS9kcm0vZHJtX2ZvdXJjYy5oIGIvaW5jbHVkZS91YXBpL2RybS9kcm1fZm91cmNjLmgK
-aW5kZXggM2ZlZWFhM2Y5ODdhLi5jMDZkMzQ1NTlmYWIgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvdWFw
-aS9kcm0vZHJtX2ZvdXJjYy5oCisrKyBiL2luY2x1ZGUvdWFwaS9kcm0vZHJtX2ZvdXJjYy5oCkBA
-IC02OSw3ICs2OSw3IEBAIGV4dGVybiAiQyIgewogI2RlZmluZSBmb3VyY2NfY29kZShhLCBiLCBj
-LCBkKSAoKF9fdTMyKShhKSB8ICgoX191MzIpKGIpIDw8IDgpIHwgXAogCQkJCSAoKF9fdTMyKShj
-KSA8PCAxNikgfCAoKF9fdTMyKShkKSA8PCAyNCkpCiAKLSNkZWZpbmUgRFJNX0ZPUk1BVF9CSUdf
-RU5ESUFOICgxPDwzMSkgLyogZm9ybWF0IGlzIGJpZyBlbmRpYW4gaW5zdGVhZCBvZiBsaXR0bGUg
-ZW5kaWFuICovCisjZGVmaW5lIERSTV9GT1JNQVRfQklHX0VORElBTiAoMVU8PDMxKSAvKiBmb3Jt
-YXQgaXMgYmlnIGVuZGlhbiBpbnN0ZWFkIG9mIGxpdHRsZSBlbmRpYW4gKi8KIAogLyogUmVzZXJ2
-ZSAwIGZvciB0aGUgaW52YWxpZCBmb3JtYXQgc3BlY2lmaWVyICovCiAjZGVmaW5lIERSTV9GT1JN
-QVRfSU5WQUxJRAkwCi0tIAoyLjIzLjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbA==
+
+--===============1765358965==
+Content-Type: multipart/alternative; boundary="15714169670.F80c8.29186"
+Content-Transfer-Encoding: 7bit
+
+
+--15714169670.F80c8.29186
+Date: Fri, 18 Oct 2019 16:42:47 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111980
+
+--- Comment #7 from Alex Deucher <alexdeucher@gmail.com> ---
+Yes.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15714169670.F80c8.29186
+Date: Fri, 18 Oct 2019 16:42:47 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Rebbot and shutdown doesn't work on specific h=
+ardware"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111980#c7">Commen=
+t # 7</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Rebbot and shutdown doesn't work on specific h=
+ardware"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111980">bug 11198=
+0</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
+com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
+</span></b>
+        <pre>Yes.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15714169670.F80c8.29186--
+
+--===============1765358965==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1765358965==--
