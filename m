@@ -2,54 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E0EDDC74D
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2019 16:26:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4E31DC772
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2019 16:34:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 027996EB5A;
-	Fri, 18 Oct 2019 14:26:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 332FD6EB61;
+	Fri, 18 Oct 2019 14:34:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
- [IPv6:2607:f8b0:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7A086EB5A
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2019 14:26:40 +0000 (UTC)
-Received: by mail-ot1-x333.google.com with SMTP id o44so5101354ota.10
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2019 07:26:40 -0700 (PDT)
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2946B6EB61;
+ Fri, 18 Oct 2019 14:34:43 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id r22so4917767lfm.1;
+ Fri, 18 Oct 2019 07:34:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=klp2LtcvL4ztyu+HEp/iltUiDUKQ/JNpB/YRli4PpR8=;
- b=Oarhn8oeDF3NhZ33xJ0j0gHPaJfNxT2IYkk3RYwRqA+pUAX7GxOMHp5PH1tlfMqOPp
- 5KXU+YkSYS/RKoiQtvdtXEur7Dpipc139OlBmZbPF5Jp5ZN/ozIky1t/v/d+Kdr7cl6E
- 1+zJI4/poXmGYvScf5B5Xwot8zISPJ++0oTijKLFnGPWsjBzimLyf7pug8OyubnPW/Yf
- 3nvlsrZt4EIlR2yT9kXDOnSav4eUPr1+Da1PRMexxtlAb0Kd+uFxPSqNLfnWPaRu0DUU
- I1Baie6ziosBzybUmRAJ8oSdleF455cUW+VJXul9b4CDYleLs0JIf+xwR1mFV3FDS+2T
- pEPw==
-X-Gm-Message-State: APjAAAVQ1alJRAL+8Fd2/L5iVHCk2AIveAFHeEu/u1u3MvfiV9LU6RQK
- F/uLXhYktBB38SiA7T4GJdd1+Gl+C4rxag+GPQzHLA==
-X-Google-Smtp-Source: APXvYqzTlzbWzgJHTM9wLy1UZOzoni/k9S9mWpTfPqSYrK03gJXnXxiUbTHMHnb1PDKqfqfR3ZMiqVDbVEru+hu3oYk=
-X-Received: by 2002:a9d:6343:: with SMTP id y3mr7653335otk.106.1571408799961; 
- Fri, 18 Oct 2019 07:26:39 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=bk12Jz6CO2TEep7aClieECJ5Hx90RwIh+IaSubynCJ0=;
+ b=Kvg+sJIRkNSiXjxbvCVcQr55XjEuDuZYhaLk5E60QmBAiZghm39GU3G/vl4pntBkGq
+ hcoLHp2DZpcU3hW81waf2wS9E/+DH/covg7rno07p/VxsP2W3MRl0mOFVzEidQbNnaV5
+ jf/MZelg6+/DiHzljgv4PsojzIL89j2iXn0GRyA/DWd3SSczSG0Y5LLbzk0kPHq9Vrte
+ 5HQFayVvMofNFLBvUAEA3TZNGtq9msl/VzuAXrhIuEOKKOJox2804CVq1+PonvPEv5JH
+ gx4NF5hCI9kRo39r1CLuf+qVg+0ijU3/9PX2qv+mS5duP9WTcId3/Bb0A29VJ3rKl9l3
+ 3hmg==
+X-Gm-Message-State: APjAAAXMjGnq4c1/PTFk/Oaxn8pexEOIPheztKa4jZkK/gz3mdrCEyEd
+ ZazbH4gYCAucTyAQQM43794=
+X-Google-Smtp-Source: APXvYqwQETMI9nu9pupp1krvciWvYk+tw4zvF0Pn3PZiNdA1CrYF89NEBITX4JYUfFbamyQrwf+8Yw==
+X-Received: by 2002:a05:6512:49d:: with SMTP id
+ v29mr6252851lfq.161.1571409281375; 
+ Fri, 18 Oct 2019 07:34:41 -0700 (PDT)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id q21sm2303260lfc.2.2019.10.18.07.34.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Oct 2019 07:34:41 -0700 (PDT)
+Date: Fri, 18 Oct 2019 17:34:37 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v7] unstable/drm-lease: DRM lease protocol support
+Message-ID: <20191018173437.0c07c2db@eldfell.localdomain>
+In-Reply-To: <CAKMK7uHw42R6m0UYrbWnaMRuQm7VQ7_0Ta8eqaGNGKtve43row@mail.gmail.com>
+References: <20191018122130.0f880724@eldfell.localdomain>
+ <BXSMP84X56T9.317VNFYFVMCWW@homura>
+ <20191018164329.412b14ca@eldfell.localdomain>
+ <CAKMK7uHw42R6m0UYrbWnaMRuQm7VQ7_0Ta8eqaGNGKtve43row@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <CAPM=9txm6udXT9KtW=ROVMf2xRjd4sbPN9OPEQ--taP2vi-mmQ@mail.gmail.com>
- <CADnq5_PqYQPDJt2x5d+34X70GmcdTy5FGFtNek2UGtOanV-AAA@mail.gmail.com>
- <CAKMK7uGA7RnYehx-+L+aMz-GKoa1AeRSdMZGcZXHZUMDh2L_nA@mail.gmail.com>
- <CADnq5_MNzMWE0X+Ov4Yxjq-6Ns48NNeKKOEOrLw9_sysNWy9aw@mail.gmail.com>
-In-Reply-To: <CADnq5_MNzMWE0X+Ov4Yxjq-6Ns48NNeKKOEOrLw9_sysNWy9aw@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 18 Oct 2019 16:26:28 +0200
-Message-ID: <CAKMK7uFqtzbbgADNmbzf9tKb68ar7ADX+x6au1xT4DWLRs6dnA@mail.gmail.com>
-Subject: Re: [RFC] new uapi policy for drm
-To: Alex Deucher <alexdeucher@gmail.com>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=klp2LtcvL4ztyu+HEp/iltUiDUKQ/JNpB/YRli4PpR8=;
- b=Z9edl8ViDoEGRziZbFuLBBHowKN+OQ+iCSkPCoEnILInzuEIdDbQ2FsGdSikW3sSjk
- 2wonxlJuDj0FHxkbNWgMgMgIV/fHgkQmb6LiLmbE0AHggK7J+MDbWwP6Q6v7Fk8W6kHo
- vEl7KZDn1V14qSm49AeS5RY1ZsqfxBS5iNr9g=
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version;
+ bh=bk12Jz6CO2TEep7aClieECJ5Hx90RwIh+IaSubynCJ0=;
+ b=u/l/LEnTbqVOKa4V7gPPNa7qxyn77p0pmRJkaAyvgu7XwUqMqyribqAKTdzEbwoA0i
+ VtZ/GxhYuEZEL3dT1CocuFeuFOzZ0rr7iK1SJ90Tke42IoupHRyErPBNpJ1ovtIzkmFh
+ sSMz6TS95uC94A0Zs8OAp4uJsi5NN1QgTcezY4M572ljUSQ3YJo5YDJDz3roxz55Fupg
+ E8Q/2yQ0xgQlp5N9F74e9/ilc1YK4rrrMoIfsIubEE+6H+n6ArHM/IktHzP7dvygR+W3
+ iAM0nR5ATw9XRNon3PEEKsSD72zC8fsl6YCZFzSCrUCbx+Ql3NnxISBw+aQS5oXgEaSi
+ tkUA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,149 +71,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Marius Vlad <marius.vlad@collabora.com>, Drew DeVault <sir@cmpwn.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0032476312=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBPY3QgMTcsIDIwMTkgYXQgNDoxMiBQTSBBbGV4IERldWNoZXIgPGFsZXhkZXVjaGVy
-QGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBPbiBUaHUsIE9jdCAxNywgMjAxOSBhdCA5OjU4IEFNIERh
-bmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4gd3JvdGU6Cj4gPgo+ID4gT24gV2VkLCBPY3Qg
-MTYsIDIwMTkgYXQgMDQ6MDA6MjVQTSAtMDQwMCwgQWxleCBEZXVjaGVyIHdyb3RlOgo+ID4gPiBP
-biBNb24sIE9jdCAxNCwgMjAxOSBhdCAyOjE2IFBNIERhdmUgQWlybGllIDxhaXJsaWVkQGdtYWls
-LmNvbT4gd3JvdGU6Cj4gPiA+ID4KPiA+ID4gPiBJJ3ZlIGtpY2tlZCB0aGlzIGFyb3VuZCBpbiBt
-eSBoZWFkIG92ZXIgdGhlIHBhc3QgZmV3IHdlZWtzIGJ1dCB3YW50ZWQKPiA+ID4gPiB0byBnZXQg
-c29tZSBmZWVkYmFjayBvbiB3aGV0aGVyIGl0J3MgYSBnb29kIGlkZWEgb3Igd2hhdCBpbXBhY3Qg
-aXQKPiA+ID4gPiBtaWdodCBoYXZlIHRoYXQgSSBoYXZlbid0IGNvbnNpZGVyZWQuCj4gPiA+ID4K
-PiA+ID4gPiBXZSBhcmUgZ2V0dGluZyByZXF1ZXN0cyB2aWEgYm90aCBhbWRncHUvYW1ka2ZkIGFu
-ZCBpOTE1IGZvciBuZXcgdXNlcgo+ID4gPiA+IEFQSXMgZm9yIHVzZXJzcGFjZSBkcml2ZXJzIHRo
-YXQgdGhyb3cgY29kZSBvdmVyIHRoZSB3YWxsIGluc3RlYWQgb2YKPiA+ID4gPiBiZWluZyBvcGVu
-IHNvdXJjZSBkZXZlbG9wZWQgcHJvamVjdHMsIGJ1dCB3ZSBhcmUgYWxzbyBzZWVpbmcgaXQgZm9y
-Cj4gPiA+ID4gYW5kcm9pZCBkcml2ZXJzIGFuZCBrbXMgcHJvcGVydGllcywgYW5kIHdlIGhhZCB0
-aGF0IGk5MTUgY3JhcHB5IGNydGMKPiA+ID4gPiBiYWNrZ3JvdW5kIHRoaW5nIHRoYXQgd2FzIGZv
-ciBDaHJvbWUgYnV0IENocm9tZSBkaWRuJ3Qgd2FudCBpdC4KPiA+ID4gPgo+ID4gPiA+IE5vdyB0
-aGlzIHByZXNlbnRzIGEgY291cGxlIG9mIGlzc3VlczoKPiA+ID4gPgo+ID4gPiA+IGEpIHRoZXNl
-IHByb2plY3RzIGRvbid0IHNlZW0gdG8gdGhhdCBnb29kIGF0IGZvbGxvd2luZyBvdXIgZGV2ZWxv
-cG1lbnQKPiA+ID4gPiBndWlkZWxpbmVzLCBhdm9pZCBkZXZlbG9waW5nIHVzZXJzcGFjZSBmZWF0
-dXJlcyBpbiBwYXJhbGxlbCBpbiB0aGUKPiA+ID4gPiBvcGVuIGFuZCBoYXZpbmcgZ29vZCBkZXZl
-bG9wbWVudCBpbXBsZW1lbnRhdGlvbnMgYmVmb3JlIHN1Ym1pdHRpbmcKPiA+ID4gPiB1cHN0cmVh
-bS4KPiA+ID4gPgo+ID4gPiA+IGIpIHRoZXNlIHByb2plY3RzIGRvbid0IGhhdmUgZXhwZXJpZW5j
-ZWQgdXNlcnNwYWNlIGRldmVsb3BlcnMKPiA+ID4gPiByZXZpZXdpbmcgdGhlaXIga2VybmVsIHVh
-cGlzLiBPbmUgYmlnIGFkdmFudGFnZSBvZiBhZGRpbmcgdWFwaXMgd2l0aAo+ID4gPiA+IG1lc2Eg
-ZGV2ZWxvcGVycyBpcyB0aGV5IGhhdmUgYSBsb3Qgb2YgZXhwZXJpZW5jZSBpbiB0aGUgYXJlYSBh
-cyB3ZWxsLgo+ID4gPiA+Cj4gPiA+ID4gSXQncyBsZWFkaW5nIG1lIHRvIHRoaW5rIEkgd2FudCB0
-byBqdXN0IHN0b3AgYWxsIHVhcGkgc3VibWlzc2lvbnMgdmlhCj4gPiA+ID4gZHJpdmVyIHRyZWVz
-LCBhbmQgaW5zdGVhZCBtYW5kYXRlIHRoYXQgYWxsIGRyaXZlciB1YXBpIGNoYW5nZXMgYXJlCj4g
-PiA+ID4gc2VudCBpbiBzZXBhcmF0ZSBnaXQgcHVsbCByZXF1ZXN0cyB0byBkcmktZGV2ZWwsIEkn
-ZCB0cnkgKHdpdGggc29tZQo+ID4gPiA+IGhlbHApIHRvIGNhdGNoIGFsbCB1YXBpIG1vZGlmaWNh
-dGlvbnMgaW4gbm9ybWFsIHRyZWVzLCBhbmQgcmVmdXNlCj4gPiA+ID4gcHVsbHMgdGhhdCBtb2Rp
-ZmllZCB1YXBpLgo+ID4gPiA+Cj4gPiA+ID4gQXQgbGVhc3QgSSdtIGNvbnNpZGVyZWQgd3JpdGlu
-ZyB0aGUgc2NyaXB0IGFuZCByZWZ1c2luZyBhbmQgcHVsbHMgdGhhdAo+ID4gPiA+IGhhdmUgYSB1
-YXBpIGNoYW5nZSB0aGF0IGRvZXNuJ3QgY29udGFpbiBhIGxpbmsgdG8gdGhlIHVzZXJzcGFjZQo+
-ID4gPiA+IGNoYW5nZXMgcmVxdWlyZWQgZm9yIGl0IGluIGEgcHVibGljIGRldmVsb3BlZCByZXBv
-Lgo+ID4gPiA+Cj4gPiA+ID4gVGhvdWdodHM/Cj4gPiA+Cj4gPiA+IFRoaXMgc2VlbXMgbGlrZSBt
-b3JlIGhhc3NsZSBmb3IgcXVlc3Rpb25hYmxlIGJlbmVmaXRzLiAgSSBkb24ndCBrbm93Cj4gPiA+
-IHRoYXQgbWVzYSBpcyByZWFsbHkgYW55IGJldHRlciB0aGFuIGFueSBvdGhlciBkcml2ZXIgdGVh
-bXMgd2l0aAo+ID4gPiByZXNwZWN0IHRvIFVBUEkuICBUaGlzIGp1c3Qgc2VlbXMgbGlrZSBzb3J0
-IG9mIGEgYXJiaXRyYXJ5IHBvbGl0aWNhbAo+ID4gPiBkZWNpc2lvbi4gIFRoZSBwZW9wbGUgd29y
-a2luZyBvbiBtZXNhIGhhdmUgYXMgbXVjaCBvZiBhbiBhZ2VuZGEgYXMKPiA+ID4gdGhvc2Ugd29y
-a2luZyBvbiBvdGhlciBwcm9qZWN0cy4gIE1vcmVvdmVyLCBlc3BlY2lhbGx5IHdpdGggdGhlCj4g
-PiA+IG1pZ3JhdGlvbiB0byBnaXRsYWIgYW5kIE1ScywgSSBmZWVsIHRoYXQgbWVzYSBkZXZlbG9w
-bWVudCBoYXMgZ290dGVuCj4gPiA+IG1vcmUgb3BhcXVlLiAgU2F5IHdoYXQgeW91IHdpbGwgYWJv
-dXQgbWFpbGluZyBsaXN0cywgYnV0IGF0IGxlYXN0IHlvdQo+ID4gPiBjb3VsZCBoYXZlIGEgZHJp
-dmUgYnkgdmlldyBvZiB3aGF0J3MgZ29pbmcgb24uICBXaXRoIE1ScywgeW91IHNvcnQgb2YKPiA+
-ID4gaGF2ZSB0byBzZWVrIG91dCB3aGF0IHRvIHJldmlldzsgaWYgc3R1ZmYgaXMgbm90IHRhZ2dl
-ZCB3aXRoIHNvbWV0aGluZwo+ID4gPiB5b3UgZmVlbCBpcyByZWxldmFudCwgeW91IHByb2JhYmx5
-IHdvbid0IGxvb2sgYXQgaXQsIHNvIHRoZSBvbmx5Cj4gPiA+IHBlb3BsZSBsaWtlbHkgdG8gcmV2
-aWV3IGl0IGFyZSB0aGUgcGVvcGxlIGludm9sdmVkIGluIHdyaXRpbmcgaXQgaW4KPiA+ID4gdGhl
-IGZpcnN0IHBsYWNlLCB3aGljaCB3b3VsZCBiZSB0aGUgc2FtZSB3aGV0aGVyIGl0J3MgbWVzYSBv
-ciBzb21lCj4gPiA+IG90aGVyIHByb2plY3QuICBJIHRoaW5rIGFsbCBvZiB0aGUgcHJvamVjdHMg
-Z2VuZXJhbGx5IGhhdmUgdGhlIGJlc3QKPiA+ID4gaW50ZW50aW9ucyBhdCBoZWFydCwgYnV0IGZv
-ciBiZXR0ZXIgb3Igd29yc2UgdGhleSBqdXN0IGhhdmUgZGlmZmVyZW50Cj4gPiA+IGRldmVsb3Bt
-ZW50IG1vZGVscy4gIEluIHRoZSBjYXNlIG9mIHRoZSBBTUQgdGhyb3cgaXQgb3ZlciB0aGUgd2Fs
-bAo+ID4gPiBzdHVmZiwgaXQncyBub3QgcmVhbGx5IGFuIGFudGktb3BlbiBzb3VyY2Ugb3IgY29t
-bXVuaXR5IGVuZ2FnZW1lbnQKPiA+ID4gaXNzdWUsIGl0J3MgbW9yZSBvZiBob3cgdG8gd2Ugc3Vw
-cG9ydCBzZXZlcmFsIE9TZXMsIHRvbnMgb2YgbmV3Cj4gPiA+IHByb2R1Y3RzLCBzZXZlcmFsIGN1
-c3RvbSBwcm9qZWN0cywgZXRjLiB3aGlsZSBsZXZlcmFnaW5nIGFzIG11Y2gKPiA+ID4gc2hhcmVk
-IGNvZGUgYXMgcG9zc2libGUuICBUaGVyZSBhcmUgd2F5cyB0byBtYWtlIGl0IHdvcmssIGJ1dCB0
-aGV5IGFyZQo+ID4gPiB1c3VhbGx5IGEgcHJldHR5IGhlYXZ5IGxpZnQgdGhhdCBub3QgYWxsIHRl
-YW1zIGNhbiBtYWtlLgo+ID4KPiA+IEkgdGhpbmsgdGhlcmUncyBhIGRpZmZlcmVuY2UgYmV0d2Vl
-biBBbGwgVG9vbHMgU3Vja3MgKHRtKSBhbmQgdGhlCj4gPiBkaXNjdXNzaW9ucyBub3QgZXZlbiBi
-ZWluZyBhY2Nlc3NpYmxlIGF0IGFsbC4gSSBkbyBhZ3JlZSB0aGF0IGdlbmVyYWxseQo+ID4gZXZl
-cnlvbmUgc2NyZXdzIHVwIHVhcGkgb25jZSBpbiBhIHdoaWxlLCBhbmQgd2Ugc2VlbSB0byBvdmVy
-YWxsIGRvIGEgbm90Cj4gPiB0b28gc2hvZGR5IGpvYi4gU28gY29kZSBpcyBwcm9iYWJseSBhbGwg
-b2sgZW5vdWdoLgo+ID4KPiA+IEJ1dCBpbW8gbG9uZyB0ZXJtIGNvZGUgaXMgZnVuZ2libGUgYW5k
-IHJlYWxseSBkb2Vzbid0IG1hdHRlciBtdWNoLCB0aGUKPiA+IGltcG9ydGFudCBzdHVmZiBpcyB0
-aGUgcGVvcGxlIGFuZCB0ZWFtcyB3aG8gY3JlYXRlIGl0LCBhbmQgYWxsIHRoZSBzaGFyZWQKPiA+
-IGtub3dsZWRnZS4gVGhhdCdzIGFsc28gd2VyZSBJIHNlZSB0aGUgYmVuZWZpdCBpbiB1cHN0cmVh
-bSAoZm9yIGN1c3RvbWVycwo+ID4gYW5kIHZlbmRvcnMgYW5kIGV2ZXJ5b25lKSwgd2UgY2FuIGxl
-YXJuIGZyb20gZWFjaCBhbm90aGVyLiBBcyBhbiBleGFtcGxlLAo+ID4gSSd2ZSBzcGVudCBsb3Rz
-IG9mIHRpbWUgcmVjZW50bHkgcmVhZGluZyBhbWRncHUgY29kZSBhbmQgaG93IGl0J3MgdXNlZCBp
-bgo+ID4gdXNlcnNwYWNlLiBVbmRlcnN0YW5kaW5nIHRoYXQgd2l0aG91dCBoYXZpbmcgYWNjZXNz
-IHRvIHRoZSBkaXNjdXNzaW9uIG9yCj4gPiBiZWluZyBhYmxlIHRvIHBpbmcgcGVvcGxlIG9uIGly
-YyBhbmQgbWFpbGluZyBsaXN0cyB3b3VsZCBoYXZlIGJlZW4KPiA+IGltcG9zc2libGUgLSBsb3Rz
-IG9mIHF1ZXN0aW9ucyB3aGVyZSBJIGp1c3QgcGxhaW4gZ3Vlc3NlZCB3cm9uZy4gRm9yIHRoZQo+
-ID4gY29kZS1vdmVyLXdhbGwgcHJvamVjdHMgdGhhdCBzdHVmZiBhbGwgc2ltcGx5IGRvZXNuJ3Qg
-ZXhpc3QuIEl0J3MgbmlnaAo+ID4gaW1wb3NzaWJsZSB0byBmaWd1cmUgb3V0IHdoZXRoZXIgdWFw
-aSBtYWtlcyBzZW5zZSBvciBub3QgaWYgeW91IGNhbid0IHNlZQo+ID4gYWxsIHRoZSB0cmFkZW9m
-ZnMgYW5kIGRpc2N1c3Npb25zIHRoYXQgaW5mbHVlbmNlZCBpdCBhbmQgd2h5Lgo+ID4KPiA+IFRo
-YXQncyBhbHNvIHdoeSBJIHRoaW5rIHRoZSBzZXBhcmF0ZSBwdWxsIHdvbid0IGhlbHAgYXQgYWxs
-LCBzaW5jZSBEYXZlCj4gPiB3aWxsIHN0aWxsIGhhdmUgaW5jb21wbGV0ZSBpbmZvcm1hdGlvbi4g
-QWxsIGhlIGNhbiBkbyB3aXRoIG1vcmUgcHVsbHMgaXMKPiA+IHJvbGwgdGhlIGRpZSBtb3JlIG9m
-dGVuLCB0aGF0J3Mgbm90IGhlbHBpbmcuCj4gPgo+ID4gTm93IHNob3J0IHRlcm0gIm1vYXIgaHcg
-c3VwcG9ydCIgaXMgY29vbCBhbmQgYWxsIHRoYXQsIGJ1dCBsb25nIHRlcm0gSSBkbwo+ID4gdGhp
-bmsgaXQncyBtaXNzaW5nIHRoZSBwb2ludCBvZiB1cHN0cmVhbWluZy4gSXQncyBub3QgdGhhdCBt
-ZXNhIChvciBhbnkKPiA+IG90aGVyIGNyb3NzIHZlbmRvciBwcm9qZWN0LCB3ZSBoYXZlIGEgYnVu
-Y2ggb2YgdGhvc2Ugb24gdGhlIGttcyBzaWRlKSBpcwo+ID4gYmV0dGVyIGF0IHVhcGksIGl0J3Mg
-dGhhdCBpdCdzIG1vcmUgb3BlbiBhbmQgc28gX211Y2hfIGVhc2llciB0bwo+ID4gdW5kZXJzdGFu
-ZCBob3cgd2UgZW5kZWQgdXAgYXQgYSBzcGVjaWZpYyBwbGFjZS4gVGhhdCdzIGF0IGxlYXN0IG15
-IHRha2Ugb24KPiA+IGFsbCB0aGlzLgo+Cj4gRmFpciBwb2ludHMuICBJIGd1ZXNzIEkgc2hvdWxk
-IGNsYXJpZnkgbXkgdGhpbmtpbmcuICBJIHdhcyBhc3N1bWluZwo+IHRoYXQgdGhlIHRocm93IGl0
-IG92ZXIgdGhlIHdhbGwgdGVhbXMgd291bGQgZGlzY3VzcyB0aGUgaW50ZXJmYWNlCj4gcHVibGlj
-bHkgYXMgYSBwcmVjb25kaXRpb24gYW5kIGkuZS4sIHByb3ZpZGUgcGF0Y2hlcyBhZ2FpbnN0IHRo
-ZSB0aHJvdwo+IGl0IG92ZXIgdGhlIHdhbGwgY29kZSB0byBzaG93IGl0J3MgdXNhZ2UgZXZlbiBp
-ZiB0aG9zZSBjaGFuZ2VzCj4gdWx0aW1hdGVseSB3b3VsZCBnZXQgYmVjb21lIHB1YmxpY2x5IGF2
-YWlsYWJsZSB2aWEgc29tZSB0aHJvdyBpdCBvdmVyCj4gdGhlIHdhbGwgdXBkYXRlIG9uY2UgdGhl
-IGludGVyZmFjZSBsYW5kcy4gIE15IHBvaW50IHdhcyBqdXN0IHRoYXQgdGhlCj4gYm90aCBtZXNh
-IGFuZCB0aHJvdyBpdCBvdmVyIHRoZSB3YWxsIHRlYW1zIGFyZSBlcXVhbGx5IGNhcGFibGUgb2YK
-PiBkb2luZyBnb29kIG9yIGJhZCBpbnRlcmZhY2VzIGFuZCBpdCBzaG91bGRuJ3QgbWF0dGVyIHdo
-byBkZXZlbG9wcyBpdAo+IGFzIGxvbmcgYXMgeW91IHByb3ZpZGUgcmVhc29uYWJsZSByZXZpZXcu
-CgpJIHRoaW5rIHRoZSBkaXNjdXNzaW9ucy9wYXRjaGVzIGdlbmVyYWxseSBoYXBwZW4gYW5kIHNv
-IHRoZSBzdHJpY3QKd29yZGluZyBvZiBvdXIgcnVsZXMgYXJlIGZvbGxvd2VkLCBhdCBsZWFzdCBi
-eSBpbnRlbC9hbWQgKHRoZXJlJ3Mgc29tZQpvdGhlciBzdHVmZiBpbiB1YXBpIGxhbmQgdGhhdCB3
-YXMgYSBsb3QgbW9yZSBza2l0dGluZyB0aGUgZWRnZSwgb24KYm90aCBzaWRlcyBvZiB0aGUgZWRn
-ZSkuIEJ1dCB1c3VhbGx5IGJ5IHRoZSB0aW1lIHRoaW5ncyBnbyBwdWJsaWMsIHRoZQpkaXNjdXNz
-aW9uIGlzIGFib3V0IGltcGxlbWVudGF0aW9uIGRldGFpbHMuIEFuZCB0aGUgYmlnIHF1ZXN0aW9u
-cyBsaWtlCndoZXRoZXIgd2UncmUgc29sdmluZyB0aGUgcmlnaHQgcHJvYmxlbSwgb3IgaW4gdGhl
-IHJpZ2h0IHBsYWNlIGFyZSBhbGwKbG9uZyBhZ28gZGVjaWRlZCBhbHJlYWR5LiBTbyBub3QgcmVh
-bGx5IHRoZSB1c2VmdWwvaW50ZXJlc3Rpbmcgc3R1ZmYKaXMgZGlzY3Vzc2VkIGluIHB1YmxpYy4K
-Ck9mIGNvdXJzZSB3aXRoIGh3IGVuYWJsaW5nIHRoYXQgY2FuJ3QgcmVhbGx5IGJlIGF2b2lkZWQs
-IGJ1dCB0aGVuIG9uY2UKeW91J3ZlIGZpeGVkIHRoZSBodyBkZXNpZ24gZm9yIGEgbmV3IGdlbmVy
-YXRpb24gdGhlIHVhcGkgYWRqdXN0bWVudHMKKG5ldyBnb2xkZW4gcmVnIHN0YXRlLCBhIGZldyBt
-b3JlIGZsYWdzIHBlcmhhcHMpIGFyZSBhbGwgcHJldHR5IGNsZWFyCmFuZCB0aGVyZSdzIG5vdCBy
-ZWFsbHkgdHdvIGZ1bmRhbWVudGFsbHkgZGlmZmVyZW50IHdheXMgdG8gZG8gdGhpbmdzLgoKQW5k
-IGxpa2UgSSBzYWlkLCBJJ20gbm90IHN1cmUgaG93IHdlIGNvdWxkIGFjdHVhbGx5IGNoYW5nZSBt
-dWNoIGhlcmUKd2l0aG91dCBqdXN0IGNyZWF0aW5nIHVzZWxlc3MgcGFwZXJ3b3JrIHRvIGtlZXAg
-ZXZlcnlvbmUgYnVzeSB3aGlsZQpzdGlsbCBoYXZpbmcgbm8gcmVhbCBiZW5lZml0LgotRGFuaWVs
-Cgo+Cj4gQWxleAo+Cj4gPgo+ID4gPiBBbGwgb2YgdGhhdCBzYWlkLCBJIHRoaW5rIHByb3ZpZGlu
-ZyBhIGxpbmsgdG8gdGhlIHVzZXJzcGFjZSB1c2VyIG9mCj4gPiA+IHRoZSBBUEkgaXMgcmVhc29u
-YWJsZSwgYnV0IEkgZG9uJ3QgdGhpbmsgdGhlcmUgaGF2ZSBiZWVuIGFueSBlZ3JlZ2lvdXMKPiA+
-ID4gY2FzZXMgb2YgYmFkbHkgZGVzaWduZWQgVUFQSSB0aGF0IHdlcmUgbm90IGNhdWdodCB1c2lu
-ZyB0aGUgZXhpc3RpbmcKPiA+ID4gcHJvY2Vzc2VzLgo+ID4KPiA+IEltbyB0aGUgcHJvYmxlbSBp
-c24ndCB0aGUgbGFjayBvZiBsaW5rcywgYnV0IGxhY2sgb2YgKHB1YmxpYykgZGlzY3Vzc2lvbnMu
-Cj4gPiBPbmUgaWRlYSBJIHRveWVkIGFyb3VuZCB3aXRoIGNvdWxkIGJlIHRvIHJlcXVpcmUgdWFw
-aSByZXZpZXcgZm9yIG5ldyB1YXBpCj4gPiBieSBzb21lb25lIG91dHNpZGUgdGhlIHdhbGwuIFRo
-YXQncyBkZWZhY3RvIHdoYXQgd2UgZG8gZm9yIGV2ZXJ5dGhpbmcKPiA+IHB1c2hlZCB0aHJvdWdo
-IGNyb3NzLXZlbmRvciB1c2Vyc3BhY2UgYW55d2F5LCBhbmQgaXQgd291bGQgbWFrZSBzdXJlIHRo
-YXQKPiA+IGFsbCB0aGUgZGVzaWduIGNvbnNpZGVyYXRpb25zIHJlbGV2YW50IHRvIHRoZSB1YXBp
-IHdvdWxkIGJ1YmJsZSBvdmVyIHRoZQo+ID4gd2FsbCB0b28sIG5vdCBqdXN0IHRoZSBjb2RlLiBU
-aGUgcGVvcGxlIGFuZCB0aGVpciBleHBlcnRpc2Ugd291bGQgc3RpbGwgYmUKPiA+IGluIGhpZGlu
-Zywgc28gc3RpbGwgZmFyIGZyb20gbmlydmFuYSwgYnV0IEkgdGhpbmsgdGhpcyB3b3VsZCBhdCBs
-ZWFzdCBtb3ZlCj4gPiB0aGluZ3MgbWVhbmluZ2Z1bGx5Lgo+ID4gLURhbmllbAo+ID4gLS0KPiA+
-IERhbmllbCBWZXR0ZXIKPiA+IFNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgo+
-ID4gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKCgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5n
-aW5lZXIsIEludGVsIENvcnBvcmF0aW9uCis0MSAoMCkgNzkgMzY1IDU3IDQ4IC0gaHR0cDovL2Js
-b2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+--===============0032476312==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/5sBh_HL/bIqXwtESU+hjP6J"; protocol="application/pgp-signature"
+
+--Sig_/5sBh_HL/bIqXwtESU+hjP6J
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, 18 Oct 2019 16:19:33 +0200
+Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+
+> On Fri, Oct 18, 2019 at 3:43 PM Pekka Paalanen <ppaalanen@gmail.com> wrot=
+e:
+> >
+> > On Fri, 18 Oct 2019 07:54:50 -0400
+> > "Drew DeVault" <sir@cmpwn.com> wrote:
+> > =20
+> > > On Fri Oct 18, 2019 at 12:21 PM Pekka Paalanen wrote: =20
+> > > > One thing I did not know the last time was that apparently
+> > > > systemd-logind may not like to give out non-master DRM fds. That mi=
+ght
+> > > > need fixing in logind implementations. I hope someone would step up=
+ to
+> > > > look into that.
+> > > >
+> > > > This protocol aims to deliver a harmless "read-only" DRM device file
+> > > > description to a client, so that the client can enumerate all DRM
+> > > > resources, fetch EDID and other properties to be able to decide whi=
+ch
+> > > > connector it would want to lease. The client should not be able to
+> > > > change any KMS state through this fd, and it should not be able to =
+e.g.
+> > > > spy on display contents. The assumption is that a non-master DRM fd
+> > > > from a fresh open() would be fine for this, but is it? =20
+> > >
+> > > What I do for wlroots is call drmGetDeviceNameFromFd2, which returns =
+the
+> > > path to the device file, and then I open() it and use
+> > > drmIsMaster/drmDropMaster to make sure it's not a master fd. This see=
+ms
+> > > to work correctly in practice. =20
+> >
+> > That is nice.
+> >
+> > Personally I'm specifically worried about a setup where the user has no
+> > access permissions to open the DRM device node directly, as is (or
+> > should be) the case with input devices.
+> >
+> > However, since DRM has the master concept which input devices do not,
+> > maybe there is no reason to prevent a normal user from opening a DRM
+> > device directly. That is, if our assumption that a non-master DRM fd is
+> > harmless holds.
+> >
+> > (Wayland display servers usually run as a normal user, while logind
+> > or another service runs with elevated privileges and opens input and
+> > DRM devices on behalf of the display server.) =20
+>=20
+> So the rules are (if I'm not making a mistake)
+> - If you're not CAP_SYS_ADMIN you can't get/drop_master.
+
+Hi,
+
+not able to drop, yikes. So if someone pokes the Wayland DRM leasing
+interface while the display server is VT switched away (does not have
+DRM master), and maybe no-one else has DRM master either (you're
+hacking in VT text mode), then a new DRM fd would be master with no way
+out?
+
+So Wayland display servers should make sure they have master themselves
+before sending a supposedly non-master DRM fd to anyone else. I wonder
+if the Wayland protocol extension needs to consider that the compositor
+might not be able to send any fd soon. Being able to defer sending the
+fd should probably be mentioned in the protocol spec, so that clients
+do not expect a simple roundtrip to be enough to ensure the fd has
+arrived.
+
+> - This is a bit awkward, since non-root can become a master, when
+> there's no other master right at this point. So if you want to be able
+> to do this, we should probably clarify this part of the uapi somehow
+> (either de-priv drop_master or make sure non-root can't become master,
+> but the latter probably will break something somewhere). Plus igts to
+> lock down this behaviour. Note that if logind does a vt switch there's
+> a race window where no one is master and you might be able to squeeze
+> in. So perhaps we do want to stop this behaviour and require
+> CAP_SYS_ADMIN to become master, even accidentally.
+
+That would close the loophole that Ville mentioned, too, otherwise
+distributions should aim to not give permissions to open the DRM device
+node.
+
+> - I thought you can always re-open your own fd through proc? Which
+> should be good enough for this use-case here.
+
+We can? And that creates a new file description the same way as open()
+in the original device node?
+
+Does that avoid becoming master in the above VT-switched-away scenario?
+
+> - Non-master primary node should indeed give you all the GET* ioctls
+> for kms, and nothing else useful or at least dangerous (you might be
+> able to render with that thing). Just make sure you dont authenticate
+> that new fd. Again maybe we should clarify our docs a bit to make this
+> use case official.
+
+Awesome, thanks,
+pq
+
+--Sig_/5sBh_HL/bIqXwtESU+hjP6J
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl2pzX0ACgkQI1/ltBGq
+qqfNOg/+PReDi7ENyLQ5bW6Elf7STqLLKtct35jhLGA30NtvnfZANsQWaqlNL2ao
+6TB5736zr7RPWLw+GV5VMSR3Blc1XGxV49/D8DWezqMcNE6a/GgTOzpaZGQJMXsv
+xtEPAe/IneBEnNSpn+cu8vZ4g2DOx6xNSsyUTAqA7vEkPftHqiINtqSbmHYFmRcM
+52njm+YGFxYXwVzkDrwxGb6cPbqCd5qFN1kSckGe3SEOUMn/LWqJxyKqpvRIkFj2
+Yft3IRNX9OxUdD98KioktarjDgv3mZehpysKFdkW7VSpdr5CPtR3Rq6MFuJGjvR5
+7MUWriFlbJU2vGHfRkbrHoelcsf0U4oBY9boUbgeM2uNEaBH3yufd3P1L6+BJalM
+1IMseqRlkme3eFA7EoRSmJnSjqfMsG/PfELNtLxsq1lLqITYTra6fLFPkqsDx+Bc
+WFn74H9hnB79aT1+pPYREwBD4lWK9i6XIdQcWthCjXu5OX3Hvrd3R67ll7U4P/Ls
+anQAAf4vcaRwQzlo0JrYOEuufTkqIp5cBbqV+hmn/h9VjU9i/rdsIMh1I2aIAzfZ
+CtUSwkL0pDIetCw/wcVN4QyE/MjQpPfgvLk3cDqYdrYv/gGwb5ozhlEHyPVSjmQs
+f7nOX9gJFReozZ/uM7MN1dybTcL3wckPO7o8k+I1J0PbsnoT7bY=
+=NdqO
+-----END PGP SIGNATURE-----
+
+--Sig_/5sBh_HL/bIqXwtESU+hjP6J--
+
+--===============0032476312==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0032476312==--
