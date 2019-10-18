@@ -2,59 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ECE4DC0C2
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2019 11:21:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 398A0DC0EF
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2019 11:30:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D54E6EB07;
-	Fri, 18 Oct 2019 09:21:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A4536E060;
+	Fri, 18 Oct 2019 09:30:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA8876EB05;
- Fri, 18 Oct 2019 09:21:43 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id w6so4164624lfl.2;
- Fri, 18 Oct 2019 02:21:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=aMi6iIKI/Dq5LhNafxb5hvAvopwP53lOf5007z5FwGQ=;
- b=MRZ8XjxbEjwUm8PyBxkvViP1KboL9PlNmU9A1b3zykWgfNg1oPww9BknrEXeiSNob7
- xBX2tMfORfYfkVFsVCZjQUSlxT19mys7PjxH7bTdw9Ht+J2fsVa0nI5mIK39t491IKjV
- UfoQ5Nrmq/VyZv2NHA5EC3pMZ6TS1PlUBcRDz04O4+7RE9hCg63Gq1k3mM+1Fq3HNY/h
- W3kzdhCuCCIZEayKcCh4EuMWt2HT2oord8M+xri0GMWRIjWzYd+An5DbA1NubRj1d30H
- r0RMZKYd7hYHug+z3VLcWGMMUt9Q1A/gJdp6kd7HIwbpgQ8NKZfkD2aLS9kbLM97Hmd8
- iBlA==
-X-Gm-Message-State: APjAAAW3dfULQ25GGzxhaRd0nobHu7dr1thBGZt7r0WXe6G7d6f0rTzU
- AD9jq5AaSApNB8Q94IO4O5w=
-X-Google-Smtp-Source: APXvYqxCyARUo+rMRU+MxdlY/LL1Yci/5s+yf6oGU3MQUcoDguz8QUwl5t9hFINHgUjzXDsakvJ8vw==
-X-Received: by 2002:a19:9144:: with SMTP id y4mr272135lfj.168.1571390501648;
- Fri, 18 Oct 2019 02:21:41 -0700 (PDT)
-Received: from eldfell.localdomain ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id b141sm2331410lfg.67.2019.10.18.02.21.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Oct 2019 02:21:40 -0700 (PDT)
-Date: Fri, 18 Oct 2019 12:21:30 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Drew DeVault <sir@cmpwn.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH v7] unstable/drm-lease: DRM lease protocol support
-Message-ID: <20191018122130.0f880724@eldfell.localdomain>
-In-Reply-To: <20191017174527.181547-1-sir@cmpwn.com>
-References: <20191017174527.181547-1-sir@cmpwn.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+ (mail-eopbgr150049.outbound.protection.outlook.com [40.107.15.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE2446E060
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2019 09:30:33 +0000 (UTC)
+Received: from VI1PR08CA0218.eurprd08.prod.outlook.com (2603:10a6:802:15::27)
+ by AM0PR08MB4948.eurprd08.prod.outlook.com (2603:10a6:208:163::30)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2347.16; Fri, 18 Oct
+ 2019 09:30:29 +0000
+Received: from AM5EUR03FT037.eop-EUR03.prod.protection.outlook.com
+ (2a01:111:f400:7e08::204) by VI1PR08CA0218.outlook.office365.com
+ (2603:10a6:802:15::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2347.16 via Frontend
+ Transport; Fri, 18 Oct 2019 09:30:29 +0000
+Received-SPF: TempError (protection.outlook.com: error in processing during
+ lookup of arm.com: DNS Timeout)
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM5EUR03FT037.mail.protection.outlook.com (10.152.17.241) with
+ Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.2305.15 via Frontend Transport; Fri, 18 Oct 2019 09:30:27 +0000
+Received: ("Tessian outbound 927f2cdd66cc:v33");
+ Fri, 18 Oct 2019 09:30:19 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 1045642e34c096b1
+X-CR-MTA-TID: 64aa7808
+Received: from 6312e6fad71b.2 (ip-172-16-0-2.eu-west-1.compute.internal
+ [104.47.14.53]) by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ C633BFF0-38A8-4B34-9E6B-B76729B49A19.1; 
+ Fri, 18 Oct 2019 09:30:13 +0000
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur04lp2053.outbound.protection.outlook.com [104.47.14.53])
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 6312e6fad71b.2
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+ Fri, 18 Oct 2019 09:30:13 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Y530bNxIVPplknihrT/MYZC46BKAiSn1BlRU+7O6VLzU3uEwYj4TEcFegC4s+0KSerihvA6WHqFnhY/H3ov2M3XG3a/kpsFvpY/A0gGSo+R/7e5jIARqKbaWEhNPkqpaul6ABagiCem8IImRQR5xCDElDmEJdJazBhBG0XnKvVPlCAguGbVbSS1hGuacvjsLeISwUqJhzwImbAfvjnWqfj7BhxcIQtGVKYMS1GgX43mWYjqSQNCs6CvsiMF4a/ycm2s4HulwBKKSMWzpQDUc6DgM7sDtNn3k4QKRHXEV3KUrbO2/hJc51dqpL0YX4Sk+GpMSYLJWZGa1S2rnaRe72Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5foMB7HxV+Jsn5OCccMwSBlv9vljQyjtu7dKK0/hr68=;
+ b=HBU+F26XUx42xsQzZihWItUGGH1LG2jTTLwdix2qx1l3KcVpXz3wV9VKU98/Opl2AHWrkbj6T259Hasp5CbtrCIBxTZuKWDQNw8413AGH07rAODeIwE0Z2VZFCADWtYY4pwjbcTz+gHxOwFWldzulVnyRxWqtOlg0+qy9MKrntwZysYOkpuUBKPhY26PreCiYgaX8D3GVyomVoI2wMTMttyh3pw1x4hmQwS0G6hYl6psrJh7W7yKMZbwBXcSQWS+uEBqEbIMWMMSSAEmi1JvHc+U3eK1xM1MPdznMeMLwy5M0oM/6bR5AWp8qCullvloRF7LXICXa77A9DrcPuZm3w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+Received: from VI1PR08MB4078.eurprd08.prod.outlook.com (20.178.127.92) by
+ VI1PR08MB2864.eurprd08.prod.outlook.com (10.175.243.31) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2347.18; Fri, 18 Oct 2019 09:30:11 +0000
+Received: from VI1PR08MB4078.eurprd08.prod.outlook.com
+ ([fe80::7d25:d1f2:e3eb:868b]) by VI1PR08MB4078.eurprd08.prod.outlook.com
+ ([fe80::7d25:d1f2:e3eb:868b%6]) with mapi id 15.20.2347.024; Fri, 18 Oct 2019
+ 09:30:11 +0000
+From: Mihail Atanassov <Mihail.Atanassov@arm.com>
+To: "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
+Subject: Re: [PATCH v5 1/4] drm: Add a new helper
+ drm_color_ctm_s31_32_to_qm_n()
+Thread-Topic: [PATCH v5 1/4] drm: Add a new helper
+ drm_color_ctm_s31_32_to_qm_n()
+Thread-Index: AQHVhA1Dae0PEifxdEmUeEe4shI0vKddKu6AgALekoCAABupgA==
+Date: Fri, 18 Oct 2019 09:30:11 +0000
+Message-ID: <4381055.oiViQHVQgJ@e123338-lin>
+References: <20191016103339.25858-1-james.qian.wang@arm.com>
+ <2404938.QDdPyV61sH@e123338-lin> <20191018075101.GA19928@jamwan02-TSP300>
+In-Reply-To: <20191018075101.GA19928@jamwan02-TSP300>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [217.140.106.51]
+x-clientproxiedby: LO2P265CA0338.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:d::14) To VI1PR08MB4078.eurprd08.prod.outlook.com
+ (2603:10a6:803:e5::28)
+Authentication-Results-Original: spf=none (sender IP is )
+ smtp.mailfrom=Mihail.Atanassov@arm.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+X-MS-Office365-Filtering-Correlation-Id: d6978d5a-f189-469a-a17a-08d753adcfc5
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-TrafficTypeDiagnostic: VI1PR08MB2864:|VI1PR08MB2864:|AM0PR08MB4948:
+x-ms-exchange-transport-forked: True
+X-Microsoft-Antispam-PRVS: <AM0PR08MB4948D73002334CC795ECD1E98F6C0@AM0PR08MB4948.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+x-ms-oob-tlc-oobclassifiers: OLM:8882;OLM:8882;
+x-forefront-prvs: 01949FE337
+X-Forefront-Antispam-Report-Untrusted: SFV:NSPM;
+ SFS:(10009020)(4636009)(7916004)(346002)(136003)(39860400002)(366004)(396003)(376002)(189003)(199004)(6436002)(6636002)(256004)(7736002)(9686003)(66066001)(229853002)(305945005)(6512007)(6246003)(33716001)(14454004)(5660300002)(478600001)(316002)(54906003)(6486002)(14444005)(52116002)(66946007)(66446008)(6116002)(66556008)(71190400001)(71200400001)(76176011)(386003)(6506007)(26005)(186003)(8676002)(81156014)(11346002)(486006)(86362001)(99286004)(476003)(64756008)(6862004)(25786009)(4326008)(8936002)(102836004)(66476007)(2906002)(81166006)(3846002)(446003);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR08MB2864;
+ H:VI1PR08MB4078.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: arm.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: RT7sMBE4lnHF6lkJ5W6A1qDI0+lJSKnd//8BIrijHfMSbQWGxTIHzeQ88vlcSozbU+WDx1sIX4NsOkW9Rx6UY47eKv1wRpD5Tr2UxQ/EFBSjbzPFVffHQPpIjlubH4J6qBH9Q26FiwSD2uT2+ePgczwnliPop50M4m+nHnlkvXkfnwnoqng6KPpOYd+yIxfgHwOws/KkaRwitaA019wlswzQXCQJuTnidDWiuOF8faYlXLUH4ZB/sZSLNVibCxREhmtwVIsc+SnzrU4/N2yE2uA8NYNT8+hZQX2k3exFJ0PFvYO+OR3dIQFKcR7sWiQAl+QzkHl0CUqGeORwE39IXp2s+ZomRu4seKrWJThHw6KXuSYc/7NPa9iQXgMMz706ZWpocu8WAc2hmuWF1j9fs4uwrTGBBBr4dr331FqmGXg=
+Content-ID: <FFA6730941821047B99D83655A1352B2@eurprd08.prod.outlook.com>
 MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB2864
+Original-Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Mihail.Atanassov@arm.com; 
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM5EUR03FT037.eop-EUR03.prod.protection.outlook.com
+X-Forefront-Antispam-Report: CIP:63.35.35.123; IPV:CAL; SCL:-1; CTRY:IE;
+ EFV:NLI; SFV:NSPM;
+ SFS:(10009020)(7916004)(4636009)(136003)(396003)(376002)(346002)(39860400002)(199004)(189003)(99286004)(33716001)(2906002)(47776003)(6486002)(76176011)(26005)(5660300002)(356004)(66066001)(70586007)(70206006)(8746002)(26826003)(76130400001)(8936002)(14454004)(478600001)(6506007)(386003)(9686003)(6512007)(25786009)(229853002)(7736002)(305945005)(102836004)(46406003)(86362001)(186003)(81156014)(81166006)(22756006)(50466002)(4326008)(11346002)(446003)(63350400001)(97756001)(336012)(486006)(8676002)(316002)(36906005)(54906003)(6862004)(476003)(126002)(107886003)(6636002)(6246003)(3846002)(23726003)(6116002)(14444005);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:AM0PR08MB4948;
+ H:64aa7808-outbound-1.mta.getcheckrecipient.com; FPR:; SPF:TempError; LANG:en;
+ PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; A:1; MX:1; 
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 0bba1a9b-4ae8-47c3-16f6-08d753adc5ce
+NoDisclaimer: True
+X-Forefront-PRVS: 01949FE337
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: i1DW8Lyqp4gqARWklORJcvPcYH95ujexD1eM/Djf1D5aHZNxSkc2DfMFvZ8irOkV/S9kxo7RKSzCEJkTYqLaC8Q9i32DPDBzkqj3J0UhPzYyTwvk+JoPmPFDOkE8iWrfkwOhOWmDq4jvnlOPvE1/K7NfLZLTjSLR5G9Xi/fvT/1gRJZIpTDV0fansV4EI9fxnjWywnl/h8DaJbp9I+Wusfbh/rNtfQkHpaXIAI5Sc/N4bKpXS2XXeY1CTMj/9CUP/cz9D3xCc4BGszh3SwV3GPNzTqT4ax5ANh5TXIcMwteo6LGO2vTZStw+S4Zyf5vY4pOtukW7cYxflB5c8n51U3XLKoIsbgaJj0BnaisZ0Yymy1ZD5FKlOPMEuTbr+QZ+DvxA3C5EsH5baKJ6nf9K8l87uY2n/5aHyHhjd9pS5Ig=
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Oct 2019 09:30:27.5757 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d6978d5a-f189-469a-a17a-08d753adcfc5
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
+ Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4948
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version;
- bh=aMi6iIKI/Dq5LhNafxb5hvAvopwP53lOf5007z5FwGQ=;
- b=U9y0vvs1kS5lmhmotJV+zUL7fv4hC7QO8zeYcOHrFLAj3swgBnzNnbzlon86H6ldQU
- tBK4tU1k1yRjEfmHQmmPbEqwscLoo5iAzGe/2WOw9UUGBJYZ262kwY/QhPa0CG29XZ2A
- BkJ3NZ4uvOUSqyGuB6JUA8W0ip2sEvb7R9BYqcjUlYYV3t7vB3l6t0LriMwaZoVq2OS3
- pSlzRr+I7MLLdJttea8/+lgqooRULmQxN616cHOonNJjVNcCJSSoHbA+unfUQIT0kaGM
- 35+5mLg938XMij7KmDBGhjz65MEN0TJIK/qQbfdhsTPpxTgmfIDJ/1Y8/CYCZtY6YzNA
- vrWA==
+ d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5foMB7HxV+Jsn5OCccMwSBlv9vljQyjtu7dKK0/hr68=;
+ b=X1tlgdFWgz/4JxM40StXGO4n+1h/iZPZLh4UwZo+EcQ5rNKTagz5UVvjUbBpJrNA90g4rPFoYMOijX5i0uWP7WNEEPMKIkk7NMzkfVgoFTPKM8vbhV79QUwUuixesVt+qUZ9sQ94bkNPaJy7cmMNKuteyFOXprZQbgLaRFU7Afw=
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5foMB7HxV+Jsn5OCccMwSBlv9vljQyjtu7dKK0/hr68=;
+ b=X1tlgdFWgz/4JxM40StXGO4n+1h/iZPZLh4UwZo+EcQ5rNKTagz5UVvjUbBpJrNA90g4rPFoYMOijX5i0uWP7WNEEPMKIkk7NMzkfVgoFTPKM8vbhV79QUwUuixesVt+qUZ9sQ94bkNPaJy7cmMNKuteyFOXprZQbgLaRFU7Afw=
+X-Mailman-Original-Authentication-Results: spf=temperror (sender IP is
+ 63.35.35.123)
+ smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
+ verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org; dmarc=none
+ action=none header.from=arm.com;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,513 +159,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marius Vlad <marius.vlad@collabora.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- wayland-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1881157573=="
+Cc: nd <nd@arm.com>, Ayan Halder <Ayan.Halder@arm.com>, "Oscar
+ Zhang \(Arm Technology China\)" <Oscar.Zhang@arm.com>,
+ "Tiannan Zhu \(Arm Technology China\)" <Tiannan.Zhu@arm.com>,
+ "airlied@linux.ie" <airlied@linux.ie>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ "Jonathan Chai \(Arm Technology China\)" <Jonathan.Chai@arm.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Julien Yin \(Arm Technology China\)" <Julien.Yin@arm.com>,
+ "Channing Chen \(Arm Technology China\)" <Channing.Chen@arm.com>,
+ "Yiqi Kang \(Arm Technology China\)" <Yiqi.Kang@arm.com>,
+ Ben Davis <Ben.Davis@arm.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ "Thomas Sun \(Arm Technology China\)" <thomas.Sun@arm.com>,
+ "Lowry Li \(Arm Technology China\)" <Lowry.Li@arm.com>,
+ "sean@poorly.run" <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1881157573==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/BJihJQ73RdkQyfz_wrbAj_W"; protocol="application/pgp-signature"
-
---Sig_/BJihJQ73RdkQyfz_wrbAj_W
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, 17 Oct 2019 13:45:27 -0400
-Drew DeVault <sir@cmpwn.com> wrote:
-
-> From: Marius Vlad <marius.vlad@collabora.com>
->=20
-> DRM leasing is a feature which allows the DRM master to "lease" a subset
-> of its DRM resources to another DRM master via drmModeCreateLease, which
-> returns a file descriptor for the new DRM master. We use this protocol
-> to negotiate the terms of the lease and transfer this file descriptor to
-> clients.
->=20
-> In less DRM-specific terms: this protocol allows Wayland compositors to
-> give over their GPU resources (like displays) to a Wayland client to
-> exclusively control.
->=20
-> The primary use-case for this is Virtual Reality headsets, which via the
-> non-desktop DRM property are generally not used as desktop displays by
-> Wayland compositors, and for latency reasons (among others) are most
-> useful to games et al if they have direct control over the DRM resources
-> associated with it. Basically, these are peripherals which are of no use
-> to the compositor and may be of use to a client, but since they are tied
-> up in DRM we need to use DRM leasing to get them into client's hands.
->=20
-> Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
-> Signed-off-by: Drew DeVault <sir@cmpwn.com>
-> ---
-> v7's main change is that, upon binding to the drm_lease_manager, the
-> server now sends along a non-master DRM fd for the client to use to
-> enumerate resources. For this reason, the EDID event has been removed
-> from the connector interface, under the assumption that clients who want
-> to examine the EDID will line the connnector ID up with the appropriate
-> resources from DRM.
-
-Hi Drew,
-
-thanks for this, I really hope it works out since the protocol is so
-neat and tidy now.
-
-One thing I did not know the last time was that apparently
-systemd-logind may not like to give out non-master DRM fds. That might
-need fixing in logind implementations. I hope someone would step up to
-look into that.
-
-I'm CC'ing dri-devel and Daniel Vetter to get some kernel side review
-for the non-master DRM fd idea:
-
-This protocol aims to deliver a harmless "read-only" DRM device file
-description to a client, so that the client can enumerate all DRM
-resources, fetch EDID and other properties to be able to decide which
-connector it would want to lease. The client should not be able to
-change any KMS state through this fd, and it should not be able to e.g.
-spy on display contents. The assumption is that a non-master DRM fd
-from a fresh open() would be fine for this, but is it?
-
-If it is not, could we make one that is? Simply giving out an fd for
-the client to inspect with standard DRM ioctls is just so convenient.
-
-
-**
-
-I wouldn't mind if the below links were part of the proper commit
-message.
-
-> Updated patches are available for:
->=20
-> wlroots:  https://github.com/swaywm/wlroots/pull/1730
-> sway:     https://github.com/swaywm/sway/pull/4289
-> kmscube:  https://git.sr.ht/~sircmpwn/kmscube
-> Xwayland: https://gitlab.freedesktop.org/xorg/xserver/merge_requests/248
->=20
-> Additionally, the Vulkan extension has been polished up:
->=20
-> https://github.com/KhronosGroup/Vulkan-Docs/pull/1001
->=20
-> A new implementation for Mesa's Vulkan WSI implementation will be
-> available soon, as well as an implementation of the Wayland extension
-> for Monado.
->=20
->  Makefile.am                                  |   1 +
->  unstable/drm-lease/README                    |   5 +
->  unstable/drm-lease/drm-lease-unstable-v1.xml | 246 +++++++++++++++++++
->  3 files changed, 252 insertions(+)
->  create mode 100644 unstable/drm-lease/README
->  create mode 100644 unstable/drm-lease/drm-lease-unstable-v1.xml
->=20
-> diff --git a/Makefile.am b/Makefile.am
-> index 345ae6a..d9fff89 100644
-> --- a/Makefile.am
-> +++ b/Makefile.am
-> @@ -4,6 +4,7 @@ unstable_protocols =3D								\
->  	unstable/pointer-gestures/pointer-gestures-unstable-v1.xml		\
->  	unstable/fullscreen-shell/fullscreen-shell-unstable-v1.xml		\
->  	unstable/linux-dmabuf/linux-dmabuf-unstable-v1.xml			\
-> +	unstable/drm-lease/drm-lease-unstable-v1.xml				\
->  	unstable/text-input/text-input-unstable-v1.xml				\
->  	unstable/text-input/text-input-unstable-v3.xml				\
->  	unstable/input-method/input-method-unstable-v1.xml			\
-> diff --git a/unstable/drm-lease/README b/unstable/drm-lease/README
-> new file mode 100644
-> index 0000000..16f8551
-> --- /dev/null
-> +++ b/unstable/drm-lease/README
-> @@ -0,0 +1,5 @@
-> +Linux DRM lease
-> +
-> +Maintainers:
-> +Drew DeVault <sir@cmpwn.com>
-> +Marius Vlad <marius-cristian.vlad@nxp.com>
-
-Marius' email address probably needs refreshing?
-
-
-> diff --git a/unstable/drm-lease/drm-lease-unstable-v1.xml b/unstable/drm-=
-lease/drm-lease-unstable-v1.xml
-> new file mode 100644
-> index 0000000..5fbc0e3
-> --- /dev/null
-> +++ b/unstable/drm-lease/drm-lease-unstable-v1.xml
-> @@ -0,0 +1,246 @@
-> +<?xml version=3D"1.0" encoding=3D"UTF-8"?>
-> +<protocol name=3D"drm_lease_unstable_v1">
-> +  <copyright>
-> +    Copyright =C2=A9 2018 NXP
-> +    Copyright =C2=A9 2019 Status Research &amp; Development GmbH.
-> +
-> +    Permission is hereby granted, free of charge, to any person obtainin=
-g a
-> +    copy of this software and associated documentation files (the "Softw=
-are"),
-> +    to deal in the Software without restriction, including without limit=
-ation
-> +    the rights to use, copy, modify, merge, publish, distribute, sublice=
-nse,
-> +    and/or sell copies of the Software, and to permit persons to whom the
-> +    Software is furnished to do so, subject to the following conditions:
-> +
-> +    The above copyright notice and this permission notice (including the=
- next
-> +    paragraph) shall be included in all copies or substantial portions o=
-f the
-> +    Software.
-> +
-> +    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPR=
-ESS OR
-> +    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABIL=
-ITY,
-> +    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT S=
-HALL
-> +    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR=
- OTHER
-> +    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARIS=
-ING
-> +    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-> +    DEALINGS IN THE SOFTWARE.
-> +  </copyright>
-> +
-> +  <interface name=3D"zwp_drm_lease_manager_v1" version=3D"1">
-> +    <description summary=3D"lease manager">
-> +      This protocol is used by Wayland compositors which act as Direct
-> +      Renderering Manager (DRM) masters to lease DRM resources to Wayland
-> +      clients. Once leased, the compositor will not use the leased resou=
-rces
-> +      until the lease is revoked or the client closes the file descripto=
-r. The
-> +      compositor will advertise one zwp_drm_lease_manager_v1 for each DR=
-M node
-> +      which has resources available for leasing.
-
-Ok, that takes care of the multi-card case. It also nicely identifies
-which device a connector is from.
-
-> +
-> +      The lease manager is used to advertise connectors which are availa=
-ble for
-> +      leasing, and by the client to negotiate a lease request.
-> +
-> +      Warning! The protocol described in this file is experimental and
-> +      backward incompatible changes may be made. Backward compatible cha=
-nges
-> +      may be added together with the corresponding interface version bum=
-p.
-> +      Backward incompatible changes are done by bumping the version numb=
-er in
-> +      the protocol and interface names and resetting the interface versi=
-on.
-> +      Once the protocol is to be declared stable, the 'z' prefix and the
-> +      version number in the protocol and interface names are removed and=
- the
-> +      interface version number is reset.
-> +    </description>
-> +
-> +    <enum name=3D"error">
-> +      <entry name=3D"stopped_manager" value=3D"0"
-> +        summary=3D"request sent to a manager which has been stopped"/>
-> +    </enum>
-> +
-> +    <request name=3D"create_lease_request">
-> +      <description summary=3D"create a lease request object">
-> +        Creates a lease request object.
-> +
-> +        See the documentation for zwp_drm_lease_request_v1 for details.
-> +      </description>
-> +      <arg name=3D"id" type=3D"new_id" interface=3D"zwp_drm_lease_reques=
-t_v1" />
-> +    </request>
-> +
-> +    <request name=3D"stop">
-> +      <description summary=3D"stop sending events">
-> +        Indicates the client no longer wishes to receive connector event=
-s. The
-> +        compositor may still send connector events until it sends the fi=
-nish
-> +        event, however.
-> +
-> +        The client must not send any requests after this one.
-> +      </description>
-> +    </request>
-> +
-> +    <event name=3D"drm_fd">
-> +      <description summary=3D"open a non-master fd for this DRM node">
-> +        The compositor will send this event when the zwp_drm_lease_manag=
-er_v1
-> +        global is bound. The included fd is a non-master DRM file descri=
-ptor
-> +        opened for this device. The purpose of this event is to give the=
- client
-> +        the ability to query DRM and discover information which may help=
- them
-> +        pick the appropriate DRM device or select the appropriate connec=
-tors
-> +        therein.
-> +      </description>
-> +      <arg name=3D"fd" type=3D"fd" summary=3D"DRM file descriptor" />
-> +    </event>
-> +
-> +    <event name=3D"connector">
-> +      <description summary=3D"advertise connectors available for leases">
-> +        The compositor may choose to advertise 0 or more connectors whic=
-h may be
-> +        leased to clients, and will use this event to do so. This object=
- may be
-> +        passed into a lease request to lease that connector. See
-> +        zwp_drm_lease_request_v1.add_connector for details.
-> +
-> +        When this global is bound, the compositor will send all connecto=
-rs
-> +        available for lease, but may send additional connectors at any t=
-ime.
-> +      </description>
-> +      <arg name=3D"id" type=3D"new_id" interface=3D"zwp_drm_lease_connec=
-tor_v1" />
-> +    </event>
-> +
-> +    <event name=3D"finished">
-> +      <description summary=3D"the compositor has finished using the mana=
-ger">
-> +        This event indicates that the compositor is done sending connect=
-or
-> +        events. The compositor will destroy this object immediately after
-> +        sending this event, and it will become invalid. The client should
-> +        release any resources associated with this manager after receivi=
-ng this
-> +        event.
-> +      </description>
-> +    </event>
-> +  </interface>
-> +
-> +  <interface name=3D"zwp_drm_lease_connector_v1" version=3D"1">
-> +    <description summary=3D"a leasable DRM connector">
-> +      Represents a DRM connector which is available for lease. These obj=
-ects are
-> +      created via zwp_drm_lease_manager_v1.connector, and should be pass=
-ed into
-> +      lease requests via zwp_drm_lease_request_v1.add_connector.
-> +    </description>
-> +
-> +    <event name=3D"name">
-> +      <description summary=3D"name">
-> +        The compositor sends this event once the connector is created to
-> +        indicate the name of this connector. This will not change for the
-> +        duration of the Wayland session, but is not guaranteed to be con=
-sistent
-> +        between sessions.
-> +
-> +        If the compositor also supports zxdg_output_manager_v1 and this
-> +        connector corresponds to a zxdg_output_v1, this name will match =
-the
-> +        name of this zxdg_output_v1 object.
-> +      </description>
-> +      <arg name=3D"name" type=3D"string" summary=3D"connector name" />
-> +    </event>
-> +
-> +    <event name=3D"description">
-> +      <description summary=3D"description">
-> +        The compositor sends this event once the connector is created to=
- provide
-> +        a human-readable description for this connector, which may be pr=
-esented
-> +        to the user.
-> +      </description>
-> +      <arg name=3D"description" type=3D"string" summary=3D"connector des=
-cription" />
-> +    </event>
-> +
-> +    <event name=3D"connector_id">
-> +      <description summary=3D"connector_id">
-> +        The compositor will send this event to indicate the DRM ID which
-> +        represents the underlying connector which is being offered. Note=
- that
-> +        the final lease may include additional object IDs, such as CRTCs=
- and
-> +        planes.
-> +      </description>
-> +      <arg name=3D"connector_id" type=3D"int" summary=3D"DRM Connector I=
-D" />
-> +    </event>
-> +
-> +    <event name=3D"withdrawn">
-> +      <description summary=3D"lease offer withdrawn">
-> +        Sent to indicate that the compositor will no longer honor reques=
-ts for
-> +        DRM leases which include this connector. The client may still is=
-sue a
-> +        lease request including this connector, but the compositor will =
-send
-> +        zwp_drm_lease_v1.finished without issuing a lease fd.
-> +      </description>
-> +    </event>
-> +
-> +    <request name=3D"destroy" type=3D"destructor">
-> +      <description summary=3D"destroy connector">
-> +        The client may send this request to indicate that it will not is=
-sue a
-> +        lease request for this connector. Clients are encouraged to send=
- this
-> +        after receiving the "withdrawn" request so that the server can r=
-elease
-> +        the resources associated with this connector offer.
-> +      </description>
-> +    </request>
-> +  </interface>
-> +
-> +  <interface name=3D"zwp_drm_lease_request_v1" version=3D"1">
-> +    <description summary=3D"DRM lease request">
-> +      A client that wishes to lease DRM resources will attach the list of
-> +      connectors advertised with zwp_drm_lease_manager_v1.connector that=
- they
-> +      wish to lease, then use zwp_drm_lease_request_v1.submit to submit =
-the
-> +      request.
-> +    </description>
-> +
-> +    <enum name=3D"error">
-> +      <entry name=3D"submitted_lease" value=3D"0"
-> +        summary=3D"attempted to reuse a submitted lease"/>
-> +    </enum>
-> +
-> +    <request name=3D"destroy" type=3D"destructor">
-> +      <description summary=3D"destroys the lease request object">
-> +        Indicates that the client will no longer use this lease request.
-> +      </description>
-> +    </request>
-> +
-> +    <request name=3D"request_connector">
-> +       <description summary=3D"request a connector for this lease">
-> +         Indicates that the client would like to lease the given connect=
-or.
-> +         This is only used as a suggestion, the compositor may choose to
-> +         include any resources in the lease it issues, or change the set=
- of
-> +         leased resources at any time.
-> +       </description>
-> +       <arg name=3D"connector" type=3D"object"
-> +         interface=3D"zwp_drm_lease_connector_v1" />
-
-Don't we need a protocol error defined for the case, where the client
-uses a zwp_drm_lease_connector_v1 from a different global? That is,
-attempting to lease a connector from the wrong device.
-
-If that was an error, then it would make sure that one cannot lease a
-mix across multiple devices in one go. I don't think leasing a mix
-across multiple devices could work, given only one DRM lease fd should
-be delivered.
-
-> +    </request>
-> +
-> +    <request name=3D"submit">
-> +       <description summary=3D"submit the lease request">
-> +         Submits the lease request and creates a new zwp_drm_lease_v1 ob=
-ject.
-> +         After calling submit, issuing any other request than destroy is=
- a
-> +         protocol error.
-> +       </description>
-> +       <arg name=3D"id" type=3D"new_id" interface=3D"zwp_drm_lease_v1" />
-> +    </request>
-> +  </interface>
-> +
-> +  <interface name=3D"zwp_drm_lease_v1" version=3D"1">
-> +    <description summary=3D"a DRM lease">
-> +      A DRM lease object is used to transfer the DRM file descriptor to =
-the
-> +      client and manage the lifetime of the lease.
-> +    </description>
-> +
-> +    <event name=3D"lease_fd">
-> +      <description summary=3D"shares the DRM file descriptor">
-> +        This event returns a file descriptor suitable for use with DRM-r=
-elated
-> +        ioctls. The client should use drmModeGetLease to enumerate the D=
-RM
-> +        objects which have been leased to them. If the compositor cannot=
- or
-
-Isn't the wording about drmModeGetLease() wrong here? The client can
-only see the leased resources through that fd, no matter what it does,
-right?
-
-> +        will not grant a lease for the requested connectors, it will not=
- send
-> +        this event, instead sending the finished event immediately.
-> +
-> +        It is a protocol error for the compositor to send this event mor=
-e than
-> +        once for a given lease.
-> +      </description>
-> +      <arg name=3D"leased_fd" type=3D"fd" summary=3D"leased DRM file des=
-criptor" />
-> +    </event>
-> +
-> +    <event name=3D"finished">
-> +      <description summary=3D"sent when the lease has been revoked">
-> +        When the compositor revokes the lease, it will issue this event =
-to
-> +        notify clients of the change. If the client requires a new lease=
-, they
-> +        should destroy this object and submit a new lease request. The
-> +        compositor will send no further events for this object after sen=
-ding
-> +        the finish event.
-> +      </description>
-> +    </event>
-> +
-> +    <request name=3D"destroy" type=3D"destructor">
-> +      <description summary=3D"destroys the lease object">
-> +        The client should send this to indicate that it no longer wishes=
- to use
-> +        this lease. The compositor should use drmModeRevokeLease on the
-> +        appropriate file descriptor, if necessary, then release this obj=
-ect.
-> +      </description>
-> +    </request>
-> +  </interface>
-> +</protocol>
-
-This seems to be in a very good shape now.
-
-
-Thanks,
-pq
-
---Sig_/BJihJQ73RdkQyfz_wrbAj_W
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl2phBoACgkQI1/ltBGq
-qqeWBhAAsGFxCy22w3/hSf+9s9TaGTHfMi/fKr4HrN2h1PnaAH1jTAfkO/HeRgSS
-3EcfggInXKKh5v21jnG+0cNLPJhbBFdbfSvU6VrmplYM0t8LJz5/3MxRrk+8uHdh
-bsFRU9p2kfa35GxSDGhJgjYVYjVZuoe+TLeMKSX9B9QOqk+OX5KDWNLvwtL29Zns
-Ah9qUgV/HRwYEwmVgid/UHQ582M/z7k1WKhe0FcB/QwvPTOBFr+xXyRf+HRMPuyS
-N38kmFj46l5rwXByZ12AXL1spaX2Shp6iuaxk/TjbXOjx9yFHOXVLgc9YorgR7Yk
-Ym4RfMqNkPJ1Jm3MC+DSdxY1VUR7jZqDQq8vB8nTDO9gAxYctUnV5HfCzFoaOf3M
-x4A4rbUF7HXISuE1QhgV5VjzWU2eCgH97sr3uOfcKYbetGMoI91jkGjMHEa+iFfB
-QFAEtF/SKg3DAUTgAb1fw+ahRM366PYxSo8Ywq29352cmnyRf+e/Jogd9ywVKZiZ
-28a8THm+LxZOXeMJCQmPPZAdU7jR5cfWmcgSYBbr8k7pZ0mHRb6wTSlVrqa4qjVN
-XMDxSsKTIvvLzcLieVu7/k8iLymHkdww3Yc0h6AbBxrxdRp+nvzT+WR2dp2NWrkt
-Zr/v7eigP2mrDvkVBos8zXFzA11EeqOUMV04Ua/YPiFYCZ6V/T8=
-=Dney
------END PGP SIGNATURE-----
-
---Sig_/BJihJQ73RdkQyfz_wrbAj_W--
-
---===============1881157573==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1881157573==--
+T24gRnJpZGF5LCAxOCBPY3RvYmVyIDIwMTkgMDg6NTE6MDkgQlNUIGphbWVzIHFpYW4gd2FuZyAo
+QXJtIFRlY2hub2xvZ3kgQ2hpbmEpIHdyb3RlOgo+IE9uIFdlZCwgT2N0IDE2LCAyMDE5IGF0IDEx
+OjAyOjAzQU0gKzAwMDAsIE1paGFpbCBBdGFuYXNzb3Ygd3JvdGU6Cj4gPiBPbiBXZWRuZXNkYXks
+IDE2IE9jdG9iZXIgMjAxOSAxMTozNDowOCBCU1QgamFtZXMgcWlhbiB3YW5nIChBcm0gVGVjaG5v
+bG9neSBDaGluYSkgd3JvdGU6Cj4gPiA+IEFkZCBhIG5ldyBoZWxwZXIgZnVuY3Rpb24gZHJtX2Nv
+bG9yX2N0bV9zMzFfMzJfdG9fcW1fbigpIGZvciBkcml2ZXIgdG8KPiA+ID4gY29udmVydCBTMzEu
+MzIgc2lnbi1tYWduaXR1ZGUgdG8gUW0ubiAyJ3MgY29tcGxlbWVudCB0aGF0IHN1cHBvcnRlZCBi
+eQo+ID4gPiBoYXJkd2FyZS4KPiA+ID4gCj4gPiA+IFY0OiBBZGRyZXNzIE1paGFpLCBEYW5pZWwg
+YW5kIElsaWEncyByZXZpZXcgY29tbWVudHMuCj4gPiA+IFY1OiBJbmNsdWRlcyB0aGUgc2lnbiBi
+aXQgaW4gdGhlIHZhbHVlIG9mIG0gKFFtLm4pLgo+ID4gPiAKPiA+ID4gU2lnbmVkLW9mZi1ieTog
+amFtZXMgcWlhbiB3YW5nIChBcm0gVGVjaG5vbG9neSBDaGluYSkgPGphbWVzLnFpYW4ud2FuZ0Bh
+cm0uY29tPgo+ID4gPiBSZXZpZXdlZC1ieTogTWloYWlsIEF0YW5hc3NvdiA8bWloYWlsLmF0YW5h
+c3NvdkBhcm0uY29tPgo+ID4gPiBSZXZpZXdlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZl
+dHRlckBmZndsbC5jaD4KPiA+ID4gLS0tCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2NvbG9y
+X21nbXQuYyB8IDI3ICsrKysrKysrKysrKysrKysrKysrKysrKysrKwo+ID4gPiAgaW5jbHVkZS9k
+cm0vZHJtX2NvbG9yX21nbXQuaCAgICAgfCAgMiArKwo+ID4gPiAgMiBmaWxlcyBjaGFuZ2VkLCAy
+OSBpbnNlcnRpb25zKCspCj4gPiA+IAo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L2RybV9jb2xvcl9tZ210LmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2NvbG9yX21nbXQuYwo+ID4g
+PiBpbmRleCA0Y2U1YzZkOGRlOTkuLmQzMTNmMTk0ZjFlYyAxMDA2NDQKPiA+ID4gLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL2RybV9jb2xvcl9tZ210LmMKPiA+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L2RybV9jb2xvcl9tZ210LmMKPiA+ID4gQEAgLTEzMiw2ICsxMzIsMzMgQEAgdWludDMyX3QgZHJt
+X2NvbG9yX2x1dF9leHRyYWN0KHVpbnQzMl90IHVzZXJfaW5wdXQsIHVpbnQzMl90IGJpdF9wcmVj
+aXNpb24pCj4gPiA+ICB9Cj4gPiA+ICBFWFBPUlRfU1lNQk9MKGRybV9jb2xvcl9sdXRfZXh0cmFj
+dCk7Cj4gPiA+ICAKPiA+ID4gKy8qKgo+ID4gPiArICogZHJtX2NvbG9yX2N0bV9zMzFfMzJfdG9f
+cW1fbgo+ID4gPiArICoKPiA+ID4gKyAqIEB1c2VyX2lucHV0OiBpbnB1dCB2YWx1ZQo+ID4gPiAr
+ICogQG06IG51bWJlciBvZiBpbnRlZ2VyIGJpdHMsIGluY2x1ZGUgdGhlIHNpZ24tYml0LCBzdXBw
+b3J0IHJhbmdlIGlzIFsxLCAzMl0KPiA+IAo+ID4gQW55IHJlYXNvbiB3aHkgbnVtYmVycyBsaWtl
+IFEwLjMyIGFyZSBkaXNhbGxvd2VkPyBJbiB0aG9zZSBjYXNlcywgdGhlCj4gPiAnc2lnbicgYml0
+IGFuZCB0aGUgZmlyc3QgZnJhY3Rpb25hbCBiaXQganVzdCBoYXBwZW4gdG8gYmUgdGhlIHNhbWUg
+Yml0Lgo+ID4gVGhlIGxvbmdlciBJIGxvb2sgYXQgaXQsIHRoZSBtb3JlIEkgdGhpbmsgbWVudGlv
+bmluZyBhICdzaWduLWJpdCcgaGVyZQo+ID4gbWlnaHQgY29uZnVzZSBwZW9wbGUgbW9yZSwgc2lu
+Y2UgMidzIGNvbXBsZW1lbnQgZG9lc24ndCBoYXZlIGEKPiA+IGRlZGljYXRlZCBiaXQganVzdCBm
+b3IgdGhlIHNpZ24uIEhvdyBhYm91dCByZWR1Y2luZyBpdCBzaW1wbHkgdG86Cj4gCj4gTm8sIHNp
+bmNlIHRoZSB2YWx1ZSBpcyBzaWduZWQgdGhlcmUgbXVzdCBiZSBkZWRpY2F0ZWQgc2lnbi1iaXQu
+CgpBcyBJJ3ZlIHNhaWQgYSBmZXcgdGltZXMgYmVmb3JlIGluIHRoaXMgcmV2aWV3LCAyJ3MgY29t
+cGxlbWVudCBoYXMgbm8KZGVkaWNhdGVkIHNpZ24gYml0LCB0aGF0J3MgdGhlIHdob2xlIHJlYXNv
+biAyJ3MgY29tcGxlbWVudCBleGlzdHMgaW4KdGhlIGZpcnN0IHBsYWNlLiBUaGUgc2lnbiBpcyBp
+bXBsZW1lbnRlZCBieSBuZWdhdGluZyB0aGUgd2VpZ2h0IG9mCnRoZSBtb3N0IHNpZ25pZmljYW50
+IGJpdC4gVGhpcyBpc24ndCBhIGRlZGljYXRlZCArLy0gZmllbGQhCgo+IAo+IGNvbnNpZGVyIHZl
+cnkgc2ltcGxlIDIgYml0IHNpZ25lZCwgUTEuMQo+IAo+ICAwLjUgIGlzIDAxCj4gIDAgICAgaXMg
+MDAKPiAtMC41ICBpcyAxMQo+IC0xLjAgIGlzIDEwLCBzaWduLWJpdCBhbmQgdmFsdWUgc2hhcmUg
+c2FtZSBiaXQsIGJ1dCBpdCBpcyBpbnRlZ2VyIHBhcnQuCgpBbmQgYSB2ZXJ5IHNpbXBsZSAyLWJp
+dCBzaWduZWQgUTAuMiB3b3VsZCBsb29rIGxpa2UgdGhpczoKCndlaWdodHM6ICgtMl4tMSkqYjEg
+KyAoMl4tMikqYjAKICAgICAgICAgIF4KICAgICAgICAgIEwtPiBub3RlIG5lZ2F0aXZlIHdlaWdo
+dCBhdCBtb3N0IHNpZ25pZmljYW50IGJpdCBwb3NpdGlvbgoKKy0tLS0tLS0tLS0tLS0rLS0tLS0t
+LS0tLS0tLS0tKwovIGJpdCBwYXR0ZXJuIHwgZGVjaW1hbCB2YWx1ZSB8CistLS0tLS0tLS0tLS0t
+Ky0tLS0tLS0tLS0tLS0tLSsKXCAgICAgMDAgICAgICB8ICAgICAwLjAgICAgICAgfAovICAgICAw
+MSAgICAgIHwgICAgIDAuMjUgICAgICB8ClwgICAgIDEwICAgICAgfCAgICAtMC41ICAgICAgIHwK
+LyAgICAgMTEgICAgICB8ICAgIC0wLjI1ICAgICAgfAorLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0t
+LS0tLS0rCgooQXBvbG9naWVzIGZvciB0aGUgcmFnZ2VkIGxlZnQgYm9yZGVyIG9uIHRoZSB0YWJs
+ZSA6LykKCkkgZ2VudWluZWx5IGRvbid0IHNlZSB3aHkgeW91IHJlYWxseSB3YW50IHRvIGhhdmUg
+dGhhdCBpbnRlZ2VyIHBhcnQgYmUKc3RyaWN0bHkgbm9uLXplcm8gaW4gc2l6ZSwgaXQgY2FuIHZl
+cnkgd2VsbCBiZSBhbGwgZnJhY3Rpb25hbC4KCj4gCj4gU2VlIHRoZSB3aWtpOgo+IAo+IE9uZSBj
+b252ZW50aW9uIGluY2x1ZGVzIHRoZSBzaWduIGJpdCBpbiB0aGUgdmFsdWUgb2YgbSxbMV1bMl0g
+YW5kIHRoZSBvdGhlciBjb252ZW50aW9uCj4gZG9lcyBub3QuIFRoZSBjaG9pY2Ugb2YgY29udmVu
+dGlvbiBjYW4gYmUgZGV0ZXJtaW5lZCBieSBzdW1taW5nIG0rbi4gSWYgdGhlIHZhbHVlIGlzIGVx
+dWFsCj4gdG8gdGhlIHJlZ2lzdGVyIHNpemUsIHRoZW4gdGhlIHNpZ24gYml0IGlzIGluY2x1ZGVk
+IGluIHRoZSB2YWx1ZSBvZiBtLiBJZiBpdCBpcyBvbmUKPiBsZXNzIHRoYW4gdGhlIHJlZ2lzdGVy
+IHNpemUsIHRoZSBzaWduIGJpdCBpcyBub3QgaW5jbHVkZWQgaW4gdGhlIHZhbHVlIG9mIG0uCgpU
+aGlzIGlzIHZlcnkgbXVjaCBvZmYgdGhlIG1hcmsuIFNlZSBhYm92ZSBmb3IgbXkgc2lnbiBiaXQg
+aW4gMidzCmNvbXBsZW1lbnQgcmFudC4gV2l0aCB0aGF0IGNhdmVhdCwgd2hhdCB5b3UgcmVmZXIg
+dG8gYXMgdGhlIHNpZ24KYml0IGlzIHNpbXBseSB0aGUgdG9wIGJpdC4gSWYgbStuIGlzIDE2LCB0
+aGVuIHdoYXQgeW91IHJlZmVyIHRvIGFzCnRoZSBzaWduIGJpdCBpcyBpbiBiaXQgcG9zaXRpb24g
+MTUgd2l0aCBhIHdlaWdodCBvZiAtMl4obS0xKS4gSWYKbStuIGlzIGluc3RlYWQgMTMsIHRoZW4g
+YWxsIHRoYXQgY2hhbmdlcyBpcyB0aGF0IHRoZSBiaXQgd2l0aCB0aGUKd2VpZ2h0IG9mIC0yXiht
+LTEpIGlzIGF0IHBvc2l0aW9uIDEyLgoKTW9zdCBpbXBvcnRhbnRseSwgdGhlcmUgaXMgbm90aGlu
+ZyBzcGVjaWFsIGFib3V0IG0gKyBuID09IHJlZ3NpemUsCnRoZSBsYWNrIG9mIHNpZ24tZXh0ZW5z
+aW9uIGFzaWRlLgoKV2hhdCBJIHRoaW5rIGlzIHRoZSBzb3VyY2Ugb2YgY29uZnVzaW9uIGlzIHRo
+YXQgd2hlbiB5b3UgZXhwYW5kLCBzYXksClE0LjQgaW50byBhIFE4LjgsIHlvdSBuZWVkIHRvIGRv
+IHNpZ24gZXh0ZW5zaW9uLCBzbyBiaXQgcG9zaXRpb24gNwppbiB0aGUgb3JpZ2luYWwgUTQuNCBu
+ZWVkcyB0byBiZSByZXBsaWNhdGVkIGludG8gcG9zaXRpb25zIDEyLTE1IGluCmFkZGl0aW9uIHRv
+IG1vdmluZyBpdCB0byBwb3NpdGlvbiAxMSBpbiB0aGUgZGVzdGluYXRpb24gZm9ybWF0LiBCdXQK
+dGhlbiB0aG9zZSBhcmUgbm8gbG9uZ2VyIHNpZ24gYml0cywgdGhlIHNpZ25lZG5lc3MgaXMgZW5j
+b2RlZCBpbiBiaXQKMTUgYXMgYSB3ZWlnaHQgb2YgLTJeNyA6KS4KCj4gCj4gU28gZm9yIHRoZSAz
+MmJpdCB2YWx1ZSwgYWxsIGZyYWN0aW9uYWw6Cj4gCj4gYSkgTSBpbmNsdWRlIHNpZ24tYml0OiBR
+MS4zMQoKVGhpcyBpcyBhIDMyLWJpdCBudW1iZXIgd2l0aCByYW5nZSBbLTEsIDEgLSAyXi0zMV0g
+YW5kIHByZWNpc2lvbiAyXi0zMS4KVGhlIHdlaWdodCBvZiBiaXQgMzEgaXMgc2ltcGx5IC0yXjAg
+KGkuZS4gLTEpLiBUaGlzIGhhcyAxIGludGVnZXIgYml0LgoKPiBiKSBNIGRvZXNuJ3QgaW5jbHVk
+ZSBzaWduLWJpdDogUTAuMzEKClRoaXMgaXMgYSAzMS1iaXQgbnVtYmVyIHdpdGggcmFuZ2UgWy0w
+LjUsIDEgLSAyXi0zMV0uIFNhbWUgcHJlY2lzaW9uIGFzCmFib3ZlIGJ1dCBzbWFsbGVyIHJhbmdl
+LiBUaGlzIGlzIGFsbCBmcmFjdGlvbmFsIGJ1dCBub3QgYSAzMi1iaXQgdmFsdWUuCkkgdGhpbmsg
+eW91J3JlIGxvb2tpbmcgZm9yIFEwLjMyLCB3aGljaCBoYXMgYWxtb3N0IHRoZSBzYW1lIHJhbmdl
+IGJ1dApkb3VibGUgdGhlIHByZWNpc2lvbi4KCj4gCj4gPiAKPiA+ICAqIEBtOiBudW1iZXIgb2Yg
+aW50ZWdlciBiaXRzLCBtIDw9IDMyLgo+ID4gCj4gPiA+ICsgKiBAbjogbnVtYmVyIG9mIGZyYWN0
+aW9uYWwgYml0cywgb25seSBzdXBwb3J0IG4gPD0gMzIKPiA+ID4gKyAqCj4gPiA+ICsgKiBDb252
+ZXJ0IGFuZCBjbGFtcCBTMzEuMzIgc2lnbi1tYWduaXR1ZGUgdG8gUW0ubiAoc2lnbmVkIDIncyBj
+b21wbGVtZW50KS4gVGhlCj4gPiA+ICsgKiBoaWdoZXIgYml0cyB0aGF0IGFib3ZlIG0gKyBuIGFy
+ZSBjbGVhcmVkIG9yIGVxdWFsIHRvIHNpZ24tYml0IEJJVChtK24pLgo+ID4gCj4gPiBbbml0XSBC
+SVQobSArIG4gLSAxKSBpZiB3ZSBjb3VudCBmcm9tIDAuCj4gCj4gZG8gd2UgcmVhbCBuZWVkIHRv
+IGNvbnNpZGVyIHRoaXMsIGNvbnZlcnQgdG8gKFExLjApIDopCj4gSSB0aGluayBpdCBjYW4gYmUg
+ZWFzaWx5IGNhdWdodCBieSByZXZpZXcuCgpRMS4wIGhhcyBhIHJhbmdlIG9mIFstMSwgMF0gYW5k
+IHByZWNpc2lvbiBvZiAxLCBidXQgSSBkb24ndCBnZXQgaG93CnRoaXMgaXMgcmVsZXZhbnQuIEkg
+d2FzIGp1c3QgcmVmZXJyaW5nIHRvIGNvbnZlbnRpb24gdGhhdCBiaXRzIGdldApjb3VudGVkIGZy
+b20gMCwgc28gdGhlIG1vc3Qgc2lnbmlmaWNhbnQgYml0IGlzIHNpbXBseSBhdCBwb3NpdGlvbgpt
+ICsgbiAtIDEgYW5kIG5vdCBtICsgbi4KbSArIG4gaW4sIHNheSwgUTE2LjE2IHdvdWxkIGJlIGJp
+dCAzMiwgd2hpY2ggaXMganVzdCBwYXN0IHRoZSB2YWxpZApbMC4uMzFdIGJpdHMuCgpJIHdhcyBo
+b3BpbmcgdGhhdCBieSBleHBsaWNpdGx5IHRhZ2dpbmcgdGhlIGNvbW1lbnQgd2l0aCAnW25pdF0n
+IHdvdWxkCmhlbHAgY29udmV5IGl0cyBsb3cgaW1wb3J0YW5jZSA6KS4KCj4gPiAKPiA+ID4gKyAq
+Lwo+ID4gPiArdWludDY0X3QgZHJtX2NvbG9yX2N0bV9zMzFfMzJfdG9fcW1fbih1aW50NjRfdCB1
+c2VyX2lucHV0LAo+ID4gPiArCQkJCSAgICAgIHVpbnQzMl90IG0sIHVpbnQzMl90IG4pCj4gPiA+
+ICt7Cj4gPiA+ICsJdTY0IG1hZyA9ICh1c2VyX2lucHV0ICYgfkJJVF9VTEwoNjMpKSA+PiAoMzIg
+LSBuKTsKPiA+ID4gKwlib29sIG5lZ2F0aXZlID0gISEodXNlcl9pbnB1dCAmIEJJVF9VTEwoNjMp
+KTsKPiA+ID4gKwlzNjQgdmFsOwo+ID4gPiArCj4gPiA+ICsJV0FSTl9PTihtIDwgMSB8fCBtID4g
+MzIgfHwgbiA+IDMyKTsKPiA+ID4gKwo+ID4gPiArCS8qIHRoZSByYW5nZSBvZiBzaWduZWQgMidz
+IGNvbXBsZW1lbnQgaXMgWy0yXihtLTEpLCAyXihtLTEpIC0gMl4tbl0gKi8KPiA+ID4gKwl2YWwg
+PSBjbGFtcF92YWwobWFnLCAwLCBuZWdhdGl2ZSA/Cj4gPiA+ICsJCQkJQklUX1VMTChuICsgbSAt
+IDEpIDogQklUX1VMTChuICsgbSAtIDEpIC0gMSk7Cj4gPiA+ICsKPiA+ID4gKwlyZXR1cm4gbmVn
+YXRpdmUgPyAtdmFsIDogdmFsOwo+ID4gPiArfQo+ID4gPiArRVhQT1JUX1NZTUJPTChkcm1fY29s
+b3JfY3RtX3MzMV8zMl90b19xbV9uKTsKPiA+ID4gKwo+ID4gPiAgLyoqCj4gPiA+ICAgKiBkcm1f
+Y3J0Y19lbmFibGVfY29sb3JfbWdtdCAtIGVuYWJsZSBjb2xvciBtYW5hZ2VtZW50IHByb3BlcnRp
+ZXMKPiA+ID4gICAqIEBjcnRjOiBEUk0gQ1JUQwo+ID4gPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9k
+cm0vZHJtX2NvbG9yX21nbXQuaCBiL2luY2x1ZGUvZHJtL2RybV9jb2xvcl9tZ210LmgKPiA+ID4g
+aW5kZXggZDFjNjYyZDkyYWI3Li42MGZlYTU1MDE4ODYgMTAwNjQ0Cj4gPiA+IC0tLSBhL2luY2x1
+ZGUvZHJtL2RybV9jb2xvcl9tZ210LmgKPiA+ID4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX2NvbG9y
+X21nbXQuaAo+ID4gPiBAQCAtMzAsNiArMzAsOCBAQCBzdHJ1Y3QgZHJtX2NydGM7Cj4gPiA+ICBz
+dHJ1Y3QgZHJtX3BsYW5lOwo+ID4gPiAgCj4gPiA+ICB1aW50MzJfdCBkcm1fY29sb3JfbHV0X2V4
+dHJhY3QodWludDMyX3QgdXNlcl9pbnB1dCwgdWludDMyX3QgYml0X3ByZWNpc2lvbik7Cj4gPiA+
+ICt1aW50NjRfdCBkcm1fY29sb3JfY3RtX3MzMV8zMl90b19xbV9uKHVpbnQ2NF90IHVzZXJfaW5w
+dXQsCj4gPiA+ICsJCQkJICAgICAgdWludDMyX3QgbSwgdWludDMyX3Qgbik7Cj4gPiA+ICAKPiA+
+ID4gIHZvaWQgZHJtX2NydGNfZW5hYmxlX2NvbG9yX21nbXQoc3RydWN0IGRybV9jcnRjICpjcnRj
+LAo+ID4gPiAgCQkJCXVpbnQgZGVnYW1tYV9sdXRfc2l6ZSwKPiA+ID4gCj4gPiAKPiA+IAo+IAoK
+Ci0tIApNaWhhaWwKCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVs
