@@ -1,46 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65E20DD6CB
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2019 07:49:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5197DD7A0
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2019 11:12:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED5296E0A6;
-	Sat, 19 Oct 2019 05:49:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A33689E63;
+	Sat, 19 Oct 2019 09:12:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id E42B36E0D5
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2019 05:49:50 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E10C9720E2; Sat, 19 Oct 2019 05:49:50 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
- with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Sat, 19 Oct 2019 05:49:50 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: mail@bastimeyer.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111481-502-4fFYthwYaU@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
-References: <bug-111481-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B2DF89E63
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2019 09:11:58 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id 3so8219703wmi.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2019 02:11:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=+LSfVcGVgC2SgP+Cklux+YdmwHzIVlEqLbQ9PbRxrCg=;
+ b=sUKknHFL9ijYuoWp1clMeYmlAcaoraTMtR35VrU7nCxpF+fER3m4bIINlFnD8Cal+X
+ iowVSiJW+KJDctGWtn89sBKuLPVK9qmfLHpzMlgSjX2uWxksJSYZB+jMbP1fTdgB+eGQ
+ slQdpvGnzbivIZMTHnBvAdGPwY8GtP16dC82t/L/eKYUpt+3UWE477RK6l/4kft108to
+ 0GrG3jpAfAdSDMH/RFWnjEMJSqmzBeeXniKRCbjzNsBGqaAFhqilUZ/TtAKJxIRsN2ku
+ yUquLf2eeRhrozbXtSvlZad/hDMTfE3ISRzJKIj85JnC2FJ6jbxw9SVvBfwKs90hjvAH
+ RZGw==
+X-Gm-Message-State: APjAAAUqlZ4RrgySLp2gya9RJBvmBRK2syZFB0okc7pX//SecsYxO5bB
+ yHihzL9VrfxWSgoTEVP4jxo=
+X-Google-Smtp-Source: APXvYqyDsmrzv4Z1LGUFeuwlx9LTPnznWL1nXliIIrNPSfZ1mxs55/yuuVKfkVko8zJsU0ET6HYBKQ==
+X-Received: by 2002:a1c:2d4d:: with SMTP id t74mr10508690wmt.108.1571476316579; 
+ Sat, 19 Oct 2019 02:11:56 -0700 (PDT)
+Received: from debian (host-78-144-219-162.as13285.net. [78.144.219.162])
+ by smtp.gmail.com with ESMTPSA id m16sm6785683wml.11.2019.10.19.02.11.55
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Sat, 19 Oct 2019 02:11:56 -0700 (PDT)
+Date: Sat, 19 Oct 2019 10:11:54 +0100
+From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+To: Joe Perches <joe@perches.com>
+Subject: Re: [PATCH] omapfb: reduce stack usage
+Message-ID: <20191019091154.qlmb7abqoqdmtz7f@debian>
+References: <20191018163004.23498-1-sudipm.mukherjee@gmail.com>
+ <20191018172728.GA11857@lenoch>
+ <20191018223012.tkpwbo3mg5mthlnz@debian>
+ <184cdd47d4064420b05c16f10588595c65f789e5.camel@perches.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <184cdd47d4064420b05c16f10588595c65f789e5.camel@perches.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=+LSfVcGVgC2SgP+Cklux+YdmwHzIVlEqLbQ9PbRxrCg=;
+ b=CeWcpr6NT8ySjUyYXyaxdJuNWlxeqsR23HWvVpfZAYYVwszdHchrTotikgKwz/A5gc
+ 6EI61leoFAqj+lUg0s5q6g5dHFRcGa4uxeeKPdwMt4DzLNJp9hF0HMv4DNxjWhT0BI3T
+ /+9QVX78U2Lj3lnlbOmibWKjsKL7JgXoc6Ffs3fVHDtdi4kulpzJsitGtzu4f2DWFuyI
+ A9JCqe694gIJSetB7O13NSGUhGUdfj1Q04rOV4xeeam7IOnV+pm7GsNZH/gkcdZ4bx9O
+ r4JPSKL1RCKNjA0WJS/UqP+k0RWvi9c8Leb8pmKm/d65oFvERfMpvL2j22jRoEsc1kuK
+ bp5A==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,162 +71,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0135244514=="
+Cc: linux-fbdev@vger.kernel.org, Ladislav Michl <ladis@linux-mips.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-omap@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0135244514==
-Content-Type: multipart/alternative; boundary="157146419010.7BBA4.22288"
-Content-Transfer-Encoding: 7bit
-
-
---157146419010.7BBA4.22288
-Date: Sat, 19 Oct 2019 05:49:50 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
-
---- Comment #110 from Sebastian Meyer <mail@bastimeyer.de> ---
-Created attachment 145773
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145773&action=3Dedit
-umr output after sdma0 timeout
-
-Another random sdma0 timeout while using kernel
-drm.fixes.5.4.2019.10.16.r0.gd12c50857c6e-1 with all mentioned patches appl=
-ied
-(one of them already included on the drm-fixes branch). This time I didn't
-forget about the umr debug output, but I'm not sure if it's even relevant
-anymore considering the number of already submitted reports.
-
-The system freeze happened after working with WebStorm and SmartGit for rou=
-ghly
-10 minutes on KDE Plasma while scrolling in one of the application's window=
-s.
-
-[39816.999159] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
-for
-fences timed out!
-[39816.999298] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
-for
-fences timed out!
-[39821.905604] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma0 timeou=
-t,
-signaled seq=3D3360854, emitted seq=3D3360856
-[39821.905718] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
-on:
-process Xorg pid 717 thread Xorg:cs0 pid 718
-[39821.905720] [drm] GPU recovery disabled.
-
-I would really appreciate it if AMD and the AMDGPU devs could focus on fixi=
-ng
-these major stability issues of their now almost 4 months old mainstream
-consumer GPUs. I'm sorry if this sounds harsh, but the hardware has been
-advertised with Linux support and it's clearly unusable. This needs to be f=
-ixed
-as soon as possible. Thank you!
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---157146419010.7BBA4.22288
-Date: Sat, 19 Oct 2019 05:49:50 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c110">Comm=
-ent # 110</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-mail&#64;bastimeyer.de" title=3D"Sebastian Meyer &lt;mail&#64;bastimeyer.de=
-&gt;"> <span class=3D"fn">Sebastian Meyer</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145773=
-" name=3D"attach_145773" title=3D"umr output after sdma0 timeout">attachmen=
-t 145773</a> <a href=3D"attachment.cgi?id=3D145773&amp;action=3Dedit" title=
-=3D"umr output after sdma0 timeout">[details]</a></span>
-umr output after sdma0 timeout
-
-Another random sdma0 timeout while using kernel
-drm.fixes.5.4.2019.10.16.r0.gd12c50857c6e-1 with all mentioned patches appl=
-ied
-(one of them already included on the drm-fixes branch). This time I didn't
-forget about the umr debug output, but I'm not sure if it's even relevant
-anymore considering the number of already submitted reports.
-
-The system freeze happened after working with WebStorm and SmartGit for rou=
-ghly
-10 minutes on KDE Plasma while scrolling in one of the application's window=
-s.
-
-[39816.999159] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
-for
-fences timed out!
-[39816.999298] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
-for
-fences timed out!
-[39821.905604] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma0 timeou=
-t,
-signaled seq=3D3360854, emitted seq=3D3360856
-[39821.905718] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
-on:
-process Xorg pid 717 thread Xorg:cs0 pid 718
-[39821.905720] [drm] GPU recovery disabled.
-
-I would really appreciate it if AMD and the AMDGPU devs could focus on fixi=
-ng
-these major stability issues of their now almost 4 months old mainstream
-consumer GPUs. I'm sorry if this sounds harsh, but the hardware has been
-advertised with Linux support and it's clearly unusable. This needs to be f=
-ixed
-as soon as possible. Thank you!</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---157146419010.7BBA4.22288--
-
---===============0135244514==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0135244514==--
+T24gRnJpLCBPY3QgMTgsIDIwMTkgYXQgMDY6MTk6MTVQTSAtMDcwMCwgSm9lIFBlcmNoZXMgd3Jv
+dGU6Cj4gT24gRnJpLCAyMDE5LTEwLTE4IGF0IDIzOjMwICswMTAwLCBTdWRpcCBNdWtoZXJqZWUg
+d3JvdGU6Cj4gPiBPbiBGcmksIE9jdCAxOCwgMjAxOSBhdCAwNzoyNzoyOFBNICswMjAwLCBMYWRp
+c2xhdiBNaWNobCB3cm90ZToKPiA+ID4gT24gRnJpLCBPY3QgMTgsIDIwMTkgYXQgMDU6MzA6MDRQ
+TSArMDEwMCwgU3VkaXAgTXVraGVyamVlIHdyb3RlOgo+ID4gPiA+IFRoZSBidWlsZCBvZiB4dGVu
+c2EgYWxsbW9kY29uZmlnIGlzIGdpdmluZyBhIHdhcm5pbmcgb2Y6Cj4gPiA+ID4gSW4gZnVuY3Rp
+b24gJ2RzaV9kdW1wX2RzaWRldl9pcnFzJzoKPiA+ID4gPiB3YXJuaW5nOiB0aGUgZnJhbWUgc2l6
+ZSBvZiAxMTIwIGJ5dGVzIGlzIGxhcmdlciB0aGFuIDEwMjQgYnl0ZXMKPHNuaXA+Cj4gCj4gV2l0
+aG91dCB5b3VyIHBhdGNoOgo+IAo+ICQgb2JqZHVtcCAteCBkcml2ZXJzL3ZpZGVvL2ZiZGV2L29t
+YXAyL29tYXBmYi9kc3MvZHNpLm8gfCBncmVwIGRzaV9kdW1wX2RzaWRldl9pcnFzCj4gMDAwMDBk
+MjAgbCAgICAgRiAudGV4dAkwMDAwMDYxYyBkc2lfZHVtcF9kc2lkZXZfaXJxcwo+IAo+IFdpdGgg
+eW91ciBwYXRjaDoKPiAKPiAkIG9iamR1bXAgLXggZHJpdmVycy92aWRlby9mYmRldi9vbWFwMi9v
+bWFwZmIvZHNzL2RzaS5vIHwgZ3JlcCBkc2lfZHVtcF9kc2lkZXZfaXJxcwo+IDAwMDAwZDIwIGwg
+ICAgIEYgLnRleHQJMDAwMDA2MzggZHNpX2R1bXBfZHNpZGV2X2lycXMKCkkgZGlkIG9iamR1bXAg
+LWQgYW5kIHRoZW4gY29tcGFyZWQgd2hlcmUgaXQgc3RhcnRlZCBhbmQgd2hlcmUgaXQgZW5kZWQu
+CgpCdXQsIGluIGFueWNhc2UsIHRoaXMgZHJpdmVyIGlzIGZyYW1lYnVmZmVyIGRyaXZlciBmb3Ig
+b21hcDIgYW5kIGluCnJlYWxpdHksIGNhbiBvbmx5IGJlIHVzZWQgb24gYXJtIHBsYXRmb3JtIGFu
+ZCB3aGVuIEkgYnVpbGQgdGhlIGRyaXZlcgp3aXRoIGFybSBjb21waWxlciBJIGFtIG5vdCBnZXR0
+aW5nIHRoaXMgd2FybmluZy4gVGhpcyBpcyBub3QgYSB2YWxpZApjb25jZXJuLCBwbGVhc2UgcmVq
+ZWN0IHRoaXMgcGF0Y2guCgotLQpSZWdhcmRzClN1ZGlwCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
