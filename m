@@ -2,43 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23AC8DE055
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Oct 2019 22:11:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15C3BDE056
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Oct 2019 22:13:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF46689A08;
-	Sun, 20 Oct 2019 20:11:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E007E89A67;
+	Sun, 20 Oct 2019 20:13:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE3D689A08
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Oct 2019 20:11:30 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9EBF889A76
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Oct 2019 20:13:11 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 9B5DA720E2; Sun, 20 Oct 2019 20:13:11 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 203033] nouveau hung task
-Date: Sun, 20 Oct 2019 20:11:30 +0000
-X-Bugzilla-Reason: None
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Sun, 20 Oct 2019 20:13:11 +0000
+X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: me@sijmenschoon.nl
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: shtetldik@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-203033-2300-BDMDLevZrD@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-203033-2300@https.bugzilla.kernel.org/>
-References: <bug-203033-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111481-502-Y2J2uBlw8R@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
- message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,35 +53,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0783654868=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDMwMzMKCm1lQHNp
-am1lbnNjaG9vbi5ubCBjaGFuZ2VkOgoKICAgICAgICAgICBXaGF0ICAgIHxSZW1vdmVkICAgICAg
-ICAgICAgICAgICAgICAgfEFkZGVkCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KICAgICAgICAgICAgICAg
-ICBDQ3wgICAgICAgICAgICAgICAgICAgICAgICAgICAgfG1lQHNpam1lbnNjaG9vbi5ubAoKLS0t
-IENvbW1lbnQgIzEgZnJvbSBtZUBzaWptZW5zY2hvb24ubmwgLS0tCkknbSBoYXZpbmcgdGhlIHNh
-bWUgaXNzdWUuIEFyY2ggTGludXgsIDUuMy42LWFyY2gxLTEtQVJDSCwgb24gbm91dmVhdSBkcml2
-ZXJzCm9uIGEgR1RYIDk3MCAoTlYxMTApLgoKSU5GTzogdGFzayBrd29ya2VyL3U4OjA6NzE2MyBi
-bG9ja2VkIGZvciBtb3JlIHRoYW4gMTIyIHNlY29uZHMuCiAgICAgIE5vdCB0YWludGVkIDUuMy42
-LWFyY2gxLTEtQVJDSCAjMQoiZWNobyAwID4gL3Byb2Mvc3lzL2tlcm5lbC9odW5nX3Rhc2tfdGlt
-ZW91dF9zZWNzIiBkaXNhYmxlcyB0aGlzIG1lc3NhZ2UuCmt3b3JrZXIvdTg6MCAgICBEICAgIDAg
-IDcxNjMgICAgICAyIDB4ODAwMDQwODAKV29ya3F1ZXVlOiBldmVudHNfdW5ib3VuZCBudjUwX2Rp
-c3BfYXRvbWljX2NvbW1pdF93b3JrIFtub3V2ZWF1XQpDYWxsIFRyYWNlOgogPyBfX3NjaGVkdWxl
-KzB4MjdmLzB4NmQwCiBzY2hlZHVsZSsweDQzLzB4ZDAKIHNjaGVkdWxlX3RpbWVvdXQrMHgyOTkv
-MHgzZDAKIGRtYV9mZW5jZV9kZWZhdWx0X3dhaXQrMHgxYjkvMHgyYzAKID8gZG1hX2ZlbmNlX3dh
-aXRfdGltZW91dCsweDExMC8weDExMAogZG1hX2ZlbmNlX3dhaXRfdGltZW91dCsweDEwNS8weDEx
-MAogZHJtX2F0b21pY19oZWxwZXJfd2FpdF9mb3JfZmVuY2VzKzB4NjEvMHhjMCBbZHJtX2ttc19o
-ZWxwZXJdCiBudjUwX2Rpc3BfYXRvbWljX2NvbW1pdF90YWlsKzB4N2EvMHg2YzAgW25vdXZlYXVd
-CiA/IF9yYXdfc3Bpbl91bmxvY2tfaXJxKzB4MWQvMHgzMAogPyBmaW5pc2hfdGFza19zd2l0Y2gr
-MHg4NS8weDJlMAogPyBfX3N3aXRjaF90bysweDg2LzB4NDYwCiBwcm9jZXNzX29uZV93b3JrKzB4
-MWQxLzB4M2EwCiB3b3JrZXJfdGhyZWFkKzB4NGEvMHgzZDAKIGt0aHJlYWQrMHhmYi8weDEzMAog
-PyBwcm9jZXNzX29uZV93b3JrKzB4M2EwLzB4M2EwCiA/IGt0aHJlYWRfcGFyaysweDgwLzB4ODAK
-IHJldF9mcm9tX2ZvcmsrMHgzNS8weDQwCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWls
-IGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0783654868==
+Content-Type: multipart/alternative; boundary="15716023919.4ccc015.27554"
+Content-Transfer-Encoding: 7bit
+
+
+--15716023919.4ccc015.27554
+Date: Sun, 20 Oct 2019 20:13:11 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+
+--- Comment #114 from Shmerl <shtetldik@gmail.com> ---
+Just to clarify. Is this affecting only OpenGL code paths? Firefox with
+WebRender is for example using OpenGL. I.e. can those hangs be a problem wi=
+th
+radeonsi doing something incorrectly, or it's for sure a bug in amdgpu kern=
+el
+driver?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15716023919.4ccc015.27554
+Date: Sun, 20 Oct 2019 20:13:11 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c114">Comm=
+ent # 114</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+shtetldik&#64;gmail.com" title=3D"Shmerl &lt;shtetldik&#64;gmail.com&gt;"> =
+<span class=3D"fn">Shmerl</span></a>
+</span></b>
+        <pre>Just to clarify. Is this affecting only OpenGL code paths? Fir=
+efox with
+WebRender is for example using OpenGL. I.e. can those hangs be a problem wi=
+th
+radeonsi doing something incorrectly, or it's for sure a bug in amdgpu kern=
+el
+driver?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15716023919.4ccc015.27554--
+
+--===============0783654868==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0783654868==--
