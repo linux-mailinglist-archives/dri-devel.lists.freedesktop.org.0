@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E0DBDDE4B
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Oct 2019 13:29:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B769ADDEC0
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Oct 2019 16:00:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21285896ED;
-	Sun, 20 Oct 2019 11:29:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B39B89A9B;
+	Sun, 20 Oct 2019 13:59:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 33BDA89798
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Oct 2019 11:29:19 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B8D4C89AA7
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Oct 2019 13:59:57 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 30ABB720E2; Sun, 20 Oct 2019 11:29:19 +0000 (UTC)
+ id B5708720E2; Sun, 20 Oct 2019 13:59:57 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 108942] idle power consumption of Polaris 20 GPU reported too
- high in amdgpu_pm_info
-Date: Sun, 20 Oct 2019 11:29:19 +0000
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Sun, 20 Oct 2019 13:59:57 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tempel.julian@gmail.com
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: danielsuarez369@protonmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
+X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-108942-502-33JFgjAVfW@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-108942-502@http.bugs.freedesktop.org/>
-References: <bug-108942-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111481-502-vy0yN4HGIq@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,36 +53,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0281784353=="
+Content-Type: multipart/mixed; boundary="===============0901907752=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0281784353==
-Content-Type: multipart/alternative; boundary="15715709591.074dfa75.4439"
+--===============0901907752==
+Content-Type: multipart/alternative; boundary="15715799977.caDadF.25830"
 Content-Transfer-Encoding: 7bit
 
 
---15715709591.074dfa75.4439
-Date: Sun, 20 Oct 2019 11:29:19 +0000
+--15715799977.caDadF.25830
+Date: Sun, 20 Oct 2019 13:59:57 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D108942
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
 
---- Comment #4 from tempel.julian@gmail.com ---
-I wonder why this is still an issue (linux 5.3.4, showing 30W with lowest
-clocks and voltages) if it already worked with Polaris 11 some years ago.
+--- Comment #113 from Daniel Suarez <danielsuarez369@protonmail.com> ---
+(In reply to Shmerl from comment #112)
+> (In reply to Jeremy Attali from comment #111)
+> > I confirm I'm also still getting some hangs from time to time. Mostly I
+> > think after a resume from Suspend.
+>=20
+> I wonder if on resume something is getting messed up, and it's a motherbo=
+ard
+> firmware dependent issue?
+
+I don't ever suspend so I can't comment, but the issue for me happens
+constantly regardless. Completely unusable honestly, had to put back in my
+GTX1060 in the meantime, hopefully AMD fixes this issue soon
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15715709591.074dfa75.4439
-Date: Sun, 20 Oct 2019 11:29:19 +0000
+--15715799977.caDadF.25830
+Date: Sun, 20 Oct 2019 13:59:57 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -98,24 +108,35 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - idle power consumption of Polaris 20 GPU reported too hig=
-h in amdgpu_pm_info"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108942#c4">Commen=
-t # 4</a>
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c113">Comm=
+ent # 113</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - idle power consumption of Polaris 20 GPU reported too hig=
-h in amdgpu_pm_info"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108942">bug 10894=
-2</a>
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
-ulian&#64;gmail.com</a>
+danielsuarez369&#64;protonmail.com" title=3D"Daniel Suarez &lt;danielsuarez=
+369&#64;protonmail.com&gt;"> <span class=3D"fn">Daniel Suarez</span></a>
 </span></b>
-        <pre>I wonder why this is still an issue (linux 5.3.4, showing 30W =
-with lowest
-clocks and voltages) if it already worked with Polaris 11 some years ago.</=
-pre>
+        <pre>(In reply to Shmerl from <a href=3D"show_bug.cgi?id=3D111481#c=
+112">comment #112</a>)
+<span class=3D"quote">&gt; (In reply to Jeremy Attali from <a href=3D"show_=
+bug.cgi?id=3D111481#c111">comment #111</a>)
+&gt; &gt; I confirm I'm also still getting some hangs from time to time. Mo=
+stly I
+&gt; &gt; think after a resume from Suspend.
+&gt;=20
+&gt; I wonder if on resume something is getting messed up, and it's a mothe=
+rboard
+&gt; firmware dependent issue?</span >
+
+I don't ever suspend so I can't comment, but the issue for me happens
+constantly regardless. Completely unusable honestly, had to put back in my
+GTX1060 in the meantime, hopefully AMD fixes this issue soon</pre>
         </div>
       </p>
 
@@ -129,9 +150,9 @@ pre>
     </body>
 </html>=
 
---15715709591.074dfa75.4439--
+--15715799977.caDadF.25830--
 
---===============0281784353==
+--===============0901907752==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -141,4 +162,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0281784353==--
+--===============0901907752==--
