@@ -2,55 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F2ABDF7F0
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2019 00:21:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 935CFDF810
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2019 00:35:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 191186E29B;
-	Mon, 21 Oct 2019 22:21:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AB6989FAD;
+	Mon, 21 Oct 2019 22:35:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x141.google.com (mail-il1-x141.google.com
- [IPv6:2607:f8b0:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CA816E176;
- Mon, 21 Oct 2019 21:14:59 +0000 (UTC)
-Received: by mail-il1-x141.google.com with SMTP id t5so13399834ilh.10;
- Mon, 21 Oct 2019 14:14:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=LR3+seWWFASqTSZQrCeqQuAxv454H5+n1q+3KOFbBcs=;
- b=ALPryS71TneRlDMJ7owthI529LX9FUw+fUOgYwkvqalgaSp8m6VjYXXIfP9hSbEEt1
- RldPw5UMbex+PHr0EuQXzpdk+PDl4sUHdpop+XbcBo1goBQaKjywduaZMkDdDN/ycNVf
- oGf4a647iPZ2d/Th0feF6+Atc92EOqaAE1EeIFOkOx4m+IXq+HPHHeMV3+QTb0v8kpYu
- tEZlXydTOOwNBzBNgJ8yW9mKghsE5XuZmz3Bk+G6MbQKLLElVL+DtZQShEI2G7TOfXVg
- FHZdffmj9JxRNsvTqxrKehIocPTU26N5wLe0xKPIIzbDy80pm9mcQEoY0cxvJO9nxCKp
- ePJA==
-X-Gm-Message-State: APjAAAWEH4Lh+bnhga52r1Y0a2NM55R3Wb5rebZMfzgqHavjZ5ntHu/1
- Dzkxy/AMALscAY/rEImoPwA=
-X-Google-Smtp-Source: APXvYqyUmrw7izwsnnLUWNHlEPHYO40uOt6aOQoTUw2Mw/Tsn91K4k/anOyP4E2hJDIrHP3dqzyD8w==
-X-Received: by 2002:a92:5b16:: with SMTP id p22mr29585825ilb.226.1571692498435; 
- Mon, 21 Oct 2019 14:14:58 -0700 (PDT)
-Received: from cs-dulles.cs.umn.edu (cs-dulles.cs.umn.edu. [128.101.35.54])
- by smtp.googlemail.com with ESMTPSA id m9sm6722618ilc.44.2019.10.21.14.14.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Oct 2019 14:14:57 -0700 (PDT)
-From: Navid Emamdoost <navid.emamdoost@gmail.com>
-To: 
-Subject: [PATCH] drm/nouveau: Fix memory leak in nouveau_bo_alloc
-Date: Mon, 21 Oct 2019 16:14:48 -0500
-Message-Id: <20191021211449.9104-1-navid.emamdoost@gmail.com>
-X-Mailer: git-send-email 2.17.1
-X-Mailman-Approved-At: Mon, 21 Oct 2019 22:21:17 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=LR3+seWWFASqTSZQrCeqQuAxv454H5+n1q+3KOFbBcs=;
- b=G1I6gh7o/OFhK2+ufBpndx46sR9cyY67N6CBxIyxkgWvcaRC5RoOzDnEuqkOFFZ9Xh
- G2lGR9XhD9UJd43XoN6GjpKobREtEatr0444g4HiQ0vIp6qcNtT9izy8dxqFp7CXKHce
- 8ZBaD4kQTeheSROXlCqCHJqYicJ5iQ9VeVlwsT+l0LYnADQQy12XeEgxz24VbihIbmas
- EBjpvrrl1tTvDVxNOoo+e8t7++Ptu20ey5KWx8LMT5lgriVDB4E5qG+qhKZbKmv0K1nQ
- sj6wWW0LedhBb9aXveHWrW2drichJEGv+dQwI930GHMCZji2BtPwr2uJu7Pbcz+SohQR
- h8iA==
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 755588919D;
+ Mon, 21 Oct 2019 22:35:27 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 46xs0P6DhKz9sNx;
+ Tue, 22 Oct 2019 09:35:17 +1100 (AEDT)
+Date: Tue, 22 Oct 2019 09:35:12 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Al Viro <viro@ZenIV.linux.org.uk>
+Subject: linux-next: build warning after merge of the vfs-fixes tree
+Message-ID: <20191022093512.4317a715@canb.auug.org.au>
+In-Reply-To: <20191022080734.41955464@canb.auug.org.au>
+References: <20191022080734.41955464@canb.auug.org.au>
+MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=canb.auug.org.au; s=201702; t=1571697324;
+ bh=mWwMU/9afAxY94ma+WI7D78i4ILv7tb5kzG4pD4tg5I=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=NSXU+gzwt+tayzDS06y1MWmNgE5tcmk8TyT6woIw7h4dXu+3PSdvC7PlM1uVjD6sn
+ gWIeJOjcjJbPAB7Bbdjlev4l6oIKaMwEpg0VrSLFKH1qhyL/BkOclSWMlFdkJnO4SZ
+ hEzlIkF9p86Ot8ZcxxpEwW7KhEhrspuiLDOJGm08SLB1b8poL4CjmvfptBUeqHcBM1
+ TgBlMS70rNzVwtWTmiYx0O2lPpAGDw7ZsgGtrLF1/n3DdsX/49rRPuw4QDr8wR2rxt
+ H9SN+iyuH5GxSIyrSI/qR5QAKd1i7KkjpatoSjNg+unc+RLTm66eb+NAbB/LGFL7nv
+ ttOsJuu1xMOQw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,33 +48,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- kjlu@umn.edu, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- emamd001@umn.edu, Ben Skeggs <bskeggs@redhat.com>, smccaman@umn.edu,
- Navid Emamdoost <navid.emamdoost@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Guillem Jover <guillem@hadrons.org>
+Content-Type: multipart/mixed; boundary="===============1062430209=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SW4gdGhlIGltcGxlbWVudGF0aW9uIG9mIG5vdXZlYXVfYm9fYWxsb2MoKSBpZiBpdCBmYWlscyB0
-byBkZXRlcm1pbmUgdGhlCnRhcmdldCBwYWdlIHNpemUgdmlhIHBpLCB0aGVuIHRoZSBhbGxvY2F0
-ZWQgbWVtb3J5IGZvciBudmJvIHNob3VsZCBiZQpyZWxlYXNlZC4KCkZpeGVzOiAwMTljYmQ0YTRm
-ZWIgKCJkcm0vbm91dmVhdTogSW5pdGlhbGl6ZSBHRU0gb2JqZWN0IGJlZm9yZSBUVE0gb2JqZWN0
-IikKU2lnbmVkLW9mZi1ieTogTmF2aWQgRW1hbWRvb3N0IDxuYXZpZC5lbWFtZG9vc3RAZ21haWwu
-Y29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYm8uYyB8IDQgKysrLQog
-MSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYm8uYyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9ub3V2ZWF1L25vdXZlYXVfYm8uYwppbmRleCBmODAxNWUwMzE4ZDcuLjE4ODU3Y2Y0NDA2OCAx
-MDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9iby5jCisrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYm8uYwpAQCAtMjc2LDggKzI3NiwxMCBAQCBu
-b3V2ZWF1X2JvX2FsbG9jKHN0cnVjdCBub3V2ZWF1X2NsaSAqY2xpLCB1NjQgKnNpemUsIGludCAq
-YWxpZ24sIHUzMiBmbGFncywKIAkJCWJyZWFrOwogCX0KIAotCWlmIChXQVJOX09OKHBpIDwgMCkp
-CisJaWYgKFdBUk5fT04ocGkgPCAwKSkgeworCQlrZnJlZShudmJvKTsKIAkJcmV0dXJuIEVSUl9Q
-VFIoLUVJTlZBTCk7CisJfQogCiAJLyogRGlzYWJsZSBjb21wcmVzc2lvbiBpZiBzdWl0YWJsZSBz
-ZXR0aW5ncyBjb3VsZG4ndCBiZSBmb3VuZC4gKi8KIAlpZiAobnZiby0+Y29tcCAmJiAhdm1tLT5w
-YWdlW3BpXS5jb21wKSB7Ci0tIAoyLjE3LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbA==
+--===============1062430209==
+Content-Type: multipart/signed; boundary="Sig_/+MnaRVg7=hrPm6q/bC3wrLW";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/+MnaRVg7=hrPm6q/bC3wrLW
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi all,
+
+[Some people didn't get this due to a typo]
+
+This should have been reported against the vfs-fixes tree, sorry.
+
+On Tue, 22 Oct 2019 08:07:34 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
+wrote:
+>
+> After merging the drm-misc-fixes tree, today's linux-next build (powerpc
+> ppc64_defconfig) produced this warning:
+>=20
+> In file included from include/uapi/linux/posix_types.h:5,
+>                  from include/uapi/linux/types.h:14,
+>                  from include/linux/types.h:6,
+>                  from include/linux/limits.h:6,
+>                  from include/linux/kernel.h:7,
+>                  from fs/aio.c:14:
+> fs/aio.c: In function '__do_compat_sys_io_pgetevents':
+> include/linux/stddef.h:8:14: warning: initialization of 'unsigned int' fr=
+om 'void *' makes integer from pointer without a cast [-Wint-conversion]
+>     8 | #define NULL ((void *)0)
+>       |              ^
+> fs/aio.c:2196:38: note: in expansion of macro 'NULL'
+>  2196 |  struct __compat_aio_sigset ksig =3D { NULL, };
+>       |                                      ^~~~
+> include/linux/stddef.h:8:14: note: (near initialization for 'ksig.sigmask=
+')
+>     8 | #define NULL ((void *)0)
+>       |              ^
+> fs/aio.c:2196:38: note: in expansion of macro 'NULL'
+>  2196 |  struct __compat_aio_sigset ksig =3D { NULL, };
+>       |                                      ^~~~
+> fs/aio.c: In function '__do_compat_sys_io_pgetevents_time64':
+> include/linux/stddef.h:8:14: warning: initialization of 'unsigned int' fr=
+om 'void *' makes integer from pointer without a cast [-Wint-conversion]
+>     8 | #define NULL ((void *)0)
+>       |              ^
+> fs/aio.c:2231:38: note: in expansion of macro 'NULL'
+>  2231 |  struct __compat_aio_sigset ksig =3D { NULL, };
+>       |                                      ^~~~
+> include/linux/stddef.h:8:14: note: (near initialization for 'ksig.sigmask=
+')
+>     8 | #define NULL ((void *)0)
+>       |              ^
+> fs/aio.c:2231:38: note: in expansion of macro 'NULL'
+>  2231 |  struct __compat_aio_sigset ksig =3D { NULL, };
+>       |                                      ^~~~
+>=20
+> Introduced by commit
+>=20
+>   de80166a573d ("aio: Fix io_pgetevents() struct __compat_aio_sigset layo=
+ut")
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/+MnaRVg7=hrPm6q/bC3wrLW
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl2uMqAACgkQAVBC80lX
+0GzBEgf/QWY36zyJyHAo2qQe3OGW0vXOK8hxxdovUAtn32TYMjpgSpYEj3mcMY3z
+5Y1LiS5m6Z59wE2Jmlf853f4iNqCgncILtBPEpfG8aZ617hjzkEVmAc6PuWsPPfi
+/xfghH6wX4803L2gAXZxfLkw/8fvtteJ+Ol7btC9ZZVHRjc/duYF66qdRcmjxNn/
+a7t8VJyw7fj0KYHp2sKfDl8adFeWT74ZrfoXnIkfCvRB7sGj69NDW6KxjPL/CTa5
+n4oa57uL2ACZsbmmRrVUzMjKaMBKbzN4X4x2s+9qT6be1a9xTzEOSiVS1655yXTh
+/4nteu4PV9+hJO7ACTKRv/Qdc07A8Q==
+=edIx
+-----END PGP SIGNATURE-----
+
+--Sig_/+MnaRVg7=hrPm6q/bC3wrLW--
+
+--===============1062430209==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1062430209==--
