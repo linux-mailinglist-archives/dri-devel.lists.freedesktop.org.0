@@ -2,44 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B149DF2E4
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2019 18:24:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B75C5DF383
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2019 18:46:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F0346E184;
-	Mon, 21 Oct 2019 16:24:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CDB16E182;
+	Mon, 21 Oct 2019 16:46:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 16B746E180
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2019 16:24:35 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 13CEF720E2; Mon, 21 Oct 2019 16:24:35 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Mon, 21 Oct 2019 16:24:35 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: haro41@gmx.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109955-502-123L4Ka4s3@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
-References: <bug-109955-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+X-Greylist: delayed 361 seconds by postgrey-1.36 at gabe;
+ Mon, 21 Oct 2019 16:46:43 UTC
+Received: from mo6-p01-ob.smtp.rzone.de (mo6-p01-ob.smtp.rzone.de
+ [IPv6:2a01:238:20a:202:5301::8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71C2F6E180;
+ Mon, 21 Oct 2019 16:46:43 +0000 (UTC)
+X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVORvLd4SsytBXQrEOHTIXsMv3qxU1"
+X-RZG-CLASS-ID: mo00
+Received: from localhost.localdomain by smtp.strato.de (RZmta 44.28.1 AUTH)
+ with ESMTPSA id 409989v9LGedQlb
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve secp521r1 with
+ 521 ECDH bits, eq. 15360 bits RSA))
+ (Client did not present a certificate);
+ Mon, 21 Oct 2019 18:40:39 +0200 (CEST)
+From: Stephan Gerhold <stephan@gerhold.net>
+To: Rob Clark <robdclark@gmail.com>,
+	Sean Paul <sean@poorly.run>
+Subject: [PATCH] drm/msm/dsi: Implement qcom,
+ dsi-phy-regulator-ldo-mode for 28nm PHY
+Date: Mon, 21 Oct 2019 18:34:25 +0200
+Message-Id: <20191021163425.83697-1-stephan@gerhold.net>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ t=1571676401; 
+ s=strato-dkim-0002; d=gerhold.net;
+ h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
+ Subject:Sender;
+ bh=f1jboLQF08Nk01XPjPEv1GO0NA6sMlhX/MAZdLwfMS4=;
+ b=Hv7i718qRtPcW4QfiVobb5t+Aqby/2bpArAitq+1LhcVPP78L7zs/kUkG/BTMHSdKa
+ SrJghPZHDeC6IPi/JEO71SMlyFkdIkQwmdW7X/jQkwiWOBG1S+uThAufknvusKTrhx8f
+ 7iOZN78Q8lrxnZRl20ZT9TH7Us0EnS5OyzDEwWIMReuacWDu35oWSGoCu1kn1VWf3tgm
+ VujFr28tPZSSpK6+JbLlIh63DCiPQJWxH0uaXfiwqmIg9Swj8eKt3nRX8N42wdo54W85
+ SDETqS2mE9lepC4edQlKxwN1oe31acelzh0je/EAlhkDqhYm/5S+Jo4Mgh8tpEkz5wKt
+ KvZg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,97 +56,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1743228681=="
+Cc: Hai Li <hali@codeaurora.org>, Stephan Gerhold <stephan@gerhold.net>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Nikita Travkin <nikitos.tr@gmail.com>, freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1743228681==
-Content-Type: multipart/alternative; boundary="15716750750.c25d.15198"
-Content-Transfer-Encoding: 7bit
-
-
---15716750750.c25d.15198
-Date: Mon, 21 Oct 2019 16:24:35 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
-
---- Comment #117 from haro41@gmx.de ---
-...are this craches more frequently with VSYNC enabled?
-
-If yes, it could be the same thing like this bug:
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110777
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15716750750.c25d.15198
-Date: Mon, 21 Oct 2019 16:24:35 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c117">Comm=
-ent # 117</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-haro41&#64;gmx.de" title=3D"haro41&#64;gmx.de">haro41&#64;gmx.de</a>
-</span></b>
-        <pre>...are this craches more frequently with VSYNC enabled?
-
-If yes, it could be the same thing like this bug:
-
-<a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Kernel 5.1-5.3 MCLK stuck at 167MHz Vega 10 (56/64)"
-   href=3D"show_bug.cgi?id=3D110777">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D110777</a></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15716750750.c25d.15198--
-
---===============1743228681==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1743228681==--
+VGhlIERTSSBQSFkgcmVndWxhdG9yIHN1cHBvcnRzIHR3byByZWd1bGF0b3IgbW9kZXM6IExETyBh
+bmQgRENEQy4KVGhpcyBtb2RlIGNhbiBiZSBzZWxlY3RlZCB1c2luZyB0aGUgInFjb20sZHNpLXBo
+eS1yZWd1bGF0b3ItbGRvLW1vZGUiCmRldmljZSB0cmVlIHByb3BlcnR5LgoKSG93ZXZlciwgYXQg
+dGhlIG1vbWVudCBvbmx5IHRoZSAyMG5tIFBIWSBkcml2ZXIgYWN0dWFsbHkgaW1wbGVtZW50cwp0
+aGF0IG9wdGlvbi4gQWRkIGEgY2hlY2sgaW4gdGhlIDI4bm0gUEhZIGRyaXZlciB0byBwcm9ncmFt
+IHRoZQpyZWdpc3RlcnMgY29ycmVjdGx5IGZvciBMRE8gbW9kZS4KClRlc3RlZC1ieTogTmlraXRh
+IFRyYXZraW4gPG5pa2l0b3MudHJAZ21haWwuY29tPiAjIGw4MTUwClNpZ25lZC1vZmYtYnk6IFN0
+ZXBoYW4gR2VyaG9sZCA8c3RlcGhhbkBnZXJob2xkLm5ldD4KLS0tClRoaXMgaXMgbmVlZGVkIHRv
+IG1ha2UgdGhlIGRpc3BsYXkgd29yayBvbiBMb25nY2hlZXIgTDgxNTAsCndoaWNoIGhhcyByZWNl
+bnRseSBnYWluZWQgbWFpbmxpbmUgc3VwcG9ydCBpbjoKaHR0cHM6Ly9naXQua2VybmVsLm9yZy9w
+dWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvcWNvbS9saW51eC5naXQvY29tbWl0Lz9pZD0xNmU4ZTgw
+NzIxMDg0MjYwMjlmMGMxNmRmZjdmYmU3N2ZhZTNkZjhmCgpUaGlzIHBhdGNoIGlzIGJhc2VkIG9u
+IGNvZGUgZnJvbSB0aGUgZG93bnN0cmVhbSBrZXJuZWw6Cmh0dHBzOi8vc291cmNlLmNvZGVhdXJv
+cmEub3JnL3F1aWMvbGEva2VybmVsL21zbS0zLjEwL3RyZWUvZHJpdmVycy92aWRlby9tc20vbWRz
+cy9tc21fbWRzc19pb184OTc0LmM/aD1MQS5CUi4xLjIuOS4xLTAyMzEwLTh4MTYuMCNuMTUyCgpU
+aGUgTERPIHJlZ3VsYXRvciBjb25maWd1cmF0aW9uIGlzIHRha2VuIGZyb20gbXNtODkxNi1xcmQu
+ZHRzaToKaHR0cHM6Ly9zb3VyY2UuY29kZWF1cm9yYS5vcmcvcXVpYy9sYS9rZXJuZWwvbXNtLTMu
+MTAvdHJlZS9hcmNoL2FybS9ib290L2R0cy9xY29tL21zbTg5MTYtcXJkLmR0c2k/aD1MQS5CUi4x
+LjIuOS4xLTAyMzEwLTh4MTYuMCNuNTYKLS0tCiBkcml2ZXJzL2dwdS9kcm0vbXNtL2RzaS9waHkv
+ZHNpX3BoeV8yOG5tLmMgfCAyMiArKysrKysrKysrKysrKysrKysrKy0tCiAxIGZpbGUgY2hhbmdl
+ZCwgMjAgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJz
+L2dwdS9kcm0vbXNtL2RzaS9waHkvZHNpX3BoeV8yOG5tLmMgYi9kcml2ZXJzL2dwdS9kcm0vbXNt
+L2RzaS9waHkvZHNpX3BoeV8yOG5tLmMKaW5kZXggYjNmNjc4ZjZjMmFhLi40NTc5ZTZkZTQ1MzIg
+MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tc20vZHNpL3BoeS9kc2lfcGh5XzI4bm0uYwor
+KysgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL2RzaS9waHkvZHNpX3BoeV8yOG5tLmMKQEAgLTQ4LDYg
+KzQ4LDI1IEBAIHN0YXRpYyB2b2lkIGRzaV8yOG5tX3BoeV9yZWd1bGF0b3JfY3RybChzdHJ1Y3Qg
+bXNtX2RzaV9waHkgKnBoeSwgYm9vbCBlbmFibGUpCiAJCXJldHVybjsKIAl9CiAKKwlpZiAocGh5
+LT5yZWd1bGF0b3JfbGRvX21vZGUpIHsKKwkJdTMyIGxkb19jdHJsOworCisJCWlmIChwaHktPmNm
+Zy0+dHlwZSA9PSBNU01fRFNJX1BIWV8yOE5NX0xQKQorCQkJbGRvX2N0cmwgPSAweDA1OworCQll
+bHNlCisJCQlsZG9fY3RybCA9IDB4MGQ7CisKKwkJZHNpX3BoeV93cml0ZShiYXNlICsgUkVHX0RT
+SV8yOG5tX1BIWV9SRUdVTEFUT1JfQ1RSTF8wLCAweDApOworCQlkc2lfcGh5X3dyaXRlKGJhc2Ug
+KyBSRUdfRFNJXzI4bm1fUEhZX1JFR1VMQVRPUl9DQUxfUFdSX0NGRywgMCk7CisJCWRzaV9waHlf
+d3JpdGUoYmFzZSArIFJFR19EU0lfMjhubV9QSFlfUkVHVUxBVE9SX0NUUkxfNSwgMHg3KTsKKwkJ
+ZHNpX3BoeV93cml0ZShiYXNlICsgUkVHX0RTSV8yOG5tX1BIWV9SRUdVTEFUT1JfQ1RSTF8zLCAw
+KTsKKwkJZHNpX3BoeV93cml0ZShiYXNlICsgUkVHX0RTSV8yOG5tX1BIWV9SRUdVTEFUT1JfQ1RS
+TF8yLCAweDEpOworCQlkc2lfcGh5X3dyaXRlKGJhc2UgKyBSRUdfRFNJXzI4bm1fUEhZX1JFR1VM
+QVRPUl9DVFJMXzEsIDB4MSk7CisJCWRzaV9waHlfd3JpdGUoYmFzZSArIFJFR19EU0lfMjhubV9Q
+SFlfUkVHVUxBVE9SX0NUUkxfNCwgMHgyMCk7CisJCWRzaV9waHlfd3JpdGUocGh5LT5iYXNlICsg
+UkVHX0RTSV8yOG5tX1BIWV9MRE9fQ05UUkwsIGxkb19jdHJsKTsKKwkJcmV0dXJuOworCX0KKwog
+CWRzaV9waHlfd3JpdGUoYmFzZSArIFJFR19EU0lfMjhubV9QSFlfUkVHVUxBVE9SX0NUUkxfMCwg
+MHgwKTsKIAlkc2lfcGh5X3dyaXRlKGJhc2UgKyBSRUdfRFNJXzI4bm1fUEhZX1JFR1VMQVRPUl9D
+QUxfUFdSX0NGRywgMSk7CiAJZHNpX3BoeV93cml0ZShiYXNlICsgUkVHX0RTSV8yOG5tX1BIWV9S
+RUdVTEFUT1JfQ1RSTF81LCAwKTsKQEAgLTU2LDYgKzc1LDcgQEAgc3RhdGljIHZvaWQgZHNpXzI4
+bm1fcGh5X3JlZ3VsYXRvcl9jdHJsKHN0cnVjdCBtc21fZHNpX3BoeSAqcGh5LCBib29sIGVuYWJs
+ZSkKIAlkc2lfcGh5X3dyaXRlKGJhc2UgKyBSRUdfRFNJXzI4bm1fUEhZX1JFR1VMQVRPUl9DVFJM
+XzEsIDB4OSk7CiAJZHNpX3BoeV93cml0ZShiYXNlICsgUkVHX0RTSV8yOG5tX1BIWV9SRUdVTEFU
+T1JfQ1RSTF8wLCAweDcpOwogCWRzaV9waHlfd3JpdGUoYmFzZSArIFJFR19EU0lfMjhubV9QSFlf
+UkVHVUxBVE9SX0NUUkxfNCwgMHgyMCk7CisJZHNpX3BoeV93cml0ZShwaHktPmJhc2UgKyBSRUdf
+RFNJXzI4bm1fUEhZX0xET19DTlRSTCwgMHgwMCk7CiB9CiAKIHN0YXRpYyBpbnQgZHNpXzI4bm1f
+cGh5X2VuYWJsZShzdHJ1Y3QgbXNtX2RzaV9waHkgKnBoeSwgaW50IHNyY19wbGxfaWQsCkBAIC03
+Nyw4ICs5Nyw2IEBAIHN0YXRpYyBpbnQgZHNpXzI4bm1fcGh5X2VuYWJsZShzdHJ1Y3QgbXNtX2Rz
+aV9waHkgKnBoeSwgaW50IHNyY19wbGxfaWQsCiAKIAlkc2lfMjhubV9waHlfcmVndWxhdG9yX2N0
+cmwocGh5LCB0cnVlKTsKIAotCWRzaV9waHlfd3JpdGUoYmFzZSArIFJFR19EU0lfMjhubV9QSFlf
+TERPX0NOVFJMLCAweDAwKTsKLQogCWRzaV8yOG5tX2RwaHlfc2V0X3RpbWluZyhwaHksIHRpbWlu
+Zyk7CiAKIAlkc2lfcGh5X3dyaXRlKGJhc2UgKyBSRUdfRFNJXzI4bm1fUEhZX0NUUkxfMSwgMHgw
+MCk7Ci0tIAoyLjIzLjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbA==
