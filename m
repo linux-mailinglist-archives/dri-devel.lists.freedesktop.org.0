@@ -2,55 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60826DEB7F
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2019 14:01:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1209ADEB84
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2019 14:02:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F20FA89E5A;
-	Mon, 21 Oct 2019 12:01:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA48689FF9;
+	Mon, 21 Oct 2019 12:02:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7D6E89E5A
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2019 12:00:59 +0000 (UTC)
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2FF5C36955
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2019 12:00:59 +0000 (UTC)
-Received: by mail-qt1-f198.google.com with SMTP id x50so2642884qth.4
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2019 05:00:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=d3fNeTrb8zczujjHnQNEjI0XuAROR+Pj6w/x2dFfu/8=;
- b=m3kxYBnvdWa5nAm0KN+FAp2rftirCKLWA1D/yWrRc9e5SgGptjw46AtQunUmleUGsL
- kOvDbu3tSRg6dJZZgBKOn+BRLch8k14G2dxM3ZUIXTm4JTbF6I7lIovBpn0CvGVWFQWg
- vXjbWSbDUrlNBjhSrL0c2AM+38iKkjjvD42ba7U5RvEVQjBveuxrqYiLy3pdyQ7V1m7w
- aXAmQ7fCbpJISkQkVcLcnLR3qGxKYxZz7KosHxrkzY9F6c7u+oV5BTsrAh8YWyiT8wZN
- 0jZQsJNwSIT5ay2ZUXfxcIEe+SJ9efREjoCWFyfc/58+N025F0O84imy8Sf8KYFDKHev
- QhAQ==
-X-Gm-Message-State: APjAAAUKZBDK07lZ7kVAvWsMqQJjEqnyiJrkrTOAgTnofsHb9+4fzftR
- dSzNC/hxSjszAgBDleCX+llxO5A0I7QVKobM0rtXs3UQdNrRgnvLYd038fAXxJH8dJZgAAZO5Wj
- YuG/HCyeVE6e9vUvoznNz7PZMH+CaP6RRsSUpxLnb4SBV
-X-Received: by 2002:a05:620a:16b9:: with SMTP id
- s25mr22668514qkj.102.1571659258421; 
- Mon, 21 Oct 2019 05:00:58 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxLKUy/SzC+Ir3UqXb3Coc4vgrt7sjwm3oLMxhXO6j4sAHWuzrRvXNIFYbci0UPZXZOe/I7+Lh9FVGm0cooVzg=
-X-Received: by 2002:a05:620a:16b9:: with SMTP id
- s25mr22668481qkj.102.1571659258106; 
- Mon, 21 Oct 2019 05:00:58 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 341346E05D
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2019 12:02:53 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 30EC8720E2; Mon, 21 Oct 2019 12:02:53 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Mon, 21 Oct 2019 12:02:53 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: danielsuarez369@protonmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111481-502-B4CdQHcljd@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20191016144449.24646-1-kherbst@redhat.com>
- <20191021114017.GY2819@lahna.fi.intel.com>
-In-Reply-To: <20191021114017.GY2819@lahna.fi.intel.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Mon, 21 Oct 2019 14:00:46 +0200
-Message-ID: <CACO55tt2iGcySugTAb1khEYpiGoq6Os3upG5fGq+0PbE2gyyeQ@mail.gmail.com>
-Subject: Re: [PATCH v3] pci: prevent putting nvidia GPUs into lower device
- states on certain intel bridges
-To: Mika Westerberg <mika.westerberg@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,36 +53,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux PM <linux-pm@vger.kernel.org>, Linux PCI <linux-pci@vger.kernel.org>,
- "Rafael J . Wysocki" <rjw@rjwysocki.net>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- nouveau <nouveau@lists.freedesktop.org>, Bjorn Helgaas <bhelgaas@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0524439730=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBPY3QgMjEsIDIwMTkgYXQgMTo0MCBQTSBNaWthIFdlc3RlcmJlcmcKPG1pa2Eud2Vz
-dGVyYmVyZ0BpbnRlbC5jb20+IHdyb3RlOgo+Cj4gSGkgS2Fyb2wsCj4KPiBTb3JyeSBmb3IgY29t
-bWVudGluZyBsYXRlLCBJIGp1c3QgY2FtZSBiYWNrIGZyb20gdmFjYXRpb24uCj4KPiBPbiBXZWQs
-IE9jdCAxNiwgMjAxOSBhdCAwNDo0NDo0OVBNICswMjAwLCBLYXJvbCBIZXJic3Qgd3JvdGU6Cj4g
-PiBGaXhlcyBzdGF0ZSB0cmFuc2l0aW9ucyBvZiBOdmlkaWEgUGFzY2FsIEdQVXMgZnJvbSBEM2Nv
-bGQgaW50byBoaWdoZXIgZGV2aWNlCj4gPiBzdGF0ZXMuCj4gPgo+ID4gdjI6IGNvbnZlcnQgdG8g
-cGNpX2RldiBxdWlyawo+ID4gICAgIHB1dCBhIHByb3BlciB0ZWNobmljYWwgZXhwbGFuYXRpb24g
-b2YgdGhlIGlzc3VlIGFzIGEgaW4tY29kZSBjb21tZW50Cj4gPiB2MzogZGlzYWJsZSBpdCBvbmx5
-IGZvciBjZXJ0YWluIGNvbWJpbmF0aW9ucyBvZiBpbnRlbCBhbmQgbnZpZGlhIGhhcmR3YXJlCj4g
-Pgo+ID4gU2lnbmVkLW9mZi1ieTogS2Fyb2wgSGVyYnN0IDxraGVyYnN0QHJlZGhhdC5jb20+Cj4g
-PiBDYzogQmpvcm4gSGVsZ2FhcyA8YmhlbGdhYXNAZ29vZ2xlLmNvbT4KPiA+IENjOiBMeXVkZSBQ
-YXVsIDxseXVkZUByZWRoYXQuY29tPgo+ID4gQ2M6IFJhZmFlbCBKLiBXeXNvY2tpIDxyandAcmp3
-eXNvY2tpLm5ldD4KPiA+IENjOiBNaWthIFdlc3RlcmJlcmcgPG1pa2Eud2VzdGVyYmVyZ0BpbnRl
-bC5jb20+Cj4gPiBDYzogbGludXgtcGNpQHZnZXIua2VybmVsLm9yZwo+ID4gQ2M6IGxpbnV4LXBt
-QHZnZXIua2VybmVsLm9yZwo+ID4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-PiA+IENjOiBub3V2ZWF1QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4gLS0tCj4gPiAgZHJpdmVy
-cy9wY2kvcGNpLmMgICAgfCAxMSArKysrKysrKysrCj4gPiAgZHJpdmVycy9wY2kvcXVpcmtzLmMg
-fCA1MiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKwo+Cj4gSSBt
-YXkgYmUgbWlzc2luZyBzb21ldGhpbmcgYnV0IHdoeSB5b3UgY2FuJ3QgZG8gdGhpcyBpbiB0aGUg
-bm91dmVhdQo+IGRyaXZlciBpdHNlbGY/CgpXaGF0IGRvIHlvdSBtZWFuIHByZWNpc2VseT8gTW92
-ZSB0aGUgcXVpcmsgaW50byBub3V2ZWF1LCBidXQga2VlcCB0aGUKY2hhbmdlcyB0byBwY2kgY29y
-ZT8KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0524439730==
+Content-Type: multipart/alternative; boundary="15716593732.be506c8F.25270"
+Content-Transfer-Encoding: 7bit
+
+
+--15716593732.be506c8F.25270
+Date: Mon, 21 Oct 2019 12:02:53 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+
+--- Comment #120 from Daniel Suarez <danielsuarez369@protonmail.com> ---
+Am I correct in assuming that there's no other patches or commits waiting t=
+o be
+upstreamed? Great, Mesa 19.2.2 will release this Wednesday and again be a o=
+ther
+release that's unusable. Same goes for Mesa-git 19.3 I suppose, unacceptable
+from Amd.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15716593732.be506c8F.25270
+Date: Mon, 21 Oct 2019 12:02:53 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c120">Comm=
+ent # 120</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+danielsuarez369&#64;protonmail.com" title=3D"Daniel Suarez &lt;danielsuarez=
+369&#64;protonmail.com&gt;"> <span class=3D"fn">Daniel Suarez</span></a>
+</span></b>
+        <pre>Am I correct in assuming that there's no other patches or comm=
+its waiting to be
+upstreamed? Great, Mesa 19.2.2 will release this Wednesday and again be a o=
+ther
+release that's unusable. Same goes for Mesa-git 19.3 I suppose, unacceptable
+from Amd.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15716593732.be506c8F.25270--
+
+--===============0524439730==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0524439730==--
