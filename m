@@ -1,87 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84B93DE498
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2019 08:28:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3864DE50E
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2019 08:58:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F143892E3;
-	Mon, 21 Oct 2019 06:28:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E269D89993;
+	Mon, 21 Oct 2019 06:58:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-SN1-obe.outbound.protection.outlook.com
- (mail-eopbgr700065.outbound.protection.outlook.com [40.107.70.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5148A892E3;
- Mon, 21 Oct 2019 06:28:23 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nCye7qVnRWoQdqCFYcuMCuh1aRwGF2E/wBJ8/17zGb70NckqKaIjE6Fb13eKyGcnEk32zx0E91qDcg2NA5mcjmoEe4vs/4ek9vllKrugNdnTE6bpoVhNcOuoP07xzNDHsxEC2LyxR+oipAg7Uz09iWwPVD3eDRauNyuorR7syir8+8B6//PGLSJS2fKh56EQgR4KR0DGb/ki0XcNdXyC2moF6cH5gXxj1/t2SRJLVxsOmhmdwcOgvOdpOSk5feI7h7dOFYxVAVoNQ83UmxI0lJL4QK+fV+ypaIRQErc3pcOXX/T7U1XOGn5iboSbEc7n0FpgNyWW3d8cvktLyHsM/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=99TNmv4fDnG3C2TcqjKSq6/Cuvmfswl2D9dnrP/2fv4=;
- b=lf9VI0Jy6UM/CWdQYm9+YhkWgGYO35ScekaLgVZAQajhViTqtz/5J4wiVOEQN+EYHSn0DWosnzOuL8YtLoUghoV1ntPtsnWMsseAUJksz2ylbj0q1zcrfPOUExNgQPMM1pU3k5nfJIz6STJZvCPsnEYFG3jzHY/EMITd7cY3w7iVXiNUJy7RtKOBE9u9cXXhWi+57w3YV62ZvxzeNrrhXWH36gp8kFCE+BtoKewBzimt1z9PkkOqa76agps4Wb9a17E0C96KnICpmbiYqmlpM8a6Ul4HvX0zKJfYEZ1jMYJNZBZaIO7KdX561dZplOBBvTcFpYpHLFRKSm4KXJvq5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-Received: from DM6PR12MB4137.namprd12.prod.outlook.com (10.141.186.21) by
- DM6PR12MB3052.namprd12.prod.outlook.com (20.178.30.94) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2347.16; Mon, 21 Oct 2019 06:28:18 +0000
-Received: from DM6PR12MB4137.namprd12.prod.outlook.com
- ([fe80::15cc:bc9a:cfb8:44d4]) by DM6PR12MB4137.namprd12.prod.outlook.com
- ([fe80::15cc:bc9a:cfb8:44d4%7]) with mapi id 15.20.2367.022; Mon, 21 Oct 2019
- 06:28:18 +0000
-From: "Lin, Wayne" <Wayne.Lin@amd.com>
-To: =?iso-8859-1?Q?Ville_Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: RE: [PATCH 4/4] drm/edid: Prep for HDMI VIC aspect ratio (WIP)
-Thread-Topic: [PATCH 4/4] drm/edid: Prep for HDMI VIC aspect ratio (WIP)
-Thread-Index: AQHVer67iO9Qqgm3XkSDKEPm0+EUZ6dZ5Z1wgABf9ICACnCEIA==
-Date: Mon, 21 Oct 2019 06:28:18 +0000
-Message-ID: <DM6PR12MB4137F04F08146347AB13B89AFC690@DM6PR12MB4137.namprd12.prod.outlook.com>
-References: <20191004141914.20600-1-ville.syrjala@linux.intel.com>
- <20191004141914.20600-4-ville.syrjala@linux.intel.com>
- <DM6PR12MB4137CFEE415283752693EDC0FC900@DM6PR12MB4137.namprd12.prod.outlook.com>
- <20191014144157.GU1208@intel.com>
-In-Reply-To: <20191014144157.GU1208@intel.com>
-Accept-Language: en-US, zh-TW
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [165.204.68.36]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 74f4dda0-a902-4753-7ea9-08d755efdcd6
-x-ms-office365-filtering-ht: Tenant
-x-ms-traffictypediagnostic: DM6PR12MB3052:
-x-microsoft-antispam-prvs: <DM6PR12MB305220F6A284F9083C30F454FC690@DM6PR12MB3052.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 0197AFBD92
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(396003)(136003)(366004)(346002)(376002)(39860400002)(13464003)(199004)(189003)(86362001)(6246003)(8676002)(81156014)(3846002)(71200400001)(6116002)(81166006)(14444005)(256004)(316002)(55016002)(33656002)(6436002)(71190400001)(11346002)(476003)(446003)(486006)(99286004)(6916009)(8936002)(5660300002)(186003)(76176011)(102836004)(26005)(6506007)(478600001)(53546011)(4326008)(52536014)(7696005)(9686003)(305945005)(14454004)(7736002)(54906003)(76116006)(66446008)(64756008)(66556008)(66476007)(66946007)(2906002)(66066001)(25786009)(74316002)(66574012)(229853002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR12MB3052;
- H:DM6PR12MB4137.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: JTbXJfvm9cJSDRMHVRJUe84J6PapjGw+PizFt4wzMBOf67hpmPijDxqorFJ1liiYZyrq7sKBkU6oH80762xXhNelqdnljblLcyZJekgLyG+/wSNUW5Zux/s4nW4hrNsqFFTJt9KX2/uydard4Zuac8uXHx7hQXMvyPFNPsNC13LavHLhQ3p5uzPwo0wfReGqbHYvwqZzmXRJ7+xVSM+X4qk/uSRAS0cZWdRV74DTkPX6GzcbWG3/PJehKlUqe8h+BZjmJ9c5mijgr2jPhlxhAPJvO1nrluAa2uuRqVhAMQT8DnsPhE2b9CHxkkxUWs3LclfbIvgShiYvUhSXUO+/Jb7N7SwON/eFPf7wwNnlDu3JvLUCDDXX1Awv6DPLg8ut2bORkb+03+1KzEfmTgAmz1z5DCPZlMzMQubxWZFa20Y=
-x-ms-exchange-transport-forked: True
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7F82B89993
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2019 06:58:21 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 76DE6720E2; Mon, 21 Oct 2019 06:58:21 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 112079] X lockups with HWCursor enabled - Navi 5700 XT
+Date: Mon, 21 Oct 2019 06:58:21 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: asheldon55@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-112079-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 74f4dda0-a902-4753-7ea9-08d755efdcd6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Oct 2019 06:28:18.2900 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fbx5QgMe0wdsEfbxNjF5ewt0B9n8Ln5RXzVba334wxSGYeREvtRyEiJrUbjw96tNLfehR80u0XRcIyv2uk4RJw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3052
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=99TNmv4fDnG3C2TcqjKSq6/Cuvmfswl2D9dnrP/2fv4=;
- b=VZfTIA4Df25iNvbkZZVDlRy0hYeWUvs2p7HaaobYD4RSJQ9/wPyxgQMAKtln5wJ0CAtAKuOXHN3S3lNBI7oxA5ID85AExRr5VvhZJx/MlrrbI23N12/wpYzrK63NnBnBtFbJa2UTU4W4utQ2wqbcbASs1xTfIInrLkVsdEPKi0g=
-X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Wayne.Lin@amd.com; 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,123 +51,528 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1502602033=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Cgo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tCj4gRnJvbTogVmlsbGUgU3lyasOkbMOkIDx2
-aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPiBTZW50OiBNb25kYXksIE9jdG9iZXIgMTQs
-IDIwMTkgMTA6NDIgUE0KPiBUbzogTGluLCBXYXluZSA8V2F5bmUuTGluQGFtZC5jb20+Cj4gQ2M6
-IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGludGVsLWdmeEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKPiBTdWJqZWN0OiBSZTogW1BBVENIIDQvNF0gZHJtL2VkaWQ6IFByZXAgZm9yIEhE
-TUkgVklDIGFzcGVjdCByYXRpbyAoV0lQKQo+IAo+IE9uIE1vbiwgT2N0IDE0LCAyMDE5IGF0IDA5
-OjI3OjA3QU0gKzAwMDAsIExpbiwgV2F5bmUgd3JvdGU6Cj4gPgo+ID4KPiA+ID4gLS0tLS1Pcmln
-aW5hbCBNZXNzYWdlLS0tLS0KPiA+ID4gRnJvbTogVmlsbGUgU3lyamFsYSA8dmlsbGUuc3lyamFs
-YUBsaW51eC5pbnRlbC5jb20+Cj4gPiA+IFNlbnQ6IEZyaWRheSwgT2N0b2JlciA0LCAyMDE5IDEw
-OjE5IFBNCj4gPiA+IFRvOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPiA+IENj
-OiBpbnRlbC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBMaW4sIFdheW5lIDxXYXluZS5MaW5A
-YW1kLmNvbT4KPiA+ID4gU3ViamVjdDogW1BBVENIIDQvNF0gZHJtL2VkaWQ6IFByZXAgZm9yIEhE
-TUkgVklDIGFzcGVjdCByYXRpbyAoV0lQKQo+ID4gPgo+ID4gPiBGcm9tOiBWaWxsZSBTeXJqw6Rs
-w6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+ID4gPgo+ID4gPiBJIHRoaW5rIHRo
-aXMgc2hvdWxkIHByb3ZpZGUgbW9zdCBvZiBuZWNlc3NhcnkgbG9naWMgZm9yIGFkZGluZwo+ID4g
-PiBhc3BlY3IgcmF0aW9zIHRvIHRoZSBIRE1JIDRrIG1vZGVzLgo+ID4gPgo+ID4gPiBDYzogV2F5
-bmUgTGluIDx3YXluZWxpbkBhbWQuY29tPgo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBWaWxsZSBTeXJq
-w6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+ID4gPiAtLS0KPiA+ID4gIGRy
-aXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jIHwgMzcKPiA+ID4gKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKy0tLS0tLQo+ID4gPiAgMSBmaWxlIGNoYW5nZWQsIDMxIGluc2VydGlvbnMoKyks
-IDYgZGVsZXRpb25zKC0pCj4gPiA+Cj4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-ZHJtX2VkaWQuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jCj4gPiA+IGluZGV4Cj4gPiA+
-IGM3ZjlmN2NhNzVhMi4uYzc2ODE0ZWRjNzg0IDEwMDY0NAo+ID4gPiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vZHJtX2VkaWQuYwo+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYwo+
-ID4gPiBAQCAtMzIxMCw2ICszMjEwLDExIEBAIHN0YXRpYyBlbnVtIGhkbWlfcGljdHVyZV9hc3Bl
-Y3QKPiA+ID4gZHJtX2dldF9jZWFfYXNwZWN0X3JhdGlvKGNvbnN0IHU4IHZpZGVvX2NvZGUpCj4g
-PiA+ICAJcmV0dXJuIGVkaWRfY2VhX21vZGVzW3ZpZGVvX2NvZGVdLnBpY3R1cmVfYXNwZWN0X3Jh
-dGlvOwo+ID4gPiAgfQo+ID4gPgo+ID4gPiArc3RhdGljIGVudW0gaGRtaV9waWN0dXJlX2FzcGVj
-dCBkcm1fZ2V0X2hkbWlfYXNwZWN0X3JhdGlvKGNvbnN0IHU4Cj4gPiA+ICt2aWRlb19jb2RlKSB7
-Cj4gPiA+ICsJcmV0dXJuIGVkaWRfNGtfbW9kZXNbdmlkZW9fY29kZV0ucGljdHVyZV9hc3BlY3Rf
-cmF0aW87Cj4gPiA+ICt9Cj4gPiA+ICsKPiA+Cj4gPiBUaGVyZSBhcmUgbm8gcGljdHVyZV9hc3Bl
-Y3RfcmF0aW8gYXR0cmlidXRlcyBkZWZpbmVkIGZvciBtb2RlcyBpbgo+ID4gZWRpZF80a19tb2Rl
-c1tdIG5vdy4gU2hvdWxkIGFkZCBvbiB0aG9zZSBkZWZpbml0aW9ucy4KPiA+Cj4gPiA+ICAvKgo+
-ID4gPiAgICogQ2FsY3VsYXRlIHRoZSBhbHRlcm5hdGUgY2xvY2sgZm9yIEhETUkgbW9kZXMgKHRo
-b3NlIGZyb20gdGhlCj4gPiA+IEhETUkgdmVuZG9yCj4gPiA+ICAgKiBzcGVjaWZpYyBibG9jayku
-Cj4gPiA+IEBAIC0zMjM2LDYgKzMyNDEsOSBAQCBzdGF0aWMgdTgKPiA+ID4gZHJtX21hdGNoX2hk
-bWlfbW9kZV9jbG9ja190b2xlcmFuY2UoY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUKPiAq
-dG9fCj4gPiA+ICAJaWYgKCF0b19tYXRjaC0+Y2xvY2spCj4gPiA+ICAJCXJldHVybiAwOwo+ID4g
-Pgo+ID4gPiArCWlmICh0b19tYXRjaC0+cGljdHVyZV9hc3BlY3RfcmF0aW8pCj4gPiA+ICsJCW1h
-dGNoX2ZsYWdzIHw9IERSTV9NT0RFX01BVENIX0FTUEVDVF9SQVRJTzsKPiA+ID4gKwo+ID4gPiAg
-CWZvciAodmljID0gMTsgdmljIDwgQVJSQVlfU0laRShlZGlkXzRrX21vZGVzKTsgdmljKyspIHsK
-PiA+ID4gIAkJY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKmhkbWlfbW9kZSA9Cj4gJmVk
-aWRfNGtfbW9kZXNbdmljXTsKPiA+ID4gIAkJdW5zaWduZWQgaW50IGNsb2NrMSwgY2xvY2syOwo+
-ID4gPiBAQCAtMzI3MSw2ICszMjc5LDkgQEAgc3RhdGljIHU4IGRybV9tYXRjaF9oZG1pX21vZGUo
-Y29uc3Qgc3RydWN0Cj4gPiA+IGRybV9kaXNwbGF5X21vZGUgKnRvX21hdGNoKQo+ID4gPiAgCWlm
-ICghdG9fbWF0Y2gtPmNsb2NrKQo+ID4gPiAgCQlyZXR1cm4gMDsKPiA+ID4KPiA+ID4gKwlpZiAo
-dG9fbWF0Y2gtPnBpY3R1cmVfYXNwZWN0X3JhdGlvKQo+ID4gPiArCQltYXRjaF9mbGFncyB8PSBE
-Uk1fTU9ERV9NQVRDSF9BU1BFQ1RfUkFUSU87Cj4gPiA+ICsKPiA+ID4gIAlmb3IgKHZpYyA9IDE7
-IHZpYyA8IEFSUkFZX1NJWkUoZWRpZF80a19tb2Rlcyk7IHZpYysrKSB7Cj4gPiA+ICAJCWNvbnN0
-IHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICpoZG1pX21vZGUgPQo+ICZlZGlkXzRrX21vZGVzW3Zp
-Y107Cj4gPiA+ICAJCXVuc2lnbmVkIGludCBjbG9jazEsIGNsb2NrMjsKPiA+Cj4gPiBDdXJyZW50
-IGNvZGUgaW4gZHJtX21hdGNoX2hkbWlfbWRvZSgpICYKPiA+IGRybV9tYXRjaF9oZG1pX21vZGVf
-Y2xvY2tfdG9sZXJhbmNlKCkKPiA+IHVzZSBoZG1pX21vZGVfYWx0ZXJuYXRlX2Nsb2NrKCkgdG8g
-ZmluZCBhbHRlcm5hdGUgY2xvY2tzLgo+ID4gSW4gaGRtaV9tb2RlX2FsdGVybmF0ZV9jbG9jaygp
-LCBpdCBhZGRzIGFuIGV4Y2VwdGlvbiBmb3IgVklDIDQgbW9kZQo+ID4gKDQwOTZ4MjE2MEAyNCkg
-ZHVlIHRvIHRoZXJlIGlzIG5vIGFsdGVybmF0ZSBjbG9jayBkZWZpbmVkIGZvciB0aGF0Cj4gPiBt
-b2RlIGluIEhETUkxLjRiLiBCdXQgSERNSTIuMCBhZGRzIDIzLjk4SHogZm9yIHRoYXQgbW9kZS4g
-TWF5YmUgd2UKPiBzaG91bGQgYWxzbyByZXZpc2UgdGhhdCBwYXJ0Lgo+IAo+IEknbSB0ZW1wdGVk
-IHRvIGp1c3QgcmVtb3ZlIHRoYXQgZXhjZXB0aW9uLiBJIGhhdmUgYSBoYXJkIHRpbWUgaW1hZ2lu
-aW5nIGl0Cj4gY2F1c2luZyBzZXJpb3VzIHByb2JsZW1zLgoKVGhhbmtzIGZvciB5b3VyIHRpbWUu
-CkkndmUgcnVuIHNtb2tlIHRlc3QgYW5kIENUUyB0byB2ZXJpZnkgdGhlc2UgcGF0Y2hlcyAod2l0
-aCBhZGRpbmcgdGhlIGFzcGVjdCByYXRpbyAKYXR0cmlidXRlIHRvIGVkaWRfNGtfbW9kZXNbXSBh
-bmQgcmVtb3ZpbmcgdGhlIGV4Y2VwdGlvbiBmb3IyMy45OEh6KS4gU28gZmFyIGl0Cmxvb2tzIGdv
-b2Qgb24gbXkgZW52aXJvbm1lbnQuIElzIHRoZXJlIGFueSBmdXJ0aGVyIG1vZGlmaWNhdGlvbiBz
-aG91bGQgYmUgZG9uZQpvbiB0aGVzZSBwYXRjaGVzPwoKPiAKPiA+Cj4gPiA+IEBAIC01MjE4LDYg
-KzUyMjksNyBAQAo+ID4gPiBkcm1faGRtaV9hdmlfaW5mb2ZyYW1lX2Zyb21fZGlzcGxheV9tb2Rl
-KHN0cnVjdCBoZG1pX2F2aV9pbmZvZnJhbWUKPiA+ID4gKmZyYW1lLAo+ID4gPiAgCQkJCQkgY29u
-c3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKm1vZGUpICB7Cj4gPiA+ICAJZW51bSBoZG1pX3Bp
-Y3R1cmVfYXNwZWN0IHBpY3R1cmVfYXNwZWN0Owo+ID4gPiArCXU4IHZpYywgaGRtaV92aWM7Cj4g
-PiA+ICAJaW50IGVycjsKPiA+ID4KPiA+ID4gIAlpZiAoIWZyYW1lIHx8ICFtb2RlKQo+ID4gPiBA
-QCAtNTIzMCw3ICs1MjQyLDggQEAKPiA+ID4gZHJtX2hkbWlfYXZpX2luZm9mcmFtZV9mcm9tX2Rp
-c3BsYXlfbW9kZShzdHJ1Y3QgaGRtaV9hdmlfaW5mb2ZyYW1lCj4gPiA+ICpmcmFtZSwKPiA+ID4g
-IAlpZiAobW9kZS0+ZmxhZ3MgJiBEUk1fTU9ERV9GTEFHX0RCTENMSykKPiA+ID4gIAkJZnJhbWUt
-PnBpeGVsX3JlcGVhdCA9IDE7Cj4gPiA+Cj4gPiA+IC0JZnJhbWUtPnZpZGVvX2NvZGUgPSBkcm1f
-bW9kZV9jZWFfdmljKGNvbm5lY3RvciwgbW9kZSk7Cj4gPiA+ICsJdmljID0gZHJtX21vZGVfY2Vh
-X3ZpYyhjb25uZWN0b3IsIG1vZGUpOwo+ID4gPiArCWhkbWlfdmljID0gZHJtX21vZGVfaGRtaV92
-aWMoY29ubmVjdG9yLCBtb2RlKTsKPiA+ID4KPiA+ID4gIAlmcmFtZS0+cGljdHVyZV9hc3BlY3Qg
-PSBIRE1JX1BJQ1RVUkVfQVNQRUNUX05PTkU7Cj4gPiA+Cj4gPiA+IEBAIC01MjQ0LDExICs1MjU3
-LDE1IEBACj4gPiA+IGRybV9oZG1pX2F2aV9pbmZvZnJhbWVfZnJvbV9kaXNwbGF5X21vZGUoc3Ry
-dWN0IGhkbWlfYXZpX2luZm9mcmFtZQo+ID4gPiAqZnJhbWUsCj4gPiA+Cj4gPiA+ICAJLyoKPiA+
-ID4gIAkgKiBQb3B1bGF0ZSBwaWN0dXJlIGFzcGVjdCByYXRpbyBmcm9tIGVpdGhlcgo+ID4gPiAt
-CSAqIHVzZXIgaW5wdXQgKGlmIHNwZWNpZmllZCkgb3IgZnJvbSB0aGUgQ0VBIG1vZGUgbGlzdC4K
-PiA+ID4gKwkgKiB1c2VyIGlucHV0IChpZiBzcGVjaWZpZWQpIG9yIGZyb20gdGhlIENFQS9IRE1J
-IG1vZGUgbGlzdHMuCj4gPiA+ICAJICovCj4gPiA+ICAJcGljdHVyZV9hc3BlY3QgPSBtb2RlLT5w
-aWN0dXJlX2FzcGVjdF9yYXRpbzsKPiA+ID4gLQlpZiAocGljdHVyZV9hc3BlY3QgPT0gSERNSV9Q
-SUNUVVJFX0FTUEVDVF9OT05FKQo+ID4gPiAtCQlwaWN0dXJlX2FzcGVjdCA9IGRybV9nZXRfY2Vh
-X2FzcGVjdF9yYXRpbyhmcmFtZS0+dmlkZW9fY29kZSk7Cj4gPiA+ICsJaWYgKHBpY3R1cmVfYXNw
-ZWN0ID09IEhETUlfUElDVFVSRV9BU1BFQ1RfTk9ORSkgewo+ID4gPiArCQlpZiAodmljKQo+ID4g
-PiArCQkJcGljdHVyZV9hc3BlY3QgPSBkcm1fZ2V0X2NlYV9hc3BlY3RfcmF0aW8odmljKTsKPiA+
-ID4gKwkJZWxzZSBpZiAoaGRtaV92aWMpCj4gPiA+ICsJCQlwaWN0dXJlX2FzcGVjdCA9IGRybV9n
-ZXRfaGRtaV9hc3BlY3RfcmF0aW8oaGRtaV92aWMpOwo+ID4gPiArCX0KPiA+ID4KPiA+ID4gIAkv
-Kgo+ID4gPiAgCSAqIFRoZSBpbmZvZnJhbWUgY2FuJ3QgY29udmV5IGFueXRoaW5nIGJ1dCBub25l
-LCA0OjMgQEAgLTUyNTYsMTIKPiA+ID4gKzUyNzMsMjAgQEAgZHJtX2hkbWlfYXZpX2luZm9mcmFt
-ZV9mcm9tX2Rpc3BsYXlfbW9kZShzdHJ1Y3QKPiA+ID4gaGRtaV9hdmlfaW5mb2ZyYW1lICpmcmFt
-ZSwKPiA+ID4gIAkgKiB3ZSBjYW4gb25seSBzYXRpc2Z5IGl0IGJ5IHNwZWNpZnlpbmcgdGhlIHJp
-Z2h0IFZJQy4KPiA+ID4gIAkgKi8KPiA+ID4gIAlpZiAocGljdHVyZV9hc3BlY3QgPiBIRE1JX1BJ
-Q1RVUkVfQVNQRUNUXzE2XzkpIHsKPiA+ID4gLQkJaWYgKHBpY3R1cmVfYXNwZWN0ICE9Cj4gPiA+
-IC0JCSAgICBkcm1fZ2V0X2NlYV9hc3BlY3RfcmF0aW8oZnJhbWUtPnZpZGVvX2NvZGUpKQo+ID4g
-PiArCQlpZiAodmljKSB7Cj4gPiA+ICsJCQlpZiAocGljdHVyZV9hc3BlY3QgIT0gZHJtX2dldF9j
-ZWFfYXNwZWN0X3JhdGlvKHZpYykpCj4gPiA+ICsJCQkJcmV0dXJuIC1FSU5WQUw7Cj4gPiA+ICsJ
-CX0gZWxzZSBpZiAoaGRtaV92aWMpIHsKPiA+ID4gKwkJCWlmIChwaWN0dXJlX2FzcGVjdCAhPQo+
-IGRybV9nZXRfaGRtaV9hc3BlY3RfcmF0aW8oaGRtaV92aWMpKQo+ID4gPiArCQkJCXJldHVybiAt
-RUlOVkFMOwo+ID4gPiArCQl9IGVsc2Ugewo+ID4gPiAgCQkJcmV0dXJuIC1FSU5WQUw7Cj4gPiA+
-ICsJCX0KPiA+ID4gKwo+ID4gPiAgCQlwaWN0dXJlX2FzcGVjdCA9IEhETUlfUElDVFVSRV9BU1BF
-Q1RfTk9ORTsKPiA+ID4gIAl9Cj4gPiA+Cj4gPiA+ICsJZnJhbWUtPnZpZGVvX2NvZGUgPSB2aWM7
-Cj4gPiA+ICAJZnJhbWUtPnBpY3R1cmVfYXNwZWN0ID0gcGljdHVyZV9hc3BlY3Q7Cj4gPiA+ICAJ
-ZnJhbWUtPmFjdGl2ZV9hc3BlY3QgPSBIRE1JX0FDVElWRV9BU1BFQ1RfUElDVFVSRTsKPiA+ID4g
-IAlmcmFtZS0+c2Nhbl9tb2RlID0gSERNSV9TQ0FOX01PREVfVU5ERVJTQ0FOOwo+ID4gPiAtLQo+
-ID4gPiAyLjIxLjAKPiA+Cj4gPiAtLQo+ID4gV2F5bmUgTGluCj4gCj4gLS0KPiBWaWxsZSBTeXJq
-w6Rsw6QKPiBJbnRlbAoKLS0KV2F5bmUgTGluCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1502602033==
+Content-Type: multipart/alternative; boundary="15716411010.16B9Fb7.4356"
+Content-Transfer-Encoding: 7bit
+
+
+--15716411010.16B9Fb7.4356
+Date: Mon, 21 Oct 2019 06:58:21 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112079
+
+            Bug ID: 112079
+           Summary: X lockups with HWCursor enabled - Navi 5700 XT
+           Product: DRI
+           Version: DRI git
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: not set
+          Priority: not set
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: asheldon55@gmail.com
+
+I get X lockups with a Navi 5700 XT and HWCursor enabled. Only seems to hap=
+pen
+if TearFree (and VSync) are disabled. I can reliably reproduce this with The
+Witcher Enhanced Edition with TearFree off (the game doesn't support VSync
+without forcing it), run with D9VK. These are recoverable at least (just ne=
+ed
+to restart X) and it doesn't cause a GPU hang, just frozen mouse.
+
+If I run with TearFree on, a multi-monitor setup, or with SWCursor forced o=
+n,
+the issue goes away. I've also never seen the bug with a Vega card, althoug=
+h I
+can't say if it happens or not with the exact kernel I used. I'll also add I
+typically run with Freesync enabled, but it doesn't appear to affect things=
+ in
+either direction.
+
+The issue also happens seemingly randomly with other games (like Kingdom Co=
+me:
+Deliverance and the native Steam client).
+
+Reproduction steps:
+1. Run "The Witcher: Enhanced Edition" with D9VK with TearFree off and HWCu=
+rsor
+enabled, in a single monitor configuration
+2. Move the mouse around during the main menu
+3. X lockups with the following message:
+
+[  314.590442] ------------[ cut here ]------------=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590487] WARNING: CPU: 1 PID: 6061 at
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20resource.c:2820
+dcn20validatebandwidth.cold+0xe/0x18 [amdgpu]=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590487] Modules linked in: iptablefilter iptables afpacket bridge stp
+llc ipv6 nfdefragipv6 zram uinput kvmamd sndhdacodecrealtek kvm joydev
+sndhdacodecgeneric mousedev amdgpu sndhdaintel sndvirtuoso sndhdacodec
+sndoxygenlib sndmpu401uart sndhwdep$
+[  314.590498] CPU: 1 PID: 6061 Comm: X Not tainted
+5.3.7-kmsfix-5.3.y-ck0-extra1+ #102=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20
+[  314.590498] Hardware name: System manufacturer System Product Name/PRIME
+X370-PRO, BIOS 5216 09/02/2019=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+[  314.590524] RIP: 0010:dcn20validatebandwidth.cold+0xe/0x18 [amdgpu]=20=
+=20=20=20=20=20=20=20=20=20
+[  314.590526] Code: 05 d6 45 14 00 48 8b 74 24 08 0f b7 44 24 2e 80 cc 0c =
+66
+89 44 24 2c e9 65 ad f5 ff 48 c7 c7 00 f6 45 a0 31 c0 e8 be 8e d3 e0 <0f> 0=
+b 44
+89 e0 e9 93 b2 f5 ff 48 c7 c7 00 f6 45 a0 31 c0 e8 a6 8e=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590527] RSP: 0018:ffffc90001aa3ab8 EFLAGS: 0 0010246=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590529] RAX: 0000000000000024 RBX: 4079400000000000 RCX:
+0000000000000000=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590530] RDX: 0000000000000000 RSI: ffff88881e6561f8 RDI:
+00000000ffffffff=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590531] RBP: ffff888722170000 R08: 0000000000000001 R09:
+0000000000000711=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590531] R10: 0000000000000001 R11: 0000000000000000 R12:
+0000000000000001=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590532] R13: ffff8888095a0000 R14: 0000000000000000 R15:
+ffff88881a7e6ad8=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590533] FS:  00007f61ce2a28c0(0000) GS:ffff88881e640000(0000)
+knlGS:0000000000000000=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590534] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590535] CR2: 00000000e085f000 CR3: 000000080041f000 CR4:
+00000000003406e0=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590535] Call Trace:=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590563]  dcvalidateglobalstate+0x21f/0x290 [amdgpu]=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590593]  amdgpudmatomiccheck+0x553/0x7a0 [amdgpu]=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590596]  drmatomiccheckonly+0x53e/0x760=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590599]  ? _rawspinunlockirqrestore+0xf/0x30=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590600]  drmatomiccommit+0xe/0x50=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20
+[  314.590602]  drmatomicconnectorcommitdpms+0xd1/0xf0=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590603]  drmmodeobjsetpropertyioctl+0x153/0x29b=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590605]  ? drmconnectorsetobjprop+0x80/0x80=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590606]  drmconnectorpropertysetioctl+0x34/0x50=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590608]  drmioctlkernel+0x9f/0xe0=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20
+[  314.590609]  drmioctl+0x1ef/0x381=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20
+[  314.590610]  ? drmconnectorsetobjprop+0x80/0x80=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590612]  ? epreadeventsproc+0xd0/0xd0=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20
+[  314.590614]  ? preemptcountadd+0x63/0x90=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20
+[  314.590614]  ? epreadeventsproc+0xd0/0xd0=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20
+[  314.590635]  amdgpudrmioctl+0x44/0x80 [amdgpu]=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590637]  dovfsioctl+0x3ea/0x640=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20
+[  314.590638]  ? _x64sysepollctl+0xf2/0x1050=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590639]  ksysioctl+0x35/0x70=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20
+[  314.590640]  _x64sysioctl+0x11/0x20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20
+[  314.590642]  dosyscall64+0x4e/0x1b0=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20
+[  314.590643]  ? prepareexittousermode+0x4c/0xc0=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590646]  entrySYSCALL64afterhwframe+0x44/0xa9=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590647] RIP: 0033:0x7f61ceb9da37=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20
+[  314.590648] Code: 00 00 00 75 0c 48 c7 c0 ff ff ff ff 48 83 c4 18 c3 e8 =
+5d
+d8 01 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 b8 10 00 00 00 0f 05 <48> 3=
+d 01
+f0 ff ff 73 01 c3 48 8b 0d 29 f4 0c 00 f7 d8 64 89 01 48=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590649] RSP: 002b:00007fff2df1d388 EFLAGS: 00000246 ORIGRAX:
+0000000000000010=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590650] RAX: ffffffffffffffda RBX: 000000000000000b RCX:
+00007f61ceb9da37=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590651] RDX: 00007fff2df1d390 RSI: 00000000c01064ab RDI:
+000000000000000b=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590652] RBP: 00000000c01064ab R08: 0000000000000001 R09:
+000056186e5094d0=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590652] R10: 000056186e517970 R11: 0000000000000246 R12:
+00007fff2df1d390=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590653] R13: 000056186fa200d0 R14: 000056186e506600 R15:
+000056186e506000=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590654] ---[ end trace 7784d0b1b9f93521 ]---=20=20=20=20=20=20=20=20=
+=20=20=20
+
+System configuration:
+MSI Evoke 5700 XT
+Mesa git
+amd-staging-drm-next (also tested with 5.4-rc4)
+xf86-video-amdgpu git
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15716411010.16B9Fb7.4356
+Date: Mon, 21 Oct 2019 06:58:21 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - X lockups with HWCursor enabled - Navi 5700 XT"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112079">112079</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>X lockups with HWCursor enabled - Navi 5700 XT
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>DRI git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>asheldon55&#64;gmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>I get X lockups with a Navi 5700 XT and HWCursor enabled. Only=
+ seems to happen
+if TearFree (and VSync) are disabled. I can reliably reproduce this with The
+Witcher Enhanced Edition with TearFree off (the game doesn't support VSync
+without forcing it), run with D9VK. These are recoverable at least (just ne=
+ed
+to restart X) and it doesn't cause a GPU hang, just frozen mouse.
+
+If I run with TearFree on, a multi-monitor setup, or with SWCursor forced o=
+n,
+the issue goes away. I've also never seen the bug with a Vega card, althoug=
+h I
+can't say if it happens or not with the exact kernel I used. I'll also add I
+typically run with Freesync enabled, but it doesn't appear to affect things=
+ in
+either direction.
+
+The issue also happens seemingly randomly with other games (like Kingdom Co=
+me:
+Deliverance and the native Steam client).
+
+Reproduction steps:
+1. Run &quot;The Witcher: Enhanced Edition&quot; with D9VK with TearFree of=
+f and HWCursor
+enabled, in a single monitor configuration
+2. Move the mouse around during the main menu
+3. X lockups with the following message:
+
+[  314.590442] ------------[ cut here ]------------=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590487] WARNING: CPU: 1 PID: 6061 at
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20resource.c:2820
+dcn20validatebandwidth.cold+0xe/0x18 [amdgpu]=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590487] Modules linked in: iptablefilter iptables afpacket bridge stp
+llc ipv6 nfdefragipv6 zram uinput kvmamd sndhdacodecrealtek kvm joydev
+sndhdacodecgeneric mousedev amdgpu sndhdaintel sndvirtuoso sndhdacodec
+sndoxygenlib sndmpu401uart sndhwdep$
+[  314.590498] CPU: 1 PID: 6061 Comm: X Not tainted
+5.3.7-kmsfix-5.3.y-ck0-extra1+ #102=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20
+[  314.590498] Hardware name: System manufacturer System Product Name/PRIME
+X370-PRO, BIOS 5216 09/02/2019=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+[  314.590524] RIP: 0010:dcn20validatebandwidth.cold+0xe/0x18 [amdgpu]=20=
+=20=20=20=20=20=20=20=20=20
+[  314.590526] Code: 05 d6 45 14 00 48 8b 74 24 08 0f b7 44 24 2e 80 cc 0c =
+66
+89 44 24 2c e9 65 ad f5 ff 48 c7 c7 00 f6 45 a0 31 c0 e8 be 8e d3 e0 &lt;0f=
+&gt; 0b 44
+89 e0 e9 93 b2 f5 ff 48 c7 c7 00 f6 45 a0 31 c0 e8 a6 8e=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590527] RSP: 0018:ffffc90001aa3ab8 EFLAGS: 0 0010246=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590529] RAX: 0000000000000024 RBX: 4079400000000000 RCX:
+0000000000000000=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590530] RDX: 0000000000000000 RSI: ffff88881e6561f8 RDI:
+00000000ffffffff=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590531] RBP: ffff888722170000 R08: 0000000000000001 R09:
+0000000000000711=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590531] R10: 0000000000000001 R11: 0000000000000000 R12:
+0000000000000001=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590532] R13: ffff8888095a0000 R14: 0000000000000000 R15:
+ffff88881a7e6ad8=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590533] FS:  00007f61ce2a28c0(0000) GS:ffff88881e640000(0000)
+knlGS:0000000000000000=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590534] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590535] CR2: 00000000e085f000 CR3: 000000080041f000 CR4:
+00000000003406e0=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590535] Call Trace:=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590563]  dcvalidateglobalstate+0x21f/0x290 [amdgpu]=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590593]  amdgpudmatomiccheck+0x553/0x7a0 [amdgpu]=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590596]  drmatomiccheckonly+0x53e/0x760=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590599]  ? _rawspinunlockirqrestore+0xf/0x30=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590600]  drmatomiccommit+0xe/0x50=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20
+[  314.590602]  drmatomicconnectorcommitdpms+0xd1/0xf0=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590603]  drmmodeobjsetpropertyioctl+0x153/0x29b=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590605]  ? drmconnectorsetobjprop+0x80/0x80=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590606]  drmconnectorpropertysetioctl+0x34/0x50=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590608]  drmioctlkernel+0x9f/0xe0=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20
+[  314.590609]  drmioctl+0x1ef/0x381=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20
+[  314.590610]  ? drmconnectorsetobjprop+0x80/0x80=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590612]  ? epreadeventsproc+0xd0/0xd0=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20
+[  314.590614]  ? preemptcountadd+0x63/0x90=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20
+[  314.590614]  ? epreadeventsproc+0xd0/0xd0=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20
+[  314.590635]  amdgpudrmioctl+0x44/0x80 [amdgpu]=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590637]  dovfsioctl+0x3ea/0x640=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20
+[  314.590638]  ? _x64sysepollctl+0xf2/0x1050=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590639]  ksysioctl+0x35/0x70=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20
+[  314.590640]  _x64sysioctl+0x11/0x20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20
+[  314.590642]  dosyscall64+0x4e/0x1b0=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20
+[  314.590643]  ? prepareexittousermode+0x4c/0xc0=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590646]  entrySYSCALL64afterhwframe+0x44/0xa9=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590647] RIP: 0033:0x7f61ceb9da37=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20
+[  314.590648] Code: 00 00 00 75 0c 48 c7 c0 ff ff ff ff 48 83 c4 18 c3 e8 =
+5d
+d8 01 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 b8 10 00 00 00 0f 05 &lt;48=
+&gt; 3d 01
+f0 ff ff 73 01 c3 48 8b 0d 29 f4 0c 00 f7 d8 64 89 01 48=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590649] RSP: 002b:00007fff2df1d388 EFLAGS: 00000246 ORIGRAX:
+0000000000000010=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590650] RAX: ffffffffffffffda RBX: 000000000000000b RCX:
+00007f61ceb9da37=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590651] RDX: 00007fff2df1d390 RSI: 00000000c01064ab RDI:
+000000000000000b=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590652] RBP: 00000000c01064ab R08: 0000000000000001 R09:
+000056186e5094d0=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590652] R10: 000056186e517970 R11: 0000000000000246 R12:
+00007fff2df1d390=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590653] R13: 000056186fa200d0 R14: 000056186e506600 R15:
+000056186e506000=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  314.590654] ---[ end trace 7784d0b1b9f93521 ]---=20=20=20=20=20=20=20=20=
+=20=20=20
+
+System configuration:
+MSI Evoke 5700 XT
+Mesa git
+amd-staging-drm-next (also tested with 5.4-rc4)
+xf86-video-amdgpu git</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15716411010.16B9Fb7.4356--
+
+--===============1502602033==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1502602033==--
