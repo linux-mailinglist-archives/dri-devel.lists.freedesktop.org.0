@@ -1,59 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FDDADF639
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2019 21:48:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D1EDF74D
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2019 23:07:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54F1A6E241;
-	Mon, 21 Oct 2019 19:47:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 030C16E25D;
+	Mon, 21 Oct 2019 21:07:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF2866E241
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2019 19:47:56 +0000 (UTC)
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-tvVLh5QnNemqg5-Lf0njnA-1; Mon, 21 Oct 2019 15:47:52 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6C07800D41;
- Mon, 21 Oct 2019 19:47:50 +0000 (UTC)
-Received: from redhat.com (unknown [10.20.6.178])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DB9105C219;
- Mon, 21 Oct 2019 19:47:49 +0000 (UTC)
-Date: Mon, 21 Oct 2019 15:47:48 -0400
-From: Jerome Glisse <jglisse@redhat.com>
-To: Jason Gunthorpe <jgg@mellanox.com>
-Subject: Re: [PATCH hmm 02/15] mm/mmu_notifier: add an interval tree notifier
-Message-ID: <20191021194748.GA5644@redhat.com>
-References: <20191015181242.8343-1-jgg@ziepe.ca>
- <20191015181242.8343-3-jgg@ziepe.ca>
- <20191021183056.GA3177@redhat.com>
- <20191021185421.GG6285@mellanox.com>
- <20191021191157.GA5208@redhat.com>
- <20191021192448.GK6285@mellanox.com>
+Received: from ozlabs.org (ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 074A66E25A;
+ Mon, 21 Oct 2019 21:07:39 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 46xq3C3xCSz9sP3;
+ Tue, 22 Oct 2019 08:07:35 +1100 (AEDT)
+Date: Tue, 22 Oct 2019 08:07:34 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build warning after merge of the drm-misc-fixes tree
+Message-ID: <20191022080734.41955464@canb.auug.org.au>
 MIME-Version: 1.0
-In-Reply-To: <20191021192448.GK6285@mellanox.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: tvVLh5QnNemqg5-Lf0njnA-1
-X-Mimecast-Spam-Score: 0
-Content-Disposition: inline
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=redhat.com; 
- s=mimecast20190719; t=1571687275;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=61Nnku0I+13ll91wxHp2GCqWsterOpYjidrMjRQ6FOk=;
- b=FgXx8MPj2E5264FKUKvWQbruJp1cI/6JkRubU1VJQfFvoubEx+GLp/4P4dgRAKSQ/omar4
- T6vDwlwnUHe6jTlViX5l/cqIB4V2yaJvOMZf6PbtjnZ8+uV5Ccx+CWIh9f/GjiISwr9mtF
- E5+Ghp2essq6A+MdDcmipjIu6p0BDv0=
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=canb.auug.org.au; s=201702; t=1571692056;
+ bh=pWe9VsFRQMV5crZi/BoRRCzFy5+IboAIVfcQQ7DGp6I=;
+ h=Date:From:To:Cc:Subject:From;
+ b=R87V6UQ5J80OIucGaxPcct/zIiRHB+oJ9qkCTXaR//sKBknUHeiz3UQEnYY6cycLn
+ jeSO2Wi75FKTeB70cbBai93HvgZBmdgyWhNnuN9z1oB87kamQIKUZCE3cniN3p1gnk
+ A8Dg2TZkakoPgYXYJcyF/sFi1LMmYhV+4djbYokQtti/Ksur/Qwi4Id8Al0ChQ/Yi4
+ 6aJmLG115oV26NwrUkkHpTl07RXlxg7HWColy41iLpSAk9vOaTwZW0U9qDCXgYd4So
+ 2GZXT5f02+QVKeCpyv7vPZ9LtSIcrwDvht8T73xVowfjsPVYiteUH0oR+5v1kZvHXS
+ FY8UjJcS2YdVw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,45 +47,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrea Arcangeli <aarcange@redhat.com>,
- Ralph Campbell <rcampbell@nvidia.com>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- John Hubbard <jhubbard@nvidia.com>,
- "Felix.Kuehling@amd.com" <Felix.Kuehling@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Michal Hocko <mhocko@kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- Ben Skeggs <bskeggs@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Guillem Jover <guillem@hadrons.org>
+Content-Type: multipart/mixed; boundary="===============0644993244=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBPY3QgMjEsIDIwMTkgYXQgMDc6MjQ6NTNQTSArMDAwMCwgSmFzb24gR3VudGhvcnBl
-IHdyb3RlOgo+IE9uIE1vbiwgT2N0IDIxLCAyMDE5IGF0IDAzOjExOjU3UE0gLTA0MDAsIEplcm9t
-ZSBHbGlzc2Ugd3JvdGU6Cj4gPiA+IFNpbmNlIHRoYXQgcmVhZGVyIGlzIG5vdCBsb2NrZWQgd2Ug
-bmVlZCByZWxlYXNlIHNlbWFudGljcyBoZXJlIHRvCj4gPiA+IGVuc3VyZSB0aGUgdW5sb2NrZWQg
-cmVhZGVyIHNlZXMgYSBmdWxseSBpbml0aW5hbGl6ZWQgbW11X25vdGlmaWVyX21tCj4gPiA+IHN0
-cnVjdHVyZSB3aGVuIGl0IG9ic2VydmVzIHRoZSBwb2ludGVyLgo+ID4gCj4gPiBJIHRob3VnaHQg
-dGhlIG1tX3Rha2VfYWxsX2xvY2tzKCkgd291bGQgaGF2ZSBoYWQgYSBiYXJyaWVyIGFuZCB0aHVz
-Cj4gPiB0aGF0IHlvdSBjb3VsZCBub3Qgc2VlIG1tdV9ub3RpZmllciBzdHJ1Y3QgcGFydGlhbHkg
-aW5pdGlhbGl6ZWQuIAo+IAo+IE5vdCBzdXJlLCB1c3VhbGx5IGEgbG9jayBhY3F1aXJlIGRvZXNu
-J3QgaGF2ZSBhIHN0b3JlIGJhcnJpZXI/CgpZZWFoIGxpa2VseS4KCj4gCj4gRXZlbiBpZiBpdCBk
-aWQsIHdlIHdvdWxkIHN0aWxsIG5lZWQgc29tZSBwYWlyaW5nIHJlYWQgYmFycmllci4uCj4gCj4g
-PiBoYXZpbmcgdGhlIGFjcXVpcmUvcmVsZWFzZSBhcyBzYWZldHkgbmV0IGRvZXMgbm90IGh1cnQu
-IE1heWJlIGFkZCBhCj4gPiBjb21tZW50IGFib3V0IHRoZSBzdHJ1Y3QgaW5pdGlhbGl6YXRpb24g
-bmVlZGluZyB0byBiZSB2aXNpYmxlIGJlZm9yZQo+ID4gcG9pbnRlciBpcyBzZXQuCj4gCj4gSXMg
-dGhpcyBjbGVhcj8KPiAKPiAgICAgICAgICAqIHJlbGVhc2Ugc2VtYW50aWNzIG9uIHRoZSBpbml0
-aWFsaXphdGlvbiBvZiB0aGUKPiAgICAgICAgICAqIG1tdV9ub3RpZmllcl9tbSdzIGNvbnRlbnRz
-IGFyZSBwcm92aWRlZCBmb3IgdW5sb2NrZWQgcmVhZGVycy4KPiAJICogYWNxdWlyZSBjYW4gb25s
-eSBiZSB1c2VkIHdoaWxlIGhvbGRpbmcgdGhlCj4gICAgICAgICAgKiBtbWdyYWIgb3IgbW1nZXQs
-IGFuZCBpcyBzYWZlIGJlY2F1c2Ugb25jZSBjcmVhdGVkIHRoZQo+ICAgICAgICAgICogbW11X25v
-dGlmaWZlcl9tbSBpcyBub3QgZnJlZWQgdW50aWwgdGhlIG1tIGlzIGRlc3Ryb3llZC4KPiAgICAg
-ICAgICAqIFVzZXJzIGhvbGRpbmcgdGhlIG1tYXBfc2VtIG9yIG9uZSBvZiB0aGUKPiAJICogbW1f
-dGFrZV9hbGxfbG9ja3MoKSBkbyBub3QgbmVlZCB0byB1c2UgYWNxdWlyZSBzZW1hbnRpY3MuCj4g
-Cj4gSXQgYWxzbyBoZWxwcyBleHBsYWluIHdoeSB0aGVyZSBpcyBubyBsb2NraW5nIGFyb3VuZCB0
-aGUgb3RoZXIKPiByZWFkZXJzLCB3aGljaCBoYXMgcHV6emxlZCBtZSBpbiB0aGUgcGFzdCBhdCBs
-ZWFzdC4KClBlcmZlY3QuCgpKw6lyw7RtZQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVs
+--===============0644993244==
+Content-Type: multipart/signed; boundary="Sig_/7+Mx3FL7wh_1DROrLXtWV4P";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/7+Mx3FL7wh_1DROrLXtWV4P
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi all,
+
+After merging the drm-misc-fixes tree, today's linux-next build (powerpc
+ppc64_defconfig) produced this warning:
+
+In file included from include/uapi/linux/posix_types.h:5,
+                 from include/uapi/linux/types.h:14,
+                 from include/linux/types.h:6,
+                 from include/linux/limits.h:6,
+                 from include/linux/kernel.h:7,
+                 from fs/aio.c:14:
+fs/aio.c: In function '__do_compat_sys_io_pgetevents':
+include/linux/stddef.h:8:14: warning: initialization of 'unsigned int' from=
+ 'void *' makes integer from pointer without a cast [-Wint-conversion]
+    8 | #define NULL ((void *)0)
+      |              ^
+fs/aio.c:2196:38: note: in expansion of macro 'NULL'
+ 2196 |  struct __compat_aio_sigset ksig =3D { NULL, };
+      |                                      ^~~~
+include/linux/stddef.h:8:14: note: (near initialization for 'ksig.sigmask')
+    8 | #define NULL ((void *)0)
+      |              ^
+fs/aio.c:2196:38: note: in expansion of macro 'NULL'
+ 2196 |  struct __compat_aio_sigset ksig =3D { NULL, };
+      |                                      ^~~~
+fs/aio.c: In function '__do_compat_sys_io_pgetevents_time64':
+include/linux/stddef.h:8:14: warning: initialization of 'unsigned int' from=
+ 'void *' makes integer from pointer without a cast [-Wint-conversion]
+    8 | #define NULL ((void *)0)
+      |              ^
+fs/aio.c:2231:38: note: in expansion of macro 'NULL'
+ 2231 |  struct __compat_aio_sigset ksig =3D { NULL, };
+      |                                      ^~~~
+include/linux/stddef.h:8:14: note: (near initialization for 'ksig.sigmask')
+    8 | #define NULL ((void *)0)
+      |              ^
+fs/aio.c:2231:38: note: in expansion of macro 'NULL'
+ 2231 |  struct __compat_aio_sigset ksig =3D { NULL, };
+      |                                      ^~~~
+
+Introduced by commit
+
+  de80166a573d ("aio: Fix io_pgetevents() struct __compat_aio_sigset layout=
+")
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/7+Mx3FL7wh_1DROrLXtWV4P
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl2uHhYACgkQAVBC80lX
+0GzAWQgAghqJx0OCN3Zexk2nGXPMhdOhx7kvE/o/p1ktaIlP5yR3YCiVvvBxr66I
+FPnka6qfPHPwHSiDi8364tABAyezb+YpKKGMk1DkFjhmHPo8ST0/WloTYz3+PjF8
+JpXpii+n/Z7/lp1oLh8ZeXxxyng9DS0viDC0Xctr2H6Hp5efXTcJIFBATfCtAcaa
+ewlckCUY4T3e2J/BUVRzwY5ZzgkJZ02u8Whkm0r2KXG+XJmSEgA5Y6KrU6YN0BoR
+SJ0i8tkFCTD1i3oBdFbROWlEyEH482mbJX7Uo5JIUs64VTyhopYPIH+WR2EmqQ02
+Vs+ulLLAiuz7RUXQRTPEKEWehG1QKg==
+=gXoK
+-----END PGP SIGNATURE-----
+
+--Sig_/7+Mx3FL7wh_1DROrLXtWV4P--
+
+--===============0644993244==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0644993244==--
