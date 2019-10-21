@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 379AEDF453
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2019 19:33:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D1DCDF464
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2019 19:38:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FA206E1B3;
-	Mon, 21 Oct 2019 17:33:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F56D6E0DA;
+	Mon, 21 Oct 2019 17:38:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 834BA6E1BC
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2019 17:33:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 244786E0DA
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2019 17:38:46 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 80B78720E2; Mon, 21 Oct 2019 17:33:52 +0000 (UTC)
+ id 1B1DF720E2; Mon, 21 Oct 2019 17:38:46 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111762] RX 5700 XT Navi - amdgpu.ppfeaturemask=0xffffffff
  causes stuttering and does not unlock clock/voltage/power controls
-Date: Mon, 21 Oct 2019 17:33:52 +0000
+Date: Mon, 21 Oct 2019 17:38:46 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -28,14 +28,14 @@ X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: DRI git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: zamundaaalp@gmail.com
+X-Bugzilla-Who: tempel.julian@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111762-502-ApBApFGP8S@http.bugs.freedesktop.org/>
+Message-ID: <bug-111762-502-6GcCuHwE9b@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111762-502@http.bugs.freedesktop.org/>
 References: <bug-111762-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0967992656=="
+Content-Type: multipart/mixed; boundary="===============0692609324=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0967992656==
-Content-Type: multipart/alternative; boundary="15716792321.7de23A7.30146"
+--===============0692609324==
+Content-Type: multipart/alternative; boundary="15716795260.3722CBFa0.30164"
 Content-Transfer-Encoding: 7bit
 
 
---15716792321.7de23A7.30146
-Date: Mon, 21 Oct 2019 17:33:52 +0000
+--15716795260.3722CBFa0.30164
+Date: Mon, 21 Oct 2019 17:38:46 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,22 +73,22 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111762
 
---- Comment #3 from zamundaaalp@gmail.com ---
-I have the same (or at least a similar) bug.
-/sys/class/drm/card1/device/hwmon/hwmon3/power1_cap_max in my case gives the
-default 220W (value: 220000000).
-$ cat /sys/class/drm/card0/device/pp_od_clk_voltage
-returns nothing.
-I don't get any stuttering though, with kernel 5.3.6 or with 5.4rc2.
+--- Comment #4 from tempel.julian@gmail.com ---
+Thanks for the hint @ Andrew Sheldon, SPPT being possible on Linux totally
+passed me by. Will test it with my cheap Polaris card first, which made me
+stick with custom fan curve anyway.
 
-Dolphin freezes when looking at /sys/class/drm/card1/device/ as well.
+Regarding the stutter with amdgpu.ppfeaturemask=3D0xffffffff: I'm not sure
+anymore if it really was related, as hardware cursor support seems to be st=
+ill
+a complete mess for Navi with 5.3/5.4 and 5.5 still being incomplete.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15716792321.7de23A7.30146
-Date: Mon, 21 Oct 2019 17:33:52 +0000
+--15716795260.3722CBFa0.30164
+Date: Mon, 21 Oct 2019 17:38:46 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -106,8 +106,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - RX 5700 XT Navi - amdgpu.ppfeaturemask=3D0xffffffff cause=
 s stuttering and does not unlock clock/voltage/power controls"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111762#c3">Commen=
-t # 3</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111762#c4">Commen=
+t # 4</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - RX 5700 XT Navi - amdgpu.ppfeaturemask=3D0xffffffff cause=
@@ -115,17 +115,18 @@ s stuttering and does not unlock clock/voltage/power controls"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111762">bug 11176=
 2</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-zamundaaalp&#64;gmail.com" title=3D"zamundaaalp&#64;gmail.com">zamundaaalp&=
-#64;gmail.com</a>
+tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
+ulian&#64;gmail.com</a>
 </span></b>
-        <pre>I have the same (or at least a similar) bug.
-/sys/class/drm/card1/device/hwmon/hwmon3/power1_cap_max in my case gives the
-default 220W (value: 220000000).
-$ cat /sys/class/drm/card0/device/pp_od_clk_voltage
-returns nothing.
-I don't get any stuttering though, with kernel 5.3.6 or with 5.4rc2.
+        <pre>Thanks for the hint &#64; Andrew Sheldon, SPPT being possible =
+on Linux totally
+passed me by. Will test it with my cheap Polaris card first, which made me
+stick with custom fan curve anyway.
 
-Dolphin freezes when looking at /sys/class/drm/card1/device/ as well.</pre>
+Regarding the stutter with amdgpu.ppfeaturemask=3D0xffffffff: I'm not sure
+anymore if it really was related, as hardware cursor support seems to be st=
+ill
+a complete mess for Navi with 5.3/5.4 and 5.5 still being incomplete.</pre>
         </div>
       </p>
 
@@ -139,9 +140,9 @@ Dolphin freezes when looking at /sys/class/drm/card1/device/ as well.</pre>
     </body>
 </html>=
 
---15716792321.7de23A7.30146--
+--15716795260.3722CBFa0.30164--
 
---===============0967992656==
+--===============0692609324==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -151,4 +152,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0967992656==--
+--===============0692609324==--
