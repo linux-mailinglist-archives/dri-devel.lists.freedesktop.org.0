@@ -1,41 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 935CFDF810
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2019 00:35:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B36EDF8C1
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2019 01:46:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AB6989FAD;
-	Mon, 21 Oct 2019 22:35:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E8D66E2DC;
+	Mon, 21 Oct 2019 23:46:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 755588919D;
- Mon, 21 Oct 2019 22:35:27 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 46xs0P6DhKz9sNx;
- Tue, 22 Oct 2019 09:35:17 +1100 (AEDT)
-Date: Tue, 22 Oct 2019 09:35:12 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Al Viro <viro@ZenIV.linux.org.uk>
-Subject: linux-next: build warning after merge of the vfs-fixes tree
-Message-ID: <20191022093512.4317a715@canb.auug.org.au>
-In-Reply-To: <20191022080734.41955464@canb.auug.org.au>
-References: <20191022080734.41955464@canb.auug.org.au>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 43C7C6E2DC
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2019 23:46:18 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 40854720E2; Mon, 21 Oct 2019 23:46:18 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 112008] eDP -> Dual Channel LVDS bridge unable to accept any
+ modelines: Corrupt display!
+Date: Mon, 21 Oct 2019 23:46:18 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: Babblebones@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-112008-502-6c8dIuA9la@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-112008-502@http.bugs.freedesktop.org/>
+References: <bug-112008-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=canb.auug.org.au; s=201702; t=1571697324;
- bh=mWwMU/9afAxY94ma+WI7D78i4ILv7tb5kzG4pD4tg5I=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=NSXU+gzwt+tayzDS06y1MWmNgE5tcmk8TyT6woIw7h4dXu+3PSdvC7PlM1uVjD6sn
- gWIeJOjcjJbPAB7Bbdjlev4l6oIKaMwEpg0VrSLFKH1qhyL/BkOclSWMlFdkJnO4SZ
- hEzlIkF9p86Ot8ZcxxpEwW7KhEhrspuiLDOJGm08SLB1b8poL4CjmvfptBUeqHcBM1
- TgBlMS70rNzVwtWTmiYx0O2lPpAGDw7ZsgGtrLF1/n3DdsX/49rRPuw4QDr8wR2rxt
- H9SN+iyuH5GxSIyrSI/qR5QAKd1i7KkjpatoSjNg+unc+RLTm66eb+NAbB/LGFL7nv
- ttOsJuu1xMOQw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,101 +53,265 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Guillem Jover <guillem@hadrons.org>
-Content-Type: multipart/mixed; boundary="===============1062430209=="
+Content-Type: multipart/mixed; boundary="===============1742354665=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1062430209==
-Content-Type: multipart/signed; boundary="Sig_/+MnaRVg7=hrPm6q/bC3wrLW";
- protocol="application/pgp-signature"; micalg=pgp-sha256
 
---Sig_/+MnaRVg7=hrPm6q/bC3wrLW
-Content-Type: text/plain; charset=US-ASCII
+--===============1742354665==
+Content-Type: multipart/alternative; boundary="15717015781.7889aF5A.6137"
+Content-Transfer-Encoding: 7bit
+
+
+--15717015781.7889aF5A.6137
+Date: Mon, 21 Oct 2019 23:46:18 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
-Hi all,
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112008
 
-[Some people didn't get this due to a typo]
+--- Comment #6 from Babblebones@gmail.com ---
+This may be useful to you!
 
-This should have been reported against the vfs-fixes tree, sorry.
 
-On Tue, 22 Oct 2019 08:07:34 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
-wrote:
->
-> After merging the drm-misc-fixes tree, today's linux-next build (powerpc
-> ppc64_defconfig) produced this warning:
->=20
-> In file included from include/uapi/linux/posix_types.h:5,
->                  from include/uapi/linux/types.h:14,
->                  from include/linux/types.h:6,
->                  from include/linux/limits.h:6,
->                  from include/linux/kernel.h:7,
->                  from fs/aio.c:14:
-> fs/aio.c: In function '__do_compat_sys_io_pgetevents':
-> include/linux/stddef.h:8:14: warning: initialization of 'unsigned int' fr=
-om 'void *' makes integer from pointer without a cast [-Wint-conversion]
->     8 | #define NULL ((void *)0)
->       |              ^
-> fs/aio.c:2196:38: note: in expansion of macro 'NULL'
->  2196 |  struct __compat_aio_sigset ksig =3D { NULL, };
->       |                                      ^~~~
-> include/linux/stddef.h:8:14: note: (near initialization for 'ksig.sigmask=
-')
->     8 | #define NULL ((void *)0)
->       |              ^
-> fs/aio.c:2196:38: note: in expansion of macro 'NULL'
->  2196 |  struct __compat_aio_sigset ksig =3D { NULL, };
->       |                                      ^~~~
-> fs/aio.c: In function '__do_compat_sys_io_pgetevents_time64':
-> include/linux/stddef.h:8:14: warning: initialization of 'unsigned int' fr=
-om 'void *' makes integer from pointer without a cast [-Wint-conversion]
->     8 | #define NULL ((void *)0)
->       |              ^
-> fs/aio.c:2231:38: note: in expansion of macro 'NULL'
->  2231 |  struct __compat_aio_sigset ksig =3D { NULL, };
->       |                                      ^~~~
-> include/linux/stddef.h:8:14: note: (near initialization for 'ksig.sigmask=
-')
->     8 | #define NULL ((void *)0)
->       |              ^
-> fs/aio.c:2231:38: note: in expansion of macro 'NULL'
->  2231 |  struct __compat_aio_sigset ksig =3D { NULL, };
->       |                                      ^~~~
->=20
-> Introduced by commit
->=20
->   de80166a573d ("aio: Fix io_pgetevents() struct __compat_aio_sigset layo=
-ut")
+[    4.603742] [drm:amdgpu_dm_initialize_drm_device [amdgpu]]
+amdgpu_dm_connector_init()
+[    4.604326] [drm:dm_dp_aux_transfer [amdgpu]] Op: Read, addr: 0000, Side=
+Band
+Msg: Nop, Op res: OK
+[    4.604327] Body: 11
+[    4.604699] [drm:dm_dp_aux_transfer [amdgpu]] Op: Read, addr: 0000, Side=
+Band
+Msg: Nop, Op res: OK
+[    4.604699] Body: 11 06 84 00 01 00 00 00 00 00 00 00 00 00 00 00
+[    4.604932] [drm:dm_dp_aux_transfer [amdgpu]] Op: Read, addr: 0000, Side=
+Band
+Msg: Nop, Op res: OK
+[    4.604933] Body: 11
+[    4.605160] [drm:dm_dp_aux_transfer [amdgpu]] Op: Read, addr: 0200, Side=
+Band
+Msg: Nop, Op res: OK
+[    4.605161] Body: 41
+[    4.605393] [drm:dm_dp_aux_transfer [amdgpu]] Op: Read, addr: 0000, Side=
+Band
+Msg: Nop, Op res: OK
+[    4.605394] Body: 11
+[    4.605700] [drm:dm_dp_aux_transfer [amdgpu]] Op: Read, addr: 0400, Side=
+Band
+Msg: Nop, Op res: OK
+[    4.605700] Body: 00 00 00 00 00 00 00 00 00
+[    4.605933] [drm:dm_dp_aux_transfer [amdgpu]] Op: Read, addr: 0000, Side=
+Band
+Msg: Nop, Op res: OK
+[    4.605933] Body: 11
+[    4.606178] [drm:dm_dp_aux_transfer [amdgpu]] Op: Read, addr: 0409, Side=
+Band
+Msg: Nop, Op res: OK
+[    4.606178] Body: 00 00 00
+[    4.606218] [drm:dc_conn_log_hex_linux [amdgpu]] 11=20
+[    4.606257] [drm:dc_conn_log_hex_linux [amdgpu]] 06=20
+[    4.606296] [drm:dc_conn_log_hex_linux [amdgpu]] 84=20
+[    4.606334] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606372] [drm:dc_conn_log_hex_linux [amdgpu]] 01=20
+[    4.606410] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606447] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606485] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606522] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606560] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606597] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606635] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606672] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606710] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606748] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606786] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606825] [drm:retrieve_link_cap [amdgpu]] Rx Caps:=20
+[    4.607189] [drm:dm_dp_aux_transfer [amdgpu]] Op: Write, addr: 0050,
+SideBand Msg: Nop, Op res: OK
+[    4.607192] [drm:drm_dp_i2c_do_msg] I2C nack (result=3D0, size=3D0
+[    4.607559] [drm:dm_dp_aux_transfer [amdgpu]] Op: Write, addr: 0050,
+SideBand Msg: Nop, Op res: OK
+[    4.607561] [drm:drm_dp_i2c_do_msg] I2C nack (result=3D0, size=3D0
+[    4.607925] [drm:dm_dp_aux_transfer [amdgpu]] Op: Write, addr: 0050,
+SideBand Msg: Nop, Op res: OK
+[    4.607926] [drm:drm_dp_i2c_do_msg] I2C nack (result=3D0, size=3D0
+[    4.608290] [drm:dm_dp_aux_transfer [amdgpu]] Op: Write, addr: 0050,
+SideBand Msg: Nop, Op res: OK
+[    4.608291] [drm:drm_dp_i2c_do_msg] I2C nack (result=3D0, size=3D0
+[    4.608661] [drm:dm_dp_aux_transfer [amdgpu]] Op: Write, addr: 0050,
+SideBand Msg: Nop, Op res: OK
+[    4.608662] [drm:drm_dp_i2c_do_msg] I2C nack (result=3D0, size=3D0
+[    4.609021] [drm:dm_dp_aux_transfer [amdgpu]] Op: Write, addr: 0050,
+SideBand Msg: Nop, Op res: OK
+[    4.609022] [drm:drm_dp_i2c_do_msg] I2C nack (result=3D0, size=3D0
+[    4.609381] [drm:dm_dp_aux_transfer [amdgpu]] Op: Write, addr: 0050,
+SideBand Msg: Nop, Op res: OK
+[    4.609383] [drm:drm_dp_i2c_do_msg] I2C nack (result=3D0, size=3D0
+[    4.609741] [drm:dm_dp_aux_transfer [amdgpu]] Op: Write, addr: 0050,
+SideBand Msg: Nop, Op res: OK
+[    4.609742] [drm:drm_dp_i2c_do_msg] I2C nack (result=3D0, size=3D0
+[    4.610189] [drm:dm_dp_aux_transfer [amdgpu]] Op: Write, addr: 0050,
+SideBand Msg: Nop, Op res: OK
+[    4.610190] [drm:drm_dp_i2c_do_msg] I2C nack (result=3D0, size=3D0
+[    4.610549] [drm:dm_dp_aux_transfer [amdgpu]] Op: Write, addr: 0050,
+SideBand Msg: Nop, Op res: OK
+[    4.610550] [drm:drm_dp_i2c_do_msg] I2C nack (result=3D0, size=3D0
+[    4.610587] [drm:dc_link_detect [amdgpu]] *ERROR* No EDID read.
+
+
+Kernel 4.19 Gentoo stock
+
+Any idea why dc_conn_log_hex_linux is so short?
+Other people's connectors seem to get lots of hex data over the debug drop =
+here
+mine is nearly completely empty!
 
 --=20
-Cheers,
-Stephen Rothwell
+You are receiving this mail because:
+You are the assignee for the bug.=
 
---Sig_/+MnaRVg7=hrPm6q/bC3wrLW
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+--15717015781.7889aF5A.6137
+Date: Mon, 21 Oct 2019 23:46:18 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
------BEGIN PGP SIGNATURE-----
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - eDP -&gt; Dual Channel LVDS bridge unable to accept any m=
+odelines: Corrupt display!"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112008#c6">Commen=
+t # 6</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - eDP -&gt; Dual Channel LVDS bridge unable to accept any m=
+odelines: Corrupt display!"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112008">bug 11200=
+8</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+Babblebones&#64;gmail.com" title=3D"Babblebones&#64;gmail.com">Babblebones&=
+#64;gmail.com</a>
+</span></b>
+        <pre>This may be useful to you!
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl2uMqAACgkQAVBC80lX
-0GzBEgf/QWY36zyJyHAo2qQe3OGW0vXOK8hxxdovUAtn32TYMjpgSpYEj3mcMY3z
-5Y1LiS5m6Z59wE2Jmlf853f4iNqCgncILtBPEpfG8aZ617hjzkEVmAc6PuWsPPfi
-/xfghH6wX4803L2gAXZxfLkw/8fvtteJ+Ol7btC9ZZVHRjc/duYF66qdRcmjxNn/
-a7t8VJyw7fj0KYHp2sKfDl8adFeWT74ZrfoXnIkfCvRB7sGj69NDW6KxjPL/CTa5
-n4oa57uL2ACZsbmmRrVUzMjKaMBKbzN4X4x2s+9qT6be1a9xTzEOSiVS1655yXTh
-/4nteu4PV9+hJO7ACTKRv/Qdc07A8Q==
-=edIx
------END PGP SIGNATURE-----
 
---Sig_/+MnaRVg7=hrPm6q/bC3wrLW--
+[    4.603742] [drm:amdgpu_dm_initialize_drm_device [amdgpu]]
+amdgpu_dm_connector_init()
+[    4.604326] [drm:dm_dp_aux_transfer [amdgpu]] Op: Read, addr: 0000, Side=
+Band
+Msg: Nop, Op res: OK
+[    4.604327] Body: 11
+[    4.604699] [drm:dm_dp_aux_transfer [amdgpu]] Op: Read, addr: 0000, Side=
+Band
+Msg: Nop, Op res: OK
+[    4.604699] Body: 11 06 84 00 01 00 00 00 00 00 00 00 00 00 00 00
+[    4.604932] [drm:dm_dp_aux_transfer [amdgpu]] Op: Read, addr: 0000, Side=
+Band
+Msg: Nop, Op res: OK
+[    4.604933] Body: 11
+[    4.605160] [drm:dm_dp_aux_transfer [amdgpu]] Op: Read, addr: 0200, Side=
+Band
+Msg: Nop, Op res: OK
+[    4.605161] Body: 41
+[    4.605393] [drm:dm_dp_aux_transfer [amdgpu]] Op: Read, addr: 0000, Side=
+Band
+Msg: Nop, Op res: OK
+[    4.605394] Body: 11
+[    4.605700] [drm:dm_dp_aux_transfer [amdgpu]] Op: Read, addr: 0400, Side=
+Band
+Msg: Nop, Op res: OK
+[    4.605700] Body: 00 00 00 00 00 00 00 00 00
+[    4.605933] [drm:dm_dp_aux_transfer [amdgpu]] Op: Read, addr: 0000, Side=
+Band
+Msg: Nop, Op res: OK
+[    4.605933] Body: 11
+[    4.606178] [drm:dm_dp_aux_transfer [amdgpu]] Op: Read, addr: 0409, Side=
+Band
+Msg: Nop, Op res: OK
+[    4.606178] Body: 00 00 00
+[    4.606218] [drm:dc_conn_log_hex_linux [amdgpu]] 11=20
+[    4.606257] [drm:dc_conn_log_hex_linux [amdgpu]] 06=20
+[    4.606296] [drm:dc_conn_log_hex_linux [amdgpu]] 84=20
+[    4.606334] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606372] [drm:dc_conn_log_hex_linux [amdgpu]] 01=20
+[    4.606410] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606447] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606485] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606522] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606560] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606597] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606635] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606672] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606710] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606748] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606786] [drm:dc_conn_log_hex_linux [amdgpu]] 00=20
+[    4.606825] [drm:retrieve_link_cap [amdgpu]] Rx Caps:=20
+[    4.607189] [drm:dm_dp_aux_transfer [amdgpu]] Op: Write, addr: 0050,
+SideBand Msg: Nop, Op res: OK
+[    4.607192] [drm:drm_dp_i2c_do_msg] I2C nack (result=3D0, size=3D0
+[    4.607559] [drm:dm_dp_aux_transfer [amdgpu]] Op: Write, addr: 0050,
+SideBand Msg: Nop, Op res: OK
+[    4.607561] [drm:drm_dp_i2c_do_msg] I2C nack (result=3D0, size=3D0
+[    4.607925] [drm:dm_dp_aux_transfer [amdgpu]] Op: Write, addr: 0050,
+SideBand Msg: Nop, Op res: OK
+[    4.607926] [drm:drm_dp_i2c_do_msg] I2C nack (result=3D0, size=3D0
+[    4.608290] [drm:dm_dp_aux_transfer [amdgpu]] Op: Write, addr: 0050,
+SideBand Msg: Nop, Op res: OK
+[    4.608291] [drm:drm_dp_i2c_do_msg] I2C nack (result=3D0, size=3D0
+[    4.608661] [drm:dm_dp_aux_transfer [amdgpu]] Op: Write, addr: 0050,
+SideBand Msg: Nop, Op res: OK
+[    4.608662] [drm:drm_dp_i2c_do_msg] I2C nack (result=3D0, size=3D0
+[    4.609021] [drm:dm_dp_aux_transfer [amdgpu]] Op: Write, addr: 0050,
+SideBand Msg: Nop, Op res: OK
+[    4.609022] [drm:drm_dp_i2c_do_msg] I2C nack (result=3D0, size=3D0
+[    4.609381] [drm:dm_dp_aux_transfer [amdgpu]] Op: Write, addr: 0050,
+SideBand Msg: Nop, Op res: OK
+[    4.609383] [drm:drm_dp_i2c_do_msg] I2C nack (result=3D0, size=3D0
+[    4.609741] [drm:dm_dp_aux_transfer [amdgpu]] Op: Write, addr: 0050,
+SideBand Msg: Nop, Op res: OK
+[    4.609742] [drm:drm_dp_i2c_do_msg] I2C nack (result=3D0, size=3D0
+[    4.610189] [drm:dm_dp_aux_transfer [amdgpu]] Op: Write, addr: 0050,
+SideBand Msg: Nop, Op res: OK
+[    4.610190] [drm:drm_dp_i2c_do_msg] I2C nack (result=3D0, size=3D0
+[    4.610549] [drm:dm_dp_aux_transfer [amdgpu]] Op: Write, addr: 0050,
+SideBand Msg: Nop, Op res: OK
+[    4.610550] [drm:drm_dp_i2c_do_msg] I2C nack (result=3D0, size=3D0
+[    4.610587] [drm:dc_link_detect [amdgpu]] *ERROR* No EDID read.
 
---===============1062430209==
+
+Kernel 4.19 Gentoo stock
+
+Any idea why dc_conn_log_hex_linux is so short?
+Other people's connectors seem to get lots of hex data over the debug drop =
+here
+mine is nearly completely empty!</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15717015781.7889aF5A.6137--
+
+--===============1742354665==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -152,4 +321,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1062430209==--
+--===============1742354665==--
