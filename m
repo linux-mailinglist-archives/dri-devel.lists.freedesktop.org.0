@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B441EDE1C3
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2019 03:24:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6987DE1CD
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2019 03:42:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BACC898A7;
-	Mon, 21 Oct 2019 01:24:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BA7289913;
+	Mon, 21 Oct 2019 01:42:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1DB0C89913
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2019 01:24:43 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 20D1889916
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2019 01:42:16 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1A054720E2; Mon, 21 Oct 2019 01:24:43 +0000 (UTC)
+ id 1918E720E2; Mon, 21 Oct 2019 01:42:16 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
- with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Mon, 21 Oct 2019 01:24:42 +0000
+Subject: [Bug 111762] RX 5700 XT Navi - amdgpu.ppfeaturemask=0xffffffff
+ causes stuttering and does not unlock clock/voltage/power controls
+Date: Mon, 21 Oct 2019 01:42:16 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: DRI git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: danielsuarez369@protonmail.com
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: asheldon55@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-rcvoBo4cjR@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
-References: <bug-111481-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111762-502-E3yJknnXRI@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111762-502@http.bugs.freedesktop.org/>
+References: <bug-111762-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,92 +53,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0097682014=="
+Content-Type: multipart/mixed; boundary="===============0274699341=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0097682014==
-Content-Type: multipart/alternative; boundary="15716210831.e1ce.29043"
+--===============0274699341==
+Content-Type: multipart/alternative; boundary="15716221361.60BeAdD.30762"
 Content-Transfer-Encoding: 7bit
 
 
---15716210831.e1ce.29043
-Date: Mon, 21 Oct 2019 01:24:43 +0000
+--15716221361.60BeAdD.30762
+Date: Mon, 21 Oct 2019 01:42:16 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111762
 
---- Comment #117 from Daniel Suarez <danielsuarez369@protonmail.com> ---
-(In reply to Mark Dietzer from comment #115)
-> For me it seems to happen commonly when I watch 60fps video (YouTube) usi=
+--- Comment #2 from Andrew Sheldon <asheldon55@gmail.com> ---
+As a workaround, use upp instead as a workaround (write to the powerplay bi=
+nary
+directly). See: https://github.com/sibradzic/upp
+
+I suggest using 5.4-rcX as AMD's wip kernels (amd-staging-drm-next and
+drm-next) may still have a bug with pptable writing. Or you can try reverti=
 ng
-> Firefox on my RX 5700 XT (currently on Fedora 31 with latest distro
-> packages).
-> Even 4K video at 30fps does not seem to cause any issues.
->=20
-> I have not yet managed to reproduce the hang in gaming or benchmark use (=
-no
-> matter if OpenGL or Vulkan)
->=20
-> The first time this happened today it was accompanied by the following
-> kernel messages and led to a full lockup of graphics until reboot:
-> amdgpu: [powerplay] Failed to send message 0xe, response 0xfffffffb, param
-> 0x80
-> amdgpu: [powerplay] Failed to send message 0xe, response 0xfffffffb param
-> 0x80
-> amdgpu: [powerplay] Failed to export SMU metrics table!
-> amdgpu: [powerplay] Failed to send message 0xe, response 0xfffffffb, param
-> 0x80
-> amdgpu: [powerplay] Failed to send message 0xe, response 0xfffffffb param
-> 0x80
-> amdgpu: [powerplay] Failed to export SMU metrics table!
-> amdgpu: [powerplay] Failed to send message 0xe, response 0xfffffffb, param
-> 0x80
-> amdgpu: [powerplay] Failed to send message 0xe, response 0xfffffffb param
-> 0x80
-> amdgpu: [powerplay] Failed to export SMU metrics table!
-> amdgpu: [powerplay] Failed to send message 0xe, response 0xfffffffb, param
-> 0x80
-> amdgpu: [powerplay] Failed to send message 0xe, response 0xfffffffb param
-> 0x80
-> amdgpu: [powerplay] Failed to export SMU metrics table!
-> amdgpu: [powerplay] Failed to send message 0x36, response 0xfffffffb, par=
-am
-> 0x0
-> amdgpu: [powerplay] Failed to send message 0x36, response 0xfffffffb param
-> 0x0
-> amdgpu: [powerplay] [smu_v11_0_get_power_limit] get PPT limit failed!
-> amdgpu: [powerplay] Failed to send message 0xe, response 0xfffffffb, param
-> 0x80
-> amdgpu: [powerplay] Failed to send message 0xe, response 0xfffffffb param
-> 0x80
-> amdgpu: [powerplay] Failed to export SMU metrics table!
-> [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma0 timeout, signaled
-> seq=3D202333, emitted seq=3D202336
-> [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process information: process  =
-pid
-> 0 thread  pid 0
->=20
-> The second time, it was only a short (few seconds) hang and yielded the
-> following kernel output, currently still up and running after that messag=
-e:
-> [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting for fences ti=
-med
-> out or interrupted!
+3abf8d896f8ac72341677a6cd82662b80943f9c8
 
-Test out kernel 5.4rc4, it should have addressed this I believe.
+drm/amd/powerplay: do proper cleanups on hw_fini
+
+Be aware that this method can cause issues with fan control, so you might a=
+lso
+need to manually set the fans after that. You can use fanctl to handle this:
+https://gitlab.com/mcoffin/fanctl
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15716210831.e1ce.29043
-Date: Mon, 21 Oct 2019 01:24:43 +0000
+--15716221361.60BeAdD.30762
+Date: Mon, 21 Oct 2019 01:42:16 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -154,90 +111,37 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c117">Comm=
-ent # 117</a>
+   title=3D"NEW - RX 5700 XT Navi - amdgpu.ppfeaturemask=3D0xffffffff cause=
+s stuttering and does not unlock clock/voltage/power controls"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111762#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
+   title=3D"NEW - RX 5700 XT Navi - amdgpu.ppfeaturemask=3D0xffffffff cause=
+s stuttering and does not unlock clock/voltage/power controls"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111762">bug 11176=
+2</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-danielsuarez369&#64;protonmail.com" title=3D"Daniel Suarez &lt;danielsuarez=
-369&#64;protonmail.com&gt;"> <span class=3D"fn">Daniel Suarez</span></a>
+asheldon55&#64;gmail.com" title=3D"Andrew Sheldon &lt;asheldon55&#64;gmail.=
+com&gt;"> <span class=3D"fn">Andrew Sheldon</span></a>
 </span></b>
-        <pre>(In reply to Mark Dietzer from <a href=3D"show_bug.cgi?id=3D11=
-1481#c115">comment #115</a>)
-<span class=3D"quote">&gt; For me it seems to happen commonly when I watch =
-60fps video (YouTube) using
-&gt; Firefox on my RX 5700 XT (currently on Fedora 31 with latest distro
-&gt; packages).
-&gt; Even 4K video at 30fps does not seem to cause any issues.
-&gt;=20
-&gt; I have not yet managed to reproduce the hang in gaming or benchmark us=
-e (no
-&gt; matter if OpenGL or Vulkan)
-&gt;=20
-&gt; The first time this happened today it was accompanied by the following
-&gt; kernel messages and led to a full lockup of graphics until reboot:
-&gt; amdgpu: [powerplay] Failed to send message 0xe, response 0xfffffffb, p=
-aram
-&gt; 0x80
-&gt; amdgpu: [powerplay] Failed to send message 0xe, response 0xfffffffb pa=
-ram
-&gt; 0x80
-&gt; amdgpu: [powerplay] Failed to export SMU metrics table!
-&gt; amdgpu: [powerplay] Failed to send message 0xe, response 0xfffffffb, p=
-aram
-&gt; 0x80
-&gt; amdgpu: [powerplay] Failed to send message 0xe, response 0xfffffffb pa=
-ram
-&gt; 0x80
-&gt; amdgpu: [powerplay] Failed to export SMU metrics table!
-&gt; amdgpu: [powerplay] Failed to send message 0xe, response 0xfffffffb, p=
-aram
-&gt; 0x80
-&gt; amdgpu: [powerplay] Failed to send message 0xe, response 0xfffffffb pa=
-ram
-&gt; 0x80
-&gt; amdgpu: [powerplay] Failed to export SMU metrics table!
-&gt; amdgpu: [powerplay] Failed to send message 0xe, response 0xfffffffb, p=
-aram
-&gt; 0x80
-&gt; amdgpu: [powerplay] Failed to send message 0xe, response 0xfffffffb pa=
-ram
-&gt; 0x80
-&gt; amdgpu: [powerplay] Failed to export SMU metrics table!
-&gt; amdgpu: [powerplay] Failed to send message 0x36, response 0xfffffffb, =
-param
-&gt; 0x0
-&gt; amdgpu: [powerplay] Failed to send message 0x36, response 0xfffffffb p=
-aram
-&gt; 0x0
-&gt; amdgpu: [powerplay] [smu_v11_0_get_power_limit] get PPT limit failed!
-&gt; amdgpu: [powerplay] Failed to send message 0xe, response 0xfffffffb, p=
-aram
-&gt; 0x80
-&gt; amdgpu: [powerplay] Failed to send message 0xe, response 0xfffffffb pa=
-ram
-&gt; 0x80
-&gt; amdgpu: [powerplay] Failed to export SMU metrics table!
-&gt; [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma0 timeout, signaled
-&gt; seq=3D202333, emitted seq=3D202336
-&gt; [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process information: proces=
-s  pid
-&gt; 0 thread  pid 0
-&gt;=20
-&gt; The second time, it was only a short (few seconds) hang and yielded the
-&gt; following kernel output, currently still up and running after that mes=
-sage:
-&gt; [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting for fences=
- timed
-&gt; out or interrupted!</span >
+        <pre>As a workaround, use upp instead as a workaround (write to the=
+ powerplay binary
+directly). See: <a href=3D"https://github.com/sibradzic/upp">https://github=
+.com/sibradzic/upp</a>
 
-Test out kernel 5.4rc4, it should have addressed this I believe.</pre>
+I suggest using 5.4-rcX as AMD's wip kernels (amd-staging-drm-next and
+drm-next) may still have a bug with pptable writing. Or you can try reverti=
+ng
+3abf8d896f8ac72341677a6cd82662b80943f9c8
+
+drm/amd/powerplay: do proper cleanups on hw_fini
+
+Be aware that this method can cause issues with fan control, so you might a=
+lso
+need to manually set the fans after that. You can use fanctl to handle this:
+<a href=3D"https://gitlab.com/mcoffin/fanctl">https://gitlab.com/mcoffin/fa=
+nctl</a></pre>
         </div>
       </p>
 
@@ -251,9 +155,9 @@ Test out kernel 5.4rc4, it should have addressed this I believe.</pre>
     </body>
 </html>=
 
---15716210831.e1ce.29043--
+--15716221361.60BeAdD.30762--
 
---===============0097682014==
+--===============0274699341==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -263,4 +167,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0097682014==--
+--===============0274699341==--
