@@ -1,53 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A99E07E0
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2019 17:50:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE0C7E07DF
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2019 17:50:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37D6F88FBF;
-	Tue, 22 Oct 2019 15:50:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA1026E85C;
+	Tue, 22 Oct 2019 15:50:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from frontdoor.pr.hu (frontdoor.pr.hu
- [IPv6:2a02:808:1:101:250:56ff:fe8e:136b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1777C6E85A;
- Tue, 22 Oct 2019 15:50:31 +0000 (UTC)
-Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
- by frontdoor.pr.hu with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.89) (envelope-from <zboszor@pr.hu>)
- id 1iMwQX-0002ZL-Fz; Tue, 22 Oct 2019 17:50:29 +0200
-Received: from host-87-242-20-26.prtelecom.hu ([87.242.20.26]
- helo=[192.168.1.13])
- by mail.pr.hu with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <zboszor@pr.hu>)
- id 1iMwQT-0001jt-Fg; Tue, 22 Oct 2019 17:50:27 +0200
-To: xorg@lists.x.org,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
-Subject: UDL device cannot get its own screen
-Message-ID: <536af56f-924d-f089-a2d8-180f4dee1613@pr.hu>
-Date: Tue, 22 Oct 2019 17:50:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AD9286E861
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2019 15:50:24 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id AA5C7720E2; Tue, 22 Oct 2019 15:50:24 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Tue, 22 Oct 2019 15:50:23 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: bugs@thschuetz.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111481-502-QovX0d4UZd@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Language: en-US
-X-Spam-Score: -1.8 (-)
-X-Scan-Signature: a1297f8a588dc1e7b52b197800d816ab
-X-Spam-Tracer: backend.mail.pr.hu -1.8 20191022155027Z
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; d=pr.hu; 
- s=pr20170203; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Date:
- Message-ID:Subject:From:To:Sender:Reply-To:Cc:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=hKbrslBOhvI9tgu9R79ogihc8DWDbgvDGTdQhSJsGUE=; b=nPHE/9gAl58ASudzM7f1lQHGQ+
- 888xOT/nLIhQKuAEGxvgXqMYY67hfvT5uwR/SlJPJMxbjnPV0DSyW1vgou75Ttq8LlZnDIx7ok6su
- a3zK55s6UGIjQZGqXMYiRJRo4yA4OnTbgAbs4h8yYr9SW7dq/nbkigHMcrisTK3IvbYbcQGrhMKKn
- kd8TYcZ0JwQhmWa8wXhxa463urfKhRgKkNETYAAlIdgUrW3jyOc8Ze4ftCw+svPy0HfpvfNvyCeir
- 1NZI8CnN2rm9ouNPwZdTVnqT+qBRQ3zTr5KYzSHbIO22esDVeEMuF8GJVB2VhA+QDge6i64QnAbFv
- Zvn5Hueg==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,88 +53,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============1318319972=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpJIGhhdmUgdGhlIGJlbG93IGNvbmZpZ3VyYXRpb24gZm9yIGFuIEludGVsIGJhc2VkIFBP
-UyBzeXN0ZW0gdGhhdCwKd2hpbGUgYWR2ZXJ0aXNlcyAzIG91dHB1dHMgKERQMSwgVkdBMSBhbmQg
-SERNSTEgd2l0aCB4Zjg2LXZpZGVvLWludGVsKSwKb25seSB0d28gYXJlIHVzYWJsZS4gRFAxIGZv
-ciB0aGUgYnVpbHQtaW4gdG91Y2hzY3JlZW4gYW5kIFZHQTEgZm9yCnRoZSBleHRlcm5hbCBWR0Eg
-Y29ubmVjdG9yLgoKSSB3YW50ZWQgdG8gdXNlIGFuIFVTQiBEaXNwbGF5TGluayBkZXZpY2UgYXMg
-dGhlIDNyZCBvdXRwdXQsIHdpdGggYWxsCnRocmVlIG91dHB1dCB1c2luZyBpdHMgb3duIFNjcmVl
-biBudW1iZXIsIGkuZS4gOjAuMCA6MC4xIGFuZCA6MC4yLgoKVGhlIGZpcnN0IG9ic2VydmF0aW9u
-IGlzIHRoYXQgSSBjYW4ndCBzZWVtIHRvIGJlIGFibGUgdG8gdXNlIHRoZSBJbnRlbApERFggZHJp
-dmVyIGluIGNvbmp1bmN0aW9uIHdpdGggdGhlIG1vZGVzZXR0aW5nIEREWCB0aGF0IHRoZSBVREwg
-ZGV2aWNlCnVzZXMuIFRoZSBzeW1wdG9tIGlzIHRoYXQgdHdvIG1vZGVzZXR0aW5nIG91dHB1dHMg
-YXJlIGluaXRpYWxpemVkLApvbmUgZm9yIFVETCBhbmQgb25lIGZvciB0aGUgZGlzY29ubmVjdGVk
-IEhETUkxIEludGVsIG91dHB1dC4gQXQgbGVhc3QKbm93IHRoZSBYIHNlcnZlciBkb24ndCBjcmFz
-aCBhcyB3aXRoIFhvcmcgMS4xOS54IHdpdGggYSBzaW1pbGFyIGF0dGVtcHQuCgpUaGUgc2Vjb25k
-IGlzIHRoYXQgd2hlbiB0aGUgbW9kZXNldHRpbmcgZHJpdmVyIGlzIHVzZWQsIHRoZSBJbnRlbCBv
-dXRwdXRzCmFyZSByZW5hbWVkIGZyb20gVkdBMSB0byBWR0EtMSBhbmQgc28gb24sIGkuZS4gdGhl
-IG91dHB1dHMgZ2V0IGFuIGV4dHJhCiItIiBiZXR3ZWVuIHRoZSBvdXRwdXQgdHlwZSBhbmQgdGhl
-IG51bWJlciBzbyBpdCBuZWVkZWQgZXh0cmEgdHlwaW5nCnRvIHBvcnQgdGhlIG9yaWdpbmFsIGNv
-bmZpZyBmcm9tIGludGVsIHRvIG1vZGVzZXR0aW5nLgoKVGhlIHRoaXJkIG9ic2VydmF0aW9uIGlz
-IHRoYXQgd2hpbGUgSSBhbSB1c2luZyB0aGlzIGNvbmZpZ3VyYXRpb24gYmVsb3csCnNvIHRoZSBV
-REwgZGV2aWNlIHNob3VsZCBiZSBhc3NpZ25lZCB0byA6MC4yIChhbmQgYWN0aXZlISksIGl0IGlz
-IHJlYWxseQphc3NpZ25lZCB0byA6MFsuMF0gYXMgYW4gaW5hY3RpdmUgb3V0cHV0LiBTZWUgdGhh
-dCB0aGVyZSdzIG5vICIqIiBpbmRpY2F0b3IKc2V0IGZvciBhbnkgb2YgdGhlIHN1cHBvcnRlZCBt
-b2RlcyBvbiBEVkktSS0xLTEuCgpIb3cgY2FuIEkgc2V0IHVwIDMgZGlmZmVyZW50IFNjcmVlbnMg
-Y29ycmVjdGx5IGZvciAzIHNlcGFyYXRlIGZ1bGxzY3JlZW4KYXBwbGljYXRpb25zPwoKSSBhbSB1
-c2luZyBYb3JnIDEuMjAuNCBwYXRjaGVkIHdpdGggdGhlICJhdXRvYmluZCBHUFVzIHRvIHRoZSBz
-Y3JlZW4iCnBhdGNoIGZyb20gRGF2ZSBBaXJsaWUgdGhhdCBhdCBsZWFzdCB3YWtlcyB1cCB0aGUg
-VURMIGRldmljZSBhbmQgbWFrZXMKaXQgdmlzaWJsZSB3aXRob3V0IGV4dHJhIG1hZ2ljIHdpdGgg
-cHJvdmlkZXJzL3NpbmtzLgoKIyBESVNQTEFZPTowIHhyYW5kcgpTY3JlZW4gMDogbWluaW11bSAz
-MjAgeCAyMDAsIGN1cnJlbnQgMTAyNCB4IDc2OCwgbWF4aW11bSA4MTkyIHggODE5MgpEUC0xIGNv
-bm5lY3RlZCBwcmltYXJ5IDEwMjR4NzY4KzArMCAobm9ybWFsIGxlZnQgaW52ZXJ0ZWQgcmlnaHQg
-eCBheGlzIHkgYXhpcykgMzA0bW0geCAyMjhtbQogICAgMTAyNHg3NjggICAgICA2MC4wMCorCkRW
-SS1JLTEtMSBjb25uZWN0ZWQgKG5vcm1hbCBsZWZ0IGludmVydGVkIHJpZ2h0IHggYXhpcyB5IGF4
-aXMpCiAgICAxMDI0eDc2OCAgICAgIDc1LjAzICsgIDYwLjAwCiAgICAxOTIweDEwODAgICAgIDYw
-LjAwICsKICAgIDE2ODB4MTA1MCAgICAgNTkuODgKICAgIDEyODB4MTAyNCAgICAgNzUuMDIgICAg
-NjAuMDIKICAgIDE0NDB4OTAwICAgICAgNzQuOTggICAgNTkuOTAKICAgIDEyODB4NzIwICAgICAg
-NjAuMDAKICAgIDgwMHg2MDAgICAgICAgNzUuMDAgICAgNjAuMzIKICAgIDY0MHg0ODAgICAgICAg
-NzUuMDAgICAgNzIuODEgICAgNjYuNjcgICAgNTkuOTQKICAgIDcyMHg0MDAgICAgICAgNzAuMDgK
-ICAgMTAyNHg3NjggKDB4NGEpIDY1LjAwME1IeiAtSFN5bmMgLVZTeW5jCiAgICAgICAgIGg6IHdp
-ZHRoICAxMDI0IHN0YXJ0IDEwNDggZW5kIDExODQgdG90YWwgMTM0NCBza2V3ICAgIDAgY2xvY2sg
-IDQ4LjM2S0h6CiAgICAgICAgIHY6IGhlaWdodCAgNzY4IHN0YXJ0ICA3NzEgZW5kICA3NzcgdG90
-YWwgIDgwNiAgICAgICAgICAgY2xvY2sgIDYwLjAwSHoKCiMgY2F0IC9ldGMvWDExL3hvcmcuY29u
-Zi5kL3ZpZGVvY2FyZC5jb25mClNlY3Rpb24gIk1vbml0b3IiCglJZGVudGlmaWVyCSJNb25pdG9y
-LURQLTEiCglPcHRpb24JCSJBdXRvU2VydmVyTGF5b3V0IiAib24iCglPcHRpb24JCSJSb3RhdGUi
-ICJub3JtYWwiCkVuZFNlY3Rpb24KClNlY3Rpb24gIk1vbml0b3IiCglJZGVudGlmaWVyCSJNb25p
-dG9yLUhETUktMSIKCU9wdGlvbgkJIkF1dG9TZXJ2ZXJMYXlvdXQiICJvbiIKCU9wdGlvbgkJIlJv
-dGF0ZSIgIm5vcm1hbCIKRW5kU2VjdGlvbgoKU2VjdGlvbiAiTW9uaXRvciIKCUlkZW50aWZpZXIJ
-Ik1vbml0b3ItVkdBLTEiCglPcHRpb24JCSJBdXRvU2VydmVyTGF5b3V0IiAib24iCglPcHRpb24J
-CSJSb3RhdGUiICJub3JtYWwiCkVuZFNlY3Rpb24KClNlY3Rpb24gIk1vbml0b3IiCglJZGVudGlm
-aWVyCSJEVkktSS0xLTEiCglPcHRpb24JCSJBdXRvU2VydmVyTGF5b3V0IiAib24iCglPcHRpb24J
-CSJSb3RhdGUiICJub3JtYWwiCkVuZFNlY3Rpb24KClNlY3Rpb24gIkRldmljZSIKCUlkZW50aWZp
-ZXIJIkludGVsMCIKCURyaXZlcgkJIm1vZGVzZXR0aW5nIgoJT3B0aW9uCQkia21zZGV2IiAiL2Rl
-di9kcmkvY2FyZDEiCglTY3JlZW4JCTAKCU9wdGlvbgkJIk1vbml0b3ItRFAxIiAiRFAtMSIKCU9w
-dGlvbgkJIlphcGhvZEhlYWRzIiAiRFAtMSIKRW5kU2VjdGlvbgoKU2VjdGlvbiAiRGV2aWNlIgoJ
-SWRlbnRpZmllcgkiSW50ZWwxIgoJRHJpdmVyCQkibW9kZXNldHRpbmciCglPcHRpb24JCSJrbXNk
-ZXYiICIvZGV2L2RyaS9jYXJkMSIKCVNjcmVlbgkJMQoJT3B0aW9uCQkiTW9uaXRvci1WR0EtMSIg
-IlZHQS0xIgoJT3B0aW9uCQkiWmFwaG9kSGVhZHMiICJWR0EtMSIKRW5kU2VjdGlvbgoKIyBJbnRl
-bnRpb25hbGx5IG5vdCByZWZlcmVuY2VkIGluIFNlcnZlckxheW91dCBiZWxvdwpTZWN0aW9uICJE
-ZXZpY2UiCglJZGVudGlmaWVyCSJJbnRlbDIiCglEcml2ZXIJCSJtb2Rlc2V0dGluZyIKCU9wdGlv
-bgkJImttc2RldiIgIi9kZXYvZHJpL2NhcmQxIgoJT3B0aW9uCQkiTW9uaXRvci1IRE1JLTEiICJI
-RE1JLTEiCglPcHRpb24JCSJaYXBob2RIZWFkcyIgIkhETUktMSIKRW5kU2VjdGlvbgoKU2VjdGlv
-biAiRGV2aWNlIgoJSWRlbnRpZmllcgkiVURMIgoJRHJpdmVyCQkibW9kZXNldHRpbmciCglPcHRp
-b24JCSJrbXNkZXYiICIvZGV2L2RyaS9jYXJkMCIKCVNjcmVlbgkJMgoJT3B0aW9uCQkiTW9uaXRv
-ci1EVkktSS0xLTEiICJEVkktSS0xLTEiCkVuZFNlY3Rpb24KClNlY3Rpb24gIlNjcmVlbiIKCUlk
-ZW50aWZpZXIJIlNDUkVFTiIKCU9wdGlvbgkJIkF1dG9TZXJ2ZXJMYXlvdXQiICJvbiIKCURldmlj
-ZQkJIkludGVsMCIKCU1vbml0b3IJCSJNb25pdG9yLURQLTEiCglTdWJTZWN0aW9uCSJEaXNwbGF5
-IgoJCU1vZGVzCSIxMDI0eDc2OCIKCQlEZXB0aAkyNAoJRW5kU3ViU2VjdGlvbgpFbmRTZWN0aW9u
-CgpTZWN0aW9uICJTY3JlZW4iCglJZGVudGlmaWVyCSJTQ1JFRU4xIgoJT3B0aW9uCQkiQXV0b1Nl
-cnZlckxheW91dCIgIm9uIgoJRGV2aWNlCQkiSW50ZWwxIgoJTW9uaXRvcgkJIk1vbml0b3ItVkdB
-LTEiCglTdWJTZWN0aW9uCSJEaXNwbGF5IgoJCU1vZGVzCSIxMDI0eDc2OCIKCQlEZXB0aAkyNAoJ
-RW5kU3ViU2VjdGlvbgpFbmRTZWN0aW9uCgpTZWN0aW9uICJTY3JlZW4iCglJZGVudGlmaWVyCSJT
-Q1JFRU4yIgoJT3B0aW9uCQkiQXV0b1NlcnZlckxheW91dCIgIm9uIgoJRGV2aWNlCQkiVURMIgoJ
-TW9uaXRvcgkJIk1vbml0b3ItRFZJLUktMS0xIgoJU3ViU2VjdGlvbgkiRGlzcGxheSIKCQlNb2Rl
-cwkiMTAyNHg3NjgiCgkJRGVwdGgJMjQKCUVuZFN1YlNlY3Rpb24KRW5kU2VjdGlvbgoKU2VjdGlv
-biAiU2VydmVyTGF5b3V0IgoJSWRlbnRpZmllcgkiTEFZT1VUIgoJT3B0aW9uCQkiQXV0b1NlcnZl
-ckxheW91dCIgIm9uIgoJU2NyZWVuCQkwICJTQ1JFRU4iCglTY3JlZW4JCTEgIlNDUkVFTjEiIFJp
-Z2h0T2YgIlNDUkVFTiIKCVNjcmVlbgkJMiAiU0NSRUVOMiIgUmlnaHRPZiAiU0NSRUVOMSIKRW5k
-U2VjdGlvbgoKQmVzdCByZWdhcmRzLApab2x0w6FuIELDtnN6w7ZybcOpbnlpCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1318319972==
+Content-Type: multipart/alternative; boundary="15717594249.DEFFa4.29328"
+Content-Transfer-Encoding: 7bit
+
+
+--15717594249.DEFFa4.29328
+Date: Tue, 22 Oct 2019 15:50:24 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+
+--- Comment #121 from bugs@thschuetz.de ---
+I have the same problem using archlinux. I tried mesa+llvm stable (19.2/9.0=
+),
+the git-versions with amdgpu and even with plain modesetting. I have random
+freezes with xfce (with and without compositor) and nearly immediatly freez=
+es
+with Rise of the Tomb Raider. "Freezing" means X11, Magic SysRQ and SSH sti=
+ll
+works.
+I had to remove the card because the computer was competely unusable with 4
+freezes in 15 minutes. So I can't provide you with more information, sorry.
+But if I can give you any information without putting the card back into the
+computer (the slot has suffered a bit...) I am here.
+
+Now I found this bug report and wonder, why it is 8 weeks old, still "new" =
+and
+unassigned and severity is not set. In my opinion a freezing computer is re=
+ally
+critical!=20
+
+And I wonder why the bug is only at Arch/Manjaro and Ubuntu. Are all other
+distris too old to work with Navi completely? I didn't even found a report =
+from
+Gentoo.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15717594249.DEFFa4.29328
+Date: Tue, 22 Oct 2019 15:50:24 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c121">Comm=
+ent # 121</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+bugs&#64;thschuetz.de" title=3D"bugs&#64;thschuetz.de">bugs&#64;thschuetz.d=
+e</a>
+</span></b>
+        <pre>I have the same problem using archlinux. I tried mesa+llvm sta=
+ble (19.2/9.0),
+the git-versions with amdgpu and even with plain modesetting. I have random
+freezes with xfce (with and without compositor) and nearly immediatly freez=
+es
+with Rise of the Tomb Raider. &quot;Freezing&quot; means X11, Magic SysRQ a=
+nd SSH still
+works.
+I had to remove the card because the computer was competely unusable with 4
+freezes in 15 minutes. So I can't provide you with more information, sorry.
+But if I can give you any information without putting the card back into the
+computer (the slot has suffered a bit...) I am here.
+
+Now I found this bug report and wonder, why it is 8 weeks old, still &quot;=
+new&quot; and
+unassigned and severity is not set. In my opinion a freezing computer is re=
+ally
+critical!=20
+
+And I wonder why the bug is only at Arch/Manjaro and Ubuntu. Are all other
+distris too old to work with Navi completely? I didn't even found a report =
+from
+Gentoo.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15717594249.DEFFa4.29328--
+
+--===============1318319972==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1318319972==--
