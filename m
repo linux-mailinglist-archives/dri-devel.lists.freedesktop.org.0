@@ -1,37 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4111DE0A8B
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2019 19:23:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8327E0A8C
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2019 19:23:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA42D6E8A9;
-	Tue, 22 Oct 2019 17:23:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F5A76E8AA;
+	Tue, 22 Oct 2019 17:23:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0D336E8A9
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2019 17:23:28 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 173BA285294;
- Tue, 22 Oct 2019 18:23:27 +0100 (BST)
-Date: Tue, 22 Oct 2019 19:23:23 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Andrzej Hajda <a.hajda@samsung.com>
-Subject: Re: [PATCH v2 04/21] drm/exynos: Fix potential unbalanced calls to
- pm_runtime_put
-Message-ID: <20191022192323.37b54d99@collabora.com>
-In-Reply-To: <19d2998a-1b54-f5c2-1c9c-3eeced8b6f6d@samsung.com>
-References: <20190826152649.13820-1-boris.brezillon@collabora.com>
- <CGME20190826152700epcas1p34f6efa9f4c77885901f4cb9181bcaffe@epcas1p3.samsung.com>
- <20190826152649.13820-5-boris.brezillon@collabora.com>
- <19d2998a-1b54-f5c2-1c9c-3eeced8b6f6d@samsung.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C8A736E8AC
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2019 17:23:40 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id C54EA720E2; Tue, 22 Oct 2019 17:23:40 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Tue, 22 Oct 2019 17:23:40 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: danielsuarez369@protonmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: highest
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: priority
+Message-ID: <bug-111481-502-fxdALYfElN@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -45,30 +53,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, dri-devel@lists.freedesktop.org,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>, Chris Healy <Chris.Healy@zii.aero>,
- kernel@collabora.com, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0910058415=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAxMSBPY3QgMjAxOSAxNTo1NDo1MyArMDIwMApBbmRyemVqIEhhamRhIDxhLmhhamRh
-QHNhbXN1bmcuY29tPiB3cm90ZToKCj4gT24gMjYuMDguMjAxOSAxNzoyNiwgQm9yaXMgQnJlemls
-bG9uIHdyb3RlOgo+ID4gVGhlIGVuY29kZXItPmVuYWJsZSgpIGNhbid0IHJlcG9ydCBlcnJvcnMg
-YW5kIGlzIGV4cGVjdGVkIHRvIGFsd2F5cwo+ID4gc3VjY2VlZC4gSWYgd2UgY2FsbCBwbV9ydW50
-aW1lX3B1dCgpIGluIHRoZSBleHlub3NfZHNpX2VuYWJsZSgpIGVycm9yCj4gPiBwYXRoIChhcyBj
-dXJyZW50bHkgZG9uZSkgd2UnbGwgaGF2ZSB1bmJhbGFuY2VkIGdldC9wdXQgY2FsbHMgd2hlbgo+
-ID4gZW5jb2Rlci0+ZGlzYWJsZSgpIGlzIGNhbGxlZC4gIAo+IAo+IAo+IFRydWUKCkkganVzdCBy
-ZWFsaXplZCB0aGlzIGlzIGFjdHVhbGx5IG5vdCB0aGUgY2FzZSwgYmVjYXVzZSB0aGUKRFNJTV9T
-VEFURV9FTkFCTEVEIGZsYWcgaXMgY2xlYXJlZCBpbiB0aGUgZXJyb3IgcGF0aCwgYW5kCmV4eW5v
-c19kc2lfZGlzYWJsZSgpIGJhaWxzIG91dCBlYXJseSB3aGVuIERTSU1fU1RBVEVfRU5BQkxFRCBp
-cyBub3Qgc2V0LgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0910058415==
+Content-Type: multipart/alternative; boundary="15717650202.bdBdbBd.20370"
+Content-Transfer-Encoding: 7bit
+
+
+--15717650202.bdBdbBd.20370
+Date: Tue, 22 Oct 2019 17:23:40 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+
+Daniel Suarez <danielsuarez369@protonmail.com> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+           Priority|not set                     |highest
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15717650202.bdBdbBd.20370
+Date: Tue, 22 Oct 2019 17:23:40 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:danielsua=
+rez369&#64;protonmail.com" title=3D"Daniel Suarez &lt;danielsuarez369&#64;p=
+rotonmail.com&gt;"> <span class=3D"fn">Daniel Suarez</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Priority</td>
+           <td>not set
+           </td>
+           <td>highest
+           </td>
+         </tr></table>
+      <p>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15717650202.bdBdbBd.20370--
+
+--===============0910058415==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0910058415==--
