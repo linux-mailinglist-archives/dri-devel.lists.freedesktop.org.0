@@ -2,45 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C52B0E0891
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2019 18:19:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D4E1E08B7
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2019 18:24:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAE826E881;
-	Tue, 22 Oct 2019 16:19:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DAFC6E870;
+	Tue, 22 Oct 2019 16:23:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5E1B36E890
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2019 16:19:35 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5A9B6720E2; Tue, 22 Oct 2019 16:19:35 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2802A6E870
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2019 16:23:56 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2019 09:23:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,216,1569308400"; d="scan'208";a="209738246"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga002.jf.intel.com with SMTP; 22 Oct 2019 09:23:53 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 22 Oct 2019 19:23:52 +0300
+Date: Tue, 22 Oct 2019 19:23:52 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
- with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Tue, 22 Oct 2019 16:19:34 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: freedesktop@sabbie.nl
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-oVu8dRxtLm@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
-References: <bug-111481-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Subject: Re: [PATCH 2/2] drm/vc4: Use drm_hdmi_avi_infoframe_bars()
+Message-ID: <20191022162352.GO1208@intel.com>
+References: <20191008164814.5894-1-ville.syrjala@linux.intel.com>
+ <20191008164814.5894-2-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20191008164814.5894-2-ville.syrjala@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,112 +47,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1832887273=="
+Cc: Boris Brezillon <boris.brezillon@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1832887273==
-Content-Type: multipart/alternative; boundary="15717611755.23C2bEb.4287"
-Content-Transfer-Encoding: 7bit
-
-
---15717611755.23C2bEb.4287
-Date: Tue, 22 Oct 2019 16:19:35 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
-
---- Comment #123 from Sabbie <freedesktop@sabbie.nl> ---
-I'm having the same problem on an RX 5700, running Arch.
-
-- 3.5.7 Kernel
-- mesa-git 1:19.3.0_devel.116477.3ad6154f4eb-1=20
-- llvm-git 10.0.0_r329841.1c982af0599-1
-
-GPU crashes on various activities and seemingly at random. Happened both wh=
-ile
-browsing and playing games. Usually it crashes with `ring gfx_0.0.0 timeout=
-`.
-Sometimes it works for hours, sometimes it crashes every 5 minutes.
-
-I can provide logs if needed.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15717611755.23C2bEb.4287
-Date: Tue, 22 Oct 2019 16:19:35 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c123">Comm=
-ent # 123</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-freedesktop&#64;sabbie.nl" title=3D"Sabbie &lt;freedesktop&#64;sabbie.nl&gt=
-;"> <span class=3D"fn">Sabbie</span></a>
-</span></b>
-        <pre>I'm having the same problem on an RX 5700, running Arch.
-
-- 3.5.7 Kernel
-- mesa-git 1:19.3.0_devel.116477.3ad6154f4eb-1=20
-- llvm-git 10.0.0_r329841.1c982af0599-1
-
-GPU crashes on various activities and seemingly at random. Happened both wh=
-ile
-browsing and playing games. Usually it crashes with `ring gfx_0.0.0 timeout=
-`.
-Sometimes it works for hours, sometimes it crashes every 5 minutes.
-
-I can provide logs if needed.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15717611755.23C2bEb.4287--
-
---===============1832887273==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1832887273==--
+T24gVHVlLCBPY3QgMDgsIDIwMTkgYXQgMDc6NDg6MTRQTSArMDMwMCwgVmlsbGUgU3lyamFsYSB3
+cm90ZToKPiBGcm9tOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwu
+Y29tPgo+IAo+IFVzZSB0aGUgbmV3IGRybV9oZG1pX2F2aV9pbmZvZnJhbWVfYmFycygpIGhlbHBl
+ciBpbnN0ZWFkCj4gb2YgaGFuZCByb2xsaW5nIGl0Lgo+IAo+IENjOiBFcmljIEFuaG9sdCA8ZXJp
+Y0BhbmhvbHQubmV0Pgo+IENjOiBCb3JpcyBCcmV6aWxsb24gPGJvcmlzLmJyZXppbGxvbkBib290
+bGluLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFA
+bGludXguaW50ZWwuY29tPgoKU2VyaWVzIHB1c2hlZCB0byBkcm0tbWlzYy1uZXh0IHdpdGggQm9y
+aXMncyBpcmMgcmI6CgoxOTowMyA8IHZzeXJqYWxhPiBhbmhvbHQ6IGJicmV6aWxsb246IHRob3Vn
+aHRzIG9uIGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9zZXJpZXMvNjc3NDIvID8K
+MTk6MDUgPCBiYnJlemlsbG9uPiB2c3lyamFsYTogUi1iCgpUaGFua3MuCgo+IC0tLQo+ICBkcml2
+ZXJzL2dwdS9kcm0vdmM0L3ZjNF9oZG1pLmMgfCA1ICstLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAx
+IGluc2VydGlvbigrKSwgNCBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
+cHUvZHJtL3ZjNC92YzRfaGRtaS5jIGIvZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfaGRtaS5jCj4g
+aW5kZXggMDg1M2I5ODBiY2IzLi4xYzYyYzZjOTI0NGIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL3ZjNC92YzRfaGRtaS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfaGRt
+aS5jCj4gQEAgLTM5OCwxMCArMzk4LDcgQEAgc3RhdGljIHZvaWQgdmM0X2hkbWlfc2V0X2F2aV9p
+bmZvZnJhbWUoc3RydWN0IGRybV9lbmNvZGVyICplbmNvZGVyKQo+ICAJCQkJCSAgIEhETUlfUVVB
+TlRJWkFUSU9OX1JBTkdFX0xJTUlURUQgOgo+ICAJCQkJCSAgIEhETUlfUVVBTlRJWkFUSU9OX1JB
+TkdFX0ZVTEwpOwo+ICAKPiAtCWZyYW1lLmF2aS5yaWdodF9iYXIgPSBjc3RhdGUtPnR2Lm1hcmdp
+bnMucmlnaHQ7Cj4gLQlmcmFtZS5hdmkubGVmdF9iYXIgPSBjc3RhdGUtPnR2Lm1hcmdpbnMubGVm
+dDsKPiAtCWZyYW1lLmF2aS50b3BfYmFyID0gY3N0YXRlLT50di5tYXJnaW5zLnRvcDsKPiAtCWZy
+YW1lLmF2aS5ib3R0b21fYmFyID0gY3N0YXRlLT50di5tYXJnaW5zLmJvdHRvbTsKPiArCWRybV9o
+ZG1pX2F2aV9pbmZvZnJhbWVfYmFycygmZnJhbWUuYXZpLCBjc3RhdGUpOwo+ICAKPiAgCXZjNF9o
+ZG1pX3dyaXRlX2luZm9mcmFtZShlbmNvZGVyLCAmZnJhbWUpOwo+ICB9Cj4gLS0gCj4gMi4yMS4w
+CgotLSAKVmlsbGUgU3lyasOkbMOkCkludGVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbA==
