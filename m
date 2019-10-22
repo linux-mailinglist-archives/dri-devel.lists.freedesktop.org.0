@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4C15E032D
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2019 13:40:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47AB3E0349
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2019 13:46:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B95E6E5ED;
-	Tue, 22 Oct 2019 11:40:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D1A96E5EE;
+	Tue, 22 Oct 2019 11:45:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
- [209.85.167.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA5626E5ED
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2019 11:40:48 +0000 (UTC)
-Received: by mail-oi1-f195.google.com with SMTP id i16so13870595oie.4
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2019 04:40:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MTkUrxhJaaygKpYFG6XKyORLB/6UsrnNnAcZ2HEl3vA=;
- b=TnIKoTA/HPQ6RarYarp6rp6qUvvF984A8hVIvsxiTgbJ21KH+8dCQ4+QrLGgaSXKKe
- GqcGedX2/ZIMec2ZcFl2Czb6sX5TwjZqqd8JB0UX6Sl61ajByJ7nQY2DnQgV6MUTxjQp
- kBqJwumNgCnYd5FM5EGACB5G0kcIvfHabwjeXDeQNI4f1OG1rrighuB/bXqIu8iJCtp5
- 7QdHX44jNB8BNvK/ns4ENcHFC/ZVw6TguveCR/TwCZI2eO4hI6iNPcwo/QNd22UvqhvD
- 2d4WEWFJmkrVeejihAJToTp8EzbyhAs4rR4O95DSaWi02DeMcxltvcFhOAtxn97AxTrS
- wFCg==
-X-Gm-Message-State: APjAAAVCXc+HjiZtvTVN9sFU8JX+6ddr7i+1nWD+3+oSaDWTgHWWRKyo
- lhnQWktma6T4pQXpBf+hcebtz5OIdtlnf0kwfTI=
-X-Google-Smtp-Source: APXvYqzhQ8cZ06PtyQQYS8VBvz7ZAfya04dDgTKpedBCyvYLKvYUP4z21wflkhBwZ+Lx/Betkfre5JCQCLddcCfBX8w=
-X-Received: by 2002:aca:882:: with SMTP id 124mr2542881oii.54.1571744447771;
- Tue, 22 Oct 2019 04:40:47 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5B3A36E5EF
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2019 11:45:58 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 588CF720E2; Tue, 22 Oct 2019 11:45:58 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111244] amdgpu kernel 5.2 blank display after resume from suspend
+Date: Tue, 22 Oct 2019 11:45:57 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: carmen@carmenbianca.eu
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-111244-502-1gBo2z58O3@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111244-502@http.bugs.freedesktop.org/>
+References: <bug-111244-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20191021214550.1461-1-robh@kernel.org>
- <20191021214550.1461-5-robh@kernel.org>
- <20191022113001.GG4756@pendragon.ideasonboard.com>
-In-Reply-To: <20191022113001.GG4756@pendragon.ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 22 Oct 2019 13:40:36 +0200
-Message-ID: <CAMuHMdXCq9urRDCSmLueVpsv9-FxJ6pxQf-9Ua=vT-TrRs++fQ@mail.gmail.com>
-Subject: Re: [PATCH 4/6] drm/cma-helper: Support DRM_MODE_DUMB_KERNEL_MAP flag
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,50 +52,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Liviu Dudau <liviu.dudau@arm.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Philippe Cornu <philippe.cornu@st.com>,
- linux-stm32@st-md-mailman.stormreply.com, Kevin Hilman <khilman@baylibre.com>,
- Chen-Yu Tsai <wens@csie.org>, Xinliang Liu <z.liuxinliang@hisilicon.com>,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- "James \(Qian\) Wang" <james.qian.wang@arm.com>,
- Alexandre Torgue <alexandre.torgue@st.com>,
- Chen Feng <puck.chen@hisilicon.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- linux-mediatek@lists.infradead.org, Vincent Abriou <vincent.abriou@st.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
- Sean Paul <sean@poorly.run>, Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Yannick Fertre <yannick.fertre@st.com>, Rongrong Zou <zourongrong@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2141034005=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTGF1cmVudCwKCk9uIFR1ZSwgT2N0IDIyLCAyMDE5IGF0IDE6MzAgUE0gTGF1cmVudCBQaW5j
-aGFydAo8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPiB3cm90ZToKPiBPbiBNb24s
-IE9jdCAyMSwgMjAxOSBhdCAwNDo0NTo0OFBNIC0wNTAwLCBSb2IgSGVycmluZyB3cm90ZToKCj4g
-PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX2dlbS5jCj4gPiAr
-KysgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX2dlbS5jCj4gPiBAQCAt
-NDE5LDYgKzQxOSw3IEBAIGludCByb2NrY2hpcF9nZW1fZHVtYl9jcmVhdGUoc3RydWN0IGRybV9m
-aWxlICpmaWxlX3ByaXYsCj4gPiAgICAgICAgKiBhbGlnbiB0byA2NCBieXRlcyBzaW5jZSBNYWxp
-IHJlcXVpcmVzIGl0Lgo+ID4gICAgICAgICovCj4gPiAgICAgICBhcmdzLT5waXRjaCA9IEFMSUdO
-KG1pbl9waXRjaCwgNjQpOwo+ID4gKyAgICAgYXJncy0+ZmxhZ3MgPSBEUk1fTU9ERV9EVU1CX0tF
-Uk5FTF9NQVA7Cj4gPiAgICAgICBhcmdzLT5zaXplID0gYXJncy0+cGl0Y2ggKiBhcmdzLT5oZWln
-aHQ7Cj4KPiBNeSBPQ0QgZ2V0cyB0cmlnZ2VyZWQgYnkgZmxhZ3MgYXBwZWFyaW5nIGluIHRoZSBt
-aWRkbGUgaGVyZSB3aGlsZSBpdCBpcwo+IGF0IHRoZSBlbmQgaW4gb3RoZXIgZHJpdmVycyA6LSkK
-Ci4uLiB3aGlsZSAiZmxhZ3MiIGFwcGVhcnMgYmVmb3JlICJwaXRjaCIgYW5kICJzaXplIiBpbiB0
-aGUgYWN0dWFsIHN0cnVjdApkZWZpbml0aW9uLi4uIEFhYXJnaGwgOy0pCgpHcntvZXRqZSxlZXRp
-bmd9cywKCiAgICAgICAgICAgICAgICAgICAgICAgIEdlZXJ0CgotLSAKR2VlcnQgVXl0dGVyaG9l
-dmVuIC0tIFRoZXJlJ3MgbG90cyBvZiBMaW51eCBiZXlvbmQgaWEzMiAtLSBnZWVydEBsaW51eC1t
-NjhrLm9yZwoKSW4gcGVyc29uYWwgY29udmVyc2F0aW9ucyB3aXRoIHRlY2huaWNhbCBwZW9wbGUs
-IEkgY2FsbCBteXNlbGYgYSBoYWNrZXIuIEJ1dAp3aGVuIEknbSB0YWxraW5nIHRvIGpvdXJuYWxp
-c3RzIEkganVzdCBzYXkgInByb2dyYW1tZXIiIG9yIHNvbWV0aGluZyBsaWtlIHRoYXQuCiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgLS0gTGludXMgVG9ydmFsZHMKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2141034005==
+Content-Type: multipart/alternative; boundary="15717447585.14E3.2627"
+Content-Transfer-Encoding: 7bit
+
+
+--15717447585.14E3.2627
+Date: Tue, 22 Oct 2019 11:45:58 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111244
+
+--- Comment #34 from Carmen Bianca Bakker <carmen@carmenbianca.eu> ---
+Created attachment 145793
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145793&action=3Dedit
+failed suspend 5.4.0rc2
+
+Issue still occurs on 5.4rc2. In these logs, on the second suspension.
+
+Thinkpad X395, Ryzen 3500U.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15717447585.14E3.2627
+Date: Tue, 22 Oct 2019 11:45:58 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244#c34">Comme=
+nt # 34</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244">bug 11124=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+carmen&#64;carmenbianca.eu" title=3D"Carmen Bianca Bakker &lt;carmen&#64;ca=
+rmenbianca.eu&gt;"> <span class=3D"fn">Carmen Bianca Bakker</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145793=
+" name=3D"attach_145793" title=3D"failed suspend 5.4.0rc2">attachment 14579=
+3</a> <a href=3D"attachment.cgi?id=3D145793&amp;action=3Dedit" title=3D"fai=
+led suspend 5.4.0rc2">[details]</a></span>
+failed suspend 5.4.0rc2
+
+Issue still occurs on 5.4rc2. In these logs, on the second suspension.
+
+Thinkpad X395, Ryzen 3500U.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15717447585.14E3.2627--
+
+--===============2141034005==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2141034005==--
