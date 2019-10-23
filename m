@@ -1,54 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 549EFE2290
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 20:37:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 447A3E22DF
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 20:56:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03B1C6EB70;
-	Wed, 23 Oct 2019 18:37:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02B536EB77;
+	Wed, 23 Oct 2019 18:56:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C4506EB71
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 18:37:33 +0000 (UTC)
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-x3fE4TmSN9GD2Hezz7fh9A-1; Wed, 23 Oct 2019 14:37:28 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD00D1800D6B;
- Wed, 23 Oct 2019 18:37:27 +0000 (UTC)
-Received: from shalem.localdomain.com (ovpn-116-79.ams2.redhat.com
- [10.36.116.79])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DB4425D9DC;
- Wed, 23 Oct 2019 18:37:26 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Ben Skeggs <bskeggs@redhat.com>
-Subject: [PATCH 2/2] drm/nouveau: Fix drm-core using atomic code-paths on
- pre-nv50 hardware
-Date: Wed, 23 Oct 2019 20:37:24 +0200
-Message-Id: <20191023183724.8410-2-hdegoede@redhat.com>
-In-Reply-To: <20191023183724.8410-1-hdegoede@redhat.com>
-References: <20191023183724.8410-1-hdegoede@redhat.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D1CC76EB80
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 18:56:44 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id CE6BC720E2; Wed, 23 Oct 2019 18:56:44 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Wed, 23 Oct 2019 18:56:44 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: jaapbuurman@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: highest
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111481-502-Wra0akySKZ@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: x3fE4TmSN9GD2Hezz7fh9A-1
-X-Mimecast-Spam-Score: 0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=redhat.com; 
- s=mimecast20190719; t=1571855852;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=o4IV+lzEWzLOh/1vr0zPCZM12aQQ5Mr3cjZjz7ZQrmE=;
- b=fppIaK6/FbKZn2bdBHLzhEAYyMBmkMBBjg9CIYSYOnUGOT2YlR0y66UJ+isR7YI9oOvClw
- gnJo+SQ1Qy3JVnQog/Wd3UW1hBGzUxpFge8VC39n31evIGHiFk2oO/M+QemCyIUiZywkIH
- 8bbceB8tFxMuJMn4YDN7Z9/PSMz92v4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,90 +53,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1472320928=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2UgZG8gbm90IHN1cHBvcnQgYXRvbWljIG1vZGVzZXR0aW5nIG9uIHByZS1udjUwIGhhcmR3YXJl
-LCBidXQgdW50aWwgbm93Cm91ciBjb25uZWN0b3IgY29kZSB3YXMgc2V0dGluZyBkcm1fY29ubmVj
-dG9yLT5zdGF0ZSBvbiBwcmUtbnY1MCBoYXJkd2FyZS4KClRoaXMgY2F1c2VzIHRoZSBjb3JlIHRv
-IGVudGVyIGF0b21pYyBtb2Rlc2V0dGluZyBwYXRocyBpbiBhdCBsZWFzdDoKCjEuIGRybV9jb25u
-ZWN0b3JfZ2V0X2VuY29kZXIoKSwgcmV0dXJuaW5nIGNvbm5lY3Rvci0+c3RhdGUtPmJlc3RfZW5j
-b2Rlcgp3aGljaCBpcyBhbHdheXMgMCwgY2F1c2luZyB1cyB0byBhbHdheXMgcmVwb3J0IDAgYXMg
-ZW5jb2Rlcl9pZCBpbgp0aGUgZHJtTW9kZUNvbm5lY3RvciBzdHJ1Y3QgcmV0dXJuZWQgYnkgZHJt
-TW9kZUdldENvbm5lY3RvcigpLgoKMi4gZHJtX2VuY29kZXJfZ2V0X2NydGMoKSwgcmV0dXJuaW5n
-IE5VTEwgYmVjYXVzZSB1c2VzX2F0b21pYyBnZXQgc2V0LApjYXVzaW5nIHVzIHRvIGFsd2F5cyBy
-ZXBvcnQgMCBhcyBjcnRjX2lkIGluIHRoZSBkcm1Nb2RlRW5jb2RlciBzdHJ1Y3QKcmV0dXJuZWQg
-YnkgZHJtTW9kZUdldEVuY29kZXIoKQoKV2hpY2ggaW4gdHVybiBjb25mdXNlcyB1c2Vyc3BhY2Us
-IGF0IGxlYXN0IHBseW1vdXRoIHRoaW5rcyB0aGF0IHRoZSBwaXBlCmhhcyBjaGFuZ2VkIGJlY2F1
-c2Ugb2YgdGhpcyBhbmQgdHJpZXMgdG8gcmVjb25maWd1cmUgaXQgdW5uZWNlc3NhcmlseS4KCk1v
-cmUgaW4gZ2VuZXJhbCB3ZSBzaG91bGQgbm90IHNldCBkcm1fY29ubmVjdG9yLT5zdGF0ZSBpbiB0
-aGUgbm9uLWF0b21pYwpjb2RlIGFzIHRoaXMgdmlvbGF0ZXMgdGhlIGRybS1jb3JlJ3MgZXhwZWN0
-YXRpb25zLgoKVGhpcyBjb21taXQgZml4ZXMgdGhpcyBieSB1c2luZyBhIG5vdXZlYXVfY29ubl9h
-dG9tIHN0cnVjdCBlbWJlZGRlZCBpbiB0aGUKbm91dmVhdV9jb25uZWN0b3Igc3RydWN0IGZvciBw
-cm9wZXJ0eSBoYW5kbGluZyBpbiB0aGUgbm9uLWF0b21pYyBjYXNlLgoKRml4ZXM6IGh0dHBzOi8v
-YnVnemlsbGEucmVkaGF0LmNvbS9zaG93X2J1Zy5jZ2k/aWQ9MTcwNjU1NwpTaWduZWQtb2ZmLWJ5
-OiBIYW5zIGRlIEdvZWRlIDxoZGVnb2VkZUByZWRoYXQuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2Ry
-bS9ub3V2ZWF1L25vdXZlYXVfY29ubmVjdG9yLmMgfCAyOCArKysrKysrKysrKysrKystLS0tLS0K
-IGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfY29ubmVjdG9yLmggfCAgNiArKysrKwog
-MiBmaWxlcyBjaGFuZ2VkLCAyNyBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQoKZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfY29ubmVjdG9yLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Nvbm5lY3Rvci5jCmluZGV4IDk0ZGZhMmU1YTlh
-Yi4uODA1YjM0MWRiMTY1IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2
-ZWF1X2Nvbm5lY3Rvci5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfY29u
-bmVjdG9yLmMKQEAgLTI0NSwxNCArMjQ1LDIyIEBAIG5vdXZlYXVfY29ubl9hdG9taWNfZHVwbGlj
-YXRlX3N0YXRlKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IpCiB2b2lkCiBub3V2ZWF1
-X2Nvbm5fcmVzZXQoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvcikKIHsKKwlzdHJ1Y3Qg
-bm91dmVhdV9jb25uZWN0b3IgKm52X2Nvbm5lY3RvciA9IG5vdXZlYXVfY29ubmVjdG9yKGNvbm5l
-Y3Rvcik7CiAJc3RydWN0IG5vdXZlYXVfY29ubl9hdG9tICphc3ljOwogCi0JaWYgKFdBUk5fT04o
-IShhc3ljID0ga3phbGxvYyhzaXplb2YoKmFzeWMpLCBHRlBfS0VSTkVMKSkpKQotCQlyZXR1cm47
-CisJaWYgKGRybV9kcnZfdXNlc19hdG9taWNfbW9kZXNldChjb25uZWN0b3ItPmRldikpIHsKKwkJ
-aWYgKFdBUk5fT04oIShhc3ljID0ga3phbGxvYyhzaXplb2YoKmFzeWMpLCBHRlBfS0VSTkVMKSkp
-KQorCQkJcmV0dXJuOworCisJCWlmIChjb25uZWN0b3ItPnN0YXRlKQorCQkJbm91dmVhdV9jb25u
-X2F0b21pY19kZXN0cm95X3N0YXRlKGNvbm5lY3RvciwKKwkJCQkJCQkgIGNvbm5lY3Rvci0+c3Rh
-dGUpOworCisJCV9fZHJtX2F0b21pY19oZWxwZXJfY29ubmVjdG9yX3Jlc2V0KGNvbm5lY3Rvciwg
-JmFzeWMtPnN0YXRlKTsKKwl9IGVsc2UgeworCQlhc3ljID0gJm52X2Nvbm5lY3Rvci0+cHJvcGVy
-dGllc19zdGF0ZTsKKwl9CiAKLQlpZiAoY29ubmVjdG9yLT5zdGF0ZSkKLQkJbm91dmVhdV9jb25u
-X2F0b21pY19kZXN0cm95X3N0YXRlKGNvbm5lY3RvciwgY29ubmVjdG9yLT5zdGF0ZSk7Ci0JX19k
-cm1fYXRvbWljX2hlbHBlcl9jb25uZWN0b3JfcmVzZXQoY29ubmVjdG9yLCAmYXN5Yy0+c3RhdGUp
-OwogCWFzeWMtPmRpdGhlci5tb2RlID0gRElUSEVSSU5HX01PREVfQVVUTzsKIAlhc3ljLT5kaXRo
-ZXIuZGVwdGggPSBESVRIRVJJTkdfREVQVEhfQVVUTzsKIAlhc3ljLT5zY2FsZXIubW9kZSA9IERS
-TV9NT0RFX1NDQUxFX05PTkU7CkBAIC0yNzYsOCArMjg0LDE0IEBAIHZvaWQKIG5vdXZlYXVfY29u
-bl9hdHRhY2hfcHJvcGVydGllcyhzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yKQogewog
-CXN0cnVjdCBkcm1fZGV2aWNlICpkZXYgPSBjb25uZWN0b3ItPmRldjsKLQlzdHJ1Y3Qgbm91dmVh
-dV9jb25uX2F0b20gKmFybWMgPSBub3V2ZWF1X2Nvbm5fYXRvbShjb25uZWN0b3ItPnN0YXRlKTsK
-IAlzdHJ1Y3Qgbm91dmVhdV9kaXNwbGF5ICpkaXNwID0gbm91dmVhdV9kaXNwbGF5KGRldik7CisJ
-c3RydWN0IG5vdXZlYXVfY29ubmVjdG9yICpudl9jb25uZWN0b3IgPSBub3V2ZWF1X2Nvbm5lY3Rv
-cihjb25uZWN0b3IpOworCXN0cnVjdCBub3V2ZWF1X2Nvbm5fYXRvbSAqYXJtYzsKKworCWlmIChk
-cm1fZHJ2X3VzZXNfYXRvbWljX21vZGVzZXQoY29ubmVjdG9yLT5kZXYpKQorCQlhcm1jID0gbm91
-dmVhdV9jb25uX2F0b20oY29ubmVjdG9yLT5zdGF0ZSk7CisJZWxzZQorCQlhcm1jID0gJm52X2Nv
-bm5lY3Rvci0+cHJvcGVydGllc19zdGF0ZTsKIAogCS8qIEluaXQgRFZJLUkgc3BlY2lmaWMgcHJv
-cGVydGllcy4gKi8KIAlpZiAoY29ubmVjdG9yLT5jb25uZWN0b3JfdHlwZSA9PSBEUk1fTU9ERV9D
-T05ORUNUT1JfRFZJSSkKQEAgLTc0OSw5ICs3NjMsOSBAQCBzdGF0aWMgaW50CiBub3V2ZWF1X2Nv
-bm5lY3Rvcl9zZXRfcHJvcGVydHkoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwKIAkJ
-CSAgICAgICBzdHJ1Y3QgZHJtX3Byb3BlcnR5ICpwcm9wZXJ0eSwgdWludDY0X3QgdmFsdWUpCiB7
-Ci0Jc3RydWN0IG5vdXZlYXVfY29ubl9hdG9tICphc3ljID0gbm91dmVhdV9jb25uX2F0b20oY29u
-bmVjdG9yLT5zdGF0ZSk7CiAJc3RydWN0IG5vdXZlYXVfY29ubmVjdG9yICpudl9jb25uZWN0b3Ig
-PSBub3V2ZWF1X2Nvbm5lY3Rvcihjb25uZWN0b3IpOwogCXN0cnVjdCBub3V2ZWF1X2VuY29kZXIg
-Km52X2VuY29kZXIgPSBudl9jb25uZWN0b3ItPmRldGVjdGVkX2VuY29kZXI7CisJc3RydWN0IG5v
-dXZlYXVfY29ubl9hdG9tICphc3ljID0gJm52X2Nvbm5lY3Rvci0+cHJvcGVydGllc19zdGF0ZTsK
-IAlzdHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29kZXIgPSB0b19kcm1fZW5jb2Rlcihudl9lbmNvZGVy
-KTsKIAlpbnQgcmV0OwogCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2
-ZWF1X2Nvbm5lY3Rvci5oIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9jb25uZWN0
-b3IuaAppbmRleCBkZTk1ODg0MjA4ODQuLjJkNzBkZWE0MDE4YiAxMDA2NDQKLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9jb25uZWN0b3IuaAorKysgYi9kcml2ZXJzL2dwdS9k
-cm0vbm91dmVhdS9ub3V2ZWF1X2Nvbm5lY3Rvci5oCkBAIC0xMTgsNiArMTE4LDEyIEBAIHN0cnVj
-dCBub3V2ZWF1X2Nvbm5lY3RvciB7CiAjaWZkZWYgQ09ORklHX0RSTV9OT1VWRUFVX0JBQ0tMSUdI
-VAogCXN0cnVjdCBub3V2ZWF1X2JhY2tsaWdodCAqYmFja2xpZ2h0OwogI2VuZGlmCisJLyoKKwkg
-KiBPdXIgY29ubmVjdG9yIHByb3BlcnR5IGNvZGUgZXhwZWN0cyBhIG5vdXZlYXVfY29ubl9hdG9t
-IHN0cnVjdAorCSAqIGV2ZW4gb24gcHJlLW52NTAgd2hlcmUgd2UgZG8gbm90IHN1cHBvcnQgYXRv
-bWljLiBUaGlzIGVtYmVkZGVkCisJICogdmVyc2lvbiBnZXRzIHVzZWQgaW4gdGhlIG5vbiBhdG9t
-aWMgbW9kZXNldCBjYXNlLgorCSAqLwkKKwlzdHJ1Y3Qgbm91dmVhdV9jb25uX2F0b20gcHJvcGVy
-dGllc19zdGF0ZTsKIH07CiAKIHN0YXRpYyBpbmxpbmUgc3RydWN0IG5vdXZlYXVfY29ubmVjdG9y
-ICpub3V2ZWF1X2Nvbm5lY3RvcigKLS0gCjIuMjMuMAoKX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1472320928==
+Content-Type: multipart/alternative; boundary="15718570049.Ce806.19350"
+Content-Transfer-Encoding: 7bit
+
+
+--15718570049.Ce806.19350
+Date: Wed, 23 Oct 2019 18:56:44 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+
+--- Comment #136 from Jaap Buurman <jaapbuurman@gmail.com> ---
+Has anyone tried AMD's closed source OpenGL driver to see if that one is
+stable?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15718570049.Ce806.19350
+Date: Wed, 23 Oct 2019 18:56:44 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c136">Comm=
+ent # 136</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+jaapbuurman&#64;gmail.com" title=3D"Jaap Buurman &lt;jaapbuurman&#64;gmail.=
+com&gt;"> <span class=3D"fn">Jaap Buurman</span></a>
+</span></b>
+        <pre>Has anyone tried AMD's closed source OpenGL driver to see if t=
+hat one is
+stable?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15718570049.Ce806.19350--
+
+--===============1472320928==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1472320928==--
