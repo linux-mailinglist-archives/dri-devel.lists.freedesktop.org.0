@@ -1,57 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33A01E2482
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 22:22:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D0A8E2489
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 22:26:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D7256E154;
-	Wed, 23 Oct 2019 20:22:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3EF86EB88;
+	Wed, 23 Oct 2019 20:25:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com
- [IPv6:2607:f8b0:4864:20::b41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B47CC6E154
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 20:22:12 +0000 (UTC)
-Received: by mail-yb1-xb41.google.com with SMTP id h202so6714531ybg.13
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 13:22:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Eav3zJjLJkgMmnOg29tAWCHBmWg508chPUtWw/kgfhs=;
- b=ZFBVOuXgXRNkTZUy1CjQfYqULYzpyAYY5WVg+i6ndYXcWeSXy+zojfAbPX/CPQaP2t
- 5zYRTUeb1esT9EaHr6JOARkmGt7iWufQCDK9qUEpsmwmiYXio9WcpHUBIcypoT6Lu3jb
- PKyqlZn3nw7PozhHYo8iPKHNMBvMAbQVOlM0TiFoz7rbHAIN0+7pksa1H6Zw0QkH4/jq
- bK20qGKXGpFzUDLDDbwc2H7KDRSG8i4uncCP5lWvIII5DEQMblaEmLzFH6VVnTBsUkI4
- ZGyvLWKYcHgeugZaZBKPEOva1f7S/dVQOGwlzuQuiXXEnfW5uoCLMQEkU55R5YeAJd//
- vPRQ==
-X-Gm-Message-State: APjAAAUsN6gP64tHubRl75atE2QeZxlhU2QY/kOWAJbkTCRJgab4oeCI
- knZ9CuY/mvJClgMm5ZRWDmTG3bZyJT8XvGIVpzV3gQ==
-X-Google-Smtp-Source: APXvYqyI7DFjMhLx15W986Gmqs9xgmroE5cfJSzyQF2oTQo7TUpM3/SICU9YBeTxFVf9fLASv5+WjgZy770so3eyVpE=
-X-Received: by 2002:a25:bc04:: with SMTP id i4mr7321438ybh.427.1571862131548; 
- Wed, 23 Oct 2019 13:22:11 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B60496EB93
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 20:25:56 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id B2AA3720E2; Wed, 23 Oct 2019 20:25:56 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Wed, 23 Oct 2019 20:25:56 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: jaapbuurman@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: highest
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111481-502-zTgvbd7SIg@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190730130208.30977-1-david1.zhou@amd.com>
- <cfd2ad24-9210-0ba6-bc36-7cc44ac92112@amd.com>
- <78e2e61f-6faa-94e2-8583-faa6313eb423@amd.com>
-In-Reply-To: <78e2e61f-6faa-94e2-8583-faa6313eb423@amd.com>
-From: Sean Paul <sean@poorly.run>
-Date: Wed, 23 Oct 2019 16:21:35 -0400
-Message-ID: <CAMavQK+QEixyOYcv20aO0R9xAokJjz_9G_8SkE=H==wFSFVDPQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/syncobj: extend syncobj query ability v3
-To: Chunming Zhou <zhoucm1@amd.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=poorly.run; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Eav3zJjLJkgMmnOg29tAWCHBmWg508chPUtWw/kgfhs=;
- b=GcJs/FsWVDEq1/KtUZN6W5gkp6aIl4rTi0ObXLHFSShJBRpF9XKuG4juxRlu/LBlBQ
- PCiiQyJ0igLk0Jytadi+fbUubKkKrniOyoZqLqNT4hlK41bjJQD5LG9IZ39rhqPS4YjQ
- UH3ybek0ysHrYZ0MPwAkrn2Pc3JJ0X+LqpXfWL20P6UTcwOinIulNsBxOsrhw3HUlVqc
- vP1I4LImMLUWnv0klp+NAbH25l9TxOWVoHtCgxMxzmJcKBer+5GE2aZWJMG5KL1wNCmx
- h4rBHrlPfoxe3oYuQHIFm9nOryu8FRC3Aeo1MIVHQ6PWfE+RauuWUO2tplvWo3ssp9Cp
- XOxw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,111 +53,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Koenig, Christian" <Christian.Koenig@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0461717496=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKdWwgMzAsIDIwMTkgYXQgOToyMiBBTSBDaHVubWluZyBaaG91IDx6aG91Y20xQGFt
-ZC5jb20+IHdyb3RlOgo+Cj4KPiDlnKggMjAxOS83LzMwIDIxOjE3LCBLb2VuaWcsIENocmlzdGlh
-biDlhpnpgZM6Cj4gPiBBbSAzMC4wNy4xOSB1bSAxNTowMiBzY2hyaWViIENodW5taW5nIFpob3U6
-Cj4gPj4gdXNlciBzcGFjZSBuZWVkcyBhIGZsZXhpYWJsZSBxdWVyeSBhYmlsaXR5Lgo+ID4+IFNv
-IHRoYXQgdW1kIGNhbiBnZXQgbGFzdCBzaWduYWxlZCBvciBzdWJtaXR0ZWQgcG9pbnQuCj4gPj4g
-djI6Cj4gPj4gYWRkIHNhbml0aXplciBjaGVja2luZy4KPiA+PiB2MzoKPiA+PiByZWJhc2UKPiA+
-Pgo+ID4+IENoYW5nZS1JZDogSTY1MTJiNDMwNTI0ZWJhYmU3MTVlNjAyYTJiZjVhYmIwYTdlNzgw
-ZWEKPiA+PiBTaWduZWQtb2ZmLWJ5OiBDaHVubWluZyBaaG91IDxkYXZpZDEuemhvdUBhbWQuY29t
-Pgo+ID4+IENjOiBMaW9uZWwgTGFuZHdlcmxpbiA8bGlvbmVsLmcubGFuZHdlcmxpbkBpbnRlbC5j
-b20+Cj4gPj4gQ2M6IENocmlzdGlhbiBLw7ZuaWcgPENocmlzdGlhbi5Lb2VuaWdAYW1kLmNvbT4K
-PiA+PiBSZXZpZXdlZC1ieTogTGlvbmVsIExhbmR3ZXJsaW4gPGxpb25lbC5nLmxhbmR3ZXJsaW5A
-aW50ZWwuY29tPgo+ID4gUmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNyaXN0aWFuLmtv
-ZW5pZ0BhbWQuY29tPgo+ID4KPiA+IExpb25lbCBpcyB0aGUgSW50ZWwgY29kZSB1c2luZyB0aGlz
-IGFscmVhZHkgcHVibGljPyBPciBEYXZpZCBhbnkgY2hhbmNlCj4gPiB0aGF0IHdlIGNhbiBnZXQg
-YSBwdWJsaWMgYW1kdmxrIHJlbGVhc2UgdXNpbmcgdGhpcz8KPgo+IEluIGxhdGVzdCBwdWJsaWMg
-YW1kdmxrLCBXZSBzaG91bGQgYmUgYWJsZSB0byBzZWUgaG93IHRpbWVsaW5lIHN5bmNvYmoKPiBp
-cyB1c2VkIGluIGl0Lgo+CgpJIGNvdWxkbid0IGZpbmQgdGhpcyBhbnl3aGVyZSwgY291bGQgeW91
-IHBsZWFzZSBwcm92aWRlIGEgbGluaz8KClNlYW4KCj4KPiAtRGF2aWQKPgo+ID4KPiA+IENocmlz
-dGlhbi4KPiA+Cj4gPj4gLS0tCj4gPj4gICAgZHJpdmVycy9ncHUvZHJtL2RybV9zeW5jb2JqLmMg
-fCAzNyArKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLQo+ID4+ICAgIGluY2x1ZGUv
-dWFwaS9kcm0vZHJtLmggICAgICAgIHwgIDMgKystCj4gPj4gICAgMiBmaWxlcyBjaGFuZ2VkLCAy
-NCBpbnNlcnRpb25zKCspLCAxNiBkZWxldGlvbnMoLSkKPiA+Pgo+ID4+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vZHJtX3N5bmNvYmouYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fc3luY29i
-ai5jCj4gPj4gaW5kZXggY2VjZmYyZTQ0N2IxLi5kNDQzMmYxNTEzYWMgMTAwNjQ0Cj4gPj4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL2RybV9zeW5jb2JqLmMKPiA+PiArKysgYi9kcml2ZXJzL2dwdS9k
-cm0vZHJtX3N5bmNvYmouYwo+ID4+IEBAIC0xMTk3LDcgKzExOTcsNyBAQCBkcm1fc3luY29ial90
-aW1lbGluZV9zaWduYWxfaW9jdGwoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwK
-PiA+PiAgICAgIGlmICghZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9TWU5DT0JK
-X1RJTUVMSU5FKSkKPiA+PiAgICAgICAgICAgICAgcmV0dXJuIC1FT1BOT1RTVVBQOwo+ID4+Cj4g
-Pj4gLSAgICBpZiAoYXJncy0+cGFkICE9IDApCj4gPj4gKyAgICBpZiAoYXJncy0+ZmxhZ3MgIT0g
-MCkKPiA+PiAgICAgICAgICAgICAgcmV0dXJuIC1FSU5WQUw7Cj4gPj4KPiA+PiAgICAgIGlmIChh
-cmdzLT5jb3VudF9oYW5kbGVzID09IDApCj4gPj4gQEAgLTEyNjgsNyArMTI2OCw3IEBAIGludCBk
-cm1fc3luY29ial9xdWVyeV9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRh
-LAo+ID4+ICAgICAgaWYgKCFkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVSX1NZTkNP
-QkpfVElNRUxJTkUpKQo+ID4+ICAgICAgICAgICAgICByZXR1cm4gLUVPUE5PVFNVUFA7Cj4gPj4K
-PiA+PiAtICAgIGlmIChhcmdzLT5wYWQgIT0gMCkKPiA+PiArICAgIGlmIChhcmdzLT5mbGFncyAm
-IH5EUk1fU1lOQ09CSl9RVUVSWV9GTEFHU19MQVNUX1NVQk1JVFRFRCkKPiA+PiAgICAgICAgICAg
-ICAgcmV0dXJuIC1FSU5WQUw7Cj4gPj4KPiA+PiAgICAgIGlmIChhcmdzLT5jb3VudF9oYW5kbGVz
-ID09IDApCj4gPj4gQEAgLTEyODksMjUgKzEyODksMzIgQEAgaW50IGRybV9zeW5jb2JqX3F1ZXJ5
-X2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsCj4gPj4gICAgICAgICAg
-ICAgIGZlbmNlID0gZHJtX3N5bmNvYmpfZmVuY2VfZ2V0KHN5bmNvYmpzW2ldKTsKPiA+PiAgICAg
-ICAgICAgICAgY2hhaW4gPSB0b19kbWFfZmVuY2VfY2hhaW4oZmVuY2UpOwo+ID4+ICAgICAgICAg
-ICAgICBpZiAoY2hhaW4pIHsKPiA+PiAtICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgZG1hX2Zl
-bmNlICppdGVyLCAqbGFzdF9zaWduYWxlZCA9IE5VTEw7Cj4gPj4gLQo+ID4+IC0gICAgICAgICAg
-ICAgICAgICAgIGRtYV9mZW5jZV9jaGFpbl9mb3JfZWFjaChpdGVyLCBmZW5jZSkgewo+ID4+IC0g
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgaWYgKGl0ZXItPmNvbnRleHQgIT0gZmVuY2UtPmNv
-bnRleHQpIHsKPiA+PiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZG1hX2Zl
-bmNlX3B1dChpdGVyKTsKPiA+PiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-LyogSXQgaXMgbW9zdCBsaWtlbHkgdGhhdCB0aW1lbGluZSBoYXMKPiA+PiAtICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICogdW5vcmRlciBwb2ludHMuICovCj4gPj4gLSAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGJyZWFrOwo+ID4+ICsgICAgICAgICAgICAg
-ICAgICAgIHN0cnVjdCBkbWFfZmVuY2UgKml0ZXIsICpsYXN0X3NpZ25hbGVkID0KPiA+PiArICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIGRtYV9mZW5jZV9nZXQoZmVuY2UpOwo+ID4+ICsKPiA+
-PiArICAgICAgICAgICAgICAgICAgICBpZiAoYXJncy0+ZmxhZ3MgJgo+ID4+ICsgICAgICAgICAg
-ICAgICAgICAgICAgICBEUk1fU1lOQ09CSl9RVUVSWV9GTEFHU19MQVNUX1NVQk1JVFRFRCkgewo+
-ID4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgcG9pbnQgPSBmZW5jZS0+c2Vxbm87Cj4g
-Pj4gKyAgICAgICAgICAgICAgICAgICAgfSBlbHNlIHsKPiA+PiArICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIGRtYV9mZW5jZV9jaGFpbl9mb3JfZWFjaChpdGVyLCBmZW5jZSkgewo+ID4+ICsg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpZiAoaXRlci0+Y29udGV4dCAhPSBm
-ZW5jZS0+Y29udGV4dCkgewo+ID4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIGRtYV9mZW5jZV9wdXQoaXRlcik7Cj4gPj4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgLyogSXQgaXMgbW9zdCBsaWtlbHkgdGhhdCB0aW1lbGlu
-ZSBoYXMKPiA+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAq
-IHVub3JkZXIgcG9pbnRzLiAqLwo+ID4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIGJyZWFrOwo+ID4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICB9Cj4gPj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRtYV9mZW5j
-ZV9wdXQobGFzdF9zaWduYWxlZCk7Cj4gPj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIGxhc3Rfc2lnbmFsZWQgPSBkbWFfZmVuY2VfZ2V0KGl0ZXIpOwo+ID4+ICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgfQo+ID4+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ZG1hX2ZlbmNlX3B1dChsYXN0X3NpZ25hbGVkKTsKPiA+PiAtICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIGxhc3Rfc2lnbmFsZWQgPSBkbWFfZmVuY2VfZ2V0KGl0ZXIpOwo+ID4+ICsgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgcG9pbnQgPSBkbWFfZmVuY2VfaXNfc2lnbmFsZWQobGFzdF9z
-aWduYWxlZCkgPwo+ID4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBsYXN0
-X3NpZ25hbGVkLT5zZXFubyA6Cj4gPj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIHRvX2RtYV9mZW5jZV9jaGFpbihsYXN0X3NpZ25hbGVkKS0+cHJldl9zZXFubzsKPiA+PiAg
-ICAgICAgICAgICAgICAgICAgICB9Cj4gPj4gLSAgICAgICAgICAgICAgICAgICAgcG9pbnQgPSBk
-bWFfZmVuY2VfaXNfc2lnbmFsZWQobGFzdF9zaWduYWxlZCkgPwo+ID4+IC0gICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgbGFzdF9zaWduYWxlZC0+c2Vxbm8gOgo+ID4+IC0gICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgdG9fZG1hX2ZlbmNlX2NoYWluKGxhc3Rfc2lnbmFsZWQpLT5wcmV2X3Nl
-cW5vOwo+ID4+ICAgICAgICAgICAgICAgICAgICAgIGRtYV9mZW5jZV9wdXQobGFzdF9zaWduYWxl
-ZCk7Cj4gPj4gICAgICAgICAgICAgIH0gZWxzZSB7Cj4gPj4gICAgICAgICAgICAgICAgICAgICAg
-cG9pbnQgPSAwOwo+ID4+ICAgICAgICAgICAgICB9Cj4gPj4gKyAgICAgICAgICAgIGRtYV9mZW5j
-ZV9wdXQoZmVuY2UpOwo+ID4+ICAgICAgICAgICAgICByZXQgPSBjb3B5X3RvX3VzZXIoJnBvaW50
-c1tpXSwgJnBvaW50LCBzaXplb2YodWludDY0X3QpKTsKPiA+PiAgICAgICAgICAgICAgcmV0ID0g
-cmV0ID8gLUVGQVVMVCA6IDA7Cj4gPj4gICAgICAgICAgICAgIGlmIChyZXQpCj4gPj4gZGlmZiAt
-LWdpdCBhL2luY2x1ZGUvdWFwaS9kcm0vZHJtLmggYi9pbmNsdWRlL3VhcGkvZHJtL2RybS5oCj4g
-Pj4gaW5kZXggNjYxZDczZjlhOTE5Li5mZDk4N2NlMjRkOWYgMTAwNjQ0Cj4gPj4gLS0tIGEvaW5j
-bHVkZS91YXBpL2RybS9kcm0uaAo+ID4+ICsrKyBiL2luY2x1ZGUvdWFwaS9kcm0vZHJtLmgKPiA+
-PiBAQCAtNzc3LDExICs3NzcsMTIgQEAgc3RydWN0IGRybV9zeW5jb2JqX2FycmF5IHsKPiA+PiAg
-ICAgIF9fdTMyIHBhZDsKPiA+PiAgICB9Owo+ID4+Cj4gPj4gKyNkZWZpbmUgRFJNX1NZTkNPQkpf
-UVVFUllfRkxBR1NfTEFTVF9TVUJNSVRURUQgKDEgPDwgMCkgLyogbGFzdCBhdmFpbGFibGUgcG9p
-bnQgb24gdGltZWxpbmUgc3luY29iaiAqLwo+ID4+ICAgIHN0cnVjdCBkcm1fc3luY29ial90aW1l
-bGluZV9hcnJheSB7Cj4gPj4gICAgICBfX3U2NCBoYW5kbGVzOwo+ID4+ICAgICAgX191NjQgcG9p
-bnRzOwo+ID4+ICAgICAgX191MzIgY291bnRfaGFuZGxlczsKPiA+PiAtICAgIF9fdTMyIHBhZDsK
-PiA+PiArICAgIF9fdTMyIGZsYWdzOwo+ID4+ICAgIH07Cj4gPj4KPiA+Pgo+IF9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcg
-bGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbApfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0461717496==
+Content-Type: multipart/alternative; boundary="157186235612.E42165.3808"
+Content-Transfer-Encoding: 7bit
+
+
+--157186235612.E42165.3808
+Date: Wed, 23 Oct 2019 20:25:56 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+
+--- Comment #142 from Jaap Buurman <jaapbuurman@gmail.com> ---
+How can I set both AMD_DEBUG=3Dnongg and AMD_DEBUG=3Dnodma in the /etc/envi=
+ronment
+file? Do they need to be on two separate lines, or will the second line sim=
+ply
+overwrite the first one by setting the same environment variable? Do they n=
+eed
+to be comma separated maybe?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--157186235612.E42165.3808
+Date: Wed, 23 Oct 2019 20:25:56 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c142">Comm=
+ent # 142</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+jaapbuurman&#64;gmail.com" title=3D"Jaap Buurman &lt;jaapbuurman&#64;gmail.=
+com&gt;"> <span class=3D"fn">Jaap Buurman</span></a>
+</span></b>
+        <pre>How can I set both AMD_DEBUG=3Dnongg and AMD_DEBUG=3Dnodma in =
+the /etc/environment
+file? Do they need to be on two separate lines, or will the second line sim=
+ply
+overwrite the first one by setting the same environment variable? Do they n=
+eed
+to be comma separated maybe?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--157186235612.E42165.3808--
+
+--===============0461717496==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0461717496==--
