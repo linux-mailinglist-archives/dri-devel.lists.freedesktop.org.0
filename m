@@ -2,83 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C021E1478
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 10:39:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBECDE14BE
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 10:51:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E63BD6E9E4;
-	Wed, 23 Oct 2019 08:39:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A6BD6E9EC;
+	Wed, 23 Oct 2019 08:51:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF02B6E9E4
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 08:39:33 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id g24so11045517wmh.5
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 01:39:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to:user-agent;
- bh=2Ht+Dq3YAPtcP/5kWk8fJeCAjPfIj2CPqz7fkwrNtNc=;
- b=D6QQT/Kr7d93X/s0ZAMTP8QmyXgca5gRmeVP9ornUEPC8TOJYZ/ILj9OzhTzrxSwco
- ggehTkEUXKEooHJfK1IgyMhZ2pm/hFH7Unghzazn5ehlzmhGVr3do6suYnjqgzwblCcP
- 2CG8P/jnXw/8ouh4RaOTJYYTYQRtRgNiWrTC5Gue91mPLJDaeKgfjoXs8lssn9+rbR5f
- wtbuCREnoLiyH+CedS/L//0iEoJQNMkK38Xc0YW7NMHeBCEst/8h9fnIIPK78tbQt26s
- 1BBpATI2cU44hLdZOb7CDFyYeMv2e+yfzQc42qvul03SEGMSg72vpttPJYIXEkWWmipv
- pT2A==
-X-Gm-Message-State: APjAAAW3AYC3V9hpOlZA+Da5fEnZ+eI3h+oLmfuHpAM/SAxIPFQSRdr9
- aJRTc9CccWmkS21nQAj/QpJL4A==
-X-Google-Smtp-Source: APXvYqxb2P1Z2gElidhwJE8A1hcT+NpK1Wl8gtsfY3RZsA2RGoHeJKdGP6SxceLXf1qTbiKoMedCEg==
-X-Received: by 2002:a05:600c:143:: with SMTP id
- w3mr6256752wmm.132.1571819972247; 
- Wed, 23 Oct 2019 01:39:32 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net.
- [212.51.149.96])
- by smtp.gmail.com with ESMTPSA id h3sm7133607wrt.88.2019.10.23.01.39.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2019 01:39:30 -0700 (PDT)
-Date: Wed, 23 Oct 2019 10:39:28 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: New sysfs interface for privacy screens
-Message-ID: <20191023083928.GR11828@phenom.ffwll.local>
-Mail-Followup-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Mat King <mathewk@google.com>, Sean Paul <seanpaul@chromium.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, rafael@kernel.org,
- Greg KH <gregkh@linuxfoundation.org>,
- Ross Zwisler <zwisler@google.com>,
- Jingoo Han <jingoohan1@gmail.com>, Rajat Jain <rajatja@google.com>,
- Lee Jones <lee.jones@linaro.org>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- David Airlie <airlied@redhat.com>,
- Alexander Schremmer <alex@alexanderweb.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <CAL_quvRknSSVvXN3q_Se0hrziw2oTNS3ENNoeHYhvciCRq9Yww@mail.gmail.com>
- <87h84rbile.fsf@intel.com>
- <20191002102428.zaid63hp6wpd7w34@holly.lan>
- <8736gbbf2b.fsf@intel.com>
- <CAL_quvQkFjkBjJC5wH2t5XmyEq9OKWYSbAv39BJWT1hrKO7j8g@mail.gmail.com>
- <87h84q9pcj.fsf@intel.com>
- <CAL_quvQoWnWqS5OQAqbLcBO-bR9_obr1FBc6f6mA1T00n1DJNQ@mail.gmail.com>
- <CAOw6vbJ7XX8=nrJDENfn2pacf4MqQOkP+x8JV0wbqzoMfLvZWQ@mail.gmail.com>
- <CAL_quvTe_v9Vsbd0u4URitojmD-_VFeaOQ1BBYZ_UGwYWynjVA@mail.gmail.com>
- <87sgo3dasg.fsf@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7B04C6E9F2
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 08:51:29 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 78283720E2; Wed, 23 Oct 2019 08:51:29 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
+Date: Wed, 23 Oct 2019 08:51:29 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: haro41@gmx.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109955-502-51UcIrkY3Z@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
+References: <bug-109955-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <87sgo3dasg.fsf@intel.com>
-X-Operating-System: Linux phenom 5.2.0-2-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=sender:date:from:to:cc:subject:message-id:mail-followup-to
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=2Ht+Dq3YAPtcP/5kWk8fJeCAjPfIj2CPqz7fkwrNtNc=;
- b=fkuGCaMMMuULzBZ+Q+nhwpzDlsIUndph+HQQvswuirV6/v5SP4LPa3Q0x9aBxlsnwp
- 9Mp2VFnKxpjQ7hXEdOc8c/lSjEo0Vv3vXc0PEnkvUfXDpUdCAoCElgWGz8Y1NM8OT8Jf
- b05I+QoF+rbfakQZUTUFesf8MBnTIUtgh4NjE=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,35 +52,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, rafael@kernel.org,
- Greg KH <gregkh@linuxfoundation.org>, Ross Zwisler <zwisler@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Mat King <mathewk@google.com>,
- Sean Paul <seanpaul@chromium.org>, Jingoo Han <jingoohan1@gmail.com>,
- David Airlie <airlied@redhat.com>, Rajat Jain <rajatja@google.com>,
- Lee Jones <lee.jones@linaro.org>, Alexander Schremmer <alex@alexanderweb.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1908157518=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBPY3QgMDgsIDIwMTkgYXQgMDk6MTM6NTFBTSArMDMwMCwgSmFuaSBOaWt1bGEgd3Jv
-dGU6Cj4gT24gTW9uLCAwNyBPY3QgMjAxOSwgTWF0IEtpbmcgPG1hdGhld2tAZ29vZ2xlLmNvbT4g
-d3JvdGU6Cj4gPiBUaGF0IG1ha2VzIHNlbnNlOyBqdXN0IHRvIGNvbmZpcm0gY2FuIGEgcHJvcGVy
-dHkgYmUgYWRkZWQgb3IgcmVtb3ZlZAo+ID4gYWZ0ZXIgdGhlIGNvbm5lY3RvciBpcyByZWdpc3Rl
-cmVkPwo+IAo+IFlvdSBuZWVkIHRvIGNyZWF0ZSB0aGUgcHJvcGVydHkgYmVmb3JlIHJlZ2lzdGVy
-aW5nIHRoZSBkcm0gZGV2aWNlLiBZb3UKPiBjYW4gYXR0YWNoL2RldGFjaCB0aGUgcHJvcGVydHkg
-bGF0ZXIsIGJ1dCBJIHNob3VsZCB0aGluayB5b3Uga25vdyBieSB0aGUKPiB0aW1lIHlvdSdyZSBy
-ZWdpc3RlcmluZyB0aGUgY29ubmVjdG9yIHdoZXRoZXIgaXQgc3VwcG9ydHMgdGhlIHByaXZhY3kK
-PiBzY3JlZW4gb3Igbm90LgoKSSBkb24ndCB0aGluayB5b3UgY2FuIGFkZC9yZW1vdmUgYSBwcm9w
-ZXJ0eSBhZnRlciB0aGUgb2JqZWN0IHlvdSdyZQphZGRpbmcvcmVtb3ZpbmcgdGhlIHByb3AgZnJv
-bSBoYXMgZ29uZSBwdWJsaWMgKGVpdGhlciB3aXRoCmRybV9kZXZfcmVnaXN0ZXIgb3IgZHJtX2Nv
-bm5lY3Rvcl9yZWdpc3RlciBmb3IgaG90cGx1Z2dlZCBjb25uZWN0b3JzKS4KCkkgZ3Vlc3MgYW5v
-dGhlciBnYXAgd2Ugc2hvdWxkIGNvdmVyIHdpdGggc29tZSBXQVJOX09OPwotRGFuaWVsCi0tIApE
-YW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8v
-YmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWw=
+
+--===============1908157518==
+Content-Type: multipart/alternative; boundary="15718206896.da3e5.29017"
+Content-Transfer-Encoding: 7bit
+
+
+--15718206896.da3e5.29017
+Date: Wed, 23 Oct 2019 08:51:29 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+
+--- Comment #119 from haro41@gmx.de ---
+bellow is a simple script, i use to record dpm data in the background:
+
+######################################################
+#!/bin/bash
+
+# adapt this sample inverval (seconds)
+SLEEP_INTERVAL=3D0.05
+
+# adapt the paths to your need
+FILE_SCLK=3D/sys/class/drm/card0/device/hwmon/hwmon0/freq1_input
+FILE_MCLK=3D/sys/class/drm/card0/device/hwmon/hwmon0/freq2_input
+FILE_PWM=3D/sys/class/drm/card0/device/hwmon/hwmon0/pwm1
+FILE_TEMP=3D/sys/class/drm/card0/device/hwmon/hwmon0/temp1_input
+FILE_FAN=3D/sys/class/drm/card0/device/hwmon/hwmon0/fan1_input
+FILE_GFXVDD=3D/sys/class/drm/card0/device/hwmon/hwmon0/in0_input
+FILE_POW=3D/sys/class/drm/card0/device/hwmon/hwmon0/power1_average
+FILE_BUS=3D/sys/class/drm/card0/device/gpu_busy_percent
+
+# checking for privileges
+if [ $UID -ne 0 ]
+then
+  echo "Writing to sysfs requires privileges, relaunch as root"
+  exit 1
+fi
+
+function read_output {
+
+  SCLK=3D$(cat $FILE_SCLK)
+  MCLK=3D$(cat $FILE_MCLK)
+  TEMP=3D$(cat $FILE_TEMP)
+  FAN=3D$(cat $FILE_FAN)
+  GFXVDD=3D$(cat $FILE_GFXVDD)
+  POW=3D$(cat $FILE_POW)
+  BUS=3D$(cat $FILE_BUS)
+
+#  echo "sclk: $SCLK mclk: $MCLK gfx_vdd: $GFXVDD"
+  echo "sclk: $SCLK mclk: $MCLK temp: $TEMP fan: $FAN gfx_vdd: $GFXVDD pow:
+$POW bus: $BUS"
+}
+
+function run_daemon {
+  while :; do
+    read_output
+    sleep $SLEEP_INTERVAL
+  done
+}
+
+# finally start the loop
+run_daemon
+
+######################################################
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15718206896.da3e5.29017
+Date: Wed, 23 Oct 2019 08:51:29 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c119">Comm=
+ent # 119</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+haro41&#64;gmx.de" title=3D"haro41&#64;gmx.de">haro41&#64;gmx.de</a>
+</span></b>
+        <pre>bellow is a simple script, i use to record dpm data in the bac=
+kground:
+
+######################################################
+#!/bin/bash
+
+# adapt this sample inverval (seconds)
+SLEEP_INTERVAL=3D0.05
+
+# adapt the paths to your need
+FILE_SCLK=3D/sys/class/drm/card0/device/hwmon/hwmon0/freq1_input
+FILE_MCLK=3D/sys/class/drm/card0/device/hwmon/hwmon0/freq2_input
+FILE_PWM=3D/sys/class/drm/card0/device/hwmon/hwmon0/pwm1
+FILE_TEMP=3D/sys/class/drm/card0/device/hwmon/hwmon0/temp1_input
+FILE_FAN=3D/sys/class/drm/card0/device/hwmon/hwmon0/fan1_input
+FILE_GFXVDD=3D/sys/class/drm/card0/device/hwmon/hwmon0/in0_input
+FILE_POW=3D/sys/class/drm/card0/device/hwmon/hwmon0/power1_average
+FILE_BUS=3D/sys/class/drm/card0/device/gpu_busy_percent
+
+# checking for privileges
+if [ $UID -ne 0 ]
+then
+  echo &quot;Writing to sysfs requires privileges, relaunch as root&quot;
+  exit 1
+fi
+
+function read_output {
+
+  SCLK=3D$(cat $FILE_SCLK)
+  MCLK=3D$(cat $FILE_MCLK)
+  TEMP=3D$(cat $FILE_TEMP)
+  FAN=3D$(cat $FILE_FAN)
+  GFXVDD=3D$(cat $FILE_GFXVDD)
+  POW=3D$(cat $FILE_POW)
+  BUS=3D$(cat $FILE_BUS)
+
+#  echo &quot;sclk: $SCLK mclk: $MCLK gfx_vdd: $GFXVDD&quot;
+  echo &quot;sclk: $SCLK mclk: $MCLK temp: $TEMP fan: $FAN gfx_vdd: $GFXVDD=
+ pow:
+$POW bus: $BUS&quot;
+}
+
+function run_daemon {
+  while :; do
+    read_output
+    sleep $SLEEP_INTERVAL
+  done
+}
+
+# finally start the loop
+run_daemon
+
+######################################################</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15718206896.da3e5.29017--
+
+--===============1908157518==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1908157518==--
