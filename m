@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D220CE0F96
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 03:16:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E9D9E0FCB
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 03:53:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25A946E942;
-	Wed, 23 Oct 2019 01:16:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1517D6E946;
+	Wed, 23 Oct 2019 01:53:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 847B86E942
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 01:16:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9555D6E94B
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 01:52:59 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7CF73720E4; Wed, 23 Oct 2019 01:16:01 +0000 (UTC)
+ id 924D5720E2; Wed, 23 Oct 2019 01:52:59 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112104] 2 displays, only 1 hdmi/dp device listed, sound played
- in both devices if selected
-Date: Wed, 23 Oct 2019 01:16:01 +0000
+Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
+Date: Wed, 23 Oct 2019 01:52:58 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: not set
-X-Bugzilla-Who: sebastianlacuesta@gmail.com
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: rodamorris@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
+X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
-Message-ID: <bug-112104-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109955-502-EJaw5kt0FX@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
+References: <bug-109955-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,52 +52,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1613303719=="
+Content-Type: multipart/mixed; boundary="===============0012655307=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1613303719==
-Content-Type: multipart/alternative; boundary="15717933611.24EaCfC4.24202"
+--===============0012655307==
+Content-Type: multipart/alternative; boundary="15717955797.9D5Ce13E.32387"
 Content-Transfer-Encoding: 7bit
 
 
---15717933611.24EaCfC4.24202
-Date: Wed, 23 Oct 2019 01:16:01 +0000
+--15717955797.9D5Ce13E.32387
+Date: Wed, 23 Oct 2019 01:52:59 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112104
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
 
-            Bug ID: 112104
-           Summary: 2 displays, only 1 hdmi/dp device listed, sound played
-                    in both devices if selected
-           Product: DRI
-           Version: unspecified
-          Hardware: x86-64 (AMD64)
-                OS: Linux (All)
-            Status: NEW
-          Severity: not set
-          Priority: not set
-         Component: DRM/AMDgpu
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: sebastianlacuesta@gmail.com
+--- Comment #118 from Rodney A Morris <rodamorris@gmail.com> ---
+(In reply to haro41 from comment #117)
+> ...are this craches more frequently with VSYNC enabled?
+>=20
+> If yes, it could be the same thing like this bug:
+>=20
+> https://bugs.freedesktop.org/show_bug.cgi?id=3D110777
 
-When I connect a monitor at one display port (fullhd) and a tv on hdmi (2.0,
-4k), gnome control settings only list one dp/hdmi device is listed at sound
-settings, but audio is played in both devices if this one is selected.
-This happens if I use kernel 5.3.7-1, no problem if I reboot in 5.2.17-1+b1.
-I'm using debian image kernels, gpu is vega20 (radeon 7).
+vsync is defintely on for both Stellaris and Hearts of Iron.
+
+I looked over the bug report you linked to.  It is very interesting and I w=
+ill
+follow with interest.  The next time I play Stellaris or Hearts of Iron IV,=
+ I
+will have to see if I can record my memory frequency values to see if they =
+are
+indeed not moving off the base frequency under low load with v-sync enabled=
+.=20
+The problem manifesting under low load would explain why I cannot replicate=
+ the
+problem while running Unigine Superposition.
+
+I began to wonder if powerplay and the frequency at which the chip and memo=
+ry
+were operating were not the problem after reading the following bug report =
+for
+Vega 20:
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
+
+Last Friday, I attempted to capture the operating frequency and temps, but =
+my
+attempt utterly failed.
+
+I will disable v-sync and see if that improves and report back here.  If I
+manage to capture frequency data, I will report back here and may be your
+thread.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15717933611.24EaCfC4.24202
-Date: Wed, 23 Oct 2019 01:16:01 +0000
+--15717955797.9D5Ce13E.32387
+Date: Wed, 23 Oct 2019 01:52:59 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -108,91 +126,69 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - 2 displays, only 1 hdmi/dp device listed, sound played in=
- both devices if selected"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112104">112104</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>2 displays, only 1 hdmi/dp device listed, sound played in bot=
-h devices if selected
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>unspecified
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>x86-64 (AMD64)
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>Linux (All)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>DRM/AMDgpu
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>sebastianlacuesta&#64;gmail.com
-          </td>
-        </tr></table>
+    <body>
       <p>
         <div>
-        <pre>When I connect a monitor at one display port (fullhd) and a tv=
- on hdmi (2.0,
-4k), gnome control settings only list one dp/hdmi device is listed at sound
-settings, but audio is played in both devices if this one is selected.
-This happens if I use kernel 5.3.7-1, no problem if I reboot in 5.2.17-1+b1.
-I'm using debian image kernels, gpu is vega20 (radeon 7).</pre>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c118">Comm=
+ent # 118</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+rodamorris&#64;gmail.com" title=3D"Rodney A Morris &lt;rodamorris&#64;gmail=
+.com&gt;"> <span class=3D"fn">Rodney A Morris</span></a>
+</span></b>
+        <pre>(In reply to haro41 from <a href=3D"show_bug.cgi?id=3D109955#c=
+117">comment #117</a>)
+<span class=3D"quote">&gt; ...are this craches more frequently with VSYNC e=
+nabled?
+&gt;=20
+&gt; If yes, it could be the same thing like this bug:
+&gt;=20
+&gt; <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Kernel 5.1-5.3 MCLK stuck at 167MHz Vega 10 (56/64)"
+   href=3D"show_bug.cgi?id=3D110777">https://bugs.freedesktop.org/show_bug.=
+cgi?id=3D110777</a></span >
+
+vsync is defintely on for both Stellaris and Hearts of Iron.
+
+I looked over the bug report you linked to.  It is very interesting and I w=
+ill
+follow with interest.  The next time I play Stellaris or Hearts of Iron IV,=
+ I
+will have to see if I can record my memory frequency values to see if they =
+are
+indeed not moving off the base frequency under low load with v-sync enabled=
+.=20
+The problem manifesting under low load would explain why I cannot replicate=
+ the
+problem while running Unigine Superposition.
+
+I began to wonder if powerplay and the frequency at which the chip and memo=
+ry
+were operating were not the problem after reading the following bug report =
+for
+Vega 20:
+
+<a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"show_bug.cgi?id=3D110674">https://bugs.freedesktop.org/show_bug.=
+cgi?id=3D110674</a>
+
+Last Friday, I attempted to capture the operating frequency and temps, but =
+my
+attempt utterly failed.
+
+I will disable v-sync and see if that improves and report back here.  If I
+manage to capture frequency data, I will report back here and may be your
+thread.</pre>
         </div>
       </p>
 
@@ -206,9 +202,9 @@ I'm using debian image kernels, gpu is vega20 (radeon 7).</pre>
     </body>
 </html>=
 
---15717933611.24EaCfC4.24202--
+--15717955797.9D5Ce13E.32387--
 
---===============1613303719==
+--===============0012655307==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -218,4 +214,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1613303719==--
+--===============0012655307==--
