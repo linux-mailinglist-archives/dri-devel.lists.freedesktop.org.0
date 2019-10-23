@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC30CE24B5
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 22:44:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B41AE24C5
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 22:49:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A21EE6EB8D;
-	Wed, 23 Oct 2019 20:44:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1A456EB98;
+	Wed, 23 Oct 2019 20:49:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 47E746EB96
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 20:44:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4C6CE6EB93
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 20:49:45 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 44D48720E2; Wed, 23 Oct 2019 20:44:12 +0000 (UTC)
+ id 4923F720E2; Wed, 23 Oct 2019 20:49:45 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
  with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Wed, 23 Oct 2019 20:44:12 +0000
+Date: Wed, 23 Oct 2019 20:49:45 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -35,7 +35,7 @@ X-Bugzilla-Priority: highest
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-LaKUqBp72e@http.bugs.freedesktop.org/>
+Message-ID: <bug-111481-502-F1hwcKBLXF@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
 References: <bug-111481-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1109802614=="
+Content-Type: multipart/mixed; boundary="===============0061198748=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1109802614==
-Content-Type: multipart/alternative; boundary="15718634524.9A04.7830"
+--===============0061198748==
+Content-Type: multipart/alternative; boundary="15718637855.6CAC15bD.9000"
 Content-Transfer-Encoding: 7bit
 
 
---15718634524.9A04.7830
-Date: Wed, 23 Oct 2019 20:44:12 +0000
+--15718637855.6CAC15bD.9000
+Date: Wed, 23 Oct 2019 20:49:45 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,20 +73,15 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
 
---- Comment #145 from Shmerl <shtetldik@gmail.com> ---
-According to
-
-man environment
-
-The /etc/environment file specifies the environment variables to be set. The
-file must consist of simple NAME=3DVALUE pairs on separate lines.
+--- Comment #146 from Shmerl <shtetldik@gmail.com> ---
+You can also use Your $HOME/.profile for setting session wide variables.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15718634524.9A04.7830
-Date: Wed, 23 Oct 2019 20:44:12 +0000
+--15718637855.6CAC15bD.9000
+Date: Wed, 23 Oct 2019 20:49:45 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -104,8 +99,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
  kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c145">Comm=
-ent # 145</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c146">Comm=
+ent # 146</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
@@ -116,12 +111,8 @@ ent # 145</a>
 shtetldik&#64;gmail.com" title=3D"Shmerl &lt;shtetldik&#64;gmail.com&gt;"> =
 <span class=3D"fn">Shmerl</span></a>
 </span></b>
-        <pre>According to
-
-man environment
-
-The /etc/environment file specifies the environment variables to be set. The
-file must consist of simple NAME=3DVALUE pairs on separate lines.</pre>
+        <pre>You can also use Your $HOME/.profile for setting session wide =
+variables.</pre>
         </div>
       </p>
 
@@ -135,9 +126,9 @@ file must consist of simple NAME=3DVALUE pairs on separate lines.</pre>
     </body>
 </html>=
 
---15718634524.9A04.7830--
+--15718637855.6CAC15bD.9000--
 
---===============1109802614==
+--===============0061198748==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -147,4 +138,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1109802614==--
+--===============0061198748==--
