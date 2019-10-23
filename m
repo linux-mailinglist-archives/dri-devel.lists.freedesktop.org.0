@@ -2,43 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4129FE1314
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 09:26:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 911D6E1328
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 09:32:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C73D36E971;
-	Wed, 23 Oct 2019 07:26:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EB9D6E973;
+	Wed, 23 Oct 2019 07:32:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 198646E971
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 07:26:07 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 16656720E2; Wed, 23 Oct 2019 07:26:07 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111763] ring_gfx hangs/freezes on Navi gpus
-Date: Wed, 23 Oct 2019 07:26:07 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: sambolinux@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: priority
-Message-ID: <bug-111763-502-DZ8AraBZtk@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111763-502@http.bugs.freedesktop.org/>
-References: <bug-111763-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C48F6E973;
+ Wed, 23 Oct 2019 07:32:28 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 23 Oct 2019 00:32:27 -0700
+X-IronPort-AV: E=Sophos;i="5.68,220,1569308400"; d="scan'208";a="191749425"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 23 Oct 2019 00:32:24 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: David Lechner <david@lechnology.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 4/5] drm/dsi: rename MIPI_DCS_SET_PARTIAL_AREA to
+ MIPI_DCS_SET_PARTIAL_ROWS
+In-Reply-To: <406d7ec4-f5b1-2ba4-a0ae-05fef4ab38b1@lechnology.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1571738674.git.jani.nikula@intel.com>
+ <c14255c3cecea4d2c593ff4edd5e8134ab7568d3.1571738674.git.jani.nikula@intel.com>
+ <406d7ec4-f5b1-2ba4-a0ae-05fef4ab38b1@lechnology.com>
+Date: Wed, 23 Oct 2019 10:32:21 +0300
+Message-ID: <87a79rgbne.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -52,95 +45,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0562014751=="
+Cc: Vandita Kulkarni <vandita.kulkarni@intel.com>,
+ intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0562014751==
-Content-Type: multipart/alternative; boundary="15718155670.Df8cf9dF.9879"
-Content-Transfer-Encoding: 7bit
-
-
---15718155670.Df8cf9dF.9879
-Date: Wed, 23 Oct 2019 07:26:07 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111763
-
-sambolinux <sambolinux@gmail.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-           Priority|not set                     |medium
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15718155670.Df8cf9dF.9879
-Date: Wed, 23 Oct 2019 07:26:07 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:sambolinu=
-x&#64;gmail.com" title=3D"sambolinux &lt;sambolinux&#64;gmail.com&gt;"> <sp=
-an class=3D"fn">sambolinux</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - ring_gfx hangs/freezes on Navi gpus"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111763">bug 11176=
-3</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Priority</td>
-           <td>not set
-           </td>
-           <td>medium
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15718155670.Df8cf9dF.9879--
-
---===============0562014751==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0562014751==--
+T24gVHVlLCAyMiBPY3QgMjAxOSwgRGF2aWQgTGVjaG5lciA8ZGF2aWRAbGVjaG5vbG9neS5jb20+
+IHdyb3RlOgo+IE9uIDEwLzIyLzE5IDU6MDkgQU0sIEphbmkgTmlrdWxhIHdyb3RlOgo+PiBUaGUg
+RENTIGNvbW1hbmQgaGFzIGJlZW4gbmFtZWQgU0VUX1BBUlRJQUxfUk9XUyBpbiB0aGUgRENTIHNw
+ZWMgc2luY2UKPj4gdjEuMDIsIGZvciBtb3JlIHRoYW4gYSBkZWNhZGUuIFJlbmFtZSB0aGUgZW51
+bWVyYXRpb24gdG8gbWF0Y2ggdGhlIHNwZWMuCj4+IAo+PiBDYzogRGF2aWQgTGVjaG5lciA8ZGF2
+aWRAbGVjaG5vbG9neS5jb20+Cj4+IENjOiBWYW5kaXRhIEt1bGthcm5pIDx2YW5kaXRhLmt1bGth
+cm5pQGludGVsLmNvbT4KPj4gU2lnbmVkLW9mZi1ieTogSmFuaSBOaWt1bGEgPGphbmkubmlrdWxh
+QGludGVsLmNvbT4KPj4gLS0tCj4KPiBJIGd1ZXNzIGFsbCBvZiBteSBkb2N1bWVudHMgYXJlIG9s
+ZCBhbmQgc2F5IHNldF9wYXJ0aWFsX2FyZWEsIGJ1dCBJIHdpbGwKPiB0YWtlIHlvdXIgd29yZCBm
+b3IgaXQuCj4KPiBJdCBjb3VsZCBiZSBoZWxwZnVsIHRvIGxlYXZlIGEgY29tbWVudCBpbiB0aGUg
+Y29kZSBhYm91dCB0aGUgcmVuYW1pbmcKPiBzbyB0aGF0IGlmIHBlb3BsZSB3aXRoIG9sZCBkb2Nz
+IHNlYXJjaCBmb3IgU0VUX1BBUlRJQUxfQVJFQSwgdGhleSBjYW4KPiBzdGlsbCBmaW5kIGl0LgoK
+U29tZXRoaW5nIGxpa2UgdGhpcz8KCglNSVBJX0RDU19TRVRfUEFSVElBTF9ST1dTCT0gMHgzMCwJ
+CS8qIGFrYSBNSVBJX0RDU19TRVRfUEFSVElBTF9BUkVBICovCgpJdCdzIGFsc28gYSBwb3NzaWJp
+bGl0eSB0byBkZWZpbmUgYm90aDoKCglNSVBJX0RDU19TRVRfUEFSVElBTF9BUkVBCT0gMHgzMCwJ
+CS8qIF9ST1dTIHNpbmNlIE1JUEkgRENTIDEuMDIgKi8KCU1JUElfRENTX1NFVF9QQVJUSUFMX1JP
+V1MJPSAweDMwLAoKSSBkb24ndCBtaW5kIGVpdGhlciB3YXkuCgpCUiwKSmFuaS4KCgotLSAKSmFu
+aSBOaWt1bGEsIEludGVsIE9wZW4gU291cmNlIEdyYXBoaWNzIENlbnRlcgpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
