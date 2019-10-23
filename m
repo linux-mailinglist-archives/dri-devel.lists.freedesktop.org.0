@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EA98E1C5D
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 15:23:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D412BE1CA9
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 15:33:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 282926EAB2;
-	Wed, 23 Oct 2019 13:23:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FCB66EAC6;
+	Wed, 23 Oct 2019 13:33:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 10FAC6EAB2
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 13:23:22 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0DB24720E2; Wed, 23 Oct 2019 13:23:22 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 94581] [drm:radeon_cs_parser_relocs [radeon]] *ERROR* gem
- object lookup failed 0xe
-Date: Wed, 23 Oct 2019 13:23:22 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r600
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: regression
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: aakashdsd26@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: NOTOURBUG
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-94581-502-VND25RxYek@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-94581-502@http.bugs.freedesktop.org/>
-References: <bug-94581-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com
+ [209.85.217.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 846E46EAC8
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 13:33:06 +0000 (UTC)
+Received: by mail-vs1-f50.google.com with SMTP id v10so13773227vsc.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 06:33:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=mCiaOIaorrKIQCtsVp6aHwzekWggpzvfq7s6sW3erXo=;
+ b=GYHTVyKD2UlOqmngzo4XF6VUJoGDl3HMvWJG2PLDYGUVsuH4Or6yhlj9tSuGK6AdWY
+ FKPocpr6ISEkLIUN1fAD0klKx3Ec19ftntDeTjHvlJlMEY73WtyimayU8jXAum3qH58S
+ StgoIv0DgrvSfoCCPdXAGZObkKfY+W6/oFjvvwVJZEpdbW6+vtFgbI0pSazNKlqCYC2g
+ aJMj3/H6XGra+WFoVybTHV6Dl6AlyaGUErLO8Gyzzp7cIW3kIsikjYND7huvUmrvJZhP
+ BoWigM15HUlNXC0CB6giV0jeXiKRc2P0GhwpY5pEUrr0G7yMQ2/kkG9+5290S9Ahh+ys
+ DD7w==
+X-Gm-Message-State: APjAAAU1M7xYsZcLoVvscr33pj8L/3J+iIBPJn0kgW+tTuCa0UptTcfc
+ GM3W714cg5cTqMcYGduCjWR2j51pl00kziaVjYXR/zTq
+X-Google-Smtp-Source: APXvYqyVpz5glbgymuzq7luK+CIT6R7DpJChJHggpptTQeHi3O8hdcXEOKNXluIg6XmwK3nVh6PC4SA2j0NWZCF7fQs=
+X-Received: by 2002:a67:f852:: with SMTP id b18mr5246778vsp.210.1571837585210; 
+ Wed, 23 Oct 2019 06:33:05 -0700 (PDT)
 MIME-Version: 1.0
+References: <536af56f-924d-f089-a2d8-180f4dee1613@pr.hu>
+ <CAKb7UvhZ9VR_X5Nqv01EDvnWF2RXXt5fCdYEa5KUy8owKh4CwQ@mail.gmail.com>
+ <35cdaafe-461e-56ec-d3d3-47fdd6468251@pr.hu>
+In-Reply-To: <35cdaafe-461e-56ec-d3d3-47fdd6468251@pr.hu>
+From: Ilia Mirkin <imirkin@alum.mit.edu>
+Date: Wed, 23 Oct 2019 09:32:53 -0400
+Message-ID: <CAKb7Uvh2L0oHMwNss-h1BFXGYeEXOUDLHB9TnaNEm4-oNhjMRw@mail.gmail.com>
+Subject: Re: UDL device cannot get its own screen
+To: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,96 +53,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0917532793=="
+Cc: xorg@lists.x.org,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0917532793==
-Content-Type: multipart/alternative; boundary="15718370020.662D9Ad90.19357"
-Content-Transfer-Encoding: 7bit
-
-
---15718370020.662D9Ad90.19357
-Date: Wed, 23 Oct 2019 13:23:22 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D94581
-
---- Comment #7 from Aakash Dubey <aakashdsd26@gmail.com> ---
-increasing of smartphone users these are really a threat these days so is t=
-here
-any solution for that like which App to use like https://askmeapps.com/ sad=
-e or
-how to stay safe from it please help me Sir thank you
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15718370020.662D9Ad90.19357
-Date: Wed, 23 Oct 2019 13:23:22 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTOURBUG - [drm:radeon_cs_parser_relocs [radeon]] *ER=
-ROR* gem object lookup failed 0xe"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D94581#c7">Comment=
- # 7</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTOURBUG - [drm:radeon_cs_parser_relocs [radeon]] *ER=
-ROR* gem object lookup failed 0xe"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D94581">bug 94581<=
-/a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-aakashdsd26&#64;gmail.com" title=3D"Aakash Dubey &lt;aakashdsd26&#64;gmail.=
-com&gt;"> <span class=3D"fn">Aakash Dubey</span></a>
-</span></b>
-        <pre>increasing of smartphone users these are really a threat these=
- days so is there
-any solution for that like which App to use like <a href=3D"https://askmeap=
-ps.com/">https://askmeapps.com/</a> sade or
-how to stay safe from it please help me Sir thank you</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15718370020.662D9Ad90.19357--
-
---===============0917532793==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0917532793==--
+T24gV2VkLCBPY3QgMjMsIDIwMTkgYXQgMjo0MSBBTSBCw7ZzesO2cm3DqW55aSBab2x0w6FuIDx6
+Ym9zem9yQHByLmh1PiB3cm90ZToKPgo+IDIwMTkuIDEwLiAyMi4gMjI6NTcga2VsdGV6w6lzc2Vs
+LCBJbGlhIE1pcmtpbiDDrXJ0YToKPiA+IE9uIFR1ZSwgT2N0IDIyLCAyMDE5IGF0IDExOjUwIEFN
+IELDtnN6w7ZybcOpbnlpIFpvbHTDoW4gPHpib3N6b3JAcHIuaHU+IHdyb3RlOgo+ID4+IFNlY3Rp
+b24gIkRldmljZSIKPiA+PiAgICAgICAgICBJZGVudGlmaWVyICAgICAgIlVETCIKPiA+PiAgICAg
+ICAgICBEcml2ZXIgICAgICAgICAgIm1vZGVzZXR0aW5nIgo+ID4+ICAgICAgICAgIE9wdGlvbiAg
+ICAgICAgICAia21zZGV2IiAiL2Rldi9kcmkvY2FyZDAiCj4gPj4gICAgICAgICAgU2NyZWVuICAg
+ICAgICAgIDIKPiA+PiAgICAgICAgICBPcHRpb24gICAgICAgICAgIk1vbml0b3ItRFZJLUktMS0x
+IiAiRFZJLUktMS0xIgo+ID4KPiA+IEkgdGhpbmsgeW91IGhhdmUgYW4gZXh0cmEgLTEgaW4gaGVy
+ZSAoYW5kIHRoZSBtb25pdG9yIG5hbWUgZG9lc24ndAo+ID4gZXhpc3QgYXMgcGVyIGFib3ZlKS4g
+QW5kIEkgdGhpbmsgdGhlICJTY3JlZW4iIGluZGV4IGlzIHdyb25nIC0tIGl0J3MKPiA+IG5vdCB3
+aGF0IG9uZSB0ZW5kcyB0byB0aGluayBpdCBpcywgYXMgSSByZWNhbGwuIEkgdGhpbmsgeW91IGNh
+biBqdXN0Cj4gPiBkcm9wIHRoZXNlIGxpbmVzIHRob3VnaC4KPgo+IFdpdGhvdXQgIlNjcmVlbiBO
+IiBsaW5lcywgYWxsIHRoZSBvdXRwdXRzIGFyZSBhc3NpZ25lZCB0byA6MAo+IHNvIHRoZSBzY3Jl
+ZW4gbGF5b3V0IHNldHVwIGluIHRoZSBTZXJ2ZXJMYXlvdXQgc2VjdGlvbiBpcyBub3QKPiBhcHBs
+aWVkIHByb3Blcmx5Lgo+CgpBcyBJIHJlbWVtYmVyIGl0LCB0aGUgU2NyZWVuIGhlcmUgaXMgZm9y
+IFphcGhvZEhlYWRzLXR5cGUKY29uZmlndXJhdGlvbnMsIGFuZCBpdCBpbmRpY2F0ZXMgd2hpY2gg
+aGVhZCB5b3UncmUgc3VwcG9zZWQgdG8gdXNlIG9mCnRoZSB1bmRlcmx5aW5nIGRldmljZS4gTXkg
+c3VnZ2VzdGlvbiB3YXMgdG8gb25seSByZW1vdmUgaXQgaGVyZSwgbm90CmV2ZXJ5d2hlcmUuCgog
+IC1pbGlhCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
+aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
