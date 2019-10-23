@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 941BEE13C3
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 10:11:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A142E13BC
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 10:10:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91E196E9B3;
-	Wed, 23 Oct 2019 08:11:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1286F6E9B1;
+	Wed, 23 Oct 2019 08:10:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83FE48800B
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 00:15:26 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id c4so3971847lja.11
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2019 17:15:26 -0700 (PDT)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64DD66E860
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 00:17:51 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id 195so14516019lfj.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2019 17:17:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=LOiG1lHBlmqkkDnKg/r6AuxYdtWjj92CgBtMcfhEoU4=;
- b=BF5JnnNKBGfOVc3YGVNMb+rr+NHlqanlWaOAOqfKOSVH+/xQ1qUnJHw+5od2jTiyVf
- HIqHMpn4i85+BlwW2raVRPWL3NnXyfZGWZ8GIqQf1bz6Z+cu7NQvlxxmJS+GQmCStxpe
- /RR0S522JwxnwllOzAbQfpnCd+fi8iProdbDNVVcTizqicAIHCYIJXayi0FvBp5/WuhX
- yHwppTK4+zDEJGFXTVD7HhyCEgXvAw1XveENxL9HvwRFUlbeDt0AcZMhc3FWB342c1lf
- BEZR2zP6EdPNyDC54oLbMbPKiGWuqqT2P0GWOdfyrxc5pk/RVZ5YY9R0Um3Dfpq9fi3G
- 5sYg==
-X-Gm-Message-State: APjAAAU/EXIHoyQ2+8K5MB2LTnYjhlM+37e2J4eIlwYhTXPJH3s/YQOB
- cN+QdqoQCi4SuiIwRbp9iXb5B8j+XPdBUUGIbDhDbQ==
-X-Google-Smtp-Source: APXvYqzhUk+7CgADTS0dpvEIYlmKTvdCszOKgS0JUg8QihS8pf6mgF3K1gtTxlQC9brYhVbhOm217AnUQr8DddbWByo=
-X-Received: by 2002:a2e:9d3:: with SMTP id 202mr17727621ljj.112.1571789724211; 
- Tue, 22 Oct 2019 17:15:24 -0700 (PDT)
+ bh=TZ6PtzJKXyCbE4QgSRCknBL+ktlMMVZMJTZlai7sfRo=;
+ b=kmoqfuUdNDEz8NBI+dG5qC2orBR4XxlBEKr2dM9DQOdKBJjbjzqo9h3bm1NUC9Fmt0
+ 8xr28EbOEdzzSdGkLFM2vRAEL3egJ+YCJqGsIzggmNZ9dRLuXFTWOw9crJOhqLJ1Fh7z
+ y8ndOqkAguzNl1sqX9hZH4an+BDz7x6ONOkHwUiKDorWT3YB7j1SFroGc95aLoX9zU87
+ PoT/RXczdPtfH9cq4ULJp2EBxI7d4Xu295UxeyagjI5xoK2BlvoHRe46twt0Km/CtPxc
+ HBum2+koF2suSIQJKksCGqFW1WPTXuQ0PAjxG3GqTlRrf2v67D0rWiip5ow8DpVS3kwv
+ b6Pw==
+X-Gm-Message-State: APjAAAWNWbunCfdNBouMg4ksSeFU3WerdTioT/s8O0BICRFPFnnQ4KR7
+ mvKZbashFLGNJIWIZ7ihdERb+4FfuXnAJviLUFOvyQ==
+X-Google-Smtp-Source: APXvYqwhSkU3gwfa43CMQGaP9gD4LGrcVgE0palW4Riaoh2ocwxqd4w/qH5N/y3ru9WcGBG8F34YEwRT55n9prtCGRQ=
+X-Received: by 2002:a19:ed16:: with SMTP id y22mr9369612lfy.166.1571789869408; 
+ Tue, 22 Oct 2019 17:17:49 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAL_quvRknSSVvXN3q_Se0hrziw2oTNS3ENNoeHYhvciCRq9Yww@mail.gmail.com>
  <87h84rbile.fsf@intel.com> <20191002102428.zaid63hp6wpd7w34@holly.lan>
@@ -41,10 +41,11 @@ References: <CAL_quvRknSSVvXN3q_Se0hrziw2oTNS3ENNoeHYhvciCRq9Yww@mail.gmail.com>
  <CAOw6vbJ7XX8=nrJDENfn2pacf4MqQOkP+x8JV0wbqzoMfLvZWQ@mail.gmail.com>
  <CAL_quvTe_v9Vsbd0u4URitojmD-_VFeaOQ1BBYZ_UGwYWynjVA@mail.gmail.com>
  <87sgo3dasg.fsf@intel.com>
-In-Reply-To: <87sgo3dasg.fsf@intel.com>
+ <CACK8Z6FF1CBmti797sYWS51j-8ag-pSL9RJ2r9NDibXk2M=tEQ@mail.gmail.com>
+In-Reply-To: <CACK8Z6FF1CBmti797sYWS51j-8ag-pSL9RJ2r9NDibXk2M=tEQ@mail.gmail.com>
 From: Rajat Jain <rajatja@google.com>
-Date: Tue, 22 Oct 2019 17:14:47 -0700
-Message-ID: <CACK8Z6FF1CBmti797sYWS51j-8ag-pSL9RJ2r9NDibXk2M=tEQ@mail.gmail.com>
+Date: Tue, 22 Oct 2019 17:17:12 -0700
+Message-ID: <CACK8Z6HvekrGkFpQ-gmSvZRrS3gq-B2P-T1ihmF3JhK5v4QboQ@mail.gmail.com>
 Subject: Re: New sysfs interface for privacy screens
 To: Jani Nikula <jani.nikula@linux.intel.com>
 X-Mailman-Approved-At: Wed, 23 Oct 2019 08:09:38 +0000
@@ -52,13 +53,13 @@ X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=google.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc;
- bh=LOiG1lHBlmqkkDnKg/r6AuxYdtWjj92CgBtMcfhEoU4=;
- b=I27wD+PnXxUX43+njmN5oraLC/D2IEWjPZ1HcvygF3zx9VaP3uULZdcMj9fUrbsbNV
- PoKuankX3vvUUThZ3xSVh5fg/gB8evyIAk4C1IjOAtyXs1QKimgdSC2TtNNrIb3EeKxW
- wc47amhgBfeSjrFdtrRC9U2PVTSNI2m9YMcnrwYzRVmH17PyIVv98bC0By7T1CcFgDyu
- 9m9ZSgfLjJM72tCBQiIBgWao/nHA5J5YM7OPl97D7H06Bivl/qJ4dgNEhYTvPSjCSzLW
- hB22Fa1QcFczK6Iycs7/XbMnxxqxiX3h6gDtogwdAuQpN51M/9GoExoVUW725wAh1jj2
- uUJA==
+ bh=TZ6PtzJKXyCbE4QgSRCknBL+ktlMMVZMJTZlai7sfRo=;
+ b=OePzI0s07XRspjzP6hpHptPYAZ91ykwFW/MOU3dwmxa7O3VXV8/w4u208iiiZRWJo7
+ BF43iGHf6LVzyZbesaFS3xHd5qc3HWFUOcbJ/HwRDjUC2RoC3eGnfk2OmLfKkUjhDfs7
+ pfeNOEQpIk2/TkZSNHdGXDE3Jpqmc3g4UtRqDHN5XfKtq/jMFSGLdA/DfuQ5uP2F4e70
+ 1iLnf+8oLxq6wsQwckvOMn6mkTVypJgxcw/tnv5eLJAB0DrznANAlyO04e3rnzau22oQ
+ VTJl4vTTxCHgrmWHL9HTafweWh/kq0pzAX7RDMA8uY7gTVEQTtFKwuzknOPUI3+G0jv/
+ phIg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,95 +82,26 @@ Cc: Daniel Thompson <daniel.thompson@linaro.org>,
  David Airlie <airlied@redhat.com>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Lee Jones <lee.jones@linaro.org>, Alexander Schremmer <alex@alexanderweb.de>
-Content-Type: multipart/mixed; boundary="===============0350225397=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0350225397==
-Content-Type: multipart/alternative; boundary="0000000000002cb1cd059588d03f"
-
---0000000000002cb1cd059588d03f
-Content-Type: text/plain; charset="UTF-8"
-
-Hi Folks,
-
-On Mon, Oct 7, 2019 at 11:13 PM Jani Nikula <jani.nikula@linux.intel.com>
-wrote:
-
-> On Mon, 07 Oct 2019, Mat King <mathewk@google.com> wrote:
-> > That makes sense; just to confirm can a property be added or removed
-> > after the connector is registered?
->
-> You need to create the property before registering the drm device. You
-> can attach/detach the property later, but I should think you know by the
-> time you're registering the connector whether it supports the privacy
-> screen or not.
->
-
-I just posted a patch for this here:
-
-https://lkml.org/lkml/2019/10/22/967
-
-Would appreciate review and comments.
-
-Thanks & Best Regards,
-
-Rajat
-
-
->
-> BR,
-> Jani.
->
-> --
-> Jani Nikula, Intel Open Source Graphics Center
->
-
---0000000000002cb1cd059588d03f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Folks,</div><br><div class=3D"gmail_quote"><div di=
-r=3D"ltr" class=3D"gmail_attr">On Mon, Oct 7, 2019 at 11:13 PM Jani Nikula =
-&lt;<a href=3D"mailto:jani.nikula@linux.intel.com">jani.nikula@linux.intel.=
-com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">On Mon, 07 Oct 2019, Mat King &lt;<a href=3D"mailto:mathewk@google.com" =
-target=3D"_blank">mathewk@google.com</a>&gt; wrote:<br>
-&gt; That makes sense; just to confirm can a property be added or removed<b=
-r>
-&gt; after the connector is registered?<br>
-<br>
-You need to create the property before registering the drm device. You<br>
-can attach/detach the property later, but I should think you know by the<br=
->
-time you&#39;re registering the connector whether it supports the privacy<b=
-r>
-screen or not.<br></blockquote><div><br></div><div>I just posted a patch fo=
-r this here:</div><div><br></div><div><a href=3D"https://lkml.org/lkml/2019=
-/10/22/967">https://lkml.org/lkml/2019/10/22/967</a><br></div><div><br></di=
-v><div></div><div>Would appreciate review and comments.</div><div><br></div=
-><div>Thanks &amp; Best Regards,</div><div><br></div><div>Rajat</div><div>=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-BR,<br>
-Jani.<br>
-<br>
--- <br>
-Jani Nikula, Intel Open Source Graphics Center<br>
-</blockquote></div></div>
-
---0000000000002cb1cd059588d03f--
-
---===============0350225397==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0350225397==--
+T24gVHVlLCBPY3QgMjIsIDIwMTkgYXQgNToxNCBQTSBSYWphdCBKYWluIDxyYWphdGphQGdvb2ds
+ZS5jb20+IHdyb3RlOgo+Cj4gSGkgRm9sa3MsCj4KPiBPbiBNb24sIE9jdCA3LCAyMDE5IGF0IDEx
+OjEzIFBNIEphbmkgTmlrdWxhIDxqYW5pLm5pa3VsYUBsaW51eC5pbnRlbC5jb20+IHdyb3RlOgo+
+Pgo+PiBPbiBNb24sIDA3IE9jdCAyMDE5LCBNYXQgS2luZyA8bWF0aGV3a0Bnb29nbGUuY29tPiB3
+cm90ZToKPj4gPiBUaGF0IG1ha2VzIHNlbnNlOyBqdXN0IHRvIGNvbmZpcm0gY2FuIGEgcHJvcGVy
+dHkgYmUgYWRkZWQgb3IgcmVtb3ZlZAo+PiA+IGFmdGVyIHRoZSBjb25uZWN0b3IgaXMgcmVnaXN0
+ZXJlZD8KPj4KPj4gWW91IG5lZWQgdG8gY3JlYXRlIHRoZSBwcm9wZXJ0eSBiZWZvcmUgcmVnaXN0
+ZXJpbmcgdGhlIGRybSBkZXZpY2UuIFlvdQo+PiBjYW4gYXR0YWNoL2RldGFjaCB0aGUgcHJvcGVy
+dHkgbGF0ZXIsIGJ1dCBJIHNob3VsZCB0aGluayB5b3Uga25vdyBieSB0aGUKPj4gdGltZSB5b3Un
+cmUgcmVnaXN0ZXJpbmcgdGhlIGNvbm5lY3RvciB3aGV0aGVyIGl0IHN1cHBvcnRzIHRoZSBwcml2
+YWN5Cj4+IHNjcmVlbiBvciBub3QuCj4KPgoKSSBqdXN0IHBvc3RlZCBhIHBhdGNoIGZvciB0aGlz
+IGhlcmU6CgpodHRwczovL2xrbWwub3JnL2xrbWwvMjAxOS8xMC8yMi85NjcKCldvdWxkIGFwcHJl
+Y2lhdGUgcmV2aWV3IGFuZCBjb21tZW50cy4KClRoYW5rcyAmIEJlc3QgUmVnYXJkcywKClJhamF0
+Cj4KPj4KPj4KPj4gQlIsCj4+IEphbmkuCj4+Cj4+IC0tCj4+IEphbmkgTmlrdWxhLCBJbnRlbCBP
+cGVuIFNvdXJjZSBHcmFwaGljcyBDZW50ZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVs
