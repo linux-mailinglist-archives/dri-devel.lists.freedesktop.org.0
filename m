@@ -1,36 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 689B0E1B3D
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 14:50:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02B8BE1B6E
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 14:54:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 648136EA8B;
-	Wed, 23 Oct 2019 12:50:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E1466EA93;
+	Wed, 23 Oct 2019 12:54:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (unknown [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0CC936EA8E
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 12:50:16 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A15964A7;
- Wed, 23 Oct 2019 05:50:05 -0700 (PDT)
-Received: from [192.168.1.123] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7A62D3F6C4;
- Wed, 23 Oct 2019 05:50:04 -0700 (PDT)
-Subject: Re: [PATCH v2] panfrost: Properly undo pm_runtime_enable when
- deferring a probe
-To: Tomeu Vizoso <tomeu.vizoso@collabora.com>, linux-kernel@vger.kernel.org
-References: <20191023120925.30668-1-tomeu.vizoso@collabora.com>
- <20191023122157.32067-1-tomeu.vizoso@collabora.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <6952956c-ba58-71de-05c9-fa39333484d9@arm.com>
-Date: Wed, 23 Oct 2019 13:49:59 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.1.2
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3F8526EA96
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 12:54:23 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 3C79B720E2; Wed, 23 Oct 2019 12:54:23 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Wed, 23 Oct 2019 12:54:22 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: mail+freedesktop@benjaminneff.ch
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: highest
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-111481-502-PZcHmailNR@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20191023122157.32067-1-tomeu.vizoso@collabora.com>
-Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -43,37 +53,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Chen-Yu Tsai <wens@csie.org>,
- dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============0833224375=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAxOS0xMC0yMyAxOjIxIHBtLCBUb21ldSBWaXpvc28gd3JvdGU6Cj4gV2hlbiBkZWZlcnJp
-bmcgdGhlIHByb2JlIGJlY2F1c2Ugb2YgYSBtaXNzaW5nIHJlZ3VsYXRvciwgd2Ugd2VyZSBjYWxs
-aW5nCj4gcG1fcnVudGltZV9kaXNhYmxlIGV2ZW4gaWYgcG1fcnVudGltZV9lbmFibGUgd2Fzbid0
-IGNhbGxlZC4KPiAKPiBNb3ZlIHRoZSBjYWxsIHRvIHBtX3J1bnRpbWVfZGlzYWJsZSB0byB0aGUg
-cmlnaHQgcGxhY2UuCj4gCj4gU2lnbmVkLW9mZi1ieTogVG9tZXUgVml6b3NvIDx0b21ldS52aXpv
-c29AY29sbGFib3JhLmNvbT4KPiBSZXBvcnRlZC1ieTogQ2hlbi1ZdSBUc2FpIDx3ZW5zQGNzaWUu
-b3JnPgo+IENjOiBSb2JpbiBNdXJwaHkgPHJvYmluLm11cnBoeUBhcm0uY29tPgo+IEZpeGVzOiBm
-NGEzYzZhNDRiMzUgKCJkcm0vcGFuZnJvc3Q6IERpc2FibGUgUE0gb24gcHJvYmUgZmFpbHVyZSIp
-CgpJIHRoaW5rIHRoYXQgY29tbWl0IHdhcyByaWdodCBhdCB0aGUgdGltZSwgYnV0IGFjdHVhbGx5
-IHdlIG1pc3NlZCAKcmVvcmRlcmluZyB0aGUgY2xlYW51cCBwYXRoIHRvIG1hdGNoIHRoZSBjaGFu
-Z2UgaW4gNjM1NDMwNzk3ZDNmLiAKT3RoZXJ3aXNlLCB0aG91Z2gsCgpSZXZpZXdlZC1ieTogUm9i
-aW4gTXVycGh5IDxyb2Jpbi5tdXJwaHlAYXJtLmNvbT4KCj4gLS0tCj4gICBkcml2ZXJzL2dwdS9k
-cm0vcGFuZnJvc3QvcGFuZnJvc3RfZHJ2LmMgfCAyICstCj4gICAxIGZpbGUgY2hhbmdlZCwgMSBp
-bnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3Bh
-bmZyb3N0X2Rydi5jCj4gaW5kZXggYmMyZGRlYjU1ZjVkLi5mMjFiYzhhN2VlM2EgMTAwNjQ0Cj4g
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2Rydi5jCj4gKysrIGIvZHJp
-dmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2Rydi5jCj4gQEAgLTU1NiwxMSArNTU2LDEx
-IEBAIHN0YXRpYyBpbnQgcGFuZnJvc3RfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRl
-dikKPiAgIAlyZXR1cm4gMDsKPiAgIAo+ICAgZXJyX291dDI6Cj4gKwlwbV9ydW50aW1lX2Rpc2Fi
-bGUocGZkZXYtPmRldik7Cj4gICAJcGFuZnJvc3RfZGV2ZnJlcV9maW5pKHBmZGV2KTsKPiAgIGVy
-cl9vdXQxOgo+ICAgCXBhbmZyb3N0X2RldmljZV9maW5pKHBmZGV2KTsKPiAgIGVycl9vdXQwOgo+
-IC0JcG1fcnVudGltZV9kaXNhYmxlKHBmZGV2LT5kZXYpOwo+ICAgCWRybV9kZXZfcHV0KGRkZXYp
-Owo+ICAgCXJldHVybiBlcnI7Cj4gICB9Cj4gCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0833224375==
+Content-Type: multipart/alternative; boundary="15718352633.1d98b08.13032"
+Content-Transfer-Encoding: 7bit
+
+
+--15718352633.1d98b08.13032
+Date: Wed, 23 Oct 2019 12:54:23 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+
+Benjamin Neff <mail+freedesktop@benjaminneff.ch> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |mail+freedesktop@benjaminne
+                   |                            |ff.ch
+
+--- Comment #126 from Benjamin Neff <mail+freedesktop@benjaminneff.ch> ---
+I have the same problem on gentoo with 5.4 kernel and mesa-git, so it's not
+only arch and ubuntu, it's all distros. But I didn't create an account befo=
+re,
+because I thought there were already enough comments which confirm the bug.=
+ I
+hope this can be fixed soon because it's really annoying, tell me if I can =
+help
+with anything.
+
+I think the powerplay/metrics error is a different bug, I saw that too on my
+system, but not that often and unrelated to the freezes (so way less annoyi=
+ng).
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15718352633.1d98b08.13032
+Date: Wed, 23 Oct 2019 12:54:23 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:mail+free=
+desktop&#64;benjaminneff.ch" title=3D"Benjamin Neff &lt;mail+freedesktop&#6=
+4;benjaminneff.ch&gt;"> <span class=3D"fn">Benjamin Neff</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">CC</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>mail+freedesktop&#64;benjaminneff.ch
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c126">Comm=
+ent # 126</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+mail+freedesktop&#64;benjaminneff.ch" title=3D"Benjamin Neff &lt;mail+freed=
+esktop&#64;benjaminneff.ch&gt;"> <span class=3D"fn">Benjamin Neff</span></a>
+</span></b>
+        <pre>I have the same problem on gentoo with 5.4 kernel and mesa-git=
+, so it's not
+only arch and ubuntu, it's all distros. But I didn't create an account befo=
+re,
+because I thought there were already enough comments which confirm the bug.=
+ I
+hope this can be fixed soon because it's really annoying, tell me if I can =
+help
+with anything.
+
+I think the powerplay/metrics error is a different bug, I saw that too on my
+system, but not that often and unrelated to the freezes (so way less annoyi=
+ng).</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15718352633.1d98b08.13032--
+
+--===============0833224375==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0833224375==--
