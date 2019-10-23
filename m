@@ -2,49 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE431E2150
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 19:03:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E543E219E
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 19:18:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBA1B6E157;
-	Wed, 23 Oct 2019 17:03:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30A156EB54;
+	Wed, 23 Oct 2019 17:18:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFFD26E157
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 17:03:35 +0000 (UTC)
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
- [209.85.160.174])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 95B3121E6F
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 17:03:35 +0000 (UTC)
-Received: by mail-qt1-f174.google.com with SMTP id d17so18721568qto.3
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 10:03:35 -0700 (PDT)
-X-Gm-Message-State: APjAAAVCQ44/x1Wjz7R8DrWQt8UMTHMLV6AZpaFIfpm7YbXPxycBKKun
- 1O6NVelU0KVXplaLY94CZlIoevagGFTMyHVUWg==
-X-Google-Smtp-Source: APXvYqydyP5/fo5/99UQI9czsCJqaOzK2MK1XOv+Xr/dtt91fbc56oj9LdcqusUtndMeC7d+VytU1zFYCVFVz2cOJ0Y=
-X-Received: by 2002:ac8:293b:: with SMTP id y56mr10449944qty.224.1571850214685; 
- Wed, 23 Oct 2019 10:03:34 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 038186EB56
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 17:18:45 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 00D18720E2; Wed, 23 Oct 2019 17:18:44 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Wed, 23 Oct 2019 17:18:44 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: yamagi@yamagi.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: highest
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111481-502-poZhpghs7K@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20191021214550.1461-1-robh@kernel.org>
- <20191021214550.1461-3-robh@kernel.org>
- <20191022111443.GE4756@pendragon.ideasonboard.com>
- <CAL_Jsq+kyLZ8LAVN-5UDJUy9nMLiAjN452HWg5WYAfLS7QD=Yw@mail.gmail.com>
- <20191023142844.GC1904@pendragon.ideasonboard.com>
-In-Reply-To: <20191023142844.GC1904@pendragon.ideasonboard.com>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 23 Oct 2019 12:03:23 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqLTqBW8-hUbj37MKx8-8YOXwLWRSsQ5g_Jh+i86LReOmw@mail.gmail.com>
-Message-ID: <CAL_JsqLTqBW8-hUbj37MKx8-8YOXwLWRSsQ5g_Jh+i86LReOmw@mail.gmail.com>
-Subject: Re: [PATCH 2/6] drm: Introduce DRM_MODE_DUMB_KERNEL_MAP flag
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1571850215;
- bh=ihBP6BXDEvO8yUMGC7tug3Z2exooYjvRbgn9CV5bTLQ=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=yt+R8SVz2QRw0MKgNErw43SEf7W63p5bM02gjWmXwwVyMkvYolLSgZIUgD97HvVo8
- 0pZw+pb5YgS+2DaNTF+cVeVffCg3QWMar/Uj3LRoYtQ3/mi6XeJi+9qdYJuyl+ubZd
- grRtNhkx5jfyBJFoi/fYMbQXoP1h1zvqp4TNfsHQ=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,109 +53,258 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Liviu Dudau <liviu.dudau@arm.com>, dri-devel <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Yannick Fertre <yannick.fertre@st.com>, Kevin Hilman <khilman@baylibre.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Xinliang Liu <z.liuxinliang@hisilicon.com>,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Chen-Yu Tsai <wens@csie.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- "James \(Qian\) Wang" <james.qian.wang@arm.com>,
- Alexandre Torgue <alexandre.torgue@st.com>,
- Chen Feng <puck.chen@hisilicon.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>, Philippe Cornu <philippe.cornu@st.com>,
- Vincent Abriou <vincent.abriou@st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Rongrong Zou <zourongrong@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0391875648=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBPY3QgMjMsIDIwMTkgYXQgOToyOCBBTSBMYXVyZW50IFBpbmNoYXJ0CjxsYXVyZW50
-LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+IHdyb3RlOgo+Cj4gSGkgUm9iLAo+Cj4gT24gVHVl
-LCBPY3QgMjIsIDIwMTkgYXQgMDc6NDI6MDZBTSAtMDUwMCwgUm9iIEhlcnJpbmcgd3JvdGU6Cj4g
-PiBPbiBUdWUsIE9jdCAyMiwgMjAxOSBhdCA2OjE0IEFNIExhdXJlbnQgUGluY2hhcnQgd3JvdGU6
-Cj4gPiA+IE9uIE1vbiwgT2N0IDIxLCAyMDE5IGF0IDA0OjQ1OjQ2UE0gLTA1MDAsIFJvYiBIZXJy
-aW5nIHdyb3RlOgo+ID4gPiA+IEludHJvZHVjZSBhIG5ldyBmbGFnLCBEUk1fTU9ERV9EVU1CX0tF
-Uk5FTF9NQVAsIGZvciBzdHJ1Y3QKPiA+ID4gPiBkcm1fbW9kZV9jcmVhdGVfZHVtYi4gVGhpcyBm
-bGFnIGlzIGZvciBpbnRlcm5hbCBrZXJuZWwgdXNlIHRvIGluZGljYXRlCj4gPiA+ID4gaWYgZHVt
-YiBidWZmZXIgYWxsb2NhdGlvbiBuZWVkcyBhIGtlcm5lbCBtYXBwaW5nLiBUaGlzIGlzIG5lZWRl
-ZCBvbmx5IGZvcgo+ID4gPiA+IENNQSB3aGVyZSBjcmVhdGluZyBhIGtlcm5lbCBtYXBwaW5nIG9y
-IG5vdCBoYXMgdG8gYmUgZGVjaWRlZCBhdCBhbGxvY2F0aW9uCj4gPiA+ID4gdGltZSBiZWNhdXNl
-IGNyZWF0aW5nIGEgbWFwcGluZyBvbiBkZW1hbmQgKHdpdGggdm1hcCgpKSBpcyBub3QgZ3VhcmFu
-dGVlZAo+ID4gPiA+IHRvIHdvcmsuIFNldmVyYWwgZHJpdmVycyBhcmUgdXNpbmcgQ01BLCBidXQg
-bm90IHRoZSBDTUEgaGVscGVycyBiZWNhdXNlCj4gPiA+ID4gdGhleSBkaXN0aW5ndWlzaCBiZXR3
-ZWVuIGtlcm5lbCBhbmQgdXNlcnNwYWNlIGFsbG9jYXRpb25zIHRvIGNyZWF0ZSBhCj4gPiA+ID4g
-a2VybmVsIG1hcHBpbmcgb3Igbm90Lgo+ID4gPiA+Cj4gPiA+ID4gVXBkYXRlIHRoZSBjYWxsZXJz
-IG9mIGRybV9tb2RlX2R1bWJfY3JlYXRlKCkgdG8gc2V0Cj4gPiA+ID4gZHJtX21vZGVfZHVtYl9j
-cmVhdGUuZmxhZ3MgdG8gYXBwcm9wcmlhdGUgZGVmYXVsdHMuIEN1cnJlbnRseSwgZmxhZ3MgY2Fu
-Cj4gPiA+ID4gYmUgc2V0IHRvIGFueXRoaW5nIGJ5IHVzZXJzcGFjZSwgYnV0IGlzIHVudXNlZCB3
-aXRoaW4gdGhlIGtlcm5lbC4gTGV0J3MKPiA+ID4gPiBmb3JjZSBmbGFncyB0byB6ZXJvIChubyBr
-ZXJuZWwgbWFwcGluZykgZm9yIHVzZXJzcGFjZSBjYWxsZXJzIGJ5IGRlZmF1bHQuCj4gPiA+ID4g
-Rm9yIGluIGtlcm5lbCBjbGllbnRzLCBzZXQgRFJNX01PREVfRFVNQl9LRVJORUxfTUFQIGJ5IGRl
-ZmF1bHQuIERyaXZlcnMKPiA+ID4gPiBjYW4gb3ZlcnJpZGUgdGhpcyBhcyBuZWVkZWQuCj4gPiA+
-ID4KPiA+ID4gPiBDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgo+ID4gPiA+IENj
-OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+Cj4gPiA+ID4gQ2M6IE1hYXJ0ZW4gTGFu
-a2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+Cj4gPiA+ID4gQ2M6IE1h
-eGltZSBSaXBhcmQgPG1yaXBhcmRAa2VybmVsLm9yZz4KPiA+ID4gPiBDYzogU2VhbiBQYXVsIDxz
-ZWFuQHBvb3JseS5ydW4+Cj4gPiA+ID4gU2lnbmVkLW9mZi1ieTogUm9iIEhlcnJpbmcgPHJvYmhA
-a2VybmVsLm9yZz4KPiA+ID4gPiAtLS0KPiA+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2RybV9jbGll
-bnQuYyAgICAgICB8IDEgKwo+ID4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2R1bWJfYnVmZmVy
-cy5jIHwgNSArKysrLQo+ID4gPiA+ICBpbmNsdWRlL3VhcGkvZHJtL2RybV9tb2RlLmggICAgICAg
-IHwgMiArKwo+ID4gPiA+ICAzIGZpbGVzIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygrKSwgMSBkZWxl
-dGlvbigtKQo+ID4gPiA+Cj4gPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1f
-Y2xpZW50LmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2NsaWVudC5jCj4gPiA+ID4gaW5kZXggZDlh
-MmUzNjk1NTI1Li5kYmZjODA2MWIzOTIgMTAwNjQ0Cj4gPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL2RybV9jbGllbnQuYwo+ID4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fY2xpZW50
-LmMKPiA+ID4gPiBAQCAtMjY0LDYgKzI2NCw3IEBAIGRybV9jbGllbnRfYnVmZmVyX2NyZWF0ZShz
-dHJ1Y3QgZHJtX2NsaWVudF9kZXYgKmNsaWVudCwgdTMyIHdpZHRoLCB1MzIgaGVpZ2h0LCB1Cj4g
-PiA+ID4gICAgICAgZHVtYl9hcmdzLndpZHRoID0gd2lkdGg7Cj4gPiA+ID4gICAgICAgZHVtYl9h
-cmdzLmhlaWdodCA9IGhlaWdodDsKPiA+ID4gPiAgICAgICBkdW1iX2FyZ3MuYnBwID0gaW5mby0+
-Y3BwWzBdICogODsKPiA+ID4gPiArICAgICBkdW1iX2FyZ3MuZmxhZ3MgPSBEUk1fTU9ERV9EVU1C
-X0tFUk5FTF9NQVA7Cj4gPiA+ID4gICAgICAgcmV0ID0gZHJtX21vZGVfY3JlYXRlX2R1bWIoZGV2
-LCAmZHVtYl9hcmdzLCBjbGllbnQtPmZpbGUpOwo+ID4gPiA+ICAgICAgIGlmIChyZXQpCj4gPiA+
-ID4gICAgICAgICAgICAgICBnb3RvIGVycl9kZWxldGU7Cj4gPiA+ID4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9kcm1fZHVtYl9idWZmZXJzLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2R1
-bWJfYnVmZmVycy5jCj4gPiA+ID4gaW5kZXggZDE4YTc0MGZlMGYxLi43NGExM2YxNGMxNzMgMTAw
-NjQ0Cj4gPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9kdW1iX2J1ZmZlcnMuYwo+ID4g
-PiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHVtYl9idWZmZXJzLmMKPiA+ID4gPiBAQCAt
-OTcsNyArOTcsMTAgQEAgaW50IGRybV9tb2RlX2NyZWF0ZV9kdW1iKHN0cnVjdCBkcm1fZGV2aWNl
-ICpkZXYsCj4gPiA+ID4gIGludCBkcm1fbW9kZV9jcmVhdGVfZHVtYl9pb2N0bChzdHJ1Y3QgZHJt
-X2RldmljZSAqZGV2LAo+ID4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdm9pZCAq
-ZGF0YSwgc3RydWN0IGRybV9maWxlICpmaWxlX3ByaXYpCj4gPiA+ID4gIHsKPiA+ID4gPiAtICAg
-ICByZXR1cm4gZHJtX21vZGVfY3JlYXRlX2R1bWIoZGV2LCBkYXRhLCBmaWxlX3ByaXYpOwo+ID4g
-PiA+ICsgICAgIHN0cnVjdCBkcm1fbW9kZV9jcmVhdGVfZHVtYiAqYXJncyA9IGRhdGE7Cj4gPiA+
-ID4gKwo+ID4gPiA+ICsgICAgIGFyZ3MtPmZsYWdzID0gMDsKPiA+ID4KPiA+ID4gSSB3b3VsZCBw
-cmVmZXIgcmV0dXJuaW5nIGFuIGVycm9yIGlmIGZsYWdzIGlzIHNldCB0byBhIG5vbi16ZXJvIHZh
-bHVlLAo+ID4gPiB0byBjYXRjaCB1c2Vyc3BhY2UgZXJyb3JzIGVhcmx5LCBidXQgSSdtIGFsc28g
-d29ycmllZCBpdCB3b3VsZCBicmVhawo+ID4gPiBleGlzdGluZyB1c2Vyc3BhY2UgYnkgdW5jb3Zl
-cmluZyBleGlzdGluZyBidWdzLiBTdGlsbCwgaWYgd2UgbGF0ZXIgYWRkCj4gPiA+IGZsYWdzIHRo
-YXQgdXNlcnNwYWNlIGNhbiBzZXQsIHRob3NlIGV4aXN0aW5nIGJ1Z3Mgd2lsbCBiZSB0cmlnZ2Vy
-ZWQsIHNvCj4gPiA+IHdlJ2xsIGhhdmUgdG8gZGVhbCB3aXRoIHRoZW0gYW55d2F5LCBhbmQgd2Ug
-Y291bGQgYWxyZWFkeSBnaXZlIGl0IGEgdHJ5Lgo+ID4KPiA+IEkgd291bGQgbGlrZSB0aGF0IHRv
-bywgYnV0IHRoZSBjb21tZW50IGp1c3QgYWJvdmUgdGhpcyBjb2RlIHRlbGxzIG1lCj4gPiB0aGF0
-J3MgbGlrZWx5IHRvIGJyZWFrIHRoaW5nczoKPiA+Cj4gPiAgICAgICAgIC8qCj4gPiAgICAgICAg
-ICAqIGhhbmRsZSwgcGl0Y2ggYW5kIHNpemUgYXJlIG91dHB1dCBwYXJhbWV0ZXJzLiBaZXJvIHRo
-ZW0gb3V0IHRvCj4gPiAgICAgICAgICAqIHByZXZlbnQgZHJpdmVycyBmcm9tIGFjY2lkZW50YWxs
-eSB1c2luZyB1bmluaXRpYWxpemVkIGRhdGEuIFNpbmNlCj4gPiAgICAgICAgICAqIG5vdCBhbGwg
-ZXhpc3RpbmcgdXNlcnNwYWNlIGlzIGNsZWFyaW5nIHRoZXNlIGZpZWxkcyBwcm9wZXJseSB3ZQo+
-ID4gICAgICAgICAgKiBjYW5ub3QgcmVqZWN0IElPQ1RMIHdpdGggZ2FyYmFnZSBpbiB0aGVtLgo+
-ID4gICAgICAgICAgKi8KPiA+Cj4gPiBNYXliZSB1c2Vyc3BhY2UgZG9lcyBjb3JyZWN0bHkgemVy
-byBvdXQgaW5wdXQgcGFyYW1zLgo+Cj4gQnV0IGlmIHRoYXQgaG9sZHMgdHJ1ZSwgaXQgbWVhbnMg
-dGhhdCB3ZSB3aWxsIG5ldmVyIGJlIGFibGUgdG8gYWRkCj4gdXNlcnNwYWNlIGZsYWdzLCBhcyBk
-b2luZyBzbyBjb3VsZCBicmVhayBhcHBsaWNhdGlvbnMgZm9yIHRoZSBzYW1lCj4gcmVhc29uLiBU
-aGUgZmxhZyBmaWVsZCBzaG91bGQgdGh1cyBiZSBtYXJrZWQgYXMgZGVwcmVjYXRlZCBmb3IgdXNl
-cnNwYWNlCj4gdXNhZ2UuIEkgd29uZGVyIGhvdyBiaWcgdGhlIHJpc2sgaXMuCgpHb29kIHBvaW50
-LiBJIGd1ZXNzIGFub3RoZXIgb3B0aW9uIGlzIGFkZCBhIFdBUk4oZmxhZ3MgIT0gMCkgYW5kIHNl
-ZQp3aGF0IGhhcHBlbnMuCgpUaGUgY29tbWl0IGFkZGluZyB0aGUgY29tbWVudCB3YXMgZjYwODU5
-NTIyYTgzICgiZHJtOiBTYW5pdGl6ZQpEUk1fSU9DVExfTU9ERV9DUkVBVEVfRFVNQiBpbnB1dCIp
-LiBNYXliZSBUaGllcnJ5IGhhcyBzb21lIGNvbW1lbnQ/CgpSb2IKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0391875648==
+Content-Type: multipart/alternative; boundary="157185112412.b8fa7ac.1869"
+Content-Transfer-Encoding: 7bit
+
+
+--157185112412.b8fa7ac.1869
+Date: Wed, 23 Oct 2019 17:18:44 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+
+--- Comment #128 from yamagi@yamagi.org ---
+(In reply to yamagi from comment #124)
+> Interestingly I've got the problem the other way round. My 5700XT was
+> running fine since I got it about two weeks ago. This is Arch Linux, I've
+> run Mesa 19.2.1 and llvm-libs 9.0.0 since day one. The card was stable wi=
+th
+> 5.4-RC2 and 5.4-RC3, not a single hang in about 10 hours The Witcher 3 un=
+der
+> wine + dxvk and Yamagi Quake II with OpenGL 3.2 renderer. After I upgraded
+> to 5.4-RC4 I've seen several GPU hangs. The last one, and the only one
+> that's still in the logs was:
+>=20
+> [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma0 timeout, signaled
+> seq=3D85270, emitted seq=3D85272
+>=20
+> That one was in Yamagi Quake II, but I had hangs on the desktop and in The
+> Witcher 3. I have no umr reports so far. I've just compiled the tool and
+> will see if I can get some.
+
+
+As promised, some more informations:
+
+For me the crash is fairly easy to reproduce with Linux 5.4-RC4. All it tak=
+es
+is Yamagi Quake II (Revision 1232289, can be found at
+https://github.com/yquake2/yquake2) with OpenGL 3.2 renderer. The old OpenGL
+1.4 doesn't trigger it. Start the game, it's a good idea to set set timedemo
+mode to 1, and just let it cycle through the demo loop until it crashes. I =
+used
+'./quake +set timedemo 1 +set vid_renderer gl3'. I've never experienced this
+crash in the wild with Linux 5.4-RC3 until I learned that I can trigger with
+the Quake II demo loop. In Linux 5.4-RC3 it usually takes somewhere between=
+ 20
+to 30 cycles through loop to trigger, with 5.4-RC4 only 5 to 10 cycles. So
+something changed between RC3 and RC4 that made it more likely.
+
+I suspect some kind of timing issue. The demo loop is deterministic, it
+generates exactly the same API calls each time it's run. While the crash al=
+ways
+happens while the loading screen is up, it never occures at the same one.
+Sometimes it's in the fifth iteration, the next time at the 12th and so on.
+Putting apitrace (adds some latency!) onto it, makes it much less likely to
+occure. To the point I thought that it's a heisenbug. The same goes for cyc=
+ling
+through the loop without timedemo mode enabled (~20 FPS in normal mode, ~10=
+00
+FPS in timedemo mode).
+
+I made an apitrace for easier reproduction. It's a little bit big for bugzi=
+lla,
+so I've uploaded it here: https://deponie.yamagi.org/temp/quake2.trace.xz
+Replaying it usually triggers the crash during the first or second run.
+
+The exact software versions were:
+* Linux 5.4-RC4 with https://bugzilla.freedesktop.org/attachment.cgi?id=3D1=
+45323
+and https://bugzilla.freedesktop.org/attachment.cgi?id=3D145734 applied.
+* Mesa 19.2.1-2
+* LLVM 9.0.0
+
+dmesg output after a crash in Quake IIs demo loop is:
+[  122.294181] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma0 timeou=
+t,
+signaled seq=3D177737, emitted seq=3D177739
+[  122.294256] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
+on:
+process glretrace pid 1302 thread glretrace:cs0 pid 1303
+[  122.294257] [drm] GPU recovery disabled.
+
+dmesg output after a crash by replaying the apitrace is:
+[  266.695388] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma0 timeou=
+t,
+signaled seq=3D27598, emitted seq=3D27600
+[  266.695463] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
+on:
+process glretrace pid 1372 thread glretrace:cs0 pid 1373
+[  266.695465] [drm] GPU recovery disabled.
+
+I'm attaching the state of sdma0 is both cases.
+
+I hope this helps to find the root cause of this. If can provide more
+informations don't hesitate to ask.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--157185112412.b8fa7ac.1869
+Date: Wed, 23 Oct 2019 17:18:44 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c128">Comm=
+ent # 128</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+yamagi&#64;yamagi.org" title=3D"yamagi&#64;yamagi.org">yamagi&#64;yamagi.or=
+g</a>
+</span></b>
+        <pre>(In reply to yamagi from <a href=3D"show_bug.cgi?id=3D111481#c=
+124">comment #124</a>)
+<span class=3D"quote">&gt; Interestingly I've got the problem the other way=
+ round. My 5700XT was
+&gt; running fine since I got it about two weeks ago. This is Arch Linux, I=
+'ve
+&gt; run Mesa 19.2.1 and llvm-libs 9.0.0 since day one. The card was stable=
+ with
+&gt; 5.4-RC2 and 5.4-RC3, not a single hang in about 10 hours The Witcher 3=
+ under
+&gt; wine + dxvk and Yamagi Quake II with OpenGL 3.2 renderer. After I upgr=
+aded
+&gt; to 5.4-RC4 I've seen several GPU hangs. The last one, and the only one
+&gt; that's still in the logs was:
+&gt;=20
+&gt; [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma0 timeout, signaled
+&gt; seq=3D85270, emitted seq=3D85272
+&gt;=20
+&gt; That one was in Yamagi Quake II, but I had hangs on the desktop and in=
+ The
+&gt; Witcher 3. I have no umr reports so far. I've just compiled the tool a=
+nd
+&gt; will see if I can get some.</span >
+
+
+As promised, some more informations:
+
+For me the crash is fairly easy to reproduce with Linux 5.4-RC4. All it tak=
+es
+is Yamagi Quake II (Revision 1232289, can be found at
+<a href=3D"https://github.com/yquake2/yquake2">https://github.com/yquake2/y=
+quake2</a>) with OpenGL 3.2 renderer. The old OpenGL
+1.4 doesn't trigger it. Start the game, it's a good idea to set set timedemo
+mode to 1, and just let it cycle through the demo loop until it crashes. I =
+used
+'./quake +set timedemo 1 +set vid_renderer gl3'. I've never experienced this
+crash in the wild with Linux 5.4-RC3 until I learned that I can trigger with
+the Quake II demo loop. In Linux 5.4-RC3 it usually takes somewhere between=
+ 20
+to 30 cycles through loop to trigger, with 5.4-RC4 only 5 to 10 cycles. So
+something changed between RC3 and RC4 that made it more likely.
+
+I suspect some kind of timing issue. The demo loop is deterministic, it
+generates exactly the same API calls each time it's run. While the crash al=
+ways
+happens while the loading screen is up, it never occures at the same one.
+Sometimes it's in the fifth iteration, the next time at the 12th and so on.
+Putting apitrace (adds some latency!) onto it, makes it much less likely to
+occure. To the point I thought that it's a heisenbug. The same goes for cyc=
+ling
+through the loop without timedemo mode enabled (~20 FPS in normal mode, ~10=
+00
+FPS in timedemo mode).
+
+I made an apitrace for easier reproduction. It's a little bit big for bugzi=
+lla,
+so I've uploaded it here: <a href=3D"https://deponie.yamagi.org/temp/quake2=
+.trace.xz">https://deponie.yamagi.org/temp/quake2.trace.xz</a>
+Replaying it usually triggers the crash during the first or second run.
+
+The exact software versions were:
+* Linux 5.4-RC4 with <a href=3D"https://bugzilla.freedesktop.org/attachment=
+.cgi?id=3D145323">https://bugzilla.freedesktop.org/attachment.cgi?id=3D1453=
+23</a>
+and <a href=3D"https://bugzilla.freedesktop.org/attachment.cgi?id=3D145734"=
+>https://bugzilla.freedesktop.org/attachment.cgi?id=3D145734</a> applied.
+* Mesa 19.2.1-2
+* LLVM 9.0.0
+
+dmesg output after a crash in Quake IIs demo loop is:
+[  122.294181] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma0 timeou=
+t,
+signaled seq=3D177737, emitted seq=3D177739
+[  122.294256] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
+on:
+process glretrace pid 1302 thread glretrace:cs0 pid 1303
+[  122.294257] [drm] GPU recovery disabled.
+
+dmesg output after a crash by replaying the apitrace is:
+[  266.695388] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma0 timeou=
+t,
+signaled seq=3D27598, emitted seq=3D27600
+[  266.695463] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
+on:
+process glretrace pid 1372 thread glretrace:cs0 pid 1373
+[  266.695465] [drm] GPU recovery disabled.
+
+I'm attaching the state of sdma0 is both cases.
+
+I hope this helps to find the root cause of this. If can provide more
+informations don't hesitate to ask.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--157185112412.b8fa7ac.1869--
+
+--===============0391875648==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0391875648==--
