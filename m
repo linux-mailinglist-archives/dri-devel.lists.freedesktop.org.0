@@ -1,20 +1,21 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82991E20DE
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 18:46:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6713BE20DD
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 18:46:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE5AA6EB48;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8817C6EB47;
 	Wed, 23 Oct 2019 16:46:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2886C6EB47
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 16:46:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B41DE6EB47
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 16:46:53 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204241] amdgpu fails to resume from suspend
+Subject: [Bug 204965] [amdgpu]] *ERROR* ring gfx test failed (-110) upon wake
+ from sleep, no video or frozen video
 Date: Wed, 23 Oct 2019 16:46:53 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
@@ -25,15 +26,15 @@ X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: dav.per@gmx.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: DUPLICATE
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-204241-2300-a0wY8PTtpC@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204241-2300@https.bugzilla.kernel.org/>
-References: <bug-204241-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-204965-2300-JXk4eEDrA0@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204965-2300@https.bugzilla.kernel.org/>
+References: <bug-204965-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -56,15 +57,16 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQyNDEKCkRhdmlk
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQ5NjUKCkRhdmlk
 IChkYXYucGVyQGdteC5jb20pIGNoYW5nZWQ6CgogICAgICAgICAgIFdoYXQgICAgfFJlbW92ZWQg
 ICAgICAgICAgICAgICAgICAgICB8QWRkZWQKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
 LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogICAgICAgICAg
-ICAgICAgIENDfCAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ZGF2LnBlckBnbXguY29tCgot
-LS0gQ29tbWVudCAjMzcgZnJvbSBEYXZpZCAoZGF2LnBlckBnbXguY29tKSAtLS0KKioqIEJ1ZyAy
-MDQ5NjUgaGFzIGJlZW4gbWFya2VkIGFzIGEgZHVwbGljYXRlIG9mIHRoaXMgYnVnLiAqKioKCi0t
-IApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0
-aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVs
+ICAgU3RhdHVzfE5FVyAgICAgICAgICAgICAgICAgICAgICAgICB8UkVTT0xWRUQKICAgICAgICAg
+UmVzb2x1dGlvbnwtLS0gICAgICAgICAgICAgICAgICAgICAgICAgfERVUExJQ0FURQoKLS0tIENv
+bW1lbnQgIzQgZnJvbSBEYXZpZCAoZGF2LnBlckBnbXguY29tKSAtLS0KCgoqKiogVGhpcyBidWcg
+aGFzIGJlZW4gbWFya2VkIGFzIGEgZHVwbGljYXRlIG9mIGJ1ZyAyMDQyNDEgKioqCgotLSAKWW91
+IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFz
+c2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbA==
