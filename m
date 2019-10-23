@@ -1,46 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78843E24DF
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 23:06:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52AB4E24E0
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 23:06:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD3E26EB9C;
-	Wed, 23 Oct 2019 21:06:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 310506EB99;
+	Wed, 23 Oct 2019 21:06:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8AF2D6EB9F
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 21:06:03 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 881F5720E2; Wed, 23 Oct 2019 21:06:03 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
- with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Wed, 23 Oct 2019 21:06:02 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: shtetldik@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: highest
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-x3nwTB679M@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
-References: <bug-111481-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 01E6D6EB99
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 21:06:36 +0000 (UTC)
+X-UUID: 99821a05e0a149058c8a3a7043c7907e-20191024
+X-UUID: 99821a05e0a149058c8a3a7043c7907e-20191024
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 934746464; Thu, 24 Oct 2019 05:06:31 +0800
+Received: from mtkcas09.mediatek.inc (172.21.101.178) by
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Thu, 24 Oct 2019 05:06:29 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas09.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Thu, 24 Oct 2019 05:06:21 +0800
+Message-ID: <1571864784.19128.8.camel@mtksdaap41>
+Subject: Re: [PATCH 5/6] drm/mediatek: Convert to use CMA helpers
+From: CK Hu <ck.hu@mediatek.com>
+To: Rob Herring <robh@kernel.org>
+Date: Thu, 24 Oct 2019 05:06:24 +0800
+In-Reply-To: <CAL_JsqL6G=F45G+-QXF6T1269f9YquXfYtjoUkCpAoNartxM=Q@mail.gmail.com>
+References: <20191021214550.1461-1-robh@kernel.org>
+ <20191021214550.1461-6-robh@kernel.org>
+ <1cbca96c-19dd-1d15-949c-7fbcc15369b4@gmail.com>
+ <CAL_JsqL6G=F45G+-QXF6T1269f9YquXfYtjoUkCpAoNartxM=Q@mail.gmail.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,104 +49,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1045434434=="
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Yannick Fertre <yannick.fertre@st.com>,
+ Nicolas Boichat <drinkcat@chromium.org>, Kevin Hilman <khilman@baylibre.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Xinliang Liu <z.liuxinliang@hisilicon.com>, "open list:ARM/Rockchip
+ SoC..." <linux-rockchip@lists.infradead.org>, Chen-Yu Tsai <wens@csie.org>,
+ "James \(Qian\) Wang" <james.qian.wang@arm.com>, Ulrich Hecht <uli@fpond.eu>,
+ Alexandre Torgue <alexandre.torgue@st.com>,
+ Chen Feng <puck.chen@hisilicon.com>, "moderated list:ARM/Mediatek SoC
+ support" <linux-mediatek@lists.infradead.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>, Philippe Cornu <philippe.cornu@st.com>,
+ Vincent Abriou <vincent.abriou@st.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Rongrong Zou <zourongrong@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1045434434==
-Content-Type: multipart/alternative; boundary="157186476310.9883.12315"
-Content-Transfer-Encoding: 7bit
-
-
---157186476310.9883.12315
-Date: Wed, 23 Oct 2019 21:06:03 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
-
---- Comment #148 from Shmerl <shtetldik@gmail.com> ---
-(In reply to Daniel Suarez from comment #147)
->=20
-> You shouldn't be using a 5700 XT in a system that demands 100% uptime, I
-> have had mine randomly hang in the night without Firefox even being open,
-> only qbittorrent and discord
-
-For the reference, common UI toolkits (GTK and Qt) use OpenGL rendering too.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---157186476310.9883.12315
-Date: Wed, 23 Oct 2019 21:06:03 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c148">Comm=
-ent # 148</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-shtetldik&#64;gmail.com" title=3D"Shmerl &lt;shtetldik&#64;gmail.com&gt;"> =
-<span class=3D"fn">Shmerl</span></a>
-</span></b>
-        <pre>(In reply to Daniel Suarez from <a href=3D"show_bug.cgi?id=3D1=
-11481#c147">comment #147</a>)
-<span class=3D"quote">&gt;=20
-&gt; You shouldn't be using a 5700 XT in a system that demands 100% uptime,=
- I
-&gt; have had mine randomly hang in the night without Firefox even being op=
-en,
-&gt; only qbittorrent and discord</span >
-
-For the reference, common UI toolkits (GTK and Qt) use OpenGL rendering too=
-.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---157186476310.9883.12315--
-
---===============1045434434==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1045434434==--
+SGksIFJvYjoKCk9uIFdlZCwgMjAxOS0xMC0yMyBhdCAxMjo0MiAtMDUwMCwgUm9iIEhlcnJpbmcg
+d3JvdGU6Cj4gT24gVHVlLCBPY3QgMjIsIDIwMTkgYXQgMTI6MDcgUE0gTWF0dGhpYXMgQnJ1Z2dl
+cgo+IDxtYXR0aGlhcy5iZ2dAZ21haWwuY29tPiB3cm90ZToKPiA+Cj4gPiBIaSBSb2IsCj4gPgo+
+ID4gT24gMjEvMTAvMjAxOSAyMzo0NSwgUm9iIEhlcnJpbmcgd3JvdGU6Cj4gPiA+IFRoZSBvbmx5
+IHJlYXNvbiB0aGUgTWVkaWF0ZWsgZHJpdmVyIGRvZXNuJ3QgdXNlIHRoZSBDTUEgaGVscGVycyBp
+cyBpdAo+ID4gPiBzZXRzIERNQV9BVFRSX05PX0tFUk5FTF9NQVBQSU5HIGFuZCBkb2VzIGEgdm1h
+cCgpIG9uIGRlbWFuZC4gVXNpbmcKPiA+ID4gdm1hcCgpIGlzIG5vdCBldmVuIGd1YXJhbnRlZWQg
+dG8gd29yayBhcyBETUEgYnVmZmVycyBtYXkgbm90IGhhdmUgYQo+ID4gPiBzdHJ1Y3QgcGFnZS4g
+Tm93IHRoYXQgdGhlIENNQSBoZWxwZXJzIHN1cHBvcnQgc2V0dGluZwo+ID4gPiBETUFfQVRUUl9O
+T19LRVJORUxfTUFQUElORyBhcyBuZWVkZWQgb3Igbm90LCBjb252ZXJ0IE1lZGlhdGVrIGRyaXZl
+ciB0bwo+ID4gPiB1c2UgQ01BIGhlbHBlcnMuCj4gPiA+Cj4gPiA+IENjOiBDSyBIdSA8Y2suaHVA
+bWVkaWF0ZWsuY29tPgo+ID4gPiBDYzogUGhpbGlwcCBaYWJlbCA8cC56YWJlbEBwZW5ndXRyb25p
+eC5kZT4KPiA+ID4gQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KPiA+ID4gQ2M6
+IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiA+ID4gQ2M6IE1hdHRoaWFzIEJydWdn
+ZXIgPG1hdHRoaWFzLmJnZ0BnbWFpbC5jb20+Cj4gPiA+IENjOiBsaW51eC1hcm0ta2VybmVsQGxp
+c3RzLmluZnJhZGVhZC5vcmcKPiA+ID4gQ2M6IGxpbnV4LW1lZGlhdGVrQGxpc3RzLmluZnJhZGVh
+ZC5vcmcKPiA+ID4gU2lnbmVkLW9mZi1ieTogUm9iIEhlcnJpbmcgPHJvYmhAa2VybmVsLm9yZz4K
+PiA+ID4gLS0tCj4gPgo+ID4gSSB0ZXN0ZWQgdGhpcyBvbiBteSBDaHJvbWVib29rIHdpdGggc29t
+ZSBwYXRjaGVzIG9uIHRvcCBvZiB2NS40LXJjMSBbMV0sIHdoaWNoCj4gPiB3b3JrLiBJZiBJIGFk
+ZCB5b3VyIHBhdGNoZXMgb24gdG9wIG9mIHRoYXQsIHRoZSBzeXN0ZW0gZG9lcyBub3QgYm9vdCB1
+cC4KPiA+IFVuZm9ydHVuYXRlbHkgSSBkb24ndCBoYXZlIGEgc2VyaWFsIGNvbnNvbGUsIHNvIEkg
+d2Fzbid0IGFibGUgdG8gc2VlIGlmIHRoZXJlIGlzCj4gPiBhbnkgZXJyb3IgbWVzc2FnZS4KPiAK
+PiBUaGFua3MgZm9yIHRlc3RpbmcuIEknbSBiYXNlZCBvbiBkcm0tbWlzYy1uZXh0LCBidXQgZG9u
+J3Qgc2VlIGFueXRoaW5nCj4gb2J2aW91cyB0aGVyZSB0aGF0IHdvdWxkIG1hdHRlci4gVGhlcmUg
+YXJlIHNvbWUgbW1hcCBjaGFuZ2VzLCBidXQgSQo+IHRoaW5rIHRoZXkgc2hvdWxkbid0IG1hdHRl
+ci4KPiAKPiBEaWQgeW91IGhhdmUgZmJjb24gZW5hYmxlZD8gVGhhdCBtYXkgZ2l2ZSBtb3JlIGNs
+dWVzIGFib3V0IHdoZXJlIHRoZSBwcm9ibGVtIGlzLgoKVGhlcmUgYXJlIHByaXYtPmRtYV9kZXYg
+Zm9yIGRtYSBkZXZpY2UsIGJ1dCBpdCBpcyBub3QgZHJtIGRldmljZS4gSW4KbXQ4MTczLmR0c2kg
+WzFdLCB0aGVyZSBhcmUgbW1zeXMgZGV2aWNlIGFuZCBvdmwgZGV2aWNlLCBtbXN5cyBkZXZpY2Ug
+aXMKZHJtIGRldmljZSBhbmQgb3ZsIGRldmljZSBpcyBtbXN5cydzIHN1YiBkZXZpY2Ugd2hpY2gg
+cHJvdmlkZSBkbWEKZnVuY3Rpb24sIHNvIG92bCBpcyB0aGUgcHJpdi0+ZG1hX2Rldi4gSSB0aGlu
+ayB5b3VyIHBhdGNoIGRpcmVjdGx5IHVzZQpkcm0gZGV2aWNlIGZvciBkbWEgb3BlcmF0aW9uIGFu
+ZCB0aGlzIHdvdWxkIGNhdXNlIGRtYSBmdW5jdGlvbiBmYWlsLgpQbGVhc2UgdXNlIHByaXYtPmRt
+YV9kZXYgZm9yIGRtYSBvcGVyYXRpb24uCgpSZWdhcmRzLApDSwoKWzFdCmh0dHBzOi8vZ2l0Lmtl
+cm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4LmdpdC90cmVl
+L2FyY2gvYXJtNjQvYm9vdC9kdHMvbWVkaWF0ZWsvbXQ4MTczLmR0c2k/aD12NS40LXJjNAo+IAo+
+IFJvYgoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
+aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
