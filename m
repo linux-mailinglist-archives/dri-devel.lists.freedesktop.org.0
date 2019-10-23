@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B4C1E23CA
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 22:04:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E4BDE2420
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 22:12:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAD736EB87;
-	Wed, 23 Oct 2019 20:04:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 754836EB81;
+	Wed, 23 Oct 2019 20:12:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id A10886E154
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 20:04:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 20E606EB90
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 20:12:50 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9E6C9720E2; Wed, 23 Oct 2019 20:04:17 +0000 (UTC)
+ id 1DAD8720E2; Wed, 23 Oct 2019 20:12:50 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
  with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Wed, 23 Oct 2019 20:04:16 +0000
+Date: Wed, 23 Oct 2019 20:12:49 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -28,14 +28,14 @@ X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: critical
-X-Bugzilla-Who: danielsuarez369@protonmail.com
+X-Bugzilla-Who: shtetldik@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: highest
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-zOcXmTAs7f@http.bugs.freedesktop.org/>
+Message-ID: <bug-111481-502-0maBAFEoJr@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
 References: <bug-111481-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1533490646=="
+Content-Type: multipart/mixed; boundary="===============1119608000=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1533490646==
-Content-Type: multipart/alternative; boundary="157186105712.901E8.889"
+--===============1119608000==
+Content-Type: multipart/alternative; boundary="15718615701.4fd3Baa.2175"
 Content-Transfer-Encoding: 7bit
 
 
---157186105712.901E8.889
-Date: Wed, 23 Oct 2019 20:04:17 +0000
+--15718615701.4fd3Baa.2175
+Date: Wed, 23 Oct 2019 20:12:50 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,20 +73,15 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
 
---- Comment #139 from Daniel Suarez <danielsuarez369@protonmail.com> ---
-I get instant hangs when playing Space Engineers, the moment I load into a
-world it completely hands my system, cannot even enter TTY.=20
-
-Tested with Manjaro and Mesa-git along with all the other packages recommen=
-ded
-in https://wiki.archlinux.org/index.php/Navi_10
+--- Comment #140 from Shmerl <shtetldik@gmail.com> ---
+For individual games, I recommend opening separate bugs for each title.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---157186105712.901E8.889
-Date: Wed, 23 Oct 2019 20:04:17 +0000
+--15718615701.4fd3Baa.2175
+Date: Wed, 23 Oct 2019 20:12:50 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -104,8 +99,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
  kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c139">Comm=
-ent # 139</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c140">Comm=
+ent # 140</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
@@ -113,17 +108,11 @@ ent # 139</a>
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
 1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-danielsuarez369&#64;protonmail.com" title=3D"Daniel Suarez &lt;danielsuarez=
-369&#64;protonmail.com&gt;"> <span class=3D"fn">Daniel Suarez</span></a>
+shtetldik&#64;gmail.com" title=3D"Shmerl &lt;shtetldik&#64;gmail.com&gt;"> =
+<span class=3D"fn">Shmerl</span></a>
 </span></b>
-        <pre>I get instant hangs when playing Space Engineers, the moment I=
- load into a
-world it completely hands my system, cannot even enter TTY.=20
-
-Tested with Manjaro and Mesa-git along with all the other packages recommen=
-ded
-in <a href=3D"https://wiki.archlinux.org/index.php/Navi_10">https://wiki.ar=
-chlinux.org/index.php/Navi_10</a></pre>
+        <pre>For individual games, I recommend opening separate bugs for ea=
+ch title.</pre>
         </div>
       </p>
 
@@ -137,9 +126,9 @@ chlinux.org/index.php/Navi_10</a></pre>
     </body>
 </html>=
 
---157186105712.901E8.889--
+--15718615701.4fd3Baa.2175--
 
---===============1533490646==
+--===============1119608000==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -149,4 +138,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1533490646==--
+--===============1119608000==--
