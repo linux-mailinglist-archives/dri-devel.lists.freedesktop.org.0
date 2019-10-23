@@ -1,59 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8455E236D
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 21:51:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B4C1E23CA
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 22:04:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 985066E114;
-	Wed, 23 Oct 2019 19:51:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAD736EB87;
+	Wed, 23 Oct 2019 20:04:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-xc43.google.com (mail-yw1-xc43.google.com
- [IPv6:2607:f8b0:4864:20::c43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 258816E114
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 19:51:32 +0000 (UTC)
-Received: by mail-yw1-xc43.google.com with SMTP id r134so7862553ywg.2
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 12:51:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JKxzTkPUnLBEMDTwoJW4PDaivqT9rS13Dxxf3jk+VxQ=;
- b=NR2lFJErtJxMDKgGSaywAPLyU6M4k0ELactZltEt5mbv+dyfQAhyg2lPheDOVJx7L6
- FUFIIBkDVRByQM5Pq+2RAFVfj6zMQ19P9QXEIR2OBLxjTI3SeRZTIOKdKsiCuYUmpACR
- CJBxBfrJ38bkvosm2QMpXWg4Xtmr9sUUgtML6JxqFacCIzd/1wi92U3JQqZzRT+3QGzH
- lrjTWdXPVh3j24wnL5yNJWwKqzCOu4Cabx908AH+yl5aY1ZjV6SIHLoQ+EgeJjac5McC
- eXKd//72xFtBmH5gS7CI8AsnFow2pOjBQ7UpCbMe7fW3QgQMI1Vsq4HlCozJH1nPi7xn
- mRxA==
-X-Gm-Message-State: APjAAAVF1nEM4lC99h9Dfb9BpYymSC9Grqb7Ivd6Dw/uK/9D1sxw/4kU
- guuw4iTfIPexc+YKDKg8XVeNCYPSMt0=
-X-Google-Smtp-Source: APXvYqxMQsj3ijgyrWt7i52xtn9PuwOHnFfUuiHehIa12RuB5Pietb4A88Y+G276WQTvDzHNA0Sbfg==
-X-Received: by 2002:a81:a042:: with SMTP id x63mr4309899ywg.301.1571860290828; 
- Wed, 23 Oct 2019 12:51:30 -0700 (PDT)
-Received: from rosewood.cam.corp.google.com
- ([2620:0:1013:11:89c6:2139:5435:371d])
- by smtp.gmail.com with ESMTPSA id i190sm3863706ywg.1.2019.10.23.12.51.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2019 12:51:30 -0700 (PDT)
-From: Sean Paul <sean@poorly.run>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A10886E154
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 20:04:17 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 9E6C9720E2; Wed, 23 Oct 2019 20:04:17 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/mediatek: Add RGB[A] variants to published plane formats
-Date: Wed, 23 Oct 2019 15:51:17 -0400
-Message-Id: <20191023195129.165775-1-sean@poorly.run>
-X-Mailer: git-send-email 2.23.0.866.gb869b98d4c-goog
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Wed, 23 Oct 2019 20:04:16 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: danielsuarez369@protonmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: highest
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111481-502-zOcXmTAs7f@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=poorly.run; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JKxzTkPUnLBEMDTwoJW4PDaivqT9rS13Dxxf3jk+VxQ=;
- b=akx8r6jT3I/V5VK3DFavJjpWCKXwwJ54pN/CwmMI0RlJyZXFn/JghN8q9eMkILt3Bj
- oti1pmNbQckNpl/EOB+0rvU43Jkp64k2lwFauXbNzIFglRxrjixYWv+/9vFbz4FSx7xt
- aCMFM4zSJU68ra8kLEV0pq7q1NvvpRqI6rsXzt5dWB2ohv+oXhO9pJPUPI1oF1oem2Sw
- rq6JfMoGgw5JXRYPA0jreainYMEzVFOeuSrMGwoUZa7igdExt3DSBSdtEL+p6xVDcD5S
- WXwlEWUgilxeHrI8+MHumVZ3Yo5yQmHsNzu+kRSyX06v+n31hCwfQH3eiyoGwvdDwwGE
- cHtg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,35 +53,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@chromium.org>,
- Daniele Castagna <dcastagna@chromium.org>, David Airlie <airlied@linux.ie>,
- Matthias Brugger <matthias.bgg@gmail.com>, Miguel Casas <mcasas@chromium.org>,
- Sean Paul <seanpaul@chromium.org>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1533490646=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogU2VhbiBQYXVsIDxzZWFucGF1bEBjaHJvbWl1bS5vcmc+CgpUaGVzZSBmb3JtYXRzIGFy
-ZSBoYW5kbGVkIGluIHRoZSByZG1hIGNvZGUsIGJ1dCBmb3Igc29tZSByZWFzb24gdGhleSdyZQpu
-b3QgcHVibGlzaGVkIGFzIHN1cHBvcnRlZCBmb3JtYXRzIGZvciB0aGUgcGxhbmVzLiBTbyBhZGQg
-dGhlbSB0byB0aGUKbGlzdC4KCkNjOiBOaWNvbGFzIEJvaWNoYXQgPGRyaW5rY2F0QGNocm9taXVt
-Lm9yZz4KQ2M6IERhbmllbGUgQ2FzdGFnbmEgPGRjYXN0YWduYUBjaHJvbWl1bS5vcmc+CkNjOiBN
-aWd1ZWwgQ2FzYXMgPG1jYXNhc0BjaHJvbWl1bS5vcmc+ClRlc3RlZC1ieTogTWlndWVsIENhc2Fz
-IDxtY2FzYXNAY2hyb21pdW0ub3JnPgpTaWduZWQtb2ZmLWJ5OiBTZWFuIFBhdWwgPHNlYW5wYXVs
-QGNocm9taXVtLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9wbGFu
-ZS5jIHwgNiArKysrKysKIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKykKCmRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9wbGFuZS5jIGIvZHJpdmVycy9n
-cHUvZHJtL21lZGlhdGVrL210a19kcm1fcGxhbmUuYwppbmRleCA1ODRhOWVjYWRjZTYuLjQ5ZDU5
-NDcwY2MxMSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fcGxh
-bmUuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9wbGFuZS5jCkBAIC0y
-MCw2ICsyMCwxMiBAQAogc3RhdGljIGNvbnN0IHUzMiBmb3JtYXRzW10gPSB7CiAJRFJNX0ZPUk1B
-VF9YUkdCODg4OCwKIAlEUk1fRk9STUFUX0FSR0I4ODg4LAorCURSTV9GT1JNQVRfQkdSWDg4ODgs
-CisJRFJNX0ZPUk1BVF9CR1JBODg4OCwKKwlEUk1fRk9STUFUX0FCR1I4ODg4LAorCURSTV9GT1JN
-QVRfWEJHUjg4ODgsCisJRFJNX0ZPUk1BVF9SR0I4ODgsCisJRFJNX0ZPUk1BVF9CR1I4ODgsCiAJ
-RFJNX0ZPUk1BVF9SR0I1NjUsCiAJRFJNX0ZPUk1BVF9VWVZZLAogCURSTV9GT1JNQVRfWVVZViwK
-LS0gClNlYW4gUGF1bCwgU29mdHdhcmUgRW5naW5lZXIsIEdvb2dsZSAvIENocm9taXVtIE9TCgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1533490646==
+Content-Type: multipart/alternative; boundary="157186105712.901E8.889"
+Content-Transfer-Encoding: 7bit
+
+
+--157186105712.901E8.889
+Date: Wed, 23 Oct 2019 20:04:17 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+
+--- Comment #139 from Daniel Suarez <danielsuarez369@protonmail.com> ---
+I get instant hangs when playing Space Engineers, the moment I load into a
+world it completely hands my system, cannot even enter TTY.=20
+
+Tested with Manjaro and Mesa-git along with all the other packages recommen=
+ded
+in https://wiki.archlinux.org/index.php/Navi_10
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--157186105712.901E8.889
+Date: Wed, 23 Oct 2019 20:04:17 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c139">Comm=
+ent # 139</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+danielsuarez369&#64;protonmail.com" title=3D"Daniel Suarez &lt;danielsuarez=
+369&#64;protonmail.com&gt;"> <span class=3D"fn">Daniel Suarez</span></a>
+</span></b>
+        <pre>I get instant hangs when playing Space Engineers, the moment I=
+ load into a
+world it completely hands my system, cannot even enter TTY.=20
+
+Tested with Manjaro and Mesa-git along with all the other packages recommen=
+ded
+in <a href=3D"https://wiki.archlinux.org/index.php/Navi_10">https://wiki.ar=
+chlinux.org/index.php/Navi_10</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--157186105712.901E8.889--
+
+--===============1533490646==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1533490646==--
