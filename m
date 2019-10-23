@@ -2,59 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37EB0E2B19
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 09:28:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA19DE2B18
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 09:28:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E0356E10D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39B486E10C;
 	Thu, 24 Oct 2019 07:28:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B0346E029
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 11:11:14 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id r141so9649561wme.4
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 04:11:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CzSjfdz533CXX+r31DyH1zv/LJLKdHTy5BRlOQmdA1w=;
- b=aHHRyvIFlDnK40ZqJPFcPHSY02VWjdCXj4yhqI/TEmI7a784UdIJNxlhBR0RP+ntRJ
- o5cfNGo7y7oeuyhKQ6uCl5wj3r577cZ4Ulmf6t6F+cYTsLmR7U16sQQ9IKFDeoBmuBNn
- hBn8lhpOT3B+e5EOczJXkVYWw3wWXhoc4kDE94jqGFy4x5Fcg/c9qEUqswQykz75LcTs
- 7wt1oexc2HsWEsVJJttaYb4kZ/oe0ABs9r6ij0e/cwJphHCn6xcimImcx+1k+va+oSwI
- JyOlH4nLvHiCssWI3cuCZ1G4o9671BBBxxaUWBlLbpOW1incrKkUdpgTsNgMLpHvvU/x
- 4b4g==
-X-Gm-Message-State: APjAAAVPEjFV1jIhrrkVjUjdF/L2xvLdjfHaO+KbLDyNScJXDaiBy035
- aZzAszWtDacqkgZ7Dk5JVyKDkV8RKuF9SQ==
-X-Google-Smtp-Source: APXvYqzUTDjQy3LrwkwZs2bBatVab+bvLDTd9dRiBCyXxGuu6zQEGe5OeJKmIE0AkB/nB3zMglCIJQ==
-X-Received: by 2002:a1c:f305:: with SMTP id q5mr7311192wmq.137.1571829072881; 
- Wed, 23 Oct 2019 04:11:12 -0700 (PDT)
-Received: from wambui.brck.local ([197.254.95.38])
- by smtp.googlemail.com with ESMTPSA id 1sm3850170wrr.16.2019.10.23.04.11.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2019 04:11:12 -0700 (PDT)
-From: Wambui Karuga <wambui.karugax@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [Outreachy][PATCH] drm/mediatek: remove cast to pointers passed to
- kfree
-Date: Wed, 23 Oct 2019 14:11:07 +0300
-Message-Id: <20191023111107.9972-1-wambui.karugax@gmail.com>
-X-Mailer: git-send-email 2.23.0
+Received: from NAM01-BN3-obe.outbound.protection.outlook.com
+ (mail-oln040092000038.outbound.protection.outlook.com [40.92.0.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 586CE6EB07
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 15:18:00 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iP5INpgLS/8CAeRco00h+EC/YB4kmU1eHr0LIBDeI8ldifE6aPcx657Rkyls7mJDvySP+8WX8+QellP8CwLGAmGPxHALWrY4205Hk5N67XPUHQAv3Ft/4pskMlQxIcMgPlpDnoI7rRs7Gl9psPgf/dMs+8v6Fzbqz7JtxWJ8qCmOIYbqbe1dT8ldTTOWfd30ipZ3CNYWH+p2k4nWg5G58OsFHBOLtNKM8v21EYZaZeYjQqNbkwH+10N/ryUra1FFunZkl2T22DvE6/jFHwOgilP05J//uI97LiimGljuhMBOtpycjJ23SnS/Kb2M/wsWsX8yQD2n0w13VgsrPGf5sw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zlQlHMmghlHDsiKKJ2e3gMtEIDokU5zgkrn5hFZoMN0=;
+ b=J1VcGEXlGHdvJkshP23UTm6V2TnFbvUK7WZSXwlQtaxXkuARjRTp0y3qO66jBYrH12xmnqYbHt422ivZMtHPzFqlEKSs8L+BSAdmsQEg6QjKOrt40X0rdEVDUOEq1GTUdnN8W+CJGof9XZwK26B2KXfTf+37/fcVyhJMvyqzwsadX/kygFRThyEU3y352VE9jJs/ueIavV7wVnBKJ2oalTfIVG9IzMMD7LNILwCl1Tcf5GlVHYZr05mXlVDM0la7xL9YXdfO8ohNR1YcmWNK6gDHi0dLBCOUAvVXgGyCpR+8S1J3gJXhS3ZZ6kFDo9ZHL+1kNRBjNLbOt+HOdHKRjw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from BY2NAM01FT032.eop-nam01.prod.protection.outlook.com
+ (10.152.68.56) by BY2NAM01HT058.eop-nam01.prod.protection.outlook.com
+ (10.152.69.141) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2347.16; Wed, 23 Oct
+ 2019 15:17:57 +0000
+Received: from BY5PR12MB3699.namprd12.prod.outlook.com (10.152.68.52) by
+ BY2NAM01FT032.mail.protection.outlook.com (10.152.69.209) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2347.16 via Frontend Transport; Wed, 23 Oct 2019 15:17:57 +0000
+Received: from BY5PR12MB3699.namprd12.prod.outlook.com
+ ([fe80::d1f8:8629:7310:e845]) by BY5PR12MB3699.namprd12.prod.outlook.com
+ ([fe80::d1f8:8629:7310:e845%4]) with mapi id 15.20.2367.025; Wed, 23 Oct 2019
+ 15:17:57 +0000
+From: Lihua Yao <ylhuajnu@outlook.com>
+To: Arnd Bergmann <arnd@arndb.de>, Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH 00/36] ARM: samsung platform cleanup
+Thread-Topic: [PATCH 00/36] ARM: samsung platform cleanup
+Thread-Index: AQHViaNOwtgFIwFiP02oYWU3zucI06doO1MAgAAbYIA=
+Date: Wed, 23 Oct 2019 15:17:57 +0000
+Message-ID: <BY5PR12MB3699C846E761F257D0FB1373C46B0@BY5PR12MB3699.namprd12.prod.outlook.com>
+References: <20191010202802.1132272-1-arnd@arndb.de>
+ <20191023131049.GG11048@pi3>
+ <CAK8P3a1v2-+geD+JbNP-t418ZjntQNSte4rt8c7N6sJdpb3+DQ@mail.gmail.com>
+In-Reply-To: <CAK8P3a1v2-+geD+JbNP-t418ZjntQNSte4rt8c7N6sJdpb3+DQ@mail.gmail.com>
+Accept-Language: en-GB, zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HK2PR02CA0181.apcprd02.prod.outlook.com
+ (2603:1096:201:21::17) To BY5PR12MB3699.namprd12.prod.outlook.com
+ (2603:10b6:a03:195::16)
+x-incomingtopheadermarker: OriginalChecksum:529384D5AD68C306DF64A868DA26EEA0698BB72E32CBD6FA2DDBDBD00DCF79F6;
+ UpperCasedChecksum:E47105BD3F66D6E35B3665A0B168C4E695D84CA981A4137EAC92B67D33179E2A;
+ SizeAsReceived:8870; Count:50
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn: [FB4ZodDWkjklu+6rjx/UXq/8gBhMyUPd]
+x-microsoft-original-message-id: <346ede3a-182c-d83e-8eef-58816e04f928@outlook.com>
+x-ms-publictraffictype: Email
+x-incomingheadercount: 50
+x-eopattributedmessage: 0
+x-ms-traffictypediagnostic: BY2NAM01HT058:
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: pbWrxofQMKSHrBj86AWl/NUo98gQEdUNXvtvwjvPbinwQAriOtoSBOIbPWSS1od6QsundSbV1jD5pglDPnK9/ls2hHOvQCCrUCwkE9/VNhOdu7wSyzZWSY8Avz/Gm04m7ubxePG+/M5da2O/OH61jgAf2PXe6q7CAOm1Mmh9xKp6iovz7cW8bm1aU1an5AaB
+x-ms-exchange-transport-forked: True
+Content-ID: <DCE39A5A7726614091BE95843816F1DC@namprd12.prod.outlook.com>
 MIME-Version: 1.0
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00d8ea68-88ea-4531-2790-08d757cc2f30
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Oct 2019 15:17:57.5792 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY2NAM01HT058
 X-Mailman-Approved-At: Thu, 24 Oct 2019 07:27:37 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CzSjfdz533CXX+r31DyH1zv/LJLKdHTy5BRlOQmdA1w=;
- b=CsET8hcbLI3OciXqB6UqhYW9x2GYFB7JmE5P+Ooq3o8rcWqs4sM9XhVDqvjGQCjzl5
- IBVclOk7yuYq6LBKSmFVXvlGuyAcFUgCaEuxU6Xj93tUEDx56Pya9PmXn2PQoUPDGxk1
- o4n9TC9BQ4236MlB7JdzJCqKgjdA19hCUu5IFPEkscp6Z55mJBzBXYz0F5Nj4uqMaQpQ
- 2u/oZPwHe5g+V1RnSgBQdWlYg4VWkIu2vQ/G5k25KJZax78O4AjmMe/E6hB7mFZgqyt4
- 0qOxGSQ9NPcGVn6fPZoo0qP6qygtOLgci+4wSWXBzvzMkJ5kDKFPZg7xq2JlmADh4n4Q
- 1zAw==
+ d=outlook.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zlQlHMmghlHDsiKKJ2e3gMtEIDokU5zgkrn5hFZoMN0=;
+ b=oqCY38qAN1H10whsXRaoReQ0iHSJp43ksm9+UwNwbpBXBi9WzoW0Nyh+pXpTk5Zy6GoijrjniZD39yvWFv/ml8xrLAOK3ucx6Xo3vOKYi8SDdwsbj5maikmaiEMQuQQI7ki/tGJK9Hr39qUeBwPc2Pnny0ssBKwHzX72AiKFO7o01QNlOjTkgawc5LsVoHu3W5EXkowU2tiQUTC2ojiT6gP6DCfTqzStNJxukmZionqtD+2y+GkuUWdgKP2ZXf76/0kNBeIaLTysxnllcEHbGZMLKSsnNVexVxLIlLt/yKCbcEbKH87dlT8lTuB8K62xEn2jc+aJho6GVZofv/uohA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,29 +94,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>, "moderated
+ list:ARM/SAMSUNG EXYNOS ARM ARCHITECTURES" <linux-samsung-soc@vger.kernel.org>,
+ linux-clk <linux-clk@vger.kernel.org>, Kukjin Kim <kgene@kernel.org>,
+ "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>, "open list:HID
+ CORE LAYER" <linux-input@vger.kernel.org>,
+ =?utf-8?B?UGF3ZcWCIENobWllbA==?= <pawel.mikolaj.chmiel@gmail.com>,
+ Linux PWM List <linux-pwm@vger.kernel.org>,
+ Sergio Prado <sergio.prado@e-labworks.com>,
+ Linux PM list <linux-pm@vger.kernel.org>, Lihua Yao <ylhuajnu@163.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>,
+ USB list <linux-usb@vger.kernel.org>, linux-mmc <linux-mmc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ linux-spi <linux-spi@vger.kernel.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UmVtb3ZlIHVubmVjZXNzYXJ5IGNhc3RzIHRvIHBvaW50ZXIgdHlwZXMgcGFzc2VkIHRvIGtmcmVl
-LgpJc3N1ZSBkZXRlY3RlZCBieSBjb2NjaW5lbGxlOgpAQAp0eXBlIHQxOwpleHByZXNzaW9uICpl
-OwpAQAoKLWtmcmVlKCh0MSAqKWUpOwora2ZyZWUoZSk7CgpTaWduZWQtb2ZmLWJ5OiBXYW1idWkg
-S2FydWdhIDx3YW1idWkua2FydWdheEBnbWFpbC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL21l
-ZGlhdGVrL210a19kcm1fZ2VtLmMgfCA0ICsrLS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlv
-bnMoKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlh
-dGVrL210a19kcm1fZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9nZW0u
-YwppbmRleCBjYTY3MmYxZDE0MGQuLmIwNGEzYzJiMTExZSAxMDA2NDQKLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL21lZGlhdGVrL210a19kcm1fZ2VtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlh
-dGVrL210a19kcm1fZ2VtLmMKQEAgLTI3MSw3ICsyNzEsNyBAQCB2b2lkICptdGtfZHJtX2dlbV9w
-cmltZV92bWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqKQogCQkJICAgICAgIHBncHJvdF93
-cml0ZWNvbWJpbmUoUEFHRV9LRVJORUwpKTsKIAogb3V0OgotCWtmcmVlKCh2b2lkICopc2d0KTsK
-KwlrZnJlZShzZ3QpOwogCiAJcmV0dXJuIG10a19nZW0tPmt2YWRkcjsKIH0KQEAgLTI4NSw1ICsy
-ODUsNSBAQCB2b2lkIG10a19kcm1fZ2VtX3ByaW1lX3Z1bm1hcChzdHJ1Y3QgZHJtX2dlbV9vYmpl
-Y3QgKm9iaiwgdm9pZCAqdmFkZHIpCiAKIAl2dW5tYXAodmFkZHIpOwogCW10a19nZW0tPmt2YWRk
-ciA9IDA7Ci0Ja2ZyZWUoKHZvaWQgKiltdGtfZ2VtLT5wYWdlcyk7CisJa2ZyZWUobXRrX2dlbS0+
-cGFnZXMpOwogfQotLSAKMi4yMy4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWw=
+SGkgQXJuZCwgS3J6eXN6dG9mLA0KDQpPbiAyMy8xMC8yMDE5IDk6MzkgUE0sIEFybmQgQmVyZ21h
+bm4gd3JvdGU6DQo+IE9uIFdlZCwgT2N0IDIzLCAyMDE5IGF0IDM6MTEgUE0gS3J6eXN6dG9mIEtv
+emxvd3NraSA8a3J6a0BrZXJuZWwub3JnPiB3cm90ZToNCj4+IE9uIFRodSwgT2N0IDEwLCAyMDE5
+IGF0IDEwOjI4OjAyUE0gKzAyMDAsIEFybmQgQmVyZ21hbm4gd3JvdGU6DQo+Pj4gVGhlIGNvbnRl
+bnRzIGFyZSBhdmFpbGFibGUgZm9yIHRlc3RpbmcgaW4NCj4+Pg0KPj4+IGdpdDovL2tlcm5lbC5v
+cmc6L3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9hcm5kL3BsYXlncm91bmQuZ2l0IHMzYy1tdWx0
+aXBsYXRmb3JtDQo+PiBXaGVuIHNlbmRpbmcgdjIsIGNhbiB5b3UgQ2M6DQo+Pg0KPj4gUGF3ZcWC
+IENobWllbCA8cGF3ZWwubWlrb2xhai5jaG1pZWxAZ21haWwuY29tPg0KPj4gTGlodWEgWWFvIDx5
+bGh1YWpudUBvdXRsb29rLmNvbT4NCj4+IChvciBMaWh1YSBZYW8gPHlsaHVham51QDE2My5jb20+
+IGlmIG91dGxvb2suY29tIGJvdW5jZXMpDQoNCllvdSBjb3VsZCByZWFjaCBtZSBieSBlLW1haWwg
+dG8gTGlodWEgWWFvIDxsaWh1YS55YW9AZ214LmNvbT4uDQoNCk5laXRoZXIgMTYzLmNvbSBub3Ig
+b3V0bG9vay5jb20gZS1tYWlsIHNlcnZlciBjb29wZXJhdGVzIHdlbGwgd2l0aA0KDQp2Z2VyLmtl
+cm5lbC5vcmcgbWFpbCBsaXN0Lg0KDQo+PiBTZXJnaW8gUHJhZG8gPHNlcmdpby5wcmFkb0BlLWxh
+YndvcmtzLmNvbT4NCj4+IFN5bHdlc3RlciBOYXdyb2NraSA8cy5uYXdyb2NraUBzYW1zdW5nLmNv
+bT4NCj4+DQo+PiBUaGVzZSBhcmUgZm9sa3Mgd2hpY2ggdG8gbXkga25vd2xlZGdlIGhhZCB3b3Jr
+aW5nIFMzQyBhbmQgUzVQIGJvYXJkcw0KPj4gc28gbWF5YmUgdGhleSBjb3VsZCBwcm92aWRlIHRl
+c3RpbmcuDQo+IE9rLCB3aWxsIGRvLiBJJ3ZlIHVwbG9hZGVkIHRoZSBtb2RpZmllZCB2ZXJzaW9u
+IGJhc2VkIG9uIHlvdXIgY29tbWVudHMgdG8NCj4gdGhlIGFib3ZlIFVSTCBmb3Igbm93Lg0KPg0K
+PiBJJ2xsIHByb2JhYmx5IGdpdmUgaXQgYSBsaXR0bGUgbW9yZSB0aW1lIGJlZm9yZSByZXNlbmRp
+bmcsIGJ1dCB0aGV5DQo+IGNvdWxkIGFscmVhZHkNCj4gc3RhcnQgdGVzdGluZyB0aGF0IHZlcnNp
+b24uDQoNCk5pY2XvvIHCoCBTYWRseSBJIGFtIG9uIHZvY2F0aW9uIGFuZCB3aWxsIHRlc3QgaXQg
+dW50aWwgTm92IDE1Lg0KDQpCZXN0IFJlZ2FyZHMNCg0KTGlodWENCg0KX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
