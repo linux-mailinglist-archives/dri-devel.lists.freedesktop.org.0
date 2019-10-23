@@ -1,46 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC1F7E228A
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 20:36:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 850F3E228E
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2019 20:37:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D93C6EB6B;
-	Wed, 23 Oct 2019 18:36:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2C016EB6D;
+	Wed, 23 Oct 2019 18:37:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 866BE6EB6F
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 18:36:40 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 83620720E2; Wed, 23 Oct 2019 18:36:40 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
- with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Wed, 23 Oct 2019 18:36:40 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: shtetldik@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: highest
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-aKu3Iq1gy7@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
-References: <bug-111481-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F96E6EB6D
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2019 18:37:31 +0000 (UTC)
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-127-O9YqbnUgPVmrNhCBxh7ddg-1; Wed, 23 Oct 2019 14:37:27 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94EA31005509;
+ Wed, 23 Oct 2019 18:37:26 +0000 (UTC)
+Received: from shalem.localdomain.com (ovpn-116-79.ams2.redhat.com
+ [10.36.116.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A2FB25D9DC;
+ Wed, 23 Oct 2019 18:37:25 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Ben Skeggs <bskeggs@redhat.com>
+Subject: [PATCH 1/2] drm/nouveau: Move the declaration of struct
+ nouveau_conn_atom up a bit
+Date: Wed, 23 Oct 2019 20:37:23 +0200
+Message-Id: <20191023183724.8410-1-hdegoede@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: O9YqbnUgPVmrNhCBxh7ddg-1
+X-Mimecast-Spam-Score: 0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=redhat.com; 
+ s=mimecast20190719; t=1571855850;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Qj6EOZMrK1eqK/WhlxBvxBSxXTM7JYl4QZa1jb2WHF4=;
+ b=jHVKuxLXhKxJAyUdHMr6EZqtJ5hpnKPTAUKzyJwCbY3Gq3/ODHwZTYe4uV4Otuw3W29bix
+ bVPKTfi7yeWfTl43I1zLFsRMWzOr+ntihsBSrJjCHfrrKfNMJKyudMmInQf0j9rAEQT+Aa
+ cKfY1RxgwyXX6BY1fvYZP9dPHR/cj+4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,115 +58,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0973023204=="
+Cc: Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0973023204==
-Content-Type: multipart/alternative; boundary="15718558003.FA914D.16166"
-Content-Transfer-Encoding: 7bit
-
-
---15718558003.FA914D.16166
-Date: Wed, 23 Oct 2019 18:36:40 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
-
---- Comment #135 from Shmerl <shtetldik@gmail.com> ---
-(In reply to Benjamin Neff from comment #134)
->=20
-> I don't know if OpenGL is involved in all of my freezes, I had freezes wh=
-ile
-> watching a video on youtube in chromium, also while just browsing the web=
- in
-> firefox, once it crashed during rendering file preview images of photos in
-> nautilus, and once it crashed while the screen was locked with i3lock. It
-> didn't freeze during games yet.
->=20
-
-Both Firefox and Chromium are only using OpenGL paths, they aren't using
-Vulkan. So it's safe to assume it's going through radeonsi.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15718558003.FA914D.16166
-Date: Wed, 23 Oct 2019 18:36:40 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c135">Comm=
-ent # 135</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-shtetldik&#64;gmail.com" title=3D"Shmerl &lt;shtetldik&#64;gmail.com&gt;"> =
-<span class=3D"fn">Shmerl</span></a>
-</span></b>
-        <pre>(In reply to Benjamin Neff from <a href=3D"show_bug.cgi?id=3D1=
-11481#c134">comment #134</a>)
-<span class=3D"quote">&gt;=20
-&gt; I don't know if OpenGL is involved in all of my freezes, I had freezes=
- while
-&gt; watching a video on youtube in chromium, also while just browsing the =
-web in
-&gt; firefox, once it crashed during rendering file preview images of photo=
-s in
-&gt; nautilus, and once it crashed while the screen was locked with i3lock.=
- It
-&gt; didn't freeze during games yet.
-&gt; </span >
-
-Both Firefox and Chromium are only using OpenGL paths, they aren't using
-Vulkan. So it's safe to assume it's going through radeonsi.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15718558003.FA914D.16166--
-
---===============0973023204==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0973023204==--
+UGxhY2UgdGhlIGRlY2xhcmF0aW9uIG9mIHN0cnVjdCBub3V2ZWF1X2Nvbm5fYXRvbSBhYm92ZSB0
+aGF0IG9mCnN0cnVjdCBub3V2ZWF1X2Nvbm5lY3Rvci4gVGhpcyBjb21taXQgbWFrZXMgbm8gY2hh
+bmdlcyB0byB0aGUgbW92ZWQKYmxvY2sgd2hhdCBzbyBldmVyLCBpdCBqdXN0IG1vdmVzIGl0IHVw
+IGEgYml0LgoKVGhpcyBpcyBhIHByZXBhcmF0aW9uIHBhdGNoIHRvIGZpeCBzb21lIGlzc3VlcyB3
+aXRoIGNvbm5lY3RvciBoYW5kbGluZwpvbiBwcmUgbnY1MCBkaXNwbGF5cyAod2hpY2ggZG8gbm90
+IHVzZSBhdG9taWMgbW9kZXNldHRpbmcpLgoKU2lnbmVkLW9mZi1ieTogSGFucyBkZSBHb2VkZSA8
+aGRlZ29lZGVAcmVkaGF0LmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1
+X2Nvbm5lY3Rvci5oIHwgMTEwICsrKysrKysrKystLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwg
+NTUgaW5zZXJ0aW9ucygrKSwgNTUgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
+cHUvZHJtL25vdXZlYXUvbm91dmVhdV9jb25uZWN0b3IuaCBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2
+ZWF1L25vdXZlYXVfY29ubmVjdG9yLmgKaW5kZXggZjQzYThkNjNhZWY4Li5kZTk1ODg0MjA4ODQg
+MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfY29ubmVjdG9yLmgK
+KysrIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9jb25uZWN0b3IuaApAQCAtMjks
+NiArMjksNyBAQAogCiAjaW5jbHVkZSA8bnZpZi9ub3RpZnkuaD4KIAorI2luY2x1ZGUgPGRybS9k
+cm1fY3J0Yy5oPgogI2luY2x1ZGUgPGRybS9kcm1fZWRpZC5oPgogI2luY2x1ZGUgPGRybS9kcm1f
+ZW5jb2Rlci5oPgogI2luY2x1ZGUgPGRybS9kcm1fZHBfaGVscGVyLmg+CkBAIC00NCw2ICs0NSw2
+MCBAQCBzdHJ1Y3QgZGNiX291dHB1dDsKIHN0cnVjdCBub3V2ZWF1X2JhY2tsaWdodDsKICNlbmRp
+ZgogCisjZGVmaW5lIG5vdXZlYXVfY29ubl9hdG9tKHApICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgXAorCWNvbnRhaW5lcl9vZigocCksIHN0cnVjdCBu
+b3V2ZWF1X2Nvbm5fYXRvbSwgc3RhdGUpCisKK3N0cnVjdCBub3V2ZWF1X2Nvbm5fYXRvbSB7CisJ
+c3RydWN0IGRybV9jb25uZWN0b3Jfc3RhdGUgc3RhdGU7CisKKwlzdHJ1Y3QgeworCQkvKiBUaGUg
+ZW51bSB2YWx1ZXMgc3BlY2lmaWNhbGx5IGRlZmluZWQgaGVyZSBtYXRjaCBudjUwL2dmMTE5CisJ
+CSAqIGh3IHZhbHVlcywgYW5kIHRoZSBjb2RlIHJlbGllcyBvbiB0aGlzLgorCQkgKi8KKwkJZW51
+bSB7CisJCQlESVRIRVJJTkdfTU9ERV9PRkYgPSAweDAwLAorCQkJRElUSEVSSU5HX01PREVfT04g
+PSAweDAxLAorCQkJRElUSEVSSU5HX01PREVfRFlOQU1JQzJYMiA9IDB4MTAgfCBESVRIRVJJTkdf
+TU9ERV9PTiwKKwkJCURJVEhFUklOR19NT0RFX1NUQVRJQzJYMiA9IDB4MTggfCBESVRIRVJJTkdf
+TU9ERV9PTiwKKwkJCURJVEhFUklOR19NT0RFX1RFTVBPUkFMID0gMHgyMCB8IERJVEhFUklOR19N
+T0RFX09OLAorCQkJRElUSEVSSU5HX01PREVfQVVUTworCQl9IG1vZGU7CisJCWVudW0geworCQkJ
+RElUSEVSSU5HX0RFUFRIXzZCUEMgPSAweDAwLAorCQkJRElUSEVSSU5HX0RFUFRIXzhCUEMgPSAw
+eDAyLAorCQkJRElUSEVSSU5HX0RFUFRIX0FVVE8KKwkJfSBkZXB0aDsKKwl9IGRpdGhlcjsKKwor
+CXN0cnVjdCB7CisJCWludCBtb2RlOwkvKiBEUk1fTU9ERV9TQ0FMRV8qICovCisJCXN0cnVjdCB7
+CisJCQllbnVtIHsKKwkJCQlVTkRFUlNDQU5fT0ZGLAorCQkJCVVOREVSU0NBTl9PTiwKKwkJCQlV
+TkRFUlNDQU5fQVVUTywKKwkJCX0gbW9kZTsKKwkJCXUzMiBoYm9yZGVyOworCQkJdTMyIHZib3Jk
+ZXI7CisJCX0gdW5kZXJzY2FuOworCQlib29sIGZ1bGw7CisJfSBzY2FsZXI7CisKKwlzdHJ1Y3Qg
+eworCQlpbnQgY29sb3JfdmlicmFuY2U7CisJCWludCB2aWJyYW50X2h1ZTsKKwl9IHByb2NhbXA7
+CisKKwl1bmlvbiB7CisJCXN0cnVjdCB7CisJCQlib29sIGRpdGhlcjoxOworCQkJYm9vbCBzY2Fs
+ZXI6MTsKKwkJCWJvb2wgcHJvY2FtcDoxOworCQl9OworCQl1OCBtYXNrOworCX0gc2V0OworfTsK
+Kwogc3RydWN0IG5vdXZlYXVfY29ubmVjdG9yIHsKIAlzdHJ1Y3QgZHJtX2Nvbm5lY3RvciBiYXNl
+OwogCWVudW0gZGNiX2Nvbm5lY3Rvcl90eXBlIHR5cGU7CkBAIC0xMjEsNjEgKzE3Niw2IEBAIGV4
+dGVybiBpbnQgbm91dmVhdV9pZ25vcmVsaWQ7CiBleHRlcm4gaW50IG5vdXZlYXVfZHVhbGxpbms7
+CiBleHRlcm4gaW50IG5vdXZlYXVfaGRtaW1oejsKIAotI2luY2x1ZGUgPGRybS9kcm1fY3J0Yy5o
+PgotI2RlZmluZSBub3V2ZWF1X2Nvbm5fYXRvbShwKSAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIFwKLQljb250YWluZXJfb2YoKHApLCBzdHJ1Y3Qgbm91
+dmVhdV9jb25uX2F0b20sIHN0YXRlKQotCi1zdHJ1Y3Qgbm91dmVhdV9jb25uX2F0b20gewotCXN0
+cnVjdCBkcm1fY29ubmVjdG9yX3N0YXRlIHN0YXRlOwotCi0Jc3RydWN0IHsKLQkJLyogVGhlIGVu
+dW0gdmFsdWVzIHNwZWNpZmljYWxseSBkZWZpbmVkIGhlcmUgbWF0Y2ggbnY1MC9nZjExOQotCQkg
+KiBodyB2YWx1ZXMsIGFuZCB0aGUgY29kZSByZWxpZXMgb24gdGhpcy4KLQkJICovCi0JCWVudW0g
+ewotCQkJRElUSEVSSU5HX01PREVfT0ZGID0gMHgwMCwKLQkJCURJVEhFUklOR19NT0RFX09OID0g
+MHgwMSwKLQkJCURJVEhFUklOR19NT0RFX0RZTkFNSUMyWDIgPSAweDEwIHwgRElUSEVSSU5HX01P
+REVfT04sCi0JCQlESVRIRVJJTkdfTU9ERV9TVEFUSUMyWDIgPSAweDE4IHwgRElUSEVSSU5HX01P
+REVfT04sCi0JCQlESVRIRVJJTkdfTU9ERV9URU1QT1JBTCA9IDB4MjAgfCBESVRIRVJJTkdfTU9E
+RV9PTiwKLQkJCURJVEhFUklOR19NT0RFX0FVVE8KLQkJfSBtb2RlOwotCQllbnVtIHsKLQkJCURJ
+VEhFUklOR19ERVBUSF82QlBDID0gMHgwMCwKLQkJCURJVEhFUklOR19ERVBUSF84QlBDID0gMHgw
+MiwKLQkJCURJVEhFUklOR19ERVBUSF9BVVRPCi0JCX0gZGVwdGg7Ci0JfSBkaXRoZXI7Ci0KLQlz
+dHJ1Y3QgewotCQlpbnQgbW9kZTsJLyogRFJNX01PREVfU0NBTEVfKiAqLwotCQlzdHJ1Y3Qgewot
+CQkJZW51bSB7Ci0JCQkJVU5ERVJTQ0FOX09GRiwKLQkJCQlVTkRFUlNDQU5fT04sCi0JCQkJVU5E
+RVJTQ0FOX0FVVE8sCi0JCQl9IG1vZGU7Ci0JCQl1MzIgaGJvcmRlcjsKLQkJCXUzMiB2Ym9yZGVy
+OwotCQl9IHVuZGVyc2NhbjsKLQkJYm9vbCBmdWxsOwotCX0gc2NhbGVyOwotCi0Jc3RydWN0IHsK
+LQkJaW50IGNvbG9yX3ZpYnJhbmNlOwotCQlpbnQgdmlicmFudF9odWU7Ci0JfSBwcm9jYW1wOwot
+Ci0JdW5pb24gewotCQlzdHJ1Y3QgewotCQkJYm9vbCBkaXRoZXI6MTsKLQkJCWJvb2wgc2NhbGVy
+OjE7Ci0JCQlib29sIHByb2NhbXA6MTsKLQkJfTsKLQkJdTggbWFzazsKLQl9IHNldDsKLX07Ci0K
+IHZvaWQgbm91dmVhdV9jb25uX2F0dGFjaF9wcm9wZXJ0aWVzKHN0cnVjdCBkcm1fY29ubmVjdG9y
+ICopOwogdm9pZCBub3V2ZWF1X2Nvbm5fcmVzZXQoc3RydWN0IGRybV9jb25uZWN0b3IgKik7CiBz
+dHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9zdGF0ZSAqCi0tIAoyLjIzLjAKCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
