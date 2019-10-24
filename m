@@ -2,59 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 923CDE38C4
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 18:47:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54A1EE3965
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 19:09:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3A226E507;
-	Thu, 24 Oct 2019 16:46:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D76C6E511;
+	Thu, 24 Oct 2019 17:09:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D72486E49A
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 16:46:50 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id o28so26848633wro.7
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 09:46:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=oFcPP2oqutBVyEiEACLaC7jQyoj9cZb8X5+nPOqCh7o=;
- b=JeoCFKAF/aC38+6aNcv2NDxIXJkII0tPnC9/Yz0uFR83TcZNZW6zf4XYzy5ONL/ltn
- 7bQcSRQR0rdyVCKFRqnK+8tmo9atc3M1w954zqy65FiC3Lje5VgUb/qukOglmdjB2Cwm
- /E2f5uZ5F2ryhtYbhL3e0RmH92hKNB9KMwJhELs9mrL97RcjePQhoqBYOIZGivMO6gH2
- hEnIqQ2+NIKBSqz14AFOv6+zF0d/JwtR1QkoEXUoi5saSjwPXR9N8QRfLsVJf7BPhmx7
- YVagy7afyc702Bjbq6TaqvE3XfmU02FofKevwW6JXvxoVMSFK7auPdjhwr7PUkvuK0BI
- 3ftA==
-X-Gm-Message-State: APjAAAVGcAfI0wlgXzLr52/FEVJqIfQ/bzxt9fKkjsaSYN8J6l+XNRFb
- 2NWjnGRDk2RXyp3FMhV8QQE=
-X-Google-Smtp-Source: APXvYqw1/hZX5WMs4ab63v5HQMWmYw5vlnLln0CGWngX/3ACyBOT0yDMD2mOwJBPkaMVnEh2VWRDBQ==
-X-Received: by 2002:a5d:6246:: with SMTP id m6mr4947510wrv.262.1571935609360; 
- Thu, 24 Oct 2019 09:46:49 -0700 (PDT)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
- by smtp.gmail.com with ESMTPSA id 1sm8265435wrr.16.2019.10.24.09.46.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 09:46:48 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH 32/32] drm/tegra: sor: Introduce audio enable/disable callbacks
-Date: Thu, 24 Oct 2019 18:45:34 +0200
-Message-Id: <20191024164534.132764-33-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191024164534.132764-1-thierry.reding@gmail.com>
-References: <20191024164534.132764-1-thierry.reding@gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 721CC6E58B
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 17:09:37 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 6F964720E2; Thu, 24 Oct 2019 17:09:37 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Thu, 24 Oct 2019 17:09:37 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: ragnaros39216@yandex.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: highest
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111481-502-Mt5MCbv8Vy@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=oFcPP2oqutBVyEiEACLaC7jQyoj9cZb8X5+nPOqCh7o=;
- b=TZjKFmQbkbNHnXanxjcWtAgpeaF8KGP7cYtEIFz+T1fl6RXPpBGDum4oB9w0sCVmAd
- 4ml40spo8rbDQA04LDO7W2onpmI/Ng2S2DgO+f318AVyFfwpOMsENcL0rN1NgeqOfglB
- 8C5dBKm24qwSsxrNCUhcYzycUGR8D0CpJaICkexJTkTFNaDYgyJRgq7xSZki7ghncePh
- Ngh6Jr64kkJOrRdAbhTJqsYJ/RCWWFD/sAPpSvBQjcdF+isQ716wcoifti2j8mbNFyME
- FrBgw30ns3N/3/ylqoIhYZzhj/V/zPgTv9if8RhJQZTaYFjPU6+i4eq5ie+MABjHQxqq
- Zebw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,38 +53,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1083317553=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVGhpZXJyeSBSZWRpbmcgPHRyZWRpbmdAbnZpZGlhLmNvbT4KCkluIG9yZGVyIHRvIHN1
-cHBvcnQgZGlmZmVyZW50IG1vZGVzIChEUCBpbiBhZGRpdGlvbiB0byBIRE1JKSwgc3BsaXQgb3V0
-CnRoZSBhdWRpbyBzZXR1cC90ZWFyZG93biBpbnRvIGNhbGxiYWNrcy4KClNpZ25lZC1vZmYtYnk6
-IFRoaWVycnkgUmVkaW5nIDx0cmVkaW5nQG52aWRpYS5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJt
-L3RlZ3JhL3Nvci5jIHwgMTAgKysrKysrKystLQogMSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9u
-cygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdGVncmEv
-c29yLmMgYi9kcml2ZXJzL2dwdS9kcm0vdGVncmEvc29yLmMKaW5kZXggNDc4YzAwMWY0NDUzLi42
-MTVjYjMxOWZhOGIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9zb3IuYworKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vdGVncmEvc29yLmMKQEAgLTM5OCw2ICszOTgsOCBAQCBzdHJ1Y3Qg
-dGVncmFfc29yX29wcyB7CiAJY29uc3QgY2hhciAqbmFtZTsKIAlpbnQgKCpwcm9iZSkoc3RydWN0
-IHRlZ3JhX3NvciAqc29yKTsKIAlpbnQgKCpyZW1vdmUpKHN0cnVjdCB0ZWdyYV9zb3IgKnNvcik7
-CisJdm9pZCAoKmF1ZGlvX2VuYWJsZSkoc3RydWN0IHRlZ3JhX3NvciAqc29yKTsKKwl2b2lkICgq
-YXVkaW9fZGlzYWJsZSkoc3RydWN0IHRlZ3JhX3NvciAqc29yKTsKIH07CiAKIHN0cnVjdCB0ZWdy
-YV9zb3IgewpAQCAtMzAwOCw2ICszMDEwLDggQEAgc3RhdGljIGNvbnN0IHN0cnVjdCB0ZWdyYV9z
-b3Jfb3BzIHRlZ3JhX3Nvcl9oZG1pX29wcyA9IHsKIAkubmFtZSA9ICJIRE1JIiwKIAkucHJvYmUg
-PSB0ZWdyYV9zb3JfaGRtaV9wcm9iZSwKIAkucmVtb3ZlID0gdGVncmFfc29yX2hkbWlfcmVtb3Zl
-LAorCS5hdWRpb19lbmFibGUgPSB0ZWdyYV9zb3JfaGRtaV9hdWRpb19lbmFibGUsCisJLmF1ZGlv
-X2Rpc2FibGUgPSB0ZWdyYV9zb3JfaGRtaV9hdWRpb19kaXNhYmxlLAogfTsKIAogc3RhdGljIGlu
-dCB0ZWdyYV9zb3JfZHBfcHJvYmUoc3RydWN0IHRlZ3JhX3NvciAqc29yKQpAQCAtMzYxNiw5ICsz
-NjIwLDExIEBAIHN0YXRpYyBpcnFyZXR1cm5fdCB0ZWdyYV9zb3JfaXJxKGludCBpcnEsIHZvaWQg
-KmRhdGEpCiAKIAkJCXRlZ3JhX2hkYV9wYXJzZV9mb3JtYXQoZm9ybWF0LCAmc29yLT5mb3JtYXQp
-OwogCi0JCQl0ZWdyYV9zb3JfaGRtaV9hdWRpb19lbmFibGUoc29yKTsKKwkJCWlmIChzb3ItPm9w
-cy0+YXVkaW9fZW5hYmxlKQorCQkJCXNvci0+b3BzLT5hdWRpb19lbmFibGUoc29yKTsKIAkJfSBl
-bHNlIHsKLQkJCXRlZ3JhX3Nvcl9oZG1pX2F1ZGlvX2Rpc2FibGUoc29yKTsKKwkJCWlmIChzb3It
-Pm9wcy0+YXVkaW9fZGlzYWJsZSkKKwkJCQlzb3ItPm9wcy0+YXVkaW9fZGlzYWJsZShzb3IpOwog
-CQl9CiAJfQogCi0tIAoyLjIzLjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbA==
+
+--===============1083317553==
+Content-Type: multipart/alternative; boundary="15719369775.16E5C.11380"
+Content-Transfer-Encoding: 7bit
+
+
+--15719369775.16E5C.11380
+Date: Thu, 24 Oct 2019 17:09:37 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+
+--- Comment #154 from L.S.S. <ragnaros39216@yandex.com> ---
+I'm not sure about how to locally pipe dmesg log to file so the moment when=
+ the
+system freezes could be captured.
+
+And interestingly, the GCVM_L2_PROTECTION_FAULT errors that I saw from
+journalctl when it froze last time went missing somehow... maybe I mistook =
+it,
+but whenever the system froze the following lines are guaranteed to show up
+(ring sdma0 timeout), so it's most likely sdma0 type.
+
+[drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma0 timeout, signaled
+seq=3D151787, emitted seq=3D151789
+[drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process information: process Xorg
+pid 1838 thread Xorg:cs0 pid 1862
+
+Currently the system is running okay as I haven't opened Nemo yet (which can
+almost 100% cause the freeze). Web browsers such as Firefox and Chrome
+currently don't cause the freeze.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15719369775.16E5C.11380
+Date: Thu, 24 Oct 2019 17:09:37 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c154">Comm=
+ent # 154</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+ragnaros39216&#64;yandex.com" title=3D"L.S.S. &lt;ragnaros39216&#64;yandex.=
+com&gt;"> <span class=3D"fn">L.S.S.</span></a>
+</span></b>
+        <pre>I'm not sure about how to locally pipe dmesg log to file so th=
+e moment when the
+system freezes could be captured.
+
+And interestingly, the GCVM_L2_PROTECTION_FAULT errors that I saw from
+journalctl when it froze last time went missing somehow... maybe I mistook =
+it,
+but whenever the system froze the following lines are guaranteed to show up
+(ring sdma0 timeout), so it's most likely sdma0 type.
+
+[drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma0 timeout, signaled
+seq=3D151787, emitted seq=3D151789
+[drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process information: process Xorg
+pid 1838 thread Xorg:cs0 pid 1862
+
+Currently the system is running okay as I haven't opened Nemo yet (which can
+almost 100% cause the freeze). Web browsers such as Firefox and Chrome
+currently don't cause the freeze.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15719369775.16E5C.11380--
+
+--===============1083317553==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1083317553==--
