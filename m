@@ -1,33 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DA31E2BD4
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 10:14:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8394CE2BD3
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 10:14:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAD166E161;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C23996E15A;
 	Thu, 24 Oct 2019 08:14:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E82766E16D
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 845B06E17F
  for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 08:14:23 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 71DB9B5F9;
- Thu, 24 Oct 2019 08:14:22 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: kraxel@redhat.com, airlied@linux.ie, daniel@ffwll.ch,
- z.liuxinliang@hisilicon.com, zourongrong@gmail.com,
- kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
- hdegoede@redhat.com, sam@ravnborg.org
-Subject: [PATCH v2 4/4] drm/vboxvideo: Replace prepare_fb()/cleanup_fb() with
- GEM VRAM helpers
-Date: Thu, 24 Oct 2019 10:14:04 +0200
-Message-Id: <20191024081404.6978-5-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191024081404.6978-1-tzimmermann@suse.de>
-References: <20191024081404.6978-1-tzimmermann@suse.de>
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 81B63720E2; Thu, 24 Oct 2019 08:14:23 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Thu, 24 Oct 2019 08:14:23 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: stijn+bugs@linux-ipv6.be
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: highest
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111481-502-j9tuxluK4C@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -41,68 +53,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1162224521=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-R0VNIFZSQU0gcHJvdmlkZXMgYW4gaW1wbGVtZW50YXRpb24gZm9yIHByZXBhcmVfZmIoKSBhbmQg
-Y2xlYW51cF9mYigpCm9mIHN0cnVjdCBkcm1fcGxhbmVfaGVscGVyX2Z1bmNzLiBTd2l0Y2ggb3Zl
-ciB2Ym94dmlkZW8uCgpTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1h
-bm5Ac3VzZS5kZT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vdmJveHZpZGVvL3Zib3hfbW9kZS5jIHwg
-NjEgKystLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRp
-b25zKCspLCA1NyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdmJv
-eHZpZGVvL3Zib3hfbW9kZS5jIGIvZHJpdmVycy9ncHUvZHJtL3Zib3h2aWRlby92Ym94X21vZGUu
-YwppbmRleCBiNTYwNGQzMjEyMmUuLmNlYTM4YzUzNDVjNiAxMDA2NDQKLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL3Zib3h2aWRlby92Ym94X21vZGUuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vdmJveHZp
-ZGVvL3Zib3hfbW9kZS5jCkBAIC0zMzQsMzUgKzMzNCw2IEBAIHN0YXRpYyB2b2lkIHZib3hfcHJp
-bWFyeV9hdG9taWNfZGlzYWJsZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKIAkJCQkgICAgb2xk
-X3N0YXRlLT5zcmNfeSA+PiAxNik7CiB9CiAKLXN0YXRpYyBpbnQgdmJveF9wcmltYXJ5X3ByZXBh
-cmVfZmIoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCi0JCQkJICAgc3RydWN0IGRybV9wbGFuZV9z
-dGF0ZSAqbmV3X3N0YXRlKQotewotCXN0cnVjdCBkcm1fZ2VtX3ZyYW1fb2JqZWN0ICpnYm87Ci0J
-aW50IHJldDsKLQotCWlmICghbmV3X3N0YXRlLT5mYikKLQkJcmV0dXJuIDA7Ci0KLQlnYm8gPSBk
-cm1fZ2VtX3ZyYW1fb2ZfZ2VtKG5ld19zdGF0ZS0+ZmItPm9ialswXSk7Ci0JcmV0ID0gZHJtX2dl
-bV92cmFtX3BpbihnYm8sIERSTV9HRU1fVlJBTV9QTF9GTEFHX1ZSQU0pOwotCWlmIChyZXQpCi0J
-CURSTV9XQVJOKCJFcnJvciAlZCBwaW5uaW5nIG5ldyBmYiwgb3V0IG9mIHZpZGVvIG1lbT9cbiIs
-IHJldCk7Ci0KLQlyZXR1cm4gcmV0OwotfQotCi1zdGF0aWMgdm9pZCB2Ym94X3ByaW1hcnlfY2xl
-YW51cF9mYihzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKLQkJCQkgICAgc3RydWN0IGRybV9wbGFu
-ZV9zdGF0ZSAqb2xkX3N0YXRlKQotewotCXN0cnVjdCBkcm1fZ2VtX3ZyYW1fb2JqZWN0ICpnYm87
-Ci0KLQlpZiAoIW9sZF9zdGF0ZS0+ZmIpCi0JCXJldHVybjsKLQotCWdibyA9IGRybV9nZW1fdnJh
-bV9vZl9nZW0ob2xkX3N0YXRlLT5mYi0+b2JqWzBdKTsKLQlkcm1fZ2VtX3ZyYW1fdW5waW4oZ2Jv
-KTsKLX0KLQogc3RhdGljIGludCB2Ym94X2N1cnNvcl9hdG9taWNfY2hlY2soc3RydWN0IGRybV9w
-bGFuZSAqcGxhbmUsCiAJCQkJICAgIHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld19zdGF0ZSkK
-IHsKQEAgLTQ5MiwzMCArNDYzLDYgQEAgc3RhdGljIHZvaWQgdmJveF9jdXJzb3JfYXRvbWljX2Rp
-c2FibGUoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCiAJbXV0ZXhfdW5sb2NrKCZ2Ym94LT5od19t
-dXRleCk7CiB9CiAKLXN0YXRpYyBpbnQgdmJveF9jdXJzb3JfcHJlcGFyZV9mYihzdHJ1Y3QgZHJt
-X3BsYW5lICpwbGFuZSwKLQkJCQkgIHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld19zdGF0ZSkK
-LXsKLQlzdHJ1Y3QgZHJtX2dlbV92cmFtX29iamVjdCAqZ2JvOwotCi0JaWYgKCFuZXdfc3RhdGUt
-PmZiKQotCQlyZXR1cm4gMDsKLQotCWdibyA9IGRybV9nZW1fdnJhbV9vZl9nZW0obmV3X3N0YXRl
-LT5mYi0+b2JqWzBdKTsKLQlyZXR1cm4gZHJtX2dlbV92cmFtX3BpbihnYm8sIERSTV9HRU1fVlJB
-TV9QTF9GTEFHX1NZU1RFTSk7Ci19Ci0KLXN0YXRpYyB2b2lkIHZib3hfY3Vyc29yX2NsZWFudXBf
-ZmIoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCi0JCQkJICAgc3RydWN0IGRybV9wbGFuZV9zdGF0
-ZSAqb2xkX3N0YXRlKQotewotCXN0cnVjdCBkcm1fZ2VtX3ZyYW1fb2JqZWN0ICpnYm87Ci0KLQlp
-ZiAoIXBsYW5lLT5zdGF0ZS0+ZmIpCi0JCXJldHVybjsKLQotCWdibyA9IGRybV9nZW1fdnJhbV9v
-Zl9nZW0ocGxhbmUtPnN0YXRlLT5mYi0+b2JqWzBdKTsKLQlkcm1fZ2VtX3ZyYW1fdW5waW4oZ2Jv
-KTsKLX0KLQogc3RhdGljIGNvbnN0IHUzMiB2Ym94X2N1cnNvcl9wbGFuZV9mb3JtYXRzW10gPSB7
-CiAJRFJNX0ZPUk1BVF9BUkdCODg4OCwKIH07CkBAIC01MjQsOCArNDcxLDggQEAgc3RhdGljIGNv
-bnN0IHN0cnVjdCBkcm1fcGxhbmVfaGVscGVyX2Z1bmNzIHZib3hfY3Vyc29yX2hlbHBlcl9mdW5j
-cyA9IHsKIAkuYXRvbWljX2NoZWNrCT0gdmJveF9jdXJzb3JfYXRvbWljX2NoZWNrLAogCS5hdG9t
-aWNfdXBkYXRlCT0gdmJveF9jdXJzb3JfYXRvbWljX3VwZGF0ZSwKIAkuYXRvbWljX2Rpc2FibGUJ
-PSB2Ym94X2N1cnNvcl9hdG9taWNfZGlzYWJsZSwKLQkucHJlcGFyZV9mYgk9IHZib3hfY3Vyc29y
-X3ByZXBhcmVfZmIsCi0JLmNsZWFudXBfZmIJPSB2Ym94X2N1cnNvcl9jbGVhbnVwX2ZiLAorCS5w
-cmVwYXJlX2ZiCT0gZHJtX2dlbV92cmFtX3BsYW5lX2hlbHBlcl9wcmVwYXJlX2ZiLAorCS5jbGVh
-bnVwX2ZiCT0gZHJtX2dlbV92cmFtX3BsYW5lX2hlbHBlcl9jbGVhbnVwX2ZiLAogfTsKIAogc3Rh
-dGljIGNvbnN0IHN0cnVjdCBkcm1fcGxhbmVfZnVuY3MgdmJveF9jdXJzb3JfcGxhbmVfZnVuY3Mg
-PSB7CkBAIC01NDYsOCArNDkzLDggQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fcGxhbmVfaGVs
-cGVyX2Z1bmNzIHZib3hfcHJpbWFyeV9oZWxwZXJfZnVuY3MgPSB7CiAJLmF0b21pY19jaGVjayA9
-IHZib3hfcHJpbWFyeV9hdG9taWNfY2hlY2ssCiAJLmF0b21pY191cGRhdGUgPSB2Ym94X3ByaW1h
-cnlfYXRvbWljX3VwZGF0ZSwKIAkuYXRvbWljX2Rpc2FibGUgPSB2Ym94X3ByaW1hcnlfYXRvbWlj
-X2Rpc2FibGUsCi0JLnByZXBhcmVfZmIgPSB2Ym94X3ByaW1hcnlfcHJlcGFyZV9mYiwKLQkuY2xl
-YW51cF9mYiA9IHZib3hfcHJpbWFyeV9jbGVhbnVwX2ZiLAorCS5wcmVwYXJlX2ZiCT0gZHJtX2dl
-bV92cmFtX3BsYW5lX2hlbHBlcl9wcmVwYXJlX2ZiLAorCS5jbGVhbnVwX2ZiCT0gZHJtX2dlbV92
-cmFtX3BsYW5lX2hlbHBlcl9jbGVhbnVwX2ZiLAogfTsKIAogc3RhdGljIGNvbnN0IHN0cnVjdCBk
-cm1fcGxhbmVfZnVuY3MgdmJveF9wcmltYXJ5X3BsYW5lX2Z1bmNzID0gewotLSAKMi4yMy4wCgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1162224521==
+Content-Type: multipart/alternative; boundary="15719048638.f49F1b.10364"
+Content-Transfer-Encoding: 7bit
+
+
+--15719048638.f49F1b.10364
+Date: Thu, 24 Oct 2019 08:14:23 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+
+--- Comment #150 from Stijn Tintel <stijn+bugs@linux-ipv6.be> ---
+(In reply to Jaap Buurman from comment #142)
+> How can I set both AMD_DEBUG=3Dnongg and AMD_DEBUG=3Dnodma in the
+> /etc/environment file? Do they need to be on two separate lines, or will =
+the
+> second line simply overwrite the first one by setting the same environment
+> variable? Do they need to be comma separated maybe?
+
+AMD_DEBUG=3D"nodma nongg"
+
+I've been running like this since I found this bug report. Current uptime:
+11:08:41 up 4 days,  4:12, 11 users,  load average: 8,56, 8,33, 8,15
+
+Haven't experienced a single hang, not even a kernel oops. Before that, the
+system was frustratingly unstable. If you need stability, put this in
+/etc/environment (or /etc/env.d/99amdgpu or so if your distro supports
+/etc/env.d).
+
+Running on Gentoo, kernel 5.3.4, mesa 19.2.1, llvm 9.0.0, libdrm 2.4.99,
+xf86-video-amdgpu git e6fce59a071220967fcd4e2c9e4a262c72870761.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15719048638.f49F1b.10364
+Date: Thu, 24 Oct 2019 08:14:23 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c150">Comm=
+ent # 150</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+stijn+bugs&#64;linux-ipv6.be" title=3D"Stijn Tintel &lt;stijn+bugs&#64;linu=
+x-ipv6.be&gt;"> <span class=3D"fn">Stijn Tintel</span></a>
+</span></b>
+        <pre>(In reply to Jaap Buurman from <a href=3D"show_bug.cgi?id=3D11=
+1481#c142">comment #142</a>)
+<span class=3D"quote">&gt; How can I set both AMD_DEBUG=3Dnongg and AMD_DEB=
+UG=3Dnodma in the
+&gt; /etc/environment file? Do they need to be on two separate lines, or wi=
+ll the
+&gt; second line simply overwrite the first one by setting the same environ=
+ment
+&gt; variable? Do they need to be comma separated maybe?</span >
+
+AMD_DEBUG=3D&quot;nodma nongg&quot;
+
+I've been running like this since I found this bug report. Current uptime:
+11:08:41 up 4 days,  4:12, 11 users,  load average: 8,56, 8,33, 8,15
+
+Haven't experienced a single hang, not even a kernel oops. Before that, the
+system was frustratingly unstable. If you need stability, put this in
+/etc/environment (or /etc/env.d/99amdgpu or so if your distro supports
+/etc/env.d).
+
+Running on Gentoo, kernel 5.3.4, mesa 19.2.1, llvm 9.0.0, libdrm 2.4.99,
+xf86-video-amdgpu git e6fce59a071220967fcd4e2c9e4a262c72870761.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15719048638.f49F1b.10364--
+
+--===============1162224521==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1162224521==--
