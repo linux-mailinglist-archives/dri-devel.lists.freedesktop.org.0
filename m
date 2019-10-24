@@ -1,34 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82095E2742
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 01:58:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEC93E278F
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 03:05:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF4026E051;
-	Wed, 23 Oct 2019 23:58:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAC446E05A;
+	Thu, 24 Oct 2019 01:05:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66FED6E051;
- Wed, 23 Oct 2019 23:58:41 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2019 16:58:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,222,1569308400"; d="scan'208";a="210198107"
-Received: from labuser-z97x-ud5h.jf.intel.com ([10.54.75.49])
- by orsmga002.jf.intel.com with ESMTP; 23 Oct 2019 16:58:40 -0700
-From: Manasi Navare <manasi.d.navare@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/dp: Add function to parse EDID descriptors for adaptive
- sync limits
-Date: Wed, 23 Oct 2019 17:00:41 -0700
-Message-Id: <20191024000041.7391-1-manasi.d.navare@intel.com>
-X-Mailer: git-send-email 2.19.1
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 09D9C6E061
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 01:05:39 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 06810720E2; Thu, 24 Oct 2019 01:05:39 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Thu, 24 Oct 2019 01:05:38 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: pseus7@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: highest
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111481-502-9tryiUdndp@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -42,101 +53,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Manasi Navare <manasi.d.navare@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1736577965=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QWRhcHRpdmUgU3luYyBpcyBhIFZFU0EgZmVhdHVyZSBzbyBhZGQgYSBEUk0gY29yZSBoZWxwZXIg
-dG8gcGFyc2UKdGhlIEVESUQncyBkZXRhaWxlZCBkZXNjcml0b3JzIHRvIG9idGFpbiB0aGUgYWRh
-cHRpdmUgc3luYyBtb25pdG9yIHJhbmdlLgpTdG9yZSB0aGlzIGluZm8gYXMgcGFydCBmbyBkcm1f
-ZGlzcGxheV9pbmZvIHNvIGl0IGNhbiBiZSB1c2VkCmFjcm9zcyBhbGwgZHJpdmVycy4KVGhpcyBw
-YXJ0IG9mIHRoZSBjb2RlIGlzIHN0cmlwcGVkIG91dCBvZiBhbWRncHUncyBmdW5jdGlvbgphbWRn
-cHVfZG1fdXBkYXRlX2ZyZWVzeW5jX2NhcHMoKSB0byBtYWtlIGl0IGdlbmVyaWMgYW5kIGJlIHVz
-ZWQKYWNyb3NzIGFsbCBEUk0gZHJpdmVycwoKQ2M6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3ly
-amFsYUBsaW51eC5pbnRlbC5jb20+CkNjOiBIYXJyeSBXZW50bGFuZCA8aGFycnkud2VudGxhbmRA
-YW1kLmNvbT4KQ2M6IENsaW50b24gQSBUYXlsb3IgPGNsaW50b24uYS50YXlsb3JAaW50ZWwuY29t
-PgpTaWduZWQtb2ZmLWJ5OiBNYW5hc2kgTmF2YXJlIDxtYW5hc2kuZC5uYXZhcmVAaW50ZWwuY29t
-PgotLS0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jICB8IDQ5ICsrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysKIGluY2x1ZGUvZHJtL2RybV9jb25uZWN0b3IuaCB8IDI1ICsr
-KysrKysrKysrKysrKysrKysKIGluY2x1ZGUvZHJtL2RybV9lZGlkLmggICAgICB8ICAyICsrCiAz
-IGZpbGVzIGNoYW5nZWQsIDc2IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vZHJtX2VkaWQuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jCmluZGV4IDQ3NGFj
-MDRkNTYwMC4uOTdkZDEyMDA3NzNlIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Vk
-aWQuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYwpAQCAtNDcwNyw2ICs0NzA3LDUy
-IEBAIHN0YXRpYyB2b2lkIGRybV9wYXJzZV9jZWFfZXh0KHN0cnVjdCBkcm1fY29ubmVjdG9yICpj
-b25uZWN0b3IsCiAJfQogfQogCit2b2lkIGRybV9nZXRfYWRhcHRpdmVfc3luY19saW1pdHMoc3Ry
-dWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwKKwkJCQkgIGNvbnN0IHN0cnVjdCBlZGlkICpl
-ZGlkKQoreworCXN0cnVjdCBkcm1fZGlzcGxheV9pbmZvICppbmZvID0gJmNvbm5lY3Rvci0+ZGlz
-cGxheV9pbmZvOworCWNvbnN0IHN0cnVjdCBkZXRhaWxlZF90aW1pbmcgKnRpbWluZzsKKwljb25z
-dCBzdHJ1Y3QgZGV0YWlsZWRfbm9uX3BpeGVsICpkYXRhOworCWNvbnN0IHN0cnVjdCBkZXRhaWxl
-ZF9kYXRhX21vbml0b3JfcmFuZ2UgKnJhbmdlOworCWludCBpOworCisJLyoKKwkgKiBSZXN0cmlj
-dCBBZGFwdGl2ZSBTeW5jIG9ubHkgZm9yIGRwIGFuZCBlZHAKKwkgKi8KKwlpZiAoY29ubmVjdG9y
-LT5jb25uZWN0b3JfdHlwZSAhPSBEUk1fTU9ERV9DT05ORUNUT1JfRGlzcGxheVBvcnQgJiYKKwkg
-ICAgY29ubmVjdG9yLT5jb25uZWN0b3JfdHlwZSAhPSBEUk1fTU9ERV9DT05ORUNUT1JfZURQKQor
-CQlyZXR1cm47CisKKwlpZiAoZWRpZC0+dmVyc2lvbiA8PSAxICYmICEoZWRpZC0+dmVyc2lvbiA9
-PSAxICYmIGVkaWQtPnJldmlzaW9uID4gMSkpCisJCXJldHVybjsKKworCWZvciAoaSA9IDA7IGkg
-PCA0OyBpKyspIHsKKwkJdGltaW5nICA9ICZlZGlkLT5kZXRhaWxlZF90aW1pbmdzW2ldOworCQlk
-YXRhICAgID0gJnRpbWluZy0+ZGF0YS5vdGhlcl9kYXRhOworCQlyYW5nZSAgID0gJmRhdGEtPmRh
-dGEucmFuZ2U7CisJCS8qCisJCSAqIENoZWNrIGlmIG1vbml0b3IgaGFzIGNvbnRpbnVvdXMgZnJl
-cXVlbmN5IG1vZGUKKwkJICovCisJCWlmIChkYXRhLT50eXBlICE9IEVESURfREVUQUlMX01PTklU
-T1JfUkFOR0UpCisJCQljb250aW51ZTsKKwkJLyoKKwkJICogQ2hlY2sgZm9yIGZsYWcgcmFuZ2Ug
-bGltaXRzIG9ubHkuIElmIGZsYWcgPT0gMSB0aGVuCisJCSAqIG5vIGFkZGl0aW9uYWwgdGltaW5n
-IGluZm9ybWF0aW9uIHByb3ZpZGVkLgorCQkgKiBEZWZhdWx0IEdURiwgR1RGIFNlY29uZGFyeSBj
-dXJ2ZSBhbmQgQ1ZUIGFyZSBub3QKKwkJICogc3VwcG9ydGVkCisJCSAqLworCQlpZiAocmFuZ2Ut
-PmZsYWdzICE9IDEpCisJCQljb250aW51ZTsKKworCQlpbmZvLT5hZGFwdGl2ZV9zeW5jLm1pbl92
-ZnJlcSA9IHJhbmdlLT5taW5fdmZyZXE7CisJCWluZm8tPmFkYXB0aXZlX3N5bmMubWF4X3ZmcmVx
-ID0gcmFuZ2UtPm1heF92ZnJlcTsKKwkJaW5mby0+YWRhcHRpdmVfc3luYy5waXhlbF9jbG9ja19t
-aHogPQorCQkJcmFuZ2UtPnBpeGVsX2Nsb2NrX21oeiAqIDEwOworCQlicmVhazsKKwl9Cit9CitF
-WFBPUlRfU1lNQk9MKGRybV9nZXRfYWRhcHRpdmVfc3luY19saW1pdHMpOworCiAvKiBBIGNvbm5l
-Y3RvciBoYXMgbm8gRURJRCBpbmZvcm1hdGlvbiwgc28gd2UndmUgZ290IG5vIEVESUQgdG8gY29t
-cHV0ZSBxdWlya3MgZnJvbS4gUmVzZXQKICAqIGFsbCBvZiB0aGUgdmFsdWVzIHdoaWNoIHdvdWxk
-IGhhdmUgYmVlbiBzZXQgZnJvbSBFRElECiAgKi8KQEAgLTQ3MjgsNiArNDc3NCw3IEBAIGRybV9y
-ZXNldF9kaXNwbGF5X2luZm8oc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvcikKIAltZW1z
-ZXQoJmluZm8tPmhkbWksIDAsIHNpemVvZihpbmZvLT5oZG1pKSk7CiAKIAlpbmZvLT5ub25fZGVz
-a3RvcCA9IDA7CisJbWVtc2V0KCZpbmZvLT5hZGFwdGl2ZV9zeW5jLCAwLCBzaXplb2YoaW5mby0+
-YWRhcHRpdmVfc3luYykpOwogfQogCiB1MzIgZHJtX2FkZF9kaXNwbGF5X2luZm8oc3RydWN0IGRy
-bV9jb25uZWN0b3IgKmNvbm5lY3RvciwgY29uc3Qgc3RydWN0IGVkaWQgKmVkaWQpCkBAIC00NzQz
-LDYgKzQ3OTAsOCBAQCB1MzIgZHJtX2FkZF9kaXNwbGF5X2luZm8oc3RydWN0IGRybV9jb25uZWN0
-b3IgKmNvbm5lY3RvciwgY29uc3Qgc3RydWN0IGVkaWQgKmVkaQogCiAJaW5mby0+bm9uX2Rlc2t0
-b3AgPSAhIShxdWlya3MgJiBFRElEX1FVSVJLX05PTl9ERVNLVE9QKTsKIAorCWRybV9nZXRfYWRh
-cHRpdmVfc3luY19saW1pdHMoY29ubmVjdG9yLCBlZGlkKTsKKwogCURSTV9ERUJVR19LTVMoIm5v
-bl9kZXNrdG9wIHNldCB0byAlZFxuIiwgaW5mby0+bm9uX2Rlc2t0b3ApOwogCiAJaWYgKGVkaWQt
-PnJldmlzaW9uIDwgMykKZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9jb25uZWN0b3IuaCBi
-L2luY2x1ZGUvZHJtL2RybV9jb25uZWN0b3IuaAppbmRleCA1ZjhjMzM4OWQ0NmYuLmEyN2E4NDI3
-MGQ4ZCAxMDA2NDQKLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2Nvbm5lY3Rvci5oCisrKyBiL2luY2x1
-ZGUvZHJtL2RybV9jb25uZWN0b3IuaApAQCAtMjU0LDYgKzI1NCwyNiBAQCBlbnVtIGRybV9wYW5l
-bF9vcmllbnRhdGlvbiB7CiAJRFJNX01PREVfUEFORUxfT1JJRU5UQVRJT05fUklHSFRfVVAsCiB9
-OwogCisvKioKKyAqIHN0cnVjdCBkcm1fYWRhcHRpdmVfc3luY19pbmZvIC0gUGFuZWwncyBBZGFw
-dGl2ZSBTeW5jIGNhcGFiaWxpdGllcyBmb3IKKyAqICZkcm1fZGlzcGxheV9pbmZvCisgKgorICog
-VGhpcyBzdHJ1Y3QgaXMgdXNlZCB0byBzdG9yZSBhIFBhbmVsJ3MgQWRhcHRpdmUgU3luYyBjYXBh
-YmlsaXRpZXMKKyAqIGFzIHBhcnNlZCBmcm9tIEVESUQncyBkZXRhaWxlZCBtb25pdG9yIHJhbmdl
-IGRlc2NyaXB0b3IgYmxvY2suCisgKgorICogQG1pbl92ZnJlcTogVGhpcyBpcyB0aGUgbWluIHN1
-cHBvcnRlZCByZWZyZXNoIHJhdGUgaW4gSHogZnJvbQorICogICAgICAgICAgICAgRURJRCdzIGRl
-dGFpbGVkIG1vbml0b3IgcmFuZ2UuCisgKiBAbWF4X3ZmcmVxOiBUaGlzIGlzIHRoZSBtYXggc3Vw
-cG9ydGVkIHJlZnJlc2ggcmF0ZSBpbiBIeiBmcm9tCisgKiAgICAgICAgICAgICBFRElEJ3MgZGV0
-YWlsZWQgbW9uaXRvciByYW5nZQorICogQHBpeGVsX2Nsb2NrX21oejogVGhpcyBpcyB0aGUgZG90
-Y2xvY2sgaW4gTUh6IGZyb20KKyAqICAgICAgICAgICAgICAgICAgIEVESUQncyBkZXRhaWxlZCBt
-b25pdG9yIHJhbmdlCisgKi8KK3N0cnVjdCBkcm1fYWRhcHRpdmVfc3luY19pbmZvIHsKKwlpbnQg
-bWluX3ZmcmVxOworCWludCBtYXhfdmZyZXE7CisJaW50IHBpeGVsX2Nsb2NrX21oejsKK307CisK
-IC8qCiAgKiBUaGlzIGlzIGEgY29uc29saWRhdGVkIGNvbG9yaW1ldHJ5IGxpc3Qgc3VwcG9ydGVk
-IGJ5IEhETUkgYW5kCiAgKiBEUCBwcm90b2NvbCBzdGFuZGFyZC4gVGhlIHJlc3BlY3RpdmUgY29u
-bmVjdG9ycyB3aWxsIHJlZ2lzdGVyCkBAIC00NjUsNiArNDg1LDExIEBAIHN0cnVjdCBkcm1fZGlz
-cGxheV9pbmZvIHsKIAkgKiBAbm9uX2Rlc2t0b3A6IE5vbiBkZXNrdG9wIGRpc3BsYXkgKEhNRCku
-CiAJICovCiAJYm9vbCBub25fZGVza3RvcDsKKworCS8qKgorCSAqIEBhZGFwdGl2ZV9zeW5jOiBB
-ZGFwdGl2ZSBTeW5jIGNhcGFiaWxpdGllcyBvZiB0aGUgRFAvZURQIHNpbmsKKwkgKi8KKwlzdHJ1
-Y3QgZHJtX2FkYXB0aXZlX3N5bmNfaW5mbyBhZGFwdGl2ZV9zeW5jOwogfTsKIAogaW50IGRybV9k
-aXNwbGF5X2luZm9fc2V0X2J1c19mb3JtYXRzKHN0cnVjdCBkcm1fZGlzcGxheV9pbmZvICppbmZv
-LApkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2VkaWQuaCBiL2luY2x1ZGUvZHJtL2RybV9l
-ZGlkLmgKaW5kZXggZjBiMDNkNDAxYzI3Li5iOWEyMzBhYTNlNjkgMTAwNjQ0Ci0tLSBhL2luY2x1
-ZGUvZHJtL2RybV9lZGlkLmgKKysrIGIvaW5jbHVkZS9kcm0vZHJtX2VkaWQuaApAQCAtNTAzLDQg
-KzUwMyw2IEBAIHZvaWQgZHJtX2VkaWRfZ2V0X21vbml0b3JfbmFtZShzdHJ1Y3QgZWRpZCAqZWRp
-ZCwgY2hhciAqbmFtZSwKIHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICpkcm1fbW9kZV9maW5kX2Rt
-dChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAogCQkJCQkgICBpbnQgaHNpemUsIGludCB2c2l6ZSwg
-aW50IGZyZXNoLAogCQkJCQkgICBib29sIHJiKTsKK3ZvaWQgZHJtX2dldF9hZGFwdGl2ZV9zeW5j
-X2xpbWl0cyhzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLAorCQkJCSAgY29uc3Qgc3Ry
-dWN0IGVkaWQgKmVkaWQpOwogI2VuZGlmIC8qIF9fRFJNX0VESURfSF9fICovCi0tIAoyLjE5LjEK
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1736577965==
+Content-Type: multipart/alternative; boundary="157187913810.8E5dd.23672"
+Content-Transfer-Encoding: 7bit
+
+
+--157187913810.8E5dd.23672
+Date: Thu, 24 Oct 2019 01:05:38 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+
+--- Comment #149 from Seba Pe <pseus7@gmail.com> ---
+(In reply to Jaap Buurman from comment #136)
+> Has anyone tried AMD's closed source OpenGL driver to see if that one is
+> stable?
+
+I've been running AMDGPU-PRO without issues while waiting for a fix for this
+(5700XT). OpenGL apps appear to work fine. With Vulkan I've had a crash to
+desktop but I haven't tested it that much. No freezes at least.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--157187913810.8E5dd.23672
+Date: Thu, 24 Oct 2019 01:05:38 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c149">Comm=
+ent # 149</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+pseus7&#64;gmail.com" title=3D"Seba Pe &lt;pseus7&#64;gmail.com&gt;"> <span=
+ class=3D"fn">Seba Pe</span></a>
+</span></b>
+        <pre>(In reply to Jaap Buurman from <a href=3D"show_bug.cgi?id=3D11=
+1481#c136">comment #136</a>)
+<span class=3D"quote">&gt; Has anyone tried AMD's closed source OpenGL driv=
+er to see if that one is
+&gt; stable?</span >
+
+I've been running AMDGPU-PRO without issues while waiting for a fix for this
+(5700XT). OpenGL apps appear to work fine. With Vulkan I've had a crash to
+desktop but I haven't tested it that much. No freezes at least.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--157187913810.8E5dd.23672--
+
+--===============1736577965==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1736577965==--
