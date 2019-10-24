@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E242E318E
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 13:55:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EA9AE31A4
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 13:58:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3CAE898C0;
-	Thu, 24 Oct 2019 11:55:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 804066E31A;
+	Thu, 24 Oct 2019 11:58:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8005898A8
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 11:55:51 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id n7so1679405wmc.3
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 04:55:51 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EF136E31A
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 11:58:10 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id a11so9666184wra.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 04:58:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to:user-agent;
- bh=fMCWUrlCZri1tyy5DHaQQhL1mQYk6mcOKGtMSm6ofig=;
- b=hsJcyYpRRHvbcLxqIA8DuHiaC7MTpDrJ1O9DMiNg+IhAOPkYVCHOUZpLRFJVNAQveK
- VAEom3INcXSDA4y0bNmVJVlN1Jp66iAsafNujGMVs1PrpT/zyJCydWOfg/0Zvj8hZVRd
- qCkCkloxYMVBm/kdybyRKFZnKJDaDrCsXn3iHWKO4s7/rz/brMI8JfGBbGEQ0Zbk6ZjK
- xpH4VjWACTVgDATspW33Dk7f/en4ilX7p/ibz97t5axRXUQPboeUDfzK8RB28bU+98C/
- 9tYg/HgtMH2V3uBb+1U+P5tFAHdGBOohNsacesI1iF1PxNr4cL4oHIhCjKh/lVKCZ8me
- R09A==
-X-Gm-Message-State: APjAAAXJlG/hEu9FD0Z1Gw4iS9L6FGbI4Ewq+mdCirVcf6rB7r6d0ODL
- 9YcRBXXpX9juYuS95Y3fT2APDA==
-X-Google-Smtp-Source: APXvYqylCae/EuzS65l6wbHAFqm4hgukqcyE28cmZMpidJzZ8iwZnHwIAysao+RlmEvihQzMWUsrBg==
-X-Received: by 2002:a1c:f018:: with SMTP id a24mr4450754wmb.77.1571918150317; 
- Thu, 24 Oct 2019 04:55:50 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net.
- [212.51.149.96])
- by smtp.gmail.com with ESMTPSA id w9sm18297328wrt.85.2019.10.24.04.55.48
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=nvmYs9XGE6Nbxwn8T/kg305FRiX3cQnEULmgTlc37qo=;
+ b=LnYASLARnvRiRJEF3c4zYYnPHPxPRedXNntDERRJehSZWZovyA2Qe1t7Nkkyf9LmDg
+ 3albqZv7d7o7U2gPC3zbGfeczvsErpl/mTSPsWn+ELSJxLBzxVUpUDNrYcGdt3izOnAj
+ DLHnttP8CmW9eH0gq8SF11z25cwD6o8vds5hBRL2TNdH8HOLrbzcjTvku9t/KGslWS0J
+ 8xtRJcGMRm++MpobDrwk9ZDri0txG9OKUmTgza422P/JCU7njl1FGjdrpIJg29rPI0FX
+ cHHcrLMA76gI06GMRV2aPV01GTLPWSRHq/u4+NoJ4PL3E3kyDKGajoEb1ivIf0RbaT9k
+ ehfg==
+X-Gm-Message-State: APjAAAUgltdDVORN77phjzJ4wlWbmxaCR/7sQG0dUr7RfWfYx9j+rbsx
+ yIji41xv+GJWQiLm84fyUFk=
+X-Google-Smtp-Source: APXvYqwt/WikJqJgE8RUv51dV9sXnqZNK8xHW9hOUKGlifeyhZLhEELjUxJlkOCi9WXDHie7VhbWLA==
+X-Received: by 2002:a5d:5227:: with SMTP id i7mr3422410wra.39.1571918288879;
+ Thu, 24 Oct 2019 04:58:08 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+ by smtp.gmail.com with ESMTPSA id l14sm10093768wrr.37.2019.10.24.04.58.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 04:55:49 -0700 (PDT)
-Date: Thu, 24 Oct 2019 13:55:47 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH] drm/simple-kms: Standardize arguments for callbacks
-Message-ID: <20191024115547.GA11828@phenom.ffwll.local>
-References: <20191023101256.20509-1-daniel.vetter@ffwll.ch>
- <CACRpkdYfh=9oextiC1rtQ2UQ72OW_0TqjCe4AmvRtXKVv_ZazQ@mail.gmail.com>
+ Thu, 24 Oct 2019 04:58:05 -0700 (PDT)
+Date: Thu, 24 Oct 2019 13:58:04 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v1 2/3] drm/tegra: Fix 2d and 3d clients detaching from
+ IOMMU domain
+Message-ID: <20191024115804.GB2924027@ulmo>
+References: <20190623173743.24088-1-digetx@gmail.com>
+ <20190623173743.24088-2-digetx@gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CACRpkdYfh=9oextiC1rtQ2UQ72OW_0TqjCe4AmvRtXKVv_ZazQ@mail.gmail.com>
-X-Operating-System: Linux phenom 5.2.0-2-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190623173743.24088-2-digetx@gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent;
- bh=fMCWUrlCZri1tyy5DHaQQhL1mQYk6mcOKGtMSm6ofig=;
- b=WelQ6YKgfVysp9cjI2lEt7r4WRC7RmeWPYzn2UuB2hVHM8EUEtuOsZRsRT79HFqIIz
- oEvDsyJr+T+iwYLfcClbgLgcJpEQIIySj6JbZZTuy5Wo9XcbWNldORZfBj0pkbIw1nKg
- ar51gMC1BMvFyy7OQ+7yC0Z7BqkJVdn1QevLs=
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=nvmYs9XGE6Nbxwn8T/kg305FRiX3cQnEULmgTlc37qo=;
+ b=YIBFphpsZN9bi0AG0fh0sShzzqlg4OL0bz4H4FkteXdMQg2+t5cGPebQlg6YJhndDw
+ 658AqUIcZdLDcdpNyngx+/UhdmnQWR4bDKW+kOoHIUtCnjRpXbjlb6B1InxXDUCJc2dm
+ AHp/DGA7XcUMVurQ2ZmKtKuK6EMUn8S1HbVOiV4Ko1bY0A06IbWPYW0S3WnhbT3n7hSe
+ b0jXaZgiZEO6uZaCkiUX/X/1FM8CvvuD6M0a9rYS8qhzfPuCXeLLrF9JbqFBKOr170T6
+ +d4PFYlJjwX2fVgcla3lg7t07hLceSDB5IG3P5OU0qv1wvAR+5T2LJ52eQ8Q67NqGjem
+ Apcw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,36 +69,208 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1265998683=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBPY3QgMjMsIDIwMTkgYXQgMDU6NDA6MzJQTSArMDIwMCwgTGludXMgV2FsbGVpaiB3
-cm90ZToKPiBPbiBXZWQsIE9jdCAyMywgMjAxOSBhdCAxMjoxMyBQTSBEYW5pZWwgVmV0dGVyIDxk
-YW5pZWwudmV0dGVyQGZmd2xsLmNoPiB3cm90ZToKPiAKPiA+IFBhc3NpbmcgdGhlIHdyb25nIHR5
-cGUgZmVlbHMgaWNreSwgZXZlcnl3aGVyZSBlbHNlIHdlIHVzZSB0aGUgcGlwZSBhcwo+ID4gdGhl
-IGZpcnN0IHBhcmFtZXRlci4gU3BvdHRlZCB3aGlsZSBkaXNjdXNzaW5nIHBhdGNoZXMgd2l0aCBU
-aG9tYXMKPiA+IFppbW1lcm1hbm4uCj4gPgo+ID4gdjI6IE1ha2UgeGVuIGNvbXBpbGUgY29ycmVj
-dGx5Cj4gPgo+ID4gQWNrZWQtQnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNl
-LmRlPiAodjEpCj4gPiBDYzogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+
-Cj4gPiBDYzogTm9yYWxmIFRyw7hubmVzIDxub3JhbGZAdHJvbm5lcy5vcmc+Cj4gPiBDYzogR2Vy
-ZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+Cj4gPiBDYzogRXJpYyBBbmhvbHQgPGVyaWNA
-YW5ob2x0Lm5ldD4KPiA+IENjOiBFbWlsIFZlbGlrb3YgPGVtaWwudmVsaWtvdkBjb2xsYWJvcmEu
-Y29tPgo+ID4gQ2M6IHZpcnR1YWxpemF0aW9uQGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCj4g
-PiBDYzogTGludXMgV2FsbGVpaiA8bGludXMud2FsbGVpakBsaW5hcm8ub3JnPgo+ID4gU2lnbmVk
-LW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+Cj4gCj4gTWFr
-ZXMgcGVyZmVjdCBzZW5zZS4KPiBSZXZpZXdlZC1ieTogTGludXMgV2FsbGVpaiA8bGludXMud2Fs
-bGVpakBsaW5hcm8ub3JnPgoKVGhhbmtzIGZvciB0YWtpbmcgYSBsb29rLCBhcHBsaWVkLgotRGFu
-aWVsCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlv
-bgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWw=
+
+--===============1265998683==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="wq9mPyueHGvFACwf"
+Content-Disposition: inline
+
+
+--wq9mPyueHGvFACwf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sun, Jun 23, 2019 at 08:37:42PM +0300, Dmitry Osipenko wrote:
+> This should should fire up on the DRM's driver module re-loader because
+> there won't be enough available domains on older Tegra SoCs.
+>=20
+> Cc: stable <stable@vger.kernel.org>
+> Fixes: 0c407de5ed1a ("drm/tegra: Refactor IOMMU attach/detach")
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/gpu/drm/tegra/dc.c   | 4 ++--
+>  drivers/gpu/drm/tegra/drm.c  | 9 ++++++---
+>  drivers/gpu/drm/tegra/drm.h  | 3 ++-
+>  drivers/gpu/drm/tegra/gr2d.c | 4 ++--
+>  drivers/gpu/drm/tegra/gr3d.c | 4 ++--
+>  5 files changed, 14 insertions(+), 10 deletions(-)
+
+I think I understand what this is trying to do, but the commit message
+does not help at all. So what's really going on here is that we need to
+detach the device from the group regardless of whether we're sharing the
+group or not, just like we attach groups to the shared domain whether
+they share the same group or not.
+
+But in that case, I wonder if it's even worth splitting groups the way
+we are right now. Wouldn't it be better to just put all the devices into
+the same group and be done with it?
+
+The current code gives me headaches every time I read it, so if we can
+just make it so that all the devices under the DRM device share the same
+group, this would become a lot easier to deal with. I'm not really
+convinced that it makes much sense to keep them on separate domains,
+especially given the constraints on the number of domains available on
+earlier Tegra devices.
+
+Note that sharing a group will also make it much easier for these to use
+the DMA API if it is backed by an IOMMU.
+
+Let me see if I can throw something together to that effect.
+
+Thierry
+
+> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+> index fa505baaaabc..c1b885444d90 100644
+> --- a/drivers/gpu/drm/tegra/dc.c
+> +++ b/drivers/gpu/drm/tegra/dc.c
+> @@ -2388,7 +2388,7 @@ static int tegra_dc_init(struct host1x_client *clie=
+nt)
+>  	if (!IS_ERR(primary))
+>  		drm_plane_cleanup(primary);
+> =20
+> -	host1x_client_iommu_detach(client, dc->group);
+> +	host1x_client_iommu_detach(client, dc->group, true);
+>  	host1x_syncpt_free(dc->syncpt);
+> =20
+>  	return err;
+> @@ -2412,7 +2412,7 @@ static int tegra_dc_exit(struct host1x_client *clie=
+nt)
+>  		return err;
+>  	}
+> =20
+> -	host1x_client_iommu_detach(client, dc->group);
+> +	host1x_client_iommu_detach(client, dc->group, true);
+>  	host1x_syncpt_free(dc->syncpt);
+> =20
+>  	return 0;
+> diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+> index d2080bd7d392..f94441457c64 100644
+> --- a/drivers/gpu/drm/tegra/drm.c
+> +++ b/drivers/gpu/drm/tegra/drm.c
+> @@ -1120,15 +1120,18 @@ struct iommu_group *host1x_client_iommu_attach(st=
+ruct host1x_client *client,
+>  }
+> =20
+>  void host1x_client_iommu_detach(struct host1x_client *client,
+> -				struct iommu_group *group)
+> +				struct iommu_group *group,
+> +				bool shared)
+>  {
+>  	struct drm_device *drm =3D dev_get_drvdata(client->parent);
+>  	struct tegra_drm *tegra =3D drm->dev_private;
+> =20
+>  	if (group) {
+> -		if (group =3D=3D tegra->group) {
+> +		if (!shared || group =3D=3D tegra->group) {
+>  			iommu_detach_group(tegra->domain, group);
+> -			tegra->group =3D NULL;
+> +
+> +			if (group =3D=3D tegra->group)
+> +				tegra->group =3D NULL;
+>  		}
+> =20
+>  		iommu_group_put(group);
+> diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
+> index 488f36f00bd8..9f1a3d6f3406 100644
+> --- a/drivers/gpu/drm/tegra/drm.h
+> +++ b/drivers/gpu/drm/tegra/drm.h
+> @@ -107,7 +107,8 @@ int tegra_drm_unregister_client(struct tegra_drm *teg=
+ra,
+>  struct iommu_group *host1x_client_iommu_attach(struct host1x_client *cli=
+ent,
+>  					       bool shared);
+>  void host1x_client_iommu_detach(struct host1x_client *client,
+> -				struct iommu_group *group);
+> +				struct iommu_group *group,
+> +				bool shared);
+> =20
+>  int tegra_drm_init(struct tegra_drm *tegra, struct drm_device *drm);
+>  int tegra_drm_exit(struct tegra_drm *tegra);
+> diff --git a/drivers/gpu/drm/tegra/gr2d.c b/drivers/gpu/drm/tegra/gr2d.c
+> index 673059fd2fcb..c486e0a05c9d 100644
+> --- a/drivers/gpu/drm/tegra/gr2d.c
+> +++ b/drivers/gpu/drm/tegra/gr2d.c
+> @@ -69,7 +69,7 @@ static int gr2d_init(struct host1x_client *client)
+>  	return 0;
+> =20
+>  detach:
+> -	host1x_client_iommu_detach(client, gr2d->group);
+> +	host1x_client_iommu_detach(client, gr2d->group, false);
+>  free:
+>  	host1x_syncpt_free(client->syncpts[0]);
+>  put:
+> @@ -89,7 +89,7 @@ static int gr2d_exit(struct host1x_client *client)
+>  	if (err < 0)
+>  		return err;
+> =20
+> -	host1x_client_iommu_detach(client, gr2d->group);
+> +	host1x_client_iommu_detach(client, gr2d->group, false);
+>  	host1x_syncpt_free(client->syncpts[0]);
+>  	host1x_channel_put(gr2d->channel);
+> =20
+> diff --git a/drivers/gpu/drm/tegra/gr3d.c b/drivers/gpu/drm/tegra/gr3d.c
+> index 4778ae999668..591bafe455e0 100644
+> --- a/drivers/gpu/drm/tegra/gr3d.c
+> +++ b/drivers/gpu/drm/tegra/gr3d.c
+> @@ -79,7 +79,7 @@ static int gr3d_init(struct host1x_client *client)
+>  	return 0;
+> =20
+>  detach:
+> -	host1x_client_iommu_detach(client, gr3d->group);
+> +	host1x_client_iommu_detach(client, gr3d->group, false);
+>  free:
+>  	host1x_syncpt_free(client->syncpts[0]);
+>  put:
+> @@ -98,7 +98,7 @@ static int gr3d_exit(struct host1x_client *client)
+>  	if (err < 0)
+>  		return err;
+> =20
+> -	host1x_client_iommu_detach(client, gr3d->group);
+> +	host1x_client_iommu_detach(client, gr3d->group, false);
+>  	host1x_syncpt_free(client->syncpts[0]);
+>  	host1x_channel_put(gr3d->channel);
+> =20
+> --=20
+> 2.22.0
+>=20
+
+--wq9mPyueHGvFACwf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2xkcsACgkQ3SOs138+
+s6EiwhAAiUsnjZ6BBMJkLVBwXfEaKLB3ga/tbSXblEDHLFvBNzOx+uAWKpm8TkPz
+1qRIA6CZicSjTeD30ilbkeR98LfFjgroz+QkX6Vom2AJCA75MY50RL3h5uFXmcLr
+iyNpk3vs8tfDEi9/AdrEYiwQq0LdUZKgf3MZuFBIl7JvbT8WUEt3p1OgHHrOzKH7
+6qQ8sJBHWhAVhYIznIDe14h4HeD9XBXX+tfJIvwvxz5LCtfkFW7kpLlU3oCIEER/
+T6QVNRUdl7Bv8kp6SttmG1e6zJs2DakhHmnW5FZDszTSQJ4d5vuCQIN1oFRLLyME
+PxBNC+lc1PHxiPUQLngHM1hunlvCeePB5RoJINUC/Xy4fSFQc1xbdY0H/E8RoTiK
+o0vKyafvWv8fj+17brBh6OLE4lHHmmV+E5skAT/Gf6xasn17RHlf3vZmPihgmVLD
+0vwLIQIqs3+CPKgkod2mSV9QQ3Et1NMUV2iztnK+IQFQVc2q/R/0a0HvVcM4QXaY
+skhdcp2idXkPShVBitWTT3XdrHi4LYpjySehAMD2d3m608MzlHa2KwHVe1W3IiXj
+7LcHKu1yYU3jNaTj4WLZVR/7WCDRU4dYeGynRjiQVr/L6spxM+z4EAXlOvczUZXo
+EOZ8WFH3t7HRivUniCCBC2OkvkPUNpt2yRbuMTDa3y+9MwhObpw=
+=uq7y
+-----END PGP SIGNATURE-----
+
+--wq9mPyueHGvFACwf--
+
+--===============1265998683==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1265998683==--
