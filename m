@@ -1,56 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8478E3152
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 13:48:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5592E3167
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 13:50:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E4026E2F8;
-	Thu, 24 Oct 2019 11:48:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03C1D6E2FF;
+	Thu, 24 Oct 2019 11:50:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
- [IPv6:2607:f8b0:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 768156E2F8
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 11:48:46 +0000 (UTC)
-Received: by mail-oi1-x242.google.com with SMTP id g81so20309573oib.8
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 04:48:46 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CED7A6E2FF
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 11:50:23 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id g7so2482256wmk.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 04:50:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=dFj8gG3Hz1IlPT7VjWiEejuW6LdvO4xldiajSV4IuvA=;
- b=ARM9GHTppZws0eKuoVBDqAd0gairTA9rlo8IPfaLduw3ZHYXoxPoBDseJylbplsXmE
- JiYQbPL5jfEl1nctWfLDUoeTFMn8F204wG5k/jMxK2s5jIDAGYzygBBh+8DxBkbZ6L54
- Esg7rsTwlE+0xi3iFVSMZ1g4AoNVN7uD8OW+oNDjee7C3zdeECXt11V6c5PbXK+N3BqF
- incnlZNAeGAetLswGJM/R25U3iAqfxvEqMAQiqK+02QfnhEY6id0NcI6EDvI01cpRNTW
- BI/PPJT9SAsmLUSIaKvcEPOX0rPOkvGFGTj2iNyY6G0T8opPBMrXovPkQrum2Wo5tZsg
- TnlQ==
-X-Gm-Message-State: APjAAAVbsBcKhRLIGTsJhqMR9jYRjEcHmL9u1EHD/I4Hnn/811652C/q
- Fp7D01ythRB9jzziB0392/Wm98kUcJkhuNjeVaCv7A==
-X-Google-Smtp-Source: APXvYqxijWddYZnbiFaP7v/YnfpXGxo7Fpo9olKV0ZDXS1v0GB/ldxaLcjbwi0O8MBsfOXO+iBbowVyQCcxNjyFJbco=
-X-Received: by 2002:aca:e046:: with SMTP id x67mr3994985oig.101.1571917725613; 
- Thu, 24 Oct 2019 04:48:45 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=dTaYwp4qZXlJvMAwS4iXKftIgoAUkmfWWcCon6/YMJg=;
+ b=SxJFUfg1yliVQKgL14g45myVmEHrH4zIP9IsWHutJB7oXIrJqk4tXSRxzOGi7Vk30K
+ Cd9zPmsI5Tv9iduTgwnCwx7nxgN4CpHSGYr2lsZF6l1JuxqLgbHpMrCyrJwSnnOg234s
+ Fp4pd2wjTzBLai0G4p2fV3XxrJpwP5mAbxvy+ef1mYrn91YVO+1z6wVPGcColWxvRhMq
+ ivZMn6GCivf3yhH+ntyN51wQyCKgYP5g9SvkDCFrNiNbJlTc2WfO4hJarIp/SPPGXK3U
+ JxPQKaOIt0b3E9FK+mU7TglIcloTAObKoYTCK9yPs+q/t2/klLXYKcU0ECruqbIv0kUb
+ 3OYQ==
+X-Gm-Message-State: APjAAAXAtjSgx0t5SNXacpRUrPkAEhp98a05RgXsynRAMp7HW/iQQUy9
+ 6A3FtlbNjBD1cMAO/84C968=
+X-Google-Smtp-Source: APXvYqxBPbJJRTAt4tbFmXMSYKLVZkQ5Z1Ry8t3R4o4pNtsOWPojoX4Y8SURN7kbq91D+f3FQ1WfZA==
+X-Received: by 2002:a05:600c:22ce:: with SMTP id
+ 14mr4396831wmg.71.1571917822265; 
+ Thu, 24 Oct 2019 04:50:22 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+ by smtp.gmail.com with ESMTPSA id z189sm2833364wmc.25.2019.10.24.04.50.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Oct 2019 04:50:17 -0700 (PDT)
+Date: Thu, 24 Oct 2019 13:50:16 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v1 1/3] gpu: host1x: Remove implicit IOMMU backing on
+ client's registration
+Message-ID: <20191024115016.GA2924027@ulmo>
+References: <20190623173743.24088-1-digetx@gmail.com>
 MIME-Version: 1.0
-References: <20190730130208.30977-1-david1.zhou@amd.com>
- <cfd2ad24-9210-0ba6-bc36-7cc44ac92112@amd.com>
- <78e2e61f-6faa-94e2-8583-faa6313eb423@amd.com>
- <CAMavQK+QEixyOYcv20aO0R9xAokJjz_9G_8SkE=H==wFSFVDPQ@mail.gmail.com>
-In-Reply-To: <CAMavQK+QEixyOYcv20aO0R9xAokJjz_9G_8SkE=H==wFSFVDPQ@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 24 Oct 2019 13:48:34 +0200
-Message-ID: <CAKMK7uEdHVJf6yTCfx8B-g9a3_OWpWL+K2q-m+Vm7970zJURVw@mail.gmail.com>
-Subject: Re: [PATCH] drm/syncobj: extend syncobj query ability v3
-To: Sean Paul <sean@poorly.run>, Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>, 
- Dave Airlie <airlied@linux.ie>
+In-Reply-To: <20190623173743.24088-1-digetx@gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=dFj8gG3Hz1IlPT7VjWiEejuW6LdvO4xldiajSV4IuvA=;
- b=C8wIjaod3gXp2DnzR9XqopeAo+vSHOvuI91zyY+SLqXmmykXWGqHjJFLYB/3fsL16l
- FbuOohl7tfaqyMk/786dVWBnzSvn9K/XRQOj3TqnMofv1NrXantw8xyZhu3sofGDcfsu
- dAz3woF5egzsbyGtW8XtgHFbDkq6elJ2SrswU=
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=dTaYwp4qZXlJvMAwS4iXKftIgoAUkmfWWcCon6/YMJg=;
+ b=aDgBQuLIIoqRlDd/Y3c+xWyM81CmMvlByTYclS93SsJVQqIN3nLJgUrH0S4PieBKXN
+ k1rVnqdVpgKOU2/ITuTKF24yvCDzfJJKxiT7Po/KlGPbqtGOnLfYT+kgGePav63jbt14
+ jh8QYj907cxiRu77a8sIMb493q3bRcaQ2AukPvb3gn1Dzc8q9r6VInJpD29NRcUK3VKi
+ /8Uq1MWtRQFwmdWW2LPoK5LCD9ggyfvmiM16AWwEW0STET0e7v8+j3ADnGlwcn48dyiV
+ k71jwi+/8YqM9KkRYfwmd/V4VepIlP+s4w3pGemdpRgoy2gAQV2SD+JqdCoT6QOBOWbV
+ CmFQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,125 +69,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chunming Zhou <zhoucm1@amd.com>, "Koenig,
- Christian" <Christian.Koenig@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============2107129195=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBPY3QgMjMsIDIwMTkgYXQgMTA6MjIgUE0gU2VhbiBQYXVsIDxzZWFuQHBvb3JseS5y
-dW4+IHdyb3RlOgo+Cj4gT24gVHVlLCBKdWwgMzAsIDIwMTkgYXQgOToyMiBBTSBDaHVubWluZyBa
-aG91IDx6aG91Y20xQGFtZC5jb20+IHdyb3RlOgo+ID4KPiA+Cj4gPiDlnKggMjAxOS83LzMwIDIx
-OjE3LCBLb2VuaWcsIENocmlzdGlhbiDlhpnpgZM6Cj4gPiA+IEFtIDMwLjA3LjE5IHVtIDE1OjAy
-IHNjaHJpZWIgQ2h1bm1pbmcgWmhvdToKPiA+ID4+IHVzZXIgc3BhY2UgbmVlZHMgYSBmbGV4aWFi
-bGUgcXVlcnkgYWJpbGl0eS4KPiA+ID4+IFNvIHRoYXQgdW1kIGNhbiBnZXQgbGFzdCBzaWduYWxl
-ZCBvciBzdWJtaXR0ZWQgcG9pbnQuCj4gPiA+PiB2MjoKPiA+ID4+IGFkZCBzYW5pdGl6ZXIgY2hl
-Y2tpbmcuCj4gPiA+PiB2MzoKPiA+ID4+IHJlYmFzZQo+ID4gPj4KPiA+ID4+IENoYW5nZS1JZDog
-STY1MTJiNDMwNTI0ZWJhYmU3MTVlNjAyYTJiZjVhYmIwYTdlNzgwZWEKPiA+ID4+IFNpZ25lZC1v
-ZmYtYnk6IENodW5taW5nIFpob3UgPGRhdmlkMS56aG91QGFtZC5jb20+Cj4gPiA+PiBDYzogTGlv
-bmVsIExhbmR3ZXJsaW4gPGxpb25lbC5nLmxhbmR3ZXJsaW5AaW50ZWwuY29tPgo+ID4gPj4gQ2M6
-IENocmlzdGlhbiBLw7ZuaWcgPENocmlzdGlhbi5Lb2VuaWdAYW1kLmNvbT4KPiA+ID4+IFJldmll
-d2VkLWJ5OiBMaW9uZWwgTGFuZHdlcmxpbiA8bGlvbmVsLmcubGFuZHdlcmxpbkBpbnRlbC5jb20+
-Cj4gPiA+IFJldmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjcmlzdGlhbi5rb2VuaWdAYW1k
-LmNvbT4KPiA+ID4KPiA+ID4gTGlvbmVsIGlzIHRoZSBJbnRlbCBjb2RlIHVzaW5nIHRoaXMgYWxy
-ZWFkeSBwdWJsaWM/IE9yIERhdmlkIGFueSBjaGFuY2UKPiA+ID4gdGhhdCB3ZSBjYW4gZ2V0IGEg
-cHVibGljIGFtZHZsayByZWxlYXNlIHVzaW5nIHRoaXM/Cj4gPgo+ID4gSW4gbGF0ZXN0IHB1Ymxp
-YyBhbWR2bGssIFdlIHNob3VsZCBiZSBhYmxlIHRvIHNlZSBob3cgdGltZWxpbmUgc3luY29iago+
-ID4gaXMgdXNlZCBpbiBpdC4KPiA+Cj4KPiBJIGNvdWxkbid0IGZpbmQgdGhpcyBhbnl3aGVyZSwg
-Y291bGQgeW91IHBsZWFzZSBwcm92aWRlIGEgbGluaz8KCkkgdGhvdWdodCB0aGVyZSB3YXMgYWxz
-byBhIHJhZHYgaW1wbGVtZW50YXRpb24gc29tZXdoZXJlIC4uLiBhZGRpbmcKc29tZSBvZiB0aGUg
-dXN1YWwgc3VzcGVjdHMgZm9yIHRoYXQuCi1EYW5pZWwKCj4KPiBTZWFuCj4KPiA+Cj4gPiAtRGF2
-aWQKPiA+Cj4gPiA+Cj4gPiA+IENocmlzdGlhbi4KPiA+ID4KPiA+ID4+IC0tLQo+ID4gPj4gICAg
-ZHJpdmVycy9ncHUvZHJtL2RybV9zeW5jb2JqLmMgfCAzNyArKysrKysrKysrKysrKysrKysrKyst
-LS0tLS0tLS0tLS0tLQo+ID4gPj4gICAgaW5jbHVkZS91YXBpL2RybS9kcm0uaCAgICAgICAgfCAg
-MyArKy0KPiA+ID4+ICAgIDIgZmlsZXMgY2hhbmdlZCwgMjQgaW5zZXJ0aW9ucygrKSwgMTYgZGVs
-ZXRpb25zKC0pCj4gPiA+Pgo+ID4gPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1f
-c3luY29iai5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9zeW5jb2JqLmMKPiA+ID4+IGluZGV4IGNl
-Y2ZmMmU0NDdiMS4uZDQ0MzJmMTUxM2FjIDEwMDY0NAo+ID4gPj4gLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL2RybV9zeW5jb2JqLmMKPiA+ID4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fc3luY29i
-ai5jCj4gPiA+PiBAQCAtMTE5Nyw3ICsxMTk3LDcgQEAgZHJtX3N5bmNvYmpfdGltZWxpbmVfc2ln
-bmFsX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsCj4gPiA+PiAgICAg
-IGlmICghZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9TWU5DT0JKX1RJTUVMSU5F
-KSkKPiA+ID4+ICAgICAgICAgICAgICByZXR1cm4gLUVPUE5PVFNVUFA7Cj4gPiA+Pgo+ID4gPj4g
-LSAgICBpZiAoYXJncy0+cGFkICE9IDApCj4gPiA+PiArICAgIGlmIChhcmdzLT5mbGFncyAhPSAw
-KQo+ID4gPj4gICAgICAgICAgICAgIHJldHVybiAtRUlOVkFMOwo+ID4gPj4KPiA+ID4+ICAgICAg
-aWYgKGFyZ3MtPmNvdW50X2hhbmRsZXMgPT0gMCkKPiA+ID4+IEBAIC0xMjY4LDcgKzEyNjgsNyBA
-QCBpbnQgZHJtX3N5bmNvYmpfcXVlcnlfaW9jdGwoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9p
-ZCAqZGF0YSwKPiA+ID4+ICAgICAgaWYgKCFkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJ
-VkVSX1NZTkNPQkpfVElNRUxJTkUpKQo+ID4gPj4gICAgICAgICAgICAgIHJldHVybiAtRU9QTk9U
-U1VQUDsKPiA+ID4+Cj4gPiA+PiAtICAgIGlmIChhcmdzLT5wYWQgIT0gMCkKPiA+ID4+ICsgICAg
-aWYgKGFyZ3MtPmZsYWdzICYgfkRSTV9TWU5DT0JKX1FVRVJZX0ZMQUdTX0xBU1RfU1VCTUlUVEVE
-KQo+ID4gPj4gICAgICAgICAgICAgIHJldHVybiAtRUlOVkFMOwo+ID4gPj4KPiA+ID4+ICAgICAg
-aWYgKGFyZ3MtPmNvdW50X2hhbmRsZXMgPT0gMCkKPiA+ID4+IEBAIC0xMjg5LDI1ICsxMjg5LDMy
-IEBAIGludCBkcm1fc3luY29ial9xdWVyeV9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2
-b2lkICpkYXRhLAo+ID4gPj4gICAgICAgICAgICAgIGZlbmNlID0gZHJtX3N5bmNvYmpfZmVuY2Vf
-Z2V0KHN5bmNvYmpzW2ldKTsKPiA+ID4+ICAgICAgICAgICAgICBjaGFpbiA9IHRvX2RtYV9mZW5j
-ZV9jaGFpbihmZW5jZSk7Cj4gPiA+PiAgICAgICAgICAgICAgaWYgKGNoYWluKSB7Cj4gPiA+PiAt
-ICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgZG1hX2ZlbmNlICppdGVyLCAqbGFzdF9zaWduYWxl
-ZCA9IE5VTEw7Cj4gPiA+PiAtCj4gPiA+PiAtICAgICAgICAgICAgICAgICAgICBkbWFfZmVuY2Vf
-Y2hhaW5fZm9yX2VhY2goaXRlciwgZmVuY2UpIHsKPiA+ID4+IC0gICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgaWYgKGl0ZXItPmNvbnRleHQgIT0gZmVuY2UtPmNvbnRleHQpIHsKPiA+ID4+IC0g
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkbWFfZmVuY2VfcHV0KGl0ZXIpOwo+
-ID4gPj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC8qIEl0IGlzIG1vc3Qg
-bGlrZWx5IHRoYXQgdGltZWxpbmUgaGFzCj4gPiA+PiAtICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICogdW5vcmRlciBwb2ludHMuICovCj4gPiA+PiAtICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgYnJlYWs7Cj4gPiA+PiArICAgICAgICAgICAgICAgICAgICBz
-dHJ1Y3QgZG1hX2ZlbmNlICppdGVyLCAqbGFzdF9zaWduYWxlZCA9Cj4gPiA+PiArICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIGRtYV9mZW5jZV9nZXQoZmVuY2UpOwo+ID4gPj4gKwo+ID4gPj4g
-KyAgICAgICAgICAgICAgICAgICAgaWYgKGFyZ3MtPmZsYWdzICYKPiA+ID4+ICsgICAgICAgICAg
-ICAgICAgICAgICAgICBEUk1fU1lOQ09CSl9RVUVSWV9GTEFHU19MQVNUX1NVQk1JVFRFRCkgewo+
-ID4gPj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICBwb2ludCA9IGZlbmNlLT5zZXFubzsK
-PiA+ID4+ICsgICAgICAgICAgICAgICAgICAgIH0gZWxzZSB7Cj4gPiA+PiArICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIGRtYV9mZW5jZV9jaGFpbl9mb3JfZWFjaChpdGVyLCBmZW5jZSkgewo+
-ID4gPj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlmIChpdGVyLT5jb250
-ZXh0ICE9IGZlbmNlLT5jb250ZXh0KSB7Cj4gPiA+PiArICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICBkbWFfZmVuY2VfcHV0KGl0ZXIpOwo+ID4gPj4gKyAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLyogSXQgaXMgbW9zdCBsaWtlbHkg
-dGhhdCB0aW1lbGluZSBoYXMKPiA+ID4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICogdW5vcmRlciBwb2ludHMuICovCj4gPiA+PiArICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBicmVhazsKPiA+ID4+ICsgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICB9Cj4gPiA+PiArICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgZG1hX2ZlbmNlX3B1dChsYXN0X3NpZ25hbGVkKTsKPiA+ID4+ICsgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBsYXN0X3NpZ25hbGVkID0gZG1hX2ZlbmNlX2dl
-dChpdGVyKTsKPiA+ID4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfQo+ID4gPj4gLSAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICBkbWFfZmVuY2VfcHV0KGxhc3Rfc2lnbmFsZWQpOwo+
-ID4gPj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICBsYXN0X3NpZ25hbGVkID0gZG1hX2Zl
-bmNlX2dldChpdGVyKTsKPiA+ID4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgcG9pbnQg
-PSBkbWFfZmVuY2VfaXNfc2lnbmFsZWQobGFzdF9zaWduYWxlZCkgPwo+ID4gPj4gKyAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGxhc3Rfc2lnbmFsZWQtPnNlcW5vIDoKPiA+ID4+
-ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB0b19kbWFfZmVuY2VfY2hhaW4o
-bGFzdF9zaWduYWxlZCktPnByZXZfc2Vxbm87Cj4gPiA+PiAgICAgICAgICAgICAgICAgICAgICB9
-Cj4gPiA+PiAtICAgICAgICAgICAgICAgICAgICBwb2ludCA9IGRtYV9mZW5jZV9pc19zaWduYWxl
-ZChsYXN0X3NpZ25hbGVkKSA/Cj4gPiA+PiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgIGxh
-c3Rfc2lnbmFsZWQtPnNlcW5vIDoKPiA+ID4+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAg
-dG9fZG1hX2ZlbmNlX2NoYWluKGxhc3Rfc2lnbmFsZWQpLT5wcmV2X3NlcW5vOwo+ID4gPj4gICAg
-ICAgICAgICAgICAgICAgICAgZG1hX2ZlbmNlX3B1dChsYXN0X3NpZ25hbGVkKTsKPiA+ID4+ICAg
-ICAgICAgICAgICB9IGVsc2Ugewo+ID4gPj4gICAgICAgICAgICAgICAgICAgICAgcG9pbnQgPSAw
-Owo+ID4gPj4gICAgICAgICAgICAgIH0KPiA+ID4+ICsgICAgICAgICAgICBkbWFfZmVuY2VfcHV0
-KGZlbmNlKTsKPiA+ID4+ICAgICAgICAgICAgICByZXQgPSBjb3B5X3RvX3VzZXIoJnBvaW50c1tp
-XSwgJnBvaW50LCBzaXplb2YodWludDY0X3QpKTsKPiA+ID4+ICAgICAgICAgICAgICByZXQgPSBy
-ZXQgPyAtRUZBVUxUIDogMDsKPiA+ID4+ICAgICAgICAgICAgICBpZiAocmV0KQo+ID4gPj4gZGlm
-ZiAtLWdpdCBhL2luY2x1ZGUvdWFwaS9kcm0vZHJtLmggYi9pbmNsdWRlL3VhcGkvZHJtL2RybS5o
-Cj4gPiA+PiBpbmRleCA2NjFkNzNmOWE5MTkuLmZkOTg3Y2UyNGQ5ZiAxMDA2NDQKPiA+ID4+IC0t
-LSBhL2luY2x1ZGUvdWFwaS9kcm0vZHJtLmgKPiA+ID4+ICsrKyBiL2luY2x1ZGUvdWFwaS9kcm0v
-ZHJtLmgKPiA+ID4+IEBAIC03NzcsMTEgKzc3NywxMiBAQCBzdHJ1Y3QgZHJtX3N5bmNvYmpfYXJy
-YXkgewo+ID4gPj4gICAgICBfX3UzMiBwYWQ7Cj4gPiA+PiAgICB9Owo+ID4gPj4KPiA+ID4+ICsj
-ZGVmaW5lIERSTV9TWU5DT0JKX1FVRVJZX0ZMQUdTX0xBU1RfU1VCTUlUVEVEICgxIDw8IDApIC8q
-IGxhc3QgYXZhaWxhYmxlIHBvaW50IG9uIHRpbWVsaW5lIHN5bmNvYmogKi8KPiA+ID4+ICAgIHN0
-cnVjdCBkcm1fc3luY29ial90aW1lbGluZV9hcnJheSB7Cj4gPiA+PiAgICAgIF9fdTY0IGhhbmRs
-ZXM7Cj4gPiA+PiAgICAgIF9fdTY0IHBvaW50czsKPiA+ID4+ICAgICAgX191MzIgY291bnRfaGFu
-ZGxlczsKPiA+ID4+IC0gICAgX191MzIgcGFkOwo+ID4gPj4gKyAgICBfX3UzMiBmbGFnczsKPiA+
-ID4+ICAgIH07Cj4gPiA+Pgo+ID4gPj4KPiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCj4gPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gPiBkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo+IF9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAoKCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBF
-bmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KKzQxICgwKSA3OSAzNjUgNTcgNDggLSBodHRwOi8v
-YmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWw=
+
+--===============2107129195==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="bp/iNruPH9dso1Pn"
+Content-Disposition: inline
+
+
+--bp/iNruPH9dso1Pn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sun, Jun 23, 2019 at 08:37:41PM +0300, Dmitry Osipenko wrote:
+> On ARM32 we don't want any of the clients device to be backed by the
+> implicit domain, simply because we can't afford such a waste on older
+> Tegra SoCs that have very few domains available in total. The recent IOMMU
+> support addition for the Video Decoder hardware uncovered the problem
+> that an unfortunate drivers probe order results in the DRM driver probe
+> failure if CONFIG_ARM_DMA_USE_IOMMU=3Dy due to a shortage of IOMMU domains
+> caused by the implicit backing. The host1x_client_register() is a common
+> function that is invoked by all of the relevant DRM drivers during theirs
+> probe and hence it is convenient to remove the implicit backing there,
+> resolving the problem.
+>=20
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/gpu/host1x/bus.c | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+
+I don't really want to do this in a central place like this. If we
+really do need this, why can't we do it in the individual drivers? Also,
+we already call host1x_client_iommu_attach() from all the drivers and
+that detaches from the IOMMU as well. So I'm not sure I understand why
+this is needed.
+
+Thierry
+
+>=20
+> diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
+> index 742aa9ff21b8..559df3974afb 100644
+> --- a/drivers/gpu/host1x/bus.c
+> +++ b/drivers/gpu/host1x/bus.c
+> @@ -14,6 +14,10 @@
+>  #include "bus.h"
+>  #include "dev.h"
+> =20
+> +#if IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)
+> +#include <asm/dma-iommu.h>
+> +#endif
+> +
+>  static DEFINE_MUTEX(clients_lock);
+>  static LIST_HEAD(clients);
+> =20
+> @@ -710,6 +714,21 @@ int host1x_client_register(struct host1x_client *cli=
+ent)
+>  	struct host1x *host1x;
+>  	int err;
+> =20
+> +#if IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)
+> +	/*
+> +	 * The client's driver could be backed by implicit IOMMU mapping
+> +	 * and we don't want to have that because all of current Tegra
+> +	 * drivers are managing IOMMU by themselves. This is a convenient
+> +	 * place for unmapping of the implicit mapping because this function
+> +	 * is called by all host1x drivers during theirs probe.
+> +	 */
+> +	if (client->dev->archdata.mapping) {
+> +		struct dma_iommu_mapping *mapping =3D
+> +			to_dma_iommu_mapping(client->dev);
+> +		arm_iommu_detach_device(client->dev);
+> +		arm_iommu_release_mapping(mapping);
+> +	}
+> +#endif
+>  	mutex_lock(&devices_lock);
+> =20
+>  	list_for_each_entry(host1x, &devices, list) {
+> --=20
+> 2.22.0
+>=20
+
+--bp/iNruPH9dso1Pn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2xj/UACgkQ3SOs138+
+s6HkpA//YOpfeYtP6xh+CQ5j2ZbD2rIvdDo20CunZvL5l67FbNp+cPfNZ5Pi6oZ2
+dkOn/d+D9+xSOA5ix6QA4/wz2wb0mzpw/FKv45y09hWl9znqrdB6SNiZPXIewFp7
+/CPbN/7MsZOA/s8VO2oJV/iDXjp7RHMXQANRe2myanv/PMcP9MNNtv192rQoevkS
+Co1WCPbmJjeGIe0Cv+nBtqc53+YW6zb4vNKzLQ9l3aE6AZW61C3rS65y0bhdqCYh
+yYr7Rfd3lagKZbBoLShqMDijO/OntWsoPb2aqHOfJrRwYEzrgquhfkGyzxEYlOZz
+O9eAxL0bO8R9hswcUAh2pNyYqpWDPA/97JffHDV71xvyQUzqgSACi0+3p1mQrVfz
+6sCx8c0pJ3OesuZIQBWjdyNAgJXoKeGTlg/GKO2U2uu2PBbqQLRtagQnwkL+VJ4b
+YD8OWcrtwjcFWxsqYesZecAi359jdNWsvtnaJxbyFtsXPmldBq7u8/aKskbCSfDZ
+GgvaJlk9BTRYeU7gGVS30s4gY0SIwNmt5oDQ3VzaEGuwHDDzdt8+JMT97LmfDq5S
+mFD7sDlfoGAAI8TQBaqFVP3lJ0n65bN24Nye1z9zDE13Yb+mmylyB7wsXw2J/JZr
+N6PjGf93wqnopXfUpDU7r+CoC/VOLHuou6CNipxhKA+bbslRKrk=
+=/3Lb
+-----END PGP SIGNATURE-----
+
+--bp/iNruPH9dso1Pn--
+
+--===============2107129195==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2107129195==--
