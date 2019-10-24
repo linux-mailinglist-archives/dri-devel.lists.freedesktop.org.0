@@ -1,46 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5926CE343B
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 15:31:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 841F8E34AE
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 15:48:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EDFB6E40F;
-	Thu, 24 Oct 2019 13:31:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72AC26E40D;
+	Thu, 24 Oct 2019 13:48:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 110A36E40A
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 13:31:31 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 06CBD720E2; Thu, 24 Oct 2019 13:31:31 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111762] RX 5700 XT Navi - amdgpu.ppfeaturemask=0xffffffff
- causes stuttering and does not unlock clock/voltage/power controls
-Date: Thu, 24 Oct 2019 13:31:31 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ragnaros39216@yandex.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-111762-502-WWzWcBJwb1@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111762-502@http.bugs.freedesktop.org/>
-References: <bug-111762-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C6926E40D
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 13:48:04 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id l10so25748157wrb.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 06:48:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=EZ0gauJbDLm6nT++pFl8IpdBYl9f3/pCB6BsG6ZimpU=;
+ b=JhZLjFTDezImXLC4HDUWyIhA4PotherHW8l14ziqQKUPRdGilplTvGGCpjPv+HyyMu
+ tQYX5dj+ZMI2CdL3omIAvLzEZSbTv5YrVO+a2SnkUX3cI4MCJCtyBFsFsUQXPLXFUaqg
+ x7d+t297Dk/e3tUzfeLsW5NO8IR95cPyKoytu++FcOM9zs+yAjlYkImznPVb/8jwqZtd
+ 92R0sCq3t4rJAT01I2haipt2kdnfH1SB1pbWaYNy8rXrojCMZ3+HIZCaDDRc1pAPVfyl
+ A34lVN887mdSpVDx/aU/vwCyn9vgpqtt3LxTp+vai/e8Qx12CuHw+XGjljdVmDVLVOZM
+ 1zsQ==
+X-Gm-Message-State: APjAAAW9jg7syEp3Rk2M+LnwyT59PEx0icAp1Wb9UM+XVWt+PiJHG7Zn
+ DdlPCID9OTVxfVMrQv7Q+b8=
+X-Google-Smtp-Source: APXvYqwkpODXAwasjgKLcXY1OWtr0pF5zM9bczif2plmipl0NDD3sP2jDlEomkFXqJnFmDE1VZZEJA==
+X-Received: by 2002:adf:dbd2:: with SMTP id e18mr4017887wrj.268.1571924882363; 
+ Thu, 24 Oct 2019 06:48:02 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+ by smtp.gmail.com with ESMTPSA id v81sm1532612wmg.4.2019.10.24.06.47.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Oct 2019 06:47:57 -0700 (PDT)
+Date: Thu, 24 Oct 2019 15:47:56 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v1 1/3] gpu: host1x: Remove implicit IOMMU backing on
+ client's registration
+Message-ID: <20191024134756.GC2924027@ulmo>
+References: <20190623173743.24088-1-digetx@gmail.com>
+ <20191024115016.GA2924027@ulmo>
+ <55ab29ad-da9b-c178-4480-dc6edb09b3e4@gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <55ab29ad-da9b-c178-4480-dc6edb09b3e4@gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=EZ0gauJbDLm6nT++pFl8IpdBYl9f3/pCB6BsG6ZimpU=;
+ b=IEj0umb7V/DNnn74s4u91JW4cJLZwnBTLzrk3vURlFx/ucbL1ugoCEj0hdXqyZ5tAe
+ R33iEMU2BnKysT7s/Fqw1e2/we0KMBz+Du+kN+s4PNkxc88QUSyPTkWGlNsFvboBH+M9
+ 7lINu6cB7BNmLb9hi2WVXeMZ3fwB689CC1B6vkngaUusziM3wqIgH+bY4DngvULcRYZS
+ mHqE2G/wvVmWJeq5wAV9ytt9ONhwJvTItVr3Ghf9yhnAr5+nnp2Q/VnE1pQDoYY5s4MR
+ WWz7EQ/SZVYGEDnyXX0YMIyVoOHku9nVa9kS2Z6U2R5K3UnLjVAKwtziY5YfhyZSWJAL
+ oISw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,134 +70,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2082794837=="
+Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1786862421=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============2082794837==
-Content-Type: multipart/alternative; boundary="15719238900.ed73Af.16492"
-Content-Transfer-Encoding: 7bit
+--===============1786862421==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="oJ71EGRlYNjSvfq7"
+Content-Disposition: inline
 
 
---15719238900.ed73Af.16492
-Date: Thu, 24 Oct 2019 13:31:30 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+--oJ71EGRlYNjSvfq7
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111762
+On Thu, Oct 24, 2019 at 04:35:13PM +0300, Dmitry Osipenko wrote:
+> 24.10.2019 14:50, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Sun, Jun 23, 2019 at 08:37:41PM +0300, Dmitry Osipenko wrote:
+> >> On ARM32 we don't want any of the clients device to be backed by the
+> >> implicit domain, simply because we can't afford such a waste on older
+> >> Tegra SoCs that have very few domains available in total. The recent I=
+OMMU
+> >> support addition for the Video Decoder hardware uncovered the problem
+> >> that an unfortunate drivers probe order results in the DRM driver probe
+> >> failure if CONFIG_ARM_DMA_USE_IOMMU=3Dy due to a shortage of IOMMU dom=
+ains
+> >> caused by the implicit backing. The host1x_client_register() is a comm=
+on
+> >> function that is invoked by all of the relevant DRM drivers during the=
+irs
+> >> probe and hence it is convenient to remove the implicit backing there,
+> >> resolving the problem.
+> >>
+> >> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> >> ---
+> >>  drivers/gpu/host1x/bus.c | 19 +++++++++++++++++++
+> >>  1 file changed, 19 insertions(+)
+> >=20
+> > I don't really want to do this in a central place like this. If we
+> > really do need this, why can't we do it in the individual drivers?
+>=20
+> Why do you want to duplicate the same action for each driver instead of
+> doing it in a single common place?
 
-L.S.S. <ragnaros39216@yandex.com> changed:
+I don't mind doing it in a common place in particular, I just don't want
+to do this within the host1x bus infrastructure. This is really a policy
+decision that should be up to drivers. Consider the case where we had a
+different host1x driver (for V4L2 for example) that would actually want
+to use the DMA API. In that case we may want to detach in the DRM driver
+but not the V4L2 driver.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |ragnaros39216@yandex.com
+Thierry
 
---- Comment #5 from L.S.S. <ragnaros39216@yandex.com> ---
-I can also confirm the issue exists. Setting amdgpu.ppfeaturemask=3D0xfffff=
-fff
-doesn't allow me to access the "States Table" section in radeon-profile, as=
- if
-the parameter was ignored.
+--oJ71EGRlYNjSvfq7
+Content-Type: application/pgp-signature; name="signature.asc"
 
-As for the stutter issue, I don't know what exactly it is as I don't notice=
- any
-difference with or without the parameter. On 5.3 kernel, the mouse feels
-sluggish as if my monitor is running at 30Hz, but it's fine on 5.4 (rc) ker=
-nel.
-This is observed on official Manjaro kernels.
+-----BEGIN PGP SIGNATURE-----
 
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2xq4kACgkQ3SOs138+
+s6FNag//dCQTLu7oPNT3zc3b6EaUkms9Hy4DuTeMGzeKtu+qZRIc8UeavqaUk+1h
+XydJK/GxuftWAPot/ZAPPeczZe5hWM7621VwYhCnArmwZkCmcxgiUDNy2hjgmtmZ
+K7PjUUhwLHAvckWHxwfaYy8Fd2m+nK2ALvppph7FNsAxfZrZ28KjEGIFx96mGwdv
+/uoZt6jlhjvmEk0C5xRI8CGjZSCUy3/HO8j1oTLiE21ErxreCqAUZNXCKC6otQad
+5NsRhzYIQA+SUiFx9a/OcvN9weYTk+9T1+6zm6zwxY1lWdMbsqztu8Ucm8Mt6OYC
+20wB2GhKJjEZJrcXGf58CfHrsc8Iv5HzB2ozwVQAZjj3GptZZyTA0xNiJYin5Qso
+9bTMICJqwwn2XLjKW/4+mqdZtd1/2fbJ3MOqYAwkCPC5PH/97NNN5RpcrQCYzvPF
+XCBUuYA86v4T6o1j0NeooKfPFUiPjIfHbyPigPs9Eb5BzMtcxqh3F3VTVZ0tpcZ0
+jl9ZbFNUQs690Zwc6MLTXePx58TwWU3GqHR+zcCEgn+1y7sTiZ9ePzDHuKGN8pnC
+xpaur5WtxLu28PS2Q6Uu4o+TD1Ey/Ifc1JJlmyoEzHHsdgOfNPIWPs3MYAZS+Nro
+IK8LIOje6av2v2hf1Jelpm/PbtIYOLFV2iFgDxofZy/bEoG0Xfg=
+=FCO/
+-----END PGP SIGNATURE-----
 
---15719238900.ed73Af.16492
-Date: Thu, 24 Oct 2019 13:31:30 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+--oJ71EGRlYNjSvfq7--
 
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:ragnaros3=
-9216&#64;yandex.com" title=3D"L.S.S. &lt;ragnaros39216&#64;yandex.com&gt;">=
- <span class=3D"fn">L.S.S.</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - RX 5700 XT Navi - amdgpu.ppfeaturemask=3D0xffffffff cause=
-s stuttering and does not unlock clock/voltage/power controls"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111762">bug 11176=
-2</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">CC</td>
-           <td>
-               &nbsp;
-           </td>
-           <td>ragnaros39216&#64;yandex.com
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - RX 5700 XT Navi - amdgpu.ppfeaturemask=3D0xffffffff cause=
-s stuttering and does not unlock clock/voltage/power controls"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111762#c5">Commen=
-t # 5</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - RX 5700 XT Navi - amdgpu.ppfeaturemask=3D0xffffffff cause=
-s stuttering and does not unlock clock/voltage/power controls"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111762">bug 11176=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-ragnaros39216&#64;yandex.com" title=3D"L.S.S. &lt;ragnaros39216&#64;yandex.=
-com&gt;"> <span class=3D"fn">L.S.S.</span></a>
-</span></b>
-        <pre>I can also confirm the issue exists. Setting amdgpu.ppfeaturem=
-ask=3D0xffffffff
-doesn't allow me to access the &quot;States Table&quot; section in radeon-p=
-rofile, as if
-the parameter was ignored.
-
-As for the stutter issue, I don't know what exactly it is as I don't notice=
- any
-difference with or without the parameter. On 5.3 kernel, the mouse feels
-sluggish as if my monitor is running at 30Hz, but it's fine on 5.4 (rc) ker=
-nel.
-This is observed on official Manjaro kernels.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15719238900.ed73Af.16492--
-
---===============2082794837==
+--===============1786862421==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -190,4 +158,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============2082794837==--
+--===============1786862421==--
