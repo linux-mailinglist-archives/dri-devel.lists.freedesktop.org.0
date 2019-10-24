@@ -1,45 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BBBDE37AF
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 18:18:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 717CCE37D2
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 18:25:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACD526E4AB;
-	Thu, 24 Oct 2019 16:18:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E8B76E471;
+	Thu, 24 Oct 2019 16:25:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id BAEE389D9B
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 16:18:14 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B80DE720E2; Thu, 24 Oct 2019 16:18:14 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
- with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Thu, 24 Oct 2019 16:18:15 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: popovic.marko@protonmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: highest
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-HLInEDDeFS@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
-References: <bug-111481-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from foss.arm.com (unknown [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5DF126E47E
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 16:25:22 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EBE51328;
+ Thu, 24 Oct 2019 09:25:11 -0700 (PDT)
+Received: from e112269-lin.cambridge.arm.com (e112269-lin.cambridge.arm.com
+ [10.1.194.43])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7A4993F71F;
+ Thu, 24 Oct 2019 09:25:10 -0700 (PDT)
+From: Steven Price <steven.price@arm.com>
+To: Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@linux.ie>
+Subject: [RESEND PATCH v4] drm: Don't free jobs in wait_event_interruptible()
+Date: Thu, 24 Oct 2019 17:24:24 +0100
+Message-Id: <20191024162424.38548-1-steven.price@arm.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -53,122 +39,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0256183498=="
+Cc: Sharat Masetty <smasetty@codeaurora.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Erico Nunes <nunes.erico@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0256183498==
-Content-Type: multipart/alternative; boundary="15719338940.84e3.31188"
-Content-Transfer-Encoding: 7bit
-
-
---15719338940.84e3.31188
-Date: Thu, 24 Oct 2019 16:18:14 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
-
---- Comment #153 from Marko Popovic <popovic.marko@protonmail.com> ---
-(In reply to L.S.S. from comment #152)
-> UPDATE: I just got another freeze on 5.3.6 kernel. The same
-> GCVM_L2_PROTECTION_FAULT error followed by a ring sdma0 timeout.
->=20
-> So it seems AMD_DEBUG=3D"nodma nongg" doesn't really work for me.
-
-Can you at least provide the dmesg log so we can determine what type of hang
-you're having and directing you to the right bugtracker, since there are
-multiple types. This also varies greatly from one desktop environment to ot=
-her,
-wayland or not etc. This topic is mostly concerning the SDMA type hangs that
-happen at random, and AMD_DEBUG=3Dnodma seems to take care of it for almost
-anyone, I don't think using nongg is neccessary since until now it's only b=
-een
-proven to take care of 1 specific hang happening in Citra emulator, which is
-also ring-gfx type so it's a driver bug, probably not kernel driver related.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15719338940.84e3.31188
-Date: Thu, 24 Oct 2019 16:18:14 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c153">Comm=
-ent # 153</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-popovic.marko&#64;protonmail.com" title=3D"Marko Popovic &lt;popovic.marko&=
-#64;protonmail.com&gt;"> <span class=3D"fn">Marko Popovic</span></a>
-</span></b>
-        <pre>(In reply to L.S.S. from <a href=3D"show_bug.cgi?id=3D111481#c=
-152">comment #152</a>)
-<span class=3D"quote">&gt; UPDATE: I just got another freeze on 5.3.6 kerne=
-l. The same
-&gt; GCVM_L2_PROTECTION_FAULT error followed by a ring sdma0 timeout.
-&gt;=20
-&gt; So it seems AMD_DEBUG=3D&quot;nodma nongg&quot; doesn't really work fo=
-r me.</span >
-
-Can you at least provide the dmesg log so we can determine what type of hang
-you're having and directing you to the right bugtracker, since there are
-multiple types. This also varies greatly from one desktop environment to ot=
-her,
-wayland or not etc. This topic is mostly concerning the SDMA type hangs that
-happen at random, and AMD_DEBUG=3Dnodma seems to take care of it for almost
-anyone, I don't think using nongg is neccessary since until now it's only b=
-een
-proven to take care of 1 specific hang happening in Citra emulator, which is
-also ring-gfx type so it's a driver bug, probably not kernel driver related=
-.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15719338940.84e3.31188--
-
---===============0256183498==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0256183498==--
+ZHJtX3NjaGVkX2NsZWFudXBfam9icygpIGF0dGVtcHRzIHRvIGZyZWUgZmluaXNoZWQgam9icywg
+aG93ZXZlciBiZWNhdXNlCml0IGlzIGNhbGxlZCBhcyB0aGUgY29uZGl0aW9uIG9mIHdhaXRfZXZl
+bnRfaW50ZXJydXB0aWJsZSgpIGl0IG11c3Qgbm90CnNsZWVwLiBVbmZvcnR1YW50bHkgc29tZSBm
+cmVlIGNhbGxiYWNrcyAobm90aWJseSBmb3IgUGFuZnJvc3QpIGRvIHNsZWVwLgoKSW5zdGVhZCBs
+ZXQncyByZW5hbWUgZHJtX3NjaGVkX2NsZWFudXBfam9icygpIHRvCmRybV9zY2hlZF9nZXRfY2xl
+YW51cF9qb2IoKSBhbmQgc2ltcGx5IHJldHVybiBhIGpvYiBmb3IgcHJvY2Vzc2luZyBpZgp0aGVy
+ZSBpcyBvbmUuIFRoZSBjYWxsZXIgY2FuIHRoZW4gY2FsbCB0aGUgZnJlZV9qb2IoKSBjYWxsYmFj
+ayBvdXRzaWRlCnRoZSB3YWl0X2V2ZW50X2ludGVycnVwdGlibGUoKSB3aGVyZSBzbGVlcGluZyBp
+cyBwb3NzaWJsZSBiZWZvcmUKcmUtY2hlY2tpbmcgYW5kIHJldHVybmluZyB0byBzbGVlcCBpZiBu
+ZWNlc3NhcnkuCgpTaWduZWQtb2ZmLWJ5OiBTdGV2ZW4gUHJpY2UgPHN0ZXZlbi5wcmljZUBhcm0u
+Y29tPgotLS0KUHJldmlvdXMgcG9zdGluZzogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGttbC8y
+MDE5MDkyNjE0MTYzMC4xNDI1OC0xLXN0ZXZlbi5wcmljZUBhcm0uY29tLwoKIGRyaXZlcnMvZ3B1
+L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5jIHwgNDUgKysrKysrKysrKysrKysrLS0tLS0tLS0t
+LS0KIDEgZmlsZSBjaGFuZ2VkLCAyNiBpbnNlcnRpb25zKCspLCAxOSBkZWxldGlvbnMoLSkKCmRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYyBiL2RyaXZl
+cnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5jCmluZGV4IDlhMGVlNzRkODJkYy4uMTQ4
+NDY4NDQ3YmE5IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21h
+aW4uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYwpAQCAtNjIy
+LDQzICs2MjIsNDEgQEAgc3RhdGljIHZvaWQgZHJtX3NjaGVkX3Byb2Nlc3Nfam9iKHN0cnVjdCBk
+bWFfZmVuY2UgKmYsIHN0cnVjdCBkbWFfZmVuY2VfY2IgKmNiKQogfQogCiAvKioKLSAqIGRybV9z
+Y2hlZF9jbGVhbnVwX2pvYnMgLSBkZXN0cm95IGZpbmlzaGVkIGpvYnMKKyAqIGRybV9zY2hlZF9n
+ZXRfY2xlYW51cF9qb2IgLSBmZXRjaCB0aGUgbmV4dCBmaW5pc2hlZCBqb2IgdG8gYmUgZGVzdHJv
+eWVkCiAgKgogICogQHNjaGVkOiBzY2hlZHVsZXIgaW5zdGFuY2UKICAqCi0gKiBSZW1vdmUgYWxs
+IGZpbmlzaGVkIGpvYnMgZnJvbSB0aGUgbWlycm9yIGxpc3QgYW5kIGRlc3Ryb3kgdGhlbS4KKyAq
+IFJldHVybnMgdGhlIG5leHQgZmluaXNoZWQgam9iIGZyb20gdGhlIG1pcnJvciBsaXN0IChpZiB0
+aGVyZSBpcyBvbmUpCisgKiByZWFkeSBmb3IgaXQgdG8gYmUgZGVzdHJveWVkLgogICovCi1zdGF0
+aWMgdm9pZCBkcm1fc2NoZWRfY2xlYW51cF9qb2JzKHN0cnVjdCBkcm1fZ3B1X3NjaGVkdWxlciAq
+c2NoZWQpCitzdGF0aWMgc3RydWN0IGRybV9zY2hlZF9qb2IgKgorZHJtX3NjaGVkX2dldF9jbGVh
+bnVwX2pvYihzdHJ1Y3QgZHJtX2dwdV9zY2hlZHVsZXIgKnNjaGVkKQogeworCXN0cnVjdCBkcm1f
+c2NoZWRfam9iICpqb2IgPSBOVUxMOwogCXVuc2lnbmVkIGxvbmcgZmxhZ3M7CiAKIAkvKiBEb24n
+dCBkZXN0cm95IGpvYnMgd2hpbGUgdGhlIHRpbWVvdXQgd29ya2VyIGlzIHJ1bm5pbmcgKi8KIAlp
+ZiAoc2NoZWQtPnRpbWVvdXQgIT0gTUFYX1NDSEVEVUxFX1RJTUVPVVQgJiYKIAkgICAgIWNhbmNl
+bF9kZWxheWVkX3dvcmsoJnNjaGVkLT53b3JrX3RkcikpCi0JCXJldHVybjsKLQorCQlyZXR1cm4g
+TlVMTDsKIAotCXdoaWxlICghbGlzdF9lbXB0eSgmc2NoZWQtPnJpbmdfbWlycm9yX2xpc3QpKSB7
+Ci0JCXN0cnVjdCBkcm1fc2NoZWRfam9iICpqb2I7CisJc3Bpbl9sb2NrX2lycXNhdmUoJnNjaGVk
+LT5qb2JfbGlzdF9sb2NrLCBmbGFncyk7CiAKLQkJam9iID0gbGlzdF9maXJzdF9lbnRyeSgmc2No
+ZWQtPnJpbmdfbWlycm9yX2xpc3QsCisJam9iID0gbGlzdF9maXJzdF9lbnRyeV9vcl9udWxsKCZz
+Y2hlZC0+cmluZ19taXJyb3JfbGlzdCwKIAkJCQkgICAgICAgc3RydWN0IGRybV9zY2hlZF9qb2Is
+IG5vZGUpOwotCQlpZiAoIWRtYV9mZW5jZV9pc19zaWduYWxlZCgmam9iLT5zX2ZlbmNlLT5maW5p
+c2hlZCkpCi0JCQlicmVhazsKIAotCQlzcGluX2xvY2tfaXJxc2F2ZSgmc2NoZWQtPmpvYl9saXN0
+X2xvY2ssIGZsYWdzKTsKKwlpZiAoam9iICYmIGRtYV9mZW5jZV9pc19zaWduYWxlZCgmam9iLT5z
+X2ZlbmNlLT5maW5pc2hlZCkpIHsKIAkJLyogcmVtb3ZlIGpvYiBmcm9tIHJpbmdfbWlycm9yX2xp
+c3QgKi8KIAkJbGlzdF9kZWxfaW5pdCgmam9iLT5ub2RlKTsKLQkJc3Bpbl91bmxvY2tfaXJxcmVz
+dG9yZSgmc2NoZWQtPmpvYl9saXN0X2xvY2ssIGZsYWdzKTsKLQotCQlzY2hlZC0+b3BzLT5mcmVl
+X2pvYihqb2IpOworCX0gZWxzZSB7CisJCWpvYiA9IE5VTEw7CisJCS8qIHF1ZXVlIHRpbWVvdXQg
+Zm9yIG5leHQgam9iICovCisJCWRybV9zY2hlZF9zdGFydF90aW1lb3V0KHNjaGVkKTsKIAl9CiAK
+LQkvKiBxdWV1ZSB0aW1lb3V0IGZvciBuZXh0IGpvYiAqLwotCXNwaW5fbG9ja19pcnFzYXZlKCZz
+Y2hlZC0+am9iX2xpc3RfbG9jaywgZmxhZ3MpOwotCWRybV9zY2hlZF9zdGFydF90aW1lb3V0KHNj
+aGVkKTsKIAlzcGluX3VubG9ja19pcnFyZXN0b3JlKCZzY2hlZC0+am9iX2xpc3RfbG9jaywgZmxh
+Z3MpOwogCisJcmV0dXJuIGpvYjsKIH0KIAogLyoqCkBAIC02OTgsMTIgKzY5NiwyMSBAQCBzdGF0
+aWMgaW50IGRybV9zY2hlZF9tYWluKHZvaWQgKnBhcmFtKQogCQlzdHJ1Y3QgZHJtX3NjaGVkX2Zl
+bmNlICpzX2ZlbmNlOwogCQlzdHJ1Y3QgZHJtX3NjaGVkX2pvYiAqc2NoZWRfam9iOwogCQlzdHJ1
+Y3QgZG1hX2ZlbmNlICpmZW5jZTsKKwkJc3RydWN0IGRybV9zY2hlZF9qb2IgKmNsZWFudXBfam9i
+ID0gTlVMTDsKIAogCQl3YWl0X2V2ZW50X2ludGVycnVwdGlibGUoc2NoZWQtPndha2VfdXBfd29y
+a2VyLAotCQkJCQkgKGRybV9zY2hlZF9jbGVhbnVwX2pvYnMoc2NoZWQpLAorCQkJCQkgKGNsZWFu
+dXBfam9iID0gZHJtX3NjaGVkX2dldF9jbGVhbnVwX2pvYihzY2hlZCkpIHx8CiAJCQkJCSAoIWRy
+bV9zY2hlZF9ibG9ja2VkKHNjaGVkKSAmJgogCQkJCQkgIChlbnRpdHkgPSBkcm1fc2NoZWRfc2Vs
+ZWN0X2VudGl0eShzY2hlZCkpKSB8fAotCQkJCQkga3RocmVhZF9zaG91bGRfc3RvcCgpKSk7CisJ
+CQkJCSBrdGhyZWFkX3Nob3VsZF9zdG9wKCkpOworCisJCXdoaWxlIChjbGVhbnVwX2pvYikgewor
+CQkJc2NoZWQtPm9wcy0+ZnJlZV9qb2IoY2xlYW51cF9qb2IpOworCQkJLyogcXVldWUgdGltZW91
+dCBmb3IgbmV4dCBqb2IgKi8KKwkJCWRybV9zY2hlZF9zdGFydF90aW1lb3V0KHNjaGVkKTsKKwor
+CQkJY2xlYW51cF9qb2IgPSBkcm1fc2NoZWRfZ2V0X2NsZWFudXBfam9iKHNjaGVkKTsKKwkJfQog
+CiAJCWlmICghZW50aXR5KQogCQkJY29udGludWU7Ci0tIAoyLjIwLjEKCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
