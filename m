@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C82F0E3BC2
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 21:04:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E19BE3BD4
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 21:12:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 167F46E602;
-	Thu, 24 Oct 2019 19:04:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCD9C6E621;
+	Thu, 24 Oct 2019 19:12:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D20CC6E602
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 19:04:11 +0000 (UTC)
-Received: from localhost (unknown [109.190.253.11])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3B01A21A4A;
- Thu, 24 Oct 2019 19:04:10 +0000 (UTC)
-Date: Thu, 24 Oct 2019 20:28:49 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: [PATCH v10 5/6] arm64: dts: allwinner: a64: Add MIPI DSI pipeline
-Message-ID: <20191024182849.3oifqjl553twxwq4@hendrix>
-References: <20191005141913.22020-1-jagan@amarulasolutions.com>
- <20191005141913.22020-6-jagan@amarulasolutions.com>
- <20191007105708.raxavxk4n7bvxh7x@gilmour>
- <CAMty3ZCiwOGgwbsjTHvEZhwHGhsgb6_FeBs9hHgLai9=rV2_HQ@mail.gmail.com>
- <20191016080306.44pmo3rfmtnkgosq@gilmour>
- <CAMty3ZCTE=W+TNRvdowec-eYB625j97uG8F3fzVMtRFsKsqFFQ@mail.gmail.com>
- <20191017095225.ntx647ivegaldlyf@gilmour>
- <CAMty3ZDYcwJ4XMm45BLjXnvPXeu-rMAiN5v=CDhvuLsAm5tf=Q@mail.gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 679ED6E60E
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 19:12:36 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5E3ED720E2; Thu, 24 Oct 2019 19:12:36 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Thu, 24 Oct 2019 19:12:36 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: kingoipo@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: highest
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111481-502-eBaOBoCdac@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAMty3ZDYcwJ4XMm45BLjXnvPXeu-rMAiN5v=CDhvuLsAm5tf=Q@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1571943851;
- bh=BLF6bNI1LMtwSe4KBH8lI9gpwa1CAzLQZtAXBhg/Zeg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MkTv/uGKp2Ko24fnOFRYlxw3fOz+rJ/zpy+ay3PCdOr6dljJzXalGBW/IY3+Sh4hL
- ZHOWCerCbnV2Qh5nnsg5KeRQFfDkLn9qByozVmo20BVKP/rDjDFq0c/zH514KPQ7NO
- Cfb6oa5WQR+YTrQMDIs/O1AAzoZU+1E2jnQNot1E=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,92 +53,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- linux-sunxi <linux-sunxi@googlegroups.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Rob Herring <robh+dt@kernel.org>,
- Michael Trimarchi <michael@amarulasolutions.com>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Icenowy Zheng <icenowy@aosc.io>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1680477822=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBPY3QgMjQsIDIwMTkgYXQgMDY6MjY6MzZQTSArMDUzMCwgSmFnYW4gVGVraSB3cm90
-ZToKPiBPbiBUaHUsIE9jdCAxNywgMjAxOSBhdCAzOjIyIFBNIE1heGltZSBSaXBhcmQgPG1yaXBh
-cmRAa2VybmVsLm9yZz4gd3JvdGU6Cj4gPgo+ID4gT24gV2VkLCBPY3QgMTYsIDIwMTkgYXQgMDI6
-MTk6NDRQTSArMDUzMCwgSmFnYW4gVGVraSB3cm90ZToKPiA+ID4gT24gV2VkLCBPY3QgMTYsIDIw
-MTkgYXQgMTozMyBQTSBNYXhpbWUgUmlwYXJkIDxtcmlwYXJkQGtlcm5lbC5vcmc+IHdyb3RlOgo+
-ID4gPiA+Cj4gPiA+ID4gT24gTW9uLCBPY3QgMTQsIDIwMTkgYXQgMDU6Mzc6NTBQTSArMDUzMCwg
-SmFnYW4gVGVraSB3cm90ZToKPiA+ID4gPiA+IE9uIE1vbiwgT2N0IDcsIDIwMTkgYXQgNDoyNyBQ
-TSBNYXhpbWUgUmlwYXJkIDxtcmlwYXJkQGtlcm5lbC5vcmc+IHdyb3RlOgo+ID4gPiA+ID4gPgo+
-ID4gPiA+ID4gPiBPbiBTYXQsIE9jdCAwNSwgMjAxOSBhdCAwNzo0OToxMlBNICswNTMwLCBKYWdh
-biBUZWtpIHdyb3RlOgo+ID4gPiA+ID4gPiA+IEFkZCBNSVBJIERTSSBwaXBlbGluZSBmb3IgQWxs
-d2lubmVyIEE2NC4KPiA+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiA+IC0gZHNpIG5vZGUsIHdpdGgg
-QTY0IGNvbXBhdGlibGUgc2luY2UgaXQgZG9lc24ndCBzdXBwb3J0Cj4gPiA+ID4gPiA+ID4gICBE
-U0lfU0NMSyBnYXRpbmcgdW5saWtlIEEzMwo+ID4gPiA+ID4gPiA+IC0gZHBoeSBub2RlLCB3aXRo
-IEE2NCBjb21wYXRpYmxlIHdpdGggQTMzIGZhbGxiYWNrIHNpbmNlCj4gPiA+ID4gPiA+ID4gICBE
-UEhZIG9uIEE2NCBhbmQgQTMzIGlzIHNpbWlsYXIKPiA+ID4gPiA+ID4gPiAtIGZpbmFsbHksIGF0
-dGFjaCB0aGUgZHNpX2luIHRvIHRjb24wIGZvciBjb21wbGV0ZSBNSVBJIERTSQo+ID4gPiA+ID4g
-PiA+Cj4gPiA+ID4gPiA+ID4gU2lnbmVkLW9mZi1ieTogSmFnYW4gVGVraSA8amFnYW5AYW1hcnVs
-YXNvbHV0aW9ucy5jb20+Cj4gPiA+ID4gPiA+ID4gVGVzdGVkLWJ5OiBNZXJsaWpuIFdhamVyIDxt
-ZXJsaWpuQHdpenp1cC5vcmc+Cj4gPiA+ID4gPiA+ID4gLS0tCj4gPiA+ID4gPiA+ID4gIGFyY2gv
-YXJtNjQvYm9vdC9kdHMvYWxsd2lubmVyL3N1bjUwaS1hNjQuZHRzaSB8IDM4ICsrKysrKysrKysr
-KysrKysrKysKPiA+ID4gPiA+ID4gPiAgMSBmaWxlIGNoYW5nZWQsIDM4IGluc2VydGlvbnMoKykK
-PiA+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiA+IGRpZmYgLS1naXQgYS9hcmNoL2FybTY0L2Jvb3Qv
-ZHRzL2FsbHdpbm5lci9zdW41MGktYTY0LmR0c2kgYi9hcmNoL2FybTY0L2Jvb3QvZHRzL2FsbHdp
-bm5lci9zdW41MGktYTY0LmR0c2kKPiA+ID4gPiA+ID4gPiBpbmRleCA2OTEyOGE2ZGZjNDYuLmFk
-NDE3MGI4YWVlMCAxMDA2NDQKPiA+ID4gPiA+ID4gPiAtLS0gYS9hcmNoL2FybTY0L2Jvb3QvZHRz
-L2FsbHdpbm5lci9zdW41MGktYTY0LmR0c2kKPiA+ID4gPiA+ID4gPiArKysgYi9hcmNoL2FybTY0
-L2Jvb3QvZHRzL2FsbHdpbm5lci9zdW41MGktYTY0LmR0c2kKPiA+ID4gPiA+ID4gPiBAQCAtMzgy
-LDYgKzM4MiwxMiBAQAo+ID4gPiA+ID4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgI2FkZHJlc3MtY2VsbHMgPSA8MT47Cj4gPiA+ID4gPiA+ID4gICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAjc2l6ZS1jZWxscyA9IDwwPjsKPiA+ID4gPiA+ID4g
-PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJlZyA9IDwxPjsKPiA+ID4g
-PiA+ID4gPiArCj4gPiA+ID4gPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICB0Y29uMF9vdXRfZHNpOiBlbmRwb2ludEAxIHsKPiA+ID4gPiA+ID4gPiArICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcmVnID0gPDE+Owo+ID4gPiA+ID4g
-PiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICByZW1vdGUt
-ZW5kcG9pbnQgPSA8JmRzaV9pbl90Y29uMD47Cj4gPiA+ID4gPiA+ID4gKyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGFsbHdpbm5lcix0Y29uLWNoYW5uZWwgPSA8
-MT47Cj4gPiA+ID4gPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB9
-Owo+ID4gPiA+ID4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIH07Cj4gPiA+ID4g
-PiA+ID4gICAgICAgICAgICAgICAgICAgICAgIH07Cj4gPiA+ID4gPiA+ID4gICAgICAgICAgICAg
-ICB9Owo+ID4gPiA+ID4gPiA+IEBAIC0xMDAzLDYgKzEwMDksMzggQEAKPiA+ID4gPiA+ID4gPiAg
-ICAgICAgICAgICAgICAgICAgICAgc3RhdHVzID0gImRpc2FibGVkIjsKPiA+ID4gPiA+ID4gPiAg
-ICAgICAgICAgICAgIH07Cj4gPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gPiArICAgICAgICAgICAg
-IGRzaTogZHNpQDFjYTAwMDAgewo+ID4gPiA+ID4gPiA+ICsgICAgICAgICAgICAgICAgICAgICBj
-b21wYXRpYmxlID0gImFsbHdpbm5lcixzdW41MGktYTY0LW1pcGktZHNpIjsKPiA+ID4gPiA+ID4g
-PiArICAgICAgICAgICAgICAgICAgICAgcmVnID0gPDB4MDFjYTAwMDAgMHgxMDAwPjsKPiA+ID4g
-PiA+ID4gPiArICAgICAgICAgICAgICAgICAgICAgaW50ZXJydXB0cyA9IDxHSUNfU1BJIDg5IElS
-UV9UWVBFX0xFVkVMX0hJR0g+Owo+ID4gPiA+ID4gPiA+ICsgICAgICAgICAgICAgICAgICAgICBj
-bG9ja3MgPSA8JmNjdSBDTEtfQlVTX01JUElfRFNJPjsKPiA+ID4gPiA+ID4gPiArICAgICAgICAg
-ICAgICAgICAgICAgY2xvY2stbmFtZXMgPSAiYnVzIjsKPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4g
-VGhpcyB3b24ndCB2YWxpZGF0ZSB3aXRoIHRoZSBiaW5kaW5ncyB5b3UgaGF2ZSBlaXRoZXIgaGVy
-ZSwgc2luY2UgaXQKPiA+ID4gPiA+ID4gc3RpbGwgZXhwZWN0cyBidXMgYW5kIG1vZC4KPiA+ID4g
-PiA+ID4KPiA+ID4gPiA+ID4gSSBndWVzcyBpbiB0aGF0IGNhcywgd2UgY2FuIGp1c3QgZHJvcCBj
-bG9jay1uYW1lcywgd2hpY2ggd2lsbCByZXF1aXJlCj4gPiA+ID4gPiA+IGEgYml0IG9mIHdvcmsg
-b24gdGhlIGRyaXZlciBzaWRlIGFzIHdlbGwuCj4gPiA+ID4gPgo+ID4gPiA+ID4gT2theS4KPiA+
-ID4gPiA+IG1vZCBjbG9jayBpcyBub3QgcmVxdWlyZWQgZm9yIGE2NCwgaWUgcmVhc29uIHdlIGhh
-dmUgaGFzX21vZF9jbGsgcXVpcmsKPiA+ID4gPiA+IHBhdGNoLiBBZGp1c3QgdGhlIGNsb2NrLW5h
-bWVzOiBvbiBkdC1iaW5kaW5ncyB3b3VsZCBtYWtlIHNlbnNlIGhlcmUsCj4gPiA+ID4gPiB3aGF0
-IGRvIHlvdSB0aGluaz8KPiA+ID4gPgo+ID4gPiA+IEknbSBjb25mdXNlZCwgd2hhdCBhcmUgeW91
-IHN1Z2dlc3Rpbmc/Cj4gPiA+Cj4gPiA+IFNvcnJ5IGZvciB0aGUgY29uZnVzaW9uLgo+ID4gPgo+
-ID4gPiBUaGUgbW9kIGNsb2NrIGlzIG5vdCByZXF1aXJlZCBmb3IgQTY0IGFuZCB3ZSBoYXZlIGEg
-cGF0Y2ggZm9yIGhhbmRsaW5nCj4gPiA+IG1vZCBjbG9jayB1c2luZyBoYXNfbW9kX2NsayBxdWly
-ayhvbiB0aGUgc2VyaWVzKSwgaW5kZWVkIHRoZSBtb2QgY2xvY2sKPiA+ID4gaXMgYXZhaWxhYmxl
-IGluIEEzMSBhbmQgbm90IG5lZWRlZCBmb3IgQTY0LiBTbywgdG8gc2F0aXNmeSB0aGlzCj4gPiA+
-IHJlcXVpcmVtZW50IHRoZSBjbG9jay1uYW1lcyBvbiBkdC1iaW5kaW5ncyBjYW4gdXBkYXRlIHRv
-IG1ha2UgbW9kCj4gPiA+IGNsb2NrLW5hbWUgaXMgb3B0aW9uYWwgYW5kIGJ1cyBjbG9jayBpcyBy
-ZXF1aXJlZC4KPiA+Cj4gPiBObywgdGhlIGJ1cyBjbG9jayBuYW1lIGlzIG5vdCBuZWVkZWQgaWYg
-dGhlcmUncyBvbmx5IG9uZSBjbG9jay4KPgo+IExvb2tzIGxpa2Ugd2UgbmVlZCAiYnVzIiBjbG9j
-ayByZXF1aXJlZCBzaW5jZSB0aGUKPiBkZXZtX3JlZ21hcF9pbml0X21taW9fY2xrIGlzIGNyZWF0
-ZWQgb25seSBpZiBidXMgY2xvY2stbmFtZXMgYWRkZWQgaW4KPiBkdC4KClllYWgsIGhlbmNlIHdo
-eSBJIHNhaWQgeW91J2QgbmVlZCAiYSBiaXQgb2Ygd29yayBvbiB0aGUgZHJpdmVyIHNpZGUiCgpS
-ZXBsYWNpbmcgdGhlIGNsb2NrIG5hbWUgYnkgTlVMTCBzaG91bGQgd29yay4KCk1heGltZQpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1680477822==
+Content-Type: multipart/alternative; boundary="15719443560.ce06Af.8336"
+Content-Transfer-Encoding: 7bit
+
+
+--15719443560.ce06Af.8336
+Date: Thu, 24 Oct 2019 19:12:36 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+
+--- Comment #156 from Michael de Lang <kingoipo@gmail.com> ---
+Just had a hang using 5.4.0-rc3, mesa 19.3~git1910171930.4b458b~oibaf~d,
+AMD_DEBUG=3D"nodma nongg" while using firefox:
+
+Oct 24 16:31:26 oipo-X570-AORUS-ELITE kernel: [27386.467009] broken atomic
+modeset userspace detected, disabling atomic
+Oct 24 21:04:58 oipo-X570-AORUS-ELITE kernel: [43796.470041]
+[drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting for fences timed
+out!
+Oct 24 21:04:58 oipo-X570-AORUS-ELITE kernel: [43798.773602]
+[drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma0 timeout, signaled
+seq=3D1756792, emitted seq=3D1756794
+Oct 24 21:04:58 oipo-X570-AORUS-ELITE kernel: [43798.773683]
+[drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process information: process GPU
+Process pid 17048 thread firefox:cs0 pid 17134
+Oct 24 21:04:58 oipo-X570-AORUS-ELITE kernel: [43798.773685] [drm] GPU reco=
+very
+disabled.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15719443560.ce06Af.8336
+Date: Thu, 24 Oct 2019 19:12:36 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c156">Comm=
+ent # 156</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+kingoipo&#64;gmail.com" title=3D"Michael de Lang &lt;kingoipo&#64;gmail.com=
+&gt;"> <span class=3D"fn">Michael de Lang</span></a>
+</span></b>
+        <pre>Just had a hang using 5.4.0-rc3, mesa 19.3~git1910171930.4b458=
+b~oibaf~d,
+AMD_DEBUG=3D&quot;nodma nongg&quot; while using firefox:
+
+Oct 24 16:31:26 oipo-X570-AORUS-ELITE kernel: [27386.467009] broken atomic
+modeset userspace detected, disabling atomic
+Oct 24 21:04:58 oipo-X570-AORUS-ELITE kernel: [43796.470041]
+[drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting for fences timed
+out!
+Oct 24 21:04:58 oipo-X570-AORUS-ELITE kernel: [43798.773602]
+[drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma0 timeout, signaled
+seq=3D1756792, emitted seq=3D1756794
+Oct 24 21:04:58 oipo-X570-AORUS-ELITE kernel: [43798.773683]
+[drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process information: process GPU
+Process pid 17048 thread firefox:cs0 pid 17134
+Oct 24 21:04:58 oipo-X570-AORUS-ELITE kernel: [43798.773685] [drm] GPU reco=
+very
+disabled.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15719443560.ce06Af.8336--
+
+--===============1680477822==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1680477822==--
