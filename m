@@ -1,39 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C79FE399A
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 19:15:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BE89E39FA
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 19:28:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B1E06E588;
-	Thu, 24 Oct 2019 17:15:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 669D56E58A;
+	Thu, 24 Oct 2019 17:28:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45D416E588;
- Thu, 24 Oct 2019 17:15:16 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2019 10:15:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,225,1569308400"; d="scan'208";a="204310161"
-Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com) ([10.54.75.49])
- by FMSMGA003.fm.intel.com with ESMTP; 24 Oct 2019 10:15:15 -0700
-Date: Thu, 24 Oct 2019 10:17:37 -0700
-From: Manasi Navare <manasi.d.navare@intel.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/dp: Add function to parse EDID
- descriptors for adaptive sync limits
-Message-ID: <20191024171736.GB11507@intel.com>
-References: <20191024000041.7391-1-manasi.d.navare@intel.com>
- <20191024103106.GA2825247@ulmo>
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6A976E58A
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 17:28:18 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id w9so2219456wmm.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 10:28:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=zm62Wqaswjenn5y54IcQdgogQ2yNpEI/BY7greKk8IU=;
+ b=ifgd//waNOlxqnvwa0V6bPLSFMTSODeROujFk+IRm8xwz4xzw0y5yM1uDSuIH3Kgxe
+ RnzauNaqlo+EYZej8ViIHE430ps1RfeQo4ZOl+AzqjXnJ8eP8nwTmqmkuk8v6NO16QR7
+ KRC6TkvpjsZC6Iy6zS2daObW5hruiy0C6J4lb7ZcvM4QFWWuOPJ2vNax4P5UFsYbCKsz
+ fToy9BO8DtVhRK4bbmmoUtuoCv0WqYRT6R9wVc1OMLxX66JkBDCwNP9BpliNhJp951oV
+ 4fsgNPGCR2NC9d+RWeJhJ3j9sTdRAIyFtEVl5UvtV6sBWnxrtnnLn9qdjToHKlVgv50w
+ N4Og==
+X-Gm-Message-State: APjAAAWcbKPZH3Nd+ECunn1n4ak32aRwKlHaxZ56aAT5fMA8u3RhRdK2
+ c2pO8+AQW/v0e54IsXbgp5ERcbjV
+X-Google-Smtp-Source: APXvYqzWN3v4FpuSYIjXi+y8geENJPt7OcLK/VzZYmvYH4YxNvxho9FoDs7+lq9K8oOZhvyP+ReIFw==
+X-Received: by 2002:a1c:4e15:: with SMTP id g21mr5503175wmh.148.1571938097057; 
+ Thu, 24 Oct 2019 10:28:17 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+ by smtp.gmail.com with ESMTPSA id 6sm3613445wmd.36.2019.10.24.10.28.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Oct 2019 10:28:14 -0700 (PDT)
+Date: Thu, 24 Oct 2019 19:28:13 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v1 2/3] drm/tegra: Fix 2d and 3d clients detaching from
+ IOMMU domain
+Message-ID: <20191024172813.GA281291@ulmo>
+References: <20190623173743.24088-2-digetx@gmail.com>
+ <20191024115804.GB2924027@ulmo>
+ <45926d95-3e7a-c56b-402a-2b2c6475c5db@gmail.com>
+ <20191024135018.GD2924027@ulmo>
+ <38a67df0-2ede-e7fe-8eca-6c4491cdcc7b@gmail.com>
+ <20191024155620.GG2924027@ulmo>
+ <bfc6c17d-f2df-32d0-67d6-2f763c81d7fc@gmail.com>
+ <7f7ecf90-531c-69ae-9011-684666ed8743@gmail.com>
+ <ef2ccc90-be93-3cfb-6b8b-2a406dd8d362@gmail.com>
+ <026bbeb0-1539-2b62-a447-60c1bc041f5a@gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191024103106.GA2825247@ulmo>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <026bbeb0-1539-2b62-a447-60c1bc041f5a@gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=zm62Wqaswjenn5y54IcQdgogQ2yNpEI/BY7greKk8IU=;
+ b=FKwUFGQkPVFyQlwHjnhytsVlKaTLDLKeUk50uucVop7wS1k7bGd2rCbXnWrtV8qidc
+ 0kb6tTpVIDj8IAjYNy6XY1ipqpRoZ+KE2PsAEFUf3aAAUTCFmKGMyjOAzFiOBIumDl/V
+ qUhDB4+4CXP9mAn4teArtbNABs0PKNdjqH59nqL5+qZGLAY0Gxg1cxiIEKVeQwbclqIP
+ p2fnHTVyuYAe1amO0IgKlyCGFzMAORYvNilTvSSRN5TJvEc4Ho+HjH1rG6Db97CbNTrF
+ pX19oJ5SA8+hfXNlm16p/6h4TBE1JtjIEI8Xdy6nkPmxjLvQ2ticlb7/7oF9seil35K8
+ 5IeA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,102 +77,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1498642120=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBPY3QgMjQsIDIwMTkgYXQgMTI6MzE6MDZQTSArMDIwMCwgVGhpZXJyeSBSZWRpbmcg
-d3JvdGU6Cj4gT24gV2VkLCBPY3QgMjMsIDIwMTkgYXQgMDU6MDA6NDFQTSAtMDcwMCwgTWFuYXNp
-IE5hdmFyZSB3cm90ZToKPiA+IEFkYXB0aXZlIFN5bmMgaXMgYSBWRVNBIGZlYXR1cmUgc28gYWRk
-IGEgRFJNIGNvcmUgaGVscGVyIHRvIHBhcnNlCj4gPiB0aGUgRURJRCdzIGRldGFpbGVkIGRlc2Ny
-aXRvcnMgdG8gb2J0YWluIHRoZSBhZGFwdGl2ZSBzeW5jIG1vbml0b3IgcmFuZ2UuCj4gPiBTdG9y
-ZSB0aGlzIGluZm8gYXMgcGFydCBmbyBkcm1fZGlzcGxheV9pbmZvIHNvIGl0IGNhbiBiZSB1c2Vk
-Cj4gPiBhY3Jvc3MgYWxsIGRyaXZlcnMuCj4gPiBUaGlzIHBhcnQgb2YgdGhlIGNvZGUgaXMgc3Ry
-aXBwZWQgb3V0IG9mIGFtZGdwdSdzIGZ1bmN0aW9uCj4gPiBhbWRncHVfZG1fdXBkYXRlX2ZyZWVz
-eW5jX2NhcHMoKSB0byBtYWtlIGl0IGdlbmVyaWMgYW5kIGJlIHVzZWQKPiA+IGFjcm9zcyBhbGwg
-RFJNIGRyaXZlcnMKPiA+IAo+ID4gQ2M6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBs
-aW51eC5pbnRlbC5jb20+Cj4gPiBDYzogSGFycnkgV2VudGxhbmQgPGhhcnJ5LndlbnRsYW5kQGFt
-ZC5jb20+Cj4gPiBDYzogQ2xpbnRvbiBBIFRheWxvciA8Y2xpbnRvbi5hLnRheWxvckBpbnRlbC5j
-b20+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBNYW5hc2kgTmF2YXJlIDxtYW5hc2kuZC5uYXZhcmVAaW50
-ZWwuY29tPgo+ID4gLS0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMgIHwgNDkgKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKwo+ID4gIGluY2x1ZGUvZHJtL2RybV9j
-b25uZWN0b3IuaCB8IDI1ICsrKysrKysrKysrKysrKysrKysKPiA+ICBpbmNsdWRlL2RybS9kcm1f
-ZWRpZC5oICAgICAgfCAgMiArKwo+ID4gIDMgZmlsZXMgY2hhbmdlZCwgNzYgaW5zZXJ0aW9ucygr
-KQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYwo+ID4gaW5kZXggNDc0YWMwNGQ1NjAwLi45N2RkMTIwMDc3
-M2UgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYwo+ID4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMKPiA+IEBAIC00NzA3LDYgKzQ3MDcsNTIgQEAgc3Rh
-dGljIHZvaWQgZHJtX3BhcnNlX2NlYV9leHQoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3Rv
-ciwKPiA+ICAJfQo+ID4gIH0KPiA+ICAKPiA+ICt2b2lkIGRybV9nZXRfYWRhcHRpdmVfc3luY19s
-aW1pdHMoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwKPiA+ICsJCQkJICBjb25zdCBz
-dHJ1Y3QgZWRpZCAqZWRpZCkKPiA+ICt7Cj4gPiArCXN0cnVjdCBkcm1fZGlzcGxheV9pbmZvICpp
-bmZvID0gJmNvbm5lY3Rvci0+ZGlzcGxheV9pbmZvOwo+ID4gKwljb25zdCBzdHJ1Y3QgZGV0YWls
-ZWRfdGltaW5nICp0aW1pbmc7Cj4gPiArCWNvbnN0IHN0cnVjdCBkZXRhaWxlZF9ub25fcGl4ZWwg
-KmRhdGE7Cj4gPiArCWNvbnN0IHN0cnVjdCBkZXRhaWxlZF9kYXRhX21vbml0b3JfcmFuZ2UgKnJh
-bmdlOwo+ID4gKwlpbnQgaTsKPiAKPiBUaGlzIGNhbiBiZSB1bnNpZ25lZCBpbnQuCgpZZXMgdGhp
-cyBjYW4gYmUgdW5zaWduZWQsIHdpbGwgY2hhbmdlIHRoaXMKCj4gCj4gPiArCj4gPiArCS8qCj4g
-PiArCSAqIFJlc3RyaWN0IEFkYXB0aXZlIFN5bmMgb25seSBmb3IgZHAgYW5kIGVkcAo+ID4gKwkg
-Ki8KPiA+ICsJaWYgKGNvbm5lY3Rvci0+Y29ubmVjdG9yX3R5cGUgIT0gRFJNX01PREVfQ09OTkVD
-VE9SX0Rpc3BsYXlQb3J0ICYmCj4gPiArCSAgICBjb25uZWN0b3ItPmNvbm5lY3Rvcl90eXBlICE9
-IERSTV9NT0RFX0NPTk5FQ1RPUl9lRFApCj4gPiArCQlyZXR1cm47Cj4gPiArCj4gPiArCWlmIChl
-ZGlkLT52ZXJzaW9uIDw9IDEgJiYgIShlZGlkLT52ZXJzaW9uID09IDEgJiYgZWRpZC0+cmV2aXNp
-b24gPiAxKSkKPiA+ICsJCXJldHVybjsKPiA+ICsKPiA+ICsJZm9yIChpID0gMDsgaSA8IDQ7IGkr
-Kykgewo+ID4gKwkJdGltaW5nICA9ICZlZGlkLT5kZXRhaWxlZF90aW1pbmdzW2ldOwo+ID4gKwkJ
-ZGF0YSAgICA9ICZ0aW1pbmctPmRhdGEub3RoZXJfZGF0YTsKPiA+ICsJCXJhbmdlICAgPSAmZGF0
-YS0+ZGF0YS5yYW5nZTsKPiA+ICsJCS8qCj4gPiArCQkgKiBDaGVjayBpZiBtb25pdG9yIGhhcyBj
-b250aW51b3VzIGZyZXF1ZW5jeSBtb2RlCj4gPiArCQkgKi8KPiA+ICsJCWlmIChkYXRhLT50eXBl
-ICE9IEVESURfREVUQUlMX01PTklUT1JfUkFOR0UpCj4gPiArCQkJY29udGludWU7Cj4gPiArCQkv
-Kgo+ID4gKwkJICogQ2hlY2sgZm9yIGZsYWcgcmFuZ2UgbGltaXRzIG9ubHkuIElmIGZsYWcgPT0g
-MSB0aGVuCj4gPiArCQkgKiBubyBhZGRpdGlvbmFsIHRpbWluZyBpbmZvcm1hdGlvbiBwcm92aWRl
-ZC4KPiA+ICsJCSAqIERlZmF1bHQgR1RGLCBHVEYgU2Vjb25kYXJ5IGN1cnZlIGFuZCBDVlQgYXJl
-IG5vdAo+ID4gKwkJICogc3VwcG9ydGVkCj4gPiArCQkgKi8KPiA+ICsJCWlmIChyYW5nZS0+Zmxh
-Z3MgIT0gMSkKPiA+ICsJCQljb250aW51ZTsKPiA+ICsKPiA+ICsJCWluZm8tPmFkYXB0aXZlX3N5
-bmMubWluX3ZmcmVxID0gcmFuZ2UtPm1pbl92ZnJlcTsKPiA+ICsJCWluZm8tPmFkYXB0aXZlX3N5
-bmMubWF4X3ZmcmVxID0gcmFuZ2UtPm1heF92ZnJlcTsKPiA+ICsJCWluZm8tPmFkYXB0aXZlX3N5
-bmMucGl4ZWxfY2xvY2tfbWh6ID0KPiA+ICsJCQlyYW5nZS0+cGl4ZWxfY2xvY2tfbWh6ICogMTA7
-Cj4gPiArCQlicmVhazsKPiA+ICsJfQo+ID4gK30KPiA+ICtFWFBPUlRfU1lNQk9MKGRybV9nZXRf
-YWRhcHRpdmVfc3luY19saW1pdHMpOwo+ID4gKwo+ID4gIC8qIEEgY29ubmVjdG9yIGhhcyBubyBF
-RElEIGluZm9ybWF0aW9uLCBzbyB3ZSd2ZSBnb3Qgbm8gRURJRCB0byBjb21wdXRlIHF1aXJrcyBm
-cm9tLiBSZXNldAo+ID4gICAqIGFsbCBvZiB0aGUgdmFsdWVzIHdoaWNoIHdvdWxkIGhhdmUgYmVl
-biBzZXQgZnJvbSBFRElECj4gPiAgICovCj4gPiBAQCAtNDcyOCw2ICs0Nzc0LDcgQEAgZHJtX3Jl
-c2V0X2Rpc3BsYXlfaW5mbyhzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yKQo+ID4gIAlt
-ZW1zZXQoJmluZm8tPmhkbWksIDAsIHNpemVvZihpbmZvLT5oZG1pKSk7Cj4gPiAgCj4gPiAgCWlu
-Zm8tPm5vbl9kZXNrdG9wID0gMDsKPiA+ICsJbWVtc2V0KCZpbmZvLT5hZGFwdGl2ZV9zeW5jLCAw
-LCBzaXplb2YoaW5mby0+YWRhcHRpdmVfc3luYykpOwo+ID4gIH0KPiA+ICAKPiA+ICB1MzIgZHJt
-X2FkZF9kaXNwbGF5X2luZm8oc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwgY29uc3Qg
-c3RydWN0IGVkaWQgKmVkaWQpCj4gPiBAQCAtNDc0Myw2ICs0NzkwLDggQEAgdTMyIGRybV9hZGRf
-ZGlzcGxheV9pbmZvKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsIGNvbnN0IHN0cnVj
-dCBlZGlkICplZGkKPiA+ICAKPiA+ICAJaW5mby0+bm9uX2Rlc2t0b3AgPSAhIShxdWlya3MgJiBF
-RElEX1FVSVJLX05PTl9ERVNLVE9QKTsKPiA+ICAKPiA+ICsJZHJtX2dldF9hZGFwdGl2ZV9zeW5j
-X2xpbWl0cyhjb25uZWN0b3IsIGVkaWQpOwo+ID4gKwo+ID4gIAlEUk1fREVCVUdfS01TKCJub25f
-ZGVza3RvcCBzZXQgdG8gJWRcbiIsIGluZm8tPm5vbl9kZXNrdG9wKTsKPiA+ICAKPiA+ICAJaWYg
-KGVkaWQtPnJldmlzaW9uIDwgMykKPiA+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fY29u
-bmVjdG9yLmggYi9pbmNsdWRlL2RybS9kcm1fY29ubmVjdG9yLmgKPiA+IGluZGV4IDVmOGMzMzg5
-ZDQ2Zi4uYTI3YTg0MjcwZDhkIDEwMDY0NAo+ID4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2Nvbm5l
-Y3Rvci5oCj4gPiArKysgYi9pbmNsdWRlL2RybS9kcm1fY29ubmVjdG9yLmgKPiA+IEBAIC0yNTQs
-NiArMjU0LDI2IEBAIGVudW0gZHJtX3BhbmVsX29yaWVudGF0aW9uIHsKPiA+ICAJRFJNX01PREVf
-UEFORUxfT1JJRU5UQVRJT05fUklHSFRfVVAsCj4gPiAgfTsKPiA+ICAKPiA+ICsvKioKPiA+ICsg
-KiBzdHJ1Y3QgZHJtX2FkYXB0aXZlX3N5bmNfaW5mbyAtIFBhbmVsJ3MgQWRhcHRpdmUgU3luYyBj
-YXBhYmlsaXRpZXMgZm9yCj4gPiArICogJmRybV9kaXNwbGF5X2luZm8KPiA+ICsgKgo+ID4gKyAq
-IFRoaXMgc3RydWN0IGlzIHVzZWQgdG8gc3RvcmUgYSBQYW5lbCdzIEFkYXB0aXZlIFN5bmMgY2Fw
-YWJpbGl0aWVzCj4gPiArICogYXMgcGFyc2VkIGZyb20gRURJRCdzIGRldGFpbGVkIG1vbml0b3Ig
-cmFuZ2UgZGVzY3JpcHRvciBibG9jay4KPiA+ICsgKgo+ID4gKyAqIEBtaW5fdmZyZXE6IFRoaXMg
-aXMgdGhlIG1pbiBzdXBwb3J0ZWQgcmVmcmVzaCByYXRlIGluIEh6IGZyb20KPiA+ICsgKiAgICAg
-ICAgICAgICBFRElEJ3MgZGV0YWlsZWQgbW9uaXRvciByYW5nZS4KPiA+ICsgKiBAbWF4X3ZmcmVx
-OiBUaGlzIGlzIHRoZSBtYXggc3VwcG9ydGVkIHJlZnJlc2ggcmF0ZSBpbiBIeiBmcm9tCj4gPiAr
-ICogICAgICAgICAgICAgRURJRCdzIGRldGFpbGVkIG1vbml0b3IgcmFuZ2UKPiA+ICsgKiBAcGl4
-ZWxfY2xvY2tfbWh6OiBUaGlzIGlzIHRoZSBkb3RjbG9jayBpbiBNSHogZnJvbQo+ID4gKyAqICAg
-ICAgICAgICAgICAgICAgIEVESUQncyBkZXRhaWxlZCBtb25pdG9yIHJhbmdlCj4gPiArICovCj4g
-PiArc3RydWN0IGRybV9hZGFwdGl2ZV9zeW5jX2luZm8gewo+ID4gKwlpbnQgbWluX3ZmcmVxOwo+
-ID4gKwlpbnQgbWF4X3ZmcmVxOwo+ID4gKwlpbnQgcGl4ZWxfY2xvY2tfbWh6Owo+IAo+IEFueSBy
-ZWFzb24gd2h5IHRoZXNlIGNhbid0IGJlIHVuc2lnbmVkPyBBbHNvLCBkb2VzIGl0IHBlcmhhcHMg
-bWFrZSBzZW5zZQo+IHRvIHN0b3JlIHRoZSBwaXhlbCBjbG9jayBhcyBrSHogbGlrZSB3ZSBkbyBl
-dmVyeXdoZXJlIGVsc2U/Cj4KClllcyBJIGNvdWxkIGNoYW5nZSB0aGVzZSB0byB1bnNpZ25lZCBh
-cyB3ZWxsLCBqdXN0IGtlcHQgaXMgc2ltaWxhciB0byB0aGUgQU1ER1BVIGRlZnMgdG8gYmVnaW4g
-d2l0aApBbHNvIHRoZSBwaXhlbCBjbG9jayBpbiBNSHogaXMgdG8gYWxpZ24gd2l0aCB0aGUgZHJt
-X2VkaWQuaCBpbiBkZXRhaWxlZF9kYXRhX21vbml0b3JfcmFuZ2UKClJlZ2FyZHMKTWFuYXNpCiAK
-PiBUaGllcnJ5CgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1498642120==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="dDRMvlgZJXvWKvBx"
+Content-Disposition: inline
+
+
+--dDRMvlgZJXvWKvBx
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Oct 24, 2019 at 07:31:19PM +0300, Dmitry Osipenko wrote:
+> 24.10.2019 19:21, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > 24.10.2019 19:09, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >> 24.10.2019 18:57, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >>> 24.10.2019 18:56, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >>>> On Thu, Oct 24, 2019 at 06:47:23PM +0300, Dmitry Osipenko wrote:
+> >>>>> 24.10.2019 16:50, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >>>>>> On Thu, Oct 24, 2019 at 04:28:41PM +0300, Dmitry Osipenko wrote:
+> >>>>>>> 24.10.2019 14:58, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >>>>>>>> On Sun, Jun 23, 2019 at 08:37:42PM +0300, Dmitry Osipenko wrote:
+> >>>>>>>>> This should should fire up on the DRM's driver module re-loader=
+ because
+> >>>>>>>>> there won't be enough available domains on older Tegra SoCs.
+> >>>>>>>>>
+> >>>>>>>>> Cc: stable <stable@vger.kernel.org>
+> >>>>>>>>> Fixes: 0c407de5ed1a ("drm/tegra: Refactor IOMMU attach/detach")
+> >>>>>>>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> >>>>>>>>> ---
+> >>>>>>>>>  drivers/gpu/drm/tegra/dc.c   | 4 ++--
+> >>>>>>>>>  drivers/gpu/drm/tegra/drm.c  | 9 ++++++---
+> >>>>>>>>>  drivers/gpu/drm/tegra/drm.h  | 3 ++-
+> >>>>>>>>>  drivers/gpu/drm/tegra/gr2d.c | 4 ++--
+> >>>>>>>>>  drivers/gpu/drm/tegra/gr3d.c | 4 ++--
+> >>>>>>>>>  5 files changed, 14 insertions(+), 10 deletions(-)
+> >>>>>>>>
+> >>>>>>>> I think I understand what this is trying to do, but the commit m=
+essage
+> >>>>>>>> does not help at all. So what's really going on here is that we =
+need to
+> >>>>>>>> detach the device from the group regardless of whether we're sha=
+ring the
+> >>>>>>>> group or not, just like we attach groups to the shared domain wh=
+ether
+> >>>>>>>> they share the same group or not.
+> >>>>>>>
+> >>>>>>> Yes, the commit's message could be improved.
+> >>>>>>>
+> >>>>>>>> But in that case, I wonder if it's even worth splitting groups t=
+he way
+> >>>>>>>> we are right now. Wouldn't it be better to just put all the devi=
+ces into
+> >>>>>>>> the same group and be done with it?
+> >>>>>>>>
+> >>>>>>>> The current code gives me headaches every time I read it, so if =
+we can
+> >>>>>>>> just make it so that all the devices under the DRM device share =
+the same
+> >>>>>>>> group, this would become a lot easier to deal with. I'm not real=
+ly
+> >>>>>>>> convinced that it makes much sense to keep them on separate doma=
+ins,
+> >>>>>>>> especially given the constraints on the number of domains availa=
+ble on
+> >>>>>>>> earlier Tegra devices.
+> >>>>>>>>
+> >>>>>>>> Note that sharing a group will also make it much easier for thes=
+e to use
+> >>>>>>>> the DMA API if it is backed by an IOMMU.
+> >>>>>>>
+> >>>>>>> Probably I'm blanking on everything about IOMMU now.. could you p=
+lease
+> >>>>>>> remind me what "IOMMU group" is?
+> >>>>>>>
+> >>>>>>> Isn't it that each IOMMU group relates to the HW ID (SWGROUP)? Bu=
+t then
+> >>>>>>> each display controller has its own SWGROUP.. and thus that shari=
+ng just
+> >>>>>>> doesn't make any sense, hm.
+> >>>>>>
+> >>>>>> IOMMU groups are not directly related to SWGROUPs. But by default =
+the
+> >>>>>> IOMMU framework will share a domain between members of the same IO=
+MMU
+> >>>>>> group.
+> >>>>>
+> >>>>> Ah, I re-figured out that again. The memory controller drivers are
+> >>>>> defining a single "IOMMU group" for both of the display controllers.
+> >>>>>
+> >>>>>> Seems like that's really what we want here, so that when we do
+> >>>>>> use the DMA API, all the devices part of the DRM device get attach=
+ed to
+> >>>>>> the same IOMMU domain, yet if we don't want to use the DMA API we =
+only
+> >>>>>> need to detach the one group from the backing.
+> >>>>>
+> >>>>> Yes, it should be okay to put all DRM devices into the same group, =
+like
+> >>>>> it is done now for the displays. It also should resolve problem wit=
+h the
+> >>>>> domains shortage on T30 since now there are maximum 3 domains in us=
+e:
+> >>>>> host1x, drm and vde.
+> >>>>>
+> >>>>> I actually just checked that the original problem still exists
+> >>>>> and this change solves it as well:
+> >>>>>
+> >>>>> ---
+> >>>>> diff --git a/drivers/memory/tegra/tegra30.c b/drivers/memory/tegra/=
+tegra30.c
+> >>>>> index 5a0f6e0a1643..e71096498436 100644
+> >>>>> --- a/drivers/memory/tegra/tegra30.c
+> >>>>> +++ b/drivers/memory/tegra/tegra30.c
+> >>>>> @@ -1021,6 +1021,9 @@ static const struct tegra_smmu_swgroup
+> >>>>> tegra30_swgroups[] =3D {
+> >>>>>  static const unsigned int tegra30_group_display[] =3D {
+> >>>>>  	TEGRA_SWGROUP_DC,
+> >>>>>  	TEGRA_SWGROUP_DCB,
+> >>>>> +	TEGRA_SWGROUP_G2,
+> >>>>> +	TEGRA_SWGROUP_NV,
+> >>>>> +	TEGRA_SWGROUP_NV2,
+> >>>>>  };
+> >>>>>
+> >>>>>  static const struct tegra_smmu_group_soc tegra30_groups[] =3D {
+> >>>>> ---
+> >>>>>
+> >>>>> Please let me know whether you're going to make a patch or if I sho=
+uld
+> >>>>> do it.
+> >>>>
+> >>>> I've been testing with a similar change and couldn't find any
+> >>>> regressions. I've also made the same modifications for Tegra114 and
+> >>>> Tegra124.
+> >>>>
+> >>>> Are you saying that none of these patches are needed anymore? Or do =
+we
+> >>>> still need a patch to fix detaching? I'm thinking that maybe we can
+> >>>> drastrically simplify the detachment now by dropping the shared
+> >>>> parameter altogether.
+> >>>>
+> >>>> Let me draft a patch and send out the whole set for testing.
+> >>>
+> >>> Seems it's still not ideal because I noticed this in KMSG:
+> >>>
+> >>> [    0.703185] Failed to attached device 54200000.dc to IOMMU_mapping
+> >>> [    0.710404] Failed to attached device 54240000.dc to IOMMU_mapping
+> >>> [    0.719347] Failed to attached device 54140000.gr2d to IOMMU_mappi=
+ng
+> >>> [    0.719569] Failed to attached device 54180000.gr3d to IOMMU_mappi=
+ng
+> >>>
+> >>> which comes from the implicit IOMMU backing.
+> >>
+> >> And the error comes from here:
+> >>
+> >> https://elixir.bootlin.com/linux/v5.4-rc2/source/drivers/iommu/iommu.c=
+#L1655
+> >=20
+> > So the detaching still should be needed, but at the moment the ARM32
+> > DMA-mapping code is simply not suitable for the case of having multiple
+> > devices in the same group. I'm wondering whether there are any real
+> > users for the implicit IOMMU backing on ARM32 at all :/
+> >=20
+>=20
+> Apparently the "Failed to attached device 54200000.dc" was always in the
+> log (I rarely testing the default multi-platform config), it's just the
+> message is a pr_warn that I wasn't paying attention because it is
+> colored like pr_info in dmesg :)
+
+Yeah, so the above isn't a complete solution. In order to actually use
+the DMA API backed by an IOMMU, some additional patches are needed. I
+have all of those in a local tree and I've already sent out a couple of
+them. It's taking a while because they all need to be applied in small
+iterations to make sure things don't break midway.
+
+Thierry
+
+--dDRMvlgZJXvWKvBx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2x3ysACgkQ3SOs138+
+s6HX7w/+NcGyD7sUWbYVe3VStB4pZhCfdh06LafK9634Ipd2gr8xjYfQxk8EdE84
+W+1qMDS468vNru5AdRvpJYWDFUYeOUJ1F08Xw/1bzJh+V6W7KkKUQmgdwdYYYP1T
+amG9+ECR0xH2XJ+RW6GBzqYuG7NzkSYbU/gte+C3CKrGzoetdBjyOZJAhuWC4KAd
+yKUa5IjPsHlmyafXRH8D1j2vAHgj1Rpb8O7HElyZSR2KefTay87rAVqLFNPyKILX
+jahT0yOdvMqt3O89onJVipN1h0UOFWfKXm0V9OxaRwCdLzXPZ0J1f5dqxCc/K9XH
+SffKNedJPZpZOpXvJ2/ZLGuLaSVcGkbkN2agnRW3rh22FqPn3H7ylc4fZ1LS7Eol
+FnEl4pW/iO08icsEw3e27WnLOa93NiMc+/COjeHGrMA9+bQAnovcbZnOvARgjqJY
+XYkBqqGsw2xK5i9DxNAx7ygNCwyrQ0AUD3AFEqZHneE7emV6l4u/U+BnmTi5+N9C
+Sfc8xk60ng396y2lTrTfXSFZ8inKKFwzuPJWqTbI9o7gQMueQcDGvncw2sbFFbBj
+3f/j3yWZJ6MSTD4paBYKW2swyNqlZgdIXC6g3C3hm+e73sodiPX+076elJGq3c6h
+z1pG8QuRpIbXyTsnvE2iZK3Zkp6eg7vPDaRwpvEIHttc22v11CA=
+=GS+X
+-----END PGP SIGNATURE-----
+
+--dDRMvlgZJXvWKvBx--
+
+--===============1498642120==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1498642120==--
