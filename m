@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6C2E3B82
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 21:00:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10F0DE3BB6
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 21:03:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF5856E610;
-	Thu, 24 Oct 2019 19:00:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CE5A898A3;
+	Thu, 24 Oct 2019 19:03:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 342C36E61B
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 19:00:12 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 311C3720E2; Thu, 24 Oct 2019 19:00:12 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
- with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Thu, 24 Oct 2019 19:00:12 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: jmsharvey771@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: highest
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-pwFBBoFDCo@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
-References: <bug-111481-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE166898A3
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 19:03:17 +0000 (UTC)
+Received: from localhost (unknown [109.190.253.11])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id EBE492070B;
+ Thu, 24 Oct 2019 19:03:16 +0000 (UTC)
+Date: Thu, 24 Oct 2019 20:27:49 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [PATCH v10 5/6] arm64: dts: allwinner: a64: Add MIPI DSI pipeline
+Message-ID: <20191024182749.czihj3gnvj5yz2eo@hendrix>
+References: <20191005141913.22020-1-jagan@amarulasolutions.com>
+ <20191005141913.22020-6-jagan@amarulasolutions.com>
+ <20191007105708.raxavxk4n7bvxh7x@gilmour>
+ <CAMty3ZCiwOGgwbsjTHvEZhwHGhsgb6_FeBs9hHgLai9=rV2_HQ@mail.gmail.com>
+ <20191016080306.44pmo3rfmtnkgosq@gilmour>
+ <CAMty3ZCTE=W+TNRvdowec-eYB625j97uG8F3fzVMtRFsKsqFFQ@mail.gmail.com>
+ <20191017095225.ntx647ivegaldlyf@gilmour>
+ <CAMty3ZAvqRLh16vFd-63h4+SzQkNydGfNKX_pByqFD-hZfncpQ@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAMty3ZAvqRLh16vFd-63h4+SzQkNydGfNKX_pByqFD-hZfncpQ@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1571943797;
+ bh=ePbGhKrM0X2X47Ig0cCqNbkm6vptO7VyM2yJnt4HOIA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=RtSj9ZsU+Qi/+k4LBe1ymBcSWx41hn33zdDT0kZRVK/BKRx2NjzZaugw+m+Ax7OgR
+ 1of8SxMH/iJeyGtG2GxLaBGjUnkI9tRXqPBq3sj8s9batNIfLycusnajxA8I1HUfEF
+ l9r+xiRzlYUv7fKlZKX/QOAKdLIBdxgGFsrUltjA=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,127 +53,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1951974904=="
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-sunxi <linux-sunxi@googlegroups.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Michael Trimarchi <michael@amarulasolutions.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Icenowy Zheng <icenowy@aosc.io>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1951974904==
-Content-Type: multipart/alternative; boundary="15719436122.ed16573E.4780"
-Content-Transfer-Encoding: 7bit
-
-
---15719436122.ed16573E.4780
-Date: Thu, 24 Oct 2019 19:00:12 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
-
---- Comment #155 from jmsharvey771@gmail.com ---
-Some observations from me that may point to this being an OpenGL issue:
-
-* Vulkan applications seem to work (mostly). I've not had a crash with the
-Dolphin Emulator with the Vulkan backend and Heat Signature, a game that ru=
-ns
-through Proton. This doesn't explain Rise of the Tomb Raider though. I've a=
-lso
-had freezing issues with Overwatch via Lutris/DXVK.
-
-* Running freezing games in windowed mode stops hangs. In CS:GO, Minecraft,=
- and
-Team Fortress 2, my system freezes in the menus. When I run them in windowed
-mode, they seem to run fine
-
-* OpenGL games freeze after mouse input (for example, selecting a menu item=
-).
-This is when CS:GO, TF2, and Minecraft freeze up.=20
-
-I am using Manjaro on kernel 5.4-rc4, mesa 19.2.1-2, vulkan-radeon (radv)
-19.2.1-2 and xf86-video-amdgpu 19.1.0-1. I use KDE Plasma 5.17.1
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15719436122.ed16573E.4780
-Date: Thu, 24 Oct 2019 19:00:12 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c155">Comm=
-ent # 155</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-jmsharvey771&#64;gmail.com" title=3D"jmsharvey771&#64;gmail.com">jmsharvey7=
-71&#64;gmail.com</a>
-</span></b>
-        <pre>Some observations from me that may point to this being an Open=
-GL issue:
-
-* Vulkan applications seem to work (mostly). I've not had a crash with the
-Dolphin Emulator with the Vulkan backend and Heat Signature, a game that ru=
-ns
-through Proton. This doesn't explain Rise of the Tomb Raider though. I've a=
-lso
-had freezing issues with Overwatch via Lutris/DXVK.
-
-* Running freezing games in windowed mode stops hangs. In CS:GO, Minecraft,=
- and
-Team Fortress 2, my system freezes in the menus. When I run them in windowed
-mode, they seem to run fine
-
-* OpenGL games freeze after mouse input (for example, selecting a menu item=
-).
-This is when CS:GO, TF2, and Minecraft freeze up.=20
-
-I am using Manjaro on kernel 5.4-rc4, mesa 19.2.1-2, vulkan-radeon (radv)
-19.2.1-2 and xf86-video-amdgpu 19.1.0-1. I use KDE Plasma 5.17.1</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15719436122.ed16573E.4780--
-
---===============1951974904==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1951974904==--
+T24gVGh1LCBPY3QgMjQsIDIwMTkgYXQgMDE6Mjg6MjhQTSArMDUzMCwgSmFnYW4gVGVraSB3cm90
+ZToKPiBPbiBUaHUsIE9jdCAxNywgMjAxOSBhdCAzOjIyIFBNIE1heGltZSBSaXBhcmQgPG1yaXBh
+cmRAa2VybmVsLm9yZz4gd3JvdGU6Cj4gPgo+ID4gT24gV2VkLCBPY3QgMTYsIDIwMTkgYXQgMDI6
+MTk6NDRQTSArMDUzMCwgSmFnYW4gVGVraSB3cm90ZToKPiA+ID4gT24gV2VkLCBPY3QgMTYsIDIw
+MTkgYXQgMTozMyBQTSBNYXhpbWUgUmlwYXJkIDxtcmlwYXJkQGtlcm5lbC5vcmc+IHdyb3RlOgo+
+ID4gPiA+Cj4gPiA+ID4gT24gTW9uLCBPY3QgMTQsIDIwMTkgYXQgMDU6Mzc6NTBQTSArMDUzMCwg
+SmFnYW4gVGVraSB3cm90ZToKPiA+ID4gPiA+IE9uIE1vbiwgT2N0IDcsIDIwMTkgYXQgNDoyNyBQ
+TSBNYXhpbWUgUmlwYXJkIDxtcmlwYXJkQGtlcm5lbC5vcmc+IHdyb3RlOgo+ID4gPiA+ID4gPgo+
+ID4gPiA+ID4gPiBPbiBTYXQsIE9jdCAwNSwgMjAxOSBhdCAwNzo0OToxMlBNICswNTMwLCBKYWdh
+biBUZWtpIHdyb3RlOgo+ID4gPiA+ID4gPiA+IEFkZCBNSVBJIERTSSBwaXBlbGluZSBmb3IgQWxs
+d2lubmVyIEE2NC4KPiA+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiA+IC0gZHNpIG5vZGUsIHdpdGgg
+QTY0IGNvbXBhdGlibGUgc2luY2UgaXQgZG9lc24ndCBzdXBwb3J0Cj4gPiA+ID4gPiA+ID4gICBE
+U0lfU0NMSyBnYXRpbmcgdW5saWtlIEEzMwo+ID4gPiA+ID4gPiA+IC0gZHBoeSBub2RlLCB3aXRo
+IEE2NCBjb21wYXRpYmxlIHdpdGggQTMzIGZhbGxiYWNrIHNpbmNlCj4gPiA+ID4gPiA+ID4gICBE
+UEhZIG9uIEE2NCBhbmQgQTMzIGlzIHNpbWlsYXIKPiA+ID4gPiA+ID4gPiAtIGZpbmFsbHksIGF0
+dGFjaCB0aGUgZHNpX2luIHRvIHRjb24wIGZvciBjb21wbGV0ZSBNSVBJIERTSQo+ID4gPiA+ID4g
+PiA+Cj4gPiA+ID4gPiA+ID4gU2lnbmVkLW9mZi1ieTogSmFnYW4gVGVraSA8amFnYW5AYW1hcnVs
+YXNvbHV0aW9ucy5jb20+Cj4gPiA+ID4gPiA+ID4gVGVzdGVkLWJ5OiBNZXJsaWpuIFdhamVyIDxt
+ZXJsaWpuQHdpenp1cC5vcmc+Cj4gPiA+ID4gPiA+ID4gLS0tCj4gPiA+ID4gPiA+ID4gIGFyY2gv
+YXJtNjQvYm9vdC9kdHMvYWxsd2lubmVyL3N1bjUwaS1hNjQuZHRzaSB8IDM4ICsrKysrKysrKysr
+KysrKysrKysKPiA+ID4gPiA+ID4gPiAgMSBmaWxlIGNoYW5nZWQsIDM4IGluc2VydGlvbnMoKykK
+PiA+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiA+IGRpZmYgLS1naXQgYS9hcmNoL2FybTY0L2Jvb3Qv
+ZHRzL2FsbHdpbm5lci9zdW41MGktYTY0LmR0c2kgYi9hcmNoL2FybTY0L2Jvb3QvZHRzL2FsbHdp
+bm5lci9zdW41MGktYTY0LmR0c2kKPiA+ID4gPiA+ID4gPiBpbmRleCA2OTEyOGE2ZGZjNDYuLmFk
+NDE3MGI4YWVlMCAxMDA2NDQKPiA+ID4gPiA+ID4gPiAtLS0gYS9hcmNoL2FybTY0L2Jvb3QvZHRz
+L2FsbHdpbm5lci9zdW41MGktYTY0LmR0c2kKPiA+ID4gPiA+ID4gPiArKysgYi9hcmNoL2FybTY0
+L2Jvb3QvZHRzL2FsbHdpbm5lci9zdW41MGktYTY0LmR0c2kKPiA+ID4gPiA+ID4gPiBAQCAtMzgy
+LDYgKzM4MiwxMiBAQAo+ID4gPiA+ID4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgI2FkZHJlc3MtY2VsbHMgPSA8MT47Cj4gPiA+ID4gPiA+ID4gICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAjc2l6ZS1jZWxscyA9IDwwPjsKPiA+ID4gPiA+ID4g
+PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJlZyA9IDwxPjsKPiA+ID4g
+PiA+ID4gPiArCj4gPiA+ID4gPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICB0Y29uMF9vdXRfZHNpOiBlbmRwb2ludEAxIHsKPiA+ID4gPiA+ID4gPiArICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcmVnID0gPDE+Owo+ID4gPiA+ID4g
+PiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICByZW1vdGUt
+ZW5kcG9pbnQgPSA8JmRzaV9pbl90Y29uMD47Cj4gPiA+ID4gPiA+ID4gKyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGFsbHdpbm5lcix0Y29uLWNoYW5uZWwgPSA8
+MT47Cj4gPiA+ID4gPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB9
+Owo+ID4gPiA+ID4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIH07Cj4gPiA+ID4g
+PiA+ID4gICAgICAgICAgICAgICAgICAgICAgIH07Cj4gPiA+ID4gPiA+ID4gICAgICAgICAgICAg
+ICB9Owo+ID4gPiA+ID4gPiA+IEBAIC0xMDAzLDYgKzEwMDksMzggQEAKPiA+ID4gPiA+ID4gPiAg
+ICAgICAgICAgICAgICAgICAgICAgc3RhdHVzID0gImRpc2FibGVkIjsKPiA+ID4gPiA+ID4gPiAg
+ICAgICAgICAgICAgIH07Cj4gPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gPiArICAgICAgICAgICAg
+IGRzaTogZHNpQDFjYTAwMDAgewo+ID4gPiA+ID4gPiA+ICsgICAgICAgICAgICAgICAgICAgICBj
+b21wYXRpYmxlID0gImFsbHdpbm5lcixzdW41MGktYTY0LW1pcGktZHNpIjsKPiA+ID4gPiA+ID4g
+PiArICAgICAgICAgICAgICAgICAgICAgcmVnID0gPDB4MDFjYTAwMDAgMHgxMDAwPjsKPiA+ID4g
+PiA+ID4gPiArICAgICAgICAgICAgICAgICAgICAgaW50ZXJydXB0cyA9IDxHSUNfU1BJIDg5IElS
+UV9UWVBFX0xFVkVMX0hJR0g+Owo+ID4gPiA+ID4gPiA+ICsgICAgICAgICAgICAgICAgICAgICBj
+bG9ja3MgPSA8JmNjdSBDTEtfQlVTX01JUElfRFNJPjsKPiA+ID4gPiA+ID4gPiArICAgICAgICAg
+ICAgICAgICAgICAgY2xvY2stbmFtZXMgPSAiYnVzIjsKPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4g
+VGhpcyB3b24ndCB2YWxpZGF0ZSB3aXRoIHRoZSBiaW5kaW5ncyB5b3UgaGF2ZSBlaXRoZXIgaGVy
+ZSwgc2luY2UgaXQKPiA+ID4gPiA+ID4gc3RpbGwgZXhwZWN0cyBidXMgYW5kIG1vZC4KPiA+ID4g
+PiA+ID4KPiA+ID4gPiA+ID4gSSBndWVzcyBpbiB0aGF0IGNhcywgd2UgY2FuIGp1c3QgZHJvcCBj
+bG9jay1uYW1lcywgd2hpY2ggd2lsbCByZXF1aXJlCj4gPiA+ID4gPiA+IGEgYml0IG9mIHdvcmsg
+b24gdGhlIGRyaXZlciBzaWRlIGFzIHdlbGwuCj4gPiA+ID4gPgo+ID4gPiA+ID4gT2theS4KPiA+
+ID4gPiA+IG1vZCBjbG9jayBpcyBub3QgcmVxdWlyZWQgZm9yIGE2NCwgaWUgcmVhc29uIHdlIGhh
+dmUgaGFzX21vZF9jbGsgcXVpcmsKPiA+ID4gPiA+IHBhdGNoLiBBZGp1c3QgdGhlIGNsb2NrLW5h
+bWVzOiBvbiBkdC1iaW5kaW5ncyB3b3VsZCBtYWtlIHNlbnNlIGhlcmUsCj4gPiA+ID4gPiB3aGF0
+IGRvIHlvdSB0aGluaz8KPiA+ID4gPgo+ID4gPiA+IEknbSBjb25mdXNlZCwgd2hhdCBhcmUgeW91
+IHN1Z2dlc3Rpbmc/Cj4gPiA+Cj4gPiA+IFNvcnJ5IGZvciB0aGUgY29uZnVzaW9uLgo+ID4gPgo+
+ID4gPiBUaGUgbW9kIGNsb2NrIGlzIG5vdCByZXF1aXJlZCBmb3IgQTY0IGFuZCB3ZSBoYXZlIGEg
+cGF0Y2ggZm9yIGhhbmRsaW5nCj4gPiA+IG1vZCBjbG9jayB1c2luZyBoYXNfbW9kX2NsayBxdWly
+ayhvbiB0aGUgc2VyaWVzKSwgaW5kZWVkIHRoZSBtb2QgY2xvY2sKPiA+ID4gaXMgYXZhaWxhYmxl
+IGluIEEzMSBhbmQgbm90IG5lZWRlZCBmb3IgQTY0LiBTbywgdG8gc2F0aXNmeSB0aGlzCj4gPiA+
+IHJlcXVpcmVtZW50IHRoZSBjbG9jay1uYW1lcyBvbiBkdC1iaW5kaW5ncyBjYW4gdXBkYXRlIHRv
+IG1ha2UgbW9kCj4gPiA+IGNsb2NrLW5hbWUgaXMgb3B0aW9uYWwgYW5kIGJ1cyBjbG9jayBpcyBy
+ZXF1aXJlZC4KPiA+Cj4gPiBObywgdGhlIGJ1cyBjbG9jayBuYW1lIGlzIG5vdCBuZWVkZWQgaWYg
+dGhlcmUncyBvbmx5IG9uZSBjbG9jay4KPgo+IE9rYXksIGlzIGl0IGJlY2F1c2UgdGhlIHNhbWUg
+Y2xvY2sgaGFuZGxlIGl0IG9uIFBIWSBzaWRlPwoKTm8sIGJlY2F1c2UgdGhlcmUncyBvbmx5IG9u
+ZSBjbG9jayBhbmQgdGh1cyB5b3UgZG9uJ3QgbmVlZCB0bwpkaWZmZXJlbnRpYXRlIHRoZW0uCgo+
+ID4KPiA+ID4gSSdtIG5vdCBleGFjdGx5IHN1cmUsIHRoaXMgaXMgY29ycmVjdCBidXQgdHJ5aW5n
+IHRvIHVuZGVyc3RhbmQgaWYgaXQKPiA+ID4gaXMgcG9zc2libGUgb3Igbm90PyBzb21ldGhpbmcg
+bGlrZQo+ID4gPgo+ID4gPiAgICBjbG9ja3M6Cj4gPiA+ICAgICAgIG1pbkl0ZW1zOiAxCj4gPiA+
+ICAgICAgIG1heEl0ZW1zOiAyCj4gPiA+ICAgICAgaXRlbXM6Cj4gPiA+ICAgICAgICAtIGRlc2Ny
+aXB0aW9uOiBCdXMgQ2xvY2sKPiA+ID4gICAgICAgIC0gZGVzY3JpcHRpb246IE1vZHVsZSBDbG9j
+awo+ID4KPiA+IFRoYXQncyBjb3JyZWN0Lgo+ID4KPiA+ID4gICAgY2xvY2stbmFtZXM6Cj4gPiA+
+ICAgICAgIG1pbkl0ZW1zOiAxCj4gPiA+ICAgICAgIG1heEl0ZW1zOiAyCj4gPiA+ICAgICAgaXRl
+bXM6Cj4gPiA+ICAgICAgICAtIGNvbnN0OiBidXMKPiA+ID4gICAgICAgIC0gY29uc3Q6IG1vZAo+
+ID4KPiA+IEhlcmUsIGp1c3Qga2VlcCB0aGUgY3VycmVudCBjbG9jay1uYW1lcyBkZWZpbml0aW9u
+LCBhbmQgbWFrZSBpdAo+ID4gcmVxdWlyZWQgb25seSBmb3IgU29DcyB0aGF0IGFyZSBub3QgdGhl
+IEE2NAo+Cj4gT2theSwgcGxlYXNlIGhhdmUgYSBsb29rIGhlcmUgSSBoYXZlIHBhc3RlZCB0aGUg
+ZGlmZiBmb3IgY29tbWVudHMuCj4KPiAgICBjbG9ja3M6Cj4gKyAgICBtaW5JdGVtczogMgo+ICAg
+ICAgaXRlbXM6Cj4gICAgICAgIC0gZGVzY3JpcHRpb246IEJ1cyBDbG9jawo+ICAgICAgICAtIGRl
+c2NyaXB0aW9uOiBNb2R1bGUgQ2xvY2sKCkRpZG4ndCB5b3UgdGVsbCBtZSB0aGF0IHlvdSBkaWRu
+J3QgbmVlZCB0aGUgbW9kdWxlIGNsb2NrPwoKSG93IGRvIHlvdSBoYW5kbGUgdGhlIGNhc2Ugd2Vy
+ZSB5b3UganVzdCBoYXZlIHRoZSBidXMgY2xvY2sgdGhlbj8KCk1heGltZQpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
