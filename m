@@ -2,20 +2,20 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0595E3C43
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 21:45:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 649CAE3C47
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 21:46:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 513EB6E61D;
-	Thu, 24 Oct 2019 19:45:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2762A6E61B;
+	Thu, 24 Oct 2019 19:46:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86CFB6E61D
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 19:45:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFD736E61B
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 19:46:13 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 205309] kmemleak reports various leaks in amdgpu
-Date: Thu, 24 Oct 2019 19:45:19 +0000
+Date: Thu, 24 Oct 2019 19:46:13 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -31,7 +31,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-205309-2300-fRPMqbYN2V@https.bugzilla.kernel.org/>
+Message-ID: <bug-205309-2300-Tq1RyeVfWZ@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205309-2300@https.bugzilla.kernel.org/>
 References: <bug-205309-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -57,11 +57,11 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDUzMDkKCi0tLSBD
-b21tZW50ICMxIGZyb20gRXJoYXJkIEYuIChlcmhhcmRfZkBtYWlsYm94Lm9yZykgLS0tCkNyZWF0
-ZWQgYXR0YWNobWVudCAyODU2MzcKICAtLT4gaHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL2F0
-dGFjaG1lbnQuY2dpP2lkPTI4NTYzNyZhY3Rpb249ZWRpdApkbWVzZyAoa2VybmVsIDUuNC1yYzQp
-CgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hp
-bmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbA==
+b21tZW50ICMyIGZyb20gRXJoYXJkIEYuIChlcmhhcmRfZkBtYWlsYm94Lm9yZykgLS0tCkNyZWF0
+ZWQgYXR0YWNobWVudCAyODU2MzkKICAtLT4gaHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL2F0
+dGFjaG1lbnQuY2dpP2lkPTI4NTYzOSZhY3Rpb249ZWRpdAprZXJuZWwgLmNvbmZpZyAoa2VybmVs
+IDUuNC1yYzQpCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBh
+cmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
