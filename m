@@ -1,69 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FBDDE3DAE
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 22:53:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F208E3DDE
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 22:58:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44F3A6E13C;
-	Thu, 24 Oct 2019 20:53:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80E836E5E7;
+	Thu, 24 Oct 2019 20:58:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 353BD6E13C
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 20:53:38 +0000 (UTC)
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9OKmxts114037;
- Thu, 24 Oct 2019 20:53:21 GMT
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 2vqu4r61bf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 20:53:21 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9OKrJWv121105;
- Thu, 24 Oct 2019 20:53:20 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 2vu0fq2cja-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 20:53:20 +0000
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x9OKrGkY009895;
- Thu, 24 Oct 2019 20:53:16 GMT
-Received: from mwanda (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 24 Oct 2019 13:53:15 -0700
-Date: Thu, 24 Oct 2019 23:53:06 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Eric Anholt <eric@anholt.net>, Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] drm/v3d: Fix double free in v3d_submit_cl_ioctl()
-Message-ID: <20191024205306.GA14416@mwanda>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F31DD6E5E7
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 20:58:04 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id EB2F6720E2; Thu, 24 Oct 2019 20:58:04 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 107139] [CI] KBL-G Hades Canyon doesn't survive
+ igt@gem_exec_suspend@basic-s4-devices
+Date: Thu, 24 Oct 2019 20:58:05 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: ashutosh.dixit@intel.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-107139-502-BlqRoqqDz7@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-107139-502@http.bugs.freedesktop.org/>
+References: <bug-107139-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9420
- signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1908290000 definitions=main-1910240196
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9420
- signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
- definitions=main-1910240195
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2019-08-05;
- bh=XzYkpls0mGKqdG0KuT3/x44DM6Nq0EWYShTlbULF7VQ=;
- b=HwvS4QFq5egQPgTBvuA02cbbyTBrC/K2DKEkfnhZlAySXlZLzKRdkU/yYFjDxMvjZYAO
- Nf40ZL+Kfy07xdpYxYwE/igAL96NCojH2gnOuHCIw7OgDIobyIWRWNMd8vn/TJZJtO+x
- QriwM40ddPL/HLeYJe+/mmwL+kQ45evDG+6q+RxyvL6MphcGbMxbSaX5fr3NmEvGc0Wv
- 6B2pPwE+Xj5cndo0BDjIsMs60lecEYXMGB5CTqlQROVf56BYruCf98zMhe9jM0EXJZMR
- tM2VxEhrEE6Vf60Gak24m/xUj8sAbUs2TZ3ePyl0+PE6Wr6eA27fF2IiprJO/Dd2jNwR PQ== 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,34 +53,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1108964869=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T3JpZ2luYWxseSB0aGlzIGVycm9yIHBhdGggdXNlZCB0byBsZWFrICJiaW4iIGJ1dCB0aGVuIHdl
-IGFjY2lkZW50YWxseQphcHBsaWVkIHR3byBzZXBhcmF0ZSBjb21taXRzIHRvIGZpeCBpdCBhbmQg
-ZW5kZWQgdXAgd2l0aCBhIGRvdWJsZSBmcmVlLgoKU2lnbmVkLW9mZi1ieTogRGFuIENhcnBlbnRl
-ciA8ZGFuLmNhcnBlbnRlckBvcmFjbGUuY29tPgotLS0KSGkgU3RlcGhlbiwKCkkgdGhpbmsgdGhp
-cyBvbmUgaXMgYWN0dWFsbHkganVzdCBhIGxpbnV4LW5leHQgaXNzdWUgYW5kIHRoZSBGaXhlcyB0
-YWcKd291bGQgcG9pbnQgdG8gY29tbWl0IGY4NTkzMzg0ZjgzZiAoIk1lcmdlIHJlbW90ZS10cmFj
-a2luZyBicmFuY2gKJ2RybS9kcm0tbmV4dCciKS4KClRoZSBvcmlnaW5hbCBjb21taXRzIGFyZSAw
-ZDM1MmEzYThhMWYgKCJkcm0vdjNkOiBkb24ndCBsZWFrIGJpbiBqb2IgaWYKdjNkX2pvYl9pbml0
-IGZhaWxzLiIpIGFuZCBjb21taXQgMjljZDEzY2ZkNzYyICgiZHJtL3YzZDogRml4IG1lbW9yeSBs
-ZWFrCmluIHYzZF9zdWJtaXRfY2xfaW9jdGwiKS4KCkknbSBub3QgdG90YWxseSBzdXJlIGhvdyB5
-b3UgZ3V5cyBhZGRyZXNzIHRoaXMgbm9ybWFsbHkgYnV0IHByZXN1bWFibHkKeW91IGFyZSBleHBl
-cnRzIGF0IGRlYWxpbmcgd2l0aCBtZXJnZSBpc3N1ZXMuICA6KQoKIGRyaXZlcnMvZ3B1L2RybS92
-M2QvdjNkX2dlbS5jIHwgMSAtCiAxIGZpbGUgY2hhbmdlZCwgMSBkZWxldGlvbigtKQoKZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92M2QvdjNkX2dlbS5jIGIvZHJpdmVycy9ncHUvZHJtL3Yz
-ZC92M2RfZ2VtLmMKaW5kZXggNTQ5ZGRlODM0MDhiLi4zNzUxNWU0N2I0N2UgMTAwNjQ0Ci0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS92M2QvdjNkX2dlbS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS92M2Qv
-djNkX2dlbS5jCkBAIC01NjgsNyArNTY4LDYgQEAgdjNkX3N1Ym1pdF9jbF9pb2N0bChzdHJ1Y3Qg
-ZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAogCQlyZXQgPSB2M2Rfam9iX2luaXQodjNkLCBm
-aWxlX3ByaXYsICZiaW4tPmJhc2UsCiAJCQkJICAgdjNkX2pvYl9mcmVlLCBhcmdzLT5pbl9zeW5j
-X2JjbCk7CiAJCWlmIChyZXQpIHsKLQkJCWtmcmVlKGJpbik7CiAJCQl2M2Rfam9iX3B1dCgmcmVu
-ZGVyLT5iYXNlKTsKIAkJCWtmcmVlKGJpbik7CiAJCQlyZXR1cm4gcmV0OwotLSAKMi4yMC4xCgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1108964869==
+Content-Type: multipart/alternative; boundary="15719506840.CA22c98c.1435"
+Content-Transfer-Encoding: 7bit
+
+
+--15719506840.CA22c98c.1435
+Date: Thu, 24 Oct 2019 20:58:04 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D107139
+
+--- Comment #3 from ashutosh.dixit@intel.com ---
+Bug assessment: The IGT submits batch buffers both before and after hiberna=
+ting
+the system and ensures they complete successfully. This bug has not been
+updated in over a year. The system is a KBL NUC with a AMD GPU. Earlier, fr=
+om
+the comments, it seems there was a panic in amdgpu side and component was
+assigned as DRM/AMDgpu.
+
+At this point, from what I can tell, the test itself is passing except for =
+the
+following trace in dmesg:
+
+<3> [76.484258] [drm:intel_dp_aux_xfer [i915]] *ERROR* dp aux hw did not si=
+gnal
+timeout!
+
+https://intel-gfx-ci.01.org/tree/drm-tip/IGT_5237/fi-kbl-7500u/igt@gem_exec=
+_suspend@basic-s4-devices.html
+
+This trace is coming from the i915 display port. The above trace is already
+been tracked as part of bug 105128. As a result of these findings I am:
+
+a. Setting the component of this bug to DRM/Intel
+b. Marking this bug as a duplicate of bug 105128
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15719506840.CA22c98c.1435
+Date: Thu, 24 Oct 2019 20:58:04 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI] KBL-G Hades Canyon doesn't survive igt&#64;gem_exec_=
+suspend&#64;basic-s4-devices"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107139#c3">Commen=
+t # 3</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI] KBL-G Hades Canyon doesn't survive igt&#64;gem_exec_=
+suspend&#64;basic-s4-devices"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107139">bug 10713=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+ashutosh.dixit&#64;intel.com" title=3D"ashutosh.dixit&#64;intel.com">ashuto=
+sh.dixit&#64;intel.com</a>
+</span></b>
+        <pre>Bug assessment: The IGT submits batch buffers both before and =
+after hibernating
+the system and ensures they complete successfully. This bug has not been
+updated in over a year. The system is a KBL NUC with a AMD GPU. Earlier, fr=
+om
+the comments, it seems there was a panic in amdgpu side and component was
+assigned as DRM/AMDgpu.
+
+At this point, from what I can tell, the test itself is passing except for =
+the
+following trace in dmesg:
+
+&lt;3&gt; [76.484258] [drm:intel_dp_aux_xfer [i915]] *ERROR* dp aux hw did =
+not signal
+timeout!
+
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/IGT_5237/fi-kbl-7500u/i=
+gt&#64;gem_exec_suspend&#64;basic-s4-devices.html">https://intel-gfx-ci.01.=
+org/tree/drm-tip/IGT_5237/fi-kbl-7500u/igt&#64;gem_exec_suspend&#64;basic-s=
+4-devices.html</a>
+
+This trace is coming from the i915 display port. The above trace is already
+been tracked as part of <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI] igt&#64;* - dmesg-warn - *ERROR* dp aux hw did not s=
+ignal timeout!"
+   href=3D"show_bug.cgi?id=3D105128">bug 105128</a>. As a result of these f=
+indings I am:
+
+a. Setting the component of this bug to DRM/Intel
+b. Marking this bug as a duplicate of <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI] igt&#64;* - dmesg-warn - *ERROR* dp aux hw did not s=
+ignal timeout!"
+   href=3D"show_bug.cgi?id=3D105128">bug 105128</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15719506840.CA22c98c.1435--
+
+--===============1108964869==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1108964869==--
