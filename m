@@ -2,63 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDA14E34C1
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 15:50:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 307FCE34CE
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 15:54:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 796246E416;
-	Thu, 24 Oct 2019 13:50:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C2F46E41A;
+	Thu, 24 Oct 2019 13:54:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
  [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D44A56E418
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 13:50:22 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id q70so2957022wme.1
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 06:50:22 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D888B89AD2;
+ Thu, 24 Oct 2019 13:54:45 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id v6so2719416wmj.0;
+ Thu, 24 Oct 2019 06:54:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=BNVT8s5YLvHt7gxW7SLpEK9iP3Gh4HQHf+HDtpo3lNo=;
- b=oZTvgMPIiHe27R/qFeJqIHRKWnuNLfmVPUGJ5rO/joc/g/1Fjy3NyjU6AqEsieUdYm
- F3NVfgqLDK8RCQ1H6zvfDogIXBxAkLdRrhq2VGvSOnzlbsYaLyMTmFs+awfraOO4v0Xl
- HsD7oYR2V4S69rEZNcGpDI598B3muqu4R6QKwisvxLnqd+fwOw6lJhLxK4UywTnlN/DW
- /RIjsFqLJBjmHB7SfcnhUGfRLp3vxnVmJcAYwYWdo8l7SaoU2JQw+bvXz1w+gBzYH3Z/
- PMVbl02kO/NY8sqji+43ubVCzuNTl9aS17ObonkcJhfG/tHvGRVUIKdxYCiqxsjWPbC7
- T1BQ==
-X-Gm-Message-State: APjAAAUnZcMhpWCily6UlA5snuw4XQTtRCGNHtQ3DjLSII8HOfJKCmfK
- OWwqxeZNx05Z+v+Z8dONB1U=
-X-Google-Smtp-Source: APXvYqyLpFMf0M3rkZjmRIwdx9h/rq2fKSXG/zj0MjpFy6R0GgeMfd5gHwKEPuKWVMJD4fRVLyBrgg==
-X-Received: by 2002:a1c:e154:: with SMTP id y81mr5110281wmg.126.1571925021103; 
- Thu, 24 Oct 2019 06:50:21 -0700 (PDT)
+ bh=0cZShYLHRd7NnAHk/IY7awNBnZ9IrpyZyFXdwrZkHyk=;
+ b=heImNDxyRbJ2FfRPccfJuZT1ESxJmLSLy50Oyzwiz5wq6X/lzwUL7gnqx7jLxsOHGY
+ vFQKXX/WX3ttUC+hqWE5FbxGWdgtQ2U7IpWeYKuuKrLgDY2OKRI+AXqClBLy4HcZgFMf
+ rWFSs6WjspBoFv685+sgLEKPt52J9WA5x0ENBmi0li8wxyTynGxnb014hREQsSrxtID/
+ Mhzg7vN4GAi1AyHHfQ8H04/xGMfKxR+Gj7EA3RNLr5FfY28P9Ixk+7SUhben9YLkI3fm
+ C5NcC5dAxepTlmlAo9Snd+xRQkMLQUVs3LQt2AaIqon9QEeFI8wmd+rv/W7lQdWCd2Vr
+ vhZA==
+X-Gm-Message-State: APjAAAVT1PXRqDGpT+u5WXmMvg95FOHAPdPpiqNOF1siAvk8zW7WXWk0
+ XRia/77lMTlx0NsZRpFmDwLJtCVs
+X-Google-Smtp-Source: APXvYqyJ0SUg3TseUH/kV4Id5JX23lnTqlBvXSS4FW0LCBogLxJPqlXC78Doi5n7L+qqb5w+n8tpew==
+X-Received: by 2002:a1c:e08a:: with SMTP id x132mr5164259wmg.146.1571925284294; 
+ Thu, 24 Oct 2019 06:54:44 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
- by smtp.gmail.com with ESMTPSA id e3sm2690812wme.39.2019.10.24.06.50.19
+ by smtp.gmail.com with ESMTPSA id h17sm2764459wmb.33.2019.10.24.06.54.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 06:50:19 -0700 (PDT)
-Date: Thu, 24 Oct 2019 15:50:18 +0200
+ Thu, 24 Oct 2019 06:54:42 -0700 (PDT)
+Date: Thu, 24 Oct 2019 15:54:41 +0200
 From: Thierry Reding <thierry.reding@gmail.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v1 2/3] drm/tegra: Fix 2d and 3d clients detaching from
- IOMMU domain
-Message-ID: <20191024135018.GD2924027@ulmo>
-References: <20190623173743.24088-1-digetx@gmail.com>
- <20190623173743.24088-2-digetx@gmail.com>
- <20191024115804.GB2924027@ulmo>
- <45926d95-3e7a-c56b-402a-2b2c6475c5db@gmail.com>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/dp: Add function to parse EDID
+ descriptors for adaptive sync limits
+Message-ID: <20191024135441.GE2924027@ulmo>
+References: <20191024000041.7391-1-manasi.d.navare@intel.com>
+ <20191024103106.GA2825247@ulmo> <20191024113400.GX1208@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <45926d95-3e7a-c56b-402a-2b2c6475c5db@gmail.com>
+In-Reply-To: <20191024113400.GX1208@intel.com>
 User-Agent: Mutt/1.12.2 (2019-09-21)
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=BNVT8s5YLvHt7gxW7SLpEK9iP3Gh4HQHf+HDtpo3lNo=;
- b=cXkfrlW/4fM9olewKWD+UO6INbtmib8tnXAdXioxT6aF3jB5LnTGQHwBkRXgtC/qvN
- FCHuG3FKIzQrt8+Ux9fPw2+ZGprDlI5mc/nsymvm8ZFUZYLJJbNo3B4etcJqSrTI1gG8
- DLIz/gXXY+g1Awfmg/4zcTQVAM61neYCcd06/MSVNBZYxct1wT5yzkApdiVXZzTiD5+0
- doVXP6OCKqWdsy9PtGeH52EGo+c7gQRc870gwSbrZCEKQksMI2dvZpIA/8u0xt2ZEk8O
- QueQslfgLDZCa9Dl7uVPR/WSPMpUqFK5gGlEAiVNDlK21nFLo9lYpClyIZ6Lcm86W8Ca
- bFPA==
+ bh=0cZShYLHRd7NnAHk/IY7awNBnZ9IrpyZyFXdwrZkHyk=;
+ b=lTBub8Rzc1Gs/KjVqlA38yrEBB2UVzXipUxwaP3jpB54hblmmM6wOejcUQa0BkAJWd
+ qo1wm9xQC4zWIPheCYd6RmqW3WTFP98X3JLrAQITHbhBUdqgUOGUXCXd8K4wTtlaPeWY
+ zS4jTkZb2yNACDGZQEdnpOSHL6nsHoUhQTR/F7d29oNi2rIq5+X4/N1FYXgzXIOimcgO
+ Gcl8vinF8GnrhH7oeBnBDcNUV8kydgpuIhBNVOGEGvth8QbRBVhsbCYpwyWmjxdUOGEI
+ OuLGPavjefUaHC+XqRDbjgqqrDPK6OCu9UI9VG27sanvlNZ5qmB7PA+8NdQ8pwje5FXK
+ vlRQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,102 +69,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+Cc: Manasi Navare <manasi.d.navare@intel.com>, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1273228778=="
+Content-Type: multipart/mixed; boundary="===============1498116446=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1273228778==
+--===============1498116446==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="IMjqdzrDRly81ofr"
+	protocol="application/pgp-signature"; boundary="3XA6nns4nE4KvaS/"
 Content-Disposition: inline
 
 
---IMjqdzrDRly81ofr
+--3XA6nns4nE4KvaS/
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 24, 2019 at 04:28:41PM +0300, Dmitry Osipenko wrote:
-> 24.10.2019 14:58, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Sun, Jun 23, 2019 at 08:37:42PM +0300, Dmitry Osipenko wrote:
-> >> This should should fire up on the DRM's driver module re-loader because
-> >> there won't be enough available domains on older Tegra SoCs.
-> >>
-> >> Cc: stable <stable@vger.kernel.org>
-> >> Fixes: 0c407de5ed1a ("drm/tegra: Refactor IOMMU attach/detach")
-> >> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> >> ---
-> >>  drivers/gpu/drm/tegra/dc.c   | 4 ++--
-> >>  drivers/gpu/drm/tegra/drm.c  | 9 ++++++---
-> >>  drivers/gpu/drm/tegra/drm.h  | 3 ++-
-> >>  drivers/gpu/drm/tegra/gr2d.c | 4 ++--
-> >>  drivers/gpu/drm/tegra/gr3d.c | 4 ++--
-> >>  5 files changed, 14 insertions(+), 10 deletions(-)
+On Thu, Oct 24, 2019 at 02:34:00PM +0300, Ville Syrj=C3=A4l=C3=A4 wrote:
+> On Thu, Oct 24, 2019 at 12:31:06PM +0200, Thierry Reding wrote:
+> > On Wed, Oct 23, 2019 at 05:00:41PM -0700, Manasi Navare wrote:
+> > > Adaptive Sync is a VESA feature so add a DRM core helper to parse
+> > > the EDID's detailed descritors to obtain the adaptive sync monitor ra=
+nge.
+> > > Store this info as part fo drm_display_info so it can be used
+> > > across all drivers.
+> > > This part of the code is stripped out of amdgpu's function
+> > > amdgpu_dm_update_freesync_caps() to make it generic and be used
+> > > across all DRM drivers
+> > >=20
+> > > Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> > > Cc: Harry Wentland <harry.wentland@amd.com>
+> > > Cc: Clinton A Taylor <clinton.a.taylor@intel.com>
+> > > Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
+> > > ---
+> > >  drivers/gpu/drm/drm_edid.c  | 49 +++++++++++++++++++++++++++++++++++=
+++
+> > >  include/drm/drm_connector.h | 25 +++++++++++++++++++
+> > >  include/drm/drm_edid.h      |  2 ++
+> > >  3 files changed, 76 insertions(+)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> > > index 474ac04d5600..97dd1200773e 100644
+> > > --- a/drivers/gpu/drm/drm_edid.c
+> > > +++ b/drivers/gpu/drm/drm_edid.c
+> > > @@ -4707,6 +4707,52 @@ static void drm_parse_cea_ext(struct drm_conne=
+ctor *connector,
+> > >  	}
+> > >  }
+> > > =20
+> > > +void drm_get_adaptive_sync_limits(struct drm_connector *connector,
+> > > +				  const struct edid *edid)
+> > > +{
+> > > +	struct drm_display_info *info =3D &connector->display_info;
+> > > +	const struct detailed_timing *timing;
+> > > +	const struct detailed_non_pixel *data;
+> > > +	const struct detailed_data_monitor_range *range;
+> > > +	int i;
 > >=20
-> > I think I understand what this is trying to do, but the commit message
-> > does not help at all. So what's really going on here is that we need to
-> > detach the device from the group regardless of whether we're sharing the
-> > group or not, just like we attach groups to the shared domain whether
-> > they share the same group or not.
+> > This can be unsigned int.
 >=20
-> Yes, the commit's message could be improved.
->=20
-> > But in that case, I wonder if it's even worth splitting groups the way
-> > we are right now. Wouldn't it be better to just put all the devices into
-> > the same group and be done with it?
-> >=20
-> > The current code gives me headaches every time I read it, so if we can
-> > just make it so that all the devices under the DRM device share the same
-> > group, this would become a lot easier to deal with. I'm not really
-> > convinced that it makes much sense to keep them on separate domains,
-> > especially given the constraints on the number of domains available on
-> > earlier Tegra devices.
-> >=20
-> > Note that sharing a group will also make it much easier for these to use
-> > the DMA API if it is backed by an IOMMU.
->=20
-> Probably I'm blanking on everything about IOMMU now.. could you please
-> remind me what "IOMMU group" is?
->=20
-> Isn't it that each IOMMU group relates to the HW ID (SWGROUP)? But then
-> each display controller has its own SWGROUP.. and thus that sharing just
-> doesn't make any sense, hm.
+> Please no. A loop iterator called 'i' should always be a normal signed in=
+t.
 
-IOMMU groups are not directly related to SWGROUPs. But by default the
-IOMMU framework will share a domain between members of the same IOMMU
-group. Seems like that's really what we want here, so that when we do
-use the DMA API, all the devices part of the DRM device get attached to
-the same IOMMU domain, yet if we don't want to use the DMA API we only
-need to detach the one group from the backing.
+What? Where's that rule written down? In my experience it's always
+better to use as restrictive a type as possible. It's really annoying
+when GCC suddenly starts complaining about comparison between signed and
+unsigned. So if a variable can never contain a signed value, why risk
+the ambiguity? The value goes from 0 to 4, the sign bit is useless.
+
+> > > +	/*
+> > > +	 * Restrict Adaptive Sync only for dp and edp
+> > > +	 */
+> > > +	if (connector->connector_type !=3D DRM_MODE_CONNECTOR_DisplayPort &&
+> > > +	    connector->connector_type !=3D DRM_MODE_CONNECTOR_eDP)
+> > > +		return;
+> > > +
+> > > +	if (edid->version <=3D 1 && !(edid->version =3D=3D 1 && edid->revis=
+ion > 1))
+> > > +		return;
+> > > +
+> > > +	for (i =3D 0; i < 4; i++) {
+> > > +		timing  =3D &edid->detailed_timings[i];
+> > > +		data    =3D &timing->data.other_data;
+> > > +		range   =3D &data->data.range;
+> > > +		/*
+> > > +		 * Check if monitor has continuous frequency mode
+> > > +		 */
+> > > +		if (data->type !=3D EDID_DETAIL_MONITOR_RANGE)
+> > > +			continue;
+> > > +		/*
+> > > +		 * Check for flag range limits only. If flag =3D=3D 1 then
+> > > +		 * no additional timing information provided.
+> > > +		 * Default GTF, GTF Secondary curve and CVT are not
+> > > +		 * supported
+> > > +		 */
+> > > +		if (range->flags !=3D 1)
+> > > +			continue;
+> > > +
+> > > +		info->adaptive_sync.min_vfreq =3D range->min_vfreq;
+> > > +		info->adaptive_sync.max_vfreq =3D range->max_vfreq;
+> > > +		info->adaptive_sync.pixel_clock_mhz =3D
+> > > +			range->pixel_clock_mhz * 10;
+> > > +		break;
+> > > +	}
+> > > +}
+> > > +EXPORT_SYMBOL(drm_get_adaptive_sync_limits);
+> > > +
+> > >  /* A connector has no EDID information, so we've got no EDID to comp=
+ute quirks from. Reset
+> > >   * all of the values which would have been set from EDID
+> > >   */
+> > > @@ -4728,6 +4774,7 @@ drm_reset_display_info(struct drm_connector *co=
+nnector)
+> > >  	memset(&info->hdmi, 0, sizeof(info->hdmi));
+> > > =20
+> > >  	info->non_desktop =3D 0;
+> > > +	memset(&info->adaptive_sync, 0, sizeof(info->adaptive_sync));
+> > >  }
+> > > =20
+> > >  u32 drm_add_display_info(struct drm_connector *connector, const stru=
+ct edid *edid)
+> > > @@ -4743,6 +4790,8 @@ u32 drm_add_display_info(struct drm_connector *=
+connector, const struct edid *edi
+> > > =20
+> > >  	info->non_desktop =3D !!(quirks & EDID_QUIRK_NON_DESKTOP);
+> > > =20
+> > > +	drm_get_adaptive_sync_limits(connector, edid);
+> > > +
+> > >  	DRM_DEBUG_KMS("non_desktop set to %d\n", info->non_desktop);
+> > > =20
+> > >  	if (edid->revision < 3)
+> > > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> > > index 5f8c3389d46f..a27a84270d8d 100644
+> > > --- a/include/drm/drm_connector.h
+> > > +++ b/include/drm/drm_connector.h
+> > > @@ -254,6 +254,26 @@ enum drm_panel_orientation {
+> > >  	DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
+> > >  };
+> > > =20
+> > > +/**
+> > > + * struct drm_adaptive_sync_info - Panel's Adaptive Sync capabilitie=
+s for
+> > > + * &drm_display_info
+> > > + *
+> > > + * This struct is used to store a Panel's Adaptive Sync capabilities
+> > > + * as parsed from EDID's detailed monitor range descriptor block.
+> > > + *
+> > > + * @min_vfreq: This is the min supported refresh rate in Hz from
+> > > + *             EDID's detailed monitor range.
+> > > + * @max_vfreq: This is the max supported refresh rate in Hz from
+> > > + *             EDID's detailed monitor range
+> > > + * @pixel_clock_mhz: This is the dotclock in MHz from
+> > > + *                   EDID's detailed monitor range
+> > > + */
+> > > +struct drm_adaptive_sync_info {
+> > > +	int min_vfreq;
+> > > +	int max_vfreq;
+> > > +	int pixel_clock_mhz;
+> >=20
+> > Any reason why these can't be unsigned? Also, does it perhaps make sense
+> > to store the pixel clock as kHz like we do everywhere else?
+>=20
+> Aye, all typical clock frequencies should be in khz.
+>=20
+> Also the vfreqs are only u8 in the EDID, so can be u8 here as well.
+
+Not if you store them in kHz, they can't.
 
 Thierry
 
---IMjqdzrDRly81ofr
+--3XA6nns4nE4KvaS/
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2xrBoACgkQ3SOs138+
-s6HAxA/5AeNjNjEtlebhSve7R8IrbcFhMUsOJ4W+Kk3Fht2LEborZyXuxc8rAu+a
-4ddRKtOPBDigYniq484cKh+HrDvpj3O0tkcoPotx84I7r0fDpyqdt/s47p3mOlLB
-pGeCEDR8RoQyfxPfKwVQOITYVlJ7GspcYheBWZUM2gaIdFJn9gK20gd5QITlYWMj
-IjjNOejpHSahXqoHKJ9pOWiNiW4YR6e0vciegEqYddRBIy3qhl34UsfQew0SejqU
-61J+mmcb0YyB5WnipM91yUZlVIG5s6iR+GzPXyMwiLIVIJRz/j7zT8gptFED+tGy
-/toXxINL3toi/t2jceIB0A7qTjUQ38UKkc/HNcsY9EJ+aeB/oOKX2KcwZjKTZjct
-KTuYrMVhOZfB4FSLy+0hRpmi2/wf7RSjmSV2g22eHPtvw5y0hmENIZBYPZn29O22
-lW/I/71RSYl0cJ61hxwzhZCpRx/zINKp63GFyZhtmxuR0uftEjLkZV1msItRZbOl
-3khkuU+ccAeLXr3P2LyriTGnhP0Jz73uC+KH6tZ4jcdJHFBP0q70TtROa3hBKY1Q
-TXE0pFDFdM8rA14IrqBIaNj4tdQoMrSVZhhlhy8loABjJ8azys+VW6SQGx4+lo0z
-EKyDaMw3lL9EwP8plsTqZHDSCHRO1BnsOuFhoBnDEJt8zgeEDwE=
-=YETi
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2xrSEACgkQ3SOs138+
+s6Gjvw//bKR2vIivE5aWUTYp8d4uHGS7J5FvUx3vtLE6JE6tfTOeNDJEYXYGcRZ+
++pf3Cnu8tBXr9Jwzt6lan9/hkjHOJ+XkmeW4FKG2tV7kllp4TrS4lKqVphai4vAN
+gewpWYhMnTE5yR+0oMmFLACa1X2CDF8ng7njFw7467BZQzsLiZu7bZRR6B/35XNU
+QCpE1g6gMV2jyW/ThMd8BG2My1+dzuBOAVcer5nL3Fmkm86pM9t499P7yzOtWIUD
+8pOCt0S+2NNh2pnRSbtiHasI7fVfJOlu9usXDAm0uET2HjNrQXtaZLdpY4ArCBqF
+rlGRpu35sAq883D3NwHltaW+M/r9PdUGgZ2MHlcPeZEt7mYC6o3mVMWpzOKQmNvU
+UbEHPJgTPqi2ZfkU97PwFQ+/WD1DbdjmloRQ1egBva5n2VRDBDklQ/ZhJJ1TC6V+
+dpWFzeceeZiSwl381tlGthMaWgcSDI0fwOFvrCxKHRBfOOWXrh/fYP6aFbRZ2sUn
+2JSIfp9wuwX6o6OrjmMaafLgRY0cogICQTtMe1HpCYhnYrD/crJAKUJQbJCaIAaZ
+fA4vSqdbJh/YpR+yCeKYlZrNHtjgNkU3zye7Uh1mUVzRF8POHSrcMO02/MV7+UK3
+6+E4lhpOYo9DGc8wJ908CQV9xuPpAwhCToIQzUj/4eOSGl5LGY4=
+=7huf
 -----END PGP SIGNATURE-----
 
---IMjqdzrDRly81ofr--
+--3XA6nns4nE4KvaS/--
 
---===============1273228778==
+--===============1498116446==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -176,4 +272,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1273228778==--
+--===============1498116446==--
