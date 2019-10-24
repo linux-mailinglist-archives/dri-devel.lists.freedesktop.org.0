@@ -2,49 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97284E3BF6
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 21:19:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C159E3C09
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 21:33:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B87346E618;
-	Thu, 24 Oct 2019 19:19:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07A366E7B5;
+	Thu, 24 Oct 2019 19:33:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
- [209.85.210.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E5746E618
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 19:19:05 +0000 (UTC)
-Received: by mail-ot1-f66.google.com with SMTP id 41so21667332oti.12
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 12:19:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gAAObhkDlnacnREGE/ca1ihLZNxkCic+471mcU+shVc=;
- b=IKA9U2wKWyX1yVkwyJfLiojIVzjBwFwFFThGbwlSlQZjcgMZ+Ojb90pFWYtzyGTzxz
- 0sc0EMIWweKmFrH5chfiC3pspHKdCPeLhzRcfFg9jtmO9IXv+CsYQ8DnAk7MEtSf5ieT
- 6XlT7+cadthqr+029woLnsaSfcSjN1hlXYII2m0z5yYkZx9h/c+Nu+bsPQ2wnjIoYVX6
- LYy00G+lz1Ns7gb4239UPJLUmJ5AAKE3doqipHqjo/3u3oBfHffT5uqm/cqjLC/G3onz
- om9Qf/zBS4WaMm5/1AZi8yLaqitT59eS8xdJmdJeruCCXunXYi65Nmt6v3M53lAfFqNF
- PQgw==
-X-Gm-Message-State: APjAAAXK+VfUs1U0Fnzn66fKCErt2zS5lqKQJNXtQVNyEre3BDeOQQO/
- PMYNGtKCu73UftRLlH37Sh5hKtA=
-X-Google-Smtp-Source: APXvYqyLbsWfFRAaqUwp2lNaLTAUHm8A1WiEYHDrTJrKH//EWVYy0eyNc7Y7iH4BhZVH/BISqE2NbA==
-X-Received: by 2002:a05:6830:18e3:: with SMTP id
- d3mr12395102otf.168.1571944744016; 
- Thu, 24 Oct 2019 12:19:04 -0700 (PDT)
-Received: from xps15.herring.priv (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.googlemail.com with ESMTPSA id n18sm3166867otq.25.2019.10.24.12.19.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 12:19:02 -0700 (PDT)
-From: Rob Herring <robh@kernel.org>
-To: dri-devel@lists.freedesktop.org,
-	Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2] drm/gem: Fix mmap fake offset handling for
- drm_gem_object_funcs.mmap
-Date: Thu, 24 Oct 2019 14:18:59 -0500
-Message-Id: <20191024191859.31700-1-robh@kernel.org>
-X-Mailer: git-send-email 2.20.1
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 01EA06E78B
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 19:33:29 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id F2953720E2; Thu, 24 Oct 2019 19:33:28 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Thu, 24 Oct 2019 19:33:28 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: perk11@perk11.info
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: highest
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111481-502-JPWpCgTaOI@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -58,71 +53,392 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0637503075=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Q29tbWl0IGM0MDA2OWNiN2JkNiAoImRybTogYWRkIG1tYXAoKSB0byBkcm1fZ2VtX29iamVjdF9m
-dW5jcyIpCmludHJvZHVjZWQgYSBHRU0gb2JqZWN0IG1tYXAoKSBob29rIHdoaWNoIGlzIGV4cGVj
-dGVkIHRvIHN1YnRyYWN0IHRoZQpmYWtlIG9mZnNldCBmcm9tIHZtX3Bnb2ZmLiBIb3dldmVyLCBm
-b3IgbW1hcCgpIG9uIGRtYWJ1ZnMsIHRoZXJlIGlzIG5vdAphIGZha2Ugb2Zmc2V0LgoKVG8gZml4
-IHRoaXMsIGxldCdzIGFsd2F5cyBjYWxsIG1tYXAoKSBvYmplY3QgY2FsbGJhY2sgd2l0aCBhbiBv
-ZmZzZXQgb2YgMCwKYW5kIGxlYXZlIGl0IHVwIHRvIGRybV9nZW1fbW1hcF9vYmooKSB0byByZW1v
-dmUgdGhlIGZha2Ugb2Zmc2V0LgoKVFRNIHN0aWxsIG5lZWRzIHRoZSBmYWtlIG9mZnNldCwgc28g
-d2UgaGF2ZSB0byBhZGQgaXQgYmFjayB1bnRpbCB0aGF0J3MKZml4ZWQuCgpGaXhlczogYzQwMDY5
-Y2I3YmQ2ICgiZHJtOiBhZGQgbW1hcCgpIHRvIGRybV9nZW1fb2JqZWN0X2Z1bmNzIikKQ2M6IEdl
-cmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQuY29tPgpDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVs
-LnZldHRlckBmZndsbC5jaD4KU2lnbmVkLW9mZi1ieTogUm9iIEhlcnJpbmcgPHJvYmhAa2VybmVs
-Lm9yZz4KLS0tCnYyOgotIE1vdmUgc3VidHJhY3RpbmcgdGhlIGZha2Ugb2Zmc2V0IG91dCBvZiBt
-bWFwKCkgb2JqIGNhbGxiYWNrcy4KCkkndmUgdGVzdGVkIHNobWVtLCBidXQgbm90IHR0bS4gSG9w
-ZWZ1bGx5LCBJIHVuZGVyc3Rvb2Qgd2hhdCdzIG5lZWRlZCAKZm9yIFRUTS4KClJvYgoKIGRyaXZl
-cnMvZ3B1L2RybS9kcm1fZ2VtLmMgICAgICAgICAgICAgIHwgMyArKysKIGRyaXZlcnMvZ3B1L2Ry
-bS9kcm1fZ2VtX3NobWVtX2hlbHBlci5jIHwgMyAtLS0KIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRt
-X2JvX3ZtLmMgICAgICAgIHwgNyArKysrKysrCiBpbmNsdWRlL2RybS9kcm1fZ2VtLmggICAgICAg
-ICAgICAgICAgICB8IDQgKysrLQogNCBmaWxlcyBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspLCA0
-IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtLmMgYi9k
-cml2ZXJzL2dwdS9kcm0vZHJtX2dlbS5jCmluZGV4IDU2ZjQyZTBmMjU4NC4uMmYyYjg4OTA5NmIw
-IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbS5jCisrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9kcm1fZ2VtLmMKQEAgLTExMDYsNiArMTEwNiw5IEBAIGludCBkcm1fZ2VtX21tYXBfb2Jq
-KHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLCB1bnNpZ25lZCBsb25nIG9ial9zaXplLAogCQly
-ZXR1cm4gLUVJTlZBTDsKIAogCWlmIChvYmotPmZ1bmNzICYmIG9iai0+ZnVuY3MtPm1tYXApIHsK
-KwkJLyogUmVtb3ZlIHRoZSBmYWtlIG9mZnNldCAqLworCQl2bWEtPnZtX3Bnb2ZmIC09IGRybV92
-bWFfbm9kZV9zdGFydCgmb2JqLT52bWFfbm9kZSk7CisKIAkJcmV0ID0gb2JqLT5mdW5jcy0+bW1h
-cChvYmosIHZtYSk7CiAJCWlmIChyZXQpCiAJCQlyZXR1cm4gcmV0OwpkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVscGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJt
-X2dlbV9zaG1lbV9oZWxwZXIuYwppbmRleCBhODc4Yzc4N2I4NjcuLmU4MDYxYzY0YzQ4MCAxMDA2
-NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVscGVyLmMKKysrIGIvZHJp
-dmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVscGVyLmMKQEAgLTU0Miw5ICs1NDIsNiBAQCBp
-bnQgZHJtX2dlbV9zaG1lbV9tbWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLCBzdHJ1Y3Qg
-dm1fYXJlYV9zdHJ1Y3QgKnZtYSkKIAl2bWEtPnZtX3BhZ2VfcHJvdCA9IHBncHJvdF9kZWNyeXB0
-ZWQodm1hLT52bV9wYWdlX3Byb3QpOwogCXZtYS0+dm1fb3BzID0gJmRybV9nZW1fc2htZW1fdm1f
-b3BzOwogCi0JLyogUmVtb3ZlIHRoZSBmYWtlIG9mZnNldCAqLwotCXZtYS0+dm1fcGdvZmYgLT0g
-ZHJtX3ZtYV9ub2RlX3N0YXJ0KCZzaG1lbS0+YmFzZS52bWFfbm9kZSk7Ci0KIAlyZXR1cm4gMDsK
-IH0KIEVYUE9SVF9TWU1CT0xfR1BMKGRybV9nZW1fc2htZW1fbW1hcCk7CmRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib192bS5jIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1f
-Ym9fdm0uYwppbmRleCAxYTlkYjY5MWY5NTQuLjA4OTAyYzcyOTBhNSAxMDA2NDQKLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdm0uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0
-bV9ib192bS5jCkBAIC00ODIsNiArNDgyLDEzIEBAIEVYUE9SVF9TWU1CT0wodHRtX2JvX21tYXAp
-OwogaW50IHR0bV9ib19tbWFwX29iaihzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSwgc3RydWN0
-IHR0bV9idWZmZXJfb2JqZWN0ICpibykKIHsKIAl0dG1fYm9fZ2V0KGJvKTsKKworCS8qCisJICog
-RklYTUU6ICZkcm1fZ2VtX29iamVjdF9mdW5jcy5tbWFwIGlzIGNhbGxlZCB3aXRoIHRoZSBmYWtl
-IG9mZnNldAorCSAqIHJlbW92ZWQuIEFkZCBpdCBiYWNrIGhlcmUgdW50aWwgdGhlIHJlc3Qgb2Yg
-VFRNIHdvcmtzIHdpdGhvdXQgaXQuCisJICovCisJdm1hLT52bV9wZ29mZiArPSBkcm1fdm1hX25v
-ZGVfc3RhcnQoJmJvLT5iYXNlLnZtYV9ub2RlKTsKKwogCXR0bV9ib19tbWFwX3ZtYV9zZXR1cChi
-bywgdm1hKTsKIAlyZXR1cm4gMDsKIH0KZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9nZW0u
-aCBiL2luY2x1ZGUvZHJtL2RybV9nZW0uaAppbmRleCBlNzFmNzVhMmFiNTcuLmM1NmNiYjM1MDll
-MCAxMDA2NDQKLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2dlbS5oCisrKyBiL2luY2x1ZGUvZHJtL2Ry
-bV9nZW0uaApAQCAtMTU5LDcgKzE1OSw5IEBAIHN0cnVjdCBkcm1fZ2VtX29iamVjdF9mdW5jcyB7
-CiAJICoKIAkgKiBUaGUgY2FsbGJhY2sgaXMgdXNlZCBieSBieSBib3RoIGRybV9nZW1fbW1hcF9v
-YmooKSBhbmQKIAkgKiBkcm1fZ2VtX3ByaW1lX21tYXAoKS4gIFdoZW4gQG1tYXAgaXMgcHJlc2Vu
-dCBAdm1fb3BzIGlzIG5vdAotCSAqIHVzZWQsIHRoZSBAbW1hcCBjYWxsYmFjayBtdXN0IHNldCB2
-bWEtPnZtX29wcyBpbnN0ZWFkLgorCSAqIHVzZWQsIHRoZSBAbW1hcCBjYWxsYmFjayBtdXN0IHNl
-dCB2bWEtPnZtX29wcyBpbnN0ZWFkLiBUaGUgQG1tYXAKKwkgKiBjYWxsYmFjayBpcyBhbHdheXMg
-Y2FsbGVkIHdpdGggYSAwIG9mZnNldC4gVGhlIGNhbGxlciB3aWxsIHJlbW92ZQorCSAqIHRoZSBm
-YWtlIG9mZnNldCBhcyBuZWNlc3NhcnkuCiAJICoKIAkgKi8KIAlpbnQgKCptbWFwKShzdHJ1Y3Qg
-ZHJtX2dlbV9vYmplY3QgKm9iaiwgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEpOwotLSAKMi4y
-MC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0637503075==
+Content-Type: multipart/alternative; boundary="15719456085.fc1039.13451"
+Content-Transfer-Encoding: 7bit
+
+
+--15719456085.fc1039.13451
+Date: Thu, 24 Oct 2019 19:33:28 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+
+--- Comment #158 from Konstantin Pereiaslov <perk11@perk11.info> ---
+Also experiencing this with Radeon RX 5700 XT and amdgpu=20
+19.1.0+git1910111930.b467d2~oibaf~b with kernel version 5.3.7-050307-generic
+running KDE Neon User edition with latest updates.
+
+Didn't have any heavy load for the GPU to do.
+
+First I had some artifacts appeared on Plasma Hard Disk Monitor widget and =
+CPU
+Load Widget (here is a screenshot:
+https://i.perk11.info/20191024_193152_kernel.png) while PC was idle and scr=
+een
+was locked, but everything else continued to work fine.=20
+
+I checked the logs for the period when this could've happened, but the only
+logs from that period are from KScreen that start like this:
+
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:
+RRNotify_OutputProperty (ignored)
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Output:  88
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Property:  EDID
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+State (newValue, Deleted):  1
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:
+RRNotify_OutputProperty (ignored)
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Output:  88
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Property:  EDID
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+State (newValue, Deleted):  1
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:
+RRNotify_OutputChange
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Output:  88
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+CRTC:  81
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Mode:  97
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Rotation:  "Rotate_0"
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Connection:  "Disconnected"
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Subpixel Order:  0
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:
+RRScreenChangeNotify
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Window: 18874373
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Root: 1744
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Rotation:  "Rotate_0"
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Size ID: 65535
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Size:  7280 1440
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+SizeMM:  1926 381
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:
+RRNotify_OutputChange
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Output:  88
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+CRTC:  81
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Mode:  97
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Rotation:  "Rotate_0"
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Connection:  "Disconnected"
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Subpixel Order:  0
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xrandr:
+XRandROutput 88 update
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          m_connected: 0
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          m_crtc
+XRandRCrtc(0x5655577da9f0)
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          CRTC: 81
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          MODE: 97
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          Connection: 1
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          Primary: false
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xrandr: Output =
+88 :
+connected =3D false , enabled =3D true
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xrandr:
+XRandROutput 88 update
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          m_connected: 1
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          m_crtc
+XRandRCrtc(0x5655577da9f0)
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          CRTC: 81
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          MODE: 97
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          Connection: 1
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          Primary: false
+
+
+
+90 minutes later, the system became unresponsive while I was typing a messa=
+ge
+in Skype, but the audio I had playing in Audacity continued to play and the
+cron jobs continued running normally for a few minutes while I was trying to
+get the system unstuck without rebooting it which I couldn't.
+
+Here are the errors:
+
+Oct 24 19:04:10 perk11-home kernel: [drm:amdgpu_dm_commit_planes.constprop.0
+[amdgpu]] *ERROR* Waiting for fences timed out or interrupted!
+Oct 24 19:04:10 perk11-home kernel: [drm:amdgpu_dm_commit_planes.constprop.0
+[amdgpu]] *ERROR* Waiting for fences timed out or interrupted!
+Oct 24 19:04:15 perk11-home kernel: [drm:amdgpu_dm_commit_planes.constprop.0
+[amdgpu]] *ERROR* Waiting for fences timed out or interrupted!
+
+
+
+
+Oct 24 19:04:10 perk11-home kernel: [drm:amdgpu_dm_commit_planes.constprop.0
+[amdgpu]] *ERROR* Waiting for fences timed out or interrupted!
+Oct 24 19:04:10 perk11-home kernel: [drm:amdgpu_dm_commit_planes.constprop.0
+[amdgpu]] *ERROR* Waiting for fences timed out or interrupted!
+Oct 24 19:04:15 perk11-home kernel: [drm:amdgpu_dm_commit_planes.constprop.0
+[amdgpu]] *ERROR* Waiting for fences timed out or interrupted!
+Oct 24 19:04:15 perk11-home kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERR=
+OR*
+ring sdma0 timeout, signaled seq=3D3485981, emitted seq=3D3485983
+Oct 24 19:04:15 perk11-home kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERR=
+OR*
+Process information: process Xorg pid 2469 thread Xorg:cs0 pid 2491
+Oct 24 19:04:15 perk11-home kernel: [drm] GPU recovery disabled.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15719456085.fc1039.13451
+Date: Thu, 24 Oct 2019 19:33:28 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c158">Comm=
+ent # 158</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+perk11&#64;perk11.info" title=3D"Konstantin Pereiaslov &lt;perk11&#64;perk1=
+1.info&gt;"> <span class=3D"fn">Konstantin Pereiaslov</span></a>
+</span></b>
+        <pre>Also experiencing this with Radeon RX 5700 XT and amdgpu=20
+19.1.0+git1910111930.b467d2~oibaf~b with kernel version 5.3.7-050307-generic
+running KDE Neon User edition with latest updates.
+
+Didn't have any heavy load for the GPU to do.
+
+First I had some artifacts appeared on Plasma Hard Disk Monitor widget and =
+CPU
+Load Widget (here is a screenshot:
+<a href=3D"https://i.perk11.info/20191024_193152_kernel.png">https://i.perk=
+11.info/20191024_193152_kernel.png</a>) while PC was idle and screen
+was locked, but everything else continued to work fine.=20
+
+I checked the logs for the period when this could've happened, but the only
+logs from that period are from KScreen that start like this:
+
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:
+RRNotify_OutputProperty (ignored)
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Output:  88
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Property:  EDID
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+State (newValue, Deleted):  1
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:
+RRNotify_OutputProperty (ignored)
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Output:  88
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Property:  EDID
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+State (newValue, Deleted):  1
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:
+RRNotify_OutputChange
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Output:  88
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+CRTC:  81
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Mode:  97
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Rotation:  &quot;Rotate_0&quot;
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Connection:  &quot;Disconnected&quot;
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Subpixel Order:  0
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:
+RRScreenChangeNotify
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Window: 18874373
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Root: 1744
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Rotation:  &quot;Rotate_0&quot;
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Size ID: 65535
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Size:  7280 1440
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+SizeMM:  1926 381
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:
+RRNotify_OutputChange
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Output:  88
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+CRTC:  81
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Mode:  97
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Rotation:  &quot;Rotate_0&quot;
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Connection:  &quot;Disconnected&quot;
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xcb.helper:=20=
+=20=20=20=20=20=20=20
+Subpixel Order:  0
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xrandr:
+XRandROutput 88 update
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          m_connected: 0
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          m_crtc
+XRandRCrtc(0x5655577da9f0)
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          CRTC: 81
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          MODE: 97
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          Connection: 1
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          Primary: false
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xrandr: Output =
+88 :
+connected =3D false , enabled =3D true
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]: kscreen.xrandr:
+XRandROutput 88 update
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          m_connected: 1
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          m_crtc
+XRandRCrtc(0x5655577da9f0)
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          CRTC: 81
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          MODE: 97
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          Connection: 1
+Oct 24 16:34:58 perk11-home org.kde.KScreen[25804]:          Primary: false
+
+
+
+90 minutes later, the system became unresponsive while I was typing a messa=
+ge
+in Skype, but the audio I had playing in Audacity continued to play and the
+cron jobs continued running normally for a few minutes while I was trying to
+get the system unstuck without rebooting it which I couldn't.
+
+Here are the errors:
+
+Oct 24 19:04:10 perk11-home kernel: [drm:amdgpu_dm_commit_planes.constprop.0
+[amdgpu]] *ERROR* Waiting for fences timed out or interrupted!
+Oct 24 19:04:10 perk11-home kernel: [drm:amdgpu_dm_commit_planes.constprop.0
+[amdgpu]] *ERROR* Waiting for fences timed out or interrupted!
+Oct 24 19:04:15 perk11-home kernel: [drm:amdgpu_dm_commit_planes.constprop.0
+[amdgpu]] *ERROR* Waiting for fences timed out or interrupted!
+
+
+
+
+Oct 24 19:04:10 perk11-home kernel: [drm:amdgpu_dm_commit_planes.constprop.0
+[amdgpu]] *ERROR* Waiting for fences timed out or interrupted!
+Oct 24 19:04:10 perk11-home kernel: [drm:amdgpu_dm_commit_planes.constprop.0
+[amdgpu]] *ERROR* Waiting for fences timed out or interrupted!
+Oct 24 19:04:15 perk11-home kernel: [drm:amdgpu_dm_commit_planes.constprop.0
+[amdgpu]] *ERROR* Waiting for fences timed out or interrupted!
+Oct 24 19:04:15 perk11-home kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERR=
+OR*
+ring sdma0 timeout, signaled seq=3D3485981, emitted seq=3D3485983
+Oct 24 19:04:15 perk11-home kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERR=
+OR*
+Process information: process Xorg pid 2469 thread Xorg:cs0 pid 2491
+Oct 24 19:04:15 perk11-home kernel: [drm] GPU recovery disabled.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15719456085.fc1039.13451--
+
+--===============0637503075==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0637503075==--
