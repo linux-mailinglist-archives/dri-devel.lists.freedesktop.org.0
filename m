@@ -1,24 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D71A1E2CD9
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 11:10:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63561E2DF0
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2019 11:53:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6689F6E1B2;
-	Thu, 24 Oct 2019 09:10:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A21A46E1D5;
+	Thu, 24 Oct 2019 09:53:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 70F996E1A4
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 09:10:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 47E8C6E1C4
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2019 09:53:56 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 6A320720E2; Thu, 24 Oct 2019 09:10:34 +0000 (UTC)
+ id 45188720E2; Thu, 24 Oct 2019 09:53:56 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Thu, 24 Oct 2019 09:10:34 +0000
+Subject: [Bug 109887] [Vega10][powerplay] P7 gets reset to max_vddc
+ (1.2V/1.25V) after applying any custom settings via pp_od_clk_voltage and/or
+ pp_table
+Date: Thu, 24 Oct 2019 09:53:56 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -27,16 +29,16 @@ X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: haro41@gmx.de
+X-Bugzilla-Who: stefanspr94@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109955-502-o3ujM2EzOY@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
-References: <bug-109955-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-109887-502-vDdz7GzkaZ@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109887-502@http.bugs.freedesktop.org/>
+References: <bug-109887-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,38 +54,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1731723715=="
+Content-Type: multipart/mixed; boundary="===============1906384833=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1731723715==
-Content-Type: multipart/alternative; boundary="15719082342.BEca20704.22816"
+--===============1906384833==
+Content-Type: multipart/alternative; boundary="15719108361.841416F.32252"
 Content-Transfer-Encoding: 7bit
 
 
---15719082342.BEca20704.22816
-Date: Thu, 24 Oct 2019 09:10:34 +0000
+--15719108361.841416F.32252
+Date: Thu, 24 Oct 2019 09:53:56 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109887
 
---- Comment #123 from haro41@gmx.de ---
-... i forgot the link to a related thread:
-
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110777
+--- Comment #15 from Stefan Springer <stefanspr94@gmail.com> ---
+The patch Pelle van Gils proposed here works flawlessly for me:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D205277
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15719082342.BEca20704.22816
-Date: Thu, 24 Oct 2019 09:10:34 +0000
+--15719108361.841416F.32252
+Date: Thu, 24 Oct 2019 09:53:56 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -99,25 +99,23 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c123">Comm=
-ent # 123</a>
+   title=3D"NEW - [Vega10][powerplay] P7 gets reset to max_vddc (1.2V/1.25V=
+) after applying any custom settings via pp_od_clk_voltage and/or pp_table"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109887#c15">Comme=
+nt # 15</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
-5</a>
+   title=3D"NEW - [Vega10][powerplay] P7 gets reset to max_vddc (1.2V/1.25V=
+) after applying any custom settings via pp_od_clk_voltage and/or pp_table"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109887">bug 10988=
+7</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-haro41&#64;gmx.de" title=3D"haro41&#64;gmx.de">haro41&#64;gmx.de</a>
+stefanspr94&#64;gmail.com" title=3D"Stefan Springer &lt;stefanspr94&#64;gma=
+il.com&gt;"> <span class=3D"fn">Stefan Springer</span></a>
 </span></b>
-        <pre>... i forgot the link to a related thread:
-
-
-<a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Kernel 5.1-5.3 MCLK stuck at 167MHz Vega 10 (56/64)"
-   href=3D"show_bug.cgi?id=3D110777">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D110777</a></pre>
+        <pre>The patch Pelle van Gils proposed here works flawlessly for me:
+<a href=3D"https://bugzilla.kernel.org/show_bug.cgi?id=3D205277">https://bu=
+gzilla.kernel.org/show_bug.cgi?id=3D205277</a></pre>
         </div>
       </p>
 
@@ -131,9 +129,9 @@ cgi?id=3D110777</a></pre>
     </body>
 </html>=
 
---15719082342.BEca20704.22816--
+--15719108361.841416F.32252--
 
---===============1731723715==
+--===============1906384833==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -143,4 +141,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1731723715==--
+--===============1906384833==--
