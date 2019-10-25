@@ -1,45 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F02AE411E
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2019 03:39:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 755D1E412C
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2019 03:43:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3E506E87D;
-	Fri, 25 Oct 2019 01:39:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E9706E885;
+	Fri, 25 Oct 2019 01:43:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8F2CB6E87D
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2019 01:39:38 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 86BF8720E2; Fri, 25 Oct 2019 01:39:38 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112124] Kingdom Come: Deliverance (DXVK) - kernel performance
- regression [Navi] [RADV/ACO]
-Date: Fri, 25 Oct 2019 01:39:38 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: not set
-X-Bugzilla-Who: asheldon55@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
-Message-ID: <bug-112124-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FD556E883
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2019 01:43:09 +0000 (UTC)
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-12-x8h3IzB2MUGRNmlGReVkow-1; Thu, 24 Oct 2019 21:43:01 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87FE5476;
+ Fri, 25 Oct 2019 01:42:57 +0000 (UTC)
+Received: from [10.72.12.158] (ovpn-12-158.pek2.redhat.com [10.72.12.158])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E4DD360852;
+ Fri, 25 Oct 2019 01:42:33 +0000 (UTC)
+Subject: Re: [PATCH V5 1/6] mdev: class id support
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <20191023130752.18980-1-jasowang@redhat.com>
+ <20191023130752.18980-2-jasowang@redhat.com>
+ <20191023154204.31d74866@x1.home>
+ <38bdf762-524a-e0f1-6e9a-1102adfe8fb1@redhat.com>
+ <20191024134636.253131c5@x1.home> <20191024141330.017a6480@x1.home>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <c8ab994e-8daa-926c-c91d-785e9d3c5044@redhat.com>
+Date: Fri, 25 Oct 2019 09:42:31 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20191024141330.017a6480@x1.home>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: x8h3IzB2MUGRNmlGReVkow-1
+X-Mimecast-Spam-Score: 0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=redhat.com; 
+ s=mimecast20190719; t=1571967787;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HWm3sedYy/AJk6/eTboQeO/amXwDeq0etxmcOXpbb2g=;
+ b=dHYGxSe7vrL3JYGvso5bQVLG2M/WbnN2y81Ev3bLP4soF1dHol2k90WAhPZUgxWR8K+NTQ
+ S+reg8KQC65C/wEURYz6RYcm4v9k256itO2YjSlL2ooDRlau50P333tCNKl+oS4UOQl36S
+ TPaKP+UCGwIqnfmprBsqy9YjvGzK8sc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,257 +66,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1704574329=="
+Cc: stefanha@redhat.com, christophe.de.dinechin@gmail.com, kvm@vger.kernel.org,
+ mst@redhat.com, airlied@linux.ie, heiko.carstens@de.ibm.com,
+ kevin.tian@intel.com, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, kwankhede@nvidia.com,
+ rob.miller@broadcom.com, linux-s390@vger.kernel.org, sebott@linux.ibm.com,
+ lulu@redhat.com, eperezma@redhat.com, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, haotian.wang@sifive.com, cunming.liang@intel.com,
+ zhi.a.wang@intel.com, farman@linux.ibm.com, idos@mellanox.com,
+ gor@linux.ibm.com, intel-gfx@lists.freedesktop.org, rodrigo.vivi@intel.com,
+ xiao.w.wang@intel.com, freude@linux.ibm.com, parav@mellanox.com,
+ zhihong.wang@intel.com, intel-gvt-dev@lists.freedesktop.org,
+ akrowiak@linux.ibm.com, oberpar@linux.ibm.com, tiwei.bie@intel.com,
+ netdev@vger.kernel.org, cohuck@redhat.com, linux-kernel@vger.kernel.org,
+ maxime.coquelin@redhat.com, lingshan.zhu@intel.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1704574329==
-Content-Type: multipart/alternative; boundary="15719675780.0CfF9A7c.30544"
-Content-Transfer-Encoding: 7bit
-
-
---15719675780.0CfF9A7c.30544
-Date: Fri, 25 Oct 2019 01:39:38 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112124
-
-            Bug ID: 112124
-           Summary: Kingdom Come: Deliverance (DXVK) - kernel performance
-                    regression [Navi] [RADV/ACO]
-           Product: DRI
-           Version: DRI git
-          Hardware: x86-64 (AMD64)
-                OS: Linux (All)
-            Status: NEW
-          Severity: not set
-          Priority: not set
-         Component: DRM/AMDgpu
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: asheldon55@gmail.com
-
-Kingdom Come: Deliverance (DXVK) has regressed in performance due to the
-following kernel commit, with aco-navi:
-
-commit 828d6fde7f574d74b0a6a591345d3c42b62d5e21
-Author: Tianci.Yin <tianci.yin@amd.com>
-Date:   Mon Aug 19 15:30:22 2019 +0800
-
-    drm/amdgpu/psp: move TMR to cpu invisible vram region
-
-    so that more visible vram can be available for umd.
-
-    Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>.
-    Signed-off-by: Tianci.Yin <tianci.yin@amd.com>
-    Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-
-With 828d6fde7f57 (62 fps/79% GPU usage):
-
-https://camo.githubusercontent.com/4608d45738a5174f64daee0604d9f5d7146aee68=
-/68747470733a2f2f692e696d6775722e636f6d2f757356306d33412e6a7067
-
-With 828d6fde7f57 reverted (79 fps, 100% GPU usage):
-https://camo.githubusercontent.com/77a505f85b75db0d2062aa4d8319b6007ba524fe=
-/68747470733a2f2f692e696d6775722e636f6d2f394366695270452e6a7067
-
-Tests were with aco-navi branch:
-https://gitlab.freedesktop.org/Venemo/mesa/tree/aco-navi
-
-Performance with LLVM is comparable with the commit reverted or not, howeve=
-r.
-Slightly better with the commit since GPU usage is lower for the same
-performance:
-
-With 828d6fde7f57 (61.4 fps/88% GPU usage):
-https://i.imgur.com/kJgvRbq.jpg
-
-Without 8d6fde7f57 (61.2 fps/100% GPU usage):
-https://i.imgur.com/AemAss1.jpg
-
-System:
-
-linux-5.4-rc4 (also tested amd-staging-drm-next)
-Mesa aco-navi (e641024) and Mesa git (8dadef2ec54)
-MSI Evoke 5700 XT
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15719675780.0CfF9A7c.30544
-Date: Fri, 25 Oct 2019 01:39:38 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Kingdom Come: Deliverance (DXVK) - kernel performance reg=
-ression [Navi] [RADV/ACO]"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112124">112124</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>Kingdom Come: Deliverance (DXVK) - kernel performance regress=
-ion [Navi] [RADV/ACO]
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>DRI git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>x86-64 (AMD64)
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>Linux (All)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>DRM/AMDgpu
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>asheldon55&#64;gmail.com
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>Kingdom Come: Deliverance (DXVK) has regressed in performance =
-due to the
-following kernel commit, with aco-navi:
-
-commit 828d6fde7f574d74b0a6a591345d3c42b62d5e21
-Author: Tianci.Yin &lt;<a href=3D"mailto:tianci.yin&#64;amd.com">tianci.yin=
-&#64;amd.com</a>&gt;
-Date:   Mon Aug 19 15:30:22 2019 +0800
-
-    drm/amdgpu/psp: move TMR to cpu invisible vram region
-
-    so that more visible vram can be available for umd.
-
-    Reviewed-by: Christian K=C3=B6nig &lt;<a href=3D"mailto:christian.koeni=
-g&#64;amd.com">christian.koenig&#64;amd.com</a>&gt;.
-    Signed-off-by: Tianci.Yin &lt;<a href=3D"mailto:tianci.yin&#64;amd.com"=
->tianci.yin&#64;amd.com</a>&gt;
-    Signed-off-by: Alex Deucher &lt;<a href=3D"mailto:alexander.deucher&#64=
-;amd.com">alexander.deucher&#64;amd.com</a>&gt;
-
-With 828d6fde7f57 (62 fps/79% GPU usage):
-
-<a href=3D"https://camo.githubusercontent.com/4608d45738a5174f64daee0604d9f=
-5d7146aee68/68747470733a2f2f692e696d6775722e636f6d2f757356306d33412e6a7067"=
->https://camo.githubusercontent.com/4608d45738a5174f64daee0604d9f5d7146aee6=
-8/68747470733a2f2f692e696d6775722e636f6d2f757356306d33412e6a7067</a>
-
-With 828d6fde7f57 reverted (79 fps, 100% GPU usage):
-<a href=3D"https://camo.githubusercontent.com/77a505f85b75db0d2062aa4d8319b=
-6007ba524fe/68747470733a2f2f692e696d6775722e636f6d2f394366695270452e6a7067"=
->https://camo.githubusercontent.com/77a505f85b75db0d2062aa4d8319b6007ba524f=
-e/68747470733a2f2f692e696d6775722e636f6d2f394366695270452e6a7067</a>
-
-Tests were with aco-navi branch:
-<a href=3D"https://gitlab.freedesktop.org/Venemo/mesa/tree/aco-navi">https:=
-//gitlab.freedesktop.org/Venemo/mesa/tree/aco-navi</a>
-
-Performance with LLVM is comparable with the commit reverted or not, howeve=
-r.
-Slightly better with the commit since GPU usage is lower for the same
-performance:
-
-With 828d6fde7f57 (61.4 fps/88% GPU usage):
-<a href=3D"https://i.imgur.com/kJgvRbq.jpg">https://i.imgur.com/kJgvRbq.jpg=
-</a>
-
-Without 8d6fde7f57 (61.2 fps/100% GPU usage):
-<a href=3D"https://i.imgur.com/AemAss1.jpg">https://i.imgur.com/AemAss1.jpg=
-</a>
-
-System:
-
-linux-5.4-rc4 (also tested amd-staging-drm-next)
-Mesa aco-navi (e641024) and Mesa git (8dadef2ec54)
-MSI Evoke 5700 XT</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15719675780.0CfF9A7c.30544--
-
---===============1704574329==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1704574329==--
+Ck9uIDIwMTkvMTAvMjUg5LiK5Y2INDoxMywgQWxleCBXaWxsaWFtc29uIHdyb3RlOgo+IE9uIFRo
+dSwgMjQgT2N0IDIwMTkgMTM6NDY6MzYgLTA2MDAKPiBBbGV4IFdpbGxpYW1zb24gPGFsZXgud2ls
+bGlhbXNvbkByZWRoYXQuY29tPiB3cm90ZToKPgo+PiBPbiBUaHUsIDI0IE9jdCAyMDE5IDExOjI3
+OjM2ICswODAwCj4+IEphc29uIFdhbmcgPGphc293YW5nQHJlZGhhdC5jb20+IHdyb3RlOgo+Pgo+
+Pj4gT24gMjAxOS8xMC8yNCDkuIrljYg1OjQyLCBBbGV4IFdpbGxpYW1zb24gd3JvdGU6Cj4+Pj4g
+T24gV2VkLCAyMyBPY3QgMjAxOSAyMTowNzo0NyArMDgwMAo+Pj4+IEphc29uIFdhbmcgPGphc293
+YW5nQHJlZGhhdC5jb20+IHdyb3RlOgo+Pj4+ICAgICAKPj4+Pj4gTWRldiBidXMgb25seSBzdXBw
+b3J0cyB2ZmlvIGRyaXZlciByaWdodCBub3csIHNvIGl0IGRvZXNuJ3QgaW1wbGVtZW50Cj4+Pj4+
+IG1hdGNoIG1ldGhvZC4gQnV0IGluIHRoZSBmdXR1cmUsIHdlIG1heSBhZGQgZHJpdmVycyBvdGhl
+ciB0aGFuIHZmaW8sCj4+Pj4+IHRoZSBmaXJzdCBkcml2ZXIgY291bGQgYmUgdmlydGlvLW1kZXYu
+IFRoaXMgbWVhbnMgd2UgbmVlZCB0byBhZGQKPj4+Pj4gZGV2aWNlIGNsYXNzIGlkIHN1cHBvcnQg
+aW4gYnVzIG1hdGNoIG1ldGhvZCB0byBwYWlyIHRoZSBtZGV2IGRldmljZQo+Pj4+PiBhbmQgbWRl
+diBkcml2ZXIgY29ycmVjdGx5Lgo+Pj4+Pgo+Pj4+PiBTbyB0aGlzIHBhdGNoIGFkZHMgaWRfdGFi
+bGUgdG8gbWRldl9kcml2ZXIgYW5kIGNsYXNzX2lkIGZvciBtZGV2Cj4+Pj4+IGRldmljZSB3aXRo
+IHRoZSBtYXRjaCBtZXRob2QgZm9yIG1kZXYgYnVzLgo+Pj4+Pgo+Pj4+PiBTaWduZWQtb2ZmLWJ5
+OiBKYXNvbiBXYW5nIDxqYXNvd2FuZ0ByZWRoYXQuY29tPgo+Pj4+PiAtLS0KPj4+Pj4gICAgLi4u
+L2RyaXZlci1hcGkvdmZpby1tZWRpYXRlZC1kZXZpY2UucnN0ICAgICAgIHwgIDUgKysrKysKPj4+
+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3Z0L2t2bWd0LmMgICAgICAgICAgICAgIHwgIDEg
+Kwo+Pj4+PiAgICBkcml2ZXJzL3MzOTAvY2lvL3ZmaW9fY2N3X29wcy5jICAgICAgICAgICAgICAg
+fCAgMSArCj4+Pj4+ICAgIGRyaXZlcnMvczM5MC9jcnlwdG8vdmZpb19hcF9vcHMuYyAgICAgICAg
+ICAgICB8ICAxICsKPj4+Pj4gICAgZHJpdmVycy92ZmlvL21kZXYvbWRldl9jb3JlLmMgICAgICAg
+ICAgICAgICAgIHwgMTggKysrKysrKysrKysrKysrCj4+Pj4+ICAgIGRyaXZlcnMvdmZpby9tZGV2
+L21kZXZfZHJpdmVyLmMgICAgICAgICAgICAgICB8IDIyICsrKysrKysrKysrKysrKysrKysKPj4+
+Pj4gICAgZHJpdmVycy92ZmlvL21kZXYvbWRldl9wcml2YXRlLmggICAgICAgICAgICAgIHwgIDEg
+Kwo+Pj4+PiAgICBkcml2ZXJzL3ZmaW8vbWRldi92ZmlvX21kZXYuYyAgICAgICAgICAgICAgICAg
+fCAgNiArKysrKwo+Pj4+PiAgICBpbmNsdWRlL2xpbnV4L21kZXYuaCAgICAgICAgICAgICAgICAg
+ICAgICAgICAgfCAgOCArKysrKysrCj4+Pj4+ICAgIGluY2x1ZGUvbGludXgvbW9kX2RldmljZXRh
+YmxlLmggICAgICAgICAgICAgICB8ICA4ICsrKysrKysKPj4+Pj4gICAgc2FtcGxlcy92ZmlvLW1k
+ZXYvbWJvY2hzLmMgICAgICAgICAgICAgICAgICAgIHwgIDEgKwo+Pj4+PiAgICBzYW1wbGVzL3Zm
+aW8tbWRldi9tZHB5LmMgICAgICAgICAgICAgICAgICAgICAgfCAgMSArCj4+Pj4+ICAgIHNhbXBs
+ZXMvdmZpby1tZGV2L210dHkuYyAgICAgICAgICAgICAgICAgICAgICB8ICAxICsKPj4+Pj4gICAg
+MTMgZmlsZXMgY2hhbmdlZCwgNzQgaW5zZXJ0aW9ucygrKQo+Pj4+Pgo+Pj4+PiBkaWZmIC0tZ2l0
+IGEvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL3ZmaW8tbWVkaWF0ZWQtZGV2aWNlLnJzdCBiL0Rv
+Y3VtZW50YXRpb24vZHJpdmVyLWFwaS92ZmlvLW1lZGlhdGVkLWRldmljZS5yc3QKPj4+Pj4gaW5k
+ZXggMjVlYjdkNWI4MzRiLi42NzA5NDEzYmVlMjkgMTAwNjQ0Cj4+Pj4+IC0tLSBhL0RvY3VtZW50
+YXRpb24vZHJpdmVyLWFwaS92ZmlvLW1lZGlhdGVkLWRldmljZS5yc3QKPj4+Pj4gKysrIGIvRG9j
+dW1lbnRhdGlvbi9kcml2ZXItYXBpL3ZmaW8tbWVkaWF0ZWQtZGV2aWNlLnJzdAo+Pj4+PiBAQCAt
+MTAyLDEyICsxMDIsMTQgQEAgc3RydWN0dXJlIHRvIHJlcHJlc2VudCBhIG1lZGlhdGVkIGRldmlj
+ZSdzIGRyaXZlcjo6Cj4+Pj4+ICAgICAgICAgICogQHByb2JlOiBjYWxsZWQgd2hlbiBuZXcgZGV2
+aWNlIGNyZWF0ZWQKPj4+Pj4gICAgICAgICAgKiBAcmVtb3ZlOiBjYWxsZWQgd2hlbiBkZXZpY2Ug
+cmVtb3ZlZAo+Pj4+PiAgICAgICAgICAqIEBkcml2ZXI6IGRldmljZSBkcml2ZXIgc3RydWN0dXJl
+Cj4+Pj4+ICsgICAgICAqIEBpZF90YWJsZTogdGhlIGlkcyBzZXJ2aWNlZCBieSB0aGlzIGRyaXZl
+cgo+Pj4+PiAgICAgICAgICAqLwo+Pj4+PiAgICAgICAgIHN0cnVjdCBtZGV2X2RyaXZlciB7Cj4+
+Pj4+ICAgIAkgICAgIGNvbnN0IGNoYXIgKm5hbWU7Cj4+Pj4+ICAgIAkgICAgIGludCAgKCpwcm9i
+ZSkgIChzdHJ1Y3QgZGV2aWNlICpkZXYpOwo+Pj4+PiAgICAJICAgICB2b2lkICgqcmVtb3ZlKSAo
+c3RydWN0IGRldmljZSAqZGV2KTsKPj4+Pj4gICAgCSAgICAgc3RydWN0IGRldmljZV9kcml2ZXIg
+ICAgZHJpdmVyOwo+Pj4+PiArCSAgICAgY29uc3Qgc3RydWN0IG1kZXZfY2xhc3NfaWQgKmlkX3Rh
+YmxlOwo+Pj4+PiAgICAgICAgIH07Cj4+Pj4+ICAgIAo+Pj4+PiAgICBBIG1lZGlhdGVkIGJ1cyBk
+cml2ZXIgZm9yIG1kZXYgc2hvdWxkIHVzZSB0aGlzIHN0cnVjdHVyZSBpbiB0aGUgZnVuY3Rpb24g
+Y2FsbHMKPj4+Pj4gQEAgLTE3MCw2ICsxNzIsOSBAQCB0aGF0IGEgZHJpdmVyIHNob3VsZCB1c2Ug
+dG8gdW5yZWdpc3RlciBpdHNlbGYgd2l0aCB0aGUgbWRldiBjb3JlIGRyaXZlcjo6Cj4+Pj4+ICAg
+IAo+Pj4+PiAgICAJZXh0ZXJuIHZvaWQgbWRldl91bnJlZ2lzdGVyX2RldmljZShzdHJ1Y3QgZGV2
+aWNlICpkZXYpOwo+Pj4+PiAgICAKPj4+Pj4gK0l0IGlzIGFsc28gcmVxdWlyZWQgdG8gc3BlY2lm
+eSB0aGUgY2xhc3NfaWQgaW4gY3JlYXRlKCkgY2FsbGJhY2sgdGhyb3VnaDo6Cj4+Pj4+ICsKPj4+
+Pj4gKwlpbnQgbWRldl9zZXRfY2xhc3Moc3RydWN0IG1kZXZfZGV2aWNlICptZGV2LCB1MTYgaWQp
+Owo+Pj4+PiAgICAKPj4+Pj4gICAgTWVkaWF0ZWQgRGV2aWNlIE1hbmFnZW1lbnQgSW50ZXJmYWNl
+IFRocm91Z2ggc3lzZnMKPj4+Pj4gICAgPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT0KPj4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1
+L2d2dC9rdm1ndC5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3Z0L2t2bWd0LmMKPj4+Pj4gaW5k
+ZXggMzQzZDc5YzFjYjdlLi42NDIwZjBkYmQzMWIgMTAwNjQ0Cj4+Pj4+IC0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS9pOTE1L2d2dC9rdm1ndC5jCj4+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1
+L2d2dC9rdm1ndC5jCj4+Pj4+IEBAIC02NzgsNiArNjc4LDcgQEAgc3RhdGljIGludCBpbnRlbF92
+Z3B1X2NyZWF0ZShzdHJ1Y3Qga29iamVjdCAqa29iaiwgc3RydWN0IG1kZXZfZGV2aWNlICptZGV2
+KQo+Pj4+PiAgICAJCSAgICAgZGV2X25hbWUobWRldl9kZXYobWRldikpKTsKPj4+Pj4gICAgCXJl
+dCA9IDA7Cj4+Pj4+ICAgIAo+Pj4+PiArCW1kZXZfc2V0X2NsYXNzKG1kZXYsIE1ERVZfQ0xBU1Nf
+SURfVkZJTyk7Cj4+Pj4+ICAgIG91dDoKPj4+Pj4gICAgCXJldHVybiByZXQ7Cj4+Pj4+ICAgIH0K
+Pj4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvczM5MC9jaW8vdmZpb19jY3dfb3BzLmMgYi9kcml2
+ZXJzL3MzOTAvY2lvL3ZmaW9fY2N3X29wcy5jCj4+Pj4+IGluZGV4IGYwZDcxYWI3N2M1MC4uY2Yy
+YzAxM2FlMzJmIDEwMDY0NAo+Pj4+PiAtLS0gYS9kcml2ZXJzL3MzOTAvY2lvL3ZmaW9fY2N3X29w
+cy5jCj4+Pj4+ICsrKyBiL2RyaXZlcnMvczM5MC9jaW8vdmZpb19jY3dfb3BzLmMKPj4+Pj4gQEAg
+LTEyOSw2ICsxMjksNyBAQCBzdGF0aWMgaW50IHZmaW9fY2N3X21kZXZfY3JlYXRlKHN0cnVjdCBr
+b2JqZWN0ICprb2JqLCBzdHJ1Y3QgbWRldl9kZXZpY2UgKm1kZXYpCj4+Pj4+ICAgIAkJCSAgIHBy
+aXZhdGUtPnNjaC0+c2NoaWQuc3NpZCwKPj4+Pj4gICAgCQkJICAgcHJpdmF0ZS0+c2NoLT5zY2hp
+ZC5zY2hfbm8pOwo+Pj4+PiAgICAKPj4+Pj4gKwltZGV2X3NldF9jbGFzcyhtZGV2LCBNREVWX0NM
+QVNTX0lEX1ZGSU8pOwo+Pj4+PiAgICAJcmV0dXJuIDA7Cj4+Pj4+ICAgIH0KPj4+Pj4gICAgCj4+
+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3MzOTAvY3J5cHRvL3ZmaW9fYXBfb3BzLmMgYi9kcml2
+ZXJzL3MzOTAvY3J5cHRvL3ZmaW9fYXBfb3BzLmMKPj4+Pj4gaW5kZXggNWMwZjUzYzZkZGU3Li4w
+N2MzMTA3MGFmZWIgMTAwNjQ0Cj4+Pj4+IC0tLSBhL2RyaXZlcnMvczM5MC9jcnlwdG8vdmZpb19h
+cF9vcHMuYwo+Pj4+PiArKysgYi9kcml2ZXJzL3MzOTAvY3J5cHRvL3ZmaW9fYXBfb3BzLmMKPj4+
+Pj4gQEAgLTM0Myw2ICszNDMsNyBAQCBzdGF0aWMgaW50IHZmaW9fYXBfbWRldl9jcmVhdGUoc3Ry
+dWN0IGtvYmplY3QgKmtvYmosIHN0cnVjdCBtZGV2X2RldmljZSAqbWRldikKPj4+Pj4gICAgCWxp
+c3RfYWRkKCZtYXRyaXhfbWRldi0+bm9kZSwgJm1hdHJpeF9kZXYtPm1kZXZfbGlzdCk7Cj4+Pj4+
+ICAgIAltdXRleF91bmxvY2soJm1hdHJpeF9kZXYtPmxvY2spOwo+Pj4+PiAgICAKPj4+Pj4gKwlt
+ZGV2X3NldF9jbGFzcyhtZGV2LCBNREVWX0NMQVNTX0lEX1ZGSU8pOwo+Pj4+PiAgICAJcmV0dXJu
+IDA7Cj4+Pj4+ICAgIH0KPj4+Pj4gICAgCj4+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3ZmaW8v
+bWRldi9tZGV2X2NvcmUuYyBiL2RyaXZlcnMvdmZpby9tZGV2L21kZXZfY29yZS5jCj4+Pj4+IGlu
+ZGV4IGI1NThkNGNmZDA4Mi4uM2E5YzUyZDcxYjRlIDEwMDY0NAo+Pj4+PiAtLS0gYS9kcml2ZXJz
+L3ZmaW8vbWRldi9tZGV2X2NvcmUuYwo+Pj4+PiArKysgYi9kcml2ZXJzL3ZmaW8vbWRldi9tZGV2
+X2NvcmUuYwo+Pj4+PiBAQCAtNDUsNiArNDUsMTYgQEAgdm9pZCBtZGV2X3NldF9kcnZkYXRhKHN0
+cnVjdCBtZGV2X2RldmljZSAqbWRldiwgdm9pZCAqZGF0YSkKPj4+Pj4gICAgfQo+Pj4+PiAgICBF
+WFBPUlRfU1lNQk9MKG1kZXZfc2V0X2RydmRhdGEpOwo+Pj4+PiAgICAKPj4+Pj4gKy8qIFNwZWNp
+ZnkgdGhlIGNsYXNzIGZvciB0aGUgbWRldiBkZXZpY2UsIHRoaXMgbXVzdCBiZSBjYWxsZWQgZHVy
+aW5nCj4+Pj4+ICsgKiBjcmVhdGUoKSBjYWxsYmFjay4KPj4+Pj4gKyAqLwo+Pj4+PiArdm9pZCBt
+ZGV2X3NldF9jbGFzcyhzdHJ1Y3QgbWRldl9kZXZpY2UgKm1kZXYsIHUxNiBpZCkKPj4+Pj4gK3sK
+Pj4+Pj4gKwlXQVJOX09OKG1kZXYtPmNsYXNzX2lkKTsKPj4+Pj4gKwltZGV2LT5jbGFzc19pZCA9
+IGlkOwo+Pj4+PiArfQo+Pj4+PiArRVhQT1JUX1NZTUJPTChtZGV2X3NldF9jbGFzcyk7Cj4+Pj4+
+ICsKPj4+Pj4gICAgc3RydWN0IGRldmljZSAqbWRldl9kZXYoc3RydWN0IG1kZXZfZGV2aWNlICpt
+ZGV2KQo+Pj4+PiAgICB7Cj4+Pj4+ICAgIAlyZXR1cm4gJm1kZXYtPmRldjsKPj4+Pj4gQEAgLTEz
+NSw2ICsxNDUsNyBAQCBzdGF0aWMgaW50IG1kZXZfZGV2aWNlX3JlbW92ZV9jYihzdHJ1Y3QgZGV2
+aWNlICpkZXYsIHZvaWQgKmRhdGEpCj4+Pj4+ICAgICAqIG1kZXZfcmVnaXN0ZXJfZGV2aWNlIDog
+UmVnaXN0ZXIgYSBkZXZpY2UKPj4+Pj4gICAgICogQGRldjogZGV2aWNlIHN0cnVjdHVyZSByZXBy
+ZXNlbnRpbmcgcGFyZW50IGRldmljZS4KPj4+Pj4gICAgICogQG9wczogUGFyZW50IGRldmljZSBv
+cGVyYXRpb24gc3RydWN0dXJlIHRvIGJlIHJlZ2lzdGVyZWQuCj4+Pj4+ICsgKiBAaWQ6IGNsYXNz
+IGlkLgo+Pj4+PiAgICAgKgo+Pj4+PiAgICAgKiBBZGQgZGV2aWNlIHRvIGxpc3Qgb2YgcmVnaXN0
+ZXJlZCBwYXJlbnQgZGV2aWNlcy4KPj4+Pj4gICAgICogUmV0dXJucyBhIG5lZ2F0aXZlIHZhbHVl
+IG9uIGVycm9yLCBvdGhlcndpc2UgMC4KPj4+Pj4gQEAgLTMyNCw2ICszMzUsMTMgQEAgaW50IG1k
+ZXZfZGV2aWNlX2NyZWF0ZShzdHJ1Y3Qga29iamVjdCAqa29iaiwKPj4+Pj4gICAgCWlmIChyZXQp
+Cj4+Pj4+ICAgIAkJZ290byBvcHNfY3JlYXRlX2ZhaWw7Cj4+Pj4+ICAgIAo+Pj4+PiArCWlmICgh
+bWRldi0+Y2xhc3NfaWQpIHsKPj4+Pj4gKwkJcmV0ID0gLUVJTlZBTDsKPj4+Pj4gKwkJV0FSTigx
+LCAiY2xhc3MgaWQgbXVzdCBiZSBzcGVjaWZpZWQgZm9yIGRldmljZSAlc1xuIiwKPj4+Pj4gKwkJ
+ICAgICBkZXZfbmFtZShkZXYpKTsKPj4+PiBOaXQsIGRldl93YXJuKGRldiwgIm1kZXYgdmVuZG9y
+IGRyaXZlciBmYWlsZWQgdG8gc3BlY2lmeSBkZXZpY2UgY2xhc3NcbiIpOwo+Pj4KPj4+IFdpbGwg
+Zml4Lgo+Pj4KPj4+ICAgIAo+Pj4+ICAgICAKPj4+Pj4gKwkJZ290byBhZGRfZmFpbDsKPj4+Pj4g
+Kwl9Cj4+Pj4+ICsKPj4+Pj4gICAgCXJldCA9IGRldmljZV9hZGQoJm1kZXYtPmRldik7Cj4+Pj4+
+ICAgIAlpZiAocmV0KQo+Pj4+PiAgICAJCWdvdG8gYWRkX2ZhaWw7Cj4+Pj4+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL3ZmaW8vbWRldi9tZGV2X2RyaXZlci5jIGIvZHJpdmVycy92ZmlvL21kZXYvbWRl
+dl9kcml2ZXIuYwo+Pj4+PiBpbmRleCAwZDMyMjNhZWUyMGIuLjMxOWQ4ODZmZmFmNyAxMDA2NDQK
+Pj4+Pj4gLS0tIGEvZHJpdmVycy92ZmlvL21kZXYvbWRldl9kcml2ZXIuYwo+Pj4+PiArKysgYi9k
+cml2ZXJzL3ZmaW8vbWRldi9tZGV2X2RyaXZlci5jCj4+Pj4+IEBAIC02OSw4ICs2OSwzMCBAQCBz
+dGF0aWMgaW50IG1kZXZfcmVtb3ZlKHN0cnVjdCBkZXZpY2UgKmRldikKPj4+Pj4gICAgCXJldHVy
+biAwOwo+Pj4+PiAgICB9Cj4+Pj4+ICAgIAo+Pj4+PiArc3RhdGljIGludCBtZGV2X21hdGNoKHN0
+cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGRldmljZV9kcml2ZXIgKmRydikKPj4+Pj4gK3sKPj4+
+Pj4gKwl1bnNpZ25lZCBpbnQgaTsKPj4+Pj4gKwlzdHJ1Y3QgbWRldl9kZXZpY2UgKm1kZXYgPSB0
+b19tZGV2X2RldmljZShkZXYpOwo+Pj4+PiArCXN0cnVjdCBtZGV2X2RyaXZlciAqbWRydiA9IHRv
+X21kZXZfZHJpdmVyKGRydik7Cj4+Pj4+ICsJY29uc3Qgc3RydWN0IG1kZXZfY2xhc3NfaWQgKmlk
+cyA9IG1kcnYtPmlkX3RhYmxlOwo+Pj4+PiArCj4+Pj4gTml0LCBhcyB3ZSBzdGFydCB0byBhbGxv
+dyBuZXcgbWRldiBidXMgZHJpdmVycywgbWRldi1jb3JlIG1pZ2h0IHdhbnQgdG8KPj4+PiBwcm90
+ZWN0IGl0c2VsZiBmcm9tIGEgTlVMTCBpZF90YWJsZSwgYnkgZWl0aGVyIGZhaWxpbmcgdGhlCj4+
+Pj4gbWRldl9yZWdpc3Rlcl9kcml2ZXIoKSBvciBmYWlsaW5nIHRoZSBtYXRjaCBoZXJlLiAgSSB0
+aGluayBzdWNoIGEKPj4+PiBjb25kaXRpb24gd291bGQgc2VnZmF1bHQgYXMgd3JpdHRlbiBoZXJl
+LCBidXQgY2xlYXJseSB3ZSBkb24ndCBoYXZlCj4+Pj4gc3VjaCBleHRlcm5hbCBkcml2ZXJzIHll
+dC4gIFRoYW5rcywKPj4+Cj4+PiBJJ20gbm90IHN1cmUgSSBnZXQgdGhlIHBvaW50IGhlcmUuIE15
+IHVuZGVyc3RhbmRpbmcgaXMgdGhhdCBtZGV2LWNvcmUKPj4+IHdvbid0IHRyeSB0byBiZSBtYXRj
+aGVkIGhlcmUgc2luY2UgaXQgd2FzIG5vdCBhIGNvbXBsZXRlIG1kZXYgZGV2aWNlLgo+PiBUaGUg
+cGFyZW50IGRyaXZlciBmYWlsaW5nIHRvIHNldCBhIHR5cGUgdnMgdGhlIHBhcmVudCBkcml2ZXIg
+ZmFpbGluZyB0bwo+IENvcnJlY3Rpb24sIHRoZSBzZWNvbmQgaGFsZiBvZiB0aGlzIHNob3VsZCBi
+ZSBpbiByZWZlcmVuY2UgdG8gdGhlIG1kZXYKPiBidXMgZHJpdmVyLgo+Cj4+IHJlZ2lzdGVyIHdp
+dGggYSBzdHJ1Y3QgbWRldl9kcml2ZXIgd2hlcmUgaWRfdGFibGUgaXMgbm90IG51bGwgYXJlCj4+
+IGRpZmZlcmVudCBpc3N1ZXMuICBJIGFncmVlIHRoYXQgaWYgYSB2ZW5kb3IgZHJpdmVyIHdhcyBu
+b3QgdXBkYXRlZCBmb3IKPj4gdGhpcyBzZXJpZXMgdGhhdCB0aGV5J2QgbmV2ZXIgc3VjY2Vzc2Z1
+bGx5IGNyZWF0ZSBhIGRldmljZSBiZWNhdXNlIHRoZQo+PiBtZGV2LWNvcmUgd291bGQgcmVqZWN0
+IGl0IGZvciBub3Qgc2V0dGluZyBhIGNsYXNzLCBidXQgbWRldl9tYXRjaCgpIGlzCj4+IGNhbGxl
+ZCBmb3IgZGV2aWNlcyB0aGF0IG1pZ2h0IGJlIGNyZWF0ZWQgYnkgb3RoZXIgdmVuZG9yIGRyaXZl
+cnMsIHNvCj4+IGxvYWRpbmcgYSBwYXJlbnQgZHJpdmVyIHdpdGggYSBudWxsIGlkX3RhYmxlIHBv
+dGVudGlhbGx5IGJyZWFrcwo+PiBtYXRjaGluZyBmb3IgZXZlcnlvbmUuICBUaGFua3MsCj4gVGhl
+IHBvaW50IGlzIHN0aWxsIHZhbGlkIHRob3VnaCwgZm9yIGV4YW1wbGUgaWYgdmZpby1tZGV2IHJl
+Z2lzdGVyZWQKPiB3aXRoIGEgbnVsbCBpZF90YWJsZSBpdCB3b3VsZCBicmVhayBtYXRjaGluZyBm
+b3IgdmlydGlvLW1kZXYgZGVwZW5kaW5nCj4gb24gdGhlIG9yZGVyIHdlIGl0ZXJhdGUgdGhyb3Vn
+aCBkcml2ZXJzIGFzIHdlIGNhbGwgbWRldl9tYXRjaCgpLgo+IFRoYW5rcywKPgo+IEFsZXgKCgpJ
+IHNlZSB0aGUgcG9pbnQsIHNvIEkgY2FuIGNoZWNrIHRoZSBleGlzdGVuY2Ugb2YgaWRfdGFibGUg
+YmVmb3JlIHRyeWluZyAKdG8gZG8gdGhlIG1hdGNoIGhlcmUuCgpUaGFua3MKCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
