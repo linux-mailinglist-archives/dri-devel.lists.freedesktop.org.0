@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FADEE4215
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2019 05:26:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6334CE4218
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2019 05:28:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 599FD6E8A3;
-	Fri, 25 Oct 2019 03:26:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BE926E894;
+	Fri, 25 Oct 2019 03:28:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 700416E890
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2019 03:26:18 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5DBAC6E89A
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2019 03:28:05 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 67DE3720E2; Fri, 25 Oct 2019 03:26:18 +0000 (UTC)
+ id 588FB720E2; Fri, 25 Oct 2019 03:28:05 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
  with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Fri, 25 Oct 2019 03:26:18 +0000
+Date: Fri, 25 Oct 2019 03:28:05 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -28,14 +28,14 @@ X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: critical
-X-Bugzilla-Who: bugs@thschuetz.de
+X-Bugzilla-Who: shtetldik@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: highest
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-46KLsXbyQr@http.bugs.freedesktop.org/>
+Message-ID: <bug-111481-502-5jEi06bMog@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
 References: <bug-111481-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0074602057=="
+Content-Type: multipart/mixed; boundary="===============0729474743=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0074602057==
-Content-Type: multipart/alternative; boundary="15719739780.be2Db9.21063"
+--===============0729474743==
+Content-Type: multipart/alternative; boundary="15719740856.cebd9A52.21768"
 Content-Transfer-Encoding: 7bit
 
 
---15719739780.be2Db9.21063
-Date: Fri, 25 Oct 2019 03:26:18 +0000
+--15719740856.cebd9A52.21768
+Date: Fri, 25 Oct 2019 03:28:05 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,21 +73,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
 
---- Comment #161 from bugs@thschuetz.de ---
-> Regarding this issue, is this issue mostly caused by the amdgpu driver
-> itself, or caused by mesa?
-
-I tried to avoid freezes and uninstalled amdgpu, just using the modesetting
-driver for X11 - and got freezes. So I don't think it's a problem of amdgpu.
-
-Maybe somebody could confirm this?
+--- Comment #162 from Shmerl <shtetldik@gmail.com> ---
+I suppose it's a problem with radeonsi specifically. Hopefully AMD develope=
+rs
+can clarify this.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15719739780.be2Db9.21063
-Date: Fri, 25 Oct 2019 03:26:18 +0000
+--15719740856.cebd9A52.21768
+Date: Fri, 25 Oct 2019 03:28:05 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -105,8 +101,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
  kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c161">Comm=
-ent # 161</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c162">Comm=
+ent # 162</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
@@ -114,17 +110,12 @@ ent # 161</a>
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
 1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-bugs&#64;thschuetz.de" title=3D"bugs&#64;thschuetz.de">bugs&#64;thschuetz.d=
-e</a>
+shtetldik&#64;gmail.com" title=3D"Shmerl &lt;shtetldik&#64;gmail.com&gt;"> =
+<span class=3D"fn">Shmerl</span></a>
 </span></b>
-        <pre><span class=3D"quote">&gt; Regarding this issue, is this issue=
- mostly caused by the amdgpu driver
-&gt; itself, or caused by mesa?</span >
-
-I tried to avoid freezes and uninstalled amdgpu, just using the modesetting
-driver for X11 - and got freezes. So I don't think it's a problem of amdgpu.
-
-Maybe somebody could confirm this?</pre>
+        <pre>I suppose it's a problem with radeonsi specifically. Hopefully=
+ AMD developers
+can clarify this.</pre>
         </div>
       </p>
 
@@ -138,9 +129,9 @@ Maybe somebody could confirm this?</pre>
     </body>
 </html>=
 
---15719739780.be2Db9.21063--
+--15719740856.cebd9A52.21768--
 
---===============0074602057==
+--===============0729474743==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -150,4 +141,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0074602057==--
+--===============0729474743==--
