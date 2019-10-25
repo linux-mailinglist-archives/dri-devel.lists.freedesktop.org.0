@@ -2,43 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D1AAE510D
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2019 18:20:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC98EE5117
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2019 18:22:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52C326EAFA;
-	Fri, 25 Oct 2019 16:20:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F42389A94;
+	Fri, 25 Oct 2019 16:22:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id DB0D06EAF5;
- Fri, 25 Oct 2019 16:20:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 210712A6046;
- Fri, 25 Oct 2019 18:20:02 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id cDFWOZDoYXzC; Fri, 25 Oct 2019 18:20:01 +0200 (CEST)
-Received: from thor (116.245.63.188.dynamic.wline.res.cust.swisscom.ch
- [188.63.245.116])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id CC4982A6045;
- Fri, 25 Oct 2019 18:20:01 +0200 (CEST)
-Received: from localhost ([::1]) by thor with esmtp (Exim 4.92.3)
- (envelope-from <michel@daenzer.net>)
- id 1iO2Jl-0005jU-GJ; Fri, 25 Oct 2019 18:20:01 +0200
-Subject: Re: [PATCH] drm/radeon: Handle workqueue allocation failure
-To: Will Deacon <will@kernel.org>
-References: <20191025110450.10474-1-will@kernel.org>
- <5d6a88a2-2719-a859-04df-10b0d893ff39@daenzer.net>
- <20191025161804.GA12335@willie-the-truck>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Message-ID: <e2f87ecc-0a8e-253d-107c-5cf6486c4b6a@daenzer.net>
-Date: Fri, 25 Oct 2019 18:20:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+ [209.85.210.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A36F389A94
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2019 16:22:35 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id d8so2444721otc.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2019 09:22:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=DcXI0ptEmLNRJ3ATloq3LFD9nbZMbeqbCJ87LxNGHWo=;
+ b=GNo6YO9crbCx86foRroOhrP7xwLM8bIUJFEdQSkUExfGmxEVCB39TFg6A6z9GL97PW
+ yxXwKwF22GDjwwJ0Qm+5pYg5OSUQG9C4ruDeYjF8dGdms8p+iL5VzmxmTc204Ro2qW8N
+ lNsikUrmATXLOFVTaHD8ghlG0U9SOdx6+jhNP2tZKT9/NW+6w9kkrZn5mIpMvlYbKFe+
+ 364c6ihVAHO1f+PECnMq2BtJRloK+60o/PAqfrD6u2MvpP9eRGw6hzCe5ormumc04u8i
+ XFAPBTEJUCTR01KYpBwIP2ThaaNHucgINe5mE1slqmb28iwIlZauWpRpq1PSDWh3t6wN
+ N7gw==
+X-Gm-Message-State: APjAAAU4/r78KnCEQtgmI0d7k+MfmuSdoWjWJhj7sbTlpNA16Dbv/HGl
+ Q9KNJUNq0CTrUacga4RpiQ==
+X-Google-Smtp-Source: APXvYqzzIuc1vcdp++0F80RLl8KAdKlip2Nqm2Fe6QaByRNOoVA8SwaqBnoVkTda+L/6FQKAQI1xRg==
+X-Received: by 2002:a9d:3476:: with SMTP id v109mr3516135otb.211.1572020554577; 
+ Fri, 25 Oct 2019 09:22:34 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id i5sm836976otk.10.2019.10.25.09.22.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Oct 2019 09:22:33 -0700 (PDT)
+Date: Fri, 25 Oct 2019 11:22:32 -0500
+From: Rob Herring <robh@kernel.org>
+To: Cheng-Yi Chiang <cychiang@chromium.org>
+Subject: Re: [PATCH v8 2/6] ASoC: rockchip-max98090: Support usage with and
+ without HDMI
+Message-ID: <20191025162232.GA23022@bogus>
+References: <20191025133007.11190-1-cychiang@chromium.org>
+ <20191025133007.11190-3-cychiang@chromium.org>
 MIME-Version: 1.0
-In-Reply-To: <20191025161804.GA12335@willie-the-truck>
-Content-Language: en-CA
+Content-Disposition: inline
+In-Reply-To: <20191025133007.11190-3-cychiang@chromium.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,35 +60,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Nicolas Waisman <nico@semmle.com>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, alsa-devel@alsa-project.org,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Hans Verkuil <hverkuil@xs4all.nl>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jerome Brunet <jbrunet@baylibre.com>, Takashi Iwai <tiwai@suse.com>,
+ linux-rockchip@lists.infradead.org, dgreid@chromium.org,
+ devicetree@vger.kernel.org, tzungbi@chromium.org,
+ Jonas Karlman <jonas@kwiboo.se>, Liam Girdwood <lgirdwood@gmail.com>,
+ Russell King <rmk+kernel@armlinux.org.uk>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, linux-arm-kernel@lists.infradead.org,
+ Jernej Skrabec <jernej.skrabec@siol.net>, dianders@chromium.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAxOS0xMC0yNSA2OjE4IHAubS4sIFdpbGwgRGVhY29uIHdyb3RlOgo+IE9uIEZyaSwgT2N0
-IDI1LCAyMDE5IGF0IDA2OjA2OjI2UE0gKzAyMDAsIE1pY2hlbCBEw6RuemVyIHdyb3RlOgo+PiBP
-biAyMDE5LTEwLTI1IDE6MDQgcC5tLiwgV2lsbCBEZWFjb24gd3JvdGU6Cj4+PiBJbiB0aGUgaGln
-aGx5IHVubGlrZWx5IGV2ZW50IHRoYXQgd2UgZmFpbCB0byBhbGxvY2F0ZSB0aGUgInJhZGVvbi1j
-cnRjIgo+Pj4gd29ya3F1ZXVlLCB3ZSBzaG91bGQgYmFpbCBjbGVhbmx5IHJhdGhlciB0aGFuIGJs
-aW5kbHkgbWFyY2ggb24gd2l0aCBhCj4+PiBOVUxMIHBvaW50ZXIgaW5zdGFsbGVkIGZvciB0aGUg
-J2ZsaXBfcXVldWUnIGZpZWxkIG9mIHRoZSAncmFkZW9uX2NydGMnCj4+PiBzdHJ1Y3R1cmUuCj4+
-Pgo+Pj4gVGhpcyB3YXMgcmVwb3J0ZWQgcHJldmlvdXNseSBieSBOaWNvbGFzLCBidXQgSSBkb24n
-dCB0aGluayBoaXMgZml4IHdhcwo+Pj4gY29ycmVjdDoKPj4KPj4gTmVpdGhlciBpcyB0aGlzIG9u
-ZSBJJ20gYWZyYWlkLiBTZWUgbXkgZmVlZGJhY2sgb24KPj4gaHR0cHM6Ly9wYXRjaHdvcmsuZnJl
-ZWRlc2t0b3Aub3JnL3BhdGNoLzMzMTUzNC8gLgo+IAo+IFRoYW5rcy4gQWx0aG91Z2ggSSBhZ3Jl
-ZSB3aXRoIHlvdSB3cnQgdGhlIG9yaWdpbmFsIHBhdGNoLCBJIGRvbid0IHRoaW5rCj4gdGhlIHdv
-cmtxdWV1ZSBhbGxvY2F0aW9uIGZhaWx1cmUgaXMgZGlzdGluZ3Vpc2hhYmxlIGZyb20gdGhlIENS
-VEMgYWxsb2NhdGlvbgo+IGZhaWx1cmUgd2l0aCBteSBwYXRjaC4gQXJlIHlvdSBzYXlpbmcgdGhh
-dCB0aGUgZXJyb3IgcGF0aCB0aGVyZSBpcyBicm9rZW4KPiB0b28/CgpUaGUgZHJpdmVyIHdvbid0
-IGFjdHVhbGx5IHdvcmsgaWYgcmFkZW9uX2NydGNfaW5pdCBiYWlscyBzaWxlbnRseSwgaXQnbGwK
-anVzdCBmYWxsIG92ZXIgYXQgc29tZSBsYXRlciBwb2ludC4KCgotLSAKRWFydGhsaW5nIE1pY2hl
-bCBEw6RuemVyICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgIGh0dHBzOi8vcmVkaGF0LmNv
-bQpMaWJyZSBzb2Z0d2FyZSBlbnRodXNpYXN0ICAgICAgICAgICAgIHwgICAgICAgICAgICAgTWVz
-YSBhbmQgWCBkZXZlbG9wZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+T24gRnJpLCBPY3QgMjUsIDIwMTkgYXQgMDk6MzA6MDNQTSArMDgwMCwgQ2hlbmctWWkgQ2hpYW5n
+IHdyb3RlOgo+IFRoZXJlIHdpbGwgYmUgbXVsdGlwbGUgYm9hcmRzIHNoYXJpbmcgdGhpcyBtYWNo
+aW5lIGRyaXZlci4KPiBVc2UgY29tcGF0aWJsZSBzdHJpbmcgdG8gc3BlY2lmeSB0aGUgdXNlIGNh
+c2UuCj4gCj4gInJvY2tjaGlwLHJvY2tjaGlwLWF1ZGlvLW1heDk4MDkwIiBmb3IgbWF4OTgwOTAt
+b25seS4KPiAicm9ja2NoaXAscm9ja2NoaXAtYXVkaW8taGRtaSIgZm9yIEhETUktb25seQo+ICJy
+b2NrY2hpcCxyb2NrY2hpcC1hdWRpby1tYXg5ODA5MC1oZG1pIiBmb3IgbWF4OTgwOTAgcGx1cwo+
+IAo+IE1vdmUgdGhlc2UgcHJvcGVydGllcyB0byBvcHRpb25hbCBiZWNhdXNlIHRoZXkgYXJlIG5v
+dCBuZWVkZWQgZm9yCj4gSERNSS1vbmx5IHVzZSBjYXNlLgo+ICJyb2NrY2hpcCxhdWRpby1jb2Rl
+YyI6IFRoZSBwaGFuZGxlIG9mIHRoZSBNQVg5ODA5MCBhdWRpbyBjb2RlYwo+ICJyb2NrY2hpcCxo
+ZWFkc2V0LWNvZGVjIjogVGhlIHBoYW5kbGUgb2YgRXh0IGNoaXAgZm9yIGphY2sgZGV0ZWN0aW9u
+Cj4gCj4gVGhlIG1hY2hpbmUgZHJpdmVyIGNoYW5nZSB3aWxsIGFkZCBzdXBwb3J0IGZvciBIRE1J
+IGNvZGVjIGluCj4gcm9ja2NoaXAtbWF4OTgwOTAuCj4gQWRkIG9uZSBvcHRpb25hbCBwcm9wZXJ0
+eSAicm9ja2NoaXAsaGRtaS1jb2RlYyIgdG8gbGV0IHVzZXIgc3BlY2lmeSBIRE1JCj4gZGV2aWNl
+IG5vZGUgaW4gRFRTIHNvIG1hY2hpbmUgZHJpdmVyIGNhbiBmaW5kIGhkbWktY29kZWMgZGV2aWNl
+IG5vZGUgZm9yCj4gY29kZWMgREFJLgoKV2h5IG5vdCBqdXN0IHVzZSB0aGUgcHJlc2VuY2Ugb2Yg
+cm9ja2NoaXAsaGRtaS1jb2RlYyB0byBlbmFibGUgSERNSSBvciAKbm90LiBNYXliZSB5b3Ugc3Rp
+bGwgYWRkIHJvY2tjaGlwLHJvY2tjaGlwLWF1ZGlvLWhkbWkgZm9yIEhETUkgb25seS4KClJlYWxs
+eSwgdGhlIHNhbWUgc2hvdWxkIGhhdmUgYmVlbiBkb25lIGZvciB3aGljaCBjb2RlYyBpcyB1c2Vk
+IHRvbywgYnV0IApJIGd1ZXNzIHNvbWVvbmUgd2FudGVkIDIgbWFjaGluZSBkcml2ZXJzLgoKPiAK
+PiBTaWduZWQtb2ZmLWJ5OiBDaGVuZy1ZaSBDaGlhbmcgPGN5Y2hpYW5nQGNocm9taXVtLm9yZz4K
+PiAtLS0KPiAgLi4uL2JpbmRpbmdzL3NvdW5kL3JvY2tjaGlwLW1heDk4MDkwLnR4dCAgICAgIHwg
+MzggKysrKysrKysrKysrKysrKystLQo+ICAxIGZpbGUgY2hhbmdlZCwgMzUgaW5zZXJ0aW9ucygr
+KSwgMyBkZWxldGlvbnMoLSkKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
 X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
 b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
 LWRldmVs
