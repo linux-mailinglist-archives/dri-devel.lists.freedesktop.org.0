@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA247E5037
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2019 17:35:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2357DE503A
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2019 17:36:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 846B66EAA8;
-	Fri, 25 Oct 2019 15:35:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B419A6EAA5;
+	Fri, 25 Oct 2019 15:36:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7410A6EAA8
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2019 15:35:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id AE6766EAA5
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2019 15:36:13 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 701ED720E2; Fri, 25 Oct 2019 15:35:33 +0000 (UTC)
+ id AA854720E2; Fri, 25 Oct 2019 15:36:13 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
- with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Fri, 25 Oct 2019 15:35:33 +0000
+Subject: [Bug 111762] RX 5700 XT Navi - amdgpu.ppfeaturemask=0xffffffff
+ causes stuttering and does not unlock clock/voltage/power controls
+Date: Fri, 25 Oct 2019 15:36:13 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: DRI git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: popovic.marko@protonmail.com
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: tempel.julian@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: highest
+X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-af4HNYQ57K@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
-References: <bug-111481-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111762-502-QxnnBvootf@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111762-502@http.bugs.freedesktop.org/>
+References: <bug-111762-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,40 +53,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1562952666=="
+Content-Type: multipart/mixed; boundary="===============2003635814=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1562952666==
-Content-Type: multipart/alternative; boundary="15720177337.809cDAA6.29526"
+--===============2003635814==
+Content-Type: multipart/alternative; boundary="15720177733.0De5dB.30837"
 Content-Transfer-Encoding: 7bit
 
 
---15720177337.809cDAA6.29526
-Date: Fri, 25 Oct 2019 15:35:33 +0000
+--15720177733.0De5dB.30837
+Date: Fri, 25 Oct 2019 15:36:13 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111762
 
---- Comment #169 from Marko Popovic <popovic.marko@protonmail.com> ---
-(In reply to L.S.S. from comment #168)
-> For the 5.4 kernel, I'm running 5.4-rc2 (from official Manjaro repo). Not
-> sure when Manjaro Stable will receive its next update regarding kernels...
+--- Comment #6 from tempel.julian@gmail.com ---
+Tested custom soft power play table via UPP on Polaris and it generally see=
+ms
+to work well (might be able to test Navi at a later time).
 
-You can always compile Kernel-git but Manjaro should be decently fast to
-provide 5.4+ RC series.
+However, there is the issue that the voltage gets reset when there is a
+modeline switch. So I've written a script which checks the voltage and rest=
+arts
+UPP when it exceeds values which would not occur with my undervolting:
+
+#!/bin/bash
+
+while true; do
+    sleep 1
+
+read -r num <
+/sys/devices/pci0000:00/0000:00:01.0/0000:01:00.0/hwmon/hwmon0/in0_input
+if [[ "$num" -gt 1030 ]]; then
+  systemctl restart amdgpu-oc && systemctl restart amdgpu-fancontrol
+fi
+done
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15720177337.809cDAA6.29526
-Date: Fri, 25 Oct 2019 15:35:33 +0000
+--15720177733.0De5dB.30837
+Date: Fri, 25 Oct 2019 15:36:13 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -102,29 +116,40 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c169">Comm=
-ent # 169</a>
+   title=3D"NEW - RX 5700 XT Navi - amdgpu.ppfeaturemask=3D0xffffffff cause=
+s stuttering and does not unlock clock/voltage/power controls"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111762#c6">Commen=
+t # 6</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
+   title=3D"NEW - RX 5700 XT Navi - amdgpu.ppfeaturemask=3D0xffffffff cause=
+s stuttering and does not unlock clock/voltage/power controls"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111762">bug 11176=
+2</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-popovic.marko&#64;protonmail.com" title=3D"Marko Popovic &lt;popovic.marko&=
-#64;protonmail.com&gt;"> <span class=3D"fn">Marko Popovic</span></a>
+tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
+ulian&#64;gmail.com</a>
 </span></b>
-        <pre>(In reply to L.S.S. from <a href=3D"show_bug.cgi?id=3D111481#c=
-168">comment #168</a>)
-<span class=3D"quote">&gt; For the 5.4 kernel, I'm running 5.4-rc2 (from of=
-ficial Manjaro repo). Not
-&gt; sure when Manjaro Stable will receive its next update regarding kernel=
-s...</span >
+        <pre>Tested custom soft power play table via UPP on Polaris and it =
+generally seems
+to work well (might be able to test Navi at a later time).
 
-You can always compile Kernel-git but Manjaro should be decently fast to
-provide 5.4+ RC series.</pre>
+However, there is the issue that the voltage gets reset when there is a
+modeline switch. So I've written a script which checks the voltage and rest=
+arts
+UPP when it exceeds values which would not occur with my undervolting:
+
+#!/bin/bash
+
+while true; do
+    sleep 1
+
+read -r num &lt;
+/sys/devices/pci0000:00/0000:00:01.0/0000:01:00.0/hwmon/hwmon0/in0_input
+if [[ &quot;$num&quot; -gt 1030 ]]; then
+  systemctl restart amdgpu-oc &amp;&amp; systemctl restart amdgpu-fancontrol
+fi
+done</pre>
         </div>
       </p>
 
@@ -138,9 +163,9 @@ provide 5.4+ RC series.</pre>
     </body>
 </html>=
 
---15720177337.809cDAA6.29526--
+--15720177733.0De5dB.30837--
 
---===============1562952666==
+--===============2003635814==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -150,4 +175,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1562952666==--
+--===============2003635814==--
