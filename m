@@ -2,45 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFE57E4C13
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2019 15:27:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4934E4C15
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2019 15:27:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D31E86EA2C;
-	Fri, 25 Oct 2019 13:27:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A52D6EA24;
+	Fri, 25 Oct 2019 13:27:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 728A36EA27
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2019 13:27:20 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 6F437720E2; Fri, 25 Oct 2019 13:27:20 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
- with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Fri, 25 Oct 2019 13:27:20 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: ragnaros39216@yandex.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: highest
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-gIGMurJg3m@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
-References: <bug-111481-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4112C6EA24
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2019 13:27:28 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id w18so2362043wrt.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2019 06:27:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+ :organization:message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=wqdQnDHAFWYBrYek3ZBFw/xYtoqqpkBX9EDIQCuKN6M=;
+ b=ffSTnfbQAXxWz0kxSm8Vk2jG3Zfa5dkb38Sz+bla8l0vdFevgtTrFccmjXu2ImYxYC
+ +XvBaRsRr/jNirHrLcRvA+3BFaeUNVNgUIpacUBXnEiUm4MZb6KbGbr0b3u7M2qW6aNL
+ sJ9zXMK2nj+kCKSO1Xg9Rr5T2e847zg5Bi+ropId1Vlc6OEbSUdGp31F3fcJ1sW14oo4
+ fIgfUptQ4HOmQOG69U0pFTtQrcvDJID63eZo/91VKdPvLs2kRpvLiB1rQiabCMsnj7wx
+ /vLuai5aEfhdB52B5WuXaVVY2qGWGkv5uxrQjnaQVfFavv7XeuJ2wMXrFLUHzE1hdrPF
+ /hiA==
+X-Gm-Message-State: APjAAAWQ5v+7e7Njlk3CQJGj/YhsrABQDkbObe1qs+5sVvz57xFrXwFw
+ 72+FzU9u8aTdPsnPmhQbvGgBxg==
+X-Google-Smtp-Source: APXvYqx3IrU5oSS/XI6Af6XoIgn76qalcqNao9OBfL2Ozm3+DuNj+dU7/VwAmwz0L2nnGAiEyR0rhg==
+X-Received: by 2002:a5d:62c5:: with SMTP id o5mr3295378wrv.388.1572010046488; 
+ Fri, 25 Oct 2019 06:27:26 -0700 (PDT)
+Received: from [192.168.1.62] (176-150-251-154.abo.bbox.fr. [176.150.251.154])
+ by smtp.gmail.com with ESMTPSA id
+ u10sm2754199wmj.0.2019.10.25.06.27.25
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 25 Oct 2019 06:27:26 -0700 (PDT)
+Subject: Re: [PATCH v3 05/21] drm/bridge: Introduce
+ drm_bridge_chain_get_next_bridge()
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org
+References: <20191023154512.9762-1-boris.brezillon@collabora.com>
+ <20191023154512.9762-6-boris.brezillon@collabora.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ ZaTUOEkgIor5losDrePdPgE=
+Organization: Baylibre
+Message-ID: <e23b5a71-ec0a-7442-0759-6921a4c08a24@baylibre.com>
+Date: Fri, 25 Oct 2019 15:27:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <20191023154512.9762-6-boris.brezillon@collabora.com>
+Content-Language: en-US
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:openpgp:autocrypt:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=wqdQnDHAFWYBrYek3ZBFw/xYtoqqpkBX9EDIQCuKN6M=;
+ b=yCYWZ5Wg/QMiX84Aq9Ugy2DuA/rOnJa0SSre2839OfxeToaJPrSWJPJykkYU6D2f5a
+ m77Gme5i7fA9PHHub8rc2juYDu0lU18004P2HRoNwxs4mX31hq4+hHXQtq1//2tJ5fxl
+ GbLyXynhScYcV1r2PafcGPrQwe/IJBg3Ti1Nz/5MK4TjwTxnM7aATzP4aMsbhUEAHacJ
+ C2Ga+6iz0fs5O0YYUAhizCjeXC6m5NO9PeIjE1fMDaqy0yDiBZ63pe8Chfpkw9nZr+39
+ qaSq/XDxqzyemReQ23bZ4KSfuGyfOhidrq9jVsPo//vy0QejYiW8LrhkR9+92sxVVRO/
+ eEww==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,139 +126,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1083869268=="
+Cc: Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
+ Mark Rutland <mark.rutland@arm.com>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Jonas Karlman <jonas@kwiboo.se>, Andrey Smirnov <andrew.smirnov@gmail.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
+ Sam Ravnborg <sam@ravnborg.org>, devicetree@vger.kernel.org,
+ Chris Healy <cphealy@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1083869268==
-Content-Type: multipart/alternative; boundary="15720100402.aE4cfEA.29838"
-Content-Transfer-Encoding: 7bit
-
-
---15720100402.aE4cfEA.29838
-Date: Fri, 25 Oct 2019 13:27:20 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
-
---- Comment #164 from L.S.S. <ragnaros39216@yandex.com> ---
-EDIT: Did some analysis myself about the GCVM_L2_PROTECTION_FAULT errors...
-
-In the errors last time contained this:
-
-src_id:0 ring:40 vmid:7 pasid:32769
-GCVM_L2_PROTECTION_FAULT_STATUS:0x00741A51 (only on first error)
-
-Whereas in the errors this time contained this:
-
-src_id:0 ring:40 vmid:1 pasid:32769
-GCVM_L2_PROTECTION_FAULT_STATUS:0x00141A51 (only on first error)
-
-vmid became 1 and GCVM_L2_PROTECTION_FAULT_STATUS changed from 0x00741A51 to
-0x00141A51. The rest of the first error remained the same.
-
-MORE_FAULTS: 0x1
-WALKER_ERROR: 0x0
-PERMISSION_FAULTS: 0x5
-MAPPING_ERROR: 0x0
-RW: 0x1
-
-In subsequent errors those values were all 0.
-
-Both times the first error has a starting address of 0x00000318c00e7000.
-
-Not sure if these could be of any help, though.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15720100402.aE4cfEA.29838
-Date: Fri, 25 Oct 2019 13:27:20 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c164">Comm=
-ent # 164</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-ragnaros39216&#64;yandex.com" title=3D"L.S.S. &lt;ragnaros39216&#64;yandex.=
-com&gt;"> <span class=3D"fn">L.S.S.</span></a>
-</span></b>
-        <pre>EDIT: Did some analysis myself about the GCVM_L2_PROTECTION_FA=
-ULT errors...
-
-In the errors last time contained this:
-
-src_id:0 ring:40 vmid:7 pasid:32769
-GCVM_L2_PROTECTION_FAULT_STATUS:0x00741A51 (only on first error)
-
-Whereas in the errors this time contained this:
-
-src_id:0 ring:40 vmid:1 pasid:32769
-GCVM_L2_PROTECTION_FAULT_STATUS:0x00141A51 (only on first error)
-
-vmid became 1 and GCVM_L2_PROTECTION_FAULT_STATUS changed from 0x00741A51 to
-0x00141A51. The rest of the first error remained the same.
-
-MORE_FAULTS: 0x1
-WALKER_ERROR: 0x0
-PERMISSION_FAULTS: 0x5
-MAPPING_ERROR: 0x0
-RW: 0x1
-
-In subsequent errors those values were all 0.
-
-Both times the first error has a starting address of 0x00000318c00e7000.
-
-Not sure if these could be of any help, though.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15720100402.aE4cfEA.29838--
-
---===============1083869268==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1083869268==--
+T24gMjMvMTAvMjAxOSAxNzo0NCwgQm9yaXMgQnJlemlsbG9uIHdyb3RlOgo+IEFuZCB1c2UgaXQg
+aW4gZHJpdmVycyBhY2Nlc3NpbmcgdGhlIGJyaWRnZS0+bmV4dCBmaWVsZCBkaXJlY3RseS4KPiBU
+aGlzIGlzIHBhcnQgb2Ygb3VyIGF0dGVtcHQgdG8gbWFrZSB0aGUgYnJpZGdlIGNoYWluIGEgZG91
+YmxlLWxpbmtlZCBsaXN0Cj4gYmFzZWQgb24gdGhlIGdlbmVyaWMgbGlzdCBoZWxwZXJzLgo+IAo+
+IFNpZ25lZC1vZmYtYnk6IEJvcmlzIEJyZXppbGxvbiA8Ym9yaXMuYnJlemlsbG9uQGNvbGxhYm9y
+YS5jb20+Cj4gLS0tCj4gQ2hhbmdlcyBpbiB2MzoKPiAqIElubGluZSBkcm1fYnJpZGdlX2NoYWlu
+X2dldF9uZXh0X2JyaWRnZSgpIChTdWdnZXN0ZWQgYnkgTGF1cmVudCkKPiAKPiBDaGFuZ2VzIGlu
+IHYyOgo+ICogS2lsbCB0aGUgbGFzdC9maXJzdCBoZWxwZXJzICh0aGV5J3JlIG5vdCByZWFsbHkg
+bmVlZGVkKQo+ICogRHJvcCB0aGUgIWJyaWRnZSB8fCAhYnJpZGdlLT5lbmNvZGVyIHRlc3QKPiAt
+LS0KPiAgZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2RzaS5jIHwgIDMgKystCj4g
+IGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfaGRtaS5jICAgICB8ICA2ICsrKystLQo+ICBk
+cml2ZXJzL2dwdS9kcm0vb21hcGRybS9vbWFwX2Rydi5jICAgICAgfCAgNCArKy0tCj4gIGRyaXZl
+cnMvZ3B1L2RybS9vbWFwZHJtL29tYXBfZW5jb2Rlci5jICB8ICAzICsrLQo+ICBkcml2ZXJzL2dw
+dS9kcm0vdmM0L3ZjNF9kc2kuYyAgICAgICAgICAgfCAgNCArKystCj4gIGluY2x1ZGUvZHJtL2Ry
+bV9icmlkZ2UuaCAgICAgICAgICAgICAgICB8IDEzICsrKysrKysrKysrKysKPiAgNiBmaWxlcyBj
+aGFuZ2VkLCAyNiBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZHNpLmMgYi9kcml2ZXJzL2dwdS9k
+cm0vZXh5bm9zL2V4eW5vc19kcm1fZHNpLmMKPiBpbmRleCAzOTE1ZjUwYjAwNWUuLjAwNWM2Nzg5
+NGI3OCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZHNp
+LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZHNpLmMKPiBAQCAt
+MTU5Myw5ICsxNTkzLDEwIEBAIHN0YXRpYyBpbnQgZXh5bm9zX2RzaV9ob3N0X2RldGFjaChzdHJ1
+Y3QgbWlwaV9kc2lfaG9zdCAqaG9zdCwKPiAgCQkJCSAgc3RydWN0IG1pcGlfZHNpX2RldmljZSAq
+ZGV2aWNlKQo+ICB7Cj4gIAlzdHJ1Y3QgZXh5bm9zX2RzaSAqZHNpID0gaG9zdF90b19kc2koaG9z
+dCk7Cj4gLQlzdHJ1Y3QgZHJtX2JyaWRnZSAqb3V0X2JyaWRnZSA9IGRzaS0+YnJpZGdlLm5leHQ7
+Cj4gIAlzdHJ1Y3QgZHJtX2RldmljZSAqZHJtID0gZHNpLT5lbmNvZGVyLmRldjsKPiArCXN0cnVj
+dCBkcm1fYnJpZGdlICpvdXRfYnJpZGdlOwo+ICAKPiArCW91dF9icmlkZ2UgPSBkcm1fYnJpZGdl
+X2NoYWluX2dldF9uZXh0X2JyaWRnZSgmZHNpLT5icmlkZ2UpOwo+ICAJaWYgKGRzaS0+cGFuZWwp
+IHsKPiAgCQltdXRleF9sb2NrKCZkcm0tPm1vZGVfY29uZmlnLm11dGV4KTsKPiAgCQlleHlub3Nf
+ZHNpX2Rpc2FibGUoJmRzaS0+YnJpZGdlKTsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L21lZGlhdGVrL210a19oZG1pLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2hkbWku
+Ywo+IGluZGV4IGVhNjhiNWFkY2NiZS4uY2ZhYTVhYWI4ODc2IDEwMDY0NAo+IC0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfaGRtaS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21l
+ZGlhdGVrL210a19oZG1pLmMKPiBAQCAtMTIzOCwxNiArMTIzOCwxOCBAQCBzdGF0aWMgaW50IG10
+a19oZG1pX2Nvbm5fbW9kZV92YWxpZChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubiwKPiAgCQkJ
+CSAgICBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZSkKPiAgewo+ICAJc3RydWN0IG10a19o
+ZG1pICpoZG1pID0gaGRtaV9jdHhfZnJvbV9jb25uKGNvbm4pOwo+ICsJc3RydWN0IGRybV9icmlk
+Z2UgKm5leHRfYnJpZGdlOwo+ICAKPiAgCWRldl9kYmcoaGRtaS0+ZGV2LCAieHJlcz0lZCwgeXJl
+cz0lZCwgcmVmcmVzaD0lZCwgaW50bD0lZCBjbG9jaz0lZFxuIiwKPiAgCQltb2RlLT5oZGlzcGxh
+eSwgbW9kZS0+dmRpc3BsYXksIG1vZGUtPnZyZWZyZXNoLAo+ICAJCSEhKG1vZGUtPmZsYWdzICYg
+RFJNX01PREVfRkxBR19JTlRFUkxBQ0UpLCBtb2RlLT5jbG9jayAqIDEwMDApOwo+ICAKPiAtCWlm
+IChoZG1pLT5icmlkZ2UubmV4dCkgewo+ICsJbmV4dF9icmlkZ2UgPSBkcm1fYnJpZGdlX2NoYWlu
+X2dldF9uZXh0X2JyaWRnZSgmaGRtaS0+YnJpZGdlKTsKPiArCWlmIChuZXh0X2JyaWRnZSkgewo+
+ICAJCXN0cnVjdCBkcm1fZGlzcGxheV9tb2RlIGFkanVzdGVkX21vZGU7Cj4gIAo+ICAJCWRybV9t
+b2RlX2NvcHkoJmFkanVzdGVkX21vZGUsIG1vZGUpOwo+IC0JCWlmICghZHJtX2JyaWRnZV9jaGFp
+bl9tb2RlX2ZpeHVwKGhkbWktPmJyaWRnZS5uZXh0LCBtb2RlLAo+ICsJCWlmICghZHJtX2JyaWRn
+ZV9jaGFpbl9tb2RlX2ZpeHVwKG5leHRfYnJpZGdlLCBtb2RlLAo+ICAJCQkJCQkgJmFkanVzdGVk
+X21vZGUpKQo+ICAJCQlyZXR1cm4gTU9ERV9CQUQ7Cj4gIAl9Cj4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS9vbWFwZHJtL29tYXBfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vb21hcGRybS9v
+bWFwX2Rydi5jCj4gaW5kZXggYjNlMjJjODkwYzUxLi44NjUxNjRmZTI4ZGMgMTAwNjQ0Cj4gLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vb21hcF9kcnYuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9vbWFwZHJtL29tYXBfZHJ2LmMKPiBAQCAtMjE3LDggKzIxNyw4IEBAIHN0YXRpYyBpbnQg
+b21hcF9kaXNwbGF5X2lkKHN0cnVjdCBvbWFwX2Rzc19kZXZpY2UgKm91dHB1dCkKPiAgCX0gZWxz
+ZSBpZiAob3V0cHV0LT5icmlkZ2UpIHsKPiAgCQlzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlID0g
+b3V0cHV0LT5icmlkZ2U7Cj4gIAo+IC0JCXdoaWxlIChicmlkZ2UtPm5leHQpCj4gLQkJCWJyaWRn
+ZSA9IGJyaWRnZS0+bmV4dDsKPiArCQl3aGlsZSAoZHJtX2JyaWRnZV9jaGFpbl9nZXRfbmV4dF9i
+cmlkZ2UoYnJpZGdlKSkKPiArCQkJYnJpZGdlID0gZHJtX2JyaWRnZV9jaGFpbl9nZXRfbmV4dF9i
+cmlkZ2UoYnJpZGdlKTsKPiAgCj4gIAkJbm9kZSA9IGJyaWRnZS0+b2Zfbm9kZTsKPiAgCX0gZWxz
+ZSBpZiAob3V0cHV0LT5wYW5lbCkgewo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vb21h
+cGRybS9vbWFwX2VuY29kZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL29tYXBfZW5jb2Rl
+ci5jCj4gaW5kZXggMjRiYmU5ZjJhMzJlLi44Y2E1NDA4MTk5N2UgMTAwNjQ0Cj4gLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL29tYXBkcm0vb21hcF9lbmNvZGVyLmMKPiArKysgYi9kcml2ZXJzL2dwdS9k
+cm0vb21hcGRybS9vbWFwX2VuY29kZXIuYwo+IEBAIC0xMjYsNyArMTI2LDggQEAgc3RhdGljIHZv
+aWQgb21hcF9lbmNvZGVyX21vZGVfc2V0KHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlciwKPiAg
+CWZvciAoZHNzZGV2ID0gb3V0cHV0OyBkc3NkZXY7IGRzc2RldiA9IGRzc2Rldi0+bmV4dCkKPiAg
+CQlvbWFwX2VuY29kZXJfdXBkYXRlX3ZpZGVvbW9kZV9mbGFncygmdm0sIGRzc2Rldi0+YnVzX2Zs
+YWdzKTsKPiAgCj4gLQlmb3IgKGJyaWRnZSA9IG91dHB1dC0+YnJpZGdlOyBicmlkZ2U7IGJyaWRn
+ZSA9IGJyaWRnZS0+bmV4dCkgewo+ICsJZm9yIChicmlkZ2UgPSBvdXRwdXQtPmJyaWRnZTsgYnJp
+ZGdlOwo+ICsJICAgICBicmlkZ2UgPSBkcm1fYnJpZGdlX2NoYWluX2dldF9uZXh0X2JyaWRnZShi
+cmlkZ2UpKSB7Cj4gIAkJaWYgKCFicmlkZ2UtPnRpbWluZ3MpCj4gIAkJCWNvbnRpbnVlOwo+ICAK
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfZHNpLmMgYi9kcml2ZXJzL2dw
+dS9kcm0vdmM0L3ZjNF9kc2kuYwo+IGluZGV4IDQ5ZjhhMzEzZTc1OS4uNDljNDcxODVhZmYwIDEw
+MDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92YzQvdmM0X2RzaS5jCj4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL3ZjNC92YzRfZHNpLmMKPiBAQCAtMTY0NCw4ICsxNjQ0LDEwIEBAIHN0YXRpYyB2
+b2lkIHZjNF9kc2lfdW5iaW5kKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGRldmljZSAqbWFz
+dGVyLAo+ICAJc3RydWN0IGRybV9kZXZpY2UgKmRybSA9IGRldl9nZXRfZHJ2ZGF0YShtYXN0ZXIp
+Owo+ICAJc3RydWN0IHZjNF9kZXYgKnZjNCA9IHRvX3ZjNF9kZXYoZHJtKTsKPiAgCXN0cnVjdCB2
+YzRfZHNpICpkc2kgPSBkZXZfZ2V0X2RydmRhdGEoZGV2KTsKPiArCXN0cnVjdCBkcm1fYnJpZGdl
+ICpicmlkZ2U7Cj4gIAo+IC0JaWYgKGRzaS0+YnJpZGdlLm5leHQpCj4gKwlicmlkZ2UgPSBkcm1f
+YnJpZGdlX2NoYWluX2dldF9uZXh0X2JyaWRnZSgmZHNpLT5icmlkZ2UpOwo+ICsJaWYgKGJyaWRn
+ZSkKPiAgCQlwbV9ydW50aW1lX2Rpc2FibGUoZGV2KTsKPiAgCj4gIAl2YzRfZHNpX2VuY29kZXJf
+ZGVzdHJveShkc2ktPmVuY29kZXIpOwo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fYnJp
+ZGdlLmggYi9pbmNsdWRlL2RybS9kcm1fYnJpZGdlLmgKPiBpbmRleCA3MjY0MzViYWY0YWQuLjhh
+ZWJhODNmY2YzMSAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fYnJpZGdlLmgKPiArKysg
+Yi9pbmNsdWRlL2RybS9kcm1fYnJpZGdlLmgKPiBAQCAtNDA5LDYgKzQwOSwxOSBAQCBzdHJ1Y3Qg
+ZHJtX2JyaWRnZSAqb2ZfZHJtX2ZpbmRfYnJpZGdlKHN0cnVjdCBkZXZpY2Vfbm9kZSAqbnApOwo+
+ICBpbnQgZHJtX2JyaWRnZV9hdHRhY2goc3RydWN0IGRybV9lbmNvZGVyICplbmNvZGVyLCBzdHJ1
+Y3QgZHJtX2JyaWRnZSAqYnJpZGdlLAo+ICAJCSAgICAgIHN0cnVjdCBkcm1fYnJpZGdlICpwcmV2
+aW91cyk7Cj4gIAo+ICsvKioKPiArICogZHJtX2JyaWRnZV9jaGFpbl9nZXRfbmV4dF9icmlkZ2Uo
+KSAtIEdldCB0aGUgbmV4dCBicmlkZ2UgaW4gdGhlIGNoYWluCj4gKyAqIEBicmlkZ2U6IGJyaWRn
+ZSBvYmplY3QKPiArICoKPiArICogUkVUVVJOUzoKPiArICogdGhlIG5leHQgYnJpZGdlIGluIHRo
+ZSBjaGFpbiwgb3IgTlVMTCBpZiBAYnJpZGdlIGlzIHRoZSBsYXN0Lgo+ICsgKi8KPiArc3RhdGlj
+IGlubGluZSBzdHJ1Y3QgZHJtX2JyaWRnZSAqCj4gK2RybV9icmlkZ2VfY2hhaW5fZ2V0X25leHRf
+YnJpZGdlKHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UpCj4gK3sKPiArCXJldHVybiBicmlkZ2Ut
+Pm5leHQ7Cj4gK30KPiArCj4gIGJvb2wgZHJtX2JyaWRnZV9jaGFpbl9tb2RlX2ZpeHVwKHN0cnVj
+dCBkcm1fYnJpZGdlICpicmlkZ2UsCj4gIAkJCQkgY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21v
+ZGUgKm1vZGUsCj4gIAkJCQkgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKmFkanVzdGVkX21vZGUp
+Owo+IAoKUmV2aWV3ZWQtYnk6IE5laWwgQXJtc3Ryb25nIDxuYXJtc3Ryb25nQGJheWxpYnJlLmNv
+bT4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
