@@ -1,45 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45193E48A7
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2019 12:38:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59043E48AB
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2019 12:39:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30F866E96D;
-	Fri, 25 Oct 2019 10:38:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA20C6E96A;
+	Fri, 25 Oct 2019 10:39:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id BE0426E96D
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2019 10:37:58 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B44D0720E2; Fri, 25 Oct 2019 10:37:58 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112133] AMD Radeon 5700 / Navi: VAAPI encoding generates
- garbled output
-Date: Fri, 25 Oct 2019 10:37:58 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: toscar@gmx.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
-Message-ID: <bug-112133-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 127606E96A;
+ Fri, 25 Oct 2019 10:39:21 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id t16so1766118wrr.1;
+ Fri, 25 Oct 2019 03:39:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PtQ7iKBOjIp+6P2TmNBw9I9BcPp4QMJns+61i+/Kf5o=;
+ b=FOG6K1vjVAnxwY8kyHLSItCEpyDazu95QHaM3E15wEWBBlF1oIrBlF8lUr9kl/Tvez
+ dqtRHhYyVFbKMASvQBR2NaDu5pTOQze+N4k8ETkUUnX75YBSHy+u4YNJ+2vymgrIP/Vt
+ vbtCnjWqyh+z1ECS1fSImcP3xvD+JLNnmyHPWzxdfaXdYybdiPZnuYEZPcsz4s3mX2IP
+ BkXg8pknSU54BPHiwMW5NE6GPod6mGdLM7OSjlx1AR3RhF++EPAy4IK4a4lyfQkvI3S9
+ wornV4Ut0u2/jwZb8gF2kiMUcecadmw9+tXkWxAlArECyRzm4dY9vDggYuoUO/4/1Pcl
+ p9IQ==
+X-Gm-Message-State: APjAAAVcTTG8OiFcs5WPjKGZcjjq+yQvOhk9oariy2rC2dcGmUnm6dZe
+ +RcsDQu/7n67V9/OFihrsag=
+X-Google-Smtp-Source: APXvYqzYkw06+l9sVbGGG3YhwRZg8Z/cr+2Dp4dMIkffp+pFpQf6FvZHRKoxqJxyBaZXQanoY1QSEA==
+X-Received: by 2002:adf:f78f:: with SMTP id q15mr2287028wrp.282.1571999959376; 
+ Fri, 25 Oct 2019 03:39:19 -0700 (PDT)
+Received: from localhost.localdomain ([62.178.82.229])
+ by smtp.gmail.com with ESMTPSA id c21sm1682926wmb.46.2019.10.25.03.39.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Oct 2019 03:39:18 -0700 (PDT)
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] etnaviv: fix dumping of iommuv2
+Date: Fri, 25 Oct 2019 12:39:10 +0200
+Message-Id: <20191025103919.128171-1-christian.gmeiner@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PtQ7iKBOjIp+6P2TmNBw9I9BcPp4QMJns+61i+/Kf5o=;
+ b=o7iftBGrBtSNn2PsfezokBwyzgAaNHGlxwSf5/9jV1mSQlIQsKljEEag3Jgs/DapYu
+ zw7cHo2n7MFpzE85Ey273ajAMe4pf2OXcbskMS7HjRSRR64Sf+lU9XegygmYet3d8J1G
+ 6ozH3uTwfmWmY7pkO6+JzYLWdJeutS9rpeie2dQiLX64JDGtHgam5Uv/QKcuijf7ZSMB
+ qIOF74BqDywoiVOMdDQoweqw1uj/MBed7yrPY468zqoq566IVXVO+1PugoP/Un57xsui
+ YPXJuEz6t5vsndIOilfoaRAzYDkH2RWd0uw8iWzgIazOgoMwaUu711yOC0ZqA54jPwi3
+ ROpw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,229 +65,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0515748347=="
+Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
+ stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0515748347==
-Content-Type: multipart/alternative; boundary="15719998780.BB76bC.21593"
-Content-Transfer-Encoding: 7bit
-
-
---15719998780.BB76bC.21593
-Date: Fri, 25 Oct 2019 10:37:58 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112133
-
-            Bug ID: 112133
-           Summary: AMD Radeon 5700 / Navi: VAAPI encoding generates
-                    garbled output
-           Product: DRI
-           Version: DRI git
-          Hardware: x86-64 (AMD64)
-                OS: Linux (All)
-            Status: NEW
-          Severity: normal
-          Priority: not set
-         Component: DRM/AMDgpu
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: toscar@gmx.net
-
-Using ffmpeg to encode video to h264/hevc with constant or variable bitrate
-results in completely garbled output video on navi/radeon 5700 gpu.
-
-ffmpeg command used:
-ffmpeg -init_hw_device vaapi=3Dfoo:/dev/dri/renderD128 -hwaccel vaapi
--hwaccel_output_format vaapi -hwaccel_device foo \
--i <input file> -filter_hw_device foo -vf 'format=3Dnv12|vaapi,hwupload' -c=
-:v
-hevc_vaapi -b:v 5000k -maxrate 5000k -f matroska <output file>
--This issue also applies to h264 encoding (replace "hevc_vaapi" with
-"h264_vaapi" above).
-
-HW used:
-AMD Radeon 5700 XT
-
-SW used:
-linux-amd-staging-drm-next-git-5.4.858569.1c2677f991d3-1-x86_64
-mesa-git 1:19.3.0_devel.116641.f11ea226664
-libva-utils 2.5.0
-ffmpeg 1:4.2.1
-
-This issue sounds a bit like BUG 109538, however #109538 speaks of "garbled
-line at the bottom" where I get completely garbled output, not just at the
-bottom.
-
-In additon, ffmpeg stalls/crashes sometimes as described in #109538 with:
-[drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring vcn_enc0 timeout, signaled
-seq=3D150025, emitted seq=3D150027
-[drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process information: process ffm=
-peg
-pid 228611 thread ffmpeg:cs0 pid 228612
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15719998780.BB76bC.21593
-Date: Fri, 25 Oct 2019 10:37:58 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Radeon 5700 / Navi: VAAPI encoding generates garbled =
-output"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112133">112133</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>AMD Radeon 5700 / Navi: VAAPI encoding generates garbled outp=
-ut
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>DRI git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>x86-64 (AMD64)
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>Linux (All)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>DRM/AMDgpu
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>toscar&#64;gmx.net
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>Using ffmpeg to encode video to h264/hevc with constant or var=
-iable bitrate
-results in completely garbled output video on navi/radeon 5700 gpu.
-
-ffmpeg command used:
-ffmpeg -init_hw_device vaapi=3Dfoo:/dev/dri/renderD128 -hwaccel vaapi
--hwaccel_output_format vaapi -hwaccel_device foo \
--i &lt;input file&gt; -filter_hw_device foo -vf 'format=3Dnv12|vaapi,hwuplo=
-ad' -c:v
-hevc_vaapi -b:v 5000k -maxrate 5000k -f matroska &lt;output file&gt;
--This issue also applies to h264 encoding (replace &quot;hevc_vaapi&quot; w=
-ith
-&quot;h264_vaapi&quot; above).
-
-HW used:
-AMD Radeon 5700 XT
-
-SW used:
-linux-amd-staging-drm-next-git-5.4.858569.1c2677f991d3-1-x86_64
-mesa-git 1:19.3.0_devel.116641.f11ea226664
-libva-utils 2.5.0
-ffmpeg 1:4.2.1
-
-This issue sounds a bit like <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - VAAPI HEVC encoding is unstable and produces garbled outp=
-ut"
-   href=3D"show_bug.cgi?id=3D109538">BUG 109538</a>, however #109538 speaks=
- of &quot;garbled
-line at the bottom&quot; where I get completely garbled output, not just at=
- the
-bottom.
-
-In additon, ffmpeg stalls/crashes sometimes as described in #109538 with:
-[drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring vcn_enc0 timeout, signaled
-seq=3D150025, emitted seq=3D150027
-[drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process information: process ffm=
-peg
-pid 228611 thread ffmpeg:cs0 pid 228612</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15719998780.BB76bC.21593--
-
---===============0515748347==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0515748347==--
+ZXRuYXZpdl9pb21tdXYyX2R1bXBfc2l6ZSguLikgcmV0dXJucyB0aGUgbnVtYmVyIG9mIFBURSAq
+IFNaXzRLIGJ1dCBldG5hdml2X2lvbW11djJfZHVtcCguLikKaW5jcmVtZW50cyBidWYgcG9pbnRl
+ciBldmVuIGlmIHRoZXJlIGlzIG5vIFBURS4gVGhpcyByZXN1bHRzIGluIGEgYmFkIGJ1ZiBwb2lu
+dGVyIHdoaWNoIGdldHMKdXNlZCBmb3IgbWVtY3B5KC4uKS4KClsgIDI2NC40MDg0NzRdIDg8LS0t
+IGN1dCBoZXJlIC0tLQpbICAyNjQuNDEyMDQ4XSBVbmFibGUgdG8gaGFuZGxlIGtlcm5lbCBwYWdp
+bmcgcmVxdWVzdCBhdCB2aXJ0dWFsIGFkZHJlc3MgZjFhMmMyNjgKWyAgMjY0LjQxOTMyMV0gcGdk
+ID0gZTU4NDYwMDQKWyAgMjY0LjQyMjA2OV0gW2YxYTJjMjY4XSAqcGdkPTAwMDAwMDAwClsgIDI2
+NC40MjU3MDJdIEludGVybmFsIGVycm9yOiBPb3BzOiA4MDUgWyMxXSBTTVAgQVJNClsgIDI2NC40
+MzA1MjBdIE1vZHVsZXMgbGlua2VkIGluOgpbICAyNjQuNDMzNjE2XSBDUFU6IDIgUElEOiAxMzAg
+Q29tbToga3dvcmtlci8yOjIgVGFpbnRlZDogRyAgICAgICAgVyAgICAgICAgIDUuNC4wLXJjNCAj
+MTAKWyAgMjY0LjQ0MTY0M10gSGFyZHdhcmUgbmFtZTogRnJlZXNjYWxlIGkuTVg2IFF1YWQvRHVh
+bExpdGUgKERldmljZSBUcmVlKQpbICAyNjQuNDQ4MjI3XSBXb3JrcXVldWU6IGV2ZW50cyBkcm1f
+c2NoZWRfam9iX3RpbWVkb3V0ClsgIDI2NC40NTMyMzddIFBDIGlzIGF0IG1lbWNweSsweDUwLzB4
+MzMwClsgIDI2NC40NTcwMTJdIExSIGlzIGF0IDB4MgpbICAyNjQuNDU5NTcyXSBwYyA6IFs8YzBj
+MDQ2NTA+XSAgICBsciA6IFs8MDAwMDAwMDI+XSAgICBwc3I6IDIwMGYwMDEzClsgIDI2NC40NjU4
+NjNdIHNwIDogZWM5NmZlNjQgIGlwIDogMDAwMDAwMDIgIGZwIDogMDAwMDAxNDAKWyAgMjY0LjQ3
+MTExMl0gcjEwOiAwMDAwMzAwMCAgcjkgOiBlYzY4ODA0MCAgcjggOiAwMDAwMDAwMgpbICAyNjQu
+NDc2MzY0XSByNyA6IDAwMDAwMDAyICByNiA6IDAwMDAwMDAyICByNSA6IDAwMDAwMDAyICByNCA6
+IDAwMDAwMDAyClsgIDI2NC40ODI5MTddIHIzIDogMDAwMDAwMDIgIHIyIDogMDAwMDBmNjAgIHIx
+IDogZjE2MmEwMjAgIHIwIDogZjFhMmMyNjgKWyAgMjY0LjQ4OTQ3Ml0gRmxhZ3M6IG56Q3YgIElS
+UXMgb24gIEZJUXMgb24gIE1vZGUgU1ZDXzMyICBJU0EgQVJNICBTZWdtZW50IG5vbmUKWyAgMjY0
+LjQ5NjYzNV0gQ29udHJvbDogMTBjNTM4N2QgIFRhYmxlOiAzZDI2ODA0YSAgREFDOiAwMDAwMDA1
+MQpbICAyNjQuNTAyNDA3XSBQcm9jZXNzIGt3b3JrZXIvMjoyIChwaWQ6IDEzMCwgc3RhY2sgbGlt
+aXQgPSAweGU4ZjY5ZjNkKQpbICAyNjQuNTA4Nzg2XSBTdGFjazogKDB4ZWM5NmZlNjQgdG8gMHhl
+Yzk3MDAwMCkKWyAgMjY0LjUxMzE4MF0gZmU2MDogICAgICAgICAgZjE2MjIwMDAgZjE2MjIxOGMg
+ZjE2MmMwMDAgNDE0ZTU0NDUgZjFhMmMyNjggMDAwMDBmZmMgYzA2NTVhOGMKWyAgMjY0LjUyMTM5
+NF0gZmU4MDogMDAwMDAwMDAgMDAwMDAxMmEgZjE2MmMyNjggYzA2NGZkNzggYzA2NTczNTAgYzAx
+ODdmNjQgMDAwMDAwMDEgMDAwMDAwMDAKWyAgMjY0LjUyOTYwNl0gZmVhMDogZWQwZjljMDAgMDAw
+MDAwMDEgMDAwMDAwMDIgNDM1ZDU4N2QgZWM2ODgxNDAgZWM2ODgxMDAgZWQwZjljMDAgZWM2ODgw
+NDAKWyAgMjY0LjUzNzgxOF0gZmVjMDogZWQwZjljMDAgYzEzMDhiMjggZWM5NmZmMWMgYzEzZTU1
+YjAgYzEzZTQxYzggYzA2NTczNTggZWM2ODgyNjAgZWQwZjljMTgKWyAgMjY0LjU0NjAyOV0gZmVl
+MDogZWM2ODgxMDAgYzA2NDEyNzggZWM2ODgyNjAgZWMyZjYxODAgZWUxYmE3MDAgZWUxYmRhMDAg
+YzEzMDhiMjggYzAxNDliOTgKWyAgMjY0LjU1NDI0MF0gZmYwMDogMDAwMDAwMDEgMDAwMDAwMDAg
+YzAxNDlhZTQgYzBjMjFmYjAgMDAwMDAwMDAgMDAwMDAwMDAgYzAxNGExOTQgYzFhNGJlMzQKWyAg
+MjY0LjU2MjQ1Ml0gZmYyMDogYzE4NzA3NDAgMDAwMDAwMDAgYzEwMTUzODQgNDM1ZDU4N2QgZmZm
+ZmUwMDAgZWMyZjYxODAgZWMyZjYxOTQgZWUxYmE3MDAKWyAgMjY0LjU3MDY2M10gZmY0MDogMDAw
+MDAwMDggZWUxYmE3MzQgYzEzMDU5MDAgZWUxYmE3MDAgZmZmZmUwMDAgYzAxNGEwZTQgZWM5NTM3
+YTQgYzBjMjhlNjQKWyAgMjY0LjU3ODg3NF0gZmY2MDogZWM5NmUwMDAgMDAwMDAwMDAgZWMyYmU3
+ODAgZWMyZjk5YzAgZWM5NmUwMDAgZWMyZjYxODAgYzAxNGEwYjggZWMxM2ZlOTAKWyAgMjY0LjU4
+NzA4Nl0gZmY4MDogZWMyYmU3YjggYzAxNTI4OTAgZWM5NmUwMDAgZWMyZjk5YzAgYzAxNTI3NTAg
+MDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAKWyAgMjY0LjU5NTI5Nl0gZmZhMDogMDAwMDAwMDAg
+MDAwMDAwMDAgMDAwMDAwMDAgYzAxMDEwYjQgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAw
+MDAwMDAKWyAgMjY0LjYwMzUwNl0gZmZjMDogMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAw
+MDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAKWyAgMjY0LjYxMTcxNl0g
+ZmZlMDogMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMTMgMDAwMDAw
+MDAgMDAwMDAwMDAgMDAwMDAwMDAKWyAgMjY0LjYxOTk0NF0gWzxjMGMwNDY1MD5dIChtZW1jcHkp
+IGZyb20gWzxjMDY1NWE4Yz5dIChldG5hdml2X2lvbW11djJfZHVtcCsweDU4LzB4NjApClsgIDI2
+NC42Mjc3MzhdIFs8YzA2NTVhOGM+XSAoZXRuYXZpdl9pb21tdXYyX2R1bXApIGZyb20gWzxjMDY0
+ZmQ3OD5dIChldG5hdml2X2NvcmVfZHVtcCsweDE0MC8weDQ1YykKWyAgMjY0LjYzNjY1OF0gWzxj
+MDY0ZmQ3OD5dIChldG5hdml2X2NvcmVfZHVtcCkgZnJvbSBbPGMwNjU3MzU4Pl0gKGV0bmF2aXZf
+c2NoZWRfdGltZWRvdXRfam9iKzB4OGMvMHhiOCkKWyAgMjY0LjY0NTkyM10gWzxjMDY1NzM1OD5d
+IChldG5hdml2X3NjaGVkX3RpbWVkb3V0X2pvYikgZnJvbSBbPGMwNjQxMjc4Pl0gKGRybV9zY2hl
+ZF9qb2JfdGltZWRvdXQrMHgzOC8weDg4KQpbICAyNjQuNjU1NjMxXSBbPGMwNjQxMjc4Pl0gKGRy
+bV9zY2hlZF9qb2JfdGltZWRvdXQpIGZyb20gWzxjMDE0OWI5OD5dIChwcm9jZXNzX29uZV93b3Jr
+KzB4MmM0LzB4N2U0KQpbICAyNjQuNjY0NjMzXSBbPGMwMTQ5Yjk4Pl0gKHByb2Nlc3Nfb25lX3dv
+cmspIGZyb20gWzxjMDE0YTBlND5dICh3b3JrZXJfdGhyZWFkKzB4MmMvMHg1OWMpClsgIDI2NC42
+NzI3NjVdIFs8YzAxNGEwZTQ+XSAod29ya2VyX3RocmVhZCkgZnJvbSBbPGMwMTUyODkwPl0gKGt0
+aHJlYWQrMHgxNDAvMHgxNTgpClsgIDI2NC42ODAyMDBdIFs8YzAxNTI4OTA+XSAoa3RocmVhZCkg
+ZnJvbSBbPGMwMTAxMGI0Pl0gKHJldF9mcm9tX2ZvcmsrMHgxNC8weDIwKQpbICAyNjQuNjg3NDQ4
+XSBFeGNlcHRpb24gc3RhY2soMHhlYzk2ZmZiMCB0byAweGVjOTZmZmY4KQpbICAyNjQuNjkyNTMw
+XSBmZmEwOiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAwMDAwMDAwMCAwMDAw
+MDAwMCAwMDAwMDAwMCAwMDAwMDAwMApbICAyNjQuNzAwNzQxXSBmZmMwOiAwMDAwMDAwMCAwMDAw
+MDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAw
+MApbICAyNjQuNzA4OTQ5XSBmZmUwOiAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAw
+MCAwMDAwMDAxMyAwMDAwMDAwMApbICAyNjQuNzE1NTk5XSBDb2RlOiBmNWQxZjA1YyBmNWQxZjA3
+YyBlOGIxNTFmOCBlMjUyMjAyMCAoZThhMDUxZjgpClsgIDI2NC43MjE3MjddIC0tLVsgZW5kIHRy
+YWNlIDhhZmNkNzllOWUyNzI1YjMgXS0tLQoKRml4ZXM6IGFmYjdiM2IxZGViNCAoImRybS9ldG5h
+dml2OiBpbXBsZW1lbnQgSU9NTVV2MiB0cmFuc2xhdGlvbiIpCkNjOiBzdGFibGVAdmdlci5rZXJu
+ZWwub3JnClNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBHbWVpbmVyIDxjaHJpc3RpYW4uZ21laW5l
+ckBnbWFpbC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9pb21tdV92
+Mi5jIHwgNiArKysrLS0KIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDIgZGVsZXRp
+b25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9pb21t
+dV92Mi5jIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9pb21tdV92Mi5jCmluZGV4
+IDA0MzExMWExZDYwYy4uZjhiZjQ4OGU5ZDcxIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+ZXRuYXZpdi9ldG5hdml2X2lvbW11X3YyLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYv
+ZXRuYXZpdl9pb21tdV92Mi5jCkBAIC0xNTUsOSArMTU1LDExIEBAIHN0YXRpYyB2b2lkIGV0bmF2
+aXZfaW9tbXV2Ml9kdW1wKHN0cnVjdCBldG5hdml2X2lvbW11X2NvbnRleHQgKmNvbnRleHQsIHZv
+aWQgKmJ1CiAKIAltZW1jcHkoYnVmLCB2Ml9jb250ZXh0LT5tdGxiX2NwdSwgU1pfNEspOwogCWJ1
+ZiArPSBTWl80SzsKLQlmb3IgKGkgPSAwOyBpIDwgTU1VdjJfTUFYX1NUTEJfRU5UUklFUzsgaSsr
+LCBidWYgKz0gU1pfNEspCi0JCWlmICh2Ml9jb250ZXh0LT5tdGxiX2NwdVtpXSAmIE1NVXYyX1BU
+RV9QUkVTRU5UKQorCWZvciAoaSA9IDA7IGkgPCBNTVV2Ml9NQVhfU1RMQl9FTlRSSUVTOyBpKysp
+CisJCWlmICh2Ml9jb250ZXh0LT5tdGxiX2NwdVtpXSAmIE1NVXYyX1BURV9QUkVTRU5UKSB7CiAJ
+CQltZW1jcHkoYnVmLCB2Ml9jb250ZXh0LT5zdGxiX2NwdVtpXSwgU1pfNEspOworCQkJYnVmICs9
+IFNaXzRLOworCQl9CiB9CiAKIHN0YXRpYyB2b2lkIGV0bmF2aXZfaW9tbXV2Ml9yZXN0b3JlX25v
+bnNlYyhzdHJ1Y3QgZXRuYXZpdl9ncHUgKmdwdSwKLS0gCjIuMjMuMAoKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
