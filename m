@@ -1,56 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C874EE6E0D
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2019 09:24:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66A59E6E10
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2019 09:24:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A9356E456;
-	Mon, 28 Oct 2019 08:23:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 415D76E463;
+	Mon, 28 Oct 2019 08:23:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com
- [IPv6:2607:f8b0:4864:20::e2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54D736EB16
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2019 17:37:39 +0000 (UTC)
-Received: by mail-vs1-xe2b.google.com with SMTP id b1so1984249vsr.10
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2019 10:37:39 -0700 (PDT)
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9F526EB41
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2019 18:35:45 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id y3so3813580ljj.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2019 11:35:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=n3zRKKpWesI5grnDqHLULldb36AmyV6GudRJkSHNkk8=;
- b=XZyH/o1LCjiVGeYXbff+CX9dogR3bColjUrEKXX1VvZJ8WOq/SCGFQPt38QdsnA7xm
- bWU8Qti1rE+Exk6gVhmETmVVlfyirD1sb13ET0n9Mm9EVOGp0oa5sQQwZBdkcALH4wv2
- 8vjnjnj2XmKps3kz6lNkt/MQG7oEd0aFhp5wTdFf6dfAqWgZzDHJqcRTjGauZOTdbJAf
- bEOrwh3Zwgg/6bE7e4hbaQROriaLqDlZ/sZ8Fkfoc0CpKCbhu4oJgxcQ102Y3maswHbv
- Xk9iYnj5c+3a3Urj9/7QncStzvwU/DtHGUYWfn1c1ptpjia61Q8aHH40ZjioUklqxKCe
- YwHA==
-X-Gm-Message-State: APjAAAU7obGy6sm1fGW7S2svduCj16ahskWm8l8n5quxkdbHi0t0LQ+f
- XpRpFjJClKZtqEx0AYoiXBvADXVtTV+Ids0KtCx02g==
-X-Google-Smtp-Source: APXvYqxAFat0lLdFxAPOHP3RbOBcD2GfRxM8sJOqGuiNrHiT22cN+EJiMlgJWFqfDNrCXaved5QLIhLLHRT7TynQ8oM=
-X-Received: by 2002:a67:ba16:: with SMTP id l22mr2638481vsn.14.1572025057888; 
- Fri, 25 Oct 2019 10:37:37 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=Mie2Uww8VKKTzqCqiaNX8XDqO3BRPXZkD0JU35v6uIQ=;
+ b=FOegTWq3otAbrrh0MRg+EHvOdnV1q2xsCEJDWOYVt2ZMdsqQXVU2DclX8JCWm6ZQFh
+ J16kNZGPAUaqmv4+n8siorHo3rv9teA/jWEDiYA72mYBF/B9k7QeYUU4sKCiK6D5zfyE
+ xxX+SOJGmkANgbF/hYU7MKww2uHL2Lt8g4/O7jsooasb6ObDTgF/F3DAEXMiJisAbsFZ
+ 8qbh+cOK58DzxGoyk68E5MiI1xPxEqS/aavGIcTOfcC23cGi6pGi3AfVv49shd/dlxiF
+ I1waOa0nH5v/b4HCD+XsRlW6qYAs897IBL6Y+dA9xD10Y2lhRcr2q8j5raZh/13tPw3G
+ pNTg==
+X-Gm-Message-State: APjAAAXkHIrrJk9gn5OGjVyZbXW7o/8FNWd4nnLinfXOawf8PTUFTG94
+ xywPzt6cxB5qbSB1Wwso8D3y6+xe/uffmei7Y8qN/wnluA==
+X-Google-Smtp-Source: APXvYqyRCP2xQ/6kTPK3fpA/eVDCrBPMSwtYsStqytL9ddgJv/kxzOv2k2sU1yuG4yW0sqnlq9IuaGJwQ6gZ4BUbKik=
+X-Received: by 2002:a2e:5b82:: with SMTP id m2mr3507680lje.184.1572028543662; 
+ Fri, 25 Oct 2019 11:35:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAKT=dD=vYi_41WBAZfcb7cU5SZUkj88OmhCSyfnNdT45qzhPwg@mail.gmail.com>
-In-Reply-To: <CAKT=dD=vYi_41WBAZfcb7cU5SZUkj88OmhCSyfnNdT45qzhPwg@mail.gmail.com>
-From: Alistair Delva <adelva@google.com>
-Date: Fri, 25 Oct 2019 10:37:26 -0700
-Message-ID: <CANDihLHCctmKC66=B6q8ATL5kASzhQ1Ei-_7949U85bv=UMqbw@mail.gmail.com>
-Subject: Re: Proposal to report GPU private memory allocations with sysfs nodes
-To: Yiwei Zhang <zzyiwei@google.com>
+From: Yiwei Zhang <zzyiwei@google.com>
+Date: Fri, 25 Oct 2019 11:35:32 -0700
+Message-ID: <CAKT=dDk0sNAXxz-angd5WvQXXLF8p3sPLEzOt=wVSLhuaP8dkQ@mail.gmail.com>
+Subject: Proposal to report GPU private memory allocations with sysfs nodes
+ [plain text version]
+To: dri-devel@lists.freedesktop.org
 X-Mailman-Approved-At: Mon, 28 Oct 2019 08:23:53 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=n3zRKKpWesI5grnDqHLULldb36AmyV6GudRJkSHNkk8=;
- b=KU0a/QnT0OKYDWOrP0us2jCIl0D5ZpqGkSIaD+klPq2IcvVS+ZusyABHvML3b06D9P
- TKKkoN/5Ks/6O4Kiyf3nnawuH20XHlApcpQCpyNh4KNhETmOM+2KX5xfIW/cCU9UNsIS
- CSbSWsjtgwnGCx0MWe6bIrPXHGXNT9clMuPp1YapgTIZxhJGAY0cF9gm5c1EHHm0Xyfd
- uNBjZJGppaK4Gd3jcUxFcKyM5XWSFhGYegphKl3qee5QL3j9FfCr7fq0PyYRr6nYFn0J
- WXXk/1C3B/tOiDkrs+vey4HsbGlrpb+/Zu1oehLbpU1oyTRsi6JkdXRPn6jzh6sEPq/Y
- c4Bw==
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=Mie2Uww8VKKTzqCqiaNX8XDqO3BRPXZkD0JU35v6uIQ=;
+ b=UiTJ1zZcletvJRcxi1QXZ3reyXkpucOtDxoq1uAeP+nNencHw62BCYNqVjbOhmDj/N
+ +L5J/SMiVwvau8M6Dt/n9WMnuIHqbLZHg8oES+uQKRWGMWx+RBwOWeellX4yjkq/Gl4n
+ SdfvvOyo8Q4VCBu/C3HwSvetYTZsF2x34GjzggyJBarrtFpDAxNPU3U8Ng4S9TCXvAEP
+ M7fhGpRC6qqUZjb2EFDVflntHnPIvX6w1fHAg8QXRvlo0aX5nwCqlf2g6sv5Yoqkxr2g
+ yLk8C6uxcM3QjBJx29Pzsy6swTIZwe1kzt7Sm/kOcfCip5qhMAhHbZtlfNJD2N9fwVC3
+ Zmdw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,62 +60,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Prahlad Kilambi <prahladk@google.com>,
+Cc: Alistair Delva <adelva@google.com>, Prahlad Kilambi <prahladk@google.com>,
  Sean Paul <seanpaul@chromium.org>, kraxel@redhat.com,
  Chris Forbes <chrisforbes@google.com>, kernel-team@android.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1396659780=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-KGNjIGtlcm5lbC10ZWFtQGFuZHJvaWQuY29tKQoKT24gV2VkLCBPY3QgMjMsIDIwMTkgYXQgMTE6
-MDEgQU0gWWl3ZWkgWmhhbmcgPHp6eWl3ZWlAZ29vZ2xlLmNvbT4gd3JvdGU6Cj4KPiBIaSBmb2xr
-cywKPgo+IFRoaXMgaXMgWWl3ZWkgZnJvbSB0aGUgQW5kcm9pZCBQbGF0Zm9ybSBHcmFwaGljcyB0
-ZWFtLiBPbiB0aGUgZG93bnN0cmVhbSBBbmRyb2lkLCB2ZW5kb3JzIHVzZWQgdG8gcmVwb3J0IEdQ
-VSBwcml2YXRlIG1lbW9yeSBhbGxvY2F0aW9ucyB3aXRoIGRlYnVnZnMgbm9kZXMgaW4gdGhlaXIg
-b3duIGZvcm1hdHMuIEhvd2V2ZXIsIGRlYnVnZnMgbm9kZXMgYXJlIGdldHRpbmcgZGVwcmVjYXRl
-ZCBpbiB0aGUgbmV4dCBBbmRyb2lkIHJlbGVhc2UsIHNvIHdlIGFyZSB0YWtpbmcgdGhlIGNoYW5j
-ZSB0byB1bmlmeSBhbGwgdGhlIHZlbmRvcnMgdG8gbWlncmF0ZSB0aGVpciBleGlzdGluZyBkZWJ1
-Z2ZzIG5vZGVzIGludG8gYSBzdGFuZGFyZGl6ZWQgc3lzZnMgbm9kZSBzdHJ1Y3R1cmUuIFRoZW4g
-dGhlIHBsYXRmb3JtIGlzIGFibGUgdG8gZG8gYSBidW5jaCBvZiB1c2VmdWwgdGhpbmdzOiBtZW1v
-cnkgcHJvZmlsaW5nLCBzeXN0ZW0gaGVhbHRoIGNvdmVyYWdlLCBmaWVsZCBtZXRyaWNzLCBsb2Nh
-bCBzaGVsbCBkdW1wLCBpbi1hcHAgYXBpLCBldGMuCj4KPiBTb21lIHZlbmRvcnMgdGVuZCB0byBk
-byBhIGxvdCBvZiB1cHN0cmVhbXMsIHNvIHdlIGFyZSBhbHNvIHNlZWtpbmcgdGhlIHVwc3RyZWFt
-IHBvc3NpYmlsaXRpZXMgaGVyZSBpbnN0ZWFkIG9mIG1ha2luZyBpdCBhbiBBbmRyb2lkIG9ubHkg
-dGhpbmcuCj4KPiBBdHRhY2hlZCBhcmUgc2NyZWVuc2hvdHMgZm9yIHRoZSBub2RlIHN0cnVjdHVy
-ZSB3ZSBkcmFmdGVkIGFuZCBhbiBleGFtcGxlIGZvciB0aGF0Lgo+Cj4gRm9yIHRoZSB0b3AgbGV2
-ZWwgcm9vdCwgdmVuZG9ycyBjYW4gY2hvb3NlIHRoZWlyIG93biBuYW1lcyBiYXNlZCBvbiB0aGUg
-dmFsdWUgb2Ygcm8uZ2Z4LnN5c2ZzLjAgdGhlIHZlbmRvcnMgc2V0Lgo+Cj4gRm9yIHRoZSBtdWx0
-aXBsZSBncHUgZHJpdmVyIGNhc2VzLCB3ZSBjYW4gdXNlIHJvLmdmeC5zeXNmcy4xLCByby5nZngu
-c3lzZnMuMiBmb3IgdGhlIDJuZCBhbmQgM3JkIEtNRHMuCj4gSXQncyBhbHNvIGFsbG93ZWQgdG8g
-cHV0IHNvbWUgc3ViLWRpciBmb3IgZXhhbXBsZSAia2dzbC9ncHVfbWVtIiBvciAibWFsaTAvZ3B1
-X21lbSIgaW4gdGhlIHJvLmdmeC5zeXNmcy48Y2hhbm5lbD4gcHJvcGVydHkgaWYgdGhlIHJvb3Qg
-bmFtZSB1bmRlciAvc3lzL2RldmljZXMvIGlzIGFscmVhZHkgY3JlYXRlZCBhbmQgdXNlZCBmb3Ig
-b3RoZXIgcHVycG9zZXMuCj4KPgo+IEZvciB0aGUgMm5kIGxldmVsIHBpZHMsIHRoZXJlIGFyZSB1
-c3VhbGx5IGp1c3QgYSBjb3VwbGUgb2YgdGhlbSBwZXIgc25hcHNob3QsIHNpbmNlIHdlIG9ubHkg
-dGFrZXMgc25hcHNob3QgZm9yIHRoZSBhY3RpdmUgb25lcy4KPgo+IEZvciB0aGUgM3JkIGxldmVs
-IHR5cGVzLCB0aGUgdHlwZSBuYW1lIHdpbGwgYmUgb25lIG9mIHRoZSBHUFUgbWVtb3J5IG9iamVj
-dCB0eXBlcyBpbiBsb3dlciBjYXNlLCBhbmQgdGhlIHZhbHVlIHdpbGwgYmUgYSBjb21tYSBzZXBh
-cmF0ZWQgc2VxdWVuY2Ugb2Ygc2l6ZSB2YWx1ZXMgZm9yIGFsbCB0aGUgYWxsb2NhdGlvbnMgdW5k
-ZXIgdGhhdCBzcGVjaWZpYyB0eXBlLgo+Cj4gRm9yIHRoZSBHUFUgbWVtb3J5IG9iamVjdCB0eXBl
-cywgd2UgZGVmaW5lZCA5IGRpZmZlcmVudCB0eXBlcyBmb3IgQW5kcm9pZDoKPgo+ICAgICAvLyBu
-b3QgYWNjb3VudGVkIGZvciBpbiBhbnkgb3RoZXIgY2F0ZWdvcnkKPiAgICAgVU5LTk9XTiA9IDA7
-Cj4gICAgIC8vIHNoYWRlciBiaW5hcmllcwo+ICAgICBTSEFERVIgPSAxOwo+ICAgICAvLyBhbGxv
-Y2F0aW9ucyB3aGljaCBoYXZlIGEgbGlmZXRpbWUgc2ltaWxhciB0byBhIFZrQ29tbWFuZEJ1ZmZl
-cgo+ICAgICBDT01NQU5EID0gMjsKPiAgICAgLy8gYmFja2luZyBmb3IgVmtEZXZpY2VNZW1vcnkK
-PiAgICAgVlVMS0FOID0gMzsKPiAgICAgLy8gR0wgVGV4dHVyZSBhbmQgUmVuZGVyQnVmZmVyCj4g
-ICAgIEdMX1RFWFRVUkUgPSA0Owo+ICAgICAvLyBHTCBCdWZmZXIKPiAgICAgR0xfQlVGRkVSID0g
-NTsKPiAgICAgLy8gYmFja2luZyBmb3IgcXVlcnkKPiAgICAgUVVFUlkgPSA2Owo+ICAgICAvLyBh
-bGxvY2F0aW9ucyB3aGljaCBoYXZlIGEgbGlmZXRpbWUgc2ltaWxhciB0byBhIFZrRGVzY3JpcHRv
-clNldAo+ICAgICBERVNDUklQVE9SID0gNzsKPiAgICAgLy8gcmFuZG9tIHRyYW5zaWVudCB0aGlu
-Z3MgdGhhdCB0aGUgZHJpdmVyIG5lZWRzCj4gICAgIFRSQU5TSUVOVCA9IDg7Cj4gV2UgYXJlIHdv
-bmRlcmluZyBpZiB0aG9zZSB0eXBlIGVudW1lcmF0aW9ucyBtYWtlIHNlbnNlIHRvIHRoZSB1cHN0
-cmVhbSBzaWRlIGFzIHdlbGwsIG9yIG1heWJlIHdlIGp1c3QgZGVhbCB3aXRoIG91ciBvd24gZGlm
-ZmVyZW50IHR5cGUgc2V0cy4gQ3V6IG9uIHRoZSBBbmRyb2lkIHNpZGUsIHdlJ2xsIGp1c3QgcmVh
-ZCB0aG9zZSBub2RlcyBuYW1lZCBhZnRlciB0aGUgdHlwZXMgd2UgZGVmaW5lZCBpbiB0aGUgc3lz
-ZnMgbm9kZSBzdHJ1Y3R1cmUuCj4KPiBUaGUgbm9kZSB2YWx1ZSBjYW4gYmU6IDQwOTYsODE5MjAs
-Li4uLDQwOTYKPgo+Cj4gTG9va2luZyBmb3J3YXJkIHRvIGFueSBjb25jZXJucy9jb21tZW50cy9z
-dWdnZXN0aW9ucyEKPgo+IEJlc3QgcmVnYXJkcywKPiBZaXdlaQpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+--===============1396659780==
+Content-Type: multipart/alternative; boundary="000000000000ec4fd50595c06a50"
+
+--000000000000ec4fd50595c06a50
+Content-Type: text/plain; charset="UTF-8"
+
+Hi folks,
+
+This is the plain text version of the previous email in case that was
+considered as spam.
+
+--- Background ---
+On the downstream Android, vendors used to report GPU private memory
+allocations with debugfs nodes in their own formats. However, debugfs nodes
+are getting deprecated in the next Android release.
+
+--- Proposal ---
+We are taking the chance to unify all the vendors to migrate their existing
+debugfs nodes into a standardized sysfs node structure. Then the platform
+is able to do a bunch of useful things: memory profiling, system health
+coverage, field metrics, local shell dump, in-app api, etc. This proposal
+is better served upstream as all GPU vendors can standardize a gpu memory
+structure and reduce fragmentation across Android and Linux that clients
+can rely on.
+
+--- Detailed design ---
+The sysfs node structure looks like below:
+/sys/devices/<ro.gfx.sysfs.0>/<pid>/<type_name>
+e.g. "/sys/devices/mali0/gpu_mem/606/gl_buffer" and the gl_buffer is a node
+having the comma separated size values: "4096,81920,...,4096".
+
+For the top level root, vendors can choose their own names based on the
+value of ro.gfx.sysfs.0 the vendors set. (1) For the multiple gpu driver
+cases, we can use ro.gfx.sysfs.1, ro.gfx.sysfs.2 for the 2nd and 3rd KMDs.
+(2) It's also allowed to put some sub-dir for example "kgsl/gpu_mem" or
+"mali0/gpu_mem" in the ro.gfx.sysfs.<channel> property if the root name
+under /sys/devices/ is already created and used for other purposes.
+
+For the 2nd level "pid", there are usually just a couple of them per
+snapshot, since we only takes snapshot for the active ones.
+
+For the 3rd level "type_name", the type name will be one of the GPU memory
+object types in lower case, and the value will be a comma separated
+sequence of size values for all the allocations under that specific type.
+
+We especially would like some comments on this part. For the GPU memory
+object types, we defined 9 different types for Android:
+(1) UNKNOWN // not accounted for in any other category
+(2) SHADER // shader binaries
+(3) COMMAND // allocations which have a lifetime similar to a
+VkCommandBuffer
+(4) VULKAN // backing for VkDeviceMemory
+(5) GL_TEXTURE // GL Texture and RenderBuffer
+(6) GL_BUFFER // GL Buffer
+(7) QUERY // backing for query
+(8) DESCRIPTOR // allocations which have a lifetime similar to a
+VkDescriptorSet
+(9) TRANSIENT // random transient things that the driver needs
+
+We are wondering if those type enumerations make sense to the upstream side
+as well, or maybe we just deal with our own different type sets. Cuz on the
+Android side, we'll just read those nodes named after the types we defined
+in the sysfs node structure.
+
+Looking forward to any concerns/comments/suggestions!
+
+Best regards,
+Yiwei
+
+--000000000000ec4fd50595c06a50
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi folks,<div><br></div><div>This is the plain text versio=
+n of the previous email in case that was considered as spam.</div><div><br>=
+</div><div>--- Background ---</div><div>On the downstream Android, vendors =
+used to report GPU private memory allocations with debugfs nodes in their o=
+wn formats. However, debugfs nodes are getting deprecated in the next Andro=
+id release.</div><div><br></div><div>--- Proposal ---</div><div>We are taki=
+ng the chance to unify all the vendors to migrate their existing debugfs no=
+des into a standardized sysfs node structure. Then the platform is able to =
+do a bunch of useful things: memory profiling, system health coverage, fiel=
+d metrics, local shell dump, in-app api, etc.=C2=A0This proposal is better =
+served upstream as all GPU vendors can standardize a gpu memory structure a=
+nd reduce fragmentation across Android and Linux that clients can rely on.<=
+/div><div><br></div><div>--- Detailed design ---</div><div>The sysfs node=
+=C2=A0structure=C2=A0looks like below:</div><div>/sys/devices/&lt;ro.gfx.sy=
+sfs.0&gt;/&lt;pid&gt;/&lt;type_name&gt;</div><div>e.g. &quot;/sys/devices/m=
+ali0/gpu_mem/606/gl_buffer&quot; and the gl_buffer is a node having the com=
+ma separated size values: &quot;4096,81920,...,4096&quot;.</div><div><br></=
+div><div>For the top level root, vendors can choose their own names based o=
+n the value of ro.gfx.sysfs.0 the vendors set. (1) For the multiple gpu dri=
+ver cases, we can use ro.gfx.sysfs.1, ro.gfx.sysfs.2 for the 2nd and 3rd KM=
+Ds. (2) It&#39;s also allowed to put some sub-dir for example &quot;kgsl/gp=
+u_mem&quot; or &quot;mali0/gpu_mem&quot; in the ro.gfx.sysfs.&lt;channel&gt=
+; property if the root name under /sys/devices/ is already created and used=
+ for other purposes.<br></div><div><br></div><div>For the 2nd level &quot;p=
+id&quot;, there are usually just a couple of them per snapshot, since we on=
+ly takes snapshot for the active ones.<br></div><div><br></div><div>For the=
+ 3rd level &quot;type_name&quot;, the type name will be one of the GPU memo=
+ry object types in lower case, and the value will be a comma separated sequ=
+ence of size values for all the allocations under that specific type.<br></=
+div><div><br></div><div>We especially would like some comments on this part=
+. For the GPU memory object types, we defined 9 different types for Android=
+:</div><div>(1) UNKNOWN // not accounted for in any other category<br></div=
+><div>(2)=C2=A0SHADER=C2=A0// shader binaries</div><div>(3)=C2=A0COMMAND=C2=
+=A0// allocations which have a lifetime similar to a VkCommandBuffer</div><=
+div>(4)=C2=A0VULKAN=C2=A0// backing for VkDeviceMemory</div><div>(5)=C2=A0G=
+L_TEXTURE=C2=A0// GL Texture and RenderBuffer</div><div>(6)=C2=A0GL_BUFFER=
+=C2=A0// GL Buffer</div><div>(7)=C2=A0QUERY=C2=A0// backing for query</div>=
+<div>(8)=C2=A0DESCRIPTOR=C2=A0// allocations which have a lifetime similar =
+to a VkDescriptorSet</div><div>(9)=C2=A0TRANSIENT // random transient thing=
+s that the driver needs</div><div><br></div><div>We are wondering if those =
+type enumerations make sense to the upstream side as well, or maybe we just=
+ deal with our own different type sets. Cuz on the Android side, we&#39;ll =
+just read those nodes named after the types we defined in the sysfs node st=
+ructure.<br></div><div><br></div><div>Looking forward to any concerns/comme=
+nts/suggestions!<br></div><div><br></div><div>Best regards,</div><div>Yiwei=
+</div><div><br></div></div>
+
+--000000000000ec4fd50595c06a50--
+
+--===============1396659780==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1396659780==--
