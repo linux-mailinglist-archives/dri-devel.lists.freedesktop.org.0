@@ -2,39 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37527E5105
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2019 18:18:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D1AAE510D
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2019 18:20:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 084276EAE0;
-	Fri, 25 Oct 2019 16:18:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52C326EAFA;
+	Fri, 25 Oct 2019 16:20:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FC8E6EAE0;
- Fri, 25 Oct 2019 16:18:10 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BD2C52070B;
- Fri, 25 Oct 2019 16:18:08 +0000 (UTC)
-Date: Fri, 25 Oct 2019 17:18:05 +0100
-From: Will Deacon <will@kernel.org>
-To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DB0D06EAF5;
+ Fri, 25 Oct 2019 16:20:02 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 210712A6046;
+ Fri, 25 Oct 2019 18:20:02 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id cDFWOZDoYXzC; Fri, 25 Oct 2019 18:20:01 +0200 (CEST)
+Received: from thor (116.245.63.188.dynamic.wline.res.cust.swisscom.ch
+ [188.63.245.116])
+ by netline-mail3.netline.ch (Postfix) with ESMTPSA id CC4982A6045;
+ Fri, 25 Oct 2019 18:20:01 +0200 (CEST)
+Received: from localhost ([::1]) by thor with esmtp (Exim 4.92.3)
+ (envelope-from <michel@daenzer.net>)
+ id 1iO2Jl-0005jU-GJ; Fri, 25 Oct 2019 18:20:01 +0200
 Subject: Re: [PATCH] drm/radeon: Handle workqueue allocation failure
-Message-ID: <20191025161804.GA12335@willie-the-truck>
+To: Will Deacon <will@kernel.org>
 References: <20191025110450.10474-1-will@kernel.org>
  <5d6a88a2-2719-a859-04df-10b0d893ff39@daenzer.net>
+ <20191025161804.GA12335@willie-the-truck>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Message-ID: <e2f87ecc-0a8e-253d-107c-5cf6486c4b6a@daenzer.net>
+Date: Fri, 25 Oct 2019 18:20:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <5d6a88a2-2719-a859-04df-10b0d893ff39@daenzer.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1572020290;
- bh=zsbdQvfJ8+q2pzusFNOjjDgO2fdiHgeruyB2BpqAhfI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=xZzvdjENaVD+2lcGJUR9ncW0e/IAWYPqJbGh8SjuU974cfTjPci7a1yS7CbMd1/wW
- OxngfQ0N1MCIciK9J5iEWHkLlUnuii6I/QMRQ73fJf4JWT0jxhWvyPNN+nna6rVeuQ
- S2hUAUno8hbubl5rLAD8IF9rI4t2+Ney4qYUA7Io=
+In-Reply-To: <20191025161804.GA12335@willie-the-truck>
+Content-Language: en-CA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,26 +54,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: amd-gfx@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Nicolas Waisman <nico@semmle.com>, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBPY3QgMjUsIDIwMTkgYXQgMDY6MDY6MjZQTSArMDIwMCwgTWljaGVsIETDpG56ZXIg
-d3JvdGU6Cj4gT24gMjAxOS0xMC0yNSAxOjA0IHAubS4sIFdpbGwgRGVhY29uIHdyb3RlOgo+ID4g
-SW4gdGhlIGhpZ2hseSB1bmxpa2VseSBldmVudCB0aGF0IHdlIGZhaWwgdG8gYWxsb2NhdGUgdGhl
-ICJyYWRlb24tY3J0YyIKPiA+IHdvcmtxdWV1ZSwgd2Ugc2hvdWxkIGJhaWwgY2xlYW5seSByYXRo
-ZXIgdGhhbiBibGluZGx5IG1hcmNoIG9uIHdpdGggYQo+ID4gTlVMTCBwb2ludGVyIGluc3RhbGxl
-ZCBmb3IgdGhlICdmbGlwX3F1ZXVlJyBmaWVsZCBvZiB0aGUgJ3JhZGVvbl9jcnRjJwo+ID4gc3Ry
-dWN0dXJlLgo+ID4gCj4gPiBUaGlzIHdhcyByZXBvcnRlZCBwcmV2aW91c2x5IGJ5IE5pY29sYXMs
-IGJ1dCBJIGRvbid0IHRoaW5rIGhpcyBmaXggd2FzCj4gPiBjb3JyZWN0Ogo+IAo+IE5laXRoZXIg
-aXMgdGhpcyBvbmUgSSdtIGFmcmFpZC4gU2VlIG15IGZlZWRiYWNrIG9uCj4gaHR0cHM6Ly9wYXRj
-aHdvcmsuZnJlZWRlc2t0b3Aub3JnL3BhdGNoLzMzMTUzNC8gLgoKVGhhbmtzLiBBbHRob3VnaCBJ
-IGFncmVlIHdpdGggeW91IHdydCB0aGUgb3JpZ2luYWwgcGF0Y2gsIEkgZG9uJ3QgdGhpbmsKdGhl
-IHdvcmtxdWV1ZSBhbGxvY2F0aW9uIGZhaWx1cmUgaXMgZGlzdGluZ3Vpc2hhYmxlIGZyb20gdGhl
-IENSVEMgYWxsb2NhdGlvbgpmYWlsdXJlIHdpdGggbXkgcGF0Y2guIEFyZSB5b3Ugc2F5aW5nIHRo
-YXQgdGhlIGVycm9yIHBhdGggdGhlcmUgaXMgYnJva2VuCnRvbz8KCldpbGwKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+T24gMjAxOS0xMC0yNSA2OjE4IHAubS4sIFdpbGwgRGVhY29uIHdyb3RlOgo+IE9uIEZyaSwgT2N0
+IDI1LCAyMDE5IGF0IDA2OjA2OjI2UE0gKzAyMDAsIE1pY2hlbCBEw6RuemVyIHdyb3RlOgo+PiBP
+biAyMDE5LTEwLTI1IDE6MDQgcC5tLiwgV2lsbCBEZWFjb24gd3JvdGU6Cj4+PiBJbiB0aGUgaGln
+aGx5IHVubGlrZWx5IGV2ZW50IHRoYXQgd2UgZmFpbCB0byBhbGxvY2F0ZSB0aGUgInJhZGVvbi1j
+cnRjIgo+Pj4gd29ya3F1ZXVlLCB3ZSBzaG91bGQgYmFpbCBjbGVhbmx5IHJhdGhlciB0aGFuIGJs
+aW5kbHkgbWFyY2ggb24gd2l0aCBhCj4+PiBOVUxMIHBvaW50ZXIgaW5zdGFsbGVkIGZvciB0aGUg
+J2ZsaXBfcXVldWUnIGZpZWxkIG9mIHRoZSAncmFkZW9uX2NydGMnCj4+PiBzdHJ1Y3R1cmUuCj4+
+Pgo+Pj4gVGhpcyB3YXMgcmVwb3J0ZWQgcHJldmlvdXNseSBieSBOaWNvbGFzLCBidXQgSSBkb24n
+dCB0aGluayBoaXMgZml4IHdhcwo+Pj4gY29ycmVjdDoKPj4KPj4gTmVpdGhlciBpcyB0aGlzIG9u
+ZSBJJ20gYWZyYWlkLiBTZWUgbXkgZmVlZGJhY2sgb24KPj4gaHR0cHM6Ly9wYXRjaHdvcmsuZnJl
+ZWRlc2t0b3Aub3JnL3BhdGNoLzMzMTUzNC8gLgo+IAo+IFRoYW5rcy4gQWx0aG91Z2ggSSBhZ3Jl
+ZSB3aXRoIHlvdSB3cnQgdGhlIG9yaWdpbmFsIHBhdGNoLCBJIGRvbid0IHRoaW5rCj4gdGhlIHdv
+cmtxdWV1ZSBhbGxvY2F0aW9uIGZhaWx1cmUgaXMgZGlzdGluZ3Vpc2hhYmxlIGZyb20gdGhlIENS
+VEMgYWxsb2NhdGlvbgo+IGZhaWx1cmUgd2l0aCBteSBwYXRjaC4gQXJlIHlvdSBzYXlpbmcgdGhh
+dCB0aGUgZXJyb3IgcGF0aCB0aGVyZSBpcyBicm9rZW4KPiB0b28/CgpUaGUgZHJpdmVyIHdvbid0
+IGFjdHVhbGx5IHdvcmsgaWYgcmFkZW9uX2NydGNfaW5pdCBiYWlscyBzaWxlbnRseSwgaXQnbGwK
+anVzdCBmYWxsIG92ZXIgYXQgc29tZSBsYXRlciBwb2ludC4KCgotLSAKRWFydGhsaW5nIE1pY2hl
+bCBEw6RuemVyICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgIGh0dHBzOi8vcmVkaGF0LmNv
+bQpMaWJyZSBzb2Z0d2FyZSBlbnRodXNpYXN0ICAgICAgICAgICAgIHwgICAgICAgICAgICAgTWVz
+YSBhbmQgWCBkZXZlbG9wZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVs
