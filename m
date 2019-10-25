@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE63AE6E0E
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2019 09:24:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76638E6E05
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2019 09:24:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 713F16E466;
-	Mon, 28 Oct 2019 08:23:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C8366E444;
+	Mon, 28 Oct 2019 08:23:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE24D6E9A2
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2019 11:13:46 +0000 (UTC)
-Received: from ramsan ([84.195.182.253]) by xavier.telenet-ops.be with bizsmtp
- id HnDi2100b5USYZQ01nDiZ5; Fri, 25 Oct 2019 13:13:43 +0200
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B7266E9A2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2019 11:13:47 +0000 (UTC)
+Received: from ramsan ([84.195.182.253]) by laurent.telenet-ops.be with bizsmtp
+ id HnDj210095USYZQ01nDj2M; Fri, 25 Oct 2019 13:13:45 +0200
 Received: from rox.of.borg ([192.168.97.57]) by ramsan with esmtp (Exim 4.90_1)
  (envelope-from <geert@linux-m68k.org>)
- id 1iNxSN-0003rD-Pb; Fri, 25 Oct 2019 13:08:35 +0200
+ id 1iNxSN-0003rD-Ob; Fri, 25 Oct 2019 13:08:35 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
  (envelope-from <geert@linux-m68k.org>)
- id 1iNvpN-0006Go-9V; Fri, 25 Oct 2019 11:24:13 +0200
+ id 1iNvpi-0006IC-KD; Fri, 25 Oct 2019 11:24:34 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Andrzej Hajda <a.hajda@samsung.com>,
  Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/bridge: ti-tfp410: Update drm_connector_init_with_ddc()
- error message
-Date: Fri, 25 Oct 2019 11:24:11 +0200
-Message-Id: <20191025092411.24059-1-geert+renesas@glider.be>
+Subject: [PATCH v2] drm/bridge: ti-tfp410: Update
+ drm_connector_init_with_ddc() error message
+Date: Fri, 25 Oct 2019 11:24:33 +0200
+Message-Id: <20191025092433.24138-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Mon, 28 Oct 2019 08:23:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
