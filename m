@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D3D5E58D2
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2019 08:03:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57122E5945
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2019 10:33:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 139E66EBF3;
-	Sat, 26 Oct 2019 06:03:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D2416EBFB;
+	Sat, 26 Oct 2019 08:33:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5E80D6EBFB
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2019 06:03:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 07C196EC01
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2019 08:33:06 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5B4F7720E2; Sat, 26 Oct 2019 06:03:16 +0000 (UTC)
+ id 0476D720E2; Sat, 26 Oct 2019 08:33:06 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
- with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Sat, 26 Oct 2019 06:03:15 +0000
+Subject: [Bug 111482] Sapphire Pulse RX 5700 XT power consumption
+Date: Sat, 26 Oct 2019 08:33:06 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: DRI git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: ragnaros39216@yandex.com
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: freedesktop@postfach.xyz
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: highest
+X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-sX04fY6or4@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
-References: <bug-111481-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111482-502-F6SgPDQxaL@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111482-502@http.bugs.freedesktop.org/>
+References: <bug-111482-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,57 +52,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0245520770=="
+Content-Type: multipart/mixed; boundary="===============0734250619=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0245520770==
-Content-Type: multipart/alternative; boundary="15720697965.30B58b6.16480"
+--===============0734250619==
+Content-Type: multipart/alternative; boundary="15720787851.DD8C0cF68.11935"
 Content-Transfer-Encoding: 7bit
 
 
---15720697965.30B58b6.16480
-Date: Sat, 26 Oct 2019 06:03:16 +0000
+--15720787851.DD8C0cF68.11935
+Date: Sat, 26 Oct 2019 08:33:05 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111482
 
---- Comment #176 from L.S.S. <ragnaros39216@yandex.com> ---
-Unfortunately this still happens with Nemo on 5.4-rc4 kernel (official), af=
-ter
-switching to Manjaro Testing channel.
+--- Comment #28 from Robert <freedesktop@postfach.xyz> ---
+(In reply to Andrew Sheldon from comment #27)
+> A bit of a hacky workaround to 144hz (and multi-monitor issues) on Navi:
+>=20
 
-The same ring sdma0 timeout error appears. An interesting phenomenon is that
-when the screen freezes (taskbar clock stopped changing), at first the mouse
-can still move, but after a few clicks the mouse stopped moving and the scr=
-een
-appears to have shifted to a previous frame before freezing completely:
+Thanks Andrew for this hack! That's really a joke. This indeed works with my
+Navi10 and a 5120x1440@60 Hz resolution. I normally can only use 30 Hz or m=
+ax.
+39 Hz if I want to stay at 8W in idle mode. If I use >40 Hz idle power
+consumption goes up to around 32W. But with your trick I can even use
+5120x1440@60 Hz with 8W idle power consumption. :-)
 
-The contents of the previous folder would reappear in Nemo, and the taskbar
-clock may sometimes move a second backwards.
+I'm not really into this hardware/driver stuff but I guess this proves that
+there is a bug somewhere. Either in the firmware, in the driver or maybe ev=
+en
+in Mesa or so.
 
-I've removed AMD_DEBUG=3Dnodma since it apparently doesn't work. If the pat=
-ches
-are meant for 5.4-rc4, which patches are needed to address this problem?
-
-For now I'm using nnn (a terminal-based file manager) for browsing files si=
-nce
-terminals don't freeze the system... I'm not sure what might be triggering =
-the
-freeze as all the lockups I have so far all happened when using Nemo. Other
-programs (including Firefox and Chromium) haven't triggered the freeze yet.
+Is someone aware of another place where something like that can be reported=
+? I
+mean I would really try out everything to help developers nailing this down=
+ but
+I it doesn't look like that there are any AMD developers around here. Ok, m=
+aybe
+AMD just don't cares about bugs at all but hope is the last thing that dies,
+right? ;-)
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15720697965.30B58b6.16480
-Date: Sat, 26 Oct 2019 06:03:16 +0000
+--15720787851.DD8C0cF68.11935
+Date: Sat, 26 Oct 2019 08:33:05 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -119,44 +119,44 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c176">Comm=
-ent # 176</a>
+   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482#c28">Comme=
+nt # 28</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
+   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482">bug 11148=
+2</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-ragnaros39216&#64;yandex.com" title=3D"L.S.S. &lt;ragnaros39216&#64;yandex.=
-com&gt;"> <span class=3D"fn">L.S.S.</span></a>
+freedesktop&#64;postfach.xyz" title=3D"Robert &lt;freedesktop&#64;postfach.=
+xyz&gt;"> <span class=3D"fn">Robert</span></a>
 </span></b>
-        <pre>Unfortunately this still happens with Nemo on 5.4-rc4 kernel (=
-official), after
-switching to Manjaro Testing channel.
+        <pre>(In reply to Andrew Sheldon from <a href=3D"show_bug.cgi?id=3D=
+111482#c27">comment #27</a>)
+<span class=3D"quote">&gt; A bit of a hacky workaround to 144hz (and multi-=
+monitor issues) on Navi:
+&gt; </span >
 
-The same ring sdma0 timeout error appears. An interesting phenomenon is that
-when the screen freezes (taskbar clock stopped changing), at first the mouse
-can still move, but after a few clicks the mouse stopped moving and the scr=
-een
-appears to have shifted to a previous frame before freezing completely:
+Thanks Andrew for this hack! That's really a joke. This indeed works with my
+Navi10 and a 5120x1440&#64;60 Hz resolution. I normally can only use 30 Hz =
+or max.
+39 Hz if I want to stay at 8W in idle mode. If I use &gt;40 Hz idle power
+consumption goes up to around 32W. But with your trick I can even use
+5120x1440&#64;60 Hz with 8W idle power consumption. :-)
 
-The contents of the previous folder would reappear in Nemo, and the taskbar
-clock may sometimes move a second backwards.
+I'm not really into this hardware/driver stuff but I guess this proves that
+there is a bug somewhere. Either in the firmware, in the driver or maybe ev=
+en
+in Mesa or so.
 
-I've removed AMD_DEBUG=3Dnodma since it apparently doesn't work. If the pat=
-ches
-are meant for 5.4-rc4, which patches are needed to address this problem?
-
-For now I'm using nnn (a terminal-based file manager) for browsing files si=
-nce
-terminals don't freeze the system... I'm not sure what might be triggering =
-the
-freeze as all the lockups I have so far all happened when using Nemo. Other
-programs (including Firefox and Chromium) haven't triggered the freeze yet.=
-</pre>
+Is someone aware of another place where something like that can be reported=
+? I
+mean I would really try out everything to help developers nailing this down=
+ but
+I it doesn't look like that there are any AMD developers around here. Ok, m=
+aybe
+AMD just don't cares about bugs at all but hope is the last thing that dies,
+right? ;-)</pre>
         </div>
       </p>
 
@@ -170,9 +170,9 @@ programs (including Firefox and Chromium) haven't triggered the freeze yet.=
     </body>
 </html>=
 
---15720697965.30B58b6.16480--
+--15720787851.DD8C0cF68.11935--
 
---===============0245520770==
+--===============0734250619==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -182,4 +182,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0245520770==--
+--===============0734250619==--
