@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC5EE59B3
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2019 12:58:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5AC4E59B4
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2019 12:59:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A5776EC0F;
-	Sat, 26 Oct 2019 10:58:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D20466EC10;
+	Sat, 26 Oct 2019 10:59:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8AFB16EC0F
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2019 10:58:36 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 98C566EC10
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2019 10:59:09 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 822C4720E4; Sat, 26 Oct 2019 10:58:36 +0000 (UTC)
+ id 953DB720E2; Sat, 26 Oct 2019 10:59:09 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111881] [kernel 5.4-rc4][amdgpu][CIK]: FW bug: No PASID in KFD
  interrupt
-Date: Sat, 26 Oct 2019 10:58:36 +0000
+Date: Sat, 26 Oct 2019 10:59:09 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,9 +34,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status priority short_desc bug_severity
- resolution
-Message-ID: <bug-111881-502-msxuJLFPhM@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
+Message-ID: <bug-111881-502-KJl9e3Trm3@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111881-502@http.bugs.freedesktop.org/>
 References: <bug-111881-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -54,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0160215732=="
+Content-Type: multipart/mixed; boundary="===============0276413604=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0160215732==
-Content-Type: multipart/alternative; boundary="15720875161.BCc2f.5886"
+--===============0276413604==
+Content-Type: multipart/alternative; boundary="15720875491.C2bcC.5981"
 Content-Transfer-Encoding: 7bit
 
 
---15720875161.BCc2f.5886
-Date: Sat, 26 Oct 2019 10:58:36 +0000
+--15720875491.C2bcC.5981
+Date: Sat, 26 Oct 2019 10:59:09 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -78,28 +77,20 @@ erhard_f@mailbox.org changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|RESOLVED                    |REOPENED
-           Priority|not set                     |medium
-            Summary|[kernel                     |[kernel
-                   |5.4-rc1][amdgpu][CIK]: FW   |5.4-rc4][amdgpu][CIK]: FW
-                   |bug: No PASID in KFD        |bug: No PASID in KFD
-                   |interrupt                   |interrupt
-           Severity|not set                     |normal
-         Resolution|MOVED                       |---
+ Attachment #145612|0                           |1
+        is obsolete|                            |
 
---- Comment #3 from erhard_f@mailbox.org ---
-After re-reading https://bugs.freedesktop.org/enter_bug.cgi I think the
-appropriate place for the bug is here after all as 'amdkfd' is explicitely
-mentioned in the stacktrace.
-
-Re-opening with current data.
+--- Comment #4 from erhard_f@mailbox.org ---
+Created attachment 145818
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145818&action=3Dedit
+dmesg (kernel 5.4-rc4)
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15720875161.BCc2f.5886
-Date: Sat, 26 Oct 2019 10:58:36 +0000
+--15720875491.C2bcC.5981
+Date: Sat, 26 Oct 2019 10:59:09 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -129,44 +120,12 @@ FD interrupt"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>RESOLVED
+           <td style=3D"text-align:right;">Attachment #145612 is obsolete</=
+td>
+           <td>
+               &nbsp;
            </td>
-           <td>REOPENED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Priority</td>
-           <td>not set
-           </td>
-           <td>medium
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Summary</td>
-           <td>[kernel 5.4-rc1][amdgpu][CIK]: FW bug: No PASID in KFD inter=
-rupt
-           </td>
-           <td>[kernel 5.4-rc4][amdgpu][CIK]: FW bug: No PASID in KFD inter=
-rupt
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Severity</td>
-           <td>not set
-           </td>
-           <td>normal
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>MOVED
-           </td>
-           <td>---
+           <td>1
            </td>
          </tr></table>
       <p>
@@ -175,8 +134,8 @@ rupt
           bz_status_REOPENED "
    title=3D"REOPENED - [kernel 5.4-rc4][amdgpu][CIK]: FW bug: No PASID in K=
 FD interrupt"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111881#c3">Commen=
-t # 3</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111881#c4">Commen=
+t # 4</a>
               on <a class=3D"bz_bug_link=20
           bz_status_REOPENED "
    title=3D"REOPENED - [kernel 5.4-rc4][amdgpu][CIK]: FW bug: No PASID in K=
@@ -187,12 +146,11 @@ FD interrupt"
 erhard_f&#64;mailbox.org" title=3D"erhard_f&#64;mailbox.org">erhard_f&#64;m=
 ailbox.org</a>
 </span></b>
-        <pre>After re-reading <a href=3D"https://bugs.freedesktop.org/enter=
-_bug.cgi">https://bugs.freedesktop.org/enter_bug.cgi</a> I think the
-appropriate place for the bug is here after all as 'amdkfd' is explicitely
-mentioned in the stacktrace.
-
-Re-opening with current data.</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145818=
+" name=3D"attach_145818" title=3D"dmesg (kernel 5.4-rc4)">attachment 145818=
+</a> <a href=3D"attachment.cgi?id=3D145818&amp;action=3Dedit" title=3D"dmes=
+g (kernel 5.4-rc4)">[details]</a></span>
+dmesg (kernel 5.4-rc4)</pre>
         </div>
       </p>
 
@@ -206,9 +164,9 @@ Re-opening with current data.</pre>
     </body>
 </html>=
 
---15720875161.BCc2f.5886--
+--15720875491.C2bcC.5981--
 
---===============0160215732==
+--===============0276413604==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -218,4 +176,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0160215732==--
+--===============0276413604==--
