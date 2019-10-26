@@ -2,58 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7B13E59DF
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2019 13:07:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AD36E59E4
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2019 13:12:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B8E96EC12;
-	Sat, 26 Oct 2019 11:07:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 815E16EC19;
+	Sat, 26 Oct 2019 11:12:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA71B6EC17
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2019 11:07:16 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id s4so5172893ljj.10
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2019 04:07:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sbtSEwwWtUl8Tn9jW/5rYOk9dRDro0TFs9+gAIA3ZLY=;
- b=eacax8+tMlaPqjUrfc6RLu6qLsBhlkc23xhp+aL9Bs7TcJgKpHxEvF1vC6W6tg7u0l
- bnHq4Mv9rAziA15y/WcWRbL/x3rfDyxdh/rxu37OpztA84h+ZhGTNh2XHu7hpoVdITJk
- 2dnx6CGydZV9pQX0iN5IFuPXckWGorsUAy+ugk8w1ML+JUXDZuWNc8PLpIWYWuZovBLG
- V6gqUJ/Lg5cg9KHcEih9XXItlAIwCocSDLuEl6VmRVtMhS5wQIUqY27ixy87VPrFO4qN
- Q2BkIpG0nQaqp6fqNC65KYFf1TXD8S1bJ6HUtN8UcqNlvnv6PYt/7fgn0ZNdM31S6FPJ
- DGhQ==
-X-Gm-Message-State: APjAAAVynUCEUTygbb6x3s0H93sm5Vftn9cL1M3V3jsYwqjuW46Pb7/Y
- U9Qr03TCMbIZeRaLi2CP9CoXT4/P5nP0ev/VX8KdUw==
-X-Google-Smtp-Source: APXvYqwXkiAvXf3Phu3iW0PDFeh83+cl9RW5ZrJMlkjn2TQBbmww5P/ERTPtEJdBkEaAkIJlw1hVNf54K6j0BkUc+Qg=
-X-Received: by 2002:a2e:8856:: with SMTP id z22mr5727263ljj.78.1572088034673; 
- Sat, 26 Oct 2019 04:07:14 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DD0746EC19
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2019 11:12:52 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id D2503720E2; Sat, 26 Oct 2019 11:12:52 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 112138] [kernel 5.4-rc4][amdgpu][CIK]: [drm]
+ dce110_link_encoder_construct: Failed to get encoder_cap_info from VBIOS with
+ error code 4!
+Date: Sat, 26 Oct 2019 11:12:51 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: erhard_f@mailbox.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ attachments.created
+Message-ID: <bug-112138-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20191023001206.15741-1-rajatja@google.com>
- <20191024112040.GE2825247@ulmo>
- <CAA93t1ozojwgVoLCZ=AWx72yddQoiaZCMFG35gQg3mQL9n9Z2w@mail.gmail.com>
- <20191025113609.GB928835@ulmo>
-In-Reply-To: <20191025113609.GB928835@ulmo>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Sat, 26 Oct 2019 12:07:00 +0100
-Message-ID: <CAPj87rNe20nFcFNcijFwOZLQU_E+C2HyzEjtigJ-ehiLCq42iA@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH] drm: Add support for integrated privacy
- screens
-To: Thierry Reding <thierry.reding@gmail.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=sbtSEwwWtUl8Tn9jW/5rYOk9dRDro0TFs9+gAIA3ZLY=;
- b=Yc3V8xSKcErzzkIufZvgIPdiVXiQAZg6sNPGdV25al2GzTWGRHqUnvyA4S7Ih5edyO
- yHxfaBIpIxrw9D815r6Jr1Bzx/+i/4rR27vBxJd8iBmgE0hOg3q/326eMB62jlWnaPCa
- Yfw7O3MR+77F1oM2DJA6ebAdq+4/0esKJnP4U0f9d5mnkKyCWC/WmkmOPoa52YXNbJKq
- 9iwDZyH0M13Cp5qie3yaDgMbd66uiEv835NGad8aBVbcpOyStYf6yYaUuSgWssFQHW35
- rkJuaXJL2r5D0eGpRI7HG+5njgdQJ8tCTye+TfIdiM5yTY6T1DthrJ64fE4/jqnbd2TJ
- f4yQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,53 +54,364 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Duncan Laurie <dlaurie@google.com>, Rajat Jain <rajatxjain@gmail.com>,
- Sean Paul <seanpaul@google.com>, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@linux.ie>, Greg KH <gregkh@linuxfoundation.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, mathewk@google.com,
- Pavel Machek <pavel@denx.de>, Rajat Jain <rajatja@google.com>,
- jsbarnes@google.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0086285040=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgVGhpZXJyeSwKCk9uIEZyaSwgMjUgT2N0IDIwMTkgYXQgMTI6MzYsIFRoaWVycnkgUmVkaW5n
-IDx0aGllcnJ5LnJlZGluZ0BnbWFpbC5jb20+IHdyb3RlOgo+IE9uIFRodSwgT2N0IDI0LCAyMDE5
-IGF0IDAxOjQ1OjE2UE0gLTA3MDAsIFJhamF0IEphaW4gd3JvdGU6Cj4gPiBJIGRpZCB0aGluayBh
-Ym91dCBoYXZpbmcgYSBzdGF0ZSB2YXJpYWJsZSBpbiBzb2Z0d2FyZSB0byBnZXQgYW5kIHNldAo+
-ID4gdGhpcy4gSG93ZXZlciwgSSB0aGluayBpdCBpcyBub3QgdmVyeSBmYXIgZmV0Y2hlZCB0aGF0
-IHNvbWUgcGxhdGZvcm1zCj4gPiBtYXkgaGF2ZSAiaGFyZHdhcmUga2lsbCIgc3dpdGNoZXMgdGhh
-dCBhbGxvdyBoYXJkd2FyZSB0byBzd2l0Y2gKPiA+IHByaXZhY3ktc2NyZWVuIG9uIGFuZCBvZmYg
-ZGlyZWN0bHksIGluIGFkZGl0aW9uIHRvIHRoZSBzb2Z0d2FyZQo+ID4gY29udHJvbCB0aGF0IHdl
-IGFyZSBpbXBsZW1lbnRpbmcuIFByaXZhY3kgaXMgYSB0b3VjaHkgc3ViamVjdCBpbgo+ID4gZW50
-ZXJwcmlzZSwgYW5kIGFueXRoaW5nIHRoYXQgcmVkdWNlcyB0aGUgcG9zc2liaWxpdHkgb2YgaGF2
-aW5nIGFueQo+ID4gaW5jb25zaXN0ZW5jeSBiZXR3ZWVuIHNvZnR3YXJlIHN0YXRlIGFuZCBoYXJk
-d2FyZSBzdGF0ZSBpcyBkZXNpcmFibGUuCj4gPiBTbyBpbiB0aGlzIGNhc2UsIEkgY2hvc2UgdG8g
-bm90IGhhdmUgYSBzdGF0ZSBpbiBzb2Z0d2FyZSBhYm91dCB0aGlzIC0KPiA+IHdlIGp1c3QgcmVw
-b3J0IHRoZSBoYXJkd2FyZSBzdGF0ZSBldmVyeXRpbWUgd2UgYXJlIGFza2VkIGZvciBpdC4KPgo+
-IFNvIHRoaXMgZG9lc24ndCByZWFsbHkgd29yayB3aXRoIGF0b21pYyBLTVMsIHRoZW4uIFRoZSBt
-YWluIGlkZWEgYmVoaW5kCj4gYXRvbWljIEtNUyBpcyB0aGF0IHlvdSBhcHBseSBhIGNvbmZpZ3Vy
-YXRpb24gZWl0aGVyIGNvbXBsZXRlbHkgb3Igbm90IGF0Cj4gYWxsLiBTbyBhdCBsZWFzdCBmb3Ig
-c2V0dGluZyB0aGlzIHByb3BlcnR5IHlvdSdkIGhhdmUgdG8gZ28gdGhyb3VnaCB0aGUKPiBzdGF0
-ZSBvYmplY3QuCj4KPiBOb3csIGZvciByZWFkaW5nIG91dCB0aGUgcHJvcGVydHkgeW91IG1pZ2h0
-IGJlIGFibGUgdG8gZ2V0IGF3YXkgd2l0aCB0aGUKPiBhYm92ZS4gSSdtIG5vdCBzdXJlIGlmIHRo
-YXQncyBlbm91Z2ggdG8ga2VlcCB0aGUgc3RhdGUgdXAtdG8tZGF0ZSwKPiB0aG91Z2guIElzIHRo
-ZXJlIHNvbWUgd2F5IGZvciBhIGtpbGwgc3dpdGNoIHRvIHRyaWdnZXIgYW4gaW50ZXJydXB0IG9y
-Cj4gb3RoZXIgZXZlbnQgb2Ygc29tZSBzb3J0IHNvIHRoYXQgdGhlIHN0YXRlIGNvdWxkIGJlIGtl
-cHQgdXAtdG8tZGF0ZT8KPgo+IERhbmllbCAob3IgYW55b25lIGVsc2UpLCBkbyB5b3Uga25vdyBv
-ZiBhbnkgcHJlY2VkZW50IGZvciBzdGF0ZSB0aGF0Cj4gbWlnaHQgZ2V0IG1vZGlmaWVkIGJlaGlu
-ZCB0aGUgYXRvbWljIGhlbHBlcnMnIGJhY2s/IFNlZW1zIHRvIG1lIGxpa2Ugd2UKPiBuZWVkIHRv
-IGZpbmQgc29tZSBwb2ludCB3aGVyZSB3ZSBjYW4gYWN0dWFsbHkgcmVhZCBiYWNrIHRoZSBjdXJy
-ZW50Cj4gImhhcmR3YXJlIHZhbHVlIiBvZiB0aGlzIHByaXZhY3kgc2NyZWVuIHByb3BlcnR5IGFu
-ZCBzdG9yZSB0aGF0IGJhY2sKPiBpbnRvIHRoZSBzdGF0ZS4KCldlbGwsIGFwYXJ0IGZyb20gY29u
-bmVjdG9yIHN0YXRlLCB0aG91Z2ggdGhhdCBpc24ndCByZWFsbHkgYSBwcm9wZXJ0eQphcyBzdWNo
-LCB0aGVyZSdzIHRoZSBsaW5rX3N0YXRlIHByb3BlcnR5LCB3aGljaCBpcyBleHBsaWNpdGx5IGRl
-c2lnbmVkCnRvIGRvIGp1c3QgdGhhdC4gVGhhdCBoYXMgYmVlbiBxdWl0ZSBjYXJlZnVsbHkgZGVz
-aWduZWQgZm9yIHRoZQpiYWNrLWFuZC1mb3J0aCB0aG91Z2guCgpDaGVlcnMsCkRhbmllbApfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0086285040==
+Content-Type: multipart/alternative; boundary="15720883720.600a3d5.8647"
+Content-Transfer-Encoding: 7bit
+
+
+--15720883720.600a3d5.8647
+Date: Sat, 26 Oct 2019 11:12:52 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112138
+
+            Bug ID: 112138
+           Summary: [kernel 5.4-rc4][amdgpu][CIK]: [drm]
+                    dce110_link_encoder_construct: Failed to get
+                    encoder_cap_info from VBIOS with error code 4!
+           Product: DRI
+           Version: DRI git
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: normal
+          Priority: not set
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: erhard_f@mailbox.org
+
+Created attachment 145821
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145821&action=3Dedit
+dmesg (kernel 5.4-rc4)
+
+My card (Radeon R9 290 Tri-X) tells me 3 times it fails to get get
+encoder_cap_info from VBIOS with error code 4.
+
+[...]
+[    6.084919] [drm] amdgpu kernel modesetting enabled.
+[    6.086395] CRAT table not found
+[    6.086493] Virtual CRAT table created for CPU
+[    6.086560] Parsing CRAT table with 2 nodes
+[    6.086755] Creating topology SYSFS entries
+[    6.088841] Topology: Add CPU node
+[    6.088952] Finished initializing topology
+[    6.090354] amdgpu 0000:01:00.0: remove_conflicting_pci_framebuffers: ba=
+r 0:
+0xd0000000 -> 0xdfffffff
+[    6.090480] amdgpu 0000:01:00.0: remove_conflicting_pci_framebuffers: ba=
+r 2:
+0xcf800000 -> 0xcfffffff
+[    6.090601] amdgpu 0000:01:00.0: remove_conflicting_pci_framebuffers: ba=
+r 5:
+0xfe980000 -> 0xfe9bffff
+[    6.102438] [drm] initializing kernel modesetting (HAWAII 0x1002:0x67B0
+0x174B:0xE285 0x00).
+[    6.102810] [drm] register mmio base: 0xFE980000
+[    6.102906] [drm] register mmio size: 262144
+[    6.103008] [drm] PCIE atomic ops is not supported
+[    6.103115] [drm] add ip block number 0 <cik_common>
+[    6.103211] [drm] add ip block number 1 <gmc_v7_0>
+[    6.103312] [drm] add ip block number 2 <cik_ih>
+[    6.103402] [drm] add ip block number 3 <gfx_v7_0>
+[    6.103497] [drm] add ip block number 4 <cik_sdma>
+[    6.103604] [drm] add ip block number 5 <powerplay>
+[    6.103705] [drm] add ip block number 6 <dm>
+[    6.103812] [drm] add ip block number 7 <uvd_v4_2>
+[    6.103912] [drm] add ip block number 8 <vce_v2_0>
+[    6.104297] resource sanity check: requesting [mem 0x000c0000-0x000dffff=
+],
+which spans more than PCI Bus 0000:00 [mem 0x000d0000-0x000dffff window]
+[    6.104497] caller pci_map_rom+0x65/0x180 mapping multiple BARs
+[    6.106500] ATOM BIOS: 113-C6710100-O05
+[    6.108480] [drm] vm size is 128 GB, 2 levels, block size is 10-bit,
+fragment size is 9-bit
+[    6.114123] e1000e 0000:02:00.0 enp2s0: renamed from eth0
+[    6.121192] usb usb3: New USB device found, idVendor=3D1d6b, idProduct=
+=3D0001,
+bcdDevice=3D 5.04
+[    6.121329] usb usb3: New USB device strings: Mfr=3D3, Product=3D2,
+SerialNumber=3D1
+[    6.121454] usb usb3: Product: OHCI PCI host controller
+[    6.121559] usb usb3: Manufacturer: Linux 5.4.0-rc4 ohci_hcd
+[    6.121667] usb usb3: SerialNumber: 0000:00:12.0
+[    6.125828] hub 3-0:1.0: USB hub found
+[    6.126006] hub 3-0:1.0: 3 ports detected
+[    6.136409] ohci-pci 0000:00:12.1: OHCI PCI host controller
+[    6.136686] ohci-pci 0000:00:12.1: new USB bus registered, assigned bus
+number 4
+[    6.137314] ohci-pci 0000:00:12.1: irq 16, io mem 0xfe8fe000
+[    6.139369] amdgpu 0000:01:00.0: VRAM: 4096M 0x000000F400000000 -
+0x000000F4FFFFFFFF (4096M used)
+[    6.139505] amdgpu 0000:01:00.0: GART: 1024M 0x000000FF00000000 -
+0x000000FF3FFFFFFF
+[    6.139651] [drm] Detected VRAM RAM=3D4096M, BAR=3D256M
+[    6.139747] [drm] RAM width 512bits GDDR5
+[    6.143904] [TTM] Zone  kernel: Available graphics memory: 16436068 KiB
+[    6.144093] [TTM] Zone   dma32: Available graphics memory: 2097152 KiB
+[    6.144194] [TTM] Initializing pool allocator
+[    6.144667] [TTM] Initializing DMA pool allocator
+[    6.146087] [drm] amdgpu: 4096M of VRAM memory ready
+[    6.146348] [drm] amdgpu: 4096M of GTT memory ready.
+[    6.147358] [drm] GART: num cpu pages 262144, num gpu pages 262144
+[    6.148692] [drm] PCIE GART of 1024M enabled (table at 0x000000F40090000=
+0).
+[    6.181882] amdgpu: [powerplay] hwmgr_sw_init smu backed is ci_smu
+[    6.187238] [drm] Found UVD firmware Version: 1.64 Family ID: 9
+[    6.190278] [drm] Found VCE firmware Version: 50.10 Binary ID: 2
+[    6.201941] usb usb4: New USB device found, idVendor=3D1d6b, idProduct=
+=3D0001,
+bcdDevice=3D 5.04
+[    6.202059] usb usb4: New USB device strings: Mfr=3D3, Product=3D2,
+SerialNumber=3D1
+[    6.202165] usb usb4: Product: OHCI PCI host controller
+[    6.202318] usb usb4: Manufacturer: Linux 5.4.0-rc4 ohci_hcd
+[    6.202411] usb usb4: SerialNumber: 0000:00:12.1
+[    6.204076] [drm] PCIE gen 2 link speeds already enabled
+[    6.205321] hub 4-0:1.0: USB hub found
+[    6.205841] hub 4-0:1.0: 3 ports detected
+[    6.294583] ohci-pci 0000:00:13.0: OHCI PCI host controller
+[    6.294691] ohci-pci 0000:00:13.0: new USB bus registered, assigned bus
+number 5
+[    6.295006] ohci-pci 0000:00:13.0: irq 18, io mem 0xfe8f7000
+[    6.316082] [drm] dce110_link_encoder_construct: Failed to get
+encoder_cap_info from VBIOS with error code 4!
+[    6.316555] [drm] dce110_link_encoder_construct: Failed to get
+encoder_cap_info from VBIOS with error code 4!
+[    6.317065] [drm] dce110_link_encoder_construct: Failed to get
+encoder_cap_info from VBIOS with error code 4!
+[    6.317673] [drm] Display Core initialized with v3.2.48!
+[...]
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15720883720.600a3d5.8647
+Date: Sat, 26 Oct 2019 11:12:52 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [kernel 5.4-rc4][amdgpu][CIK]: [drm] dce110_link_encoder_=
+construct: Failed to get encoder_cap_info from VBIOS with error code 4!"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112138">112138</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>[kernel 5.4-rc4][amdgpu][CIK]: [drm] dce110_link_encoder_cons=
+truct: Failed to get encoder_cap_info from VBIOS with error code 4!
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>DRI git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>erhard_f&#64;mailbox.org
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145821=
+" name=3D"attach_145821" title=3D"dmesg (kernel 5.4-rc4)">attachment 145821=
+</a> <a href=3D"attachment.cgi?id=3D145821&amp;action=3Dedit" title=3D"dmes=
+g (kernel 5.4-rc4)">[details]</a></span>
+dmesg (kernel 5.4-rc4)
+
+My card (Radeon R9 290 Tri-X) tells me 3 times it fails to get get
+encoder_cap_info from VBIOS with error code 4.
+
+[...]
+[    6.084919] [drm] amdgpu kernel modesetting enabled.
+[    6.086395] CRAT table not found
+[    6.086493] Virtual CRAT table created for CPU
+[    6.086560] Parsing CRAT table with 2 nodes
+[    6.086755] Creating topology SYSFS entries
+[    6.088841] Topology: Add CPU node
+[    6.088952] Finished initializing topology
+[    6.090354] amdgpu 0000:01:00.0: remove_conflicting_pci_framebuffers: ba=
+r 0:
+0xd0000000 -&gt; 0xdfffffff
+[    6.090480] amdgpu 0000:01:00.0: remove_conflicting_pci_framebuffers: ba=
+r 2:
+0xcf800000 -&gt; 0xcfffffff
+[    6.090601] amdgpu 0000:01:00.0: remove_conflicting_pci_framebuffers: ba=
+r 5:
+0xfe980000 -&gt; 0xfe9bffff
+[    6.102438] [drm] initializing kernel modesetting (HAWAII 0x1002:0x67B0
+0x174B:0xE285 0x00).
+[    6.102810] [drm] register mmio base: 0xFE980000
+[    6.102906] [drm] register mmio size: 262144
+[    6.103008] [drm] PCIE atomic ops is not supported
+[    6.103115] [drm] add ip block number 0 &lt;cik_common&gt;
+[    6.103211] [drm] add ip block number 1 &lt;gmc_v7_0&gt;
+[    6.103312] [drm] add ip block number 2 &lt;cik_ih&gt;
+[    6.103402] [drm] add ip block number 3 &lt;gfx_v7_0&gt;
+[    6.103497] [drm] add ip block number 4 &lt;cik_sdma&gt;
+[    6.103604] [drm] add ip block number 5 &lt;powerplay&gt;
+[    6.103705] [drm] add ip block number 6 &lt;dm&gt;
+[    6.103812] [drm] add ip block number 7 &lt;uvd_v4_2&gt;
+[    6.103912] [drm] add ip block number 8 &lt;vce_v2_0&gt;
+[    6.104297] resource sanity check: requesting [mem 0x000c0000-0x000dffff=
+],
+which spans more than PCI Bus 0000:00 [mem 0x000d0000-0x000dffff window]
+[    6.104497] caller pci_map_rom+0x65/0x180 mapping multiple BARs
+[    6.106500] ATOM BIOS: 113-C6710100-O05
+[    6.108480] [drm] vm size is 128 GB, 2 levels, block size is 10-bit,
+fragment size is 9-bit
+[    6.114123] e1000e 0000:02:00.0 enp2s0: renamed from eth0
+[    6.121192] usb usb3: New USB device found, idVendor=3D1d6b, idProduct=
+=3D0001,
+bcdDevice=3D 5.04
+[    6.121329] usb usb3: New USB device strings: Mfr=3D3, Product=3D2,
+SerialNumber=3D1
+[    6.121454] usb usb3: Product: OHCI PCI host controller
+[    6.121559] usb usb3: Manufacturer: Linux 5.4.0-rc4 ohci_hcd
+[    6.121667] usb usb3: SerialNumber: 0000:00:12.0
+[    6.125828] hub 3-0:1.0: USB hub found
+[    6.126006] hub 3-0:1.0: 3 ports detected
+[    6.136409] ohci-pci 0000:00:12.1: OHCI PCI host controller
+[    6.136686] ohci-pci 0000:00:12.1: new USB bus registered, assigned bus
+number 4
+[    6.137314] ohci-pci 0000:00:12.1: irq 16, io mem 0xfe8fe000
+[    6.139369] amdgpu 0000:01:00.0: VRAM: 4096M 0x000000F400000000 -
+0x000000F4FFFFFFFF (4096M used)
+[    6.139505] amdgpu 0000:01:00.0: GART: 1024M 0x000000FF00000000 -
+0x000000FF3FFFFFFF
+[    6.139651] [drm] Detected VRAM RAM=3D4096M, BAR=3D256M
+[    6.139747] [drm] RAM width 512bits GDDR5
+[    6.143904] [TTM] Zone  kernel: Available graphics memory: 16436068 KiB
+[    6.144093] [TTM] Zone   dma32: Available graphics memory: 2097152 KiB
+[    6.144194] [TTM] Initializing pool allocator
+[    6.144667] [TTM] Initializing DMA pool allocator
+[    6.146087] [drm] amdgpu: 4096M of VRAM memory ready
+[    6.146348] [drm] amdgpu: 4096M of GTT memory ready.
+[    6.147358] [drm] GART: num cpu pages 262144, num gpu pages 262144
+[    6.148692] [drm] PCIE GART of 1024M enabled (table at 0x000000F40090000=
+0).
+[    6.181882] amdgpu: [powerplay] hwmgr_sw_init smu backed is ci_smu
+[    6.187238] [drm] Found UVD firmware Version: 1.64 Family ID: 9
+[    6.190278] [drm] Found VCE firmware Version: 50.10 Binary ID: 2
+[    6.201941] usb usb4: New USB device found, idVendor=3D1d6b, idProduct=
+=3D0001,
+bcdDevice=3D 5.04
+[    6.202059] usb usb4: New USB device strings: Mfr=3D3, Product=3D2,
+SerialNumber=3D1
+[    6.202165] usb usb4: Product: OHCI PCI host controller
+[    6.202318] usb usb4: Manufacturer: Linux 5.4.0-rc4 ohci_hcd
+[    6.202411] usb usb4: SerialNumber: 0000:00:12.1
+[    6.204076] [drm] PCIE gen 2 link speeds already enabled
+[    6.205321] hub 4-0:1.0: USB hub found
+[    6.205841] hub 4-0:1.0: 3 ports detected
+[    6.294583] ohci-pci 0000:00:13.0: OHCI PCI host controller
+[    6.294691] ohci-pci 0000:00:13.0: new USB bus registered, assigned bus
+number 5
+[    6.295006] ohci-pci 0000:00:13.0: irq 18, io mem 0xfe8f7000
+[    6.316082] [drm] dce110_link_encoder_construct: Failed to get
+encoder_cap_info from VBIOS with error code 4!
+[    6.316555] [drm] dce110_link_encoder_construct: Failed to get
+encoder_cap_info from VBIOS with error code 4!
+[    6.317065] [drm] dce110_link_encoder_construct: Failed to get
+encoder_cap_info from VBIOS with error code 4!
+[    6.317673] [drm] Display Core initialized with v3.2.48!
+[...]</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15720883720.600a3d5.8647--
+
+--===============0086285040==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0086285040==--
