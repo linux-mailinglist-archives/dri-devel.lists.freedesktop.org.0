@@ -2,46 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF70AE59E6
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2019 13:13:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8133E5AB6
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2019 15:17:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51A846EC1C;
-	Sat, 26 Oct 2019 11:13:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 631D36E077;
+	Sat, 26 Oct 2019 13:17:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id C1B746EC1C
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2019 11:13:33 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id BE494720E2; Sat, 26 Oct 2019 11:13:33 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112138] [kernel 5.4-rc4][amdgpu][CIK]: [drm]
- dce110_link_encoder_construct: Failed to get encoder_cap_info from VBIOS with
- error code 4!
-Date: Sat, 26 Oct 2019 11:13:33 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: erhard_f@mailbox.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-112138-502-0oexd12Q96@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-112138-502@http.bugs.freedesktop.org/>
-References: <bug-112138-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E13FD6E077;
+ Sat, 26 Oct 2019 13:17:19 +0000 (UTC)
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
+ [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 855AE2070B;
+ Sat, 26 Oct 2019 13:17:18 +0000 (UTC)
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.3 39/99] drm/amdgpu/powerplay: fix typo in mvdd
+ table setup
+Date: Sat, 26 Oct 2019 09:15:00 -0400
+Message-Id: <20191026131600.2507-39-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191026131600.2507-1-sashal@kernel.org>
+References: <20191026131600.2507-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1572095839;
+ bh=gulA3tNgyb2dUp3AmieLcpeoFl2ZtpI36NvZRc/TxS4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=juAJp1iajgIf9H7BQN9eg7L70fOtuTW3a34mHSqyoMMIdEXH3ATwrtXYEkXZYj+5t
+ R0NFYfT1rOKKpAG8AEu2akyR09n1pBxbBhEQuBGbhtrElWicHbYrIHXRkGOf7mZldO
+ WUJzdifJjR/SSXYvJRIPrEQAR7ocj3EvlYTnV/bA=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,94 +50,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0149263300=="
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ Robert Strube <rstrube@gmail.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0149263300==
-Content-Type: multipart/alternative; boundary="15720884131.88cDB.8905"
-Content-Transfer-Encoding: 7bit
-
-
---15720884131.88cDB.8905
-Date: Sat, 26 Oct 2019 11:13:33 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112138
-
---- Comment #1 from erhard_f@mailbox.org ---
-Created attachment 145822
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145822&action=3Dedit
-kernel .config (5.4-rc4)
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15720884131.88cDB.8905
-Date: Sat, 26 Oct 2019 11:13:33 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [kernel 5.4-rc4][amdgpu][CIK]: [drm] dce110_link_encoder_=
-construct: Failed to get encoder_cap_info from VBIOS with error code 4!"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112138#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [kernel 5.4-rc4][amdgpu][CIK]: [drm] dce110_link_encoder_=
-construct: Failed to get encoder_cap_info from VBIOS with error code 4!"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112138">bug 11213=
-8</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-erhard_f&#64;mailbox.org" title=3D"erhard_f&#64;mailbox.org">erhard_f&#64;m=
-ailbox.org</a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145822=
-" name=3D"attach_145822" title=3D"kernel .config (5.4-rc4)">attachment 1458=
-22</a> <a href=3D"attachment.cgi?id=3D145822&amp;action=3Dedit" title=3D"ke=
-rnel .config (5.4-rc4)">[details]</a></span>
-kernel .config (5.4-rc4)</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15720884131.88cDB.8905--
-
---===============0149263300==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0149263300==--
+RnJvbTogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgoKWyBVcHN0cmVh
+bSBjb21taXQgNTk4YzMwZGJjYzk0MzQ3MDZmMjlhMDg1YThlYmE0NzMwNTczYmNjMiBdCgpQb2xh
+cmlzIGFuZCB2ZWdhbSB1c2UgY291bnQgZm9yIHRoZSB2YWx1ZSByYXRoZXIgdGhhbgpsZXZlbC4g
+IFRoaXMgbG9va3MgbGlrZSBhIGNvcHkgcGFzdGUgdHlwbyBmcm9tIHdoZW4KdGhlIGNvZGUgd2Fz
+IGFkYXB0ZWQgZnJvbSBwcmV2aW91cyBhc2ljcy4KCkknbSBub3Qgc3VyZSB0aGF0IHRoZSBTTVUg
+YWN0dWFsbHkgdXNlcyB0aGlzIHZhbHVlLCBzbwpJIGRvbid0IGtub3cgdGhhdCBpdCBhY3R1YWxs
+eSBpcyBhIGJ1ZyBwZXIgc2UuCgpCdWc6IGh0dHBzOi8vYnVncy5mcmVlZGVza3RvcC5vcmcvc2hv
+d19idWcuY2dpP2lkPTEwODYwOQpSZXBvcnRlZC1ieTogUm9iZXJ0IFN0cnViZSA8cnN0cnViZUBn
+bWFpbC5jb20+ClJldmlld2VkLWJ5OiBFdmFuIFF1YW4gPGV2YW4ucXVhbkBhbWQuY29tPgpTaWdu
+ZWQtb2ZmLWJ5OiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+ClNpZ25l
+ZC1vZmYtYnk6IFNhc2hhIExldmluIDxzYXNoYWxAa2VybmVsLm9yZz4KLS0tCiBkcml2ZXJzL2dw
+dS9kcm0vYW1kL3Bvd2VycGxheS9zbXVtZ3IvcG9sYXJpczEwX3NtdW1nci5jIHwgMiArLQogZHJp
+dmVycy9ncHUvZHJtL2FtZC9wb3dlcnBsYXkvc211bWdyL3ZlZ2FtX3NtdW1nci5jICAgICB8IDIg
+Ky0KIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L3NtdW1nci9wb2xhcmlzMTBf
+c211bWdyLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL3Bvd2VycGxheS9zbXVtZ3IvcG9sYXJpczEw
+X3NtdW1nci5jCmluZGV4IGRjNzU0NDQ3ZjBkZGMuLjIzYzEyMDE4ZGJjMTggMTAwNjQ0Ci0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L3NtdW1nci9wb2xhcmlzMTBfc211bWdyLmMK
+KysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9wb3dlcnBsYXkvc211bWdyL3BvbGFyaXMxMF9zbXVt
+Z3IuYwpAQCAtNjU1LDcgKzY1NSw3IEBAIHN0YXRpYyBpbnQgcG9sYXJpczEwX3BvcHVsYXRlX3Nt
+Y19tdmRkX3RhYmxlKHN0cnVjdCBwcF9od21nciAqaHdtZ3IsCiAJCQljb3VudCA9IFNNVV9NQVhf
+U01JT19MRVZFTFM7CiAJCWZvciAobGV2ZWwgPSAwOyBsZXZlbCA8IGNvdW50OyBsZXZlbCsrKSB7
+CiAJCQl0YWJsZS0+U21pb1RhYmxlMi5QYXR0ZXJuW2xldmVsXS5Wb2x0YWdlID0KLQkJCQlQUF9I
+T1NUX1RPX1NNQ19VUyhkYXRhLT5tdmRkX3ZvbHRhZ2VfdGFibGUuZW50cmllc1tjb3VudF0udmFs
+dWUgKiBWT0xUQUdFX1NDQUxFKTsKKwkJCQlQUF9IT1NUX1RPX1NNQ19VUyhkYXRhLT5tdmRkX3Zv
+bHRhZ2VfdGFibGUuZW50cmllc1tsZXZlbF0udmFsdWUgKiBWT0xUQUdFX1NDQUxFKTsKIAkJCS8q
+IEluZGV4IGludG8gRHBtVGFibGUuU21pby4gRHJpdmUgYml0cyBmcm9tIFNtaW8gZW50cnkgdG8g
+Z2V0IHRoaXMgdm9sdGFnZSBsZXZlbC4qLwogCQkJdGFibGUtPlNtaW9UYWJsZTIuUGF0dGVyblts
+ZXZlbF0uU21pbyA9CiAJCQkJKHVpbnQ4X3QpIGxldmVsOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
+cHUvZHJtL2FtZC9wb3dlcnBsYXkvc211bWdyL3ZlZ2FtX3NtdW1nci5jIGIvZHJpdmVycy9ncHUv
+ZHJtL2FtZC9wb3dlcnBsYXkvc211bWdyL3ZlZ2FtX3NtdW1nci5jCmluZGV4IDdjOTYwYjA3NzQ2
+ZmQuLmFlMThmYmNiMjZmYjEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJw
+bGF5L3NtdW1nci92ZWdhbV9zbXVtZ3IuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL3Bvd2Vy
+cGxheS9zbXVtZ3IvdmVnYW1fc211bWdyLmMKQEAgLTQ1Niw3ICs0NTYsNyBAQCBzdGF0aWMgaW50
+IHZlZ2FtX3BvcHVsYXRlX3NtY19tdmRkX3RhYmxlKHN0cnVjdCBwcF9od21nciAqaHdtZ3IsCiAJ
+CQljb3VudCA9IFNNVV9NQVhfU01JT19MRVZFTFM7CiAJCWZvciAobGV2ZWwgPSAwOyBsZXZlbCA8
+IGNvdW50OyBsZXZlbCsrKSB7CiAJCQl0YWJsZS0+U21pb1RhYmxlMi5QYXR0ZXJuW2xldmVsXS5W
+b2x0YWdlID0gUFBfSE9TVF9UT19TTUNfVVMoCi0JCQkJCWRhdGEtPm12ZGRfdm9sdGFnZV90YWJs
+ZS5lbnRyaWVzW2NvdW50XS52YWx1ZSAqIFZPTFRBR0VfU0NBTEUpOworCQkJCQlkYXRhLT5tdmRk
+X3ZvbHRhZ2VfdGFibGUuZW50cmllc1tsZXZlbF0udmFsdWUgKiBWT0xUQUdFX1NDQUxFKTsKIAkJ
+CS8qIEluZGV4IGludG8gRHBtVGFibGUuU21pby4gRHJpdmUgYml0cyBmcm9tIFNtaW8gZW50cnkg
+dG8gZ2V0IHRoaXMgdm9sdGFnZSBsZXZlbC4qLwogCQkJdGFibGUtPlNtaW9UYWJsZTIuUGF0dGVy
+bltsZXZlbF0uU21pbyA9CiAJCQkJKHVpbnQ4X3QpIGxldmVsOwotLSAKMi4yMC4xCgpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
