@@ -2,57 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ECCBE5E29
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2019 19:19:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7216E6052
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Oct 2019 03:44:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C3AC6E0C8;
-	Sat, 26 Oct 2019 17:19:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA8336E183;
+	Sun, 27 Oct 2019 02:44:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA2496E0B9
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2019 17:19:07 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id p13so3126012pll.4
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Oct 2019 10:19:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XJ2OTe+YJhZKDPOKv2vH6Q6K0N8s/caGH/kB608TKt8=;
- b=A40gkNbh0UvghgZMJyf6yfT2QGYYNdNPdpqZ2ipNJGqzgvcUNfDVwl6WOG0Ii7VHRr
- EhgYYSmdK/771b7iwHMchr0SQzrtqdJCV7gwKqDZhVLqbz35ZbNrSKmJK8qjt1WVQuPI
- Yt2x/aCfScKuhyVpCNRFT5HND+VQU0Pn6NLemAVuo7pIxSKzJPYno/W1DqYh3DdDsz4j
- GLiN8ARXOf5L0zywmH071b8QPPeG3xcifRxmB8SIivsrG2p12Y8LYXDv/Dc2r2Fxv9Oq
- ySbbyVI+XWZzQZHzEBRUtuhP6+T6MDi9HwoXSpZhBCitAw1lfKvOKpJBJtpEIez30eCy
- sFcA==
-X-Gm-Message-State: APjAAAUe7VOVDNxd9RDDt3MUtBewLDvmdBMwJ4bVZs3JK2D0yKvNLmU/
- 1gD9O7+8tx+HmnY/9n+8pwIeiRdzmyp1WPwy08291Q==
-X-Google-Smtp-Source: APXvYqxVqfwJ/ddt02LfEd8cvon5v+MggvIiTlWYGWcVUPPJDQOWOIQhls1waYXlhWsELgoeWEiG1pcJ8N4muKqlxnU=
-X-Received: by 2002:a17:902:864a:: with SMTP id
- y10mr10096482plt.162.1572110347046; 
- Sat, 26 Oct 2019 10:19:07 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C36AC6E192
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Oct 2019 02:44:12 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id BDE2C720E2; Sun, 27 Oct 2019 02:44:12 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Sun, 27 Oct 2019 02:44:11 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: ragnaros39216@yandex.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: highest
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111481-502-K3OZX8vVAw@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20191023001206.15741-1-rajatja@google.com>
- <20191024112040.GE2825247@ulmo>
- <CAA93t1ozojwgVoLCZ=AWx72yddQoiaZCMFG35gQg3mQL9n9Z2w@mail.gmail.com>
- <20191025113609.GB928835@ulmo>
- <CAPj87rNe20nFcFNcijFwOZLQU_E+C2HyzEjtigJ-ehiLCq42iA@mail.gmail.com>
-In-Reply-To: <CAPj87rNe20nFcFNcijFwOZLQU_E+C2HyzEjtigJ-ehiLCq42iA@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Sat, 26 Oct 2019 19:18:54 +0200
-Message-ID: <CAKMK7uGjd1CJ+XDWPQShV_fADC5ndxdf_ecO61K4VDi6EZyMEQ@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH] drm: Add support for integrated privacy
- screens
-To: Daniel Stone <daniel@fooishbar.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=XJ2OTe+YJhZKDPOKv2vH6Q6K0N8s/caGH/kB608TKt8=;
- b=eyLk4QNAvuzO/V4qc5beDIpydWz0nT1Z7PbayMVwyIxnU48/j0WH6rDiGC60Rm/K98
- aCDKNmnmTd9UDDrUpdqZ2cdo1AvA/F07bWJgiN9HOD9eALRWv85Zi/NQCdabmHFxOnT7
- AKzgjCtSK9D8lWUKV3je5GJoddOmxB4dhlIdY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,61 +53,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Duncan Laurie <dlaurie@google.com>, Rajat Jain <rajatxjain@gmail.com>,
- Sean Paul <seanpaul@google.com>, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@linux.ie>, Greg KH <gregkh@linuxfoundation.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Mat King <mathewk@google.com>,
- Thierry Reding <thierry.reding@gmail.com>, Pavel Machek <pavel@denx.de>,
- Rajat Jain <rajatja@google.com>, Jesse Barnes <jsbarnes@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1702494044=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU2F0LCBPY3QgMjYsIDIwMTkgYXQgMTowNyBQTSBEYW5pZWwgU3RvbmUgPGRhbmllbEBmb29p
-c2hiYXIub3JnPiB3cm90ZToKPgo+IEhpIFRoaWVycnksCj4KPiBPbiBGcmksIDI1IE9jdCAyMDE5
-IGF0IDEyOjM2LCBUaGllcnJ5IFJlZGluZyA8dGhpZXJyeS5yZWRpbmdAZ21haWwuY29tPiB3cm90
-ZToKPiA+IE9uIFRodSwgT2N0IDI0LCAyMDE5IGF0IDAxOjQ1OjE2UE0gLTA3MDAsIFJhamF0IEph
-aW4gd3JvdGU6Cj4gPiA+IEkgZGlkIHRoaW5rIGFib3V0IGhhdmluZyBhIHN0YXRlIHZhcmlhYmxl
-IGluIHNvZnR3YXJlIHRvIGdldCBhbmQgc2V0Cj4gPiA+IHRoaXMuIEhvd2V2ZXIsIEkgdGhpbmsg
-aXQgaXMgbm90IHZlcnkgZmFyIGZldGNoZWQgdGhhdCBzb21lIHBsYXRmb3Jtcwo+ID4gPiBtYXkg
-aGF2ZSAiaGFyZHdhcmUga2lsbCIgc3dpdGNoZXMgdGhhdCBhbGxvdyBoYXJkd2FyZSB0byBzd2l0
-Y2gKPiA+ID4gcHJpdmFjeS1zY3JlZW4gb24gYW5kIG9mZiBkaXJlY3RseSwgaW4gYWRkaXRpb24g
-dG8gdGhlIHNvZnR3YXJlCj4gPiA+IGNvbnRyb2wgdGhhdCB3ZSBhcmUgaW1wbGVtZW50aW5nLiBQ
-cml2YWN5IGlzIGEgdG91Y2h5IHN1YmplY3QgaW4KPiA+ID4gZW50ZXJwcmlzZSwgYW5kIGFueXRo
-aW5nIHRoYXQgcmVkdWNlcyB0aGUgcG9zc2liaWxpdHkgb2YgaGF2aW5nIGFueQo+ID4gPiBpbmNv
-bnNpc3RlbmN5IGJldHdlZW4gc29mdHdhcmUgc3RhdGUgYW5kIGhhcmR3YXJlIHN0YXRlIGlzIGRl
-c2lyYWJsZS4KPiA+ID4gU28gaW4gdGhpcyBjYXNlLCBJIGNob3NlIHRvIG5vdCBoYXZlIGEgc3Rh
-dGUgaW4gc29mdHdhcmUgYWJvdXQgdGhpcyAtCj4gPiA+IHdlIGp1c3QgcmVwb3J0IHRoZSBoYXJk
-d2FyZSBzdGF0ZSBldmVyeXRpbWUgd2UgYXJlIGFza2VkIGZvciBpdC4KPiA+Cj4gPiBTbyB0aGlz
-IGRvZXNuJ3QgcmVhbGx5IHdvcmsgd2l0aCBhdG9taWMgS01TLCB0aGVuLiBUaGUgbWFpbiBpZGVh
-IGJlaGluZAo+ID4gYXRvbWljIEtNUyBpcyB0aGF0IHlvdSBhcHBseSBhIGNvbmZpZ3VyYXRpb24g
-ZWl0aGVyIGNvbXBsZXRlbHkgb3Igbm90IGF0Cj4gPiBhbGwuIFNvIGF0IGxlYXN0IGZvciBzZXR0
-aW5nIHRoaXMgcHJvcGVydHkgeW91J2QgaGF2ZSB0byBnbyB0aHJvdWdoIHRoZQo+ID4gc3RhdGUg
-b2JqZWN0Lgo+ID4KPiA+IE5vdywgZm9yIHJlYWRpbmcgb3V0IHRoZSBwcm9wZXJ0eSB5b3UgbWln
-aHQgYmUgYWJsZSB0byBnZXQgYXdheSB3aXRoIHRoZQo+ID4gYWJvdmUuIEknbSBub3Qgc3VyZSBp
-ZiB0aGF0J3MgZW5vdWdoIHRvIGtlZXAgdGhlIHN0YXRlIHVwLXRvLWRhdGUsCj4gPiB0aG91Z2gu
-IElzIHRoZXJlIHNvbWUgd2F5IGZvciBhIGtpbGwgc3dpdGNoIHRvIHRyaWdnZXIgYW4gaW50ZXJy
-dXB0IG9yCj4gPiBvdGhlciBldmVudCBvZiBzb21lIHNvcnQgc28gdGhhdCB0aGUgc3RhdGUgY291
-bGQgYmUga2VwdCB1cC10by1kYXRlPwo+ID4KPiA+IERhbmllbCAob3IgYW55b25lIGVsc2UpLCBk
-byB5b3Uga25vdyBvZiBhbnkgcHJlY2VkZW50IGZvciBzdGF0ZSB0aGF0Cj4gPiBtaWdodCBnZXQg
-bW9kaWZpZWQgYmVoaW5kIHRoZSBhdG9taWMgaGVscGVycycgYmFjaz8gU2VlbXMgdG8gbWUgbGlr
-ZSB3ZQo+ID4gbmVlZCB0byBmaW5kIHNvbWUgcG9pbnQgd2hlcmUgd2UgY2FuIGFjdHVhbGx5IHJl
-YWQgYmFjayB0aGUgY3VycmVudAo+ID4gImhhcmR3YXJlIHZhbHVlIiBvZiB0aGlzIHByaXZhY3kg
-c2NyZWVuIHByb3BlcnR5IGFuZCBzdG9yZSB0aGF0IGJhY2sKPiA+IGludG8gdGhlIHN0YXRlLgo+
-Cj4gV2VsbCwgYXBhcnQgZnJvbSBjb25uZWN0b3Igc3RhdGUsIHRob3VnaCB0aGF0IGlzbid0IHJl
-YWxseSBhIHByb3BlcnR5Cj4gYXMgc3VjaCwgdGhlcmUncyB0aGUgbGlua19zdGF0ZSBwcm9wZXJ0
-eSwgd2hpY2ggaXMgZXhwbGljaXRseSBkZXNpZ25lZAo+IHRvIGRvIGp1c3QgdGhhdC4gVGhhdCBo
-YXMgYmVlbiBxdWl0ZSBjYXJlZnVsbHkgZGVzaWduZWQgZm9yIHRoZQo+IGJhY2stYW5kLWZvcnRo
-IHRob3VnaC4KCmNvbm5lY3RvciBzdGF0ZSBpcyBhbiBpbW11dGFibGUgcHJvcGVydHksIHdoaWNo
-IGlzIGEgaGlsYXJpb3VzIHdheSB0bwpzYXkgdGhhdCAib25seSB0aGUgZHJpdmVyIGNhbiB1cGRh
-dGUgaXQsIHVzZXJzcGFjZSBvbmx5IHJlYWRzIGl0Ii4gU28Kbm90IGEgZ29vZCB0ZW1wbGF0ZSBo
-ZXJlLiBCdXQgeWVhaCBsaW5rX3N0YXRlIGlzIGEgZ29vZCBleGFtcGxlIG9mCndoYXQgd2UgbmVl
-ZCBoZXJlLgotRGFuaWVsCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRl
-bCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1NyA0OCAtIGh0dHA6Ly9ibG9nLmZmd2xsLmNo
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1702494044==
+Content-Type: multipart/alternative; boundary="157214425211.4591dD.31140"
+Content-Transfer-Encoding: 7bit
+
+
+--157214425211.4591dD.31140
+Date: Sun, 27 Oct 2019 02:44:12 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+
+--- Comment #177 from L.S.S. <ragnaros39216@yandex.com> ---
+I'm still getting freezes when using Nemo with the same sdma0 timeout, on
+latest Manjaro 5.4 rc4 kernel built from latest PKGBUILD (which included the
+sdma0 fix commits) and after applying the sdma_read_delay patch.
+
+Additionally, I discovered that changing system icon themes on Cinnamon can
+also trigger the freeze. Error codes are the same (ring sdma0 timeout).
+
+Additionally, before this, last night I was able to generate a sdma1 error =
+when
+browsing with Chromium. This time it states chromium instead of Xorg as pro=
+cess
+caused the ring timeout:
+
+kernel: [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting for fen=
+ces
+timed out!
+kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma1 timeout, sign=
+aled
+seq=3D2140606, emitted seq=3D2140608
+kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process information: pro=
+cess
+chromium pid 39450 thread chromium:cs0 pid 39509
+
+It seems in all occurrences, the differences between emitted and signaled
+values are always 2.
+
+Is there any process regarding this issue? Or is there any more information
+needed (and how to enable verbose logs in the system regarding amdgpu and
+related parts)?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--157214425211.4591dD.31140
+Date: Sun, 27 Oct 2019 02:44:12 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c177">Comm=
+ent # 177</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+ragnaros39216&#64;yandex.com" title=3D"L.S.S. &lt;ragnaros39216&#64;yandex.=
+com&gt;"> <span class=3D"fn">L.S.S.</span></a>
+</span></b>
+        <pre>I'm still getting freezes when using Nemo with the same sdma0 =
+timeout, on
+latest Manjaro 5.4 rc4 kernel built from latest PKGBUILD (which included the
+sdma0 fix commits) and after applying the sdma_read_delay patch.
+
+Additionally, I discovered that changing system icon themes on Cinnamon can
+also trigger the freeze. Error codes are the same (ring sdma0 timeout).
+
+Additionally, before this, last night I was able to generate a sdma1 error =
+when
+browsing with Chromium. This time it states chromium instead of Xorg as pro=
+cess
+caused the ring timeout:
+
+kernel: [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting for fen=
+ces
+timed out!
+kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma1 timeout, sign=
+aled
+seq=3D2140606, emitted seq=3D2140608
+kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process information: pro=
+cess
+chromium pid 39450 thread chromium:cs0 pid 39509
+
+It seems in all occurrences, the differences between emitted and signaled
+values are always 2.
+
+Is there any process regarding this issue? Or is there any more information
+needed (and how to enable verbose logs in the system regarding amdgpu and
+related parts)?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--157214425211.4591dD.31140--
+
+--===============1702494044==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1702494044==--
