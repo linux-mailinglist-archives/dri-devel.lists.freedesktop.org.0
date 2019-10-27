@@ -1,46 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AF9DE6431
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Oct 2019 17:24:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DCF2E64EE
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Oct 2019 19:44:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15A6E6E081;
-	Sun, 27 Oct 2019 16:24:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B01E6E054;
+	Sun, 27 Oct 2019 18:44:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id C4E9F6E081
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Oct 2019 16:24:23 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id A97E8720E2; Sun, 27 Oct 2019 16:24:23 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5389A6E054
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Oct 2019 18:44:37 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 105664] AMD HAINAN (Radeon R5 M330) Clock frequency is 750MHz
- while it is supposed to be 1030MHz
-Date: Sun, 27 Oct 2019 16:24:23 +0000
-X-Bugzilla-Reason: AssignedTo
+Subject: [Bug 201957] amdgpu: ring gfx timeout
+Date: Sun, 27 Oct 2019 18:44:36 +0000
+X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/Radeon
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: y.oudjana@protonmail.com
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: shallowaloe@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-105664-502-fk55rjvxXs@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-105664-502@http.bugs.freedesktop.org/>
-References: <bug-105664-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-201957-2300-BiFMBnv667@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
+References: <bug-201957-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
+ message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,95 +51,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1232103366=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1232103366==
-Content-Type: multipart/alternative; boundary="15721934630.f738f4cfB.26783"
-Content-Transfer-Encoding: 7bit
-
-
---15721934630.f738f4cfB.26783
-Date: Sun, 27 Oct 2019 16:24:23 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D105664
-
---- Comment #5 from Yassine Oudjana <y.oudjana@protonmail.com> ---
-Why is the core clock for this GPU (HAINAN) and what seems to have codename
-OLAND hard-coded anyway? The other GPUs do not have their clocks hard-coded,
-which allows them to be modified without modifying and rebuilding the modul=
-e.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15721934630.f738f4cfB.26783
-Date: Sun, 27 Oct 2019 16:24:23 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD HAINAN (Radeon R5 M330) Clock frequency is 750MHz whi=
-le it is supposed to be 1030MHz"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105664#c5">Commen=
-t # 5</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD HAINAN (Radeon R5 M330) Clock frequency is 750MHz whi=
-le it is supposed to be 1030MHz"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105664">bug 10566=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-y.oudjana&#64;protonmail.com" title=3D"Yassine Oudjana &lt;y.oudjana&#64;pr=
-otonmail.com&gt;"> <span class=3D"fn">Yassine Oudjana</span></a>
-</span></b>
-        <pre>Why is the core clock for this GPU (HAINAN) and what seems to =
-have codename
-OLAND hard-coded anyway? The other GPUs do not have their clocks hard-coded,
-which allows them to be modified without modifying and rebuilding the modul=
-e.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15721934630.f738f4cfB.26783--
-
---===============1232103366==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1232103366==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDE5NTcKCi0tLSBD
+b21tZW50ICMxNiBmcm9tIHNoYWxsb3dhbG9lQGdtYWlsLmNvbSAtLS0KQ3JlYXRlZCBhdHRhY2ht
+ZW50IDI4NTY2NQogIC0tPiBodHRwczovL2J1Z3ppbGxhLmtlcm5lbC5vcmcvYXR0YWNobWVudC5j
+Z2k/aWQ9Mjg1NjY1JmFjdGlvbj1lZGl0CjUgc2Vjb25kIHZpZGVvIGNsaXAgdGhhdCB0cmlnZ2Vy
+cyBhIGNyYXNoCgpIaSwKCkkgdGhpbmsgSSdtIGhhdmluZyB0aGUgc2FtZSBwcm9ibGVtIGFzIHlv
+dSBndXlzLiAgSSBydW4gYSBteXRoYmFja2VuZCB3aGVyZSBJCnJlY29yZCBjYWJsZSB0ZWxldmlz
+aW9uIGFuZCB0aG9zZSByZWNvcmRpbmdzIG9mdGVuIGNyYXNoIG15IHN5c3RlbSB3aGVuCmhhcmR3
+YXJlIGRlY29kaW5nIGlzIGVuYWJsZWQuICBVc3VhbGx5IGl0J3MganVzdCB0aGUgc2NyZWVuIHRo
+YXQgZnJlZXplcyBhbmQgSQpjYW4gc3RpbGwgc3NoIHRvIGl0LiAgCgpLZXJuZWwgNS4xLjYgd2Fz
+IGFuIGV4Y2VwdGlvbiBmb3IgbWUgdG9vLCB3aXRoIHRoYXQga2VybmVsIEknbSBhYmxlIHRvIHJl
+c3RhcnQKdGhlIGRpc3BsYXkgbWFuYWdlciBhbmQgcmVjb3ZlciB3aXRob3V0IGhhdmluZyB0byBy
+ZWJvb3QuCgpBdHRhY2hlZCBpcyBhIHNob3J0IHZpZGVvIHRoYXQgY3Jhc2hlcyBteSBzeXN0ZW0u
+ICBJIGNhbiB0cmlnZ2VyIHRoZSBhbGVydCBieQpydW5uaW5nOgoKbXB2IC0tdm89dmFhcGkgb3V0
+LnRzCgpJJ20gd29uZGVyaW5nIGlmIGl0IGNyYXNoZXMgeW91ciBzeXN0ZW1zIHRvbyBhbmQgaWYg
+aXQncyByZWxhdGVkLgoKLS0gCllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZ
+b3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
