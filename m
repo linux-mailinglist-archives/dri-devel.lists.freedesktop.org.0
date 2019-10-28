@@ -2,55 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91954E7137
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2019 13:19:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36C8DE714D
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2019 13:25:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F4266E7E6;
-	Mon, 28 Oct 2019 12:19:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 725F56E029;
+	Mon, 28 Oct 2019 12:25:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x144.google.com (mail-il1-x144.google.com
- [IPv6:2607:f8b0:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEB636E7E6
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2019 12:19:53 +0000 (UTC)
-Received: by mail-il1-x144.google.com with SMTP id v2so7979999ilq.4
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2019 05:19:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=dc1c8u3hukir3oPx/zrCumMpjl7/p9MlfwHDO0Mnpv8=;
- b=WMK/7ASMNKi/L9DoBFp7WVTaqv1wDlgFDbsOKT3IH6svBTXGUqPe1zrhhOMeIXZanF
- DZM4+BW0ndD6pQ7gS4OwjFWMqjDcYycJUU1e+5bv9Mn2TGKw5SmBQBMXMbBPwvjoVveX
- 7QqJG5M69evOw3tzG7FtDeOwtgbPP1ZADLqT38X5lv7hLbgPQeUmVLBngbJWb89R1elf
- fYweDPrQ0h7yHK6pLoUpWkrsaMQAKwM+gy502VOVSheSXHHUbtXkpU9YM11VKJjjKQbj
- aRRL/8ewMBgnKInLDNI/HP2yPSMqOx2udKqNB39z6HI9/9n4MECZtWMC9xZwZUnGnB3A
- hJPw==
-X-Gm-Message-State: APjAAAXL61NvcpIgsZzDSGLKM6VJeNfrkSGyfMnGcry6+02+70sp5BcN
- BpU1H7SWQBIfTjU/X5THZJtexBy47EJyhT+UpXY=
-X-Google-Smtp-Source: APXvYqwLLI6KwbQV8tqE2fiuP3DXQup3mYDMcHXvVN0FaWTQwKqpIaCTQP2JKG7nppz5bisbSpgqeqf225/CJoaOOYU=
-X-Received: by 2002:a92:ce44:: with SMTP id a4mr6427947ilr.298.1572265192683; 
- Mon, 28 Oct 2019 05:19:52 -0700 (PDT)
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DFF06E029
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2019 12:25:06 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 8B84AB2E3;
+ Mon, 28 Oct 2019 12:25:03 +0000 (UTC)
+Subject: Re: [PATCH 0/3] drm/vboxvideo: Use generic fbdev and framebuffer
+To: Hans de Goede <hdegoede@redhat.com>, airlied@linux.ie, daniel@ffwll.ch
+References: <20191011134808.3955-1-tzimmermann@suse.de>
+ <0e0995ff-f165-e349-b3ad-f031a9b52d77@redhat.com>
+ <7180768c-077a-cbf5-ad16-7d53797b5d14@suse.de>
+ <c3e5bf4a-615b-fed1-6f11-cf5fcc3431d2@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <45ee7ec3-074c-cc57-8783-6641492f2b66@suse.de>
+Date: Mon, 28 Oct 2019 13:24:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <20191023154512.9762-1-boris.brezillon@collabora.com>
- <20191023154512.9762-3-boris.brezillon@collabora.com>
-In-Reply-To: <20191023154512.9762-3-boris.brezillon@collabora.com>
-From: Inki Dae <daeinki@gmail.com>
-Date: Mon, 28 Oct 2019 21:19:17 +0900
-Message-ID: <CAAQKjZMh3=5=8JzkHYTeEGrOKNfN=eULTuXx1ZTDbsL7u3HQEw@mail.gmail.com>
-Subject: Re: [PATCH v3 02/21] drm/exynos: Don't reset bridge->next
-To: Boris Brezillon <boris.brezillon@collabora.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=dc1c8u3hukir3oPx/zrCumMpjl7/p9MlfwHDO0Mnpv8=;
- b=EpyUtk0gTOfzOAJFTnHDTpoXdwbIYeh8t7J62/VY2aVevHBQGNuN3c1NSQwtKfz5Cx
- h2zjt5452uhH7qB+ErFvj/LqgzPC9xZC5NsDG5uMgRDWZKWauiAHMWf0gQEjaI4qbk5+
- IKTfo6IZwNUmAsjwgl4/aXXuZeRvedEI95j+MRsU/xVMn3ngANBkRU2fOo9gD4OzXZQ4
- C78jtHqrVhoCI1EioFIAqtkUfeoDDpoNvtkEWm1eE3CPeWxRLWCZ8aEvy/Z+7pAE5/kc
- sggnFuQYBMRUU8UPNgXUMKjww2McSKjxAp1Cka0ZeJtZqcgOM+iRiG2WM8qi8znZYesB
- K4Mg==
+In-Reply-To: <c3e5bf4a-615b-fed1-6f11-cf5fcc3431d2@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,50 +66,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
- devicetree@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Rob Herring <robh+dt@kernel.org>, Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
- Sam Ravnborg <sam@ravnborg.org>, Chris Healy <cphealy@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0076527354=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MjAxOeuFhCAxMOyblCAyNOydvCAo66qpKSDsmKTsoIQgMTI6NDUsIEJvcmlzIEJyZXppbGxvbgo8
-Ym9yaXMuYnJlemlsbG9uQGNvbGxhYm9yYS5jb20+64uY7J20IOyekeyEsToKPgo+IGJyaWRnZS0+
-bmV4dCBpcyBvbmx5IHBvaW50cyB0byB0aGUgbmV3IGJyaWRnZSBpZiBkcm1fYnJpZGdlX2F0dGFj
-aCgpCj4gc3VjY2VlZHMuIE5vIG5lZWQgdG8gcmVzZXQgaXQgbWFudWFsbHkgaGVyZS4KPgo+IE5v
-dGUgdGhhdCB0aGlzIGNoYW5nZSBpcyBwYXJ0IG9mIHRoZSBhdHRlbXB0IHRvIG1ha2UgdGhlIGJy
-aWRnZSBjaGFpbgo+IGEgZG91YmxlLWxpbmtlZCBsaXN0LiBJbiBvcmRlciB0byBkbyB0aGF0IHdl
-IG11c3QgcGF0Y2ggYWxsIGRyaXZlcnMKPiBtYW5pcHVsYXRpbmcgdGhlIGJyaWRnZS0+bmV4dCBm
-aWVsZC4KPgo+IFNpZ25lZC1vZmYtYnk6IEJvcmlzIEJyZXppbGxvbiA8Ym9yaXMuYnJlemlsbG9u
-QGNvbGxhYm9yYS5jb20+Cj4gUmV2aWV3ZWQtYnk6IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQu
-cGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4KPiAtLS0KPiBDaGFuZ2VzIGluIHYyOgo+ICogQWRk
-IExhdXJlbnQncyBSLWIgKEknZCBsaWtlIHRvIGhhdmUgYSBSLWIgZnJvbSB0aGUgRFJNIGV4eW5v
-cwo+ICAgbWFpbnRhaW5lcnMgYmVmb3JlIGFwcGx5aW5nIHRoYXQgb25lKQoKQWNrZWQtYnk6IElu
-a2kgRGFlIDxpbmtpLmRhZUBzYW1zdW5nLmNvbT4KClRoYW5rcywKSW5raSBEYWUKCj4gLS0tCj4g
-IGRyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RwLmMgfCAxIC0KPiAgMSBmaWxlIGNoYW5n
-ZWQsIDEgZGVsZXRpb24oLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZXh5bm9z
-L2V4eW5vc19kcC5jIGIvZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHAuYwo+IGluZGV4
-IDFlNmFhMjRiZjQ1ZS4uNDc4NTg4NWMwZjRmIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9leHlub3MvZXh5bm9zX2RwLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5v
-c19kcC5jCj4gQEAgLTExMCw3ICsxMTAsNiBAQCBzdGF0aWMgaW50IGV4eW5vc19kcF9icmlkZ2Vf
-YXR0YWNoKHN0cnVjdCBhbmFsb2dpeF9kcF9wbGF0X2RhdGEgKnBsYXRfZGF0YSwKPiAgICAgICAg
-ICAgICAgICAgaWYgKHJldCkgewo+ICAgICAgICAgICAgICAgICAgICAgICAgIERSTV9ERVZfRVJS
-T1IoZHAtPmRldiwKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJGYWls
-ZWQgdG8gYXR0YWNoIGJyaWRnZSB0byBkcm1cbiIpOwo+IC0gICAgICAgICAgICAgICAgICAgICAg
-IGJyaWRnZS0+bmV4dCA9IE5VTEw7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIHJl
-dDsKPiAgICAgICAgICAgICAgICAgfQo+ICAgICAgICAgfQo+IC0tCj4gMi4yMS4wCj4KPiBfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0076527354==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="OiXr7q0mlojuTL6zJpGFgXGY821ASuOgg"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--OiXr7q0mlojuTL6zJpGFgXGY821ASuOgg
+Content-Type: multipart/mixed; boundary="GlXGqp1LJO9ytkcoZ356vGNMaDHU4wud2";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Hans de Goede <hdegoede@redhat.com>, airlied@linux.ie, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <45ee7ec3-074c-cc57-8783-6641492f2b66@suse.de>
+Subject: Re: [PATCH 0/3] drm/vboxvideo: Use generic fbdev and framebuffer
+References: <20191011134808.3955-1-tzimmermann@suse.de>
+ <0e0995ff-f165-e349-b3ad-f031a9b52d77@redhat.com>
+ <7180768c-077a-cbf5-ad16-7d53797b5d14@suse.de>
+ <c3e5bf4a-615b-fed1-6f11-cf5fcc3431d2@redhat.com>
+In-Reply-To: <c3e5bf4a-615b-fed1-6f11-cf5fcc3431d2@redhat.com>
+
+--GlXGqp1LJO9ytkcoZ356vGNMaDHU4wud2
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 28.10.19 um 13:06 schrieb Hans de Goede:
+> Hi,
+>=20
+> On 28-10-2019 12:34, Thomas Zimmermann wrote:
+>> Hi
+>>
+>> Am 28.10.19 um 12:26 schrieb Hans de Goede:
+>>> Hi Thomas,
+>>>
+>>> On 11-10-2019 15:48, Thomas Zimmermann wrote:
+>>>> The vboxvideo driver provides its own implementation for fbdev
+>>>> emulation
+>>>> and framebuffers. Both can be replaced by DRM's generic code.
+>>>>
+>>>> All patches have been tested on VirtualBox 6.0.12.
+>>>>
+>>>> Thomas Zimmermann (3):
+>>>> =C2=A0=C2=A0=C2=A0 drm/vboxvideo: Switch to generic fbdev emulation
+>>>> =C2=A0=C2=A0=C2=A0 drm/vboxvideo: Switch to drm_atomic_helper_dirty_=
+fb()
+>>>> =C2=A0=C2=A0=C2=A0 drm/vboxvideo: Replace struct vram_framebuffer wi=
+th generic
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 implemenation
+>>>
+>>> Thank you for these nice cleanups, unfortunately there is a small
+>>> bug in the last patch, you are setting:
+>>>
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.fb_create =3D drm_gem_fb_create,
+>>>
+>>> But since in the previous patch you switched to
+>>> drm_atomic_helper_dirty_fb
+>>> that should be:
+>>>
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.fb_create =3D drm_gem_fb_create_with_d=
+irty,
+>>>
+>>> The missing with_dirty is causing screenupdates under both plymouth a=
+nd
+>>> gnome-shell (with llvmpipe) to gone missing. I'll send a patch fixing=
+
+>>> this.
+>>
+>> You're right. I did test the patchset, but I can't tell why I didn't s=
+ee
+>> this bug.
+>=20
+> I know you tested the patch-set, since you said so above :)=C2=A0 You p=
+robably
+> are aware of this already, but did you check what vga-card the vm is us=
+ing?
+> New vbox VMs default to their new vmware-svga card emulation, in which =
+case
+> vboxvideo is not used at all, vboxvideo is only used with the older Vbo=
+xVGA
+> and VboxSVGA (*) virtual vga-cards.
+
+That sounds plausible at least. I'll double-check next time.
+
+Best regards
+Thomas
+
+>=20
+>> Anyway, thanks a lot for providing the fix.
+>=20
+> You are welcome.
+>=20
+> Regards,
+>=20
+> Hans
+>=20
+>=20
+>=20
+> *) Of course once I finally get their driver upstream they deprecate it=
+,
+> grumble.
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--GlXGqp1LJO9ytkcoZ356vGNMaDHU4wud2--
+
+--OiXr7q0mlojuTL6zJpGFgXGY821ASuOgg
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl223hsACgkQaA3BHVML
+eiNBdwgAutqRjMJylB+0kug6GQywHPkW7JSWJRooxm3UHWp/MIURGJ5aq5warWf9
+1J6hlTG64U4FK8uWJdqlrnRA5i6whm+PPOWG7NNl8+M4m68bIDTBPH4TpWTGCDV/
+U5fp0lKXKdfUlrszodNE8ITlfoFzqz4CTM4bFoqbOoki1xz1WuHNTWtWsHjYFuqO
+UpWYqfhDEhEvckA6ifDIA/xT7ji51e+HGxMqLPcYwjsE7Zm7ug0WIV4WFthOF98I
+aWjwtL5wd9CFzOJ+UNt7vWbpubUgEChHwJeMfUcmpYNc6lTcinYCSP7CtPJ8Mu0C
+fVHaaJYo1mNoLgGCXIO5PNOMigsRyw==
+=qpBC
+-----END PGP SIGNATURE-----
+
+--OiXr7q0mlojuTL6zJpGFgXGY821ASuOgg--
+
+--===============0076527354==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0076527354==--
