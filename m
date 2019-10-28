@@ -2,45 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36464E70DB
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2019 12:57:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 848C3E70ED
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2019 13:07:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57C796E0AB;
-	Mon, 28 Oct 2019 11:57:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 696BF6E624;
+	Mon, 28 Oct 2019 12:07:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id C9E1C6E624
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2019 11:57:41 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C73C0720E2; Mon, 28 Oct 2019 11:57:41 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111659] Kernel panic when waking up after screens go to dpms
- sleep
-Date: Mon, 28 Oct 2019 11:57:42 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/Radeon
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: brad@fnarfbargle.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111659-502-oxrSa7TVIP@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111659-502@http.bugs.freedesktop.org/>
-References: <bug-111659-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B22036E624
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2019 12:07:07 +0000 (UTC)
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-408-jk9KyMGbMNytwMgRwevqjQ-1; Mon, 28 Oct 2019 08:06:31 -0400
+Received: by mail-wr1-f71.google.com with SMTP id l4so6146212wru.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2019 05:06:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zaM05JJen5APQqVZxwEo+WWiJcDxzswUXxoOItsRRi8=;
+ b=e3XhrRu59Th028c+BUx2qPNr0+ZOI5GuBxzVavANRg/Qj+DbCsQdQSHKcEkxj53CDn
+ HBinvnIucUkf9oeqLowzAggfd8GAwQAxXLXyoUkAln3iEwkGYDrzarBInTZ1aER7kQ3o
+ 8PZfvgHdBDr4GepoWSg+QpJX2K8M3Q+UtTq8bMCjz/crmwB954/SHVMbRZcwmSnzuzYb
+ p7Hs3IC5W6/LSfHyKUqn/nroF+4IMopjQ0obFTXQSlyG0EwaR3Jpsq2bclLk10rvO5Tw
+ XXfbIj4v2/PAkrU439dkA+t2ZAe/aoHlfbevhbwgfAZWXN4ejtazxWEyiD2gDUjaXvJ9
+ 6gDw==
+X-Gm-Message-State: APjAAAX0vRYJOtQ7luKnprQlS4N3zjtZcenjr/T+o+mwc36f30GCZU+2
+ nlSQTefRlpmmIJty7v2SN4F4NEvpECltfrrgtAEn+9uQYu+WkKG+zRQ9Z2HEZNc6gDN8jXshpQV
+ 8rdymBNaKic3mY0tkYoF1L/xN2zp4
+X-Received: by 2002:adf:dd47:: with SMTP id u7mr2362152wrm.354.1572264390110; 
+ Mon, 28 Oct 2019 05:06:30 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwxi1mY1TDnfVVXXUJHUwWkH3QYAlueGYKigOipp7mWtB4NdCZ6qzvjIqR2nYKgpf9w7/eyCg==
+X-Received: by 2002:adf:dd47:: with SMTP id u7mr2362139wrm.354.1572264389941; 
+ Mon, 28 Oct 2019 05:06:29 -0700 (PDT)
+Received: from shalem.localdomain
+ (2001-1c00-0c14-2800-ec23-a060-24d5-2453.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c14:2800:ec23:a060:24d5:2453])
+ by smtp.gmail.com with ESMTPSA id b3sm9917872wrv.40.2019.10.28.05.06.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Oct 2019 05:06:29 -0700 (PDT)
+Subject: Re: [PATCH 0/3] drm/vboxvideo: Use generic fbdev and framebuffer
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie, daniel@ffwll.ch
+References: <20191011134808.3955-1-tzimmermann@suse.de>
+ <0e0995ff-f165-e349-b3ad-f031a9b52d77@redhat.com>
+ <7180768c-077a-cbf5-ad16-7d53797b5d14@suse.de>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <c3e5bf4a-615b-fed1-6f11-cf5fcc3431d2@redhat.com>
+Date: Mon, 28 Oct 2019 13:06:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
+In-Reply-To: <7180768c-077a-cbf5-ad16-7d53797b5d14@suse.de>
+Content-Language: en-US
+X-MC-Unique: jk9KyMGbMNytwMgRwevqjQ-1
+X-Mimecast-Spam-Score: 0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=redhat.com; 
+ s=mimecast20190719; t=1572264426;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+ivWSEIa/QsMJ9jztFImwiNhAlGq6KnhyNyHkElVS+8=;
+ b=V3ARruYiyDp2LUYb6E/5dMR3us+cjBq6baOcQmj9vBNJ5hRHShYgDBvO3yIZFt+J74kyQT
+ xlskE9tC+JZJyrnYkSPWaFokzU4a7Wk9626gCBtv63WIWWfWfg4/aGmBpRNs/0krg6qpqv
+ sO678A/KNOncF2u3Kmo3bFv5wZoWGOs=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,273 +82,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1877047959=="
+Cc: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1877047959==
-Content-Type: multipart/alternative; boundary="15722638611.Cea646C.20371"
-Content-Transfer-Encoding: 7bit
-
-
---15722638611.Cea646C.20371
-Date: Mon, 28 Oct 2019 11:57:41 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111659
-
---- Comment #6 from Brad Campbell <brad@fnarfbargle.com> ---
-I thought given these generally result in a stack canary I'd try something
-different. Upgraded to latest linus-git and disabled the stack protector.
-
-It did take a bit longer to hit, but we got there.
-
-[ 8044.605803] do_IRQ: 2.205 No irq handler for vector
-[ 8044.605814] do_IRQ: 2.233 No irq handler for vector
-[ 8044.605821] invalid opcode: 0000 [#1] SMP
-[ 8044.605824] CPU: 2 PID: 1476 Comm: kworker/2:2 Not tainted 5.4.0-rc4-bkc=
-1+
-#3
-[ 8044.605826] Hardware name: Apple Inc. iMac12,2/Mac-942B59F58194171B, BIOS
-82.0.0.0.0 09/25/2018
-[ 8044.605847] Workqueue: events radeon_dp_work_func [radeon]
-[ 8044.605866] RIP: 0010:atom_op_move+0x124/0x1d0 [radeon]
-[ 8044.605869] Code: 20 c0 e8 03 83 e0 07 74 2e 8d 4a 03 83 c2 02 3c 04 0f =
-42
-d1 41 89 14 24 eb 07 83 c2 02 41 89 14 24 c7 44 24 08 cd cd cd cd e9 <42> f=
-f ff
-ff 83 c2 03 41 89 14 24 eb ea 83 c2 05 41 89 14 24 eb e1
-[ 8044.605871] RSP: 0018:ffffc9000034fe50 EFLAGS: 00010292
-[ 8044.605880] RAX: 0000000000000000 RBX: 0000000000000000 RCX:
-0000000000000004
-[ 8044.605881] RDX: 0000000000000000 RSI: 0000000000000004 RDI:
-ffffc9000034fe3a
-[ 8044.605883] RBP: ffff8882633d0000 R08: ffffffffa0201837 R09:
-0000000000000006
-[ 8044.605884] R10: 0000000000000006 R11: 000000000001a800 R12:
-ffff8882658eb1a0
-[ 8044.605886] R13: 0000000000000000 R14: ffff888267b22c00 R15:
-0000000000000000
-[ 8044.605887] FS:  0000000000000000(0000) GS:ffff888267b00000(0000)
-knlGS:0000000000000000
-[ 8044.605889] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 8044.605890] CR2: 000031fd52e7a000 CR3: 00000001d1197002 CR4:
-00000000000606a0
-[ 8044.605892] Call Trace:
-[ 8044.605907]  ? radeon_dp_work_func+0x28/0x40 [radeon]
-[ 8044.605911]  ? process_one_work+0x1b4/0x330
-[ 8044.605913]  ? worker_thread+0x44/0x3d0
-[ 8044.605923]  ? set_worker_desc+0x90/0x90
-[ 8044.605925]  ? kthread+0xec/0x120
-[ 8044.605927]  ? kthread_create_worker_on_cpu+0x40/0x40
-[ 8044.605930]  ? ret_from_fork+0x1f/0x30
-[ 8044.605932] Modules linked in: cpufreq_userspace cpufreq_powersave
-cpufreq_conservative nfsv4 nfsd auth_rpcgss nfs_acl nfs lockd grace fscache
-sunrpc af_packet dm_crypt dm_mod dax coretemp applesmc input_polldev kvm_in=
-tel
-led_class kvm irqbypass btusb btbcm uvcvideo btintel bluetooth
-videobuf2_vmalloc snd_usb_aud
-io videobuf2_memops rfkill videobuf2_v4l2 videodev snd_usbmidi_lib ecdh_gen=
-eric
-videobuf2_common ecc joydev snd_hda_codec_cirrus snd_rawmidi snd_hda_codec_=
-hdmi
-snd_hda_codec_generic evdev snd_hda_intel snd_intel_nhlt snd_hda_codec
-snd_hwdep snd_hda_core snd_pcm snd_timer snd soundcore button apple_bl ext4
-crc32c_gen
-eric crc16 mbcache jbd2 netconsole configfs hid_apple hid_appleir usb_stora=
-ge
-hid_generic usbhid hid sg sr_mod cdrom sd_mod aesni_intel glue_helper
-crypto_simd cryptd ahci libahci radeon xhci_pci xhci_hcd i2c_algo_bit backl=
-ight
-drm_kms_helper syscopyarea tg3 sysfillrect sysimgblt fb_sys_fops ehci_pci
-uhci_hcd libphy
- ttm ehci_hcd firewire_ohci firewire_core drm crc_itu_t
-[ 8044.605961]  usbcore usb_common i2c_core
-[ 8044.605967] ---[ end trace 78992a27b7291279 ]---
-[ 8044.605977] RIP: 0010:atom_op_move+0x124/0x1d0 [radeon]
-[ 8044.605979] Code: 20 c0 e8 03 83 e0 07 74 2e 8d 4a 03 83 c2 02 3c 04 0f =
-42
-d1 41 89 14 24 eb 07 83 c2 02 41 89 14 24 c7 44 24 08 cd cd cd cd e9 <42> f=
-f ff
-ff 83 c2 03 41 89 14 24 eb ea 83 c2 05 41 89 14 24 eb e1
-[ 8044.605980] RSP: 0018:ffffc9000034fe50 EFLAGS: 00010292
-[ 8044.605983] RAX: 0000000000000000 RBX: 0000000000000000 RCX:
-0000000000000004
-[ 8044.605985] RDX: 0000000000000000 RSI: 0000000000000004 RDI:
-ffffc9000034fe3a
-[ 8044.605986] RBP: ffff8882633d0000 R08: ffffffffa0201837 R09:
-0000000000000006
-[ 8044.605987] R10: 0000000000000006 R11: 000000000001a800 R12:
-ffff8882658eb1a0
-[ 8044.605989] R13: 0000000000000000 R14: ffff888267b22c00 R15:
-0000000000000000
-[ 8044.605990] FS:  0000000000000000(0000) GS:ffff888267b00000(0000)
-knlGS:0000000000000000
-[ 8044.605991] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 8044.605993] CR2: 000031fd52e7a000 CR3: 00000001d1197002 CR4:
-00000000000606a0
-[ 8044.605994] Kernel panic - not syncing: Fatal exception
-[ 8044.606020] Kernel Offset: disabled
-[ 8044.606022] Rebooting in 10 seconds..
-[ 8054.606406] ACPI MEMORY or I/O RESET_REG.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15722638611.Cea646C.20371
-Date: Mon, 28 Oct 2019 11:57:41 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Kernel panic when waking up after screens go to dpms slee=
-p"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111659#c6">Commen=
-t # 6</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Kernel panic when waking up after screens go to dpms slee=
-p"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111659">bug 11165=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-brad&#64;fnarfbargle.com" title=3D"Brad Campbell &lt;brad&#64;fnarfbargle.c=
-om&gt;"> <span class=3D"fn">Brad Campbell</span></a>
-</span></b>
-        <pre>I thought given these generally result in a stack canary I'd t=
-ry something
-different. Upgraded to latest linus-git and disabled the stack protector.
-
-It did take a bit longer to hit, but we got there.
-
-[ 8044.605803] do_IRQ: 2.205 No irq handler for vector
-[ 8044.605814] do_IRQ: 2.233 No irq handler for vector
-[ 8044.605821] invalid opcode: 0000 [#1] SMP
-[ 8044.605824] CPU: 2 PID: 1476 Comm: kworker/2:2 Not tainted 5.4.0-rc4-bkc=
-1+
-#3
-[ 8044.605826] Hardware name: Apple Inc. iMac12,2/Mac-942B59F58194171B, BIOS
-82.0.0.0.0 09/25/2018
-[ 8044.605847] Workqueue: events radeon_dp_work_func [radeon]
-[ 8044.605866] RIP: 0010:atom_op_move+0x124/0x1d0 [radeon]
-[ 8044.605869] Code: 20 c0 e8 03 83 e0 07 74 2e 8d 4a 03 83 c2 02 3c 04 0f =
-42
-d1 41 89 14 24 eb 07 83 c2 02 41 89 14 24 c7 44 24 08 cd cd cd cd e9 &lt;42=
-&gt; ff ff
-ff 83 c2 03 41 89 14 24 eb ea 83 c2 05 41 89 14 24 eb e1
-[ 8044.605871] RSP: 0018:ffffc9000034fe50 EFLAGS: 00010292
-[ 8044.605880] RAX: 0000000000000000 RBX: 0000000000000000 RCX:
-0000000000000004
-[ 8044.605881] RDX: 0000000000000000 RSI: 0000000000000004 RDI:
-ffffc9000034fe3a
-[ 8044.605883] RBP: ffff8882633d0000 R08: ffffffffa0201837 R09:
-0000000000000006
-[ 8044.605884] R10: 0000000000000006 R11: 000000000001a800 R12:
-ffff8882658eb1a0
-[ 8044.605886] R13: 0000000000000000 R14: ffff888267b22c00 R15:
-0000000000000000
-[ 8044.605887] FS:  0000000000000000(0000) GS:ffff888267b00000(0000)
-knlGS:0000000000000000
-[ 8044.605889] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 8044.605890] CR2: 000031fd52e7a000 CR3: 00000001d1197002 CR4:
-00000000000606a0
-[ 8044.605892] Call Trace:
-[ 8044.605907]  ? radeon_dp_work_func+0x28/0x40 [radeon]
-[ 8044.605911]  ? process_one_work+0x1b4/0x330
-[ 8044.605913]  ? worker_thread+0x44/0x3d0
-[ 8044.605923]  ? set_worker_desc+0x90/0x90
-[ 8044.605925]  ? kthread+0xec/0x120
-[ 8044.605927]  ? kthread_create_worker_on_cpu+0x40/0x40
-[ 8044.605930]  ? ret_from_fork+0x1f/0x30
-[ 8044.605932] Modules linked in: cpufreq_userspace cpufreq_powersave
-cpufreq_conservative nfsv4 nfsd auth_rpcgss nfs_acl nfs lockd grace fscache
-sunrpc af_packet dm_crypt dm_mod dax coretemp applesmc input_polldev kvm_in=
-tel
-led_class kvm irqbypass btusb btbcm uvcvideo btintel bluetooth
-videobuf2_vmalloc snd_usb_aud
-io videobuf2_memops rfkill videobuf2_v4l2 videodev snd_usbmidi_lib ecdh_gen=
-eric
-videobuf2_common ecc joydev snd_hda_codec_cirrus snd_rawmidi snd_hda_codec_=
-hdmi
-snd_hda_codec_generic evdev snd_hda_intel snd_intel_nhlt snd_hda_codec
-snd_hwdep snd_hda_core snd_pcm snd_timer snd soundcore button apple_bl ext4
-crc32c_gen
-eric crc16 mbcache jbd2 netconsole configfs hid_apple hid_appleir usb_stora=
-ge
-hid_generic usbhid hid sg sr_mod cdrom sd_mod aesni_intel glue_helper
-crypto_simd cryptd ahci libahci radeon xhci_pci xhci_hcd i2c_algo_bit backl=
-ight
-drm_kms_helper syscopyarea tg3 sysfillrect sysimgblt fb_sys_fops ehci_pci
-uhci_hcd libphy
- ttm ehci_hcd firewire_ohci firewire_core drm crc_itu_t
-[ 8044.605961]  usbcore usb_common i2c_core
-[ 8044.605967] ---[ end trace 78992a27b7291279 ]---
-[ 8044.605977] RIP: 0010:atom_op_move+0x124/0x1d0 [radeon]
-[ 8044.605979] Code: 20 c0 e8 03 83 e0 07 74 2e 8d 4a 03 83 c2 02 3c 04 0f =
-42
-d1 41 89 14 24 eb 07 83 c2 02 41 89 14 24 c7 44 24 08 cd cd cd cd e9 &lt;42=
-&gt; ff ff
-ff 83 c2 03 41 89 14 24 eb ea 83 c2 05 41 89 14 24 eb e1
-[ 8044.605980] RSP: 0018:ffffc9000034fe50 EFLAGS: 00010292
-[ 8044.605983] RAX: 0000000000000000 RBX: 0000000000000000 RCX:
-0000000000000004
-[ 8044.605985] RDX: 0000000000000000 RSI: 0000000000000004 RDI:
-ffffc9000034fe3a
-[ 8044.605986] RBP: ffff8882633d0000 R08: ffffffffa0201837 R09:
-0000000000000006
-[ 8044.605987] R10: 0000000000000006 R11: 000000000001a800 R12:
-ffff8882658eb1a0
-[ 8044.605989] R13: 0000000000000000 R14: ffff888267b22c00 R15:
-0000000000000000
-[ 8044.605990] FS:  0000000000000000(0000) GS:ffff888267b00000(0000)
-knlGS:0000000000000000
-[ 8044.605991] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 8044.605993] CR2: 000031fd52e7a000 CR3: 00000001d1197002 CR4:
-00000000000606a0
-[ 8044.605994] Kernel panic - not syncing: Fatal exception
-[ 8044.606020] Kernel Offset: disabled
-[ 8044.606022] Rebooting in 10 seconds..
-[ 8054.606406] ACPI MEMORY or I/O RESET_REG.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15722638611.Cea646C.20371--
-
---===============1877047959==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1877047959==--
+SGksCgpPbiAyOC0xMC0yMDE5IDEyOjM0LCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToKPiBIaQo+
+IAo+IEFtIDI4LjEwLjE5IHVtIDEyOjI2IHNjaHJpZWIgSGFucyBkZSBHb2VkZToKPj4gSGkgVGhv
+bWFzLAo+Pgo+PiBPbiAxMS0xMC0yMDE5IDE1OjQ4LCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToK
+Pj4+IFRoZSB2Ym94dmlkZW8gZHJpdmVyIHByb3ZpZGVzIGl0cyBvd24gaW1wbGVtZW50YXRpb24g
+Zm9yIGZiZGV2IGVtdWxhdGlvbgo+Pj4gYW5kIGZyYW1lYnVmZmVycy4gQm90aCBjYW4gYmUgcmVw
+bGFjZWQgYnkgRFJNJ3MgZ2VuZXJpYyBjb2RlLgo+Pj4KPj4+IEFsbCBwYXRjaGVzIGhhdmUgYmVl
+biB0ZXN0ZWQgb24gVmlydHVhbEJveCA2LjAuMTIuCj4+Pgo+Pj4gVGhvbWFzIFppbW1lcm1hbm4g
+KDMpOgo+Pj4gIMKgwqAgZHJtL3Zib3h2aWRlbzogU3dpdGNoIHRvIGdlbmVyaWMgZmJkZXYgZW11
+bGF0aW9uCj4+PiAgwqDCoCBkcm0vdmJveHZpZGVvOiBTd2l0Y2ggdG8gZHJtX2F0b21pY19oZWxw
+ZXJfZGlydHlfZmIoKQo+Pj4gIMKgwqAgZHJtL3Zib3h2aWRlbzogUmVwbGFjZSBzdHJ1Y3QgdnJh
+bV9mcmFtZWJ1ZmZlciB3aXRoIGdlbmVyaWMKPj4+ICDCoMKgwqDCoCBpbXBsZW1lbmF0aW9uCj4+
+Cj4+IFRoYW5rIHlvdSBmb3IgdGhlc2UgbmljZSBjbGVhbnVwcywgdW5mb3J0dW5hdGVseSB0aGVy
+ZSBpcyBhIHNtYWxsCj4+IGJ1ZyBpbiB0aGUgbGFzdCBwYXRjaCwgeW91IGFyZSBzZXR0aW5nOgo+
+Pgo+PiAgwqDCoMKgwqAuZmJfY3JlYXRlID0gZHJtX2dlbV9mYl9jcmVhdGUsCj4+Cj4+IEJ1dCBz
+aW5jZSBpbiB0aGUgcHJldmlvdXMgcGF0Y2ggeW91IHN3aXRjaGVkIHRvIGRybV9hdG9taWNfaGVs
+cGVyX2RpcnR5X2ZiCj4+IHRoYXQgc2hvdWxkIGJlOgo+Pgo+PiAgwqDCoMKgwqAuZmJfY3JlYXRl
+ID0gZHJtX2dlbV9mYl9jcmVhdGVfd2l0aF9kaXJ0eSwKPj4KPj4gVGhlIG1pc3Npbmcgd2l0aF9k
+aXJ0eSBpcyBjYXVzaW5nIHNjcmVlbnVwZGF0ZXMgdW5kZXIgYm90aCBwbHltb3V0aCBhbmQKPj4g
+Z25vbWUtc2hlbGwgKHdpdGggbGx2bXBpcGUpIHRvIGdvbmUgbWlzc2luZy4gSSdsbCBzZW5kIGEg
+cGF0Y2ggZml4aW5nCj4+IHRoaXMuCj4gCj4gWW91J3JlIHJpZ2h0LiBJIGRpZCB0ZXN0IHRoZSBw
+YXRjaHNldCwgYnV0IEkgY2FuJ3QgdGVsbCB3aHkgSSBkaWRuJ3Qgc2VlCj4gdGhpcyBidWcuCgpJ
+IGtub3cgeW91IHRlc3RlZCB0aGUgcGF0Y2gtc2V0LCBzaW5jZSB5b3Ugc2FpZCBzbyBhYm92ZSA6
+KSAgWW91IHByb2JhYmx5CmFyZSBhd2FyZSBvZiB0aGlzIGFscmVhZHksIGJ1dCBkaWQgeW91IGNo
+ZWNrIHdoYXQgdmdhLWNhcmQgdGhlIHZtIGlzIHVzaW5nPwpOZXcgdmJveCBWTXMgZGVmYXVsdCB0
+byB0aGVpciBuZXcgdm13YXJlLXN2Z2EgY2FyZCBlbXVsYXRpb24sIGluIHdoaWNoIGNhc2UKdmJv
+eHZpZGVvIGlzIG5vdCB1c2VkIGF0IGFsbCwgdmJveHZpZGVvIGlzIG9ubHkgdXNlZCB3aXRoIHRo
+ZSBvbGRlciBWYm94VkdBCmFuZCBWYm94U1ZHQSAoKikgdmlydHVhbCB2Z2EtY2FyZHMuCgo+IEFu
+eXdheSwgdGhhbmtzIGEgbG90IGZvciBwcm92aWRpbmcgdGhlIGZpeC4KCllvdSBhcmUgd2VsY29t
+ZS4KClJlZ2FyZHMsCgpIYW5zCgoKCiopIE9mIGNvdXJzZSBvbmNlIEkgZmluYWxseSBnZXQgdGhl
+aXIgZHJpdmVyIHVwc3RyZWFtIHRoZXkgZGVwcmVjYXRlIGl0LCBncnVtYmxlLgoKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
