@@ -1,41 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040EAE7547
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2019 16:36:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAF4BE755A
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2019 16:40:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A92956E129;
-	Mon, 28 Oct 2019 15:36:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 647D46E93B;
+	Mon, 28 Oct 2019 15:40:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0BA56E129
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2019 15:36:36 +0000 (UTC)
-Received: from localhost (unknown [91.217.168.176])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0CEE1208C0;
- Mon, 28 Oct 2019 15:36:35 +0000 (UTC)
-Date: Mon, 28 Oct 2019 16:34:27 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: [PATCH v11 4/7] drm/sun4i: dsi: Handle bus clock =?utf-8?Q?ex?=
- =?utf-8?Q?plicitly=C2=A0?=
-Message-ID: <20191028153427.pc3tnoz2d23filhx@hendrix>
-References: <20191025175625.8011-1-jagan@amarulasolutions.com>
- <20191025175625.8011-5-jagan@amarulasolutions.com>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6369D6E940
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2019 15:40:49 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 205335] [amdgpu] suspend / screen black after thaw
+Date: Mon, 28 Oct 2019 15:40:48 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: arne_woerner@yahoo.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-205335-2300-xG6pMccNDQ@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-205335-2300@https.bugzilla.kernel.org/>
+References: <bug-205335-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191025175625.8011-5-jagan@amarulasolutions.com>
-User-Agent: NeoMutt/20180716
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1572276996;
- bh=ymo9rl9CtwjArSQnfFPyty8tp1BY+ffoTl/pqxOlMJ0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dydQ8BCY/oWvaNr7y/rrFiwxqN7tEIACyy3Kx6qUkXvclMnnCBVfk6NzLkhzdBLbE
- Czf1eVRDF/OtyUbA9RcyKjUILeyDa3mGUdP5tPphPU3Ii8+ltKhyqK6SdE9c5kNXZ8
- HsQgObTenXdM8WzMQKTZpL7DpsrMfN2PKCHgVCU0=
+X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
+ message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,32 +51,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-sunxi <linux-sunxi@googlegroups.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
- michael@amarulasolutions.com, linux-amarula@amarulasolutions.com,
- linux-arm-kernel@lists.infradead.org, Icenowy Zheng <icenowy@aosc.io>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBPY3QgMjUsIDIwMTkgYXQgMTE6MjY6MjJQTSArMDUzMCwgSmFnYW4gVGVraSB3cm90
-ZToKPiBVc2FnZSBvZiBjbG9ja3MgYXJlIHZhcmllcyBiZXR3ZWVuIGRpZmZlcmVudCBBbGx3aW5u
-ZXIKPiBEU0kgY29udHJvbGxlcnMuIENsb2NraW5nIGluIEEzMyB3b3VsZCBuZWVkIGJ1cyBhbmQK
-PiBtb2QgY2xvY2tzIHdoZXJlIGFzIEE2NCB3b3VsZCBuZWVkIG9ubHkgYnVzIGNsb2NrLgo+Cj4g
-VG8gc3VwcG9ydCB0aGlzIGtpbmQgb2YgY2xvY2tpbmcgc3RydWN0dXJlIHZhcmlhbnRzCj4gaW4g
-dGhlIHNhbWUgZHNpIGRyaXZlciwKClRoZXJlJ3Mgbm8gdmFyaWFuY2UgaW4gdGhlIGNsb2NrIHN0
-cnVjdHVyZSBhcyBmYXIgYXMgdGhlIGJ1cyBjbG9jayBpcwpjb25jZXJuZWQuCgo+IGV4cGxpY2l0
-IGhhbmRsaW5nIG9mIGNvbW1vbiBjbG9jayB3b3VsZCByZXF1aXJlIHNpbmNlIHRoZSBBNjQKPiBk
-b2Vzbid0IG5lZWQgdG8gbWVudGlvbiB0aGUgY2xvY2stbmFtZXMgZXhwbGljaXRseSBpbiBkdHMg
-c2luY2UgaXQKPiBzdXBwb3J0IG9ubHkgb25lIGJ1cyBjbG9jay4KPgo+IEFsc28gcGFzcyBjbGtf
-aWQgTlVMTCBpbnN0ZWFkICJidXMiIHRvIHJlZ21hcCBjbG9jayBpbml0IGZ1bmN0aW9uCj4gc2lu
-Y2UgdGhlIHNpbmdsZSBjbG9jayB2YXJpYW50cyBubyBuZWVkIHRvIG1lbnRpb24gY2xvY2stbmFt
-ZXMKPiBleHBsaWNpdGx5LgoKWW91IGRvbid0IG5lZWQgZXhwbGljaXQgY2xvY2sgaGFuZGxpbmcu
-IFBhc3NpbmcgTlVMTCBhcyB0aGUgYXJndW1lbnQKaW4gcmVnbWFwX2luaXRfbW1pb19jbGsgd2ls
-bCBtYWtlIGl0IHVzZSB0aGUgZmlyc3QgY2xvY2ssIHdoaWNoIGlzIHRoZQpidXMgY2xvY2suCgpN
-YXhpbWUKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
-LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDUzMzUKCi0tLSBD
+b21tZW50ICMzIGZyb20gQXJuZSBXb2VybmVyIChhcm5lX3dvZXJuZXJAeWFob28uY29tKSAtLS0K
+YmlzZWN0IG1lYW5zIGNvbXBpbGluZyBhIGtlcm5lbCBhZ2FpbiBhbmQgYWdhaW4gd2l0aCBkaWZm
+ZXJlbnQgcGF0Y2hlcyBhbmQKdGVzdGluZz8KaW4gYSAibmVzdGVkIGludGVydmFscyIgZmFzaGlv
+bj8KaSB0aGluayB0aGF0IGlzIHRvbyBtdWNoIGxvYWQgZm9yIG15IGJveC4uLgoKaSBldmVuIGRl
+bGV0ZWQgdGhlIDUuMSBrZXJuZWwgcGFja2FnZSBmcm9tIHRoZSBwYWNtYW4gY2FjaGUuLi4KdGhl
+IG9sZCBsaW51eC1maXJtd2FyZSBwYWNrYWdlcywgdG9vLi4uCmZ1cnRoZXJtb3JlIGknbSBhZnJh
+aWQsIHRoYXQgdGhlcmUgYXJlIHNlY3VyaXR5IGlzc3VlcyB3aXRoIG9sZCBrZXJuZWxzLi4uCgpp
+IHRoaW5rIGl0IGhhcHBlbmVkIGJlZm9yZS4uLgpodHRwczovL2J1Z3ppbGxhLmtlcm5lbC5vcmcv
+c2hvd19idWcuY2dpP2lkPTE5ODYxOQpidXQgdGhpcyB0aW1lIGl0IGlzIHdvcnNlIHNvbWV0aW1l
+czogdGhlIHNjcmVlbiByZW1haW5zIGRhcmsgYWZ0ZXIgdGhhdy4uLgptYXliZSBpdCBpcyB0aGUg
+c2FtZSByZWFzb24/CgotYXJuZQoKLS0gCllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNh
+dXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
