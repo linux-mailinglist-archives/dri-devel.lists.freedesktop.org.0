@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E456E7089
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2019 12:38:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14405E7095
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Oct 2019 12:40:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDF5F6E5F6;
-	Mon, 28 Oct 2019 11:38:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BA856E607;
+	Mon, 28 Oct 2019 11:40:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id CCF476E5F6
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2019 11:38:02 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 742CB6E607
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2019 11:40:06 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C8B36720E2; Mon, 28 Oct 2019 11:38:02 +0000 (UTC)
+ id 6BFF9720E4; Mon, 28 Oct 2019 11:40:06 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 112148] Broken colors on RX 5700 with adjusted brightness
-Date: Mon, 28 Oct 2019 11:38:03 +0000
+Date: Mon, 28 Oct 2019 11:40:06 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-112148-502-nKFMKx4laJ@http.bugs.freedesktop.org/>
+Message-ID: <bug-112148-502-u06mMCwmmJ@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-112148-502@http.bugs.freedesktop.org/>
 References: <bug-112148-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0190338417=="
+Content-Type: multipart/mixed; boundary="===============0119414570=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0190338417==
-Content-Type: multipart/alternative; boundary="15722626820.a8BC.17144"
+--===============0119414570==
+Content-Type: multipart/alternative; boundary="15722628061.Ad1E.17550"
 Content-Transfer-Encoding: 7bit
 
 
---15722626820.a8BC.17144
-Date: Mon, 28 Oct 2019 11:38:02 +0000
+--15722628061.Ad1E.17550
+Date: Mon, 28 Oct 2019 11:40:06 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,17 +72,19 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D112148
 
---- Comment #1 from Miroslav Lichvar <mlichvar@redhat.com> ---
-Created attachment 145833
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145833&action=3Dedit
-Red gradient
+--- Comment #2 from Miroslav Lichvar <mlichvar@redhat.com> ---
+Created attachment 145834
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145834&action=3Dedit
+Displayed red gradient
+
+This is a photo of the monitor displaying the first attached image.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15722626820.a8BC.17144
-Date: Mon, 28 Oct 2019 11:38:02 +0000
+--15722628061.Ad1E.17550
+Date: Mon, 28 Oct 2019 11:40:06 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -99,8 +101,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Broken colors on RX 5700 with adjusted brightness"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112148#c1">Commen=
-t # 1</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112148#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Broken colors on RX 5700 with adjusted brightness"
@@ -110,11 +112,13 @@ t # 1</a>
 mlichvar&#64;redhat.com" title=3D"Miroslav Lichvar &lt;mlichvar&#64;redhat.=
 com&gt;"> <span class=3D"fn">Miroslav Lichvar</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145833=
-" name=3D"attach_145833" title=3D"Red gradient">attachment 145833</a> <a hr=
-ef=3D"attachment.cgi?id=3D145833&amp;action=3Dedit" title=3D"Red gradient">=
-[details]</a></span>
-Red gradient</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145834=
+" name=3D"attach_145834" title=3D"Displayed red gradient">attachment 145834=
+</a> <a href=3D"attachment.cgi?id=3D145834&amp;action=3Dedit" title=3D"Disp=
+layed red gradient">[details]</a></span>
+Displayed red gradient
+
+This is a photo of the monitor displaying the first attached image.</pre>
         </div>
       </p>
 
@@ -128,9 +132,9 @@ Red gradient</pre>
     </body>
 </html>=
 
---15722626820.a8BC.17144--
+--15722628061.Ad1E.17550--
 
---===============0190338417==
+--===============0119414570==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -140,4 +144,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0190338417==--
+--===============0119414570==--
