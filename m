@@ -2,58 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEAE0E97C8
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2019 09:14:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 737E1E97D1
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2019 09:14:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40C946ECA9;
-	Wed, 30 Oct 2019 08:14:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CD876ECA6;
+	Wed, 30 Oct 2019 08:14:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97C936E05C
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2019 01:19:53 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id j5so2865930lfh.10
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Oct 2019 18:19:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7WWAk8nl162OD2/T/WUNvI1nq5SwZ+OMJP+DEu+AWVM=;
- b=T6QIoCRZHbWQeT3qCo2o7t1sg0TPboB6saXezUzSG5q4KLpEFrCGH+lRqQjTiOae2P
- kuGi0OxGsMR+XqnBIMeqnQ1x9Raezs9FmgoSWZRjoRTcM6iFrGPir0cqjeuBQUZ9OmbY
- m9oL97kZ23xeC3LVoAuXPR3wCZHjeafNJEs/+vsq0LNaR4p6UjONGc2fK3lkPxwV3tzI
- EqJXESpxC7Edil3uS1fCYsRJaZfgGoUI6qveuvs5uQ+cArq3yqLK9tn3boi8mC8356va
- Jg/Y1X6pA/qbBmnQHm+DN3sDEKJmKYdrvTWE4L46LGcTcN6yCOuRguoH5qLS3260OYed
- 1xRA==
-X-Gm-Message-State: APjAAAUbr6VD1VqZc6QJE4pkH7TNf1t/izvCXCMp0OoFwzc9jiMVwwaK
- 7vGSMqCXhg6it1vyTmHN16Pax0EZ9+4C4K8G8rIC
-X-Google-Smtp-Source: APXvYqyOizLeNLWCcQoX3gIp96frXfYZiUZghzESjobmVXUaEot+54fYt1N8R/E81OO1YUjRuThhydjn9vDrzk2UWIM=
-X-Received: by 2002:a19:6d19:: with SMTP id i25mr399784lfc.178.1572311991380; 
- Mon, 28 Oct 2019 18:19:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAKT=dDk0sNAXxz-angd5WvQXXLF8p3sPLEzOt=wVSLhuaP8dkQ@mail.gmail.com>
- <20191028152602.GA5057@redhat.com>
- <CAKT=dDnXwa76_aOVhTaKyE2=2HT2qGHvP9HGqnMzArr-Jt3A+Q@mail.gmail.com>
-In-Reply-To: <CAKT=dDnXwa76_aOVhTaKyE2=2HT2qGHvP9HGqnMzArr-Jt3A+Q@mail.gmail.com>
-From: Yiwei Zhang <zzyiwei@google.com>
-Date: Mon, 28 Oct 2019 18:19:40 -0700
-Message-ID: <CAKT=dDnhth-6giOWgym7qpLNeH=86=XhQmPcgHM2J8B_L3myRQ@mail.gmail.com>
-Subject: Re: Proposal to report GPU private memory allocations with sysfs
- nodes [plain text version]
-To: Jerome Glisse <jglisse@redhat.com>
+Received: from mxct.zte.com.cn (out1.zte.com.cn [202.103.147.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A0E26E820
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2019 01:48:03 +0000 (UTC)
+Received: from mse-fl1.zte.com.cn (unknown [10.30.14.238])
+ by Forcepoint Email with ESMTPS id 727F97681C1244247190;
+ Tue, 29 Oct 2019 09:46:53 +0800 (CST)
+Received: from kjyxapp05.zte.com.cn ([10.30.12.204])
+ by mse-fl1.zte.com.cn with SMTP id x9T1kPIB046260;
+ Tue, 29 Oct 2019 09:46:25 +0800 (GMT-8)
+ (envelope-from wang.yi59@zte.com.cn)
+Received: from mapi (kjyxapp03[null]) by mapi (Zmail) with MAPI id mid14;
+ Tue, 29 Oct 2019 09:46:25 +0800 (CST)
+Date: Tue, 29 Oct 2019 09:46:25 +0800 (CST)
+X-Zmail-TransId: 2b055db799f1ad87beb3
+X-Mailer: Zmail v1.0
+Message-ID: <201910290946252594728@zte.com.cn>
+In-Reply-To: <20191028135205.GA31804@arm.com>
+References: 31dc2f01-299c-6a52-4111-3e60e555cb9b@arm.com,
+ 20191028135205.GA31804@arm.com
+Mime-Version: 1.0
+From: <wang.yi59@zte.com.cn>
+To: <steven.price@arm.com>
+Subject: =?UTF-8?B?UmU6W1BBVENIIHYzXSBkcm0vcGFuZnJvc3Q6IGZpeCAtV21pc3NpbmctcHJvdG90eXBlcyB3YXJuaW5ncw==?=
+Content-Type: multipart/mixed;
+	boundary="=====_001_next====="
+X-MAIL: mse-fl1.zte.com.cn x9T1kPIB046260
 X-Mailman-Approved-At: Wed, 30 Oct 2019 08:14:00 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=7WWAk8nl162OD2/T/WUNvI1nq5SwZ+OMJP+DEu+AWVM=;
- b=Cp9P6cgRUGpt+jKALHrJBzQs8mpkUeU7HBt8eGeS+jfhpO/p7LL2vYoI2WgWYNNOmF
- wcdOmenqWGR9Ph0O3J7USCC6kCXcNgY3MKIxaL/rTEI4x91NQDcoJ/Rj6iiMcR73uklc
- 2c5lNw1312cwOF2K6xIn46J9lzTashrKjupIsombb6gwb6OD+AB5h9F1cVc6B11CmMe8
- LXPXuJp7kRFtH+1ssFD+MgfuG9B1hhES3iwOR0K1+uOIkizOGP6uSJg+dtCDh9IZTxEU
- 6zhbW1aLn1qnH5+WNOKXENjITltNLw2iGMTp26bJfSfSMOysJzl+eXHA8amVB8CbHpxx
- h7aA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,397 +48,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alistair Delva <adelva@google.com>, dri-devel@lists.freedesktop.org,
- Prahlad Kilambi <prahladk@google.com>, Sean Paul <seanpaul@chromium.org>,
- kraxel@redhat.com, Chris Forbes <chrisforbes@google.com>,
- kernel-team@android.com
-Content-Type: multipart/mixed; boundary="===============0725760628=="
+Cc: tomeu.vizoso@collabora.com, wang.liang82@zte.com.cn, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ xue.zhihong@zte.com.cn, up2wing@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0725760628==
-Content-Type: multipart/alternative; boundary="000000000000b956780596026906"
 
---000000000000b956780596026906
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Jerome and all folks,
+--=====_001_next=====
+Content-Type: multipart/alternative;
+	boundary="=====_003_next====="
 
-In addition to my last reply, I just wanna get some more information
-regarding this on the upstream side.
 
-1. Do you think this(standardize a way to report GPU private allocations)
-is going to be a useful thing on the upstream as well? It grants a lot
-benefits for Android, but I'd like to get an idea for the non-Android world=
-.
+--=====_003_next=====
+Content-Type: text/plain;
+	charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-2. There might be some worries that upstream kernel driver has no idea
-regarding the API. However, to achieve good fidelity around memory
-reporting, we'd have to pass down certain metadata which is known only by
-the userland. Consider this use case: on the upstream side, freedreno for
-example, some memory buffer object(BO) during its own lifecycle could
-represent totally different things, and kmd is not aware of that. When we'd
-like to take memory snapshots at certain granularity, we have to know what
-that buffer represents so that the snapshot can be meaningful and useful.
+PiBPbiBNb24sIE9jdCAyOCwgMjAxOSBhdCAwOToyNzozM0FNICswMDAwLCB3YW5nLnlpNTlAenRl
+LmNvbS5jbiB3cm90ZToKPiA+IEhpIFN0ZXZlLAo+ID4KPiA+IFRoYW5rcyBhIGxvdCBmb3IgeW91
+ciB0aW1lIGFuZCBwYXRpZW5jZSA6KQo+ID4KPiA+ID4gT24gMjUvMTAvMjAxOSAwMjozMCwgWWkg
+V2FuZyB3cm90ZToKPiA+ID4gPiBXZSBnZXQgdGhlc2Ugd2FybmluZ3Mgd2hlbiBidWlsZCBrZXJu
+ZWwgVz0xOgo+ID4gPiA+IGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9wZXJmY250
+LmM6MzU6Njogd2FybmluZzogbm8gcHJldmlvdXMgcHJvdG90eXBlIGZvciDigJhwYW5mcm9zdF9w
+ZXJmY250X2NsZWFuX2NhY2hlX2RvbmXigJkgWy1XbWlzc2luZy1wcm90b3R5cGVzXQo+ID4gPiA+
+IGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9wZXJmY250LmM6NDA6Njogd2Fybmlu
+Zzogbm8gcHJldmlvdXMgcHJvdG90eXBlIGZvciDigJhwYW5mcm9zdF9wZXJmY250X3NhbXBsZV9k
+b25l4oCZIFstV21pc3NpbmctcHJvdG90eXBlc10KPiA+ID4gPiBkcml2ZXJzL2dwdS9kcm0vcGFu
+ZnJvc3QvcGFuZnJvc3RfcGVyZmNudC5jOjE5MDo1OiB3YXJuaW5nOiBubyBwcmV2aW91cyBwcm90
+b3R5cGUgZm9yIOKAmHBhbmZyb3N0X2lvY3RsX3BlcmZjbnRfZW5hYmxl4oCZIFstV21pc3Npbmct
+cHJvdG90eXBlc10KPiA+ID4gPiBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfcGVy
+ZmNudC5jOjIxODo1OiB3YXJuaW5nOiBubyBwcmV2aW91cyBwcm90b3R5cGUgZm9yIOKAmHBhbmZy
+b3N0X2lvY3RsX3BlcmZjbnRfZHVtcOKAmSBbLVdtaXNzaW5nLXByb3RvdHlwZXNdCj4gPiA+ID4g
+ZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X3BlcmZjbnQuYzoyNTA6Njogd2Fybmlu
+Zzogbm8gcHJldmlvdXMgcHJvdG90eXBlIGZvciDigJhwYW5mcm9zdF9wZXJmY250X2Nsb3Nl4oCZ
+IFstV21pc3NpbmctcHJvdG90eXBlc10KPiA+ID4gPiBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3Qv
+cGFuZnJvc3RfcGVyZmNudC5jOjI2NDo1OiB3YXJuaW5nOiBubyBwcmV2aW91cyBwcm90b3R5cGUg
+Zm9yIOKAmHBhbmZyb3N0X3BlcmZjbnRfaW5pdOKAmSBbLVdtaXNzaW5nLXByb3RvdHlwZXNdCj4g
+PiA+ID4gZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X3BlcmZjbnQuYzozMjA6Njog
+d2FybmluZzogbm8gcHJldmlvdXMgcHJvdG90eXBlIGZvciDigJhwYW5mcm9zdF9wZXJmY250X2Zp
+bmnigJkgWy1XbWlzc2luZy1wcm90b3R5cGVzXQo+ID4gPiA+IGRyaXZlcnMvZ3B1L2RybS9wYW5m
+cm9zdC9wYW5mcm9zdF9tbXUuYzoyMjc6Njogd2FybmluZzogbm8gcHJldmlvdXMgcHJvdG90eXBl
+IGZvciDigJhwYW5mcm9zdF9tbXVfZmx1c2hfcmFuZ2XigJkgWy1XbWlzc2luZy1wcm90b3R5cGVz
+XQo+ID4gPiA+IGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9tbXUuYzo0MzU6NTog
+d2FybmluZzogbm8gcHJldmlvdXMgcHJvdG90eXBlIGZvciDigJhwYW5mcm9zdF9tbXVfbWFwX2Zh
+dWx0X2FkZHLigJkgWy1XbWlzc2luZy1wcm90b3R5cGVzXQo+ID4gPiA+Cj4gPiA+ID4gRm9yIGZp
+bGUgcGFuZnJvc3RfbW11LmMsIG1ha2UgZnVuY3Rpb25zIHN0YXRpYyB0byBmaXggdGhpcy4KPiA+
+ID4gPiBGb3IgZmlsZSBwYW5mcm9zdF9wZXJmY250LmMsIGluY2x1ZGUgaGVhZGVyIGZpbGUgY2Fu
+IGZpeCB0aGlzLgo+ID4gPiA+Cj4gPiA+ID4gU2lnbmVkLW9mZi1ieTogWWkgV2FuZyA8d2FuZy55
+aTU5QHp0ZS5jb20uY24+Cj4gPiA+ID4gUmV2aWV3ZWQtYnk6IFN0ZXZlbiBQcmljZSA8c3RldmVu
+LnByaWNlQGFybS5jb20+Cj4gPiA+ID4gLS0tCj4gPiA+ID4KPiA+ID4gPiB2MzogdXNpbmcgdGFi
+IHNpemUgb2YgOCBvdGhlciB0aGFuIDQuCj4gPiA+ID4KPiA+ID4gPiB2MjogYWxpZ24gcGFyYW1l
+dGVyIGxpbmUgYW5kIG1vZGlmeSBjb21tZW50LiBUaGFua3MgdG8gU3RldmUuCj4gPiA+ID4gLS0t
+Cj4gPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9tbXUuYyAgICAgfCA5
+ICsrKysrLS0tLQo+ID4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfcGVy
+ZmNudC5jIHwgMSArCj4gPiA+ID4gIDIgZmlsZXMgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCA0
+IGRlbGV0aW9ucygtKQo+ID4gPiA+Cj4gPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS9wYW5mcm9zdC9wYW5mcm9zdF9tbXUuYyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5m
+cm9zdF9tbXUuYwo+ID4gPiA+IGluZGV4IGJkZDk5MDUuLjg3MTU3NGMgMTAwNjQ0Cj4gPiA+ID4g
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X21tdS5jCj4gPiA+ID4gKysr
+IGIvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X21tdS5jCj4gPiA+ID4gQEAgLTIy
+NCw5ICsyMjQsOSBAQCBzdGF0aWMgc2l6ZV90IGdldF9wZ3NpemUodTY0IGFkZHIsIHNpemVfdCBz
+aXplKQo+ID4gPiA+ICAgICAgcmV0dXJuIFNaXzJNOwo+ID4gPiA+ICB9Cj4gPiA+ID4KPiA+ID4g
+PiAtdm9pZCBwYW5mcm9zdF9tbXVfZmx1c2hfcmFuZ2Uoc3RydWN0IHBhbmZyb3N0X2RldmljZSAq
+cGZkZXYsCj4gPiA+ID4gLSAgICAgICAgICAgICAgICAgIHN0cnVjdCBwYW5mcm9zdF9tbXUgKm1t
+dSwKPiA+ID4gPiAtICAgICAgICAgICAgICAgICAgdTY0IGlvdmEsIHNpemVfdCBzaXplKQo+ID4g
+PiA+ICtzdGF0aWMgdm9pZCBwYW5mcm9zdF9tbXVfZmx1c2hfcmFuZ2Uoc3RydWN0IHBhbmZyb3N0
+X2RldmljZSAqcGZkZXYsCj4gPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgc3RydWN0IHBhbmZy
+b3N0X21tdSAqbW11LAo+ID4gPiA+ICsgICAgICAgICAgICAgICAgICAgIHU2NCBpb3ZhLCBzaXpl
+X3Qgc2l6ZSkKPiA+ID4KPiA+ID4gT2ssIEknbGwgYWRtaXQgSSB3b3VsZG4ndCBoYXZlIHNwb3R0
+ZWQgdGhpcyB1bmxlc3MgSSdkIGRvdWJsZSBjaGVja2VkIGJ5Cj4gPiA+IGFwcGx5aW5nIHRoZSBw
+YXRjaCwgYnV0IHlvdSBzdGlsbCBzZWVtIHRvIGhhdmUgc29tZXRoaW5nIG1pc2NvbmZpZ3VyZWQK
+PiA+ID4gaW4geW91ciBlZGl0b3IuIFRoaXMgaXMgb3V0IGJ5IG9uZSBjaGFyYWN0ZXI6Cj4gPiA+
+Cj4gPiA+IHN0YXRpYyB2b2lkIHBhbmZyb3N0X21tdV9mbHVzaF9yYW5nZShzdHJ1Y3QgcGFuZnJv
+c3RfZGV2aWNlICpwZmRldiwKPiA+ID4gPi0tLS0tLS0+LS0tLS0tLT4tLS0tLS0tPi0tLS0tLS0g
+ICAgc3RydWN0IHBhbmZyb3N0X21tdSAqbW11LAo+ID4gPiA+LS0tLS0tLT4tLS0tLS0tPi0tLS0t
+LS0+LS0tLS0tLSAgICB1NjQgaW92YSwgc2l6ZV90IHNpemUpCj4gPiA+Cj4gPiA+IFRoZXJlIHNo
+b3VsZCBiZSBhbiBleHRyYSBzcGFjZSB0byBhbGlnbiBjb3JyZWN0bHkuCj4gPgo+ID4gQWNjb3Jk
+aW5nIHRvIFtMaW51eCBrZXJuZWwgY29kaW5nIHN0eWxlXShodHRwczovL3d3dy5rZXJuZWwub3Jn
+L2RvYy9odG1sL3Y0LjEwL3Byb2Nlc3MvY29kaW5nLXN0eWxlLmh0bWwpOgo+ID4gPiBPdXRzaWRl
+IG9mIGNvbW1lbnRzLCBkb2N1bWVudGF0aW9uIGFuZCBleGNlcHQgaW4gS2NvbmZpZywgc3BhY2Vz
+IGFyZQo+ID4gPiBuZXZlciB1c2VkIGZvciBpbmRlbnRhdGlvbiwgYW5kIHRoZSBhYm92ZSBleGFt
+cGxlIGlzIGRlbGliZXJhdGVseSBicm9rZW4uCj4gPgo+ID4gSWYgSSB1bmRlcnN0YW5kIGNvcnJl
+dGx5LCB0aGUgdGFiIGlzIGVub3VnaCBmb3IgaW5kZW50YXRpb24gOi0pCj4KPiBUaGVyZSdzIGEg
+KHN1YnRsZSkgZGlmZmVyZW5jZSBiZXR3ZWVuIGluZGVudGF0aW9uIGFuZCBhbGlnbm1lbnQuCj4g
+SW5kZW50YXRpb24gaXMgd2hlcmUgdGhlIGNvZGUgaXMgbW92ZWQgb3ZlciBiZWNhdXNlIGl0IGlz
+IGNvbnRhaW5lZAo+IHdpdGhpbiBhbiBvdXRlciBzdGF0ZW1lbnQgKGUuZy4gYW4gJ2lmJyBvciAn
+d2hpbGUnKS4gVGhlIExpbnV4IGNvZGluZwo+IHN0eWxlIGlzIHRoYXQgdGhpcyBzaG91bGQgYmUg
+ZG9uZSB3aXRoIG9ubHkgdGFicyBhcyB5b3UgcXVvdGUuCgpPaywgSSBnb3QgaXQuCgo+Cj4gSG93
+ZXZlciB3aGVuIHRoZSBsaW5lIGlzIGEgY29udGludWF0aW9uIG9mIHRoZSBwcmV2aW91cyBsaW5l
+LCBsaWtlIGluCj4gdGhlIGV4YW1wbGUgaGVyZSwgdGhlbiB3ZSBvZnRlbiBuZWVkIGEgY29tYmlu
+YXRpb24gb2YgdGFicy9zcGFjZXMgdG8KPiBhbGlnbiBjb3JyZWN0bHkuIFRoZSBkZXNpcmUgaGVy
+ZSBpcyB0aGF0IHRoZSBjb250aW51YXRpb24gbGluZXMgYWxsCj4gc3RhcnQgc3RyYWlnaHQgYWZ0
+ZXIgdGhlICIoIiBvbiB0aGUgZmlyc3QgbGluZS4gU2luY2UgdGhhdCBpcyAzNwo+IGNoYXJhY3Rl
+cnMgZnJvbSB0aGUgc3RhcnQgd2UgbmVlZCA0IHRhYnMgKyA1IHNwYWNlcyAoNCo4KzU9MzcpLCB3
+aGVyZWFzCj4geW91IGhhZCA0IHRhYnMgKyA0IHNwYWNlcy4gTXkgZ3Vlc3MgaXMgdGhpcyBpcyBi
+ZWNhdXNlIHlvdSd2ZSBnb3QgdGhlCj4gZm9sbG93aW5nIHZpbSBjb25maWd1cmF0aW9uOgo+Cj4g
+IHRhYnN0b3AgPSA4Cj4gIHNvZnR0YWJzdG9wID0gNAo+ICBub2V4cGFuZHRhYgo+Cj4gVGhpcyBt
+ZWFucyB0aGF0IHByZXNzaW5nIDx0YWI+IG1vdmVzIHlvdSBhbG9uZyBvbmx5IDQgY29sdW1ucyAo
+aS5lLgo+IGluc2VydHMgNCBzcGFjZXMpLCBhIHNlY29uZCA8dGFiPiB3aWxsIHRoZW4gcmVwbGFj
+ZSB0aGUgc3BhY2VzIHdpdGggYQo+IHJlYWwgdGFiIGNoYXJhY3RlciAoaS5lLiBtb3ZlIGFub3Ro
+ZXIgNCBjb2x1bW5zIGZvciBhIHRvdGFsIG9mIDgpLgo+Cj4gSXQncyBwcm9iYWJseSBiZXN0IHRv
+IHNldCAic29mdHRhYnN0b3AgPSAwIiBzbyB0aGF0IDx0YWI+IGFsd2F5cyBpbnNlcnRzCj4gYSBy
+ZWFsIHRhYiBjaGFyYWN0ZXIuIFlvdSBtaWdodCBhbHNvIGZpbmQgaXQgdXNlZnVsIHRvIG1ha2Ug
+dGFicwo+IHZpc2libGU6Cj4KPiAgc2V0IGxpc3QKPiAgc2V0IGxpc3RjaGFycz10YWI6Pi0KPgo+
+IFRoYXQgd2F5IHlvdSBjYW4gZWFzaWx5IHNlZSB3aGVyZSB5b3UgaGF2ZSB0YWIgY2hhcmFjdGVy
+cyBhbmQgc3BhY2VzCj4gKGxpa2UgaW4gdGhlIGV4YW1wbGUgSSBxdW90ZWQgYWJvdmUpLgoKVGhh
+dCdzIHJlYWxseSB1c2VmdWwuIFRoYW5rIHlvdSwgU3RldmUuCkkgd2lsbCBzZW5kIGEgbmV3IHBh
+dGNoIHNvb24uCgo+Cj4gU3RldmUKPgo+ID4gPgo+ID4gPiA+ICB7Cj4gPiA+ID4gICAgICBpZiAo
+bW11LT5hcyA8IDApCj4gPiA+ID4gICAgICAgICAgcmV0dXJuOwo+ID4gPiA+IEBAIC00MzIsNyAr
+NDMyLDggQEAgdm9pZCBwYW5mcm9zdF9tbXVfcGd0YWJsZV9mcmVlKHN0cnVjdCBwYW5mcm9zdF9m
+aWxlX3ByaXYgKnByaXYpCj4gPiA+ID4KPiA+ID4gPiAgI2RlZmluZSBOVU1fRkFVTFRfUEFHRVMg
+KFNaXzJNIC8gUEFHRV9TSVpFKQo+ID4gPiA+Cj4gPiA+ID4gLWludCBwYW5mcm9zdF9tbXVfbWFw
+X2ZhdWx0X2FkZHIoc3RydWN0IHBhbmZyb3N0X2RldmljZSAqcGZkZXYsIGludCBhcywgdTY0IGFk
+ZHIpCj4gPiA+ID4gK3N0YXRpYyBpbnQgcGFuZnJvc3RfbW11X21hcF9mYXVsdF9hZGRyKHN0cnVj
+dCBwYW5mcm9zdF9kZXZpY2UgKnBmZGV2LCBpbnQgYXMsCj4gPiA+ID4gKyAgICAgICAgICAgICAg
+ICAgICAgdTY0IGFkZHIpCj4gPiA+Cj4gPiA+IEhlcmUgeW91J3JlIG9mZi1ieS1vbmUgaW4gdGhl
+IG90aGVyIGRpcmVjdGlvbiAtIHlvdSBuZWVkIHRvIHJlcGxhY2UgdGhlCj4gPiA+IGZpbmFsIHRh
+YiB3aXRoIDcgc3BhY2VzOgo+ID4gPgo+ID4gPiBzdGF0aWMgaW50IHBhbmZyb3N0X21tdV9tYXBf
+ZmF1bHRfYWRkcihzdHJ1Y3QgcGFuZnJvc3RfZGV2aWNlICpwZmRldiwgaW50IGFzLAo+ID4gPiA+
+LS0tLS0tLT4tLS0tLS0tPi0tLS0tLS0+LS0tLS0tLT4tLS0tLS0tdTY0IGFkZHIpCj4gPiA+Cj4g
+PiA+IFNvcnJ5IHRvIG5pdC1waWNrIG92ZXIgdGhpcywgYnV0IGl0J3MgZ29vZCB0byBnZXQgeW91
+ciBlZGl0b3Igc2V0dXAKPiA+ID4gY29ycmVjdGx5IHRvIGVuc3VyZSB5b3VyIGZvcm1hdHRpbmcg
+aXMgY29ycmVjdC4KPiA+Cj4gPiBZZWFoLCBpdCB3b3J0aCB0aW1lIG9uIHRoZSBlZGl0b3Igc2V0
+dXAsIGFuZCB0aGFua3MgYWdhaW4uCj4gPgo+ID4gPgo+ID4gPiBUaGFua3MsCj4gPiA+Cj4gPiA+
+IFN0ZXZlCj4gPgo+ID4KPiA+IC0tLQo+ID4gQmVzdCB3aXNoZXMKPiA+IFlpIFdhbmcKCgoKLS0t
+CkJlc3Qgd2lzaGVzCllpIFdhbmc=
 
-If we just keep this Android specific, I'd worry some day the upstream has
-standardized a way to report this and Android vendors have to take extra
-efforts to migrate over. This is one of the main reasons we'd like to do
-this on the upstream side.
 
-Timeline wise, Android has explicit deadlines for the next release and we
-have to push hard towards those. Any prompt responses are very much
-appreciated!
+--=====_003_next=====--
 
-Best regards,
-Yiwei
-
-On Mon, Oct 28, 2019 at 11:33 AM Yiwei Zhang <zzyiwei@google.com> wrote:
-
-> On Mon, Oct 28, 2019 at 8:26 AM Jerome Glisse <jglisse@redhat.com> wrote:
->
->> On Fri, Oct 25, 2019 at 11:35:32AM -0700, Yiwei Zhang wrote:
->> > Hi folks,
->> >
->> > This is the plain text version of the previous email in case that was
->> > considered as spam.
->> >
->> > --- Background ---
->> > On the downstream Android, vendors used to report GPU private memory
->> > allocations with debugfs nodes in their own formats. However, debugfs
->> nodes
->> > are getting deprecated in the next Android release.
->>
->> Maybe explain why it is useful first ?
->>
->
-> Memory is precious on Android mobile platforms. Apps using a large amount
-> of
-> memory, games, tend to maintain a table for the memory on different
-> devices with
-> different prediction models. Private gpu memory allocations is
-> currently semi-blind
-> to the apps and the platform as well.
->
-> By having the data, the platform can do:
-> (1) GPU memory profiling as part of the huge Android profiler in progress=
-.
-> (2) Android system health team can enrich the performance test coverage.
-> (3) We can collect filed metrics to detect any regression on the gpu
-> private memory
-> allocations in the production population.
-> (4) Shell user can easily dump the allocations in a uniform way across
-> vendors.
-> (5) Platform can feed the data to the apps so that apps can do memory
-> allocations
-> in a more predictable way.
->
->
->> >
->> > --- Proposal ---
->> > We are taking the chance to unify all the vendors to migrate their
->> existing
->> > debugfs nodes into a standardized sysfs node structure. Then the
->> platform
->> > is able to do a bunch of useful things: memory profiling, system healt=
-h
->> > coverage, field metrics, local shell dump, in-app api, etc. This
->> proposal
->> > is better served upstream as all GPU vendors can standardize a gpu
->> memory
->> > structure and reduce fragmentation across Android and Linux that clien=
-ts
->> > can rely on.
->> >
->> > --- Detailed design ---
->> > The sysfs node structure looks like below:
->> > /sys/devices/<ro.gfx.sysfs.0>/<pid>/<type_name>
->> > e.g. "/sys/devices/mali0/gpu_mem/606/gl_buffer" and the gl_buffer is a
->> node
->> > having the comma separated size values: "4096,81920,...,4096".
->>
->> How does kernel knows what API the allocation is use for ? With the
->> open source driver you never specify what API is creating a gem object
->> (opengl, vulkan, ...) nor what purpose (transient, shader, ...).
->>
->
-> Oh, is this a hard requirement for the open source drivers to not bookkee=
-p
-> any
-> data from userland? I think the API is just some additional metadata
-> passed down.
->
->
->>
->> > For the top level root, vendors can choose their own names based on th=
-e
->> > value of ro.gfx.sysfs.0 the vendors set. (1) For the multiple gpu driv=
-er
->> > cases, we can use ro.gfx.sysfs.1, ro.gfx.sysfs.2 for the 2nd and 3rd
->> KMDs.
->> > (2) It's also allowed to put some sub-dir for example "kgsl/gpu_mem" o=
-r
->> > "mali0/gpu_mem" in the ro.gfx.sysfs.<channel> property if the root nam=
-e
->> > under /sys/devices/ is already created and used for other purposes.
->>
->> On one side you want to standardize on the other you want to give
->> complete freedom on the top level naming scheme. I would rather see a
->> consistent naming scheme (ie something more restraint and with little
->> place for interpration by individual driver)
->>
->
-> Thanks for commenting on this. We definitely need some suggestions on the
-> root
-> directory. In the multi-gpu case on desktop, is there some existing
-> consumer to
-> query "some data" from all the GPUs? How does the tool find all GPUs and
-> differentiate between them? Is this already standardized?
->
-> > For the 2nd level "pid", there are usually just a couple of them per
->> > snapshot, since we only takes snapshot for the active ones.
->>
->> ? Do not understand here, you can have any number of applications with
->> GPU objects ? And thus there is no bound on the number of PID. Please
->> consider desktop too, i do not know what kind of limitation android
->> impose.
->>
->
-> We are only interested in tracking *active* GPU private allocations. So
-> yes, any
-> application currently holding an active GPU context will probably has a
-> node here.
-> Since we want to do profiling for specific apps, the data has to be per
-> application
-> based. I don't get your concerns here. If it's about the tracking
-> overhead, it's rare
-> to see tons of application doing private gpu allocations at the same time=
-.
-> Could
-> you help elaborate a bit?
->
-> > For the 3rd level "type_name", the type name will be one of the GPU
->> memory
->> > object types in lower case, and the value will be a comma separated
->> > sequence of size values for all the allocations under that specific
->> type.
->> >
->> > We especially would like some comments on this part. For the GPU memor=
-y
->> > object types, we defined 9 different types for Android:
->> > (1) UNKNOWN // not accounted for in any other category
->> > (2) SHADER // shader binaries
->> > (3) COMMAND // allocations which have a lifetime similar to a
->> > VkCommandBuffer
->> > (4) VULKAN // backing for VkDeviceMemory
->> > (5) GL_TEXTURE // GL Texture and RenderBuffer
->> > (6) GL_BUFFER // GL Buffer
->> > (7) QUERY // backing for query
->> > (8) DESCRIPTOR // allocations which have a lifetime similar to a
->> > VkDescriptorSet
->> > (9) TRANSIENT // random transient things that the driver needs
->> >
->> > We are wondering if those type enumerations make sense to the upstream
->> side
->> > as well, or maybe we just deal with our own different type sets. Cuz o=
-n
->> the
->> > Android side, we'll just read those nodes named after the types we
->> defined
->> > in the sysfs node structure.
->>
->> See my above point of open source driver and kernel being unaware
->> of the allocation purpose and use.
->>
->> Cheers,
->> J=C3=A9r=C3=B4me
->>
->>
-> Many thanks for the reply!
-> Yiwei
->
-
---000000000000b956780596026906
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi=C2=A0Jerome and all folks,<div><br></div><div>In additi=
-on to my last reply, I just wanna get some more information regarding this =
-on the upstream side.</div><div><br></div><div>1. Do you think this(standar=
-dize a way to report GPU private allocations) is going to be a useful thing=
- on the upstream as well? It grants a lot benefits for Android, but I&#39;d=
- like to get an idea for the non-Android world.</div><div><br></div><div>2.=
- There might be some worries that upstream kernel driver has no idea regard=
-ing the API. However, to achieve good fidelity around memory reporting, we&=
-#39;d have to pass down certain metadata which is known only by the=C2=A0us=
-erland. Consider this use case: on the upstream side, freedreno for example=
-, some memory buffer object(BO) during its own lifecycle could represent to=
-tally different=C2=A0things, and kmd is not aware of that. When we&#39;d li=
-ke to take memory snapshots at certain granularity, we have to know what th=
-at buffer represents so that the snapshot can be meaningful and useful.</di=
-v><div><br></div><div>If we just keep this Android specific, I&#39;d worry =
-some day the upstream has standardized a way to report this and Android ven=
-dors have to take extra efforts to migrate over. This is one of the main re=
-asons we&#39;d like to do this on the upstream side.=C2=A0</div><div><br></=
-div><div>Timeline wise, Android has explicit deadlines for the next release=
- and we have to push hard towards those. Any prompt responses are very much=
- appreciated!</div><div><br></div><div>Best regards,</div><div>Yiwei</div><=
-/div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">O=
-n Mon, Oct 28, 2019 at 11:33 AM Yiwei Zhang &lt;<a href=3D"mailto:zzyiwei@g=
-oogle.com">zzyiwei@google.com</a>&gt; wrote:<br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">On Mon, Oct =
-28, 2019 at 8:26 AM Jerome Glisse &lt;<a href=3D"mailto:jglisse@redhat.com"=
- target=3D"_blank">jglisse@redhat.com</a>&gt; wrote:<br></div><div class=3D=
-"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri, Oct=
- 25, 2019 at 11:35:32AM -0700, Yiwei Zhang wrote:<br>
-&gt; Hi folks,<br>
-&gt; <br>
-&gt; This is the plain text version of the previous email in case that was<=
-br>
-&gt; considered as spam.<br>
-&gt; <br>
-&gt; --- Background ---<br>
-&gt; On the downstream Android, vendors used to report GPU private memory<b=
-r>
-&gt; allocations with debugfs nodes in their own formats. However, debugfs =
-nodes<br>
-&gt; are getting deprecated in the next Android release.<br>
-<br>
-Maybe explain why it is useful first ?<br></blockquote><div><br></div><div>=
-Memory is precious on Android mobile platforms. Apps using a large amount o=
-f</div><div>memory, games, tend to maintain a table for the memory on diffe=
-rent devices with</div><div>different prediction models. Private gpu memory=
- allocations is currently=C2=A0semi-blind</div><div>to the apps and the pla=
-tform as well.</div><div><br></div><div>By having the data, the platform ca=
-n do:</div><div>(1) GPU memory profiling as part of the huge Android profil=
-er in progress.</div><div>(2) Android system health team can enrich the per=
-formance test coverage.</div><div>(3) We can collect filed metrics to detec=
-t any regression on the gpu private memory</div><div>allocations in the pro=
-duction population.</div><div>(4) Shell user can easily dump the allocation=
-s in a uniform way across vendors.</div><div>(5) Platform can feed the data=
- to the apps so that apps can do memory allocations</div><div>in a more pre=
-dictable way.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-&gt; <br>
-&gt; --- Proposal ---<br>
-&gt; We are taking the chance to unify all the vendors to migrate their exi=
-sting<br>
-&gt; debugfs nodes into a standardized sysfs node structure. Then the platf=
-orm<br>
-&gt; is able to do a bunch of useful things: memory profiling, system healt=
-h<br>
-&gt; coverage, field metrics, local shell dump, in-app api, etc. This propo=
-sal<br>
-&gt; is better served upstream as all GPU vendors can standardize a gpu mem=
-ory<br>
-&gt; structure and reduce fragmentation across Android and Linux that clien=
-ts<br>
-&gt; can rely on.<br>
-&gt; <br>
-&gt; --- Detailed design ---<br>
-&gt; The sysfs node structure looks like below:<br>
-&gt; /sys/devices/&lt;ro.gfx.sysfs.0&gt;/&lt;pid&gt;/&lt;type_name&gt;<br>
-&gt; e.g. &quot;/sys/devices/mali0/gpu_mem/606/gl_buffer&quot; and the gl_b=
-uffer is a node<br>
-&gt; having the comma separated size values: &quot;4096,81920,...,4096&quot=
-;.<br>
-<br>
-How does kernel knows what API the allocation is use for ? With the<br>
-open source driver you never specify what API is creating a gem object<br>
-(opengl, vulkan, ...) nor what purpose (transient, shader, ...).<br></block=
-quote><div><br></div><div>Oh, is this a hard requirement for the open sourc=
-e drivers to not bookkeep any</div><div>data from userland? I think the API=
- is just some additional metadata passed down.</div><div>=C2=A0</div><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
-px solid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt; For the top level root, vendors can choose their own names based on th=
-e<br>
-&gt; value of ro.gfx.sysfs.0 the vendors set. (1) For the multiple gpu driv=
-er<br>
-&gt; cases, we can use ro.gfx.sysfs.1, ro.gfx.sysfs.2 for the 2nd and 3rd K=
-MDs.<br>
-&gt; (2) It&#39;s also allowed to put some sub-dir for example &quot;kgsl/g=
-pu_mem&quot; or<br>
-&gt; &quot;mali0/gpu_mem&quot; in the ro.gfx.sysfs.&lt;channel&gt; property=
- if the root name<br>
-&gt; under /sys/devices/ is already created and used for other purposes.<br=
->
-<br>
-On one side you want to standardize on the other you want to give<br>
-complete freedom on the top level naming scheme. I would rather see a<br>
-consistent naming scheme (ie something more restraint and with little<br>
-place for interpration by individual driver)<br></blockquote><div><br></div=
-><div>Thanks for commenting on this. We definitely need some suggestions on=
- the root</div><div>directory. In the multi-gpu case on desktop, is there s=
-ome existing consumer to</div><div>query &quot;some data&quot; from all the=
- GPUs? How does the tool find all GPUs and</div><div>differentiate between =
-them? Is this already standardized?<br><br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">
-&gt; For the 2nd level &quot;pid&quot;, there are usually just a couple of =
-them per<br>
-&gt; snapshot, since we only takes snapshot for the active ones.<br>
-<br>
-? Do not understand here, you can have any number of applications with<br>
-GPU objects ? And thus there is no bound on the number of PID. Please<br>
-consider desktop too, i do not know what kind of limitation android<br>
-impose.<br></blockquote><div><br></div><div>We are only interested in track=
-ing *active* GPU private allocations. So yes, any</div><div>application cur=
-rently holding an active GPU context will probably has a node here.</div><d=
-iv>Since we want to do profiling for specific apps, the data has to be per =
-application</div><div>based. I don&#39;t=C2=A0get your concerns here. If it=
-&#39;s about the tracking overhead, it&#39;s rare</div><div>to see tons of =
-application doing private gpu allocations at the same time. Could</div><div=
->you help elaborate=C2=A0a bit?</div><div><br></div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex">
-&gt; For the 3rd level &quot;type_name&quot;, the type name will be one of =
-the GPU memory<br>
-&gt; object types in lower case, and the value will be a comma separated<br=
->
-&gt; sequence of size values for all the allocations under that specific ty=
-pe.<br>
-&gt; <br>
-&gt; We especially would like some comments on this part. For the GPU memor=
-y<br>
-&gt; object types, we defined 9 different types for Android:<br>
-&gt; (1) UNKNOWN // not accounted for in any other category<br>
-&gt; (2) SHADER // shader binaries<br>
-&gt; (3) COMMAND // allocations which have a lifetime similar to a<br>
-&gt; VkCommandBuffer<br>
-&gt; (4) VULKAN // backing for VkDeviceMemory<br>
-&gt; (5) GL_TEXTURE // GL Texture and RenderBuffer<br>
-&gt; (6) GL_BUFFER // GL Buffer<br>
-&gt; (7) QUERY // backing for query<br>
-&gt; (8) DESCRIPTOR // allocations which have a lifetime similar to a<br>
-&gt; VkDescriptorSet<br>
-&gt; (9) TRANSIENT // random transient things that the driver needs<br>
-&gt;<br>
-&gt; We are wondering if those type enumerations make sense to the upstream=
- side<br>
-&gt; as well, or maybe we just deal with our own different type sets. Cuz o=
-n the<br>
-&gt; Android side, we&#39;ll just read those nodes named after the types we=
- defined<br>
-&gt; in the sysfs node structure.<br>
-<br>
-See my above point of open source driver and kernel being unaware<br>
-of the allocation purpose and use.<br>
-<br>
-Cheers,<br>
-J=C3=A9r=C3=B4me<br>
-<br></blockquote><div><br></div><div>Many thanks for the reply!</div><div>Y=
-iwei</div></div></div>
-</blockquote></div>
-
---000000000000b956780596026906--
-
---===============0725760628==
+--=====_001_next=====
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -466,4 +189,5 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0725760628==--
+--=====_001_next=====--
+
