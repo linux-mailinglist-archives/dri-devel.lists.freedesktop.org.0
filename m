@@ -2,72 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1727E8B01
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2019 15:41:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A51DE8B6B
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2019 16:05:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EEE76E415;
-	Tue, 29 Oct 2019 14:41:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29A876E420;
+	Tue, 29 Oct 2019 15:05:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 473B16E415
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2019 14:41:16 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9TEOOBw144858;
- Tue, 29 Oct 2019 14:41:12 GMT
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 2vve3q9n13-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 29 Oct 2019 14:41:12 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9TEOstE097919;
- Tue, 29 Oct 2019 14:41:12 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 2vxpfd3nng-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 29 Oct 2019 14:41:12 +0000
-Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x9TEfBcx003340;
- Tue, 29 Oct 2019 14:41:11 GMT
-Received: from mwanda (/10.175.172.230)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 29 Oct 2019 07:41:10 -0700
-Date: Tue, 29 Oct 2019 17:41:05 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: andrey.grodzovsky@amd.com
-Subject: Re: [bug report] drm/sched: Set error to s_fence if HW job
- submission failed.
-Message-ID: <20191029144105.GA19684@mwanda>
-References: <20191029143914.GA19410@mwanda>
+Received: from NAM05-CO1-obe.outbound.protection.outlook.com
+ (mail-eopbgr720058.outbound.protection.outlook.com [40.107.72.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F27889CD9;
+ Tue, 29 Oct 2019 15:05:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WPqdNcTfrf6P7YzKOoQLnyH0S2se8GAavlRLMcpVn3AQiDe7DzZw+MTbXZfIUipU3HDCfwblGs7gc0iApHuwefsoTcNY4P0MvISg/e+O26/hMG4KzB2182V9U/pbudXotCOh346EnLHz7YJ111USeep4Ll6wWpo6T2iLU1svuYdT7k/ddLMBvubZnLuX6WvZs4v+7Lgs8YUaCPyTcCK0vLlGQ/KyNapB3CADV/NZ8EUEnQVMHXuI5L6Q6P4cZ/bK6vl7ih4n7zD6adtzWCnR/qBIBke5F+sQ/mF8agP5OKxBo2fjjfzrJFqepw6NE6gmfdXcmK8VP4wDXhRJe68f5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wDpf5nU25c4fgSfUf6ULjV7mexzIn7VC1g7lWsrZMO4=;
+ b=VpM8ahhOgXEFS+ct20r6RdnCljwi1+OlbSyCHYbhSNf2b11xPlnBKSrD2VK7RCAMXivJ5aoaDWgNs7VuU9EtIuAeoVqKoGFXWFCzb1AVILFCIjUPSkEPjtuaPmShNeOoOrLJJvaM4VTq/D4Vb8thi43/uGc+iAO8Jhwc2+t3wXFmlI9OfCbffpSYzBYZWenW+ZbOWL1NsuxtbjavIusGbDxPLiRznz0N1uG3yyVFoKSd7VTcWatWjNrvtsNCQrKmHwwy15/R8jkXwXDTDNA3f3qCe9Y7RzepXpbItMp/jeFUJT5av65iPT6nXgYCMbyH1so5UOX337EzDErQvMBR2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=oracle.com smtp.mailfrom=amd.com;
+ dmarc=permerror action=none header.from=amd.com; dkim=none (message not
+ signed); arc=none
+Received: from MWHPR12CA0064.namprd12.prod.outlook.com (2603:10b6:300:103::26)
+ by BYAPR12MB3573.namprd12.prod.outlook.com (2603:10b6:a03:df::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2387.24; Tue, 29 Oct
+ 2019 15:04:58 +0000
+Received: from DM3NAM03FT003.eop-NAM03.prod.protection.outlook.com
+ (2a01:111:f400:7e49::205) by MWHPR12CA0064.outlook.office365.com
+ (2603:10b6:300:103::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2387.22 via Frontend
+ Transport; Tue, 29 Oct 2019 15:04:57 +0000
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+Received: from SATLEXMB01.amd.com (165.204.84.17) by
+ DM3NAM03FT003.mail.protection.outlook.com (10.152.82.87) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.20.2387.20 via Frontend Transport; Tue, 29 Oct 2019 15:04:57 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB01.amd.com
+ (10.181.40.142) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Tue, 29 Oct
+ 2019 10:04:45 -0500
+Received: from SATLEXMB02.amd.com (10.181.40.143) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Tue, 29 Oct
+ 2019 10:04:45 -0500
+Received: from agrodzovsky-All-Series.amd.com (10.180.168.240) by
+ SATLEXMB02.amd.com (10.181.40.143) with Microsoft SMTP Server id 15.1.1713.5
+ via Frontend Transport; Tue, 29 Oct 2019 10:04:45 -0500
+From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+To: <dan.carpenter@oracle.com>
+Subject: [PATCH] drm/sched:  Fix passing zero to 'PTR_ERR' warning
+Date: Tue, 29 Oct 2019 11:04:44 -0400
+Message-ID: <1572361484-9828-1-git-send-email-andrey.grodzovsky@amd.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191029143914.GA19410@mwanda>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9424
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=783
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1908290000 definitions=main-1910290140
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9424
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=866 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
- definitions=main-1910290140
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:165.204.84.17; IPV:NLI; CTRY:US; EFV:NLI;
+ SFV:NSPM;
+ SFS:(10009020)(4636009)(39860400002)(136003)(346002)(396003)(376002)(428003)(199004)(189003)(50226002)(70206006)(7696005)(26005)(50466002)(48376002)(16586007)(54906003)(356004)(478600001)(316002)(5660300002)(2906002)(426003)(70586007)(4744005)(2616005)(4326008)(476003)(86362001)(53416004)(14444005)(44832011)(6916009)(36756003)(186003)(486006)(305945005)(336012)(8936002)(81166006)(81156014)(2351001)(47776003)(8676002)(126002)(51416003);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR12MB3573; H:SATLEXMB01.amd.com; FPR:;
+ SPF:None; LANG:en; PTR:InfoDomainNonexistent; A:1; MX:1; 
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 609c9dc6-e5b6-434b-97a0-08d75c815ca2
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3573:
+X-Microsoft-Antispam-PRVS: <BYAPR12MB357373188B15191AC89DAD9FEA610@BYAPR12MB3573.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:29;
+X-Forefront-PRVS: 0205EDCD76
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hEnw/3FUuM81chLxMa0E5t9weW1pmfDN4UlM9vUgZJ5qLgIxPrwAPWwVYdTQRFL3/Bcvs2Mz1vg8qBX140jBA/AJpnShut3QFUg2tCXBcSelvtSbV8AztRlmmcg6zRsJWV0deKmocMHluebCE1t4CB+TMlZn3NMtEeTexOENpJb5A3Z0aprsStSNky8fS0jcsXw8U46EtdQm/RLJYaB+3mDMQSdzRSDq6W7+qqfJ92xKWzmJrTnObmgM9u1Nud9SqHh/inGjM2k394EFsK/5lxzO0UK40Kxe0QzOsS9KqX3w6lYtnX65wTrbQ7/0n7OB1KfFh5M9xqnGoLGBwc9cbC/mOYBNpPwYjALKHf7XATG+W6+nXmN7KcZbWc80HFgk03nly/sv4lQLfWdm524ZcIFClnx0jA9IWbTQXWPE58e+0X41kKTNY0oK3WpIiBSO
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2019 15:04:57.0029 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 609c9dc6-e5b6-434b-97a0-08d75c815ca2
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB01.amd.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3573
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2019-08-05;
- bh=QbY1uNqPzM1UU28VzCXZawFhgKhARUP5lmyITM40YbQ=;
- b=FOXbH12i2outnmEJOa82ePEdiyPsO8VtMGFdobkEI/PeqSB+vVNlR/JbEVhltNp4nE2i
- NXZI2Wt7qjGhjZ6WPlcd05TmzaGvONdq7Aqacqw5u2vbUGGrt+qpUBUnK7qAwXa+4Wrg
- jwzOzLiElhc+zyRepY6eg0sflfXhHiOiQ4S4/6DEaKpgXxlHOYPTmicJwEMKA6rGG/Ky
- 1pV0xT9qt32Si5G42G2P1LQyDPGcOaNVhiz31nQAVVLRwhp5MqDokwoMSadnMDAoSkFV
- TWQ0xT1mQ2zYR1J12kKdqPwKgtgf7JwkVOAy/hWNfvKXwTd9h/yp23E/lPHrKgM9DY3R dQ== 
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wDpf5nU25c4fgSfUf6ULjV7mexzIn7VC1g7lWsrZMO4=;
+ b=kneIZlnhvSdb/vxISZDkqblMFmz7/TJmj7slhmqkqFUEG3xXh9ci8gIgHRL3ohccpKUf03XVQSsQLNsJTdcqeHZnQfeiJBB8NII54rI6oCmaTRfNITpLWbdNl+Usz+0UTPLMLmzFpB2Cjlrn/Pwn1yyom66P/WQoVvKlhnloG4Q=
+X-Mailman-Original-Authentication-Results: spf=none (sender IP is
+ 165.204.84.17)
+ smtp.mailfrom=amd.com; oracle.com; dkim=none (message not signed)
+ header.d=none;oracle.com; dmarc=permerror action=none header.from=amd.com;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,15 +103,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SSBzZW50IHRoYXQgdG9vIHF1aWNrbHkuICBTZWUgYWxzbzoKCmRyaXZlcnMvZ3B1L2RybS9zY2hl
-ZHVsZXIvc2NoZWRfbWFpbi5jOjc1MCBkcm1fc2NoZWRfbWFpbigpIHdhcm46IHBhc3NpbmcgemVy
-byB0byAnUFRSX0VSUicKCndoaWNoIGlzIGEgZmV3IGxpbmVzIGxhdGVyLgoKcmVnYXJkcywKZGFu
-IGNhcnBlbnRlcgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+Rml4IGEgc3RhdGljIGNvZGUgY2hlY2tlciB3YXJuaW5nLgoKU2lnbmVkLW9mZi1ieTogQW5kcmV5
+IEdyb2R6b3Zza3kgPGFuZHJleS5ncm9kem92c2t5QGFtZC5jb20+Ci0tLQogZHJpdmVycy9ncHUv
+ZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMgfCA0ICsrLS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGlu
+c2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L3NjaGVkdWxlci9zY2hlZF9tYWluLmMgYi9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVk
+X21haW4uYwppbmRleCBmMzliOTdlLi44OThiMGM5IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9k
+cm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVy
+L3NjaGVkX21haW4uYwpAQCAtNDk3LDcgKzQ5Nyw3IEBAIHZvaWQgZHJtX3NjaGVkX3Jlc3VibWl0
+X2pvYnMoc3RydWN0IGRybV9ncHVfc2NoZWR1bGVyICpzY2hlZCkKIAogCQlpZiAoSVNfRVJSX09S
+X05VTEwoZmVuY2UpKSB7CiAJCQlzX2pvYi0+c19mZW5jZS0+cGFyZW50ID0gTlVMTDsKLQkJCWRt
+YV9mZW5jZV9zZXRfZXJyb3IoJnNfZmVuY2UtPmZpbmlzaGVkLCBQVFJfRVJSKGZlbmNlKSk7CisJ
+CQlkbWFfZmVuY2Vfc2V0X2Vycm9yKCZzX2ZlbmNlLT5maW5pc2hlZCwgUFRSX0VSUl9PUl9aRVJP
+KGZlbmNlKSk7CiAJCX0gZWxzZSB7CiAJCQlzX2pvYi0+c19mZW5jZS0+cGFyZW50ID0gZmVuY2U7
+CiAJCX0KQEAgLTc0Miw3ICs3NDIsNyBAQCBzdGF0aWMgaW50IGRybV9zY2hlZF9tYWluKHZvaWQg
+KnBhcmFtKQogCQkJZG1hX2ZlbmNlX3B1dChmZW5jZSk7CiAJCX0gZWxzZSB7CiAKLQkJCWRtYV9m
+ZW5jZV9zZXRfZXJyb3IoJnNfZmVuY2UtPmZpbmlzaGVkLCBQVFJfRVJSKGZlbmNlKSk7CisJCQlk
+bWFfZmVuY2Vfc2V0X2Vycm9yKCZzX2ZlbmNlLT5maW5pc2hlZCwgUFRSX0VSUl9PUl9aRVJPKGZl
+bmNlKSk7CiAJCQlkcm1fc2NoZWRfcHJvY2Vzc19qb2IoTlVMTCwgJnNjaGVkX2pvYi0+Y2IpOwog
+CQl9CiAKLS0gCjIuNy40CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWw=
