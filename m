@@ -2,45 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52540E8F60
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2019 19:36:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0134BE8FA7
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2019 20:00:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A3476E59D;
-	Tue, 29 Oct 2019 18:36:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C3036E5DA;
+	Tue, 29 Oct 2019 19:00:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0197.hostedemail.com
- [216.40.44.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9AC46E59D
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2019 18:36:07 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay04.hostedemail.com (Postfix) with ESMTP id CE5E4180A5B16;
- Tue, 29 Oct 2019 18:36:05 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com,
- :::::::::::::::::::::::::::::,
- RULES_HIT:41:355:379:599:857:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2393:2559:2562:2828:3138:3139:3140:3141:3142:3352:3622:3865:3867:3868:3872:4321:5007:6742:10004:10400:11026:11232:11473:11657:11658:11914:12043:12296:12297:12438:12555:12740:12760:12895:12986:13019:13069:13311:13357:13439:14096:14097:14659:14721:21080:21627:21773:30054:30070:30075:30079:30091,
- 0,
- RBL:47.151.135.224:@perches.com:.lbl8.mailshell.net-62.8.0.100 64.201.201.201,
- CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none, DomainCache:0,
- MSF:not bulk, SPF:fn, MSBL:0, DNSBL:neutral, Custom_rules:0:0:0, LFtime:26,
- LUA_SUMMARY:none
-X-HE-Tag: thing30_17c4da0fde813
-X-Filterd-Recvd-Size: 2471
-Received: from XPS-9350.home (unknown [47.151.135.224])
- (Authenticated sender: joe@perches.com)
- by omf05.hostedemail.com (Postfix) with ESMTPA;
- Tue, 29 Oct 2019 18:36:03 +0000 (UTC)
-Message-ID: <5a6f05cef45dbb4f77008b36d7a63b429f1519ec.camel@perches.com>
-Subject: Re: [PATCH] fbdev: potential information leak in do_fb_ioctl()
-From: Joe Perches <joe@perches.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>, Bartlomiej Zolnierkiewicz
- <b.zolnierkie@samsung.com>, Andrea Righi <righi.andrea@gmail.com>
-Date: Tue, 29 Oct 2019 11:35:55 -0700
-In-Reply-To: <20191029182320.GA17569@mwanda>
-References: <20191029182320.GA17569@mwanda>
-User-Agent: Evolution 3.34.1-2 
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C43CB6E5D1
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2019 19:00:27 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id C126C720E2; Tue, 29 Oct 2019 19:00:27 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
+Date: Tue, 29 Oct 2019 19:00:25 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: blppt@yahoo.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109955-502-GVtAman9Ee@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
+References: <bug-109955-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -54,39 +52,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, security@kernel.org,
- Kees Cook <keescook@chromium.org>, kernel-janitors@vger.kernel.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Julia Lawall <Julia.Lawall@lip6.fr>,
- Gerd Hoffmann <kraxel@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
- Peter Rosin <peda@axentia.se>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0938435068=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMDE5LTEwLTI5IGF0IDIxOjIzICswMzAwLCBEYW4gQ2FycGVudGVyIHdyb3RlOgo+
-IFRoZSAiZml4IiBzdHJ1Y3QgaGFzIGEgMiBieXRlIGhvbGUgYWZ0ZXIgLT55d3JhcHN0ZXAgYW5k
-IHRoZQo+ICJmaXggPSBpbmZvLT5maXg7IiBhc3NpZ25tZW50IGRvZXNuJ3QgbmVjZXNzYXJpbHkg
-Y2xlYXIgaXQuICBJdCBkZXBlbmRzCj4gb24gdGhlIGNvbXBpbGVyLgpbXQo+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJtZW0uYyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYv
-Y29yZS9mYm1lbS5jCltdCj4gQEAgLTExMDksNiArMTEwOSw3IEBAIHN0YXRpYyBsb25nIGRvX2Zi
-X2lvY3RsKHN0cnVjdCBmYl9pbmZvICppbmZvLCB1bnNpZ25lZCBpbnQgY21kLAo+ICAJCQlyZXQg
-PSAtRUZBVUxUOwo+ICAJCWJyZWFrOwo+ICAJY2FzZSBGQklPR0VUX0ZTQ1JFRU5JTkZPOgo+ICsJ
-CW1lbXNldCgmZml4LCAwLCBzaXplb2YoZml4KSk7Cj4gIAkJbG9ja19mYl9pbmZvKGluZm8pOwo+
-ICAJCWZpeCA9IGluZm8tPmZpeDsKPiAgCQlpZiAoaW5mby0+ZmxhZ3MgJiBGQklORk9fSElERV9T
-TUVNX1NUQVJUKQoKUGVyaGFwcyBiZXR0ZXIgdG8gY2hhbmdlIHRoZSBzdHJ1Y3QgY29weSB0byBh
-IG1lbWNweQotLS0KIGRyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYm1lbS5jIHwgMiArLQogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZibWVtLmMgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2Nv
-cmUvZmJtZW0uYwppbmRleCBlNmExYzgwLi4zNjQ2OTkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdmlk
-ZW8vZmJkZXYvY29yZS9mYm1lbS5jCisrKyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYm1l
-bS5jCkBAIC0xMTEwLDcgKzExMTAsNyBAQCBzdGF0aWMgbG9uZyBkb19mYl9pb2N0bChzdHJ1Y3Qg
-ZmJfaW5mbyAqaW5mbywgdW5zaWduZWQgaW50IGNtZCwKIAkJYnJlYWs7CiAJY2FzZSBGQklPR0VU
-X0ZTQ1JFRU5JTkZPOgogCQlsb2NrX2ZiX2luZm8oaW5mbyk7Ci0JCWZpeCA9IGluZm8tPmZpeDsK
-KwkJbWVtY3B5KCZmaXgsICZpbmZvLT5maXgsIHNpemVvZihmaXgpKTsKIAkJaWYgKGluZm8tPmZs
-YWdzICYgRkJJTkZPX0hJREVfU01FTV9TVEFSVCkKIAkJCWZpeC5zbWVtX3N0YXJ0ID0gMDsKIAkJ
-dW5sb2NrX2ZiX2luZm8oaW5mbyk7CgoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbA==
+
+--===============0938435068==
+Content-Type: multipart/alternative; boundary="15723756276.1DACdf.27528"
+Content-Transfer-Encoding: 7bit
+
+
+--15723756276.1DACdf.27528
+Date: Tue, 29 Oct 2019 19:00:27 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+
+--- Comment #124 from blppt@yahoo.com ---
+(In reply to haro41 from comment #122)
+> In my experience, this issue is related to mclk switching and it affects =
+the
+> lowest mclk level only.
+>=20
+> So you guy's can save a lot of power, if you, insteed of switching to
+> highest gfxlevel or to disable vsync, just disable the lowest mclk level =
+by:
+>=20
+> echo "manual" > /sys/class/drm/card0/device/power_dpm_force_performance_l=
+evel
+> echo "1 2 3" > /sys/class/drm/card0/device/pp_dpm_mclk
+>=20
+> If you are building your kernel locally, look in this thread for a driver
+> code modification that works, without disabling the lowest mclk level (sa=
+ves
+> a few watt on idle).
+
+Ooh, that seems to have solved it. Haven't had a crash yet, ran The Outer
+Worlds for hours (addicting game!), ran FFXIV, ran GW2, no lockups. And, if
+there is much of a difference at idle in watt usage, I don't see it on the =
+UPS
+meter.
+
+Thanks a million!
+
+(also of note, when using the valve ACO, as others have noted, you don't ev=
+en
+have to do the above to (apparently) solve the problem. unfortunately, that=
+ has
+other issues, my V64 wont clock up high enough when using ACO for some reas=
+on,
+so i dont use it).
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15723756276.1DACdf.27528
+Date: Tue, 29 Oct 2019 19:00:27 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c124">Comm=
+ent # 124</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+blppt&#64;yahoo.com" title=3D"blppt&#64;yahoo.com">blppt&#64;yahoo.com</a>
+</span></b>
+        <pre>(In reply to haro41 from <a href=3D"show_bug.cgi?id=3D109955#c=
+122">comment #122</a>)
+<span class=3D"quote">&gt; In my experience, this issue is related to mclk =
+switching and it affects the
+&gt; lowest mclk level only.
+&gt;=20
+&gt; So you guy's can save a lot of power, if you, insteed of switching to
+&gt; highest gfxlevel or to disable vsync, just disable the lowest mclk lev=
+el by:
+&gt;=20
+&gt; echo &quot;manual&quot; &gt; /sys/class/drm/card0/device/power_dpm_for=
+ce_performance_level
+&gt; echo &quot;1 2 3&quot; &gt; /sys/class/drm/card0/device/pp_dpm_mclk
+&gt;=20
+&gt; If you are building your kernel locally, look in this thread for a dri=
+ver
+&gt; code modification that works, without disabling the lowest mclk level =
+(saves
+&gt; a few watt on idle).</span >
+
+Ooh, that seems to have solved it. Haven't had a crash yet, ran The Outer
+Worlds for hours (addicting game!), ran FFXIV, ran GW2, no lockups. And, if
+there is much of a difference at idle in watt usage, I don't see it on the =
+UPS
+meter.
+
+Thanks a million!
+
+(also of note, when using the valve ACO, as others have noted, you don't ev=
+en
+have to do the above to (apparently) solve the problem. unfortunately, that=
+ has
+other issues, my V64 wont clock up high enough when using ACO for some reas=
+on,
+so i dont use it).</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15723756276.1DACdf.27528--
+
+--===============0938435068==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0938435068==--
