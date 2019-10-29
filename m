@@ -2,60 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5000E8A3F
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2019 15:07:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FF55E8AF9
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Oct 2019 15:39:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E69A06EB73;
-	Tue, 29 Oct 2019 14:07:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58B176EB8A;
+	Tue, 29 Oct 2019 14:39:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC1466E40D;
- Tue, 29 Oct 2019 14:07:28 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id 11so2752702wmk.0;
- Tue, 29 Oct 2019 07:07:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Y7nv/ppOM9bsFhaC6a8JLN6nERQvOeC3b6LYkBHa3uM=;
- b=qrN/HFgtBvALwnpfv3/t0wjPCyj+mCAgDhXW4jSFgXLUTDUzorGRWPG9EWeBX1v4XB
- /tP0S3V3xKSDbLyq10/V2bqLLRSW8CkMR2jqdEYKA1dGNy/ur4mr6R/hCIcpbCbTl3yr
- mIUIow9pT+GYY4UpdwDIq7F9k2zQZ6BADteKDasp9i0hmC3j8BDhk0YYNDd1JNa3iANU
- R6KGK2bfyPesv3mUC0w+BWnzcJFy/ShuAAuwFWofjgcWW/gDQ0vZHcdd/XP7KUoMH3PQ
- d9uBIPmsX2hECFvB0RSU+y8PH+GQRX21imtqS+Un6clDyCK/vYiz+WHjAn9p4RNmgSYr
- 0QSQ==
-X-Gm-Message-State: APjAAAWykxn8kYY67jEupX2G7mr+n5eEkdtvrt2pkyQJkBTM8a5ONRdE
- zhE4M+9Rc4oYvhrr/U8XXuUCL1Zb
-X-Google-Smtp-Source: APXvYqyywS17aHGnRF0fq8p6OK8qfFXTLs9zYPTRjuwt60pDQvPg2jfMj8P22JyrG5h5f4iO/4zu7Q==
-X-Received: by 2002:a1c:740b:: with SMTP id p11mr4104702wmc.133.1572358047141; 
- Tue, 29 Oct 2019 07:07:27 -0700 (PDT)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
- by smtp.gmail.com with ESMTPSA id b186sm2714808wmb.21.2019.10.29.07.07.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Oct 2019 07:07:26 -0700 (PDT)
-Date: Tue, 29 Oct 2019 15:07:25 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH] drm/dp: Increase link status size
-Message-ID: <20191029140725.GK508460@ulmo>
-References: <20191029111006.358963-1-thierry.reding@gmail.com>
- <875zk7ad8m.fsf@intel.com>
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 296146EB8A
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Oct 2019 14:39:26 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9TEOORG165785;
+ Tue, 29 Oct 2019 14:39:22 GMT
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 2vvdju9u2m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 29 Oct 2019 14:39:22 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9TEOrtQ097890;
+ Tue, 29 Oct 2019 14:39:22 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 2vxpfd3h8a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 29 Oct 2019 14:39:21 +0000
+Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x9TEdK1E002070;
+ Tue, 29 Oct 2019 14:39:20 GMT
+Received: from mwanda (/10.175.172.230)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 29 Oct 2019 07:39:20 -0700
+Date: Tue, 29 Oct 2019 17:39:14 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: andrey.grodzovsky@amd.com
+Subject: [bug report] drm/sched: Set error to s_fence if HW job submission
+ failed.
+Message-ID: <20191029143914.GA19410@mwanda>
 MIME-Version: 1.0
-In-Reply-To: <875zk7ad8m.fsf@intel.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9424
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1908290000 definitions=main-1910290140
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9424
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
+ definitions=main-1910290140
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=Y7nv/ppOM9bsFhaC6a8JLN6nERQvOeC3b6LYkBHa3uM=;
- b=W9HX51hJ4av1Mralgva8gjjafw3U3u481zdDXAdbgCGNGMLyyNyXw05FHa/4wq1rq7
- P0m79vpW64YZPG6giDgRam1sCUd+hP35oUPSFYe8ELSktYn2PrQw1dXbqMwrpz+XXcrQ
- 7S79v1wj3mx41LsVOan66RaqlGAeK2AJ4cfKayM2ZTbfhWuLPIcTZgP1WZBYcHbSeCKn
- 7Q5i0zFFxNP+uG1aIH1CsmCWdx24dWZQiigKtM5E0iQQz815Wy8gNDb3a+yJttCP1hpN
- fJsr0IXpuqx2PoSgttWO+ItJo6HuMhyHYNoRqWxRy2REYXdooLVwOpRBy3sji+JocOMZ
- UE+Q==
+ d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2019-08-05;
+ bh=i2cJiEGZ40ASMTOM9nKfDX/9T3hCCl+acXYaAonLAhE=;
+ b=UlG2TeZ4tNIsPX/kd09VL3wkpyIYsDkESlVppM8EX5lDipIVP5GdTdTlrgf/RgK7zj1r
+ 0VghwO5QuxAFhy0WXZ/2qUkEJQCda6GF7SBCq42nvC+L0BTTGJdvHgT06vtqkjnEyS8K
+ 4iqGr2tRSltfWFft6FoECYhnMlNzStfSsUF3KlXDc99aqc6cI+fsYb7mweCNYVzrWzN1
+ wxH7YHsquoV7wafbYbBVRRsTwhCdHu/7eEfN2g8DZ0zwLC0ww6j7eZFAhFwAQGC49rqH
+ 3+2TV4p+iNMi6YQvdV2SzVPpE8S98FYPJ6gbE2sRQFUMROa4K1LVkazd2mOCjvA4wnqN xg== 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,80 +77,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- coverity-bot <keescook+coverity-bot@chromium.org>,
- dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1580026437=="
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1580026437==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="LHvWgpbS7VDUdu2f"
-Content-Disposition: inline
-
-
---LHvWgpbS7VDUdu2f
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Oct 29, 2019 at 03:32:41PM +0200, Jani Nikula wrote:
-> On Tue, 29 Oct 2019, Thierry Reding <thierry.reding@gmail.com> wrote:
-> > From: Thierry Reding <treding@nvidia.com>
-> >
-> > The current link status contains bytes 0x202 through 0x207, but we also
-> > want to make sure to include the DP_ADJUST_REQUEST_POST_CURSOR2 (0x20c)
-> > so that the post-cursor adjustment can be queried during link training.
->=20
-> We don't currently use this in i915 (we probably should), so the impact
-> here is that we'll just read more DPCD than before. I quickly perused
-> i915, and this does not appear to directly break anything. I think the
-> change is probably fine, but at the same time it freaks me out a bit...
->=20
-> If you don't mind, please resend this with Cc:
-> intel-gfx@lists.freedesktop.org to have our CI crunch through it across
-> a number of platforms. Would give me a warm fuzzy feeling. :)
->=20
-> With the caveat that I didn't look at any other drivers besides i915,
->=20
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-
-Done, thanks.
-
-Thierry
-
---LHvWgpbS7VDUdu2f
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl24R5cACgkQ3SOs138+
-s6FsUQ//WJ3B8xJ9F/Lvivai6kCMzgL6wCp4TE6h/XtRLLM9mSa0vm0a9RMNaV97
-jkIfAMyKtOsCC21MYPrGrVBrBxM6Qab4cuZ0n9wmckEznMV/CsXZzonXk/NR4ikB
-9CKrs3FcVCRfzH3o0ji1skL09X4+OfHl5/ZCch/q0YEtiztASluKo6RS4+0QfKCD
-hKYzHXqy3d1CVX2NE4Oncg/G6nQLXEHpoJDs9FYZx+PGY1S6YpvBC4+BrkZ+3eQ5
-rwws2hPZnrX548yZkpXW7CnN/unQyYsygBOJvt0eZgOlHwPaW3F8xUN0tiNQko0p
-Qvx80IIUTtudrSdJbmOnWNCeQWi7cSVbyDa3ZaPd0wjDgyuFGU1x/0y2jLZV2XYW
-EV8O63VrkHw+XXzZYLuOu4IEuHpsx5t87G8p4TgBfM6C3G/ttqKgXooBV2gYBAWl
-fiMSBptBzeth/aqC6V9SrLLQ6+kKxMUUIdxaTqlf3kuJIyq+G+QcoAPtWBpIT03o
-n9bjBO9Lwd6ELSvWmkp2sRqteg8qf+kYG5dLbvA0/BI2+k1l4FIdx2KSzt6Ys+AL
-InHlhNgeteRNMC+8R+MRvrV4YPx5JzTXoNvbZqybVZufKj07Ox24tcHtJHUR9gMq
-8gv+1JFXUsk/yVFFRb8SmhMVoUU3weLbqna/Dh5HKuhLRygEumQ=
-=HLxj
------END PGP SIGNATURE-----
-
---LHvWgpbS7VDUdu2f--
-
---===============1580026437==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1580026437==--
+SGVsbG8gQW5kcmV5IEdyb2R6b3Zza3ksCgpUaGUgcGF0Y2ggZTkxZTVmMDgwZTAzOiAiZHJtL3Nj
+aGVkOiBTZXQgZXJyb3IgdG8gc19mZW5jZSBpZiBIVyBqb2IKc3VibWlzc2lvbiBmYWlsZWQuIiBm
+cm9tIE9jdCAyNCwgMjAxOSwgbGVhZHMgdG8gdGhlIGZvbGxvd2luZyBzdGF0aWMKY2hlY2tlciB3
+YXJuaW5nOgoKCWRyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5jOjUwMCBkcm1f
+c2NoZWRfcmVzdWJtaXRfam9icygpCgl3YXJuOiBwYXNzaW5nIHplcm8gdG8gJ1BUUl9FUlInCgpk
+cml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYwogICA0NzcgIHZvaWQgZHJtX3Nj
+aGVkX3Jlc3VibWl0X2pvYnMoc3RydWN0IGRybV9ncHVfc2NoZWR1bGVyICpzY2hlZCkKICAgNDc4
+ICB7CiAgIDQ3OSAgICAgICAgICBzdHJ1Y3QgZHJtX3NjaGVkX2pvYiAqc19qb2IsICp0bXA7CiAg
+IDQ4MCAgICAgICAgICB1aW50NjRfdCBndWlsdHlfY29udGV4dDsKICAgNDgxICAgICAgICAgIGJv
+b2wgZm91bmRfZ3VpbHR5ID0gZmFsc2U7CiAgIDQ4MiAgICAgICAgICBzdHJ1Y3QgZG1hX2ZlbmNl
+ICpmZW5jZTsKICAgNDgzICAKICAgNDg0ICAgICAgICAgIGxpc3RfZm9yX2VhY2hfZW50cnlfc2Fm
+ZShzX2pvYiwgdG1wLCAmc2NoZWQtPnJpbmdfbWlycm9yX2xpc3QsIG5vZGUpIHsKICAgNDg1ICAg
+ICAgICAgICAgICAgICAgc3RydWN0IGRybV9zY2hlZF9mZW5jZSAqc19mZW5jZSA9IHNfam9iLT5z
+X2ZlbmNlOwogICA0ODYgIAogICA0ODcgICAgICAgICAgICAgICAgICBpZiAoIWZvdW5kX2d1aWx0
+eSAmJiBhdG9taWNfcmVhZCgmc19qb2ItPmthcm1hKSA+IHNjaGVkLT5oYW5nX2xpbWl0KSB7CiAg
+IDQ4OCAgICAgICAgICAgICAgICAgICAgICAgICAgZm91bmRfZ3VpbHR5ID0gdHJ1ZTsKICAgNDg5
+ICAgICAgICAgICAgICAgICAgICAgICAgICBndWlsdHlfY29udGV4dCA9IHNfam9iLT5zX2ZlbmNl
+LT5zY2hlZHVsZWQuY29udGV4dDsKICAgNDkwICAgICAgICAgICAgICAgICAgfQogICA0OTEgIAog
+ICA0OTIgICAgICAgICAgICAgICAgICBpZiAoZm91bmRfZ3VpbHR5ICYmIHNfam9iLT5zX2ZlbmNl
+LT5zY2hlZHVsZWQuY29udGV4dCA9PSBndWlsdHlfY29udGV4dCkKICAgNDkzICAgICAgICAgICAg
+ICAgICAgICAgICAgICBkbWFfZmVuY2Vfc2V0X2Vycm9yKCZzX2ZlbmNlLT5maW5pc2hlZCwgLUVD
+QU5DRUxFRCk7CiAgIDQ5NCAgCiAgIDQ5NSAgICAgICAgICAgICAgICAgIGRtYV9mZW5jZV9wdXQo
+c19qb2ItPnNfZmVuY2UtPnBhcmVudCk7CiAgIDQ5NiAgICAgICAgICAgICAgICAgIGZlbmNlID0g
+c2NoZWQtPm9wcy0+cnVuX2pvYihzX2pvYik7CiAgIDQ5NyAgCiAgIDQ5OCAgICAgICAgICAgICAg
+ICAgIGlmIChJU19FUlJfT1JfTlVMTChmZW5jZSkpIHsKICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIF5eXl5eXl5eXl5eXl5eXl5eXl5eCgogICA0OTkgICAgICAgICAgICAgICAgICAgICAgICAg
+IHNfam9iLT5zX2ZlbmNlLT5wYXJlbnQgPSBOVUxMOwogICA1MDAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIGRtYV9mZW5jZV9zZXRfZXJyb3IoJnNfZmVuY2UtPmZpbmlzaGVkLCBQVFJfRVJSKGZl
+bmNlKSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIF5eXl5eXl5eXl5eXl5eCklmICJmZW5jZSIgaXMgTlVMTCB0
+aGVuIGl0IHRyaWdnZXJzIGEgV0FSTl9PTigpIGluc2lkZSB0aGUKZG1hX2ZlbmNlX3NldF9lcnJv
+cigpIGZ1bmN0aW9uLgoKCVdBUk5fT04oZXJyb3IgPj0gMCB8fCBlcnJvciA8IC1NQVhfRVJSTk8p
+OwogICAgICAgICAgICAgICAgXl5eXl5eXl5eXgoKICAgNTAxICAgICAgICAgICAgICAgICAgfSBl
+bHNlIHsKICAgNTAyICAgICAgICAgICAgICAgICAgICAgICAgICBzX2pvYi0+c19mZW5jZS0+cGFy
+ZW50ID0gZmVuY2U7CiAgIDUwMyAgICAgICAgICAgICAgICAgIH0KICAgNTA0ICAKICAgNTA1ICAK
+ICAgNTA2ICAgICAgICAgIH0KICAgNTA3ICB9CgpyZWdhcmRzLApkYW4gY2FycGVudGVyCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
