@@ -2,62 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D10FCE9763
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2019 08:50:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12CB3E9775
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2019 08:57:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90A6B6E8AC;
-	Wed, 30 Oct 2019 07:50:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C9376EC9B;
+	Wed, 30 Oct 2019 07:57:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C28F6E8AC
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2019 07:50:51 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id s1so1140778wro.0
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2019 00:50:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=FLPIpnHOBePg/Y6da8w9/WRUoNiVkxQNWcq2DQOe07M=;
- b=FbIjCVyjkyh7ZXtqPw1w89UbG0WrkL0qS/YEvNgLej3DWg1zXALnKdP2CruDX01P+t
- W1RkUllm7soxjy9xgPQxOofRIgwuuWxCuzSJEVv4qzZb+k0iGfv8lh6znh3XnHtH+vEU
- f/naZbebnXxt5dnO2RQhpilhavAANaKF0lGZq572nGI6+JRMJo/AbiuXyiVTS0NeZCn/
- jOy4W1mU2nNvn4I3mIMTxvenHN5Do936brPnEsFsXfqLzc+6ovf4L+VoArud+F/wkepM
- eGKx7zSBLaJ2kPb2l0+7UyLzVNaXkqUbOLkPLUfNZ+fuiBkYtVL2AIqMS7vopY4Z50Oi
- +Erw==
-X-Gm-Message-State: APjAAAUVcArnF+PLMWvLwXPQrG3joQYqbYtgYhhXlzQ00G1u0TUdpOdx
- kY0NYc/yr3PEPg6OYwxYbcx3ZQ==
-X-Google-Smtp-Source: APXvYqxqLawwSBkqOwElIXw0EitJZw7c5fIQELur6Ziwo9Eowbi50RtGdHxZjDIulp8GE33dkMbA8A==
-X-Received: by 2002:a5d:4808:: with SMTP id l8mr22968551wrq.118.1572421849544; 
- Wed, 30 Oct 2019 00:50:49 -0700 (PDT)
-Received: from dell ([2.31.163.64])
- by smtp.gmail.com with ESMTPSA id r19sm1929303wrr.47.2019.10.30.00.50.48
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 30 Oct 2019 00:50:49 -0700 (PDT)
-Date: Wed, 30 Oct 2019 07:50:47 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Andreas Kemnade <andreas@kemnade.info>
-Subject: Re: [PATCH next] dt-bindings: backlight: lm3630a: fix missing include
-Message-ID: <20191030075047.GC4484@dell>
-References: <20191029185350.31155-1-andreas@kemnade.info>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 073326EC9B
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2019 07:57:41 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 043BA720E2; Wed, 30 Oct 2019 07:57:41 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 112174] AMD Radeon 5700 / Navi: amdgpu.gpu_recovery not working
+Date: Wed, 30 Oct 2019 07:57:41 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: temp201602@kaffeeschluerfer.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-112174-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191029185350.31155-1-andreas@kemnade.info>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent;
- bh=FLPIpnHOBePg/Y6da8w9/WRUoNiVkxQNWcq2DQOe07M=;
- b=XyPVZBz2kVqf6z+1cIyhTkCY9EFXOZzeQZGpHure5f5izzCxjf1ZVQ6kVBYmm9H1+U
- d/t30k/IvFZWYAj66fXjRzzv6d+hZ/7mVXinYxHIyoMrDgHZnV8vHynTWW4njmDFj9a6
- vEs84X07ky4e9x3e9KtjF1LWqsIFnWK6+82TOscZunOTqiGZeOYVRsNxts9VjEQKa+lt
- FhdpBJnumN6gY9IAN4yvMFF80r4RX3gQFjM1jg9NhL2pXmvBoC3b9DJa8zBtK6RPIeAl
- DqxNx0LhriVy4PCV06zjT9oR0h6QR3/Rd7c6ScnJbVfmiu0iLZnoBeXTiIVq1McqfwwE
- Y6MA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,32 +51,237 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jingoo Han <jingoohan1@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Linux LED Subsystem <linux-leds@vger.kernel.org>, Dan Murphy <dmurphy@ti.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1121012134=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyOSBPY3QgMjAxOSwgQW5kcmVhcyBLZW1uYWRlIHdyb3RlOgoKPiBleGFtcGxlIGZh
-aWxlZCB0byBjb21waWxlIGR1ZSB0byB1bmRlZmluZWQgR1BJT19BQ1RJVkVfSElHSAo+IGZpeCB0
-aGF0IGJ5IGFkZGluZyB0aGUgbmVlZGVkICNpbmNsdWRlIHRvIHRoZSBleGFtbXBsZQo+IAo+IEZp
-eGVzOiBhZTkyMzY1Y2RkNzUgKCJkdC1iaW5kaW5nczogYmFja2xpZ2h0OiBsbTM2MzBhOiBBZGQg
-ZW5hYmxlLWdwaW9zIHRvIGRlc2NyaWJlIEhXRU4gcGluIikKPiBTaWduZWQtb2ZmLWJ5OiBBbmRy
-ZWFzIEtlbW5hZGUgPGFuZHJlYXNAa2VtbmFkZS5pbmZvPgo+IC0tLQo+ICAuLi4vZGV2aWNldHJl
-ZS9iaW5kaW5ncy9sZWRzL2JhY2tsaWdodC9sbTM2MzBhLWJhY2tsaWdodC55YW1sICAgIHwgMSAr
-Cj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQoKQXBwbGllZCwgdGhhbmtzLgoKLS0g
-CkxlZSBKb25lcyBb5p2O55C85pavXQpMaW5hcm8gU2VydmljZXMgVGVjaG5pY2FsIExlYWQKTGlu
-YXJvLm9yZyDilIIgT3BlbiBzb3VyY2Ugc29mdHdhcmUgZm9yIEFSTSBTb0NzCkZvbGxvdyBMaW5h
-cm86IEZhY2Vib29rIHwgVHdpdHRlciB8IEJsb2cKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVs
+
+--===============1121012134==
+Content-Type: multipart/alternative; boundary="15724222601.6Bde9bDa3.3893"
+Content-Transfer-Encoding: 7bit
+
+
+--15724222601.6Bde9bDa3.3893
+Date: Wed, 30 Oct 2019 07:57:40 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112174
+
+            Bug ID: 112174
+           Summary: AMD Radeon 5700 / Navi: amdgpu.gpu_recovery not
+                    working
+           Product: DRI
+           Version: DRI git
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: major
+          Priority: not set
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: temp201602@kaffeeschluerfer.com
+
+I have set "amdgpu.gpu_recovery=3D1" in my kernel boot params. When my GPU =
+is
+crashing, recovery does not work.
+
+Syslog:
+[drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting for fences timed
+out!
+[drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma0 timeout, signaled
+seq=3D1935, emitted seq=3D1937
+[drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process information: process Xorg
+pid 1861 thread Xorg:cs0 pid 1864
+ amdgpu 0000:45:00.0: GPU reset begin!
+[drm] ring test on 10 succeeded in 22 usecs
+[drm] ring test on 10 succeeded in 29 usecs
+amdgpu 0000:45:00.0: GPU reset succeeded, trying to resume
+[drm] PCIE GART of 512M enabled (table at 0x00000080001E8000).
+[drm] PSP is resuming...
+[drm] reserve 0x7200000 from 0x81f7c00000 for PSP TMR
+amdgpu: [powerplay] SMU is resuming...
+amdgpu: [powerplay] SMU is resumed successfully!
+[drm] kiq ring mec 2 pipe 1 q 0
+[drm] ring test on 10 succeeded in 33 usecs
+[drm] ring test on 10 succeeded in 8 usecs
+[drm] gfx 0 ring me 0 pipe 0 q 0
+[drm:gfx_v10_0_ring_test_ring [amdgpu]] *ERROR* amdgpu: ring 0 test failed
+(scratch(0xC040)=3D0xCAFEDEAD)
+[drm:amdgpu_device_ip_resume_phase2 [amdgpu]] *ERROR* resume of IP block
+<gfx_v10_0> failed -22
+amdgpu 0000:45:00.0: GPU reset(1) failed
+amdgpu 0000:45:00.0: GPU reset end with ret =3D -22
+[drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma0 timeout, signaled
+seq=3D1937, emitted seq=3D1937
+[drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process information: process Xorg
+pid 1861 thread Xorg:cs0 pid 1864
+amdgpu 0000:45:00.0: GPU reset begin!
+
+
+GPU recovery is really important, especially at the moment with the current
+state of navi stability issues.
+Please fix and enable recovery as default.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15724222601.6Bde9bDa3.3893
+Date: Wed, 30 Oct 2019 07:57:40 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Radeon 5700 / Navi: amdgpu.gpu_recovery not working"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112174">112174</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>AMD Radeon 5700 / Navi: amdgpu.gpu_recovery not working
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>DRI git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>major
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>temp201602&#64;kaffeeschluerfer.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>I have set &quot;amdgpu.gpu_recovery=3D1&quot; in my kernel bo=
+ot params. When my GPU is
+crashing, recovery does not work.
+
+Syslog:
+[drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting for fences timed
+out!
+[drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma0 timeout, signaled
+seq=3D1935, emitted seq=3D1937
+[drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process information: process Xorg
+pid 1861 thread Xorg:cs0 pid 1864
+ amdgpu 0000:45:00.0: GPU reset begin!
+[drm] ring test on 10 succeeded in 22 usecs
+[drm] ring test on 10 succeeded in 29 usecs
+amdgpu 0000:45:00.0: GPU reset succeeded, trying to resume
+[drm] PCIE GART of 512M enabled (table at 0x00000080001E8000).
+[drm] PSP is resuming...
+[drm] reserve 0x7200000 from 0x81f7c00000 for PSP TMR
+amdgpu: [powerplay] SMU is resuming...
+amdgpu: [powerplay] SMU is resumed successfully!
+[drm] kiq ring mec 2 pipe 1 q 0
+[drm] ring test on 10 succeeded in 33 usecs
+[drm] ring test on 10 succeeded in 8 usecs
+[drm] gfx 0 ring me 0 pipe 0 q 0
+[drm:gfx_v10_0_ring_test_ring [amdgpu]] *ERROR* amdgpu: ring 0 test failed
+(scratch(0xC040)=3D0xCAFEDEAD)
+[drm:amdgpu_device_ip_resume_phase2 [amdgpu]] *ERROR* resume of IP block
+&lt;gfx_v10_0&gt; failed -22
+amdgpu 0000:45:00.0: GPU reset(1) failed
+amdgpu 0000:45:00.0: GPU reset end with ret =3D -22
+[drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma0 timeout, signaled
+seq=3D1937, emitted seq=3D1937
+[drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process information: process Xorg
+pid 1861 thread Xorg:cs0 pid 1864
+amdgpu 0000:45:00.0: GPU reset begin!
+
+
+GPU recovery is really important, especially at the moment with the current
+state of navi stability issues.
+Please fix and enable recovery as default.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15724222601.6Bde9bDa3.3893--
+
+--===============1121012134==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1121012134==--
