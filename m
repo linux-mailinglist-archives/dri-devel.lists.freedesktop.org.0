@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFEE4E9D86
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2019 15:28:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13625E9D8C
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Oct 2019 15:29:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D0056EA43;
-	Wed, 30 Oct 2019 14:28:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10FA26EA4A;
+	Wed, 30 Oct 2019 14:29:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
- [209.85.210.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20C776EA43
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2019 14:28:38 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id r14so2264877otn.5
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2019 07:28:38 -0700 (PDT)
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+ [209.85.210.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AD5F6EA4A
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2019 14:29:54 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id c7so2282250otm.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Oct 2019 07:29:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=bW80wTMWJnpVpgOpjaVD9ZbgzCWI+5I23NN62yxmGYQ=;
- b=YNuXDuGhDT/nSIZS3ZpRUNacZSv5l/9b5iWbV0aejcw+ICLpkaEqIsSVR36DqbHMN/
- kj8tDh4DPgN/kO5O/EaE4C9a1EGgOIkBx1kIr9yXV2xy6kennU20H/YcMJtgZ6aTi5cr
- NuQGxwsoZYeoFjDgPp3JsCiJUazfuPdqnEb1Wj6NDkvK89jBwlCimJIKLQlTt98mdB4o
- Xar0/dOtR8KPZAt8h/BWB069REU9BKnDD4k1HWI5qciXls6nPSGO/4zmfUOAveYcZHOD
- zNGPYahUjyq2PF/aTlPiSKq4RzdO+c9R/QAWmnMwjPHCEerm6dbMDihdfP2W2ezHPBKV
- kAaQ==
-X-Gm-Message-State: APjAAAVALMA3XSjGfHcMNhJwu2O88bKFVkya6zi0D1ywIvdc8eRQwzrV
- 3jIhghluVRXj+mY2kySptAWTJtSbAg==
-X-Google-Smtp-Source: APXvYqxmqH9kTAnk/HxofrVjAyXVfX3xEDWkc4rGDKItWjGmqJb4+9InITGk7GXL2ERyL6kbU4blSQ==
-X-Received: by 2002:a05:6830:128f:: with SMTP id
- z15mr109418otp.285.1572445717155; 
- Wed, 30 Oct 2019 07:28:37 -0700 (PDT)
+ bh=LMfeOlvx6eLj9u8wcVjU8j/3tqXZ55VLld17C/fRM+o=;
+ b=g32PQuwqm1YCRMS+y4FfS/jO5ctQVX+bKibRf8gzs2H9Vi6SQWPimkgcHQMbTabiEt
+ wR5QaebgX30vxPhV8CYK+wcbjs3ZyoxHWw3/y4hajLS1PiGWR1bRBlbsWJ8yeI+G7Foc
+ CRwCpXJpJCbZgkVBiOrSBEg2zqe3i24ekorObJc4yzbMA4kzZiRIrOW9K+CBXxuXWD9V
+ uvuEnPDc9ePMJLNpX6LXzk1+5n69V8Q9t5Ss/C2oD9HnEJUJ7rUFTb6CP32icMeJZOD5
+ +YymIBuczkEXxZFMvgSc4o5YrVSW6hF612bHOQmSOV4L3LJgLWVWnDzkyMTv9dmMv9QH
+ YZGg==
+X-Gm-Message-State: APjAAAUIuXp+HduF5szJAJckcUeO0+sVN7LJc6gQ1GG4R2wFyl94+CG1
+ PaWx3L2OoScc9Q2zVKSKsA==
+X-Google-Smtp-Source: APXvYqx+eBfjpYHuthtmmpS/yKuaO2Fxm/sTUZz0uJRp1IDCuerAIXzxDA1q1VJzYfDKZiAUqvmNqQ==
+X-Received: by 2002:a9d:7ac5:: with SMTP id m5mr138924otn.356.1572445793274;
+ Wed, 30 Oct 2019 07:29:53 -0700 (PDT)
 Received: from localhost (24-155-109-49.dyn.grandenetworks.net.
  [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id r14sm55572oij.6.2019.10.30.07.28.36
+ by smtp.gmail.com with ESMTPSA id w33sm75635otb.68.2019.10.30.07.29.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Oct 2019 07:28:36 -0700 (PDT)
-Date: Wed, 30 Oct 2019 09:28:35 -0500
+ Wed, 30 Oct 2019 07:29:52 -0700 (PDT)
+Date: Wed, 30 Oct 2019 09:29:52 -0500
 From: Rob Herring <robh@kernel.org>
 To: Marcel Ziswiler <marcel@ziswiler.com>
 Subject: Re: [PATCH v2 3/3] dt-bindings: display: panel: add bindings for
  logic technologies displays
-Message-ID: <20191030142835.GA31293@bogus>
+Message-ID: <20191030142952.GB31293@bogus>
 References: <20191027142609.12754-1-marcel@ziswiler.com>
  <20191027142609.12754-3-marcel@ziswiler.com>
 MIME-Version: 1.0
@@ -101,10 +100,16 @@ dGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvbG9naWN0ZWNobm8sbHQxNjEw
 MTAtMm5oYy55YW1sCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRy
 ZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9sb2dpY3RlY2hubyxsdDE2MTAxMC0ybmhyLnlhbWwK
 PiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9k
-aXNwbGF5L3BhbmVsL2xvZ2ljdGVjaG5vLGx0MTcwNDEwLTJ3aGMueWFtbAoKSSB3b3VsZCBqdXN0
-IHB1dCB0aGVzZSBpbnRvIDEgZG9jdW1lbnQgYXMgdGhlIGNvbXBhdGlibGUgaXMgdGhlIG9ubHkg
-CmRpZmZlcmVuY2UuIEVpdGhlciB3YXk6CgpSZXZpZXdlZC1ieTogUm9iIEhlcnJpbmcgPHJvYmhA
-a2VybmVsLm9yZz4KClJvYgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWw=
+aXNwbGF5L3BhbmVsL2xvZ2ljdGVjaG5vLGx0MTcwNDEwLTJ3aGMueWFtbAo+IAo+IGRpZmYgLS1n
+aXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9sb2dp
+Y3RlY2hubyxsdDE2MTAxMC0ybmhjLnlhbWwgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
+ZGluZ3MvZGlzcGxheS9wYW5lbC9sb2dpY3RlY2hubyxsdDE2MTAxMC0ybmhjLnlhbWwKPiBuZXcg
+ZmlsZSBtb2RlIDEwMDY0NAo+IGluZGV4IDAwMDAwMDAwMDAwMC4uMGRmZTk0ZDM4YTQ3Cj4gLS0t
+IC9kZXYvbnVsbAo+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNw
+bGF5L3BhbmVsL2xvZ2ljdGVjaG5vLGx0MTYxMDEwLTJuaGMueWFtbAo+IEBAIC0wLDAgKzEsNDQg
+QEAKPiArIyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMAoKRXhjZXB0IHRoZSBsaWNl
+bnNlIGZvciBuZXcgYmluZGluZ3Mgc2hvdWxkIGJlOiAKCihHUEwtMi4wLW9ubHkgT1IgQlNELTIt
+Q2xhdXNlKQoKUm9iCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bA==
