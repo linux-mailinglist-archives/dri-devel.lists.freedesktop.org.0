@@ -1,46 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1134BEB55B
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2019 17:51:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24010EB578
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2019 17:55:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 395CD6EAD7;
-	Thu, 31 Oct 2019 16:51:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E17056EE74;
+	Thu, 31 Oct 2019 16:54:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0AF966EAD7
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2019 16:51:08 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 07140720E2; Thu, 31 Oct 2019 16:51:08 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112188] OpenGL stuttering in some cases on AMD Navi cards (RX
- 5700XT in my case)
-Date: Thu, 31 Oct 2019 16:51:08 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: popovic.marko@protonmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-112188-502-QKpjolK5mz@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-112188-502@http.bugs.freedesktop.org/>
-References: <bug-112188-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2A4C6EA3A;
+ Thu, 31 Oct 2019 16:54:56 +0000 (UTC)
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id EF0952087F;
+ Thu, 31 Oct 2019 16:54:54 +0000 (UTC)
+Date: Thu, 31 Oct 2019 16:54:51 +0000
+From: Will Deacon <will@kernel.org>
+To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>
+Subject: Re: [PATCH] drm/radeon: Handle workqueue allocation failure
+Message-ID: <20191031165450.GA28461@willie-the-truck>
+References: <20191025110450.10474-1-will@kernel.org>
+ <5d6a88a2-2719-a859-04df-10b0d893ff39@daenzer.net>
+ <20191025161804.GA12335@willie-the-truck>
+ <e2f87ecc-0a8e-253d-107c-5cf6486c4b6a@daenzer.net>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <e2f87ecc-0a8e-253d-107c-5cf6486c4b6a@daenzer.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1572540896;
+ bh=OZrErChAGs00qAHYyPBCWqxK7o5kPOgyp3wi9HrAQIc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=RIP6UX/m7Jn92SmAMwX5+rlm4MZS5frptt7p6ev7IHTt3paaicKA0sAikpAwyGmd/
+ doxRRQrIO8OlGIcICs0GTNfSzK0bWMHzVQl2ktvhjFkUdhYgCWHF6ZtBYHWWaVBIaj
+ VV4kg3eooa9hxr+lt0Js6kDMp7XGsZH5sOgKy4ow=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,108 +49,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0056014432=="
+Cc: amd-gfx@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Nicolas Waisman <nico@semmle.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0056014432==
-Content-Type: multipart/alternative; boundary="15725406671.BF24BfA2.12863"
-Content-Transfer-Encoding: 7bit
-
-
---15725406671.BF24BfA2.12863
-Date: Thu, 31 Oct 2019 16:51:07 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112188
-
---- Comment #4 from Marko Popovic <popovic.marko@protonmail.com> ---
-I just spoke to another user that has different model of the RX 5700 XT and=
- he
-doesn't seem to be having this issue.
-
-My setup:
-OS: Pop!_OS 19.10
-CPU/RAM: Intel i5-6600 / 16 GB DDR4
-GPU: Sapphire Pulse RX 5700 XT
-Kernel: 5.4.0-999-generic (Ubuntu daily)
-MESA: OpenGL version string: 4.5 (Compatibility Profile) Mesa 19.3.0-devel
-(git-ff6e148 2019-10-29 eoan-oibaf-ppa)
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15725406671.BF24BfA2.12863
-Date: Thu, 31 Oct 2019 16:51:07 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - OpenGL stuttering in some cases on AMD Navi cards (RX 570=
-0XT in my case)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112188#c4">Commen=
-t # 4</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - OpenGL stuttering in some cases on AMD Navi cards (RX 570=
-0XT in my case)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112188">bug 11218=
-8</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-popovic.marko&#64;protonmail.com" title=3D"Marko Popovic &lt;popovic.marko&=
-#64;protonmail.com&gt;"> <span class=3D"fn">Marko Popovic</span></a>
-</span></b>
-        <pre>I just spoke to another user that has different model of the R=
-X 5700 XT and he
-doesn't seem to be having this issue.
-
-My setup:
-OS: Pop!_OS 19.10
-CPU/RAM: Intel i5-6600 / 16 GB DDR4
-GPU: Sapphire Pulse RX 5700 XT
-Kernel: 5.4.0-999-generic (Ubuntu daily)
-MESA: OpenGL version string: 4.5 (Compatibility Profile) Mesa 19.3.0-devel
-(git-ff6e148 2019-10-29 eoan-oibaf-ppa)</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15725406671.BF24BfA2.12863--
-
---===============0056014432==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0056014432==--
+T24gRnJpLCBPY3QgMjUsIDIwMTkgYXQgMDY6MjA6MDFQTSArMDIwMCwgTWljaGVsIETDpG56ZXIg
+d3JvdGU6Cj4gT24gMjAxOS0xMC0yNSA2OjE4IHAubS4sIFdpbGwgRGVhY29uIHdyb3RlOgo+ID4g
+T24gRnJpLCBPY3QgMjUsIDIwMTkgYXQgMDY6MDY6MjZQTSArMDIwMCwgTWljaGVsIETDpG56ZXIg
+d3JvdGU6Cj4gPj4gT24gMjAxOS0xMC0yNSAxOjA0IHAubS4sIFdpbGwgRGVhY29uIHdyb3RlOgo+
+ID4+PiBJbiB0aGUgaGlnaGx5IHVubGlrZWx5IGV2ZW50IHRoYXQgd2UgZmFpbCB0byBhbGxvY2F0
+ZSB0aGUgInJhZGVvbi1jcnRjIgo+ID4+PiB3b3JrcXVldWUsIHdlIHNob3VsZCBiYWlsIGNsZWFu
+bHkgcmF0aGVyIHRoYW4gYmxpbmRseSBtYXJjaCBvbiB3aXRoIGEKPiA+Pj4gTlVMTCBwb2ludGVy
+IGluc3RhbGxlZCBmb3IgdGhlICdmbGlwX3F1ZXVlJyBmaWVsZCBvZiB0aGUgJ3JhZGVvbl9jcnRj
+Jwo+ID4+PiBzdHJ1Y3R1cmUuCj4gPj4+Cj4gPj4+IFRoaXMgd2FzIHJlcG9ydGVkIHByZXZpb3Vz
+bHkgYnkgTmljb2xhcywgYnV0IEkgZG9uJ3QgdGhpbmsgaGlzIGZpeCB3YXMKPiA+Pj4gY29ycmVj
+dDoKPiA+Pgo+ID4+IE5laXRoZXIgaXMgdGhpcyBvbmUgSSdtIGFmcmFpZC4gU2VlIG15IGZlZWRi
+YWNrIG9uCj4gPj4gaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3BhdGNoLzMzMTUz
+NC8gLgo+ID4gCj4gPiBUaGFua3MuIEFsdGhvdWdoIEkgYWdyZWUgd2l0aCB5b3Ugd3J0IHRoZSBv
+cmlnaW5hbCBwYXRjaCwgSSBkb24ndCB0aGluawo+ID4gdGhlIHdvcmtxdWV1ZSBhbGxvY2F0aW9u
+IGZhaWx1cmUgaXMgZGlzdGluZ3Vpc2hhYmxlIGZyb20gdGhlIENSVEMgYWxsb2NhdGlvbgo+ID4g
+ZmFpbHVyZSB3aXRoIG15IHBhdGNoLiBBcmUgeW91IHNheWluZyB0aGF0IHRoZSBlcnJvciBwYXRo
+IHRoZXJlIGlzIGJyb2tlbgo+ID4gdG9vPwo+IAo+IFRoZSBkcml2ZXIgd29uJ3QgYWN0dWFsbHkg
+d29yayBpZiByYWRlb25fY3J0Y19pbml0IGJhaWxzIHNpbGVudGx5LCBpdCdsbAo+IGp1c3QgZmFs
+bCBvdmVyIGF0IHNvbWUgbGF0ZXIgcG9pbnQuCgpPaywgc28gaG93IGFib3V0IGZsZXNoaW5nIGl0
+IG91dCBhcyBwZXIgYmVsb3c/CgpXaWxsCgotLS0+OAoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
+L2RybS9yYWRlb24vcmFkZW9uX2Rpc3BsYXkuYyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFk
+ZW9uX2Rpc3BsYXkuYwppbmRleCBlODFiMDFmOGRiOTAuLjE3N2FjZWUwNjYyMCAxMDA2NDQKLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fZGlzcGxheS5jCisrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9yYWRlb24vcmFkZW9uX2Rpc3BsYXkuYwpAQCAtNjY4LDIxICs2NjgsMjkgQEAgc3Rh
+dGljIGNvbnN0IHN0cnVjdCBkcm1fY3J0Y19mdW5jcyByYWRlb25fY3J0Y19mdW5jcyA9IHsKIAku
+cGFnZV9mbGlwX3RhcmdldCA9IHJhZGVvbl9jcnRjX3BhZ2VfZmxpcF90YXJnZXQsCiB9OwogCi1z
+dGF0aWMgdm9pZCByYWRlb25fY3J0Y19pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIGludCBp
+bmRleCkKK3N0YXRpYyBpbnQgcmFkZW9uX2NydGNfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2
+LCBpbnQgaW5kZXgpCiB7CiAJc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYgPSBkZXYtPmRldl9w
+cml2YXRlOwogCXN0cnVjdCByYWRlb25fY3J0YyAqcmFkZW9uX2NydGM7CisJc3RydWN0IHdvcmtx
+dWV1ZV9zdHJ1Y3QgKndxOwogCWludCBpOwogCiAJcmFkZW9uX2NydGMgPSBremFsbG9jKHNpemVv
+ZihzdHJ1Y3QgcmFkZW9uX2NydGMpICsgKFJBREVPTkZCX0NPTk5fTElNSVQgKiBzaXplb2Yoc3Ry
+dWN0IGRybV9jb25uZWN0b3IgKikpLCBHRlBfS0VSTkVMKTsKIAlpZiAocmFkZW9uX2NydGMgPT0g
+TlVMTCkKLQkJcmV0dXJuOworCQlyZXR1cm4gLUVOT01FTTsKKworCXdxID0gYWxsb2Nfd29ya3F1
+ZXVlKCJyYWRlb24tY3J0YyIsIFdRX0hJR0hQUkksIDApOworCWlmICh1bmxpa2VseSghd3EpKSB7
+CisJCWtmcmVlKHJhZGVvbl9jcnRjKTsKKwkJcmV0dXJuIC0gRU5PTUVNOworCX0KIAogCWRybV9j
+cnRjX2luaXQoZGV2LCAmcmFkZW9uX2NydGMtPmJhc2UsICZyYWRlb25fY3J0Y19mdW5jcyk7CiAK
+IAlkcm1fbW9kZV9jcnRjX3NldF9nYW1tYV9zaXplKCZyYWRlb25fY3J0Yy0+YmFzZSwgMjU2KTsK
+IAlyYWRlb25fY3J0Yy0+Y3J0Y19pZCA9IGluZGV4OwotCXJhZGVvbl9jcnRjLT5mbGlwX3F1ZXVl
+ID0gYWxsb2Nfd29ya3F1ZXVlKCJyYWRlb24tY3J0YyIsIFdRX0hJR0hQUkksIDApOworCXJhZGVv
+bl9jcnRjLT5mbGlwX3F1ZXVlID0gd3E7CisKIAlyZGV2LT5tb2RlX2luZm8uY3J0Y3NbaW5kZXhd
+ID0gcmFkZW9uX2NydGM7CiAKIAlpZiAocmRldi0+ZmFtaWx5ID49IENISVBfQk9OQUlSRSkgewpA
+QCAtNzExLDYgKzcxOSw4IEBAIHN0YXRpYyB2b2lkIHJhZGVvbl9jcnRjX2luaXQoc3RydWN0IGRy
+bV9kZXZpY2UgKmRldiwgaW50IGluZGV4KQogCQlyYWRlb25fYXRvbWJpb3NfaW5pdF9jcnRjKGRl
+diwgcmFkZW9uX2NydGMpOwogCWVsc2UKIAkJcmFkZW9uX2xlZ2FjeV9pbml0X2NydGMoZGV2LCBy
+YWRlb25fY3J0Yyk7CisKKwlyZXR1cm4gMDsKIH0KIAogc3RhdGljIGNvbnN0IGNoYXIgKmVuY29k
+ZXJfbmFtZXNbMzhdID0gewpAQCAtMTYwMiw5ICsxNjEyLDggQEAgaW50IHJhZGVvbl9tb2Rlc2V0
+X2luaXQoc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYpCiAJcmRldi0+ZGRldi0+bW9kZV9jb25m
+aWcuZmJfYmFzZSA9IHJkZXYtPm1jLmFwZXJfYmFzZTsKIAogCXJldCA9IHJhZGVvbl9tb2Rlc2V0
+X2NyZWF0ZV9wcm9wcyhyZGV2KTsKLQlpZiAocmV0KSB7Ci0JCXJldHVybiByZXQ7Ci0JfQorCWlm
+IChyZXQpCisJCWdvdG8gZXJyX2RybV9tb2RlX2NvbmZpZ19jbGVhbnVwOwogCiAJLyogaW5pdCBp
+MmMgYnVzZXMgKi8KIAlyYWRlb25faTJjX2luaXQocmRldik7CkBAIC0xNjE3LDcgKzE2MjYsOSBA
+QCBpbnQgcmFkZW9uX21vZGVzZXRfaW5pdChzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldikKIAog
+CS8qIGFsbG9jYXRlIGNydGNzICovCiAJZm9yIChpID0gMDsgaSA8IHJkZXYtPm51bV9jcnRjOyBp
+KyspIHsKLQkJcmFkZW9uX2NydGNfaW5pdChyZGV2LT5kZGV2LCBpKTsKKwkJcmV0ID0gcmFkZW9u
+X2NydGNfaW5pdChyZGV2LT5kZGV2LCBpKTsKKwkJaWYgKHJldCkKKwkJCWdvdG8gZXJyX2RybV9t
+b2RlX2NvbmZpZ19jbGVhbnVwOwogCX0KIAogCS8qIG9rYXkgd2Ugc2hvdWxkIGhhdmUgYWxsIHRo
+ZSBiaW9zIGNvbm5lY3RvcnMgKi8KQEAgLTE2NDUsNiArMTY1NiwxMCBAQCBpbnQgcmFkZW9uX21v
+ZGVzZXRfaW5pdChzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldikKIAlyZXQgPSByYWRlb25fcG1f
+bGF0ZV9pbml0KHJkZXYpOwogCiAJcmV0dXJuIDA7CisKK2Vycl9kcm1fbW9kZV9jb25maWdfY2xl
+YW51cDoKKwlkcm1fbW9kZV9jb25maWdfY2xlYW51cChyZGV2LT5kZGV2KTsKKwlyZXR1cm4gcmV0
+OwogfQogCiB2b2lkIHJhZGVvbl9tb2Rlc2V0X2Zpbmkoc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJk
+ZXYpCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
