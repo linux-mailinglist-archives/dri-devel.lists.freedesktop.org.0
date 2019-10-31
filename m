@@ -1,30 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0190EB294
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2019 15:26:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A41ACEB42C
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2019 16:47:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4D496EEA2;
-	Thu, 31 Oct 2019 14:26:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C58C76EEDF;
+	Thu, 31 Oct 2019 15:47:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 426976EE9E
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2019 14:26:24 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: aratiu) with ESMTPSA id CE26929088D
-From: Adrian Ratiu <adrian.ratiu@collabora.com>
-To: linux-arm-kernel@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-rockchip@lists.infradead.org
-Subject: [PATCH 4/4] dt-bindings: display: add IMX MIPI DSI host controller doc
-Date: Thu, 31 Oct 2019 16:26:33 +0200
-Message-Id: <20191031142633.12460-5-adrian.ratiu@collabora.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191031142633.12460-1-adrian.ratiu@collabora.com>
-References: <20191031142633.12460-1-adrian.ratiu@collabora.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 66F4F6EEDF
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2019 15:47:26 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 6427D720E2; Thu, 31 Oct 2019 15:47:26 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 112188] OpenGL stuttering in some cases on AMD Navi cards (RX
+ 5700XT in my case)
+Date: Thu, 31 Oct 2019 15:47:25 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: popovic.marko@protonmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ attachments.created
+Message-ID: <bug-112188-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -38,55 +53,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Martyn Welch <martyn.welch@collabora.com>, kernel@collabora.com,
- Sjoerd Simons <sjoerd.simons@collabora.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0380515159=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-U2lnbmVkLW9mZi1ieTogU2pvZXJkIFNpbW9ucyA8c2pvZXJkLnNpbW9uc0Bjb2xsYWJvcmEuY29t
-PgpTaWduZWQtb2ZmLWJ5OiBNYXJ0eW4gV2VsY2ggPG1hcnR5bi53ZWxjaEBjb2xsYWJvcmEuY29t
-PgpTaWduZWQtb2ZmLWJ5OiBBZHJpYW4gUmF0aXUgPGFkcmlhbi5yYXRpdUBjb2xsYWJvcmEuY29t
-PgotLS0KIC4uLi9iaW5kaW5ncy9kaXNwbGF5L2lteC9taXBpLWRzaS50eHQgICAgICAgICB8IDU2
-ICsrKysrKysrKysrKysrKysrKysKIDEgZmlsZSBjaGFuZ2VkLCA1NiBpbnNlcnRpb25zKCspCiBj
-cmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3Bs
-YXkvaW14L21pcGktZHNpLnR4dAoKZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJl
-ZS9iaW5kaW5ncy9kaXNwbGF5L2lteC9taXBpLWRzaS50eHQgYi9Eb2N1bWVudGF0aW9uL2Rldmlj
-ZXRyZWUvYmluZGluZ3MvZGlzcGxheS9pbXgvbWlwaS1kc2kudHh0Cm5ldyBmaWxlIG1vZGUgMTAw
-NjQ0CmluZGV4IDAwMDAwMDAwMDAwMC4uM2YwNWMzMmVmOTYzCi0tLSAvZGV2L251bGwKKysrIGIv
-RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvaW14L21pcGktZHNpLnR4
-dApAQCAtMCwwICsxLDU2IEBACitGcmVlc2NhbGUgaS5NWDYgRFcgTUlQSSBEU0kgSG9zdCBDb250
-cm9sbGVyCis9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CisKK1Ro
-ZSBEU0kgaG9zdCBjb250cm9sbGVyIGlzIGEgU3lub3BzeXMgRGVzaWduV2FyZSBNSVBJIERTSSB2
-MS4wMSBJUAord2l0aCBhIGNvbXBhbmlvbiBQSFkgSVAuCisKK1RoZXNlIERUIGJpbmRpbmdzIGZv
-bGxvdyB0aGUgU3lub3BzeXMgRFcgTUlQSSBEU0kgYmluZGluZ3MgZGVmaW5lZCBpbgorRG9jdW1l
-bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL2R3X21pcGlfZHNpLnR4
-dCB3aXRoCit0aGUgZm9sbG93aW5nIGRldmljZS1zcGVjaWZpYyBwcm9wZXJ0aWVzLgorCitSZXF1
-aXJlZCBwcm9wZXJ0aWVzOgorCistICNhZGRyZXNzLWNlbGxzOiBTaG91bGQgYmUgPDE+LgorLSAj
-c2l6ZS1jZWxsczogU2hvdWxkIGJlIDwwPi4KKy0gY29tcGF0aWJsZTogImZzbCxpbXg2cS1taXBp
-LWRzaSIsICJzbnBzLGR3LW1pcGktZHNpIi4KKy0gcmVnOiBTZWUgZHdfbWlwaV9kc2kudHh0Lgor
-LSBpbnRlcnJ1cHRzOiBUaGUgY29udHJvbGxlcidzIENQVSBpbnRlcnJ1cHQuCistIGNsb2Nrcywg
-Y2xvY2stbmFtZXM6IFBoYW5kbGVzIHRvIHRoZSBjb250cm9sbGVyJ3MgcGxsIHJlZmVyZW5jZQor
-ICBjbG9jayhyZWYpIGFuZCBBUEIgY2xvY2socGNsayksIGFzIGRlc2NyaWJlZCBpbiBbMV0uCist
-IHBvcnRzOiBhIHBvcnQgbm9kZSB3aXRoIGVuZHBvaW50IGRlZmluaXRpb25zIGFzIGRlZmluZWQg
-aW4gWzJdLgorLSBncHI6IFNob3VsZCBiZSA8Jmdwcj4uCisgICAgICAgUGhhbmRsZSB0byB0aGUg
-aW9tdXhjLWdwciByZWdpb24gY29udGFpbmluZyB0aGUgbXVsdGlwbGV4ZXIKKyAgICAgICBjb250
-cm9sIHJlZ2lzdGVyLgorCitbMV0gRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Ns
-b2NrL2Nsb2NrLWJpbmRpbmdzLnR4dAorWzJdIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5k
-aW5ncy9tZWRpYS92aWRlby1pbnRlcmZhY2VzLnR4dAorCitFeGFtcGxlOgorCisJbWlwaV9kc2k6
-IG1pcGlAMjFlMDAwMCB7CisJCSNhZGRyZXNzLWNlbGxzID0gPDE+OworCQkjc2l6ZS1jZWxscyA9
-IDwwPjsKKwkJY29tcGF0aWJsZSA9ICJmc2wsaW14NnEtbWlwaS1kc2kiLCAic25wcyxkdy1taXBp
-LWRzaSI7CisJCXJlZyA9IDwweDAyMWUwMDAwIDB4NDAwMD47CisJCWludGVycnVwdHMgPSA8MCAx
-MDIgSVJRX1RZUEVfTEVWRUxfSElHSD47CisJCWdwciA9IDwmZ3ByPjsKKwkJY2xvY2tzID0gPCZj
-bGtzIElNWDZRRExfQ0xLX01JUElfQ09SRV9DRkc+LAorCQkJIDwmY2xrcyBJTVg2UURMX0NMS19N
-SVBJX0lQRz47CisJCWNsb2NrLW5hbWVzID0gInJlZiIsICJwY2xrIjsKKwkJc3RhdHVzID0gIm9r
-YXkiOworCisJCXBvcnRzIHsKKwkJCXBvcnRAMCB7CisJCQkJcmVnID0gPDA+OworCQkJCW1pcGlf
-bXV4XzA6IGVuZHBvaW50IHsKKwkJCQkJcmVtb3RlLWVuZHBvaW50ID0gPCZpcHUxX2RpMF9taXBp
-PjsKKwkJCQl9OworCQkJfTsKKwkJCXBvcnRAMSB7CisJCQkJcmVnID0gPDE+OworCQkJCW1pcGlf
-bXV4XzE6IGVuZHBvaW50IHsKKwkJCQkJcmVtb3RlLWVuZHBvaW50ID0gPCZpcHUxX2RpMV9taXBp
-PjsKKwkJCQl9OworCQkJfTsKKwkJfTsKKyAgICAgICAgfTsKLS0gCjIuMjMuMAoKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0380515159==
+Content-Type: multipart/alternative; boundary="15725368461.F9b71DE1.30149"
+Content-Transfer-Encoding: 7bit
+
+
+--15725368461.F9b71DE1.30149
+Date: Thu, 31 Oct 2019 15:47:26 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112188
+
+            Bug ID: 112188
+           Summary: OpenGL stuttering in some cases on AMD Navi cards (RX
+                    5700XT in my case)
+           Product: DRI
+           Version: unspecified
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: normal
+          Priority: not set
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: popovic.marko@protonmail.com
+
+Created attachment 145856
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145856&action=3Dedit
+Video showcase of the bug
+
+Here is a trace file and a video showcase of stuttering in Feral game launc=
+her
+(OpenGL) that happens in many cases, but not reproducable in all GL
+apps/desktops (mGBA emulator, Godot game engine, Feral launcher)
+
+I'd like to see one of AMD OpenGL developers take a look at the trace file =
+and
+a video for proof that stuttering actually occurs and try to figure out what
+might be causing the issue.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15725368461.F9b71DE1.30149
+Date: Thu, 31 Oct 2019 15:47:26 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - OpenGL stuttering in some cases on AMD Navi cards (RX 570=
+0XT in my case)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112188">112188</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>OpenGL stuttering in some cases on AMD Navi cards (RX 5700XT =
+in my case)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>unspecified
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>popovic.marko&#64;protonmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145856=
+" name=3D"attach_145856" title=3D"Video showcase of the bug">attachment 145=
+856</a> <a href=3D"attachment.cgi?id=3D145856&amp;action=3Dedit" title=3D"V=
+ideo showcase of the bug">[details]</a></span>
+Video showcase of the bug
+
+Here is a trace file and a video showcase of stuttering in Feral game launc=
+her
+(OpenGL) that happens in many cases, but not reproducable in all GL
+apps/desktops (mGBA emulator, Godot game engine, Feral launcher)
+
+I'd like to see one of AMD OpenGL developers take a look at the trace file =
+and
+a video for proof that stuttering actually occurs and try to figure out what
+might be causing the issue.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15725368461.F9b71DE1.30149--
+
+--===============0380515159==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0380515159==--
