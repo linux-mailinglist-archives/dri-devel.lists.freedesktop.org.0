@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31EF6EADDA
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2019 11:52:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D2B4EADDE
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2019 11:52:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05C656EE1D;
-	Thu, 31 Oct 2019 10:52:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D78FA6EE1B;
+	Thu, 31 Oct 2019 10:52:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 881F96EE1D
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2019 10:52:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BE666EE1B
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2019 10:52:22 +0000 (UTC)
 Received: from dhcp-159-84-61-180.univ-lyon2.fr ([159.84.61.180]
  helo=phil.localnet)
  by gloria.sntech.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.89) (envelope-from <heiko@sntech.de>)
- id 1iQ83B-0004dd-3J; Thu, 31 Oct 2019 11:51:33 +0100
+ id 1iQ83h-0004eH-85; Thu, 31 Oct 2019 11:52:05 +0100
 From: Heiko Stuebner <heiko@sntech.de>
 To: Cheng-Yi Chiang <cychiang@chromium.org>
-Subject: Re: [PATCH v9 5/6] ARM: dts: rockchip: Add HDMI support to
- rk3288-veyron-analog-audio
-Date: Thu, 31 Oct 2019 11:51:31 +0100
-Message-ID: <6246654.jvjegRjDd5@phil>
-In-Reply-To: <20191028071930.145899-6-cychiang@chromium.org>
+Subject: Re: [PATCH v9 6/6] ARM: dts: rockchip: Add HDMI audio support to
+ rk3288-veyron-mickey.dts
+Date: Thu, 31 Oct 2019 11:52:02 +0100
+Message-ID: <3977506.63UqibiCOv@phil>
+In-Reply-To: <20191028071930.145899-7-cychiang@chromium.org>
 References: <20191028071930.145899-1-cychiang@chromium.org>
- <20191028071930.145899-6-cychiang@chromium.org>
+ <20191028071930.145899-7-cychiang@chromium.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -57,13 +57,12 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gTW9udGFnLCAyOC4gT2t0b2JlciAyMDE5LCAwODoxOToyOSBDRVQgc2NocmllYiBDaGVuZy1Z
-aSBDaGlhbmc6Cj4gQWxsIGJvYXJkcyB1c2luZyByazMyODgtdmV5cm9uLWFuYWxvZy1hdWRpby5k
-dHNpIGhhdmUgSERNSSBhdWRpby4KPiBTcGVjaWZ5IHRoZSBzdXBwb3J0IG9mIEhETUkgYXVkaW8g
-b24gbWFjaGluZSBkcml2ZXIgdXNpbmcKPiByb2NrY2hpcCxoZG1pLWNvZGVjIHByb3BlcnR5IHNv
-IG1hY2hpbmUgZHJpdmVyIGNyZWF0ZXMgSERNSSBhdWRpbyBkZXZpY2UuCj4gCj4gU2lnbmVkLW9m
-Zi1ieTogQ2hlbmctWWkgQ2hpYW5nIDxjeWNoaWFuZ0BjaHJvbWl1bS5vcmc+CgphcHBsaWVkIGZv
-ciA1LjUKClRoYW5rcwpIZWlrbwoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbA==
+QW0gTW9udGFnLCAyOC4gT2t0b2JlciAyMDE5LCAwODoxOTozMCBDRVQgc2NocmllYiBDaGVuZy1Z
+aSBDaGlhbmc6Cj4gQWRkIEhETUkgYXVkaW8gc3VwcG9ydCB0byB2ZXlyb24tbWlja2V5LiBUaGUg
+c291bmQgY2FyZCBzaG91bGQgZXhwb3NlCj4gb25lIGF1ZGlvIGRldmljZSBmb3IgSERNSS4KPiAK
+PiBTaWduZWQtb2ZmLWJ5OiBDaGVuZy1ZaSBDaGlhbmcgPGN5Y2hpYW5nQGNocm9taXVtLm9yZz4K
+CmFwcGxpZWQgZm9yIDUuNSBhZnRlciByZW1vdmluZyB0aGUgIi5kdHMiIGZyb20gdGhlIHBhdGNo
+IHN1YmplY3QKClRoYW5rcwpIZWlrbwoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbA==
