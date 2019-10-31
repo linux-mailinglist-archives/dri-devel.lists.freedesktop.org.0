@@ -1,44 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70E62EB0B2
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2019 14:00:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7239AEB0BB
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2019 14:01:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 990A56EC30;
-	Thu, 31 Oct 2019 13:00:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17D0B6EE73;
+	Thu, 31 Oct 2019 13:01:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from Galois.linutronix.de (Galois.linutronix.de
- [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 714BB6EE54;
- Thu, 31 Oct 2019 11:55:05 +0000 (UTC)
-Received: from [5.158.153.53] (helo=tip-bot2.lab.linutronix.de)
- by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
- (Exim 4.80) (envelope-from <tip-bot2@linutronix.de>)
- id 1iQ92W-0002qf-48; Thu, 31 Oct 2019 12:54:56 +0100
-Received: from [127.0.1.1] (localhost [IPv6:::1])
- by tip-bot2.lab.linutronix.de (Postfix) with ESMTP id B17A41C03AD;
- Thu, 31 Oct 2019 12:54:55 +0100 (CET)
-Date: Thu, 31 Oct 2019 11:54:55 -0000
-From: "tip-bot2 for Paul E. McKenney" <tip-bot2@linutronix.de>
-To: linux-tip-commits@vger.kernel.org
-Subject: [tip: core/rcu] drm/i915: Replace rcu_swap_protected() with
- rcu_replace_pointer()
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11AB86EE69
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2019 13:01:08 +0000 (UTC)
+Received: from localhost (lns-bzn-32-82-254-4-138.adsl.proxad.net
+ [82.254.4.138])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3FF182080F;
+ Thu, 31 Oct 2019 13:01:06 +0000 (UTC)
+Date: Thu, 31 Oct 2019 13:51:00 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Torsten Duwe <duwe@lst.de>
+Subject: Re: [PATCH v4 6/7] dt-bindings: Add ANX6345 DP/eDP transmitter binding
+Message-ID: <20191031125100.qprbdaaysg3tmhif@hendrix>
+References: <20191029153815.C631668C4E@verein.lst.de>
+ <20191029153953.8EE9B68D04@verein.lst.de>
 MIME-Version: 1.0
-Message-ID: <157252289545.29376.11174975468179332374.tip-bot2@tip-bot2>
-X-Mailer: tip-git-log-daemon
-Robot-ID: <tip-bot2.linutronix.de>
-Robot-Unsubscribe: Contact <mailto:tglx@linutronix.de> to get blacklisted from
- these emails
-Precedence: bulk
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required, ALL_TRUSTED=-1,
- SHORTCIRCUIT=-0.0001
-X-Mailman-Approved-At: Thu, 31 Oct 2019 13:00:41 +0000
+In-Reply-To: <20191029153953.8EE9B68D04@verein.lst.de>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1572526867;
+ bh=f8eRto+8exxLgWUVCKrmmM8ykoEw4tBZ+Sa1c7y0s1k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=JPgWzUplTsqtsEfcET7zNSf9SFujmQQQiVz6ScjU8KqRhl7L8N21vc1eI4dpAwt8d
+ A4w6TuYAOUBZ6qC6lBBSRdgVUCMXuY57ED265QOpQriUW3BfrSq5F8CfqEG9YWMPmD
+ 6aj56dA7bidFDsGO+7aha31rwXjoNoEwTJQX8qGY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: Direct Rendering Infrastructure - Development
  <dri-devel.lists.freedesktop.org>
 List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/dri-devel>,
@@ -48,53 +46,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: linux-kernel@vger.kernel.org
-Cc: "Paul E. McKenney" <paulmck@kernel.org>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Borislav Petkov <bp@alien8.de>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Linus Torvalds <torvalds@linux-foundation.org>, Ingo Molnar <mingo@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Maxime Ripard <maxime.ripard@bootlin.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Vasily Khoruzhick <anarsoul@gmail.com>,
+ David Airlie <airlied@linux.ie>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Harald Geyer <harald@ccbib.org>, Sean Paul <seanpaul@chromium.org>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Icenowy Zheng <icenowy@aosc.io>
+Content-Type: multipart/mixed; boundary="===============0592886067=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIGZvbGxvd2luZyBjb21taXQgaGFzIGJlZW4gbWVyZ2VkIGludG8gdGhlIGNvcmUvcmN1IGJy
-YW5jaCBvZiB0aXA6CgpDb21taXQtSUQ6ICAgICAxZmVhY2U1ZDZhNGExYWNmNDRkZGUyYmZiNWMz
-NmNjMGIxY2Y1NTljCkdpdHdlYjogICAgICAgIGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvdGlwLzFm
-ZWFjZTVkNmE0YTFhY2Y0NGRkZTJiZmI1YzM2Y2MwYjFjZjU1OWMKQXV0aG9yOiAgICAgICAgUGF1
-bCBFLiBNY0tlbm5leSA8cGF1bG1ja0BrZXJuZWwub3JnPgpBdXRob3JEYXRlOiAgICBNb24sIDIz
-IFNlcCAyMDE5IDE1OjIyOjE1IC0wNzowMApDb21taXR0ZXI6ICAgICBQYXVsIEUuIE1jS2VubmV5
-IDxwYXVsbWNrQGtlcm5lbC5vcmc+CkNvbW1pdHRlckRhdGU6IFdlZCwgMzAgT2N0IDIwMTkgMDg6
-NDQ6MDQgLTA3OjAwCgpkcm0vaTkxNTogUmVwbGFjZSByY3Vfc3dhcF9wcm90ZWN0ZWQoKSB3aXRo
-IHJjdV9yZXBsYWNlX3BvaW50ZXIoKQoKVGhpcyBjb21taXQgcmVwbGFjZXMgdGhlIHVzZSBvZiBy
-Y3Vfc3dhcF9wcm90ZWN0ZWQoKSB3aXRoIHRoZSBtb3JlCmludHVpdGl2ZWx5IGFwcGVhbGluZyBy
-Y3VfcmVwbGFjZV9wb2ludGVyKCkgYXMgYSBzdGVwIHRvd2FyZHMgcmVtb3ZpbmcKcmN1X3N3YXBf
-cHJvdGVjdGVkKCkuCgpMaW5rOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9sa21sL0NBSGstPXdp
-QXNKTHcxZWdGRUU9WjctR0d0TTZ3Y3Z0eXl0WFpBMStCSHF0YTRnZzZId0BtYWlsLmdtYWlsLmNv
-bS8KUmVwb3J0ZWQtYnk6IExpbnVzIFRvcnZhbGRzIDx0b3J2YWxkc0BsaW51eC1mb3VuZGF0aW9u
-Lm9yZz4KWyBwYXVsbWNrOiBGcm9tIHJjdV9yZXBsYWNlKCkgdG8gcmN1X3JlcGxhY2VfcG9pbnRl
-cigpIHBlciBJbmdvIE1vbG5hci4gXQpTaWduZWQtb2ZmLWJ5OiBQYXVsIEUuIE1jS2VubmV5IDxw
-YXVsbWNrQGtlcm5lbC5vcmc+ClJldmlld2VkLWJ5OiBKb29uYXMgTGFodGluZW4gPGpvb25hcy5s
-YWh0aW5lbkBsaW51eC5pbnRlbC5jb20+CkNjOiBKYW5pIE5pa3VsYSA8amFuaS5uaWt1bGFAbGlu
-dXguaW50ZWwuY29tPgpDYzogUm9kcmlnbyBWaXZpIDxyb2RyaWdvLnZpdmlAaW50ZWwuY29tPgpD
-YzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgpDYzogRGFuaWVsIFZldHRlciA8ZGFu
-aWVsQGZmd2xsLmNoPgpDYzogQ2hyaXMgV2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+
-CkNjOiBUdnJ0a28gVXJzdWxpbiA8dHZydGtvLnVyc3VsaW5AaW50ZWwuY29tPgpDYzogPGludGVs
-LWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmc+CkNjOiA8ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fY29udGV4dC5j
-IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2NvbnRleHQuYyBi
-L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9jb250ZXh0LmMKaW5kZXggMWNkZmUw
-NS4uM2YzZTgwMyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2Vt
-X2NvbnRleHQuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fY29udGV4
-dC5jCkBAIC0xNjI5LDcgKzE2MjksNyBAQCByZXBsYWNlOgogCQlpOTE1X2dlbV9jb250ZXh0X3Nl
-dF91c2VyX2VuZ2luZXMoY3R4KTsKIAllbHNlCiAJCWk5MTVfZ2VtX2NvbnRleHRfY2xlYXJfdXNl
-cl9lbmdpbmVzKGN0eCk7Ci0JcmN1X3N3YXBfcHJvdGVjdGVkKGN0eC0+ZW5naW5lcywgc2V0LmVu
-Z2luZXMsIDEpOworCXNldC5lbmdpbmVzID0gcmN1X3JlcGxhY2VfcG9pbnRlcihjdHgtPmVuZ2lu
-ZXMsIHNldC5lbmdpbmVzLCAxKTsKIAltdXRleF91bmxvY2soJmN0eC0+ZW5naW5lc19tdXRleCk7
-CiAKIAljYWxsX3JjdSgmc2V0LmVuZ2luZXMtPnJjdSwgZnJlZV9lbmdpbmVzX3JjdSk7Cl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0592886067==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="4cs2y66oqe25ixg3"
+Content-Disposition: inline
+
+
+--4cs2y66oqe25ixg3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Tue, Oct 29, 2019 at 01:16:57PM +0100, Torsten Duwe wrote:
+> The anx6345 is an ultra-low power DisplayPort/eDP transmitter designed
+> for portable devices.
+>
+> Add a binding document for it.
+>
+> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
+> Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Torsten Duwe <duwe@suse.de>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  .../bindings/display/bridge/anx6345.yaml           | 92 ++++++++++++++++++++++
+>  1 file changed, 92 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/anx6345.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/display/bridge/anx6345.yaml b/Documentation/devicetree/bindings/display/bridge/anx6345.yaml
+> new file mode 100644
+> index 000000000000..094e8e8a5faa
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/anx6345.yaml
+> @@ -0,0 +1,92 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/anx6345.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Analogix ANX6345 eDP Transmitter Device Tree Bindings
+> +
+> +maintainers:
+> +  - Torsten Duwe <duwe@lst.de>
+> +
+> +description: |
+> +  The ANX6345 is an ultra-low power Full-HD eDP transmitter designed for
+> +  portable devices.
+> +
+> +properties:
+> +  compatible:
+> +    const: analogix,anx6345
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description: base I2C address of the device
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description: GPIO connected to active low reset
+> +
+> +  dvdd12-supply:
+> +    maxItems: 1
+> +    description: Regulator for 1.2V digital core power.
+> +
+> +  dvdd25-supply:
+> +    maxItems: 1
+> +    description: Regulator for 2.5V digital core power.
+> +
+> +  ports:
+> +    anyOf:
+> +      - port@0:
+> +        description: Video port for LVTTL input
+> +      - port@1:
+> +        description: Video port for eDP output (panel or connector).
+> +                     May be omitted if EDID works reliably.
+> +    required:
+> +      - port@0
+
+Have you tried to validate those two ports in a DT?
+
+I'm not quite sure what you wanted to express with that anyOf, but if
+it was something like port@0 is mandatory, and port@1 is optional, it
+should be something like this:
+
+properties:
+
+  ...
+
+  ports:
+    type: object
+
+    properties:
+      port@0:
+        type: object
+        description: |
+	  Video port for LVTTL input
+
+      port@1:
+        type: object
+        description: |
+	  Video port for eDP output (..)
+
+    required:
+      - port@0
+
+This way, you express that both port@0 and port@1 must by nodes, under
+a node called ports, and port@0 is mandatory.
+
+You should even push this a bit further by adding
+additionalProperties: false to prevent a DT from having undocumented
+properties and children for the main node and ports node.
+
+Maxime
+
+--4cs2y66oqe25ixg3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXbrYtAAKCRDj7w1vZxhR
+xV1dAQC5514CdqdwGVxKBgHABRr2w2ucyLWqPk68wp3r0weRTAEA1E4SCm2To1Xt
+ZnSJZF6aVIy6kDrJXQRDNT9vWD9JOwY=
+=TzGz
+-----END PGP SIGNATURE-----
+
+--4cs2y66oqe25ixg3--
+
+--===============0592886067==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0592886067==--
