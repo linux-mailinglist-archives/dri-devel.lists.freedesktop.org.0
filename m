@@ -2,38 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7239AEB0BB
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2019 14:01:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA79FEB0CB
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2019 14:04:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17D0B6EE73;
-	Thu, 31 Oct 2019 13:01:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D5B76EE72;
+	Thu, 31 Oct 2019 13:04:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11AB86EE69
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2019 13:01:08 +0000 (UTC)
-Received: from localhost (lns-bzn-32-82-254-4-138.adsl.proxad.net
- [82.254.4.138])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3FF182080F;
- Thu, 31 Oct 2019 13:01:06 +0000 (UTC)
-Date: Thu, 31 Oct 2019 13:51:00 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Torsten Duwe <duwe@lst.de>
-Subject: Re: [PATCH v4 6/7] dt-bindings: Add ANX6345 DP/eDP transmitter binding
-Message-ID: <20191031125100.qprbdaaysg3tmhif@hendrix>
-References: <20191029153815.C631668C4E@verein.lst.de>
- <20191029153953.8EE9B68D04@verein.lst.de>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F3836EE72
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2019 13:04:15 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3442B290624;
+ Thu, 31 Oct 2019 13:04:13 +0000 (GMT)
+Date: Thu, 31 Oct 2019 14:04:10 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v3 17/21] dt-bindings: display: bridge:
+ lvds-transmitter: Add new props
+Message-ID: <20191031140410.47fca3ff@collabora.com>
+In-Reply-To: <20191025195711.GA1074@bogus>
+References: <20191023154512.9762-1-boris.brezillon@collabora.com>
+ <20191023154512.9762-18-boris.brezillon@collabora.com>
+ <20191025195711.GA1074@bogus>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20191029153953.8EE9B68D04@verein.lst.de>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1572526867;
- bh=f8eRto+8exxLgWUVCKrmmM8ykoEw4tBZ+Sa1c7y0s1k=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JPgWzUplTsqtsEfcET7zNSf9SFujmQQQiVz6ScjU8KqRhl7L8N21vc1eI4dpAwt8d
- A4w6TuYAOUBZ6qC6lBBSRdgVUCMXuY57ED265QOpQriUW3BfrSq5F8CfqEG9YWMPmD
- 6aj56dA7bidFDsGO+7aha31rwXjoNoEwTJQX8qGY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,155 +44,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Maxime Ripard <maxime.ripard@bootlin.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Vasily Khoruzhick <anarsoul@gmail.com>,
- David Airlie <airlied@linux.ie>, Chen-Yu Tsai <wens@csie.org>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Harald Geyer <harald@ccbib.org>, Sean Paul <seanpaul@chromium.org>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Icenowy Zheng <icenowy@aosc.io>
-Content-Type: multipart/mixed; boundary="===============0592886067=="
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
+ devicetree@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, dri-devel@lists.freedesktop.org,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
+ Sam Ravnborg <sam@ravnborg.org>, Chris Healy <cphealy@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0592886067==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="4cs2y66oqe25ixg3"
-Content-Disposition: inline
-
-
---4cs2y66oqe25ixg3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Tue, Oct 29, 2019 at 01:16:57PM +0100, Torsten Duwe wrote:
-> The anx6345 is an ultra-low power DisplayPort/eDP transmitter designed
-> for portable devices.
->
-> Add a binding document for it.
->
-> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
-> Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Torsten Duwe <duwe@suse.de>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  .../bindings/display/bridge/anx6345.yaml           | 92 ++++++++++++++++++++++
->  1 file changed, 92 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/anx6345.yaml
->
-> diff --git a/Documentation/devicetree/bindings/display/bridge/anx6345.yaml b/Documentation/devicetree/bindings/display/bridge/anx6345.yaml
-> new file mode 100644
-> index 000000000000..094e8e8a5faa
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/anx6345.yaml
-> @@ -0,0 +1,92 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/anx6345.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Analogix ANX6345 eDP Transmitter Device Tree Bindings
-> +
-> +maintainers:
-> +  - Torsten Duwe <duwe@lst.de>
-> +
-> +description: |
-> +  The ANX6345 is an ultra-low power Full-HD eDP transmitter designed for
-> +  portable devices.
-> +
-> +properties:
-> +  compatible:
-> +    const: analogix,anx6345
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description: base I2C address of the device
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: GPIO connected to active low reset
-> +
-> +  dvdd12-supply:
-> +    maxItems: 1
-> +    description: Regulator for 1.2V digital core power.
-> +
-> +  dvdd25-supply:
-> +    maxItems: 1
-> +    description: Regulator for 2.5V digital core power.
-> +
-> +  ports:
-> +    anyOf:
-> +      - port@0:
-> +        description: Video port for LVTTL input
-> +      - port@1:
-> +        description: Video port for eDP output (panel or connector).
-> +                     May be omitted if EDID works reliably.
-> +    required:
-> +      - port@0
-
-Have you tried to validate those two ports in a DT?
-
-I'm not quite sure what you wanted to express with that anyOf, but if
-it was something like port@0 is mandatory, and port@1 is optional, it
-should be something like this:
-
-properties:
-
-  ...
-
-  ports:
-    type: object
-
-    properties:
-      port@0:
-        type: object
-        description: |
-	  Video port for LVTTL input
-
-      port@1:
-        type: object
-        description: |
-	  Video port for eDP output (..)
-
-    required:
-      - port@0
-
-This way, you express that both port@0 and port@1 must by nodes, under
-a node called ports, and port@0 is mandatory.
-
-You should even push this a bit further by adding
-additionalProperties: false to prevent a DT from having undocumented
-properties and children for the main node and ports node.
-
-Maxime
-
---4cs2y66oqe25ixg3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXbrYtAAKCRDj7w1vZxhR
-xV1dAQC5514CdqdwGVxKBgHABRr2w2ucyLWqPk68wp3r0weRTAEA1E4SCm2To1Xt
-ZnSJZF6aVIy6kDrJXQRDNT9vWD9JOwY=
-=TzGz
------END PGP SIGNATURE-----
-
---4cs2y66oqe25ixg3--
-
---===============0592886067==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0592886067==--
+T24gRnJpLCAyNSBPY3QgMjAxOSAxNDo1NzoxMSAtMDUwMApSb2IgSGVycmluZyA8cm9iaEBrZXJu
+ZWwub3JnPiB3cm90ZToKCj4gT24gV2VkLCBPY3QgMjMsIDIwMTkgYXQgMDU6NDU6MDhQTSArMDIw
+MCwgQm9yaXMgQnJlemlsbG9uIHdyb3RlOgo+ID4gQWRkIHRoZSBkYXRhLW1hcHBpbmcgcHJvcGVy
+dHkgdG8gZGVzY3JpYmUgdGhlIG91dHB1dCBidXMgZm9ybWF0IGFuZAo+ID4gdGhlIGJ1cy13aWR0
+aCBwcm9wZXJ0eSB0byBkZXNjcmliZSB0aGUgaW5wdXQgYnVzIGZvcm1hdC4KPiA+IAo+ID4gU2ln
+bmVkLW9mZi1ieTogQm9yaXMgQnJlemlsbG9uIDxib3Jpcy5icmV6aWxsb25AY29sbGFib3JhLmNv
+bT4KPiA+IC0tLQo+ID4gQ2hhbmdlcyBpbiB2MzoKPiA+ICogTmV3IHBhdGNoCj4gPiAtLS0KPiA+
+ICAuLi4vYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvbHZkcy10cmFuc21pdHRlci50eHQgICAgfCAx
+MyArKysrKysrKysrKysrCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDEzIGluc2VydGlvbnMoKykKPiA+
+IAo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNw
+bGF5L2JyaWRnZS9sdmRzLXRyYW5zbWl0dGVyLnR4dCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJl
+ZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9sdmRzLXRyYW5zbWl0dGVyLnR4dAo+ID4gaW5kZXgg
+NjAwOTFkYjVkZmE1Li43YjQzYjZmMjAyNzkgMTAwNjQ0Cj4gPiAtLS0gYS9Eb2N1bWVudGF0aW9u
+L2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvbHZkcy10cmFuc21pdHRlci50eHQK
+PiA+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRn
+ZS9sdmRzLXRyYW5zbWl0dGVyLnR4dAo+ID4gQEAgLTM2LDYgKzM2LDE5IEBAIGdyYXBoIGJpbmRp
+bmdzIHNwZWNpZmllZCBpbiBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZ3JhcGgu
+dHh0Lgo+ID4gIC0gVmlkZW8gcG9ydCAwIGZvciBwYXJhbGxlbCBpbnB1dAo+ID4gIC0gVmlkZW8g
+cG9ydCAxIGZvciBMVkRTIG91dHB1dAo+ID4gIAo+ID4gK09wdGlvbmFsIHBvcnQgMCBub2RlIHBy
+b3BlcnRpZXM6Cj4gPiArCj4gPiArLSBidXMtd2lkdGg6IG51bWJlciBvZiBkYXRhIGxpbmVzIHVz
+ZSB0byB0cmFuc21pdCB0aGUgUkdCIGRhdGEuCj4gPiArCSAgICAgQ2FuIGJlIDE4IG9yIDI0Lgo+
+ID4gKwo+ID4gK09wdGlvbmFsIHBvcnQgMSBub2RlIHByb3BlcnRpZXM6Cj4gPiArCj4gPiArLSBk
+YXRhLW1hcHBpbmc6IHNlZSBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxh
+eS9wYW5lbC9sdmRzLnlhbWwKPiA+ICsJCWZvciBtb3JlIGRldGFpbHMgYWJvdXQgdGhpcyBMVkRT
+IGRhdGEtbWFwcGluZyBwcm9wZXJ0eS4KPiA+ICsJCVN1cHBvcnRlZCB2YWx1ZXM6Cj4gPiArCQki
+amVpZGEtMTgiCj4gPiArCQkiamVpZGEtMjQiCj4gPiArCQkidmVzYS0yNCIgIAo+IAo+IFRoaXMg
+aXMgYWxyZWFkeSBkZWZpbmVkIHRvIGJlIGEgcGFuZWwgcHJvcGVydHkuIERvIHdlIG5lZWQgaXQg
+YXQgYm90aCAKPiBlbmRzPwoKVGhhdCdzIGEgdmFsaWQgcG9pbnQuIEknbGwgcGF0Y2ggdGhlIHBh
+bmVsLXNpbXBsZSBkcml2ZXIgdG8gdGFrZXMgdGhpcwpEVCBwcm9wIGludG8gYWNjb3VudC4KX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
