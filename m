@@ -1,43 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E9A1EA843
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2019 01:33:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECDECEA8F1
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Oct 2019 02:46:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C4D36EBC3;
-	Thu, 31 Oct 2019 00:33:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E5D06EBD0;
+	Thu, 31 Oct 2019 01:46:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 114B36EBC3;
- Thu, 31 Oct 2019 00:33:23 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 473RBP0fDjz9sPn;
- Thu, 31 Oct 2019 11:33:16 +1100 (AEDT)
-Date: Thu, 31 Oct 2019 11:33:15 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm tree with the drm-intel-fixes tree
-Message-ID: <20191031113315.4183cc7a@canb.auug.org.au>
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0D896EBCF
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2019 01:46:38 +0000 (UTC)
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-72-Lo1Jpa2NM_aZjD_2oVi__A-1; Wed, 30 Oct 2019 21:46:33 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93F2C800D49;
+ Thu, 31 Oct 2019 01:46:28 +0000 (UTC)
+Received: from [10.72.12.100] (ovpn-12-100.pek2.redhat.com [10.72.12.100])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 07CE960870;
+ Thu, 31 Oct 2019 01:46:03 +0000 (UTC)
+Subject: Re: [PATCH V6 6/6] docs: sample driver to demonstrate how to
+ implement virtio-mdev framework
+To: Christoph Hellwig <hch@infradead.org>
+References: <20191030064444.21166-1-jasowang@redhat.com>
+ <20191030064444.21166-7-jasowang@redhat.com>
+ <20191030212312.GA4251@infradead.org>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <d8266abb-391a-27d0-59ab-3e1412fe73da@redhat.com>
+Date: Thu, 31 Oct 2019 09:46:02 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=canb.auug.org.au; s=201702; t=1572481998;
- bh=7XKqZHnloBwk2IBLtvDjt9PATonWlXhD8i+mH9h8ki4=;
- h=Date:From:To:Cc:Subject:From;
- b=QO/HGZ/JR7M0dLAkQjlU2V8OQSfKpRMEyP7fINchZe1oRYJPYjPQFeSZFu8tJLAzS
- MOCJ7JX0eTopvA0yO6w3Iq4VfkdWuqtGS+z8GD6351oN/DfxxEfep5QD+lcrjyrXVC
- h2sX8H7Kj+9Wvx7/F6QMHY2H79UP7MdFJvfsWYCjhGY5AcXCEVOxoim4IMwPSz/xPg
- HOEN6v0iLfuAOKWmxjxcrlIwOzlkX+IWN+4nBJowZdGBanGjOC0HMPd1kjlAu3i+2U
- 2GxDGhQolVVzgmD+TMTU38s+F6jbWYeYZgj/I9d9DB/5gJtxWovgeVZVzx06/dmDUH
- 7Mwk2tOPsZkoA==
+In-Reply-To: <20191030212312.GA4251@infradead.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: Lo1Jpa2NM_aZjD_2oVi__A-1
+X-Mimecast-Spam-Score: 0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=redhat.com; 
+ s=mimecast20190719; t=1572486397;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OIhA3h+F3B7b1YDj7xFASdzKWfp17j0nfrAmTNbsOig=;
+ b=aP5orx4zJ4rE44+Tr1pslHxkuSgMR2He6h2ZyVD2cmNK9FcasktZgILo9Jomw+Gol6vQ86
+ Gk8K45SD4uuWC6VFFOXXnM8kZSuAVT/GFmuMkc/vqYMDGT4Mq4Lx70Agu3e7UsjuVG3344
+ kfLrrKZ3SKIvqClUfN444doVLNxy1oc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,123 +65,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============1560113957=="
+Cc: stefanha@redhat.com, christophe.de.dinechin@gmail.com, kvm@vger.kernel.org,
+ mst@redhat.com, airlied@linux.ie, heiko.carstens@de.ibm.com,
+ kevin.tian@intel.com, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, kwankhede@nvidia.com,
+ rob.miller@broadcom.com, linux-s390@vger.kernel.org, sebott@linux.ibm.com,
+ lulu@redhat.com, eperezma@redhat.com, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, haotian.wang@sifive.com, cunming.liang@intel.com,
+ zhi.a.wang@intel.com, farman@linux.ibm.com, idos@mellanox.com,
+ gor@linux.ibm.com, intel-gfx@lists.freedesktop.org, alex.williamson@redhat.com,
+ xiao.w.wang@intel.com, freude@linux.ibm.com, parav@mellanox.com,
+ zhihong.wang@intel.com, rodrigo.vivi@intel.com,
+ intel-gvt-dev@lists.freedesktop.org, akrowiak@linux.ibm.com,
+ oberpar@linux.ibm.com, tiwei.bie@intel.com, netdev@vger.kernel.org,
+ cohuck@redhat.com, linux-kernel@vger.kernel.org, maxime.coquelin@redhat.com,
+ lingshan.zhu@intel.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1560113957==
-Content-Type: multipart/signed; boundary="Sig_/BtWu1.KVQ8+eonL8skrO/=1";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-
---Sig_/BtWu1.KVQ8+eonL8skrO/=1
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi all,
-
-Today's linux-next merge of the drm tree got a conflict in:
-
-  drivers/gpu/drm/i915/i915_drv.h
-
-between commit:
-
-  59cd826fb5e7 ("drm/i915: Fix PCH reference clock for FDI on HSW/BDW")
-
-from the drm-intel-fixes tree and commit:
-
-  7d423af9bfb1 ("drm/i915: Implement a better i945gm vblank irq vs. C-state=
-s workaround")
-
-from the drm tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/i915/i915_drv.h
-index 953e1d12c23c,8882c0908c3b..000000000000
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@@ -1704,34 -1339,17 +1339,19 @@@ struct drm_i915_private=20
-  	struct {
-  		struct notifier_block pm_notifier;
- =20
-- 		/**
-- 		 * We leave the user IRQ off as much as possible,
-- 		 * but this means that requests will finish and never
-- 		 * be retired once the system goes idle. Set a timer to
-- 		 * fire periodically while the ring is running. When it
-- 		 * fires, go retire requests.
-- 		 */
-- 		struct delayed_work retire_work;
--=20
-- 		/**
-- 		 * When we detect an idle GPU, we want to turn on
-- 		 * powersaving features. So once we see that there
-- 		 * are no more requests outstanding and no more
-- 		 * arrive within a small period of time, we fire
-- 		 * off the idle_work.
-- 		 */
-- 		struct work_struct idle_work;
-+ 		struct i915_gem_contexts {
-+ 			spinlock_t lock; /* locks list */
-+ 			struct list_head list;
-+=20
-+ 			struct llist_head free_list;
-+ 			struct work_struct free_work;
-+ 		} contexts;
-  	} gem;
- =20
- +	u8 pch_ssc_use;
- +
-- 	/* For i945gm vblank irq vs. C3 workaround */
-- 	struct {
-- 		struct work_struct work;
-- 		struct pm_qos_request pm_qos;
-- 		u8 c3_disable_latency;
-- 		u8 enabled;
-- 	} i945gm_vblank;
-+ 	/* For i915gm/i945gm vblank irq workaround */
-+ 	u8 vblank_enabled;
- =20
-  	/* perform PHY state sanity checks? */
-  	bool chv_phy_assert[2];
-
---Sig_/BtWu1.KVQ8+eonL8skrO/=1
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl26K8sACgkQAVBC80lX
-0GxUEwgAiDEmYOtenUVKBbWMrzG1aiD02DfLijRCRAcO4iGSyNppuavCHiYQZSby
-uzhK0MPlJ9Ge/0YpTW4GypSZb2m5XEzXb1+CcJ/NosWtEDnhoE8kgDBaXj7gB3iO
-TFBq02QFOFI4PBFzesNGOcFaomWl5LjmSeDsahcXKRQW2Gqr/7QP0DQz3m4TgOCa
-Ktqll1tnVzFx2TAD9/gl7NXrodcz1OjYn5iBb4A9hSONWLgqqY1ESVhEVwgqaCTF
-d5FABgxepuQJlqkAhwSV8dgOHsVdR6Tzx4lQEKisuW6r7J1CUZUPLvBARmauTPwV
-8WrXwdTFygDYxHaT40rp/icxc/bPZw==
-=RKfl
------END PGP SIGNATURE-----
-
---Sig_/BtWu1.KVQ8+eonL8skrO/=1--
-
---===============1560113957==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1560113957==--
+Ck9uIDIwMTkvMTAvMzEg5LiK5Y2INToyMywgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6Cj4gT24g
+V2VkLCBPY3QgMzAsIDIwMTkgYXQgMDI6NDQ6NDRQTSArMDgwMCwgSmFzb24gV2FuZyB3cm90ZToK
+Pj4gVGhpcyBzYW1wbGUgZHJpdmVyIGNyZWF0ZXMgbWRldiBkZXZpY2UgdGhhdCBzaW11bGF0ZSB2
+aXJ0aW8gbmV0IGRldmljZQo+PiBvdmVyIHZpcnRpbyBtZGV2IHRyYW5zcG9ydC4gVGhlIGRldmlj
+ZSBpcyBpbXBsZW1lbnRlZCB0aHJvdWdoIHZyaW5naAo+PiBhbmQgd29ya3F1ZXVlLiBBIGRldmlj
+ZSBzcGVjaWZpYyBkbWEgb3BzIGlzIHRvIG1ha2Ugc3VyZSBIVkEgaXMgdXNlZAo+PiBkaXJlY3Rs
+eSBhcyB0aGUgSU9WQS4gVGhpcyBzaG91bGQgYmUgc3VmZmljaWVudCBmb3Iga2VybmVsIHZpcnRp
+bwo+PiBkcml2ZXIgdG8gd29yay4KPj4KPj4gT25seSAndmlydGlvJyB0eXBlIGlzIHN1cHBvcnRl
+ZCByaWdodCBub3cuIEkgcGxhbiB0byBhZGQgJ3Zob3N0JyB0eXBlCj4+IG9uIHRvcCB3aGljaCBy
+ZXF1aXJlcyBzb21lIHZpcnR1YWwgSU9NTVUgaW1wbGVtZW50ZWQgaW4gdGhpcyBzYW1wbGUKPj4g
+ZHJpdmVyLgo+IENhbiB3ZSBwbGVhc2Ugc3VibWl0IGEgcmVhbCBkcml2ZXIgZm9yIGl0PyAgQSBt
+b3JlIG9yIGxlc3MgdXNlbGVzcwo+IHNhbXBsZSBkcml2ZXIgZG9lc24ndCByZWFsbHkgcXVhbGlm
+eSBmb3Igb3VyIG5vcm1hbCBrZXJuZWwgcmVxdWlyZW1lbnRzCj4gdGhhdCBpbmZyYXN0cnVjdHVy
+ZSBzaG91bGQgaGF2ZSBhIHJlYWwgdXNlci4KCgpJbnRlbCBwb3N0ZWQgYSByZWFsIGRyaXZlciBo
+ZXJlOiBodHRwczovL2xrbWwub3JnL2xrbWwvMjAxOS8xMC8xNS8xMjI2LgoKSSBwbGFuIHRvIHBv
+c3QgYW5vdGhlciBkcml2ZXIgdGhhdCB3aXJlIHZpcml0by1wY2kgYmFjayB0byBtZGV2IGJ1cyBv
+biAKdG9wIG9mIHRoaXMgc2VyaWVzIGFzIHdlbGwuCgpUaGFua3MKCgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
