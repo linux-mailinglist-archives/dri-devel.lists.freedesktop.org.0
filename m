@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2723EC8F7
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 20:20:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 660E4EC8FC
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 20:21:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A0236F854;
-	Fri,  1 Nov 2019 19:20:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 068516E2DA;
+	Fri,  1 Nov 2019 19:21:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 400056F858
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 19:20:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id DCC236E2DA
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 19:21:05 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 3CF0C720E2; Fri,  1 Nov 2019 19:20:07 +0000 (UTC)
+ id DA3B3720E2; Fri,  1 Nov 2019 19:21:05 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
  with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Fri, 01 Nov 2019 19:20:06 +0000
+Date: Fri, 01 Nov 2019 19:21:05 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -35,7 +35,7 @@ X-Bugzilla-Priority: highest
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-iw2TqSIB5U@http.bugs.freedesktop.org/>
+Message-ID: <bug-111481-502-alXsud3TKm@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
 References: <bug-111481-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1310815730=="
+Content-Type: multipart/mixed; boundary="===============1307581776=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1310815730==
-Content-Type: multipart/alternative; boundary="15726360072.efFB57.16407"
+--===============1307581776==
+Content-Type: multipart/alternative; boundary="157263606516.D63d.18594"
 Content-Transfer-Encoding: 7bit
 
 
---15726360072.efFB57.16407
-Date: Fri, 1 Nov 2019 19:20:07 +0000
+--157263606516.D63d.18594
+Date: Fri, 1 Nov 2019 19:21:05 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,30 +73,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
 
---- Comment #190 from wychuchol <wychuchol7777@gmail.com> ---
-Added AMD_DEBUG=3D"nongg,nodma" to /etc/environment but it happened while o=
-pening
-a webm file in a new tab in Palemoon.
-Nov  1 20:10:30 pop-os kernel: [24044.197839]
-[drm:amdgpu_dm_commit_planes.constprop.0 [amdgpu]] *ERROR* Waiting for fenc=
-es
-timed out!
-Nov  1 20:10:30 pop-os kernel: [24049.317800] [drm:amdgpu_job_timedout
-[amdgpu]] *ERROR* ring sdma0 timeout, signaled seq=3D3673639, emitted seq=
-=3D3673641
-Nov  1 20:10:30 pop-os kernel: [24049.317836] [drm:amdgpu_job_timedout
-[amdgpu]] *ERROR* Process information: process Xorg pid 2350 thread Xorg:cs0
-pid 2351
-Nov  1 20:10:30 pop-os kernel: [24049.317838] [drm] GPU recovery disabled.
-
-I'd think it happens less though.
+--- Comment #191 from wychuchol <wychuchol7777@gmail.com> ---
+Oh and music player kept working, played next track from playlist and I man=
+aged
+to reset with REISUB.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15726360072.efFB57.16407
-Date: Fri, 1 Nov 2019 19:20:07 +0000
+--157263606516.D63d.18594
+Date: Fri, 1 Nov 2019 19:21:05 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -114,8 +101,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
  kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c190">Comm=
-ent # 190</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c191">Comm=
+ent # 191</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
@@ -126,22 +113,9 @@ ent # 190</a>
 wychuchol7777&#64;gmail.com" title=3D"wychuchol &lt;wychuchol7777&#64;gmail=
 .com&gt;"> <span class=3D"fn">wychuchol</span></a>
 </span></b>
-        <pre>Added AMD_DEBUG=3D&quot;nongg,nodma&quot; to /etc/environment =
-but it happened while opening
-a webm file in a new tab in Palemoon.
-Nov  1 20:10:30 pop-os kernel: [24044.197839]
-[drm:amdgpu_dm_commit_planes.constprop.0 [amdgpu]] *ERROR* Waiting for fenc=
-es
-timed out!
-Nov  1 20:10:30 pop-os kernel: [24049.317800] [drm:amdgpu_job_timedout
-[amdgpu]] *ERROR* ring sdma0 timeout, signaled seq=3D3673639, emitted seq=
-=3D3673641
-Nov  1 20:10:30 pop-os kernel: [24049.317836] [drm:amdgpu_job_timedout
-[amdgpu]] *ERROR* Process information: process Xorg pid 2350 thread Xorg:cs0
-pid 2351
-Nov  1 20:10:30 pop-os kernel: [24049.317838] [drm] GPU recovery disabled.
-
-I'd think it happens less though.</pre>
+        <pre>Oh and music player kept working, played next track from playl=
+ist and I managed
+to reset with REISUB.</pre>
         </div>
       </p>
 
@@ -155,9 +129,9 @@ I'd think it happens less though.</pre>
     </body>
 </html>=
 
---15726360072.efFB57.16407--
+--157263606516.D63d.18594--
 
---===============1310815730==
+--===============1307581776==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -167,4 +141,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1310815730==--
+--===============1307581776==--
