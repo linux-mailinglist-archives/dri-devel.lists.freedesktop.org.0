@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5B84EC11A
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 11:09:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42D65EC151
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 11:42:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D62D86F7B4;
-	Fri,  1 Nov 2019 10:09:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E6146F7CC;
+	Fri,  1 Nov 2019 10:42:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68EAC6F7B2
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 10:09:42 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9C856F7CC
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 10:42:43 +0000 (UTC)
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2019 03:09:41 -0700
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2019 03:42:43 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.68,254,1569308400"; 
- d="gz'50?scan'50,208,50";a="225989977"
+ d="gz'50?scan'50,208,50";a="206373044"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
- by fmsmga004.fm.intel.com with ESMTP; 01 Nov 2019 03:09:39 -0700
+ by FMSMGA003.fm.intel.com with ESMTP; 01 Nov 2019 03:42:40 -0700
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
  (envelope-from <lkp@intel.com>)
- id 1iQTsB-000Hat-Fo; Fri, 01 Nov 2019 18:09:39 +0800
-Date: Fri, 1 Nov 2019 18:09:25 +0800
+ id 1iQUO8-000IMC-EJ; Fri, 01 Nov 2019 18:42:40 +0800
+Date: Fri, 1 Nov 2019 18:42:19 +0800
 From: kbuild test robot <lkp@intel.com>
-To: Flora Cui <flora.cui@amd.com>
-Subject: [radeon-alex:amd-mainline-dkms-5.2 2027/2647]
- include/kcl/kcl_fence.h:129:20: error: redefinition of 'dma_fence_set_error'
-Message-ID: <201911011825.AV3qdT4l%lkp@intel.com>
+To: changzhu <Changfeng.Zhu@amd.com>
+Subject: [radeon-alex:amd-mainline-dkms-5.2 2031/2647]
+ include/kcl/kcl_mm.h:60:21: error: redefinition of 'kvmalloc'
+Message-ID: <201911011818.R8xGBVyQ%lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="ac637fss7dvztlem"
+Content-Type: multipart/mixed; boundary="dpq4nnqg6vzw7gf7"
 Content-Disposition: inline
 X-Patchwork-Hint: ignore
 User-Agent: NeoMutt/20170113 (1.7.2)
@@ -49,23 +49,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Feifei Xu <Feifei.Xu@amd.com>, kbuild-all@lists.01.org,
- "Jack.Gui" <Jack.Gui@amd.com>, dri-devel@lists.freedesktop.org
+Cc: Yifan Zhang <yifan1.zhang@amd.com>, kbuild-all@lists.01.org,
+ Jack Gui <Jack.Gui@amd.com>, Feifei Xu <Feifei.Xu@amd.com>,
+ tianci yin <tianci.yin@amd.com>, Adam Yang <Adam1.Yang@amd.com>,
+ dri-devel@lists.freedesktop.org, Flora Cui <flora.cui@amd.com>,
+ Rui Teng <rui.teng@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---ac637fss7dvztlem
+--dpq4nnqg6vzw7gf7
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   git://people.freedesktop.org/~agd5f/linux.git amd-mainline-dkms-5.2
 head:   b027ed8d9051470f4ed6bc071fcde172fe1fc595
-commit: c53ae0e01db63d1b142681add947781668e3319c [2027/2647] drm/amdkcl: drop kcl_dma_fence_set_error
+commit: f12f9b802b6dd80fdee0b7c601b8b9d59a967556 [2031/2647] drm/amdkcl: Test if linux/overflow.h and struct_size exists
 config: x86_64-randconfig-g002-201943 (attached as .config)
 compiler: gcc-7 (Debian 7.4.0-14) 7.4.0
 reproduce:
-        git checkout c53ae0e01db63d1b142681add947781668e3319c
+        git checkout f12f9b802b6dd80fdee0b7c601b8b9d59a967556
         # save the attached .config to linux build tree
         make ARCH=x86_64 
 
@@ -74,190 +77,481 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/scheduler/backport/backport.h:5:0,
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
+                    from <command-line>:0:
+   include/drm/drm_plane.h:713:5: note: declared here
+    int drm_universal_plane_init(struct drm_device *dev,
+        ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
+                    from <command-line>:0:
+   include/kcl/kcl_drm.h: In function 'kcl_drm_gem_object_lookup':
+   include/kcl/kcl_drm.h:252:32: error: passing argument 1 of 'drm_gem_object_lookup' from incompatible pointer type [-Werror=incompatible-pointer-types]
+      return drm_gem_object_lookup(dev, filp, handle);
+                                   ^~~
+   In file included from include/kcl/kcl_drm.h:9:0,
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
+                    from <command-line>:0:
+   include/drm/drm_gem.h:386:24: note: expected 'struct drm_file *' but argument is of type 'struct drm_device *'
+    struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
+                           ^~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
+                    from <command-line>:0:
+   include/kcl/kcl_drm.h:252:37: warning: passing argument 2 of 'drm_gem_object_lookup' makes integer from pointer without a cast [-Wint-conversion]
+      return drm_gem_object_lookup(dev, filp, handle);
+                                        ^~~~
+   In file included from include/kcl/kcl_drm.h:9:0,
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
+                    from <command-line>:0:
+   include/drm/drm_gem.h:386:24: note: expected 'u32 {aka unsigned int}' but argument is of type 'struct drm_file *'
+    struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
+                           ^~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
+                    from <command-line>:0:
+   include/kcl/kcl_drm.h:252:10: error: too many arguments to function 'drm_gem_object_lookup'
+      return drm_gem_object_lookup(dev, filp, handle);
+             ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/kcl/kcl_drm.h:9:0,
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
+                    from <command-line>:0:
+   include/drm/drm_gem.h:386:24: note: declared here
+    struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
+                           ^~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
+                    from <command-line>:0:
+   include/kcl/kcl_drm.h: At top level:
+   include/kcl/kcl_drm.h:295:8: error: redefinition of 'struct drm_format_name_buf'
+    struct drm_format_name_buf {
+           ^~~~~~~~~~~~~~~~~~~
+   In file included from include/drm/drmP.h:69:0,
+                    from include/kcl/kcl_drm.h:6,
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
+                    from <command-line>:0:
+   include/drm/drm_fourcc.h:142:8: note: originally defined here
+    struct drm_format_name_buf {
+           ^~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
+                    from <command-line>:0:
+   include/kcl/kcl_drm.h: In function 'kcl_drm_gem_object_put_unlocked':
+   include/kcl/kcl_drm.h:327:9: error: implicit declaration of function 'drm_gem_object_unreference_unlocked'; did you mean 'drm_gem_object_put_unlocked'? [-Werror=implicit-function-declaration]
+     return drm_gem_object_unreference_unlocked(obj);
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            drm_gem_object_put_unlocked
+   include/kcl/kcl_drm.h:327:9: warning: 'return' with a value, in function returning void
+     return drm_gem_object_unreference_unlocked(obj);
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kcl/kcl_drm.h:324:20: note: declared here
+    static inline void kcl_drm_gem_object_put_unlocked(struct drm_gem_object *obj)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kcl/kcl_drm.h: In function 'kcl_drm_atomic_get_old_crtc_state_before_commit':
+   include/kcl/kcl_drm.h:351:43: error: invalid type argument of '->' (have 'struct __drm_crtcs_state')
+     return state->crtcs[drm_crtc_index(crtc)]->state;
+                                              ^~
+   include/kcl/kcl_drm.h: In function 'kcl_drm_atomic_get_new_crtc_state_after_commit':
+   include/kcl/kcl_drm.h:386:43: error: invalid type argument of '->' (have 'struct __drm_crtcs_state')
+     return state->crtcs[drm_crtc_index(crtc)]->state;
+                                              ^~
+   include/kcl/kcl_drm.h: At top level:
+   include/kcl/kcl_drm.h:491:8: error: redefinition of 'struct drm_printer'
+    struct drm_printer {
+           ^~~~~~~~~~~
+   In file included from include/drm/drm_mm.h:49:0,
+                    from include/drm/drm_vma_manager.h:26,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/drm/drm_print.h:70:8: note: originally defined here
+    struct drm_printer {
+           ^~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
+                    from <command-line>:0:
+   include/kcl/kcl_drm.h:497:6: error: conflicting types for 'drm_printf'
+    void drm_printf(struct drm_printer *p, const char *f, ...);
+         ^~~~~~~~~~
+   In file included from include/drm/drm_mm.h:49:0,
+                    from include/drm/drm_vma_manager.h:26,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/drm/drm_print.h:86:6: note: previous declaration of 'drm_printf' was here
+    void drm_printf(struct drm_printer *p, const char *f, ...);
+         ^~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+>> include/kcl/kcl_mm.h:60:21: error: redefinition of 'kvmalloc'
+    static inline void *kvmalloc(size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:635:21: note: previous definition of 'kvmalloc' was here
+    static inline void *kvmalloc(size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+>> include/kcl/kcl_mm.h:70:21: error: redefinition of 'kvzalloc'
+    static inline void *kvzalloc(size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:643:21: note: previous definition of 'kvzalloc' was here
+    static inline void *kvzalloc(size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+>> include/kcl/kcl_mm.h:80:20: error: static declaration of 'kvfree' follows non-static declaration
+    static inline void kvfree(const void *addr)
+                       ^~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:663:13: note: previous declaration of 'kvfree' was here
+    extern void kvfree(const void *addr);
+                ^~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+>> include/kcl/kcl_mm.h:100:21: error: redefinition of 'kvmalloc_array'
+    static inline void *kvmalloc_array(size_t n, size_t size, gfp_t flags)
+                        ^~~~~~~~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:648:21: note: previous definition of 'kvmalloc_array' was here
+    static inline void *kvmalloc_array(size_t n, size_t size, gfp_t flags)
+                        ^~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+>> include/kcl/kcl_mm.h:113:21: error: redefinition of 'kvcalloc'
+    static inline void *kvcalloc(size_t n, size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:658:21: note: previous definition of 'kvcalloc' was here
+    static inline void *kvcalloc(size_t n, size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:9:0,
                     from <command-line>:0:
    include/kcl/kcl_fence.h: In function 'kcl_fence_get_rcu_safe':
    include/kcl/kcl_fence.h:124:32: error: passing argument 1 of 'dma_fence_get_rcu_safe' from incompatible pointer type [-Werror=incompatible-pointer-types]
      return dma_fence_get_rcu_safe(fencep);
                                    ^~~~~~
-   In file included from include/kcl/kcl_fence.h:9:0,
-                    from drivers/gpu/drm/scheduler/backport/backport.h:5,
+   In file included from include/drm/drmP.h:58:0,
+                    from include/kcl/kcl_drm.h:6,
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
    include/linux/dma-fence.h:315:1: note: expected 'struct dma_fence **' but argument is of type 'struct fence **'
     dma_fence_get_rcu_safe(struct dma_fence __rcu **fencep)
     ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/scheduler/backport/backport.h:5:0,
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:9:0,
                     from <command-line>:0:
    include/kcl/kcl_fence.h:124:9: error: return from incompatible pointer type [-Werror=incompatible-pointer-types]
      return dma_fence_get_rcu_safe(fencep);
             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    include/kcl/kcl_fence.h: At top level:
->> include/kcl/kcl_fence.h:129:20: error: redefinition of 'dma_fence_set_error'
+   include/kcl/kcl_fence.h:129:20: error: redefinition of 'dma_fence_set_error'
     static inline void dma_fence_set_error(struct dma_fence *fence,
                        ^~~~~~~~~~~~~~~~~~~
-   In file included from include/kcl/kcl_fence.h:9:0,
-                    from drivers/gpu/drm/scheduler/backport/backport.h:5,
+   In file included from include/drm/drmP.h:58:0,
+                    from include/kcl/kcl_drm.h:6,
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
    include/linux/dma-fence.h:517:20: note: previous definition of 'dma_fence_set_error' was here
     static inline void dma_fence_set_error(struct dma_fence *fence,
                        ^~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/scheduler/backport/backport.h:5:0,
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:9:0,
                     from <command-line>:0:
    include/kcl/kcl_fence.h: In function 'dma_fence_set_error':
->> include/kcl/kcl_fence.h:135:7: error: 'struct dma_fence' has no member named 'status'
+   include/kcl/kcl_fence.h:135:7: error: 'struct dma_fence' has no member named 'status'
      fence->status = error;
           ^~
    cc1: some warnings being treated as errors
+--
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
+                    from <command-line>:0:
+   include/drm/drm_plane.h:713:5: note: declared here
+    int drm_universal_plane_init(struct drm_device *dev,
+        ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
+                    from <command-line>:0:
+   include/kcl/kcl_drm.h: In function 'kcl_drm_gem_object_lookup':
+   include/kcl/kcl_drm.h:252:32: error: passing argument 1 of 'drm_gem_object_lookup' from incompatible pointer type [-Werror=incompatible-pointer-types]
+      return drm_gem_object_lookup(dev, filp, handle);
+                                   ^~~
+   In file included from include/kcl/kcl_drm.h:9:0,
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
+                    from <command-line>:0:
+   include/drm/drm_gem.h:386:24: note: expected 'struct drm_file *' but argument is of type 'struct drm_device *'
+    struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
+                           ^~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
+                    from <command-line>:0:
+   include/kcl/kcl_drm.h:252:37: warning: passing argument 2 of 'drm_gem_object_lookup' makes integer from pointer without a cast [-Wint-conversion]
+      return drm_gem_object_lookup(dev, filp, handle);
+                                        ^~~~
+   In file included from include/kcl/kcl_drm.h:9:0,
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
+                    from <command-line>:0:
+   include/drm/drm_gem.h:386:24: note: expected 'u32 {aka unsigned int}' but argument is of type 'struct drm_file *'
+    struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
+                           ^~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
+                    from <command-line>:0:
+   include/kcl/kcl_drm.h:252:10: error: too many arguments to function 'drm_gem_object_lookup'
+      return drm_gem_object_lookup(dev, filp, handle);
+             ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/kcl/kcl_drm.h:9:0,
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
+                    from <command-line>:0:
+   include/drm/drm_gem.h:386:24: note: declared here
+    struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
+                           ^~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
+                    from <command-line>:0:
+   include/kcl/kcl_drm.h: At top level:
+   include/kcl/kcl_drm.h:295:8: error: redefinition of 'struct drm_format_name_buf'
+    struct drm_format_name_buf {
+           ^~~~~~~~~~~~~~~~~~~
+   In file included from include/drm/drmP.h:69:0,
+                    from include/kcl/kcl_drm.h:6,
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
+                    from <command-line>:0:
+   include/drm/drm_fourcc.h:142:8: note: originally defined here
+    struct drm_format_name_buf {
+           ^~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
+                    from <command-line>:0:
+   include/kcl/kcl_drm.h: In function 'kcl_drm_gem_object_put_unlocked':
+   include/kcl/kcl_drm.h:327:9: error: implicit declaration of function 'drm_gem_object_unreference_unlocked'; did you mean 'drm_gem_object_put_unlocked'? [-Werror=implicit-function-declaration]
+     return drm_gem_object_unreference_unlocked(obj);
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            drm_gem_object_put_unlocked
+   include/kcl/kcl_drm.h:327:9: warning: 'return' with a value, in function returning void
+     return drm_gem_object_unreference_unlocked(obj);
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kcl/kcl_drm.h:324:20: note: declared here
+    static inline void kcl_drm_gem_object_put_unlocked(struct drm_gem_object *obj)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kcl/kcl_drm.h: In function 'kcl_drm_atomic_get_old_crtc_state_before_commit':
+   include/kcl/kcl_drm.h:351:43: error: invalid type argument of '->' (have 'struct __drm_crtcs_state')
+     return state->crtcs[drm_crtc_index(crtc)]->state;
+                                              ^~
+   include/kcl/kcl_drm.h: In function 'kcl_drm_atomic_get_new_crtc_state_after_commit':
+   include/kcl/kcl_drm.h:386:43: error: invalid type argument of '->' (have 'struct __drm_crtcs_state')
+     return state->crtcs[drm_crtc_index(crtc)]->state;
+                                              ^~
+   include/kcl/kcl_drm.h: At top level:
+   include/kcl/kcl_drm.h:491:8: error: redefinition of 'struct drm_printer'
+    struct drm_printer {
+           ^~~~~~~~~~~
+   In file included from include/drm/drm_mm.h:49:0,
+                    from include/drm/drm_vma_manager.h:26,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/drm/drm_print.h:70:8: note: originally defined here
+    struct drm_printer {
+           ^~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
+                    from <command-line>:0:
+   include/kcl/kcl_drm.h:497:6: error: conflicting types for 'drm_printf'
+    void drm_printf(struct drm_printer *p, const char *f, ...);
+         ^~~~~~~~~~
+   In file included from include/drm/drm_mm.h:49:0,
+                    from include/drm/drm_vma_manager.h:26,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/drm/drm_print.h:86:6: note: previous declaration of 'drm_printf' was here
+    void drm_printf(struct drm_printer *p, const char *f, ...);
+         ^~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+>> include/kcl/kcl_mm.h:60:21: error: redefinition of 'kvmalloc'
+    static inline void *kvmalloc(size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:635:21: note: previous definition of 'kvmalloc' was here
+    static inline void *kvmalloc(size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+>> include/kcl/kcl_mm.h:70:21: error: redefinition of 'kvzalloc'
+    static inline void *kvzalloc(size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:643:21: note: previous definition of 'kvzalloc' was here
+    static inline void *kvzalloc(size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+>> include/kcl/kcl_mm.h:80:20: error: static declaration of 'kvfree' follows non-static declaration
+    static inline void kvfree(const void *addr)
+                       ^~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:663:13: note: previous declaration of 'kvfree' was here
+    extern void kvfree(const void *addr);
+                ^~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+>> include/kcl/kcl_mm.h:100:21: error: redefinition of 'kvmalloc_array'
+    static inline void *kvmalloc_array(size_t n, size_t size, gfp_t flags)
+                        ^~~~~~~~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:648:21: note: previous definition of 'kvmalloc_array' was here
+    static inline void *kvmalloc_array(size_t n, size_t size, gfp_t flags)
+                        ^~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+>> include/kcl/kcl_mm.h:113:21: error: redefinition of 'kvcalloc'
+    static inline void *kvcalloc(size_t n, size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:658:21: note: previous definition of 'kvcalloc' was here
+    static inline void *kvcalloc(size_t n, size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:9:0,
+                    from <command-line>:0:
+   include/kcl/kcl_fence.h: In function 'kcl_fence_get_rcu_safe':
+   include/kcl/kcl_fence.h:124:32: error: passing argument 1 of 'dma_fence_get_rcu_safe' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     return dma_fence_get_rcu_safe(fencep);
+                                   ^~~~~~
+   In file included from include/drm/drmP.h:58:0,
+                    from include/kcl/kcl_drm.h:6,
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
+                    from <command-line>:0:
+   include/linux/dma-fence.h:315:1: note: expected 'struct dma_fence **' but argument is of type 'struct fence **'
+    dma_fence_get_rcu_safe(struct dma_fence __rcu **fencep)
+    ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:9:0,
+                    from <command-line>:0:
+   include/kcl/kcl_fence.h:124:9: error: return from incompatible pointer type [-Werror=incompatible-pointer-types]
+     return dma_fence_get_rcu_safe(fencep);
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kcl/kcl_fence.h: At top level:
+   include/kcl/kcl_fence.h:129:20: error: redefinition of 'dma_fence_set_error'
+    static inline void dma_fence_set_error(struct dma_fence *fence,
+                       ^~~~~~~~~~~~~~~~~~~
+   In file included from include/drm/drmP.h:58:0,
+                    from include/kcl/kcl_drm.h:6,
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
+                    from <command-line>:0:
+   include/linux/dma-fence.h:517:20: note: previous definition of 'dma_fence_set_error' was here
+    static inline void dma_fence_set_error(struct dma_fence *fence,
+                       ^~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:9:0,
+                    from <command-line>:0:
+   include/kcl/kcl_fence.h: In function 'dma_fence_set_error':
+   include/kcl/kcl_fence.h:135:7: error: 'struct dma_fence' has no member named 'status'
+     fence->status = error;
+          ^~
+   drivers/gpu/drm/ttm/ttm_bo.c: In function 'ttm_bo_mem_space_debug':
+   drivers/gpu/drm/ttm/ttm_bo.c:101:25: error: invalid initializer
+     struct drm_printer p = drm_debug_printer(TTM_PFX);
+                            ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+..
 
-vim +/dma_fence_set_error +129 include/kcl/kcl_fence.h
+vim +/kvmalloc +60 include/kcl/kcl_mm.h
 
-     3	
-     4	#include <linux/version.h>
-     5	#if !defined(HAVE_DMA_FENCE_DEFINED)
-     6	#include <linux/fence.h>
-     7	#include <kcl/kcl_fence_array.h>
-     8	#else
-   > 9	#include <linux/dma-fence.h>
-    10	#include <linux/dma-fence-array.h>
-    11	#endif
-    12	
-    13	#if !defined(HAVE_DMA_FENCE_DEFINED)
-    14	#define dma_fence_cb fence_cb
-    15	#define dma_fence_ops fence_ops
-    16	#define dma_fence_array fence_array
-    17	#define dma_fence fence
-    18	#define DMA_FENCE_TRACE FENCE_TRACE
-    19	#define DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT FENCE_FLAG_ENABLE_SIGNAL_BIT
-    20	#define DMA_FENCE_FLAG_SIGNALED_BIT FENCE_FLAG_SIGNALED_BIT
-    21	#define dma_fence_wait fence_wait
-    22	#define dma_fence_get fence_get
-    23	#define dma_fence_put fence_put
-    24	#define dma_fence_is_signaled fence_is_signaled
-    25	#define dma_fence_signal fence_signal
-    26	#define dma_fence_signal_locked fence_signal_locked
-    27	#define dma_fence_get_rcu fence_get_rcu
-    28	#define dma_fence_array_create fence_array_create
-    29	#define dma_fence_add_callback fence_add_callback
-    30	#define dma_fence_remove_callback fence_remove_callback
-    31	#define dma_fence_default_wait fence_default_wait
-    32	#define dma_fence_enable_sw_signaling fence_enable_sw_signaling
-    33	typedef struct fence kcl_fence_t;
-    34	typedef struct fence_ops kcl_fence_ops_t;
-    35	#endif
-    36	
-    37	#if !defined(HAVE_DMA_FENCE_DEFINED)
-    38	extern struct fence * _kcl_fence_get_rcu_safe(struct fence * __rcu *fencep);
-    39	extern u64 _kcl_fence_context_alloc(unsigned num);
-    40	extern void _kcl_fence_init(struct fence *fence, const struct fence_ops *ops,
-    41		     spinlock_t *lock, u64 context, unsigned seqno);
-    42	extern signed long _kcl_fence_wait_timeout(struct fence *fence, bool intr,
-    43					signed long timeout);
-    44	#endif
-    45	
-    46	/* commit v4.5-rc3-715-gb47bcb93bbf2
-    47	 * fall back to HAVE_DMA_FENCE_DEFINED check directly
-    48	 * as it's hard to detect the implementation in kernel
-    49	 */
-    50	#if !defined(HAVE_DMA_FENCE_DEFINED)
-    51	static inline bool dma_fence_is_later(struct dma_fence *f1, struct dma_fence *f2)
-    52	{
-    53		if (WARN_ON(f1->context != f2->context))
-    54			return false;
-    55	
-    56		return (int)(f1->seqno - f2->seqno) > 0;
-    57	}
-    58	#endif
-    59	
-    60	#if !defined(HAVE_DMA_FENCE_DEFINED)
-    61	static inline u64 dma_fence_context_alloc(unsigned num)
-    62	{
-    63		return _kcl_fence_context_alloc(num);
-    64	}
-    65	
-    66	static inline void
-    67	dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
-    68		       spinlock_t *lock, u64 context, unsigned seqno)
-    69	{
-    70		return _kcl_fence_init(fence, ops, lock, context, seqno);
-    71	}
-    72	#endif
-    73	
-    74	/* commit 796422f227ee(dma-fence: Allow wait_any_timeout for all fences) */
-    75	#if DRM_VERSION_CODE < DRM_VERSION(4, 19, 0)
-    76	signed long
-    77	_kcl_fence_wait_any_timeout(struct dma_fence **fences, uint32_t count,
-    78				   bool intr, signed long timeout, uint32_t *idx);
-    79	#endif
-    80	
-    81	static inline signed long
-    82	kcl_fence_wait_any_timeout(struct dma_fence **fences, uint32_t count,
-    83				   bool intr, signed long timeout, uint32_t *idx)
-    84	{
-    85	#if DRM_VERSION_CODE < DRM_VERSION(4, 19, 0)
-    86		return _kcl_fence_wait_any_timeout(fences, count, intr, timeout, idx);
-    87	#else
-    88		return dma_fence_wait_any_timeout(fences, count, intr, timeout, idx);
-    89	#endif
-    90	}
-    91	
-    92	#if DRM_VERSION_CODE < DRM_VERSION(4, 19, 0)
-    93	signed long
-    94	_kcl_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout);
-    95	#endif
-    96	static inline signed long
-    97	kcl_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
-    98	{
-    99	#if DRM_VERSION_CODE < DRM_VERSION(4, 19, 0)
-   100		return _kcl_fence_default_wait(fence, intr, timeout);
-   101	#else
-   102		return dma_fence_default_wait(fence, intr, timeout);
-   103	#endif
-   104	}
-   105	
-   106	#if !defined(HAVE_DMA_FENCE_DEFINED)
-   107	static inline signed long
-   108	dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
-   109	{
-   110		return _kcl_fence_wait_timeout(fence, intr, timeout);
-   111	}
-   112	#endif
-   113	
-   114	#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 10, 0)
-   115	extern struct fence * _kcl_fence_get_rcu_safe(struct fence * __rcu *fencep);
-   116	#endif
-   117	
-   118	static inline struct fence *
-   119	kcl_fence_get_rcu_safe(struct fence * __rcu *fencep)
-   120	{
-   121	#if !defined(HAVE_DMA_FENCE_DEFINED)
-   122		return _kcl_fence_get_rcu_safe(fencep);
-   123	#else
- > 124		return dma_fence_get_rcu_safe(fencep);
-   125	#endif
-   126	}
-   127	
-   128	#if !defined(HAVE_DMA_FENCE_SET_ERROR)
- > 129	static inline void dma_fence_set_error(struct dma_fence *fence,
-   130					       int error)
-   131	{
-   132		BUG_ON(test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags));
-   133		BUG_ON(error >= 0 || error < -MAX_ERRNO);
-   134	
- > 135		fence->status = error;
-   136	}
-   137	#endif
-   138	
+b4f7d254be169a Junwei Zhang 2016-12-23   58  
+b8a1520bda5b72 Flora Cui    2019-08-19   59  #ifndef HAVE_KVZALLOC_KVMALLOC
+b8a1520bda5b72 Flora Cui    2019-08-19  @60  static inline void *kvmalloc(size_t size, gfp_t flags)
+b8a1520bda5b72 Flora Cui    2019-08-19   61  {
+b8a1520bda5b72 Flora Cui    2019-08-19   62  	void *out;
+b4f7d254be169a Junwei Zhang 2016-12-23   63  
+b8a1520bda5b72 Flora Cui    2019-08-19   64  	if (size > PAGE_SIZE)
+b8a1520bda5b72 Flora Cui    2019-08-19   65  		out = __vmalloc(size, flags, PAGE_KERNEL);
+b8a1520bda5b72 Flora Cui    2019-08-19   66  	else
+b8a1520bda5b72 Flora Cui    2019-08-19   67  		out = kmalloc(size, flags);
+b8a1520bda5b72 Flora Cui    2019-08-19   68  	return out;
+b8a1520bda5b72 Flora Cui    2019-08-19   69  }
+b8a1520bda5b72 Flora Cui    2019-08-19  @70  static inline void *kvzalloc(size_t size, gfp_t flags)
+b8a1520bda5b72 Flora Cui    2019-08-19   71  {
+b8a1520bda5b72 Flora Cui    2019-08-19   72  	return kvmalloc(size, flags | __GFP_ZERO);
+b8a1520bda5b72 Flora Cui    2019-08-19   73  }
+b8a1520bda5b72 Flora Cui    2019-08-19   74  #endif /* HAVE_KVZALLOC_KVMALLOC */
+b4f7d254be169a Junwei Zhang 2016-12-23   75  
+b8a1520bda5b72 Flora Cui    2019-08-19   76  #ifndef HAVE_KVFREE
+b8a1520bda5b72 Flora Cui    2019-08-19   77  #ifdef HAVE_DRM_FREE_LARGE
+b8a1520bda5b72 Flora Cui    2019-08-19   78  #define kvfree drm_free_large
+b8a1520bda5b72 Flora Cui    2019-08-19   79  #else
+b8a1520bda5b72 Flora Cui    2019-08-19  @80  static inline void kvfree(const void *addr)
+b8a1520bda5b72 Flora Cui    2019-08-19   81  {
+b8a1520bda5b72 Flora Cui    2019-08-19   82  	if (is_vmalloc_addr(addr))
+b8a1520bda5b72 Flora Cui    2019-08-19   83  		vfree(addr);
+b8a1520bda5b72 Flora Cui    2019-08-19   84  	else
+b8a1520bda5b72 Flora Cui    2019-08-19   85  		kfree(addr);
+b8a1520bda5b72 Flora Cui    2019-08-19   86  }
+b8a1520bda5b72 Flora Cui    2019-08-19   87  #endif /* HAVE_DRM_FREE_LARGE */
+b8a1520bda5b72 Flora Cui    2019-08-19   88  #endif /* HAVE_KVFREE */
+b8a1520bda5b72 Flora Cui    2019-08-19   89  
+b8a1520bda5b72 Flora Cui    2019-08-19   90  #ifndef HAVE_KVMALLOC_ARRAY
+b8a1520bda5b72 Flora Cui    2019-08-19   91  #if defined(HAVE_DRM_MALLOC_AB) && defined(HAVE_DRM_CALLOC_LARGE)
+b8a1520bda5b72 Flora Cui    2019-08-19   92  static inline void *kvmalloc_array(size_t n, size_t size, gfp_t flags)
+b8a1520bda5b72 Flora Cui    2019-08-19   93  {
+b8a1520bda5b72 Flora Cui    2019-08-19   94  	if (flags & __GFP_ZERO)
+b8a1520bda5b72 Flora Cui    2019-08-19   95  		return drm_calloc_large(n, size);
+b8a1520bda5b72 Flora Cui    2019-08-19   96  	else
+b8a1520bda5b72 Flora Cui    2019-08-19   97  		return drm_malloc_ab(n, size);
+b8a1520bda5b72 Flora Cui    2019-08-19   98  }
+b8a1520bda5b72 Flora Cui    2019-08-19   99  #else
+b8a1520bda5b72 Flora Cui    2019-08-19 @100  static inline void *kvmalloc_array(size_t n, size_t size, gfp_t flags)
+b8a1520bda5b72 Flora Cui    2019-08-19  101  {
+b8a1520bda5b72 Flora Cui    2019-08-19  102  	size_t bytes;
+b8a1520bda5b72 Flora Cui    2019-08-19  103  
+b8a1520bda5b72 Flora Cui    2019-08-19  104  	if (unlikely(check_mul_overflow(n, size, &bytes)))
+b8a1520bda5b72 Flora Cui    2019-08-19  105  		return NULL;
+b8a1520bda5b72 Flora Cui    2019-08-19  106  
+b8a1520bda5b72 Flora Cui    2019-08-19  107  	return kvmalloc(bytes, flags);
+b8a1520bda5b72 Flora Cui    2019-08-19  108  }
+b8a1520bda5b72 Flora Cui    2019-08-19  109  #endif /* HAVE_DRM_MALLOC_AB && HAVE_DRM_CALLOC_LARGE */
+b8a1520bda5b72 Flora Cui    2019-08-19  110  #endif /* HAVE_KVMALLOC_ARRAY */
+b4f7d254be169a Junwei Zhang 2016-12-23  111  
+b8a1520bda5b72 Flora Cui    2019-08-19  112  #ifndef HAVE_KVCALLOC
+b8a1520bda5b72 Flora Cui    2019-08-19 @113  static inline void *kvcalloc(size_t n, size_t size, gfp_t flags)
+b8a1520bda5b72 Flora Cui    2019-08-19  114  {
+b8a1520bda5b72 Flora Cui    2019-08-19  115  	return kvmalloc_array(n, size, flags | __GFP_ZERO);
+b8a1520bda5b72 Flora Cui    2019-08-19  116  }
+b8a1520bda5b72 Flora Cui    2019-08-19  117  #endif /* HAVE_KVCALLOC */
+b4f7d254be169a Junwei Zhang 2016-12-23  118  
+
+:::::: The code at line 60 was first introduced by commit
+:::::: b8a1520bda5b7226ae5b5a132e61d3a96231de0b drm/amdkcl: test whether memory alloc and free functions are available
+
+:::::: TO: Flora Cui <flora.cui@amd.com>
+:::::: CC: Flora Cui <flora.cui@amd.com>
 
 ---
 0-DAY kernel test infrastructure                Open Source Technology Center
 https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
 
---ac637fss7dvztlem
+--dpq4nnqg6vzw7gf7
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICF8DvF0AAy5jb25maWcAjDxbc9u20u/9FZr0pZ0zaW3HdfOdM34ASVBCxFsAULb8wnFt
+H4sICH0LvF0AAy5jb25maWcAjDxbc9u20u/9FZr0pZ0zaW3HdfOdM34ASVBCxFsAULb8wnFt
 JfXUlxzZPk3+/bcLgOQCBJV2Oq21u7jvHQv++MOPC/b68vRw/XJ3c31//23xefe421+/7G4X
 n+7ud/9ZZPWiqvWCZ0L/AsTF3ePr11+/vj/rzk4Xv/1y8svR2/3N8WK92z/u7hfp0+Onu8+v
 0P7u6fGHH3+Af38E4MMX6Gr/78Xnm5u3vy9+ynZ/3F0/Ln7/5RRaH5/+bP8C2rSucrHs0rQT
@@ -875,7 +1169,7 @@ StexaB9JcXga8sSPdDiIIYuRNLnBr2ycy7KFu1tv+e/KIllIWqapAUVsQHdBs4qgCj7GpT+t
 a3vUHauKdLfgWzvpptAXb0I1XgXSAcPyoE3o2Imbp8eGRo8gqRgqFghUR2hBuelIFdpiheBP
 qoOjTFqhPdnVe/huPlrl+B/DDn5URwYCAA==
 
---ac637fss7dvztlem
+--dpq4nnqg6vzw7gf7
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -885,4 +1179,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---ac637fss7dvztlem--
+--dpq4nnqg6vzw7gf7--
