@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F319EC0C1
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 10:48:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF31EC0E7
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 10:57:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A0746F7A6;
-	Fri,  1 Nov 2019 09:48:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 078406F7A9;
+	Fri,  1 Nov 2019 09:56:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0319E6F7A8
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 09:48:03 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id b3so3302379wrs.13
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Nov 2019 02:48:02 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DB5A6F7A9
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 09:56:57 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id 6so8433809wmf.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Nov 2019 02:56:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=02u0JCDvZz83pKWtYtOAXWDlO3Ej+qpSEXuPMKs9XyM=;
- b=eRucanRls5Ij2ddGfO/NicnhMVaHOWV/nXKe1KJhM9+iS5WHrUxAlPSBusd5YMMVaP
- hPcGNU7nWQHRuZO08LdDpL2swHtTKU0dkxu/PwXNTgPKwik1cA781luUs431TxG3L/TC
- PX2Nw4n7+qH+NoVb/9BvreEs1nZYW6sVqCjBQOui3PIa3szaPlEUWQM/g+yNFZlqWGBK
- YvhcgaopnbT+vZ4CXhc3kRLqbvAoxvIV8I+SBDLT26TFdwp+PepH6FivQHR/W8xUVDY3
- wuc0gwxgJIAQqT90P1b3GinkwfJxtO41A/enTSrnFiUVKtcePfy5swW3SE9H5+UbqhAF
- swMA==
-X-Gm-Message-State: APjAAAXpFmOZBH7oPlsWzLbN30Gsgb3WARKnqmEjR6vxZjqNjdn2O0ss
- PacRlNCRLXDtrUAe6ijhUfk=
-X-Google-Smtp-Source: APXvYqzMGFNs60pO4TBAqpwZQfZ6McYiT1yTswyweoMaYL4uonk5KQhKhABfkBJJP7CmS7jZiIXqzA==
-X-Received: by 2002:a5d:4b82:: with SMTP id b2mr5129271wrt.335.1572601681474; 
- Fri, 01 Nov 2019 02:48:01 -0700 (PDT)
+ bh=Y+ZH/JIJbeZRc6g3SFTtiWzkXeFR6nZHbFUanZj2uC4=;
+ b=bvlYsABzSMyPRaEseQr4Q9+jZF3n8jgxBUn5n91/lhAIFWd8dN+qC5VM80f0VlUnRZ
+ 8BGC7w1nyRJwBjW4OEv/rXdVBgP5MIXZtA8yrgmQZoA8+NOnWAg1GGti/5c+K6PAOB6l
+ ElZn/EQg56SpTy4ULcxn0uxSCSzaeJCX54Ao4iBuD7q2XA8odLNdl5vN8Wn4Ib/mBIXd
+ pXzYhUkHIMjO967LEhDii9s7H3Jxwh7zGGYULFqSM+gdXhUFmhCWgkeG1cO/Yk+3hcVc
+ Yrb8YTFMmL2mtXs2n7VvT2WbpOwCl+v/dJ4SWxKWVVtOMOXNEheJLYwuGjwvW3b+gAgJ
+ I7wA==
+X-Gm-Message-State: APjAAAVZPEQMgDaEw+NAAtMk0P81ORyWzN42XmrUqkgsKjJzW1Ff0R+h
+ u4A5HSGcn4w/IwiCACEY9VU=
+X-Google-Smtp-Source: APXvYqzs/K3zu1v1L+gJ3mSPmNB/8JL0IDhEiAjTAGr+YQur9vH4iIhczEBqOrue9xs80Fk5RGOVUQ==
+X-Received: by 2002:a1c:b1c3:: with SMTP id a186mr9641268wmf.10.1572602215988; 
+ Fri, 01 Nov 2019 02:56:55 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
- by smtp.gmail.com with ESMTPSA id b186sm6199897wmb.21.2019.11.01.02.47.59
+ by smtp.gmail.com with ESMTPSA id v16sm7042158wrc.84.2019.11.01.02.56.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Nov 2019 02:47:59 -0700 (PDT)
-Date: Fri, 1 Nov 2019 10:47:57 +0100
+ Fri, 01 Nov 2019 02:56:54 -0700 (PDT)
+Date: Fri, 1 Nov 2019 10:56:53 +0100
 From: Thierry Reding <thierry.reding@gmail.com>
-To: Yuehaibing <yuehaibing@huawei.com>
-Subject: Re: [PATCH -next] gpu: host1x: Fix compile test failure
-Message-ID: <20191101094757.GA1167505@ulmo>
-References: <20191030135458.27960-1-yuehaibing@huawei.com>
- <283304d6-bf23-8107-29b6-9f3e7dda943c@gmail.com>
- <cb0a976a-0148-d554-15ff-5f4059eccd37@huawei.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH 01/12] memory: tegra: Add gr2d and gr3d to DRM IOMMU group
+Message-ID: <20191101095653.GC1167505@ulmo>
+References: <20191028123718.3890217-1-thierry.reding@gmail.com>
+ <20191028123718.3890217-2-thierry.reding@gmail.com>
+ <ecafd917-bcf7-0f3e-2423-6b79793d56a2@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <cb0a976a-0148-d554-15ff-5f4059eccd37@huawei.com>
+In-Reply-To: <ecafd917-bcf7-0f3e-2423-6b79793d56a2@gmail.com>
 User-Agent: Mutt/1.12.2 (2019-09-21)
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=02u0JCDvZz83pKWtYtOAXWDlO3Ej+qpSEXuPMKs9XyM=;
- b=nIOPCqlj2m/kVj4iNA+bPyHgR8Bmxc3qmY6JwztFf+lf6V/yYL9urctl0qI6/XMVo3
- SUpf3ubuFRBytmEhA8/b6/ttk6ShfoSRqBsBeEiRNyoX+IQdd7bnOZJ9azk0a8L9vwO8
- w5AroBCmyXYNO15WXCqnuoRUQEbMrLp359MVYueuILzaGVqGRjQnOY31wtAZzqt545TD
- UdCoTjEOHB2of+aUQN4tdCjRFaqkv9RZ2uvwuuXGZF7h/Nf5tN8eWrsofGGTMva4Ii/s
- TSDkWPd8+L2m2q9QEKNiYJIk0Srm3tmFgE5x4O3d8Y5/GOdsmaeUmXVzH5b2WL+0CiqE
- HCtA==
+ bh=Y+ZH/JIJbeZRc6g3SFTtiWzkXeFR6nZHbFUanZj2uC4=;
+ b=YIE20UaWKhT/B/GWsiIgVcq5e7OlvEFpXJXYJ6NXS2moO6sOYOzbF4wMatTW8xvsjM
+ yIWpBd+F/Tzc3ybpbRCiTifskqpxGkJdNB0iTLbhgnRY0IMbHKyTIRFwJtdYttNeiOTn
+ 2TLJXzfwXmNMeIRuuZ35K4FM/a2SWzX+gyrxpNWiEPDhW0dKevJzjc6vIP3pUhnbLdbo
+ vOH2h2WZ/H1Bv2QpcpbiJUrZWN02+ipt7+wXJpNofIuxI9bCxna+b8cKudG9qYti1+4l
+ V1pxvDxiv+GtIpZRGl6sd7bfQbnNq5HO0k95pAZL9H1I6r9AlA6j/qPiF+b/+xv+LPy3
+ QZtQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,97 +69,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: arnd@arndb.de, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, mperttunen@nvidia.com, seanpaul@chromium.org,
- linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>
-Content-Type: multipart/mixed; boundary="===============1494003218=="
+Cc: linux-tegra@vger.kernel.org, Sachin Nikam <snikam@nvidia.com>,
+ Puneet Saxena <puneets@nvidia.com>, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0889760758=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1494003218==
+--===============0889760758==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="OXfL5xGRrasGEqWY"
+	protocol="application/pgp-signature"; boundary="c3bfwLpm8qysLVxt"
 Content-Disposition: inline
 
 
---OXfL5xGRrasGEqWY
+--c3bfwLpm8qysLVxt
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 31, 2019 at 09:33:38PM +0800, Yuehaibing wrote:
-> On 2019/10/31 6:26, Dmitry Osipenko wrote:
-> > 30.10.2019 16:54, YueHaibing =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> >> If IOMMU_SUPPORT is not set, but IOMMU_IOVA is m and
-> >> COMPILE_TEST is y, building fails:
-> >>
-> >> drivers/gpu/host1x/dev.o: In function `host1x_remove':
-> >> dev.c:(.text+0x624): undefined reference to `put_iova_domain'
-> >> dev.c:(.text+0x624): relocation truncated to fit: R_AARCH64_CALL26 aga=
-inst undefined symbol `put_iova_domain'
-> >> dev.c:(.text+0x62c): undefined reference to `iova_cache_put'
-> >> dev.c:(.text+0x62c): relocation truncated to fit: R_AARCH64_CALL26 aga=
-inst undefined symbol `iova_cache_put'
-> >>
-> >> Select IOMMU_IOVA while COMPILE_TEST is set to fix this.
-> >>
-> >> Reported-by: Hulk Robot <hulkci@huawei.com>
-> >> Fixes: 52499a6ad2ae ("gpu: host1x: select IOMMU_IOVA")
-> >> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-> >> ---
-> >>  drivers/gpu/host1x/Kconfig | 2 +-
-> >>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/gpu/host1x/Kconfig b/drivers/gpu/host1x/Kconfig
-> >> index cf987a3..354232d 100644
-> >> --- a/drivers/gpu/host1x/Kconfig
-> >> +++ b/drivers/gpu/host1x/Kconfig
-> >> @@ -2,7 +2,7 @@
-> >>  config TEGRA_HOST1X
-> >>  	tristate "NVIDIA Tegra host1x driver"
-> >>  	depends on ARCH_TEGRA || (ARM && COMPILE_TEST)
-> >> -	select IOMMU_IOVA if IOMMU_SUPPORT
-> >> +	select IOMMU_IOVA if (IOMMU_SUPPORT || COMPILE_TEST)
-> >>  	help
-> >>  	  Driver for the NVIDIA Tegra host1x hardware.
-> >> =20
-> >>
+On Wed, Oct 30, 2019 at 06:05:48PM +0300, Dmitry Osipenko wrote:
+> 28.10.2019 15:37, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > From: Thierry Reding <treding@nvidia.com>
 > >=20
-> > It should be better to unconditionally select IOMMU_IOVA here.
+> > All of the devices making up the Tegra DRM device want to share a single
+> > IOMMU domain. Put them into a single group to allow them to do that.
 > >=20
-> > The same could be done for drivers/staging/media/tegra-vde/ and
-> > drivers/gpu/host1x/, please see [1].
+> > Signed-off-by: Thierry Reding <treding@nvidia.com>
+> > ---
+> >  drivers/memory/tegra/tegra114.c | 10 ++++++----
+> >  drivers/memory/tegra/tegra124.c |  8 +++++---
+> >  drivers/memory/tegra/tegra30.c  | 11 +++++++----
+> >  3 files changed, 18 insertions(+), 11 deletions(-)
+> >=20
+> > diff --git a/drivers/memory/tegra/tegra114.c b/drivers/memory/tegra/teg=
+ra114.c
+> > index ac8351b5beeb..48ef01c3ff90 100644
+> > --- a/drivers/memory/tegra/tegra114.c
+> > +++ b/drivers/memory/tegra/tegra114.c
+> > @@ -909,16 +909,18 @@ static const struct tegra_smmu_swgroup tegra114_s=
+wgroups[] =3D {
+> >  	{ .name =3D "tsec",      .swgroup =3D TEGRA_SWGROUP_TSEC,      .reg =
+=3D 0x294 },
+> >  };
+> > =20
+> > -static const unsigned int tegra114_group_display[] =3D {
+> > +static const unsigned int tegra114_group_drm[] =3D {
+> >  	TEGRA_SWGROUP_DC,
+> >  	TEGRA_SWGROUP_DCB,
+> > +	TEGRA_SWGROUP_G2,
+> > +	TEGRA_SWGROUP_NV,
+> >  };
+> > =20
+> >  static const struct tegra_smmu_group_soc tegra114_groups[] =3D {
+> >  	{
+> > -		.name =3D "display",
+> > -		.swgroups =3D tegra114_group_display,
+> > -		.num_swgroups =3D ARRAY_SIZE(tegra114_group_display),
+> > +		.name =3D "drm",
+> > +		.swgroups =3D tegra114_group_drm,
+> > +		.num_swgroups =3D ARRAY_SIZE(tegra114_group_drm),
+> >  	},
+> >  };
+> > =20
+> > diff --git a/drivers/memory/tegra/tegra124.c b/drivers/memory/tegra/teg=
+ra124.c
+> > index 5d0ccb2be206..62b30b1b9677 100644
+> > --- a/drivers/memory/tegra/tegra124.c
+> > +++ b/drivers/memory/tegra/tegra124.c
+> > @@ -974,16 +974,18 @@ static const struct tegra_smmu_swgroup tegra124_s=
+wgroups[] =3D {
+> >  	{ .name =3D "vi",        .swgroup =3D TEGRA_SWGROUP_VI,        .reg =
+=3D 0x280 },
+> >  };
+> > =20
+> > -static const unsigned int tegra124_group_display[] =3D {
+> > +static const unsigned int tegra124_group_drm[] =3D {
+> >  	TEGRA_SWGROUP_DC,
+> >  	TEGRA_SWGROUP_DCB,
+> > +	TEGRA_SWGROUP_GPU,
+> > +	TEGRA_SWGROUP_VIC,
+> >  };
+> > =20
+> >  static const struct tegra_smmu_group_soc tegra124_groups[] =3D {
+> >  	{
+> >  		.name =3D "display",
+> > -		.swgroups =3D tegra124_group_display,
+> > -		.num_swgroups =3D ARRAY_SIZE(tegra124_group_display),
+> > +		.swgroups =3D tegra124_group_drm,
+> > +		.num_swgroups =3D ARRAY_SIZE(tegra124_group_drm),
+> >  	},
 >=20
-> Yep, I will repost, thanks!
+> The "display" -> "drm" group's renaming is missed for T124.
 
-No need to resend, I already have patches for that.
+Good catch! Fixed now.
 
+Thanks,
 Thierry
 
---OXfL5xGRrasGEqWY
+--c3bfwLpm8qysLVxt
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl27/0oACgkQ3SOs138+
-s6EWPA//dBzkncU7+5Fx+wB0ll6n1Xc1ZFAP926QU2qICk9o6Uk+E/Nzua7dQFoe
-ges3kWygaLZqdKbc2x84wRq8hu3FcFy33oE1ThrQBlJ7fSzhwuNYlz4fsFxRw6bJ
-yE5vL412omLWlJuDntsxueODPjHO4KW3F/yBA2TM0WlpSYDzKPlnFSf6uw3ypQqf
-SQkzPW+vJF2G1lboBg+vBqS6XN78wuThsHN6v+CAe+POAimqz/xAvijKqFQPLN+w
-gSM/BlIpTFDRr2HnrKZG6rMxZFabPwxhTFeiM6zBMqhE63O2j5kPQ3LmbVRl/Otk
-8zOX9VebV5AMjY+C/U43yGJ3UfkK8qmJjBZkD4HKDvuQxbkFxVkg4/whuBuRtEgr
-JYkJy0k4PrhiUcvhqCOIX42VUeUsHRq2yC0yV4x2ORxXZjxlOvKSTj/2COdcMQml
-R+Jz0e6odOetH2x4zAzYR4Mw6foZGwnsssnefVhuos7BVErYkIdhWWLy2kxL9JZW
-XzprLVUg+TrRXgO3PUamO5aHg1fqKERl4I0MrlG1uCFBBVNUWzSL6nV8QgPlo0CS
-HPaHYM9lOTwh0+dPTfQW5hdHeyo8hpfHNJu0li78bK9QZcP6qelqeL3r5IPEfBcv
-RXQtNzxBUZVu147WKiiemWA3/VM/QrY7ZYTGMA9TDBu16BzMEZc=
-=327H
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl28AWUACgkQ3SOs138+
+s6Hgeg//cE3dME4iIyDtptvAGYmKg/XaVbnA2XacCB42XLQuejaNf+Py0656pl9S
+HyvF4syLPuA5yP4gZk3LnTU+iaEk6FEFK4W7fJ4ymQUfVkfIY+BrHYcygNbAQTk5
+WvrvUhct8FrswisLeCbmMBaJWSv3tybQRTTU97RQVltj90+EhdY8I6F4Wz5bRlP8
+ED3qAJPigoYlok9VCQh8iS2Ji1chle8/tcqWjZpP+hBawoIZ8Lt7KGe+OUVNJ8DG
+m/9e8OXr00NhTIwlKgjxAr9qRUJN2Yi6cWcZtzkWRTajV4fjpUNEQZvM6MBi2D+S
+Fb6dt8tLK7ujr0Cp/cmUcejxhTO8bOBF1uNUGbY1EU4QCseqgBp0noivhpNginPO
+Y2/cIurgJ2IQpj736gD0utRyDRJw5Hmdta4KLTURFCGY9bJYv9/2XXxrHmKAjHP6
+aWA6xWQkprTXI25FtCTcFTLHMRoGFbUWQLpTs0V8SSTrsQ62kROQVlnN8JMMT829
+pUNsHYGm6o9kCpCvBJa1N+n8f4L4L7rWw05vktZj9r0iyry6lLeM2qdjw8Y8MEr5
+gvwS6LSljib3qXsi4suDUFzuT75FwYdVM6GwwyeIDTc7ey4//1c+QH71OVp2m0/D
+8jf78o6yw5sHvF81xEXT2lVjH1xIZkpb6jKqedeUa+NvsQyLT+k=
+=Fin/
 -----END PGP SIGNATURE-----
 
---OXfL5xGRrasGEqWY--
+--c3bfwLpm8qysLVxt--
 
---===============1494003218==
+--===============0889760758==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -169,4 +198,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1494003218==--
+--===============0889760758==--
