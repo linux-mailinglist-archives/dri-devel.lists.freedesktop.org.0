@@ -1,42 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4AC4EBBAF
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 02:27:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1298DEBBBF
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 02:38:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAA2D6E11D;
-	Fri,  1 Nov 2019 01:27:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DE5B6E135;
+	Fri,  1 Nov 2019 01:38:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7AEE56F6AD
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 01:27:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id E41C16E135
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 01:38:36 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 77D24720E2; Fri,  1 Nov 2019 01:27:40 +0000 (UTC)
+ id DFB7B720E4; Fri,  1 Nov 2019 01:38:36 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111869] Navi "divide error" hang
-Date: Fri, 01 Nov 2019 01:27:40 +0000
+Subject: [Bug 112138] [kernel 5.4-rc4][amdgpu][CIK]: [drm]
+ dce110_link_encoder_construct: Failed to get encoder_cap_info from VBIOS with
+ error code 4!
+Date: Fri, 01 Nov 2019 01:38:37 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: DRI git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: not set
-X-Bugzilla-Who: asheldon55@gmail.com
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: MasterCATZ@hotmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111869-502-2L9rkrhvJ6@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111869-502@http.bugs.freedesktop.org/>
-References: <bug-111869-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-112138-502-qSTdWTZNYm@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-112138-502@http.bugs.freedesktop.org/>
+References: <bug-112138-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,40 +54,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0072562239=="
+Content-Type: multipart/mixed; boundary="===============1326449552=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0072562239==
-Content-Type: multipart/alternative; boundary="15725716603.1aAD7d.26231"
+--===============1326449552==
+Content-Type: multipart/alternative; boundary="15725723161.1CCbdB.28348"
 Content-Transfer-Encoding: 7bit
 
 
---15725716603.1aAD7d.26231
-Date: Fri, 1 Nov 2019 01:27:40 +0000
+--15725723161.1CCbdB.28348
+Date: Fri, 1 Nov 2019 01:38:36 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111869
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112138
 
---- Comment #3 from Andrew Sheldon <asheldon55@gmail.com> ---
-I also get this error frequently with amd-staging-drm-next, but not with
-5.4-rcX (at least I can't remember getting one with the latter).
+--- Comment #2 from MasterCATZ <MasterCATZ@hotmail.com> ---
+also noticed same issue , causing fan control on my R9 290's to stop=20
+and GPU's hitting thermal limits @ 96 Deg because powerplay can not talk to=
+ the
+cards BIOS=20
 
-Not sure if that suggests there is a regression, or something to do with the
-5.3 kernel specifically (I don't remember having the error when
-amd-staging-drm-next was using 5.2 kernel).
+Oct 26 08:08:28 aio kernel: [drm] add ip block number 5 <powerplay>
+Oct 26 08:08:28 aio kernel: amdgpu: [powerplay] hwmgr_sw_init smu backed is
+ci_smu
+
+
+amdgpu: [powerplay]=20
+failed to send message 282 ret is 254
+
+
+Linux 5.3.8-050308-generic
+
+
+OpenGL Information
+    GL_VENDOR:     X.Org
+    GL_RENDERER:   AMD Radeon R9 200 Series (HAWAII, DRM 3.33.0,
+5.3.8-050308-generic, LLVM 9.0.0)
+    GL_VERSION:    4.5 (Compatibility Profile) Mesa 19.3.0-devel (git-ff6e1=
+48
+2019-10-29 bionic-oibaf-ppa)
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15725716603.1aAD7d.26231
-Date: Fri, 1 Nov 2019 01:27:40 +0000
+--15725723161.1CCbdB.28348
+Date: Fri, 1 Nov 2019 01:38:36 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -101,25 +121,45 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Navi &quot;divide error&quot; hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111869#c3">Commen=
-t # 3</a>
+   title=3D"NEW - [kernel 5.4-rc4][amdgpu][CIK]: [drm] dce110_link_encoder_=
+construct: Failed to get encoder_cap_info from VBIOS with error code 4!"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112138#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Navi &quot;divide error&quot; hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111869">bug 11186=
-9</a>
+   title=3D"NEW - [kernel 5.4-rc4][amdgpu][CIK]: [drm] dce110_link_encoder_=
+construct: Failed to get encoder_cap_info from VBIOS with error code 4!"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112138">bug 11213=
+8</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-asheldon55&#64;gmail.com" title=3D"Andrew Sheldon &lt;asheldon55&#64;gmail.=
-com&gt;"> <span class=3D"fn">Andrew Sheldon</span></a>
+MasterCATZ&#64;hotmail.com" title=3D"MasterCATZ &lt;MasterCATZ&#64;hotmail.=
+com&gt;"> <span class=3D"fn">MasterCATZ</span></a>
 </span></b>
-        <pre>I also get this error frequently with amd-staging-drm-next, bu=
-t not with
-5.4-rcX (at least I can't remember getting one with the latter).
+        <pre>also noticed same issue , causing fan control on my R9 290's t=
+o stop=20
+and GPU's hitting thermal limits &#64; 96 Deg because powerplay can not tal=
+k to the
+cards BIOS=20
 
-Not sure if that suggests there is a regression, or something to do with the
-5.3 kernel specifically (I don't remember having the error when
-amd-staging-drm-next was using 5.2 kernel).</pre>
+Oct 26 08:08:28 aio kernel: [drm] add ip block number 5 &lt;powerplay&gt;
+Oct 26 08:08:28 aio kernel: amdgpu: [powerplay] hwmgr_sw_init smu backed is
+ci_smu
+
+
+amdgpu: [powerplay]=20
+failed to send message 282 ret is 254
+
+
+Linux 5.3.8-050308-generic
+
+
+OpenGL Information
+    GL_VENDOR:     X.Org
+    GL_RENDERER:   AMD Radeon R9 200 Series (HAWAII, DRM 3.33.0,
+5.3.8-050308-generic, LLVM 9.0.0)
+    GL_VERSION:    4.5 (Compatibility Profile) Mesa 19.3.0-devel (git-ff6e1=
+48
+2019-10-29 bionic-oibaf-ppa)</pre>
         </div>
       </p>
 
@@ -133,9 +173,9 @@ amd-staging-drm-next was using 5.2 kernel).</pre>
     </body>
 </html>=
 
---15725716603.1aAD7d.26231--
+--15725723161.1CCbdB.28348--
 
---===============0072562239==
+--===============1326449552==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -145,4 +185,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0072562239==--
+--===============1326449552==--
