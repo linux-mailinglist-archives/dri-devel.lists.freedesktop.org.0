@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A47CEBF1D
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 09:18:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A26EBF40
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 09:36:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30D2B6F774;
-	Fri,  1 Nov 2019 08:18:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AD526F77C;
+	Fri,  1 Nov 2019 08:36:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD4AB6E1C0
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 08:18:19 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21B616F778
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 08:36:20 +0000 (UTC)
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2019 01:18:18 -0700
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2019 01:36:19 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.68,254,1569308400"; 
- d="gz'50?scan'50,208,50";a="351896915"
+ d="gz'50?scan'50,208,50";a="206353575"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
- by orsmga004.jf.intel.com with ESMTP; 01 Nov 2019 01:18:16 -0700
+ by FMSMGA003.fm.intel.com with ESMTP; 01 Nov 2019 01:36:17 -0700
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
  (envelope-from <lkp@intel.com>)
- id 1iQS8O-0002Te-6b; Fri, 01 Nov 2019 16:18:16 +0800
-Date: Fri, 1 Nov 2019 16:17:58 +0800
+ id 1iQSPo-000A9J-S9; Fri, 01 Nov 2019 16:36:16 +0800
+Date: Fri, 1 Nov 2019 16:35:54 +0800
 From: kbuild test robot <lkp@intel.com>
-To: Slava Grigorev <slava.grigorev@amd.com>
-Subject: [radeon-alex:amd-mainline-dkms-5.2 1965/2647]
- include/kcl/kcl_drm.h:238:32: error: passing argument 1 of
- 'drm_gem_object_lookup' from incompatible pointer type
-Message-ID: <201911011638.Y54oKNtu%lkp@intel.com>
+To: Yifan Zhang <yifan1.zhang@amd.com>
+Subject: [radeon-alex:amd-mainline-dkms-5.2 1966/2647]
+ include/kcl/kcl_drm.h:281:8: error: redefinition of 'struct
+ drm_format_name_buf'
+Message-ID: <201911011654.G81NnNqv%lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="julezsrak4eojj6z"
+Content-Type: multipart/mixed; boundary="4ig6gtcv4zkocjlh"
 Content-Disposition: inline
 X-Patchwork-Hint: ignore
 User-Agent: NeoMutt/20170113 (1.7.2)
@@ -50,24 +50,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yifan Zhang <yifan1.zhang@amd.com>, kbuild-all@lists.01.org,
- Chengming Gui <Jack.Gui@amd.com>, Feifei Xu <Feifei.Xu@amd.com>,
- dri-devel@lists.freedesktop.org, Flora Cui <flora.cui@amd.com>
+Cc: Feifei Xu <Feifei.Xu@amd.com>, kbuild-all@lists.01.org,
+ Chengming Gui <Jack.Gui@amd.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---julezsrak4eojj6z
+--4ig6gtcv4zkocjlh
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   git://people.freedesktop.org/~agd5f/linux.git amd-mainline-dkms-5.2
 head:   b027ed8d9051470f4ed6bc071fcde172fe1fc595
-commit: c450088041e3378cd3b78d99169e9bca8fd20a5b [1965/2647] drm/amdkcl: Test whether drm_gem_object_lookup() wants 2 args
+commit: 757a363a37449c5b612b3c7c3f62be125b1282e3 [1966/2647] drm/amdkcl: Test whether drm_get_format_name() is available
 config: x86_64-randconfig-g002-201943 (attached as .config)
 compiler: gcc-7 (Debian 7.4.0-14) 7.4.0
 reproduce:
-        git checkout c450088041e3378cd3b78d99169e9bca8fd20a5b
+        git checkout 757a363a37449c5b612b3c7c3f62be125b1282e3
         # save the attached .config to linux build tree
         make ARCH=x86_64 
 
@@ -76,8 +75,6 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
    include/kcl/kcl_drm.h:98:1: error: conflicting types for 'drm_fb_helper_remove_conflicting_framebuffers'
     drm_fb_helper_remove_conflicting_framebuffers(struct apertures_struct *a,
     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -144,7 +141,7 @@ All errors (new ones prefixed by >>):
    In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
                     from <command-line>:0:
    include/kcl/kcl_drm.h: In function 'kcl_drm_gem_object_lookup':
->> include/kcl/kcl_drm.h:238:32: error: passing argument 1 of 'drm_gem_object_lookup' from incompatible pointer type [-Werror=incompatible-pointer-types]
+   include/kcl/kcl_drm.h:238:32: error: passing argument 1 of 'drm_gem_object_lookup' from incompatible pointer type [-Werror=incompatible-pointer-types]
       return drm_gem_object_lookup(dev, filp, handle);
                                    ^~~
    In file included from include/kcl/kcl_drm.h:9:0,
@@ -166,7 +163,7 @@ All errors (new ones prefixed by >>):
                            ^~~~~~~~~~~~~~~~~~~~~
    In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
                     from <command-line>:0:
->> include/kcl/kcl_drm.h:238:10: error: too many arguments to function 'drm_gem_object_lookup'
+   include/kcl/kcl_drm.h:238:10: error: too many arguments to function 'drm_gem_object_lookup'
       return drm_gem_object_lookup(dev, filp, handle);
              ^~~~~~~~~~~~~~~~~~~~~
    In file included from include/kcl/kcl_drm.h:9:0,
@@ -175,33 +172,50 @@ All errors (new ones prefixed by >>):
    include/drm/drm_gem.h:386:24: note: declared here
     struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
                            ^~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
+                    from <command-line>:0:
+   include/kcl/kcl_drm.h: At top level:
+>> include/kcl/kcl_drm.h:281:8: error: redefinition of 'struct drm_format_name_buf'
+    struct drm_format_name_buf {
+           ^~~~~~~~~~~~~~~~~~~
+   In file included from include/drm/drmP.h:69:0,
+                    from include/kcl/kcl_drm.h:6,
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
+                    from <command-line>:0:
+   include/drm/drm_fourcc.h:142:8: note: originally defined here
+    struct drm_format_name_buf {
+           ^~~~~~~~~~~~~~~~~~~
    cc1: some warnings being treated as errors
 
-vim +/drm_gem_object_lookup +238 include/kcl/kcl_drm.h
+vim +281 include/kcl/kcl_drm.h
 
-   230	
-   231	static inline struct drm_gem_object *
-   232	kcl_drm_gem_object_lookup(struct drm_device *dev, struct drm_file *filp,
-   233					u32 handle)
-   234	{
-   235	#if defined(HAVE_2ARGS_DRM_GEM_OBJECT_LOOKUP)
-   236			return drm_gem_object_lookup(filp, handle);
-   237	#else
- > 238			return drm_gem_object_lookup(dev, filp, handle);
-   239	#endif
-   240	}
-   241	
+950c9c93299ece Junwei Zhang 2016-12-23  275  
+757a363a37449c Yifan Zhang  2019-07-16  276  #if !defined(HAVE_DRM_GET_FORMAT_NAME)
+cc3188c9ec1202 Evan Quan    2017-05-11  277  /**
+cc3188c9ec1202 Evan Quan    2017-05-11  278   * struct drm_format_name_buf - name of a DRM format
+cc3188c9ec1202 Evan Quan    2017-05-11  279   * @str: string buffer containing the format name
+cc3188c9ec1202 Evan Quan    2017-05-11  280   */
+cc3188c9ec1202 Evan Quan    2017-05-11 @281  struct drm_format_name_buf {
+cc3188c9ec1202 Evan Quan    2017-05-11  282  	char str[32];
+cc3188c9ec1202 Evan Quan    2017-05-11  283  };
+cc3188c9ec1202 Evan Quan    2017-05-11  284  
+
+:::::: The code at line 281 was first introduced by commit
+:::::: cc3188c9ec120284ad92543062dcf5b927e648d8 drm/amdkcl: [4.11] fix for struct drm_framebuffer change
+
+:::::: TO: Evan Quan <evan.quan@amd.com>
+:::::: CC: Chengming Gui <Jack.Gui@amd.com>
 
 ---
 0-DAY kernel test infrastructure                Open Source Technology Center
 https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
 
---julezsrak4eojj6z
+--4ig6gtcv4zkocjlh
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICJXpu10AAy5jb25maWcAjDxbc9u20u/9FZr0pZ0zaW3HdfOdM34ASVBCxFsAULb8wnFt
+H4sICA3uu10AAy5jb25maWcAjDxbc9u20u/9FZr0pZ0zaW3HdfOdM34ASVBCxFsAULb8wnFt
 JfXUlxzZPk3+/bcLgOQCBJV2Oq21u7jvHQv++MOPC/b68vRw/XJ3c31//23xefe421+/7G4X
 n+7ud/9ZZPWiqvWCZ0L/AsTF3ePr11+/vj/rzk4Xv/1y8svR2/3N8WK92z/u7hfp0+Onu8+v
 0P7u6fGHH3+Af38E4MMX6Gr/78Xnm5u3vy9+ynZ/3F0/Ln7/5RRaH5/+bP8C2rSucrHs0rQT
@@ -819,7 +833,7 @@ StexaB9JcXga8sSPdDiIIYuRNLnBr2ycy7KFu1tv+e/KIllIWqapAUVsQHdBs4qgCj7GpT+t
 a3vUHauKdLfgWzvpptAXb0I1XgXSAcPyoE3o2Imbp8eGRo8gqRgqFghUR2hBuelIFdpiheBP
 qoOjTFqhPdnVe/huPlrl+B/DDn5URwYCAA==
 
---julezsrak4eojj6z
+--4ig6gtcv4zkocjlh
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -829,4 +843,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---julezsrak4eojj6z--
+--4ig6gtcv4zkocjlh--
