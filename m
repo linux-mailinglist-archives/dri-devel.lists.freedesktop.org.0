@@ -2,23 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C1CCEC6A8
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 17:26:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56275EC6B9
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 17:29:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF9336F84D;
-	Fri,  1 Nov 2019 16:26:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F4836F84C;
+	Fri,  1 Nov 2019 16:29:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 607596F84B
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 16:26:54 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6B1816E69C
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 16:29:04 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5910E720E2; Fri,  1 Nov 2019 16:26:54 +0000 (UTC)
+ id 65AA9720E2; Fri,  1 Nov 2019 16:29:04 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111763] ring_gfx hangs/freezes on Navi gpus
-Date: Fri, 01 Nov 2019 16:26:54 +0000
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Fri, 01 Nov 2019 16:29:04 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -26,17 +27,17 @@ X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
+X-Bugzilla-Severity: critical
 X-Bugzilla-Who: wychuchol7777@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
+X-Bugzilla-Priority: highest
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111763-502-JjED2kyJ9D@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111763-502@http.bugs.freedesktop.org/>
-References: <bug-111763-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111481-502-9YkJmNu4l4@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,82 +53,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0269951754=="
+Content-Type: multipart/mixed; boundary="===============1808405095=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0269951754==
-Content-Type: multipart/alternative; boundary="15726256140.B19CF2B30.14725"
+--===============1808405095==
+Content-Type: multipart/alternative; boundary="15726257442.f9Adffe3.16833"
 Content-Transfer-Encoding: 7bit
 
 
---15726256140.B19CF2B30.14725
-Date: Fri, 1 Nov 2019 16:26:54 +0000
+--15726257442.f9Adffe3.16833
+Date: Fri, 1 Nov 2019 16:29:04 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111763
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
 
---- Comment #17 from wychuchol <wychuchol7777@gmail.com> ---
-(In reply to Andrew Sheldon from comment #16)
-> (In reply to wychuchol from comment #14)
-> > RX 5700 XT Pop OS 19.10 latest Oibaf mesa not sure what llvm
-> > Anomaly 1.5.0 update 3 standalone 64 bit mod for S.T.A.L.K.E.R. Call of
-> > Pripyat running under wine d3dx11_43->dxvk (winetricks dxvk d3dcompiler=
-_43
-> > d3dx11_43)
-> >=20
-> > Oct 30 02:49:30 pop-os kernel: [ 4864.627343]
-> > [drm:amdgpu_dm_commit_planes.constprop.0 [amdgpu]] *ERROR* Waiting for
-> > fences timed out!
-> > Oct 30 02:49:30 pop-os kernel: [ 4869.231450] [drm:amdgpu_job_timedout
-> > [amdgpu]] *ERROR* ring gfx_0.0.0 timeout, signaled seq=3D2626284, emitt=
-ed
-> > seq=3D2626286
-> > Oct 30 02:49:30 pop-os kernel: [ 4869.231486] [drm:amdgpu_job_timedout
-> > [amdgpu]] *ERROR* Process information: process AnomalyDX11.exe pid 5791
-> > thread AnomalyDX11.exe pid 5791
-> > Oct 30 02:49:30 pop-os kernel: [ 4869.231487] [drm] GPU recovery disabl=
-ed.
-> >=20
-> > Happens at random. Sometimes hangs straight away, sometimes can go over=
- an
-> > hour without crash. Complete crash, no option available besides hard re=
-set.
-> > Not even mouse pointer would move (as with sdma0 hang).
-> >=20
-> > I'm sorry if it's not the right place to report this, I'm somewhat new =
-to
-> > all of this.
->=20
-> Ring gfx type hangs tend to be in Mesa. Report here:
-> https://gitlab.freedesktop.org/mesa/mesa/issues
->=20
-> Also I'm not sure how up to date the Oibaf repo is, but Mesa git landed A=
-CO
-> recently for Navi cards. You can try with RADV_PERFTEST=3Daco environment
-> variable set if your Mesa is new enough, and you might have better luck w=
-ith
-> hangs.
+--- Comment #189 from wychuchol <wychuchol7777@gmail.com> ---
+(In reply to Konstantin Pereiaslov from comment #187)
+> As recommended here I added AMD_DEBUG=3D"nongg,nodma" to /etc/environment=
+ and
+> additionally added export AMD_DEBUG=3D"nongg,nodma" to ~/.profile just to=
+ be
+> sure and for 5 days since that I only had one system freeze and it had a
+> different journalctl message, so it did help me help with sdma0 timeout
+> issue!
 
-Thank you so very much, no way to be sure since they seemed to happen at ra=
-ndom
-but I think I'd experience at least 2 or 3 hangs in the time I've tested it=
- but
-smooth ride so far. No performance impact either but running this game as I=
- do
-I'm supposedly laying most of the calculations on CPU not GPU.
+Thank you very much. I was afraid to try this since someone mentioned
+performance drops but I haven't noticed any in applications I use.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15726256140.B19CF2B30.14725
-Date: Fri, 1 Nov 2019 16:26:54 +0000
+--15726257442.f9Adffe3.16833
+Date: Fri, 1 Nov 2019 16:29:04 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -143,75 +107,33 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - ring_gfx hangs/freezes on Navi gpus"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111763#c17">Comme=
-nt # 17</a>
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c189">Comm=
+ent # 189</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - ring_gfx hangs/freezes on Navi gpus"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111763">bug 11176=
-3</a>
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 wychuchol7777&#64;gmail.com" title=3D"wychuchol &lt;wychuchol7777&#64;gmail=
 .com&gt;"> <span class=3D"fn">wychuchol</span></a>
 </span></b>
-        <pre>(In reply to Andrew Sheldon from <a href=3D"show_bug.cgi?id=3D=
-111763#c16">comment #16</a>)
-<span class=3D"quote">&gt; (In reply to wychuchol from <a href=3D"show_bug.=
-cgi?id=3D111763#c14">comment #14</a>)
-&gt; &gt; RX 5700 XT Pop OS 19.10 latest Oibaf mesa not sure what llvm
-&gt; &gt; Anomaly 1.5.0 update 3 standalone 64 bit mod for S.T.A.L.K.E.R. C=
-all of
-&gt; &gt; Pripyat running under wine d3dx11_43-&gt;dxvk (winetricks dxvk d3=
-dcompiler_43
-&gt; &gt; d3dx11_43)
-&gt; &gt;=20
-&gt; &gt; Oct 30 02:49:30 pop-os kernel: [ 4864.627343]
-&gt; &gt; [drm:amdgpu_dm_commit_planes.constprop.0 [amdgpu]] *ERROR* Waitin=
-g for
-&gt; &gt; fences timed out!
-&gt; &gt; Oct 30 02:49:30 pop-os kernel: [ 4869.231450] [drm:amdgpu_job_tim=
-edout
-&gt; &gt; [amdgpu]] *ERROR* ring gfx_0.0.0 timeout, signaled seq=3D2626284,=
- emitted
-&gt; &gt; seq=3D2626286
-&gt; &gt; Oct 30 02:49:30 pop-os kernel: [ 4869.231486] [drm:amdgpu_job_tim=
-edout
-&gt; &gt; [amdgpu]] *ERROR* Process information: process AnomalyDX11.exe pi=
-d 5791
-&gt; &gt; thread AnomalyDX11.exe pid 5791
-&gt; &gt; Oct 30 02:49:30 pop-os kernel: [ 4869.231487] [drm] GPU recovery =
-disabled.
-&gt; &gt;=20
-&gt; &gt; Happens at random. Sometimes hangs straight away, sometimes can g=
-o over an
-&gt; &gt; hour without crash. Complete crash, no option available besides h=
-ard reset.
-&gt; &gt; Not even mouse pointer would move (as with sdma0 hang).
-&gt; &gt;=20
-&gt; &gt; I'm sorry if it's not the right place to report this, I'm somewha=
-t new to
-&gt; &gt; all of this.
-&gt;=20
-&gt; Ring gfx type hangs tend to be in Mesa. Report here:
-&gt; <a href=3D"https://gitlab.freedesktop.org/mesa/mesa/issues">https://gi=
-tlab.freedesktop.org/mesa/mesa/issues</a>
-&gt;=20
-&gt; Also I'm not sure how up to date the Oibaf repo is, but Mesa git lande=
-d ACO
-&gt; recently for Navi cards. You can try with RADV_PERFTEST=3Daco environm=
-ent
-&gt; variable set if your Mesa is new enough, and you might have better luc=
-k with
-&gt; hangs.</span >
+        <pre>(In reply to Konstantin Pereiaslov from <a href=3D"show_bug.cg=
+i?id=3D111481#c187">comment #187</a>)
+<span class=3D"quote">&gt; As recommended here I added AMD_DEBUG=3D&quot;no=
+ngg,nodma&quot; to /etc/environment and
+&gt; additionally added export AMD_DEBUG=3D&quot;nongg,nodma&quot; to ~/.pr=
+ofile just to be
+&gt; sure and for 5 days since that I only had one system freeze and it had=
+ a
+&gt; different journalctl message, so it did help me help with sdma0 timeout
+&gt; issue!</span >
 
-Thank you so very much, no way to be sure since they seemed to happen at ra=
-ndom
-but I think I'd experience at least 2 or 3 hangs in the time I've tested it=
- but
-smooth ride so far. No performance impact either but running this game as I=
- do
-I'm supposedly laying most of the calculations on CPU not GPU.</pre>
+Thank you very much. I was afraid to try this since someone mentioned
+performance drops but I haven't noticed any in applications I use.</pre>
         </div>
       </p>
 
@@ -225,9 +147,9 @@ I'm supposedly laying most of the calculations on CPU not GPU.</pre>
     </body>
 </html>=
 
---15726256140.B19CF2B30.14725--
+--15726257442.f9Adffe3.16833--
 
---===============0269951754==
+--===============1808405095==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -237,4 +159,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0269951754==--
+--===============1808405095==--
