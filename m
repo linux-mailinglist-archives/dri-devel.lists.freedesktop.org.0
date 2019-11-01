@@ -2,34 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031B1EC3BB
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 14:34:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EB7EEC3F9
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 14:45:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 036216F7DB;
-	Fri,  1 Nov 2019 13:34:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E7CB6F7ED;
+	Fri,  1 Nov 2019 13:45:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id E92306F7DB
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 13:34:38 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 536811F1;
- Fri,  1 Nov 2019 06:34:38 -0700 (PDT)
-Received: from [10.1.194.43] (e112269-lin.cambridge.arm.com [10.1.194.43])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A03D53F718;
- Fri,  1 Nov 2019 06:34:37 -0700 (PDT)
-Subject: Re: [PATCH 4/5] drm/panfrost: remove DRM_AUTH and respective comment
-To: Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20191101130313.8862-1-emil.l.velikov@gmail.com>
- <20191101130313.8862-4-emil.l.velikov@gmail.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <d652ceaa-2c64-31f0-1793-14a5de51dc57@arm.com>
-Date: Fri, 1 Nov 2019 13:34:36 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 15A056F7F3
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 13:45:19 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 29BE8720E8; Fri,  1 Nov 2019 13:38:18 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 112192] regression: modesetting does not work with my Radeon R5
+ 230
+Date: Fri, 01 Nov 2019 13:38:18 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: michel@daenzer.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: product component qa_contact assigned_to
+Message-ID: <bug-112192-502-qloMM0rBc3@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-112192-502@http.bugs.freedesktop.org/>
+References: <bug-112192-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20191101130313.8862-4-emil.l.velikov@gmail.com>
-Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -42,49 +53,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Robin Murphy <robin.murphy@arm.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0393207658=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMDEvMTEvMjAxOSAxMzowMywgRW1pbCBWZWxpa292IHdyb3RlOgo+IEZyb206IEVtaWwgVmVs
-aWtvdiA8ZW1pbC52ZWxpa292QGNvbGxhYm9yYS5jb20+Cj4gCj4gQXMgb2YgZWFybGllciBjb21t
-aXQgd2UgaGF2ZSBhZGRyZXNzIHNwYWNlIHNlcGFyYXRpb24uIFlldCB3ZSBmb3Jnb3QgdG8KPiBy
-ZW1vdmUgdGhlIHJlc3BlY3RpdmUgY29tbWVudCBhbmQgRFJNX0FVVEggaW4gdGhlIGlvY3RsIGRl
-Y2xhcmF0aW9uLgo+IAo+IENjOiBUb21ldSBWaXpvc28gPHRvbWV1LnZpem9zb0Bjb2xsYWJvcmEu
-Y29tPgo+IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+Cj4gQ2M6IERhbmllbCBW
-ZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiBDYzogUm9iaW4gTXVycGh5IDxyb2Jpbi5tdXJwaHlA
-YXJtLmNvbT4KPiBDYzogU3RldmVuIFByaWNlIDxzdGV2ZW4ucHJpY2VAYXJtLmNvbT4KPiBGaXhl
-czogNzI4MmY3NjQ1ZDA2ICgiZHJtL3BhbmZyb3N0OiBJbXBsZW1lbnQgcGVyIEZEIGFkZHJlc3Mg
-c3BhY2VzIikKPiBTaWduZWQtb2ZmLWJ5OiBFbWlsIFZlbGlrb3YgPGVtaWwudmVsaWtvdkBjb2xs
-YWJvcmEuY29tPgoKUmV2aWV3ZWQtYnk6IFN0ZXZlbiBQcmljZSA8c3RldmVuLnByaWNlQGFybS5j
-b20+CgpJJ20gbm90IHN1cmUgRFJNX0FVVEggcHJvdmlkZWQgdXMgd2l0aCBtdWNoIGluIHRoZSBm
-aXJzdCBwbGFjZSAoYmVjYXVzZQpyZW5kZXIgbm9kZXMgY291bGQgc25vb3AvYWZmZWN0IHRoZSBw
-cmltYXJ5IG5vZGUpLCBidXQgc2luY2Ugd2UgaGF2ZQphZGRyZXNzIHNwYWNlIHNlcGFyYXRpb24g
-aXQncyBjbGVhcmx5IG5vdCByZXF1aXJlZCBub3cuCgpTdGV2ZQoKPiAtLS0KPiAgZHJpdmVycy9n
-cHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2Rydi5jIHwgNiArLS0tLS0KPiAgMSBmaWxlIGNoYW5n
-ZWQsIDEgaW5zZXJ0aW9uKCspLCA1IGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vcGFu
-ZnJvc3QvcGFuZnJvc3RfZHJ2LmMKPiBpbmRleCBiYzJkZGViNTVmNWQuLmM2NzdiMmM5ZTQwOSAx
-MDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZHJ2LmMKPiAr
-KysgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZHJ2LmMKPiBAQCAtNDUxLDE1
-ICs0NTEsMTEgQEAgcGFuZnJvc3RfcG9zdGNsb3NlKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHN0
-cnVjdCBkcm1fZmlsZSAqZmlsZSkKPiAgCWtmcmVlKHBhbmZyb3N0X3ByaXYpOwo+ICB9Cj4gIAo+
-IC0vKiBEUk1fQVVUSCBpcyByZXF1aXJlZCBvbiBTVUJNSVQgZm9yIG5vdywgd2hpbGUgYWxsIGNs
-aWVudHMgc2hhcmUgYSBzaW5nbGUKPiAtICogYWRkcmVzcyBzcGFjZS4gIE5vdGUgdGhhdCByZW5k
-ZXIgbm9kZXMgd291bGQgYmUgYWJsZSB0byBzdWJtaXQgam9icyB0aGF0Cj4gLSAqIGNvdWxkIGFj
-Y2VzcyBCT3MgZnJvbSBjbGllbnRzIGF1dGhlbnRpY2F0ZWQgd2l0aCB0aGUgbWFzdGVyIG5vZGUu
-Cj4gLSAqLwo+ICBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9pb2N0bF9kZXNjIHBhbmZyb3N0X2Ry
-bV9kcml2ZXJfaW9jdGxzW10gPSB7Cj4gICNkZWZpbmUgUEFORlJPU1RfSU9DVEwobiwgZnVuYywg
-ZmxhZ3MpIFwKPiAgCURSTV9JT0NUTF9ERUZfRFJWKFBBTkZST1NUXyMjbiwgcGFuZnJvc3RfaW9j
-dGxfIyNmdW5jLCBmbGFncykKPiAgCj4gLQlQQU5GUk9TVF9JT0NUTChTVUJNSVQsCQlzdWJtaXQs
-CQlEUk1fUkVOREVSX0FMTE9XIHwgRFJNX0FVVEgpLAo+ICsJUEFORlJPU1RfSU9DVEwoU1VCTUlU
-LAkJc3VibWl0LAkJRFJNX1JFTkRFUl9BTExPVyksCj4gIAlQQU5GUk9TVF9JT0NUTChXQUlUX0JP
-LAkJd2FpdF9ibywJRFJNX1JFTkRFUl9BTExPVyksCj4gIAlQQU5GUk9TVF9JT0NUTChDUkVBVEVf
-Qk8sCWNyZWF0ZV9ibywJRFJNX1JFTkRFUl9BTExPVyksCj4gIAlQQU5GUk9TVF9JT0NUTChNTUFQ
-X0JPLAkJbW1hcF9ibywJRFJNX1JFTkRFUl9BTExPVyksCj4gCgpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0393207658==
+Content-Type: multipart/alternative; boundary="15726154981.8bd8.12929"
+Content-Transfer-Encoding: 7bit
+
+
+--15726154981.8bd8.12929
+Date: Fri, 1 Nov 2019 13:38:18 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112192
+
+Michel D=C3=A4nzer <michel@daenzer.net> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+            Product|xorg                        |DRI
+          Component|Driver/AMDgpu               |DRM/AMDgpu
+         QA Contact|xorg-team@lists.x.org       |
+           Assignee|xorg-driver-ati@lists.x.org |dri-devel@lists.freedesktop
+                   |                            |.org
+
+--- Comment #6 from Michel D=C3=A4nzer <michel@daenzer.net> ---
+> [  2141.996] (II) AMDGPU(0): [KMS] drm report modesetting isn't supported.
+
+means the amdgpu kernel driver didn't initialize. Please attach the output =
+of
+dmesg.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15726154981.8bd8.12929
+Date: Fri, 1 Nov 2019 13:38:18 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:michel&#6=
+4;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.net&gt;">=
+ <span class=3D"fn">Michel D=C3=A4nzer</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - regression: modesetting does not work with my Radeon R5 2=
+30"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112192">bug 11219=
+2</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Product</td>
+           <td>xorg
+           </td>
+           <td>DRI
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Component</td>
+           <td>Driver/AMDgpu
+           </td>
+           <td>DRM/AMDgpu
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">QA Contact</td>
+           <td>xorg-team&#64;lists.x.org
+           </td>
+           <td>
+               &nbsp;
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Assignee</td>
+           <td>xorg-driver-ati&#64;lists.x.org
+           </td>
+           <td>dri-devel&#64;lists.freedesktop.org
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - regression: modesetting does not work with my Radeon R5 2=
+30"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112192#c6">Commen=
+t # 6</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - regression: modesetting does not work with my Radeon R5 2=
+30"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112192">bug 11219=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
+net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
+</span></b>
+        <pre><span class=3D"quote">&gt; [  2141.996] (II) AMDGPU(0): [KMS] =
+drm report modesetting isn't supported.</span >
+
+means the amdgpu kernel driver didn't initialize. Please attach the output =
+of
+dmesg.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15726154981.8bd8.12929--
+
+--===============0393207658==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0393207658==--
