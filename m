@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1305CEBE7A
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 08:33:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 801D0EBEBD
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 08:55:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9A1C6E194;
-	Fri,  1 Nov 2019 07:33:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EA826F73F;
+	Fri,  1 Nov 2019 07:55:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 085366E194
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 07:33:11 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1770C6F733
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 07:55:15 +0000 (UTC)
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2019 00:33:10 -0700
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2019 00:55:14 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.68,254,1569308400"; 
- d="gz'50?scan'50,208,50";a="199261199"
+ d="gz'50?scan'50,208,50";a="231152621"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
- by fmsmga008.fm.intel.com with ESMTP; 01 Nov 2019 00:33:08 -0700
+ by fmsmga002.fm.intel.com with ESMTP; 01 Nov 2019 00:55:12 -0700
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
  (envelope-from <lkp@intel.com>)
- id 1iQRQh-000AkQ-SE; Fri, 01 Nov 2019 15:33:07 +0800
-Date: Fri, 1 Nov 2019 15:32:54 +0800
+ id 1iQRm4-0003gU-5V; Fri, 01 Nov 2019 15:55:12 +0800
+Date: Fri, 1 Nov 2019 15:54:46 +0800
 From: kbuild test robot <lkp@intel.com>
 To: Slava Grigorev <slava.grigorev@amd.com>
-Subject: [radeon-alex:amd-mainline-dkms-5.2 1963/2647]
- include/kcl/kcl_drm.h:206:10: error: too few arguments to function
- 'drm_crtc_init_with_planes'
-Message-ID: <201911011550.h7wIPE1e%lkp@intel.com>
+Subject: [radeon-alex:amd-mainline-dkms-5.2 1964/2647]
+ include/kcl/kcl_drm.h:227:29: error: incompatible type for argument 7 of
+ 'drm_universal_plane_init'
+Message-ID: <201911011545.jPfXDGy7%lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="o3lwd4lkmpbswun3"
+Content-Type: multipart/mixed; boundary="nmzowexpgs6u2em7"
 Content-Disposition: inline
 X-Patchwork-Hint: ignore
 User-Agent: NeoMutt/20170113 (1.7.2)
@@ -57,17 +57,17 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---o3lwd4lkmpbswun3
+--nmzowexpgs6u2em7
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   git://people.freedesktop.org/~agd5f/linux.git amd-mainline-dkms-5.2
 head:   b027ed8d9051470f4ed6bc071fcde172fe1fc595
-commit: f2e0d469732d27bc612df52b42094309ba5877d9 [1963/2647] drm/amdkcl: Test whether drm_crtc_init_with_planes() wants name
+commit: aa5f7e64d5afdf1b60cb7594bc78632997b6eb38 [1964/2647] drm/amdkcl: Test whether drm_universal_plane_init() wants 9 args or 8 args
 config: x86_64-randconfig-g002-201943 (attached as .config)
 compiler: gcc-7 (Debian 7.4.0-14) 7.4.0
 reproduce:
-        git checkout f2e0d469732d27bc612df52b42094309ba5877d9
+        git checkout aa5f7e64d5afdf1b60cb7594bc78632997b6eb38
         # save the attached .config to linux build tree
         make ARCH=x86_64 
 
@@ -104,7 +104,7 @@ All errors (new ones prefixed by >>):
    In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
                     from <command-line>:0:
    include/kcl/kcl_drm.h: In function 'kcl_drm_crtc_init_with_planes':
->> include/kcl/kcl_drm.h:206:10: error: too few arguments to function 'drm_crtc_init_with_planes'
+   include/kcl/kcl_drm.h:206:10: error: too few arguments to function 'drm_crtc_init_with_planes'
       return drm_crtc_init_with_planes(dev, crtc, primary,
              ^~~~~~~~~~~~~~~~~~~~~~~~~
    In file included from include/drm/drmP.h:68:0,
@@ -114,219 +114,59 @@ All errors (new ones prefixed by >>):
    include/drm/drm_crtc.h:1120:5: note: declared here
     int drm_crtc_init_with_planes(struct drm_device *dev,
         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
+                    from <command-line>:0:
+   include/kcl/kcl_drm.h: In function 'kcl_drm_universal_plane_init':
+>> include/kcl/kcl_drm.h:227:29: error: incompatible type for argument 7 of 'drm_universal_plane_init'
+         formats, format_count, type);
+                                ^~~~
+   In file included from include/drm/drm_crtc.h:45:0,
+                    from include/drm/drmP.h:68,
+                    from include/kcl/kcl_drm.h:6,
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
+                    from <command-line>:0:
+   include/drm/drm_plane.h:713:5: note: expected 'const uint64_t * {aka const long long unsigned int *}' but argument is of type 'enum drm_plane_type'
+    int drm_universal_plane_init(struct drm_device *dev,
+        ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
+                    from <command-line>:0:
+>> include/kcl/kcl_drm.h:226:10: error: too few arguments to function 'drm_universal_plane_init'
+      return drm_universal_plane_init(dev, plane, possible_crtcs, funcs,
+             ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/drm/drm_crtc.h:45:0,
+                    from include/drm/drmP.h:68,
+                    from include/kcl/kcl_drm.h:6,
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
+                    from <command-line>:0:
+   include/drm/drm_plane.h:713:5: note: declared here
+    int drm_universal_plane_init(struct drm_device *dev,
+        ^~~~~~~~~~~~~~~~~~~~~~~~
 
-vim +/drm_crtc_init_with_planes +206 include/kcl/kcl_drm.h
+vim +/drm_universal_plane_init +227 include/kcl/kcl_drm.h
 
-950c9c93299ece Junwei Zhang   2016-12-23    3  
-950c9c93299ece Junwei Zhang   2016-12-23    4  #include <linux/version.h>
-7e18f7a415538c Evan Quan      2019-02-18    5  #include <linux/kconfig.h>
-950c9c93299ece Junwei Zhang   2016-12-23    6  #include <drm/drmP.h>
-950c9c93299ece Junwei Zhang   2016-12-23    7  #include <drm/drm_fb_helper.h>
-950c9c93299ece Junwei Zhang   2016-12-23    8  #include <drm/drm_atomic.h>
-950c9c93299ece Junwei Zhang   2016-12-23    9  #include <drm/drm_gem.h>
-950c9c93299ece Junwei Zhang   2016-12-23  @10  #include <drm/drm_atomic_helper.h>
-cc3188c9ec1202 Evan Quan      2017-05-11   11  #include <drm/drm_fourcc.h>
-7e18f7a415538c Evan Quan      2019-02-18   12  #include <drm/drm_rect.h>
-7e18f7a415538c Evan Quan      2019-02-18   13  #include <drm/drm_modes.h>
-cc3188c9ec1202 Evan Quan      2017-05-11   14  #include <linux/ctype.h>
-5027d12c82b867 changzhu       2019-04-03   15  #if DRM_VERSION_CODE >= DRM_VERSION(4, 13, 0)
-5027d12c82b867 changzhu       2019-04-03   16  #include <drm/drm_syncobj.h>
-5027d12c82b867 changzhu       2019-04-03   17  #endif
-950c9c93299ece Junwei Zhang   2016-12-23   18  
-7e18f7a415538c Evan Quan      2019-02-18   19  #ifndef DRM_MODE_ROTATE_0
-7e18f7a415538c Evan Quan      2019-02-18   20  #define DRM_MODE_ROTATE_0       (1<<0)
-7e18f7a415538c Evan Quan      2019-02-18   21  #endif
-7e18f7a415538c Evan Quan      2019-02-18   22  #ifndef DRM_MODE_ROTATE_90
-7e18f7a415538c Evan Quan      2019-02-18   23  #define DRM_MODE_ROTATE_90      (1<<1)
-7e18f7a415538c Evan Quan      2019-02-18   24  #endif
-7e18f7a415538c Evan Quan      2019-02-18   25  #ifndef DRM_MODE_ROTATE_180
-7e18f7a415538c Evan Quan      2019-02-18   26  #define DRM_MODE_ROTATE_180     (1<<2)
-7e18f7a415538c Evan Quan      2019-02-18   27  #endif
-7e18f7a415538c Evan Quan      2019-02-18   28  #ifndef DRM_MODE_ROTATE_270
-7e18f7a415538c Evan Quan      2019-02-18   29  #define DRM_MODE_ROTATE_270     (1<<3)
-7e18f7a415538c Evan Quan      2019-02-18   30  #endif
-7e18f7a415538c Evan Quan      2019-02-18   31  
-7e18f7a415538c Evan Quan      2019-02-18   32  #ifndef DRM_MODE_ROTATE_MASK
-7e18f7a415538c Evan Quan      2019-02-18   33  #define DRM_MODE_ROTATE_MASK (\
-7e18f7a415538c Evan Quan      2019-02-18   34  		DRM_MODE_ROTATE_0  | \
-7e18f7a415538c Evan Quan      2019-02-18   35  		DRM_MODE_ROTATE_90  | \
-7e18f7a415538c Evan Quan      2019-02-18   36  		DRM_MODE_ROTATE_180 | \
-7e18f7a415538c Evan Quan      2019-02-18   37  		DRM_MODE_ROTATE_270)
-7e18f7a415538c Evan Quan      2019-02-18   38  #endif
-7e18f7a415538c Evan Quan      2019-02-18   39  
-950c9c93299ece Junwei Zhang   2016-12-23   40  extern void (*_kcl_drm_fb_helper_set_suspend)(struct drm_fb_helper *fb_helper, int state);
-950c9c93299ece Junwei Zhang   2016-12-23   41  extern void
-950c9c93299ece Junwei Zhang   2016-12-23   42  (*_kcl_drm_atomic_helper_update_legacy_modeset_state)(struct drm_device *dev,
-950c9c93299ece Junwei Zhang   2016-12-23   43  					      struct drm_atomic_state *old_state);
-950c9c93299ece Junwei Zhang   2016-12-23   44  
-e36c5eb8e827b3 Slava Grigorev 2018-06-25   45  #if !defined(HAVE_DRM_MODESET_LOCK_ALL_CTX)
-7e18f7a415538c Evan Quan      2019-02-18   46  int drm_modeset_lock_all_ctx(struct drm_device *dev,
-7e18f7a415538c Evan Quan      2019-02-18   47  			     struct drm_modeset_acquire_ctx *ctx);
-e36c5eb8e827b3 Slava Grigorev 2018-06-25   48  #endif
-e36c5eb8e827b3 Slava Grigorev 2018-06-25   49  
-9f78b521bc9fc5 Slava Grigorev 2018-06-25   50  #if !defined(HAVE_DRM_ATOMIC_HELPER_DISABLE_ALL)
-9f78b521bc9fc5 Slava Grigorev 2018-06-25   51  int drm_atomic_helper_disable_all(struct drm_device *dev,
-9f78b521bc9fc5 Slava Grigorev 2018-06-25   52  				  struct drm_modeset_acquire_ctx *ctx);
-9f78b521bc9fc5 Slava Grigorev 2018-06-25   53  #endif
-9f78b521bc9fc5 Slava Grigorev 2018-06-25   54  
-fb33688c00aea9 Slava Grigorev 2018-06-26   55  #if !defined(HAVE_DRM_ATOMIC_HELPER_DUPLICATE_STATE)
-7e18f7a415538c Evan Quan      2019-02-18   56  struct drm_atomic_state *
-7e18f7a415538c Evan Quan      2019-02-18   57  drm_atomic_helper_duplicate_state(struct drm_device *dev,
-7e18f7a415538c Evan Quan      2019-02-18   58  				  struct drm_modeset_acquire_ctx *ctx);
-7e18f7a415538c Evan Quan      2019-02-18   59  #endif
-fb33688c00aea9 Slava Grigorev 2018-06-26   60  
-92f741fc38a3f4 Slava Grigorev 2018-06-26   61  #if !defined(HAVE_DRM_ATOMIC_HELPER_SUSPEND)
-92f741fc38a3f4 Slava Grigorev 2018-06-26   62  struct drm_atomic_state *drm_atomic_helper_suspend(struct drm_device *dev);
-92f741fc38a3f4 Slava Grigorev 2018-06-26   63  #endif
-92f741fc38a3f4 Slava Grigorev 2018-06-26   64  
-9400fab1ce949b Slava Grigorev 2018-06-26   65  #if !defined(HAVE_DRM_ATOMIC_HELPER_RESUME)
-7e18f7a415538c Evan Quan      2019-02-18   66  int drm_atomic_helper_resume(struct drm_device *dev,
-7e18f7a415538c Evan Quan      2019-02-18   67  			     struct drm_atomic_state *state);
-7e18f7a415538c Evan Quan      2019-02-18   68  #endif
-7e18f7a415538c Evan Quan      2019-02-18   69  
-e88cb29d12208d Slava Grigorev 2018-07-10   70  #if !defined(HAVE_DRM_CRTC_FORCE_DISABLE_ALL)
-7e18f7a415538c Evan Quan      2019-02-18   71  extern int drm_crtc_force_disable_all(struct drm_device *dev);
-7e18f7a415538c Evan Quan      2019-02-18   72  #endif
-7e18f7a415538c Evan Quan      2019-02-18   73  
-14b8fa4fd168f0 Slava Grigorev 2018-07-13   74  #if !defined(HAVE_DRM_FB_HELPER_REMOVE_CONFLICTING_FRAMEBUFFERS)
-7e18f7a415538c Evan Quan      2019-02-18   75  
-25c22db6ac59d5 Yifan Zhang    2019-07-12   76  #if !defined(IS_REACHABLE)
-7e18f7a415538c Evan Quan      2019-02-18   77  #define __ARG_PLACEHOLDER_1 0,
-7e18f7a415538c Evan Quan      2019-02-18   78  #define __take_second_arg(__ignored, val, ...) val
-7e18f7a415538c Evan Quan      2019-02-18   79  
-7e18f7a415538c Evan Quan      2019-02-18   80  /*
-7e18f7a415538c Evan Quan      2019-02-18   81   * The use of "&&" / "||" is limited in certain expressions.
-7e18f7a415538c Evan Quan      2019-02-18   82   * The followings enable to calculate "and" / "or" with macro expansion only.
-7e18f7a415538c Evan Quan      2019-02-18   83   */
-7e18f7a415538c Evan Quan      2019-02-18   84  #define __and(x, y)			___and(x, y)
-7e18f7a415538c Evan Quan      2019-02-18   85  #define ___and(x, y)			____and(__ARG_PLACEHOLDER_##x, y)
-7e18f7a415538c Evan Quan      2019-02-18   86  #define ____and(arg1_or_junk, y)	__take_second_arg(arg1_or_junk y, 0)
-7e18f7a415538c Evan Quan      2019-02-18   87  
-7e18f7a415538c Evan Quan      2019-02-18   88  #define __or(x, y)			___or(x, y)
-7e18f7a415538c Evan Quan      2019-02-18   89  #define ___or(x, y)			____or(__ARG_PLACEHOLDER_##x, y)
-7e18f7a415538c Evan Quan      2019-02-18   90  #define ____or(arg1_or_junk, y)		__take_second_arg(arg1_or_junk 1, y)
-7e18f7a415538c Evan Quan      2019-02-18   91  
-7e18f7a415538c Evan Quan      2019-02-18   92  #define IS_REACHABLE(option) __or(IS_BUILTIN(option), \
-7e18f7a415538c Evan Quan      2019-02-18   93  				__and(IS_MODULE(option), __is_defined(MODULE)))
-7e18f7a415538c Evan Quan      2019-02-18   94  #endif
-7e18f7a415538c Evan Quan      2019-02-18   95  
-2707e9e12e8c57 Slava Grigorev 2018-07-12   96  #if !defined(HAVE_REMOVE_CONFLICTING_FRAMEBUFFERS_RETURNS_INT)
-7e18f7a415538c Evan Quan      2019-02-18   97  static inline void
-7e18f7a415538c Evan Quan      2019-02-18   98  drm_fb_helper_remove_conflicting_framebuffers(struct apertures_struct *a,
-7e18f7a415538c Evan Quan      2019-02-18   99  					      const char *name, bool primary)
-7e18f7a415538c Evan Quan      2019-02-18  100  {
-7e18f7a415538c Evan Quan      2019-02-18  101  #if IS_REACHABLE(CONFIG_FB)
-7e18f7a415538c Evan Quan      2019-02-18  102  	remove_conflicting_framebuffers(a, name, primary);
-7e18f7a415538c Evan Quan      2019-02-18  103  #else
-7e18f7a415538c Evan Quan      2019-02-18  104  	return;
-7e18f7a415538c Evan Quan      2019-02-18  105  #endif
-7e18f7a415538c Evan Quan      2019-02-18  106  }
-7e18f7a415538c Evan Quan      2019-02-18  107  #else
-7e18f7a415538c Evan Quan      2019-02-18  108  static inline int
-7e18f7a415538c Evan Quan      2019-02-18  109  drm_fb_helper_remove_conflicting_framebuffers(struct apertures_struct *a,
-7e18f7a415538c Evan Quan      2019-02-18  110  					      const char *name, bool primary)
-7e18f7a415538c Evan Quan      2019-02-18  111  {
-7e18f7a415538c Evan Quan      2019-02-18  112  #if IS_REACHABLE(CONFIG_FB)
-7e18f7a415538c Evan Quan      2019-02-18  113  	return remove_conflicting_framebuffers(a, name, primary);
-7e18f7a415538c Evan Quan      2019-02-18  114  #else
-7e18f7a415538c Evan Quan      2019-02-18  115  	return 0;
-7e18f7a415538c Evan Quan      2019-02-18  116  #endif
-7e18f7a415538c Evan Quan      2019-02-18  117  }
-7e18f7a415538c Evan Quan      2019-02-18  118  #endif
-7e18f7a415538c Evan Quan      2019-02-18  119  #endif
-7e18f7a415538c Evan Quan      2019-02-18  120  
-950c9c93299ece Junwei Zhang   2016-12-23  121  static inline void kcl_drm_fb_helper_set_suspend(struct drm_fb_helper *fb_helper, int state)
-950c9c93299ece Junwei Zhang   2016-12-23  122  {
-950c9c93299ece Junwei Zhang   2016-12-23  123  #ifdef BUILD_AS_DKMS
-950c9c93299ece Junwei Zhang   2016-12-23  124  	_kcl_drm_fb_helper_set_suspend(fb_helper, state);
-950c9c93299ece Junwei Zhang   2016-12-23  125  #else
-950c9c93299ece Junwei Zhang   2016-12-23  126  	drm_fb_helper_set_suspend(fb_helper, state);
-950c9c93299ece Junwei Zhang   2016-12-23  127  #endif
-950c9c93299ece Junwei Zhang   2016-12-23  128  }
-950c9c93299ece Junwei Zhang   2016-12-23  129  
-950c9c93299ece Junwei Zhang   2016-12-23  130  static inline void
-950c9c93299ece Junwei Zhang   2016-12-23  131  kcl_drm_atomic_helper_update_legacy_modeset_state(struct drm_device *dev,
-950c9c93299ece Junwei Zhang   2016-12-23  132  					      struct drm_atomic_state *old_state)
-950c9c93299ece Junwei Zhang   2016-12-23  133  {
-950c9c93299ece Junwei Zhang   2016-12-23  134  #ifdef BUILD_AS_DKMS
-950c9c93299ece Junwei Zhang   2016-12-23  135  	_kcl_drm_atomic_helper_update_legacy_modeset_state(dev, old_state);
-950c9c93299ece Junwei Zhang   2016-12-23  136  #else
-950c9c93299ece Junwei Zhang   2016-12-23  137  	drm_atomic_helper_update_legacy_modeset_state(dev, old_state);
-950c9c93299ece Junwei Zhang   2016-12-23  138  #endif
-950c9c93299ece Junwei Zhang   2016-12-23  139  }
-950c9c93299ece Junwei Zhang   2016-12-23  140  
-950c9c93299ece Junwei Zhang   2016-12-23  141  #ifndef DRM_DEBUG_VBL
-950c9c93299ece Junwei Zhang   2016-12-23  142  #define DRM_UT_VBL		0x20
-950c9c93299ece Junwei Zhang   2016-12-23  143  #define DRM_DEBUG_VBL(fmt, args...)					\
-950c9c93299ece Junwei Zhang   2016-12-23  144  	do {								\
-950c9c93299ece Junwei Zhang   2016-12-23  145  		if (unlikely(drm_debug & DRM_UT_VBL))			\
-950c9c93299ece Junwei Zhang   2016-12-23  146  			drm_ut_debug_printk(__func__, fmt, ##args);	\
-950c9c93299ece Junwei Zhang   2016-12-23  147  	} while (0)
-950c9c93299ece Junwei Zhang   2016-12-23  148  #endif
-950c9c93299ece Junwei Zhang   2016-12-23  149  
-950c9c93299ece Junwei Zhang   2016-12-23  150  static inline bool kcl_drm_arch_can_wc_memory(void)
-950c9c93299ece Junwei Zhang   2016-12-23  151  {
-950c9c93299ece Junwei Zhang   2016-12-23  152  #if defined(CONFIG_PPC) && !defined(CONFIG_NOT_COHERENT_CACHE)
-950c9c93299ece Junwei Zhang   2016-12-23  153  	return false;
-950c9c93299ece Junwei Zhang   2016-12-23  154  #elif defined(CONFIG_MIPS) && defined(CONFIG_CPU_LOONGSON3)
-950c9c93299ece Junwei Zhang   2016-12-23  155  	return false;
-950c9c93299ece Junwei Zhang   2016-12-23  156  #else
-950c9c93299ece Junwei Zhang   2016-12-23  157  	return true;
-950c9c93299ece Junwei Zhang   2016-12-23  158  #endif
-950c9c93299ece Junwei Zhang   2016-12-23  159  }
-950c9c93299ece Junwei Zhang   2016-12-23  160  
-5027d12c82b867 changzhu       2019-04-03  161  #if DRM_VERSION_CODE >= DRM_VERSION(4, 13, 0)
-5027d12c82b867 changzhu       2019-04-03  162  static inline int kcl_drm_syncobj_find_fence(struct drm_file *file_private,
-5027d12c82b867 changzhu       2019-04-03  163  						u32 handle, u64 point, u64 flags,
-5027d12c82b867 changzhu       2019-04-03  164  						struct dma_fence **fence)
-5027d12c82b867 changzhu       2019-04-03  165  {
-5027d12c82b867 changzhu       2019-04-03  166  #if defined(BUILD_AS_DKMS)
-5027d12c82b867 changzhu       2019-04-03  167  #if DRM_VERSION_CODE < DRM_VERSION(4, 14, 0)
-5027d12c82b867 changzhu       2019-04-03  168  	return drm_syncobj_fence_get(file_private, handle, fence);
-5027d12c82b867 changzhu       2019-04-03  169  #elif DRM_VERSION_CODE < DRM_VERSION(4, 20, 0)
-5027d12c82b867 changzhu       2019-04-03  170  	return drm_syncobj_find_fence(file_private, handle, fence);
-5027d12c82b867 changzhu       2019-04-03  171  #elif DRM_VERSION_CODE < DRM_VERSION(5, 0, 0)
-5027d12c82b867 changzhu       2019-04-03  172  	return drm_syncobj_find_fence(file_private, handle, point, fence);
-5027d12c82b867 changzhu       2019-04-03  173  #else
-5027d12c82b867 changzhu       2019-04-03  174  	return drm_syncobj_find_fence(file_private, handle, point, flags, fence);
-5027d12c82b867 changzhu       2019-04-03  175  #endif
-5027d12c82b867 changzhu       2019-04-03  176  #else
-5027d12c82b867 changzhu       2019-04-03  177  	return drm_syncobj_find_fence(file_private, handle, point, flags, fence);
-5027d12c82b867 changzhu       2019-04-03  178  #endif
-5027d12c82b867 changzhu       2019-04-03  179  }
-5027d12c82b867 changzhu       2019-04-03  180  #endif
-5027d12c82b867 changzhu       2019-04-03  181  
-950c9c93299ece Junwei Zhang   2016-12-23  182  static inline int kcl_drm_encoder_init(struct drm_device *dev,
-950c9c93299ece Junwei Zhang   2016-12-23  183  		      struct drm_encoder *encoder,
-950c9c93299ece Junwei Zhang   2016-12-23  184  		      const struct drm_encoder_funcs *funcs,
-950c9c93299ece Junwei Zhang   2016-12-23  185  		      int encoder_type, const char *name, ...)
-950c9c93299ece Junwei Zhang   2016-12-23  186  {
-35781c0b8d19ed Yifan Zhang    2019-07-15  187  #if defined(HAVE_DRM_ENCODER_INIT_VALID_WITH_NAME)
-950c9c93299ece Junwei Zhang   2016-12-23  188  	return drm_encoder_init(dev, encoder, funcs,
-950c9c93299ece Junwei Zhang   2016-12-23  189  			 encoder_type, name);
-950c9c93299ece Junwei Zhang   2016-12-23  190  #else
-950c9c93299ece Junwei Zhang   2016-12-23  191  	return drm_encoder_init(dev, encoder, funcs,
-950c9c93299ece Junwei Zhang   2016-12-23  192  			 encoder_type);
-950c9c93299ece Junwei Zhang   2016-12-23  193  #endif
-950c9c93299ece Junwei Zhang   2016-12-23  194  }
-950c9c93299ece Junwei Zhang   2016-12-23  195  
-950c9c93299ece Junwei Zhang   2016-12-23  196  static inline int kcl_drm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *crtc,
-950c9c93299ece Junwei Zhang   2016-12-23  197  			      struct drm_plane *primary,
-950c9c93299ece Junwei Zhang   2016-12-23  198  			      struct drm_plane *cursor,
-950c9c93299ece Junwei Zhang   2016-12-23  199  			      const struct drm_crtc_funcs *funcs,
-950c9c93299ece Junwei Zhang   2016-12-23  200  			      const char *name, ...)
-950c9c93299ece Junwei Zhang   2016-12-23  201  {
-f2e0d469732d27 Slava Grigorev 2018-07-17  202  #if defined(HAVE_DRM_CRTC_INIT_WITH_PLANES_VALID_WITH_NAME)
-950c9c93299ece Junwei Zhang   2016-12-23  203  		return drm_crtc_init_with_planes(dev, crtc, primary,
-950c9c93299ece Junwei Zhang   2016-12-23  204  				 cursor, funcs, name);
-950c9c93299ece Junwei Zhang   2016-12-23  205  #else
-950c9c93299ece Junwei Zhang   2016-12-23 @206  		return drm_crtc_init_with_planes(dev, crtc, primary,
-950c9c93299ece Junwei Zhang   2016-12-23  207  				 cursor, funcs);
-950c9c93299ece Junwei Zhang   2016-12-23  208  #endif
-950c9c93299ece Junwei Zhang   2016-12-23  209  }
 950c9c93299ece Junwei Zhang   2016-12-23  210  
+950c9c93299ece Junwei Zhang   2016-12-23  211  static inline int kcl_drm_universal_plane_init(struct drm_device *dev, struct drm_plane *plane,
+950c9c93299ece Junwei Zhang   2016-12-23  212  			     unsigned long possible_crtcs,
+950c9c93299ece Junwei Zhang   2016-12-23  213  			     const struct drm_plane_funcs *funcs,
+950c9c93299ece Junwei Zhang   2016-12-23  214  			     const uint32_t *formats, unsigned int format_count,
+7e18f7a415538c Evan Quan      2019-02-18  215  			     const uint64_t *format_modifiers,
+950c9c93299ece Junwei Zhang   2016-12-23  216  			     enum drm_plane_type type,
+950c9c93299ece Junwei Zhang   2016-12-23  217  			     const char *name, ...)
+950c9c93299ece Junwei Zhang   2016-12-23  218  {
+aa5f7e64d5afdf Slava Grigorev 2018-07-17  219  #if defined(HAVE_9ARGS_DRM_UNIVERSAL_PLANE_INIT)
+7e18f7a415538c Evan Quan      2019-02-18  220  		return drm_universal_plane_init(dev, plane, possible_crtcs, funcs,
+7e18f7a415538c Evan Quan      2019-02-18  221  				 formats, format_count, format_modifiers, type, name);
+aa5f7e64d5afdf Slava Grigorev 2018-07-17  222  #elif defined(HAVE_8ARGS_DRM_UNIVERSAL_PLANE_INIT)
+950c9c93299ece Junwei Zhang   2016-12-23  223  		return drm_universal_plane_init(dev, plane, possible_crtcs, funcs,
+950c9c93299ece Junwei Zhang   2016-12-23  224  				 formats, format_count, type, name);
+950c9c93299ece Junwei Zhang   2016-12-23  225  #else
+950c9c93299ece Junwei Zhang   2016-12-23 @226  		return drm_universal_plane_init(dev, plane, possible_crtcs, funcs,
+950c9c93299ece Junwei Zhang   2016-12-23 @227  				 formats, format_count, type);
+950c9c93299ece Junwei Zhang   2016-12-23  228  #endif
+950c9c93299ece Junwei Zhang   2016-12-23  229  }
+950c9c93299ece Junwei Zhang   2016-12-23  230  
 
-:::::: The code at line 206 was first introduced by commit
+:::::: The code at line 227 was first introduced by commit
 :::::: 950c9c93299eceb8cca4b12eb09a04a48d383ec6 drm/amdkcl: [4.5] fix drm encoder and plane functions
 
 :::::: TO: Junwei Zhang <Jerry.Zhang@amd.com>
@@ -336,12 +176,12 @@ f2e0d469732d27 Slava Grigorev 2018-07-17  202  #if defined(HAVE_DRM_CRTC_INIT_WI
 0-DAY kernel test infrastructure                Open Source Technology Center
 https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
 
---o3lwd4lkmpbswun3
+--nmzowexpgs6u2em7
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICDLfu10AAy5jb25maWcAjDxbc9u20u/9FZr0pZ0zaW3HdfOdM34ASVBCxFsAULb8wnFt
+H4sICI/ju10AAy5jb25maWcAjDxbc9u20u/9FZr0pZ0zaW3HdfOdM34ASVBCxFsAULb8wnFt
 JfXUlxzZPk3+/bcLgOQCBJV2Oq21u7jvHQv++MOPC/b68vRw/XJ3c31//23xefe421+/7G4X
 n+7ud/9ZZPWiqvWCZ0L/AsTF3ePr11+/vj/rzk4Xv/1y8svR2/3N8WK92z/u7hfp0+Onu8+v
 0P7u6fGHH3+Af38E4MMX6Gr/78Xnm5u3vy9+ynZ/3F0/Ln7/5RRaH5/+bP8C2rSucrHs0rQT
@@ -959,7 +799,7 @@ StexaB9JcXga8sSPdDiIIYuRNLnBr2ycy7KFu1tv+e/KIllIWqapAUVsQHdBs4qgCj7GpT+t
 a3vUHauKdLfgWzvpptAXb0I1XgXSAcPyoE3o2Imbp8eGRo8gqRgqFghUR2hBuelIFdpiheBP
 qoOjTFqhPdnVe/huPlrl+B/DDn5URwYCAA==
 
---o3lwd4lkmpbswun3
+--nmzowexpgs6u2em7
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -969,4 +809,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---o3lwd4lkmpbswun3--
+--nmzowexpgs6u2em7--
