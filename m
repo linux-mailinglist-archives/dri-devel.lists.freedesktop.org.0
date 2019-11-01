@@ -2,44 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD5C2ECA1B
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 22:03:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9580BECA63
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 22:42:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8EF76F87D;
-	Fri,  1 Nov 2019 21:03:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DA416E31E;
+	Fri,  1 Nov 2019 21:42:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 168DA6F87D
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 21:03:36 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 13698720E2; Fri,  1 Nov 2019 21:03:36 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110381] Failed to updateMST allocation table forpipe idx:0
-Date: Fri, 01 Nov 2019 21:03:36 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: carbenium@outlook.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110381-502-RgVW2aYSKH@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110381-502@http.bugs.freedesktop.org/>
-References: <bug-110381-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
+ [IPv6:2607:f8b0:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31BA16E0C9
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 21:42:42 +0000 (UTC)
+Received: by mail-pg1-x544.google.com with SMTP id j22so7273072pgh.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Nov 2019 14:42:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=qw73byJosffXkuqCyMjGKLHzCzbk8f/W13zIdru5UDs=;
+ b=aYu/CSDGBQ4IA1tFCaBpk/Py0sFYuaw8/L2V186xJWxRIcQWonI8GYq3ArG+9MsT3a
+ VcSE+r25ef2YQ6OipCro4UF/GWwHYDyZMXi5ghEWyTJSwGZoRg3kCDo6XzNy4dBtZpSQ
+ vnADBAC0d3pXy/24Hgl+RP2qouQ6w5T4zj5cEDCZv/7cmcCbpXk66lTJyJZqjRogTLLg
+ WaVjiMgKRE0W4hmwvldBk4WwuBemRk10pBlCxH6lHMdzQGJYNaNi9UjqMFJ1IEHYkjZm
+ 8HNCCJvqHXgxla6DluZ9Erp2sCVGyS399VEWeMqMJv+X/uC5bmcoe0DqXzNoyBd9C3F0
+ YIag==
+X-Gm-Message-State: APjAAAVBkyKl6tRt2z6o9jJzjZS3vETFt5CbSvye7SzlLVFyQ701X7+S
+ mHb5cwuy/MoIAw7+TY0eo6LevQ==
+X-Google-Smtp-Source: APXvYqwPZQOJ824hOIpx+OQwUm86AFEzCF124ezoCY0dfNb/xkltqGVcYD5Tca7S+Udll9ZOgpadQQ==
+X-Received: by 2002:a63:6581:: with SMTP id
+ z123mr15822936pgb.367.1572644561515; 
+ Fri, 01 Nov 2019 14:42:41 -0700 (PDT)
+Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
+ by smtp.gmail.com with ESMTPSA id
+ u36sm8299058pgn.29.2019.11.01.14.42.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Nov 2019 14:42:41 -0700 (PDT)
+From: John Stultz <john.stultz@linaro.org>
+To: lkml <linux-kernel@vger.kernel.org>
+Subject: [PATCH v14 0/5] DMA-BUF Heaps (destaging ION)
+Date: Fri,  1 Nov 2019 21:42:33 +0000
+Message-Id: <20191101214238.78015-1-john.stultz@linaro.org>
+X-Mailer: git-send-email 2.17.1
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=qw73byJosffXkuqCyMjGKLHzCzbk8f/W13zIdru5UDs=;
+ b=U4cNJVCbks5NLLHVvES6/rHnlmhJhpSMl4fcP8dWEYgRQCUF/LViLyJ+r3ZlycmBiq
+ U61vGyoMRuhx302M6+QRUXjQcvBE4HNWxrXru+uO+01oARndC8BJr50YVp1WG45/cQiU
+ IJvSFPRE4mNvWR1Z9i7BOkTOp0rFTtS1gsvkL74U24eAVrwEgphnDYbo0igPqVCeSdSh
+ MvMeuNuGNFrUEYPMyMwzTYe+YmDFC2bTBhMqVytVriYjs6Axrx7ciK3b+DeQEkIWZvZr
+ 64yYVOQqb68IRFRymdr40JyPViSmEmFS9TVzhXIL1EZcwONBU4aTh3HjJwlyrC6I31s3
+ 4Ieg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,307 +64,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0823046948=="
+Cc: Hillf Danton <hdanton@sina.com>, Sudipto Paul <Sudipto.Paul@arm.com>,
+ Sandeep Patil <sspatil@google.com>,
+ Vincent Donnefort <Vincent.Donnefort@arm.com>, Chenbo Feng <fengc@google.com>,
+ Alistair Strachan <astrachan@google.com>, Liam Mark <lmark@codeaurora.org>,
+ Christoph Hellwig <hch@infradead.org>, dri-devel@lists.freedesktop.org,
+ "Andrew F . Davis" <afd@ti.com>, Hridya Valsaraju <hridya@google.com>,
+ Pratik Patel <pratikp@codeaurora.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0823046948==
-Content-Type: multipart/alternative; boundary="15726422160.dAcb4845.4797"
-Content-Transfer-Encoding: 7bit
-
-
---15726422160.dAcb4845.4797
-Date: Fri, 1 Nov 2019 21:03:36 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110381
-
---- Comment #11 from carbenium@outlook.com ---
-Seems to happen as well on 5.3.7 when waking two daisy-chained monitors from
-sleep.
-
-01:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI]
-Ellesmere [Radeon RX 470/480/570/570X/580/580X/590] (rev ef)
-
-
-[ 4511.360909] WARNING: CPU: 5 PID: 1848 at
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:2462
-update_mst_stream_alloc_table.cold+0x15/0x28 [amdgpu]
-[ 4511.360910] Modules linked in: uinput xt_CHECKSUM xt_MASQUERADE nf_nat_t=
-ftp
-nf_conntrack_tftp tun bridge stp llc nf_conntrack_netbios_ns
-nf_conntrack_broadcast xt_CT ip6t_REJECT nf_reject_ipv6 ip6t_rpfilter
-ipt_REJECT nf_reject_ipv4 xt_conntrack ebtable_nat ebtable_broute ip6table_=
-nat
-ip6table_mangle ip6table_raw ip6table_security iptable_nat nf_nat
-iptable_mangle iptable_raw iptable_security nf_conntrack nf_defrag_ipv6
-nf_defrag_ipv4 libcrc32c ip_set nfnetlink ebtable_filter ebtables
-ip6table_filter ip6_tables iptable_filter sunrpc intel_rapl_msr
-intel_rapl_common x86_pkg_temp_thermal intel_powerclamp coretemp kvm_intel =
-kvm
-irqbypass ipmi_ssif snd_hda_codec_hdmi snd_hda_intel crct10dif_pclmul iTCO_=
-wdt
-crc32_pclmul iTCO_vendor_support snd_hda_codec ghash_clmulni_intel intel_cs=
-tate
-snd_hda_core snd_hwdep snd_seq intel_uncore snd_seq_device intel_rapl_perf
-i2c_i801 intel_pch_thermal snd_pcm mei_me joydev lpc_ich snd_timer mei snd
-soundcore ipmi_si ipmi_devintf ipmi_msghandler ie31200_edac
-[ 4511.360925]  acpi_pad binfmt_misc ip_tables hid_logitech_hidpp hid_corsa=
-ir
-hid_logitech_dj uas usb_storage amdgpu amd_iommu_v2 gpu_sched ttm
-drm_kms_helper drm igb crc32c_intel dca i2c_algo_bit video fuse
-[ 4511.360931] CPU: 5 PID: 1848 Comm: gnome-shell Tainted: G        W=20=20=
-=20=20=20=20=20=20
-5.3.7-301.fc31.x86_64 #1
-[ 4511.360932] Hardware name: Supermicro PIO-518D-TLN4F-ST031/X10SLM+-LN4F,
-BIOS 3.2a 05/31/2019
-[ 4511.360976] RIP: 0010:update_mst_stream_alloc_table.cold+0x15/0x28 [amdg=
-pu]
-[ 4511.360977] Code: fd ff 48 c7 c7 70 fc a2 c0 e8 63 d9 7d f3 0f 0b e9 0b =
-06
-fd ff 48 c7 c7 b8 fd a2 c0 48 89 14 24 48 89 74 24 08 e8 47 d9 7d f3 <0f> 0=
-b 48
-8b 14 24 48 8b 74 24 08 44 8b 32 e9 a6 06 fd ff 48 c7 c7
-[ 4511.360978] RSP: 0018:ffffb88400b5f630 EFLAGS: 00010246
-[ 4511.360978] RAX: 0000000000000024 RBX: ffffa04003a72000 RCX:
-0000000000000000
-[ 4511.360979] RDX: 0000000000000000 RSI: ffffa0400fb57908 RDI:
-ffffa0400fb57908
-[ 4511.360979] RBP: ffffb88400b5f6d0 R08: ffffa0400fb57908 R09:
-00000000000004b1
-[ 4511.360980] R10: 000000000001a4b8 R11: 0000000000000003 R12:
-ffffb88400b5f640
-[ 4511.360980] R13: ffffa0400a675800 R14: 0000000000000002 R15:
-ffffa04003a72000
-[ 4511.360981] FS:  00007f8e2aa65d00(0000) GS:ffffa0400fb40000(0000)
-knlGS:0000000000000000
-[ 4511.360981] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 4511.360982] CR2: 00007fb99e333c88 CR3: 000000040bf04005 CR4:
-00000000001606e0
-[ 4511.360982] Call Trace:
-[ 4511.361026]  core_link_enable_stream+0x665/0x870 [amdgpu]
-[ 4511.361068]  ? dce110_apply_ctx_to_hw+0x4b0/0x530 [amdgpu]
-[ 4511.361108]  dce110_apply_ctx_to_hw+0x4b0/0x530 [amdgpu]
-[ 4511.361149]  dc_commit_state+0x280/0x5c0 [amdgpu]
-[ 4511.361190]  amdgpu_dm_atomic_commit_tail+0xcfc/0x1c40 [amdgpu]
-[ 4511.361216]  ? amdgpu_move_blit.constprop.0+0x9c/0x110 [amdgpu]
-[ 4511.361242]  ? amdgpu_bo_move+0x142/0x280 [amdgpu]
-[ 4511.361244]  ? ttm_bo_handle_move_mem+0x10b/0x4f0 [ttm]
-[ 4511.361247]  ? ttm_bo_validate+0x11b/0x130 [ttm]
-[ 4511.361272]  ? amdgpu_bo_pin_restricted+0x62/0x270 [amdgpu]
-[ 4511.361274]  ? ttm_eu_backoff_reservation+0x44/0x80 [ttm]
-[ 4511.361315]  ? dm_plane_helper_prepare_fb+0x16a/0x2a0 [amdgpu]
-[ 4511.361318]  ? _cond_resched+0x15/0x30
-[ 4511.361319]  ? wait_for_completion_timeout+0x38/0x170
-[ 4511.361326]  ? commit_tail+0x3c/0x70 [drm_kms_helper]
-[ 4511.361367]  ? amdgpu_dm_audio_eld_notify+0x60/0x60 [amdgpu]
-[ 4511.361371]  commit_tail+0x3c/0x70 [drm_kms_helper]
-[ 4511.361375]  drm_atomic_helper_commit+0x108/0x110 [drm_kms_helper]
-[ 4511.361379]  drm_atomic_helper_set_config+0x81/0x90 [drm_kms_helper]
-[ 4511.361390]  drm_mode_setcrtc+0x194/0x6a0 [drm]
-[ 4511.361397]  ? drm_mode_getcrtc+0x180/0x180 [drm]
-[ 4511.361402]  drm_ioctl_kernel+0xaa/0xf0 [drm]
-[ 4511.361408]  drm_ioctl+0x208/0x390 [drm]
-[ 4511.361414]  ? drm_mode_getcrtc+0x180/0x180 [drm]
-[ 4511.361437]  amdgpu_drm_ioctl+0x49/0x80 [amdgpu]
-[ 4511.361440]  do_vfs_ioctl+0x405/0x660
-[ 4511.361441]  ksys_ioctl+0x5e/0x90
-[ 4511.361442]  __x64_sys_ioctl+0x16/0x20
-[ 4511.361444]  do_syscall_64+0x5f/0x1a0
-[ 4511.361446]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[ 4511.361447] RIP: 0033:0x7f8e2e72a2fb
-[ 4511.361448] Code: 0f 1e fa 48 8b 05 8d 9b 0c 00 64 c7 00 26 00 00 00 48 =
-c7
-c0 ff ff ff ff c3 66 0f 1f 44 00 00 f3 0f 1e fa b8 10 00 00 00 0f 05 <48> 3=
-d 01
-f0 ff ff 73 01 c3 48 8b 0d 5d 9b 0c 00 f7 d8 64 89 01 48
-[ 4511.361449] RSP: 002b:00007ffed440abf8 EFLAGS: 00000246 ORIG_RAX:
-0000000000000010
-[ 4511.361450] RAX: ffffffffffffffda RBX: 00007ffed440ac30 RCX:
-00007f8e2e72a2fb
-[ 4511.361450] RDX: 00007ffed440ac30 RSI: 00000000c06864a2 RDI:
-0000000000000009
-[ 4511.361450] RBP: 00000000c06864a2 R08: 0000000000000000 R09:
-0000562b0979c8a0
-[ 4511.361451] R10: 0000000000000000 R11: 0000000000000246 R12:
-0000000000000000
-[ 4511.361451] R13: 0000000000000009 R14: 0000562b0979c8a0 R15:
-0000562b0cf98280
-[ 4511.361452] ---[ end trace 61c74c75b25fddce ]---
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15726422160.dAcb4845.4797
-Date: Fri, 1 Nov 2019 21:03:36 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Failed to updateMST allocation table forpipe idx:0"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110381#c11">Comme=
-nt # 11</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Failed to updateMST allocation table forpipe idx:0"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110381">bug 11038=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-carbenium&#64;outlook.com" title=3D"carbenium&#64;outlook.com">carbenium&#6=
-4;outlook.com</a>
-</span></b>
-        <pre>Seems to happen as well on 5.3.7 when waking two daisy-chained=
- monitors from
-sleep.
-
-01:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI]
-Ellesmere [Radeon RX 470/480/570/570X/580/580X/590] (rev ef)
-
-
-[ 4511.360909] WARNING: CPU: 5 PID: 1848 at
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:2462
-update_mst_stream_alloc_table.cold+0x15/0x28 [amdgpu]
-[ 4511.360910] Modules linked in: uinput xt_CHECKSUM xt_MASQUERADE nf_nat_t=
-ftp
-nf_conntrack_tftp tun bridge stp llc nf_conntrack_netbios_ns
-nf_conntrack_broadcast xt_CT ip6t_REJECT nf_reject_ipv6 ip6t_rpfilter
-ipt_REJECT nf_reject_ipv4 xt_conntrack ebtable_nat ebtable_broute ip6table_=
-nat
-ip6table_mangle ip6table_raw ip6table_security iptable_nat nf_nat
-iptable_mangle iptable_raw iptable_security nf_conntrack nf_defrag_ipv6
-nf_defrag_ipv4 libcrc32c ip_set nfnetlink ebtable_filter ebtables
-ip6table_filter ip6_tables iptable_filter sunrpc intel_rapl_msr
-intel_rapl_common x86_pkg_temp_thermal intel_powerclamp coretemp kvm_intel =
-kvm
-irqbypass ipmi_ssif snd_hda_codec_hdmi snd_hda_intel crct10dif_pclmul iTCO_=
-wdt
-crc32_pclmul iTCO_vendor_support snd_hda_codec ghash_clmulni_intel intel_cs=
-tate
-snd_hda_core snd_hwdep snd_seq intel_uncore snd_seq_device intel_rapl_perf
-i2c_i801 intel_pch_thermal snd_pcm mei_me joydev lpc_ich snd_timer mei snd
-soundcore ipmi_si ipmi_devintf ipmi_msghandler ie31200_edac
-[ 4511.360925]  acpi_pad binfmt_misc ip_tables hid_logitech_hidpp hid_corsa=
-ir
-hid_logitech_dj uas usb_storage amdgpu amd_iommu_v2 gpu_sched ttm
-drm_kms_helper drm igb crc32c_intel dca i2c_algo_bit video fuse
-[ 4511.360931] CPU: 5 PID: 1848 Comm: gnome-shell Tainted: G        W=20=20=
-=20=20=20=20=20=20
-5.3.7-301.fc31.x86_64 #1
-[ 4511.360932] Hardware name: Supermicro PIO-518D-TLN4F-ST031/X10SLM+-LN4F,
-BIOS 3.2a 05/31/2019
-[ 4511.360976] RIP: 0010:update_mst_stream_alloc_table.cold+0x15/0x28 [amdg=
-pu]
-[ 4511.360977] Code: fd ff 48 c7 c7 70 fc a2 c0 e8 63 d9 7d f3 0f 0b e9 0b =
-06
-fd ff 48 c7 c7 b8 fd a2 c0 48 89 14 24 48 89 74 24 08 e8 47 d9 7d f3 &lt;0f=
-&gt; 0b 48
-8b 14 24 48 8b 74 24 08 44 8b 32 e9 a6 06 fd ff 48 c7 c7
-[ 4511.360978] RSP: 0018:ffffb88400b5f630 EFLAGS: 00010246
-[ 4511.360978] RAX: 0000000000000024 RBX: ffffa04003a72000 RCX:
-0000000000000000
-[ 4511.360979] RDX: 0000000000000000 RSI: ffffa0400fb57908 RDI:
-ffffa0400fb57908
-[ 4511.360979] RBP: ffffb88400b5f6d0 R08: ffffa0400fb57908 R09:
-00000000000004b1
-[ 4511.360980] R10: 000000000001a4b8 R11: 0000000000000003 R12:
-ffffb88400b5f640
-[ 4511.360980] R13: ffffa0400a675800 R14: 0000000000000002 R15:
-ffffa04003a72000
-[ 4511.360981] FS:  00007f8e2aa65d00(0000) GS:ffffa0400fb40000(0000)
-knlGS:0000000000000000
-[ 4511.360981] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 4511.360982] CR2: 00007fb99e333c88 CR3: 000000040bf04005 CR4:
-00000000001606e0
-[ 4511.360982] Call Trace:
-[ 4511.361026]  core_link_enable_stream+0x665/0x870 [amdgpu]
-[ 4511.361068]  ? dce110_apply_ctx_to_hw+0x4b0/0x530 [amdgpu]
-[ 4511.361108]  dce110_apply_ctx_to_hw+0x4b0/0x530 [amdgpu]
-[ 4511.361149]  dc_commit_state+0x280/0x5c0 [amdgpu]
-[ 4511.361190]  amdgpu_dm_atomic_commit_tail+0xcfc/0x1c40 [amdgpu]
-[ 4511.361216]  ? amdgpu_move_blit.constprop.0+0x9c/0x110 [amdgpu]
-[ 4511.361242]  ? amdgpu_bo_move+0x142/0x280 [amdgpu]
-[ 4511.361244]  ? ttm_bo_handle_move_mem+0x10b/0x4f0 [ttm]
-[ 4511.361247]  ? ttm_bo_validate+0x11b/0x130 [ttm]
-[ 4511.361272]  ? amdgpu_bo_pin_restricted+0x62/0x270 [amdgpu]
-[ 4511.361274]  ? ttm_eu_backoff_reservation+0x44/0x80 [ttm]
-[ 4511.361315]  ? dm_plane_helper_prepare_fb+0x16a/0x2a0 [amdgpu]
-[ 4511.361318]  ? _cond_resched+0x15/0x30
-[ 4511.361319]  ? wait_for_completion_timeout+0x38/0x170
-[ 4511.361326]  ? commit_tail+0x3c/0x70 [drm_kms_helper]
-[ 4511.361367]  ? amdgpu_dm_audio_eld_notify+0x60/0x60 [amdgpu]
-[ 4511.361371]  commit_tail+0x3c/0x70 [drm_kms_helper]
-[ 4511.361375]  drm_atomic_helper_commit+0x108/0x110 [drm_kms_helper]
-[ 4511.361379]  drm_atomic_helper_set_config+0x81/0x90 [drm_kms_helper]
-[ 4511.361390]  drm_mode_setcrtc+0x194/0x6a0 [drm]
-[ 4511.361397]  ? drm_mode_getcrtc+0x180/0x180 [drm]
-[ 4511.361402]  drm_ioctl_kernel+0xaa/0xf0 [drm]
-[ 4511.361408]  drm_ioctl+0x208/0x390 [drm]
-[ 4511.361414]  ? drm_mode_getcrtc+0x180/0x180 [drm]
-[ 4511.361437]  amdgpu_drm_ioctl+0x49/0x80 [amdgpu]
-[ 4511.361440]  do_vfs_ioctl+0x405/0x660
-[ 4511.361441]  ksys_ioctl+0x5e/0x90
-[ 4511.361442]  __x64_sys_ioctl+0x16/0x20
-[ 4511.361444]  do_syscall_64+0x5f/0x1a0
-[ 4511.361446]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[ 4511.361447] RIP: 0033:0x7f8e2e72a2fb
-[ 4511.361448] Code: 0f 1e fa 48 8b 05 8d 9b 0c 00 64 c7 00 26 00 00 00 48 =
-c7
-c0 ff ff ff ff c3 66 0f 1f 44 00 00 f3 0f 1e fa b8 10 00 00 00 0f 05 &lt;48=
-&gt; 3d 01
-f0 ff ff 73 01 c3 48 8b 0d 5d 9b 0c 00 f7 d8 64 89 01 48
-[ 4511.361449] RSP: 002b:00007ffed440abf8 EFLAGS: 00000246 ORIG_RAX:
-0000000000000010
-[ 4511.361450] RAX: ffffffffffffffda RBX: 00007ffed440ac30 RCX:
-00007f8e2e72a2fb
-[ 4511.361450] RDX: 00007ffed440ac30 RSI: 00000000c06864a2 RDI:
-0000000000000009
-[ 4511.361450] RBP: 00000000c06864a2 R08: 0000000000000000 R09:
-0000562b0979c8a0
-[ 4511.361451] R10: 0000000000000000 R11: 0000000000000246 R12:
-0000000000000000
-[ 4511.361451] R13: 0000000000000009 R14: 0000562b0979c8a0 R15:
-0000562b0cf98280
-[ 4511.361452] ---[ end trace 61c74c75b25fddce ]---</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15726422160.dAcb4845.4797--
-
---===============0823046948==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0823046948==--
+VGhpcyBhZ2Fpbj8gSSBrbm93IQoKQXBvbG9naWVzIHRvIGFsbCB3aG8gaG9wZWQgSSdkIHN0b3Ag
+Ym90aGVyaW5nIHRoZW0gd2l0aCB0aGlzCnBhdGNoIHNldCwgYnV0IEkgcmFuIGFmb3VsIG9mIHRo
+ZSBEUk0gdHJlZSBydWxlcyBieSBub3QKZ2V0dGluZyB0aGUgdXNlcmxhbmQgcGF0Y2hlcyBwcm9w
+ZXJseSByZXZpZXdlZCBwcmlvciB0byB0aGUKcGF0Y2hlcyBsYW5kaW5nIChJIG1pc3Rha2VubHkg
+d2FzIHdhaXRpbmcgZm9yIHRoZSBwYXRjaGVzIHRvCmxhbmQgdXBzdHJlYW0gYmVmb3JlIHB1c2hp
+bmcgdGhlIHVzZXJsYW5kIHBhdGNoZXMpLiBUaHVzLAp0aGVzZSB3ZXJlIGNvcnJlY3RseSByZXZl
+cnRlZCBmcm9tIHRoZSBkcm0tbWlzYy1uZXh0IHRyZWUuCgpNeSBhdHRlbXB0cyB0byBxdWlja2x5
+IGZpeCB0aGUgdXNlcmxhbmQgcmV2aWV3IGlzc3VlIGRpZG4ndCBnZXQKdmVyeSBmYXIsIGFzIHRo
+ZSByZXZlcnQgYnJvdWdodCBhZGRpdGlvbmFsIGV5ZXMgdG8gdGhlIHBhdGNoc2V0LAphbmQgZnVy
+dGhlciBpbnRlcmZhY2UgY2hhbmdlcyB3ZXJlIHJlcXVlc3RlZCAoY29taWNhbGx5LCB3aGljaApp
+cyB0aGUgZXhhY3QgcmVhc29uIEkgd2FzIHdhaXRpbmcgdG8gcHVzaCB0aGUgdXNlcmxhbmQgY2hh
+bmdlcwo6KQoKU28gbGlrZSBncm91bmRob2cgZGF5LCBoZXJlIHdlIGFyZSBhZ2Fpbiwgd2l0aCB2
+MTQ6CgpUaGlzIHBhdGNoc2V0IGltcGxlbWVudHMgcGVyLWhlYXAgZGV2aWNlcyB3aGljaCBjYW4g
+YmUgb3BlbmVkCmRpcmVjdGx5IGFuZCB0aGVuIGFuIGlvY3RsIGlzIHVzZWQgdG8gYWxsb2NhdGUg
+YSBkbWFidWYgZnJvbSB0aGUKaGVhcC4KClRoZSBpbnRlcmZhY2UgaXMgc2ltaWxhciwgYnV0IG11
+Y2ggc2ltcGxlciB0aGVuIElPTnMsIG9ubHkKcHJvdmlkaW5nIGFuIEFMTE9DIGlvY3RsIChhbmQg
+YSBHRVRfRkVBVFVSRVMgaW50ZXJmYWNlIHRvIGhlbHAKd2l0aCBhbnkgZnV0dXJlIGNoYW5nZXMg
+dG8gdGhlIGludGVyZmFjZSkuCgpBbHNvLCBJJ3ZlIHByb3ZpZGVkIHJlbGF0aXZlbHkgc2ltcGxl
+IHN5c3RlbSBhbmQgY21hIGhlYXBzLgoKSSd2ZSBib290ZWQgYW5kIHRlc3RlZCB0aGVzZSBwYXRj
+aGVzIHdpdGggQU9TUCBvbiB0aGUgSGlLZXk5NjAKdXNpbmcgdGhlIGtlcm5lbCB0cmVlIGhlcmU6
+CiAgaHR0cHM6Ly9naXQubGluYXJvLm9yZy9wZW9wbGUvam9obi5zdHVsdHovYW5kcm9pZC1kZXYu
+Z2l0L2xvZy8/aD1kZXYvZG1hLWJ1Zi1oZWFwCgpBbmQgdGhlIHVzZXJzcGFjZSBjaGFuZ2VzIGhl
+cmU6CiAgaHR0cHM6Ly9hbmRyb2lkLXJldmlldy5nb29nbGVzb3VyY2UuY29tL2MvZGV2aWNlL2xp
+bmFyby9oaWtleS8rLzkwOTQzNgoKQ29tcGFyZWQgdG8gSU9OLCB0aGlzIHBhdGNoc2V0IGlzIG1p
+c3NpbmcgdGhlIHN5c3RlbS1jb250aWcsCmNhcnZlb3V0IGFuZCBjaHVuayBoZWFwcywgYXMgSSBk
+b24ndCBoYXZlIGEgZGV2aWNlIHRoYXQgdXNlcwp0aG9zZSwgc28gSSdtIHVuYWJsZSB0byBkbyBt
+dWNoIHVzZWZ1bCB2YWxpZGF0aW9uIHRoZXJlLgpBZGRpdGlvbmFsbHkgd2UgaGF2ZSBubyB1cHN0
+cmVhbSB1c2VycyBvZiBjaHVuayBvciBjYXJ2ZW91dCwKYW5kIHRoZSBzeXN0ZW0tY29udGlnIGhh
+cyBiZWVuIGRlcHJlY2F0ZWQgaW4gdGhlIGNvbW1vbi9hbmRvaWQtKgprZXJuZWxzLCBzbyB0aGlz
+IHNob3VsZCBiZSBvay4KCkkndmUgYWxzbyByZW1vdmVkIHRoZSBzdGF0cyBhY2NvdW50aW5nLCBz
+aW5jZSBhbnkgc3VjaAphY2NvdW50aW5nIHNob3VsZCBiZSBpbXBsZW1lbnRlZCBieSBkbWEtYnVm
+IGNvcmUgb3IgdGhlIGhlYXBzCnRoZW1zZWx2ZXMuCgpOZXcgaW4gdjE0OgoqIFJld29ya2VkIGlv
+Y3RsIGhhbmRsZXIgdG8gemVybyBmaWxsIGFueSBkaWZmZXJlbmNlIGluCiAgc3RydWN0dXJlIHNp
+emUsIHNpbWlsYXIgdG8gd2hhdCB0aGUgRFJNIGNvcmUgZG9lcywgYXMKICBzdWdnZXN0ZWQgYnkg
+RGF2ZSBBaXJsaWUKKiBSZW1vdmVkIG5vdyB1bm5lY2Vzc2FyeSByZXNlcnZlZCBiaXRzIGluIGFs
+bG9jYXRlX2RhdGEKKiBBZGRlZCBnZXRfZmVhdHVyZXMgaW9jdGwgYXMgc3VnZ2VzdGVkIGJ5IERh
+dmUgQWlybGllCiogUmVtb3ZlZCBwcl93YXJuX29uY2UgbWVzc2FnZXMgYXMgcmVxdWVzdGVkIGJ5
+IERhdmUKICBBaXJsaWUKKiBGaXggbWlzc2luZyBhcmdtZW50IHRvIFdBUk4oKSBpbiBkbWFfaGVh
+cF9idWZmZXJfZGVzdHJveSgpCiAgZm91bmQgYW5kIGZpeGVkIGJ5IERhbiBDYXJwZW50ZXIgPGRh
+bi5jYXJwZW50ZXJAb3JhY2xlLmNvbT4KKiBBZGQgY2hlY2sgaW4gZmF1bHQgaGFubGRlciB0aGF0
+IHBnb2ZmIGlzbid0IGxhcmdlciB0aGVuCiAgcGFnZWNvdW50LCByZXBvcnRlZCBieSBEYW4gQ2Fy
+cGVudGVyCiogRml4ICJyZWR1bmRhbnQgYXNzaWdubWVudCB0byB2YXJpYWJsZSByZXQiIGlzc3Vl
+IHJlcG9ydGVkCiAgYnkgQ29saW4gS2luZyBhbmQgZml4ZWQgYnkgQW5kcmV3IERhdmlzCiogRml4
+IGEgbWlzc2luZyByZXR1cm4gdmFsdWUgaW4ga3NlbGZ0ZXN0CiogQWRkIGNhbGxzIHRvIHRlc3Qg
+dGhlIEdFVF9GRUFUVVJFUyBpb2N0bCBpbiBrc2VmbHRlc3QKKiBCdWlsZCBmaXggcmVwb3J0ZWQg
+Ynkga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+CiAgYW5kIGZpeGVkIGJ5IFhpYW8g
+WWFuZyA8aWNlX3lhbmd4aWFvQDE2My5jb20+IGZvciBrc2VsZnRlc3QKKiBNaW5vciBrc2VsZnRl
+c3QgTWFrZWZpbGUgY2xlYW51cHMKCk1hbnkgdGhhbmtzIGFnYWluIHRvIHRoZSBmb2xrcyBhYm92
+ZSB3aG8gZm91bmQgYW5kIHN1Ym1pdHRlZApmaXhlcyB0byBzbWFsbCBpc3N1ZXMgd2hpbGUgdGhl
+IHBhdGNoZXMgd2VyZSBpbiAtbmV4dCEgSSd2ZQpmb2xkZWQgdGhlbSBpbiB0byB0aGUgcGF0Y2gg
+c2V0IGhlcmUuCgpUaGUgaW9jdGwgcmV3b3JrIHRvIGF2b2lkIHJlc2VydmVkIGZpZWxkcywgd2Fz
+IG1vc3RseSBkdXBsaWNhdGVkCmZyb20gdGhlIERSTSBjb3JlLCBidXQgaXQgZG9lcyBhZGQgc29t
+ZSBjb21wbGV4aXR5IHRvIHRoZSBpb2N0bApoYW5kbGVyIHNvIEknZCBhcHByZWNpYXRlIGV4dHJh
+IHJldmlldy4KCkl0IGZlbHQgc3Vic3RhbnRpYWwgZW5vdWdoIHRoYXQgSSd2ZSByZW1vdmVkIHRo
+ZSBwcmV2aW91cyByZXZpZXdlZApieSBhbmQgYWNrZWQtYnkgdGFncywgYnV0IHBsZWFzZSBsZXQg
+bWUga25vdyBpZiB5b3UnZCBsaWtlIG1lIHRvCnJlLWFkZCB5b3VycyBiYWNrLgoKQXBvbG9naWVz
+IGFnYWluIGZvciBteSBmbHViIGFuZCB0aGUgZXh0cmEgbm9pc2UgaGVyZSEKSSByZWFsbHkgYXBw
+cmVjaWF0ZSBldmVyeW9uZSdzIHBhdGllbmNlIHdpdGggd2l0aCBtZS4KCnRoYW5rcwotam9obgoK
+CkNjOiBMYXVyYSBBYmJvdHQgPGxhYmJvdHRAcmVkaGF0LmNvbT4KQ2M6IEJlbmphbWluIEdhaWdu
+YXJkIDxiZW5qYW1pbi5nYWlnbmFyZEBsaW5hcm8ub3JnPgpDYzogU3VtaXQgU2Vtd2FsIDxzdW1p
+dC5zZW13YWxAbGluYXJvLm9yZz4KQ2M6IExpYW0gTWFyayA8bG1hcmtAY29kZWF1cm9yYS5vcmc+
+CkNjOiBQcmF0aWsgUGF0ZWwgPHByYXRpa3BAY29kZWF1cm9yYS5vcmc+CkNjOiBCcmlhbiBTdGFy
+a2V5IDxCcmlhbi5TdGFya2V5QGFybS5jb20+CkNjOiBWaW5jZW50IERvbm5lZm9ydCA8VmluY2Vu
+dC5Eb25uZWZvcnRAYXJtLmNvbT4KQ2M6IFN1ZGlwdG8gUGF1bCA8U3VkaXB0by5QYXVsQGFybS5j
+b20+CkNjOiBBbmRyZXcgRi4gRGF2aXMgPGFmZEB0aS5jb20+CkNjOiBDaHJpc3RvcGggSGVsbHdp
+ZyA8aGNoQGluZnJhZGVhZC5vcmc+CkNjOiBDaGVuYm8gRmVuZyA8ZmVuZ2NAZ29vZ2xlLmNvbT4K
+Q2M6IEFsaXN0YWlyIFN0cmFjaGFuIDxhc3RyYWNoYW5AZ29vZ2xlLmNvbT4KQ2M6IEhyaWR5YSBW
+YWxzYXJhanUgPGhyaWR5YUBnb29nbGUuY29tPgpDYzogU2FuZGVlcCBQYXRpbCA8c3NwYXRpbEBn
+b29nbGUuY29tPgpDYzogSGlsbGYgRGFudG9uIDxoZGFudG9uQHNpbmEuY29tPgpDYzogRGF2ZSBB
+aXJsaWUgPGFpcmxpZWRAZ21haWwuY29tPgpDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwoKQW5kcmV3IEYuIERhdmlzICgxKToKICBkbWEtYnVmOiBBZGQgZG1hLWJ1ZiBoZWFwcyBm
+cmFtZXdvcmsKCkpvaG4gU3R1bHR6ICg0KToKICBkbWEtYnVmOiBoZWFwczogQWRkIGhlYXAgaGVs
+cGVycwogIGRtYS1idWY6IGhlYXBzOiBBZGQgc3lzdGVtIGhlYXAgdG8gZG1hYnVmIGhlYXBzCiAg
+ZG1hLWJ1ZjogaGVhcHM6IEFkZCBDTUEgaGVhcCB0byBkbWFidWYgaGVhcHMKICBrc2VsZnRlc3Rz
+OiBBZGQgZG1hLWhlYXAgdGVzdAoKIE1BSU5UQUlORVJTICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICB8ICAxOCArCiBkcml2ZXJzL2RtYS1idWYvS2NvbmZpZyAgICAgICAgICAgICAg
+ICAgICAgICAgfCAgMTEgKwogZHJpdmVycy9kbWEtYnVmL01ha2VmaWxlICAgICAgICAgICAgICAg
+ICAgICAgIHwgICAyICsKIGRyaXZlcnMvZG1hLWJ1Zi9kbWEtaGVhcC5jICAgICAgICAgICAgICAg
+ICAgICB8IDMxMyArKysrKysrKysrKysrKysrKysKIGRyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9LY29u
+ZmlnICAgICAgICAgICAgICAgICB8ICAxNCArCiBkcml2ZXJzL2RtYS1idWYvaGVhcHMvTWFrZWZp
+bGUgICAgICAgICAgICAgICAgfCAgIDQgKwogZHJpdmVycy9kbWEtYnVmL2hlYXBzL2NtYV9oZWFw
+LmMgICAgICAgICAgICAgIHwgMTc4ICsrKysrKysrKysKIGRyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9o
+ZWFwLWhlbHBlcnMuYyAgICAgICAgICB8IDI3MSArKysrKysrKysrKysrKysKIGRyaXZlcnMvZG1h
+LWJ1Zi9oZWFwcy9oZWFwLWhlbHBlcnMuaCAgICAgICAgICB8ICA1NSArKysKIGRyaXZlcnMvZG1h
+LWJ1Zi9oZWFwcy9zeXN0ZW1faGVhcC5jICAgICAgICAgICB8IDEyNCArKysrKysrCiBpbmNsdWRl
+L2xpbnV4L2RtYS1oZWFwLmggICAgICAgICAgICAgICAgICAgICAgfCAgNTkgKysrKwogaW5jbHVk
+ZS91YXBpL2xpbnV4L2RtYS1oZWFwLmggICAgICAgICAgICAgICAgIHwgIDc3ICsrKysrCiB0b29s
+cy90ZXN0aW5nL3NlbGZ0ZXN0cy9kbWFidWYtaGVhcHMvTWFrZWZpbGUgfCAgIDYgKwogLi4uL3Nl
+bGZ0ZXN0cy9kbWFidWYtaGVhcHMvZG1hYnVmLWhlYXAuYyAgICAgIHwgMjU1ICsrKysrKysrKysr
+KysrCiAxNCBmaWxlcyBjaGFuZ2VkLCAxMzg3IGluc2VydGlvbnMoKykKIGNyZWF0ZSBtb2RlIDEw
+MDY0NCBkcml2ZXJzL2RtYS1idWYvZG1hLWhlYXAuYwogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZl
+cnMvZG1hLWJ1Zi9oZWFwcy9LY29uZmlnCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9kbWEt
+YnVmL2hlYXBzL01ha2VmaWxlCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9kbWEtYnVmL2hl
+YXBzL2NtYV9oZWFwLmMKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2RtYS1idWYvaGVhcHMv
+aGVhcC1oZWxwZXJzLmMKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2RtYS1idWYvaGVhcHMv
+aGVhcC1oZWxwZXJzLmgKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2RtYS1idWYvaGVhcHMv
+c3lzdGVtX2hlYXAuYwogY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvbGludXgvZG1hLWhlYXAu
+aAogY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvdWFwaS9saW51eC9kbWEtaGVhcC5oCiBjcmVh
+dGUgbW9kZSAxMDA2NDQgdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvZG1hYnVmLWhlYXBzL01ha2Vm
+aWxlCiBjcmVhdGUgbW9kZSAxMDA2NDQgdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvZG1hYnVmLWhl
+YXBzL2RtYWJ1Zi1oZWFwLmMKCi0tIAoyLjE3LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbA==
