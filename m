@@ -2,37 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D85D5EBB29
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 00:49:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8A2EEBBAE
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 02:23:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 138086F69A;
-	Thu, 31 Oct 2019 23:49:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89A296F6AF;
+	Fri,  1 Nov 2019 01:23:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D1876F69A
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Oct 2019 23:49:24 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2019 16:49:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,253,1569308400"; d="scan'208";a="402058325"
-Received: from iweiny-desk2.sc.intel.com ([10.3.52.157])
- by fmsmga006.fm.intel.com with ESMTP; 31 Oct 2019 16:49:23 -0700
-Date: Thu, 31 Oct 2019 16:49:22 -0700
-From: Ira Weiny <ira.weiny@intel.com>
-To: John Hubbard <jhubbard@nvidia.com>
-Subject: Re: [PATCH 19/19] Documentation/vm: add pin_user_pages.rst
-Message-ID: <20191031234922.GM14771@iweiny-DESK2.sc.intel.com>
-References: <20191030224930.3990755-1-jhubbard@nvidia.com>
- <20191030224930.3990755-20-jhubbard@nvidia.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7EAF96F6AD
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 01:23:56 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 7C016720E2; Fri,  1 Nov 2019 01:23:56 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111763] ring_gfx hangs/freezes on Navi gpus
+Date: Fri, 01 Nov 2019 01:23:56 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: asheldon55@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111763-502-xQ18fPVFYc@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111763-502@http.bugs.freedesktop.org/>
+References: <bug-111763-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191030224930.3990755-20-jhubbard@nvidia.com>
-User-Agent: Mutt/1.11.1 (2018-12-01)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,225 +52,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
- linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>, Christoph Hellwig <hch@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
- =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
- linux-media@vger.kernel.org, linux-block@vger.kernel.org,
- =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
- Al Viro <viro@zeniv.linux.org.uk>, Dan Williams <dan.j.williams@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
- Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
- netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
- Mike Kravetz <mike.kravetz@oracle.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0790222787=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBPY3QgMzAsIDIwMTkgYXQgMDM6NDk6MzBQTSAtMDcwMCwgSm9obiBIdWJiYXJkIHdy
-b3RlOgo+IERvY3VtZW50IHRoZSBuZXcgcGluX3VzZXJfcGFnZXMoKSBhbmQgcmVsYXRlZCBjYWxs
-cwo+IGFuZCBiZWhhdmlvci4KPiAKPiBUaGFua3MgdG8gSmFuIEthcmEgYW5kIFZsYXN0aW1pbCBC
-YWJrYSBmb3IgZXhwbGFpbmluZyB0aGUgNCBjYXNlcwo+IGluIHRoaXMgZG9jdW1lbnRhdGlvbi4g
-KEkndmUgcmV3b3JkZWQgaXQgYW5kIGV4cGFuZGVkIG9uIGl0IHNsaWdodGx5LikKCkFzIEkgc2Fp
-ZCBiZWZvcmUgSSB0aGluayB0aGlzIG1heSBiZSBiZXR0ZXIgaW4gYSBwcmV2aW91cyBwYXRjaCB3
-aGVyZSB5b3UKcmVmZXJlbmNlIGl0LgoKSXJhCgo+IAo+IENjOiBKb25hdGhhbiBDb3JiZXQgPGNv
-cmJldEBsd24ubmV0Pgo+IFNpZ25lZC1vZmYtYnk6IEpvaG4gSHViYmFyZCA8amh1YmJhcmRAbnZp
-ZGlhLmNvbT4KPiAtLS0KPiAgRG9jdW1lbnRhdGlvbi92bS9pbmRleC5yc3QgICAgICAgICAgfCAg
-IDEgKwo+ICBEb2N1bWVudGF0aW9uL3ZtL3Bpbl91c2VyX3BhZ2VzLnJzdCB8IDIxMyArKysrKysr
-KysrKysrKysrKysrKysrKysrKysrCj4gIDIgZmlsZXMgY2hhbmdlZCwgMjE0IGluc2VydGlvbnMo
-KykKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdm0vcGluX3VzZXJfcGFnZXMu
-cnN0Cj4gCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdm0vaW5kZXgucnN0IGIvRG9jdW1l
-bnRhdGlvbi92bS9pbmRleC5yc3QKPiBpbmRleCBlOGQ5NDNiMjFjZjkuLjcxOTRlZmEzNTU0YSAx
-MDA2NDQKPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3ZtL2luZGV4LnJzdAo+ICsrKyBiL0RvY3VtZW50
-YXRpb24vdm0vaW5kZXgucnN0Cj4gQEAgLTQ0LDYgKzQ0LDcgQEAgZGVzY3JpcHRpb25zIG9mIGRh
-dGEgc3RydWN0dXJlcyBhbmQgYWxnb3JpdGhtcy4KPiAgICAgcGFnZV9taWdyYXRpb24KPiAgICAg
-cGFnZV9mcmFncwo+ICAgICBwYWdlX293bmVyCj4gKyAgIHBpbl91c2VyX3BhZ2VzCj4gICAgIHJl
-bWFwX2ZpbGVfcGFnZXMKPiAgICAgc2x1Ygo+ICAgICBzcGxpdF9wYWdlX3RhYmxlX2xvY2sKPiBk
-aWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi92bS9waW5fdXNlcl9wYWdlcy5yc3QgYi9Eb2N1bWVu
-dGF0aW9uL3ZtL3Bpbl91c2VyX3BhZ2VzLnJzdAo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0Cj4gaW5k
-ZXggMDAwMDAwMDAwMDAwLi43MTEwYmNhM2YxODgKPiAtLS0gL2Rldi9udWxsCj4gKysrIGIvRG9j
-dW1lbnRhdGlvbi92bS9waW5fdXNlcl9wYWdlcy5yc3QKPiBAQCAtMCwwICsxLDIxMyBAQAo+ICsu
-LiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMAo+ICsKPiArPT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQo+ICtwaW5fdXNlcl9wYWdlcygp
-IGFuZCByZWxhdGVkIGNhbGxzCj4gKz09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT0KPiArCj4gKy4uIGNvbnRlbnRzOjogOmxvY2FsOgo+ICsKPiArT3Zl
-cnZpZXcKPiArPT09PT09PT0KPiArCj4gK1RoaXMgZG9jdW1lbnQgZGVzY3JpYmVzIHRoZSBmb2xs
-b3dpbmcgZnVuY3Rpb25zOiA6Ogo+ICsKPiArIHBpbl91c2VyX3BhZ2VzCj4gKyBwaW5fdXNlcl9w
-YWdlc19mYXN0Cj4gKyBwaW5fdXNlcl9wYWdlc19yZW1vdGUKPiArCj4gKyBwaW5fbG9uZ3Rlcm1f
-cGFnZXMKPiArIHBpbl9sb25ndGVybV9wYWdlc19mYXN0Cj4gKyBwaW5fbG9uZ3Rlcm1fcGFnZXNf
-cmVtb3RlCj4gKwo+ICtCYXNpYyBkZXNjcmlwdGlvbiBvZiBGT0xMX1BJTgo+ICs9PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PQo+ICsKPiArQSBuZXcgZmxhZyBmb3IgZ2V0X3VzZXJfcGFnZXMg
-KCJndXAiKSBoYXMgYmVlbiBhZGRlZDogRk9MTF9QSU4uIEZPTExfUElOIGhhcwo+ICtzaWduaWZp
-Y2FudCBpbnRlcmFjdGlvbnMgYW5kIGludGVyZGVwZW5kZW5jaWVzIHdpdGggRk9MTF9MT05HVEVS
-TSwgc28gYm90aCBhcmUKPiArY292ZXJlZCBoZXJlLgo+ICsKPiArQm90aCBGT0xMX1BJTiBhbmQg
-Rk9MTF9MT05HVEVSTSBhcmUgImludGVybmFsIiB0byBndXAsIG1lYW5pbmcgdGhhdCBuZWl0aGVy
-Cj4gK0ZPTExfUElOIG5vciBGT0xMX0xPTkdURVJNIHNob3VsZCBub3QgYXBwZWFyIGF0IHRoZSBn
-dXAgY2FsbCBzaXRlcy4gVGhpcyBhbGxvd3MKPiArdGhlIGFzc29jaWF0ZWQgd3JhcHBlciBmdW5j
-dGlvbnMgIChwaW5fdXNlcl9wYWdlcyBhbmQgb3RoZXJzKSB0byBzZXQgdGhlIGNvcnJlY3QKPiAr
-Y29tYmluYXRpb24gb2YgdGhlc2UgZmxhZ3MsIGFuZCB0byBjaGVjayBmb3IgcHJvYmxlbXMgYXMg
-d2VsbC4KPiArCj4gK0ZPTExfUElOIGFuZCBGT0xMX0dFVCBhcmUgbXV0dWFsbHkgZXhjbHVzaXZl
-IGZvciBhIGdpdmVuIGd1cCBjYWxsLiBIb3dldmVyLAo+ICttdWx0aXBsZSB0aHJlYWRzIGFuZCBj
-YWxsIHNpdGVzIGFyZSBmcmVlIHRvIHBpbiB0aGUgc2FtZSBzdHJ1Y3QgcGFnZXMsIHZpYSBib3Ro
-Cj4gK0ZPTExfUElOIGFuZCBGT0xMX0dFVC4gSXQncyBqdXN0IHRoZSBjYWxsIHNpdGUgdGhhdCBu
-ZWVkcyB0byBjaG9vc2Ugb25lIG9yIHRoZQo+ICtvdGhlciwgbm90IHRoZSBzdHJ1Y3QgcGFnZShz
-KS4KPiArCj4gK1RoZSBGT0xMX1BJTiBpbXBsZW1lbnRhdGlvbiBpcyBuZWFybHkgdGhlIHNhbWUg
-YXMgRk9MTF9HRVQsIGV4Y2VwdCB0aGF0IEZPTExfUElOCj4gK3VzZXMgYSBkaWZmZXJlbnQgcmVm
-ZXJlbmNlIGNvdW50aW5nIHRlY2huaXF1ZS4KPiArCj4gK0ZPTExfUElOIGlzIGEgcHJlcmVxdWlz
-aXRlIHRvIEZPTExfTE9OR1RHRVJNLiBBbm90aGVyIHdheSBvZiBzYXlpbmcgdGhhdCBpcywKPiAr
-Rk9MTF9MT05HVEVSTSBpcyBhIHNwZWNpZmljIGNhc2UsIG1vcmUgcmVzdHJpY3RpdmUgY2FzZSBv
-ZiBGT0xMX1BJTi4KPiArCj4gK1doaWNoIGZsYWdzIGFyZSBzZXQgYnkgZWFjaCB3cmFwcGVyCj4g
-Kz09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Cj4gKwo+ICtPbmx5IEZPTExfUElO
-IGFuZCBGT0xMX0xPTkdURVJNIGFyZSBjb3ZlcmVkIGhlcmUuIFRoZXNlIGZsYWdzIGFyZSBhZGRl
-ZCB0bwo+ICt3aGF0ZXZlciBmbGFncyB0aGUgY2FsbGVyIHByb3ZpZGVzOjoKPiArCj4gKyBGdW5j
-dGlvbiAgICAgICAgICAgICAgICAgICAgZ3VwIGZsYWdzIChGT0xMX1BJTiBvciBGT0xMX0xPTkdU
-RVJNIG9ubHkpCj4gKyAtLS0tLS0tLSAgICAgICAgICAgICAgICAgICAgLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gKyBwaW5fdXNlcl9wYWdlcyAgICAgICAgICAg
-ICAgRk9MTF9QSU4KPiArIHBpbl91c2VyX3BhZ2VzX2Zhc3QgICAgICAgICBGT0xMX1BJTgo+ICsg
-cGluX3VzZXJfcGFnZXNfcmVtb3RlICAgICAgIEZPTExfUElOCj4gKwo+ICsgcGluX2xvbmd0ZXJt
-X3BhZ2VzICAgICAgICAgIEZPTExfUElOIHwgRk9MTF9MT05HVEVSTQo+ICsgcGluX2xvbmd0ZXJt
-X3BhZ2VzX2Zhc3QgICAgIEZPTExfUElOIHwgRk9MTF9MT05HVEVSTQo+ICsgcGluX2xvbmd0ZXJt
-X3BhZ2VzX3JlbW90ZSAgIEZPTExfUElOIHwgRk9MTF9MT05HVEVSTQo+ICsKPiArVHJhY2tpbmcg
-ZG1hLXBpbm5lZCBwYWdlcwo+ICs9PT09PT09PT09PT09PT09PT09PT09PT09Cj4gKwo+ICtTb21l
-IG9mIHRoZSBrZXkgZGVzaWduIGNvbnN0cmFpbnRzLCBhbmQgc29sdXRpb25zLCBmb3IgdHJhY2tp
-bmcgZG1hLXBpbm5lZAo+ICtwYWdlczoKPiArCj4gKyogQW4gYWN0dWFsIHJlZmVyZW5jZSBjb3Vu
-dCwgcGVyIHN0cnVjdCBwYWdlLCBpcyByZXF1aXJlZC4gVGhpcyBpcyBiZWNhdXNlCj4gKyAgbXVs
-dGlwbGUgcHJvY2Vzc2VzIG1heSBwaW4gYW5kIHVucGluIGEgcGFnZS4KPiArCj4gKyogRmFsc2Ug
-cG9zaXRpdmVzIChyZXBvcnRpbmcgdGhhdCBhIHBhZ2UgaXMgZG1hLXBpbm5lZCwgd2hlbiBpbiBm
-YWN0IGl0IGlzIG5vdCkKPiArICBhcmUgYWNjZXB0YWJsZSwgYnV0IGZhbHNlIG5lZ2F0aXZlcyBh
-cmUgbm90Lgo+ICsKPiArKiBzdHJ1Y3QgcGFnZSBtYXkgbm90IGJlIGluY3JlYXNlZCBpbiBzaXpl
-IGZvciB0aGlzLCBhbmQgYWxsIGZpZWxkcyBhcmUgYWxyZWFkeQo+ICsgIHVzZWQuCj4gKwo+ICsq
-IEdpdmVuIHRoZSBhYm92ZSwgd2UgY2FuIG92ZXJsb2FkIHRoZSBwYWdlLT5fcmVmY291bnQgZmll
-bGQgYnkgdXNpbmcsIHNvcnQgb2YsCj4gKyAgdGhlIHVwcGVyIGJpdHMgaW4gdGhhdCBmaWVsZCBm
-b3IgYSBkbWEtcGlubmVkIGNvdW50LiAiU29ydCBvZiIsIG1lYW5zIHRoYXQsCj4gKyAgcmF0aGVy
-IHRoYW4gZGl2aWRpbmcgcGFnZS0+X3JlZmNvdW50IGludG8gYml0IGZpZWxkcywgd2Ugc2ltcGxl
-IGFkZCBhIG1lZGl1bS0KPiArICBsYXJnZSB2YWx1ZSAoR1VQX1BJTl9DT1VOVElOR19CSUFTLCBp
-bml0aWFsbHkgY2hvc2VuIHRvIGJlIDEwMjQ6IDEwIGJpdHMpIHRvCj4gKyAgcGFnZS0+X3JlZmNv
-dW50LiBUaGlzIHByb3ZpZGVzIGZ1enp5IGJlaGF2aW9yOiBpZiBhIHBhZ2UgaGFzIGdldF9wYWdl
-KCkgY2FsbGVkCj4gKyAgb24gaXQgMTAyNCB0aW1lcywgdGhlbiBpdCB3aWxsIGFwcGVhciB0byBo
-YXZlIGEgc2luZ2xlIGRtYS1waW5uZWQgY291bnQuCj4gKyAgQW5kIGFnYWluLCB0aGF0J3MgYWNj
-ZXB0YWJsZS4KPiArCj4gK1RoaXMgYWxzbyBsZWFkcyB0byBsaW1pdGF0aW9uczogdGhlcmUgYXJl
-IG9ubHkgMzItMTA9PTIyIGJpdHMgYXZhaWxhYmxlIGZvciBhCj4gK2NvdW50ZXIgdGhhdCBpbmNy
-ZW1lbnRzIDEwIGJpdHMgYXQgYSB0aW1lLgo+ICsKPiArVE9ETzogZm9yIDFHQiBhbmQgbGFyZ2Vy
-IGh1Z2UgcGFnZXMsIHRoaXMgaXMgY3V0dGluZyBpdCBjbG9zZS4gVGhhdCdzIGJlY2F1c2UKPiAr
-d2hlbiBwaW5fdXNlcl9wYWdlcygpIGZvbGxvd3Mgc3VjaCBwYWdlcywgaXQgaW5jcmVtZW50cyB0
-aGUgaGVhZCBwYWdlIGJ5ICIxIgo+ICsod2hlcmUgIjEiIHVzZWQgdG8gbWVhbiAiKzEiIGZvciBn
-ZXRfdXNlcl9wYWdlcygpLCBidXQgbm93IG1lYW5zICIrMTAyNCIgZm9yCj4gK3Bpbl91c2VyX3Bh
-Z2VzKCkpIGZvciBlYWNoIHRhaWwgcGFnZS4gU28gaWYgeW91IGhhdmUgYSAxR0IgaHVnZSBwYWdl
-Ogo+ICsKPiArKiBUaGVyZSBhcmUgMjU2SyAoMTggYml0cykgd29ydGggb2YgNCBLQiB0YWlsIHBh
-Z2VzLgo+ICsqIFRoZXJlIGFyZSAyMiBiaXRzIGF2YWlsYWJsZSB0byBjb3VudCB1cCB2aWEgR1VQ
-X1BJTl9DT1VOVElOR19CSUFTICh0aGF0IGlzLAo+ICsgIDEwIGJpdHMgYXQgYSB0aW1lKQo+ICsq
-IFRoZXJlIGFyZSAyMiAtIDE4ID09IDQgYml0cyBhdmFpbGFibGUgdG8gY291bnQuIEV4Y2VwdCB0
-aGF0IHRoZXJlIGFyZW4ndCwKPiArICBiZWNhdXNlIHlvdSBuZWVkIHRvIGFsbG93IGZvciBhIGZl
-dyBub3JtYWwgZ2V0X3BhZ2UoKSBjYWxscyBvbiB0aGUgaGVhZCBwYWdlLAo+ICsgIGFzIHdlbGwu
-IEZvcnR1bmF0ZWx5LCB0aGUgYXBwcm9hY2ggb2YgdXNpbmcgYWRkaXRpb24sIHJhdGhlciB0aGFu
-ICJoYXJkIgo+ICsgIGJpdGZpZWxkcywgd2l0aGluIHBhZ2UtPl9yZWZjb3VudCwgYWxsb3dzIGZv
-ciBzaGFyaW5nIHRoZXNlIGJpdHMgZ3JhY2VmdWxseS4KPiArICBCdXQgd2UncmUgc3RpbGwgbG9v
-a2luZyBhdCBhYm91dCAxNiByZWZlcmVuY2VzLgo+ICsKPiArVGhpcywgaG93ZXZlciwgaXMgYSBt
-aXNzaW5nIGZlYXR1cmUgbW9yZSB0aGFuIGFueXRoaW5nIGVsc2UsIGJlY2F1c2UgaXQncyBlYXNp
-bHkKPiArc29sdmVkIGJ5IGFkZHJlc3NpbmcgYW4gb2J2aW91cyBpbmVmZmljaWVuY3kgaW4gdGhl
-IG9yaWdpbmFsIGdldF91c2VyX3BhZ2VzKCkKPiArYXBwcm9hY2ggb2YgcmV0cmlldmluZyBwYWdl
-czogc3RvcCB0cmVhdGluZyBhbGwgdGhlIHBhZ2VzIGFzIGlmIHRoZXkgd2VyZQo+ICtQQUdFX1NJ
-WkUuIFJldHJpZXZlIGh1Z2UgcGFnZXMgYXMgaHVnZSBwYWdlcy4gVGhlIGNhbGxlcnMgbmVlZCB0
-byBiZSBhd2FyZSBvZgo+ICt0aGlzLCBzbyBzb21lIHdvcmsgaXMgcmVxdWlyZWQuIE9uY2UgdGhh
-dCdzIGluIHBsYWNlLCB0aGlzIGxpbWl0YXRpb24gbW9zdGx5Cj4gK2Rpc2FwcGVhcnMgZnJvbSB2
-aWV3LCBiZWNhdXNlIHRoZXJlIHdpbGwgYmUgYW1wbGUgcmVmY291bnRpbmcgcmFuZ2UgYXZhaWxh
-YmxlLgo+ICsKPiArKiBDYWxsZXJzIG11c3Qgc3BlY2lmaWNhbGx5IHJlcXVlc3QgImRtYS1waW5u
-ZWQgdHJhY2tpbmcgb2YgcGFnZXMiLiBJbiBvdGhlcgo+ICsgIHdvcmRzLCBqdXN0IGNhbGxpbmcg
-Z2V0X3VzZXJfcGFnZXMoKSB3aWxsIG5vdCBzdWZmaWNlOyBhIG5ldyBzZXQgb2YgZnVuY3Rpb25z
-LAo+ICsgIHBpbl91c2VyX3BhZ2UoKSBhbmQgcmVsYXRlZCwgbXVzdCBiZSB1c2VkLgo+ICsKPiAr
-Rk9MTF9QSU4sIEZPTExfR0VULCBGT0xMX0xPTkdURVJNOiB3aGVuIHRvIHVzZSB3aGljaCBmbGFn
-cwo+ICs9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09Cj4gKwo+ICtUaGFua3MgdG8gSmFuIEthcmEsIFZsYXN0aW1pbCBCYWJrYSBhbmQgc2V2
-ZXJhbCBvdGhlciAtbW0gcGVvcGxlLCBmb3IgZGVzY3JpYmluZwo+ICt0aGVzZSBjYXRlZ29yaWVz
-Ogo+ICsKPiArQ0FTRSAxOiBEaXJlY3QgSU8gKERJTykKPiArLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0KPiArVGhlcmUgYXJlIEdVUCByZWZlcmVuY2VzIHRvIHBhZ2VzIHRoYXQgYXJlIHNlcnZpbmcK
-PiArYXMgRElPIGJ1ZmZlcnMuIFRoZXNlIGJ1ZmZlcnMgYXJlIG5lZWRlZCBmb3IgYSByZWxhdGl2
-ZWx5IHNob3J0IHRpbWUgKHNvIHRoZXkKPiArYXJlIG5vdCAibG9uZyB0ZXJtIikuIE5vIHNwZWNp
-YWwgc3luY2hyb25pemF0aW9uIHdpdGggcGFnZV9ta2NsZWFuKCkgb3IKPiArbXVubWFwKCkgaXMg
-cHJvdmlkZWQuIFRoZXJlZm9yZSwgZmxhZ3MgdG8gc2V0IGF0IHRoZSBjYWxsIHNpdGUgYXJlOiA6
-Ogo+ICsKPiArICAgIEZPTExfUElOCj4gKwo+ICsuLi5idXQgcmF0aGVyIHRoYW4gc2V0dGluZyBG
-T0xMX1BJTiBkaXJlY3RseSwgY2FsbCBzaXRlcyBzaG91bGQgdXNlIG9uZSBvZgo+ICt0aGUgcGlu
-X3VzZXJfcGFnZXMqKCkgcm91dGluZXMgdGhhdCBzZXQgRk9MTF9QSU4uCj4gKwo+ICtDQVNFIDI6
-IFJETUEKPiArLS0tLS0tLS0tLS0tCj4gK1RoZXJlIGFyZSBHVVAgcmVmZXJlbmNlcyB0byBwYWdl
-cyB0aGF0IGFyZSBzZXJ2aW5nIGFzIERNQQo+ICtidWZmZXJzLiBUaGVzZSBidWZmZXJzIGFyZSBu
-ZWVkZWQgZm9yIGEgbG9uZyB0aW1lICgibG9uZyB0ZXJtIikuIE5vIHNwZWNpYWwKPiArc3luY2hy
-b25pemF0aW9uIHdpdGggcGFnZV9ta2NsZWFuKCkgb3IgbXVubWFwKCkgaXMgcHJvdmlkZWQuIFRo
-ZXJlZm9yZSwgZmxhZ3MKPiArdG8gc2V0IGF0IHRoZSBjYWxsIHNpdGUgYXJlOiA6Ogo+ICsKPiAr
-ICAgIEZPTExfUElOIHwgRk9MTF9MT05HVEVSTQo+ICsKPiArVE9ETzogVGhlcmUgaXMgYWxzbyBh
-IHNwZWNpYWwgY2FzZSB3aGVuIHRoZSBwYWdlcyBhcmUgREFYIHBhZ2VzOiBpbiBhZGRpdGlvbiB0
-bwo+ICt0aGUgYWJvdmUgZmxhZ3MsIHRoZSBjYWxsZXIgbmVlZHMgc29tZXRoaW5nIGxpa2UgYSBs
-YXlvdXQgbGVhc2Ugb24gdGhlCj4gK2Fzc29jaWF0ZWQgZmlsZS4gVGhpcyBpcyB5ZXQgdG8gYmUg
-aW1wbGVtZW50ZWQuIFdoZW4gaXQgaXMgaW1wbGVtZW50ZWQsIGl0J3MKPiArZXhwZWN0ZWQgdGhh
-dCB0aGUgbGVhc2Ugd2lsbCBiZSBhIHByZXJlcXVpc2l0ZSB0byBzZXR0aW5nIEZPTExfTE9OR1RF
-Uk0uCgpGb3Igbm93IHdlIHByb2JhYmx5IHdhbnQgdG8gbGVhdmUgdGhpcyBub3RlIG91dCB1bnRp
-bCB3ZSBmaWd1cmUgb3V0IGhvdyB0aGlzIGlzCmdvaW5nIHRvIHdvcmsuICBCZXN0IHRvIHNheSBz
-b21ldGhpbmcgbGlrZToKClNvbWUgcGFnZXMsIHN1Y2ggYXMgREFYIHBhZ2VzLCBjYW4ndCBiZSBw
-aW5uZWQgd2l0aCBsb25ndGVybSBwaW5zIGFuZCB3aWxsCmZhaWwuCgpJcmEKCj4gKwo+ICtDQVNF
-IDM6IE9EUAo+ICstLS0tLS0tLS0tLQo+ICsoTWVsbGFub3gvSW5maW5pYmFuZCBPbiBEZW1hbmQg
-UGFnaW5nOiB0aGUgaGFyZHdhcmUgc3VwcG9ydHMKPiArcmVwbGF5YWJsZSBwYWdlIGZhdWx0aW5n
-KS4gVGhlcmUgYXJlIEdVUCByZWZlcmVuY2VzIHRvIHBhZ2VzIHNlcnZpbmcgYXMgRE1BCj4gK2J1
-ZmZlcnMuIEZvciBPRFAsIE1NVSBub3RpZmllcnMgYXJlIHVzZWQgdG8gc3luY2hyb25pemUgd2l0
-aCBwYWdlX21rY2xlYW4oKQo+ICthbmQgbXVubWFwKCkuIFRoZXJlZm9yZSwgbm9ybWFsIEdVUCBj
-YWxscyBhcmUgc3VmZmljaWVudCwgc28gbmVpdGhlciBmbGFnCj4gK25lZWRzIHRvIGJlIHNldC4K
-PiArCj4gK0NBU0UgNDogUGlubmluZyBmb3Igc3RydWN0IHBhZ2UgbWFuaXB1bGF0aW9uIG9ubHkK
-PiArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+ICtI
-ZXJlLCBub3JtYWwgR1VQIGNhbGxzIGFyZSBzdWZmaWNpZW50LCBzbyBuZWl0aGVyIGZsYWcgbmVl
-ZHMgdG8gYmUgc2V0Lgo+ICsKPiArcGFnZV9kbWFfcGlubmVkKCk6IHRoZSB3aG9sZSBwb2ludCBv
-ZiBwaW5uaW5nCj4gKz09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PQo+ICsKPiArVGhlIHdob2xlIHBvaW50IG9mIG1hcmtpbmcgcGFnZXMgYXMgIkRNQS1waW5uZWQi
-IG9yICJndXAtcGlubmVkIiBpcyB0byBiZSBhYmxlCj4gK3RvIHF1ZXJ5LCAiaXMgdGhpcyBwYWdl
-IERNQS1waW5uZWQ/IiBUaGF0IGFsbG93cyBjb2RlIHN1Y2ggYXMgcGFnZV9ta2NsZWFuKCkKPiAr
-KGFuZCBmaWxlIHN5c3RlbSB3cml0ZWJhY2sgY29kZSBpbiBnZW5lcmFsKSB0byBtYWtlIGluZm9y
-bWVkIGRlY2lzaW9ucyBhYm91dAo+ICt3aGF0IHRvIGRvIHdoZW4gYSBwYWdlIGNhbm5vdCBiZSB1
-bm1hcHBlZCBkdWUgdG8gc3VjaCBwaW5zLgo+ICsKPiArV2hhdCB0byBkbyBpbiB0aG9zZSBjYXNl
-cyBpcyB0aGUgc3ViamVjdCBvZiBhIHllYXJzLWxvbmcgc2VyaWVzIG9mIGRpc2N1c3Npb25zCj4g
-K2FuZCBkZWJhdGVzIChzZWUgdGhlIFJlZmVyZW5jZXMgYXQgdGhlIGVuZCBvZiB0aGlzIGRvY3Vt
-ZW50KS4gSXQncyBhIFRPRE8gaXRlbQo+ICtoZXJlOiBmaWxsIGluIHRoZSBkZXRhaWxzIG9uY2Ug
-dGhhdCdzIHdvcmtlZCBvdXQuIE1lYW53aGlsZSwgaXQncyBzYWZlIHRvIHNheQo+ICt0aGF0IGhh
-dmluZyB0aGlzIGF2YWlsYWJsZTogOjoKPiArCj4gKyAgICAgICAgc3RhdGljIGlubGluZSBib29s
-IHBhZ2VfZG1hX3Bpbm5lZChzdHJ1Y3QgcGFnZSAqcGFnZSkKPiArCj4gKy4uLmlzIGEgcHJlcmVx
-dWlzaXRlIHRvIHNvbHZpbmcgdGhlIGxvbmctcnVubmluZyBndXArRE1BIHByb2JsZW0uCj4gKwo+
-ICtBbm90aGVyIHdheSBvZiB0aGlua2luZyBhYm91dCBGT0xMX0dFVCwgRk9MTF9QSU4sIGFuZCBG
-T0xMX0xPTkdURVJNCj4gKz09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT0KPiArCj4gK0Fub3RoZXIgd2F5IG9mIHRoaW5raW5n
-IGFib3V0IHRoZXNlIGZsYWdzIGlzIGFzIGEgcHJvZ3Jlc3Npb24gb2YgcmVzdHJpY3Rpb25zOgo+
-ICtGT0xMX0dFVCBpcyBmb3Igc3RydWN0IHBhZ2UgbWFuaXB1bGF0aW9uLCB3aXRob3V0IGFmZmVj
-dGluZyB0aGUgZGF0YSB0aGF0IHRoZQo+ICtzdHJ1Y3QgcGFnZSByZWZlcnMgdG8uIEZPTExfUElO
-IGlzIGEgKnJlcGxhY2VtZW50KiBmb3IgRk9MTF9HRVQsIGFuZCBpcyBmb3IKPiArc2hvcnQgdGVy
-bSBwaW5zIG9uIHBhZ2VzIHdob3NlIGRhdGEgKndpbGwqIGdldCBhY2Nlc3NlZC4gQXMgc3VjaCwg
-Rk9MTF9QSU4gaXMKPiArYSAibW9yZSBzZXZlcmUiIGZvcm0gb2YgcGlubmluZy4gQW5kIGZpbmFs
-bHksIEZPTExfTE9OR1RFUk0gaXMgYW4gZXZlbiBtb3JlCj4gK3Jlc3RyaWN0aXZlIGNhc2UgdGhh
-dCBoYXMgRk9MTF9QSU4gYXMgYSBwcmVyZXF1aXNpdGU6IHRoaXMgaXMgZm9yIHBhZ2VzIHRoYXQK
-PiArd2lsbCBiZSBwaW5uZWQgbG9uZ3Rlcm0sIGFuZCB3aG9zZSBkYXRhIHdpbGwgYmUgYWNjZXNz
-ZWQuCj4gKwo+ICtVbml0IHRlc3RpbmcKPiArPT09PT09PT09PT09Cj4gK1RoaXMgZmlsZTo6Cj4g
-Kwo+ICsgdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvdm0vZ3VwX2JlbmNobWFyay5jCj4gKwo+ICto
-YXMgdGhlIGZvbGxvd2luZyBuZXcgY2FsbHMgdG8gZXhlcmNpc2UgdGhlIG5ldyBwaW4qKCkgd3Jh
-cHBlciBmdW5jdGlvbnM6Cj4gKwo+ICsqIFBJTl9GQVNUX0JFTkNITUFSSyAoLi9ndXBfYmVuY2ht
-YXJrIC1hKQo+ICsqIFBJTl9MT05HVEVSTV9CRU5DSE1BUksgKC4vZ3VwX2JlbmNobWFyayAtYSkK
-PiArKiBQSU5fQkVOQ0hNQVJLICguL2d1cF9iZW5jaG1hcmsgLWEpCj4gKwo+ICtZb3UgY2FuIG1v
-bml0b3IgaG93IG1hbnkgdG90YWwgZG1hLXBpbm5lZCBwYWdlcyBoYXZlIGJlZW4gYWNxdWlyZWQg
-YW5kIHJlbGVhc2VkCj4gK3NpbmNlIHRoZSBzeXN0ZW0gd2FzIGJvb3RlZCwgdmlhIHR3byBuZXcg
-L3Byb2Mvdm1zdGF0IGVudHJpZXM6IDo6Cj4gKwo+ICsgICAgL3Byb2Mvdm1zdGF0L25yX2ZvbGxf
-cGluX3JlcXVlc3RlZAo+ICsgICAgL3Byb2Mvdm1zdGF0L25yX2ZvbGxfcGluX3JlcXVlc3RlZAo+
-ICsKPiArVGhvc2UgYXJlIGJvdGggZ29pbmcgdG8gc2hvdyB6ZXJvLCB1bmxlc3MgQ09ORklHX0RF
-QlVHX1ZNIGlzIHNldC4gVGhpcyBpcwo+ICtiZWNhdXNlIHRoZXJlIGlzIGEgbm90aWNlYWJsZSBw
-ZXJmb3JtYW5jZSBkcm9wIGluIHB1dF91c2VyX3BhZ2UoKSwgd2hlbiB0aGV5Cj4gK2FyZSBhY3Rp
-dmF0ZWQuCj4gKwo+ICtSZWZlcmVuY2VzCj4gKz09PT09PT09PT0KPiArCj4gKyogYFNvbWUgc2xv
-dyBwcm9ncmVzcyBvbiBnZXRfdXNlcl9wYWdlcygpIChBcHIgMiwgMjAxOSkgPGh0dHBzOi8vbHdu
-Lm5ldC9BcnRpY2xlcy83ODQ1NzQvPmBfCj4gKyogYERNQSBhbmQgZ2V0X3VzZXJfcGFnZXMoKSAo
-TFBDOiBEZWMgMTIsIDIwMTgpIDxodHRwczovL2x3bi5uZXQvQXJ0aWNsZXMvNzc0NDExLz5gXwo+
-ICsqIGBUaGUgdHJvdWJsZSB3aXRoIGdldF91c2VyX3BhZ2VzKCkgKEFwciAzMCwgMjAxOCkgPGh0
-dHBzOi8vbHduLm5ldC9BcnRpY2xlcy83NTMwMjcvPmBfCj4gKwo+ICtKb2huIEh1YmJhcmQsIE9j
-dG9iZXIsIDIwMTkKPiAtLSAKPiAyLjIzLjAKPiAKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVs
+
+--===============0790222787==
+Content-Type: multipart/alternative; boundary="15725714361.4eAce0.25588"
+Content-Transfer-Encoding: 7bit
+
+
+--15725714361.4eAce0.25588
+Date: Fri, 1 Nov 2019 01:23:56 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111763
+
+--- Comment #16 from Andrew Sheldon <asheldon55@gmail.com> ---
+(In reply to wychuchol from comment #14)
+> RX 5700 XT Pop OS 19.10 latest Oibaf mesa not sure what llvm
+> Anomaly 1.5.0 update 3 standalone 64 bit mod for S.T.A.L.K.E.R. Call of
+> Pripyat running under wine d3dx11_43->dxvk (winetricks dxvk d3dcompiler_43
+> d3dx11_43)
+>=20
+> Oct 30 02:49:30 pop-os kernel: [ 4864.627343]
+> [drm:amdgpu_dm_commit_planes.constprop.0 [amdgpu]] *ERROR* Waiting for
+> fences timed out!
+> Oct 30 02:49:30 pop-os kernel: [ 4869.231450] [drm:amdgpu_job_timedout
+> [amdgpu]] *ERROR* ring gfx_0.0.0 timeout, signaled seq=3D2626284, emitted
+> seq=3D2626286
+> Oct 30 02:49:30 pop-os kernel: [ 4869.231486] [drm:amdgpu_job_timedout
+> [amdgpu]] *ERROR* Process information: process AnomalyDX11.exe pid 5791
+> thread AnomalyDX11.exe pid 5791
+> Oct 30 02:49:30 pop-os kernel: [ 4869.231487] [drm] GPU recovery disabled.
+>=20
+> Happens at random. Sometimes hangs straight away, sometimes can go over an
+> hour without crash. Complete crash, no option available besides hard rese=
+t.
+> Not even mouse pointer would move (as with sdma0 hang).
+>=20
+> I'm sorry if it's not the right place to report this, I'm somewhat new to
+> all of this.
+
+Ring gfx type hangs tend to be in Mesa. Report here:
+https://gitlab.freedesktop.org/mesa/mesa/issues
+
+Also I'm not sure how up to date the Oibaf repo is, but Mesa git landed ACO
+recently for Navi cards. You can try with RADV_PERFTEST=3Daco environment
+variable set if your Mesa is new enough, and you might have better luck with
+hangs.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15725714361.4eAce0.25588
+Date: Fri, 1 Nov 2019 01:23:56 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - ring_gfx hangs/freezes on Navi gpus"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111763#c16">Comme=
+nt # 16</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - ring_gfx hangs/freezes on Navi gpus"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111763">bug 11176=
+3</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+asheldon55&#64;gmail.com" title=3D"Andrew Sheldon &lt;asheldon55&#64;gmail.=
+com&gt;"> <span class=3D"fn">Andrew Sheldon</span></a>
+</span></b>
+        <pre>(In reply to wychuchol from <a href=3D"show_bug.cgi?id=3D11176=
+3#c14">comment #14</a>)
+<span class=3D"quote">&gt; RX 5700 XT Pop OS 19.10 latest Oibaf mesa not su=
+re what llvm
+&gt; Anomaly 1.5.0 update 3 standalone 64 bit mod for S.T.A.L.K.E.R. Call of
+&gt; Pripyat running under wine d3dx11_43-&gt;dxvk (winetricks dxvk d3dcomp=
+iler_43
+&gt; d3dx11_43)
+&gt;=20
+&gt; Oct 30 02:49:30 pop-os kernel: [ 4864.627343]
+&gt; [drm:amdgpu_dm_commit_planes.constprop.0 [amdgpu]] *ERROR* Waiting for
+&gt; fences timed out!
+&gt; Oct 30 02:49:30 pop-os kernel: [ 4869.231450] [drm:amdgpu_job_timedout
+&gt; [amdgpu]] *ERROR* ring gfx_0.0.0 timeout, signaled seq=3D2626284, emit=
+ted
+&gt; seq=3D2626286
+&gt; Oct 30 02:49:30 pop-os kernel: [ 4869.231486] [drm:amdgpu_job_timedout
+&gt; [amdgpu]] *ERROR* Process information: process AnomalyDX11.exe pid 5791
+&gt; thread AnomalyDX11.exe pid 5791
+&gt; Oct 30 02:49:30 pop-os kernel: [ 4869.231487] [drm] GPU recovery disab=
+led.
+&gt;=20
+&gt; Happens at random. Sometimes hangs straight away, sometimes can go ove=
+r an
+&gt; hour without crash. Complete crash, no option available besides hard r=
+eset.
+&gt; Not even mouse pointer would move (as with sdma0 hang).
+&gt;=20
+&gt; I'm sorry if it's not the right place to report this, I'm somewhat new=
+ to
+&gt; all of this.</span >
+
+Ring gfx type hangs tend to be in Mesa. Report here:
+<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/issues">https://gitlab.=
+freedesktop.org/mesa/mesa/issues</a>
+
+Also I'm not sure how up to date the Oibaf repo is, but Mesa git landed ACO
+recently for Navi cards. You can try with RADV_PERFTEST=3Daco environment
+variable set if your Mesa is new enough, and you might have better luck with
+hangs.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15725714361.4eAce0.25588--
+
+--===============0790222787==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0790222787==--
