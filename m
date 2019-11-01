@@ -2,44 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1013EBC26
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 04:01:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA4CCEBC48
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 04:16:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEF666F50E;
-	Fri,  1 Nov 2019 03:01:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B609E6E11B;
+	Fri,  1 Nov 2019 03:16:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1D3156EF0A
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 03:01:14 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1A0B9720E2; Fri,  1 Nov 2019 03:01:14 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111482] Sapphire Pulse RX 5700 XT power consumption
-Date: Fri, 01 Nov 2019 03:01:14 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: shtetldik@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111482-502-boXg2Lg9Kh@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111482-502@http.bugs.freedesktop.org/>
-References: <bug-111482-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 03A616E11B
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 03:16:45 +0000 (UTC)
+X-UUID: 3572f32397f44b1885d591ee870d0cea-20191101
+X-UUID: 3572f32397f44b1885d591ee870d0cea-20191101
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 1622121720; Fri, 01 Nov 2019 11:16:40 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Fri, 1 Nov 2019 11:16:34 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Fri, 1 Nov 2019 11:16:34 +0800
+Message-ID: <1572578198.10339.15.camel@mtksdaap41>
+Subject: Re: [PATCH] drm/mediatek: update cursors by using async atomic update
+From: CK Hu <ck.hu@mediatek.com>
+To: Bibby Hsieh <bibby.hsieh@mediatek.com>
+Date: Fri, 1 Nov 2019 11:16:38 +0800
+In-Reply-To: <20191025053843.16808-2-bibby.hsieh@mediatek.com>
+References: <20191025053843.16808-1-bibby.hsieh@mediatek.com>
+ <20191025053843.16808-2-bibby.hsieh@mediatek.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,157 +47,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0491725788=="
+Cc: drinkcat@chromium.org, srv_heupstream@mediatek.com,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ tfiga@chromium.org, Thierry Reding <thierry.reding@gmail.com>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0491725788==
-Content-Type: multipart/alternative; boundary="15725772741.d7a29.12537"
-Content-Transfer-Encoding: 7bit
-
-
---15725772741.d7a29.12537
-Date: Fri, 1 Nov 2019 03:01:14 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111482
-
---- Comment #29 from Shmerl <shtetldik@gmail.com> ---
-(In reply to Andrew Sheldon from comment #27)
-> A bit of a hacky workaround to 144hz (and multi-monitor issues) on Navi:
->=20
-> - Bootup to X
-> - Suspend to ram
-> - Notice that clocks have dropped (even in multi-monitor configuration)
-> - I get flickering in the auto profile after doing this (maybe similar to
-> the Polaris issues)
-> - To remove the flickering, set power_dpm_force_performance_level to "low"
->=20
-
-Which one exactly did you set it at?
-
-I have 2560x1440 / 144 Hz monitor (LG 27GL850) and Sapphire Pulse RX 5700 XT
-(hardware switch set to higher performance BIOS) and in general I noticed a
-similar thing. During normal idle KDE operation, power stays at around 32 W=
- or
-so.
-
-If I suspend and resume, power drops to 11 W and the monitor starts flicker=
-ing
-wildly. I tried to do:
-
-echo "low" > /sys/class/drm/card0/device/power_dpm_force_performance_level
-
-But that didn't really help with flickering.
-
-Can anyone from AMD please comment, whether 32 W is expected power consumpt=
-ion
-for light desktop usage at 2560x1440 / 144 Hz for Sapphire Pulse RX 5700 XT?
-
-And clearly, after resume things are now broken regardless of what's the no=
-rmal
-level is supposed to be.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15725772741.d7a29.12537
-Date: Fri, 1 Nov 2019 03:01:14 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482#c29">Comme=
-nt # 29</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482">bug 11148=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-shtetldik&#64;gmail.com" title=3D"Shmerl &lt;shtetldik&#64;gmail.com&gt;"> =
-<span class=3D"fn">Shmerl</span></a>
-</span></b>
-        <pre>(In reply to Andrew Sheldon from <a href=3D"show_bug.cgi?id=3D=
-111482#c27">comment #27</a>)
-<span class=3D"quote">&gt; A bit of a hacky workaround to 144hz (and multi-=
-monitor issues) on Navi:
-&gt;=20
-&gt; - Bootup to X
-&gt; - Suspend to ram
-&gt; - Notice that clocks have dropped (even in multi-monitor configuration)
-&gt; - I get flickering in the auto profile after doing this (maybe similar=
- to
-&gt; the Polaris issues)
-&gt; - To remove the flickering, set power_dpm_force_performance_level to &=
-quot;low&quot;
-&gt; </span >
-
-Which one exactly did you set it at?
-
-I have 2560x1440 / 144 Hz monitor (LG 27GL850) and Sapphire Pulse RX 5700 XT
-(hardware switch set to higher performance BIOS) and in general I noticed a
-similar thing. During normal idle KDE operation, power stays at around 32 W=
- or
-so.
-
-If I suspend and resume, power drops to 11 W and the monitor starts flicker=
-ing
-wildly. I tried to do:
-
-echo &quot;low&quot; &gt; /sys/class/drm/card0/device/power_dpm_force_perfo=
-rmance_level
-
-But that didn't really help with flickering.
-
-Can anyone from AMD please comment, whether 32 W is expected power consumpt=
-ion
-for light desktop usage at 2560x1440 / 144 Hz for Sapphire Pulse RX 5700 XT?
-
-And clearly, after resume things are now broken regardless of what's the no=
-rmal
-level is supposed to be.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15725772741.d7a29.12537--
-
---===============0491725788==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0491725788==--
+SGksIEJpYmJ5OgoKT24gRnJpLCAyMDE5LTEwLTI1IGF0IDEzOjM4ICswODAwLCBCaWJieSBIc2ll
+aCB3cm90ZToKPiBTdXBwb3J0IHRvIGFzeW5jIHVwZGF0ZXMgb2YgY3Vyc29ycyBieSB1c2luZyB0
+aGUgbmV3IGF0b21pYwo+IGludGVyZmFjZSBmb3IgdGhhdC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBC
+aWJieSBIc2llaCA8YmliYnkuaHNpZWhAbWVkaWF0ZWsuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dw
+dS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMgIHwgMzIgKysrKysrKysrKysrKysrKysKPiAg
+ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fY3J0Yy5oICB8ICAzICsrCj4gIGRyaXZl
+cnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX3BsYW5lLmMgfCA0NCArKysrKysrKysrKysrKysr
+KysrKysrKysKPiAgMyBmaWxlcyBjaGFuZ2VkLCA3OSBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2NydGMuYyBiL2RyaXZlcnMv
+Z3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2NydGMuYwo+IGluZGV4IGIwN2RjOWI1OWNhMy4uM2M5
+NjE3OGJkNTU5IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJt
+X2NydGMuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2NydGMuYwo+
+IEBAIC0zOTUsNiArMzk1LDM4IEBAIHN0YXRpYyB2b2lkIG10a19jcnRjX2RkcF9jb25maWcoc3Ry
+dWN0IGRybV9jcnRjICpjcnRjKQo+ICAJfQo+ICB9Cj4gIAo+ICt2b2lkIG10a19kcm1fY3J0Y19j
+dXJzb3JfdXBkYXRlKHN0cnVjdCBkcm1fY3J0YyAqY3J0Yywgc3RydWN0IGRybV9wbGFuZSAqcGxh
+bmUsCj4gKwkJCQlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3RhdGUpCj4gK3sKPiArCXN0
+cnVjdCBtdGtfZHJtX3ByaXZhdGUgKnByaXYgPSBjcnRjLT5kZXYtPmRldl9wcml2YXRlOwo+ICsJ
+c3RydWN0IG10a19kcm1fY3J0YyAqbXRrX2NydGMgPSB0b19tdGtfY3J0YyhjcnRjKTsKPiArCWNv
+bnN0IHN0cnVjdCBkcm1fcGxhbmVfaGVscGVyX2Z1bmNzICpwbGFuZV9oZWxwZXJfZnVuY3MgPQo+
+ICsJCQlwbGFuZS0+aGVscGVyX3ByaXZhdGU7Cj4gKwlpbnQgaTsKPiArCj4gKwlpZiAoIW10a19j
+cnRjLT5lbmFibGVkKQo+ICsJCXJldHVybjsKPiArCj4gKwlwbGFuZV9oZWxwZXJfZnVuY3MtPmF0
+b21pY191cGRhdGUocGxhbmUsIG5ld19zdGF0ZSk7CgpXaHkgZG8geW91IG5vdCBjYWxsIG10a19w
+bGFuZV9hdG9taWNfdXBkYXRlKCkgZGlyZWN0bHk/Cgo+ICsKPiArCWZvciAoaSA9IDA7IGkgPCBt
+dGtfY3J0Yy0+bGF5ZXJfbnI7IGkrKykgewo+ICsJCXN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lID0g
+Jm10a19jcnRjLT5wbGFuZXNbaV07Cj4gKwkJc3RydWN0IG10a19wbGFuZV9zdGF0ZSAqcGxhbmVf
+c3RhdGU7Cj4gKwo+ICsJCXBsYW5lX3N0YXRlID0gdG9fbXRrX3BsYW5lX3N0YXRlKHBsYW5lLT5z
+dGF0ZSk7Cj4gKwkJaWYgKHBsYW5lX3N0YXRlLT5wZW5kaW5nLmRpcnR5KSB7Cj4gKwkJCXBsYW5l
+X3N0YXRlLT5wZW5kaW5nLmNvbmZpZyA9IHRydWU7Cj4gKwkJCXBsYW5lX3N0YXRlLT5wZW5kaW5n
+LmRpcnR5ID0gZmFsc2U7Cj4gKwkJfQo+ICsJfQo+ICsJbXRrX2NydGMtPnBlbmRpbmdfcGxhbmVz
+ID0gdHJ1ZTsKPiArCWlmIChwcml2LT5kYXRhLT5zaGFkb3dfcmVnaXN0ZXIpIHsKPiArCQltdGtf
+ZGlzcF9tdXRleF9hY3F1aXJlKG10a19jcnRjLT5tdXRleCk7Cj4gKwkJbXRrX2NydGNfZGRwX2Nv
+bmZpZyhjcnRjKTsKPiArCQltdGtfZGlzcF9tdXRleF9yZWxlYXNlKG10a19jcnRjLT5tdXRleCk7
+Cj4gKwl9CgpUaGlzIHBhcnQgaXMgdGhlIHNhbWUgYXMgdGhlIHBhcnQgaW4gbXRrX2RybV9jcnRj
+X2F0b21pY19mbHVzaC4gU2VwYXJhdGUKdGhlIGNvbW1vbiBwYXJ0IHRvIGFuIGluZGVwZW5kZW50
+IGZ1bmN0aW9uLgoKUmVnYXJkcywKQ0sKCj4gK30KPiArCj4gIHN0YXRpYyB2b2lkIG10a19kcm1f
+Y3J0Y19hdG9taWNfZW5hYmxlKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKPiAgCQkJCSAgICAgICBz
+dHJ1Y3QgZHJtX2NydGNfc3RhdGUgKm9sZF9zdGF0ZSkKPiAgewo+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmggYi9kcml2ZXJzL2dwdS9kcm0vbWVk
+aWF0ZWsvbXRrX2RybV9jcnRjLmgKPiBpbmRleCBmY2MxMzRlYjAwYzkuLmU2NWQ1OGRiMjAxZCAx
+MDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmgKPiAr
+KysgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmgKPiBAQCAtMjAsNCAr
+MjAsNyBAQCBpbnQgbXRrX2RybV9jcnRjX2NyZWF0ZShzdHJ1Y3QgZHJtX2RldmljZSAqZHJtX2Rl
+diwKPiAgCQkJY29uc3QgZW51bSBtdGtfZGRwX2NvbXBfaWQgKnBhdGgsCj4gIAkJCXVuc2lnbmVk
+IGludCBwYXRoX2xlbik7Cj4gIAo+ICt2b2lkIG10a19kcm1fY3J0Y19jdXJzb3JfdXBkYXRlKHN0
+cnVjdCBkcm1fY3J0YyAqY3J0Yywgc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCj4gKwkJCQlzdHJ1
+Y3QgZHJtX3BsYW5lX3N0YXRlICpwbGFuZV9zdGF0ZSk7Cj4gKwo+ICAjZW5kaWYgLyogTVRLX0RS
+TV9DUlRDX0ggKi8KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19k
+cm1fcGxhbmUuYyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX3BsYW5lLmMKPiBp
+bmRleCA1ODRhOWVjYWRjZTYuLmYwZTkxZWNiM2I0YyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9wbGFuZS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21l
+ZGlhdGVrL210a19kcm1fcGxhbmUuYwo+IEBAIC03LDYgKzcsNyBAQAo+ICAjaW5jbHVkZSA8ZHJt
+L2RybV9hdG9taWMuaD4KPiAgI2luY2x1ZGUgPGRybS9kcm1fYXRvbWljX2hlbHBlci5oPgo+ICAj
+aW5jbHVkZSA8ZHJtL2RybV9mb3VyY2MuaD4KPiArI2luY2x1ZGUgPGRybS9kcm1fYXRvbWljX3Vh
+cGkuaD4KPiAgI2luY2x1ZGUgPGRybS9kcm1fcGxhbmVfaGVscGVyLmg+Cj4gICNpbmNsdWRlIDxk
+cm0vZHJtX2dlbV9mcmFtZWJ1ZmZlcl9oZWxwZXIuaD4KPiAgCj4gQEAgLTcwLDYgKzcxLDQ3IEBA
+IHN0YXRpYyB2b2lkIG10a19kcm1fcGxhbmVfZGVzdHJveV9zdGF0ZShzdHJ1Y3QgZHJtX3BsYW5l
+ICpwbGFuZSwKPiAgCWtmcmVlKHRvX210a19wbGFuZV9zdGF0ZShzdGF0ZSkpOwo+ICB9Cj4gIAo+
+ICtzdGF0aWMgaW50IG10a19wbGFuZV9hdG9taWNfYXN5bmNfY2hlY2soc3RydWN0IGRybV9wbGFu
+ZSAqcGxhbmUsCj4gKwkJCQkJc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqc3RhdGUpCj4gK3sKPiAr
+CXN0cnVjdCBkcm1fY3J0Y19zdGF0ZSAqY3J0Y19zdGF0ZTsKPiArCj4gKwlpZiAocGxhbmUgIT0g
+c3RhdGUtPmNydGMtPmN1cnNvcikKPiArCQlyZXR1cm4gLUVJTlZBTDsKPiArCj4gKwlpZiAoIXBs
+YW5lLT5zdGF0ZSkKPiArCQlyZXR1cm4gLUVJTlZBTDsKPiArCj4gKwlpZiAoIXBsYW5lLT5zdGF0
+ZS0+ZmIpCj4gKwkJcmV0dXJuIC1FSU5WQUw7Cj4gKwo+ICsJaWYgKHN0YXRlLT5zdGF0ZSkKPiAr
+CQljcnRjX3N0YXRlID0gZHJtX2F0b21pY19nZXRfZXhpc3RpbmdfY3J0Y19zdGF0ZShzdGF0ZS0+
+c3RhdGUsCj4gKwkJCQkJCQkJc3RhdGUtPmNydGMpOwo+ICsJZWxzZSAvKiBTcGVjaWFsIGNhc2Ug
+Zm9yIGFzeW5jaHJvbm91cyBjdXJzb3IgdXBkYXRlcy4gKi8KPiArCQljcnRjX3N0YXRlID0gc3Rh
+dGUtPmNydGMtPnN0YXRlOwo+ICsKPiArCXJldHVybiBkcm1fYXRvbWljX2hlbHBlcl9jaGVja19w
+bGFuZV9zdGF0ZShwbGFuZS0+c3RhdGUsIGNydGNfc3RhdGUsCj4gKwkJCQkJCSAgIERSTV9QTEFO
+RV9IRUxQRVJfTk9fU0NBTElORywKPiArCQkJCQkJICAgRFJNX1BMQU5FX0hFTFBFUl9OT19TQ0FM
+SU5HLAo+ICsJCQkJCQkgICB0cnVlLCB0cnVlKTsKPiArfQo+ICsKPiArc3RhdGljIHZvaWQgbXRr
+X3BsYW5lX2F0b21pY19hc3luY191cGRhdGUoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCj4gKwkJ
+CQkJICBzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3RhdGUpCj4gK3sKPiArCXBsYW5lLT5z
+dGF0ZS0+Y3J0Y194ID0gbmV3X3N0YXRlLT5jcnRjX3g7Cj4gKwlwbGFuZS0+c3RhdGUtPmNydGNf
+eSA9IG5ld19zdGF0ZS0+Y3J0Y195Owo+ICsJcGxhbmUtPnN0YXRlLT5jcnRjX2ggPSBuZXdfc3Rh
+dGUtPmNydGNfaDsKPiArCXBsYW5lLT5zdGF0ZS0+Y3J0Y193ID0gbmV3X3N0YXRlLT5jcnRjX3c7
+Cj4gKwlwbGFuZS0+c3RhdGUtPnNyY194ID0gbmV3X3N0YXRlLT5zcmNfeDsKPiArCXBsYW5lLT5z
+dGF0ZS0+c3JjX3kgPSBuZXdfc3RhdGUtPnNyY195Owo+ICsJcGxhbmUtPnN0YXRlLT5zcmNfaCA9
+IG5ld19zdGF0ZS0+c3JjX2g7Cj4gKwlwbGFuZS0+c3RhdGUtPnNyY193ID0gbmV3X3N0YXRlLT5z
+cmNfdzsKPiArCj4gKwltdGtfZHJtX2NydGNfY3Vyc29yX3VwZGF0ZShuZXdfc3RhdGUtPmNydGMs
+IHBsYW5lLCBuZXdfc3RhdGUpOwo+ICt9Cj4gKwo+ICBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9w
+bGFuZV9mdW5jcyBtdGtfcGxhbmVfZnVuY3MgPSB7Cj4gIAkudXBkYXRlX3BsYW5lID0gZHJtX2F0
+b21pY19oZWxwZXJfdXBkYXRlX3BsYW5lLAo+ICAJLmRpc2FibGVfcGxhbmUgPSBkcm1fYXRvbWlj
+X2hlbHBlcl9kaXNhYmxlX3BsYW5lLAo+IEBAIC0xNTEsNiArMTkzLDggQEAgc3RhdGljIGNvbnN0
+IHN0cnVjdCBkcm1fcGxhbmVfaGVscGVyX2Z1bmNzIG10a19wbGFuZV9oZWxwZXJfZnVuY3MgPSB7
+Cj4gIAkuYXRvbWljX2NoZWNrID0gbXRrX3BsYW5lX2F0b21pY19jaGVjaywKPiAgCS5hdG9taWNf
+dXBkYXRlID0gbXRrX3BsYW5lX2F0b21pY191cGRhdGUsCj4gIAkuYXRvbWljX2Rpc2FibGUgPSBt
+dGtfcGxhbmVfYXRvbWljX2Rpc2FibGUsCj4gKwkuYXRvbWljX2FzeW5jX3VwZGF0ZSA9IG10a19w
+bGFuZV9hdG9taWNfYXN5bmNfdXBkYXRlLAo+ICsJLmF0b21pY19hc3luY19jaGVjayA9IG10a19w
+bGFuZV9hdG9taWNfYXN5bmNfY2hlY2ssCj4gIH07Cj4gIAo+ICBpbnQgbXRrX3BsYW5lX2luaXQo
+c3RydWN0IGRybV9kZXZpY2UgKmRldiwgc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCgoKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
