@@ -1,37 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BED24EC5BD
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 16:39:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A447EEC5C6
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 16:43:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A60976F82B;
-	Fri,  1 Nov 2019 15:39:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DD8B6F82D;
+	Fri,  1 Nov 2019 15:43:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1723E6F828
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 15:39:47 +0000 (UTC)
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it
- [2.224.242.101]) (Authenticated sender: jacopo@jmondi.org)
- by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 9C5EDFF802;
- Fri,  1 Nov 2019 15:39:41 +0000 (UTC)
-Date: Fri, 1 Nov 2019 16:41:33 +0100
-From: Jacopo Mondi <jacopo@jmondi.org>
-To: Lee Jones <lee.jones@linaro.org>
-Subject: Re: [PATCH v7 0/9] backlight: gpio: simplify the driver
-Message-ID: <20191101154133.qqjj3uriwrl2j5r5@uno.localdomain>
-References: <20191022083630.28175-1-brgl@bgdev.pl>
- <CAMRc=MeyrDZgmHJ+2SMipP7y9NggxiVfkAh4kCLePFWvUku9aQ@mail.gmail.com>
- <20191023155941.q563d3cfizre4zvt@holly.lan>
- <20191024064726.GB15843@dell>
- <20191024071703.6keoebzlfnn2qmyd@uno.localdomain>
- <20191101085803.GD5700@dell>
+Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com
+ [IPv6:2607:f8b0:4864:20::835])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 712D86F82D
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 15:43:24 +0000 (UTC)
+Received: by mail-qt1-x835.google.com with SMTP id x21so13361143qto.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Nov 2019 08:43:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wKb52YVkC3NELqTeZJC/gLeC/MBsFUU9iPpUF2C2Ctk=;
+ b=lDgBB8GMHaCG+rSl7d1aC08bNgXT6F0GX1z0bNBMwKn40OtjbOKV8rn7vK1r2Tm5XJ
+ uvRJ8U2Z1gO7Ond0nW01VXGKxzZGdIHawTbRPmVa87ER3sS4izkVxaAXWX/vfwS9RGq9
+ /CQZv/2VfcOwLZ5UdRIW6xY8B8niicCYT8HnW9Vy0uYxnT5BvtRRRbX+VGVf/pr0izcN
+ +hrOj1Q81bU5meGRsvl/UZWmBfqcHSHIKUpClN3si2n8GK2mfHM9h0QU+GlFqixXtWUx
+ HTSmHhj9VK8Le5z+E/K6Mba7KbSIEn/XbVVwaW8N5Pg3CwHCMZbqtOgA1NoUzK8HWW2g
+ 9KoA==
+X-Gm-Message-State: APjAAAUfycxVT3Y1hh0ly8OXswf6aX3giusFKTcJHNsdhJs30TJe2H9S
+ MvK2/fP0Du7KVUVa8zHvhjE=
+X-Google-Smtp-Source: APXvYqyFJAM4q5ecaSSq30Ntjp+yMEhkErlOeuccAqPYTwS2MUKCEWlFOLUtIJsL/9o67Wxd50pH6g==
+X-Received: by 2002:ad4:58a9:: with SMTP id ea9mr10756512qvb.179.1572623003347; 
+ Fri, 01 Nov 2019 08:43:23 -0700 (PDT)
+Received: from GBdebian.ic.unicamp.br (wifi-177-220-84-14.wifi.ic.unicamp.br.
+ [177.220.84.14])
+ by smtp.gmail.com with ESMTPSA id x38sm4879243qtc.64.2019.11.01.08.43.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Nov 2019 08:43:22 -0700 (PDT)
+From: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
+To: outreachy-kernel@googlegroups.com, manasi.d.navare@intel.com,
+ rodrigosiqueiramelo@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
+ corbet@lwn.net, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, lkcamp@lists.libreplanetbr.org
+Subject: [PATCH v2] drm/doc: Adding VKMS module description and use to
+ "Testing and Validation"
+Date: Fri,  1 Nov 2019 12:43:14 -0300
+Message-Id: <20191101154314.25435-1-gabrielabittencourt00@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20191101085803.GD5700@dell>
-User-Agent: NeoMutt/20180716
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wKb52YVkC3NELqTeZJC/gLeC/MBsFUU9iPpUF2C2Ctk=;
+ b=qlT/KZarrFEp/Vnhmhph+guCGCHV7SshaXo3+RJO9shLG9iR94hGhXTWTGw7+42HGo
+ je3+Jxw/mgd7h1ChfIIKu8tgIcUZT3dgUf5Fyy66Z8LBQLP0/x6YskKOfYZRbNLIh9oA
+ EfLKI+YZHWcL7UAugyujZmjZSFaTWH3bzDSJM5cqgDwFnju7LTd3nRUdptKcd9Teti3G
+ uv67e9d1dRoVYjkAA9wCmyVW2toDPAZBajo0fbX1drYJkbuTqYePZEpZhCRGsmj+LDlo
+ 7H49tQUuxFpcOX4Uo+YG/En9fD1rhSceVpQ1IdxIhbpid+4aKYs5MOEmySkTKYB73mNh
+ FCGw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,199 +71,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>, Rich Felker <dalias@libc.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jingoo Han <jingoohan1@gmail.com>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Linux-sh list <linux-sh@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Content-Type: multipart/mixed; boundary="===============0812025567=="
+Cc: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0812025567==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="mkrddyxkwo53ywov"
-Content-Disposition: inline
-
-
---mkrddyxkwo53ywov
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hello,
-  as promised...
-
-On Fri, Nov 01, 2019 at 08:58:03AM +0000, Lee Jones wrote:
-> On Thu, 24 Oct 2019, Jacopo Mondi wrote:
->
-> > Hello,
-> >
-> > On Thu, Oct 24, 2019 at 07:47:26AM +0100, Lee Jones wrote:
-> > > On Wed, 23 Oct 2019, Daniel Thompson wrote:
-> > >
-> > > > On Tue, Oct 22, 2019 at 11:29:54AM +0200, Bartosz Golaszewski wrote:
-> > > > > wt., 22 pa=C5=BA 2019 o 10:36 Bartosz Golaszewski <brgl@bgdev.pl>=
- napisa=C5=82(a):
-> > > > > >
-> > > > > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > > > > >
-> > > > > > While working on my other series related to gpio-backlight[1] I=
- noticed
-> > > > > > that we could simplify the driver if we made the only user of p=
-latform
-> > > > > > data use GPIO lookups and device properties. This series tries =
-to do
-> > > > > > that.
-> > > > > >
-> > > > > > First two patches contain minor fixes. Third patch makes the dr=
-iver
-> > > > > > explicitly drive the GPIO line. Fourth patch adds all necessary=
- data
-> > > > > > structures to ecovec24. Patch 5/9 unifies much of the code for =
-both
-> > > > > > pdata and non-pdata cases. Patches 6-7/9 remove unused platform=
- data
-> > > > > > fields. Last two patches contain additional improvements for th=
-e GPIO
-> > > > > > backlight driver while we're already modifying it.
-> > > > > >
-> > > > > > I don't have access to this HW but hopefully this works. Only c=
-ompile
-> > > > > > tested.
-> > > > > >
-> > > > > > [1] https://lkml.org/lkml/2019/6/25/900
-> > > > > >
-> > > > > > v1 -> v2:
-> > > > > > - rebased on top of v5.3-rc1 and adjusted to the recent changes=
- from Andy
-> > > > > > - added additional two patches with minor improvements
-> > > > > >
-> > > > > > v2 -> v3:
-> > > > > > - in patch 7/7: used initializers to set values for pdata and d=
-ev local vars
-> > > > > >
-> > > > > > v3 -> v4:
-> > > > > > - rebased on top of v5.4-rc1
-> > > > > > - removed changes that are no longer relevant after commit ec66=
-5b756e6f
-> > > > > >   ("backlight: gpio-backlight: Correct initial power state hand=
-ling")
-> > > > > > - added patch 7/7
-> > > > > >
-> > > > > > v4 -> v5:
-> > > > > > - in patch 7/7: added a comment replacing the name of the funct=
-ion being
-> > > > > >   pulled into probe()
-> > > > > >
-> > > > > > v5 -> v6:
-> > > > > > - added a patch making the driver explicitly set the direction =
-of the GPIO
-> > > > > >   to output
-> > > > > > - added a patch removing a redundant newline
-> > > > > >
-> > > > > > v6 -> v7:
-> > > > > > - renamed the function calculating the new GPIO value for statu=
-s update
-> > > > > > - collected more tags
-> > > > > >
-> > > > > > Bartosz Golaszewski (9):
-> > > > > >   backlight: gpio: remove unneeded include
-> > > > > >   backlight: gpio: remove stray newline
-> > > > > >   backlight: gpio: explicitly set the direction of the GPIO
-> > > > > >   sh: ecovec24: add additional properties to the backlight devi=
-ce
-> > > > > >   backlight: gpio: simplify the platform data handling
-> > > > > >   sh: ecovec24: don't set unused fields in platform data
-> > > > > >   backlight: gpio: remove unused fields from platform data
-> > > > > >   backlight: gpio: use a helper variable for &pdev->dev
-> > > > > >   backlight: gpio: pull gpio_backlight_initial_power_state() in=
-to probe
-> > > > > >
-> > > > > >  arch/sh/boards/mach-ecovec24/setup.c         |  33 +++--
-> > > > > >  drivers/video/backlight/gpio_backlight.c     | 128 +++++++----=
---------
-> > > > > >  include/linux/platform_data/gpio_backlight.h |   3 -
-> > > > > >  3 files changed, 69 insertions(+), 95 deletions(-)
-> > > > > >
-> > > > > >
-> > > > >
-> > > > > Lee, Daniel, Jingoo,
-> > > > >
-> > > > > Jacopo is travelling until November 1st and won't be able to test=
- this
-> > > > > again before this date. Do you think you can pick it up and in ca=
-se
-> > > > > anything's broken on SH, we can fix it after v5.5-rc1, so that it
-> > > > > doesn't miss another merge window?
-> > >
-> > > November 1st (-rc6) will be fine.
-> > >
-> > > I'd rather apply it late-tested than early-non-tested.
-> > >
-> > > Hopefully Jacopo can prioritise testing this on Thursday or Friday,
-> > > since Monday will be -rc7 which is really cutting it fine.
-> >
-> > I'll do my best, I'll get home Friday late afternoon :)
->
-> Welcome home!
->
-> Just a little reminder in your inbox. TIA. :)
-
-For the ecovec part:
-Tested-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-
-Thanks
-   j
-
-
->
-> --
-> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
-> Linaro Services Technical Lead
-> Linaro.org =E2=94=82 Open source software for ARM SoCs
-> Follow Linaro: Facebook | Twitter | Blog
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---mkrddyxkwo53ywov
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl28UigACgkQcjQGjxah
-VjzGSRAArwHKUx3NL679rg20jhbM6i53yCGiIe5VhB7/jWpuNzDeg205l4yidgDI
-xOoxwxeWiNGTFdav95RWXi31C/BO7XRFelNejT4vSdZLZU8nWd6sRqUk26ZoxU5o
-bCwQR1Px6BDJpYCHyHx6JpyFqF6W6NHcvlwYt4ylz7ZmGXbmn3iKsSDrkswPOYvp
-t0msKUcCMFEpEPv2IKx0xjYg9pzqVpJWzG28qZbtnDoQoImgRCsu4mtwHj1LjF1S
-IFBmsGiGkmgRyVBR88JHCXGk0yA8RXzDjtwRhmOqfOZJLqtWOZaWaS8YhMsIt2FM
-SslzzFlI6gTqbwLGApVRWIt8xP9x+Arf280RKSK5jiIXBjdVS+B3Pi1C3VdiHC7R
-Bfn/jIUGoMM1BtywQXBCXNazZWcctMlIBSng12oDcBvhkB7GDPv77XL6mN8WpgIi
-tfeYIkRG1jD79B0+W3vSsuNxNO+dYpKaRbFc/FS0Qbpt8o15U55vMT0SXPs9M4zC
-5lYjN8CdE53JI3A/5YZx+mDwz8ujqZ46kWJRkUqmIjkKnTwW63wysQKNmONdb2BC
-tQIcu2ZRUoo/EwNGCfHfVpJbSS/DEnv6npqQBQqn6FKwlaLbGdyLdbI8ClSRy4sh
-23CZLEVgsB7zilBkNbD1YdOzvoCgNF1/Vi/wg5zuJoViXqP4cFk=
-=y0NH
------END PGP SIGNATURE-----
-
---mkrddyxkwo53ywov--
-
---===============0812025567==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0812025567==--
+QWRkIGEgZGVzY3JpcHRpb24gb24gVktNUyBtb2R1bGUgYW5kIHRoZSBjYXNlcyBpbiB3aGljaCBp
+dCBzaG91bGQgYmUgdXNlZC4KVGhlcmUncyBhIGJyaWVmIGV4cGxhbmF0aW9uIG9uIGhvdyB0byBz
+ZXQgaXQgYW5kIHVzZSBpdCBpbiBhIFZNLCBhbG9uZyB3aXRoCmFuIGV4YW1wbGUgb2YgcnVubmlu
+ZyBhbiBpZ3QtdGVzdC4KClNpZ25lZC1vZmYtYnk6IEdhYnJpZWxhIEJpdHRlbmNvdXJ0IDxnYWJy
+aWVsYWJpdHRlbmNvdXJ0MDBAZ21haWwuY29tPgoKLS0tCgpDaGFuZ2VzIGluIHYyOgotIEF2b2lk
+IHJlcGV0aXRpb24gb2Ygd29yZHMgaW4gdGhlIHNhbWUgc2VudGVuY2U7Ci0gTWFrZSB0aGUgZXhw
+bGFuYXRpb24gb24gJ3NldHRpbmcgdGhlIGtlcm5lbCcgc2hvcnRlciwgZWxpbWluYXRlIHRoZQon
+bWFrZSBtZW51Y29uZmlnJyBjb21tYW5kOwotIEFkZCB0YWIgb24gZW51bWVyYXRpb24gdG8gaGF2
+ZSBvbmUgbGluZSBwZXIgaXRlbTsKLSBDbGFyaWZ5IGZyb20gZWFjaCBtYWNoaW5lIGlndC10ZXN0
+cyBjb21tYW5kcyBzaG91bGQgYmUgcmFuIG9uLgoKVGVzdGVkIHRoZSBwYXRjaCB1c2luZyAnbWFr
+ZSBodG1sZG9jcycgdG8gbWFrZSBzdXJlIHRoZSBvdXRwdXQgLmh0bWwgaXMKY29ycmVjdC4KCkhp
+IERSTS1jb21tdW5pdHksCnRoaXMgaXMgbXkgZmlyc3QgKG9mIG1hbnksIEkgaG9wZSkgIHBhdGNo
+IGluIHRoaXMgc3Vic3lzdGVtLiBJIGhvcGUgdG8gaGF2ZQphIGxvdCBvZiBsZWFybmluZyAoYW5k
+IGZ1biA6KSkgd29ya2luZyB3aXRoIHlvdSBndXlzLgpJJ20gc3RhcnRpbmcgYnkgZG9jdW1lbnRp
+bmcgdGhlIFZLTVMgZHJpdmVyIGluICJVc2VybGFuZCBpbnRlcmZhY2VzIiwgaWYgSQpoYXZlIGJl
+ZW4gaW5hY2N1cmF0ZSBpbiBteSBkZXNjcmlwdGlvbiBvciBpZiBJIG1pc3VuZGVyc3Rvb2Qgc29t
+ZSBjb25jZXB0LApwbGVhc2UgbGV0IG1lIGtub3cuCi0tLQogRG9jdW1lbnRhdGlvbi9ncHUvZHJt
+LXVhcGkucnN0IHwgMzYgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKwogMSBmaWxl
+IGNoYW5nZWQsIDM2IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2dw
+dS9kcm0tdWFwaS5yc3QgYi9Eb2N1bWVudGF0aW9uL2dwdS9kcm0tdWFwaS5yc3QKaW5kZXggOTRm
+OTA1MjFmNThjLi4xNTg2Y2JiYTA1ZDAgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vZ3B1L2Ry
+bS11YXBpLnJzdAorKysgYi9Eb2N1bWVudGF0aW9uL2dwdS9kcm0tdWFwaS5yc3QKQEAgLTI4NSw2
+ICsyODUsNDIgQEAgcnVuLXRlc3RzLnNoIGlzIGEgd3JhcHBlciBhcm91bmQgcGlnbGl0IHRoYXQg
+d2lsbCBleGVjdXRlIHRoZSB0ZXN0cyBtYXRjaGluZwogdGhlIC10IG9wdGlvbnMuIEEgcmVwb3J0
+IGluIEhUTUwgZm9ybWF0IHdpbGwgYmUgYXZhaWxhYmxlIGluCiAuL3Jlc3VsdHMvaHRtbC9pbmRl
+eC5odG1sLiBSZXN1bHRzIGNhbiBiZSBjb21wYXJlZCB3aXRoIHBpZ2xpdC4KIAorVXNpbmcgVktN
+UyB0byB0ZXN0IERSTSBBUEkKKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCisKK1ZLTVMgaXMg
+YSBzb2Z0d2FyZS1vbmx5IG1vZGVsIG9mIGEgS01TIGRyaXZlciB0aGF0IGlzIHVzZWZ1bCBmb3Ig
+dGVzdGluZworYW5kIGZvciBydW5uaW5nIGNvbXBvc2l0b3JzLiBWS01TIGFpbXMgdG8gZW5hYmxl
+IGEgdmlydHVhbCBkaXNwbGF5IHdpdGhvdXQKK3RoZSBuZWVkIGZvciBhIGhhcmR3YXJlIGRpc3Bs
+YXkgY2FwYWJpbGl0eS4gVGhlc2UgY2hhcmFjdGVyaXN0aWNzIG1hZGUgVktNUworYSBwZXJmZWN0
+IHRvb2wgZm9yIHZhbGlkYXRpbmcgdGhlIERSTSBjb3JlIGJlaGF2aW9yIGFuZCBhbHNvIHN1cHBv
+cnQgdGhlCitjb21wb3NpdG9yIGRldmVsb3Blci4gVktNUyBtYWtlcyBpdCBwb3NzaWJsZSB0byB0
+ZXN0IERSTSBmdW5jdGlvbnMgaW4gYQordmlydHVhbCBtYWNoaW5lIHdpdGhvdXQgZGlzcGxheSwg
+c2ltcGxpZmluZyB0aGUgdmFsaWRhdGlvbiBvZiBzb21lIG9mIHRoZQorY29yZSBjaGFuZ2VzLgor
+CitUbyBWYWxpZGF0ZSBjaGFuZ2VzIGluIERSTSBBUEkgd2l0aCBWS01TLCBzdGFydCBzZXR0aW5n
+IHRoZSBrZXJuZWw6IG1ha2UKK3N1cmUgdG8gZW5hYmxlIFZLTVMgbW9kdWxlOyBjb21waWxlIHRo
+ZSBrZXJuZWwgd2l0aCB0aGUgVktNUyBlbmFibGVkIGFuZAoraW5zdGFsbCBpdCBpbiB0aGUgdGFy
+Z2V0IG1hY2hpbmUuIFZLTVMgY2FuIGJlIHJ1biBpbiBhIFZpcnR1YWwgTWFjaGluZQorKFFFTVUs
+IHZpcnRtZSBvciBzaW1pbGFyKS4gSXQncyByZWNvbW1lbmRlZCB0aGUgdXNlIG9mIEtWTSB3aXRo
+IHRoZSBtaW5pbXVtCitvZiAxR0Igb2YgUkFNIGFuZCBmb3VyIGNvcmVzLgorCitJdCdzIHBvc3Np
+YmxlIHRvIHJ1biB0aGUgSUdULXRlc3RzIGluIGEgVk0gaW4gdHdvIHdheXM6CisJMS4gVXNlIElH
+VCBpbnNpZGUgYSBWTQorCTIuIFVzZSBJR1QgZnJvbSB0aGUgaG9zdCBtYWNoaW5lIGFuZCB3cml0
+ZSB0aGUgcmVzdWx0cyBpbiBhIHNoYXJlZCBkaXJlY3RvcnkuCisKK0FzIGZvbGxvdywgdGhlcmUg
+aXMgYW4gZXhhbXBsZSBvZiB1c2luZyBhIFZNIHdpdGggYSBzaGFyZWQgZGlyZWN0b3J5IHdpdGgK
+K3RoZSBob3N0IG1hY2hpbmUgdG8gcnVuIGlndC10ZXN0cy4gQXMgZXhhbXBsZSBpdCdzIHVzZWQg
+dmlydG1lOjoKKworCSQgdmlydG1lLXJ1biAtLXJ3ZGlyIC9wYXRoL2Zvci9zaGFyZWRfZGlyIC0t
+a2Rpcj1wYXRoL2Zvci9rZXJuZWwvZGlyZWN0b3J5IC0tbW9kcz1hdXRvCisKK1J1biB0aGUgaWd0
+LXRlc3RzIGluIHRoZSBndWVzdCBtYWNoaW5lLCBhcyBleGFtcGxlIGl0J3MgcmFuIHRoZSAna21z
+X2ZsaXAnCit0ZXN0czo6CisKKwkkIC9wYXRoL2Zvci9pZ3QtZ3B1LXRvb2xzL3NjcmlwdHMvcnVu
+LXRlc3RzLnNoIC1wIC1zIC10ICJrbXNfZmxpcC4qIiAtdgorCitJbiB0aGlzIGV4YW1wbGUsIGlu
+c3RlYWQgb2YgYnVpbGQgdGhlIGlndF9ydW5uZXIsIFBpZ2xpdCBpcyB1c2VkCisoLXAgb3B0aW9u
+KTsgaXQncyBjcmVhdGVkIGh0bWwgc3VtbWFyeSBvZiB0aGUgdGVzdHMgcmVzdWx0cyBhbmQgaXQn
+cyBzYXZlZAoraW4gdGhlIGZvbGRlciAiaWd0LWdwdS10b29scy9yZXN1bHRzIjsgaXQncyBleGVj
+dXRlZCBvbmx5IHRoZSBpZ3QtdGVzdHMKK21hdGNoaW5nIHRoZSAtdCBvcHRpb24uCisKIERpc3Bs
+YXkgQ1JDIFN1cHBvcnQKIC0tLS0tLS0tLS0tLS0tLS0tLS0KIAotLSAKMi4yMC4xCgpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
