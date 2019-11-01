@@ -2,44 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19E4EC40D
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 14:51:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0307BEC433
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Nov 2019 15:07:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAA826E243;
-	Fri,  1 Nov 2019 13:51:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F1206F7FA;
+	Fri,  1 Nov 2019 14:07:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5DD6A6E243
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Nov 2019 13:51:11 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5AE04720E4; Fri,  1 Nov 2019 13:51:11 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112192] regression: modesetting does not work with my Radeon R5
- 230
-Date: Fri, 01 Nov 2019 13:51:11 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: estellnb@elstel.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-112192-502-2Lyt5X9dfP@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-112192-502@http.bugs.freedesktop.org/>
-References: <bug-112192-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB9ED6F7F9;
+ Fri,  1 Nov 2019 14:07:35 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2019 07:07:34 -0700
+X-IronPort-AV: E=Sophos;i="5.68,255,1569308400"; d="scan'208";a="194669323"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2019 07:07:32 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Jerry \(Fangzhi\) Zuo" <Jerry.Zuo@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Subject: Re: [PATCH 1/2] drm: Add support for DP 1.4 Compliance edid
+ corruption test 4.2.2.6
+In-Reply-To: <20191030210844.19803-2-Jerry.Zuo@amd.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20191030210844.19803-1-Jerry.Zuo@amd.com>
+ <20191030210844.19803-2-Jerry.Zuo@amd.com>
+Date: Fri, 01 Nov 2019 16:07:29 +0200
+Message-ID: <87bltv8zby.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -53,95 +45,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1956440402=="
+Cc: manasi.d.navare@intel.com, Jerry.Zuo@amd.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1956440402==
-Content-Type: multipart/alternative; boundary="15726162711.81da2eFE0.15289"
-Content-Transfer-Encoding: 7bit
-
-
---15726162711.81da2eFE0.15289
-Date: Fri, 1 Nov 2019 13:51:11 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112192
-
---- Comment #7 from Elmar Stellnberger <estellnb@elstel.org> ---
-Created attachment 145869
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145869&action=3Dedit
-dmesg from another boot with the same Debian Live CD
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15726162711.81da2eFE0.15289
-Date: Fri, 1 Nov 2019 13:51:11 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - regression: modesetting does not work with my Radeon R5 2=
-30"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112192#c7">Commen=
-t # 7</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - regression: modesetting does not work with my Radeon R5 2=
-30"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112192">bug 11219=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-estellnb&#64;elstel.org" title=3D"Elmar Stellnberger &lt;estellnb&#64;elste=
-l.org&gt;"> <span class=3D"fn">Elmar Stellnberger</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145869=
-" name=3D"attach_145869" title=3D"dmesg from another boot with the same Deb=
-ian Live CD">attachment 145869</a> <a href=3D"attachment.cgi?id=3D145869&am=
-p;action=3Dedit" title=3D"dmesg from another boot with the same Debian Live=
- CD">[details]</a></span>
-dmesg from another boot with the same Debian Live CD</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15726162711.81da2eFE0.15289--
-
---===============1956440402==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1956440402==--
+T24gV2VkLCAzMCBPY3QgMjAxOSwgIkplcnJ5IChGYW5nemhpKSBadW8iIDxKZXJyeS5adW9AYW1k
+LmNvbT4gd3JvdGU6Cj4gRFAgMS40IGVkaWQgY29ycnVwdGlvbiB0ZXN0IHJlcXVpcmVzIHNvdXJj
+ZSBEVVQgdG8gd3JpdGUgY2FsY3VsYXRlZAo+IENSQywgbm90IHRoZSBjb3JydXB0ZWQgQ1JDIGZy
+b20gcmVmZXJlbmNlIHNpbmsuCj4KPiBSZXR1cm4gdGhlIGNhbGN1bGF0ZWQgQ1JDIGJhY2ssIGFu
+ZCBpbml0aWF0ZSB0aGUgcmVxdWlyZWQgc2VxdWVuY2UuCj4KPiBTaWduZWQtb2ZmLWJ5OiBKZXJy
+eSAoRmFuZ3poaSkgWnVvIDxKZXJyeS5adW9AYW1kLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9ncHUv
+ZHJtL2RybV9kcF9oZWxwZXIuYyB8IDM2ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKwo+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYyAgICAgIHwgMTUgKysrKysrKysrKysr
+LS0tCj4gIGluY2x1ZGUvZHJtL2RybV9jb25uZWN0b3IuaCAgICAgfCAgNyArKysrKysrCj4gIGlu
+Y2x1ZGUvZHJtL2RybV9kcF9oZWxwZXIuaCAgICAgfCAgMyArKysKPiAgNCBmaWxlcyBjaGFuZ2Vk
+LCA1OCBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS9kcm1fZHBfaGVscGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX2hlbHBl
+ci5jCj4gaW5kZXggZmZjNjhkMzA1YWZlLi43NWRiZDMwYzYyYTcgMTAwNjQ0Cj4gLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL2RybV9kcF9oZWxwZXIuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1f
+ZHBfaGVscGVyLmMKPiBAQCAtMzM2LDYgKzMzNiw0MiBAQCBpbnQgZHJtX2RwX2RwY2RfcmVhZF9s
+aW5rX3N0YXR1cyhzdHJ1Y3QgZHJtX2RwX2F1eCAqYXV4LAo+ICB9Cj4gIEVYUE9SVF9TWU1CT0wo
+ZHJtX2RwX2RwY2RfcmVhZF9saW5rX3N0YXR1cyk7Cj4gIAo+ICsvKioKPiArICAqIGRybV9kcF9z
+ZW5kX2JhZF9lZGlkX2NoZWNrc3VtKCkgLSBzZW5kIGJhY2sgcmVhbCBlZGlkIGNoZWNrc3VtIHZh
+bHVlCj4gKyAgKiBAYXV4OiBEaXNwbGF5UG9ydCBBVVggY2hhbm5lbAo+ICsgICogQGJhZF9lZGlk
+X2NoZWNrc3VtOiByZWFsIGVkaWQgY2hlY2tzdW0gZm9yIHRoZSBsYXN0IGJsb2NrCj4gKyAgKgo+
+ICsgICogUmV0dXJucyB0cnVlIG9uIHN1Y2Nlc3MKPiArICAqLwo+ICtib29sIGRybV9kcF9zZW5k
+X2JhZF9lZGlkX2NoZWNrc3VtKHN0cnVjdCBkcm1fZHBfYXV4ICphdXgsCj4gKyAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgdTggYmFkX2VkaWRfY2hlY2tzdW0pCj4gK3sKPiArICAgICAg
+ICB1OCBsaW5rX2VkaWRfcmVhZCA9IDAsIGF1dG9fdGVzdF9yZXEgPSAwOwo+ICsgICAgICAgIHU4
+IHRlc3RfcmVzcCA9IDA7Cj4gKwo+ICsgICAgICAgIGRybV9kcF9kcGNkX3JlYWQoYXV4LCBEUF9E
+RVZJQ0VfU0VSVklDRV9JUlFfVkVDVE9SLCAmYXV0b190ZXN0X3JlcSwgMSk7Cj4gKyAgICAgICAg
+YXV0b190ZXN0X3JlcSAmPSBEUF9BVVRPTUFURURfVEVTVF9SRVFVRVNUOwo+ICsKPiArICAgICAg
+ICBkcm1fZHBfZHBjZF9yZWFkKGF1eCwgRFBfVEVTVF9SRVFVRVNULCAmbGlua19lZGlkX3JlYWQs
+IDEpOwo+ICsgICAgICAgIGxpbmtfZWRpZF9yZWFkICY9IERQX1RFU1RfTElOS19FRElEX1JFQUQ7
+Cj4gKwo+ICsgICAgICAgIGlmICghYXV0b190ZXN0X3JlcSB8fCAhbGlua19lZGlkX3JlYWQpIHsK
+PiArICAgICAgICAgICAgICAgIERSTV9ERUJVR19LTVMoIlNvdXJjZSBEVVQgZG9lcyBub3Qgc3Vw
+cG9ydCBURVNUX0VESURfUkVBRFxuIik7Cj4gKyAgICAgICAgICAgICAgICByZXR1cm4gZmFsc2U7
+Cj4gKyAgICAgICAgfQo+ICsKPiArICAgICAgICBkcm1fZHBfZHBjZF93cml0ZShhdXgsIERQX0RF
+VklDRV9TRVJWSUNFX0lSUV9WRUNUT1IsICZhdXRvX3Rlc3RfcmVxLCAxKTsKPiArCj4gKyAgICAg
+ICAgLyogc2VuZCBiYWNrIGNoZWNrc3VtIGZvciB0aGUgbGFzdCBlZGlkIGV4dGVuc2lvbiBibG9j
+ayBkYXRhICovCj4gKyAgICAgICAgZHJtX2RwX2RwY2Rfd3JpdGUoYXV4LCBEUF9URVNUX0VESURf
+Q0hFQ0tTVU0sICZiYWRfZWRpZF9jaGVja3N1bSwgMSk7Cj4gKwo+ICsgICAgICAgIHRlc3RfcmVz
+cCB8PSBEUF9URVNUX0VESURfQ0hFQ0tTVU1fV1JJVEU7Cj4gKyAgICAgICAgZHJtX2RwX2RwY2Rf
+d3JpdGUoYXV4LCBEUF9URVNUX1JFU1BPTlNFLCAmdGVzdF9yZXNwLCAxKTsKPiArCj4gKyAgICAg
+ICAgcmV0dXJuIHRydWU7Cj4gK30KPiArRVhQT1JUX1NZTUJPTChkcm1fZHBfc2VuZF9iYWRfZWRp
+ZF9jaGVja3N1bSk7Cj4gKwo+ICAvKioKPiAgICogZHJtX2RwX2xpbmtfcHJvYmUoKSAtIHByb2Jl
+IGEgRGlzcGxheVBvcnQgbGluayBmb3IgY2FwYWJpbGl0aWVzCj4gICAqIEBhdXg6IERpc3BsYXlQ
+b3J0IEFVWCBjaGFubmVsCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5j
+IGIvZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMKPiBpbmRleCA4MmE0Y2VlZDNmY2YuLjQwMDA2
+NGRjYzAxMCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYwo+ICsrKyBi
+L2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jCj4gQEAgLTEzNDQsMTMgKzEzNDQsMTkgQEAgc3Rh
+dGljIHZvaWQgZHJtX2dldF9kaXNwbGF5aWQoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3Rv
+ciwKPiAgCQkJICAgICAgc3RydWN0IGVkaWQgKmVkaWQpOwo+ICBzdGF0aWMgaW50IHZhbGlkYXRl
+X2Rpc3BsYXlpZCh1OCAqZGlzcGxheWlkLCBpbnQgbGVuZ3RoLCBpbnQgaWR4KTsKPiAgCj4gLXN0
+YXRpYyBpbnQgZHJtX2VkaWRfYmxvY2tfY2hlY2tzdW0oY29uc3QgdTggKnJhd19lZGlkKQo+ICtz
+dGF0aWMgaW50IGRybV9lZGlkX2Jsb2NrX2NoZWNrc3VtKGNvbnN0IHU4ICpyYXdfZWRpZCwgYm9v
+bCBjKQo+ICB7Cj4gIAlpbnQgaTsKPiAgCXU4IGNzdW0gPSAwOwo+IC0JZm9yIChpID0gMDsgaSA8
+IEVESURfTEVOR1RIOyBpKyspCj4gKwl1OCBsZW47Cj4gKwo+ICsJbGVuID0gYyA/IEVESURfTEVO
+R1RIIDogKEVESURfTEVOR1RIIC0gMSk7Cj4gKwo+ICsJZm9yIChpID0gMDsgaSA8IGxlbjsgaSsr
+KQo+ICAJCWNzdW0gKz0gcmF3X2VkaWRbaV07Cj4gIAo+ICsJY3N1bSA9IGMgPyBjc3VtIDogKDB4
+MTAwIC0gY3N1bSk7Cj4gKwo+ICAJcmV0dXJuIGNzdW07Cj4gIH0KCkkgdGhpbmsgYSBteXN0ZXJp
+b3VzIGJvb2xlYW4gJ2MnIGFyZ3VtZW50IGp1c3QgbWFrZXMgdGhpcyBtb3JlCmNvbmZ1c2luZy4K
+ClBsZWFzZSBzcGxpdCB0aGUgZnVuY3Rpb24gdG8gdHdvLCBvbmUgdGhhdCBjYWxjdWxhdGVzIHRo
+ZSBjaGVja3N1bSAoYyA9PQpmYWxzZSBjYXNlKSBhbmQgYW5vdGhlciB0aGF0IHVzZXMgdGhlIGZ1
+bmN0aW9uIChjID09IHRydWUgY2FzZSkuIFRoZQpsYXR0ZXIgd291bGQgcmV0dXJuIHRoZSBzYW1l
+IHZhbHVlIGFzIHRoZSBhYm92ZS4KClBsZWFzZSBkbyB0aGlzIGFzIGEgcHJlcCBwYXRjaCB3aXRo
+b3V0IGFueSBvZiB0aGUgb3RoZXIgbW9kaWZpY2F0aW9ucy4KCkJSLApKYW5pLgoKCgo+ICAKPiBA
+QCAtMTQwOCw3ICsxNDE0LDcgQEAgYm9vbCBkcm1fZWRpZF9ibG9ja192YWxpZCh1OCAqcmF3X2Vk
+aWQsIGludCBibG9jaywgYm9vbCBwcmludF9iYWRfZWRpZCwKPiAgCQl9Cj4gIAl9Cj4gIAo+IC0J
+Y3N1bSA9IGRybV9lZGlkX2Jsb2NrX2NoZWNrc3VtKHJhd19lZGlkKTsKPiArCWNzdW0gPSBkcm1f
+ZWRpZF9ibG9ja19jaGVja3N1bShyYXdfZWRpZCwgdHJ1ZSk7Cj4gIAlpZiAoY3N1bSkgewo+ICAJ
+CWlmIChlZGlkX2NvcnJ1cHQpCj4gIAkJCSplZGlkX2NvcnJ1cHQgPSB0cnVlOwo+IEBAIC0xNTcy
+LDYgKzE1NzgsOSBAQCBzdGF0aWMgdm9pZCBjb25uZWN0b3JfYmFkX2VkaWQoc3RydWN0IGRybV9j
+b25uZWN0b3IgKmNvbm5lY3RvciwKPiAgCQkJICAgICAgIHByZWZpeCwgRFVNUF9QUkVGSVhfTk9O
+RSwgMTYsIDEsCj4gIAkJCSAgICAgICBibG9jaywgRURJRF9MRU5HVEgsIGZhbHNlKTsKPiAgCX0K
+PiArCj4gKwkvKiBDYWxjdWxhdGUgcmVhbCBjaGVja3N1bSBmb3IgdGhlIGxhc3QgZWRpZCBleHRl
+bnNpb24gYmxvY2sgZGF0YSAqLwo+ICsJY29ubmVjdG9yLT5iYWRfZWRpZF9jaGVja3N1bSA9IGRy
+bV9lZGlkX2Jsb2NrX2NoZWNrc3VtKGVkaWQgKyBlZGlkWzB4N2VdICogRURJRF9MRU5HVEgsIGZh
+bHNlKTsKPiAgfQo+ICAKPiAgLyogR2V0IG92ZXJyaWRlIG9yIGZpcm13YXJlIEVESUQgKi8KPiBk
+aWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2Nvbm5lY3Rvci5oIGIvaW5jbHVkZS9kcm0vZHJt
+X2Nvbm5lY3Rvci5oCj4gaW5kZXggNjgxY2I1OTBmOTUyLi44NDQyNDYxNTQyYjkgMTAwNjQ0Cj4g
+LS0tIGEvaW5jbHVkZS9kcm0vZHJtX2Nvbm5lY3Rvci5oCj4gKysrIGIvaW5jbHVkZS9kcm0vZHJt
+X2Nvbm5lY3Rvci5oCj4gQEAgLTEzNDUsNiArMTM0NSwxMyBAQCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rv
+ciB7Cj4gIAkgKiByZXYxLjEgNC4yLjIuNgo+ICAJICovCj4gIAlib29sIGVkaWRfY29ycnVwdDsK
+PiArCS8qKgo+ICsgICAgICAgICAqIEBiYWRfZWRpZF9jaGVja3N1bTogcmVhbCBlZGlkIGNoZWNr
+c3VtIHZhbHVlIGZvciBjb3JydXB0ZWQgZWRpZCBibG9jay4KPiArICAgICAgICAgKiBSZXF1aXJl
+ZCBpbiBEaXNwbGF5cG9ydCAxLjQgY29tcGxpYW5jZSB0ZXN0aW5nCj4gKyAgICAgICAgICogcmV2
+MS4xIDQuMi4yLjYKPiArICAgICAgICAgKi8KPiArICAgICAgICB1aW50OF90IGJhZF9lZGlkX2No
+ZWNrc3VtOwo+ICsKPiAgCj4gIAkvKiogQGRlYnVnZnNfZW50cnk6IGRlYnVnZnMgZGlyZWN0b3J5
+IGZvciB0aGlzIGNvbm5lY3RvciAqLwo+ICAJc3RydWN0IGRlbnRyeSAqZGVidWdmc19lbnRyeTsK
+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2RwX2hlbHBlci5oIGIvaW5jbHVkZS9kcm0v
+ZHJtX2RwX2hlbHBlci5oCj4gaW5kZXggNWE3OTUwNzVkNWRhLi4yYTdlNTRiZWJiMTggMTAwNjQ0
+Cj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2RwX2hlbHBlci5oCj4gKysrIGIvaW5jbHVkZS9kcm0v
+ZHJtX2RwX2hlbHBlci5oCj4gQEAgLTEzODMsNiArMTM4Myw5IEBAIHN0YXRpYyBpbmxpbmUgc3Np
+emVfdCBkcm1fZHBfZHBjZF93cml0ZWIoc3RydWN0IGRybV9kcF9hdXggKmF1eCwKPiAgaW50IGRy
+bV9kcF9kcGNkX3JlYWRfbGlua19zdGF0dXMoc3RydWN0IGRybV9kcF9hdXggKmF1eCwKPiAgCQkJ
+CSB1OCBzdGF0dXNbRFBfTElOS19TVEFUVVNfU0laRV0pOwo+ICAKPiArYm9vbCBkcm1fZHBfc2Vu
+ZF9iYWRfZWRpZF9jaGVja3N1bShzdHJ1Y3QgZHJtX2RwX2F1eCAqYXV4LAo+ICsJCQkJdTggYmFk
+X2VkaWRfY2hlY2tzdW0pOwo+ICsKPiAgLyoKPiAgICogRGlzcGxheVBvcnQgbGluawo+ICAgKi8K
+Ci0tIApKYW5pIE5pa3VsYSwgSW50ZWwgT3BlbiBTb3VyY2UgR3JhcGhpY3MgQ2VudGVyCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
