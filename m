@@ -2,33 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7CE9ED0E6
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Nov 2019 23:33:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC19AED0FE
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Nov 2019 00:11:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 705796E02B;
-	Sat,  2 Nov 2019 22:33:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C06C06E154;
+	Sat,  2 Nov 2019 23:11:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 768BE6E02B;
- Sat,  2 Nov 2019 22:33:27 +0000 (UTC)
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
- by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <colin.king@canonical.com>)
- id 1iR1xU-0005bB-2Y; Sat, 02 Nov 2019 22:33:24 +0000
-From: Colin King <colin.king@canonical.com>
-To: Rex Zhu <rex.zhu@amd.com>, Evan Quan <evan.quan@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Zhou <David1.Zhou@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/amd/powerplay: fix spelling mistake "Attemp" -> "Attempt"
-Date: Sat,  2 Nov 2019 22:33:23 +0000
-Message-Id: <20191102223323.8453-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.20.1
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7F49D6E030
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Nov 2019 23:11:39 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 76874720E6; Sat,  2 Nov 2019 23:11:39 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Sat, 02 Nov 2019 23:11:39 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: wychuchol7777@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: highest
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111481-502-uhkBKZ6kjY@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -42,101 +53,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0664851383=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4KClRoZXJlIGFy
-ZSBzcGVsbGluZyBtaXN0YWtlcyBpbiBhc3NlcnQgbWVzc2FnZXMsIGZpeCB0aGVzZS4KClNpZ25l
-ZC1vZmYtYnk6IENvbGluIElhbiBLaW5nIDxjb2xpbi5raW5nQGNhbm9uaWNhbC5jb20+Ci0tLQog
-ZHJpdmVycy9ncHUvZHJtL2FtZC9wb3dlcnBsYXkvc211bWdyL3ZlZ2ExMl9zbXVtZ3IuYyB8IDEy
-ICsrKysrKy0tLS0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9wb3dlcnBsYXkvc211bWdyL3ZlZ2Ey
-MF9zbXVtZ3IuYyB8IDEyICsrKysrKy0tLS0tLQogMiBmaWxlcyBjaGFuZ2VkLCAxMiBpbnNlcnRp
-b25zKCspLCAxMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1k
-L3Bvd2VycGxheS9zbXVtZ3IvdmVnYTEyX3NtdW1nci5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9w
-b3dlcnBsYXkvc211bWdyL3ZlZ2ExMl9zbXVtZ3IuYwppbmRleCA5MGM3ODJjMTMyZDIuLjQzMTkw
-ZmEyYmIzMyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9wb3dlcnBsYXkvc211bWdy
-L3ZlZ2ExMl9zbXVtZ3IuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL3Bvd2VycGxheS9zbXVt
-Z3IvdmVnYTEyX3NtdW1nci5jCkBAIC0xMjUsMjAgKzEyNSwyMCBAQCBpbnQgdmVnYTEyX2VuYWJs
-ZV9zbWNfZmVhdHVyZXMoc3RydWN0IHBwX2h3bWdyICpod21nciwKIAlpZiAoZW5hYmxlKSB7CiAJ
-CVBQX0FTU0VSVF9XSVRIX0NPREUoc211OV9zZW5kX21zZ190b19zbWNfd2l0aF9wYXJhbWV0ZXIo
-aHdtZ3IsCiAJCQkJUFBTTUNfTVNHX0VuYWJsZVNtdUZlYXR1cmVzTG93LCBzbXVfZmVhdHVyZXNf
-bG93KSA9PSAwLAotCQkJCSJbRW5hYmxlRGlzYWJsZVNNQ0ZlYXR1cmVzXSBBdHRlbXAgdG8gZW5h
-YmxlIFNNVSBmZWF0dXJlcyBMb3cgZmFpbGVkISIsCisJCQkJIltFbmFibGVEaXNhYmxlU01DRmVh
-dHVyZXNdIEF0dGVtcHQgdG8gZW5hYmxlIFNNVSBmZWF0dXJlcyBMb3cgZmFpbGVkISIsCiAJCQkJ
-cmV0dXJuIC1FSU5WQUwpOwogCQlQUF9BU1NFUlRfV0lUSF9DT0RFKHNtdTlfc2VuZF9tc2dfdG9f
-c21jX3dpdGhfcGFyYW1ldGVyKGh3bWdyLAogCQkJCVBQU01DX01TR19FbmFibGVTbXVGZWF0dXJl
-c0hpZ2gsIHNtdV9mZWF0dXJlc19oaWdoKSA9PSAwLAotCQkJCSJbRW5hYmxlRGlzYWJsZVNNQ0Zl
-YXR1cmVzXSBBdHRlbXAgdG8gZW5hYmxlIFNNVSBmZWF0dXJlcyBIaWdoIGZhaWxlZCEiLAorCQkJ
-CSJbRW5hYmxlRGlzYWJsZVNNQ0ZlYXR1cmVzXSBBdHRlbXB0IHRvIGVuYWJsZSBTTVUgZmVhdHVy
-ZXMgSGlnaCBmYWlsZWQhIiwKIAkJCQlyZXR1cm4gLUVJTlZBTCk7CiAJfSBlbHNlIHsKIAkJUFBf
-QVNTRVJUX1dJVEhfQ09ERShzbXU5X3NlbmRfbXNnX3RvX3NtY193aXRoX3BhcmFtZXRlcihod21n
-ciwKIAkJCQlQUFNNQ19NU0dfRGlzYWJsZVNtdUZlYXR1cmVzTG93LCBzbXVfZmVhdHVyZXNfbG93
-KSA9PSAwLAotCQkJCSJbRW5hYmxlRGlzYWJsZVNNQ0ZlYXR1cmVzXSBBdHRlbXAgdG8gZGlzYWJs
-ZSBTTVUgZmVhdHVyZXMgTG93IGZhaWxlZCEiLAorCQkJCSJbRW5hYmxlRGlzYWJsZVNNQ0ZlYXR1
-cmVzXSBBdHRlbXB0IHRvIGRpc2FibGUgU01VIGZlYXR1cmVzIExvdyBmYWlsZWQhIiwKIAkJCQly
-ZXR1cm4gLUVJTlZBTCk7CiAJCVBQX0FTU0VSVF9XSVRIX0NPREUoc211OV9zZW5kX21zZ190b19z
-bWNfd2l0aF9wYXJhbWV0ZXIoaHdtZ3IsCiAJCQkJUFBTTUNfTVNHX0Rpc2FibGVTbXVGZWF0dXJl
-c0hpZ2gsIHNtdV9mZWF0dXJlc19oaWdoKSA9PSAwLAotCQkJCSJbRW5hYmxlRGlzYWJsZVNNQ0Zl
-YXR1cmVzXSBBdHRlbXAgdG8gZGlzYWJsZSBTTVUgZmVhdHVyZXMgSGlnaCBmYWlsZWQhIiwKKwkJ
-CQkiW0VuYWJsZURpc2FibGVTTUNGZWF0dXJlc10gQXR0ZW1wdCB0byBkaXNhYmxlIFNNVSBmZWF0
-dXJlcyBIaWdoIGZhaWxlZCEiLAogCQkJCXJldHVybiAtRUlOVkFMKTsKIAl9CiAKQEAgLTE1NSwx
-MyArMTU1LDEzIEBAIGludCB2ZWdhMTJfZ2V0X2VuYWJsZWRfc21jX2ZlYXR1cmVzKHN0cnVjdCBw
-cF9od21nciAqaHdtZ3IsCiAKIAlQUF9BU1NFUlRfV0lUSF9DT0RFKHNtdTlfc2VuZF9tc2dfdG9f
-c21jKGh3bWdyLAogCQkJUFBTTUNfTVNHX0dldEVuYWJsZWRTbXVGZWF0dXJlc0xvdykgPT0gMCwK
-LQkJCSJbR2V0RW5hYmxlZFNNQ0ZlYXR1cmVzXSBBdHRlbXAgdG8gZ2V0IFNNVSBmZWF0dXJlcyBM
-b3cgZmFpbGVkISIsCisJCQkiW0dldEVuYWJsZWRTTUNGZWF0dXJlc10gQXR0ZW1wdCB0byBnZXQg
-U01VIGZlYXR1cmVzIExvdyBmYWlsZWQhIiwKIAkJCXJldHVybiAtRUlOVkFMKTsKIAlzbWNfZmVh
-dHVyZXNfbG93ID0gc211OV9nZXRfYXJndW1lbnQoaHdtZ3IpOwogCiAJUFBfQVNTRVJUX1dJVEhf
-Q09ERShzbXU5X3NlbmRfbXNnX3RvX3NtYyhod21nciwKIAkJCVBQU01DX01TR19HZXRFbmFibGVk
-U211RmVhdHVyZXNIaWdoKSA9PSAwLAotCQkJIltHZXRFbmFibGVkU01DRmVhdHVyZXNdIEF0dGVt
-cCB0byBnZXQgU01VIGZlYXR1cmVzIEhpZ2ggZmFpbGVkISIsCisJCQkiW0dldEVuYWJsZWRTTUNG
-ZWF0dXJlc10gQXR0ZW1wdCB0byBnZXQgU01VIGZlYXR1cmVzIEhpZ2ggZmFpbGVkISIsCiAJCQly
-ZXR1cm4gLUVJTlZBTCk7CiAJc21jX2ZlYXR1cmVzX2hpZ2ggPSBzbXU5X2dldF9hcmd1bWVudCho
-d21ncik7CiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L3NtdW1n
-ci92ZWdhMjBfc211bWdyLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL3Bvd2VycGxheS9zbXVtZ3Iv
-dmVnYTIwX3NtdW1nci5jCmluZGV4IGY2MDQ2MTJmNDExZi4uNTYyY2IyMjFmMTg2IDEwMDY0NAot
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL3Bvd2VycGxheS9zbXVtZ3IvdmVnYTIwX3NtdW1nci5j
-CisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L3NtdW1nci92ZWdhMjBfc211bWdy
-LmMKQEAgLTMxMCwyMCArMzEwLDIwIEBAIGludCB2ZWdhMjBfZW5hYmxlX3NtY19mZWF0dXJlcyhz
-dHJ1Y3QgcHBfaHdtZ3IgKmh3bWdyLAogCWlmIChlbmFibGUpIHsKIAkJUFBfQVNTRVJUX1dJVEhf
-Q09ERSgocmV0ID0gdmVnYTIwX3NlbmRfbXNnX3RvX3NtY193aXRoX3BhcmFtZXRlcihod21nciwK
-IAkJCQlQUFNNQ19NU0dfRW5hYmxlU211RmVhdHVyZXNMb3csIHNtdV9mZWF0dXJlc19sb3cpKSA9
-PSAwLAotCQkJCSJbRW5hYmxlRGlzYWJsZVNNQ0ZlYXR1cmVzXSBBdHRlbXAgdG8gZW5hYmxlIFNN
-VSBmZWF0dXJlcyBMb3cgZmFpbGVkISIsCisJCQkJIltFbmFibGVEaXNhYmxlU01DRmVhdHVyZXNd
-IEF0dGVtcHQgdG8gZW5hYmxlIFNNVSBmZWF0dXJlcyBMb3cgZmFpbGVkISIsCiAJCQkJcmV0dXJu
-IHJldCk7CiAJCVBQX0FTU0VSVF9XSVRIX0NPREUoKHJldCA9IHZlZ2EyMF9zZW5kX21zZ190b19z
-bWNfd2l0aF9wYXJhbWV0ZXIoaHdtZ3IsCiAJCQkJUFBTTUNfTVNHX0VuYWJsZVNtdUZlYXR1cmVz
-SGlnaCwgc211X2ZlYXR1cmVzX2hpZ2gpKSA9PSAwLAotCQkJCSJbRW5hYmxlRGlzYWJsZVNNQ0Zl
-YXR1cmVzXSBBdHRlbXAgdG8gZW5hYmxlIFNNVSBmZWF0dXJlcyBIaWdoIGZhaWxlZCEiLAorCQkJ
-CSJbRW5hYmxlRGlzYWJsZVNNQ0ZlYXR1cmVzXSBBdHRlbXB0IHRvIGVuYWJsZSBTTVUgZmVhdHVy
-ZXMgSGlnaCBmYWlsZWQhIiwKIAkJCQlyZXR1cm4gcmV0KTsKIAl9IGVsc2UgewogCQlQUF9BU1NF
-UlRfV0lUSF9DT0RFKChyZXQgPSB2ZWdhMjBfc2VuZF9tc2dfdG9fc21jX3dpdGhfcGFyYW1ldGVy
-KGh3bWdyLAogCQkJCVBQU01DX01TR19EaXNhYmxlU211RmVhdHVyZXNMb3csIHNtdV9mZWF0dXJl
-c19sb3cpKSA9PSAwLAotCQkJCSJbRW5hYmxlRGlzYWJsZVNNQ0ZlYXR1cmVzXSBBdHRlbXAgdG8g
-ZGlzYWJsZSBTTVUgZmVhdHVyZXMgTG93IGZhaWxlZCEiLAorCQkJCSJbRW5hYmxlRGlzYWJsZVNN
-Q0ZlYXR1cmVzXSBBdHRlbXB0IHRvIGRpc2FibGUgU01VIGZlYXR1cmVzIExvdyBmYWlsZWQhIiwK
-IAkJCQlyZXR1cm4gcmV0KTsKIAkJUFBfQVNTRVJUX1dJVEhfQ09ERSgocmV0ID0gdmVnYTIwX3Nl
-bmRfbXNnX3RvX3NtY193aXRoX3BhcmFtZXRlcihod21nciwKIAkJCQlQUFNNQ19NU0dfRGlzYWJs
-ZVNtdUZlYXR1cmVzSGlnaCwgc211X2ZlYXR1cmVzX2hpZ2gpKSA9PSAwLAotCQkJCSJbRW5hYmxl
-RGlzYWJsZVNNQ0ZlYXR1cmVzXSBBdHRlbXAgdG8gZGlzYWJsZSBTTVUgZmVhdHVyZXMgSGlnaCBm
-YWlsZWQhIiwKKwkJCQkiW0VuYWJsZURpc2FibGVTTUNGZWF0dXJlc10gQXR0ZW1wdCB0byBkaXNh
-YmxlIFNNVSBmZWF0dXJlcyBIaWdoIGZhaWxlZCEiLAogCQkJCXJldHVybiByZXQpOwogCX0KIApA
-QCAtMzQxLDEyICszNDEsMTIgQEAgaW50IHZlZ2EyMF9nZXRfZW5hYmxlZF9zbWNfZmVhdHVyZXMo
-c3RydWN0IHBwX2h3bWdyICpod21nciwKIAogCVBQX0FTU0VSVF9XSVRIX0NPREUoKHJldCA9IHZl
-Z2EyMF9zZW5kX21zZ190b19zbWMoaHdtZ3IsCiAJCQlQUFNNQ19NU0dfR2V0RW5hYmxlZFNtdUZl
-YXR1cmVzTG93KSkgPT0gMCwKLQkJCSJbR2V0RW5hYmxlZFNNQ0ZlYXR1cmVzXSBBdHRlbXAgdG8g
-Z2V0IFNNVSBmZWF0dXJlcyBMb3cgZmFpbGVkISIsCisJCQkiW0dldEVuYWJsZWRTTUNGZWF0dXJl
-c10gQXR0ZW1wdCB0byBnZXQgU01VIGZlYXR1cmVzIExvdyBmYWlsZWQhIiwKIAkJCXJldHVybiBy
-ZXQpOwogCXNtY19mZWF0dXJlc19sb3cgPSB2ZWdhMjBfZ2V0X2FyZ3VtZW50KGh3bWdyKTsKIAlQ
-UF9BU1NFUlRfV0lUSF9DT0RFKChyZXQgPSB2ZWdhMjBfc2VuZF9tc2dfdG9fc21jKGh3bWdyLAog
-CQkJUFBTTUNfTVNHX0dldEVuYWJsZWRTbXVGZWF0dXJlc0hpZ2gpKSA9PSAwLAotCQkJIltHZXRF
-bmFibGVkU01DRmVhdHVyZXNdIEF0dGVtcCB0byBnZXQgU01VIGZlYXR1cmVzIEhpZ2ggZmFpbGVk
-ISIsCisJCQkiW0dldEVuYWJsZWRTTUNGZWF0dXJlc10gQXR0ZW1wdCB0byBnZXQgU01VIGZlYXR1
-cmVzIEhpZ2ggZmFpbGVkISIsCiAJCQlyZXR1cm4gcmV0KTsKIAlzbWNfZmVhdHVyZXNfaGlnaCA9
-IHZlZ2EyMF9nZXRfYXJndW1lbnQoaHdtZ3IpOwogCi0tIAoyLjIwLjEKCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0664851383==
+Content-Type: multipart/alternative; boundary="15727362992.BcdD.29816"
+Content-Transfer-Encoding: 7bit
+
+
+--15727362992.BcdD.29816
+Date: Sat, 2 Nov 2019 23:11:39 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+
+--- Comment #193 from wychuchol <wychuchol7777@gmail.com> ---
+Perhaps needs another entry started but it's related (since it didn't happen
+before I tried RADV_PERFTEST=3Daco and AMD_DEBUG=3D"nongg,nodma") so I'll p=
+ost it
+in case someone has had same issues as me.
+
+After some time in Witcher 3 GOTY run with Lutris PC restarts on it's own. I
+thought something is overheating (I've noticed graphic card memory in PSens=
+or
+sometimes reaching 90 so I thought maybe that's what's happening) but I
+investigated kern.log and this always happened before that autonomous reset:
+
+Nov  2 22:01:53 pop-os kernel: [  979.244964] pcieport 0000:00:01.1: AER:
+Corrected error received: 0000:01:00.0
+Nov  2 22:01:53 pop-os kernel: [  979.244967] nvme 0000:01:00.0: AER: PCIe =
+Bus
+Error: severity=3DCorrected, type=3DData Link Layer, (Transmitter ID)
+Nov  2 22:01:53 pop-os kernel: [  979.244968] nvme 0000:01:00.0: AER:   dev=
+ice
+[1987:5012] error status/mask=3D00001000/00006000
+Nov  2 22:01:53 pop-os kernel: [  979.244968] nvme 0000:01:00.0: AER:    [1=
+2]
+Timeout=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+Nov  2 22:01:53 pop-os kernel: [  979.262629] Emergency Sync complete
+
+A solution I found is to add pci=3Dnommconf in /etc/default/grub to the lin=
+e=20
+GRUB_CMDLINE_LINUX_DEFAULT=3D"quiet splash" (so it looks like this:
+GRUB_CMDLINE_LINUX_DEFAULT=3D"quiet splash pci=3Dnommconf").
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15727362992.BcdD.29816
+Date: Sat, 2 Nov 2019 23:11:39 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c193">Comm=
+ent # 193</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+wychuchol7777&#64;gmail.com" title=3D"wychuchol &lt;wychuchol7777&#64;gmail=
+.com&gt;"> <span class=3D"fn">wychuchol</span></a>
+</span></b>
+        <pre>Perhaps needs another entry started but it's related (since it=
+ didn't happen
+before I tried RADV_PERFTEST=3Daco and AMD_DEBUG=3D&quot;nongg,nodma&quot;)=
+ so I'll post it
+in case someone has had same issues as me.
+
+After some time in Witcher 3 GOTY run with Lutris PC restarts on it's own. I
+thought something is overheating (I've noticed graphic card memory in PSens=
+or
+sometimes reaching 90 so I thought maybe that's what's happening) but I
+investigated kern.log and this always happened before that autonomous reset:
+
+Nov  2 22:01:53 pop-os kernel: [  979.244964] pcieport 0000:00:01.1: AER:
+Corrected error received: 0000:01:00.0
+Nov  2 22:01:53 pop-os kernel: [  979.244967] nvme 0000:01:00.0: AER: PCIe =
+Bus
+Error: severity=3DCorrected, type=3DData Link Layer, (Transmitter ID)
+Nov  2 22:01:53 pop-os kernel: [  979.244968] nvme 0000:01:00.0: AER:   dev=
+ice
+[1987:5012] error status/mask=3D00001000/00006000
+Nov  2 22:01:53 pop-os kernel: [  979.244968] nvme 0000:01:00.0: AER:    [1=
+2]
+Timeout=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+Nov  2 22:01:53 pop-os kernel: [  979.262629] Emergency Sync complete
+
+A solution I found is to add pci=3Dnommconf in /etc/default/grub to the lin=
+e=20
+GRUB_CMDLINE_LINUX_DEFAULT=3D&quot;quiet splash&quot; (so it looks like thi=
+s:
+GRUB_CMDLINE_LINUX_DEFAULT=3D&quot;quiet splash pci=3Dnommconf&quot;).</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15727362992.BcdD.29816--
+
+--===============0664851383==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0664851383==--
