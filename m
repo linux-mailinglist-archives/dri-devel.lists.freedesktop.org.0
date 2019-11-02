@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EC85ECCD6
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Nov 2019 02:32:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49BECECD03
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Nov 2019 04:09:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 035C16F8AA;
-	Sat,  2 Nov 2019 01:32:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BFA56E075;
+	Sat,  2 Nov 2019 03:09:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CAAA6F8AA
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Nov 2019 01:31:59 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 014206E075
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Nov 2019 03:09:26 +0000 (UTC)
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2019 18:31:58 -0700
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2019 20:09:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,257,1569308400"; 
- d="gz'50?scan'50,208,50";a="199971478"
+X-IronPort-AV: E=Sophos;i="5.68,258,1569308400"; 
+ d="gz'50?scan'50,208,50";a="204040648"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
- by fmsmga007.fm.intel.com with ESMTP; 01 Nov 2019 18:31:56 -0700
+ by orsmga003.jf.intel.com with ESMTP; 01 Nov 2019 20:09:22 -0700
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
  (envelope-from <lkp@intel.com>)
- id 1iQiGh-0007X0-I1; Sat, 02 Nov 2019 09:31:55 +0800
-Date: Sat, 2 Nov 2019 09:31:27 +0800
+ id 1iQjmz-000Eov-Rt; Sat, 02 Nov 2019 11:09:21 +0800
+Date: Sat, 2 Nov 2019 11:08:52 +0800
 From: kbuild test robot <lkp@intel.com>
-To: Flora Cui <flora.cui@amd.com>
-Subject: [radeon-alex:amd-mainline-dkms-5.2 2121/2647]
- include/kcl/kcl_drm.h:104:1: error: redefinition of
- 'drm_fb_helper_remove_conflicting_pci_framebuffers'
-Message-ID: <201911020901.ygGXg9jB%lkp@intel.com>
+To: Yifan Zhang <yifan1.zhang@amd.com>
+Subject: [radeon-alex:amd-mainline-dkms-5.2 2129/2647]
+ drivers/gpu/drm/ttm/ttm_bo_util.c:265:57: error: 'KM_USER0' undeclared; did
+ you mean 'SI_USER'?
+Message-ID: <201911021141.kVic09Qt%lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="edekwuvf5wyjbfsu"
+Content-Type: multipart/mixed; boundary="rzt2fjdvo55lwjq3"
 Content-Disposition: inline
 X-Patchwork-Hint: ignore
 User-Agent: NeoMutt/20170113 (1.7.2)
@@ -50,23 +50,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, Jack Gui <Jack.Gui@amd.com>,
- dri-devel@lists.freedesktop.org
+Cc: Flora Cui <flora.cui@amd.com>, kbuild-all@lists.01.org,
+ Jack Gui <Jack.Gui@amd.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---edekwuvf5wyjbfsu
+--rzt2fjdvo55lwjq3
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   git://people.freedesktop.org/~agd5f/linux.git amd-mainline-dkms-5.2
 head:   b027ed8d9051470f4ed6bc071fcde172fe1fc595
-commit: a54762aadc4f9bc23849aa01cac1ed8ad158ca3a [2121/2647] drm/amdkcl: refactor drm_fb_helper_remove_conflicting_pci_framebuffers() check
+commit: f2d51786363ee2a72c55570835e4c79066af2782 [2129/2647] drm/amdkcl: Test whether kmap_atomic() wants one argument
 config: x86_64-randconfig-g002-201943 (attached as .config)
 compiler: gcc-7 (Debian 7.4.0-14) 7.4.0
 reproduce:
-        git checkout a54762aadc4f9bc23849aa01cac1ed8ad158ca3a
+        git checkout f2d51786363ee2a72c55570835e4c79066af2782
         # save the attached .config to linux build tree
         make ARCH=x86_64 
 
@@ -75,351 +75,240 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
+                    from include/drm/drm_print.h:32,
+                    from include/drm/drm_mm.h:49,
+                    from include/drm/drm_vma_manager.h:26,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
                     from <command-line>:0:
->> include/kcl/kcl_drm.h:104:1: error: redefinition of 'drm_fb_helper_remove_conflicting_pci_framebuffers'
-    drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
-    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/kcl/kcl_drm.h:7:0,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
+   include/linux/kref.h:36:28: note: previous definition of 'kref_read' was here
+    static inline unsigned int kref_read(const struct kref *kref)
+                               ^~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:11:0,
                     from <command-line>:0:
-   include/drm/drm_fb_helper.h:612:1: note: previous definition of 'drm_fb_helper_remove_conflicting_pci_framebuffers' was here
-    drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
-    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
+   include/kcl/kcl_kref.h: In function 'kref_read':
+   include/kcl/kcl_kref.h:9:21: error: passing argument 1 of 'atomic_read' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     return atomic_read(&kref->refcount);
+                        ^
+   In file included from arch/x86/include/asm/atomic.h:265:0,
+                    from include/linux/atomic.h:7,
+                    from include/linux/rcupdate.h:25,
+                    from include/linux/rbtree.h:34,
+                    from include/drm/drm_mm.h:41,
+                    from include/drm/drm_vma_manager.h:26,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
                     from <command-line>:0:
-   include/kcl/kcl_drm.h: In function 'kcl_drm_encoder_init':
-   include/kcl/kcl_drm.h:202:9: error: too few arguments to function 'drm_encoder_init'
-     return drm_encoder_init(dev, encoder, funcs,
-            ^~~~~~~~~~~~~~~~
-   In file included from include/drm/drm_modeset_helper_vtables.h:33:0,
-                    from include/drm/drm_atomic_helper.h:32,
-                    from include/kcl/kcl_drm.h:10,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
+   include/asm-generic/atomic-instrumented.h:24:1: note: expected 'const atomic_t * {aka const struct <anonymous> *}' but argument is of type 'const refcount_t * {aka const struct refcount_struct *}'
+    atomic_read(const atomic_t *v)
+    ^~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
                     from <command-line>:0:
-   include/drm/drm_encoder.h:183:5: note: declared here
-    int drm_encoder_init(struct drm_device *dev,
-        ^~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
+   include/kcl/kcl_mm_types.h: At top level:
+   include/kcl/kcl_mm_types.h:10:3: error: conflicting types for 'pfn_t'
+    } pfn_t;
+      ^~~~~
+   In file included from include/asm-generic/memory_model.h:5:0,
+                    from arch/x86/include/asm/page.h:76,
+                    from arch/x86/include/asm/thread_info.h:12,
+                    from include/linux/thread_info.h:38,
+                    from arch/x86/include/asm/preempt.h:7,
+                    from include/linux/preempt.h:78,
+                    from include/linux/rcupdate.h:27,
+                    from include/linux/rbtree.h:34,
+                    from include/drm/drm_mm.h:41,
+                    from include/drm/drm_vma_manager.h:26,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
                     from <command-line>:0:
-   include/kcl/kcl_drm.h: In function 'kcl_drm_crtc_init_with_planes':
-   include/kcl/kcl_drm.h:217:10: error: too few arguments to function 'drm_crtc_init_with_planes'
-      return drm_crtc_init_with_planes(dev, crtc, primary,
-             ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/drm/drmP.h:68:0,
+   include/linux/pfn.h:15:3: note: previous declaration of 'pfn_t' was here
+    } pfn_t;
+      ^~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm_types.h:33:13: error: conflicting types for 'vm_fault_t'
+    typedef int vm_fault_t;
+                ^~~~~~~~~~
+   In file included from include/drm/drm_mm.h:43:0,
+                    from include/drm/drm_vma_manager.h:26,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm_types.h:631:32: note: previous declaration of 'vm_fault_t' was here
+    typedef __bitwise unsigned int vm_fault_t;
+                                   ^~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm_types.h:35:26: error: conflicting types for 'vmf_insert_mixed'
+    static inline vm_fault_t vmf_insert_mixed(struct vm_area_struct *vma,
+                             ^~~~~~~~~~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:2587:12: note: previous declaration of 'vmf_insert_mixed' was here
+    vm_fault_t vmf_insert_mixed(struct vm_area_struct *vma, unsigned long addr,
+               ^~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm_types.h: In function 'vmf_insert_mixed':
+   include/kcl/kcl_mm_types.h:41:8: error: implicit declaration of function 'vm_insert_mixed'; did you mean 'vmf_insert_mixed'? [-Werror=implicit-function-declaration]
+     err = vm_insert_mixed(vma, addr, pfn_t_to_pfn(pfn));
+           ^~~~~~~~~~~~~~~
+           vmf_insert_mixed
+   include/kcl/kcl_mm_types.h: At top level:
+   include/kcl/kcl_mm_types.h:53:26: error: conflicting types for 'vmf_insert_pfn'
+    static inline vm_fault_t vmf_insert_pfn(struct vm_area_struct *vma,
+                             ^~~~~~~~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:2583:12: note: previous declaration of 'vmf_insert_pfn' was here
+    vm_fault_t vmf_insert_pfn(struct vm_area_struct *vma, unsigned long addr,
+               ^~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm_types.h: In function 'vmf_insert_pfn':
+   include/kcl/kcl_mm_types.h:56:13: error: implicit declaration of function 'vm_insert_pfn'; did you mean 'vmf_insert_pfn'? [-Werror=implicit-function-declaration]
+      int err = vm_insert_pfn(vma, addr, pfn);
+                ^~~~~~~~~~~~~
+                vmf_insert_pfn
+   drivers/gpu/drm/ttm/ttm_bo_util.c: In function 'ttm_kmap_atomic_prot':
+>> drivers/gpu/drm/ttm/ttm_bo_util.c:265:57: error: 'KM_USER0' undeclared (first use in this function); did you mean 'SI_USER'?
+    #define __kcl__kmap_atomic(__page)  kmap_atomic(__page, KM_USER0)
+                                                            ^
+   drivers/gpu/drm/ttm/ttm_bo_util.c:303:10: note: in expansion of macro '__kcl__kmap_atomic'
+      return __kcl__kmap_atomic(page);
+             ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/ttm/ttm_bo_util.c:265:57: note: each undeclared identifier is reported only once for each function it appears in
+    #define __kcl__kmap_atomic(__page)  kmap_atomic(__page, KM_USER0)
+                                                            ^
+   drivers/gpu/drm/ttm/ttm_bo_util.c:303:10: note: in expansion of macro '__kcl__kmap_atomic'
+      return __kcl__kmap_atomic(page);
+             ^~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/ttm/ttm_bo_util.c:265:37: error: too many arguments to function 'kmap_atomic'
+    #define __kcl__kmap_atomic(__page)  kmap_atomic(__page, KM_USER0)
+                                        ^
+   drivers/gpu/drm/ttm/ttm_bo_util.c:303:10: note: in expansion of macro '__kcl__kmap_atomic'
+      return __kcl__kmap_atomic(page);
+             ^~~~~~~~~~~~~~~~~~
+   In file included from include/drm/drmP.h:40:0,
                     from include/kcl/kcl_drm.h:6,
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
-   include/drm/drm_crtc.h:1120:5: note: declared here
-    int drm_crtc_init_with_planes(struct drm_device *dev,
-        ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h: In function 'kcl_drm_universal_plane_init':
-   include/kcl/kcl_drm.h:238:29: error: incompatible type for argument 7 of 'drm_universal_plane_init'
-         formats, format_count, type);
-                                ^~~~
-   In file included from include/drm/drm_crtc.h:45:0,
-                    from include/drm/drmP.h:68,
-                    from include/kcl/kcl_drm.h:6,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_plane.h:713:5: note: expected 'const uint64_t * {aka const long long unsigned int *}' but argument is of type 'enum drm_plane_type'
-    int drm_universal_plane_init(struct drm_device *dev,
-        ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h:237:10: error: too few arguments to function 'drm_universal_plane_init'
-      return drm_universal_plane_init(dev, plane, possible_crtcs, funcs,
-             ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/drm/drm_crtc.h:45:0,
-                    from include/drm/drmP.h:68,
-                    from include/kcl/kcl_drm.h:6,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_plane.h:713:5: note: declared here
-    int drm_universal_plane_init(struct drm_device *dev,
-        ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h: In function 'kcl_drm_gem_object_lookup':
-   include/kcl/kcl_drm.h:249:32: error: passing argument 1 of 'drm_gem_object_lookup' from incompatible pointer type [-Werror=incompatible-pointer-types]
-      return drm_gem_object_lookup(dev, filp, handle);
-                                   ^~~
-   In file included from include/kcl/kcl_drm.h:9:0,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_gem.h:386:24: note: expected 'struct drm_file *' but argument is of type 'struct drm_device *'
-    struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
-                           ^~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h:249:37: warning: passing argument 2 of 'drm_gem_object_lookup' makes integer from pointer without a cast [-Wint-conversion]
-      return drm_gem_object_lookup(dev, filp, handle);
-                                        ^~~~
-   In file included from include/kcl/kcl_drm.h:9:0,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_gem.h:386:24: note: expected 'u32 {aka unsigned int}' but argument is of type 'struct drm_file *'
-    struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
-                           ^~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h:249:10: error: too many arguments to function 'drm_gem_object_lookup'
-      return drm_gem_object_lookup(dev, filp, handle);
-             ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/kcl/kcl_drm.h:9:0,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_gem.h:386:24: note: declared here
-    struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
-                           ^~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h: At top level:
-   include/kcl/kcl_drm.h:258:8: error: redefinition of 'struct drm_format_name_buf'
---
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
->> include/kcl/kcl_drm.h:104:1: error: redefinition of 'drm_fb_helper_remove_conflicting_pci_framebuffers'
-    drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
-    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/kcl/kcl_drm.h:7:0,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_fb_helper.h:612:1: note: previous definition of 'drm_fb_helper_remove_conflicting_pci_framebuffers' was here
-    drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
-    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h: In function 'kcl_drm_encoder_init':
-   include/kcl/kcl_drm.h:202:9: error: too few arguments to function 'drm_encoder_init'
-     return drm_encoder_init(dev, encoder, funcs,
-            ^~~~~~~~~~~~~~~~
-   In file included from include/drm/drm_modeset_helper_vtables.h:33:0,
-                    from include/drm/drm_atomic_helper.h:32,
-                    from include/kcl/kcl_drm.h:10,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_encoder.h:183:5: note: declared here
-    int drm_encoder_init(struct drm_device *dev,
-        ^~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h: In function 'kcl_drm_crtc_init_with_planes':
-   include/kcl/kcl_drm.h:217:10: error: too few arguments to function 'drm_crtc_init_with_planes'
-      return drm_crtc_init_with_planes(dev, crtc, primary,
-             ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/drm/drmP.h:68:0,
-                    from include/kcl/kcl_drm.h:6,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_crtc.h:1120:5: note: declared here
-    int drm_crtc_init_with_planes(struct drm_device *dev,
-        ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h: In function 'kcl_drm_universal_plane_init':
-   include/kcl/kcl_drm.h:238:29: error: incompatible type for argument 7 of 'drm_universal_plane_init'
-         formats, format_count, type);
-                                ^~~~
-   In file included from include/drm/drm_crtc.h:45:0,
-                    from include/drm/drmP.h:68,
-                    from include/kcl/kcl_drm.h:6,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_plane.h:713:5: note: expected 'const uint64_t * {aka const long long unsigned int *}' but argument is of type 'enum drm_plane_type'
-    int drm_universal_plane_init(struct drm_device *dev,
-        ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h:237:10: error: too few arguments to function 'drm_universal_plane_init'
-      return drm_universal_plane_init(dev, plane, possible_crtcs, funcs,
-             ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/drm/drm_crtc.h:45:0,
-                    from include/drm/drmP.h:68,
-                    from include/kcl/kcl_drm.h:6,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_plane.h:713:5: note: declared here
-    int drm_universal_plane_init(struct drm_device *dev,
-        ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h: In function 'kcl_drm_gem_object_lookup':
-   include/kcl/kcl_drm.h:249:32: error: passing argument 1 of 'drm_gem_object_lookup' from incompatible pointer type [-Werror=incompatible-pointer-types]
-      return drm_gem_object_lookup(dev, filp, handle);
-                                   ^~~
-   In file included from include/kcl/kcl_drm.h:9:0,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_gem.h:386:24: note: expected 'struct drm_file *' but argument is of type 'struct drm_device *'
-    struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
-                           ^~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h:249:37: warning: passing argument 2 of 'drm_gem_object_lookup' makes integer from pointer without a cast [-Wint-conversion]
-      return drm_gem_object_lookup(dev, filp, handle);
-                                        ^~~~
-   In file included from include/kcl/kcl_drm.h:9:0,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_gem.h:386:24: note: expected 'u32 {aka unsigned int}' but argument is of type 'struct drm_file *'
-    struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
-                           ^~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h:249:10: error: too many arguments to function 'drm_gem_object_lookup'
-      return drm_gem_object_lookup(dev, filp, handle);
-             ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/kcl/kcl_drm.h:9:0,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_gem.h:386:24: note: declared here
-    struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
-                           ^~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h: At top level:
-   include/kcl/kcl_drm.h:258:8: error: redefinition of 'struct drm_format_name_buf'
---
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
->> include/kcl/kcl_drm.h:104:1: error: redefinition of 'drm_fb_helper_remove_conflicting_pci_framebuffers'
-    drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
-    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/kcl/kcl_drm.h:7:0,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_fb_helper.h:612:1: note: previous definition of 'drm_fb_helper_remove_conflicting_pci_framebuffers' was here
-    drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
-    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h: In function 'kcl_drm_encoder_init':
-   include/kcl/kcl_drm.h:202:9: error: too few arguments to function 'drm_encoder_init'
-     return drm_encoder_init(dev, encoder, funcs,
-            ^~~~~~~~~~~~~~~~
-   In file included from include/drm/drm_modeset_helper_vtables.h:33:0,
-                    from include/drm/drm_atomic_helper.h:32,
-                    from include/kcl/kcl_drm.h:10,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_encoder.h:183:5: note: declared here
-    int drm_encoder_init(struct drm_device *dev,
-        ^~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h: In function 'kcl_drm_crtc_init_with_planes':
-   include/kcl/kcl_drm.h:217:10: error: too few arguments to function 'drm_crtc_init_with_planes'
-      return drm_crtc_init_with_planes(dev, crtc, primary,
-             ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/drm/drmP.h:68:0,
-                    from include/kcl/kcl_drm.h:6,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_crtc.h:1120:5: note: declared here
-    int drm_crtc_init_with_planes(struct drm_device *dev,
-        ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h: In function 'kcl_drm_universal_plane_init':
-   include/kcl/kcl_drm.h:238:29: error: incompatible type for argument 7 of 'drm_universal_plane_init'
-         formats, format_count, type);
-                                ^~~~
-   In file included from include/drm/drm_crtc.h:45:0,
-                    from include/drm/drmP.h:68,
-                    from include/kcl/kcl_drm.h:6,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_plane.h:713:5: note: expected 'const uint64_t * {aka const long long unsigned int *}' but argument is of type 'enum drm_plane_type'
-    int drm_universal_plane_init(struct drm_device *dev,
-        ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h:237:10: error: too few arguments to function 'drm_universal_plane_init'
-      return drm_universal_plane_init(dev, plane, possible_crtcs, funcs,
-             ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/drm/drm_crtc.h:45:0,
-                    from include/drm/drmP.h:68,
-                    from include/kcl/kcl_drm.h:6,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_plane.h:713:5: note: declared here
-    int drm_universal_plane_init(struct drm_device *dev,
-        ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h: In function 'kcl_drm_gem_object_lookup':
-   include/kcl/kcl_drm.h:249:32: error: passing argument 1 of 'drm_gem_object_lookup' from incompatible pointer type [-Werror=incompatible-pointer-types]
-      return drm_gem_object_lookup(dev, filp, handle);
-                                   ^~~
-   In file included from include/kcl/kcl_drm.h:9:0,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_gem.h:386:24: note: expected 'struct drm_file *' but argument is of type 'struct drm_device *'
-    struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
-                           ^~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h:249:37: warning: passing argument 2 of 'drm_gem_object_lookup' makes integer from pointer without a cast [-Wint-conversion]
-      return drm_gem_object_lookup(dev, filp, handle);
-                                        ^~~~
-   In file included from include/kcl/kcl_drm.h:9:0,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_gem.h:386:24: note: expected 'u32 {aka unsigned int}' but argument is of type 'struct drm_file *'
-    struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
-                           ^~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h:249:10: error: too many arguments to function 'drm_gem_object_lookup'
-      return drm_gem_object_lookup(dev, filp, handle);
-             ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/kcl/kcl_drm.h:9:0,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_gem.h:386:24: note: declared here
-    struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
-                           ^~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h: At top level:
-   include/kcl/kcl_drm.h:258:8: error: redefinition of 'struct drm_format_name_buf'
-..
+   include/linux/highmem.h:91:21: note: declared here
+    static inline void *kmap_atomic(struct page *page)
+                        ^~~~~~~~~~~
+>> drivers/gpu/drm/ttm/ttm_bo_util.c:305:43: error: macro "kmap_atomic_prot" passed 3 arguments, but takes just 2
+      return __ttm_kmap_atomic_prot(page, prot);
+                                              ^
+>> drivers/gpu/drm/ttm/ttm_bo_util.c:274:48: error: 'kmap_atomic_prot' undeclared (first use in this function); did you mean 'ttm_kmap_atomic_prot'?
+    #define __ttm_kmap_atomic_prot(__page, __prot) kmap_atomic_prot(__page, KM_USER0, __prot)
+                                                   ^
+   drivers/gpu/drm/ttm/ttm_bo_util.c:305:10: note: in expansion of macro '__ttm_kmap_atomic_prot'
+      return __ttm_kmap_atomic_prot(page, prot);
+             ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/ttm/ttm_bo_util.c: In function 'ttm_kunmap_atomic_prot':
+>> drivers/gpu/drm/ttm/ttm_bo_util.c:319:28: error: macro "kunmap_atomic" passed 2 arguments, but takes just 1
+      __kcl__kunmap_atomic(addr);
+                               ^
+>> drivers/gpu/drm/ttm/ttm_bo_util.c:266:39: error: 'kunmap_atomic' undeclared (first use in this function); did you mean '__kunmap_atomic'?
+    #define __kcl__kunmap_atomic(__addr)  kunmap_atomic(__addr, KM_USER0)
+                                          ^
+   drivers/gpu/drm/ttm/ttm_bo_util.c:319:3: note: in expansion of macro '__kcl__kunmap_atomic'
+      __kcl__kunmap_atomic(addr);
+      ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/ttm/ttm_bo_util.c:321:27: error: macro "kunmap_atomic" passed 2 arguments, but takes just 1
+      __ttm_kunmap_atomic(addr);
+                              ^
+   drivers/gpu/drm/ttm/ttm_bo_util.c: In function 'ttm_kmap_atomic_prot':
+   drivers/gpu/drm/ttm/ttm_bo_util.c:306:1: warning: control reaches end of non-void function [-Wreturn-type]
+    }
+    ^
+   cc1: some warnings being treated as errors
 
-vim +/drm_fb_helper_remove_conflicting_pci_framebuffers +104 include/kcl/kcl_drm.h
+vim +265 drivers/gpu/drm/ttm/ttm_bo_util.c
 
-    97	
-    98	#define IS_REACHABLE(option) __or(IS_BUILTIN(option), \
-    99					__and(IS_MODULE(option), __is_defined(MODULE)))
-   100	#endif
-   101	extern int remove_conflicting_pci_framebuffers(struct pci_dev *pdev, int res_id,
-   102						       const char *name);
-   103	static inline int
- > 104	drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
-   105							  int resource_id,
-   106							  const char *name)
-   107	{
-   108	#if IS_REACHABLE(CONFIG_FB)
-   109		return remove_conflicting_pci_framebuffers(pdev, resource_id, name);
-   110	#else
-   111		return 0;
-   112	#endif
-   113	}
-   114	#endif
-   115	
+ba4e7d973dd09b Thomas Hellstrom 2009-06-10  263  
+f2d51786363ee2 Yifan Zhang      2019-08-20  264  #if !defined(HAVE_KMAP_ATOMIC_ONE_ARG)
+0abf5b3276d4c7 Kevin Wang       2018-08-17 @265  #define __kcl__kmap_atomic(__page) 	kmap_atomic(__page, KM_USER0)
+0abf5b3276d4c7 Kevin Wang       2018-08-17 @266  #define __kcl__kunmap_atomic(__addr) 	kunmap_atomic(__addr, KM_USER0)
+0abf5b3276d4c7 Kevin Wang       2018-08-17  267  #else
+0abf5b3276d4c7 Kevin Wang       2018-08-17  268  #define __kcl__kmap_atomic(__page) 	kmap_atomic(__page)
+0abf5b3276d4c7 Kevin Wang       2018-08-17  269  #define __kcl__kunmap_atomic(__addr) 	kunmap_atomic(__addr)
+f2d51786363ee2 Yifan Zhang      2019-08-20  270  #endif
+f2d51786363ee2 Yifan Zhang      2019-08-20  271  
+f2d51786363ee2 Yifan Zhang      2019-08-20  272  #ifdef CONFIG_X86
+f2d51786363ee2 Yifan Zhang      2019-08-20  273  #if !defined(HAVE_KMAP_ATOMIC_ONE_ARG)
+f2d51786363ee2 Yifan Zhang      2019-08-20 @274  #define __ttm_kmap_atomic_prot(__page, __prot)	kmap_atomic_prot(__page, KM_USER0, __prot)
+f2d51786363ee2 Yifan Zhang      2019-08-20  275  #define __ttm_kunmap_atomic(__addr) 		kunmap_atomic(__addr, KM_USER0)
+f2d51786363ee2 Yifan Zhang      2019-08-20  276  #else
+403c1826a45644 Thomas Hellstrom 2018-01-16  277  #define __ttm_kunmap_atomic(__addr) kunmap_atomic(__addr)
+f2d51786363ee2 Yifan Zhang      2019-08-20  278  #define __ttm_kmap_atomic_prot(__page, __prot) kmap_atomic_prot(__page, __prot)
+0abf5b3276d4c7 Kevin Wang       2018-08-17  279  #endif
+403c1826a45644 Thomas Hellstrom 2018-01-16  280  #else
+403c1826a45644 Thomas Hellstrom 2018-01-16  281  #define __ttm_kmap_atomic_prot(__page, __prot) vmap(&__page, 1, 0,  __prot)
+403c1826a45644 Thomas Hellstrom 2018-01-16  282  #define __ttm_kunmap_atomic(__addr) vunmap(__addr)
+403c1826a45644 Thomas Hellstrom 2018-01-16  283  #endif
+403c1826a45644 Thomas Hellstrom 2018-01-16  284  
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  285  
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  286  /**
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  287   * ttm_kmap_atomic_prot - Efficient kernel map of a single page with
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  288   * specified page protection.
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  289   *
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  290   * @page: The page to map.
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  291   * @prot: The page protection.
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  292   *
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  293   * This function maps a TTM page using the kmap_atomic api if available,
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  294   * otherwise falls back to vmap. The user must make sure that the
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  295   * specified page does not have an aliased mapping with a different caching
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  296   * policy unless the architecture explicitly allows it. Also mapping and
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  297   * unmapping using this api must be correctly nested. Unmapping should
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  298   * occur in the reverse order of mapping.
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  299   */
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  300  void *ttm_kmap_atomic_prot(struct page *page, pgprot_t prot)
+403c1826a45644 Thomas Hellstrom 2018-01-16  301  {
+403c1826a45644 Thomas Hellstrom 2018-01-16  302  	if (pgprot_val(prot) == pgprot_val(PAGE_KERNEL))
+0abf5b3276d4c7 Kevin Wang       2018-08-17 @303  		return __kcl__kmap_atomic(page);
+403c1826a45644 Thomas Hellstrom 2018-01-16  304  	else
+403c1826a45644 Thomas Hellstrom 2018-01-16 @305  		return __ttm_kmap_atomic_prot(page, prot);
+403c1826a45644 Thomas Hellstrom 2018-01-16  306  }
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  307  EXPORT_SYMBOL(ttm_kmap_atomic_prot);
+403c1826a45644 Thomas Hellstrom 2018-01-16  308  
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  309  /**
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  310   * ttm_kunmap_atomic_prot - Unmap a page that was mapped using
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  311   * ttm_kmap_atomic_prot.
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  312   *
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  313   * @addr: The virtual address from the map.
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  314   * @prot: The page protection.
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  315   */
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  316  void ttm_kunmap_atomic_prot(void *addr, pgprot_t prot)
+403c1826a45644 Thomas Hellstrom 2018-01-16  317  {
+403c1826a45644 Thomas Hellstrom 2018-01-16  318  	if (pgprot_val(prot) == pgprot_val(PAGE_KERNEL))
+0abf5b3276d4c7 Kevin Wang       2018-08-17 @319  		__kcl__kunmap_atomic(addr);
+403c1826a45644 Thomas Hellstrom 2018-01-16  320  	else
+403c1826a45644 Thomas Hellstrom 2018-01-16  321  		__ttm_kunmap_atomic(addr);
+403c1826a45644 Thomas Hellstrom 2018-01-16  322  }
+9c11fcf1a74d33 Thomas Hellstrom 2018-01-16  323  EXPORT_SYMBOL(ttm_kunmap_atomic_prot);
+403c1826a45644 Thomas Hellstrom 2018-01-16  324  
+
+:::::: The code at line 265 was first introduced by commit
+:::::: 0abf5b3276d4c78556c09a4ef7d59898c3da363d drm/amdkcl: [RHEL 6] support kmap_atomic funciton for ttm module
+
+:::::: TO: Kevin Wang <Kevin1.Wang@amd.com>
+:::::: CC: Chengming Gui <Jack.Gui@amd.com>
 
 ---
 0-DAY kernel test infrastructure                Open Source Technology Center
 https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
 
---edekwuvf5wyjbfsu
+--rzt2fjdvo55lwjq3
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICEDZvF0AAy5jb25maWcAjDxbc9u20u/9FZr0pZ0zaW3HdfOdM34ASVBCxFsAULb8wnFt
+H4sICCzxvF0AAy5jb25maWcAjDxbc9u20u/9FZr0pZ0zaW3HdfOdM34ASVBCxFsAULb8wnFt
 JfXUlxzZPk3+/bcLgOQCBJV2Oq21u7jvHQv++MOPC/b68vRw/XJ3c31//23xefe421+/7G4X
 n+7ud/9ZZPWiqvWCZ0L/AsTF3ePr11+/vj/rzk4Xv/1y8svR2/3N8WK92z/u7hfp0+Onu8+v
 0P7u6fGHH3+Af38E4MMX6Gr/78Xnm5u3vy9+ynZ/3F0/Ln7/5RRaH5/+bP8C2rSucrHs0rQT
@@ -1037,7 +926,7 @@ StexaB9JcXga8sSPdDiIIYuRNLnBr2ycy7KFu1tv+e/KIllIWqapAUVsQHdBs4qgCj7GpT+t
 a3vUHauKdLfgWzvpptAXb0I1XgXSAcPyoE3o2Imbp8eGRo8gqRgqFghUR2hBuelIFdpiheBP
 qoOjTFqhPdnVe/huPlrl+B/DDn5URwYCAA==
 
---edekwuvf5wyjbfsu
+--rzt2fjdvo55lwjq3
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -1047,4 +936,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---edekwuvf5wyjbfsu--
+--rzt2fjdvo55lwjq3--
