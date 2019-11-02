@@ -1,58 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23790ECF0C
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Nov 2019 15:01:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0BB4ECF2A
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Nov 2019 15:34:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 231F56E3C7;
-	Sat,  2 Nov 2019 14:01:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBC4D6E128;
+	Sat,  2 Nov 2019 14:34:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D04806E3C7
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Nov 2019 14:01:20 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id z19so7537799wmk.3
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Nov 2019 07:01:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hnTsoxyaf/hF5ZVsLU/Wj1SHuWXKdJ6AcNaBSIKQ1/s=;
- b=s5s/6hTcuwAxFh0W+EPqFoNQSosUJYsQhxbZA5fHXc+wYavUsztp02Gr72TmDWCcrd
- AuQknN1D/PoREQeKD3tjop4yqEhtWgdHZbTCGkuuUt+2+73LopM8tHl5MYx3+sDfQQVQ
- VDYCym5TUy96xBt8TGLyaijEi7YCWmDGrNynXwZF/c8C5jqH26nDXPgBB99YlewSr6MO
- XskK7B/LnvgWzIcc7llHhK2UhKkgAhxzYMvvi55nBG07IoVLZcahGxKFerlmWS0x0T0R
- dTlIxsCI43RHcM8HF2lBIlnzUprlCCtL2JNpALG/4D+cCcriwTWQuGUj/Pq6uWqyscu8
- hNzg==
-X-Gm-Message-State: APjAAAUmi7K1J07LVcSmN/GSlVy2bkwcDjHIjyQk8y8B8ktxltck82Kf
- Ry1TzQ7wODoxWTAAu7eavFc=
-X-Google-Smtp-Source: APXvYqzLdjtDQasei/8m65LUcNIXjLg6bpoSEjiWcEOEeK8qrOrq2Nnau2BmizU+uRVRv68jE0KyVg==
-X-Received: by 2002:a7b:cbc2:: with SMTP id n2mr12118662wmi.173.1572703279108; 
- Sat, 02 Nov 2019 07:01:19 -0700 (PDT)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
- by smtp.gmail.com with ESMTPSA id b14sm1078487wmj.18.2019.11.02.07.01.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 Nov 2019 07:01:17 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dave Airlie <airlied@gmail.com>
-Subject: [GIT PULL] drm/tegra: Changes for v5.5-rc1
-Date: Sat,  2 Nov 2019 15:01:16 +0100
-Message-Id: <20191102140116.3860545-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.23.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 929CE6E128
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Nov 2019 14:34:38 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 8EF40720E2; Sat,  2 Nov 2019 14:34:38 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 108379] high idle power consumption
+Date: Sat, 02 Nov 2019 14:34:38 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: juha@inbox.lv
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-108379-502-pg4lI8VUdN@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-108379-502@http.bugs.freedesktop.org/>
+References: <bug-108379-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hnTsoxyaf/hF5ZVsLU/Wj1SHuWXKdJ6AcNaBSIKQ1/s=;
- b=kVQqejUyl8zcIopZOZB3jIe6SJsMrpITKpccaQhsu67rgXZN1px17PtJ7R1vBbKMAA
- K3JjUsmGFJiWClC28DKkQlHeLem/bP6MJ69dkY9nA88JV57pWzrjFvW44nb+oc0nkXCW
- /LFEn47Ur3lrtkmfO8A3g6N/rzyR2lJTMePbkyT/wDxiV5hLU9IjABq7p287488qtz/s
- 9qT/Y4sLNAMz3Bk6Oak+c27bFEDyBSrvnRlul3oR8vdphlAWlZtFEI9qlJJTR4t8s3Wb
- fSzvw+e1MsFt1IZXPvXIY1K68FRb7hY0JZv3IJM6hUNdlMq8zlCkpPnziJ6HYkt5BZwD
- g5lQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,132 +52,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1029856924=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGF2ZSwKClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21taXQgOWE0MmM3YzY0N2E5
-YWQwZjdlYmIxNDdhNTJlZGEzZGNiN2M4NDI5MjoKCiAgZHJtL3RlZ3JhOiBNb3ZlIGRybV9kcF9s
-aW5rIGhlbHBlcnMgdG8gVGVncmEgRFJNICgyMDE5LTEwLTIzIDE4OjIyOjEwICswMjAwKQoKYXJl
-IGF2YWlsYWJsZSBpbiB0aGUgR2l0IHJlcG9zaXRvcnkgYXQ6CgogIGdpdDovL2Fub25naXQuZnJl
-ZWRlc2t0b3Aub3JnL3RlZ3JhL2xpbnV4IHRhZ3MvZHJtL3RlZ3JhL2Zvci01LjUtcmMxCgpmb3Ig
-eW91IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8gODRkYjg4OWU2ZDgyN2VlZmMzZGRlMTMwZmVjODM4
-MmQyZGNiMjNhYzoKCiAgZHJtL3RlZ3JhOiBVbmNvbmRpdGlvbmFsbHkgc2VsZWN0IElPTU1VX0lP
-VkEgKDIwMTktMTEtMDEgMTA6NDk6MjkgKzAxMDApCgpOb3RlIHRoYXQgdGhpcyBpcyBiYXNlZCBv
-biB0aGUgZHJtLW1pc2MtbmV4dC0yMDE5LTEwLTI0LTIgdGFnIHdoaWNoCmNvbnRhaW5zIHRoZSBE
-UCBsaW5rIGhlbHBlciBtb3ZlIGludG8gdGhlIFRlZ3JhIERSTSBkcml2ZXIuIFRoZSBkaWZmc3Rh
-dApiZWxvdyBzaG93cyBvbmx5IHRoZSBkaWZmZXJlbmNlcyBzaW5jZSB0aGF0IHRhZywgc2luY2Ug
-dGhlIG90aGVyIGNoYW5nZXMKaGF2ZSBhbHJlYWR5IGJlZW4gbWVyZ2VkIGFzIHBhcnQgb2YgZHJt
-LW1pc2MtbmV4dC4KClRoaWVycnkKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KZHJtL3RlZ3JhOiBDaGFuZ2VzIGZvciB2NS41
-LXJjMQoKVGhlIGJ1bGsgb2YgdGhlc2UgY2hhbmdlcyBpcyB0aGUgYWRkaXRpb24gb2YgRGlzcGxh
-eVBvcnQgc3VwcG9ydCBmb3IKVGVncmEyMTAsIFRlZ3JhMTg2IGFuZCBUZWdyYTE5NC4gSSd2ZSBi
-ZWVuIHJ1bm5pbmcgdmVyc2lvbnMgb2YgdGhpcyBmb3IKYWJvdXQgdGhyZWUgeWVhcnMgbm93LCBz
-byBJJ2QgY29uc2lkZXIgdGhlc2UgY2hhbmdlcyB0byBiZSBwcmV0dHkKbWF0dXJlLiBUaGVzZSBj
-aGFuZ2VzIGFsc28gdW5pZnkgdGhlIGV4aXN0aW5nIGVEUCBzdXBwb3J0IHdpdGggdGhlIERQCnN1
-cHBvcnQgc2luY2UgdGhlIHByb2dyYW1taW5nIGlzIHZlcnkgc2ltaWxhciwgZXhjZXB0IGZvciBh
-IGZldyBzdGVwcwp0aGF0IGNhbiBiZSBlYXNpbHkgcGFyYW1ldGVyaXplZC4KClRoZSByZXN0IGFy
-ZSBhIGNvdXBsZSBvZiBmaXhlcyBhbGwgb3ZlciB0aGUgcGxhY2UgZm9yIG1pbm9yIGlzc3Vlcywg
-YXMKd2VsbCBhcyBzb21lIHdvcmsgdG8gc3VwcG9ydCB0aGUgSU9NTVUtYmFja2VkIERNQSBBUEks
-IHdoaWNoIGluIHRoZSBlbmQKdHVybmVkIG91dCB0byBhbHNvIGNsZWFuIHVwIGEgbnVtYmVyIG9m
-IGNhc2VzIHdoZXJlIHRoZSBETUEgQVBJIHdhcyBub3QKYmVpbmcgdXNlZCBjb3JyZWN0bHkuCgot
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tCkJlbiBEb29rcyAoQ29kZXRoaW5rKSAoMSk6CiAgICAgIGdwdTogaG9zdDF4OiBNYWtl
-IGhvc3QxeF9jZG1hX3dhaXRfcHVzaGJ1ZmZlcl9zcGFjZSgpIHN0YXRpYwoKRGFyaXVzeiBNYXJj
-aW5raWV3aWN6ICgxKToKICAgICAgZHJtL3RlZ3JhOiBVc2UgY2VjX25vdGlmaWVyX2Nvbm5fKHVu
-KXJlZ2lzdGVyKCkKClRoaWVycnkgUmVkaW5nICg2Nik6CiAgICAgIGRybS90ZWdyYTogc29yOiBN
-b3ZlIHJlZ2lzdGVyIHByb2dyYW1taW5nIG91dCBvZiAtPmluaXQoKQogICAgICBkcm0vdGVncmE6
-IEZpeCBvcmRlcmluZyBvZiBjbGVhbnVwIGNvZGUKICAgICAgZ3B1OiBob3N0MXg6IERvIG5vdCBs
-aW1pdCBETUEgc2VnbWVudCBzaXplCiAgICAgIGdwdTogaG9zdDF4OiBSZW1vdmUgZ3JhdHVpdG91
-cyBibGFuayBsaW5lCiAgICAgIGdwdTogaG9zdDF4OiBFeHBsaWNpdGx5IGluaXRpYWxpemUgaG9z
-dDF4X2luZm8gc3RydWN0dXJlcwogICAgICBncHU6IGhvc3QxeDogUmVxdWVzdCBjaGFubmVscyBm
-b3IgY2xpZW50cywgbm90IGRldmljZXMKICAgICAgZHJtL3RlZ3JhOiBJbmhlcml0IGRldmljZSBE
-TUEgcGFyYW1ldGVycyBmcm9tIGhvc3QxeAogICAgICBkcm0vdGVncmE6IFVzZSBEUk1fREVCVUdf
-RFJJVkVSIGZvciBkcml2ZXIgbWVzc2FnZXMKICAgICAgZHJtL3RlZ3JhOiB2aWM6IFNraXAgc3Ry
-ZWFtIElEIHByb2dyYW1taW5nIHdpdGhvdXQgSU9NTVUKICAgICAgZHJtL3RlZ3JhOiB2aWM6IElu
-aGVyaXQgRE1BIG1hc2sgZnJvbSBob3N0MXgKICAgICAgZHJtL3RlZ3JhOiB2aWM6IFVzZSBjb21t
-b24gSU9NTVUgYXR0YWNoL2RldGFjaCBjb2RlCiAgICAgIGRybS90ZWdyYTogTW92ZSBJT01NVSBn
-cm91cCBpbnRvIGhvc3QxeCBjbGllbnQKICAgICAgZHJtL3RlZ3JhOiBnZW06IFJlbmFtZSBwYWRk
-ciAtPiBpb3ZhCiAgICAgIGRybS90ZWdyYTogZ2VtOiBVc2UgZG1hX2dldF9zZ3RhYmxlKCkKICAg
-ICAgZHJtL3RlZ3JhOiBnZW06IEFsd2F5cyBtYXAgU0cgdGFibGVzIGZvciBETUEtQlVGcwogICAg
-ICBkcm0vdGVncmE6IGdlbTogVXNlIHNnX2FsbG9jX3RhYmxlX2Zyb21fcGFnZXMoKQogICAgICBk
-cm0vdGVncmE6IGRwYXV4OiBTdXBwb3J0IG1vbml0b3IgaG90cGx1Z2dpbmcKICAgICAgZHJtL3Rl
-Z3JhOiBkcGF1eDogUmV0cnkgb24gdHJhbnNmZXIgc2l6ZSBtaXNtYXRjaAogICAgICBkcm0vdGVn
-cmE6IGRwYXV4OiBGaXggY3Jhc2ggaWYgVkREIHN1cHBseSBpcyBhYnNlbnQKICAgICAgZHJtL3Rl
-Z3JhOiBkcGF1eDogUGFyYW1ldGVyaXplIENNSCwgRFJWWiBhbmQgRFJWSQogICAgICBkcm0vdGVn
-cmE6IEFkZCBtaXNzaW5nIGtlcm5lbGRvYyBmb3Igc3RydWN0IGRybV9kcF9saW5rCiAgICAgIGRy
-bS90ZWdyYTogZHA6IEFkZCBkcm1fZHBfbGlua19yZXNldCgpIGltcGxlbWVudGF0aW9uCiAgICAg
-IGRybS90ZWdyYTogZHA6IFRyYWNrIGxpbmsgY2FwYWJpbGl0aWVzIGFsb25nc2lkZSBzZXR0aW5n
-cwogICAgICBkcm0vdGVncmE6IGRwOiBUdXJuIGxpbmsgY2FwYWJpbGl0aWVzIGludG8gYm9vbGVh
-bnMKICAgICAgZHJtL3RlZ3JhOiBkcDogUHJvYmUgbGluayB1c2luZyBleGlzdGluZyBwYXJzaW5n
-IGhlbHBlcnMKICAgICAgZHJtL3RlZ3JhOiBkcDogUmVhZCBmYXN0IHRyYWluaW5nIGNhcGFiaWxp
-dHkgZnJvbSBsaW5rCiAgICAgIGRybS90ZWdyYTogZHA6IFJlYWQgVFBTMyBjYXBhYmlsaXR5IGZy
-b20gc2luawogICAgICBkcm0vdGVncmE6IGRwOiBSZWFkIGNoYW5uZWwgY29kaW5nIGNhcGFiaWxp
-dHkgZnJvbSBzaW5rCiAgICAgIGRybS90ZWdyYTogZHA6IFJlYWQgYWx0ZXJuYXRlIHNjcmFtYmxl
-ciByZXNldCBjYXBhYmlsaXR5IGZyb20gc2luawogICAgICBkcm0vdGVncmE6IGRwOiBSZWFkIGVE
-UCB2ZXJzaW9uIGZyb20gRFBDRAogICAgICBkcm0vdGVncmE6IGRwOiBSZWFkIEFVWCByZWFkIGlu
-dGVydmFsIGZyb20gRFBDRAogICAgICBkcm0vdGVncmE6IGRwOiBTZXQgY2hhbm5lbCBjb2Rpbmcg
-b24gbGluayBjb25maWd1cmF0aW9uCiAgICAgIGRybS90ZWdyYTogZHA6IEVuYWJsZSBhbHRlcm5h
-dGUgc2NyYW1ibGVyIHJlc2V0IHdoZW4gc3VwcG9ydGVkCiAgICAgIGRybS90ZWdyYTogZHA6IEFk
-ZCBkcm1fZHBfbGlua19jaG9vc2UoKSBoZWxwZXIKICAgICAgZHJtL3RlZ3JhOiBkcDogQWRkIHN1
-cHBvcnQgZm9yIGVEUCBsaW5rIHJhdGVzCiAgICAgIGRybS90ZWdyYTogZHA6IEFkZCBEaXNwbGF5
-UG9ydCBsaW5rIHRyYWluaW5nIGhlbHBlcgogICAgICBkcm0vdGVncmE6IHNvcjogVXNlIERQIGxp
-bmsgdHJhaW5pbmcgaGVscGVycwogICAgICBkcm0vdGVncmE6IHNvcjogSG9vayB1cCBJMkMtb3Zl
-ci1BVVggdG8gb3V0cHV0CiAgICAgIGRybS90ZWdyYTogc29yOiBTdGFiaWxpemUgZURQCiAgICAg
-IGRybS90ZWdyYTogc29yOiBGaWx0ZXIgZURQIHJhdGVzCiAgICAgIGRybS90ZWdyYTogc29yOiBB
-ZGQgRGlzcGxheVBvcnQgc3VwcG9ydAogICAgICBkcm0vdGVncmE6IHNvcjogUmVtb3ZlIHRlZ3Jh
-MTg2LXNvcjEgc3VwcG9ydAogICAgICBkcm0vdGVncmE6IHNvcjogVXNlIGNvcnJlY3QgU09SIGlu
-ZGV4IG9uIFRlZ3JhMjEwCiAgICAgIGRybS90ZWdyYTogc29yOiBJbXBsZW1lbnQgcGFkIGNsb2Nr
-IGZvciBhbGwgU09SIGluc3RhbmNlcwogICAgICBkcm0vdGVncmE6IHNvcjogRGVkdXBsaWNhdGUg
-Y29ubmVjdG9yIHR5cGUgZGV0ZWN0aW9uIGNvZGUKICAgICAgZHJtL3RlZ3JhOiBzb3I6IFN1cHBv
-cnQgRGlzcGxheVBvcnQgb24gVGVncmExOTQKICAgICAgZHJtL3RlZ3JhOiBzb3I6IFVuaWZ5IGNs
-b2NrIHNldHVwIGZvciBlRFAsIEhETUkgYW5kIERQCiAgICAgIGRybS90ZWdyYTogc29yOiBVc2Ug
-Y29ycmVjdCBJL08gcGFkIGZvciBEUAogICAgICBkcm0vdGVncmE6IHNvcjogVW5pZnkgZURQIGFu
-ZCBEUCBzdXBwb3J0CiAgICAgIGRybS90ZWdyYTogc29yOiBBdm9pZCB0aW1lb3V0cyBvbiB1bnBs
-dWcgZXZlbnRzCiAgICAgIGRybS90ZWdyYTogc29yOiBFeHRyYWN0IGNvbW1vbiBhdWRpbyBlbmFi
-bGluZyBjb2RlCiAgICAgIGRybS90ZWdyYTogc29yOiBJbnRyb2R1Y2UgYXVkaW8gZW5hYmxlL2Rp
-c2FibGUgY2FsbGJhY2tzCiAgICAgIGRybS90ZWdyYTogRG8gbm90IHVzZSAtPmxvYWQoKSBhbmQg
-LT51bmxvYWQoKSBjYWxsYmFja3MKICAgICAgZHJtL3RlZ3JhOiBTaW1wbGlmeSBJT01NVSBncm91
-cCBzZWxlY3Rpb24KICAgICAgZ3B1OiBob3N0MXg6IE92ZXJoYXVsIGhvc3QxeF9ib197cGluLHVu
-cGlufSgpIEFQSQogICAgICBncHU6IGhvc3QxeDogQ2xlYW4gdXAgZGVidWdmcyBvbiByZW1vdmFs
-CiAgICAgIGdwdTogaG9zdDF4OiBBZGQgZGlyZWN0aW9uIGZsYWdzIHRvIHJlbG9jYXRpb25zCiAg
-ICAgIGdwdTogaG9zdDF4OiBBbGxvY2F0ZSBnYXRoZXIgY29weSBmb3IgaG9zdDF4CiAgICAgIGdw
-dTogaG9zdDF4OiBTdXBwb3J0IERNQSBtYXBwaW5nIG9mIGJ1ZmZlcnMKICAgICAgZ3B1OiBob3N0
-MXg6IFNldCBETUEgbWFzayBiYXNlZCBvbiBJT01NVSBzZXR1cAogICAgICBkcm0vdGVncmE6IFJl
-bW92ZSBtZW1vcnkgYWxsb2NhdGlvbiBmcm9tIEZhbGNvbiBsaWJyYXJ5CiAgICAgIGRybS90ZWdy
-YTogZmFsY29uOiBDbGFyaWZ5IGFkZHJlc3MgdXNhZ2UKICAgICAgZHJtL3RlZ3JhOiBTdXBwb3J0
-IERNQSBBUEkgZm9yIGRpc3BsYXkgY29udHJvbGxlcnMKICAgICAgZHJtL3RlZ3JhOiBPcHRpb25h
-bGx5IGF0dGFjaCBjbGllbnRzIHRvIHRoZSBJT01NVQogICAgICBncHU6IGhvc3QxeDogVW5jb25k
-aXRpb25hbGx5IHNlbGVjdCBJT01NVV9JT1ZBCiAgICAgIGRybS90ZWdyYTogVW5jb25kaXRpb25h
-bGx5IHNlbGVjdCBJT01NVV9JT1ZBCgogZHJpdmVycy9ncHUvZHJtL3RlZ3JhL0tjb25maWcgIHwg
-ICAgMiArLQogZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2RjLmMgICAgIHwgICAzMCArLQogZHJpdmVy
-cy9ncHUvZHJtL3RlZ3JhL2RjLmggICAgIHwgICAgMiAtCiBkcml2ZXJzL2dwdS9kcm0vdGVncmEv
-ZHAuYyAgICAgfCAgNzY1ICsrKysrKysrKysrKysrKysrLQogZHJpdmVycy9ncHUvZHJtL3RlZ3Jh
-L2RwLmggICAgIHwgIDE1NyArKystCiBkcml2ZXJzL2dwdS9kcm0vdGVncmEvZHBhdXguYyAgfCAg
-MjA3ICsrKy0tCiBkcml2ZXJzL2dwdS9kcm0vdGVncmEvZHJtLmMgICAgfCAgNDE3ICsrKysrLS0t
-LS0KIGRyaXZlcnMvZ3B1L2RybS90ZWdyYS9kcm0uaCAgICB8ICAgMTMgKy0KIGRyaXZlcnMvZ3B1
-L2RybS90ZWdyYS9mYWxjb24uYyB8ICAgNjQgKy0KIGRyaXZlcnMvZ3B1L2RybS90ZWdyYS9mYWxj
-b24uaCB8ICAgMTYgKy0KIGRyaXZlcnMvZ3B1L2RybS90ZWdyYS9mYi5jICAgICB8ICAgIDQgKy0K
-IGRyaXZlcnMvZ3B1L2RybS90ZWdyYS9nZW0uYyAgICB8ICAgODEgKy0KIGRyaXZlcnMvZ3B1L2Ry
-bS90ZWdyYS9nZW0uaCAgICB8ICAgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS90ZWdyYS9ncjJkLmMg
-ICB8ICAgMTIgKy0KIGRyaXZlcnMvZ3B1L2RybS90ZWdyYS9ncjNkLmMgICB8ICAgMTIgKy0KIGRy
-aXZlcnMvZ3B1L2RybS90ZWdyYS9odWIuYyAgICB8ICAgIDYgKy0KIGRyaXZlcnMvZ3B1L2RybS90
-ZWdyYS9vdXRwdXQuYyB8ICAgMjggKy0KIGRyaXZlcnMvZ3B1L2RybS90ZWdyYS9wbGFuZS5jICB8
-ICAxMDQgKysrCiBkcml2ZXJzL2dwdS9kcm0vdGVncmEvcGxhbmUuaCAgfCAgICA4ICsKIGRyaXZl
-cnMvZ3B1L2RybS90ZWdyYS9zb3IuYyAgICB8IDE3MDMgKysrKysrKysrKysrKysrKysrKysrKysr
-Ky0tLS0tLS0tLS0tLS0tLQogZHJpdmVycy9ncHUvZHJtL3RlZ3JhL3Nvci5oICAgIHwgICAgMyAr
-CiBkcml2ZXJzL2dwdS9kcm0vdGVncmEvdmljLmMgICAgfCAgMTM4ICsrLS0KIGRyaXZlcnMvZ3B1
-L2hvc3QxeC9LY29uZmlnICAgICB8ICAgIDIgKy0KIGRyaXZlcnMvZ3B1L2hvc3QxeC9idXMuYyAg
-ICAgICB8ICAgIDIgKy0KIGRyaXZlcnMvZ3B1L2hvc3QxeC9jZG1hLmMgICAgICB8ICAgIDYgKy0K
-IGRyaXZlcnMvZ3B1L2hvc3QxeC9jaGFubmVsLmMgICB8ICAgMTMgKy0KIGRyaXZlcnMvZ3B1L2hv
-c3QxeC9jaGFubmVsLmggICB8ICAgIDEgKwogZHJpdmVycy9ncHUvaG9zdDF4L2Rldi5jICAgICAg
-IHwgIDIzNiArKysrLS0KIGRyaXZlcnMvZ3B1L2hvc3QxeC9kZXYuaCAgICAgICB8ICAgIDMgKwog
-ZHJpdmVycy9ncHUvaG9zdDF4L2ludHIuYyAgICAgIHwgICAgMSAtCiBkcml2ZXJzL2dwdS9ob3N0
-MXgvam9iLmMgICAgICAgfCAgIDkxICsrLQogZHJpdmVycy9ncHUvaG9zdDF4L2pvYi5oICAgICAg
-IHwgICAgNCArCiBpbmNsdWRlL2xpbnV4L2hvc3QxeC5oICAgICAgICAgfCAgIDI2ICstCiAzMyBm
-aWxlcyBjaGFuZ2VkLCAyODczIGluc2VydGlvbnMoKyksIDEyODYgZGVsZXRpb25zKC0pCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1029856924==
+Content-Type: multipart/alternative; boundary="15727052780.85BdE.27358"
+Content-Transfer-Encoding: 7bit
+
+
+--15727052780.85BdE.27358
+Date: Sat, 2 Nov 2019 14:34:38 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D108379
+
+--- Comment #7 from xc <juha@inbox.lv> ---
+I have RX470 and high idle power consumption has been present since hdmi/dp
+audio has been in kernel. Power consumption meter readings are ~20w higher =
+with
+audio enabled. I am using Gentoo and compiling kernel without hdmi/dp audio
+support normalizes consumption.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15727052780.85BdE.27358
+Date: Sat, 2 Nov 2019 14:34:38 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - high idle power consumption"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108379#c7">Commen=
+t # 7</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - high idle power consumption"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108379">bug 10837=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+juha&#64;inbox.lv" title=3D"xc &lt;juha&#64;inbox.lv&gt;"> <span class=3D"f=
+n">xc</span></a>
+</span></b>
+        <pre>I have RX470 and high idle power consumption has been present =
+since hdmi/dp
+audio has been in kernel. Power consumption meter readings are ~20w higher =
+with
+audio enabled. I am using Gentoo and compiling kernel without hdmi/dp audio
+support normalizes consumption.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15727052780.85BdE.27358--
+
+--===============1029856924==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1029856924==--
