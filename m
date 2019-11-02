@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CAFCED040
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Nov 2019 19:39:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9A81ED0A3
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Nov 2019 22:26:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 219BA6E51C;
-	Sat,  2 Nov 2019 18:39:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB040892D2;
+	Sat,  2 Nov 2019 21:26:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id C623A6E432
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Nov 2019 18:39:36 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id BE9DF720E2; Sat,  2 Nov 2019 18:39:36 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D175892D2
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Nov 2019 21:26:44 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112140] [CI][BAT][KBL] All tests - dmesg-warn - *ERROR*
- Couldn't read SADs: -2
-Date: Sat, 02 Nov 2019 18:39:37 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
+Subject: [Bug 205393] New: [amdgpu powerplay] vega10: custom pp_table, AVFS
+ accidentally reenabled after display powersave
+Date: Sat, 02 Nov 2019 21:26:42 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: not set
-X-Bugzilla-Who: chris@chris-wilson.co.uk
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: haro41@gmx.de
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: qa_contact assigned_to component
-Message-ID: <bug-112140-502-0YTLpEIhLF@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-112140-502@http.bugs.freedesktop.org/>
-References: <bug-112140-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-205393-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
+ message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,117 +52,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0464375316=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0464375316==
-Content-Type: multipart/alternative; boundary="15727199760.bf01.15666"
-Content-Transfer-Encoding: 7bit
-
-
---15727199760.bf01.15666
-Date: Sat, 2 Nov 2019 18:39:36 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112140
-
-Chris Wilson <chris@chris-wilson.co.uk> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-         QA Contact|intel-gfx-bugs@lists.freede |
-                   |sktop.org                   |
-           Assignee|intel-gfx-bugs@lists.freede |dri-devel@lists.freedesktop
-                   |sktop.org                   |.org
-          Component|DRM/Intel                   |DRM/AMDgpu
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15727199760.bf01.15666
-Date: Sat, 2 Nov 2019 18:39:36 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:chris&#64=
-;chris-wilson.co.uk" title=3D"Chris Wilson &lt;chris&#64;chris-wilson.co.uk=
-&gt;"> <span class=3D"fn">Chris Wilson</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [CI][BAT][KBL] All tests - dmesg-warn - *ERROR* Couldn't =
-read SADs: -2"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112140">bug 11214=
-0</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">QA Contact</td>
-           <td>intel-gfx-bugs&#64;lists.freedesktop.org
-           </td>
-           <td>
-               &nbsp;
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Assignee</td>
-           <td>intel-gfx-bugs&#64;lists.freedesktop.org
-           </td>
-           <td>dri-devel&#64;lists.freedesktop.org
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Component</td>
-           <td>DRM/Intel
-           </td>
-           <td>DRM/AMDgpu
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15727199760.bf01.15666--
-
---===============0464375316==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0464375316==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDUzOTMKCiAgICAg
+ICAgICAgIEJ1ZyBJRDogMjA1MzkzCiAgICAgICAgICAgU3VtbWFyeTogW2FtZGdwdSBwb3dlcnBs
+YXldIHZlZ2ExMDogY3VzdG9tIHBwX3RhYmxlLCBBVkZTCiAgICAgICAgICAgICAgICAgICAgYWNj
+aWRlbnRhbGx5IHJlZW5hYmxlZCBhZnRlciBkaXNwbGF5IHBvd2Vyc2F2ZQogICAgICAgICAgIFBy
+b2R1Y3Q6IERyaXZlcnMKICAgICAgICAgICBWZXJzaW9uOiAyLjUKICAgIEtlcm5lbCBWZXJzaW9u
+OiA1LjQtcmM1CiAgICAgICAgICBIYXJkd2FyZTogQWxsCiAgICAgICAgICAgICAgICBPUzogTGlu
+dXgKICAgICAgICAgICAgICBUcmVlOiBNYWlubGluZQogICAgICAgICAgICBTdGF0dXM6IE5FVwog
+ICAgICAgICAgU2V2ZXJpdHk6IG5vcm1hbAogICAgICAgICAgUHJpb3JpdHk6IFAxCiAgICAgICAg
+IENvbXBvbmVudDogVmlkZW8oRFJJIC0gbm9uIEludGVsKQogICAgICAgICAgQXNzaWduZWU6IGRy
+aXZlcnNfdmlkZW8tZHJpQGtlcm5lbC1idWdzLm9zZGwub3JnCiAgICAgICAgICBSZXBvcnRlcjog
+aGFybzQxQGdteC5kZQogICAgICAgIFJlZ3Jlc3Npb246IE5vCgpDcmVhdGVkIGF0dGFjaG1lbnQg
+Mjg1NzU1CiAgLS0+IGh0dHBzOi8vYnVnemlsbGEua2VybmVsLm9yZy9hdHRhY2htZW50LmNnaT9p
+ZD0yODU3NTUmYWN0aW9uPWVkaXQKcGF0Y2ggdG8gcHJldmVudCBBVkZTIHJlZW5hYmxpbmcgKGFn
+YWluc3QgNS40LXJjNSkKCldoZW4gdXBsb2FkaW5nIGEgY3VzdG9taXplZCBwb3dlcnBsYXkgdGFi
+bGUsIEFWRlMgZmVhdHVyZSBiZWNvbWVzIGNvcnJlY3RseQpkaXNhYmxlZC4KCkJ1dCBhZnRlciBh
+IHBvd2VyIHNhdmUgKGJsYW5jIHNjcmVlbikgZXZlbnQsIEFWRlMgYmVjb21lcyBhY2NpZGVudGFs
+bHkgZW5hYmxlZAphZ2Fpbi4gVGhpcyByZXN1bHRzIGluIHVud2FudGVkIGdmeCB2b2x0YWdlIGNo
+YW5nZXMuCgpFeGFtcGxlOgoKdmRkYyA9IDEuMDc1ViBhZnRlciBwcCB0YWJsZSB1cGxvYWQgKGNv
+cnJlY3QpLgoKdmRkYyA9IDEuMTUwViBhZnRlciBwb3dlciBzYXZlIGV2ZW50IChzZXQgYnkgc21j
+IGJlY2F1c2UgQVZGUyBmZWF0dXJlCnJlZW5hYmxlZCkuCgpJIGhhdmUgZGVidWdnZWQgdGhpcyBp
+c3N1ZSBhbmQgZm91bmQgYSBzaW1wbGUgc29sdXRpb24uIFRoZXJlIGlzIGEgcGF0Y2gKYXR0YWNo
+ZWQsIHRoYXQgc29sdmVzIHRoZSBwcm9ibGVtLgoKLS0gCllvdSBhcmUgcmVjZWl2aW5nIHRoaXMg
+bWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
+bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
