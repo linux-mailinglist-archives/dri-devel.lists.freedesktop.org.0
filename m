@@ -2,60 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF8DED029
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Nov 2019 18:57:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CAFCED040
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Nov 2019 19:39:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 059936E516;
-	Sat,  2 Nov 2019 17:57:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 219BA6E51C;
+	Sat,  2 Nov 2019 18:39:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1ACE56E500;
- Sat,  2 Nov 2019 17:57:02 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id q130so12044037wme.2;
- Sat, 02 Nov 2019 10:57:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=hRybqVavQHo4kc2uAW1DufA56ffoS4VWZ8W5YOU7UtQ=;
- b=DGCLmKbr29oaN5qiB0pqVP6rrJakaJxG6neTC/o+CSuWyHtaF092uxFZr7ds/y5RpA
- GIIJP+IcbhR12MglyKMjjnI+tqBqfP5JRhHXCs4jsCxEA1CWBxgvh1HetEtIeB3eHk7x
- mwzz1Qns6BS+uzbxWAbWAtDY164UUBJrmECuzwh1OnGyhRWqCIJGv4Uke9uV4rRhzO/H
- L1N7Q9fdkMPAY0H/ZK4lVzCwrG5VVg8q4RuNsM6z4HjdCIL1375zhaZO///2OHxBVjcc
- HxVW2/q3tUAKGpyMUVTyZQCRxrgiW0Dj5twQ8to6LOe5usv5OrqoD8ThMgTEkkcThPZ4
- 3rLQ==
-X-Gm-Message-State: APjAAAXz046opAxiZIZOifydkomjoXrHqYOJP9b76R3h5H3JuMjTroy/
- uDSrkBLGHCvRvuxGDGtYWtJberMN
-X-Google-Smtp-Source: APXvYqylSa5xQza6BCuat0c+VFhWosAfc/mcoFK3Z3DTN66n2gfL4tq3KX7mnuNq/rdbV9NYuPbAcw==
-X-Received: by 2002:a1c:7ec2:: with SMTP id z185mr15811883wmc.79.1572717420566; 
- Sat, 02 Nov 2019 10:57:00 -0700 (PDT)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
- by smtp.gmail.com with ESMTPSA id b3sm6918849wmh.17.2019.11.02.10.56.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 Nov 2019 10:56:59 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Ben Skeggs <bskeggs@redhat.com>,
-	Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH v2 9/9] drm/nouveau: gp10b: Use correct copy engine
-Date: Sat,  2 Nov 2019 18:56:37 +0100
-Message-Id: <20191102175637.3065-10-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191102175637.3065-1-thierry.reding@gmail.com>
-References: <20191102175637.3065-1-thierry.reding@gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C623A6E432
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Nov 2019 18:39:36 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id BE9DF720E2; Sat,  2 Nov 2019 18:39:36 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 112140] [CI][BAT][KBL] All tests - dmesg-warn - *ERROR*
+ Couldn't read SADs: -2
+Date: Sat, 02 Nov 2019 18:39:37 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: chris@chris-wilson.co.uk
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: qa_contact assigned_to component
+Message-ID: <bug-112140-502-0YTLpEIhLF@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-112140-502@http.bugs.freedesktop.org/>
+References: <bug-112140-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=hRybqVavQHo4kc2uAW1DufA56ffoS4VWZ8W5YOU7UtQ=;
- b=kGdAlsC0kEb4EWVcirGKrl+8N8G7z11eyL+N++FGbwwSzSoE6ZcKMLbYcO8O5MdHOg
- /IO8dqfY6v0T5HTtAWyebqsKBaTGXbhc9QsdM8p72pWjQu+b7J+v8R1PZIHMiVh0nFjI
- uM1nErfIpv1RyrpdMMbnwoT1L7pfUI3/Gv0yONmxOc32v6QGgAj+wsOU3sPZggGQdUtv
- 0gBO1OXVkMZiZPD4RnAsf8+xvDExix3v/FbSNTLdzkj6GsKNigJ/txIoV4KYIw/N11wB
- GFd5SNI+R06IQtGoyrul/YY6ihqwEkhOwNXA1P/S8jcoculMy2EX307WJrYSmpcc0FW/
- PKeA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,32 +53,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, nouveau@lists.freedesktop.org,
- Ben Dooks <ben.dooks@codethink.co.uk>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0464375316=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVGhpZXJyeSBSZWRpbmcgPHRyZWRpbmdAbnZpZGlhLmNvbT4KCmdwMTBiIHVzZXMgdGhl
-IG5ldyBlbmdpbmUgZW51bWVyYXRpb24gbWVjaGFuaXNtIGludHJvZHVjZWQgaW4gdGhlIFBhc2Nh
-bAphcmNoaXRlY3R1cmUuIEFzIGEgcmVzdWx0LCB0aGUgY29weSBlbmdpbmUsIHdoaWNoIHVzZWQg
-dG8gYmUgYXQgaW5kZXggMgpmb3IgcHJpb3IgVGVncmEgR1BVIGluc3RhbnRpYXRpb25zLCBoYXMg
-bm93IG1vdmVkIHRvIGluZGV4IDAuIEZpeCB1cCB0aGUKaW5kZXggYW5kIGFsc28gdXNlIHRoZSBn
-cDEwMCB2YXJpYW50IG9mIHRoZSBjb3B5IGVuZ2luZSBjbGFzcyBiZWNhdXNlIG9uCmdwMTBiIHRo
-ZSBQQVNDQUxfRE1BX0NPUFlfQiBjbGFzcyBpcyBub3Qgc3VwcG9ydGVkLgoKU2lnbmVkLW9mZi1i
-eTogVGhpZXJyeSBSZWRpbmcgPHRyZWRpbmdAbnZpZGlhLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9k
-cm0vbm91dmVhdS9udmttL2VuZ2luZS9kZXZpY2UvYmFzZS5jIHwgMiArLQogMSBmaWxlIGNoYW5n
-ZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL25vdXZlYXUvbnZrbS9lbmdpbmUvZGV2aWNlL2Jhc2UuYyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9ub3V2ZWF1L252a20vZW5naW5lL2RldmljZS9iYXNlLmMKaW5kZXggMjMxZWMwMDczYWYzLi5l
-YmE0NTBlNjg5YjIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L252a20vZW5n
-aW5lL2RldmljZS9iYXNlLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbnZrbS9lbmdp
-bmUvZGV2aWNlL2Jhc2UuYwpAQCAtMjM4Nyw3ICsyMzg3LDcgQEAgbnYxM2JfY2hpcHNldCA9IHsK
-IAkucG11ID0gZ20yMGJfcG11X25ldywKIAkudGltZXIgPSBnazIwYV90aW1lcl9uZXcsCiAJLnRv
-cCA9IGdrMTA0X3RvcF9uZXcsCi0JLmNlWzJdID0gZ3AxMDJfY2VfbmV3LAorCS5jZVswXSA9IGdw
-MTAwX2NlX25ldywKIAkuZG1hID0gZ2YxMTlfZG1hX25ldywKIAkuZmlmbyA9IGdwMTBiX2ZpZm9f
-bmV3LAogCS5nciA9IGdwMTBiX2dyX25ldywKLS0gCjIuMjMuMAoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0464375316==
+Content-Type: multipart/alternative; boundary="15727199760.bf01.15666"
+Content-Transfer-Encoding: 7bit
+
+
+--15727199760.bf01.15666
+Date: Sat, 2 Nov 2019 18:39:36 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112140
+
+Chris Wilson <chris@chris-wilson.co.uk> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+         QA Contact|intel-gfx-bugs@lists.freede |
+                   |sktop.org                   |
+           Assignee|intel-gfx-bugs@lists.freede |dri-devel@lists.freedesktop
+                   |sktop.org                   |.org
+          Component|DRM/Intel                   |DRM/AMDgpu
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15727199760.bf01.15666
+Date: Sat, 2 Nov 2019 18:39:36 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:chris&#64=
+;chris-wilson.co.uk" title=3D"Chris Wilson &lt;chris&#64;chris-wilson.co.uk=
+&gt;"> <span class=3D"fn">Chris Wilson</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI][BAT][KBL] All tests - dmesg-warn - *ERROR* Couldn't =
+read SADs: -2"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112140">bug 11214=
+0</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">QA Contact</td>
+           <td>intel-gfx-bugs&#64;lists.freedesktop.org
+           </td>
+           <td>
+               &nbsp;
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Assignee</td>
+           <td>intel-gfx-bugs&#64;lists.freedesktop.org
+           </td>
+           <td>dri-devel&#64;lists.freedesktop.org
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Component</td>
+           <td>DRM/Intel
+           </td>
+           <td>DRM/AMDgpu
+           </td>
+         </tr></table>
+      <p>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15727199760.bf01.15666--
+
+--===============0464375316==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0464375316==--
