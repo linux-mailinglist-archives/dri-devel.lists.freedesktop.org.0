@@ -2,110 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E8C4EDA24
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2019 08:54:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13CAAEDA2E
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2019 08:54:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 302036E14F;
-	Mon,  4 Nov 2019 07:54:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F1606E175;
+	Mon,  4 Nov 2019 07:54:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM05-DM3-obe.outbound.protection.outlook.com
- (mail-eopbgr730090.outbound.protection.outlook.com [40.107.73.90])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D0F26E0D0
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Nov 2019 00:28:34 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dGlrPLxi5ESjdzwZJJn4QJVj8sgkb2Cm1gTN7sTG6NaKtAEbQ3Tc8VGxSomq1y2nV20Ng88Wmit/WBPszhpdLSvSbsMTbKtxcHSr58tPVnz6wpg4fdv5ZiKx1mRGnWC+eTKM8buOXxX9gf2fOhiJj2YVw/OCqC8RNtW47qtFZYJCdw+QjlZaXqbexocVkLXSBaJCIM3XHn+qA/hCmWXfaExH0Vza/c7ffArpJ1Sp1FkMbH2vT6T2z6bnUiQGBoHXn2C3SZewhTNXakCdNJS4uZ2DbQGer6Rjk5W0wFzJSm9MzFaRWhwxjyfkady+ApHef9zPeKFzXQOueVN6b4TqfQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WC3ptnWa0j3LcydmdreViOJBDzZG3YsCBxAO5hCgx9M=;
- b=Mtb0QD+jn/o5yAv/ZOtzbYt7KXez6ajufIBxLAtroPxrAwT9UtYI47pW80aRf5l3IG4b2r9tpFQZHil6Iw/r3fdIZnZJBMsid3SM6joSTQlhgNPku5aRxoOjR3v+vHhs6gfbnlcrHtXCel7FsiT9MB8yVrhwZouKpQ6jJTsWo6Ab72s6g65htBxkgzW5vC1uA2IzaTY42LTB6iphtMLwZBshnGwHHzx2NIL1QR8ENFDbzxuOKdlpOnEwo++0I4+Egbw6GSYZkpVK4oPtWu/gXPFzsSJbSVvvJKyPDZuoU+oi+JP9C3ZW8sqUH9uq8nQYeYFyluRTn2C99XbPaoUoWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-Received: from DM5PR21MB0137.namprd21.prod.outlook.com (10.173.173.12) by
- DM5PR21MB0794.namprd21.prod.outlook.com (10.175.112.10) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2408.8; Sat, 2 Nov 2019 00:28:32 +0000
-Received: from DM5PR21MB0137.namprd21.prod.outlook.com
- ([fe80::9cc3:f167:bb63:799]) by DM5PR21MB0137.namprd21.prod.outlook.com
- ([fe80::9cc3:f167:bb63:799%5]) with mapi id 15.20.2408.018; Sat, 2 Nov 2019
- 00:28:32 +0000
-From: Michael Kelley <mikelley@microsoft.com>
-To: Wei Hu <weh@microsoft.com>, "b.zolnierkie@samsung.com"
- <b.zolnierkie@samsung.com>, KY Srinivasan <kys@microsoft.com>, Haiyang Zhang
- <haiyangz@microsoft.com>, Stephen Hemminger <sthemmin@microsoft.com>,
- "sashal@kernel.org" <sashal@kernel.org>, "hch@lst.de" <hch@lst.de>,
- "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>, "robin.murphy@arm.com"
- <robin.murphy@arm.com>, "mchehab+samsung@kernel.org"
- <mchehab+samsung@kernel.org>, "sam@ravnborg.org" <sam@ravnborg.org>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
- "info@metux.net" <info@metux.net>, "arnd@arndb.de" <arnd@arndb.de>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "dcui@microsoft.com" <dcui@microsoft.com>
-Subject: RE: [PATCH] video: hyperv: hyperv_fb: Use physical memory for fb on
- HyperV Gen 1 VMs.
-Thread-Topic: [PATCH] video: hyperv: hyperv_fb: Use physical memory for fb on
- HyperV Gen 1 VMs.
-Thread-Index: AQHViMlWrXYtpApox02C+wFzOSr7Mqd3EP7w
-Date: Sat, 2 Nov 2019 00:28:32 +0000
-Message-ID: <DM5PR21MB013765D349FF1F90E22E247DD77D0@DM5PR21MB0137.namprd21.prod.outlook.com>
-References: <20191022110905.4032-1-weh@microsoft.com>
-In-Reply-To: <20191022110905.4032-1-weh@microsoft.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=mikelley@ntdev.microsoft.com;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2019-11-02T00:28:30.2103925Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=1a2f7340-9a15-47d0-b70a-efdf7aa47e81;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
-x-originating-ip: [24.22.167.197]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 42ee0b17-cf56-4532-65f2-08d75f2b979d
-x-ms-traffictypediagnostic: DM5PR21MB0794:|DM5PR21MB0794:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM5PR21MB0794F3CACBFB646A601A0CC7D77D0@DM5PR21MB0794.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4502;
-x-forefront-prvs: 0209425D0A
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(366004)(346002)(39860400002)(136003)(396003)(376002)(189003)(199004)(71200400001)(6436002)(71190400001)(1250700005)(66556008)(66476007)(99286004)(74316002)(7696005)(76116006)(14444005)(76176011)(6506007)(256004)(8990500004)(10090500001)(2201001)(64756008)(5660300002)(478600001)(66946007)(66446008)(1511001)(316002)(476003)(86362001)(22452003)(33656002)(66066001)(186003)(6116002)(10290500003)(229853002)(110136005)(3846002)(26005)(6636002)(2501003)(486006)(305945005)(81166006)(8676002)(8936002)(55016002)(81156014)(52536014)(14454004)(6246003)(11346002)(9686003)(7416002)(102836004)(7736002)(2906002)(446003)(25786009)(921003)(1121003);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DM5PR21MB0794;
- H:DM5PR21MB0137.namprd21.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: microsoft.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 5waLo2zE9XjbRpDIpsdLvr4DP97r/rjcZeBiTuO6YNqLPkRyUf/unvWs1Noq+gcmtqRTn3f6ks6ZwDQRc0Gjjy7aSz/cNyHbs3CV1Q1Y7RXqs/uDkvQ/AGhByzhgPFzjadVUE4MtjX5r7zb5icqBKrRgSiknVA7LdtdwKrq0ADXD6A3CGqHtp6XOr0h8uo/54LM3TgOvydUsGUwKF2t0pCr8cASEM9myI3u6ih5/uOoS6689j1kwMS/kjWxYIe3Qczz/K4k3A0V8ajhftyWo84qddc2WxIa6lZitI4ZNI3ihZ4m09ojXPXfT7hO2nKSkn36H77vtNvB+PVo9ob3xeQp2j+fVD/p0LWt2NX8YaX8mVs+2s9JlyogzunWa6YVH619f8AZ4j6e4rXZ914G3mXVdcEQOOSzOWNvAFIEpornhi5iCoKtcF/VhaRq8SVZo
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58DFA6E353;
+ Sat,  2 Nov 2019 03:19:53 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id l25so8951729edt.6;
+ Fri, 01 Nov 2019 20:19:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wjGtAWk57zKoDpHC/fEQW7q8HjHzHeDFeYCXw7S2s8g=;
+ b=geR/YTzki+fGFoTeg4JoxoV/DRyZq6gXr4be3gqnJkTdZxFcY+5C4o4fSPYIEZF2/+
+ Ls2TlVr+lVJ9H9wW/Sx9QHoy7rre9yBZoBWcb7IY0XYTFlTNn+e0n0/e5bD2vl8si0W0
+ 9uxiM4kqBzEH+ijaO0c9kDWQx+ik8SBVwbrbwtYrFKnAyS1b3gvj4bnYReP5xXRDerbc
+ DzI9fQlAQete0Mdhtvx7vMBvUqooWWoO2WYaa8dmLuszBhLqlDh6YPJfO06o31OeIxQ5
+ YPWZ6nFUl5XtTvwZfB/U4C0ghOmCOLsj8lm9Ht9jf+gktkapN1iXhyPnklF9c5UGisvY
+ xWBg==
+X-Gm-Message-State: APjAAAVrHhb3/Mxke+s149fxBGrOSO0hWZAXH2xAQo8OsH6m41bk6+ZK
+ Bs+3LLnjIACV44KVV8eDqfLJjfhzCK4NPONqJ9Q=
+X-Google-Smtp-Source: APXvYqy+DR1lfyBs0ikRxLA36cpjMbMIXk0sv+W9I26H0MFvkdfYftbLI093Mtm/9mpg4g95jBHxscXd+4l4gP92vrE=
+X-Received: by 2002:a17:906:b74c:: with SMTP id
+ fx12mr5921876ejb.324.1572664791920; 
+ Fri, 01 Nov 2019 20:19:51 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 42ee0b17-cf56-4532-65f2-08d75f2b979d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Nov 2019 00:28:32.5812 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: y0oY9lvj8xN/1Vjn80vlfPwMe3Y84f8jiJ+one+ZtWmCPVcB4Rc04akudID0Ol76nZfoD0LACYq6aYZbe1oxrJh47L5O7o4zdC6+QClFawg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR21MB0794
+References: <91aa24ed23e2b8c012ec43ef9eb5baed2532f96c.camel@redhat.com>
+In-Reply-To: <91aa24ed23e2b8c012ec43ef9eb5baed2532f96c.camel@redhat.com>
+From: Rhys Kidd <rhyskidd@gmail.com>
+Date: Sat, 2 Nov 2019 14:19:40 +1100
+Message-ID: <CA+iOQUHRCRu1ygj_SUOHOCNVgXfPB16PQ0MLXYB1ZH-BMTDvxw@mail.gmail.com>
+Subject: Re: [Nouveau] Individuals interested in VESA memberships?
+To: Lyude Paul <lyude@redhat.com>
 X-Mailman-Approved-At: Mon, 04 Nov 2019 07:54:21 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microsoft.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WC3ptnWa0j3LcydmdreViOJBDzZG3YsCBxAO5hCgx9M=;
- b=jPPNgZeepJZjFJgl2mMdnYpk2lr7OEfIH+I+Wt6IR6HGqWVG4wxDbulwyxuBce/Kq0hplf00rhMaPOFHjlqGJvbmPZCmVECsDk+BnG3ecwciIYpuxZxaW9/8CQVa7+meWnP0t4AgnOCwrEnnxqfYTK712yFMt9MmY9th3S2tKpg=
-X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=mikelley@microsoft.com; 
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=wjGtAWk57zKoDpHC/fEQW7q8HjHzHeDFeYCXw7S2s8g=;
+ b=UJ+Iso6odCK3l3YmHKMYDwy86JsJjXc4melQSY1hbacQh3JNChRtLGN5EzZi9LqBFN
+ Vhw6XHvJswGi3imQZnaRvYQTwqD6UpPYoikgiThX6JDYP+esQ5SvFapo0mHkL8I5B7cX
+ yAHP8GCu2AmgPANjaCSehP7AFO1OWUYunp7YKQnNVxYZB+jPGP9hqGtfIoVDjyLSNcv5
+ 5M9gYO1iE0RNwfYuJraZUbzfffR8gsgSSGCsArx+eXZB6o3tnw1vuBQLP0oOGNLHX2WL
+ VlePFFc7lkH1P2q07Fq38VhbHnr1ps8Fmv19TfLCF7SGF7CjoaZTSOHhAtlZaymS2ej4
+ o9Jw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -118,130 +64,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: xorg-devel@lists.x.org, "X.Org Foundation Board" <board@foundation.x.org>,
+ "members@x.org" <members@x.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ nouveau <nouveau@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0480146685=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogV2VpIEh1IDx3ZWhAbWljcm9zb2Z0LmNvbT4gU2VudDogVHVlc2RheSwgT2N0b2JlciAy
-MiwgMjAxOSA0OjExIEFNCj4gCj4gT24gSHlwZXItViwgR2VuZXJhdGlvbiAxIFZNcyBjYW4gZGly
-ZWN0bHkgdXNlIFZNJ3MgcGh5c2ljYWwgbWVtb3J5IGZvcgo+IHRoZWlyIGZyYW1lYnVmZmVycy4g
-VGhpcyBjYW4gaW1wcm92ZSB0aGUgZWZmaWNpZW5jeSBvZiBmcmFtZWJ1ZmZlciBhbmQKPiBvdmVy
-YWxsIHBlcmZvcm1lbmNlIGZvciBWTS4gVGhlIHBoeXNpY2FsIG1lbW9yeSBhc3NpZ25lZCB0byBm
-cmFtZWJ1ZmZlcgo+IG11c3QgYmUgY29udGlndW91cy4gV2UgdXNlIENNQSBhbGxvY2F0b3IgdG8g
-Z2V0IGNvbnRpZ3VvdXNlIHBoeXNpY2lhbAo+IG1lbW9yeSB3aGVuIHRoZSBmcmFtZWJ1ZmZlciBz
-aXplIGlzIGdyZWF0ZXIgdGhhbiA0TUIuIEZvciBzaXplIHVuZGVyCj4gNE1CLCB3ZSB1c2UgYWxs
-b2NfcGFnZXMgdG8gYWNoaWV2ZSB0aGlzLgo+IAo+IFRvIGVuYWJsZSBmcmFtZWJ1ZmZlciBtZW1v
-cnkgYWxsb2NhdGlvbiBmcm9tIENNQSwgc3VwcGx5IGEga2VybmVsCj4gcGFyYW1ldGVyIHRvIGdp
-dmUgZW5vdWdoIHNwYWNlIHRvIENNQSBhbGxvY2F0b3IgYXQgYm9vdCB0aW1lLiBGb3IKPiBleGFt
-cGxlOgo+ICAgICBjbWE9MTMwbQo+IFRoaXMgZ2l2ZXMgMTMwTUIgbWVtb3J5IHRvIENBTSBhbGxv
-Y2F0b3IgdGhhdCBjYW4gYmUgYWxsb2NhdGVkIHRvCj4gZnJhbWVidWZmZXIuIElmIHRoaXMgZmFp
-bHMsIHdlIGZhbGwgYmFjayB0byB0aGUgb2xkIHdheSBvZiB1c2luZwo+IG1taW8gZm9yIGZyYW1l
-YnVmZmVyLgo+IAo+IFNpZ25lZC1vZmYtYnk6IFdlaSBIdSA8d2VoQG1pY3Jvc29mdC5jb20+Cj4g
-LS0tCgpbc25pcF0KCj4gKy8qCj4gKyAqIEFsbG9jYXRlIGVub3VnaCBjb250aWd1b3VzIHBoeXNp
-Y2FsIG1lbW9yeS4KPiArICogUmV0dXJuIHBoeXNpY2FsIGFkZHJlc3MgaWYgc3VjY2VlZGVkIG9y
-IC0xIGlmIGZhaWxlZC4KPiArICovCj4gK3N0YXRpYyB1bnNpZ25lZCBsb25nIGh2ZmJfZ2V0X3Bo
-eW1lbSh1bnNpZ25lZCBpbnQgcmVxdWVzdF9zaXplKQo+ICt7Cj4gKwlzdHJ1Y3QgcGFnZSAqcGFn
-ZSA9IE5VTEw7Cj4gKwl1bnNpZ25lZCBpbnQgcmVxdWVzdF9wYWdlczsKPiArCXVuc2lnbmVkIGxv
-bmcgcGFkZHIgPSAwOwoKVXNpbmcgJ3Vuc2lnbmVkIGxvbmcnIGZvciBwaHlzaWNhbCBhZGRyZXNz
-ZXMgaXMgcHJvYmxlbWF0aWMgb24gMzItYml0CnN5c3RlbXMgd2l0aCBQaHlzaWNhbCBBZGRyZXNz
-IEV4dGVuc2lvbiAoUEFFKSBlbmFibGVkLiBMaW51eCBoYXMKcGh5c19hZGRyX3QgdGhhdCBoYW5k
-bGVzIDMyLWJpdCBQQUUgY29ycmVjdGx5IGFuZCB0aGF0IHByb2JhYmx5CnNob3VsZCBiZSB1c2Vk
-IGhlcmUuICAgVGhpcyB3aG9sZSBkcml2ZXIgbmVlZHMgdG8gYmUgY2FyZWZ1bGx5CmNoZWNrZWQg
-Zm9yIHRoZSBjb3JyZWN0IHR5cGUgZm9yIHBoeXNpY2FsIGFkZHJlc3Nlcy4KCj4gKwl1bnNpZ25l
-ZCBpbnQgb3JkZXIgPSBnZXRfb3JkZXIocmVxdWVzdF9zaXplKTsKPiArCj4gKwlpZiAocmVxdWVz
-dF9zaXplID09IDApCj4gKwkJcmV0dXJuIC0xOwo+ICsKPiArCS8qIFRyeSBjYWxsIGFsbG9jX3Bh
-Z2VzIGlmIHRoZSBzaXplIGlzIGxlc3MgdGhhbiAyXk1BWF9PUkRFUiAqLwo+ICsJaWYgKG9yZGVy
-IDwgTUFYX09SREVSKSB7Cj4gKwkJcGFnZSA9IGFsbG9jX3BhZ2VzKEdGUF9LRVJORUwgfCBfX0dG
-UF9aRVJPLCBvcmRlcik7Cj4gKwkJaWYgKCFwYWdlKQo+ICsJCQlyZXR1cm4gLTE7Cj4gKwo+ICsJ
-CXJlcXVlc3RfcGFnZXMgPSAoMSA8PCBvcmRlcik7Cj4gKwkJZ290byBnZXRfcGh5bWVtMTsKPiAr
-CX0KPiArCj4gKwkvKiBBbGxvY2F0ZSBmcm9tIENNQSAqLwo+ICsJLy8gcmVxdWVzdF9wYWdlcyA9
-IChyZXF1ZXN0X3NpemUgPj4gUEFHRV9TSElGVCkgKyAxOwo+ICsJcmVxdWVzdF9wYWdlcyA9IChy
-b3VuZF91cChyZXF1ZXN0X3NpemUsIFBBR0VfU0laRSkgPj4gUEFHRV9TSElGVCk7Cj4gKwlwYWdl
-ID0gZG1hX2FsbG9jX2Zyb21fY29udGlndW91cyhOVUxMLCByZXF1ZXN0X3BhZ2VzLCAwLCBmYWxz
-ZSk7Cj4gKwo+ICsJaWYgKHBhZ2UgPT0gTlVMTCkKPiArCQlyZXR1cm4gLTE7Cj4gKwo+ICtnZXRf
-cGh5bWVtMToKPiArCXBhZGRyID0gKHBhZ2VfdG9fcGZuKHBhZ2UpIDw8IFBBR0VfU0hJRlQpOwo+
-ICsKPiArCXByX2luZm8oIkFsbG9jYXRlZCAlZCBwYWdlcyBzdGFydHMgYXQgcGh5c2ljYWwgYWRk
-ciAweCVseFxuIiwKPiArCQlyZXF1ZXN0X3BhZ2VzLCBwYWRkcik7Cj4gKwo+ICsJcmV0dXJuIHBh
-ZGRyOwo+ICt9Cj4gKwo+ICsvKiBSZWxlYXNlIGNvbnRpZ3VvdXMgcGh5c2ljYWwgbWVtb3J5ICov
-Cj4gK3N0YXRpYyB2b2lkIGh2ZmJfcmVsZWFzZV9waHltZW0odW5zaWduZWQgbG9uZyBwYWRkciwg
-dW5zaWduZWQgaW50IHNpemUpCgpTYW1lIGlzc3VlIGhlcmUgd2l0aCAndW5zaWduZWQgbG9uZyBw
-YWRkcicuCgo+ICt7Cj4gKwl1bnNpZ25lZCBpbnQgb3JkZXIgPSBnZXRfb3JkZXIoc2l6ZSk7Cj4g
-Kwo+ICsJaWYgKG9yZGVyIDwgTUFYX09SREVSKQo+ICsJCV9fZnJlZV9wYWdlcyhwZm5fdG9fcGFn
-ZShwYWRkciA+PiBQQUdFX1NISUZUKSwgb3JkZXIpOwo+ICsJZWxzZQo+ICsJCWRtYV9yZWxlYXNl
-X2Zyb21fY29udGlndW91cyhOVUxMLAo+ICsJCQkJCSAgICBwZm5fdG9fcGFnZShwYWRkciA+PiBQ
-QUdFX1NISUZUKSwKPiArCQkJCQkgICAgKHJvdW5kX3VwKHNpemUsIFBBR0VfU0laRSkgPj4KPiAr
-CQkJCQkgICAgIFBBR0VfU0hJRlQpKTsKPiArCQkJCQkgICAgLy8gKHNpemUgPj4gUEFHRV9TSElG
-VCkgKyAxKTsKPiArfQo+ICsKPiAKPiAgLyogR2V0IGZyYW1lYnVmZmVyIG1lbW9yeSBmcm9tIEh5
-cGVyLVYgdmlkZW8gcGNpIHNwYWNlICovCj4gIHN0YXRpYyBpbnQgaHZmYl9nZXRtZW0oc3RydWN0
-IGh2X2RldmljZSAqaGRldiwgc3RydWN0IGZiX2luZm8gKmluZm8pCj4gQEAgLTk0Nyw4ICsxMDE3
-LDU4IEBAIHN0YXRpYyBpbnQgaHZmYl9nZXRtZW0oc3RydWN0IGh2X2RldmljZSAqaGRldiwgc3Ry
-dWN0IGZiX2luZm8KPiAqaW5mbykKPiAgCXZvaWQgX19pb21lbSAqZmJfdmlydDsKPiAgCWludCBn
-ZW4ydm0gPSBlZmlfZW5hYmxlZChFRklfQk9PVCk7Cj4gIAlyZXNvdXJjZV9zaXplX3QgcG90X3N0
-YXJ0LCBwb3RfZW5kOwo+ICsJdW5zaWduZWQgbG9uZyBwYWRkcjsKClNhbWUgaXNzdWUgd2l0aCAn
-dW5zaWduZWQgbG9uZycuCgo+ICAJaW50IHJldDsKPiAKPiArCWlmICghZ2VuMnZtKSB7Cj4gKwkJ
-cGRldiA9IHBjaV9nZXRfZGV2aWNlKFBDSV9WRU5ET1JfSURfTUlDUk9TT0ZULAo+ICsJCQlQQ0lf
-REVWSUNFX0lEX0hZUEVSVl9WSURFTywgTlVMTCk7Cj4gKwkJaWYgKCFwZGV2KSB7Cj4gKwkJCXBy
-X2VycigiVW5hYmxlIHRvIGZpbmQgUENJIEh5cGVyLVYgdmlkZW9cbiIpOwo+ICsJCQlyZXR1cm4g
-LUVOT0RFVjsKPiArCQl9Cj4gKwl9Cj4gKwo+ICsJaW5mby0+YXBlcnR1cmVzID0gYWxsb2NfYXBl
-cnR1cmVzKDEpOwo+ICsJaWYgKCFpbmZvLT5hcGVydHVyZXMpCj4gKwkJZ290byBlcnIxOwo+ICsK
-PiArCWlmIChnZW4ydm0pIHsKPiArCQlpbmZvLT5hcGVydHVyZXMtPnJhbmdlc1swXS5iYXNlID0g
-c2NyZWVuX2luZm8ubGZiX2Jhc2U7Cj4gKwkJaW5mby0+YXBlcnR1cmVzLT5yYW5nZXNbMF0uc2l6
-ZSA9IHNjcmVlbl9pbmZvLmxmYl9zaXplOwo+ICsJfSBlbHNlIHsKPiArCQlpbmZvLT5hcGVydHVy
-ZXMtPnJhbmdlc1swXS5iYXNlID0gcGNpX3Jlc291cmNlX3N0YXJ0KHBkZXYsIDApOwo+ICsJCWlu
-Zm8tPmFwZXJ0dXJlcy0+cmFuZ2VzWzBdLnNpemUgPSBwY2lfcmVzb3VyY2VfbGVuKHBkZXYsIDAp
-Owo+ICsJfQo+ICsKPiArCS8qCj4gKwkgKiBGb3IgR2VuIDEgVk0sIHdlIGNhbiBkaXJlY3RseSB1
-c2UgdGhlIGNvbnRpZ3VvdXMgbWVtb3J5Cj4gKwkgKiBmcm9tIFZNLiBJZiB3ZSBzdWNjZXNzLCBk
-ZWZlcnJlZCBJTyBoYXBwZW5zIGRpcmVjdGx5Cj4gKwkgKiBvbiB0aGlzIGFsbG9jYXRlZCBmcmFt
-ZWJ1ZmZlciBtZW1vcnksIGF2b2lkaW5nIGV4dHJhCj4gKwkgKiBtZW1vcnkgY29weS4KPiArCSAq
-Lwo+ICsJaWYgKCFnZW4ydm0pIHsKPiArCQlwYWRkciA9IGh2ZmJfZ2V0X3BoeW1lbShzY3JlZW5f
-ZmJfc2l6ZSk7Cj4gKwkJaWYgKHBhZGRyICE9ICh1bnNpZ25lZCBsb25nKSAtMSkgewoKcGh5c19h
-ZGRyX3QKCj4gKwkJCXBhci0+bW1pb19wcCA9IHBhZGRyOwoKSSdtIG5vdCByZWFsbHkgc3VyZSB3
-aGF0IHRvIGRvIGFib3V0IHRoZSBhYm92ZSwgYmVjYXVzZSBtbWlvX3BwIGlzCmRlY2xhcmVkIGFz
-ICd1bnNpZ25lZCBsb25nJyB3aGVuIGl0IHJlYWxseSBzaG91bGQgYmUgcGh5c19hZGRyX3QuCkJ1
-dCBtYXliZSBhIE1NSU8gYWRkcmVzcyB3aWxsIGFsd2F5cyBiZSBsZXNzIHRoYW4gNCBHYiBhbmQg
-dGhlcmVmb3JlCndpbGwgZml0IGluIDMyIGJpdHM/Cgo+ICsJCQlwYXItPm1taW9fdnAgPSBwYXIt
-PmRpb192cCA9IF9fdmEocGFkZHIpOwo+ICsKPiArCQkJaW5mby0+Zml4LnNtZW1fc3RhcnQgPSBw
-YWRkcjsKCnNtZW1fc3RhcnQgaXMgYWxzbyBkZWNsYXJlZCBhcyAndW5zaWduZWQgbG9uZycsIHdo
-aWNoIHNlZW1zCnByb2JsZW1hdGljIHdpdGggMzItYml0IFBBRS4gIFRoZXJlIGFyZSBhIGxvdCBv
-ZiBkcml2ZXJzIHRoYXQgY2FzdCB2YWx1ZXMKYXMgJ3Vuc2lnbmVkIGxvbmcnIGJlZm9yZSBzdG9y
-aW5nIGludG8gc21lbV9zdGFydAoKPiArCQkJaW5mby0+Zml4LnNtZW1fbGVuID0gc2NyZWVuX2Zi
-X3NpemU7Cj4gKwkJCWluZm8tPnNjcmVlbl9iYXNlID0gcGFyLT5tbWlvX3ZwOwo+ICsJCQlpbmZv
-LT5zY3JlZW5fc2l6ZSA9IHNjcmVlbl9mYl9zaXplOwo+ICsKPiArCQkJcGFyLT5uZWVkX2RvY29w
-eSA9IGZhbHNlOwo+ICsJCQlnb3RvIGdldG1lbTE7Cj4gKwkJfSBlbHNlIHsKPiArCQkJcHJfaW5m
-bygiVW5hYmxlIHRvIGFsbG9jYXRlIGVub3VnaCBjb250aWd1b3VzIHBoeXNpY2FsIG1lbW9yeSBv
-bgo+IEdlbiAxIFZNLiBVc2UgTU1JTyBpbnN0ZWFkLlxuIik7Cj4gKwkJfQo+ICsJfQo+ICsKPiAr
-CS8qCj4gKwkgKiBDYW5ub3QgdXNlIHRoZSBjb250aWd1b3VzIHBoeXNpY2FsIG1lbW9yeS4KPiAr
-CSAqIEFsbG9jYXRlIG1taW8gc3BhY2UgZm9yIGZyYW1lYnVmZmVyLgo+ICsJICovCj4gIAlkaW9f
-ZmJfc2l6ZSA9Cj4gIAkJc2NyZWVuX3dpZHRoICogc2NyZWVuX2hlaWdodCAqIHNjcmVlbl9kZXB0
-aCAvIDg7Cj4gCj4gQEAgLTk1NiwxMyArMTA3Niw2IEBAIHN0YXRpYyBpbnQgaHZmYl9nZXRtZW0o
-c3RydWN0IGh2X2RldmljZSAqaGRldiwgc3RydWN0IGZiX2luZm8KPiAqaW5mbykKPiAgCQlwb3Rf
-c3RhcnQgPSAwOwo+ICAJCXBvdF9lbmQgPSAtMTsKPiAgCX0gZWxzZSB7Cj4gLQkJcGRldiA9IHBj
-aV9nZXRfZGV2aWNlKFBDSV9WRU5ET1JfSURfTUlDUk9TT0ZULAo+IC0JCQkgICAgICBQQ0lfREVW
-SUNFX0lEX0hZUEVSVl9WSURFTywgTlVMTCk7Cj4gLQkJaWYgKCFwZGV2KSB7Cj4gLQkJCXByX2Vy
-cigiVW5hYmxlIHRvIGZpbmQgUENJIEh5cGVyLVYgdmlkZW9cbiIpOwo+IC0JCQlyZXR1cm4gLUVO
-T0RFVjsKPiAtCQl9Cj4gLQo+ICAJCWlmICghKHBjaV9yZXNvdXJjZV9mbGFncyhwZGV2LCAwKSAm
-IElPUkVTT1VSQ0VfTUVNKSB8fAo+ICAJCSAgICBwY2lfcmVzb3VyY2VfbGVuKHBkZXYsIDApIDwg
-c2NyZWVuX2ZiX3NpemUpIHsKPiAgCQkJcHJfZXJyKCJSZXNvdXJjZSBub3QgYXZhaWxhYmxlIG9y
-ICgweCVseCA8IDB4JWx4KVxuIiwKPiBAQCAtOTkxLDIwICsxMTA0LDYgQEAgc3RhdGljIGludCBo
-dmZiX2dldG1lbShzdHJ1Y3QgaHZfZGV2aWNlICpoZGV2LCBzdHJ1Y3QgZmJfaW5mbwo+ICppbmZv
-KQo+ICAJaWYgKHBhci0+ZGlvX3ZwID09IE5VTEwpCj4gIAkJZ290byBlcnIzOwo+IAo+IC0JaW5m
-by0+YXBlcnR1cmVzID0gYWxsb2NfYXBlcnR1cmVzKDEpOwo+IC0JaWYgKCFpbmZvLT5hcGVydHVy
-ZXMpCj4gLQkJZ290byBlcnI0Owo+IC0KPiAtCWlmIChnZW4ydm0pIHsKPiAtCQlpbmZvLT5hcGVy
-dHVyZXMtPnJhbmdlc1swXS5iYXNlID0gc2NyZWVuX2luZm8ubGZiX2Jhc2U7Cj4gLQkJaW5mby0+
-YXBlcnR1cmVzLT5yYW5nZXNbMF0uc2l6ZSA9IHNjcmVlbl9pbmZvLmxmYl9zaXplOwo+IC0JCXJl
-bW92ZV9jb25mbGljdGluZ19mcmFtZWJ1ZmZlcnMoaW5mby0+YXBlcnR1cmVzLAo+IC0JCQkJCQlL
-QlVJTERfTU9ETkFNRSwgZmFsc2UpOwo+IC0JfSBlbHNlIHsKPiAtCQlpbmZvLT5hcGVydHVyZXMt
-PnJhbmdlc1swXS5iYXNlID0gcGNpX3Jlc291cmNlX3N0YXJ0KHBkZXYsIDApOwo+IC0JCWluZm8t
-PmFwZXJ0dXJlcy0+cmFuZ2VzWzBdLnNpemUgPSBwY2lfcmVzb3VyY2VfbGVuKHBkZXYsIDApOwo+
-IC0JfQo+IC0KPiAgCS8qIFBoeXNpY2FsIGFkZHJlc3Mgb2YgRkIgZGV2aWNlICovCj4gIAlwYXIt
-Pm1taW9fcHAgPSBwYXItPm1lbS0+c3RhcnQ7CgozMi1iaXQgUEFFIHByb2JsZW0gY291bGQgYWxz
-byBvY2N1ciBoZXJlLCBldmVuIHRob3VnaCB0aGUgYWJvdmUgbGluZSBpc24ndApwYXJ0IG9mIHlv
-dXIgcGF0Y2guCgpJZGVhbGx5LCB3ZSB3b3VsZCBidWlsZCB0aGUga2VybmVsIGluIDMyLWJpdCBt
-b2RlIHdpdGggUEFFIGVuYWJsZWQsIGFuZAp0ZXN0IGluIGFuIGVudmlyb25tZW50IHdoZXJlIHRo
-ZSBmcmFtZSBidWZmZXIgZ2V0cyBhbGxvY2F0ZWQgYWJvdmUgdGhlCjQgR2J5dGUgbGluZS4gIFRo
-ZXJlIG1heSBiZSBzb21lIHNpbWlsYXIgYnVncyBpbiBvdGhlciBwYXJ0cyBvZiB0aGlzCmRyaXZl
-ciB0aGF0IGFyZW4ndCB0b3VjaGVkIGJ5IHRoZSBwYXRjaC4KCk1pY2hhZWwKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+--===============0480146685==
+Content-Type: multipart/alternative; boundary="00000000000045f3c60596548e7e"
+
+--00000000000045f3c60596548e7e
+Content-Type: text/plain; charset="UTF-8"
+
+On Sat, 2 Nov 2019 at 07:06, Lyude Paul <lyude@redhat.com> wrote:
+
+> Hi! Recently I've been working with the rest of the X.Org board to try to
+> get
+> X.org access to VESA memberships so that contributors that don't have an
+> employer who is able/willing to join VESA can potentially get access to the
+> various benefits of a VESA membership, such as access to DisplayPort
+> specifications. Since I need to gather a list of interested X.org members,
+> I'd
+> like to know who all might be interested in a membership like this. There
+> are
+> no costs involved, as the VESA membership we're looking at in particular
+> comes
+> at no cost to us since we're a non-profit.
+>
+> The current plan is to extend VESA membership to X.Org members who
+> specifically request it. If you think you'd be at all interested in this,
+> or
+> know any projects or contributors who would be, please feel free to
+> respond to
+> this message and let me know!
+>
+
+Hi Lyude,
+
+This is super helpful, thank you for advancing this with X.org <> VESA.
+
+I would be interested, as recently released nvidia register documentation
+on crc
+functionality in the display block removes another roadblock for nouveau
+testing
+support in igt-gpu-tools.
+
+My time to work on nouveau independently remains limited, so if there's a
+limit
+on the number of VESA memberships available -- I'd rather not be at the top
+of that list over other more active open source contributors.
+
+Regards,
+Rhys
+
+
+
+> --
+> Cheers,
+>         Lyude Paul
+>
+> _______________________________________________
+> Nouveau mailing list
+> Nouveau@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/nouveau
+
+--00000000000045f3c60596548e7e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sat, 2 Nov 2019 at 07:06, Lyude Pa=
+ul &lt;<a href=3D"mailto:lyude@redhat.com">lyude@redhat.com</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi! Recently I&#=
+39;ve been working with the rest of the X.Org board to try to get<br>
+X.org access to VESA memberships so that contributors that don&#39;t have a=
+n<br>
+employer who is able/willing to join VESA can potentially get access to the=
+<br>
+various benefits of a VESA membership, such as access to DisplayPort<br>
+specifications. Since I need to gather a list of interested X.org members, =
+I&#39;d<br>
+like to know who all might be interested in a membership like this. There a=
+re<br>
+no costs involved, as the VESA membership we&#39;re looking at in particula=
+r comes<br>
+at no cost to us since we&#39;re a non-profit.<br>
+<br>
+The current plan is to extend VESA membership to X.Org members who<br>
+specifically request it. If you think you&#39;d be at all interested in thi=
+s, or<br>
+know any projects or contributors who would be, please feel free to respond=
+ to<br>
+this message and let me know!<br></blockquote><div><br></div><div>Hi Lyude,=
+</div><div><br></div><div>This is super helpful, thank you for advancing th=
+is with X.org &lt;&gt; VESA.</div><div><br></div><div>I would be interested=
+, as recently released nvidia register documentation on crc</div><div>funct=
+ionality in the display block removes another roadblock for nouveau testing=
+</div><div>support in igt-gpu-tools.</div><div><br></div><div>My time to wo=
+rk on nouveau independently remains limited, so if there&#39;s a limit</div=
+><div>on the number of VESA memberships available -- I&#39;d rather not be =
+at the top</div><div>of that list over other more active open source contri=
+butors.</div><div><br></div><div>Regards,</div><div>Rhys<br></div><div><br>=
+</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+-- <br>
+Cheers,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Lyude Paul<br>
+<br>
+_______________________________________________<br>
+Nouveau mailing list<br>
+<a href=3D"mailto:Nouveau@lists.freedesktop.org" target=3D"_blank">Nouveau@=
+lists.freedesktop.org</a><br>
+<a href=3D"https://lists.freedesktop.org/mailman/listinfo/nouveau" rel=3D"n=
+oreferrer" target=3D"_blank">https://lists.freedesktop.org/mailman/listinfo=
+/nouveau</a></blockquote></div></div>
+
+--00000000000045f3c60596548e7e--
+
+--===============0480146685==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0480146685==--
