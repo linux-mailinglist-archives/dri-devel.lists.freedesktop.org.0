@@ -2,56 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13CAAEDA2E
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2019 08:54:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 922E2EDA28
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2019 08:54:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F1606E175;
-	Mon,  4 Nov 2019 07:54:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 386A36E151;
+	Mon,  4 Nov 2019 07:54:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58DFA6E353;
- Sat,  2 Nov 2019 03:19:53 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id l25so8951729edt.6;
- Fri, 01 Nov 2019 20:19:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wjGtAWk57zKoDpHC/fEQW7q8HjHzHeDFeYCXw7S2s8g=;
- b=geR/YTzki+fGFoTeg4JoxoV/DRyZq6gXr4be3gqnJkTdZxFcY+5C4o4fSPYIEZF2/+
- Ls2TlVr+lVJ9H9wW/Sx9QHoy7rre9yBZoBWcb7IY0XYTFlTNn+e0n0/e5bD2vl8si0W0
- 9uxiM4kqBzEH+ijaO0c9kDWQx+ik8SBVwbrbwtYrFKnAyS1b3gvj4bnYReP5xXRDerbc
- DzI9fQlAQete0Mdhtvx7vMBvUqooWWoO2WYaa8dmLuszBhLqlDh6YPJfO06o31OeIxQ5
- YPWZ6nFUl5XtTvwZfB/U4C0ghOmCOLsj8lm9Ht9jf+gktkapN1iXhyPnklF9c5UGisvY
- xWBg==
-X-Gm-Message-State: APjAAAVrHhb3/Mxke+s149fxBGrOSO0hWZAXH2xAQo8OsH6m41bk6+ZK
- Bs+3LLnjIACV44KVV8eDqfLJjfhzCK4NPONqJ9Q=
-X-Google-Smtp-Source: APXvYqy+DR1lfyBs0ikRxLA36cpjMbMIXk0sv+W9I26H0MFvkdfYftbLI093Mtm/9mpg4g95jBHxscXd+4l4gP92vrE=
-X-Received: by 2002:a17:906:b74c:: with SMTP id
- fx12mr5921876ejb.324.1572664791920; 
- Fri, 01 Nov 2019 20:19:51 -0700 (PDT)
+Received: from APC01-SG2-obe.outbound.protection.outlook.com
+ (mail-eopbgr1310103.outbound.protection.outlook.com [40.107.131.103])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D68A6E375
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Nov 2019 06:17:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=f+Du7S6uSi5cJY2QzDCqW7iuEoboS2XTL4Teay42wSObyhkhmh6ZvzQVIohjQOYmCuYB3+HuqyeYMH2DDGJEfGsXQnQiBQAyiJ72BK9AWGQNgxMZNmygsge1LE/3x9oWSq2pPBm7M/dSNqQqsKz3DgIujVAc0BAiXaVCu48xNvlDYgPViGk67+PDZN56VW2SGv7IcREa6jfgh7l4CdUP0cuGx0mWASnfLCHBlJWo2wdbc2Wv4AyFYxeUAb7ZObpVuE5xdCM3zdHHZgURaslDzotSuF6BcH86YRYwAtB7dyr0FSEFYCUgvdj9qnNNdyXkDKhSbugQvHB3gFAI5Bw6wA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SO4sO1z+ffKrKW8H3i+vsIhAt/FsBZwTCu2jZkGHcSc=;
+ b=ImovqjVAvrORk14lUdbvT7lswIphm09ljgVoBsPZ7yfW5uLWMT4XTZNlNwYFrzRPbo5Z1Rfn7z7NrdXlHOUcVJNFMLd/ZvbUHelI6BYTVc6vYWKqyY6RXG84VS15EtXdViYQChwNPvEx91aXoekuv6jjhOdKfVWfB/j3rj5GwaNVI25fPvrXbmdSU9UTwRmjktLe5l9bsSOhg8kkXiNHpNrKpUEOhl5dQUq0SL53AmRGygTr8xgjW0qdDE3ZtbXFmCl3GZy8hDjoNdptrW+HkYrF9OYpeExtGCyX5W0O8/SuQirc7kbpmh8leUCfsZt8gAOr93+Ky4f5BMgr3+P+mw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+Received: from PU1P153MB0169.APCP153.PROD.OUTLOOK.COM (10.170.189.13) by
+ PU1P153MB0186.APCP153.PROD.OUTLOOK.COM (10.170.187.144) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2430.7; Sat, 2 Nov 2019 06:17:22 +0000
+Received: from PU1P153MB0169.APCP153.PROD.OUTLOOK.COM
+ ([fe80::69f1:c9:209a:1809]) by PU1P153MB0169.APCP153.PROD.OUTLOOK.COM
+ ([fe80::69f1:c9:209a:1809%2]) with mapi id 15.20.2430.010; Sat, 2 Nov 2019
+ 06:17:22 +0000
+From: Dexuan Cui <decui@microsoft.com>
+To: Wei Hu <weh@microsoft.com>, "b.zolnierkie@samsung.com"
+ <b.zolnierkie@samsung.com>, KY Srinivasan <kys@microsoft.com>, Haiyang Zhang
+ <haiyangz@microsoft.com>, Stephen Hemminger <sthemmin@microsoft.com>,
+ "sashal@kernel.org" <sashal@kernel.org>, "hch@lst.de" <hch@lst.de>,
+ "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>, "robin.murphy@arm.com"
+ <robin.murphy@arm.com>, "mchehab+samsung@kernel.org"
+ <mchehab+samsung@kernel.org>, "sam@ravnborg.org" <sam@ravnborg.org>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+ "info@metux.net" <info@metux.net>, "arnd@arndb.de" <arnd@arndb.de>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "dcui@microsoft.com" <dcui@microsoft.com>, Michael Kelley
+ <mikelley@microsoft.com>
+Subject: RE: [PATCH] video: hyperv: hyperv_fb: Use physical memory for fb on
+ HyperV Gen 1 VMs.
+Thread-Topic: [PATCH] video: hyperv: hyperv_fb: Use physical memory for fb on
+ HyperV Gen 1 VMs.
+Thread-Index: AQHViMlWrXYtpApox02C+wFzOSr7Mqd3cNRA
+Date: Sat, 2 Nov 2019 06:17:21 +0000
+Message-ID: <PU1P153MB01690579FA52DCDF964AE179BF7D0@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
+References: <20191022110905.4032-1-weh@microsoft.com>
+In-Reply-To: <20191022110905.4032-1-weh@microsoft.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=decui@microsoft.com;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2019-11-02T06:17:20.0215252Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=4eba7dcd-726f-4dbc-aee3-a2c3ebaeee78;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
+x-originating-ip: [2601:600:a280:7f70:f1df:b100:5b7:2fb9]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 7c71a8cf-bc8a-4aa3-ca6e-08d75f5c5278
+x-ms-traffictypediagnostic: PU1P153MB0186:|PU1P153MB0186:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <PU1P153MB018663BCF459F3D1D197BE2FBF7D0@PU1P153MB0186.APCP153.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-forefront-prvs: 0209425D0A
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(396003)(366004)(376002)(39860400002)(346002)(136003)(189003)(199004)(76176011)(2906002)(9686003)(81166006)(6436002)(7416002)(2501003)(46003)(229853002)(5660300002)(186003)(52536014)(2201001)(14454004)(33656002)(102836004)(66556008)(74316002)(7736002)(81156014)(22452003)(305945005)(8676002)(66946007)(110136005)(66476007)(316002)(4744005)(8990500004)(7696005)(66446008)(86362001)(76116006)(99286004)(486006)(446003)(6506007)(14444005)(1511001)(64756008)(10290500003)(71190400001)(55016002)(8936002)(256004)(1250700005)(6116002)(11346002)(6246003)(476003)(478600001)(6636002)(71200400001)(25786009)(10090500001)(921003)(1121003);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:PU1P153MB0186;
+ H:PU1P153MB0169.APCP153.PROD.OUTLOOK.COM; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: microsoft.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: agcJjU65hYd96Mz4pYn562usIB46stdUd0ocknLZsYReDTi+C1KewR4XaxJnPFtWnL0ieEilE0reWrdeGoipper05wIeOQ8zogG6nIAY2G2I99npwKwPd+mJdMNYUzbCNBNi+RLcd1O4xuiikSil+2wAFZwIGBoTQkCpt2gDbEbBPJqK7k3apW9UX7azev/NUzgiSwhBuKozUmHzLdlZojrnqtnXhYKZQhKBWtk3uufsbG5Ke9bPmSF0HANrKbYQHhfBmPKhUc2vZgM4GS93tCoCHjvd8mPip42KaSXRjvfNQqORiJAq0wc4M5c3Ln6mOHf7llrC0l/n/hdDbNxrSSOpuJoUGWJh0s8q3ryC5cy1Q3x5Jlc77nsC4fdYJmCgGVKPx5JNSSfAveFmbiEmbZ3ts+msX/1BrasGLVKdasgC2yBkCez2d5iw+0VYYN37
 MIME-Version: 1.0
-References: <91aa24ed23e2b8c012ec43ef9eb5baed2532f96c.camel@redhat.com>
-In-Reply-To: <91aa24ed23e2b8c012ec43ef9eb5baed2532f96c.camel@redhat.com>
-From: Rhys Kidd <rhyskidd@gmail.com>
-Date: Sat, 2 Nov 2019 14:19:40 +1100
-Message-ID: <CA+iOQUHRCRu1ygj_SUOHOCNVgXfPB16PQ0MLXYB1ZH-BMTDvxw@mail.gmail.com>
-Subject: Re: [Nouveau] Individuals interested in VESA memberships?
-To: Lyude Paul <lyude@redhat.com>
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7c71a8cf-bc8a-4aa3-ca6e-08d75f5c5278
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Nov 2019 06:17:21.6105 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: SsM+tdNqUOiLKkfLPm6jswx+wJxwf/BI+oYiY1KA7KbDaZqSNbU4sQBCVJiJMA3ml28Iu9E+6ihZyhAhgCIYkQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU1P153MB0186
 X-Mailman-Approved-At: Mon, 04 Nov 2019 07:54:21 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=wjGtAWk57zKoDpHC/fEQW7q8HjHzHeDFeYCXw7S2s8g=;
- b=UJ+Iso6odCK3l3YmHKMYDwy86JsJjXc4melQSY1hbacQh3JNChRtLGN5EzZi9LqBFN
- Vhw6XHvJswGi3imQZnaRvYQTwqD6UpPYoikgiThX6JDYP+esQ5SvFapo0mHkL8I5B7cX
- yAHP8GCu2AmgPANjaCSehP7AFO1OWUYunp7YKQnNVxYZB+jPGP9hqGtfIoVDjyLSNcv5
- 5M9gYO1iE0RNwfYuJraZUbzfffR8gsgSSGCsArx+eXZB6o3tnw1vuBQLP0oOGNLHX2WL
- VlePFFc7lkH1P2q07Fq38VhbHnr1ps8Fmv19TfLCF7SGF7CjoaZTSOHhAtlZaymS2ej4
- o9Jw==
+ d=microsoft.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SO4sO1z+ffKrKW8H3i+vsIhAt/FsBZwTCu2jZkGHcSc=;
+ b=Dy/nCnuY/t5SB5D9fWj3/pSwvVDWjBTIRvFz4y0img4qYBW/6r15YribGlXYTtqWk8lGlv+NhMbRXxtMzepqRT01Sz8bGoRpAmnSOimhw0f0m7oCLrpMPO99gGGM1svBdhdOCoX57R8+3jBVkyc32E5wWi5pjxFQpQcHp3YMRFI=
+X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=decui@microsoft.com; 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,133 +119,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: xorg-devel@lists.x.org, "X.Org Foundation Board" <board@foundation.x.org>,
- "members@x.org" <members@x.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- nouveau <nouveau@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0480146685=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0480146685==
-Content-Type: multipart/alternative; boundary="00000000000045f3c60596548e7e"
-
---00000000000045f3c60596548e7e
-Content-Type: text/plain; charset="UTF-8"
-
-On Sat, 2 Nov 2019 at 07:06, Lyude Paul <lyude@redhat.com> wrote:
-
-> Hi! Recently I've been working with the rest of the X.Org board to try to
-> get
-> X.org access to VESA memberships so that contributors that don't have an
-> employer who is able/willing to join VESA can potentially get access to the
-> various benefits of a VESA membership, such as access to DisplayPort
-> specifications. Since I need to gather a list of interested X.org members,
-> I'd
-> like to know who all might be interested in a membership like this. There
-> are
-> no costs involved, as the VESA membership we're looking at in particular
-> comes
-> at no cost to us since we're a non-profit.
->
-> The current plan is to extend VESA membership to X.Org members who
-> specifically request it. If you think you'd be at all interested in this,
-> or
-> know any projects or contributors who would be, please feel free to
-> respond to
-> this message and let me know!
->
-
-Hi Lyude,
-
-This is super helpful, thank you for advancing this with X.org <> VESA.
-
-I would be interested, as recently released nvidia register documentation
-on crc
-functionality in the display block removes another roadblock for nouveau
-testing
-support in igt-gpu-tools.
-
-My time to work on nouveau independently remains limited, so if there's a
-limit
-on the number of VESA memberships available -- I'd rather not be at the top
-of that list over other more active open source contributors.
-
-Regards,
-Rhys
-
-
-
-> --
-> Cheers,
->         Lyude Paul
->
-> _______________________________________________
-> Nouveau mailing list
-> Nouveau@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/nouveau
-
---00000000000045f3c60596548e7e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sat, 2 Nov 2019 at 07:06, Lyude Pa=
-ul &lt;<a href=3D"mailto:lyude@redhat.com">lyude@redhat.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi! Recently I&#=
-39;ve been working with the rest of the X.Org board to try to get<br>
-X.org access to VESA memberships so that contributors that don&#39;t have a=
-n<br>
-employer who is able/willing to join VESA can potentially get access to the=
-<br>
-various benefits of a VESA membership, such as access to DisplayPort<br>
-specifications. Since I need to gather a list of interested X.org members, =
-I&#39;d<br>
-like to know who all might be interested in a membership like this. There a=
-re<br>
-no costs involved, as the VESA membership we&#39;re looking at in particula=
-r comes<br>
-at no cost to us since we&#39;re a non-profit.<br>
-<br>
-The current plan is to extend VESA membership to X.Org members who<br>
-specifically request it. If you think you&#39;d be at all interested in thi=
-s, or<br>
-know any projects or contributors who would be, please feel free to respond=
- to<br>
-this message and let me know!<br></blockquote><div><br></div><div>Hi Lyude,=
-</div><div><br></div><div>This is super helpful, thank you for advancing th=
-is with X.org &lt;&gt; VESA.</div><div><br></div><div>I would be interested=
-, as recently released nvidia register documentation on crc</div><div>funct=
-ionality in the display block removes another roadblock for nouveau testing=
-</div><div>support in igt-gpu-tools.</div><div><br></div><div>My time to wo=
-rk on nouveau independently remains limited, so if there&#39;s a limit</div=
-><div>on the number of VESA memberships available -- I&#39;d rather not be =
-at the top</div><div>of that list over other more active open source contri=
-butors.</div><div><br></div><div>Regards,</div><div>Rhys<br></div><div><br>=
-</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
--- <br>
-Cheers,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 Lyude Paul<br>
-<br>
-_______________________________________________<br>
-Nouveau mailing list<br>
-<a href=3D"mailto:Nouveau@lists.freedesktop.org" target=3D"_blank">Nouveau@=
-lists.freedesktop.org</a><br>
-<a href=3D"https://lists.freedesktop.org/mailman/listinfo/nouveau" rel=3D"n=
-oreferrer" target=3D"_blank">https://lists.freedesktop.org/mailman/listinfo=
-/nouveau</a></blockquote></div></div>
-
---00000000000045f3c60596548e7e--
-
---===============0480146685==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0480146685==--
+PiBGcm9tOiBsaW51eC1oeXBlcnYtb3duZXJAdmdlci5rZXJuZWwub3JnCj4gPGxpbnV4LWh5cGVy
+di1vd25lckB2Z2VyLmtlcm5lbC5vcmc+IE9uIEJlaGFsZiBPZiBXZWkgSHUKPiBTZW50OiBUdWVz
+ZGF5LCBPY3RvYmVyIDIyLCAyMDE5IDQ6MTEgQU0KPiAuLi4gCj4gKwkvKiBBbGxvY2F0ZSBmcm9t
+IENNQSAqLwo+ICsJLy8gcmVxdWVzdF9wYWdlcyA9IChyZXF1ZXN0X3NpemUgPj4gUEFHRV9TSElG
+VCkgKyAxOwoKIi8vIiBzZWVtcyByYXJlIGluIExpbnV4IGtlcm5lbCBjb2RlLgpJTU8gIi8qICov
+IiBpcyBtb3JlIGNvbW1vbi4KCj4gKwkJCXByX2luZm8oIlVuYWJsZSB0byBhbGxvY2F0ZSBlbm91
+Z2ggY29udGlndW91cyBwaHlzaWNhbCBtZW1vcnkKPiBvbiBHZW4gMSBWTS4gVXNlIE1NSU8gaW5z
+dGVhZC5cbiIpOwoKVGhlIGxpbmUgZXhjZWVkcyA4MCBjaGFycy4KIAo+IEBAIC0xMDYwLDYgKzEx
+NjgsNyBAQCBzdGF0aWMgaW50IGh2ZmJfcHJvYmUoc3RydWN0IGh2X2RldmljZSAqaGRldiwKPiAg
+CXBhciA9IGluZm8tPnBhcjsKPiAgCXBhci0+aW5mbyA9IGluZm87Cj4gIAlwYXItPmZiX3JlYWR5
+ID0gZmFsc2U7Cj4gKwlwYXItPm5lZWRfZG9jb3B5ID0gZmFsc2U7CgpNYXliZSBpdCdzIGJldHRl
+ciBpZiB3ZSBzZXQgdGhlIGRlZmF1bHQgdmFsdWUgdG8gdHJ1ZT8gVGhpcyB3YXkgd2UgY2FuIHNh
+dmUKdGhlICIJcGFyLT5uZWVkX2RvY29weSA9IHRydWU7IiBpbiBodmZiX2dldG1lbSgpLgoKVGhh
+bmtzLAotLSBEZXh1YW4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVs
