@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0499BECD20
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Nov 2019 05:34:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3528CECDA4
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Nov 2019 08:24:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 913AE6E0E1;
-	Sat,  2 Nov 2019 04:34:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED2EE6E0F6;
+	Sat,  2 Nov 2019 07:24:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CEE86E0E1
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Nov 2019 04:34:39 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05C586E0F6
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Nov 2019 07:24:34 +0000 (UTC)
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2019 21:34:37 -0700
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2019 00:24:34 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.68,258,1569308400"; 
- d="gz'50?scan'50,208,50";a="375760781"
+ d="gz'50?scan'50,208,50";a="206602154"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
- by orsmga005.jf.intel.com with ESMTP; 01 Nov 2019 21:34:35 -0700
+ by FMSMGA003.fm.intel.com with ESMTP; 02 Nov 2019 00:24:32 -0700
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
  (envelope-from <lkp@intel.com>)
- id 1iQl7S-0004y9-V0; Sat, 02 Nov 2019 12:34:34 +0800
-Date: Sat, 2 Nov 2019 12:33:37 +0800
+ id 1iQnlv-000GV1-RW; Sat, 02 Nov 2019 15:24:31 +0800
+Date: Sat, 2 Nov 2019 15:23:47 +0800
 From: kbuild test robot <lkp@intel.com>
-To: Chengming Gui <Jack.Gui@amd.com>
-Subject: [radeon-alex:amd-mainline-dkms-5.2 2158/2647]
- drivers/gpu/drm/ttm/ttm_bo_vm.c:128:6: error: 'vma' undeclared; did you mean
- 'vmf'?
-Message-ID: <201911021228.SxMkqu8e%lkp@intel.com>
+To: Slava Grigorev <slava.grigorev@amd.com>
+Subject: [radeon-alex:amd-mainline-dkms-5.2 2161/2647]
+ include/kcl/kcl_mm.h:43:9: error: too many arguments to function
+ 'get_user_pages'
+Message-ID: <201911021544.qZfvxe0E%lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="6thhswg6sgkub5gr"
+Content-Type: multipart/mixed; boundary="6p4p5c7ehwyfom7k"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 X-Patchwork-Hint: ignore
 User-Agent: NeoMutt/20170113 (1.7.2)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -51,24 +50,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Flora Cui <flora.cui@amd.com>, kbuild-all@lists.01.org,
- dri-devel@lists.freedesktop.org
+Cc: Yifan Zhang <yifan1.zhang@amd.com>, kbuild-all@lists.01.org,
+ Jack Gui <Jack.Gui@amd.com>, Feifei Xu <Feifei.Xu@amd.com>,
+ dri-devel@lists.freedesktop.org, Flora Cui <flora.cui@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---6thhswg6sgkub5gr
-Content-Type: text/plain; charset=iso-8859-1
+--6p4p5c7ehwyfom7k
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 tree:   git://people.freedesktop.org/~agd5f/linux.git amd-mainline-dkms-5.2
 head:   b027ed8d9051470f4ed6bc071fcde172fe1fc595
-commit: 607b18ba116eb1642b01fb9d38a164cc492e9044 [2158/2647] drm/amdkcl: Test whether vm_fault->{address/vma} is available
+commit: f56288ab7a001e359739d486be8aae78cf09081b [2161/2647] drm/amdkcl: Test whether get_user_{pages,pages_remote}() wants {5/6,8} args
 config: x86_64-randconfig-g002-201943 (attached as .config)
 compiler: gcc-7 (Debian 7.4.0-14) 7.4.0
 reproduce:
-        git checkout 607b18ba116eb1642b01fb9d38a164cc492e9044
+        git checkout f56288ab7a001e359739d486be8aae78cf09081b
         # save the attached .config to linux build tree
         make ARCH=x86_64 
 
@@ -77,365 +76,466 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-                    from include/drm/drm_print.h:32,
-                    from include/drm/drm_mm.h:49,
+                    from <command-line>:0:
+   include/kcl/kcl_drm.h: In function 'kcl_drm_gem_object_put_unlocked':
+   include/kcl/kcl_drm.h:347:9: error: implicit declaration of function 'drm_gem_object_unreference_unlocked'; did you mean 'drm_gem_object_put_unlocked'? [-Werror=implicit-function-declaration]
+     return drm_gem_object_unreference_unlocked(obj);
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            drm_gem_object_put_unlocked
+   include/kcl/kcl_drm.h:347:9: warning: 'return' with a value, in function returning void
+     return drm_gem_object_unreference_unlocked(obj);
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kcl/kcl_drm.h:344:20: note: declared here
+    static inline void kcl_drm_gem_object_put_unlocked(struct drm_gem_object *obj)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kcl/kcl_drm.h: At top level:
+   include/kcl/kcl_drm.h:532:34: error: redefinition of 'drm_debug_printer'
+    static inline struct drm_printer drm_debug_printer(const char *prefix)
+                                     ^~~~~~~~~~~~~~~~~
+   In file included from include/drm/drm_mm.h:49:0,
                     from include/drm/drm_vma_manager.h:26,
                     from include/kcl/kcl_drm_vma_manager.h:8,
                     from drivers/gpu/drm/ttm/backport/backport.h:5,
                     from <command-line>:0:
-   include/linux/kref.h:36:28: note: previous definition of 'kref_read' was here
-    static inline unsigned int kref_read(const struct kref *kref)
-                               ^~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:11:0,
+   include/drm/drm_print.h:219:34: note: previous definition of 'drm_debug_printer' was here
+    static inline struct drm_printer drm_debug_printer(const char *prefix)
+                                     ^~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
                     from <command-line>:0:
-   include/kcl/kcl_kref.h: In function 'kref_read':
-   include/kcl/kcl_kref.h:9:21: error: passing argument 1 of 'atomic_read' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     return atomic_read(&kref->refcount);
-                        ^
-   In file included from arch/x86/include/asm/atomic.h:265:0,
-                    from include/linux/atomic.h:7,
-                    from include/linux/rcupdate.h:25,
-                    from include/linux/rbtree.h:34,
-                    from include/drm/drm_mm.h:41,
-                    from include/drm/drm_vma_manager.h:26,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+   include/kcl/kcl_drm.h:607:20: error: static declaration of 'drm_dev_put' follows non-static declaration
+    static inline void drm_dev_put(struct drm_device *dev)
+                       ^~~~~~~~~~~
+   In file included from include/drm/drmP.h:74:0,
+                    from include/kcl/kcl_drm.h:6,
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
-   include/asm-generic/atomic-instrumented.h:24:1: note: expected 'const atomic_t * {aka const struct <anonymous> *}' but argument is of type 'const refcount_t * {aka const struct refcount_struct *}'
-    atomic_read(const atomic_t *v)
-    ^~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
+   include/drm/drm_drv.h:739:6: note: previous declaration of 'drm_dev_put' was here
+    void drm_dev_put(struct drm_device *dev);
+         ^~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
                     from <command-line>:0:
-   include/kcl/kcl_mm_types.h: At top level:
-   include/kcl/kcl_mm_types.h:10:3: error: conflicting types for 'pfn_t'
-    } pfn_t;
-      ^~~~~
-   In file included from include/asm-generic/memory_model.h:5:0,
-                    from arch/x86/include/asm/page.h:76,
-                    from arch/x86/include/asm/thread_info.h:12,
-                    from include/linux/thread_info.h:38,
-                    from arch/x86/include/asm/preempt.h:7,
-                    from include/linux/preempt.h:78,
-                    from include/linux/rcupdate.h:27,
-                    from include/linux/rbtree.h:34,
-                    from include/drm/drm_mm.h:41,
-                    from include/drm/drm_vma_manager.h:26,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+   include/kcl/kcl_drm.h: In function 'drm_dev_put':
+   include/kcl/kcl_drm.h:609:9: error: implicit declaration of function 'drm_dev_unref'; did you mean 'drm_dev_enter'? [-Werror=implicit-function-declaration]
+     return drm_dev_unref(dev);
+            ^~~~~~~~~~~~~
+            drm_dev_enter
+   include/kcl/kcl_drm.h:609:9: warning: 'return' with a value, in function returning void
+     return drm_dev_unref(dev);
+            ^~~~~~~~~~~~~~~~~~
+   include/kcl/kcl_drm.h:607:20: note: declared here
+    static inline void drm_dev_put(struct drm_device *dev)
+                       ^~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
                     from <command-line>:0:
-   include/linux/pfn.h:15:3: note: previous declaration of 'pfn_t' was here
-    } pfn_t;
-      ^~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
-                    from <command-line>:0:
-   include/kcl/kcl_mm_types.h:33:13: error: conflicting types for 'vm_fault_t'
-    typedef int vm_fault_t;
-                ^~~~~~~~~~
-   In file included from include/drm/drm_mm.h:43:0,
-                    from include/drm/drm_vma_manager.h:26,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/linux/mm_types.h:631:32: note: previous declaration of 'vm_fault_t' was here
-    typedef __bitwise unsigned int vm_fault_t;
-                                   ^~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
-                    from <command-line>:0:
-   include/kcl/kcl_mm_types.h:35:26: error: conflicting types for 'vmf_insert_mixed'
-    static inline vm_fault_t vmf_insert_mixed(struct vm_area_struct *vma,
-                             ^~~~~~~~~~~~~~~~
+   include/kcl/kcl_mm.h: In function 'kcl_get_user_pages':
+   include/kcl/kcl_mm.h:43:24: warning: passing argument 1 of 'get_user_pages' makes integer from pointer without a cast [-Wint-conversion]
+     return get_user_pages(tsk, mm, start, nr_pages,
+                           ^~~
    In file included from include/drm/drm_vma_manager.h:27:0,
                     from include/kcl/kcl_drm_vma_manager.h:8,
                     from drivers/gpu/drm/ttm/backport/backport.h:5,
                     from <command-line>:0:
-   include/linux/mm.h:2587:12: note: previous declaration of 'vmf_insert_mixed' was here
-    vm_fault_t vmf_insert_mixed(struct vm_area_struct *vma, unsigned long addr,
-               ^~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
+   include/linux/mm.h:1556:6: note: expected 'long unsigned int' but argument is of type 'struct task_struct *'
+    long get_user_pages(unsigned long start, unsigned long nr_pages,
+         ^~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
                     from <command-line>:0:
-   include/kcl/kcl_mm_types.h: In function 'vmf_insert_mixed':
-   include/kcl/kcl_mm_types.h:41:8: error: implicit declaration of function 'vm_insert_mixed'; did you mean 'vmf_insert_mixed'? [-Werror=implicit-function-declaration]
-     err = vm_insert_mixed(vma, addr, pfn_t_to_pfn(pfn));
-           ^~~~~~~~~~~~~~~
-           vmf_insert_mixed
-   include/kcl/kcl_mm_types.h: At top level:
-   include/kcl/kcl_mm_types.h:53:26: error: conflicting types for 'vmf_insert_pfn'
-    static inline vm_fault_t vmf_insert_pfn(struct vm_area_struct *vma,
-                             ^~~~~~~~~~~~~~
+   include/kcl/kcl_mm.h:43:29: warning: passing argument 2 of 'get_user_pages' makes integer from pointer without a cast [-Wint-conversion]
+     return get_user_pages(tsk, mm, start, nr_pages,
+                                ^~
    In file included from include/drm/drm_vma_manager.h:27:0,
                     from include/kcl/kcl_drm_vma_manager.h:8,
                     from drivers/gpu/drm/ttm/backport/backport.h:5,
                     from <command-line>:0:
-   include/linux/mm.h:2583:12: note: previous declaration of 'vmf_insert_pfn' was here
-    vm_fault_t vmf_insert_pfn(struct vm_area_struct *vma, unsigned long addr,
-               ^~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
+   include/linux/mm.h:1556:6: note: expected 'long unsigned int' but argument is of type 'struct mm_struct *'
+    long get_user_pages(unsigned long start, unsigned long nr_pages,
+         ^~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
                     from <command-line>:0:
-   include/kcl/kcl_mm_types.h: In function 'vmf_insert_pfn':
-   include/kcl/kcl_mm_types.h:56:13: error: implicit declaration of function 'vm_insert_pfn'; did you mean 'vmf_insert_pfn'? [-Werror=implicit-function-declaration]
-      int err = vm_insert_pfn(vma, addr, pfn);
-                ^~~~~~~~~~~~~
-                vmf_insert_pfn
-   drivers/gpu/drm/ttm/ttm_bo_vm.c: In function 'ttm_bo_vm_fault':
->> drivers/gpu/drm/ttm/ttm_bo_vm.c:128:6: error: 'vma' undeclared (first use in this function); did you mean 'vmf'?
-         vma->vm_private_data;
-         ^~~
-         vmf
-   drivers/gpu/drm/ttm/ttm_bo_vm.c:128:6: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/gpu/drm/ttm/ttm_bo_vm.c:139:44: error: 'struct vm_fault' has no member named 'virtual_address'
-     unsigned long address = (unsigned long)vmf->virtual_address;
-                                               ^~
-   drivers/gpu/drm/ttm/ttm_bo_vm.c: At top level:
-   drivers/gpu/drm/ttm/ttm_bo_vm.c:427:11: error: initialization from incompatible pointer type [-Werror=incompatible-pointer-types]
-     .fault = ttm_bo_vm_fault,
-              ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/ttm/ttm_bo_vm.c:427:11: note: (near initialization for 'ttm_bo_vm_ops.fault')
-   cc1: some warnings being treated as errors
+   include/kcl/kcl_mm.h:43:40: warning: passing argument 4 of 'get_user_pages' makes pointer from integer without a cast [-Wint-conversion]
+     return get_user_pages(tsk, mm, start, nr_pages,
+                                           ^~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:1556:6: note: expected 'struct page **' but argument is of type 'long unsigned int'
+    long get_user_pages(unsigned long start, unsigned long nr_pages,
+         ^~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm.h:44:4: warning: passing argument 5 of 'get_user_pages' makes pointer from integer without a cast [-Wint-conversion]
+       write, force, pages, vmas);
+       ^~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:1556:6: note: expected 'struct vm_area_struct **' but argument is of type 'int'
+    long get_user_pages(unsigned long start, unsigned long nr_pages,
+         ^~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+>> include/kcl/kcl_mm.h:43:9: error: too many arguments to function 'get_user_pages'
+     return get_user_pages(tsk, mm, start, nr_pages,
+            ^~~~~~~~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:1556:6: note: declared here
+    long get_user_pages(unsigned long start, unsigned long nr_pages,
+         ^~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm.h: At top level:
+   include/kcl/kcl_mm.h:50:28: error: redefinition of 'memalloc_nofs_save'
+    static inline unsigned int memalloc_nofs_save(void)
+                               ^~~~~~~~~~~~~~~~~~
+   In file included from include/kcl/kcl_mm.h:5:0,
+                    from drivers/gpu/drm/ttm/backport/backport.h:8,
+                    from <command-line>:0:
+   include/linux/sched/mm.h:248:28: note: previous definition of 'memalloc_nofs_save' was here
+    static inline unsigned int memalloc_nofs_save(void)
+                               ^~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm.h:55:20: error: redefinition of 'memalloc_nofs_restore'
+    static inline void memalloc_nofs_restore(unsigned int flags)
+                       ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/kcl/kcl_mm.h:5:0,
+                    from drivers/gpu/drm/ttm/backport/backport.h:8,
+                    from <command-line>:0:
+   include/linux/sched/mm.h:263:20: note: previous definition of 'memalloc_nofs_restore' was here
+    static inline void memalloc_nofs_restore(unsigned int flags)
+                       ^~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm.h:61:21: error: redefinition of 'kvmalloc'
+    static inline void *kvmalloc(size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:635:21: note: previous definition of 'kvmalloc' was here
+    static inline void *kvmalloc(size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm.h:71:21: error: redefinition of 'kvzalloc'
+    static inline void *kvzalloc(size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:643:21: note: previous definition of 'kvzalloc' was here
+    static inline void *kvzalloc(size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm.h:81:20: error: static declaration of 'kvfree' follows non-static declaration
+    static inline void kvfree(const void *addr)
+                       ^~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:663:13: note: previous declaration of 'kvfree' was here
+    extern void kvfree(const void *addr);
+                ^~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm.h:101:21: error: redefinition of 'kvmalloc_array'
+    static inline void *kvmalloc_array(size_t n, size_t size, gfp_t flags)
+                        ^~~~~~~~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:648:21: note: previous definition of 'kvmalloc_array' was here
+    static inline void *kvmalloc_array(size_t n, size_t size, gfp_t flags)
+                        ^~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm.h:114:21: error: redefinition of 'kvcalloc'
+    static inline void *kvcalloc(size_t n, size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:658:21: note: previous definition of 'kvcalloc' was here
+    static inline void *kvcalloc(size_t n, size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm.h:121:20: error: redefinition of 'mmgrab'
+    static inline void mmgrab(struct mm_struct *mm)
+                       ^~~~~~
+   In file included from include/kcl/kcl_mm.h:5:0,
+                    from drivers/gpu/drm/ttm/backport/backport.h:8,
+                    from <command-line>:0:
+--
+                    from <command-line>:0:
+   include/kcl/kcl_drm.h: In function 'kcl_drm_gem_object_put_unlocked':
+   include/kcl/kcl_drm.h:347:9: error: implicit declaration of function 'drm_gem_object_unreference_unlocked'; did you mean 'drm_gem_object_put_unlocked'? [-Werror=implicit-function-declaration]
+     return drm_gem_object_unreference_unlocked(obj);
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            drm_gem_object_put_unlocked
+   include/kcl/kcl_drm.h:347:9: warning: 'return' with a value, in function returning void
+     return drm_gem_object_unreference_unlocked(obj);
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kcl/kcl_drm.h:344:20: note: declared here
+    static inline void kcl_drm_gem_object_put_unlocked(struct drm_gem_object *obj)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kcl/kcl_drm.h: At top level:
+   include/kcl/kcl_drm.h:532:34: error: redefinition of 'drm_debug_printer'
+    static inline struct drm_printer drm_debug_printer(const char *prefix)
+                                     ^~~~~~~~~~~~~~~~~
+   In file included from include/drm/drm_mm.h:49:0,
+                    from include/drm/drm_vma_manager.h:26,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/drm/drm_print.h:219:34: note: previous definition of 'drm_debug_printer' was here
+    static inline struct drm_printer drm_debug_printer(const char *prefix)
+                                     ^~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
+                    from <command-line>:0:
+   include/kcl/kcl_drm.h:607:20: error: static declaration of 'drm_dev_put' follows non-static declaration
+    static inline void drm_dev_put(struct drm_device *dev)
+                       ^~~~~~~~~~~
+   In file included from include/drm/drmP.h:74:0,
+                    from include/kcl/kcl_drm.h:6,
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
+                    from <command-line>:0:
+   include/drm/drm_drv.h:739:6: note: previous declaration of 'drm_dev_put' was here
+    void drm_dev_put(struct drm_device *dev);
+         ^~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
+                    from <command-line>:0:
+   include/kcl/kcl_drm.h: In function 'drm_dev_put':
+   include/kcl/kcl_drm.h:609:9: error: implicit declaration of function 'drm_dev_unref'; did you mean 'drm_dev_enter'? [-Werror=implicit-function-declaration]
+     return drm_dev_unref(dev);
+            ^~~~~~~~~~~~~
+            drm_dev_enter
+   include/kcl/kcl_drm.h:609:9: warning: 'return' with a value, in function returning void
+     return drm_dev_unref(dev);
+            ^~~~~~~~~~~~~~~~~~
+   include/kcl/kcl_drm.h:607:20: note: declared here
+    static inline void drm_dev_put(struct drm_device *dev)
+                       ^~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm.h: In function 'kcl_get_user_pages':
+   include/kcl/kcl_mm.h:43:24: warning: passing argument 1 of 'get_user_pages' makes integer from pointer without a cast [-Wint-conversion]
+     return get_user_pages(tsk, mm, start, nr_pages,
+                           ^~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:1556:6: note: expected 'long unsigned int' but argument is of type 'struct task_struct *'
+    long get_user_pages(unsigned long start, unsigned long nr_pages,
+         ^~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm.h:43:29: warning: passing argument 2 of 'get_user_pages' makes integer from pointer without a cast [-Wint-conversion]
+     return get_user_pages(tsk, mm, start, nr_pages,
+                                ^~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:1556:6: note: expected 'long unsigned int' but argument is of type 'struct mm_struct *'
+    long get_user_pages(unsigned long start, unsigned long nr_pages,
+         ^~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm.h:43:40: warning: passing argument 4 of 'get_user_pages' makes pointer from integer without a cast [-Wint-conversion]
+     return get_user_pages(tsk, mm, start, nr_pages,
+                                           ^~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:1556:6: note: expected 'struct page **' but argument is of type 'long unsigned int'
+    long get_user_pages(unsigned long start, unsigned long nr_pages,
+         ^~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm.h:44:4: warning: passing argument 5 of 'get_user_pages' makes pointer from integer without a cast [-Wint-conversion]
+       write, force, pages, vmas);
+       ^~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:1556:6: note: expected 'struct vm_area_struct **' but argument is of type 'int'
+    long get_user_pages(unsigned long start, unsigned long nr_pages,
+         ^~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+>> include/kcl/kcl_mm.h:43:9: error: too many arguments to function 'get_user_pages'
+     return get_user_pages(tsk, mm, start, nr_pages,
+            ^~~~~~~~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:1556:6: note: declared here
+    long get_user_pages(unsigned long start, unsigned long nr_pages,
+         ^~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm.h: At top level:
+   include/kcl/kcl_mm.h:50:28: error: redefinition of 'memalloc_nofs_save'
+    static inline unsigned int memalloc_nofs_save(void)
+                               ^~~~~~~~~~~~~~~~~~
+   In file included from include/kcl/kcl_mm.h:5:0,
+                    from drivers/gpu/drm/ttm/backport/backport.h:8,
+                    from <command-line>:0:
+   include/linux/sched/mm.h:248:28: note: previous definition of 'memalloc_nofs_save' was here
+    static inline unsigned int memalloc_nofs_save(void)
+                               ^~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm.h:55:20: error: redefinition of 'memalloc_nofs_restore'
+    static inline void memalloc_nofs_restore(unsigned int flags)
+                       ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/kcl/kcl_mm.h:5:0,
+                    from drivers/gpu/drm/ttm/backport/backport.h:8,
+                    from <command-line>:0:
+   include/linux/sched/mm.h:263:20: note: previous definition of 'memalloc_nofs_restore' was here
+    static inline void memalloc_nofs_restore(unsigned int flags)
+                       ^~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm.h:61:21: error: redefinition of 'kvmalloc'
+    static inline void *kvmalloc(size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:635:21: note: previous definition of 'kvmalloc' was here
+    static inline void *kvmalloc(size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm.h:71:21: error: redefinition of 'kvzalloc'
+    static inline void *kvzalloc(size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:643:21: note: previous definition of 'kvzalloc' was here
+    static inline void *kvzalloc(size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm.h:81:20: error: static declaration of 'kvfree' follows non-static declaration
+    static inline void kvfree(const void *addr)
+                       ^~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:663:13: note: previous declaration of 'kvfree' was here
+    extern void kvfree(const void *addr);
+                ^~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm.h:101:21: error: redefinition of 'kvmalloc_array'
+    static inline void *kvmalloc_array(size_t n, size_t size, gfp_t flags)
+                        ^~~~~~~~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:648:21: note: previous definition of 'kvmalloc_array' was here
+    static inline void *kvmalloc_array(size_t n, size_t size, gfp_t flags)
+                        ^~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm.h:114:21: error: redefinition of 'kvcalloc'
+    static inline void *kvcalloc(size_t n, size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:658:21: note: previous definition of 'kvcalloc' was here
+    static inline void *kvcalloc(size_t n, size_t size, gfp_t flags)
+                        ^~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm.h:121:20: error: redefinition of 'mmgrab'
+    static inline void mmgrab(struct mm_struct *mm)
+                       ^~~~~~
+   In file included from include/kcl/kcl_mm.h:5:0,
+                    from drivers/gpu/drm/ttm/backport/backport.h:8,
+                    from <command-line>:0:
+..
 
-vim +128 drivers/gpu/drm/ttm/ttm_bo_vm.c
+vim +/get_user_pages +43 include/kcl/kcl_mm.h
 
-cbe12e74ee4e29 Thomas Hellstrom    2013-10-09  106  
-c67fa6edc8b11a Tan Xiaojun         2017-12-25  107  static unsigned long ttm_bo_io_mem_pfn(struct ttm_buffer_object *bo,
-c67fa6edc8b11a Tan Xiaojun         2017-12-25  108  				       unsigned long page_offset)
-c67fa6edc8b11a Tan Xiaojun         2017-12-25  109  {
-c67fa6edc8b11a Tan Xiaojun         2017-12-25  110  	struct ttm_bo_device *bdev = bo->bdev;
-c67fa6edc8b11a Tan Xiaojun         2017-12-25  111  
-c67fa6edc8b11a Tan Xiaojun         2017-12-25  112  	if (bdev->driver->io_mem_pfn)
-c67fa6edc8b11a Tan Xiaojun         2017-12-25  113  		return bdev->driver->io_mem_pfn(bo, page_offset);
-c67fa6edc8b11a Tan Xiaojun         2017-12-25  114  
-e83bf4adf54ad3 Tan Xiaojun         2017-12-25  115  	return ((bo->mem.bus.base + bo->mem.bus.offset) >> PAGE_SHIFT)
-e83bf4adf54ad3 Tan Xiaojun         2017-12-25  116  		+ page_offset;
-c67fa6edc8b11a Tan Xiaojun         2017-12-25  117  }
-c502e3166db12d Anatoli Antonovitch 2019-06-26  118  #if defined(HAVE_2ARGS_VIRTUAL_MM_FAULT_FUNCTION)
-2880a38f4d3cf2 Evan Quan           2017-05-12  119  static vm_fault_t ttm_bo_vm_fault(struct vm_area_struct *vma, struct vm_fault *vmf)
-2880a38f4d3cf2 Evan Quan           2017-05-12  120  #else
-4daa4fba3a3899 Souptick Joarder    2018-06-02  121  static vm_fault_t ttm_bo_vm_fault(struct vm_fault *vmf)
-2880a38f4d3cf2 Evan Quan           2017-05-12  122  #endif
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  123  {
-607b18ba116eb1 Chengming Gui       2019-09-02  124  #if defined(HAVE_VM_FAULT_ADDRESS_VMA)
-11bac80004499e Dave Jiang          2017-02-24  125  	struct vm_area_struct *vma = vmf->vma;
-2880a38f4d3cf2 Evan Quan           2017-05-12  126  #endif
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  127  	struct ttm_buffer_object *bo = (struct ttm_buffer_object *)
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10 @128  	    vma->vm_private_data;
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  129  	struct ttm_bo_device *bdev = bo->bdev;
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  130  	unsigned long page_offset;
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  131  	unsigned long page_last;
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  132  	unsigned long pfn;
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  133  	struct ttm_tt *ttm = NULL;
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  134  	struct page *page;
-4daa4fba3a3899 Souptick Joarder    2018-06-02  135  	int err;
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  136  	int i;
-4daa4fba3a3899 Souptick Joarder    2018-06-02  137  	vm_fault_t ret = VM_FAULT_NOPAGE;
-607b18ba116eb1 Chengming Gui       2019-09-02  138  #ifndef HAVE_VM_FAULT_ADDRESS_VMA
-2880a38f4d3cf2 Evan Quan           2017-05-12 @139  	unsigned long address = (unsigned long)vmf->virtual_address;
-2880a38f4d3cf2 Evan Quan           2017-05-12  140  #else
-1a29d85eb0f19b Jan Kara            2016-12-14  141  	unsigned long address = vmf->address;
-2880a38f4d3cf2 Evan Quan           2017-05-12  142  #endif
-eba67093f53532 Thomas Hellstrom    2010-11-11  143  	struct ttm_mem_type_manager *man =
-eba67093f53532 Thomas Hellstrom    2010-11-11  144  		&bdev->man[bo->mem.mem_type];
-3943875e7b73fd Thomas Hellstrom    2013-11-06  145  	struct vm_area_struct cvma;
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  146  
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  147  	/*
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  148  	 * Work around locking order reversal in fault / nopfn
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  149  	 * between mmap_sem and bo_reserve: Perform a trylock operation
-c58f009e01c918 Thomas Hellstrom    2013-11-14  150  	 * for reserve, and if it fails, retry the fault after waiting
-c58f009e01c918 Thomas Hellstrom    2013-11-14  151  	 * for the buffer to become unreserved.
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  152  	 */
-7e18f7a415538c Evan Quan           2019-02-18  153  	if (unlikely(!kcl_reservation_object_trylock(bo->resv))) {
-c58f009e01c918 Thomas Hellstrom    2013-11-14  154  		if (vmf->flags & FAULT_FLAG_ALLOW_RETRY) {
-0251eb85af434f Chengming Gui       2019-08-28  155  #ifdef FAULT_FLAG_RETRY_NOWAIT
-c58f009e01c918 Thomas Hellstrom    2013-11-14  156  			if (!(vmf->flags & FAULT_FLAG_RETRY_NOWAIT)) {
-8129fdad387ae3 Thomas Zimmermann   2018-06-21  157  				ttm_bo_get(bo);
-2880a38f4d3cf2 Evan Quan           2017-05-12  158  				up_read(&vma->vm_mm->mmap_sem);
-c58f009e01c918 Thomas Hellstrom    2013-11-14  159  				(void) ttm_bo_wait_unreserved(bo);
-f44907593d746d Thomas Zimmermann   2018-06-21  160  				ttm_bo_put(bo);
-c58f009e01c918 Thomas Hellstrom    2013-11-14  161  			}
-2880a38f4d3cf2 Evan Quan           2017-05-12  162  #else
-2880a38f4d3cf2 Evan Quan           2017-05-12  163  			up_read(&vma->vm_mm->mmap_sem);
-2880a38f4d3cf2 Evan Quan           2017-05-12  164  #endif
-c58f009e01c918 Thomas Hellstrom    2013-11-14  165  
-c58f009e01c918 Thomas Hellstrom    2013-11-14  166  			return VM_FAULT_RETRY;
-c58f009e01c918 Thomas Hellstrom    2013-11-14  167  		}
-c58f009e01c918 Thomas Hellstrom    2013-11-14  168  
-c58f009e01c918 Thomas Hellstrom    2013-11-14  169  		/*
-c58f009e01c918 Thomas Hellstrom    2013-11-14  170  		 * If we'd want to change locking order to
-c58f009e01c918 Thomas Hellstrom    2013-11-14  171  		 * mmap_sem -> bo::reserve, we'd use a blocking reserve here
-c58f009e01c918 Thomas Hellstrom    2013-11-14  172  		 * instead of retrying the fault...
-c58f009e01c918 Thomas Hellstrom    2013-11-14  173  		 */
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  174  		return VM_FAULT_NOPAGE;
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  175  	}
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  176  
-667a50db0477d4 Thomas Hellstrom    2014-01-03  177  	/*
-667a50db0477d4 Thomas Hellstrom    2014-01-03  178  	 * Refuse to fault imported pages. This should be handled
-667a50db0477d4 Thomas Hellstrom    2014-01-03  179  	 * (if at all) by redirecting mmap to the exporter.
-667a50db0477d4 Thomas Hellstrom    2014-01-03  180  	 */
-667a50db0477d4 Thomas Hellstrom    2014-01-03  181  	if (bo->ttm && (bo->ttm->page_flags & TTM_PAGE_FLAG_SG)) {
-de8dfb8e3449c7 Tom St Denis        2018-01-26  182  		ret = VM_FAULT_SIGBUS;
-667a50db0477d4 Thomas Hellstrom    2014-01-03  183  		goto out_unlock;
-667a50db0477d4 Thomas Hellstrom    2014-01-03  184  	}
-667a50db0477d4 Thomas Hellstrom    2014-01-03  185  
-82c5da6bf8b55a Jerome Glisse       2010-04-09  186  	if (bdev->driver->fault_reserve_notify) {
-5d50fcbda7b0ac Christian König     2019-01-11  187  		struct dma_fence *moving = dma_fence_get(bo->moving);
-5d50fcbda7b0ac Christian König     2019-01-11  188  
-4daa4fba3a3899 Souptick Joarder    2018-06-02  189  		err = bdev->driver->fault_reserve_notify(bo);
-4daa4fba3a3899 Souptick Joarder    2018-06-02  190  		switch (err) {
-82c5da6bf8b55a Jerome Glisse       2010-04-09  191  		case 0:
-82c5da6bf8b55a Jerome Glisse       2010-04-09  192  			break;
-82c5da6bf8b55a Jerome Glisse       2010-04-09  193  		case -EBUSY:
-82c5da6bf8b55a Jerome Glisse       2010-04-09  194  		case -ERESTARTSYS:
-de8dfb8e3449c7 Tom St Denis        2018-01-26  195  			ret = VM_FAULT_NOPAGE;
-82c5da6bf8b55a Jerome Glisse       2010-04-09  196  			goto out_unlock;
-82c5da6bf8b55a Jerome Glisse       2010-04-09  197  		default:
-de8dfb8e3449c7 Tom St Denis        2018-01-26  198  			ret = VM_FAULT_SIGBUS;
-82c5da6bf8b55a Jerome Glisse       2010-04-09  199  			goto out_unlock;
-82c5da6bf8b55a Jerome Glisse       2010-04-09  200  		}
-5d50fcbda7b0ac Christian König     2019-01-11  201  
-5d50fcbda7b0ac Christian König     2019-01-11  202  		if (bo->moving != moving) {
-5d50fcbda7b0ac Christian König     2019-01-11  203  			spin_lock(&bdev->glob->lru_lock);
-5d50fcbda7b0ac Christian König     2019-01-11  204  			ttm_bo_move_to_lru_tail(bo, NULL);
-5d50fcbda7b0ac Christian König     2019-01-11  205  			spin_unlock(&bdev->glob->lru_lock);
-5d50fcbda7b0ac Christian König     2019-01-11  206  		}
-5d50fcbda7b0ac Christian König     2019-01-11  207  		dma_fence_put(moving);
-82c5da6bf8b55a Jerome Glisse       2010-04-09  208  	}
-e024e11070a0a0 Dave Airlie         2009-06-24  209  
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  210  	/*
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  211  	 * Wait for buffer data in transit, due to a pipelined
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  212  	 * move.
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  213  	 */
-2880a38f4d3cf2 Evan Quan           2017-05-12  214  	ret = ttm_bo_vm_fault_idle(bo, vma, vmf);
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  215  	if (unlikely(ret != 0)) {
-0251eb85af434f Chengming Gui       2019-08-28  216  #ifdef FAULT_FLAG_RETRY_NOWAIT
-de8dfb8e3449c7 Tom St Denis        2018-01-26  217  		if (ret == VM_FAULT_RETRY &&
-3089c1df10e293 Nicolai Hähnle      2017-02-18  218  		    !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT)) {
-2880a38f4d3cf2 Evan Quan           2017-05-12  219  #else
-2880a38f4d3cf2 Evan Quan           2017-05-12  220  		if (ret == VM_FAULT_RETRY) {
-2880a38f4d3cf2 Evan Quan           2017-05-12  221  #endif
-3089c1df10e293 Nicolai Hähnle      2017-02-18  222  			/* The BO has already been unreserved. */
-de8dfb8e3449c7 Tom St Denis        2018-01-26  223  			return ret;
-3089c1df10e293 Nicolai Hähnle      2017-02-18  224  		}
-3089c1df10e293 Nicolai Hähnle      2017-02-18  225  
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  226  		goto out_unlock;
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  227  	}
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  228  
-4daa4fba3a3899 Souptick Joarder    2018-06-02  229  	err = ttm_mem_io_lock(man, true);
-4daa4fba3a3899 Souptick Joarder    2018-06-02  230  	if (unlikely(err != 0)) {
-de8dfb8e3449c7 Tom St Denis        2018-01-26  231  		ret = VM_FAULT_NOPAGE;
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  232  		goto out_unlock;
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  233  	}
-4daa4fba3a3899 Souptick Joarder    2018-06-02  234  	err = ttm_mem_io_reserve_vm(bo);
-4daa4fba3a3899 Souptick Joarder    2018-06-02  235  	if (unlikely(err != 0)) {
-de8dfb8e3449c7 Tom St Denis        2018-01-26  236  		ret = VM_FAULT_SIGBUS;
-eba67093f53532 Thomas Hellstrom    2010-11-11  237  		goto out_io_unlock;
-eba67093f53532 Thomas Hellstrom    2010-11-11  238  	}
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  239  
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  240  	page_offset = ((address - vma->vm_start) >> PAGE_SHIFT) +
-d386735588c3e2 Thomas Hellstrom    2013-12-08  241  		vma->vm_pgoff - drm_vma_node_start(&bo->vma_node);
-d386735588c3e2 Thomas Hellstrom    2013-12-08  242  	page_last = vma_pages(vma) + vma->vm_pgoff -
-d386735588c3e2 Thomas Hellstrom    2013-12-08  243  		drm_vma_node_start(&bo->vma_node);
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  244  
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  245  	if (unlikely(page_offset >= bo->num_pages)) {
-de8dfb8e3449c7 Tom St Denis        2018-01-26  246  		ret = VM_FAULT_SIGBUS;
-eba67093f53532 Thomas Hellstrom    2010-11-11  247  		goto out_io_unlock;
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  248  	}
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  249  
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  250  	/*
-3943875e7b73fd Thomas Hellstrom    2013-11-06  251  	 * Make a local vma copy to modify the page_prot member
-3943875e7b73fd Thomas Hellstrom    2013-11-06  252  	 * and vm_flags if necessary. The vma parameter is protected
-3943875e7b73fd Thomas Hellstrom    2013-11-06  253  	 * by mmap_sem in write mode.
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  254  	 */
-3943875e7b73fd Thomas Hellstrom    2013-11-06  255  	cvma = *vma;
-3943875e7b73fd Thomas Hellstrom    2013-11-06  256  	cvma.vm_page_prot = vm_get_page_prot(cvma.vm_flags);
-3943875e7b73fd Thomas Hellstrom    2013-11-06  257  
-82c5da6bf8b55a Jerome Glisse       2010-04-09  258  	if (bo->mem.bus.is_iomem) {
-3943875e7b73fd Thomas Hellstrom    2013-11-06  259  		cvma.vm_page_prot = ttm_io_prot(bo->mem.placement,
-3943875e7b73fd Thomas Hellstrom    2013-11-06  260  						cvma.vm_page_prot);
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  261  	} else {
-d0cef9fa4411eb Roger He            2017-12-21  262  		struct ttm_operation_ctx ctx = {
-d0cef9fa4411eb Roger He            2017-12-21  263  			.interruptible = false,
-aa7662b67bf6f5 Roger He            2018-01-17  264  			.no_wait_gpu = false,
-aa7662b67bf6f5 Roger He            2018-01-17  265  			.flags = TTM_OPT_FLAG_FORCE_ALLOC
-aa7662b67bf6f5 Roger He            2018-01-17  266  
-d0cef9fa4411eb Roger He            2017-12-21  267  		};
-d0cef9fa4411eb Roger He            2017-12-21  268  
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  269  		ttm = bo->ttm;
-3943875e7b73fd Thomas Hellstrom    2013-11-06  270  		cvma.vm_page_prot = ttm_io_prot(bo->mem.placement,
-3943875e7b73fd Thomas Hellstrom    2013-11-06  271  						cvma.vm_page_prot);
-b1e5f172325547 Jerome Glisse       2011-11-02  272  
-b1e5f172325547 Jerome Glisse       2011-11-02  273  		/* Allocate all page at once, most common usage */
-25893a14c938d5 Christian König     2018-02-01  274  		if (ttm_tt_populate(ttm, &ctx)) {
-de8dfb8e3449c7 Tom St Denis        2018-01-26  275  			ret = VM_FAULT_OOM;
-b1e5f172325547 Jerome Glisse       2011-11-02  276  			goto out_io_unlock;
-b1e5f172325547 Jerome Glisse       2011-11-02  277  		}
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  278  	}
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  279  
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  280  	/*
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  281  	 * Speculatively prefault a number of pages. Only error on
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  282  	 * first page.
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  283  	 */
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  284  	for (i = 0; i < TTM_BO_VM_NUM_PREFAULT; ++i) {
-95cf9264d5f36c Tom Lendacky        2017-07-17  285  		if (bo->mem.bus.is_iomem) {
-2880a38f4d3cf2 Evan Quan           2017-05-12  286  #if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 14, 0)
-95cf9264d5f36c Tom Lendacky        2017-07-17  287  			/* Iomem should not be marked encrypted */
-95cf9264d5f36c Tom Lendacky        2017-07-17  288  			cvma.vm_page_prot = pgprot_decrypted(cvma.vm_page_prot);
-2880a38f4d3cf2 Evan Quan           2017-05-12  289  #endif
-c67fa6edc8b11a Tan Xiaojun         2017-12-25  290  			pfn = ttm_bo_io_mem_pfn(bo, page_offset);
-95cf9264d5f36c Tom Lendacky        2017-07-17  291  		} else {
-b1e5f172325547 Jerome Glisse       2011-11-02  292  			page = ttm->pages[page_offset];
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  293  			if (unlikely(!page && i == 0)) {
-de8dfb8e3449c7 Tom St Denis        2018-01-26  294  				ret = VM_FAULT_OOM;
-eba67093f53532 Thomas Hellstrom    2010-11-11  295  				goto out_io_unlock;
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  296  			} else if (unlikely(!page)) {
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  297  				break;
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  298  			}
-58aa6622d32af7 Thomas Hellstrom    2014-01-03  299  			page->index = drm_vma_node_start(&bo->vma_node) +
-58aa6622d32af7 Thomas Hellstrom    2014-01-03  300  				page_offset;
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  301  			pfn = page_to_pfn(page);
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  302  		}
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  303  
-7dfe8b6187f43d Thomas Hellstrom    2014-01-03  304  		if (vma->vm_flags & VM_MIXEDMAP)
-4daa4fba3a3899 Souptick Joarder    2018-06-02  305  			ret = vmf_insert_mixed(&cvma, address,
-1663f01b82777b Qiang Yu            2018-08-22  306  					__pfn_to_pfn_t(pfn, PFN_DEV | (bo->ssg_can_map ? PFN_MAP : 0)));
-7dfe8b6187f43d Thomas Hellstrom    2014-01-03  307  		else
-4daa4fba3a3899 Souptick Joarder    2018-06-02  308  			ret = vmf_insert_pfn(&cvma, address, pfn);
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  309  		/*
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  310  		 * Somebody beat us to this PTE or prefaulting to
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  311  		 * an already populated PTE, or prefaulting error.
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  312  		 */
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  313  
-4daa4fba3a3899 Souptick Joarder    2018-06-02  314  		if (unlikely((ret == VM_FAULT_NOPAGE && i > 0)))
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  315  			break;
-4daa4fba3a3899 Souptick Joarder    2018-06-02  316  		else if (unlikely(ret & VM_FAULT_ERROR))
-eba67093f53532 Thomas Hellstrom    2010-11-11  317  			goto out_io_unlock;
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  318  
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  319  		address += PAGE_SIZE;
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  320  		if (unlikely(++page_offset >= page_last))
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  321  			break;
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  322  	}
-de8dfb8e3449c7 Tom St Denis        2018-01-26  323  	ret = VM_FAULT_NOPAGE;
-eba67093f53532 Thomas Hellstrom    2010-11-11  324  out_io_unlock:
-eba67093f53532 Thomas Hellstrom    2010-11-11  325  	ttm_mem_io_unlock(man);
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  326  out_unlock:
-7e18f7a415538c Evan Quan           2019-02-18  327  	kcl_reservation_object_unlock(bo->resv);
-de8dfb8e3449c7 Tom St Denis        2018-01-26  328  	return ret;
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  329  }
-ba4e7d973dd09b Thomas Hellstrom    2009-06-10  330  
+b4f7d254be169a Junwei Zhang   2016-12-23  12  
+b4f7d254be169a Junwei Zhang   2016-12-23  13  static inline int kcl_get_user_pages(struct task_struct *tsk, struct mm_struct *mm,
+b4f7d254be169a Junwei Zhang   2016-12-23  14  				unsigned long start, unsigned long nr_pages,
+b4f7d254be169a Junwei Zhang   2016-12-23  15  				int write, int force, struct page **pages,
+b4f7d254be169a Junwei Zhang   2016-12-23  16  				struct vm_area_struct **vmas, int *locked)
+b4f7d254be169a Junwei Zhang   2016-12-23  17  {
+f56288ab7a001e Slava Grigorev 2019-07-10  18  #if !defined(HAVE_8ARGS_GET_USER_PAGES)
+f56288ab7a001e Slava Grigorev 2019-07-10  19  	if (mm == current->mm) {
+f56288ab7a001e Slava Grigorev 2019-07-10  20  #if defined(HAVE_5ARGS_GET_USER_PAGES)
+f56288ab7a001e Slava Grigorev 2019-07-10  21  		write = ((!!write) & FOLL_WRITE) | ((!!force) & FOLL_FORCE);
+b4f7d254be169a Junwei Zhang   2016-12-23  22  		return get_user_pages(start, nr_pages, write, pages, vmas);
+f56288ab7a001e Slava Grigorev 2019-07-10  23  #else
+f56288ab7a001e Slava Grigorev 2019-07-10  24  		return get_user_pages(start, nr_pages, write, force, pages,
+f56288ab7a001e Slava Grigorev 2019-07-10  25  				vmas);
+f56288ab7a001e Slava Grigorev 2019-07-10  26  #endif
+f56288ab7a001e Slava Grigorev 2019-07-10  27  	} else {
+f56288ab7a001e Slava Grigorev 2019-07-10  28  #if defined(HAVE_8ARGS_GET_USER_PAGES_REMOTE)
+f56288ab7a001e Slava Grigorev 2019-07-10  29  		write = ((!!write) & FOLL_WRITE) | ((!!force) & FOLL_FORCE);
+b4f7d254be169a Junwei Zhang   2016-12-23  30  		return get_user_pages_remote(tsk, mm, start, nr_pages,
+b4f7d254be169a Junwei Zhang   2016-12-23  31  				write, pages, vmas, locked);
+f56288ab7a001e Slava Grigorev 2019-07-10  32  #elif defined(HAVE_7ARGS_GET_USER_PAGES_REMOTE)
+f56288ab7a001e Slava Grigorev 2019-07-10  33  		write = ((!!write) & FOLL_WRITE) | ((!!force) & FOLL_FORCE);
+b4f7d254be169a Junwei Zhang   2016-12-23  34  		return get_user_pages_remote(tsk, mm, start, nr_pages,
+b4f7d254be169a Junwei Zhang   2016-12-23  35  				write, pages, vmas);
+f56288ab7a001e Slava Grigorev 2019-07-10  36  #else
+b4f7d254be169a Junwei Zhang   2016-12-23  37  		return get_user_pages_remote(tsk, mm, start, nr_pages,
+b4f7d254be169a Junwei Zhang   2016-12-23  38  				write, force, pages, vmas);
+f56288ab7a001e Slava Grigorev 2019-07-10  39  #endif
+f56288ab7a001e Slava Grigorev 2019-07-10  40  	}
+b4f7d254be169a Junwei Zhang   2016-12-23  41  #else
+b4f7d254be169a Junwei Zhang   2016-12-23  42  	write = !!(write & FOLL_WRITE);
+b4f7d254be169a Junwei Zhang   2016-12-23 @43  	return get_user_pages(tsk, mm, start, nr_pages,
+b4f7d254be169a Junwei Zhang   2016-12-23  44  			write, force, pages, vmas);
+b4f7d254be169a Junwei Zhang   2016-12-23  45  #endif
+b4f7d254be169a Junwei Zhang   2016-12-23  46  }
+b4f7d254be169a Junwei Zhang   2016-12-23  47  
 
-:::::: The code at line 128 was first introduced by commit
-:::::: ba4e7d973dd09b66912ac4c0856add8b0703a997 drm: Add the TTM GPU memory manager subsystem.
+:::::: The code at line 43 was first introduced by commit
+:::::: b4f7d254be169a27d8759eff4cdc418427ad10a3 drm/amdkcl: [4.6] fix kcl_get_user_pages()
 
-:::::: TO: Thomas Hellstrom <thellstrom@vmware.com>
-:::::: CC: Dave Airlie <airlied@redhat.com>
+:::::: TO: Junwei Zhang <Jerry.Zhang@amd.com>
+:::::: CC: Chengming Gui <Jack.Gui@amd.com>
 
 ---
 0-DAY kernel test infrastructure                Open Source Technology Center
 https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
 
---6thhswg6sgkub5gr
+--6p4p5c7ehwyfom7k
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICMoFvV0AAy5jb25maWcAjDxbc9u20u/9FZr0pZ0zaW3HdfOdM34ASVBCxFsAULb8wnFt
+H4sICAksvV0AAy5jb25maWcAjDxbc9u20u/9FZr0pZ0zaW3HdfOdM34ASVBCxFsAULb8wnFt
 JfXUlxzZPk3+/bcLgOQCBJV2Oq21u7jvHQv++MOPC/b68vRw/XJ3c31//23xefe421+/7G4X
 n+7ud/9ZZPWiqvWCZ0L/AsTF3ePr11+/vj/rzk4Xv/1y8svR2/3N8WK92z/u7hfp0+Onu8+v
 0P7u6fGHH3+Af38E4MMX6Gr/78Xnm5u3vy9+ynZ/3F0/Ln7/5RRaH5/+bP8C2rSucrHs0rQT
@@ -1053,7 +1153,7 @@ StexaB9JcXga8sSPdDiIIYuRNLnBr2ycy7KFu1tv+e/KIllIWqapAUVsQHdBs4qgCj7GpT+t
 a3vUHauKdLfgWzvpptAXb0I1XgXSAcPyoE3o2Imbp8eGRo8gqRgqFghUR2hBuelIFdpiheBP
 qoOjTFqhPdnVe/huPlrl+B/DDn5URwYCAA==
 
---6thhswg6sgkub5gr
+--6p4p5c7ehwyfom7k
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -1063,4 +1163,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---6thhswg6sgkub5gr--
+--6p4p5c7ehwyfom7k--
