@@ -1,64 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71B78EE4A0
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2019 17:27:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94EE1EE4AF
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2019 17:31:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE7CA6E5EC;
-	Mon,  4 Nov 2019 16:27:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6A2F6E5FB;
+	Mon,  4 Nov 2019 16:31:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E33886E5F0
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2019 16:27:22 +0000 (UTC)
-Received: by mail-qk1-x741.google.com with SMTP id m16so17825239qki.11
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Nov 2019 08:27:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=i66A6pPwTuTMjG+BVvr5dEhi3nTPOcjA9Wo5ZsbJLGM=;
- b=L/snBSarvcVMIhknaikubnqSw6N0o2F940x1vwWtp6YMNbNApNK4RxkLvn0rME/JGu
- 1CIAfapATXaz1fDabginQGWqX+srAbgE+aTIgwpQ3I13VacL/AlC62Pa4ZOXRzaqhv6F
- VYyvB63UlFspYQCAxv7sZRNtm8wxk4kVODr5cKG4xux07KVr/Og55jQYb/RY9GF+e6Sx
- hIRgYMiKe7iLT8wQgWoribmAqKj3BjENBRUlfu7QuBpyEqMd8DO+PN2aofddLsFni4Yo
- d2h2U6PqMorlR81xeoEsBeTCMYoi1oJXb76aKVglA24iPXr0RZhzoDrX0f9AJ+tSAxy4
- i6qQ==
-X-Gm-Message-State: APjAAAUE/iGjmPPxNUPV8EHqXhw5fsCrGbFm4xm/Sn4C3D9c8znthuma
- cAaqk+vCs7ZgZkM3k6MLJ2Iw+L+E4jc=
-X-Google-Smtp-Source: APXvYqxrJvftoKqL0O6y4FTfX/xET+DHn8QnlmX1K0Zw72my2+nr0x1RCsvGOrIJKDXM6DyDtmS8yQ==
-X-Received: by 2002:a37:9c52:: with SMTP id f79mr5479121qke.163.1572884841910; 
- Mon, 04 Nov 2019 08:27:21 -0800 (PST)
-Received: from localhost.localdomain ([187.106.44.83])
- by smtp.gmail.com with ESMTPSA id i14sm8876562qke.102.2019.11.04.08.27.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Nov 2019 08:27:21 -0800 (PST)
-From: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
-To: outreachy-kernel@googlegroups.com, manasi.d.navare@intel.com,
- rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com, daniel@ffwll.ch,
- airlied@linux.ie, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- sean@poorly.run, corbet@lwn.net, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- lkcamp@lists.libreplanetbr.org
-Subject: [PATCH VKMS v3] drm/doc: Add VKMS module description and use to
- "Testing and Validation"
-Date: Mon,  4 Nov 2019 13:27:05 -0300
-Message-Id: <20191104162705.19735-1-gabrielabittencourt00@gmail.com>
-X-Mailer: git-send-email 2.20.1
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 756626E600
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2019 16:31:26 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 72043720E2; Mon,  4 Nov 2019 16:31:26 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111482] Sapphire Pulse RX 5700 XT power consumption
+Date: Mon, 04 Nov 2019 16:31:26 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: Dieter@nuetzel-hh.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111482-502-b558Cz1mIe@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111482-502@http.bugs.freedesktop.org/>
+References: <bug-111482-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=i66A6pPwTuTMjG+BVvr5dEhi3nTPOcjA9Wo5ZsbJLGM=;
- b=edyirGAknSCqx5G4/iS96ij1SqLsJ0hUWva5SoYDegi94n9vAlQGl6WeDQsMsqLmdR
- Hdyv9IHi3ioK/LAziTLpIkEUEdNLNkFJ+JDUyKuDELyaneQ0mZYSIPOe2agJTXhYHXpr
- 49CVNgvsHr6kVqrlSMzvm6Fevr2YrSDwx3zemhUAKWDTbkB4+D2YFlBBr+pAv+6BZzAN
- njyOJpnDKFKP9yWSU9MHsO3xa9fvadxcp0wYDvF+vigu8oRuxRhiwKXhS7ZdkoaVxMHo
- kz3wUH372tIDoWR4c3EnywJXVFhzWydTwCz6mHvhyuKNpudVws+R5x04xfujAbaf5tHa
- 2LFQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,71 +52,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0359559825=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QWRkIGEgZGVzY3JpcHRpb24gb24gVktNUyBtb2R1bGUgYW5kIHRoZSBjYXNlcyBpbiB3aGljaCBp
-dCBzaG91bGQgYmUgdXNlZC4KVGhlcmUncyBhIGJyaWVmIGV4cGxhbmF0aW9uIG9uIGhvdyB0byBz
-ZXQgaXQgYW5kIHVzZSBpdCBpbiBhIFZNLCBhbG9uZyB3aXRoCmFuIGV4YW1wbGUgb2YgcnVubmlu
-ZyBhbiBpZ3QtdGVzdC4KCkNoYW5nZXMgc2luY2UgVjM6CiBSb2RyaWdvOgogLSBDaGFuZ2UgdGhl
-IGxvZyBtZXNzYWdlIHRvIGltcGVyYXRpdmUKIC0gRml4IHNvbWUgYmFkIHNwZWxsaW5nL3dyaXRp
-bmcKIC0gQWRkIGEgYmxhbmsgbGluZSBiZWZvcmUgZW51bWVyYXRpb24KCkNoYW5nZXMgc2luY2Ug
-VjI6CiBBbmRyZToKIC0gQXZvaWQgcmVwZXRpdGlvbiBvZiB3b3JkcyBpbiB0aGUgc2FtZSBzZW50
-ZW5jZTsKIC0gTWFrZSB0aGUgZXhwbGFuYXRpb24gb24gJ3NldHRpbmcgdGhlIGtlcm5lbCcgc2hv
-cnRlciwgZWxpbWluYXRlIHRoZQogICAnbWFrZSBtZW51Y29uZmlnJyBjb21tYW5kOwogLSBBZGQg
-dGFiIG9uIGVudW1lcmF0aW9uIHRvIGhhdmUgb25lIGxpbmUgcGVyIGl0ZW07CiAtIENsYXJpZnkg
-ZnJvbSBlYWNoIG1hY2hpbmUgaWd0LXRlc3RzIGNvbW1hbmRzIHNob3VsZCBiZSByYW4gb24uCgpT
-aWduZWQtb2ZmLWJ5OiBHYWJyaWVsYSBCaXR0ZW5jb3VydCA8Z2FicmllbGFiaXR0ZW5jb3VydDAw
-QGdtYWlsLmNvbT4KLS0tCgpUZXN0ZWQgdGhlIHBhdGNoIHVzaW5nICdtYWtlIGh0bWxkb2NzJyB0
-byBtYWtlIHN1cmUgdGhlIG91dHB1dCAuaHRtbCBpcwpjb3JyZWN0LgoKSGkgRFJNLWNvbW11bml0
-eSwKdGhpcyBpcyBteSBmaXJzdCAob2YgbWFueSwgSSBob3BlKSAgcGF0Y2ggaW4gdGhpcyBzdWJz
-eXN0ZW0uIEkgaG9wZSB0byBoYXZlCmEgbG90IG9mIGxlYXJuaW5nIChhbmQgZnVuIDopKSB3b3Jr
-aW5nIHdpdGggeW91IGd1eXMuCkknbSBzdGFydGluZyBieSBkb2N1bWVudGluZyB0aGUgVktNUyBk
-cml2ZXIgaW4gIlVzZXJsYW5kIGludGVyZmFjZXMiLCBpZiBJCmhhdmUgYmVlbiBpbmFjY3VyYXRl
-IGluIG15IGRlc2NyaXB0aW9uIG9yIGlmIEkgbWlzdW5kZXJzdG9vZCBzb21lIGNvbmNlcHQsCnBs
-ZWFzZSBsZXQgbWUga25vdy4KLS0tCiBEb2N1bWVudGF0aW9uL2dwdS9kcm0tdWFwaS5yc3QgfCAz
-NyArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCiAxIGZpbGUgY2hhbmdlZCwgMzcg
-aW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZ3B1L2RybS11YXBpLnJz
-dCBiL0RvY3VtZW50YXRpb24vZ3B1L2RybS11YXBpLnJzdAppbmRleCA5NGY5MDUyMWY1OGMuLjgy
-NzFjMWUyNDBiNyAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9ncHUvZHJtLXVhcGkucnN0Cisr
-KyBiL0RvY3VtZW50YXRpb24vZ3B1L2RybS11YXBpLnJzdApAQCAtMjg1LDYgKzI4NSw0MyBAQCBy
-dW4tdGVzdHMuc2ggaXMgYSB3cmFwcGVyIGFyb3VuZCBwaWdsaXQgdGhhdCB3aWxsIGV4ZWN1dGUg
-dGhlIHRlc3RzIG1hdGNoaW5nCiB0aGUgLXQgb3B0aW9ucy4gQSByZXBvcnQgaW4gSFRNTCBmb3Jt
-YXQgd2lsbCBiZSBhdmFpbGFibGUgaW4KIC4vcmVzdWx0cy9odG1sL2luZGV4Lmh0bWwuIFJlc3Vs
-dHMgY2FuIGJlIGNvbXBhcmVkIHdpdGggcGlnbGl0LgogCitVc2luZyBWS01TIHRvIHRlc3QgRFJN
-IEFQSQorLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KKworVktNUyBpcyBhIHNvZnR3YXJlLW9u
-bHkgbW9kZWwgb2YgYSBLTVMgZHJpdmVyIHRoYXQgaXMgdXNlZnVsIGZvciB0ZXN0aW5nCithbmQg
-Zm9yIHJ1bm5pbmcgY29tcG9zaXRvcnMuIFZLTVMgYWltcyB0byBlbmFibGUgYSB2aXJ0dWFsIGRp
-c3BsYXkgd2l0aG91dAordGhlIG5lZWQgZm9yIGEgaGFyZHdhcmUgZGlzcGxheSBjYXBhYmlsaXR5
-LiBUaGVzZSBjaGFyYWN0ZXJpc3RpY3MgbWFkZSBWS01TCithIHBlcmZlY3QgdG9vbCBmb3IgdmFs
-aWRhdGluZyB0aGUgRFJNIGNvcmUgYmVoYXZpb3IgYW5kIGFsc28gc3VwcG9ydCB0aGUKK2NvbXBv
-c2l0b3IgZGV2ZWxvcGVyLiBWS01TIG1ha2VzIGl0IHBvc3NpYmxlIHRvIHRlc3QgRFJNIGZ1bmN0
-aW9ucyBpbiBhCit2aXJ0dWFsIG1hY2hpbmUgd2l0aG91dCBkaXNwbGF5LCBzaW1wbGlmeWluZyB0
-aGUgdmFsaWRhdGlvbiBvZiBzb21lIG9mIHRoZQorY29yZSBjaGFuZ2VzLgorCitUbyBWYWxpZGF0
-ZSBjaGFuZ2VzIGluIERSTSBBUEkgd2l0aCBWS01TLCBzdGFydCBzZXR0aW5nIHRoZSBrZXJuZWw6
-IG1ha2UKK3N1cmUgdG8gZW5hYmxlIFZLTVMgbW9kdWxlOyBjb21waWxlIHRoZSBrZXJuZWwgd2l0
-aCB0aGUgVktNUyBlbmFibGVkIGFuZAoraW5zdGFsbCBpdCBpbiB0aGUgdGFyZ2V0IG1hY2hpbmUu
-IFZLTVMgY2FuIGJlIHJ1biBpbiBhIFZpcnR1YWwgTWFjaGluZQorKFFFTVUsIHZpcnRtZSBvciBz
-aW1pbGFyKS4gSXQncyByZWNvbW1lbmRlZCB0aGUgdXNlIG9mIEtWTSB3aXRoIHRoZSBtaW5pbXVt
-CitvZiAxR0Igb2YgUkFNIGFuZCBmb3VyIGNvcmVzLgorCitJdCdzIHBvc3NpYmxlIHRvIHJ1biB0
-aGUgSUdULXRlc3RzIGluIGEgVk0gaW4gdHdvIHdheXM6CisKKwkxLiBVc2UgSUdUIGluc2lkZSBh
-IFZNCisJMi4gVXNlIElHVCBmcm9tIHRoZSBob3N0IG1hY2hpbmUgYW5kIHdyaXRlIHRoZSByZXN1
-bHRzIGluIGEgc2hhcmVkIGRpcmVjdG9yeS4KKworQXMgZm9sbG93LCB0aGVyZSBpcyBhbiBleGFt
-cGxlIG9mIHVzaW5nIGEgVk0gd2l0aCBhIHNoYXJlZCBkaXJlY3Rvcnkgd2l0aAordGhlIGhvc3Qg
-bWFjaGluZSB0byBydW4gaWd0LXRlc3RzLiBBcyBhbiBleGFtcGxlIGl0J3MgdXNlZCB2aXJ0bWU6
-OgorCisJJCB2aXJ0bWUtcnVuIC0tcndkaXIgL3BhdGgvZm9yL3NoYXJlZF9kaXIgLS1rZGlyPXBh
-dGgvZm9yL2tlcm5lbC9kaXJlY3RvcnkgLS1tb2RzPWF1dG8KKworUnVuIHRoZSBpZ3QtdGVzdHMg
-aW4gdGhlIGd1ZXN0IG1hY2hpbmUsIGFzIGV4YW1wbGUgaXQncyByYW4gdGhlICdrbXNfZmxpcCcK
-K3Rlc3RzOjoKKworCSQgL3BhdGgvZm9yL2lndC1ncHUtdG9vbHMvc2NyaXB0cy9ydW4tdGVzdHMu
-c2ggLXAgLXMgLXQgImttc19mbGlwLioiIC12CisKK0luIHRoaXMgZXhhbXBsZSwgaW5zdGVhZCBv
-ZiBidWlsZCB0aGUgaWd0X3J1bm5lciwgUGlnbGl0IGlzIHVzZWQKKygtcCBvcHRpb24pOyBpdCdz
-IGNyZWF0ZWQgaHRtbCBzdW1tYXJ5IG9mIHRoZSB0ZXN0cyByZXN1bHRzIGFuZCBpdCdzIHNhdmVk
-CitpbiB0aGUgZm9sZGVyICJpZ3QtZ3B1LXRvb2xzL3Jlc3VsdHMiOyBpdCdzIGV4ZWN1dGVkIG9u
-bHkgdGhlIGlndC10ZXN0cworbWF0Y2hpbmcgdGhlIC10IG9wdGlvbi4KKwogRGlzcGxheSBDUkMg
-U3VwcG9ydAogLS0tLS0tLS0tLS0tLS0tLS0tLQogCi0tIAoyLjIwLjEKCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0359559825==
+Content-Type: multipart/alternative; boundary="15728850865.Be71D1f.6692"
+Content-Transfer-Encoding: 7bit
+
+
+--15728850865.Be71D1f.6692
+Date: Mon, 4 Nov 2019 16:31:26 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111482
+
+--- Comment #32 from Dieter N=C3=BCtzel <Dieter@nuetzel-hh.de> ---
+(In reply to Shmerl from comment #31)
+> I can confirm, that at 2560x1440 / 144 Hz, after suspend / resume, setting
+> "high" in /sys/class/drm/card0/device/power_dpm_force_performance_level
+> stops flickering that starts after resume, and then setting "low" there
+> still keeps it flickering free, while dropping MCLK and power consumption=
+ to
+> what you expect from a normal idle level!=20
+>=20
+> You can check that with:
+>=20
+>     sudo cat /sys/kernel/debug/dri/0/amdgpu_pm_info
+>=20
+> So it means the card can handle it after all, but somehow doesn't
+> dynamically adjust to that state.
+>=20
+> Can anyone from AMD please comment on this situation?
+
+Hello 'Shmerl',
+
+can you (and the other) please recheck with 'auto', too?
+I think we have the 'same' problem with Polaris, too.
+If one set low/high it is set @fixed frequency and NOT @ the 'flickering'
+'auto' mode.
+
+I can't test the 'suspend / resume' cycle 'cause my server/workstation do N=
+OT
+work reliable on it.
+But power consumption is definitely to high on Polaris, too.
+
+@Alex: What do you think about this?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15728850865.Be71D1f.6692
+Date: Mon, 4 Nov 2019 16:31:26 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482#c32">Comme=
+nt # 32</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482">bug 11148=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+Dieter&#64;nuetzel-hh.de" title=3D"Dieter N=C3=BCtzel &lt;Dieter&#64;nuetze=
+l-hh.de&gt;"> <span class=3D"fn">Dieter N=C3=BCtzel</span></a>
+</span></b>
+        <pre>(In reply to Shmerl from <a href=3D"show_bug.cgi?id=3D111482#c=
+31">comment #31</a>)
+<span class=3D"quote">&gt; I can confirm, that at 2560x1440 / 144 Hz, after=
+ suspend / resume, setting
+&gt; &quot;high&quot; in /sys/class/drm/card0/device/power_dpm_force_perfor=
+mance_level
+&gt; stops flickering that starts after resume, and then setting &quot;low&=
+quot; there
+&gt; still keeps it flickering free, while dropping MCLK and power consumpt=
+ion to
+&gt; what you expect from a normal idle level!=20
+&gt;=20
+&gt; You can check that with:
+&gt;=20
+&gt;     sudo cat /sys/kernel/debug/dri/0/amdgpu_pm_info
+&gt;=20
+&gt; So it means the card can handle it after all, but somehow doesn't
+&gt; dynamically adjust to that state.
+&gt;=20
+&gt; Can anyone from AMD please comment on this situation?</span >
+
+Hello 'Shmerl',
+
+can you (and the other) please recheck with 'auto', too?
+I think we have the 'same' problem with Polaris, too.
+If one set low/high it is set &#64;fixed frequency and NOT &#64; the 'flick=
+ering'
+'auto' mode.
+
+I can't test the 'suspend / resume' cycle 'cause my server/workstation do N=
+OT
+work reliable on it.
+But power consumption is definitely to high on Polaris, too.
+
+&#64;Alex: What do you think about this?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15728850865.Be71D1f.6692--
+
+--===============0359559825==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0359559825==--
