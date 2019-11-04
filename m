@@ -1,45 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F700EF161
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 00:48:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA272EF169
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 00:49:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A2586E8BA;
-	Mon,  4 Nov 2019 23:48:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7C896E8B7;
+	Mon,  4 Nov 2019 23:49:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id C94AE6E8BA
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2019 23:48:19 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C64BC720E2; Mon,  4 Nov 2019 23:48:19 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111482] Sapphire Pulse RX 5700 XT power consumption
-Date: Mon, 04 Nov 2019 23:48:19 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: Dieter@nuetzel-hh.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111482-502-pCUtsEgi7r@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111482-502@http.bugs.freedesktop.org/>
-References: <bug-111482-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D2946E8B7
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2019 23:49:40 +0000 (UTC)
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-397-aDWO2QFVNLO1s54amWQi-Q-1; Mon, 04 Nov 2019 18:49:35 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0E0D107ACC2;
+ Mon,  4 Nov 2019 23:49:30 +0000 (UTC)
+Received: from redhat.com (unknown [10.20.6.178])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D177919C4F;
+ Mon,  4 Nov 2019 23:49:21 +0000 (UTC)
+Date: Mon, 4 Nov 2019 18:49:20 -0500
+From: Jerome Glisse <jglisse@redhat.com>
+To: John Hubbard <jhubbard@nvidia.com>
+Subject: Re: [PATCH v2 12/18] mm/gup: track FOLL_PIN pages
+Message-ID: <20191104234920.GA18515@redhat.com>
+References: <20191103211813.213227-1-jhubbard@nvidia.com>
+ <20191103211813.213227-13-jhubbard@nvidia.com>
+ <20191104185238.GG5134@redhat.com>
+ <7821cf87-75a8-45e2-cf28-f85b62192416@nvidia.com>
 MIME-Version: 1.0
+In-Reply-To: <7821cf87-75a8-45e2-cf28-f85b62192416@nvidia.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: aDWO2QFVNLO1s54amWQi-Q-1
+X-Mimecast-Spam-Score: 0
+Content-Disposition: inline
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=redhat.com; 
+ s=mimecast20190719; t=1572911379;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ls7Zx2AkPrMXy+LPLj5cuy1SX8JbSG4GMzPShaYe1yw=;
+ b=X/bC82UWeFKjrAylGSFPS1m1bVGp8DkLnZI5Vvc+9RsaPuwgjjTrTZ6U1mb2Pxf8QSnDRu
+ 4VF/0gIsLyOlSs3c0chs4ed48bj/Ynkw6aX7jOiFRw6UVaHEQz5hvHPHcxNUf+Ovx5lOZ4
+ q4jEQzfF1zoBWTsy3aLFyuxDtA4euDo=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,194 +64,184 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1522581026=="
+Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Paul Mackerras <paulus@samba.org>, linux-kselftest@vger.kernel.org,
+ Ira Weiny <ira.weiny@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-rdma@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+ Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
+ linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ linux-block@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
+ Al Viro <viro@zeniv.linux.org.uk>, Dan Williams <dan.j.williams@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
+ Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
+ netdev@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
+ Mike Kravetz <mike.kravetz@oracle.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1522581026==
-Content-Type: multipart/alternative; boundary="15729112991.91D1.858"
-Content-Transfer-Encoding: 7bit
-
-
---15729112991.91D1.858
-Date: Mon, 4 Nov 2019 23:48:19 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111482
-
---- Comment #34 from Dieter N=C3=BCtzel <Dieter@nuetzel-hh.de> ---
-(In reply to Shmerl from comment #33)
-> (In reply to Dieter N=C3=BCtzel from comment #32)
-> >=20
-> > Hello 'Shmerl',
-> >=20
-> > can you (and the other) please recheck with 'auto', too?
-> > I think we have the 'same' problem with Polaris, too.
->=20
-> Can you clarify please, what scenario exactly do you want me to test? When
-> computer boots (or resumes), the value is "auto" by default.
-
-Expected.
-
-> On "auto" after
-> boot, idle power consumption is high (30+W).
-
-To high.
-With 1 or more identical monitors?
-Compare Alex's latest >=3D2 identical monitor patches.
-I get the same even on Polaris (Alex?).
-
-> After resume, with that "auto"
-> value, the screen starts flickering,
-
-That is currently the expected 'auto' clk transition bug.
-If someone set the clks to low/high flickering can't happen.
-
-> I'll check what power consumption it
-> has at that point a bit later.
-
-That's the 'new' interesting part that Andrew, Robert and you find with Nav=
-i.
-The suspend / resume (with later high/low) 'cycle' which led to much lower
-power consumption.
-
-Which I couldn't verify on my Polaris system (with 2 identical HDMI monitor=
-s)
-currently.
-With 'low' and 2 identical HDMI displays I get the below under
-'amd-staging-drm-next':
-
-GFX Clocks and Power:
-        300 MHz (MCLK)
-        300 MHz (SCLK)
-        600 MHz (PSTATE_SCLK)
-        1000 MHz (PSTATE_MCLK)
-        750 mV (VDDGFX)
-        32.174 W (average GPU)
-
-PSTATE_SCLK and PSTATE_MCLK do NOT drop and much to high W.
-NO flickering due to 'low'.
-
-I'll point Alex to this thread.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15729112991.91D1.858
-Date: Mon, 4 Nov 2019 23:48:19 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482#c34">Comme=
-nt # 34</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482">bug 11148=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-Dieter&#64;nuetzel-hh.de" title=3D"Dieter N=C3=BCtzel &lt;Dieter&#64;nuetze=
-l-hh.de&gt;"> <span class=3D"fn">Dieter N=C3=BCtzel</span></a>
-</span></b>
-        <pre>(In reply to Shmerl from <a href=3D"show_bug.cgi?id=3D111482#c=
-33">comment #33</a>)
-<span class=3D"quote">&gt; (In reply to Dieter N=C3=BCtzel from <a href=3D"=
-show_bug.cgi?id=3D111482#c32">comment #32</a>)
-&gt; &gt;=20
-&gt; &gt; Hello 'Shmerl',
-&gt; &gt;=20
-&gt; &gt; can you (and the other) please recheck with 'auto', too?
-&gt; &gt; I think we have the 'same' problem with Polaris, too.
-&gt;=20
-&gt; Can you clarify please, what scenario exactly do you want me to test? =
-When
-&gt; computer boots (or resumes), the value is &quot;auto&quot; by default.=
-</span >
-
-Expected.
-
-<span class=3D"quote">&gt; On &quot;auto&quot; after
-&gt; boot, idle power consumption is high (30+W).</span >
-
-To high.
-With 1 or more identical monitors?
-Compare Alex's latest &gt;=3D2 identical monitor patches.
-I get the same even on Polaris (Alex?).
-
-<span class=3D"quote">&gt; After resume, with that &quot;auto&quot;
-&gt; value, the screen starts flickering,</span >
-
-That is currently the expected 'auto' clk transition bug.
-If someone set the clks to low/high flickering can't happen.
-
-<span class=3D"quote">&gt; I'll check what power consumption it
-&gt; has at that point a bit later.</span >
-
-That's the 'new' interesting part that Andrew, Robert and you find with Nav=
-i.
-The suspend / resume (with later high/low) 'cycle' which led to much lower
-power consumption.
-
-Which I couldn't verify on my Polaris system (with 2 identical HDMI monitor=
-s)
-currently.
-With 'low' and 2 identical HDMI displays I get the below under
-'amd-staging-drm-next':
-
-GFX Clocks and Power:
-        300 MHz (MCLK)
-        300 MHz (SCLK)
-        600 MHz (PSTATE_SCLK)
-        1000 MHz (PSTATE_MCLK)
-        750 mV (VDDGFX)
-        32.174 W (average GPU)
-
-PSTATE_SCLK and PSTATE_MCLK do NOT drop and much to high W.
-NO flickering due to 'low'.
-
-I'll point Alex to this thread.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15729112991.91D1.858--
-
---===============1522581026==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1522581026==--
+T24gTW9uLCBOb3YgMDQsIDIwMTkgYXQgMDI6NDk6MThQTSAtMDgwMCwgSm9obiBIdWJiYXJkIHdy
+b3RlOgo+IE9uIDExLzQvMTkgMTA6NTIgQU0sIEplcm9tZSBHbGlzc2Ugd3JvdGU6Cj4gPiBPbiBT
+dW4sIE5vdiAwMywgMjAxOSBhdCAwMToxODowN1BNIC0wODAwLCBKb2huIEh1YmJhcmQgd3JvdGU6
+Cj4gPj4gQWRkIHRyYWNraW5nIG9mIHBhZ2VzIHRoYXQgd2VyZSBwaW5uZWQgdmlhIEZPTExfUElO
+Lgo+ID4+Cj4gPj4gQXMgbWVudGlvbmVkIGluIHRoZSBGT0xMX1BJTiBkb2N1bWVudGF0aW9uLCBj
+YWxsZXJzIHdobyBlZmZlY3RpdmVseSBzZXQKPiA+PiBGT0xMX1BJTiBhcmUgcmVxdWlyZWQgdG8g
+dWx0aW1hdGVseSBmcmVlIHN1Y2ggcGFnZXMgdmlhIHB1dF91c2VyX3BhZ2UoKS4KPiA+PiBUaGUg
+ZWZmZWN0IGlzIHNpbWlsYXIgdG8gRk9MTF9HRVQsIGFuZCBtYXkgYmUgdGhvdWdodCBvZiBhcyAi
+Rk9MTF9HRVQKPiA+PiBmb3IgRElPIGFuZC9vciBSRE1BIHVzZSIuCj4gPj4KPiA+PiBQYWdlcyB0
+aGF0IGhhdmUgYmVlbiBwaW5uZWQgdmlhIEZPTExfUElOIGFyZSBpZGVudGlmaWFibGUgdmlhIGEK
+PiA+PiBuZXcgZnVuY3Rpb24gY2FsbDoKPiA+Pgo+ID4+ICAgIGJvb2wgcGFnZV9kbWFfcGlubmVk
+KHN0cnVjdCBwYWdlICpwYWdlKTsKPiA+Pgo+ID4+IFdoYXQgdG8gZG8gaW4gcmVzcG9uc2UgdG8g
+ZW5jb3VudGVyaW5nIHN1Y2ggYSBwYWdlLCBpcyBsZWZ0IHRvIGxhdGVyCj4gPj4gcGF0Y2hzZXRz
+LiBUaGVyZSBpcyBkaXNjdXNzaW9uIGFib3V0IHRoaXMgaW4gWzFdLgo+ID4+Cj4gPj4gVGhpcyBh
+bHNvIGNoYW5nZXMgYSBCVUdfT04oKSwgdG8gYSBXQVJOX09OKCksIGluIGZvbGxvd19wYWdlX21h
+c2soKS4KPiA+Pgo+ID4+IFRoaXMgYWxzbyBoYXMgYSBjb3VwbGUgb2YgdHJpdmlhbCwgbm9uLWZ1
+bmN0aW9uYWwgY2hhbmdlIGZpeGVzIHRvCj4gPj4gdHJ5X2dldF9jb21wb3VuZF9oZWFkKCkuIFRo
+YXQgZnVuY3Rpb24gZ290IG1vdmVkIHRvIHRoZSB0b3Agb2YgdGhlCj4gPj4gZmlsZS4KPiA+IAo+
+ID4gTWF5YmUgc3BsaXQgdGhhdCBhcyBhIHNlcGFyYXRlIHRyaXZpYWwgcGF0Y2guCj4gCj4gCj4g
+V2lsbCBkby4KPiAKPiAKPiA+IAo+ID4+Cj4gPj4gVGhpcyBpbmNsdWRlcyB0aGUgZm9sbG93aW5n
+IGZpeCBmcm9tIElyYSBXZWlueToKPiA+Pgo+ID4+IERBWCByZXF1aXJlcyBkZXRlY3Rpb24gb2Yg
+YSBwYWdlIGNyb3NzaW5nIHRvIGEgcmVmIGNvdW50IG9mIDEuICBGaXggdGhpcwo+ID4+IGZvciBH
+VVAgcGFnZXMgYnkgaW50cm9kdWNpbmcgcHV0X2Rldm1hcF9tYW5hZ2VkX3VzZXJfcGFnZSgpIHdo
+aWNoCj4gPj4gYWNjb3VudHMgZm9yIEdVUF9QSU5fQ09VTlRJTkdfQklBUyBub3cgdXNlZCBieSBH
+VVAuCj4gPiAKPiA+IFBsZWFzZSBkbyB0aGUgcHV0X2Rldm1hcF9tYW5hZ2VkX3BhZ2UoKSBjaGFu
+Z2VzIGluIGEgc2VwYXJhdGUKPiA+IHBhdGNoLCBpdCB3b3VsZCBiZSBhIGxvdCBlYXNpZXIgdG8g
+Zm9sbG93LCBhbHNvIG9uIHRoYXQgZnJvbnQKPiA+IHNlZSBjb21tZW50cyBiZWxvdy4KPiAKPiAK
+PiBPaCEgT0suIEl0IG1ha2VzIHNlbnNlIHdoZW4geW91IHNheSBpdCBvdXQgbG91ZC4gOikKPiAK
+PiAKPiAuLi4KPiA+PiArc3RhdGljIGlubGluZSBib29sIHB1dF9kZXZtYXBfbWFuYWdlZF9wYWdl
+KHN0cnVjdCBwYWdlICpwYWdlKQo+ID4+ICt7Cj4gPj4gKwlib29sIGlzX2Rldm1hcCA9IHBhZ2Vf
+aXNfZGV2bWFwX21hbmFnZWQocGFnZSk7Cj4gPj4gKwo+ID4+ICsJaWYgKGlzX2Rldm1hcCkgewo+
+ID4+ICsJCWludCBjb3VudCA9IHBhZ2VfcmVmX2RlY19yZXR1cm4ocGFnZSk7Cj4gPj4gKwo+ID4+
+ICsJCV9fcHV0X2Rldm1hcF9tYW5hZ2VkX3BhZ2UocGFnZSwgY291bnQpOwo+ID4+ICsJfQo+ID4+
+ICsKPiA+PiArCXJldHVybiBpc19kZXZtYXA7Cj4gPj4gK30KPiA+IAo+ID4gSSB0aGluayB0aGUg
+X19wdXRfZGV2bWFwX21hbmFnZWRfcGFnZSgpIHNob3VsZCBiZSByZW5hbWUKPiA+IHRvIGZyZWVf
+ZGV2bWFwX21hbmFnZWRfcGFnZSgpIGFuZCB0aGF0IHRoZSBjb3VudCAhPSAxCj4gPiBjYXNlIG1v
+dmUgdG8gdGhpcyBpbmxpbmUgZnVuY3Rpb24gaWU6Cj4gPiAKPiA+IHN0YXRpYyBpbmxpbmUgYm9v
+bCBwdXRfZGV2bWFwX21hbmFnZWRfcGFnZShzdHJ1Y3QgcGFnZSAqcGFnZSkKPiA+IHsKPiA+IAli
+b29sIGlzX2Rldm1hcCA9IHBhZ2VfaXNfZGV2bWFwX21hbmFnZWQocGFnZSk7Cj4gPiAKPiA+IAlp
+ZiAoaXNfZGV2bWFwKSB7Cj4gPiAJCWludCBjb3VudCA9IHBhZ2VfcmVmX2RlY19yZXR1cm4ocGFn
+ZSk7Cj4gPiAKPiA+IAkJLyoKPiA+IAkJICogSWYgcmVmY291bnQgaXMgMSB0aGVuIHBhZ2UgaXMg
+ZnJlZWQgYW5kIHJlZmNvdW50IGlzIHN0YWJsZSBhcyBub2JvZHkKPiA+IAkJICogaG9sZHMgYSBy
+ZWZlcmVuY2Ugb24gdGhlIHBhZ2UuCj4gPiAJCSAqLwo+ID4gCQlpZiAoY291bnQgPT0gMSkKPiA+
+IAkJCWZyZWVfZGV2bWFwX21hbmFnZWRfcGFnZShwYWdlLCBjb3VudCk7Cj4gPiAJCWVsc2UgaWYg
+KCFjb3VudCkKPiA+IAkJCV9fcHV0X3BhZ2UocGFnZSk7Cj4gPiAJfQo+ID4gCj4gPiAJcmV0dXJu
+IGlzX2Rldm1hcDsKPiA+IH0KPiA+IAo+IAo+IFRoYW5rcywgdGhhdCBkb2VzIGxvb2sgY2xlYW5l
+ciBhbmQgZWFzaWVyIHRvIHJlYWQuCj4gCj4gPiAKPiA+PiArCj4gPj4gICNlbHNlIC8qIENPTkZJ
+R19ERVZfUEFHRU1BUF9PUFMgKi8KPiA+PiAgc3RhdGljIGlubGluZSBib29sIHB1dF9kZXZtYXBf
+bWFuYWdlZF9wYWdlKHN0cnVjdCBwYWdlICpwYWdlKQo+ID4+ICB7Cj4gPj4gQEAgLTEwMzgsNiAr
+MTA1MSw4IEBAIHN0YXRpYyBpbmxpbmUgX19tdXN0X2NoZWNrIGJvb2wgdHJ5X2dldF9wYWdlKHN0
+cnVjdCBwYWdlICpwYWdlKQo+ID4+ICAJcmV0dXJuIHRydWU7Cj4gPj4gIH0KPiA+PiAgCj4gPj4g
+K19fbXVzdF9jaGVjayBib29sIHVzZXJfcGFnZV9yZWZfaW5jKHN0cnVjdCBwYWdlICpwYWdlKTsK
+PiA+PiArCj4gPiAKPiA+IFdoYXQgYWJvdXQgaGF2aW5nIGl0IGFzIGFuIGlubGluZSBoZXJlIGFz
+IGl0IGlzIHByZXR0eSBzbWFsbC4KPiAKPiAKPiBZb3UgbWVhbiBtb3ZlIGl0IHRvIGEgc3RhdGlj
+IGlubGluZSBmdW5jdGlvbiBpbiBtbS5oPyBJdCdzIHdvcnNlIHRoYW4gaXQgCj4gbG9va3MsIHRo
+b3VnaDogKmV2ZXJ5dGhpbmcqIHRoYXQgaXQgY2FsbHMgaXMgYWxzbyBhIHN0YXRpYyBmdW5jdGlv
+biwgbG9jYWwKPiB0byBndXAuYy4gU28gSSdkIGhhdmUgdG8gZXhwb3NlIGJvdGggdHJ5X2dldF9j
+b21wb3VuZF9oZWFkKCkgYW5kCj4gX191cGRhdGVfcHJvY192bXN0YXQoKS4gQW5kIHRoYXQgYWxz
+byBtZWFucyBjYWxsaW5nIG1vZF9ub2RlX3BhZ2Vfc3RhdGUoKSBmcm9tCj4gbW0uaCwgYW5kIGl0
+IGdvZXMgc291dGggcmlnaHQgYWJvdXQgdGhlcmUuIDopCgpPayBmYWlyIGVub3VnaAoKPiAuLi4g
+IAo+ID4+ICsvKioKPiA+PiArICogcGFnZV9kbWFfcGlubmVkKCkgLSByZXBvcnQgaWYgYSBwYWdl
+IGlzIHBpbm5lZCBieSBhIGNhbGwgdG8gcGluX3VzZXJfcGFnZXMqKCkKPiA+PiArICogb3IgcGlu
+X2xvbmd0ZXJtX3BhZ2VzKigpCj4gPj4gKyAqIEBwYWdlOglwb2ludGVyIHRvIHBhZ2UgdG8gYmUg
+cXVlcmllZC4KPiA+PiArICogQFJldHVybjoJVHJ1ZSwgaWYgaXQgaXMgbGlrZWx5IHRoYXQgdGhl
+IHBhZ2UgaGFzIGJlZW4gImRtYS1waW5uZWQiLgo+ID4+ICsgKgkJRmFsc2UsIGlmIHRoZSBwYWdl
+IGlzIGRlZmluaXRlbHkgbm90IGRtYS1waW5uZWQuCj4gPj4gKyAqLwo+ID4gCj4gPiBNYXliZSBh
+ZGQgYSBzbWFsbCBjb21tZW50IGFib3V0IHdyYXAgYXJvdW5kIDopCj4gCj4gCj4gSSBkb24ndCAq
+dGhpbmsqIHRoZSBjb3VudCBjYW4gd3JhcCBhcm91bmQsIGR1ZSB0byB0aGUgY2hlY2tzIGluIHVz
+ZXJfcGFnZV9yZWZfaW5jKCkuCj4gCj4gQnV0IGl0J3MgdHJ1ZSB0aGF0IHRoZSBkb2N1bWVudGF0
+aW9uIGlzIGEgbGl0dGxlIGxpZ2h0IGhlcmUuLi5XaGF0IGRpZCB5b3UgaGF2ZSAKPiBpbiBtaW5k
+PwoKQWJvdXQgZmFsc2UgcG9zaXRpdmUgY2FzZSAoYW5kIGhvdyB1bmxpa2VseSB0aGV5IGFyZSkg
+YW5kIHRoYXQgd3JhcAphcm91bmQgaXMgcHJvcGVybHkgaGFuZGxlLiBNYXliZSBqdXN0IGEgcG9p
+bnRlciB0byB0aGUgZG9jdW1lbnRhdGlvbgpzbyB0aGF0IHBlb3BsZSBrbm93IHRoZXkgY2FuIGdv
+IGxvb2sgdGhlcmUgZm9yIGRldGFpbHMuIEkga25vdyBteQpicmFpbiB0ZW5kIHRvIGZvcmdldCB3
+aGVyZSB0byBsb29rIGZvciB0aGluZ3Mgc28gaSBsaWtlIHRvIGJlIGNvbnN0YW50bHkKcmVtaW5k
+ZWQgaGV5IHRoZSBkb2MgaXMgRG9jdW1lbnRhdGlvbnMvZm9vYmFyIDopCgo+ID4gWy4uLl0KPiA+
+IAo+ID4+IEBAIC0xOTMwLDEyICsyMDI4LDIwIEBAIHN0YXRpYyBpbnQgX19ndXBfZGV2aWNlX2h1
+Z2UodW5zaWduZWQgbG9uZyBwZm4sIHVuc2lnbmVkIGxvbmcgYWRkciwKPiA+PiAgCj4gPj4gIAkJ
+cGdtYXAgPSBnZXRfZGV2X3BhZ2VtYXAocGZuLCBwZ21hcCk7Cj4gPj4gIAkJaWYgKHVubGlrZWx5
+KCFwZ21hcCkpIHsKPiA+PiAtCQkJdW5kb19kZXZfcGFnZW1hcChuciwgbnJfc3RhcnQsIHBhZ2Vz
+KTsKPiA+PiArCQkJdW5kb19kZXZfcGFnZW1hcChuciwgbnJfc3RhcnQsIGZsYWdzLCBwYWdlcyk7
+Cj4gPj4gIAkJCXJldHVybiAwOwo+ID4+ICAJCX0KPiA+PiAgCQlTZXRQYWdlUmVmZXJlbmNlZChw
+YWdlKTsKPiA+PiAgCQlwYWdlc1sqbnJdID0gcGFnZTsKPiA+PiAtCQlnZXRfcGFnZShwYWdlKTsK
+PiA+PiArCj4gPj4gKwkJaWYgKGZsYWdzICYgRk9MTF9QSU4pIHsKPiA+PiArCQkJaWYgKHVubGlr
+ZWx5KCF1c2VyX3BhZ2VfcmVmX2luYyhwYWdlKSkpIHsKPiA+PiArCQkJCXVuZG9fZGV2X3BhZ2Vt
+YXAobnIsIG5yX3N0YXJ0LCBmbGFncywgcGFnZXMpOwo+ID4+ICsJCQkJcmV0dXJuIDA7Cj4gPj4g
+KwkJCX0KPiA+IAo+ID4gTWF5YmUgYWRkIGEgY29tbWVudCBhYm91dCBhIGNhc2UgdGhhdCBzaG91
+bGQgbmV2ZXIgaGFwcGVucyBpZQo+ID4gdXNlcl9wYWdlX3JlZl9pbmMoKSBmYWlscyBhZnRlciB0
+aGUgc2Vjb25kIGl0ZXJhdGlvbiBvZiB0aGUKPiA+IGxvb3AgYXMgaXQgd291bGQgYmUgYnJva2Vu
+IGFuZCBhIGJ1ZyB0byBjYWxsIHVuZG9fZGV2X3BhZ2VtYXAoKQo+ID4gYWZ0ZXIgdGhlIGZpcnN0
+IGl0ZXJhdGlvbiBvZiB0aGF0IGxvb3AuCj4gPiAKPiA+IEFsc28gaSBiZWxpZXZlIHRoYXQgdGhp
+cyBzaG91bGQgbmV2ZXIgaGFwcGVucyBhcyBpZiBmaXJzdAo+ID4gaXRlcmF0aW9uIHN1Y2NlZWQg
+dGhhbiBfX3BhZ2VfY2FjaGVfYWRkX3NwZWN1bGF0aXZlKCkgd2lsbAo+ID4gc3VjY2VlZCBmb3Ig
+YWxsIHRoZSBpdGVyYXRpb25zLgo+ID4gCj4gPiBOb3RlIHRoYXQgdGhlIHBnbWFwIGNhc2UgYWJv
+dmUgZm9sbG93cyB0aGF0IHRvbyBpZSB0aGUgY2FsbCB0bwo+ID4gZ2V0X2Rldl9wYWdlbWFwKCkg
+Y2FuIG9ubHkgZmFpbCBvbiBmaXJzdCBpdGVyYXRpb24gb2YgdGhlIGxvb3AsCj4gPiB3ZWxsIGkg
+YXNzdW1lIHlvdSBjYW4gbmV2ZXIgaGF2ZSBhIGh1Z2UgZGV2aWNlIHBhZ2UgdGhhdCBzcGFuCj4g
+PiBkaWZmZXJlbnQgcGdtYXAgaWUgZGlmZmVyZW50IGRldmljZXMgKHdoaWNoIGlzIGEgcmVhc29u
+YWJsZQo+ID4gYXNzdW1wdGlvbikuIFNvIG1heWJlIHRoaXMgY29kZSBuZWVkcyBmaXhpbmcgaWUg
+Ogo+ID4gCj4gPiAJCXBnbWFwID0gZ2V0X2Rldl9wYWdlbWFwKHBmbiwgcGdtYXApOwo+ID4gCQlp
+ZiAodW5saWtlbHkoIXBnbWFwKSkKPiA+IAkJCXJldHVybiAwOwo+ID4gCj4gPiAKPiAKPiBPSywg
+eWVzIHRoYXQgZG9lcyBtYWtlIHNlbnNlLiBBbmQgSSB0aGluayBhIGNvbW1lbnQgaXMgYWRlcXVh
+dGUsCj4gbm8gbmVlZCB0byBjaGVjayBmb3IgYnVncyBkdXJpbmcgZXZlcnkgdGFpbCBwYWdlIGl0
+ZXJhdGlvbi4gU28gaG93IAo+IGFib3V0IHRoaXMsIGFzIGEgcHJlbGltaW5hcnkgcGF0Y2g6CgpB
+Y3R1YWx5IGkgdGhvdWdodCBhYm91dCBpdCBhbmQgaSB0aGluayB0aGF0IHRoZXJlIGlzIHBnbWFw
+CnBlciBzZWN0aW9uIGFuZCB0aHVzIG1heWJlIG9uZSBkZXZpY2UgY2FuIGhhdmUgbXVsdGlwbGUg
+cGdtYXAKYW5kIHRoYXQgd291bGQgYmUgYW4gaXNzdWUgZm9yIHBhZ2UgYmlnZ2VyIHRoYW4gc2Vj
+dGlvbiBzaXplCihpZSBiaWdnZXIgdGhhbiAxMjhNQiBpaXJjKS4gSSB3aWxsIGdvIGRvdWJsZSBj
+aGVjayB0aGF0LCBidXQKbWF5YmUgRGFuIGNhbiBjaGltZSBpbi4KCkluIGFueSBjYXNlIG15IGNv
+bW1lbnQgYWJvdmUgaXMgY29ycmVjdCBmb3IgdGhlIHBhZ2UgcmVmCmluY3JlbWVudCwgaWYgdGhl
+IGZpcnN0IG9uZSBzdWNjZWVkIHRoYW4gb3RoZXJzIHdpbGwgdG9vCm9yIG90aGVyd2lzZSBpdCBt
+ZWFucyBzb21lb25lIGlzIGRvaW5nIHRvbyBtYW55IHB1dF9wYWdlKCkvCnB1dF91c2VyX3BhZ2Uo
+KSB3aGljaCBpcyBfYmFkXyA6KQoKPiAKPiBkaWZmIC0tZ2l0IGEvbW0vZ3VwLmMgYi9tbS9ndXAu
+Ywo+IGluZGV4IDhmMjM2YTMzNWFlOS4uYTRhODFlMTI1ODMyIDEwMDY0NAo+IC0tLSBhL21tL2d1
+cC5jCj4gKysrIGIvbW0vZ3VwLmMKPiBAQCAtMTg5MiwxNyArMTg5MiwxOCBAQCBzdGF0aWMgaW50
+IGd1cF9wdGVfcmFuZ2UocG1kX3QgcG1kLCB1bnNpZ25lZCBsb25nIGFkZHIsIHVuc2lnbmVkIGxv
+bmcgZW5kLAo+ICBzdGF0aWMgaW50IF9fZ3VwX2RldmljZV9odWdlKHVuc2lnbmVkIGxvbmcgcGZu
+LCB1bnNpZ25lZCBsb25nIGFkZHIsCj4gICAgICAgICAgICAgICAgIHVuc2lnbmVkIGxvbmcgZW5k
+LCBzdHJ1Y3QgcGFnZSAqKnBhZ2VzLCBpbnQgKm5yKQo+ICB7Cj4gLSAgICAgICBpbnQgbnJfc3Rh
+cnQgPSAqbnI7Cj4gLSAgICAgICBzdHJ1Y3QgZGV2X3BhZ2VtYXAgKnBnbWFwID0gTlVMTDsKPiAr
+ICAgICAgIC8qCj4gKyAgICAgICAgKiBIdWdlIHBhZ2VzIHNob3VsZCBuZXZlciBjcm9zcyBkZXZf
+cGFnZW1hcCBib3VuZGFyaWVzLiBUaGVyZWZvcmUsIHVzZQo+ICsgICAgICAgICogdGhpcyBzYW1l
+IHBnbWFwIGZvciB0aGUgZW50aXJlIGh1Z2UgcGFnZS4KPiArICAgICAgICAqLwo+ICsgICAgICAg
+c3RydWN0IGRldl9wYWdlbWFwICpwZ21hcCA9IGdldF9kZXZfcGFnZW1hcChwZm4sIE5VTEwpOwo+
+ICsKPiArICAgICAgIGlmICh1bmxpa2VseSghcGdtYXApKQo+ICsgICAgICAgICAgICAgICByZXR1
+cm4gMDsKPiAgCj4gICAgICAgICBkbyB7Cj4gICAgICAgICAgICAgICAgIHN0cnVjdCBwYWdlICpw
+YWdlID0gcGZuX3RvX3BhZ2UocGZuKTsKPiAgCj4gLSAgICAgICAgICAgICAgIHBnbWFwID0gZ2V0
+X2Rldl9wYWdlbWFwKHBmbiwgcGdtYXApOwo+IC0gICAgICAgICAgICAgICBpZiAodW5saWtlbHko
+IXBnbWFwKSkgewo+IC0gICAgICAgICAgICAgICAgICAgICAgIHVuZG9fZGV2X3BhZ2VtYXAobnIs
+IG5yX3N0YXJ0LCBwYWdlcyk7Cj4gLSAgICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIDA7Cj4g
+LSAgICAgICAgICAgICAgIH0KPiAgICAgICAgICAgICAgICAgU2V0UGFnZVJlZmVyZW5jZWQocGFn
+ZSk7Cj4gICAgICAgICAgICAgICAgIHBhZ2VzWypucl0gPSBwYWdlOwo+ICAgICAgICAgICAgICAg
+ICBnZXRfcGFnZShwYWdlKTsKPiAKPiAKPiAKPiAKPiA+PiArCQl9IGVsc2UKPiA+PiArCQkJZ2V0
+X3BhZ2UocGFnZSk7Cj4gPj4gKwo+ID4+ICAJCSgqbnIpKys7Cj4gPj4gIAkJcGZuKys7Cj4gPj4g
+IAl9IHdoaWxlIChhZGRyICs9IFBBR0VfU0laRSwgYWRkciAhPSBlbmQpOwo+ID4gCj4gPiBbLi4u
+XQo+ID4gCj4gPj4gQEAgLTI0MDksNyArMjU0MCw3IEBAIHN0YXRpYyBpbnQgaW50ZXJuYWxfZ2V0
+X3VzZXJfcGFnZXNfZmFzdCh1bnNpZ25lZCBsb25nIHN0YXJ0LCBpbnQgbnJfcGFnZXMsCj4gPj4g
+IAl1bnNpZ25lZCBsb25nIGFkZHIsIGxlbiwgZW5kOwo+ID4+ICAJaW50IG5yID0gMCwgcmV0ID0g
+MDsKPiA+PiAgCj4gPj4gLQlpZiAoV0FSTl9PTl9PTkNFKGd1cF9mbGFncyAmIH4oRk9MTF9XUklU
+RSB8IEZPTExfTE9OR1RFUk0pKSkKPiA+PiArCWlmIChXQVJOX09OX09OQ0UoZ3VwX2ZsYWdzICYg
+fihGT0xMX1dSSVRFIHwgRk9MTF9MT05HVEVSTSB8IEZPTExfUElOKSkpCj4gPiAKPiA+IE1heWJl
+IGFkZCBhIGNvbW1lbnRzIHRvIGV4cGxhaW4sIHNvbWV0aGluZyBsaWtlOgo+ID4gCj4gPiAvKgo+
+ID4gICogVGhlIG9ubHkgZmxhZ3MgYWxsb3dlZCBoZXJlIGFyZTogRk9MTF9XUklURSwgRk9MTF9M
+T05HVEVSTSwgRk9MTF9QSU4KPiA+ICAqCj4gPiAgKiBOb3RlIHRoYXQgZ2V0X3VzZXJfcGFnZXNf
+ZmFzdCgpIGltcGx5IEZPTExfR0VUIGZsYWcgYnkgZGVmYXVsdCBidXQKPiA+ICAqIGNhbGxlcnMg
+Y2FuIG92ZXItcmlkZSB0aGlzIGRlZmF1bHQgdG8gcGluIGNhc2UgYnkgc2V0dGluZyBGT0xMX1BJ
+Ti4KPiA+ICAqLwo+IAo+IEdvb2QgaWRlYS4gSGVyZSdzIHRoZSBkcmFmdCBub3c6Cj4gCj4gLyoK
+PiAgKiBUaGUgb25seSBmbGFncyBhbGxvd2VkIGhlcmUgYXJlOiBGT0xMX1dSSVRFLCBGT0xMX0xP
+TkdURVJNLCBGT0xMX1BJTi4KPiAgKgo+ICAqIE5vdGUgdGhhdCBnZXRfdXNlcl9wYWdlc19mYXN0
+KCkgaW1wbGllcyBGT0xMX0dFVCBmbGFnIGJ5IGRlZmF1bHQsIGJ1dAo+ICAqIGNhbGxlcnMgY2Fu
+IG92ZXJyaWRlIHRoaXMgZGVmYXVsdCBieSBzZXR0aW5nIEZPTExfUElOIGluc3RlYWQgb2YKPiAg
+KiBGT0xMX0dFVC4KPiAgKi8KPiBpZiAoV0FSTl9PTl9PTkNFKGd1cF9mbGFncyAmIH4oRk9MTF9X
+UklURSB8IEZPTExfTE9OR1RFUk0gfCBGT0xMX1BJTikpKQo+ICAgICAgICAgcmV0dXJuIC1FSU5W
+QUw7CgpMb29rcyBnb29kIHRvIG1lLgoKLi4uCgpDaGVlcnMsCkrDqXLDtG1lCgpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
