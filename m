@@ -2,40 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB214EE08A
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2019 13:58:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3896AEE0D6
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2019 14:18:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 138F26E3D8;
-	Mon,  4 Nov 2019 12:58:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29FFA6E423;
+	Mon,  4 Nov 2019 13:18:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D99AA6E3D8
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2019 12:58:38 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C2D8B52C;
- Mon,  4 Nov 2019 13:58:36 +0100 (CET)
-Date: Mon, 4 Nov 2019 14:58:29 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Subject: Re: Overlay support in the i.MX7 display
-Message-ID: <20191104125829.GA4913@pendragon.ideasonboard.com>
-References: <20191101084318.GA8428@pendragon.ideasonboard.com>
- <67057f1082886726268f346f49c23051@agner.ch>
- <20191104100947.4e198e72@eldfell.localdomain>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BBE496E42C
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2019 13:18:06 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id B8FB972104; Mon,  4 Nov 2019 13:18:06 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110580] [CI][BAT] igt@.* - skip - Chamelium ports not enabled
+Date: Mon, 04 Nov 2019 13:18:06 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: IGT
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: arkadiusz.hiler@intel.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: qa_contact component assigned_to
+Message-ID: <bug-110580-502-UFrVsji0zm@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110580-502@http.bugs.freedesktop.org/>
+References: <bug-110580-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191104100947.4e198e72@eldfell.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1572872316;
- bh=fmCV2UX8nWPcsCfJd6YC1Mg8Z0MLa3pWSVXfjonQNGU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=laUfAuCJravUPBu2KYDf1l4VBi2KpoWrU+VodG54MZ1wchXk0n0e/erqSFpKpdGyf
- u5g/66GLwPpI//WGIycLsnEgWvzaaLfu0ssLHSCx64RqIN6tbEKld3cOdWwdtUc8AQ
- jCfQdPTG1yNTzIT4Jdo1KV67Cor+YF0GX0wB8cUI=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,100 +52,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0268082361=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGVsbG8sCgpPbiBNb24sIE5vdiAwNCwgMjAxOSBhdCAxMDowOTo0N0FNICswMjAwLCBQZWtrYSBQ
-YWFsYW5lbiB3cm90ZToKPiBPbiBTdW4sIDAzIE5vdiAyMDE5IDE5OjE1OjQ5ICswMTAwIFN0ZWZh
-biBBZ25lciB3cm90ZToKPiA+IE9uIDIwMTktMTEtMDEgMDk6NDMsIExhdXJlbnQgUGluY2hhcnQg
-d3JvdGU6Cj4gPiA+IEhlbGxvLAo+ID4gPiAKPiA+ID4gSSdtIGxvb2tpbmcgYXQgdGhlIGF2YWls
-YWJsZSBvcHRpb25zIHRvIHN1cHBvcnQgb3ZlcmxheXMgaW4gdGhlIGRpc3BsYXkKPiA+ID4gcGlw
-ZWxpbmUgb2YgdGhlIGkuTVg3LiBUaGUgTENESUYgaXRzZWxmIHVuZm9ydHVuYWx0ZXkgZG9lc24n
-dCBzdXBwb3J0Cj4gPiA+IG92ZXJsYXlzLCB0aGUgZmVhdHVyZSBiZWluZyBpbXBsZW1lbnRlZCBp
-biB0aGUgUFhQLiBBIGRyaXZlciBmb3IgdGhlIFBYUAo+ID4gPiBpcyBhdmFpbGFibGUgYnV0IG9u
-bHkgc3VwcG9ydHMgb2xkZXIgU29DcyB3aG9zZSBQWFAgZG9lc24ndCBzdXBwb3J0Cj4gPiA+IG92
-ZXJsYXlzLiBUaGlzIGRyaXZlciBpcyBpbXBsZW1lbnRlZCBhcyBhIFY0TDIgbWVtMm1lbSBkcml2
-ZXIsIHdoaWNoCj4gPiA+IG1ha2VzIHN1cHBvcnQgb2YgYWRkaXRpb25hbCBpbnB1dCBjaGFubmVs
-cyBpbXBvc3NpYmxlLiAgCj4gPiAKPiA+IFRoYW5rcyBmb3IgYnJpbmdpbmcgdGhpcyB1cCwgaXQg
-aXMgYSB0b3BpYyBJIGhhdmUgd29uZGVyZWQgdG9vOgo+ID4gSW50ZXJhY3Rpb24gYmV0d2VlbiBQ
-WFAgYW5kIG14c2ZiLgo+ID4gCj4gPiBJIGFtIG5vdCB2ZXJ5IGZhbWlsaWFyIHdpdGggdGhlIFY0
-TDIgc3Vic3lzdGVtIHNvIHRha2UgbXkgb3BpbmlvbnMgd2l0aAo+ID4gYSBncmFpbiBvZiBzYWx0
-Lgo+ID4gCj4gPiA+IEhlcmUgYXJlIHRoZSBvcHRpb25zIEkgY2FuIGVudmlzaW9uOgo+ID4gPiAK
-PiA+ID4gLSBFeHRlbmQgdGhlIGV4aXN0aW5nIFBYUCBkcml2ZXIgdG8gc3VwcG9ydCBtdWx0aXBs
-ZSBjaGFubmVscy4gVGhpcyBpcwo+ID4gPiAgIHRlY2huaWNhbGx5IGZlYXNpYmxlLCBidXQgd2ls
-bCByZXF1aXJlIG1vdmluZyBhd2F5IGZyb20gdGhlIFY0TDIKPiA+ID4gICBtZW0ybWVtIGZyYW1l
-d29yaywgd2hpY2ggd291bGQgYnJlYWsgdXNlcnNwYWNlLiBJIGRvbid0IHRoaW5rIHRoaXMKPiA+
-ID4gICBwYXRoIGNvdWxkIGxlYWQgYW55d2hlcmUuCj4gPiA+IAo+ID4gPiAtIFdyaXRlIGEgbmV3
-IFBYUCBkcml2ZXIgZm9yIHRoZSBpLk1YNywgc3RpbGwgdXNpbmcgVjRMMiwgYnV0IHdpdGgKPiA+
-ID4gICBtdWx0aXBsZSB2aWRlbyBub2Rlcy4gVGhpcyB3b3VsZCBhbGxvdyBibGVuZGluZyBtdWx0
-aXBsZSBsYXllcnMsIGJ1dAo+ID4gPiAgIHdvdWxkIHJlcXVpcmUgd3JpdGluZyB0aGUgb3V0cHV0
-IHRvIG1lbW9yeSwgd2hpbGUgdGhlIFBYUCBoYXMgc3VwcG9ydAo+ID4gPiAgIGZvciBkaXJlY3Qg
-Y29ubmVjdGlvbnMgdG8gdGhlIExDRElGICh0aHJvdWdoIHNtYWxsIFNSQU0gYnVmZmVycykuCj4g
-PiA+ICAgUGVyZm9ybWFuY2VzIHdvdWxkIHRodXMgYmUgc3Vib3B0aW1hbC4gVGhlIEFQSSB3b3Vs
-ZCBhbHNvIGJlIGF3a3dhcmQsCj4gPiA+ICAgYXMgdXNpbmcgdGhlIFBYUCBmb3IgZGlzcGxheSB3
-b3VsZCByZXF1aXJlIHVzYWdlIG9mIFY0TDIgaW4KPiA+ID4gICBhcHBsaWNhdGlvbnMuICAKPiA+
-IAo+ID4gU28gdGhlIHZpZGVvIG5vZGVzIHdvdWxkIGJlIHNpbmtzPyBJIHdvdWxkIGV4cGVjdCBv
-dmVybGF5cyB0byBiZSB1c2FibGUKPiA+IHRocm91Z2ggS01TLCBJIGd1ZXNzIHRoYXQgd291bGQg
-dGhlbiBub3Qgd29yaywgY29ycmVjdD8KClRoZXJlIHdvdWxkIGJlIHNpbmsgdmlkZW8gbm9kZXMg
-Zm9yIHRoZSBQWFAgaW5wdXRzLCBhbmQgb25lIHNvdXJjZSB2aWRlbwpub2RlIGZvciB0aGUgUFhQ
-IG91dHB1dC4gVGhlIFBYUCBjYW4gYmUgdXNlZCBzdGFuZC1hbG9uZSwgaW4KbWVtb3J5LXRvLW1l
-bW9yeSBtb2RlLCBhbmQgVjRMMiBpcyBhIGdvb2QgZml0IGZvciB0aGF0LgoKPiA+ID4gCj4gPiA+
-IC0gRXh0ZW5kIHRoZSBteHNmYiBkcml2ZXIgd2l0aCBQWFAgc3VwcG9ydCwgYW5kIGV4cG9zZSB0
-aGUgUFhQIGlucHV0cyBhcwo+ID4gPiAgIEtNUyBwbGFuZXMuIFRoZSBQWFAgd291bGQgb25seSBi
-ZSB1c2VkIHdoZW4gYXZhaWxhYmxlLCBhbmQgd291bGQgYmUKPiA+ID4gICB0cmFuc3BhcmVudCB0
-byBhcHBsaWNhdGlvbnMuIFRoaXMgd291bGQgaG93ZXZlciBwcmV2ZW50IHVzaW5nIGl0Cj4gPiA+
-ICAgc2VwYXJhdGVseSBmcm9tIHRoZSBkaXNwbGF5ICh0byBwZXJmb3JtIG11bHRpLXBhc3MgYWxw
-aGEgYmxlbmRpbmcgZm9yCj4gPiA+ICAgaW5zdGFuY2UpLiAgCj4gPiAKPiA+IEtNUyBwbGFuZXMg
-YXJlIHdlbGwgZGVmaW5lZCBhbmQgYXJlIHdlbGwgaW50ZWdyYXRlZCB3aXRoIHRoZSBLTVMgQVBJ
-LCBzbwo+ID4gSSBwcmVmZXIgdGhpcyBvcHRpb24uIEJ1dCBpcyB0aGlzIGNvbXBhdGlibGUgd2l0
-aCB0aGUgY3VycmVudGx5Cj4gPiBzdXBwb3J0ZWQgdmlkZW8gdXNlLWNhc2U/IEUuZy4gY291bGQg
-d2UgbWFrZSBQWFAgYXZhaWxhYmxlIHRocm91Z2ggVjRMMgo+ID4gYW5kIHRocm91Z2ggRFJNL214
-c2ZiPwoKVGhhdCdzIHRoZSBpc3N1ZSwgaXQncyBub3QgZWFzaWx5IGRvYWJsZS4gSSB0aGluayB3
-ZSBjb3VsZCBkbyBzbywgYnV0CmhvdyB0byBlbnN1cmUgbXV0dWFsIGV4Y2x1c2lvbiBiZXR3ZWVu
-IHRoZSB0d28gQVBJcyBuZWVkcyB0byBiZQpyZXNlYXJjaGVkLiBJIGZlYXIgaXQgd2lsbCByZXN1
-bHQgaW4gYW4gYXdrd2FyZCBzb2x1dGlvbiB3aXRoIGZ1enp5CnNlbWFudGljcy4gQSBtb2R1bGUg
-cGFyYW1ldGVyIGNvdWxkIGJlIGFuIG9wdGlvbiwgYnV0IHdvdWxkbid0IGJlIHZlcnkKZmxleGli
-bGUuCgo+ID4gTm90IHN1cmUgd2hhdCB5b3VyIHVzZSBjYXNlIGlzIGV4YWN0bHksIGJ1dCB3aGVu
-IHBsYXlpbmcgYSB2aWRlbyBJCj4gPiB3b25kZXIgd2hlcmUgaXMgdGhlIGhpZ2hlciB2YWx1ZSB1
-c2luZyBQWFA6IENvbG9yIGNvbnZlcnNpb24gYW5kIHNjYWxpbmcKPiA+IG9yIGNvbXBvc2l0aW5n
-Li4uPyBJIHdvdWxkIGV4cGVjdCBoaWdoZXIgdmFsdWUgaW4gdGhlIGZvcm1lciB1c2UgY2FzZS4K
-CkkgdGhpbmsgaXQncyBoaWdobHkgdXNlLWNhc2UtZGVwZW5kZW50LgoKPiBtaW5kLCB3aXRoIFdh
-eWxhbmQgYXJjaGl0ZWN0dXJlLCBjb2xvciBjb252ZXJzaW9uIGFuZCBzY2FsaW5nIGNvdWxkIGJl
-Cj4gYXQgdGhlIHNhbWUgbGV2ZWwvc3RlcCBhcyBjb21wb3NpdGluZywgaW4gdGhlIGRpc3BsYXkg
-c2VydmVyIGluc3RlYWQgb2YKPiBhbiBhcHBsaWNhdGlvbi4gSGVuY2UgaWYgdGhlIFBYUCBjYXBh
-YmlsaXRpZXMgd2VyZSBhZHZlcnRpc2VkIGFzIEtNUwo+IHBsYW5lcywgdGhlcmUgc2hvdWxkIGJl
-IG5vdGhpbmcgdG8gcGF0Y2ggaW4gV2F5bGFuZC1kZXNpZ25lZAo+IGFwcGxpY2F0aW9ucyB0byBt
-YWtlIHVzZSBvZiB0aGVtLCBhc3N1bWluZyB0aGUgYXBwbGljYXRpb25zIGRpZCBub3QKPiBhbHJl
-YWR5IHJlbHkgb24gVjRMMiBNMk0gZGV2aWNlcy4KPiAKPiBXb3VsZCBpdCBub3QgYmUgcG9zc2li
-bGUgdG8gZXhwb3NlIFBYUCB0aHJvdWdoIGJvdGggdUFQSSBpbnRlcmZhY2VzPyBBdAo+IGxlYXN0
-IEtNUyBhdG9taWMncyBURVNUX09OTFkgZmVhdHVyZSB3b3VsZCBtYWtlIGl0IGVhc3kgdG8gc2F5
-ICJubyIgdG8KPiB1c2Vyc3BhY2UgaWYgYW5vdGhlciBiaXQgb2YgdXNlcnNwYWNlIGFscmVhZHkg
-cmVzZXJ2ZWQgdGhlIGRldmljZSB2aWEKPiBlLmcuIFY0TDIuCgpXZSB3b3VsZCBhbHNvIG5lZWQg
-dG8gZmlndXJlIG91dCBob3cgdG8gZG8gaXQgdGhlIG90aGVyIHdheSBhcm91bmQsCnJlcG9ydGlu
-ZyBwcm9wZXJseSB0aHJvdWdoIFY0TDIgdGhhdCB0aGUgZGV2aWNlIGlzIGJ1c3kuIEkgdGhpbmsg
-aXQncwpmZWFzaWJsZSwgYnV0IEkgZG91YnQgaXQgd291bGQgcmVzdWx0IGluIGFueXRoaW5nIHVz
-YWJsZSBmb3IgdXNlcnNwYWNlLgpJZiB0aGUgS01TIGRldmljZSBleHBvc2VzIG11bHRpcGxlIHBs
-YW5lcyB1bmNvbmRpdGlvbmFsbHkgYW5kIGZhaWxzIHRoZQphdG9taWMgY29tbWl0IGlmIHRoZSBQ
-WFAgaXMgdXNlZCB0aHJvdWdoIFY0TDIsIEkgdGhpbmsgaXQgd291bGQgYmUgaGFyZApmb3IgV2F5
-bGFuZCB0byB1c2UgdGhpcyBjb25zaXN0ZW50bHkuIEdpdmVuIHRoYXQgSSBleHBlY3QgdGhlIFBY
-UCB0byBiZQptb3N0bHkgdXNlZCBmb3IgZGlzcGxheSBwdXJwb3NlIEknbSB0ZW1wdGVkIHRvIGFs
-bG9jYXRlIGl0IGZvciBkaXNwbGF5CnVuY29uZGl0aW9uYWxseSwgb3IsIHBvc3NpYmx5LCBkZWNp
-ZGUgaG93IHRvIGV4cG9zZSBpdCB0aHJvdWdoIGEgbW9kdWxlCnBhcmFtZXRlci4KCldlIGhhdmUg
-YSBzaW1pbGFyIHNpdHVhdGlvbiBvbiBSZW5lc2FzIFItQ2FyIEdlbjMgcGxhdGZvcm1zLCB3aXRo
-IGEKbWVtb3J5LXRvLW1lbW9yeSBjb21wb3NpdG9yIGNhbGxlZCBWU1AuIFNvbWUgVlNQIGluc3Rh
-bmNlcyBhcmUgY29ubmVjdGVkCnRvIHRoZSBkaXNwbGF5IGNvbnRyb2xsZXIsIGFuZCB3ZSBhbGxv
-Y2F0ZSB0aGVtIGZvciBkaXNwbGF5CnVuY29uZGl0aW9uYWxseS4gT3RoZXIgVlNQIGluc3RhbmNl
-cyBhcmUgZXhwb3NlZCBhcyBWNEwyIGRldmljZXMuIFdlCmhhdmVuJ3QgaGVhcmQgb2YgYW55b25l
-IHdobyB3YW50ZWQgdG8gdXNlIHRoZSBkaXNwbGF5IFZTUCBpbnN0YW5jZXMgZm9yCnVucmVsYXRl
-ZCBwdXJwb3Nlcy4gSWYgc3VjaCBhIHVzZSBjYXNlIGFyb3NlLCBleHBvc2luZyB0aG9zZSBpbnN0
-YW5jZXMKdGhyb3VnaCBWNEwyIHdvdWxkIGp1c3QgYmUgYSBtYXR0ZXIgb2YgZmxpcHBpbmcgb25l
-IGJpdCBpbiB0aGUgZHJpdmVyCihhbGwgdGhlIGluZnJhc3RydWN0dXJlIGlzIGluIHBsYWNlKSwg
-d2hpY2ggd2Ugd291bGQgbGlrZWx5IGV4cG9zZSBhcyBhCm1vZHVsZSBwYXJhbWV0ZXIuCgotLSAK
-UmVnYXJkcywKCkxhdXJlbnQgUGluY2hhcnQKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVs
+
+--===============0268082361==
+Content-Type: multipart/alternative; boundary="15728734866.50947AD.2312"
+Content-Transfer-Encoding: 7bit
+
+
+--15728734866.50947AD.2312
+Date: Mon, 4 Nov 2019 13:18:06 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110580
+
+Arek Hiler <arkadiusz.hiler@intel.com> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+         QA Contact|intel-gfx-bugs@lists.freede |
+                   |sktop.org                   |
+          Component|DRM/Intel                   |IGT
+           Assignee|intel-gfx-bugs@lists.freede |dri-devel@lists.freedesktop
+                   |sktop.org                   |.org
+
+--- Comment #61 from Arek Hiler <arkadiusz.hiler@intel.com> ---
+Seems like the only way to get this under control is to make sure that
+chamelium ports are plugged at the beginning of each test using displays.
+
+This will add a lot of execution time:
+1. XMLRPC calls + reprobing connectors
+2. waiting for network to be up after suspend can take multiple seconds
+
+This would only affect [idle runs] as we don't have Chamelium connected to =
+any
+of the shards (so it's a nop there), so it may be worth a shot.
+
+Moving to IGT.
+
+[idle runs]: https://intel-gfx-ci.01.org/#idle-runs
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15728734866.50947AD.2312
+Date: Mon, 4 Nov 2019 13:18:06 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:arkadiusz=
+.hiler&#64;intel.com" title=3D"Arek Hiler &lt;arkadiusz.hiler&#64;intel.com=
+&gt;"> <span class=3D"fn">Arek Hiler</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI][BAT] igt&#64;.* - skip - Chamelium ports not enabled"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110580">bug 11058=
+0</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">QA Contact</td>
+           <td>intel-gfx-bugs&#64;lists.freedesktop.org
+           </td>
+           <td>
+               &nbsp;
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Component</td>
+           <td>DRM/Intel
+           </td>
+           <td>IGT
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Assignee</td>
+           <td>intel-gfx-bugs&#64;lists.freedesktop.org
+           </td>
+           <td>dri-devel&#64;lists.freedesktop.org
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI][BAT] igt&#64;.* - skip - Chamelium ports not enabled"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110580#c61">Comme=
+nt # 61</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI][BAT] igt&#64;.* - skip - Chamelium ports not enabled"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110580">bug 11058=
+0</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+arkadiusz.hiler&#64;intel.com" title=3D"Arek Hiler &lt;arkadiusz.hiler&#64;=
+intel.com&gt;"> <span class=3D"fn">Arek Hiler</span></a>
+</span></b>
+        <pre>Seems like the only way to get this under control is to make s=
+ure that
+chamelium ports are plugged at the beginning of each test using displays.
+
+This will add a lot of execution time:
+1. XMLRPC calls + reprobing connectors
+2. waiting for network to be up after suspend can take multiple seconds
+
+This would only affect [idle runs] as we don't have Chamelium connected to =
+any
+of the shards (so it's a nop there), so it may be worth a shot.
+
+Moving to IGT.
+
+[idle runs]: <a href=3D"https://intel-gfx-ci.01.org/#idle-runs">https://int=
+el-gfx-ci.01.org/#idle-runs</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15728734866.50947AD.2312--
+
+--===============0268082361==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0268082361==--
