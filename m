@@ -1,35 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B559EE1DE
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2019 15:07:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2365EE317
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Nov 2019 16:06:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 205D188E57;
-	Mon,  4 Nov 2019 14:07:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7A796E51B;
+	Mon,  4 Nov 2019 15:06:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 707B26E4B0;
- Mon,  4 Nov 2019 14:07:37 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2019 06:07:34 -0800
-X-IronPort-AV: E=Sophos;i="5.68,267,1569308400"; d="scan'208";a="195462589"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2019 06:07:31 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 1/5] drm/dsi: clean up DSI data type definitions
-In-Reply-To: <20191028150047.22048-1-jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20191028150047.22048-1-jani.nikula@intel.com>
-Date: Mon, 04 Nov 2019 16:07:28 +0200
-Message-ID: <87y2wv7n1b.fsf@intel.com>
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
+ [IPv6:2607:f8b0:4864:20::742])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47E526E51B
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Nov 2019 15:06:13 +0000 (UTC)
+Received: by mail-qk1-x742.google.com with SMTP id 205so16555954qkk.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Nov 2019 07:06:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=0T+pZ8Cy3rQ0P75sV+yYIqy4pMVLEk5JTQlQ3VkapLU=;
+ b=Mh/PHudAXNDa34W4wGejcpMBK3UbRl8lV4VddrlnxZmhN88C7TFz0Aeb3qSyxCwHeC
+ pTs5yqE4ld7trSgIW/T9Gcr9KRtcoVOXagDAMk4WT8qYQJMq7cWwLpLBen7V2y37W95X
+ 8+iJcYZ8lZXtYz6DYP18+3WAmlMx4dkQajEo9AUYFmHYILNwNC7+Mw/UtBG+eqYIQNjY
+ rNzBwlqfuivL/eHrfwYjcnz+hLYX8bE/SYz4mmqKLucX4FyAUsS4bgHUCfl+4D5CopQM
+ vrsRSN5hR71PZGs5d0OE8PRrmJTy/xqd0MJHHCfbdoNAiAFub9VEyQTKQIozruNtufNq
+ J8mQ==
+X-Gm-Message-State: APjAAAUswlukAG20UuHwoJq7giwP2Kd64TQBgSh0FKBdboBtyKGmyLpB
+ T9H706E0snmZ7OxPeDa7ch8=
+X-Google-Smtp-Source: APXvYqyhBU9Y5gT7NZohXC8RIYAaf3geAZ1+pDCWSazuXBimuMpaM+5+LLDygxGV/CURneW+BJVicA==
+X-Received: by 2002:a37:484b:: with SMTP id v72mr18748128qka.251.1572879972224; 
+ Mon, 04 Nov 2019 07:06:12 -0800 (PST)
+Received: from smtp.gmail.com ([165.204.55.250])
+ by smtp.gmail.com with ESMTPSA id x133sm8311216qka.44.2019.11.04.07.06.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Nov 2019 07:06:11 -0800 (PST)
+Date: Mon, 4 Nov 2019 10:06:09 -0500
+From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+To: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
+Subject: Re: [PATCH v2] drm/doc: Adding VKMS module description and use to
+ "Testing and Validation"
+Message-ID: <20191104150607.gmkdksofuzajoz4d@smtp.gmail.com>
+References: <20191101154314.25435-1-gabrielabittencourt00@gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <20191101154314.25435-1-gabrielabittencourt00@gmail.com>
+User-Agent: NeoMutt/20180716
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=0T+pZ8Cy3rQ0P75sV+yYIqy4pMVLEk5JTQlQ3VkapLU=;
+ b=GgLqokPYwHwSp+p+PgfCBmdWH4FrVmPL/dJv/9J/jnnyOJXdimRGbe+hIstYSMW6Bh
+ w6uaVRiKWi1jgf4uFDHDM4enwbMVhn3NtiP32yjBj2aLspHmlgLXh+jDSC7niuECHKw+
+ 7f55KHVGNyNNYJ5jYgYQe38tgFlIToqFt7Zv/UNI/pmbUcBPXk+OaNm/uFfQ31sgRGSP
+ zcqBU4c5PqTEuMz7R/7+jBuwxH8WFVQkvdboiXGcovc5VMC+vdcgtICynFIE4GACGwk7
+ S6d69lZemKUztgFHXhjZXd17n2A9tQ+rfS076l/vWaNtVU9jzAsMBGvv6c0WWa8gXGV+
+ 9okQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -42,75 +68,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Vandita Kulkarni <vandita.kulkarni@intel.com>,
- Sean Paul <seanpaul@chromium.org>, Vinay Simha BN <simhavcs@gmail.com>,
- Thierry Reding <treding@nvidia.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: corbet@lwn.net, airlied@linux.ie, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, manasi.d.navare@intel.com,
+ outreachy-kernel@googlegroups.com, lkcamp@lists.libreplanetbr.org,
+ dri-devel@lists.freedesktop.org, sean@poorly.run
+Content-Type: multipart/mixed; boundary="===============1627560603=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhpIGFsbCwgSSdkIHJlYWxseSBhcHByZWNpYXRlIHNvbWUgKG5vbi1JbnRlbCkgYWNrcyBvciBy
-ZXZpZXdzIG9uIHRoaXMKc2VyaWVzLiBEb24ndCBmZWVsIGNvbWZvcnRhYmxlIG1lcmdpbmcgaXQg
-b3RoZXJ3aXNlLiBJdCBzaG91bGQgYmUgZmFpcmx5CnN0cmFpZ2h0Zm9yd2FyZCBzdHVmZiBhcyBs
-b25nIGFzIHlvdSBoYXZlIHNvbWUgRFNJIHNwZWNzIGhhbmR5LgoKQlIsCkphbmkuCgoKT24gTW9u
-LCAyOCBPY3QgMjAxOSwgSmFuaSBOaWt1bGEgPGphbmkubmlrdWxhQGludGVsLmNvbT4gd3JvdGU6
-Cj4gUmVuYW1lIHBpY3R1cmUgcGFyYW1ldGVyIHNldCAoaXQncyBhIGxvbmcgcGFja2V0LCBub3Qg
-YSBsb25nIHdyaXRlKSBhbmQKPiBjb21wcmVzc2lvbiBtb2RlIChpdCdzIG5vdCBhIERDUyBjb21t
-YW5kKSBlbnVtZXJhdGlvbnMgYWNjb3JkaW5nIHRvIHRoZQo+IERTSSBzcGVjaWZpY2F0aW9uLiBP
-cmRlciB0aGUgdHlwZXMgYWNjb3JkaW5nIHRvIHRoZSBzcGVjLiBVc2UgdGFicwo+IGluc3RlYWQg
-b2Ygc3BhY2VzIGZvciBpbmRlbnRhdGlvbi4gVXNlIGFsbCBsb3dlciBjYXNlIGZvciBoZXguCj4K
-PiBDYzogVmFuZGl0YSBLdWxrYXJuaSA8dmFuZGl0YS5rdWxrYXJuaUBpbnRlbC5jb20+Cj4gUmV2
-aWV3ZWQtYnk6IFZhbmRpdGEgS3Vsa2FybmkgPHZhbmRpdGEua3Vsa2FybmlAaW50ZWwuY29tPgo+
-IFNpZ25lZC1vZmYtYnk6IEphbmkgTmlrdWxhIDxqYW5pLm5pa3VsYUBpbnRlbC5jb20+Cj4gLS0t
-Cj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fbWlwaV9kc2kuYyB8ICA0ICsrLS0KPiAgaW5jbHVkZS92
-aWRlby9taXBpX2Rpc3BsYXkuaCAgIHwgMTAgKysrKystLS0tLQo+ICAyIGZpbGVzIGNoYW5nZWQs
-IDcgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vZHJtX21pcGlfZHNpLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX21pcGlfZHNpLmMK
-PiBpbmRleCBiZDI0OThiYmQ3NGEuLmYyMzdkODA4MjhjMyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vZHJtX21pcGlfZHNpLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX21pcGlf
-ZHNpLmMKPiBAQCAtMzczLDYgKzM3Myw3IEBAIGJvb2wgbWlwaV9kc2lfcGFja2V0X2Zvcm1hdF9p
-c19zaG9ydCh1OCB0eXBlKQo+ICAJY2FzZSBNSVBJX0RTSV9WX1NZTkNfRU5EOgo+ICAJY2FzZSBN
-SVBJX0RTSV9IX1NZTkNfU1RBUlQ6Cj4gIAljYXNlIE1JUElfRFNJX0hfU1lOQ19FTkQ6Cj4gKwlj
-YXNlIE1JUElfRFNJX0NPTVBSRVNTSU9OX01PREU6Cj4gIAljYXNlIE1JUElfRFNJX0VORF9PRl9U
-UkFOU01JU1NJT046Cj4gIAljYXNlIE1JUElfRFNJX0NPTE9SX01PREVfT0ZGOgo+ICAJY2FzZSBN
-SVBJX0RTSV9DT0xPUl9NT0RFX09OOgo+IEBAIC0zODcsNyArMzg4LDYgQEAgYm9vbCBtaXBpX2Rz
-aV9wYWNrZXRfZm9ybWF0X2lzX3Nob3J0KHU4IHR5cGUpCj4gIAljYXNlIE1JUElfRFNJX0RDU19T
-SE9SVF9XUklURToKPiAgCWNhc2UgTUlQSV9EU0lfRENTX1NIT1JUX1dSSVRFX1BBUkFNOgo+ICAJ
-Y2FzZSBNSVBJX0RTSV9EQ1NfUkVBRDoKPiAtCWNhc2UgTUlQSV9EU0lfRENTX0NPTVBSRVNTSU9O
-X01PREU6Cj4gIAljYXNlIE1JUElfRFNJX1NFVF9NQVhJTVVNX1JFVFVSTl9QQUNLRVRfU0laRToK
-PiAgCQlyZXR1cm4gdHJ1ZTsKPiAgCX0KPiBAQCAtNDA2LDExICs0MDYsMTEgQEAgRVhQT1JUX1NZ
-TUJPTChtaXBpX2RzaV9wYWNrZXRfZm9ybWF0X2lzX3Nob3J0KTsKPiAgYm9vbCBtaXBpX2RzaV9w
-YWNrZXRfZm9ybWF0X2lzX2xvbmcodTggdHlwZSkKPiAgewo+ICAJc3dpdGNoICh0eXBlKSB7Cj4g
-LQljYXNlIE1JUElfRFNJX1BQU19MT05HX1dSSVRFOgo+ICAJY2FzZSBNSVBJX0RTSV9OVUxMX1BB
-Q0tFVDoKPiAgCWNhc2UgTUlQSV9EU0lfQkxBTktJTkdfUEFDS0VUOgo+ICAJY2FzZSBNSVBJX0RT
-SV9HRU5FUklDX0xPTkdfV1JJVEU6Cj4gIAljYXNlIE1JUElfRFNJX0RDU19MT05HX1dSSVRFOgo+
-ICsJY2FzZSBNSVBJX0RTSV9QSUNUVVJFX1BBUkFNRVRFUl9TRVQ6Cj4gIAljYXNlIE1JUElfRFNJ
-X0xPT1NFTFlfUEFDS0VEX1BJWEVMX1NUUkVBTV9ZQ0JDUjIwOgo+ICAJY2FzZSBNSVBJX0RTSV9Q
-QUNLRURfUElYRUxfU1RSRUFNX1lDQkNSMjQ6Cj4gIAljYXNlIE1JUElfRFNJX1BBQ0tFRF9QSVhF
-TF9TVFJFQU1fWUNCQ1IxNjoKPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS92aWRlby9taXBpX2Rpc3Bs
-YXkuaCBiL2luY2x1ZGUvdmlkZW8vbWlwaV9kaXNwbGF5LmgKPiBpbmRleCBjYmE1N2E2NzhkYWYu
-Ljc5ZmQ3MWNmNDkzNCAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL3ZpZGVvL21pcGlfZGlzcGxheS5o
-Cj4gKysrIGIvaW5jbHVkZS92aWRlby9taXBpX2Rpc3BsYXkuaAo+IEBAIC0xNyw2ICsxNyw5IEBA
-IGVudW0gewo+ICAJTUlQSV9EU0lfSF9TWU5DX1NUQVJUCQkJCT0gMHgyMSwKPiAgCU1JUElfRFNJ
-X0hfU1lOQ19FTkQJCQkJPSAweDMxLAo+ICAKPiArCU1JUElfRFNJX0NPTVBSRVNTSU9OX01PREUJ
-CQk9IDB4MDcsCj4gKwlNSVBJX0RTSV9FTkRfT0ZfVFJBTlNNSVNTSU9OCQkJPSAweDA4LAo+ICsK
-PiAgCU1JUElfRFNJX0NPTE9SX01PREVfT0ZGCQkJCT0gMHgwMiwKPiAgCU1JUElfRFNJX0NPTE9S
-X01PREVfT04JCQkJPSAweDEyLAo+ICAJTUlQSV9EU0lfU0hVVERPV05fUEVSSVBIRVJBTAkJCT0g
-MHgyMiwKPiBAQCAtMzUsMTggKzM4LDE1IEBAIGVudW0gewo+ICAKPiAgCU1JUElfRFNJX0RDU19S
-RUFECQkJCT0gMHgwNiwKPiAgCj4gLQlNSVBJX0RTSV9EQ1NfQ09NUFJFU1NJT05fTU9ERSAgICAg
-ICAgICAgICAgICAgICA9IDB4MDcsCj4gLQlNSVBJX0RTSV9QUFNfTE9OR19XUklURSAgICAgICAg
-ICAgICAgICAgICAgICAgICA9IDB4MEEsCj4gLQo+ICAJTUlQSV9EU0lfU0VUX01BWElNVU1fUkVU
-VVJOX1BBQ0tFVF9TSVpFCQk9IDB4MzcsCj4gIAo+IC0JTUlQSV9EU0lfRU5EX09GX1RSQU5TTUlT
-U0lPTgkJCT0gMHgwOCwKPiAtCj4gIAlNSVBJX0RTSV9OVUxMX1BBQ0tFVAkJCQk9IDB4MDksCj4g
-IAlNSVBJX0RTSV9CTEFOS0lOR19QQUNLRVQJCQk9IDB4MTksCj4gIAlNSVBJX0RTSV9HRU5FUklD
-X0xPTkdfV1JJVEUJCQk9IDB4MjksCj4gIAlNSVBJX0RTSV9EQ1NfTE9OR19XUklURQkJCQk9IDB4
-MzksCj4gIAo+ICsJTUlQSV9EU0lfUElDVFVSRV9QQVJBTUVURVJfU0VUCQkJPSAweDBhLAo+ICsK
-PiAgCU1JUElfRFNJX0xPT1NFTFlfUEFDS0VEX1BJWEVMX1NUUkVBTV9ZQ0JDUjIwCT0gMHgwYywK
-PiAgCU1JUElfRFNJX1BBQ0tFRF9QSVhFTF9TVFJFQU1fWUNCQ1IyNAkJPSAweDFjLAo+ICAJTUlQ
-SV9EU0lfUEFDS0VEX1BJWEVMX1NUUkVBTV9ZQ0JDUjE2CQk9IDB4MmMsCgotLSAKSmFuaSBOaWt1
-bGEsIEludGVsIE9wZW4gU291cmNlIEdyYXBoaWNzIENlbnRlcgpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1627560603==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="35pfgy7zittkqnjt"
+Content-Disposition: inline
+
+
+--35pfgy7zittkqnjt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Gabriela,
+
+Thank you very much for working on improving our documentation.
+
+For me the patch looks good, I just have some nitpick.
+
+First, it is recommended to use an imperative mood in the subject line.
+Try something like this:
+
+ Add VKMS module description under "Testing and Validation" section
+
+On 11/01, Gabriela Bittencourt wrote:
+> Add a description on VKMS module and the cases in which it should be used.
+> There's a brief explanation on how to set it and use it in a VM, along wi=
+th
+> an example of running an igt-test.
+>=20
+> Signed-off-by: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
+>=20
+> ---
+>=20
+> Changes in v2:
+> - Avoid repetition of words in the same sentence;
+> - Make the explanation on 'setting the kernel' shorter, eliminate the
+> 'make menuconfig' command;
+> - Add tab on enumeration to have one line per item;
+> - Clarify from each machine igt-tests commands should be ran on.
+>=20
+> Tested the patch using 'make htmldocs' to make sure the output .html is
+> correct.
+>=20
+> Hi DRM-community,
+> this is my first (of many, I hope)  patch in this subsystem. I hope to ha=
+ve
+> a lot of learning (and fun :)) working with you guys.
+> I'm starting by documenting the VKMS driver in "Userland interfaces", if I
+> have been inaccurate in my description or if I misunderstood some concept,
+> please let me know.
+> ---
+>  Documentation/gpu/drm-uapi.rst | 36 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 36 insertions(+)
+>=20
+> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.=
+rst
+> index 94f90521f58c..1586cbba05d0 100644
+> --- a/Documentation/gpu/drm-uapi.rst
+> +++ b/Documentation/gpu/drm-uapi.rst
+> @@ -285,6 +285,42 @@ run-tests.sh is a wrapper around piglit that will ex=
+ecute the tests matching
+>  the -t options. A report in HTML format will be available in
+>  ./results/html/index.html. Results can be compared with piglit.
+> =20
+> +Using VKMS to test DRM API
+> +--------------------------
+> +
+> +VKMS is a software-only model of a KMS driver that is useful for testing
+> +and for running compositors. VKMS aims to enable a virtual display witho=
+ut
+> +the need for a hardware display capability. These characteristics made V=
+KMS
+> +a perfect tool for validating the DRM core behavior and also support the
+> +compositor developer. VKMS makes it possible to test DRM functions in a
+> +virtual machine without display, simplifing the validation of some of the
+
+/simplifing/simplifying/
+
+> +core changes.
+> +
+> +To Validate changes in DRM API with VKMS, start setting the kernel: make
+> +sure to enable VKMS module; compile the kernel with the VKMS enabled and
+> +install it in the target machine. VKMS can be run in a Virtual Machine
+> +(QEMU, virtme or similar). It's recommended the use of KVM with the mini=
+mum
+> +of 1GB of RAM and four cores.
+> +
+> +It's possible to run the IGT-tests in a VM in two ways:
+
+Break line or add "::" at the end of the phrase, otherwise the above
+line will be bold.
+
+> +	1. Use IGT inside a VM
+> +	2. Use IGT from the host machine and write the results in a shared dire=
+ctory.
+> +
+> +As follow, there is an example of using a VM with a shared directory with
+> +the host machine to run igt-tests. As example it's used virtme::
+> +
+
+/As example/As an example,/
+
+Best Regards
+
+> +	$ virtme-run --rwdir /path/for/shared_dir --kdir=3Dpath/for/kernel/dire=
+ctory --mods=3Dauto
+> +
+> +Run the igt-tests in the guest machine, as example it's ran the 'kms_fli=
+p'
+> +tests::
+> +
+> +	$ /path/for/igt-gpu-tools/scripts/run-tests.sh -p -s -t "kms_flip.*" -v
+> +
+> +In this example, instead of build the igt_runner, Piglit is used
+> +(-p option); it's created html summary of the tests results and it's sav=
+ed
+> +in the folder "igt-gpu-tools/results"; it's executed only the igt-tests
+> +matching the -t option.
+> +
+>  Display CRC Support
+>  -------------------
+> =20
+> --=20
+> 2.20.1
+>=20
+
+--=20
+Rodrigo Siqueira
+Software Engineer, Advanced Micro Devices (AMD)
+https://siqueira.tech
+
+--35pfgy7zittkqnjt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIyBAEBCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl3APl8ACgkQWJzP/com
+vP8Zhg/4p3v0VFWH55Z5qQ6Zd+bbz9L4pmjlqe6qe9Td2VAhII1uAUdgZ8fYWfie
+csclAyx3nBZjMoWFHVlOe/L6WLll7kFJ481gWleNMQlxzXPFB9UMA2d+ag4lnPXf
+tFalyxgRtlon52gZbhfYlMYXcOgFCuM7dwgLvFy4jizNbWo8Df+j6AL/LwKMZj+K
+Emi9opYY+J6zGfGtR0l32I7Pn5wFyD24VYUOwAuiINj8ofMs6i84oMmVDrO3MfjJ
+7W7N0F7795a6OVSUFp+EzH9mSj4pg7v9U8DNhKg9jGBlttphsvRjNUtGUpr0+xMU
+bp33i4tE6tGEqaP/lTCPYNhR49Q3I9cyuEShj43UeQFx0Ux3zNNagU6xek0Pfm2U
+96NsAa8SYtumTv2qgx+oUB2fyFvlX7YTqbLAcVsa9Kh6F1e7uvsmfQECGvX+au0j
+DAmapthA0+z2UBn1+Dg0LKHHOPCiM4d95j5QWHxzXZ5v9I3fxmHH6qAHKl3srQZ6
+OGVtlbcpRX0vsNFmAZCvfRXgiQOgFOCNKDNwVGba+6ej9eei/vUEj/eDP65jREO3
+ifFK5Bz66dgWNoKtYANEHdEJffH9nazWvGtMTE3+DydWVUt+3/np3s79GjQ0QEit
+ZSxIF4LVH0sTfmRj/2wgfj6v4tloBbIVLaZ2/8XQKmWbBh5gbQ==
+=qUfx
+-----END PGP SIGNATURE-----
+
+--35pfgy7zittkqnjt--
+
+--===============1627560603==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1627560603==--
