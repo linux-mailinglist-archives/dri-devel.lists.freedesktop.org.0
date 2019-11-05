@@ -2,39 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F38A0EF6BE
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 09:00:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4C82EF6DC
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 09:07:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72B506E922;
-	Tue,  5 Nov 2019 08:00:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 109EA6E918;
+	Tue,  5 Nov 2019 08:07:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 533F46E91A
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2019 08:00:11 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 476hsg2ghJz9sNT;
- Tue,  5 Nov 2019 19:00:07 +1100 (AEDT)
-Date: Tue, 5 Nov 2019 19:00:04 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Jason Gunthorpe <jgg@mellanox.com>, Dave Airlie <airlied@linux.ie>, DRI
- <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the hmm tree with the drm tree
-Message-ID: <20191105190004.325da6dd@canb.auug.org.au>
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A48E6E918
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2019 08:07:46 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id q13so20154699wrs.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Nov 2019 00:07:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+ :organization:message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=KWQ99QS+X8BEqCKWT2trqsJqAabsKqFZy5Xi2IzmRCc=;
+ b=FJ0zRJO1eWrxWbuoSev/TM744awlsXF9vyVAYcvgkCM0vUe3aHe2k9WgfNpyNaIVKP
+ irLPsFICHtJlb88hNvlS/okomAiB/ZDd5oLBgTAWIEXVzXILDGdlzqezgvSX985AGEor
+ 4HifWdL5lO6bZ0hprYcRdv07nd4Bcnci6/Yn8gmBzk9YJ8QiJ0VsUG5P4XUarjKoy23V
+ CX1u/xIFZvZWzpNPgnDzRjhIJ0g2oRtuGzkeALzPVfHze6pF5HOCIsy+DPcMYCK9af6u
+ bEs30bCeSpr3jCuKa4O6HVFK0hc1iAN6orS6I/acrvAGJwS2/gqqyVUWSLb3zlCXUuOl
+ xpiw==
+X-Gm-Message-State: APjAAAWDb2YyWriWGBUJw7L1ZRu7A5JH0z4mE6/ULzWTT9prlZNDJylX
+ z8jz99Mk9484VdZuN/3cOyHwCg==
+X-Google-Smtp-Source: APXvYqydM7ca/l5TyvqJYFelXiiF3oFftNScjLKlhYi1nMf07E61Uej57QSebHBU17PrUd1U9yASCg==
+X-Received: by 2002:adf:e78c:: with SMTP id n12mr11423747wrm.94.1572941264686; 
+ Tue, 05 Nov 2019 00:07:44 -0800 (PST)
+Received: from [10.1.2.12] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr.
+ [90.63.244.31])
+ by smtp.gmail.com with ESMTPSA id 62sm23734256wre.38.2019.11.05.00.07.43
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 05 Nov 2019 00:07:44 -0800 (PST)
+Subject: Re: Incorrect buffer handling in dw-hdmi bridge audio
+To: Takashi Iwai <tiwai@suse.de>, Andrzej Hajda <a.hajda@samsung.com>
+References: <s5heeymbvva.wl-tiwai@suse.de>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ mQENBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAG0KE5laWwgQXJtc3Ryb25nIDxuYXJtc3Ryb25nQGJheWxpYnJlLmNvbT6JATsEEwEKACUC
+ GyMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheABQJXDO2CAhkBAAoJEBaat7Gkz/iubGIH/iyk
+ RqvgB62oKOFlgOTYCMkYpm2aAOZZLf6VKHKc7DoVwuUkjHfIRXdslbrxi4pk5VKU6ZP9AKsN
+ NtMZntB8WrBTtkAZfZbTF7850uwd3eU5cN/7N1Q6g0JQihE7w4GlIkEpQ8vwSg5W7hkx3yQ6
+ 2YzrUZh/b7QThXbNZ7xOeSEms014QXazx8+txR7jrGF3dYxBsCkotO/8DNtZ1R+aUvRfpKg5
+ ZgABTC0LmAQnuUUf2PHcKFAHZo5KrdO+tyfL+LgTUXIXkK+tenkLsAJ0cagz1EZ5gntuheLD
+ YJuzS4zN+1Asmb9kVKxhjSQOcIh6g2tw7vaYJgL/OzJtZi6JlIW5AQ0ETVkGzwEIALyKDN/O
+ GURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYpQTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXM
+ coJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hi
+ SvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY4yG6xI99NIPEVE9lNBXBKIlewIyVlkOa
+ YvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoMMtsyw18YoX9BqMFInxqYQQ3j/HpVgTSv
+ mo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUXoUk33HEAEQEAAYkBHwQYAQIACQUCTVkG
+ zwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfnM7IbRuiSZS1unlySUVYu3SD6YBYnNi3G
+ 5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa33eDIHu/zr1HMKErm+2SD6PO9umRef8V8
+ 2o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCSKmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+
+ RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJ
+ C3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTTQbM0WUIBIcGmq38+OgUsMYu4NzLu7uZF
+ Acmp6h8guQINBFYnf6QBEADQ+wBYa+X2n/xIQz/RUoGHf84Jm+yTqRT43t7sO48/cBW9vAn9
+ GNwnJ3HRJWKATW0ZXrCr40ES/JqM1fUTfiFDB3VMdWpEfwOAT1zXS+0rX8yljgsWR1UvqyEP
+ 3xN0M/40Zk+rdmZKaZS8VQaXbveaiWMEmY7sBV3QvgOzB7UF2It1HwoCon5Y+PvyE3CguhBd
+ 9iq5iEampkMIkbA3FFCpQFI5Ai3BywkLzbA3ZtnMXR8Qt9gFZtyXvFQrB+/6hDzEPnBGZOOx
+ zkd/iIX59SxBuS38LMlhPPycbFNmtauOC0DNpXCv9ACgC9tFw3exER/xQgSpDVc4vrL2Cacr
+ wmQp1k9E0W+9pk/l8S1jcHx03hgCxPtQLOIyEu9iIJb27TjcXNjiInd7Uea195NldIrndD+x
+ 58/yU3X70qVY+eWbqzpdlwF1KRm6uV0ZOQhEhbi0FfKKgsYFgBIBchGqSOBsCbL35f9hK/JC
+ 6LnGDtSHeJs+jd9/qJj4WqF3x8i0sncQ/gszSajdhnWrxraG3b7/9ldMLpKo/OoihfLaCxtv
+ xYmtw8TGhlMaiOxjDrohmY1z7f3rf6njskoIXUO0nabun1nPAiV1dpjleg60s3OmVQeEpr3a
+ K7gR1ljkemJzM9NUoRROPaT7nMlNYQL+IwuthJd6XQqwzp1jRTGG26J97wARAQABiQM+BBgB
+ AgAJBQJWJ3+kAhsCAikJEBaat7Gkz/iuwV0gBBkBAgAGBQJWJ3+kAAoJEHfc29rIyEnRk6MQ
+ AJDo0nxsadLpYB26FALZsWlN74rnFXth5dQVQ7SkipmyFWZhFL8fQ9OiIoxWhM6rSg9+C1w+
+ n45eByMg2b8H3mmQmyWztdI95OxSREKwbaXVapCcZnv52JRjlc3DoiiHqTZML5x1Z7lQ1T3F
+ 8o9sKrbFO1WQw1+Nc91+MU0MGN0jtfZ0Tvn/ouEZrSXCE4K3oDGtj3AdC764yZVq6CPigCgs
+ 6Ex80k6QlzCdVP3RKsnPO2xQXXPgyJPJlpD8bHHHW7OLfoR9DaBNympfcbQJeekQrTvyoASw
+ EOTPKE6CVWrcQIztUp0WFTdRGgMK0cZB3Xfe6sOp24PQTHAKGtjTHNP/THomkH24Fum9K3iM
+ /4Wh4V2eqGEgpdeSp5K+LdaNyNgaqzMOtt4HYk86LYLSHfFXywdlbGrY9+TqiJ+ZVW4trmui
+ NIJCOku8SYansq34QzYM0x3UFRwff+45zNBEVzctSnremg1mVgrzOfXU8rt+4N1b2MxorPF8
+ 619aCwVP7U16qNSBaqiAJr4e5SNEnoAq18+1Gp8QsFG0ARY8xp+qaKBByWES7lRi3QbqAKZf
+ yOHS6gmYo9gBmuAhc65/VtHMJtxwjpUeN4Bcs9HUpDMDVHdfeRa73wM+wY5potfQ5zkSp0Jp
+ bxnv/cRBH6+c43stTffprd//4Hgz+nJcCgZKtCYIAPkUxABC85ID2CidzbraErVACmRoizhT
+ KR2OiqSLW2x4xdmSiFNcIWkWJB6Qdri0Fzs2dHe8etD1HYaht1ZhZ810s7QOL7JwypO8dscN
+ KTEkyoTGn6cWj0CX+PeP4xp8AR8ot4d0BhtUY34UPzjE1/xyrQFAdnLd0PP4wXxdIUuRs0+n
+ WLY9Aou/vC1LAdlaGsoTVzJ2gX4fkKQIWhX0WVk41BSFeDKQ3RQ2pnuzwedLO94Bf6X0G48O
+ VsbXrP9BZ6snXyHfebPnno/te5XRqZTL9aJOytB/1iUna+1MAwBxGFPvqeEUUyT+gx1l3Acl
+ ZaTUOEkgIor5losDrePdPgE=
+Organization: Baylibre
+Message-ID: <6ad19121-c0e3-d278-2943-ff93ef80353b@baylibre.com>
+Date: Tue, 5 Nov 2019 09:07:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=canb.auug.org.au; s=201702; t=1572940809;
- bh=1+1tOa8Z+fF6E/+rJ1OEH3MVH5YElQTwrOuIE5/KjGw=;
- h=Date:From:To:Cc:Subject:From;
- b=SN0ZWKtrxovtQb1ZBrDmYwzFgRrVG6HkuUb6/CyJXfrE2FhSSb5VOfcJm01cvAhYS
- X7TaDV9LpSyNSTqXcP56mSCLXGvA590akI1aTwc2FEIPtU3fj1kkuIJcSGQ6VH43De
- JDXVQRJXRy1uuLaE4G1NWaotmawZ3fjOcPdNdZWf3XktSNY1N3A26scGxNgRjF/6tP
- w6IZhjzgPJDmiDH9IfI/Z+32Il95UfAGWrxN3GaA8WW6rNLD9+q2sj1T9hRTS/ldKG
- LSs4HcSdP4PTPDDHTvoRhh8MFxhWJkFxof8DD3P+mg+cqMiB3q6MiPJfZ7YCLXVGPE
- 3Tka7AyHdbVlA==
+In-Reply-To: <s5heeymbvva.wl-tiwai@suse.de>
+Content-Language: en-US
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:openpgp:autocrypt:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=KWQ99QS+X8BEqCKWT2trqsJqAabsKqFZy5Xi2IzmRCc=;
+ b=K/lv/GMoSZg27cmqRmKAgjoO7z0tRFwpQRWi94QHaovqwvw9nEX3aqD/dRSXuirH1V
+ iqdOahCCKBVtbLpk+ach1niunvSrmmI/Ideea21Xp3nPGefXd3gPjBlk7fUdjH6zzr6S
+ QZlhmUMZMSVRYGUsQ1Qb0DInYZmTKtbQv09vP0ZGvEGyWDTbkEO+ppqVgDxJk0EexFBW
+ 8D/Whz+O7VvWG8rrYUWImK+gGap+yyUDfZFxhM7vY3fGZAA5hGCrqYx+vP7sUabm7aLh
+ dKTusxMJp7S4iGuqw6nCWAAnudik9p+35pOb5lFItcdB2Zb4MyoIdpwKyXkKe1cye/wB
+ Lcug==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,76 +123,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============0752941632=="
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
+ Russell King <rmk+kernel@armlinux.org.uk>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0752941632==
-Content-Type: multipart/signed; boundary="Sig_//d.vAgZGcJLHrx3QMhBEqo1";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-
---Sig_//d.vAgZGcJLHrx3QMhBEqo1
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi all,
-
-Today's linux-next merge of the hmm tree got a conflict in:
-
-  drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-
-between commit:
-
-  4d8e54d2b9d3 ("drm/amdgpu/mn: fix documentation for amdgpu_mn_read_lock")
-
-from the drm tree and commit:
-
-  cb0d3d608a1a ("drm/amdgpu: Use mmu_range_insert instead of hmm_mirror")
-
-from the hmm tree.
-
-I fixed it up (I just used the latter version) and can carry the fix as
-necessary. This is now fixed as far as linux-next is concerned, but any
-non trivial conflicts should be mentioned to your upstream maintainer
-when your tree is submitted for merging.  You may also want to consider
-cooperating with the maintainer of the conflicting tree to minimise any
-particularly complex conflicts.
-
-
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_//d.vAgZGcJLHrx3QMhBEqo1
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl3BLAQACgkQAVBC80lX
-0Gx+Hwf9Ho7HnuYW4EzPx83acbUIunPzZn171YQEvf+Vt/6qGx+HyyfLFjQRfS9c
-idSQL9Lsi7Cs80/qpmrtVrHSN+BfJhMxuOw1Tm9z5XeO/cKf3Anl8jIVF74DMhzp
-U9TRzrNj2LE4fllTZw+9TVyTytlUUzW8MBxKjBMoHE+mFuFz4gXwKV7wB2VDV+hB
-x34gLaOGC7CpTCuFBvhgaVJzdTTFx598XZ5sLdkV7EofW5QPEaGu37owrOrqwJ1f
-yWlgPm9dqWeJ1betxvB4zvrvw+AkONNTkY0uAUVbo4WmWssQFStXxGjyBEQS/Lp7
-/QL30AkYdNidnaLYtLgSQQxdfA8q3g==
-=CgAf
------END PGP SIGNATURE-----
-
---Sig_//d.vAgZGcJLHrx3QMhBEqo1--
-
---===============0752941632==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0752941632==--
+SGksCgpPbiAwNS8xMS8yMDE5IDA4OjU1LCBUYWthc2hpIEl3YWkgd3JvdGU6Cj4gSGksCj4gCj4g
+d2hpbGUgcmVjZW50bHkgd29ya2luZyBvbiB0aGUgQUxTQSBtZW1vcnkgYWxsb2NhdG9yIEFQSSBj
+bGVhbnVwLCBJCj4gbm90aWNlZCB0aGF0IGR3LWhkbWkgYnJpZGdlIGRyaXZlciBzZWVtcyBkb2lu
+ZyB3ZWlyZCBhYm91dCB0aGUgYnVmZmVyCj4gbWFuYWdlbWVudC4gIEl0IHByZS1hbGxvY2F0ZXMg
+dGhlIHVzdWFsIGRldmljZSBidWZmZXJzIGZ1bGx5IGF0IHRoZQo+IHByb2JlIHRpbWUsIHdoaWxl
+IGVhY2ggc3RyZWFtIGFsbG9jYXRlcyB0aGUgYnVmZmVyIHZpYSB0aGUgdm1hbGxvYwo+IGhlbHBl
+cnMgYW5kIHJlcGxhY2VzIHdpdGggaXQgYXQgZWFjaCBvcGVuLgo+IAo+IEkgZ3Vlc3MgaXQncyBu
+byBleHBlY3RlZCBiZWhhdmlvcj8gIEl0J3MgYmFzaWNhbGx5IGEgZnVsbCB3YXN0ZSBvZgo+IHJl
+c291cmNlcywgYW5kIHRoZSB2bWFsbG9jIGJ1ZmZlciBpc24ndCBndWFyYW50ZWVkIHRvIHdvcmsg
+d2VsbCBmb3IKPiBtbWFwIG9uIGV2ZXJ5IGFyY2hpdGVjdHVyZS4KPiAKPiBCZWxvdyBpcyB0aGUg
+cGF0Y2ggdG8gYWRkcmVzcyBpdC4gIENhbiBhbnlvbmUgY2hlY2sgd2hldGhlciB0aGlzIHN0aWxs
+Cj4gd29ya3M/CgpJIGRvbid0IGhhdmUgdGhlIHNldHVwIHRvIGNoZWNrLCBidXQgdGhpcyBoYXMg
+YmVlbiBwdXNoZWQgYnkgUnVzc2VsbCBJIEFkZGVkIGluIENDLgoKSSBhbHNvIGFkZGVkIHRoZSBp
+bXggbWFpbnRhaW5lciBzaW5jZSBpdCdzIChBRkFJSykgb25seSB1c2VkIG9uIGlNWCBTb0NzLgoK
+TmVpbAoKPiAKPiBTaW5jZSBJIGhhdmUgYSBjbGVhbnVwIHNlcmllcyBhbmQgdGhpcyBpcyBpbnZv
+bHZlZCwgSSdkIGxpa2UgdG8gdGFrZQo+IHRoZSBmaXggdGhyb3VnaCBteSB0cmVlIG9uY2UgYWZ0
+ZXIgaXQncyBjb25maXJtZWQgKGFuZCBnZXQgQUNLIGlmCj4gcG9zc2libGUpLgo+IAo+IAo+IFRo
+YW5rcyEKPiAKPiBUYWthc2hpCj4gCj4gLS0gODwgLS0KPiBGcm9tOiBUYWthc2hpIEl3YWkgPHRp
+d2FpQHN1c2UuZGU+Cj4gU3ViamVjdDogW1BBVENIXSBkcm0vYnJpZGdlOiBkdy1oZG1pOiBGaXgg
+dGhlIGluY29ycmVjdCBidWZmZXIgYWxsb2NhdGlvbnMKPiAKPiBUaGUgZHJpdmVyIHNldHMgdXAg
+dGhlIGJ1ZmZlciBwcmVhbGxvY2F0aW9uIHdpdGggU05EUlZfRE1BX1RZUEVfREVWLAo+IHdoaWxl
+IGl0IHJlLWFsbG9jYXRlcyBhbmQgcmVsZWFzZXMgdm1hbGxvYyBwYWdlcy4gIFRoaXMgaXMgbm90
+IG9ubHkgYQo+IGxvdCBvZiB3YXN0ZSByZXNvdXJjZXMgYnV0IGFsc28gY2F1c2VzIHRoZSBtbWFw
+IG1hbGZ1bmN0aW9uLgo+IAo+IENoYW5nZSAvIGRyb3AgdGhlIHZtYWxsb2MtcmVsYXRlZCBjb2Rl
+IGFuZCB1c2UgdGhlIHN0YW5kYXJkIGJ1ZmZlcgo+IGFsbG9jYXRpb24gLyByZWxlYXNlIGNvZGUg
+aW5zdGVhZC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBUYWthc2hpIEl3YWkgPHRpd2FpQHN1c2UuZGU+
+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3BzeXMvZHctaGRtaS1haGItYXVk
+aW8uYyB8IDYgKystLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDQgZGVs
+ZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3Bz
+eXMvZHctaGRtaS1haGItYXVkaW8uYyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3BzeXMv
+ZHctaGRtaS1haGItYXVkaW8uYwo+IGluZGV4IDJiNzUzOTcwMWI0Mi4uOGZlN2E2ZThmZjk0IDEw
+MDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3BzeXMvZHctaGRtaS1haGIt
+YXVkaW8uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3BzeXMvZHctaGRtaS1h
+aGItYXVkaW8uYwo+IEBAIC0zODQsMTUgKzM4NCwxNCBAQCBzdGF0aWMgaW50IGR3X2hkbWlfY2xv
+c2Uoc3RydWN0IHNuZF9wY21fc3Vic3RyZWFtICpzdWJzdHJlYW0pCj4gIAo+ICBzdGF0aWMgaW50
+IGR3X2hkbWlfaHdfZnJlZShzdHJ1Y3Qgc25kX3BjbV9zdWJzdHJlYW0gKnN1YnN0cmVhbSkKPiAg
+ewo+IC0JcmV0dXJuIHNuZF9wY21fbGliX2ZyZWVfdm1hbGxvY19idWZmZXIoc3Vic3RyZWFtKTsK
+PiArCXJldHVybiBzbmRfcGNtX2xpYl9mcmVlX3BhZ2VzKHN1YnN0cmVhbSk7Cj4gIH0KPiAgCj4g
+IHN0YXRpYyBpbnQgZHdfaGRtaV9od19wYXJhbXMoc3RydWN0IHNuZF9wY21fc3Vic3RyZWFtICpz
+dWJzdHJlYW0sCj4gIAlzdHJ1Y3Qgc25kX3BjbV9od19wYXJhbXMgKnBhcmFtcykKPiAgewo+ICAJ
+LyogQWxsb2NhdGUgdGhlIFBDTSBydW50aW1lIGJ1ZmZlciwgd2hpY2ggaXMgZXhwb3NlZCB0byB1
+c2Vyc3BhY2UuICovCj4gLQlyZXR1cm4gc25kX3BjbV9saWJfYWxsb2Nfdm1hbGxvY19idWZmZXIo
+c3Vic3RyZWFtLAo+IC0JCQkJCQlwYXJhbXNfYnVmZmVyX2J5dGVzKHBhcmFtcykpOwo+ICsJcmV0
+dXJuIHNuZF9wY21fbGliX21hbGxvY19wYWdlcyhzdWJzdHJlYW0sIHBhcmFtc19idWZmZXJfYnl0
+ZXMocGFyYW1zKSk7Cj4gIH0KPiAgCj4gIHN0YXRpYyBpbnQgZHdfaGRtaV9wcmVwYXJlKHN0cnVj
+dCBzbmRfcGNtX3N1YnN0cmVhbSAqc3Vic3RyZWFtKQo+IEBAIC01MTEsNyArNTEwLDYgQEAgc3Rh
+dGljIGNvbnN0IHN0cnVjdCBzbmRfcGNtX29wcyBzbmRfZHdfaGRtaV9vcHMgPSB7Cj4gIAkucHJl
+cGFyZSA9IGR3X2hkbWlfcHJlcGFyZSwKPiAgCS50cmlnZ2VyID0gZHdfaGRtaV90cmlnZ2VyLAo+
+ICAJLnBvaW50ZXIgPSBkd19oZG1pX3BvaW50ZXIsCj4gLQkucGFnZSA9IHNuZF9wY21fbGliX2dl
+dF92bWFsbG9jX3BhZ2UsCj4gIH07Cj4gIAo+ICBzdGF0aWMgaW50IHNuZF9kd19oZG1pX3Byb2Jl
+KHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gCgpfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
