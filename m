@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CA7AF03C6
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 18:06:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DBC2F03C7
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 18:06:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70C636EB0D;
-	Tue,  5 Nov 2019 17:06:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D1AC89548;
+	Tue,  5 Nov 2019 17:06:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9A1C86EB0D
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2019 17:06:16 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 417A389548
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2019 17:06:41 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 96DFE720E2; Tue,  5 Nov 2019 17:06:16 +0000 (UTC)
+ id 3E50B720E2; Tue,  5 Nov 2019 17:06:41 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 112214] Vega20 crashing randomly while using Xorg or Wayland in
  Fedora 31
-Date: Tue, 05 Nov 2019 17:06:16 +0000
+Date: Tue, 05 Nov 2019 17:06:41 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -35,7 +35,7 @@ X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-112214-502-H4zo3dMnoD@http.bugs.freedesktop.org/>
+Message-ID: <bug-112214-502-eDP0jq6fHs@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-112214-502@http.bugs.freedesktop.org/>
 References: <bug-112214-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1377507250=="
+Content-Type: multipart/mixed; boundary="===============1429288116=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1377507250==
-Content-Type: multipart/alternative; boundary="15729735761.DEC6.13447"
+--===============1429288116==
+Content-Type: multipart/alternative; boundary="15729736010.aDa127f.15209"
 Content-Transfer-Encoding: 7bit
 
 
---15729735761.DEC6.13447
-Date: Tue, 5 Nov 2019 17:06:16 +0000
+--15729736010.aDa127f.15209
+Date: Tue, 5 Nov 2019 17:06:41 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,17 +73,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D112214
 
---- Comment #1 from renich@woralelandia.com <renich@woralelandia.com> ---
-Created attachment 145893
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145893&action=3Dedit
-hardware info via fpaste --sysinfo
+--- Comment #2 from renich@woralelandia.com <renich@woralelandia.com> ---
+Created attachment 145894
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145894&action=3Dedit
+journal of entire session before freeze
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15729735761.DEC6.13447
-Date: Tue, 5 Nov 2019 17:06:16 +0000
+--15729736010.aDa127f.15209
+Date: Tue, 5 Nov 2019 17:06:41 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -101,8 +101,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - Vega20 crashing randomly while using Xorg or Wayland in F=
 edora 31"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112214#c1">Commen=
-t # 1</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112214#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Vega20 crashing randomly while using Xorg or Wayland in F=
@@ -114,11 +114,11 @@ renich&#64;woralelandia.com" title=3D"renich&#64;woralelandia.com &lt;renic=
 h&#64;woralelandia.com&gt;"> <span class=3D"fn">renich&#64;woralelandia.com=
 </span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145893=
-" name=3D"attach_145893" title=3D"hardware info via fpaste --sysinfo">attac=
-hment 145893</a> <a href=3D"attachment.cgi?id=3D145893&amp;action=3Dedit" t=
-itle=3D"hardware info via fpaste --sysinfo">[details]</a></span>
-hardware info via fpaste --sysinfo</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145894=
+" name=3D"attach_145894" title=3D"journal of entire session before freeze">=
+attachment 145894</a> <a href=3D"attachment.cgi?id=3D145894&amp;action=3Ded=
+it" title=3D"journal of entire session before freeze">[details]</a></span>
+journal of entire session before freeze</pre>
         </div>
       </p>
 
@@ -132,9 +132,9 @@ hardware info via fpaste --sysinfo</pre>
     </body>
 </html>=
 
---15729735761.DEC6.13447--
+--15729736010.aDa127f.15209--
 
---===============1377507250==
+--===============1429288116==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -144,4 +144,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1377507250==--
+--===============1429288116==--
