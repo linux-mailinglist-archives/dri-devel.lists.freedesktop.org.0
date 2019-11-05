@@ -2,58 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25B98F0295
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 17:23:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22776F02AB
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 17:28:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F18226E0A0;
-	Tue,  5 Nov 2019 16:23:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7004C6EAE8;
+	Tue,  5 Nov 2019 16:28:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6CB76E0A0;
- Tue,  5 Nov 2019 16:23:39 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id m13so10312363edv.9;
- Tue, 05 Nov 2019 08:23:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iBa+KNl3xfEoQ3x091yW97I1pFeckDAp+HE7IN9AsKI=;
- b=g1q5zhmK6jGpCSodKjiPSJ/5DS5mPZipAsoROONXxERCqYxcCoha2xmvWMMW7S4jfK
- kpy3ehb8DC4iNDfnoe965gfmGGxpfyeXJEZE4nBZgjFGh+SMVWUHSH9VAmiTMOlEEO+S
- WjSjcsNhvPyVFooDWt8ADzJPV3zdunHerSKrV6x85/Ny6FW1/8XuvaN9mKvqALm4Xw44
- YfQx3Sbjo8hH1pRREof6U7hT+ixcKUuPjKozdvepXinIdyaby6YQIQiIDcc81xUYY3aX
- 8asjaBcknozf1CtaY0cQvjGyfDqQTHsN9fD5GTGwVggCBh+9zDm46dTtiQKuTn/hakWo
- lgqA==
-X-Gm-Message-State: APjAAAUlMeaw1ZeXhQb4wAkG4TO1tjB/wnpjK4NoSaryBKFs7iDUgqLF
- CIbLtagJPIEcwlfpn8aHCfysbxTyFzyD6W59q98=
-X-Google-Smtp-Source: APXvYqw6DHiWy5Jq5QER0vWdT0e+O38XHNiZfNfrlZo7CtFTenpQYQGBiQkm25QU55awefud20PSxaXykIphCpiisVU=
-X-Received: by 2002:a17:906:73d5:: with SMTP id
- n21mr30279787ejl.228.1572971018138; 
- Tue, 05 Nov 2019 08:23:38 -0800 (PST)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E486A6EAF3
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2019 16:28:03 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id E1E89720E2; Tue,  5 Nov 2019 16:28:03 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111763] ring_gfx hangs/freezes on Navi gpus
+Date: Tue, 05 Nov 2019 16:28:03 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: wychuchol7777@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111763-502-wIndSbG8Ld@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111763-502@http.bugs.freedesktop.org/>
+References: <bug-111763-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20191105000129.GA6536@onstation.org>
- <CAF6AEGv3gs+LFOP3AGthXd4niFb_XYOuwLfEa2G9eb27b1wMMA@mail.gmail.com>
- <20191105100804.GA9492@onstation.org>
-In-Reply-To: <20191105100804.GA9492@onstation.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 5 Nov 2019 08:23:27 -0800
-Message-ID: <CAF6AEGtB+g=4eiB31jkyuBGW7r0TBSh2oMj6TGtSgQ=q1ZV1tg@mail.gmail.com>
-Subject: Re: [Freedreno] drm/msm: 'pp done time out' errors after async commit
- changes
-To: Brian Masney <masneyb@onstation.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=iBa+KNl3xfEoQ3x091yW97I1pFeckDAp+HE7IN9AsKI=;
- b=ADZ8m3Wuu05byt5FiXJhBT03hcjcIPcfov3vj/h4AVSisEIHZv9YfyIkUT2yDdd4dx
- B0WixpljI53ZSMmyqljoOzIpkP2LuXY8q1vsJVhIMk/imCrzuPLrJzMyLbBzQhTHJcQ3
- R4bwlQ771m5PoPm1m9/UDGcBbh5qNQ6wl/QR2DsanVV1tJzcm7ppsmlvpQh4HjfNbG5t
- 63hV9BAt6JFSGsTOVQemjsGCjUeCkNqKjkqY/D7rG5gPA76/kjtkk8ORD20jUVmfhzho
- 8FiJ2Q40mtGYzMsduyUFwURe02dZkTSI3PLMEjzjKAQyod30gBQVCzquG/kQuAr4bEA1
- HtTw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,85 +52,253 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0249081278=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBOb3YgNSwgMjAxOSBhdCAyOjA4IEFNIEJyaWFuIE1hc25leSA8bWFzbmV5YkBvbnN0
-YXRpb24ub3JnPiB3cm90ZToKPgo+IE9uIE1vbiwgTm92IDA0LCAyMDE5IGF0IDA0OjE5OjA3UE0g
-LTA4MDAsIFJvYiBDbGFyayB3cm90ZToKPiA+IE9uIE1vbiwgTm92IDQsIDIwMTkgYXQgNDowMSBQ
-TSBCcmlhbiBNYXNuZXkgPG1hc25leWJAb25zdGF0aW9uLm9yZz4gd3JvdGU6Cj4gPiA+Cj4gPiA+
-IEhleSBSb2IsCj4gPiA+Cj4gPiA+IFNpbmNlIGNvbW1pdCAyZDk5Y2VkNzg3ZTMgKCJkcm0vbXNt
-OiBhc3luYyBjb21taXQgc3VwcG9ydCIpLCB0aGUgZnJhbWUKPiA+ID4gYnVmZmVyIGNvbnNvbGUg
-b24gbXkgTmV4dXMgNSBiZWdhbiB0aHJvd2luZyB0aGVzZSBlcnJvcnM6Cj4gPiA+Cj4gPiA+IG1z
-bSBmZDkwMDAwMC5tZHNzOiBwcCBkb25lIHRpbWUgb3V0LCBsbT0wCj4gPiA+Cj4gPiA+IFRoZSBk
-aXNwbGF5IHN0aWxsIHdvcmtzLgo+ID4gPgo+ID4gPiBJIHNlZSB0aGF0IG1kcDVfZmx1c2hfY29t
-bWl0KCkgd2FzIGludHJvZHVjZWQgaW4gY29tbWl0IDlmNmI2NTY0MmJkMgo+ID4gPiAoImRybS9t
-c206IGFkZCBrbXMtPmZsdXNoX2NvbW1pdCgpIikgd2l0aCBhIFRPRE8gY29tbWVudCBhbmQgdGhl
-IGNvbW1pdAo+ID4gPiBkZXNjcmlwdGlvbiBtZW50aW9ucyBmbHVzaGluZyByZWdpc3RlcnMuIEkg
-YXNzdW1lIHRoYXQgdGhpcyBpcyB0aGUKPiA+ID4gcHJvcGVyIGZpeC4gSWYgc28sIGNhbiB5b3Ug
-cG9pbnQgbWUgdG8gd2hlcmUgdGhlc2UgcmVnaXN0ZXJzIGFyZQo+ID4gPiBkZWZpbmVkIGFuZCBJ
-IGNhbiB3b3JrIG9uIHRoZSBtZHA1IGltcGxlbWVudGF0aW9uLgo+ID4KPiA+IFNlZSBtZHA1X2N0
-bF9jb21taXQoKSwgd2hpY2ggd3JpdGVzIHRoZSBDVExfRkxVU0ggcmVnaXN0ZXJzLi4gdGhlIGlk
-ZWEKPiA+IHdvdWxkIGJlIHRvIGRlZmVyIHdyaXRpbmcgQ1RMX0ZMVVNIW2N0bF9pZF0gPSBmbHVz
-aF9tYXNrIHVudGlsCj4gPiBrbXMtPmZsdXNoKCkgKHdoaWNoIGhhcHBlbnMgZnJvbSBhIHRpbWVy
-IHNob3J0bHkgYmVmb3JlIHZibGFuaykuCj4gPgo+ID4gQnV0IEkgdGhpbmsgdGhlIGFzeW5jIGZs
-dXNoIGNhc2Ugc2hvdWxkIG5vdCBjb21lIHVwIHdpdGggZmJjb24/ICBJdAo+ID4gd2FzIHJlYWxs
-eSBhZGRlZCB0byBjb3BlIHdpdGggaHdjdXJzb3IgdXBkYXRlcyAoYW5kIHVzZXJzcGFjZSB0aGF0
-Cj4gPiBhc3N1bWVzIGl0IGNhbiBkbyBhbiB1bmxpbWl0ZWQgIyBvZiBjdXJzb3IgdXBkYXRlcyBw
-ZXIgZnJhbWUpLi4gdGhlCj4gPiBpbnRlbnRpb24gd2FzIHRoYXQgbm90aGluZyBzaG91bGQgY2hh
-bmdlIGluIHRoZSBzZXF1ZW5jZSBmb3IgbWRwNSAoYnV0Cj4gPiBJIGd1ZXNzIHRoYXQgd2FzIG5v
-dCB0aGUgY2FzZSkuCj4KPiBUaGUgJ3BwIGRvbmUgdGltZSBvdXQnIGVycm9ycyBnbyBhd2F5IGlm
-IEkgcmV2ZXJ0IHRoZSBmb2xsb3dpbmcgdGhyZWUKPiBjb21taXRzOgo+Cj4gY2Q2ZDkyMzE2N2Ix
-ICgiZHJtL21zbS9kcHU6IGFzeW5jIGNvbW1pdCBzdXBwb3J0IikKPiBkOTM0YTcxMmM1ZTYgKCJk
-cm0vbXNtOiBhZGQgYXRvbWljIHRyYWNlcyIpCj4gMmQ5OWNlZDc4N2UzICgiZHJtL21zbTogYXN5
-bmMgY29tbWl0IHN1cHBvcnQiKQo+Cj4gSSByZXZlcnRlZCB0aGUgZmlyc3Qgb25lIHRvIGZpeCBh
-IGNvbXBpbGVyIGVycm9yLCBhbmQgdGhlIHNlY29uZCBvbmUgc28KPiB0aGF0IHRoZSBsYXN0IHBh
-dGNoIGNhbiBiZSByZXZlcnRlZCB3aXRob3V0IGFueSBtZXJnZSBjb25mbGljdHMuCj4KPiBJIHNl
-ZSB0aGF0IGNydGNfZmx1c2goKSBjYWxscyBtZHA1X2N0bF9jb21taXQoKS4gSSB0cmllZCB0byB1
-c2UKPiBjcnRjX2ZsdXNoX2FsbCgpIGluIG1kcDVfZmx1c2hfY29tbWl0KCkgYW5kIHRoZSBjb250
-ZW50cyBvZiB0aGUgZnJhbWUKPiBidWZmZXIgZGFuY2UgYXJvdW5kIHRoZSBzY3JlZW4gbGlrZSBp
-dHMgb3V0IG9mIHN5bmMuIEkgcmVuYW1lZAo+IGNydGNfZmx1c2hfYWxsKCkgdG8gbWRwNV9jcnRj
-X2ZsdXNoX2FsbCgpIGFuZCByZW1vdmVkIHRoZSBzdGF0aWMKPiBkZWNsYXJhdGlvbi4gSGVyZSdz
-IHRoZSByZWxldmFudCBwYXJ0IG9mIHdoYXQgSSB0cmllZDoKPgo+IC0tLSBhL2RyaXZlcnMvZ3B1
-L2RybS9tc20vZGlzcC9tZHA1L21kcDVfa21zLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbXNt
-L2Rpc3AvbWRwNS9tZHA1X2ttcy5jCj4gQEAgLTE3MSw3ICsxNzEsMTUgQEAgc3RhdGljIHZvaWQg
-bWRwNV9wcmVwYXJlX2NvbW1pdChzdHJ1Y3QgbXNtX2ttcyAqa21zLCBzdHJ1Y3QgZHJtX2F0b21p
-Y19zdGF0ZSAqc3QKPgo+ICBzdGF0aWMgdm9pZCBtZHA1X2ZsdXNoX2NvbW1pdChzdHJ1Y3QgbXNt
-X2ttcyAqa21zLCB1bnNpZ25lZCBjcnRjX21hc2spCj4gIHsKPiAtICAgICAgIC8qIFRPRE8gKi8K
-PiArICAgICAgIHN0cnVjdCBtZHA1X2ttcyAqbWRwNV9rbXMgPSB0b19tZHA1X2ttcyh0b19tZHBf
-a21zKGttcykpOwo+ICsgICAgICAgc3RydWN0IGRybV9jcnRjICpjcnRjOwo+ICsKPiArICAgICAg
-IGZvcl9lYWNoX2NydGNfbWFzayhtZHA1X2ttcy0+ZGV2LCBjcnRjLCBjcnRjX21hc2spIHsKPiAr
-ICAgICAgICAgICAgICAgaWYgKCFjcnRjLT5zdGF0ZS0+YWN0aXZlKQo+ICsgICAgICAgICAgICAg
-ICAgICAgICAgIGNvbnRpbnVlOwo+ICsKPiArICAgICAgICAgICAgICAgbWRwNV9jcnRjX2ZsdXNo
-X2FsbChjcnRjKTsKPiArICAgICAgIH0KPiAgfQo+Cj4gQW55IHRpcHMgd291bGQgYmUgYXBwcmVj
-aWF0ZWQuCgoKSSB0aGluayB0aGlzIGlzIGFsb25nIHRoZSBsaW5lcyBvZiB3aGF0IHdlIG5lZWQg
-dG8gZW5hYmxlIGFzeW5jIGNvbW1pdApmb3IgbWRwNSAoYnV0IGFsc28gcmVtb3ZpbmcgdGhlIGZs
-dXNoIGZyb20gdGhlIGF0b21pYy1jb21taXQgcGF0aCkuLgp0aGUgcHJpbmNpcGxlIGJlaGluZCB0
-aGUgYXN5bmMgY29tbWl0IGlzIHRvIGRvIGFsbCB0aGUgYXRvbWljIHN0YXRlCmNvbW1pdCBub3Jt
-YWxseSwgYnV0IGRlZmVyIHdyaXRpbmcgdGhlIGZsdXNoIGJpdHMuICBUaGlzIHdheSwgaWYgeW91
-CmdldCBhbm90aGVyIGFzeW5jIHVwZGF0ZSBiZWZvcmUgdGhlIG5leHQgdmJsYW5rLCB5b3UganVz
-dCBhcHBseSBpdAppbW1lZGlhdGVseSBpbnN0ZWFkIG9mIHdhaXRpbmcgZm9yIHZibGFuay4KCkJ1
-dCBJIGd1ZXNzIHlvdSBhcmUgb24gYSBjb21tYW5kIG1vZGUgcGFuZWwsIGlmIEkgcmVtZW1iZXI/
-ICBXaGljaCBpcwphIGNhc2UgSSBkaWRuJ3QgaGF2ZSBhIHdheSB0byB0ZXN0LiAgQW5kIEknbSBu
-b3QgZW50aXJlbHkgYWJvdXQgaG93Cmttc19mdW5jcy0+dnN5bmNfdGltZSgpIHNob3VsZCBiZSBp
-bXBsZW1lbnRlZCBmb3IgY21kIG1vZGUgcGFuZWxzLgoKVGhhdCBhbGwgc2FpZCwgSSB0aGluayB3
-ZSBzaG91bGQgZmlyc3QgZml4IHdoYXQgaXMgYnJva2VuLCBiZWZvcmUKd29ycnlpbmcgYWJvdXQg
-ZXh0ZW5kaW5nIGFzeW5jIGNvbW1pdCBzdXBwb3J0IHRvIG1kcDUuLiB3aGljaApzaG91bGRuJ3Qg
-aGl0IHRoZSBhc3luYz09dHJ1ZSBwYXRoLCBkdWUgdG8gbm90IGltcGxlbWVudGluZwprbXNfZnVu
-Y3MtPnZzeW5jX3RpbWUoKS4KCldoYXQgSSB0aGluayBpcyBnb2luZyBvbiBpcyB0aGF0LCBpbiB0
-aGUgY21kIG1vZGUgY2FzZSwKbWRwNV93YWl0X2ZsdXNoKCkgKGluZGlyZWN0bHkpIGNhbGxzIG1k
-cDVfY3J0Y193YWl0X2Zvcl9wcF9kb25lKCksCndoaWNoIHdhaXRzIGZvciBhIHBwLWRvbmUgaXJx
-IHJlZ2FyZGxlc3Mgb2Ygd2hldGhlciB0aGVyZSBpcyBhIGZsdXNoCmluIHByb2dyZXNzLiAgU2lu
-Y2UgdGhlcmUgaXMgbm8gZmx1c2ggcGVuZGluZywgdGhlIGlycSBuZXZlciBjb21lcy4KQnV0IHRo
-ZSBleHBlY3RhdGlvbiBpcyB0aGF0IGttc19mdW5jcy0+d2FpdF9mbHVzaCgpIHJldHVybnMKaW1t
-ZWRpYXRlbHkgaWYgdGhlcmUgaXMgbm90aGluZyB0byB3YWl0IGZvci4KCkJSLAotUgpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0249081278==
+Content-Type: multipart/alternative; boundary="15729712838.d0577D.7169"
+Content-Transfer-Encoding: 7bit
+
+
+--15729712838.d0577D.7169
+Date: Tue, 5 Nov 2019 16:28:03 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111763
+
+--- Comment #24 from wychuchol <wychuchol7777@gmail.com> ---
+(In reply to wychuchol from comment #23)
+> (In reply to wychuchol from comment #19)
+> > After some time in Witcher 3 GOTY run with Lutris PC restarts on it's o=
+wn. I
+> > thought something is overheating (I've noticed graphic card memory in
+> > PSensor sometimes reaching 90 so I thought maybe that's what's happenin=
+g)
+> > but I investigated kern.log and this always happened before that autono=
+mous
+> > reset:
+> >=20
+> > Nov  2 22:01:53 pop-os kernel: [  979.244964] pcieport 0000:00:01.1: AE=
+R:
+> > Corrected error received: 0000:01:00.0
+> > Nov  2 22:01:53 pop-os kernel: [  979.244967] nvme 0000:01:00.0: AER: P=
+CIe
+> > Bus Error: severity=3DCorrected, type=3DData Link Layer, (Transmitter I=
+D)
+> > Nov  2 22:01:53 pop-os kernel: [  979.244968] nvme 0000:01:00.0: AER:=
+=20=20
+> > device [1987:5012] error status/mask=3D00001000/00006000
+> > Nov  2 22:01:53 pop-os kernel: [  979.244968] nvme 0000:01:00.0: AER:=
+=20=20=20
+> > [12] Timeout=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+> > Nov  2 22:01:53 pop-os kernel: [  979.262629] Emergency Sync complete
+>=20
+> Thing with those AER errors is that they can go on and on and reset happe=
+ns
+> few minutes after the last logged error.=20
+> This might be overheating, I managed to find how to output sensors readin=
+gs
+> into txt log and found that memory went up to 96 C (or rather it stayed
+> there for about 1m 10s)
+> Last reading before reset:
+> amdgpu-pci-2800
+> Adapter: PCI adapter
+> vddgfx:       +1.16 V=20=20
+> fan1:        1551 RPM  (min =3D    0 RPM, max =3D 3200 RPM)
+> edge:         +74.0=C2=B0C  (crit =3D +118.0=C2=B0C, hyst =3D -273.1=C2=
+=B0C)
+>                        (emerg =3D +99.0=C2=B0C)
+> junction:     +88.0=C2=B0C  (crit =3D +99.0=C2=B0C, hyst =3D -273.1=C2=B0=
+C)
+>                        (emerg =3D +99.0=C2=B0C)
+> mem:          +96.0=C2=B0C  (crit =3D +99.0=C2=B0C, hyst =3D -273.1=C2=B0=
+C)
+>                        (emerg =3D +99.0=C2=B0C)
+> power1:      162.00 W  (cap =3D 195.00 W)
+>=20
+> k10temp-pci-00c3
+> Adapter: PCI adapter
+> Tdie:         +70.5=C2=B0C  (high =3D +70.0=C2=B0C)
+> Tctl:         +70.5=C2=B0C=20=20
+>=20
+> Now the weird thing is - if this is in fact overheating why fan didn't go
+> beyond 1600 rpm even once.... Highest was like 1581 rpm and I don't have
+> silent bios switched on (sapphire pulse rx 5700 xt, lever facing away from
+> video ports).
+
+Okay I don't think it's overheating anymore. I found a moment in Anomaly 1.=
+5.0
+I can't get past without system resetting, just before a psi storm in Army
+Warehouses (I can provide a savefile).
+
+Last sensors reading before crash (5 second increments):
+amdgpu-pci-2800
+Adapter: PCI adapter
+vddgfx:       +1.01 V=20=20
+fan1:        1560 RPM  (min =3D    0 RPM, max =3D 3200 RPM)
+edge:         +69.0=C2=B0C  (crit =3D +118.0=C2=B0C, hyst =3D -273.1=C2=B0C)
+                       (emerg =3D +99.0=C2=B0C)
+junction:     +84.0=C2=B0C  (crit =3D +99.0=C2=B0C, hyst =3D -273.1=C2=B0C)
+                       (emerg =3D +99.0=C2=B0C)
+mem:          +80.0=C2=B0C  (crit =3D +99.0=C2=B0C, hyst =3D -273.1=C2=B0C)
+                       (emerg =3D +99.0=C2=B0C)
+power1:      227.00 W  (cap =3D 195.00 W)
+
+k10temp-pci-00c3
+Adapter: PCI adapter
+Tdie:         +71.8=C2=B0C  (high =3D +70.0=C2=B0C)
+Tctl:         +71.8=C2=B0C
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15729712838.d0577D.7169
+Date: Tue, 5 Nov 2019 16:28:03 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - ring_gfx hangs/freezes on Navi gpus"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111763#c24">Comme=
+nt # 24</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - ring_gfx hangs/freezes on Navi gpus"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111763">bug 11176=
+3</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+wychuchol7777&#64;gmail.com" title=3D"wychuchol &lt;wychuchol7777&#64;gmail=
+.com&gt;"> <span class=3D"fn">wychuchol</span></a>
+</span></b>
+        <pre>(In reply to wychuchol from <a href=3D"show_bug.cgi?id=3D11176=
+3#c23">comment #23</a>)
+<span class=3D"quote">&gt; (In reply to wychuchol from <a href=3D"show_bug.=
+cgi?id=3D111763#c19">comment #19</a>)
+&gt; &gt; After some time in Witcher 3 GOTY run with Lutris PC restarts on =
+it's own. I
+&gt; &gt; thought something is overheating (I've noticed graphic card memor=
+y in
+&gt; &gt; PSensor sometimes reaching 90 so I thought maybe that's what's ha=
+ppening)
+&gt; &gt; but I investigated kern.log and this always happened before that =
+autonomous
+&gt; &gt; reset:
+&gt; &gt;=20
+&gt; &gt; Nov  2 22:01:53 pop-os kernel: [  979.244964] pcieport 0000:00:01=
+.1: AER:
+&gt; &gt; Corrected error received: 0000:01:00.0
+&gt; &gt; Nov  2 22:01:53 pop-os kernel: [  979.244967] nvme 0000:01:00.0: =
+AER: PCIe
+&gt; &gt; Bus Error: severity=3DCorrected, type=3DData Link Layer, (Transmi=
+tter ID)
+&gt; &gt; Nov  2 22:01:53 pop-os kernel: [  979.244968] nvme 0000:01:00.0: =
+AER:=20=20
+&gt; &gt; device [1987:5012] error status/mask=3D00001000/00006000
+&gt; &gt; Nov  2 22:01:53 pop-os kernel: [  979.244968] nvme 0000:01:00.0: =
+AER:=20=20=20
+&gt; &gt; [12] Timeout=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+&gt; &gt; Nov  2 22:01:53 pop-os kernel: [  979.262629] Emergency Sync comp=
+lete
+&gt;=20
+&gt; Thing with those AER errors is that they can go on and on and reset ha=
+ppens
+&gt; few minutes after the last logged error.=20
+&gt; This might be overheating, I managed to find how to output sensors rea=
+dings
+&gt; into txt log and found that memory went up to 96 C (or rather it stayed
+&gt; there for about 1m 10s)
+&gt; Last reading before reset:
+&gt; amdgpu-pci-2800
+&gt; Adapter: PCI adapter
+&gt; vddgfx:       +1.16 V=20=20
+&gt; fan1:        1551 RPM  (min =3D    0 RPM, max =3D 3200 RPM)
+&gt; edge:         +74.0=C2=B0C  (crit =3D +118.0=C2=B0C, hyst =3D -273.1=
+=C2=B0C)
+&gt;                        (emerg =3D +99.0=C2=B0C)
+&gt; junction:     +88.0=C2=B0C  (crit =3D +99.0=C2=B0C, hyst =3D -273.1=C2=
+=B0C)
+&gt;                        (emerg =3D +99.0=C2=B0C)
+&gt; mem:          +96.0=C2=B0C  (crit =3D +99.0=C2=B0C, hyst =3D -273.1=C2=
+=B0C)
+&gt;                        (emerg =3D +99.0=C2=B0C)
+&gt; power1:      162.00 W  (cap =3D 195.00 W)
+&gt;=20
+&gt; k10temp-pci-00c3
+&gt; Adapter: PCI adapter
+&gt; Tdie:         +70.5=C2=B0C  (high =3D +70.0=C2=B0C)
+&gt; Tctl:         +70.5=C2=B0C=20=20
+&gt;=20
+&gt; Now the weird thing is - if this is in fact overheating why fan didn't=
+ go
+&gt; beyond 1600 rpm even once.... Highest was like 1581 rpm and I don't ha=
+ve
+&gt; silent bios switched on (sapphire pulse rx 5700 xt, lever facing away =
+from
+&gt; video ports).</span >
+
+Okay I don't think it's overheating anymore. I found a moment in Anomaly 1.=
+5.0
+I can't get past without system resetting, just before a psi storm in Army
+Warehouses (I can provide a savefile).
+
+Last sensors reading before crash (5 second increments):
+amdgpu-pci-2800
+Adapter: PCI adapter
+vddgfx:       +1.01 V=20=20
+fan1:        1560 RPM  (min =3D    0 RPM, max =3D 3200 RPM)
+edge:         +69.0=C2=B0C  (crit =3D +118.0=C2=B0C, hyst =3D -273.1=C2=B0C)
+                       (emerg =3D +99.0=C2=B0C)
+junction:     +84.0=C2=B0C  (crit =3D +99.0=C2=B0C, hyst =3D -273.1=C2=B0C)
+                       (emerg =3D +99.0=C2=B0C)
+mem:          +80.0=C2=B0C  (crit =3D +99.0=C2=B0C, hyst =3D -273.1=C2=B0C)
+                       (emerg =3D +99.0=C2=B0C)
+power1:      227.00 W  (cap =3D 195.00 W)
+
+k10temp-pci-00c3
+Adapter: PCI adapter
+Tdie:         +71.8=C2=B0C  (high =3D +70.0=C2=B0C)
+Tctl:         +71.8=C2=B0C</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15729712838.d0577D.7169--
+
+--===============0249081278==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0249081278==--
