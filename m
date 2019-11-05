@@ -1,58 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A15AFF0436
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 18:42:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 948E1F043B
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 18:42:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 742496EB2D;
-	Tue,  5 Nov 2019 17:41:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8939B6EB30;
+	Tue,  5 Nov 2019 17:42:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
- [IPv6:2607:f8b0:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 518C86EB2E
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2019 17:41:57 +0000 (UTC)
-Received: by mail-oi1-x242.google.com with SMTP id v138so18304494oif.6
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Nov 2019 09:41:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IW0B7vGBOZzh3Br4WBMe5H6F6ySlTPaNURY6MVu9ypc=;
- b=SxwXFPfnB3a/1DzBreChvvxHYC3khgbza9NfQfI+Dc9Behjw34kUPnX+MvXublLRbY
- aHYxJDQ457f1y+ONTJ9lGf1vz0r+TzUYTrsEu1ouRH0YIxQNCgqjfImi3o4+etqWYPWG
- bAR4iz5ej5UUwG0hcsNrGXFOoqUMYHUs3xguzUuYDXRmNqbQOr8K8ziDhF+Ktq0N1wSj
- VZ5zMQ9nVIEpFqZ/lQnXWAV43uG38iWJqP22rlIIxMwJgdsgmabw9N3v2E3S8GwD/WOt
- aX4L68M+oWIGHhlvALQZGDPou0dfNVItKEOu5bwm+9N++tdOd1HqaRn+EBnXuTrA2Nz1
- l26g==
-X-Gm-Message-State: APjAAAV6or98qV9dDnBJoS0jBlOaauQr9mYvBN4toGoZJkZYxeu4gaoI
- 0aizy0v5+LtatLnx3IOsygwMFm0/N8yaIw9SjBfNgQ==
-X-Google-Smtp-Source: APXvYqyeDs/QoA5RfByjqPGNd6UTX27g8Bcyttet+PRuoxInbJsv6PD62Ia904Qn9TsvFKumOj9jCCzig32M+6/5khE=
-X-Received: by 2002:aca:c64c:: with SMTP id w73mr118205oif.161.1572975716440; 
- Tue, 05 Nov 2019 09:41:56 -0800 (PST)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8845B6EB30
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2019 17:42:17 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 84B7D720E2; Tue,  5 Nov 2019 17:42:17 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109628] WARNING at dcn10_hw_sequencer.c:868
+ dcn10_verify_allow_pstate_change_high()
+Date: Tue, 05 Nov 2019 17:42:17 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: malkovjohnny@ukr.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109628-502-LhDLhNXWZO@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109628-502@http.bugs.freedesktop.org/>
+References: <bug-109628-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20191025234834.28214-1-john.stultz@linaro.org>
- <20191104095823.GD10326@phenom.ffwll.local>
- <CALAqxLW_CoAn-KXki0dGKK+vo-R4CTnjt1Azrw=mRdL8BUFGWw@mail.gmail.com>
- <20191105094259.GX10326@phenom.ffwll.local>
-In-Reply-To: <20191105094259.GX10326@phenom.ffwll.local>
-From: John Stultz <john.stultz@linaro.org>
-Date: Tue, 5 Nov 2019 09:41:44 -0800
-Message-ID: <CALAqxLWvNOL=Exybb25GgYQujyJcPNTsFuaBnjLQPKTkVAi6Xw@mail.gmail.com>
-Subject: Re: [RFC][PATCH 0/2] Allow DMA BUF heaps to be loaded as modules
-To: Daniel Vetter <daniel@ffwll.ch>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=IW0B7vGBOZzh3Br4WBMe5H6F6ySlTPaNURY6MVu9ypc=;
- b=ZbYI1+bGZXJmenbWyTwg59wx2IQa4RsXYMy5cDpjY94ZKRzvY7jXz1ZuZz7MjxE0Z1
- 0DkLswJnlqUZAxeZlQetG/AGeQ8sSr0bH3bsRJpWQizhENKoMme9H4ptr2WeIPHjsbwT
- bhs695GuhX7/roSlyPP9tqWBYFTQpzlG8AbUf9dbDw+Q0JkDCrXka6BfBc2NHToivKcd
- M4bs0RdXRhCXJtq3rs5X8Aa46HQco0y0ejruMU2uwY4Hpk4/sk5fSsaJmiOy/iEIB8LN
- Ei1PHtt5WYyOUo6ml8iX8eKhtZKSni+wqyGt/Xz8ZvCq8Kh3EhWTVC9fSt9H/u3uTVTT
- XeAw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,90 +53,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandeep Patil <sspatil@google.com>, Chenbo Feng <fengc@google.com>,
- Alistair Strachan <astrachan@google.com>, Liam Mark <lmark@codeaurora.org>,
- lkml <linux-kernel@vger.kernel.org>, Yue Hu <huyue2@yulong.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, "Andrew F . Davis" <afd@ti.com>,
- Hridya Valsaraju <hridya@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@linux.ibm.com>,
- Pratik Patel <pratikp@codeaurora.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0057514504=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBOb3YgNSwgMjAxOSBhdCAxOjQzIEFNIERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZnds
-bC5jaD4gd3JvdGU6Cj4KPiBPbiBNb24sIE5vdiAwNCwgMjAxOSBhdCAxMDo1Nzo0NEFNIC0wODAw
-LCBKb2huIFN0dWx0eiB3cm90ZToKPiA+IE9uIE1vbiwgTm92IDQsIDIwMTkgYXQgMTo1OCBBTSBE
-YW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+IHdyb3RlOgo+ID4gPiBPbiBGcmksIE9jdCAy
-NSwgMjAxOSBhdCAxMTo0ODozMlBNICswMDAwLCBKb2huIFN0dWx0eiB3cm90ZToKPiA+IFNvIGV2
-ZW4gaWYgdGhlIGhlYXBzIGFyZSBjb25maWd1cmVkIHZpYSBEVCAod2hpY2ggYXQgdGhlIG1vbWVu
-dCB0aGVyZQo+ID4gaXMgbm8gc3VjaCBiaW5kaW5nLCBzbyB0aGF0J3Mgbm90IHJlYWxseSBhIHZh
-bGlkIG1ldGhvZCB5ZXQpLCB0aGVyZSdzCj4gPiBzdGlsbCB0aGUgcXVlc3Rpb24gb2YgaWYgdGhl
-IGhlYXAgaXMgbmVjZXNzYXJ5L21ha2VzIHNlbnNlIG9uIHRoZQo+ID4gZGV2aWNlLiBBbmQgdGhl
-IERUIHdvdWxkIG9ubHkgY29udHJvbCB0aGUgYXZhaWxhYmlsaXR5IG9mIHRoZSBoZWFwCj4gPiBp
-bnRlcmZhY2UsIG5vdCBpZiB0aGUgaGVhcCBkcml2ZXIgaXMgbG9hZGVkIG9yIG5vdC4KPgo+IEht
-IEkgdGhvdWdodCB0aGUgY21hIHJlZ2lvbnMgYXJlIGNvbmZpZ3VyZWQgaW4gRFQ/IEhvdyBkb2Vz
-IHRoYXQgd29yayBpZgo+IGl0J3Mgbm90IHVzaW5nIERUPwoKU28geWVhLCBDTUEgcmVnaW9ucyBh
-cmUgZWl0aGVyIGNvbmZpZ3VyZWQgYnkgRFQgb3Igc2V0dXAgYXQgYnVpbGQgdGltZQooSSB0aGlu
-ayB0aGVyZSdzIGEgY21kbGluZSBvcHRpb24gdG8gc2V0IGl0IHVwIGFzIHdlbGwpLgoKQnV0IHRo
-ZSBDTUEgcmVnaW9ucyBhbmQgdGhlIGRtYWJ1ZiBjbWEgaGVhcCBkcml2ZXIgYXJlIHNlcGFyYXRl
-CnRoaW5ncy4gVGhlIGxhdHRlciB1c2VzIHRoZSBmb3JtZXIuCgo+ID4gT24gdGhlIEhpS2V5L0hp
-S2V5OTYwIGJvYXJkcywgd2UgaGF2ZSB0byBhbGxvY2F0ZSBjb250aWd1b3VzIGJ1ZmZlcnMKPiA+
-IGZvciB0aGUgZGlzcGxheSBmcmFtZWJ1ZmZlci4gU28gZ3JhbGxvYyB1c2VzIElPTiB0byBhbGxv
-Y2F0ZSBmcm9tIHRoZQo+ID4gQ01BIGhlYXAuIEhvd2V2ZXIgb24gdGhlIGRiODQ1YywgaXQgaGFz
-IG5vIHN1Y2ggcmVzdHJpY3Rpb25zLCBzbyB0aGUKPiA+IENNQSBoZWFwIGlzbid0IG5lY2Vzc2Fy
-eS4KPgo+IFdoeSBkbyB5b3UgaGF2ZSBhIENNQSByZWdpb24gZm9yIHRoZSAybmQgYm9hcmQgaWYg
-eW91IGRvbid0IG5lZWQgaXQ/Cj4gX1RoYXRfIHNvdW5kcyBsaWtlIHNvbWUgc2VyaW91cyBtZW1v
-cnkgd2FzdGVyLCBub3QgYSBmZXcgbGluZXMgb2YgY29kZQo+IGxvYWRlZCBmb3Igbm90aGluZyA6
-LSkKCj8/PyBUaGF0J3Mgbm90IHdoYXQgSSBzYWlkIGFib3ZlLiAgSWYgdGhlIGRiODQ1YyBkb2Vz
-bid0IG5lZWQgQ01BIGl0Cndvbid0IGhhdmUgYSBDTUEgcmVnaW9uLgoKVGhlIGlzc3VlIGF0IGhh
-bmQgaXMgdGhhdCB3ZSBtYXkgd2FudCB0byBhdm9pZCBsb2FkaW5nIHRoZSBkbWFidWYgQ01BCmhl
-YXAgZHJpdmVyIG9uIGEgYm9hcmQgdGhhdCBkb2Vzbid0IHVzZSBDTUEuCgoKPiA+IFdpdGggQW5k
-cm9pZCdzIEdLSSBlZmZvcnQsIHRoZXJlIG5lZWRzIHRvIGJlIG9uZSBrZXJuZWwgdGhhdCB3b3Jr
-cyBvbgo+ID4gYWxsIHRoZSBkZXZpY2VzLCBhbmQgdGhleSBhcmUgdXNpbmcgbW9kdWxlcyB0byB0
-cnkgdG8gbWluaW1pemUgdGhlCj4gPiBhbW91bnQgb2YgbWVtb3J5IHNwZW50IG9uIGZ1bmN0aW9u
-YWxpdHkgdGhhdCBpc24ndCB1bml2ZXJzYWxseSBuZWVkZWQuCj4gPiBTbyBvbiBkZXZpY2VzIHRo
-YXQgZG9uJ3QgbmVlZCB0aGUgQ01BIGhlYXAsIHRoZXknZCBwcm9iYWJseSBwcmVmZXIgbm90Cj4g
-PiB0byBsb2FkIHRoZSBDTUEgZG1hYnVmIGhlYXAgZHJpdmVyLCBzbyBpdCB3b3VsZCBiZSBiZXN0
-IGlmIGl0IGNvdWxkIGJlCj4gPiBidWlsdCBhcyBhIG1vZHVsZS4gIElmIHdlIHdhbnQgdG8gYnVp
-bGQgdGhlIENNQSBoZWFwIGFzIGEgbW9kdWxlLCB0aGUKPiA+IHN5bWJvbHMgaXQgdXNlcyBuZWVk
-IHRvIGJlIGV4cG9ydGVkLgo+Cj4gWWVhaCwgSSBndWVzcyBJJ20gZGlzYWdyZWVpbmcgb24gd2hl
-dGhlciBkbWEtYnVmIGhlYXBzIGFyZSBjb3JlIG9yIG5vdC4KClRoYXQncyBmaW5lIHRvIGRpc3B1
-dGUuIEknbSBub3QgcmVhbGx5IGluIGEgcGxhY2UgdG8gYXNzZXJ0IG9uZSB3YXkgb3IKbm90LCBi
-dXQgdGhlIEFuZHJvaWQgZm9sa3MgaGF2ZSBtYWRlIHRoZWlyIElPTiBzeXN0ZW0gYW5kIENNQSBo
-ZWFwcwpsb2FkYWJsZSB2aWEgYSBtb2R1bGUsIHNvIGl0IHdvdWxkIHNlZW0gbGlrZSBoYXZpbmcg
-dGhlIGRtYWJ1ZiBzeXN0ZW0KYW5kIENNQSBoZWFwcyBiZSBtb2R1bGFyIHdvdWxkIGJlIHVzZWZ1
-bCB0byBwcm9wZXJseSByZXBsYWNlIHRoYXQKdXNhZ2UuCgpGb3IgaW5zdGFuY2UsIHRoZSBzeXN0
-ZW0gaGVhcCBhcyBhIG1vZHVsZSBwcm9iYWJseSBkb2Vzbid0IG1ha2UgbXVjaApzZW5zZSwgYXMg
-bW9zdCBib2FyZHMgdGhhdCB3YW50IHRvIHVzZSB0aGUgZG1hYnVmIGhlYXBzIGludGVyZmFjZSBh
-cmUKbGlrZWx5IHRvIHVzZSB0aGF0IGFzIHdlbGwuICBDTUEgaXMgbW9yZSBvcHRpb25hbCBhcyBu
-b3QgYWxsIGJvYXJkcwp3aWxsIHVzZSB0aGF0IG9uZSwgc28gaXQgbWlnaHQgbWFrZSBzZW5zZSB0
-byBhdm9pZCBsb2FkaW5nIGl0LgoKU2FuZGVlcDogQ2FuIHlvdSBjaGltZSBpbiBoZXJlIGFzIHRv
-IGhvdyBjcml0aWNhbCBoYXZpbmcgdGhlIHN5c3RlbQphbmQgY21hIGhlYXBzIGJlIG1vZHVsZXMg
-YXJlPwoKCj4gPiA+IEV4cG9ydGluZyBzeW1ib2xzIGZvciBubyByZWFsIGluLXRyZWUgdXNlcnMg
-ZmVlbHMgZmlzaHkuCj4gPgo+ID4gSSdtIHN1Ym1pdHRpbmcgYW4gaW4tdHJlZSB1c2VyIGhlcmUu
-IFNvIEknbSBub3Qgc3VyZSB3aGF0IHlvdSBtZWFuPyAgSQo+ID4gc3VzcGVjdCB5b3UncmUgdGhp
-bmtpbmcgdGhlcmUgaXMgc29tZSBoaWRkZW4vbmVmYXJpb3VzIHBsYW4gaGVyZSwgYnV0Cj4gPiBy
-ZWFsbHkgdGhlcmUgaXNuJ3QuCj4KPiBJIHdhcyB3b3JraW5nIHVuZGVyIHRoZSBhc3N1bXB0aW9u
-IHRoYXQgeW91J3JlIG9ubHkgZXhwb3J0aW5nIHRoZSBzeW1ib2xzCj4gZm9yIG90aGVyIGhlYXBz
-LCBhbmQga2VlcCB0aGUgY3VycmVudCBvbmVzIGluLXRyZWUuCgpOby4gSSdtIHRyeWluZyB0byBh
-bGxvdyB0aGUgKGhvcGVmdWxseS1zb29uLXRvLWJlLWluLXRyZWUpIHN5c3RlbSBhbmQKY21hIGhl
-YXAgZHJpdmVycyB0byBiZSBsb2FkZWQgZnJvbSBhIG1vZHVsZS4KSWYgb3RoZXIgaGVhcHMgbmVl
-ZCBleHBvcnRzLCB0aGV5IGNhbiBzdWJtaXQgdGhlaXIgaGVhcHMgdXBzdHJlYW0gYW5kCmFyZ3Vl
-IGZvciB0aGUgZXhwb3J0ZWQgc3ltYm9scyB0aGVtc2VsdmVzLgoKPiBBcmUgdGhlcmUgZXZlbiBh
-bnkKPiBvdXQtb2YtdHJlZSBkbWEtYnVmIGhlYXBzIHN0aWxsPyBvdXQtb2YtdHJlZSBhbmQgbGVn
-aXQgZGlmZmVyZW50IHVzZS1jYXNlCj4gSSBtZWFuIG9mYywgbm90IGp1c3Qgb3V0LW9mLXRyZWUg
-YmVjYXVzZSBpbmVydGlhIDotKQoKU28gYXMgQW5kcmV3IG1lbnRpb25lZCwgaGUgaGFzIHNvbWUg
-ZG1hYnVmIGhlYXBzIGhlJ3Mgd29ya2luZyBvbiBhdApUSS4gIEZyb20gd2hhdCBJJ3ZlIGhlYXJk
-IHRoZSBxdWFsY29tbSBmb2xrcyBsaWtlIHRoZSBkbWFidWYgaGVhcHMKYXBwcm9hY2gsIGJ1dCBJ
-J20gbm90IHN1cmUgaWYgdGhleSd2ZSB0YWtlbiBhIHBhc3MgYXQgY29udmVydGluZyB0aGVpcgp2
-ZW5kb3IgSU9OIGhlYXBzIHRvIGl0IHlldC4KClRoZSBtYWluIHJlYXNvbiBJJ20gb25seSBzdWJt
-aXR0aW5nIHN5c3RlbSBhbmQgQ01BIGlzIGJlY2F1c2UgdGhvc2UKYXJlIHRoZSBvbmx5IHR3byBJ
-IHBlcnNvbmFsbHkgaGF2ZSBhIHVzZXIgZm9yIChIaUtleS9IaUtleTk2MCBib2FyZHMpLgpJdCdz
-IG15IGhvcGUgdGhhdCBvbmNlIHdlIGRlcHJlY2F0ZSBJT04gaW4gQW5kcm9pZCwgdmVuZG9ycyB3
-aWxsCm1pZ3JhdGUgYW5kIHdlJ2xsIGJlIGFibGUgdG8gcHVzaCB0aGVtIHRvIHVwc3RyZWFtIHRo
-ZWlyIGhlYXBzIGFzCndlbGwuCgp0aGFua3MKLWpvaG4KX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0057514504==
+Content-Type: multipart/alternative; boundary="15729757372.D3ECa1.22046"
+Content-Transfer-Encoding: 7bit
+
+
+--15729757372.D3ECa1.22046
+Date: Tue, 5 Nov 2019 17:42:17 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109628
+
+--- Comment #32 from peter m <malkovjohnny@ukr.net> ---
+updated kernel to 5.3.8-200.fc30, problem still exists
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15729757372.D3ECa1.22046
+Date: Tue, 5 Nov 2019 17:42:17 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - WARNING at dcn10_hw_sequencer.c:868 dcn10_verify_allow_ps=
+tate_change_high()"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109628#c32">Comme=
+nt # 32</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - WARNING at dcn10_hw_sequencer.c:868 dcn10_verify_allow_ps=
+tate_change_high()"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109628">bug 10962=
+8</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+malkovjohnny&#64;ukr.net" title=3D"peter m &lt;malkovjohnny&#64;ukr.net&gt;=
+"> <span class=3D"fn">peter m</span></a>
+</span></b>
+        <pre>updated kernel to 5.3.8-200.fc30, problem still exists</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15729757372.D3ECa1.22046--
+
+--===============0057514504==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0057514504==--
