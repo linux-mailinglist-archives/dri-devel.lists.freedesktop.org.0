@@ -1,53 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A17EAF03AD
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 18:02:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77801F03C5
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 18:06:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0227F89708;
-	Tue,  5 Nov 2019 17:02:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76DFC6EB0C;
+	Tue,  5 Nov 2019 17:05:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk
- [IPv6:2001:4d48:ad52:3201:214:fdff:fe10:1be6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECBD589708
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2019 17:02:17 +0000 (UTC)
-Received: from shell.armlinux.org.uk
- ([2002:4e20:1eda:1:5054:ff:fe00:4ec]:59730)
- by pandora.armlinux.org.uk with esmtpsa
- (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.90_1)
- (envelope-from <linux@armlinux.org.uk>)
- id 1iS2DX-0007ce-31; Tue, 05 Nov 2019 17:02:07 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
- (envelope-from <linux@shell.armlinux.org.uk>)
- id 1iS2DT-0003E6-Oe; Tue, 05 Nov 2019 17:02:03 +0000
-Date: Tue, 5 Nov 2019 17:02:03 +0000
-From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To: Takashi Iwai <tiwai@suse.de>
-Subject: Re: Incorrect buffer handling in dw-hdmi bridge audio
-Message-ID: <20191105170203.GR25745@shell.armlinux.org.uk>
-References: <s5heeymbvva.wl-tiwai@suse.de>
- <6ad19121-c0e3-d278-2943-ff93ef80353b@baylibre.com>
- <20191105160215.GQ25745@shell.armlinux.org.uk>
- <s5hh83ith93.wl-tiwai@suse.de> <s5heeymtgr9.wl-tiwai@suse.de>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 356906EB0C
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2019 17:05:56 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 32CC3720E2; Tue,  5 Nov 2019 17:05:56 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 112214] Vega20 crashing randomly while using Xorg or Wayland in
+ Fedora 31
+Date: Tue, 05 Nov 2019 17:05:56 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: renich@woralelandia.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ attachments.created
+Message-ID: <bug-112214-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <s5heeymtgr9.wl-tiwai@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; 
- d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=4M+7ichyAPZEL6AESNwqcRIL14sHkJnW8d2rfDweu/0=; b=Dw6+oQEzEFReVJQml0Asy6oh0
- T3z3EyQgXsbUzLtjYdFQ69Sq8UO5hU41wPBAx3fhEppAxsCLA7ypcn2HisHMbW12DhzFcNB44zyjM
- MwNaDqAsLTjixnMgDY2NAfJNglArprsc4qLNLAPh07uputNHEoK86WnYYFj7HI/SGadXisw2i5rFh
- BBjMQEPDQDYJAepORE836rAWtiefmDuy1e10fuCcRLyCR/daTbdW+CqQ5560e/GQOZZiaqomNlod4
- wDOqKOiQBq+iuCyU7cQgUm9DougmHnmRciZuufdl4+70SZ2uPPsOYgizGorXotoNxLk6Gy1IvleNx
- x04qouMww==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,104 +53,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>, alsa-devel@alsa-project.org,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0227696008=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBOb3YgMDUsIDIwMTkgYXQgMDU6NDQ6MjZQTSArMDEwMCwgVGFrYXNoaSBJd2FpIHdy
-b3RlOgo+IE9uIFR1ZSwgMDUgTm92IDIwMTkgMTc6MzM6NDQgKzAxMDAsCj4gVGFrYXNoaSBJd2Fp
-IHdyb3RlOgo+ID4gCj4gPiBPbiBUdWUsIDA1IE5vdiAyMDE5IDE3OjAyOjE1ICswMTAwLAo+ID4g
-UnVzc2VsbCBLaW5nIC0gQVJNIExpbnV4IGFkbWluIHdyb3RlOgo+ID4gPiAKPiA+ID4gT24gVHVl
-LCBOb3YgMDUsIDIwMTkgYXQgMDk6MDc6NDNBTSArMDEwMCwgTmVpbCBBcm1zdHJvbmcgd3JvdGU6
-Cj4gPiA+ID4gSGksCj4gPiA+ID4gCj4gPiA+ID4gT24gMDUvMTEvMjAxOSAwODo1NSwgVGFrYXNo
-aSBJd2FpIHdyb3RlOgo+ID4gPiA+ID4gSGksCj4gPiA+ID4gPiAKPiA+ID4gPiA+IHdoaWxlIHJl
-Y2VudGx5IHdvcmtpbmcgb24gdGhlIEFMU0EgbWVtb3J5IGFsbG9jYXRvciBBUEkgY2xlYW51cCwg
-SQo+ID4gPiA+ID4gbm90aWNlZCB0aGF0IGR3LWhkbWkgYnJpZGdlIGRyaXZlciBzZWVtcyBkb2lu
-ZyB3ZWlyZCBhYm91dCB0aGUgYnVmZmVyCj4gPiA+ID4gPiBtYW5hZ2VtZW50LiAgSXQgcHJlLWFs
-bG9jYXRlcyB0aGUgdXN1YWwgZGV2aWNlIGJ1ZmZlcnMgZnVsbHkgYXQgdGhlCj4gPiA+ID4gPiBw
-cm9iZSB0aW1lLCB3aGlsZSBlYWNoIHN0cmVhbSBhbGxvY2F0ZXMgdGhlIGJ1ZmZlciB2aWEgdGhl
-IHZtYWxsb2MKPiA+ID4gPiA+IGhlbHBlcnMgYW5kIHJlcGxhY2VzIHdpdGggaXQgYXQgZWFjaCBv
-cGVuLgo+ID4gPiA+ID4gCj4gPiA+ID4gPiBJIGd1ZXNzIGl0J3Mgbm8gZXhwZWN0ZWQgYmVoYXZp
-b3I/ICBJdCdzIGJhc2ljYWxseSBhIGZ1bGwgd2FzdGUgb2YKPiA+ID4gPiA+IHJlc291cmNlcywg
-YW5kIHRoZSB2bWFsbG9jIGJ1ZmZlciBpc24ndCBndWFyYW50ZWVkIHRvIHdvcmsgd2VsbCBmb3IK
-PiA+ID4gPiA+IG1tYXAgb24gZXZlcnkgYXJjaGl0ZWN0dXJlLgo+ID4gPiA+ID4gCj4gPiA+ID4g
-PiBCZWxvdyBpcyB0aGUgcGF0Y2ggdG8gYWRkcmVzcyBpdC4gIENhbiBhbnlvbmUgY2hlY2sgd2hl
-dGhlciB0aGlzIHN0aWxsCj4gPiA+ID4gPiB3b3Jrcz8KPiA+ID4gPiAKPiA+ID4gPiBJIGRvbid0
-IGhhdmUgdGhlIHNldHVwIHRvIGNoZWNrLCBidXQgdGhpcyBoYXMgYmVlbiBwdXNoZWQgYnkgUnVz
-c2VsbCBJIEFkZGVkIGluIENDLgo+ID4gPiA+IAo+ID4gPiA+IEkgYWxzbyBhZGRlZCB0aGUgaW14
-IG1haW50YWluZXIgc2luY2UgaXQncyAoQUZBSUspIG9ubHkgdXNlZCBvbiBpTVggU29Dcy4KPiA+
-ID4gPiAKPiA+ID4gPiBOZWlsCj4gPiA+ID4gCj4gPiA+ID4gPiAKPiA+ID4gPiA+IFNpbmNlIEkg
-aGF2ZSBhIGNsZWFudXAgc2VyaWVzIGFuZCB0aGlzIGlzIGludm9sdmVkLCBJJ2QgbGlrZSB0byB0
-YWtlCj4gPiA+ID4gPiB0aGUgZml4IHRocm91Z2ggbXkgdHJlZSBvbmNlIGFmdGVyIGl0J3MgY29u
-ZmlybWVkIChhbmQgZ2V0IEFDSyBpZgo+ID4gPiA+ID4gcG9zc2libGUpLgo+ID4gPiA+ID4gCj4g
-PiA+ID4gPiAKPiA+ID4gPiA+IFRoYW5rcyEKPiA+ID4gPiA+IAo+ID4gPiA+ID4gVGFrYXNoaQo+
-ID4gPiA+ID4gCj4gPiA+ID4gPiAtLSA4PCAtLQo+ID4gPiA+ID4gRnJvbTogVGFrYXNoaSBJd2Fp
-IDx0aXdhaUBzdXNlLmRlPgo+ID4gPiA+ID4gU3ViamVjdDogW1BBVENIXSBkcm0vYnJpZGdlOiBk
-dy1oZG1pOiBGaXggdGhlIGluY29ycmVjdCBidWZmZXIgYWxsb2NhdGlvbnMKPiA+ID4gPiA+IAo+
-ID4gPiA+ID4gVGhlIGRyaXZlciBzZXRzIHVwIHRoZSBidWZmZXIgcHJlYWxsb2NhdGlvbiB3aXRo
-IFNORFJWX0RNQV9UWVBFX0RFViwKPiA+ID4gPiA+IHdoaWxlIGl0IHJlLWFsbG9jYXRlcyBhbmQg
-cmVsZWFzZXMgdm1hbGxvYyBwYWdlcy4gIFRoaXMgaXMgbm90IG9ubHkgYQo+ID4gPiA+ID4gbG90
-IG9mIHdhc3RlIHJlc291cmNlcyBidXQgYWxzbyBjYXVzZXMgdGhlIG1tYXAgbWFsZnVuY3Rpb24u
-Cj4gPiA+ID4gPiAKPiA+ID4gPiA+IENoYW5nZSAvIGRyb3AgdGhlIHZtYWxsb2MtcmVsYXRlZCBj
-b2RlIGFuZCB1c2UgdGhlIHN0YW5kYXJkIGJ1ZmZlcgo+ID4gPiA+ID4gYWxsb2NhdGlvbiAvIHJl
-bGVhc2UgY29kZSBpbnN0ZWFkLgo+ID4gPiAKPiA+ID4gSSB0aGluayBnZXR0aW5nIHJpZCBvZiB0
-aGUgdm1hbGxvYyBjb2RlIGhlcmUgaXMgYSBtaXN0YWtlIC0gSSBzZWVtIHRvCj4gPiA+IHJlbWVt
-YmVyIHVzaW5nIHRoZSBzdGFuZGFyZCBidWZmZXIgYWxsb2NhdGlvbiBjYXVzZXMgZmFpbHVyZXMs
-IGR1ZSB0bwo+ID4gPiBtZW1vcnkgZnJhZ21lbnRhdGlvbi4gIFNpbmNlIHRoZSBoYXJkd2FyZSBp
-cyBsaW1pdGVkIHRvIERNQSBmcm9tIGF0Cj4gPiA+IG1vc3Qgb25lIHBhZ2UsIHRoZXJlIGlzIG5v
-IHJlYXNvbiBmb3IgdGhpcyBkcml2ZXIgdG8gcmVxdWlyZSBjb250aWd1b3VzCj4gPiA+IHBhZ2Vz
-LCBoZW5jZSB3aHkgaXQncyB1c2luZyAtIGFuZCBzaG91bGQgdXNlIC0gdm1hbGxvYyBwYWdlcy4g
-IHZtYWxsb2MKPiA+ID4gaXMgd2F5IGtpbmRlciB0byB0aGUgTU0gc3Vic3lzdGVtIHRoYW4gdHJ5
-aW5nIHRvIHJlcXVlc3QgbGFyZ2Ugb3JkZXIKPiA+ID4gY29udGlndW91cyBwYWdlcy4KPiA+ID4g
-Cj4gPiA+IFNvLCBOQUsgb24gdGhpcyBwYXRjaC4KPiA+IAo+ID4gT0ssIHRoZW4gd2Ugc2hvdWxk
-IGRvIG90aGVyIHdheSByb3VuZCwgcmF0aGVyIGRyb3AgdGhlIGJ1ZmZlcgo+ID4gcHJlYWxsb2Nh
-dGlvbiBpbnN0ZWFkLiAgQ3VycmVudGx5IHZtYWxsb2MgYnVmZmVyIGlzIGFsd2F5cyBhbGxvY2F0
-ZWQKPiA+IGF0IGVhY2ggb3BlbiBhbmQgb3ZlcnJpZGVzIHRoZSBwcmVhbGxvY2F0ZWQgYnVmZmVy
-LCBzbyB0aGUgd2hvbGUgNjRrCj4gPiBhbmQgbW9yZSBhcmUgd2FzdGVkIGZvciBubyB1c2UuCj4g
-PiAKPiA+IChCVFcsIHRoZSBjdXJyZW50IGNvZGUgaGFzIHRoaXMgc25pcHBldDoKPiA+IAo+ID4g
-CS8qIExpbWl0IHRoZSBidWZmZXIgc2l6ZSB0byB0aGUgc2l6ZSBvZiB0aGUgcHJlYWxsb2NhdGVk
-IGJ1ZmZlciAqLwo+ID4gCXJldCA9IHNuZF9wY21faHdfY29uc3RyYWludF9taW5tYXgocnVudGlt
-ZSwKPiA+IAkJCQkJICAgU05EUlZfUENNX0hXX1BBUkFNX0JVRkZFUl9TSVpFLAo+ID4gCQkJCQkg
-ICAwLCBzdWJzdHJlYW0tPmRtYV9idWZmZXIuYnl0ZXMpOwo+ID4gCj4gPiAuLi4gYW5kIHRoaXMg
-d291bGQgaGF2ZSB0byBsaW1pdCB0aGUgYnVmZmVyIHNpemUgb25seSB0byB0aGUKPiA+IHByZWFs
-bG9jYXRlZCBzaXplIC0tIHdoaWNoIGVzc2VudGlhbGx5IG1ha2VzIHRoZSBhcmd1bWVudCBhYm92
-ZQo+ID4gaW52YWxpZC4gIEhvd2V2ZXIsIHRoaXMgY2hlY2sgbG9va3MgYWN0dWFsbHkgYm9ndXMs
-IHRoZSBjb25zdHJhaW50Cj4gPiBwYXJhbWV0ZXIgc2hvdWxkIGJlIFNORFJWX1BDTV9IV19QQVJB
-TV9CVUZGRVJfQllURVMsIG5vdCBfU0laRS4gIEl0Cj4gPiBtaWdodCBiZSB0aGUgcmVhc29uIGl0
-IHdvcmtlZCBzb21laG93Li4uKQo+ID4gCj4gPiBTbyBiZWxvdyBpcyB0aGUgcmV2aXNlZCBwYXRj
-aC4gIENvdWxkIHlvdSBndXlzIGNoZWNrIGl0IGFnYWluPwo+ID4gCj4gPiBUaGVyZSBJIGNvcGll
-ZCB0aGUgY29tbWVudCBhcyBpcywgYWx0aG91Z2ggdGhlIDUxMmsgbWVudGlvbmVkIHRoZXJlCj4g
-PiBsb29rcyBpbmNvbnNpc3RlbnQgd2l0aCB0aGUgYWN0dWFsIGNvZGUuICBTaG91bGQgaXQgYmUg
-MU0/Cj4gCj4gLi4uIGFuZCByZWFkaW5nIHRoZSBwYXRjaCBhZ2FpbiwgSSBmb3VuZCB0aGF0IHRo
-ZSBodyBjb25zdHJhaW50IGNhbGwKPiBjYW4gYmUgZHJvcHBlZCBhcyB3ZWxsLiAgVGhlIGR3X2hk
-bWlfaHcgZGVmaW5pdGlvbiBhbHJlYWR5IGNvbnRhaW5zCj4gdGhlIG1heCBidWZmZXIgc2l6ZS4K
-PiAKPiBCZWxvdyBpcyB0aGUgcmUtcmV2aXNlZCBwYXRjaC4gIFBsZWFzZSBjaGVjayBpdC4KCkkg
-d2FzIHNsaWdodGx5IHdyb25nIC0gc29ycnkuICBJdCdzIGJlZW4gYSBsb25nIHRpbWUgc2luY2Ug
-SSBsb29rZWQgYXQKdGhpcyBkcml2ZXIsIG9yIGV2ZW4gdXNlZCBpdCAtIGJ1dCBpdCBpcyB0aGUg
-b25seSBkcml2ZXIgdGhhdCBzdXBwb3J0cwpIRE1JIGF1ZGlvIG9uIGlNWDYgcGxhdGZvcm1zLCBz
-byBJIGd1ZXNzIHRoZXJlIGFyZSBsb3RzIG9mIHVzZXJzIG91dAp0aGVyZS4uLiBvciBtYXliZSBu
-b3QgaWYgbm9uZSBvZiB0aGVtIHVzZSBtYWlubGluZSBrZXJuZWxzLgoKVGhlIGhhcmR3YXJlIGlz
-IGNhcGFibGUgb2YgcmVhZGluZyBhY3Jvc3MgYSBwYWdlLiAgSG93ZXZlciwgdGhlIGhhcmR3YXJl
-CmlzIF9ub3RfIGNhcGFibGUgb2YgcmVhZGluZyBhbnkgZGF0YSB0aGF0IGlzIGZvcm1hdHRlZCBh
-cyBBTFNBIEFQSXMKYWxsb3cgaXQgdG8gYmUuICBUaGUgZHJpdmVyIGhhcyB0byByZWZvcm1hdCB0
-aGUgQUxTQSBzdXBwbGllZCBzb3VuZApidWZmZXJzIHRvIHRoZSBsYXlvdXQgdGhlIGhhcmR3YXJl
-IHJlcXVpcmVzLgoKVG8gZG8gdGhpcywgd2UgaGF2ZSB0d28gZGlmZmVyZW50IGJ1ZmZlcnM6Cgot
-IFRoZSBzdWJzdHJlYW0gYnVmZmVyIGlzIHRoZSBidWZmZXIgd2hpY2ggdGhlIGhhcmR3YXJlIHJl
-YWRzIGZyb20uCi0gVGhlIHJ1bnRpbWUgYnVmZmVyIGlzIHRoZSBidWZmZXIgd2hpY2ggQUxTQSB1
-c2VzLgoKVGhlIGNhbGwgdG8gc25kX3BjbV9saWJfcHJlYWxsb2NhdGVfcGFnZXNfZm9yX2FsbCgp
-IGFsbG9jYXRlcyB0aGUKaGFyZHdhcmUgYnVmZmVyLCB3aGljaCBpcyBhIHNpbmdsZSBjb250aWd1
-b3VzIGJ1ZmZlciBvZiBmaXhlZCBzaXplLgoKVGhlIHVzZXIgYnVmZmVyIGlzIGFsbG9jYXRlZCB3
-aXRoIHNuZF9wY21fbGliX2FsbG9jX3ZtYWxsb2NfYnVmZmVyKCkuCgpIZW5jZSwgdGhlIGRyaXZl
-ciBtYWtlcyB1c2Ugb2YgYm90aC4gIFlvdSBjYW4ndCBnZXQgcmlkIG9mIGVpdGhlcgpvZiB0aGVt
-LgoKLS0gClJNSydzIFBhdGNoIHN5c3RlbTogaHR0cHM6Ly93d3cuYXJtbGludXgub3JnLnVrL2Rl
-dmVsb3Blci9wYXRjaGVzLwpGVFRDIGJyb2FkYmFuZCBmb3IgMC44bWlsZSBsaW5lIGluIHN1YnVy
-YmlhOiBzeW5jIGF0IDEyLjFNYnBzIGRvd24gNjIya2JwcyB1cApBY2NvcmRpbmcgdG8gc3BlZWR0
-ZXN0Lm5ldDogMTEuOU1icHMgZG93biA1MDBrYnBzIHVwCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0227696008==
+Content-Type: multipart/alternative; boundary="15729735561.96aD99274.14912"
+Content-Transfer-Encoding: 7bit
+
+
+--15729735561.96aD99274.14912
+Date: Tue, 5 Nov 2019 17:05:56 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112214
+
+            Bug ID: 112214
+           Summary: Vega20 crashing randomly while using Xorg or Wayland
+                    in Fedora 31
+           Product: DRI
+           Version: XOrg git
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: not set
+          Priority: not set
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: renich@woralelandia.com
+
+Created attachment 145892
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145892&action=3Dedit
+dmidecode
+
+It seems my Radeon VII is crashing from time to time. Sometimes several tim=
+es a
+day, sometimes every few days.
+
+I will attach journal and hardware info.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15729735561.96aD99274.14912
+Date: Tue, 5 Nov 2019 17:05:56 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Vega20 crashing randomly while using Xorg or Wayland in F=
+edora 31"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112214">112214</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Vega20 crashing randomly while using Xorg or Wayland in Fedor=
+a 31
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>XOrg git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>renich&#64;woralelandia.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145892=
+" name=3D"attach_145892" title=3D"dmidecode">attachment 145892</a> <a href=
+=3D"attachment.cgi?id=3D145892&amp;action=3Dedit" title=3D"dmidecode">[deta=
+ils]</a></span>
+dmidecode
+
+It seems my Radeon VII is crashing from time to time. Sometimes several tim=
+es a
+day, sometimes every few days.
+
+I will attach journal and hardware info.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15729735561.96aD99274.14912--
+
+--===============0227696008==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0227696008==--
