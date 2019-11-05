@@ -1,62 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 059D1EF88C
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 10:22:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A1A5EF891
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 10:23:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D0926E955;
-	Tue,  5 Nov 2019 09:22:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFE856E95A;
+	Tue,  5 Nov 2019 09:23:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A32EB6E955
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2019 09:22:36 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id q13so20433041wrs.12
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Nov 2019 01:22:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=dhhFQFANzkhuP+gMUtwIkvRqzgzLOBc4vJe8iVs7oJk=;
- b=HfagcLZmJ4nKlcI4XSdiXp9kc0edN+9CP9+4uPW31aQ/OFU+o/VaoqkbNIfGe3P+yu
- Qc1zNHbqh0EC7faqZltLjNdeZT120utC4ueUoya4PNvRpoQRNW5cBJQ/bcbCbBRETRly
- /2D7oix71//2st0iEgi0NcIdFfXGk8VLWjpdwWs3PJp8bjlCCeXaLaOEpXnzLMk+4YuM
- iOoHM16ZW4jSz7+V7OVNwhjgd7LHjFV01HW6g5+o2drLjg0w1lTn5/c2g28V176UVglz
- 5WUN2wBbHzSEyIyRgYt6/5PonEckNxb420a2nElDOmbK8oqJu9Pco1bikdEKSPqzuv1Y
- AVOw==
-X-Gm-Message-State: APjAAAXXIjArx3zdrjw7DIZr1O8Va1WKY1ME7dbRtHM6BZ/banCg2EnW
- UL72/jEmCCwOKNjQCZhYUbVVeA==
-X-Google-Smtp-Source: APXvYqw1fhnZQh98L21ByS1ImN6jwY+FRTTUBBiSwczQc7jjm3kUijPvUQkoSUHSOjIlN4DJC8Z5+w==
-X-Received: by 2002:adf:a31a:: with SMTP id c26mr585188wrb.330.1572945755013; 
- Tue, 05 Nov 2019 01:22:35 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net.
- [212.51.149.96])
- by smtp.gmail.com with ESMTPSA id y16sm10350169wro.25.2019.11.05.01.22.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Nov 2019 01:22:34 -0800 (PST)
-Date: Tue, 5 Nov 2019 10:22:32 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Subject: Re: [PATCHv2 1/4] drm/arm: Factor out generic afbc helpers
-Message-ID: <20191105092232.GV10326@phenom.ffwll.local>
-References: <2485717.1SzL54aMiy@e123338-lin>
- <20191104221228.3588-1-andrzej.p@collabora.com>
- <20191104221228.3588-2-andrzej.p@collabora.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0E32B6E96B
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2019 09:23:11 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 0B21D720E2; Tue,  5 Nov 2019 09:23:11 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Tue, 05 Nov 2019 09:23:09 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: ousleyaric@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: highest
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111481-502-oihotnKA7E@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191104221228.3588-2-andrzej.p@collabora.com>
-X-Operating-System: Linux phenom 5.2.0-3-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=dhhFQFANzkhuP+gMUtwIkvRqzgzLOBc4vJe8iVs7oJk=;
- b=Y0qGpoz8mkc6J0X/PqzWaaCLuNLlWUIbCAkoMiLkv3gys/w9JI+u2wmPeYNXfboyfG
- vfyoeBtHOKmoXYJg2kq22Ft8MCgjg52amGWaQpUaYjHrJYnasD9ETDfDOr3P2YGbaNez
- F2NcPjJ1OwGFGuLHZ74+rD7HJ8yiouP2kDx6o=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,156 +53,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ayan Halder <Ayan.Halder@arm.com>, kernel@collabora.com,
- David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
- linux-rockchip@lists.infradead.org, James Wang <james.qian.wang@arm.com>,
- dri-devel@lists.freedesktop.org, Mihail Atanassov <mihail.atanassov@arm.com>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0961542812=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBOb3YgMDQsIDIwMTkgYXQgMTE6MTI6MjVQTSArMDEwMCwgQW5kcnplaiBQaWV0cmFz
-aWV3aWN6IHdyb3RlOgo+IFRoZXNlIGFyZSB1c2VmdWwgZm9yIG90aGVyIHVzZXJzIG9mIGFmYmMs
-IGUuZy4gcm9ja2NoaXAuCj4gCj4gU2lnbmVkLW9mZi1ieTogQW5kcnplaiBQaWV0cmFzaWV3aWN6
-IDxhbmRyemVqLnBAY29sbGFib3JhLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL0tjb25m
-aWcgICAgIHwgICA4ICsrKwo+ICBkcml2ZXJzL2dwdS9kcm0vTWFrZWZpbGUgICAgfCAgIDEgKwo+
-ICBkcml2ZXJzL2dwdS9kcm0vYXJtL0tjb25maWcgfCAgIDEgKwo+ICBkcml2ZXJzL2dwdS9kcm0v
-ZHJtX2FmYmMuYyAgfCAxMjkgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCj4g
-IGluY2x1ZGUvZHJtL2RybV9hZmJjLmggICAgICB8ICAzNiArKysrKysrKysrCj4gIDUgZmlsZXMg
-Y2hhbmdlZCwgMTc1IGluc2VydGlvbnMoKykKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMv
-Z3B1L2RybS9kcm1fYWZiYy5jCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBpbmNsdWRlL2RybS9kcm1f
-YWZiYy5oCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9LY29uZmlnIGIvZHJpdmVy
-cy9ncHUvZHJtL0tjb25maWcKPiBpbmRleCAzNjM1N2EzNmEyODEuLmFlMWNhNWUwMmJmZSAxMDA2
-NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vS2NvbmZpZwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9LY29uZmlnCj4gQEAgLTIwNSw2ICsyMDUsMTQgQEAgY29uZmlnIERSTV9TQ0hFRAo+ICAJdHJp
-c3RhdGUKPiAgCWRlcGVuZHMgb24gRFJNCj4gIAo+ICtjb25maWcgRFJNX0FGQkMKPiArCXRyaXN0
-YXRlCj4gKwlkZXBlbmRzIG9uIERSTQo+ICsJaGVscAo+ICsJICBBRkJDIGlzIGEgcHJvcHJpZXRh
-cnkgbG9zc2xlc3MgaW1hZ2UgY29tcHJlc3Npb24gcHJvdG9jb2wgYW5kIGZvcm1hdC4KPiArCSAg
-SXQgcHJvdmlkZXMgZmluZS1ncmFpbmVkIHJhbmRvbSBhY2Nlc3MgYW5kIG1pbmltaXplcyB0aGUg
-YW1vdW50IG9mCj4gKwkgIGRhdGEgdHJhbnNmZXJyZWQgYmV0d2VlbiBJUCBibG9ja3MuCgpVaCBh
-IG1vZHVsZSBvcHRpb24gZm9yIDIgZnVuY3Rpb25zIC4uLiBzZWVtcyBsaWtlIG1hc3NpdmUgb3Zl
-cmtpbGwuIFBsZWFzZQpqdXN0IHB1dCB0aGF0IGludG8gZXhpc3RpbmcgZm9ybWF0IGhlbHBlcnMg
-aW5zdGVhZC4KCldoYXQncyBtaXNzaW5nIG90b2ggaXMga2VybmVsIGRvYyBmb3IgdGhlc2UuCgo+
-ICsKPiAgc291cmNlICJkcml2ZXJzL2dwdS9kcm0vaTJjL0tjb25maWciCj4gIAo+ICBzb3VyY2Ug
-ImRyaXZlcnMvZ3B1L2RybS9hcm0vS2NvbmZpZyIKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL01ha2VmaWxlIGIvZHJpdmVycy9ncHUvZHJtL01ha2VmaWxlCj4gaW5kZXggOWYxYzdjNDg2
-Zjg4Li4zYTVkMDkyZWE1MTQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL01ha2VmaWxl
-Cj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL01ha2VmaWxlCj4gQEAgLTMxLDYgKzMxLDcgQEAgZHJt
-LSQoQ09ORklHX09GKSArPSBkcm1fb2Yubwo+ICBkcm0tJChDT05GSUdfQUdQKSArPSBkcm1fYWdw
-c3VwcG9ydC5vCj4gIGRybS0kKENPTkZJR19ERUJVR19GUykgKz0gZHJtX2RlYnVnZnMubyBkcm1f
-ZGVidWdmc19jcmMubwo+ICBkcm0tJChDT05GSUdfRFJNX0xPQURfRURJRF9GSVJNV0FSRSkgKz0g
-ZHJtX2VkaWRfbG9hZC5vCj4gK2RybS0kKENPTkZJR19EUk1fQUZCQykgKz0gZHJtX2FmYmMubwo+
-ICAKPiAgZHJtX3ZyYW1faGVscGVyLXkgOj0gZHJtX2dlbV92cmFtX2hlbHBlci5vIFwKPiAgCQkg
-ICAgIGRybV92cmFtX2hlbHBlcl9jb21tb24ubwo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vYXJtL0tjb25maWcgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL0tjb25maWcKPiBpbmRleCBhMjA0
-MTAzYjNlZmIuLjI1YzNkYzQwOGNkYSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXJt
-L0tjb25maWcKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL0tjb25maWcKPiBAQCAtMjksNiAr
-MjksNyBAQCBjb25maWcgRFJNX01BTElfRElTUExBWQo+ICAJc2VsZWN0IERSTV9LTVNfSEVMUEVS
-Cj4gIAlzZWxlY3QgRFJNX0tNU19DTUFfSEVMUEVSCj4gIAlzZWxlY3QgRFJNX0dFTV9DTUFfSEVM
-UEVSCj4gKwlzZWxlY3QgRFJNX0FGQkMKPiAgCXNlbGVjdCBWSURFT01PREVfSEVMUEVSUwo+ICAJ
-aGVscAo+ICAJICBDaG9vc2UgdGhpcyBvcHRpb24gaWYgeW91IHdhbnQgdG8gY29tcGlsZSB0aGUg
-QVJNIE1hbGkgRGlzcGxheQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2FmYmMu
-YyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fYWZiYy5jCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQKPiBp
-bmRleCAwMDAwMDAwMDAwMDAuLjAxMGNhOWViMDQ4MAo+IC0tLSAvZGV2L251bGwKPiArKysgYi9k
-cml2ZXJzL2dwdS9kcm0vZHJtX2FmYmMuYwo+IEBAIC0wLDAgKzEsMTI5IEBACj4gKy8vIFNQRFgt
-TGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wCj4gKy8qCj4gKyAqIChDKSAyMDE5IENvbGxhYm9y
-YSBMdGQuCj4gKyAqCj4gKyAqIGF1dGhvcjogQW5kcnplaiBQaWV0cmFzaWV3aWN6IDxhbmRyemVq
-LnBAY29sbGFib3JhLmNvbT4KPiArICoKPiArICovCj4gKyNpbmNsdWRlIDxsaW51eC9tb2R1bGUu
-aD4KPiArCj4gKyNpbmNsdWRlIDxkcm0vZHJtX2FmYmMuaD4KPiArI2luY2x1ZGUgPGRybS9kcm1f
-ZGV2aWNlLmg+Cj4gKyNpbmNsdWRlIDxkcm0vZHJtX2ZvdXJjYy5oPgo+ICsjaW5jbHVkZSA8ZHJt
-L2RybV9nZW0uaD4KPiArI2luY2x1ZGUgPGRybS9kcm1fbW9kZS5oPgo+ICsjaW5jbHVkZSA8ZHJt
-L2RybV9wcmludC5oPgo+ICsKPiArI2RlZmluZSBBRkJDX0hFQURFUl9TSVpFCQkxNgo+ICsKPiAr
-Ym9vbCBkcm1fYWZiY19jaGVja19vZmZzZXQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiArCQkJ
-ICAgY29uc3Qgc3RydWN0IGRybV9tb2RlX2ZiX2NtZDIgKm1vZGVfY21kKQo+ICt7Cj4gKwlpZiAo
-bW9kZV9jbWQtPm9mZnNldHNbMF0gIT0gMCkgewo+ICsJCURSTV9ERUJVR19LTVMoIkFGQkMgYnVm
-ZmVycycgcGxhbmUgb2Zmc2V0IHNob3VsZCBiZSAwXG4iKTsKPiArCQlyZXR1cm4gZmFsc2U7Cj4g
-Kwl9Cj4gKwo+ICsJcmV0dXJuIHRydWU7Cj4gK30KPiArRVhQT1JUX1NZTUJPTF9HUEwoZHJtX2Fm
-YmNfY2hlY2tfb2Zmc2V0KTsKPiArCj4gK2Jvb2wgZHJtX2FmYmNfY2hlY2tfc2l6ZV9hbGlnbihz
-dHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ICsJCQkgICAgICAgY29uc3Qgc3RydWN0IGRybV9tb2Rl
-X2ZiX2NtZDIgKm1vZGVfY21kKQo+ICt7Cj4gKwlzd2l0Y2ggKG1vZGVfY21kLT5tb2RpZmllclsw
-XSAmIEFGQkNfRk9STUFUX01PRF9CTE9DS19TSVpFX01BU0spIHsKPiArCWNhc2UgQUZCQ19GT1JN
-QVRfTU9EX0JMT0NLX1NJWkVfMTZ4MTY6Cj4gKwkJaWYgKChtb2RlX2NtZC0+d2lkdGggJSAxNikg
-fHwgKG1vZGVfY21kLT5oZWlnaHQgJSAxNikpIHsKPiArCQkJRFJNX0RFQlVHX0tNUygKPiArCQkJ
-CSJBRkJDIGJ1ZmZlciBtdXN0IGJlIGFsaWduZWQgdG8gMTYgcGl4ZWxzXG4iCj4gKwkJCSk7Cj4g
-KwkJCXJldHVybiBmYWxzZTsKPiArCQl9Cj4gKwkJYnJlYWs7Cj4gKwljYXNlIEFGQkNfRk9STUFU
-X01PRF9CTE9DS19TSVpFXzMyeDg6Cj4gKwkJLyogZmFsbCB0aHJvdWdoICovCj4gKwljYXNlIEFG
-QkNfRk9STUFUX01PRF9CTE9DS19TSVpFXzY0eDQ6Cj4gKwkJLyogZmFsbCB0aHJvdWdoICovCj4g
-KwljYXNlIEFGQkNfRk9STUFUX01PRF9CTE9DS19TSVpFXzMyeDhfNjR4NDoKPiArCQkvKiBmYWxs
-IHRocm91Z2ggKi8KPiArCWRlZmF1bHQ6Cj4gKwkJRFJNX0RFQlVHX0tNUygiVW5zdXBwb3J0ZWQg
-QUZCQyBibG9jayBzaXplXG4iKTsKPiArCQlyZXR1cm4gZmFsc2U7Cj4gKwl9Cj4gKwo+ICsJcmV0
-dXJuIHRydWU7Cj4gK30KPiArRVhQT1JUX1NZTUJPTF9HUEwoZHJtX2FmYmNfY2hlY2tfc2l6ZV9h
-bGlnbik7Cj4gKwo+ICtib29sIGRybV9hZmJjX2dldF9zdXBlcmJsa193aCh1NjQgbW9kaWZpZXIs
-IHUzMiAqdywgdTMyICpoKQo+ICt7Cj4gKwlzd2l0Y2ggKG1vZGlmaWVyICYgQUZCQ19GT1JNQVRf
-TU9EX0JMT0NLX1NJWkVfTUFTSykgewo+ICsJY2FzZSBBRkJDX0ZPUk1BVF9NT0RfQkxPQ0tfU0la
-RV8xNngxNjoKPiArCQkqdyA9IDE2Owo+ICsJCSpoID0gMTY7Cj4gKwkJYnJlYWs7Cj4gKwljYXNl
-IEFGQkNfRk9STUFUX01PRF9CTE9DS19TSVpFXzMyeDg6Cj4gKwkJKncgPSAzMjsKPiArCQkqaCA9
-IDg7Cj4gKwkJYnJlYWs7Cj4gKwljYXNlIEFGQkNfRk9STUFUX01PRF9CTE9DS19TSVpFXzY0eDQ6
-Cj4gKwkJLyogZmFsbCB0aHJvdWdoICovCj4gKwljYXNlIEFGQkNfRk9STUFUX01PRF9CTE9DS19T
-SVpFXzMyeDhfNjR4NDoKPiArCQkvKiBmYWxsIHRocm91Z2ggKi8KPiArCWRlZmF1bHQ6Cj4gKwkJ
-RFJNX0RFQlVHX0tNUygiSW52YWxpZCBBRkJDX0ZPUk1BVF9NT0RfQkxPQ0tfU0laRTogJWxsZC5c
-biIsCj4gKwkJCSAgICAgIG1vZGlmaWVyICYgQUZCQ19GT1JNQVRfTU9EX0JMT0NLX1NJWkVfTUFT
-Syk7Cj4gKwkJcmV0dXJuIGZhbHNlOwo+ICsJfQo+ICsJcmV0dXJuIHRydWU7Cj4gK30KPiArRVhQ
-T1JUX1NZTUJPTF9HUEwoZHJtX2FmYmNfZ2V0X3N1cGVyYmxrX3doKTsKPiArCj4gK2Jvb2wgZHJt
-X2FmYmNfY2hlY2tfZmJfc2l6ZV9yZXQodTMyIHBpdGNoLCBpbnQgYnBwLAo+ICsJCQkJdTMyIHcs
-IHUzMiBoLCB1MzIgc3VwZXJibGtfdywgdTMyIHN1cGVyYmxrX2gsCj4gKwkJCQlzaXplX3Qgc2l6
-ZSwgdTMyIG9mZnNldCwgdTMyIGhkcl9hbGlnbiwKPiArCQkJCXUzMiAqcGF5bG9hZF9vZmYsIHUz
-MiAqdG90YWxfc2l6ZSkKPiArewo+ICsJaW50IG5fc3VwZXJibGtzID0gMDsKPiArCXUzMiBzdXBl
-cmJsa19zeiA9IDA7Cj4gKwl1MzIgYWZiY19zaXplID0gMDsKPiArCj4gKwluX3N1cGVyYmxrcyA9
-ICh3IC8gc3VwZXJibGtfdykgKiAoaCAvIHN1cGVyYmxrX2gpOwo+ICsJc3VwZXJibGtfc3ogPSAo
-YnBwICogc3VwZXJibGtfdyAqIHN1cGVyYmxrX2gpIC8gQklUU19QRVJfQllURTsKPiArCWFmYmNf
-c2l6ZSA9IEFMSUdOKG5fc3VwZXJibGtzICogQUZCQ19IRUFERVJfU0laRSwgaGRyX2FsaWduKTsK
-PiArCSpwYXlsb2FkX29mZiA9IGFmYmNfc2l6ZTsKPiArCj4gKwlhZmJjX3NpemUgKz0gbl9zdXBl
-cmJsa3MgKiBBTElHTihzdXBlcmJsa19zeiwgQUZCQ19TVVBFUkJMS19BTElHTk1FTlQpOwo+ICsJ
-KnRvdGFsX3NpemUgPSBhZmJjX3NpemUgKyBvZmZzZXQ7Cj4gKwo+ICsJaWYgKCh3ICogYnBwKSAh
-PSAocGl0Y2ggKiBCSVRTX1BFUl9CWVRFKSkgewo+ICsJCURSTV9ERUJVR19LTVMoIkludmFsaWQg
-dmFsdWUgb2YgKHBpdGNoICogQklUU19QRVJfQllURSkgKD0ldSkgc2hvdWxkIGJlIHNhbWUgYXMg
-d2lkdGggKD0ldSkgKiBicHAgKD0ldSlcbiIsCj4gKwkJCSAgICAgIHBpdGNoICogQklUU19QRVJf
-QllURSwgdywgYnBwCj4gKwkJKTsKPiArCQlyZXR1cm4gZmFsc2U7Cj4gKwl9Cj4gKwo+ICsJaWYg
-KHNpemUgPCBhZmJjX3NpemUpIHsKPiArCQlEUk1fREVCVUdfS01TKCJidWZmZXIgc2l6ZSAoJXp1
-KSB0b28gc21hbGwgZm9yIEFGQkMgYnVmZmVyIHNpemUgPSAldVxuIiwKPiArCQkJICAgICAgc2l6
-ZSwgYWZiY19zaXplCj4gKwkJKTsKPiArCj4gKwkJcmV0dXJuIGZhbHNlOwo+ICsJfQo+ICsKPiAr
-CXJldHVybiB0cnVlOwo+ICt9Cj4gK0VYUE9SVF9TWU1CT0woZHJtX2FmYmNfY2hlY2tfZmJfc2l6
-ZV9yZXQpOwo+ICsKPiArYm9vbCBkcm1fYWZiY19jaGVja19mYl9zaXplKHUzMiBwaXRjaCwgaW50
-IGJwcCwKPiArCQkJICAgIHUzMiB3LCB1MzIgaCwgdTMyIHN1cGVyYmxrX3csIHUzMiBzdXBlcmJs
-a19oLAo+ICsJCQkgICAgc2l6ZV90IHNpemUsIHUzMiBvZmZzZXQsIHUzMiBoZHJfYWxpZ24pCj4g
-K3sKPiArCXUzMiBwYXlsb2FkX29mZnNldCwgdG90YWxfc2l6ZTsKPiArCj4gKwlyZXR1cm4gZHJt
-X2FmYmNfY2hlY2tfZmJfc2l6ZV9yZXQocGl0Y2gsIGJwcCwgdywgaCwKPiArCQkJCQkgIHN1cGVy
-YmxrX3csIHN1cGVyYmxrX2gsCj4gKwkJCQkJICBzaXplLCBvZmZzZXQsIGhkcl9hbGlnbiwKPiAr
-CQkJCQkgICZwYXlsb2FkX29mZnNldCwgJnRvdGFsX3NpemUpOwo+ICt9Cj4gK0VYUE9SVF9TWU1C
-T0woZHJtX2FmYmNfY2hlY2tfZmJfc2l6ZSk7CgpXaHkgZG9uJ3Qgd2UgaGF2ZSBvbmUgb3ZlcmFs
-bCAiY2hlY2sgYWZiYyBwYXJhbWV0ZXJzIGFnYWluc3QgYnVmZmVyIgpmdW5jdGlvbj8KCkFsc28g
-d291bGQgYmUga2luZGEgbmVhdCBpZiB3ZSBjb3VsZCB3aXJlIHVwIHRoYXQgY2hlY2sgY29kZSBk
-aXJlY3RseSBpbnRvCmNvcmUgYWRkZmIyIGNvZGUsIHNpbmNlIGFmYmMgaXMgYSBjcm9zcyBkcml2
-ZXIgc3RhbmRhcmQsIGV2ZXJ5b25lIHdpbGwKaGF2ZSB0byB1c2UgdGhlIHNhbWUgY29kZS4gRG9p
-bmcgaXQgdGhhdCB3YXkgd291bGQgYWxzbyBzb2x2ZSB5b3VyCmtlcm5lbGRvYyBuZWVkIChzaW5j
-ZSBjb3JlIGNvZGUgY2hlY2tzIGl0IGRpcmVjdGx5KS4gV2UgYWxyZWFkeSBoYXZlIGFuCmV4YW1w
-bGUgZm9yIHRoZSB0aWxlZCBudjEyIGZvcm1hdCwgd2hpY2ggaXMgYWxzbyBjaGVja2VkIGluIGNv
-cmUuCgpDaGVlcnMsIERhbmllbAoKPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2FmYmMu
-aCBiL2luY2x1ZGUvZHJtL2RybV9hZmJjLmgKPiBuZXcgZmlsZSBtb2RlIDEwMDY0NAo+IGluZGV4
-IDAwMDAwMDAwMDAwMC4uYjI4YWUyODQ5Zjk2Cj4gLS0tIC9kZXYvbnVsbAo+ICsrKyBiL2luY2x1
-ZGUvZHJtL2RybV9hZmJjLmgKPiBAQCAtMCwwICsxLDM2IEBACj4gKy8qIFNQRFgtTGljZW5zZS1J
-ZGVudGlmaWVyOiBHUEwtMi4wKyAqLwo+ICsvKgo+ICsgKiAoQykgMjAxOSBDb2xsYWJvcmEgTHRk
-Lgo+ICsgKgo+ICsgKiBhdXRob3I6IEFuZHJ6ZWogUGlldHJhc2lld2ljeiA8YW5kcnplai5wQGNv
-bGxhYm9yYS5jb20+Cj4gKyAqCj4gKyAqLwo+ICsjaWZuZGVmIF9fRFJNX0FGQkNfSF9fCj4gKyNk
-ZWZpbmUgX19EUk1fQUZCQ19IX18KPiArCj4gKyNpbmNsdWRlIDxsaW51eC90eXBlcy5oPgo+ICsK
-PiArc3RydWN0IGRybV9kZXZpY2U7Cj4gK3N0cnVjdCBkcm1fbW9kZV9mYl9jbWQyOwo+ICtzdHJ1
-Y3QgZHJtX2dlbV9vYmplY3Q7Cj4gKwo+ICsjZGVmaW5lIEFGQkNfU1VQRVJCTEtfQUxJR05NRU5U
-CQkxMjgKPiArCj4gK2Jvb2wgZHJtX2FmYmNfY2hlY2tfb2Zmc2V0KHN0cnVjdCBkcm1fZGV2aWNl
-ICpkZXYsCj4gKwkJCSAgIGNvbnN0IHN0cnVjdCBkcm1fbW9kZV9mYl9jbWQyICptb2RlX2NtZCk7
-Cj4gKwo+ICtib29sIGRybV9hZmJjX2NoZWNrX3NpemVfYWxpZ24oc3RydWN0IGRybV9kZXZpY2Ug
-KmRldiwKPiArCQkJICAgICAgIGNvbnN0IHN0cnVjdCBkcm1fbW9kZV9mYl9jbWQyICptb2RlX2Nt
-ZCk7Cj4gKwo+ICtib29sIGRybV9hZmJjX2NoZWNrX2ZiX3NpemVfcmV0KHUzMiBwaXRjaCwgaW50
-IGJwcCwKPiArCQkJCXUzMiB3LCB1MzIgaCwgdTMyIHN1cGVyYmxrX3csIHUzMiBzdXBlcmJsa19o
-LAo+ICsJCQkJc2l6ZV90IHNpemUsIHUzMiBvZmZzZXQsIHUzMiBoZHJfYWxpZ24sCj4gKwkJCQl1
-MzIgKnBheWxvYWRfb2ZmLCB1MzIgKnRvdGFsX3NpemUpOwo+ICsKPiArYm9vbCBkcm1fYWZiY19j
-aGVja19mYl9zaXplKHUzMiBwaXRjaCwgaW50IGJwcCwKPiArCQkJICAgIHUzMiB3LCB1MzIgaCwg
-dTMyIHN1cGVyYmxrX3csIHUzMiBzdXBlcmJsa19oLAo+ICsJCQkgICAgc2l6ZV90IHNpemUsIHUz
-MiBvZmZzZXQsIHUzMiBoZHJfYWxpZ24pOwo+ICsKPiArYm9vbCBkcm1fYWZiY19nZXRfc3VwZXJi
-bGtfd2godTY0IG1vZGlmaWVyLCB1MzIgKncsIHUzMiAqaCk7Cj4gKwo+ICsjZW5kaWYgLyogX19E
-Uk1fQUZCQ19IX18gKi8KPiAtLSAKPiAyLjE3LjEKPiAKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3
-YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0961542812==
+Content-Type: multipart/alternative; boundary="15729457910.16cE.15853"
+Content-Transfer-Encoding: 7bit
+
+
+--15729457910.16cE.15853
+Date: Tue, 5 Nov 2019 09:23:10 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+
+--- Comment #208 from ousleyaric@gmail.com ---
+Just making this note at the recommendation of another, I'm reproducing sim=
+ilar
+behavior across both Linux distributions, and Windows 10. The behavior is as
+follows:
+
+Linux-Manjaro Linux kernel 5.4.0-1-MANJARO, Mesa 20.0.0-devel (git-dd77bdb3=
+4b),
+and LLVM 10.0.0 (compiled from Git master as I recall):
+Boot, launch Overwatch, or SteamVR. Usually after a period of 1-2 hours,
+displays will stutter a few times, before a full hang, leaving the last
+rendered frame on each display.
+
+Windows 10: latest insider build as of 11/5/2019:
+Similar behavior in the end, aside from the duration of stability being 3-4
+hours it seems. Launching SteamVR, I can run for 3-4 hours, and then it
+stutters, hangs for a few seconds, then recovers. Then it'll do the same a =
+few
+moments later with a longer duration before the recovery. After this repeat=
+s a
+few times, the display either hangs on the last frame, or all displays go
+black. After this, I have to hard-shutdown the same way as I do for Manjaro=
+.=20
+
+This may not be the exact same behavior, but I don't know of a way to log t=
+his
+particular behavior in Windows.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15729457910.16cE.15853
+Date: Tue, 5 Nov 2019 09:23:11 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c208">Comm=
+ent # 208</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+ousleyaric&#64;gmail.com" title=3D"ousleyaric&#64;gmail.com">ousleyaric&#64=
+;gmail.com</a>
+</span></b>
+        <pre>Just making this note at the recommendation of another, I'm re=
+producing similar
+behavior across both Linux distributions, and Windows 10. The behavior is as
+follows:
+
+Linux-Manjaro Linux kernel 5.4.0-1-MANJARO, Mesa 20.0.0-devel (git-dd77bdb3=
+4b),
+and LLVM 10.0.0 (compiled from Git master as I recall):
+Boot, launch Overwatch, or SteamVR. Usually after a period of 1-2 hours,
+displays will stutter a few times, before a full hang, leaving the last
+rendered frame on each display.
+
+Windows 10: latest insider build as of 11/5/2019:
+Similar behavior in the end, aside from the duration of stability being 3-4
+hours it seems. Launching SteamVR, I can run for 3-4 hours, and then it
+stutters, hangs for a few seconds, then recovers. Then it'll do the same a =
+few
+moments later with a longer duration before the recovery. After this repeat=
+s a
+few times, the display either hangs on the last frame, or all displays go
+black. After this, I have to hard-shutdown the same way as I do for Manjaro=
+.=20
+
+This may not be the exact same behavior, but I don't know of a way to log t=
+his
+particular behavior in Windows.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15729457910.16cE.15853--
+
+--===============0961542812==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0961542812==--
