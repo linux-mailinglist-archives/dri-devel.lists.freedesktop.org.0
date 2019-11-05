@@ -2,115 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C82EF6DC
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 09:07:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0825AEF71B
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 09:20:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 109EA6E918;
-	Tue,  5 Nov 2019 08:07:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFA716E91E;
+	Tue,  5 Nov 2019 08:20:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A48E6E918
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2019 08:07:46 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id q13so20154699wrs.12
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Nov 2019 00:07:46 -0800 (PST)
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF19D6E91E
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2019 08:20:06 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id t5so20758216ljk.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Nov 2019 00:20:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=KWQ99QS+X8BEqCKWT2trqsJqAabsKqFZy5Xi2IzmRCc=;
- b=FJ0zRJO1eWrxWbuoSev/TM744awlsXF9vyVAYcvgkCM0vUe3aHe2k9WgfNpyNaIVKP
- irLPsFICHtJlb88hNvlS/okomAiB/ZDd5oLBgTAWIEXVzXILDGdlzqezgvSX985AGEor
- 4HifWdL5lO6bZ0hprYcRdv07nd4Bcnci6/Yn8gmBzk9YJ8QiJ0VsUG5P4XUarjKoy23V
- CX1u/xIFZvZWzpNPgnDzRjhIJ0g2oRtuGzkeALzPVfHze6pF5HOCIsy+DPcMYCK9af6u
- bEs30bCeSpr3jCuKa4O6HVFK0hc1iAN6orS6I/acrvAGJwS2/gqqyVUWSLb3zlCXUuOl
- xpiw==
-X-Gm-Message-State: APjAAAWDb2YyWriWGBUJw7L1ZRu7A5JH0z4mE6/ULzWTT9prlZNDJylX
- z8jz99Mk9484VdZuN/3cOyHwCg==
-X-Google-Smtp-Source: APXvYqydM7ca/l5TyvqJYFelXiiF3oFftNScjLKlhYi1nMf07E61Uej57QSebHBU17PrUd1U9yASCg==
-X-Received: by 2002:adf:e78c:: with SMTP id n12mr11423747wrm.94.1572941264686; 
- Tue, 05 Nov 2019 00:07:44 -0800 (PST)
-Received: from [10.1.2.12] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr.
- [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id 62sm23734256wre.38.2019.11.05.00.07.43
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 05 Nov 2019 00:07:44 -0800 (PST)
-Subject: Re: Incorrect buffer handling in dw-hdmi bridge audio
-To: Takashi Iwai <tiwai@suse.de>, Andrzej Hajda <a.hajda@samsung.com>
-References: <s5heeymbvva.wl-tiwai@suse.de>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- ZaTUOEkgIor5losDrePdPgE=
-Organization: Baylibre
-Message-ID: <6ad19121-c0e3-d278-2943-ff93ef80353b@baylibre.com>
-Date: Tue, 5 Nov 2019 09:07:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=hOBPpNgjamNtOM/56m1s74hpsCTLQOfrzv14+A8nUoE=;
+ b=ZNPweZRBAu4Om45FlxBm9xF2oylYnod2RmDPCf+zenIK9gOyLg3G6HnhxvxxT+Djj6
+ 5zY5e+J3BmGyqwN946xgwCDxTm2A6mTm2cSJrUEbIDx4z3ei46k2D7uR+JxcLatrHagk
+ 7HbIQuHguaUHmLD75vlHLl0R31W14n8eD3PV2ak0czBofg1Y9CsE6Xl5h7uMnSZgjbbP
+ aXniUi2lt+PeBx9a435n86nQWmOuADDbhVaAi4jVSlwfXYxE0CTLs+PG1bZS5XRCnLRq
+ UdOOolGnXPstnQMG5b8To7s7CxOo8wvY0wuuKxcei1JCTozIUpm9D4+tIkYoxP2/2Czf
+ kGGw==
+X-Gm-Message-State: APjAAAXGarj1mquTG5puTgByiyYV/P1I2pF2o8+F/Z7RJntJmnx3W7Ef
+ TpY7BbLxjOg5MoPlWsiIa0g=
+X-Google-Smtp-Source: APXvYqxY3So/pXQMDbvXGa7Gq27XWwa1osQFBbO7FEXUMlzxzsKuRYnolv7J4f5LQuBBFzE1/EgVxQ==
+X-Received: by 2002:a2e:9802:: with SMTP id a2mr9578064ljj.254.1572942005107; 
+ Tue, 05 Nov 2019 00:20:05 -0800 (PST)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id j7sm7716656lfk.17.2019.11.05.00.20.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Nov 2019 00:20:04 -0800 (PST)
+Date: Tue, 5 Nov 2019 10:19:54 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: John Stultz <john.stultz@linaro.org>
+Subject: Re: [PATCH v14 0/5] DMA-BUF Heaps (destaging ION)
+Message-ID: <20191105101954.7d392878@eldfell.localdomain>
+In-Reply-To: <CALAqxLXYUKNGebU6ZBVsX5xQ_hUL+imxcyOkuV5M10UxdpZuSA@mail.gmail.com>
+References: <20191101214238.78015-1-john.stultz@linaro.org>
+ <20191104101807.79503286@eldfell.localdomain>
+ <CALAqxLXYUKNGebU6ZBVsX5xQ_hUL+imxcyOkuV5M10UxdpZuSA@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <s5heeymbvva.wl-tiwai@suse.de>
-Content-Language: en-US
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:openpgp:autocrypt:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=KWQ99QS+X8BEqCKWT2trqsJqAabsKqFZy5Xi2IzmRCc=;
- b=K/lv/GMoSZg27cmqRmKAgjoO7z0tRFwpQRWi94QHaovqwvw9nEX3aqD/dRSXuirH1V
- iqdOahCCKBVtbLpk+ach1niunvSrmmI/Ideea21Xp3nPGefXd3gPjBlk7fUdjH6zzr6S
- QZlhmUMZMSVRYGUsQ1Qb0DInYZmTKtbQv09vP0ZGvEGyWDTbkEO+ppqVgDxJk0EexFBW
- 8D/Whz+O7VvWG8rrYUWImK+gGap+yyUDfZFxhM7vY3fGZAA5hGCrqYx+vP7sUabm7aLh
- dKTusxMJp7S4iGuqw6nCWAAnudik9p+35pOb5lFItcdB2Zb4MyoIdpwKyXkKe1cye/wB
- Lcug==
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version;
+ bh=hOBPpNgjamNtOM/56m1s74hpsCTLQOfrzv14+A8nUoE=;
+ b=TUlEtWXjHP0mBbpS8IOR52DaLKV8MReXgJ15LC4SdXlb+vyjK5hhJLyalgNp+yZQI5
+ 6fwviERcnJJwPuFQMZf/YoOyBIEGdGkHuuIncYXypVIkAopY1WOnuYWDMKkBzPCw7Nyd
+ GHNsKRNqxF7chDZxsCqRqAfr1ZUx7yre1w3CM62JaBAnunW/ZobeYlzvDAyUqGt7RCn4
+ 20o+VjhVPVTlLFiGR4CxOdieTcyu6JpCrmGFoadx5yBK90R028Nx0KaPhV7gubrxH+Kr
+ iRuOplnuDFDBrRaqwqwMxrLouvWmV7prfRDNH218D1+IJ8+ZV1/1pi6jfo61kG+9Zzo7
+ oWUw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -123,66 +69,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
- Russell King <rmk+kernel@armlinux.org.uk>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Hillf Danton <hdanton@sina.com>, Sandeep Patil <sspatil@google.com>,
+ Vincent Donnefort <Vincent.Donnefort@arm.com>, Chenbo Feng <fengc@google.com>,
+ lkml <linux-kernel@vger.kernel.org>, Liam Mark <lmark@codeaurora.org>,
+ Alistair Strachan <astrachan@google.com>,
+ Christoph Hellwig <hch@infradead.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, "Andrew F . Davis" <afd@ti.com>,
+ Hridya Valsaraju <hridya@google.com>, Sudipto Paul <Sudipto.Paul@arm.com>,
+ Pratik Patel <pratikp@codeaurora.org>
+Content-Type: multipart/mixed; boundary="===============0507427859=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpPbiAwNS8xMS8yMDE5IDA4OjU1LCBUYWthc2hpIEl3YWkgd3JvdGU6Cj4gSGksCj4gCj4g
-d2hpbGUgcmVjZW50bHkgd29ya2luZyBvbiB0aGUgQUxTQSBtZW1vcnkgYWxsb2NhdG9yIEFQSSBj
-bGVhbnVwLCBJCj4gbm90aWNlZCB0aGF0IGR3LWhkbWkgYnJpZGdlIGRyaXZlciBzZWVtcyBkb2lu
-ZyB3ZWlyZCBhYm91dCB0aGUgYnVmZmVyCj4gbWFuYWdlbWVudC4gIEl0IHByZS1hbGxvY2F0ZXMg
-dGhlIHVzdWFsIGRldmljZSBidWZmZXJzIGZ1bGx5IGF0IHRoZQo+IHByb2JlIHRpbWUsIHdoaWxl
-IGVhY2ggc3RyZWFtIGFsbG9jYXRlcyB0aGUgYnVmZmVyIHZpYSB0aGUgdm1hbGxvYwo+IGhlbHBl
-cnMgYW5kIHJlcGxhY2VzIHdpdGggaXQgYXQgZWFjaCBvcGVuLgo+IAo+IEkgZ3Vlc3MgaXQncyBu
-byBleHBlY3RlZCBiZWhhdmlvcj8gIEl0J3MgYmFzaWNhbGx5IGEgZnVsbCB3YXN0ZSBvZgo+IHJl
-c291cmNlcywgYW5kIHRoZSB2bWFsbG9jIGJ1ZmZlciBpc24ndCBndWFyYW50ZWVkIHRvIHdvcmsg
-d2VsbCBmb3IKPiBtbWFwIG9uIGV2ZXJ5IGFyY2hpdGVjdHVyZS4KPiAKPiBCZWxvdyBpcyB0aGUg
-cGF0Y2ggdG8gYWRkcmVzcyBpdC4gIENhbiBhbnlvbmUgY2hlY2sgd2hldGhlciB0aGlzIHN0aWxs
-Cj4gd29ya3M/CgpJIGRvbid0IGhhdmUgdGhlIHNldHVwIHRvIGNoZWNrLCBidXQgdGhpcyBoYXMg
-YmVlbiBwdXNoZWQgYnkgUnVzc2VsbCBJIEFkZGVkIGluIENDLgoKSSBhbHNvIGFkZGVkIHRoZSBp
-bXggbWFpbnRhaW5lciBzaW5jZSBpdCdzIChBRkFJSykgb25seSB1c2VkIG9uIGlNWCBTb0NzLgoK
-TmVpbAoKPiAKPiBTaW5jZSBJIGhhdmUgYSBjbGVhbnVwIHNlcmllcyBhbmQgdGhpcyBpcyBpbnZv
-bHZlZCwgSSdkIGxpa2UgdG8gdGFrZQo+IHRoZSBmaXggdGhyb3VnaCBteSB0cmVlIG9uY2UgYWZ0
-ZXIgaXQncyBjb25maXJtZWQgKGFuZCBnZXQgQUNLIGlmCj4gcG9zc2libGUpLgo+IAo+IAo+IFRo
-YW5rcyEKPiAKPiBUYWthc2hpCj4gCj4gLS0gODwgLS0KPiBGcm9tOiBUYWthc2hpIEl3YWkgPHRp
-d2FpQHN1c2UuZGU+Cj4gU3ViamVjdDogW1BBVENIXSBkcm0vYnJpZGdlOiBkdy1oZG1pOiBGaXgg
-dGhlIGluY29ycmVjdCBidWZmZXIgYWxsb2NhdGlvbnMKPiAKPiBUaGUgZHJpdmVyIHNldHMgdXAg
-dGhlIGJ1ZmZlciBwcmVhbGxvY2F0aW9uIHdpdGggU05EUlZfRE1BX1RZUEVfREVWLAo+IHdoaWxl
-IGl0IHJlLWFsbG9jYXRlcyBhbmQgcmVsZWFzZXMgdm1hbGxvYyBwYWdlcy4gIFRoaXMgaXMgbm90
-IG9ubHkgYQo+IGxvdCBvZiB3YXN0ZSByZXNvdXJjZXMgYnV0IGFsc28gY2F1c2VzIHRoZSBtbWFw
-IG1hbGZ1bmN0aW9uLgo+IAo+IENoYW5nZSAvIGRyb3AgdGhlIHZtYWxsb2MtcmVsYXRlZCBjb2Rl
-IGFuZCB1c2UgdGhlIHN0YW5kYXJkIGJ1ZmZlcgo+IGFsbG9jYXRpb24gLyByZWxlYXNlIGNvZGUg
-aW5zdGVhZC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBUYWthc2hpIEl3YWkgPHRpd2FpQHN1c2UuZGU+
-Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3BzeXMvZHctaGRtaS1haGItYXVk
-aW8uYyB8IDYgKystLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDQgZGVs
-ZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3Bz
-eXMvZHctaGRtaS1haGItYXVkaW8uYyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3BzeXMv
-ZHctaGRtaS1haGItYXVkaW8uYwo+IGluZGV4IDJiNzUzOTcwMWI0Mi4uOGZlN2E2ZThmZjk0IDEw
-MDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3BzeXMvZHctaGRtaS1haGIt
-YXVkaW8uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3BzeXMvZHctaGRtaS1h
-aGItYXVkaW8uYwo+IEBAIC0zODQsMTUgKzM4NCwxNCBAQCBzdGF0aWMgaW50IGR3X2hkbWlfY2xv
-c2Uoc3RydWN0IHNuZF9wY21fc3Vic3RyZWFtICpzdWJzdHJlYW0pCj4gIAo+ICBzdGF0aWMgaW50
-IGR3X2hkbWlfaHdfZnJlZShzdHJ1Y3Qgc25kX3BjbV9zdWJzdHJlYW0gKnN1YnN0cmVhbSkKPiAg
-ewo+IC0JcmV0dXJuIHNuZF9wY21fbGliX2ZyZWVfdm1hbGxvY19idWZmZXIoc3Vic3RyZWFtKTsK
-PiArCXJldHVybiBzbmRfcGNtX2xpYl9mcmVlX3BhZ2VzKHN1YnN0cmVhbSk7Cj4gIH0KPiAgCj4g
-IHN0YXRpYyBpbnQgZHdfaGRtaV9od19wYXJhbXMoc3RydWN0IHNuZF9wY21fc3Vic3RyZWFtICpz
-dWJzdHJlYW0sCj4gIAlzdHJ1Y3Qgc25kX3BjbV9od19wYXJhbXMgKnBhcmFtcykKPiAgewo+ICAJ
-LyogQWxsb2NhdGUgdGhlIFBDTSBydW50aW1lIGJ1ZmZlciwgd2hpY2ggaXMgZXhwb3NlZCB0byB1
-c2Vyc3BhY2UuICovCj4gLQlyZXR1cm4gc25kX3BjbV9saWJfYWxsb2Nfdm1hbGxvY19idWZmZXIo
-c3Vic3RyZWFtLAo+IC0JCQkJCQlwYXJhbXNfYnVmZmVyX2J5dGVzKHBhcmFtcykpOwo+ICsJcmV0
-dXJuIHNuZF9wY21fbGliX21hbGxvY19wYWdlcyhzdWJzdHJlYW0sIHBhcmFtc19idWZmZXJfYnl0
-ZXMocGFyYW1zKSk7Cj4gIH0KPiAgCj4gIHN0YXRpYyBpbnQgZHdfaGRtaV9wcmVwYXJlKHN0cnVj
-dCBzbmRfcGNtX3N1YnN0cmVhbSAqc3Vic3RyZWFtKQo+IEBAIC01MTEsNyArNTEwLDYgQEAgc3Rh
-dGljIGNvbnN0IHN0cnVjdCBzbmRfcGNtX29wcyBzbmRfZHdfaGRtaV9vcHMgPSB7Cj4gIAkucHJl
-cGFyZSA9IGR3X2hkbWlfcHJlcGFyZSwKPiAgCS50cmlnZ2VyID0gZHdfaGRtaV90cmlnZ2VyLAo+
-ICAJLnBvaW50ZXIgPSBkd19oZG1pX3BvaW50ZXIsCj4gLQkucGFnZSA9IHNuZF9wY21fbGliX2dl
-dF92bWFsbG9jX3BhZ2UsCj4gIH07Cj4gIAo+ICBzdGF0aWMgaW50IHNuZF9kd19oZG1pX3Byb2Jl
-KHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gCgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+--===============0507427859==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/8p7cpdYlML1=fi4l0IRs+aW"; protocol="application/pgp-signature"
+
+--Sig_/8p7cpdYlML1=fi4l0IRs+aW
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, 4 Nov 2019 11:21:21 -0800
+John Stultz <john.stultz@linaro.org> wrote:
+
+> So apologies for the confusion. I do believe I understand the
+> requirement now, and am doing my best to adhere to them.
+
+Hi John,
+
+that's cool, the kernel regression rules are so strict that any slip in
+userspace projects can seriously hamper kernel work, so I'm kind of on
+the edge now that I've realized that.
+
+> That said, given different userland projects use different approaches,
+> I do find it a little strange on the insistence that userland patches
+> cannot be merged to their project before the kernel changes land.
+> Obviously no interface is final and any userland that does so has some
+> risk that it will change and break, but there are many cases where
+> distros support new features in their userland not yet merged
+> upstream.  Ensuring there is a real opensource user for the kernel
+> feature is important, but I'm not sure I understand why the kernel is
+> dictating rules as to how userspace merges code.
+
+My own understanding is that if a userspace project manages to release
+a version that uses new kernel UAPI which was not finalized yet, then
+when kernel people fix something in the UAPI and attempt to land it,
+the difference will make the userspace now break because the feature
+does not work like it used to. The userspace project is already
+released and in the wild, so it cannot be retroactively fixed.
+
+According to the kernel rules, any kernel change that breaks existing
+userspace, no matter how wrong userspace was, is the kernel's fault. So
+that means the kernel developers cannot land the new fixed feature, but
+will need to figure out a way to expose the new feature without
+triggering the new path in the userspace project that jumped the gun.
+
+Often the breakage is not found out immediately but after a kernel
+release. That means the already released feature will have to be
+reverted, and then figure out how to re-introduce it so that it does
+not trigger the userspace project that jumped the gun. This obviously
+affects also userspace projects that wanted to use the feature and did
+not jump the gun - they do not break, they just do not find the feature
+anymore and need to be fixed.
+
+In my opinion, saying "do not merge" to userspace projects is better
+than "do not release" until the UAPI is finalized in the kernel.
+
+I'm not sure it even matters if the userspace project makes a release
+or not. All it takes is for someone to grab a snapshot and distribute
+it, and for someone to complain.
+
+
+Thanks,
+pq
+
+--Sig_/8p7cpdYlML1=fi4l0IRs+aW
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl3BMKoACgkQI1/ltBGq
+qqc4jg/+PB9tTC08XEWj7rGFDj9wD4VJxB0c8IWwnMyVF0Km0kSm3+lujVaGGvBC
+rsir9uK5W1NLuzA8GdLX6bMCZlulF3GQX4EhnAfm7CEuuoVDB4HY7XVZlLc5Je/y
+oQfs+ujw/ASZJ+lU66zkKiq7z5QfwMpnbg5yeJ1wOWt14lo042n71Nf09VoOuCKJ
+DU2ZByuQBXfDMFrE62qae6wquH1m4SSr8DzzQdaA3Z1lSKun5odADjTEsEs2Cu2u
+lBtge2tYdAW27nJeKYkk6+HhazVYt/gzzAikEtCFMnVVPLh7+5DrpJwIVZXOH6aw
+qt2FZw1LOaJQRMSuXfRNYWVJM1ua3KVrBouToGoeuSmtqy3jz8c7rBu0EADlx3xR
+mQv1kMXvzWjtjTRu3dSQwg5X7A0idPSn+OP/nkMNXY1t4kD9egVyBitfvJtlyxVO
+5/u3AdLpt7bHexoiUjrdln85WjF7T0LaPY8OMMTDcmu1MTUUwcqB6oVvhckSwM77
+oUTcB2TpP1k28yLy0v6dgdXOykE81cjiB5rW2Q61oGFlROSsVs+pEDRKYscMNdga
+fLgNWjDHmPfzMlHBvzJc5dlr/rZg6TtwsCEzr7uSe6tEaz5CwLJsKSG6Y+34+oUw
+sdI2GLkuX9b5Bw5C9QBKQSOCTqjb4WcaJ4+rOKLKNtCDhyNNZq8=
+=XdQI
+-----END PGP SIGNATURE-----
+
+--Sig_/8p7cpdYlML1=fi4l0IRs+aW--
+
+--===============0507427859==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0507427859==--
