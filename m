@@ -1,71 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4C6EEF1FB
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 01:31:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22373EF20C
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 01:37:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C8826E8CC;
-	Tue,  5 Nov 2019 00:31:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 197986E8D1;
+	Tue,  5 Nov 2019 00:37:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB27E6E8CC
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2019 00:31:18 +0000 (UTC)
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-222-nxczXpaWM42LSRpL3HA0Tg-1; Mon, 04 Nov 2019 19:31:16 -0500
-Received: by mail-qk1-f198.google.com with SMTP id o184so19603249qke.0
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Nov 2019 16:31:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=TRfJNksc2M3e/PDp4A0D7DJeZqusAOqA4ZLNIELtORg=;
- b=MRgdFUeiIvv51n0J6uIb4iV1f+6aBVRP3suKMRoMvQS39ZhaQ6W86oRzokkthcfjFa
- k+CsTH8Zy8AqJYJkyZWE9s8l8NV4hcLBtIJygDppO0FpW3FlssidX0Ckq4inp/pfYlH5
- QS4t0liQPJu9GEyVAUIuv7MnCn1PGZPbHAqxl7eh8ID15lvAM6mrliF69al8ZudYXP9m
- jOA0vUB3QZlhBie+0Rh/CW2olqCdrXkDhuNeARZLhGRzDI26motholLGrTK7hoAl5IyU
- OX1yQksB1XF9bJIq0YAgPfg+JjVZOnSIWz1RgBptn0hMrA6HCqvGNZZpxPmZJ7VkYP/w
- nk0g==
-X-Gm-Message-State: APjAAAUVlNXnWs8Fk9F50PFwmfg56RJkHZo304Rs/UzPm+7F4wuGDm19
- yH8bTcAAwpYG//KkgiIXPQ0R3iJEhvOy3LeDvlOSfVwb+pVg+24/Pqm6dtBXpStXjAWh/o9xzwG
- aabLyy2DsD2QeknbT8hh1VJOzihKU
-X-Received: by 2002:aed:24c1:: with SMTP id u1mr15643139qtc.29.1572913875616; 
- Mon, 04 Nov 2019 16:31:15 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyp1lXL48H5viu5xGn4wYktPQcysAhoNQ/CuDqfSqV4k8ed7VdeTipq6FmUhAEsvNasOVVZ2A==
-X-Received: by 2002:aed:24c1:: with SMTP id u1mr15643109qtc.29.1572913875267; 
- Mon, 04 Nov 2019 16:31:15 -0800 (PST)
-Received: from dhcp-10-20-1-11.bss.redhat.com ([144.121.20.162])
- by smtp.gmail.com with ESMTPSA id g126sm9642681qkb.133.2019.11.04.16.31.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Nov 2019 16:31:14 -0800 (PST)
-Message-ID: <a4a1b9fe65eafafda04454ed8f63905648a06200.camel@redhat.com>
-Subject: Re: [PATCH 12/13] drm/dp_mst: Add DSC enablement helpers to DRM
-From: Lyude Paul <lyude@redhat.com>
-To: mikita.lipski@amd.com, amd-gfx@lists.freedesktop.org
-Date: Mon, 04 Nov 2019 19:31:13 -0500
-In-Reply-To: <20191030192431.5798-13-mikita.lipski@amd.com>
-References: <20191030192431.5798-1-mikita.lipski@amd.com>
- <20191030192431.5798-13-mikita.lipski@amd.com>
-Organization: Red Hat
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D08D56E8CD
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2019 00:37:32 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id C9E42720E2; Tue,  5 Nov 2019 00:37:32 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111482] Sapphire Pulse RX 5700 XT power consumption
+Date: Tue, 05 Nov 2019 00:37:33 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: asheldon55@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111482-502-j9ttArAo7l@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111482-502@http.bugs.freedesktop.org/>
+References: <bug-111482-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-MC-Unique: nxczXpaWM42LSRpL3HA0Tg-1
-X-Mimecast-Spam-Score: 0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=redhat.com; 
- s=mimecast20190719; t=1572913877;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d6OZ+XOJZ06U8rpI03QT/E31xpiN7SrKGJPJAZ/JM48=;
- b=eluKS68mPy/XTYDTNRAigWrgVq7J4W9P9wPXH6drvkk9S9uv+rKq97XVVBrcZsR7AQQTU1
- RXI7fvMT1n1EiqDYEAlgnGWllzx09wyuDD2vzJYhNwMqd0xa2fuhh8EbOj+uoXOJOJ/CL0
- eav2HWewRfYzsg/nQUZ16ZXlyUIYNSY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,159 +52,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1954843449=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGV5ISBHcmVhdCBzdGFydCBzbyBmYXIsIHNvbWUgY29tbWVudHMgZG93biBiZWxvdzoKCk9uIFdl
-ZCwgMjAxOS0xMC0zMCBhdCAxNToyNCAtMDQwMCwgbWlraXRhLmxpcHNraUBhbWQuY29tIHdyb3Rl
-Ogo+IEZyb206IE1pa2l0YSBMaXBza2kgPG1pa2l0YS5saXBza2lAYW1kLmNvbT4KPiAKPiBBZGRp
-bmcgdGhlIGZvbGxvd2luZyBlbGVtZW50cyB0byBhZGQgTVNUIERTQyBzdXBwb3J0IHRvIERSTToK
-PiAKPiAtIGRzY19lbmFibGUgYm9vbGVhbiBmbGFnIHRvIGRybV9kcF92Y3BpX2FsbG9jYXRpb24g
-c3RydWN0dXJlIHRvIHNpZ25hbCwKPiB3aGljaCBwb3J0IGdvdCBEU0MgZW5hYmxlZAo+IAo+IC0g
-ZnVuY3Rpb24gZHJtX2RwX2hlbHBlcl91cGRhdGVfdmNwaV9zbG90c19mb3JfZHNjIGFsbG93cyBy
-ZWFsbG9jYXRpb24KPiBvZiBuZXdseSByZWNhbGN1bGF0ZWQgVkNQSSBzbG90cyBhbmQgcmFpc2Vz
-IGRzY19lbmFibGUgZmxhZyBvbiB0aGUgcG9ydC4KPiAKPiAtIGZ1bmN0aW9uIGRybV9kcF9tc3Rf
-dXBkYXRlX2RzY19jcnRjcyBpcyBjYWxsZWQgaW4gZHJtX2RwX21zdF9hdG9taWNfY2hlY2ssCj4g
-aXRzIHB1cnBvc2UgaXMgdG8gaXRlcmF0ZSB0aHJvdWdoIGFsbCB0aGUgcG9ydHMgaW4gdGhlIHRv
-cG9sb2d5IGFuZCBzZXQKPiBtb2RlX2NoYW5nZWQgZmxhZyBvbiBjcnRjIGlmIERTQyBoYXMgYmVl
-biBlbmFibGVkLgo+IAo+IENjOiBIYXJyeSBXZW50bGFuZCA8aGFycnkud2VudGxhbmRAYW1kLmNv
-bT4KPiBDYzogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBN
-aWtpdGEgTGlwc2tpIDxtaWtpdGEubGlwc2tpQGFtZC5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1
-L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMgfCAxMDMgKysrKysrKysrKysrKysrKysrKysrKysr
-Ky0KPiAgaW5jbHVkZS9kcm0vZHJtX2RwX21zdF9oZWxwZXIuaCAgICAgICB8ICAgNCArCj4gIDIg
-ZmlsZXMgY2hhbmdlZCwgMTA2IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPiAKPiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYwo+IGIvZHJpdmVy
-cy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYwo+IGluZGV4IGQ1ZGYwMjMxNWUxNC4uNGYy
-ZjA5ZmUzMmY4IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9s
-b2d5LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jCj4gQEAg
-LTczLDYgKzczLDcgQEAgc3RhdGljIGJvb2wgZHJtX2RwX3ZhbGlkYXRlX2d1aWQoc3RydWN0Cj4g
-ZHJtX2RwX21zdF90b3BvbG9neV9tZ3IgKm1nciwKPiAgc3RhdGljIGludCBkcm1fZHBfbXN0X3Jl
-Z2lzdGVyX2kyY19idXMoc3RydWN0IGRybV9kcF9hdXggKmF1eCk7Cj4gIHN0YXRpYyB2b2lkIGRy
-bV9kcF9tc3RfdW5yZWdpc3Rlcl9pMmNfYnVzKHN0cnVjdCBkcm1fZHBfYXV4ICphdXgpOwo+ICBz
-dGF0aWMgdm9pZCBkcm1fZHBfbXN0X2tpY2tfdHgoc3RydWN0IGRybV9kcF9tc3RfdG9wb2xvZ3lf
-bWdyICptZ3IpOwo+ICtzdGF0aWMgdm9pZCBkcm1fZHBfbXN0X3VwZGF0ZV9kc2NfY3J0Y3Moc3Ry
-dWN0IGRybV9kcF9tc3RfdG9wb2xvZ3lfc3RhdGUKPiAqbXN0X3N0YXRlKTsKPiAgCj4gICNkZWZp
-bmUgRFBfU1RSKHgpIFtEUF8gIyMgeF0gPSAjeAo+ICAKPiBAQCAtMzI5Myw2ICszMjk0LDY1IEBA
-IGludCBkcm1fZHBfYXRvbWljX2ZpbmRfdmNwaV9zbG90cyhzdHJ1Y3QKPiBkcm1fYXRvbWljX3N0
-YXRlICpzdGF0ZSwKPiAgfQo+ICBFWFBPUlRfU1lNQk9MKGRybV9kcF9hdG9taWNfZmluZF92Y3Bp
-X3Nsb3RzKTsKPiAgCj4gKy8qKgo+ICsgKiBkcm1fZHBfaGVscGVyX3VwZGF0ZV92Y3BpX3Nsb3Rz
-X2Zvcl9kc2MoKSAtIFVwZGF0ZSBWQ1BJIHNsb3RzIHdpdGggbmV3Cj4gb24gdGhlIHN0YXRlCj4g
-KyAqCj4gKyAqIEBzdGF0ZTogZ2xvYmFsIGF0b21pYyBzdGF0ZQo+ICsgKiBAcG9ydDogcG9ydCB0
-byBmaW5kIHZjcGkgc2xvdHMKPiArICogQHBibjogdXBkYXRlZCBiYW5kd2lkdGggcmVxdWlyZWQg
-Zm9yIHRoZSBtb2RlIGluIFBCTgo+ICsgKgo+ICsgKiBGdW5jdGlvbiByZWFsbG9jYXRlcyBWQ1BJ
-IHNsb3RzIHRvIHRoZSBAcG9ydCBieSBjYWxsaW5nCj4gKyAqIGRybV9kcF9hdG9taWNfZmluZF92
-Y3BpX3Nsb3RzLiBUaGUgYXNzdW1wdGlvbiBpcyB0aGF0IFZDUEkgc2xvdHMKPiArICogaGF2ZSBh
-bHJlYWR5IGJlZW4gYWxsb2NhdGVkIGFuZCB0aGlzIGlzIHNlY29uZCBjYWxsIG92ZXJ3cml0dGlu
-Zwo+ICsgKiBpbml0aWFsIHZhbHVlcy4gQWZ0ZXIgdGhlIFZDUEkgaXMgYWxsb2NhdGVkIGRzY19l
-bmFibGUgZmxhZyBpcyBzZXQgdG8KPiArICogdHJ1ZSBmb3IgYXRvbWljIGNoZWNrLgo+ICsgKgo+
-ICsgKiBJdCBpcyBkcml2ZXIncyByZXNwb25zaWJpbGl0eSB0byBjYWxsIHRoaXMgZnVuY3Rpb24g
-YWZ0ZXIgaXQgZGVjaWRlcwo+ICsgKiB0byBlbmFibGUgRFNDLgo+ICsgKgo+ICsgKiBTZWUgYWxz
-bzoKPiArICogZHJtX2RwX21zdF91cGRhdGVfZHNjX2NydGNzKCkKPiArICoKPiArICogUmV0dXJu
-czoKPiArICogVG90YWwgc2xvdHMgaW4gdGhlIGF0b21pYyBzdGF0ZSBhc3NpZ25lZCBmb3IgdGhp
-cyBwb3J0LCBvciBhIG5lZ2F0aXZlCj4gZXJyb3IKPiArICogY29kZSBpZiB0aGUgcG9ydCBubyBs
-b25nZXIgZXhpc3RzIG9yIHZjcGkgc2xvdHMgaGF2ZW4ndCBiZWVuIGFzc2lnbmVkLgo+ICsgKi8K
-PiAraW50IGRybV9kcF9oZWxwZXJfdXBkYXRlX3ZjcGlfc2xvdHNfZm9yX2RzYyhzdHJ1Y3QgZHJt
-X2F0b21pY19zdGF0ZSAqc3RhdGUsCj4gKwkJCQkJICAgIHN0cnVjdCBkcm1fZHBfbXN0X3BvcnQg
-KnBvcnQsCj4gKwkJCQkJICAgIGludCBwYm4pCj4gK3sKPiArCXN0cnVjdCBkcm1fZHBfbXN0X3Rv
-cG9sb2d5X3N0YXRlICp0b3BvbG9neV9zdGF0ZTsKPiArCXN0cnVjdCBkcm1fZHBfdmNwaV9hbGxv
-Y2F0aW9uICpwb3M7Cj4gKwlib29sIGZvdW5kID0gZmFsc2U7Cj4gKwlpbnQgdmNwaSA9IDA7Cj4g
-Kwo+ICsJdG9wb2xvZ3lfc3RhdGUgPSBkcm1fYXRvbWljX2dldF9tc3RfdG9wb2xvZ3lfc3RhdGUo
-c3RhdGUsIHBvcnQtPm1ncik7Cj4gKwo+ICsJaWYgKElTX0VSUih0b3BvbG9neV9zdGF0ZSkpCj4g
-KwkJcmV0dXJuIFBUUl9FUlIodG9wb2xvZ3lfc3RhdGUpOwo+ICsKPiArCWxpc3RfZm9yX2VhY2hf
-ZW50cnkocG9zLCAmdG9wb2xvZ3lfc3RhdGUtPnZjcGlzLCBuZXh0KSB7Cj4gKwkJaWYgKHBvcy0+
-cG9ydCA9PSBwb3J0KSB7Cj4gKwkJCWZvdW5kID0gdHJ1ZTsKPiArCQkJYnJlYWs7Cj4gKwkJfQo+
-ICsJfQo+ICsKPiArCWlmICghZm91bmQgfHwgIXBvcy0+dmNwaSkKPiArCQlyZXR1cm4gLUVJTlZB
-TDsKPiArCj4gKwl2Y3BpID0gZHJtX2RwX2F0b21pY19maW5kX3ZjcGlfc2xvdHMoc3RhdGUsIHBv
-cnQtPm1nciwKPiArCQkJCQkgICAgIHBvcnQsIHBibik7Cj4gKwo+ICsJaWYgKHZjcGkgPCAwKQo+
-ICsJCXJldHVybiAtRUlOVkFMOwo+ICsKPiArCXBvcy0+ZHNjX2VuYWJsZSA9IHRydWU7Cj4gKwo+
-ICsJcmV0dXJuIHZjcGk7Cj4gK30KPiArClRoaXMgaGVscGVyIEkgdGhpbmsgd2UgY2FuIHNpbXBs
-aWZ5IGEgYml0IGJ5IGRyb3BwaW5nIGl0IGFuZCBtZXJnaW5nIGl0IHdpdGgKZHJtX2RwX21zdF91
-cGRhdGVfZHNjX2NydGNzKCkuIEkndmUgZ290IGEgbW9yZSBpbi1kZXB0aCBleHBsYW5hdGlvbiBv
-ZiB3aGF0IEkKbWVhbiBkb3duIGJlbG93OgoKPiArRVhQT1JUX1NZTUJPTChkcm1fZHBfaGVscGVy
-X3VwZGF0ZV92Y3BpX3Nsb3RzX2Zvcl9kc2MpOwo+ICAvKioKPiAgICogZHJtX2RwX2F0b21pY19y
-ZWxlYXNlX3ZjcGlfc2xvdHMoKSAtIFJlbGVhc2UgYWxsb2NhdGVkIHZjcGkgc2xvdHMKPiAgICog
-QHN0YXRlOiBnbG9iYWwgYXRvbWljIHN0YXRlCj4gQEAgLTM4NzEsNiArMzkzMSw0NiBAQCBkcm1f
-ZHBfbXN0X2F0b21pY19jaGVja190b3BvbG9neV9zdGF0ZShzdHJ1Y3QKPiBkcm1fZHBfbXN0X3Rv
-cG9sb2d5X21nciAqbWdyLAo+ICAJcmV0dXJuIDA7Cj4gIH0KPiAgCj4gKy8qKgo+ICsgKiBkcm1f
-ZHBfbXN0X3VwZGF0ZV9kc2NfY3J0Y3MgLSBTZXQgbW9kZSBjaGFuZ2UgZmxhZyBvbiBDUlRDcyB3
-aGljaAo+ICsgKiBqdXN0IGdvdCBEU0MgZW5hYmxlZAo+ICsgKiBAc3RhdGU6IFBvaW50ZXIgdG8g
-dGhlIG5ldyAmc3RydWN0IGRybV9kcF9tc3RfdG9wb2xvZ3lfc3RhdGUKPiArICoKPiArICogSXRl
-YXJhdGUgdGhyb3VnaCBhbGwgdGhlIHBvcnRzIGluIE1TVCB0b3BvbG9neSB0byBjaGVjayBpZiBE
-U0MKPiArICogaGFzIGJlZW4gZW5hYmxlZCBvbiBhbnkgb2YgdGhlbS4gU2V0IG1vZGVfY2hhbmdl
-ZCB0byB0cnVlIG9uCj4gKyAqIGNydGMgc3RhdGUgdGhhdCBqdXN0IGdvdCBEU0MgZW5hYmxlZC4K
-PiArICoKPiArICogU2VlIGFsc286Cj4gKyAqIGRybV9kcF9oZWxwZXJfdXBkYXRlX3ZjcGlfc2xv
-dHNfZm9yX2RzYygpCj4gKyAqLwo+ICtzdGF0aWMgdm9pZAo+ICtkcm1fZHBfbXN0X3VwZGF0ZV9k
-c2NfY3J0Y3Moc3RydWN0IGRybV9kcF9tc3RfdG9wb2xvZ3lfc3RhdGUgKm1zdF9zdGF0ZSkKPiAr
-ewoKSnVzdCBncmFiIHRoZSBhdG9taWMgc3RhdGUgZnJvbSB3aXRoaW4gdGhpcyBmdW5jdGlvbiwg
-bm90IHJlYWxseSBtdWNoIHBvaW50IGluCm1ha2luZyB0aGUgY2FsbGVyIHB1bGwgaW4gdGhlIG1z
-dCB0b3BvbG95IHN0YXRlIHNpbmNlIHdlJ3JlIHRoZSBvbmx5IG9uZXMKdXNpbmcgaXQKCj4gKwlz
-dHJ1Y3QgZHJtX2RwX3ZjcGlfYWxsb2NhdGlvbiAqcG9zOwo+ICsJc3RydWN0IGRybV9kcF9tc3Rf
-cG9ydCAqcG9ydDsKPiArCXN0cnVjdCBkcm1fY29ubmVjdG9yX3N0YXRlICpjb25uX3N0YXRlOwo+
-ICsJc3RydWN0IGRybV9jcnRjICpjcnRjOwo+ICsJc3RydWN0IGRybV9jcnRjX3N0YXRlICpjcnRj
-X3N0YXRlOwo+ICsKPiArCWxpc3RfZm9yX2VhY2hfZW50cnkocG9zLCAmbXN0X3N0YXRlLT52Y3Bp
-cywgbmV4dCkgewo+ICsKPiArCQlwb3J0ID0gcG9zLT5wb3J0Owo+ICsJCWNvbm5fc3RhdGUgPSBk
-cm1fYXRvbWljX2dldF9jb25uZWN0b3Jfc3RhdGUobXN0X3N0YXRlLQo+ID5iYXNlLnN0YXRlLAo+
-ICsJCQkJCQkJICAgIHBvcnQtPmNvbm5lY3Rvcik7Cj4gKwkJY3J0YyA9IGNvbm5fc3RhdGUtPmNy
-dGM7Cj4gKwkJaWYgKCFjcnRjKQo+ICsJCQljb250aW51ZTsKPiArCj4gKwkJY3J0Y19zdGF0ZSA9
-IGRybV9hdG9taWNfZ2V0X2NydGNfc3RhdGUobXN0X3N0YXRlLT5iYXNlLnN0YXRlLAo+IGNydGMp
-OwoKWW91J3JlIGZvcmdldHRpbmcgdG8gY2hlY2sgdGhlIHJldHVybiBzdGF0dXMgb2YgZHJtX2F0
-b21pY19nZXRfY3J0Y19zdGF0ZSgpLApzaW5jZSBpdCBjYW4gZmFpbCBoZXJlLiBZb3UgbmVlZCBz
-b21ldGhpbmcgbGlrZToKCmlmIChJU19FUlIoY3J0Y19zdGF0ZSkpCglyZXR1cm4gUFRSX0VSUihj
-cnRjX3N0YXRlKTsKCgo+ICsJCWlmIChwb3J0LT52Y3BpLnZjcGkgPT0gcG9zLT52Y3BpKQo+ICsJ
-CQljb250aW51ZTsKPiArCj4gKwkJaWYgKHBvcy0+ZHNjX2VuYWJsZSkgewo+ICsJCQljcnRjX3N0
-YXRlLT5tb2RlX2NoYW5nZWQgPSB0cnVlOwo+ICsJCQlwb3MtPmRzY19lbmFibGUgPSBmYWxzZTsK
-PiArCQl9Cj4gKwl9Cj4gK30KClNvOiBJIHRoaW5rIHdlIGNhbiBzaW1wbHkgdGhpcyBhIGJpdC4g
-V2h5IG5vdCByZW5hbWUKZHJtX2RwX21zdF91cGRhdGVfZHNjX2NydGNzKCkgdG8gZHJtX2RwX21z
-dF9hdG9taWNfZW5hYmxlX2RzYygpLCBhbmQgcmV3b3JrIGl0CnRvIGxvb2sgbGlrZSB0aGlzIHBz
-dWVkb2NvZGU6CgppbnQgZHJtX2RwX21zdF9hdG9taWNfc2V0X2RzYyhzdHJ1Y3QgZHJtX2F0b21p
-Y19zdGF0ZSAqc3RhdGUsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCBkcm1f
-ZHBfbXN0X3BvcnQgKnBvcnQsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGJvb2wgZW5h
-YmxlZCkKewoJc3RydWN0IGRybV9kcF9tc3RfdG9wb2xvZ3lfc3RhdGUgKm1zdF9zdGF0ZSA9IC8q
-IC4uLiAqLzsKCS8qIC4uLiAqLwoJaWYgKHBvcnQtPmRzY19lbmFibGUgPT0gZW5hYmxlZCkKCQly
-ZXR1cm4gMDsKCglwb3J0LT5kc2NfZW5hYmxlID0gZW5hYmxlZDsKCWZvcl9lYWNoX21zdF9wb3J0
-KCkgewoJCWlmIChwb3J0LT5kc2NfZW5hYmxlID09IGVuYWJsZWQpCgkJCWNvbnRpbnVlOwoJCXBv
-cnQtPmRzY19lbmFibGUgPSBlbmFibGVkOwoKCQljb25uX3N0YXRlID0gZHJtX2F0b21pY19nZXRf
-Y29ubmVjdG9yX3N0YXRlKHBvcnQtPmNvbm5lY3Rvcik7CgkJLyogZXJyb3IgaGFuZGxpbmcgLi4u
-ICovCgkJaWYgKCFjb25uX3N0YXRlLT5jcnRjKQoJCQljb250aW51ZTsKCQkKCQljcnRjX3N0YXRl
-ID0gZHJtX2F0b21pY19nZXRfY3J0Y19zdGF0ZShjb25uX3N0YXRlLT5jcnRjKTsKCQkvKiBlcnJv
-ciBoYW5kbGluZy4uLiAqLwoJCWNydGNfc3RhdGUtPm1vZGVfY2hhbmdlZCA9IHRydWU7Cgl9CgoJ
-cmV0dXJuIDA7Cn0KCklNTyB0aGlzIHdvcmtzIGEgYml0IGJldHRlciBzaW5jZSBhbGwgd2UgcmVh
-bGx5IG5lZWQgaXMgc29tZXRoaW5nIHRvIHB1bGwgaW4KY3J0Y3MgYWZmZWN0ZWQgYnkgdGhlIHN0
-YXRlIGNoYW5nZS4KCkFsc28sIG1vcmUgRFJNX0RFQlVHX0FUT01JQygpIHN0YXRlbWVudHMgc2lt
-aWxhciB0byB3aGF0IEkndmUgZ290IGluIHRoZSB2Y3BpCmhlbHBlcnMgd291bGQgYmUgbmljZSA6
-KQoKT3RoZXJ3aXNlLCBsb29rcyBncmVhdCBzbyBmYXIhCj4gIC8qKgo+ICAgKiBkcm1fZHBfbXN0
-X2F0b21pY19jaGVjayAtIENoZWNrIHRoYXQgdGhlIG5ldyBzdGF0ZSBvZiBhbiBNU1QgdG9wb2xv
-Z3kgaW4KPiBhbgo+ICAgKiBhdG9taWMgdXBkYXRlIGlzIHZhbGlkCj4gQEAgLTM4ODcsOSArMzk4
-Nyw5IEBAIGRybV9kcF9tc3RfYXRvbWljX2NoZWNrX3RvcG9sb2d5X3N0YXRlKHN0cnVjdAo+IGRy
-bV9kcF9tc3RfdG9wb2xvZ3lfbWdyICptZ3IsCj4gICAqIFNlZSBhbHNvOgo+ICAgKiBkcm1fZHBf
-YXRvbWljX2ZpbmRfdmNwaV9zbG90cygpCj4gICAqIGRybV9kcF9hdG9taWNfcmVsZWFzZV92Y3Bp
-X3Nsb3RzKCkKPiAtICoKPiAgICogUmV0dXJuczoKPiAgICoKPiArICoKPiAgICogMCBpZiB0aGUg
-bmV3IHN0YXRlIGlzIHZhbGlkLCBuZWdhdGl2ZSBlcnJvciBjb2RlIG90aGVyd2lzZS4KPiAgICov
-Cj4gIGludCBkcm1fZHBfbXN0X2F0b21pY19jaGVjayhzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAq
-c3RhdGUpCj4gQEAgLTM5MDIsNiArNDAwMiw3IEBAIGludCBkcm1fZHBfbXN0X2F0b21pY19jaGVj
-ayhzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZQo+ICpzdGF0ZSkKPiAgCQlyZXQgPSBkcm1fZHBfbXN0
-X2F0b21pY19jaGVja190b3BvbG9neV9zdGF0ZShtZ3IsIG1zdF9zdGF0ZSk7Cj4gIAkJaWYgKHJl
-dCkKPiAgCQkJYnJlYWs7Cj4gKwkJZHJtX2RwX21zdF91cGRhdGVfZHNjX2NydGNzKG1zdF9zdGF0
-ZSk7Cj4gIAl9Cj4gIAo+ICAJcmV0dXJuIHJldDsKPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0v
-ZHJtX2RwX21zdF9oZWxwZXIuaAo+IGIvaW5jbHVkZS9kcm0vZHJtX2RwX21zdF9oZWxwZXIuaAo+
-IGluZGV4IDRjZjczODU0NWRmYi4uMTg1ZTI5ODk1ZjVmIDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUv
-ZHJtL2RybV9kcF9tc3RfaGVscGVyLmgKPiArKysgYi9pbmNsdWRlL2RybS9kcm1fZHBfbXN0X2hl
-bHBlci5oCj4gQEAgLTQzMSw2ICs0MzEsNyBAQCBzdHJ1Y3QgZHJtX2RwX3BheWxvYWQgewo+ICBz
-dHJ1Y3QgZHJtX2RwX3ZjcGlfYWxsb2NhdGlvbiB7Cj4gIAlzdHJ1Y3QgZHJtX2RwX21zdF9wb3J0
-ICpwb3J0Owo+ICAJaW50IHZjcGk7Cj4gKwlib29sIGRzY19lbmFibGU7Cj4gIAlzdHJ1Y3QgbGlz
-dF9oZWFkIG5leHQ7Cj4gIH07Cj4gIAo+IEBAIC02NjIsNiArNjYzLDkgQEAgaW50IF9fbXVzdF9j
-aGVjawo+ICBkcm1fZHBfYXRvbWljX2ZpbmRfdmNwaV9zbG90cyhzdHJ1Y3QgZHJtX2F0b21pY19z
-dGF0ZSAqc3RhdGUsCj4gIAkJCSAgICAgIHN0cnVjdCBkcm1fZHBfbXN0X3RvcG9sb2d5X21nciAq
-bWdyLAo+ICAJCQkgICAgICBzdHJ1Y3QgZHJtX2RwX21zdF9wb3J0ICpwb3J0LCBpbnQgcGJuKTsK
-PiAraW50IGRybV9kcF9oZWxwZXJfdXBkYXRlX3ZjcGlfc2xvdHNfZm9yX2RzYyhzdHJ1Y3QgZHJt
-X2F0b21pY19zdGF0ZSAqc3RhdGUsCj4gKwkJCQkJICAgIHN0cnVjdCBkcm1fZHBfbXN0X3BvcnQg
-KnBvcnQsCj4gKwkJCQkJICAgIGludCBwYm4pOwo+ICBpbnQgX19tdXN0X2NoZWNrCj4gIGRybV9k
-cF9hdG9taWNfcmVsZWFzZV92Y3BpX3Nsb3RzKHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0
-ZSwKPiAgCQkJCSBzdHJ1Y3QgZHJtX2RwX21zdF90b3BvbG9neV9tZ3IgKm1nciwKLS0gCkNoZWVy
-cywKCUx5dWRlIFBhdWwKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbA==
+
+--===============1954843449==
+Content-Type: multipart/alternative; boundary="15729142520.FA2CF9c.10103"
+Content-Transfer-Encoding: 7bit
+
+
+--15729142520.FA2CF9c.10103
+Date: Tue, 5 Nov 2019 00:37:32 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111482
+
+--- Comment #35 from Andrew Sheldon <asheldon55@gmail.com> ---
+(In reply to Dieter N=C3=BCtzel from comment #34)
+
+> Which I couldn't verify on my Polaris system (with 2 identical HDMI
+> monitors) currently.
+> With 'low' and 2 identical HDMI displays I get the below under
+> 'amd-staging-drm-next':
+>=20
+> GFX Clocks and Power:
+>         300 MHz (MCLK)
+>         300 MHz (SCLK)
+>         600 MHz (PSTATE_SCLK)
+>         1000 MHz (PSTATE_MCLK)
+>         750 mV (VDDGFX)
+>         32.174 W (average GPU)
+>=20
+> PSTATE_SCLK and PSTATE_MCLK do NOT drop and much to high W.
+> NO flickering due to 'low'.
+>=20
+> I'll point Alex to this thread.
+
+You need to revert f6505e375fe8 , which "fixed" the flickering bug (but
+prevents the lower power consumption behaviour).
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15729142520.FA2CF9c.10103
+Date: Tue, 5 Nov 2019 00:37:32 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482#c35">Comme=
+nt # 35</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482">bug 11148=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+asheldon55&#64;gmail.com" title=3D"Andrew Sheldon &lt;asheldon55&#64;gmail.=
+com&gt;"> <span class=3D"fn">Andrew Sheldon</span></a>
+</span></b>
+        <pre>(In reply to Dieter N=C3=BCtzel from <a href=3D"show_bug.cgi?i=
+d=3D111482#c34">comment #34</a>)
+
+<span class=3D"quote">&gt; Which I couldn't verify on my Polaris system (wi=
+th 2 identical HDMI
+&gt; monitors) currently.
+&gt; With 'low' and 2 identical HDMI displays I get the below under
+&gt; 'amd-staging-drm-next':
+&gt;=20
+&gt; GFX Clocks and Power:
+&gt;         300 MHz (MCLK)
+&gt;         300 MHz (SCLK)
+&gt;         600 MHz (PSTATE_SCLK)
+&gt;         1000 MHz (PSTATE_MCLK)
+&gt;         750 mV (VDDGFX)
+&gt;         32.174 W (average GPU)
+&gt;=20
+&gt; PSTATE_SCLK and PSTATE_MCLK do NOT drop and much to high W.
+&gt; NO flickering due to 'low'.
+&gt;=20
+&gt; I'll point Alex to this thread.</span >
+
+You need to revert f6505e375fe8 , which &quot;fixed&quot; the flickering bu=
+g (but
+prevents the lower power consumption behaviour).</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15729142520.FA2CF9c.10103--
+
+--===============1954843449==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1954843449==--
