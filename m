@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89B87F0851
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 22:29:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D754AF0861
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 22:30:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 839BA6E113;
-	Tue,  5 Nov 2019 21:29:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26C176EAE6;
+	Tue,  5 Nov 2019 21:30:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 24D506EAE6
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2019 21:29:30 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0531A6EB54
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2019 21:30:26 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 21982720E2; Tue,  5 Nov 2019 21:29:30 +0000 (UTC)
+ id 024EC720E2; Tue,  5 Nov 2019 21:30:26 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 112214] Vega20 crashing randomly while using Xorg or Wayland in
  Fedora 31
-Date: Tue, 05 Nov 2019 21:29:30 +0000
+Date: Tue, 05 Nov 2019 21:30:26 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,8 +34,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.mimetype
-Message-ID: <bug-112214-502-bCJMKmExfH@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-112214-502-IPeGKeMNbb@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-112214-502@http.bugs.freedesktop.org/>
 References: <bug-112214-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1353383579=="
+Content-Type: multipart/mixed; boundary="===============2108928429=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1353383579==
-Content-Type: multipart/alternative; boundary="15729893701.1A73.691"
+--===============2108928429==
+Content-Type: multipart/alternative; boundary="15729894252.AE9b0D630.825"
 Content-Transfer-Encoding: 7bit
 
 
---15729893701.1A73.691
-Date: Tue, 5 Nov 2019 21:29:30 +0000
+--15729894252.AE9b0D630.825
+Date: Tue, 5 Nov 2019 21:30:25 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,19 +73,15 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D112214
 
-Alex Deucher <alexdeucher@gmail.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
- Attachment #145894|text/x-log                  |text/plain
-          mime type|                            |
+--- Comment #3 from Alex Deucher <alexdeucher@gmail.com> ---
+Can you attach your dmesg output from boot?
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15729893701.1A73.691
-Date: Tue, 5 Nov 2019 21:29:30 +0000
+--15729894252.AE9b0D630.825
+Date: Tue, 5 Nov 2019 21:30:25 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -96,32 +92,27 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:alexdeuch=
-er&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.com&gt;">=
- <span class=3D"fn">Alex Deucher</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Vega20 crashing randomly while using Xorg or Wayland in F=
+edora 31"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112214#c3">Commen=
+t # 3</a>
+              on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Vega20 crashing randomly while using Xorg or Wayland in F=
 edora 31"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112214">bug 11221=
 4</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Attachment #145894 mime type</td>
-           <td>text/x-log
-           </td>
-           <td>text/plain
-           </td>
-         </tr></table>
-      <p>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
+com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
+</span></b>
+        <pre>Can you attach your dmesg output from boot?</pre>
+        </div>
       </p>
 
 
@@ -134,9 +125,9 @@ edora 31"
     </body>
 </html>=
 
---15729893701.1A73.691--
+--15729894252.AE9b0D630.825--
 
---===============1353383579==
+--===============2108928429==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -146,4 +137,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1353383579==--
+--===============2108928429==--
