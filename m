@@ -1,46 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8BC7EF355
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 03:19:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3275FEF3C1
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 03:54:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D54F06E8E4;
-	Tue,  5 Nov 2019 02:19:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D5966E8E0;
+	Tue,  5 Nov 2019 02:54:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id CF7906E8DD
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2019 02:19:40 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id CC5F5720E2; Tue,  5 Nov 2019 02:19:40 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
- with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Tue, 05 Nov 2019 02:19:40 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: shtetldik@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: highest
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-FvfN1r9kTd@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
-References: <bug-111481-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AC096E8E0
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2019 02:54:26 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 476Z4v1Hcyz9sP6;
+ Tue,  5 Nov 2019 13:54:22 +1100 (AEDT)
+Date: Tue, 5 Nov 2019 13:54:22 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build failure after merge of the drm tree
+Message-ID: <20191105135422.46ddc865@canb.auug.org.au>
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=canb.auug.org.au; s=201702; t=1572922464;
+ bh=apINLqpoL1ArxoY3YZHvUGKkHEENAmWBBm7q4I02XPk=;
+ h=Date:From:To:Cc:Subject:From;
+ b=dG4gqwEbrYIzKUaSuOWEOec9y7I4BlEU8L9bPSJ8+u1QzLH8XRQev3z5oN1UY8Jfu
+ EefPqlNqvGcuCvrYdECsjCh10evJ2PPKX0E302e0RL0eQc3Bp7ZyKQmleEIZJFetel
+ 4ZPM/JO0MilitNX7dsmO1IAalwJ1+Yqxw+0fEhoZgB1SZNWYhrlLVyhClhWriKRE/Y
+ aQoKWe28Colf2llGrByWG8ElZ46IwNdP1kf5nt42gdk/xOK9vU8hxFsW/vX4TbUL1Q
+ QQFJYvkkf1DFzyGhBOYMXPnZAK2JFD6LqpIo+ltyBm92anqYmUzc5qvyABKuSZB2Ih
+ JxK2ehx9UcQpw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,84 +46,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1614103591=="
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============1210672680=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--===============1210672680==
+Content-Type: multipart/signed; boundary="Sig_/hQb8xY0vB02FYJL95wqmqq2";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
---===============1614103591==
-Content-Type: multipart/alternative; boundary="157292038012.d7eE4E1.29380"
-Content-Transfer-Encoding: 7bit
-
-
---157292038012.d7eE4E1.29380
-Date: Tue, 5 Nov 2019 02:19:40 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+--Sig_/hQb8xY0vB02FYJL95wqmqq2
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+Hi all,
 
---- Comment #207 from Shmerl <shtetldik@gmail.com> ---
-And I just got an sdma Firefox hang with 5.4-rc6. So while rate, it still
-happens.
+After merging the drm tree, today's linux-next build (powerpc
+ppc64_defconfig) failed like this:
+
+arch/powerpc/platforms/embedded6xx/Kconfig:2:error: recursive dependency de=
+tected!
+arch/powerpc/platforms/embedded6xx/Kconfig:2:   symbol EMBEDDED6xx depends =
+on BROKEN_ON_SMP
+init/Kconfig:79:        symbol BROKEN_ON_SMP depends on BROKEN
+init/Kconfig:76:        symbol BROKEN is selected by DRM_I915_DEBUG
+drivers/gpu/drm/i915/Kconfig.debug:20:  symbol DRM_I915_DEBUG depends on DR=
+M_I915
+drivers/gpu/drm/i915/Kconfig:2: symbol DRM_I915 depends on DRM
+drivers/gpu/drm/Kconfig:8:      symbol DRM depends on AGP
+drivers/char/agp/Kconfig:2:     symbol AGP depends on PCI
+drivers/pci/Kconfig:16: symbol PCI depends on HAVE_PCI
+drivers/pci/Kconfig:7:  symbol HAVE_PCI is selected by FORCE_PCI
+drivers/pci/Kconfig:11: symbol FORCE_PCI is selected by MVME5100
+arch/powerpc/platforms/embedded6xx/Kconfig:51:  symbol MVME5100 depends on =
+EMBEDDED6xx
+For a resolution refer to Documentation/kbuild/kconfig-language.rst
+subsection "Kconfig recursive dependency limitations"
+
+Caused by commit
+
+  d9d54a530a70 ("drm/i915: Put future HW and their uAPIs under STAGING & BR=
+OKEN")
+
+You really should not select BROKEN.  It is assumed to always be false
+so we can make actually broken code depend on it (and therefore not
+be built).
+
+I have used the drm tree from next-20191031 for today.
 
 --=20
-You are receiving this mail because:
-You are the assignee for the bug.=
+Cheers,
+Stephen Rothwell
 
---157292038012.d7eE4E1.29380
-Date: Tue, 5 Nov 2019 02:19:40 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+--Sig_/hQb8xY0vB02FYJL95wqmqq2
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c207">Comm=
-ent # 207</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-shtetldik&#64;gmail.com" title=3D"Shmerl &lt;shtetldik&#64;gmail.com&gt;"> =
-<span class=3D"fn">Shmerl</span></a>
-</span></b>
-        <pre>And I just got an sdma Firefox hang with 5.4-rc6. So while rat=
-e, it still
-happens.</pre>
-        </div>
-      </p>
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl3A5F4ACgkQAVBC80lX
+0GzuyAf+KXyUifG6em3g9mg+29qjxDCg0ln6ZOoslj73LdJMhIKwUTs+qVkNJW7w
+s4y+XIRwROwSLgGFKZKGCycb4XQJLNk/IaxI5NyPj5s+zQ2s+P8Q38rNy/i+hcnJ
+yqp/uW8iF7rW0IPm+yRWPDtYWMZ+h4SoQrPanTPRoq3N6o1OSqCNryZpFRRlFzQU
+mu/2mCTWCVlD9ukx8RdVeebFtwdOtOIOmR/WmTUm9nzncbNPJqxL/xE+lBdjC6O8
+M/UFMizFYOyBQXarGQjubPOhImzReqJiOHhBqgdQeoBy2knzST0IFundpmIKe1cG
+FHDwjXsTPmaG6EgQF+llaOT78sIC9Q==
+=imT/
+-----END PGP SIGNATURE-----
 
-      <hr>
-      <span>You are receiving this mail because:</span>
+--Sig_/hQb8xY0vB02FYJL95wqmqq2--
 
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---157292038012.d7eE4E1.29380--
-
---===============1614103591==
+--===============1210672680==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -140,4 +127,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1614103591==--
+--===============1210672680==--
