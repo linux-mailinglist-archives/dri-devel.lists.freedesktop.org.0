@@ -2,44 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BEB6F0672
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 20:55:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7910F067B
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Nov 2019 20:56:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2219C6E917;
-	Tue,  5 Nov 2019 19:55:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADF686EA1D;
+	Tue,  5 Nov 2019 19:56:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6CB296E917
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2019 19:55:42 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 65568720E2; Tue,  5 Nov 2019 19:55:42 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111922] amdgpu fails to resume on 5.2 kernel [regression]
-Date: Tue, 05 Nov 2019 19:55:42 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: not set
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111922-502-MtRBQAzvlT@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111922-502@http.bugs.freedesktop.org/>
-References: <bug-111922-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BB526EA1D
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Nov 2019 19:56:52 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id e9so10003999ljp.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Nov 2019 11:56:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=aniIC/J44IUhn2cFl6VZg+IiJv9dKL/8QT6kzib2/DU=;
+ b=WU5UqrOJ1c6yUqHWd09H6EdtWm0R7b5T1O0dlVBaHaBAucGIvqlkmd6DyfrXBrU3BN
+ oAcusM65uBqxI1y20VnD5LIv2/VKm84pnXShrAlpzufjn8Lt7TFgzvJ1F6QFFntWg1/x
+ 4CQ5zsFhbuFVj+vr/w6pEIIhzsVRihXxKmmXoUWgntYv3MnshP1q7PFvsJLVIq6QLgdj
+ g/39pOZYHCO+sacquxlWpbkPOpbbinyFBbo38DkuVY45J4hZHOqDUp28P5pj7TuJ+OVV
+ 07eRmc3M1y+iZUBLKrzFfUN/tAtEcKrOYNeRSuOUidtA7IC/xB+v9p3IvLmLLfXPN9LU
+ JRAg==
+X-Gm-Message-State: APjAAAUj+tTWPyAubG74qTC9QKr77a6v+e5Yck8UrMOeA92Kw4m4Y5JU
+ GEAEha+Xq/89G7WoGb1SpzNUffBC3x6E+gtT3Fo=
+X-Google-Smtp-Source: APXvYqwqJT+VC+t5hmZcIrOHbWSYTVGxb46MxiUzudokZWZbFxolPg+JnqYaKIHjv8+trLFjclHUFRCAzTh4HeSmvWg=
+X-Received: by 2002:a05:651c:87:: with SMTP id 7mr4321236ljq.20.1572983810842; 
+ Tue, 05 Nov 2019 11:56:50 -0800 (PST)
 MIME-Version: 1.0
+References: <20191022103135.GC4756@pendragon.ideasonboard.com>
+ <20191105194902.GA8235@pendragon.ideasonboard.com>
+In-Reply-To: <20191105194902.GA8235@pendragon.ideasonboard.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 6 Nov 2019 05:56:39 +1000
+Message-ID: <CAPM=9tzhDyPU8GtJXCr+YRhNgx9F=Zo9PGiSbmpBWYkQ4qv9gg@mail.gmail.com>
+Subject: Re: [GIT PULL FOR v5.5 - 2nd try] R-Car DU CMM support
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=aniIC/J44IUhn2cFl6VZg+IiJv9dKL/8QT6kzib2/DU=;
+ b=bzY167THgWkBMDwYtJbGPNa8iwQsR1kbCwW8GDlW2q0K836ip0jWi82QaF/MMgf5Q8
+ b/7QjO49qjeiFELVtUkOuujhxLbiyMdXWzzIaPcRTZCLAjYmh55P2+UqqkCYx7Vw+FrR
+ K23+NiOS9DO9FJAk1hv3yx+nlIbnerneHjfu5yGqslian/5Gr46xL5NJMBi8RyyrBDaE
+ IXxBPkM+i0hXau9jzHN0C0K+wOshOmXLCh3aAtmH5xQG6Q6pbDwq0+taFSdHXwFm90W9
+ Se1wkwvXO750fuhI4sZR9tUDK5XHmIK9Ot+eCO4Gf6He89qYCRiETH0GGBbShFk1g+dY
+ PTpQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,86 +63,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0389592011=="
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0389592011==
-Content-Type: multipart/alternative; boundary="15729837420.67FACC0b0.16857"
-Content-Transfer-Encoding: 7bit
-
-
---15729837420.67FACC0b0.16857
-Date: Tue, 5 Nov 2019 19:55:42 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111922
-
---- Comment #4 from Alex Deucher <alexdeucher@gmail.com> ---
-Nothing comes to mind.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15729837420.67FACC0b0.16857
-Date: Tue, 5 Nov 2019 19:55:42 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu fails to resume on 5.2 kernel [regression]"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111922#c4">Commen=
-t # 4</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu fails to resume on 5.2 kernel [regression]"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111922">bug 11192=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
-com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
-</span></b>
-        <pre>Nothing comes to mind.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15729837420.67FACC0b0.16857--
-
---===============0389592011==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0389592011==--
+T24gV2VkLCA2IE5vdiAyMDE5IGF0IDA1OjQ5LCBMYXVyZW50IFBpbmNoYXJ0CjxsYXVyZW50LnBp
+bmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+IHdyb3RlOgo+Cj4gSGkgRGF2ZSwKPgo+IEhhcyB0aGlz
+IHB1bGwgcmVxdWVzdCBmYWxsZW4gdGhyb3VnaCB0aGUgY3JhY2tzID8KCkl0IGZlbGwgZG93biBh
+IGRpZmZlcmVudCBjcmFjayB0aGFuIHVzdWFsLCBpdCBtYWRlIGl0IGZyb20gcGF0Y2h3b3JrCm9u
+dG8gbXkgaGFyZCBkcml2ZSwgYnV0IHRoZW4gSSBkaWRuJ3QgZXhlY3V0ZSB0aGUgcHVsbC4KCkkn
+dmUgcHVsbGVkIGl0IGRvd24sIHRoYW5rcyBmb3IgcmVtaW5kZXIuCgpEYXZlLgpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
