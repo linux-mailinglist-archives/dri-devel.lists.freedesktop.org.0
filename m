@@ -1,47 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90577F1AEC
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2019 17:14:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8269FF1B04
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2019 17:19:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A47246EDD4;
-	Wed,  6 Nov 2019 16:14:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47FA36EDCE;
+	Wed,  6 Nov 2019 16:19:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id C5D1F6EDCC
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2019 16:14:28 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C3040720E2; Wed,  6 Nov 2019 16:14:28 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 107296] WARNING: CPU: 0 PID: 370 at
- drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:1355
- dcn_bw_update_from_pplib+0x16b/0x280 [amdgpu]
-Date: Wed, 06 Nov 2019 16:14:27 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: janpieter.sollie@dommel.be
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: WORKSFORME
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-107296-502-5NiBOArQfF@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-107296-502@http.bugs.freedesktop.org/>
-References: <bug-107296-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 315C16EDCE;
+ Wed,  6 Nov 2019 16:19:12 +0000 (UTC)
+Received: by mail-ed1-x543.google.com with SMTP id s10so4857844edi.5;
+ Wed, 06 Nov 2019 08:19:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hNEMiEOnnDjsgTbazzB3mAQ9dZ4k0jiMKw0yiocJJ5c=;
+ b=TnHtrYIP3RsGl21WIachpm76brLNk21JzG9dX4LX5DRgSydqoahU1/sphluDirRU4I
+ g4Bs1BC+85PrkBb8TBd2H51zUqJNtsPeAxVjzLsFo5gBX8FkYRKrRsL8mNHlqxrTUxCm
+ 3JeOH7O7AauCH/lPHhTEuqjdZsKRGN+1jKkycfr4o/vKCvGySEOVt8ukJ1x1kJqaSxsT
+ gWJuXcvpz2r1fyt/0mlVDmfJ1G8g7zqo54WQYiYtN/67ILNzHIq4sSgi3Bo0SUkNxGjf
+ tQW9nDYDAPI3pI6zxbZRd6BU4DHjb2EEA2VLDWcqOrOGqXcg83LyV07S7XPqXRwXo4AJ
+ hhgg==
+X-Gm-Message-State: APjAAAXmV9nsz6myvg4pI7EMkVV/I4aGFDSedJewok/HWZ7XDyfqoSw8
+ n59EC6kONjkEoonnOIdXH9R7mg3lu1B0tglyBD0/4v3s
+X-Google-Smtp-Source: APXvYqztQa03nrJC/zMMrJ2TpWHwIt22SrIjQj3LuPPI/2j0RoWKnnhWmMtUgB1S5l4RJ3GajcZ9QJxLIhAcTldX2lM=
+X-Received: by 2002:aa7:d3da:: with SMTP id o26mr3685747edr.302.1573057150709; 
+ Wed, 06 Nov 2019 08:19:10 -0800 (PST)
 MIME-Version: 1.0
+References: <1573040963-24148-1-git-send-email-smasetty@codeaurora.org>
+In-Reply-To: <1573040963-24148-1-git-send-email-smasetty@codeaurora.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 6 Nov 2019 08:18:59 -0800
+Message-ID: <CAF6AEGtdEDAYg9bqKREv34aWiXR+uwEg+xsyJS_ySs4+-sFumg@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH] drm: msm: a6xx: fix debug bus register
+ configuration
+To: Sharat Masetty <smasetty@codeaurora.org>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=hNEMiEOnnDjsgTbazzB3mAQ9dZ4k0jiMKw0yiocJJ5c=;
+ b=iUBciG0lUMovt7WWfhcwtB40mIB7G5EXKAcWjL+0PPDv5UJLTdPPmd3pxJvznaYmBK
+ cZKpRR37P/xJJeukCSR2OtUHUV+teiR7QkOov1F6M6RXu+Cwn2Y9c60z9z6z0ibebOez
+ u8dTAWft04aok/k5vIKQ/CfXfTEPui+eOw5xkdPMfs8QG081K+4wfscP7AdHTDob3zX+
+ +Jom4JgAv3DfQEVS1BKx/DfDdjdccMz5ggh9bZNla5E+B2QMhFG+70VDvaht3d5Rcn54
+ g+VKTyYOSZXm4LsW3dP/i734UMmoBhAWX4vJbKyGzclYNtV/wq+4r8NA7mPITjr2dA7J
+ kpIA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,96 +63,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0369147601=="
+Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0369147601==
-Content-Type: multipart/alternative; boundary="15730568683.AC19c719d.12667"
-Content-Transfer-Encoding: 7bit
-
-
---15730568683.AC19c719d.12667
-Date: Wed, 6 Nov 2019 16:14:28 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D107296
-
---- Comment #23 from Janpieter Sollie <janpieter.sollie@dommel.be> ---
-Additional comment:
-When changing (downgrading) the bios version for B450i from AA0 to A60, the=
- bug
-appears again. Probably a combination of both software and EFI code
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15730568683.AC19c719d.12667
-Date: Wed, 6 Nov 2019 16:14:28 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED WORKSFORME - WARNING: CPU: 0 PID: 370 at drivers/gpu/d=
-rm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:1355 dcn_bw_update_from_pplib=
-+0x16b/0x280 [amdgpu]"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107296#c23">Comme=
-nt # 23</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED WORKSFORME - WARNING: CPU: 0 PID: 370 at drivers/gpu/d=
-rm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:1355 dcn_bw_update_from_pplib=
-+0x16b/0x280 [amdgpu]"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107296">bug 10729=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-janpieter.sollie&#64;dommel.be" title=3D"Janpieter Sollie &lt;janpieter.sol=
-lie&#64;dommel.be&gt;"> <span class=3D"fn">Janpieter Sollie</span></a>
-</span></b>
-        <pre>Additional comment:
-When changing (downgrading) the bios version for B450i from AA0 to A60, the=
- bug
-appears again. Probably a combination of both software and EFI code</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15730568683.AC19c719d.12667--
-
---===============0369147601==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0369147601==--
+T24gV2VkLCBOb3YgNiwgMjAxOSBhdCAzOjQ5IEFNIFNoYXJhdCBNYXNldHR5IDxzbWFzZXR0eUBj
+b2RlYXVyb3JhLm9yZz4gd3JvdGU6Cj4KPiBGaXggdGhlIGN4IGRlYnVnYnVzIHJlbGF0ZWQgcmVn
+aXN0ZXIgY29uZmlndXJhdGlvbiwgdG8gY29sbGVjdCBhY2N1cmF0ZQo+IGJ1cyBkYXRhIGR1cmlu
+ZyBncHUgc25hcHNob3QuIFRoaXMgaGVscHMgd2l0aCBjb21wbGV0ZSBzbmFwc2hvdCBkdW1wCj4g
+YW5kIGFsc28gY29tcGxldGUgcHJvcGVyIEdQVSByZWNvdmVyeS4KPgo+IFNpZ25lZC1vZmYtYnk6
+IFNoYXJhdCBNYXNldHR5IDxzbWFzZXR0eUBjb2RlYXVyb3JhLm9yZz4KCihhZGRpbmcgZml4ZXMg
+dGFnIGZvciBiZW5lZml0IG9mIHN0YWJsZSBrZXJuZWxzKQoKRml4ZXM6IDE3MDdhZGQ4MTU1MSAo
+ImRybS9tc20vYTZ4eDogQWRkIGE2eHggZ3B1IHN0YXRlIikKUmV2aWV3ZWQtYnk6IFJvYiBDbGFy
+ayA8cm9iZGNsYXJrQGdtYWlsLmNvbT4KCj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9tc20vYWRy
+ZW5vL2E2eHhfZ3B1X3N0YXRlLmMgfCAyNCArKysrKysrKysrKystLS0tLS0tLS0tLS0KPiAgMSBm
+aWxlIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKyksIDEyIGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2E2eHhfZ3B1X3N0YXRlLmMgYi9kcml2
+ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNnh4X2dwdV9zdGF0ZS5jCj4gaW5kZXggNDgzZTEwMC4u
+YzU3NjRiNCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNnh4X2dw
+dV9zdGF0ZS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21zbS9hZHJlbm8vYTZ4eF9ncHVfc3Rh
+dGUuYwo+IEBAIC0zNTMsMjYgKzM1MywyNiBAQCBzdGF0aWMgdm9pZCBhNnh4X2dldF9kZWJ1Z2J1
+cyhzdHJ1Y3QgbXNtX2dwdSAqZ3B1LAo+ICAgICAgICAgICAgICAgICBjeGRiZyA9IGlvcmVtYXAo
+cmVzLT5zdGFydCwgcmVzb3VyY2Vfc2l6ZShyZXMpKTsKPgo+ICAgICAgICAgaWYgKGN4ZGJnKSB7
+Cj4gLSAgICAgICAgICAgICAgIGN4ZGJnX3dyaXRlKGN4ZGJnLCBSRUdfQTZYWF9EQkdDX0NGR19E
+QkdCVVNfQ05UTFQsCj4gKyAgICAgICAgICAgICAgIGN4ZGJnX3dyaXRlKGN4ZGJnLCBSRUdfQTZY
+WF9DWF9EQkdDX0NGR19EQkdCVVNfQ05UTFQsCj4gICAgICAgICAgICAgICAgICAgICAgICAgQTZY
+WF9EQkdDX0NGR19EQkdCVVNfQ05UTFRfU0VHVCgweGYpKTsKPgo+IC0gICAgICAgICAgICAgICBj
+eGRiZ193cml0ZShjeGRiZywgUkVHX0E2WFhfREJHQ19DRkdfREJHQlVTX0NOVExNLAo+ICsgICAg
+ICAgICAgICAgICBjeGRiZ193cml0ZShjeGRiZywgUkVHX0E2WFhfQ1hfREJHQ19DRkdfREJHQlVT
+X0NOVExNLAo+ICAgICAgICAgICAgICAgICAgICAgICAgIEE2WFhfREJHQ19DRkdfREJHQlVTX0NO
+VExNX0VOQUJMRSgweGYpKTsKPgo+IC0gICAgICAgICAgICAgICBjeGRiZ193cml0ZShjeGRiZywg
+UkVHX0E2WFhfREJHQ19DRkdfREJHQlVTX0lWVExfMCwgMCk7Cj4gLSAgICAgICAgICAgICAgIGN4
+ZGJnX3dyaXRlKGN4ZGJnLCBSRUdfQTZYWF9EQkdDX0NGR19EQkdCVVNfSVZUTF8xLCAwKTsKPiAt
+ICAgICAgICAgICAgICAgY3hkYmdfd3JpdGUoY3hkYmcsIFJFR19BNlhYX0RCR0NfQ0ZHX0RCR0JV
+U19JVlRMXzIsIDApOwo+IC0gICAgICAgICAgICAgICBjeGRiZ193cml0ZShjeGRiZywgUkVHX0E2
+WFhfREJHQ19DRkdfREJHQlVTX0lWVExfMywgMCk7Cj4gKyAgICAgICAgICAgICAgIGN4ZGJnX3dy
+aXRlKGN4ZGJnLCBSRUdfQTZYWF9DWF9EQkdDX0NGR19EQkdCVVNfSVZUTF8wLCAwKTsKPiArICAg
+ICAgICAgICAgICAgY3hkYmdfd3JpdGUoY3hkYmcsIFJFR19BNlhYX0NYX0RCR0NfQ0ZHX0RCR0JV
+U19JVlRMXzEsIDApOwo+ICsgICAgICAgICAgICAgICBjeGRiZ193cml0ZShjeGRiZywgUkVHX0E2
+WFhfQ1hfREJHQ19DRkdfREJHQlVTX0lWVExfMiwgMCk7Cj4gKyAgICAgICAgICAgICAgIGN4ZGJn
+X3dyaXRlKGN4ZGJnLCBSRUdfQTZYWF9DWF9EQkdDX0NGR19EQkdCVVNfSVZUTF8zLCAwKTsKPgo+
+IC0gICAgICAgICAgICAgICBjeGRiZ193cml0ZShjeGRiZywgUkVHX0E2WFhfREJHQ19DRkdfREJH
+QlVTX0JZVEVMXzAsCj4gKyAgICAgICAgICAgICAgIGN4ZGJnX3dyaXRlKGN4ZGJnLCBSRUdfQTZY
+WF9DWF9EQkdDX0NGR19EQkdCVVNfQllURUxfMCwKPiAgICAgICAgICAgICAgICAgICAgICAgICAw
+eDc2NTQzMjEwKTsKPiAtICAgICAgICAgICAgICAgY3hkYmdfd3JpdGUoY3hkYmcsIFJFR19BNlhY
+X0RCR0NfQ0ZHX0RCR0JVU19CWVRFTF8xLAo+ICsgICAgICAgICAgICAgICBjeGRiZ193cml0ZShj
+eGRiZywgUkVHX0E2WFhfQ1hfREJHQ19DRkdfREJHQlVTX0JZVEVMXzEsCj4gICAgICAgICAgICAg
+ICAgICAgICAgICAgMHhGRURDQkE5OCk7Cj4KPiAtICAgICAgICAgICAgICAgY3hkYmdfd3JpdGUo
+Y3hkYmcsIFJFR19BNlhYX0RCR0NfQ0ZHX0RCR0JVU19NQVNLTF8wLCAwKTsKPiAtICAgICAgICAg
+ICAgICAgY3hkYmdfd3JpdGUoY3hkYmcsIFJFR19BNlhYX0RCR0NfQ0ZHX0RCR0JVU19NQVNLTF8x
+LCAwKTsKPiAtICAgICAgICAgICAgICAgY3hkYmdfd3JpdGUoY3hkYmcsIFJFR19BNlhYX0RCR0Nf
+Q0ZHX0RCR0JVU19NQVNLTF8yLCAwKTsKPiAtICAgICAgICAgICAgICAgY3hkYmdfd3JpdGUoY3hk
+YmcsIFJFR19BNlhYX0RCR0NfQ0ZHX0RCR0JVU19NQVNLTF8zLCAwKTsKPiArICAgICAgICAgICAg
+ICAgY3hkYmdfd3JpdGUoY3hkYmcsIFJFR19BNlhYX0NYX0RCR0NfQ0ZHX0RCR0JVU19NQVNLTF8w
+LCAwKTsKPiArICAgICAgICAgICAgICAgY3hkYmdfd3JpdGUoY3hkYmcsIFJFR19BNlhYX0NYX0RC
+R0NfQ0ZHX0RCR0JVU19NQVNLTF8xLCAwKTsKPiArICAgICAgICAgICAgICAgY3hkYmdfd3JpdGUo
+Y3hkYmcsIFJFR19BNlhYX0NYX0RCR0NfQ0ZHX0RCR0JVU19NQVNLTF8yLCAwKTsKPiArICAgICAg
+ICAgICAgICAgY3hkYmdfd3JpdGUoY3hkYmcsIFJFR19BNlhYX0NYX0RCR0NfQ0ZHX0RCR0JVU19N
+QVNLTF8zLCAwKTsKPiAgICAgICAgIH0KPgo+ICAgICAgICAgbnJfZGVidWdidXNfYmxvY2tzID0g
+QVJSQVlfU0laRShhNnh4X2RlYnVnYnVzX2Jsb2NrcykgKwo+IC0tCj4gMS45LjEKPgo+IF9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gRnJlZWRyZW5vIG1h
+aWxpbmcgbGlzdAo+IEZyZWVkcmVub0BsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xp
+c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2ZyZWVkcmVubwpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
