@@ -2,34 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D08BF12DE
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2019 10:51:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C5A9F12A1
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2019 10:46:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 244DB6EC8C;
-	Wed,  6 Nov 2019 09:51:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EF026EC8E;
+	Wed,  6 Nov 2019 09:46:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29DC96EC8C
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2019 09:51:25 +0000 (UTC)
-Received: from relay10.mail.gandi.net (unknown [217.70.178.230])
- by mslow2.mail.gandi.net (Postfix) with ESMTP id 98C9F3B569B
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2019 09:44:32 +0000 (UTC)
-Received: from localhost.localdomain (lfbn-1-17395-211.w86-250.abo.wanadoo.fr
- [86.250.200.211])
- (Authenticated sender: paul.kocialkowski@bootlin.com)
- by relay10.mail.gandi.net (Postfix) with ESMTPSA id 1FFB8240018;
- Wed,  6 Nov 2019 09:44:10 +0000 (UTC)
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] drm/gma500: Add page flip support on psb/cdv
-Date: Wed,  6 Nov 2019 10:44:00 +0100
-Message-Id: <20191106094400.445834-3-paul.kocialkowski@bootlin.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191106094400.445834-1-paul.kocialkowski@bootlin.com>
-References: <20191106094400.445834-1-paul.kocialkowski@bootlin.com>
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BE836EC87
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2019 09:46:56 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 5772CB45E;
+ Wed,  6 Nov 2019 09:46:54 +0000 (UTC)
+Subject: Re: [PATCH 8/9] drm/ast: Add cursor plane
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20191028154928.4058-1-tzimmermann@suse.de>
+ <20191028154928.4058-9-tzimmermann@suse.de>
+ <20191105095551.GB10326@phenom.ffwll.local>
+ <0cf6145b-c966-a3a2-f956-5a5ab6cd375f@suse.de>
+ <CAKMK7uE6D+kdTg0UZ109QNo2Xhts+EyVz18dDtpjny8x1qUSgA@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <94b802d6-3b02-0ab1-f062-f6fa24dc70f2@suse.de>
+Date: Wed, 6 Nov 2019 10:46:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
+In-Reply-To: <CAKMK7uE6D+kdTg0UZ109QNo2Xhts+EyVz18dDtpjny8x1qUSgA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -42,128 +67,383 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- James Hilliard <james.hilliard1@gmail.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sam Ravnborg <sam@ravnborg.org>, Dave Airlie <airlied@redhat.com>,
+ chen@aspeedtech.com, Gerd Hoffmann <kraxel@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0356457088=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TGVnYWN5IChub24tYXRvbWljKSBwYWdlIGZsaXAgc3VwcG9ydCBpcyBhZGRlZCB0byB0aGUgZHJp
-dmVyIGJ5IHVzaW5nIHRoZQptb2RlX3NldF9iYXNlIENSVEMgZnVuY3Rpb24sIHRoYXQgYWxsb3dz
-IGNvbmZpZ3VyaW5nIGEgbmV3IGZyYW1lYnVmZmVyIGZvcgpkaXNwbGF5LiBTaW5jZSB0aGUgZnVu
-Y3Rpb24gcmVxdWlyZXMgdGhlIHByaW1hcnkgcGxhbmUncyBmYiB0byBiZSBzZXQKYWxyZWFkeSwg
-dGhpcyBpcyBkb25lIHByaW9yIHRvIGNhbGxpbmcgdGhlIGZ1bmN0aW9uIGluIHRoZSBwYWdlIGZs
-aXAgaGVscGVyCmFuZCByZXZlcnRlZCBpZiB0aGUgZmxpcCBmYWlscy4KClRoZSB2YmxhbmsgaW50
-ZXJydXB0IGhhbmRsZXIgaXMgYWxzbyByZWZhY3RvcmVkIHRvIHN1cHBvcnQgcGFzc2luZyBhbiBl
-dmVudC4KVGhlIFBJUEVfVEVfU1RBVFVTIGJpdCBpcyBhbHNvIGNvbnNpZGVyZWQgdG8gaW5kaWNh
-dGUgdmJsYW5rIG9uIG1lZGZpZWxkCm9ubHksIGFzIGV4cGxhaW5lZCBpbiBwc2JfZW5hYmxlX3Zi
-bGFuay4KCkl0IHdhcyB0ZXN0ZWQgYnkgcnVubmluZyB3ZXN0b24gb24gYm90aCBwb3Vsc2JvIGFu
-ZCBjZWRhcnRyYWlsLgoKU2lnbmVkLW9mZi1ieTogUGF1bCBLb2NpYWxrb3dza2kgPHBhdWwua29j
-aWFsa293c2tpQGJvb3RsaW4uY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvY2R2X2lu
-dGVsX2Rpc3BsYXkuYyB8ICAxICsKIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvZ21hX2Rpc3BsYXku
-YyAgICAgICB8IDQ2ICsrKysrKysrKysrKysrKysrKysrKysKIGRyaXZlcnMvZ3B1L2RybS9nbWE1
-MDAvZ21hX2Rpc3BsYXkuaCAgICAgICB8ICA2ICsrKwogZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9w
-c2JfaW50ZWxfZGlzcGxheS5jIHwgIDEgKwogZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9wc2JfaW50
-ZWxfZHJ2LmggICAgIHwgIDMgKysKIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2lycS5jICAg
-ICAgICAgICB8IDE4ICsrKysrKystLQogNiBmaWxlcyBjaGFuZ2VkLCA3MiBpbnNlcnRpb25zKCsp
-LCAzIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvY2R2
-X2ludGVsX2Rpc3BsYXkuYyBiL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvY2R2X2ludGVsX2Rpc3Bs
-YXkuYwppbmRleCA4Yjc4NDk0N2VkM2IuLjcxMDlkM2QxOWJlMCAxMDA2NDQKLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL2dtYTUwMC9jZHZfaW50ZWxfZGlzcGxheS5jCisrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9nbWE1MDAvY2R2X2ludGVsX2Rpc3BsYXkuYwpAQCAtOTc5LDYgKzk3OSw3IEBAIGNvbnN0IHN0
-cnVjdCBkcm1fY3J0Y19mdW5jcyBjZHZfaW50ZWxfY3J0Y19mdW5jcyA9IHsKIAkuZ2FtbWFfc2V0
-ID0gZ21hX2NydGNfZ2FtbWFfc2V0LAogCS5zZXRfY29uZmlnID0gZ21hX2NydGNfc2V0X2NvbmZp
-ZywKIAkuZGVzdHJveSA9IGdtYV9jcnRjX2Rlc3Ryb3ksCisJLnBhZ2VfZmxpcCA9IGdtYV9jcnRj
-X3BhZ2VfZmxpcCwKIH07CiAKIGNvbnN0IHN0cnVjdCBnbWFfY2xvY2tfZnVuY3MgY2R2X2Nsb2Nr
-X2Z1bmNzID0gewpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9nbWFfZGlzcGxh
-eS5jIGIvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9nbWFfZGlzcGxheS5jCmluZGV4IGJjMDdhZTJh
-OWExZC4uMTdmMTM2OTg1ZDIxIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2dt
-YV9kaXNwbGF5LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9nbWFfZGlzcGxheS5jCkBA
-IC01MDMsNiArNTAzLDUyIEBAIHZvaWQgZ21hX2NydGNfZGVzdHJveShzdHJ1Y3QgZHJtX2NydGMg
-KmNydGMpCiAJa2ZyZWUoZ21hX2NydGMpOwogfQogCitpbnQgZ21hX2NydGNfcGFnZV9mbGlwKHN0
-cnVjdCBkcm1fY3J0YyAqY3J0YywKKwkJICAgICAgIHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZi
-LAorCQkgICAgICAgc3RydWN0IGRybV9wZW5kaW5nX3ZibGFua19ldmVudCAqZXZlbnQsCisJCSAg
-ICAgICB1aW50MzJfdCBwYWdlX2ZsaXBfZmxhZ3MsCisJCSAgICAgICBzdHJ1Y3QgZHJtX21vZGVz
-ZXRfYWNxdWlyZV9jdHggKmN0eCkKK3sKKwlzdHJ1Y3QgZ21hX2NydGMgKmdtYV9jcnRjID0gdG9f
-Z21hX2NydGMoY3J0Yyk7CisJc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqY3VycmVudF9mYiA9IGNy
-dGMtPnByaW1hcnktPmZiOworCXN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKm9sZF9mYiA9IGNydGMt
-PnByaW1hcnktPm9sZF9mYjsKKwljb25zdCBzdHJ1Y3QgZHJtX2NydGNfaGVscGVyX2Z1bmNzICpj
-cnRjX2Z1bmNzID0gY3J0Yy0+aGVscGVyX3ByaXZhdGU7CisJc3RydWN0IGRybV9kZXZpY2UgKmRl
-diA9IGNydGMtPmRldjsKKwl1bnNpZ25lZCBsb25nIGZsYWdzOworCWludCByZXQ7CisKKwlpZiAo
-IWNydGNfZnVuY3MtPm1vZGVfc2V0X2Jhc2UpCisJCXJldHVybiAtRUlOVkFMOworCisJLyogVXNp
-bmcgbW9kZV9zZXRfYmFzZSByZXF1aXJlcyB0aGUgbmV3IGZiIHRvIGJlIHNldCBhbHJlYWR5LiAq
-LworCWNydGMtPnByaW1hcnktPmZiID0gZmI7CisKKwlpZiAoZXZlbnQpIHsKKwkJc3Bpbl9sb2Nr
-X2lycXNhdmUoJmRldi0+ZXZlbnRfbG9jaywgZmxhZ3MpOworCisJCVdBUk5fT04oZHJtX2NydGNf
-dmJsYW5rX2dldChjcnRjKSAhPSAwKTsKKworCQlnbWFfY3J0Yy0+cGFnZV9mbGlwX2V2ZW50ID0g
-ZXZlbnQ7CisKKwkJLyogQ2FsbCB0aGlzIGxvY2tlZCBpZiB3ZSB3YW50IGFuIGV2ZW50IGF0IHZi
-bGFuayBpbnRlcnJ1cHQuICovCisJCXJldCA9IGNydGNfZnVuY3MtPm1vZGVfc2V0X2Jhc2UoY3J0
-YywgY3J0Yy0+eCwgY3J0Yy0+eSwgb2xkX2ZiKTsKKwkJaWYgKHJldCkgeworCQkJZ21hX2NydGMt
-PnBhZ2VfZmxpcF9ldmVudCA9IE5VTEw7CisJCQlkcm1fY3J0Y192YmxhbmtfcHV0KGNydGMpOwor
-CQl9CisKKwkJc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmZGV2LT5ldmVudF9sb2NrLCBmbGFncyk7
-CisJfSBlbHNlIHsKKwkJcmV0ID0gY3J0Y19mdW5jcy0+bW9kZV9zZXRfYmFzZShjcnRjLCBjcnRj
-LT54LCBjcnRjLT55LCBvbGRfZmIpOworCX0KKworCS8qIFJlc3RvcmUgcHJldmlvdXMgZmIgaW4g
-Y2FzZSBvZiBmYWlsdXJlLiAqLworCWlmIChyZXQpCisJCWNydGMtPnByaW1hcnktPmZiID0gY3Vy
-cmVudF9mYjsKKworCXJldHVybiByZXQ7Cit9CisKIGludCBnbWFfY3J0Y19zZXRfY29uZmlnKHN0
-cnVjdCBkcm1fbW9kZV9zZXQgKnNldCwKIAkJCXN0cnVjdCBkcm1fbW9kZXNldF9hY3F1aXJlX2N0
-eCAqY3R4KQogewpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9nbWFfZGlzcGxh
-eS5oIGIvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9nbWFfZGlzcGxheS5oCmluZGV4IGZkYmQ3ZWNh
-YTU5Yy4uN2JkNmMxZWU4YjIxIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2dt
-YV9kaXNwbGF5LmgKKysrIGIvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9nbWFfZGlzcGxheS5oCkBA
-IC0xMSw2ICsxMSw3IEBACiAjZGVmaW5lIF9HTUFfRElTUExBWV9IXwogCiAjaW5jbHVkZSA8bGlu
-dXgvcG1fcnVudGltZS5oPgorI2luY2x1ZGUgPGRybS9kcm1fdmJsYW5rLmg+CiAKIHN0cnVjdCBk
-cm1fZW5jb2RlcjsKIHN0cnVjdCBkcm1fbW9kZV9zZXQ7CkBAIC03MSw2ICs3MiwxMSBAQCBleHRl
-cm4gdm9pZCBnbWFfY3J0Y19wcmVwYXJlKHN0cnVjdCBkcm1fY3J0YyAqY3J0Yyk7CiBleHRlcm4g
-dm9pZCBnbWFfY3J0Y19jb21taXQoc3RydWN0IGRybV9jcnRjICpjcnRjKTsKIGV4dGVybiB2b2lk
-IGdtYV9jcnRjX2Rpc2FibGUoc3RydWN0IGRybV9jcnRjICpjcnRjKTsKIGV4dGVybiB2b2lkIGdt
-YV9jcnRjX2Rlc3Ryb3koc3RydWN0IGRybV9jcnRjICpjcnRjKTsKK2V4dGVybiBpbnQgZ21hX2Ny
-dGNfcGFnZV9mbGlwKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKKwkJCSAgICAgIHN0cnVjdCBkcm1f
-ZnJhbWVidWZmZXIgKmZiLAorCQkJICAgICAgc3RydWN0IGRybV9wZW5kaW5nX3ZibGFua19ldmVu
-dCAqZXZlbnQsCisJCQkgICAgICB1aW50MzJfdCBwYWdlX2ZsaXBfZmxhZ3MsCisJCQkgICAgICBz
-dHJ1Y3QgZHJtX21vZGVzZXRfYWNxdWlyZV9jdHggKmN0eCk7CiBleHRlcm4gaW50IGdtYV9jcnRj
-X3NldF9jb25maWcoc3RydWN0IGRybV9tb2RlX3NldCAqc2V0LAogCQkJICAgICAgIHN0cnVjdCBk
-cm1fbW9kZXNldF9hY3F1aXJlX2N0eCAqY3R4KTsKIApkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL2dtYTUwMC9wc2JfaW50ZWxfZGlzcGxheS5jIGIvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9w
-c2JfaW50ZWxfZGlzcGxheS5jCmluZGV4IDQyNTY0MTA1MzVmMC4uZmVkM2I1NjNlNjJlIDEwMDY0
-NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL3BzYl9pbnRlbF9kaXNwbGF5LmMKKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9wc2JfaW50ZWxfZGlzcGxheS5jCkBAIC00MzIsNiArNDMy
-LDcgQEAgY29uc3Qgc3RydWN0IGRybV9jcnRjX2Z1bmNzIHBzYl9pbnRlbF9jcnRjX2Z1bmNzID0g
-ewogCS5nYW1tYV9zZXQgPSBnbWFfY3J0Y19nYW1tYV9zZXQsCiAJLnNldF9jb25maWcgPSBnbWFf
-Y3J0Y19zZXRfY29uZmlnLAogCS5kZXN0cm95ID0gZ21hX2NydGNfZGVzdHJveSwKKwkucGFnZV9m
-bGlwID0gZ21hX2NydGNfcGFnZV9mbGlwLAogfTsKIAogY29uc3Qgc3RydWN0IGdtYV9jbG9ja19m
-dW5jcyBwc2JfY2xvY2tfZnVuY3MgPSB7CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZ21h
-NTAwL3BzYl9pbnRlbF9kcnYuaCBiL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2ludGVsX2Ry
-di5oCmluZGV4IGNkZjEwMzMzZDFjMi4uMTZjNjEzNmY3NzhiIDEwMDY0NAotLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vZ21hNTAwL3BzYl9pbnRlbF9kcnYuaAorKysgYi9kcml2ZXJzL2dwdS9kcm0vZ21h
-NTAwL3BzYl9pbnRlbF9kcnYuaApAQCAtMTIsNiArMTIsNyBAQAogI2luY2x1ZGUgPGRybS9kcm1f
-Y3J0Y19oZWxwZXIuaD4KICNpbmNsdWRlIDxkcm0vZHJtX2VuY29kZXIuaD4KICNpbmNsdWRlIDxk
-cm0vZHJtX3Byb2JlX2hlbHBlci5oPgorI2luY2x1ZGUgPGRybS9kcm1fdmJsYW5rLmg+CiAjaW5j
-bHVkZSA8bGludXgvZ3Bpby5oPgogI2luY2x1ZGUgImdtYV9kaXNwbGF5LmgiCiAKQEAgLTE4Miw2
-ICsxODMsOCBAQCBzdHJ1Y3QgZ21hX2NydGMgewogCXN0cnVjdCBwc2JfaW50ZWxfY3J0Y19zdGF0
-ZSAqY3J0Y19zdGF0ZTsKIAogCWNvbnN0IHN0cnVjdCBnbWFfY2xvY2tfZnVuY3MgKmNsb2NrX2Z1
-bmNzOworCisJc3RydWN0IGRybV9wZW5kaW5nX3ZibGFua19ldmVudCAqcGFnZV9mbGlwX2V2ZW50
-OwogfTsKIAogI2RlZmluZSB0b19nbWFfY3J0Yyh4KQlcCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vZ21hNTAwL3BzYl9pcnEuYyBiL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2lycS5j
-CmluZGV4IGU2MjY1ZmI4NTYyNi4uZjc4N2E1MWY2MzM1IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vZ21hNTAwL3BzYl9pcnEuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL3BzYl9p
-cnEuYwpAQCAtMTY1LDExICsxNjUsMjMgQEAgc3RhdGljIHZvaWQgbWlkX3BpcGVfZXZlbnRfaGFu
-ZGxlcihzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBpbnQgcGlwZSkKIAkJIiVzLCBjYW4ndCBjbGVh
-ciBzdGF0dXMgYml0cyBmb3IgcGlwZSAlZCwgaXRzIHZhbHVlID0gMHgleC5cbiIsCiAJCV9fZnVu
-Y19fLCBwaXBlLCBQU0JfUlZEQzMyKHBpcGVfc3RhdF9yZWcpKTsKIAotCWlmIChwaXBlX3N0YXRf
-dmFsICYgUElQRV9WQkxBTktfU1RBVFVTKQotCQlkcm1faGFuZGxlX3ZibGFuayhkZXYsIHBpcGUp
-OworCWlmIChwaXBlX3N0YXRfdmFsICYgUElQRV9WQkxBTktfU1RBVFVTIHx8CisJICAgIChJU19N
-RkxEKGRldikgJiYgcGlwZV9zdGF0X3ZhbCAmIFBJUEVfVEVfU1RBVFVTKSkgeworCQlzdHJ1Y3Qg
-ZHJtX2NydGMgKmNydGMgPSBkcm1fY3J0Y19mcm9tX2luZGV4KGRldiwgcGlwZSk7CisJCXN0cnVj
-dCBnbWFfY3J0YyAqZ21hX2NydGMgPSB0b19nbWFfY3J0YyhjcnRjKTsKKwkJdW5zaWduZWQgbG9u
-ZyBmbGFnczsKIAotCWlmIChwaXBlX3N0YXRfdmFsICYgUElQRV9URV9TVEFUVVMpCiAJCWRybV9o
-YW5kbGVfdmJsYW5rKGRldiwgcGlwZSk7CisKKwkJc3Bpbl9sb2NrX2lycXNhdmUoJmRldi0+ZXZl
-bnRfbG9jaywgZmxhZ3MpOworCQlpZiAoZ21hX2NydGMtPnBhZ2VfZmxpcF9ldmVudCkgeworCQkJ
-ZHJtX2NydGNfc2VuZF92YmxhbmtfZXZlbnQoY3J0YywKKwkJCQkJCSAgIGdtYV9jcnRjLT5wYWdl
-X2ZsaXBfZXZlbnQpOworCQkJZ21hX2NydGMtPnBhZ2VfZmxpcF9ldmVudCA9IE5VTEw7CisJCQlk
-cm1fY3J0Y192YmxhbmtfcHV0KGNydGMpOworCQl9CisJCXNwaW5fdW5sb2NrX2lycXJlc3RvcmUo
-JmRldi0+ZXZlbnRfbG9jaywgZmxhZ3MpOworCX0KIH0KIAogLyoKLS0gCjIuMjMuMAoKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0356457088==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="YhlaT83rZPp2TPwJxZtWc0j2IOf0g3S78"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--YhlaT83rZPp2TPwJxZtWc0j2IOf0g3S78
+Content-Type: multipart/mixed; boundary="2L4jbID85JcNf9NyMM6NOVGI6y2NtrWch";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: chen@aspeedtech.com, dri-devel <dri-devel@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Message-ID: <94b802d6-3b02-0ab1-f062-f6fa24dc70f2@suse.de>
+Subject: Re: [PATCH 8/9] drm/ast: Add cursor plane
+References: <20191028154928.4058-1-tzimmermann@suse.de>
+ <20191028154928.4058-9-tzimmermann@suse.de>
+ <20191105095551.GB10326@phenom.ffwll.local>
+ <0cf6145b-c966-a3a2-f956-5a5ab6cd375f@suse.de>
+ <CAKMK7uE6D+kdTg0UZ109QNo2Xhts+EyVz18dDtpjny8x1qUSgA@mail.gmail.com>
+In-Reply-To: <CAKMK7uE6D+kdTg0UZ109QNo2Xhts+EyVz18dDtpjny8x1qUSgA@mail.gmail.com>
+
+--2L4jbID85JcNf9NyMM6NOVGI6y2NtrWch
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 06.11.19 um 10:05 schrieb Daniel Vetter:
+> On Wed, Nov 6, 2019 at 9:31 AM Thomas Zimmermann <tzimmermann@suse.de> =
+wrote:
+>>
+>> Hi
+>>
+>> Am 05.11.19 um 10:55 schrieb Daniel Vetter:
+>>> On Mon, Oct 28, 2019 at 04:49:27PM +0100, Thomas Zimmermann wrote:
+>>>> The cursor plane uses an internal format of ARGB4444. To userspace, =
+we
+>>>> announce ARGB8888 and do the transformation internally.
+>>>>
+>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>>
+>>> Hm, might be fun to also expose the ARGB4444 directly. Not that anyon=
+e
+>>> will actually use it :-/
+>>
+>> Is that a serious proposal? I thought about ARGB4444 and quickly
+>> dismissed it because no one will ever support it anyway.
+>=20
+> For cursor maybe not, but in other cases where we added the
+> RGB8888->native format hack because userspace, we did make sure that
+> the driver exposes the native formats too. Up to you really.
+
+I see. In that case, I'd like to continue with the patchset as-is, but
+provide ARGB4444 in a later patch.
+
+Best regards
+Thomas
+
+> -Daniel
+>=20
+>>
+>> Best regards
+>> Thomas
+>>
+>>> -Daniel
+>>>
+>>>> ---
+>>>>  drivers/gpu/drm/ast/ast_drv.h  |   1 +
+>>>>  drivers/gpu/drm/ast/ast_mode.c | 161 ++++++++++++++++++++++++++++++=
+++-
+>>>>  2 files changed, 161 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast=
+_drv.h
+>>>> index 13560622f22a..49557a73390f 100644
+>>>> --- a/drivers/gpu/drm/ast/ast_drv.h
+>>>> +++ b/drivers/gpu/drm/ast/ast_drv.h
+>>>> @@ -122,6 +122,7 @@ struct ast_private {
+>>>>      } cursor;
+>>>>
+>>>>      struct drm_plane primary_plane;
+>>>> +    struct drm_plane cursor_plane;
+>>>>
+>>>>      bool support_wide_screen;
+>>>>      enum {
+>>>> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/as=
+t_mode.c
+>>>> index 7667f4502eb9..f5f73200e8e4 100644
+>>>> --- a/drivers/gpu/drm/ast/ast_mode.c
+>>>> +++ b/drivers/gpu/drm/ast/ast_mode.c
+>>>> @@ -54,6 +54,16 @@ static int ast_cursor_move(struct drm_crtc *crtc,=
+
+>>>>                         int x, int y);
+>>>>
+>>>>
+>>>> +static u32 copy_cursor_image(u8 *src, u8 *dst, int width, int heigh=
+t);
+>>>> +static int ast_cursor_update(void *dst, void *src, unsigned int wid=
+th,
+>>>> +                         unsigned int height);
+>>>> +static void ast_cursor_set_base(struct ast_private *ast, u64 addres=
+s);
+>>>> +static int ast_show_cursor(struct drm_crtc *crtc, void *src,
+>>>> +                       unsigned int width, unsigned int height);
+>>>> +static void ast_hide_cursor(struct drm_crtc *crtc);
+>>>> +static int ast_cursor_move(struct drm_crtc *crtc,
+>>>> +                       int x, int y);
+>>>> +
+>>>>  static inline void ast_load_palette_index(struct ast_private *ast,
+>>>>                                   u8 index, u8 red, u8 green,
+>>>>                                   u8 blue)
+>>>> @@ -594,6 +604,139 @@ static const struct drm_plane_funcs ast_primar=
+y_plane_funcs =3D {
+>>>>      .format_mod_supported =3D NULL,
+>>>>  };
+>>>>
+>>>> +/*
+>>>> + * Cursor plane
+>>>> + */
+>>>> +
+>>>> +static int
+>>>> +ast_cursor_plane_helper_prepare_fb(struct drm_plane *plane,
+>>>> +                               struct drm_plane_state *new_state)
+>>>> +{
+>>>> +    struct drm_framebuffer *fb =3D new_state->fb;
+>>>> +    struct drm_crtc *crtc =3D new_state->crtc;
+>>>> +    struct drm_gem_vram_object *gbo;
+>>>> +    struct ast_private *ast;
+>>>> +    int ret;
+>>>> +    void *src, *dst;
+>>>> +
+>>>> +    if (!crtc || !fb)
+>>>> +            return 0;
+>>>> +
+>>>> +    if (fb->width > AST_MAX_HWC_WIDTH || fb->height > AST_MAX_HWC_H=
+EIGHT)
+>>>> +            return -EINVAL;
+>>>> +
+>>>> +    ast =3D crtc->dev->dev_private;
+>>>> +
+>>>> +    gbo =3D drm_gem_vram_of_gem(fb->obj[0]);
+>>>> +    src =3D drm_gem_vram_vmap(gbo);
+>>>> +    if (IS_ERR(src)) {
+>>>> +            ret =3D PTR_ERR(src);
+>>>> +            goto err_drm_gem_vram_unpin;
+>>>> +    }
+>>>> +
+>>>> +    dst =3D drm_gem_vram_vmap(ast->cursor.gbo[ast->cursor.next_inde=
+x]);
+>>>> +    if (IS_ERR(dst)) {
+>>>> +            ret =3D PTR_ERR(dst);
+>>>> +            goto err_drm_gem_vram_vunmap_src;
+>>>> +    }
+>>>> +
+>>>> +    ret =3D ast_cursor_update(dst, src, fb->width, fb->height);
+>>>> +    if (ret)
+>>>> +            goto err_drm_gem_vram_vunmap_dst;
+>>>> +
+>>>> +    /* Always unmap buffers here. Destination buffers are
+>>>> +     * perma-pinned while the driver is active. We're only
+>>>> +     * changing ref-counters here.
+>>>> +     */
+>>>> +    drm_gem_vram_vunmap(ast->cursor.gbo[ast->cursor.next_index], ds=
+t);
+>>>> +    drm_gem_vram_vunmap(gbo, src);
+>>>> +
+>>>> +    return 0;
+>>>> +
+>>>> +err_drm_gem_vram_vunmap_dst:
+>>>> +    drm_gem_vram_vunmap(ast->cursor.gbo[ast->cursor.next_index], ds=
+t);
+>>>> +err_drm_gem_vram_vunmap_src:
+>>>> +    drm_gem_vram_vunmap(gbo, src);
+>>>> +err_drm_gem_vram_unpin:
+>>>> +    drm_gem_vram_unpin(gbo);
+>>>> +    return ret;
+>>>> +}
+>>>> +
+>>>> +static int ast_cursor_plane_helper_atomic_check(struct drm_plane *p=
+lane,
+>>>> +                                            struct drm_plane_state =
+*state)
+>>>> +{
+>>>> +    return 0;
+>>>> +}
+>>>> +
+>>>> +static void
+>>>> +ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
+>>>> +                                  struct drm_plane_state *old_state=
+)
+>>>> +{
+>>>> +    struct drm_plane_state *state =3D plane->state;
+>>>> +    struct drm_crtc *crtc =3D state->crtc;
+>>>> +    struct drm_framebuffer *fb =3D state->fb;
+>>>> +    struct ast_private *ast =3D plane->dev->dev_private;
+>>>> +    struct ast_crtc *ast_crtc =3D to_ast_crtc(crtc);
+>>>> +    struct drm_gem_vram_object *gbo;
+>>>> +    s64 off;
+>>>> +    u8 jreg;
+>>>> +
+>>>> +    ast_crtc->offset_x =3D AST_MAX_HWC_WIDTH - fb->width;
+>>>> +    ast_crtc->offset_y =3D AST_MAX_HWC_WIDTH - fb->height;
+>>>> +
+>>>> +    if (state->fb !=3D old_state->fb) {
+>>>> +            /* A new cursor image was installed. */
+>>>> +            gbo =3D ast->cursor.gbo[ast->cursor.next_index];
+>>>> +            off =3D drm_gem_vram_offset(gbo);
+>>>> +            if (WARN_ON_ONCE(off < 0))
+>>>> +                    return; /* Bug: we didn't pin cursor HW BO to V=
+RAM. */
+>>>> +            ast_cursor_set_base(ast, off);
+>>>> +
+>>>> +            ++ast->cursor.next_index;
+>>>> +            ast->cursor.next_index %=3D ARRAY_SIZE(ast->cursor.gbo)=
+;
+>>>> +    }
+>>>> +
+>>>> +    ast_cursor_move(crtc, state->crtc_x, state->crtc_y);
+>>>> +
+>>>> +    jreg =3D 0x2;
+>>>> +    /* enable ARGB cursor */
+>>>> +    jreg |=3D 1;
+>>>> +    ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xcb, 0xfc, jreg)=
+;
+>>>> +}
+>>>> +
+>>>> +static void
+>>>> +ast_cursor_plane_helper_atomic_disable(struct drm_plane *plane,
+>>>> +                                   struct drm_plane_state *old_stat=
+e)
+>>>> +{
+>>>> +    struct ast_private *ast =3D plane->dev->dev_private;
+>>>> +
+>>>> +    ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xcb, 0xfc, 0x00)=
+;
+>>>> +}
+>>>> +
+>>>> +static const struct drm_plane_helper_funcs ast_cursor_plane_helper_=
+funcs =3D {
+>>>> +    .prepare_fb =3D ast_cursor_plane_helper_prepare_fb,
+>>>> +    .cleanup_fb =3D NULL, /* not required for cursor plane */
+>>>> +    .atomic_check =3D ast_cursor_plane_helper_atomic_check,
+>>>> +    .atomic_update =3D ast_cursor_plane_helper_atomic_update,
+>>>> +    .atomic_disable =3D ast_cursor_plane_helper_atomic_disable,
+>>>> +};
+>>>> +
+>>>> +static const struct drm_plane_funcs ast_cursor_plane_funcs =3D {
+>>>> +    .update_plane =3D drm_atomic_helper_update_plane,
+>>>> +    .disable_plane =3D drm_atomic_helper_disable_plane,
+>>>> +    .destroy =3D drm_plane_cleanup,
+>>>> +    .reset =3D drm_atomic_helper_plane_reset,
+>>>> +    .set_property =3D NULL,
+>>>> +    .atomic_duplicate_state =3D drm_atomic_helper_plane_duplicate_s=
+tate,
+>>>> +    .atomic_destroy_state =3D drm_atomic_helper_plane_destroy_state=
+,
+>>>> +    .atomic_set_property =3D NULL,
+>>>> +    .atomic_get_property =3D NULL,
+>>>> +    .late_register =3D NULL,
+>>>> +    .early_unregister =3D NULL,
+>>>> +    .atomic_print_state =3D NULL,
+>>>> +    .format_mod_supported =3D NULL,
+>>>> +};
+>>>> +
+>>>>  /*
+>>>>   * CRTC
+>>>>   */
+>>>> @@ -883,7 +1026,8 @@ static int ast_crtc_init(struct drm_device *dev=
+)
+>>>>              return -ENOMEM;
+>>>>
+>>>>      ret =3D drm_crtc_init_with_planes(dev, &crtc->base, &ast->prima=
+ry_plane,
+>>>> -                                    NULL, &ast_crtc_funcs, NULL);
+>>>> +                                    &ast->cursor_plane, &ast_crtc_f=
+uncs,
+>>>> +                                    NULL);
+>>>>      if (ret)
+>>>>              goto err_kfree;
+>>>>
+>>>> @@ -1153,6 +1297,9 @@ int ast_mode_init(struct drm_device *dev)
+>>>>              DRM_FORMAT_RGB565,
+>>>>              DRM_FORMAT_C8,
+>>>>      };
+>>>> +    static const uint32_t cursor_plane_formats[] =3D {
+>>>> +            DRM_FORMAT_ARGB8888,
+>>>> +    };
+>>>>
+>>>>      struct ast_private *ast =3D dev->dev_private;
+>>>>      int ret;
+>>>> @@ -1170,6 +1317,18 @@ int ast_mode_init(struct drm_device *dev)
+>>>>      drm_plane_helper_add(&ast->primary_plane,
+>>>>                           &ast_primary_plane_helper_funcs);
+>>>>
+>>>> +    ret =3D drm_universal_plane_init(dev, &ast->cursor_plane, 0x01,=
+
+>>>> +                                   &ast_cursor_plane_funcs,
+>>>> +                                   cursor_plane_formats,
+>>>> +                                   ARRAY_SIZE(cursor_plane_formats)=
+,
+>>>> +                                   NULL, DRM_PLANE_TYPE_CURSOR, NUL=
+L);
+>>>> +    if (ret) {
+>>>> +            DRM_ERROR("drm_universal_plane_failed(): %d\n", ret);
+>>>> +            return ret;
+>>>> +    }
+>>>> +    drm_plane_helper_add(&ast->cursor_plane,
+>>>> +                         &ast_cursor_plane_helper_funcs);
+>>>> +
+>>>>      ast_cursor_init(dev);
+>>>>      ast_crtc_init(dev);
+>>>>      ast_encoder_init(dev);
+>>>> --
+>>>> 2.23.0
+>>>>
+>>>
+>>
+>> --
+>> Thomas Zimmermann
+>> Graphics Driver Developer
+>> SUSE Software Solutions Germany GmbH
+>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+>> (HRB 36809, AG N=C3=BCrnberg)
+>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>>
+>=20
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--2L4jbID85JcNf9NyMM6NOVGI6y2NtrWch--
+
+--YhlaT83rZPp2TPwJxZtWc0j2IOf0g3S78
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl3ClokACgkQaA3BHVML
+eiO+FggApMdx6mj4lnevgF2AU1artOX5lgHwi7EtRDenyHOw8KiJ8fQK4cG5pz8k
+OXdkw2NLQkgvVAnXbXqoucQJL4R4og3Za3TBmmy/nvMoZWQKVEsVVeQJH12Rf/kW
+AnutfAMmCDLRfgzPVzWCIQ9pio7TcxMPLnnzxAk+3o0V0mKiqMPrNbUebhKQ7P49
+adsF/YXx96iPKCTPVx5+91STI4ENyjyINIAH+L71mz4h9/uWxu8uGhx2VMnwoMFZ
+ucuUSeaZqG+ySoIZqXUvZWC1k3Q63sV2jmSvFeLLbgRNqDIzuChatxEGkfmd0xe6
+rEABFGCORR4w0zs566QQNPkKJ4fjeg==
+=mafi
+-----END PGP SIGNATURE-----
+
+--YhlaT83rZPp2TPwJxZtWc0j2IOf0g3S78--
+
+--===============0356457088==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0356457088==--
