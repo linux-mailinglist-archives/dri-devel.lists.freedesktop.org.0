@@ -2,50 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B416F1A1B
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2019 16:34:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2A2EF1A22
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2019 16:37:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED3576E22F;
-	Wed,  6 Nov 2019 15:34:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C34D26E247;
+	Wed,  6 Nov 2019 15:37:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 376276E22F
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2019 15:34:25 +0000 (UTC)
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
- [209.85.222.169])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E25F221D79
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2019 15:34:24 +0000 (UTC)
-Received: by mail-qk1-f169.google.com with SMTP id i19so15837600qki.2
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Nov 2019 07:34:24 -0800 (PST)
-X-Gm-Message-State: APjAAAX6+TdVC08HX6QQ1EVGgbYTGW6xsaUfrOUFhibUsCOEd89j2hvk
- XlSfP6pB9FicM4SUY0GIkkl/IRDdECYhSW8XWA==
-X-Google-Smtp-Source: APXvYqw9sZsv2T4oRf/Kp1rPs5zLb4jFoqRUQy1D9khdGgEpEV2otZx+yv/nP+agw/RJymCxuNf+KXq8PP0l1j+ppZs=
-X-Received: by 2002:a05:620a:226:: with SMTP id
- u6mr2467840qkm.393.1573054464031; 
- Wed, 06 Nov 2019 07:34:24 -0800 (PST)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2C2546E247
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2019 15:37:36 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 241B1720E2; Wed,  6 Nov 2019 15:37:36 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 112221] RX 580 fails to resume sometimes with 5.3 kernel
+ (Ubuntu 19.10)
+Date: Wed, 06 Nov 2019 15:37:36 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: kai@gronr.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ attachments.created
+Message-ID: <bug-112221-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20191104013932.22505-1-afaerber@suse.de>
- <20191104013932.22505-2-afaerber@suse.de>
- <CAL_JsqL3NOstoa5ZY1JE9e3Ay=WTmz153H-KbHErhi-GBX-5GA@mail.gmail.com>
- <82d17114302562e0c553e2ea936974f77734e86b.camel@suse.de>
-In-Reply-To: <82d17114302562e0c553e2ea936974f77734e86b.camel@suse.de>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 6 Nov 2019 09:34:12 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLDFefWVdiPuAktctuBpBeOvG-OVhX2aZn=UaiN55nodg@mail.gmail.com>
-Message-ID: <CAL_JsqLDFefWVdiPuAktctuBpBeOvG-OVhX2aZn=UaiN55nodg@mail.gmail.com>
-Subject: Re: [PATCH 1/7] dt-bindings: gpu: mali-midgard: Tidy up conversion to
- YAML
-To: =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1573054465;
- bh=7o0q1tVU34dCkR+noOARbHQNLo/UWxe38206TY8hDCQ=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=CoUNr07iSKhqHPQYnHgovAiFPeBTlPbuKlIlyB1ltw17DY4h0GUk69z0sH9UCrkwg
- QjSAKTQgidRAO2Sn0st+dAqdeImPVslmG40Ug8tl5jdYPapSS3OLGYLaJqd3ZYOxMC
- e/fp5kQL9QBc0OXKGEMS4kFmWLHFdgdIF/OprUEE=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,42 +53,225 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Guillaume Gardet <guillaume.gardet@arm.com>,
- linux-realtek-soc@lists.infradead.org, David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- LAKML <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0165747274=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBOb3YgNiwgMjAxOSBhdCA5OjA3IEFNIEFuZHJlYXMgRsOkcmJlciA8YWZhZXJiZXJA
-c3VzZS5kZT4gd3JvdGU6Cj4KPiBBbSBNaXR0d29jaCwgZGVuIDA2LjExLjIwMTksIDA4OjI0IC0w
-NjAwIHNjaHJpZWIgUm9iIEhlcnJpbmc6Cj4gPiBPbiBTdW4sIE5vdiAzLCAyMDE5IGF0IDc6NDAg
-UE0gQW5kcmVhcyBGw6RyYmVyIDxhZmFlcmJlckBzdXNlLmRlPgo+ID4gd3JvdGU6Cj4gPiA+IElu
-c3RlYWQgb2YgZ3JvdXBpbmcgYWxwaGFiZXRpY2FsbHkgYnkgdGhpcmQtcGFydHkgdmVuZG9yLCBs
-ZWFkaW5nCj4gPiA+IHRvCj4gPiA+IG9uZS1lbGVtZW50IGVudW1zLCBzb3J0IGJ5IE1hbGkgbW9k
-ZWwgbnVtYmVyLCBhcyBkb25lIGZvciBVdGdhcmQuCj4gPiA+Cj4gPiA+IFRoaXMgYWxyZWFkeSBh
-bGxvd3MgdXMgdG8gZGUtZHVwbGljYXRlIHR3byAiYXJtLG1hbGktdDc2MCIgc2VjdGlvbnMKPiA+
-ID4gYW5kCj4gPiA+IHdpbGwgbWFrZSBpdCBlYXNpZXIgdG8gYWRkIG5ldyB2ZW5kb3IgY29tcGF0
-aWJsZXMuCj4gPgo+ID4gVGhhdCB3YXMgdGhlIGludGVudC4gTm90IHN1cmUgaG93IEkgbWVzc2Vk
-IHRoYXQgdXAuLi4KPiA+Cj4gPiBUaGlzIHBhdGNoIGlzIHByb2JsZW1hdGljIGJlY2F1c2UgdGhl
-cmUncyBjaGFuZ2VzIGluIGFybS1zb2MganVuby9kdAo+ID4gYnJhbmNoIGFuZCB0aGVyZSdzIG5v
-dyBhIHBhdGNoIGZvciBleHlub3M1NDIwICh0NjI4KS4gSSdkIHByb3Bvc2UgSQo+ID4gYXBwbHkg
-dGhpcyBzdWNoIHRoYXQgd2UgZG9uJ3QgZ2V0IGEgbWVyZ2UgY29uZmxpY3Qgd2l0aCBqdW5vL2R0
-IGFuZAo+ID4gd2UKPiA+IGZpbmlzaCByZXNvcnRpbmcgYWZ0ZXIgcmMxIChvciB3aGVuIGJvdGgg
-YnJhbmNoZXMgYXJlIGluIExpbnVzJwo+ID4gdHJlZSkuCj4KPiBUaGlzIHNlcmllcyBoYXMgZGVw
-ZW5kZW5jaWVzIGZvciB0aGUgUmVhbHRlay1zaWRlIFJGQyBwYXRjaGVzIGFuZCBpcwo+IG5vdCB5
-ZXQgcmVhZHkgdG8gbWVyZ2UsIHNvIHlvdSBjYW4gdGFrZSB0aGlzIHByZXAgUEFUQ0ggdGhyb3Vn
-aCB5b3VyCj4gdHJlZSBmb3IgdjUuNiBwcm9iYWJseSwgb3IgZmVlbCBmcmVlIHRvIHJlYmFzZS9y
-ZXdvcmsgYXMgeW91IHNlZSBmaXQgLQo+IEknZCBqdXN0IGFwcHJlY2lhdGUgYmVpbmcgY3JlZGl0
-ZWQgYXQgbGVhc3QgdmlhIFJlcG9ydGVkLWJ5LiA6KQoKSSB3YXMgYXNzdW1pbmcgdGhlIG5vbi1S
-RkMgcGF0Y2hlcyBhcmUgZ29vZCB0byBnbywgc28gSSB3YXMgZ29pbmcgdG8KcGljayB1cCAxLCAy
-LCBhbmQgNy4KClJvYgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWw=
+
+--===============0165747274==
+Content-Type: multipart/alternative; boundary="15730546560.Ef179D7.4338"
+Content-Transfer-Encoding: 7bit
+
+
+--15730546560.Ef179D7.4338
+Date: Wed, 6 Nov 2019 15:37:36 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112221
+
+            Bug ID: 112221
+           Summary: RX 580 fails to resume sometimes with 5.3 kernel
+                    (Ubuntu 19.10)
+           Product: DRI
+           Version: unspecified
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: not set
+          Priority: not set
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: kai@gronr.com
+
+Created attachment 145903
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145903&action=3Dedit
+Kernel logs with resume errors
+
+In the last two weeks the gpu has failed to resume 4 out of 26 suspend/resu=
+me
+cycles.  Prior to that, the 5.0 kernel (Ubuntu 9.04) did not have this prob=
+lem.
+
+Here are excerpts from the resume failures.  I am attaching the full kernel
+logs from the four crashes.  The first group (gfx_v8_0) has happened three
+times, the second group (sdma_v3_0) has happened one time.
+
+--
+amdgpu 0000:07:00.0: [drm:amdgpu_ring_test_helper [amdgpu]] *ERROR* ring gfx
+test failed (-110)
+[drm:amdgpu_device_ip_resume_phase2 [amdgpu]] *ERROR* resume of IP block
+<gfx_v8_0> failed -110
+[drm:amdgpu_device_resume [amdgpu]] *ERROR* amdgpu_device_ip_resume failed
+(-110).
+PM: dpm_run_callback(): pci_pm_resume+0x0/0xa0 returns -110
+PM: Device 0000:07:00.0 failed to resume async: error -110
+--
+amdgpu 0000:07:00.0: [drm:amdgpu_ring_test_helper [amdgpu]] *ERROR* ring sd=
+ma0
+test failed (-110)
+[drm:amdgpu_device_ip_resume_phase2 [amdgpu]] *ERROR* resume of IP block
+<sdma_v3_0> failed -110
+[drm:amdgpu_device_resume [amdgpu]] *ERROR* amdgpu_device_ip_resume failed
+(-110).
+PM: dpm_run_callback(): pci_pm_resume+0x0/0xa0 returns -110
+PM: Device 0000:07:00.0 failed to resume async: error -110
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15730546560.Ef179D7.4338
+Date: Wed, 6 Nov 2019 15:37:36 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - RX 580 fails to resume sometimes with 5.3 kernel (Ubuntu =
+19.10)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112221">112221</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>RX 580 fails to resume sometimes with 5.3 kernel (Ubuntu 19.1=
+0)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>unspecified
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>kai&#64;gronr.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145903=
+" name=3D"attach_145903" title=3D"Kernel logs with resume errors">attachmen=
+t 145903</a> <a href=3D"attachment.cgi?id=3D145903&amp;action=3Dedit" title=
+=3D"Kernel logs with resume errors">[details]</a></span>
+Kernel logs with resume errors
+
+In the last two weeks the gpu has failed to resume 4 out of 26 suspend/resu=
+me
+cycles.  Prior to that, the 5.0 kernel (Ubuntu 9.04) did not have this prob=
+lem.
+
+Here are excerpts from the resume failures.  I am attaching the full kernel
+logs from the four crashes.  The first group (gfx_v8_0) has happened three
+times, the second group (sdma_v3_0) has happened one time.
+
+--
+amdgpu 0000:07:00.0: [drm:amdgpu_ring_test_helper [amdgpu]] *ERROR* ring gfx
+test failed (-110)
+[drm:amdgpu_device_ip_resume_phase2 [amdgpu]] *ERROR* resume of IP block
+&lt;gfx_v8_0&gt; failed -110
+[drm:amdgpu_device_resume [amdgpu]] *ERROR* amdgpu_device_ip_resume failed
+(-110).
+PM: dpm_run_callback(): pci_pm_resume+0x0/0xa0 returns -110
+PM: Device 0000:07:00.0 failed to resume async: error -110
+--
+amdgpu 0000:07:00.0: [drm:amdgpu_ring_test_helper [amdgpu]] *ERROR* ring sd=
+ma0
+test failed (-110)
+[drm:amdgpu_device_ip_resume_phase2 [amdgpu]] *ERROR* resume of IP block
+&lt;sdma_v3_0&gt; failed -110
+[drm:amdgpu_device_resume [amdgpu]] *ERROR* amdgpu_device_ip_resume failed
+(-110).
+PM: dpm_run_callback(): pci_pm_resume+0x0/0xa0 returns -110
+PM: Device 0000:07:00.0 failed to resume async: error -110</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15730546560.Ef179D7.4338--
+
+--===============0165747274==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0165747274==--
