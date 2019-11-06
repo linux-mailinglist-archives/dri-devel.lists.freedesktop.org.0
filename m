@@ -1,45 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14F99F13C9
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2019 11:23:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 990ADF13CB
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2019 11:24:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91C256ECB5;
-	Wed,  6 Nov 2019 10:23:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8823F6ECB1;
+	Wed,  6 Nov 2019 10:24:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id B9DD86ECBA
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2019 10:23:39 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B72BD720E2; Wed,  6 Nov 2019 10:23:39 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Wed, 06 Nov 2019 10:23:39 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: haro41@gmx.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-109955-502-yz981WlmBI@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
-References: <bug-109955-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07B606ECB1;
+ Wed,  6 Nov 2019 10:24:08 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 06 Nov 2019 02:24:08 -0800
+X-IronPort-AV: E=Sophos;i="5.68,274,1569308400"; d="scan'208";a="196160296"
+Received: from jlahtine-desk.ger.corp.intel.com (HELO localhost)
+ ([10.251.95.117])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 06 Nov 2019 02:24:06 -0800
 MIME-Version: 1.0
+To: Chris Wilson <chris@chris-wilson.co.uk>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <157298841686.18566.729698423669886628@skylake-alporthouse-com>
+References: <20191105193829.11599-1-daniel.vetter@ffwll.ch>
+ <157298628160.18566.1185169568557179711@skylake-alporthouse-com>
+ <CAKMK7uFW7PqFjcci4SdLGMoSK6gqMK-gPU0OHpoJFjVZJnYT=w@mail.gmail.com>
+ <157298841686.18566.729698423669886628@skylake-alporthouse-com>
+Message-ID: <157303584321.10062.10632976886717947313@jlahtine-desk.ger.corp.intel.com>
+User-Agent: alot/0.7
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Don't select BROKEN
+Date: Wed, 06 Nov 2019 12:24:03 +0200
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,121 +48,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0933960504=="
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Stephen Rothwell <sfr@canb.auug.org.au>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0933960504==
-Content-Type: multipart/alternative; boundary="157303581911.bB185.9526"
-Content-Transfer-Encoding: 7bit
-
-
---157303581911.bB185.9526
-Date: Wed, 6 Nov 2019 10:23:39 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
-
---- Comment #128 from haro41@gmx.de ---
-Created attachment 145901
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145901&action=3Dedit
-proposed fix for crashes, caused by frequent mclk level 0/1 switches
-
-At least one of the causes for crashes, are more frequently, if vsync is
-enabled.=20
-
-In this case, memory clock levels are switched usually more frequently.
-By experiments i found, that especially the transient betweeen level 1 and
-level 0 is critical. The fact, that disabling memory level 0, helps as a
-workaround, confirms: this approach points in the right direction.
-
-Result of further experiments:
-By sending a 'PPSMC_MSG_SetUclkDownHyst' message to smc (enabling a hystere=
-se
-feature ?), the crashes can be avoided, even with enabled mclk level 0 and
-vsync activated.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---157303581911.bB185.9526
-Date: Wed, 6 Nov 2019 10:23:39 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c128">Comm=
-ent # 128</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-haro41&#64;gmx.de" title=3D"haro41&#64;gmx.de">haro41&#64;gmx.de</a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145901=
-" name=3D"attach_145901" title=3D"proposed fix for crashes, caused by frequ=
-ent mclk level 0/1 switches">attachment 145901</a> <a href=3D"attachment.cg=
-i?id=3D145901&amp;action=3Dedit" title=3D"proposed fix for crashes, caused =
-by frequent mclk level 0/1 switches">[details]</a></span> <a href=3D'page.c=
-gi?id=3Dsplinter.html&amp;bug=3D109955&amp;attachment=3D145901'>[review]</a>
-proposed fix for crashes, caused by frequent mclk level 0/1 switches
-
-At least one of the causes for crashes, are more frequently, if vsync is
-enabled.=20
-
-In this case, memory clock levels are switched usually more frequently.
-By experiments i found, that especially the transient betweeen level 1 and
-level 0 is critical. The fact, that disabling memory level 0, helps as a
-workaround, confirms: this approach points in the right direction.
-
-Result of further experiments:
-By sending a 'PPSMC_MSG_SetUclkDownHyst' message to smc (enabling a hystere=
-se
-feature ?), the crashes can be avoided, even with enabled mclk level 0 and
-vsync activated.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---157303581911.bB185.9526--
-
---===============0933960504==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0933960504==--
+UXVvdGluZyBDaHJpcyBXaWxzb24gKDIwMTktMTEtMDUgMjM6MTM6MzYpCj4gUXVvdGluZyBEYW5p
+ZWwgVmV0dGVyICgyMDE5LTExLTA1IDIwOjU4OjI1KQo+ID4gT24gVHVlLCBOb3YgNSwgMjAxOSBh
+dCA5OjM4IFBNIENocmlzIFdpbHNvbiA8Y2hyaXNAY2hyaXMtd2lsc29uLmNvLnVrPiB3cm90ZToK
+PiA+ID4KPiA+ID4gUXVvdGluZyBEYW5pZWwgVmV0dGVyICgyMDE5LTExLTA1IDE5OjM4OjI5KQo+
+ID4gPiA+IEl0J3MgYnJva2VuLgo+ID4gPiA+Cj4gPiA+ID4gUmVwb3J0ZWQtYnk6IFN0ZXBoZW4g
+Um90aHdlbGwgPHNmckBjYW5iLmF1dWcub3JnLmF1Pgo+ID4gPiA+IFJlZmVyZW5jZXM6IGh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL2RyaS1kZXZlbC8yMDE5LU5vdmVtYmVy
+LzI0MjYyNS5odG1sCj4gPiA+ID4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVs
+LnZldHRlckBpbnRlbC5jb20+Cj4gPiA+ID4gLS0tCj4gPiA+ID4gTm90ZTogUHJvYmFibHkgYmVz
+dCB0byBhcHBseSB0aGlzIGRpcmVjdGx5IG9udG8gZHJtLW5leHQgdG8gYXZvaWQKPiA+ID4gPiBo
+YXZpbmcgZHJtLW5leHQgZHJvcHBlZCBmcm9tIGxpbnV4LW5leHQgdW50aWwgdGhlIG5leHQgcHVs
+bCByZXF1ZXN0Lgo+ID4gPiA+IC1EYW5pZWwKPiA+ID4gPiAtLS0KPiA+ID4gPiAgZHJpdmVycy9n
+cHUvZHJtL2k5MTUvS2NvbmZpZy5kZWJ1ZyB8IDEgLQo+ID4gPiA+ICAxIGZpbGUgY2hhbmdlZCwg
+MSBkZWxldGlvbigtKQo+ID4gPiA+Cj4gPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS9pOTE1L0tjb25maWcuZGVidWcgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9LY29uZmlnLmRlYnVn
+Cj4gPiA+ID4gaW5kZXggZWYxMjNlYjI5MTY4Li5kMmJhOGY3ZTVlNTAgMTAwNjQ0Cj4gPiA+ID4g
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvS2NvbmZpZy5kZWJ1Zwo+ID4gPiA+ICsrKyBiL2Ry
+aXZlcnMvZ3B1L2RybS9pOTE1L0tjb25maWcuZGVidWcKPiA+ID4gPiBAQCAtNDQsNyArNDQsNiBA
+QCBjb25maWcgRFJNX0k5MTVfREVCVUcKPiA+ID4gPiAgICAgICAgIHNlbGVjdCBEUk1fSTkxNV9T
+RUxGVEVTVAo+ID4gPiA+ICAgICAgICAgc2VsZWN0IERSTV9JOTE1X0RFQlVHX1JVTlRJTUVfUE0K
+PiA+ID4gPiAgICAgICAgIHNlbGVjdCBEUk1fSTkxNV9ERUJVR19NTUlPCj4gPiA+ID4gLSAgICAg
+ICBzZWxlY3QgQlJPS0VOICMgZm9yIHByb3RvdHlwZSB1QVBJCj4gPiA+Cj4gPiA+IFlvdSBoYXZl
+IHRvIHJlcGxhY2UgaXQgd2l0aCBhbm90aGVyIHNlY3JldCBib29sIGFzIHlvdSBjYW5ub3Qgb3Ro
+ZXJ3aXNlCj4gPiA+IGVuYWJsZSBDT05GSUdfQlJPS0VOIGluIC5jb25maWcuCj4gPiAKPiA+IE9y
+IHRoaXM6Cj4gPiAKPiA+IGRpZmYgLS1naXQgYS9pbml0L0tjb25maWcgYi9pbml0L0tjb25maWcK
+PiA+IGluZGV4IGI0ZGFhZDJiYWMyMy4uNGRiZWExYjllNmJiIDEwMDY0NAo+ID4gLS0tIGEvaW5p
+dC9LY29uZmlnCj4gPiArKysgYi9pbml0L0tjb25maWcKPiA+IEBAIC03NSw2ICs3NSw3IEBAIG1l
+bnUgIkdlbmVyYWwgc2V0dXAiCj4gPiAKPiA+ICBjb25maWcgQlJPS0VOCj4gPiAgICAgICAgIGJv
+b2wKPiA+ICsgICAgICAgZGVmYXVsdCB5Cj4gPiAKPiA+ICBjb25maWcgQlJPS0VOX09OX1NNUAo+
+ID4gICAgICAgICBib29sCj4gPiAKPiA+IEVpdGhlciB3YXkgaXQgbmVlZHMgdG8gYmUgaW4gdG9w
+aWMvY29yZS1mb3ItQ0ksIG5vdCBpbiBhbnkgb2ZmaWNpYWwKPiA+IHRyZWUuIEJlY2F1c2UgaWYg
+eW91IGFsbG93IGF1dG9idWlsZGVycyB0byBlbmFibGUgQ09ORklHX0JST0tFTiwgbm8KPiA+IG1h
+dHRlciBob3cgd2VsbCBoaWRkZW4sIHRoZXknbGwgYWxsIGJyZWFrLiBZb3UgY2FuIGFsc28ganVz
+dCByZXZlcnQgbXkKPiA+IHBhdGNoIHRoYXQgRGF2ZSBwdXNoZWQgdG8gZHJtLW5leHQgKHRvIGdl
+dCB1cyBiYWNrIGludG8gdGhlIGxpbnV4LW5leHQKPiA+IGNsdWIpLgo+IAo+IEZ3aXcsIEkgdGhp
+bmsgdGhlIHJldmVydCBpbiBjb3JlLWZvci1DSSBpcyByZWFzb25hYmxlLCBhcyB0aGF0IGdpdmVz
+Cj4gZGV2cyB0aGUgYWJpbGl0eSB0byB0b2dnbGUgb24gdGhlIGhpZGRlbiBtZW51cywgd2hpbGUg
+YXQgdGhlIHNhbWUgdGltZQo+IHJlcXVpcmluZyB0aGVtIHRvIGhhdmUgdGhlIG1pbmltYWwgZGVi
+dWcgc2V0dXAuCgpJJ3ZlIG5vdyByZXZlcnRlZCB0aGlzIGluIGNvcmUtZm9yLUNJLgoKUmVnYXJk
+cywgSm9vbmFzCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
