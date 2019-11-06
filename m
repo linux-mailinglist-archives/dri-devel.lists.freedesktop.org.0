@@ -1,39 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E72DF1D80
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2019 19:28:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1461EF1D94
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2019 19:32:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B50B86E271;
-	Wed,  6 Nov 2019 18:28:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4AD96E283;
+	Wed,  6 Nov 2019 18:32:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4212F6E271
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2019 18:28:19 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2019 10:28:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,275,1569308400"; d="scan'208";a="201173380"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga007.fm.intel.com with SMTP; 06 Nov 2019 10:28:14 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 06 Nov 2019 20:28:13 +0200
-Date: Wed, 6 Nov 2019 20:28:13 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Sean Paul <sean@poorly.run>
-Subject: Re: [PATCH] drm/mst: Fix up u64 division
-Message-ID: <20191106182813.GV1208@intel.com>
-References: <20191106173622.15573-1-sean@poorly.run>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3DBCF6ECCD
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2019 18:32:32 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 3A878720E2; Wed,  6 Nov 2019 18:32:32 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
+Date: Wed, 06 Nov 2019 18:32:31 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: haro41@gmx.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109955-502-76CnARG1uk@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
+References: <bug-109955-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191106173622.15573-1-sean@poorly.run>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,47 +52,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
- Harry Wentland <hwentlan@amd.com>, Juston Li <juston.li@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0896081434=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBOb3YgMDYsIDIwMTkgYXQgMTI6MzY6MTVQTSAtMDUwMCwgU2VhbiBQYXVsIHdyb3Rl
-Ogo+IEZyb206IFNlYW4gUGF1bCA8c2VhbnBhdWxAY2hyb21pdW0ub3JnPgo+IAo+IFVzZSBkb19k
-aXYgdG8gZGl2aWRlIHJlbV9uc2VjIGluc3RlYWQgb2YgLy4KPiAKPiBGaXhlczogMTJhMjgwYzcy
-ODY4ICgiZHJtL2RwX21zdDogQWRkIHRvcG9sb2d5IHJlZiBoaXN0b3J5IHRyYWNraW5nIGZvciBk
-ZWJ1Z2dpbmciKQo+IENjOiBKdXN0b24gTGkgPGp1c3Rvbi5saUBpbnRlbC5jb20+Cj4gQ2M6IElt
-cmUgRGVhayA8aW1yZS5kZWFrQGludGVsLmNvbT4KPiBDYzogVmlsbGUgU3lyasOkbMOkIDx2aWxs
-ZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPiBDYzogSGFycnkgV2VudGxhbmQgPGh3ZW50bGFu
-QGFtZC5jb20+Cj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+Cj4g
-Q2M6IFNlYW4gUGF1bCA8c2VhbkBwb29ybHkucnVuPgo+IENjOiBMeXVkZSBQYXVsIDxseXVkZUBy
-ZWRoYXQuY29tPgo+IENjOiBNYWFydGVuIExhbmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGlu
-dXguaW50ZWwuY29tPgo+IENjOiBNYXhpbWUgUmlwYXJkIDxtcmlwYXJkQGtlcm5lbC5vcmc+Cj4g
-Q2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KPiBDYzogRGFuaWVsIFZldHRlciA8
-ZGFuaWVsQGZmd2xsLmNoPgo+IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4g
-U2lnbmVkLW9mZi1ieTogU2VhbiBQYXVsIDxzZWFucGF1bEBjaHJvbWl1bS5vcmc+Cj4gLS0tCj4g
-IGRyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMgfCA0ICsrLS0KPiAgMSBmaWxl
-IGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMKPiBpbmRleCAxMWFkYzRiNmNjZmUuLmQyZGE1ZjExM2Yx
-NiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jCj4g
-KysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYwo+IEBAIC0xNTEyLDEw
-ICsxNTEyLDEwIEBAIF9fZHVtcF90b3BvbG9neV9yZWZfaGlzdG9yeShzdHJ1Y3QgZHJtX2RwX21z
-dF90b3BvbG9neV9yZWZfaGlzdG9yeSAqaGlzdG9yeSwKPiAgCQlucl9lbnRyaWVzID0gc3RhY2tf
-ZGVwb3RfZmV0Y2goZW50cnktPmJhY2t0cmFjZSwgJmVudHJpZXMpOwo+ICAJCXN0YWNrX3RyYWNl
-X3NucHJpbnQoYnVmLCBQQUdFX1NJWkUsIGVudHJpZXMsIG5yX2VudHJpZXMsIDQpOwo+ICAKPiAt
-CQlkcm1fcHJpbnRmKCZwLCAiICAlZCAlc3MgKGxhc3QgYXQgJTVsbHUuJTA2bGx1KTpcbiVzIiwK
-PiArCQlkcm1fcHJpbnRmKCZwLCAiICAlZCAlc3MgKGxhc3QgYXQgJTVsbHUuJTA2dSk6XG4lcyIs
-Cj4gIAkJCSAgIGVudHJ5LT5jb3VudCwKPiAgCQkJICAgdG9wb2xvZ3lfcmVmX3R5cGVfdG9fc3Ry
-KGVudHJ5LT50eXBlKSwKPiAtCQkJICAgdHNfbnNlYywgcmVtX25zZWMgLyAxMDAwLCBidWYpOwo+
-ICsJCQkgICB0c19uc2VjLCBkb19kaXYocmVtX25zZWMsIDEwMDApLCBidWYpOwoKT3IganVzdCBj
-aGFuZ2UgcmVtX25zZWMgdG8gdTMyIHNpbmNlIHRoYXQncyB3aGF0IGRvX2RpdigpIGdpdmVzIHlv
-dS4KCj4gIAl9Cj4gIAo+ICAJLyogTm93IGZyZWUgdGhlIGhpc3RvcnksIHNpbmNlIHRoaXMgaXMg
-dGhlIG9ubHkgdGltZSB3ZSBleHBvc2UgaXQgKi8KPiAtLSAKPiBTZWFuIFBhdWwsIFNvZnR3YXJl
-IEVuZ2luZWVyLCBHb29nbGUgLyBDaHJvbWl1bSBPUwoKLS0gClZpbGxlIFN5cmrDpGzDpApJbnRl
-bApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0896081434==
+Content-Type: multipart/alternative; boundary="15730651523.aEE9bf.8137"
+Content-Transfer-Encoding: 7bit
+
+
+--15730651523.aEE9bf.8137
+Date: Wed, 6 Nov 2019 18:32:32 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+
+--- Comment #130 from haro41@gmx.de ---
+> >=20
+> > echo "manual" > /sys/class/drm/card0/device/power_dpm_force_performance=
+_level
+> > echo "1 2 3" > /sys/class/drm/card0/device/pp_dpm_mclk
+> >=20
+>=20
+> do you have any suggestion to automate this? so far i can strictly run th=
+ese
+> commands after su. not even sudo works with scripts running these command=
+s.
+> or systemd files.
+
+Currently i use my patch (see above) to workaround the crashes.
+If you prefer not to touch your kernel, you could create a systemd service:=
+=20
+
+# cat /etc/systemd/system/amd-pp.service:=20
+
+[Unit]
+Description=3DAMD PP adjust service
+[Service]
+User=3Droot
+Group=3Droot
+GuessMainPID=3Dno
+ExecStart=3D/srv/amdgpu-pp.sh
+[Install]
+WantedBy=3Dmulti-user.target
+---------------------------------------------------------------
+# cat /srv/amdgpu-pp.sh:
+
+#!/bin/bash
+echo "manual" > /sys/class/drm/card0/device/power_dpm_force_performance_lev=
+el
+echo "1 2 3" > /sys/class/drm/card0/device/pp_dpm_mclk
+---------------------------------------------------------------
+#systemctl enable amd-pp.service
+#systemctl start amd-pp.service
+---------------------------------------------------------------
+
+... assuming you have 'amdgpu.ppfeaturemask=3D0xffffffff' set ...
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15730651523.aEE9bf.8137
+Date: Wed, 6 Nov 2019 18:32:32 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c130">Comm=
+ent # 130</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+haro41&#64;gmx.de" title=3D"haro41&#64;gmx.de">haro41&#64;gmx.de</a>
+</span></b>
+        <pre><span class=3D"quote">&gt; &gt;=20
+&gt; &gt; echo &quot;manual&quot; &gt; /sys/class/drm/card0/device/power_dp=
+m_force_performance_level
+&gt; &gt; echo &quot;1 2 3&quot; &gt; /sys/class/drm/card0/device/pp_dpm_mc=
+lk
+&gt; &gt;=20
+&gt;=20
+&gt; do you have any suggestion to automate this? so far i can strictly run=
+ these
+&gt; commands after su. not even sudo works with scripts running these comm=
+ands.
+&gt; or systemd files.</span >
+
+Currently i use my patch (see above) to workaround the crashes.
+If you prefer not to touch your kernel, you could create a systemd service:=
+=20
+
+# cat /etc/systemd/system/amd-pp.service:=20
+
+[Unit]
+Description=3DAMD PP adjust service
+[Service]
+User=3Droot
+Group=3Droot
+GuessMainPID=3Dno
+ExecStart=3D/srv/amdgpu-pp.sh
+[Install]
+WantedBy=3Dmulti-user.target
+---------------------------------------------------------------
+# cat /srv/amdgpu-pp.sh:
+
+#!/bin/bash
+echo &quot;manual&quot; &gt; /sys/class/drm/card0/device/power_dpm_force_pe=
+rformance_level
+echo &quot;1 2 3&quot; &gt; /sys/class/drm/card0/device/pp_dpm_mclk
+---------------------------------------------------------------
+#systemctl enable amd-pp.service
+#systemctl start amd-pp.service
+---------------------------------------------------------------
+
+... assuming you have 'amdgpu.ppfeaturemask=3D0xffffffff' set ...</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15730651523.aEE9bf.8137--
+
+--===============0896081434==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0896081434==--
