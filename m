@@ -2,33 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EAD2F1439
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2019 11:45:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15797F1431
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2019 11:44:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F1D46ECC2;
-	Wed,  6 Nov 2019 10:45:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23BB46E1B7;
+	Wed,  6 Nov 2019 10:44:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C83766ECC1;
- Wed,  6 Nov 2019 10:45:21 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 19099898-1500050 for multiple; Wed, 06 Nov 2019 10:45:19 +0000
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
+ [217.70.183.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C89456E1B7
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2019 10:44:33 +0000 (UTC)
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it
+ [2.224.242.101]) (Authenticated sender: jacopo@jmondi.org)
+ by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 78474E0011;
+ Wed,  6 Nov 2019 10:44:31 +0000 (UTC)
+Date: Wed, 6 Nov 2019 11:46:28 +0100
+From: Jacopo Mondi <jacopo@jmondi.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [GIT PULL FOR v5.5 - 2nd try] R-Car DU CMM support
+Message-ID: <20191106104628.opzkif5ab5cinee6@uno.localdomain>
+References: <20191022103135.GC4756@pendragon.ideasonboard.com>
+ <20191105194902.GA8235@pendragon.ideasonboard.com>
+ <CAPM=9tzhDyPU8GtJXCr+YRhNgx9F=Zo9PGiSbmpBWYkQ4qv9gg@mail.gmail.com>
+ <CAPM=9tyh-cMCyKr-A7C0dHmCQaqrm+fypKM+m2zyJ22S5aXC7w@mail.gmail.com>
+ <20191106100059.GA4878@pendragon.ideasonboard.com>
+ <20191106100205.GB4878@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-To: Daniel Vetter <daniel@ffwll.ch>
-From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <20191106102157.GF23790@phenom.ffwll.local>
-References: <20191106100716.18181-1-chris@chris-wilson.co.uk>
- <20191106100716.18181-3-chris@chris-wilson.co.uk>
- <20191106102157.GF23790@phenom.ffwll.local>
-Message-ID: <157303711710.24928.18026997375656120508@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [PATCH 3/3] drm/prime: Use anon_drm_getfile() for an internal drm
- struct file
-Date: Wed, 06 Nov 2019 10:45:17 +0000
+In-Reply-To: <20191106100205.GB4878@pendragon.ideasonboard.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -41,42 +44,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0718212584=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBEYW5pZWwgVmV0dGVyICgyMDE5LTExLTA2IDEwOjIxOjU3KQo+IE9uIFdlZCwgTm92
-IDA2LCAyMDE5IGF0IDEwOjA3OjE2QU0gKzAwMDAsIENocmlzIFdpbHNvbiB3cm90ZToKPiA+IEN1
-cnJlbnRseSB0aGUgZHJtX3ByaW1lIG1tYXAgZmFsbGJhY2sgdXNlcyBhIG1vY2sgc3RydWN0IGZp
-bGUgdG8gcHJvdmlkZQo+ID4gdGhlIGZpbGUgcG9pbnRlciBpbnRvIHRoZSBiYWNrZW5kIG1tYXAg
-cm91dGluZS4gTm93IHRoYXQgd2UgY2FuIGNyZWF0ZQo+ID4gZnVsbHkgZmxlZGdlZCBhbm9ueW1v
-dXMgc3RydWN0IGZpbGUgYXJvdW5kIHRoZSBkcm0gZGV2aWNlLCBwdXQgaXQgdG8KPiA+IHVzZS4K
-PiA+IAo+ID4gU2lnbmVkLW9mZi1ieTogQ2hyaXMgV2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24u
-Y28udWs+Cj4gPiAtLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX3ByaW1lLmMgfCAyNiArKysr
-KysrKy0tLS0tLS0tLS0tLS0tLS0tLQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA4IGluc2VydGlvbnMo
-KyksIDE4IGRlbGV0aW9ucygtKQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L2RybV9wcmltZS5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9wcmltZS5jCj4gPiBpbmRleCAwODE0
-MjExYjBmM2YuLjVmYWE2MzcxM2VjOCAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9k
-cm1fcHJpbWUuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9wcmltZS5jCj4gPiBAQCAt
-NzA5LDggKzcwOSw3IEBAIEVYUE9SVF9TWU1CT0woZHJtX2dlbV9kbWFidWZfdnVubWFwKTsKPiA+
-ICAgKi8KPiA+ICBpbnQgZHJtX2dlbV9wcmltZV9tbWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAq
-b2JqLCBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSkKPiA+ICB7Cj4gPiAtICAgICBzdHJ1Y3Qg
-ZHJtX2ZpbGUgKnByaXY7Cj4gPiAtICAgICBzdHJ1Y3QgZmlsZSAqZmlsOwo+ID4gKyAgICAgc3Ry
-dWN0IGZpbGUgKmZpbGU7Cj4gPiAgICAgICBpbnQgcmV0Owo+ID4gIAo+ID4gICAgICAgaWYgKG9i
-ai0+ZnVuY3MgJiYgb2JqLT5mdW5jcy0+bW1hcCkgewo+IAo+IG9iai0+ZnVuY3MtPm1tYXAgaXMg
-dGhlIG5ldyB3YXkgb2YgZG9pbmcgdGhpcyAoYW5kIGhvcGVmdWxseSBmaW5hbGx5Cj4gc29tZXRo
-aW5nIGNsZWFuKSwgSSdkIHJlYWxseSBsaWtlIHRvIHJldGlyZSB0aGUgYmVsb3cgaGFjayBvdXRy
-aWdodC4KPiAKPiBQbHVzIEknbSBub3Qgc3VyZSB3aHkgeW91IG5lZWQgYW4gYW5vbiBpbm9kZSBo
-ZXJlPyBJZiBhIGRyaXZlciBuZWVkcyB0aGlzCj4gZm9yIHVubWFwX21hcHBpbmdfcmFuZ2Ugb3Ig
-c2ltaWxhciBJIHRoaW5rIGl0J2QgYmUgYmV0dGVyIHRvIHRyeSBhbmQgbWFrZQo+IHNvbWV0aGlu
-ZyB3b3JrIGNsZWFubHkgZm9yIG9iai0+ZnVuY3MtPm1tYXAuCgpJdCdzIGZha2luZyBvbmUgY3Vy
-cmVudGx5LiBJZiB0aGUgZmFrZSBpcyBub3QgZ29vZCBlbm91Z2gsIHlvdSBhcmUKcGxheWluZyB3
-aGFjay1hLW1vbGUgdW50aWwgeW91IGZpbmFsbHkgZG8gY3JlYXRlIGEgZnVsbHkgZmxlZGdlZCBm
-aWxlLgoKSWYgeW91IGFyZSBnb2luZyB0byB0aGUgdHJvdWJsZSBvZiBoYXZpbmcgdG8gY3JlYXRl
-IGEgc3RydWN0IGZpbGUgdG8KcHJvdmlkZSB0byB0aGUgZmFsbGJhY2sgcm91dGluZXMsIG1pZ2h0
-IGFzIHdlbGwgYXZvaWQgc3Rpbmt5IGNvZGUgOikKLUNocmlzCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0718212584==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="qhfunparqax2eyu4"
+Content-Disposition: inline
+
+
+--qhfunparqax2eyu4
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+Hi Laurent, Dave,
+
+On Wed, Nov 06, 2019 at 12:02:05PM +0200, Laurent Pinchart wrote:
+> This time with Jacopo correctly CC'ed.
+>
+> On Wed, Nov 06, 2019 at 12:00:59PM +0200, Laurent Pinchart wrote:
+> > Hi Dave,
+> >
+> > (CC'ing Jacopo)
+> >
+> > On Wed, Nov 06, 2019 at 01:40:13PM +1000, Dave Airlie wrote:
+> > > On Wed, 6 Nov 2019 at 05:56, Dave Airlie wrote:
+> > > > On Wed, 6 Nov 2019 at 05:49, Laurent Pinchart wrote:
+> > > > >
+> > > > > Hi Dave,
+> > > > >
+> > > > > Has this pull request fallen through the cracks ?
+> > > >
+> > > > It fell down a different crack than usual, it made it from patchwork
+> > > > onto my hard drive, but then I didn't execute the pull.
+> > > >
+> > > > I've pulled it down, thanks for reminder.
+> > >
+> > > Now it failed as I mentioned on irc.
+> > >
+> > > I think the new kconfig option needs to be a tristate, otherwise
+> > > setting it to Y and having rcar-du as M fails to link
+> >
+> > Sorry about that :-S Both I and the 0-day bot failed to catch it.
+> > Jacopo, could you please have a look ? I'm afraid this likely mean a new
+> > version of the series, and thus missing the merge window, as we're
+> > already at -rc6.
+
+I managed to reproduce it by setting DRM=m.
+RCAR_CMM stays indeed =y as it's a bool. Simply setting it to tristate
+is enough to have it set to =m when DRM=m.
+
+Could this be changed when applying the series ?
+
+diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+index 539d232790d1..e6607b5c8bb3 100644
+--- a/drivers/gpu/drm/rcar-du/Kconfig
++++ b/drivers/gpu/drm/rcar-du/Kconfig
+@@ -14,7 +14,7 @@ config DRM_RCAR_DU
+          If M is selected the module will be called rcar-du-drm.
+
+ config DRM_RCAR_CMM
+-       bool "R-Car DU Color Management Module (CMM) Support"
++       tristate "R-Car DU Color Management Module (CMM) Support"
+        depends on DRM && OF
+        depends on DRM_RCAR_DU
+        help
+
+Thanks
+  j
+
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+--qhfunparqax2eyu4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl3CpIQACgkQcjQGjxah
+VjyqHQ//cfWJiK5I0y/qVQK/Ep5Owx6qLH1PAVmkNBjAgCoAYx5dLU9KlUwDKKtD
+gWR+mV3ax7+y5oX8F8uJ9yQKlOhp7+inUsv0xCvOVm/+kqM1tr6ftUf+Juy6yfse
+d0uBzdEn0AHwq8TraZXGkbxToa4fY/jmz1uGGhjBh+KvEPAV2E8EEQRb9Ga9xrQw
+uew24QblP1bLNR7xz21ZlATnU/DVMcGLXq8/prn40GOdaEUL2aklkLOEz/J5wi2T
+8Md1+66/0J5fY3/b6ODjwMJKQi0wHJyZfVtXbfQ8Tpx1WDw7RXkplseFhjxU+y1N
+gPXwBQ2nxpaVZKLGw74cY3u8YJkt9t/PRcC9ICY16Lg6a6Sj8zRjkG3vnu2J6MPH
+nYlXcsQN+JJYnhArJXpeo2aihFIaBVNEJ55NDzQdhoh30A3hfn0PkEk9Hc388UOT
+TAKWwOBCNqK6Ck8MtoN7YmwsIyCwer/s5KYNvuH0H5zS8zzn2soQKMcdoDMRBAcb
+pNW8/QwfOuO6qmjfostfYjVQGOrRpZ1CfGP1BHZH7krMtdTsKHto1E2XaF3Z+Fwh
+e3iynhjW2NihIRDSttYWXY4DscVi9U1zMpysraH/FQAFm0AJkM5dpyWTgCusqcXq
+j78Ub2/qnHnyh0lrAfQj8zvUaXQx0w6c+Mf65X6qOJqXLkAoMlQ=
+=3T9s
+-----END PGP SIGNATURE-----
+
+--qhfunparqax2eyu4--
+
+--===============0718212584==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0718212584==--
