@@ -1,27 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E10CF1104
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2019 09:28:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7398CF1114
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2019 09:31:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AB7F6EC44;
-	Wed,  6 Nov 2019 08:28:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5319E6EC47;
+	Wed,  6 Nov 2019 08:31:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93B016EC44
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2019 08:28:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFFBE6EC47
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2019 08:31:16 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 11140AF19;
- Wed,  6 Nov 2019 08:28:07 +0000 (UTC)
-Subject: Re: [PATCH 9/9] drm/ast: Enable atomic modesetting
-To: Daniel Vetter <daniel@ffwll.ch>, Gerd Hoffmann <kraxel@redhat.com>
+ by mx1.suse.de (Postfix) with ESMTP id 35219AD19;
+ Wed,  6 Nov 2019 08:31:15 +0000 (UTC)
+Subject: Re: [PATCH 8/9] drm/ast: Add cursor plane
+To: Daniel Vetter <daniel@ffwll.ch>
 References: <20191028154928.4058-1-tzimmermann@suse.de>
- <20191028154928.4058-10-tzimmermann@suse.de>
- <20191105095711.nzjlqwjjt57se5rt@sirius.home.kraxel.org>
- <20191105103156.GD10326@phenom.ffwll.local>
+ <20191028154928.4058-9-tzimmermann@suse.de>
+ <20191105095551.GB10326@phenom.ffwll.local>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
@@ -48,12 +47,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
  HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
  3H26qrE=
-Message-ID: <06c3f614-b0a8-83c6-c3c8-0b2a4451338f@suse.de>
-Date: Wed, 6 Nov 2019 09:28:06 +0100
+Message-ID: <0cf6145b-c966-a3a2-f956-5a5ab6cd375f@suse.de>
+Date: Wed, 6 Nov 2019 09:31:14 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191105103156.GD10326@phenom.ffwll.local>
+In-Reply-To: <20191105095551.GB10326@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,458 +65,290 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@redhat.com, chen@aspeedtech.com, sam@ravnborg.org,
- dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0913857745=="
+Cc: sam@ravnborg.org, airlied@redhat.com, chen@aspeedtech.com,
+ kraxel@redhat.com, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0584887488=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0913857745==
+--===============0584887488==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="Yw7PGSuDWk97pRpOwAHNJ1OGP98BGr5n2"
+ boundary="WyPO2n8FD6pfPh7LRy6jWHzvAufWg31y4"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Yw7PGSuDWk97pRpOwAHNJ1OGP98BGr5n2
-Content-Type: multipart/mixed; boundary="cLx8mYO6lBpimLb4LDZLTuJxSCUCA9BMC";
+--WyPO2n8FD6pfPh7LRy6jWHzvAufWg31y4
+Content-Type: multipart/mixed; boundary="ivo2wSl8fe4QGUFG6hHb1TjZkNLwoLyqj";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>, Gerd Hoffmann <kraxel@redhat.com>
-Cc: airlied@redhat.com, sam@ravnborg.org, chen@aspeedtech.com,
- dri-devel@lists.freedesktop.org
-Message-ID: <06c3f614-b0a8-83c6-c3c8-0b2a4451338f@suse.de>
-Subject: Re: [PATCH 9/9] drm/ast: Enable atomic modesetting
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: chen@aspeedtech.com, dri-devel@lists.freedesktop.org, kraxel@redhat.com,
+ airlied@redhat.com, sam@ravnborg.org
+Message-ID: <0cf6145b-c966-a3a2-f956-5a5ab6cd375f@suse.de>
+Subject: Re: [PATCH 8/9] drm/ast: Add cursor plane
 References: <20191028154928.4058-1-tzimmermann@suse.de>
- <20191028154928.4058-10-tzimmermann@suse.de>
- <20191105095711.nzjlqwjjt57se5rt@sirius.home.kraxel.org>
- <20191105103156.GD10326@phenom.ffwll.local>
-In-Reply-To: <20191105103156.GD10326@phenom.ffwll.local>
+ <20191028154928.4058-9-tzimmermann@suse.de>
+ <20191105095551.GB10326@phenom.ffwll.local>
+In-Reply-To: <20191105095551.GB10326@phenom.ffwll.local>
 
---cLx8mYO6lBpimLb4LDZLTuJxSCUCA9BMC
+--ivo2wSl8fe4QGUFG6hHb1TjZkNLwoLyqj
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 05.11.19 um 11:31 schrieb Daniel Vetter:
-> On Tue, Nov 05, 2019 at 10:57:11AM +0100, Gerd Hoffmann wrote:
->> On Mon, Oct 28, 2019 at 04:49:28PM +0100, Thomas Zimmermann wrote:
->>> This commit sets the remaining atomic-modesetting helpers and the fla=
-g
->>> DRIVER_ATOMIC. Legacy cursor functions are removed in favor of the cu=
-rsor
->>> plane. For power management, atomic helpers replace the indvidual
->>> operations that the driver currently runs.
->>>
->>> Atomic modesetting is enabled with this commit.
->>>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> ---
->>>  drivers/gpu/drm/ast/ast_drv.c  |  24 ++-
->>>  drivers/gpu/drm/ast/ast_main.c |   5 +
->>>  drivers/gpu/drm/ast/ast_mode.c | 290 ++-----------------------------=
---
->>>  3 files changed, 33 insertions(+), 286 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_=
-drv.c
->>> index 1f17794b0890..d763da6f0834 100644
->>> --- a/drivers/gpu/drm/ast/ast_drv.c
->>> +++ b/drivers/gpu/drm/ast/ast_drv.c
->>> @@ -99,14 +99,14 @@ ast_pci_remove(struct pci_dev *pdev)
->>>  	drm_put_dev(dev);
->>>  }
->>> =20
->>> -
->>> -
->>>  static int ast_drm_freeze(struct drm_device *dev)
->>>  {
->>> -	drm_kms_helper_poll_disable(dev);
->>> -	pci_save_state(dev->pdev);
->>> -	drm_fb_helper_set_suspend_unlocked(dev->fb_helper, true);
->>> +	int error;
->>> =20
->>> +	error =3D drm_mode_config_helper_suspend(dev);
->>> +	if (error)
->>> +		return error;
->>> +	pci_save_state(dev->pdev);
->>>  	return 0;
->>>  }
->>> =20
->>> @@ -114,11 +114,7 @@ static int ast_drm_thaw(struct drm_device *dev)
->>>  {
->>>  	ast_post_gpu(dev);
->>> =20
->>> -	drm_mode_config_reset(dev);
->>> -	drm_helper_resume_force_mode(dev);
->>> -	drm_fb_helper_set_suspend_unlocked(dev->fb_helper, false);
->>> -
->>> -	return 0;
->>> +	return drm_mode_config_helper_resume(dev);
->>>  }
->>> =20
->>>  static int ast_drm_resume(struct drm_device *dev)
->>> @@ -131,8 +127,6 @@ static int ast_drm_resume(struct drm_device *dev)=
+Am 05.11.19 um 10:55 schrieb Daniel Vetter:
+> On Mon, Oct 28, 2019 at 04:49:27PM +0100, Thomas Zimmermann wrote:
+>> The cursor plane uses an internal format of ARGB4444. To userspace, we=
 
->>>  	ret =3D ast_drm_thaw(dev);
->>>  	if (ret)
->>>  		return ret;
->>> -
->>> -	drm_kms_helper_poll_enable(dev);
->>>  	return 0;
->>>  }
->>> =20
->>> @@ -150,6 +144,7 @@ static int ast_pm_suspend(struct device *dev)
->>>  	pci_set_power_state(pdev, PCI_D3hot);
->>>  	return 0;
->>>  }
->>> +
->>>  static int ast_pm_resume(struct device *dev)
->>>  {
->>>  	struct pci_dev *pdev =3D to_pci_dev(dev);
->>> @@ -165,7 +160,6 @@ static int ast_pm_freeze(struct device *dev)
->>>  	if (!ddev || !ddev->dev_private)
->>>  		return -ENODEV;
->>>  	return ast_drm_freeze(ddev);
->>> -
->>>  }
->>> =20
->>>  static int ast_pm_thaw(struct device *dev)
->>> @@ -203,7 +197,9 @@ static struct pci_driver ast_pci_driver =3D {
->>>  DEFINE_DRM_GEM_FOPS(ast_fops);
->>> =20
->>>  static struct drm_driver driver =3D {
->>> -	.driver_features =3D DRIVER_MODESET | DRIVER_GEM,
->>> +	.driver_features =3D DRIVER_ATOMIC |
->>> +			   DRIVER_GEM |
->>> +			   DRIVER_MODESET,
->>> =20
->>>  	.load =3D ast_driver_load,
->>>  	.unload =3D ast_driver_unload,
->>> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast=
-_main.c
->>> index 48d57ab42955..b79f484e9bd2 100644
->>> --- a/drivers/gpu/drm/ast/ast_main.c
->>> +++ b/drivers/gpu/drm/ast/ast_main.c
->>> @@ -28,6 +28,7 @@
->>> =20
->>>  #include <linux/pci.h>
->>> =20
->>> +#include <drm/drm_atomic_helper.h>
->>>  #include <drm/drm_crtc_helper.h>
->>>  #include <drm/drm_fb_helper.h>
->>>  #include <drm/drm_gem.h>
->>> @@ -412,6 +413,8 @@ enum drm_mode_status ast_mode_config_mode_valid(s=
-truct drm_device *dev,
->>>  static const struct drm_mode_config_funcs ast_mode_funcs =3D {
->>>  	.fb_create =3D drm_gem_fb_create,
->>>  	.mode_valid =3D ast_mode_config_mode_valid,
->>> +	.atomic_check =3D drm_atomic_helper_check,
->>> +	.atomic_commit =3D drm_atomic_helper_commit,
->>>  };
->>> =20
->>>  static u32 ast_get_vram_info(struct drm_device *dev)
->>> @@ -529,6 +532,8 @@ int ast_driver_load(struct drm_device *dev, unsig=
-ned long flags)
->>>  	if (ret)
->>>  		goto out_free;
->>> =20
->>> +	drm_mode_config_reset(dev);
->>> +
->>>  	ret =3D drm_fbdev_generic_setup(dev, 32);
->>>  	if (ret)
->>>  		goto out_free;
->>> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast=
-_mode.c
->>> index f5f73200e8e4..5eccb6ae2ede 100644
->>> --- a/drivers/gpu/drm/ast/ast_mode.c
->>> +++ b/drivers/gpu/drm/ast/ast_mode.c
->>> @@ -45,11 +45,6 @@
->>> =20
->>>  static struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev);
->>>  static void ast_i2c_destroy(struct ast_i2c_chan *i2c);
->>> -static int ast_cursor_set(struct drm_crtc *crtc,
->>> -			  struct drm_file *file_priv,
->>> -			  uint32_t handle,
->>> -			  uint32_t width,
->>> -			  uint32_t height);
->>>  static int ast_cursor_move(struct drm_crtc *crtc,
->>>  			   int x, int y);
->>> =20
->>> @@ -58,9 +53,6 @@ static u32 copy_cursor_image(u8 *src, u8 *dst, int =
-width, int height);
->>>  static int ast_cursor_update(void *dst, void *src, unsigned int widt=
-h,
->>>  			     unsigned int height);
->>>  static void ast_cursor_set_base(struct ast_private *ast, u64 address=
-);
->>> -static int ast_show_cursor(struct drm_crtc *crtc, void *src,
->>> -			   unsigned int width, unsigned int height);
->>> -static void ast_hide_cursor(struct drm_crtc *crtc);
->>>  static int ast_cursor_move(struct drm_crtc *crtc,
->>>  			   int x, int y);
->>> =20
->>> @@ -434,7 +426,7 @@ static void ast_set_crtc_reg(struct drm_crtc *crt=
-c, struct drm_display_mode *mod
->>>  static void ast_set_offset_reg(struct drm_crtc *crtc)
->>>  {
->>>  	struct ast_private *ast =3D crtc->dev->dev_private;
->>> -	const struct drm_framebuffer *fb =3D crtc->primary->fb;
->>> +	const struct drm_framebuffer *fb =3D crtc->primary->state->fb;
->>> =20
->>>  	u16 offset;
->>> =20
->>> @@ -528,7 +520,7 @@ static void ast_set_sync_reg(struct drm_device *d=
-ev, struct drm_display_mode *mo
->>>  static bool ast_set_dac_reg(struct drm_crtc *crtc, struct drm_displa=
-y_mode *mode,
->>>  		     struct ast_vbios_mode_info *vbios_mode)
->>>  {
->>> -	const struct drm_framebuffer *fb =3D crtc->primary->fb;
->>> +	const struct drm_framebuffer *fb =3D crtc->primary->state->fb;
->>> =20
->>>  	switch (fb->format->cpp[0] * 8) {
->>>  	case 8:
->>> @@ -765,112 +757,6 @@ static void ast_crtc_dpms(struct drm_crtc *crtc=
-, int mode)
->>>  	}
->>>  }
->>> =20
->>> -static int ast_crtc_do_set_base(struct drm_crtc *crtc,
->>> -				struct drm_framebuffer *fb,
->>> -				int x, int y, int atomic)
->>> -{
->>> -	struct drm_gem_vram_object *gbo;
->>> -	int ret;
->>> -	s64 gpu_addr;
->>> -
->>> -	if (!atomic && fb) {
->>> -		gbo =3D drm_gem_vram_of_gem(fb->obj[0]);
->>> -		drm_gem_vram_unpin(gbo);
->>> -	}
->>> -
->>> -	gbo =3D drm_gem_vram_of_gem(crtc->primary->fb->obj[0]);
->>> -
->>> -	ret =3D drm_gem_vram_pin(gbo, DRM_GEM_VRAM_PL_FLAG_VRAM);
->>> -	if (ret)
->>> -		return ret;
->>> -	gpu_addr =3D drm_gem_vram_offset(gbo);
->>> -	if (gpu_addr < 0) {
->>> -		ret =3D (int)gpu_addr;
->>> -		goto err_drm_gem_vram_unpin;
->>> -	}
->>> -
->>> -	ast_set_offset_reg(crtc);
->>> -	ast_set_start_address_crt1(crtc, (u32)gpu_addr);
->>> -
->>> -	return 0;
->>> -
->>> -err_drm_gem_vram_unpin:
->>> -	drm_gem_vram_unpin(gbo);
->>> -	return ret;
->>> -}
->>> -
->>> -static int ast_crtc_mode_set_base(struct drm_crtc *crtc, int x, int =
-y,
->>> -			     struct drm_framebuffer *old_fb)
->>> -{
->>> -	return ast_crtc_do_set_base(crtc, old_fb, x, y, 0);
->>> -}
->>> -
->>> -static int ast_crtc_mode_set(struct drm_crtc *crtc,
->>> -			     struct drm_display_mode *mode,
->>> -			     struct drm_display_mode *adjusted_mode,
->>> -			     int x, int y,
->>> -			     struct drm_framebuffer *old_fb)
->>> -{
->>> -	struct drm_device *dev =3D crtc->dev;
->>> -	struct ast_private *ast =3D crtc->dev->dev_private;
->>> -	const struct drm_framebuffer *fb =3D crtc->primary->fb;
->>> -	struct ast_vbios_mode_info vbios_mode;
->>> -	bool succ;
->>> -
->>> -	if (ast->chip =3D=3D AST1180) {
->>> -		DRM_ERROR("AST 1180 modesetting not supported\n");
->>> -		return -EINVAL;
->>> -	}
->>> -
->>> -	succ =3D ast_get_vbios_mode_info(fb, mode, adjusted_mode, &vbios_mo=
-de);
->>> -	if (!succ)
->>> -		return -EINVAL;
->>> -
->>> -	ast_open_key(ast);
->>> -
->>> -	ast_set_vbios_color_reg(crtc, fb, &vbios_mode);
->>> -	ast_set_vbios_mode_reg(crtc, adjusted_mode, &vbios_mode);
->>> -	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa1, 0x06);
->>> -	ast_set_std_reg(crtc, adjusted_mode, &vbios_mode);
->>> -	ast_set_crtc_reg(crtc, adjusted_mode, &vbios_mode);
->>> -	ast_set_offset_reg(crtc);
->>> -	ast_set_dclk_reg(dev, adjusted_mode, &vbios_mode);
->>> -	ast_set_color_reg(crtc, fb);
->>> -	ast_set_crtthd_reg(crtc);
->>> -	ast_set_sync_reg(dev, adjusted_mode, &vbios_mode);
->>> -	ast_set_dac_reg(crtc, adjusted_mode, &vbios_mode);
->>> -
->>> -	ast_crtc_mode_set_base(crtc, x, y, old_fb);
->>> -
->>> -	return 0;
->>> -}
->>> -
->>> -static void ast_crtc_disable(struct drm_crtc *crtc)
->>> -{
->>> -	DRM_DEBUG_KMS("\n");
->>> -	ast_crtc_dpms(crtc, DRM_MODE_DPMS_OFF);
->>> -	if (crtc->primary->fb) {
->>> -		struct drm_framebuffer *fb =3D crtc->primary->fb;
->>> -		struct drm_gem_vram_object *gbo =3D
->>> -			drm_gem_vram_of_gem(fb->obj[0]);
->>> -
->>> -		drm_gem_vram_unpin(gbo);
->>> -	}
->>> -	crtc->primary->fb =3D NULL;
->>> -}
->>> -
->>> -static void ast_crtc_prepare(struct drm_crtc *crtc)
->>> -{
->>> -
->>> -}
->>> -
->>> -static void ast_crtc_commit(struct drm_crtc *crtc)
->>> -{
->>> -	struct ast_private *ast =3D crtc->dev->dev_private;
->>> -	ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT, 0x1, 0xdf, 0);
->>> -	ast_crtc_load_lut(crtc);
->>> -}
->>> -
->>>  static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
->>>  					struct drm_crtc_state *state)
->>>  {
->>> @@ -970,12 +856,6 @@ ast_crtc_helper_atomic_disable(struct drm_crtc *=
-crtc,
->>>  }
->>> =20
->>>  static const struct drm_crtc_helper_funcs ast_crtc_helper_funcs =3D =
-{
->>> -	.dpms =3D ast_crtc_dpms,
->>> -	.mode_set =3D ast_crtc_mode_set,
->>> -	.mode_set_base =3D ast_crtc_mode_set_base,
->>> -	.disable =3D ast_crtc_disable,
->>> -	.prepare =3D ast_crtc_prepare,
->>> -	.commit =3D ast_crtc_commit,
->>>  	.atomic_check =3D ast_crtc_helper_atomic_check,
->>>  	.atomic_begin =3D ast_crtc_helper_atomic_begin,
->>>  	.atomic_flush =3D ast_crtc_helper_atomic_flush,
->>> @@ -983,21 +863,6 @@ static const struct drm_crtc_helper_funcs ast_cr=
-tc_helper_funcs =3D {
->>>  	.atomic_disable =3D ast_crtc_helper_atomic_disable,
->>>  };
->>> =20
->>> -static void ast_crtc_reset(struct drm_crtc *crtc)
->>> -{
->>> -
->>> -}
->>> -
->>> -static int ast_crtc_gamma_set(struct drm_crtc *crtc, u16 *red, u16 *=
-green,
->>> -			      u16 *blue, uint32_t size,
->>> -			      struct drm_modeset_acquire_ctx *ctx)
->>> -{
->>> -	ast_crtc_load_lut(crtc);
->>> -
->>> -	return 0;
->>> -}
->>> -
->>> -
->>>  static void ast_crtc_destroy(struct drm_crtc *crtc)
->>>  {
->>>  	drm_crtc_cleanup(crtc);
->>> @@ -1005,12 +870,12 @@ static void ast_crtc_destroy(struct drm_crtc *=
-crtc)
->>>  }
->>> =20
->>>  static const struct drm_crtc_funcs ast_crtc_funcs =3D {
->>> -	.cursor_set =3D ast_cursor_set,
->>> -	.cursor_move =3D ast_cursor_move,
->>> -	.reset =3D ast_crtc_reset,
->>> +	.reset =3D drm_atomic_helper_crtc_reset,
->>>  	.set_config =3D drm_crtc_helper_set_config,
->>> -	.gamma_set =3D ast_crtc_gamma_set,
->>> +	.gamma_set =3D drm_atomic_helper_legacy_gamma_set,
->>>  	.destroy =3D ast_crtc_destroy,
->>> +	.set_config =3D drm_atomic_helper_set_config,
->>> +	.page_flip =3D drm_atomic_helper_page_flip,
->>>  	.atomic_duplicate_state =3D drm_atomic_helper_crtc_duplicate_state,=
-
->>>  	.atomic_destroy_state =3D drm_atomic_helper_crtc_destroy_state,
->>>  };
->>> @@ -1040,6 +905,10 @@ static int ast_crtc_init(struct drm_device *dev=
-)
->>>  	return ret;
->>>  }
->>> =20
->>> +/*
->>> + * Encoder
->>> + */
->>> +
->>>  static void ast_encoder_destroy(struct drm_encoder *encoder)
->>>  {
->>>  	drm_encoder_cleanup(encoder);
->>> @@ -1050,34 +919,6 @@ static const struct drm_encoder_funcs ast_enc_f=
-uncs =3D {
->>>  	.destroy =3D ast_encoder_destroy,
->>>  };
->>> =20
->>> -static void ast_encoder_dpms(struct drm_encoder *encoder, int mode)
->>> -{
->>> -
->>> -}
->>> -
->>> -static void ast_encoder_mode_set(struct drm_encoder *encoder,
->>> -			       struct drm_display_mode *mode,
->>> -			       struct drm_display_mode *adjusted_mode)
->>> -{
->>> -}
->>> -
->>> -static void ast_encoder_prepare(struct drm_encoder *encoder)
->>> -{
->>> -
->>> -}
->>> -
->>> -static void ast_encoder_commit(struct drm_encoder *encoder)
->>> -{
->>> -
->>> -}
->>> -
->>> -static const struct drm_encoder_helper_funcs ast_enc_helper_funcs =3D=
- {
->>> -	.dpms =3D ast_encoder_dpms,
->>> -	.prepare =3D ast_encoder_prepare,
->>> -	.commit =3D ast_encoder_commit,
->>> -	.mode_set =3D ast_encoder_mode_set,
->>> -};
+>> announce ARGB8888 and do the transformation internally.
 >>
->> Hmm.  Pretty much a dummy encoder implementation.  Maybe ast is simple=
-
->> enough that the simple pipe helpers can do the trick?
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 >=20
-> simple pipe doesn't do multi-plane, so not applicable. Maybe there's a =
-few
-> more things we can for dummy encoders (like default cleanup perhaps?).
+> Hm, might be fun to also expose the ARGB4444 directly. Not that anyone
+> will actually use it :-/
 
-I'll see what I can do for the patchset's next iteration.
+Is that a serious proposal? I thought about ARGB4444 and quickly
+dismissed it because no one will ever support it anyway.
 
 Best regards
 Thomas
 
 > -Daniel
 >=20
+>> ---
+>>  drivers/gpu/drm/ast/ast_drv.h  |   1 +
+>>  drivers/gpu/drm/ast/ast_mode.c | 161 ++++++++++++++++++++++++++++++++=
+-
+>>  2 files changed, 161 insertions(+), 1 deletion(-)
 >>
->> cheers,
->>   Gerd
+>> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_d=
+rv.h
+>> index 13560622f22a..49557a73390f 100644
+>> --- a/drivers/gpu/drm/ast/ast_drv.h
+>> +++ b/drivers/gpu/drm/ast/ast_drv.h
+>> @@ -122,6 +122,7 @@ struct ast_private {
+>>  	} cursor;
+>> =20
+>>  	struct drm_plane primary_plane;
+>> +	struct drm_plane cursor_plane;
+>> =20
+>>  	bool support_wide_screen;
+>>  	enum {
+>> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_=
+mode.c
+>> index 7667f4502eb9..f5f73200e8e4 100644
+>> --- a/drivers/gpu/drm/ast/ast_mode.c
+>> +++ b/drivers/gpu/drm/ast/ast_mode.c
+>> @@ -54,6 +54,16 @@ static int ast_cursor_move(struct drm_crtc *crtc,
+>>  			   int x, int y);
+>> =20
+>> =20
+>> +static u32 copy_cursor_image(u8 *src, u8 *dst, int width, int height)=
+;
+>> +static int ast_cursor_update(void *dst, void *src, unsigned int width=
+,
+>> +			     unsigned int height);
+>> +static void ast_cursor_set_base(struct ast_private *ast, u64 address)=
+;
+>> +static int ast_show_cursor(struct drm_crtc *crtc, void *src,
+>> +			   unsigned int width, unsigned int height);
+>> +static void ast_hide_cursor(struct drm_crtc *crtc);
+>> +static int ast_cursor_move(struct drm_crtc *crtc,
+>> +			   int x, int y);
+>> +
+>>  static inline void ast_load_palette_index(struct ast_private *ast,
+>>  				     u8 index, u8 red, u8 green,
+>>  				     u8 blue)
+>> @@ -594,6 +604,139 @@ static const struct drm_plane_funcs ast_primary_=
+plane_funcs =3D {
+>>  	.format_mod_supported =3D NULL,
+>>  };
+>> =20
+>> +/*
+>> + * Cursor plane
+>> + */
+>> +
+>> +static int
+>> +ast_cursor_plane_helper_prepare_fb(struct drm_plane *plane,
+>> +				   struct drm_plane_state *new_state)
+>> +{
+>> +	struct drm_framebuffer *fb =3D new_state->fb;
+>> +	struct drm_crtc *crtc =3D new_state->crtc;
+>> +	struct drm_gem_vram_object *gbo;
+>> +	struct ast_private *ast;
+>> +	int ret;
+>> +	void *src, *dst;
+>> +
+>> +	if (!crtc || !fb)
+>> +		return 0;
+>> +
+>> +	if (fb->width > AST_MAX_HWC_WIDTH || fb->height > AST_MAX_HWC_HEIGHT=
+)
+>> +		return -EINVAL;
+>> +
+>> +	ast =3D crtc->dev->dev_private;
+>> +
+>> +	gbo =3D drm_gem_vram_of_gem(fb->obj[0]);
+>> +	src =3D drm_gem_vram_vmap(gbo);
+>> +	if (IS_ERR(src)) {
+>> +		ret =3D PTR_ERR(src);
+>> +		goto err_drm_gem_vram_unpin;
+>> +	}
+>> +
+>> +	dst =3D drm_gem_vram_vmap(ast->cursor.gbo[ast->cursor.next_index]);
+>> +	if (IS_ERR(dst)) {
+>> +		ret =3D PTR_ERR(dst);
+>> +		goto err_drm_gem_vram_vunmap_src;
+>> +	}
+>> +
+>> +	ret =3D ast_cursor_update(dst, src, fb->width, fb->height);
+>> +	if (ret)
+>> +		goto err_drm_gem_vram_vunmap_dst;
+>> +
+>> +	/* Always unmap buffers here. Destination buffers are
+>> +	 * perma-pinned while the driver is active. We're only
+>> +	 * changing ref-counters here.
+>> +	 */
+>> +	drm_gem_vram_vunmap(ast->cursor.gbo[ast->cursor.next_index], dst);
+>> +	drm_gem_vram_vunmap(gbo, src);
+>> +
+>> +	return 0;
+>> +
+>> +err_drm_gem_vram_vunmap_dst:
+>> +	drm_gem_vram_vunmap(ast->cursor.gbo[ast->cursor.next_index], dst);
+>> +err_drm_gem_vram_vunmap_src:
+>> +	drm_gem_vram_vunmap(gbo, src);
+>> +err_drm_gem_vram_unpin:
+>> +	drm_gem_vram_unpin(gbo);
+>> +	return ret;
+>> +}
+>> +
+>> +static int ast_cursor_plane_helper_atomic_check(struct drm_plane *pla=
+ne,
+>> +						struct drm_plane_state *state)
+>> +{
+>> +	return 0;
+>> +}
+>> +
+>> +static void
+>> +ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
+>> +				      struct drm_plane_state *old_state)
+>> +{
+>> +	struct drm_plane_state *state =3D plane->state;
+>> +	struct drm_crtc *crtc =3D state->crtc;
+>> +	struct drm_framebuffer *fb =3D state->fb;
+>> +	struct ast_private *ast =3D plane->dev->dev_private;
+>> +	struct ast_crtc *ast_crtc =3D to_ast_crtc(crtc);
+>> +	struct drm_gem_vram_object *gbo;
+>> +	s64 off;
+>> +	u8 jreg;
+>> +
+>> +	ast_crtc->offset_x =3D AST_MAX_HWC_WIDTH - fb->width;
+>> +	ast_crtc->offset_y =3D AST_MAX_HWC_WIDTH - fb->height;
+>> +
+>> +	if (state->fb !=3D old_state->fb) {
+>> +		/* A new cursor image was installed. */
+>> +		gbo =3D ast->cursor.gbo[ast->cursor.next_index];
+>> +		off =3D drm_gem_vram_offset(gbo);
+>> +		if (WARN_ON_ONCE(off < 0))
+>> +			return; /* Bug: we didn't pin cursor HW BO to VRAM. */
+>> +		ast_cursor_set_base(ast, off);
+>> +
+>> +		++ast->cursor.next_index;
+>> +		ast->cursor.next_index %=3D ARRAY_SIZE(ast->cursor.gbo);
+>> +	}
+>> +
+>> +	ast_cursor_move(crtc, state->crtc_x, state->crtc_y);
+>> +
+>> +	jreg =3D 0x2;
+>> +	/* enable ARGB cursor */
+>> +	jreg |=3D 1;
+>> +	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xcb, 0xfc, jreg);
+>> +}
+>> +
+>> +static void
+>> +ast_cursor_plane_helper_atomic_disable(struct drm_plane *plane,
+>> +				       struct drm_plane_state *old_state)
+>> +{
+>> +	struct ast_private *ast =3D plane->dev->dev_private;
+>> +
+>> +	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xcb, 0xfc, 0x00);
+>> +}
+>> +
+>> +static const struct drm_plane_helper_funcs ast_cursor_plane_helper_fu=
+ncs =3D {
+>> +	.prepare_fb =3D ast_cursor_plane_helper_prepare_fb,
+>> +	.cleanup_fb =3D NULL, /* not required for cursor plane */
+>> +	.atomic_check =3D ast_cursor_plane_helper_atomic_check,
+>> +	.atomic_update =3D ast_cursor_plane_helper_atomic_update,
+>> +	.atomic_disable =3D ast_cursor_plane_helper_atomic_disable,
+>> +};
+>> +
+>> +static const struct drm_plane_funcs ast_cursor_plane_funcs =3D {
+>> +	.update_plane =3D drm_atomic_helper_update_plane,
+>> +	.disable_plane =3D drm_atomic_helper_disable_plane,
+>> +	.destroy =3D drm_plane_cleanup,
+>> +	.reset =3D drm_atomic_helper_plane_reset,
+>> +	.set_property =3D NULL,
+>> +	.atomic_duplicate_state =3D drm_atomic_helper_plane_duplicate_state,=
+
+>> +	.atomic_destroy_state =3D drm_atomic_helper_plane_destroy_state,
+>> +	.atomic_set_property =3D NULL,
+>> +	.atomic_get_property =3D NULL,
+>> +	.late_register =3D NULL,
+>> +	.early_unregister =3D NULL,
+>> +	.atomic_print_state =3D NULL,
+>> +	.format_mod_supported =3D NULL,
+>> +};
+>> +
+>>  /*
+>>   * CRTC
+>>   */
+>> @@ -883,7 +1026,8 @@ static int ast_crtc_init(struct drm_device *dev)
+>>  		return -ENOMEM;
+>> =20
+>>  	ret =3D drm_crtc_init_with_planes(dev, &crtc->base, &ast->primary_pl=
+ane,
+>> -					NULL, &ast_crtc_funcs, NULL);
+>> +					&ast->cursor_plane, &ast_crtc_funcs,
+>> +					NULL);
+>>  	if (ret)
+>>  		goto err_kfree;
+>> =20
+>> @@ -1153,6 +1297,9 @@ int ast_mode_init(struct drm_device *dev)
+>>  		DRM_FORMAT_RGB565,
+>>  		DRM_FORMAT_C8,
+>>  	};
+>> +	static const uint32_t cursor_plane_formats[] =3D {
+>> +		DRM_FORMAT_ARGB8888,
+>> +	};
+>> =20
+>>  	struct ast_private *ast =3D dev->dev_private;
+>>  	int ret;
+>> @@ -1170,6 +1317,18 @@ int ast_mode_init(struct drm_device *dev)
+>>  	drm_plane_helper_add(&ast->primary_plane,
+>>  			     &ast_primary_plane_helper_funcs);
+>> =20
+>> +	ret =3D drm_universal_plane_init(dev, &ast->cursor_plane, 0x01,
+>> +				       &ast_cursor_plane_funcs,
+>> +				       cursor_plane_formats,
+>> +				       ARRAY_SIZE(cursor_plane_formats),
+>> +				       NULL, DRM_PLANE_TYPE_CURSOR, NULL);
+>> +	if (ret) {
+>> +		DRM_ERROR("drm_universal_plane_failed(): %d\n", ret);
+>> +		return ret;
+>> +	}
+>> +	drm_plane_helper_add(&ast->cursor_plane,
+>> +			     &ast_cursor_plane_helper_funcs);
+>> +
+>>  	ast_cursor_init(dev);
+>>  	ast_crtc_init(dev);
+>>  	ast_encoder_init(dev);
+>> --=20
+>> 2.23.0
 >>
 >=20
 
@@ -530,28 +361,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---cLx8mYO6lBpimLb4LDZLTuJxSCUCA9BMC--
+--ivo2wSl8fe4QGUFG6hHb1TjZkNLwoLyqj--
 
---Yw7PGSuDWk97pRpOwAHNJ1OGP98BGr5n2
+--WyPO2n8FD6pfPh7LRy6jWHzvAufWg31y4
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl3ChBYACgkQaA3BHVML
-eiPpdwgAlYjUrqLgCSotQfzqXAmKSrUH8mJX41Q0WtwLW6soKWVo14gJ5NjxJI1o
-WRwtK2thLBT3iLNiBhVQlPhU9Rx59GAXJBeJInnctT2t8k9EMUGxC8v+KSJIEbL8
-7yhcZbuQIbA3puNjGgLGqxJC5Nv1iK/RdVIIVbpIggV9DjtYKG0bIeGinIF3kWgV
-Y196oUJMl+UZdTvnntiTjYUTNe+PTb/2nBUQIxrHBELJwNkXsx4kblzZe7Xw9TRz
-9eOdAjif2dzH+JwoO7KuNp69ce/jR7laESBdkOBcYdvTdf+/1pr3Exhi/FyHCrFo
-vGuemoz8MYSstaJfcSBmKyUGeMvlgA==
-=Y8rl
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl3ChNIACgkQaA3BHVML
+eiNZ5QgAh9j+xZZN4q48kgkFqE5Xc0xpjd8wSET4Gvz/DqLo9smkbXEtXsj5uBoN
+uIkGlO6tNHWQ8izyj3JMLWkGBTTElzbyiHL0tO5eg0NgnYG4HjtMKIpK1v1IH6PV
+Yiubis5LFu92K5niBqg0+IlmXY43hS0j+P3GV+79Tcf+WWdReX0M51Szi/Vow+2S
+53SQ9Le8mtRqaMZgrd/VqvoWhvbXqxI8tlMWYYIJuORAO2jBn8nbUc82uJP2rly9
+fNnBJ+rNGAX0diP3BwmeiDRTqfEyC2lyGJPzYuRLQc6dVWWgV3OY8lgJ121kheM+
+asS7GvDWl79/bMhiN4p4ajVCh7+c5A==
+=ezOg
 -----END PGP SIGNATURE-----
 
---Yw7PGSuDWk97pRpOwAHNJ1OGP98BGr5n2--
+--WyPO2n8FD6pfPh7LRy6jWHzvAufWg31y4--
 
---===============0913857745==
+--===============0584887488==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -561,4 +392,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0913857745==--
+--===============0584887488==--
