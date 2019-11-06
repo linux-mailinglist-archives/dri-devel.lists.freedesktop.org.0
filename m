@@ -2,40 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 389CBF19E5
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2019 16:21:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AFA2F19EB
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2019 16:23:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A64F6EDA3;
-	Wed,  6 Nov 2019 15:21:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 889F46EDA4;
+	Wed,  6 Nov 2019 15:23:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A0536EDA3
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2019 15:21:46 +0000 (UTC)
-Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 85F712166E;
- Wed,  6 Nov 2019 15:21:45 +0000 (UTC)
-Date: Wed, 6 Nov 2019 16:21:31 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Torsten Duwe <duwe@lst.de>
-Subject: Re: [PATCH v5 2/7] drm/bridge: split some definitions of ANX78xx to
- dedicated headers
-Message-ID: <20191106152131.GD8617@gilmour.lan>
-References: <20191104110400.F319F68BE1@verein.lst.de>
- <20191104110605.F012268BFE@verein.lst.de>
- <20191105104126.GC3876@gilmour.lan> <20191105173332.GA11570@lst.de>
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44C656EDA4
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2019 15:23:20 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id q2so20020902ljg.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Nov 2019 07:23:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7u4DJelTiLo3xdFi3FzOMpoZhJ7TQZl0WcryvK6J9QA=;
+ b=YZyUg9hPKoqRrowezNBiQzeCbzGbiz/6jf6eMpoun2DzCXR3VNCrCouW31qUigXjDe
+ clInq406a7FwA4DgsjrdC2cTnbbI1XSjwGp2PZJGX9jc0AzO4YvykUjfMwtVQlD0U6ke
+ PKP/KYSHut18EVmj07LS8dFG4o8Km/PIZ8130wnHD0DjOmEZiq4ZGH/KLpIlvZ9/1wCt
+ FiBfOL3D4IesXRqKfIwImvp88sellJmbtDonDlslHvB3M+EnnwUtzNV05GN/unEha8kJ
+ BfVq+ost6MrvoiH8/veaRVz2LbAjZ0S4qpGNJmzxJvXfQOCMx9pKLajeVNnPoNQKEtRB
+ uH9w==
+X-Gm-Message-State: APjAAAXVmCDHCFCBJ02sJG3a/wBmgp3sJqG8KA8h2Y5qrNZwg27w1voW
+ 3O9UeeQDdMZF++LHI7sV1+IIurXKlCNeORa7nfk=
+X-Google-Smtp-Source: APXvYqyrq0kT7d6RQ0yg6I9REVRZIMZLgthEOIGQLGqNlD36KJ255nhNn3PAxsNUoFt5oULhzVOjMIgenQ1hD6OFvFs=
+X-Received: by 2002:a2e:9119:: with SMTP id m25mr2475827ljg.24.1573053798616; 
+ Wed, 06 Nov 2019 07:23:18 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191105173332.GA11570@lst.de>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1573053706;
- bh=Z5uRUEYMHnBMAkQQBIKbi4YuTu5BKSlKgXYE8gT6Bec=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=xKVvy8T7SQJv8gsuGyvvTQw5ONXKSc54BOSU448ev64QRk472PQZFFT/nTB1gGfTm
- HRd4abZ6Xa7XqWJMo9HkBoVMefaUGGv+B1N4aOjiFIldwk1TT+GQZckyJ9+VsuL24s
- agEi5bAJHcKcE/67YTYJsBFrzLGsfB8dA+5fwHKE=
+References: <20191106094400.445834-1-paul.kocialkowski@bootlin.com>
+ <20191106094400.445834-2-paul.kocialkowski@bootlin.com>
+In-Reply-To: <20191106094400.445834-2-paul.kocialkowski@bootlin.com>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Wed, 6 Nov 2019 16:23:07 +0100
+Message-ID: <CAMeQTsa+tYWAA5vkChqDvEiFmbjFzNp804fD6J4GfLgHUBho9g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/gma500: Add missing call to allow enabling vblank
+ on psb/cdv
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=7u4DJelTiLo3xdFi3FzOMpoZhJ7TQZl0WcryvK6J9QA=;
+ b=KIWeJBPuhJIAD/GVcGzaGJS+QMkD9/lwi4OA2yEfei4X0kyOd5lkP6owSnmSOlcb//
+ hLiDIFY0rOjg6HKi9gqv4i1mNoKNrb8dBXvtBzMZA2i7MMx6PVrbXJ0p+KWjODCSomic
+ bkrTkwl9f0CSJRIsIoaXrE0P48aC0jNJKUO9y8oNVlCuHz+wL+pYw5ENACAl3LT1CmyA
+ VqI3z37xPuxXCaqWr+z6hv1kenP8OzDUoTEp/y8fcuyX6NX1UZteVbKNqiX5JphUkzzH
+ D4FkVVAkZ8n3gw5zy6QzuIBJbHGIFIXKSAbb+v8OMzsIs0+xLlVs6Mfmf5X/T21AURe/
+ TBXw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,95 +64,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Vasily Khoruzhick <anarsoul@gmail.com>,
- Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Harald Geyer <harald@ccbib.org>, Sean Paul <seanpaul@chromium.org>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Icenowy Zheng <icenowy@aosc.io>
-Content-Type: multipart/mixed; boundary="===============1832196994=="
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ James Hilliard <james.hilliard1@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1832196994==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="6WlEvdN9Dv0WHSBl"
-Content-Disposition: inline
-
-
---6WlEvdN9Dv0WHSBl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi
-
-On Tue, Nov 05, 2019 at 06:33:32PM +0100, Torsten Duwe wrote:
-> From: Icenowy Zheng <icenowy@aosc.io>
->
-> Some definitions currently in analogix-anx78xx.h are not restricted to
-> the ANX78xx series, but also applicable to other DisplayPort
-> transmitters by Analogix.
->
-> Split out them to dedicated headers, and make analogix-anx78xx.h include
-> them.
->
-> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
-> Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
-> Signed-off-by: Torsten Duwe <duwe@suse.de>
-> Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
->
-> ---
->
-> On Tue, Nov 05, 2019 at 11:41:26AM +0100, Maxime Ripard wrote:
-> >
-> > This one doesn't apply on drm-misc-next. The fix doesn't look really
-> > obvious to me, can you rebase and resend it?
->
-> Sure.
-> The set was based on 5.4-rc5, which lacks 025910db8057f from drm-misc-next
-> You'll also have to
-> diff -r anx6345-v5/v5-0005-drm-bridge-Add-Analogix-anx6345-support.patch anx6345-v5a/v5-0005-drm-bridge-Add-Analogix-anx6345-support.patch
-> 116,117c116,117
-> < +     [I2C_IDX_DPTX]  = ANALOGIX_I2C_DPTX,
-> < +     [I2C_IDX_TXCOM] = ANALOGIX_I2C_TXCOMMON,
-> ---
-> > +     [I2C_IDX_DPTX]  = 0x70,
-> > +     [I2C_IDX_TXCOM] = 0x72,
->
-> To make it compile, with the changed coding style of 025910db8057f.
-> Can you change that on the fly in 5/7 or shall I resend that, too?
-
-Please resend the whole series rebased on top of either linux-next or
-drm-misc-next.
-
-Maxime
-
---6WlEvdN9Dv0WHSBl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXcLk+wAKCRDj7w1vZxhR
-xbUHAQDw1ZTTedeTOWdyiLtw5dPLgY1kNJLxyuWvOWpHnLkvfwEAtl4uNwJQytsL
-qdyuTkhCiUtsu2g+nFxjoWkC/bEU0Q0=
-=JKza
------END PGP SIGNATURE-----
-
---6WlEvdN9Dv0WHSBl--
-
---===============1832196994==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1832196994==--
+T24gV2VkLCBOb3YgNiwgMjAxOSBhdCAxMDo0NCBBTSBQYXVsIEtvY2lhbGtvd3NraQo8cGF1bC5r
+b2NpYWxrb3dza2lAYm9vdGxpbi5jb20+IHdyb3RlOgo+Cj4gVGhpcyBhZGRzIGEgbWlzc2luZyBj
+YWxsIHRvIGRybV9jcnRjX3ZibGFua19vbiB0byB0aGUgY29tbW9uIERQTVMgaGVscGVyCj4gKHVz
+ZWQgYnkgcG91bHNibyBhbmQgY2VkYXJ0cmFpbCksIHdoaWNoIGlzIGNhbGxlZCBpbiB0aGUgQ1JU
+QyBlbmFibGUgcGF0aC4KPgo+IFdpdGggdGhhdCBjYWxsLCBpdCBiZWNvbWVzIHBvc3NpYmxlIHRv
+IGVuYWJsZSB2Ymxhbmsgd2hlbiBuZWVkZWQuCj4gSXQgaXMgYWxyZWFkeSBiYWxhbmNlZCBieSBh
+IGRybV9jcnRjX3ZibGFua19vZmYgY2FsbCBpbiB0aGUgaGVscGVyLgo+Cj4gT3RoZXIgcGxhdGZv
+cm1zIChvYWt0cmFpbCBhbmQgbWVkZmllbGQpIHVzZSBhIGRlZGljYXRlZCBEUE1TIGhlbHBlciB0
+aGF0Cj4gZG9lcyBub3QgaGF2ZSB0aGUgcHJvcGVyIHZibGFuayBvbi9vZmYgaG9va3MuIFRoZXkg
+YXJlIG5vdCBhZGRlZCBpbiB0aGlzCj4gY29tbWl0IGR1ZSB0byBsYWNrIG9mIGhhcmR3YXJlIHRv
+IHRlc3QgaXQgd2l0aC4KPgo+IFNpZ25lZC1vZmYtYnk6IFBhdWwgS29jaWFsa293c2tpIDxwYXVs
+LmtvY2lhbGtvd3NraUBib290bGluLmNvbT4KCkRvbid0IHRoaW5rIHdlIGV2ZXIgZm91bmQgYSBu
+ZWVkIGZvciBoYXZpbmcgdmJsYW5rcyBlbmFibGVkLi4uIHVudGlsCm5vdy4gSSdsbCBoYXZlIGEg
+bG9vayBpZiBzb21ldGhpbmcgY2FuIGJlIGRvbmUgZm9yIE9ha3RyYWlsIHNpbmNlIEkKaGF2ZSBo
+dy4KClJldmlld2VkLWJ5OiBQYXRyaWsgSmFrb2Jzc29uIDxwYXRyaWsuci5qYWtvYnNzb25AZ21h
+aWwuY29tPgoKPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9nbWFfZGlzcGxheS5jIHwg
+MiArKwo+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCj4KPiBkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9nbWFfZGlzcGxheS5jIGIvZHJpdmVycy9ncHUvZHJtL2dt
+YTUwMC9nbWFfZGlzcGxheS5jCj4gaW5kZXggZTIwY2NiNWQxMGZkLi5iYzA3YWUyYTlhMWQgMTAw
+NjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9nbWFfZGlzcGxheS5jCj4gKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9nbWFfZGlzcGxheS5jCj4gQEAgLTI1NSw2ICsyNTUsOCBA
+QCB2b2lkIGdtYV9jcnRjX2RwbXMoc3RydWN0IGRybV9jcnRjICpjcnRjLCBpbnQgbW9kZSkKPiAg
+ICAgICAgICAgICAgICAgLyogR2l2ZSB0aGUgb3ZlcmxheSBzY2FsZXIgYSBjaGFuY2UgdG8gZW5h
+YmxlCj4gICAgICAgICAgICAgICAgICAqIGlmIGl0J3Mgb24gdGhpcyBwaXBlICovCj4gICAgICAg
+ICAgICAgICAgIC8qIHBzYl9pbnRlbF9jcnRjX2RwbXNfdmlkZW8oY3J0YywgdHJ1ZSk7IFRPRE8g
+Ki8KPiArCj4gKyAgICAgICAgICAgICAgIGRybV9jcnRjX3ZibGFua19vbihjcnRjKTsKPiAgICAg
+ICAgICAgICAgICAgYnJlYWs7Cj4gICAgICAgICBjYXNlIERSTV9NT0RFX0RQTVNfT0ZGOgo+ICAg
+ICAgICAgICAgICAgICBpZiAoIWdtYV9jcnRjLT5hY3RpdmUpCj4gLS0KPiAyLjIzLjAKPgpfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
+bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
