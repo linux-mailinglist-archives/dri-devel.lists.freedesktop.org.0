@@ -2,56 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A77B5F1C69
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2019 18:24:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3504CF1C85
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Nov 2019 18:32:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38CA16EE0E;
-	Wed,  6 Nov 2019 17:24:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5F006EE18;
+	Wed,  6 Nov 2019 17:32:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
- [IPv6:2607:f8b0:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDE7B6EE0E
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2019 17:24:20 +0000 (UTC)
-Received: by mail-pf1-x444.google.com with SMTP id 193so18113476pfc.13
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Nov 2019 09:24:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=12yzcHf1qZ16w0lmbe/z8YOyijtRMnml2sd6alF7R5E=;
- b=Igx1VhYYSfJ3+0NFZ1/ZQ4d5B6DDap5gBIVUDxdJWpH8CS+MdDFLyUFMuc2HnHy2u1
- 8hVahwkKFqA8LAuq2fVfPQqpBIq80PW9YzeVPwI+1DZsgLmd8eGj2Y5J0KKJTec/qq+F
- lTQogajSdk50EP4QgQM5RpQUOdAERRqlI1wYPaSOIUXTsL+7g3madw2zzMGV229Uj4vB
- ub+jI4VvSQcUYNLA3X3fT5HNUnl7Cj2XyisVYvneS7RstffE9fJ+w/afArc63710TtzQ
- Uc4Cutb7Ttjxtxb+aKQaJrFifY8qPQE8QeUFpnYAkRH9OYCN+1Ws6UzNJ14mOqIlvLs+
- tyFw==
-X-Gm-Message-State: APjAAAUOYQbwDPeSjb5WZHMF2y19nV40qoKH9fpyKXIAzqiUimS+4kxt
- 9WAwNozLj8hdnJqxOOYhILv0djbi0Ms=
-X-Google-Smtp-Source: APXvYqy7xuqTPQAOe29RalAbDCQZWFanMlY7Ggk5BBqItrUCBBl297x/gKwCqPK8O48UCRtYXi9sLw==
-X-Received: by 2002:a63:9a09:: with SMTP id o9mr4197481pge.276.1573061060339; 
- Wed, 06 Nov 2019 09:24:20 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id j7sm3606496pjz.12.2019.11.06.09.24.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Nov 2019 09:24:19 -0800 (PST)
-Date: Wed, 6 Nov 2019 09:24:18 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm: Limit to INT_MAX in create_blob ioctl
-Message-ID: <201911060920.71D7E76E@keescook>
-References: <20191106164755.31478-1-daniel.vetter@ffwll.ch>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1976A6EE20
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Nov 2019 17:32:51 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 1662A720E2; Wed,  6 Nov 2019 17:32:51 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
+Date: Wed, 06 Nov 2019 17:32:50 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: me@jasondaigo.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109955-502-HhODiWFvCr@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
+References: <bug-109955-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191106164755.31478-1-daniel.vetter@ffwll.ch>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=12yzcHf1qZ16w0lmbe/z8YOyijtRMnml2sd6alF7R5E=;
- b=Kjeez8xg9w1G0Sz1XNlqaJiqB+5U+nf27WRtq9ESx/wrXx9XWIlBYGf3N+a1s30Lqf
- PO9E2S/zhEHf1DsS35YdbMoLwH66sXNTBbln/nDtH4nNulV3cDyG24+euda4cLAG+myE
- aM2/vQI5JXoWUGhG8qnNOmPeigi3l2obzYdKQ=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,59 +52,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- syzbot+fb77e97ebf0612ee6914@syzkaller.appspotmail.com,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1087314700=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBOb3YgMDYsIDIwMTkgYXQgMDU6NDc6NTVQTSArMDEwMCwgRGFuaWVsIFZldHRlciB3
-cm90ZToKPiBUaGUgaGFyZGVuZWQgdXNlcmNweSBjb2RlIGlzIHRvbyBwYXJhbm9pZCBldmVyIHNp
-bmNlOgo+IAo+IGNvbW1pdCA2YTMwYWZhOGMxZmJkZTVmMTBmOWM1ODRjMjk5MmFhM2M3ZjdhOGZl
-Cj4gQXV0aG9yOiBLZWVzIENvb2sgPGtlZXNjb29rQGNocm9taXVtLm9yZz4KPiBEYXRlOiAgIFdl
-ZCBOb3YgNiAxNjowNzowMSAyMDE5ICsxMTAwCj4gCj4gICAgIHVhY2Nlc3M6IGRpc2FsbG93ID4g
-SU5UX01BWCBjb3B5IHNpemVzCj4gCj4gQ29kZSBpdHNlbGYgc2hvdWxkIGhhdmUgYmVlbiBmaW5l
-IGFzLWlzLgoKSSBoYWQgdG8gZ28gcmVhZCB0aGUgc3l6Ym90IHJlcG9ydCB0byB1bmRlcnN0YW5k
-IHdoYXQgd2FzIGFjdHVhbGx5IGJlaW5nCmZpeGVkIGhlcmUuIENhbiB5b3UgYmUgYSBiaXQgbW9y
-ZSB2ZXJib3NlIGluIHRoaXMgY29tbWl0IGxvZz8gSXQgc291bmRzCmxpa2UgaHVnZSB1c2VyY29w
-eSBzaXplcyB3ZXJlIGFsbG93ZWQgYnkgZHJtICh0aG91Z2ggSSBndWVzcyB0aGV5IHdvdWxkCmZh
-aWwgZ3JhY2VmdWxseSBpbiBzb21lIG90aGVyIHdheT8pIGJ1dCBhZnRlciA2YTMwYWZhOGMxZmIs
-IHRoZSBjb3B5CndvdWxkIHllbGwgYWJvdXQgc2l6ZXMgd2hlcmUgSU5UX01BWCA8IHNpemUgPCBV
-TE9OR19NQVggLSBzaXplb2YoLi4uKSA/CgpXaGF0IHdhcyB0aGUgcHJpb3IgZmFpbHVyZSBtb2Rl
-IHRoYXQgbWFkZSB0aGUgZXhpc3RpbmcgVUxPTkdfTUFYIGNoZWNrCnNhZmU/IFlvdXIgcGF0Y2gg
-bG9va3MgZmluZSwgdGhvdWdoOgoKUmV2aWV3ZWQtYnk6IEtlZXMgQ29vayA8a2Vlc2Nvb2tAY2hy
-b21pdW0ub3JnPgoKPiBSZXBvcnRlZC1ieTogc3l6Ym90K2ZiNzdlOTdlYmYwNjEyZWU2OTE0QHN5
-emthbGxlci5hcHBzcG90bWFpbC5jb20KPiBGaXhlczogNmEzMGFmYThjMWZiICgidWFjY2Vzczog
-ZGlzYWxsb3cgPiBJTlRfTUFYIGNvcHkgc2l6ZXMiKQo+IENjOiBLZWVzIENvb2sgPGtlZXNjb29r
-QGNocm9taXVtLm9yZz4KPiBDYzogQWxleGFuZGVyIFZpcm8gPHZpcm9AemVuaXYubGludXgub3Jn
-LnVrPgo+IENjOiBBbmRyZXcgTW9ydG9uIDxha3BtQGxpbnV4LWZvdW5kYXRpb24ub3JnPgo+IENj
-OiBTdGVwaGVuIFJvdGh3ZWxsIDxzZnJAY2FuYi5hdXVnLm9yZy5hdT4KPiBTaWduZWQtb2ZmLWJ5
-OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KPiAtLQo+IEtlZXMvQW5k
-cmV3LAo+IAo+IFNpbmNlIHRoaXMgaXMgLW1tIGNhbiBJIGhhdmUgYSBzdGFibGUgc2hhMSBvciBz
-b21ldGhpbmcgZm9yCj4gcmVmZXJlbmNpbmc/IE9yIGRvIHlvdSB3YW50IHRvIGluY2x1ZGUgdGhp
-cyBpbiB0aGUgLW1tIHBhdGNoIGJvbWIgZm9yCj4gdGhlIG1lcmdlIHdpbmRvdz8KClRyYWRpdGlv
-bmFsbHkgdGhlc2UgdGhpbmdzIGxpdmUgaW4gYWtwbSdzIHRyZWUgd2hlbiB0aGV5IGFyZSBmaXhl
-cyBmb3IKcGF0Y2hlcyBpbiB0aGVyZS4gSSBoYXZlIG5vIGlkZWEgaG93IHRoZSBGaXhlcyB0YWdz
-IHdvcmsgaW4gdGhhdCBjYXNlLAp0aG91Z2guLi4KCi1LZWVzCgo+IC1EYW5pZWwKPiAtLS0KPiAg
-ZHJpdmVycy9ncHUvZHJtL2RybV9wcm9wZXJ0eS5jIHwgMiArLQo+ICAxIGZpbGUgY2hhbmdlZCwg
-MSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL2RybV9wcm9wZXJ0eS5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9wcm9wZXJ0eS5jCj4g
-aW5kZXggODkyY2U2MzZlZjcyLi42ZWUwNDgwM2MzNjIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2RybV9wcm9wZXJ0eS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9wcm9wZXJ0
-eS5jCj4gQEAgLTU2MSw3ICs1NjEsNyBAQCBkcm1fcHJvcGVydHlfY3JlYXRlX2Jsb2Ioc3RydWN0
-IGRybV9kZXZpY2UgKmRldiwgc2l6ZV90IGxlbmd0aCwKPiAgCXN0cnVjdCBkcm1fcHJvcGVydHlf
-YmxvYiAqYmxvYjsKPiAgCWludCByZXQ7Cj4gIAo+IC0JaWYgKCFsZW5ndGggfHwgbGVuZ3RoID4g
-VUxPTkdfTUFYIC0gc2l6ZW9mKHN0cnVjdCBkcm1fcHJvcGVydHlfYmxvYikpCj4gKwlpZiAoIWxl
-bmd0aCB8fCBsZW5ndGggPiBJTlRfTUFYIC0gc2l6ZW9mKHN0cnVjdCBkcm1fcHJvcGVydHlfYmxv
-YikpCj4gIAkJcmV0dXJuIEVSUl9QVFIoLUVJTlZBTCk7Cj4gIAo+ICAJYmxvYiA9IGt2emFsbG9j
-KHNpemVvZihzdHJ1Y3QgZHJtX3Byb3BlcnR5X2Jsb2IpK2xlbmd0aCwgR0ZQX0tFUk5FTCk7Cj4g
-LS0gCj4gMi4yNC4wLnJjMgo+IAoKLS0gCktlZXMgQ29vawpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1087314700==
+Content-Type: multipart/alternative; boundary="15730615711.008425.29393"
+Content-Transfer-Encoding: 7bit
+
+
+--15730615711.008425.29393
+Date: Wed, 6 Nov 2019 17:32:51 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+
+--- Comment #129 from Wilko Bartels <me@jasondaigo.de> ---
+(In reply to haro41 from comment #122)
+> In my experience, this issue is related to mclk switching and it affects =
+the
+> lowest mclk level only.
+>=20
+> So you guy's can save a lot of power, if you, insteed of switching to
+> highest gfxlevel or to disable vsync, just disable the lowest mclk level =
+by:
+>=20
+> echo "manual" > /sys/class/drm/card0/device/power_dpm_force_performance_l=
+evel
+> echo "1 2 3" > /sys/class/drm/card0/device/pp_dpm_mclk
+>=20
+> If you are building your kernel locally, look in this thread for a driver
+> code modification that works, without disabling the lowest mclk level (sa=
+ves
+> a few watt on idle).
+
+do you have any suggestion to automate this? so far i can strictly run these
+commands after su. not even sudo works with scripts running these commands.=
+ or
+systemd files.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15730615711.008425.29393
+Date: Wed, 6 Nov 2019 17:32:51 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c129">Comm=
+ent # 129</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+me&#64;jasondaigo.de" title=3D"Wilko Bartels &lt;me&#64;jasondaigo.de&gt;">=
+ <span class=3D"fn">Wilko Bartels</span></a>
+</span></b>
+        <pre>(In reply to haro41 from <a href=3D"show_bug.cgi?id=3D109955#c=
+122">comment #122</a>)
+<span class=3D"quote">&gt; In my experience, this issue is related to mclk =
+switching and it affects the
+&gt; lowest mclk level only.
+&gt;=20
+&gt; So you guy's can save a lot of power, if you, insteed of switching to
+&gt; highest gfxlevel or to disable vsync, just disable the lowest mclk lev=
+el by:
+&gt;=20
+&gt; echo &quot;manual&quot; &gt; /sys/class/drm/card0/device/power_dpm_for=
+ce_performance_level
+&gt; echo &quot;1 2 3&quot; &gt; /sys/class/drm/card0/device/pp_dpm_mclk
+&gt;=20
+&gt; If you are building your kernel locally, look in this thread for a dri=
+ver
+&gt; code modification that works, without disabling the lowest mclk level =
+(saves
+&gt; a few watt on idle).</span >
+
+do you have any suggestion to automate this? so far i can strictly run these
+commands after su. not even sudo works with scripts running these commands.=
+ or
+systemd files.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15730615711.008425.29393--
+
+--===============1087314700==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1087314700==--
