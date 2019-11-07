@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7274DF41A9
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 09:12:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8149F41B8
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 09:13:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EA976F859;
-	Fri,  8 Nov 2019 08:12:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09E636F86A;
+	Fri,  8 Nov 2019 08:12:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo6-p04-ob.smtp.rzone.de (mo6-p04-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5304::10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D1C26E405
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2019 11:06:24 +0000 (UTC)
+ [IPv6:2a01:238:20a:202:5304::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F2A46E424
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2019 11:06:23 +0000 (UTC)
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1OAA2UNf2M7PR5/L9P0"
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 44.29.0 DYNA|AUTH)
- with ESMTPSA id L09db3vA7B6Edgw
+ with ESMTPSA id L09db3vA7B6Fdgy
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve secp521r1 with
  521 ECDH bits, eq. 15360 bits RSA))
  (Client did not present a certificate);
- Thu, 7 Nov 2019 12:06:14 +0100 (CET)
+ Thu, 7 Nov 2019 12:06:15 +0100 (CET)
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
@@ -28,26 +28,26 @@ To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Tony Lindgren <tony@atomide.com>, Paul Cercueil <paul@crapouillou.net>,
  Ralf Baechle <ralf@linux-mips.org>, Paul Burton <paulburton@kernel.org>,
  James Hogan <jhogan@kernel.org>
-Subject: [PATCH v2 3/8] ARM: DTS: am3517: add sgx gpu child node
-Date: Thu,  7 Nov 2019 12:06:06 +0100
-Message-Id: <68d38ec5a6e9bcfcc398994acdbe86e3e80865b3.1573124770.git.hns@goldelico.com>
+Subject: [PATCH v2 4/8] ARM: DTS: omap3: add sgx gpu child node
+Date: Thu,  7 Nov 2019 12:06:07 +0100
+Message-Id: <78e6f575e25cd4cfec40a5d735303b8ac61521b9.1573124770.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1573124770.git.hns@goldelico.com>
 References: <cover.1573124770.git.hns@goldelico.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Fri, 08 Nov 2019 08:12:31 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- t=1573124781; 
+ t=1573124782; 
  s=strato-dkim-0002; d=goldelico.com;
  h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=NjEWunQz10C58eQ0gQdyDLr+7iljKIOVsgB4xAjyIIk=;
- b=ULHooBj2hFkmxWdHW35l6/ZvVDeR0XxzS0IZKa3j16NgyjUfAmyky6d76hSUEH+rMD
- S8z0dH1FDJYjltmWGQkx4lXa1+706BHwkfXSGY/LnQ6JW8bQGe4C5vZay1MtF2FBlgE0
- VZcX3F+6Y+YDJMATybHKQw4OY3MCM+HHuoP3pIqKVT78QXU5TVgJnPJtVo7Fj9QEi2H9
- obeOhHZhvmGamKd7sMzlJDxPvzi3TPuSJfBs5qPT1BV7di0JFqglHxk8sBRuuvBi6ljj
- f3weQLhJnV+a2WNEATKWobdswVfnPe7fh1c4Uikz7ndsNh52A/TMZ+FZ/i4uJdyKITFM
- A0kQ==
+ bh=y3zYbwzLGCQd958Btkq+b622MLFLPWeGrOh+oKuq+CI=;
+ b=Gzi40TOrMj2jNFA/PJ18+61w7HeouMQ4sc3r2z0eLmgpwAV3um/vKbHBmlqjxQH6vh
+ c7hUaKxEhUw3Jiw0f5mXM7DP1xYA4mi0HMxI3wgYnCccL6N4RN+jHvne0Q9QwzaZOAag
+ EJPGut7JisAiXESozbKpgDOhTQkcGLRyGeWrp/65xEN7YQLGu1T+qDRP/hX5jlq7N9O0
+ mUZgHKPIyVk3ETiTfWjrfFdlS2r2XB2K/8xf9aVeFtP5aSzMBo4V57v6JPG6xx1UclVr
+ TBW/Ql2wnU3qwNbisml4iljfsglQIG1FS5kZ5rCYlRykSV+l434KGit7W5e1sBwg1dXg
+ wmOA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,24 +70,25 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-YW5kIGFkZCBpbnRlcnJ1cHQuCgpTaWduZWQtb2ZmLWJ5OiBILiBOaWtvbGF1cyBTY2hhbGxlciA8
-aG5zQGdvbGRlbGljby5jb20+Ci0tLQogYXJjaC9hcm0vYm9vdC9kdHMvYW0zNTE3LmR0c2kgfCAx
-MSArKysrKystLS0tLQogMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlv
-bnMoLSkKCmRpZmYgLS1naXQgYS9hcmNoL2FybS9ib290L2R0cy9hbTM1MTcuZHRzaSBiL2FyY2gv
-YXJtL2Jvb3QvZHRzL2FtMzUxNy5kdHNpCmluZGV4IGJmMzAwMjAwOWIwMC4uNDhkNWEyNTBmZDQw
-IDEwMDY0NAotLS0gYS9hcmNoL2FybS9ib290L2R0cy9hbTM1MTcuZHRzaQorKysgYi9hcmNoL2Fy
-bS9ib290L2R0cy9hbTM1MTcuZHRzaQpAQCAtOTcsNyArOTcsNyBAQAogCQkgKiByZXZpc2lvbiBy
-ZWdpc3RlciBpbnN0ZWFkIG9mIHRoZSB1bnJlYWRhYmxlIE9DUCByZXZpc2lvbgogCQkgKiByZWdp
-c3Rlci4KIAkJICovCi0JCXNneF9tb2R1bGU6IHRhcmdldC1tb2R1bGVANTAwMDAwMDAgeworCQl0
-YXJnZXQtbW9kdWxlQDUwMDAwMDAwIHsKIAkJCWNvbXBhdGlibGUgPSAidGksc3lzYy1vbWFwMiIs
-ICJ0aSxzeXNjIjsKIAkJCXJlZyA9IDwweDUwMDAwMDE0IDB4ND47CiAJCQlyZWctbmFtZXMgPSAi
-cmV2IjsKQEAgLTEwNywxMCArMTA3LDExIEBACiAJCQkjc2l6ZS1jZWxscyA9IDwxPjsKIAkJCXJh
-bmdlcyA9IDwwIDB4NTAwMDAwMDAgMHg0MDAwPjsKIAotCQkJLyoKLQkJCSAqIENsb3NlZCBzb3Vy
-Y2UgUG93ZXJWUiBkcml2ZXIsIG5vIGNoaWxkIGRldmljZQotCQkJICogYmluZGluZyBvciBkcml2
-ZXIgaW4gbWFpbmxpbmUKLQkJCSAqLworCQkJc2d4OiBncHVAMCB7CisJCQkJY29tcGF0aWJsZSA9
-ICJ0aSxhbTM1MTctc2d4NTMwLTEyNSIsICJpbWcsc2d4NTMwLTEyNSIsICJpbWcsc2d4NTMwIjsK
-KwkJCQlyZWcgPSA8MHgwIDB4NDAwMD47CisJCQkJaW50ZXJydXB0cyA9IDwyMT47CisJCQl9Owog
-CQl9OwogCX07CiB9OwotLSAKMi4yMy4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWw=
+YW5kIGFkZCBpbnRlcnJ1cHQKClRlc3RlZCBvbiBPcGVuUGFuZG9yYSA2MDAgTUh6LgoKU2lnbmVk
+LW9mZi1ieTogSC4gTmlrb2xhdXMgU2NoYWxsZXIgPGhuc0Bnb2xkZWxpY28uY29tPgotLS0KIGFy
+Y2gvYXJtL2Jvb3QvZHRzL29tYXAzNHh4LmR0c2kgfCAxMSArKysrKystLS0tLQogMSBmaWxlIGNo
+YW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9hcmNo
+L2FybS9ib290L2R0cy9vbWFwMzR4eC5kdHNpIGIvYXJjaC9hcm0vYm9vdC9kdHMvb21hcDM0eHgu
+ZHRzaQppbmRleCA3YjA5Y2JlZThiYjguLjliMDUwZDcxODQ5YiAxMDA2NDQKLS0tIGEvYXJjaC9h
+cm0vYm9vdC9kdHMvb21hcDM0eHguZHRzaQorKysgYi9hcmNoL2FybS9ib290L2R0cy9vbWFwMzR4
+eC5kdHNpCkBAIC0xMTEsNyArMTExLDcgQEAKIAkJICogYXJlIGFsc28gZGlmZmVyZW50IGNsb2Nr
+cywgYnV0IHdlIGRvIG5vdCBoYXZlIGFueSBkdHMgdXNlcnMKIAkJICogZm9yIGl0LgogCQkgKi8K
+LQkJc2d4X21vZHVsZTogdGFyZ2V0LW1vZHVsZUA1MDAwMDAwMCB7CisJCXRhcmdldC1tb2R1bGVA
+NTAwMDAwMDAgewogCQkJY29tcGF0aWJsZSA9ICJ0aSxzeXNjLW9tYXAyIiwgInRpLHN5c2MiOwog
+CQkJcmVnID0gPDB4NTAwMDAwMTQgMHg0PjsKIAkJCXJlZy1uYW1lcyA9ICJyZXYiOwpAQCAtMTIx
+LDEwICsxMjEsMTEgQEAKIAkJCSNzaXplLWNlbGxzID0gPDE+OwogCQkJcmFuZ2VzID0gPDAgMHg1
+MDAwMDAwMCAweDQwMDA+OwogCi0JCQkvKgotCQkJICogQ2xvc2VkIHNvdXJjZSBQb3dlclZSIGRy
+aXZlciwgbm8gY2hpbGQgZGV2aWNlCi0JCQkgKiBiaW5kaW5nIG9yIGRyaXZlciBpbiBtYWlubGlu
+ZQotCQkJICovCisJCQlzZ3g6IGdwdUAwIHsKKwkJCQljb21wYXRpYmxlID0gInRpLG9tYXAzLXNn
+eDUzMC0xMjEiLCAiaW1nLHNneDUzMC0xMjEiLCAiaW1nLHNneDUzMCI7CisJCQkJcmVnID0gPDB4
+MCAweDQwMDA+OwkvKiA2NGtCICovCisJCQkJaW50ZXJydXB0cyA9IDwyMT47CisJCQl9OwogCQl9
+OwogCX07CiAKLS0gCjIuMjMuMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVs
