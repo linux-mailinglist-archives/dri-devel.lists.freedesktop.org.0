@@ -2,45 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7161F359D
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2019 18:22:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 688DFF35B1
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2019 18:29:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D49BE6E10B;
-	Thu,  7 Nov 2019 17:22:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D96EC6F754;
+	Thu,  7 Nov 2019 17:29:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id F24B16E10B
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2019 17:22:41 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E977B720E2; Thu,  7 Nov 2019 17:22:41 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112226] [HadesCanyon/regression] GPU hang causes also X server
- to die
-Date: Thu, 07 Nov 2019 17:22:42 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-112226-502-7JhDnZt2hm@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-112226-502@http.bugs.freedesktop.org/>
-References: <bug-112226-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com
+ [IPv6:2607:f8b0:4864:20::a42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18D736E369;
+ Thu,  7 Nov 2019 17:29:13 +0000 (UTC)
+Received: by mail-vk1-xa42.google.com with SMTP id k19so771867vke.10;
+ Thu, 07 Nov 2019 09:29:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FJ/5JzEIC2cnc/t+SlFWINjO7/ar6sP5zFsCO5J2xb4=;
+ b=js/W9V4fEFJDRyQf6DnmxXlHPlF0+GtnNRnA1q2g5CDsyB8aWJV4Ly4yqNf5LnwArc
+ t1cf1ecdpxeAY22dQRbfAdbo3FCiH9Qf7WsjkHM3W4yVDKYaoZCKklW0nxNXmp55io7/
+ x1P2agekwH4OeNfPiNyv/gRZTYhDn9QnL8sgnxDGubgJdqoirv5as4XCnplsnPX3gxUT
+ 7xl+4bHRfJ1NPadxKhIyyP2PtQ0LuMLaEDRc8ynnyLyYCysAqnXYxxpOT6e0UqLIrwZn
+ ZyuouE+eqBKmsB1DuEn0xM5itPo/tDtbVeQBMmKbwNezUVzONPCCnk8iAmXCp4JUx7Bf
+ MABA==
+X-Gm-Message-State: APjAAAVUyhQDyDo109qS3Xk0SOgYZnmF+M76iiSfAifbFurzQHTWPP5j
+ UGacWwTABVU2MNuthWqBykMJzHB2qSR/C2gEjrImFpy4
+X-Google-Smtp-Source: APXvYqwREzjllY2jsbweOMHpVSvs1NCwn1J3nRboPoGNGWoBaBidgKb+rCcb95rMsplVBIqtP9VRSqTwxPPiaE1ZlUc=
+X-Received: by 2002:a1f:5f08:: with SMTP id t8mr3594845vkb.87.1573147751967;
+ Thu, 07 Nov 2019 09:29:11 -0800 (PST)
 MIME-Version: 1.0
+References: <20191106142432.14022-1-chris@chris-wilson.co.uk>
+ <20191106142432.14022-4-chris@chris-wilson.co.uk>
+In-Reply-To: <20191106142432.14022-4-chris@chris-wilson.co.uk>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Thu, 7 Nov 2019 17:28:45 +0000
+Message-ID: <CAM0jSHO-SDrc0ZiDx+HtGigVhbB2wv_59JQEyod+G8drOJ=-xQ@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH v3 3/5] drm/i915/selftests: Replace mock_file
+ hackery with drm's true fake
+To: Chris Wilson <chris@chris-wilson.co.uk>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=FJ/5JzEIC2cnc/t+SlFWINjO7/ar6sP5zFsCO5J2xb4=;
+ b=qqnxT7XS955uDINTdxb9ayib1SBOVUuOJYp9kCSVuCadmx1UMxcdEDoKJvARjoTQDJ
+ grVSiq2jvl9T54UDpiABga+zYrcJIHdgc5HsdujUvKuGfVUJykDiW1o3bbSseJgdM0FD
+ iujOjPySNYoHC385w31x3qz6BDShkolY9462LIsBVqPw2fEkq0tPkwfe0ETRtr+WroW8
+ XqintwxVOM5i4GoPyjNdvkUEv3ECbTNokX3kx0UPZXbPo340PY0D0cKzr4pQ/WLofqae
+ CMVXsYt4Cj+odecm4vbDD3REFESrdqQne+3CVUP/Yn+lU4NIQ6DSpt/4FawTn8JEeTb+
+ +v9A==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,122 +64,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1581696871=="
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1581696871==
-Content-Type: multipart/alternative; boundary="15731473610.3bc860D.2605"
-Content-Transfer-Encoding: 7bit
-
-
---15731473610.3bc860D.2605
-Date: Thu, 7 Nov 2019 17:22:41 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112226
-
---- Comment #5 from Alex Deucher <alexdeucher@gmail.com> ---
-(In reply to Eero Tamminen from comment #3)
->=20
-> AFAIK reset should affect only the context running in the GPU when it was
-> reseted, not the others [1], and in this case the problematic client shou=
-ld
-> be GfxBench (Manhattan test-case, see bug 108898), not X server.
->=20
-> Btw. Why AMD kernel module doesn't tell which process / context had the
-> issue, like i915 does?
-
-It does, but in the case of a whole GPU reset, vram is lost after a reset so
-the buffers from all processes that use the GPU are lost.  Depending on the
-nature of the hang, a whole GPU reset may be required rather than just kill=
-ing
-the shader wave.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15731473610.3bc860D.2605
-Date: Thu, 7 Nov 2019 17:22:41 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [HadesCanyon/regression] GPU hang causes also X server to=
- die"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112226#c5">Commen=
-t # 5</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [HadesCanyon/regression] GPU hang causes also X server to=
- die"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112226">bug 11222=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
-com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
-</span></b>
-        <pre>(In reply to Eero Tamminen from <a href=3D"show_bug.cgi?id=3D1=
-12226#c3">comment #3</a>)
-<span class=3D"quote">&gt;=20
-&gt; AFAIK reset should affect only the context running in the GPU when it =
-was
-&gt; reseted, not the others [1], and in this case the problematic client s=
-hould
-&gt; be GfxBench (Manhattan test-case, see <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - (Recoverable) GPU hangs with GfxBench Manhatta=
-n GL tests"
-   href=3D"show_bug.cgi?id=3D108898">bug 108898</a>), not X server.
-&gt;=20
-&gt; Btw. Why AMD kernel module doesn't tell which process / context had the
-&gt; issue, like i915 does?</span >
-
-It does, but in the case of a whole GPU reset, vram is lost after a reset so
-the buffers from all processes that use the GPU are lost.  Depending on the
-nature of the hang, a whole GPU reset may be required rather than just kill=
-ing
-the shader wave.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15731473610.3bc860D.2605--
-
---===============1581696871==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1581696871==--
+T24gV2VkLCA2IE5vdiAyMDE5IGF0IDE0OjI0LCBDaHJpcyBXaWxzb24gPGNocmlzQGNocmlzLXdp
+bHNvbi5jby51az4gd3JvdGU6Cj4KPiBBcyBkcm0gbm93IGV4cG9ydHMgYSBtZXRob2QgdG8gY3Jl
+YXRlIGFuIGFub255bW91cyBzdHJ1Y3QgZmlsZSBhcm91bmQgYQo+IGRybV9kZXZpY2UgZm9yIGlu
+dGVybmFsIHVzZSwgbWFrZSB1c2Ugb2YgaXQgdG8gYXZvaWQgb3VyIGhvcnJpYmxlIGhhY2tzLgo+
+Cj4gU2lnbmVkLW9mZi1ieTogQ2hyaXMgV2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+
+CgpBcyBwZXIgeW91ciBldmVudHVhbCBwbGFuLCBmd2l3LApSZXZpZXdlZC1ieTogTWF0dGhldyBB
+dWxkIDxtYXR0aGV3LmF1bGRAaW50ZWwuY29tPgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWw=
