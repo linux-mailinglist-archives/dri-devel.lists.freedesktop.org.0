@@ -1,45 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B210F2C1C
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2019 11:26:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C94F2D27
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2019 12:13:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 519776F654;
-	Thu,  7 Nov 2019 10:26:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADDF96E3B8;
+	Thu,  7 Nov 2019 11:13:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 670716F5A1
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2019 10:25:58 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 644A6720E2; Thu,  7 Nov 2019 10:25:58 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Thu, 07 Nov 2019 10:25:58 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: haro41@gmx.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109955-502-u6uVGy2beE@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
-References: <bug-109955-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 322766E3B8
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2019 11:13:13 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 07 Nov 2019 03:13:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,278,1569308400"; d="scan'208";a="201009652"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga008.fm.intel.com with SMTP; 07 Nov 2019 03:13:09 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 07 Nov 2019 13:13:09 +0200
+Date: Thu, 7 Nov 2019 13:13:09 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Devarsh Thakkar <devarsh.thakkar@xilinx.com>
+Subject: Re: [PATCH libdrm v2] modetest: Add support for setting mode having
+ floating vertical refresh rate
+Message-ID: <20191107111309.GA1208@intel.com>
+References: <1573054536-5781-1-git-send-email-devarsh.thakkar@xilinx.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1573054536-5781-1-git-send-email-devarsh.thakkar@xilinx.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,109 +47,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1840517743=="
+Cc: rsk@xilinx.com, vcu-team@xilinx.com, dshah@xilinx.com,
+ dri-devel@lists.freedesktop.org, varunkum@xilinx.com, satishna@xilinx.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1840517743==
-Content-Type: multipart/alternative; boundary="15731223586.A193.1744"
-Content-Transfer-Encoding: 7bit
-
-
---15731223586.A193.1744
-Date: Thu, 7 Nov 2019 10:25:58 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
-
---- Comment #132 from haro41@gmx.de ---
-(In reply to Wilko Bartels from comment #131)
-> Thank you. I already tried exactly that. And the unit unable to autostart
-> (permission denied). Only manual systemctl start works. Dont know why.=20
-
-If you double checked the permissions of both, the .service and the .sh fil=
-es,
-you could try delay the automatic service start, for example by replacing:
-
-'WantedBy=3Dmulti-user.target' with 'WantedBy=3Dgraphical.target'
-
-and maybe insert a line in the [Unit] section: 'After=3Dmulti-user.target'
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15731223586.A193.1744
-Date: Thu, 7 Nov 2019 10:25:58 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c132">Comm=
-ent # 132</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-haro41&#64;gmx.de" title=3D"haro41&#64;gmx.de">haro41&#64;gmx.de</a>
-</span></b>
-        <pre>(In reply to Wilko Bartels from <a href=3D"show_bug.cgi?id=3D1=
-09955#c131">comment #131</a>)
-<span class=3D"quote">&gt; Thank you. I already tried exactly that. And the=
- unit unable to autostart
-&gt; (permission denied). Only manual systemctl start works. Dont know why.=
- </span >
-
-If you double checked the permissions of both, the .service and the .sh fil=
-es,
-you could try delay the automatic service start, for example by replacing:
-
-'WantedBy=3Dmulti-user.target' with 'WantedBy=3Dgraphical.target'
-
-and maybe insert a line in the [Unit] section: 'After=3Dmulti-user.target'<=
-/pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15731223586.A193.1744--
-
---===============1840517743==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1840517743==--
+T24gV2VkLCBOb3YgMDYsIDIwMTkgYXQgMDc6MzU6MzZBTSAtMDgwMCwgRGV2YXJzaCBUaGFra2Fy
+IHdyb3RlOgo+IEZvciB0aGUgc2NlbmFyaW8gd2hlcmUgdXNlciBtYXkgcmVxdWlyZSB0byBtb2Rl
+c2V0IHdpdGggYSBtb2RlCj4gc3VwcG9ydGluZyBhIGZyYWN0aW9uYWwgdmFsdWUgZm9yIHZlcnRp
+Y2FsIHJlZnJlc2gtcmF0ZSwKPiBhcHByb3ByaWF0ZSBtb2RlIGNhbiBiZSBzZWxlY3RlZCBieSBz
+ZWFyY2hpbmcgZm9yIG1vZGUKPiBoYXZpbmcgbWF0Y2hpbmcgZnJhY3Rpb25hbCB2ZXJ0aWNhbCBy
+ZWZyZXNoIHJhdGUgdXNpbmcKPiBiZWxvdyBlcXVhdGlvbi4KPiAKPiB2cmVmcmVzaCA9ICgxMDAw
+ICogcGl4ZWwgY2xvY2spIC8gKGh0b3RhbCAqIHZ0b3RhbCkgSHouCj4gCj4gV2UgZG8gdGhpcyB3
+YXkgc2luY2UgZHJpdmVyIGRvZXNuJ3QgcmV0dXJuIGZsb2F0IHZhbHVlIG9mIHZyZWZyZXNoCj4g
+YXMgaXQgdXNlIGludCBmb3IgdnJlZnJlc2ggaW4gc3RydWN0IGRybV9tb2RlX2luZm8sIGJ1dCB3
+ZSBjYW4gZGVyaXZlCj4gdGhlIGFjdHVhbCB2YWx1ZSB1c2luZyBwaXhlbCBjbG9jaywgaG9yaXpv
+bnRhbCB0b3RhbCBzaXplIGFuZAo+IHZlcnRpY2FsIHRvdGFsIHNpemUgdmFsdWVzLgo+IAo+IFNv
+IGZvciBlLmcuIGlmIHVzZXIgd2FudCB0byBzZWxlY3QgbW9kZSBoYXZpbmcgNTkuOTQgSHogYXMg
+cmVmcmVzaCByYXRlCj4gdGhlbiB3aXRoIHRoaXMgcGF0Y2ggaXQgYmUgY2FuIGRvbmUgYXMgc2hv
+d24gaW4gYmVsb3cgY29tbWFuZCwKPiBnaXZlbiB0aGVyZSBpcyBhbiBhcHByb3ByaWF0ZSBtb2Rl
+IGlzIGF2YWlsYWJsZSA6Cj4gCj4gbW9kZXRlc3QgLU0geGxueCAtcyAzOToxOTIweDEwODAtNTku
+OTRAQkcyNCAtdgo+IAo+IE5PVEU6IEFib3ZlIGNvbW1hbmQgd2FzIHRlc3RlZCBvbiB4aWxpbngg
+RFJNIGRyaXZlciB3aXRoIERQCj4gbW9uaXRvciB3aGljaCB3YXMgc3VwcG9ydGluZyBtb2RlIGhh
+dmluZyA1OS45NCBIeiByZWZyZXNoIHJhdGUuCj4gCj4gU2lnbmVkLW9mZi1ieTogRGV2YXJzaCBU
+aGFra2FyIDxkZXZhcnNoLnRoYWtrYXJAeGlsaW54LmNvbT4KPiAtLS0KPiBWMjogVXBkYXRlIGNv
+bW1pdCBtZXNzYWdlCj4gLS0tCj4gIHRlc3RzL21vZGV0ZXN0L21vZGV0ZXN0LmMgfCAzMiArKysr
+KysrKysrKysrKysrKysrKysrKystLS0tLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgMjQgaW5zZXJ0
+aW9ucygrKSwgOCBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvdGVzdHMvbW9kZXRlc3Qv
+bW9kZXRlc3QuYyBiL3Rlc3RzL21vZGV0ZXN0L21vZGV0ZXN0LmMKPiBpbmRleCBlNjZiZTY2Li45
+YjNlNDEwIDEwMDY0NAo+IC0tLSBhL3Rlc3RzL21vZGV0ZXN0L21vZGV0ZXN0LmMKPiArKysgYi90
+ZXN0cy9tb2RldGVzdC9tb2RldGVzdC5jCj4gQEAgLTc5NSw3ICs3OTUsNyBAQCBzdHJ1Y3QgcGlw
+ZV9hcmcgewo+ICAgICAgICAgdWludDMyX3QgY3J0Y19pZDsKPiAgICAgICAgIGNoYXIgbW9kZV9z
+dHJbNjRdOwo+ICAgICAgICAgY2hhciBmb3JtYXRfc3RyWzVdOwo+IC0gICAgICAgdW5zaWduZWQg
+aW50IHZyZWZyZXNoOwo+ICsgICAgICAgZmxvYXQgdnJlZnJlc2g7Cj4gICAgICAgICB1bnNpZ25l
+ZCBpbnQgZm91cmNjOwo+ICAgICAgICAgZHJtTW9kZU1vZGVJbmZvICptb2RlOwo+ICAgICAgICAg
+c3RydWN0IGNydGMgKmNydGM7Cj4gQEAgLTgyMiwxMSArODIyLDEyIEBAIHN0cnVjdCBwbGFuZV9h
+cmcgewo+IAo+ICBzdGF0aWMgZHJtTW9kZU1vZGVJbmZvICoKPiAgY29ubmVjdG9yX2ZpbmRfbW9k
+ZShzdHJ1Y3QgZGV2aWNlICpkZXYsIHVpbnQzMl90IGNvbl9pZCwgY29uc3QgY2hhciAqbW9kZV9z
+dHIsCj4gLSAgICAgICAgY29uc3QgdW5zaWduZWQgaW50IHZyZWZyZXNoKQo+ICsgICAgICAgY29u
+c3QgZmxvYXQgdnJlZnJlc2gpCj4gIHsKPiAgICAgICAgIGRybU1vZGVDb25uZWN0b3IgKmNvbm5l
+Y3RvcjsKPiAgICAgICAgIGRybU1vZGVNb2RlSW5mbyAqbW9kZTsKPiAgICAgICAgIGludCBpOwo+
+ICsgICAgICAgZmxvYXQgbW9kZV92cmVmcmVzaDsKPiAKPiAgICAgICAgIGNvbm5lY3RvciA9IGdl
+dF9jb25uZWN0b3JfYnlfaWQoZGV2LCBjb25faWQpOwo+ICAgICAgICAgaWYgKCFjb25uZWN0b3Ig
+fHwgIWNvbm5lY3Rvci0+Y291bnRfbW9kZXMpCj4gQEAgLTgzOSw5ICs4NDAsMTkgQEAgY29ubmVj
+dG9yX2ZpbmRfbW9kZShzdHJ1Y3QgZGV2aWNlICpkZXYsIHVpbnQzMl90IGNvbl9pZCwgY29uc3Qg
+Y2hhciAqbW9kZV9zdHIsCj4gICAgICAgICAgICAgICAgICAgICAgICAgICogZmlyc3QgbW9kZSB0
+aGF0IG1hdGNoIHdpdGggdGhlIG5hbWUuIEVsc2UsIHJldHVybiB0aGUgbW9kZSB0aGF0IG1hdGNo
+Cj4gICAgICAgICAgICAgICAgICAgICAgICAgICogdGhlIG5hbWUgYW5kIHRoZSBzcGVjaWZpZWQg
+dmVydGljYWwgcmVmcmVzaCBmcmVxdWVuY3kuCj4gICAgICAgICAgICAgICAgICAgICAgICAgICov
+Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgZmxvYXQgdGVtcDsKPiArCj4gKyAgICAgICAgICAg
+ICAgICAgICAgICAgbW9kZV92cmVmcmVzaCA9ICgoZmxvYXQpKG1vZGUtPmNsb2NrKSAqIDEwMDAu
+MDApCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAvICgoZmxvYXQp
+KG1vZGUtPmh0b3RhbCkKPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICogKGZsb2F0KW1vZGUtPnZ0b3RhbCk7CgoxMDAwLjAwIGlzIGEgZG91YmxlLCBkaXR0byBmb3Ig
+YWxsIHRoZSAwLjUgZXRjLiBsYXRlci4KCkFsbCB0aGUgY2FzdHMgYXJlIHBvaW50bGVzcyBoZXJl
+LiBMb3N0IG9mIHVubmVjZXNzYXJ5IHBhcmVucyB0b28uCgo+ICsgICAgICAgICAgICAgICAgICAg
+ICAgIC8qIFJvdW5kIG9mZiB0byAyIGRlY2ltYWwgcGxhY2VzIHRvIG1hdGNoIHdpdGggdXNlcgo+
+ICsgICAgICAgICAgICAgICAgICAgICAgICAqIHByb3ZpZGVkIHZhbHVlCj4gKyAgICAgICAgICAg
+ICAgICAgICAgICAgICovCj4gKyAgICAgICAgICAgICAgICAgICAgICAgdGVtcCA9IChpbnQpICht
+b2RlX3ZyZWZyZXNoICogMTAwICsgMC41KTsKPiArICAgICAgICAgICAgICAgICAgICAgICBtb2Rl
+X3ZyZWZyZXNoID0gKGZsb2F0KSB0ZW1wIC8gMTAwOwoKVGhpcyAqMTAwLzEwMCBidXNpbmVzcyBm
+ZWVscyBhIGJpdCBjb252b2x1dGVkLiBIb3cgYWJvdXQganVzdCBsZWF2ZQp0aGUgZmxvYXRzIGFs
+b25lIGFuZCByZXBsYWNlIHRoZSA9PSB3aXRoIGEgc29tZSBlcHNpbG9uIGNoZWNrPwoKT3IgaWYg
+eW91IHdhbnQgdG8gZG8gdGhpcyByb3VuZGluZyBzdHVmZiBJIHdvdWxkIGF0IGxlYXN0IHB1dCBp
+dAppbnRvIHNvbWUgZnVuY3Rpb24gc28gaXQgZG9lc24ndCBodXJ0IG9uZSdzIGV5ZXMgYWxsIHRo
+ZSB0aW1lLgpUaGUgdGltaW5ncy0+dnJlZnJlc2ggY2FsY3VsYXRpb24gY291bGQgYWxzbyBiZSBh
+IG5lYXQgZnVuY3Rpb24uCgo+ICAgICAgICAgICAgICAgICAgICAgICAgIGlmICh2cmVmcmVzaCA9
+PSAwKQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIG1vZGU7Cj4gLSAg
+ICAgICAgICAgICAgICAgICAgICAgZWxzZSBpZiAobW9kZS0+dnJlZnJlc2ggPT0gdnJlZnJlc2gp
+Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgZWxzZSBpZiAobW9kZV92cmVmcmVzaCA9PSB2cmVm
+cmVzaCkKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiBtb2RlOwo+ICAg
+ICAgICAgICAgICAgICB9Cj4gICAgICAgICB9Cj4gQEAgLTEzOTMsOCArMTQwNCw4IEBAIHN0YXRp
+YyB2b2lkIGF0b21pY19zZXRfbW9kZShzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBwaXBlX2Fy
+ZyAqcGlwZXMsIHVuc2lnbmVkCj4gICAgICAgICAgICAgICAgIGlmIChwaXBlLT5tb2RlID09IE5V
+TEwpCj4gICAgICAgICAgICAgICAgICAgICAgICAgY29udGludWU7Cj4gCj4gLSAgICAgICAgICAg
+ICAgIHByaW50Zigic2V0dGluZyBtb2RlICVzLSVkSHogb24gY29ubmVjdG9ycyAiLAo+IC0gICAg
+ICAgICAgICAgICAgICAgICAgcGlwZS0+bW9kZV9zdHIsIHBpcGUtPm1vZGUtPnZyZWZyZXNoKTsK
+PiArICAgICAgICAgICAgICAgcHJpbnRmKCJzZXR0aW5nIG1vZGUgJXMtJS4yZkh6IG9uIGNvbm5l
+Y3RvcnMgIiwKPiArICAgICAgICAgICAgICAgICAgICAgIHBpcGUtPm1vZGVfc3RyLCBwaXBlLT52
+cmVmcmVzaCk7Cj4gICAgICAgICAgICAgICAgIGZvciAoaiA9IDA7IGogPCBwaXBlLT5udW1fY29u
+czsgKytqKSB7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgcHJpbnRmKCIlcywgIiwgcGlwZS0+
+Y29uc1tqXSk7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgYWRkX3Byb3BlcnR5KGRldiwgcGlw
+ZS0+Y29uX2lkc1tqXSwgIkNSVENfSUQiLCBwaXBlLT5jcnRjLT5jcnRjLT5jcnRjX2lkKTsKPiBA
+QCAtMTQ3Niw4ICsxNDg3LDggQEAgc3RhdGljIHZvaWQgc2V0X21vZGUoc3RydWN0IGRldmljZSAq
+ZGV2LCBzdHJ1Y3QgcGlwZV9hcmcgKnBpcGVzLCB1bnNpZ25lZCBpbnQgY28KPiAgICAgICAgICAg
+ICAgICAgaWYgKHBpcGUtPm1vZGUgPT0gTlVMTCkKPiAgICAgICAgICAgICAgICAgICAgICAgICBj
+b250aW51ZTsKPiAKPiAtICAgICAgICAgICAgICAgcHJpbnRmKCJzZXR0aW5nIG1vZGUgJXMtJWRI
+ekAlcyBvbiBjb25uZWN0b3JzICIsCj4gLSAgICAgICAgICAgICAgICAgICAgICBwaXBlLT5tb2Rl
+X3N0ciwgcGlwZS0+bW9kZS0+dnJlZnJlc2gsIHBpcGUtPmZvcm1hdF9zdHIpOwo+ICsgICAgICAg
+ICAgICAgICBwcmludGYoInNldHRpbmcgbW9kZSAlcy0lLjJmSHpAJXMgb24gY29ubmVjdG9ycyAi
+LAo+ICsgICAgICAgICAgICAgICAgICAgICAgcGlwZS0+bW9kZV9zdHIsIHBpcGUtPnZyZWZyZXNo
+LCBwaXBlLT5mb3JtYXRfc3RyKTsKPiAgICAgICAgICAgICAgICAgZm9yIChqID0gMDsgaiA8IHBp
+cGUtPm51bV9jb25zOyArK2opCj4gICAgICAgICAgICAgICAgICAgICAgICAgcHJpbnRmKCIlcywg
+IiwgcGlwZS0+Y29uc1tqXSk7Cj4gICAgICAgICAgICAgICAgIHByaW50ZigiY3J0YyAlZFxuIiwg
+cGlwZS0+Y3J0Yy0+Y3J0Yy0+Y3J0Y19pZCk7Cj4gQEAgLTE3MTMsOCArMTcyNCwxMyBAQCBzdGF0
+aWMgaW50IHBhcnNlX2Nvbm5lY3RvcihzdHJ1Y3QgcGlwZV9hcmcgKnBpcGUsIGNvbnN0IGNoYXIg
+KmFyZykKPiAgICAgICAgIHBpcGUtPm1vZGVfc3RyW2xlbl0gPSAnXDAnOwo+IAo+ICAgICAgICAg
+aWYgKCpwID09ICctJykgewo+IC0gICAgICAgICAgICAgICBwaXBlLT52cmVmcmVzaCA9IHN0cnRv
+dWwocCArIDEsICZlbmRwLCAxMCk7Cj4gKyAgICAgICAgICAgICAgIGZsb2F0IHRlbXA7Cj4gKwo+
+ICsgICAgICAgICAgICAgICBwaXBlLT52cmVmcmVzaCA9IHN0cnRvZihwICsgMSwgJmVuZHApOwo+
+ICAgICAgICAgICAgICAgICBwID0gZW5kcDsKPiArICAgICAgICAgICAgICAgLyogUm91bmQgb2Zm
+IHRvIDIgZGVjaW1hbCBwbGFjZXMgKi8KPiArICAgICAgICAgICAgICAgdGVtcCA9IChpbnQpIChw
+aXBlLT52cmVmcmVzaCAqIDEwMCArIDAuNSk7Cj4gKyAgICAgICAgICAgICAgIHBpcGUtPnZyZWZy
+ZXNoID0gKGZsb2F0KSB0ZW1wIC8gMTAwOwo+ICAgICAgICAgfQo+IAo+ICAgICAgICAgaWYgKCpw
+ID09ICdAJykgewo+IC0tCj4gMi43LjQKPiAKPiBUaGlzIGVtYWlsIGFuZCBhbnkgYXR0YWNobWVu
+dHMgYXJlIGludGVuZGVkIGZvciB0aGUgc29sZSB1c2Ugb2YgdGhlIG5hbWVkIHJlY2lwaWVudChz
+KSBhbmQgY29udGFpbihzKSBjb25maWRlbnRpYWwgaW5mb3JtYXRpb24gdGhhdCBtYXkgYmUgcHJv
+cHJpZXRhcnksIHByaXZpbGVnZWQgb3IgY29weXJpZ2h0ZWQgdW5kZXIgYXBwbGljYWJsZSBsYXcu
+IElmIHlvdSBhcmUgbm90IHRoZSBpbnRlbmRlZCByZWNpcGllbnQsIGRvIG5vdCByZWFkLCBjb3B5
+LCBvciBmb3J3YXJkIHRoaXMgZW1haWwgbWVzc2FnZSBvciBhbnkgYXR0YWNobWVudHMuIERlbGV0
+ZSB0aGlzIGVtYWlsIG1lc3NhZ2UgYW5kIGFueSBhdHRhY2htZW50cyBpbW1lZGlhdGVseS4KPiBf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZl
+bCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKCi0tIApW
+aWxsZSBTeXJqw6Rsw6QKSW50ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVs
