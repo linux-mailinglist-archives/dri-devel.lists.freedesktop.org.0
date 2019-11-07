@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9958F30CA
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2019 15:04:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73DFFF30D9
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2019 15:07:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CB8D6E34C;
-	Thu,  7 Nov 2019 14:04:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97C1B89EB7;
+	Thu,  7 Nov 2019 14:07:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6658C6EE43
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2019 14:04:38 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 62B7C891CD
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2019 14:07:23 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 633C2720E2; Thu,  7 Nov 2019 14:04:38 +0000 (UTC)
+ id 5C5BA720E6; Thu,  7 Nov 2019 14:07:23 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112226] [HadesCanyon] GPU hangs don't anymore recover (although
- kernel still claims that they do)
-Date: Thu, 07 Nov 2019 14:04:38 +0000
+Subject: [Bug 112221] RX 580 fails to resume sometimes with 5.3 kernel
+ (Ubuntu 19.10)
+Date: Thu, 07 Nov 2019 14:07:23 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: kai@gronr.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-112226-502-FFrkB5IaBV@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-112226-502@http.bugs.freedesktop.org/>
-References: <bug-112226-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-112221-502-PWuBlKZreT@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-112221-502@http.bugs.freedesktop.org/>
+References: <bug-112221-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,40 +53,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0624463959=="
+Content-Type: multipart/mixed; boundary="===============1788788348=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0624463959==
-Content-Type: multipart/alternative; boundary="15731354783.5DF1cc6De.4267"
+--===============1788788348==
+Content-Type: multipart/alternative; boundary="15731356432.def349c.5036"
 Content-Transfer-Encoding: 7bit
 
 
---15731354783.5DF1cc6De.4267
-Date: Thu, 7 Nov 2019 14:04:38 +0000
+--15731356432.def349c.5036
+Date: Thu, 7 Nov 2019 14:07:23 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112226
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112221
 
---- Comment #1 from Alex Deucher <alexdeucher@gmail.com> ---
-Please attach your dmesg output and xorg log is using X.  Please note that
-after a GPU reset, in most cases you need to restart your desktop environme=
-nt
-because no desktop environments properly handle the loss of their contexts =
-at
-the moment.
+--- Comment #2 from Kai Groner <kai@gronr.com> ---
+With the 5.4-rc6 kernel I was able to run a suspend/resume cycle 50 times
+without anything breaking.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15731354783.5DF1cc6De.4267
-Date: Thu, 7 Nov 2019 14:04:38 +0000
+--15731356432.def349c.5036
+Date: Thu, 7 Nov 2019 14:07:23 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -102,27 +98,23 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - [HadesCanyon] GPU hangs don't anymore recover (although k=
-ernel still claims that they do)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112226#c1">Commen=
-t # 1</a>
+   title=3D"NEW - RX 580 fails to resume sometimes with 5.3 kernel (Ubuntu =
+19.10)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112221#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - [HadesCanyon] GPU hangs don't anymore recover (although k=
-ernel still claims that they do)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112226">bug 11222=
-6</a>
+   title=3D"NEW - RX 580 fails to resume sometimes with 5.3 kernel (Ubuntu =
+19.10)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112221">bug 11222=
+1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
-com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
+kai&#64;gronr.com" title=3D"Kai Groner &lt;kai&#64;gronr.com&gt;"> <span cl=
+ass=3D"fn">Kai Groner</span></a>
 </span></b>
-        <pre>Please attach your dmesg output and xorg log is using X.  Plea=
-se note that
-after a GPU reset, in most cases you need to restart your desktop environme=
-nt
-because no desktop environments properly handle the loss of their contexts =
-at
-the moment.</pre>
+        <pre>With the 5.4-rc6 kernel I was able to run a suspend/resume cyc=
+le 50 times
+without anything breaking.</pre>
         </div>
       </p>
 
@@ -136,9 +128,9 @@ the moment.</pre>
     </body>
 </html>=
 
---15731354783.5DF1cc6De.4267--
+--15731356432.def349c.5036--
 
---===============0624463959==
+--===============1788788348==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -148,4 +140,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0624463959==--
+--===============1788788348==--
