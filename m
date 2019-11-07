@@ -1,46 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23525F30DC
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2019 15:08:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CFE9F316B
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2019 15:29:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB4F06F6A7;
-	Thu,  7 Nov 2019 14:08:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32A6A6EBC4;
+	Thu,  7 Nov 2019 14:29:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 00FA26F6A7
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2019 14:08:02 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id F234A720E2; Thu,  7 Nov 2019 14:08:01 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112221] RX 580 fails to resume sometimes with 5.3 kernel
- (Ubuntu 19.10)
-Date: Thu, 07 Nov 2019 14:08:02 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: not set
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-112221-502-GosreY1RIr@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-112221-502@http.bugs.freedesktop.org/>
-References: <bug-112221-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46FD36EBC4
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2019 14:29:45 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (unknown [217.70.183.193])
+ by mslow2.mail.gandi.net (Postfix) with ESMTP id C6C9C3ACCFB
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2019 14:18:08 +0000 (UTC)
+X-Originating-IP: 86.206.246.123
+Received: from aptenodytes (lfbn-tou-1-421-123.w86-206.abo.wanadoo.fr
+ [86.206.246.123])
+ (Authenticated sender: paul.kocialkowski@bootlin.com)
+ by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id A33A624001B;
+ Thu,  7 Nov 2019 14:17:44 +0000 (UTC)
+Date: Thu, 7 Nov 2019 15:17:44 +0100
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Subject: Re: [PATCH 1/2] drm/gma500: Add missing call to allow enabling
+ vblank on psb/cdv
+Message-ID: <20191107141744.GB670369@aptenodytes>
+References: <20191106094400.445834-1-paul.kocialkowski@bootlin.com>
+ <20191106094400.445834-2-paul.kocialkowski@bootlin.com>
+ <CAMeQTsa+tYWAA5vkChqDvEiFmbjFzNp804fD6J4GfLgHUBho9g@mail.gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <CAMeQTsa+tYWAA5vkChqDvEiFmbjFzNp804fD6J4GfLgHUBho9g@mail.gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,98 +45,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0387336026=="
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ James Hilliard <james.hilliard1@gmail.com>
+Content-Type: multipart/mixed; boundary="===============1610842464=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0387336026==
-Content-Type: multipart/alternative; boundary="15731356810.A8F239c.5108"
-Content-Transfer-Encoding: 7bit
+--===============1610842464==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ftEhullJWpWg/VHq"
+Content-Disposition: inline
 
 
---15731356810.A8F239c.5108
-Date: Thu, 7 Nov 2019 14:08:01 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+--ftEhullJWpWg/VHq
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112221
+Hi,
 
-Alex Deucher <alexdeucher@gmail.com> changed:
+On Wed 06 Nov 19, 16:23, Patrik Jakobsson wrote:
+> On Wed, Nov 6, 2019 at 10:44 AM Paul Kocialkowski
+> <paul.kocialkowski@bootlin.com> wrote:
+> >
+> > This adds a missing call to drm_crtc_vblank_on to the common DPMS helper
+> > (used by poulsbo and cedartrail), which is called in the CRTC enable pa=
+th.
+> >
+> > With that call, it becomes possible to enable vblank when needed.
+> > It is already balanced by a drm_crtc_vblank_off call in the helper.
+> >
+> > Other platforms (oaktrail and medfield) use a dedicated DPMS helper that
+> > does not have the proper vblank on/off hooks. They are not added in this
+> > commit due to lack of hardware to test it with.
+> >
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+>=20
+> Don't think we ever found a need for having vblanks enabled... until
+> now. I'll have a look if something can be done for Oaktrail since I
+> have hw.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-         Resolution|---                         |FIXED
-             Status|NEW                         |RESOLVED
+Neat, thanks!
+
+IIRC the DPMS paths that don't use gma_crtc_dpms also lack the proper
+drm_crtc_vblank_on/off calls so that's probably something to start with :)
+
+Thanks for the review on these patches. I may have more fixes coming up.
+
+Cheers,
+
+Paul
+
+> Reviewed-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+>=20
+> > ---
+> >  drivers/gpu/drm/gma500/gma_display.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/gma500/gma_display.c b/drivers/gpu/drm/gma=
+500/gma_display.c
+> > index e20ccb5d10fd..bc07ae2a9a1d 100644
+> > --- a/drivers/gpu/drm/gma500/gma_display.c
+> > +++ b/drivers/gpu/drm/gma500/gma_display.c
+> > @@ -255,6 +255,8 @@ void gma_crtc_dpms(struct drm_crtc *crtc, int mode)
+> >                 /* Give the overlay scaler a chance to enable
+> >                  * if it's on this pipe */
+> >                 /* psb_intel_crtc_dpms_video(crtc, true); TODO */
+> > +
+> > +               drm_crtc_vblank_on(crtc);
+> >                 break;
+> >         case DRM_MODE_DPMS_OFF:
+> >                 if (!gma_crtc->active)
+> > --
+> > 2.23.0
+> >
 
 --=20
-You are receiving this mail because:
-You are the assignee for the bug.=
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
---15731356810.A8F239c.5108
-Date: Thu, 7 Nov 2019 14:08:01 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+--ftEhullJWpWg/VHq
+Content-Type: application/pgp-signature; name="signature.asc"
 
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:alexdeuch=
-er&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.com&gt;">=
- <span class=3D"fn">Alex Deucher</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - RX 580 fails to resume sometimes with 5.3 kern=
-el (Ubuntu 19.10)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112221">bug 11222=
-1</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
+-----BEGIN PGP SIGNATURE-----
 
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>FIXED
-           </td>
-         </tr>
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl3EJ4gACgkQ3cLmz3+f
+v9GwJQf/QwXxGs4rMmGo6OEb5ANamqku11L7Y9q7skGBuOlJkiiOmnYbJnCZdlv3
+n4MCuPA58PX+w7tWIiOFS5MW1mb5YPE2Lg6Sjf5uTozOP+L+DGd8XLXNeXxJEzqU
+RctwrXzJDYqvq373QrGhoiU1VpExNj7VmODMAdDV3q8VVwxrTn0iPBIKiK5fbWcj
+E6VYKx7QQi2dpwgQSRrWikfERDWKJ2kUYmYv08cx2fYO0imp20N0H8mbXENx0zVY
+FjPJYkRi2A7VZ7GbYkxtCMbYvLs1nasK8lIFl8r87b+Q6AOOfraWEqj95yzbcjOp
+DCLAxU8JQmCTY3D1jNRh48GnwWU28g==
+=Oy6L
+-----END PGP SIGNATURE-----
 
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr></table>
-      <p>
-      </p>
+--ftEhullJWpWg/VHq--
 
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15731356810.A8F239c.5108--
-
---===============0387336026==
+--===============1610842464==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -154,4 +155,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0387336026==--
+--===============1610842464==--
