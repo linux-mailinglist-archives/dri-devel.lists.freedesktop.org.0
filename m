@@ -1,46 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16BE7F3159
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2019 15:25:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43071F3175
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2019 15:31:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D8216F6B6;
-	Thu,  7 Nov 2019 14:25:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16D646EE08;
+	Thu,  7 Nov 2019 14:31:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 418FA6F6B6
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2019 14:25:02 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 31EB1720E2; Thu,  7 Nov 2019 14:25:02 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112226] [HadesCanyon] GPU hangs don't anymore recover (although
- kernel still claims that they do)
-Date: Thu, 07 Nov 2019 14:25:02 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: eero.t.tamminen@intel.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-112226-502-32TQHGnoMa@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-112226-502@http.bugs.freedesktop.org/>
-References: <bug-112226-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F39286EE08
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2019 14:31:16 +0000 (UTC)
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-272-SpgoB20dMl6mpmpHXbbyGA-1; Thu, 07 Nov 2019 09:31:10 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33BB0477;
+ Thu,  7 Nov 2019 14:31:06 +0000 (UTC)
+Received: from [10.72.12.21] (ovpn-12-21.pek2.redhat.com [10.72.12.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CBAAB5D6D8;
+ Thu,  7 Nov 2019 14:30:39 +0000 (UTC)
+Subject: Re: [PATCH V9 6/6] docs: sample driver to demonstrate how to
+ implement virtio-mdev framework
+To: Alex Williamson <alex.williamson@redhat.com>,
+ Randy Dunlap <rdunlap@infradead.org>
+References: <20191106070548.18980-1-jasowang@redhat.com>
+ <20191106070548.18980-7-jasowang@redhat.com>
+ <88efad07-70aa-3879-31e7-ace4d2ad63a1@infradead.org>
+ <20191106155800.0b8418ec@x1.home>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <1b26d298-0223-c5cc-9dd6-c4005139e32a@redhat.com>
+Date: Thu, 7 Nov 2019 22:30:37 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20191106155800.0b8418ec@x1.home>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: SpgoB20dMl6mpmpHXbbyGA-1
+X-Mimecast-Spam-Score: 0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=redhat.com; 
+ s=mimecast20190719; t=1573137075;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QrHdD94AcwG1Ax7bWiCTd//fNTx3IE4kMIx+0uxwiSM=;
+ b=jV1JYaW0VsH7Gd4vmhJWhnK8LnielSO2GRGYcm0fak8Qt9+rRQcqVICU3Wa7d/Foh+uvIu
+ oEGOlK96X7HQzoGjVyXsw3UtCLY6tVSNHMUf1fxHJea3WWO34FGW3zMHdApN6YuWA3mrlY
+ HbGi4sf3B7QNxsic6ZRIlXI0jAexYns=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,94 +67,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0916325305=="
+Cc: stefanha@redhat.com, christophe.de.dinechin@gmail.com, kvm@vger.kernel.org,
+ mst@redhat.com, airlied@linux.ie, heiko.carstens@de.ibm.com,
+ kevin.tian@intel.com, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, kwankhede@nvidia.com,
+ rob.miller@broadcom.com, linux-s390@vger.kernel.org, sebott@linux.ibm.com,
+ lulu@redhat.com, eperezma@redhat.com, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, haotian.wang@sifive.com, cunming.liang@intel.com,
+ zhi.a.wang@intel.com, farman@linux.ibm.com, idos@mellanox.com,
+ gor@linux.ibm.com, intel-gfx@lists.freedesktop.org, rodrigo.vivi@intel.com,
+ xiao.w.wang@intel.com, freude@linux.ibm.com, parav@mellanox.com,
+ zhihong.wang@intel.com, intel-gvt-dev@lists.freedesktop.org,
+ akrowiak@linux.ibm.com, oberpar@linux.ibm.com, tiwei.bie@intel.com,
+ netdev@vger.kernel.org, cohuck@redhat.com, linux-kernel@vger.kernel.org,
+ maxime.coquelin@redhat.com, lingshan.zhu@intel.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0916325305==
-Content-Type: multipart/alternative; boundary="15731367020.7053a44.7510"
-Content-Transfer-Encoding: 7bit
-
-
---15731367020.7053a44.7510
-Date: Thu, 7 Nov 2019 14:25:02 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112226
-
---- Comment #2 from Eero Tamminen <eero.t.tamminen@intel.com> ---
-Created attachment 145908
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145908&action=3Dedit
-dmesg
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15731367020.7053a44.7510
-Date: Thu, 7 Nov 2019 14:25:02 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [HadesCanyon] GPU hangs don't anymore recover (although k=
-ernel still claims that they do)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112226#c2">Commen=
-t # 2</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [HadesCanyon] GPU hangs don't anymore recover (although k=
-ernel still claims that they do)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112226">bug 11222=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-eero.t.tamminen&#64;intel.com" title=3D"Eero Tamminen &lt;eero.t.tamminen&#=
-64;intel.com&gt;"> <span class=3D"fn">Eero Tamminen</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145908=
-" name=3D"attach_145908" title=3D"dmesg">attachment 145908</a> <a href=3D"a=
-ttachment.cgi?id=3D145908&amp;action=3Dedit" title=3D"dmesg">[details]</a><=
-/span>
-dmesg</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15731367020.7053a44.7510--
-
---===============0916325305==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0916325305==--
+Ck9uIDIwMTkvMTEvNyDkuIrljYg2OjU4LCBBbGV4IFdpbGxpYW1zb24gd3JvdGU6Cj4gT24gV2Vk
+LCA2IE5vdiAyMDE5IDE0OjUwOjMwIC0wODAwCj4gUmFuZHkgRHVubGFwIDxyZHVubGFwQGluZnJh
+ZGVhZC5vcmc+IHdyb3RlOgo+Cj4+IE9uIDExLzUvMTkgMTE6MDUgUE0sIEphc29uIFdhbmcgd3Jv
+dGU6Cj4+PiBkaWZmIC0tZ2l0IGEvc2FtcGxlcy9LY29uZmlnIGIvc2FtcGxlcy9LY29uZmlnCj4+
+PiBpbmRleCBjOGRhY2I0ZGRhODAuLjEzYTI0NDNlMThlMCAxMDA2NDQKPj4+IC0tLSBhL3NhbXBs
+ZXMvS2NvbmZpZwo+Pj4gKysrIGIvc2FtcGxlcy9LY29uZmlnCj4+PiBAQCAtMTMxLDYgKzEzMSwx
+NiBAQCBjb25maWcgU0FNUExFX1ZGSU9fTURFVl9NRFBZCj4+PiAgIAkgIG1lZGlhdGVkIGRldmlj
+ZS4gIEl0IGlzIGEgc2ltcGxlIGZyYW1lYnVmZmVyIGFuZCBzdXBwb3J0cwo+Pj4gICAJICB0aGUg
+cmVnaW9uIGRpc3BsYXkgaW50ZXJmYWNlIChWRklPX0dGWF9QTEFORV9UWVBFX1JFR0lPTikuCj4+
+PiAgIAo+Pj4gK2NvbmZpZyBTQU1QTEVfVklSVElPX01ERVZfTkVUCj4+PiArCXRyaXN0YXRlICJC
+dWlsZCBWSVJUSU8gbmV0IGV4YW1wbGUgbWVkaWF0ZWQgZGV2aWNlIHNhbXBsZSBjb2RlIC0tIGxv
+YWRhYmxlIG1vZHVsZXMgb25seSIKPj4+ICsJZGVwZW5kcyBvbiBWSVJUSU9fTURFViAmJiBWSE9T
+VF9SSU5HICYmIG0KPj4+ICsJaGVscAo+Pj4gKwkgIEJ1aWxkIGEgbmV0d29ya2luZyBzYW1wbGUg
+ZGV2aWNlIGZvciB1c2UgYXMgYSB2aXJ0aW8KPj4+ICsJICBtZWRpYXRlZCBkZXZpY2UuIFRoZSBk
+ZXZpY2UgY29vcHJlYXRlcyB3aXRoIHZpcnRpby1tZGV2IGJ1cwo+PiB0eXBvIGhlcmU6Cj4+IAkg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjb29wZXJhdGVzCj4+Cj4gSSBjYW4gZml4IHRo
+aXMgb24gY29tbWl0IHJlbGF0aXZlIHRvIFYxMCBpZiB0aGVyZSBhcmUgbm8gb3RoZXIgaXNzdWVz
+Cj4gcmFpc2VkOgo+Cj4gZGlmZiAtLWdpdCBhL3NhbXBsZXMvS2NvbmZpZyBiL3NhbXBsZXMvS2Nv
+bmZpZwo+IGluZGV4IDEzYTI0NDNlMThlMC4uYjcxMTZkOTdjYmJlIDEwMDY0NAo+IC0tLSBhL3Nh
+bXBsZXMvS2NvbmZpZwo+ICsrKyBiL3NhbXBsZXMvS2NvbmZpZwo+IEBAIC0xMzYsNyArMTM2LDcg
+QEAgY29uZmlnIFNBTVBMRV9WSVJUSU9fTURFVl9ORVQKPiAgICAgICAgICBkZXBlbmRzIG9uIFZJ
+UlRJT19NREVWICYmIFZIT1NUX1JJTkcgJiYgbQo+ICAgICAgICAgIGhlbHAKPiAgICAgICAgICAg
+IEJ1aWxkIGEgbmV0d29ya2luZyBzYW1wbGUgZGV2aWNlIGZvciB1c2UgYXMgYSB2aXJ0aW8KPiAt
+ICAgICAgICAgbWVkaWF0ZWQgZGV2aWNlLiBUaGUgZGV2aWNlIGNvb3ByZWF0ZXMgd2l0aCB2aXJ0
+aW8tbWRldiBidXMKPiArICAgICAgICAgbWVkaWF0ZWQgZGV2aWNlLiBUaGUgZGV2aWNlIGNvb3Bl
+cmF0ZXMgd2l0aCB2aXJ0aW8tbWRldiBidXMKPiAgICAgICAgICAgIGRyaXZlciB0byBwcmVzZW50
+IGFuIHZpcnRpbyBldGhlcm5ldCBkcml2ZXIgZm9yCj4gICAgICAgICAgICBrZXJuZWwuIEl0IHNp
+bXBseSBsb29wYmFja3MgYWxsIHBhY2tldHMgZnJvbSBpdHMgVFgKPiAgICAgICAgICAgIHZpcnRx
+dWV1ZSB0byBpdHMgUlggdmlydHF1ZXVlLgo+Cj4gVGhhbmtzLAo+IEFsZXgKCgpUaGFua3MsIHBl
+ciBNaWNoYWVsIHJlcXVlc3QsIEkgd291bGQgcmVuYW1lIG12bmV0IGFuZCBpbmNsdWRlIHRoaXMg
+Zml4IAppbiBWMTEuCgoKPgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVs
