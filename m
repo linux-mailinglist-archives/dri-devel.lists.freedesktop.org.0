@@ -1,58 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAE50F3029
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2019 14:43:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EECFF306F
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2019 14:51:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EE086E029;
-	Thu,  7 Nov 2019 13:43:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79E666E2DC;
+	Thu,  7 Nov 2019 13:51:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62EE46E029
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2019 13:43:03 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id C7F8BACB4;
- Thu,  7 Nov 2019 13:43:01 +0000 (UTC)
-Subject: Re: Drm: mgag200. Video adapter issue with 5.4.0-rc3 ; no graphics
-To: John Donnelly <john.p.donnelly@oracle.com>
-References: <162E0991-F617-4AA3-8C98-A6F0B0F681B1@oracle.com>
- <f7bb9241-d9c6-c4ef-a03f-7aa0d18ea30e@suse.de>
- <BBD8E679-435B-45A3-AC2E-495329A1BC87@oracle.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <7f6090da-60a5-864c-2ed0-d20a413b3db2@suse.de>
-Date: Thu, 7 Nov 2019 14:42:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51B0D6E2DC
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2019 13:51:01 +0000 (UTC)
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C5089C04BE1B
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2019 13:51:00 +0000 (UTC)
+Received: by mail-qt1-f199.google.com with SMTP id h39so2641762qth.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Nov 2019 05:51:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=nkZBN+5zxQ42o26GlAg4Gu8zR9MU5cE0CTJ+GrFRdeo=;
+ b=QUm2VlS+0DeNI0d3BEcXd68HrC9htqyCAk1Pp+a8E98c6y57I7X7ntuPdiHtRB0H8P
+ 6Gvk3yLkkxhn4yvz7760uqqmoJYMxLcLpwlFHchY9r7qFcL46S3vQtUlnryzh6R44I1v
+ 8mjkknulSoeKWOSCo4celpj+uo5HxteAOGwaOxlvoLl1K0CHTR+gvXpPpUzuJFnhFbbW
+ 36O+kTJf6akvLh0WmdRy8NKyEJg9eOzirNOJpCaZ2efRanx74v2r1a+VwPnSte1OzWFr
+ fw9wItFzCalWYRuoRnJv++53Xda0VUrLZg53Bz0mKbhF0S4Nm2P0YtoVL7o5e+p5GgXU
+ 642A==
+X-Gm-Message-State: APjAAAXg0JjdDMe6tR4H0ZED6r7pX2WjNKIUBgwUld25EXrYqxSds3eD
+ W+pek9uWjD1dmwvPsICW94c2J9Ln7Lb0eINe08RouXz7+Me6dXFGSxd2V/rnrETlj4yiIBUPBcc
+ gnIBAksNtLmqK0JGlsUOI2/K6zA+O
+X-Received: by 2002:a37:f605:: with SMTP id y5mr2957978qkj.288.1573134659998; 
+ Thu, 07 Nov 2019 05:50:59 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwR0XN8Xkg7npgZmypT2TC+6FrvcOeN+9aUQy/VsChc7srS+8pQqGTXKUbO8NQlTjtab+Vs0A==
+X-Received: by 2002:a37:f605:: with SMTP id y5mr2957932qkj.288.1573134659680; 
+ Thu, 07 Nov 2019 05:50:59 -0800 (PST)
+Received: from redhat.com (bzq-79-178-12-128.red.bezeqint.net. [79.178.12.128])
+ by smtp.gmail.com with ESMTPSA id p3sm1052072qkf.107.2019.11.07.05.50.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Nov 2019 05:50:58 -0800 (PST)
+Date: Thu, 7 Nov 2019 08:50:46 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH V10 6/6] docs: sample driver to demonstrate how to
+ implement virtio-mdev framework
+Message-ID: <20191107085013-mutt-send-email-mst@kernel.org>
+References: <20191106133531.693-1-jasowang@redhat.com>
+ <20191106133531.693-7-jasowang@redhat.com>
+ <20191107040700-mutt-send-email-mst@kernel.org>
+ <bd2f7796-8d88-0eb3-b55b-3ec062b186b7@redhat.com>
+ <20191107061942-mutt-send-email-mst@kernel.org>
+ <d09229bc-c3e4-8d4b-c28f-565fe150ced2@redhat.com>
+ <20191107080834-mutt-send-email-mst@kernel.org>
+ <b2265e3a-6f86-c21a-2ebd-d0e4eea2886f@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <BBD8E679-435B-45A3-AC2E-495329A1BC87@oracle.com>
+Content-Disposition: inline
+In-Reply-To: <b2265e3a-6f86-c21a-2ebd-d0e4eea2886f@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,290 +73,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, allen <allen.pais@oracle.com>
-Content-Type: multipart/mixed; boundary="===============0814975351=="
+Cc: stefanha@redhat.com, christophe.de.dinechin@gmail.com, kvm@vger.kernel.org,
+ airlied@linux.ie, heiko.carstens@de.ibm.com, kevin.tian@intel.com,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ kwankhede@nvidia.com, rob.miller@broadcom.com, linux-s390@vger.kernel.org,
+ sebott@linux.ibm.com, lulu@redhat.com, eperezma@redhat.com,
+ pasic@linux.ibm.com, borntraeger@de.ibm.com, haotian.wang@sifive.com,
+ cunming.liang@intel.com, zhi.a.wang@intel.com, farman@linux.ibm.com,
+ idos@mellanox.com, gor@linux.ibm.com, intel-gfx@lists.freedesktop.org,
+ alex.williamson@redhat.com, xiao.w.wang@intel.com, freude@linux.ibm.com,
+ parav@mellanox.com, zhihong.wang@intel.com, rodrigo.vivi@intel.com,
+ intel-gvt-dev@lists.freedesktop.org, akrowiak@linux.ibm.com,
+ oberpar@linux.ibm.com, tiwei.bie@intel.com, netdev@vger.kernel.org,
+ cohuck@redhat.com, linux-kernel@vger.kernel.org, maxime.coquelin@redhat.com,
+ lingshan.zhu@intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0814975351==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="9ADTB7jkRKsHRuQzEUVbma26YjgBkMzYJ"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---9ADTB7jkRKsHRuQzEUVbma26YjgBkMzYJ
-Content-Type: multipart/mixed; boundary="9HUxT7CLt6nDmkzmMaHDq40nycGoZYexU";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: John Donnelly <john.p.donnelly@oracle.com>
-Cc: dri-devel@lists.freedesktop.org, allen <allen.pais@oracle.com>
-Message-ID: <7f6090da-60a5-864c-2ed0-d20a413b3db2@suse.de>
-Subject: Re: Drm: mgag200. Video adapter issue with 5.4.0-rc3 ; no graphics
-References: <162E0991-F617-4AA3-8C98-A6F0B0F681B1@oracle.com>
- <f7bb9241-d9c6-c4ef-a03f-7aa0d18ea30e@suse.de>
- <BBD8E679-435B-45A3-AC2E-495329A1BC87@oracle.com>
-In-Reply-To: <BBD8E679-435B-45A3-AC2E-495329A1BC87@oracle.com>
-
---9HUxT7CLt6nDmkzmMaHDq40nycGoZYexU
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi John
-
-Am 07.11.19 um 14:12 schrieb John Donnelly:
-> Hi  Thomas ;  Thank you for reaching out.=20
->=20
->  See inline:=20
->=20
->> On Nov 7, 2019, at 1:54 AM, Thomas Zimmermann <tzimmermann@suse.de> wr=
-ote:
->>
->> Hi John,
->>
->> apparently the vgaarb was not the problem.
->>
->> Am 07.11.19 um 03:29 schrieb John Donnelly:
->>> Hi,
->>>
->>> I am investigating an issue where we lose video activity when the dis=
-play is switched from from =E2=80=9Ctext mode=E2=80=9D to =E2=80=9Cgraphi=
-c mode=E2=80=9D=20
->>> on a number of  servers using this driver.    Specifically  starting =
-the GNOME desktop.=20
->>
->> When you say "text mode", do you mean VGA text mode or the graphical
->> console that emulates text mode?
->>
->        =20
->=20
->  I call =E2=80=9Ctext mode=E2=80=9D the 24x80  ascii mode ;  - NOT GRAP=
-HICS .       Ie : run-level 3;  So I  guess your term for it is VGA.=20
-
-Yes.
-
-
->      =20
->=20
->> When you enable graphics mode, does it set the correct resolution? A l=
-ot
->> of work went into memory management recently. I could imagine that the=
-
->> driver sets the correct resolution, but then fails to display the
->> correct framebuffer.
->=20
->     There is no display at all ;  so there is no resolution  to mention=
-=2E   =20
->=20
->=20
->    =20
->>
->> If possible, could you try to update to the latest drm-tip and attach
->> the output of
->>
->>  /sys/kernel/debug/dri/0/vram-mm
->=20
-> I don=E2=80=99t see that file ;   Is there something else I need to do =
-?=20
-
-That file is fairly new and maybe it's not in the mainline kernel yet.
-See below for how to get it.
-
-
->=20
-> I=E2=80=99ve attached : var/lib/gdm/.local/share/xorg/Xorg.0.log. ;   i=
-nstead ;=20
-
-Good! Looking through that log file, the card is found at line 79 and
-the generic X modesetting driver initializes below. That works as expecte=
-d.
-
-I notices that several operations are not permitted (lines 78 and 87). I
-guess you're starting X from a regular user account? IIRC special
-permission is required to acquire control of the display. What happens
-if you start X as root user?
-
-
->=20
->=20
->=20
->=20
->  Here is my cmdline  -  I just tested 5.3.0 and it fails too  ( my last=
- test was 5.3.8 and it failed also ) .=20
->=20
-> # cat /proc/cmdline=20
-> BOOT_IMAGE=3D(hd0,msdos1)/vmlinuz-5.3.0+ root=3D/dev/mapper/ol_ca--dev5=
-5-root ro crashkernel=3Dauto resume=3D/dev/mapper/ol_ca--dev55-swap rd.lv=
-m.lv=3Dol_ca-dev55/root rd.lvm.lv=3Dol_ca-dev55/swap console=3DttyS0,9600=
-,8,n,1 drm.debug=3D0xff
->=20
-> When you say =E2=80=9Ctip=E2=80=9D. - Are you referring to a specific k=
-ernel  ?  I can build a  5.4.0.rc6  ;   The problem appears to have been =
-introduced around 5.3 time frame.=20
-
-The latest and greatest DRM code is in the drm-tip branch at
-
-  git://anongit.freedesktop.org/drm/drm-tip
-
-If you build this version you should find
-
-  /sys/kernel/debug/dri/0/vram-mm
-
-on the device. You have to build with debugfs enabled and
-maybe have to mount debugfs at /sys/kernel/debug.
-
-
->=20
->=20
->>
->> before and after switching to graphics mode. The file lists the
->> allocated regions of the VRAM.
->>
->>>
->>> This adapter is  Server Engines  Integrated Remote Video Acceleration=
- Subsystem (RVAS)  and is used as remote console in iLO/DRAC environments=
-=2E =20
->>>
->>> I don=E2=80=99t see any specific errors in the gdm logs or message fi=
-le other than this:
->>
->> You can boot with drm.debug=3D0xff on the kernel command line to enabl=
-e
->> more warnings.
->>
->>
->> Could you please attach the output of lspci -v for the VGA adapter?
->>
->=20
->=20
-> Here is the output from the current machine; The previous addresses wer=
-e from another model using the same SE device:
->=20
->=20
-> Nov  7 04:42:50 ca-dev55 kernel: mgag200 0000:3d:00.0: remove_conflicti=
-ng_pci_framebuffers: bar 0: 0xc5000000 -> 0xc5ffffff
-> Nov  7 04:42:50 ca-dev55 kernel: mgag200 0000:3d:00.0: remove_conflicti=
-ng_pci_framebuffers: bar 1: 0xc6810000 -> 0xc6813fff
-> Nov  7 04:42:50 ca-dev55 kernel: mgag200 0000:3d:00.0: remove_conflicti=
-ng_pci_framebuffers: bar 2: 0xc6000000 -> 0xc67fffff
-> Nov  7 04:42:50 ca-dev55 kernel: mgag200 0000:3d:00.0: vgaarb: deactiva=
-te vga console
->=20
->=20
-> lspci -s 3d:00.0 -vvv -k=20
-> 3d:00.0 VGA compatible controller: Matrox Electronics Systems Ltd. MGA =
-G200e [Pilot] ServerEngines (SEP1) (rev 05) (prog-if 00 [VGA controller])=
-
-> 	Subsystem: Oracle/SUN Device 4852
-> 	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr+ St=
-epping- SERR+ FastB2B- DisINTx-
-> 	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=3Dfast >TAbort- <TAbo=
-rt- <MAbort- >SERR- <PERR- INTx-
-> 	Latency: 0, Cache Line Size: 64 bytes
-> 	Interrupt: pin A routed to IRQ 16
-> 	NUMA node: 0
-> 	Region 0: Memory at c5000000 (32-bit, non-prefetchable) [size=3D16M]
-> 	Region 1: Memory at c6810000 (32-bit, non-prefetchable) [size=3D16K]
-> 	Region 2: Memory at c6000000 (32-bit, non-prefetchable) [size=3D8M]
-> 	Expansion ROM at 000c0000 [disabled] [size=3D128K]
-> 	Capabilities: [dc] Power Management version 2
-> 		Flags: PMEClk- DSI+ D1- D2- AuxCurrent=3D0mA PME(D0-,D1-,D2-,D3hot-,D=
-3cold-)
-> 		Status: D0 NoSoftRst- PME-Enable- DSel=3D0 DScale=3D0 PME-
-> 	Capabilities: [e4] Express (v1) Legacy Endpoint, MSI 00
-> 		DevCap:	MaxPayload 256 bytes, PhantFunc 0, Latency L0s <64ns, L1 <1us=
-
-> 			ExtTag- AttnBtn- AttnInd- PwrInd- RBE- FLReset-
-> 		DevCtl:	Report errors: Correctable+ Non-Fatal+ Fatal+ Unsupported-
-> 			RlxdOrd- ExtTag- PhantFunc- AuxPwr- NoSnoop-
-> 			MaxPayload 128 bytes, MaxReadReq 128 bytes
-> 		DevSta:	CorrErr+ UncorrErr- FatalErr- UnsuppReq+ AuxPwr- TransPend-
-> 		LnkCap:	Port #0, Speed 2.5GT/s, Width x1, ASPM L0s, Exit Latency L0s =
-<64ns
-> 			ClockPM- Surprise- LLActRep- BwNot- ASPMOptComp-
-> 		LnkCtl:	ASPM Disabled; RCB 64 bytes Disabled- CommClk+
-> 			ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-
-> 		LnkSta:	Speed 2.5GT/s, Width x1, TrErr- Train- SlotClk+ DLActive- BWM=
-gmt- ABWMgmt-
-> 	Capabilities: [54] MSI: Enable- Count=3D1/1 Maskable- 64bit-
-> 		Address: 00000000  Data: 0000
-> 	Kernel driver in use: mgag200
-> 	Kernel modules: mgag200
-
-Looks all normal.
-
-Best regards
-Thomas
-
->=20
->=20
->> Best regards
->> Thomas
->>
->>>
->>> fb0: switching to mgag200drmfb from EFI VGA=20
->>> mgag200 0000:04:00.0: vgaarb: deactivate vga console=20
->>> fbcon: mgag200drmfb (fb0) is primary device=20
->>> mgag200 0000:04:00.0: fb0: mgag200drmfb frame buffer device=20
->>> [drm] Initialized mgag200 1.0.0 20110418 for 0000:04:00.0 on minor 0
->>>
->>> The systems worked fine with  4.18  kernels  and a recent Linux  5.2.=
-18 ;  The symptom first appears in 5.3.6. and onward.=20
->>> _______________________________________________
->>> dri-devel mailing list
->>> dri-devel@lists.freedesktop.org
->>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->>>
->>
->> --=20
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->> (HRB 36809, AG N=C3=BCrnberg)
->> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---9HUxT7CLt6nDmkzmMaHDq40nycGoZYexU--
-
---9ADTB7jkRKsHRuQzEUVbma26YjgBkMzYJ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl3EH2EACgkQaA3BHVML
-eiNHIgf+MC3VquhvkkUEE9X0Qpo0gcAvbhGno2NohGq2kaJrFUJB/hldKBIxN+Si
-M6QwbOHM7p9xHfOS6sDbG60rfc3GaCr/rd4Wa6rmP/3+0ICYDai50eYFNMqHitid
-GY+hMZ8rVoOAmuBAQGNk9tW2Hn0L8HiicmN+dWdBp2QFuE2/gY/O/kcXoL6czvwQ
-AO57xZ8HN4L3yBfx2e8XpaDgq278MMY8EO9fqgh4mj2+9DL5OaC/Ra3UytwvMMxv
-p7r+PpW9pltCoMBPVQpX2nd1i2D7EsS4b1WZvjRm33xzgl8jO/jBl8K2ndrP1DR6
-UDWWQDHTgc3gPXEqBPMW+mv0k4MHlg==
-=0B6k
------END PGP SIGNATURE-----
-
---9ADTB7jkRKsHRuQzEUVbma26YjgBkMzYJ--
-
---===============0814975351==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0814975351==--
+T24gVGh1LCBOb3YgMDcsIDIwMTkgYXQgMDk6MzI6MjlQTSArMDgwMCwgSmFzb24gV2FuZyB3cm90
+ZToKPiAKPiBPbiAyMDE5LzExLzcg5LiL5Y2IOTowOCwgTWljaGFlbCBTLiBUc2lya2luIHdyb3Rl
+Ogo+ID4gT24gVGh1LCBOb3YgMDcsIDIwMTkgYXQgMDg6NDM6MjlQTSArMDgwMCwgSmFzb24gV2Fu
+ZyB3cm90ZToKPiA+ID4gT24gMjAxOS8xMS83IOS4i+WNiDc6MjEsIE1pY2hhZWwgUy4gVHNpcmtp
+biB3cm90ZToKPiA+ID4gPiBPbiBUaHUsIE5vdiAwNywgMjAxOSBhdCAwNjoxODo0NVBNICswODAw
+LCBKYXNvbiBXYW5nIHdyb3RlOgo+ID4gPiA+ID4gT24gMjAxOS8xMS83IOS4i+WNiDU6MDgsIE1p
+Y2hhZWwgUy4gVHNpcmtpbiB3cm90ZToKPiA+ID4gPiA+ID4gT24gV2VkLCBOb3YgMDYsIDIwMTkg
+YXQgMDk6MzU6MzFQTSArMDgwMCwgSmFzb24gV2FuZyB3cm90ZToKPiA+ID4gPiA+ID4gPiBUaGlz
+IHNhbXBsZSBkcml2ZXIgY3JlYXRlcyBtZGV2IGRldmljZSB0aGF0IHNpbXVsYXRlIHZpcnRpbyBu
+ZXQgZGV2aWNlCj4gPiA+ID4gPiA+ID4gb3ZlciB2aXJ0aW8gbWRldiB0cmFuc3BvcnQuIFRoZSBk
+ZXZpY2UgaXMgaW1wbGVtZW50ZWQgdGhyb3VnaCB2cmluZ2gKPiA+ID4gPiA+ID4gPiBhbmQgd29y
+a3F1ZXVlLiBBIGRldmljZSBzcGVjaWZpYyBkbWEgb3BzIGlzIHRvIG1ha2Ugc3VyZSBIVkEgaXMg
+dXNlZAo+ID4gPiA+ID4gPiA+IGRpcmVjdGx5IGFzIHRoZSBJT1ZBLiBUaGlzIHNob3VsZCBiZSBz
+dWZmaWNpZW50IGZvciBrZXJuZWwgdmlydGlvCj4gPiA+ID4gPiA+ID4gZHJpdmVyIHRvIHdvcmsu
+Cj4gPiA+ID4gPiA+ID4gCj4gPiA+ID4gPiA+ID4gT25seSAndmlydGlvJyB0eXBlIGlzIHN1cHBv
+cnRlZCByaWdodCBub3cuIEkgcGxhbiB0byBhZGQgJ3Zob3N0JyB0eXBlCj4gPiA+ID4gPiA+ID4g
+b24gdG9wIHdoaWNoIHJlcXVpcmVzIHNvbWUgdmlydHVhbCBJT01NVSBpbXBsZW1lbnRlZCBpbiB0
+aGlzIHNhbXBsZQo+ID4gPiA+ID4gPiA+IGRyaXZlci4KPiA+ID4gPiA+ID4gPiAKPiA+ID4gPiA+
+ID4gPiBBY2tlZC1ieTogQ29ybmVsaWEgSHVjazxjb2h1Y2tAcmVkaGF0LmNvbT4KPiA+ID4gPiA+
+ID4gPiBTaWduZWQtb2ZmLWJ5OiBKYXNvbiBXYW5nPGphc293YW5nQHJlZGhhdC5jb20+Cj4gPiA+
+ID4gPiA+IEknZCBwcmVmZXIgaXQgdGhhdCB3ZSBjYWxsIHRoaXMgc29tZXRoaW5nIGVsc2UsIGUu
+Zy4KPiA+ID4gPiA+ID4gbXZuZXQtbG9vcGJhY2suIEp1c3Qgc28gcGVvcGxlIGRvbid0IGV4cGVj
+dCBhIGZ1bGx5Cj4gPiA+ID4gPiA+IGZ1bmN0aW9uYWwgZGV2aWNlIHNvbWVob3cuIENhbiBiZSBy
+ZW5hbWVkIHdoZW4gYXBwbHlpbmc/Cj4gPiA+ID4gPiBBY3R1YWxseSwgSSBwbGFuIHRvIGV4dGVu
+ZCBpdCBhcyBhbm90aGVyIHN0YW5kYXJkIG5ldHdvcmsgaW50ZXJmYWNlIGZvcgo+ID4gPiA+ID4g
+a2VybmVsLiBJdCBjb3VsZCBiZSBlaXRoZXIgYSBzdGFuZGFsb25lIHBzZXVkbyBkZXZpY2Ugb3Ig
+YSBzdGFjayBkZXZpY2UuCj4gPiA+ID4gPiBEb2VzIHRoaXMgc291bmRzIGdvb2QgdG8geW91Pwo+
+ID4gPiA+ID4gCj4gPiA+ID4gPiBUaGFua3MKPiA+ID4gPiBUaGF0J3MgYSBiaWcgY2hhbmdlIGlu
+IGFuIGludGVyZmFjZSBzbyBpdCdzIGEgZ29vZCByZWFzb24KPiA+ID4gPiB0byByZW5hbWUgdGhl
+IGRyaXZlciBhdCB0aGF0IHBvaW50IHJpZ2h0Pwo+ID4gPiA+IE9oZXJ3aXNlIHVzZXJzIG9mIGFu
+IG9sZCBrZXJuZWwgd291bGQgZXhwZWN0IGEgc3RhY2tlZCBkcml2ZXIKPiA+ID4gPiBhbmQgZ2V0
+IGEgbG9vcGJhY2sgaW5zdGVhZC4KPiA+ID4gPiAKPiA+ID4gPiBPciBkaWQgSSBtaXNzIHNvbWV0
+aGluZz8KPiA+ID4gCj4gPiA+IE15IHVuZGVyc3RhbmRpbmcgaXMgdGhhdCBpdCB3YXMgYSBzYW1w
+bGUgZHJpdmVyIGluIC9kb2MuIEl0IHNob3VsZCBub3QgYmUKPiA+ID4gdXNlZCBpbiBwcm9kdWN0
+aW9uIGVudmlyb25tZW50LiBPdGhlcndpc2Ugd2UgbmVlZCB0byBtb3ZlIGl0IHRvCj4gPiA+IGRy
+aXZlci92aXJ0aW8uCj4gPiA+IAo+ID4gPiBCdXQgaWYgeW91IGluc2lzdCwgSSBjYW4gcG9zdCBh
+IFYxMS4KPiA+ID4gCj4gPiA+IFRoYW5rcwo+ID4gdGhpcyBjYW4gYmUgYSBwYXRjaCBvbiB0b3Au
+Cj4gCj4gCj4gVGhlbiBtYXliZSBpdCdzIGJldHRlciBqdXN0IGV4dGVuZCBpdCB0byB3b3JrIGFz
+IGEgbm9ybWFsIG5ldHdvcmtpbmcgZGV2aWNlCj4gb24gdG9wPwo+IAo+IFRoYW5rcwoKVGhhdCB3
+b3VsZCBiZSBhIHN1YnN0YW50aWFsIGNoYW5nZS4gTWF5YmUgZHJvcCA2LzYgZm9yIG5vdyB1bnRp
+bAp3ZSBoYXZlIGEgYmV0dGVyIGhhbmRsZSBvbiB0aGlzPwoKX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
