@@ -2,54 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEBABF34A4
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2019 17:30:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 062EBF34F7
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2019 17:50:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AB576F745;
-	Thu,  7 Nov 2019 16:30:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1FC46F74B;
+	Thu,  7 Nov 2019 16:50:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F9C66F745;
- Thu,  7 Nov 2019 16:30:11 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id b5so2370647eds.12;
- Thu, 07 Nov 2019 08:30:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=C0moOTP/dTLJl+UGwCydN3eAk50x1pnImwPvsWucqYQ=;
- b=Uee8k6E263FVX9pm0GcI0zPp/cd6+X9bMtQH4NBiar/c/+Bj477qdBuSEwYWg8AY00
- obvDOhQ6Qw4lYCzyK/jv1mXo6sPrQZg3FjByMXYBXiUA/b5cjNWzcPF14mU5F+tjnkQg
- B8aIe2i6SEJGLRtOM+HXc/947xJXG+VJUh7TOG/im3y6upuxgYHNTzod4Gwly57765+L
- US6cn6TJApud/1RRZmzjkK93YZTwyG2FhJrkHxoZFci5p283DBidsDr7mrAnF4Ly0VNp
- sHHtPWizkLaqbiq2SfWqZQ29xMcMS1/iTV2dvQaQTtV/Aaw7u+GOhez0/BxW3GTYmXRs
- rhRg==
-X-Gm-Message-State: APjAAAXp2krPqhlQGrkx57AwfU25cd14NbLriziZsDhimlrsY57dV8Vd
- uufqCOtiQaAQue4YtIgrKEt38o+MlaKdTLNBoLY=
-X-Google-Smtp-Source: APXvYqzjxayiMa9on5bajzeLOCAch20QLpYMVqHEUQovVn0+Dmb26F6FbYYJf5JUnkP1urCTFCj9evmwtATPuED+d5A=
-X-Received: by 2002:a50:9fcb:: with SMTP id c69mr4508631edf.163.1573144209948; 
- Thu, 07 Nov 2019 08:30:09 -0800 (PST)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8CC9A6F74E
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2019 16:50:10 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 89917720E2; Thu,  7 Nov 2019 16:50:10 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
+Date: Thu, 07 Nov 2019 16:50:10 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: me@jasondaigo.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109955-502-eG37CG4IaD@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
+References: <bug-109955-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20191106232553.76553-1-frkoenig@google.com>
-In-Reply-To: <20191106232553.76553-1-frkoenig@google.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 7 Nov 2019 08:29:59 -0800
-Message-ID: <CAF6AEGuXv+ePcGtuN2XTFazrMrtyCYMjZOvYn5CZ3bKE2UhVQg@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dpu: Add UBWC support for RGB8888 formats
-To: Fritz Koenig <frkoenig@google.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=C0moOTP/dTLJl+UGwCydN3eAk50x1pnImwPvsWucqYQ=;
- b=hTGwNOVN5twQ8B5yx2itJ0Vqcm9LY+Tt8/WPbad4rGuMuel4z7OxNSAVB/XGDh5/+K
- 6g4XENKOgPTY59OGdbRT0ZuldwOUV7+UfY4SJvqyLxwb4VG3AXm/KTipU8NZowYBSGkA
- 9RPn9cQ5rwAw3fU00CQuEgkmeqxCMr6SQHFIbi5oQp32kO+Sjwzqgzpx//vlQmZM0Gd8
- 1aY0+MXvJFh2FI+M4pA5mCbVSY9rYzyWuH/918/i3H/KqmLyOZBRuYTCZ9kxyfc52Q8s
- Dr0o1u8bvszIawW18ZpLrGC43zNqDdKkTz5/jWmCw/hgCukLAJtsGFmduf5GPiZ/mRjX
- Doqw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,83 +52,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>, Sean Paul <sean@poorly.run>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1156723184=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBOb3YgNiwgMjAxOSBhdCAzOjI2IFBNIEZyaXR6IEtvZW5pZyA8ZnJrb2VuaWdAZ29v
-Z2xlLmNvbT4gd3JvdGU6Cj4KPiBIYXJkd2FyZSBvbmx5IG5hdGl2ZWx5IHN1cHBvcnRzIEJHUjg4
-ODggVUJXQy4KPiBVQldDIHN1cHBvcnQgZm9yIFJHQjg4ODggY2FuIGJlIGhhZCBieSBwcmV0ZW5k
-aW5nCj4gdGhhdCB0aGUgYnVmZmVyIGlzIEJHUi4KCkp1c3QgdG8gZXhwYW5kLCB0aGlzIGFsaWdu
-cyB3aXRoIGhvdyB3ZSBoYW5kbGUgUkdCIGNvbXBvbmVudCBvcmRlciBpbgptZXNhIGZvciB0aWxl
-ZCBvciB0aWxlZCt1YndjLiAgSWYgdW5jb21wcmVzc2VkIHRvIGxpbmVhciB0aGUgY29tcG9uZW50
-Cm9yZGVyIGlzIFJHQiwgYnV0IGluIHRpbGVkIG9yIHRpbGVkK3Vid2MsIHRoZSBjb21wb25lbnQg
-b3JkZXIgaXMKYWx3YXlzIHRoZSBodyAibmF0aXZlIiBvcmRlciAoQkdSKSByZWdhcmRsZXNzIG9m
-IHdoYXQgdGhlIG91dHNpZGUKd29ybGQgdGhpbmtzLiAgQnV0IHRoYXQgZGV0YWlsIGtpbmRhIGRv
-ZXNuJ3QgbWF0dGVyLCBpdCdzIG5vdCBsaWtlCmdlbmVyaWMgY29kZSBpcyBnb2luZyB0byB1bmRl
-cnN0YW5kIHRoZSB0aWxlZCBvciB0aWxlZCt1YndjIGZvcm1hdCBpbgp0aGUgZmlyc3QgcGxhY2Uu
-LiBhbmQgY29kZSB0aGF0IGRvZXMgdW5kZXJzdGFuZCBpdCwga25vd3MgZW5vdWdoIHRvCmtub3cg
-dGhhdCB0aWxlZC90aWxlZCt1YndjIGlzIGFsd2F5cyBpbiB0aGUgbmF0aXZlIGNvbXBvbmVudCBv
-cmRlci4KCj4gU2lnbmVkLW9mZi1ieTogRnJpdHogS29lbmlnIDxmcmtvZW5pZ0Bnb29nbGUuY29t
-PgoKUmV2aWV3ZWQtYnk6IFJvYiBDbGFyayA8cm9iZGNsYXJrQGdtYWlsLmNvbT4KCj4gLS0tCj4g
-IGRyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9kcHUxL2RwdV9mb3JtYXRzLmMgICAgfCAxOCArKysr
-KysrKysrKysrKysrKysKPiAgLi4uL2RybS9tc20vZGlzcC9kcHUxL2RwdV9od19jYXRhbG9nX2Zv
-cm1hdC5oICB8ICAyICsrCj4gIDIgZmlsZXMgY2hhbmdlZCwgMjAgaW5zZXJ0aW9ucygrKQo+Cj4g
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9kcHUxL2RwdV9mb3JtYXRzLmMg
-Yi9kcml2ZXJzL2dwdS9kcm0vbXNtL2Rpc3AvZHB1MS9kcHVfZm9ybWF0cy5jCj4gaW5kZXggMjRh
-YjYyNDkwODNhLi41Mjg2MzI2OTBmMWUgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21z
-bS9kaXNwL2RwdTEvZHB1X2Zvcm1hdHMuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vZGlz
-cC9kcHUxL2RwdV9mb3JtYXRzLmMKPiBAQCAtNDg5LDEyICs0ODksMjggQEAgc3RhdGljIGNvbnN0
-IHN0cnVjdCBkcHVfZm9ybWF0IGRwdV9mb3JtYXRfbWFwX3Vid2NbXSA9IHsKPiAgICAgICAgICAg
-ICAgICAgdHJ1ZSwgNCwgRFBVX0ZPUk1BVF9GTEFHX0NPTVBSRVNTRUQsCj4gICAgICAgICAgICAg
-ICAgIERQVV9GRVRDSF9VQldDLCAyLCBEUFVfVElMRV9IRUlHSFRfVUJXQyksCj4KPiArICAgICAg
-IC8qIEFSR0I4ODg4IGFuZCBBQkdSODg4OCBwdXJwb3NlbHkgaGF2ZSB0aGUgc2FtZSBjb2xvcgo+
-ICsgICAgICAgICogb3JkZXJpbmcuICBUaGUgaGFyZHdhcmUgb25seSBzdXBwb3J0cyBBQkdSODg4
-OCBVQldDCj4gKyAgICAgICAgKiBuYXRpdmVseS4KPiArICAgICAgICAqLwo+ICsgICAgICAgSU5U
-RVJMRUFWRURfUkdCX0ZNVF9USUxFRChBUkdCODg4OCwKPiArICAgICAgICAgICAgICAgQ09MT1Jf
-OEJJVCwgQ09MT1JfOEJJVCwgQ09MT1JfOEJJVCwgQ09MT1JfOEJJVCwKPiArICAgICAgICAgICAg
-ICAgQzJfUl9DciwgQzBfR19ZLCBDMV9CX0NiLCBDM19BTFBIQSwgNCwKPiArICAgICAgICAgICAg
-ICAgdHJ1ZSwgNCwgRFBVX0ZPUk1BVF9GTEFHX0NPTVBSRVNTRUQsCj4gKyAgICAgICAgICAgICAg
-IERQVV9GRVRDSF9VQldDLCAyLCBEUFVfVElMRV9IRUlHSFRfVUJXQyksCj4gKwo+ICAgICAgICAg
-SU5URVJMRUFWRURfUkdCX0ZNVF9USUxFRChYQkdSODg4OCwKPiAgICAgICAgICAgICAgICAgQ09M
-T1JfOEJJVCwgQ09MT1JfOEJJVCwgQ09MT1JfOEJJVCwgQ09MT1JfOEJJVCwKPiAgICAgICAgICAg
-ICAgICAgQzJfUl9DciwgQzBfR19ZLCBDMV9CX0NiLCBDM19BTFBIQSwgNCwKPiAgICAgICAgICAg
-ICAgICAgZmFsc2UsIDQsIERQVV9GT1JNQVRfRkxBR19DT01QUkVTU0VELAo+ICAgICAgICAgICAg
-ICAgICBEUFVfRkVUQ0hfVUJXQywgMiwgRFBVX1RJTEVfSEVJR0hUX1VCV0MpLAo+Cj4gKyAgICAg
-ICBJTlRFUkxFQVZFRF9SR0JfRk1UX1RJTEVEKFhSR0I4ODg4LAo+ICsgICAgICAgICAgICAgICBD
-T0xPUl84QklULCBDT0xPUl84QklULCBDT0xPUl84QklULCBDT0xPUl84QklULAo+ICsgICAgICAg
-ICAgICAgICBDMl9SX0NyLCBDMF9HX1ksIEMxX0JfQ2IsIEMzX0FMUEhBLCA0LAo+ICsgICAgICAg
-ICAgICAgICBmYWxzZSwgNCwgRFBVX0ZPUk1BVF9GTEFHX0NPTVBSRVNTRUQsCj4gKyAgICAgICAg
-ICAgICAgIERQVV9GRVRDSF9VQldDLCAyLCBEUFVfVElMRV9IRUlHSFRfVUJXQyksCj4gKwo+ICAg
-ICAgICAgSU5URVJMRUFWRURfUkdCX0ZNVF9USUxFRChBQkdSMjEwMTAxMCwKPiAgICAgICAgICAg
-ICAgICAgQ09MT1JfOEJJVCwgQ09MT1JfOEJJVCwgQ09MT1JfOEJJVCwgQ09MT1JfOEJJVCwKPiAg
-ICAgICAgICAgICAgICAgQzJfUl9DciwgQzBfR19ZLCBDMV9CX0NiLCBDM19BTFBIQSwgNCwKPiBA
-QCAtNTUwLDcgKzU2Niw5IEBAIHN0YXRpYyBpbnQgX2RwdV9mb3JtYXRfZ2V0X21lZGlhX2NvbG9y
-X3Vid2MoY29uc3Qgc3RydWN0IGRwdV9mb3JtYXQgKmZtdCkKPiAgewo+ICAgICAgICAgc3RhdGlj
-IGNvbnN0IHN0cnVjdCBkcHVfbWVkaWFfY29sb3JfbWFwIGRwdV9tZWRpYV91YndjX21hcFtdID0g
-ewo+ICAgICAgICAgICAgICAgICB7RFJNX0ZPUk1BVF9BQkdSODg4OCwgQ09MT1JfRk1UX1JHQkE4
-ODg4X1VCV0N9LAo+ICsgICAgICAgICAgICAgICB7RFJNX0ZPUk1BVF9BUkdCODg4OCwgQ09MT1Jf
-Rk1UX1JHQkE4ODg4X1VCV0N9LAo+ICAgICAgICAgICAgICAgICB7RFJNX0ZPUk1BVF9YQkdSODg4
-OCwgQ09MT1JfRk1UX1JHQkE4ODg4X1VCV0N9LAo+ICsgICAgICAgICAgICAgICB7RFJNX0ZPUk1B
-VF9YUkdCODg4OCwgQ09MT1JfRk1UX1JHQkE4ODg4X1VCV0N9LAo+ICAgICAgICAgICAgICAgICB7
-RFJNX0ZPUk1BVF9BQkdSMjEwMTAxMCwgQ09MT1JfRk1UX1JHQkExMDEwMTAyX1VCV0N9LAo+ICAg
-ICAgICAgICAgICAgICB7RFJNX0ZPUk1BVF9YQkdSMjEwMTAxMCwgQ09MT1JfRk1UX1JHQkExMDEw
-MTAyX1VCV0N9LAo+ICAgICAgICAgICAgICAgICB7RFJNX0ZPUk1BVF9CR1I1NjUsIENPTE9SX0ZN
-VF9SR0I1NjVfVUJXQ30sCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9k
-cHUxL2RwdV9od19jYXRhbG9nX2Zvcm1hdC5oIGIvZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL2Rw
-dTEvZHB1X2h3X2NhdGFsb2dfZm9ybWF0LmgKPiBpbmRleCBiYjYxMTJjOTQ5YWUuLmZiY2IzYzRi
-YmZlZSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2Rpc3AvZHB1MS9kcHVfaHdf
-Y2F0YWxvZ19mb3JtYXQuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9kcHUxL2Rw
-dV9od19jYXRhbG9nX2Zvcm1hdC5oCj4gQEAgLTYsNyArNiw5IEBACj4KPiAgc3RhdGljIGNvbnN0
-IHVpbnQzMl90IHFjb21fY29tcHJlc3NlZF9zdXBwb3J0ZWRfZm9ybWF0c1tdID0gewo+ICAgICAg
-ICAgRFJNX0ZPUk1BVF9BQkdSODg4OCwKPiArICAgICAgIERSTV9GT1JNQVRfQVJHQjg4ODgsCj4g
-ICAgICAgICBEUk1fRk9STUFUX1hCR1I4ODg4LAo+ICsgICAgICAgRFJNX0ZPUk1BVF9YUkdCODg4
-OCwKPiAgICAgICAgIERSTV9GT1JNQVRfQkdSNTY1LAo+ICB9Owo+Cj4gLS0KPiAyLjI0LjAuNDMy
-Lmc5ZDNmNWY1YjYzLWdvb2cKPgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWw=
+
+--===============1156723184==
+Content-Type: multipart/alternative; boundary="15731454105.DfEd164.30551"
+Content-Transfer-Encoding: 7bit
+
+
+--15731454105.DfEd164.30551
+Date: Thu, 7 Nov 2019 16:50:10 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+
+--- Comment #133 from Wilko Bartels <me@jasondaigo.de> ---
+(In reply to haro41 from comment #132)
+> (In reply to Wilko Bartels from comment #131)
+> > Thank you. I already tried exactly that. And the unit unable to autosta=
+rt
+> > (permission denied). Only manual systemctl start works. Dont know why.=
+=20
+>=20
+> If you double checked the permissions of both, the .service and the .sh
+> files,
+> you could try delay the automatic service start, for example by replacing:
+>=20
+> 'WantedBy=3Dmulti-user.target' with 'WantedBy=3Dgraphical.target'
+>=20
+> and maybe insert a line in the [Unit] section: 'After=3Dmulti-user.target'
+
+sadly that doesnt change a thing
+line 2: /sys/class/drm/card0/device/power_dpm_force_performance_level:
+Permission denied
+
+line 3: /sys/class/drm/card0/device/pp_dpm_mclk: Permission denied
+amd-pp.service: Main process exited, code=3Dexited, status=3D1/FAILURE
+
+-rw-r--r-- 1 root root 4,0K  7. Nov 17:45
+/sys/class/drm/card0/device/power_dpm_force_performance_level
+
+-rw-r--r-- 1 root root 4,0K  7. Nov 17:45
+/sys/class/drm/card0/device/pp_dpm_mclk
+
+again after logging (i3/xinit or plasma/sddm i have no errors with systemctl
+start and it works
+
+[jason@behemoth ~]$ cat /sys/class/drm/card0/device/pp_dpm_mclk
+0: 167Mhz=20
+1: 500Mhz *
+2: 700Mhz=20
+3: 800Mhz
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15731454105.DfEd164.30551
+Date: Thu, 7 Nov 2019 16:50:10 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c133">Comm=
+ent # 133</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+me&#64;jasondaigo.de" title=3D"Wilko Bartels &lt;me&#64;jasondaigo.de&gt;">=
+ <span class=3D"fn">Wilko Bartels</span></a>
+</span></b>
+        <pre>(In reply to haro41 from <a href=3D"show_bug.cgi?id=3D109955#c=
+132">comment #132</a>)
+<span class=3D"quote">&gt; (In reply to Wilko Bartels from <a href=3D"show_=
+bug.cgi?id=3D109955#c131">comment #131</a>)
+&gt; &gt; Thank you. I already tried exactly that. And the unit unable to a=
+utostart
+&gt; &gt; (permission denied). Only manual systemctl start works. Dont know=
+ why.=20
+&gt;=20
+&gt; If you double checked the permissions of both, the .service and the .sh
+&gt; files,
+&gt; you could try delay the automatic service start, for example by replac=
+ing:
+&gt;=20
+&gt; 'WantedBy=3Dmulti-user.target' with 'WantedBy=3Dgraphical.target'
+&gt;=20
+&gt; and maybe insert a line in the [Unit] section: 'After=3Dmulti-user.tar=
+get'</span >
+
+sadly that doesnt change a thing
+line 2: /sys/class/drm/card0/device/power_dpm_force_performance_level:
+Permission denied
+
+line 3: /sys/class/drm/card0/device/pp_dpm_mclk: Permission denied
+amd-pp.service: Main process exited, code=3Dexited, status=3D1/FAILURE
+
+-rw-r--r-- 1 root root 4,0K  7. Nov 17:45
+/sys/class/drm/card0/device/power_dpm_force_performance_level
+
+-rw-r--r-- 1 root root 4,0K  7. Nov 17:45
+/sys/class/drm/card0/device/pp_dpm_mclk
+
+again after logging (i3/xinit or plasma/sddm i have no errors with systemctl
+start and it works
+
+[jason&#64;behemoth ~]$ cat /sys/class/drm/card0/device/pp_dpm_mclk
+0: 167Mhz=20
+1: 500Mhz *
+2: 700Mhz=20
+3: 800Mhz</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15731454105.DfEd164.30551--
+
+--===============1156723184==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1156723184==--
