@@ -1,93 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6075FF2A7E
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2019 10:24:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1FA1F2AD6
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2019 10:37:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 450EC6F3C7;
-	Thu,  7 Nov 2019 09:24:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB2586E02C;
+	Thu,  7 Nov 2019 09:37:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com
- (mail-bl2nam02on0625.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe46::625])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 733CC6F3C5;
- Thu,  7 Nov 2019 09:24:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iJvFdTW70HNU45Nbg86kkvmA9H37sGgPvufZr/7tUyvFXuJWQi1fF6vgALPHP9OalqWYph7ikbKh/B1dDSQs9wjjorpM7EhjB9lFp5K0X5CLBsM+POXMB0UTUwGj8pdS9N3OEt43tdSTOb4YOuyDkzHTdeQygvpRHzuPU66c6EbH1rKfYH5RPcvpNsPBOx1/R56u5TW4wcRS2qvpBLtCuErjitLdjYh9Fwwxh44wcNgEruiOw8m0OTNJsbj1xEdtCOLiJhb3PDMpWti136eFaV79zPRIULBC3h7mmxVI+DdNCh/FUPWR/J+AwqcEkbrkLwfeLw6PItTZJvNwOUmPCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CgUlpsnV77qQgNN4dj8wt7N9+mojCgflftDzSmOXtvM=;
- b=DZnYuqZ1eixCVunCS7Pn8IvbXx/j8gj+RbouIaj86+vK/raD59uhEuBp3ztdxNQ3vWoU3AChEP6wfWX5qDSRvkmQjOxBZi39PiLfDso5mVaIFfQZGduh5vuPi1GP+gMwsmLuG2ZkvMFxrSjOpQ9BbsU5b5LbyF2NdDMr3EmnZB+KReRhjNIg6KAZ3a9NFranyQSc6WsrTqE7/Igo8rb2EsZmvv4rLVl5dLzJMCAQkkdRF2cqIS/TXvTHptE5nDKOT3Y9LtIM/qEo4/0El9zC3rDeNIXg17KGFSecnxslRcoSCN5Vl7BaL0X6z+fUHVREnY5N1JOB/EydMRXiaed8kA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-Received: from DM5PR12MB1705.namprd12.prod.outlook.com (10.175.88.22) by
- DM5PR12MB1707.namprd12.prod.outlook.com (10.175.86.21) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2430.23; Thu, 7 Nov 2019 09:24:26 +0000
-Received: from DM5PR12MB1705.namprd12.prod.outlook.com
- ([fe80::e5e7:96f0:ad90:d933]) by DM5PR12MB1705.namprd12.prod.outlook.com
- ([fe80::e5e7:96f0:ad90:d933%7]) with mapi id 15.20.2408.028; Thu, 7 Nov 2019
- 09:24:25 +0000
-From: "Koenig, Christian" <Christian.Koenig@amd.com>
-To: "Grodzovsky, Andrey" <Andrey.Grodzovsky@amd.com>
-Subject: Re: [PATCH 1/4] Revert "drm/amdgpu: dont schedule jobs while in reset"
-Thread-Topic: [PATCH 1/4] Revert "drm/amdgpu: dont schedule jobs while in
- reset"
-Thread-Index: AQHVlMrOykUK6HDuYkilm6euiTO/16d/cK8A
-Date: Thu, 7 Nov 2019 09:24:25 +0000
-Message-ID: <f04113d4-03af-bdfa-3c2c-6021a74df1f3@amd.com>
-References: <1573062672-23698-1-git-send-email-andrey.grodzovsky@amd.com>
-In-Reply-To: <1573062672-23698-1-git-send-email-andrey.grodzovsky@amd.com>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-x-originating-ip: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-x-clientproxiedby: AM0PR02CA0031.eurprd02.prod.outlook.com
- (2603:10a6:208:3e::44) To DM5PR12MB1705.namprd12.prod.outlook.com
- (2603:10b6:3:10c::22)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: e0a09166-4ef5-45d7-232b-08d763644827
-x-ms-traffictypediagnostic: DM5PR12MB1707:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM5PR12MB17073C40F22869AAB62C1BE483780@DM5PR12MB1707.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:923;
-x-forefront-prvs: 0214EB3F68
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(136003)(396003)(346002)(39860400002)(376002)(366004)(189003)(199004)(6636002)(14454004)(71190400001)(71200400001)(99286004)(2616005)(6246003)(476003)(4326008)(52116002)(450100002)(6436002)(478600001)(76176011)(11346002)(6512007)(446003)(316002)(486006)(86362001)(58126008)(37006003)(386003)(6506007)(305945005)(66946007)(66476007)(66446008)(64756008)(66556008)(54906003)(31696002)(7736002)(2906002)(186003)(25786009)(5660300002)(6486002)(14444005)(256004)(31686004)(66574012)(8936002)(8676002)(36756003)(229853002)(6116002)(6862004)(102836004)(81156014)(46003)(65806001)(65956001)(81166006)(192303002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB1707;
- H:DM5PR12MB1705.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: OjMgjo7CS6z7Er6QipunQvyVqYD/2vOjLxEbi/TuiiJuSHiT/Kr/mwHzK2uLsFv2bWxsOqh1K650JTgy/H0HeaO/7q+4UL5Lse0SaH2kd96xQsUlXbVyZow2Mas1do/95x9jbQ3L7i+ZLke2+NWVGJ8dvW01Fxr/niWyIzt5TZ93uoXM+to3WAnAm4HvpMnDXEyOjJ3U/1SxDeL++xDARfnae/kFeYavGyw21mz2sPKYNh1yRokcQuOfqOSTPdTkdMQgzkcr8hAdimLn9roE8mnfa7+mJNbCifAlhG2lAKUPonGKPsEBtBtT/P8RrShel3EFoKVwSSQmQ5xozySJxXDZBbLZc28VfgmQZjCc0fq14+N9mLqKvinZ0lqIEAfDbo2CZ7BhtNcxZzJDxpeFZvOl90HnkEg7/svkoVRx1Kf6zvC0wyaiLlwf2gDE5Eok
-Content-ID: <C03DD884F18EFD4A8B29FE911B1A7764@namprd12.prod.outlook.com>
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5BB86E02C
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2019 09:37:51 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id EE8B3AC9D;
+ Thu,  7 Nov 2019 09:37:49 +0000 (UTC)
+Subject: Re: [PATCH v2 4/4] drm/udl: Remove struct udl_gem_object and functions
+To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>, airlied@redhat.com, 
+ sean@poorly.run, daniel@ffwll.ch, sam@ravnborg.org,
+ emil.velikov@collabora.com, kraxel@redhat.com
+References: <20191106104722.19700-1-tzimmermann@suse.de>
+ <20191106104722.19700-5-tzimmermann@suse.de>
+ <e5d62b16-3984-45bb-eb86-92023b437a95@tronnes.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <ceaa2d95-11c9-a22e-0816-b9d95578bad0@suse.de>
+Date: Thu, 7 Nov 2019 10:37:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e0a09166-4ef5-45d7-232b-08d763644827
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Nov 2019 09:24:25.6897 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: R8QS9yC6H07fyY9fpUHuhs1mBedgWjo93I3F8TzOPg5tGVRCot4wawegT8kVhi8M
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1707
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CgUlpsnV77qQgNN4dj8wt7N9+mojCgflftDzSmOXtvM=;
- b=aulE9ybBROFCrnIWQaSZKypzK3zXiu35FPr98JUkyNpQQ/QmhivLQ/bcgxslH2hZgyrEZtBbrYXTITdrSHpfWHAr65kZKVTITzuw88ijHN7V3nS1u6PiA1tQr/8CpK1skkYIuU7qwAID29mC4bteKyFdHL0WCNodql6R7RPF42s=
-X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Christian.Koenig@amd.com; 
+In-Reply-To: <e5d62b16-3984-45bb-eb86-92023b437a95@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,35 +67,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "S,
- Shirish" <Shirish.S@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0769887514=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMDYuMTEuMTkgdW0gMTg6NTEgc2NocmllYiBBbmRyZXkgR3JvZHpvdnNreToNCj4gVGhpcyBy
-ZXZlcnRzIGNvbW1pdCAzY2RmOWJkMDA4OTcyM2M0NjhkNWY2MjQwZTU0ZDFhZmE1MmU5YTA0Lg0K
-Pg0KPiBXZSB3aWxsIGRvIGEgcHJvcGVyIGZpeCBpbiBuZXh0IHBhdGNoLg0KPg0KPiBTaWduZWQt
-b2ZmLWJ5OiBBbmRyZXkgR3JvZHpvdnNreSA8YW5kcmV5Lmdyb2R6b3Zza3lAYW1kLmNvbT4NCg0K
-VGhlIG9yZGVyIG9mIHRoaXMgb25lIGFuZCBwYXRjaCAjMiBuZWVkcyB0byBiZSBzd2FwcGVkLCBv
-ciBvdGhlcndpc2Ugd2UgDQpoYXZlIHRoZSBidWcgaW4gYmV0d2VlbiB0aG9zZSB0d28gY29tbWl0
-cyBhZ2Fpbi4NCg0KQXBhcnQgZnJvbSB0aGF0IHRoZSBzZXJpZXMgaXMgUmV2aWV3ZWQtYnk6IENo
-cmlzdGlhbiBLw7ZuaWcgDQo8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPi4NCg0KVGhhbmtzLA0K
-Q2hyaXN0aWFuLg0KDQo+IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdw
-dV9jdHguYyB8IDUgKy0tLS0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDQg
-ZGVsZXRpb25zKC0pDQo+DQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
-dS9hbWRncHVfY3R4LmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfY3R4LmMN
-Cj4gaW5kZXggMmNkYWYzYi4uNjYxNGQ4YSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
-L2FtZC9hbWRncHUvYW1kZ3B1X2N0eC5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
-Z3B1L2FtZGdwdV9jdHguYw0KPiBAQCAtNjA0LDExICs2MDQsOCBAQCB2b2lkIGFtZGdwdV9jdHhf
-bWdyX2VudGl0eV9maW5pKHN0cnVjdCBhbWRncHVfY3R4X21nciAqbWdyKQ0KPiAgIAkJCWNvbnRp
-bnVlOw0KPiAgIAkJfQ0KPiAgIA0KPiAtCQlmb3IgKGkgPSAwOyBpIDwgbnVtX2VudGl0aWVzOyBp
-KyspIHsNCj4gLQkJCW11dGV4X2xvY2soJmN0eC0+YWRldi0+bG9ja19yZXNldCk7DQo+ICsJCWZv
-ciAoaSA9IDA7IGkgPCBudW1fZW50aXRpZXM7IGkrKykNCj4gICAJCQlkcm1fc2NoZWRfZW50aXR5
-X2ZpbmkoJmN0eC0+ZW50aXRpZXNbMF1baV0uZW50aXR5KTsNCj4gLQkJCW11dGV4X3VubG9jaygm
-Y3R4LT5hZGV2LT5sb2NrX3Jlc2V0KTsNCj4gLQkJfQ0KPiAgIAl9DQo+ICAgfQ0KPiAgIA0KDQpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0769887514==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="OYT2joHFae1mkbIzaWIxE0tcFfcChOtyU"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--OYT2joHFae1mkbIzaWIxE0tcFfcChOtyU
+Content-Type: multipart/mixed; boundary="pjbzoN3EoTqIhm3hhTjHfxFH1nk5VyL0t";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>, airlied@redhat.com,
+ sean@poorly.run, daniel@ffwll.ch, sam@ravnborg.org,
+ emil.velikov@collabora.com, kraxel@redhat.com
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <ceaa2d95-11c9-a22e-0816-b9d95578bad0@suse.de>
+Subject: Re: [PATCH v2 4/4] drm/udl: Remove struct udl_gem_object and
+ functions
+References: <20191106104722.19700-1-tzimmermann@suse.de>
+ <20191106104722.19700-5-tzimmermann@suse.de>
+ <e5d62b16-3984-45bb-eb86-92023b437a95@tronnes.org>
+In-Reply-To: <e5d62b16-3984-45bb-eb86-92023b437a95@tronnes.org>
+
+--pjbzoN3EoTqIhm3hhTjHfxFH1nk5VyL0t
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi Noralf
+
+Am 06.11.19 um 12:48 schrieb Noralf Tr=C3=B8nnes:
+>=20
+>=20
+> Den 06.11.2019 11.47, skrev Thomas Zimmermann:
+>> Simply removes all the obsolete GEM code from udl. No functional
+>> changes.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>  drivers/gpu/drm/udl/Makefile     |   2 +-
+>>  drivers/gpu/drm/udl/udl_dmabuf.c | 254 ------------------------------=
+-
+>>  drivers/gpu/drm/udl/udl_drv.h    |  29 ----
+>>  drivers/gpu/drm/udl/udl_gem.c    | 206 -------------------------
+>>  4 files changed, 1 insertion(+), 490 deletions(-)
+>>  delete mode 100644 drivers/gpu/drm/udl/udl_dmabuf.c
+>>
+>=20
+> <snip>
+>=20
+>> -int udl_gem_vmap(struct udl_gem_object *obj)
+>> -{
+>> -	int page_count =3D obj->base.size / PAGE_SIZE;
+>> -	int ret;
+>> -
+>> -	if (obj->base.import_attach) {
+>> -		obj->vmapping =3D dma_buf_vmap(obj->base.import_attach->dmabuf);
+>> -		if (!obj->vmapping)
+>> -			return -ENOMEM;
+>> -		return 0;
+>> -	}
+>> -
+>> -	ret =3D udl_gem_get_pages(obj);
+>> -	if (ret)
+>> -		return ret;
+>> -
+>> -	obj->vmapping =3D vmap(obj->pages, page_count, 0, PAGE_KERNEL);
+>=20
+> This differs from the shmem helper vmap:
+>=20
+> 	shmem->vaddr =3D vmap(shmem->pages, obj->size >> PAGE_SHIFT,
+> 			    VM_MAP, pgprot_writecombine(PAGE_KERNEL));
+>=20
+> Boris added the WC in be7d9f05c53e:
+>=20
+>  drm/gem_shmem: Use a writecombine mapping for ->vaddr
+>=20
+>  Right now, the BO is mapped as a cached region when ->vmap() is called=
+
+>  and the underlying object is not a dmabuf.
+>  Doing that makes cache management a bit more complicated (you'd need
+>  to call dma_map/unmap_sg() on the ->sgt field everytime the BO is abou=
+t
+>  to be passed to the GPU/CPU), so let's map the BO with writecombine
+>  attributes instead (as done in most drivers).
+>=20
+> I don't know what the implications of this are, just pointing out a
+> difference.
+
+After some testing, I added an udl vmap function that enables caching on
+the pages. I think I see a performance improvement for full-screen update=
+s.
+
+Best regards
+Thomas
+
+>=20
+> Noralf.
+>=20
+>> -	if (!obj->vmapping)
+>> -		return -ENOMEM;
+>> -	return 0;
+>> -}
+>=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--pjbzoN3EoTqIhm3hhTjHfxFH1nk5VyL0t--
+
+--OYT2joHFae1mkbIzaWIxE0tcFfcChOtyU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl3D5ekACgkQaA3BHVML
+eiME5QgAo5xtlxJRY6P9JsniezxljR6ZCatLVkgLiSzALlz9PUZ1fOHxH+zS8Z7z
+C6Ktepeg5J55ofAIvjej7RatF55LRigAQM2mZTlTbQgM2VHc1EVMmg1fJ9owZlxP
+OprABr0yVUyzxD8Ud7CVyj86ofsCw6QSrPVMwgBNJkZrR7feVk7ykTnWNsvcGhRU
+g8X4+1gJJ7WwYDnDSlAB2P5dnj7qtfxtCd5xnvn/FsLixp0b4+nCcUfEl1EVWt0Y
+ZKwGH9qF4TPrHNKrf8OnKzEkbCzzb5DTzRday1/CAiz5WJ4dWA6sGDP/dpBdmEEk
+CyBKSFipE+njhdXZ5uFZV4IyOhy8og==
+=Seq1
+-----END PGP SIGNATURE-----
+
+--OYT2joHFae1mkbIzaWIxE0tcFfcChOtyU--
+
+--===============0769887514==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0769887514==--
