@@ -1,46 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2FDF31BD
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2019 15:46:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48B2FF31C3
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2019 15:51:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB4EB6F6BC;
-	Thu,  7 Nov 2019 14:46:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADEAF6F6BF;
+	Thu,  7 Nov 2019 14:51:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0B1AA6F6C0
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Nov 2019 14:46:55 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 051CE720E2; Thu,  7 Nov 2019 14:46:55 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112226] [HadesCanyon/regression] GPU hang causes also X server
- to die
-Date: Thu, 07 Nov 2019 14:46:55 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: eero.t.tamminen@intel.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-112226-502-w4VYfEtlXi@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-112226-502@http.bugs.freedesktop.org/>
-References: <bug-112226-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89F046F6BF;
+ Thu,  7 Nov 2019 14:51:06 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 07 Nov 2019 06:51:04 -0800
+X-IronPort-AV: E=Sophos;i="5.68,278,1569308400"; d="scan'208";a="196575730"
+Received: from jlahtine-desk.ger.corp.intel.com (HELO localhost)
+ ([10.251.83.198])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 07 Nov 2019 06:51:01 -0800
+Date: Thu, 7 Nov 2019 16:50:58 +0200
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-next-fixes
+Message-ID: <20191107145058.GA17401@jlahtine-desk.ger.corp.intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,121 +43,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1739585126=="
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1739585126==
-Content-Type: multipart/alternative; boundary="15731380142.65cD.11223"
-Content-Transfer-Encoding: 7bit
-
-
---15731380142.65cD.11223
-Date: Thu, 7 Nov 2019 14:46:54 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112226
-
---- Comment #4 from Eero Tamminen <eero.t.tamminen@intel.com> ---
-Created attachment 145909
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145909&action=3Dedit
-Xorg log
-
-X dies to ConfigureWindow() -> miResizeWindow() -> miCopyRegion() ->
-glamor_create_pixmap() -> radeonsi_dri.so -> abort().
-
-Lightdm log show abort to be:
-X: src/gallium/winsys/amdgpu/drm/amdgpu_cs.c:1061: amdgpu_cs_check_space:
-Assertion `rcs->current.cdw <=3D rcs->current.max_dw' failed.
-
-This is the same abort that causes X server to fail at boot with git Mesa a=
-nd a
-bit older X server & drm-tip kernel.
-
-Is above abort due to something on the kernel side, or Mesa issue?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15731380142.65cD.11223
-Date: Thu, 7 Nov 2019 14:46:54 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [HadesCanyon/regression] GPU hang causes also X server to=
- die"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112226#c4">Commen=
-t # 4</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [HadesCanyon/regression] GPU hang causes also X server to=
- die"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112226">bug 11222=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-eero.t.tamminen&#64;intel.com" title=3D"Eero Tamminen &lt;eero.t.tamminen&#=
-64;intel.com&gt;"> <span class=3D"fn">Eero Tamminen</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145909=
-" name=3D"attach_145909" title=3D"Xorg log">attachment 145909</a> <a href=
-=3D"attachment.cgi?id=3D145909&amp;action=3Dedit" title=3D"Xorg log">[detai=
-ls]</a></span>
-Xorg log
-
-X dies to ConfigureWindow() -&gt; miResizeWindow() -&gt; miCopyRegion() -&g=
-t;
-glamor_create_pixmap() -&gt; radeonsi_dri.so -&gt; abort().
-
-Lightdm log show abort to be:
-X: src/gallium/winsys/amdgpu/drm/amdgpu_cs.c:1061: amdgpu_cs_check_space:
-Assertion `rcs-&gt;current.cdw &lt;=3D rcs-&gt;current.max_dw' failed.
-
-This is the same abort that causes X server to fail at boot with git Mesa a=
-nd a
-bit older X server &amp; drm-tip kernel.
-
-Is above abort due to something on the kernel side, or Mesa issue?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15731380142.65cD.11223--
-
---===============1739585126==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1739585126==--
+SGkgRGF2ZSAmIERhbmllbCwKCkEgcXVpZXQgc3RhcnQuIEhvcGVmdWxseSBzdGF5cyB0aGF0IHdh
+eSA6KQoKUkNVIHRyYWNraW5nIGZpeCBhbmQgc3VzcGVuZCBHRU1fQlVHX09OIGZpeCB3aXRoIGRl
+cGVuZGVuY2llcy4KClJlZ2FyZHMsIEpvb25hcwoKKioqCgpkcm0taW50ZWwtbmV4dC1maXhlcy0y
+MDE5LTExLTA3OgoKT25lIFJDVSBmaXggYW5kIGZpeCBmb3Igc3VzcGVuZCBHRU1fQlVHX09OICh3
+aXRoIGRlcGVuZGVuY2llcykuCgpUaGUgZm9sbG93aW5nIGNoYW5nZXMgc2luY2UgY29tbWl0IDhh
+ODZiMDBhNDM3ZWMwNmIyOTg0Nzc0NjNjN2E5Yjg3NzQ1NzA1MDc6CgogIE1lcmdlIHRhZyAnZHJt
+LW5leHQtNS41LTIwMTktMTEtMDEnIG9mIGdpdDovL3Blb3BsZS5mcmVlZGVza3RvcC5vcmcvfmFn
+ZDVmL2xpbnV4IGludG8gZHJtLW5leHQgKDIwMTktMTEtMDQgMTA6MjI6NTMgKzEwMDApCgphcmUg
+YXZhaWxhYmxlIGluIHRoZSBHaXQgcmVwb3NpdG9yeSBhdDoKCiAgZ2l0Oi8vYW5vbmdpdC5mcmVl
+ZGVza3RvcC5vcmcvZHJtL2RybS1pbnRlbCB0YWdzL2RybS1pbnRlbC1uZXh0LWZpeGVzLTIwMTkt
+MTEtMDcKCmZvciB5b3UgdG8gZmV0Y2ggY2hhbmdlcyB1cCB0byBkOWRhY2U5NDM4OTQ1ZTdjMTNk
+OTFlNjI5MjdjNWM2Yzg4YTM3ZWU1OgoKICBkcm0vaTkxNS9zZWxmdGVzdHM6IEFkZCBpbnRlbF9n
+dF9zdXNwZW5kX3ByZXBhcmUgKDIwMTktMTEtMDUgMTY6MDY6MjUgKzAyMDApCgotLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCk9u
+ZSBSQ1UgZml4IGFuZCBmaXggZm9yIHN1c3BlbmQgR0VNX0JVR19PTiAod2l0aCBkZXBlbmRlbmNp
+ZXMpLgoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLQpDaHJpcyBXaWxzb24gKDcpOgogICAgICBkcm0vaTkxNTogUHJvdGVjdCBy
+ZXF1ZXN0IHBlZWtpbmcgd2l0aCBSQ1UKICAgICAgZHJtL2k5MTUvZ3Q6IENhbGwgaW50ZWxfZ3Rf
+c2FuaXRpemUoKSBkaXJlY3RseQogICAgICBkcm0vaTkxNS9nZW06IExlYXZlIHJlbG9hZGluZyBr
+ZXJuZWwgY29udGV4dCBvbiByZXN1bWUgdG8gR1QKICAgICAgZHJtL2k5MTUvZ3Q6IE1vdmUgdXNl
+cl9mb3JjZXdha2UgYXBwbGljYXRpb24gdG8gR1QKICAgICAgZHJtL2k5MTU6IERlZmVyIHJjNiBz
+aHV0ZG93biB0byBzdXNwZW5kX2xhdGUKICAgICAgZHJtL2k5MTUvZ3Q6IERyb3AgZmFsc2UgYXNz
+ZXJ0aW9uIG9uIHVzZXJfZm9yY2V3YWtlCiAgICAgIGRybS9pOTE1L3NlbGZ0ZXN0czogQWRkIGlu
+dGVsX2d0X3N1c3BlbmRfcHJlcGFyZQoKIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dl
+bV9wbS5jICAgICAgICAgICB8IDYxICstLS0tLS0tLS0tLS0tLQogZHJpdmVycy9ncHUvZHJtL2k5
+MTUvZ3QvaW50ZWxfZ3QuYyAgICAgICAgICAgICAgIHwgIDYgKy0KIGRyaXZlcnMvZ3B1L2RybS9p
+OTE1L2d0L2ludGVsX2d0LmggICAgICAgICAgICAgICB8ICAyICstCiBkcml2ZXJzL2dwdS9kcm0v
+aTkxNS9ndC9pbnRlbF9ndF9wbS5jICAgICAgICAgICAgfCA5NSArKysrKysrKysrKysrKysrKysr
+KysrKy0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2d0X3BtLmggICAgICAgICAgICB8
+ICAzICstCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9pbnRlbF9yYzYuYyAgICAgICAgICAgICAg
+fCAgNSArKwogZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3Qvc2VsZnRlc3RfZ3RfcG0uYyAgICAgICAg
+IHwgIDMgKy0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfZHJ2LmMgICAgICAgICAgICAgICAg
+ICB8ICA4ICstCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2Rydi5oICAgICAgICAgICAgICAg
+ICAgfCAgMiAtCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2dlbS5jICAgICAgICAgICAgICAg
+ICAgfCAzNyAtLS0tLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfc2NoZWR1bGVyLmMg
+ICAgICAgICAgICB8ICA5ICsrLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvc2VsZnRlc3RzL2k5MTVf
+Z2VtLmMgICAgICAgIHwgIDEgLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvc2VsZnRlc3RzL21vY2tf
+Z2VtX2RldmljZS5jIHwgIDEgLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvc2VsZnRlc3RzL21vY2tf
+Z3R0LmMgICAgICAgIHwgIDMgKy0KIDE0IGZpbGVzIGNoYW5nZWQsIDExOCBpbnNlcnRpb25zKCsp
+LCAxMTggZGVsZXRpb25zKC0pCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbA==
