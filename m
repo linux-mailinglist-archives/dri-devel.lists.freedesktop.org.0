@@ -1,57 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 688DFF35B1
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2019 18:29:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17C6CF35B9
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Nov 2019 18:30:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D96EC6F754;
-	Thu,  7 Nov 2019 17:29:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C18226F75A;
+	Thu,  7 Nov 2019 17:30:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com
- [IPv6:2607:f8b0:4864:20::a42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18D736E369;
- Thu,  7 Nov 2019 17:29:13 +0000 (UTC)
-Received: by mail-vk1-xa42.google.com with SMTP id k19so771867vke.10;
- Thu, 07 Nov 2019 09:29:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FJ/5JzEIC2cnc/t+SlFWINjO7/ar6sP5zFsCO5J2xb4=;
- b=js/W9V4fEFJDRyQf6DnmxXlHPlF0+GtnNRnA1q2g5CDsyB8aWJV4Ly4yqNf5LnwArc
- t1cf1ecdpxeAY22dQRbfAdbo3FCiH9Qf7WsjkHM3W4yVDKYaoZCKklW0nxNXmp55io7/
- x1P2agekwH4OeNfPiNyv/gRZTYhDn9QnL8sgnxDGubgJdqoirv5as4XCnplsnPX3gxUT
- 7xl+4bHRfJ1NPadxKhIyyP2PtQ0LuMLaEDRc8ynnyLyYCysAqnXYxxpOT6e0UqLIrwZn
- ZyuouE+eqBKmsB1DuEn0xM5itPo/tDtbVeQBMmKbwNezUVzONPCCnk8iAmXCp4JUx7Bf
- MABA==
-X-Gm-Message-State: APjAAAVUyhQDyDo109qS3Xk0SOgYZnmF+M76iiSfAifbFurzQHTWPP5j
- UGacWwTABVU2MNuthWqBykMJzHB2qSR/C2gEjrImFpy4
-X-Google-Smtp-Source: APXvYqwREzjllY2jsbweOMHpVSvs1NCwn1J3nRboPoGNGWoBaBidgKb+rCcb95rMsplVBIqtP9VRSqTwxPPiaE1ZlUc=
-X-Received: by 2002:a1f:5f08:: with SMTP id t8mr3594845vkb.87.1573147751967;
- Thu, 07 Nov 2019 09:29:11 -0800 (PST)
+Received: from anholt.net (anholt.net [50.246.234.109])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 988486F755;
+ Thu,  7 Nov 2019 17:30:35 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id 6B2FA10017F9;
+ Thu,  7 Nov 2019 09:30:35 -0800 (PST)
+Received: from anholt.net ([127.0.0.1])
+ by localhost (wales.anholt.net [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id HoZuJZOcm_Oi; Thu,  7 Nov 2019 09:30:35 -0800 (PST)
+Received: from eliezer.anholt.net (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id 5B22010010D4;
+ Thu,  7 Nov 2019 09:30:35 -0800 (PST)
+Received: by eliezer.anholt.net (Postfix, from userid 1000)
+ id 2C06A2FE2F98; Thu,  7 Nov 2019 09:30:53 -0800 (PST)
+From: Eric Anholt <eric@anholt.net>
+To: Rob Clark <robdclark@gmail.com>, Fritz Koenig <frkoenig@google.com>
+Subject: Re: [PATCH] drm/msm/dpu: Add UBWC support for RGB8888 formats
+In-Reply-To: <CAF6AEGuXv+ePcGtuN2XTFazrMrtyCYMjZOvYn5CZ3bKE2UhVQg@mail.gmail.com>
+References: <20191106232553.76553-1-frkoenig@google.com>
+ <CAF6AEGuXv+ePcGtuN2XTFazrMrtyCYMjZOvYn5CZ3bKE2UhVQg@mail.gmail.com>
+User-Agent: Notmuch/0.22.2+1~gb0bcfaa (http://notmuchmail.org) Emacs/26.3
+ (x86_64-pc-linux-gnu)
+Date: Thu, 07 Nov 2019 09:30:50 -0800
+Message-ID: <87wocbiofp.fsf@anholt.net>
 MIME-Version: 1.0
-References: <20191106142432.14022-1-chris@chris-wilson.co.uk>
- <20191106142432.14022-4-chris@chris-wilson.co.uk>
-In-Reply-To: <20191106142432.14022-4-chris@chris-wilson.co.uk>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Thu, 7 Nov 2019 17:28:45 +0000
-Message-ID: <CAM0jSHO-SDrc0ZiDx+HtGigVhbB2wv_59JQEyod+G8drOJ=-xQ@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH v3 3/5] drm/i915/selftests: Replace mock_file
- hackery with drm's true fake
-To: Chris Wilson <chris@chris-wilson.co.uk>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=FJ/5JzEIC2cnc/t+SlFWINjO7/ar6sP5zFsCO5J2xb4=;
- b=qqnxT7XS955uDINTdxb9ayib1SBOVUuOJYp9kCSVuCadmx1UMxcdEDoKJvARjoTQDJ
- grVSiq2jvl9T54UDpiABga+zYrcJIHdgc5HsdujUvKuGfVUJykDiW1o3bbSseJgdM0FD
- iujOjPySNYoHC385w31x3qz6BDShkolY9462LIsBVqPw2fEkq0tPkwfe0ETRtr+WroW8
- XqintwxVOM5i4GoPyjNdvkUEv3ECbTNokX3kx0UPZXbPo340PY0D0cKzr4pQ/WLofqae
- CMVXsYt4Cj+odecm4vbDD3REFESrdqQne+3CVUP/Yn+lU4NIQ6DSpt/4FawTn8JEeTb+
- +v9A==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,20 +46,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sean Paul <sean@poorly.run>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============1987673359=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCA2IE5vdiAyMDE5IGF0IDE0OjI0LCBDaHJpcyBXaWxzb24gPGNocmlzQGNocmlzLXdp
-bHNvbi5jby51az4gd3JvdGU6Cj4KPiBBcyBkcm0gbm93IGV4cG9ydHMgYSBtZXRob2QgdG8gY3Jl
-YXRlIGFuIGFub255bW91cyBzdHJ1Y3QgZmlsZSBhcm91bmQgYQo+IGRybV9kZXZpY2UgZm9yIGlu
-dGVybmFsIHVzZSwgbWFrZSB1c2Ugb2YgaXQgdG8gYXZvaWQgb3VyIGhvcnJpYmxlIGhhY2tzLgo+
-Cj4gU2lnbmVkLW9mZi1ieTogQ2hyaXMgV2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+
-CgpBcyBwZXIgeW91ciBldmVudHVhbCBwbGFuLCBmd2l3LApSZXZpZXdlZC1ieTogTWF0dGhldyBB
-dWxkIDxtYXR0aGV3LmF1bGRAaW50ZWwuY29tPgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWw=
+--===============1987673359==
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
+
+--=-=-=
+Content-Type: text/plain
+
+Rob Clark <robdclark@gmail.com> writes:
+
+> On Wed, Nov 6, 2019 at 3:26 PM Fritz Koenig <frkoenig@google.com> wrote:
+>>
+>> Hardware only natively supports BGR8888 UBWC.
+>> UBWC support for RGB8888 can be had by pretending
+>> that the buffer is BGR.
+>
+> Just to expand, this aligns with how we handle RGB component order in
+> mesa for tiled or tiled+ubwc.  If uncompressed to linear the component
+> order is RGB, but in tiled or tiled+ubwc, the component order is
+> always the hw "native" order (BGR) regardless of what the outside
+> world thinks.  But that detail kinda doesn't matter, it's not like
+> generic code is going to understand the tiled or tiled+ubwc format in
+> the first place.. and code that does understand it, knows enough to
+> know that tiled/tiled+ubwc is always in the native component order.
+>
+>> Signed-off-by: Fritz Koenig <frkoenig@google.com>
+>
+> Reviewed-by: Rob Clark <robdclark@gmail.com>
+
+Seems like a reasonable workaround to me, and permissible by our fourcc
+modifier rules ("you just have to have one way to address the pixels
+given a fourcc and a modifier").
+
+Reviewed-by: Eric Anholt <eric@anholt.net>
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE/JuuFDWp9/ZkuCBXtdYpNtH8nugFAl3EVMoACgkQtdYpNtH8
+nuizTw/9FlTG19QgaCUdQ4TnHR4KS0aHUTewrapoe5LZ96DKl4JAKdkzdT7oGaWq
+jIX26+6DpG6WF3VWqYBG1j9or0m+lZZGxAb548KpcDlW3N7HJh226acI12AGV1M4
+GbiJKlsSosYtn1+OsvaXHQILN1+kBgoXbGrYq5FBIakAJ/E/lSp4r89U0mPAQu5H
+OBooVqdOZTzE6wf2VAuxW/Wi7PUuHQ5ba1CkUJYj3/3uyyy+X7dKAhKuknTksnMQ
+35PpPXB9qyt5DIC0j2DG4htxzvAIMzhy/WYw6KWqFKFkCqHCn9JfZQokob+VK2az
+JXBosScS1tfx7+Rzdjk3ACzJXgjqRSPSKHkfclDRujXL0K2bDEdCl4Os68RyaFtn
+0aiSpcdhTEMdxmP8vm3gUHrQSokHU1ZMGot6BvwSZO3WqT7BM3vGCIriWbGmvdbu
+zGWuCxSE8LqTnDNBGAgvI8tNfYw0dO/E73J+ARCrq5dniqHrNAahXquZKQQSVKbX
+zGIIpXamrlp6EXyeDu4ljxqKMo6FQFJUSMc9tKY9Us4KOAB2lgoSDwf9F5GYZk7+
+113gqrWzUFEV1oQZnuHnYTF24J784uzoEwxjAD11C0+JQ1s9PTpe44As0iJiUiq7
+D7e1pPWOBmpd1Ej5YrOalr7Qn7IUyPTVrahc9GPZ5377VYEoZdo=
+=0F+3
+-----END PGP SIGNATURE-----
+--=-=-=--
+
+--===============1987673359==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1987673359==--
