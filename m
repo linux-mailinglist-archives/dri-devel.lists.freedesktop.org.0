@@ -2,48 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CDE7F5A04
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 22:38:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3807F5A76
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 22:57:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F0046FA93;
-	Fri,  8 Nov 2019 21:38:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78F786E0A1;
+	Fri,  8 Nov 2019 21:57:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F5EA6FA93
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2019 21:38:00 +0000 (UTC)
-Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.129]) with ESMTPA (Nemesis) id
- 1Mn2Fb-1i1nwX1PPz-00k9z1; Fri, 08 Nov 2019 22:37:50 +0100
-From: Arnd Bergmann <arnd@arndb.de>
-To: y2038@lists.linaro.org, Lucas Stach <l.stach@pengutronix.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 15/16] drm/etnaviv: use ktime_t for timeouts
-Date: Fri,  8 Nov 2019 22:32:53 +0100
-Message-Id: <20191108213257.3097633-16-arnd@arndb.de>
-X-Mailer: git-send-email 2.20.0
-In-Reply-To: <20191108213257.3097633-1-arnd@arndb.de>
-References: <20191108213257.3097633-1-arnd@arndb.de>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6E74A6FAA4
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2019 21:57:16 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 6B61F720E2; Fri,  8 Nov 2019 21:57:16 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Fri, 08 Nov 2019 21:57:14 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: smith-erc@gmx.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: highest
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
+Message-ID: <bug-111481-502-6EVfHhUR7E@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Provags-ID: V03:K1:0mG/AeRqRfllKNyxjsRTf1Lcjrue4mA0fTazDskyMcSc5mlcPDP
- zbVsx/cHjwgO02t9e22UWWZH0DGv7RXqjSXbPD3DPZRjW5iWLttQosFa3M1orsc35xqlood
- /rkgvkWdLpjLCGamV2uyd9Sryst2A5hYqyZWYH/dUS/hCt8Wq+k4A3DvFqlkufIJb052pjX
- VppE3uMwAwBi6LBZ1hkIg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:F261wtjEcT0=:5B/i1CyfuUrOw9eZBz/PLK
- hjY0gVwJQdkRM7obOi8iEsKCYl+fPz3Dv27PPeQlVcVrhOw3R+dP6IpEdAxei2BjnXxYDjh66
- aPS3OBOQHslKZ3OeyDJe9DmgX80C9S4tPkEbPHSgPVbUtvgJy8vtHxnoJ4xm7PnhRQxegtk9a
- GcsKvnDoZG+y63G/aYXmWuGOfC78Z2a4TJsnmCnF90pjnwXkC+yX1pGfkWd+FTfvrZLnSBn+v
- JGpXkQOSAzUDk/drEENpyjc5UA0Ydbigu7yyJzGxQTJUF8HL50B1HrvxI8QUI4QQsRfD85Fop
- kZ3a/3mhjjoZ9cxBYB5UbA+uWxoUe95Envho17lWGtXR8cuxetz5LiB20PGbXjCH7YTAVinpv
- VJkM63TNTTBs70tRux/sfx+Bw0nsTEzzWqeZzagG1U4LG5SgdWMO/R98kfP+KVIi1W/mC0kNX
- WGlMUs6ky38u2v1UBIUHLUm0ncTwQR6YYIngKvnAB6UFI9mYlQLkdL8q7wh3qweT4UE0o2v5d
- 9vOK2DGYLusxNChy8p6OOfl6MNxMO6+EiPQMzhTKCWofZZFPuSPY6kJeTcPZWmQBaIc2WMfaF
- yUZKM7Wkw8plvQjy7E3cQ2TORmryKWPOZMd3fOeIxRw0Gevld+v64UDQRoYGqP7D7I10e2HfE
- hXQ72fC34kg8nUPPlRxm8dZdtXI/B5P3FLJ1UdMjYVWs/HD/EC+PfeiGvR1FOLBunfS81QB4y
- w1BVo7MZVUOrUaC27tXh3gQP4MIW2IQp8aYYhs2Pc5GNL3SjdDY4KNDGtcH5pUATj4TkMBpsD
- KP2LkzB5gi4EglpnawANVaSU3QqOZyZfqt8ei3wG3DyKxlUJGPpYjXvaIbX+ihtBYPK0NI0J8
- bYuwzkontVfVbF+ibFlQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,167 +53,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>,
- Sam Ravnborg <sam@ravnborg.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1368836493=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-c3RydWN0IHRpbWVzcGVjIGlzIGJlaW5nIHJlbW92ZWQgZnJvbSB0aGUga2VybmVsIGJlY2F1c2Ug
-aXQgb2Z0ZW4gbGVhZHMKdG8gY29kZSB0aGF0IGlzIG5vdCB5MjAzOC1zYWZlLgoKSW4gdGhlIGV0
-bmF2aXYgZHJpdmVyLCBtb25vdG9uaWMgdGltZXN0YW1wcyBhcmUgdXNlZCwgd2hpY2ggZG8gbm90
-IHN1ZmZlcgpmcm9tIG92ZXJmbG93LCBidXQgdXNpbmcga3RpbWVfdCBzdGlsbCBsZWFkcyB0byBi
-ZXR0ZXIgY29kZSBvdmVyYWxsLgoKVGhlIGNvbnZlcnNpb24gaXMgc3RyYWlnaHRmb3J3YXJkIGZv
-ciB0aGUgbW9zdCBwYXJ0LCBleGNlcHQgZm9yCmV0bmF2aXZfdGltZW91dF90b19qaWZmaWVzKCks
-IHdoaWNoIG5lZWRzIHRvIGhhbmRsZSBhcmd1bWVudHMgbGFyZ2VyCnRoYW4gTUFYX0pJRkZZX09G
-RlNFVCBvbiAzMi1iaXQgYXJjaGl0ZWN0dXJlcy4KClNpZ25lZC1vZmYtYnk6IEFybmQgQmVyZ21h
-bm4gPGFybmRAYXJuZGIuZGU+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9k
-cnYuYyB8IDE5ICsrKysrKysrKy0tLS0tLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0
-bmF2aXZfZHJ2LmggfCAyMSArKysrKysrKystLS0tLS0tLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9l
-dG5hdml2L2V0bmF2aXZfZ2VtLmMgfCAgNSArKy0tLQogZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYv
-ZXRuYXZpdl9nZW0uaCB8ICAyICstCiBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dw
-dS5jIHwgIDQgKystLQogZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9ncHUuaCB8ICA0
-ICsrLS0KIDYgZmlsZXMgY2hhbmdlZCwgMjUgaW5zZXJ0aW9ucygrKSwgMzAgZGVsZXRpb25zKC0p
-CgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9kcnYuYyBiL2Ry
-aXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZHJ2LmMKaW5kZXggMWY5YzAxYmU0MGQ3Li4x
-MjUwYzVlMDYzMjkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZf
-ZHJ2LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9kcnYuYwpAQCAtMjgy
-LDE2ICsyODIsMTMgQEAgc3RhdGljIGludCBldG5hdml2X2lvY3RsX2dlbV9uZXcoc3RydWN0IGRy
-bV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwKIAkJCWFyZ3MtPmZsYWdzLCAmYXJncy0+aGFuZGxl
-KTsKIH0KIAotI2RlZmluZSBUUyh0KSAoKHN0cnVjdCB0aW1lc3BlYyl7IFwKLQkudHZfc2VjID0g
-KHQpLnR2X3NlYywgXAotCS50dl9uc2VjID0gKHQpLnR2X25zZWMgXAotfSkKLQogc3RhdGljIGlu
-dCBldG5hdml2X2lvY3RsX2dlbV9jcHVfcHJlcChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lk
-ICpkYXRhLAogCQlzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGUpCiB7CiAJc3RydWN0IGRybV9ldG5hdml2
-X2dlbV9jcHVfcHJlcCAqYXJncyA9IGRhdGE7CiAJc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmo7
-CisJa3RpbWVfdCB0aW1lb3V0ID0ga3RpbWVfc2V0KGFyZ3MtPnRpbWVvdXQudHZfc2VjLAorCQkJ
-CSAgICBhcmdzLT50aW1lb3V0LnR2X25zZWMpOwogCWludCByZXQ7CiAKIAlpZiAoYXJncy0+b3Ag
-JiB+KEVUTkFfUFJFUF9SRUFEIHwgRVROQV9QUkVQX1dSSVRFIHwgRVROQV9QUkVQX05PU1lOQykp
-CkBAIC0zMDEsNyArMjk4LDcgQEAgc3RhdGljIGludCBldG5hdml2X2lvY3RsX2dlbV9jcHVfcHJl
-cChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAogCWlmICghb2JqKQogCQlyZXR1
-cm4gLUVOT0VOVDsKIAotCXJldCA9IGV0bmF2aXZfZ2VtX2NwdV9wcmVwKG9iaiwgYXJncy0+b3As
-ICZUUyhhcmdzLT50aW1lb3V0KSk7CisJcmV0ID0gZXRuYXZpdl9nZW1fY3B1X3ByZXAob2JqLCBh
-cmdzLT5vcCwgdGltZW91dCk7CiAKIAlkcm1fZ2VtX29iamVjdF9wdXRfdW5sb2NrZWQob2JqKTsK
-IApAQCAtMzU0LDcgKzM1MSw4IEBAIHN0YXRpYyBpbnQgZXRuYXZpdl9pb2N0bF93YWl0X2ZlbmNl
-KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsCiB7CiAJc3RydWN0IGRybV9ldG5h
-dml2X3dhaXRfZmVuY2UgKmFyZ3MgPSBkYXRhOwogCXN0cnVjdCBldG5hdml2X2RybV9wcml2YXRl
-ICpwcml2ID0gZGV2LT5kZXZfcHJpdmF0ZTsKLQlzdHJ1Y3QgdGltZXNwZWMgKnRpbWVvdXQgPSAm
-VFMoYXJncy0+dGltZW91dCk7CisJa3RpbWVfdCB0aW1lb3V0ID0ga3RpbWVfc2V0KGFyZ3MtPnRp
-bWVvdXQudHZfc2VjLAorCQkJCSAgICBhcmdzLT50aW1lb3V0LnR2X25zZWMpOwogCXN0cnVjdCBl
-dG5hdml2X2dwdSAqZ3B1OwogCiAJaWYgKGFyZ3MtPmZsYWdzICYgfihFVE5BX1dBSVRfTk9OQkxP
-Q0spKQpAQCAtMzY4LDcgKzM2Niw3IEBAIHN0YXRpYyBpbnQgZXRuYXZpdl9pb2N0bF93YWl0X2Zl
-bmNlKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsCiAJCXJldHVybiAtRU5YSU87
-CiAKIAlpZiAoYXJncy0+ZmxhZ3MgJiBFVE5BX1dBSVRfTk9OQkxPQ0spCi0JCXRpbWVvdXQgPSBO
-VUxMOworCQl0aW1lb3V0ID0ga3RpbWVfc2V0KDAsIDApOwogCiAJcmV0dXJuIGV0bmF2aXZfZ3B1
-X3dhaXRfZmVuY2VfaW50ZXJydXB0aWJsZShncHUsIGFyZ3MtPmZlbmNlLAogCQkJCQkJICAgIHRp
-bWVvdXQpOwpAQCAtNDAzLDcgKzQwMSw4IEBAIHN0YXRpYyBpbnQgZXRuYXZpdl9pb2N0bF9nZW1f
-d2FpdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAogewogCXN0cnVjdCBldG5h
-dml2X2RybV9wcml2YXRlICpwcml2ID0gZGV2LT5kZXZfcHJpdmF0ZTsKIAlzdHJ1Y3QgZHJtX2V0
-bmF2aXZfZ2VtX3dhaXQgKmFyZ3MgPSBkYXRhOwotCXN0cnVjdCB0aW1lc3BlYyAqdGltZW91dCA9
-ICZUUyhhcmdzLT50aW1lb3V0KTsKKwlrdGltZV90IHRpbWVvdXQgPSBrdGltZV9zZXQoYXJncy0+
-dGltZW91dC50dl9zZWMsCisJCQkJICAgIGFyZ3MtPnRpbWVvdXQudHZfbnNlYyk7CiAJc3RydWN0
-IGRybV9nZW1fb2JqZWN0ICpvYmo7CiAJc3RydWN0IGV0bmF2aXZfZ3B1ICpncHU7CiAJaW50IHJl
-dDsKQEAgLTQyMyw3ICs0MjIsNyBAQCBzdGF0aWMgaW50IGV0bmF2aXZfaW9jdGxfZ2VtX3dhaXQo
-c3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwKIAkJcmV0dXJuIC1FTk9FTlQ7CiAK
-IAlpZiAoYXJncy0+ZmxhZ3MgJiBFVE5BX1dBSVRfTk9OQkxPQ0spCi0JCXRpbWVvdXQgPSBOVUxM
-OworCQl0aW1lb3V0ID0ga3RpbWVfc2V0KDAsIDApOwogCiAJcmV0ID0gZXRuYXZpdl9nZW1fd2Fp
-dF9ibyhncHUsIG9iaiwgdGltZW91dCk7CiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9l
-dG5hdml2L2V0bmF2aXZfZHJ2LmggYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2Ry
-di5oCmluZGV4IDMyY2ZhNWE0OGQ0Mi4uNTdhNGUyNDdiYmNmIDEwMDY0NAotLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2Rydi5oCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9ldG5h
-dml2L2V0bmF2aXZfZHJ2LmgKQEAgLTYwLDggKzYwLDcgQEAgc3RydWN0IGRybV9nZW1fb2JqZWN0
-ICpldG5hdml2X2dlbV9wcmltZV9pbXBvcnRfc2dfdGFibGUoc3RydWN0IGRybV9kZXZpY2UgKmRl
-diwKIGludCBldG5hdml2X2dlbV9wcmltZV9waW4oc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmop
-Owogdm9pZCBldG5hdml2X2dlbV9wcmltZV91bnBpbihzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9i
-aik7CiB2b2lkICpldG5hdml2X2dlbV92bWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqKTsK
-LWludCBldG5hdml2X2dlbV9jcHVfcHJlcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwgdTMy
-IG9wLAotCQlzdHJ1Y3QgdGltZXNwZWMgKnRpbWVvdXQpOworaW50IGV0bmF2aXZfZ2VtX2NwdV9w
-cmVwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLCB1MzIgb3AsIGt0aW1lX3QgdGltZW91dCk7
-CiBpbnQgZXRuYXZpdl9nZW1fY3B1X2Zpbmkoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopOwog
-dm9pZCBldG5hdml2X2dlbV9mcmVlX29iamVjdChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaik7
-CiBpbnQgZXRuYXZpdl9nZW1fbmV3X2hhbmRsZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBzdHJ1
-Y3QgZHJtX2ZpbGUgKmZpbGUsCkBAIC0xMDYsMjIgKzEwNSwyMCBAQCBzdGF0aWMgaW5saW5lIHNp
-emVfdCBzaXplX3ZzdHJ1Y3Qoc2l6ZV90IG5lbGVtLCBzaXplX3QgZWxlbV9zaXplLCBzaXplX3Qg
-YmFzZSkKICAqIFdlIG5lZWQgdG8gY2FsY3VsYXRlIHRoZSB0aW1lb3V0IGluIHRlcm1zIG9mIG51
-bWJlciBvZiBqaWZmaWVzCiAgKiBiZXR3ZWVuIHRoZSBzcGVjaWZpZWQgdGltZW91dCBhbmQgdGhl
-IGN1cnJlbnQgQ0xPQ0tfTU9OT1RPTklDIHRpbWUuCiAgKi8KLXN0YXRpYyBpbmxpbmUgdW5zaWdu
-ZWQgbG9uZyBldG5hdml2X3RpbWVvdXRfdG9famlmZmllcygKLQljb25zdCBzdHJ1Y3QgdGltZXNw
-ZWMgKnRpbWVvdXQpCitzdGF0aWMgaW5saW5lIHVuc2lnbmVkIGxvbmcgZXRuYXZpdl90aW1lb3V0
-X3RvX2ppZmZpZXMoa3RpbWVfdCB0aW1lb3V0KQogewotCXN0cnVjdCB0aW1lc3BlYzY0IHRzLCB0
-bzsKLQotCXRvID0gdGltZXNwZWNfdG9fdGltZXNwZWM2NCgqdGltZW91dCk7Ci0KLQlrdGltZV9n
-ZXRfdHM2NCgmdHMpOworCXM2NCByZW1haW4gPSBrdGltZV90b19ucyhrdGltZV9zdWIodGltZW91
-dCwga3RpbWVfZ2V0KCkpKTsKIAogCS8qIHRpbWVvdXRzIGJlZm9yZSAibm93IiBoYXZlIGFscmVh
-ZHkgZXhwaXJlZCAqLwotCWlmICh0aW1lc3BlYzY0X2NvbXBhcmUoJnRvLCAmdHMpIDw9IDApCisJ
-aWYgKHJlbWFpbiA8IDApCiAJCXJldHVybiAwOwogCi0JdHMgPSB0aW1lc3BlYzY0X3N1Yih0bywg
-dHMpOworI2lmbmRlZiBDT05GSUdfNjRCSVQKKwlpZiAocmVtYWluID4gKChzNjQpTUFYX0pJRkZZ
-X09GRlNFVCAqIE5TRUNfUEVSX1NFQyAvIEhaKSkKKwkJcmV0dXJuIE1BWF9KSUZGWV9PRkZTRVQ7
-CisjZW5kaWYKIAotCXJldHVybiB0aW1lc3BlYzY0X3RvX2ppZmZpZXMoJnRzKTsKKwlyZXR1cm4g
-bnNlY3NfdG9famlmZmllcyhyZW1haW4pOwogfQogCiAjZW5kaWYgLyogX19FVE5BVklWX0RSVl9I
-X18gKi8KZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ2VtLmMg
-Yi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dlbS5jCmluZGV4IGNiMWZhYWFjMzgw
-YS4uZmViZTUxOTY3ODhlIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5h
-dml2X2dlbS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ2VtLmMKQEAg
-LTM3Miw4ICszNzIsNyBAQCBzdGF0aWMgaW5saW5lIGVudW0gZG1hX2RhdGFfZGlyZWN0aW9uIGV0
-bmF2aXZfb3BfdG9fZG1hX2Rpcih1MzIgb3ApCiAJCXJldHVybiBETUFfQklESVJFQ1RJT05BTDsK
-IH0KIAotaW50IGV0bmF2aXZfZ2VtX2NwdV9wcmVwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2Jq
-LCB1MzIgb3AsCi0JCXN0cnVjdCB0aW1lc3BlYyAqdGltZW91dCkKK2ludCBldG5hdml2X2dlbV9j
-cHVfcHJlcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwgdTMyIG9wLCBrdGltZV90IHRpbWVv
-dXQpCiB7CiAJc3RydWN0IGV0bmF2aXZfZ2VtX29iamVjdCAqZXRuYXZpdl9vYmogPSB0b19ldG5h
-dml2X2JvKG9iaik7CiAJc3RydWN0IGRybV9kZXZpY2UgKmRldiA9IG9iai0+ZGV2OwpAQCAtNDMx
-LDcgKzQzMCw3IEBAIGludCBldG5hdml2X2dlbV9jcHVfZmluaShzdHJ1Y3QgZHJtX2dlbV9vYmpl
-Y3QgKm9iaikKIH0KIAogaW50IGV0bmF2aXZfZ2VtX3dhaXRfYm8oc3RydWN0IGV0bmF2aXZfZ3B1
-ICpncHUsIHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLAotCXN0cnVjdCB0aW1lc3BlYyAqdGlt
-ZW91dCkKKwkJCWt0aW1lX3QgdGltZW91dCkKIHsKIAlzdHJ1Y3QgZXRuYXZpdl9nZW1fb2JqZWN0
-ICpldG5hdml2X29iaiA9IHRvX2V0bmF2aXZfYm8ob2JqKTsKIApkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW0uaCBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2
-L2V0bmF2aXZfZ2VtLmgKaW5kZXggZDYyNzBhY2NlNjE5Li5hMzQ2MWE1NTRhNmMgMTAwNjQ0Ci0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ2VtLmgKKysrIGIvZHJpdmVycy9n
-cHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW0uaApAQCAtMTEyLDcgKzExMiw3IEBAIHN0cnVjdCBl
-dG5hdml2X2dlbV9zdWJtaXQgewogdm9pZCBldG5hdml2X3N1Ym1pdF9wdXQoc3RydWN0IGV0bmF2
-aXZfZ2VtX3N1Ym1pdCAqIHN1Ym1pdCk7CiAKIGludCBldG5hdml2X2dlbV93YWl0X2JvKHN0cnVj
-dCBldG5hdml2X2dwdSAqZ3B1LCBzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwKLQlzdHJ1Y3Qg
-dGltZXNwZWMgKnRpbWVvdXQpOworCWt0aW1lX3QgdGltZW91dCk7CiBpbnQgZXRuYXZpdl9nZW1f
-bmV3X3ByaXZhdGUoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgc2l6ZV90IHNpemUsIHUzMiBmbGFn
-cywKIAljb25zdCBzdHJ1Y3QgZXRuYXZpdl9nZW1fb3BzICpvcHMsIHN0cnVjdCBldG5hdml2X2dl
-bV9vYmplY3QgKipyZXMpOwogdm9pZCBldG5hdml2X2dlbV9vYmpfYWRkKHN0cnVjdCBkcm1fZGV2
-aWNlICpkZXYsIHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqKTsKZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ3B1LmMgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZp
-di9ldG5hdml2X2dwdS5jCmluZGV4IGQ0N2QxYThlMDIxOS4uZTQyYjFjNGQ5MDJjIDEwMDY0NAot
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dwdS5jCisrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ3B1LmMKQEAgLTExMzIsNyArMTEzMiw3IEBAIHN0YXRp
-YyB2b2lkIGV2ZW50X2ZyZWUoc3RydWN0IGV0bmF2aXZfZ3B1ICpncHUsIHVuc2lnbmVkIGludCBl
-dmVudCkKICAqIENtZHN0cmVhbSBzdWJtaXNzaW9uL3JldGlyZW1lbnQ6CiAgKi8KIGludCBldG5h
-dml2X2dwdV93YWl0X2ZlbmNlX2ludGVycnVwdGlibGUoc3RydWN0IGV0bmF2aXZfZ3B1ICpncHUs
-Ci0JdTMyIGlkLCBzdHJ1Y3QgdGltZXNwZWMgKnRpbWVvdXQpCisJdTMyIGlkLCBrdGltZV90IHRp
-bWVvdXQpCiB7CiAJc3RydWN0IGRtYV9mZW5jZSAqZmVuY2U7CiAJaW50IHJldDsKQEAgLTExNzks
-NyArMTE3OSw3IEBAIGludCBldG5hdml2X2dwdV93YWl0X2ZlbmNlX2ludGVycnVwdGlibGUoc3Ry
-dWN0IGV0bmF2aXZfZ3B1ICpncHUsCiAgKiB0aGF0IGxvY2sgaW4gdGhpcyBmdW5jdGlvbiB3aGls
-ZSB3YWl0aW5nLgogICovCiBpbnQgZXRuYXZpdl9ncHVfd2FpdF9vYmpfaW5hY3RpdmUoc3RydWN0
-IGV0bmF2aXZfZ3B1ICpncHUsCi0Jc3RydWN0IGV0bmF2aXZfZ2VtX29iamVjdCAqZXRuYXZpdl9v
-YmosIHN0cnVjdCB0aW1lc3BlYyAqdGltZW91dCkKKwlzdHJ1Y3QgZXRuYXZpdl9nZW1fb2JqZWN0
-ICpldG5hdml2X29iaiwga3RpbWVfdCB0aW1lb3V0KQogewogCXVuc2lnbmVkIGxvbmcgcmVtYWlu
-aW5nOwogCWxvbmcgcmV0OwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRu
-YXZpdl9ncHUuaCBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ3B1LmgKaW5kZXgg
-OGY5YmQ0ZWRjOTZhLi42ZDM1MmE0MzU0MjcgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9l
-dG5hdml2L2V0bmF2aXZfZ3B1LmgKKysrIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZp
-dl9ncHUuaApAQCAtMTY5LDkgKzE2OSw5IEBAIGludCBldG5hdml2X2dwdV9kZWJ1Z2ZzKHN0cnVj
-dCBldG5hdml2X2dwdSAqZ3B1LCBzdHJ1Y3Qgc2VxX2ZpbGUgKm0pOwogdm9pZCBldG5hdml2X2dw
-dV9yZWNvdmVyX2hhbmcoc3RydWN0IGV0bmF2aXZfZ3B1ICpncHUpOwogdm9pZCBldG5hdml2X2dw
-dV9yZXRpcmUoc3RydWN0IGV0bmF2aXZfZ3B1ICpncHUpOwogaW50IGV0bmF2aXZfZ3B1X3dhaXRf
-ZmVuY2VfaW50ZXJydXB0aWJsZShzdHJ1Y3QgZXRuYXZpdl9ncHUgKmdwdSwKLQl1MzIgZmVuY2Us
-IHN0cnVjdCB0aW1lc3BlYyAqdGltZW91dCk7CisJdTMyIGZlbmNlLCBrdGltZV90IHRpbWVvdXQp
-OwogaW50IGV0bmF2aXZfZ3B1X3dhaXRfb2JqX2luYWN0aXZlKHN0cnVjdCBldG5hdml2X2dwdSAq
-Z3B1LAotCXN0cnVjdCBldG5hdml2X2dlbV9vYmplY3QgKmV0bmF2aXZfb2JqLCBzdHJ1Y3QgdGlt
-ZXNwZWMgKnRpbWVvdXQpOworCXN0cnVjdCBldG5hdml2X2dlbV9vYmplY3QgKmV0bmF2aXZfb2Jq
-LCBrdGltZV90IHRpbWVvdXQpOwogc3RydWN0IGRtYV9mZW5jZSAqZXRuYXZpdl9ncHVfc3VibWl0
-KHN0cnVjdCBldG5hdml2X2dlbV9zdWJtaXQgKnN1Ym1pdCk7CiBpbnQgZXRuYXZpdl9ncHVfcG1f
-Z2V0X3N5bmMoc3RydWN0IGV0bmF2aXZfZ3B1ICpncHUpOwogdm9pZCBldG5hdml2X2dwdV9wbV9w
-dXQoc3RydWN0IGV0bmF2aXZfZ3B1ICpncHUpOwotLSAKMi4yMC4wCgpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1368836493==
+Content-Type: multipart/alternative; boundary="15732502365.02aE.10442"
+Content-Transfer-Encoding: 7bit
+
+
+--15732502365.02aE.10442
+Date: Fri, 8 Nov 2019 21:57:16 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+
+Marco Liedtke <smith-erc@gmx.de> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+ Attachment #145904|0                           |1
+        is obsolete|                            |
+
+--- Comment #220 from Marco Liedtke <smith-erc@gmx.de> ---
+Created attachment 145917
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145917&action=3Dedit
+dmesg of new sdma0 error while watching youtube with firefox, mainline kern=
+el
+5.3.9, padoka ppa mesa 19.3
+
+Hi,
+
+after installing and testing some configurations, amdgpu pro with amdvlk and
+kernel 4.15 (working..) and getting back to radv, cause only radv has no
+graphical issues with World of Tanks (wine + dxvk).=20
+I have another dmesg output....btw /etc/environment has "export
+AMD_DEBUG=3Dnodma" included and it works for me that i can use the pc for 1=
+ or 2
+hours...much better then before...
+
+so the attachment has many infos from the hang including sdma0 failure...ma=
+ybe
+this helps...
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15732502365.02aE.10442
+Date: Fri, 8 Nov 2019 21:57:16 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:smith-erc=
+&#64;gmx.de" title=3D"Marco Liedtke &lt;smith-erc&#64;gmx.de&gt;"> <span cl=
+ass=3D"fn">Marco Liedtke</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Attachment #145904 is obsolete</=
+td>
+           <td>
+               &nbsp;
+           </td>
+           <td>1
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c220">Comm=
+ent # 220</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+smith-erc&#64;gmx.de" title=3D"Marco Liedtke &lt;smith-erc&#64;gmx.de&gt;">=
+ <span class=3D"fn">Marco Liedtke</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145917=
+" name=3D"attach_145917" title=3D"dmesg of new sdma0 error while watching y=
+outube with firefox, mainline kernel 5.3.9, padoka ppa mesa 19.3">attachmen=
+t 145917</a> <a href=3D"attachment.cgi?id=3D145917&amp;action=3Dedit" title=
+=3D"dmesg of new sdma0 error while watching youtube with firefox, mainline =
+kernel 5.3.9, padoka ppa mesa 19.3">[details]</a></span>
+dmesg of new sdma0 error while watching youtube with firefox, mainline kern=
+el
+5.3.9, padoka ppa mesa 19.3
+
+Hi,
+
+after installing and testing some configurations, amdgpu pro with amdvlk and
+kernel 4.15 (working..) and getting back to radv, cause only radv has no
+graphical issues with World of Tanks (wine + dxvk).=20
+I have another dmesg output....btw /etc/environment has &quot;export
+AMD_DEBUG=3Dnodma&quot; included and it works for me that i can use the pc =
+for 1 or 2
+hours...much better then before...
+
+so the attachment has many infos from the hang including sdma0 failure...ma=
+ybe
+this helps...</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15732502365.02aE.10442--
+
+--===============1368836493==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1368836493==--
