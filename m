@@ -1,47 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61DF2F4302
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 10:20:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C86AF4350
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 10:31:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F5CC6F8E4;
-	Fri,  8 Nov 2019 09:20:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAF206F8E6;
+	Fri,  8 Nov 2019 09:31:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
- [209.85.210.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA52D6F8E4
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2019 09:20:46 +0000 (UTC)
-Received: by mail-ot1-f66.google.com with SMTP id e17so4633697otk.6
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2019 01:20:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1ekrEQBU5lx2xhaN2Wx6mzNjkiPZbwUYAWTVO5T2USE=;
- b=g/+pl81byIaDTb6ybSeLxRDTrVpU0mGOCSWPf2jjcdzwYaUAhQdmUTVTs6+LdE6dm2
- 1YMwGjl+F9XJogtfaryyfeYz60/stbaJ8zgh3eh1JwyA/xX6uG4z7rFFSQ2Ns0OohBAg
- lMEbHEtyonlCn7qUUQbpSbK3sfCx8/R5RMaSE3/ySJgdJC/co2kkTCqnFBt0QyKYx1Dl
- R3xbFWe/C5eh0i2B731GJUofX0tZGLRZ3FQA10O5X1dfnM6KFmc3qRpV9+gT3KAESi6w
- Am5HznaRLgj+ead8dwobdsYhNGEgJiiE3z5n7fHE5o2r2l5gymObA8Ix5tOiTHvkwdii
- /0pA==
-X-Gm-Message-State: APjAAAULRmB77mbIXFfU/+6iCzEpHczJZ8bvdjKCN5Rf5No0c0o5+ORB
- YpLI2/Fv6Z9GEAWR84XNfSyOEF/l+Pf0KGxLGqc=
-X-Google-Smtp-Source: APXvYqx4/IZm2/WNkldEQnZffy6SAN4QDo9D9NC9WGgb426MgWXKVPYg/IVcHxuUriAP2PNnXWeTZB2xwKtOvwh/Cw4=
-X-Received: by 2002:a9d:191e:: with SMTP id j30mr5659117ota.297.1573204845980; 
- Fri, 08 Nov 2019 01:20:45 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B9C36F8E6
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2019 09:31:27 +0000 (UTC)
+Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id B305D214DA;
+ Fri,  8 Nov 2019 09:31:26 +0000 (UTC)
+Date: Fri, 8 Nov 2019 10:31:24 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Torsten Duwe <duwe@lst.de>
+Subject: Re: [PATCH v5 0/7][rebased] Add anx6345 DP/eDP bridge for Olimex
+ Teres-I
+Message-ID: <20191108093124.GD4345@gilmour.lan>
+References: <20191107135018.0A04068BE1@verein.lst.de>
 MIME-Version: 1.0
-References: <1572443014-17335-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1572443014-17335-2-git-send-email-fabrizio.castro@bp.renesas.com>
- <870bea7e-5e5d-c0ba-2f5d-ebd0fd493c7e@baylibre.com>
- <TY1PR01MB1770C9189BE24444BECCDC28C07F0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY1PR01MB1770C9189BE24444BECCDC28C07F0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 8 Nov 2019 10:20:34 +0100
-Message-ID: <CAMuHMdXr00yvtdOkZ9JW2EZwWmT_hBiomvnU_sbCE9MyBKs8uA@mail.gmail.com>
-Subject: Re: [PATCH 1/4] drm/bridge: Repurpose lvds-encoder.c
-To: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+In-Reply-To: <20191107135018.0A04068BE1@verein.lst.de>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1573205487;
+ bh=2T3Ba/HzcnTOuzzt5o+FEiAJPzM/l6yorQVOheFyKdo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=E5/QlUVw4HFCIXEX+ccAEyig5qjAsz2QnssGieCtqvgV6SriyjSz5YHdiSJtqAZyc
+ tDN3I2HsDNCYL45f6eF1YEsh+u2WoYCDuaAKxnwgsVzuyb45yZG2oGnSvpwXEDpAhn
+ 1yfKWPSPYFegSowkz7v6+tZjwAGuqFz0F8uvzs7M=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,72 +46,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Chris Paterson <Chris.Paterson2@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Simon Horman <horms@verge.net.au>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Biju Das <biju.das@bp.renesas.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Peter Rosin <peda@axentia.se>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Vasily Khoruzhick <anarsoul@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Harald Geyer <harald@ccbib.org>, Sean Paul <seanpaul@chromium.org>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Icenowy Zheng <icenowy@aosc.io>
+Content-Type: multipart/mixed; boundary="===============1674284515=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRmFicml6aW8sCgpPbiBNb24sIE5vdiA0LCAyMDE5IGF0IDExOjQyIEFNIEZhYnJpemlvIENh
-c3Rybwo8ZmFicml6aW8uY2FzdHJvQGJwLnJlbmVzYXMuY29tPiB3cm90ZToKPiA+IEZyb206IE5l
-aWwgQXJtc3Ryb25nIDxuYXJtc3Ryb25nQGJheWxpYnJlLmNvbT4KPiA+IFNlbnQ6IDA0IE5vdmVt
-YmVyIDIwMTkgMDk6MTgKPiA+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggMS80XSBkcm0vYnJpZGdlOiBS
-ZXB1cnBvc2UgbHZkcy1lbmNvZGVyLmMKPiA+Cj4gPiBPbiAzMC8xMC8yMDE5IDE0OjQzLCBGYWJy
-aXppbyBDYXN0cm8gd3JvdGU6Cj4gPiA+IGx2ZHMtZW5jb2Rlci5jIGltcGxlbWVudGF0aW9uIGlz
-IGFsc28gc3VpdGFibGUgZm9yIExWRFMgZGVjb2RlcnMsCj4gPiA+IG5vdCBqdXN0IExWRFMgZW5j
-b2RlcnMuCj4gPiA+IEluc3RlYWQgb2YgY3JlYXRpbmcgYSBuZXcgZHJpdmVyIGZvciBhZGRyZXNz
-aW5nIHN1cHBvcnQgZm9yCj4gPiA+IHRyYW5zcGFyZW50IExWRFMgZGVjb2RlcnMsIHJlcHVycG9z
-ZSBsdmRzLWVuY29kZXIuYyBmb3IgdGhlIGdyZWF0ZXIKPiA+ID4gZ29vZC4KPiA+ID4KPiA+ID4g
-U2lnbmVkLW9mZi1ieTogRmFicml6aW8gQ2FzdHJvIDxmYWJyaXppby5jYXN0cm9AYnAucmVuZXNh
-cy5jb20+Cj4gPiA+IC0tLQo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9LY29uZmlnICAg
-ICAgICB8ICAgOCArLQo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9NYWtlZmlsZSAgICAg
-ICB8ICAgMiArLQo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9sdmRzLWNvZGVjLmMgICB8
-IDE2OSArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCj4gPiA+ICBkcml2ZXJzL2dw
-dS9kcm0vYnJpZGdlL2x2ZHMtZW5jb2Rlci5jIHwgMTU1IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0KPiA+ID4gIDQgZmlsZXMgY2hhbmdlZCwgMTc0IGluc2VydGlvbnMoKyksIDE2MCBk
-ZWxldGlvbnMoLSkKPiA+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vYnJp
-ZGdlL2x2ZHMtY29kZWMuYwo+ID4gPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2Ry
-bS9icmlkZ2UvbHZkcy1lbmNvZGVyLmMKPiA+ID4KPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9icmlkZ2UvS2NvbmZpZyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvS2NvbmZpZwo+
-ID4gPiBpbmRleCAzNDM2Mjk3Li45ZTc1Y2E0ZSAxMDA2NDQKPiA+ID4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2JyaWRnZS9LY29uZmlnCj4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uv
-S2NvbmZpZwo+ID4gPiBAQCAtNDUsMTQgKzQ1LDE0IEBAIGNvbmZpZyBEUk1fRFVNQl9WR0FfREFD
-Cj4gPiA+ICAgICAgIFN1cHBvcnQgZm9yIG5vbi1wcm9ncmFtbWFibGUgUkdCIHRvIFZHQSBEQUMg
-YnJpZGdlcywgc3VjaCBhcyBBREkKPiA+ID4gICAgICAgQURWNzEyMywgVEkgVEhTODEzNCBhbmQg
-VEhTODEzNSBvciBwYXNzaXZlIHJlc2lzdG9yIGxhZGRlciBEQUNzLgo+ID4gPgo+ID4gPiAtY29u
-ZmlnIERSTV9MVkRTX0VOQ09ERVIKPiA+ID4gLSAgIHRyaXN0YXRlICJUcmFuc3BhcmVudCBwYXJh
-bGxlbCB0byBMVkRTIGVuY29kZXIgc3VwcG9ydCIKPiA+ID4gK2NvbmZpZyBEUk1fTFZEU19DT0RF
-Qwo+ID4KPiA+Cj4gPiBJJ20gbm90IENDZWQgb24gb3RoZXIgcGF0Y2hlcywgYnV0IEknbSBwcmV0
-dHkgc3VyZSB5b3Ugc2hvdWxkIGZpeCBvdGhlcgo+ID4gS2NvbmZpZyBhbmQgZGVmY29uZmlncyBz
-ZWxlY3RpbmcgdGhpcyBjb25maWcgaW4gdGhpcyBwYXRjaCB0byBhdm9pZCBicmVha2luZyBiaXNl
-Y3QuCj4KPiBNeSB1bmRlcnN0YW5kaW5nIGlzIHRoYXQgbm8gZGVmY29uZmlnIGFuZCBubyBvdGhl
-ciBvcHRpb24gcmVmZXIgZGlyZWN0bHkgdG8gRFJNX0xWRFNfRU5DT0RFUiwgZG8geW91IG1pbmQg
-YmVpbmcgYSBsaXR0bGUgYml0IG1vcmUgc3BlY2lmaWMgaGVyZT8KClNpZGVub3RlOiBpdCBsb29r
-cyBsaWtlIENPTkZJR19EUk1fTFZEU19FTkNPREVSIHNob3VsZCBoYXZlIGJlZW4gZW5hYmxlZApp
-biBzaG1vYmlsZV9kZWZjb25maWcgc2luY2UgY29tbWl0cyAzODFkZGZlNDc4ODcxNTg4ICgiZHJt
-OiByY2FyLWR1OgpIYXJkY29kZSBlbmNvZGVycyB0eXBlcyB0byBEUk1fTU9ERV9FTkNPREVSX05P
-TkUiKSBhbmQgNzE2MGQ1N2I2ZjgxMTg1YwooImRybTogYnJpZGdlOiBsdmRzLWVuY29kZXI6IEFk
-ZCB0aGluZSx0aGM2M2x2ZG04M2QgY29tcGF0aWJsZSBzdHJpbmciKSwKdG8gc3VwcG9ydCB0aGlu
-ZSx0aGM2M2x2ZG04M2QgaW4gYXJjaC9hcm0vYm9vdC9kdHMvcjhhNzc3OS1tYXJ6ZW4uZHRzPwoK
-R3J7b2V0amUsZWV0aW5nfXMsCgogICAgICAgICAgICAgICAgICAgICAgICBHZWVydAoKLS0gCkdl
-ZXJ0IFV5dHRlcmhvZXZlbiAtLSBUaGVyZSdzIGxvdHMgb2YgTGludXggYmV5b25kIGlhMzIgLS0g
-Z2VlcnRAbGludXgtbTY4ay5vcmcKCkluIHBlcnNvbmFsIGNvbnZlcnNhdGlvbnMgd2l0aCB0ZWNo
-bmljYWwgcGVvcGxlLCBJIGNhbGwgbXlzZWxmIGEgaGFja2VyLiBCdXQKd2hlbiBJJ20gdGFsa2lu
-ZyB0byBqb3VybmFsaXN0cyBJIGp1c3Qgc2F5ICJwcm9ncmFtbWVyIiBvciBzb21ldGhpbmcgbGlr
-ZSB0aGF0LgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC0tIExpbnVzIFRvcnZhbGRz
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1674284515==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="jL2BoiuKMElzg3CS"
+Content-Disposition: inline
+
+
+--jL2BoiuKMElzg3CS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Mon, Nov 04, 2019 at 11:34:23AM +0100, Torsten Duwe wrote:
+> On Wed, Nov 06, 2019 at 04:21:31PM +0100, Maxime Ripard wrote:
+> >
+> > Please resend the whole series rebased on top of either linux-next or
+> > drm-misc-next.
+>
+> Here it is. Applies cleanly to both, modulo those patches already in.
+
+applied, thanks!
+Maxime
+--jL2BoiuKMElzg3CS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXcU17AAKCRDj7w1vZxhR
+xVqMAQCIfvK3vHGIOLtlR1wZJ1qhlXxRXFOgO5OH2g2LK36KCgD/Tyu1aY0jCKQN
+IvSTgB2bS8dNe6KkrPg33wCTDFFKtw8=
+=KfZB
+-----END PGP SIGNATURE-----
+
+--jL2BoiuKMElzg3CS--
+
+--===============1674284515==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1674284515==--
