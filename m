@@ -1,45 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E418DF4070
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 07:36:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F5DFF40CF
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 07:58:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 697786E5BB;
-	Fri,  8 Nov 2019 06:36:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32D036E5BE;
+	Fri,  8 Nov 2019 06:58:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 36DC26E5BB
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2019 06:36:31 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 2C19E720E2; Fri,  8 Nov 2019 06:36:31 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111482] Sapphire Pulse RX 5700 XT power consumption
-Date: Fri, 08 Nov 2019 06:36:31 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: freedesktop@postfach.xyz
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111482-502-i3et4Q99SE@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111482-502@http.bugs.freedesktop.org/>
-References: <bug-111482-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3B1E6E5BE
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2019 06:58:12 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id r7so5039344ljg.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Nov 2019 22:58:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=gdPITI2A3Z21awYG83k2Hr0hbFqbOJbcn29CctYW1hU=;
+ b=o26axQnwvmxrmm1vyazAm4cjLmYfTZsFMsut7pS2K0EqlSA7G2JIOdabAeWP7TdUk9
+ SY+HVZawj0+HoFwF7XYP1yFVQ9ddhR2bqSga8uFjoJW1CC7EudD7jAcI+ZWYnUJ4lwDg
+ jJjypMcNuuCCBwi2wEP9qIu1BVnBFls8ac2od7lNsqYMXLtiS1QYazVY+RlSqCxDA/Mg
+ dBl4hhuJhMm0tEaIG6F8Vt7mWHamamc6/qEhMjt4Kve2x97QZoM5OE59dd0whNn2w4ds
+ a/bFNbLDoXUjS2vkRDCKqCIsrRIj73VOkOXyZJDOuuGMb9aKEVeHeCOI4IUaAlh4qrfW
+ 6eMQ==
+X-Gm-Message-State: APjAAAXPe0qvDDdiyi25bjlHAYu1+19G9VSsolecX+aWRqq9M5P+b1X0
+ AGzdfZb0Z5g7NzGqxwdaWdsSj/AEvPP7VQyuXA0=
+X-Google-Smtp-Source: APXvYqxoWxypO+yTl5yzA2iVsweYX3ha+OcqyfdRu5XvXolUlrCNaHcyzV4n/Po3dzYsdDtOfYV1taHsXCf5w08rmaw=
+X-Received: by 2002:a2e:8e28:: with SMTP id r8mr5346340ljk.21.1573196290883;
+ Thu, 07 Nov 2019 22:58:10 -0800 (PST)
 MIME-Version: 1.0
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 8 Nov 2019 16:57:59 +1000
+Message-ID: <CAPM=9tzkQsv1s4ZXAyKDNVdXg_T0h4ZDODq68j4dLbACS_w4dw@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.4-rc7
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=gdPITI2A3Z21awYG83k2Hr0hbFqbOJbcn29CctYW1hU=;
+ b=eLbNTeRZJqJEEW+8I0Xl0K2C9RBUbqn9/l0HZem8EglxaLbZ/YVzJQG3/Cb34N7baK
+ mS8nmlwIXP26/WPBlkLUZz+IrwZHjM4CcFNfPdGtZ6JnTG0gVobdxIBzBgDk3apkKkB/
+ JSumeG6UZXJG/8Qy0XvaKncJZOA6kIuM8ibWrK3ys+48YEPoOr2IswWG6GFVxxTszdxo
+ n106KuZlhvy3WpQkgupTJIDtflsDnQCaCl2OEJUpNsQBx7X1XXjG+bc6ivakCKugzHTX
+ zgp/rdeNWZprloRPAXygBtJ296FcqA6V4Fl8JTjlfvi4B6R4PufS5Agp+B4CmuNUOH7R
+ cg9w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,316 +61,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1162086124=="
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1162086124==
-Content-Type: multipart/alternative; boundary="15731949910.Ad54ed9c5.28134"
-Content-Transfer-Encoding: 7bit
-
-
---15731949910.Ad54ed9c5.28134
-Date: Fri, 8 Nov 2019 06:36:31 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111482
-
---- Comment #41 from Robert <freedesktop@postfach.xyz> ---
-(In reply to Shmerl from comment #39)
-> With kernel 5.4-rc6 I'm now seeing such errors once in 20 minutes or so:
->=20
-
-I don't see it that often but I also getting it from time to time. I don't =
-use
-any patches. It's plain 5.4rc6. But I can't see any obvious consequences.
-
-[Fri Nov  8 07:22:49 2019] WARNING: CPU: 22 PID: 2129 at
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_resource.c:2801
-dcn20_validate_bandwidth+0xc0/0xd0 [amdgpu]
-[Fri Nov  8 07:22:49 2019] Modules linked in: msr ngene dm_mod vhost_net vh=
-ost
-tap tun fuse xt_nat veth xt_MASQUERADE nf_conntrack_netlink nfnetlink xfrm_=
-user
-xfrm_algo iptable_nat br_netfilter overlay wireguard(OE) ip6_udp_tunnel
-udp_tunnel ebtable_filter ebtables edac_mce_amd kvm_amd snd_usb_audio
-snd_usbmidi_lib snd_rawmidi snd_seq_device nct6775(OE) hwmon_vid nls_iso885=
-9_1
-nls_cp437 vfat fat stv6110x eeepc_wmi lnbp21 asus_wmi battery sparse_keymap
-wmi_bmof mxm_wmi kvm snd_hda_codec_realtek snd_hda_codec_generic ledtrig_au=
-dio
-snd_hda_codec_hdmi crct10dif_pclmul crc32_pclmul snd_hda_intel
-ghash_clmulni_intel snd_intel_nhlt snd_hda_codec bridge snd_hda_core btusb
-btrtl btbcm snd_hwdep stp btintel llc joydev aesni_intel mousedev crypto_si=
-md
-bluetooth stv090x input_leds cryptd snd_pcm glue_helper snd_timer pcspkr igb
-k10temp ecdh_generic snd ccp rfkill sp5100_tco ecc rng_core i2c_piix4 sound=
-core
-dca dvb_core pinctrl_amd evdev mac_hid wmi acpi_cpufreq nf_log_ipv6 ip6t_RE=
-JECT
-nf_reject_ipv6 xt_hl ip6t_rt
-[Fri Nov  8 07:22:49 2019]  nf_log_ipv4 nf_log_common ipt_REJECT nf_reject_=
-ipv4
-xt_LOG xt_multiport xt_limit xt_addrtype xt_tcpudp xt_conntrack ip6table_fi=
-lter
-ip6_tables nf_conntrack_netbios_ns nf_conntrack_broadcast nf_nat_ftp nf_nat
-nf_conntrack_ftp nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 libcrc32c
-iptable_filter nfsd uvcvideo videobuf2_vmalloc videobuf2_memops auth_rpcgss
-videobuf2_v4l2 videobuf2_common nfs_acl videodev lockd grace mc sunrpc sg
-crypto_user ip_tables x_tables ext4 crc32c_generic crc16 mbcache jbd2
-hid_logitech_hidpp hid_logitech_dj hid_generic usbhid hid sd_mod ahci libah=
-ci
-libata crc32c_intel xhci_pci scsi_mod xhci_hcd amdgpu gpu_sched i2c_algo_bit
-ttm drm_kms_helper syscopyarea sysfillrect sysimgblt fb_sys_fops drm agpgart
-vfio_pci irqbypass vfio_virqfd vfio_iommu_type1 vfio [last unloaded: ngene]
-[Fri Nov  8 07:22:49 2019] CPU: 22 PID: 2129 Comm: Xorg Tainted: G        W=
-  OE
-    5.4.0-rc6-mainline #1
-[Fri Nov  8 07:22:49 2019] Hardware name: System manufacturer System Product
-Name/ROG STRIX X570-E GAMING, BIOS 1201 09/09/2019
-[Fri Nov  8 07:22:49 2019] RIP: 0010:dcn20_validate_bandwidth+0xc0/0xd0
-[amdgpu]
-[Fri Nov  8 07:22:49 2019] Code: 5d 41 5c 41 5d e9 a0 fc ff ff f2 0f 11 85 =
-70
-21 00 00 31 d2 48 89 ee 4c 89 e7 e8 8b fc ff ff 41 89 c5 22 85 c8 1d 00 00 =
-75
-04 <0f> 0b eb 92 c6 85 c8 1d 00 00 00 41 89 c5 eb 86 0f 1f 44 00 00 41
-[Fri Nov  8 07:22:49 2019] RSP: 0018:ffff959b49adbaa0 EFLAGS: 00010246
-[Fri Nov  8 07:22:49 2019] RAX: 0000000000000000 RBX: ffff93672e822bf8 RCX:
-000000000374a816
-[Fri Nov  8 07:22:49 2019] RDX: 000000000374a616 RSI: ffff93673edaf1a0 RDI:
-000000000002f1a0
-[Fri Nov  8 07:22:49 2019] RBP: ffff93658ccc0000 R08: 0000000000000006 R09:
-0000000000000000
-[Fri Nov  8 07:22:49 2019] R10: 0000000000000001 R11: 0000000100000001 R12:
-ffff93672faf0000
-[Fri Nov  8 07:22:49 2019] R13: 0000000000000001 R14: 0000000000000000 R15:
-ffff93672ef01400
-[Fri Nov  8 07:22:49 2019] FS:  00007f43fa01adc0(0000)
-GS:ffff93673ed80000(0000) knlGS:0000000000000000
-[Fri Nov  8 07:22:49 2019] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[Fri Nov  8 07:22:49 2019] CR2: 00007f6c55528008 CR3: 0000000fad9c0000 CR4:
-0000000000340ee0
-[Fri Nov  8 07:22:49 2019] Call Trace:
-[Fri Nov  8 07:22:49 2019]  dc_validate_global_state+0x28a/0x310 [amdgpu]
-[Fri Nov  8 07:22:49 2019]  ? drm_modeset_lock+0x31/0xb0 [drm]
-[Fri Nov  8 07:22:49 2019]  amdgpu_dm_atomic_check+0x5a2/0x800 [amdgpu]
-[Fri Nov  8 07:22:49 2019]  drm_atomic_check_only+0x578/0x800 [drm]
-[Fri Nov  8 07:22:49 2019]  ? _raw_spin_unlock_irqrestore+0x20/0x40
-[Fri Nov  8 07:22:49 2019]  drm_atomic_commit+0x13/0x50 [drm]
-[Fri Nov  8 07:22:49 2019]  drm_atomic_connector_commit_dpms+0xd7/0x100 [dr=
-m]
-[Fri Nov  8 07:22:49 2019]  drm_mode_obj_set_property_ioctl+0x169/0x2c0 [dr=
-m]
-[Fri Nov  8 07:22:49 2019]  ? drm_connector_set_obj_prop+0x90/0x90 [drm]
-[Fri Nov  8 07:22:49 2019]  drm_connector_property_set_ioctl+0x41/0x60 [drm]
-[Fri Nov  8 07:22:49 2019]  drm_ioctl_kernel+0xb2/0x100 [drm]
-[Fri Nov  8 07:22:49 2019]  drm_ioctl+0x209/0x360 [drm]
-[Fri Nov  8 07:22:49 2019]  ? drm_connector_set_obj_prop+0x90/0x90 [drm]
-[Fri Nov  8 07:22:49 2019]  amdgpu_drm_ioctl+0x49/0x80 [amdgpu]
-[Fri Nov  8 07:22:49 2019]  do_vfs_ioctl+0x43d/0x6c0
-[Fri Nov  8 07:22:49 2019]  ksys_ioctl+0x5e/0x90
-[Fri Nov  8 07:22:49 2019]  __x64_sys_ioctl+0x16/0x20
-[Fri Nov  8 07:22:49 2019]  do_syscall_64+0x5b/0x1a0
-[Fri Nov  8 07:22:49 2019]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[Fri Nov  8 07:22:49 2019] RIP: 0033:0x7f43fb26425b
-[Fri Nov  8 07:22:49 2019] Code: 0f 1e fa 48 8b 05 25 9c 0c 00 64 c7 00 26 =
-00
-00 00 48 c7 c0 ff ff ff ff c3 66 0f 1f 44 00 00 f3 0f 1e fa b8 10 00 00 00 =
-0f
-05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d f5 9b 0c 00 f7 d8 64 89 01 48
-[Fri Nov  8 07:22:49 2019] RSP: 002b:00007fffa2ba75d8 EFLAGS: 00000246
-ORIG_RAX: 0000000000000010
-[Fri Nov  8 07:22:49 2019] RAX: ffffffffffffffda RBX: 00007fffa2ba7610 RCX:
-00007f43fb26425b
-[Fri Nov  8 07:22:49 2019] RDX: 00007fffa2ba7610 RSI: 00000000c01064ab RDI:
-000000000000000d
-[Fri Nov  8 07:22:49 2019] RBP: 00000000c01064ab R08: 0000000000000000 R09:
-00007f43fb372d10
-[Fri Nov  8 07:22:49 2019] R10: 00007f43fb372d20 R11: 0000000000000246 R12:
-000055984f983b90
-[Fri Nov  8 07:22:49 2019] R13: 000000000000000d R14: 0000000000000000 R15:
-0000000000000000
-[Fri Nov  8 07:22:49 2019] ---[ end trace 838cf1460840b9b2 ]---
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15731949910.Ad54ed9c5.28134
-Date: Fri, 8 Nov 2019 06:36:31 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482#c41">Comme=
-nt # 41</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Sapphire Pulse RX 5700 XT power consumption"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111482">bug 11148=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-freedesktop&#64;postfach.xyz" title=3D"Robert &lt;freedesktop&#64;postfach.=
-xyz&gt;"> <span class=3D"fn">Robert</span></a>
-</span></b>
-        <pre>(In reply to Shmerl from <a href=3D"show_bug.cgi?id=3D111482#c=
-39">comment #39</a>)
-<span class=3D"quote">&gt; With kernel 5.4-rc6 I'm now seeing such errors o=
-nce in 20 minutes or so:
-&gt; </span >
-
-I don't see it that often but I also getting it from time to time. I don't =
-use
-any patches. It's plain 5.4rc6. But I can't see any obvious consequences.
-
-[Fri Nov  8 07:22:49 2019] WARNING: CPU: 22 PID: 2129 at
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_resource.c:2801
-dcn20_validate_bandwidth+0xc0/0xd0 [amdgpu]
-[Fri Nov  8 07:22:49 2019] Modules linked in: msr ngene dm_mod vhost_net vh=
-ost
-tap tun fuse xt_nat veth xt_MASQUERADE nf_conntrack_netlink nfnetlink xfrm_=
-user
-xfrm_algo iptable_nat br_netfilter overlay wireguard(OE) ip6_udp_tunnel
-udp_tunnel ebtable_filter ebtables edac_mce_amd kvm_amd snd_usb_audio
-snd_usbmidi_lib snd_rawmidi snd_seq_device nct6775(OE) hwmon_vid nls_iso885=
-9_1
-nls_cp437 vfat fat stv6110x eeepc_wmi lnbp21 asus_wmi battery sparse_keymap
-wmi_bmof mxm_wmi kvm snd_hda_codec_realtek snd_hda_codec_generic ledtrig_au=
-dio
-snd_hda_codec_hdmi crct10dif_pclmul crc32_pclmul snd_hda_intel
-ghash_clmulni_intel snd_intel_nhlt snd_hda_codec bridge snd_hda_core btusb
-btrtl btbcm snd_hwdep stp btintel llc joydev aesni_intel mousedev crypto_si=
-md
-bluetooth stv090x input_leds cryptd snd_pcm glue_helper snd_timer pcspkr igb
-k10temp ecdh_generic snd ccp rfkill sp5100_tco ecc rng_core i2c_piix4 sound=
-core
-dca dvb_core pinctrl_amd evdev mac_hid wmi acpi_cpufreq nf_log_ipv6 ip6t_RE=
-JECT
-nf_reject_ipv6 xt_hl ip6t_rt
-[Fri Nov  8 07:22:49 2019]  nf_log_ipv4 nf_log_common ipt_REJECT nf_reject_=
-ipv4
-xt_LOG xt_multiport xt_limit xt_addrtype xt_tcpudp xt_conntrack ip6table_fi=
-lter
-ip6_tables nf_conntrack_netbios_ns nf_conntrack_broadcast nf_nat_ftp nf_nat
-nf_conntrack_ftp nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 libcrc32c
-iptable_filter nfsd uvcvideo videobuf2_vmalloc videobuf2_memops auth_rpcgss
-videobuf2_v4l2 videobuf2_common nfs_acl videodev lockd grace mc sunrpc sg
-crypto_user ip_tables x_tables ext4 crc32c_generic crc16 mbcache jbd2
-hid_logitech_hidpp hid_logitech_dj hid_generic usbhid hid sd_mod ahci libah=
-ci
-libata crc32c_intel xhci_pci scsi_mod xhci_hcd amdgpu gpu_sched i2c_algo_bit
-ttm drm_kms_helper syscopyarea sysfillrect sysimgblt fb_sys_fops drm agpgart
-vfio_pci irqbypass vfio_virqfd vfio_iommu_type1 vfio [last unloaded: ngene]
-[Fri Nov  8 07:22:49 2019] CPU: 22 PID: 2129 Comm: Xorg Tainted: G        W=
-  OE
-    5.4.0-rc6-mainline #1
-[Fri Nov  8 07:22:49 2019] Hardware name: System manufacturer System Product
-Name/ROG STRIX X570-E GAMING, BIOS 1201 09/09/2019
-[Fri Nov  8 07:22:49 2019] RIP: 0010:dcn20_validate_bandwidth+0xc0/0xd0
-[amdgpu]
-[Fri Nov  8 07:22:49 2019] Code: 5d 41 5c 41 5d e9 a0 fc ff ff f2 0f 11 85 =
-70
-21 00 00 31 d2 48 89 ee 4c 89 e7 e8 8b fc ff ff 41 89 c5 22 85 c8 1d 00 00 =
-75
-04 &lt;0f&gt; 0b eb 92 c6 85 c8 1d 00 00 00 41 89 c5 eb 86 0f 1f 44 00 00 41
-[Fri Nov  8 07:22:49 2019] RSP: 0018:ffff959b49adbaa0 EFLAGS: 00010246
-[Fri Nov  8 07:22:49 2019] RAX: 0000000000000000 RBX: ffff93672e822bf8 RCX:
-000000000374a816
-[Fri Nov  8 07:22:49 2019] RDX: 000000000374a616 RSI: ffff93673edaf1a0 RDI:
-000000000002f1a0
-[Fri Nov  8 07:22:49 2019] RBP: ffff93658ccc0000 R08: 0000000000000006 R09:
-0000000000000000
-[Fri Nov  8 07:22:49 2019] R10: 0000000000000001 R11: 0000000100000001 R12:
-ffff93672faf0000
-[Fri Nov  8 07:22:49 2019] R13: 0000000000000001 R14: 0000000000000000 R15:
-ffff93672ef01400
-[Fri Nov  8 07:22:49 2019] FS:  00007f43fa01adc0(0000)
-GS:ffff93673ed80000(0000) knlGS:0000000000000000
-[Fri Nov  8 07:22:49 2019] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[Fri Nov  8 07:22:49 2019] CR2: 00007f6c55528008 CR3: 0000000fad9c0000 CR4:
-0000000000340ee0
-[Fri Nov  8 07:22:49 2019] Call Trace:
-[Fri Nov  8 07:22:49 2019]  dc_validate_global_state+0x28a/0x310 [amdgpu]
-[Fri Nov  8 07:22:49 2019]  ? drm_modeset_lock+0x31/0xb0 [drm]
-[Fri Nov  8 07:22:49 2019]  amdgpu_dm_atomic_check+0x5a2/0x800 [amdgpu]
-[Fri Nov  8 07:22:49 2019]  drm_atomic_check_only+0x578/0x800 [drm]
-[Fri Nov  8 07:22:49 2019]  ? _raw_spin_unlock_irqrestore+0x20/0x40
-[Fri Nov  8 07:22:49 2019]  drm_atomic_commit+0x13/0x50 [drm]
-[Fri Nov  8 07:22:49 2019]  drm_atomic_connector_commit_dpms+0xd7/0x100 [dr=
-m]
-[Fri Nov  8 07:22:49 2019]  drm_mode_obj_set_property_ioctl+0x169/0x2c0 [dr=
-m]
-[Fri Nov  8 07:22:49 2019]  ? drm_connector_set_obj_prop+0x90/0x90 [drm]
-[Fri Nov  8 07:22:49 2019]  drm_connector_property_set_ioctl+0x41/0x60 [drm]
-[Fri Nov  8 07:22:49 2019]  drm_ioctl_kernel+0xb2/0x100 [drm]
-[Fri Nov  8 07:22:49 2019]  drm_ioctl+0x209/0x360 [drm]
-[Fri Nov  8 07:22:49 2019]  ? drm_connector_set_obj_prop+0x90/0x90 [drm]
-[Fri Nov  8 07:22:49 2019]  amdgpu_drm_ioctl+0x49/0x80 [amdgpu]
-[Fri Nov  8 07:22:49 2019]  do_vfs_ioctl+0x43d/0x6c0
-[Fri Nov  8 07:22:49 2019]  ksys_ioctl+0x5e/0x90
-[Fri Nov  8 07:22:49 2019]  __x64_sys_ioctl+0x16/0x20
-[Fri Nov  8 07:22:49 2019]  do_syscall_64+0x5b/0x1a0
-[Fri Nov  8 07:22:49 2019]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[Fri Nov  8 07:22:49 2019] RIP: 0033:0x7f43fb26425b
-[Fri Nov  8 07:22:49 2019] Code: 0f 1e fa 48 8b 05 25 9c 0c 00 64 c7 00 26 =
-00
-00 00 48 c7 c0 ff ff ff ff c3 66 0f 1f 44 00 00 f3 0f 1e fa b8 10 00 00 00 =
-0f
-05 &lt;48&gt; 3d 01 f0 ff ff 73 01 c3 48 8b 0d f5 9b 0c 00 f7 d8 64 89 01 48
-[Fri Nov  8 07:22:49 2019] RSP: 002b:00007fffa2ba75d8 EFLAGS: 00000246
-ORIG_RAX: 0000000000000010
-[Fri Nov  8 07:22:49 2019] RAX: ffffffffffffffda RBX: 00007fffa2ba7610 RCX:
-00007f43fb26425b
-[Fri Nov  8 07:22:49 2019] RDX: 00007fffa2ba7610 RSI: 00000000c01064ab RDI:
-000000000000000d
-[Fri Nov  8 07:22:49 2019] RBP: 00000000c01064ab R08: 0000000000000000 R09:
-00007f43fb372d10
-[Fri Nov  8 07:22:49 2019] R10: 00007f43fb372d20 R11: 0000000000000246 R12:
-000055984f983b90
-[Fri Nov  8 07:22:49 2019] R13: 000000000000000d R14: 0000000000000000 R15:
-0000000000000000
-[Fri Nov  8 07:22:49 2019] ---[ end trace 838cf1460840b9b2 ]---</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15731949910.Ad54ed9c5.28134--
-
---===============1162086124==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1162086124==--
+SGkgTGludXMsCgpXZWVrbHkgZml4ZXMgZm9yIGRybSwgc3VtbWFyeSBiZWxvdywgYW1kZ3B1IGhh
+cyBhIGZldyBidXQgdGhleSBhcmUKcHJldHR5IHNjYXR0ZXJlZCBmaXhlcywgdGhlIGZiZGV2IG9u
+ZSBpcyBhIGJ1aWxkIHJlZ3Jlc3Npb24gZml4IHRoYXQKd2UgZGlkbid0IHdhbnQgdG8gcmlzayBs
+ZWF2aW5nIG91dCwgb3RoZXJ3aXNlIGEgY291cGxlIG9mIGk5MTUsIG9uZQpyYWRlb24gYW5kIGEg
+Y29yZSBhdG9taWMgZml4LgoKRGF2ZS4KClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21t
+aXQgYTk5ZDgwODBhYWYzNThkNWQyMzU4MTI0NGU1ZGEyM2IzNWUzNDBiOToKCiAgTGludXggNS40
+LXJjNiAoMjAxOS0xMS0wMyAxNDowNzoyNiAtMDgwMCkKCmFyZSBhdmFpbGFibGUgaW4gdGhlIEdp
+dCByZXBvc2l0b3J5IGF0OgoKICBnaXQ6Ly9hbm9uZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJt
+IHRhZ3MvZHJtLWZpeGVzLTIwMTktMTEtMDgKCmZvciB5b3UgdG8gZmV0Y2ggY2hhbmdlcyB1cCB0
+byBmZjkyMzQ1ODNkNGZiNTNkNGJjZjU3OTE2ZGRmYjE2YzUzYzgxYzg4OgoKICBNZXJnZSB0YWcg
+J2RybS1maXhlcy01LjQtMjAxOS0xMS0wNicgb2YKZ2l0Oi8vcGVvcGxlLmZyZWVkZXNrdG9wLm9y
+Zy9+YWdkNWYvbGludXggaW50byBkcm0tZml4ZXMgKDIwMTktMTEtMDgKMTM6MDc6NTggKzEwMDAp
+CgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tCmRybSBmaXhlcyBmb3IgNS40LXJjNwoKY29yZToKLSBhZGQgbWlzc2luZyBkb2N1
+bWVudGF0aW9uIGZvciBHRU0gc2htZW0gbWFkdmlzZSBoZWxwZXJzCi0gRml4IGZvciBhIHN0YXRl
+IGRlcmVmZXJlbmNlIGluIGF0b21pYyBzZWxmLXJlZnJlc2ggaGVscGVycwoKZmJkZXY6Ci0gT25l
+IGNvbXBpbGF0aW9uIGZpeCBmb3IgYzJwIGZiZGV2IGhlbHBlcnMKCmFtZGdwdToKLSBGaXggbmF2
+aTE0IGRpc3BsYXkgaXNzdWUgcm9vdCBjYXVzZSBhbmQgcmV2ZXJ0IHdvcmthcm91bmQKLSBHUFUg
+cmVzZXQgc2NoZWR1bGVyIGludGVyYWN0aW9uIGZpeAotIEZpeCBmYW4gYm9vc3Qgb24gbXVsdGkt
+R1BVCi0gR2Z4MTAgYW5kIHNkbWE1IGZpeGVzIGZvciBuYXZpCi0gR0ZYT0ZGIGZpeCBmb3IgcmVu
+b2lyCi0gQWRkIG5hdmkxNCBQQ0kgSUQKLSBHUFVWTSBmaXggZm9yIGFyY3R1cnVzCgpyYWRlb246
+Ci0gUG9ydCBhbiBTSSBwb3dlciBmaXggZnJvbSBhbWRncHUKCmk5MTU6Ci0gRml4IEhQRCBwb2xs
+IHRvIGF2b2lkIGt3b3JrZXIgY29uc3VtaW5nIGEgbG90IG9mIGNwdSBjeWNsZXMuCi0gRG8gbm90
+IHVzZSBUQlQgdHlwZSBmb3Igbm9uIFR5cGUtQyBwb3J0cy4KCi0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KQWxleCBEZXVjaGVy
+ICgzKToKICAgICAgZHJtL2FtZGdwdS9hcmN0dXJ1czogcHJvcGVybHkgc2V0IEJBTktfU0VMRUNU
+IGFuZCBGUkFHTUVOVF9TSVpFCiAgICAgIGRybS9hbWRncHUvcmVub2lyOiBtb3ZlIGdmeG9mZiBo
+YW5kbGluZyBpbnRvIGdmeDkgbW9kdWxlCiAgICAgIGRybS9yYWRlb246IGZpeCBzaV9lbmFibGVf
+c21jX2NhYygpIGZhaWxlZCBpc3N1ZQoKRGF2ZSBBaXJsaWUgKDMpOgogICAgICBNZXJnZSB0YWcg
+J2RybS1taXNjLWZpeGVzLTIwMTktMTEtMDctMScgb2YKZ2l0Oi8vYW5vbmdpdC5mcmVlZGVza3Rv
+cC5vcmcvZHJtL2RybS1taXNjIGludG8gZHJtLWZpeGVzCiAgICAgIE1lcmdlIHRhZyAnZHJtLWlu
+dGVsLWZpeGVzLTIwMTktMTEtMDYnIG9mCmdpdDovL2Fub25naXQuZnJlZWRlc2t0b3Aub3JnL2Ry
+bS9kcm0taW50ZWwgaW50byBkcm0tZml4ZXMKICAgICAgTWVyZ2UgdGFnICdkcm0tZml4ZXMtNS40
+LTIwMTktMTEtMDYnIG9mCmdpdDovL3Blb3BsZS5mcmVlZGVza3RvcC5vcmcvfmFnZDVmL2xpbnV4
+IGludG8gZHJtLWZpeGVzCgpFdmFuIFF1YW4gKDEpOgogICAgICBkcm0vYW1kZ3B1OiByZWdpc3Rl
+ciBncHUgaW5zdGFuY2UgYmVmb3JlIGZhbiBib29zdCBmZWF0dXJlIGVuYWJsbWVudAoKR2VlcnQg
+VXl0dGVyaG9ldmVuICgxKToKICAgICAgZmJkZXY6IGMycDogRml4IGxpbmsgZmFpbHVyZSBvbiBu
+b24taW5saW5pbmcKCkltcmUgRGVhayAoMSk6CiAgICAgIGRybS9pOTE1OiBBdm9pZCBIUEQgcG9s
+bCBkZXRlY3QgdHJpZ2dlcmluZyBhIG5ldyBkZXRlY3QgY3ljbGUKCkpvc8OpIFJvYmVydG8gZGUg
+U291emEgKDEpOgogICAgICBkcm0vaTkxNS9kcDogRG8gbm90IHN3aXRjaCBhdXggdG8gVEJUIG1v
+ZGUgZm9yIG5vbi1UQyBwb3J0cwoKS2V2aW4gV2FuZyAoMSk6CiAgICAgIGRybS9hbWQvc3dTTVU6
+IGZpeCBzbXUgd29ya2xvYWQgYml0IG1hcCBlcnJvcgoKUm9iIENsYXJrICgxKToKICAgICAgZHJt
+L2F0b21pYzogZml4IHNlbGYtcmVmcmVzaCBoZWxwZXJzIGNydGMgc3RhdGUgZGVyZWZlcmVuY2UK
+ClJvYiBIZXJyaW5nICgxKToKICAgICAgZHJtL3NobWVtOiBBZGQgZG9jYm9vayBjb21tZW50cyBm
+b3IgZHJtX2dlbV9zaG1lbV9vYmplY3QgbWFkdmlzZSBmaWVsZHMKClNoaXJpc2ggUyAoMSk6CiAg
+ICAgIGRybS9hbWRncHU6IGRvbnQgc2NoZWR1bGUgam9icyB3aGlsZSBpbiByZXNldAoKVGlhbmNp
+LllpbiAoMSk6CiAgICAgIGRybS9hbWRncHU6IGFkZCBuYXZpMTQgUENJIElECgpaaGFuIExpdSAo
+Mik6CiAgICAgIGRybS9hbWQvZGlzcGxheTogQWRkIEVOR0lORV9JRF9ESUdEIGNvbmRpdGlvbiBj
+aGVjayBmb3IgTmF2aTE0CiAgICAgIFJldmVydCAiZHJtL2FtZC9kaXNwbGF5OiBzZXR0aW5nIHRo
+ZSBESUdfTU9ERSB0byB0aGUgY29ycmVjdCB2YWx1ZS4iCgpjaGFuZ3podSAoMik6CiAgICAgIGRy
+bS9hbWRncHU6IGFkZCBkdW1teSByZWFkIGJ5IGVuZ2luZXMgZm9yIHNvbWUgR0NWTSBzdGF0dXMK
+cmVnaXN0ZXJzIGluIGdmeDEwCiAgICAgIGRybS9hbWRncHU6IGFkZCB3YXJuaW5nIGZvciBHUkJN
+IDEtY3ljbGUgZGVsYXkgaXNzdWUgaW4gZ2Z4OQoKIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
+L2FtZGdwdV9jdHguYyAgICAgICAgICAgIHwgIDUgKystCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
+ZGdwdS9hbWRncHVfZGV2aWNlLmMgICAgICAgICB8ICA3ICsrKysKIGRyaXZlcnMvZ3B1L2RybS9h
+bWQvYW1kZ3B1L2FtZGdwdV9kcnYuYyAgICAgICAgICAgIHwgIDEgKwogZHJpdmVycy9ncHUvZHJt
+L2FtZC9hbWRncHUvYW1kZ3B1X2dmeC5oICAgICAgICAgICAgfCAgMSArCiBkcml2ZXJzL2dwdS9k
+cm0vYW1kL2FtZGdwdS9hbWRncHVfa21zLmMgICAgICAgICAgICB8ICAxIC0KIGRyaXZlcnMvZ3B1
+L2RybS9hbWQvYW1kZ3B1L2dmeF92MTBfMC5jICAgICAgICAgICAgIHwgNDggKysrKysrKysrKysr
+KysrKysrKysrKwogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ2Z4X3Y5XzAuYyAgICAgICAg
+ICAgICAgfCAxMyArKysrKysKIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2dtY192MTBfMC5j
+ICAgICAgICAgICAgIHwgIDggKystLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvbW1odWJf
+djlfNC5jICAgICAgICAgICAgfCAgOSArKysrCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9z
+ZG1hX3Y1XzAuYyAgICAgICAgICAgICB8IDEzICsrKysrLQogZHJpdmVycy9ncHUvZHJtL2FtZC9h
+bWRncHUvc29jMTUuYyAgICAgICAgICAgICAgICAgfCAgNSAtLS0KIGRyaXZlcnMvZ3B1L2RybS9h
+bWQvZGlzcGxheS9kYy9jb3JlL2RjX2xpbmsuYyAgICAgIHwgIDkgLS0tLQogLi4uL2dwdS9kcm0v
+YW1kL2Rpc3BsYXkvZGMvZGNuMjAvZGNuMjBfcmVzb3VyY2UuYyAgfCAgNSArKysKIGRyaXZlcnMv
+Z3B1L2RybS9hbWQvcG93ZXJwbGF5L25hdmkxMF9wcHQuYyAgICAgICAgIHwgIDIgKy0KIGRyaXZl
+cnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L3ZlZ2EyMF9wcHQuYyAgICAgICAgIHwgIDIgKy0KIGRy
+aXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX2hlbHBlci5jICAgICAgICAgICAgICAgIHwgMTUgKysr
+KysrLQogZHJpdmVycy9ncHUvZHJtL2RybV9zZWxmX3JlZnJlc2hfaGVscGVyLmMgICAgICAgICAg
+fCAxOCArKysrLS0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9jcnQuYyAg
+ICAgICAgICAgfCAgNyArKysrCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rw
+LmMgICAgICAgICAgICB8IDEyICsrKysrLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9p
+bnRlbF9oZG1pLmMgICAgICAgICAgfCAgNiArKysKIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24vc2lf
+ZHBtLmMgICAgICAgICAgICAgICAgICAgIHwgIDEgKwogZHJpdmVycy92aWRlby9mYmRldi9jMnBf
+Y29yZS5oICAgICAgICAgICAgICAgICAgICAgfCAgOCArKy0tCiBpbmNsdWRlL2RybS9kcm1fZ2Vt
+X3NobWVtX2hlbHBlci5oICAgICAgICAgICAgICAgICB8IDEzICsrKysrKwogaW5jbHVkZS9kcm0v
+ZHJtX3NlbGZfcmVmcmVzaF9oZWxwZXIuaCAgICAgICAgICAgICAgfCAgMyArLQogMjQgZmlsZXMg
+Y2hhbmdlZCwgMTc0IGluc2VydGlvbnMoKyksIDM4IGRlbGV0aW9ucygtKQpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
