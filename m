@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1B70F52A5
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 18:36:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F97F52AD
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 18:39:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 689716FA3C;
-	Fri,  8 Nov 2019 17:36:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F8016E09E;
+	Fri,  8 Nov 2019 17:39:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1CE0B6FA3C
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2019 17:36:03 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 95F846E09E
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2019 17:39:16 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 19B8A720E2; Fri,  8 Nov 2019 17:36:03 +0000 (UTC)
+ id 92D96720E2; Fri,  8 Nov 2019 17:39:16 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 112235] [AMD tahiti xt] random crashes of GL/vulkan games
-Date: Fri, 08 Nov 2019 17:36:03 +0000
+Date: Fri, 08 Nov 2019 17:39:16 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-112235-502-IwewJRMNBr@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-112235-502-WdXypr47ZO@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-112235-502@http.bugs.freedesktop.org/>
 References: <bug-112235-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1288089136=="
+Content-Type: multipart/mixed; boundary="===============1617456836=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1288089136==
-Content-Type: multipart/alternative; boundary="15732345630.21094b9.1193"
+--===============1617456836==
+Content-Type: multipart/alternative; boundary="15732347561.d6a17ADf.2244"
 Content-Transfer-Encoding: 7bit
 
 
---15732345630.21094b9.1193
-Date: Fri, 8 Nov 2019 17:36:03 +0000
+--15732347561.d6a17ADf.2244
+Date: Fri, 8 Nov 2019 17:39:16 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,17 +72,19 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D112235
 
---- Comment #3 from Sylvain BERTRAND <sylvain.bertrand@gmail.com> ---
-Created attachment 145915
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145915&action=3Dedit
-xorg log
+--- Comment #4 from Sylvain BERTRAND <sylvain.bertrand@gmail.com> ---
+could you log the bug for me? I am waiting for my mesa gitlab bugzilla acco=
+unt
+registration. I am blocked by google javascript capcha *bip* as I use no
+javascript/ basic (x)html browers, I did contact the mesa dev mailing list
+owner though (since it seems to be the same thing).
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15732345630.21094b9.1193
-Date: Fri, 8 Nov 2019 17:36:03 +0000
+--15732347561.d6a17ADf.2244
+Date: Fri, 8 Nov 2019 17:39:16 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -99,8 +101,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - [AMD tahiti xt] random crashes of GL/vulkan games"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112235#c3">Commen=
-t # 3</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112235#c4">Commen=
+t # 4</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - [AMD tahiti xt] random crashes of GL/vulkan games"
@@ -110,11 +112,11 @@ t # 3</a>
 sylvain.bertrand&#64;gmail.com" title=3D"Sylvain BERTRAND &lt;sylvain.bertr=
 and&#64;gmail.com&gt;"> <span class=3D"fn">Sylvain BERTRAND</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145915=
-" name=3D"attach_145915" title=3D"xorg log">attachment 145915</a> <a href=
-=3D"attachment.cgi?id=3D145915&amp;action=3Dedit" title=3D"xorg log">[detai=
-ls]</a></span>
-xorg log</pre>
+        <pre>could you log the bug for me? I am waiting for my mesa gitlab =
+bugzilla account
+registration. I am blocked by google javascript capcha *bip* as I use no
+javascript/ basic (x)html browers, I did contact the mesa dev mailing list
+owner though (since it seems to be the same thing).</pre>
         </div>
       </p>
 
@@ -128,9 +130,9 @@ xorg log</pre>
     </body>
 </html>=
 
---15732345630.21094b9.1193--
+--15732347561.d6a17ADf.2244--
 
---===============1288089136==
+--===============1617456836==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -140,4 +142,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1288089136==--
+--===============1617456836==--
