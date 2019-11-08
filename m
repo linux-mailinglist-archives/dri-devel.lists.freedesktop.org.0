@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44D85F5278
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 18:22:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD2A5F5281
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 18:25:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0B426FA2E;
-	Fri,  8 Nov 2019 17:22:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 814176FA2F;
+	Fri,  8 Nov 2019 17:25:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD1696FA2E
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2019 17:22:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E9E06FA2F
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2019 17:25:14 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 205393] [amdgpu powerplay] vega10: custom pp_table, AVFS
  accidentally reenabled after display powersave
-Date: Fri, 08 Nov 2019 17:22:00 +0000
+Date: Fri, 08 Nov 2019 17:25:13 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -25,14 +25,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: trivial
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Who: tempel.julian@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205393-2300-8uX3sBqHFG@https.bugzilla.kernel.org/>
+Message-ID: <bug-205393-2300-gE7DTdEVlv@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205393-2300@https.bugzilla.kernel.org/>
 References: <bug-205393-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,11 +58,15 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDUzOTMKCi0tLSBD
-b21tZW50ICMxMyBmcm9tIEFsZXggRGV1Y2hlciAoYWxleGRldWNoZXJAZ21haWwuY29tKSAtLS0K
-KEluIHJlcGx5IHRvIHRlbXBlbC5qdWxpYW4gZnJvbSBjb21tZW50ICMxMikKPiAKPiBXb3VsZCB0
-aGUgc2FtZSBiZSByZXF1aXJlZCBmb3IgTmF2aSBhcyB3ZWxsPwoKTm8uICBJSVJDLCB2ZWdhMTIg
-YW5kIG5ld2VyIGhhbmRsZSB2b2x0YWdlIGRpZmZlcmVudGx5LgoKLS0gCllvdSBhcmUgcmVjZWl2
-aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0
-aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+b21tZW50ICMxNCBmcm9tIHRlbXBlbC5qdWxpYW5AZ21haWwuY29tIC0tLQooSW4gcmVwbHkgdG8g
+QWxleCBEZXVjaGVyIGZyb20gY29tbWVudCAjMTMpCj4gKEluIHJlcGx5IHRvIHRlbXBlbC5qdWxp
+YW4gZnJvbSBjb21tZW50ICMxMikKPiA+IAo+ID4gV291bGQgdGhlIHNhbWUgYmUgcmVxdWlyZWQg
+Zm9yIE5hdmkgYXMgd2VsbD8KPiAKPiBOby4gIElJUkMsIHZlZ2ExMiBhbmQgbmV3ZXIgaGFuZGxl
+IHZvbHRhZ2UgZGlmZmVyZW50bHkuCgpPaywgdGhhbmtzLiBNYXliZSBJIGNhbiBnaXZlIGl0IGEg
+dHJ5IHdpdGggc29tZW9uZSBlbHNlJ3MgTmF2aSBjYXJkIGJlZm9yZSB0aGUKZW5kIG9mIHRoZSB5
+ZWFyLiBJJ2QgcmVwb3J0IGJhY2sgaW4gY2FzZSBzb21ldGhpbmcgb2RkIHNob3dzIHVwLgoKLS0g
+CllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRo
+ZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
+by9kcmktZGV2ZWw=
