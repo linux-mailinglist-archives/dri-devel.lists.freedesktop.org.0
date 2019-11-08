@@ -1,36 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40190F4D9F
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 14:57:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 583CDF4DAD
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 15:01:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B22A66F9A0;
-	Fri,  8 Nov 2019 13:57:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A15F6F998;
+	Fri,  8 Nov 2019 14:01:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61B0E6F99F;
- Fri,  8 Nov 2019 13:56:59 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 08 Nov 2019 05:56:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,281,1569308400"; d="scan'208";a="201700045"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga007.fm.intel.com with SMTP; 08 Nov 2019 05:56:55 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 08 Nov 2019 15:56:54 +0200
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 01/12] drm: Inline drm_color_lut_extract()
-Date: Fri,  8 Nov 2019 15:56:54 +0200
-Message-Id: <20191108135654.12907-1-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191107151725.10507-2-ville.syrjala@linux.intel.com>
-References: <20191107151725.10507-2-ville.syrjala@linux.intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 109026F998
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2019 14:01:45 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 0794D720E2; Fri,  8 Nov 2019 14:01:45 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111922] amdgpu fails to resume on 5.2 kernel [regression]
+Date: Fri, 08 Nov 2019 14:01:45 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: pierre-bugzilla@ossman.eu
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111922-502-rUBDGQakIh@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111922-502@http.bugs.freedesktop.org/>
+References: <bug-111922-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -44,74 +52,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Swati Sharma <swati2.sharma@intel.com>, dri-devel@lists.freedesktop.org,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0130794729=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KClRo
-aXMgdGhpbmcgY2FuIGdldCBjYWxsZWQgc2V2ZXJhbCB0aG91c2FuZCB0aW1lcyBwZXIgTFVUCnNv
-IHNlZW1zIGxpa2Ugd2Ugd2FudCB0byBpbmxpbmUgaXQgdG86Ci0gYXZvaWQgdGhlIGZ1bmN0aW9u
-IGNhbGwgb3ZlcmhlYWQKLSBhbGxvdyBjb25zdGFudCBmb2xkaW5nCgpBIHF1aWNrIHN5bnRoZXRp
-YyB0ZXN0ICh3L28gYW55IGhhcmR3YXJlIGludGVyYWN0aW9uKSB3aXRoCmEgcmlkaWN1bG91c2x5
-IGxhcmdlIExVVCBzaXplIHNob3dzIGFib3V0IDUwJSByZWR1Y3Rpb24gaW4KcnVudGltZSBvbiBt
-eSBIU1cgYW5kIEJTVyBib3hlcy4gU2xpZ2h0bHkgbGVzcyB3aXRoIG1vcmUKcmVhc29uYWJsZSBM
-VVQgc2l6ZSBidXQgc3RpbGwgZWFzaWx5IG1lYXN1cmFibGUgaW4gdGVucwpvZiBtaWNyb3NlY29u
-ZHMuCgp2MjogSW5jbHVkZSBkcm1fY29sb3JfbWdtdC5oIGluIHRoZSAucnN0IChEYW5pZWwpCgpD
-YzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgpTaWduZWQtb2ZmLWJ5OiBWaWxsZSBT
-eXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgpSZXZpZXdlZC1ieTogTmlj
-aG9sYXMgS2F6bGF1c2thcyA8bmljaG9sYXMua2F6bGF1c2thc0BhbWQuY29tPgotLS0KIERvY3Vt
-ZW50YXRpb24vZ3B1L2RybS1rbXMucnN0ICAgIHwgIDMgKysrCiBkcml2ZXJzL2dwdS9kcm0vZHJt
-X2NvbG9yX21nbXQuYyB8IDI0IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogaW5jbHVkZS9kcm0v
-ZHJtX2NvbG9yX21nbXQuaCAgICAgfCAyMyArKysrKysrKysrKysrKysrKysrKysrLQogMyBmaWxl
-cyBjaGFuZ2VkLCAyNSBpbnNlcnRpb25zKCspLCAyNSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQg
-YS9Eb2N1bWVudGF0aW9uL2dwdS9kcm0ta21zLnJzdCBiL0RvY3VtZW50YXRpb24vZ3B1L2RybS1r
-bXMucnN0CmluZGV4IDIzYTNjOTg2ZWY2ZC4uYzY4NTg4Y2U0MDkwIDEwMDY0NAotLS0gYS9Eb2N1
-bWVudGF0aW9uL2dwdS9kcm0ta21zLnJzdAorKysgYi9Eb2N1bWVudGF0aW9uL2dwdS9kcm0ta21z
-LnJzdApAQCAtNDc5LDYgKzQ3OSw5IEBAIENvbG9yIE1hbmFnZW1lbnQgUHJvcGVydGllcwogLi4g
-a2VybmVsLWRvYzo6IGRyaXZlcnMvZ3B1L2RybS9kcm1fY29sb3JfbWdtdC5jCiAgICA6ZXhwb3J0
-OgogCisuLiBrZXJuZWwtZG9jOjogaW5jbHVkZS9kcm0vZHJtX2NvbG9yX21nbXQuaAorICAgOmlu
-dGVybmFsOgorCiBUaWxlIEdyb3VwIFByb3BlcnR5CiAtLS0tLS0tLS0tLS0tLS0tLS0tCiAKZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fY29sb3JfbWdtdC5jIGIvZHJpdmVycy9ncHUv
-ZHJtL2RybV9jb2xvcl9tZ210LmMKaW5kZXggNGNlNWM2ZDhkZTk5Li4xOWM1ZjYzNTk5MmEgMTAw
-NjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fY29sb3JfbWdtdC5jCisrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9kcm1fY29sb3JfbWdtdC5jCkBAIC0xMDgsMzAgKzEwOCw2IEBACiAgKiAJc3RhbmRh
-cmQgZW51bSB2YWx1ZXMgc3VwcG9ydGVkIGJ5IHRoZSBEUk0gcGxhbmUuCiAgKi8KIAotLyoqCi0g
-KiBkcm1fY29sb3JfbHV0X2V4dHJhY3QgLSBjbGFtcCBhbmQgcm91bmQgTFVUIGVudHJpZXMKLSAq
-IEB1c2VyX2lucHV0OiBpbnB1dCB2YWx1ZQotICogQGJpdF9wcmVjaXNpb246IG51bWJlciBvZiBi
-aXRzIHRoZSBodyBMVVQgc3VwcG9ydHMKLSAqCi0gKiBFeHRyYWN0IGEgZGVnYW1tYS9nYW1tYSBM
-VVQgdmFsdWUgcHJvdmlkZWQgYnkgdXNlciAoaW4gdGhlIGZvcm0gb2YKLSAqICZkcm1fY29sb3Jf
-bHV0IGVudHJpZXMpIGFuZCByb3VuZCBpdCB0byB0aGUgcHJlY2lzaW9uIHN1cHBvcnRlZCBieSB0
-aGUKLSAqIGhhcmR3YXJlLgotICovCi11aW50MzJfdCBkcm1fY29sb3JfbHV0X2V4dHJhY3QodWlu
-dDMyX3QgdXNlcl9pbnB1dCwgdWludDMyX3QgYml0X3ByZWNpc2lvbikKLXsKLQl1aW50MzJfdCB2
-YWwgPSB1c2VyX2lucHV0OwotCXVpbnQzMl90IG1heCA9IDB4ZmZmZiA+PiAoMTYgLSBiaXRfcHJl
-Y2lzaW9uKTsKLQotCS8qIFJvdW5kIG9ubHkgaWYgd2UncmUgbm90IHVzaW5nIGZ1bGwgcHJlY2lz
-aW9uLiAqLwotCWlmIChiaXRfcHJlY2lzaW9uIDwgMTYpIHsKLQkJdmFsICs9IDFVTCA8PCAoMTYg
-LSBiaXRfcHJlY2lzaW9uIC0gMSk7Ci0JCXZhbCA+Pj0gMTYgLSBiaXRfcHJlY2lzaW9uOwotCX0K
-LQotCXJldHVybiBjbGFtcF92YWwodmFsLCAwLCBtYXgpOwotfQotRVhQT1JUX1NZTUJPTChkcm1f
-Y29sb3JfbHV0X2V4dHJhY3QpOwotCiAvKioKICAqIGRybV9jcnRjX2VuYWJsZV9jb2xvcl9tZ210
-IC0gZW5hYmxlIGNvbG9yIG1hbmFnZW1lbnQgcHJvcGVydGllcwogICogQGNydGM6IERSTSBDUlRD
-CmRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fY29sb3JfbWdtdC5oIGIvaW5jbHVkZS9kcm0v
-ZHJtX2NvbG9yX21nbXQuaAppbmRleCBkMWM2NjJkOTJhYjcuLjA2OWIyMWQ2MTg3MSAxMDA2NDQK
-LS0tIGEvaW5jbHVkZS9kcm0vZHJtX2NvbG9yX21nbXQuaAorKysgYi9pbmNsdWRlL2RybS9kcm1f
-Y29sb3JfbWdtdC5oCkBAIC0yOSw3ICsyOSwyOCBAQAogc3RydWN0IGRybV9jcnRjOwogc3RydWN0
-IGRybV9wbGFuZTsKIAotdWludDMyX3QgZHJtX2NvbG9yX2x1dF9leHRyYWN0KHVpbnQzMl90IHVz
-ZXJfaW5wdXQsIHVpbnQzMl90IGJpdF9wcmVjaXNpb24pOworLyoqCisgKiBkcm1fY29sb3JfbHV0
-X2V4dHJhY3QgLSBjbGFtcCBhbmQgcm91bmQgTFVUIGVudHJpZXMKKyAqIEB1c2VyX2lucHV0OiBp
-bnB1dCB2YWx1ZQorICogQGJpdF9wcmVjaXNpb246IG51bWJlciBvZiBiaXRzIHRoZSBodyBMVVQg
-c3VwcG9ydHMKKyAqCisgKiBFeHRyYWN0IGEgZGVnYW1tYS9nYW1tYSBMVVQgdmFsdWUgcHJvdmlk
-ZWQgYnkgdXNlciAoaW4gdGhlIGZvcm0gb2YKKyAqICZkcm1fY29sb3JfbHV0IGVudHJpZXMpIGFu
-ZCByb3VuZCBpdCB0byB0aGUgcHJlY2lzaW9uIHN1cHBvcnRlZCBieSB0aGUKKyAqIGhhcmR3YXJl
-LgorICovCitzdGF0aWMgaW5saW5lIHUzMiBkcm1fY29sb3JfbHV0X2V4dHJhY3QodTMyIHVzZXJf
-aW5wdXQsIGludCBiaXRfcHJlY2lzaW9uKQoreworCXUzMiB2YWwgPSB1c2VyX2lucHV0OworCXUz
-MiBtYXggPSAweGZmZmYgPj4gKDE2IC0gYml0X3ByZWNpc2lvbik7CisKKwkvKiBSb3VuZCBvbmx5
-IGlmIHdlJ3JlIG5vdCB1c2luZyBmdWxsIHByZWNpc2lvbi4gKi8KKwlpZiAoYml0X3ByZWNpc2lv
-biA8IDE2KSB7CisJCXZhbCArPSAxVUwgPDwgKDE2IC0gYml0X3ByZWNpc2lvbiAtIDEpOworCQl2
-YWwgPj49IDE2IC0gYml0X3ByZWNpc2lvbjsKKwl9CisKKwlyZXR1cm4gY2xhbXBfdmFsKHZhbCwg
-MCwgbWF4KTsKK30KIAogdm9pZCBkcm1fY3J0Y19lbmFibGVfY29sb3JfbWdtdChzdHJ1Y3QgZHJt
-X2NydGMgKmNydGMsCiAJCQkJdWludCBkZWdhbW1hX2x1dF9zaXplLAotLSAKMi4yMy4wCgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0130794729==
+Content-Type: multipart/alternative; boundary="15732217040.d1a4dB7.621"
+Content-Transfer-Encoding: 7bit
+
+
+--15732217040.d1a4dB7.621
+Date: Fri, 8 Nov 2019 14:01:44 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111922
+
+--- Comment #6 from Pierre Ossman <pierre-bugzilla@ossman.eu> ---
+Hmmm... I did get this from that patch though:
+
+> [   98.391016] amdgpu 0000:38:00.0: GPU mode1 reset
+> [   98.391072] [drm] psp mode 1 reset not supported now!=20
+> [   98.391074] amdgpu 0000:38:00.0: GPU mode1 reset failed
+> [   98.391151] amdgpu 0000:38:00.0: GPU mode1 reset
+> [   98.391198] [drm] psp mode 1 reset not supported now!=20
+> [   98.391199] amdgpu 0000:38:00.0: GPU mode1 reset failed
+> [   98.391358] [drm:amdgpu_device_suspend [amdgpu]] *ERROR* amdgpu asic r=
+eset failed
+
+Not sure if it helps.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15732217040.d1a4dB7.621
+Date: Fri, 8 Nov 2019 14:01:44 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu fails to resume on 5.2 kernel [regression]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111922#c6">Commen=
+t # 6</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu fails to resume on 5.2 kernel [regression]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111922">bug 11192=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+pierre-bugzilla&#64;ossman.eu" title=3D"Pierre Ossman &lt;pierre-bugzilla&#=
+64;ossman.eu&gt;"> <span class=3D"fn">Pierre Ossman</span></a>
+</span></b>
+        <pre>Hmmm... I did get this from that patch though:
+
+<span class=3D"quote">&gt; [   98.391016] amdgpu 0000:38:00.0: GPU mode1 re=
+set
+&gt; [   98.391072] [drm] psp mode 1 reset not supported now!=20
+&gt; [   98.391074] amdgpu 0000:38:00.0: GPU mode1 reset failed
+&gt; [   98.391151] amdgpu 0000:38:00.0: GPU mode1 reset
+&gt; [   98.391198] [drm] psp mode 1 reset not supported now!=20
+&gt; [   98.391199] amdgpu 0000:38:00.0: GPU mode1 reset failed
+&gt; [   98.391358] [drm:amdgpu_device_suspend [amdgpu]] *ERROR* amdgpu asi=
+c reset failed</span >
+
+Not sure if it helps.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15732217040.d1a4dB7.621--
+
+--===============0130794729==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0130794729==--
