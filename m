@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AB2DF4495
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 11:35:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74578F44F1
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 11:49:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 400CC6F931;
-	Fri,  8 Nov 2019 10:35:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2A086E04A;
+	Fri,  8 Nov 2019 10:49:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF9C96F92B
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2019 10:35:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 590776E04A
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2019 10:49:14 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 205393] [amdgpu powerplay] vega10: custom pp_table, AVFS
  accidentally reenabled after display powersave
-Date: Fri, 08 Nov 2019 10:35:35 +0000
+Date: Fri, 08 Nov 2019 10:49:13 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -25,14 +25,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: trivial
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: haro41@gmx.de
+X-Bugzilla-Who: tempel.julian@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205393-2300-TBYCbNKVD7@https.bugzilla.kernel.org/>
+Message-ID: <bug-205393-2300-izJteAx2gG@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205393-2300@https.bugzilla.kernel.org/>
 References: <bug-205393-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,17 +58,15 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDUzOTMKCi0tLSBD
-b21tZW50ICM5IGZyb20gaGFybzQxQGdteC5kZSAtLS0KKEluIHJlcGx5IHRvIHRlbXBlbC5qdWxp
-YW4gZnJvbSBjb21tZW50ICM3KQo+IElzIHRoaXMgcmVhbGx5IG9ubHkgcmVsZXZhbnQgZm9yIFZl
-Z2EgMTA/Cj4gQWxzbyBvbiBQb2xhcmlzIHZvbHRhZ2UgaXMgcmVzZXQgdG8gZGVmYXVsdCB3aGVu
-IHVzaW5nIGEgY3VzdG9taXplZAo+IHBvd2VycGxheSB0YWJsZSBlLmcuIGFmdGVyIGEgbW9kZWxp
-bmUgc3dpdGNoIChoYXBwZW5zIHdoZW4gY2xvc2luZyBTd2F5Cj4gc2Vzc2lvbiB3aXRoIGN0ciAr
-IHNoaWZ0ICsgZSkuCgpJIGRvbid0IGhhdmUgYSBwb2xhcmlzIGNhcmQgZm9yIGRlYnVnZ2luZywg
-YnV0IGxvb2tpbmcgYXQgdGhlIGNvZGUsIGkgdGhpbmsKdGhhdCBhIHNpbWlsYXIgYnVnIGNvdWxk
-IGJlIHJlbGV2YW50IHRvby4gVmVnYTEwIGlzIHNtdTksIHdoaWxlIFBvbGFyaXMgaXMKc211Nywg
-YnV0IGJvdGggZmlybXdhcmVzIGdlbmVyYWxseSBzdXBwb3J0IEFWRlMgYW5kIGVuYWJsaW5nL2Rp
-c2FibGluZyB0aGlzCmZlYXR1cmUuCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJl
-Y2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+b21tZW50ICMxMCBmcm9tIHRlbXBlbC5qdWxpYW5AZ21haWwuY29tIC0tLQpJJ2QgdHJ5IG91dCBw
+YXRjaGVzIGlmIHlvdSB3YW50LiA6KQpUaG91Z2ggaXQncyBwcm9iYWJseSBub3QgcmVhbGx5IGlt
+cG9ydGFudCwgYXMgdGhlIHJlZ3VsYXIgb3ZlcmRyaXZlCmZ1bmN0aW9uYWxpdHkgd29ya3MgZmlu
+ZSB3aXRoIFBvbGFyaXMuCgpNdWNoIG1vcmUgaW1wb3J0YW50IHdvdWxkIGJlIHNpdHVhdGlvbiBm
+b3IgTmF2aSwgYXMgcmVndWxhciBvdmVyZHJpdmUgZG9lc24ndAp3b3JrIHdpdGggaXQgeWV0IGFu
+ZCBvbmUgaXMgZGVwZW5kZW50IG9uIHRoZSBwb3dlcnBsYXkgdGFibGUgbWV0aG9kOgpodHRwczov
+L2J1Z3MuZnJlZWRlc2t0b3Aub3JnL3Nob3dfYnVnLmNnaT9pZD0xMTE3NjIKCi0tIApZb3UgYXJl
+IHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWdu
+ZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVs
