@@ -1,34 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34BF8F4409
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 10:56:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB2DF4495
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 11:35:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A77F96F8F7;
-	Fri,  8 Nov 2019 09:56:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 400CC6F931;
+	Fri,  8 Nov 2019 10:35:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CA636F8F4;
- Fri,  8 Nov 2019 09:56:09 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 19125519-1500050 for multiple; Fri, 08 Nov 2019 09:55:58 +0000
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF9C96F92B
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2019 10:35:35 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 205393] [amdgpu powerplay] vega10: custom pp_table, AVFS
+ accidentally reenabled after display powersave
+Date: Fri, 08 Nov 2019 10:35:35 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: trivial
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: haro41@gmx.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-205393-2300-TBYCbNKVD7@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-205393-2300@https.bugzilla.kernel.org/>
+References: <bug-205393-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Masahiro Yamada <yamada.masahiro@socionext.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
-From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <20191108094142.25942-1-yamada.masahiro@socionext.com>
-References: <20191108094142.25942-1-yamada.masahiro@socionext.com>
-Message-ID: <157320695719.9461.4158455736119200291@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [PATCH v2] drm/i915: make more headers self-contained
-Date: Fri, 08 Nov 2019 09:55:57 +0000
+X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
+ message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -41,28 +52,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>,
- Paulo Zanoni <paulo.r.zanoni@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, David Airlie <airlied@linux.ie>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Masahiro Yamada <yamada.masahiro@socionext.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- intel-gvt-dev@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBNYXNhaGlybyBZYW1hZGEgKDIwMTktMTEtMDggMDk6NDE6NDIpCj4gVGhlIGhlYWRl
-cnMgaW4gdGhlIGdlbS9zZWxmdGVzdHMvLCBndC9zZWxmdGVzdHMsIGd2dC8sIHNlbGZ0ZXN0cy8K
-PiBkaXJlY3RvcmllcyBoYXZlIG5ldmVyIGJlZW4gY29tcGlsZS10ZXN0ZWQsIGJ1dCBpdCB3b3Vs
-ZCBiZSBwb3NzaWJsZQo+IHRvIG1ha2UgdGhlbSBzZWxmLWNvbnRhaW5lZC4KPiAKPiBUaGlzIGNv
-bW1pdCBvbmx5IGFkZHJlc3NlcyBtaXNzaW5nIDxsaW51eC90eXBlcy5oPiBhbmQgZm9yd2FyZAo+
-IHN0cnVjdCBkZWNsYXJhdGlvbnMuCj4gCj4gU2lnbmVkLW9mZi1ieTogTWFzYWhpcm8gWWFtYWRh
-IDx5YW1hZGEubWFzYWhpcm9Ac29jaW9uZXh0LmNvbT4KClRoYW5rcyBhIGxvdCBmb3IgZG9pbmcg
-dGhpcywKUmV2aWV3ZWQtYnk6IENocmlzIFdpbHNvbiA8Y2hyaXNAY2hyaXMtd2lsc29uLmNvLnVr
-PgotQ2hyaXMKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDUzOTMKCi0tLSBD
+b21tZW50ICM5IGZyb20gaGFybzQxQGdteC5kZSAtLS0KKEluIHJlcGx5IHRvIHRlbXBlbC5qdWxp
+YW4gZnJvbSBjb21tZW50ICM3KQo+IElzIHRoaXMgcmVhbGx5IG9ubHkgcmVsZXZhbnQgZm9yIFZl
+Z2EgMTA/Cj4gQWxzbyBvbiBQb2xhcmlzIHZvbHRhZ2UgaXMgcmVzZXQgdG8gZGVmYXVsdCB3aGVu
+IHVzaW5nIGEgY3VzdG9taXplZAo+IHBvd2VycGxheSB0YWJsZSBlLmcuIGFmdGVyIGEgbW9kZWxp
+bmUgc3dpdGNoIChoYXBwZW5zIHdoZW4gY2xvc2luZyBTd2F5Cj4gc2Vzc2lvbiB3aXRoIGN0ciAr
+IHNoaWZ0ICsgZSkuCgpJIGRvbid0IGhhdmUgYSBwb2xhcmlzIGNhcmQgZm9yIGRlYnVnZ2luZywg
+YnV0IGxvb2tpbmcgYXQgdGhlIGNvZGUsIGkgdGhpbmsKdGhhdCBhIHNpbWlsYXIgYnVnIGNvdWxk
+IGJlIHJlbGV2YW50IHRvby4gVmVnYTEwIGlzIHNtdTksIHdoaWxlIFBvbGFyaXMgaXMKc211Nywg
+YnV0IGJvdGggZmlybXdhcmVzIGdlbmVyYWxseSBzdXBwb3J0IEFWRlMgYW5kIGVuYWJsaW5nL2Rp
+c2FibGluZyB0aGlzCmZlYXR1cmUuCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJl
+Y2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
