@@ -2,58 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 805F7F5159
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 17:42:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86FECF5177
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 17:47:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E86486FA08;
-	Fri,  8 Nov 2019 16:42:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AF0B6FA0C;
+	Fri,  8 Nov 2019 16:47:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x943.google.com (mail-ua1-x943.google.com
- [IPv6:2607:f8b0:4864:20::943])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 032886FA08
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2019 16:42:47 +0000 (UTC)
-Received: by mail-ua1-x943.google.com with SMTP id u99so1923929uau.5
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Nov 2019 08:42:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VFJH0BvyxdDPKHoqjtjGZH5yVkUA3MkABu+kse+9mpE=;
- b=Fm+UqwT+TE/V4IR8m5MrVTHrY3neFsSaMp+eTkMBNXixuK1UQnpWWj3OPpeYlJd4ib
- pXSp1PTldG1E1lIsnUn6EHYnFPEnOoA/XW39ijE213H4ePhojHCeZB/SsAdVRsIaRpbE
- kX/Nvmb9LU/vVsSlAzUiGC3hVhMlMmI28nzA3J0bU3FCO75iQQ/gDajHoop5+FdDsCoh
- Kjo8m7PSBs4RHoCGjLyNCC1koWE/W0I4g2biTn7+zDpgSBkUPDQoMGRmvyMRaetKvbVV
- Vi0h8HvxOV88B22fK7MIO4xFlAQYH5RP1tU9CuAo+pt2Qo35u1/B8raGBFUYeDDTkWek
- G++g==
-X-Gm-Message-State: APjAAAUY+l38SXuokG8Q/IBipY8r/svav9Het/ksUIpI2WIXj3ihIJq9
- CFFeoFi6AfFUdUeeMyZat38bhSmFrkSWXm6+B78=
-X-Google-Smtp-Source: APXvYqwkbzK5uFct3FR/BTetB8ZpjEts5xDMwlcQXUZ6O17dRyPtX0/JKdK7w3KTyBdwJXK4VyMdvzO1/Sl4uddzw3g=
-X-Received: by 2002:ab0:300c:: with SMTP id f12mr7652904ual.19.1573231365952; 
- Fri, 08 Nov 2019 08:42:45 -0800 (PST)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CED306FA0C
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2019 16:47:01 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id CB5C3720E2; Fri,  8 Nov 2019 16:47:01 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 112234] [REGRESSION] navi10: writing to pp_table fails (5.4-rc6
+ = working)
+Date: Fri, 08 Nov 2019 16:47:01 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mcoffin13@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ attachments.created
+Message-ID: <bug-112234-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20191101130313.8862-1-emil.l.velikov@gmail.com>
- <20191101130313.8862-4-emil.l.velikov@gmail.com>
- <d652ceaa-2c64-31f0-1793-14a5de51dc57@arm.com>
- <CACvgo52zMar0q1CPNd0UnBFU3AZt-m1v7ZKaP0y3p6bSJ6LxFQ@mail.gmail.com>
- <8a392fc2-20e2-11cf-e06e-b66723a10b86@arm.com>
-In-Reply-To: <8a392fc2-20e2-11cf-e06e-b66723a10b86@arm.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Fri, 8 Nov 2019 16:42:27 +0000
-Message-ID: <CACvgo50_GEaWZmy9BbkVuE-Jgn7fBzu+CErwKqy7bviF7omOsg@mail.gmail.com>
-Subject: Re: [PATCH 4/5] drm/panfrost: remove DRM_AUTH and respective comment
-To: Steven Price <steven.price@arm.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=VFJH0BvyxdDPKHoqjtjGZH5yVkUA3MkABu+kse+9mpE=;
- b=p0yQGtjzUZDV08qQjQihqtZr+eu6sUTg2506R8V/NRepuMa9gzUvgwCwHUY2/GMC87
- 6lKl6YAb5i3+Vaq87H35Y4acSgOcusWkiYKEeQRJzi7xJT3BNp7O7JD3wyaqGT5kKcyK
- 8dqZgcZlxtlX9cwYQMFMLFT65GDbhxFnoLMVfOLTMJH7gnI5lOd7+IHFdJh6arguA5mK
- EbFd02L7gCT4ozif3IB9NvzEnwsAJ1i1a4MPhiPzpKYJSR1pl4Yo9NU7xxgW1yiParef
- oBtTVnD3w9XAzKn0muysijtFw+NGLLPECZUBavH6yi5xxdLleH3GFh5814rFX5uiNk/p
- rHRg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,64 +53,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Robin Murphy <robin.murphy@arm.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0292409010=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCA4IE5vdiAyMDE5IGF0IDE1OjU1LCBTdGV2ZW4gUHJpY2UgPHN0ZXZlbi5wcmljZUBh
-cm0uY29tPiB3cm90ZToKPgo+IE9uIDA4LzExLzIwMTkgMTM6MTAsIEVtaWwgVmVsaWtvdiB3cm90
-ZToKPiA+IE9uIEZyaSwgMSBOb3YgMjAxOSBhdCAxMzozNCwgU3RldmVuIFByaWNlIDxzdGV2ZW4u
-cHJpY2VAYXJtLmNvbT4gd3JvdGU6Cj4gPj4KPiA+PiBPbiAwMS8xMS8yMDE5IDEzOjAzLCBFbWls
-IFZlbGlrb3Ygd3JvdGU6Cj4gPj4+IEZyb206IEVtaWwgVmVsaWtvdiA8ZW1pbC52ZWxpa292QGNv
-bGxhYm9yYS5jb20+Cj4gPj4+Cj4gPj4+IEFzIG9mIGVhcmxpZXIgY29tbWl0IHdlIGhhdmUgYWRk
-cmVzcyBzcGFjZSBzZXBhcmF0aW9uLiBZZXQgd2UgZm9yZ290IHRvCj4gPj4+IHJlbW92ZSB0aGUg
-cmVzcGVjdGl2ZSBjb21tZW50IGFuZCBEUk1fQVVUSCBpbiB0aGUgaW9jdGwgZGVjbGFyYXRpb24u
-Cj4gPj4+Cj4gPj4+IENjOiBUb21ldSBWaXpvc28gPHRvbWV1LnZpem9zb0Bjb2xsYWJvcmEuY29t
-Pgo+ID4+PiBDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgo+ID4+PiBDYzogRGFu
-aWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgo+ID4+PiBDYzogUm9iaW4gTXVycGh5IDxyb2Jp
-bi5tdXJwaHlAYXJtLmNvbT4KPiA+Pj4gQ2M6IFN0ZXZlbiBQcmljZSA8c3RldmVuLnByaWNlQGFy
-bS5jb20+Cj4gPj4+IEZpeGVzOiA3MjgyZjc2NDVkMDYgKCJkcm0vcGFuZnJvc3Q6IEltcGxlbWVu
-dCBwZXIgRkQgYWRkcmVzcyBzcGFjZXMiKQo+ID4+PiBTaWduZWQtb2ZmLWJ5OiBFbWlsIFZlbGlr
-b3YgPGVtaWwudmVsaWtvdkBjb2xsYWJvcmEuY29tPgo+ID4+Cj4gPj4gUmV2aWV3ZWQtYnk6IFN0
-ZXZlbiBQcmljZSA8c3RldmVuLnByaWNlQGFybS5jb20+Cj4gPj4KPiA+PiBJJ20gbm90IHN1cmUg
-RFJNX0FVVEggcHJvdmlkZWQgdXMgd2l0aCBtdWNoIGluIHRoZSBmaXJzdCBwbGFjZSAoYmVjYXVz
-ZQo+ID4+IHJlbmRlciBub2RlcyBjb3VsZCBzbm9vcC9hZmZlY3QgdGhlIHByaW1hcnkgbm9kZSks
-IGJ1dCBzaW5jZSB3ZSBoYXZlCj4gPj4gYWRkcmVzcyBzcGFjZSBzZXBhcmF0aW9uIGl0J3MgY2xl
-YXJseSBub3QgcmVxdWlyZWQgbm93Lgo+ID4+Cj4gPiBUaGFua3MgU3RldmUuIFRoaXMgaXMgZXhh
-Y3RseSB0aGUgcmVhc29uIHdoeSBJIHJlbW92ZWQgaXQgZnJvbSBtb3N0Cj4gPiBvdGhlciBkcml2
-ZXJzLgo+ID4gVGhlcmUgYXJlIGVxdWl2YWxlbnQgdm13Z2Z4IGNoYW5nZXMgYW5kIGEgRFJNIGNv
-cmUgcGF0Y2ggaW4gdGhpcyBzZXJpZXMuCj4gPgo+ID4gRG8geW91IHRoaW5rIHlvdSdsbCBoYXZl
-IHNvbWUgdGltZSB0byBjaGVjayB0aG9zZSBvdmVyPyBXb3VsZCBiZQo+ID4gYW1hemluZyBpZiBJ
-IGNhbiBhcHBseSB0aGUgbG90IGluIG9uZSBnbyB0byBkcm0tbWlzYy4KPgo+IEknbSBhZnJhaWQg
-SSBkb24ndCBrbm93IGVub3VnaCBhYm91dCB0aGUgc2VjdXJpdHkgbW9kZWwgb2Ygdm13Z2Z4IHRv
-Cj4gbWVhbmluZ2Z1bGx5IGNvbW1lbnQgb24gdGhvc2UgY2hhbmdlcy4gT24gdGhlIHN1cmZhY2Ug
-dGhleSBsb29rIGZpbmUsCj4gYnV0IGl0IHJlYWxseSBuZWVkcyBzb21lb25lIHdobyB1bmRlcnN0
-YW5kcyB3aGV0aGVyIHRoaXMgZXhwb3NlcyBhbgo+IGF0dGFjayBzdXJmYWNlLgo+CkkgdW5kZXJz
-dGFuZCwgdGhhbmtzIGZvciBoYXZpbmcgYSBsb29rLgoKPiBUaGUgRFJNIGNvcmUgcGF0Y2ggY29u
-Y2VybnMgbWUgc2xpZ2h0bHkgKGFsdGhvdWdoIGFnYWluIEknbSBub3QKPiBjb21wbGV0ZWx5IHVw
-IHRvIHNwZWVkIG9uIHRoZSBzZWN1cml0eSBtb2RlIGhlcmUpLiBGb3IgYSBkZXZpY2Ugd2hpY2gK
-PiBkb2Vzbid0IGhhdmUgYWRkcmVzcyBzcGFjZSBzZXBhcmF0aW9uIChhbmQgZG9lc24ndCBzdXBw
-b3J0IHJlbmRlcgo+IG5vZGVzKSwgaXMgdGhlcmUgYW55dGhpbmcgc3RvcHBpbmcgYSBwcm9jZXNz
-IHdoaWNoIGhhc24ndCBhdXRoZW50aWNhdGVkCj4gY29udmVydGluZyBhbm90aGVyIHByb2Nlc3Mn
-cyBoYW5kbGUgdG8gYSBwcmltZSBmZD8gKG9yIGluamVjdGluZyBkbWFidWZzCj4gaW50byB0aGUg
-YWRkcmVzcyBzcGFjZSB1c2VkIGJ5IHRoZSBhdXRoZW50aWNhdGVkIHByb2Nlc3MgLSB3aGljaCBt
-aWdodAo+IGNhdXNlIGFkZHJlc3Mgc3BhY2UgZXhoYXVzdGlvbikuIElmIHRoYXQncyBub3QgYSBj
-b25jZXJuIHRoZW4gSSdtIG5vdAo+IHN1cmUgd2h5IHRoZSBpb2N0bHMgd2VyZSBvcmlnaW5hbGx5
-IGFkZGVkIHdpdGggRFJNX0FVVEguLi4KPgpUaGFua3MgZm9yIHJhaXNpbmcgdGhpcyB1cC4KCkxl
-dCdzIHN0YXJ0IHdpdGggdGhlIHNob3J0IHF1ZXN0aW9uOiBXaHkgd2FzIERSTV9BVVRIIGFkZGVk
-PwpJIHdvdWxkIGV4cGVjdCBlaXRoZXIgY2FyZ28tY3VsdCAtIHdlIGhhdmUgRFJNX0FVVEggZXZl
-biBmb3IgZ2V0X3BhcmFtIGlvY3RsLgoKSW4gb3JkZXIgZm9yIGEgaGFuZGxlIHRvIGJlIGV4cG9y
-dGVkIGFzIGZkLCB0aGUgZHJpdmVyIG11c3Qgc3VwcG9ydApyZW5kZXIgbm9kZXMuIFdoaWNoIGlt
-cGxpY2l0bHkgbWFuZGF0ZXMgYWRkcmVzcyBzcGFjZSBzZXBhcmF0aW9uLgpJZiB0aGF0IGFzc3Vt
-cHRpb24gaXMgYnJva2VuLCB0aGVuIHdlIGhhdmUgZGVlcGVyIHByb2JsZW1zLgpPbiB0aGUgb3Ro
-ZXIgaGFuZCwgVjNEIGRvZXMgZXhwb3NlIHJlbmRlciBub2RlcyBhbmQgdXNlcyB0aGUgc2FtZQpx
-dWlyayBhcyBwYW5mcm9zdCBiZWZvcmUgdGhlIGFkZHJlc3Mgc3BhY2Ugc2VwYXJhdGlvbiBwYXRj
-aC4KClNvIG92ZXJhbGwsIGl0IGRvZXNuJ3Qgc2VlbSBsaWtlIGl0IHdvdWxkIGNhdXNlIGFueSBw
-cm9ibGVtcywgd2hpY2gKZG9uJ3QgZXhpc3QgYWxyZWFkeS4KClRoYW5rcwpFbWlsCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0292409010==
+Content-Type: multipart/alternative; boundary="15732316211.5131e25.26350"
+Content-Transfer-Encoding: 7bit
+
+
+--15732316211.5131e25.26350
+Date: Fri, 8 Nov 2019 16:47:01 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112234
+
+            Bug ID: 112234
+           Summary: [REGRESSION] navi10: writing to pp_table fails
+                    (5.4-rc6 =3D working)
+           Product: DRI
+           Version: unspecified
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: normal
+          Priority: not set
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: mcoffin13@gmail.com
+
+Created attachment 145913
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145913&action=3Dedit
+dmesg log (journalctl -k) for the failure.
+
+On 5.4-rc6, with navi10, writing to the sysfs pp_table works, with the SMU
+resetting successfully.
+
+On amd-staging-drm-next (270209307880ec946cfe9b98a6a58d285dbc5a2e), this fa=
+ils.
+I can bisect, but unfortunately I'm not too sure on where to start, since t=
+he
+amd-staging-drm-next branch is currently rebased off of an older version
+(5.3-rcX I think?). Tips on where to start would be helpful and appreciated,
+but my guess that this would be introduced in the big refactor to remove the
+swSMU code layer.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15732316211.5131e25.26350
+Date: Fri, 8 Nov 2019 16:47:01 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [REGRESSION] navi10: writing to pp_table fails (5.4-rc6 =
+=3D working)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112234">112234</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>[REGRESSION] navi10: writing to pp_table fails (5.4-rc6 =3D w=
+orking)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>unspecified
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>mcoffin13&#64;gmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145913=
+" name=3D"attach_145913" title=3D"dmesg log (journalctl -k) for the failure=
+.">attachment 145913</a> <a href=3D"attachment.cgi?id=3D145913&amp;action=
+=3Dedit" title=3D"dmesg log (journalctl -k) for the failure.">[details]</a>=
+</span>
+dmesg log (journalctl -k) for the failure.
+
+On 5.4-rc6, with navi10, writing to the sysfs pp_table works, with the SMU
+resetting successfully.
+
+On amd-staging-drm-next (270209307880ec946cfe9b98a6a58d285dbc5a2e), this fa=
+ils.
+I can bisect, but unfortunately I'm not too sure on where to start, since t=
+he
+amd-staging-drm-next branch is currently rebased off of an older version
+(5.3-rcX I think?). Tips on where to start would be helpful and appreciated,
+but my guess that this would be introduced in the big refactor to remove the
+swSMU code layer.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15732316211.5131e25.26350--
+
+--===============0292409010==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0292409010==--
