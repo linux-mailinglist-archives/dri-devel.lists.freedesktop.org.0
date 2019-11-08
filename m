@@ -2,26 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89826F416C
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 08:36:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2253DF417E
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 08:47:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71FC36F84E;
-	Fri,  8 Nov 2019 07:36:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CEC16E079;
+	Fri,  8 Nov 2019 07:46:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8FB06F84E
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2019 07:36:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAE576E079
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2019 07:46:55 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 23DE1AC81;
- Fri,  8 Nov 2019 07:36:50 +0000 (UTC)
-Subject: Re: [PATCH v3 0/4] drm/udl: Convert to SHMEM
-To: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>,
- airlied@redhat.com, sean@poorly.run, daniel@ffwll.ch, noralf@tronnes.org,
- sam@ravnborg.org, emil.velikov@collabora.com, kraxel@redhat.com
-References: <20191107094307.19870-1-tzimmermann@suse.de>
- <cd38b510-6914-ab38-677a-1ebce8c7d4d5@pr.hu>
+ by mx1.suse.de (Postfix) with ESMTP id 56564AEED;
+ Fri,  8 Nov 2019 07:46:54 +0000 (UTC)
+Subject: Re: Drm: mgag200. Video adapter issue with 5.4.0-rc3 ; no graphics
+To: John Donnelly <john.p.donnelly@oracle.com>
+References: <162E0991-F617-4AA3-8C98-A6F0B0F681B1@oracle.com>
+ <f7bb9241-d9c6-c4ef-a03f-7aa0d18ea30e@suse.de>
+ <BBD8E679-435B-45A3-AC2E-495329A1BC87@oracle.com>
+ <7f6090da-60a5-864c-2ed0-d20a413b3db2@suse.de>
+ <43822B6A-45CB-4158-A52F-03F4669FAC5C@oracle.com>
+ <B044F752-0120-484C-9C12-5A6FBD64B753@oracle.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
@@ -48,12 +50,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
  HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
  3H26qrE=
-Message-ID: <f2f5afa1-59e5-149f-ed58-a5708926ae5a@suse.de>
-Date: Fri, 8 Nov 2019 08:36:45 +0100
+Message-ID: <c8999224-f585-e3fe-ec60-63632f005fc9@suse.de>
+Date: Fri, 8 Nov 2019 08:46:50 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.0
 MIME-Version: 1.0
-In-Reply-To: <cd38b510-6914-ab38-677a-1ebce8c7d4d5@pr.hu>
+In-Reply-To: <B044F752-0120-484C-9C12-5A6FBD64B753@oracle.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,464 +68,383 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0371193126=="
+Cc: dri-devel@lists.freedesktop.org, allen <allen.pais@oracle.com>
+Content-Type: multipart/mixed; boundary="===============0941488562=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0371193126==
+--===============0941488562==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="ydYlHeyaGHS1QQu0HbHMJsuvelL3K9IWF"
+ boundary="orCT8pG2IhA4mNojWhrgv1UCVEF2tpzSf"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---ydYlHeyaGHS1QQu0HbHMJsuvelL3K9IWF
-Content-Type: multipart/mixed; boundary="IGapvTxYPP53RoPqoqQpCzoBBZ8rIxMxK";
+--orCT8pG2IhA4mNojWhrgv1UCVEF2tpzSf
+Content-Type: multipart/mixed; boundary="vphiXANbMwcGkiC9f4zcuovjT4PbkymFq";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>,
- airlied@redhat.com, sean@poorly.run, daniel@ffwll.ch, noralf@tronnes.org,
- sam@ravnborg.org, emil.velikov@collabora.com, kraxel@redhat.com
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <f2f5afa1-59e5-149f-ed58-a5708926ae5a@suse.de>
-Subject: Re: [PATCH v3 0/4] drm/udl: Convert to SHMEM
-References: <20191107094307.19870-1-tzimmermann@suse.de>
- <cd38b510-6914-ab38-677a-1ebce8c7d4d5@pr.hu>
-In-Reply-To: <cd38b510-6914-ab38-677a-1ebce8c7d4d5@pr.hu>
+To: John Donnelly <john.p.donnelly@oracle.com>
+Cc: dri-devel@lists.freedesktop.org, allen <allen.pais@oracle.com>
+Message-ID: <c8999224-f585-e3fe-ec60-63632f005fc9@suse.de>
+Subject: Re: Drm: mgag200. Video adapter issue with 5.4.0-rc3 ; no graphics
+References: <162E0991-F617-4AA3-8C98-A6F0B0F681B1@oracle.com>
+ <f7bb9241-d9c6-c4ef-a03f-7aa0d18ea30e@suse.de>
+ <BBD8E679-435B-45A3-AC2E-495329A1BC87@oracle.com>
+ <7f6090da-60a5-864c-2ed0-d20a413b3db2@suse.de>
+ <43822B6A-45CB-4158-A52F-03F4669FAC5C@oracle.com>
+ <B044F752-0120-484C-9C12-5A6FBD64B753@oracle.com>
+In-Reply-To: <B044F752-0120-484C-9C12-5A6FBD64B753@oracle.com>
 
---IGapvTxYPP53RoPqoqQpCzoBBZ8rIxMxK
+--vphiXANbMwcGkiC9f4zcuovjT4PbkymFq
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Hi B=C3=B6sz=C3=B6rm=C3=A9nyi
+Hi John
 
-Am 07.11.19 um 16:10 schrieb B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=A1n:
-> Hi,
+Am 07.11.19 um 23:14 schrieb John Donnelly:
 >=20
-> 2019. 11. 07. 10:43 keltez=C3=A9ssel, Thomas Zimmermann =C3=ADrta:
->> Udl's GEM implementation is mostly SHMEM and we should attempt to
->> replace it with the latter.
+>=20
+>> On Nov 7, 2019, at 10:13 AM, John Donnelly <john.p.donnelly@oracle.com=
+> wrote:
 >>
->> Patches #1 and #2 update udl to simplify the conversion. In patch #3
->> the udl code is being replaced by SHMEM. The GEM object's mmap() and
->> free_object() functions are wrappers around their SHMEM counterparts.
->> For mmap() we fix-up the page-caching flags to distinguish between
->> write-combined and cached access. For free(), we have to unmap the
->> buffer's mapping that has been established by udl's fbdev code.
->> Patch #4 removes the obsolete udl code.
 >>
->> The patchset has been tested by running the fbdev console, X11 and
->> Weston on a DisplayLink adapter.
->=20
-> what's the trick to actually enable the UDL device?
->=20
-> With 5.3.8, 5.3.9 or 5.4-rc6 + drm-next and this patchset, I get this:
->=20
-> # DISPLAY=3D:0 xrandr --listproviders
-> Providers: number : 2
-> Provider 0: id: 0x76 cap: 0xf, Source Output, Sink Output, Source
-> Offload, Sink Offload crtcs: 2 outputs: 3 associated providers: 0
-> name:modesetting
-> Provider 1: id: 0x41 cap: 0x2, Sink Output crtcs: 1 outputs: 1
-> associated providers: 0 name:modesetting
->=20
-> # DISPLAY=3D:0 xrandr --setprovideroutputsource 0x41 0x76
->=20
-> # DISPLAY=3D:0 xrandr --listproviders
-> Providers: number : 2
-> Provider 0: id: 0x76 cap: 0xf, Source Output, Sink Output, Source
-> Offload, Sink Offload crtcs: 2 outputs: 3 associated providers: 1
-> name:modesetting
-> Provider 1: id: 0x41 cap: 0x2, Sink Output crtcs: 1 outputs: 1
-> associated providers: 1 name:modesetting
->=20
-> # DISPLAY=3D:0 xrandr
-> Screen 0: minimum 320 x 200, current 1024 x 768, maximum 8192 x 8192
-> VGA-1 connected primary 1024x768+0+0 (normal left inverted right x axis=
+>>
+>>> On Nov 7, 2019, at 7:42 AM, Thomas Zimmermann <tzimmermann@suse.de> w=
+rote:
+>>>
+>>> Hi John
+>>>
+>>> Am 07.11.19 um 14:12 schrieb John Donnelly:
+>>>> Hi  Thomas ;  Thank you for reaching out.=20
+>>>>
+>>>> See inline:=20
+>>>>
+>>>>> On Nov 7, 2019, at 1:54 AM, Thomas Zimmermann <tzimmermann@suse.de>=
+ wrote:
+>>>>>
+>>>>> Hi John,
+>>>>>
+>>>>> apparently the vgaarb was not the problem.
+>>>>>
+>>>>> Am 07.11.19 um 03:29 schrieb John Donnelly:
+>>>>>> Hi,
+>>>>>>
+>>>>>> I am investigating an issue where we lose video activity when the =
+display is switched from from =E2=80=9Ctext mode=E2=80=9D to =E2=80=9Cgra=
+phic mode=E2=80=9D=20
+>>>>>> on a number of  servers using this driver.    Specifically  starti=
+ng the GNOME desktop.=20
+>>>>>
+>>>>> When you say "text mode", do you mean VGA text mode or the graphica=
+l
+>>>>> console that emulates text mode?
+>>>>>
+>>>>
+>>>>
+>>>> I call =E2=80=9Ctext mode=E2=80=9D the 24x80  ascii mode ;  - NOT GR=
+APHICS .       Ie : run-level 3;  So I  guess your term for it is VGA.=20
+>>>
+>>> Yes.
+>>>
+>>>
+>>>>
+>>>>
+>>>>> When you enable graphics mode, does it set the correct resolution? =
+A lot
+>>>>> of work went into memory management recently. I could imagine that =
+the
+>>>>> driver sets the correct resolution, but then fails to display the
+>>>>> correct framebuffer.
+>>>>
+>>>>   There is no display at all ;  so there is no resolution  to mentio=
+n.   =20
+>>>>
+>>>>
+>>>>
+>>>>>
+>>>>> If possible, could you try to update to the latest drm-tip and atta=
+ch
+>>>>> the output of
+>>>>>
+>>>>> /sys/kernel/debug/dri/0/vram-mm
+>>>>
+>>>> I don=E2=80=99t see that file ;   Is there something else I need to =
+do ?=20
+>>>
+>>> That file is fairly new and maybe it's not in the mainline kernel yet=
+=2E
+>>> See below for how to get it.
+>>
+>>   I  built your =E2=80=9Ctip=E2=80=9D ;  Still no graphics displayed .=
+=20
+>>
+>>
+>>   mount -t debugfs none /sys/kernel
+>>
+>>  cat /proc/cmdline=20
+>> BOOT_IMAGE=3D(hd0,msdos1)/vmlinuz-5.4.0-rc6.drm.+ root=3D/dev/mapper/o=
+l_ca--dev55-root ro crashkernel=3Dauto resume=3D/dev/mapper/ol_ca--dev55-=
+swap rd.lvm.lv=3Dol_ca-dev55/root rd.lvm.lv=3Dol_ca-dev55/swap console=3D=
+ttyS0,9600,8,n,1 drm.debug=3D0xff
+>>
+>>
+>> cat  /sys/kernel/dri/0/vram-mm=20
+>>
+>> In VGA mode :
+>>
+>>
+>> cat  /sys/kernel/dri/0/vram-mm=20
+>> 0x0000000000000000-0x0000000000000300: 768: used
+>> 0x0000000000000300-0x0000000000000600: 768: used
+>> 0x0000000000000600-0x00000000000007ee: 494: free
+>> 0x00000000000007ee-0x00000000000007ef: 1: used
+>> 0x00000000000007ef-0x00000000000007f0: 1: used
+>>
+>>
+>> In GRAPHICS mode ( if it matters )=20
+>>
+>>
+>> cat  /sys/kernel/dri/0/vram-mm=20
+>> 0x0000000000000000-0x0000000000000300: 768: used
+>> 0x0000000000000300-0x0000000000000600: 768: used
+>> 0x0000000000000600-0x00000000000007ee: 494: free
+>> 0x00000000000007ee-0x00000000000007ef: 1: used
+>> 0x00000000000007ef-0x00000000000007f0: 1: used
+>> total: 2032, used 1538 free 494
+>>
 
-> y axis) 376mm x 301mm
-> =C2=A0=C2=A0 1024x768=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 75.03*+=C2=A0 60.00=
+This is interesting. In the graphics mode, you see two buffers of 768
+pages each. That's the main framebuffers as used by X (it's double
+buffered). Then there's a free area and finally two pages for cursor
+images (also double buffered). That looks as expected.
 
-> =C2=A0=C2=A0 1280x1024=C2=A0=C2=A0=C2=A0=C2=A0 60.02 +
-> =C2=A0=C2=A0 1152x864=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 75.00
-> =C2=A0=C2=A0 832x624=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 74.55
-> =C2=A0=C2=A0 800x600=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 75.00=C2=A0=C2=
-=A0=C2=A0 60.32
-> =C2=A0=C2=A0 640x480=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 75.00=C2=A0=C2=
-=A0=C2=A0 59.94
-> =C2=A0=C2=A0 720x400=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 70.08
-> HDMI-1 disconnected (normal left inverted right x axis y axis)
-> DP-1 connected 1024x768+0+0 (normal left inverted right x axis y axis)
-> 304mm x 228mm
-> =C2=A0=C2=A0 1024x768=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 60.00*+
-> DVI-I-1-1 connected (normal left inverted right x axis y axis)
-> =C2=A0=C2=A0 1024x768=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 75.03 +=C2=A0 60.00=
+The thing is that in text mode, the areas are allocated. But the driver
+shouldn't be active, so the file shouldn't exist or only show a single
+free area.
 
-> =C2=A0=C2=A0 1920x1080=C2=A0=C2=A0=C2=A0=C2=A0 60.00 +
-> =C2=A0=C2=A0 1680x1050=C2=A0=C2=A0=C2=A0=C2=A0 59.88
-> =C2=A0=C2=A0 1280x1024=C2=A0=C2=A0=C2=A0=C2=A0 75.02=C2=A0=C2=A0=C2=A0 =
-60.02
-> =C2=A0=C2=A0 1440x900=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 74.98=C2=A0=C2=A0=C2=
-=A0 59.90
-> =C2=A0=C2=A0 1280x720=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 60.00
-> =C2=A0=C2=A0 800x600=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 75.00=C2=A0=C2=
-=A0=C2=A0 60.32
-> =C2=A0=C2=A0 640x480=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 75.00=C2=A0=C2=
-=A0=C2=A0 72.81=C2=A0=C2=A0=C2=A0 66.67=C2=A0=C2=A0=C2=A0 59.94
-> =C2=A0=C2=A0 720x400=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 70.08
-> =C2=A0 1024x768 (0x42) 78.750MHz +HSync +VSync
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 h: width=C2=A0 1024 start 10=
-40 end 1136 total 1312 skew=C2=A0=C2=A0=C2=A0 0 clock=C2=A0
-> 60.02KHz
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v: height=C2=A0 768 start=C2=
-=A0 769 end=C2=A0 772 total=C2=A0 800=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 clock=C2=A0
-> 75.03Hz
-> =C2=A0 1280x1024 (0x46) 108.000MHz +HSync +VSync
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 h: width=C2=A0 1280 start 13=
-28 end 1440 total 1688 skew=C2=A0=C2=A0=C2=A0 0 clock=C2=A0
-> 63.98KHz
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v: height 1024 start 1025 en=
-d 1028 total 1066=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 clock=C2=A0
-> 60.02Hz
-> =C2=A0 1024x768 (0x4a) 65.000MHz -HSync -VSync
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 h: width=C2=A0 1024 start 10=
-48 end 1184 total 1344 skew=C2=A0=C2=A0=C2=A0 0 clock=C2=A0
-> 48.36KHz
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v: height=C2=A0 768 start=C2=
-=A0 771 end=C2=A0 777 total=C2=A0 806=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 clock=C2=A0
-> 60.00Hz
-> =C2=A0 800x600 (0x4b) 49.500MHz +HSync +VSync
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 h: width=C2=A0=C2=A0 800 sta=
-rt=C2=A0 816 end=C2=A0 896 total 1056 skew=C2=A0=C2=A0=C2=A0 0 clock=C2=A0=
 
-> 46.88KHz
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v: height=C2=A0 600 start=C2=
-=A0 601 end=C2=A0 604 total=C2=A0 625=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 clock=C2=A0
-> 75.00Hz
-> =C2=A0 800x600 (0x4c) 40.000MHz +HSync +VSync
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 h: width=C2=A0=C2=A0 800 sta=
-rt=C2=A0 840 end=C2=A0 968 total 1056 skew=C2=A0=C2=A0=C2=A0 0 clock=C2=A0=
+>>
+>>
+>>
+>>>
+>>>
+>>>>
+>>>> I=E2=80=99ve attached : var/lib/gdm/.local/share/xorg/Xorg.0.log. ; =
+  instead ;=20
+>>>
+>>> Good! Looking through that log file, the card is found at line 79 and=
 
-> 37.88KHz
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v: height=C2=A0 600 start=C2=
-=A0 601 end=C2=A0 605 total=C2=A0 628=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 clock=C2=A0
-> 60.32Hz
-> =C2=A0 640x480 (0x4d) 31.500MHz -HSync -VSync
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 h: width=C2=A0=C2=A0 640 sta=
-rt=C2=A0 656 end=C2=A0 720 total=C2=A0 840 skew=C2=A0=C2=A0=C2=A0 0 clock=
-=C2=A0
-> 37.50KHz
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v: height=C2=A0 480 start=C2=
-=A0 481 end=C2=A0 484 total=C2=A0 500=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 clock=C2=A0
-> 75.00Hz
-> =C2=A0 640x480 (0x50) 25.175MHz -HSync -VSync
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 h: width=C2=A0=C2=A0 640 sta=
-rt=C2=A0 656 end=C2=A0 752 total=C2=A0 800 skew=C2=A0=C2=A0=C2=A0 0 clock=
-=C2=A0
-> 31.47KHz
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v: height=C2=A0 480 start=C2=
-=A0 490 end=C2=A0 492 total=C2=A0 525=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 clock=C2=A0
-> 59.94Hz
-> =C2=A0 720x400 (0x51) 28.320MHz -HSync +VSync
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 h: width=C2=A0=C2=A0 720 sta=
-rt=C2=A0 738 end=C2=A0 846 total=C2=A0 900 skew=C2=A0=C2=A0=C2=A0 0 clock=
-=C2=A0
-> 31.47KHz
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v: height=C2=A0 400 start=C2=
-=A0 412 end=C2=A0 414 total=C2=A0 449=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 clock=C2=A0
-> 70.08Hz
+>>> the generic X modesetting driver initializes below. That works as exp=
+ected.
+>>>
+>>> I notices that several operations are not permitted (lines 78 and 87)=
+=2E I
+>>> guess you're starting X from a regular user account? IIRC special
+>>> permission is required to acquire control of the display. What happen=
+s
+>>> if you start X as root user?
+>>
+>>
+>>    I am starting GNOME  as  root by doing  =E2=80=9Cinit 5=E2=80=9D fr=
+om either the console  session or from ssh .
+>>
+>>   The default runlevel is 3  on boot .
+>>
+>> On failing session  running  your 5.4.0.rc6.
+>>
+>> 78 [   237.712] xf86EnableIOPorts: failed to set IOPL for I/O (Operati=
+on not permitted)
+>>
+>>  87 [   237.712] (EE) open /dev/fb0: Permission denied
+>>
+>> Booting 4.18 kernel yields the same error results in: /var/lib/gdm/.lo=
+cal/share/xorg/Xorg.0.log
+>>
+>>  78 [   101.334] xf86EnableIOPorts: failed to set IOPL for I/O (Operat=
+ion not permitted)
+>>
+>>   87 [   101.334] (EE) open /dev/fb0: Permission denied
+>>
+>>
+>> What is strange the X logs  ( bad and Ok ) files essentially appear as=
+ if GNOME started !
+>>
+>>
+>>
+>>
+>> <Xorg.0.log.bad><Xorg.0.log.Ok>
+>>
+>>
+>>
+>>
+>>
+>>>
+>>>
+>>>>
+>>>>
+>>>>
+>>>>
+>>>> Here is my cmdline  -  I just tested 5.3.0 and it fails too  ( my la=
+st test was 5.3.8 and it failed also ) .=20
+>>>>
+>>>> # cat /proc/cmdline=20
+>>>> BOOT_IMAGE=3D(hd0,msdos1)/vmlinuz-5.3.0+ root=3D/dev/mapper/ol_ca--d=
+ev55-root ro crashkernel=3Dauto resume=3D/dev/mapper/ol_ca--dev55-swap rd=
+=2Elvm.lv=3Dol_ca-dev55/root rd.lvm.lv=3Dol_ca-dev55/swap console=3DttyS0=
+,9600,8,n,1 drm.debug=3D0xff
+>>>>
+>>>> When you say =E2=80=9Ctip=E2=80=9D. - Are you referring to a specifi=
+c kernel  ?  I can build a  5.4.0.rc6  ;   The problem appears to have be=
+en introduced around 5.3 time frame.=20
+>>>
+>>> The latest and greatest DRM code is in the drm-tip branch at
+>>>
+>>> git://anongit.freedesktop.org/drm/drm-tip
+>>>
+>>> If you build this version you should find
+>>>
+>>> /sys/kernel/debug/dri/0/vram-mm
+>>>
+>>> on the device. You have to build with debugfs enabled and
+>>> maybe have to mount debugfs at /sys/kernel/debug.
+>>>
+>>>
+>>>>
+>>>>
+>>>>>
+>>>>> before and after switching to graphics mode. The file lists the
+>>>>> allocated regions of the VRAM.
+>>>>>
+>>>>>>
+>>>>>> This adapter is  Server Engines  Integrated Remote Video Accelerat=
+ion Subsystem (RVAS)  and is used as remote console in iLO/DRAC environme=
+nts. =20
+>>>>>>
+>>>>>> I don=E2=80=99t see any specific errors in the gdm logs or message=
+ file other than this:
+>>>>>
+>>>>> You can boot with drm.debug=3D0xff on the kernel command line to en=
+able
+>>>>> more warnings.
+>>>>>
+>>>>>
+>>>>> Could you please attach the output of lspci -v for the VGA adapter?=
+
+>>>>>
+>>>>
+>>>>
+>>>> Here is the output from the current machine; The previous addresses =
+were from another model using the same SE device:
+>>>>
+>>>>
+>>>> Nov  7 04:42:50 ca-dev55 kernel: mgag200 0000:3d:00.0: remove_confli=
+cting_pci_framebuffers: bar 0: 0xc5000000 -> 0xc5ffffff
+>>>> Nov  7 04:42:50 ca-dev55 kernel: mgag200 0000:3d:00.0: remove_confli=
+cting_pci_framebuffers: bar 1: 0xc6810000 -> 0xc6813fff
+>>>> Nov  7 04:42:50 ca-dev55 kernel: mgag200 0000:3d:00.0: remove_confli=
+cting_pci_framebuffers: bar 2: 0xc6000000 -> 0xc67fffff
+>>>> Nov  7 04:42:50 ca-dev55 kernel: mgag200 0000:3d:00.0: vgaarb: deact=
+ivate vga console
+>>>>
+>>>>
+>>>> lspci -s 3d:00.0 -vvv -k=20
+>>>> 3d:00.0 VGA compatible controller: Matrox Electronics Systems Ltd. M=
+GA G200e [Pilot] ServerEngines (SEP1) (rev 05) (prog-if 00 [VGA controlle=
+r])
+>>>> 	Subsystem: Oracle/SUN Device 4852
+>>>> 	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr+=
+ Stepping- SERR+ FastB2B- DisINTx-
+>>>> 	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=3Dfast >TAbort- <T=
+Abort- <MAbort- >SERR- <PERR- INTx-
+>>>> 	Latency: 0, Cache Line Size: 64 bytes
+>>>> 	Interrupt: pin A routed to IRQ 16
+>>>> 	NUMA node: 0
+>>>> 	Region 0: Memory at c5000000 (32-bit, non-prefetchable) [size=3D16M=
+]
+>>>> 	Region 1: Memory at c6810000 (32-bit, non-prefetchable) [size=3D16K=
+]
+>>>> 	Region 2: Memory at c6000000 (32-bit, non-prefetchable) [size=3D8M]=
+
+>>>> 	Expansion ROM at 000c0000 [disabled] [size=3D128K]
+>>>> 	Capabilities: [dc] Power Management version 2
+>>>> 		Flags: PMEClk- DSI+ D1- D2- AuxCurrent=3D0mA PME(D0-,D1-,D2-,D3hot=
+-,D3cold-)
+>>>> 		Status: D0 NoSoftRst- PME-Enable- DSel=3D0 DScale=3D0 PME-
+>>>> 	Capabilities: [e4] Express (v1) Legacy Endpoint, MSI 00
+>>>> 		DevCap:	MaxPayload 256 bytes, PhantFunc 0, Latency L0s <64ns, L1 <=
+1us
+>>>> 			ExtTag- AttnBtn- AttnInd- PwrInd- RBE- FLReset-
+>>>> 		DevCtl:	Report errors: Correctable+ Non-Fatal+ Fatal+ Unsupported-=
+
+>>>> 			RlxdOrd- ExtTag- PhantFunc- AuxPwr- NoSnoop-
+>>>> 			MaxPayload 128 bytes, MaxReadReq 128 bytes
+>>>> 		DevSta:	CorrErr+ UncorrErr- FatalErr- UnsuppReq+ AuxPwr- TransPend=
+-
+>>>> 		LnkCap:	Port #0, Speed 2.5GT/s, Width x1, ASPM L0s, Exit Latency L=
+0s <64ns
+>>>> 			ClockPM- Surprise- LLActRep- BwNot- ASPMOptComp-
+>>>> 		LnkCtl:	ASPM Disabled; RCB 64 bytes Disabled- CommClk+
+>>>> 			ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-
+>>>> 		LnkSta:	Speed 2.5GT/s, Width x1, TrErr- Train- SlotClk+ DLActive- =
+BWMgmt- ABWMgmt-
+>>>> 	Capabilities: [54] MSI: Enable- Count=3D1/1 Maskable- 64bit-
+>>>> 		Address: 00000000  Data: 0000
+>>>> 	Kernel driver in use: mgag200
+>>>> 	Kernel modules: mgag200
+>>>
+>>> Looks all normal.
+>>>
+>>> Best regards
+>>> Thomas
+>>>
 >=20
-> # DISPLAY=3D:0 xrandr --output DVI-I-1-1 --mode 1024x768 --right-of DP-=
-1
-> xrandr: Configure crtc 2 failed
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  Snip  =3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
 >=20
-> Even after the last command, my monitor say "no signal" from the UDL
-> (DL-195)
-> device and dmesg has a kernel warning now:
 >=20
-> [=C2=A0 133.320404] udl 2-1.2:1.0: swiotlb buffer is full (sz: 2211840
-> bytes), total 32768 (slots), used 0 (slots)
+> Hi Thomas=20
+> ,
+> I hopefully narrowed down the breakage between these up-stream commits,=
+  which is v5.2 and 5.3.0-rc1:  =20
+>=20
+>=20
+> between :  0ecfebd2b524 2019-07-07 | Linux 5.2      to :   5f9e832c1370=
+ 2019-07-21 | Linus 5.3-rc1
+>=20
+>=20
+> I started to bisect this range on by date, by day ,  based on the chang=
+es done in :
+>=20
+> drivers/gpu/drm/
+>=20
+> fec88ab0af97 2019-07-14 | Merge tag 'for-linus-hmm' of git://git.kernel=
+=2Eorg/pub/scm/linux/kernel/git/rdma/rdma  ;  works=20
+>=20
+> Hopefully something in drivers/gpu/drm/ between the date range of 2019-=
+07-14 to 2019-07-21 will surface tomorrow.
 
-Have you tried to increase the buffer size? There's a command-line
-option to control this setting. [1]
+Great, thanks for bisecting.
+
+Could you attach your kernel config file? I'd like to compare with my
+config and try to reproduce the issue.
 
 Best regards
 Thomas
 
-[1] https://wiki.gentoo.org/wiki/IOMMU_SWIOTLB
-
-
-> [=C2=A0 133.320410] udl 2-1.2:1.0: overflow 0x00000001199e4000+2211840 =
-of DMA
-> mask ffffffff bus mask 0
-> [=C2=A0 133.320424] WARNING: CPU: 0 PID: 739 at kernel/dma/direct.c:35
-> report_addr+0x3e/0x70
-> [=C2=A0 133.320425] Modules linked in: 8021q garp mrp stp llc intel_rap=
-l_msr
-> intel_rapl_common x86_pkg_temp_thermal intel_powerclamp coretemp
-> kvm_intel snd_hda_codec_hdmi kvm snd_hda_codec_realt
-> ek snd_hda_codec_generic ledtrig_audio snd_hda_intel snd_hda_codec
-> iTCO_wdt elo irqbypass iTCO_vendor_support intel_cstate snd_hda_core
-> intel_uncore snd_hwdep intel_rapl_perf snd_pcm pcspkr
-> =C2=A0i2c_i801 snd_timer e1000e snd joydev lpc_ich soundcore ip6t_REJEC=
-T
-> nf_reject_ipv6 nf_log_ipv6 ip6table_filter ip6_tables nf_log_ipv4
-> nf_log_common xt_LOG xt_limit xt_multiport xt_conntrack
-> =C2=A0iptable_nat nf_nat xt_connmark nf_conntrack nf_defrag_ipv6
-> nf_defrag_ipv4 libcrc32c iptable_mangle i915 udl i2c_algo_bit
-> drm_kms_helper syscopyarea sysfillrect sysimgblt fb_sys_fops drm cr
-> c32_pclmul crc32c_intel serio_raw video
-> [=C2=A0 133.320463] CPU: 0 PID: 739 Comm: Xorg Not tainted 5.3.8 #1
-> [=C2=A0 133.320465] Hardware name: TOSHIBA 4852E70/Intel H61 Express Ch=
-ipset,
-> BIOS XBKT200 01/04/2017
-> [=C2=A0 133.320467] EIP: report_addr+0x3e/0x70
-> [=C2=A0 133.320470] Code: 00 89 4d f8 85 d2 74 44 8b 0a 8b 5a 04 ba fe =
-ff ff
-> ff 39 ca ba 00 00 00 00 19 da 73 17 80 3d 9c 16 14 d0 00 0f 84 24 09 00=
-
-> 00 <0f> 0b 8b 5d fc c9 c3 8d 76 00 8b 90 5c 01 00 00 0b 90 58 01 00 00
-> [=C2=A0 133.320472] EAX: 00000000 EBX: 00000000 ECX: f5b89e00 EDX: 0000=
-0007
-> [=C2=A0 133.320473] ESI: ffffffff EDI: ecf3921c EBP: ec56bcf4 ESP: ec56=
-bce8
-> [=C2=A0 133.320475] DS: 007b ES: 007b FS: 00d8 GS: 00e0 SS: 0068 EFLAGS=
-:
-> 00213286
-> [=C2=A0 133.320476] CR0: 80050033 CR2: b7236020 CR3: 2c72a000 CR4: 0004=
-06f0
-> [=C2=A0 133.320477] Call Trace:
-> [=C2=A0 133.320484]=C2=A0 dma_direct_map_page+0x158/0x180
-> [=C2=A0 133.320487]=C2=A0 dma_direct_map_sg+0x4f/0xa0
-> [=C2=A0 133.320564]=C2=A0 i915_gem_map_dma_buf+0x1b8/0x1d0 [i915]
-> [=C2=A0 133.320568]=C2=A0 dma_buf_map_attachment+0x4f/0x90
-> [=C2=A0 133.320572]=C2=A0 udl_gem_prime_import+0x43/0x12a [udl]
-> [=C2=A0 133.320607]=C2=A0 drm_gem_prime_fd_to_handle+0x97/0x180 [drm]
-> [=C2=A0 133.320625]=C2=A0 ? drm_gem_prime_export+0xa0/0xa0 [drm]
-> [=C2=A0 133.320642]=C2=A0 ? drm_gem_prime_import+0x20/0x20 [drm]
-> [=C2=A0 133.320658]=C2=A0 ? drm_prime_handle_to_fd_ioctl+0x70/0x70 [drm=
-]
-> [=C2=A0 133.320673]=C2=A0 drm_prime_fd_to_handle_ioctl+0x2f/0x50 [drm]
-> [=C2=A0 133.320689]=C2=A0 drm_ioctl_kernel+0x8f/0xd0 [drm]
-> [=C2=A0 133.320706]=C2=A0 drm_ioctl+0x21c/0x3c0 [drm]
-> [=C2=A0 133.320721]=C2=A0 ? drm_prime_handle_to_fd_ioctl+0x70/0x70 [drm=
-]
-> [=C2=A0 133.320726]=C2=A0 ? file_modified+0x30/0x30
-> [=C2=A0 133.320728]=C2=A0 ? file_update_time+0xfe/0x130
-> [=C2=A0 133.320731]=C2=A0 ? page_add_file_rmap+0x72/0xd0
-> [=C2=A0 133.320734]=C2=A0 ? fault_dirty_shared_page.isra.122+0x6d/0xb0
-> [=C2=A0 133.320750]=C2=A0 ? drm_version+0x80/0x80 [drm]
-> [=C2=A0 133.320753]=C2=A0 do_vfs_ioctl+0x9a/0x6c0
-> [=C2=A0 133.320757]=C2=A0 ksys_ioctl+0x56/0x80
-> [=C2=A0 133.320760]=C2=A0 sys_ioctl+0x16/0x20
-> [=C2=A0 133.320763]=C2=A0 do_fast_syscall_32+0x82/0x1c7
-> [=C2=A0 133.320766]=C2=A0 entry_SYSENTER_32+0x9f/0xf2
-> [=C2=A0 133.320768] EIP: 0xb7f84a75
-> [=C2=A0 133.320770] Code: e8 1c 00 00 00 89 d3 eb cf 8d 74 26 00 b8 40 =
-42 0f
-> 00 eb b5 8b 04 24 c3 8b 1c 24 c3 8b 3c 24 c3 90 51 52 55 89 e5 0f 34 cd=
-
-> 80 <5d> 5a 59 c3 90 90 90 90 8d 76 00 58 b8 77 00 00 00 cd 80 90 8d 76
-> [=C2=A0 133.320772] EAX: ffffffda EBX: 0000000c ECX: c00c642e EDX: bff2=
-6be0
-> [=C2=A0 133.320773] ESI: 0221ad20 EDI: c00c642e EBP: 0000000c ESP: bff2=
-6b88
-> [=C2=A0 133.320775] DS: 007b ES: 007b FS: 0000 GS: 0033 SS: 007b EFLAGS=
-:
-> 00203296
-> [=C2=A0 133.320777] ---[ end trace 18cd4f77716f2f5f ]---
 >=20
-> With your drm-next and your patch set, the call trace is obviously
-> different:
 >=20
-> [=C2=A0=C2=A0 37.486584] udl 2-1.2:1.0: swiotlb buffer is full (sz: 536=
-576 bytes),
-> total 32768 (slots), used 1536 (slots)
-> [=C2=A0=C2=A0 37.486591] udl 2-1.2:1.0: overflow 0x000000011a47d000+536=
-576 of DMA
-> mask ffffffff bus mask 0
-> [=C2=A0=C2=A0 37.486598] ------------[ cut here ]------------
-> [=C2=A0=C2=A0 37.486606] WARNING: CPU: 1 PID: 749 at kernel/dma/direct.=
-c:35
-> report_addr+0x3e/0x70
-> [=C2=A0=C2=A0 37.486607] Modules linked in: 8021q garp mrp stp llc inte=
-l_rapl_msr
-> intel_rapl_common x86_pkg_temp_thermal intel_powerclamp coretemp
-> kvm_intel kvm snd_hda_codec_hdmi snd_hda_codec_realt
-> ek snd_hda_codec_generic ledtrig_audio snd_hda_intel snd_intel_nhlt
-> snd_hda_codec iTCO_wdt iTCO_vendor_support elo irqbypass snd_hda_core
-> intel_cstate intel_uncore snd_hwdep snd_pcm intel_r
-> apl_perf e1000e pcspkr joydev i2c_i801 snd_timer lpc_ich snd soundcore
-> ip6t_REJECT nf_reject_ipv6 nf_log_ipv6 ip6table_filter ip6_tables
-> nf_log_ipv4 nf_log_common xt_LOG xt_limit xt_multipo
-> rt xt_conntrack iptable_nat nf_nat xt_connmark nf_conntrack
-> nf_defrag_ipv6 nf_defrag_ipv4 libcrc32c iptable_mangle i915 udl
-> i2c_algo_bit drm_kms_helper syscopyarea sysfillrect crc32_pclmul
-> sysimgblt crc32c_intel fb_sys_fops serio_raw drm video
-> [=C2=A0=C2=A0 37.486647] CPU: 1 PID: 749 Comm: Xorg Tainted: G=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 W=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0
-> 5.4.0-rc4+ #1
-> [=C2=A0=C2=A0 37.486648] Hardware name: TOSHIBA 4852E70/Intel H61 Expre=
-ss Chipset,
-> BIOS XBKT200 01/04/2017
-> [=C2=A0=C2=A0 37.486652] EIP: report_addr+0x3e/0x70
-> [=C2=A0=C2=A0 37.486655] Code: 00 89 4d f8 85 d2 74 44 8b 0a 8b 5a 04 b=
-a fe ff ff
-> ff 39 ca ba 00 00 00 00 19 da 73 17 80 3d b0 7d 95 d2 00 0f 84 c4 08 00=
-
-> 00 <0f> 0b 8b 5d fc c9 c3 8d 76 00 8b 90 5c 01 00 00 0b 90 58 01 00 00
-> [=C2=A0=C2=A0 37.486656] EAX: 00000000 EBX: 00000000 ECX: f68e3e00 EDX:=
- 00000007
-> [=C2=A0=C2=A0 37.486657] ESI: ed77f81c EDI: ffffffff EBP: ed1e5cfc ESP:=
- ed1e5cf0
-> [=C2=A0=C2=A0 37.486659] DS: 007b ES: 007b FS: 00d8 GS: 00e0 SS: 0068 E=
-FLAGS:
-> 00213286
-> [=C2=A0=C2=A0 37.486661] CR0: 80050033 CR2: b7223020 CR3: 2cad8000 CR4:=
- 000406f0
-> [=C2=A0=C2=A0 37.486662] Call Trace:
-> [=C2=A0=C2=A0 37.486669]=C2=A0 dma_direct_map_page+0x158/0x180
-> [=C2=A0=C2=A0 37.486673]=C2=A0 dma_direct_map_sg+0x4f/0xa0
-> [=C2=A0=C2=A0 37.486744]=C2=A0 i915_gem_map_dma_buf+0x114/0x190 [i915]
-> [=C2=A0=C2=A0 37.486748]=C2=A0 dma_buf_map_attachment+0x4f/0x90
-> [=C2=A0=C2=A0 37.486781]=C2=A0 drm_gem_prime_import_dev+0x5d/0x100 [drm=
-]
-> [=C2=A0=C2=A0 37.486802]=C2=A0 ? drm_prime_destroy_file_private+0x20/0x=
-20 [drm]
-> [=C2=A0=C2=A0 37.486821]=C2=A0 drm_gem_prime_fd_to_handle+0x158/0x180 [=
-drm]
-> [=C2=A0=C2=A0 37.486838]=C2=A0 ? drm_gem_prime_import+0x20/0x20 [drm]
-> [=C2=A0=C2=A0 37.486854]=C2=A0 ? drm_prime_destroy_file_private+0x20/0x=
-20 [drm]
-> [=C2=A0=C2=A0 37.486871]=C2=A0 drm_prime_fd_to_handle_ioctl+0x21/0x30 [=
-drm]
-> [=C2=A0=C2=A0 37.486888]=C2=A0 drm_ioctl_kernel+0x99/0xe0 [drm]
-> [=C2=A0=C2=A0 37.486904]=C2=A0 ? drm_prime_destroy_file_private+0x20/0x=
-20 [drm]
-> [=C2=A0=C2=A0 37.486922]=C2=A0 drm_ioctl+0x21a/0x380 [drm]
-> [=C2=A0=C2=A0 37.486938]=C2=A0 ? drm_prime_destroy_file_private+0x20/0x=
-20 [drm]
-> [=C2=A0=C2=A0 37.486942]=C2=A0 ? __send_signal+0x2a4/0x3e0
-> [=C2=A0=C2=A0 37.486944]=C2=A0 ? send_signal+0xb0/0xf0
-> [=C2=A0=C2=A0 37.486946]=C2=A0 ? do_send_sig_info+0x4b/0x80
-> [=C2=A0=C2=A0 37.486963]=C2=A0 ? drm_ioctl_kernel+0xe0/0xe0 [drm]
-> [=C2=A0=C2=A0 37.486967]=C2=A0 do_vfs_ioctl+0x3fa/0x6b0
-> [=C2=A0=C2=A0 37.486969]=C2=A0 ? kill_pid_info+0x31/0x60
-> [=C2=A0=C2=A0 37.486973]=C2=A0 ? ktime_get+0x4c/0x110
-> [=C2=A0=C2=A0 37.486977]=C2=A0 ksys_ioctl+0x5d/0x90
-> [=C2=A0=C2=A0 37.486980]=C2=A0 sys_ioctl+0x16/0x20
-> [=C2=A0=C2=A0 37.486983]=C2=A0 do_fast_syscall_32+0x82/0x1c7
-> [=C2=A0=C2=A0 37.486988]=C2=A0 entry_SYSENTER_32+0x9f/0xf2
-> [=C2=A0=C2=A0 37.486989] EIP: 0xb7f75b55
-> [=C2=A0=C2=A0 37.486992] Code: 00 00 8d 76 00 b8 40 42 0f 00 eb bb 8b 0=
-4 24 c3 8b
-> 14 24 c3 8b 1c 24 c3 8b 34 24 c3 8b 3c 24 c3 90 51 52 55 89 e5 0f 34 cd=
-
-> 80 <5d> 5a 59 c3 90 90 90 90 8d 76 00 58 b8 77 00 00 00 cd 80 90 8d 76
-> [=C2=A0=C2=A0 37.486994] EAX: ffffffda EBX: 0000000c ECX: c00c642e EDX:=
- bfd13dc0
-> [=C2=A0=C2=A0 37.486995] ESI: 01c03520 EDI: c00c642e EBP: 0000000c ESP:=
- bfd13d68
-> [=C2=A0=C2=A0 37.486997] DS: 007b ES: 007b FS: 0000 GS: 0033 SS: 007b E=
-FLAGS:
-> 00203292
-> [=C2=A0=C2=A0 37.486999] ---[ end trace cef48717f4fbe0fa ]---
 >=20
-> It seems I get random successes with mostly failures of this kind:
+> JD.
 >=20
-> # DISPLAY=3D:0 xrandr --output DVI-I-1-1 --mode 1024x768 --below DP-1
-> xrandr: Configure crtc 2 failed
-> # DISPLAY=3D:0 xrandr --output DVI-I-1-1 --mode 1024x768 --right-of DP-=
-1
-> xrandr: Configure crtc 2 failed
 >=20
-> These messages appear for failed attempts:
 >=20
-> [=C2=A0 552.197202] udl 2-1.2:1.0: swiotlb buffer is full (sz: 360448 b=
-ytes),
-> total 32768 (slots), used 98 (slots)
-> [=C2=A0 552.387539] udl 2-1.2:1.0: swiotlb buffer is full (sz: 819200 b=
-ytes),
-> total 32768 (slots), used 210 (slots)
-> [=C2=A0 562.139080] udl 2-1.2:1.0: swiotlb buffer is full (sz: 2723840
-> bytes), total 32768 (slots), used 206 (slots)
-> [=C2=A0 709.666258] udl 2-1.2:1.0: swiotlb buffer is full (sz: 2097152
-> bytes), total 32768 (slots), used 20 (slots)
-> [=C2=A0 709.868665] udl 2-1.2:1.0: swiotlb buffer is full (sz: 2097152
-> bytes), total 32768 (slots), used 14 (slots)
-> [=C2=A0 721.728930] udl 2-1.2:1.0: swiotlb buffer is full (sz: 3133440
-> bytes), total 32768 (slots), used 6 (slots)
-> [=C2=A0 738.187591] udl 2-1.2:1.0: swiotlb buffer is full (sz: 524288 b=
-ytes),
-> total 32768 (slots), used 238 (slots)
-> [=C2=A0 738.373190] udl 2-1.2:1.0: swiotlb buffer is full (sz: 950272 b=
-ytes),
-> total 32768 (slots), used 664 (slots)
-> [=C2=A0 738.990204] udl 2-1.2:1.0: swiotlb buffer is full (sz: 983040 b=
-ytes),
-> total 32768 (slots), used 24 (slots)
-> [=C2=A0 743.599439] udl 2-1.2:1.0: swiotlb buffer is full (sz: 2826240
-> bytes), total 32768 (slots), used 156 (slots)
 >=20
-> Best regards,
-> Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi
 >=20
->>
->> v3:
->> =C2=A0=C2=A0=C2=A0=C2=A0* restore udl vmap function that enables cachi=
-ng
->> v2:
->> =C2=A0=C2=A0=C2=A0=C2=A0* remove obsolete udl code in a separate patch=
-
->>
->> Thomas Zimmermann (4):
->> =C2=A0=C2=A0 drm/udl: Remove flags field from struct udl_gem_object
->> =C2=A0=C2=A0 drm/udl: Allocate GEM object via struct drm_driver.gem_cr=
-eate_object
->> =C2=A0=C2=A0 drm/udl: Switch to SHMEM
->> =C2=A0=C2=A0 drm/udl: Remove struct udl_gem_object and functions
->>
->> =C2=A0 drivers/gpu/drm/udl/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=
-=C2=A0 1 +
->> =C2=A0 drivers/gpu/drm/udl/Makefile=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
-=A0 2 +-
->> =C2=A0 drivers/gpu/drm/udl/udl_dmabuf.c | 255 ------------------------=
-------
->> =C2=A0 drivers/gpu/drm/udl/udl_drv.c=C2=A0=C2=A0=C2=A0 |=C2=A0 30 +---=
-
->> =C2=A0 drivers/gpu/drm/udl/udl_drv.h=C2=A0=C2=A0=C2=A0 |=C2=A0 36 +---=
--
->> =C2=A0 drivers/gpu/drm/udl/udl_fb.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 66=
- ++++----
->> =C2=A0 drivers/gpu/drm/udl/udl_gem.c=C2=A0=C2=A0=C2=A0 | 263 +++++++++=
-----------------------
->> =C2=A0 7 files changed, 122 insertions(+), 531 deletions(-)
->> =C2=A0 delete mode 100644 drivers/gpu/drm/udl/udl_dmabuf.c
->>
->> --=20
->> 2.23.0
->>
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->>
 >=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+>=20
 
 --=20
 Thomas Zimmermann
@@ -534,28 +455,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---IGapvTxYPP53RoPqoqQpCzoBBZ8rIxMxK--
+--vphiXANbMwcGkiC9f4zcuovjT4PbkymFq--
 
---ydYlHeyaGHS1QQu0HbHMJsuvelL3K9IWF
+--orCT8pG2IhA4mNojWhrgv1UCVEF2tpzSf
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl3FGxAACgkQaA3BHVML
-eiNu4gf+NdJ97Z86OUj9DgBs/1wXFlYe/MvNfOUxH2yKCrVnKLPG8qyr6o8fwN9i
-KsvulD21VJY1VQ0mDrsvT2NFInpDds6wz/23LV6yeWV2dEbc+TEuZBx5vxtPEsVe
-ow1/QD4yVPwB63iwic2N6TakG9WWz/vxLJZzWUH3jFBcJXUCrE06aJiiynBVgB3w
-qUbmntTYYfHBoF/FSVz8pvXgrQZDvDmMLXOgJKD6q45WiPewpcBSRZeEdobE7k2H
-mSZn5SMnhPJiGe4SHsgYYOjf1tmrmSQic5c0Pgc93XCbk4RbJu/5jXYVg/D/elib
-lmGmZOTt7x07YGq4vsmMLqJbzl8NOg==
-=OWpQ
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl3FHWoACgkQaA3BHVML
+eiPybwf/X9zQZ79gM8oqJ1XJH9HSU0TKYMhn6UoNt1gIfKbHEO3AOHv/g7T9t6nT
+iBlQl6HYm+FevK1NjBUVrStsBQqQ0HfilKttE/OnivmsN7+7hzX/HhVAiY5c+bgq
+ApVKND606h21njILoMBw8EBf83kZ7sZ+qiTPL4m5bGzqQifvg5i5G50o9TIgX8dh
+nDlh8EpmMLoyci2I11XtUfdcbw3AprfmtZ1VZfB7Du4lDcrsfyTUtZclHWocrbP9
+MnzWx8ujzblN7T9jdo51BloggiR5AjwOGNevPjKrohQfTd4NH6tah9ZFzNgpCIgl
+mY7RCR8y4o4wQsSD9kPqfg6Kjsfe/w==
+=q+RR
 -----END PGP SIGNATURE-----
 
---ydYlHeyaGHS1QQu0HbHMJsuvelL3K9IWF--
+--orCT8pG2IhA4mNojWhrgv1UCVEF2tpzSf--
 
---===============0371193126==
+--===============0941488562==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -565,4 +486,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0371193126==--
+--===============0941488562==--
