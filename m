@@ -2,46 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 719F8F5295
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 18:32:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC443F529E
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Nov 2019 18:34:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D6886FA32;
-	Fri,  8 Nov 2019 17:32:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C77E6FA34;
+	Fri,  8 Nov 2019 17:34:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from heliosphere.sirena.org.uk (heliosphere.sirena.org.uk
- [172.104.155.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C7A76FA32
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2019 17:32:15 +0000 (UTC)
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net
- ([82.37.168.47] helo=ypsilon.sirena.org.uk)
- by heliosphere.sirena.org.uk with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <broonie@sirena.co.uk>)
- id 1iT87F-0007oJ-Uh; Fri, 08 Nov 2019 17:32:09 +0000
-Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
- id 10EAA2741460; Fri,  8 Nov 2019 17:32:08 +0000 (GMT)
-From: Mark Brown <broonie@kernel.org>
-To: Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/bridge: thc63lvd1024: Fix regulator_get_optional() misuse
-Date: Fri,  8 Nov 2019 17:32:08 +0000
-Message-Id: <20191108173208.51677-1-broonie@kernel.org>
-X-Mailer: git-send-email 2.20.1
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E168F6FA34
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Nov 2019 17:34:36 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id DE6E0720E2; Fri,  8 Nov 2019 17:34:36 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 112235] [AMD tahiti xt] random crashes of GL/vulkan games
+Date: Fri, 08 Nov 2019 17:34:37 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: sylvain.bertrand@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-112235-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; 
- d=sirena.org.uk; s=20170815-heliosphere; h=Content-Transfer-Encoding:
- MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Ug+z///iKC7pDH1D8YK19B14EWxH0/NrfuQ1THLJhuA=; b=j+A4pncisltcBkNli/kYXdmCS
- tslIBNQ+ghnEJloFUKb+JMybCH+LLw0otmopQCWWeTgsIOAPvdCCRfhMHqLiBeuw2HxIkp1Abn4/i
- jAiR7wgGP1UFhfGC0YsA2FhPcE8TRprEWSFcy23u1SIZK7p8TATveW80GsESAgBNImPdY=;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,33 +51,184 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0760264590=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIHRoYzYzbHZkMTAyNCBkcml2ZXIgcmVxdWVzdHMgYSBzdXBwbHkgdXNpbmcgcmVndWxhdG9y
-X2dldF9vcHRpb25hbCgpCmJ1dCBib3RoIHRoZSBuYW1lIG9mIHRoZSBzdXBwbHkgYW5kIHRoZSB1
-c2FnZSBwYXR0ZXJuIHN1Z2dlc3QgdGhhdCBpdCBpcwpiZWluZyB1c2VkIGZvciB0aGUgbWFpbiBw
-b3dlciBmb3IgdGhlIGRldmljZSBhbmQgaXMgbm90IGF0IGFsbCBvcHRpb25hbApmb3IgdGhlIGRl
-dmljZSBmb3IgZnVuY3Rpb24sIHRoZXJlIGlzIG5vIGhhbmRsaW5nIGF0IGFsbCBmb3IgYWJzZW50
-CnN1cHBsaWVzLiAgU3VjaCByZWd1bGF0b3JzIHNob3VsZCB1c2UgdGhlIHZhbmlsbGEgcmVndWxh
-dG9yX2dldCgpCmludGVyZmFjZSwgaXQgd2lsbCBlbnN1cmUgdGhhdCBldmVuIGlmIGEgc3VwcGx5
-IGlzIG5vdCBkZXNjcmliZWQgaW4gdGhlCnN5c3RlbSBpbnRlZ3JhdGlvbiBvbmUgd2lsbCBiZSBw
-cm92aWRlZCBpbiBzb2Z0d2FyZS4KClNpZ25lZC1vZmYtYnk6IE1hcmsgQnJvd24gPGJyb29uaWVA
-a2VybmVsLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RoYzYzbHZkMTAyNC5jIHwg
-MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90aGM2M2x2ZDEwMjQuYyBiL2RyaXZlcnMv
-Z3B1L2RybS9icmlkZ2UvdGhjNjNsdmQxMDI0LmMKaW5kZXggM2Q3NDEyOWIyOTk1Li5mZmNhMjhj
-Y2MyYzQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGhjNjNsdmQxMDI0LmMK
-KysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90aGM2M2x2ZDEwMjQuYwpAQCAtMjAwLDcgKzIw
-MCw3IEBAIHN0YXRpYyBpbnQgdGhjNjNfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRl
-dikKIAl0aGM2My0+ZGV2ID0gJnBkZXYtPmRldjsKIAlwbGF0Zm9ybV9zZXRfZHJ2ZGF0YShwZGV2
-LCB0aGM2Myk7CiAKLQl0aGM2My0+dmNjID0gZGV2bV9yZWd1bGF0b3JfZ2V0X29wdGlvbmFsKHRo
-YzYzLT5kZXYsICJ2Y2MiKTsKKwl0aGM2My0+dmNjID0gZGV2bV9yZWd1bGF0b3JfZ2V0KHRoYzYz
-LT5kZXYsICJ2Y2MiKTsKIAlpZiAoSVNfRVJSKHRoYzYzLT52Y2MpKSB7CiAJCWlmIChQVFJfRVJS
-KHRoYzYzLT52Y2MpID09IC1FUFJPQkVfREVGRVIpCiAJCQlyZXR1cm4gLUVQUk9CRV9ERUZFUjsK
-LS0gCjIuMjAuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0760264590==
+Content-Type: multipart/alternative; boundary="15732344760.f31Ec14.1214"
+Content-Transfer-Encoding: 7bit
+
+
+--15732344760.f31Ec14.1214
+Date: Fri, 8 Nov 2019 17:34:36 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112235
+
+            Bug ID: 112235
+           Summary: [AMD tahiti xt] random crashes of GL/vulkan games
+           Product: DRI
+           Version: DRI git
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: critical
+          Priority: not set
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: sylvain.bertrand@gmail.com
+
+games started to randomly crash, vulkan or GL (dota2, dota2 underlord, CS:G=
+O).
+
+The only info I get from the crashes, are from dota2 vulkan (see kernel log)
+and dota underlords.
+This is a mesa vulkan debug build and the offset 0x1e08000 does not map to =
+any
+source code (glibc addr2line).
+
+I cannot bisect correctly since some sessions have no crash at all for hour=
+s.
+
+Any ideas? (for the moment, I can update linux/drm/llvm/mesa/xserver every
+week)
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15732344760.f31Ec14.1214
+Date: Fri, 8 Nov 2019 17:34:36 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [AMD tahiti xt] random crashes of GL/vulkan games"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112235">112235</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>[AMD tahiti xt] random crashes of GL/vulkan games
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>DRI git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>critical
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>sylvain.bertrand&#64;gmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>games started to randomly crash, vulkan or GL (dota2, dota2 un=
+derlord, CS:GO).
+
+The only info I get from the crashes, are from dota2 vulkan (see kernel log)
+and dota underlords.
+This is a mesa vulkan debug build and the offset 0x1e08000 does not map to =
+any
+source code (glibc addr2line).
+
+I cannot bisect correctly since some sessions have no crash at all for hour=
+s.
+
+Any ideas? (for the moment, I can update linux/drm/llvm/mesa/xserver every
+week)</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15732344760.f31Ec14.1214--
+
+--===============0760264590==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0760264590==--
