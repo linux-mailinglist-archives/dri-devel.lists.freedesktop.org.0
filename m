@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6077BF5D36
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Nov 2019 04:35:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAE0CF5D9F
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Nov 2019 06:51:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F1286E0CF;
-	Sat,  9 Nov 2019 03:35:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34D936F7FF;
+	Sat,  9 Nov 2019 05:51:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD66B6E0CF
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Nov 2019 03:35:50 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD5786E13A
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Nov 2019 05:51:07 +0000 (UTC)
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 08 Nov 2019 19:35:49 -0800
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 08 Nov 2019 21:51:07 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.68,283,1569308400"; 
- d="gz'50?scan'50,208,50";a="403271062"
+ d="gz'50?scan'50,208,50";a="201539765"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
- by fmsmga005.fm.intel.com with ESMTP; 08 Nov 2019 19:35:48 -0800
+ by fmsmga008.fm.intel.com with ESMTP; 08 Nov 2019 21:51:05 -0800
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
  (envelope-from <lkp@intel.com>)
- id 1iTHXP-000D2C-Ko; Sat, 09 Nov 2019 11:35:47 +0800
-Date: Sat, 9 Nov 2019 11:35:31 +0800
+ id 1iTJeK-0008oM-FP; Sat, 09 Nov 2019 13:51:04 +0800
+Date: Sat, 9 Nov 2019 13:50:59 +0800
 From: kbuild test robot <lkp@intel.com>
 To: Flora Cui <flora.cui@amd.com>
-Subject: [radeon-alex:amd-mainline-dkms-5.2 2700/2834]
- include/kcl/kcl_drm.h:221:6: error: static declaration of
- 'drm_fb_helper_set_suspend_unlocked' follows non-static declaration
-Message-ID: <201911091129.Qx5RjXaL%lkp@intel.com>
+Subject: [radeon-alex:amd-mainline-dkms-5.2 2701/2834]
+ include/kcl/kcl_drm.h:236:1: error: static declaration of
+ 'drm_atomic_helper_update_legacy_modeset_state' follows non-static
+ declaration
+Message-ID: <201911091358.lQTb1uP8%lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="gk2gzm4m4pag74bg"
+Content-Type: multipart/mixed; boundary="vdq62xpgx2776d4a"
 Content-Disposition: inline
 X-Patchwork-Hint: ignore
 User-Agent: NeoMutt/20170113 (1.7.2)
@@ -55,17 +56,17 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---gk2gzm4m4pag74bg
+--vdq62xpgx2776d4a
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   git://people.freedesktop.org/~agd5f/linux.git amd-mainline-dkms-5.2
 head:   a48b0cc1cdf3900e3e73801f9de64afbb70dc193
-commit: fa3a28572dee89436a969d4c9b15b7f3d65102b4 [2700/2834] drm/amdkcl: drop kcl_drm_fb_helper_set_suspend_unlocked
+commit: cc8e420623914e7a903534abddf086dad609a455 [2701/2834] drm/amdkcl: drop kcl_drm_atomic_helper_update_legacy_modeset_state
 config: x86_64-randconfig-e004-201944 (attached as .config)
 compiler: gcc-7 (Debian 7.4.0-14) 7.4.0
 reproduce:
-        git checkout fa3a28572dee89436a969d4c9b15b7f3d65102b4
+        git checkout cc8e420623914e7a903534abddf086dad609a455
         # save the attached .config to linux build tree
         make ARCH=x86_64 
 
@@ -74,10 +75,9 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/kcl/kcl_drm_backport.h:5:0,
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
-   include/kcl/kcl_drm.h:158:1: error: redefinition of 'drm_fb_helper_remove_conflicting_pci_framebuffers'
+   include/kcl/kcl_drm.h:154:1: error: redefinition of 'drm_fb_helper_remove_conflicting_pci_framebuffers'
     drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    In file included from include/kcl/kcl_drm.h:7:0,
@@ -90,7 +90,7 @@ All errors (new ones prefixed by >>):
    In file included from include/kcl/kcl_drm_backport.h:5:0,
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
-   include/kcl/kcl_drm.h:179:6: error: static declaration of 'drm_fb_helper_cfb_fillrect' follows non-static declaration
+   include/kcl/kcl_drm.h:175:6: error: static declaration of 'drm_fb_helper_cfb_fillrect' follows non-static declaration
     void drm_fb_helper_cfb_fillrect(struct fb_info *info,
          ^~~~~~~~~~~~~~~~~~~~~~~~~~
    In file included from include/kcl/kcl_drm.h:7:0,
@@ -103,7 +103,7 @@ All errors (new ones prefixed by >>):
    In file included from include/kcl/kcl_drm_backport.h:5:0,
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
-   include/kcl/kcl_drm.h:186:6: error: static declaration of 'drm_fb_helper_cfb_copyarea' follows non-static declaration
+   include/kcl/kcl_drm.h:182:6: error: static declaration of 'drm_fb_helper_cfb_copyarea' follows non-static declaration
     void drm_fb_helper_cfb_copyarea(struct fb_info *info,
          ^~~~~~~~~~~~~~~~~~~~~~~~~~
    In file included from include/kcl/kcl_drm.h:7:0,
@@ -116,7 +116,7 @@ All errors (new ones prefixed by >>):
    In file included from include/kcl/kcl_drm_backport.h:5:0,
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
-   include/kcl/kcl_drm.h:193:6: error: static declaration of 'drm_fb_helper_cfb_imageblit' follows non-static declaration
+   include/kcl/kcl_drm.h:189:6: error: static declaration of 'drm_fb_helper_cfb_imageblit' follows non-static declaration
     void drm_fb_helper_cfb_imageblit(struct fb_info *info,
          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
    In file included from include/kcl/kcl_drm.h:7:0,
@@ -129,7 +129,7 @@ All errors (new ones prefixed by >>):
    In file included from include/kcl/kcl_drm_backport.h:5:0,
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
-   include/kcl/kcl_drm.h:205:17: error: static declaration of 'drm_fb_helper_alloc_fbi' follows non-static declaration
+   include/kcl/kcl_drm.h:201:17: error: static declaration of 'drm_fb_helper_alloc_fbi' follows non-static declaration
     struct fb_info *drm_fb_helper_alloc_fbi(struct drm_fb_helper *fb_helper)
                     ^~~~~~~~~~~~~~~~~~~~~~~
    In file included from include/kcl/kcl_drm.h:7:0,
@@ -142,7 +142,7 @@ All errors (new ones prefixed by >>):
    In file included from include/kcl/kcl_drm_backport.h:5:0,
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
-   include/kcl/kcl_drm.h:212:6: error: static declaration of 'drm_fb_helper_unregister_fbi' follows non-static declaration
+   include/kcl/kcl_drm.h:208:6: error: static declaration of 'drm_fb_helper_unregister_fbi' follows non-static declaration
     void drm_fb_helper_unregister_fbi(struct drm_fb_helper *fb_helper)
          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
    In file included from include/kcl/kcl_drm.h:7:0,
@@ -155,7 +155,7 @@ All errors (new ones prefixed by >>):
    In file included from include/kcl/kcl_drm_backport.h:5:0,
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
->> include/kcl/kcl_drm.h:221:6: error: static declaration of 'drm_fb_helper_set_suspend_unlocked' follows non-static declaration
+   include/kcl/kcl_drm.h:217:6: error: static declaration of 'drm_fb_helper_set_suspend_unlocked' follows non-static declaration
     void drm_fb_helper_set_suspend_unlocked(struct drm_fb_helper *fb_helper,
          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    In file included from include/kcl/kcl_drm.h:7:0,
@@ -169,13 +169,27 @@ All errors (new ones prefixed by >>):
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
    include/kcl/kcl_drm.h: In function 'drm_fb_helper_set_suspend_unlocked':
->> include/kcl/kcl_drm.h:225:53: error: 'state' undeclared (first use in this function); did you mean 'statx'?
+   include/kcl/kcl_drm.h:221:53: error: 'state' undeclared (first use in this function); did you mean 'statx'?
      _kcl_drm_fb_helper_set_suspend_unlocked(fb_helper, state);
                                                         ^~~~~
                                                         statx
-   include/kcl/kcl_drm.h:225:53: note: each undeclared identifier is reported only once for each function it appears in
+   include/kcl/kcl_drm.h:221:53: note: each undeclared identifier is reported only once for each function it appears in
+   include/kcl/kcl_drm.h: At top level:
+>> include/kcl/kcl_drm.h:236:1: error: static declaration of 'drm_atomic_helper_update_legacy_modeset_state' follows non-static declaration
+    drm_atomic_helper_update_legacy_modeset_state(struct drm_device *dev,
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/kcl/kcl_drm.h:11:0,
+                    from include/kcl/kcl_drm_backport.h:5,
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
+                    from <command-line>:0:
+   include/drm/drm_atomic_helper.h:74:1: note: previous declaration of 'drm_atomic_helper_update_legacy_modeset_state' was here
+    drm_atomic_helper_update_legacy_modeset_state(struct drm_device *dev,
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/kcl/kcl_drm_backport.h:5:0,
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
+                    from <command-line>:0:
    include/kcl/kcl_drm.h: In function 'kcl_drm_encoder_init':
-   include/kcl/kcl_drm.h:306:9: error: too few arguments to function 'drm_encoder_init'
+   include/kcl/kcl_drm.h:303:9: error: too few arguments to function 'drm_encoder_init'
      return drm_encoder_init(dev, encoder, funcs,
             ^~~~~~~~~~~~~~~~
    In file included from include/drm/drm_modeset_helper_vtables.h:33:0,
@@ -191,7 +205,7 @@ All errors (new ones prefixed by >>):
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
    include/kcl/kcl_drm.h: In function 'kcl_drm_crtc_init_with_planes':
-   include/kcl/kcl_drm.h:321:10: error: too few arguments to function 'drm_crtc_init_with_planes'
+   include/kcl/kcl_drm.h:318:10: error: too few arguments to function 'drm_crtc_init_with_planes'
       return drm_crtc_init_with_planes(dev, crtc, primary,
              ^~~~~~~~~~~~~~~~~~~~~~~~~
    In file included from include/drm/drmP.h:68:0,
@@ -206,7 +220,7 @@ All errors (new ones prefixed by >>):
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
    include/kcl/kcl_drm.h: In function 'kcl_drm_universal_plane_init':
-   include/kcl/kcl_drm.h:342:29: error: incompatible type for argument 7 of 'drm_universal_plane_init'
+   include/kcl/kcl_drm.h:339:29: error: incompatible type for argument 7 of 'drm_universal_plane_init'
          formats, format_count, type);
                                 ^~~~
    In file included from include/drm/drm_crtc.h:45:0,
@@ -221,7 +235,7 @@ All errors (new ones prefixed by >>):
    In file included from include/kcl/kcl_drm_backport.h:5:0,
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
-   include/kcl/kcl_drm.h:341:10: error: too few arguments to function 'drm_universal_plane_init'
+   include/kcl/kcl_drm.h:338:10: error: too few arguments to function 'drm_universal_plane_init'
       return drm_universal_plane_init(dev, plane, possible_crtcs, funcs,
              ^~~~~~~~~~~~~~~~~~~~~~~~
    In file included from include/drm/drm_crtc.h:45:0,
@@ -237,7 +251,7 @@ All errors (new ones prefixed by >>):
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
    include/kcl/kcl_drm.h: In function 'kcl_drm_gem_object_lookup':
-   include/kcl/kcl_drm.h:353:32: error: passing argument 1 of 'drm_gem_object_lookup' from incompatible pointer type [-Werror=incompatible-pointer-types]
+   include/kcl/kcl_drm.h:350:32: error: passing argument 1 of 'drm_gem_object_lookup' from incompatible pointer type [-Werror=incompatible-pointer-types]
       return drm_gem_object_lookup(dev, filp, handle);
                                    ^~~
    In file included from include/kcl/kcl_drm.h:10:0,
@@ -250,7 +264,7 @@ All errors (new ones prefixed by >>):
    In file included from include/kcl/kcl_drm_backport.h:5:0,
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
-   include/kcl/kcl_drm.h:353:37: warning: passing argument 2 of 'drm_gem_object_lookup' makes integer from pointer without a cast [-Wint-conversion]
+   include/kcl/kcl_drm.h:350:37: warning: passing argument 2 of 'drm_gem_object_lookup' makes integer from pointer without a cast [-Wint-conversion]
       return drm_gem_object_lookup(dev, filp, handle);
                                         ^~~~
    In file included from include/kcl/kcl_drm.h:10:0,
@@ -262,19 +276,10 @@ All errors (new ones prefixed by >>):
                            ^~~~~~~~~~~~~~~~~~~~~
    In file included from include/kcl/kcl_drm_backport.h:5:0,
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h:353:10: error: too many arguments to function 'drm_gem_object_lookup'
-      return drm_gem_object_lookup(dev, filp, handle);
-             ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/kcl/kcl_drm.h:10:0,
-                    from include/kcl/kcl_drm_backport.h:5,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
 --
-   In file included from include/kcl/kcl_drm_backport.h:5:0,
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
-   include/kcl/kcl_drm.h:158:1: error: redefinition of 'drm_fb_helper_remove_conflicting_pci_framebuffers'
+   include/kcl/kcl_drm.h:154:1: error: redefinition of 'drm_fb_helper_remove_conflicting_pci_framebuffers'
     drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    In file included from include/kcl/kcl_drm.h:7:0,
@@ -287,7 +292,7 @@ All errors (new ones prefixed by >>):
    In file included from include/kcl/kcl_drm_backport.h:5:0,
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
-   include/kcl/kcl_drm.h:179:6: error: static declaration of 'drm_fb_helper_cfb_fillrect' follows non-static declaration
+   include/kcl/kcl_drm.h:175:6: error: static declaration of 'drm_fb_helper_cfb_fillrect' follows non-static declaration
     void drm_fb_helper_cfb_fillrect(struct fb_info *info,
          ^~~~~~~~~~~~~~~~~~~~~~~~~~
    In file included from include/kcl/kcl_drm.h:7:0,
@@ -300,7 +305,7 @@ All errors (new ones prefixed by >>):
    In file included from include/kcl/kcl_drm_backport.h:5:0,
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
-   include/kcl/kcl_drm.h:186:6: error: static declaration of 'drm_fb_helper_cfb_copyarea' follows non-static declaration
+   include/kcl/kcl_drm.h:182:6: error: static declaration of 'drm_fb_helper_cfb_copyarea' follows non-static declaration
     void drm_fb_helper_cfb_copyarea(struct fb_info *info,
          ^~~~~~~~~~~~~~~~~~~~~~~~~~
    In file included from include/kcl/kcl_drm.h:7:0,
@@ -313,7 +318,7 @@ All errors (new ones prefixed by >>):
    In file included from include/kcl/kcl_drm_backport.h:5:0,
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
-   include/kcl/kcl_drm.h:193:6: error: static declaration of 'drm_fb_helper_cfb_imageblit' follows non-static declaration
+   include/kcl/kcl_drm.h:189:6: error: static declaration of 'drm_fb_helper_cfb_imageblit' follows non-static declaration
     void drm_fb_helper_cfb_imageblit(struct fb_info *info,
          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
    In file included from include/kcl/kcl_drm.h:7:0,
@@ -326,7 +331,7 @@ All errors (new ones prefixed by >>):
    In file included from include/kcl/kcl_drm_backport.h:5:0,
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
-   include/kcl/kcl_drm.h:205:17: error: static declaration of 'drm_fb_helper_alloc_fbi' follows non-static declaration
+   include/kcl/kcl_drm.h:201:17: error: static declaration of 'drm_fb_helper_alloc_fbi' follows non-static declaration
     struct fb_info *drm_fb_helper_alloc_fbi(struct drm_fb_helper *fb_helper)
                     ^~~~~~~~~~~~~~~~~~~~~~~
    In file included from include/kcl/kcl_drm.h:7:0,
@@ -339,7 +344,7 @@ All errors (new ones prefixed by >>):
    In file included from include/kcl/kcl_drm_backport.h:5:0,
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
-   include/kcl/kcl_drm.h:212:6: error: static declaration of 'drm_fb_helper_unregister_fbi' follows non-static declaration
+   include/kcl/kcl_drm.h:208:6: error: static declaration of 'drm_fb_helper_unregister_fbi' follows non-static declaration
     void drm_fb_helper_unregister_fbi(struct drm_fb_helper *fb_helper)
          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
    In file included from include/kcl/kcl_drm.h:7:0,
@@ -352,7 +357,7 @@ All errors (new ones prefixed by >>):
    In file included from include/kcl/kcl_drm_backport.h:5:0,
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
->> include/kcl/kcl_drm.h:221:6: error: static declaration of 'drm_fb_helper_set_suspend_unlocked' follows non-static declaration
+   include/kcl/kcl_drm.h:217:6: error: static declaration of 'drm_fb_helper_set_suspend_unlocked' follows non-static declaration
     void drm_fb_helper_set_suspend_unlocked(struct drm_fb_helper *fb_helper,
          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    In file included from include/kcl/kcl_drm.h:7:0,
@@ -366,13 +371,27 @@ All errors (new ones prefixed by >>):
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
    include/kcl/kcl_drm.h: In function 'drm_fb_helper_set_suspend_unlocked':
->> include/kcl/kcl_drm.h:225:53: error: 'state' undeclared (first use in this function); did you mean 'statx'?
+   include/kcl/kcl_drm.h:221:53: error: 'state' undeclared (first use in this function); did you mean 'statx'?
      _kcl_drm_fb_helper_set_suspend_unlocked(fb_helper, state);
                                                         ^~~~~
                                                         statx
-   include/kcl/kcl_drm.h:225:53: note: each undeclared identifier is reported only once for each function it appears in
+   include/kcl/kcl_drm.h:221:53: note: each undeclared identifier is reported only once for each function it appears in
+   include/kcl/kcl_drm.h: At top level:
+>> include/kcl/kcl_drm.h:236:1: error: static declaration of 'drm_atomic_helper_update_legacy_modeset_state' follows non-static declaration
+    drm_atomic_helper_update_legacy_modeset_state(struct drm_device *dev,
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/kcl/kcl_drm.h:11:0,
+                    from include/kcl/kcl_drm_backport.h:5,
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
+                    from <command-line>:0:
+   include/drm/drm_atomic_helper.h:74:1: note: previous declaration of 'drm_atomic_helper_update_legacy_modeset_state' was here
+    drm_atomic_helper_update_legacy_modeset_state(struct drm_device *dev,
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/kcl/kcl_drm_backport.h:5:0,
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
+                    from <command-line>:0:
    include/kcl/kcl_drm.h: In function 'kcl_drm_encoder_init':
-   include/kcl/kcl_drm.h:306:9: error: too few arguments to function 'drm_encoder_init'
+   include/kcl/kcl_drm.h:303:9: error: too few arguments to function 'drm_encoder_init'
      return drm_encoder_init(dev, encoder, funcs,
             ^~~~~~~~~~~~~~~~
    In file included from include/drm/drm_modeset_helper_vtables.h:33:0,
@@ -388,7 +407,7 @@ All errors (new ones prefixed by >>):
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
    include/kcl/kcl_drm.h: In function 'kcl_drm_crtc_init_with_planes':
-   include/kcl/kcl_drm.h:321:10: error: too few arguments to function 'drm_crtc_init_with_planes'
+   include/kcl/kcl_drm.h:318:10: error: too few arguments to function 'drm_crtc_init_with_planes'
       return drm_crtc_init_with_planes(dev, crtc, primary,
              ^~~~~~~~~~~~~~~~~~~~~~~~~
    In file included from include/drm/drmP.h:68:0,
@@ -403,7 +422,7 @@ All errors (new ones prefixed by >>):
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
    include/kcl/kcl_drm.h: In function 'kcl_drm_universal_plane_init':
-   include/kcl/kcl_drm.h:342:29: error: incompatible type for argument 7 of 'drm_universal_plane_init'
+   include/kcl/kcl_drm.h:339:29: error: incompatible type for argument 7 of 'drm_universal_plane_init'
          formats, format_count, type);
                                 ^~~~
    In file included from include/drm/drm_crtc.h:45:0,
@@ -418,7 +437,7 @@ All errors (new ones prefixed by >>):
    In file included from include/kcl/kcl_drm_backport.h:5:0,
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
-   include/kcl/kcl_drm.h:341:10: error: too few arguments to function 'drm_universal_plane_init'
+   include/kcl/kcl_drm.h:338:10: error: too few arguments to function 'drm_universal_plane_init'
       return drm_universal_plane_init(dev, plane, possible_crtcs, funcs,
              ^~~~~~~~~~~~~~~~~~~~~~~~
    In file included from include/drm/drm_crtc.h:45:0,
@@ -434,7 +453,7 @@ All errors (new ones prefixed by >>):
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
    include/kcl/kcl_drm.h: In function 'kcl_drm_gem_object_lookup':
-   include/kcl/kcl_drm.h:353:32: error: passing argument 1 of 'drm_gem_object_lookup' from incompatible pointer type [-Werror=incompatible-pointer-types]
+   include/kcl/kcl_drm.h:350:32: error: passing argument 1 of 'drm_gem_object_lookup' from incompatible pointer type [-Werror=incompatible-pointer-types]
       return drm_gem_object_lookup(dev, filp, handle);
                                    ^~~
    In file included from include/kcl/kcl_drm.h:10:0,
@@ -447,7 +466,7 @@ All errors (new ones prefixed by >>):
    In file included from include/kcl/kcl_drm_backport.h:5:0,
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
                     from <command-line>:0:
-   include/kcl/kcl_drm.h:353:37: warning: passing argument 2 of 'drm_gem_object_lookup' makes integer from pointer without a cast [-Wint-conversion]
+   include/kcl/kcl_drm.h:350:37: warning: passing argument 2 of 'drm_gem_object_lookup' makes integer from pointer without a cast [-Wint-conversion]
       return drm_gem_object_lookup(dev, filp, handle);
                                         ^~~~
    In file included from include/kcl/kcl_drm.h:10:0,
@@ -459,41 +478,51 @@ All errors (new ones prefixed by >>):
                            ^~~~~~~~~~~~~~~~~~~~~
    In file included from include/kcl/kcl_drm_backport.h:5:0,
                     from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h:353:10: error: too many arguments to function 'drm_gem_object_lookup'
-      return drm_gem_object_lookup(dev, filp, handle);
-             ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/kcl/kcl_drm.h:10:0,
-                    from include/kcl/kcl_drm_backport.h:5,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
 ..
 
-vim +/drm_fb_helper_set_suspend_unlocked +221 include/kcl/kcl_drm.h
+vim +/drm_atomic_helper_update_legacy_modeset_state +236 include/kcl/kcl_drm.h
 
-   217	
-   218	#ifndef HAVE_DRM_FB_HELPER_SET_SUSPEND_UNLOCKED
-   219	extern void _kcl_drm_fb_helper_set_suspend_unlocked(struct drm_fb_helper *fb_helper, int state);
-   220	static inline
- > 221	void drm_fb_helper_set_suspend_unlocked(struct drm_fb_helper *fb_helper,
-   222						bool suspend)
-   223	
-   224	{
- > 225		_kcl_drm_fb_helper_set_suspend_unlocked(fb_helper, state);
-   226	}
-   227	#endif
-   228	
+   213	
+   214	#ifndef HAVE_DRM_FB_HELPER_SET_SUSPEND_UNLOCKED
+   215	extern void _kcl_drm_fb_helper_set_suspend_unlocked(struct drm_fb_helper *fb_helper, int state);
+   216	static inline
+   217	void drm_fb_helper_set_suspend_unlocked(struct drm_fb_helper *fb_helper,
+   218						bool suspend)
+   219	
+   220	{
+ > 221		_kcl_drm_fb_helper_set_suspend_unlocked(fb_helper, state);
+   222	}
+   223	#endif
+   224	
+   225	#ifndef HAVE_DRM_FB_HELPER_FILL_INFO
+   226	void drm_fb_helper_fill_info(struct fb_info *info,
+   227				     struct drm_fb_helper *fb_helper,
+   228				     struct drm_fb_helper_surface_size *sizes);
+   229	#endif
+   230	
+   231	#ifndef HAVE_DRM_ATOMIC_HELPER_UPDATE_LEGACY_MODESET_STATE
+   232	extern void _kcl_drm_atomic_helper_update_legacy_modeset_state(struct drm_device *dev,
+   233						      struct drm_atomic_state *old_state);
+   234	
+   235	static inline void
+ > 236	drm_atomic_helper_update_legacy_modeset_state(struct drm_device *dev,
+   237						      struct drm_atomic_state *old_state)
+   238	{
+   239		_kcl_drm_atomic_helper_update_legacy_modeset_state(dev, old_state);
+   240	}
+   241	#endif
+   242	
 
 ---
 0-DAY kernel test infrastructure                 Open Source Technology Center
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
 
---gk2gzm4m4pag74bg
+--vdq62xpgx2776d4a
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICGcvxl0AAy5jb25maWcAjFxfc9w2kn/fTzHlvCS15USSZcV3V3oASZCDDEkgADjS6IWl
+H4sICAhRxl0AAy5jb25maWcAjFxfc9w2kn/fTzHlvCS15USSZcV3V3oASZCDDEkgADjS6IWl
 yGOfKrLkG0kb+9tfNwCSAAhOsrW16+lu/G90/7rR1A//+mFFXl+evty+3N/dPjx8X33eP+4P
 ty/7j6tP9w/7/1kVfNVyvaIF0z+DcH3/+Prtl28fLvqL89X7n89+Pnl7uDtdbfaHx/3DKn96
 /HT/+RXa3z89/uuHf8F/fwDil6/Q1eG/V5/v7t7+uvqx2P9xf/u4+vXnc2h9ev6T/RfI5rwt
@@ -1146,7 +1175,7 @@ H16eHE5mIhcHAz7jcWqJGIm2LCw9Fz3ycFSZGQFrQkh+Lxwp9izJkSYg8OlrEquJU58H1Z9u
 GrW/gaGvMlFunLkgXWUPvshT9mJ88v0Afhg0SPfuSJ+bHT7FxfNx7yv2TYpx2XrQvbnVptHu
 RZf/RFVdIf8PRgLRijAxAgA=
 
---gk2gzm4m4pag74bg
+--vdq62xpgx2776d4a
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -1156,4 +1185,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---gk2gzm4m4pag74bg--
+--vdq62xpgx2776d4a--
