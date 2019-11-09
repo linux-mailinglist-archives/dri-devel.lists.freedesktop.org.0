@@ -1,45 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C760F60C5
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Nov 2019 18:58:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63036F6141
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Nov 2019 20:49:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E86076E3F4;
-	Sat,  9 Nov 2019 17:57:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 522F96E3F2;
+	Sat,  9 Nov 2019 19:49:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id E51B86E3E3
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Nov 2019 17:57:57 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E22E3720E2; Sat,  9 Nov 2019 17:57:57 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
- with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Sat, 09 Nov 2019 17:57:57 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: lptech1024@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: highest
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-cF4w5gI8jO@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
-References: <bug-111481-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83B0D6E3F5;
+ Sat,  9 Nov 2019 19:49:27 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+ by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <colin.king@canonical.com>)
+ id 1iTWjb-00082x-Pg; Sat, 09 Nov 2019 19:49:23 +0000
+From: Colin King <colin.king@canonical.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Zhou <David1.Zhou@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH][next] drm/amd/display: fix spelling mistake "exeuction" ->
+ "execution"
+Date: Sat,  9 Nov 2019 19:49:23 +0000
+Message-Id: <20191109194923.231655-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -53,225 +43,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1565400032=="
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1565400032==
-Content-Type: multipart/alternative; boundary="157332227711.E9AbEF1C3.27320"
-Content-Transfer-Encoding: 7bit
-
-
---157332227711.E9AbEF1C3.27320
-Date: Sat, 9 Nov 2019 17:57:57 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
-
---- Comment #223 from lptech1024@gmail.com ---
-Followup to #216:
-
-Fedora 31: Kernel 5.3.9, GNOME 3.34, Mesa 19.2.2, linux-firmware 20190923, =
-LLVM
-9.0.0
-
-The hang is 100% reproducible.
-
-It occurs running the Linux-native (Vulkan) version of Shadow of the Tomb
-Raider (SotTR). I have never run SotTR under Proton/Wine, so that isn't a
-confounding variable.
-
-The (unskippable) cutscene is for the Amazon River in Peru and occurs anywh=
-ere
-between 15 seconds before the pilot is struck and the pilot is struck. Even
-when the video hangs, you can usually hear fragments (sound effects) of the
-game for a few seconds afterwords.
-
-I ran SotTR with vktrace and activated the Gnome (Wayland) overview to see =
-if
-there I could catch any relevant terminal output (none that I saw). The game
-still had focus, so it continued playing. After the hang (when I rebooted),
-there wasn't a vktrace file. I would assume this would be either it didn't
-write it out due to the hang or it didn't have content to write.
-
-However, with it running visible in the overview (and a manual kernel updat=
-e),
-I got both ring gfx and sdma errors:
-
-Nov 07 [SNIP]:24 [SNIP] kernel: [drm] GPU recovery disabled.
-Nov 07 [SNIP]:24 [SNIP] kernel: [drm] GPU recovery disabled.
-Nov 07 [SNIP]:24 [SNIP] kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR*
-Process information: process  pid 0 thread  pid 0
-Nov 07 [SNIP]:24 [SNIP] kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR*
-Process information: process gnome-shell pid 1722 thread gnome-shel:cs0 pid
-1768
-Nov 07 [SNIP]:24 [SNIP] kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* =
-ring
-sdma1 timeout, signaled seq=3D1049, emitted seq=3D1053
-Nov 07 [SNIP]:24 [SNIP] kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* =
-ring
-sdma0 timeout, signaled seq=3D30017, emitted seq=3D30020
-Nov 07 [SNIP]:19 [SNIP] kernel: [drm] GPU recovery disabled.
-Nov 07 [SNIP]:19 [SNIP] kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR*
-Process information: process ShadowOfTheTomb pid 3890 thread WebViewRenderer
-pid 4981
-Nov 07 [SNIP]:19 [SNIP] kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* =
-ring
-gfx_0.0.0 timeout, signaled seq=3D75610, emitted seq=3D75612
-Nov 07 [SNIP]:19 [SNIP] kernel: [drm:amdgpu_dm_atomic_commit_tail [amdgpu]]
-*ERROR* Waiting for fences timed out or interrupted!
-
-As a workaround to proceed in the game, I downloaded the AMDVLD 2019.Q4.2 .=
-deb,
-extracted the contents, modified the JSON file (to point to the local
-amdvlk64.so), and ran SotTR with the VK_ICD_FILENAMES variable set to the
-AMDVLK JSON file.
-
-The AMDVLK graphics were terrible (significant percentage of random pixels
-turning random colors, bad rendering of elements, etc), but I did not
-experience any hangs during the cutscene. After reaching a known save point=
-, I
-switched back to mesa/RADV-llvm and haven't experienced a hang since (haven=
-'t
-progressed that much further yet, but that's the only hang so far - about 1=
-3%
-of the game has been completed).
-
-This would seem to point to a bug at least partially due to mesa/RADV-llvm.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---157332227711.E9AbEF1C3.27320
-Date: Sat, 9 Nov 2019 17:57:57 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c223">Comm=
-ent # 223</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-lptech1024&#64;gmail.com" title=3D"lptech1024&#64;gmail.com">lptech1024&#64=
-;gmail.com</a>
-</span></b>
-        <pre>Followup to #216:
-
-Fedora 31: Kernel 5.3.9, GNOME 3.34, Mesa 19.2.2, linux-firmware 20190923, =
-LLVM
-9.0.0
-
-The hang is 100% reproducible.
-
-It occurs running the Linux-native (Vulkan) version of Shadow of the Tomb
-Raider (SotTR). I have never run SotTR under Proton/Wine, so that isn't a
-confounding variable.
-
-The (unskippable) cutscene is for the Amazon River in Peru and occurs anywh=
-ere
-between 15 seconds before the pilot is struck and the pilot is struck. Even
-when the video hangs, you can usually hear fragments (sound effects) of the
-game for a few seconds afterwords.
-
-I ran SotTR with vktrace and activated the Gnome (Wayland) overview to see =
-if
-there I could catch any relevant terminal output (none that I saw). The game
-still had focus, so it continued playing. After the hang (when I rebooted),
-there wasn't a vktrace file. I would assume this would be either it didn't
-write it out due to the hang or it didn't have content to write.
-
-However, with it running visible in the overview (and a manual kernel updat=
-e),
-I got both ring gfx and sdma errors:
-
-Nov 07 [SNIP]:24 [SNIP] kernel: [drm] GPU recovery disabled.
-Nov 07 [SNIP]:24 [SNIP] kernel: [drm] GPU recovery disabled.
-Nov 07 [SNIP]:24 [SNIP] kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR*
-Process information: process  pid 0 thread  pid 0
-Nov 07 [SNIP]:24 [SNIP] kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR*
-Process information: process gnome-shell pid 1722 thread gnome-shel:cs0 pid
-1768
-Nov 07 [SNIP]:24 [SNIP] kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* =
-ring
-sdma1 timeout, signaled seq=3D1049, emitted seq=3D1053
-Nov 07 [SNIP]:24 [SNIP] kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* =
-ring
-sdma0 timeout, signaled seq=3D30017, emitted seq=3D30020
-Nov 07 [SNIP]:19 [SNIP] kernel: [drm] GPU recovery disabled.
-Nov 07 [SNIP]:19 [SNIP] kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR*
-Process information: process ShadowOfTheTomb pid 3890 thread WebViewRenderer
-pid 4981
-Nov 07 [SNIP]:19 [SNIP] kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* =
-ring
-gfx_0.0.0 timeout, signaled seq=3D75610, emitted seq=3D75612
-Nov 07 [SNIP]:19 [SNIP] kernel: [drm:amdgpu_dm_atomic_commit_tail [amdgpu]]
-*ERROR* Waiting for fences timed out or interrupted!
-
-As a workaround to proceed in the game, I downloaded the AMDVLD 2019.Q4.2 .=
-deb,
-extracted the contents, modified the JSON file (to point to the local
-amdvlk64.so), and ran SotTR with the VK_ICD_FILENAMES variable set to the
-AMDVLK JSON file.
-
-The AMDVLK graphics were terrible (significant percentage of random pixels
-turning random colors, bad rendering of elements, etc), but I did not
-experience any hangs during the cutscene. After reaching a known save point=
-, I
-switched back to mesa/RADV-llvm and haven't experienced a hang since (haven=
-'t
-progressed that much further yet, but that's the only hang so far - about 1=
-3%
-of the game has been completed).
-
-This would seem to point to a bug at least partially due to mesa/RADV-llvm.=
-</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---157332227711.E9AbEF1C3.27320--
-
---===============1565400032==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1565400032==--
+RnJvbTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4KClRoZXJlIGFy
+ZSBzcGVsbGluZyBtaXN0YWtlcyBpbiBhIERDX0VSUk9SIG1lc3NhZ2UgYW5kIGEgY29tbWVudC4K
+Rml4IHRoZXNlLgoKU2lnbmVkLW9mZi1ieTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fu
+b25pY2FsLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNfZG11Yl9z
+cnYuYyAgICB8IDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kbXViL2luYy9kbXVi
+X3Nydi5oIHwgMiArLQogMiBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRp
+b25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjX2Rt
+dWJfc3J2LmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNfZG11Yl9zcnYuYwpp
+bmRleCA2MWNlZmUwYTM3OTAuLmI2NWI2NjAyNTI2NyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL2FtZC9kaXNwbGF5L2RjL2RjX2RtdWJfc3J2LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9kaXNwbGF5L2RjL2RjX2RtdWJfc3J2LmMKQEAgLTkyLDcgKzkyLDcgQEAgdm9pZCBkY19kbXVi
+X3Nydl9jbWRfZXhlY3V0ZShzdHJ1Y3QgZGNfZG11Yl9zcnYgKmRjX2RtdWJfc3J2KQogCiAJc3Rh
+dHVzID0gZG11Yl9zcnZfY21kX2V4ZWN1dGUoZG11Yik7CiAJaWYgKHN0YXR1cyAhPSBETVVCX1NU
+QVRVU19PSykKLQkJRENfRVJST1IoIkVycm9yIHN0YXJ0aW5nIERNVUIgZXhldWN0aW9uOiBzdGF0
+dXM9JWRcbiIsIHN0YXR1cyk7CisJCURDX0VSUk9SKCJFcnJvciBzdGFydGluZyBETVVCIGV4ZWN1
+dGlvbjogc3RhdHVzPSVkXG4iLCBzdGF0dXMpOwogfQogCiB2b2lkIGRjX2RtdWJfc3J2X3dhaXRf
+aWRsZShzdHJ1Y3QgZGNfZG11Yl9zcnYgKmRjX2RtdWJfc3J2KQpkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RtdWIvaW5jL2RtdWJfc3J2LmggYi9kcml2ZXJzL2dwdS9k
+cm0vYW1kL2Rpc3BsYXkvZG11Yi9pbmMvZG11Yl9zcnYuaAppbmRleCBhYThmMDM5NjYxNmQuLjQ1
+ZTQyN2QxOTUyZSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RtdWIv
+aW5jL2RtdWJfc3J2LmgKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RtdWIvaW5j
+L2RtdWJfc3J2LmgKQEAgLTQxNiw3ICs0MTYsNyBAQCBlbnVtIGRtdWJfc3RhdHVzIGRtdWJfc3J2
+X2NtZF9xdWV1ZShzdHJ1Y3QgZG11Yl9zcnYgKmRtdWIsCiAgKiBkbXViX3Nydl9jbWRfZXhlY3V0
+ZSgpIC0gRXhlY3V0ZXMgYSBxdWV1ZWQgc2VxdWVuY2UgdG8gdGhlIGRtdWIKICAqIEBkbXViOiB0
+aGUgZG11YiBzZXJ2aWNlCiAgKgotICogQmVnaW5zIGV4ZXVjdGlvbiBvZiBxdWV1ZWQgY29tbWFu
+ZHMgb24gdGhlIGRtdWIuCisgKiBCZWdpbnMgZXhlY3V0aW9uIG9mIHF1ZXVlZCBjb21tYW5kcyBv
+biB0aGUgZG11Yi4KICAqCiAgKiBSZXR1cm46CiAgKiAgIERNVUJfU1RBVFVTX09LIC0gc3VjY2Vz
+cwotLSAKMi4yMC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWw=
