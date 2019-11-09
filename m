@@ -1,46 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22EBAF5EB9
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Nov 2019 12:24:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5994F5EDE
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Nov 2019 13:02:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3390E6E201;
-	Sat,  9 Nov 2019 11:24:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2EDA6E222;
+	Sat,  9 Nov 2019 12:02:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 022136E201
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Nov 2019 11:24:26 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id F2D90720E2; Sat,  9 Nov 2019 11:24:25 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112237] Cannot install AMDGPU Pro 19.30 - dependencies are a
- downgrade
-Date: Sat, 09 Nov 2019 11:24:25 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu-pro
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocker
-X-Bugzilla-Who: dl9220@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- attachments.created
-Message-ID: <bug-112237-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mo6-p01-ob.smtp.rzone.de (mo6-p01-ob.smtp.rzone.de
+ [IPv6:2a01:238:20a:202:5301::9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C843989ECD;
+ Sat,  9 Nov 2019 12:02:07 +0000 (UTC)
+X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u266EZF6ORJL0fVgscA="
+X-RZG-CLASS-ID: mo00
+Received: from gerhold.net by smtp.strato.de (RZmta 44.29.0 AUTH)
+ with ESMTPSA id e07688vA9C22uwK
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve secp521r1 with
+ 521 ECDH bits, eq. 15360 bits RSA))
+ (Client did not present a certificate);
+ Sat, 9 Nov 2019 13:02:02 +0100 (CET)
+Date: Sat, 9 Nov 2019 13:01:56 +0100
+From: Stephan Gerhold <stephan@gerhold.net>
+To: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+Subject: Re: [Freedreno] [PATCH] drm/msm/dsi: Delay drm_panel_enable() until
+ dsi_mgr_bridge_enable()
+Message-ID: <20191109120156.GA981@gerhold.net>
+References: <20191108212840.13586-1-stephan@gerhold.net>
+ <CAOCk7No7r6Frdu8jSbdBCroXeF+HY=kqEQoJnK0HbkyjLse5Rg@mail.gmail.com>
+ <20191108234654.GA997@gerhold.net>
+ <CAOCk7NqvidvNrYKm-iCw6g6wM9NOaa17nqq75W1nQdPBDhijig@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAOCk7NqvidvNrYKm-iCw6g6wM9NOaa17nqq75W1nQdPBDhijig@mail.gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ t=1573300926; 
+ s=strato-dkim-0002; d=gerhold.net;
+ h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=OXuWTUa9HyzI1fpeQhlGNaQc3nmqlPVWS79Yvpaw+rg=;
+ b=s61vbeZbAFGcMYTbodQFLCjoebtq/+NtLJu8iuwfAJfu1V/Ij+YEojSuROAPtzak5R
+ 465xAdme2zJ9/NctP22emd9mLsv85RRbcDaZ0APBRllJXS+RxV1r/Fc3joB29s+Rc4wW
+ 8iby0Bq2qPFdIqB9Gup+0cqTRTC79pPwAeAMebMIy2ryqAcy3XOhV3gWWihtaNoWFBWH
+ sZOTMTZiYUh0+847GyYHPIrfKHKBTQXqahqsiEqHQfBMjSa/4oyXEeLhcjRzHpybOecM
+ McknpcK3/KTlrebJ2BCqsJATX2/TVXjwddY7qYaXvnxM5KAZiCMhJOU4IxBJsN1I0JRu
+ ZLYg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,192 +59,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0571087845=="
+Cc: Jasper Korten <jja2000@gmail.com>, Hai Li <hali@codeaurora.org>,
+ David Airlie <airlied@linux.ie>, MSM <linux-arm-msm@vger.kernel.org>,
+ lkml <linux-kernel@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ freedreno <freedreno@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0571087845==
-Content-Type: multipart/alternative; boundary="15732986651.E4d9.31078"
-Content-Transfer-Encoding: 7bit
-
-
---15732986651.E4d9.31078
-Date: Sat, 9 Nov 2019 11:24:25 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112237
-
-            Bug ID: 112237
-           Summary: Cannot install AMDGPU Pro 19.30 - dependencies are a
-                    downgrade
-           Product: DRI
-           Version: XOrg git
-          Hardware: x86-64 (AMD64)
-                OS: Linux (All)
-            Status: NEW
-          Severity: blocker
-          Priority: not set
-         Component: DRM/AMDgpu-pro
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: dl9220@gmail.com
-
-Created attachment 145923
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145923&action=3Dedit
-Requested log-files
-
-The instructions given to fix errors are not correct (apt --fix-broken inst=
-all)
-is wrong, should be (apt install --fix-broken) and even that is not working.
-Dependencies requiere Gimp 2.10.12, fails when reading installed version (G=
-imp
-2.10.14) is higher.=20
-
-Pls find all the logs you requested in attachments.
-
-Cheers,
-
-Dirk
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15732986651.E4d9.31078
-Date: Sat, 9 Nov 2019 11:24:25 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Cannot install AMDGPU Pro 19.30 - dependencies are a down=
-grade"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112237">112237</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>Cannot install AMDGPU Pro 19.30 - dependencies are a downgrade
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>XOrg git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>x86-64 (AMD64)
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>Linux (All)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>blocker
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>DRM/AMDgpu-pro
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>dl9220&#64;gmail.com
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145923=
-" name=3D"attach_145923" title=3D"Requested log-files">attachment 145923</a=
-> <a href=3D"attachment.cgi?id=3D145923&amp;action=3Dedit" title=3D"Request=
-ed log-files">[details]</a></span>
-Requested log-files
-
-The instructions given to fix errors are not correct (apt --fix-broken inst=
-all)
-is wrong, should be (apt install --fix-broken) and even that is not working.
-Dependencies requiere Gimp 2.10.12, fails when reading installed version (G=
-imp
-2.10.14) is higher.=20
-
-Pls find all the logs you requested in attachments.
-
-Cheers,
-
-Dirk</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15732986651.E4d9.31078--
-
---===============0571087845==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0571087845==--
+T24gRnJpLCBOb3YgMDgsIDIwMTkgYXQgMDg6NDc6MDhQTSAtMDcwMCwgSmVmZnJleSBIdWdvIHdy
+b3RlOgo+IE9uIEZyaSwgTm92IDgsIDIwMTkgYXQgNDo0NyBQTSBTdGVwaGFuIEdlcmhvbGQgPHN0
+ZXBoYW5AZ2VyaG9sZC5uZXQ+IHdyb3RlOgo+ID4KPiA+IE9uIEZyaSwgTm92IDA4LCAyMDE5IGF0
+IDAzOjEyOjI4UE0gLTA3MDAsIEplZmZyZXkgSHVnbyB3cm90ZToKPiA+ID4gT24gRnJpLCBOb3Yg
+OCwgMjAxOSBhdCAyOjI5IFBNIFN0ZXBoYW4gR2VyaG9sZCA8c3RlcGhhbkBnZXJob2xkLm5ldD4g
+d3JvdGU6Cj4gPiA+ID4KPiA+ID4gPiBBdCB0aGUgbW9tZW50LCB0aGUgTVNNIERTSSBkcml2ZXIg
+Y2FsbHMgZHJtX3BhbmVsX2VuYWJsZSgpIHJhdGhlciBlYXJseQo+ID4gPiA+IGZyb20gdGhlIERT
+SSBicmlkZ2UgcHJlX2VuYWJsZSgpIGZ1bmN0aW9uLiBBdCB0aGlzIHBvaW50LCB0aGUgZW5jb2Rl
+cgo+ID4gPiA+IChlLmcuIE1EUDUpIGlzIG5vdCBlbmFibGVkLCBzbyB3ZSBoYXZlIG5vdCBzdGFy
+dGVkIHRyYW5zbWl0dGluZwo+ID4gPiA+IHZpZGVvIGRhdGEuCj4gPiA+ID4KPiA+ID4gPiBIb3dl
+dmVyLCB0aGUgZHJtX3BhbmVsX2Z1bmNzIGRvY3VtZW50YXRpb24gc3RhdGVzIHRoYXQgZW5hYmxl
+KCkKPiA+ID4gPiBzaG91bGQgYmUgY2FsbGVkIG9uIHRoZSBwYW5lbCAqYWZ0ZXIqIHZpZGVvIGRh
+dGEgaXMgYmVpbmcgdHJhbnNtaXR0ZWQ6Cj4gPiA+ID4KPiA+ID4gPiAgIFRoZSAucHJlcGFyZSgp
+IGZ1bmN0aW9uIGlzIHR5cGljYWxseSBjYWxsZWQgYmVmb3JlIHRoZSBkaXNwbGF5IGNvbnRyb2xs
+ZXIKPiA+ID4gPiAgIHN0YXJ0cyB0byB0cmFuc21pdCB2aWRlbyBkYXRhLiBbLi4uXSBBZnRlciB0
+aGUgZGlzcGxheSBjb250cm9sbGVyIGhhcwo+ID4gPiA+ICAgc3RhcnRlZCB0cmFuc21pdHRpbmcg
+dmlkZW8gZGF0YSwgaXQncyBzYWZlIHRvIGNhbGwgdGhlIC5lbmFibGUoKSBmdW5jdGlvbi4KPiA+
+ID4gPiAgIFRoaXMgd2lsbCB0eXBpY2FsbHkgZW5hYmxlIHRoZSBiYWNrbGlnaHQgdG8gbWFrZSB0
+aGUgaW1hZ2Ugb24gc2NyZWVuIHZpc2libGUuCj4gPiA+ID4KPiA+ID4gPiBDYWxsaW5nIGRybV9w
+YW5lbF9lbmFibGUoKSB0b28gZWFybHkgY2F1c2VzIHByb2JsZW1zIGZvciBzb21lIHBhbmVsczoK
+PiA+ID4gPiBUaGUgVEZUIExDRCBwYW5lbCB1c2VkIGluIHRoZSBTYW1zdW5nIEdhbGF4eSBUYWIg
+QSA5LjcgKDIwMTUpIChBUFE4MDE2KQo+ID4gPiA+IHVzZXMgdGhlIE1JUElfRENTX1NFVF9ESVNQ
+TEFZX0JSSUdIVE5FU1MgY29tbWFuZCB0byBjb250cm9sCj4gPiA+ID4gYmFja2xpZ2h0L2JyaWdo
+dG5lc3Mgb2YgdGhlIHNjcmVlbi4gVGhlIGVuYWJsZSBzZXF1ZW5jZSBpcyB0aGVyZWZvcmU6Cj4g
+PiA+ID4KPiA+ID4gPiAgIGRybV9wYW5lbF9lbmFibGUoKQo+ID4gPiA+ICAgICBkcm1fcGFuZWxf
+ZnVuY3MuZW5hYmxlKCk6Cj4gPiA+ID4gICAgICAgYmFja2xpZ2h0X2VuYWJsZSgpCj4gPiA+ID4g
+ICAgICAgICBiYWNrbGlnaHRfb3BzLnVwZGF0ZV9zdGF0dXMoKToKPiA+ID4gPiAgICAgICAgICAg
+bWlwaV9kc2lfZGNzX3NldF9kaXNwbGF5X2JyaWdodG5lc3MoZHNpLCBibC0+cHJvcHMuYnJpZ2h0
+bmVzcyk7Cj4gPiA+ID4KPiA+ID4gPiBUaGUgcGFuZWwgc2VlbXMgdG8gc2lsZW50bHkgaWdub3Jl
+IHRoZSBNSVBJX0RDU19TRVRfRElTUExBWV9CUklHSFRORVNTCj4gPiA+ID4gY29tbWFuZCBpZiBp
+dCBpcyBzZW50IHRvbyBlYXJseS4gVGhpcyBwcmV2ZW50cyBzZXR0aW5nIHRoZSBpbml0aWFsIGJy
+aWdodG5lc3MsCj4gPiA+ID4gY2F1c2luZyB0aGUgZGlzcGxheSB0byBiZSBlbmFibGVkIHdpdGgg
+bWluaW11bSBicmlnaHRuZXNzIGluc3RlYWQuCj4gPiA+ID4gQWRkaW5nIHZhcmlvdXMgZGVsYXlz
+IGluIHRoZSBwYW5lbCBpbml0aWFsaXphdGlvbiBjb2RlIGRvZXMgbm90IHJlc3VsdAo+ID4gPiA+
+IGluIGFueSBkaWZmZXJlbmNlLgo+ID4gPiA+Cj4gPiA+ID4gT24gdGhlIG90aGVyIGhhbmQsIG1v
+dmluZyBkcm1fcGFuZWxfZW5hYmxlKCkgdG8gZHNpX21ncl9icmlkZ2VfZW5hYmxlKCkKPiA+ID4g
+PiBmaXhlcyB0aGUgcHJvYmxlbSwgaW5kaWNhdGluZyB0aGF0IHRoZSBwYW5lbCByZXF1aXJlcyB0
+aGUgdmlkZW8gc3RyZWFtCj4gPiA+ID4gdG8gYmUgYWN0aXZlIGJlZm9yZSB0aGUgYnJpZ2h0bmVz
+cyBjb21tYW5kIGlzIGFjY2VwdGVkLgo+ID4gPiA+Cj4gPiA+ID4gVGhlcmVmb3JlOiBNb3ZlIGRy
+bV9wYW5lbF9lbmFibGUoKSB0byBkc2lfbWdyX2JyaWRnZV9lbmFibGUoKSB0bwo+ID4gPiA+IGRl
+bGF5IGNhbGxpbmcgaXQgdW50aWwgdmlkZW8gZGF0YSBpcyBiZWluZyB0cmFuc21pdHRlZC4KPiA+
+ID4gPgo+ID4gPiA+IE1vdmUgZHJtX3BhbmVsX2Rpc2FibGUoKSB0byBkc2lfbWdyX2JyaWRnZV9k
+aXNhYmxlKCkgZm9yIHNpbWlsYXIgcmVhc29ucy4KPiA+ID4gPiAoVGhpcyBpcyBub3Qgc3RyaWN0
+bHkgcmVxdWlyZWQgZm9yIHRoZSBwYW5lbCBhZmZlY3RlZCBhYm92ZS4uLikKPiA+ID4gPgo+ID4g
+PiA+IFRlc3RlZC1ieTogSmFzcGVyIEtvcnRlbiA8amphMjAwMEBnbWFpbC5jb20+Cj4gPiA+ID4g
+U2lnbmVkLW9mZi1ieTogU3RlcGhhbiBHZXJob2xkIDxzdGVwaGFuQGdlcmhvbGQubmV0Pgo+ID4g
+PiA+IC0tLQo+ID4gPiA+IFNpbmNlIHRoaXMgaXMgYSBjb3JlIGNoYW5nZSBJIHRob3VnaHQgaXQg
+d291bGQgYmUgYmV0dGVyIHRvIHNlbmQgdGhpcwo+ID4gPiA+IGVhcmx5LiBJIGJlbGlldmUgSmFz
+cGVyIHN0aWxsIHdhbnRzIHRvIGZpbmlzaCBzb21lIG90aGVyIGNoYW5nZXMgYmVmb3JlCj4gPiA+
+ID4gc3VibWl0dGluZyB0aGUgaW5pdGlhbCBkZXZpY2UgdHJlZSBmb3IgdGhlIFNhbXN1bmcgR2Fs
+YXh5IFRhYiBBIDkuNyAoMjAxNSkuIDspCj4gPiA+ID4KPiA+ID4gPiBJIGFsc28gdGVzdGVkIGl0
+IG9uIG1zbTg5MTYtc2Ftc3VuZy1hNXUtZXVyLCBpdHMgZGlzcGxheSBpcyB3b3JraW5nIGZpbmUK
+PiA+ID4gPiB3aXRoIG9yIHdpdGhvdXQgdGhpcyBwYXRjaC4KPiA+ID4KPiA+ID4gTmFjaywgcGxl
+YXNlLiAgSSB3YXMgY3VyaW91cyBzbyBJIHRocmV3IHRoaXMgb24gdGhlIExlbm92byBNaWl4IDYz
+MAo+ID4gPiBsYXB0b3AuICBJIGRvbid0IGdldCBhIGRpc3BsYXkgYmFjayB3aXRoIHRoaXMgcGF0
+Y2guICBJJ2xsIHRyeSB0bwo+ID4gPiBmaWd1cmUgb3V0IHdoeSwgYnV0IGN1cnJlbnRseSBJIGNh
+bid0IGdldCBpbnRvIHRoZSBtYWNoaW5lLgo+ID4KPiA+IFRoYW5rcyBmb3IgdGVzdGluZyB0aGUg
+cGF0Y2ghIExldCdzIHRyeSB0byBmaWd1cmUgdGhhdCBvdXQuLi4KPiA+Cj4gPiBJJ20gYSBiaXQg
+Y29uZnVzZWQsIGJ1dCB0aGlzIG1pZ2h0IGJlIGJlY2F1c2UgSSdtIG5vdCB2ZXJ5IGZhbWlsaWFy
+IHdpdGgKPiA+IHRoZSBNU004OTk4IGxhcHRvcHMuIEl0IGRvZXMgbm90IHNlZW0gdG8gaGF2ZSBk
+aXNwbGF5IGluIG1haW5saW5lIHlldCwKPiA+IHNvIGRvIHlvdSBoYXZlIGEgbGluayB0byBhbGwg
+dGhlIHBhdGNoZXMgeW91IGFyZSB1c2luZyBhdCB0aGUgbW9tZW50Pwo+IAo+IFRoZSBtZHA1IHN1
+cHBvcnQgaXMgdGhlcmUuICBTb21lIG9mIHRoZSBkZXBlbmRlbmNpZXMgaGF2ZSBkcmFnZ2VkIG91
+dC4KPiBJJ2QgaGF2ZSB0byBtYWtlIHNlbnNlIG9mIG15IGRldmVsb3BtZW50IHRyZWUgYXMgdG8g
+d2hhdCBpcyByZWxldmFudC4KCkEgZHVtcCBvZiBhbGwgdGhlIHBhdGNoZXMgKHdoZXRoZXIgc3Rp
+bGwgcmVsZXZhbnQgb3Igbm90KSB3b3VsZCBiZQpoZWxwZnVsIHRvby4gQWN0dWFsbHkgSSB3YXMg
+bW9zdGx5IGxvb2tpbmcgZm9yIHRoZSBkZXZpY2UgdHJlZSBwYXJ0IHRvCnNlZSB3aGljaCBjb21w
+b25lbnRzIGFyZSBpbnZvbHZlZC4KCj4gPgo+ID4gSnVkZ2luZyBmcm9tIHRoZSBwYXRjaGVzIEkg
+d2FzIGFibGUgdG8gZmluZCwgdGhlIExlbm92byBNaWl4IDYzMCBpcwo+ID4gdXNpbmcgYSBEU0kg
+dG8gZURQIGJyaWRnZS4KPiA+IElzbid0IHRoZSBwYW5lbCBtYW5hZ2VkIGJ5IHRoZSBicmlkZ2Ug
+ZHJpdmVyIGluIHRoYXQgY2FzZT8KPiAKPiBJdCB1c2VzIHRoZSBUSSBTTjY1IGJyaWRnZS4KPiAK
+Ckl0IGlzIGNvdmVyZWQgYnkgdGhlIHRpLXNuNjVkc2k4NiBkcml2ZXIgSSBhc3N1bWU/Cgo+ID4K
+PiA+IHN0cnVjdCBtc21fZHNpIGNvbnRhaW5zOgo+ID4gICAgICAgICAvKgo+ID4gICAgICAgICAg
+KiBwYW5lbC9leHRlcm5hbF9icmlkZ2UgY29ubmVjdGVkIHRvIGRzaSBicmlkZ2Ugb3V0cHV0LCBv
+bmx5IG9uZSBvZiB0aGUKPiA+ICAgICAgICAgICogdHdvIGNhbiBiZSB2YWxpZCBhdCBhIHRpbWUK
+PiA+ICAgICAgICAgICovCj4gPiAgICAgICAgIHN0cnVjdCBkcm1fcGFuZWwgKnBhbmVsOwo+ID4g
+ICAgICAgICBzdHJ1Y3QgZHJtX2JyaWRnZSAqZXh0ZXJuYWxfYnJpZGdlOwo+ID4KPiA+IFNvIGlm
+IHlvdSBoYXZlICJleHRlcm5hbF9icmlkZ2UiIHNldCBpbiB5b3VyIGNhc2UsICJwYW5lbCIgc2hv
+dWxkIGJlIE5VTEwuCj4gPiBJIGhhdmUgb25seSBtb3ZlZCBjb2RlIHRoYXQgdXNlcyBtc21fZHNp
+LT5wYW5lbCwgc28gbXkgcGF0Y2ggcmVhbGx5Cj4gPiBzaG91bGRuJ3QgbWFrZSBhbnkgZGlmZmVy
+ZW5jZSBmb3IgeW91Lgo+ID4KPiA+IEFtIEkgY29uZnVzaW5nIHNvbWV0aGluZyBoZXJlPwo+IAo+
+IEkgZG9uJ3QgdGhpbmsgcGFuZWwgaXMgbnVsbCBpbiBteSBjYXNlLiAgSSBuZWVkIHRvIHRyYWNl
+IGEgZmV3IHRoaW5ncwo+IHRocm91Z2ggdG8gYmUgc3VyZS4KPiAKCnRpLXNuNjVkc2k4Ni5jIGNv
+bnRhaW5zOgoKc3RhdGljIHZvaWQgdGlfc25fYnJpZGdlX2VuYWJsZShzdHJ1Y3QgZHJtX2JyaWRn
+ZSAqYnJpZGdlKQp7CgkvKiAuLi4gKi8KCWRybV9wYW5lbF9lbmFibGUocGRhdGEtPnBhbmVsKTsK
+fQoKc3RhdGljIHZvaWQgdGlfc25fYnJpZGdlX3ByZV9lbmFibGUoc3RydWN0IGRybV9icmlkZ2Ug
+KmJyaWRnZSkKewoJLyogLi4uICovCglkcm1fcGFuZWxfcHJlcGFyZShwZGF0YS0+cGFuZWwpOwp9
+CgpTbyBpdCBkb2VzIGluZGVlZCBtYW5hZ2UgdGhlIHBhbmVsIGZvciB5b3UuIElmIG1zbV9kc2kt
+PnBhbmVsIGlzIG5vdApOVUxMIGZvciB5b3UgaXQgd291bGQgbWVhbiB0aGF0IHlvdXIgcGFuZWwg
+aXMgbWFuYWdlZCBieSB0d28gZHJpdmVycwphdCB0aGUgc2FtZSB0aW1lLgoKKEFsc28gbm90ZSBo
+b3cgaXQgY2FsbHMgZHJtX3BhbmVsX2VuYWJsZSgpIGluIGVuYWJsZSgpIGluc3RlYWQgb2YKcHJl
+X2VuYWJsZSgpLiBUaGlzIGlzIGV4YWN0bHkgdGhlIGNoYW5nZSBteSBwYXRjaCBkb2VzIGZvciB0
+aGUgY2FzZQp3aGVuIHRoZSBwYW5lbCBpcyBtYW5hZ2VkIGJ5IHRoZSBNU00gZHJpdmVyLi4uKQoK
+PiBUYWtpbmcgYSBxdWljayBsb29rIGF0IHRoZSBkYXRhc2hlZXQgZm9yIHRoZSBicmlkZ2UsIEkg
+c3VzcGVjdCB0aGF0Cj4gb3BlcmF0aW9ucyBhcmUgb2NjdXJyaW5nIGluIHRoZSBlbmFibGUoKSBw
+aGFzZSBvZiB0aGUgYnJpZGdlLCB0aGF0Cj4gbmVlZCB0byBvY2N1ciBiZWZvcmUgdmlkZW8gZGF0
+YSBpcyB0cmFuc21pdHRlZC4gIEJhc2VkIG9uIHlvdXIKPiBhbmFseXNpcyBpbiB0aGUgY29tbWl0
+IG1lc3NhZ2UsIEkgc3VzcGVjdCB0aGVzZSBvcGVyYXRpb25zIG5lZWQgdG8gYmUKPiBtb3ZlZCB0
+byBwcmVfZW5hYmxlKCkuCj4gCgpJJ20gc3RpbGwgY29uZnVzZWQgaG93IG15IHBhdGNoIG1ha2Vz
+IGFueSBkaWZmZXJlbmNlIGZvciB5b3UuClRoZSBlbmFibGUgc2VxdWVuY2Ugc2hvdWxkIGJlIGV4
+YWN0bHkgdGhlIHNhbWUgYXMgYmVmb3JlLgoKPiBJJ20gaG9waW5nIHRvIGdhdGhlciBtb3JlIGRh
+dGEgdGhpcyB3ZWVrZW5kLCB3aGljaCB3aWxsIGhvcGVmdWxseQo+IGlkZW50aWZ5IHdoYXQgd2Ug
+bmVlZCB0byBkbyB0byBtb3ZlIHRoaXMgZm9yd2FyZCB3aXRob3V0IGNhdXNpbmcKPiByZWdyZXNz
+aW9ucy4KCkxvb2tpbmcgZm9yd2FyZCB0byBpdCwgdGhhbmtzIQpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
