@@ -1,46 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 168B9F67C0
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Nov 2019 07:20:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E29F2F67D5
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Nov 2019 08:11:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 815CD6E584;
-	Sun, 10 Nov 2019 06:20:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A47756E58A;
+	Sun, 10 Nov 2019 07:11:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0661D6E580
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Nov 2019 06:20:26 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id EB72C720E2; Sun, 10 Nov 2019 06:20:25 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D20C6E58A
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Nov 2019 07:11:29 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109628] WARNING at dcn10_hw_sequencer.c:868
- dcn10_verify_allow_pstate_change_high()
-Date: Sun, 10 Nov 2019 06:20:26 +0000
-X-Bugzilla-Reason: AssignedTo
+Subject: [Bug 201957] amdgpu: ring gfx timeout
+Date: Sun, 10 Nov 2019 07:11:29 +0000
+X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: chris.snook@gmail.com
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: jmstylr@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109628-502-t9gY7Ehj9i@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109628-502@http.bugs.freedesktop.org/>
-References: <bug-109628-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-201957-2300-bpjHfopiib@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
+References: <bug-201957-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
+ message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,149 +51,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1588477163=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1588477163==
-Content-Type: multipart/alternative; boundary="15733668250.2a95ac.8823"
-Content-Transfer-Encoding: 7bit
-
-
---15733668250.2a95ac.8823
-Date: Sun, 10 Nov 2019 06:20:25 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109628
-
---- Comment #34 from Chris Snook <chris.snook@gmail.com> ---
-(In reply to Chris Snook from comment #33)
-> (In reply to Johannes Hirte from comment #28)
-> > From the reports, it seems to be compositor related. For me, kwin with
-> > OpenGL 3.1 backend works fine. xfwm4 seems to trigger the bug, maybe ot=
-her
-> > compositors too.
->=20
-> Confirmed that the workaround of switching to the kwin OpenGL 3.1 composi=
-tor
-> works for me.
->=20
-> kernel: 5.3.0-19-generic (Ubuntu 19.10)
-> window manager: kwin-x11 4:5.16.5-0ubuntu1
-> CPU: Ryzen Pro 2500U
-> machine: Lenovo Thinkpad A485
-> X server: xserver-xorg 1:7.7+19ubuntu12
-> userspace driver: xserver-xorg-video-amdgpu 19.0.1-1ubuntu1
->=20
-> I'm happy to test patches or reproduce.
-
-I may have spoken too soon. I'm non-deterministically experiencing the basic
-symptom of hang on resume with a blank screen, sometimes with the backlight=
- on
-and sometimes without, but I no longer get the traceback in logs, so I can't
-tell if it's mostly the same bug but without tripping the failure mode that
-causes it to log, or if there's an unrelated suspend/resume bug. Switching =
-to
-the OpenGL 3.1 compositor has definitely made that error message stop appea=
-ring
-in my logs though.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15733668250.2a95ac.8823
-Date: Sun, 10 Nov 2019 06:20:25 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - WARNING at dcn10_hw_sequencer.c:868 dcn10_verify_allow_ps=
-tate_change_high()"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109628#c34">Comme=
-nt # 34</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - WARNING at dcn10_hw_sequencer.c:868 dcn10_verify_allow_ps=
-tate_change_high()"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109628">bug 10962=
-8</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-chris.snook&#64;gmail.com" title=3D"Chris Snook &lt;chris.snook&#64;gmail.c=
-om&gt;"> <span class=3D"fn">Chris Snook</span></a>
-</span></b>
-        <pre>(In reply to Chris Snook from <a href=3D"show_bug.cgi?id=3D109=
-628#c33">comment #33</a>)
-<span class=3D"quote">&gt; (In reply to Johannes Hirte from <a href=3D"show=
-_bug.cgi?id=3D109628#c28">comment #28</a>)
-&gt; &gt; From the reports, it seems to be compositor related. For me, kwin=
- with
-&gt; &gt; OpenGL 3.1 backend works fine. xfwm4 seems to trigger the bug, ma=
-ybe other
-&gt; &gt; compositors too.
-&gt;=20
-&gt; Confirmed that the workaround of switching to the kwin OpenGL 3.1 comp=
-ositor
-&gt; works for me.
-&gt;=20
-&gt; kernel: 5.3.0-19-generic (Ubuntu 19.10)
-&gt; window manager: kwin-x11 4:5.16.5-0ubuntu1
-&gt; CPU: Ryzen Pro 2500U
-&gt; machine: Lenovo Thinkpad A485
-&gt; X server: xserver-xorg 1:7.7+19ubuntu12
-&gt; userspace driver: xserver-xorg-video-amdgpu 19.0.1-1ubuntu1
-&gt;=20
-&gt; I'm happy to test patches or reproduce.</span >
-
-I may have spoken too soon. I'm non-deterministically experiencing the basic
-symptom of hang on resume with a blank screen, sometimes with the backlight=
- on
-and sometimes without, but I no longer get the traceback in logs, so I can't
-tell if it's mostly the same bug but without tripping the failure mode that
-causes it to log, or if there's an unrelated suspend/resume bug. Switching =
-to
-the OpenGL 3.1 compositor has definitely made that error message stop appea=
-ring
-in my logs though.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15733668250.2a95ac.8823--
-
---===============1588477163==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1588477163==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDE5NTcKCmptc3R5
+bHJAZ21haWwuY29tIGNoYW5nZWQ6CgogICAgICAgICAgIFdoYXQgICAgfFJlbW92ZWQgICAgICAg
+ICAgICAgICAgICAgICB8QWRkZWQKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogICAgICAgICAgICAgICAg
+IENDfCAgICAgICAgICAgICAgICAgICAgICAgICAgICB8am1zdHlsckBnbWFpbC5jb20KCi0tLSBD
+b21tZW50ICMxNyBmcm9tIGptc3R5bHJAZ21haWwuY29tIC0tLQooSW4gcmVwbHkgdG8gc2hhbGxv
+d2Fsb2UgZnJvbSBjb21tZW50ICMxNikKPiBDcmVhdGVkIGF0dGFjaG1lbnQgMjg1NjY1IFtkZXRh
+aWxzXQo+IDUgc2Vjb25kIHZpZGVvIGNsaXAgdGhhdCB0cmlnZ2VycyBhIGNyYXNoCj4gCj4gSGks
+Cj4gCj4gSSB0aGluayBJJ20gaGF2aW5nIHRoZSBzYW1lIHByb2JsZW0gYXMgeW91IGd1eXMuICBJ
+IHJ1biBhIG15dGhiYWNrZW5kIHdoZXJlCj4gSSByZWNvcmQgY2FibGUgdGVsZXZpc2lvbiBhbmQg
+dGhvc2UgcmVjb3JkaW5ncyBvZnRlbiBjcmFzaCBteSBzeXN0ZW0gd2hlbgo+IGhhcmR3YXJlIGRl
+Y29kaW5nIGlzIGVuYWJsZWQuICBVc3VhbGx5IGl0J3MganVzdCB0aGUgc2NyZWVuIHRoYXQgZnJl
+ZXplcyBhbmQKPiBJIGNhbiBzdGlsbCBzc2ggdG8gaXQuICAKPiAKPiBLZXJuZWwgNS4xLjYgd2Fz
+IGFuIGV4Y2VwdGlvbiBmb3IgbWUgdG9vLCB3aXRoIHRoYXQga2VybmVsIEknbSBhYmxlIHRvCj4g
+cmVzdGFydCB0aGUgZGlzcGxheSBtYW5hZ2VyIGFuZCByZWNvdmVyIHdpdGhvdXQgaGF2aW5nIHRv
+IHJlYm9vdC4KPiAKPiBBdHRhY2hlZCBpcyBhIHNob3J0IHZpZGVvIHRoYXQgY3Jhc2hlcyBteSBz
+eXN0ZW0uICBJIGNhbiB0cmlnZ2VyIHRoZSBhbGVydAo+IGJ5IHJ1bm5pbmc6Cj4gCj4gbXB2IC0t
+dm89dmFhcGkgb3V0LnRzCj4gCj4gSSdtIHdvbmRlcmluZyBpZiBpdCBjcmFzaGVzIHlvdXIgc3lz
+dGVtcyB0b28gYW5kIGlmIGl0J3MgcmVsYXRlZC4KCgpKdXN0IHRvIGFkZCBhIGRhdGEgcG9pbnQs
+IEkgdHJpZWQgcnVubmluZyBgbXB2IC0tdm89dmFhcGkgb3V0LnRzYCBhZ2FpbnN0IHlvdXIKZmls
+ZSwgYW5kIHdoaWxlIGl0IGNyYXNoZWQgdGhlIGFwcGxpY2F0aW9uLCBpdCBkaWQgbm90IGZyZWV6
+ZSB0aGUgc3lzdGVtLiAKCk15IGhhcmR3YXJlIGlzIGEgUnl6ZW4gMzcwMFggd2l0aCBhIFJhZGVv
+biBSWCA1NzAwLCBydW5uaW5nIFVidW50dSAxOS4xMCB3aXRoCmRlZmF1bHQga2VybmVsICg1LjMu
+MC0xOS1nZW5lcmljKS4KClRoZSBjb21tYW5kIGRpZCByZXN1bHQgaW4gdGhlIGZvbGxvd2luZyBs
+aW5lcyBpbiAvdmFyL2xvZy9zeXNsb2cgcmVwZWF0ZWQgZXZlcnkKNSBzZWNvbmRzOgoKTm92IDEw
+IDA3OjA0OjIzIHJlZGFjdGVkIGtlcm5lbDogWyAyMjY2LjgwMjE2Ml0gZ21jX3YxMF8wX3Byb2Nl
+c3NfaW50ZXJydXB0OgoyMzkwMCBjYWxsYmFja3Mgc3VwcHJlc3NlZApOb3YgMTAgMDc6MDQ6MjMg
+cmVkYWN0ZWQga2VybmVsOiBbIDIyNjYuODAyMTY2XSBhbWRncHUgMDAwMDowYjowMC4wOiBbbW1o
+dWJdClZNQyBwYWdlIGZhdWx0IChzcmNfaWQ6MCByaW5nOjE1OCB2bWlkOjAgcGFzaWQ6MCkKTm92
+IDEwIDA3OjA0OjIzIHJlZGFjdGVkIGtlcm5lbDogWyAyMjY2LjgwMjE3MF0gYW1kZ3B1IDAwMDA6
+MGI6MDAuMDogICBhdCBwYWdlCjB4MDAwMDAwMDAwMDAwMDAwMCBmcm9tIDE4Ck5vdiAxMCAwNzow
+NDoyMyByZWRhY3RlZCBrZXJuZWw6IFsgMjI2Ni44MDIxNzFdIGFtZGdwdSAwMDAwOjBiOjAwLjA6
+ClZNX0wyX1BST1RFQ1RJT05fRkFVTFRfU1RBVFVTOjB4MDAwMDIxM0QKTm92IDEwIDA3OjA0OjIz
+IHJlZGFjdGVkIGtlcm5lbDogWyAyMjY2LjgwMjE3Nl0gYW1kZ3B1IDAwMDA6MGI6MDAuMDogW21t
+aHViXQpWTUMgcGFnZSBmYXVsdCAoc3JjX2lkOjAgcmluZzoxNTggdm1pZDowIHBhc2lkOjApCk5v
+diAxMCAwNzowNDoyMyByZWRhY3RlZCBrZXJuZWw6IFsgMjI2Ni44MDIxNzhdIGFtZGdwdSAwMDAw
+OjBiOjAwLjA6ICAgYXQgcGFnZQoweDAwMDAwMDAwMDAwMDAwMDAgZnJvbSAxOApOb3YgMTAgMDc6
+MDQ6MjMgcmVkYWN0ZWQga2VybmVsOiBbIDIyNjYuODAyMTc5XSBhbWRncHUgMDAwMDowYjowMC4w
+OgpWTV9MMl9QUk9URUNUSU9OX0ZBVUxUX1NUQVRVUzoweDAwMDAwMDAwCk5vdiAxMCAwNzowNDoy
+MyByZWRhY3RlZCBrZXJuZWw6IFsgMjI2Ni44MDI1NjZdIGFtZGdwdSAwMDAwOjBiOjAwLjA6IFtt
+bWh1Yl0KVk1DIHBhZ2UgZmF1bHQgKHNyY19pZDowIHJpbmc6MTU4IHZtaWQ6MCBwYXNpZDowKQpO
+b3YgMTAgMDc6MDQ6MjMgcmVkYWN0ZWQga2VybmVsOiBbIDIyNjYuODAyNTY4XSBhbWRncHUgMDAw
+MDowYjowMC4wOiAgIGF0IHBhZ2UKMHgwMDAwMDAwMDAwMDAwMDAwIGZyb20gMTgKTm92IDEwIDA3
+OjA0OjIzIHJlZGFjdGVkIGtlcm5lbDogWyAyMjY2LjgwMjU2OV0gYW1kZ3B1IDAwMDA6MGI6MDAu
+MDoKVk1fTDJfUFJPVEVDVElPTl9GQVVMVF9TVEFUVVM6MHgwMDAwMjEzRApOb3YgMTAgMDc6MDQ6
+MjMgcmVkYWN0ZWQga2VybmVsOiBbIDIyNjYuODAyNTczXSBhbWRncHUgMDAwMDowYjowMC4wOiBb
+bW1odWJdClZNQyBwYWdlIGZhdWx0IChzcmNfaWQ6MCByaW5nOjE1OCB2bWlkOjAgcGFzaWQ6MCkK
+Tm92IDEwIDA3OjA0OjIzIHJlZGFjdGVkIGtlcm5lbDogWyAyMjY2LjgwMjU3NV0gYW1kZ3B1IDAw
+MDA6MGI6MDAuMDogICBhdCBwYWdlCjB4MDAwMDAwMDAwMDAwMDAwMCBmcm9tIDE4Ck5vdiAxMCAw
+NzowNDoyMyByZWRhY3RlZCBrZXJuZWw6IFsgMjI2Ni44MDI1NzZdIGFtZGdwdSAwMDAwOjBiOjAw
+LjA6ClZNX0wyX1BST1RFQ1RJT05fRkFVTFRfU1RBVFVTOjB4MDAwMDAwMDAKTm92IDEwIDA3OjA0
+OjIzIHJlZGFjdGVkIGtlcm5lbDogWyAyMjY2LjgwMjk4NF0gYW1kZ3B1IDAwMDA6MGI6MDAuMDog
+W21taHViXQpWTUMgcGFnZSBmYXVsdCAoc3JjX2lkOjAgcmluZzoxNTggdm1pZDowIHBhc2lkOjAp
+Ck5vdiAxMCAwNzowNDoyMyByZWRhY3RlZCBrZXJuZWw6IFsgMjI2Ni44MDI5ODVdIGFtZGdwdSAw
+MDAwOjBiOjAwLjA6ICAgYXQgcGFnZQoweDAwMDAwMDAwMDAwMDAwMDAgZnJvbSAxOApOb3YgMTAg
+MDc6MDQ6MjMgcmVkYWN0ZWQga2VybmVsOiBbIDIyNjYuODAyOTg3XSBhbWRncHUgMDAwMDowYjow
+MC4wOgpWTV9MMl9QUk9URUNUSU9OX0ZBVUxUX1NUQVRVUzoweDAwMDAyMTNECk5vdiAxMCAwNzow
+NDoyMyByZWRhY3RlZCBrZXJuZWw6IFsgMjI2Ni44MDI5OTNdIGFtZGdwdSAwMDAwOjBiOjAwLjA6
+IFttbWh1Yl0KVk1DIHBhZ2UgZmF1bHQgKHNyY19pZDowIHJpbmc6MTU4IHZtaWQ6MCBwYXNpZDow
+KQpOb3YgMTAgMDc6MDQ6MjMgcmVkYWN0ZWQga2VybmVsOiBbIDIyNjYuODAyOTk0XSBhbWRncHUg
+MDAwMDowYjowMC4wOiAgIGF0IHBhZ2UKMHgwMDAwMDAwMDAwMDAwMDAwIGZyb20gMTgKTm92IDEw
+IDA3OjA0OjIzIHJlZGFjdGVkIGtlcm5lbDogWyAyMjY2LjgwMjk5NV0gYW1kZ3B1IDAwMDA6MGI6
+MDAuMDoKVk1fTDJfUFJPVEVDVElPTl9GQVVMVF9TVEFUVVM6MHgwMDAwMDAwMApOb3YgMTAgMDc6
+MDQ6MjMgcmVkYWN0ZWQga2VybmVsOiBbIDIyNjYuODAzNDAzXSBhbWRncHUgMDAwMDowYjowMC4w
+OiBbbW1odWJdClZNQyBwYWdlIGZhdWx0IChzcmNfaWQ6MCByaW5nOjE1OCB2bWlkOjAgcGFzaWQ6
+MCkKTm92IDEwIDA3OjA0OjIzIHJlZGFjdGVkIGtlcm5lbDogWyAyMjY2LjgwMzQwNF0gYW1kZ3B1
+IDAwMDA6MGI6MDAuMDogICBhdCBwYWdlCjB4MDAwMDAwMDAwMDAwMDAwMCBmcm9tIDE4Ck5vdiAx
+MCAwNzowNDoyMyByZWRhY3RlZCBrZXJuZWw6IFsgMjI2Ni44MDM0MDZdIGFtZGdwdSAwMDAwOjBi
+OjAwLjA6ClZNX0wyX1BST1RFQ1RJT05fRkFVTFRfU1RBVFVTOjB4MDAwMDIxM0QKTm92IDEwIDA3
+OjA0OjIzIHJlZGFjdGVkIGtlcm5lbDogWyAyMjY2LjgwMzQxMF0gYW1kZ3B1IDAwMDA6MGI6MDAu
+MDogW21taHViXQpWTUMgcGFnZSBmYXVsdCAoc3JjX2lkOjAgcmluZzoxNTggdm1pZDowIHBhc2lk
+OjApCk5vdiAxMCAwNzowNDoyMyByZWRhY3RlZCBrZXJuZWw6IFsgMjI2Ni44MDM0MTFdIGFtZGdw
+dSAwMDAwOjBiOjAwLjA6ICAgYXQgcGFnZQoweDAwMDAwMDAwMDAwMDAwMDAgZnJvbSAxOApOb3Yg
+MTAgMDc6MDQ6MjMgcmVkYWN0ZWQga2VybmVsOiBbIDIyNjYuODAzNDEyXSBhbWRncHUgMDAwMDow
+YjowMC4wOgpWTV9MMl9QUk9URUNUSU9OX0ZBVUxUX1NUQVRVUzoweDAwMDAwMDAwCk5vdiAxMCAw
+NzowNDoyMyByZWRhY3RlZCBrZXJuZWw6IFsgMjI2Ni44MDM4MjJdIGFtZGdwdSAwMDAwOjBiOjAw
+LjA6IFttbWh1Yl0KVk1DIHBhZ2UgZmF1bHQgKHNyY19pZDowIHJpbmc6MTU4IHZtaWQ6MCBwYXNp
+ZDowKQpOb3YgMTAgMDc6MDQ6MjMgcmVkYWN0ZWQga2VybmVsOiBbIDIyNjYuODAzODI0XSBhbWRn
+cHUgMDAwMDowYjowMC4wOiAgIGF0IHBhZ2UKMHgwMDAwMDAwMDAwMDAwMDAwIGZyb20gMTgKTm92
+IDEwIDA3OjA0OjIzIHJlZGFjdGVkIGtlcm5lbDogWyAyMjY2LjgwMzgyNV0gYW1kZ3B1IDAwMDA6
+MGI6MDAuMDoKVk1fTDJfUFJPVEVDVElPTl9GQVVMVF9TVEFUVVM6MHgwMDAwMjEzRApOb3YgMTAg
+MDc6MDQ6MjMgcmVkYWN0ZWQga2VybmVsOiBbIDIyNjYuODAzODMxXSBhbWRncHUgMDAwMDowYjow
+MC4wOiBbbW1odWJdClZNQyBwYWdlIGZhdWx0IChzcmNfaWQ6MCByaW5nOjE1OCB2bWlkOjAgcGFz
+aWQ6MCkKTm92IDEwIDA3OjA0OjIzIHJlZGFjdGVkIGtlcm5lbDogWyAyMjY2LjgwMzgzM10gYW1k
+Z3B1IDAwMDA6MGI6MDAuMDogICBhdCBwYWdlCjB4MDAwMDAwMDAwMDAwMDAwMCBmcm9tIDE4Ck5v
+diAxMCAwNzowNDoyMyByZWRhY3RlZCBrZXJuZWw6IFsgMjI2Ni44MDM4MzRdIGFtZGdwdSAwMDAw
+OjBiOjAwLjA6ClZNX0wyX1BST1RFQ1RJT05fRkFVTFRfU1RBVFVTOjB4MDAwMDAwMDAKCi0tIApZ
+b3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUg
+YXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVs
