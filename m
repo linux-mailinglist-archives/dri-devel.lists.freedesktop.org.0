@@ -1,46 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82191F695A
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Nov 2019 15:15:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1D88F69CF
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Nov 2019 16:41:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18ED26E781;
-	Sun, 10 Nov 2019 14:15:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7237B6E094;
+	Sun, 10 Nov 2019 15:41:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7A65B6E63B
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Nov 2019 14:15:22 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 77519720E2; Sun, 10 Nov 2019 14:15:22 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
- with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Sun, 10 Nov 2019 14:15:22 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: jb55@jb55.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: highest
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-111481-502-0fFYtUAaJq@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
-References: <bug-111481-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A9586E049
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Nov 2019 15:41:10 +0000 (UTC)
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-386-eK-Rx17VMZ6OFXnGXzAiKQ-1; Sun, 10 Nov 2019 10:41:07 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0162B800C72;
+ Sun, 10 Nov 2019 15:41:05 +0000 (UTC)
+Received: from shalem.localdomain.com (ovpn-116-82.ams2.redhat.com
+ [10.36.116.82])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EF502608BB;
+ Sun, 10 Nov 2019 15:41:02 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>,
+ Sean Paul <seanpaul@chromium.org>, Daniel Vetter <daniel.vetter@intel.com>,
+ David Airlie <airlied@linux.ie>
+Subject: [PATCH 00/12] drm/modes: parse_cmdline: Add support for specifying
+ panel_orientation on the kernel cmdline
+Date: Sun, 10 Nov 2019 16:40:49 +0100
+Message-Id: <20191110154101.26486-1-hdegoede@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: eK-Rx17VMZ6OFXnGXzAiKQ-1
+X-Mimecast-Spam-Score: 0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=redhat.com; 
+ s=mimecast20190719; t=1573400469;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pC+f3G4g3HOWdNg3ntRSqv+/ZvudwC1QIbr3YFUOd50=;
+ b=Cgfr1iNrf+Xhk3GKbApVzWobZkhPzFtTSuoSpAeExZVZFP4SUdM52vokehmyzYb6l+scB1
+ 8vvcYLiN1ooo3nZrlsDlB3Z3wKcA+OGKGliKjMVUMrnUcVQ7AfhAhZm0HTNJzaLGKoX04V
+ 7Fz9D1WeHCNHGA/5JCe3jg4i0EhJG6o=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,145 +61,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0738193240=="
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?q?Mathieu=20Alexandre-T=C3=A9treault?= <alexandretm@amotus.ca>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0738193240==
-Content-Type: multipart/alternative; boundary="15733953229.A2dcAAD1.21645"
-Content-Transfer-Encoding: 7bit
-
-
---15733953229.A2dcAAD1.21645
-Date: Sun, 10 Nov 2019 14:15:22 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
-
-William Casarin <jb55@jb55.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|jb55@jb55.com               |
-
---- Comment #226 from William Casarin <jb55@jb55.com> ---
-(In reply to Marko Popovic from comment #222)
-> (In reply to William Casarin from comment #221)
-> > mesa 19.3.0-rc2 + RADV_PERFTEST=3Daco fixed this for me
->=20
-> ACO should have no impact on SDMA. Firstly OpenGL still uses LLVM, and
-> OpenGL is the only one using SDMA in the first place, radv doesn't. So you
-> must be talking about some different kinds of hangs, probably the ring_gfx
-> types.
-
-you're right, I wasn't aware that this thread was only for sdma related han=
-gs.
-The
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15733953229.A2dcAAD1.21645
-Date: Sun, 10 Nov 2019 14:15:22 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:jb55&#64;=
-jb55.com" title=3D"William Casarin &lt;jb55&#64;jb55.com&gt;"> <span class=
-=3D"fn">William Casarin</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">CC</td>
-           <td>jb55&#64;jb55.com
-           </td>
-           <td>
-               &nbsp;
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c226">Comm=
-ent # 226</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-jb55&#64;jb55.com" title=3D"William Casarin &lt;jb55&#64;jb55.com&gt;"> <sp=
-an class=3D"fn">William Casarin</span></a>
-</span></b>
-        <pre>(In reply to Marko Popovic from <a href=3D"show_bug.cgi?id=3D1=
-11481#c222">comment #222</a>)
-<span class=3D"quote">&gt; (In reply to William Casarin from <a href=3D"sho=
-w_bug.cgi?id=3D111481#c221">comment #221</a>)
-&gt; &gt; mesa 19.3.0-rc2 + RADV_PERFTEST=3Daco fixed this for me
-&gt;=20
-&gt; ACO should have no impact on SDMA. Firstly OpenGL still uses LLVM, and
-&gt; OpenGL is the only one using SDMA in the first place, radv doesn't. So=
- you
-&gt; must be talking about some different kinds of hangs, probably the ring=
-_gfx
-&gt; types.</span >
-
-you're right, I wasn't aware that this thread was only for sdma related han=
-gs.
-The</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15733953229.A2dcAAD1.21645--
-
---===============0738193240==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
+SGkgQWxsLAoKSSd2ZSBiZWVuIHRoaW5raW5nIGFib3V0IGFkZGluZyBzdXBwb3J0IGZvciBvdmVy
+cmlkaW5nIGEgY29ubmVjdG9yJ3MKcGFuZWwtb3JpZW50YXRpb24gZnJvbSB0aGUga2VybmVsIGNv
+bW1hbmRsaW5lIGZyb20gYSB3aGlsZSBub3cuIEJvdGggZm9yCnRlc3RpbmcgYW5kIGZvciBzcGVj
+aWFsIGNhc2VzLCBlLmcuIGEga2lvc2sgbGlrZSBzZXR1cCB3aGljaCB1c2VzIGEgVFYKbW91bnRl
+ZCBpbiBwb3J0cmFpdCBtb2RlLgoKVGhlbiB0aGlzIHBseW1vdXRoIG1lcmdlLXJlcSBjYW1lIGlu
+OgoiRm9yY2UgZGlzcGxheSBvcmllbnRhdGlvbiB1c2luZyBjb25maWd1cmF0aW9uIGZpbGUiCmh0
+dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9wbHltb3V0aC9wbHltb3V0aC9tZXJnZV9yZXF1
+ZXN0cy84MwoKV2hpY2ggd2FzIHRoZSB0cmlnZ2VyIGZvciBtZSB0byBhY3R1YWxseSBkbyB0aGlz
+LiBUaGlzIHR1cm5lZCBvdXQgdG8gYmUKYSBiaXQgbW9yZSB3b3JrIHRoZW4gZXhwZWN0ZWQgYXMg
+SSB3YW50ZWQgdXNlcnMgdG8gYmUgYWJsZSB0byBzcGVjaWZ5CnRoZSBuZXcgInBhbmVsX29yaWVu
+dGF0aW9uIiBvcHRpb24gYXMgYSBmcmVlc3RhbmRpbmcgb3B0aW9uLCB3aXRob3V0Cm5lZWRpbmcg
+dG8gcHJlZml4IGEgcmVzb2x1dGlvbjsgYW5kIHdoZW4gd29ya2luZyBvbiB0aGF0IEkgc3R1bWJs
+ZWQgb3Zlcgp2YXJpb3VzIHRoaW5ncyB3aGljaCBjb3VsZCBiZSBpbXByb3ZlZCBpbiB0aGUgY21k
+bGluZSBwYXJzaW5nIGNvZGUuCgpUaGlzIHBhdGNoLXNlZXQgaXMgdGhlIGVuZCByZXN1bHQgb2Yg
+YWxsIHRoaXMuIEFtb25nc3Qgb3RoZXIgdGVzdHMsCml0IGhhcyBiZWVuIHRlc3RlZCB3aXRoIHRo
+ZSB0ZXN0LWRybV9jbWRsaW5lX3BhcnNlci5rbyBzZWxmdGVzdCBhbmQgaXQKYWRkcyBzb21lIG5l
+dyB0ZXN0cyB0byB0aGF0IGluIHNvbWUgb2YgdGhlIHBhdGNoZXMuCgpSZWdhcmRzLAoKSGFucwoK
 X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0738193240==--
