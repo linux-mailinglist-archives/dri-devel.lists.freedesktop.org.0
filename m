@@ -2,44 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C35DEF6A9C
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Nov 2019 18:45:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8159CF6ADA
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Nov 2019 19:41:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA59A6E0D1;
-	Sun, 10 Nov 2019 17:45:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CE576E0B8;
+	Sun, 10 Nov 2019 18:41:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id C13DE6E7AB
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Nov 2019 17:45:37 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id BDBC6720E2; Sun, 10 Nov 2019 17:45:37 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Sun, 10 Nov 2019 17:45:37 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: phercek@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-srdTUmreeC@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B3096E0B8
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Nov 2019 18:41:03 +0000 (UTC)
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-44-S0nzOpYeMJ6hRU_uNRt1Aw-1; Sun, 10 Nov 2019 13:41:01 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90389800C77;
+ Sun, 10 Nov 2019 18:40:59 +0000 (UTC)
+Received: from shalem.localdomain.com (ovpn-116-60.ams2.redhat.com
+ [10.36.116.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DFDB55C8A6;
+ Sun, 10 Nov 2019 18:40:56 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Sean Paul <seanpaul@chromium.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
+Subject: [PATCH] drm: Add DRM_MODE_TYPE_USERDEF flag to probed modes matching
+ a video= argument
+Date: Sun, 10 Nov 2019 19:40:55 +0100
+Message-Id: <20191110184055.3979-1-hdegoede@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: S0nzOpYeMJ6hRU_uNRt1Aw-1
+X-Mimecast-Spam-Score: 0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=redhat.com; 
+ s=mimecast20190719; t=1573411262;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=jpVOMS3Ek/KmXpIbV7emM7OL5w3hcNQ3/yAzY1kOytA=;
+ b=PAmxVht/4Cwf7evGOlfCkOgg+np/530G/GBOIRHYrCU2YzPt/1iu6aCyotQtoAo9v4qJv4
+ oPCFYV5wnrMskwICHlHzjCsG5NuhGfjEE08I5oY7cGOncfMKh06UBAz4+iyRLbAF+o52gd
+ HhkGWYESTO6QDhW9sJCozWGXiXJiIjE=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,326 +60,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2034571513=="
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?q?Mathieu=20Alexandre-T=C3=A9treault?= <alexandretm@amotus.ca>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2034571513==
-Content-Type: multipart/alternative; boundary="15734079378.203EdCD23.24027"
-Content-Transfer-Encoding: 7bit
-
-
---15734079378.203EdCD23.24027
-Date: Sun, 10 Nov 2019 17:45:37 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
-
---- Comment #170 from Peter Hercek <phercek@gmail.com> ---
-Maybe this helps since there is a stack trace. GUI stopped to respond so I =
-shut
-it down over ssh. A kernel crash during the shutdown on 5.3.6-arch1-1-ARCH =
-even
-when amdgpu.dpm=3D0. That is the option which is supposed to work. It has b=
-oth
-the patch and also amdgpu.dpm=3D0.
-
-Nov 04 17:38:58 phnm kernel: ------------[ cut here ]------------
-Nov 04 17:38:58 phnm kernel: WARNING: CPU: 6 PID: 640 at
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:5804
-amdgpu_dm_atomic_commit_tail.cold+0x82/0xed [amdgpu]
-Nov 04 17:38:58 phnm kernel: Modules linked in: fuse xt_CHECKSUM xt_MASQUER=
-ADE
-xt_conntrack ipt_REJECT nf_reject_ipv4 xt_tcpudp ip6table_mangle ip6table_n=
-at
-iptable_mangle iptable_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4
-libcrc32c ebtable_filter ebtables ip6table_filter ip6_tables iptable_filter=
- tun
-bridge cfg80211 rfkill 8021q garp mrp stp llc intel_rapl_msr intel_rapl_com=
-mon
-amdgpu x86_pkg_temp_thermal intel_powerclamp coretemp kvm_intel hid_microso=
-ft
-radeon mousedev input_leds joydev ff_memless kvm gpu_sched
-snd_hda_codec_realtek snd_hda_codec_generic i2c_algo_bit irqbypass
-ledtrig_audio ttm crct10dif_pclmul snd_hda_intel crc32_pclmul hid_generic
-ghash_clmulni_intel cdc_acm drm_kms_helper snd_hda_codec aesni_intel usbhid
-iTCO_wdt iTCO_vendor_support snd_hda_core wmi_bmof aes_x86_64 hid crypto_si=
-md
-cryptd mxm_wmi snd_hwdep glue_helper drm intel_cstate snd_pcm agpgart r8169
-syscopyarea intel_uncore sysfillrect realtek sysimgblt snd_timer pcspkr
-i2c_i801 fb_sys_fops e1000e intel_rapl_perf
-Nov 04 17:38:58 phnm kernel:  mei_me snd libphy mei soundcore lpc_ich wmi e=
-vdev
-mac_hid sg ip_tables x_tables ext4 crc32c_generic crc16 mbcache jbd2
-crc32c_intel firewire_ohci xhci_pci xhci_hcd firewire_core ehci_pci crc_itu=
-_t
-ehci_hcd sr_mod cdrom sd_mod ahci libahci libata scsi_mod
-Nov 04 17:38:58 phnm kernel: CPU: 6 PID: 640 Comm: Xorg Not tainted
-5.3.6-arch1-1-ARCH #1
-Nov 04 17:38:58 phnm kernel: Hardware name: System manufacturer System Prod=
-uct
-Name/P9X79, BIOS 4502 10/15/2013
-Nov 04 17:38:58 phnm kernel: RIP:
-0010:amdgpu_dm_atomic_commit_tail.cold+0x82/0xed [amdgpu]
-Nov 04 17:38:58 phnm kernel: Code: c7 c7 08 1e db c0 e8 0f 59 a0 db 0f 0b 4=
-1 83
-7c 24 08 00 0f 85 92 ff f1 ff e9 ad ff f1 ff 48 c7 c7 08 1e db c0 e8 f0 58 =
-a0
-db <0f> 0b e9 32 f5 f1 ff 48 8b 85 00 fd ff ff 4c 89 f2 48 c7 c6 0d 0f
-Nov 04 17:38:58 phnm kernel: RSP: 0018:ffffa98c410475a0 EFLAGS: 00010046
-Nov 04 17:38:58 phnm kernel: RAX: 0000000000000024 RBX: ffff894125e06000 RC=
-X:
-0000000000000000
-Nov 04 17:38:58 phnm kernel: RDX: 0000000000000000 RSI: 0000000000000003 RD=
-I:
-00000000ffffffff
-Nov 04 17:38:58 phnm kernel: RBP: ffffa98c410478c0 R08: 000016b622fb648e R0=
-9:
-ffffffff9deb3254
-Nov 04 17:38:58 phnm kernel: R10: 0000000000000616 R11: 000000000001d890 R1=
-2:
-0000000000000286
-Nov 04 17:38:58 phnm kernel: R13: ffff8940f30b0400 R14: ffff894129c20000 R1=
-5:
-ffff894075ba6a00
-Nov 04 17:38:58 phnm kernel: FS:  00007fbf9c35c500(0000)
-GS:ffff89413fb80000(0000) knlGS:0000000000000000
-Nov 04 17:38:58 phnm kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050=
-033
-Nov 04 17:38:58 phnm kernel: CR2: 0000559991d31420 CR3: 000000082a644002 CR=
-4:
-00000000000606e0
-Nov 04 17:38:58 phnm kernel: Call Trace:
-Nov 04 17:38:58 phnm kernel:  ? commit_tail+0x3c/0x70 [drm_kms_helper]
-Nov 04 17:38:58 phnm kernel:  commit_tail+0x3c/0x70 [drm_kms_helper]
-Nov 04 17:38:58 phnm kernel:  drm_atomic_helper_commit+0x108/0x110
-[drm_kms_helper]
-Nov 04 17:38:58 phnm kernel:  drm_client_modeset_commit_atomic+0x1e8/0x200
-[drm]
-Nov 04 17:38:58 phnm kernel:  drm_client_modeset_commit_force+0x50/0x150 [d=
-rm]
-Nov 04 17:38:58 phnm kernel:  drm_fb_helper_pan_display+0xc2/0x200
-[drm_kms_helper]
-Nov 04 17:38:58 phnm kernel:  fb_pan_display+0x83/0x100
-Nov 04 17:38:58 phnm kernel:  fb_set_var+0x1e8/0x3d0
-Nov 04 17:38:58 phnm kernel:  fbcon_blank+0x1dd/0x290
-Nov 04 17:38:58 phnm kernel:  do_unblank_screen+0x98/0x130
-Nov 04 17:38:58 phnm kernel:  vt_ioctl+0xeff/0x1290
-Nov 04 17:38:58 phnm kernel:  tty_ioctl+0x37b/0x900
-Nov 04 17:38:58 phnm kernel:  ? preempt_count_add+0x68/0xa0
-Nov 04 17:38:58 phnm kernel:  do_vfs_ioctl+0x43d/0x6c0
-Nov 04 17:38:58 phnm kernel:  ? syscall_trace_enter+0x1f2/0x2e0
-Nov 04 17:38:58 phnm kernel:  ksys_ioctl+0x5e/0x90
-Nov 04 17:38:58 phnm kernel:  __x64_sys_ioctl+0x16/0x20
-Nov 04 17:38:58 phnm kernel:  do_syscall_64+0x5f/0x1c0
-Nov 04 17:38:58 phnm kernel:  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-Nov 04 17:38:58 phnm kernel: RIP: 0033:0x7fbf9d7b425b
-Nov 04 17:38:58 phnm kernel: Code: 0f 1e fa 48 8b 05 25 9c 0c 00 64 c7 00 2=
-6 00
-00 00 48 c7 c0 ff ff ff ff c3 66 0f 1f 44 00 00 f3 0f 1e fa b8 10 00 00 00 =
-0f
-05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d f5 9b 0c 00 f7 d8 64 89 01 48
-Nov 04 17:38:58 phnm kernel: RSP: 002b:00007ffe21162798 EFLAGS: 00000246
-ORIG_RAX: 0000000000000010
-Nov 04 17:38:58 phnm kernel: RAX: ffffffffffffffda RBX: 000055d93ebf5180 RC=
-X:
-00007fbf9d7b425b
-Nov 04 17:38:58 phnm kernel: RDX: 0000000000000000 RSI: 0000000000004b3a RD=
-I:
-000000000000000c
-Nov 04 17:38:58 phnm kernel: RBP: 0000000000000000 R08: 0000000000000000 R0=
-9:
-0000000000000007
-Nov 04 17:38:58 phnm kernel: R10: fffffffffffff4b4 R11: 0000000000000246 R1=
-2:
-ffffffffffffffff
-Nov 04 17:38:58 phnm kernel: R13: 000055d93ebfa4a0 R14: 00007ffe21162968 R1=
-5:
-0000000000000000
-Nov 04 17:38:58 phnm kernel: ---[ end trace 40ade9cecd96ffc0 ]---
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15734079378.203EdCD23.24027
-Date: Sun, 10 Nov 2019 17:45:37 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c170">Comm=
-ent # 170</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-phercek&#64;gmail.com" title=3D"Peter Hercek &lt;phercek&#64;gmail.com&gt;"=
-> <span class=3D"fn">Peter Hercek</span></a>
-</span></b>
-        <pre>Maybe this helps since there is a stack trace. GUI stopped to =
-respond so I shut
-it down over ssh. A kernel crash during the shutdown on 5.3.6-arch1-1-ARCH =
-even
-when amdgpu.dpm=3D0. That is the option which is supposed to work. It has b=
-oth
-the patch and also amdgpu.dpm=3D0.
-
-Nov 04 17:38:58 phnm kernel: ------------[ cut here ]------------
-Nov 04 17:38:58 phnm kernel: WARNING: CPU: 6 PID: 640 at
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:5804
-amdgpu_dm_atomic_commit_tail.cold+0x82/0xed [amdgpu]
-Nov 04 17:38:58 phnm kernel: Modules linked in: fuse xt_CHECKSUM xt_MASQUER=
-ADE
-xt_conntrack ipt_REJECT nf_reject_ipv4 xt_tcpudp ip6table_mangle ip6table_n=
-at
-iptable_mangle iptable_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4
-libcrc32c ebtable_filter ebtables ip6table_filter ip6_tables iptable_filter=
- tun
-bridge cfg80211 rfkill 8021q garp mrp stp llc intel_rapl_msr intel_rapl_com=
-mon
-amdgpu x86_pkg_temp_thermal intel_powerclamp coretemp kvm_intel hid_microso=
-ft
-radeon mousedev input_leds joydev ff_memless kvm gpu_sched
-snd_hda_codec_realtek snd_hda_codec_generic i2c_algo_bit irqbypass
-ledtrig_audio ttm crct10dif_pclmul snd_hda_intel crc32_pclmul hid_generic
-ghash_clmulni_intel cdc_acm drm_kms_helper snd_hda_codec aesni_intel usbhid
-iTCO_wdt iTCO_vendor_support snd_hda_core wmi_bmof aes_x86_64 hid crypto_si=
-md
-cryptd mxm_wmi snd_hwdep glue_helper drm intel_cstate snd_pcm agpgart r8169
-syscopyarea intel_uncore sysfillrect realtek sysimgblt snd_timer pcspkr
-i2c_i801 fb_sys_fops e1000e intel_rapl_perf
-Nov 04 17:38:58 phnm kernel:  mei_me snd libphy mei soundcore lpc_ich wmi e=
-vdev
-mac_hid sg ip_tables x_tables ext4 crc32c_generic crc16 mbcache jbd2
-crc32c_intel firewire_ohci xhci_pci xhci_hcd firewire_core ehci_pci crc_itu=
-_t
-ehci_hcd sr_mod cdrom sd_mod ahci libahci libata scsi_mod
-Nov 04 17:38:58 phnm kernel: CPU: 6 PID: 640 Comm: Xorg Not tainted
-5.3.6-arch1-1-ARCH #1
-Nov 04 17:38:58 phnm kernel: Hardware name: System manufacturer System Prod=
-uct
-Name/P9X79, BIOS 4502 10/15/2013
-Nov 04 17:38:58 phnm kernel: RIP:
-0010:amdgpu_dm_atomic_commit_tail.cold+0x82/0xed [amdgpu]
-Nov 04 17:38:58 phnm kernel: Code: c7 c7 08 1e db c0 e8 0f 59 a0 db 0f 0b 4=
-1 83
-7c 24 08 00 0f 85 92 ff f1 ff e9 ad ff f1 ff 48 c7 c7 08 1e db c0 e8 f0 58 =
-a0
-db &lt;0f&gt; 0b e9 32 f5 f1 ff 48 8b 85 00 fd ff ff 4c 89 f2 48 c7 c6 0d 0f
-Nov 04 17:38:58 phnm kernel: RSP: 0018:ffffa98c410475a0 EFLAGS: 00010046
-Nov 04 17:38:58 phnm kernel: RAX: 0000000000000024 RBX: ffff894125e06000 RC=
-X:
-0000000000000000
-Nov 04 17:38:58 phnm kernel: RDX: 0000000000000000 RSI: 0000000000000003 RD=
-I:
-00000000ffffffff
-Nov 04 17:38:58 phnm kernel: RBP: ffffa98c410478c0 R08: 000016b622fb648e R0=
-9:
-ffffffff9deb3254
-Nov 04 17:38:58 phnm kernel: R10: 0000000000000616 R11: 000000000001d890 R1=
-2:
-0000000000000286
-Nov 04 17:38:58 phnm kernel: R13: ffff8940f30b0400 R14: ffff894129c20000 R1=
-5:
-ffff894075ba6a00
-Nov 04 17:38:58 phnm kernel: FS:  00007fbf9c35c500(0000)
-GS:ffff89413fb80000(0000) knlGS:0000000000000000
-Nov 04 17:38:58 phnm kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050=
-033
-Nov 04 17:38:58 phnm kernel: CR2: 0000559991d31420 CR3: 000000082a644002 CR=
-4:
-00000000000606e0
-Nov 04 17:38:58 phnm kernel: Call Trace:
-Nov 04 17:38:58 phnm kernel:  ? commit_tail+0x3c/0x70 [drm_kms_helper]
-Nov 04 17:38:58 phnm kernel:  commit_tail+0x3c/0x70 [drm_kms_helper]
-Nov 04 17:38:58 phnm kernel:  drm_atomic_helper_commit+0x108/0x110
-[drm_kms_helper]
-Nov 04 17:38:58 phnm kernel:  drm_client_modeset_commit_atomic+0x1e8/0x200
-[drm]
-Nov 04 17:38:58 phnm kernel:  drm_client_modeset_commit_force+0x50/0x150 [d=
-rm]
-Nov 04 17:38:58 phnm kernel:  drm_fb_helper_pan_display+0xc2/0x200
-[drm_kms_helper]
-Nov 04 17:38:58 phnm kernel:  fb_pan_display+0x83/0x100
-Nov 04 17:38:58 phnm kernel:  fb_set_var+0x1e8/0x3d0
-Nov 04 17:38:58 phnm kernel:  fbcon_blank+0x1dd/0x290
-Nov 04 17:38:58 phnm kernel:  do_unblank_screen+0x98/0x130
-Nov 04 17:38:58 phnm kernel:  vt_ioctl+0xeff/0x1290
-Nov 04 17:38:58 phnm kernel:  tty_ioctl+0x37b/0x900
-Nov 04 17:38:58 phnm kernel:  ? preempt_count_add+0x68/0xa0
-Nov 04 17:38:58 phnm kernel:  do_vfs_ioctl+0x43d/0x6c0
-Nov 04 17:38:58 phnm kernel:  ? syscall_trace_enter+0x1f2/0x2e0
-Nov 04 17:38:58 phnm kernel:  ksys_ioctl+0x5e/0x90
-Nov 04 17:38:58 phnm kernel:  __x64_sys_ioctl+0x16/0x20
-Nov 04 17:38:58 phnm kernel:  do_syscall_64+0x5f/0x1c0
-Nov 04 17:38:58 phnm kernel:  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-Nov 04 17:38:58 phnm kernel: RIP: 0033:0x7fbf9d7b425b
-Nov 04 17:38:58 phnm kernel: Code: 0f 1e fa 48 8b 05 25 9c 0c 00 64 c7 00 2=
-6 00
-00 00 48 c7 c0 ff ff ff ff c3 66 0f 1f 44 00 00 f3 0f 1e fa b8 10 00 00 00 =
-0f
-05 &lt;48&gt; 3d 01 f0 ff ff 73 01 c3 48 8b 0d f5 9b 0c 00 f7 d8 64 89 01 48
-Nov 04 17:38:58 phnm kernel: RSP: 002b:00007ffe21162798 EFLAGS: 00000246
-ORIG_RAX: 0000000000000010
-Nov 04 17:38:58 phnm kernel: RAX: ffffffffffffffda RBX: 000055d93ebf5180 RC=
-X:
-00007fbf9d7b425b
-Nov 04 17:38:58 phnm kernel: RDX: 0000000000000000 RSI: 0000000000004b3a RD=
-I:
-000000000000000c
-Nov 04 17:38:58 phnm kernel: RBP: 0000000000000000 R08: 0000000000000000 R0=
-9:
-0000000000000007
-Nov 04 17:38:58 phnm kernel: R10: fffffffffffff4b4 R11: 0000000000000246 R1=
-2:
-ffffffffffffffff
-Nov 04 17:38:58 phnm kernel: R13: 000055d93ebfa4a0 R14: 00007ffe21162968 R1=
-5:
-0000000000000000
-Nov 04 17:38:58 phnm kernel: ---[ end trace 40ade9cecd96ffc0 ]---</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15734079378.203EdCD23.24027--
-
---===============2034571513==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2034571513==--
+ZHJtX2hlbHBlcl9wcm9iZV9hZGRfY21kbGluZV9tb2RlKCkgcHJlZmVycyB1c2luZyBhIHByb2Jl
+ZCBtb2RlIG1hdGNoaW5nCmEgdmlkZW89IGFyZ3VtZW50IG92ZXIgY2FsY3VsYXRpbmcgb3VyIG93
+biB0aW1pbmdzIGZvciB0aGUgdXNlciBzcGVjaWZpZWQKbW9kZSB1c2luZyBDVlQgb3IgR1RGLgoK
+QnV0IHVzZXJzcGFjZSBjb2RlIHdoaWNoIGlzIGF1dG8tY29uZmlndXJpbmcgdGhlIG1vZGUgbWF5
+IHdhbnQgdG8ga25vdyB0aGF0CnRoZSB1c2VyIGhhcyBzcGVjaWZpZWQgdGhhdCBtb2RlIG9uIHRo
+ZSBrZXJuZWwgY29tbWFuZGxpbmUgc28gdGhhdCBpdCBjYW4KcGljayB0aGF0IG1vZGUgb3ZlciB0
+aGUgbW9kZSB3aGljaCBpcyBtYXJrZWQgYXMgRFJNX01PREVfVFlQRV9QUkVGRVJSRUQuCgpUaGlz
+IGNvbW1pdCBzZXRzIHRoZSBEUk1fTU9ERV9UWVBFX1VTRVJERUYgZmxhZyBvbiB0aGUgbWF0Y2hp
+bmcgbW9kZSwganVzdAphcyB3ZSB3b3VsZCBkbyBvbiB0aGUgdXNlci1zcGVjaWZpZWQgbW9kZSB3
+aGVuIG5vIG1hdGNoaW5nIHByb2JlZCBtb2RlIGlzCmZvdW5kLgoKU2lnbmVkLW9mZi1ieTogSGFu
+cyBkZSBHb2VkZSA8aGRlZ29lZGVAcmVkaGF0LmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJt
+X3Byb2JlX2hlbHBlci5jIHwgMiArKwogaW5jbHVkZS9kcm0vZHJtX21vZGVzLmggICAgICAgICAg
+ICB8IDMgKystCiAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigt
+KQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJvYmVfaGVscGVyLmMgYi9kcml2
+ZXJzL2dwdS9kcm0vZHJtX3Byb2JlX2hlbHBlci5jCmluZGV4IGVmMmM0NjgyMDVhMi4uNGZlZDY0
+YmUxMWY5IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3Byb2JlX2hlbHBlci5jCisr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJvYmVfaGVscGVyLmMKQEAgLTE1Nyw2ICsxNTcsOCBA
+QCBzdGF0aWMgaW50IGRybV9oZWxwZXJfcHJvYmVfYWRkX2NtZGxpbmVfbW9kZShzdHJ1Y3QgZHJt
+X2Nvbm5lY3RvciAqY29ubmVjdG9yKQogCQkJCWNvbnRpbnVlOwogCQl9CiAKKwkJLyogTWFyayB0
+aGUgbWF0Y2hpbmcgbW9kZSBhcyBiZWluZyBwcmVmZXJyZWQgYnkgdGhlIHVzZXIgKi8KKwkJbW9k
+ZS0+dHlwZSB8PSBEUk1fTU9ERV9UWVBFX1VTRVJERUY7CiAJCXJldHVybiAwOwogCX0KIApkaWZm
+IC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX21vZGVzLmggYi9pbmNsdWRlL2RybS9kcm1fbW9kZXMu
+aAppbmRleCBlOTQ2ZTIwYzYxZDguLmM3ZWZiNzQ4N2U5YiAxMDA2NDQKLS0tIGEvaW5jbHVkZS9k
+cm0vZHJtX21vZGVzLmgKKysrIGIvaW5jbHVkZS9kcm0vZHJtX21vZGVzLmgKQEAgLTI1Niw3ICsy
+NTYsOCBAQCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSB7CiAJICogIC0gRFJNX01PREVfVFlQRV9E
+UklWRVI6IE1vZGUgY3JlYXRlZCBieSB0aGUgZHJpdmVyLCB3aGljaCBpcyBhbGwgb2YKIAkgKiAg
+ICB0aGVtIHJlYWxseS4gRHJpdmVycyBtdXN0IHNldCB0aGlzIGJpdCBmb3IgYWxsIG1vZGVzIHRo
+ZXkgY3JlYXRlCiAJICogICAgYW5kIGV4cG9zZSB0byB1c2Vyc3BhY2UuCi0JICogIC0gRFJNX01P
+REVfVFlQRV9VU0VSREVGOiBNb2RlIGRlZmluZWQgdmlhIGtlcm5lbCBjb21tYW5kIGxpbmUKKwkg
+KiAgLSBEUk1fTU9ERV9UWVBFX1VTRVJERUY6IE1vZGUgZGVmaW5lZCBvciBzZWxlY3RlZCB2aWEg
+dGhlIGtlcm5lbAorCSAqICAgIGNvbW1hbmQgbGluZS4KIAkgKgogCSAqIFBsdXMgYSBiaWcgbGlz
+dCBvZiBmbGFncyB3aGljaCBzaG91bGRuJ3QgYmUgdXNlZCBhdCBhbGwsIGJ1dCBhcmUKIAkgKiBz
+dGlsbCBhcm91bmQgc2luY2UgdGhlc2UgZmxhZ3MgYXJlIGFsc28gdXNlZCBpbiB0aGUgdXNlcnNw
+YWNlIEFCSS4KLS0gCjIuMjMuMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVs
