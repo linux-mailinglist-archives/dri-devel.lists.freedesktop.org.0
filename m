@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E689F6929
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Nov 2019 14:50:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79F2AF692A
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Nov 2019 14:51:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C1166E323;
-	Sun, 10 Nov 2019 13:50:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAAF56E618;
+	Sun, 10 Nov 2019 13:51:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id B7CB06E62E
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Nov 2019 13:50:00 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DCCDA6E621
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Nov 2019 13:51:29 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B2754720E2; Sun, 10 Nov 2019 13:50:00 +0000 (UTC)
+ id D9D68720E2; Sun, 10 Nov 2019 13:51:29 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111763] ring_gfx hangs/freezes on Navi gpus
-Date: Sun, 10 Nov 2019 13:50:00 +0000
+Date: Sun, 10 Nov 2019 13:51:29 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -27,14 +27,14 @@ X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: major
-X-Bugzilla-Who: danielsuarez369@protonmail.com
+X-Bugzilla-Who: popovic.marko@protonmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111763-502-jtmcaZGBIJ@http.bugs.freedesktop.org/>
+Message-ID: <bug-111763-502-UdVCK8XCRT@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111763-502@http.bugs.freedesktop.org/>
 References: <bug-111763-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1298258857=="
+Content-Type: multipart/mixed; boundary="===============0168902355=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1298258857==
-Content-Type: multipart/alternative; boundary="157339380010.1ccE.16383"
+--===============0168902355==
+Content-Type: multipart/alternative; boundary="157339388910.ed10.16458"
 Content-Transfer-Encoding: 7bit
 
 
---157339380010.1ccE.16383
-Date: Sun, 10 Nov 2019 13:50:00 +0000
+--157339388910.ed10.16458
+Date: Sun, 10 Nov 2019 13:51:29 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,23 +72,28 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111763
 
---- Comment #29 from Daniel Suarez <danielsuarez369@protonmail.com> ---
-(In reply to Marko Popovic from comment #28)
-> I think this bug report can be closed now, Mesa 20 git basically fixes ra=
-dv
-> related ring_gfx hangs, there is still hang that happens in Citra emulator
-> (ngg related) but AMD developers are aware of it so will probably get fix=
-ed
-> too.
+--- Comment #30 from Marko Popovic <popovic.marko@protonmail.com> ---
+(In reply to Daniel Suarez from comment #29)
+> (In reply to Marko Popovic from comment #28)
+> > I think this bug report can be closed now, Mesa 20 git basically fixes =
+radv
+> > related ring_gfx hangs, there is still hang that happens in Citra emula=
+tor
+> > (ngg related) but AMD developers are aware of it so will probably get f=
+ixed
+> > too.
+>=20
+> Yeah.. "soon". Still waiting for them to fix bug 111481
 
-Yeah.. "soon". Still waiting for them to fix bug 111481
+SDMA hangs have nothing to do with ring_gfx hangs which were mostly radv
+related and are fixed now
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---157339380010.1ccE.16383
-Date: Sun, 10 Nov 2019 13:50:00 +0000
+--157339388910.ed10.16458
+Date: Sun, 10 Nov 2019 13:51:29 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -105,33 +110,38 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - ring_gfx hangs/freezes on Navi gpus"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111763#c29">Comme=
-nt # 29</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111763#c30">Comme=
+nt # 30</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - ring_gfx hangs/freezes on Navi gpus"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111763">bug 11176=
 3</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-danielsuarez369&#64;protonmail.com" title=3D"Daniel Suarez &lt;danielsuarez=
-369&#64;protonmail.com&gt;"> <span class=3D"fn">Daniel Suarez</span></a>
+popovic.marko&#64;protonmail.com" title=3D"Marko Popovic &lt;popovic.marko&=
+#64;protonmail.com&gt;"> <span class=3D"fn">Marko Popovic</span></a>
 </span></b>
-        <pre>(In reply to Marko Popovic from <a href=3D"show_bug.cgi?id=3D1=
-11763#c28">comment #28</a>)
-<span class=3D"quote">&gt; I think this bug report can be closed now, Mesa =
-20 git basically fixes radv
-&gt; related ring_gfx hangs, there is still hang that happens in Citra emul=
-ator
-&gt; (ngg related) but AMD developers are aware of it so will probably get =
-fixed
-&gt; too.</span >
-
-Yeah.. &quot;soon&quot;. Still waiting for them to fix <a class=3D"bz_bug_l=
-ink=20
+        <pre>(In reply to Daniel Suarez from <a href=3D"show_bug.cgi?id=3D1=
+11763#c29">comment #29</a>)
+<span class=3D"quote">&gt; (In reply to Marko Popovic from <a href=3D"show_=
+bug.cgi?id=3D111763#c28">comment #28</a>)
+&gt; &gt; I think this bug report can be closed now, Mesa 20 git basically =
+fixes radv
+&gt; &gt; related ring_gfx hangs, there is still hang that happens in Citra=
+ emulator
+&gt; &gt; (ngg related) but AMD developers are aware of it so will probably=
+ get fixed
+&gt; &gt; too.
+&gt;=20
+&gt; Yeah.. &quot;soon&quot;. Still waiting for them to fix <a class=3D"bz_=
+bug_link=20
           bz_status_NEW "
    title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
  kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"show_bug.cgi?id=3D111481">bug 111481</a></pre>
+   href=3D"show_bug.cgi?id=3D111481">bug 111481</a></span >
+
+SDMA hangs have nothing to do with ring_gfx hangs which were mostly radv
+related and are fixed now</pre>
         </div>
       </p>
 
@@ -145,9 +155,9 @@ ink=20
     </body>
 </html>=
 
---157339380010.1ccE.16383--
+--157339388910.ed10.16458--
 
---===============1298258857==
+--===============0168902355==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -157,4 +167,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1298258857==--
+--===============0168902355==--
