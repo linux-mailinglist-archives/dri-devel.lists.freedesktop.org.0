@@ -1,74 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61045F7131
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2019 10:50:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F8F1F7137
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2019 10:54:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9614A6E88E;
-	Mon, 11 Nov 2019 09:50:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 252CB6E892;
+	Mon, 11 Nov 2019 09:53:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6BAB6E88E
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2019 09:50:48 +0000 (UTC)
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-201-Jdp19ysJNgSKfqS-fAcHfg-1; Mon, 11 Nov 2019 04:50:46 -0500
-Received: by mail-wm1-f69.google.com with SMTP id f11so8054343wmc.8
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2019 01:50:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fY881lA31vXgHyQq+5AWYiL6f/Dfpk8oOWvLme6LFt0=;
- b=Hw0jNOU2qNIhksCJQU5ZRitiizySrvjlm9hK4W02MS+w2Z7tMT4KPFZq9HOolzz/cA
- hNwR3AlhaQGhfawVX8Ma0fM0x+wl5Vt9WcARpR898Ks1edb2dAA8Fcpa6mRJwMK5GQ3V
- FA1EIQLrCWVcFcLw1mFzKR3el8FangwPDF3XGKsBSnxgeiLcZJVhzAjK+SCTWxGRzHZW
- plZDtvrYgNrzClg74oTM4MQi0KGrGCHD1YSuT7HiKgIKzEIDTo+nZlmLgjXLx9OVPjeM
- Wus7ZiIVnYXhpCptM1w9CocEmtFMcfpOxnLz72tZgYvvlfYknoAI9ossyxdl8PVIkUKR
- J9CQ==
-X-Gm-Message-State: APjAAAVJZTCVHvkNawKu8rrnfYt8WQUE6KTWWpv2t7XPpI1iQbAkmBf4
- IQBPS+ZU2YbAXN+DQJz1VX10MZPS+6Phw6bw9UBo0Ojn0BCcU4bkH118IhKlTRuewdqxkqwpiNH
- y8ozLA/TAoH3W8cJ7Q1I3rfDwJkV4
-X-Received: by 2002:a7b:cf36:: with SMTP id m22mr20329013wmg.96.1573465844770; 
- Mon, 11 Nov 2019 01:50:44 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyBVCoIlmlE7sLatfLUWnZizo/mEBCFk3BbaX3RsMPdYx62dXxDikbaBLZ5/NOUiT0F7LNLvg==
-X-Received: by 2002:a7b:cf36:: with SMTP id m22mr20328987wmg.96.1573465844456; 
- Mon, 11 Nov 2019 01:50:44 -0800 (PST)
-Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl.
- [84.106.84.65])
- by smtp.gmail.com with ESMTPSA id b1sm13150883wrs.74.2019.11.11.01.50.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Nov 2019 01:50:43 -0800 (PST)
-Subject: Re: [PATCH] drm: Add DRM_MODE_TYPE_USERDEF flag to probed modes
- matching a video= argument
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20191110184055.3979-1-hdegoede@redhat.com>
- <CAKMK7uEnpH3e+B_4Z5oMTDyJMe=aETUm0C_a7U9mOLPWyVVOew@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <18aaecf8-d7f6-55b1-be05-7eb767abc30d@redhat.com>
-Date: Mon, 11 Nov 2019 10:50:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 68A026E891
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2019 09:53:57 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 65185720E2; Mon, 11 Nov 2019 09:53:57 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111329] [CI][SHARDS] igt@gem_ctx_isolation@vcs1-nonpriv - fail
+ - igt@gem_ctx_isolation@vcs1-nonpriv - fail - Failed assertion: num_errors ==
+ 0, registers mistached between nonpriv read/writes
+Date: Mon, 11 Nov 2019 09:53:57 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: IGT
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: francesco.balestrieri@intel.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: assigned_to component qa_contact
+Message-ID: <bug-111329-502-bQtciDSei7@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111329-502@http.bugs.freedesktop.org/>
+References: <bug-111329-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uEnpH3e+B_4Z5oMTDyJMe=aETUm0C_a7U9mOLPWyVVOew@mail.gmail.com>
-Content-Language: en-US
-X-MC-Unique: Jdp19ysJNgSKfqS-fAcHfg-1
-X-Mimecast-Spam-Score: 0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=redhat.com; 
- s=mimecast20190719; t=1573465847;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dK5gi5kbjXl0t/hkuTFFGF7llofwBjQ8Tspi5bYyfDs=;
- b=EnWnxivKgrfigb8kzbAMi+IzCzFvbzwZzyJ605LLp67xpK4P8zdWb+HCpQ6rGixFh6VgXl
- D8reKaw8DFSkAOHZN3UacsVvHCO5Esrxm+q4ZUVTL8+Agost6dgwvpXQ9CXaKdEc1LeRWz
- BBrAhPRRGyDuIAbFVWbdxo9x32GyNOo=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,110 +54,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Sean Paul <seanpaul@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- =?UTF-8?Q?Mathieu_Alexandre-T=c3=a9treault?= <alexandretm@amotus.ca>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============1834620854=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpPbiAxMS0xMS0yMDE5IDEwOjI1LCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+IE9uIFN1biwg
-Tm92IDEwLCAyMDE5IGF0IDc6NDEgUE0gSGFucyBkZSBHb2VkZSA8aGRlZ29lZGVAcmVkaGF0LmNv
-bT4gd3JvdGU6Cj4+Cj4+IGRybV9oZWxwZXJfcHJvYmVfYWRkX2NtZGxpbmVfbW9kZSgpIHByZWZl
-cnMgdXNpbmcgYSBwcm9iZWQgbW9kZSBtYXRjaGluZwo+PiBhIHZpZGVvPSBhcmd1bWVudCBvdmVy
-IGNhbGN1bGF0aW5nIG91ciBvd24gdGltaW5ncyBmb3IgdGhlIHVzZXIgc3BlY2lmaWVkCj4+IG1v
-ZGUgdXNpbmcgQ1ZUIG9yIEdURi4KPj4KPj4gQnV0IHVzZXJzcGFjZSBjb2RlIHdoaWNoIGlzIGF1
-dG8tY29uZmlndXJpbmcgdGhlIG1vZGUgbWF5IHdhbnQgdG8ga25vdyB0aGF0Cj4+IHRoZSB1c2Vy
-IGhhcyBzcGVjaWZpZWQgdGhhdCBtb2RlIG9uIHRoZSBrZXJuZWwgY29tbWFuZGxpbmUgc28gdGhh
-dCBpdCBjYW4KPj4gcGljayB0aGF0IG1vZGUgb3ZlciB0aGUgbW9kZSB3aGljaCBpcyBtYXJrZWQg
-YXMgRFJNX01PREVfVFlQRV9QUkVGRVJSRUQuCj4+Cj4+IFRoaXMgY29tbWl0IHNldHMgdGhlIERS
-TV9NT0RFX1RZUEVfVVNFUkRFRiBmbGFnIG9uIHRoZSBtYXRjaGluZyBtb2RlLCBqdXN0Cj4+IGFz
-IHdlIHdvdWxkIGRvIG9uIHRoZSB1c2VyLXNwZWNpZmllZCBtb2RlIHdoZW4gbm8gbWF0Y2hpbmcg
-cHJvYmVkIG1vZGUgaXMKPj4gZm91bmQuCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IEhhbnMgZGUgR29l
-ZGUgPGhkZWdvZWRlQHJlZGhhdC5jb20+Cj4gCj4gV2lsbCBleGlzdGluZyB1c2Vyc3BhY2UgZHRy
-dCBoZXJlIHdpdGggdGhpcz8gU29tZSBsaW5rcyB0byBwb3B1bGFyCj4gb25lcyB3b3VsZCBiZSBn
-b29kIChzaW5jZSBlc3NlbnRpYWxseSB0aGlzIGlzIHVhcGkgZmluZSB0dW5pbmcgd2UgbmVlZAo+
-IHRoYXQgYW55d2F5KS4gV2l0aCB0aGF0IHdpbGwgZ2V0IG15IGFjay4KCkEgdmFsaWQgcXVlc3Rp
-b24sIEkndmUgZ29uZSBvdmVyIHdoYXQgSSBjb25zaWRlciB0aGUgbWFqb3IgdXNlcnNwYWNlIGtt
-cyB1c2VyczoKLVhvcmcgeHNlcnZlciBtb2Rlc2V0dGluZyBkcml2ZXIgZG9lcyBub3QgY2hlY2sg
-Zm9yIHRoaXM6CiAgW2hhbnNAc2hhbGVtIHhzZXJ2ZXJdJCBhY2sgRFJNX01PREVfVFlQRV8gaHcv
-eGZyZWU4Ni9kcml2ZXJzL21vZGVzZXR0aW5nLwogIGh3L3hmcmVlODYvZHJpdmVycy9tb2Rlc2V0
-dGluZy9kcm1tb2RlX2Rpc3BsYXkuYwogIDEzMjE6ICAgIGlmIChrbW9kZS0+dHlwZSAmIERSTV9N
-T0RFX1RZUEVfRFJJVkVSKQogIDEzMjM6ICAgIGlmIChrbW9kZS0+dHlwZSAmIERSTV9NT0RFX1RZ
-UEVfUFJFRkVSUkVEKQotT3RoZXIgWG9yZyBkcml2ZXJzOgogIFtoYW5zQHNoYWxlbSBkcml2ZXJd
-JCBscyAtZCB4Zjg2LXZpZGVvLSoKICB4Zjg2LXZpZGVvLWFtZGdwdSAgeGY4Ni12aWRlby1pbnRl
-bCAgICAgICAgeGY4Ni12aWRlby1xeGwKICB4Zjg2LXZpZGVvLWFybXNvYyAgeGY4Ni12aWRlby1t
-b2Rlc2V0dGluZyAgeGY4Ni12aWRlby1zaXN1c2IKICB4Zjg2LXZpZGVvLWF0aSAgICAgeGY4Ni12
-aWRlby1ub3V2ZWF1ICAgICAgeGY4Ni12aWRlby12bXdhcmUKICB4Zjg2LXZpZGVvLWR1bW15ICAg
-eGY4Ni12aWRlby1vbWFwICAgICAgICAgeGY4Ni12aWRlby12b29kb28KICB4Zjg2LXZpZGVvLWdl
-b2RlICAgeGY4Ni12aWRlby1vcGVudGVncmEKICBUaGVzZSBhbGwgb25seSBkbyB0aGUgc2FtZSBj
-aGVja3MgYXMgdGhlIFhvcmcgbW9kZXNldHRpbmcgZHJpdmVyCi1tdXR0ZXI6CiAgW2hhbnNAc2hh
-bGVtIG11dHRlcl0kIGFjayBEUk1fTU9ERV9UWVBFXwogIHNyYy9iYWNrZW5kcy9uYXRpdmUvbWV0
-YS1vdXRwdXQta21zLmMKICAyNjE6ICAgICAgaWYgKGRybV9tb2RlLT50eXBlICYgRFJNX01PREVf
-VFlQRV9QUkVGRVJSRUQpCgpTbyBpdCBzZWVtcyBub3RoaW5nICh0aGF0IEkgY2FuIHF1aWNrbHkg
-ZmluZCkgaW4gdXNlcnNwYWNlIGlzIHVzaW5nIHRoaXMgYXRtLgoKVGhlIHJlYXNvbiBJIHdyb3Rl
-IHRoaXMgcGF0Y2ggaXMgYmVjYXVzZSBhYm91dCBhIHllYXIgYWdvIHBseW1vdXRoIHVzZWQgdG8K
-ZnVsbHkgcmVseSBvbiB0aGUga2VybmVsIHRvIHNldHVwIHRoZSBtb2RlcyBvbiBtb25pdG9ycyBh
-bmQgd291bGQgc2ltcGx5CmluaGVyaXQgdGhlIG1vZGVzIHNldHVwIGJ5IHRoZSBrZXJuZWwuIEJh
-c2ljYWxseSBwbHltb3V0aCB3YXMgcmVseWluZyBvbgpmYmNvbiB0byBsb2FkIGZpcnN0IGFuZCBz
-ZXR1cCBtb2Rlcy4KCkRlZmVycmVkIGZiY29uIHRha2VvdmVyIChmb3IgZmxpY2tlcmZyZWUpIG1l
-YW5zIHRoYXQgdGhpcyBpcyBubyBsb25nZXIKaGFwcGVuaW5nLiBTbyBub3cgcGx5bW91dGggcGlj
-a3MgYSBtb2RlIGl0c2VsZi4gV2hlbiBJIHN1Ym1pdHRlZCB0aGUKcGx5bW91dGggY2hhbmdlIGZv
-ciBwbHltb3V0aCB0byBwaWNrIGEgbW9kZSBpdHNlbGYgdGhlIHBseW1vdXRoIG1haW50YWluZXIK
-KFJheSBTdHJvZGUpIHdhcyBhZnJhaWQgdGhhdCB3b3VsZCBicmVhayBwbHltb3V0aCBob25vcmlu
-ZyB2aWRlbz0gYXJndW1lbnRzLgpTbyBjdXJyZW50bHkgcGx5bW91dGggc3RpbGwgcmVsaWVzIG9u
-IHRoZSBrZXJuZWwgdG8gZG8gdGhlIG1vZGUgc2V0dXAgaWYKYSB2aWRlbz0gYXJndW1lbnQgaXMg
-cHJlc2VudCBvbiB0aGUga2VybmVsIGNvbW1hbmRsaW5lLgoKTXkgb3RoZXIgcmVjZW50IHNlcmll
-cywgd2hpY2ggYWRkcyBzdXBwb3J0IGZvciBlLmcuCnZpZGVvPUhETUk6cGFuZWxfb3JpZW50YXRp
-b249cmlnaHRfc2lkZV91cCwgbWFkZSBtZSByZWFsaXplIHRoYXQgcmVseWluZwpvbiB0aGUga2Vy
-bmVsIGZvciB0aGlzIGlzIG5vIGdvb2Qgc2luY2UgdGhlIGZiY29uIGNvZGUgaGFzIHZhcmlvdXMK
-bGltaXRhdGlvbnMgd3J0IGUuZy4gaG90cGx1ZyBhbmQgdGhpcyBvZiBjb3Vyc2Ugd2lsbCBub3Qg
-d29yayB3aGVuCmZiY29uIGRlZmVycmVkIHRha2VvdmVyIGlzIHVzZWQgYW5kIGZiY29uIG5ldmVy
-IGxvYWRzIGJlZm9yZSBwbHltb3V0aC4KClNvIEkgd3JvdGUgYSBwYXRjaCBmb3IgcGx5bW91dGgg
-dG8gY2hlY2sgdGhlIERSTV9NT0RFX1RZUEVfVVNFUkRFRgpmbGFnIGFuZCBwcmVmZXIgYSBtb2Rl
-IHdpdGggdGhhdCBmbGFnIG92ZXIgdGhlIFBSRUZFUlJFRCBtb2RlOgpodHRwczovL2dpdGxhYi5m
-cmVlZGVza3RvcC5vcmcvcGx5bW91dGgvcGx5bW91dGgvbWVyZ2VfcmVxdWVzdHMvODQKCkFuZCB0
-aGVuIEkgZm91bmQgb3V0IHRoYXQgZm9yIHRoYXQgY29kZSB0byB3b3JrIHdpdGggbW9kZXMgd2hp
-Y2gKYXJlIGFscmVhZHkgaW4gdGhlIGxpc3Qgb2YgcHJvYmVkIG1vZGVzLCBJIG5lZWQgc29tZXRo
-aW5nIGxpa2UKdGhlIGtlcm5lbCBwYXRjaCB3ZSBhcmUgZGlzY3Vzc2luZyBub3cuCgpTbyBpZiB5
-b3Ugd2FudCBhIGxpbmsgdG8gYW4gdXNlcnNwYWNlIGNvbnN1bWVyIG9mIHRoaXMsIEkgZ3Vlc3Mg
-eW91CndhbnQgYSB2MiB3aXRoIGEgbGluayB0byB0aGUgcGx5bW91dGggTVIgYWRkZWQuICsgbWF5
-YmUgYSBibHVyYiBpbgp0aGUgY29tbWl0IG1lc3NhZ2UgdGhhdCB0byB0aGUgYmVzdCBvZiBteSBr
-bm93bGVkZ2Ugbm8gdXNlcnNwYWNlCmttcyBjb25zdW1lcnMgYXJlIGNoZWNraW5nIGZvciB0aGUg
-RFJNX01PREVfVFlQRV9VU0VSREVGIGZsYWc/CgpSZWdhcmRzLAoKSGFucwoKCgoKCgo+IC1EYW5p
-bGUKPiAKPj4gLS0tCj4+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9wcm9iZV9oZWxwZXIuYyB8IDIg
-KysKPj4gICBpbmNsdWRlL2RybS9kcm1fbW9kZXMuaCAgICAgICAgICAgIHwgMyArKy0KPj4gICAy
-IGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+Pgo+PiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9wcm9iZV9oZWxwZXIuYyBiL2RyaXZlcnMvZ3B1
-L2RybS9kcm1fcHJvYmVfaGVscGVyLmMKPj4gaW5kZXggZWYyYzQ2ODIwNWEyLi40ZmVkNjRiZTEx
-ZjkgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJvYmVfaGVscGVyLmMKPj4g
-KysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9wcm9iZV9oZWxwZXIuYwo+PiBAQCAtMTU3LDYgKzE1
-Nyw4IEBAIHN0YXRpYyBpbnQgZHJtX2hlbHBlcl9wcm9iZV9hZGRfY21kbGluZV9tb2RlKHN0cnVj
-dCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IpCj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIGNvbnRpbnVlOwo+PiAgICAgICAgICAgICAgICAgIH0KPj4KPj4gKyAgICAgICAgICAg
-ICAgIC8qIE1hcmsgdGhlIG1hdGNoaW5nIG1vZGUgYXMgYmVpbmcgcHJlZmVycmVkIGJ5IHRoZSB1
-c2VyICovCj4+ICsgICAgICAgICAgICAgICBtb2RlLT50eXBlIHw9IERSTV9NT0RFX1RZUEVfVVNF
-UkRFRjsKPj4gICAgICAgICAgICAgICAgICByZXR1cm4gMDsKPj4gICAgICAgICAgfQo+Pgo+PiBk
-aWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX21vZGVzLmggYi9pbmNsdWRlL2RybS9kcm1fbW9k
-ZXMuaAo+PiBpbmRleCBlOTQ2ZTIwYzYxZDguLmM3ZWZiNzQ4N2U5YiAxMDA2NDQKPj4gLS0tIGEv
-aW5jbHVkZS9kcm0vZHJtX21vZGVzLmgKPj4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX21vZGVzLmgK
-Pj4gQEAgLTI1Niw3ICsyNTYsOCBAQCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSB7Cj4+ICAgICAg
-ICAgICAqICAtIERSTV9NT0RFX1RZUEVfRFJJVkVSOiBNb2RlIGNyZWF0ZWQgYnkgdGhlIGRyaXZl
-ciwgd2hpY2ggaXMgYWxsIG9mCj4+ICAgICAgICAgICAqICAgIHRoZW0gcmVhbGx5LiBEcml2ZXJz
-IG11c3Qgc2V0IHRoaXMgYml0IGZvciBhbGwgbW9kZXMgdGhleSBjcmVhdGUKPj4gICAgICAgICAg
-ICogICAgYW5kIGV4cG9zZSB0byB1c2Vyc3BhY2UuCj4+IC0gICAgICAgICogIC0gRFJNX01PREVf
-VFlQRV9VU0VSREVGOiBNb2RlIGRlZmluZWQgdmlhIGtlcm5lbCBjb21tYW5kIGxpbmUKPj4gKyAg
-ICAgICAgKiAgLSBEUk1fTU9ERV9UWVBFX1VTRVJERUY6IE1vZGUgZGVmaW5lZCBvciBzZWxlY3Rl
-ZCB2aWEgdGhlIGtlcm5lbAo+PiArICAgICAgICAqICAgIGNvbW1hbmQgbGluZS4KPj4gICAgICAg
-ICAgICoKPj4gICAgICAgICAgICogUGx1cyBhIGJpZyBsaXN0IG9mIGZsYWdzIHdoaWNoIHNob3Vs
-ZG4ndCBiZSB1c2VkIGF0IGFsbCwgYnV0IGFyZQo+PiAgICAgICAgICAgKiBzdGlsbCBhcm91bmQg
-c2luY2UgdGhlc2UgZmxhZ3MgYXJlIGFsc28gdXNlZCBpbiB0aGUgdXNlcnNwYWNlIEFCSS4KPj4g
-LS0KPj4gMi4yMy4wCj4+Cj4+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCj4+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPj4gZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwo+PiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo+IAo+IAo+IAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVs
+
+--===============1834620854==
+Content-Type: multipart/alternative; boundary="15734660372.a8Fd.1009"
+Content-Transfer-Encoding: 7bit
+
+
+--15734660372.a8Fd.1009
+Date: Mon, 11 Nov 2019 09:53:57 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111329
+
+Francesco Balestrieri <francesco.balestrieri@intel.com> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+           Assignee|intel-gfx-bugs@lists.freede |dri-devel@lists.freedesktop
+                   |sktop.org                   |.org
+          Component|DRM/Intel                   |IGT
+         QA Contact|intel-gfx-bugs@lists.freede |
+                   |sktop.org                   |
+
+--- Comment #8 from Francesco Balestrieri <francesco.balestrieri@intel.com>=
+ ---
+Based on off-line discussion, it appears that this needs to be fixed in IGT.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15734660372.a8Fd.1009
+Date: Mon, 11 Nov 2019 09:53:57 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:francesco=
+.balestrieri&#64;intel.com" title=3D"Francesco Balestrieri &lt;francesco.ba=
+lestrieri&#64;intel.com&gt;"> <span class=3D"fn">Francesco Balestrieri</spa=
+n></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI][SHARDS] igt&#64;gem_ctx_isolation&#64;vcs1-nonpriv -=
+ fail - igt&#64;gem_ctx_isolation&#64;vcs1-nonpriv - fail - Failed assertio=
+n: num_errors =3D=3D 0, registers mistached between nonpriv read/writes"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111329">bug 11132=
+9</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Assignee</td>
+           <td>intel-gfx-bugs&#64;lists.freedesktop.org
+           </td>
+           <td>dri-devel&#64;lists.freedesktop.org
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Component</td>
+           <td>DRM/Intel
+           </td>
+           <td>IGT
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">QA Contact</td>
+           <td>intel-gfx-bugs&#64;lists.freedesktop.org
+           </td>
+           <td>
+               &nbsp;
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI][SHARDS] igt&#64;gem_ctx_isolation&#64;vcs1-nonpriv -=
+ fail - igt&#64;gem_ctx_isolation&#64;vcs1-nonpriv - fail - Failed assertio=
+n: num_errors =3D=3D 0, registers mistached between nonpriv read/writes"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111329#c8">Commen=
+t # 8</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI][SHARDS] igt&#64;gem_ctx_isolation&#64;vcs1-nonpriv -=
+ fail - igt&#64;gem_ctx_isolation&#64;vcs1-nonpriv - fail - Failed assertio=
+n: num_errors =3D=3D 0, registers mistached between nonpriv read/writes"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111329">bug 11132=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+francesco.balestrieri&#64;intel.com" title=3D"Francesco Balestrieri &lt;fra=
+ncesco.balestrieri&#64;intel.com&gt;"> <span class=3D"fn">Francesco Balestr=
+ieri</span></a>
+</span></b>
+        <pre>Based on off-line discussion, it appears that this needs to be=
+ fixed in IGT.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15734660372.a8Fd.1009--
+
+--===============1834620854==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1834620854==--
