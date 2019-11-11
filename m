@@ -1,47 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F8F1F7137
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2019 10:54:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CBB8F7138
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2019 10:55:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 252CB6E892;
-	Mon, 11 Nov 2019 09:53:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 491826E891;
+	Mon, 11 Nov 2019 09:55:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 68A026E891
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2019 09:53:57 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 65185720E2; Mon, 11 Nov 2019 09:53:57 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111329] [CI][SHARDS] igt@gem_ctx_isolation@vcs1-nonpriv - fail
- - igt@gem_ctx_isolation@vcs1-nonpriv - fail - Failed assertion: num_errors ==
- 0, registers mistached between nonpriv read/writes
-Date: Mon, 11 Nov 2019 09:53:57 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: IGT
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: francesco.balestrieri@intel.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: assigned_to component qa_contact
-Message-ID: <bug-111329-502-bQtciDSei7@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111329-502@http.bugs.freedesktop.org/>
-References: <bug-111329-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 036616E891
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2019 09:55:45 +0000 (UTC)
+Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1iU6QA-0005W7-NO; Mon, 11 Nov 2019 10:55:42 +0100
+Message-ID: <7379bfe6c530132caab4cd930cd94f0e28c935ff.camel@pengutronix.de>
+Subject: Re: [PATCH 15/16] drm/etnaviv: use ktime_t for timeouts
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Arnd Bergmann <arnd@arndb.de>
+Date: Mon, 11 Nov 2019 10:55:40 +0100
+In-Reply-To: <CAK8P3a13jSRqzZ-aDETdxk-BKgfXaAhdWiSn7aW+u3MFf06fWw@mail.gmail.com>
+References: <20191108213257.3097633-1-arnd@arndb.de>
+ <20191108213257.3097633-16-arnd@arndb.de>
+ <3a0cfce79620152facfe31b442a735db1dcda436.camel@pengutronix.de>
+ <CAK8P3a13jSRqzZ-aDETdxk-BKgfXaAhdWiSn7aW+u3MFf06fWw@mail.gmail.com>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::2a
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,146 +46,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1834620854=="
+Cc: y2038 Mailman List <y2038@lists.linaro.org>,
+ Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Emil Velikov <emil.velikov@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1834620854==
-Content-Type: multipart/alternative; boundary="15734660372.a8Fd.1009"
-Content-Transfer-Encoding: 7bit
-
-
---15734660372.a8Fd.1009
-Date: Mon, 11 Nov 2019 09:53:57 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111329
-
-Francesco Balestrieri <francesco.balestrieri@intel.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-           Assignee|intel-gfx-bugs@lists.freede |dri-devel@lists.freedesktop
-                   |sktop.org                   |.org
-          Component|DRM/Intel                   |IGT
-         QA Contact|intel-gfx-bugs@lists.freede |
-                   |sktop.org                   |
-
---- Comment #8 from Francesco Balestrieri <francesco.balestrieri@intel.com>=
- ---
-Based on off-line discussion, it appears that this needs to be fixed in IGT.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15734660372.a8Fd.1009
-Date: Mon, 11 Nov 2019 09:53:57 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:francesco=
-.balestrieri&#64;intel.com" title=3D"Francesco Balestrieri &lt;francesco.ba=
-lestrieri&#64;intel.com&gt;"> <span class=3D"fn">Francesco Balestrieri</spa=
-n></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [CI][SHARDS] igt&#64;gem_ctx_isolation&#64;vcs1-nonpriv -=
- fail - igt&#64;gem_ctx_isolation&#64;vcs1-nonpriv - fail - Failed assertio=
-n: num_errors =3D=3D 0, registers mistached between nonpriv read/writes"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111329">bug 11132=
-9</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Assignee</td>
-           <td>intel-gfx-bugs&#64;lists.freedesktop.org
-           </td>
-           <td>dri-devel&#64;lists.freedesktop.org
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Component</td>
-           <td>DRM/Intel
-           </td>
-           <td>IGT
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">QA Contact</td>
-           <td>intel-gfx-bugs&#64;lists.freedesktop.org
-           </td>
-           <td>
-               &nbsp;
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [CI][SHARDS] igt&#64;gem_ctx_isolation&#64;vcs1-nonpriv -=
- fail - igt&#64;gem_ctx_isolation&#64;vcs1-nonpriv - fail - Failed assertio=
-n: num_errors =3D=3D 0, registers mistached between nonpriv read/writes"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111329#c8">Commen=
-t # 8</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [CI][SHARDS] igt&#64;gem_ctx_isolation&#64;vcs1-nonpriv -=
- fail - igt&#64;gem_ctx_isolation&#64;vcs1-nonpriv - fail - Failed assertio=
-n: num_errors =3D=3D 0, registers mistached between nonpriv read/writes"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111329">bug 11132=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-francesco.balestrieri&#64;intel.com" title=3D"Francesco Balestrieri &lt;fra=
-ncesco.balestrieri&#64;intel.com&gt;"> <span class=3D"fn">Francesco Balestr=
-ieri</span></a>
-</span></b>
-        <pre>Based on off-line discussion, it appears that this needs to be=
- fixed in IGT.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15734660372.a8Fd.1009--
-
---===============1834620854==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1834620854==--
+T24gU2EsIDIwMTktMTEtMDkgYXQgMTM6MTIgKzAxMDAsIEFybmQgQmVyZ21hbm4gd3JvdGU6Cj4g
+T24gU2F0LCBOb3YgOSwgMjAxOSBhdCAxMjowMyBBTSBMdWNhcyBTdGFjaCA8bC5zdGFjaEBwZW5n
+dXRyb25peC5kZT4gd3JvdGU6Cj4gPiBBbSBGcmVpdGFnLCBkZW4gMDguMTEuMjAxOSwgMjI6MzIg
+KzAxMDAgc2NocmllYiBBcm5kIEJlcmdtYW5uOgo+ID4gPiBzdHJ1Y3QgdGltZXNwZWMgaXMgYmVp
+bmcgcmVtb3ZlZCBmcm9tIHRoZSBrZXJuZWwgYmVjYXVzZSBpdCBvZnRlbiBsZWFkcwo+ID4gPiB0
+byBjb2RlIHRoYXQgaXMgbm90IHkyMDM4LXNhZmUuCj4gPiA+IAo+ID4gPiBJbiB0aGUgZXRuYXZp
+diBkcml2ZXIsIG1vbm90b25pYyB0aW1lc3RhbXBzIGFyZSB1c2VkLCB3aGljaCBkbyBub3Qgc3Vm
+ZmVyCj4gPiA+IGZyb20gb3ZlcmZsb3csIGJ1dCB1c2luZyBrdGltZV90IHN0aWxsIGxlYWRzIHRv
+IGJldHRlciBjb2RlIG92ZXJhbGwuCj4gPiA+IAo+ID4gPiBUaGUgY29udmVyc2lvbiBpcyBzdHJh
+aWdodGZvcndhcmQgZm9yIHRoZSBtb3N0IHBhcnQsIGV4Y2VwdCBmb3IKPiA+ID4gZXRuYXZpdl90
+aW1lb3V0X3RvX2ppZmZpZXMoKSwgd2hpY2ggbmVlZHMgdG8gaGFuZGxlIGFyZ3VtZW50cyBsYXJn
+ZXIKPiA+ID4gdGhhbiBNQVhfSklGRllfT0ZGU0VUIG9uIDMyLWJpdCBhcmNoaXRlY3R1cmVzLgo+
+ID4gPiAKPiA+ID4gU2lnbmVkLW9mZi1ieTogQXJuZCBCZXJnbWFubiA8YXJuZEBhcm5kYi5kZT4K
+PiA+ID4gQEAgLTM2OCw3ICszNjYsNyBAQCBzdGF0aWMgaW50IGV0bmF2aXZfaW9jdGxfd2FpdF9m
+ZW5jZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAo+ID4gPiAgICAgICAgICAg
+ICAgIHJldHVybiAtRU5YSU87Cj4gPiA+IAo+ID4gPiAgICAgICBpZiAoYXJncy0+ZmxhZ3MgJiBF
+VE5BX1dBSVRfTk9OQkxPQ0spCj4gPiA+IC0gICAgICAgICAgICAgdGltZW91dCA9IE5VTEw7Cj4g
+PiA+ICsgICAgICAgICAgICAgdGltZW91dCA9IGt0aW1lX3NldCgwLCAwKTsKPiA+IAo+ID4gVGhp
+cyBpcyBhIGNoYW5nZSBpbiBiZWhhdmlvciwgYXMgZmFyIGFzIEkgY2FuIHNlZS4gQWZ0ZXIgdGhp
+cyBjaGFuZ2UKPiA+IHRoZSBjYWxsZWQgaW50ZXJuYWwgZnVuY3Rpb24gaXMgbm90IGFibGUgdG8g
+ZGlmZmVyZW50aWF0ZSBiZXR3ZWVuIGEKPiA+IE5PTkJMT0NLIGNhbGwgYW5kIGEgYmxvY2tpbmcg
+Y2FsbCB3aXRoIDAgdGltZW91dC4gVGhlIGRpZmZlcmVuY2UgYmVpbmcKPiA+IHRoYXQgb24gYSBi
+dXN5IG9iamVjdCB0aGUgTk9OQkxPQ0sgY2FsbCB3aWxsIHJldHVybiAtRUJVU1ksIHdoaWxlIGEK
+PiA+IGJsb2NraW5nIGNhbGwgd2lsbCByZXR1cm4gLUVUSU1FRE9VVC4KPiAKPiBBaCwgZ29vZCBw
+b2ludC4gSSBjcmVhdGVkIHRoaXMgcGF0Y2ggYSBsb25nIHRpbWUgYWdvIChjaGVycnktcGlja2Vk
+IGl0IG91dAo+IG9mIGFuIG9sZGVyIGJyYW5jaCBJIGhhZCBkb25lKSwgc28gSSBkb24ndCByZW1l
+bWJlciBob3cgSSBjb25jbHVkZWQgdGhpcwo+IHdhcyBhIHNhZmUgY29udmVyc2lvbiwgb2YgaWYg
+SSBtaXNzZWQgdGhhdCBkaWZmZXJlbmNlIG9yaWdpbmFsbHkuCj4gCj4gPiBCdXQgdGhlbiBDTE9D
+S19NT05PVE9OSUMgc3RhcnRzIGF0IDAgYW5kIHNob3VsZCBub3QgbmV2ZXIgd3JhcCwgcmlnaHQ/
+Cj4gCj4gWWVzLCB0aGF0IGlzIGNvcnJlY3QuCj4gCj4gPiBJZiB0aGF0J3MgdGhlIGNhc2UgdGhl
+biB3ZSBzaG91bGQgbmV2ZXIgZW5jb3VudGVyIGEgZ2VudWluZSAwIHRpbWVvdXQKPiA+IGFuZCB0
+aGlzIGNoYW5nZSB3b3VsZCBiZSBva2F5Lgo+IAo+IFRoYXQncyBxdWl0ZSBsaWtlbHksIEknZCBz
+YXkgYW55IHByb2dyYW0gcGFzc2luZyB7MCwwfSBhcyBhIHRpbWVvdXQgd2l0aG91dAo+IEVUTkFf
+V0FJVF9OT05CTE9DSyBpcyBhbHJlYWR5IGJyb2tlbiwgYnV0IGlmIHdlIGxlYXZlIGl0IGxpa2Ug
+dGhhdCwKPiBpdCB3b3VsZCBiZSBiZXN0IHRvIGRlc2NyaWJlIHRoZSByZWFzb25pbmcgaW4gdGhl
+IGNoYW5nZWxvZy4KPiAKPiBTaG91bGQgSSBjaGFuZ2UgdGhlIGNoYW5nZWxvZywgb3IgY2hhbmdl
+IHRoZSBwYXRjaCB0byByZXN0b3JlIHRoZQo+IGN1cnJlbnQgYmVoYXZpb3IgaW5zdGVhZD8KPiAK
+PiBJIGd1ZXNzIEkgY291bGQgZm9sZCB0aGUgY2hhbmdlIGJlbG93IGludG8gbXkgcGF0Y2ggdG8g
+bWFrZSBpdCB0cmFuc3BhcmVudAo+IHRvIHRoZSBhcHBsaWNhdGlvbiBhZ2Fpbi4KCklmIHdlIGFz
+c3VtZSAwIHRvIG5ldmVyIGJlIGEgdmFsaWQgdGltZW91dCwgZHVlIHRvIG1vbm90b25pYyBjbG9j
+awpzdGFydGluZyBhdCAwIGFuZCBuZXZlciB3cmFwcGluZyB0aGVuIEkgdGhpbmsgd2Ugc2hvdWxk
+bid0IGludHJvZHVjZQphbnkgYWRkaXRpb25hbCBjb2RlIGNvbXBsZXhpdHkgdG8gZml4IHVwIHRo
+ZSByZXR1cm4gdmFsdWUgZm9yIHRoaXMKc3BlY2lmaWMgY2FzZS4gSSdtIG5vdCBhd2FyZSBvZiBh
+bnkgZXRuYXZpdiB1c2Vyc3BhY2UgYmVpbmcgYnJva2VuIGluCnRoaXMgd2F5IHRvIHJlbHkgb24g
+dGhlIHJldHVybiB2YWx1ZSBmb3IgYW4gaW52YWxpZCB0aW1lb3V0IGlucHV0LgoKUGxlYXNlIGp1
+c3QgYW1lbmQgdGhlIGNvbW1pdCBtZXNzYWdlIHRvIG1lbnRpb24gdGhlIGNoYW5nZSBpbiBiZWhh
+dmlvcgphbmQgd2h5IHdlIHRoaW5rIGl0IGlzIHNhZmUgdG8gZG8uCgpSZWdhcmRzLApMdWNhcwoK
+PiAgICAgICBBcm5kCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0
+bmF2aXZfZHJ2LmMKPiBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZHJ2LmMKPiBp
+bmRleCAxMjUwYzVlMDYzMjkuLjE2MmNlZGZiN2Y3MiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vZXRuYXZpdi9ldG5hdml2X2Rydi5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2
+aXYvZXRuYXZpdl9kcnYuYwo+IEBAIC0zNTQsNiArMzU0LDcgQEAgc3RhdGljIGludCBldG5hdml2
+X2lvY3RsX3dhaXRfZmVuY2Uoc3RydWN0Cj4gZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAo+
+ICAgICAgICAga3RpbWVfdCB0aW1lb3V0ID0ga3RpbWVfc2V0KGFyZ3MtPnRpbWVvdXQudHZfc2Vj
+LAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGFyZ3MtPnRpbWVvdXQudHZf
+bnNlYyk7Cj4gICAgICAgICBzdHJ1Y3QgZXRuYXZpdl9ncHUgKmdwdTsKPiArICAgICAgIGludCBy
+ZXQ7Cj4gCj4gICAgICAgICBpZiAoYXJncy0+ZmxhZ3MgJiB+KEVUTkFfV0FJVF9OT05CTE9DSykp
+Cj4gICAgICAgICAgICAgICAgIHJldHVybiAtRUlOVkFMOwo+IEBAIC0zNjUsOCArMzY2LDEyIEBA
+IHN0YXRpYyBpbnQgZXRuYXZpdl9pb2N0bF93YWl0X2ZlbmNlKHN0cnVjdAo+IGRybV9kZXZpY2Ug
+KmRldiwgdm9pZCAqZGF0YSwKPiAgICAgICAgIGlmICghZ3B1KQo+ICAgICAgICAgICAgICAgICBy
+ZXR1cm4gLUVOWElPOwo+IAo+IC0gICAgICAgaWYgKGFyZ3MtPmZsYWdzICYgRVROQV9XQUlUX05P
+TkJMT0NLKQo+IC0gICAgICAgICAgICAgICB0aW1lb3V0ID0ga3RpbWVfc2V0KDAsIDApOwo+ICsg
+ICAgICAgaWYgKGFyZ3MtPmZsYWdzICYgRVROQV9XQUlUX05PTkJMT0NLKSB7Cj4gKyAgICAgICAg
+ICAgICAgIHJldCA9IGV0bmF2aXZfZ3B1X3dhaXRfZmVuY2VfaW50ZXJydXB0aWJsZShncHUsIGFy
+Z3MtPmZlbmNlLAo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAga3RpbWVfc2V0KDAsIDApKTsKPiArCj4gKyAgICAgICAgICAgICAgIHJl
+dHVybiAocmV0ID09IC1FVElNRURPVVQpID8gLUVCVVNZIDogcmV0Owo+ICsgICAgICAgfQo+IAo+
+ICAgICAgICAgcmV0dXJuIGV0bmF2aXZfZ3B1X3dhaXRfZmVuY2VfaW50ZXJydXB0aWJsZShncHUs
+IGFyZ3MtPmZlbmNlLAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICB0aW1lb3V0KTsKPiBAQCAtNDIxLDEwICs0MjYsMTMgQEAgc3RhdGljIGludCBl
+dG5hdml2X2lvY3RsX2dlbV93YWl0KHN0cnVjdAo+IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0
+YSwKPiAgICAgICAgIGlmICghb2JqKQo+ICAgICAgICAgICAgICAgICByZXR1cm4gLUVOT0VOVDsK
+PiAKPiAtICAgICAgIGlmIChhcmdzLT5mbGFncyAmIEVUTkFfV0FJVF9OT05CTE9DSykKPiAtICAg
+ICAgICAgICAgICAgdGltZW91dCA9IGt0aW1lX3NldCgwLCAwKTsKPiAtCj4gLSAgICAgICByZXQg
+PSBldG5hdml2X2dlbV93YWl0X2JvKGdwdSwgb2JqLCB0aW1lb3V0KTsKPiArICAgICAgIGlmIChh
+cmdzLT5mbGFncyAmIEVUTkFfV0FJVF9OT05CTE9DSykgewo+ICsgICAgICAgICAgICAgICByZXQg
+PSBldG5hdml2X2dlbV93YWl0X2JvKGdwdSwgb2JqLCBrdGltZV9zZXQoMCwgMCkpOwo+ICsgICAg
+ICAgICAgICAgICBpZiAocmV0ID09IC1FVElNRURPVVQpCj4gKyAgICAgICAgICAgICAgICAgICAg
+ICAgcmV0ID0gLUVCVVNZOwo+ICsgICAgICAgfSBlbHNlIHsKPiArICAgICAgICAgICAgICAgcmV0
+ID0gZXRuYXZpdl9nZW1fd2FpdF9ibyhncHUsIG9iaiwgdGltZW91dCk7Cj4gKyAgICAgICB9Cj4g
+Cj4gICAgICAgICBkcm1fZ2VtX29iamVjdF9wdXRfdW5sb2NrZWQob2JqKTsKPiAKPiBkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9ncHUuYwo+IGIvZHJpdmVycy9n
+cHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9ncHUuYwo+IGluZGV4IGU0MmIxYzRkOTAyYy4uZmE2OTg2
+YzVhNWZlIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ3B1
+LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dwdS5jCj4gQEAgLTEx
+MzUsNiArMTEzNSw3IEBAIGludCBldG5hdml2X2dwdV93YWl0X2ZlbmNlX2ludGVycnVwdGlibGUo
+c3RydWN0Cj4gZXRuYXZpdl9ncHUgKmdwdSwKPiAgICAgICAgIHUzMiBpZCwga3RpbWVfdCB0aW1l
+b3V0KQo+ICB7Cj4gICAgICAgICBzdHJ1Y3QgZG1hX2ZlbmNlICpmZW5jZTsKPiArICAgICAgIHVu
+c2lnbmVkIGxvbmcgcmVtYWluaW5nOwo+ICAgICAgICAgaW50IHJldDsKPiAKPiAgICAgICAgIC8q
+Cj4gQEAgLTExNTEsMTIgKzExNTIsMTIgQEAgaW50Cj4gZXRuYXZpdl9ncHVfd2FpdF9mZW5jZV9p
+bnRlcnJ1cHRpYmxlKHN0cnVjdCBldG5hdml2X2dwdSAqZ3B1LAo+ICAgICAgICAgaWYgKCFmZW5j
+ZSkKPiAgICAgICAgICAgICAgICAgcmV0dXJuIDA7Cj4gCj4gLSAgICAgICBpZiAoIXRpbWVvdXQp
+IHsKPiAtICAgICAgICAgICAgICAgLyogTm8gdGltZW91dCB3YXMgcmVxdWVzdGVkOiBqdXN0IHRl
+c3QgZm9yIGNvbXBsZXRpb24gKi8KPiAtICAgICAgICAgICAgICAgcmV0ID0gZG1hX2ZlbmNlX2lz
+X3NpZ25hbGVkKGZlbmNlKSA/IDAgOiAtRUJVU1k7Cj4gKyAgICAgICBpZiAoIXRpbWVvdXQgfHwK
+PiArICAgICAgICAgICAocmVtYWluaW5nID0gZXRuYXZpdl90aW1lb3V0X3RvX2ppZmZpZXModGlt
+ZW91dCkpID09IDApIHsKPiArICAgICAgICAgICAgICAgLyogTm8gdGltZW91dCB3YXMgcmVxdWVz
+dGVkLCBvciB0aW1lb3V0IGlzIGFscmVhZHkgZXhwaXJlZCwKPiArICAgICAgICAgICAgICAgICog
+anVzdCB0ZXN0IGZvciBjb21wbGV0aW9uICovCj4gKyAgICAgICAgICAgICAgIHJldCA9IGRtYV9m
+ZW5jZV9pc19zaWduYWxlZChmZW5jZSkgPyAwIDogLUVUSU1FRE9VVDsKPiAgICAgICAgIH0gZWxz
+ZSB7Cj4gLSAgICAgICAgICAgICAgIHVuc2lnbmVkIGxvbmcgcmVtYWluaW5nID0gZXRuYXZpdl90
+aW1lb3V0X3RvX2ppZmZpZXModGltZW91dCk7Cj4gLQo+ICAgICAgICAgICAgICAgICByZXQgPSBk
+bWFfZmVuY2Vfd2FpdF90aW1lb3V0KGZlbmNlLCB0cnVlLCByZW1haW5pbmcpOwo+ICAgICAgICAg
+ICAgICAgICBpZiAocmV0ID09IDApCj4gICAgICAgICAgICAgICAgICAgICAgICAgcmV0ID0gLUVU
+SU1FRE9VVDsKPiBAQCAtMTE4NSw3ICsxMTg2LDcgQEAgaW50IGV0bmF2aXZfZ3B1X3dhaXRfb2Jq
+X2luYWN0aXZlKHN0cnVjdCBldG5hdml2X2dwdSAqZ3B1LAo+ICAgICAgICAgbG9uZyByZXQ7Cj4g
+Cj4gICAgICAgICBpZiAoIXRpbWVvdXQpCj4gLSAgICAgICAgICAgICAgIHJldHVybiAhaXNfYWN0
+aXZlKGV0bmF2aXZfb2JqKSA/IDAgOiAtRUJVU1k7Cj4gKyAgICAgICAgICAgICAgIHJldHVybiAh
+aXNfYWN0aXZlKGV0bmF2aXZfb2JqKSA/IDAgOiAtRVRJTUVET1VUOwo+IAo+ICAgICAgICAgcmVt
+YWluaW5nID0gZXRuYXZpdl90aW1lb3V0X3RvX2ppZmZpZXModGltZW91dCk7CgpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
