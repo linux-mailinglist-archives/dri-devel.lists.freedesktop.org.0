@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4664AF8173
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2019 21:40:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A097F81D5
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2019 22:04:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47E696E2EF;
-	Mon, 11 Nov 2019 20:40:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A0C16E296;
+	Mon, 11 Nov 2019 21:04:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id F3A4A6E2EF
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2019 20:40:26 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id F085D720E2; Mon, 11 Nov 2019 20:40:26 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01F336E296
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2019 21:04:20 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111691] inconsistent cursor movement speed when using AMD 5700 XT
-Date: Mon, 11 Nov 2019 20:40:27 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
+Subject: [Bug 205491] New: Green external display after wake up
+Date: Mon, 11 Nov 2019 21:04:20 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: not set
-X-Bugzilla-Who: danielsuarez369@protonmail.com
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: lukasz@zarnowiecki.pl
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111691-502-mv0fbN3lYh@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111691-502@http.bugs.freedesktop.org/>
-References: <bug-111691-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-205491-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
+ message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,114 +51,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0967885146=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0967885146==
-Content-Type: multipart/alternative; boundary="15735048263.fD41.29649"
-Content-Transfer-Encoding: 7bit
-
-
---15735048263.fD41.29649
-Date: Mon, 11 Nov 2019 20:40:26 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111691
-
---- Comment #18 from Daniel Suarez <danielsuarez369@protonmail.com> ---
-(In reply to Jaap Buurman from comment #17)
-> (In reply to takios+fdbugs from comment #16)
-> > I ran into the same issue but after installing linux kernel 5.4rc2 it w=
-as
-> > fixed.
->=20
-> That's good to hear! Does anyone know whether the fix will be backported =
-to
-> the 5.3 kernel? It's gonna take a while before 5.4 becomes mainline.
-
-I do not believe it will get backported since most effort is going towards =
-5.4,
-but you can try a ditro like Manjaro that officially supports the RC kernels
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15735048263.fD41.29649
-Date: Mon, 11 Nov 2019 20:40:26 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - inconsistent cursor movement speed when using AMD 5700 XT"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111691#c18">Comme=
-nt # 18</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - inconsistent cursor movement speed when using AMD 5700 XT"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111691">bug 11169=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-danielsuarez369&#64;protonmail.com" title=3D"Daniel Suarez &lt;danielsuarez=
-369&#64;protonmail.com&gt;"> <span class=3D"fn">Daniel Suarez</span></a>
-</span></b>
-        <pre>(In reply to Jaap Buurman from <a href=3D"show_bug.cgi?id=3D11=
-1691#c17">comment #17</a>)
-<span class=3D"quote">&gt; (In reply to takios+fdbugs from <a href=3D"show_=
-bug.cgi?id=3D111691#c16">comment #16</a>)
-&gt; &gt; I ran into the same issue but after installing linux kernel 5.4rc=
-2 it was
-&gt; &gt; fixed.
-&gt;=20
-&gt; That's good to hear! Does anyone know whether the fix will be backport=
-ed to
-&gt; the 5.3 kernel? It's gonna take a while before 5.4 becomes mainline.</=
-span >
-
-I do not believe it will get backported since most effort is going towards =
-5.4,
-but you can try a ditro like Manjaro that officially supports the RC kernel=
-s</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15735048263.fD41.29649--
-
---===============0967885146==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0967885146==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU0OTEKCiAgICAg
+ICAgICAgIEJ1ZyBJRDogMjA1NDkxCiAgICAgICAgICAgU3VtbWFyeTogR3JlZW4gZXh0ZXJuYWwg
+ZGlzcGxheSBhZnRlciB3YWtlIHVwCiAgICAgICAgICAgUHJvZHVjdDogRHJpdmVycwogICAgICAg
+ICAgIFZlcnNpb246IDIuNQogICAgS2VybmVsIFZlcnNpb246IDUuMy4xMAogICAgICAgICAgSGFy
+ZHdhcmU6IEFsbAogICAgICAgICAgICAgICAgT1M6IExpbnV4CiAgICAgICAgICAgICAgVHJlZTog
+TWFpbmxpbmUKICAgICAgICAgICAgU3RhdHVzOiBORVcKICAgICAgICAgIFNldmVyaXR5OiBub3Jt
+YWwKICAgICAgICAgIFByaW9yaXR5OiBQMQogICAgICAgICBDb21wb25lbnQ6IFZpZGVvKERSSSAt
+IG5vbiBJbnRlbCkKICAgICAgICAgIEFzc2lnbmVlOiBkcml2ZXJzX3ZpZGVvLWRyaUBrZXJuZWwt
+YnVncy5vc2RsLm9yZwogICAgICAgICAgUmVwb3J0ZXI6IGx1a2FzekB6YXJub3dpZWNraS5wbAog
+ICAgICAgIFJlZ3Jlc3Npb246IE5vCgpDcmVhdGVkIGF0dGFjaG1lbnQgMjg1ODYzCiAgLS0+IGh0
+dHBzOi8vYnVnemlsbGEua2VybmVsLm9yZy9hdHRhY2htZW50LmNnaT9pZD0yODU4NjMmYWN0aW9u
+PWVkaXQKZG1lc2cKCkFmdGVyIG15IGxhcHRvcCBpcyB3YWtpbmcgdXAgZnJvbSBzdXNwZW5kLCB0
+aGUgZXh0ZXJuYWwgbW9uaXRvciBkaXNwbGF5cyB3aG9sZQpncmVlbiBzY3JlZW4uICBQbHVnaW4g
+b3V0IGFuZCBpbiBIRE1JIGNhYmxlIGZpeGVzIHByb2JsZW0uCgpJbiBkbWVzZyB0aGVyZSBhcmUg
+ZmV3IGRpZmZlcmVudCBjcmFzaGVzIHJlbGF0ZWQgdG8gYW1kZ3B1LgoKLS0gCllvdSBhcmUgcmVj
+ZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBv
+ZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
