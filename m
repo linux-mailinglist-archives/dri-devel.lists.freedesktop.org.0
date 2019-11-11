@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F081AF70F8
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2019 10:41:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B58FDF70FB
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2019 10:42:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C879C6E87A;
-	Mon, 11 Nov 2019 09:41:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A1886E879;
+	Mon, 11 Nov 2019 09:42:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 89A396E87A
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2019 09:41:36 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1814F6E879
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2019 09:42:11 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 869A2720E2; Mon, 11 Nov 2019 09:41:36 +0000 (UTC)
+ id 15178720E2; Mon, 11 Nov 2019 09:42:11 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 112243] Micro stuttering in RocketLeague
-Date: Mon, 11 Nov 2019 09:41:36 +0000
+Date: Mon, 11 Nov 2019 09:42:11 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-112243-502-2f5TBCHxUO@http.bugs.freedesktop.org/>
+Message-ID: <bug-112243-502-kmPSMUqHhE@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-112243-502@http.bugs.freedesktop.org/>
 References: <bug-112243-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1308949666=="
+Content-Type: multipart/mixed; boundary="===============1293517167=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1308949666==
-Content-Type: multipart/alternative; boundary="15734652961.Cf926b4.30982"
+--===============1293517167==
+Content-Type: multipart/alternative; boundary="15734653310.45EFAa69.31421"
 Content-Transfer-Encoding: 7bit
 
 
---15734652961.Cf926b4.30982
-Date: Mon, 11 Nov 2019 09:41:36 +0000
+--15734653310.45EFAa69.31421
+Date: Mon, 11 Nov 2019 09:42:11 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,17 +72,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D112243
 
---- Comment #1 from Matthias Heinz <mh@familie-heinz.name> ---
-Created attachment 145933
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145933&action=3Dedit
-Shader clock and fps after setting performance level to high
+--- Comment #2 from Matthias Heinz <mh@familie-heinz.name> ---
+Created attachment 145934
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145934&action=3Dedit
+Shader clock and fps after setting performance level back to auto
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15734652961.Cf926b4.30982
-Date: Mon, 11 Nov 2019 09:41:36 +0000
+--15734653310.45EFAa69.31421
+Date: Mon, 11 Nov 2019 09:42:11 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -99,8 +99,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Micro stuttering in RocketLeague"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112243#c1">Commen=
-t # 1</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112243#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Micro stuttering in RocketLeague"
@@ -110,12 +110,12 @@ t # 1</a>
 mh&#64;familie-heinz.name" title=3D"Matthias Heinz &lt;mh&#64;familie-heinz=
 .name&gt;"> <span class=3D"fn">Matthias Heinz</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145933=
-" name=3D"attach_145933" title=3D"Shader clock and fps after setting perfor=
-mance level to high">attachment 145933</a> <a href=3D"attachment.cgi?id=3D1=
-45933&amp;action=3Dedit" title=3D"Shader clock and fps after setting perfor=
-mance level to high">[details]</a></span>
-Shader clock and fps after setting performance level to high</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145934=
+" name=3D"attach_145934" title=3D"Shader clock and fps after setting perfor=
+mance level back to auto">attachment 145934</a> <a href=3D"attachment.cgi?i=
+d=3D145934&amp;action=3Dedit" title=3D"Shader clock and fps after setting p=
+erformance level back to auto">[details]</a></span>
+Shader clock and fps after setting performance level back to auto</pre>
         </div>
       </p>
 
@@ -129,9 +129,9 @@ Shader clock and fps after setting performance level to high</pre>
     </body>
 </html>=
 
---15734652961.Cf926b4.30982--
+--15734653310.45EFAa69.31421--
 
---===============1308949666==
+--===============1293517167==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -141,4 +141,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1308949666==--
+--===============1293517167==--
