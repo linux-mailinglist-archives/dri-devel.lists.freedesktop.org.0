@@ -2,44 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B58FDF70FB
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2019 10:42:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE636F7103
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2019 10:43:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A1886E879;
-	Mon, 11 Nov 2019 09:42:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 846CB6E87F;
+	Mon, 11 Nov 2019 09:43:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1814F6E879
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2019 09:42:11 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 15178720E2; Mon, 11 Nov 2019 09:42:11 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112243] Micro stuttering in RocketLeague
-Date: Mon, 11 Nov 2019 09:42:11 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mh@familie-heinz.name
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-112243-502-kmPSMUqHhE@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-112243-502@http.bugs.freedesktop.org/>
-References: <bug-112243-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F6296E87F
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2019 09:43:51 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id ABDC82084F;
+ Mon, 11 Nov 2019 09:43:50 +0000 (UTC)
+Subject: Patch "ASoC: tlv320aic31xx: Handle inverted BCLK in non-DSP modes"
+ has been added to the 4.14-stable tree
+To: afd@ti.com, broonie@kernel.org, dri-devel@lists.freedesktop.org,
+ gregkh@linuxfoundation.org, linux-mtd@lists.infradead.org,
+ mathieu.poirier@linaro.org
+From: <gregkh@linuxfoundation.org>
+Date: Mon, 11 Nov 2019 10:43:32 +0100
+In-Reply-To: <20190905161759.28036-7-mathieu.poirier@linaro.org>
+Message-ID: <1573465412232161@kroah.com>
 MIME-Version: 1.0
+X-stable: commit
+X-Patchwork-Hint: ignore 
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1573465431;
+ bh=/E4qy5K7gKpvKB8SEvMpUraHvE9oz0IooRTT9MzY90o=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:From;
+ b=z55OVBBX7/ewpWW71m/Np9Ux26jH+A8nRhdUD3hZyAWrw/Hgn1naLUnTy3LYJhGbw
+ xKvpIWS6jsLS3q21IBhwQO29W7eay9ov8aViXoAOXtcMBRxV/qz4n34gVyCwWr+540
+ 1rMH9fAiFik5z/utfEoGwpCVfLdiFALTWfJEMyo8=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,93 +49,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1293517167=="
+Cc: stable-commits@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1293517167==
-Content-Type: multipart/alternative; boundary="15734653310.45EFAa69.31421"
-Content-Transfer-Encoding: 7bit
-
-
---15734653310.45EFAa69.31421
-Date: Mon, 11 Nov 2019 09:42:11 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112243
-
---- Comment #2 from Matthias Heinz <mh@familie-heinz.name> ---
-Created attachment 145934
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145934&action=3Dedit
-Shader clock and fps after setting performance level back to auto
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15734653310.45EFAa69.31421
-Date: Mon, 11 Nov 2019 09:42:11 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Micro stuttering in RocketLeague"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112243#c2">Commen=
-t # 2</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Micro stuttering in RocketLeague"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112243">bug 11224=
-3</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-mh&#64;familie-heinz.name" title=3D"Matthias Heinz &lt;mh&#64;familie-heinz=
-.name&gt;"> <span class=3D"fn">Matthias Heinz</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145934=
-" name=3D"attach_145934" title=3D"Shader clock and fps after setting perfor=
-mance level back to auto">attachment 145934</a> <a href=3D"attachment.cgi?i=
-d=3D145934&amp;action=3Dedit" title=3D"Shader clock and fps after setting p=
-erformance level back to auto">[details]</a></span>
-Shader clock and fps after setting performance level back to auto</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15734653310.45EFAa69.31421--
-
---===============1293517167==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1293517167==--
+ClRoaXMgaXMgYSBub3RlIHRvIGxldCB5b3Uga25vdyB0aGF0IEkndmUganVzdCBhZGRlZCB0aGUg
+cGF0Y2ggdGl0bGVkCgogICAgQVNvQzogdGx2MzIwYWljMzF4eDogSGFuZGxlIGludmVydGVkIEJD
+TEsgaW4gbm9uLURTUCBtb2RlcwoKdG8gdGhlIDQuMTQtc3RhYmxlIHRyZWUgd2hpY2ggY2FuIGJl
+IGZvdW5kIGF0OgogICAgaHR0cDovL3d3dy5rZXJuZWwub3JnL2dpdC8/cD1saW51eC9rZXJuZWwv
+Z2l0L3N0YWJsZS9zdGFibGUtcXVldWUuZ2l0O2E9c3VtbWFyeQoKVGhlIGZpbGVuYW1lIG9mIHRo
+ZSBwYXRjaCBpczoKICAgICBhc29jLXRsdjMyMGFpYzMxeHgtaGFuZGxlLWludmVydGVkLWJjbGst
+aW4tbm9uLWRzcC1tb2Rlcy5wYXRjaAphbmQgaXQgY2FuIGJlIGZvdW5kIGluIHRoZSBxdWV1ZS00
+LjE0IHN1YmRpcmVjdG9yeS4KCklmIHlvdSwgb3IgYW55b25lIGVsc2UsIGZlZWxzIGl0IHNob3Vs
+ZCBub3QgYmUgYWRkZWQgdG8gdGhlIHN0YWJsZSB0cmVlLApwbGVhc2UgbGV0IDxzdGFibGVAdmdl
+ci5rZXJuZWwub3JnPiBrbm93IGFib3V0IGl0LgoKCkZyb20gZm9vQGJheiBNb24gMTEgTm92IDIw
+MTkgMTA6MDc6MjIgQU0gQ0VUCkZyb206IE1hdGhpZXUgUG9pcmllciA8bWF0aGlldS5wb2lyaWVy
+QGxpbmFyby5vcmc+CkRhdGU6IFRodSwgIDUgU2VwIDIwMTkgMTA6MTc6NDcgLTA2MDAKU3ViamVj
+dDogQVNvQzogdGx2MzIwYWljMzF4eDogSGFuZGxlIGludmVydGVkIEJDTEsgaW4gbm9uLURTUCBt
+b2RlcwpUbzogc3RhYmxlQHZnZXIua2VybmVsLm9yZwpDYzogbGludXgtdXNiQHZnZXIua2VybmVs
+Lm9yZywgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZywgbGludXgtcG1Admdlci5rZXJuZWwu
+b3JnLCBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnLCBsaW51eC1vbWFwQHZnZXIua2Vy
+bmVsLm9yZywgbGludXgtaTJjQHZnZXIua2VybmVsLm9yZywgbGludXgtcGNpQHZnZXIua2VybmVs
+Lm9yZywgbGludXgtbXRkQGxpc3RzLmluZnJhZGVhZC5vcmcKTWVzc2FnZS1JRDogPDIwMTkwOTA1
+MTYxNzU5LjI4MDM2LTctbWF0aGlldS5wb2lyaWVyQGxpbmFyby5vcmc+CgpGcm9tOiAiQW5kcmV3
+IEYuIERhdmlzIiA8YWZkQHRpLmNvbT4KCmNvbW1pdCBkY2I0MDdiMjU3YWYwNmZhNThiMDU0NGVj
+MDFlYzllMGQzOTI3ZTAyIHVwc3RyZWFtCgpDdXJyZW50bHkgQkNMSyBpbnZlcnRpbmcgaXMgb25s
+eSBoYW5kbGVkIHdoZW4gdGhlIERBSSBmb3JtYXQgaXMKRFNQLCBidXQgdGhlIEJDTEsgbWF5IGJl
+IGludmVydGVkIGluIGFueSBzdXBwb3J0ZWQgbW9kZS4gV2l0aG91dAp0aGlzIHVzaW5nIHRoaXMg
+Q09ERUMgaW4gYW55IG90aGVyIG1vZGUgdGhhbiBEU1Agd2l0aCB0aGUgQkNMSwppbnZlcnRlZCBs
+ZWFkcyB0byBiYWQgc2FtcGxpbmcgdGltaW5nIGFuZCB2ZXJ5IHBvb3IgYXVkaW8gcXVhbGl0eS4K
+ClNpZ25lZC1vZmYtYnk6IEFuZHJldyBGLiBEYXZpcyA8YWZkQHRpLmNvbT4KU2lnbmVkLW9mZi1i
+eTogTWFyayBCcm93biA8YnJvb25pZUBrZXJuZWwub3JnPgpTaWduZWQtb2ZmLWJ5OiBNYXRoaWV1
+IFBvaXJpZXIgPG1hdGhpZXUucG9pcmllckBsaW5hcm8ub3JnPgpTaWduZWQtb2ZmLWJ5OiBHcmVn
+IEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgotLS0KIHNvdW5kL3Nv
+Yy9jb2RlY3MvdGx2MzIwYWljMzF4eC5jIHwgICAyOCArKysrKysrKysrKysrKysrKystLS0tLS0t
+LS0tCiAxIGZpbGUgY2hhbmdlZCwgMTggaW5zZXJ0aW9ucygrKSwgMTAgZGVsZXRpb25zKC0pCgot
+LS0gYS9zb3VuZC9zb2MvY29kZWNzL3RsdjMyMGFpYzMxeHguYworKysgYi9zb3VuZC9zb2MvY29k
+ZWNzL3RsdjMyMGFpYzMxeHguYwpAQCAtOTI0LDYgKzkyNCwxOCBAQCBzdGF0aWMgaW50IGFpYzMx
+eHhfc2V0X2RhaV9mbXQoc3RydWN0IHNuCiAJCXJldHVybiAtRUlOVkFMOwogCX0KIAorCS8qIHNp
+Z25hbCBwb2xhcml0eSAqLworCXN3aXRjaCAoZm10ICYgU05EX1NPQ19EQUlGTVRfSU5WX01BU0sp
+IHsKKwljYXNlIFNORF9TT0NfREFJRk1UX05CX05GOgorCQlicmVhazsKKwljYXNlIFNORF9TT0Nf
+REFJRk1UX0lCX05GOgorCQlpZmFjZV9yZWcyIHw9IEFJQzMxWFhfQkNMS0lOVl9NQVNLOworCQli
+cmVhazsKKwlkZWZhdWx0OgorCQlkZXZfZXJyKGNvZGVjLT5kZXYsICJJbnZhbGlkIERBSSBjbG9j
+ayBzaWduYWwgcG9sYXJpdHlcbiIpOworCQlyZXR1cm4gLUVJTlZBTDsKKwl9CisKIAkvKiBpbnRl
+cmZhY2UgZm9ybWF0ICovCiAJc3dpdGNoIChmbXQgJiBTTkRfU09DX0RBSUZNVF9GT1JNQVRfTUFT
+SykgewogCWNhc2UgU05EX1NPQ19EQUlGTVRfSTJTOgpAQCAtOTMxLDE2ICs5NDMsMTIgQEAgc3Rh
+dGljIGludCBhaWMzMXh4X3NldF9kYWlfZm10KHN0cnVjdCBzbgogCWNhc2UgU05EX1NPQ19EQUlG
+TVRfRFNQX0E6CiAJCWRzcF9hX3ZhbCA9IDB4MTsKIAljYXNlIFNORF9TT0NfREFJRk1UX0RTUF9C
+OgotCQkvKiBOT1RFOiBCQ0xLSU5WIGJpdCB2YWx1ZSAxIGVxdWFzIE5CIGFuZCAwIGVxdWFscyBJ
+QiAqLwotCQlzd2l0Y2ggKGZtdCAmIFNORF9TT0NfREFJRk1UX0lOVl9NQVNLKSB7Ci0JCWNhc2Ug
+U05EX1NPQ19EQUlGTVRfTkJfTkY6Ci0JCQlpZmFjZV9yZWcyIHw9IEFJQzMxWFhfQkNMS0lOVl9N
+QVNLOwotCQkJYnJlYWs7Ci0JCWNhc2UgU05EX1NPQ19EQUlGTVRfSUJfTkY6Ci0JCQlicmVhazsK
+LQkJZGVmYXVsdDoKLQkJCXJldHVybiAtRUlOVkFMOwotCQl9CisJCS8qCisJCSAqIE5PVEU6IFRo
+aXMgQ09ERUMgc2FtcGxlcyBvbiB0aGUgZmFsbGluZyBlZGdlIG9mIEJDTEsgaW4KKwkJICogRFNQ
+IG1vZGUsIHRoaXMgaXMgaW52ZXJ0ZWQgY29tcGFyZWQgdG8gd2hhdCBtb3N0IERBSXMKKwkJICog
+ZXhwZWN0LCBzbyB3ZSBpbnZlcnQgZm9yIHRoaXMgbW9kZQorCQkgKi8KKwkJaWZhY2VfcmVnMiBe
+PSBBSUMzMVhYX0JDTEtJTlZfTUFTSzsKIAkJaWZhY2VfcmVnMSB8PSAoQUlDMzFYWF9EU1BfTU9E
+RSA8PAogCQkJICAgICAgIEFJQzMxWFhfSUZBQ0UxX0RBVEFUWVBFX1NISUZUKTsKIAkJYnJlYWs7
+CgoKUGF0Y2hlcyBjdXJyZW50bHkgaW4gc3RhYmxlLXF1ZXVlIHdoaWNoIG1pZ2h0IGJlIGZyb20g
+bWF0aGlldS5wb2lyaWVyQGxpbmFyby5vcmcgYXJlCgpxdWV1ZS00LjE0L21haWxib3gtcmVzZXQt
+dHhkb25lX21ldGhvZC10eGRvbmVfYnlfcG9sbC1pZi1jbGllbnQta25vd3NfdHhkb25lLnBhdGNo
+CnF1ZXVlLTQuMTQvbXRkLXNwaS1ub3ItY2FkZW5jZS1xdWFkc3BpLWFkZC1hLWRlbGF5LWluLXdy
+aXRlLXNlcXVlbmNlLnBhdGNoCnF1ZXVlLTQuMTQvbWlzYy1wY2lfZW5kcG9pbnRfdGVzdC1maXgt
+YnVnX29uLWVycm9yLWR1cmluZy1wY2lfZGlzYWJsZV9tc2kucGF0Y2gKcXVldWUtNC4xNC9hc29j
+LXRsdjMyMGRhYzMxeHgtbWFyay1leHBlY3RlZC1zd2l0Y2gtZmFsbC10aHJvdWdoLnBhdGNoCnF1
+ZXVlLTQuMTQvcGNpLWRyYTd4eC1hZGQtc2h1dGRvd24taGFuZGxlci10by1jbGVhbmx5LXR1cm4t
+b2ZmLWNsb2Nrcy5wYXRjaApxdWV1ZS00LjE0L2Fzb2MtdGx2MzIwYWljMzF4eC1oYW5kbGUtaW52
+ZXJ0ZWQtYmNsay1pbi1ub24tZHNwLW1vZGVzLnBhdGNoCnF1ZXVlLTQuMTQvbXRkLXNwaS1ub3It
+ZW5hYmxlLTRiLW9wY29kZXMtZm9yLW14NjZsNTEyMzVsLnBhdGNoCnF1ZXVlLTQuMTQvY3B1ZnJl
+cS10aS1jcHVmcmVxLWFkZC1taXNzaW5nLW9mX25vZGVfcHV0LnBhdGNoCnF1ZXVlLTQuMTQvYXNv
+Yy1kYXZpbmNpLWtpbGwtYnVnX29uLXVzYWdlLnBhdGNoCnF1ZXVlLTQuMTQvbWZkLXBhbG1hcy1h
+c3NpZ24tdGhlLXJpZ2h0LXBvd2VyaG9sZC1tYXNrLWZvci10cHM2NTkxNy5wYXRjaApxdWV1ZS00
+LjE0L2Fzb2MtZGF2aW5jaS1tY2FzcC1maXgtYW4tZXJyb3ItaGFuZGxpbmctcGF0aC1pbi1kYXZp
+bmNpX21jYXNwX3Byb2JlLnBhdGNoCnF1ZXVlLTQuMTQvbWlzYy1wY2lfZW5kcG9pbnRfdGVzdC1w
+cmV2ZW50LXNvbWUtaW50ZWdlci1vdmVyZmxvd3MucGF0Y2gKcXVldWUtNC4xNC9hc29jLWRhdmlu
+Y2ktbWNhc3AtaGFuZGxlLXJldHVybi12YWx1ZS1vZi1kZXZtX2thc3ByaW50Zi5wYXRjaApxdWV1
+ZS00LjE0L2kyYy1vbWFwLXRyaWdnZXItYnVzLXJlY292ZXJ5LWluLWxvY2t1cC1jYXNlLnBhdGNo
+CnF1ZXVlLTQuMTQvdXNiLWR3YzMtYWxsb3ctZGlzYWJsaW5nLW9mLW1ldGFzdGFiaWxpdHktd29y
+a2Fyb3VuZC5wYXRjaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWw=
