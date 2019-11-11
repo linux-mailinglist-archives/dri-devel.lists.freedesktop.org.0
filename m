@@ -2,51 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC3F1F6CBD
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2019 03:30:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B531F6CFC
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2019 03:50:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B5E06E83A;
-	Mon, 11 Nov 2019 02:29:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10FC76E851;
+	Mon, 11 Nov 2019 02:50:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ironport.ite.com.tw (60-251-196-230.HINET-IP.hinet.net
- [60.251.196.230])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1AB2E6E2EA
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2019 01:44:00 +0000 (UTC)
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 11 Nov 2019 09:43:58 +0800
-Received: from csbcas.internal.ite.com.tw (csbmail1.internal.ite.com.tw
- [192.168.65.58]) by mse.ite.com.tw with ESMTP id xAB1hsUl095256;
- Mon, 11 Nov 2019 09:43:54 +0800 (GMT-8)
- (envelope-from allen.chen@ite.com.tw)
-Received: from CSBMAIL1.internal.ite.com.tw (192.168.65.58) by
- CSBMAIL1.internal.ite.com.tw (192.168.65.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1713.5; Mon, 11 Nov 2019 09:43:52 +0800
-Received: from CSBMAIL1.internal.ite.com.tw ([fe80::2cba:f37c:ac09:f33f]) by
- CSBMAIL1.internal.ite.com.tw ([fe80::2cba:f37c:ac09:f33f%22]) with mapi id
- 15.01.1713.004; Mon, 11 Nov 2019 09:43:52 +0800
-From: <allen.chen@ite.com.tw>
-To: <ville.syrjala@linux.intel.com>
-Subject: RE: [PATCH] drm/edid: fixup EDID 1.3 and 1.4 judge reduced-blanking
- timings logic
-Thread-Topic: [PATCH] drm/edid: fixup EDID 1.3 and 1.4 judge reduced-blanking
- timings logic
-Thread-Index: AQHVlYH318RIQ5a4V0OrztvUfQdNe6eA1+2g
-Date: Mon, 11 Nov 2019 01:43:52 +0000
-Message-ID: <d942db3a0b3242c6910c3ec3a524d04a@ite.com.tw>
-References: <1572856969-12115-1-git-send-email-allen.chen@ite.com.tw>
- <20191107154209.GC1208@intel.com>
-In-Reply-To: <20191107154209.GC1208@intel.com>
-Accept-Language: en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.70.14]
-x-tm-snts-smtp: 99ECDDDB5A6AA97F90B09849EFB514D590E85C5AABC2DE8F2A51738D463C48932000:8
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0C90D6E846
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2019 02:50:14 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 0980E720E2; Mon, 11 Nov 2019 02:50:14 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Mon, 11 Nov 2019 02:50:13 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: hamz_23@hotmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: highest
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111481-502-O8rX6ZChM1@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-MAIL: mse.ite.com.tw xAB1hsUl095256
-X-Mailman-Approved-At: Mon, 11 Nov 2019 02:29:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,91 +53,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jau-Chih.Tseng@ite.com.tw, maxime.ripard@bootlin.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- airlied@linux.ie, pihsun@chromium.org, sean@poorly.run
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1622250883=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgVmlsbGUgU3lyasOkbMOkDQoNClRoYW5rcyBmb3IgeW91ciBzdWdnZXN0aW9uIGFuZCBJIGhh
-dmUgcmVwbGllZCB0d28gY29tbWVudHMgYmVsb3cuDQoNCkZyb206IFZpbGxlIFN5cmrDpGzDpCBb
-bWFpbHRvOnZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tXSANClNlbnQ6IFRodXJzZGF5LCBO
-b3ZlbWJlciAwNywgMjAxOSAxMTo0MiBQTQ0KVG86IEFsbGVuIENoZW4gKOmZs+afj+WuhykNCkNj
-OiBKYXUtQ2hpaCBUc2VuZyAo5pu+5pit5pm6KTsgTWF4aW1lIFJpcGFyZDsgb3BlbiBsaXN0OyBv
-cGVuIGxpc3Q6RFJNIERSSVZFUlM7IERhdmlkIEFpcmxpZTsgUGktSHN1biBTaGloOyBTZWFuIFBh
-dWwNClN1YmplY3Q6IFJlOiBbUEFUQ0hdIGRybS9lZGlkOiBmaXh1cCBFRElEIDEuMyBhbmQgMS40
-IGp1ZGdlIHJlZHVjZWQtYmxhbmtpbmcgdGltaW5ncyBsb2dpYw0KDQpPbiBNb24sIE5vdiAwNCwg
-MjAxOSBhdCAwNDo0Mjo0OVBNICswODAwLCBhbGxlbiB3cm90ZToNCj4gQWNjb3JkaW5nIHRvIFZF
-U0EgRU5IQU5DRUQgRVhURU5ERUQgRElTUExBWSBJREVOVElGSUNBVElPTiBEQVRBIFNUQU5EQVJE
-DQo+IChEZWZpbmVzIEVESUQgU3RydWN0dXJlIFZlcnNpb24gMSwgUmV2aXNpb24gNCkgcGFnZTog
-MzkNCj4gSG93IHRvIGRldGVybWluZSB3aGV0aGVyIHRoZSBtb25pdG9yIHN1cHBvcnQgUkIgdGlt
-aW5nIG9yIG5vdD8NCj4gRURJRCAxLjQNCj4gRmlyc3Q6ICByZWFkIGRldGFpbGVkIHRpbWluZyBk
-ZXNjcmlwdG9yIGFuZCBtYWtlIHN1cmUgYnl0ZTAgPSAwLA0KPiAJYnl0ZTEgPSAwLCBieXRlMiA9
-IDAgYW5kIGJ5dGUzID0gMHhGRA0KDQpUaGF0IHNob3VsZCBwcm9iYWJseSBiZSBzb21lIG5ldyBm
-dW5jdGlvbjoNCmJvb2wgaXNfZGlzcGxheV9kZXNjcmlwdG9yKGNvbnN0IHU4ICpkZXNjLCB1OCB0
-YWcpOw0KaXNfZGlzcGxheV9kZXNjcmlwdG9yKEVESURfREVUQUlMX01PTklUT1JfUkFOR0UpDQpv
-ciBzb21ldGhpbmcgYWxvbmcgdGhvc2UgbGluZXMNCg0KV2UgZG9uJ3Qgc2VlbSB0byBjaGVjayB0
-aGF0IGluIG1vc3QgcGxhY2VzIHNvIHNob3VsZCBiZSByb2xsZWQgb3V0IGFsbA0Kb3Zlci4gVGhl
-IHVzYWdlIG9mIHN0cnVjdCBkZXRhaWxlZF90aW1pbmcgYWxsIG92ZXIgYWxzbyBtYWtlcyBldmVy
-eXRoaW5nDQpyYXRoZXIgY29uZnVzaW5nLg0KDQo+IFNlY29uZDogcmVhZCBkZXRhaWxlZCB0aW1p
-bmcgZGVzY3JpcHRvciBieXRlMTAgPSAweDA0IGFuZA0KPiAJRURJRCBieXRlMThoIGJpdDAgPSAx
-DQoNCkluZGljYXRlcyBDVlQgc3VwcG9ydC4gU2hvdWxkIGdpdmUgdGhlc2UgdGhpbmdzIHJlYWwg
-bmFtZXMgc28NCm9uZSB3b3VsZG4ndCBoYXZlIHRvIGRlY29kZSBieSBoYW5kLg0KDQo+IFRoaXJk
-OiAgaWYgRURJRCBieXRlMThoIGJpdDAgPT0gMSAmJiBieXRlMTAgPT0gMHgwNCwNCj4gCXRoZW4g
-d2UgY2FuIGNoZWNrIGJ5dGUxNSwgaWYgYnl0ZTE1IGJpdDQgPTEgaXMgc3VwcG9ydCBSQg0KPiAg
-ICAgICAgIGlmIEVESUQgYnl0ZTE4aCBiaXQwICE9IDEgfHwgYnl0ZTEwICE9IDB4MDQsDQo+IAl0
-aGVuIGJ5dGUxNSBjYW4gbm90IGJlIHVzZWQNCj4gDQo+IFRoZSBsaW51eCBjb2RlIGlzX3JiIGZ1
-bmN0aW9uIG5vdCBmb2xsb3cgdGhlIFZFU0EncyBydWxlDQo+IA0KPiBFRElEIDEuMw0KPiBMQ0Ti
-gIJmbGF04oCCcGFuZWxzIGRv4oCCbm904oCCcmVxdWlyZeKAgmxvbmfigIJibGFua2luZ+KAgmlu
-dGVydmFsc+KAgmFz4oCCYeKAgnJldHJhY2UNCj4gcGVyaW9kIHNvIGRlZmF1bHQgc3VwcG9ydCBy
-ZWR1Y2VkLWJsYW5raW5nIHRpbWluZ3MuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBBbGxlbiBDaGVu
-IDxhbGxlbi5jaGVuQGl0ZS5jb20udHc+DQo+IFJlcG9ydGVkLWJ5OiBrYnVpbGQgdGVzdCByb2Jv
-dCA8bGtwQGludGVsLmNvbT4NCj4gLS0tDQo+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYyB8
-IDI4ICsrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAyMSBp
-bnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9kcm1fZWRpZC5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMNCj4gaW5kZXgg
-ZTVlN2U2NS4uOWI2N2I4MCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9lZGlk
-LmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMNCj4gQEAgLTkzLDYgKzkzLDEx
-IEBAIHN0cnVjdCBkZXRhaWxlZF9tb2RlX2Nsb3N1cmUgew0KPiAgCWludCBtb2RlczsNCj4gIH07
-DQo+ICANCj4gK3N0cnVjdCBlZGlkX3N1cHBvcnRfcmJfY2xvc3VyZSB7DQo+ICsJc3RydWN0IGVk
-aWQgKmVkaWQ7DQo+ICsJczggc3VwcG9ydF9yYjsNCg0KYm9vbA0KDQo9PT4gSVRFOiAgSWYgdXNl
-IGJvb2wsIHdlIGNvdWxkIG5vdCByZXR1cm4gRURJRDEuMyB3aGVuIEVESUQxLjQgbG9naWMgY2Fu
-IG5vdCBiZSBhcHBsaWVkDQo+ICt9Ow0KPiArDQo+ICAjZGVmaW5lIExFVkVMX0RNVAkwDQo+ICAj
-ZGVmaW5lIExFVkVMX0dURgkxDQo+ICAjZGVmaW5lIExFVkVMX0dURjIJMg0KPiBAQCAtMjAxOCwy
-MiArMjAyMywzMSBAQCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqZHJtX21vZGVfZmluZF9kbXQo
-c3RydWN0IGRybV9kZXZpY2UgKmRldiwNCj4gIGlzX3JiKHN0cnVjdCBkZXRhaWxlZF90aW1pbmcg
-KnQsIHZvaWQgKmRhdGEpDQo+ICB7DQo+ICAJdTggKnIgPSAodTggKil0Ow0KPiAtCWlmIChyWzNd
-ID09IEVESURfREVUQUlMX01PTklUT1JfUkFOR0UpDQo+IC0JCWlmIChyWzE1XSAmIDB4MTApDQo+
-IC0JCQkqKGJvb2wgKilkYXRhID0gdHJ1ZTsNCj4gKwlzdHJ1Y3QgZWRpZF9zdXBwb3J0X3JiX2Ns
-b3N1cmUgKmNsb3N1cmUgPSBkYXRhOw0KPiArCXN0cnVjdCBlZGlkICplZGlkID0gY2xvc3VyZS0+
-ZWRpZDsNCj4gKw0KPiArCWlmICghclswXSAmJiAhclsxXSAmJiAhclsyXSAmJiByWzNdID09IEVE
-SURfREVUQUlMX01PTklUT1JfUkFOR0UpIHsNCj4gKwkJaWYgKGVkaWQtPmZlYXR1cmVzICYgQklU
-KDApICYmIHJbMTBdID09IEJJVCgyKSkNCj4gKwkJCWNsb3N1cmUtPnN1cHBvcnRfcmIgPSAoclsx
-NV0gJiAweDEwKSA/IDEgOiAwOw0KDQpXaXRoIHRoZSBib29sIHRoZSB0ZXJuYXJ5IG9wZXJhdG9y
-IGlzIG5vdCBuZWVkZWQuIEFsc28gc2hvdWxkIG1heWJlIA0KYmUgfD0gaW4gY2FzZSB3ZSBoYXZl
-IG11bHRpcGxlIHJhbmdlIGRlc2NyaXB0b3JzPyBOb3Qgc3VyZSB0aGF0IGlzDQpsZWdhbC4NCg0K
-PiArCX0NCj4gIH0NCj4gIA0KPiAgLyogRURJRCAxLjQgZGVmaW5lcyB0aGlzIGV4cGxpY2l0bHku
-ICBGb3IgRURJRCAxLjMsIHdlIGd1ZXNzLCBiYWRseS4gKi8NCj4gIHN0YXRpYyBib29sDQo+ICBk
-cm1fbW9uaXRvcl9zdXBwb3J0c19yYihzdHJ1Y3QgZWRpZCAqZWRpZCkNCj4gIHsNCj4gKwlzdHJ1
-Y3QgZWRpZF9zdXBwb3J0X3JiX2Nsb3N1cmUgY2xvc3VyZSA9IHsNCj4gKwkJLmVkaWQgPSBlZGlk
-LA0KPiArCQkuc3VwcG9ydF9yYiA9IC0xLA0KPiArCX07DQo+ICsNCj4gIAlpZiAoZWRpZC0+cmV2
-aXNpb24gPj0gNCkgew0KPiAtCQlib29sIHJldCA9IGZhbHNlOw0KPiAtCQlkcm1fZm9yX2VhY2hf
-ZGV0YWlsZWRfYmxvY2soKHU4ICopZWRpZCwgaXNfcmIsICZyZXQpOw0KPiAtCQlyZXR1cm4gcmV0
-Ow0KPiArCQlkcm1fZm9yX2VhY2hfZGV0YWlsZWRfYmxvY2soKHU4ICopZWRpZCwgaXNfcmIsICZj
-bG9zdXJlKTsNCj4gKwkJaWYgKGNsb3N1cmUuc3VwcG9ydF9yYiA+PSAwKQ0KPiArCQkJcmV0dXJu
-IGNsb3N1cmUuc3VwcG9ydF9yYjsNCj4gIAl9DQo+ICANCj4gLQlyZXR1cm4gKChlZGlkLT5pbnB1
-dCAmIERSTV9FRElEX0lOUFVUX0RJR0lUQUwpICE9IDApOw0KPiArCXJldHVybiB0cnVlOw0KDQpX
-aHkgYXJlIHdlIG5vdyBhc3N1bWluZyByYiBmb3IgYWxsIHByZSAxLjQgRURJRHM/DQoNCj09PiBJ
-VEU6IFRvZGF5LCBtb3N0IG9mIHRoZSBtb25pdG9yIGFyZSBMQ0QgYW5kIExDRCBtb25pdG9yIGRv
-IG5vdCByZXF1aXJlIGxvbmcgYmxhbmtpbmcgaW50ZXJ2YWxzIGFzIGEgcmV0cmFjZSBwZXJpb2Qg
-c28gZGVmYXVsdCBzdXBwb3J0IHJlZHVjZWQtYmxhbmtpbmcgdGltaW5ncy4NCg0KPiAgfQ0KPiAg
-DQo+ICBzdGF0aWMgdm9pZA0KPiAtLSANCj4gMS45LjENCj4gDQo+IF9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QN
-Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPiBodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA0KDQotLSANClZpbGxlIFN5cmrD
-pGzDpA0KSW50ZWwNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bA==
+
+--===============1622250883==
+Content-Type: multipart/alternative; boundary="15734406140.7aFFdA28.20460"
+Content-Transfer-Encoding: 7bit
+
+
+--15734406140.7aFFdA28.20460
+Date: Mon, 11 Nov 2019 02:50:13 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+
+--- Comment #227 from John H <hamz_23@hotmail.com> ---
+Hi all.
+
+For the last couple weeks I have been following this thread and just wanted=
+ to
+reprot my experiences findings. First off, my machine's specs:
+
+AMD Ryzen 3700X
+Aorus X570 Pro Wifi motherboard
+32 GB (16x2) DDR4 3200 RAM
+PowerColor Red Devil 5700XT Graphics
+Various SSD / HDD all on SATA.
+Windows 10 / Debian Sid
+
+Debian Sid: Kernel 5.3.10, Mesa 19.2.3, LLVM 9 as of writing this.
+
+In the whole time I have had this graphics card (October 21 onwards) I dont
+think I have had any crashes / freezes on the desktop or during browsing
+through Chromium. However, I have hard freezes when playing games. A specif=
+ic
+one I can reproduce EVERY. SINGLE. TIME. was when playing Unreal Tournament=
+ 3
+via Steam proton. The "Shangri La" map i encountered lockups anywhere from a
+few seconds to a few minutes into the game. Forcing me to hit the reset but=
+ton.
+I was able to SSH in via my phone before resetting and looking at dmesg said
+something about amdgpu GPU recovery failed.=20
+
+My 5700XT, has a dual BIOS's. One overclocked, the other for "silent". By
+default the switch was in the OC position, earlier today I flipped it to
+silent. and since then, NO freezes in UT whatsoever! I figured the factory
+overclock PowerColor implemented on this card was just a touch too high and=
+ is
+therefore unstable. Forza 6 Apex in Windows 10 also hard freezes my PC, for=
+cing
+me to reset. That problem also has been eliminated since flipping the switc=
+h. A
+slight performance loss but I'll take the stability anyday.
+
+
+TL;DR - If your Navi card has dual BIOS, try switching to the lower clocked
+BIOS if you haven't already. it may just help. Certainly, I'll report back =
+if I
+find any other issues in Debian that is linked to this gfx card
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15734406140.7aFFdA28.20460
+Date: Mon, 11 Nov 2019 02:50:14 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c227">Comm=
+ent # 227</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+hamz_23&#64;hotmail.com" title=3D"John H &lt;hamz_23&#64;hotmail.com&gt;"> =
+<span class=3D"fn">John H</span></a>
+</span></b>
+        <pre>Hi all.
+
+For the last couple weeks I have been following this thread and just wanted=
+ to
+reprot my experiences findings. First off, my machine's specs:
+
+AMD Ryzen 3700X
+Aorus X570 Pro Wifi motherboard
+32 GB (16x2) DDR4 3200 RAM
+PowerColor Red Devil 5700XT Graphics
+Various SSD / HDD all on SATA.
+Windows 10 / Debian Sid
+
+Debian Sid: Kernel 5.3.10, Mesa 19.2.3, LLVM 9 as of writing this.
+
+In the whole time I have had this graphics card (October 21 onwards) I dont
+think I have had any crashes / freezes on the desktop or during browsing
+through Chromium. However, I have hard freezes when playing games. A specif=
+ic
+one I can reproduce EVERY. SINGLE. TIME. was when playing Unreal Tournament=
+ 3
+via Steam proton. The &quot;Shangri La&quot; map i encountered lockups anyw=
+here from a
+few seconds to a few minutes into the game. Forcing me to hit the reset but=
+ton.
+I was able to SSH in via my phone before resetting and looking at dmesg said
+something about amdgpu GPU recovery failed.=20
+
+My 5700XT, has a dual BIOS's. One overclocked, the other for &quot;silent&q=
+uot;. By
+default the switch was in the OC position, earlier today I flipped it to
+silent. and since then, NO freezes in UT whatsoever! I figured the factory
+overclock PowerColor implemented on this card was just a touch too high and=
+ is
+therefore unstable. Forza 6 Apex in Windows 10 also hard freezes my PC, for=
+cing
+me to reset. That problem also has been eliminated since flipping the switc=
+h. A
+slight performance loss but I'll take the stability anyday.
+
+
+TL;DR - If your Navi card has dual BIOS, try switching to the lower clocked
+BIOS if you haven't already. it may just help. Certainly, I'll report back =
+if I
+find any other issues in Debian that is linked to this gfx card</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15734406140.7aFFdA28.20460--
+
+--===============1622250883==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1622250883==--
