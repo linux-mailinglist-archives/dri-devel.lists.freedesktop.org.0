@@ -2,36 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16F53F6F68
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2019 09:07:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D32E2F6F62
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2019 09:05:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A34F66E84D;
-	Mon, 11 Nov 2019 08:06:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62C1D6E18E;
+	Mon, 11 Nov 2019 08:05:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 771DE6E11B;
- Mon, 11 Nov 2019 04:02:13 +0000 (UTC)
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id AA57C6AAD5EFC3DB08D5;
- Mon, 11 Nov 2019 12:02:11 +0800 (CST)
-Received: from huawei.com (10.90.53.225) by DGGEMS407-HUB.china.huawei.com
- (10.3.19.207) with Microsoft SMTP Server id 14.3.439.0; Mon, 11 Nov 2019
- 12:02:04 +0800
-From: zhengbin <zhengbin13@huawei.com>
-To: <rex.zhu@amd.com>, <evan.quan@amd.com>, <alexander.deucher@amd.com>,
- <christian.koenig@amd.com>, <David1.Zhou@amd.com>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <amd-gfx@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/amd/powerplay: remove set but not used variable
- 'threshold', 'state'
-Date: Mon, 11 Nov 2019 12:09:28 +0800
-Message-ID: <1573445368-132319-1-git-send-email-zhengbin13@huawei.com>
-X-Mailer: git-send-email 2.7.4
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 23DD56E84F
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2019 08:05:17 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 20BB6720E2; Mon, 11 Nov 2019 08:05:17 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Mon, 11 Nov 2019 08:05:07 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: popovic.marko@protonmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: highest
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111481-502-Ei6Eh8i5pc@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Originating-IP: [10.90.53.225]
-X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Mon, 11 Nov 2019 08:06:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,58 +53,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: zhengbin13@huawei.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1008504488=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXMgZ2NjICctV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlJyB3YXJuaW5nOgoKZHJpdmVycy9n
-cHUvZHJtL2FtZC9wb3dlcnBsYXkvc211bWdyL2Zpamlfc211bWdyLmM6IEluIGZ1bmN0aW9uIGZp
-amlfcG9wdWxhdGVfc2luZ2xlX2dyYXBoaWNfbGV2ZWw6CmRyaXZlcnMvZ3B1L2RybS9hbWQvcG93
-ZXJwbGF5L3NtdW1nci9maWppX3NtdW1nci5jOjk0MzoxMTogd2FybmluZzogdmFyaWFibGUgdGhy
-ZXNob2xkIHNldCBidXQgbm90IHVzZWQgWy1XdW51c2VkLWJ1dC1zZXQtdmFyaWFibGVdCmRyaXZl
-cnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L3NtdW1nci9maWppX3NtdW1nci5jOiBJbiBmdW5jdGlv
-biBmaWppX3BvcHVsYXRlX21lbW9yeV90aW1pbmdfcGFyYW1ldGVyczoKZHJpdmVycy9ncHUvZHJt
-L2FtZC9wb3dlcnBsYXkvc211bWdyL2Zpamlfc211bWdyLmM6MTUwNDo4OiB3YXJuaW5nOiB2YXJp
-YWJsZSBzdGF0ZSBzZXQgYnV0IG5vdCB1c2VkIFstV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlXQoK
-VGhleSBhcmUgaW50cm9kdWNlZCBieSBjb21taXQgMmUxMTJiNGFlM2JhICgiZHJtL2FtZC9wcDoK
-cmVtb3ZlIGZpamlfc21jL3NtdW1nciBzcGxpdC4iKSwgYnV0IG5ldmVyIHVzZWQsCnNvIHJlbW92
-ZSBpdC4KClJlcG9ydGVkLWJ5OiBIdWxrIFJvYm90IDxodWxrY2lAaHVhd2VpLmNvbT4KU2lnbmVk
-LW9mZi1ieTogemhlbmdiaW4gPHpoZW5nYmluMTNAaHVhd2VpLmNvbT4KLS0tCiBkcml2ZXJzL2dw
-dS9kcm0vYW1kL3Bvd2VycGxheS9zbXVtZ3IvZmlqaV9zbXVtZ3IuYyB8IDcgKystLS0tLQogMSBm
-aWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vYW1kL3Bvd2VycGxheS9zbXVtZ3IvZmlqaV9zbXVtZ3IuYyBiL2Ry
-aXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L3NtdW1nci9maWppX3NtdW1nci5jCmluZGV4IGRh
-MDI1YjEuLjMyZWJiMzggMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5
-L3NtdW1nci9maWppX3NtdW1nci5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5
-L3NtdW1nci9maWppX3NtdW1nci5jCkBAIC05NDAsNyArOTQwLDcgQEAgc3RhdGljIGludCBmaWpp
-X3BvcHVsYXRlX3NpbmdsZV9ncmFwaGljX2xldmVsKHN0cnVjdCBwcF9od21nciAqaHdtZ3IsCiB7
-CiAJaW50IHJlc3VsdDsKIAkvKiBQUF9DbG9ja3MgbWluQ2xvY2tzOyAqLwotCXVpbnQzMl90IHRo
-cmVzaG9sZCwgbXZkZDsKKwl1aW50MzJfdCBtdmRkOwogCXN0cnVjdCBzbXU3X2h3bWdyICpkYXRh
-ID0gKHN0cnVjdCBzbXU3X2h3bWdyICopKGh3bWdyLT5iYWNrZW5kKTsKIAlzdHJ1Y3QgcGhtX3Bw
-dF92MV9pbmZvcm1hdGlvbiAqdGFibGVfaW5mbyA9CiAJCQkoc3RydWN0IHBobV9wcHRfdjFfaW5m
-b3JtYXRpb24gKikoaHdtZ3ItPnBwdGFibGUpOwpAQCAtOTczLDggKzk3Myw2IEBAIHN0YXRpYyBp
-bnQgZmlqaV9wb3B1bGF0ZV9zaW5nbGVfZ3JhcGhpY19sZXZlbChzdHJ1Y3QgcHBfaHdtZ3IgKmh3
-bWdyLAogCWxldmVsLT5Wb2x0YWdlRG93bkh5c3QgPSAwOwogCWxldmVsLT5Qb3dlclRocm90dGxl
-ID0gMDsKCi0JdGhyZXNob2xkID0gY2xvY2sgKiBkYXRhLT5mYXN0X3dhdGVybWFya190aHJlc2hv
-bGQgLyAxMDA7Ci0KIAlkYXRhLT5kaXNwbGF5X3RpbWluZy5taW5fY2xvY2tfaW5fc3IgPSBod21n
-ci0+ZGlzcGxheV9jb25maWctPm1pbl9jb3JlX3NldF9jbG9ja19pbl9zcjsKCiAJaWYgKHBobV9j
-YXBfZW5hYmxlZChod21nci0+cGxhdGZvcm1fZGVzY3JpcHRvci5wbGF0Zm9ybUNhcHMsIFBITV9Q
-bGF0Zm9ybUNhcHNfU2Nsa0RlZXBTbGVlcCkpCkBAIC0xNTAxLDcgKzE0OTksNyBAQCBzdGF0aWMg
-aW50IGZpamlfcG9wdWxhdGVfbWVtb3J5X3RpbWluZ19wYXJhbWV0ZXJzKHN0cnVjdCBwcF9od21n
-ciAqaHdtZ3IsCiAJdWludDMyX3QgZHJhbV90aW1pbmc7CiAJdWludDMyX3QgZHJhbV90aW1pbmcy
-OwogCXVpbnQzMl90IGJ1cnN0VGltZTsKLQlVTE9ORyBzdGF0ZSwgdHJyZHMsIHRycmRsOworCVVM
-T05HIHRycmRzLCB0cnJkbDsKIAlpbnQgcmVzdWx0OwoKIAlyZXN1bHQgPSBhdG9tY3RybF9zZXRf
-ZW5naW5lX2RyYW1fdGltaW5nc19ydjc3MChod21nciwKQEAgLTE1MTMsNyArMTUxMSw2IEBAIHN0
-YXRpYyBpbnQgZmlqaV9wb3B1bGF0ZV9tZW1vcnlfdGltaW5nX3BhcmFtZXRlcnMoc3RydWN0IHBw
-X2h3bWdyICpod21nciwKIAlkcmFtX3RpbWluZzIgPSBjZ3NfcmVhZF9yZWdpc3Rlcihod21nci0+
-ZGV2aWNlLCBtbU1DX0FSQl9EUkFNX1RJTUlORzIpOwogCWJ1cnN0VGltZSA9IGNnc19yZWFkX3Jl
-Z2lzdGVyKGh3bWdyLT5kZXZpY2UsIG1tTUNfQVJCX0JVUlNUX1RJTUUpOwoKLQlzdGF0ZSA9IFBI
-TV9HRVRfRklFTEQoYnVyc3RUaW1lLCBNQ19BUkJfQlVSU1RfVElNRSwgU1RBVEUwKTsKIAl0cnJk
-cyA9IFBITV9HRVRfRklFTEQoYnVyc3RUaW1lLCBNQ19BUkJfQlVSU1RfVElNRSwgVFJSRFMwKTsK
-IAl0cnJkbCA9IFBITV9HRVRfRklFTEQoYnVyc3RUaW1lLCBNQ19BUkJfQlVSU1RfVElNRSwgVFJS
-REwwKTsKCi0tCjIuNy40CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWw=
+
+--===============1008504488==
+Content-Type: multipart/alternative; boundary="15734595171.DEe8.11806"
+Content-Transfer-Encoding: 7bit
+
+
+--15734595171.DEe8.11806
+Date: Mon, 11 Nov 2019 08:05:17 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+
+--- Comment #229 from Marko Popovic <popovic.marko@protonmail.com> ---
+(In reply to Shmerl from comment #228)
+> (In reply to John H from comment #227)
+> >
+> > specific one I can reproduce EVERY. SINGLE. TIME. was when playing Unre=
+al
+> > Tournament 3 via Steam proton. The "Shangri La" map i encountered locku=
+ps
+> > anywhere from a few seconds to a few minutes into the game. Forcing me =
+to
+> > hit the reset button.=20
+>=20
+> This could be a llvm / Mesa bug, not the kernel one. If you can reproduce
+> it, please report it for that game individually to the Mesa bug tracker,
+> with an apitrace.
+
+And make sure to NOT report it for the MESA version as old as 19.2.3... only
+report the bug if you're running current 19.3 RC series or 20 git series...
+because a lot of those might have already been fixed.
+
+best regards
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15734595171.DEe8.11806
+Date: Mon, 11 Nov 2019 08:05:17 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c229">Comm=
+ent # 229</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+popovic.marko&#64;protonmail.com" title=3D"Marko Popovic &lt;popovic.marko&=
+#64;protonmail.com&gt;"> <span class=3D"fn">Marko Popovic</span></a>
+</span></b>
+        <pre>(In reply to Shmerl from <a href=3D"show_bug.cgi?id=3D111481#c=
+228">comment #228</a>)
+<span class=3D"quote">&gt; (In reply to John H from <a href=3D"show_bug.cgi=
+?id=3D111481#c227">comment #227</a>)
+&gt; &gt;
+&gt; &gt; specific one I can reproduce EVERY. SINGLE. TIME. was when playin=
+g Unreal
+&gt; &gt; Tournament 3 via Steam proton. The &quot;Shangri La&quot; map i e=
+ncountered lockups
+&gt; &gt; anywhere from a few seconds to a few minutes into the game. Forci=
+ng me to
+&gt; &gt; hit the reset button.=20
+&gt;=20
+&gt; This could be a llvm / Mesa bug, not the kernel one. If you can reprod=
+uce
+&gt; it, please report it for that game individually to the Mesa bug tracke=
+r,
+&gt; with an apitrace.</span >
+
+And make sure to NOT report it for the MESA version as old as 19.2.3... only
+report the bug if you're running current 19.3 RC series or 20 git series...
+because a lot of those might have already been fixed.
+
+best regards</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15734595171.DEe8.11806--
+
+--===============1008504488==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1008504488==--
