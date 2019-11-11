@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04540F70E2
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2019 10:33:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5AB6F70F5
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2019 10:40:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF3646E874;
-	Mon, 11 Nov 2019 09:33:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74FE36E878;
+	Mon, 11 Nov 2019 09:40:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 90E246E874
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2019 09:33:46 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 504F86E878
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2019 09:40:48 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 8D565720E2; Mon, 11 Nov 2019 09:33:46 +0000 (UTC)
+ id 4D45E720E2; Mon, 11 Nov 2019 09:40:48 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112242] amdgpu [RX Vega 56]: ring sdma0 timeout
-Date: Mon, 11 Nov 2019 09:33:46 +0000
+Subject: [Bug 112243] Micro stuttering in RocketLeague
+Date: Mon, 11 Nov 2019 09:40:48 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: new
 X-Bugzilla-Watch-Reason: None
@@ -26,7 +26,7 @@ X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
+X-Bugzilla-Severity: normal
 X-Bugzilla-Who: mh@familie-heinz.name
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
@@ -35,7 +35,8 @@ X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
  op_sys bug_status bug_severity priority component assigned_to reporter
-Message-ID: <bug-112242-502@http.bugs.freedesktop.org/>
+ attachments.created
+Message-ID: <bug-112243-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -51,95 +52,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1317989561=="
+Content-Type: multipart/mixed; boundary="===============1985161915=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1317989561==
-Content-Type: multipart/alternative; boundary="15734648260.dAab4CB95.29609"
+--===============1985161915==
+Content-Type: multipart/alternative; boundary="15734652481.d40fD.30847"
 Content-Transfer-Encoding: 7bit
 
 
---15734648260.dAab4CB95.29609
-Date: Mon, 11 Nov 2019 09:33:46 +0000
+--15734652481.d40fD.30847
+Date: Mon, 11 Nov 2019 09:40:48 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112242
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112243
 
-            Bug ID: 112242
-           Summary: amdgpu [RX Vega 56]: ring sdma0 timeout
+            Bug ID: 112243
+           Summary: Micro stuttering in RocketLeague
            Product: DRI
            Version: unspecified
           Hardware: x86-64 (AMD64)
                 OS: Linux (All)
             Status: NEW
-          Severity: major
+          Severity: normal
           Priority: not set
          Component: DRM/AMDgpu
           Assignee: dri-devel@lists.freedesktop.org
           Reporter: mh@familie-heinz.name
 
+Created attachment 145932
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145932&action=3Dedit
+Shader clock and fps directly after boot
+
 Hi,
 
-I've reported this over at bugzilla.kernel.org but didn't get any help ther=
-e.
-Maybe because nobody is expecting bugreports about the amdgpu driver over on
-the kernels bugtracker?
+I'm copying this over from bugzilla.kernel.org, because I think it's the wr=
+ong
+place for amdgpu bug reports.
 
-So this started a while ago, when I updated from 5.0.0 to a newer kernel. I=
-'m
-currently at 5.3.0 and for almost any game I play I run into this problem:
+So everytime I start RocketLeague the first time after a boot I have some k=
+ind
+of  micro stuttering. This happens with my RX550 and on a Vega 56.
 
-Aug 24 11:13:33 egalite kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* =
-ring
-sdma0 timeout, signaled seq=3D368056, emitted seq=3D368057
-Aug 24 11:13:33 egalite kernel: [drm:drm_atomic_helper_wait_for_flip_done
-[drm_kms_helper]] *ERROR* [CRTC:47:crtc-0] flip_done timed out
-Aug 24 11:13:33 egalite kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR*
-Process information: process 7DaysToDie.x86_ pid 8108 thread 7DaysToDie:cs0
-Aug 24 11:13:33 egalite kernel: amdgpu 0000:0c:00.0: GPU reset begin!
-Aug 24 11:13:33 egalite kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* =
-ring
-gfx timeout, but soft recovered
+A workaround is to set power_dpm_force_performance_level to "high".
 
-Only a hard reset made me recover from that.
-
-I did some kernel traces which I will copy over to this report, if necessar=
-y,
-but for now you can download them here:
-https://bugzilla.kernel.org/show_bug.cgi?id=3D204683
-
-It also looks a bit like this bug:
-https://bugzilla.kernel.org/show_bug.cgi?id=3D201957 , because I also get t=
+Setting it back to "auto" on the RX550 makes the stuttering return. Doing t=
 he
-"ring gfx timeout". And there are lots and lots of people having this issue.
+same thing on the Vega 56 not and the stuttering is gone until the next boo=
+t.
 
-I tried bisecting it, but failed, because either I missed the commit that
-causes this, because there are multiple reasons why this happens or this re=
-ally
-goes way back to the time, where 4.18 was the base for drm-next (which does=
-n't
-compile on modern compilers anymore. Also steam doesn't want to run on those
-old kernels, so even when I was able to compile an older kernel, there was =
-no
-way to test them)
+I recently found out that I can set power_dpm_force_performance_level to
+"manual" as well and forbid the lowest clock mode by setting pp_dpm_mclk to=
+ "1
+2 3".
 
-I even tried debugging it over ethernet (KGDBoE is a nice thing if you need
-performance), but somehow this slowed everything down enough to not trigger=
- the
-bug.
+I'll attach three screenshots that display the shader clock and fps via gal=
+lium
+hud. One directly after a boot, one with performance_level set to "high" and
+one after resetting it to "auto". All screenshots were made with the Vega 56
+and Mesa 18.2.0.
 
-I also tried the suggestions from
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109955, but forbidding the l=
-owest
-clock mode doesn't help either. (It fixes my RocketLeague problems, though).
-
-Please advise what I should try next.
+The Mesa version is quiet old, but neither a newer kernel, nor an updated M=
+esa
+helps.
 
 Best regards
 Matthias
@@ -148,8 +128,8 @@ Matthias
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15734648260.dAab4CB95.29609
-Date: Mon, 11 Nov 2019 09:33:46 +0000
+--15734652481.d40fD.30847
+Date: Mon, 11 Nov 2019 09:40:48 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -165,14 +145,14 @@ Auto-Submitted: auto-generated
           <th>Bug ID</th>
           <td><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 56]: ring sdma0 timeout"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112242">112242</a>
+   title=3D"NEW - Micro stuttering in RocketLeague"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112243">112243</a>
           </td>
         </tr>
 
         <tr>
           <th>Summary</th>
-          <td>amdgpu [RX Vega 56]: ring sdma0 timeout
+          <td>Micro stuttering in RocketLeague
           </td>
         </tr>
 
@@ -208,7 +188,7 @@ Auto-Submitted: auto-generated
 
         <tr>
           <th>Severity</th>
-          <td>major
+          <td>normal
           </td>
         </tr>
 
@@ -237,67 +217,46 @@ Auto-Submitted: auto-generated
         </tr></table>
       <p>
         <div>
-        <pre>Hi,
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145932=
+" name=3D"attach_145932" title=3D"Shader clock and fps directly after boot"=
+>attachment 145932</a> <a href=3D"attachment.cgi?id=3D145932&amp;action=3De=
+dit" title=3D"Shader clock and fps directly after boot">[details]</a></span>
+Shader clock and fps directly after boot
 
-I've reported this over at bugzilla.kernel.org but didn't get any help ther=
-e.
-Maybe because nobody is expecting bugreports about the amdgpu driver over on
-the kernels bugtracker?
+Hi,
 
-So this started a while ago, when I updated from 5.0.0 to a newer kernel. I=
-'m
-currently at 5.3.0 and for almost any game I play I run into this problem:
+I'm copying this over from bugzilla.kernel.org, because I think it's the wr=
+ong
+place for amdgpu bug reports.
 
-Aug 24 11:13:33 egalite kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* =
-ring
-sdma0 timeout, signaled seq=3D368056, emitted seq=3D368057
-Aug 24 11:13:33 egalite kernel: [drm:drm_atomic_helper_wait_for_flip_done
-[drm_kms_helper]] *ERROR* [CRTC:47:crtc-0] flip_done timed out
-Aug 24 11:13:33 egalite kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR*
-Process information: process 7DaysToDie.x86_ pid 8108 thread 7DaysToDie:cs0
-Aug 24 11:13:33 egalite kernel: amdgpu 0000:0c:00.0: GPU reset begin!
-Aug 24 11:13:33 egalite kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* =
-ring
-gfx timeout, but soft recovered
+So everytime I start RocketLeague the first time after a boot I have some k=
+ind
+of  micro stuttering. This happens with my RX550 and on a Vega 56.
 
-Only a hard reset made me recover from that.
+A workaround is to set power_dpm_force_performance_level to &quot;high&quot=
+;.
 
-I did some kernel traces which I will copy over to this report, if necessar=
-y,
-but for now you can download them here:
-<a href=3D"https://bugzilla.kernel.org/show_bug.cgi?id=3D204683">https://bu=
-gzilla.kernel.org/show_bug.cgi?id=3D204683</a>
+Setting it back to &quot;auto&quot; on the RX550 makes the stuttering retur=
+n. Doing the
+same thing on the Vega 56 not and the stuttering is gone until the next boo=
+t.
 
-It also looks a bit like this bug:
-<a href=3D"https://bugzilla.kernel.org/show_bug.cgi?id=3D201957">https://bu=
-gzilla.kernel.org/show_bug.cgi?id=3D201957</a> , because I also get the
-&quot;ring gfx timeout&quot;. And there are lots and lots of people having =
-this issue.
+I recently found out that I can set power_dpm_force_performance_level to
+&quot;manual&quot; as well and forbid the lowest clock mode by setting pp_d=
+pm_mclk to &quot;1
+2 3&quot;.
 
-I tried bisecting it, but failed, because either I missed the commit that
-causes this, because there are multiple reasons why this happens or this re=
-ally
-goes way back to the time, where 4.18 was the base for drm-next (which does=
-n't
-compile on modern compilers anymore. Also steam doesn't want to run on those
-old kernels, so even when I was able to compile an older kernel, there was =
-no
-way to test them)
+I'll attach three screenshots that display the shader clock and fps via gal=
+lium
+hud. One directly after a boot, one with performance_level set to &quot;hig=
+h&quot; and
+one after resetting it to &quot;auto&quot;. All screenshots were made with =
+the Vega 56
+and Mesa 18.2.0.
 
-I even tried debugging it over ethernet (KGDBoE is a nice thing if you need
-performance), but somehow this slowed everything down enough to not trigger=
- the
-bug.
-
-I also tried the suggestions from
-<a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"show_bug.cgi?id=3D109955">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D109955</a>, but forbidding the lowest
-clock mode doesn't help either. (It fixes my RocketLeague problems, though).
-
-Please advise what I should try next.
+The Mesa version is quiet old, but neither a newer kernel, nor an updated M=
+esa
+helps.
 
 Best regards
 Matthias</pre>
@@ -314,9 +273,9 @@ Matthias</pre>
     </body>
 </html>=
 
---15734648260.dAab4CB95.29609--
+--15734652481.d40fD.30847--
 
---===============1317989561==
+--===============1985161915==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -326,4 +285,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1317989561==--
+--===============1985161915==--
