@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A097F81D5
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2019 22:04:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9734F81D6
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2019 22:05:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A0C16E296;
-	Mon, 11 Nov 2019 21:04:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04D926E29A;
+	Mon, 11 Nov 2019 21:05:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01F336E296
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2019 21:04:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28FB76E29A
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2019 21:04:59 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205491] New: Green external display after wake up
-Date: Mon, 11 Nov 2019 21:04:20 +0000
+Subject: [Bug 205491] Green external display after wake up
+Date: Mon, 11 Nov 2019 21:04:58 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -30,10 +30,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-205491-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-205491-2300-O0UCB2a4mm@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-205491-2300@https.bugzilla.kernel.org/>
+References: <bug-205491-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -56,22 +56,12 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU0OTEKCiAgICAg
-ICAgICAgIEJ1ZyBJRDogMjA1NDkxCiAgICAgICAgICAgU3VtbWFyeTogR3JlZW4gZXh0ZXJuYWwg
-ZGlzcGxheSBhZnRlciB3YWtlIHVwCiAgICAgICAgICAgUHJvZHVjdDogRHJpdmVycwogICAgICAg
-ICAgIFZlcnNpb246IDIuNQogICAgS2VybmVsIFZlcnNpb246IDUuMy4xMAogICAgICAgICAgSGFy
-ZHdhcmU6IEFsbAogICAgICAgICAgICAgICAgT1M6IExpbnV4CiAgICAgICAgICAgICAgVHJlZTog
-TWFpbmxpbmUKICAgICAgICAgICAgU3RhdHVzOiBORVcKICAgICAgICAgIFNldmVyaXR5OiBub3Jt
-YWwKICAgICAgICAgIFByaW9yaXR5OiBQMQogICAgICAgICBDb21wb25lbnQ6IFZpZGVvKERSSSAt
-IG5vbiBJbnRlbCkKICAgICAgICAgIEFzc2lnbmVlOiBkcml2ZXJzX3ZpZGVvLWRyaUBrZXJuZWwt
-YnVncy5vc2RsLm9yZwogICAgICAgICAgUmVwb3J0ZXI6IGx1a2FzekB6YXJub3dpZWNraS5wbAog
-ICAgICAgIFJlZ3Jlc3Npb246IE5vCgpDcmVhdGVkIGF0dGFjaG1lbnQgMjg1ODYzCiAgLS0+IGh0
-dHBzOi8vYnVnemlsbGEua2VybmVsLm9yZy9hdHRhY2htZW50LmNnaT9pZD0yODU4NjMmYWN0aW9u
-PWVkaXQKZG1lc2cKCkFmdGVyIG15IGxhcHRvcCBpcyB3YWtpbmcgdXAgZnJvbSBzdXNwZW5kLCB0
-aGUgZXh0ZXJuYWwgbW9uaXRvciBkaXNwbGF5cyB3aG9sZQpncmVlbiBzY3JlZW4uICBQbHVnaW4g
-b3V0IGFuZCBpbiBIRE1JIGNhYmxlIGZpeGVzIHByb2JsZW0uCgpJbiBkbWVzZyB0aGVyZSBhcmUg
-ZmV3IGRpZmZlcmVudCBjcmFzaGVzIHJlbGF0ZWQgdG8gYW1kZ3B1LgoKLS0gCllvdSBhcmUgcmVj
-ZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBv
-ZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU0OTEKCi0tLSBD
+b21tZW50ICMxIGZyb20gxYF1a2FzeiDFu2Fybm93aWVja2kgKGx1a2FzekB6YXJub3dpZWNraS5w
+bCkgLS0tCkNyZWF0ZWQgYXR0YWNobWVudCAyODU4NjUKICAtLT4gaHR0cHM6Ly9idWd6aWxsYS5r
+ZXJuZWwub3JnL2F0dGFjaG1lbnQuY2dpP2lkPTI4NTg2NSZhY3Rpb249ZWRpdApsc3BjaQoKLS0g
+CllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRo
+ZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
+by9kcmktZGV2ZWw=
