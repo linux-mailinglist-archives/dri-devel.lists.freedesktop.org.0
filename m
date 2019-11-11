@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B531F6CFC
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2019 03:50:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBBB0F6D05
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Nov 2019 04:01:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10FC76E851;
-	Mon, 11 Nov 2019 02:50:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C87266E82A;
+	Mon, 11 Nov 2019 03:01:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0C90D6E846
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2019 02:50:14 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 07F4E6E83D
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2019 03:01:21 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0980E720E2; Mon, 11 Nov 2019 02:50:14 +0000 (UTC)
+ id 046BB720E2; Mon, 11 Nov 2019 03:01:21 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
  with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Mon, 11 Nov 2019 02:50:13 +0000
+Date: Mon, 11 Nov 2019 03:01:20 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -28,14 +28,14 @@ X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: critical
-X-Bugzilla-Who: hamz_23@hotmail.com
+X-Bugzilla-Who: shtetldik@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: highest
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-O8rX6ZChM1@http.bugs.freedesktop.org/>
+Message-ID: <bug-111481-502-PdMIjgC7va@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
 References: <bug-111481-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1622250883=="
+Content-Type: multipart/mixed; boundary="===============0840397188=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1622250883==
-Content-Type: multipart/alternative; boundary="15734406140.7aFFdA28.20460"
+--===============0840397188==
+Content-Type: multipart/alternative; boundary="15734412805.DA58.23094"
 Content-Transfer-Encoding: 7bit
 
 
---15734406140.7aFFdA28.20460
-Date: Mon, 11 Nov 2019 02:50:13 +0000
+--15734412805.DA58.23094
+Date: Mon, 11 Nov 2019 03:01:20 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,57 +73,25 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
 
---- Comment #227 from John H <hamz_23@hotmail.com> ---
-Hi all.
+--- Comment #228 from Shmerl <shtetldik@gmail.com> ---
+(In reply to John H from comment #227)
+>
+> specific one I can reproduce EVERY. SINGLE. TIME. was when playing Unreal
+> Tournament 3 via Steam proton. The "Shangri La" map i encountered lockups
+> anywhere from a few seconds to a few minutes into the game. Forcing me to
+> hit the reset button.=20
 
-For the last couple weeks I have been following this thread and just wanted=
- to
-reprot my experiences findings. First off, my machine's specs:
-
-AMD Ryzen 3700X
-Aorus X570 Pro Wifi motherboard
-32 GB (16x2) DDR4 3200 RAM
-PowerColor Red Devil 5700XT Graphics
-Various SSD / HDD all on SATA.
-Windows 10 / Debian Sid
-
-Debian Sid: Kernel 5.3.10, Mesa 19.2.3, LLVM 9 as of writing this.
-
-In the whole time I have had this graphics card (October 21 onwards) I dont
-think I have had any crashes / freezes on the desktop or during browsing
-through Chromium. However, I have hard freezes when playing games. A specif=
-ic
-one I can reproduce EVERY. SINGLE. TIME. was when playing Unreal Tournament=
- 3
-via Steam proton. The "Shangri La" map i encountered lockups anywhere from a
-few seconds to a few minutes into the game. Forcing me to hit the reset but=
-ton.
-I was able to SSH in via my phone before resetting and looking at dmesg said
-something about amdgpu GPU recovery failed.=20
-
-My 5700XT, has a dual BIOS's. One overclocked, the other for "silent". By
-default the switch was in the OC position, earlier today I flipped it to
-silent. and since then, NO freezes in UT whatsoever! I figured the factory
-overclock PowerColor implemented on this card was just a touch too high and=
- is
-therefore unstable. Forza 6 Apex in Windows 10 also hard freezes my PC, for=
-cing
-me to reset. That problem also has been eliminated since flipping the switc=
-h. A
-slight performance loss but I'll take the stability anyday.
-
-
-TL;DR - If your Navi card has dual BIOS, try switching to the lower clocked
-BIOS if you haven't already. it may just help. Certainly, I'll report back =
-if I
-find any other issues in Debian that is linked to this gfx card
+This could be a llvm / Mesa bug, not the kernel one. If you can reproduce i=
+t,
+please report it for that game individually to the Mesa bug tracker, with an
+apitrace.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15734406140.7aFFdA28.20460
-Date: Mon, 11 Nov 2019 02:50:14 +0000
+--15734412805.DA58.23094
+Date: Mon, 11 Nov 2019 03:01:20 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -141,8 +109,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
  kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c227">Comm=
-ent # 227</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c228">Comm=
+ent # 228</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
@@ -150,54 +118,24 @@ ent # 227</a>
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
 1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-hamz_23&#64;hotmail.com" title=3D"John H &lt;hamz_23&#64;hotmail.com&gt;"> =
-<span class=3D"fn">John H</span></a>
+shtetldik&#64;gmail.com" title=3D"Shmerl &lt;shtetldik&#64;gmail.com&gt;"> =
+<span class=3D"fn">Shmerl</span></a>
 </span></b>
-        <pre>Hi all.
-
-For the last couple weeks I have been following this thread and just wanted=
+        <pre>(In reply to John H from <a href=3D"show_bug.cgi?id=3D111481#c=
+227">comment #227</a>)
+&gt;
+<span class=3D"quote">&gt; specific one I can reproduce EVERY. SINGLE. TIME=
+. was when playing Unreal
+&gt; Tournament 3 via Steam proton. The &quot;Shangri La&quot; map i encoun=
+tered lockups
+&gt; anywhere from a few seconds to a few minutes into the game. Forcing me=
  to
-reprot my experiences findings. First off, my machine's specs:
+&gt; hit the reset button. </span >
 
-AMD Ryzen 3700X
-Aorus X570 Pro Wifi motherboard
-32 GB (16x2) DDR4 3200 RAM
-PowerColor Red Devil 5700XT Graphics
-Various SSD / HDD all on SATA.
-Windows 10 / Debian Sid
-
-Debian Sid: Kernel 5.3.10, Mesa 19.2.3, LLVM 9 as of writing this.
-
-In the whole time I have had this graphics card (October 21 onwards) I dont
-think I have had any crashes / freezes on the desktop or during browsing
-through Chromium. However, I have hard freezes when playing games. A specif=
-ic
-one I can reproduce EVERY. SINGLE. TIME. was when playing Unreal Tournament=
- 3
-via Steam proton. The &quot;Shangri La&quot; map i encountered lockups anyw=
-here from a
-few seconds to a few minutes into the game. Forcing me to hit the reset but=
-ton.
-I was able to SSH in via my phone before resetting and looking at dmesg said
-something about amdgpu GPU recovery failed.=20
-
-My 5700XT, has a dual BIOS's. One overclocked, the other for &quot;silent&q=
-uot;. By
-default the switch was in the OC position, earlier today I flipped it to
-silent. and since then, NO freezes in UT whatsoever! I figured the factory
-overclock PowerColor implemented on this card was just a touch too high and=
- is
-therefore unstable. Forza 6 Apex in Windows 10 also hard freezes my PC, for=
-cing
-me to reset. That problem also has been eliminated since flipping the switc=
-h. A
-slight performance loss but I'll take the stability anyday.
-
-
-TL;DR - If your Navi card has dual BIOS, try switching to the lower clocked
-BIOS if you haven't already. it may just help. Certainly, I'll report back =
-if I
-find any other issues in Debian that is linked to this gfx card</pre>
+This could be a llvm / Mesa bug, not the kernel one. If you can reproduce i=
+t,
+please report it for that game individually to the Mesa bug tracker, with an
+apitrace.</pre>
         </div>
       </p>
 
@@ -211,9 +149,9 @@ find any other issues in Debian that is linked to this gfx card</pre>
     </body>
 </html>=
 
---15734406140.7aFFdA28.20460--
+--15734412805.DA58.23094--
 
---===============1622250883==
+--===============0840397188==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -223,4 +161,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1622250883==--
+--===============0840397188==--
