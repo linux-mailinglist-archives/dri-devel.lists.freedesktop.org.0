@@ -2,50 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 827B3F8525
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2019 01:24:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C2F6F86F0
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2019 03:39:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFCF06EA14;
-	Tue, 12 Nov 2019 00:24:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F04F6E0D2;
+	Tue, 12 Nov 2019 02:39:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
- [IPv6:2607:f8b0:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1BFD6E33A
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2019 00:24:44 +0000 (UTC)
-Received: by mail-pg1-x535.google.com with SMTP id 29so10591810pgm.6
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Nov 2019 16:24:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=1u7+QuAh5HVRp7S6Y9oU83WLcIJ5FzNQRzPZVj2F+ZU=;
- b=Hxkq8HXQ2d4YMO3438jGv3XvRnBttduONoniS/4jjOgWN2/eYVw2nS8QaAsjkMksjk
- +AA+X7reCCD2DigoYm30/+6Lyn/kxgi2dmZleU7x4A4VtzgbiAFoRSohg4OruuafX7vh
- S/WrYj9rGnLV9xU78e7DOY4i8Srx+t7JL8uk+QTBCVcGoOR4vzUnOicoEuqfG/HJ/SEA
- avxhxIgX/RvPPkuhtdwRWsmH/0sqbjtXQ1VFZIIZKT5A9fnL5gjqEIKIHrKyCeQZqGMR
- LolPGS9mpixbX1FE5NRKQ+umxVomuqeFjfmiabavvX3jUjADCvbu0hEDnkhFiN3p+H1V
- Ak8g==
-X-Gm-Message-State: APjAAAWmWfVsgQD12ZcjsqhY5AxPB2ufL/Jc7x/8hsl6E4mAhWzoET25
- oLrqk0V5lrbEHKLudDQ+JX3U28kEizvQC6p5OY0=
-X-Google-Smtp-Source: APXvYqylhHmZieJYAZ+q2ljRbzMf6zEwsl91aXrQla4Ww5s59cLwG46DTU6rBIGoIo3uQIdjJLqBTC5H7uMJu0AlhTM=
-X-Received: by 2002:a63:8f5e:: with SMTP id r30mr32242387pgn.146.1573518284309; 
- Mon, 11 Nov 2019 16:24:44 -0800 (PST)
+Received: from smtprelay.hostedemail.com (smtprelay0182.hostedemail.com
+ [216.40.44.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 222366E0D2;
+ Tue, 12 Nov 2019 02:39:34 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay07.hostedemail.com (Postfix) with ESMTP id 7B961181D3026;
+ Tue, 12 Nov 2019 02:39:33 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com,
+ :::::::::::::::::::::::::::::::::::,
+ RULES_HIT:41:355:379:599:968:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2393:2559:2562:2828:3138:3139:3140:3141:3142:3352:3622:3866:3868:3871:3872:4321:5007:6737:7903:8957:9592:10004:10400:10848:11026:11232:11473:11657:11658:11914:12043:12048:12296:12297:12555:12740:12760:12895:13069:13311:13357:13439:14659:14721:21080:21451:21627:30054:30091,
+ 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+ DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
+ LFtime:1, LUA_SUMMARY:none
+X-HE-Tag: end54_35f6dbbf31b05
+X-Filterd-Recvd-Size: 2553
+Received: from XPS-9350.home (unknown [47.151.135.224])
+ (Authenticated sender: joe@perches.com)
+ by omf16.hostedemail.com (Postfix) with ESMTPA;
+ Tue, 12 Nov 2019 02:39:30 +0000 (UTC)
+Message-ID: <01c630e6d4c58b3f6184603e158f53fb9aaeae7d.camel@perches.com>
+Subject: Re: [PATCH -next] drm/amd/display: Fix old-style declaration
+From: Joe Perches <joe@perches.com>
+To: YueHaibing <yuehaibing@huawei.com>, harry.wentland@amd.com, 
+ sunpeng.li@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com, 
+ David1.Zhou@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+ Bhawanpreet.Lakha@amd.com,  Jun.Lei@amd.com, David.Francis@amd.com,
+ Dmytro.Laktyushkin@amd.com,  nicholas.kazlauskas@amd.com,
+ martin.leung@amd.com, Chris.Park@amd.com
+Date: Mon, 11 Nov 2019 18:39:15 -0800
+In-Reply-To: <20191111122801.18584-1-yuehaibing@huawei.com>
+References: <20191111122801.18584-1-yuehaibing@huawei.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-From: Jacob Lifshay <programmerjake@gmail.com>
-Date: Mon, 11 Nov 2019 16:24:32 -0800
-Message-ID: <CAC2bXD7Z_P4t+uVHpxiptRPLNg+5frt672n25V-_Dofx02yJyQ@mail.gmail.com>
-Subject: variable refresh rate API
-To: harry.wentland@amd.com, dri-devel@lists.freedesktop.org
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=1u7+QuAh5HVRp7S6Y9oU83WLcIJ5FzNQRzPZVj2F+ZU=;
- b=o2iGuXLKfObJMuydIrVZdr/eYQXxpdCJ7k1uya3kj2yIXqFNh+HDdy2K9FUe/3b94q
- 0gS2kiWO3oxHcHRnyT9UBIv7zof3Acq2GFLOPVBgW55CpppPtYqLdWVUSmcMmzmXqjuB
- tE1UUxjzkDaqFZ6AOPx08W4I/KuwJ2QnJXT5yizbbbYs9sslR7AgBreBcE5dH8Tw0NvH
- EWQ2C+xl6XLEFavFMeOxMaFx3NV0+rd0EWwlhLEmYP9vmp8gPRG81bt86LJSiS2mEa/n
- kCm1odJDpavOq+LgXFlypjRm3sDiVkkpnVUiBEI9N4syio6mVeZtLg1dYIlbymlrA+hR
- Hj2g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,50 +56,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0607637464=="
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0607637464==
-Content-Type: multipart/alternative; boundary="00000000000062499a05971b46a0"
-
---00000000000062499a05971b46a0
-Content-Type: text/plain; charset="UTF-8"
-
-Not sure if this was suggested before -- I couldn't find any relevant
-threads from a google search:
-
-One solution to the problem of applications submitting a frame scheduled a
-long ways into the future then immediately after that getting user input
-and wanting to present a new frame right away is to allow changing the
-scheduled presentation time of already submitted frames, assuming the
-hardware hasn't started presenting yet.
-
-Jacob Lifshay
-
---00000000000062499a05971b46a0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Not sure if this was suggested before -- I couldn&#39;t f=
-ind any relevant threads from a google search:<div dir=3D"auto"><br></div><=
-div dir=3D"auto">One solution to the problem of applications submitting a f=
-rame scheduled a long ways into the future then immediately after that gett=
-ing user input and wanting to present a new frame right away is to allow ch=
-anging the scheduled presentation time of already submitted frames, assumin=
-g the hardware hasn&#39;t started presenting yet.</div><div dir=3D"auto"><b=
-r></div><div dir=3D"auto">Jacob Lifshay</div></div>
-
---00000000000062499a05971b46a0--
-
---===============0607637464==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0607637464==--
+T24gTW9uLCAyMDE5LTExLTExIGF0IDIwOjI4ICswODAwLCBZdWVIYWliaW5nIHdyb3RlOgo+IEZp
+eCBhIGJ1aWxkIHdhcm5pbmc6Cj4gCj4gZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvLi4vZGlz
+cGxheS9kYy9jb3JlL2RjLmM6NzU6MToKPiAgd2FybmluZzogJ3N0YXRpYycgaXMgbm90IGF0IGJl
+Z2lubmluZyBvZiBkZWNsYXJhdGlvbiBbLVdvbGQtc3R5bGUtZGVjbGFyYXRpb25dCltdCj4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9jb3JlL2RjLmMgYi9kcml2
+ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvY29yZS9kYy5jCltdCj4gQEAgLTY5LDcgKzY5LDcg
+QEAKPiAgI2RlZmluZSBEQ19MT0dHRVIgXAo+ICAJZGMtPmN0eC0+bG9nZ2VyCj4gIAo+IC1jb25z
+dCBzdGF0aWMgY2hhciBEQ19CVUlMRF9JRFtdID0gInByb2R1Y3Rpb24tYnVpbGQiOwo+ICtzdGF0
+aWMgY29uc3QgY2hhciBEQ19CVUlMRF9JRFtdID0gInByb2R1Y3Rpb24tYnVpbGQiOwoKRENfQlVJ
+TERfSUQgaXMgdXNlZCBleGFjdGx5IG9uY2UuCk1heWJlIGp1c3QgdXNlIGl0IGRpcmVjdGx5IGFu
+ZCByZW1vdmUgRENfQlVJTERfSUQgaW5zdGVhZD8KCi0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9k
+aXNwbGF5L2RjL2NvcmUvZGMuYyB8IDQgKy0tLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9u
+KCspLCAzIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlz
+cGxheS9kYy9jb3JlL2RjLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvY29yZS9k
+Yy5jCmluZGV4IDFmZGJhMTMuLjgwM2RjMTQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9h
+bWQvZGlzcGxheS9kYy9jb3JlL2RjLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5
+L2RjL2NvcmUvZGMuYwpAQCAtNjksOCArNjksNiBAQAogI2RlZmluZSBEQ19MT0dHRVIgXAogCWRj
+LT5jdHgtPmxvZ2dlcgogCi1jb25zdCBzdGF0aWMgY2hhciBEQ19CVUlMRF9JRFtdID0gInByb2R1
+Y3Rpb24tYnVpbGQiOwotCiAvKioKICAqIERPQzogT3ZlcnZpZXcKICAqCkBAIC04MTUsNyArODEz
+LDcgQEAgc3RydWN0IGRjICpkY19jcmVhdGUoY29uc3Qgc3RydWN0IGRjX2luaXRfZGF0YSAqaW5p
+dF9wYXJhbXMpCiAJaWYgKGRjLT5yZXNfcG9vbC0+ZG1jdSAhPSBOVUxMKQogCQlkYy0+dmVyc2lv
+bnMuZG1jdV92ZXJzaW9uID0gZGMtPnJlc19wb29sLT5kbWN1LT5kbWN1X3ZlcnNpb247CiAKLQlk
+Yy0+YnVpbGRfaWQgPSBEQ19CVUlMRF9JRDsKKwlkYy0+YnVpbGRfaWQgPSAicHJvZHVjdGlvbi1i
+dWlsZCI7CiAKIAlEQ19MT0dfREMoIkRpc3BsYXkgQ29yZSBpbml0aWFsaXplZFxuIik7CiAKCgpf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
+bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
