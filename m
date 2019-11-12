@@ -2,28 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B26F6F8C33
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2019 10:49:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 337A6F8C64
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2019 11:02:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58A266EADD;
-	Tue, 12 Nov 2019 09:49:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03D0A6EAEC;
+	Tue, 12 Nov 2019 10:02:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C57386EADD
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2019 09:49:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E29386EAEC
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2019 10:02:38 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 27095AFCB;
- Tue, 12 Nov 2019 09:49:25 +0000 (UTC)
-Subject: Re: [PATCH v2] drm/gem: Fix mmap fake offset handling for
- drm_gem_object_funcs.mmap
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20191024191859.31700-1-robh@kernel.org>
- <20191025073042.GL11828@phenom.ffwll.local>
- <20191108162759.GY23790@phenom.ffwll.local>
- <d2146f86-ddb8-242e-025f-d29a43682487@suse.de>
- <20191112093246.GD23790@phenom.ffwll.local>
+ by mx1.suse.de (Postfix) with ESMTP id 5D206AD7B;
+ Tue, 12 Nov 2019 10:02:37 +0000 (UTC)
+Subject: Re: Drm: mgag200. Video adapter issue with 5.4.0-rc3 ; no graphics
+To: John Donnelly <John.P.Donnelly@Oracle.com>, dri-devel@lists.freedesktop.org
+References: <162E0991-F617-4AA3-8C98-A6F0B0F681B1@oracle.com>
+ <f7bb9241-d9c6-c4ef-a03f-7aa0d18ea30e@suse.de>
+ <BBD8E679-435B-45A3-AC2E-495329A1BC87@oracle.com>
+ <7f6090da-60a5-864c-2ed0-d20a413b3db2@suse.de>
+ <43822B6A-45CB-4158-A52F-03F4669FAC5C@oracle.com>
+ <B044F752-0120-484C-9C12-5A6FBD64B753@oracle.com>
+ <c8999224-f585-e3fe-ec60-63632f005fc9@suse.de>
+ <81D853E0-34F0-4894-B692-7E560AC2D9A1@oracle.com>
+ <819f97a5-fcbe-7e8e-4b10-a09e838a69e6@suse.de>
+ <3E3FE3C2-AD75-4F21-A73B-A69A652BC46D@oracle.com>
+ <41394290-cc37-07b6-72cd-ea0ef41f2d7f@suse.de>
+ <3a91efb3-1d96-ce7b-359a-42137cbb1b5a@Oracle.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
@@ -50,12 +56,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
  HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
  3H26qrE=
-Message-ID: <06f1f400-2e20-5c40-c0ea-967f1ab2b787@suse.de>
-Date: Tue, 12 Nov 2019 10:49:21 +0100
+Message-ID: <f56bf97d-2cdb-fbcc-9660-8c3c430388ae@suse.de>
+Date: Tue, 12 Nov 2019 11:02:33 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.0
 MIME-Version: 1.0
-In-Reply-To: <20191112093246.GD23790@phenom.ffwll.local>
+In-Reply-To: <3a91efb3-1d96-ce7b-359a-42137cbb1b5a@Oracle.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,231 +74,557 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Gerd Hoffmann <kraxel@redhat.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1586402827=="
+Content-Type: multipart/mixed; boundary="===============2077009008=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1586402827==
+--===============2077009008==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="1mVBLRIYOGyPc5vIKg7PAZAEZJYM3QHgf"
+ boundary="URkwyDxgHdMS9QVqlLQgVEAw1hgVcaLZX"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---1mVBLRIYOGyPc5vIKg7PAZAEZJYM3QHgf
-Content-Type: multipart/mixed; boundary="0zHHWYRyJECcM8o6JoFiBa6wOJLvK5Dnd";
+--URkwyDxgHdMS9QVqlLQgVEAw1hgVcaLZX
+Content-Type: multipart/mixed; boundary="L8N4cbLrb36DhjPO88U0muDxrYhRZOBMz";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Message-ID: <06f1f400-2e20-5c40-c0ea-967f1ab2b787@suse.de>
-Subject: Re: [PATCH v2] drm/gem: Fix mmap fake offset handling for
- drm_gem_object_funcs.mmap
-References: <20191024191859.31700-1-robh@kernel.org>
- <20191025073042.GL11828@phenom.ffwll.local>
- <20191108162759.GY23790@phenom.ffwll.local>
- <d2146f86-ddb8-242e-025f-d29a43682487@suse.de>
- <20191112093246.GD23790@phenom.ffwll.local>
-In-Reply-To: <20191112093246.GD23790@phenom.ffwll.local>
+To: John Donnelly <John.P.Donnelly@Oracle.com>,
+ dri-devel@lists.freedesktop.org
+Message-ID: <f56bf97d-2cdb-fbcc-9660-8c3c430388ae@suse.de>
+Subject: Re: Drm: mgag200. Video adapter issue with 5.4.0-rc3 ; no graphics
+References: <162E0991-F617-4AA3-8C98-A6F0B0F681B1@oracle.com>
+ <f7bb9241-d9c6-c4ef-a03f-7aa0d18ea30e@suse.de>
+ <BBD8E679-435B-45A3-AC2E-495329A1BC87@oracle.com>
+ <7f6090da-60a5-864c-2ed0-d20a413b3db2@suse.de>
+ <43822B6A-45CB-4158-A52F-03F4669FAC5C@oracle.com>
+ <B044F752-0120-484C-9C12-5A6FBD64B753@oracle.com>
+ <c8999224-f585-e3fe-ec60-63632f005fc9@suse.de>
+ <81D853E0-34F0-4894-B692-7E560AC2D9A1@oracle.com>
+ <819f97a5-fcbe-7e8e-4b10-a09e838a69e6@suse.de>
+ <3E3FE3C2-AD75-4F21-A73B-A69A652BC46D@oracle.com>
+ <41394290-cc37-07b6-72cd-ea0ef41f2d7f@suse.de>
+ <3a91efb3-1d96-ce7b-359a-42137cbb1b5a@Oracle.com>
+In-Reply-To: <3a91efb3-1d96-ce7b-359a-42137cbb1b5a@Oracle.com>
 
---0zHHWYRyJECcM8o6JoFiBa6wOJLvK5Dnd
+--L8N4cbLrb36DhjPO88U0muDxrYhRZOBMz
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 12.11.19 um 10:32 schrieb Daniel Vetter:
-> On Tue, Nov 12, 2019 at 10:26:44AM +0100, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 08.11.19 um 17:27 schrieb Daniel Vetter:
->>> On Fri, Oct 25, 2019 at 09:30:42AM +0200, Daniel Vetter wrote:
->>>> On Thu, Oct 24, 2019 at 02:18:59PM -0500, Rob Herring wrote:
->>>>> Commit c40069cb7bd6 ("drm: add mmap() to drm_gem_object_funcs")
->>>>> introduced a GEM object mmap() hook which is expected to subtract t=
-he
->>>>> fake offset from vm_pgoff. However, for mmap() on dmabufs, there is=
- not
->>>>> a fake offset.
->>>>>
->>>>> To fix this, let's always call mmap() object callback with an offse=
-t of 0,
->>>>> and leave it up to drm_gem_mmap_obj() to remove the fake offset.
->>>>>
->>>>> TTM still needs the fake offset, so we have to add it back until th=
-at's
->>>>> fixed.
->>>>>
->>>>> Fixes: c40069cb7bd6 ("drm: add mmap() to drm_gem_object_funcs")
->>>>> Cc: Gerd Hoffmann <kraxel@redhat.com>
->>>>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
->>>>> Signed-off-by: Rob Herring <robh@kernel.org>
->>>>> ---
->>>>> v2:
->>>>> - Move subtracting the fake offset out of mmap() obj callbacks.
->>>>>
->>>>> I've tested shmem, but not ttm. Hopefully, I understood what's need=
-ed=20
->>>>> for TTM.
->>>
->>> So unfortunately I'm already having regrets on this. We might even ha=
-ve
->>> broken some of the ttm drivers here.
->>>
->>> Trouble is, if you need to shoot down userspace ptes of a bo (because=
- it's
->>> getting moved or whatever), then we do that with unmap_mapping_range.=
+just a few more comments.
 
->>> Which means each bo needs to be mapping with a unique (offset,
->>> adress_space), or it won't work. By remapping all the bo to 0 we've b=
-roken
->>> this. We've also had this broken this for a while for the simplistic
->>> dma-buf mmap, since without any further action we'll reuse the addres=
-s
->>> space of the dma-buf inode, not of the drm_device.
->>>
->>> Strangely both etnaviv and msm have a comment to that effect - grep f=
-or
->>> unmap_mapping_range. But neither actually uses it.
->>>
->>> Not exactly sure what's the best course of action here now.
->>>
->>> Also adding Thomas Zimmermann, who's worked on all the vram helpers.
+Am 11.11.19 um 18:40 schrieb John Donnelly:
+> On 11/11/19 9:57 AM, Thomas Zimmermann wrote:
+>> Hi John
 >>
->> VRAM helpers use drm_gem_ttm_mmap(), which wraps ttm_bo_mmap_obj().
->> These changes should be transparent.
->=20
-> There's still the issue that for dma-buf mmap vs drm mmap you use
-> different f_mapping, which means ttm's pte shootdown won't work correct=
-ly
-> for dma-buf mmaps. But yeah normal operation for ttm/vram helpers shoul=
-d
-> be fine.
+>> Am 08.11.19 um 19:07 schrieb John Donnelly:
+>>>
+>>>
+>>>> On Nov 8, 2019, at 9:06 AM, Thomas Zimmermann <tzimmermann@suse.de>
+>>>> wrote:
+>>>>
+>>>> Hi
+>>>>
+>>>> Am 08.11.19 um 13:55 schrieb John Donnelly:
+>>>>>
+>>>>>
+>>>>>> On Nov 8, 2019, at 1:46 AM, Thomas Zimmermann
+>>>>>> <tzimmermann@suse.de> wrote:
+>>>>>>
+>>>>>> Hi John
+>>>>>>
+>>>>>> Am 07.11.19 um 23:14 schrieb John Donnelly:
+>>>>>>>
+>>>>>>>
+>>>>>>>> On Nov 7, 2019, at 10:13 AM, John Donnelly
+>>>>>>>> <john.p.donnelly@oracle.com> wrote:
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>> On Nov 7, 2019, at 7:42 AM, Thomas Zimmermann
+>>>>>>>>> <tzimmermann@suse.de> wrote:
+>>>>>>>>>
+>>>>>>>>> Hi John
+>>>>>>>>>
+>>>>>>>>> Am 07.11.19 um 14:12 schrieb John Donnelly:
+>>>>>>>>>> Hi=C2=A0 Thomas ;=C2=A0 Thank you for reaching out.
+>>>>>>>>>>
+>>>>>>>>>> See inline:
+>>>>>>>>>>
+>>>>>>>>>>> On Nov 7, 2019, at 1:54 AM, Thomas Zimmermann
+>>>>>>>>>>> <tzimmermann@suse.de> wrote:
+>>>>>>>>>>>
+>>>>>>>>>>> Hi John,
+>>>>>>>>>>>
+>>>>>>>>>>> apparently the vgaarb was not the problem.
+>>>>>>>>>>>
+>>>>>>>>>>> Am 07.11.19 um 03:29 schrieb John Donnelly:
+>>>>>>>>>>>> Hi,
+>>>>>>>>>>>>
+>>>>>>>>>>>> I am investigating an issue where we lose video activity
+>>>>>>>>>>>> when the display is switched from from =E2=80=9Ctext mode=E2=
+=80=9D to
+>>>>>>>>>>>> =E2=80=9Cgraphic mode=E2=80=9D
+>>>>>>>>>>>> on a number of=C2=A0 servers using this driver.=C2=A0=C2=A0=C2=
+=A0 Specifically=C2=A0
+>>>>>>>>>>>> starting the GNOME desktop.
+>>>>>>>>>>>
+>>>>>>>>>>> When you say "text mode", do you mean VGA text mode or the
+>>>>>>>>>>> graphical
+>>>>>>>>>>> console that emulates text mode?
+>>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> I call =E2=80=9Ctext mode=E2=80=9D the 24x80=C2=A0 ascii mode =
+;=C2=A0 - NOT GRAPHICS
+>>>>>>>>>> .=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Ie : run-level 3;=C2=A0 =
+So I=C2=A0 guess your term for it is VGA.
+>>>>>>>>>
+>>>>>>>>> Yes.
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>>> When you enable graphics mode, does it set the correct
+>>>>>>>>>>> resolution? A lot
+>>>>>>>>>>> of work went into memory management recently. I could imagine=
 
-VRAM helpers don't support dmabufs.
+>>>>>>>>>>> that the
+>>>>>>>>>>> driver sets the correct resolution, but then fails to display=
+
+>>>>>>>>>>> the
+>>>>>>>>>>> correct framebuffer.
+>>>>>>>>>>
+>>>>>>>>>> There is no display at all ;=C2=A0 so there is no resolution=C2=
+=A0 to
+>>>>>>>>>> mention.
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>>>
+>>>>>>>>>>> If possible, could you try to update to the latest drm-tip
+>>>>>>>>>>> and attach
+>>>>>>>>>>> the output of
+>>>>>>>>>>>
+>>>>>>>>>>> /sys/kernel/debug/dri/0/vram-mm
+>>>>>>>>>>
+>>>>>>>>>> I don=E2=80=99t see that file ;=C2=A0=C2=A0 Is there something=
+ else I need to do ?
+>>>>>>>>>
+>>>>>>>>> That file is fairly new and maybe it's not in the mainline
+>>>>>>>>> kernel yet.
+>>>>>>>>> See below for how to get it.
+>>>>>>>>
+>>>>>>>> I=C2=A0 built your =E2=80=9Ctip=E2=80=9D ;=C2=A0 Still no graphi=
+cs displayed .
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> mount -t debugfs none /sys/kernel
+>>>>>>>>
+>>>>>>>> cat /proc/cmdline
+>>>>>>>> BOOT_IMAGE=3D(hd0,msdos1)/vmlinuz-5.4.0-rc6.drm.+
+>>>>>>>> root=3D/dev/mapper/ol_ca--dev55-root ro crashkernel=3Dauto
+>>>>>>>> resume=3D/dev/mapper/ol_ca--dev55-swap rd.lvm.lv=3Dol_ca-dev55/r=
+oot
+>>>>>>>> rd.lvm.lv=3Dol_ca-dev55/swap console=3DttyS0,9600,8,n,1 drm.debu=
+g=3D0xff
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> cat=C2=A0 /sys/kernel/dri/0/vram-mm
+>>>>>>>>
+>>>>>>>> In VGA mode :
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> cat=C2=A0 /sys/kernel/dri/0/vram-mm
+>>>>>>>> 0x0000000000000000-0x0000000000000300: 768: used
+>>>>>>>> 0x0000000000000300-0x0000000000000600: 768: used
+>>>>>>>> 0x0000000000000600-0x00000000000007ee: 494: free
+>>>>>>>> 0x00000000000007ee-0x00000000000007ef: 1: used
+>>>>>>>> 0x00000000000007ef-0x00000000000007f0: 1: used
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> In GRAPHICS mode ( if it matters )
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> cat=C2=A0 /sys/kernel/dri/0/vram-mm
+>>>>>>>> 0x0000000000000000-0x0000000000000300: 768: used
+>>>>>>>> 0x0000000000000300-0x0000000000000600: 768: used
+>>>>>>>> 0x0000000000000600-0x00000000000007ee: 494: free
+>>>>>>>> 0x00000000000007ee-0x00000000000007ef: 1: used
+>>>>>>>> 0x00000000000007ef-0x00000000000007f0: 1: used
+>>>>>>>> total: 2032, used 1538 free 494
+
+Reconsidering this output, it actually makes sense. X11 only allocates a
+single framebuffer and uses an additional shadow buffer for its
+rendering. So the memory map is OK.
+
+I'm having some problems with running Gnome 3.34 (3.32 is fine), which
+makes it hard to distinguish Gnome errors from driver errors. I guess
+I'm back to step 1. :(
 
 Best regards
 Thomas
 
-> -Daniel
+>>>>>>>>
+>>>>>>
+>>>>>> This is interesting. In the graphics mode, you see two buffers of =
+768
+>>>>>> pages each. That's the main framebuffers as used by X (it's double=
+
+>>>>>> buffered). Then there's a free area and finally two pages for curs=
+or
+>>>>>> images (also double buffered). That looks as expected.
+>>>>>>
+>>>>>> The thing is that in text mode, the areas are allocated. But the
+>>>>>> driver
+>>>>>> shouldn't be active, so the file shouldn't exist or only show a
+>>>>>> single
+>>>>>> free area.
+>>>>>>
+>>>>>
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 If you want me to double check this =
+I will .=C2=A0=C2=A0=C2=A0 I have GNOME
+>>>>> installed , but the machine boots to runlevel=C2=A0 3, then I start=
+ the
+>>>>> desktop using init 5=C2=A0 I am pretty sure I took that output when=
+ the
+>>>>> machine was in graphic=E2=80=99s mode=C2=A0=C2=A0 at runlevel 5 .
+>>>>>
+>>>>>
+>>>>>>
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> I=E2=80=99ve attached : var/lib/gdm/.local/share/xorg/Xorg.0.l=
+og. ;=C2=A0=C2=A0
+>>>>>>>>>> instead ;
+>>>>>>>>>
+>>>>>>>>> Good! Looking through that log file, the card is found at line
+>>>>>>>>> 79 and
+>>>>>>>>> the generic X modesetting driver initializes below. That works
+>>>>>>>>> as expected.
+>>>>>>>>>
+>>>>>>>>> I notices that several operations are not permitted (lines 78
+>>>>>>>>> and 87). I
+>>>>>>>>> guess you're starting X from a regular user account? IIRC speci=
+al
+>>>>>>>>> permission is required to acquire control of the display. What
+>>>>>>>>> happens
+>>>>>>>>> if you start X as root user?
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> =C2=A0 I am starting GNOME=C2=A0 as=C2=A0 root by doing=C2=A0 =E2=
+=80=9Cinit 5=E2=80=9D from either
+>>>>>>>> the console=C2=A0 session or from ssh .
+>>>>>>>>
+>>>>>>>> The default runlevel is 3=C2=A0 on boot .
+>>>>>>>>
+>>>>>>>> On failing session=C2=A0 running=C2=A0 your 5.4.0.rc6.
+>>>>>>>>
+>>>>>>>> 78 [=C2=A0=C2=A0 237.712] xf86EnableIOPorts: failed to set IOPL =
+for I/O
+>>>>>>>> (Operation not permitted)
+>>>>>>>>
+>>>>>>>> 87 [=C2=A0=C2=A0 237.712] (EE) open /dev/fb0: Permission denied
+>>>>>>>>
+>>>>>>>> Booting 4.18 kernel yields the same error results in:
+>>>>>>>> /var/lib/gdm/.local/share/xorg/Xorg.0.log
+>>>>>>>>
+>>>>>>>> 78 [=C2=A0=C2=A0 101.334] xf86EnableIOPorts: failed to set IOPL =
+for I/O
+>>>>>>>> (Operation not permitted)
+>>>>>>>>
+>>>>>>>> 87 [=C2=A0=C2=A0 101.334] (EE) open /dev/fb0: Permission denied
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> What is strange the X logs=C2=A0 ( bad and Ok ) files essentiall=
+y
+>>>>>>>> appear as if GNOME started !
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> <Xorg.0.log.bad><Xorg.0.log.Ok>
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> Here is my cmdline=C2=A0 -=C2=A0 I just tested 5.3.0 and it fa=
+ils too=C2=A0 (
+>>>>>>>>>> my last test was 5.3.8 and it failed also ) .
+>>>>>>>>>>
+>>>>>>>>>> # cat /proc/cmdline
+>>>>>>>>>> BOOT_IMAGE=3D(hd0,msdos1)/vmlinuz-5.3.0+
+>>>>>>>>>> root=3D/dev/mapper/ol_ca--dev55-root ro crashkernel=3Dauto
+>>>>>>>>>> resume=3D/dev/mapper/ol_ca--dev55-swap
+>>>>>>>>>> rd.lvm.lv=3Dol_ca-dev55/root rd.lvm.lv=3Dol_ca-dev55/swap
+>>>>>>>>>> console=3DttyS0,9600,8,n,1 drm.debug=3D0xff
+>>>>>>>>>>
+>>>>>>>>>> When you say =E2=80=9Ctip=E2=80=9D. - Are you referring to a s=
+pecific kernel=C2=A0
+>>>>>>>>>> ?=C2=A0 I can build a=C2=A0 5.4.0.rc6=C2=A0 ;=C2=A0=C2=A0 The =
+problem appears to have
+>>>>>>>>>> been introduced around 5.3 time frame.
+>>>>>>>>>
+>>>>>>>>> The latest and greatest DRM code is in the drm-tip branch at
+>>>>>>>>>
+>>>>>>>>> git://anongit.freedesktop.org/drm/drm-tip
+>>>>>>>>>
+>>>>>>>>> If you build this version you should find
+>>>>>>>>>
+>>>>>>>>> /sys/kernel/debug/dri/0/vram-mm
+>>>>>>>>>
+>>>>>>>>> on the device. You have to build with debugfs enabled and
+>>>>>>>>> maybe have to mount debugfs at /sys/kernel/debug.
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>>>
+>>>>>>>>>>> before and after switching to graphics mode. The file lists t=
+he
+>>>>>>>>>>> allocated regions of the VRAM.
+>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>> This adapter is=C2=A0 Server Engines=C2=A0 Integrated Remote=
+ Video
+>>>>>>>>>>>> Acceleration Subsystem (RVAS)=C2=A0 and is used as remote co=
+nsole
+>>>>>>>>>>>> in iLO/DRAC environments.
+>>>>>>>>>>>>
+>>>>>>>>>>>> I don=E2=80=99t see any specific errors in the gdm logs or m=
+essage
+>>>>>>>>>>>> file other than this:
+>>>>>>>>>>>
+>>>>>>>>>>> You can boot with drm.debug=3D0xff on the kernel command line=
+
+>>>>>>>>>>> to enable
+>>>>>>>>>>> more warnings.
+>>>>>>>>>>>
+>>>>>>>>>>>
+>>>>>>>>>>> Could you please attach the output of lspci -v for the VGA
+>>>>>>>>>>> adapter?
+>>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> Here is the output from the current machine; The previous
+>>>>>>>>>> addresses were from another model using the same SE device:
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> Nov=C2=A0 7 04:42:50 ca-dev55 kernel: mgag200 0000:3d:00.0:
+>>>>>>>>>> remove_conflicting_pci_framebuffers: bar 0: 0xc5000000 ->
+>>>>>>>>>> 0xc5ffffff
+>>>>>>>>>> Nov=C2=A0 7 04:42:50 ca-dev55 kernel: mgag200 0000:3d:00.0:
+>>>>>>>>>> remove_conflicting_pci_framebuffers: bar 1: 0xc6810000 ->
+>>>>>>>>>> 0xc6813fff
+>>>>>>>>>> Nov=C2=A0 7 04:42:50 ca-dev55 kernel: mgag200 0000:3d:00.0:
+>>>>>>>>>> remove_conflicting_pci_framebuffers: bar 2: 0xc6000000 ->
+>>>>>>>>>> 0xc67fffff
+>>>>>>>>>> Nov=C2=A0 7 04:42:50 ca-dev55 kernel: mgag200 0000:3d:00.0: vg=
+aarb:
+>>>>>>>>>> deactivate vga console
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> lspci -s 3d:00.0 -vvv -k
+>>>>>>>>>> 3d:00.0 VGA compatible controller: Matrox Electronics Systems
+>>>>>>>>>> Ltd. MGA G200e [Pilot] ServerEngines (SEP1) (rev 05) (prog-if
+>>>>>>>>>> 00 [VGA controller])
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0Subsystem: Oracle/SUN Device 4852
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0Control: I/O+ Mem+ BusMaster+ SpecCycl=
+e- MemWINV-
+>>>>>>>>>> VGASnoop- ParErr+ Stepping- SERR+ FastB2B- DisINTx-
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0Status: Cap+ 66MHz- UDF- FastB2B- ParE=
+rr- DEVSEL=3Dfast
+>>>>>>>>>> >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0Latency: 0, Cache Line Size: 64 bytes
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0Interrupt: pin A routed to IRQ 16
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0NUMA node: 0
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0Region 0: Memory at c5000000 (32-bit, =
+non-prefetchable)
+>>>>>>>>>> [size=3D16M]
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0Region 1: Memory at c6810000 (32-bit, =
+non-prefetchable)
+>>>>>>>>>> [size=3D16K]
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0Region 2: Memory at c6000000 (32-bit, =
+non-prefetchable)
+>>>>>>>>>> [size=3D8M]
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0Expansion ROM at 000c0000 [disabled] [=
+size=3D128K]
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0Capabilities: [dc] Power Management ve=
+rsion 2
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Flags: PMEClk- DSI+=
+ D1- D2- AuxCurrent=3D0mA
+>>>>>>>>>> PME(D0-,D1-,D2-,D3hot-,D3cold-)
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Status: D0 NoSoftRs=
+t- PME-Enable- DSel=3D0 DScale=3D0 PME-
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0Capabilities: [e4] Express (v1) Legacy=
+ Endpoint, MSI 00
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DevCap:=C2=A0=C2=A0=
+=C2=A0 MaxPayload 256 bytes, PhantFunc 0, Latency
+>>>>>>>>>> L0s <64ns, L1 <1us
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 ExtTag- AttnBtn- AttnInd- PwrInd- RBE- FLReset-
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DevCtl:=C2=A0=C2=A0=
+=C2=A0 Report errors: Correctable+ Non-Fatal+
+>>>>>>>>>> Fatal+ Unsupported-
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 RlxdOrd- ExtTag- PhantFunc- AuxPwr- NoSnoop-
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 MaxPayload 128 bytes, MaxReadReq 128 bytes
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DevSta:=C2=A0=C2=A0=
+=C2=A0 CorrErr+ UncorrErr- FatalErr- UnsuppReq+
+>>>>>>>>>> AuxPwr- TransPend-
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 LnkCap:=C2=A0=C2=A0=
+=C2=A0 Port #0, Speed 2.5GT/s, Width x1, ASPM L0s,
+>>>>>>>>>> Exit Latency L0s <64ns
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 ClockPM- Surprise- LLActRep- BwNot- ASPMOptComp-
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 LnkCtl:=C2=A0=C2=A0=
+=C2=A0 ASPM Disabled; RCB 64 bytes Disabled- CommClk+
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 LnkSta:=C2=A0=C2=A0=
+=C2=A0 Speed 2.5GT/s, Width x1, TrErr- Train-
+>>>>>>>>>> SlotClk+ DLActive- BWMgmt- ABWMgmt-
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0Capabilities: [54] MSI: Enable- Count=3D=
+1/1 Maskable- 64bit-
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Address: 00000000=C2=
+=A0 Data: 0000
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0Kernel driver in use: mgag200
+>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0Kernel modules: mgag200
+>>>>>>>>>
+>>>>>>>>> Looks all normal.
+>>>>>>>>>
+>>>>>>>>> Best regards
+>>>>>>>>> Thomas
+>>>>>>>>>
+>>>>>>>
+>>>>>>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=C2=A0 Snip=C2=A0 =3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>>>>>>
+>>>>>>>
+>>>>>>> Hi Thomas
+>>>>>>> ,
+>>>>>>> I hopefully narrowed down the breakage between these up-stream
+>>>>>>> commits,=C2=A0 which is v5.2 and 5.3.0-rc1:
+>>>>>>>
+>>>>>>>
+>>>>>>> between :=C2=A0 0ecfebd2b524 2019-07-07 | Linux 5.2=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 to :=C2=A0=C2=A0
+>>>>>>> 5f9e832c1370 2019-07-21 | Linus 5.3-rc1
+>>>>>>>
+>>>>>>>
+>>>>>>> I started to bisect this range on by date, by day ,=C2=A0 based o=
+n the
+>>>>>>> changes done in :
+>>>>>>>
+>>>>>>> drivers/gpu/drm/
+>>>>>>>
+>>>>>>> fec88ab0af97 2019-07-14 | Merge tag 'for-linus-hmm' of
+>>>>>>> git://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma=C2=A0 ;=C2=
+=A0 works
+>>>>>>>
+>>>>>>> Hopefully something in drivers/gpu/drm/ between the date range of=
+
+>>>>>>> 2019-07-14 to 2019-07-21 will surface tomorrow.
+>>>>>>
+>>>>>> Great, thanks for bisecting.
+>>>>>>
+>>>>>> Could you attach your kernel config file? I'd like to compare with=
+ my
+>>>>>> config and try to reproduce the issue.
+>>>>>>
+>>>>>> Best regards
+>>>>>> Thomas
+>>>>>
+>>>>> =C2=A0 Hi.
+>>>>>
+>>>>> =C2=A0 Here are config files generated after a =E2=80=9C make oldco=
+nfig =E2=80=9C=C2=A0=C2=A0=C2=A0=C2=A0
+>>>>> that started with an original .config file from a master file=C2=A0=
+ we
+>>>>> use for 5.4.0.-rc4. :
+>>>>>
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 config.5.2.21 -=C2=A0 work with that flavo=
+r
+>>>>> =C2=A0=C2=A0=C2=A0 config.5.3.=C2=A0=C2=A0 fails with 5.3 and later=
+=2E
+>>>>>
+>>>>> =C2=A0 Do you have access to mgag200 style adapter ?
+>>>>
+>>>> I do.
+>>>>
+>>>> I think I've been able to reproduce the issue. Buffers seem to
+>>>> remain in
+>>>> video ram after they have been pinned there. I'll investigate next
+>>>> week.
+>>>> I hope your bisecting session can point to the cause.
+>>>>
+>>>> Best regards
+>>>> Thomas
+>>>
+>>> Hi Thomas,
+>>>
+>>>
+>>> =C2=A0 Wonderful!
+>>>
+>>> =C2=A0 I think I have narrowed down the merge to this build which is =
+:
+>>> vmlinuz-5.2.0-rc5+ :
+>>>
+>>>
+>>> be8454afc50f 2019-07-15 | Merge tag 'drm-next-2019-07-16' of
+>>> git://anongit.freedesktop.org/drm/drm
+>>>
+>>> =C2=A0=C2=A0 Specifically this merge included these two changes :
+>>>
+>>> =C2=A0=C2=A0 94dc57b10399 2019-06-13 | drm/mgag200: Rewrite cursor ha=
+ndling
+>>> =C2=A0=C2=A0 f4ce5af71bc2 2019-06-13 | drm/mgag200: Pin framebuffer B=
+O during
+>>> dirty update
+>>>
+>>>
+>>> I=C2=A0 tried reverting them and the resultant driver=C2=A0 doesn=E2=80=
+=99t build
+>>> afterwards due to drm calls.
+>>>
+>>> If I build a kernel from :
+>>>
+>>> fec88ab0af97 2019-07-14 | Merge tag 'for-linus-hmm' of
+>>> git://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma
+>>>
+>>> That is posted=C2=A0 day prior to=C2=A0 be8454afc50f - the GNOME desk=
+top works.
+>>
+>> I thought I could reproduce the problem, but I'm not so sure now.
+>>
+>> Please bisect the range between the two merges as described by Daniel =
+to
+>> find the broken commit. Doing
+>>
+>> =C2=A0=C2=A0 git bisect start
+>> =C2=A0=C2=A0 git bisect bad be8454afc50f
+>> =C2=A0=C2=A0 git bisect good fec88ab0af97
+>>
+>> should start the session.
+>>
+> Hi,
 >=20
->>
->> Best regards
->> Thomas
->>
->>> -Daniel
->>>
->>>>>
->>>>> Rob
->>>>>
->>>>>  drivers/gpu/drm/drm_gem.c              | 3 +++
->>>>>  drivers/gpu/drm/drm_gem_shmem_helper.c | 3 ---
->>>>>  drivers/gpu/drm/ttm/ttm_bo_vm.c        | 7 +++++++
->>>>>  include/drm/drm_gem.h                  | 4 +++-
->>>>>  4 files changed, 13 insertions(+), 4 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
->>>>> index 56f42e0f2584..2f2b889096b0 100644
->>>>> --- a/drivers/gpu/drm/drm_gem.c
->>>>> +++ b/drivers/gpu/drm/drm_gem.c
->>>>> @@ -1106,6 +1106,9 @@ int drm_gem_mmap_obj(struct drm_gem_object *o=
-bj, unsigned long obj_size,
->>>>>  		return -EINVAL;
->>>>> =20
->>>>>  	if (obj->funcs && obj->funcs->mmap) {
->>>>> +		/* Remove the fake offset */
->>>>> +		vma->vm_pgoff -=3D drm_vma_node_start(&obj->vma_node);
->>>>> +
->>>>>  		ret =3D obj->funcs->mmap(obj, vma);
->>>>>  		if (ret)
->>>>>  			return ret;
->>>>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/d=
-rm/drm_gem_shmem_helper.c
->>>>> index a878c787b867..e8061c64c480 100644
->>>>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
->>>>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
->>>>> @@ -542,9 +542,6 @@ int drm_gem_shmem_mmap(struct drm_gem_object *o=
-bj, struct vm_area_struct *vma)
->>>>>  	vma->vm_page_prot =3D pgprot_decrypted(vma->vm_page_prot);
->>>>>  	vma->vm_ops =3D &drm_gem_shmem_vm_ops;
->>>>> =20
->>>>> -	/* Remove the fake offset */
->>>>> -	vma->vm_pgoff -=3D drm_vma_node_start(&shmem->base.vma_node);
->>>>> -
->>>>>  	return 0;
->>>>>  }
->>>>>  EXPORT_SYMBOL_GPL(drm_gem_shmem_mmap);
->>>>> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/=
-ttm_bo_vm.c
->>>>> index 1a9db691f954..08902c7290a5 100644
->>>>> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
->>>>> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
->>>>> @@ -482,6 +482,13 @@ EXPORT_SYMBOL(ttm_bo_mmap);
->>>>>  int ttm_bo_mmap_obj(struct vm_area_struct *vma, struct ttm_buffer_=
-object *bo)
->>>>>  {
->>>>>  	ttm_bo_get(bo);
->>>>> +
->>>>> +	/*
->>>>> +	 * FIXME: &drm_gem_object_funcs.mmap is called with the fake offs=
-et
->>>>> +	 * removed. Add it back here until the rest of TTM works without =
-it.
->>>>> +	 */
->>>>> +	vma->vm_pgoff +=3D drm_vma_node_start(&bo->base.vma_node);
->>>>> +
->>>>>  	ttm_bo_mmap_vma_setup(bo, vma);
->>>>>  	return 0;
->>>>>  }
->>>>> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
->>>>> index e71f75a2ab57..c56cbb3509e0 100644
->>>>> --- a/include/drm/drm_gem.h
->>>>> +++ b/include/drm/drm_gem.h
->>>>> @@ -159,7 +159,9 @@ struct drm_gem_object_funcs {
->>>>>  	 *
->>>>>  	 * The callback is used by by both drm_gem_mmap_obj() and
->>>>>  	 * drm_gem_prime_mmap().  When @mmap is present @vm_ops is not
->>>>> -	 * used, the @mmap callback must set vma->vm_ops instead.
->>>>> +	 * used, the @mmap callback must set vma->vm_ops instead. The @mm=
-ap
->>>>> +	 * callback is always called with a 0 offset. The caller will rem=
-ove
->>>>> +	 * the fake offset as necessary.
->>>>>  	 *
->>>>
->>>> Maybe remove this empty comment line here while at it. With that
->>>>
->>>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>>>
->>>> I think I'll follow up with a patch to annotate drm_gem_mmap_obj as
->>>> deprecated and that instead this here should be used.
->>>> -Daniel
->>>>
->>>>>  	 */
->>>>>  	int (*mmap)(struct drm_gem_object *obj, struct vm_area_struct *vm=
-a);
->>>>> --=20
->>>>> 2.20.1
->>>>>
->>>>
->>>> --=20
->>>> Daniel Vetter
->>>> Software Engineer, Intel Corporation
->>>> http://blog.ffwll.ch
->>>
->>
->> --=20
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->> (HRB 36809, AG N=C3=BCrnberg)
->> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>
+> I am OoO today . I will start this exercise tomorrow.
 >=20
 >=20
 >=20
@@ -307,28 +639,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---0zHHWYRyJECcM8o6JoFiBa6wOJLvK5Dnd--
+--L8N4cbLrb36DhjPO88U0muDxrYhRZOBMz--
 
---1mVBLRIYOGyPc5vIKg7PAZAEZJYM3QHgf
+--URkwyDxgHdMS9QVqlLQgVEAw1hgVcaLZX
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl3KgCEACgkQaA3BHVML
-eiM+/Qf+KR6/8VAwa0sJKQBbtEoriDIg+YNSyZeNC0U//UIH0asM2RtdxW6hqkYc
-Hqllp51Ht9nRD5cOtgYjYvKD3zQtIUhLZQ65zRDfPCVAxyZgxfUjuoDW7MZdRf9s
-6jFAiiY794iVnDfEfBlfgBm+Ep84cD6Pv+cot48s+vP+tbg/d7qrWWrMVD29+3Wn
-BmztwD48N1KX+E1mYONi6F8IYqiD1RvsZfrujxhb5+AgXux8U3RYO0bks1VxZNbn
-y5l6x/7bYifXj4ZLMEt7cq5yPyA5NZcM6pjkCUNXBddzoUWv7pb1y2MexO5H926F
-WWr7jgCVUwYBhGo6+cYDPyemDb99GQ==
-=/PDa
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl3KgzkACgkQaA3BHVML
+eiP6WQf+M+3gWplBUlpYkAncrbRBLojdatV3Me6h5gOhIhKy3MAlkq2YazN9sAkL
+yCLO67ze+7nwZtiHhfsicLoqu6juej7vqfMmG/XNSNIHzsi32VL3sN+ByElI5M4s
+R5Sdf/7vJeUkG7iKnC8m1NqtZeUVwPYU8mHySAK1MFmo6rj4dCEjPRH/clLONgxN
+ykle5hgBjwl2CanQ6NKq15EVofuoGV4IFIPNexUfdHkrO4JxecM1sEJOwvGJkg/9
+3klh3XbTWqcHwN7Sbwy8OQYubL2wCNxamZJkNhImczFBP/MD9xVinML91E7Jt0yA
+wSMg6MSI8xmbwgMbD8WyP9gMmyFUvA==
+=rKG2
 -----END PGP SIGNATURE-----
 
---1mVBLRIYOGyPc5vIKg7PAZAEZJYM3QHgf--
+--URkwyDxgHdMS9QVqlLQgVEAw1hgVcaLZX--
 
---===============1586402827==
+--===============2077009008==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -338,4 +670,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1586402827==--
+--===============2077009008==--
