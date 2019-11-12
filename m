@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BD7EF8B22
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2019 09:53:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D114F8BAB
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2019 10:26:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 473896EA81;
-	Tue, 12 Nov 2019 08:53:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21AF56EA93;
+	Tue, 12 Nov 2019 09:26:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2D556EA7E
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2019 08:53:01 +0000 (UTC)
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-Yb4XiwRmMaOF9f7JACI93w-1; Tue, 12 Nov 2019 03:52:57 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B82A9107ACC4;
- Tue, 12 Nov 2019 08:52:56 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-69.ams2.redhat.com
- [10.36.116.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C76E661075;
- Tue, 12 Nov 2019 08:52:55 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A0AF111AAA; Tue, 12 Nov 2019 09:52:54 +0100 (CET)
-Date: Tue, 12 Nov 2019 09:52:54 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Daniel Vetter <daniel@ffwll.ch>
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14E186EA93
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2019 09:26:50 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 001EFB35C;
+ Tue, 12 Nov 2019 09:26:47 +0000 (UTC)
 Subject: Re: [PATCH v2] drm/gem: Fix mmap fake offset handling for
  drm_gem_object_funcs.mmap
-Message-ID: <20191112085254.nzemljr3co4l5k2e@sirius.home.kraxel.org>
+To: Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>
 References: <20191024191859.31700-1-robh@kernel.org>
  <20191025073042.GL11828@phenom.ffwll.local>
  <20191108162759.GY23790@phenom.ffwll.local>
- <20191108165528.GC23790@phenom.ffwll.local>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <d2146f86-ddb8-242e-025f-d29a43682487@suse.de>
+Date: Tue, 12 Nov 2019 10:26:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-In-Reply-To: <20191108165528.GC23790@phenom.ffwll.local>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: Yb4XiwRmMaOF9f7JACI93w-1
-X-Mimecast-Spam-Score: 0
-Content-Disposition: inline
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=redhat.com; 
- s=mimecast20190719; t=1573548780;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Oh6DmQqJM/6aD3irzBMU//vzKmXkL28r0XGZt9kW+po=;
- b=EzJCVkTYDGX39Lu9yqDbUizEGJFdeSTwBQp6CJ8QBnfbn14qcm3mzquuADy+ztBiZqXZKy
- YE1686I95tnKf6MwO2APIR6moac6OtafHD/39ph5p2sHGsxz/fMxbKUUifxffzroo3kQaF
- h0AS9MIBXSS2ZvCsfEJsq5EubPj5BX4=
+In-Reply-To: <20191108162759.GY23790@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,69 +66,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Gerd Hoffmann <kraxel@redhat.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0908729821=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBOb3YgMDgsIDIwMTkgYXQgMDU6NTU6MjhQTSArMDEwMCwgRGFuaWVsIFZldHRlciB3
-cm90ZToKPiBPbiBGcmksIE5vdiAwOCwgMjAxOSBhdCAwNToyNzo1OVBNICswMTAwLCBEYW5pZWwg
-VmV0dGVyIHdyb3RlOgo+ID4gT24gRnJpLCBPY3QgMjUsIDIwMTkgYXQgMDk6MzA6NDJBTSArMDIw
-MCwgRGFuaWVsIFZldHRlciB3cm90ZToKPiA+ID4gT24gVGh1LCBPY3QgMjQsIDIwMTkgYXQgMDI6
-MTg6NTlQTSAtMDUwMCwgUm9iIEhlcnJpbmcgd3JvdGU6Cj4gPiA+ID4gQ29tbWl0IGM0MDA2OWNi
-N2JkNiAoImRybTogYWRkIG1tYXAoKSB0byBkcm1fZ2VtX29iamVjdF9mdW5jcyIpCj4gPiA+ID4g
-aW50cm9kdWNlZCBhIEdFTSBvYmplY3QgbW1hcCgpIGhvb2sgd2hpY2ggaXMgZXhwZWN0ZWQgdG8g
-c3VidHJhY3QgdGhlCj4gPiA+ID4gZmFrZSBvZmZzZXQgZnJvbSB2bV9wZ29mZi4gSG93ZXZlciwg
-Zm9yIG1tYXAoKSBvbiBkbWFidWZzLCB0aGVyZSBpcyBub3QKPiA+ID4gPiBhIGZha2Ugb2Zmc2V0
-Lgo+ID4gPiA+IAo+ID4gPiA+IFRvIGZpeCB0aGlzLCBsZXQncyBhbHdheXMgY2FsbCBtbWFwKCkg
-b2JqZWN0IGNhbGxiYWNrIHdpdGggYW4gb2Zmc2V0IG9mIDAsCj4gPiA+ID4gYW5kIGxlYXZlIGl0
-IHVwIHRvIGRybV9nZW1fbW1hcF9vYmooKSB0byByZW1vdmUgdGhlIGZha2Ugb2Zmc2V0Lgo+ID4g
-PiA+IAo+ID4gPiA+IFRUTSBzdGlsbCBuZWVkcyB0aGUgZmFrZSBvZmZzZXQsIHNvIHdlIGhhdmUg
-dG8gYWRkIGl0IGJhY2sgdW50aWwgdGhhdCdzCj4gPiA+ID4gZml4ZWQuCj4gPiA+ID4gCj4gPiA+
-ID4gRml4ZXM6IGM0MDA2OWNiN2JkNiAoImRybTogYWRkIG1tYXAoKSB0byBkcm1fZ2VtX29iamVj
-dF9mdW5jcyIpCj4gPiA+ID4gQ2M6IEdlcmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQuY29tPgo+
-ID4gPiA+IENjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgo+ID4gPiA+
-IFNpZ25lZC1vZmYtYnk6IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+Cj4gPiA+ID4gLS0t
-Cj4gPiA+ID4gdjI6Cj4gPiA+ID4gLSBNb3ZlIHN1YnRyYWN0aW5nIHRoZSBmYWtlIG9mZnNldCBv
-dXQgb2YgbW1hcCgpIG9iaiBjYWxsYmFja3MuCj4gPiA+ID4gCj4gPiA+ID4gSSd2ZSB0ZXN0ZWQg
-c2htZW0sIGJ1dCBub3QgdHRtLiBIb3BlZnVsbHksIEkgdW5kZXJzdG9vZCB3aGF0J3MgbmVlZGVk
-IAo+ID4gPiA+IGZvciBUVE0uCj4gPiAKPiA+IFNvIHVuZm9ydHVuYXRlbHkgSSdtIGFscmVhZHkg
-aGF2aW5nIHJlZ3JldHMgb24gdGhpcy4gV2UgbWlnaHQgZXZlbiBoYXZlCj4gPiBicm9rZW4gc29t
-ZSBvZiB0aGUgdHRtIGRyaXZlcnMgaGVyZS4KPiA+IAo+ID4gVHJvdWJsZSBpcywgaWYgeW91IG5l
-ZWQgdG8gc2hvb3QgZG93biB1c2Vyc3BhY2UgcHRlcyBvZiBhIGJvIChiZWNhdXNlIGl0J3MKPiA+
-IGdldHRpbmcgbW92ZWQgb3Igd2hhdGV2ZXIpLCB0aGVuIHdlIGRvIHRoYXQgd2l0aCB1bm1hcF9t
-YXBwaW5nX3JhbmdlLgo+ID4gV2hpY2ggbWVhbnMgZWFjaCBibyBuZWVkcyB0byBiZSBtYXBwaW5n
-IHdpdGggYSB1bmlxdWUgKG9mZnNldCwKPiA+IGFkcmVzc19zcGFjZSksIG9yIGl0IHdvbid0IHdv
-cmsuIEJ5IHJlbWFwcGluZyBhbGwgdGhlIGJvIHRvIDAgd2UndmUgYnJva2VuCj4gPiB0aGlzLiBX
-ZSd2ZSBhbHNvIGhhZCB0aGlzIGJyb2tlbiB0aGlzIGZvciBhIHdoaWxlIGZvciB0aGUgc2ltcGxp
-c3RpYwo+ID4gZG1hLWJ1ZiBtbWFwLCBzaW5jZSB3aXRob3V0IGFueSBmdXJ0aGVyIGFjdGlvbiB3
-ZSdsbCByZXVzZSB0aGUgYWRkcmVzcwo+ID4gc3BhY2Ugb2YgdGhlIGRtYS1idWYgaW5vZGUsIG5v
-dCBvZiB0aGUgZHJtX2RldmljZS4KPiA+IAo+ID4gU3RyYW5nZWx5IGJvdGggZXRuYXZpdiBhbmQg
-bXNtIGhhdmUgYSBjb21tZW50IHRvIHRoYXQgZWZmZWN0IC0gZ3JlcCBmb3IKPiA+IHVubWFwX21h
-cHBpbmdfcmFuZ2UuIEJ1dCBuZWl0aGVyIGFjdHVhbGx5IHVzZXMgaXQuCj4gPiAKPiA+IE5vdCBl
-eGFjdGx5IHN1cmUgd2hhdCdzIHRoZSBiZXN0IGNvdXJzZSBvZiBhY3Rpb24gaGVyZSBub3cuCj4g
-PiAKPiA+IEFsc28gYWRkaW5nIFRob21hcyBaaW1tZXJtYW5uLCB3aG8ncyB3b3JrZWQgb24gYWxs
-IHRoZSB2cmFtIGhlbHBlcnMuCj4gCj4gQ29ycmVjdGlvbiwgSSBtaXNzZWQgdGhlIHVubWFwX21h
-cHBpbmdfcmFuZ2UgaW4gdGhlIHZtYSBub2RlIG1hbmFnZXIKPiBoZWFkZXIsIHNvIGRpZG4ndCBz
-cG90IHRoZSBkcml2ZXJzIHVzaW5nIGRybV92bWFfbm9kZV91bm1hcC4gV2UgZGlkIGJyZWFrCj4g
-YWxsIHRoZSB0dG0gc3R1ZmYgOi0vCgp0dG0gc3RpbGwgdXNlcyB0aGUgb2Zmc2V0LCBub3cgYWRk
-ZWQgaW4gdHRtX2JvX21tYXBfb2JqKCkuICBTbywgZm9yCm5vcm1hbCBtbWFwIGJlaGF2aW9yIGRp
-ZCBub3QgY2hhbmdlIEkgdGhpbmsuICBUaGUgc2ltcGxpc3RpYyBkbWEtYnVmCm1tYXAgZGlkIGNo
-YW5nZSwgaXQgbm93IHVzZXMgdGhlIG9mZnNldCBiZWNhdXNlIGl0IGdvZXMgdGhyb3VnaAp0dG1f
-Ym9fbW1hcF9vYmooKSB0b28uCgpOb3QgZnVsbHkgc3VyZSB3aGljaCBhZGRyZXNzIHNwYWNlIGlz
-IHVzZWQgZm9yIGRtYS1idWZzIHRob3VnaC4gIEFzIGZhcgpJIGNhbiBzZWUgbmVpdGhlciB0aGUg
-b2xkIG5vciB0aGUgbmV3IGRtYS1idWYgbW1hcCBjb2RlIHBhdGggdG91Y2gKdm1hLT52bV9maWxl
-ICh1bmxlc3MgdGhlIGRyaXZlciBkb2VzIGV4cGxpY2l0bHkgY2FyZSwgbGlrZSBtc20gZG9lcyBp
-bgptc21fZ2VtX21tYXBfb2JqKS4KCj4gUGx1cyBwYW5mcm9zdCwgd2hpY2ggaXMgdXNpbmcgZHJt
-X2dlbV9zaG1lbV9wdXJnZV9sb2NrZWQuCgpIbW0sIGxvb2tpbmcgYXQgZHJtX2dlbV9zaG1lbV9w
-dXJnZV9sb2NrZWQgSSdtIHdvbmRlcmluZyB3aHkgaXQgdXNlcyBhCm1peCBvZiBkZXYtPmFub25f
-aW5vZGUtPmlfbWFwcGluZyBhbmQgZmlsZV9pbm9kZShvYmotPmZpbHApLT5pX21hcHBpbmcuCgpB
-bHNvIHNobWVtIGhlbHBlcnMgdXNlZCBhIHplcm8gdm1fcGdvZmYgYmVmb3JlLCBvbmx5IGRpZmZl
-cmVuY2UgaXMgdGhlCmNoYW5nZSBpcyBhcHBsaWVkIGluIGRybV9nZW1fbW1hcF9vYmooKSBub3cg
-aW5zdGVhZCBvZiBzb21ld2hlcmUgaW4gdGhlCnNobWVtIGhlbHBlciBjb2RlLgoKc2xpZ2h0bHkg
-Y29uZnVzZWQsCiAgR2VyZAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVs
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0908729821==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="DouQiOrLET4n8CJ6TjcU1mJNxcXXsBrYB"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--DouQiOrLET4n8CJ6TjcU1mJNxcXXsBrYB
+Content-Type: multipart/mixed; boundary="VaQwdYydqomHLHMFRYZrBoA9mM9b2JnkQ";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Gerd Hoffmann
+ <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+Message-ID: <d2146f86-ddb8-242e-025f-d29a43682487@suse.de>
+Subject: Re: [PATCH v2] drm/gem: Fix mmap fake offset handling for
+ drm_gem_object_funcs.mmap
+References: <20191024191859.31700-1-robh@kernel.org>
+ <20191025073042.GL11828@phenom.ffwll.local>
+ <20191108162759.GY23790@phenom.ffwll.local>
+In-Reply-To: <20191108162759.GY23790@phenom.ffwll.local>
+
+--VaQwdYydqomHLHMFRYZrBoA9mM9b2JnkQ
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 08.11.19 um 17:27 schrieb Daniel Vetter:
+> On Fri, Oct 25, 2019 at 09:30:42AM +0200, Daniel Vetter wrote:
+>> On Thu, Oct 24, 2019 at 02:18:59PM -0500, Rob Herring wrote:
+>>> Commit c40069cb7bd6 ("drm: add mmap() to drm_gem_object_funcs")
+>>> introduced a GEM object mmap() hook which is expected to subtract the=
+
+>>> fake offset from vm_pgoff. However, for mmap() on dmabufs, there is n=
+ot
+>>> a fake offset.
+>>>
+>>> To fix this, let's always call mmap() object callback with an offset =
+of 0,
+>>> and leave it up to drm_gem_mmap_obj() to remove the fake offset.
+>>>
+>>> TTM still needs the fake offset, so we have to add it back until that=
+'s
+>>> fixed.
+>>>
+>>> Fixes: c40069cb7bd6 ("drm: add mmap() to drm_gem_object_funcs")
+>>> Cc: Gerd Hoffmann <kraxel@redhat.com>
+>>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>> Signed-off-by: Rob Herring <robh@kernel.org>
+>>> ---
+>>> v2:
+>>> - Move subtracting the fake offset out of mmap() obj callbacks.
+>>>
+>>> I've tested shmem, but not ttm. Hopefully, I understood what's needed=
+=20
+>>> for TTM.
+>=20
+> So unfortunately I'm already having regrets on this. We might even have=
+
+> broken some of the ttm drivers here.
+>=20
+> Trouble is, if you need to shoot down userspace ptes of a bo (because i=
+t's
+> getting moved or whatever), then we do that with unmap_mapping_range.
+> Which means each bo needs to be mapping with a unique (offset,
+> adress_space), or it won't work. By remapping all the bo to 0 we've bro=
+ken
+> this. We've also had this broken this for a while for the simplistic
+> dma-buf mmap, since without any further action we'll reuse the address
+> space of the dma-buf inode, not of the drm_device.
+>=20
+> Strangely both etnaviv and msm have a comment to that effect - grep for=
+
+> unmap_mapping_range. But neither actually uses it.
+>=20
+> Not exactly sure what's the best course of action here now.
+>=20
+> Also adding Thomas Zimmermann, who's worked on all the vram helpers.
+
+VRAM helpers use drm_gem_ttm_mmap(), which wraps ttm_bo_mmap_obj().
+These changes should be transparent.
+
+Best regards
+Thomas
+
+> -Daniel
+>=20
+>>>
+>>> Rob
+>>>
+>>>  drivers/gpu/drm/drm_gem.c              | 3 +++
+>>>  drivers/gpu/drm/drm_gem_shmem_helper.c | 3 ---
+>>>  drivers/gpu/drm/ttm/ttm_bo_vm.c        | 7 +++++++
+>>>  include/drm/drm_gem.h                  | 4 +++-
+>>>  4 files changed, 13 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+>>> index 56f42e0f2584..2f2b889096b0 100644
+>>> --- a/drivers/gpu/drm/drm_gem.c
+>>> +++ b/drivers/gpu/drm/drm_gem.c
+>>> @@ -1106,6 +1106,9 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj=
+, unsigned long obj_size,
+>>>  		return -EINVAL;
+>>> =20
+>>>  	if (obj->funcs && obj->funcs->mmap) {
+>>> +		/* Remove the fake offset */
+>>> +		vma->vm_pgoff -=3D drm_vma_node_start(&obj->vma_node);
+>>> +
+>>>  		ret =3D obj->funcs->mmap(obj, vma);
+>>>  		if (ret)
+>>>  			return ret;
+>>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm=
+/drm_gem_shmem_helper.c
+>>> index a878c787b867..e8061c64c480 100644
+>>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+>>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>>> @@ -542,9 +542,6 @@ int drm_gem_shmem_mmap(struct drm_gem_object *obj=
+, struct vm_area_struct *vma)
+>>>  	vma->vm_page_prot =3D pgprot_decrypted(vma->vm_page_prot);
+>>>  	vma->vm_ops =3D &drm_gem_shmem_vm_ops;
+>>> =20
+>>> -	/* Remove the fake offset */
+>>> -	vma->vm_pgoff -=3D drm_vma_node_start(&shmem->base.vma_node);
+>>> -
+>>>  	return 0;
+>>>  }
+>>>  EXPORT_SYMBOL_GPL(drm_gem_shmem_mmap);
+>>> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/tt=
+m_bo_vm.c
+>>> index 1a9db691f954..08902c7290a5 100644
+>>> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
+>>> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+>>> @@ -482,6 +482,13 @@ EXPORT_SYMBOL(ttm_bo_mmap);
+>>>  int ttm_bo_mmap_obj(struct vm_area_struct *vma, struct ttm_buffer_ob=
+ject *bo)
+>>>  {
+>>>  	ttm_bo_get(bo);
+>>> +
+>>> +	/*
+>>> +	 * FIXME: &drm_gem_object_funcs.mmap is called with the fake offset=
+
+>>> +	 * removed. Add it back here until the rest of TTM works without it=
+=2E
+>>> +	 */
+>>> +	vma->vm_pgoff +=3D drm_vma_node_start(&bo->base.vma_node);
+>>> +
+>>>  	ttm_bo_mmap_vma_setup(bo, vma);
+>>>  	return 0;
+>>>  }
+>>> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+>>> index e71f75a2ab57..c56cbb3509e0 100644
+>>> --- a/include/drm/drm_gem.h
+>>> +++ b/include/drm/drm_gem.h
+>>> @@ -159,7 +159,9 @@ struct drm_gem_object_funcs {
+>>>  	 *
+>>>  	 * The callback is used by by both drm_gem_mmap_obj() and
+>>>  	 * drm_gem_prime_mmap().  When @mmap is present @vm_ops is not
+>>> -	 * used, the @mmap callback must set vma->vm_ops instead.
+>>> +	 * used, the @mmap callback must set vma->vm_ops instead. The @mmap=
+
+>>> +	 * callback is always called with a 0 offset. The caller will remov=
+e
+>>> +	 * the fake offset as necessary.
+>>>  	 *
+>>
+>> Maybe remove this empty comment line here while at it. With that
+>>
+>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>
+>> I think I'll follow up with a patch to annotate drm_gem_mmap_obj as
+>> deprecated and that instead this here should be used.
+>> -Daniel
+>>
+>>>  	 */
+>>>  	int (*mmap)(struct drm_gem_object *obj, struct vm_area_struct *vma)=
+;
+>>> --=20
+>>> 2.20.1
+>>>
+>>
+>> --=20
+>> Daniel Vetter
+>> Software Engineer, Intel Corporation
+>> http://blog.ffwll.ch
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--VaQwdYydqomHLHMFRYZrBoA9mM9b2JnkQ--
+
+--DouQiOrLET4n8CJ6TjcU1mJNxcXXsBrYB
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl3KetcACgkQaA3BHVML
+eiOfqwf/fnBQotNGHLTgYziy232u2uhc4K0jmBxISY+edZEBetwb0IaA3zmU7dew
+XEcflxHpe/NkuQG+KZhT7iJIB1+kH1p2ktxaquwAEyPWXkioo4dpp44rtwckAViH
+EkFoQQ4R0ibxuQwFlTg0tdb8K9C8aEXNChufOerDnyVQJzP+7UgpZ2D9amqkbATt
+/2a1vqefyrTtPIkJolwlX8UW030x+GXuTpKv4WmVRBN/TYJWQpY0aLWPz1a+6IXO
+b4pQGen7dZuEuqAhn6FIcS7/7i7WAH4fC3/BGQkiaUrtCc6LyfO6+wqzCkPLEZ+R
+LHtmJcCU94tZvE3LeOANlQSBhCxjzg==
+=pHYT
+-----END PGP SIGNATURE-----
+
+--DouQiOrLET4n8CJ6TjcU1mJNxcXXsBrYB--
+
+--===============0908729821==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0908729821==--
