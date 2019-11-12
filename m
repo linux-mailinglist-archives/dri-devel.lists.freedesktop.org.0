@@ -1,52 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6E14F9480
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2019 16:38:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70E9EF94B5
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2019 16:50:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1362B6EB62;
-	Tue, 12 Nov 2019 15:38:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E10E46EB65;
+	Tue, 12 Nov 2019 15:50:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C67466EB62
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2019 15:37:58 +0000 (UTC)
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
- [209.85.160.170])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 8AC122196E
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2019 15:37:58 +0000 (UTC)
-Received: by mail-qt1-f170.google.com with SMTP id r20so6119673qtp.13
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2019 07:37:58 -0800 (PST)
-X-Gm-Message-State: APjAAAXrujpdjB/z1KXeS0rtG3OqQjqOenHFA16k9GUHXXgAuhfqzIvl
- SZm1VRR0JHf5CupZjmkRyHa1IBvweNMSdMv0xw==
-X-Google-Smtp-Source: APXvYqyuBq8Fi36B5Ys+2phT+nvpzQCf5YUh/wiakEShWqTBjV+aqHoF/ZbGTawVwxN3/Y9O8KtC1A8N5ne4aW4nnBw=
-X-Received: by 2002:ac8:7612:: with SMTP id t18mr32074298qtq.143.1573573077689; 
- Tue, 12 Nov 2019 07:37:57 -0800 (PST)
+Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9543F6E4A5
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2019 15:50:39 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (unknown [217.70.183.198])
+ by mslow2.mail.gandi.net (Postfix) with ESMTP id 5D3403AA30D
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2019 15:50:36 +0000 (UTC)
+X-Originating-IP: 86.206.246.123
+Received: from aptenodytes (lfbn-tou-1-421-123.w86-206.abo.wanadoo.fr
+ [86.206.246.123])
+ (Authenticated sender: paul.kocialkowski@bootlin.com)
+ by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 908FDC0022;
+ Tue, 12 Nov 2019 15:50:12 +0000 (UTC)
+Date: Tue, 12 Nov 2019 16:50:12 +0100
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Subject: Re: [PATCH] drm/gma500: Fixup fbdev stolen size usage evaluation
+Message-ID: <20191112155012.GE4506@aptenodytes>
+References: <20191107153048.843881-1-paul.kocialkowski@bootlin.com>
+ <CAMeQTsYG+YvXqQqvJvsxT1h0z5zZJbdCtc5wPjUossvwidV=cA@mail.gmail.com>
+ <20191112151157.GD4506@aptenodytes>
 MIME-Version: 1.0
-References: <20191024191859.31700-1-robh@kernel.org>
- <20191025073042.GL11828@phenom.ffwll.local>
- <20191108162759.GY23790@phenom.ffwll.local>
- <20191108165528.GC23790@phenom.ffwll.local>
- <20191112085254.nzemljr3co4l5k2e@sirius.home.kraxel.org>
- <20191112093518.GE23790@phenom.ffwll.local>
-In-Reply-To: <20191112093518.GE23790@phenom.ffwll.local>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 12 Nov 2019 09:37:45 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqL1qghRUQu2QuVwkCszuLPzqy_1eTDCu9_tpc0euy3TcQ@mail.gmail.com>
-Message-ID: <CAL_JsqL1qghRUQu2QuVwkCszuLPzqy_1eTDCu9_tpc0euy3TcQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/gem: Fix mmap fake offset handling for
- drm_gem_object_funcs.mmap
-To: Daniel Vetter <daniel@ffwll.ch>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1573573078;
- bh=QdS3JK7sFvB4QXMuHO4jF6g67Ypsa5bFr1doZjI21+o=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=yeoQxIQNU9NrJyYO2IiKS1RZbNJOUVZ36PVL8imISLMSLlTN8Y6HgN+UDHFpXKVGb
- fkzL7AvJtTyMVhc59lc96dlv4rX65qbNlbndtKxy6Pdo25/uHqjy7fheGyLdx3UMD8
- bP8inIeMzpeUDZNJs2CLlMRxQUPXLgLLUrMTOv6c=
+In-Reply-To: <20191112151157.GD4506@aptenodytes>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,90 +44,203 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Gerd Hoffmann <kraxel@redhat.com>,
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ James Hilliard <james.hilliard1@gmail.com>
+Content-Type: multipart/mixed; boundary="===============0902650898=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBOb3YgMTIsIDIwMTkgYXQgMzozNSBBTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3
-bGwuY2g+IHdyb3RlOgo+Cj4gT24gVHVlLCBOb3YgMTIsIDIwMTkgYXQgMDk6NTI6NTRBTSArMDEw
-MCwgR2VyZCBIb2ZmbWFubiB3cm90ZToKPiA+IE9uIEZyaSwgTm92IDA4LCAyMDE5IGF0IDA1OjU1
-OjI4UE0gKzAxMDAsIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gPiA+IE9uIEZyaSwgTm92IDA4LCAy
-MDE5IGF0IDA1OjI3OjU5UE0gKzAxMDAsIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gPiA+ID4gT24g
-RnJpLCBPY3QgMjUsIDIwMTkgYXQgMDk6MzA6NDJBTSArMDIwMCwgRGFuaWVsIFZldHRlciB3cm90
-ZToKPiA+ID4gPiA+IE9uIFRodSwgT2N0IDI0LCAyMDE5IGF0IDAyOjE4OjU5UE0gLTA1MDAsIFJv
-YiBIZXJyaW5nIHdyb3RlOgo+ID4gPiA+ID4gPiBDb21taXQgYzQwMDY5Y2I3YmQ2ICgiZHJtOiBh
-ZGQgbW1hcCgpIHRvIGRybV9nZW1fb2JqZWN0X2Z1bmNzIikKPiA+ID4gPiA+ID4gaW50cm9kdWNl
-ZCBhIEdFTSBvYmplY3QgbW1hcCgpIGhvb2sgd2hpY2ggaXMgZXhwZWN0ZWQgdG8gc3VidHJhY3Qg
-dGhlCj4gPiA+ID4gPiA+IGZha2Ugb2Zmc2V0IGZyb20gdm1fcGdvZmYuIEhvd2V2ZXIsIGZvciBt
-bWFwKCkgb24gZG1hYnVmcywgdGhlcmUgaXMgbm90Cj4gPiA+ID4gPiA+IGEgZmFrZSBvZmZzZXQu
-Cj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+IFRvIGZpeCB0aGlzLCBsZXQncyBhbHdheXMgY2FsbCBt
-bWFwKCkgb2JqZWN0IGNhbGxiYWNrIHdpdGggYW4gb2Zmc2V0IG9mIDAsCj4gPiA+ID4gPiA+IGFu
-ZCBsZWF2ZSBpdCB1cCB0byBkcm1fZ2VtX21tYXBfb2JqKCkgdG8gcmVtb3ZlIHRoZSBmYWtlIG9m
-ZnNldC4KPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gVFRNIHN0aWxsIG5lZWRzIHRoZSBmYWtlIG9m
-ZnNldCwgc28gd2UgaGF2ZSB0byBhZGQgaXQgYmFjayB1bnRpbCB0aGF0J3MKPiA+ID4gPiA+ID4g
-Zml4ZWQuCj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+IEZpeGVzOiBjNDAwNjljYjdiZDYgKCJkcm06
-IGFkZCBtbWFwKCkgdG8gZHJtX2dlbV9vYmplY3RfZnVuY3MiKQo+ID4gPiA+ID4gPiBDYzogR2Vy
-ZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+Cj4gPiA+ID4gPiA+IENjOiBEYW5pZWwgVmV0
-dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgo+ID4gPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBS
-b2IgSGVycmluZyA8cm9iaEBrZXJuZWwub3JnPgo+ID4gPiA+ID4gPiAtLS0KPiA+ID4gPiA+ID4g
-djI6Cj4gPiA+ID4gPiA+IC0gTW92ZSBzdWJ0cmFjdGluZyB0aGUgZmFrZSBvZmZzZXQgb3V0IG9m
-IG1tYXAoKSBvYmogY2FsbGJhY2tzLgo+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiBJJ3ZlIHRlc3Rl
-ZCBzaG1lbSwgYnV0IG5vdCB0dG0uIEhvcGVmdWxseSwgSSB1bmRlcnN0b29kIHdoYXQncyBuZWVk
-ZWQKPiA+ID4gPiA+ID4gZm9yIFRUTS4KPiA+ID4gPgo+ID4gPiA+IFNvIHVuZm9ydHVuYXRlbHkg
-SSdtIGFscmVhZHkgaGF2aW5nIHJlZ3JldHMgb24gdGhpcy4gV2UgbWlnaHQgZXZlbiBoYXZlCj4g
-PiA+ID4gYnJva2VuIHNvbWUgb2YgdGhlIHR0bSBkcml2ZXJzIGhlcmUuCj4gPiA+ID4KPiA+ID4g
-PiBUcm91YmxlIGlzLCBpZiB5b3UgbmVlZCB0byBzaG9vdCBkb3duIHVzZXJzcGFjZSBwdGVzIG9m
-IGEgYm8gKGJlY2F1c2UgaXQncwo+ID4gPiA+IGdldHRpbmcgbW92ZWQgb3Igd2hhdGV2ZXIpLCB0
-aGVuIHdlIGRvIHRoYXQgd2l0aCB1bm1hcF9tYXBwaW5nX3JhbmdlLgo+ID4gPiA+IFdoaWNoIG1l
-YW5zIGVhY2ggYm8gbmVlZHMgdG8gYmUgbWFwcGluZyB3aXRoIGEgdW5pcXVlIChvZmZzZXQsCj4g
-PiA+ID4gYWRyZXNzX3NwYWNlKSwgb3IgaXQgd29uJ3Qgd29yay4gQnkgcmVtYXBwaW5nIGFsbCB0
-aGUgYm8gdG8gMCB3ZSd2ZSBicm9rZW4KPiA+ID4gPiB0aGlzLiBXZSd2ZSBhbHNvIGhhZCB0aGlz
-IGJyb2tlbiB0aGlzIGZvciBhIHdoaWxlIGZvciB0aGUgc2ltcGxpc3RpYwo+ID4gPiA+IGRtYS1i
-dWYgbW1hcCwgc2luY2Ugd2l0aG91dCBhbnkgZnVydGhlciBhY3Rpb24gd2UnbGwgcmV1c2UgdGhl
-IGFkZHJlc3MKPiA+ID4gPiBzcGFjZSBvZiB0aGUgZG1hLWJ1ZiBpbm9kZSwgbm90IG9mIHRoZSBk
-cm1fZGV2aWNlLgo+ID4gPiA+Cj4gPiA+ID4gU3RyYW5nZWx5IGJvdGggZXRuYXZpdiBhbmQgbXNt
-IGhhdmUgYSBjb21tZW50IHRvIHRoYXQgZWZmZWN0IC0gZ3JlcCBmb3IKPiA+ID4gPiB1bm1hcF9t
-YXBwaW5nX3JhbmdlLiBCdXQgbmVpdGhlciBhY3R1YWxseSB1c2VzIGl0Lgo+ID4gPiA+Cj4gPiA+
-ID4gTm90IGV4YWN0bHkgc3VyZSB3aGF0J3MgdGhlIGJlc3QgY291cnNlIG9mIGFjdGlvbiBoZXJl
-IG5vdy4KPiA+ID4gPgo+ID4gPiA+IEFsc28gYWRkaW5nIFRob21hcyBaaW1tZXJtYW5uLCB3aG8n
-cyB3b3JrZWQgb24gYWxsIHRoZSB2cmFtIGhlbHBlcnMuCj4gPiA+Cj4gPiA+IENvcnJlY3Rpb24s
-IEkgbWlzc2VkIHRoZSB1bm1hcF9tYXBwaW5nX3JhbmdlIGluIHRoZSB2bWEgbm9kZSBtYW5hZ2Vy
-Cj4gPiA+IGhlYWRlciwgc28gZGlkbid0IHNwb3QgdGhlIGRyaXZlcnMgdXNpbmcgZHJtX3ZtYV9u
-b2RlX3VubWFwLiBXZSBkaWQgYnJlYWsKPiA+ID4gYWxsIHRoZSB0dG0gc3R1ZmYgOi0vCj4gPgo+
-ID4gdHRtIHN0aWxsIHVzZXMgdGhlIG9mZnNldCwgbm93IGFkZGVkIGluIHR0bV9ib19tbWFwX29i
-aigpLiAgU28sIGZvcgo+ID4gbm9ybWFsIG1tYXAgYmVoYXZpb3IgZGlkIG5vdCBjaGFuZ2UgSSB0
-aGluay4gIFRoZSBzaW1wbGlzdGljIGRtYS1idWYKPiA+IG1tYXAgZGlkIGNoYW5nZSwgaXQgbm93
-IHVzZXMgdGhlIG9mZnNldCBiZWNhdXNlIGl0IGdvZXMgdGhyb3VnaAo+ID4gdHRtX2JvX21tYXBf
-b2JqKCkgdG9vLgo+ID4KPiA+IE5vdCBmdWxseSBzdXJlIHdoaWNoIGFkZHJlc3Mgc3BhY2UgaXMg
-dXNlZCBmb3IgZG1hLWJ1ZnMgdGhvdWdoLiAgQXMgZmFyCj4gPiBJIGNhbiBzZWUgbmVpdGhlciB0
-aGUgb2xkIG5vciB0aGUgbmV3IGRtYS1idWYgbW1hcCBjb2RlIHBhdGggdG91Y2gKPiA+IHZtYS0+
-dm1fZmlsZSAodW5sZXNzIHRoZSBkcml2ZXIgZG9lcyBleHBsaWNpdGx5IGNhcmUsIGxpa2UgbXNt
-IGRvZXMgaW4KPiA+IG1zbV9nZW1fbW1hcF9vYmopLgo+ID4KPiA+ID4gUGx1cyBwYW5mcm9zdCwg
-d2hpY2ggaXMgdXNpbmcgZHJtX2dlbV9zaG1lbV9wdXJnZV9sb2NrZWQuCj4gPgo+ID4gSG1tLCBs
-b29raW5nIGF0IGRybV9nZW1fc2htZW1fcHVyZ2VfbG9ja2VkIEknbSB3b25kZXJpbmcgd2h5IGl0
-IHVzZXMgYQo+ID4gbWl4IG9mIGRldi0+YW5vbl9pbm9kZS0+aV9tYXBwaW5nIGFuZCBmaWxlX2lu
-b2RlKG9iai0+ZmlscCktPmlfbWFwcGluZy4KClByb2JhYmx5IG15IGNvcHktbi1wYXN0ZSBmcm9t
-IG90aGVyIGltcGxlbWVudGF0aW9ucy4uLgoKPiA+IEFsc28gc2htZW0gaGVscGVycyB1c2VkIGEg
-emVybyB2bV9wZ29mZiBiZWZvcmUsIG9ubHkgZGlmZmVyZW5jZSBpcyB0aGUKPiA+IGNoYW5nZSBp
-cyBhcHBsaWVkIGluIGRybV9nZW1fbW1hcF9vYmooKSBub3cgaW5zdGVhZCBvZiBzb21ld2hlcmUg
-aW4gdGhlCj4gPiBzaG1lbSBoZWxwZXIgY29kZS4KPiA+Cj4gPiBzbGlnaHRseSBjb25mdXNlZCwK
-Ck1lIHRvby4KCj4gSSB0aGluayBzdW1tYXJ5IGlzOgo+IC0gc2htZW0gaGVscGVyIHB0ZSBzaG90
-ZG93biBpcyBicm9rZW4gZm9yIGFsbCBjYXNlcyBub3cgd2l0aAo+ICAgb2JqLT5mdW5jcy0+bW1h
-cAoKRG9lcyBpdCBoZWxwIHRoYXQgdXNlcnNwYWNlIGFsd2F5cyBkb2VzIGEgbXVubWFwIGJlZm9y
-ZSBtYWtpbmcgcGFnZXMgcHVyZ2VhYmxlPwoKPiAtIHR0bS92cmFtLWhlbHBlcnMgb25seSBmb3Ig
-ZG1hLWJ1ZiBtbWFwIHJlZGlyZWN0aW9uIChiZWNhdXNlIG9mIHRoZSB3cm9uZwo+ICAgZi9pX21h
-cHBpbmcpLgo+Cj4gUm9iLCBhcmUgeW91IGxvb2tpbmcgaW50byB0aGlzPwoKU3RpbGwgdHJ5aW5n
-IHRvIHVuZGVyc3RhbmQgYWxsIHRoaXMuLi4KCj4gSSBndWVzcyB0aGVyZSdzIHR3byBvcHRpb25z
-Ogo+IC0gR28gYmFjayB0byBmYWtlIG9mZnNldCBldmVyeXdoZXJlLCBhbmQgd2VlcC4KPiAtIEFk
-ZCBhIHBlci1ibyBtYXBwaW5nIHN0cnVjdCwgY29uc2lzdGVudGx5IHVzZSB0aGF0IGV2ZXJ5d2hl
-cmUgKHByb2JhYmx5Cj4gICBtb3JlIHdvcmspLgo+Cj4gSWYgd2UgZ28gd2l0aCB3ZWVwaW5nIG1h
-eWJlIG5vdGUgdGhlIDJuZCBvcHRpb24gYXMgYSB0b2RvIGl0ZW0gaW4KPiB0b2RvLnJzdD8KPiAt
-RGFuaWVsCj4KPiA+ICAgR2VyZAo+ID4KPgo+IC0tCj4gRGFuaWVsIFZldHRlcgo+IFNvZnR3YXJl
-IEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgo+IGh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0902650898==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Il7n/DHsA0sMLmDu"
+Content-Disposition: inline
+
+
+--Il7n/DHsA0sMLmDu
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Tue 12 Nov 19, 16:11, Paul Kocialkowski wrote:
+> Hi,
+>=20
+> On Tue 12 Nov 19, 11:20, Patrik Jakobsson wrote:
+> > On Thu, Nov 7, 2019 at 4:30 PM Paul Kocialkowski
+> > <paul.kocialkowski@bootlin.com> wrote:
+> > >
+> > > psbfb_probe performs an evaluation of the required size from the stol=
+en
+> > > GTT memory, but gets it wrong in two distinct ways:
+> > > - The resulting size must be page-size-aligned;
+> > > - The size to allocate is derived from the surface dimensions, not th=
+e fb
+> > >   dimensions.
+> > >
+> > > When two connectors are connected with different modes, the smallest =
+will
+> > > be stored in the fb dimensions, but the size that needs to be allocat=
+ed must
+> > > match the largest (surface) dimensions. This is what is used in the a=
+ctual
+> > > allocation code.
+> > >
+> > > Fix this by correcting the evaluation to conform to the two points ab=
+ove.
+> > > It allows correctly switching to 16bpp when one connector is e.g. 192=
+0x1080
+> > > and the other is 1024x768.
+> > >
+> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > ---
+> > >  drivers/gpu/drm/gma500/framebuffer.c | 8 ++++++--
+> > >  1 file changed, 6 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/gma500/framebuffer.c b/drivers/gpu/drm/g=
+ma500/framebuffer.c
+> > > index 218f3bb15276..90237abee088 100644
+> > > --- a/drivers/gpu/drm/gma500/framebuffer.c
+> > > +++ b/drivers/gpu/drm/gma500/framebuffer.c
+> > > @@ -462,6 +462,7 @@ static int psbfb_probe(struct drm_fb_helper *help=
+er,
+> > >                 container_of(helper, struct psb_fbdev, psb_fb_helper);
+> > >         struct drm_device *dev =3D psb_fbdev->psb_fb_helper.dev;
+> > >         struct drm_psb_private *dev_priv =3D dev->dev_private;
+> > > +       unsigned int fb_size;
+> > >         int bytespp;
+> > >
+> > >         bytespp =3D sizes->surface_bpp / 8;
+> > > @@ -471,8 +472,11 @@ static int psbfb_probe(struct drm_fb_helper *hel=
+per,
+> > >         /* If the mode will not fit in 32bit then switch to 16bit to =
+get
+> > >            a console on full resolution. The X mode setting server wi=
+ll
+> > >            allocate its own 32bit GEM framebuffer */
+> > > -       if (ALIGN(sizes->fb_width * bytespp, 64) * sizes->fb_height >
+> > > -                       dev_priv->vram_stolen_size) {
+> > > +       fb_size =3D ALIGN(sizes->surface_width * bytespp, 64) *
+> > > +                 sizes->surface_height;
+> > > +       fb_size =3D ALIGN(fb_size, PAGE_SIZE);
+> > > +
+> > > +       if (fb_size > dev_priv->vram_stolen_size) {
+> >=20
+> > psb_gtt_alloc_range() already aligns by PAGE_SIZE for us. Looks like
+> > we align a couple of times extra for luck. This needs cleaning up
+> > instead of adding even more aligns.
+>=20
+> I'm not sure this is really for luck. As far as I can see, we need to do =
+it
+> properly for this size estimation since it's the final size that will be
+> allocated (and thus needs to be available in whole).
+>=20
+> For the other times there is explicit alignment, they seem justified too:
+> - in psb_gem_create: it is common to pass the aligned size when creating =
+the
+>   associated GEM object with drm_gem_object_init, even though it's probab=
+ly not
+>   crucial given that this is not where allocation actually happens;
+> - in psbfb_create: the full size is apparently only really used to memset=
+ 0
+>   the allocated buffer. I think this makes sense for security reasons (an=
+d not
+>   leak previous contents in the additional space required for alignment).
+>=20
+> What strikes me however is that each call to psb_gtt_alloc_range takes the
+> alignment as a parameter when it's really always PAGE_SIZE, so it should
+> probably just be hardcoded in the call to allocate_resource.
+>=20
+> What do you think?
+>=20
+> > Your size calculation looks correct and indeed makes my 1024x600 +
+> > 1920x1080 setup actually display something, but for some reason I get
+> > an incorrect panning on the smaller screen and stale data on the
+> > surface only visible by the larger CRTC. Any idea what's going on?
+>=20
+> I'm not seeing this immediately, but I definitely have something strange
+> after having printed more lines than the smallest display can handle or
+> scrolling, where more than the actual size of the fb is used.
+>=20
+> Maybe this is related to using the PowerVR-accelerated fb ops, that aren't
+> quite ready for this use case?
+>=20
+> I'll give it a try with psbfb_roll_ops and psbfb_unaccel_ops instead to s=
+ee
+> if it changes something for me. Maybe it would help for you too?
+
+Some quick feedback about that:
+- psbfb_unaccel_ops gives a correct result where the scrolling area is bound
+  to the smallest display;
+- psbfb_roll_ops gives a working scrolling but bound to the largest display
+  (so the current shell line becomes invisible on the smallest one eventual=
+ly);
+- psbfb_ops gives the same issue as above and seems to add artifacts on top.
+
+There's probably limited interest in working on that aspect on our side tho=
+ugh.
+I'd be interested to know if it affects the issue you're seeing though.
+
+Cheers,
+
+Paul
+
+> I suspect that the generic implementation is already bullet-proof for the=
+se
+> kinds of use case.
+>=20
+> Cheers and thanks for the feedback,
+>=20
+> Paul
+>=20
+> >=20
+> > >                  sizes->surface_bpp =3D 16;
+> > >                  sizes->surface_depth =3D 16;
+> > >          }
+> > > --
+> > > 2.23.0
+> > >
+>=20
+> --=20
+> Paul Kocialkowski, Bootlin
+> Embedded Linux and kernel engineering
+> https://bootlin.com
+
+
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--Il7n/DHsA0sMLmDu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl3K1LQACgkQ3cLmz3+f
+v9FCEwf/XEWwxAYDxZCEg77vGI++OJiygsuiXp3KNDxCAdUxBSgECx4fku772WZG
+E4j/DBf1RFmUfoBAh9NMtm0+ruWu4SMKCnWKCz4o+Yt15gZocG8T2n/u6gDMQIEj
+4ajkRXZ9snM0IDXd5WjmPfktayxETGIs9I3IuMSighuvWUUTrIyUm3kXDQZao10h
+MJZvhmCrzUhXG2V1VS+wSdlzFZtLgDbjvk6X7A6SGF2ONFgDIuEK7N3JEzbvFY6a
+SOnq1DunTL62uURGJ8Xtio9XN/OycXSXZGrp7C+Bg146gLpSfZqR1FqBrQ1JyW7K
+ItMdJAD/rjjcJ61DAagf7H4D9npMwQ==
+=6YLs
+-----END PGP SIGNATURE-----
+
+--Il7n/DHsA0sMLmDu--
+
+--===============0902650898==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0902650898==--
