@@ -2,29 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0F4EF89DB
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2019 08:41:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FCA5F89DC
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2019 08:41:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 027DA6EAC8;
-	Tue, 12 Nov 2019 07:41:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7A1B6EAC5;
+	Tue, 12 Nov 2019 07:41:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id BB58D6EAC9
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2019 07:41:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id DDE7A6EAC3
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2019 07:41:21 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B5B83720E2; Tue, 12 Nov 2019 07:41:16 +0000 (UTC)
+ id DA7C4720E2; Tue, 12 Nov 2019 07:41:21 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110754] Add tests checking how stable the CRCs are
-Date: Tue, 12 Nov 2019 07:41:16 +0000
+Subject: [Bug 111011] [CI][BAT][VEGA M]: igt@kms_addfb_basic@* - warn/fail -
+ Failed assertion: __gem_set_tiling(fd, handle, tiling, stride) == 0
+Date: Tue, 12 Nov 2019 07:41:22 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: IGT
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: DRI git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
@@ -33,10 +34,10 @@ X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-110754-502-W7m9Eh1o3P@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110754-502@http.bugs.freedesktop.org/>
-References: <bug-110754-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-111011-502-ZFDadqhsx4@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111011-502@http.bugs.freedesktop.org/>
+References: <bug-111011-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,34 +53,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0075778364=="
+Content-Type: multipart/mixed; boundary="===============1225793134=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0075778364==
-Content-Type: multipart/alternative; boundary="15735444762.7bCc.22846"
+--===============1225793134==
+Content-Type: multipart/alternative; boundary="15735444811.7fc7f6AcC.22846"
 Content-Transfer-Encoding: 7bit
 
 
---15735444762.7bCc.22846
-Date: Tue, 12 Nov 2019 07:41:16 +0000
+--15735444811.7fc7f6AcC.22846
+Date: Tue, 12 Nov 2019 07:41:21 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110754
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111011
 
 Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
+             Status|NEW                         |RESOLVED
 
---- Comment #1 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #4 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +89,14 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance:
-https://gitlab.freedesktop.org/drm/igt-gpu-tools/issues/26.
+https://gitlab.freedesktop.org/drm/igt-gpu-tools/issues/27.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15735444762.7bCc.22846
-Date: Tue, 12 Nov 2019 07:41:16 +0000
+--15735444811.7fc7f6AcC.22846
+Date: Tue, 12 Nov 2019 07:41:21 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,9 +113,11 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Add tests checking how stable the CRCs are"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110754">bug 11075=
-4</a>
+   title=3D"RESOLVED MOVED - [CI][BAT][VEGA M]: igt&#64;kms_addfb_basic&#64=
+;* - warn/fail - Failed assertion: __gem_set_tiling(fd, handle, tiling, str=
+ide) =3D=3D 0"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111011">bug 11101=
+1</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -124,32 +127,36 @@ span class=3D"fn">Martin Peres</span></a>
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Resolution</td>
            <td>---
            </td>
            <td>MOVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Add tests checking how stable the CRCs are"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110754#c1">Commen=
-t # 1</a>
+   title=3D"RESOLVED MOVED - [CI][BAT][VEGA M]: igt&#64;kms_addfb_basic&#64=
+;* - warn/fail - Failed assertion: __gem_set_tiling(fd, handle, tiling, str=
+ide) =3D=3D 0"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111011#c4">Commen=
+t # 4</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Add tests checking how stable the CRCs are"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110754">bug 11075=
-4</a>
+   title=3D"RESOLVED MOVED - [CI][BAT][VEGA M]: igt&#64;kms_addfb_basic&#64=
+;* - warn/fail - Failed assertion: __gem_set_tiling(fd, handle, tiling, str=
+ide) =3D=3D 0"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111011">bug 11101=
+1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -162,8 +169,8 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance:
-<a href=3D"https://gitlab.freedesktop.org/drm/igt-gpu-tools/issues/26">http=
-s://gitlab.freedesktop.org/drm/igt-gpu-tools/issues/26</a>.</pre>
+<a href=3D"https://gitlab.freedesktop.org/drm/igt-gpu-tools/issues/27">http=
+s://gitlab.freedesktop.org/drm/igt-gpu-tools/issues/27</a>.</pre>
         </div>
       </p>
 
@@ -177,9 +184,9 @@ s://gitlab.freedesktop.org/drm/igt-gpu-tools/issues/26</a>.</pre>
     </body>
 </html>=
 
---15735444762.7bCc.22846--
+--15735444811.7fc7f6AcC.22846--
 
---===============0075778364==
+--===============1225793134==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -189,4 +196,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0075778364==--
+--===============1225793134==--
