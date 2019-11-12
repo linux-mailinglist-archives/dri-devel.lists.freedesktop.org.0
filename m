@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C6EEF89D5
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2019 08:41:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89D03F89D7
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2019 08:41:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8E9F6EAB4;
-	Tue, 12 Nov 2019 07:41:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A2D46EAC0;
+	Tue, 12 Nov 2019 07:41:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id B4A566EAB9
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2019 07:40:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id DF87E6EACB
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2019 07:41:02 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B17AA720E2; Tue, 12 Nov 2019 07:40:59 +0000 (UTC)
+ id D345F720E2; Tue, 12 Nov 2019 07:41:02 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110598] [IGT runner] allow tests to attach test-specific results
-Date: Tue, 12 Nov 2019 07:41:00 +0000
+Date: Tue, 12 Nov 2019 07:41:03 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: dep_changed
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: IGT
@@ -28,13 +28,13 @@ X-Bugzilla-Version: DRI git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-110598-502-DL6w6Aad7l@http.bugs.freedesktop.org/>
+Message-ID: <bug-110598-502-3h3CBDm5sq@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110598-502@http.bugs.freedesktop.org/>
 References: <bug-110598-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0207356224=="
+Content-Type: multipart/mixed; boundary="===============0348107783=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0207356224==
-Content-Type: multipart/alternative; boundary="15735444592.eE8B96d2.22846"
+--===============0348107783==
+Content-Type: multipart/alternative; boundary="15735444621.814b26.22846"
 Content-Transfer-Encoding: 7bit
 
 
---15735444592.eE8B96d2.22846
-Date: Tue, 12 Nov 2019 07:40:59 +0000
+--15735444621.814b26.22846
+Date: Tue, 12 Nov 2019 07:41:02 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -71,22 +71,31 @@ X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110598
-Bug 110598 depends on bug 110597, which changed state.
 
-Bug 110597 Summary: [IGT runner] allow attachments to results.json
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110597
+Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
              Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
 
+--- Comment #1 from Martin Peres <martin.peres@free.fr> ---
+-- GitLab Migration Automatic Message --
+
+This bug has been migrated to freedesktop.org's GitLab instance and has been
+closed from further activity.
+
+You can subscribe and participate further through the new bug through this =
+link
+to our GitLab instance:
+https://gitlab.freedesktop.org/drm/igt-gpu-tools/issues/22.
+
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15735444592.eE8B96d2.22846
-Date: Tue, 12 Nov 2019 07:40:59 +0000
+--15735444621.814b26.22846
+Date: Tue, 12 Nov 2019 07:41:02 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -97,18 +106,16 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [IGT runner] allow tests to attach test-specific results"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110598">Bug 11059=
-8</a>
-          depends on
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:martin.pe=
+res&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.fr&gt;"> <=
+span class=3D"fn">Martin Peres</span></a>
+</span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [IGT runner] allow attachments to results.json"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110597">bug 11059=
-7</a>,
-          which changed state.
+   title=3D"RESOLVED MOVED - [IGT runner] allow tests to attach test-specif=
+ic results"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110598">bug 11059=
+8</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -133,6 +140,34 @@ Auto-Submitted: auto-generated
            </td>
          </tr></table>
       <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - [IGT runner] allow tests to attach test-specif=
+ic results"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110598#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - [IGT runner] allow tests to attach test-specif=
+ic results"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110598">bug 11059=
+8</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
+r&gt;"> <span class=3D"fn">Martin Peres</span></a>
+</span></b>
+        <pre>-- GitLab Migration Automatic Message --
+
+This bug has been migrated to freedesktop.org's GitLab instance and has been
+closed from further activity.
+
+You can subscribe and participate further through the new bug through this =
+link
+to our GitLab instance:
+<a href=3D"https://gitlab.freedesktop.org/drm/igt-gpu-tools/issues/22">http=
+s://gitlab.freedesktop.org/drm/igt-gpu-tools/issues/22</a>.</pre>
+        </div>
       </p>
 
 
@@ -145,9 +180,9 @@ Auto-Submitted: auto-generated
     </body>
 </html>=
 
---15735444592.eE8B96d2.22846--
+--15735444621.814b26.22846--
 
---===============0207356224==
+--===============0348107783==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -157,4 +192,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0207356224==--
+--===============0348107783==--
