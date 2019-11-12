@@ -2,45 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C19CAF96D3
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2019 18:14:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBC97F96EC
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Nov 2019 18:19:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B8376EB8C;
-	Tue, 12 Nov 2019 17:14:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CF946EB8F;
+	Tue, 12 Nov 2019 17:19:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0BB786EB86
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2019 17:14:49 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 08DE8720E2; Tue, 12 Nov 2019 17:14:49 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 98376] Pageflip completion event has impossible msc 780 <
- target_msc 781
-Date: Tue, 12 Nov 2019 17:14:49 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/Radeon
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: michel@daenzer.net
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-98376-502-YZmg3ZRduH@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-98376-502@http.bugs.freedesktop.org/>
-References: <bug-98376-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 277676EB8A;
+ Tue, 12 Nov 2019 17:19:18 +0000 (UTC)
+Received: from localhost (unknown [69.71.4.100])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id C6C2520659;
+ Tue, 12 Nov 2019 17:19:17 +0000 (UTC)
+Date: Tue, 12 Nov 2019 11:19:15 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>
+Subject: Re: [PATCH 1/2] drm: replace incorrect Compliance/Margin magic
+ numbers with PCI_EXP_LNKCTL2 definitions
+Message-ID: <20191112171915.GA167243@google.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <6d86246e-504a-b762-aff8-0449dd6f3d31@daenzer.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1573579158;
+ bh=85dgABjfLst0EJiLfQ6UppL83HD41+jlwGeYc+PJi5s=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=xdL+G1zDFE46caLzbkDRg0br9X96M7qfTympBm/tlAae7Dosfy8oNmO241YvCY3ot
+ o/AK0tQcwpY1drq9ZXLTRTg83BCM/T44eZYlb5MREr/qYT9bAmbRggcZgaxXabvtMW
+ jK+xizZQdMqOiW5ALdmPKCHortPXcRVIeEtOVC2I=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,131 +46,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1677018499=="
+Cc: Frederick Lawler <fred@fredlawl.com>, David Airlie <airlied@linux.ie>,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1677018499==
-Content-Type: multipart/alternative; boundary="15735788890.7a62AAB2.32003"
-Content-Transfer-Encoding: 7bit
-
-
---15735788890.7a62AAB2.32003
-Date: Tue, 12 Nov 2019 17:14:48 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D98376
-
-Michel D=C3=A4nzer <michel@daenzer.net> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-         Resolution|---                         |FIXED
-             Status|NEW                         |RESOLVED
-
---- Comment #4 from Michel D=C3=A4nzer <michel@daenzer.net> ---
-Assuming this is fixed with current kernels & xf86-video-ati, otherwise ple=
-ase
-reopen.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15735788890.7a62AAB2.32003
-Date: Tue, 12 Nov 2019 17:14:49 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:michel&#6=
-4;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.net&gt;">=
- <span class=3D"fn">Michel D=C3=A4nzer</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Pageflip completion event has impossible msc 7=
-80 &lt; target_msc 781"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98376">bug 98376<=
-/a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>FIXED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Pageflip completion event has impossible msc 7=
-80 &lt; target_msc 781"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98376#c4">Comment=
- # 4</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Pageflip completion event has impossible msc 7=
-80 &lt; target_msc 781"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98376">bug 98376<=
-/a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
-net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
-</span></b>
-        <pre>Assuming this is fixed with current kernels &amp; xf86-video-a=
-ti, otherwise please
-reopen.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15735788890.7a62AAB2.32003--
-
---===============1677018499==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1677018499==--
+T24gVHVlLCBOb3YgMTIsIDIwMTkgYXQgMDU6NDU6MTVQTSArMDEwMCwgTWljaGVsIETDpG56ZXIg
+d3JvdGU6Cj4gT24gMjAxOS0xMS0xMSA4OjI5IHAubS4sIEJqb3JuIEhlbGdhYXMgd3JvdGU6Cj4g
+PiBGcm9tOiBCam9ybiBIZWxnYWFzIDxiaGVsZ2Fhc0Bnb29nbGUuY29tPgo+ID4gCj4gPiBBZGQg
+ZGVmaW5pdGlvbnMgZm9yIHRoZXNlIFBDSWUgTGluayBDb250cm9sIDIgcmVnaXN0ZXIgZmllbGRz
+Ogo+ID4gCj4gPiAgIEVudGVyIENvbXBsaWFuY2UKPiA+ICAgVHJhbnNtaXQgTWFyZ2luCj4gPiAK
+PiA+IGFuZCB1c2UgdGhlbSBpbiBhbWRncHUgYW5kIHJhZGVvbi4KPiA+IAo+ID4gTk9URTogVGhp
+cyBpcyBhIGZ1bmN0aW9uYWwgY2hhbmdlIGJlY2F1c2UgIjcgPDwgOSIgd2FzIGFwcGFyZW50bHkg
+YSB0eXBvLgo+ID4gVGhhdCBtYXNrIGluY2x1ZGVkIHRoZSBoaWdoIG9yZGVyIGJpdCBvZiBUcmFu
+c21pdCBNYXJnaW4sIHRoZSBFbnRlcgo+ID4gTW9kaWZpZWQgQ29tcGxpYW5jZSBiaXQsIGFuZCB0
+aGUgQ29tcGxpYW5jZSBTT1MgYml0LCBidXQgSSB0aGluayB3aGF0Cj4gPiB3YXMgaW50ZW5kZWQg
+d2FzIHRoZSAzLWJpdCBUcmFuc21pdCBNYXJnaW4gZmllbGQgYXQgYml0cyA5OjcuCj4gCj4gQ2Fu
+IHlvdSBzcGxpdCBvdXQgdGhlIGZ1bmN0aW9uYWwgY2hhbmdlIGludG8gYSBzZXBhcmF0ZSBwYXRj
+aCAxPyBUaGF0Cj4gY291bGQgbWFrZSB0aGluZ3MgZWFzaWVyIGZvciBhbnlvbmUgd2hvIGJpc2Vj
+dHMgdGhlIGZ1bmN0aW9uYWwgY2hhbmdlCj4gZm9yIHdoYXRldmVyIHJlYXNvbi4KCkdyZWF0IGlk
+ZWEsIHRoYW5rcyEgIFdpc2ggSSdkIHRob3VnaHQgb2YgdGhhdC4KCldoaWxlIGZpeGluZyB0aGF0
+LCBJIGFsc28gbm90aWNlZCBJIG1pc3NlZCBvbmUgY2FzZSBpbgphbWRncHUvc2kuYy4gIEknbGwg
+cG9zdCBhIHYzLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
