@@ -1,61 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25480FB413
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2019 16:48:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2911FC116
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 09:08:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1E8C6ED6A;
-	Wed, 13 Nov 2019 15:48:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53B196E1B7;
+	Thu, 14 Nov 2019 08:07:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79B4A6ED6A
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2019 15:48:25 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id E3B90B496;
- Wed, 13 Nov 2019 15:48:23 +0000 (UTC)
-Subject: Re: [PATCH v4 1/3] drm/udl: Replace fbdev code with generic emulation
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>, airlied@redhat.com, 
- sean@poorly.run, daniel@ffwll.ch, b.zolnierkie@samsung.com,
- kraxel@redhat.com, sam@ravnborg.org, emil.velikov@collabora.com
-References: <20191113115233.18483-1-tzimmermann@suse.de>
- <20191113115233.18483-2-tzimmermann@suse.de>
- <7c9289a6-1a4e-e0d3-ce9e-3f5d6305da69@tronnes.org>
- <c2d1d12d-d90e-f6f6-9608-9955e63a8bec@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <5398d88a-bb4a-7f8f-f043-a101911940aa@suse.de>
-Date: Wed, 13 Nov 2019 16:48:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
-MIME-Version: 1.0
-In-Reply-To: <c2d1d12d-d90e-f6f6-9608-9955e63a8bec@suse.de>
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
+ [210.160.252.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CDA616ED6B
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2019 15:57:43 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.68,300,1569250800"; d="scan'208";a="31380879"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+ by relmlie6.idc.renesas.com with ESMTP; 14 Nov 2019 00:51:41 +0900
+Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id D48C1400ED49;
+ Thu, 14 Nov 2019 00:51:36 +0900 (JST)
+From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+To: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Andrzej Hajda <a.hajda@samsung.com>
+Subject: [PATCH v4 00/13] Add LCD panel support to iwg20d
+Date: Wed, 13 Nov 2019 15:51:19 +0000
+Message-Id: <1573660292-10629-1-git-send-email-fabrizio.castro@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
+X-Mailman-Approved-At: Thu, 14 Nov 2019 08:07:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,110 +40,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0772602591=="
+Cc: Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+ devicetree@vger.kernel.org, Chris Paterson <Chris.Paterson2@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org,
+ Biju Das <biju.das@bp.renesas.com>, linux-renesas-soc@vger.kernel.org,
+ Simon Horman <horms@verge.net.au>, Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Peter Rosin <peda@axentia.se>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0772602591==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="ZQ6pXZQRbgjVW9F6dCLaI2xDfw1j2uWHu"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---ZQ6pXZQRbgjVW9F6dCLaI2xDfw1j2uWHu
-Content-Type: multipart/mixed; boundary="HJTtoV33BLx1rsgTppA8uUGQFUTEeDIXM";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>, airlied@redhat.com,
- sean@poorly.run, daniel@ffwll.ch, b.zolnierkie@samsung.com,
- kraxel@redhat.com, sam@ravnborg.org, emil.velikov@collabora.com
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-ID: <5398d88a-bb4a-7f8f-f043-a101911940aa@suse.de>
-Subject: Re: [PATCH v4 1/3] drm/udl: Replace fbdev code with generic emulation
-References: <20191113115233.18483-1-tzimmermann@suse.de>
- <20191113115233.18483-2-tzimmermann@suse.de>
- <7c9289a6-1a4e-e0d3-ce9e-3f5d6305da69@tronnes.org>
- <c2d1d12d-d90e-f6f6-9608-9955e63a8bec@suse.de>
-In-Reply-To: <c2d1d12d-d90e-f6f6-9608-9955e63a8bec@suse.de>
-
---HJTtoV33BLx1rsgTppA8uUGQFUTEeDIXM
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-
-Am 13.11.19 um 16:41 schrieb Thomas Zimmermann:
-
->> Either way you choose:
->=20
-> Glad you like it :)
->=20
-
-more like this
-
->>
->> Btw, nice diffstat!
-
-Glad you like it :)
-
->>
->>>  	if (ret)
->>>  		goto err;
->>> =20
->>> @@ -367,6 +368,4 @@ void udl_fini(struct drm_device *dev)
->>> =20
->>>  	if (udl->urbs.count)
->>>  		udl_free_urb_list(dev);
->>> -
->>> -	udl_fbdev_cleanup(dev);
->>>  }
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---HJTtoV33BLx1rsgTppA8uUGQFUTEeDIXM--
-
---ZQ6pXZQRbgjVW9F6dCLaI2xDfw1j2uWHu
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl3MJcQACgkQaA3BHVML
-eiNG6Qf/epNWFMYvFoLWFEdBRojEqVCU3W7GD95cNBp25auTYxjmbdeB4dhasdMJ
-vG7gIxe+uRaOSiN5sEDSpenMw3gGUhMVbFwmaQUapxU4THVpdSKB2X/d7iFFOtbP
-ECFxsfAHRSrb7xzTZwoPNsnTR8ptgH++uok/Mh3V+PfgqGqjUaOVHYhZvVtPuMGf
-TF296DjD0hPBuvVvXsSQ9S+vuJeCHsBw6vVHr/peP8hx6/pForieSf3G/MvxkBYV
-M10qhmgQ5mI9MP+9qsP1OiUF2wPentGzQsxA0r1mt6TRH8Taqm7vSNCRdrHVG8Gz
-nhGkHuxLErXgN3hG0y1hXKbjEdG+lw==
-=Ol7h
------END PGP SIGNATURE-----
-
---ZQ6pXZQRbgjVW9F6dCLaI2xDfw1j2uWHu--
-
---===============0772602591==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0772602591==--
+VGhlIGlXLVJhaW5ib1ctRzIwRC1Rc2V2ZW4gUlovRzFNLEcxTiBRc2V2ZW4gRGV2ZWxvcG1lbnQg
+UGxhdGZvcm0KY29tZXMgd2l0aCBhIDciIGNhcGFjaXRpdmUgZGlzcGxheSBraXQgZnJvbSBFbWVy
+Z2luZyBEaXNwbGF5ClRlY2hub2xvZ2llcyBDb3Jwb3JhdGlvbiAoRURUKS4gVGhpcyBzZXJpZXMg
+YWRkcyBhbGwgdGhhdCdzCm5lY2Vzc2FyeSBmb3Igc3VwcG9ydGluZyBpdC4KClRoYW5rcywKRmFi
+Cgp2My0+djQ6CiogUmV3b3JrZWQgYWNjb3JkaW5nIHRvIExhdXJlbnQncyBhbmQgSmFjb3BvJ3Mg
+Y29tbWVudHMKdjItPnYzOgoqIFNwbGl0IHRoZSBkdC1zY2hlbWEgcGF0Y2ggaW4gdHdvIHBhdGNo
+ZXMgYXMgcGVyIFJvYidzIGNvbW1lbnQKKiBNYWRlIGZpeGVzIHRvIHRoZSBkdC1zY2hlbWEgYWNj
+b3JkaW5nIHRvIFJvYidzIGNvbW1lbnQKKiBNYWRlIGZpeGVzIHRvIHRoZSBsdmRzLWNvZGVjIGRy
+aXZlciBhY2NvcmRpbmcgdG8gSmFjb3BvJ3MgY29tbWVudHMKKiBBZGRlZCB0d28gbmV3IHBhdGNo
+ZXM6CiAgKiBkcm06IERlZmluZSBEUk1fTU9ERV9DT05ORUNUT1JfUEFSQUxMRUwKICAqIGRybS9w
+YW5lbDogcGFuZWwtc2ltcGxlOiBBZGQgY29ubmVjdG9yIHR5cGUgZm9yIGV0bTA3MDBnMGRoNgp2
+MS0+djI6CiogQ29udmVydCBkdC1iaW5kaW5ncyB0byBkdC1zY2hlbWEKCkZhYnJpemlvIENhc3Ry
+byAoMTMpOgogIGR0LWJpbmRpbmdzOiBkaXNwbGF5OiBicmlkZ2U6IENvbnZlcnQgbHZkcy10cmFu
+c21pdHRlciBiaW5kaW5nIHRvCiAgICBqc29uLXNjaGVtYQogIGR0LWJpbmRpbmdzOiBkaXNwbGF5
+OiBicmlkZ2U6IGx2ZHMtdHJhbnNtaXR0ZXI6IERvY3VtZW50CiAgICBwb3dlcmRvd24tZ3Bpb3MK
+ICBkdC1iaW5kaW5nczogZGlzcGxheTogYnJpZGdlOiBsdmRzLXRyYW5zbWl0dGVyOiBBYnNvcmIg
+dGksZHM5MGMxODUudHh0CiAgZHQtYmluZGluZ3M6IGRpc3BsYXk6IGJyaWRnZTogbHZkcy10cmFu
+c21pdHRlcjogRG9jdW1lbnQKICAgICJ0aSxzbjc1bHZkczgzIgogIGRybS9icmlkZ2U6IFJlcHVy
+cG9zZSBsdmRzLWVuY29kZXIuYwogIGRybS9icmlkZ2U6IGx2ZHMtY29kZWM6IEFkZCAibHZkcy1k
+ZWNvZGVyIiBzdXBwb3J0CiAgZHJtL2JyaWRnZTogbHZkcy1jb2RlYzogU2ltcGxpZnkgcGFuZWwg
+RFQgbm9kZSBsb2NhbGlzYXRpb24KICBkdC1iaW5kaW5nczogZGlzcGxheTogYnJpZGdlOiBSZXB1
+cnBvc2UgbHZkcy1lbmNvZGVyCiAgZHQtYmluZGluZ3M6IGRpc3BsYXk6IGJyaWRnZTogbHZkcy1j
+b2RlYzogRG9jdW1lbnQgdGksZHM5MGNmMzg0YQogIEFSTTogZHRzOiBpd2cyMGQtcTctY29tbW9u
+OiBBZGQgTENEIHN1cHBvcnQKICBBUk06IHNobW9iaWxlX2RlZmNvbmZpZzogRW5hYmxlIHN1cHBv
+cnQgZm9yIHBhbmVscyBmcm9tIEVEVAogIFtIQUNLXSBkcm0vYnJpZGdlOiBsdmRzLWNvZGVjOiBF
+bmZvcmNlIGRldmljZSBzcGVjaWZpYyBjb21wYXRpYmxlCiAgICBzdHJpbmdzCiAgW0hBQ0tdIGR0
+LWJpbmRpbmdzOiBkaXNwbGF5OiBicmlkZ2U6IGx2ZHMtY29kZWM6IEFic29yYgogICAgdGhpbmUs
+dGhjNjNsdmRtODNkLnR4dAoKIC4uLi9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9sdmRzLWNvZGVj
+LnlhbWwgICAgICAgIHwgMTMxICsrKysrKysrKysrKysrKwogLi4uL2JpbmRpbmdzL2Rpc3BsYXkv
+YnJpZGdlL2x2ZHMtdHJhbnNtaXR0ZXIudHh0ICAgfCAgNjYgLS0tLS0tLS0KIC4uLi9iaW5kaW5n
+cy9kaXNwbGF5L2JyaWRnZS90aGluZSx0aGM2M2x2ZG04M2QudHh0IHwgIDUwIC0tLS0tLQogLi4u
+L2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL3RpLGRzOTBjMTg1LnR4dCAgICAgICAgfCAgNTUgLS0t
+LS0tLQogYXJjaC9hcm0vYm9vdC9kdHMvaXdnMjBkLXE3LWNvbW1vbi5kdHNpICAgICAgICAgICAg
+fCAgODUgKysrKysrKysrKwogYXJjaC9hcm0vYm9vdC9kdHMvaXdnMjBkLXE3LWRiY20tY2EuZHRz
+aSAgICAgICAgICAgfCAgIDEgLQogYXJjaC9hcm0vY29uZmlncy9zaG1vYmlsZV9kZWZjb25maWcg
+ICAgICAgICAgICAgICAgfCAgIDMgKwogZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9LY29uZmlnICAg
+ICAgICAgICAgICAgICAgICAgfCAgIDggKy0KIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvTWFrZWZp
+bGUgICAgICAgICAgICAgICAgICAgIHwgICAyICstCiAuLi4vZHJtL2JyaWRnZS97bHZkcy1lbmNv
+ZGVyLmMgPT4gbHZkcy1jb2RlYy5jfSAgICB8IDE3OSArKysrKysrKysrKysrLS0tLS0tLS0KIDEw
+IGZpbGVzIGNoYW5nZWQsIDMzMyBpbnNlcnRpb25zKCspLCAyNDcgZGVsZXRpb25zKC0pCiBjcmVh
+dGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkv
+YnJpZGdlL2x2ZHMtY29kZWMueWFtbAogZGVsZXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24v
+ZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9sdmRzLXRyYW5zbWl0dGVyLnR4dAog
+ZGVsZXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNw
+bGF5L2JyaWRnZS90aGluZSx0aGM2M2x2ZG04M2QudHh0CiBkZWxldGUgbW9kZSAxMDA2NDQgRG9j
+dW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL3RpLGRzOTBjMTg1
+LnR4dAogcmVuYW1lIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uve2x2ZHMtZW5jb2Rlci5jID0+IGx2
+ZHMtY29kZWMuY30gKDI1JSkKCi0tIAoyLjcuNAoKX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVs
