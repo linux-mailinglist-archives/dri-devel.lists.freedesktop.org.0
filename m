@@ -2,38 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C2FBF9FA9
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2019 01:58:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAAC3F9FB1
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2019 01:59:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0ED96E03F;
-	Wed, 13 Nov 2019 00:58:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8119A6E045;
+	Wed, 13 Nov 2019 00:59:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 147F56E03F
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2019 00:58:11 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 47CR753PcCz9sPh;
- Wed, 13 Nov 2019 11:58:09 +1100 (AEDT)
-Date: Wed, 13 Nov 2019 11:58:08 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm tree with Linus' tree
-Message-ID: <20191113115808.65d4138e@canb.auug.org.au>
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
+ [IPv6:2607:f8b0:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBE2C6E045
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2019 00:59:09 +0000 (UTC)
+Received: by mail-ot1-x342.google.com with SMTP id m15so127602otq.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2019 16:59:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bbhHvXUlpKSBxAaen2slRAaR7FABAWW5b4ZHt5uDQAs=;
+ b=NkIPaZG1mi0M4CFDl/J/nRsA1RDgYv7qBybMVTVOB3jX+L4+sAJm+03U/w3kOt6lcJ
+ ZD0BjGMV0s3Tgs3+rUv/e7VrYPSKD2SWMCnQZ23FyjrskgM41MNqXk6GYLvhq+NXecEx
+ sNK+P0nRL3i8cvRwNpr7jY9lkGBGbnVJ0dKDIUwg0J6ziamK3n2wzPGBp0jmJ9HSv4k9
+ 8z707dYCFfQYyCdGflHN0et619PAxbsszAaI/pGHJpdHjAgUN/FzB8s5TcqoXlIAhZcK
+ C1Zq+e8kn0gtF9rtNEbbJ1X84LZLYtUntDpfmno+oADuwHlElrc/fnmWgIVyq8uTa/hL
+ CW2A==
+X-Gm-Message-State: APjAAAVC7WJKcvkPGEbiH4XTnbZg/hz9CS2DBaqOHBMdiB3A2QMsnBGX
+ X4YDqp6jk6HEuE9B1Ww4hn60CV30qrWHf5A55r3qpQ==
+X-Google-Smtp-Source: APXvYqwE5wMeaGSIvNyY2BTy28AxuQMGsjlQOMQJ/g9Nuz73c9JXx/mbsafhYfzhqVldWgO1VAvXOO9/vT+g3CHkLek=
+X-Received: by 2002:a05:6830:1b70:: with SMTP id
+ d16mr300372ote.71.1573606748988; 
+ Tue, 12 Nov 2019 16:59:08 -0800 (PST)
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=canb.auug.org.au; s=201702; t=1573606689;
- bh=ZBkUHDMWS5AB+9yNCiNLnvsF5dXKFxRx6HUcHSjsaPQ=;
- h=Date:From:To:Cc:Subject:From;
- b=qYIKu66iwF18qDVT+9E8ozi4qN+qMIR4+z0NScyB1lUEpuPmZa9FFE3DfsBPz/Ye/
- FtR+im7O0SBWPIfYhhWRbIjVD+34DmQ2/pXTpUUFgIIZQssU1g4SBssDnCcpPotgQV
- ib1eIOuKfTfoGR9LoSa2s9PuXuLtmzqcWGoNfcbws0Gk6Gl2cTYVyZihvwBnus73yl
- SJPez+a6W/vPUP4QpCxRZ77GYQPum2mhqZ7nwCsCpKRKlicUgA27L+STl8/FZUFeEw
- 0AXzJAPa/1MzkyG1KxDEv3GoZSIUSYEZhxT/1HG+Ip0En1tJTwtyIesG7Mx20EGjRo
- idSk0BOks1ADg==
+References: <20191112000700.3455038-1-jhubbard@nvidia.com>
+ <20191112000700.3455038-9-jhubbard@nvidia.com>
+ <20191112204338.GE5584@ziepe.ca>
+ <0db36e86-b779-01af-77e7-469af2a2e19c@nvidia.com>
+ <CAPcyv4hAEgw6ySNS+EFRS4yNRVGz9A3Fu1vOk=XtpjYC64kQJw@mail.gmail.com>
+ <20191112234250.GA19615@ziepe.ca>
+In-Reply-To: <20191112234250.GA19615@ziepe.ca>
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Tue, 12 Nov 2019 16:58:57 -0800
+Message-ID: <CAPcyv4hwFKmsQpp04rS6diCmZwGtbnriCjfY2ofWV485qT9kzg@mail.gmail.com>
+Subject: Re: [PATCH v3 08/23] vfio,
+ mm: fix get_user_pages_remote() and FOLL_LONGTERM
+To: Jason Gunthorpe <jgg@ziepe.ca>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=intel-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=bbhHvXUlpKSBxAaen2slRAaR7FABAWW5b4ZHt5uDQAs=;
+ b=aNNgsrA5EIFA9nVSCXy/uyenu1ifAR2ZxMR/sDW6HqK6vSTYpxIpmBrjP/vDjDaVnk
+ l4xh/AHHGyooUHFp1c42LTwLTpwdgtUaJfWvN3Y7CFSVzmwzvxLUaHQBl+Ibev8TBoid
+ 2FUFgDLM8vD2vOwzS+IEshtyE4Y+b3ieXpqqo3Mxdly/m4ak6FnwfnCLEy5DGwsI7qq9
+ 7rFre8WIcpfUZvKl+y7wQa6yOvynR61ZdKROoMobKwRLP3lkc2bkhgPK6DIYIEcGXZ4p
+ WUPwy1pR33Kp+/7N+4r5VmPuWnlSLsuN14iR6BROP5kh/8NTzRoeUzJllo7I56/tNtvu
+ ttpQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,118 +69,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Jon Bloomfield <jon.bloomfield@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: multipart/mixed; boundary="===============0638215705=="
+Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
+ KVM list <kvm@vger.kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+ Paul Mackerras <paulus@samba.org>, linux-kselftest@vger.kernel.org,
+ Ira Weiny <ira.weiny@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-rdma <linux-rdma@vger.kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Christoph Hellwig <hch@infradead.org>, Vlastimil Babka <vbabka@suse.cz>,
+ =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+ "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ Shuah Khan <shuah@kernel.org>, John Hubbard <jhubbard@nvidia.com>,
+ linux-block@vger.kernel.org,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Al Viro <viro@zeniv.linux.org.uk>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ bpf@vger.kernel.org, Magnus Karlsson <magnus.karlsson@intel.com>,
+ Jens Axboe <axboe@kernel.dk>, Netdev <netdev@vger.kernel.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ "David S . Miller" <davem@davemloft.net>,
+ Mike Kravetz <mike.kravetz@oracle.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0638215705==
-Content-Type: multipart/signed; boundary="Sig_/kV_LBYPKme8Ev4xmxVLLmHe";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-
---Sig_/kV_LBYPKme8Ev4xmxVLLmHe
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi all,
-
-Today's linux-next merge of the drm tree got a conflict in:
-
-  drivers/gpu/drm/i915/i915_drv.c
-
-between commits:
-
-  7e34f4e4aad3 ("drm/i915/gen8+: Add RC6 CTX corruption WA")
-  2f216a850715 ("drm/i915: update rawclk also on resume")
-
-
-from Linus' tree and commits:
-
-  5bcd53aa39f3 ("drm/i915: pass i915 to i915_driver_modeset_probe()")
-  fd6fe087ca47 ("drm/i915/gt: Call intel_gt_sanitize() directly")
-
-from the drm tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/i915/i915_drv.c
-index 3d717e282908,ccb5b566795f..000000000000
---- a/drivers/gpu/drm/i915/i915_drv.c
-+++ b/drivers/gpu/drm/i915/i915_drv.c
-@@@ -364,11 -296,14 +296,11 @@@ static int i915_driver_modeset_probe(st
-  	if (ret)
-  		goto cleanup_vga_client;
- =20
-- 	intel_power_domains_init_hw(dev_priv, false);
- -	/* must happen before intel_power_domains_init_hw() on VLV/CHV */
- -	intel_update_rawclk(i915);
- -
-+ 	intel_power_domains_init_hw(i915, false);
- =20
-- 	intel_csr_ucode_init(dev_priv);
-+ 	intel_csr_ucode_init(i915);
- =20
-- 	ret =3D intel_irq_install(dev_priv);
-+ 	ret =3D intel_irq_install(i915);
-  	if (ret)
-  		goto cleanup_csr;
- =20
-@@@ -2048,14 -1948,8 +1947,10 @@@ static int i915_drm_resume_early(struc
- =20
-  	intel_display_power_resume_early(dev_priv);
- =20
-- 	intel_sanitize_gt_powersave(dev_priv);
--=20
-  	intel_power_domains_resume(dev_priv);
- =20
- +	i915_rc6_ctx_wa_resume(dev_priv);
- +
-- 	intel_gt_sanitize(&dev_priv->gt, true);
--=20
-  	enable_rpm_wakeref_asserts(&dev_priv->runtime_pm);
- =20
-  	return ret;
-
---Sig_/kV_LBYPKme8Ev4xmxVLLmHe
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl3LVSAACgkQAVBC80lX
-0GxObAf9EK3RQ7S1TMgfyRmdBWJMZ5oAx/e6sgpyToIerf9imckzafTYAgoIss04
-YJmorDSXjbBkrTcVB6whx+JvV/ULqLBQi9+PI3Af7QWM6pCoRpulCvnT8MGTYdSQ
-Zz/R1cUnbbHxhSCol6KJBXKonxShqKkWJrXMZtj7buFjVAhA9pwLTFh9Cek/Z/zx
-14ju1J07Id65nAFueapYh90uJAC/dm+ookXkSvIt+m+Ar1yHJtkWCsa3CDmjFLLr
-z0mqCkwSEpkloWfFDPSRiP12eSm1R/qJWwYAxdqQrFsAkZTq+DZe/cJUZzPiA2YC
-3d/yd/S6LqqHlpKiLSfR/Pg5XggIoA==
-=nfXk
------END PGP SIGNATURE-----
-
---Sig_/kV_LBYPKme8Ev4xmxVLLmHe--
-
---===============0638215705==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0638215705==--
+T24gVHVlLCBOb3YgMTIsIDIwMTkgYXQgMzo0MyBQTSBKYXNvbiBHdW50aG9ycGUgPGpnZ0B6aWVw
+ZS5jYT4gd3JvdGU6Cj4KPiBPbiBUdWUsIE5vdiAxMiwgMjAxOSBhdCAwMjo0NTo1MVBNIC0wODAw
+LCBEYW4gV2lsbGlhbXMgd3JvdGU6Cj4gPiBPbiBUdWUsIE5vdiAxMiwgMjAxOSBhdCAyOjQzIFBN
+IEpvaG4gSHViYmFyZCA8amh1YmJhcmRAbnZpZGlhLmNvbT4gd3JvdGU6Cj4gPiA+Cj4gPiA+IE9u
+IDExLzEyLzE5IDEyOjQzIFBNLCBKYXNvbiBHdW50aG9ycGUgd3JvdGU6Cj4gPiA+IC4uLgo+ID4g
+PiA+PiAtICAgICAgICAgICAgfQo+ID4gPiA+PiArICAgIHJldCA9IGdldF91c2VyX3BhZ2VzX3Jl
+bW90ZShOVUxMLCBtbSwgdmFkZHIsIDEsIGZsYWdzIHwgRk9MTF9MT05HVEVSTSwKPiA+ID4gPj4g
+KyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcGFnZSwgdm1hcywgTlVMTCk7Cj4gPiA+
+ID4+ICsgICAgLyoKPiA+ID4gPj4gKyAgICAgKiBUaGUgbGlmZXRpbWUgb2YgYSB2YWRkcl9nZXRf
+cGZuKCkgcGFnZSBwaW4gaXMKPiA+ID4gPj4gKyAgICAgKiB1c2Vyc3BhY2UtY29udHJvbGxlZC4g
+SW4gdGhlIGZzLWRheCBjYXNlIHRoaXMgY291bGQKPiA+ID4gPj4gKyAgICAgKiBsZWFkIHRvIGlu
+ZGVmaW5pdGUgc3RhbGxzIGluIGZpbGVzeXN0ZW0gb3BlcmF0aW9ucy4KPiA+ID4gPj4gKyAgICAg
+KiBEaXNhbGxvdyBhdHRlbXB0cyB0byBwaW4gZnMtZGF4IHBhZ2VzIHZpYSB0aGlzCj4gPiA+ID4+
+ICsgICAgICogaW50ZXJmYWNlLgo+ID4gPiA+PiArICAgICAqLwo+ID4gPiA+PiArICAgIGlmIChy
+ZXQgPiAwICYmIHZtYV9pc19mc2RheCh2bWFzWzBdKSkgewo+ID4gPiA+PiArICAgICAgICAgICAg
+cmV0ID0gLUVPUE5PVFNVUFA7Cj4gPiA+ID4+ICsgICAgICAgICAgICBwdXRfcGFnZShwYWdlWzBd
+KTsKPiA+ID4gPj4gICAgICB9Cj4gPiA+ID4KPiA+ID4gPiBBRkFJSyB0aGlzIGNodW5rIGlzIHJl
+ZHVuZGFudCBub3cgYXMgaXQgaXMgc29tZSBoYWNrIHRvIGVtdWxhdGUKPiA+ID4gPiBGT0xMX0xP
+TkdURVJNPyBTbyB2bWFzIGNhbiBiZSBkZWxldGVkIHRvby4KPiA+ID4KPiA+ID4gTGV0IG1lIGZp
+cnN0IG1ha2Ugc3VyZSBJIHVuZGVyc3RhbmQgd2hhdCBEYW4gaGFzIGluIG1pbmQgZm9yIHRoZSB2
+bWEKPiA+ID4gY2hlY2tpbmcsIGluIHRoZSBvdGhlciB0aHJlYWQuLi4KPiA+Cj4gPiBJdCdzIG5v
+dCByZWR1bmRhbnQgcmVsYXRpdmUgdG8gdXBzdHJlYW0gd2hpY2ggZG9lcyBub3QgZG8gYW55dGhp
+bmcgdGhlCj4gPiBGT0xMX0xPTkdURVJNIGluIHRoZSBndXAtc2xvdyBwYXRoLi4uIGJ1dCBJIGhh
+dmUgbm90IGxvb2tlZCBhdCBwYXRjaGVzCj4gPiAxLTcgdG8gc2VlIGlmIHNvbWV0aGluZyB0aGVy
+ZSBtYWRlIGl0IHJlZHVuZGFudC4KPgo+IE9oLCB0aGUgaHVuayBKb2huIGhhZCBiZWxvdyBmb3Ig
+Z2V0X3VzZXJfcGFnZXNfcmVtb3RlKCkgYWxzbyBuZWVkcyB0bwo+IGNhbGwgX19ndXBfbG9uZ3Rl
+cm1fbG9ja2VkKCkgd2hlbiBGT0xMX0xPTkdURVJNIGlzIHNwZWNpZmllZCwgdGhlbgo+IHRoYXQg
+Y2FsbHMgY2hlY2tfZGF4X3ZtYXMoKSB3aGljaCBkdXBsaWNhdGVzIHRoZSB2bWFfaXNfZnNkYXgo
+KSBjaGVjawo+IGFib3ZlLgoKT2ggdHJ1ZSwgZ29vZCBleWUuIEl0IGlzIHJlZHVuZGFudCBpZiBp
+dCBkb2VzIGFkZGl0aW9uYWxseSBjYWxsCl9fZ3VwX2xvbmd0ZXJtX2xvY2tlZCgpLCBhbmQgaXQg
+bmVlZHMgdG8gZG8gdGhhdCBvdGhlcndpc2VzIGl0IHVuZG9lcwp0aGUgQ01BIG1pZ3JhdGlvbiBt
+YWdpYyB0aGF0IEFuZWVzaCBhZGRlZC4KCj4KPiBDZXJ0YWlubHkgbm8gY2FsbGVyIG9mIEZPTExf
+TE9OR1RFUk0gc2hvdWxkIGhhdmUgdG8gZG8gZGF4IHNwZWNpZmljCj4gVk1BIGNoZWNraW5nLgoK
+QWdyZWUsIHRoYXQgd2FzIG15IGNvbW1lbnQgYWJvdXQgY2xlYW5pbmcgdXAgdGhlIHZtYV9pc19m
+c2RheCgpIGNoZWNrCnRvIGJlIGludGVybmFsIHRvIHRoZSBndXAgY29yZS4KX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
