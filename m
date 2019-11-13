@@ -2,63 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CDBCFA03B
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2019 02:36:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA2BDFA05B
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2019 02:38:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 668CA6E52E;
-	Wed, 13 Nov 2019 01:35:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0734B6EC47;
+	Wed, 13 Nov 2019 01:38:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00DD26E52E
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2019 01:35:57 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id c19so181708otr.11
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2019 17:35:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tA9TOCxBga9LLC7wRjd3ONed6e5UCLIuIdqzN/pcWuk=;
- b=q/8Wdms97WNpWMrrMt1xb+FGFEJwAPzVFPD86ctj0LaO4AB+L5AO6nfUkTGx2AZVfn
- 9K36OBUqsJB0k4i1mNtQY8G0Rpd4YuYSfhPwV/N/ozZE1CHbWqhXO5ehigOZFR+xD8gt
- AKNHbR2HDKPwxKazDFoU/KVz9bUklAyyaWS7C7Kk42qrYVKx52o/z5It7Pm8cJkwfHL7
- oGg0aRdR3DvfdvtINATcHwql6yhlvWISanhUGEx39gYNpVomi0WVORrEuVAo+CGg+TFn
- R2WawybJhDd14ljiVuxI62d/UF7rfinH7MNF45dXx9VSZ3XsX6HjcVcuHAweVExfe6BX
- E1mQ==
-X-Gm-Message-State: APjAAAWjTpgh+ePVfAMbIzSUK2UR722pVvX8tuaY+Wl5sKVA9xQVcGgG
- pMiXOo4p4f6O9EGyzD6cLxBrfvdgAPCzbp1gkq6XTw==
-X-Google-Smtp-Source: APXvYqzyV061KEXPKPAkyAkGRgXJ6fWU+P7KwNCWCXXtSomJ5IUaejCErE/o1rH0NBMapixozrDCWZBdHagrZr75cJE=
-X-Received: by 2002:a05:6830:1b70:: with SMTP id
- d16mr411248ote.71.1573608957281; 
- Tue, 12 Nov 2019 17:35:57 -0800 (PST)
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49ED56EC47
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2019 01:38:41 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 47CS1q5RFzz9s7T;
+ Wed, 13 Nov 2019 12:38:39 +1100 (AEDT)
+Date: Wed, 13 Nov 2019 12:38:38 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm tree with Linus' tree
+Message-ID: <20191113123838.79733d12@canb.auug.org.au>
 MIME-Version: 1.0
-References: <20191112000700.3455038-1-jhubbard@nvidia.com>
- <20191112000700.3455038-9-jhubbard@nvidia.com>
- <20191112204338.GE5584@ziepe.ca>
- <0db36e86-b779-01af-77e7-469af2a2e19c@nvidia.com>
- <CAPcyv4hAEgw6ySNS+EFRS4yNRVGz9A3Fu1vOk=XtpjYC64kQJw@mail.gmail.com>
- <20191112234250.GA19615@ziepe.ca>
- <CAPcyv4hwFKmsQpp04rS6diCmZwGtbnriCjfY2ofWV485qT9kzg@mail.gmail.com>
- <28355eb0-4ee5-3418-b430-59302d15b478@nvidia.com>
-In-Reply-To: <28355eb0-4ee5-3418-b430-59302d15b478@nvidia.com>
-From: Dan Williams <dan.j.williams@intel.com>
-Date: Tue, 12 Nov 2019 17:35:46 -0800
-Message-ID: <CAPcyv4hdYZ__3+KJHh+0uX--f-U=pLiZfdO0JDhyBE-nZ=i4FQ@mail.gmail.com>
-Subject: Re: [PATCH v3 08/23] vfio,
- mm: fix get_user_pages_remote() and FOLL_LONGTERM
-To: John Hubbard <jhubbard@nvidia.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=intel-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=tA9TOCxBga9LLC7wRjd3ONed6e5UCLIuIdqzN/pcWuk=;
- b=pgvm7B7MKRNHPnnm+UXqpNAxEKn59mgIkjpVIugT59Mu8TwvXIAzzyQhvDiVCxIl0p
- vI+Yj+13Wusmq5tADceFQlsKUjuwgmmDrjkNeYGEIUHh9w8tZNldmP6Q5WtjVpISdJ0i
- r3oVh4apWhwsDdj9Nw0bWAyVdq8zxIhXTRj/8PmhzFCoHQ/9X/Dg5B4Hj6Y0ruPyQaaR
- rEPfI8qEDLrnHlL1idX+oRviz/9wQZUiz6o40remYNFeKqLceiYDgbAXk1ppNt84zSqw
- zf+6WmCRWk7Wod/xBPOURyhyWoKZqScoLNTr5ASvgI3i5qH5c+mNJETCAbPrPmJU7Yqj
- fNKw==
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=canb.auug.org.au; s=201702; t=1573609119;
+ bh=SwByYoLFEyaFhQcPYB6VEXGbPTJYyU/NVRS6uduhnb4=;
+ h=Date:From:To:Cc:Subject:From;
+ b=sCOHN334fwWpfr9TMDGipJgaqrutE3a+4jM5VH6z7EXMyn9iJ50gJQRPRwFVMgWf9
+ Vq2AIqvNRm5a03rM14FW+ApKojy2HPxW9oWcpbSmldpa2/DsYKEqREJiyFyA4HdftD
+ 0ZVQXlmY1ckYJVXBcSU/4NVxMKWPSTz/s7xrVTsWuI5yGzbCNwIn7BpvwELokcX858
+ HW13SfHKXFFvOqW9qAa3D+IpfsEHO28RKuBifeHk+ID0KY7WrfM3aoeL/1AVeQeOPr
+ 622Ag6NW5kfo/LbeuN12OSMOsPD1b+lH05NSgzR8V4XzcNx6ej+nJYFxuU8BifsEAY
+ NO/N89t+KWOMQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,60 +46,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
- KVM list <kvm@vger.kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
- Paul Mackerras <paulus@samba.org>, linux-kselftest@vger.kernel.org,
- Ira Weiny <ira.weiny@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-rdma <linux-rdma@vger.kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
- Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Vlastimil Babka <vbabka@suse.cz>,
- =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
- "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- Shuah Khan <shuah@kernel.org>, linux-block@vger.kernel.org,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Al Viro <viro@zeniv.linux.org.uk>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- bpf@vger.kernel.org, Magnus Karlsson <magnus.karlsson@intel.com>,
- Jens Axboe <axboe@kernel.dk>, Netdev <netdev@vger.kernel.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- "David S . Miller" <davem@davemloft.net>,
- Mike Kravetz <mike.kravetz@oracle.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Andi Shyti <andi.shyti@intel.com>,
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Jon Bloomfield <jon.bloomfield@intel.com>
+Content-Type: multipart/mixed; boundary="===============0101241051=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBOb3YgMTIsIDIwMTkgYXQgNTowOCBQTSBKb2huIEh1YmJhcmQgPGpodWJiYXJkQG52
-aWRpYS5jb20+IHdyb3RlOgo+Cj4gT24gMTEvMTIvMTkgNDo1OCBQTSwgRGFuIFdpbGxpYW1zIHdy
-b3RlOgo+IC4uLgo+ID4+PiBJdCdzIG5vdCByZWR1bmRhbnQgcmVsYXRpdmUgdG8gdXBzdHJlYW0g
-d2hpY2ggZG9lcyBub3QgZG8gYW55dGhpbmcgdGhlCj4gPj4+IEZPTExfTE9OR1RFUk0gaW4gdGhl
-IGd1cC1zbG93IHBhdGguLi4gYnV0IEkgaGF2ZSBub3QgbG9va2VkIGF0IHBhdGNoZXMKPiA+Pj4g
-MS03IHRvIHNlZSBpZiBzb21ldGhpbmcgdGhlcmUgbWFkZSBpdCByZWR1bmRhbnQuCj4gPj4KPiA+
-PiBPaCwgdGhlIGh1bmsgSm9obiBoYWQgYmVsb3cgZm9yIGdldF91c2VyX3BhZ2VzX3JlbW90ZSgp
-IGFsc28gbmVlZHMgdG8KPiA+PiBjYWxsIF9fZ3VwX2xvbmd0ZXJtX2xvY2tlZCgpIHdoZW4gRk9M
-TF9MT05HVEVSTSBpcyBzcGVjaWZpZWQsIHRoZW4KPiA+PiB0aGF0IGNhbGxzIGNoZWNrX2RheF92
-bWFzKCkgd2hpY2ggZHVwbGljYXRlcyB0aGUgdm1hX2lzX2ZzZGF4KCkgY2hlY2sKPiA+PiBhYm92
-ZS4KPiA+Cj4gPiBPaCB0cnVlLCBnb29kIGV5ZS4gSXQgaXMgcmVkdW5kYW50IGlmIGl0IGRvZXMg
-YWRkaXRpb25hbGx5IGNhbGwKPiA+IF9fZ3VwX2xvbmd0ZXJtX2xvY2tlZCgpLCBhbmQgaXQgbmVl
-ZHMgdG8gZG8gdGhhdCBvdGhlcndpc2VzIGl0IHVuZG9lcwo+ID4gdGhlIENNQSBtaWdyYXRpb24g
-bWFnaWMgdGhhdCBBbmVlc2ggYWRkZWQuCj4gPgo+Cj4gT0suIFNvIGp1c3QgdG8gYmUgY2xlYXIs
-IEknbGwgYmUgcmVtb3ZpbmcgdGhpcyBmcm9tIHRoZSBwYXRjaDoKPgo+ICAgICAgICAgLyoKPiAg
-ICAgICAgICAqIFRoZSBsaWZldGltZSBvZiBhIHZhZGRyX2dldF9wZm4oKSBwYWdlIHBpbiBpcwo+
-ICAgICAgICAgICogdXNlcnNwYWNlLWNvbnRyb2xsZWQuIEluIHRoZSBmcy1kYXggY2FzZSB0aGlz
-IGNvdWxkCj4gICAgICAgICAgKiBsZWFkIHRvIGluZGVmaW5pdGUgc3RhbGxzIGluIGZpbGVzeXN0
-ZW0gb3BlcmF0aW9ucy4KPiAgICAgICAgICAqIERpc2FsbG93IGF0dGVtcHRzIHRvIHBpbiBmcy1k
-YXggcGFnZXMgdmlhIHRoaXMKPiAgICAgICAgICAqIGludGVyZmFjZS4KPiAgICAgICAgICAqLwo+
-ICAgICAgICAgaWYgKHJldCA+IDAgJiYgdm1hX2lzX2ZzZGF4KHZtYXNbMF0pKSB7Cj4gICAgICAg
-ICAgICAgICAgIHJldCA9IC1FT1BOT1RTVVBQOwo+ICAgICAgICAgICAgICAgICBwdXRfcGFnZShw
-YWdlWzBdKTsKPiAgICAgICAgIH0KPgo+IChhbmQgdGhlIGRlY2xhcmF0aW9uIG9mICJ2bWFzIiwg
-YXMgd2VsbCkuCgouLi5hbmQgYWRkIGEgY2FsbCB0byBfX2d1cF9sb25ndGVybV9sb2NrZWQgaW50
-ZXJuYWwgdG8KZ2V0X3VzZXJfcGFnZXNfcmVtb3RlKCksIHJpZ2h0PwpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+--===============0101241051==
+Content-Type: multipart/signed; boundary="Sig_/6rImgs7l5p3T26k6mTBrh+/";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/6rImgs7l5p3T26k6mTBrh+/
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi all,
+
+Today's linux-next merge of the drm tree got a conflict in:
+
+  drivers/gpu/drm/i915/i915_drv.h
+  drivers/gpu/drm/i915/intel_pm.c
+  drivers/gpu/drm/i915/intel_pm.h
+
+between commit:
+
+  7e34f4e4aad3 ("drm/i915/gen8+: Add RC6 CTX corruption WA")
+
+from Linus' tree and commits:
+
+  c113236718e8 ("drm/i915: Extract GT render sleep (rc6) management")
+  3e7abf814193 ("drm/i915: Extract GT render power state management")
+
+from the drm tree.
+
+I fixed it up (This was too messy, so I effectively reverted the former
+patch) and can carry the fix as necessary. This is now fixed as far as
+linux-next is concerned, but any non trivial conflicts should be
+mentioned to your upstream maintainer when your tree is submitted for
+merging.  You may also want to consider cooperating with the maintainer
+of the conflicting tree to minimise any particularly complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/6rImgs7l5p3T26k6mTBrh+/
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl3LXp4ACgkQAVBC80lX
+0GzjeQf7BC4V/F2EG4zt7/3N+0BYwYkGe+Kugr0EZAjh3hnulTNBnqgKWwwPQanE
+DJ9fhhbB23y7o3SQwsmMTw7LKpsdgi9ZSgkP67LjT19YlwaUKnrchR7+wCLlbojy
+3bPqhwvJl1eqJ7uTqE5cve+VDAqjeFt22ALDt2j4E5y5wRqKEwB+5d0NFNhhdTVi
+K0iO1gVy9jOBKPwKafgduBqJ6FjXQi5MrDvMRz8ISFbvtf9PMK801ADRsoqrPCyR
+TatirABGL49YUSNwHa+hVnjtyRvtVrd8qz7admOGxJGh8Yc4ggsDfGwg7EApPi4e
+MFhqzN3PkJqdLeAEWpSCIuCGEtF4yg==
+=/F2F
+-----END PGP SIGNATURE-----
+
+--Sig_/6rImgs7l5p3T26k6mTBrh+/--
+
+--===============0101241051==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0101241051==--
