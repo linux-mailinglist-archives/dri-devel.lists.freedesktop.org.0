@@ -1,45 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9410CFA95C
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2019 06:08:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ED16FAB2A
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2019 08:43:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46D516E334;
-	Wed, 13 Nov 2019 05:08:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7DC56E25C;
+	Wed, 13 Nov 2019 07:43:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id B94B06E334
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2019 05:08:08 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B5778720E2; Wed, 13 Nov 2019 05:08:08 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112254] DRM>> video not playing
-Date: Wed, 13 Nov 2019 05:08:08 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Spam
-X-Bugzilla-Component: Two
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: a9016009@gmx.de
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: INVALID
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: product version resolution bug_group component
-Message-ID: <bug-112254-502-5U9lInNeuK@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-112254-502@http.bugs.freedesktop.org/>
-References: <bug-112254-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A82BA6E25C
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2019 07:43:40 +0000 (UTC)
+Received: from mail-qk1-f177.google.com ([209.85.222.177]) by
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1MIxBa-1iAWG311x4-00KU1I for <dri-devel@lists.freedesktop.org>; Wed, 13
+ Nov 2019 08:38:33 +0100
+Received: by mail-qk1-f177.google.com with SMTP id q70so876970qke.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Nov 2019 23:38:31 -0800 (PST)
+X-Gm-Message-State: APjAAAWL/JizoaRIzoi5qVAJ89pWKz3/SUvuGbUbQZBBZlgg7creohye
+ 8PoW91Yi1cSSaVlRkdAyQ2gh4m5U7yc6NT50RqI=
+X-Google-Smtp-Source: APXvYqwcv3J/m3EiKMnljDoadHXNfb1emGEfcNt/Ep/L32JdSlabgCsOT3L46pVsDG+wtjusUmekE0tuUmfRXOb/k7g=
+X-Received: by 2002:a37:9d8c:: with SMTP id g134mr1350982qke.352.1573630711029; 
+ Tue, 12 Nov 2019 23:38:31 -0800 (PST)
 MIME-Version: 1.0
+References: <20191111192258.2234502-1-arnd@arndb.de>
+ <20191112105507.GA7122@lst.de>
+ <CAKMK7uEEz1n+zuTs29rbPHU74Dspaib=prpMge63L_-rUk_o4A@mail.gmail.com>
+ <20191112140631.GA10922@lst.de>
+ <CAKMK7uFaA607rOS6x_FWjXQ2+Qdm8dQ1dQ+Oi-9if_Qh_wHWPg@mail.gmail.com>
+ <20191112222423.GO11244@42.do-not-panic.com> <20191113072708.GA3213@lst.de>
+In-Reply-To: <20191113072708.GA3213@lst.de>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Wed, 13 Nov 2019 08:38:15 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a3OpiWAep86tOiN1Fj2W7ud5hQ1OLTkBR8ueAKsMHk-dA@mail.gmail.com>
+Message-ID: <CAK8P3a3OpiWAep86tOiN1Fj2W7ud5hQ1OLTkBR8ueAKsMHk-dA@mail.gmail.com>
+Subject: Re: [PATCH] video: fbdev: atyfb: only use ioremap_uc() on i386 and
+ ia64
+To: Christoph Hellwig <hch@lst.de>
+X-Provags-ID: V03:K1:NzZIkx9nos+jTqK04hi9gcFVg6wv0cogGIYh5bjH+DSrRhTUNVZ
+ Io+OIIWqQHzGK6oDifLKg9b+KN8eEngB5vXAHUY/SJE4eQQ4TbyPUzNIxpY/PU+l0M65pK+
+ 1F1Kr4Rc6g73+jWDivm9vXAdNpYyuGq9SL9yQHN/kL0LYho/A3rJprs9YRGi6zEk++MIjnR
+ wOHRCO6cTBVK4uaMRTdEg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:rginaIAsYCM=:gkvJfiEst8MXCW2NjKrA52
+ PUrmqfK/OTzi5e3RfIdjXdLsDvqNKe3P07MNRF7Frrrk29E6agRpgKn0oYHaXoftN+rm1U3eG
+ 5yCqVZM6XSnqEgsWaybyU5ym/QwIG27Nsj/8cwo81sZPMtFh1qqqxQqcZTvbLdq62BQNvz7+c
+ 9uDYWJgAJx0rqokVEqj8CQAwCEHCXxJ0UsJ2qIOtyT2etsKq9bwe73ktY07G6kf9JwkXAogWM
+ 4Hb8MiDfc7rAYeNP7FE/+Ga4NkNJbiI71JZTmV2N/fyWpEHwlvgpRvTaPSenfOB2i8ptXKh8j
+ LmLaJ5PzgvBwKsaqnnv8L7o+mLBA4c139pj+MROJ5vWGdROpCocEt+SxZPRFSN0yGFAxW0q43
+ q7bjkIav/NgpoumOdz4U5TI0uUKe0d222CKepSotHDyTxyT98CG/lWhyYj8uKkQWQTUoowgXq
+ XfT9PqU7JAGrJ2yX8NvbXZL5apgy+sj6zQF+p8F7C18z/qoUTFD7hrYmdN2fwD4Bcwsc72GDv
+ zOjLV1je9Dkfzi2IyupeJj60UpcNwr6Ym9dNs5xM1Pz/kKOB8DXQGcDP4+oTVjxYSYEtuD+1O
+ 9dHlO6VkqmFGEp1iCe5ylecb8PnNSOUbCuyXNd6zvl2dmgp5Z21MFn/959MBn9ORolOIfhD8P
+ xZWSLEBUurSP9YL4HkNrwc9o0nMzdlrx5e9m6ptbBso3mp85qK2V67vcddg6PvMzrrfbE+9ii
+ RB7Kf+oTuKw7I0VNKQN3qbHmD8wSbvcxVD7Lq8npEplrN6LyoVFcDO+E8OKpwQnwRXMc6yiYf
+ n/JSjFfiriEnM/hXk4+cjgnOKiP5lVoNYMyRs3q+xqysHK2hSr6Ao2mBqsdpgCRDuDbEddXSL
+ 2VAVvFYHDUiZGH2I8ndg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,152 +69,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0516066313=="
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ linux-ia64@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ Lee Jones <lee.jones@linaro.org>, X86 ML <x86@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Tuowen Zhao <ztuowen@gmail.com>,
+ Fenghua Yu <fenghua.yu@intel.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ "Luis R. Rodriguez" <mcgrof@suse.com>, Borislav Petkov <bp@alien8.de>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Juergen Gross <jgross@suse.com>, Tony Luck <tony.luck@intel.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, AceLan Kao <acelan.kao@canonical.com>,
+ Souptick Joarder <jrdr.linux@gmail.com>, Roman Gilg <subdiff@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0516066313==
-Content-Type: multipart/alternative; boundary="15736216881.323D2.32111"
-Content-Transfer-Encoding: 7bit
-
-
---15736216881.323D2.32111
-Date: Wed, 13 Nov 2019 05:08:08 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112254
-
-Andre Klapper <a9016009@gmx.de> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-            Product|DRI                         |Spam
-            Version|XOrg git                    |unspecified
-         Resolution|FIXED                       |INVALID
-              Group|                            |spam
-          Component|DRM/AMDgpu                  |Two
-
---- Comment #1 from Andre Klapper <a9016009@gmx.de> ---
-Go away and test somewhere else.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15736216881.323D2.32111
-Date: Wed, 13 Nov 2019 05:08:08 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:a9016009&=
-#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <span clas=
-s=3D"fn">Andre Klapper</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - DRM&gt;&gt; video not playing"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112254">bug 11225=
-4</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Product</td>
-           <td>DRI
-           </td>
-           <td>Spam
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Version</td>
-           <td>XOrg git
-           </td>
-           <td>unspecified
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>FIXED
-           </td>
-           <td>INVALID
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Group</td>
-           <td>
-               &nbsp;
-           </td>
-           <td>spam
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Component</td>
-           <td>DRM/AMDgpu
-           </td>
-           <td>Two
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - DRM&gt;&gt; video not playing"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112254#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - DRM&gt;&gt; video not playing"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112254">bug 11225=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-a9016009&#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <=
-span class=3D"fn">Andre Klapper</span></a>
-</span></b>
-        <pre>Go away and test somewhere else.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15736216881.323D2.32111--
-
---===============0516066313==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0516066313==--
+T24gV2VkLCBOb3YgMTMsIDIwMTkgYXQgODoyNyBBTSBDaHJpc3RvcGggSGVsbHdpZyA8aGNoQGxz
+dC5kZT4gd3JvdGU6Cj4KPiBPbiBUdWUsIE5vdiAxMiwgMjAxOSBhdCAxMDoyNDoyM1BNICswMDAw
+LCBMdWlzIENoYW1iZXJsYWluIHdyb3RlOgo+ID4gSSB0aGluayB0aGlzIHdvdWxkIGJlIHBvc3Np
+YmxlIGlmIHdlIGNvdWxkIGZsb3AgaW9yZW1hcF9ub2NhY2hlKCkgdG8gVUMKPiA+IGluc3RlYWQg
+b2YgVUMtIG9uIHg4Ni4gT3RoZXJ3aXNlLCBJIGNhbid0IHNlZSBob3cgd2UgY2FuIHJlbW92ZSB0
+aGlzIGJ5Cj4gPiBzdGlsbCBub3QgYWxsb3dpbmcgZGlyZWN0IE1UUlIgY2FsbHMuCj4KPiBJZiBl
+dmVyeXRoaW5nIGdvZXMgd2VsbCBpb3JlbWFwX25vY2FjaGUgd2lsbCBiZSBnb25lIGFzIG9mIDUu
+NS4KCkFzIGlvcmVtYXBfbm9jYWNoZSgpIGp1c3QgYW4gYWxpYXMgZm9yIGlvcmVtYXAoKSwgSSBz
+dXBwb3NlIHRoZSBpZGVhIHdvdWxkCnRoZW4gYmUgdG8gbWFrZSB4ODYgaW9yZW1hcCBiZSBVQyBp
+bnN0ZWFkIG9mIFVDLSwgYWdhaW4gbWF0Y2hpbmcgd2hhdCB0aGUKb3RoZXIgYXJjaGl0ZWN0dXJl
+cyBkbyBhbHJlYWR5LgoKICAgICAgQXJuZApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWw=
