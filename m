@@ -1,57 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8748FB4A1
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2019 17:06:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E9DFB4AE
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2019 17:12:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 606EC6ED82;
-	Wed, 13 Nov 2019 16:06:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 462126ED84;
+	Wed, 13 Nov 2019 16:12:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x941.google.com (mail-ua1-x941.google.com
- [IPv6:2607:f8b0:4864:20::941])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC9E56ED82
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2019 16:06:33 +0000 (UTC)
-Received: by mail-ua1-x941.google.com with SMTP id k11so816508ual.10
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2019 08:06:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1ayLEgLCWpr2v/YpRT1vekWIlyB7F5pG92dGazdBvwI=;
- b=miwwkvsuipRpOkw+3wdUkOM9Jxy94qgK0Zzq2FMj3fXoIgRxVOM3mpWYFA8O1bV/b8
- mPjRA9R7nxlQWTKYkn8vLHHogIyRG/DjmqsGu9uD3UArmlN4Ze9jGJYNluN9URybqz5a
- ugLn4W759TY+m161q6PInfT2DNV9C9U9kyourbZ2aTqS+SKLvTQwi4pT+DiLqjpGAO28
- cSyfyJcoND0AjJYHqwnSW/IAIz7ha6YwAYVWsTQFp76mSe46mhogkINxG8tI8gVDY6kt
- 54PQwYjKgUkiqJl7nSHmeArxby+EedV2ZWN3HbOH4pK7FzaetKFHBx4/brpArJYevmKj
- Lz+w==
-X-Gm-Message-State: APjAAAW2XVfVOnN6a2QoRiLxEBnqs38XgVqYs6gUHMLAY6lk0+NEP+Ho
- kJdt70nOJhwIzypuGUIw50Ks2kh/QJkLh/qaTmU=
-X-Google-Smtp-Source: APXvYqyzUYrhlIoEugbzPslmvADNMfF2xvcbUO3zTaYeh1c05O5Pyx2U0QDgD4P1JCUm3NiogsNTTpD6/UoykImOIHY=
-X-Received: by 2002:ab0:14e8:: with SMTP id f37mr2288342uae.64.1573661192697; 
- Wed, 13 Nov 2019 08:06:32 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 307E96ED84
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2019 16:12:27 +0000 (UTC)
+Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 029D0238E2;
+ Wed, 13 Nov 2019 16:12:25 +0000 (UTC)
+Date: Wed, 13 Nov 2019 17:12:23 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH 09/12] drm/modes: parse_cmdline: Add support for
+ specifying panel_orientation
+Message-ID: <20191113161223.GJ4345@gilmour.lan>
+References: <20191110154101.26486-1-hdegoede@redhat.com>
+ <20191110154101.26486-10-hdegoede@redhat.com>
+ <20191111125358.GP4345@gilmour.lan>
+ <7f0bf3c5-50cb-108a-fbb0-d3933b12643c@redhat.com>
 MIME-Version: 1.0
-References: <20191106163031.808061-1-adrian.ratiu@collabora.com>
- <20191106163031.808061-5-adrian.ratiu@collabora.com>
-In-Reply-To: <20191106163031.808061-5-adrian.ratiu@collabora.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Wed, 13 Nov 2019 16:06:05 +0000
-Message-ID: <CACvgo506P+qNUg8vbpxY0_E7AAwJMHseM=Jwb3c2K8zo-v-2qQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] dt-bindings: display: add IMX MIPI DSI host
- controller doc
-To: Adrian Ratiu <adrian.ratiu@collabora.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=1ayLEgLCWpr2v/YpRT1vekWIlyB7F5pG92dGazdBvwI=;
- b=G0C2zq6m15OVUAh+WFhsjZYXXzcdOByoFghlCOloPCUxpwsOe48d6TWKiBYF1Jt+3P
- pCkyi8gtQTCFIBPO9DwTV6c0WxkptrtOWz4iYPnK/cnKPm7I5zvj+dxET+BVtJ1DQpne
- xvFFiYgEs8mmbZJfAKBvvDnvS95WxPpEuPkR3s9WkN17IYO9Pb5tGG3tSajwy1byyD4N
- F16i2K46Gs2g/bj6Gi2+PLQDxaHl6IMmz66pxEDl3gH6mDW5O41D81GUalCuv66KK2kl
- pzplG0H99Acg6QnE2CyrhUpnwJAaLbkNCMS71/7karx00Scg1v8aAwzEcypXqj1ia3qp
- NQ+Q==
+In-Reply-To: <7f0bf3c5-50cb-108a-fbb0-d3933b12643c@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1573661546;
+ bh=C7GXPm0/S51RPG12iIDfund3vfN9b6ThYO4QXpqasu8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=AC48aSvVm8yPRc/mQE+QOFYeBWjiFF9Nhvf+fV8NpMeN/9p1TATH/pnhCg3gdAy7J
+ 5HtNmfq3Ru8YFzObILWv0Z3HhvC5hNySS5C9JgvDvTBUz/kadYRt8lUA3PIxX66iG0
+ 3MxJJ+1goMJmOHnvpjgl+Q0q14ciUKmGS1Fj9t9I=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,34 +49,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Martyn Welch <martyn.welch@collabora.com>,
- Sjoerd Simons <sjoerd.simons@collabora.com>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- linux-rockchip <linux-rockchip@lists.infradead.org>, kernel@collabora.com,
- linux-stm32@st-md-mailman.stormreply.com,
- LAKML <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Sean Paul <seanpaul@chromium.org>, Daniel Vetter <daniel.vetter@intel.com>,
+ Mathieu =?iso-8859-1?Q?Alexandre-T=E9treault?= <alexandretm@amotus.ca>
+Content-Type: multipart/mixed; boundary="===============0100438364=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCA2IE5vdiAyMDE5IGF0IDE2OjMxLCBBZHJpYW4gUmF0aXUgPGFkcmlhbi5yYXRpdUBj
-b2xsYWJvcmEuY29tPiB3cm90ZToKPgo+IFJldmlld2VkLWJ5OiBOZWlsIEFybXN0cm9uZyA8bmFy
-bXN0cm9uZ0BiYXlsaWJyZS5jb20+Cj4gUmV2aWV3ZWQtYnk6IEVtaWwgVmVsaWtvdiA8ZW1pbC5s
-LnZlbGlrb3ZAZ21haWwuY29tPgpQbGVhc2UgZHJvcCB0aGlzIG9uZS4gSSdtIG5vdCB0aGF0IGV4
-cGVyaWVuY2VkIGluIERUIHRvIHByb3ZpZGUKbWVhbmluZ2Z1bCByZXZpZXcuCgpBY3R1YWxseSwg
-SSd2ZSBqdXN0IG5vdGljZWQgdGhhdCByZXNwZWN0aXZlIG1haW50YWluZXJzL2xpc3RzIGFyZSBu
-b3QKQ0MnZCBvbiB0aGUgc2VyaWVzLgpQbGVhc2UgdXNlIHRoZSBnZXRfbWFpbnRhaW5lci5wbCBz
-Y3JpcHQgZ290IGdldCB0aGUgY29ycmVjdCBpbmZvLgoKUGVyc29uYWxseSwgSSByZWFkIHRocm91
-Z2ggdGhlIG91dHB1dCwgYWRkaW5nIG9ubHkgcmVsZXZhbnQgcGVvcGxlIGFzCkNDIGluIHRoZSBj
-b21taXQgbWVzc2FnZSBpdHNlbGYuCgpJbiBwYXJ0aWN1bGFyLCBJIGRvbid0IHRoaW5rIGFkZGlu
-ZyB0aGUgIm1haW50YWluZXI6IERSTSBEUklWRVIiIG9yCnRoZSAiQVJNL0ZSRUVTQ0FMRSBJTVgg
-LyBNWEMgQVJNIEFSQ0hJVEVDVFVSRSIgYXJlIHJlcXVpcmVkLiBPbiB0aGUKb3RoZXIgaGFuZCAi
-RFJNIERSSVZFUlMgRk9SIEZSRUVTQ0FMRSBJTVgiIGFuZCAiT1BFTiBGSVJNV0FSRSBBTkQKRkxB
-VFRFTkVEIERFVklDRSBUUkVFIEJJTkRJTkdTIiBzZWVtcyBwcmV0dHkgYWNjdXJhdGUgZm9yIHdo
-YXQgeW91J3JlCmRvaW5nIGhlcmUuCgpIVEgKRW1pbApfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0100438364==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="WetXT0Y5FME7H56p"
+Content-Disposition: inline
+
+
+--WetXT0Y5FME7H56p
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Mon, Nov 11, 2019 at 06:25:33PM +0100, Hans de Goede wrote:
+> Hi,
+>
+> On 11-11-2019 13:53, Maxime Ripard wrote:
+> > Hi Hans,
+> >
+> > Thanks for this series (and thanks for bouncing the mails too).
+> >
+> > All the previous patches are
+> > Acked-by: Maxime Ripard <mripard@kernel.org>
+>
+> Thank you for the review.
+>
+> > On Sun, Nov 10, 2019 at 04:40:58PM +0100, Hans de Goede wrote:
+> > > Sometimes we want to override a connector's panel_orientation from the
+> > > kernel commandline. Either for testing and for special cases, e.g. a kiosk
+> > > like setup which uses a TV mounted in portrait mode.
+> > >
+> > > Users can already specify a "rotate" option through a video= kernel cmdline
+> > > option. But that only supports 0/180 degrees (see drm_client_modeset TODO)
+> > > and only works for in kernel modeset clients, not for userspace kms users.
+> > >
+> > > The "panel-orientation" connector property OTOH does support 90/270 degrees
+> > > as it leaves dealing with the rotation up to userspace and this does work
+> > > for userspace kms clients (at least those which support this property).
+> > >
+> > > BugLink: https://gitlab.freedesktop.org/plymouth/plymouth/merge_requests/83
+> > > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> > > ---
+> > >   Documentation/fb/modedb.rst                   |  3 ++
+> > >   drivers/gpu/drm/drm_modes.c                   | 32 +++++++++++++++++++
+> > >   .../gpu/drm/selftests/drm_cmdline_selftests.h |  1 +
+> > >   .../drm/selftests/test-drm_cmdline_parser.c   | 22 +++++++++++++
+> > >   include/drm/drm_connector.h                   |  8 +++++
+> > >   5 files changed, 66 insertions(+)
+> > >
+> > > diff --git a/Documentation/fb/modedb.rst b/Documentation/fb/modedb.rst
+> > > index 9c4e3fd39e6d..624d08fd2856 100644
+> > > --- a/Documentation/fb/modedb.rst
+> > > +++ b/Documentation/fb/modedb.rst
+> > > @@ -65,6 +65,9 @@ Valid options are::
+> > >     - reflect_y (boolean): Perform an axial symmetry on the Y axis
+> > >     - rotate (integer): Rotate the initial framebuffer by x
+> > >       degrees. Valid values are 0, 90, 180 and 270.
+> > > +  - panel_orientation, one of "normal", "upside_down", "left_side_up", or
+> > > +    "right_side_up". For KMS drivers only, this sets the "panel orientation"
+> > > +    property on the kms connector as hint for kms users.
+> >
+> > Even though the semantic is a bit different, I think we should remain
+> > consistent and have the same argument than for rotate (ie, steps in
+> > clockwise rotation in steps of 90 degrees).
+>
+> Well the kernel kms defines for rotation also talk about 90  / 180 / 270":
+>
+> #define DRM_MODE_ROTATE_0       (1<<0)
+> #define DRM_MODE_ROTATE_90      (1<<1)
+> #define DRM_MODE_ROTATE_180     (1<<2)
+> #define DRM_MODE_ROTATE_270     (1<<3)
+>
+> Where as the panel orientation uses strings like right_side_up, which means
+> that the side of the panel which normally is the right side of the panel
+> is now pointing up as the panel is mounted 90 degrees rotated with its
+> original right side now pointing up. This IMHO is much clearer then
+> 90 / 270 degrees which are ambiguous and perhaps more importantly this
+> matches the kernel defines for panel-orientation and matches the
+> String values enumerated by the enum type panel-orientation connector
+> property:
+>
+> static const struct drm_prop_enum_list drm_panel_orientation_enum_list[] = {
+>         { DRM_MODE_PANEL_ORIENTATION_NORMAL,    "Normal"        },
+>         { DRM_MODE_PANEL_ORIENTATION_BOTTOM_UP, "Upside Down"   },
+>         { DRM_MODE_PANEL_ORIENTATION_LEFT_UP,   "Left Side Up"  },
+>         { DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,  "Right Side Up" },
+> };
+>
+> So I would prefer to stick to the strings.
+
+Ok, that works for me then
+
+Maxime
+
+--WetXT0Y5FME7H56p
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXcwrZwAKCRDj7w1vZxhR
+xeidAP9TPZm/34px5rLfdL7cKtjqnWKthWcABmlvG6XXUlXpowEArHP27xtVnbq0
+iRkBhr5mR1P/jXyTtEq/+zLfgRpP9As=
+=LGxq
+-----END PGP SIGNATURE-----
+
+--WetXT0Y5FME7H56p--
+
+--===============0100438364==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0100438364==--
