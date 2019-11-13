@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0556FBAB9
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2019 22:30:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4695FFBAE2
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2019 22:33:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 341576EE7A;
-	Wed, 13 Nov 2019 21:30:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC77A6EE7C;
+	Wed, 13 Nov 2019 21:33:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 61F836EE79
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2019 21:30:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 197F16EE79
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2019 21:33:38 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5EBFF720E2; Wed, 13 Nov 2019 21:30:11 +0000 (UTC)
+ id 15C50720E2; Wed, 13 Nov 2019 21:33:38 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 112265] Drm: mgag200. Video adapter issue with 5.4.0-rc3 ; no
  graphics
-Date: Wed, 13 Nov 2019 21:30:11 +0000
+Date: Wed, 13 Nov 2019 21:33:38 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/other
@@ -34,9 +34,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
-Message-ID: <bug-112265-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: cc attachments.created
+Message-ID: <bug-112265-502-B2l5iRMXDK@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-112265-502@http.bugs.freedesktop.org/>
+References: <bug-112265-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1672003415=="
+Content-Type: multipart/mixed; boundary="===============0336857292=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1672003415==
-Content-Type: multipart/alternative; boundary="15736806111.c88D2bcF.17600"
+--===============0336857292==
+Content-Type: multipart/alternative; boundary="15736808180.DC95DB486.18261"
 Content-Transfer-Encoding: 7bit
 
 
---15736806111.c88D2bcF.17600
-Date: Wed, 13 Nov 2019 21:30:11 +0000
+--15736808180.DC95DB486.18261
+Date: Wed, 13 Nov 2019 21:33:38 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,63 +73,33 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D112265
 
-            Bug ID: 112265
-           Summary: Drm: mgag200. Video adapter issue with 5.4.0-rc3 ; no
-                    graphics
-           Product: DRI
-           Version: DRI git
-          Hardware: x86-64 (AMD64)
-                OS: Linux (All)
-            Status: NEW
-          Severity: major
-          Priority: not set
-         Component: DRM/other
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: John.p.donnelly@oracle.com
+John.p.donnelly@oracle.com changed:
 
-bisect took to me to  this change that certainly reflects the behavior I am
-seeing :
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |John.p.donnelly@oracle.com
 
- 5.1.0-rc5
+--- Comment #1 from John.p.donnelly@oracle.com ---
+Created attachment 145949
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145949&action=3Dedit
+dmesg and message file on bi-sected kernel
 
+Starting gnome=20
 
-commit 81da87f63a1edebcf8cbb811d387e353d9f89c7a (refs/bisect/bad)
-Author: Thomas Zimmermann <tzimmermann@suse.de>
-Date:   Tue May 21 13:08:29 2019 +0200
+See messages for=20
 
-   drm: Replace drm_gem_vram_push_to_system() with kunmap + unpin
+  " starting gnome "
 
-   The push-to-system function forces a buffer out of video RAM. This decis=
-ion
-   should rather be made by the memory manager. By replacing the function w=
-ith
-   calls to the kunmap and unpin functions, the buffer's memory becomes
-available,
-   but the buffer remains in VRAM until it's evicted by a pin operation.
+  and=20
 
-   This patch replaces the remaining instances of drm_gem_vram_push_to_syst=
-em()
-   in ast and mgag200, and removes the function from DRM.
-
-
-My 1st impression is we need a method  that restores the previous behavior =
-that
-pushes the content to the device .=20=20=20=20
-
-
-
-I found this issue using=20
-
-gnome-desktop3-3.28.2-1.el8.x86_64
-
-If there is a more specific. RPM  I can look at for guidance I will .
+"  Stopping gnome "
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15736806111.c88D2bcF.17600
-Date: Wed, 13 Nov 2019 21:30:11 +0000
+--15736808180.DC95DB486.18261
+Date: Wed, 13 Nov 2019 21:33:38 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -139,122 +110,66 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:John.p.do=
+nnelly&#64;oracle.com" title=3D"John.p.donnelly&#64;oracle.com">John.p.donn=
+elly&#64;oracle.com</a>
+</span> changed
+          <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Drm: mgag200. Video adapter issue with 5.4.0-rc3 ; no gra=
 phics"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112265">112265</a>
-          </td>
-        </tr>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112265">bug 11226=
+5</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
 
-        <tr>
-          <th>Summary</th>
-          <td>Drm: mgag200. Video adapter issue with 5.4.0-rc3 ; no graphics
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>DRI git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>x86-64 (AMD64)
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>Linux (All)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>major
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>not set
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>DRM/other
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>John.p.donnelly&#64;oracle.com
-          </td>
-        </tr></table>
+         <tr>
+           <td style=3D"text-align:right;">CC</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>John.p.donnelly&#64;oracle.com
+           </td>
+         </tr></table>
       <p>
         <div>
-        <pre>bisect took to me to  this change that certainly reflects the =
-behavior I am
-seeing :
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Drm: mgag200. Video adapter issue with 5.4.0-rc3 ; no gra=
+phics"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112265#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Drm: mgag200. Video adapter issue with 5.4.0-rc3 ; no gra=
+phics"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112265">bug 11226=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+John.p.donnelly&#64;oracle.com" title=3D"John.p.donnelly&#64;oracle.com">Jo=
+hn.p.donnelly&#64;oracle.com</a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145949=
+" name=3D"attach_145949" title=3D"dmesg and message file on bi-sected kerne=
+l">attachment 145949</a> <a href=3D"attachment.cgi?id=3D145949&amp;action=
+=3Dedit" title=3D"dmesg and message file on bi-sected kernel">[details]</a>=
+</span>
+dmesg and message file on bi-sected kernel
 
- 5.1.0-rc5
+Starting gnome=20
 
+See messages for=20
 
-commit 81da87f63a1edebcf8cbb811d387e353d9f89c7a (refs/bisect/bad)
-Author: Thomas Zimmermann &lt;<a href=3D"mailto:tzimmermann&#64;suse.de">tz=
-immermann&#64;suse.de</a>&gt;
-Date:   Tue May 21 13:08:29 2019 +0200
+  &quot; starting gnome &quot;
 
-   drm: Replace drm_gem_vram_push_to_system() with kunmap + unpin
+  and=20
 
-   The push-to-system function forces a buffer out of video RAM. This decis=
-ion
-   should rather be made by the memory manager. By replacing the function w=
-ith
-   calls to the kunmap and unpin functions, the buffer's memory becomes
-available,
-   but the buffer remains in VRAM until it's evicted by a pin operation.
-
-   This patch replaces the remaining instances of drm_gem_vram_push_to_syst=
-em()
-   in ast and mgag200, and removes the function from DRM.
-
-
-My 1st impression is we need a method  that restores the previous behavior =
-that
-pushes the content to the device .=20=20=20=20
-
-
-
-I found this issue using=20
-
-gnome-desktop3-3.28.2-1.el8.x86_64
-
-If there is a more specific. RPM  I can look at for guidance I will .</pre>
+&quot;  Stopping gnome &quot;</pre>
         </div>
       </p>
 
@@ -268,9 +183,9 @@ If there is a more specific. RPM  I can look at for guidance I will .</pre>
     </body>
 </html>=
 
---15736806111.c88D2bcF.17600--
+--15736808180.DC95DB486.18261--
 
---===============1672003415==
+--===============0336857292==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -280,4 +195,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1672003415==--
+--===============0336857292==--
