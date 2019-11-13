@@ -2,63 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09882FAD9E
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2019 10:52:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E88DFADEB
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Nov 2019 11:04:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 003B56ECB5;
-	Wed, 13 Nov 2019 09:51:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82CA06ECBD;
+	Wed, 13 Nov 2019 10:04:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F39C26ECB5
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2019 09:51:57 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id EC908AFD7;
- Wed, 13 Nov 2019 09:51:55 +0000 (UTC)
-Subject: Re: [PATCH 1/4] drm/udl: Replace fbdev code with generic emulation
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20191108123333.25274-1-tzimmermann@suse.de>
- <20191108123333.25274-2-tzimmermann@suse.de>
- <e8b90928-fdae-36e0-f116-8b49159c4aad@tronnes.org>
- <1704c1d6-ec08-211b-0677-6c22f96ca7aa@suse.de>
- <CAKMK7uF7M60NcPTGicQVJ=09pqf4ua4kWaCmdCcDaC13AgTFQw@mail.gmail.com>
- <6da6c49a-572a-343a-ddb1-103ca7080ccd@suse.de>
- <CAKMK7uHiXtg=FCpqv7ekpopd=2Hofrs7oR3qPNsf8e_E_Wv08w@mail.gmail.com>
- <052a2dd7-9a18-bf0b-7b7f-3396cc5c0dcf@suse.de>
- <CAKMK7uH_0KC5rh3YhHaoBK4xfK=GMqrs61mA6ZFzq0-EdM6BGw@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <4b330f8f-7baf-7b48-730b-c0d93eee4b81@suse.de>
-Date: Wed, 13 Nov 2019 10:51:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A03686ECBA
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2019 10:04:12 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id p18so1864188ljc.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2019 02:04:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7+8BQXrFfd7vVPmmII5MsvQgRN4CoXbnwomYZzYOuqY=;
+ b=BA1tc4VCfaivzAvKr9g82BuJyTu0clEXgexL9XMrvYO2XEU+ksBtFx8cI4Z/daTGMn
+ 0NmcZhp4QoTDR4q5Vph5mBuk/zleSj/IofddeE8jJIQjuL1bYM5JonZWr8Weg1UajeXd
+ cYAZ3nWYLx67K1l1wkJsa1NAcNfcdM573kxdQYE07NA2hIvWx5zxKM79DkdZ9ODH7q5P
+ DnhTL5XrMddGfuSPyR/WVePwh9+CkRJKEmExJL/IZutBa/RMVA/v6xPWdls2cRppfmuF
+ Epiz/uktOnxbojmLi1jVZoBOL0OJepkxDHdpGdn7PPuaH8oU7L0hbe4nowCCtMpdG7ZR
+ Ve2Q==
+X-Gm-Message-State: APjAAAW6tjT1BrF3PPIiOooF+uJEOO0UY7RmqDhO55sHvtqWMDFv7Xd2
+ zaa+8hRu9lhKLeID4269hl+9W5EOIG+yId7m4E0=
+X-Google-Smtp-Source: APXvYqzrkpAd6Hpz3oz1kJ9bkYQ6lCyOOdYOttbdfnR7t7OIB4Lor9ihWI0dnmDs0iE8LILZppn3CI05bzG6SSFxJnw=
+X-Received: by 2002:a2e:8805:: with SMTP id x5mr1762023ljh.44.1573639450872;
+ Wed, 13 Nov 2019 02:04:10 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uH_0KC5rh3YhHaoBK4xfK=GMqrs61mA6ZFzq0-EdM6BGw@mail.gmail.com>
+References: <20191107153048.843881-1-paul.kocialkowski@bootlin.com>
+ <CAMeQTsYG+YvXqQqvJvsxT1h0z5zZJbdCtc5wPjUossvwidV=cA@mail.gmail.com>
+ <20191112151157.GD4506@aptenodytes> <20191112155012.GE4506@aptenodytes>
+In-Reply-To: <20191112155012.GE4506@aptenodytes>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Wed, 13 Nov 2019 11:04:00 +0100
+Message-ID: <CAMeQTsb0+Tc9Gij_1zMH=mPSbDAjMkMEFatvZrfjLvVsQGwVgA@mail.gmail.com>
+Subject: Re: [PATCH] drm/gma500: Fixup fbdev stolen size usage evaluation
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=7+8BQXrFfd7vVPmmII5MsvQgRN4CoXbnwomYZzYOuqY=;
+ b=mMAN3fdIVYqvkW+CCwE1FaCWLT/+gk7vKGNzCppol6zgvEuroWh9/jm7pl4xT8LIGX
+ 3LjJ3sR8oUGViV3RJEyRlI7im8IbX48BTncshoWro0q7EL4bbvzjEymw4MTqwEcf9jtI
+ 9BWNAEe43iBAc2tXQvJeo7HfELxKrC3V99rStbt8WYXVbh8Z0db4yl5ang30F9LnZxn9
+ ZYgpU+bzQRKAyFCzqmIVuvD822+mOYDUqOye8/CbIl2fbIDHENMjxIwxeFfJvjZhkiT3
+ Ps4mcdrA/v0jpDT8QJIq1TNkd5GeNrPpsf/Tcf7kcu+1z5O6lyGbZBuhWiByv7fUMHvg
+ D76A==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,325 +64,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Sean Paul <sean@poorly.run>, dri-devel <dri-devel@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>
-Content-Type: multipart/mixed; boundary="===============0802013223=="
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ James Hilliard <james.hilliard1@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0802013223==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="dI8Z8QWcpPMe7FaSDVPJhhXkqGN0Q1ff7"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---dI8Z8QWcpPMe7FaSDVPJhhXkqGN0Q1ff7
-Content-Type: multipart/mixed; boundary="r7ntNsMM9sEiUlSseTrtFTVZf6WVSfrEj";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel
- <dri-devel@lists.freedesktop.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
- Emil Velikov <emil.velikov@collabora.com>
-Message-ID: <4b330f8f-7baf-7b48-730b-c0d93eee4b81@suse.de>
-Subject: Re: [PATCH 1/4] drm/udl: Replace fbdev code with generic emulation
-References: <20191108123333.25274-1-tzimmermann@suse.de>
- <20191108123333.25274-2-tzimmermann@suse.de>
- <e8b90928-fdae-36e0-f116-8b49159c4aad@tronnes.org>
- <1704c1d6-ec08-211b-0677-6c22f96ca7aa@suse.de>
- <CAKMK7uF7M60NcPTGicQVJ=09pqf4ua4kWaCmdCcDaC13AgTFQw@mail.gmail.com>
- <6da6c49a-572a-343a-ddb1-103ca7080ccd@suse.de>
- <CAKMK7uHiXtg=FCpqv7ekpopd=2Hofrs7oR3qPNsf8e_E_Wv08w@mail.gmail.com>
- <052a2dd7-9a18-bf0b-7b7f-3396cc5c0dcf@suse.de>
- <CAKMK7uH_0KC5rh3YhHaoBK4xfK=GMqrs61mA6ZFzq0-EdM6BGw@mail.gmail.com>
-In-Reply-To: <CAKMK7uH_0KC5rh3YhHaoBK4xfK=GMqrs61mA6ZFzq0-EdM6BGw@mail.gmail.com>
-
---r7ntNsMM9sEiUlSseTrtFTVZf6WVSfrEj
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 12.11.19 um 16:13 schrieb Daniel Vetter:
-> On Tue, Nov 12, 2019 at 3:51 PM Thomas Zimmermann <tzimmermann@suse.de>=
- wrote:
->>
->> Hi
->>
->> Am 12.11.19 um 15:31 schrieb Daniel Vetter:
->>> On Tue, Nov 12, 2019 at 3:03 PM Thomas Zimmermann <tzimmermann@suse.d=
-e> wrote:
->>>>
->>>> Hi
->>>>
->>>> Am 12.11.19 um 14:40 schrieb Daniel Vetter:
->>>>> On Tue, Nov 12, 2019 at 12:55 PM Thomas Zimmermann <tzimmermann@sus=
-e.de> wrote:
->>>>>>
->>>>>> Hi
->>>>>>
->>>>>> Am 08.11.19 um 16:37 schrieb Noralf Tr=C3=B8nnes:
->>>>>>>
->>>>>>>
->>>>>>> Den 08.11.2019 13.33, skrev Thomas Zimmermann:
->>>>>>>> The udl driver can use the generic fbdev implementation. Convert=
- it.
->>>>>>>>
->>>>>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>>>>>> ---
->>>>>>>
->>>>>>>> diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl=
-/udl_drv.c
->>>>>>>> index 563cc5809e56..55c0f9dfee29 100644
->>>>>>>> --- a/drivers/gpu/drm/udl/udl_drv.c
->>>>>>>> +++ b/drivers/gpu/drm/udl/udl_drv.c
->>>>>>>
->>>>>>>> @@ -47,6 +48,8 @@ static struct drm_driver driver =3D {
->>>>>>>>      .driver_features =3D DRIVER_MODESET | DRIVER_GEM,
->>>>>>>>      .release =3D udl_driver_release,
->>>>>>>>
->>>>>>>> +    .lastclose =3D drm_fb_helper_lastclose,
->>>>>>>> +
->>>>>>>
->>>>>>> No need to set this, it's already wired up:
->>>>>>>
->>>>>>> drm_lastclose -> drm_client_dev_restore -> drm_fbdev_client_resto=
-re ->
->>>>>>> drm_fb_helper_lastclose
->>>>>>>
->>>>>>>>      /* gem hooks */
->>>>>>>>      .gem_create_object =3D udl_driver_gem_create_object,
->>>>>>>>
->>>>>>>
->>>>>>>> diff --git a/drivers/gpu/drm/udl/udl_fb.c b/drivers/gpu/drm/udl/=
-udl_fb.c
->>>>>>>> index f8153b726343..afe74f892a2b 100644
->>>>>>>> --- a/drivers/gpu/drm/udl/udl_fb.c
->>>>>>>> +++ b/drivers/gpu/drm/udl/udl_fb.c
->>>>>>>> @@ -20,19 +20,9 @@
->>>>>>>>
->>>>>>>>  #include "udl_drv.h"
->>>>>>>>
->>>>>>>> -#define DL_DEFIO_WRITE_DELAY    (HZ/20) /* fb_deferred_io.delay=
- in jiffies */
->>>>>>>> -
->>>>>>>> -static int fb_defio =3D 0;  /* Optionally enable experimental f=
-b_defio mmap support */
->>>>>>>>  static int fb_bpp =3D 16;
->>>>>>>>
->>>>>>>>  module_param(fb_bpp, int, S_IWUSR | S_IRUSR | S_IWGRP | S_IRGRP=
-);
->>>>>>>
->>>>>>> Maybe fb_bpp can be dropped too?
->>>>>>
->>>>>> Sure, makes sense.
->>>>>>
->>>>>> The driver exposes a preferred color depth of 24 bpp, which we may=
- want
->>>>>> to change to 16 then. The internal framebuffer is only 16 bpp anyw=
-ay.
->>>>>
->>>>> Just something that crossed my mind: Should we ensure that the
->>>>> preferred format of the primary plane (should be the first in the
->>>>> format array) matches up with the preferred bpp setting? Maybe even=
-
->>>>> enforce that for drivers with an explicit primary plane (i.e. atomi=
-c
->>>>> drivers). I think tiny drivers get this right already.
->>>>
->>>> IMHO that makes if the userspace can handle it. The preferred bpp co=
-uld
->>>> also be retrieved from the formats array automatically. What about H=
-W
->>>> with multiple CRTCs with different format defaults (sounds weird, I =
-know)?
->>>
->>> Ime I haven't seen such a case yet. What I have seen is that the most=
-
->>> preferred format might be some fancy compressed format, which not all=
-
->>> formats support. But which you can't render into without mesa anyway,=
-
->>> so really doesn't matter for preferred bpp.
->>>
->>>> WRT udl: For v3 of this patchset I've set the preferred color depth =
-to
->>>> 32 bpp; although the internal FB is always at 16 bpp. Because when I=
-
->>>> tested with a dual-screen setup (radeon + udl) X11 didn't support th=
-e 16
->>>> bpp output on the second screen (the one driven by udl). Only settin=
-g
->>>> both screen to 32 bpp worked out of the box. And the preferred 24 bp=
-p
->>>> are not even supported by udl.
->>>
->>> Uh, if we can only set preferred bpp to make X happy, and X can only
->>> support one preferred bpp, then everyone needs to set 32bit. Which
->>> defeats the point (and we'd need to hardcode it to 32bpp). Is this
->>> really the case?
->>
->> I guess it would have worked if both screens preferred 16 bpp.
->=20
-> Just noticed that current depth is 24 bpp ... does that work with
-> current X? If not I think we should actually set it to 16 bpp, and fix
-> up X. Not as in "make it handle multi-bpp", that's too hard, but make
-> it pick a common format that works for all drivers (which usually
-> means go with 32bpp). Since if we just go with 32bpp to paper over X,
-> then the preferred bpp uapi becomes meaningless.
-
-The good news is that it apparently works with planes correctly configure=
-d.
-
-I tested with udl being converted to simple pipe and universal planes.
-It exposes RGB565, XRGB8888 and preferred_depth=3D16. X did the correct
-thing and choose a format the works with radeon and udl.
-
-For the next iteration of the fbdev conversion, I'll just keep the
-current values. And once converted to universal planes, we can set the
-optimal values instead.
-
-Best regards
-Thomas
-
-> -Daniel
->=20
->>
->> Best regards
->> Thomas
->>
->>> -Daniel
->>>
->>>>
->>>> Best regards
->>>> Thomas
->>>>
->>>>> -Daniel
->>>>>
->>>>>>
->>>>>> Best regards
->>>>>> Thomas
->>>>>>
->>>>>>>
->>>>>>> It's possible to set it on the command line:
->>>>>>>
->>>>>>> video=3D<xres>x<yres>-<bpp>
->>>>>>>
->>>>>>> I haven't tried it so I can't say for certain that it actually wo=
-rks>
->>>>>>> Ref: Documentation/fb/modedb.rst and drm_fb_helper_single_fb_prob=
-e()
->>>>>>>
->>>>>>>> -module_param(fb_defio, int, S_IWUSR | S_IRUSR | S_IWGRP | S_IRG=
-RP);
->>>>>>>> -
->>>>>>>
->>>>>>>> diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm=
-/udl/udl_modeset.c
->>>>>>>> index bc1ab6060dc6..1517d5e881b8 100644
->>>>>>>> --- a/drivers/gpu/drm/udl/udl_modeset.c
->>>>>>>> +++ b/drivers/gpu/drm/udl/udl_modeset.c
->>>>>>>
->>>>>>>> @@ -422,7 +423,7 @@ static int udl_crtc_init(struct drm_device *=
-dev)
->>>>>>>>
->>>>>>>>  static const struct drm_mode_config_funcs udl_mode_funcs =3D {
->>>>>>>>      .fb_create =3D udl_fb_user_fb_create,
->>>>>>>> -    .output_poll_changed =3D NULL,
->>>>>>>> +    .output_poll_changed =3D drm_fb_helper_output_poll_changed,=
-
->>>>>>>
->>>>>>> No need to set this, it's already wired up:
->>>>>>>
->>>>>>> drm_kms_helper_hotplug_event -> drm_client_dev_hotplug ->
->>>>>>> drm_fbdev_client_hotplug -> drm_fb_helper_hotplug_event
->>>>>>>
->>>>>>> Noralf.
->>>>>>>
->>>>>>>>  };
->>>>>>>>
->>>>>>>>  int udl_modeset_init(struct drm_device *dev)
->>>>>>>>
->>>>>>
->>>>>> --
->>>>>> Thomas Zimmermann
->>>>>> Graphics Driver Developer
->>>>>> SUSE Software Solutions Germany GmbH
->>>>>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->>>>>> (HRB 36809, AG N=C3=BCrnberg)
->>>>>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>>>>>
->>>>>
->>>>>
->>>>
->>>> --
->>>> Thomas Zimmermann
->>>> Graphics Driver Developer
->>>> SUSE Software Solutions Germany GmbH
->>>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->>>> (HRB 36809, AG N=C3=BCrnberg)
->>>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>>>
->>>
->>>
->>
->> --
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->> (HRB 36809, AG N=C3=BCrnberg)
->> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>
->=20
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---r7ntNsMM9sEiUlSseTrtFTVZf6WVSfrEj--
-
---dI8Z8QWcpPMe7FaSDVPJhhXkqGN0Q1ff7
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl3L0jcACgkQaA3BHVML
-eiN5HQf9Gq3mq5CZHxQ7AZ5D8o8XMc7z00WhtGiQr+Hkp9RdOdxxmZp3zt4vmrTB
-yZx045NLSrm6F8rFErBnW99DgssLFtkonjjoDVRC+ctJRKXLJKUDDPOoYIx/xpCY
-lyjeiiXQKTMkTjIUktY+RbxHysqbZlnuK3BddE9OEjUesaEKjMtZ7cTVvn6GDiwB
-UEKiev9PkUKqesg1f7QhbaCuOCLhK52ElvbV9B9kD2WCVNCU7qdJvBX0zkD3EtVA
-X9q2q6TOCBDgLA0vWJb8MDFIB0oJG8OR6N+wf7aYam4qRp00bBXdkMLL0n9Xony1
-bhYXFuLRFDNcVpidhAyslagFTBXE8w==
-=s368
------END PGP SIGNATURE-----
-
---dI8Z8QWcpPMe7FaSDVPJhhXkqGN0Q1ff7--
-
---===============0802013223==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0802013223==--
+T24gVHVlLCBOb3YgMTIsIDIwMTkgYXQgNDo1MCBQTSBQYXVsIEtvY2lhbGtvd3NraQo8cGF1bC5r
+b2NpYWxrb3dza2lAYm9vdGxpbi5jb20+IHdyb3RlOgo+Cj4gSGksCj4KPiBPbiBUdWUgMTIgTm92
+IDE5LCAxNjoxMSwgUGF1bCBLb2NpYWxrb3dza2kgd3JvdGU6Cj4gPiBIaSwKPiA+Cj4gPiBPbiBU
+dWUgMTIgTm92IDE5LCAxMToyMCwgUGF0cmlrIEpha29ic3NvbiB3cm90ZToKPiA+ID4gT24gVGh1
+LCBOb3YgNywgMjAxOSBhdCA0OjMwIFBNIFBhdWwgS29jaWFsa293c2tpCj4gPiA+IDxwYXVsLmtv
+Y2lhbGtvd3NraUBib290bGluLmNvbT4gd3JvdGU6Cj4gPiA+ID4KPiA+ID4gPiBwc2JmYl9wcm9i
+ZSBwZXJmb3JtcyBhbiBldmFsdWF0aW9uIG9mIHRoZSByZXF1aXJlZCBzaXplIGZyb20gdGhlIHN0
+b2xlbgo+ID4gPiA+IEdUVCBtZW1vcnksIGJ1dCBnZXRzIGl0IHdyb25nIGluIHR3byBkaXN0aW5j
+dCB3YXlzOgo+ID4gPiA+IC0gVGhlIHJlc3VsdGluZyBzaXplIG11c3QgYmUgcGFnZS1zaXplLWFs
+aWduZWQ7Cj4gPiA+ID4gLSBUaGUgc2l6ZSB0byBhbGxvY2F0ZSBpcyBkZXJpdmVkIGZyb20gdGhl
+IHN1cmZhY2UgZGltZW5zaW9ucywgbm90IHRoZSBmYgo+ID4gPiA+ICAgZGltZW5zaW9ucy4KPiA+
+ID4gPgo+ID4gPiA+IFdoZW4gdHdvIGNvbm5lY3RvcnMgYXJlIGNvbm5lY3RlZCB3aXRoIGRpZmZl
+cmVudCBtb2RlcywgdGhlIHNtYWxsZXN0IHdpbGwKPiA+ID4gPiBiZSBzdG9yZWQgaW4gdGhlIGZi
+IGRpbWVuc2lvbnMsIGJ1dCB0aGUgc2l6ZSB0aGF0IG5lZWRzIHRvIGJlIGFsbG9jYXRlZCBtdXN0
+Cj4gPiA+ID4gbWF0Y2ggdGhlIGxhcmdlc3QgKHN1cmZhY2UpIGRpbWVuc2lvbnMuIFRoaXMgaXMg
+d2hhdCBpcyB1c2VkIGluIHRoZSBhY3R1YWwKPiA+ID4gPiBhbGxvY2F0aW9uIGNvZGUuCj4gPiA+
+ID4KPiA+ID4gPiBGaXggdGhpcyBieSBjb3JyZWN0aW5nIHRoZSBldmFsdWF0aW9uIHRvIGNvbmZv
+cm0gdG8gdGhlIHR3byBwb2ludHMgYWJvdmUuCj4gPiA+ID4gSXQgYWxsb3dzIGNvcnJlY3RseSBz
+d2l0Y2hpbmcgdG8gMTZicHAgd2hlbiBvbmUgY29ubmVjdG9yIGlzIGUuZy4gMTkyMHgxMDgwCj4g
+PiA+ID4gYW5kIHRoZSBvdGhlciBpcyAxMDI0eDc2OC4KPiA+ID4gPgo+ID4gPiA+IFNpZ25lZC1v
+ZmYtYnk6IFBhdWwgS29jaWFsa293c2tpIDxwYXVsLmtvY2lhbGtvd3NraUBib290bGluLmNvbT4K
+PiA+ID4gPiAtLS0KPiA+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9mcmFtZWJ1ZmZlci5j
+IHwgOCArKysrKystLQo+ID4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCAy
+IGRlbGV0aW9ucygtKQo+ID4gPiA+Cj4gPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS9nbWE1MDAvZnJhbWVidWZmZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvZnJhbWVidWZm
+ZXIuYwo+ID4gPiA+IGluZGV4IDIxOGYzYmIxNTI3Ni4uOTAyMzdhYmVlMDg4IDEwMDY0NAo+ID4g
+PiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvZnJhbWVidWZmZXIuYwo+ID4gPiA+ICsr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvZnJhbWVidWZmZXIuYwo+ID4gPiA+IEBAIC00NjIs
+NiArNDYyLDcgQEAgc3RhdGljIGludCBwc2JmYl9wcm9iZShzdHJ1Y3QgZHJtX2ZiX2hlbHBlciAq
+aGVscGVyLAo+ID4gPiA+ICAgICAgICAgICAgICAgICBjb250YWluZXJfb2YoaGVscGVyLCBzdHJ1
+Y3QgcHNiX2ZiZGV2LCBwc2JfZmJfaGVscGVyKTsKPiA+ID4gPiAgICAgICAgIHN0cnVjdCBkcm1f
+ZGV2aWNlICpkZXYgPSBwc2JfZmJkZXYtPnBzYl9mYl9oZWxwZXIuZGV2Owo+ID4gPiA+ICAgICAg
+ICAgc3RydWN0IGRybV9wc2JfcHJpdmF0ZSAqZGV2X3ByaXYgPSBkZXYtPmRldl9wcml2YXRlOwo+
+ID4gPiA+ICsgICAgICAgdW5zaWduZWQgaW50IGZiX3NpemU7Cj4gPiA+ID4gICAgICAgICBpbnQg
+Ynl0ZXNwcDsKPiA+ID4gPgo+ID4gPiA+ICAgICAgICAgYnl0ZXNwcCA9IHNpemVzLT5zdXJmYWNl
+X2JwcCAvIDg7Cj4gPiA+ID4gQEAgLTQ3MSw4ICs0NzIsMTEgQEAgc3RhdGljIGludCBwc2JmYl9w
+cm9iZShzdHJ1Y3QgZHJtX2ZiX2hlbHBlciAqaGVscGVyLAo+ID4gPiA+ICAgICAgICAgLyogSWYg
+dGhlIG1vZGUgd2lsbCBub3QgZml0IGluIDMyYml0IHRoZW4gc3dpdGNoIHRvIDE2Yml0IHRvIGdl
+dAo+ID4gPiA+ICAgICAgICAgICAgYSBjb25zb2xlIG9uIGZ1bGwgcmVzb2x1dGlvbi4gVGhlIFgg
+bW9kZSBzZXR0aW5nIHNlcnZlciB3aWxsCj4gPiA+ID4gICAgICAgICAgICBhbGxvY2F0ZSBpdHMg
+b3duIDMyYml0IEdFTSBmcmFtZWJ1ZmZlciAqLwo+ID4gPiA+IC0gICAgICAgaWYgKEFMSUdOKHNp
+emVzLT5mYl93aWR0aCAqIGJ5dGVzcHAsIDY0KSAqIHNpemVzLT5mYl9oZWlnaHQgPgo+ID4gPiA+
+IC0gICAgICAgICAgICAgICAgICAgICAgIGRldl9wcml2LT52cmFtX3N0b2xlbl9zaXplKSB7Cj4g
+PiA+ID4gKyAgICAgICBmYl9zaXplID0gQUxJR04oc2l6ZXMtPnN1cmZhY2Vfd2lkdGggKiBieXRl
+c3BwLCA2NCkgKgo+ID4gPiA+ICsgICAgICAgICAgICAgICAgIHNpemVzLT5zdXJmYWNlX2hlaWdo
+dDsKPiA+ID4gPiArICAgICAgIGZiX3NpemUgPSBBTElHTihmYl9zaXplLCBQQUdFX1NJWkUpOwo+
+ID4gPiA+ICsKPiA+ID4gPiArICAgICAgIGlmIChmYl9zaXplID4gZGV2X3ByaXYtPnZyYW1fc3Rv
+bGVuX3NpemUpIHsKPiA+ID4KPiA+ID4gcHNiX2d0dF9hbGxvY19yYW5nZSgpIGFscmVhZHkgYWxp
+Z25zIGJ5IFBBR0VfU0laRSBmb3IgdXMuIExvb2tzIGxpa2UKPiA+ID4gd2UgYWxpZ24gYSBjb3Vw
+bGUgb2YgdGltZXMgZXh0cmEgZm9yIGx1Y2suIFRoaXMgbmVlZHMgY2xlYW5pbmcgdXAKPiA+ID4g
+aW5zdGVhZCBvZiBhZGRpbmcgZXZlbiBtb3JlIGFsaWducy4KPiA+Cj4gPiBJJ20gbm90IHN1cmUg
+dGhpcyBpcyByZWFsbHkgZm9yIGx1Y2suIEFzIGZhciBhcyBJIGNhbiBzZWUsIHdlIG5lZWQgdG8g
+ZG8gaXQKPiA+IHByb3Blcmx5IGZvciB0aGlzIHNpemUgZXN0aW1hdGlvbiBzaW5jZSBpdCdzIHRo
+ZSBmaW5hbCBzaXplIHRoYXQgd2lsbCBiZQo+ID4gYWxsb2NhdGVkIChhbmQgdGh1cyBuZWVkcyB0
+byBiZSBhdmFpbGFibGUgaW4gd2hvbGUpLgoKT2sgbm93IEkgdW5kZXJzdGFuZCB3aGF0IHlvdSBt
+ZWFudC4gQWN0dWFsbHkgdnJhbV9zdG9sZW5fc2l6ZSBpcwphbHdheXMgcGFnZSBhbGlnbmVkIHNv
+IGZiX3NpemUgZG9lc24ndCBuZWVkIGFueSBwYWdlIGFsaWdubWVudCBoZXJlLgpUaGVyZSBpcyBh
+bHNvIG5vIG5lZWQgdG8gYWxpZ24gZm9yIHBzYmZiX2NyZWF0ZSgpIHNpbmNlIGl0IGFsc28gdGFr
+ZXMKY2FyZSBvZiB0aGlzLgoKPiA+Cj4gPiBGb3IgdGhlIG90aGVyIHRpbWVzIHRoZXJlIGlzIGV4
+cGxpY2l0IGFsaWdubWVudCwgdGhleSBzZWVtIGp1c3RpZmllZCB0b286Cj4gPiAtIGluIHBzYl9n
+ZW1fY3JlYXRlOiBpdCBpcyBjb21tb24gdG8gcGFzcyB0aGUgYWxpZ25lZCBzaXplIHdoZW4gY3Jl
+YXRpbmcgdGhlCj4gPiAgIGFzc29jaWF0ZWQgR0VNIG9iamVjdCB3aXRoIGRybV9nZW1fb2JqZWN0
+X2luaXQsIGV2ZW4gdGhvdWdoIGl0J3MgcHJvYmFibHkgbm90Cj4gPiAgIGNydWNpYWwgZ2l2ZW4g
+dGhhdCB0aGlzIGlzIG5vdCB3aGVyZSBhbGxvY2F0aW9uIGFjdHVhbGx5IGhhcHBlbnM7Cj4gPiAt
+IGluIHBzYmZiX2NyZWF0ZTogdGhlIGZ1bGwgc2l6ZSBpcyBhcHBhcmVudGx5IG9ubHkgcmVhbGx5
+IHVzZWQgdG8gbWVtc2V0IDAKPiA+ICAgdGhlIGFsbG9jYXRlZCBidWZmZXIuIEkgdGhpbmsgdGhp
+cyBtYWtlcyBzZW5zZSBmb3Igc2VjdXJpdHkgcmVhc29ucyAoYW5kIG5vdAo+ID4gICBsZWFrIHBy
+ZXZpb3VzIGNvbnRlbnRzIGluIHRoZSBhZGRpdGlvbmFsIHNwYWNlIHJlcXVpcmVkIGZvciBhbGln
+bm1lbnQpLgoKV2hhdCBJIHdvdWxkIHByZWZlciBpcyB0byBoYXZlIGEgc2luZ2xlIHBsYWNlIHdo
+ZXJlIHRoZSBhbGlnbm1lbnQgaXMKbWFkZSBzbyBhbnkgaGFyZHdhcmUgcmVxdWlyZW1lbnRzIHdv
+dWxkIGJlIHRyYW5zcGFyZW50IHRvIHRoZSByZXN0IG9mCnRoZSBjb2RlLgoKQmVzdCB3b3VsZCBi
+ZSBpZiBhbGlnbm1lbnQgaXMgb25seSBtYWRlIGluIHBzYl9ndHRfYWxsb2NfcmFuZ2UoKSBhbmQK
+dGhlbiBzdG9yZSB0aGUgYWN0dWFsIHNpemUgaW4gc3RydWN0IGd0dF9yYW5nZS4gVGhhdCB3YXkg
+d2UgY2FuIGp1c3QKcGFzcyBhbG9uZyB0aGF0IHZhbHVlIHRvIG1lbXNldCgpIGFuZCBkcm1fZ2Vt
+X29iamVjdF9pbml0KCkgd2l0aG91dApjYXJpbmcgYWJvdXQgaG93IGl0IGlzIGFkanVzdGVkLgoK
+PiA+Cj4gPiBXaGF0IHN0cmlrZXMgbWUgaG93ZXZlciBpcyB0aGF0IGVhY2ggY2FsbCB0byBwc2Jf
+Z3R0X2FsbG9jX3JhbmdlIHRha2VzIHRoZQo+ID4gYWxpZ25tZW50IGFzIGEgcGFyYW1ldGVyIHdo
+ZW4gaXQncyByZWFsbHkgYWx3YXlzIFBBR0VfU0laRSwgc28gaXQgc2hvdWxkCj4gPiBwcm9iYWJs
+eSBqdXN0IGJlIGhhcmRjb2RlZCBpbiB0aGUgY2FsbCB0byBhbGxvY2F0ZV9yZXNvdXJjZS4KClRo
+aXMgaXMgYSByZW1uYW50IGZyb20gdHJ5aW5nIHRvIGFkZCBzdXBwb3J0IGZvciAyRCBhbmQvb3Ig
+b3ZlcmxheQpwbGFuZXMgKGRvbid0IHJlYWxseSByZW1lbWJlcikuIERvZXNuJ3QgbWF0dGVyIGlm
+IGl0IHN0YXlzIG9yIGdvZXMKYXdheS4KCj4gPgo+ID4gV2hhdCBkbyB5b3UgdGhpbms/CgpJIHN1
+cHBvc2UgbW9zdCBvZiB0aGlzIGlzIG91dHNpZGUgdGhlIHNjb3BlIG9mIHdoYXQgeW91J3JlIHRy
+eWluZyB0bwpkbyBzbyB3ZSBjYW4ganVzdCBsZWF2ZSBpdCBhcyBpcyBhbmQgSSBjYW4gY2xlYW4g
+aXQgdXAgbGF0ZXIuCgo+ID4KPiA+ID4gWW91ciBzaXplIGNhbGN1bGF0aW9uIGxvb2tzIGNvcnJl
+Y3QgYW5kIGluZGVlZCBtYWtlcyBteSAxMDI0eDYwMCArCj4gPiA+IDE5MjB4MTA4MCBzZXR1cCBh
+Y3R1YWxseSBkaXNwbGF5IHNvbWV0aGluZywgYnV0IGZvciBzb21lIHJlYXNvbiBJIGdldAo+ID4g
+PiBhbiBpbmNvcnJlY3QgcGFubmluZyBvbiB0aGUgc21hbGxlciBzY3JlZW4gYW5kIHN0YWxlIGRh
+dGEgb24gdGhlCj4gPiA+IHN1cmZhY2Ugb25seSB2aXNpYmxlIGJ5IHRoZSBsYXJnZXIgQ1JUQy4g
+QW55IGlkZWEgd2hhdCdzIGdvaW5nIG9uPwo+ID4KPiA+IEknbSBub3Qgc2VlaW5nIHRoaXMgaW1t
+ZWRpYXRlbHksIGJ1dCBJIGRlZmluaXRlbHkgaGF2ZSBzb21ldGhpbmcgc3RyYW5nZQo+ID4gYWZ0
+ZXIgaGF2aW5nIHByaW50ZWQgbW9yZSBsaW5lcyB0aGFuIHRoZSBzbWFsbGVzdCBkaXNwbGF5IGNh
+biBoYW5kbGUgb3IKPiA+IHNjcm9sbGluZywgd2hlcmUgbW9yZSB0aGFuIHRoZSBhY3R1YWwgc2l6
+ZSBvZiB0aGUgZmIgaXMgdXNlZC4KPiA+Cj4gPiBNYXliZSB0aGlzIGlzIHJlbGF0ZWQgdG8gdXNp
+bmcgdGhlIFBvd2VyVlItYWNjZWxlcmF0ZWQgZmIgb3BzLCB0aGF0IGFyZW4ndAo+ID4gcXVpdGUg
+cmVhZHkgZm9yIHRoaXMgdXNlIGNhc2U/Cj4gPgo+ID4gSSdsbCBnaXZlIGl0IGEgdHJ5IHdpdGgg
+cHNiZmJfcm9sbF9vcHMgYW5kIHBzYmZiX3VuYWNjZWxfb3BzIGluc3RlYWQgdG8gc2VlCj4gPiBp
+ZiBpdCBjaGFuZ2VzIHNvbWV0aGluZyBmb3IgbWUuIE1heWJlIGl0IHdvdWxkIGhlbHAgZm9yIHlv
+dSB0b28/Cj4KPiBTb21lIHF1aWNrIGZlZWRiYWNrIGFib3V0IHRoYXQ6Cj4gLSBwc2JmYl91bmFj
+Y2VsX29wcyBnaXZlcyBhIGNvcnJlY3QgcmVzdWx0IHdoZXJlIHRoZSBzY3JvbGxpbmcgYXJlYSBp
+cyBib3VuZAo+ICAgdG8gdGhlIHNtYWxsZXN0IGRpc3BsYXk7CgpZZXMsIHRoaXMgYWxzbyB3b3Jr
+cyBjb3JyZWN0bHkgZm9yIG1lLgoKPiAtIHBzYmZiX3JvbGxfb3BzIGdpdmVzIGEgd29ya2luZyBz
+Y3JvbGxpbmcgYnV0IGJvdW5kIHRvIHRoZSBsYXJnZXN0IGRpc3BsYXkKPiAgIChzbyB0aGUgY3Vy
+cmVudCBzaGVsbCBsaW5lIGJlY29tZXMgaW52aXNpYmxlIG9uIHRoZSBzbWFsbGVzdCBvbmUgZXZl
+bnR1YWxseSk7CgpJdCdzIG5vdCBwYW5uaW5nIGF0IGFsbCBmb3IgbWUuIEkgbmV2ZXIgcmVhbGx5
+IGZvdW5kIGd0dCByb2xsaW5nIHRvIGJlCnVzZWZ1bC4gSXQncyBhIG5lYXQgdHJpY2sgYnV0IEkg
+ZGlkbid0IGhhdmUgYSBwcm9ibGVtIHdpdGggY29uc29sZQpzY3JvbGxpbmcgc3BlZWQgdG8gYmVn
+aW4gd2l0aC4gSSBtaWdodCBqdXN0IHJlbW92ZSBpdC4KCj4gLSBwc2JmYl9vcHMgZ2l2ZXMgdGhl
+IHNhbWUgaXNzdWUgYXMgYWJvdmUgYW5kIHNlZW1zIHRvIGFkZCBhcnRpZmFjdHMgb24gdG9wLgoK
+RGlkIHlvdSB0cnkgdGhpcyBvbiBDRFY/IFRoZXJlJ3Mgb25seSAyRCBhY2NlbGVyYXRpb24gb24g
+UG91bHNibyBhbmQgT2FrdHJhaWwuCgo+Cj4gVGhlcmUncyBwcm9iYWJseSBsaW1pdGVkIGludGVy
+ZXN0IGluIHdvcmtpbmcgb24gdGhhdCBhc3BlY3Qgb24gb3VyIHNpZGUgdGhvdWdoLgo+IEknZCBi
+ZSBpbnRlcmVzdGVkIHRvIGtub3cgaWYgaXQgYWZmZWN0cyB0aGUgaXNzdWUgeW91J3JlIHNlZWlu
+ZyB0aG91Z2guCgpGb2N1cyBvbiB5b3VyIHJlcXVpcmVtZW50cyBhbmQgSSdsbCBsb29rIGF0IHRo
+ZSByZXN0LgoKLVBhdHJpawoKPgo+IENoZWVycywKPgo+IFBhdWwKPgo+ID4gSSBzdXNwZWN0IHRo
+YXQgdGhlIGdlbmVyaWMgaW1wbGVtZW50YXRpb24gaXMgYWxyZWFkeSBidWxsZXQtcHJvb2YgZm9y
+IHRoZXNlCj4gPiBraW5kcyBvZiB1c2UgY2FzZS4KPiA+Cj4gPiBDaGVlcnMgYW5kIHRoYW5rcyBm
+b3IgdGhlIGZlZWRiYWNrLAo+ID4KPiA+IFBhdWwKPiA+Cj4gPiA+Cj4gPiA+ID4gICAgICAgICAg
+ICAgICAgICBzaXplcy0+c3VyZmFjZV9icHAgPSAxNjsKPiA+ID4gPiAgICAgICAgICAgICAgICAg
+IHNpemVzLT5zdXJmYWNlX2RlcHRoID0gMTY7Cj4gPiA+ID4gICAgICAgICAgfQo+ID4gPiA+IC0t
+Cj4gPiA+ID4gMi4yMy4wCj4gPiA+ID4KPiA+Cj4gPiAtLQo+ID4gUGF1bCBLb2NpYWxrb3dza2ks
+IEJvb3RsaW4KPiA+IEVtYmVkZGVkIExpbnV4IGFuZCBrZXJuZWwgZW5naW5lZXJpbmcKPiA+IGh0
+dHBzOi8vYm9vdGxpbi5jb20KPgo+Cj4KPiAtLQo+IFBhdWwgS29jaWFsa293c2tpLCBCb290bGlu
+Cj4gRW1iZWRkZWQgTGludXggYW5kIGtlcm5lbCBlbmdpbmVlcmluZwo+IGh0dHBzOi8vYm9vdGxp
+bi5jb20KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
+LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
