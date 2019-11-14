@@ -2,20 +2,20 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C64BFFBCCF
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 01:03:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18339FBCE1
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 01:10:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ADD26EEA2;
-	Thu, 14 Nov 2019 00:03:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5E836EEA6;
+	Thu, 14 Nov 2019 00:10:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B2FD6EEA2
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 00:03:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 002A46EEA6
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 00:10:40 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 205517] nouveau MMIO read of 00000000 FAULT at 619444
-Date: Thu, 14 Nov 2019 00:03:19 +0000
+Date: Thu, 14 Nov 2019 00:10:40 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -30,8 +30,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: blocked
-Message-ID: <bug-205517-2300-KivPUuOCWK@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-205517-2300-K0mKggLnBh@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205517-2300@https.bugzilla.kernel.org/>
 References: <bug-205517-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -56,16 +56,12 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU1MTcKClRvZGQg
-QnJhbmR0ICh0b2RkLmUuYnJhbmR0QGxpbnV4LmludGVsLmNvbSkgY2hhbmdlZDoKCiAgICAgICAg
-ICAgV2hhdCAgICB8UmVtb3ZlZCAgICAgICAgICAgICAgICAgICAgIHxBZGRlZAotLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tCiAgICAgICAgICAgICBCbG9ja3N8ICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IHwxNzgyMzEKCgpSZWZlcmVuY2VkIEJ1Z3M6CgpodHRwczovL2J1Z3ppbGxhLmtlcm5lbC5vcmcv
-c2hvd19idWcuY2dpP2lkPTE3ODIzMQpbQnVnIDE3ODIzMV0gTWV0YS1idWc6IExpbnV4IHN1c3Bl
-bmQtdG8tbWVtIGFuZCBmcmVlemUgcGVyZm9ybWFuY2Ugb3B0aW1pemF0aW9uCi0tIApZb3UgYXJl
-IHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWdu
-ZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVs
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU1MTcKCi0tLSBD
+b21tZW50ICMxIGZyb20gVG9kZCBCcmFuZHQgKHRvZGQuZS5icmFuZHRAbGludXguaW50ZWwuY29t
+KSAtLS0KQ3JlYXRlZCBhdHRhY2htZW50IDI4NTg5NQogIC0tPiBodHRwczovL2J1Z3ppbGxhLmtl
+cm5lbC5vcmcvYXR0YWNobWVudC5jZ2k/aWQ9Mjg1ODk1JmFjdGlvbj1lZGl0Cm90Y3BsLWRlbGwt
+cDU1MTAteGVvbi0xX21lbS5odG1sCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJl
+Y2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
