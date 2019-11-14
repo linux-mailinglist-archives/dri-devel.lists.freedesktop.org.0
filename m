@@ -1,45 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14987FC97D
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 16:04:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23ADCFCABB
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 17:27:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C1DB6E216;
-	Thu, 14 Nov 2019 15:04:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C4C46ECAC;
+	Thu, 14 Nov 2019 16:27:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 271F96E216
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 15:04:50 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AC94C6ECAA
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 16:27:48 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id A97E2720E2; Thu, 14 Nov 2019 16:27:48 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205523] AMDGPU display lockup during boot with 5.4 RC on Ryzen
- 2700u
-Date: Thu, 14 Nov 2019 15:04:49 +0000
-X-Bugzilla-Reason: None
+Subject: [Bug 109628] WARNING at dcn10_hw_sequencer.c:868
+ dcn10_verify_allow_pstate_change_high()
+Date: Thu, 14 Nov 2019 16:27:48 +0000
+X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Who: malkovjohnny@ukr.net
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-205523-2300-onX9aBcWfo@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205523-2300@https.bugzilla.kernel.org/>
-References: <bug-205523-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109628-502-sGM1Jzqev2@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109628-502@http.bugs.freedesktop.org/>
+References: <bug-109628-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
- message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,21 +53,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0557204806=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU1MjMKCkFsZXgg
-RGV1Y2hlciAoYWxleGRldWNoZXJAZ21haWwuY29tKSBjaGFuZ2VkOgoKICAgICAgICAgICBXaGF0
-ICAgIHxSZW1vdmVkICAgICAgICAgICAgICAgICAgICAgfEFkZGVkCi0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0KICAgICAgICAgICAgICAgICBDQ3wgICAgICAgICAgICAgICAgICAgICAgICAgICAgfGFsZXhk
-ZXVjaGVyQGdtYWlsLmNvbQoKLS0tIENvbW1lbnQgIzIgZnJvbSBBbGV4IERldWNoZXIgKGFsZXhk
-ZXVjaGVyQGdtYWlsLmNvbSkgLS0tCkRvZXMgZGlzYWJsaW5nIHRoZSBJT01NVSBoZWxwPyAgU2V0
-IGlvbW11PW9mZiBvciBpb21tdT1wdCBvbiB0aGUga2VybmVsIGNvbW1hbmQKbGluZS4KCi0tIApZ
-b3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUg
-YXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVs
+
+--===============0557204806==
+Content-Type: multipart/alternative; boundary="15737488683.EBA21aea.16076"
+Content-Transfer-Encoding: 7bit
+
+
+--15737488683.EBA21aea.16076
+Date: Thu, 14 Nov 2019 16:27:48 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109628
+
+--- Comment #35 from peter m <malkovjohnny@ukr.net> ---
+updated kernel to 5.3.11-200.fc30, problem still exists
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15737488683.EBA21aea.16076
+Date: Thu, 14 Nov 2019 16:27:48 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - WARNING at dcn10_hw_sequencer.c:868 dcn10_verify_allow_ps=
+tate_change_high()"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109628#c35">Comme=
+nt # 35</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - WARNING at dcn10_hw_sequencer.c:868 dcn10_verify_allow_ps=
+tate_change_high()"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109628">bug 10962=
+8</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+malkovjohnny&#64;ukr.net" title=3D"peter m &lt;malkovjohnny&#64;ukr.net&gt;=
+"> <span class=3D"fn">peter m</span></a>
+</span></b>
+        <pre>updated kernel to 5.3.11-200.fc30, problem still exists</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15737488683.EBA21aea.16076--
+
+--===============0557204806==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0557204806==--
