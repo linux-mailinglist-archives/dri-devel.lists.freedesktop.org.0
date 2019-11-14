@@ -2,20 +2,20 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BB8FFC01D
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 07:16:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FEDCFC01E
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 07:16:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 718226E136;
-	Thu, 14 Nov 2019 06:16:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4132D6E176;
+	Thu, 14 Nov 2019 06:16:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55DDC6E136
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 06:16:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BE366E176
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 06:16:51 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 205521] 5.3.11 update broke AMDGPU Raven Ridge
-Date: Thu, 14 Nov 2019 06:16:43 +0000
+Date: Thu, 14 Nov 2019 06:16:51 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -30,8 +30,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-205521-2300-J8LYW3gpob@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cf_regression
+Message-ID: <bug-205521-2300-Jp5fuq6tGQ@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205521-2300@https.bugzilla.kernel.org/>
 References: <bug-205521-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -56,13 +56,13 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU1MjEKCi0tLSBD
-b21tZW50ICMxIGZyb20gTHV5YSBUc2hpbWJhbGFuZ2EgKGx1eWFAZmVkb3JhcHJvamVjdC5vcmcp
-IC0tLQpDcmVhdGVkIGF0dGFjaG1lbnQgMjg1OTA1CiAgLS0+IGh0dHBzOi8vYnVnemlsbGEua2Vy
-bmVsLm9yZy9hdHRhY2htZW50LmNnaT9pZD0yODU5MDUmYWN0aW9uPWVkaXQKZG1lc2cgd2l0aCB0
-aGUgbGF0ZXN0IGdpdCBzbmFwc2hvdAoKUmVjZW50IGtlcm5lbCBnaXQgc25hcHNob3QgaXMgYWxz
-byBhZmZlY3RlZDoKCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91
-IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU1MjEKCkx1eWEg
+VHNoaW1iYWxhbmdhIChsdXlhQGZlZG9yYXByb2plY3Qub3JnKSBjaGFuZ2VkOgoKICAgICAgICAg
+ICBXaGF0ICAgIHxSZW1vdmVkICAgICAgICAgICAgICAgICAgICAgfEFkZGVkCi0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0KICAgICAgICAgUmVncmVzc2lvbnxObyAgICAgICAgICAgICAgICAgICAgICAgICAg
+fFllcwoKLS0gCllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdh
+dGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9kcmktZGV2ZWw=
