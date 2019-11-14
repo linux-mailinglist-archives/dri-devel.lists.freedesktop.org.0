@@ -2,55 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE954FBEF4
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 06:05:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C19A2FBF66
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 06:23:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4CBB6E069;
-	Thu, 14 Nov 2019 05:05:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C11686E10A;
+	Thu, 14 Nov 2019 05:23:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DD116E069
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 05:05:32 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id i10so4900259wrs.7
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Nov 2019 21:05:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TIfx9HX/0UAa6PmFFnTOPCub7knX2HMiJ1bFYq+jFoc=;
- b=mw7v5pWjSfiuPuT1VQ3bmjxCELQZ8AJOHcWj2YBC3/ak7Ns8s44QCCIwsnThuwOPRp
- P5DSxr9+jrmPseVFysIh2w3lm/rsBskYEqgTo44SGl4UPQaapj2BPEO/fYM4wh7czBe5
- ViIFvw6lTUM/E7tf3GgyvNM5cIE94GfZHlSCfexLMeBs3rIZRussEIGbKYblFx3xzRyk
- Dx/F4x433rjqsX1R88noMXaYbfDVD94SXpnKihIq4k96ng/Km+sVRHuZs6yaaDUMFwvo
- KYYtiiakkskb08Qze5hZR7zw4/QQfa1Tq9CnyNFzTPe0zvdPawjJj00CFd8o+EclFFBm
- D9qA==
-X-Gm-Message-State: APjAAAXHIqMw4UpNHAmPmxKz9Z2CRSeBzau8bsqV3SfOryuVcwMF2kJ5
- khmhhnTJSzjbzVZD5mJKF0FksXf7yTFbHrBoW4n7S/2L
-X-Google-Smtp-Source: APXvYqylnv5/ljqaq3pRrwkm0nAIaP4lTnRczIUIcYjFphwyinyYwveVsvnZYIbEkJBLvCDMwKlWKseaQLUv7uIqxxM=
-X-Received: by 2002:a05:6000:18c:: with SMTP id
- p12mr6019050wrx.154.1573707930975; 
- Wed, 13 Nov 2019 21:05:30 -0800 (PST)
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A1F56E116
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 05:23:12 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 47D8yM28wwz9s7T;
+ Thu, 14 Nov 2019 16:23:07 +1100 (AEDT)
+Date: Thu, 14 Nov 2019 16:23:06 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Jason Gunthorpe <jgg@mellanox.com>, Dave Airlie <airlied@linux.ie>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the hmm tree with the drm tree
+Message-ID: <20191114162306.6d66211b@canb.auug.org.au>
 MIME-Version: 1.0
-References: <7251833ab9439f4e34ba3fb2c5daf6c9e01b6551.1573698927.git.sbobroff@linux.ibm.com>
-In-Reply-To: <7251833ab9439f4e34ba3fb2c5daf6c9e01b6551.1573698927.git.sbobroff@linux.ibm.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 14 Nov 2019 00:05:19 -0500
-Message-ID: <CADnq5_PGbOsLK11_xEvgKekX0nv_c3+RKxbZF+uQHYbraDQPsQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/1] drm/radeon: fix bad DMA from INTERRUPT_CNTL2
-To: Sam Bobroff <sbobroff@linux.ibm.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=TIfx9HX/0UAa6PmFFnTOPCub7knX2HMiJ1bFYq+jFoc=;
- b=iVyqr7e75kPveHxYix2m/j32avD5YL63FK8UEEpx8z0+8CP4WE95Lozvqqwj/FyX2N
- xQsHW22FmDv89GLdB7S5fZwEC+bhpf3EbxEF6YeF3GvbKlNMnsqj6mZWZetEQ+v54L2N
- 0OKTQ3BZW0sei1QmLPRUTlAg3nDehkjxjjiESmd9tOMkqKXVxzMme8ITu/5VO2edkkKZ
- IIIyKWntFU+UqY2KYMfg8i2+pSRaL8N2UGpt077FhWvWhNZVZXYVLRnqwslSNetiQtba
- Osab68ph49AaZfmS7UeibvSjhkKamdJwWUBlcj4dO8Vo0wJHAk7GGy4aCAkXwDI50ajn
- y1xQ==
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=canb.auug.org.au; s=201702; t=1573708989;
+ bh=kVIA/Cvj5N5Onr6PfKTRRp26lzLZ0YxhUn1dPy3BKlY=;
+ h=Date:From:To:Cc:Subject:From;
+ b=nMldFydGhuVjvGJGKU6txsB3yxCB+oekEoTQPGaG8onaylLfdxyBULpH9RK+GWqgf
+ NPtn6IUmZ4KoqJebJJUmINF8iRjQnDW+em2wlSChhJaf5llQSjN8L7SvtyNwWzs5hE
+ su6T+GhuMLaXhQo9HBkUxsY1LLc4Ruauo+pf+RaZLIQ/GQZ2mFn/IUjo6mt6X6B8RX
+ 5/JCyyi6TFTAf/t70iryAdxMzQmsNqHPdTOzWmywJ/OLCkt6wKTXT07e2q5bTc9ihR
+ 9G8WN0Ur1+SMtEvK7G83ASGhe8c77yY6/HzbZwjTbll9AkF7lf0if1a5CQK4kvnnzu
+ pX2XGhdYzwJmw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,67 +47,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============0954738713=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBOb3YgMTMsIDIwMTkgYXQgOTo1MyBQTSBTYW0gQm9icm9mZiA8c2JvYnJvZmZAbGlu
-dXguaWJtLmNvbT4gd3JvdGU6Cj4KPiBDdXJyZW50bHksIGJpbmRpbmcgdGhlIHJhZGVvbiBkcml2
-ZXIgdG8gYSBSYWRlb24gRmlyZVBybyAoUENJCj4gMTAwMjo2OGYyKSB0aGF0IGhhcyBiZWVuIHBh
-c3NlZCB0aHJvdWdoIHRvIGEgZ3Vlc3Qgb24gYSBQb3dlcjggbWFjaGluZQo+IGNhdXNlcyBhIGJh
-ZCBETUEgcmVhZCB3aGljaCBjYXVzZXMgdGhlIGRldmljZSB0byBiZSBmcm96ZW4sIGxlYWRpbmcg
-dG8KPiB0aGUgZHJpdmVyIGZhaWxpbmcgdG8gYmluZCBhbmQgb3RoZXIgcHJvYmxlbXMuCj4KPiBU
-aGUgYmFkIERNQSBpcyB0byB0aGUgYWRkcmVzcyB3cml0dGVuIGludG8gdGhlIElOVEVSUlVQVF9D
-TlRMMgo+IHJlZ2lzdGVyIGR1cmluZyByNjAwX2lycV9pbml0KCksIGFuZCBpdCBjYW4gYmUgZml4
-ZWQgYnkgc3Vic3RpdHV0aW5nIGEKPiB2YWxpZCAoZHVtbXkpIERNQSBhZGRyZXNzLgoKVGhlIHBh
-dGNoIGlzIGNvcnJlY3QuICBJTlRFUlJVUFRfQ05UTDIgdGFrZXMgYSBidXMgYWRkcmVzcyBub3Qg
-YSBHUFUKTUMgYWRkcmVzcy4gIENhcmUgdG8gdXBkYXRlIHNpLmMgYW5kIGNpay5jIGFzIHdlbGw/
-CgpUaGFua3MsCgpBbGV4Cgo+IC0tLQo+IEhlbGxvLAo+Cj4gSSd2ZSBiZWVuIHRyYWNraW5nIGRv
-d24gYSBidWcsIGRlc2NyaWJlZCBhYm92ZSwgYW5kIEkndmUgYmVlbiBhYmxlIHRvIGhhY2sKPiBp
-biBhIHdvcmthcm91bmQgYnV0IEkgY291bGQgdXNlIHNvbWUgaGVscCB1bmRlcnN0YW5kaW5nIGhv
-dyB0byBmaXggaXQKPiBwcm9wZXJseS4KPgo+IFdoYXQgc2VlbXMgdG8gYmUgaGFwcGVuaW5nIGlz
-IHRoYXQgd2hlbiB0aGUgZmlyc3QgQ1JUQyBpcyBlbmFibGVkICh3aGVuCj4gZXZlcmdyZWVuX2ly
-cV9zZXQoKSB3cml0ZXMgdG8gR1JQSF9JTlRfQ09OVFJPTCkgdGhlIGRldmljZSBpbW1lZGlhdGVs
-eQo+IHBlcmZvcm1zIGEgRE1BIHJlYWQgZnJvbSB0aGUgYWRkcmVzcyB0aGF0J3MgYmVlbiBwcm9n
-cmFtbWVkIGludG8KPiBJTlRFUlJVUFRfQ05UTDIgYnkgcjYwMF9pcnFfaW5pdCgpLgo+Cj4gVGhh
-dCBhZGRyZXNzIGlzbid0IGEgdmFsaWQgRE1BIGFkZHJlc3MsIHNvIGl0IHRyaWdnZXJzIHRoZSBw
-cm9ibGVtLiBUaGUKPiBhZGRyZXNzIGNvbWVzIGZyb20gcmRldi0+aWguZ3B1X2FkZHIsIHdoaWNo
-IHNlZW1zIHRvIGJlIGEgJ2xpbmVhciBHUFUKPiBhZGRyZXNzJywgY2FsY3VsYXRlZCBmcm9tIHRo
-ZSBzaXplIG9mIHRoZSBjYXJkJ3MgVlJBTS4gSXQgZGVmaW5pdGVseSBoYXNuJ3QKPiBjb21lIGZy
-b20gYSBETUEgbWFwcGluZyBvcGVyYXRpb24uCj4KPiBCYXNlZCBvbiB0aGUgbmVhcmJ5IGNvbW1l
-bnQsICJzZXQgZHVtbXkgcmVhZCBhZGRyZXNzIHRvIHJpbmcgYWRkcmVzcyIsIEkKPiB0cmllZCBz
-dWJzdGl0dXRpbmcgYSB2YWxpZCBkdW1teSBETUEgYWRkcmVzcyAodXNpbmcgdGhlIGFkZHJlc3Mg
-bWFwcGVkIHRvCj4gdGhlICdkdW1teSBwYWdlJyB1c2VkIGJ5IHRoZSBHQVJUKSBhbmQgaXQgZG9l
-cyBwcmV2ZW50IHRoZSBwcm9ibGVtLgo+IEhvd2V2ZXIsIEkgZG9uJ3Qga25vdyB3aGF0IHRoYXQg
-cmVnaXN0ZXIgaXMgc3VwcG9zZWQgdG8gZG8gb3Igd2hhdAo+IGluZm9ybWF0aW9uIHRoZSBkZXZp
-Y2UgbWlnaHQgYmUgY29tbXVuaWNhdGluZyB2aWEgdGhhdCBETUEsIHNvIHByZXN1bWFibHkKPiBp
-dCBicmVha3Mgc29tZXRoaW5nLgo+Cj4gTm90ZTogSSBoYXZlIHRyaWVkIGxvYWRpbmcgdGhlIHBh
-dGNoZWQgZHJpdmVyIHdpdGggInRlc3Q9MSIgYW5kIGFsbCB0aGUKPiBzZWxmIHRlc3RzIHN1Y2Nl
-ZWQuCj4KPiBDb3VsZCBhbnlvbmUgb2ZmZXIgc29tZSBpbnNpZ2h0IGludG8gdGhpcyBwcm9ibGVt
-Pwo+IFdoYXQgZG9lcyB0aGF0IHJlZ2lzdGVyIGRvPyBXaGF0IGtpbmQgb2YgYWRkcmVzcyBpcyBp
-dCBleHBlY3Rpbmc/Cj4gV2hhdCBtaWdodCBiZSBhIGdvb2Qgd2F5IG9mIGZpeGluZyBpdD8KPgo+
-IFRoYW5rcyBpbiBhZHZhbmNlLAo+IFNhbS4KPgo+ICBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3I2
-MDAuYyB8IDQgKystLQo+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0
-aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcjYwMC5jIGIv
-ZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yNjAwLmMKPiBpbmRleCBlOTM3Y2MwMTkxMGQuLjAzM2Jj
-NDY2YTg2MiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3I2MDAuYwo+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcjYwMC5jCj4gQEAgLTM2OTYsOCArMzY5Niw4IEBA
-IGludCByNjAwX2lycV9pbml0KHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2KQo+ICAgICAgICAg
-fQo+Cj4gICAgICAgICAvKiBzZXR1cCBpbnRlcnJ1cHQgY29udHJvbCAqLwo+IC0gICAgICAgLyog
-c2V0IGR1bW15IHJlYWQgYWRkcmVzcyB0byByaW5nIGFkZHJlc3MgKi8KPiAtICAgICAgIFdSRUcz
-MihJTlRFUlJVUFRfQ05UTDIsIHJkZXYtPmloLmdwdV9hZGRyID4+IDgpOwo+ICsgICAgICAgLyog
-c2V0IGR1bW15IHJlYWQgYWRkcmVzcyB0byBkdW1teSBwYWdlIGFkZHJlc3MgKi8KPiArICAgICAg
-IFdSRUczMihJTlRFUlJVUFRfQ05UTDIsIHJkZXYtPmR1bW15X3BhZ2UuYWRkciA+PiA4KTsKPiAg
-ICAgICAgIGludGVycnVwdF9jbnRsID0gUlJFRzMyKElOVEVSUlVQVF9DTlRMKTsKPiAgICAgICAg
-IC8qIElIX0RVTU1ZX1JEX09WRVJSSURFPTAgLSBkdW1teSByZWFkIGRpc2FibGVkIHdpdGggbXNp
-LCBlbmFibGVkIHdpdGhvdXQgbXNpCj4gICAgICAgICAgKiBJSF9EVU1NWV9SRF9PVkVSUklERT0x
-IC0gZHVtbXkgcmVhZCBjb250cm9sbGVkIGJ5IElIX0RVTU1ZX1JEX0VOCj4gLS0KPiAyLjIyLjAu
-MjE2LmcwMGEyYTk2ZmM5Cj4KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVs
+--===============0954738713==
+Content-Type: multipart/signed; boundary="Sig_/FWnSSU+bu4ka/a7xyuFdAf3";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/FWnSSU+bu4ka/a7xyuFdAf3
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi all,
+
+Today's linux-next merge of the hmm tree got a conflict in:
+
+  drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
+
+between commit:
+
+  4d8e54d2b9d3 ("drm/amdgpu/mn: fix documentation for amdgpu_mn_read_lock")
+
+from the drm tree and commit:
+
+  a2849b5dcc9e ("drm/amdgpu: Use mmu_interval_insert instead of hmm_mirror")
+
+from the hmm tree.
+
+I fixed it up (the latter removed the code updated by the former, so I
+did that) and can carry the fix as necessary. This is now fixed as far as
+linux-next is concerned, but any non trivial conflicts should be mentioned
+to your upstream maintainer when your tree is submitted for merging.
+You may also want to consider cooperating with the maintainer of the
+conflicting tree to minimise any particularly complex conflicts.
+
+
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/FWnSSU+bu4ka/a7xyuFdAf3
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl3M5LoACgkQAVBC80lX
+0GxjAgf8CgzHIOinx88yr2qPH9/zJRciNOlKcHtNcS186Q9JD1D1fxIaS+OqS4R3
+dGLrhg++Gpt3MDh2iJ9g7mEN1Fb4OR16HZXBvlxITtEe9ll6uFJhRWbKLTf1lmdF
+xgtgwvZzhed5WlH8/C2z+WiK+RDOf49brkAoJn6aUDCx6oRHGWERDP2wqgwWkIHP
+znQ/xzVQLpXzy251vLCe9EwvaJstVQctc83YWCAG2uPlTl/eyACn+MSVJVk8hBWI
+pbg24L55a3GvQutrPvHmFjS9Mnf3ciIv3MF/V9tDUo0wH0IgPvHM0leTDS5pp4MP
+xFNm97dTSx/viOEfg3rUZb7Wm04K4w==
+=Bxwk
+-----END PGP SIGNATURE-----
+
+--Sig_/FWnSSU+bu4ka/a7xyuFdAf3--
+
+--===============0954738713==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0954738713==--
