@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C57FCF08
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 21:01:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 861B1FCF0A
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 21:02:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C05F088DA9;
-	Thu, 14 Nov 2019 20:01:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1847B6E3EB;
+	Thu, 14 Nov 2019 20:02:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 355966E3EB
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 20:01:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 70A0E6EF23
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 20:02:20 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 31F70720E2; Thu, 14 Nov 2019 20:01:52 +0000 (UTC)
+ id 6DF03720E2; Thu, 14 Nov 2019 20:02:20 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 112288] Blank display on Ubuntu 19.10 on Ryzen 3 2200G and
  Ryzen 5 2400G APUs
-Date: Thu, 14 Nov 2019 20:01:52 +0000
+Date: Thu, 14 Nov 2019 20:02:20 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -28,14 +28,14 @@ X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: major
-X-Bugzilla-Who: mortenkjeldgaard@gmail.com
+X-Bugzilla-Who: alexdeucher@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-112288-502-2K5mM26EkE@http.bugs.freedesktop.org/>
+Message-ID: <bug-112288-502-ukoiupbJ1W@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-112288-502@http.bugs.freedesktop.org/>
 References: <bug-112288-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1647272064=="
+Content-Type: multipart/mixed; boundary="===============0316442398=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1647272064==
-Content-Type: multipart/alternative; boundary="15737617121.9fea.31525"
+--===============0316442398==
+Content-Type: multipart/alternative; boundary="15737617402.A91E849B1.31890"
 Content-Transfer-Encoding: 7bit
 
 
---15737617121.9fea.31525
-Date: Thu, 14 Nov 2019 20:01:52 +0000
+--15737617402.A91E849B1.31890
+Date: Thu, 14 Nov 2019 20:02:20 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,19 +73,19 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D112288
 
---- Comment #2 from mortenkjeldgaard@gmail.com ---
-(In reply to Alex Deucher from comment #1)
-> Can you bisect?
-
-I am not a developer, just a user. All I can tell you is that the problem
-arises when upgrading Ubuntu from 19.04 to 19.10.
+--- Comment #3 from Alex Deucher <alexdeucher@gmail.com> ---
+from your dmesg output:
+[    1.094054] [drm:amdgpu_init [amdgpu]] *ERROR* VGACON disables amdgpu ke=
+rnel
+modesetting.
+Did you enable vga console?
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15737617121.9fea.31525
-Date: Thu, 14 Nov 2019 20:01:52 +0000
+--15737617402.A91E849B1.31890
+Date: Thu, 14 Nov 2019 20:02:20 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -103,8 +103,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - Blank display on Ubuntu 19.10 on Ryzen 3 2200G and Ryzen =
 5 2400G APUs"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112288#c2">Commen=
-t # 2</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112288#c3">Commen=
+t # 3</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Blank display on Ubuntu 19.10 on Ryzen 3 2200G and Ryzen =
@@ -112,15 +112,14 @@ t # 2</a>
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112288">bug 11228=
 8</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-mortenkjeldgaard&#64;gmail.com" title=3D"mortenkjeldgaard&#64;gmail.com">mo=
-rtenkjeldgaard&#64;gmail.com</a>
+alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
+com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
 </span></b>
-        <pre>(In reply to Alex Deucher from <a href=3D"show_bug.cgi?id=3D11=
-2288#c1">comment #1</a>)
-<span class=3D"quote">&gt; Can you bisect?</span >
-
-I am not a developer, just a user. All I can tell you is that the problem
-arises when upgrading Ubuntu from 19.04 to 19.10.</pre>
+        <pre>from your dmesg output:
+[    1.094054] [drm:amdgpu_init [amdgpu]] *ERROR* VGACON disables amdgpu ke=
+rnel
+modesetting.
+Did you enable vga console?</pre>
         </div>
       </p>
 
@@ -134,9 +133,9 @@ arises when upgrading Ubuntu from 19.04 to 19.10.</pre>
     </body>
 </html>=
 
---15737617121.9fea.31525--
+--15737617402.A91E849B1.31890--
 
---===============1647272064==
+--===============0316442398==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -146,4 +145,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1647272064==--
+--===============0316442398==--
