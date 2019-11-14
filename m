@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0D08FCF65
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 21:15:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99362FCF91
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 21:17:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E2F36EF2C;
-	Thu, 14 Nov 2019 20:15:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B49926E3F5;
+	Thu, 14 Nov 2019 20:17:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E09206EF2C
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 20:14:59 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 83FCC6E3F5
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 20:17:19 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 7C5EB720E2; Thu, 14 Nov 2019 20:17:19 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205523] AMDGPU display lockup during boot with 5.4 RC on Ryzen
- 2700u
-Date: Thu, 14 Nov 2019 20:14:53 +0000
-X-Bugzilla-Reason: None
+Subject: [Bug 112288] Blank display on Ubuntu 19.10 on Ryzen 3 2200G and
+ Ryzen 5 2400G APUs
+Date: Thu, 14 Nov 2019 20:17:19 +0000
+X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: briancschott@gmail.com
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: alexdeucher@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205523-2300-PN1hEVWMW5@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205523-2300@https.bugzilla.kernel.org/>
-References: <bug-205523-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
+Message-ID: <bug-112288-502-tyJJme2CWP@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-112288-502@http.bugs.freedesktop.org/>
+References: <bug-112288-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
- message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,15 +53,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1902583468=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU1MjMKCi0tLSBD
-b21tZW50ICMzIGZyb20gYnJpYW5jc2Nob3R0QGdtYWlsLmNvbSAtLS0KImlvbW11PW9mZiIgc2Vl
-bXMgdG8gd29yaywgImlvbW11PXB0IiBkb2VzIG5vdC4KCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0
-aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1
-Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1902583468==
+Content-Type: multipart/alternative; boundary="15737626390.c83B5F1c1.2063"
+Content-Transfer-Encoding: 7bit
+
+
+--15737626390.c83B5F1c1.2063
+Date: Thu, 14 Nov 2019 20:17:19 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112288
+
+--- Comment #6 from Alex Deucher <alexdeucher@gmail.com> ---
+Do any of the display connectors work properly?  If so which?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15737626390.c83B5F1c1.2063
+Date: Thu, 14 Nov 2019 20:17:19 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Blank display on Ubuntu 19.10 on Ryzen 3 2200G and Ryzen =
+5 2400G APUs"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112288#c6">Commen=
+t # 6</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Blank display on Ubuntu 19.10 on Ryzen 3 2200G and Ryzen =
+5 2400G APUs"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112288">bug 11228=
+8</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
+com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
+</span></b>
+        <pre>Do any of the display connectors work properly?  If so which?<=
+/pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15737626390.c83B5F1c1.2063--
+
+--===============1902583468==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1902583468==--
