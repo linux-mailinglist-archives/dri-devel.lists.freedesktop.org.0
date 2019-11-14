@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99362FCF91
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 21:17:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4191FCFA4
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 21:26:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B49926E3F5;
-	Thu, 14 Nov 2019 20:17:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0C9B6EF2D;
+	Thu, 14 Nov 2019 20:26:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 83FCC6E3F5
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 20:17:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1A5866EF2D
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 20:26:07 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7C5EB720E2; Thu, 14 Nov 2019 20:17:19 +0000 (UTC)
+ id 154AA720E6; Thu, 14 Nov 2019 20:26:07 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 112288] Blank display on Ubuntu 19.10 on Ryzen 3 2200G and
  Ryzen 5 2400G APUs
-Date: Thu, 14 Nov 2019 20:17:19 +0000
+Date: Thu, 14 Nov 2019 20:26:07 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -28,14 +28,14 @@ X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: major
-X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Who: mortenkjeldgaard@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-112288-502-tyJJme2CWP@http.bugs.freedesktop.org/>
+Message-ID: <bug-112288-502-7FIXcCt9Rx@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-112288-502@http.bugs.freedesktop.org/>
 References: <bug-112288-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1902583468=="
+Content-Type: multipart/mixed; boundary="===============2021065176=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1902583468==
-Content-Type: multipart/alternative; boundary="15737626390.c83B5F1c1.2063"
+--===============2021065176==
+Content-Type: multipart/alternative; boundary="15737631670.6AbCEB08.3920"
 Content-Transfer-Encoding: 7bit
 
 
---15737626390.c83B5F1c1.2063
-Date: Thu, 14 Nov 2019 20:17:19 +0000
+--15737631670.6AbCEB08.3920
+Date: Thu, 14 Nov 2019 20:26:07 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,15 +73,18 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D112288
 
---- Comment #6 from Alex Deucher <alexdeucher@gmail.com> ---
-Do any of the display connectors work properly?  If so which?
+--- Comment #7 from mortenkjeldgaard@gmail.com ---
+I am using the DVI port for my monitor. I can't test the VGA port on the
+motherboard because I don't have a VGA cable, and my monitor is old and doe=
+sn't
+have an HDMI port. Sorry.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15737626390.c83B5F1c1.2063
-Date: Thu, 14 Nov 2019 20:17:19 +0000
+--15737631670.6AbCEB08.3920
+Date: Thu, 14 Nov 2019 20:26:07 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -99,8 +102,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - Blank display on Ubuntu 19.10 on Ryzen 3 2200G and Ryzen =
 5 2400G APUs"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112288#c6">Commen=
-t # 6</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112288#c7">Commen=
+t # 7</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Blank display on Ubuntu 19.10 on Ryzen 3 2200G and Ryzen =
@@ -108,11 +111,14 @@ t # 6</a>
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112288">bug 11228=
 8</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
-com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
+mortenkjeldgaard&#64;gmail.com" title=3D"mortenkjeldgaard&#64;gmail.com">mo=
+rtenkjeldgaard&#64;gmail.com</a>
 </span></b>
-        <pre>Do any of the display connectors work properly?  If so which?<=
-/pre>
+        <pre>I am using the DVI port for my monitor. I can't test the VGA p=
+ort on the
+motherboard because I don't have a VGA cable, and my monitor is old and doe=
+sn't
+have an HDMI port. Sorry.</pre>
         </div>
       </p>
 
@@ -126,9 +132,9 @@ com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
     </body>
 </html>=
 
---15737626390.c83B5F1c1.2063--
+--15737631670.6AbCEB08.3920--
 
---===============1902583468==
+--===============2021065176==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -138,4 +144,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1902583468==--
+--===============2021065176==--
