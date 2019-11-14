@@ -2,154 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B05B1FBDAD
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 02:52:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F3EFBDBB
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 02:54:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64B1D6EEB6;
-	Thu, 14 Nov 2019 01:52:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B2216EEB8;
+	Thu, 14 Nov 2019 01:54:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
- (mail-eopbgr150078.outbound.protection.outlook.com [40.107.15.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3A136EEB6
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 01:52:36 +0000 (UTC)
-Received: from VI1PR08CA0225.eurprd08.prod.outlook.com (2603:10a6:802:15::34)
- by DB7PR08MB3260.eurprd08.prod.outlook.com (2603:10a6:5:21::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2430.24; Thu, 14 Nov
- 2019 01:52:34 +0000
-Received: from DB5EUR03FT012.eop-EUR03.prod.protection.outlook.com
- (2a01:111:f400:7e0a::202) by VI1PR08CA0225.outlook.office365.com
- (2603:10a6:802:15::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2451.22 via Frontend
- Transport; Thu, 14 Nov 2019 01:52:34 +0000
-Received-SPF: Fail (protection.outlook.com: domain of arm.com does not
- designate 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DB5EUR03FT012.mail.protection.outlook.com (10.152.20.161) with
- Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.2451.23 via Frontend Transport; Thu, 14 Nov 2019 01:52:34 +0000
-Received: ("Tessian outbound 081de437afc7:v33");
- Thu, 14 Nov 2019 01:52:33 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: b61edcd588a44897
-X-CR-MTA-TID: 64aa7808
-Received: from 14fd57746287.2 (cr-mta-lb-1.cr-mta-net [104.47.12.58])
- by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- 2325B6D5-DCC2-4E87-A59D-9CC5EE412737.1; 
- Thu, 14 Nov 2019 01:52:27 +0000
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
- (mail-db3eur04lp2058.outbound.protection.outlook.com [104.47.12.58])
- by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 14fd57746287.2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
- Thu, 14 Nov 2019 01:52:27 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ok3lthLvf4cobTLxumSB0EDsPrCMitQ7Xbego3YLIqv6s5iqIYx4t+Unj9j4q+tSuEX/yHP5TNDE/EuqSpDq411hYxn4jtRns86+hoZuEh94IVAgOt3IQ5/gTokGI/tRcHzfkeA6IerCu2fDFEQ/goFgZSFfvIcl5Sf3ATNRX0tNdcjUQ76kaKQJeyLtKmcIZI9xo9CiHvToe8P4LFCYQaDCArfnF0Us6oR2r+vNhViSad45uN+wdJja6YlnSSS7cnLfjF6gU9QEQVclOZA67Jfcpb1HJCHfZbwuGbWaczbIaTRlxH4qvV9AZSc6ta+mzdN+H1CfIGvOnL3ZxL8i1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AaDefa/B7b8aDSlTAK8ytE4pUkkQEf1m6MydGTTJaVc=;
- b=ibPSxOLyN7l/rHkW/5iVHW5epFDBxQSP9BSY0rSZUj2CXF14BANUEYy23xuvV4sFLPCwlHMtrVBuf7JY6E0VGnMB8gT4OeUFD9wupvZg5yxF945j+05LY0MndVcKeClqq0Xnbj/rnWK9o/OYpIwofoykBWc7FknWmoOtFTgg8dsOVsjEUxW0yhJiTcDY8HKTsWQd9o/rjk1fU+0yh0DBn+EN/iBMM1eXuZ7XL25g4So/GeCYoGwRtCoLnaZshZFyylbuZz4Sl7k0GSTbdz9IU4R9FGoX5TYBTi6Izxp+Y0Z3VTx6atf7DUEuhxMg/S2FrhKjMwRXYh7TnfwtSTRafQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-Received: from VE1PR08MB5006.eurprd08.prod.outlook.com (10.255.159.31) by
- VE1PR08MB4784.eurprd08.prod.outlook.com (10.255.115.204) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2430.20; Thu, 14 Nov 2019 01:52:26 +0000
-Received: from VE1PR08MB5006.eurprd08.prod.outlook.com
- ([fe80::a809:417a:faf3:61a7]) by VE1PR08MB5006.eurprd08.prod.outlook.com
- ([fe80::a809:417a:faf3:61a7%6]) with mapi id 15.20.2451.023; Thu, 14 Nov 2019
- 01:52:26 +0000
-From: "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCHv2 3/4] drm/komeda: use afbc helpers
-Thread-Topic: [PATCHv2 3/4] drm/komeda: use afbc helpers
-Thread-Index: AQHVk1z8xHY+gDfYy0i/iDKbshedr6eBdzAAgAbusQCAAKGHAIAA7isA
-Date: Thu, 14 Nov 2019 01:52:25 +0000
-Message-ID: <20191114015220.GA16456@jamwan02-TSP300>
-References: <2485717.1SzL54aMiy@e123338-lin>
- <20191104221228.3588-1-andrzej.p@collabora.com>
- <20191104221228.3588-4-andrzej.p@collabora.com>
- <20191108160954.GA17321@arm.com> <20191113020146.GB2746@jamwan02-TSP300>
- <20191113113954.GN23790@phenom.ffwll.local>
-In-Reply-To: <20191113113954.GN23790@phenom.ffwll.local>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mutt/1.10.1 (2018-07-13)
-x-originating-ip: [113.29.88.7]
-x-clientproxiedby: LO2P123CA0005.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:a6::17) To VE1PR08MB5006.eurprd08.prod.outlook.com
- (2603:10a6:803:113::31)
-Authentication-Results-Original: spf=none (sender IP is )
- smtp.mailfrom=james.qian.wang@arm.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: c09cbead-3372-45cc-70c8-08d768a55183
-X-MS-TrafficTypeDiagnostic: VE1PR08MB4784:|VE1PR08MB4784:|DB7PR08MB3260:
-X-MS-Exchange-PUrlCount: 1
-x-ms-exchange-transport-forked: True
-X-Microsoft-Antispam-PRVS: <DB7PR08MB3260D000A9385E06B19611E3B3710@DB7PR08MB3260.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-x-ms-oob-tlc-oobclassifiers: OLM:10000;OLM:10000;
-x-forefront-prvs: 02213C82F8
-X-Forefront-Antispam-Report-Untrusted: SFV:NSPM;
- SFS:(10009020)(7916004)(4636009)(376002)(136003)(396003)(39860400002)(366004)(346002)(199004)(189003)(53754006)(1076003)(7416002)(33716001)(14454004)(478600001)(5660300002)(966005)(6306002)(256004)(9686003)(14444005)(58126008)(6486002)(316002)(229853002)(305945005)(33656002)(7736002)(6436002)(6512007)(99286004)(8936002)(54906003)(4326008)(81166006)(52116002)(81156014)(76176011)(6246003)(8676002)(6116002)(25786009)(386003)(6916009)(2906002)(26005)(6506007)(3846002)(186003)(11346002)(486006)(86362001)(446003)(476003)(102836004)(71200400001)(71190400001)(66476007)(55236004)(66946007)(66556008)(66066001)(64756008)(66446008);
- DIR:OUT; SFP:1101; SCL:1; SRVR:VE1PR08MB4784;
- H:VE1PR08MB5006.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: arm.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: SXuJOfwUsKY/WM/KoiEnt56PF0njBU8dJzkpT72DG4PfOepTT3C0GthuTBCt/5WUqkvMHz0GPZxQtcJuM5GccrmmWtxVUVXPfkGsRgS4qUKnGKx+A/nnAOYx67TG7moHbzQI8aQJ0vSQ8+VsZ1q0v75s/S53C8dPF/qM0BfAd394T3wTQs/nzubc28Na5aJeaHJDtg0X0N3tA3sTAWvfdp5PF6zBq1jSvBJuch25DKFQMVO6ftHuhPhAOcCA5pqybNelhu4hi12lGfSaHbr0DfksUxZD2+BNyUE5II78lp895kwz2MoHQnetkBW1McDNNPhEtXKWMraF+G2B3qY3y+YXhlxWeykLK7JKFibhEjJBz11Qk7vLPxb5K8qKKuwqJOpmgLqH8JXpJ0XddMcO3qb5xQsVvrXohWP1WtzlmX42dINqgnB00pJXFwsj/N7/qQ2bOSAmnePV6fasVHjVU7bmwQZmAbGdhjj6iosG8uw=
-Content-ID: <3ADD614D554ECD48A0A061B62474F6DE@eurprd08.prod.outlook.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EBB996EEB8
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 01:54:28 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id E801C720E2; Thu, 14 Nov 2019 01:54:28 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 112266] [Navi] Pathfinder: Kingmaker is causing a GPU hang:
+ flip_done timed out error
+Date: Thu, 14 Nov 2019 01:54:28 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: shtetldik@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-112266-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB4784
-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=james.qian.wang@arm.com; 
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB5EUR03FT012.eop-EUR03.prod.protection.outlook.com
-X-Forefront-Antispam-Report: CIP:63.35.35.123; IPV:CAL; SCL:-1; CTRY:IE;
- EFV:NLI; SFV:NSPM;
- SFS:(10009020)(7916004)(4636009)(376002)(396003)(346002)(136003)(39860400002)(1110001)(339900001)(189003)(53754006)(199004)(14444005)(4326008)(6862004)(102836004)(5660300002)(70586007)(81166006)(478600001)(33656002)(8936002)(8676002)(81156014)(229853002)(23756003)(105606002)(6246003)(8746002)(66066001)(3846002)(6116002)(966005)(186003)(6486002)(316002)(47776003)(2906002)(6306002)(9686003)(6512007)(26826003)(126002)(486006)(25786009)(11346002)(1076003)(446003)(54906003)(33716001)(14454004)(76176011)(305945005)(70206006)(336012)(26005)(6506007)(386003)(58126008)(50466002)(99286004)(7736002)(86362001)(22756006)(476003)(76130400001)(356004);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DB7PR08MB3260;
- H:64aa7808-outbound-1.mta.getcheckrecipient.com; FPR:; SPF:Fail; LANG:en;
- PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; MX:1; A:1; 
-X-MS-Office365-Filtering-Correlation-Id-Prvs: e62a3690-6ba3-45a0-34cf-08d768a54c64
-NoDisclaimer: True
-X-Forefront-PRVS: 02213C82F8
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dVFcGekcB4obr8sPAIEYsu7u27PTu4VY0moUvO1iNIfmcmlJJVUSjUOvRw8Z8R4XP6t128i47XABZ+CLAMg52QDfw+NAjDL/zSKDYFuDegJz3FiTXcIJu57zJRsgftuNEBGW3rfPiEoYQN7jlNAza/lOBxktw6LHqgD1y2+5ZYMk0cXpEsB5DBOdiljm5YIvY7LdUoMMvwSj0Av9Gf6AzSBT0d0TrMTRgdy6Dx3Qi60/ppV6+Wj7E9P3bHU5V0YkzA+/lndY4zXlv1nSph4DPH1tfjDPpFktKxHuiX5vLhOBQP3WjIIPqprjs9ootcffEW0jpq3kva7ZZjZkLRi3JyHPHeDLMd/PALSMswmdeN2Q+devOuL1Yh6Q5F3REZQd8/5BARAevlJe5NckxGwZ+5Sudmj0Tv91ZeYbtZYK4DZsEUYmWb0dHLqY8DWEcHeDtx510l9Yg8I7rycDbAOWlMk3Iwx+w168oNub4fKckrI=
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2019 01:52:34.1915 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c09cbead-3372-45cc-70c8-08d768a55183
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
- Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR08MB3260
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AaDefa/B7b8aDSlTAK8ytE4pUkkQEf1m6MydGTTJaVc=;
- b=zFaMZNyZqeTViD2AA1wOuuzs0jiZ0evtl0LJ55kzGvQDRv1rfjQAgFyajpzZOSUMHAD+pBRde/iCYWiCLlGd/CEkq/SebKTyBlAPpjFFRHfh2Djt7vvwdRq8MC1rN48Fma7WVJglsMz/EK7N81xHWW7mqb1E+4wFsUyRBC0vcns=
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AaDefa/B7b8aDSlTAK8ytE4pUkkQEf1m6MydGTTJaVc=;
- b=zFaMZNyZqeTViD2AA1wOuuzs0jiZ0evtl0LJ55kzGvQDRv1rfjQAgFyajpzZOSUMHAD+pBRde/iCYWiCLlGd/CEkq/SebKTyBlAPpjFFRHfh2Djt7vvwdRq8MC1rN48Fma7WVJglsMz/EK7N81xHWW7mqb1E+4wFsUyRBC0vcns=
-X-Mailman-Original-Authentication-Results: spf=fail (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
- verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org; dmarc=none
- action=none header.from=arm.com;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -162,138 +52,622 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nd <nd@arm.com>, Mihail Atanassov <Mihail.Atanassov@arm.com>,
- "kernel@collabora.com" <kernel@collabora.com>, David Airlie <airlied@linux.ie>,
- Liviu Dudau <Liviu.Dudau@arm.com>,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
- "linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Ayan Halder <Ayan.Halder@arm.com>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1050725887=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBOb3YgMTMsIDIwMTkgYXQgMTI6Mzk6NTRQTSArMDEwMCwgRGFuaWVsIFZldHRlciB3
-cm90ZToKPiBPbiBXZWQsIE5vdiAxMywgMjAxOSBhdCAwMjowMTo1M0FNICswMDAwLCBqYW1lcyBx
-aWFuIHdhbmcgKEFybSBUZWNobm9sb2d5IENoaW5hKSB3cm90ZToKPiA+IE9uIEZyaSwgTm92IDA4
-LCAyMDE5IGF0IDA0OjA5OjU0UE0gKzAwMDAsIEF5YW4gSGFsZGVyIHdyb3RlOgo+ID4gPiBPbiBN
-b24sIE5vdiAwNCwgMjAxOSBhdCAxMToxMjoyN1BNICswMTAwLCBBbmRyemVqIFBpZXRyYXNpZXdp
-Y3ogd3JvdGU6Cj4gPiA+ID4gVGhlcmUgYXJlIGFmYmMgaGVscGVycyBhdmFpbGFibGUuCj4gPiA+
-ID4gCj4gPiA+ID4gU2lnbmVkLW9mZi1ieTogQW5kcnplaiBQaWV0cmFzaWV3aWN6IDxhbmRyemVq
-LnBAY29sbGFib3JhLmNvbT4KPiA+ID4gPiAtLS0KPiA+ID4gPiAgLi4uL2FybS9kaXNwbGF5L2tv
-bWVkYS9rb21lZGFfZm9ybWF0X2NhcHMuaCAgIHwgIDEgLQo+ID4gPiA+ICAuLi4vYXJtL2Rpc3Bs
-YXkva29tZWRhL2tvbWVkYV9mcmFtZWJ1ZmZlci5jICAgfCA0NCArKysrKysrLS0tLS0tLS0tLS0t
-Cj4gPiA+ID4gIDIgZmlsZXMgY2hhbmdlZCwgMTcgaW5zZXJ0aW9ucygrKSwgMjggZGVsZXRpb25z
-KC0pCj4gPiA+ID4gCj4gPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlz
-cGxheS9rb21lZGEva29tZWRhX2Zvcm1hdF9jYXBzLmggYi9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rp
-c3BsYXkva29tZWRhL2tvbWVkYV9mb3JtYXRfY2Fwcy5oCj4gPiA+ID4gaW5kZXggMzIyNzNjZjE4
-ZjdjLi42MDdlZWE4MGU2MGMgMTAwNjQ0Cj4gPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2Fy
-bS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfZm9ybWF0X2NhcHMuaAo+ID4gPiA+ICsrKyBiL2RyaXZl
-cnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRhX2Zvcm1hdF9jYXBzLmgKPiA+ID4g
-PiBAQCAtMzMsNyArMzMsNiBAQAo+ID4gPiA+ICAKPiA+ID4gPiAgI2RlZmluZSBBRkJDX1RIX0xB
-WU9VVF9BTElHTk1FTlQJOAo+ID4gPiA+ICAjZGVmaW5lIEFGQkNfSEVBREVSX1NJWkUJCTE2Cj4g
-PiA+ID4gLSNkZWZpbmUgQUZCQ19TVVBFUkJMS19BTElHTk1FTlQJCTEyOAo+ID4gPiA+ICAjZGVm
-aW5lIEFGQkNfU1VQRVJCTEtfUElYRUxTCQkyNTYKPiA+ID4gPiAgI2RlZmluZSBBRkJDX0JPRFlf
-U1RBUlRfQUxJR05NRU5UCTEwMjQKPiA+ID4gPiAgI2RlZmluZSBBRkJDX1RIX0JPRFlfU1RBUlRf
-QUxJR05NRU5UCTQwOTYKPiA+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FybS9k
-aXNwbGF5L2tvbWVkYS9rb21lZGFfZnJhbWVidWZmZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0v
-ZGlzcGxheS9rb21lZGEva29tZWRhX2ZyYW1lYnVmZmVyLmMKPiA+ID4gPiBpbmRleCAxYjAxYTYy
-NWY0MGUuLmU5Yzg3NTUxYTViOCAxMDA2NDQKPiA+ID4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-YXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9mcmFtZWJ1ZmZlci5jCj4gPiA+ID4gKysrIGIvZHJp
-dmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfZnJhbWVidWZmZXIuYwo+ID4g
-PiA+IEBAIC00LDYgKzQsNyBAQAo+ID4gPiA+ICAgKiBBdXRob3I6IEphbWVzLlFpYW4uV2FuZyA8
-amFtZXMucWlhbi53YW5nQGFybS5jb20+Cj4gPiA+ID4gICAqCj4gPiA+ID4gICAqLwo+ID4gPiA+
-ICsjaW5jbHVkZSA8ZHJtL2RybV9hZmJjLmg+Cj4gPiA+ID4gICNpbmNsdWRlIDxkcm0vZHJtX2Rl
-dmljZS5oPgo+ID4gPiA+ICAjaW5jbHVkZSA8ZHJtL2RybV9mYl9jbWFfaGVscGVyLmg+Cj4gPiA+
-ID4gICNpbmNsdWRlIDxkcm0vZHJtX2dlbS5oPgo+ID4gPiA+IEBAIC00Myw4ICs0NCw3IEBAIGtv
-bWVkYV9mYl9hZmJjX3NpemVfY2hlY2soc3RydWN0IGtvbWVkYV9mYiAqa2ZiLCBzdHJ1Y3QgZHJt
-X2ZpbGUgKmZpbGUsCj4gPiA+ID4gIAlzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiA9ICZrZmIt
-PmJhc2U7Cj4gPiA+ID4gIAljb25zdCBzdHJ1Y3QgZHJtX2Zvcm1hdF9pbmZvICppbmZvID0gZmIt
-PmZvcm1hdDsKPiA+ID4gPiAgCXN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqOwo+ID4gPiA+IC0J
-dTMyIGFsaWdubWVudF93ID0gMCwgYWxpZ25tZW50X2ggPSAwLCBhbGlnbm1lbnRfaGVhZGVyLCBu
-X2Jsb2NrcywgYnBwOwo+ID4gPiA+IC0JdTY0IG1pbl9zaXplOwo+ID4gPiA+ICsJdTMyIGFsaWdu
-bWVudF93ID0gMCwgYWxpZ25tZW50X2ggPSAwLCBhbGlnbm1lbnRfaGVhZGVyLCBicHA7Cj4gPiA+
-ID4gIAo+ID4gPiA+ICAJb2JqID0gZHJtX2dlbV9vYmplY3RfbG9va3VwKGZpbGUsIG1vZGVfY21k
-LT5oYW5kbGVzWzBdKTsKPiA+ID4gPiAgCWlmICghb2JqKSB7Cj4gPiA+ID4gQEAgLTUyLDE5ICs1
-MiwxNSBAQCBrb21lZGFfZmJfYWZiY19zaXplX2NoZWNrKHN0cnVjdCBrb21lZGFfZmIgKmtmYiwg
-c3RydWN0IGRybV9maWxlICpmaWxlLAo+ID4gPiA+ICAJCXJldHVybiAtRU5PRU5UOwo+ID4gPiA+
-ICAJfQo+ID4gPiA+ICAKPiA+ID4gPiAtCXN3aXRjaCAoZmItPm1vZGlmaWVyICYgQUZCQ19GT1JN
-QVRfTU9EX0JMT0NLX1NJWkVfTUFTSykgewo+ID4gPiA+IC0JY2FzZSBBRkJDX0ZPUk1BVF9NT0Rf
-QkxPQ0tfU0laRV8zMng4Ogo+ID4gPiA+IC0JCWFsaWdubWVudF93ID0gMzI7Cj4gPiA+ID4gLQkJ
-YWxpZ25tZW50X2ggPSA4Owo+ID4gPiA+IC0JCWJyZWFrOwo+ID4gPiA+IC0JY2FzZSBBRkJDX0ZP
-Uk1BVF9NT0RfQkxPQ0tfU0laRV8xNngxNjoKPiA+ID4gPiAtCQlhbGlnbm1lbnRfdyA9IDE2Owo+
-ID4gPiA+IC0JCWFsaWdubWVudF9oID0gMTY7Cj4gPiA+ID4gLQkJYnJlYWs7Cj4gPiA+ID4gLQlk
-ZWZhdWx0Ogo+ID4gPiA+IC0JCVdBUk4oMSwgIkludmFsaWQgQUZCQ19GT1JNQVRfTU9EX0JMT0NL
-X1NJWkU6ICVsbGQuXG4iLAo+ID4gPiA+IC0JCSAgICAgZmItPm1vZGlmaWVyICYgQUZCQ19GT1JN
-QVRfTU9EX0JMT0NLX1NJWkVfTUFTSyk7Cj4gPiA+ID4gLQkJYnJlYWs7Cj4gPiA+ID4gKwlpZiAo
-IWRybV9hZmJjX2dldF9zdXBlcmJsa193aChmYi0+bW9kaWZpZXIsICZhbGlnbm1lbnRfdywgJmFs
-aWdubWVudF9oKSkKPiA+ID4gPiArCQlyZXR1cm4gLUVJTlZBTDsKPiA+ID4gPiArCj4gPiA+ID4g
-KwlpZiAoKGFsaWdubWVudF93ICE9IDE2IHx8IGFsaWdubWVudF9oICE9IDE2KSAmJgo+ID4gPiA+
-ICsJICAgIChhbGlnbm1lbnRfdyAhPSAzMiB8fCBhbGlnbm1lbnRfaCAhPSA4KSkgewo+ID4gPiA+
-ICsJCURSTV9ERUJVR19LTVMoIlVuc3VwcG9ydGVkIGFmYmMgdGlsZSB3L2ggWyVkLyVkXVxuIiwK
-PiA+ID4gPiArCQkJICAgICAgYWxpZ25tZW50X3csIGFsaWdubWVudF9oKTsKPiA+ID4gPiArCj4g
-PiA+ID4gKwkJcmV0dXJuIC1FSU5WQUw7Cj4gPiA+IFRvIGJlIGhvbmVzdCwgdGhlIHByZXZpb3Vz
-IGNvZGUgbG9va3MgbXVjaCBtb3JlIHJlYWRhYmxlCj4gPiA+ID4gIAl9Cj4gPiA+ID4gIAo+ID4g
-PiA+ICAJLyogdGlsZWQgaGVhZGVyIGFmYmMgKi8KPiA+ID4gPiBAQCAtODQsMjAgKzgwLDE0IEBA
-IGtvbWVkYV9mYl9hZmJjX3NpemVfY2hlY2soc3RydWN0IGtvbWVkYV9mYiAqa2ZiLCBzdHJ1Y3Qg
-ZHJtX2ZpbGUgKmZpbGUsCj4gPiA+ID4gIAkJZ290byBjaGVja19mYWlsZWQ7Cj4gPiA+ID4gIAl9
-Cj4gPiA+ID4gIAo+ID4gPiA+IC0Jbl9ibG9ja3MgPSAoa2ZiLT5hbGlnbmVkX3cgKiBrZmItPmFs
-aWduZWRfaCkgLyBBRkJDX1NVUEVSQkxLX1BJWEVMUzsKPiA+ID4gPiAtCWtmYi0+b2Zmc2V0X3Bh
-eWxvYWQgPSBBTElHTihuX2Jsb2NrcyAqIEFGQkNfSEVBREVSX1NJWkUsCj4gPiA+ID4gLQkJCQkg
-ICAgYWxpZ25tZW50X2hlYWRlcik7Cj4gPiA+ID4gLQo+ID4gPiA+ICAJYnBwID0ga29tZWRhX2dl
-dF9hZmJjX2Zvcm1hdF9icHAoaW5mbywgZmItPm1vZGlmaWVyKTsKPiA+ID4gPiAtCWtmYi0+YWZi
-Y19zaXplID0ga2ZiLT5vZmZzZXRfcGF5bG9hZCArIG5fYmxvY2tzICoKPiA+ID4gPiAtCQkJIEFM
-SUdOKGJwcCAqIEFGQkNfU1VQRVJCTEtfUElYRUxTIC8gOCwKPiA+ID4gPiAtCQkJICAgICAgIEFG
-QkNfU1VQRVJCTEtfQUxJR05NRU5UKTsKPiA+ID4gPiAtCW1pbl9zaXplID0ga2ZiLT5hZmJjX3Np
-emUgKyBmYi0+b2Zmc2V0c1swXTsKPiA+ID4gPiAtCWlmIChtaW5fc2l6ZSA+IG9iai0+c2l6ZSkg
-ewo+ID4gPiA+IC0JCURSTV9ERUJVR19LTVMoImFmYmMgc2l6ZSBjaGVjayBmYWlsZWQsIG9ial9z
-aXplOiAweCV6eC4gbWluX3NpemUgMHglbGx4LlxuIiwKPiA+ID4gPiAtCQkJICAgICAgb2JqLT5z
-aXplLCBtaW5fc2l6ZSk7Cj4gPiA+IFdlIG5lZWQga2ZiLT5vZmZzZXRfcGF5bG9hZCBhbmQga2Zi
-LT5hZmJjX3NpemUgdG8gc2V0IHNvbWUgcmVnaXN0ZXJzCj4gPiA+IGluIGQ3MV9sYXllcl91cGRh
-dGUoKS4gQXQgdGhpcyBtb21lbnQgSSBmZWVsIGxpa2UgcHVuY2hpbmcgbXlzZWxmIGZvcgo+ID4g
-PiBtYWtpbmcgdGhlIHN1Z2dlc3Rpb24gdG8gY29uc2lkZXIgYWJzdHJhY3Rpbmcgc29tZSBvZiB0
-aGUga29tZWRhJ3MgYWZiYwo+ID4gPiBjaGVja3MuIFRvIG1lIGl0IGRvZXMgbm90IGxvb2sgbGlr
-ZSBrb21lZGEoaW4gdGhlIGN1cnJlbnQgc2hhcGUpIGNhbiB0YWtlCj4gPiA+IG11Y2ggYWR2YW50
-YWdlIG9mIHRoZSBnZW5lcmljIF9hZmJjX2ZiX2NoZWNrKCkgZnVuY3Rpb24gKGFzIHdhcyBzdWdn
-ZXN0ZWQKPiA+ID4gcHJldmlvdXNseSBieSBEYW52ZXQpLgo+ID4gPiAKPiA+ID4gSG93ZXZlciwg
-SSB3aWxsIGxldCBqYW1lcy5xaWFuLndhbmdAYXJtLmNvbSwKPiA+ID4gTWloYWlsLkF0YW5hc3Nv
-dkBhcm0uY29tLCBCZW4uRGF2aXNAYXJtLmNvbSBjb21tZW50IGhlcmUgdG8gc2VlIGlmCj4gPiA+
-IHRoZXJlIGNvdWxkIGJlIGEgd2F5IG9mIGFic3RyYWN0aW5nIHRoZSBhZmJjIGJpdHMgZnJvbSBr
-b21lZGEuCj4gPiA+Cj4gPiAKPiA+IEhpIGFsbDoKPiA+IAo+ID4gU2luY2UgdGhlIGN1cnJlbnQg
-Z2VuZXJpYyBkcm1fYWZiYyBoZWxwZXJzIG9ubHkgc3VwcG9ydCBhZmJjXzEuMSwgYnV0Cj4gPiBr
-b21lZGEgbmVlZHMgc3VwcG9ydCBib3RoIGFmYmMxLjEvMS4yLCBzbyBJIHRoaW5rIHdlIGNhbjoK
-PiA+IC0gQWRkIGFmYmMxLjIgc3VwcG9ydCB0byBkcm0gYWZiYyBoZWxwZXJzLgo+ID4gLSBmb3Ig
-dGhlIGFmYmNfcGF5bG9hZF9vZmZzZXQsIGNhbiB3ZSBhZGQgdGhpcyBtZW1iZXIgdG8KPiA+ICAg
-ZHJtX2ZyYW1lYnVmZmVyID8KPiA+IC0gVGhlIGFsaWduZWRfdy9oIGFyZSBpbXBvcnRhbnQgZm9y
-IGFmYmMsIHNvIGNhbiB3ZSBoYXZlIHRoZW0gaW4KPiA+ICAgZHJtX2ZyYW1lYnVmZmVyID8gIAo+
-IAo+IEhvdyBleHBlbnNpdmUgaXMgaXQgdG8gcmVjb21wdXRlIHRoZXNlIGZyb20gYSBzdHJ1Y3Qg
-ZHJtX2ZyYW1lYnVmZmVyPwo+IAo+IEknZCBqdXN0IGdvIHdpdGggb25lIGZ1bmN0aW9uIHdoaWNo
-IGNvbXB1dGVzIGFsbCB0aGVzZSBkZXJpdmVkIHZhbHVlcywgYW5kCj4gc3R1ZmZzIHRoZW0gaW50
-byBhIHN0cnVjdCBkcm1fYWZiYy4gVGhlbiBkcml2ZXJzIGNhbGwgdGhhdCBvbmNlIG9yIHNvLgo+
-CgpBIHN0cnVjdCBkcm1fYWZiYywgZ29vZCBpZGVhLCBJIGxpa2UgaXQuIDotKQoKYW5kIHdlIGNh
-biBjb21wdXRlIGl0IHdoZW4gZG8gdGhlIGFmYmMgc2l6ZSBjaGVjayBsaWtlIAoKICBkcm1fYWZi
-Y19jaGVja19mYl9zaXplKC4uLiwgJmtvbWVkYV9mYi0+ZHJtX2FmYmMpOwoKVGhhbmtzLgpKYW1l
-cwoKPiBGb3IgcmV3b3JraW5nIGRybV9mcmFtZWJ1ZmZlciBpdHNlbGYgSSB0aGluayBpdCdzIHBy
-b2JhYmx5IGEgYml0IHRvbwo+IGVhcmxpZXIuIEFuZCBpZiB3ZSBkbyBpdCwgd2Ugc2hvdWxkIG1h
-eWJlIGdvIGEgYml0IG1vcmUgYm9sZCwgYWltaW5nIHRvCj4gcHJvcGVydHktZnkgYWxsIHRoZSBm
-cmFtZWJ1ZmZlciBzZXR0aW5ncywgbWF5YmUgZXZlbiBtYWtpbmcgaXQgZXh0ZW5zaWJsZSwKPiBh
-bmQgaGF2ZSBkcml2ZXJzIGhhbmRsZSBhIGNvcnJlc3BvbmRpbmcgZHJtX2ZyYW1lYnVmZmVyX3N0
-YXRlLgo+IAo+IEEgdGhpcmQgb3B0aW9uIHdvdWxkIGJlIHRvIGNyZWF0ZSBhIGRybV9hZmJjX2Zy
-YW1lYnVmZmVyIHdoaWNoIGVtYmVkcwo+IGRybV9mcmFtZWJ1ZmZlciBhbmQgd2hpY2ggZHJpdmVy
-cyB3b3VsZCBuZWVkIHRvIHVzZS4gQnV0IGFsc28gZmVlbHMgYSBiaXQKPiBsaWtlIHRvbyBtdWNo
-IGNodXJuLiBSZWNvbXB1dGluZyBzaG91bGQgYmUgcXVpY2sgZW5vdWdoIGFuZCBtdWNoIGVhc2ll
-ci4KPiAtRGFuaWVsCj4gCj4gPiAKPiA+IFRoYW5rcwo+ID4gSmFtZXMKPiA+IAo+ID4gPiBUaGFu
-a3MgYW55d2F5cyBmb3IgdGFraW5nIGEgc3RhYiBhdCB0aGlzLgo+ID4gPiAtQXlhbgo+ID4gPiA+
-ICsKPiA+ID4gPiArCWlmICghZHJtX2FmYmNfY2hlY2tfZmJfc2l6ZShtb2RlX2NtZC0+cGl0Y2hl
-c1swXSwgYnBwLAo+ID4gPiA+ICsJCQkJICAgIG1vZGVfY21kLT53aWR0aCwgbW9kZV9jbWQtPmhl
-aWdodCwKPiA+ID4gPiArCQkJCSAgICBhbGlnbm1lbnRfdywgYWxpZ25tZW50X2gsCj4gPiA+ID4g
-KwkJCQkgICAgb2JqLT5zaXplLCBtb2RlX2NtZC0+b2Zmc2V0c1swXSwKPiA+ID4gPiArCQkJCSAg
-ICBBRkJDX1NVUEVSQkxLX0FMSUdOTUVOVCkpCj4gPiA+ID4gIAkJZ290byBjaGVja19mYWlsZWQ7
-Cj4gPiA+ID4gLQl9Cj4gPiA+ID4gIAo+ID4gPiA+ICAJZmItPm9ialswXSA9IG9iajsKPiA+ID4g
-PiAgCXJldHVybiAwOwo+ID4gPiA+IC0tIAo+ID4gPiA+IDIuMTcuMQo+IAo+IC0tIAo+IERhbmll
-bCBWZXR0ZXIKPiBTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KPiBodHRwOi8v
-YmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWw=
+
+--===============1050725887==
+Content-Type: multipart/alternative; boundary="15736964681.dE0Aa.2943"
+Content-Transfer-Encoding: 7bit
+
+
+--15736964681.dE0Aa.2943
+Date: Thu, 14 Nov 2019 01:54:28 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112266
+
+            Bug ID: 112266
+           Summary: [Navi] Pathfinder: Kingmaker is causing a GPU hang:
+                    flip_done timed out error
+           Product: DRI
+           Version: unspecified
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: normal
+          Priority: not set
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: shtetldik@gmail.com
+
+When running Pathfinder: Kingmaker (latest GOG release, which should be the
+same as latest Steam one) on Sapphire Pulse RX 5700 XT, it's causing a weird
+GPU hang with flip_done timed out error (see below for detailed log), that
+doesn't look like the common shader hangs with ring gfx_0.0.0 timeout or co=
+mmon
+sdma hangs.
+
+The game is using OpenGL, and I run the game on Debian testing, using this
+configuration:
+
+kernel: 5.4-rc7
+radeonsi: Mesa-master / llvm10:
+
+OpenGL renderer string: AMD NAVI10 (DRM 3.35.0, 5.4.0-rc7, LLVM 10.0.0)
+OpenGL core profile version string: 4.5 (Core Profile) Mesa 20.0.0-devel
+(git-eb6352162d)
+
+llvm: 10~+201911120943210600592dd459242
+from this llvm10 snapshot:
+https://tracker.debian.org/news/1079513/accepted-llvm-toolchain-snapshot-11=
+0201911120943210600592dd459242-1exp1-source-into-experimental/
+
+
+DE: KDE Plasma 5.14.5 (X session).
+GPU: Sapphire Pulse RX 5700 XT
+Monitor: LG 27GL85-B (2560x1440, 144 Hz, DisplayPort 1.4 connection, adapti=
+ve
+sync activated in Xorg configuration).
+
+When launching, I'm using AMD_DEBUG=3Dnodma,nongg
+
+Recording apitrace doesn't help, since replaying it is not reproducing the
+hang. So it could be some amdgpu issue? Please let me know, what additional
+info can be useful to help you narrow it down. However the hang is quite
+reproducible, and you can try it yourself with Pathfinder: Kingmaker.
+
+The hang produces this in dmesg:
+
+[  659.445501] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper=
+]]
+*ERROR* [CRTC:62:crtc-0] flip_done timed out
+[  669.685601] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper=
+]]
+*ERROR* [PLANE:55:plane-5] flip_done timed out
+[  669.685644] ------------[ cut here ]------------
+[  669.685729] WARNING: CPU: 6 PID: 1018 at
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:5851
+amdgpu_dm_atomic_commit_tail+0x1c56/0x1d70 [amdgpu]
+[  669.685730] Modules linked in: rfcomm(E) nf_tables(E) nfnetlink(E) bnep(=
+E)
+edac_mce_amd(E) kvm_amd(E) kvm(E) irqbypass(E) crct10dif_pclmul(E) btusb(E)
+btrtl(E) snd_hda_codec_realtek(E) btbcm(E) crc32_pclmul(E) btintel(E) iwlmv=
+m(E)
+snd_hda_codec_generic(E) bluetooth(E) ghash_clmulni_intel(E) ledtrig_audio(=
+E)
+mac80211(E) libarc4(E) snd_hda_codec_hdmi(E) uvcvideo(E) snd_hda_intel(E)
+videobuf2_vmalloc(E) snd_usb_audio(E) snd_intel_nhlt(E) videobuf2_memops(E)
+drbg(E) snd_hda_codec(E) videobuf2_v4l2(E) snd_usbmidi_lib(E) iwlwifi(E)
+nls_ascii(E) snd_hda_core(E) snd_rawmidi(E) videobuf2_common(E)
+snd_seq_device(E) snd_hwdep(E) efi_pstore(E) nls_cp437(E) ansi_cprng(E)
+snd_pcm(E) videodev(E) sp5100_tco(E) aesni_intel(E) cfg80211(E) vfat(E)
+ecdh_generic(E) crypto_simd(E) ecc(E) snd_timer(E) fat(E) ccp(E) snd(E)
+cryptd(E) mc(E) glue_helper(E) crc16(E) wmi_bmof(E) pcspkr(E) efivars(E)
+k10temp(E) watchdog(E) sg(E) rfkill(E) soundcore(E) rng_core(E) evdev(E)
+acpi_cpufreq(E) nct6775(E) hwmon_vid(E)
+[  669.685753]  parport_pc(E) ppdev(E) lp(E) parport(E) efivarfs(E)
+ip_tables(E) x_tables(E) autofs4(E) xfs(E) btrfs(E) xor(E) zstd_decompress(=
+E)
+zstd_compress(E) raid6_pq(E) libcrc32c(E) crc32c_generic(E) sd_mod(E)
+hid_generic(E) usbhid(E) hid(E) amdgpu(E) gpu_sched(E) mxm_wmi(E) ahci(E)
+ttm(E) libahci(E) drm_kms_helper(E) xhci_pci(E) crc32c_intel(E) xhci_hcd(E)
+i2c_piix4(E) libata(E) drm(E) igb(E) dca(E) mfd_core(E) ptp(E) scsi_mod(E)
+usbcore(E) pps_core(E) i2c_algo_bit(E) nvme(E) nvme_core(E) wmi(E) button(E)
+[  669.685770] CPU: 6 PID: 1018 Comm: Xorg Tainted: G            E=20=20=20=
+=20
+5.4.0-rc7 #31
+[  669.685771] Hardware name: To Be Filled By O.E.M. To Be Filled By
+O.E.M./X570 Taichi, BIOS P2.50 11/02/2019
+[  669.685846] RIP: 0010:amdgpu_dm_atomic_commit_tail+0x1c56/0x1d70 [amdgpu]
+[  669.685847] Code: 67 fb ff ff 41 8b 4c 24 60 48 c7 c2 60 d6 a2 c0 bf 02 =
+00
+00 00 48 c7 c6 80 f8 a9 c0 e8 e3 7d bb ff 49 8b 47 08 e9 31 e5 ff ff <0f> 0=
+b e9
+b4 ec ff ff 0f 0b 0f 0b e9 cb ec ff ff 48 8b 85 b0 fd ff
+[  669.685848] RSP: 0018:ffffb80fc1a978d0 EFLAGS: 00010002
+[  669.685849] RAX: 0000000000000002 RBX: ffff9454b5d54c00 RCX:
+ffff9455ec2c6170
+[  669.685850] RDX: 0000000000000001 RSI: 0000000000000206 RDI:
+ffff9455eaba6158
+[  669.685851] RBP: ffffb80fc1a97b80 R08: 0000000000000005 R09:
+0000000000000000
+[  669.685851] R10: ffffb80fc1a97838 R11: ffffb80fc1a9783c R12:
+0000000000000206
+[  669.685852] R13: ffff9455ec2c6000 R14: ffff94559d443800 R15:
+ffff9455eda20000
+[  669.685853] FS:  00007fc6a5a21f00(0000) GS:ffff9455fe980000(0000)
+knlGS:0000000000000000
+[  669.685854] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  669.685855] CR2: 00007fc6a5991678 CR3: 00000007f0390000 CR4:
+0000000000340ee0
+[  669.685856] Call Trace:
+[  669.685864]  ? __irq_work_queue_local+0x50/0x60
+[  669.685872]  ? commit_tail+0x94/0x110 [drm_kms_helper]
+[  669.685878]  commit_tail+0x94/0x110 [drm_kms_helper]
+[  669.685884]  drm_atomic_helper_commit+0xb8/0x130 [drm_kms_helper]
+[  669.685889]  drm_atomic_helper_set_config+0x79/0x90 [drm_kms_helper]
+[  669.685902]  drm_mode_setcrtc+0x194/0x6a0 [drm]
+[  669.685956]  ? amdgpu_cs_wait_ioctl+0xeb/0x160 [amdgpu]
+[  669.685966]  ? drm_mode_getcrtc+0x180/0x180 [drm]
+[  669.685976]  drm_ioctl_kernel+0xaa/0xf0 [drm]
+[  669.685986]  drm_ioctl+0x208/0x390 [drm]
+[  669.685995]  ? drm_mode_getcrtc+0x180/0x180 [drm]
+[  669.686044]  amdgpu_drm_ioctl+0x49/0x80 [amdgpu]
+[  669.686048]  do_vfs_ioctl+0x40e/0x670
+[  669.686050]  ksys_ioctl+0x5e/0x90
+[  669.686052]  __x64_sys_ioctl+0x16/0x20
+[  669.686055]  do_syscall_64+0x52/0x160
+[  669.686058]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[  669.686060] RIP: 0033:0x7fc6a5f6a5b7
+[  669.686061] Code: 00 00 90 48 8b 05 d9 78 0c 00 64 c7 00 26 00 00 00 48 =
+c7
+c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 <48> 3=
+d 01
+f0 ff ff 73 01 c3 48 8b 0d a9 78 0c 00 f7 d8 64 89 01 48
+[  669.686062] RSP: 002b:00007ffd36fb37a8 EFLAGS: 00003246 ORIG_RAX:
+0000000000000010
+[  669.686063] RAX: ffffffffffffffda RBX: 00007ffd36fb37e0 RCX:
+00007fc6a5f6a5b7
+[  669.686064] RDX: 00007ffd36fb37e0 RSI: 00000000c06864a2 RDI:
+000000000000000d
+[  669.686064] RBP: 00000000c06864a2 R08: 0000000000000000 R09:
+000055c668ad0740
+[  669.686065] R10: 0000000000000000 R11: 0000000000003246 R12:
+0000000000000000
+[  669.686065] R13: 000000000000000d R14: 000055c668a607d0 R15:
+0000000000000000
+[  669.686067] ---[ end trace 47feccd771299f6b ]---
+[  669.686082] ------------[ cut here ]------------
+[  669.686158] WARNING: CPU: 6 PID: 1018 at
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:5458
+amdgpu_dm_atomic_commit_tail+0x1c5f/0x1d70 [amdgpu]
+[  669.686158] Modules linked in: rfcomm(E) nf_tables(E) nfnetlink(E) bnep(=
+E)
+edac_mce_amd(E) kvm_amd(E) kvm(E) irqbypass(E) crct10dif_pclmul(E) btusb(E)
+btrtl(E) snd_hda_codec_realtek(E) btbcm(E) crc32_pclmul(E) btintel(E) iwlmv=
+m(E)
+snd_hda_codec_generic(E) bluetooth(E) ghash_clmulni_intel(E) ledtrig_audio(=
+E)
+mac80211(E) libarc4(E) snd_hda_codec_hdmi(E) uvcvideo(E) snd_hda_intel(E)
+videobuf2_vmalloc(E) snd_usb_audio(E) snd_intel_nhlt(E) videobuf2_memops(E)
+drbg(E) snd_hda_codec(E) videobuf2_v4l2(E) snd_usbmidi_lib(E) iwlwifi(E)
+nls_ascii(E) snd_hda_core(E) snd_rawmidi(E) videobuf2_common(E)
+snd_seq_device(E) snd_hwdep(E) efi_pstore(E) nls_cp437(E) ansi_cprng(E)
+snd_pcm(E) videodev(E) sp5100_tco(E) aesni_intel(E) cfg80211(E) vfat(E)
+ecdh_generic(E) crypto_simd(E) ecc(E) snd_timer(E) fat(E) ccp(E) snd(E)
+cryptd(E) mc(E) glue_helper(E) crc16(E) wmi_bmof(E) pcspkr(E) efivars(E)
+k10temp(E) watchdog(E) sg(E) rfkill(E) soundcore(E) rng_core(E) evdev(E)
+acpi_cpufreq(E) nct6775(E) hwmon_vid(E)
+[  669.686175]  parport_pc(E) ppdev(E) lp(E) parport(E) efivarfs(E)
+ip_tables(E) x_tables(E) autofs4(E) xfs(E) btrfs(E) xor(E) zstd_decompress(=
+E)
+zstd_compress(E) raid6_pq(E) libcrc32c(E) crc32c_generic(E) sd_mod(E)
+hid_generic(E) usbhid(E) hid(E) amdgpu(E) gpu_sched(E) mxm_wmi(E) ahci(E)
+ttm(E) libahci(E) drm_kms_helper(E) xhci_pci(E) crc32c_intel(E) xhci_hcd(E)
+i2c_piix4(E) libata(E) drm(E) igb(E) dca(E) mfd_core(E) ptp(E) scsi_mod(E)
+usbcore(E) pps_core(E) i2c_algo_bit(E) nvme(E) nvme_core(E) wmi(E) button(E)
+[  669.686187] CPU: 6 PID: 1018 Comm: Xorg Tainted: G        W   E=20=20=20=
+=20
+5.4.0-rc7 #31
+[  669.686187] Hardware name: To Be Filled By O.E.M. To Be Filled By
+O.E.M./X570 Taichi, BIOS P2.50 11/02/2019
+[  669.686258] RIP: 0010:amdgpu_dm_atomic_commit_tail+0x1c5f/0x1d70 [amdgpu]
+[  669.686259] Code: 48 c7 c2 60 d6 a2 c0 bf 02 00 00 00 48 c7 c6 80 f8 a9 =
+c0
+e8 e3 7d bb ff 49 8b 47 08 e9 31 e5 ff ff 0f 0b e9 b4 ec ff ff 0f 0b <0f> 0=
+b e9
+cb ec ff ff 48 8b 85 b0 fd ff ff 48 8d 8d 18 fe ff ff 48
+[  669.686259] RSP: 0018:ffffb80fc1a978d0 EFLAGS: 00010082
+[  669.686260] RAX: 0000000000000002 RBX: ffff9454b5d54c00 RCX:
+ffff9455ec2c6170
+[  669.686261] RDX: 0000000000000001 RSI: 0000000000000206 RDI:
+ffff9455eaba6158
+[  669.686261] RBP: ffffb80fc1a97b80 R08: 0000000000000005 R09:
+0000000000000000
+[  669.686262] R10: ffffb80fc1a97838 R11: ffffb80fc1a9783c R12:
+0000000000000206
+[  669.686263] R13: ffff9455ec2c6000 R14: ffff94559d443800 R15:
+ffff9455eda20000
+[  669.686264] FS:  00007fc6a5a21f00(0000) GS:ffff9455fe980000(0000)
+knlGS:0000000000000000
+[  669.686264] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  669.686265] CR2: 00007fc6a5991678 CR3: 00000007f0390000 CR4:
+0000000000340ee0
+[  669.686266] Call Trace:
+[  669.686270]  ? __irq_work_queue_local+0x50/0x60
+[  669.686277]  ? commit_tail+0x94/0x110 [drm_kms_helper]
+[  669.686282]  commit_tail+0x94/0x110 [drm_kms_helper]
+[  669.686288]  drm_atomic_helper_commit+0xb8/0x130 [drm_kms_helper]
+[  669.686293]  drm_atomic_helper_set_config+0x79/0x90 [drm_kms_helper]
+[  669.686304]  drm_mode_setcrtc+0x194/0x6a0 [drm]
+[  669.686357]  ? amdgpu_cs_wait_ioctl+0xeb/0x160 [amdgpu]
+[  669.686367]  ? drm_mode_getcrtc+0x180/0x180 [drm]
+[  669.686377]  drm_ioctl_kernel+0xaa/0xf0 [drm]
+[  669.686386]  drm_ioctl+0x208/0x390 [drm]
+[  669.686396]  ? drm_mode_getcrtc+0x180/0x180 [drm]
+[  669.686445]  amdgpu_drm_ioctl+0x49/0x80 [amdgpu]
+[  669.686447]  do_vfs_ioctl+0x40e/0x670
+[  669.686449]  ksys_ioctl+0x5e/0x90
+[  669.686451]  __x64_sys_ioctl+0x16/0x20
+[  669.686453]  do_syscall_64+0x52/0x160
+[  669.686454]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[  669.686455] RIP: 0033:0x7fc6a5f6a5b7
+[  669.686457] Code: 00 00 90 48 8b 05 d9 78 0c 00 64 c7 00 26 00 00 00 48 =
+c7
+c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 <48> 3=
+d 01
+f0 ff ff 73 01 c3 48 8b 0d a9 78 0c 00 f7 d8 64 89 01 48
+[  669.686457] RSP: 002b:00007ffd36fb37a8 EFLAGS: 00003246 ORIG_RAX:
+0000000000000010
+[  669.686458] RAX: ffffffffffffffda RBX: 00007ffd36fb37e0 RCX:
+00007fc6a5f6a5b7
+[  669.686459] RDX: 00007ffd36fb37e0 RSI: 00000000c06864a2 RDI:
+000000000000000d
+[  669.686459] RBP: 00000000c06864a2 R08: 0000000000000000 R09:
+000055c668ad0740
+[  669.686460] R10: 0000000000000000 R11: 0000000000003246 R12:
+0000000000000000
+[  669.686461] R13: 000000000000000d R14: 000055c668a607d0 R15:
+0000000000000000
+[  669.686462] ---[ end trace 47feccd771299f6c ]---
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15736964681.dE0Aa.2943
+Date: Thu, 14 Nov 2019 01:54:28 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [Navi] Pathfinder: Kingmaker is causing a GPU hang: flip_=
+done timed out error"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112266">112266</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>[Navi] Pathfinder: Kingmaker is causing a GPU hang: flip_done=
+ timed out error
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>unspecified
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>shtetldik&#64;gmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>When running Pathfinder: Kingmaker (latest GOG release, which =
+should be the
+same as latest Steam one) on Sapphire Pulse RX 5700 XT, it's causing a weird
+GPU hang with flip_done timed out error (see below for detailed log), that
+doesn't look like the common shader hangs with ring gfx_0.0.0 timeout or co=
+mmon
+sdma hangs.
+
+The game is using OpenGL, and I run the game on Debian testing, using this
+configuration:
+
+kernel: 5.4-rc7
+radeonsi: Mesa-master / llvm10:
+
+OpenGL renderer string: AMD NAVI10 (DRM 3.35.0, 5.4.0-rc7, LLVM 10.0.0)
+OpenGL core profile version string: 4.5 (Core Profile) Mesa 20.0.0-devel
+(git-eb6352162d)
+
+llvm: 10~+201911120943210600592dd459242
+from this llvm10 snapshot:
+<a href=3D"https://tracker.debian.org/news/1079513/accepted-llvm-toolchain-=
+snapshot-110201911120943210600592dd459242-1exp1-source-into-experimental/">=
+https://tracker.debian.org/news/1079513/accepted-llvm-toolchain-snapshot-11=
+0201911120943210600592dd459242-1exp1-source-into-experimental/</a>
+
+
+DE: KDE Plasma 5.14.5 (X session).
+GPU: Sapphire Pulse RX 5700 XT
+Monitor: LG 27GL85-B (2560x1440, 144 Hz, DisplayPort 1.4 connection, adapti=
+ve
+sync activated in Xorg configuration).
+
+When launching, I'm using AMD_DEBUG=3Dnodma,nongg
+
+Recording apitrace doesn't help, since replaying it is not reproducing the
+hang. So it could be some amdgpu issue? Please let me know, what additional
+info can be useful to help you narrow it down. However the hang is quite
+reproducible, and you can try it yourself with Pathfinder: Kingmaker.
+
+The hang produces this in dmesg:
+
+[  659.445501] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper=
+]]
+*ERROR* [CRTC:62:crtc-0] flip_done timed out
+[  669.685601] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper=
+]]
+*ERROR* [PLANE:55:plane-5] flip_done timed out
+[  669.685644] ------------[ cut here ]------------
+[  669.685729] WARNING: CPU: 6 PID: 1018 at
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:5851
+amdgpu_dm_atomic_commit_tail+0x1c56/0x1d70 [amdgpu]
+[  669.685730] Modules linked in: rfcomm(E) nf_tables(E) nfnetlink(E) bnep(=
+E)
+edac_mce_amd(E) kvm_amd(E) kvm(E) irqbypass(E) crct10dif_pclmul(E) btusb(E)
+btrtl(E) snd_hda_codec_realtek(E) btbcm(E) crc32_pclmul(E) btintel(E) iwlmv=
+m(E)
+snd_hda_codec_generic(E) bluetooth(E) ghash_clmulni_intel(E) ledtrig_audio(=
+E)
+mac80211(E) libarc4(E) snd_hda_codec_hdmi(E) uvcvideo(E) snd_hda_intel(E)
+videobuf2_vmalloc(E) snd_usb_audio(E) snd_intel_nhlt(E) videobuf2_memops(E)
+drbg(E) snd_hda_codec(E) videobuf2_v4l2(E) snd_usbmidi_lib(E) iwlwifi(E)
+nls_ascii(E) snd_hda_core(E) snd_rawmidi(E) videobuf2_common(E)
+snd_seq_device(E) snd_hwdep(E) efi_pstore(E) nls_cp437(E) ansi_cprng(E)
+snd_pcm(E) videodev(E) sp5100_tco(E) aesni_intel(E) cfg80211(E) vfat(E)
+ecdh_generic(E) crypto_simd(E) ecc(E) snd_timer(E) fat(E) ccp(E) snd(E)
+cryptd(E) mc(E) glue_helper(E) crc16(E) wmi_bmof(E) pcspkr(E) efivars(E)
+k10temp(E) watchdog(E) sg(E) rfkill(E) soundcore(E) rng_core(E) evdev(E)
+acpi_cpufreq(E) nct6775(E) hwmon_vid(E)
+[  669.685753]  parport_pc(E) ppdev(E) lp(E) parport(E) efivarfs(E)
+ip_tables(E) x_tables(E) autofs4(E) xfs(E) btrfs(E) xor(E) zstd_decompress(=
+E)
+zstd_compress(E) raid6_pq(E) libcrc32c(E) crc32c_generic(E) sd_mod(E)
+hid_generic(E) usbhid(E) hid(E) amdgpu(E) gpu_sched(E) mxm_wmi(E) ahci(E)
+ttm(E) libahci(E) drm_kms_helper(E) xhci_pci(E) crc32c_intel(E) xhci_hcd(E)
+i2c_piix4(E) libata(E) drm(E) igb(E) dca(E) mfd_core(E) ptp(E) scsi_mod(E)
+usbcore(E) pps_core(E) i2c_algo_bit(E) nvme(E) nvme_core(E) wmi(E) button(E)
+[  669.685770] CPU: 6 PID: 1018 Comm: Xorg Tainted: G            E=20=20=20=
+=20
+5.4.0-rc7 #31
+[  669.685771] Hardware name: To Be Filled By O.E.M. To Be Filled By
+O.E.M./X570 Taichi, BIOS P2.50 11/02/2019
+[  669.685846] RIP: 0010:amdgpu_dm_atomic_commit_tail+0x1c56/0x1d70 [amdgpu]
+[  669.685847] Code: 67 fb ff ff 41 8b 4c 24 60 48 c7 c2 60 d6 a2 c0 bf 02 =
+00
+00 00 48 c7 c6 80 f8 a9 c0 e8 e3 7d bb ff 49 8b 47 08 e9 31 e5 ff ff &lt;0f=
+&gt; 0b e9
+b4 ec ff ff 0f 0b 0f 0b e9 cb ec ff ff 48 8b 85 b0 fd ff
+[  669.685848] RSP: 0018:ffffb80fc1a978d0 EFLAGS: 00010002
+[  669.685849] RAX: 0000000000000002 RBX: ffff9454b5d54c00 RCX:
+ffff9455ec2c6170
+[  669.685850] RDX: 0000000000000001 RSI: 0000000000000206 RDI:
+ffff9455eaba6158
+[  669.685851] RBP: ffffb80fc1a97b80 R08: 0000000000000005 R09:
+0000000000000000
+[  669.685851] R10: ffffb80fc1a97838 R11: ffffb80fc1a9783c R12:
+0000000000000206
+[  669.685852] R13: ffff9455ec2c6000 R14: ffff94559d443800 R15:
+ffff9455eda20000
+[  669.685853] FS:  00007fc6a5a21f00(0000) GS:ffff9455fe980000(0000)
+knlGS:0000000000000000
+[  669.685854] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  669.685855] CR2: 00007fc6a5991678 CR3: 00000007f0390000 CR4:
+0000000000340ee0
+[  669.685856] Call Trace:
+[  669.685864]  ? __irq_work_queue_local+0x50/0x60
+[  669.685872]  ? commit_tail+0x94/0x110 [drm_kms_helper]
+[  669.685878]  commit_tail+0x94/0x110 [drm_kms_helper]
+[  669.685884]  drm_atomic_helper_commit+0xb8/0x130 [drm_kms_helper]
+[  669.685889]  drm_atomic_helper_set_config+0x79/0x90 [drm_kms_helper]
+[  669.685902]  drm_mode_setcrtc+0x194/0x6a0 [drm]
+[  669.685956]  ? amdgpu_cs_wait_ioctl+0xeb/0x160 [amdgpu]
+[  669.685966]  ? drm_mode_getcrtc+0x180/0x180 [drm]
+[  669.685976]  drm_ioctl_kernel+0xaa/0xf0 [drm]
+[  669.685986]  drm_ioctl+0x208/0x390 [drm]
+[  669.685995]  ? drm_mode_getcrtc+0x180/0x180 [drm]
+[  669.686044]  amdgpu_drm_ioctl+0x49/0x80 [amdgpu]
+[  669.686048]  do_vfs_ioctl+0x40e/0x670
+[  669.686050]  ksys_ioctl+0x5e/0x90
+[  669.686052]  __x64_sys_ioctl+0x16/0x20
+[  669.686055]  do_syscall_64+0x52/0x160
+[  669.686058]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[  669.686060] RIP: 0033:0x7fc6a5f6a5b7
+[  669.686061] Code: 00 00 90 48 8b 05 d9 78 0c 00 64 c7 00 26 00 00 00 48 =
+c7
+c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 &lt;48=
+&gt; 3d 01
+f0 ff ff 73 01 c3 48 8b 0d a9 78 0c 00 f7 d8 64 89 01 48
+[  669.686062] RSP: 002b:00007ffd36fb37a8 EFLAGS: 00003246 ORIG_RAX:
+0000000000000010
+[  669.686063] RAX: ffffffffffffffda RBX: 00007ffd36fb37e0 RCX:
+00007fc6a5f6a5b7
+[  669.686064] RDX: 00007ffd36fb37e0 RSI: 00000000c06864a2 RDI:
+000000000000000d
+[  669.686064] RBP: 00000000c06864a2 R08: 0000000000000000 R09:
+000055c668ad0740
+[  669.686065] R10: 0000000000000000 R11: 0000000000003246 R12:
+0000000000000000
+[  669.686065] R13: 000000000000000d R14: 000055c668a607d0 R15:
+0000000000000000
+[  669.686067] ---[ end trace 47feccd771299f6b ]---
+[  669.686082] ------------[ cut here ]------------
+[  669.686158] WARNING: CPU: 6 PID: 1018 at
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:5458
+amdgpu_dm_atomic_commit_tail+0x1c5f/0x1d70 [amdgpu]
+[  669.686158] Modules linked in: rfcomm(E) nf_tables(E) nfnetlink(E) bnep(=
+E)
+edac_mce_amd(E) kvm_amd(E) kvm(E) irqbypass(E) crct10dif_pclmul(E) btusb(E)
+btrtl(E) snd_hda_codec_realtek(E) btbcm(E) crc32_pclmul(E) btintel(E) iwlmv=
+m(E)
+snd_hda_codec_generic(E) bluetooth(E) ghash_clmulni_intel(E) ledtrig_audio(=
+E)
+mac80211(E) libarc4(E) snd_hda_codec_hdmi(E) uvcvideo(E) snd_hda_intel(E)
+videobuf2_vmalloc(E) snd_usb_audio(E) snd_intel_nhlt(E) videobuf2_memops(E)
+drbg(E) snd_hda_codec(E) videobuf2_v4l2(E) snd_usbmidi_lib(E) iwlwifi(E)
+nls_ascii(E) snd_hda_core(E) snd_rawmidi(E) videobuf2_common(E)
+snd_seq_device(E) snd_hwdep(E) efi_pstore(E) nls_cp437(E) ansi_cprng(E)
+snd_pcm(E) videodev(E) sp5100_tco(E) aesni_intel(E) cfg80211(E) vfat(E)
+ecdh_generic(E) crypto_simd(E) ecc(E) snd_timer(E) fat(E) ccp(E) snd(E)
+cryptd(E) mc(E) glue_helper(E) crc16(E) wmi_bmof(E) pcspkr(E) efivars(E)
+k10temp(E) watchdog(E) sg(E) rfkill(E) soundcore(E) rng_core(E) evdev(E)
+acpi_cpufreq(E) nct6775(E) hwmon_vid(E)
+[  669.686175]  parport_pc(E) ppdev(E) lp(E) parport(E) efivarfs(E)
+ip_tables(E) x_tables(E) autofs4(E) xfs(E) btrfs(E) xor(E) zstd_decompress(=
+E)
+zstd_compress(E) raid6_pq(E) libcrc32c(E) crc32c_generic(E) sd_mod(E)
+hid_generic(E) usbhid(E) hid(E) amdgpu(E) gpu_sched(E) mxm_wmi(E) ahci(E)
+ttm(E) libahci(E) drm_kms_helper(E) xhci_pci(E) crc32c_intel(E) xhci_hcd(E)
+i2c_piix4(E) libata(E) drm(E) igb(E) dca(E) mfd_core(E) ptp(E) scsi_mod(E)
+usbcore(E) pps_core(E) i2c_algo_bit(E) nvme(E) nvme_core(E) wmi(E) button(E)
+[  669.686187] CPU: 6 PID: 1018 Comm: Xorg Tainted: G        W   E=20=20=20=
+=20
+5.4.0-rc7 #31
+[  669.686187] Hardware name: To Be Filled By O.E.M. To Be Filled By
+O.E.M./X570 Taichi, BIOS P2.50 11/02/2019
+[  669.686258] RIP: 0010:amdgpu_dm_atomic_commit_tail+0x1c5f/0x1d70 [amdgpu]
+[  669.686259] Code: 48 c7 c2 60 d6 a2 c0 bf 02 00 00 00 48 c7 c6 80 f8 a9 =
+c0
+e8 e3 7d bb ff 49 8b 47 08 e9 31 e5 ff ff 0f 0b e9 b4 ec ff ff 0f 0b &lt;0f=
+&gt; 0b e9
+cb ec ff ff 48 8b 85 b0 fd ff ff 48 8d 8d 18 fe ff ff 48
+[  669.686259] RSP: 0018:ffffb80fc1a978d0 EFLAGS: 00010082
+[  669.686260] RAX: 0000000000000002 RBX: ffff9454b5d54c00 RCX:
+ffff9455ec2c6170
+[  669.686261] RDX: 0000000000000001 RSI: 0000000000000206 RDI:
+ffff9455eaba6158
+[  669.686261] RBP: ffffb80fc1a97b80 R08: 0000000000000005 R09:
+0000000000000000
+[  669.686262] R10: ffffb80fc1a97838 R11: ffffb80fc1a9783c R12:
+0000000000000206
+[  669.686263] R13: ffff9455ec2c6000 R14: ffff94559d443800 R15:
+ffff9455eda20000
+[  669.686264] FS:  00007fc6a5a21f00(0000) GS:ffff9455fe980000(0000)
+knlGS:0000000000000000
+[  669.686264] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  669.686265] CR2: 00007fc6a5991678 CR3: 00000007f0390000 CR4:
+0000000000340ee0
+[  669.686266] Call Trace:
+[  669.686270]  ? __irq_work_queue_local+0x50/0x60
+[  669.686277]  ? commit_tail+0x94/0x110 [drm_kms_helper]
+[  669.686282]  commit_tail+0x94/0x110 [drm_kms_helper]
+[  669.686288]  drm_atomic_helper_commit+0xb8/0x130 [drm_kms_helper]
+[  669.686293]  drm_atomic_helper_set_config+0x79/0x90 [drm_kms_helper]
+[  669.686304]  drm_mode_setcrtc+0x194/0x6a0 [drm]
+[  669.686357]  ? amdgpu_cs_wait_ioctl+0xeb/0x160 [amdgpu]
+[  669.686367]  ? drm_mode_getcrtc+0x180/0x180 [drm]
+[  669.686377]  drm_ioctl_kernel+0xaa/0xf0 [drm]
+[  669.686386]  drm_ioctl+0x208/0x390 [drm]
+[  669.686396]  ? drm_mode_getcrtc+0x180/0x180 [drm]
+[  669.686445]  amdgpu_drm_ioctl+0x49/0x80 [amdgpu]
+[  669.686447]  do_vfs_ioctl+0x40e/0x670
+[  669.686449]  ksys_ioctl+0x5e/0x90
+[  669.686451]  __x64_sys_ioctl+0x16/0x20
+[  669.686453]  do_syscall_64+0x52/0x160
+[  669.686454]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[  669.686455] RIP: 0033:0x7fc6a5f6a5b7
+[  669.686457] Code: 00 00 90 48 8b 05 d9 78 0c 00 64 c7 00 26 00 00 00 48 =
+c7
+c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 &lt;48=
+&gt; 3d 01
+f0 ff ff 73 01 c3 48 8b 0d a9 78 0c 00 f7 d8 64 89 01 48
+[  669.686457] RSP: 002b:00007ffd36fb37a8 EFLAGS: 00003246 ORIG_RAX:
+0000000000000010
+[  669.686458] RAX: ffffffffffffffda RBX: 00007ffd36fb37e0 RCX:
+00007fc6a5f6a5b7
+[  669.686459] RDX: 00007ffd36fb37e0 RSI: 00000000c06864a2 RDI:
+000000000000000d
+[  669.686459] RBP: 00000000c06864a2 R08: 0000000000000000 R09:
+000055c668ad0740
+[  669.686460] R10: 0000000000000000 R11: 0000000000003246 R12:
+0000000000000000
+[  669.686461] R13: 000000000000000d R14: 000055c668a607d0 R15:
+0000000000000000
+[  669.686462] ---[ end trace 47feccd771299f6c ]---</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15736964681.dE0Aa.2943--
+
+--===============1050725887==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1050725887==--
