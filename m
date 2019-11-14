@@ -2,63 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F3D0FCE9A
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 20:17:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAD65FCF00
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 20:56:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EBAE6E096;
-	Thu, 14 Nov 2019 19:17:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB6126EF25;
+	Thu, 14 Nov 2019 19:56:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C2B76E087
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 19:17:47 +0000 (UTC)
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-222-b-jGD8IvP9mOHiF72-5RfQ-1; Thu, 14 Nov 2019 14:17:44 -0500
-Received: by mail-qv1-f70.google.com with SMTP id n10so4776507qvr.22
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 11:17:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yzU2orsV1IQ0b605t7GrUNqdH9lGit9QLMaD0lmIB5c=;
- b=nJ/AEwO/5/2N/PMgMcx9999xxTuci/0sDMp4IDVhzBuXP1yXrcn7fSQILSS/vVix49
- 0QBCj+wjt0xZuCWZow8jqF+JKJGJPm0rz06OjCNXoILtw72mnKih4b2P690u4RBpagfr
- Y6MdrjkQsbDaJJph5PdzLYNMdX8lHDIlEzqtdJKKNrXkVcUZMsjLvMyQTbm3/e9Ff1f/
- aMD6R3B0FSP/CTSl/03vnnI2hvgXT+/8kLEJqf7LmI3Wz9cCzFbZzgiXzzU6EgO3D1F0
- +cDuPmelvFgyBlwx4qd53CUubo8o99TT/UTfrY++/n3mRAH6xh47ihWQipO+Y56Jw4gd
- nZkg==
-X-Gm-Message-State: APjAAAUz/HY2qw+vo+IxiZ70a1hCrZ/1S+RSuBszYRXJXX4teddrm4Hq
- trBxe61b9Xlz7LEl2+KRscf/VCQxCI2LB9DLePlHVCWtajUBRp6Bp2FJjzn+uEzAfKRdeiC6bky
- bIFQPNiU2gYCxNW7JrQCXnILEQ4KN09J4YIvfykP2S5JY
-X-Received: by 2002:ac8:75ce:: with SMTP id z14mr9911917qtq.130.1573759062341; 
- Thu, 14 Nov 2019 11:17:42 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyBzlpxS0u5QYAn3+7xHyAlZnhB1xo77FSDY0Sd/oCUw4ff3cxInd+1N0Ly/+l1puO3E0enij5HXFW6Mn/Bh7c=
-X-Received: by 2002:ac8:75ce:: with SMTP id z14mr9911890qtq.130.1573759062129; 
- Thu, 14 Nov 2019 11:17:42 -0800 (PST)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A8B006EF24
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 19:56:49 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id A491D720E2; Thu, 14 Nov 2019 19:56:49 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 112288] Blank display on Ubuntu 19.10 on Ryzen 3 2200G and
+ Ryzen 5 2400G APUs
+Date: Thu, 14 Nov 2019 19:56:48 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: mortenkjeldgaard@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-112288-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20191017121901.13699-1-kherbst@redhat.com>
-In-Reply-To: <20191017121901.13699-1-kherbst@redhat.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Thu, 14 Nov 2019 20:17:30 +0100
-Message-ID: <CACO55tuMvHtPSHmU_G_0f5P6O3Ao0OqVMDPvaaRCYrMSd29NMQ@mail.gmail.com>
-Subject: Re: [PATCH v4] pci: prevent putting nvidia GPUs into lower device
- states on certain intel bridges
-To: LKML <linux-kernel@vger.kernel.org>
-X-MC-Unique: b-jGD8IvP9mOHiF72-5RfQ-1
-X-Mimecast-Spam-Score: 0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=redhat.com; 
- s=mimecast20190719; t=1573759065;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iO7IjIFxA01AP12H/14msCUb1F6tFNp4BMry0uJ072A=;
- b=HRypMVOjexCJwVILTCJwj8G1ru7R+Q2La/eG+ix+Cmi5Gbd3hJOE3EH0azpFirJfKq1FjF
- 6uDzvHrf8tyi5+u1S/43TQH4FuMTdfQ6PBqutrTygNoiF2FMWTHjL21aBDF2fsSP/slsn0
- Eb3yici3jQ1yjLkW91EcD/ul+XhCCuE=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,113 +52,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux PM <linux-pm@vger.kernel.org>, Linux PCI <linux-pci@vger.kernel.org>,
- Mika Westerberg <mika.westerberg@intel.com>,
- "Rafael J . Wysocki" <rjw@rjwysocki.net>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- nouveau <nouveau@lists.freedesktop.org>, Bjorn Helgaas <bhelgaas@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0529414195=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-cGluZyBvbiB0aGUgcGF0Y2guCgpJIHdhc24ndCBhYmxlIHRvIHZlcmlmeSB0aGlzIGlzc3VlIG9u
-IGFueSBvdGhlciBicmlkZ2UgY29udHJvbGxlciwgc28KaXQgcmVhbGx5IG1pZ2h0IGJlIG9ubHkg
-dGhpcyBvbmUuCgpPbiBUaHUsIE9jdCAxNywgMjAxOSBhdCAyOjE5IFBNIEthcm9sIEhlcmJzdCA8
-a2hlcmJzdEByZWRoYXQuY29tPiB3cm90ZToKPgo+IEZpeGVzIHN0YXRlIHRyYW5zaXRpb25zIG9m
-IE52aWRpYSBQYXNjYWwgR1BVcyBmcm9tIEQzY29sZCBpbnRvIGhpZ2hlciBkZXZpY2UKPiBzdGF0
-ZXMuCj4KPiB2MjogY29udmVydCB0byBwY2lfZGV2IHF1aXJrCj4gICAgIHB1dCBhIHByb3BlciB0
-ZWNobmljYWwgZXhwbGFuYXRpb24gb2YgdGhlIGlzc3VlIGFzIGEgaW4tY29kZSBjb21tZW50Cj4g
-djM6IGRpc2FibGUgaXQgb25seSBmb3IgY2VydGFpbiBjb21iaW5hdGlvbnMgb2YgaW50ZWwgYW5k
-IG52aWRpYSBoYXJkd2FyZQo+IHY0OiBzaW1wbGlmeSBxdWlyayBieSBzZXR0aW5nIGZsYWcgb24g
-dGhlIEdQVSBpdHNlbGYKPgo+IFNpZ25lZC1vZmYtYnk6IEthcm9sIEhlcmJzdCA8a2hlcmJzdEBy
-ZWRoYXQuY29tPgo+IENjOiBCam9ybiBIZWxnYWFzIDxiaGVsZ2Fhc0Bnb29nbGUuY29tPgo+IENj
-OiBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPgo+IENjOiBSYWZhZWwgSi4gV3lzb2NraSA8
-cmp3QHJqd3lzb2NraS5uZXQ+Cj4gQ2M6IE1pa2EgV2VzdGVyYmVyZyA8bWlrYS53ZXN0ZXJiZXJn
-QGludGVsLmNvbT4KPiBDYzogbGludXgtcGNpQHZnZXIua2VybmVsLm9yZwo+IENjOiBsaW51eC1w
-bUB2Z2VyLmtlcm5lbC5vcmcKPiBDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+
-IENjOiBub3V2ZWF1QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IC0tLQo+ICBkcml2ZXJzL3BjaS9w
-Y2kuYyAgICB8ICA3ICsrKysrKwo+ICBkcml2ZXJzL3BjaS9xdWlya3MuYyB8IDUzICsrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCj4gIGluY2x1ZGUvbGludXgvcGNp
-LmggIHwgIDEgKwo+ICAzIGZpbGVzIGNoYW5nZWQsIDYxIGluc2VydGlvbnMoKykKPgo+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL3BjaS9wY2kuYyBiL2RyaXZlcnMvcGNpL3BjaS5jCj4gaW5kZXggYjk3
-ZDllMTBjOWNjLi4wMmU3MWUwYmNkZDcgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9wY2kvcGNpLmMK
-PiArKysgYi9kcml2ZXJzL3BjaS9wY2kuYwo+IEBAIC04NTAsNiArODUwLDEzIEBAIHN0YXRpYyBp
-bnQgcGNpX3Jhd19zZXRfcG93ZXJfc3RhdGUoc3RydWN0IHBjaV9kZXYgKmRldiwgcGNpX3Bvd2Vy
-X3Qgc3RhdGUpCj4gICAgICAgICAgICB8fCAoc3RhdGUgPT0gUENJX0QyICYmICFkZXYtPmQyX3N1
-cHBvcnQpKQo+ICAgICAgICAgICAgICAgICByZXR1cm4gLUVJTzsKPgo+ICsgICAgICAgLyoKPiAr
-ICAgICAgICAqIGNoZWNrIGlmIHdlIGhhdmUgYSBiYWQgY29tYmluYXRpb24gb2YgYnJpZGdlIGNv
-bnRyb2xsZXIgYW5kIG52aWRpYQo+ICsgICAgICAgICAqIEdQVSwgc2VlIHF1aXJrX2Jyb2tlbl9u
-dl9ydW5wbSBmb3IgbW9yZSBpbmZvCj4gKyAgICAgICAgKi8KPiArICAgICAgIGlmIChzdGF0ZSAh
-PSBQQ0lfRDAgJiYgZGV2LT5icm9rZW5fbnZfcnVucG0pCj4gKyAgICAgICAgICAgICAgIHJldHVy
-biAwOwo+ICsKPiAgICAgICAgIHBjaV9yZWFkX2NvbmZpZ193b3JkKGRldiwgZGV2LT5wbV9jYXAg
-KyBQQ0lfUE1fQ1RSTCwgJnBtY3NyKTsKPgo+ICAgICAgICAgLyoKPiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9wY2kvcXVpcmtzLmMgYi9kcml2ZXJzL3BjaS9xdWlya3MuYwo+IGluZGV4IDQ0YzRhZTFh
-YmQwMC4uMDAwNmM5ZTM3YjZmIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvcGNpL3F1aXJrcy5jCj4g
-KysrIGIvZHJpdmVycy9wY2kvcXVpcmtzLmMKPiBAQCAtNTI2OCwzICs1MjY4LDU2IEBAIHN0YXRp
-YyB2b2lkIHF1aXJrX3Jlc2V0X2xlbm92b190aGlua3BhZF9wNTBfbnZncHUoc3RydWN0IHBjaV9k
-ZXYgKnBkZXYpCj4gIERFQ0xBUkVfUENJX0ZJWFVQX0NMQVNTX0ZJTkFMKFBDSV9WRU5ET1JfSURf
-TlZJRElBLCAweDEzYjEsCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgUENJX0NMQVNT
-X0RJU1BMQVlfVkdBLCA4LAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHF1aXJrX3Jl
-c2V0X2xlbm92b190aGlua3BhZF9wNTBfbnZncHUpOwo+ICsKPiArLyoKPiArICogU29tZSBJbnRl
-bCBQQ0llIGJyaWRnZXMgY2F1c2UgZGV2aWNlcyB0byBkaXNhcHBlYXIgZnJvbSB0aGUgUENJZSBi
-dXMgYWZ0ZXIKPiArICogdGhvc2Ugd2VyZSBwdXQgaW50byBEM2NvbGQgc3RhdGUgaWYgdGhleSB3
-ZXJlIHB1dCBpbnRvIGEgbm9uIEQwIFBDSSBQTQo+ICsgKiBkZXZpY2Ugc3RhdGUgYmVmb3JlIGRv
-aW5nIHNvLgo+ICsgKgo+ICsgKiBUaGlzIGxlYWRzIHRvIHZhcmlvdXMgaXNzdWUgZGlmZmVyZW50
-IGlzc3VlcyB3aGljaCBhbGwgbWFuaWZlc3QgZGlmZmVyZW50bHksCj4gKyAqIGJ1dCBoYXZlIHRo
-ZSBzYW1lIHJvb3QgY2F1c2U6Cj4gKyAqICAtIEFJTUwgY29kZSBleGVjdXRpb24gaGl0cyBhbiBp
-bmZpbml0ZSBsb29wIChhcyB0aGUgY29lIHdhaXRzIG9uIGRldmljZQo+ICsgKiAgICBtZW1vcnkg
-dG8gY2hhbmdlKS4KPiArICogIC0ga2VybmVsIGNyYXNoZXMsIGFzIGFsbCBwY2kgcmVhZHMgcmV0
-dXJuIC0xLCB3aGljaCBtb3N0IGNvZGUgaXNuJ3QgYWJsZQo+ICsgKiAgICB0byBoYW5kbGUgd2Vs
-bCBlbm91Z2guCj4gKyAqICAtIHN1ZGRlbiBzaHV0ZG93bnMsIGFzIHRoZSBrZXJuZWwgaWRlbnRp
-ZmllZCBhbiB1bnJlY292ZXJhYmxlIGVycm9yIGFmdGVyCj4gKyAqICAgIHVzZXJzcGFjZSB0cmll
-cyB0byBhY2Nlc3MgdGhlIEdQVS4KPiArICoKPiArICogSW4gYWxsIGNhc2VzIGRtZXNnIHdpbGwg
-Y29udGFpbiBhdCBsZWFzdCBvbmUgbGluZSBsaWtlIHRoaXM6Cj4gKyAqICdub3V2ZWF1IDAwMDA6
-MDE6MDAuMDogUmVmdXNlZCB0byBjaGFuZ2UgcG93ZXIgc3RhdGUsIGN1cnJlbnRseSBpbiBEMycK
-PiArICogZm9sbG93ZWQgYnkgYSBsb3Qgb2Ygbm91dmVhdSB0aW1lb3V0cy4KPiArICoKPiArICog
-QUNQSSBjb2RlIHdyaXRlcyBiaXQgMHg4MCB0byB0aGUgbm90IGRvY3VtZW50ZWQgUENJIHJlZ2lz
-dGVyIDB4MjQ4IG9mIHRoZQo+ICsgKiBQQ0llIGJyaWRnZSBjb250cm9sbGVyIGluIG9yZGVyIHRv
-IHBvd2VyIGRvd24gdGhlIEdQVS4KPiArICogTm9uZXRoZWxlc3MsIHRoZXJlIGFyZSBvdGhlciBj
-b2RlIHBhdGhzIGluc2lkZSB0aGUgQUNQSSBmaXJtd2FyZSB3aGljaCB1c2UKPiArICogb3RoZXIg
-cmVnaXN0ZXJzLCB3aGljaCBzZWVtIHRvIHdvcmsgZmluZToKPiArICogIC0gMHhiYyBiaXQgMHgy
-MCAocHVibGljbHkgYXZhaWxhYmxlIGRvY3VtZW50YXRpb24gY2xhaW1zICdyZXNlcnZlZCcpCj4g
-KyAqICAtIDB4YjAgYml0IDB4MTAgKGxpbmsgZGlzYWJsZSkKPiArICogQ2hhbmdpbmcgdGhlIGNv
-bmRpdGlvbnMgaW5zaWRlIHRoZSBmaXJtd2FyZSBieSBwb2tpbmcgaW50byB0aGUgcmVsZXZhbnQK
-PiArICogYWRkcmVzc2VzIGRvZXMgcmVzb2x2ZSB0aGUgaXNzdWUsIGJ1dCBpdCBzZWVtZWQgdG8g
-YmUgQUNQSSBwcml2YXRlIG1lbW9yeQo+ICsgKiBhbmQgbm90IGFueSBkZXZpY2UgYWNjZXNzaWJs
-ZSBtZW1vcnkgYXQgYWxsLCBzbyB0aGVyZSBpcyBubyBwb3J0YWJsZSB3YXkgb2YKPiArICogY2hh
-bmdpbmcgdGhlIGNvbmRpdGlvbnMuCj4gKyAqCj4gKyAqIFRoZSBvbmx5IHN5c3RlbXMgd2hlcmUg
-dGhpcyBiZWhhdmlvciBjYW4gYmUgc2VlbiBhcmUgaHlicmlkIGdyYXBoaWNzIGxhcHRvcHMKPiAr
-ICogd2l0aCBhIHNlY29uZGFyeSBOdmlkaWEgUGFzY2FsIEdQVS4gSXQgY2Fubm90IGJlIHJ1bGVk
-IG91dCB0aGF0IHRoaXMgaXNzdWUKPiArICogb25seSBvY2N1cnMgaW4gY29tYmluYXRpb24gd2l0
-aCBsaXN0ZWQgSW50ZWwgUENJZSBicmlkZ2UgY29udHJvbGxlcnMgYW5kCj4gKyAqIHRoZSBtZW50
-aW9uZWQgR1BVcyBvciBpZiBpdCdzIG9ubHkgYSBodyBidWcgaW4gdGhlIGJyaWRnZSBjb250cm9s
-bGVyLgo+ICsgKgo+ICsgKiBCdXQgYmVjYXVzZSB0aGlzIGlzc3VlIHdhcyBOT1Qgc2VlbiBvbiBs
-YXB0b3BzIHdpdGggYW4gTnZpZGlhIFBhc2NhbCBHUFUKPiArICogYW5kIGFuIEludGVsIENvZmZl
-ZSBMYWtlIFNvQywgdGhlcmUgaXMgYSBoaWdoZXIgY2hhbmNlIG9mIHRoZXJlIGJlaW5nIGEgYnVn
-Cj4gKyAqIGluIHRoZSBicmlkZ2UgY29udHJvbGxlciByYXRoZXIgdGhhbiBpbiB0aGUgR1BVLgo+
-ICsgKgo+ICsgKiBUaGlzIGlzc3VlIHdhcyBub3QgYWJsZSB0byBiZSByZXByb2R1Y2VkIG9uIG5v
-biBsYXB0b3Agc3lzdGVtcy4KPiArICovCj4gKwo+ICtzdGF0aWMgdm9pZCBxdWlya19icm9rZW5f
-bnZfcnVucG0oc3RydWN0IHBjaV9kZXYgKmRldikKPiArewo+ICsgICAgICAgc3RydWN0IHBjaV9k
-ZXYgKmJyaWRnZSA9IHBjaV91cHN0cmVhbV9icmlkZ2UoZGV2KTsKPiArCj4gKyAgICAgICBpZiAo
-YnJpZGdlLT52ZW5kb3IgPT0gUENJX1ZFTkRPUl9JRF9JTlRFTCAmJgo+ICsgICAgICAgICAgIGJy
-aWRnZS0+ZGV2aWNlID09IDB4MTkwMSkKPiArICAgICAgICAgICAgICAgZGV2LT5icm9rZW5fbnZf
-cnVucG0gPSAxOwo+ICt9Cj4gK0RFQ0xBUkVfUENJX0ZJWFVQX0NMQVNTX0ZJTkFMKFBDSV9WRU5E
-T1JfSURfTlZJRElBLCBQQ0lfQU5ZX0lELAo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IFBDSV9CQVNFX0NMQVNTX0RJU1BMQVksIDE2LAo+ICsgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIHF1aXJrX2Jyb2tlbl9udl9ydW5wbSk7Cj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgv
-cGNpLmggYi9pbmNsdWRlL2xpbnV4L3BjaS5oCj4gaW5kZXggYWM4YTZjNGUxNzkyLi45MDNhMGIz
-YTM5ZWMgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS9saW51eC9wY2kuaAo+ICsrKyBiL2luY2x1ZGUv
-bGludXgvcGNpLmgKPiBAQCAtNDE2LDYgKzQxNiw3IEBAIHN0cnVjdCBwY2lfZGV2IHsKPiAgICAg
-ICAgIHVuc2lnbmVkIGludCAgICBfX2Flcl9maXJtd2FyZV9maXJzdF92YWxpZDoxOwo+ICAgICAg
-ICAgdW5zaWduZWQgaW50ICAgIF9fYWVyX2Zpcm13YXJlX2ZpcnN0OjE7Cj4gICAgICAgICB1bnNp
-Z25lZCBpbnQgICAgYnJva2VuX2ludHhfbWFza2luZzoxOyAgLyogSU5UeCBtYXNraW5nIGNhbid0
-IGJlIHVzZWQgKi8KPiArICAgICAgIHVuc2lnbmVkIGludCAgICBicm9rZW5fbnZfcnVucG06MTsg
-ICAgICAvKiBzb21lIGNvbWJpbmF0aW9ucyBvZiBpbnRlbCBicmlkZ2UgY29udHJvbGxlciBhbmQg
-bnZpZGlhIEdQVXMgYnJlYWsgcnRkMyAqLwo+ICAgICAgICAgdW5zaWduZWQgaW50ICAgIGlvX3dp
-bmRvd18xazoxOyAgICAgICAgIC8qIEludGVsIGJyaWRnZSAxSyBJL08gd2luZG93cyAqLwo+ICAg
-ICAgICAgdW5zaWduZWQgaW50ICAgIGlycV9tYW5hZ2VkOjE7Cj4gICAgICAgICB1bnNpZ25lZCBp
-bnQgICAgaGFzX3NlY29uZGFyeV9saW5rOjE7Cj4gLS0KPiAyLjIxLjAKPgoKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0529414195==
+Content-Type: multipart/alternative; boundary="15737614091.Cab9c.30374"
+Content-Transfer-Encoding: 7bit
+
+
+--15737614091.Cab9c.30374
+Date: Thu, 14 Nov 2019 19:56:49 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112288
+
+            Bug ID: 112288
+           Summary: Blank display on Ubuntu 19.10 on Ryzen 3 2200G and
+                    Ryzen 5 2400G APUs
+           Product: DRI
+           Version: XOrg git
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: major
+          Priority: not set
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: mortenkjeldgaard@gmail.com
+
+Filing bug report here on request by Ubuntu bug team, please see discussion=
+ on
+https://bugs.launchpad.net/ubuntu/+source/xserver-xorg-video-amdgpu/+bug/18=
+48900
+
+My problem arose after upgrading Ubuntu 19.04 -> 19.10. The lighted welcome
+screen displays fine, but when I try to log in I get a black screen and the
+monitor appears to be frozen (can't switch to virtual terminal either). The
+machine is running normally and I can log on via ssh.
+
+Other users in the above mentioned bug on LP have different variations of t=
+he
+same problems, some have problems using the live DVD.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15737614091.Cab9c.30374
+Date: Thu, 14 Nov 2019 19:56:49 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Blank display on Ubuntu 19.10 on Ryzen 3 2200G and Ryzen =
+5 2400G APUs"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112288">112288</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Blank display on Ubuntu 19.10 on Ryzen 3 2200G and Ryzen 5 24=
+00G APUs
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>XOrg git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>major
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>mortenkjeldgaard&#64;gmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Filing bug report here on request by Ubuntu bug team, please s=
+ee discussion on
+<a href=3D"https://bugs.launchpad.net/ubuntu/+source/xserver-xorg-video-amd=
+gpu/+bug/1848900">https://bugs.launchpad.net/ubuntu/+source/xserver-xorg-vi=
+deo-amdgpu/+bug/1848900</a>
+
+My problem arose after upgrading Ubuntu 19.04 -&gt; 19.10. The lighted welc=
+ome
+screen displays fine, but when I try to log in I get a black screen and the
+monitor appears to be frozen (can't switch to virtual terminal either). The
+machine is running normally and I can log on via ssh.
+
+Other users in the above mentioned bug on LP have different variations of t=
+he
+same problems, some have problems using the live DVD.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15737614091.Cab9c.30374--
+
+--===============0529414195==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0529414195==--
