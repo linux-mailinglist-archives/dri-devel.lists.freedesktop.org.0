@@ -2,45 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51FD8FCF30
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 21:10:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45CF4FCF50
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 21:11:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FC606E3F3;
-	Thu, 14 Nov 2019 20:10:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D56416EF2A;
+	Thu, 14 Nov 2019 20:11:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6A4C96E3F3
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 20:10:13 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 67232720E2; Thu, 14 Nov 2019 20:10:13 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112288] Blank display on Ubuntu 19.10 on Ryzen 3 2200G and
- Ryzen 5 2400G APUs
-Date: Thu, 14 Nov 2019 20:10:13 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: mortenkjeldgaard@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-112288-502-6YHQsRDKDT@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-112288-502@http.bugs.freedesktop.org/>
-References: <bug-112288-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13E166EF2A;
+ Thu, 14 Nov 2019 20:11:38 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id i12so8120479wro.5;
+ Thu, 14 Nov 2019 12:11:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=y4hdHdRBUC8JqWM6F1BxW7P5Ys4p04wGlCPsa5sNxgE=;
+ b=V9pF9ar3k9FQ3qSxePFpu9tYqqB4xpR9zZ4FH/EcKmMtzQJ7Pc5Vu7p9QpqR3pTI5u
+ Klf/AAKaXSSsqzARPFllzhVJ4EvV1iPLrJlqVhiJfbjgYE8h3vl4dB+st/rJhZlxLHwn
+ s3jqti9Qhrz8eOrmnAuDd4xH54rHc90dmso7b/C72s7iWh+z8dOHkp9lNyAvbbr97XzL
+ H3cX1LiflNfagzINIHgPURpNm3VThUE4QnHZl6Sd/6Mjbhflcs+lx2rJAEbs66Ar1UrK
+ 6LndpbrmBGT0KKmNH6Rekjk5wZMXbldPop4AtD1UHr3M5wGg1Amyi+AF4bHRRc8MMEZ3
+ Ar0g==
+X-Gm-Message-State: APjAAAXjpDJMOSxi7QMxB0wj3rPoQj/9rPfYQN19jx7Dvc9QCoJJ3qse
+ J0P3zgWSLfhoGYRuvvp/yRsahoblcpqXrmPfVgQ=
+X-Google-Smtp-Source: APXvYqxxl/ssXWFhKF62T2yks/7TqOejA7M6dHVcRiZht+SDb13PfhhgatTgkw1ukV82ik63fjj2qr8ZMhY7zLSvMXo=
+X-Received: by 2002:adf:fb0b:: with SMTP id c11mr10783667wrr.50.1573762295542; 
+ Thu, 14 Nov 2019 12:11:35 -0800 (PST)
 MIME-Version: 1.0
+References: <1573734987-119703-1-git-send-email-zhengbin13@huawei.com>
+ <e1bfa8cc-1552-9f81-3705-ef6b832461c8@amd.com>
+In-Reply-To: <e1bfa8cc-1552-9f81-3705-ef6b832461c8@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 14 Nov 2019 15:11:23 -0500
+Message-ID: <CADnq5_NhHCg80K6FA9nxost=1wqaLDc3dM6u-Q+hd003PMfjdg@mail.gmail.com>
+Subject: Re: [PATCH 0/4] drm/amd/display: remove some set but not used
+ variables
+To: Harry Wentland <hwentlan@amd.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=y4hdHdRBUC8JqWM6F1BxW7P5Ys4p04wGlCPsa5sNxgE=;
+ b=a3gax86FtdcnY78DGlr+/q7e42Akebwcs2M9Z5IQuhtT/9xjUw5hCto7SI8pb869UV
+ GPpfLhQV6nJqDkAry1q6VD7Rs16fhHIJVgZChU4EuaAGS4gv2F7iwl0NiBOSwPhxQvbU
+ s7gItiwKDPXx7oJxg+3To/AdrayMi7h0kM9K/f9YCVkEJWjqAT0S/0xFnc2zAb/2fzSv
+ w8//t47uG5FGuUGuCfxnxn4tRSUPrFqceeTSmx+6yd+hSEuYQKoBMGue2ejkyHGKDAbF
+ 5uuV+YjruQ5fqSbeNcRFBdgFWCGxLzfXqhJFyVG2DvnNf7qbRJU1qKe5/rIfaeh/FVlh
+ hJRA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,94 +64,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0281156459=="
+Cc: "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, zhengbin <zhengbin13@huawei.com>,
+ Dave Airlie <airlied@linux.ie>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0281156459==
-Content-Type: multipart/alternative; boundary="15737622131.695412.753"
-Content-Transfer-Encoding: 7bit
-
-
---15737622131.695412.753
-Date: Thu, 14 Nov 2019 20:10:13 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112288
-
---- Comment #5 from mortenkjeldgaard@gmail.com ---
-Created attachment 145957
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145957&action=3Dedit
-dmesg output
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15737622131.695412.753
-Date: Thu, 14 Nov 2019 20:10:13 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Blank display on Ubuntu 19.10 on Ryzen 3 2200G and Ryzen =
-5 2400G APUs"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112288#c5">Commen=
-t # 5</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Blank display on Ubuntu 19.10 on Ryzen 3 2200G and Ryzen =
-5 2400G APUs"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112288">bug 11228=
-8</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-mortenkjeldgaard&#64;gmail.com" title=3D"mortenkjeldgaard&#64;gmail.com">mo=
-rtenkjeldgaard&#64;gmail.com</a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145957=
-" name=3D"attach_145957" title=3D"dmesg output">attachment 145957</a> <a hr=
-ef=3D"attachment.cgi?id=3D145957&amp;action=3Dedit" title=3D"dmesg output">=
-[details]</a></span>
-dmesg output</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15737622131.695412.753--
-
---===============0281156459==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0281156459==--
+T24gVGh1LCBOb3YgMTQsIDIwMTkgYXQgMTE6NDEgQU0gSGFycnkgV2VudGxhbmQgPGh3ZW50bGFu
+QGFtZC5jb20+IHdyb3RlOgo+Cj4gT24gMjAxOS0xMS0xNCA3OjM2IGEubS4sIHpoZW5nYmluIHdy
+b3RlOgo+ID4gemhlbmdiaW4gKDQpOgo+ID4gICBkcm0vYW1kL2Rpc3BsYXk6IHJlbW92ZSBzZXQg
+YnV0IG5vdCB1c2VkIHZhcmlhYmxlICdvbGRfcGxhbmVfY3J0YycKPiA+ICAgZHJtL2FtZC9kaXNw
+bGF5OiByZW1vdmUgc2V0IGJ1dCBub3QgdXNlZCB2YXJpYWJsZSAnYnAnIGluCj4gPiAgICAgYmlv
+c19wYXJzZXIyLmMKPiA+ICAgZHJtL2FtZC9kaXNwbGF5OiByZW1vdmUgc2V0IGJ1dCBub3QgdXNl
+ZCB2YXJpYWJsZSAnYnAnIGluCj4gPiAgICAgYmlvc19wYXJzZXIuYwo+ID4gICBkcm0vYW1kL2Rp
+c3BsYXk6IHJlbW92ZSBzZXQgYnV0IG5vdCB1c2VkIHZhcmlhYmxlICdtaW5fY29udGVudCcKPiA+
+Cj4KPiBUaGVzZSB3b3VsZCBiZSBmaW5lIGFzIGEgc2luZ2xlIHBhdGNoIGFzIHdlbGwgYnV0IEkg
+ZG9uJ3QgaGF2ZSBhIHN0cm9uZwo+IHByZWZlcmVuY2UgZWl0aGVyIHdheS4KPgo+IFBhdGNoZXMg
+YXJlOgo+IFJldmlld2VkLWJ5OiBIYXJyeSBXZW50bGFuZCA8aGFycnkud2VudGxhbmRAYW1kLmNv
+bT4KCkFwcGxpZWQuICBUaGFua3MhCgpBbGV4Cgo+Cj4gSGFycnkKPgo+ID4gIGRyaXZlcnMvZ3B1
+L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMgICAgICAgfCAzICstLQo+ID4g
+IGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9iaW9zL2Jpb3NfcGFyc2VyLmMgICAgICAg
+fCAyIC0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2Jpb3MvYmlvc19wYXJz
+ZXIyLmMgICAgICB8IDIgLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvbW9kdWxl
+cy9jb2xvci9jb2xvcl9nYW1tYS5jIHwgMiAtLQo+ID4gIDQgZmlsZXMgY2hhbmdlZCwgMSBpbnNl
+cnRpb24oKyksIDggZGVsZXRpb25zKC0pCj4gPgo+ID4gLS0KPiA+IDIuNy40Cj4gPgo+IF9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xp
+c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbApfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
