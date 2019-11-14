@@ -2,34 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7547EFCBC8
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 18:27:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9F79FCBCC
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 18:28:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 203826E3AE;
-	Thu, 14 Nov 2019 17:27:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A49456EE3F;
+	Thu, 14 Nov 2019 17:28:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 277136E3AE
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 17:27:29 +0000 (UTC)
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
- by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <colin.king@canonical.com>)
- id 1iVItt-0003AZ-5S; Thu, 14 Nov 2019 17:27:21 +0000
-From: Colin King <colin.king@canonical.com>
-To: "K . Y . Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>,
- Stephen Hemminger <sthemmin@microsoft.com>,
- Sasha Levin <sashal@kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org
-Subject: [PATCH][next] video: hyperv: hyperv_fb: fix indentation issue
-Date: Thu, 14 Nov 2019 17:27:20 +0000
-Message-Id: <20191114172720.322023-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.20.1
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B3C5E6EE42
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 17:28:03 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id B0C12720E2; Thu, 14 Nov 2019 17:28:03 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 112266] [Navi] Pathfinder: Kingmaker is causing a GPU hang:
+ flip_done timed out error
+Date: Thu, 14 Nov 2019 17:28:03 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: rly@hotmail.hu
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-112266-502-VsR4ND5vLI@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-112266-502@http.bugs.freedesktop.org/>
+References: <bug-112266-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -43,27 +53,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1015657015=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4KClRoZXJlIGlz
-IGEgYmxvY2sgb2Ygc3RhdGVtZW50cyB0aGF0IGFyZSBpbmRlbnRlZAp0b28gZGVlcGx5LCByZW1v
-dmUgdGhlIGV4dHJhbmVvdXMgdGFicy4KClNpZ25lZC1vZmYtYnk6IENvbGluIElhbiBLaW5nIDxj
-b2xpbi5raW5nQGNhbm9uaWNhbC5jb20+Ci0tLQogZHJpdmVycy92aWRlby9mYmRldi9oeXBlcnZf
-ZmIuYyB8IDQgKystLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlv
-bnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2h5cGVydl9mYi5jIGIvZHJp
-dmVycy92aWRlby9mYmRldi9oeXBlcnZfZmIuYwppbmRleCA0Y2QyN2U1MTcyYTEuLjVmY2Y0YmRm
-ODVhYiAxMDA2NDQKLS0tIGEvZHJpdmVycy92aWRlby9mYmRldi9oeXBlcnZfZmIuYworKysgYi9k
-cml2ZXJzL3ZpZGVvL2ZiZGV2L2h5cGVydl9mYi5jCkBAIC01ODIsOCArNTgyLDggQEAgc3RhdGlj
-IGludCBzeW50aHZpZF9nZXRfc3VwcG9ydGVkX3Jlc29sdXRpb24oc3RydWN0IGh2X2RldmljZSAq
-aGRldikKIAl0ID0gd2FpdF9mb3JfY29tcGxldGlvbl90aW1lb3V0KCZwYXItPndhaXQsIFZTUF9U
-SU1FT1VUKTsKIAlpZiAoIXQpIHsKIAkJcHJfZXJyKCJUaW1lIG91dCBvbiB3YWl0aW5nIHJlc29s
-dXRpb24gcmVzcG9uc2VcbiIpOwotCQkJcmV0ID0gLUVUSU1FRE9VVDsKLQkJCWdvdG8gb3V0Owor
-CQlyZXQgPSAtRVRJTUVET1VUOworCQlnb3RvIG91dDsKIAl9CiAKIAlpZiAobXNnLT5yZXNvbHV0
-aW9uX3Jlc3AucmVzb2x1dGlvbl9jb3VudCA9PSAwKSB7Ci0tIAoyLjIwLjEKCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1015657015==
+Content-Type: multipart/alternative; boundary="15737524832.Fc6Df7b.27803"
+Content-Transfer-Encoding: 7bit
+
+
+--15737524832.Fc6Df7b.27803
+Date: Thu, 14 Nov 2019 17:28:03 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112266
+
+--- Comment #1 from rLy <rly@hotmail.hu> ---
+I experience the same in CS:GO and Shadow of the tomb raider. What I notice=
+d is
+that the crash only happens when I move the mouse. Also it's somewhat relat=
+ed
+to the mouse pointer. For example starting a CS:GO game using console comma=
+nds
+thus getting rid of the system pointer doesn't result in a crash, but as so=
+on
+as I open the buy menu or bringing up steam overlay which shows the system
+pointer it crashes. Neither CS:GO or SOTTR has ingame pointers. Not sure how
+relevant mouse pointer type part is because there's some exception to this =
+with
+other games that I tested based on this.
+
+GTA5 - ingame pointer - no crash
+Europa Universalis 4 - ingame pointer - no crash
+Train Simulator 2020 - no ingame pointer - crash
+exceptions:
+Kerbal Space Program - ingame pointer - crash
+Oxygen Not Included -no ingame pointer - no crash
+
+Workaround that worked for me is setting Option "SWCursor" "True" for xorg.
+
+Specs:
+GPU Sapphire Pulse RX 5700 XT
+Archlinux with mesa-git repo
+DE: KDE
+kernel 5.4-rc7
+mesa-git 1:20.0.0_devel.117467.9e440b8d0b9-1
+llvm-git 10.0.0_r331530.6ef63638cb8-1
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15737524832.Fc6Df7b.27803
+Date: Thu, 14 Nov 2019 17:28:03 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [Navi] Pathfinder: Kingmaker is causing a GPU hang: flip_=
+done timed out error"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112266#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [Navi] Pathfinder: Kingmaker is causing a GPU hang: flip_=
+done timed out error"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112266">bug 11226=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+rly&#64;hotmail.hu" title=3D"rLy &lt;rly&#64;hotmail.hu&gt;"> <span class=
+=3D"fn">rLy</span></a>
+</span></b>
+        <pre>I experience the same in CS:GO and Shadow of the tomb raider. =
+What I noticed is
+that the crash only happens when I move the mouse. Also it's somewhat relat=
+ed
+to the mouse pointer. For example starting a CS:GO game using console comma=
+nds
+thus getting rid of the system pointer doesn't result in a crash, but as so=
+on
+as I open the buy menu or bringing up steam overlay which shows the system
+pointer it crashes. Neither CS:GO or SOTTR has ingame pointers. Not sure how
+relevant mouse pointer type part is because there's some exception to this =
+with
+other games that I tested based on this.
+
+GTA5 - ingame pointer - no crash
+Europa Universalis 4 - ingame pointer - no crash
+Train Simulator 2020 - no ingame pointer - crash
+exceptions:
+Kerbal Space Program - ingame pointer - crash
+Oxygen Not Included -no ingame pointer - no crash
+
+Workaround that worked for me is setting Option &quot;SWCursor&quot; &quot;=
+True&quot; for xorg.
+
+Specs:
+GPU Sapphire Pulse RX 5700 XT
+Archlinux with mesa-git repo
+DE: KDE
+kernel 5.4-rc7
+mesa-git 1:20.0.0_devel.117467.9e440b8d0b9-1
+llvm-git 10.0.0_r331530.6ef63638cb8-1</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15737524832.Fc6Df7b.27803--
+
+--===============1015657015==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1015657015==--
