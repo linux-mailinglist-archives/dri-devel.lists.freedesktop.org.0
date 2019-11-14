@@ -1,46 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B97E4FCC18
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 18:46:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5FC6FCC1F
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 18:47:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99C3F6EE63;
-	Thu, 14 Nov 2019 17:46:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 321876EE77;
+	Thu, 14 Nov 2019 17:47:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 65CDD6EE6D
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 17:46:52 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 632E5720E2; Thu, 14 Nov 2019 17:46:52 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112266] [Navi] Pathfinder: Kingmaker is causing a GPU hang:
- flip_done timed out error
-Date: Thu, 14 Nov 2019 17:46:52 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pierre-eric.pelloux-prayer@amd.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-112266-502-EZCICPRQTH@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-112266-502@http.bugs.freedesktop.org/>
-References: <bug-112266-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B0FD6EE77;
+ Thu, 14 Nov 2019 17:47:15 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id b72so5808513edf.1;
+ Thu, 14 Nov 2019 09:47:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uIo531B/cUq75IiN6qR4DNybSGADhsaWaGA4/dANrUU=;
+ b=ShawJ0CaTWbzSulHzQreW4oUhg/tjRKqG/dup0cShPo4ItTwWZ5pD7R2/qw86PFXs3
+ VeOdKPrJl9stY/zf6XEo+j14SNGNhEAF1pw6KKSom9LA8MGMJZITcjGjy+XTR7flkYZN
+ pi9cO2ZtLjY80CbyfsGfwgFVtPhYhTxdBJLDd09LNKBv7h9Qp2bhGpJRyhwq0DiKBu/u
+ c52knAhZc8nMTh3EeVF1qUGOosl4LAyzdJN7hmGBwXQdJ2wnTNs6eCI1yxfV4b4vT8pe
+ nN4/iNwpIHaA9to3N7dJ/IKrobtD2wPE0ErmKlzj4FsvbNAuBRI6A194b+KeX9B5+Co4
+ 9i8w==
+X-Gm-Message-State: APjAAAU3/koJ4A/xkHTaKgFNR0CDeYixuKeNTbfEBixMzNAEIV3LC9o/
+ qTpeFBRKgvG96YgKI9g+MpDY4WDun255EcSFk58=
+X-Google-Smtp-Source: APXvYqw3CejNmaVz5GldVr/MDvSo09GNjIMxV6cGEH5VCjX8kpYok2NSUnjdMbIQdf5qOmCQs3bB2RJx5SRQqmEzN2w=
+X-Received: by 2002:a17:906:f209:: with SMTP id
+ gt9mr9586553ejb.241.1573753634099; 
+ Thu, 14 Nov 2019 09:47:14 -0800 (PST)
 MIME-Version: 1.0
+References: <1573726588-18897-1-git-send-email-harigovi@codeaurora.org>
+ <1573726588-18897-3-git-send-email-harigovi@codeaurora.org>
+In-Reply-To: <1573726588-18897-3-git-send-email-harigovi@codeaurora.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 14 Nov 2019 09:47:02 -0800
+Message-ID: <CAF6AEGurmTxwhBeWf1Q2U7_jSwmofBq49G5dsZN0qRmAFfvDNQ@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] drm/msm: add DSI config changes to support DSI
+ version
+To: Harigovindan P <harigovi@codeaurora.org>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=uIo531B/cUq75IiN6qR4DNybSGADhsaWaGA4/dANrUU=;
+ b=rw6xzVmS7zdh8IO41zKmyH1EwS5ub484ZDfPzqMFnsZ8/bNOCwpsqUJT3eapWamnoa
+ hRE3otsinYDkEiNefw82XE+uOulf3MvWrhYEfNyY7RFgYcmWNcyS/yvHKJpQpenMAgLM
+ OD4hNu5S8VQ6WRXzgydzo0hjCt3n4IYDjIc9OYPRlSLy0Q5wGmBEhYZ1KLElSAnxuk4d
+ LWiULGeDyeTj3t8PP+E9iAPFSqc5jjeaUG9F3W0rEzd8rIu5HXHvb6X0nfY0Cz3eSSEj
+ t7aWD0smLhxLrybsj8804sTrjcFhPRFAbZdOCdNXQIwjN0lZiRGqA2mKWsppRsa4E9aE
+ UdAw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,104 +65,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0714039227=="
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <seanpaul@chromium.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ "Kristian H. Kristensen" <hoegsberg@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0714039227==
-Content-Type: multipart/alternative; boundary="15737536121.b9Fabfa.31143"
-Content-Transfer-Encoding: 7bit
-
-
---15737536121.b9Fabfa.31143
-Date: Thu, 14 Nov 2019 17:46:52 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112266
-
---- Comment #3 from Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@=
-amd.com> ---
-This bug looks similar to this one:
-https://bugzilla.kernel.org/show_bug.cgi?id=3D205169
-
-2 possible workarounds to test:
-- do not run the game in fullscreen
-- revert this kernel commit:
-https://bugzilla.kernel.org/show_bug.cgi?id=3D205169#c10
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15737536121.b9Fabfa.31143
-Date: Thu, 14 Nov 2019 17:46:52 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [Navi] Pathfinder: Kingmaker is causing a GPU hang: flip_=
-done timed out error"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112266#c3">Commen=
-t # 3</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [Navi] Pathfinder: Kingmaker is causing a GPU hang: flip_=
-done timed out error"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112266">bug 11226=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-pierre-eric.pelloux-prayer&#64;amd.com" title=3D"Pierre-Eric Pelloux-Prayer=
- &lt;pierre-eric.pelloux-prayer&#64;amd.com&gt;"> <span class=3D"fn">Pierre=
--Eric Pelloux-Prayer</span></a>
-</span></b>
-        <pre>This bug looks similar to this one:
-<a href=3D"https://bugzilla.kernel.org/show_bug.cgi?id=3D205169">https://bu=
-gzilla.kernel.org/show_bug.cgi?id=3D205169</a>
-
-2 possible workarounds to test:
-- do not run the game in fullscreen
-- revert this kernel commit:
-<a href=3D"https://bugzilla.kernel.org/show_bug.cgi?id=3D205169#c10">https:=
-//bugzilla.kernel.org/show_bug.cgi?id=3D205169#c10</a></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15737536121.b9Fabfa.31143--
-
---===============0714039227==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0714039227==--
+T24gVGh1LCBOb3YgMTQsIDIwMTkgYXQgMjoxNiBBTSBIYXJpZ292aW5kYW4gUCA8aGFyaWdvdmlA
+Y29kZWF1cm9yYS5vcmc+IHdyb3RlOgo+Cj4gQWRkIERTSSBjb25maWcgY2hhbmdlcyB0byBzdXBw
+b3J0IERTSSB2ZXJzaW9uLgo+Cj4gU2lnbmVkLW9mZi1ieTogSGFyaWdvdmluZGFuIFAgPGhhcmln
+b3ZpQGNvZGVhdXJvcmEub3JnPgoKUmV2aWV3ZWQtYnk6IFJvYiBDbGFyayA8cm9iZGNsYXJrQGdt
+YWlsLmNvbT4KCkZvciBwYXRjaCAxLzIgd2l0aCB0aGUgcGFuZWwgZHJpdmVyLCBwcm9iYWJseSBi
+ZXN0IHRvIHNwbGl0IHRoYXQgb3V0CmludG8gYSBkaWZmZXJlbnQgcGF0Y2goc2V0KSwgc2luY2Ug
+cGFuZWwgZHJpdmVycyBhcmUgbWVyZ2VkIGludG8KZHJtLW5leHQgdmlhIGEgZGlmZmVyZW50IHRy
+ZWUKCkJSLAotUgoKPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL21zbS9kc2kvZHNpX2NmZy5jIHwg
+MjEgKysrKysrKysrKysrKysrKysrKysrCj4gIGRyaXZlcnMvZ3B1L2RybS9tc20vZHNpL2RzaV9j
+ZmcuaCB8ICAxICsKPiAgMiBmaWxlcyBjaGFuZ2VkLCAyMiBpbnNlcnRpb25zKCspCj4KPiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21zbS9kc2kvZHNpX2NmZy5jIGIvZHJpdmVycy9ncHUv
+ZHJtL21zbS9kc2kvZHNpX2NmZy5jCj4gaW5kZXggYjdiN2MxYS4uZDJjNDU5MiAxMDA2NDQKPiAt
+LS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2RzaS9kc2lfY2ZnLmMKPiArKysgYi9kcml2ZXJzL2dw
+dS9kcm0vbXNtL2RzaS9kc2lfY2ZnLmMKPiBAQCAtMTMzLDYgKzEzMywxMCBAQCBzdGF0aWMgY29u
+c3QgY2hhciAqIGNvbnN0IGRzaV9zZG04NDVfYnVzX2Nsa19uYW1lc1tdID0gewo+ICAgICAgICAg
+ImlmYWNlIiwgImJ1cyIsCj4gIH07Cj4KPiArc3RhdGljIGNvbnN0IGNoYXIgKiBjb25zdCBkc2lf
+c2M3MTgwX2J1c19jbGtfbmFtZXNbXSA9IHsKPiArICAgICAgICAiaWZhY2UiLCAiYnVzIiwKPiAr
+fTsKPiArCj4gIHN0YXRpYyBjb25zdCBzdHJ1Y3QgbXNtX2RzaV9jb25maWcgc2RtODQ1X2RzaV9j
+ZmcgPSB7Cj4gICAgICAgICAuaW9fb2Zmc2V0ID0gRFNJXzZHX1JFR19TSElGVCwKPiAgICAgICAg
+IC5yZWdfY2ZnID0gewo+IEBAIC0xNDcsNiArMTUxLDIwIEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3Qg
+bXNtX2RzaV9jb25maWcgc2RtODQ1X2RzaV9jZmcgPSB7Cj4gICAgICAgICAubnVtX2RzaSA9IDIs
+Cj4gIH07Cj4KPiArc3RhdGljIGNvbnN0IHN0cnVjdCBtc21fZHNpX2NvbmZpZyBzYzcxODBfZHNp
+X2NmZyA9IHsKPiArICAgICAgIC5pb19vZmZzZXQgPSBEU0lfNkdfUkVHX1NISUZULAo+ICsgICAg
+ICAgLnJlZ19jZmcgPSB7Cj4gKyAgICAgICAgICAgICAgIC5udW0gPSAxLAo+ICsgICAgICAgICAg
+ICAgICAucmVncyA9IHsKPiArICAgICAgICAgICAgICAgICAgICAgICB7InZkZGEiLCAyMTgwMCwg
+NCB9LCAgICAvKiAxLjIgViAqLwo+ICsgICAgICAgICAgICAgICB9LAo+ICsgICAgICAgfSwKPiAr
+ICAgICAgIC5idXNfY2xrX25hbWVzID0gZHNpX3NjNzE4MF9idXNfY2xrX25hbWVzLAo+ICsgICAg
+ICAgLm51bV9idXNfY2xrcyA9IEFSUkFZX1NJWkUoZHNpX3NjNzE4MF9idXNfY2xrX25hbWVzKSwK
+PiArICAgICAgIC5pb19zdGFydCA9IHsgMHhhZTk0MDAwIH0sCj4gKyAgICAgICAubnVtX2RzaSA9
+IDEsCj4gK307Cj4gKwo+ICBjb25zdCBzdGF0aWMgc3RydWN0IG1zbV9kc2lfaG9zdF9jZmdfb3Bz
+IG1zbV9kc2lfdjJfaG9zdF9vcHMgPSB7Cj4gICAgICAgICAubGlua19jbGtfZW5hYmxlID0gZHNp
+X2xpbmtfY2xrX2VuYWJsZV92MiwKPiAgICAgICAgIC5saW5rX2Nsa19kaXNhYmxlID0gZHNpX2xp
+bmtfY2xrX2Rpc2FibGVfdjIsCj4gQEAgLTIwMSw2ICsyMTksOSBAQCBzdGF0aWMgY29uc3Qgc3Ry
+dWN0IG1zbV9kc2lfY2ZnX2hhbmRsZXIgZHNpX2NmZ19oYW5kbGVyc1tdID0gewo+ICAgICAgICAg
+ICAgICAgICAmbXNtODk5OF9kc2lfY2ZnLCAmbXNtX2RzaV82Z192Ml9ob3N0X29wc30sCj4gICAg
+ICAgICB7TVNNX0RTSV9WRVJfTUFKT1JfNkcsIE1TTV9EU0lfNkdfVkVSX01JTk9SX1YyXzJfMSwK
+PiAgICAgICAgICAgICAgICAgJnNkbTg0NV9kc2lfY2ZnLCAmbXNtX2RzaV82Z192Ml9ob3N0X29w
+c30sCj4gKyAgICAgICB7TVNNX0RTSV9WRVJfTUFKT1JfNkcsIE1TTV9EU0lfNkdfVkVSX01JTk9S
+X1YyXzRfMSwKPiArICAgICAgICAgICAgICAgJnNjNzE4MF9kc2lfY2ZnLCAmbXNtX2RzaV82Z192
+Ml9ob3N0X29wc30sCj4gKwo+ICB9Owo+Cj4gIGNvbnN0IHN0cnVjdCBtc21fZHNpX2NmZ19oYW5k
+bGVyICptc21fZHNpX2NmZ19nZXQodTMyIG1ham9yLCB1MzIgbWlub3IpCj4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9tc20vZHNpL2RzaV9jZmcuaCBiL2RyaXZlcnMvZ3B1L2RybS9tc20v
+ZHNpL2RzaV9jZmcuaAo+IGluZGV4IGUyYjdhN2QuLjk5MTk1MzYgMTAwNjQ0Cj4gLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL21zbS9kc2kvZHNpX2NmZy5oCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21z
+bS9kc2kvZHNpX2NmZy5oCj4gQEAgLTE5LDYgKzE5LDcgQEAKPiAgI2RlZmluZSBNU01fRFNJXzZH
+X1ZFUl9NSU5PUl9WMV80XzEgICAgMHgxMDA0MDAwMQo+ICAjZGVmaW5lIE1TTV9EU0lfNkdfVkVS
+X01JTk9SX1YyXzJfMCAgICAweDIwMDAwMDAwCj4gICNkZWZpbmUgTVNNX0RTSV82R19WRVJfTUlO
+T1JfVjJfMl8xICAgIDB4MjAwMjAwMDEKPiArI2RlZmluZSBNU01fRFNJXzZHX1ZFUl9NSU5PUl9W
+Ml80XzEgICAgMHgyMDA0MDAwMQo+Cj4gICNkZWZpbmUgTVNNX0RTSV9WMl9WRVJfTUlOT1JfODA2
+NCAgICAgIDB4MAo+Cj4gLS0KPiAyLjcuNAo+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbA==
