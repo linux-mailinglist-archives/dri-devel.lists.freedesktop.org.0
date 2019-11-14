@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861B1FCF0A
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 21:02:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8512BFCF0E
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Nov 2019 21:03:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1847B6E3EB;
-	Thu, 14 Nov 2019 20:02:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F5E76EF22;
+	Thu, 14 Nov 2019 20:03:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 70A0E6EF23
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 20:02:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2B6EA6EF28
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Nov 2019 20:03:54 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 6DF03720E2; Thu, 14 Nov 2019 20:02:20 +0000 (UTC)
+ id 2871C720E2; Thu, 14 Nov 2019 20:03:54 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 112288] Blank display on Ubuntu 19.10 on Ryzen 3 2200G and
  Ryzen 5 2400G APUs
-Date: Thu, 14 Nov 2019 20:02:20 +0000
+Date: Thu, 14 Nov 2019 20:03:54 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -35,7 +35,7 @@ X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-112288-502-ukoiupbJ1W@http.bugs.freedesktop.org/>
+Message-ID: <bug-112288-502-WBh7N5C8hZ@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-112288-502@http.bugs.freedesktop.org/>
 References: <bug-112288-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0316442398=="
+Content-Type: multipart/mixed; boundary="===============0696445672=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0316442398==
-Content-Type: multipart/alternative; boundary="15737617402.A91E849B1.31890"
+--===============0696445672==
+Content-Type: multipart/alternative; boundary="15737618342.bd7ec1d.32023"
 Content-Transfer-Encoding: 7bit
 
 
---15737617402.A91E849B1.31890
-Date: Thu, 14 Nov 2019 20:02:20 +0000
+--15737618342.bd7ec1d.32023
+Date: Thu, 14 Nov 2019 20:03:54 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,19 +73,15 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D112288
 
---- Comment #3 from Alex Deucher <alexdeucher@gmail.com> ---
-from your dmesg output:
-[    1.094054] [drm:amdgpu_init [amdgpu]] *ERROR* VGACON disables amdgpu ke=
-rnel
-modesetting.
-Did you enable vga console?
+--- Comment #4 from Alex Deucher <alexdeucher@gmail.com> ---
+Can you get the dmesg output from when the driver is loaded?
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15737617402.A91E849B1.31890
-Date: Thu, 14 Nov 2019 20:02:20 +0000
+--15737618342.bd7ec1d.32023
+Date: Thu, 14 Nov 2019 20:03:54 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -103,8 +99,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - Blank display on Ubuntu 19.10 on Ryzen 3 2200G and Ryzen =
 5 2400G APUs"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112288#c3">Commen=
-t # 3</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112288#c4">Commen=
+t # 4</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Blank display on Ubuntu 19.10 on Ryzen 3 2200G and Ryzen =
@@ -115,11 +111,8 @@ t # 3</a>
 alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
 com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
 </span></b>
-        <pre>from your dmesg output:
-[    1.094054] [drm:amdgpu_init [amdgpu]] *ERROR* VGACON disables amdgpu ke=
-rnel
-modesetting.
-Did you enable vga console?</pre>
+        <pre>Can you get the dmesg output from when the driver is loaded?</=
+pre>
         </div>
       </p>
 
@@ -133,9 +126,9 @@ Did you enable vga console?</pre>
     </body>
 </html>=
 
---15737617402.A91E849B1.31890--
+--15737618342.bd7ec1d.32023--
 
---===============0316442398==
+--===============0696445672==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -145,4 +138,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0316442398==--
+--===============0696445672==--
