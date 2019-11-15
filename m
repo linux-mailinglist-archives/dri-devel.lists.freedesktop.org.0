@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C72BEFD313
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2019 03:54:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6321CFD3A6
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2019 05:29:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECE166F3DC;
-	Fri, 15 Nov 2019 02:54:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 264966E171;
+	Fri, 15 Nov 2019 04:29:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id DF4C26F3DF
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2019 02:54:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 47E766E19A
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2019 04:29:08 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id DBD7A720E2; Fri, 15 Nov 2019 02:54:19 +0000 (UTC)
+ id 44941720E2; Fri, 15 Nov 2019 04:29:08 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 112288] Blank display on Ubuntu 19.10 on Ryzen 3 2200G and
  Ryzen 5 2400G APUs
-Date: Fri, 15 Nov 2019 02:54:19 +0000
+Date: Fri, 15 Nov 2019 04:29:08 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -35,7 +35,7 @@ X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-112288-502-B9D6wfzzCq@http.bugs.freedesktop.org/>
+Message-ID: <bug-112288-502-VKUK0KxDSG@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-112288-502@http.bugs.freedesktop.org/>
 References: <bug-112288-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1673992315=="
+Content-Type: multipart/mixed; boundary="===============1764752127=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1673992315==
-Content-Type: multipart/alternative; boundary="15737864592.a56D3.7936"
+--===============1764752127==
+Content-Type: multipart/alternative; boundary="15737921482.ddf9F4.24414"
 Content-Transfer-Encoding: 7bit
 
 
---15737864592.a56D3.7936
-Date: Fri, 15 Nov 2019 02:54:19 +0000
+--15737921482.ddf9F4.24414
+Date: Fri, 15 Nov 2019 04:29:08 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,61 +73,46 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D112288
 
---- Comment #8 from Peter D. <peter_s_d@fastmail.com.au> ---
-Hi,=20
+--- Comment #9 from Peter D. <peter_s_d@fastmail.com.au> ---
+All three ports work.=20=20
 
-I'm the Peter D. who raised the Ubuntu bug report - writing from a different
-email address.  I can probably bisect the kernel with a little gentle
-instruction.=20
+If my computer boots to a blank screen, plugging in a second monitor "reset=
+s"
+the video and both screens display the desktop as clones.=20=20
 
-Initial results are;
-Raven ridge APU, VGA port, slow monitor (75Hz max refresh rate),
-booting with nomodeset gives a stable display, but a very odd result from
-xrandr.=20
+There are two monitors; a slow one with a maximum vertical refresh rate of =
+75
+Hz, and a fast one with a maximum vertical refresh rate of 144 Hz.  The fast
+monitor has DP, HDMI and VGA ports.  The slow monitor has VGA and DVI ports=
+.=20
+The motherboard has DP, HDMI, and VGA ports.  Currently there are cables th=
+at
+can reach ...=20
+MoBo DP fast monitor
+Mobo HDMI (passive adapter) DVI slow monitor
+Mobo VGA slow monitor
+This can be rearranged if need be.
 
-psd@EE:~$ xrandr
-xrandr: Failed to get size of gamma for output default
-Screen 0: minimum 1920 x 1080, current 1920 x 1080, maximum 1920 x 1080
-default connected 1920x1080+0+0 0mm x 0mm
-   1920x1080     77.00*=20
-psd@EE:~$=20
+The reset trick has happened with;=20
+the slow monitor plugged into the VGA port and being revived when the fast
+monitor was plugged into the DP, and with=20
+the fast monitor plugged into the DP and being revived when the slow monitor
+was plugged into the HDMI port.
 
-Booting new kernels (5.3 onwards?) and no "nomodeset" gives either a blank
-screen or a very unstable screen with lots of pixelation and a high risk of
-going black.  Here is something that I captured earlier:=20
+Currently using a mainline kernel downloaded from Ubuntu.=20
 
-psd@EE:~$ xrandr
-Screen 0: minimum 320 x 200, current 1920 x 1080, maximum 16384 x 16384
-DisplayPort-0 disconnected primary (normal left inverted right x axis y axi=
-s)
-HDMI-A-0 disconnected (normal left inverted right x axis y axis)
-DisplayPort-1 connected 1920x1080+0+0 (normal left inverted right x axis y
-axis) 531mm x 298mm
-   1920x1080     60.00*+
-   1680x1050     60.00
-   1280x1024     60.02
-   1440x900      59.89
-   1280x800      59.81
-   1152x864      75.00
-   1280x720      60.00
-   1024x768      70.07    60.00
-   800x600       60.32    56.25
-   640x480       66.67    59.94
-   720x400       70.08
-psd@EE:~$=20
-
-"DisplayPort-1" is actually a VGA port.  I believe that there is a conversi=
-on
-chop on the motherboard, an ASROCK B450 Pro4.=20
-
-Give me some time to swap hardware again.
+psd@EE:~$ uname -a
+Linux EE 5.4.0-050400rc7-generic #201911102031 SMP Mon Nov 11 01:34:23 UTC =
+2019
+x86_64 x86_64 x86_64 GNU/Linux
+psd@EE:~$
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15737864592.a56D3.7936
-Date: Fri, 15 Nov 2019 02:54:19 +0000
+--15737921482.ddf9F4.24414
+Date: Fri, 15 Nov 2019 04:29:08 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -145,8 +130,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - Blank display on Ubuntu 19.10 on Ryzen 3 2200G and Ryzen =
 5 2400G APUs"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112288#c8">Commen=
-t # 8</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112288#c9">Commen=
+t # 9</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Blank display on Ubuntu 19.10 on Ryzen 3 2200G and Ryzen =
@@ -157,54 +142,38 @@ t # 8</a>
 peter_s_d&#64;fastmail.com.au" title=3D"Peter D. &lt;peter_s_d&#64;fastmail=
 .com.au&gt;"> <span class=3D"fn">Peter D.</span></a>
 </span></b>
-        <pre>Hi,=20
+        <pre>All three ports work.=20=20
 
-I'm the Peter D. who raised the Ubuntu bug report - writing from a different
-email address.  I can probably bisect the kernel with a little gentle
-instruction.=20
+If my computer boots to a blank screen, plugging in a second monitor &quot;=
+resets&quot;
+the video and both screens display the desktop as clones.=20=20
 
-Initial results are;
-Raven ridge APU, VGA port, slow monitor (75Hz max refresh rate),
-booting with nomodeset gives a stable display, but a very odd result from
-xrandr.=20
+There are two monitors; a slow one with a maximum vertical refresh rate of =
+75
+Hz, and a fast one with a maximum vertical refresh rate of 144 Hz.  The fast
+monitor has DP, HDMI and VGA ports.  The slow monitor has VGA and DVI ports=
+.=20
+The motherboard has DP, HDMI, and VGA ports.  Currently there are cables th=
+at
+can reach ...=20
+MoBo DP fast monitor
+Mobo HDMI (passive adapter) DVI slow monitor
+Mobo VGA slow monitor
+This can be rearranged if need be.
 
-psd&#64;EE:~$ xrandr
-xrandr: Failed to get size of gamma for output default
-Screen 0: minimum 1920 x 1080, current 1920 x 1080, maximum 1920 x 1080
-default connected 1920x1080+0+0 0mm x 0mm
-   1920x1080     77.00*=20
-psd&#64;EE:~$=20
+The reset trick has happened with;=20
+the slow monitor plugged into the VGA port and being revived when the fast
+monitor was plugged into the DP, and with=20
+the fast monitor plugged into the DP and being revived when the slow monitor
+was plugged into the HDMI port.
 
-Booting new kernels (5.3 onwards?) and no &quot;nomodeset&quot; gives eithe=
-r a blank
-screen or a very unstable screen with lots of pixelation and a high risk of
-going black.  Here is something that I captured earlier:=20
+Currently using a mainline kernel downloaded from Ubuntu.=20
 
-psd&#64;EE:~$ xrandr
-Screen 0: minimum 320 x 200, current 1920 x 1080, maximum 16384 x 16384
-DisplayPort-0 disconnected primary (normal left inverted right x axis y axi=
-s)
-HDMI-A-0 disconnected (normal left inverted right x axis y axis)
-DisplayPort-1 connected 1920x1080+0+0 (normal left inverted right x axis y
-axis) 531mm x 298mm
-   1920x1080     60.00*+
-   1680x1050     60.00
-   1280x1024     60.02
-   1440x900      59.89
-   1280x800      59.81
-   1152x864      75.00
-   1280x720      60.00
-   1024x768      70.07    60.00
-   800x600       60.32    56.25
-   640x480       66.67    59.94
-   720x400       70.08
-psd&#64;EE:~$=20
-
-&quot;DisplayPort-1&quot; is actually a VGA port.  I believe that there is =
-a conversion
-chop on the motherboard, an ASROCK B450 Pro4.=20
-
-Give me some time to swap hardware again.</pre>
+psd&#64;EE:~$ uname -a
+Linux EE 5.4.0-050400rc7-generic #201911102031 SMP Mon Nov 11 01:34:23 UTC =
+2019
+x86_64 x86_64 x86_64 GNU/Linux
+psd&#64;EE:~$</pre>
         </div>
       </p>
 
@@ -218,9 +187,9 @@ Give me some time to swap hardware again.</pre>
     </body>
 </html>=
 
---15737864592.a56D3.7936--
+--15737921482.ddf9F4.24414--
 
---===============1673992315==
+--===============1764752127==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -230,4 +199,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1673992315==--
+--===============1764752127==--
