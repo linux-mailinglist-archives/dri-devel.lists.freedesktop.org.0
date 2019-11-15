@@ -1,61 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 047ECFDBB6
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2019 11:50:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2056DFDBCB
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2019 11:56:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 494476E430;
-	Fri, 15 Nov 2019 10:50:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CE136E41B;
+	Fri, 15 Nov 2019 10:56:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BA426E41B;
- Fri, 15 Nov 2019 10:50:02 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id y23so10170211ljh.10;
- Fri, 15 Nov 2019 02:50:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=ea9zLnFHS1AZW10VY451V5LQgt4RUuv83Kk6EMC907E=;
- b=tShwu6j+6GoHG1fD9oC+5CExE4BIp60/gZJOwnePYJ4tUbcNRlG7t2P4KSjNcsBFEb
- XmSAtBGFBrcKWrmz3fQbFZFaAIZUjvLxNtdDC1allZ1jU/mqVv6fsCS/BOjbWhwu3JnT
- knryEC6v73zcLrNXBtKHkwTulSUL9ffMDkIPP8mOHNVR6v7sXqiaDX2U7cJx2Q+WT/kQ
- gJDf5r0yuN080NcnlBULkLY4t+ZBKChAJ9T/99LLS/VNe+7VeBCYIZ3MhmIrYo2jzqm0
- 9mxIxA7L05fm94wDsefiMdevy0liEwQvZ+kRo5/wHccdsV2YiN9rrE/t2IZIrYSYD0Lm
- ZefQ==
-X-Gm-Message-State: APjAAAXY1eOIuj1bHQyoZQWeB749iNuKGdV9q9sOSyoDXBciMzTEGFRH
- wOOa+QjRBOohdCm4SzlRqHs=
-X-Google-Smtp-Source: APXvYqwAZJeBt6D4+2W0WiUgmYXrcfrzYi8ETiitGlXEvtXhNaNvEHsgpvdPvD+BKfSF/EH4c0iolg==
-X-Received: by 2002:a2e:6a10:: with SMTP id f16mr11056805ljc.100.1573815000277; 
- Fri, 15 Nov 2019 02:50:00 -0800 (PST)
-Received: from eldfell.localdomain ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id u7sm4196665lfg.65.2019.11.15.02.49.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Nov 2019 02:49:59 -0800 (PST)
-Date: Fri, 15 Nov 2019 12:49:44 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 1/8] drm/fb: More paranoia in addfb checks
-Message-ID: <20191115124944.25e31d63@eldfell.localdomain>
-In-Reply-To: <20191115092120.4445-2-daniel.vetter@ffwll.ch>
-References: <20191115092120.4445-1-daniel.vetter@ffwll.ch>
- <20191115092120.4445-2-daniel.vetter@ffwll.ch>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33FD96E41B
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2019 10:56:10 +0000 (UTC)
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-233-Ys9ua8kxMVWWp6LE8a9YjQ-1; Fri, 15 Nov 2019 05:56:04 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E1A38048E5;
+ Fri, 15 Nov 2019 10:56:03 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-67.ams2.redhat.com
+ [10.36.116.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CC7F85D6BE;
+ Fri, 15 Nov 2019 10:56:02 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id DA06C17536; Fri, 15 Nov 2019 11:56:01 +0100 (CET)
+Date: Fri, 15 Nov 2019 11:56:01 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v2] drm/gem: Fix mmap fake offset handling for
+ drm_gem_object_funcs.mmap
+Message-ID: <20191115105601.i7ahtapysv4j7mn7@sirius.home.kraxel.org>
+References: <20191112093246.GD23790@phenom.ffwll.local>
+ <06f1f400-2e20-5c40-c0ea-967f1ab2b787@suse.de>
+ <20191112103819.vcuhtqpfzbkta6ml@sirius.home.kraxel.org>
+ <20191112144435.GK23790@phenom.ffwll.local>
+ <20191113073902.343vfunbjuzy725y@sirius.home.kraxel.org>
+ <CAKMK7uF7G_H3ZvMpFkqKdGXc5H8P=vAtfoREksJJyysQmxOYzQ@mail.gmail.com>
+ <20191113135145.itdsbojzrj5elzvu@sirius.home.kraxel.org>
+ <20191113162729.GQ23790@phenom.ffwll.local>
+ <20191115093738.kdi4qopah6hvntrb@sirius.home.kraxel.org>
+ <CAKMK7uGq7-SpFrEXE2OJhnv66vxtJSifvSg4NUTFhLentQJ31w@mail.gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <CAKMK7uGq7-SpFrEXE2OJhnv66vxtJSifvSg4NUTFhLentQJ31w@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: Ys9ua8kxMVWWp6LE8a9YjQ-1
+X-Mimecast-Spam-Score: 0
+Content-Disposition: inline
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version;
- bh=ea9zLnFHS1AZW10VY451V5LQgt4RUuv83Kk6EMC907E=;
- b=nIWkbiYlidvBWUjTA/RjpwSrKKXSYWm7BgUv8e6WSAxJxRrA8NIyD96m5CgJZYjrR6
- FFl3GeE+2OlVJdBWQtATJJ4lLm6478L532w9ew0L0HW/a9546DEIuUikPNPD9X5REYKA
- RmE4NZcShuo4wRDLhevmyhZ2Y7po9AfNfqSuIssspm6cjIlxrC78htqdY977mhu7hB/v
- Cbk4Y4SFqsAu94BiJ//gfvze07I4TUjXqgV8zDGpOB3Peg+5WXesBXqn13+0KmSW5aKo
- bDYo6RUb2jKMRWpQMS9/0jrqx1qtrLmC8BP6p9uVak4GpXF4qIWYFU07jXRq/ozirSB7
- kG3w==
+ d=redhat.com; 
+ s=mimecast20190719; t=1573815369;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iHPva1BGkcv/Hkhj6Zy8z3aVbHcuf37MrbBmg/322r4=;
+ b=ECO2utL38hj9SHCSJIBJ4LMn04WtkQypiFE7ZuoIIwPFjnBErF5hnpJ5Mlco1k+ir7eLVX
+ zrBee5yK8H+YyUM7zDNb6Tqh2FrdeamFFLT59XhzTjhh9OSi8HezN6kbM+D0FUvnZsqjyQ
+ mXtultHJt31p6L9JXDVNaOnyK28m0Vw=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,121 +74,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============1761834773=="
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1761834773==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/isEOVCvveAkT4r=oyK/C6kr"; protocol="application/pgp-signature"
-
---Sig_/isEOVCvveAkT4r=oyK/C6kr
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, 15 Nov 2019 10:21:13 +0100
-Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-
-> - Our limit is uint32_t, make that explicit.
->=20
-> - Untangle the one overflow check, I think (but not sure) that with
->   all three together you could overflow the uint64_t and it'd look
->   cool again. Hence two steps. Also go with the more common (and imo
->   safer approach) of reducing the range we accept, instead of trying
->   to compute the overflow in high enough precision.
->=20
-> - The above would blow up if we get a 0 pitches, so check for that
->   too, but only if block_size is a thing.
->=20
-> Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> ---
->  drivers/gpu/drm/drm_framebuffer.c | 17 +++++++++++------
->  1 file changed, 11 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_fram=
-ebuffer.c
-> index 57564318ceea..3141c6ed6dd2 100644
-> --- a/drivers/gpu/drm/drm_framebuffer.c
-> +++ b/drivers/gpu/drm/drm_framebuffer.c
-> @@ -214,15 +214,20 @@ static int framebuffer_check(struct drm_device *dev,
->  			return -EINVAL;
->  		}
-> =20
-> -		if (min_pitch > UINT_MAX)
-> +		if (min_pitch > U8_MAX)
-
-This looks odd, but I don't know what min_pitch is or why it should be
-limited to 255(?). What's with the U8, should it not be U32?
-
->  			return -ERANGE;
-> =20
-> -		if ((uint64_t) height * r->pitches[i] + r->offsets[i] > UINT_MAX)
-> -			return -ERANGE;
-> +		if (block_size) {
-> +			if (r->pitches[i] < min_pitch) {
-> +				DRM_DEBUG_KMS("bad pitch %u for plane %d\n", r->pitches[i], i);
-> +				return -EINVAL;
-> +			}
-> =20
-> -		if (block_size && r->pitches[i] < min_pitch) {
-> -			DRM_DEBUG_KMS("bad pitch %u for plane %d\n", r->pitches[i], i);
-> -			return -EINVAL;
-> +			if (height > U8_MAX / r->pitches[i])
-> +				return -ERANGE;
-> +
-> +			if (r->offsets[i] > U8_MAX / r->pitches[i] - height)
-
-Aside from the U8 again, this looks strange too. You want to check that
-offset + height * pitch does not exceed MAX?
-
-Wouldn't that be height > (MAX - offset) / pitch for bad?
-
-If offset cannot be negative, this could also replace height > U8_MAX /
-r->pitches[i].
-
-> +				return -ERANGE;
->  		}
-> =20
->  		if (r->modifier[i] && !(r->flags & DRM_MODE_FB_MODIFIERS)) {
-
-Thanks,
-pq
-
---Sig_/isEOVCvveAkT4r=oyK/C6kr
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl3OgsgACgkQI1/ltBGq
-qqfu1A/+LMeAvBfMrsDU9bqy6FW1FEv938rdKt/NjWPl99rfWQbilZYxlW4KITru
-lJ8ErQ6IUhVB1EDGQrQtkbqk9s/Q4a3qY8L41pYJ2e2TedS+5Tcu3emYhweKAkX2
-qJUbbfO2IoRMG09F2Xow1NkND1vOWZGOZbiZCGxihXTIzOiFu0MRvCqpUXyGlOCC
-yTEF1NKofNS19s9rIiRAZGshwtMNXak52+sM97ls3NhnGhsEFuilCTe0jD6IBfVi
-UYpKpRRtVMiG4Q2gYq0lgHsWl7tYaFKKLZq0LguVZAIGfPDJdmjj7bPSpnVEYWaq
-vAVyKyN1xKJbSvd0nph3c6KZqRyLw3EiJ3UyTUjHgDNPLxBCgtdTAr4O44a7MqnV
-mdJNf2i/fTcKe/83jGvW9kiC7n0Muce4nM76+brxtkbI57OB0C2o+F61mMMj/V/m
-5Uf5gJBuwxIEHJEdTr0m3ohF8wAZEp7m34j//hxhmylnTcDRNBqHTgRKSn+AkIEP
-sJD6z/e7E69a6kPrvM6xYkhXag+zEOXQ17qQMWijl1sMuiEmZxzk33/EVLGR42ES
-prz2hXlOX36ZfPAEatspOotut5+rt9LzLaQhz37DAwQEDkwXkWSqu+SJZ/YlJ3eH
-B2BsrtWuMgLV5Xs/WEITmOhoZeOzAgxzCJeBCcb8aC/B8y/VAp0=
-=CoGY
------END PGP SIGNATURE-----
-
---Sig_/isEOVCvveAkT4r=oyK/C6kr--
-
---===============1761834773==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1761834773==--
+T24gRnJpLCBOb3YgMTUsIDIwMTkgYXQgMTE6MTg6MjhBTSArMDEwMCwgRGFuaWVsIFZldHRlciB3
+cm90ZToKPiBPbiBGcmksIE5vdiAxNSwgMjAxOSBhdCAxMDozNyBBTSBHZXJkIEhvZmZtYW5uIDxr
+cmF4ZWxAcmVkaGF0LmNvbT4gd3JvdGU6Cj4gPgo+ID4gPiBZb3UgbmVlZCBtZW1vcnkgcHJlc3N1
+cmUsIHRvIGZvcmNlIHR0bSB0byB1bm1hcCB0aGUgYm8sIG5vdCB1c2Vyc3BhY2UuIFNvCj4gPiA+
+IHJvdWdobHkKPiA+ID4gMS4gY3JlYXRlIGJvCj4gPiA+IDIuIG1tYXAgaXQgdGhyb3VnaCBkcm0g
+ZmQsIHdyaXRlIHNvbWUgc3R1ZmYKPiA+ID4gMy4gZXhwb3J0IHRvIGRtYS1idWYsIG1tYXAgaXQs
+IHZlcmlmeSBzdHVmZiBpcyB0aGVyZQo+ID4gPiA0LiBjcmVhdGUgYSBwaWxlIG1vcmUgYm8sIG1t
+YXAgdGhlbSB3cml0ZSB0byB0aGVtCj4gPiA+IDUuIG9uY2UgeW91J3ZlIHRocmFzaGVkIGFsbCBv
+ZiB2cmFtIGVub3VnaCwgcmVjaGVjayB5b3VyIG9yaWdpbmFsIGJvLiBJZgo+ID4gPiBJJ20gcmln
+aHQgeW91IHNob3VsZCBnZXQgdGhlIGZvbGxvd2luZzoKPiA+ID4gICAgLSBkcm0gZmQgbW1hcCBz
+dGlsbCBzaG93IHJpZ2h0IGNvbnRlbnQKPiA+ID4gICAgLSBkbWEtYnVmIGZkIG1tYXAgc2hvd3Mg
+cmFuZG9tIGNyYXAgdGhhdCB5b3UndmUgd3JpdHRlbiBpbnRvIG90aGVyCj4gPiA+ICAgICAgYnVm
+ZmVycwo+ID4gPgo+ID4gPiBPZmMgeW91IG5lZWQgdG8gbWFrZSBzdXJlIHRoYXQgYW4gbW1hcCBh
+Y3R1YWxseSBmb3JjZXMgdGhlIGJ1ZmZlciBpbnRvCj4gPiA+IHZyYW0uIFNvIG1pZ2h0IG5lZWQg
+YSBjb21ibyBvZiBtb2Rlc2V0K21tYXAsIHRvIG1ha2UgdGhhdCBoYXBwZW4uIFBsYWluCj4gPiA+
+IG1tYXAgbWlnaHQganVzdCBnaXZlIHlvdSBwdGVzIHRoYXQgcG9pbnQgaW50byBzeXN0ZW0gbWVt
+b3J5LCB3aGljaCBpcyBub3QKPiA+ID4gbWFuYWdlZCBieSB0dG0gbGlrZSB2cmFtLgo+ID4KPiA+
+IElzIGFueSBtb3ZlIGJ1ZmZlciBnb29kIGVub3VnaCB0byB0cmlnZ2VyIHRoaXMsIGkuZS4gd2ls
+bCBTWVNURU0gLT4gVlJBTQo+ID4gd29yayB0b28/ICBUaGF0J2xsIGJlIGVhc2llciBiZWNhdXNl
+IGFsbCBJIG5lZWQgdG8gZG8gaXMgbWFwIHRoZSBidWZmZXIKPiA+IHRvIGEgY3J0YyB0byBmb3Jj
+ZSBwaW5uaW5nIHRvIHZyYW0sIHRoZW4gY2hlY2sgaWYgdGhlIG1hcHBpbmdzIGFyZQo+ID4gaW50
+YWN0IHN0aWxsIC4uLgo+IAo+IEkgdGhpbmsgdGhhdCBzaG91bGQgd29yayB0b28uCgpTZWVtcyB0
+byB3b3JrIG9rIGZvciB0dG0vdnJhbS4KClRlc3QgY29kZToKICBodHRwczovL2dpdC5rcmF4ZWwu
+b3JnL2NnaXQvZHJtaW5mby9jb21taXQvP2lkPWE5ZWI5NjUwNGRjMTczNzZlMDdiNWM2ZWRmNTI5
+NmI0MWE0OGJiZmUKCj4gSnVzdCBtYWtlIHN1cmUgeW91IGFjdHVhbGx5IHdyaXRlCj4gdGhyb3Vn
+aCBTWVNURU0gZmlyc3QgKG1heWJlIHdpdGggc29tZSBwcmludGsgb3Igd2hhdGV2ZXIpLgoKVGhh
+dCB3b3JrcyBmaW5lLiAgU3ByaW5rbGVkIC4uLgoKCXN5c3RlbSgiY2F0IC9zeXMva2VybmVsL2Rl
+YnVnL2RyaS8wL3ZyYW0tbW0iKTsgCgouLi4gaW50byB0aGUgdGVzdCBjb2RlLCBhbmQgZHJtTW9k
+ZVNldENydGMoKSBpbmRlZWQgbWFrZXMgdGhlIGdlbSBvYmplY3Qgc2hvdwp1cCB0aGVyZS4KCmNo
+ZWVycywKICBHZXJkCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWw=
