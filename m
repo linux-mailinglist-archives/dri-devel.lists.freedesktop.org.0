@@ -2,63 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 495D3FDB19
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2019 11:18:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 047ECFDBB6
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2019 11:50:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D23F6E3B5;
-	Fri, 15 Nov 2019 10:18:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 494476E430;
+	Fri, 15 Nov 2019 10:50:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FD8D6E3B5
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2019 10:18:40 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id r24so7574061otk.12
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2019 02:18:40 -0800 (PST)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BA426E41B;
+ Fri, 15 Nov 2019 10:50:02 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id y23so10170211ljh.10;
+ Fri, 15 Nov 2019 02:50:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Xt9PTV2+0NtCY5liQdP+iM6k7LiWhChZb5VQ7/lD/s8=;
- b=H7Cw9B305pHJlzvQSLaQGwUN6j8SrFT+QXnYyl55Uu84swi6j/O0OybyRbuxrI7fPN
- jNpo5V1iwgBDzjmMHhlQtxMETRcmfIZIhGzNtW8ZPWcj9wb7jYZwg6z1vs+ohiMIUGWs
- MwTglh7dihNmJOWkxau42bWOvNu9EuW94hQ3XFS+lhDQn02/0rwqb2v4Lh1k3GzZhBQl
- Yp86/s6v1Ek+CYxZ7OkEw+JlUSp0UyHA2UL80/GHMcW57mzIEWxvmpNLvBwaf4GesBoC
- a5dKFfCrYZhhnrE4bpnLvREOBRerc30CajBtTwOXwYiaR8ZW/JM6RKDolKwpWCGrDb5Y
- wGew==
-X-Gm-Message-State: APjAAAUzI30uYaRJlaOBI9vXxWJB9JXNz41LPSfP42Cy/QqfCiPhnDq4
- +NJB/80B9CvPD8hGSFh4Ldu3HDPWRPxj/MOqcHyVMA==
-X-Google-Smtp-Source: APXvYqxYzFCXrz8a1khWBGAqpy54Q4T8CNbTk5EQbF3sBamdT6mhkEFxVYII+eSS4EDUY6RlZ/UMQp54DE4hgAgGtfA=
-X-Received: by 2002:a05:6830:22d0:: with SMTP id
- q16mr11378530otc.188.1573813120125; 
- Fri, 15 Nov 2019 02:18:40 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=ea9zLnFHS1AZW10VY451V5LQgt4RUuv83Kk6EMC907E=;
+ b=tShwu6j+6GoHG1fD9oC+5CExE4BIp60/gZJOwnePYJ4tUbcNRlG7t2P4KSjNcsBFEb
+ XmSAtBGFBrcKWrmz3fQbFZFaAIZUjvLxNtdDC1allZ1jU/mqVv6fsCS/BOjbWhwu3JnT
+ knryEC6v73zcLrNXBtKHkwTulSUL9ffMDkIPP8mOHNVR6v7sXqiaDX2U7cJx2Q+WT/kQ
+ gJDf5r0yuN080NcnlBULkLY4t+ZBKChAJ9T/99LLS/VNe+7VeBCYIZ3MhmIrYo2jzqm0
+ 9mxIxA7L05fm94wDsefiMdevy0liEwQvZ+kRo5/wHccdsV2YiN9rrE/t2IZIrYSYD0Lm
+ ZefQ==
+X-Gm-Message-State: APjAAAXY1eOIuj1bHQyoZQWeB749iNuKGdV9q9sOSyoDXBciMzTEGFRH
+ wOOa+QjRBOohdCm4SzlRqHs=
+X-Google-Smtp-Source: APXvYqwAZJeBt6D4+2W0WiUgmYXrcfrzYi8ETiitGlXEvtXhNaNvEHsgpvdPvD+BKfSF/EH4c0iolg==
+X-Received: by 2002:a2e:6a10:: with SMTP id f16mr11056805ljc.100.1573815000277; 
+ Fri, 15 Nov 2019 02:50:00 -0800 (PST)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id u7sm4196665lfg.65.2019.11.15.02.49.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Nov 2019 02:49:59 -0800 (PST)
+Date: Fri, 15 Nov 2019 12:49:44 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 1/8] drm/fb: More paranoia in addfb checks
+Message-ID: <20191115124944.25e31d63@eldfell.localdomain>
+In-Reply-To: <20191115092120.4445-2-daniel.vetter@ffwll.ch>
+References: <20191115092120.4445-1-daniel.vetter@ffwll.ch>
+ <20191115092120.4445-2-daniel.vetter@ffwll.ch>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20191108162759.GY23790@phenom.ffwll.local>
- <d2146f86-ddb8-242e-025f-d29a43682487@suse.de>
- <20191112093246.GD23790@phenom.ffwll.local>
- <06f1f400-2e20-5c40-c0ea-967f1ab2b787@suse.de>
- <20191112103819.vcuhtqpfzbkta6ml@sirius.home.kraxel.org>
- <20191112144435.GK23790@phenom.ffwll.local>
- <20191113073902.343vfunbjuzy725y@sirius.home.kraxel.org>
- <CAKMK7uF7G_H3ZvMpFkqKdGXc5H8P=vAtfoREksJJyysQmxOYzQ@mail.gmail.com>
- <20191113135145.itdsbojzrj5elzvu@sirius.home.kraxel.org>
- <20191113162729.GQ23790@phenom.ffwll.local>
- <20191115093738.kdi4qopah6hvntrb@sirius.home.kraxel.org>
-In-Reply-To: <20191115093738.kdi4qopah6hvntrb@sirius.home.kraxel.org>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 15 Nov 2019 11:18:28 +0100
-Message-ID: <CAKMK7uGq7-SpFrEXE2OJhnv66vxtJSifvSg4NUTFhLentQJ31w@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/gem: Fix mmap fake offset handling for
- drm_gem_object_funcs.mmap
-To: Gerd Hoffmann <kraxel@redhat.com>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=Xt9PTV2+0NtCY5liQdP+iM6k7LiWhChZb5VQ7/lD/s8=;
- b=VcEFiqFKgYepQmYrVW4EvBXmKEX3KryxchOn6stu6riEENCvx/kAAYcZOQXsmvOcbz
- mbMZwcoVUCi3JwnyXgmrj/GzXeEyhqISIuVkEXQTP6F0yVouFQkT948900xFVgUtXz+e
- ws7U3BI3Vc62wVTv1ZPVJDbNgVkbf+cUJAFJE=
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version;
+ bh=ea9zLnFHS1AZW10VY451V5LQgt4RUuv83Kk6EMC907E=;
+ b=nIWkbiYlidvBWUjTA/RjpwSrKKXSYWm7BgUv8e6WSAxJxRrA8NIyD96m5CgJZYjrR6
+ FFl3GeE+2OlVJdBWQtATJJ4lLm6478L532w9ew0L0HW/a9546DEIuUikPNPD9X5REYKA
+ RmE4NZcShuo4wRDLhevmyhZ2Y7po9AfNfqSuIssspm6cjIlxrC78htqdY977mhu7hB/v
+ Cbk4Y4SFqsAu94BiJ//gfvze07I4TUjXqgV8zDGpOB3Peg+5WXesBXqn13+0KmSW5aKo
+ bDYo6RUb2jKMRWpQMS9/0jrqx1qtrLmC8BP6p9uVak4GpXF4qIWYFU07jXRq/ozirSB7
+ kG3w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,37 +68,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============1761834773=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBOb3YgMTUsIDIwMTkgYXQgMTA6MzcgQU0gR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJl
-ZGhhdC5jb20+IHdyb3RlOgo+Cj4gPiBZb3UgbmVlZCBtZW1vcnkgcHJlc3N1cmUsIHRvIGZvcmNl
-IHR0bSB0byB1bm1hcCB0aGUgYm8sIG5vdCB1c2Vyc3BhY2UuIFNvCj4gPiByb3VnaGx5Cj4gPiAx
-LiBjcmVhdGUgYm8KPiA+IDIuIG1tYXAgaXQgdGhyb3VnaCBkcm0gZmQsIHdyaXRlIHNvbWUgc3R1
-ZmYKPiA+IDMuIGV4cG9ydCB0byBkbWEtYnVmLCBtbWFwIGl0LCB2ZXJpZnkgc3R1ZmYgaXMgdGhl
-cmUKPiA+IDQuIGNyZWF0ZSBhIHBpbGUgbW9yZSBibywgbW1hcCB0aGVtIHdyaXRlIHRvIHRoZW0K
-PiA+IDUuIG9uY2UgeW91J3ZlIHRocmFzaGVkIGFsbCBvZiB2cmFtIGVub3VnaCwgcmVjaGVjayB5
-b3VyIG9yaWdpbmFsIGJvLiBJZgo+ID4gSSdtIHJpZ2h0IHlvdSBzaG91bGQgZ2V0IHRoZSBmb2xs
-b3dpbmc6Cj4gPiAgICAtIGRybSBmZCBtbWFwIHN0aWxsIHNob3cgcmlnaHQgY29udGVudAo+ID4g
-ICAgLSBkbWEtYnVmIGZkIG1tYXAgc2hvd3MgcmFuZG9tIGNyYXAgdGhhdCB5b3UndmUgd3JpdHRl
-biBpbnRvIG90aGVyCj4gPiAgICAgIGJ1ZmZlcnMKPiA+Cj4gPiBPZmMgeW91IG5lZWQgdG8gbWFr
-ZSBzdXJlIHRoYXQgYW4gbW1hcCBhY3R1YWxseSBmb3JjZXMgdGhlIGJ1ZmZlciBpbnRvCj4gPiB2
-cmFtLiBTbyBtaWdodCBuZWVkIGEgY29tYm8gb2YgbW9kZXNldCttbWFwLCB0byBtYWtlIHRoYXQg
-aGFwcGVuLiBQbGFpbgo+ID4gbW1hcCBtaWdodCBqdXN0IGdpdmUgeW91IHB0ZXMgdGhhdCBwb2lu
-dCBpbnRvIHN5c3RlbSBtZW1vcnksIHdoaWNoIGlzIG5vdAo+ID4gbWFuYWdlZCBieSB0dG0gbGlr
-ZSB2cmFtLgo+Cj4gSXMgYW55IG1vdmUgYnVmZmVyIGdvb2QgZW5vdWdoIHRvIHRyaWdnZXIgdGhp
-cywgaS5lLiB3aWxsIFNZU1RFTSAtPiBWUkFNCj4gd29yayB0b28/ICBUaGF0J2xsIGJlIGVhc2ll
-ciBiZWNhdXNlIGFsbCBJIG5lZWQgdG8gZG8gaXMgbWFwIHRoZSBidWZmZXIKPiB0byBhIGNydGMg
-dG8gZm9yY2UgcGlubmluZyB0byB2cmFtLCB0aGVuIGNoZWNrIGlmIHRoZSBtYXBwaW5ncyBhcmUK
-PiBpbnRhY3Qgc3RpbGwgLi4uCgpJIHRoaW5rIHRoYXQgc2hvdWxkIHdvcmsgdG9vLiBKdXN0IG1h
-a2Ugc3VyZSB5b3UgYWN0dWFsbHkgd3JpdGUKdGhyb3VnaCBTWVNURU0gZmlyc3QgKG1heWJlIHdp
-dGggc29tZSBwcmludGsgb3Igd2hhdGV2ZXIpLgotRGFuaWVsCi0tIApEYW5pZWwgVmV0dGVyClNv
-ZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1NyA0OCAt
-IGh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbA==
+--===============1761834773==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/isEOVCvveAkT4r=oyK/C6kr"; protocol="application/pgp-signature"
+
+--Sig_/isEOVCvveAkT4r=oyK/C6kr
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, 15 Nov 2019 10:21:13 +0100
+Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+
+> - Our limit is uint32_t, make that explicit.
+>=20
+> - Untangle the one overflow check, I think (but not sure) that with
+>   all three together you could overflow the uint64_t and it'd look
+>   cool again. Hence two steps. Also go with the more common (and imo
+>   safer approach) of reducing the range we accept, instead of trying
+>   to compute the overflow in high enough precision.
+>=20
+> - The above would blow up if we get a 0 pitches, so check for that
+>   too, but only if block_size is a thing.
+>=20
+> Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> ---
+>  drivers/gpu/drm/drm_framebuffer.c | 17 +++++++++++------
+>  1 file changed, 11 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_fram=
+ebuffer.c
+> index 57564318ceea..3141c6ed6dd2 100644
+> --- a/drivers/gpu/drm/drm_framebuffer.c
+> +++ b/drivers/gpu/drm/drm_framebuffer.c
+> @@ -214,15 +214,20 @@ static int framebuffer_check(struct drm_device *dev,
+>  			return -EINVAL;
+>  		}
+> =20
+> -		if (min_pitch > UINT_MAX)
+> +		if (min_pitch > U8_MAX)
+
+This looks odd, but I don't know what min_pitch is or why it should be
+limited to 255(?). What's with the U8, should it not be U32?
+
+>  			return -ERANGE;
+> =20
+> -		if ((uint64_t) height * r->pitches[i] + r->offsets[i] > UINT_MAX)
+> -			return -ERANGE;
+> +		if (block_size) {
+> +			if (r->pitches[i] < min_pitch) {
+> +				DRM_DEBUG_KMS("bad pitch %u for plane %d\n", r->pitches[i], i);
+> +				return -EINVAL;
+> +			}
+> =20
+> -		if (block_size && r->pitches[i] < min_pitch) {
+> -			DRM_DEBUG_KMS("bad pitch %u for plane %d\n", r->pitches[i], i);
+> -			return -EINVAL;
+> +			if (height > U8_MAX / r->pitches[i])
+> +				return -ERANGE;
+> +
+> +			if (r->offsets[i] > U8_MAX / r->pitches[i] - height)
+
+Aside from the U8 again, this looks strange too. You want to check that
+offset + height * pitch does not exceed MAX?
+
+Wouldn't that be height > (MAX - offset) / pitch for bad?
+
+If offset cannot be negative, this could also replace height > U8_MAX /
+r->pitches[i].
+
+> +				return -ERANGE;
+>  		}
+> =20
+>  		if (r->modifier[i] && !(r->flags & DRM_MODE_FB_MODIFIERS)) {
+
+Thanks,
+pq
+
+--Sig_/isEOVCvveAkT4r=oyK/C6kr
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl3OgsgACgkQI1/ltBGq
+qqfu1A/+LMeAvBfMrsDU9bqy6FW1FEv938rdKt/NjWPl99rfWQbilZYxlW4KITru
+lJ8ErQ6IUhVB1EDGQrQtkbqk9s/Q4a3qY8L41pYJ2e2TedS+5Tcu3emYhweKAkX2
+qJUbbfO2IoRMG09F2Xow1NkND1vOWZGOZbiZCGxihXTIzOiFu0MRvCqpUXyGlOCC
+yTEF1NKofNS19s9rIiRAZGshwtMNXak52+sM97ls3NhnGhsEFuilCTe0jD6IBfVi
+UYpKpRRtVMiG4Q2gYq0lgHsWl7tYaFKKLZq0LguVZAIGfPDJdmjj7bPSpnVEYWaq
+vAVyKyN1xKJbSvd0nph3c6KZqRyLw3EiJ3UyTUjHgDNPLxBCgtdTAr4O44a7MqnV
+mdJNf2i/fTcKe/83jGvW9kiC7n0Muce4nM76+brxtkbI57OB0C2o+F61mMMj/V/m
+5Uf5gJBuwxIEHJEdTr0m3ohF8wAZEp7m34j//hxhmylnTcDRNBqHTgRKSn+AkIEP
+sJD6z/e7E69a6kPrvM6xYkhXag+zEOXQ17qQMWijl1sMuiEmZxzk33/EVLGR42ES
+prz2hXlOX36ZfPAEatspOotut5+rt9LzLaQhz37DAwQEDkwXkWSqu+SJZ/YlJ3eH
+B2BsrtWuMgLV5Xs/WEITmOhoZeOzAgxzCJeBCcb8aC/B8y/VAp0=
+=CoGY
+-----END PGP SIGNATURE-----
+
+--Sig_/isEOVCvveAkT4r=oyK/C6kr--
+
+--===============1761834773==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1761834773==--
