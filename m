@@ -2,38 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 990DDFE488
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2019 19:06:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF257FE569
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2019 20:06:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8A866EA26;
-	Fri, 15 Nov 2019 18:06:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B69346EA40;
+	Fri, 15 Nov 2019 19:06:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E755C6EA26
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2019 18:06:33 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2019 10:06:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,309,1569308400"; d="scan'208";a="203454343"
-Received: from iweiny-desk2.sc.intel.com ([10.3.52.157])
- by fmsmga008.fm.intel.com with ESMTP; 15 Nov 2019 10:06:32 -0800
-Date: Fri, 15 Nov 2019 10:06:32 -0800
-From: Ira Weiny <ira.weiny@intel.com>
-To: John Hubbard <jhubbard@nvidia.com>
-Subject: Re: [PATCH v5 09/24] vfio, mm: fix get_user_pages_remote() and
- FOLL_LONGTERM
-Message-ID: <20191115180631.GA23832@iweiny-DESK2.sc.intel.com>
-References: <20191115055340.1825745-1-jhubbard@nvidia.com>
- <20191115055340.1825745-10-jhubbard@nvidia.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 64D436EA40
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2019 19:05:59 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5DCD8720E2; Fri, 15 Nov 2019 19:05:59 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 112266] [Navi] Pathfinder: Kingmaker is causing a GPU hang:
+ flip_done timed out error
+Date: Fri, 15 Nov 2019 19:05:59 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: shtetldik@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-112266-502-Lv5jOGu0MP@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-112266-502@http.bugs.freedesktop.org/>
+References: <bug-112266-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191115055340.1825745-10-jhubbard@nvidia.com>
-User-Agent: Mutt/1.11.1 (2018-12-01)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,125 +53,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
- linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>, Christoph Hellwig <hch@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
- =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
- linux-media@vger.kernel.org, linux-block@vger.kernel.org,
- =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
- Al Viro <viro@zeniv.linux.org.uk>, Dan Williams <dan.j.williams@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
- Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
- netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
- Mike Kravetz <mike.kravetz@oracle.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0412402724=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBOb3YgMTQsIDIwMTkgYXQgMDk6NTM6MjVQTSAtMDgwMCwgSm9obiBIdWJiYXJkIHdy
-b3RlOgo+IEFzIGl0IHNheXMgaW4gdGhlIHVwZGF0ZWQgY29tbWVudCBpbiBndXAuYzogY3VycmVu
-dCBGT0xMX0xPTkdURVJNCj4gYmVoYXZpb3IgaXMgaW5jb21wYXRpYmxlIHdpdGggRkFVTFRfRkxB
-R19BTExPV19SRVRSWSBiZWNhdXNlIG9mIHRoZQo+IEZTIERBWCBjaGVjayByZXF1aXJlbWVudCBv
-biB2bWFzLgo+IAo+IEhvd2V2ZXIsIHRoZSBjb3JyZXNwb25kaW5nIHJlc3RyaWN0aW9uIGluIGdl
-dF91c2VyX3BhZ2VzX3JlbW90ZSgpIHdhcwo+IHNsaWdodGx5IHN0cmljdGVyIHRoYW4gaXMgYWN0
-dWFsbHkgcmVxdWlyZWQ6IGl0IGZvcmJhZGUgYWxsCj4gRk9MTF9MT05HVEVSTSBjYWxsZXJzLCBi
-dXQgd2UgY2FuIGFjdHVhbGx5IGFsbG93IEZPTExfTE9OR1RFUk0gY2FsbGVycwo+IHRoYXQgZG8g
-bm90IHNldCB0aGUgImxvY2tlZCIgYXJnLgo+IAo+IFVwZGF0ZSB0aGUgY29kZSBhbmQgY29tbWVu
-dHMgYWNjb3JkaW5nbHksIGFuZCB1cGRhdGUgdGhlIFZGSU8gY2FsbGVyCj4gdG8gdGFrZSBhZHZh
-bnRhZ2Ugb2YgdGhpcywgZml4aW5nIGEgYnVnIGFzIGEgcmVzdWx0OiB0aGUgVkZJTyBjYWxsZXIK
-PiBpcyBsb2dpY2FsbHkgYSBGT0xMX0xPTkdURVJNIHVzZXIuCj4gCj4gQWxzbywgcmVtb3ZlIGFu
-IHVubmVzc2FyeSBwYWlyIG9mIGNhbGxzIHRoYXQgd2VyZSByZWxlYXNpbmcgYW5kCj4gcmVhY3F1
-aXJpbmcgdGhlIG1tYXBfc2VtLiBUaGVyZSBpcyBubyBuZWVkIHRvIGF2b2lkIGhvbGRpbmcgbW1h
-cF9zZW0KPiBqdXN0IGluIG9yZGVyIHRvIGNhbGwgcGFnZV90b19wZm4oKS4KPiAKPiBBbHNvLCBt
-b3ZlIHRoZSBEQVggY2hlY2sgKCJpZiBhIFZNQSBpcyBEQVgsIGRvbid0IGFsbG93IGxvbmcgdGVy
-bQo+IHBpbm5pbmciKSBmcm9tIHRoZSBWRklPIGNhbGwgc2l0ZSwgYWxsIHRoZSB3YXkgaW50byB0
-aGUgaW50ZXJuYWxzCj4gb2YgZ2V0X3VzZXJfcGFnZXNfcmVtb3RlKCkgYW5kIF9fZ3VwX2xvbmd0
-ZXJtX2xvY2tlZCgpLiBUaGF0IGlzOgo+IGdldF91c2VyX3BhZ2VzX3JlbW90ZSgpIGNhbGxzIF9f
-Z3VwX2xvbmd0ZXJtX2xvY2tlZCgpLCB3aGljaCBpbiB0dXJuCj4gY2FsbHMgY2hlY2tfZGF4X3Zt
-YXMoKS4gSXQncyBsaWdodGx5IGV4cGxhaW5lZCBpbiB0aGUgY29tbWVudHMgYXMgd2VsbC4KPiAK
-PiBUaGFua3MgdG8gSmFzb24gR3VudGhvcnBlIGZvciBwb2ludGluZyBvdXQgYSBjbGVhbiB3YXkg
-dG8gZml4IHRoaXMsCj4gYW5kIHRvIERhbiBXaWxsaWFtcyBmb3IgaGVscGluZyBjbGFyaWZ5IHRo
-ZSBEQVggcmVmYWN0b3JpbmcuCj4gCj4gU3VnZ2VzdGVkLWJ5OiBKYXNvbiBHdW50aG9ycGUgPGpn
-Z0B6aWVwZS5jYT4KPiBDYzogRGFuIFdpbGxpYW1zIDxkYW4uai53aWxsaWFtc0BpbnRlbC5jb20+
-Cj4gQ2M6IEplcm9tZSBHbGlzc2UgPGpnbGlzc2VAcmVkaGF0LmNvbT4KPiBDYzogSXJhIFdlaW55
-IDxpcmEud2VpbnlAaW50ZWwuY29tPgoKUmV2aWV3ZWQtYnk6IElyYSBXZWlueSA8aXJhLndlaW55
-QGludGVsLmNvbT4KCj4gU2lnbmVkLW9mZi1ieTogSm9obiBIdWJiYXJkIDxqaHViYmFyZEBudmlk
-aWEuY29tPgo+IC0tLQo+ICBkcml2ZXJzL3ZmaW8vdmZpb19pb21tdV90eXBlMS5jIHwgMzAgKysr
-KystLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gIG1tL2d1cC5jICAgICAgICAgICAgICAgICAg
-ICAgICAgfCAyNyArKysrKysrKysrKysrKysrKysrKysrLS0tLS0KPiAgMiBmaWxlcyBjaGFuZ2Vk
-LCAyNyBpbnNlcnRpb25zKCspLCAzMCBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy92ZmlvL3ZmaW9faW9tbXVfdHlwZTEuYyBiL2RyaXZlcnMvdmZpby92ZmlvX2lvbW11X3R5
-cGUxLmMKPiBpbmRleCBkODY0Mjc3ZWExNmYuLmM3YTExMWFkOTk3NSAxMDA2NDQKPiAtLS0gYS9k
-cml2ZXJzL3ZmaW8vdmZpb19pb21tdV90eXBlMS5jCj4gKysrIGIvZHJpdmVycy92ZmlvL3ZmaW9f
-aW9tbXVfdHlwZTEuYwo+IEBAIC0zNDAsNyArMzQwLDYgQEAgc3RhdGljIGludCB2YWRkcl9nZXRf
-cGZuKHN0cnVjdCBtbV9zdHJ1Y3QgKm1tLCB1bnNpZ25lZCBsb25nIHZhZGRyLAo+ICB7Cj4gIAlz
-dHJ1Y3QgcGFnZSAqcGFnZVsxXTsKPiAgCXN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hOwo+IC0J
-c3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWFzWzFdOwo+ICAJdW5zaWduZWQgaW50IGZsYWdzID0g
-MDsKPiAgCWludCByZXQ7Cj4gIAo+IEBAIC0zNDgsMzMgKzM0NywxNCBAQCBzdGF0aWMgaW50IHZh
-ZGRyX2dldF9wZm4oc3RydWN0IG1tX3N0cnVjdCAqbW0sIHVuc2lnbmVkIGxvbmcgdmFkZHIsCj4g
-IAkJZmxhZ3MgfD0gRk9MTF9XUklURTsKPiAgCj4gIAlkb3duX3JlYWQoJm1tLT5tbWFwX3NlbSk7
-Cj4gLQlpZiAobW0gPT0gY3VycmVudC0+bW0pIHsKPiAtCQlyZXQgPSBnZXRfdXNlcl9wYWdlcyh2
-YWRkciwgMSwgZmxhZ3MgfCBGT0xMX0xPTkdURVJNLCBwYWdlLAo+IC0JCQkJICAgICB2bWFzKTsK
-PiAtCX0gZWxzZSB7Cj4gLQkJcmV0ID0gZ2V0X3VzZXJfcGFnZXNfcmVtb3RlKE5VTEwsIG1tLCB2
-YWRkciwgMSwgZmxhZ3MsIHBhZ2UsCj4gLQkJCQkJICAgIHZtYXMsIE5VTEwpOwo+IC0JCS8qCj4g
-LQkJICogVGhlIGxpZmV0aW1lIG9mIGEgdmFkZHJfZ2V0X3BmbigpIHBhZ2UgcGluIGlzCj4gLQkJ
-ICogdXNlcnNwYWNlLWNvbnRyb2xsZWQuIEluIHRoZSBmcy1kYXggY2FzZSB0aGlzIGNvdWxkCj4g
-LQkJICogbGVhZCB0byBpbmRlZmluaXRlIHN0YWxscyBpbiBmaWxlc3lzdGVtIG9wZXJhdGlvbnMu
-Cj4gLQkJICogRGlzYWxsb3cgYXR0ZW1wdHMgdG8gcGluIGZzLWRheCBwYWdlcyB2aWEgdGhpcwo+
-IC0JCSAqIGludGVyZmFjZS4KPiAtCQkgKi8KPiAtCQlpZiAocmV0ID4gMCAmJiB2bWFfaXNfZnNk
-YXgodm1hc1swXSkpIHsKPiAtCQkJcmV0ID0gLUVPUE5PVFNVUFA7Cj4gLQkJCXB1dF9wYWdlKHBh
-Z2VbMF0pOwo+IC0JCX0KPiAtCX0KPiAtCXVwX3JlYWQoJm1tLT5tbWFwX3NlbSk7Cj4gLQo+ICsJ
-cmV0ID0gZ2V0X3VzZXJfcGFnZXNfcmVtb3RlKE5VTEwsIG1tLCB2YWRkciwgMSwgZmxhZ3MgfCBG
-T0xMX0xPTkdURVJNLAo+ICsJCQkJICAgIHBhZ2UsIE5VTEwsIE5VTEwpOwo+ICAJaWYgKHJldCA9
-PSAxKSB7Cj4gIAkJKnBmbiA9IHBhZ2VfdG9fcGZuKHBhZ2VbMF0pOwo+IC0JCXJldHVybiAwOwo+
-ICsJCXJldCA9IDA7Cj4gKwkJZ290byBkb25lOwo+ICAJfQo+ICAKPiAtCWRvd25fcmVhZCgmbW0t
-Pm1tYXBfc2VtKTsKPiAtCj4gIAl2YWRkciA9IHVudGFnZ2VkX2FkZHIodmFkZHIpOwo+ICAKPiAg
-CXZtYSA9IGZpbmRfdm1hX2ludGVyc2VjdGlvbihtbSwgdmFkZHIsIHZhZGRyICsgMSk7Cj4gQEAg
-LTM4NCw3ICszNjQsNyBAQCBzdGF0aWMgaW50IHZhZGRyX2dldF9wZm4oc3RydWN0IG1tX3N0cnVj
-dCAqbW0sIHVuc2lnbmVkIGxvbmcgdmFkZHIsCj4gIAkJaWYgKGlzX2ludmFsaWRfcmVzZXJ2ZWRf
-cGZuKCpwZm4pKQo+ICAJCQlyZXQgPSAwOwo+ICAJfQo+IC0KPiArZG9uZToKPiAgCXVwX3JlYWQo
-Jm1tLT5tbWFwX3NlbSk7Cj4gIAlyZXR1cm4gcmV0Owo+ICB9Cj4gZGlmZiAtLWdpdCBhL21tL2d1
-cC5jIGIvbW0vZ3VwLmMKPiBpbmRleCBiODU5YmQ0ZGE0ZDcuLjZjZjYxM2JmZTdkYyAxMDA2NDQK
-PiAtLS0gYS9tbS9ndXAuYwo+ICsrKyBiL21tL2d1cC5jCj4gQEAgLTI5LDYgKzI5LDEzIEBAIHN0
-cnVjdCBmb2xsb3dfcGFnZV9jb250ZXh0IHsKPiAgCXVuc2lnbmVkIGludCBwYWdlX21hc2s7Cj4g
-IH07Cj4gIAo+ICtzdGF0aWMgX19hbHdheXNfaW5saW5lIGxvbmcgX19ndXBfbG9uZ3Rlcm1fbG9j
-a2VkKHN0cnVjdCB0YXNrX3N0cnVjdCAqdHNrLAo+ICsJCQkJCQkgIHN0cnVjdCBtbV9zdHJ1Y3Qg
-Km1tLAo+ICsJCQkJCQkgIHVuc2lnbmVkIGxvbmcgc3RhcnQsCj4gKwkJCQkJCSAgdW5zaWduZWQg
-bG9uZyBucl9wYWdlcywKPiArCQkJCQkJICBzdHJ1Y3QgcGFnZSAqKnBhZ2VzLAo+ICsJCQkJCQkg
-IHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqKnZtYXMsCj4gKwkJCQkJCSAgdW5zaWduZWQgaW50IGZs
-YWdzKTsKPiAgLyoKPiAgICogUmV0dXJuIHRoZSBjb21wb3VuZCBoZWFkIHBhZ2Ugd2l0aCByZWYg
-YXBwcm9wcmlhdGVseSBpbmNyZW1lbnRlZCwKPiAgICogb3IgTlVMTCBpZiB0aGF0IGZhaWxlZC4K
-PiBAQCAtMTE2NywxMyArMTE3NCwyMyBAQCBsb25nIGdldF91c2VyX3BhZ2VzX3JlbW90ZShzdHJ1
-Y3QgdGFza19zdHJ1Y3QgKnRzaywgc3RydWN0IG1tX3N0cnVjdCAqbW0sCj4gIAkJc3RydWN0IHZt
-X2FyZWFfc3RydWN0ICoqdm1hcywgaW50ICpsb2NrZWQpCj4gIHsKPiAgCS8qCj4gLQkgKiBGSVhN
-RTogQ3VycmVudCBGT0xMX0xPTkdURVJNIGJlaGF2aW9yIGlzIGluY29tcGF0aWJsZSB3aXRoCj4g
-KwkgKiBQYXJ0cyBvZiBGT0xMX0xPTkdURVJNIGJlaGF2aW9yIGFyZSBpbmNvbXBhdGlibGUgd2l0
-aAo+ICAJICogRkFVTFRfRkxBR19BTExPV19SRVRSWSBiZWNhdXNlIG9mIHRoZSBGUyBEQVggY2hl
-Y2sgcmVxdWlyZW1lbnQgb24KPiAtCSAqIHZtYXMuICBBcyB0aGVyZSBhcmUgbm8gdXNlcnMgb2Yg
-dGhpcyBmbGFnIGluIHRoaXMgY2FsbCB3ZSBzaW1wbHkKPiAtCSAqIGRpc2FsbG93IHRoaXMgb3B0
-aW9uIGZvciBub3cuCj4gKwkgKiB2bWFzLiBIb3dldmVyLCB0aGlzIG9ubHkgY29tZXMgdXAgaWYg
-bG9ja2VkIGlzIHNldCwgYW5kIHRoZXJlIGFyZQo+ICsJICogY2FsbGVycyB0aGF0IGRvIHJlcXVl
-c3QgRk9MTF9MT05HVEVSTSwgYnV0IGRvIG5vdCBzZXQgbG9ja2VkLiBTbywKPiArCSAqIGFsbG93
-IHdoYXQgd2UgY2FuLgo+ICAJICovCj4gLQlpZiAoV0FSTl9PTl9PTkNFKGd1cF9mbGFncyAmIEZP
-TExfTE9OR1RFUk0pKQo+IC0JCXJldHVybiAtRUlOVkFMOwo+ICsJaWYgKGd1cF9mbGFncyAmIEZP
-TExfTE9OR1RFUk0pIHsKPiArCQlpZiAoV0FSTl9PTl9PTkNFKGxvY2tlZCkpCj4gKwkJCXJldHVy
-biAtRUlOVkFMOwo+ICsJCS8qCj4gKwkJICogVGhpcyB3aWxsIGNoZWNrIHRoZSB2bWFzIChldmVu
-IGlmIG91ciB2bWFzIGFyZyBpcyBOVUxMKQo+ICsJCSAqIGFuZCByZXR1cm4gLUVOT1RTVVBQIGlm
-IERBWCBpc24ndCBhbGxvd2VkIGluIHRoaXMgY2FzZToKPiArCQkgKi8KPiArCQlyZXR1cm4gX19n
-dXBfbG9uZ3Rlcm1fbG9ja2VkKHRzaywgbW0sIHN0YXJ0LCBucl9wYWdlcywgcGFnZXMsCj4gKwkJ
-CQkJICAgICB2bWFzLCBndXBfZmxhZ3MgfCBGT0xMX1RPVUNIIHwKPiArCQkJCQkgICAgIEZPTExf
-UkVNT1RFKTsKPiArCX0KPiAgCj4gIAlyZXR1cm4gX19nZXRfdXNlcl9wYWdlc19sb2NrZWQodHNr
-LCBtbSwgc3RhcnQsIG5yX3BhZ2VzLCBwYWdlcywgdm1hcywKPiAgCQkJCSAgICAgICBsb2NrZWQs
-Cj4gLS0gCj4gMi4yNC4wCj4gCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbA==
+
+--===============0412402724==
+Content-Type: multipart/alternative; boundary="15738447591.Dd50e5890.23821"
+Content-Transfer-Encoding: 7bit
+
+
+--15738447591.Dd50e5890.23821
+Date: Fri, 15 Nov 2019 19:05:59 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112266
+
+--- Comment #7 from Shmerl <shtetldik@gmail.com> ---
+(In reply to Alex Deucher from comment #6)
+> Created attachment 145971 [details] [review]
+> possible fix
+>=20
+> Does this patch help?
+
+Just applied that patch on on top of latest 5.4-rc7+ and tested it. It prev=
+ents
+the hang in Pathfinder: Kingmaker! Thanks!
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15738447591.Dd50e5890.23821
+Date: Fri, 15 Nov 2019 19:05:59 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [Navi] Pathfinder: Kingmaker is causing a GPU hang: flip_=
+done timed out error"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112266#c7">Commen=
+t # 7</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [Navi] Pathfinder: Kingmaker is causing a GPU hang: flip_=
+done timed out error"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112266">bug 11226=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+shtetldik&#64;gmail.com" title=3D"Shmerl &lt;shtetldik&#64;gmail.com&gt;"> =
+<span class=3D"fn">Shmerl</span></a>
+</span></b>
+        <pre>(In reply to Alex Deucher from <a href=3D"show_bug.cgi?id=3D11=
+2266#c6">comment #6</a>)
+<span class=3D"quote">&gt; Created <span class=3D""><a href=3D"attachment.c=
+gi?id=3D145971" name=3D"attach_145971" title=3D"possible fix">attachment 14=
+5971</a> <a href=3D"attachment.cgi?id=3D145971&amp;action=3Dedit" title=3D"=
+possible fix">[details]</a></span> <a href=3D'page.cgi?id=3Dsplinter.html&a=
+mp;bug=3D112266&amp;attachment=3D145971'>[review]</a> [review]
+&gt; possible fix
+&gt;=20
+&gt; Does this patch help?</span >
+
+Just applied that patch on on top of latest 5.4-rc7+ and tested it. It prev=
+ents
+the hang in Pathfinder: Kingmaker! Thanks!</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15738447591.Dd50e5890.23821--
+
+--===============0412402724==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0412402724==--
