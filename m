@@ -2,35 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AC65FDCB7
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2019 12:53:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9ACEFDD0C
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2019 13:09:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EDB56E505;
-	Fri, 15 Nov 2019 11:53:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB4D96E512;
+	Fri, 15 Nov 2019 12:09:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B23F6E505
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2019 11:53:01 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2019 03:53:00 -0800
-X-IronPort-AV: E=Sophos;i="5.68,308,1569308400"; d="scan'208";a="199178566"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2019 03:52:56 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Wambui Karuga <wambui.karugax@gmail.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
- hjc@rock-chips.com
-Subject: Re: [PATCH 0/2] add new DRM_DEV_WARN macro
-In-Reply-To: <20191114132436.7232-1-wambui.karugax@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20191114132436.7232-1-wambui.karugax@gmail.com>
-Date: Fri, 15 Nov 2019 13:52:53 +0200
-Message-ID: <8736ep1hm2.fsf@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C27BB6E512
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2019 12:09:32 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id B92A6720E2; Fri, 15 Nov 2019 12:09:32 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 112297] AMDGPU recovery does recover desktop to an unstable state
+Date: Fri, 15 Nov 2019 12:09:32 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: dbiro97@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-112297-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -44,28 +51,210 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1714673009=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAxNCBOb3YgMjAxOSwgV2FtYnVpIEthcnVnYSA8d2FtYnVpLmthcnVnYXhAZ21haWwu
-Y29tPiB3cm90ZToKPiBUaGlzIGFkZHMgYSBuZXcgRFJNX0RFVl9XQVJOIGhlbHBlciBtYWNybyBm
-b3Igd2FybmluZ3MgbG9nIG91dHB1dCB0aGF0IGluY2x1ZGUKPiBkZXZpY2UgcG9pbnRlcnMuIEl0
-IGFsc28gaW5jbHVkZXMgdGhlIHVzZSBvZiB0aGUgRFJNX0RFVl9XQVJOIG1hY3JvIGluCj4gZHJt
-L3JvY2tjaGlwIHRvIHJlcGxhY2UgZGV2X3dhcm4uCgpJJ20gdHJ5aW5nIHRvIHNvbGljaXQgbmV3
-IHN0cnVjdCBkcm1fZGV2aWNlIGJhc2VkIGxvZ2dpbmcgbWFjcm9zLCBhbmQKc3RhcnRpbmcgdG8g
-Y29udmVydCB0byB0aG9zZS4gWzFdCgpCUiwKSmFuaS4KCgpbMV0gaHR0cDovL3BhdGNod29yay5m
-cmVlZGVza3RvcC5vcmcvcGF0Y2gvbXNnaWQvNjNkMWU3MmI5OWU5YzEzZWU1YjFiMzYyYTY1M2Zm
-OWMyMWUxOTEyNC4xNTcyMjU4OTM2LmdpdC5qYW5pLm5pa3VsYUBpbnRlbC5jb20KCgoKCj4KPiBX
-YW1idWkgS2FydWdhICgyKToKPiAgIGRybS9wcmludDogYWRkIERSTV9ERVZfV0FSTiBtYWNybwo+
-ICAgZHJtL3JvY2tjaGlwOiB1c2UgRFJNX0RFVl9XQVJOIG1hY3JvIGluIGRlYnVnIG91dHB1dAo+
-Cj4gIGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9pbm5vX2hkbWkuYyB8IDMgKystCj4gIGluY2x1
-ZGUvZHJtL2RybV9wcmludC5oICAgICAgICAgICAgICB8IDkgKysrKysrKysrCj4gIDIgZmlsZXMg
-Y2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKLS0gCkphbmkgTmlrdWxh
-LCBJbnRlbCBPcGVuIFNvdXJjZSBHcmFwaGljcyBDZW50ZXIKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1714673009==
+Content-Type: multipart/alternative; boundary="15738197720.1f2A.11892"
+Content-Transfer-Encoding: 7bit
+
+
+--15738197720.1f2A.11892
+Date: Fri, 15 Nov 2019 12:09:32 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112297
+
+            Bug ID: 112297
+           Summary: AMDGPU recovery does recover desktop to an unstable
+                    state
+           Product: DRI
+           Version: unspecified
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: critical
+          Priority: not set
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: dbiro97@gmail.com
+
+I have got Radeon RX 5700 XT which has unstable driver. So that
+amdgpu.gpu_recovery=3D1 flag would be helpful if even that could work well.
+Unfortunately it doesn't.
+
+My kernel's latest commit ID: 53dbc27ad5a93932ff1892a8e4ef266827d74a0f ( fix
+AVFS handling with custom powerplay table) On branch drm-next-5.5
+Display server: X11
+WM: BSPWM
+DM: Slim
+
+Journalctl output:
+https://pastebin.com/if4PYda7
+
+The error is the "average" ring sdma0 timeout. After reset, the actual
+application that caused the crash, stays on the screen, The screen is
+flickering, vibrating, I'm frequently able to see some green rectangle at t=
+he
+top of the screen with full width. But I can able to move mouse. Also I can=
+not
+do anything else, because then BSPWM can switch workspaces (I can see it by=
+ the
+type of the mouse cursor), but the crashed application stays on the screen
+anyway, so I have to restart.
+
+At least, I can save my work if I remember which workspace contained my wor=
+k.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15738197720.1f2A.11892
+Date: Fri, 15 Nov 2019 12:09:32 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMDGPU recovery does recover desktop to an unstable state"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112297">112297</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>AMDGPU recovery does recover desktop to an unstable state
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>unspecified
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>critical
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>not set
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>dbiro97&#64;gmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>I have got Radeon RX 5700 XT which has unstable driver. So that
+amdgpu.gpu_recovery=3D1 flag would be helpful if even that could work well.
+Unfortunately it doesn't.
+
+My kernel's latest commit ID: 53dbc27ad5a93932ff1892a8e4ef266827d74a0f ( fix
+AVFS handling with custom powerplay table) On branch drm-next-5.5
+Display server: X11
+WM: BSPWM
+DM: Slim
+
+Journalctl output:
+<a href=3D"https://pastebin.com/if4PYda7">https://pastebin.com/if4PYda7</a>
+
+The error is the &quot;average&quot; ring sdma0 timeout. After reset, the a=
+ctual
+application that caused the crash, stays on the screen, The screen is
+flickering, vibrating, I'm frequently able to see some green rectangle at t=
+he
+top of the screen with full width. But I can able to move mouse. Also I can=
+not
+do anything else, because then BSPWM can switch workspaces (I can see it by=
+ the
+type of the mouse cursor), but the crashed application stays on the screen
+anyway, so I have to restart.
+
+At least, I can save my work if I remember which workspace contained my wor=
+k.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15738197720.1f2A.11892--
+
+--===============1714673009==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1714673009==--
