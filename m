@@ -2,28 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C57FF932
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Nov 2019 12:46:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 163D2FF910
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Nov 2019 12:45:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21E556E48B;
-	Sun, 17 Nov 2019 11:45:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 058966E30D;
+	Sun, 17 Nov 2019 11:44:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E3536E323
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2019 14:19:55 +0000 (UTC)
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 1CD60E7474DC08F6532E;
+Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D3E16E323
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2019 14:19:53 +0000 (UTC)
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 48B2128A7E5B34BA403A;
  Fri, 15 Nov 2019 22:19:51 +0800 (CST)
 Received: from huawei.com (10.90.53.225) by DGGEMS413-HUB.china.huawei.com
  (10.3.19.213) with Microsoft SMTP Server id 14.3.439.0; Fri, 15 Nov 2019
- 22:19:44 +0800
+ 22:19:45 +0800
 From: zhengbin <zhengbin13@huawei.com>
 To: <patrik.r.jakobsson@gmail.com>, <daniel.vetter@ffwll.ch>,
  <airlied@linux.ie>, <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 2/3] drm/gma500: remove set but not used variable 'error'
-Date: Fri, 15 Nov 2019 22:27:06 +0800
-Message-ID: <1573828027-122323-3-git-send-email-zhengbin13@huawei.com>
+Subject: [PATCH 3/3] drm/gma500: remove set but not used variable 'is_hdmi',
+ 'is_crt'
+Date: Fri, 15 Nov 2019 22:27:07 +0800
+Message-ID: <1573828027-122323-4-git-send-email-zhengbin13@huawei.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1573828027-122323-1-git-send-email-zhengbin13@huawei.com>
 References: <1573828027-122323-1-git-send-email-zhengbin13@huawei.com>
@@ -50,26 +51,35 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Rml4ZXMgZ2NjICctV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlJyB3YXJuaW5nOgoKZHJpdmVycy9n
-cHUvZHJtL2dtYTUwMC9wc2JfaXJxLmM6IEluIGZ1bmN0aW9uIHBzYl9zZ3hfaW50ZXJydXB0Ogpk
-cml2ZXJzL2dwdS9kcm0vZ21hNTAwL3BzYl9pcnEuYzoyMTA6Njogd2FybmluZzogdmFyaWFibGUg
-ZXJyb3Igc2V0IGJ1dCBub3QgdXNlZCBbLVd1bnVzZWQtYnV0LXNldC12YXJpYWJsZV0KCkl0IGlz
-IGludHJvZHVjZWQgYnkgY29tbWl0IDY0YTRhZmYyODNhYyAoImRybS9nbWE1MDA6CkFkZCBzdXBw
-b3J0IGZvciBTR1ggaW50ZXJydXB0cyIpLCBidXQgbmV2ZXIgdXNlZCwgc28gcmVtb3ZlIGl0LgoK
-UmVwb3J0ZWQtYnk6IEh1bGsgUm9ib3QgPGh1bGtjaUBodWF3ZWkuY29tPgpTaWduZWQtb2ZmLWJ5
-OiB6aGVuZ2JpbiA8emhlbmdiaW4xM0BodWF3ZWkuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9n
-bWE1MDAvcHNiX2lycS5jIHwgMiAtLQogMSBmaWxlIGNoYW5nZWQsIDIgZGVsZXRpb25zKC0pCgpk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9wc2JfaXJxLmMgYi9kcml2ZXJzL2dw
-dS9kcm0vZ21hNTAwL3BzYl9pcnEuYwppbmRleCBlNjI2NWZiLi5kYzZhNzNhIDEwMDY0NAotLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL3BzYl9pcnEuYworKysgYi9kcml2ZXJzL2dwdS9kcm0v
-Z21hNTAwL3BzYl9pcnEuYwpAQCAtMTk0LDcgKzE5NCw2IEBAIHN0YXRpYyB2b2lkIHBzYl9zZ3hf
-aW50ZXJydXB0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHUzMiBzdGF0XzEsIHUzMiBzdGF0XzIp
-CiB7CiAJc3RydWN0IGRybV9wc2JfcHJpdmF0ZSAqZGV2X3ByaXYgPSBkZXYtPmRldl9wcml2YXRl
-OwogCXUzMiB2YWwsIGFkZHI7Ci0JaW50IGVycm9yID0gZmFsc2U7CgogCWlmIChzdGF0XzEgJiBf
-UFNCX0NFX1RXT0RfQ09NUExFVEUpCiAJCXZhbCA9IFBTQl9SU0dYMzIoUFNCX0NSXzJEX0JMSVRf
-U1RBVFVTKTsKQEAgLTIyOSw3ICsyMjgsNiBAQCBzdGF0aWMgdm9pZCBwc2Jfc2d4X2ludGVycnVw
-dChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB1MzIgc3RhdF8xLCB1MzIgc3RhdF8yKQoKIAkJCURS
-TV9FUlJPUigiXHRNTVUgZmFpbGluZyBhZGRyZXNzIGlzIDB4JTA4eC5cbiIsCiAJCQkJICAodW5z
-aWduZWQgaW50KWFkZHIpOwotCQkJZXJyb3IgPSB0cnVlOwogCQl9CiAJfQoKLS0KMi43LjQKCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+cHUvZHJtL2dtYTUwMC9jZHZfaW50ZWxfZGlzcGxheS5jOiBJbiBmdW5jdGlvbiBjZHZfaW50ZWxf
+Y3J0Y19tb2RlX3NldDoKZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9jZHZfaW50ZWxfZGlzcGxheS5j
+OjU5NDo3OiB3YXJuaW5nOiB2YXJpYWJsZSBpc19oZG1pIHNldCBidXQgbm90IHVzZWQgWy1XdW51
+c2VkLWJ1dC1zZXQtdmFyaWFibGVdCmRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvY2R2X2ludGVsX2Rp
+c3BsYXkuYzogSW4gZnVuY3Rpb24gY2R2X2ludGVsX2NydGNfbW9kZV9zZXQ6CmRyaXZlcnMvZ3B1
+L2RybS9nbWE1MDAvY2R2X2ludGVsX2Rpc3BsYXkuYzo1OTM6Nzogd2FybmluZzogdmFyaWFibGUg
+aXNfY3J0IHNldCBidXQgbm90IHVzZWQgWy1XdW51c2VkLWJ1dC1zZXQtdmFyaWFibGVdCgpUaGV5
+IGFyZSBub3QgdXNlZCBzaW5jZSBjb21taXQgYWNkN2VmOTI3ZTA2ICgiZ21hNTAwOgpVcGRhdGUg
+dGhlIENlZGFydmlldyBjbG9jayBoYW5kbGluZyIpCgpSZXBvcnRlZC1ieTogSHVsayBSb2JvdCA8
+aHVsa2NpQGh1YXdlaS5jb20+ClNpZ25lZC1vZmYtYnk6IHpoZW5nYmluIDx6aGVuZ2JpbjEzQGh1
+YXdlaS5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9jZHZfaW50ZWxfZGlzcGxheS5j
+IHwgNyArKy0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9u
+cygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvY2R2X2ludGVsX2Rpc3Bs
+YXkuYyBiL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvY2R2X2ludGVsX2Rpc3BsYXkuYwppbmRleCA4
+Yjc4NDk0Li4zMzRhMjAzIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2Nkdl9p
+bnRlbF9kaXNwbGF5LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9jZHZfaW50ZWxfZGlz
+cGxheS5jCkBAIC01ODIsOCArNTgyLDggQEAgc3RhdGljIGludCBjZHZfaW50ZWxfY3J0Y19tb2Rl
+X3NldChzdHJ1Y3QgZHJtX2NydGMgKmNydGMsCiAJc3RydWN0IGdtYV9jbG9ja190IGNsb2NrOwog
+CXUzMiBkcGxsID0gMCwgZHNwY250ciwgcGlwZWNvbmY7CiAJYm9vbCBvazsKLQlib29sIGlzX2Ny
+dCA9IGZhbHNlLCBpc19sdmRzID0gZmFsc2UsIGlzX3R2ID0gZmFsc2U7Ci0JYm9vbCBpc19oZG1p
+ID0gZmFsc2UsIGlzX2RwID0gZmFsc2U7CisJYm9vbCBpc19sdmRzID0gZmFsc2UsIGlzX3R2ID0g
+ZmFsc2U7CisJYm9vbCBpc19kcCA9IGZhbHNlOwogCXN0cnVjdCBkcm1fbW9kZV9jb25maWcgKm1v
+ZGVfY29uZmlnID0gJmRldi0+bW9kZV9jb25maWc7CiAJc3RydWN0IGRybV9jb25uZWN0b3IgKmNv
+bm5lY3RvcjsKIAljb25zdCBzdHJ1Y3QgZ21hX2xpbWl0X3QgKmxpbWl0OwpAQCAtNjA3LDEwICs2
+MDcsNyBAQCBzdGF0aWMgaW50IGNkdl9pbnRlbF9jcnRjX21vZGVfc2V0KHN0cnVjdCBkcm1fY3J0
+YyAqY3J0YywKIAkJCWlzX3R2ID0gdHJ1ZTsKIAkJCWJyZWFrOwogCQljYXNlIElOVEVMX09VVFBV
+VF9BTkFMT0c6Ci0JCQlpc19jcnQgPSB0cnVlOwotCQkJYnJlYWs7CiAJCWNhc2UgSU5URUxfT1VU
+UFVUX0hETUk6Ci0JCQlpc19oZG1pID0gdHJ1ZTsKIAkJCWJyZWFrOwogCQljYXNlIElOVEVMX09V
+VFBVVF9ESVNQTEFZUE9SVDoKIAkJCWlzX2RwID0gdHJ1ZTsKLS0KMi43LjQKCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
