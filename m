@@ -2,45 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FDA3FDD17
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2019 13:10:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DE06FDDF1
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2019 13:34:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F5786E550;
-	Fri, 15 Nov 2019 12:10:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B8AD6E59D;
+	Fri, 15 Nov 2019 12:34:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 55BB86E550
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2019 12:10:30 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5222D720E2; Fri, 15 Nov 2019 12:10:30 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112297] AMDGPU.gpu_recovery does recover desktop to an unusable
- state
-Date: Fri, 15 Nov 2019 12:10:30 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: dbiro97@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: short_desc
-Message-ID: <bug-112297-502-8UlgzyuGg0@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-112297-502@http.bugs.freedesktop.org/>
-References: <bug-112297-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19A226E59B
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2019 12:34:37 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2019 04:34:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,308,1569308400"; d="scan'208";a="203377473"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga008.fm.intel.com with SMTP; 15 Nov 2019 04:34:33 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 15 Nov 2019 14:34:32 +0200
+Date: Fri, 15 Nov 2019 14:34:32 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: coypu@sdf.org
+Subject: Re: drm core/helpers and MIT license
+Message-ID: <20191115123432.GB1208@intel.com>
+References: <20191114200132.GA11077@SDF.ORG>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20191114200132.GA11077@SDF.ORG>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,98 +46,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0632575160=="
+Cc: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0632575160==
-Content-Type: multipart/alternative; boundary="15738198300.2B8BBF.11861"
-Content-Transfer-Encoding: 7bit
-
-
---15738198300.2B8BBF.11861
-Date: Fri, 15 Nov 2019 12:10:30 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112297
-
-David Bir=C3=B3 <dbiro97@gmail.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-            Summary|AMDGPU recovery does        |AMDGPU.gpu_recovery does
-                   |recover desktop to an       |recover desktop to an
-                   |unstable state              |unusable state
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15738198300.2B8BBF.11861
-Date: Fri, 15 Nov 2019 12:10:30 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:dbiro97&#=
-64;gmail.com" title=3D"David Bir=C3=B3 &lt;dbiro97&#64;gmail.com&gt;"> <spa=
-n class=3D"fn">David Bir=C3=B3</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMDGPU.gpu_recovery does recover desktop to an unusable s=
-tate"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112297">bug 11229=
-7</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Summary</td>
-           <td>AMDGPU recovery does recover desktop to an unstable state
-           </td>
-           <td>AMDGPU.gpu_recovery does recover desktop to an unusable state
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15738198300.2B8BBF.11861--
-
---===============0632575160==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0632575160==--
+T24gVGh1LCBOb3YgMTQsIDIwMTkgYXQgMDg6MDE6MzJQTSArMDAwMCwgY295cHVAc2RmLm9yZyB3
+cm90ZToKPiBIaSBEYW5pZWwsCj4gCj4gSSBkb24ndCB0aGluayB3ZSBjYW4gbWFrZSBhbnkgY29t
+cGxhaW50cyBhYm91dCBHUEwgYmVpbmcgbW9yZSB3aWRlbHkKPiB1c2VkIGluIHRoZSBEUk0gY29k
+ZS4gSXQncyBuaWNlIHRvIGhhdmUgdGhlIGNvZGUgYXQgYWxsLCB0aGUgTUlUIGxpY2Vuc2UKPiBp
+cyBhIGJvbnVzLiBUaGFua3MgZm9yIHdyaXRpbmcgaXQgYW5kIGJlYXJpbmcgd2l0aCB1cy4KPiAK
+PiBXb3VsZCByZXdyaXRlcyBkb25lIHB1cmVseSBmb3IgbGljZW5zaW5nIHJlYXNvbnMgYmUgYWNj
+ZXB0ZWQgdXBzdHJlYW0/CgpSZXdyaXRlIHNob3VsZCBiZSB0aGUgbGFzdCByZXNvcnQuIEkgdGhp
+bmsgYSBsb3Qgb2YgdGhlIEdQTCBvbmx5IHN0dWZmCmlzIHF1aXRlIHJlY2VudCBzbyB0aGVyZSdz
+IGEgZ29vZCBjaGFuY2UgdGhlIGF1dGhvcihzKSBhcmUgc3RpbGwgYXJvdW5kCnRvIGRpc2N1c3Mg
+cmVsaWNlbnNpbmcuCgotLSAKVmlsbGUgU3lyasOkbMOkCkludGVsCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
