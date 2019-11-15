@@ -2,45 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EDD6FE235
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2019 17:04:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CD15FE247
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2019 17:07:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3D476E917;
-	Fri, 15 Nov 2019 16:04:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 926366E929;
+	Fri, 15 Nov 2019 16:07:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 720986E91D
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2019 16:04:27 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 6ED7F720E2; Fri, 15 Nov 2019 16:04:27 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30E366E928
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2019 16:07:50 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112266] [Navi] Pathfinder: Kingmaker is causing a GPU hang:
- flip_done timed out error
-Date: Fri, 15 Nov 2019 16:04:27 +0000
-X-Bugzilla-Reason: AssignedTo
+Subject: [Bug 205521] 5.3.11 update broke AMDGPU Raven Ridge
+Date: Fri, 15 Nov 2019 16:07:49 +0000
+X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: luya@fedoraproject.org
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: UNREPRODUCIBLE
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-112266-502-boq2VOUInC@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-112266-502@http.bugs.freedesktop.org/>
-References: <bug-112266-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-205521-2300-dvXI8ki9FQ@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-205521-2300@https.bugzilla.kernel.org/>
+References: <bug-205521-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
+ message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,99 +51,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0561475273=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0561475273==
-Content-Type: multipart/alternative; boundary="15738338672.18f6dAA44.21946"
-Content-Transfer-Encoding: 7bit
-
-
---15738338672.18f6dAA44.21946
-Date: Fri, 15 Nov 2019 16:04:27 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112266
-
---- Comment #6 from Alex Deucher <alexdeucher@gmail.com> ---
-Created attachment 145971
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145971&action=3Dedit
-possible fix
-
-Does this patch help?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15738338672.18f6dAA44.21946
-Date: Fri, 15 Nov 2019 16:04:27 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [Navi] Pathfinder: Kingmaker is causing a GPU hang: flip_=
-done timed out error"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112266#c6">Commen=
-t # 6</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [Navi] Pathfinder: Kingmaker is causing a GPU hang: flip_=
-done timed out error"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112266">bug 11226=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
-com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145971=
-" name=3D"attach_145971" title=3D"possible fix">attachment 145971</a> <a hr=
-ef=3D"attachment.cgi?id=3D145971&amp;action=3Dedit" title=3D"possible fix">=
-[details]</a></span> <a href=3D'page.cgi?id=3Dsplinter.html&amp;bug=3D11226=
-6&amp;attachment=3D145971'>[review]</a>
-possible fix
-
-Does this patch help?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15738338672.18f6dAA44.21946--
-
---===============0561475273==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0561475273==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU1MjEKCkx1eWEg
+VHNoaW1iYWxhbmdhIChsdXlhQGZlZG9yYXByb2plY3Qub3JnKSBjaGFuZ2VkOgoKICAgICAgICAg
+ICBXaGF0ICAgIHxSZW1vdmVkICAgICAgICAgICAgICAgICAgICAgfEFkZGVkCi0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0KICAgICAgICAgICAgIFN0YXR1c3xORVcgICAgICAgICAgICAgICAgICAgICAgICAg
+fFJFU09MVkVECiAgICAgICAgIFJlc29sdXRpb258LS0tICAgICAgICAgICAgICAgICAgICAgICAg
+IHxVTlJFUFJPRFVDSUJMRQoKLS0tIENvbW1lbnQgIzUgZnJvbSBMdXlhIFRzaGltYmFsYW5nYSAo
+bHV5YUBmZWRvcmFwcm9qZWN0Lm9yZykgLS0tCkkgYW0gY2xvc2luZyB0aGlzIHJlcG9ydCBmb3Ig
+bm93IGFzIEkgcmVpbnN0YWxsZWQgdGhlIHN5c3RlbS4gVGhlIHVwZGF0ZQpwcm9jZWVkZWQgbm9y
+bWFsbHkgd2l0aCB0aGUgcmVzdWx0OgoKc3VkbyBsc2luaXRyZCAvYm9vdC9pbml0cmFtZnMtNS4z
+LjExLTMwMC5mYzMxLng4Nl82NC5pbWcgfCBncmVwIHJhdmVuICAgICAgICAgICAKLXJ3LXItLXIt
+LSAgIDIgcm9vdCAgICAgcm9vdCAgICAgICAgODY1MjggSnVsIDI0IDE1OjI0CnVzci9saWIvZmly
+bXdhcmUvYW1kZ3B1L3JhdmVuMl9hc2QuYmluCi1ydy1yLS1yLS0gICAxIHJvb3QgICAgIHJvb3Qg
+ICAgICAgICA5MzQ0IEp1bCAyNCAxNToyNAp1c3IvbGliL2Zpcm13YXJlL2FtZGdwdS9yYXZlbjJf
+Y2UuYmluCi1ydy1yLS1yLS0gICAxIHJvb3QgICAgIHJvb3QgICAgICAgICAgMzE2IEp1bCAyNCAx
+NToyNAp1c3IvbGliL2Zpcm13YXJlL2FtZGdwdS9yYXZlbjJfZ3B1X2luZm8uYmluCi1ydy1yLS1y
+LS0gICAxIHJvb3QgICAgIHJvb3QgICAgICAgIDE3NTM2IEp1bCAyNCAxNToyNAp1c3IvbGliL2Zp
+cm13YXJlL2FtZGdwdS9yYXZlbjJfbWUuYmluCi1ydy1yLS1yLS0gICAyIHJvb3QgICAgIHJvb3Qg
+ICAgICAgMjY4MDQ4IEp1bCAyNCAxNToyNAp1c3IvbGliL2Zpcm13YXJlL2FtZGdwdS9yYXZlbjJf
+bWVjMi5iaW4KLXJ3LXItLXItLSAgIDIgcm9vdCAgICAgcm9vdCAgICAgICAgICAgIDAgSnVsIDI0
+IDE1OjI0CnVzci9saWIvZmlybXdhcmUvYW1kZ3B1L3JhdmVuMl9tZWMuYmluCi1ydy1yLS1yLS0g
+ICAxIHJvb3QgICAgIHJvb3QgICAgICAgIDIxNjMyIEp1bCAyNCAxNToyNAp1c3IvbGliL2Zpcm13
+YXJlL2FtZGdwdS9yYXZlbjJfcGZwLmJpbgotcnctci0tci0tICAgMSByb290ICAgICByb290ICAg
+ICAgICAzODMyNCBKdWwgMjQgMTU6MjQKdXNyL2xpYi9maXJtd2FyZS9hbWRncHUvcmF2ZW4yX3Js
+Yy5iaW4KLXJ3LXItLXItLSAgIDEgcm9vdCAgICAgcm9vdCAgICAgICAgMTc0MDggSnVsIDI0IDE1
+OjI0CnVzci9saWIvZmlybXdhcmUvYW1kZ3B1L3JhdmVuMl9zZG1hLmJpbgotcnctci0tci0tICAg
+MSByb290ICAgICByb290ICAgICAgIDM0MzQ1NiBKdWwgMjQgMTU6MjQKdXNyL2xpYi9maXJtd2Fy
+ZS9hbWRncHUvcmF2ZW4yX3Zjbi5iaW4KLXJ3LXItLXItLSAgIDEgcm9vdCAgICAgcm9vdCAgICAg
+ICAgNzgzMzYgSnVsIDI0IDE1OjI0CnVzci9saWIvZmlybXdhcmUvYW1kZ3B1L3JhdmVuX2FzZC5i
+aW4KLXJ3LXItLXItLSAgIDEgcm9vdCAgICAgcm9vdCAgICAgICAgIDkzNDQgSnVsIDI0IDE1OjI0
+CnVzci9saWIvZmlybXdhcmUvYW1kZ3B1L3JhdmVuX2NlLmJpbgotcnctci0tci0tICAgMSByb290
+ICAgICByb290ICAgICAgICAyMzE1MiBKdWwgMjQgMTU6MjQKdXNyL2xpYi9maXJtd2FyZS9hbWRn
+cHUvcmF2ZW5fZG1jdS5iaW4KLXJ3LXItLXItLSAgIDIgcm9vdCAgICAgcm9vdCAgICAgICAgICAz
+MTYgSnVsIDI0IDE1OjI0CnVzci9saWIvZmlybXdhcmUvYW1kZ3B1L3JhdmVuX2dwdV9pbmZvLmJp
+bgotcnctci0tci0tICAgMSByb290ICAgICByb290ICAgICAgICAzOTA4NCBKdWwgMjQgMTU6MjQK
+dXNyL2xpYi9maXJtd2FyZS9hbWRncHUvcmF2ZW5fa2lja2VyX3JsYy5iaW4KLXJ3LXItLXItLSAg
+IDEgcm9vdCAgICAgcm9vdCAgICAgICAgMTc1MzYgSnVsIDI0IDE1OjI0CnVzci9saWIvZmlybXdh
+cmUvYW1kZ3B1L3JhdmVuX21lLmJpbgotcnctci0tci0tICAgMiByb290ICAgICByb290ICAgICAg
+IDI2ODA0OCBKdWwgMjQgMTU6MjQKdXNyL2xpYi9maXJtd2FyZS9hbWRncHUvcmF2ZW5fbWVjMi5i
+aW4KLXJ3LXItLXItLSAgIDIgcm9vdCAgICAgcm9vdCAgICAgICAgICAgIDAgSnVsIDI0IDE1OjI0
+CnVzci9saWIvZmlybXdhcmUvYW1kZ3B1L3JhdmVuX21lYy5iaW4KLXJ3LXItLXItLSAgIDEgcm9v
+dCAgICAgcm9vdCAgICAgICAgMjE2MzIgSnVsIDI0IDE1OjI0CnVzci9saWIvZmlybXdhcmUvYW1k
+Z3B1L3JhdmVuX3BmcC5iaW4KLXJ3LXItLXItLSAgIDEgcm9vdCAgICAgcm9vdCAgICAgICAgMzkw
+ODQgSnVsIDI0IDE1OjI0CnVzci9saWIvZmlybXdhcmUvYW1kZ3B1L3JhdmVuX3JsYy5iaW4KLXJ3
+LXItLXItLSAgIDIgcm9vdCAgICAgcm9vdCAgICAgICAgMTc0MDggSnVsIDI0IDE1OjI0CnVzci9s
+aWIvZmlybXdhcmUvYW1kZ3B1L3JhdmVuX3NkbWEuYmluCi1ydy1yLS1yLS0gICAyIHJvb3QgICAg
+IHJvb3QgICAgICAgMzQxNzI4IEp1bCAyNCAxNToyNAp1c3IvbGliL2Zpcm13YXJlL2FtZGdwdS9y
+YXZlbl92Y24uYmluCgpJdCBhcHBlYXJzIGRyYWN1dCBzb21laG93IG1hbmFnZWQgdG8gbm90IGlu
+c3RhbGwgdGhlIGZpcm13YXJlIHByaW9yIHRvIHRoZQpmYWlsdXJlLiBJIGNhbiBubyBsb25nZXIg
+cmVwcm9kdWNlIGl0IHdpdGggYSByZWluc3RhbGwuCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhp
+cyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcu
+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
+bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
+c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
