@@ -2,45 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58CF8FD887
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2019 10:12:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1395CFD890
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2019 10:15:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C1E56E1BC;
-	Fri, 15 Nov 2019 09:12:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FA7E8916D;
+	Fri, 15 Nov 2019 09:15:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id AB5836E1A7
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2019 09:12:01 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id A2B36720E2; Fri, 15 Nov 2019 09:12:01 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 585E38916D
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2019 09:15:12 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112288] Blank display on Ubuntu 19.10 on Ryzen 3 2200G and
- Ryzen 5 2400G APUs
-Date: Fri, 15 Nov 2019 09:12:01 +0000
-X-Bugzilla-Reason: AssignedTo
+Subject: [Bug 205497] Attempt to read amd gpu id causes a freeze
+Date: Fri, 15 Nov 2019 09:15:11 +0000
+X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: michel@daenzer.net
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: itemcode@mail.ru
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-112288-502-dloa0NUyPb@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-112288-502@http.bugs.freedesktop.org/>
-References: <bug-112288-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+Message-ID: <bug-205497-2300-FZE3XvjynS@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-205497-2300@https.bugzilla.kernel.org/>
+References: <bug-205497-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
+ message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,104 +51,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1209502739=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1209502739==
-Content-Type: multipart/alternative; boundary="15738091210.6d8C5.11719"
-Content-Transfer-Encoding: 7bit
-
-
---15738091210.6d8C5.11719
-Date: Fri, 15 Nov 2019 09:12:01 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112288
-
---- Comment #11 from Michel D=C3=A4nzer <michel@daenzer.net> ---
-(In reply to Alex Deucher from comment #3)
-> [    1.094054] [drm:amdgpu_init [amdgpu]] *ERROR* VGACON disables amdgpu
-> kernel modesetting.
-> Did you enable vga console?
-
-FWIW, that message is due to "nomodeset" on the kernel command line, which =
-was
-presumably used to work around this problem?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15738091210.6d8C5.11719
-Date: Fri, 15 Nov 2019 09:12:01 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Blank display on Ubuntu 19.10 on Ryzen 3 2200G and Ryzen =
-5 2400G APUs"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112288#c11">Comme=
-nt # 11</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Blank display on Ubuntu 19.10 on Ryzen 3 2200G and Ryzen =
-5 2400G APUs"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112288">bug 11228=
-8</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
-net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
-</span></b>
-        <pre>(In reply to Alex Deucher from <a href=3D"show_bug.cgi?id=3D11=
-2288#c3">comment #3</a>)
-<span class=3D"quote">&gt; [    1.094054] [drm:amdgpu_init [amdgpu]] *ERROR=
-* VGACON disables amdgpu
-&gt; kernel modesetting.
-&gt; Did you enable vga console?</span >
-
-FWIW, that message is due to &quot;nomodeset&quot; on the kernel command li=
-ne, which was
-presumably used to work around this problem?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15738091210.6d8C5.11719--
-
---===============1209502739==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1209502739==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU0OTcKCi0tLSBD
+b21tZW50ICMxMCBmcm9tIFYuSS5TLiAoaXRlbWNvZGVAbWFpbC5ydSkgLS0tCkFNRCBSeXplbiA1
+IDI2MDBHICsgQU1EIFJYNTYwIChtdWx0aXNlYXQgc3lzdGVtKSwgc3lzdGVtIGZyZWV6ZWQgYWZ0
+ZXIgZmV3IGRheXMKb24ga2VybmVsIDQuMTkuODMgaW4gbXkgY2FzZS4KCi0tIApZb3UgYXJlIHJl
+Y2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUg
+b2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
