@@ -2,43 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F736FE2E4
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2019 17:35:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB4C9FE411
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2019 18:35:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A12326E83D;
-	Fri, 15 Nov 2019 16:35:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 838906E78C;
+	Fri, 15 Nov 2019 17:35:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 667FB6E83D
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2019 16:35:17 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205497] Attempt to read amd gpu id causes a freeze
-Date: Fri, 15 Nov 2019 16:35:16 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: itemcode@mail.ru
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205497-2300-6wmYfCj6Bg@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205497-2300@https.bugzilla.kernel.org/>
-References: <bug-205497-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
-X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
- message/signature format)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7212A6E0E7
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2019 17:35:06 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 5.4-rc8
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9twvcfHPb4nrAQnHaEWhQrbByR0CfGXbWo_479c3YR47uw@mail.gmail.com>
+References: <CAPM=9twvcfHPb4nrAQnHaEWhQrbByR0CfGXbWo_479c3YR47uw@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAPM=9twvcfHPb4nrAQnHaEWhQrbByR0CfGXbWo_479c3YR47uw@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-fixes-2019-11-15
+X-PR-Tracked-Commit-Id: 07ceccacfb27be0e151b876caeda3a556cef099c
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 37b49f31e800b563ed7a601816ea4b6fc3c5d165
+Message-Id: <157383930603.31249.14123556472751707976.pr-tracker-bot@kernel.org>
+Date: Fri, 15 Nov 2019 17:35:06 +0000
+To: Dave Airlie <airlied@gmail.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1573839306;
+ bh=qRUpeut5kwGB05XEdaCmELLksALookGgKdjeXYvSEIo=;
+ h=From:In-Reply-To:References:Date:To:Cc:From;
+ b=f+Fb9w3XaZLUlDF34lXlewqZuVfPQTqhD28a7/M3frMHm4+TSRMY63pdz38092JF0
+ zTZef3tOOyKonRrvf0NrDu/X2362E+VwTolj4VwPy0P3su9kZvIl3XI4p4kUyajyxe
+ qWx1frAeml2TBJcLkAwUF0nq42JCeuIqgA/DHWTA=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,16 +46,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU0OTcKCi0tLSBD
-b21tZW50ICMxMiBmcm9tIFYuSS5TLiAoaXRlbWNvZGVAbWFpbC5ydSkgLS0tCkkgbmVlZCBhcHBy
-b3ggMy01IGRheXMgZm9yIHRlc3RpbmcsIGJlY2F1c2UgdGhpcyBidWcgaXMgbm90IHBlcnNpc3Rl
-bnQuCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0
-Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbA==
+VGhlIHB1bGwgcmVxdWVzdCB5b3Ugc2VudCBvbiBGcmksIDE1IE5vdiAyMDE5IDExOjE4OjE2ICsx
+MDAwOgoKPiBnaXQ6Ly9hbm9uZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJtIHRhZ3MvZHJtLWZp
+eGVzLTIwMTktMTEtMTUKCmhhcyBiZWVuIG1lcmdlZCBpbnRvIHRvcnZhbGRzL2xpbnV4LmdpdDoK
+aHR0cHM6Ly9naXQua2VybmVsLm9yZy90b3J2YWxkcy9jLzM3YjQ5ZjMxZTgwMGI1NjNlZDdhNjAx
+ODE2ZWE0YjZmYzNjNWQxNjUKClRoYW5rIHlvdSEKCi0tIApEZWV0LWRvb3QtZG90LCBJIGFtIGEg
+Ym90LgpodHRwczovL2tvcmcud2lraS5rZXJuZWwub3JnL3VzZXJkb2MvcHJ0cmFja2VyCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
