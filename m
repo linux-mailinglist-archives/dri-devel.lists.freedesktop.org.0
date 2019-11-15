@@ -1,22 +1,22 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0421FE56B
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2019 20:08:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 485FEFE570
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Nov 2019 20:11:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 879616EA43;
-	Fri, 15 Nov 2019 19:08:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA3866EA44;
+	Fri, 15 Nov 2019 19:11:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEE556EA43
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2019 19:08:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40FF76EA44
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Nov 2019 19:11:20 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 205169] AMDGPU driver with Navi card hangs Xorg in fullscreen
  only.
-Date: Fri, 15 Nov 2019 19:08:56 +0000
+Date: Fri, 15 Nov 2019 19:11:19 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -25,14 +25,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: drjoms@gmail.com
+X-Bugzilla-Who: shtetldik@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205169-2300-iI24Gp5XzK@https.bugzilla.kernel.org/>
+Message-ID: <bug-205169-2300-4NwgTZaCLa@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205169-2300@https.bugzilla.kernel.org/>
 References: <bug-205169-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,17 +58,10 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDUxNjkKCi0tLSBD
-b21tZW50ICMyMSBmcm9tIERtaXRyaSBTZWxldHNraSAoZHJqb21zQGdtYWlsLmNvbSkgLS0tCihJ
-biByZXBseSB0byBBbGV4IERldWNoZXIgZnJvbSBjb21tZW50ICMyMCkKPiBDcmVhdGVkIGF0dGFj
-aG1lbnQgMjg1OTM1IFtkZXRhaWxzXQo+IHBvc3NpYmxlIGZpeAo+IAo+IERvZXMgdGhpcyBwYXRj
-aCBoZWxwPwoKSXQgZGlkIG5vdCBqdXN0IHNvbHZlIG9uZSBwcm9ibGVtLCBidXQgdHdvIQoKRmly
-c3Qgb2YgYWxsIGl0IHNvbHZlZCBvcmlnaW5hbCBpc3N1ZS4KU2Vjb25kIG9mIGFsbCwgc29tZSBn
-YW1lcyB3ZXJlIGhhbmdpbmcgcmlnaHQgYmVmb3JlIHF1aXR0aW5nLgpYb3JnIHdhcyByZXNwb25z
-aXZlLCBidXQgcHJvY2Vzc2VzIGRpZCBub3QgZGlzYXBwZWFyLgoKSSB3YXMgYmxhbWluZyBvbiBw
-cm9wcmlldGFyeSBjb2RlLgoKQXBwYXJlbnRseSBpdCB3YXMgc2FtZSBidWcsIGp1c3QgZGlmZmVy
-ZW50IGludm9jYXRpb24gb2YgaXQuCgpQbGVhc2UgY2xvc2UgdGhpcyBidWcgcmVwb3J0LiBNeSBw
-cm9ibGVtIGlzIG5vdyBmaXhlZC4KCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVj
-YXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+b21tZW50ICMyMiBmcm9tIFNobWVybCAoc2h0ZXRsZGlrQGdtYWlsLmNvbSkgLS0tCkl0IGZpeGVz
+IFBhdGhmaW5kZXI6IEtpbmdhbWVyIHRvby4gQnV0IGZpcnN0IGxldCB0aGUgcGF0Y2ggYmUgdXBz
+dHJlYW1lZCwgdGhlbgppdCdzIE9LIHRvIGNsb3NlIHRoZSBidWcgOikKCi0tIApZb3UgYXJlIHJl
+Y2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUg
+b2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
