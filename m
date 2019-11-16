@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F4B1FEBCF
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2019 12:27:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E8F9FEBD0
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2019 12:28:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EEE989BF5;
-	Sat, 16 Nov 2019 11:27:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E5576E0A5;
+	Sat, 16 Nov 2019 11:28:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1B6A389BF5
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Nov 2019 11:27:33 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9A3DD6E0A5
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Nov 2019 11:28:08 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 17A64720E2; Sat, 16 Nov 2019 11:27:33 +0000 (UTC)
+ id 96441720E2; Sat, 16 Nov 2019 11:28:08 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 112302] [kernel 5.4-rc7][amdgpu] kmemleak reports various leaks
-Date: Sat, 16 Nov 2019 11:27:33 +0000
+Date: Sat, 16 Nov 2019 11:28:08 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-112302-502-TIgnfu5ZNJ@http.bugs.freedesktop.org/>
+Message-ID: <bug-112302-502-1QBCjgZzcN@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-112302-502@http.bugs.freedesktop.org/>
 References: <bug-112302-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1122815130=="
+Content-Type: multipart/mixed; boundary="===============1399436165=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1122815130==
-Content-Type: multipart/alternative; boundary="15739036530.7d73.27781"
+--===============1399436165==
+Content-Type: multipart/alternative; boundary="15739036880.1f2336B4.26081"
 Content-Transfer-Encoding: 7bit
 
 
---15739036530.7d73.27781
-Date: Sat, 16 Nov 2019 11:27:33 +0000
+--15739036880.1f2336B4.26081
+Date: Sat, 16 Nov 2019 11:28:08 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,17 +72,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D112302
 
---- Comment #1 from erhard_f@mailbox.org ---
-Created attachment 145973
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145973&action=3Dedit
-dmesg (kernel 5.4-rc7)
+--- Comment #2 from erhard_f@mailbox.org ---
+Created attachment 145974
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145974&action=3Dedit
+kernel .config (kernel 5.4-rc7)
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15739036530.7d73.27781
-Date: Sat, 16 Nov 2019 11:27:33 +0000
+--15739036880.1f2336B4.26081
+Date: Sat, 16 Nov 2019 11:28:08 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -99,8 +99,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - [kernel 5.4-rc7][amdgpu] kmemleak reports various leaks"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112302#c1">Commen=
-t # 1</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112302#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - [kernel 5.4-rc7][amdgpu] kmemleak reports various leaks"
@@ -110,11 +110,11 @@ t # 1</a>
 erhard_f&#64;mailbox.org" title=3D"erhard_f&#64;mailbox.org">erhard_f&#64;m=
 ailbox.org</a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145973=
-" name=3D"attach_145973" title=3D"dmesg (kernel 5.4-rc7)">attachment 145973=
-</a> <a href=3D"attachment.cgi?id=3D145973&amp;action=3Dedit" title=3D"dmes=
-g (kernel 5.4-rc7)">[details]</a></span>
-dmesg (kernel 5.4-rc7)</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145974=
+" name=3D"attach_145974" title=3D"kernel .config (kernel 5.4-rc7)">attachme=
+nt 145974</a> <a href=3D"attachment.cgi?id=3D145974&amp;action=3Dedit" titl=
+e=3D"kernel .config (kernel 5.4-rc7)">[details]</a></span>
+kernel .config (kernel 5.4-rc7)</pre>
         </div>
       </p>
 
@@ -128,9 +128,9 @@ dmesg (kernel 5.4-rc7)</pre>
     </body>
 </html>=
 
---15739036530.7d73.27781--
+--15739036880.1f2336B4.26081--
 
---===============1122815130==
+--===============1399436165==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -140,4 +140,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1122815130==--
+--===============1399436165==--
