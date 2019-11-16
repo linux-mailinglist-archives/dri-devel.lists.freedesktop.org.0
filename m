@@ -2,20 +2,20 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80F3EFEAF1
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2019 07:30:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29487FEBB5
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2019 12:03:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 732016E02D;
-	Sat, 16 Nov 2019 06:30:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CFB96E082;
+	Sat, 16 Nov 2019 11:03:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FEC96E02D
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Nov 2019 06:30:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14CDC6E082
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Nov 2019 11:03:31 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205497] Attempt to read amd gpu id causes a freeze
-Date: Sat, 16 Nov 2019 06:30:13 +0000
+Subject: [Bug 205309] kmemleak reports various leaks in amdgpu
+Date: Sat, 16 Nov 2019 11:03:30 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -24,16 +24,16 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: trek00@inbox.ru
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
+X-Bugzilla-Who: erhard_f@mailbox.org
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: OBSOLETE
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205497-2300-OICFSbAGpM@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205497-2300@https.bugzilla.kernel.org/>
-References: <bug-205497-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-205309-2300-UTtrLIywZd@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-205309-2300@https.bugzilla.kernel.org/>
+References: <bug-205309-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -56,13 +56,16 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU0OTcKCi0tLSBD
-b21tZW50ICMxNCBmcm9tIFRyZWsgKHRyZWswMEBpbmJveC5ydSkgLS0tCihJbiByZXBseSB0byBB
-bGV4IERldWNoZXIgZnJvbSBjb21tZW50ICMxMSkKPiBJZiB5b3UgYWNjZXNzIHRoZSBCQVIgZGly
-ZWN0bHkgeW91IHdpbGwgbGlrZWx5IGhhdmUgcHJvYmxlbXMgaW4gY2VydGFpbgo+IHBvd2VyIHNh
-dmluZyBtb2Rlcy4KdGhhbmsgeW91LCBJJ2xsIGFkZCBhIHdhcm5pbmcgbWVzc2FnZSB3aGVuIGFj
-Y2Vzc2luZyBCQVIgZGlyZWN0bHkKCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVj
-YXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDUzMDkKCkVyaGFy
+ZCBGLiAoZXJoYXJkX2ZAbWFpbGJveC5vcmcpIGNoYW5nZWQ6CgogICAgICAgICAgIFdoYXQgICAg
+fFJlbW92ZWQgICAgICAgICAgICAgICAgICAgICB8QWRkZWQKLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQog
+ICAgICAgICAgICAgU3RhdHVzfE5FVyAgICAgICAgICAgICAgICAgICAgICAgICB8UkVTT0xWRUQK
+ICAgICAgICAgUmVzb2x1dGlvbnwtLS0gICAgICAgICAgICAgICAgICAgICAgICAgfE9CU09MRVRF
+CgotLS0gQ29tbWVudCAjMyBmcm9tIEVyaGFyZCBGLiAoZXJoYXJkX2ZAbWFpbGJveC5vcmcpIC0t
+LQpEb2VzIG5vdCBoYXBwZW4gd2l0aCA1LjQtcmM3LiBTZWVtcyBmaXhlZCBub3cuCgotLSAKWW91
+IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFz
+c2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbA==
