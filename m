@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95A06FF483
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2019 18:53:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5514FF485
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2019 18:58:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6023F6E1E8;
-	Sat, 16 Nov 2019 17:53:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB33C6E1EC;
+	Sat, 16 Nov 2019 17:58:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 198106E1B5
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Nov 2019 17:53:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id A43086E1BD
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Nov 2019 17:58:05 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 15F93720E2; Sat, 16 Nov 2019 17:53:01 +0000 (UTC)
+ id A0C8C720E2; Sat, 16 Nov 2019 17:58:05 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
  with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Sat, 16 Nov 2019 17:53:00 +0000
+Date: Sat, 16 Nov 2019 17:58:05 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -28,14 +28,14 @@ X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: critical
-X-Bugzilla-Who: venemo@msn.com
+X-Bugzilla-Who: popovic.marko@protonmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: highest
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-Hss5hkuN2B@http.bugs.freedesktop.org/>
+Message-ID: <bug-111481-502-4N6jr1qMOR@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
 References: <bug-111481-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0023093105=="
+Content-Type: multipart/mixed; boundary="===============1213788187=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0023093105==
-Content-Type: multipart/alternative; boundary="15739267810.aE3c6dd29.322"
+--===============1213788187==
+Content-Type: multipart/alternative; boundary="15739270857.f6eAAca5C.1985"
 Content-Transfer-Encoding: 7bit
 
 
---15739267810.aE3c6dd29.322
-Date: Sat, 16 Nov 2019 17:53:01 +0000
+--15739270857.f6eAAca5C.1985
+Date: Sat, 16 Nov 2019 17:58:05 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,36 +73,41 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
 
---- Comment #234 from Timur Krist=C3=B3f <venemo@msn.com> ---
-(In reply to John H from comment #227)
-> However, I have hard freezes when playing games. A
-> specific one I can reproduce EVERY. SINGLE. TIME. was when playing Unreal
-> Tournament 3 via Steam proton.
+--- Comment #235 from Marko Popovic <popovic.marko@protonmail.com> ---
+(In reply to Alex Deucher from comment #233)
+> Does attachment 145971 [details] [review] help?
 
-Sounds like the same, or similar issue as this one:
-https://gitlab.freedesktop.org/mesa/mesa/issues/868
+No, this is for flip hangs that only happen in some games, random SDMA hangs
+are still present, but SDMA is disabled in MESA20 so for the timebeing it
+should be more stable.
 
-In that case it was caused by an LLVM bug that has been fixed in LLVM 10 fo=
-r a
-while but haven't made it into LLVM 9 yet.
-If you use mesa 19.3 can you try if the same issue occours with ACO?
+(In reply to Timur Krist=C3=B3f from comment #234)
+> (In reply to John H from comment #227)
+> > However, I have hard freezes when playing games. A
+> > specific one I can reproduce EVERY. SINGLE. TIME. was when playing Unre=
+al
+> > Tournament 3 via Steam proton.
+>=20
+> Sounds like the same, or similar issue as this one:
+> https://gitlab.freedesktop.org/mesa/mesa/issues/868
+>=20
+> In that case it was caused by an LLVM bug that has been fixed in LLVM 10 =
+for
+> a while but haven't made it into LLVM 9 yet.
+> If you use mesa 19.3 can you try if the same issue occours with ACO?
+>=20
 
-(In reply to John Smith from comment #225)
-> Is this seriously what AMD calls "support"? No offense but this is
-> ridiculous, this card has been out for four months and it still can't even
-> browse firefox reliably, even after these "workarounds" and "patches".=20
-
-I can symphatize with your frustration, but I don't think this attitude is
-helpful. Pierre-Eric and Alex are doing their best to solve this problem.
-Insulting each other in the bugzilla is not constructive and won't bring us
-closer to the solution.
+Radv hangs are not related to SDMA hangs, but luckily at least those are fi=
+xed
+in LLVM10, so we can at least have decently stable experience with
+AMD_DEBUG=3Dnodma, which is basically enabled by default in MESA 20.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15739267810.aE3c6dd29.322
-Date: Sat, 16 Nov 2019 17:53:01 +0000
+--15739270857.f6eAAca5C.1985
+Date: Sat, 16 Nov 2019 17:58:05 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -120,8 +125,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
  kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c234">Comm=
-ent # 234</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c235">Comm=
+ent # 235</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
@@ -129,39 +134,44 @@ ent # 234</a>
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
 1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-venemo&#64;msn.com" title=3D"Timur Krist=C3=B3f &lt;venemo&#64;msn.com&gt;"=
-> <span class=3D"fn">Timur Krist=C3=B3f</span></a>
+popovic.marko&#64;protonmail.com" title=3D"Marko Popovic &lt;popovic.marko&=
+#64;protonmail.com&gt;"> <span class=3D"fn">Marko Popovic</span></a>
 </span></b>
-        <pre>(In reply to John H from <a href=3D"show_bug.cgi?id=3D111481#c=
-227">comment #227</a>)
-<span class=3D"quote">&gt; However, I have hard freezes when playing games.=
- A
-&gt; specific one I can reproduce EVERY. SINGLE. TIME. was when playing Unr=
-eal
-&gt; Tournament 3 via Steam proton.</span >
+        <pre>(In reply to Alex Deucher from <a href=3D"show_bug.cgi?id=3D11=
+1481#c233">comment #233</a>)
+<span class=3D"quote">&gt; Does <span class=3D""><a href=3D"attachment.cgi?=
+id=3D145971" name=3D"attach_145971" title=3D"possible fix">attachment 14597=
+1</a> <a href=3D"attachment.cgi?id=3D145971&amp;action=3Dedit" title=3D"pos=
+sible fix">[details]</a></span> <a href=3D'page.cgi?id=3Dsplinter.html&amp;=
+bug=3D111481&amp;attachment=3D145971'>[review]</a> [review] help?</span >
 
-Sounds like the same, or similar issue as this one:
-<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/issues/868">https://git=
-lab.freedesktop.org/mesa/mesa/issues/868</a>
+No, this is for flip hangs that only happen in some games, random SDMA hangs
+are still present, but SDMA is disabled in MESA20 so for the timebeing it
+should be more stable.
 
-In that case it was caused by an LLVM bug that has been fixed in LLVM 10 fo=
-r a
-while but haven't made it into LLVM 9 yet.
-If you use mesa 19.3 can you try if the same issue occours with ACO?
+(In reply to Timur Krist=C3=B3f from <a href=3D"show_bug.cgi?id=3D111481#c2=
+34">comment #234</a>)
+<span class=3D"quote">&gt; (In reply to John H from <a href=3D"show_bug.cgi=
+?id=3D111481#c227">comment #227</a>)
+&gt; &gt; However, I have hard freezes when playing games. A
+&gt; &gt; specific one I can reproduce EVERY. SINGLE. TIME. was when playin=
+g Unreal
+&gt; &gt; Tournament 3 via Steam proton.
+&gt;=20
+&gt; Sounds like the same, or similar issue as this one:
+&gt; <a href=3D"https://gitlab.freedesktop.org/mesa/mesa/issues/868">https:=
+//gitlab.freedesktop.org/mesa/mesa/issues/868</a>
+&gt;=20
+&gt; In that case it was caused by an LLVM bug that has been fixed in LLVM =
+10 for
+&gt; a while but haven't made it into LLVM 9 yet.
+&gt; If you use mesa 19.3 can you try if the same issue occours with ACO?
+&gt; </span >
 
-(In reply to John Smith from <a href=3D"show_bug.cgi?id=3D111481#c225">comm=
-ent #225</a>)
-<span class=3D"quote">&gt; Is this seriously what AMD calls &quot;support&q=
-uot;? No offense but this is
-&gt; ridiculous, this card has been out for four months and it still can't =
-even
-&gt; browse firefox reliably, even after these &quot;workarounds&quot; and =
-&quot;patches&quot;. </span >
-
-I can symphatize with your frustration, but I don't think this attitude is
-helpful. Pierre-Eric and Alex are doing their best to solve this problem.
-Insulting each other in the bugzilla is not constructive and won't bring us
-closer to the solution.</pre>
+Radv hangs are not related to SDMA hangs, but luckily at least those are fi=
+xed
+in LLVM10, so we can at least have decently stable experience with
+AMD_DEBUG=3Dnodma, which is basically enabled by default in MESA 20.</pre>
         </div>
       </p>
 
@@ -175,9 +185,9 @@ closer to the solution.</pre>
     </body>
 </html>=
 
---15739267810.aE3c6dd29.322--
+--15739270857.f6eAAca5C.1985--
 
---===============0023093105==
+--===============1213788187==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -187,4 +197,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0023093105==--
+--===============1213788187==--
