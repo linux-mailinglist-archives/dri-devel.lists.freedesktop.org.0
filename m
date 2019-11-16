@@ -2,20 +2,20 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1327FF4C8
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2019 19:52:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C263EFF4CA
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2019 19:53:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1B5488F2D;
-	Sat, 16 Nov 2019 18:52:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 498956E108;
+	Sat, 16 Nov 2019 18:53:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB05E88F2D
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Nov 2019 18:52:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E2896E108
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Nov 2019 18:53:31 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 205497] Attempt to read amd gpu id causes a freeze
-Date: Sat, 16 Nov 2019 18:52:37 +0000
+Date: Sat, 16 Nov 2019 18:53:30 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -31,7 +31,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-205497-2300-0D7luuDgrn@https.bugzilla.kernel.org/>
+Message-ID: <bug-205497-2300-37hxn93x3n@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205497-2300@https.bugzilla.kernel.org/>
 References: <bug-205497-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -57,12 +57,12 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU0OTcKCi0tLSBD
-b21tZW50ICMxNSBmcm9tIEx1eWEgVHNoaW1iYWxhbmdhIChsdXlhQGZlZG9yYXByb2plY3Qub3Jn
-KSAtLS0KQ3JlYXRlZCBhdHRhY2htZW50IDI4NTk0NwogIC0tPiBodHRwczovL2J1Z3ppbGxhLmtl
-cm5lbC5vcmcvYXR0YWNobWVudC5jZ2k/aWQ9Mjg1OTQ3JmFjdGlvbj1lZGl0CmRtZXNnIGZyb20g
-YW1kIHJhdmVuIHJpZGVnZSBSeXplbiAyNTAwdQoKZG1lc2cgc2hvd2luZyBsYXRlc3Qga2VybmVs
-IGdpdCBzbmFwc2hvdAoKLS0gCllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZ
-b3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+b21tZW50ICMxNiBmcm9tIEx1eWEgVHNoaW1iYWxhbmdhIChsdXlhQGZlZG9yYXByb2plY3Qub3Jn
+KSAtLS0KQ3JlYXRlZCBhdHRhY2htZW50IDI4NTk0OQogIC0tPiBodHRwczovL2J1Z3ppbGxhLmtl
+cm5lbC5vcmcvYXR0YWNobWVudC5jZ2k/aWQ9Mjg1OTQ5JmFjdGlvbj1lZGl0CmFtZGdwdSBmaXJt
+d2FyZSBpbmZvCgpGaXJtd2FyZSBpbmZvcm1hdGlvbiBvZiBhbWRncHUgaW5zdGFsbGVkIGluIHRo
+ZSB0ZXN0aW5nIHN5c3RlbQoKLS0gCllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNl
+OgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
