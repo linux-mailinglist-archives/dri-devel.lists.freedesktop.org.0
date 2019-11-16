@@ -1,21 +1,21 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A94AFEA6B
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2019 04:32:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80F3EFEAF1
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2019 07:30:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E61DD893D1;
-	Sat, 16 Nov 2019 03:32:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 732016E02D;
+	Sat, 16 Nov 2019 06:30:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A18DE893D1
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Nov 2019 03:32:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FEC96E02D
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Nov 2019 06:30:14 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 205497] Attempt to read amd gpu id causes a freeze
-Date: Sat, 16 Nov 2019 03:32:05 +0000
+Date: Sat, 16 Nov 2019 06:30:13 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -24,14 +24,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: luya@fedoraproject.org
+X-Bugzilla-Who: trek00@inbox.ru
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205497-2300-iiSBqzCKyv@https.bugzilla.kernel.org/>
+Message-ID: <bug-205497-2300-OICFSbAGpM@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205497-2300@https.bugzilla.kernel.org/>
 References: <bug-205497-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -57,18 +57,12 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU0OTcKCi0tLSBD
-b21tZW50ICMxMyBmcm9tIEx1eWEgVHNoaW1iYWxhbmdhIChsdXlhQGZlZG9yYXByb2plY3Qub3Jn
-KSAtLS0KKEluIHJlcGx5IHRvIEFsZXggRGV1Y2hlciBmcm9tIGNvbW1lbnQgIzExKQo+IChJbiBy
-ZXBseSB0byBUcmVrIGZyb20gY29tbWVudCAjNykKPiA+IGJ5IGRlZmF1bHQsIHJhZGVvbnRvcCBj
-YWxscyBhbWRncHVfcmVhZF9tbV9yZWdpc3RlcnMsIGFtZGdwdV9xdWVyeV9pbmZvIGFuZAo+ID4g
-YW1kZ3B1X3F1ZXJ5X3NlbnNvcl9pbmZvLCBidXQgaXQgY2FuIGJlIGZvcmNlZCBieSB0aGUgY29t
-bWFuZCBsaW5lIHRvIHJlYWQKPiA+IEJBUiBmcm9tIC9kZXYvbWVtCj4gCj4gSWYgeW91IGFjY2Vz
-cyB0aGUgQkFSIGRpcmVjdGx5IHlvdSB3aWxsIGxpa2VseSBoYXZlIHByb2JsZW1zIGluIGNlcnRh
-aW4KPiBwb3dlciBzYXZpbmcgbW9kZXMuCj4gCj4gQ2FuIHNvbWVvbmUgdGVzdCB0aGUgcGF0Y2g/
-CgpDdXJyZW50bHkgYnVpbGRpbmcgb24KaHR0cHM6Ly9jb3ByLmZlZG9yYWluZnJhY2xvdWQub3Jn
-L2NvcHJzL2x1eWEva2VybmVsLWFtZ3B1LWdmeG9mZi9idWlsZC8xMDk1NjYwLwoKLS0gCllvdSBh
-cmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3Np
-Z25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWw=
+b21tZW50ICMxNCBmcm9tIFRyZWsgKHRyZWswMEBpbmJveC5ydSkgLS0tCihJbiByZXBseSB0byBB
+bGV4IERldWNoZXIgZnJvbSBjb21tZW50ICMxMSkKPiBJZiB5b3UgYWNjZXNzIHRoZSBCQVIgZGly
+ZWN0bHkgeW91IHdpbGwgbGlrZWx5IGhhdmUgcHJvYmxlbXMgaW4gY2VydGFpbgo+IHBvd2VyIHNh
+dmluZyBtb2Rlcy4KdGhhbmsgeW91LCBJJ2xsIGFkZCBhIHdhcm5pbmcgbWVzc2FnZSB3aGVuIGFj
+Y2Vzc2luZyBCQVIgZGlyZWN0bHkKCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVj
+YXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
