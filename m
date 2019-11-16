@@ -2,45 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5514FF485
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2019 18:58:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1327FF4C8
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2019 19:52:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB33C6E1EC;
-	Sat, 16 Nov 2019 17:58:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1B5488F2D;
+	Sat, 16 Nov 2019 18:52:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id A43086E1BD
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Nov 2019 17:58:05 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id A0C8C720E2; Sat, 16 Nov 2019 17:58:05 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB05E88F2D
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Nov 2019 18:52:37 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
- with kernel 5.3 and mesa 19.2 -git/llvm9
-Date: Sat, 16 Nov 2019 17:58:05 +0000
-X-Bugzilla-Reason: AssignedTo
+Subject: [Bug 205497] Attempt to read amd gpu id causes a freeze
+Date: Sat, 16 Nov 2019 18:52:37 +0000
+X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: popovic.marko@protonmail.com
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: luya@fedoraproject.org
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: highest
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111481-502-4N6jr1qMOR@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
-References: <bug-111481-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-205497-2300-0D7luuDgrn@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-205497-2300@https.bugzilla.kernel.org/>
+References: <bug-205497-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
+ message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,148 +51,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1213788187=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1213788187==
-Content-Type: multipart/alternative; boundary="15739270857.f6eAAca5C.1985"
-Content-Transfer-Encoding: 7bit
-
-
---15739270857.f6eAAca5C.1985
-Date: Sat, 16 Nov 2019 17:58:05 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
-
---- Comment #235 from Marko Popovic <popovic.marko@protonmail.com> ---
-(In reply to Alex Deucher from comment #233)
-> Does attachment 145971 [details] [review] help?
-
-No, this is for flip hangs that only happen in some games, random SDMA hangs
-are still present, but SDMA is disabled in MESA20 so for the timebeing it
-should be more stable.
-
-(In reply to Timur Krist=C3=B3f from comment #234)
-> (In reply to John H from comment #227)
-> > However, I have hard freezes when playing games. A
-> > specific one I can reproduce EVERY. SINGLE. TIME. was when playing Unre=
-al
-> > Tournament 3 via Steam proton.
->=20
-> Sounds like the same, or similar issue as this one:
-> https://gitlab.freedesktop.org/mesa/mesa/issues/868
->=20
-> In that case it was caused by an LLVM bug that has been fixed in LLVM 10 =
-for
-> a while but haven't made it into LLVM 9 yet.
-> If you use mesa 19.3 can you try if the same issue occours with ACO?
->=20
-
-Radv hangs are not related to SDMA hangs, but luckily at least those are fi=
-xed
-in LLVM10, so we can at least have decently stable experience with
-AMD_DEBUG=3Dnodma, which is basically enabled by default in MESA 20.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15739270857.f6eAAca5C.1985
-Date: Sat, 16 Nov 2019 17:58:05 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c235">Comm=
-ent # 235</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
- kernel 5.3 and mesa 19.2 -git/llvm9"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-popovic.marko&#64;protonmail.com" title=3D"Marko Popovic &lt;popovic.marko&=
-#64;protonmail.com&gt;"> <span class=3D"fn">Marko Popovic</span></a>
-</span></b>
-        <pre>(In reply to Alex Deucher from <a href=3D"show_bug.cgi?id=3D11=
-1481#c233">comment #233</a>)
-<span class=3D"quote">&gt; Does <span class=3D""><a href=3D"attachment.cgi?=
-id=3D145971" name=3D"attach_145971" title=3D"possible fix">attachment 14597=
-1</a> <a href=3D"attachment.cgi?id=3D145971&amp;action=3Dedit" title=3D"pos=
-sible fix">[details]</a></span> <a href=3D'page.cgi?id=3Dsplinter.html&amp;=
-bug=3D111481&amp;attachment=3D145971'>[review]</a> [review] help?</span >
-
-No, this is for flip hangs that only happen in some games, random SDMA hangs
-are still present, but SDMA is disabled in MESA20 so for the timebeing it
-should be more stable.
-
-(In reply to Timur Krist=C3=B3f from <a href=3D"show_bug.cgi?id=3D111481#c2=
-34">comment #234</a>)
-<span class=3D"quote">&gt; (In reply to John H from <a href=3D"show_bug.cgi=
-?id=3D111481#c227">comment #227</a>)
-&gt; &gt; However, I have hard freezes when playing games. A
-&gt; &gt; specific one I can reproduce EVERY. SINGLE. TIME. was when playin=
-g Unreal
-&gt; &gt; Tournament 3 via Steam proton.
-&gt;=20
-&gt; Sounds like the same, or similar issue as this one:
-&gt; <a href=3D"https://gitlab.freedesktop.org/mesa/mesa/issues/868">https:=
-//gitlab.freedesktop.org/mesa/mesa/issues/868</a>
-&gt;=20
-&gt; In that case it was caused by an LLVM bug that has been fixed in LLVM =
-10 for
-&gt; a while but haven't made it into LLVM 9 yet.
-&gt; If you use mesa 19.3 can you try if the same issue occours with ACO?
-&gt; </span >
-
-Radv hangs are not related to SDMA hangs, but luckily at least those are fi=
-xed
-in LLVM10, so we can at least have decently stable experience with
-AMD_DEBUG=3Dnodma, which is basically enabled by default in MESA 20.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15739270857.f6eAAca5C.1985--
-
---===============1213788187==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1213788187==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU0OTcKCi0tLSBD
+b21tZW50ICMxNSBmcm9tIEx1eWEgVHNoaW1iYWxhbmdhIChsdXlhQGZlZG9yYXByb2plY3Qub3Jn
+KSAtLS0KQ3JlYXRlZCBhdHRhY2htZW50IDI4NTk0NwogIC0tPiBodHRwczovL2J1Z3ppbGxhLmtl
+cm5lbC5vcmcvYXR0YWNobWVudC5jZ2k/aWQ9Mjg1OTQ3JmFjdGlvbj1lZGl0CmRtZXNnIGZyb20g
+YW1kIHJhdmVuIHJpZGVnZSBSeXplbiAyNTAwdQoKZG1lc2cgc2hvd2luZyBsYXRlc3Qga2VybmVs
+IGdpdCBzbmFwc2hvdAoKLS0gCllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZ
+b3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
