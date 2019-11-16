@@ -1,46 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46DA4FEBDA
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2019 12:39:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14905FEC32
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2019 13:04:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FFB66E0B9;
-	Sat, 16 Nov 2019 11:39:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D84089DFA;
+	Sat, 16 Nov 2019 12:04:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id A07A66E0B9
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Nov 2019 11:39:43 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 97C21720E2; Sat, 16 Nov 2019 11:39:43 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 112266] [Navi] Pathfinder: Kingmaker is causing a GPU hang:
- flip_done timed out error
-Date: Sat, 16 Nov 2019 11:39:43 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: 5lac7wa43@protonmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: not set
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-112266-502-cbn9zzahQQ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-112266-502@http.bugs.freedesktop.org/>
-References: <bug-112266-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+X-Greylist: delayed 400 seconds by postgrey-1.36 at gabe;
+ Sat, 16 Nov 2019 12:03:58 UTC
+Received: from mail.blih.net (mail.blih.net [212.83.177.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80E6D89DFA
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Nov 2019 12:03:57 +0000 (UTC)
+Received: from mail.blih.net (mail.blih.net [212.83.177.182])
+ by mail.blih.net (OpenSMTPD) with ESMTP id 4b3577f9;
+ Sat, 16 Nov 2019 12:57:15 +0100 (CET)
+Received: from sonic.home.blih.net (ip-9.net-89-3-105.rev.numericable.fr
+ [89.3.105.9]) by mail.blih.net (OpenSMTPD) with ESMTPSA id 15830362
+ TLS version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO;
+ Sat, 16 Nov 2019 12:57:15 +0100 (CET)
+Date: Sat, 16 Nov 2019 12:57:15 +0100
+From: Emmanuel Vadot <manu@bidouilliste.com>
+To: Noralf =?ISO-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
+Subject: Re: drm core/helpers and MIT license
+Message-Id: <20191116125715.0e83ce339c421465fa00266e@bidouilliste.com>
+In-Reply-To: <f6629560-6b95-c125-a1d5-51554b2a1dab@tronnes.org>
+References: <20191114200132.GA11077@SDF.ORG> <20191115123432.GB1208@intel.com>
+ <f6629560-6b95-c125-a1d5-51554b2a1dab@tronnes.org>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; amd64-portbld-freebsd13.0)
+Mime-Version: 1.0
+X-Mailman-Original-DomainKey-Signature: a=rsa-sha1; c=nofws; d=bidouilliste.com;
+ h=date
+ :from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version:content-type:content-transfer-encoding; q=dns; s=
+ mail; b=ducWZ1O2Ay/wePwAN0eCz+S70yUkFxTRcVtBsAxxQDZEb2jQAysWjpCm
+ VycU0mneYl5MhT6d5rCaDFFZwblX6B78VxC7aHPkZuYOMjVei1YsO4YxIEolYBcw
+ hiN7GqDOxNBVVQsr/Xt4X7dE9EvueGHwMXym9bxBCOTf4hIBQig=
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed;
+ d=bidouilliste.com; h=date
+ :from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version:content-type:content-transfer-encoding; s=mail;
+ bh=um4BBdT4YZ0Jp3uYL1FQm1jmWsA=; b=doMJsGupN16HGxbiYV+Q7uOZcy4K
+ v5QI+o/mo0zGdCnSPrXW54xoEppHlyBLkfs06oC0uU89qlt+L2TXDzZ6yvoLBiuN
+ FHGkRZEJ2WraqfyNVQAMzeAbfHALC/ODa+a5T/ismdSVUt5IjM4WlIUH7IsiVgTi
+ UeGsqc7JN6zipko=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,128 +58,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0652073735=="
+Cc: daniel.vetter@ffwll.ch, coypu@sdf.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0652073735==
-Content-Type: multipart/alternative; boundary="15739043830.Fbcf7a.28061"
-Content-Transfer-Encoding: 7bit
-
-
---15739043830.Fbcf7a.28061
-Date: Sat, 16 Nov 2019 11:39:43 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D112266
-
---- Comment #9 from Jan Kowalski <5lac7wa43@protonmail.com> ---
-I had this bug on tested kernels: 5.3.8, 5.3.9, 5.4.0-rc6, 5.4.0-rc7. I can
-confirm hangs occurred, when the cursor was moved after some time of inacti=
-vity
-(10-60 sec, depending on kernel version. 5.4.0-rc6 was the worst) in Firefox
-when watching fullscreen video (excluding 5.4.0-rc7), or in games. This bug=
- was
-accompanied by another one - sluggish cursor, in 5.3 line with screen
-flickering at the cursor position, in 5.4 line barely visible, occurring ev=
-ery
-few seconds but without screen flickering, and feels inaccurate.
-
-I added this patch https://bugs.freedesktop.org/attachment.cgi?id=3D145971 =
-on top
-of 5.4.0-rc7 and hangs are gone (thanks), but laggy cursor is still there.
-
-Sapphire Pulse RX 5700 XT
-Dell U2311Hb, 1920x1080 60.00Hz
-Kernel: 5.4.0-rc7
-Mesa: 19.3.0-rc2
-llvm: 9.0.0
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15739043830.Fbcf7a.28061
-Date: Sat, 16 Nov 2019 11:39:43 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [Navi] Pathfinder: Kingmaker is causing a GPU hang: flip_=
-done timed out error"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112266#c9">Commen=
-t # 9</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [Navi] Pathfinder: Kingmaker is causing a GPU hang: flip_=
-done timed out error"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112266">bug 11226=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-5lac7wa43&#64;protonmail.com" title=3D"Jan Kowalski &lt;5lac7wa43&#64;proto=
-nmail.com&gt;"> <span class=3D"fn">Jan Kowalski</span></a>
-</span></b>
-        <pre>I had this bug on tested kernels: 5.3.8, 5.3.9, 5.4.0-rc6, 5.4=
-.0-rc7. I can
-confirm hangs occurred, when the cursor was moved after some time of inacti=
-vity
-(10-60 sec, depending on kernel version. 5.4.0-rc6 was the worst) in Firefox
-when watching fullscreen video (excluding 5.4.0-rc7), or in games. This bug=
- was
-accompanied by another one - sluggish cursor, in 5.3 line with screen
-flickering at the cursor position, in 5.4 line barely visible, occurring ev=
-ery
-few seconds but without screen flickering, and feels inaccurate.
-
-I added this patch <a href=3D"https://bugs.freedesktop.org/attachment.cgi?i=
-d=3D145971">https://bugs.freedesktop.org/attachment.cgi?id=3D145971</a> on =
-top
-of 5.4.0-rc7 and hangs are gone (thanks), but laggy cursor is still there.
-
-Sapphire Pulse RX 5700 XT
-Dell U2311Hb, 1920x1080 60.00Hz
-Kernel: 5.4.0-rc7
-Mesa: 19.3.0-rc2
-llvm: 9.0.0</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15739043830.Fbcf7a.28061--
-
---===============0652073735==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0652073735==--
+T24gRnJpLCAxNSBOb3YgMjAxOSAxNTozMzo0NiArMDEwMApOb3JhbGYgVHLDuG5uZXMgPG5vcmFs
+ZkB0cm9ubmVzLm9yZz4gd3JvdGU6Cgo+IAo+IAo+IERlbiAxNS4xMS4yMDE5IDEzLjM0LCBza3Jl
+diBWaWxsZSBTeXJqw6Rsw6Q6Cj4gPiBPbiBUaHUsIE5vdiAxNCwgMjAxOSBhdCAwODowMTozMlBN
+ICswMDAwLCBjb3lwdUBzZGYub3JnIHdyb3RlOgo+ID4+IEhpIERhbmllbCwKPiA+Pgo+ID4+IEkg
+ZG9uJ3QgdGhpbmsgd2UgY2FuIG1ha2UgYW55IGNvbXBsYWludHMgYWJvdXQgR1BMIGJlaW5nIG1v
+cmUgd2lkZWx5Cj4gPj4gdXNlZCBpbiB0aGUgRFJNIGNvZGUuIEl0J3MgbmljZSB0byBoYXZlIHRo
+ZSBjb2RlIGF0IGFsbCwgdGhlIE1JVCBsaWNlbnNlCj4gPj4gaXMgYSBib251cy4gVGhhbmtzIGZv
+ciB3cml0aW5nIGl0IGFuZCBiZWFyaW5nIHdpdGggdXMuCj4gPj4KPiA+PiBXb3VsZCByZXdyaXRl
+cyBkb25lIHB1cmVseSBmb3IgbGljZW5zaW5nIHJlYXNvbnMgYmUgYWNjZXB0ZWQgdXBzdHJlYW0/
+Cj4gPiAKPiA+IFJld3JpdGUgc2hvdWxkIGJlIHRoZSBsYXN0IHJlc29ydC4gSSB0aGluayBhIGxv
+dCBvZiB0aGUgR1BMIG9ubHkgc3R1ZmYKPiA+IGlzIHF1aXRlIHJlY2VudCBzbyB0aGVyZSdzIGEg
+Z29vZCBjaGFuY2UgdGhlIGF1dGhvcihzKSBhcmUgc3RpbGwgYXJvdW5kCj4gPiB0byBkaXNjdXNz
+IHJlbGljZW5zaW5nLgo+ID4gCj4gCj4gSWYgc29tZW9uZSBzZW5kcyBwYXRjaGVzIHRvIE1JVCBs
+aWNlbnNlIHRoZSB3b3JrIEkndmUgZG9uZSwgSSdsbCBiZQo+IGhhcHB5IHRvIGFjayBpdC4gSXQn
+cyBvbmx5IHJlY2VudGx5IHRoYXQgSSd2ZSBiZWVuIGF3YXJlIG9mIHRoZSBmYWN0Cj4gdGhhdCBN
+SVQgbGljZW5zZWQgd2FzIGEgdGhpbmcgaW4gdGhlIGtlcm5lbC4gSSB3YXMgdW5kZXIgdGhlIGlt
+cHJlc3Npb24KPiB0aGF0IGFsbCBuZXcgY29kZSBzaG91bGQgYmUgR1BMIGFuZCBNSVQgd2VyZSBm
+b3IgY29kZSBpbXBvcnRlZCBmcm9tCj4gZWxzZXdoZXJlLiBJIHdvdWxkIGxvdmUgdG8gc2VlIG15
+IHdvcmsgYmVpbmcgdXNlZCBvbiB0aGUgQlNEJ3MuCgogQW5kIEkgd291bGQgbG92ZSB0byBiZSBh
+YmxlIHRvIHVzZSB5b3VyIHdvcmsgb24gRnJlZUJTRCA6KQogSSBkb24ndCByZWFsbHkga25vdyB0
+aGUgcnVsZXMgYnV0IHNob3VsZG4ndCB5b3Ugc2VuZCBhIHBhdGNoIHRvCnJlbGljZW5jZSA/CiBS
+aWdodCBub3cgZm9yIG1lIGRybV9jbGllbnQgKGFuZCBvdGhlcnMpIGJlaW5nIEdQTCBpcyBhIHBy
+b2JsZW0gZm9yIG15CnVwZGF0ZSBvZiBEUk0gaW4gRnJlZUJTRCBzbyBJJ20gbm90IHVzaW5nIGl0
+ICh3aGljaCBpcyBiYWQgYW5kIHdpbGwKcHJvYmFibHkgY2F1c2UgcHJvYmxlbXMpLgoKPiBOb3Jh
+bGYuCj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+
+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+CgotLSAKRW1tYW51ZWwgVmFkb3QgPG1hbnVAYmlkb3VpbGxpc3RlLmNvbT4KX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
