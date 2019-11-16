@@ -1,45 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76843FECA1
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2019 15:16:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA8CFF2EF
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Nov 2019 17:22:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EF7C6E118;
-	Sat, 16 Nov 2019 14:15:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4CB26E1A3;
+	Sat, 16 Nov 2019 16:22:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2C936E118
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Nov 2019 14:15:58 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CE5D76E198
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Nov 2019 16:22:23 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id CAF7E720E2; Sat, 16 Nov 2019 16:22:23 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 201539] AMDGPU R9 390 automatic fan speed control in Linux
- 4.19/4.20/5.0
-Date: Sat, 16 Nov 2019 14:15:58 +0000
-X-Bugzilla-Reason: None
+Subject: [Bug 111481] AMD Navi GPU frequent freezes on both Manjaro/Ubuntu
+ with kernel 5.3 and mesa 19.2 -git/llvm9
+Date: Sat, 16 Nov 2019 16:22:22 +0000
+X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mastercatz@hotmail.com
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: alexdeucher@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Priority: highest
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-201539-2300-LuNnaHQTWy@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-201539-2300@https.bugzilla.kernel.org/>
-References: <bug-201539-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
+Message-ID: <bug-111481-502-rgN9d9DNZf@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111481-502@http.bugs.freedesktop.org/>
+References: <bug-111481-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
- message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,24 +53,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0740919253=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDE1MzkKCi0tLSBD
-b21tZW50ICMzMSBmcm9tIE1hc3RlckNBVFogKG1hc3RlcmNhdHpAaG90bWFpbC5jb20pIC0tLQpv
-aCBJIGxvdmUgaXQgdGhleSBrbm93IHRoZSBkcml2ZXJzIGZpbGUgaXMgY3JhcCAKCmFueWhvdyBp
-dCBsb29rcyBsaWtlIHRoZSByZWFsIGlzc3VlIGlzIGluIHRoZSBHUFUgZHJpdmVyIAoKZmFuIHNw
-ZWVkcyB0ZW1wcyBldmVyeXRoaW5nIGlzIGluIHRoZWlyICwgb2ZjYXVzZSB0aGlzIHdvdWxkIG5v
-dCBiZSBhbiBpc3N1ZSBpZiAKcHdtMV9lbmFibGUgIHdhcyBOT1QgU1RVQ0sgIE9OIEFVVE8gCgoK
-I2lmIDAKICAgICAgICAgICAgICAgIC8qIFhYWDogbmVlZCB0byBmaWd1cmUgb3V0IGhvdyB0byBo
-YW5kbGUgdGhpcyBwcm9wZXJseSAqLwogICAgICAgICAgICAgICAgdG1wID0gUlJFRzMyX1NNQyhp
-eENHX1RIRVJNQUxfQ1RSTCk7CiAgICAgICAgICAgICAgICB0bXAgJj0gRFBNX0VWRU5UX1NSQ19N
-QVNLOwogICAgICAgICAgICAgICAgdG1wIHw9IERQTV9FVkVOVF9TUkMoZHBtX2V2ZW50X3NyYyk7
-CiAgICAgICAgICAgICAgICBXUkVHMzJfU01DKGl4Q0dfVEhFUk1BTF9DVFJMLCB0bXApOwojZW5k
-aWYKCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRj
-aGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVs
+
+--===============0740919253==
+Content-Type: multipart/alternative; boundary="157392134312.f7ad.15503"
+Content-Transfer-Encoding: 7bit
+
+
+--157392134312.f7ad.15503
+Date: Sat, 16 Nov 2019 16:22:23 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111481
+
+--- Comment #233 from Alex Deucher <alexdeucher@gmail.com> ---
+Does attachment 145971 help?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--157392134312.f7ad.15503
+Date: Sat, 16 Nov 2019 16:22:23 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481#c233">Comm=
+ent # 233</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD Navi GPU frequent freezes on both Manjaro/Ubuntu with=
+ kernel 5.3 and mesa 19.2 -git/llvm9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111481">bug 11148=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
+com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
+</span></b>
+        <pre>Does <span class=3D""><a href=3D"attachment.cgi?id=3D145971" n=
+ame=3D"attach_145971" title=3D"possible fix">attachment 145971</a> <a href=
+=3D"attachment.cgi?id=3D145971&amp;action=3Dedit" title=3D"possible fix">[d=
+etails]</a></span> <a href=3D'page.cgi?id=3Dsplinter.html&amp;bug=3D111481&=
+amp;attachment=3D145971'>[review]</a> help?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--157392134312.f7ad.15503--
+
+--===============0740919253==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0740919253==--
