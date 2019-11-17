@@ -1,28 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E06AFF915
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Nov 2019 12:45:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47EA1FF92C
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Nov 2019 12:46:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 157136E356;
-	Sun, 17 Nov 2019 11:44:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE9F46E46B;
+	Sun, 17 Nov 2019 11:45:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 643E76E1F9
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Nov 2019 02:41:53 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DD5A6E25F
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Nov 2019 07:11:03 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
- with ESMTPSA id 3820F28FA57
+ with ESMTPSA id 53B9D28FCA8
 Received: by earth.universe (Postfix, from userid 1000)
- id 5934C3C0CB1; Sun, 17 Nov 2019 03:41:40 +0100 (CET)
+ id 5DA953C0CB2; Sun, 17 Nov 2019 03:41:40 +0100 (CET)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 To: Sebastian Reichel <sre@kernel.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: [RFCv1 37/42] drm/omap: panel-dsi-cm: fix remove()
-Date: Sun, 17 Nov 2019 03:40:23 +0100
-Message-Id: <20191117024028.2233-38-sebastian.reichel@collabora.com>
+Subject: [RFCv1 38/42] drm/omap: panel-dsi-cm: do not power on/off twice
+Date: Sun, 17 Nov 2019 03:40:24 +0100
+Message-Id: <20191117024028.2233-39-sebastian.reichel@collabora.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191117024028.2233-1-sebastian.reichel@collabora.com>
 References: <20191117024028.2233-1-sebastian.reichel@collabora.com>
@@ -49,25 +50,24 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIHJlbW92ZSBmdW5jdGlvbiBzaG91bGQgZGlzYWJsZSB0aGUgcGFuZWwgYnkKY2FsbGluZyB0
-aGUgdW5wcmVwYXJlKCkgZnVuY3Rpb24gYmVmb3JlIHRoZSBwYW5lbAppcyBkaXNjb25uZWN0ZWQg
-ZnJvbSBNSVBJIGJ1cyBpbnN0ZWFkIG9mIHRyeWluZwp0byByZXNldCBpdC4KClNpZ25lZC1vZmYt
-Ynk6IFNlYmFzdGlhbiBSZWljaGVsIDxzZWJhc3RpYW4ucmVpY2hlbEBjb2xsYWJvcmEuY29tPgot
-LS0KIGRyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL2Rpc3BsYXlzL3BhbmVsLWRzaS1jbS5jIHwgNSAr
-Ky0tLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKCmRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vb21hcGRybS9kaXNwbGF5cy9wYW5lbC1kc2ktY20u
-YyBiL2RyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL2Rpc3BsYXlzL3BhbmVsLWRzaS1jbS5jCmluZGV4
-IGY2MDdiM2RmYTMxZi4uOTAxMzJkMWQxZjVkIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-b21hcGRybS9kaXNwbGF5cy9wYW5lbC1kc2ktY20uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vb21h
-cGRybS9kaXNwbGF5cy9wYW5lbC1kc2ktY20uYwpAQCAtNjA0LDYgKzYwNCw4IEBAIHN0YXRpYyBp
-bnQgZHNpY21fcmVtb3ZlKHN0cnVjdCBtaXBpX2RzaV9kZXZpY2UgKmRzaSkKIAogCWRldl9kYmco
-JmRzaS0+ZGV2LCAicmVtb3ZlXG4iKTsKIAorCWRybV9wYW5lbF91bnByZXBhcmUoJmRkYXRhLT5w
-YW5lbCk7CisKIAltaXBpX2RzaV9kZXRhY2goZHNpKTsKIAogCWRybV9wYW5lbF9yZW1vdmUoJmRk
-YXRhLT5wYW5lbCk7CkBAIC02MTMsOSArNjE1LDYgQEAgc3RhdGljIGludCBkc2ljbV9yZW1vdmUo
-c3RydWN0IG1pcGlfZHNpX2RldmljZSAqZHNpKQogCWlmIChkZGF0YS0+ZXh0YmxkZXYpCiAJCXB1
-dF9kZXZpY2UoJmRkYXRhLT5leHRibGRldi0+ZGV2KTsKIAotCS8qIHJlc2V0LCB0byBiZSBzdXJl
-IHRoYXQgdGhlIHBhbmVsIGlzIGluIGEgdmFsaWQgc3RhdGUgKi8KLQlkc2ljbV9od19yZXNldChk
-ZGF0YSk7Ci0KIAlyZXR1cm4gMDsKIH0KIAotLSAKMi4yNC4wCgpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+TWFrZSBzdXJlLCB0aGF0IHdlIG9ubHkgcG93ZXIgb24vb2ZmIHRoZSBkZXZpY2Ugb25jZS4KClNp
+Z25lZC1vZmYtYnk6IFNlYmFzdGlhbiBSZWljaGVsIDxzZWJhc3RpYW4ucmVpY2hlbEBjb2xsYWJv
+cmEuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL2Rpc3BsYXlzL3BhbmVsLWRzaS1j
+bS5jIHwgNiArKysrKysKIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKykKCmRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2dwdS9kcm0vb21hcGRybS9kaXNwbGF5cy9wYW5lbC1kc2ktY20uYyBiL2Ry
+aXZlcnMvZ3B1L2RybS9vbWFwZHJtL2Rpc3BsYXlzL3BhbmVsLWRzaS1jbS5jCmluZGV4IDkwMTMy
+ZDFkMWY1ZC4uN2Y2YjExMjk4NjJhIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vb21hcGRy
+bS9kaXNwbGF5cy9wYW5lbC1kc2ktY20uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vb21hcGRybS9k
+aXNwbGF5cy9wYW5lbC1kc2ktY20uYwpAQCAtMjkwLDYgKzI5MCw5IEBAIHN0YXRpYyBpbnQgZHNp
+Y21fcG93ZXJfb24oc3RydWN0IHBhbmVsX2Rydl9kYXRhICpkZGF0YSkKIAl1OCBpZDEsIGlkMiwg
+aWQzOwogCWludCByOwogCisJaWYgKGRkYXRhLT5lbmFibGVkKQorCQlyZXR1cm4gMDsKKwogCXIg
+PSByZWd1bGF0b3JfYnVsa19lbmFibGUoRENTX1JFR1VMQVRPUl9TVVBQTFlfTlVNLCBkZGF0YS0+
+c3VwcGxpZXMpOwogCWlmIChyKSB7CiAJCWRldl9lcnIoJmRkYXRhLT5kc2ktPmRldiwgImZhaWxl
+ZCB0byBlbmFibGUgc3VwcGxpZXM6ICVkXG4iLCByKTsKQEAgLTM1NCw2ICszNTcsOSBAQCBzdGF0
+aWMgaW50IGRzaWNtX3Bvd2VyX29mZihzdHJ1Y3QgcGFuZWxfZHJ2X2RhdGEgKmRkYXRhKQogewog
+CWludCByOwogCisJaWYgKCFkZGF0YS0+ZW5hYmxlZCkKKwkJcmV0dXJuIDA7CisKIAlkZGF0YS0+
+ZW5hYmxlZCA9IDA7CiAKIAlyID0gbWlwaV9kc2lfZGNzX3NldF9kaXNwbGF5X29mZihkZGF0YS0+
+ZHNpKTsKLS0gCjIuMjQuMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVs
