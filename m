@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F89FF818
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Nov 2019 07:36:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D78EFF819
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Nov 2019 07:38:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04ED76E277;
-	Sun, 17 Nov 2019 06:36:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20B076E0E3;
+	Sun, 17 Nov 2019 06:38:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id E07C66E0E1
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Nov 2019 06:36:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 783F96E0E3
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Nov 2019 06:37:58 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D74A2720E2; Sun, 17 Nov 2019 06:36:08 +0000 (UTC)
+ id 6F685720E2; Sun, 17 Nov 2019 06:37:58 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 112304] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx
  timeout causes system freeze
-Date: Sun, 17 Nov 2019 06:36:08 +0000
+Date: Sun, 17 Nov 2019 06:37:58 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -35,7 +35,7 @@ X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-112304-502-zKW8F676YO@http.bugs.freedesktop.org/>
+Message-ID: <bug-112304-502-9QUSgNoCvf@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-112304-502@http.bugs.freedesktop.org/>
 References: <bug-112304-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1127156878=="
+Content-Type: multipart/mixed; boundary="===============1177036035=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1127156878==
-Content-Type: multipart/alternative; boundary="15739725680.71a00.7282"
+--===============1177036035==
+Content-Type: multipart/alternative; boundary="15739726780.7cdc9a8.8082"
 Content-Transfer-Encoding: 7bit
 
 
---15739725680.71a00.7282
-Date: Sun, 17 Nov 2019 06:36:08 +0000
+--15739726780.7cdc9a8.8082
+Date: Sun, 17 Nov 2019 06:37:58 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,988 +73,191 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D112304
 
---- Comment #9 from saadnaji89@gmail.com ---
-Comment on attachment 145980
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145980
-journalctl-logs-after-hardware-reboot
+--- Comment #10 from saadnaji89@gmail.com ---
+Comment on attachment 145981
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145981
+additional-journalctl-logs-during-game-play
 
->-- Logs begin at Sun 2019-06-30 23:10:01 EDT, end at Sat 2019-11-16 23:43:=
-27 EST. --
->Nov 16 23:41:09 archlinux kscreen_backend_launcher[1450]: kscreen.xrandr: =
-Actions to perform:=20
->                                                                   Primary=
- Output: false
->Nov 16 23:41:09 archlinux kscreen_backend_launcher[1450]: kscreen.xrandr: =
-        Change Screen Size: false
->Nov 16 23:41:09 archlinux kscreen_backend_launcher[1450]: kscreen.xrandr: =
-        Disable outputs: false
->Nov 16 23:41:09 archlinux kscreen_backend_launcher[1450]: kscreen.xrandr: =
-        Change outputs: false
->Nov 16 23:41:09 archlinux kscreen_backend_launcher[1450]: kscreen.xrandr: =
-        Enable outputs: false
->Nov 16 23:41:09 archlinux kscreen_backend_launcher[1450]: kscreen.xrandr: =
-XRandR::setConfig done!
->Nov 16 23:41:39 archlinux kernel: lxqt-powermanag: Corrupted page table at=
- address 7fd643ec8080
->Nov 16 23:41:39 archlinux kernel: PGD 80000003921e4067 P4D 80000003921e406=
-7 PUD 392157067 PMD 392168067 PTE ffffffffffffffff
->Nov 16 23:41:39 archlinux kernel: Bad pagetable: 000d [#1] SMP PTI
->Nov 16 23:41:39 archlinux kernel: CPU: 2 PID: 1623 Comm: lxqt-powermanag N=
-ot tainted 5.3.11-2-clear #1
->Nov 16 23:41:39 archlinux kernel: Hardware name: CLEVO                    =
+
+>Nov 17 01:02:31 archlinux audit[1]: SERVICE_STOP pid=3D1 uid=3D0 auid=3D42=
+94967295 ses=3D4294967295 msg=3D'unit=3Dsystemd-hostnamed comm=3D"systemd" =
+exe=3D"/usr/lib/systemd/systemd" hostname=3D? addr=3D? terminal=3D? res=3Ds=
+uccess'
+>Nov 17 01:02:31 archlinux kernel: audit: type=3D1131 audit(1573970551.160:=
+173): pid=3D1 uid=3D0 auid=3D4294967295 ses=3D4294967295 msg=3D'unit=3Dsyst=
+emd-hostnamed comm=3D"systemd" exe=3D"/usr/lib/systemd/systemd" hostname=3D=
+? addr=3D? terminal=3D? res=3Dsuccess'
+>Nov 17 01:02:36 archlinux kernel: amdgpu 0000:01:00.0: GPU fault detected:=
+ 146 0x066e480c
+>Nov 17 01:02:36 archlinux kernel: amdgpu 0000:01:00.0:   VM_CONTEXT1_PROTE=
+CTION_FAULT_ADDR   0x00100DB3
+>Nov 17 01:02:36 archlinux kernel: amdgpu 0000:01:00.0:   VM_CONTEXT1_PROTE=
+CTION_FAULT_STATUS 0x0E04800C
+>Nov 17 01:02:36 archlinux kernel: amdgpu 0000:01:00.0: VM fault (0x0c, vmi=
+d 7) at page 1052083, read from '' (0x00000000) (72)
+>Nov 17 01:02:36 archlinux kernel: amdgpu 0000:01:00.0: GPU fault detected:=
+ 146 0x06ae880c
+>Nov 17 01:02:36 archlinux kernel: amdgpu 0000:01:00.0:   VM_CONTEXT1_PROTE=
+CTION_FAULT_ADDR   0x00000000
+>Nov 17 01:02:36 archlinux kernel: amdgpu 0000:01:00.0:   VM_CONTEXT1_PROTE=
+CTION_FAULT_STATUS 0x0F008010
+>Nov 17 01:02:36 archlinux kernel: amdgpu 0000:01:00.0: VM fault (0x10, vmi=
+d 7) at page 0, write from '' (0x00000000) (8)
+>Nov 17 01:02:45 archlinux kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERRO=
+R* ring gfx timeout, signaled seq=3D23, emitted seq=3D24
+>Nov 17 01:02:45 archlinux kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERRO=
+R* Process information: process hl2_linux pid 2252 thread hl2_linux:cs0 pid=
+ 2254
+>Nov 17 01:02:45 archlinux kernel: amdgpu 0000:01:00.0: GPU reset begin!
+>Nov 17 01:02:45 archlinux kernel: amdgpu 0000:01:00.0: GPU reset succeeded=
+, trying to resume
+>Nov 17 01:02:45 archlinux kernel: [drm] PCIE gen 3 link speeds already ena=
+bled
+>Nov 17 01:02:45 archlinux kernel: amdgpu 0000:01:00.0: PCIE GART of 1024M =
+enabled (table at 0x000000F400000000).
+>Nov 17 01:02:46 archlinux kernel: amdgpu 0000:01:00.0: [drm:amdgpu_ring_te=
+st_helper [amdgpu]] *ERROR* ring gfx test failed (-110)
+>Nov 17 01:02:46 archlinux kernel: [drm:amdgpu_device_ip_resume_phase2 [amd=
+gpu]] *ERROR* resume of IP block <gfx_v6_0> failed -110
+>Nov 17 01:02:46 archlinux kernel: [drm:si_dpm_set_power_state [amdgpu]] *E=
+RROR* si_restrict_performance_levels_before_switch failed
+>Nov 17 01:02:46 archlinux kernel: amdgpu 0000:01:00.0: GPU reset(1) failed
+>Nov 17 01:02:46 archlinux kernel: amdgpu 0000:01:00.0: GPU reset end with =
+ret =3D -110
+>Nov 17 01:02:49 archlinux kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERRO=
+R* ring gfx timeout, signaled seq=3D24, emitted seq=3D24
+>Nov 17 01:02:49 archlinux kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERRO=
+R* Process information: process hl2_linux pid 2252 thread hl2_linux:cs0 pid=
+ 2254
+>Nov 17 01:02:49 archlinux kernel: amdgpu 0000:01:00.0: GPU reset begin!
+>Nov 17 01:03:49 archlinux kernel: [drm] schedsdma0 is not ready, skipping
+>Nov 17 01:03:49 archlinux kernel: [drm] schedsdma1 is not ready, skipping
+>Nov 17 01:03:49 archlinux kernel: amdgpu 0000:01:00.0: failed to clear pag=
+e tables on GEM object close (-2)
+>Nov 17 01:03:49 archlinux kernel: BUG: kernel NULL pointer dereference, ad=
+dress: 0000000000000008
+>Nov 17 01:03:49 archlinux kernel: #PF: supervisor read access in kernel mo=
+de
+>Nov 17 01:03:49 archlinux kernel: #PF: error_code(0x0000) - not-present pa=
+ge
+>Nov 17 01:03:49 archlinux kernel: PGD 0 P4D 0=20
+>Nov 17 01:03:49 archlinux kernel: Oops: 0000 [#1] SMP PTI
+>Nov 17 01:03:49 archlinux kernel: CPU: 1 PID: 2262 Comm: hl2_linu:shlo0 No=
+t tainted 5.3.11-2-clear #1
+>Nov 17 01:03:49 archlinux kernel: Hardware name: CLEVO                    =
          P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
->Nov 16 23:41:39 archlinux kernel: RIP: 0033:0x7fd64d347128
->Nov 16 23:41:39 archlinux kernel: Code: 8b 47 08 8d 78 01 41 89 7f 08 89 f=
-7 29 cf 85 ff 7e 48 31 db 66 0f 1f 44 00 00 48 63 c1 48 01 d8 48 8b 7c c2 1=
-0 48 85 ff 74 1d <48> 8b 07 4c 89 e9 4c 89 e2 48 89 ee ff 50 10 84 c0 75 4d=
- 49 8b 56
->Nov 16 23:41:39 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00010=
-202
->Nov 16 23:41:39 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000000=
-000 RCX: 0000000000000000
->Nov 16 23:41:39 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000000=
-001 RDI: 00007fd643ec8080
->Nov 16 23:41:39 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd64994b=
-6d0 R09: 00007fd64994b6d0
->Nov 16 23:41:39 archlinux kernel: R10: 0000556223f42090 R11: 0000000000000=
-000 R12: 00007fd644005cc0
->Nov 16 23:41:39 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223e56=
-cd0 R15: 0000556223dff780
->Nov 16 23:41:39 archlinux kernel: FS:  00007fd64994ad80 GS:  0000000000000=
-000
->Nov 16 23:41:39 archlinux kernel: Modules linked in: veth xt_nat xt_conntr=
-ack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptable_n=
-at nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay ath9k=
- ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc vid=
-eobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_common v=
-ideodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg802=
-11 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwdep =
-rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill lpc_=
-ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps2 s=
-erio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gpu_s=
-ched
->Nov 16 23:41:39 archlinux kernel: ---[ end trace 0bfef23d2a61f6da ]---
->Nov 16 23:41:39 archlinux kernel: RIP: 0033:0x7fd64d347128
->Nov 16 23:41:39 archlinux kernel: Code: 8b 47 08 8d 78 01 41 89 7f 08 89 f=
-7 29 cf 85 ff 7e 48 31 db 66 0f 1f 44 00 00 48 63 c1 48 01 d8 48 8b 7c c2 1=
-0 48 85 ff 74 1d <48> 8b 07 4c 89 e9 4c 89 e2 48 89 ee ff 50 10 84 c0 75 4d=
- 49 8b 56
->Nov 16 23:41:39 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00010=
-202
->Nov 16 23:41:39 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000000=
-000 RCX: 0000000000000000
->Nov 16 23:41:39 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000000=
-001 RDI: 00007fd643ec8080
->Nov 16 23:41:39 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd64994b=
-6d0 R09: 00007fd64994b6d0
->Nov 16 23:41:39 archlinux kernel: R10: 0000556223f42090 R11: 0000000000000=
-000 R12: 00007fd644005cc0
->Nov 16 23:41:39 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223e56=
-cd0 R15: 0000556223dff780
->Nov 16 23:41:39 archlinux kernel: FS:  00007fd64994ad80(0000) GS:ffff9d5f9=
-f080000(0000) knlGS:0000000000000000
->Nov 16 23:41:39 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000000=
-080050033
->Nov 16 23:41:39 archlinux kernel: CR2: 00007fd643ec8080 CR3: 000000039221c=
-004 CR4: 00000000001606e0
->Nov 16 23:41:39 archlinux kernel: Chrome_ChildIOT: Corrupted page table at=
- address 1689e6ba5e10
->Nov 16 23:41:39 archlinux kernel: PGD 8000000418dca067 P4D 8000000418dca06=
-7 PUD 40c0c9067 PMD 419432067 PTE ffffffffffffffff
->Nov 16 23:41:39 archlinux kernel: Bad pagetable: 000f [#2] SMP PTI
->Nov 16 23:41:39 archlinux kernel: CPU: 3 PID: 1843 Comm: Chrome_ChildIOT T=
-ainted: G      D           5.3.11-2-clear #1
->Nov 16 23:41:39 archlinux kernel: Hardware name: CLEVO                    =
-         P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
->Nov 16 23:41:39 archlinux kernel: RIP: 0033:0x7fce0d69770c
->Nov 16 23:41:39 archlinux kernel: Code: 00 00 0f 83 43 01 00 00 b9 03 00 0=
-0 00 b8 07 00 00 00 01 f0 48 d3 e8 48 8d 0d 18 85 5b 00 0f b6 04 08 48 63 9=
-4 81 fc 02 00 00 <49> 29 94 24 10 0c 00 00 0f 88 2b 01 00 00 48 89 c3 48 c1=
- e3 05 4d
->Nov 16 23:41:39 archlinux kernel: RSP: 002b:00007fce0069f580 EFLAGS: 00010=
-202
->Nov 16 23:41:39 archlinux kernel: RAX: 000000000000002d RBX: 00007fce0d7f2=
-748 RCX: 00007fce0dc4fc18
->Nov 16 23:41:39 archlinux kernel: RDX: 0000000000002800 RSI: 0000000000002=
-738 RDI: 0000000000000008
->Nov 16 23:41:39 archlinux kernel: RBP: 00007fce0069f610 R08: 0000000000000=
-000 R09: 00007fce0069f7d8
->Nov 16 23:41:39 archlinux kernel: R10: 00007fce0069f7d0 R11: 0000000000000=
-000 R12: 00001689e6ba5200
->Nov 16 23:41:39 archlinux kernel: R13: 0000000000000008 R14: 00007fce0069f=
-668 R15: 0000000000000000
->Nov 16 23:41:39 archlinux kernel: FS:  00007fce006a0700 GS:  0000000000000=
-000
->Nov 16 23:41:39 archlinux kernel: Modules linked in: veth xt_nat xt_conntr=
-ack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptable_n=
-at nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay ath9k=
- ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc vid=
-eobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_common v=
-ideodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg802=
-11 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwdep =
-rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill lpc_=
-ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps2 s=
-erio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gpu_s=
-ched
->Nov 16 23:41:39 archlinux kernel: ---[ end trace 0bfef23d2a61f6db ]---
->Nov 16 23:41:39 archlinux kernel: RIP: 0033:0x7fd64d347128
->Nov 16 23:41:39 archlinux kernel: Code: Bad RIP value.
->Nov 16 23:41:39 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00010=
-202
->Nov 16 23:41:39 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000000=
-000 RCX: 0000000000000000
->Nov 16 23:41:39 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000000=
-001 RDI: 00007fd643ec8080
->Nov 16 23:41:39 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd64994b=
-6d0 R09: 00007fd64994b6d0
->Nov 16 23:41:39 archlinux kernel: R10: 0000556223f42090 R11: 0000000000000=
-000 R12: 00007fd644005cc0
->Nov 16 23:41:39 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223e56=
-cd0 R15: 0000556223dff780
->Nov 16 23:41:39 archlinux kernel: FS:  00007fce006a0700(0000) GS:ffff9d5f9=
-f0c0000(0000) knlGS:0000000000000000
->Nov 16 23:41:39 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000000=
-080050033
->Nov 16 23:41:39 archlinux kernel: CR2: 00007fd64d3470fe CR3: 0000000418df0=
-004 CR4: 00000000001606e0
->Nov 16 23:41:39 archlinux kernel: https-jsse-nio-: Corrupted page table at=
- address 7fd978001310
->Nov 16 23:41:39 archlinux kernel: PGD 800000041a726067 P4D 800000041a72606=
-7 PUD 39dc52067 PMD 39216a067 PTE ffffffffffffffff
->Nov 16 23:41:39 archlinux kernel: Bad pagetable: 000f [#3] SMP PTI
->Nov 16 23:41:39 archlinux kernel: CPU: 4 PID: 1676 Comm: https-jsse-nio- T=
-ainted: G      D           5.3.11-2-clear #1
->Nov 16 23:41:39 archlinux kernel: Hardware name: CLEVO                    =
-         P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
->Nov 16 23:41:39 archlinux kernel: RIP: 0033:0x7fda692a4ba0
->Nov 16 23:41:39 archlinux kernel: Code: 48 8b 45 f8 49 ba 00 00 00 00 00 0=
-0 00 00 4d 89 97 c0 01 00 00 49 ba 00 00 00 00 00 00 00 00 4d 89 97 c8 01 0=
-0 00 49 8b 4f 38 <c7> 81 00 01 00 00 00 00 00 00 c9 49 81 7f 08 00 00 00 00=
- 0f 85 01
->Nov 16 23:41:39 archlinux kernel: RSP: 002b:00007fd9a8eeb670 EFLAGS: 00010=
-246
->Nov 16 23:41:39 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000000=
-000 RCX: 00007fd978001210
->Nov 16 23:41:39 archlinux kernel: RDX: 0000000000002000 RSI: 00007fda78e63=
-000 RDI: 0000000000000000
->Nov 16 23:41:39 archlinux kernel: RBP: 00007fd9a8eeb6b0 R08: 0000000000000=
-000 R09: 00007fd9a8eeb5d8
->Nov 16 23:41:39 archlinux kernel: R10: 0000000000000000 R11: 0000000000000=
-000 R12: 0000000000000000
->Nov 16 23:41:39 archlinux kernel: R13: 00007fd9a8eeb960 R14: 0000000000000=
-000 R15: 00007fda78605800
->Nov 16 23:41:39 archlinux kernel: FS:  00007fd9a8eec700 GS:  0000000000000=
-000
->Nov 16 23:41:39 archlinux kernel: Modules linked in: veth xt_nat xt_conntr=
-ack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptable_n=
-at nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay ath9k=
- ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc vid=
-eobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_common v=
-ideodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg802=
-11 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwdep =
-rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill lpc_=
-ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps2 s=
-erio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gpu_s=
-ched
->Nov 16 23:41:39 archlinux kernel: ---[ end trace 0bfef23d2a61f6dc ]---
->Nov 16 23:41:39 archlinux kernel: RIP: 0033:0x7fd64d347128
->Nov 16 23:41:39 archlinux kernel: Code: Bad RIP value.
->Nov 16 23:41:39 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00010=
-202
->Nov 16 23:41:39 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000000=
-000 RCX: 0000000000000000
->Nov 16 23:41:39 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000000=
-001 RDI: 00007fd643ec8080
->Nov 16 23:41:39 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd64994b=
-6d0 R09: 00007fd64994b6d0
->Nov 16 23:41:39 archlinux kernel: R10: 0000556223f42090 R11: 0000000000000=
-000 R12: 00007fd644005cc0
->Nov 16 23:41:39 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223e56=
-cd0 R15: 0000556223dff780
->Nov 16 23:41:39 archlinux kernel: FS:  00007fd9a8eec700(0000) GS:ffff9d5f9=
-f100000(0000) knlGS:0000000000000000
->Nov 16 23:41:39 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000000=
-080050033
->Nov 16 23:41:39 archlinux kernel: CR2: 00007fd64d3470fe CR3: 00000004095b0=
-005 CR4: 00000000001606e0
->Nov 16 23:41:39 archlinux kernel: Chrome_IOThread: Corrupted page table at=
- address 7f3b9cad9450
->Nov 16 23:41:39 archlinux kernel: PGD 800000040c0f6067 P4D 800000040c0f606=
-7 PUD 419b53067 PMD 419430067 PTE ffffffffffffffff
->Nov 16 23:41:39 archlinux kernel: Bad pagetable: 000d [#4] SMP PTI
->Nov 16 23:41:39 archlinux kernel: CPU: 2 PID: 1820 Comm: Chrome_IOThread T=
-ainted: G      D           5.3.11-2-clear #1
->Nov 16 23:41:39 archlinux kernel: Hardware name: CLEVO                    =
-         P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
->Nov 16 23:41:39 archlinux kernel: RIP: 0033:0x7f3ba7014207
->Nov 16 23:41:39 archlinux kernel: Code: 00 66 90 48 89 da 48 c1 e2 04 49 8=
-b 44 17 18 48 85 c0 0f 84 a5 00 00 00 49 8b 54 17 10 48 3b 15 6f 8d 01 00 0=
-f 87 22 01 00 00 <4c> 8b 80 50 04 00 00 49 39 d4 48 8b b0 48 04 00 00 4c 0f=
- 42 e2 4c
->Nov 16 23:41:39 archlinux kernel: RSP: 002b:00007f3b96f98880 EFLAGS: 00010=
-297
->Nov 16 23:41:39 archlinux kernel: RAX: 00007f3b9cad9000 RBX: 0000000000000=
-00a RCX: 0000000000000000
->Nov 16 23:41:39 archlinux kernel: RDX: 0000000000000001 RSI: 0000000000000=
-000 RDI: 000000000000000a
->Nov 16 23:41:39 archlinux kernel: RBP: 0000000000000000 R08: 0000000000000=
-009 R09: 0000000000000010
->Nov 16 23:41:39 archlinux kernel: R10: 00000000000001f9 R11: 0000000000000=
-206 R12: 0000000000000001
->Nov 16 23:41:39 archlinux kernel: R13: 0000000000000000 R14: 0000000000000=
-006 R15: 00007f3b9c1ca560
->Nov 16 23:41:39 archlinux kernel: FS:  00007f3b96f9a700 GS:  0000000000000=
-000
->Nov 16 23:41:39 archlinux kernel: Modules linked in: veth xt_nat xt_conntr=
-ack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptable_n=
-at nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay ath9k=
- ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc vid=
-eobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_common v=
-ideodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg802=
-11 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwdep =
-rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill lpc_=
-ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps2 s=
-erio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gpu_s=
-ched
->Nov 16 23:41:39 archlinux kernel: ---[ end trace 0bfef23d2a61f6dd ]---
->Nov 16 23:41:39 archlinux kernel: ThreadPoolSingl: Corrupted page table at=
- address 7f3b9cad9450
->Nov 16 23:41:39 archlinux kernel: PGD 800000040c0f6067 P4D 800000040c0f606=
-7 PUD 419b53067 PMD 419430067 PTE ffffffffffffffff
->Nov 16 23:41:39 archlinux kernel: Bad pagetable: 000d [#5] SMP PTI
->Nov 16 23:41:39 archlinux kernel: CPU: 3 PID: 1828 Comm: ThreadPoolSingl T=
-ainted: G      D           5.3.11-2-clear #1
->Nov 16 23:41:39 archlinux kernel: Hardware name: CLEVO                    =
-         P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
->Nov 16 23:41:39 archlinux kernel: RIP: 0033:0x7f3ba7014207
->Nov 16 23:41:39 archlinux kernel: Code: 00 66 90 48 89 da 48 c1 e2 04 49 8=
-b 44 17 18 48 85 c0 0f 84 a5 00 00 00 49 8b 54 17 10 48 3b 15 6f 8d 01 00 0=
-f 87 22 01 00 00 <4c> 8b 80 50 04 00 00 49 39 d4 48 8b b0 48 04 00 00 4c 0f=
- 42 e2 4c
->Nov 16 23:41:39 archlinux kernel: RSP: 002b:00007f3b92daccf0 EFLAGS: 00010=
-297
->Nov 16 23:41:39 archlinux kernel: RAX: 00007f3b9cad9000 RBX: 0000000000000=
-00a RCX: 0000000000000000
->Nov 16 23:41:39 archlinux kernel: RDX: 0000000000000001 RSI: 0000000000000=
-000 RDI: 000000000000000a
->Nov 16 23:41:39 archlinux kernel: RBP: 0000000000000000 R08: 0000000000000=
-009 R09: 0000000000000010
->Nov 16 23:41:39 archlinux kernel: R10: 00000000000001f9 R11: 0000000000000=
-206 R12: 0000000000000001
->Nov 16 23:41:39 archlinux kernel: R13: 0000000000000000 R14: 0000000000000=
-006 R15: 00007f3b9c1ca560
->Nov 16 23:41:39 archlinux kernel: FS:  00007f3b92dae700 GS:  0000000000000=
-000
->Nov 16 23:41:39 archlinux kernel: Modules linked in: veth xt_nat xt_conntr=
-ack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptable_n=
-at nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay ath9k=
- ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc vid=
-eobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_common v=
-ideodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg802=
-11 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwdep =
-rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill lpc_=
-ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps2 s=
-erio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gpu_s=
-ched
->Nov 16 23:41:39 archlinux kernel: ---[ end trace 0bfef23d2a61f6de ]---
->Nov 16 23:41:39 archlinux kernel: RIP: 0033:0x7fd64d347128
->Nov 16 23:41:39 archlinux kernel: RIP: 0033:0x7fd64d347128
->Nov 16 23:41:39 archlinux kernel: Code: Bad RIP value.
->Nov 16 23:41:39 archlinux kernel: Code: Bad RIP value.
->Nov 16 23:41:39 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00010=
-202
->Nov 16 23:41:39 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000000=
-000 RCX: 0000000000000000
->Nov 16 23:41:39 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000000=
-001 RDI: 00007fd643ec8080
->Nov 16 23:41:39 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd64994b=
-6d0 R09: 00007fd64994b6d0
->Nov 16 23:41:39 archlinux kernel: R10: 0000556223f42090 R11: 0000000000000=
-000 R12: 00007fd644005cc0
->Nov 16 23:41:39 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223e56=
-cd0 R15: 0000556223dff780
->Nov 16 23:41:39 archlinux kernel: FS:  00007f3b92dae700(0000) GS:ffff9d5f9=
-f0c0000(0000) knlGS:0000000000000000
->Nov 16 23:41:39 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000000=
-080050033
->Nov 16 23:41:39 archlinux kernel: CR2: 00007fd64d3470fe CR3: 000000039215c=
-004 CR4: 00000000001606e0
->Nov 16 23:41:39 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00010=
-202
->Nov 16 23:41:39 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000000=
-000 RCX: 0000000000000000
->Nov 16 23:41:39 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000000=
-001 RDI: 00007fd643ec8080
->Nov 16 23:41:39 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd64994b=
-6d0 R09: 00007fd64994b6d0
->Nov 16 23:41:39 archlinux kernel: R10: 0000556223f42090 R11: 0000000000000=
-000 R12: 00007fd644005cc0
->Nov 16 23:41:39 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223e56=
-cd0 R15: 0000556223dff780
->Nov 16 23:41:39 archlinux kernel: FS:  00007f3b96f9a700(0000) GS:ffff9d5f9=
-f080000(0000) knlGS:0000000000000000
->Nov 16 23:41:39 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000000=
-080050033
->Nov 16 23:41:39 archlinux kernel: CR2: 00007fd64d3470fe CR3: 000000039215c=
-001 CR4: 00000000001606e0
->Nov 16 23:41:49 archlinux kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERRO=
-R* ring sdma0 timeout, signaled seq=3D112, emitted seq=3D114
->Nov 16 23:41:49 archlinux kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERRO=
-R* Process information: process  pid 0 thread  pid 0
->Nov 16 23:41:49 archlinux kernel: [drm] GPU recovery disabled.
->Nov 16 23:41:52 archlinux kernel: steamwebhelper: Corrupted page table at =
-address 1689e6ba2cc8
->Nov 16 23:41:52 archlinux kernel: PGD 8000000418dca067 P4D 8000000418dca06=
-7 PUD 40c0c9067 PMD 419432067 PTE ffffffffffffffff
->Nov 16 23:41:52 archlinux kernel: Bad pagetable: 000d [#6] SMP PTI
->Nov 16 23:41:52 archlinux kernel: CPU: 7 PID: 1840 Comm: steamwebhelper Ta=
-inted: G      D           5.3.11-2-clear #1
->Nov 16 23:41:52 archlinux kernel: Hardware name: CLEVO                    =
-         P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
->Nov 16 23:41:52 archlinux kernel: RIP: 0033:0x7fce0d6944e8
->Nov 16 23:41:52 archlinux kernel: Code: ff ff 48 8d 1d 71 87 5d 00 4c 8b 3=
-c cb 49 31 c7 49 83 ff 7f 77 75 4d 85 ed 0f 84 0f 01 00 00 44 89 fb 48 c1 e=
-3 05 4e 8d 24 2b <45> 8b 74 1d 08 41 83 c6 01 4c 89 e7 48 89 d6 e8 24 e0 9a=
- f9 45 89
->Nov 16 23:41:52 archlinux kernel: RSP: 002b:00007ffed3ebeef0 EFLAGS: 00010=
-202
->Nov 16 23:41:52 archlinux kernel: RAX: 00000001689e6000 RBX: 0000000000000=
-040 RCX: 0000000000000c7d
->Nov 16 23:41:52 archlinux kernel: RDX: 00001689e6c7dd00 RSI: 00001689e6c7d=
-d00 RDI: 00001689e6c7dd00
->Nov 16 23:41:52 archlinux kernel: RBP: 00007ffed3ebef20 R08: 0000000000000=
-000 R09: 00007ffed3ebef18
->Nov 16 23:41:52 archlinux kernel: R10: 0000000000000000 R11: 0000000000000=
-286 R12: 00001689e6ba2cc0
->Nov 16 23:41:52 archlinux kernel: R13: 00001689e6ba2c80 R14: 00001689e6c7a=
-b70 R15: 0000000000000002
->Nov 16 23:41:52 archlinux kernel: FS:  00007fce03035680 GS:  0000000000000=
-000
->Nov 16 23:41:52 archlinux kernel: Modules linked in: veth xt_nat xt_conntr=
-ack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptable_n=
-at nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay ath9k=
- ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc vid=
-eobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_common v=
-ideodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg802=
-11 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwdep =
-rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill lpc_=
-ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps2 s=
-erio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gpu_s=
-ched
->Nov 16 23:41:52 archlinux kernel: ---[ end trace 0bfef23d2a61f6df ]---
->Nov 16 23:41:52 archlinux kernel: RIP: 0033:0x7fd64d347128
->Nov 16 23:41:52 archlinux kernel: Code: Bad RIP value.
->Nov 16 23:41:52 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00010=
-202
->Nov 16 23:41:52 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000000=
-000 RCX: 0000000000000000
->Nov 16 23:41:52 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000000=
-001 RDI: 00007fd643ec8080
->Nov 16 23:41:52 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd64994b=
-6d0 R09: 00007fd64994b6d0
->Nov 16 23:41:52 archlinux kernel: R10: 0000556223f42090 R11: 0000000000000=
-000 R12: 00007fd644005cc0
->Nov 16 23:41:52 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223e56=
-cd0 R15: 0000556223dff780
->Nov 16 23:41:52 archlinux kernel: FS:  00007fce03035680(0000) GS:ffff9d5f9=
-f1c0000(0000) knlGS:0000000000000000
->Nov 16 23:41:52 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000000=
-080050033
->Nov 16 23:41:52 archlinux kernel: CR2: 00007fd64d3470fe CR3: 0000000418df0=
-004 CR4: 00000000001606e0
->Nov 16 23:42:08 archlinux assert_20191116234208_28.dmp[1973]: Uploading du=
-mp (out-of-process)
->                                                              /tmp/dumps/a=
-ssert_20191116234208_28.dmp
->Nov 16 23:42:09 archlinux assert_20191116234208_28.dmp[1973]: Finished upl=
-oading minidump (out-of-process): success =3D yes
->Nov 16 23:42:09 archlinux assert_20191116234208_28.dmp[1973]: response: Cr=
-ashID=3Dbp-41559f84-c03a-4cef-9b4d-0f6c82191116
->Nov 16 23:42:09 archlinux assert_20191116234208_28.dmp[1973]: file ''/tmp/=
-dumps/assert_20191116234208_28.dmp'', upload yes: ''CrashID=3Dbp-41559f84-c=
-03a-4cef-9b4d-0f6c82191116''
->Nov 16 23:42:10 archlinux kernel: ThreadPoolForeg: Corrupted page table at=
- address 1689e6ba90c8
->Nov 16 23:42:10 archlinux kernel: PGD 8000000418dca067 P4D 8000000418dca06=
-7 PUD 40c0c9067 PMD 419432067 PTE ffffffffffffffff
->Nov 16 23:42:10 archlinux kernel: Bad pagetable: 000d [#7] SMP PTI
->Nov 16 23:42:10 archlinux kernel: CPU: 5 PID: 1848 Comm: ThreadPoolForeg T=
-ainted: G      D           5.3.11-2-clear #1
->Nov 16 23:42:10 archlinux kernel: Hardware name: CLEVO                    =
-         P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
->Nov 16 23:42:10 archlinux kernel: RIP: 0033:0x7fce0d6944e8
->Nov 16 23:42:10 archlinux kernel: Code: ff ff 48 8d 1d 71 87 5d 00 4c 8b 3=
-c cb 49 31 c7 49 83 ff 7f 77 75 4d 85 ed 0f 84 0f 01 00 00 44 89 fb 48 c1 e=
-3 05 4e 8d 24 2b <45> 8b 74 1d 08 41 83 c6 01 4c 89 e7 48 89 d6 e8 24 e0 9a=
- f9 45 89
->Nov 16 23:42:10 archlinux kernel: RSP: 002b:00007fcdfde9a730 EFLAGS: 00010=
-202
->Nov 16 23:42:10 archlinux kernel: RAX: 00000001689e6000 RBX: 0000000000000=
-040 RCX: 0000000000000c93
->Nov 16 23:42:10 archlinux kernel: RDX: 00001689e6c93380 RSI: 00001689e6c93=
-380 RDI: 00001689e6c93380
->Nov 16 23:42:10 archlinux kernel: RBP: 00007fcdfde9a760 R08: 0000000000000=
-000 R09: 00007fcdfde9a758
->Nov 16 23:42:10 archlinux kernel: R10: 0000000000000000 R11: 0000000000000=
-286 R12: 00001689e6ba90c0
->Nov 16 23:42:10 archlinux kernel: R13: 00001689e6ba9080 R14: 00001689e6d00=
-b90 R15: 0000000000000002
->Nov 16 23:42:10 archlinux kernel: FS:  00007fcdfde9b700 GS:  0000000000000=
-000
->Nov 16 23:42:10 archlinux kernel: Modules linked in: veth xt_nat xt_conntr=
-ack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptable_n=
-at nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay ath9k=
- ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc vid=
-eobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_common v=
-ideodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg802=
-11 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwdep =
-rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill lpc_=
-ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps2 s=
-erio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gpu_s=
-ched
->Nov 16 23:42:10 archlinux kernel: ---[ end trace 0bfef23d2a61f6e0 ]---
->Nov 16 23:42:10 archlinux kernel: ThreadPoolForeg: Corrupted page table at=
- address 1689e6ba6b48
->Nov 16 23:42:10 archlinux kernel: PGD 8000000418dca067 P4D 8000000418dca06=
-7 PUD 40c0c9067 PMD 419432067 PTE ffffffffffffffff
->Nov 16 23:42:10 archlinux kernel: Bad pagetable: 000d [#8] SMP PTI
->Nov 16 23:42:10 archlinux kernel: CPU: 2 PID: 1845 Comm: ThreadPoolForeg T=
-ainted: G      D           5.3.11-2-clear #1
->Nov 16 23:42:10 archlinux kernel: Hardware name: CLEVO                    =
-         P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
->Nov 16 23:42:10 archlinux kernel: RIP: 0033:0x7fce0d6944e8
->Nov 16 23:42:10 archlinux kernel: Code: ff ff 48 8d 1d 71 87 5d 00 4c 8b 3=
-c cb 49 31 c7 49 83 ff 7f 77 75 4d 85 ed 0f 84 0f 01 00 00 44 89 fb 48 c1 e=
-3 05 4e 8d 24 2b <45> 8b 74 1d 08 41 83 c6 01 4c 89 e7 48 89 d6 e8 24 e0 9a=
- f9 45 89
->Nov 16 23:42:10 archlinux kernel: RSP: 002b:00007fcdff69d730 EFLAGS: 00010=
-202
->Nov 16 23:42:10 archlinux kernel: RAX: 00000001689e6000 RBX: 0000000000000=
-040 RCX: 0000000000000c93
->Nov 16 23:42:10 archlinux kernel: RDX: 00001689e6c93480 RSI: 00001689e6c93=
-480 RDI: 00001689e6c93480
->Nov 16 23:42:10 archlinux kernel: RBP: 00007fcdff69d760 R08: 0000000000000=
-000 R09: 00007fcdff69d758
->Nov 16 23:42:10 archlinux kernel: R10: 0000000000000000 R11: 0000000000000=
-286 R12: 00001689e6ba6b40
->Nov 16 23:42:10 archlinux kernel: R13: 00001689e6ba6b00 R14: 00001689e6d00=
-f50 R15: 0000000000000002
->Nov 16 23:42:10 archlinux kernel: FS:  00007fcdff69e700 GS:  0000000000000=
-000
->Nov 16 23:42:10 archlinux kernel: Modules linked in: veth xt_nat xt_conntr=
-ack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptable_n=
-at nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay ath9k=
- ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc vid=
-eobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_common v=
-ideodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg802=
-11 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwdep =
-rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill lpc_=
-ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps2 s=
-erio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gpu_s=
-ched
->Nov 16 23:42:10 archlinux kernel: ---[ end trace 0bfef23d2a61f6e1 ]---
->Nov 16 23:42:10 archlinux kernel: ThreadPoolForeg: Corrupted page table at=
- address 1689e6ba8448
->Nov 16 23:42:10 archlinux kernel: PGD 8000000418dca067 P4D 8000000418dca06=
-7 PUD 40c0c9067 PMD 419432067 PTE ffffffffffffffff
->Nov 16 23:42:10 archlinux kernel: Bad pagetable: 000d [#9] SMP PTI
->Nov 16 23:42:10 archlinux kernel: CPU: 1 PID: 1847 Comm: ThreadPoolForeg T=
-ainted: G      D           5.3.11-2-clear #1
->Nov 16 23:42:10 archlinux kernel: Hardware name: CLEVO                    =
-         P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
->Nov 16 23:42:10 archlinux kernel: RIP: 0033:0x7fce0d6944e8
->Nov 16 23:42:10 archlinux kernel: Code: ff ff 48 8d 1d 71 87 5d 00 4c 8b 3=
-c cb 49 31 c7 49 83 ff 7f 77 75 4d 85 ed 0f 84 0f 01 00 00 44 89 fb 48 c1 e=
-3 05 4e 8d 24 2b <45> 8b 74 1d 08 41 83 c6 01 4c 89 e7 48 89 d6 e8 24 e0 9a=
- f9 45 89
->Nov 16 23:42:10 archlinux kernel: RSP: 002b:00007fcdfe69b730 EFLAGS: 00010=
-202
->Nov 16 23:42:10 archlinux kernel: RAX: 00000001689e6000 RBX: 0000000000000=
-040 RCX: 0000000000000d14
->Nov 16 23:42:10 archlinux kernel: RDX: 00001689e6d14fc0 RSI: 00001689e6d14=
-fc0 RDI: 00001689e6d14fc0
->Nov 16 23:42:10 archlinux kernel: RBP: 00007fcdfe69b760 R08: 0000000000000=
-000 R09: 00007fcdfe69b758
->Nov 16 23:42:10 archlinux kernel: R10: 0000000000000000 R11: 0000000000000=
-286 R12: 00001689e6ba8440
->Nov 16 23:42:10 archlinux kernel: R13: 00001689e6ba8400 R14: 00001689e6d00=
-d70 R15: 0000000000000002
->Nov 16 23:42:10 archlinux kernel: FS:  00007fcdfe69c700 GS:  0000000000000=
-000
->Nov 16 23:42:10 archlinux kernel: Modules linked in: veth xt_nat xt_conntr=
-ack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptable_n=
-at nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay ath9k=
- ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc vid=
-eobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_common v=
-ideodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg802=
-11 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwdep =
-rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill lpc_=
-ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps2 s=
-erio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gpu_s=
-ched
->Nov 16 23:42:10 archlinux kernel: ---[ end trace 0bfef23d2a61f6e2 ]---
->Nov 16 23:42:10 archlinux kernel: ThreadPoolForeg: Corrupted page table at=
- address 1689e6ba45c8
->Nov 16 23:42:10 archlinux kernel: PGD 8000000418dca067 P4D 8000000418dca06=
-7 PUD 40c0c9067 PMD 419432067 PTE ffffffffffffffff
->Nov 16 23:42:10 archlinux kernel: Bad pagetable: 000d [#10] SMP PTI
->Nov 16 23:42:10 archlinux kernel: CPU: 7 PID: 1842 Comm: ThreadPoolForeg T=
-ainted: G      D           5.3.11-2-clear #1
->Nov 16 23:42:10 archlinux kernel: Hardware name: CLEVO                    =
-         P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
->Nov 16 23:42:10 archlinux kernel: RIP: 0033:0x7fce0d6944e8
->Nov 16 23:42:10 archlinux kernel: Code: ff ff 48 8d 1d 71 87 5d 00 4c 8b 3=
-c cb 49 31 c7 49 83 ff 7f 77 75 4d 85 ed 0f 84 0f 01 00 00 44 89 fb 48 c1 e=
-3 05 4e 8d 24 2b <45> 8b 74 1d 08 41 83 c6 01 4c 89 e7 48 89 d6 e8 24 e0 9a=
- f9 45 89
->Nov 16 23:42:10 archlinux kernel: RSP: 002b:00007fce00ea0730 EFLAGS: 00010=
-202
->Nov 16 23:42:10 archlinux kernel: RAX: 00000001689e6000 RBX: 0000000000000=
-040 RCX: 0000000000000d14
->Nov 16 23:42:10 archlinux kernel: RDX: 00001689e6d14f00 RSI: 00001689e6d14=
-f00 RDI: 00001689e6d14f00
->Nov 16 23:42:10 archlinux kernel: RBP: 00007fce00ea0760 R08: 0000000000000=
-000 R09: 00007fce00ea0758
->Nov 16 23:42:10 archlinux kernel: R10: 0000000000000000 R11: 0000000000000=
-286 R12: 00001689e6ba45c0
->Nov 16 23:42:10 archlinux kernel: R13: 00001689e6ba4580 R14: 00001689e6c9a=
-cd0 R15: 0000000000000002
->Nov 16 23:42:10 archlinux kernel: FS:  00007fce00ea1700 GS:  0000000000000=
-000
->Nov 16 23:42:10 archlinux kernel: Modules linked in: veth xt_nat xt_conntr=
-ack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptable_n=
-at nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay ath9k=
- ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc vid=
-eobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_common v=
-ideodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg802=
-11 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwdep =
-rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill lpc_=
-ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps2 s=
-erio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gpu_s=
-ched
->Nov 16 23:42:10 archlinux kernel: ---[ end trace 0bfef23d2a61f6e3 ]---
->Nov 16 23:42:10 archlinux kernel: ThreadPoolForeg: Corrupted page table at=
- address 1689e6ba5ec8
->Nov 16 23:42:10 archlinux kernel: PGD 8000000418dca067 P4D 8000000418dca06=
-7 PUD 40c0c9067 PMD 419432067 PTE ffffffffffffffff
->Nov 16 23:42:10 archlinux kernel: Bad pagetable: 000d [#11] SMP PTI
->Nov 16 23:42:10 archlinux kernel: CPU: 6 PID: 1844 Comm: ThreadPoolForeg T=
-ainted: G      D           5.3.11-2-clear #1
->Nov 16 23:42:10 archlinux kernel: Hardware name: CLEVO                    =
-         P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
->Nov 16 23:42:10 archlinux kernel: RIP: 0033:0x7fce0d6944e8
->Nov 16 23:42:10 archlinux kernel: Code: ff ff 48 8d 1d 71 87 5d 00 4c 8b 3=
-c cb 49 31 c7 49 83 ff 7f 77 75 4d 85 ed 0f 84 0f 01 00 00 44 89 fb 48 c1 e=
-3 05 4e 8d 24 2b <45> 8b 74 1d 08 41 83 c6 01 4c 89 e7 48 89 d6 e8 24 e0 9a=
- f9 45 89
->Nov 16 23:42:10 archlinux kernel: RSP: 002b:00007fcdffe9e730 EFLAGS: 00010=
-202
->Nov 16 23:42:10 archlinux kernel: RAX: 00000001689e6000 RBX: 0000000000000=
-040 RCX: 0000000000000c93
->Nov 16 23:42:10 archlinux kernel: RDX: 00001689e6c930c0 RSI: 00001689e6c93=
-0c0 RDI: 00001689e6c930c0
->Nov 16 23:42:10 archlinux kernel: RBP: 00007fcdffe9e760 R08: 0000000000000=
-000 R09: 00007fcdffe9e758
->Nov 16 23:42:10 archlinux kernel: R10: 0000000000000000 R11: 0000000000000=
-286 R12: 00001689e6ba5ec0
->Nov 16 23:42:10 archlinux kernel: R13: 00001689e6ba5e80 R14: 00001689e6cfa=
-410 R15: 0000000000000002
->Nov 16 23:42:10 archlinux kernel: FS:  00007fcdffe9f700 GS:  0000000000000=
-000
->Nov 16 23:42:10 archlinux kernel: Modules linked in: veth xt_nat xt_conntr=
-ack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptable_n=
-at nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay ath9k=
- ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc vid=
-eobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_common v=
-ideodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg802=
-11 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwdep =
-rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill lpc_=
-ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps2 s=
-erio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gpu_s=
-ched
->Nov 16 23:42:10 archlinux kernel: ---[ end trace 0bfef23d2a61f6e4 ]---
->Nov 16 23:42:10 archlinux kernel: RIP: 0033:0x7fd64d347128
->Nov 16 23:42:10 archlinux kernel: Code: Bad RIP value.
->Nov 16 23:42:10 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00010=
-202
->Nov 16 23:42:10 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000000=
-000 RCX: 0000000000000000
->Nov 16 23:42:10 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000000=
-001 RDI: 00007fd643ec8080
->Nov 16 23:42:10 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd64994b=
-6d0 R09: 00007fd64994b6d0
->Nov 16 23:42:10 archlinux kernel: R10: 0000556223f42090 R11: 0000000000000=
-000 R12: 00007fd644005cc0
->Nov 16 23:42:10 archlinux kernel: RIP: 0033:0x7fd64d347128
->Nov 16 23:42:10 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223e56=
-cd0 R15: 0000556223dff780
->Nov 16 23:42:10 archlinux kernel: FS:  00007fcdfde9b700(0000) GS:ffff9d5f9=
-f140000(0000) knlGS:0000000000000000
->Nov 16 23:42:10 archlinux kernel: Code: Bad RIP value.
->Nov 16 23:42:10 archlinux kernel: RIP: 0033:0x7fd64d347128
->Nov 16 23:42:10 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00010=
-202
->Nov 16 23:42:10 archlinux kernel: Code: Bad RIP value.
->Nov 16 23:42:10 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000000=
-000 RCX: 0000000000000000
->Nov 16 23:42:10 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00010=
-202
->Nov 16 23:42:10 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000000=
-001 RDI: 00007fd643ec8080
->Nov 16 23:42:10 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd64994b=
-6d0 R09: 00007fd64994b6d0
->Nov 16 23:42:10 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000000=
-000 RCX: 0000000000000000
->Nov 16 23:42:10 archlinux kernel: R10: 0000556223f42090 R11: 0000000000000=
-000 R12: 00007fd644005cc0
->Nov 16 23:42:10 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000000=
-001 RDI: 00007fd643ec8080
->Nov 16 23:42:10 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223e56=
-cd0 R15: 0000556223dff780
->Nov 16 23:42:10 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd64994b=
-6d0 R09: 00007fd64994b6d0
->Nov 16 23:42:10 archlinux kernel: FS:  00007fcdff69e700(0000) GS:ffff9d5f9=
-f080000(0000) knlGS:0000000000000000
->Nov 16 23:42:10 archlinux kernel: RIP: 0033:0x7fd64d347128
->Nov 16 23:42:10 archlinux kernel: R10: 0000556223f42090 R11: 0000000000000=
-000 R12: 00007fd644005cc0
->Nov 16 23:42:10 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000000=
-080050033
->Nov 16 23:42:10 archlinux kernel: RIP: 0033:0x7fd64d347128
->Nov 16 23:42:10 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223e56=
-cd0 R15: 0000556223dff780
->Nov 16 23:42:10 archlinux kernel: CR2: 00007fd64d3470fe CR3: 0000000418df0=
-003 CR4: 00000000001606e0
->Nov 16 23:42:10 archlinux kernel: Code: Bad RIP value.
->Nov 16 23:42:10 archlinux kernel: FS:  00007fcdfe69c700(0000) GS:ffff9d5f9=
+>Nov 17 01:03:49 archlinux kernel: RIP: 0010:amdgpu_vm_sdma_commit+0x34/0x1=
+00 [amdgpu]
+>Nov 17 01:03:49 archlinux kernel: Code: 49 89 f5 41 54 53 48 89 fb 48 83 e=
+c 10 48 8b 47 08 48 8b 57 18 4c 8b b0 80 00 00 00 4c 8b a2 88 01 00 00 48 8=
+b 80 c8 00 00 00 <4c> 8b 78 08 41 8b 44 24 08 4d 8d 47 88 85 c0 0f 84 49 ae=
+ 1e 00 49
+>Nov 17 01:03:49 archlinux kernel: RSP: 0018:ffffb9290250b9a0 EFLAGS: 00010=
+286
+>Nov 17 01:03:49 archlinux kernel: RAX: 0000000000000000 RBX: ffffb9290250b=
+9e8 RCX: 0000000000100400
+>Nov 17 01:03:49 archlinux kernel: RDX: ffff9d2c19ba1c00 RSI: ffffb9290250b=
+a60 RDI: ffffb9290250b9e8
+>Nov 17 01:03:49 archlinux kernel: RBP: ffffb9290250b9d8 R08: 0000000000001=
+000 R09: 0000000000200000
+>Nov 17 01:03:49 archlinux kernel: R10: ffffb929004c5600 R11: 0000000000000=
+012 R12: ffff9d2c19ba1df8
+>Nov 17 01:03:49 archlinux kernel: R13: ffffb9290250ba60 R14: ffff9d2b3a472=
+000 R15: ffff9d2bbc2f12a0
+>Nov 17 01:03:49 archlinux kernel: FS:  0000000000000000(0000) GS:ffff9d2c1=
 f040000(0000) knlGS:0000000000000000
->Nov 16 23:42:10 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00010=
-202
->Nov 16 23:42:10 archlinux kernel: Code: Bad RIP value.
->Nov 16 23:42:10 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000000=
+>Nov 17 01:03:49 archlinux kernel: CS:  0010 DS: 002b ES: 002b CR0: 0000000=
 080050033
->Nov 16 23:42:10 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00010=
-202
->Nov 16 23:42:10 archlinux kernel: CR2: 00007fd64d3470fe CR3: 0000000418df0=
-002 CR4: 00000000001606e0
->Nov 16 23:42:10 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000000=
-000 RCX: 0000000000000000
->Nov 16 23:42:10 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000000=
-001 RDI: 00007fd643ec8080
->Nov 16 23:42:10 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000000=
-000 RCX: 0000000000000000
->Nov 16 23:42:10 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd64994b=
-6d0 R09: 00007fd64994b6d0
->Nov 16 23:42:10 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000000=
-001 RDI: 00007fd643ec8080
->Nov 16 23:42:10 archlinux kernel: R10: 0000556223f42090 R11: 0000000000000=
-000 R12: 00007fd644005cc0
->Nov 16 23:42:10 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd64994b=
-6d0 R09: 00007fd64994b6d0
->Nov 16 23:42:10 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223e56=
-cd0 R15: 0000556223dff780
->Nov 16 23:42:10 archlinux kernel: R10: 0000556223f42090 R11: 0000000000000=
-000 R12: 00007fd644005cc0
->Nov 16 23:42:10 archlinux kernel: FS:  00007fce00ea1700(0000) GS:ffff9d5f9=
-f1c0000(0000) knlGS:0000000000000000
->Nov 16 23:42:10 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223e56=
-cd0 R15: 0000556223dff780
->Nov 16 23:42:10 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000000=
-080050033
->Nov 16 23:42:10 archlinux kernel: FS:  00007fcdffe9f700(0000) GS:ffff9d5f9=
-f100000(0000) knlGS:0000000000000000
->Nov 16 23:42:10 archlinux kernel: CR2: 00007fd64d3470fe CR3: 0000000418df0=
-002 CR4: 00000000001606e0
->Nov 16 23:42:10 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000000=
-080050033
->Nov 16 23:42:10 archlinux kernel: CR2: 00007fd64d3470fe CR3: 0000000418df0=
-006 CR4: 00000000001606e0
->Nov 16 23:42:10 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000000=
-080050033
->Nov 16 23:42:10 archlinux kernel: CR2: 00007fd64d3470fe CR3: 0000000418df0=
-004 CR4: 00000000001606e0
->Nov 16 23:42:12 archlinux kernel: QDBusConnection: Corrupted page table at=
- address 7fd643e01bf8
->Nov 16 23:42:12 archlinux kernel: PGD 80000003921e4067 P4D 80000003921e406=
-7 PUD 392157067 PMD 392168067 PTE ffffffffffffffff
->Nov 16 23:42:12 archlinux kernel: Bad pagetable: 000f [#12] SMP PTI
->Nov 16 23:42:12 archlinux kernel: CPU: 4 PID: 1627 Comm: QDBusConnection T=
-ainted: G      D           5.3.11-2-clear #1
->Nov 16 23:42:12 archlinux kernel: Hardware name: CLEVO                    =
-         P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
->Nov 16 23:42:12 archlinux kernel: RIP: 0033:0x7fd64ccb69fa
->Nov 16 23:42:12 archlinux kernel: Code: 24 08 e8 49 11 f9 ff 8b 54 24 1c 4=
-8 8b 74 24 10 41 89 c0 48 8b 7c 24 08 b8 07 00 00 00 0f 05 48 3d 00 f0 ff f=
-f 77 2b 44 89 c7 <89> 44 24 08 e8 7d 11 f9 ff 8b 44 24 08 48 83 c4 28 c3 0f=
- 1f 40 00
->Nov 16 23:42:12 archlinux kernel: RSP: 002b:00007fd643e01bf0 EFLAGS: 00010=
-203
->Nov 16 23:42:12 archlinux kernel: RAX: 0000000000000001 RBX: 00007fd64c8d2=
-670 RCX: 00007fd64ccb69ef
->Nov 16 23:42:12 archlinux kernel: RDX: 00000000ffffffff RSI: 0000000000000=
-005 RDI: 0000000000000000
->Nov 16 23:42:12 archlinux kernel: RBP: 00007fd63c01e040 R08: 0000000000000=
-000 R09: 0000000000000001
->Nov 16 23:42:12 archlinux kernel: R10: 00007fd63c0198a0 R11: 0000000000000=
-293 R12: 0000000000000005
->Nov 16 23:42:12 archlinux kernel: R13: 00007fd643e01c30 R14: 00000000fffff=
-fff R15: 00007fd63c000c30
->Nov 16 23:42:12 archlinux kernel: FS:  00007fd643e02700 GS:  0000000000000=
-000
->Nov 16 23:42:12 archlinux kernel: Modules linked in: veth xt_nat xt_conntr=
+>Nov 17 01:03:49 archlinux kernel: CR2: 0000000000000008 CR3: 0000000306a0a=
+003 CR4: 00000000001606e0
+>Nov 17 01:03:49 archlinux kernel: Call Trace:
+>Nov 17 01:03:49 archlinux kernel:  amdgpu_vm_bo_update_mapping+0x9e/0xb0 [=
+amdgpu]
+>Nov 17 01:03:49 archlinux kernel:  amdgpu_vm_clear_freed+0xb5/0x170 [amdgp=
+u]
+>Nov 17 01:03:49 archlinux kernel:  amdgpu_gem_object_close+0x127/0x170 [am=
+dgpu]
+>Nov 17 01:03:49 archlinux kernel:  drm_gem_object_release_handle+0x81/0xc0
+>Nov 17 01:03:49 archlinux kernel:  ? drm_gem_object_handle_put_unlocked+0x=
+a0/0xa0
+>Nov 17 01:03:49 archlinux kernel:  idr_for_each+0x51/0xc0
+>Nov 17 01:03:49 archlinux kernel:  drm_gem_release+0x1c/0x30
+>Nov 17 01:03:49 archlinux kernel:  drm_file_free.part.0+0x2b1/0x300
+>Nov 17 01:03:49 archlinux kernel:  drm_close_helper.isra.0+0x6e/0x80
+>Nov 17 01:03:49 archlinux kernel:  drm_release+0x4c/0x7e
+>Nov 17 01:03:49 archlinux kernel:  __fput+0xbf/0x260
+>Nov 17 01:03:49 archlinux kernel:  ____fput+0x9/0x10
+>Nov 17 01:03:49 archlinux kernel:  task_work_run+0x8f/0xb0
+>Nov 17 01:03:49 archlinux kernel:  do_exit+0x302/0x730
+>Nov 17 01:03:49 archlinux kernel:  do_group_exit+0x36/0xa0
+>Nov 17 01:03:49 archlinux kernel:  get_signal+0x15c/0x810
+>Nov 17 01:03:49 archlinux kernel:  ? do_futex+0x121/0x540
+>Nov 17 01:03:49 archlinux kernel:  do_signal+0x2f/0x260
+>Nov 17 01:03:49 archlinux kernel:  ? __audit_syscall_entry+0xd6/0x120
+>Nov 17 01:03:49 archlinux kernel:  exit_to_usermode_loop+0x98/0xc0
+>Nov 17 01:03:49 archlinux kernel:  do_fast_syscall_32+0x29d/0x350
+>Nov 17 01:03:49 archlinux kernel:  ? do_int80_syscall_32+0x195/0x1f0
+>Nov 17 01:03:49 archlinux kernel:  entry_SYSENTER_compat+0x7c/0x8e
+>Nov 17 01:03:49 archlinux kernel: RIP: 0023:0xf7f79949
+>Nov 17 01:03:49 archlinux kernel: Code: Bad RIP value.
+>Nov 17 01:03:49 archlinux kernel: RSP: 002b:00000000e84fb190 EFLAGS: 00000=
+282 ORIG_RAX: 00000000000000f0
+>Nov 17 01:03:49 archlinux kernel: RAX: fffffffffffffe00 RBX: 000000000ab84=
+15c RCX: 0000000000000080
+>Nov 17 01:03:49 archlinux kernel: RDX: 0000000000000000 RSI: 0000000000000=
+000 RDI: 000000000ab84130
+>Nov 17 01:03:49 archlinux kernel: RBP: 0000000000000000 R08: 0000000000000=
+000 R09: 0000000000000000
+>Nov 17 01:03:49 archlinux kernel: R10: 0000000000000000 R11: 0000000000000=
+000 R12: 0000000000000000
+>Nov 17 01:03:49 archlinux kernel: R13: 0000000000000000 R14: 0000000000000=
+000 R15: 0000000000000000
+>Nov 17 01:03:49 archlinux kernel: Modules linked in: xt_nat veth xt_conntr=
 ack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptable_n=
 at nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay ath9k=
- ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc vid=
-eobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_common v=
-ideodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg802=
-11 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwdep =
-rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill lpc_=
-ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps2 s=
-erio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gpu_s=
+ ath9k_common ath9k_hw snd_hda_codec_hdmi mac80211 snd_hda_codec_realtek sn=
+d_hda_codec_generic ath mei_hdcp ledtrig_audio wmi_bmof snd_hda_intel uvcvi=
+deo snd_hda_codec videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 videobu=
+f2_common snd_hda_core videodev snd_hwdep cfg80211 joydev mc snd_pcm snd_ti=
+mer rtsx_pci_ms r8169 i2c_i801 psmouse snd mei_me memstick rfkill soundcore=
+ realtek mei lpc_ich libphy thermal wmi battery ac ip_tables hid_logitech_h=
+idpp atkbd libps2 serio_raw i8042 amdgpu amd_iommu_v2 hid_logitech_dj gpu_s=
 ched
->Nov 16 23:42:12 archlinux kernel: ---[ end trace 0bfef23d2a61f6e5 ]---
->Nov 16 23:42:12 archlinux kernel: RIP: 0033:0x7fd64d347128
->Nov 16 23:42:12 archlinux kernel: Code: 8b 47 08 8d 78 01 41 89 7f 08 89 f=
-7 29 cf 85 ff 7e 48 31 db 66 0f 1f 44 00 00 48 63 c1 48 01 d8 48 8b 7c c2 1=
-0 48 85 ff 74 1d <48> 8b 07 4c 89 e9 4c 89 e2 48 89 ee ff 50 10 84 c0 75 4d=
- 49 8b 56
->Nov 16 23:42:12 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00010=
-202
->Nov 16 23:42:12 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000000=
-000 RCX: 0000000000000000
->Nov 16 23:42:12 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000000=
-001 RDI: 00007fd643ec8080
->Nov 16 23:42:12 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd64994b=
-6d0 R09: 00007fd64994b6d0
->Nov 16 23:42:12 archlinux kernel: R10: 0000556223f42090 R11: 0000000000000=
-000 R12: 00007fd644005cc0
->Nov 16 23:42:12 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223e56=
-cd0 R15: 0000556223dff780
->Nov 16 23:42:12 archlinux kernel: FS:  00007fd643e02700(0000) GS:ffff9d5f9=
-f100000(0000) knlGS:0000000000000000
->Nov 16 23:42:12 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000000=
+>Nov 17 01:03:49 archlinux kernel: CR2: 0000000000000008
+>Nov 17 01:03:49 archlinux kernel: ---[ end trace c63f21dbba2ef5cd ]---
+>Nov 17 01:03:49 archlinux kernel: RIP: 0010:amdgpu_vm_sdma_commit+0x34/0x1=
+00 [amdgpu]
+>Nov 17 01:03:49 archlinux kernel: Code: 49 89 f5 41 54 53 48 89 fb 48 83 e=
+c 10 48 8b 47 08 48 8b 57 18 4c 8b b0 80 00 00 00 4c 8b a2 88 01 00 00 48 8=
+b 80 c8 00 00 00 <4c> 8b 78 08 41 8b 44 24 08 4d 8d 47 88 85 c0 0f 84 49 ae=
+ 1e 00 49
+>Nov 17 01:03:49 archlinux kernel: RSP: 0018:ffffb9290250b9a0 EFLAGS: 00010=
+286
+>Nov 17 01:03:49 archlinux kernel: RAX: 0000000000000000 RBX: ffffb9290250b=
+9e8 RCX: 0000000000100400
+>Nov 17 01:03:49 archlinux kernel: RDX: ffff9d2c19ba1c00 RSI: ffffb9290250b=
+a60 RDI: ffffb9290250b9e8
+>Nov 17 01:03:49 archlinux kernel: RBP: ffffb9290250b9d8 R08: 0000000000001=
+000 R09: 0000000000200000
+>Nov 17 01:03:49 archlinux kernel: R10: ffffb929004c5600 R11: 0000000000000=
+012 R12: ffff9d2c19ba1df8
+>Nov 17 01:03:49 archlinux kernel: R13: ffffb9290250ba60 R14: ffff9d2b3a472=
+000 R15: ffff9d2bbc2f12a0
+>Nov 17 01:03:49 archlinux kernel: FS:  0000000000000000(0000) GS:ffff9d2c1=
+f040000(0000) knlGS:0000000000000000
+>Nov 17 01:03:49 archlinux kernel: CS:  0010 DS: 002b ES: 002b CR0: 0000000=
 080050033
->Nov 16 23:42:12 archlinux kernel: CR2: 00007fd643e01bf8 CR3: 000000039221c=
-005 CR4: 00000000001606e0
->Nov 16 23:42:12 archlinux kernel: QDBusConnection: Corrupted page table at=
- address 7fd643e029e0
->Nov 16 23:42:12 archlinux kernel: PGD 80000003921e4067 P4D 80000003921e406=
-7 PUD 392157067 PMD 392168067 PTE ffffffffffffffff
->Nov 16 23:42:12 archlinux kernel: Bad pagetable: 0009 [#13] SMP PTI
->Nov 16 23:42:12 archlinux kernel: CPU: 4 PID: 1627 Comm: QDBusConnection T=
-ainted: G      D           5.3.11-2-clear #1
->Nov 16 23:42:12 archlinux kernel: Hardware name: CLEVO                    =
-         P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
->Nov 16 23:42:12 archlinux kernel: RIP: 0010:__get_user_8+0x21/0x2b
->Nov 16 23:42:12 archlinux kernel: Code: 1f 00 c3 66 0f 1f 44 00 00 48 83 c=
-0 07 72 28 65 48 8b 14 25 40 5d 01 00 48 3b 82 58 1a 00 00 73 16 48 19 d2 4=
-8 21 d0 0f 1f 00 <48> 8b 50 f9 31 c0 0f 1f 00 c3 0f 1f 00 31 d2 48 c7 c0 f2=
- ff ff ff
->Nov 16 23:42:12 archlinux kernel: RSP: 0000:ffffb2ff81e0fe70 EFLAGS: 00010=
-206
->Nov 16 23:42:12 archlinux kernel: RAX: 00007fd643e029e7 RBX: ffff9d5f33089=
-c00 RCX: 00000000000002d0
->Nov 16 23:42:12 archlinux kernel: RDX: ffffffffffffffff RSI: 00007fd643e02=
-9e0 RDI: ffff9d5f12093c00
->Nov 16 23:42:12 archlinux kernel: RBP: ffffb2ff81e0fec0 R08: 0000000000000=
-001 R09: 0000000000000000
->Nov 16 23:42:12 archlinux kernel: R10: 0000000000000002 R11: 0000000000000=
-001 R12: ffff9d5f12093c00
->Nov 16 23:42:12 archlinux kernel: R13: 00007fd643e01b00 R14: ffff9d5f12093=
-c00 R15: ffff9d5f12093c00
->Nov 16 23:42:12 archlinux kernel: FS:  00007fd643e02700(0000) GS:ffff9d5f9=
-f100000(0000) knlGS:0000000000000000
->Nov 16 23:42:12 archlinux kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000=
-080050033
->Nov 16 23:42:12 archlinux kernel: CR2: 00007fd643e029e0 CR3: 000000039221c=
-005 CR4: 00000000001606e0
->Nov 16 23:42:12 archlinux kernel: Call Trace:
->Nov 16 23:42:12 archlinux kernel:  ? exit_robust_list+0x35/0x120
->Nov 16 23:42:12 archlinux kernel:  mm_release+0xf8/0x140
->Nov 16 23:42:12 archlinux kernel:  do_exit+0x164/0x730
->Nov 16 23:42:12 archlinux kernel:  ? do_page_fault+0x31/0x10e
->Nov 16 23:42:12 archlinux kernel:  rewind_stack_do_exit+0x17/0x20
->Nov 16 23:42:12 archlinux kernel: RIP: 0033:0x7fd64ccb69fa
->Nov 16 23:42:12 archlinux kernel: Code: 24 08 e8 49 11 f9 ff 8b 54 24 1c 4=
-8 8b 74 24 10 41 89 c0 48 8b 7c 24 08 b8 07 00 00 00 0f 05 48 3d 00 f0 ff f=
-f 77 2b 44 89 c7 <89> 44 24 08 e8 7d 11 f9 ff 8b 44 24 08 48 83 c4 28 c3 0f=
- 1f 40 00
->Nov 16 23:42:12 archlinux kernel: RSP: 002b:00007fd643e01bf0 EFLAGS: 00010=
-203
->Nov 16 23:42:12 archlinux kernel: RAX: 0000000000000001 RBX: 00007fd64c8d2=
-670 RCX: 00007fd64ccb69ef
->Nov 16 23:42:12 archlinux kernel: RDX: 00000000ffffffff RSI: 0000000000000=
-005 RDI: 0000000000000000
->Nov 16 23:42:12 archlinux kernel: RBP: 00007fd63c01e040 R08: 0000000000000=
-000 R09: 0000000000000001
->Nov 16 23:42:12 archlinux kernel: R10: 00007fd63c0198a0 R11: 0000000000000=
-293 R12: 0000000000000005
->Nov 16 23:42:12 archlinux kernel: R13: 00007fd643e01c30 R14: 00000000fffff=
-fff R15: 00007fd63c000c30
->Nov 16 23:42:12 archlinux kernel: Modules linked in: veth xt_nat xt_conntr=
-ack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptable_n=
-at nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay ath9k=
- ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc vid=
-eobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_common v=
-ideodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg802=
-11 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwdep =
-rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill lpc_=
-ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps2 s=
-erio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gpu_s=
-ched
->Nov 16 23:42:12 archlinux kernel: ---[ end trace 0bfef23d2a61f6e6 ]---
->Nov 16 23:42:12 archlinux kernel: RIP: 0033:0x7fd64d347128
->Nov 16 23:42:12 archlinux kernel: Code: 8b 47 08 8d 78 01 41 89 7f 08 89 f=
-7 29 cf 85 ff 7e 48 31 db 66 0f 1f 44 00 00 48 63 c1 48 01 d8 48 8b 7c c2 1=
-0 48 85 ff 74 1d <48> 8b 07 4c 89 e9 4c 89 e2 48 89 ee ff 50 10 84 c0 75 4d=
- 49 8b 56
->Nov 16 23:42:12 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00010=
-202
->Nov 16 23:42:12 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000000=
-000 RCX: 0000000000000000
->Nov 16 23:42:12 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000000=
-001 RDI: 00007fd643ec8080
->Nov 16 23:42:12 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd64994b=
-6d0 R09: 00007fd64994b6d0
->Nov 16 23:42:12 archlinux kernel: R10: 0000556223f42090 R11: 0000000000000=
-000 R12: 00007fd644005cc0
->Nov 16 23:42:12 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223e56=
-cd0 R15: 0000556223dff780
->Nov 16 23:42:12 archlinux kernel: FS:  00007fd643e02700(0000) GS:ffff9d5f9=
-f100000(0000) knlGS:0000000000000000
->Nov 16 23:42:12 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000000=
-080050033
->Nov 16 23:42:12 archlinux kernel: CR2: 00007fd643e029e0 CR3: 000000039221c=
-005 CR4: 00000000001606e0
->Nov 16 23:42:12 archlinux kernel: Fixing recursive fault but reboot is nee=
+>Nov 17 01:03:49 archlinux kernel: CR2: 00000000f7f7991f CR3: 0000000366c06=
+002 CR4: 00000000001606e0
+>Nov 17 01:03:49 archlinux kernel: Fixing recursive fault but reboot is nee=
 ded!
->Nov 16 23:42:24 archlinux kernel: ThreadPoolForeg: Corrupted page table at=
- address 7f3b9cad9450
->Nov 16 23:42:24 archlinux kernel: PGD 800000040c0f6067 P4D 800000040c0f606=
-7 PUD 419b53067 PMD 419430067 PTE ffffffffffffffff
->Nov 16 23:42:25 archlinux kernel: Bad pagetable: 000d [#14] SMP PTI
->Nov 16 23:42:25 archlinux kernel: CPU: 2 PID: 1819 Comm: ThreadPoolForeg T=
-ainted: G      D           5.3.11-2-clear #1
->Nov 16 23:42:25 archlinux kernel: Hardware name: CLEVO                    =
-         P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
->Nov 16 23:42:25 archlinux kernel: RIP: 0033:0x7f3ba7014207
->Nov 16 23:42:25 archlinux kernel: Code: 00 66 90 48 89 da 48 c1 e2 04 49 8=
-b 44 17 18 48 85 c0 0f 84 a5 00 00 00 49 8b 54 17 10 48 3b 15 6f 8d 01 00 0=
-f 87 22 01 00 00 <4c> 8b 80 50 04 00 00 49 39 d4 48 8b b0 48 04 00 00 4c 0f=
- 42 e2 4c
->Nov 16 23:42:25 archlinux kernel: RSP: 002b:00007f3b9779a450 EFLAGS: 00010=
-297
->Nov 16 23:42:25 archlinux kernel: RAX: 00007f3b9cad9000 RBX: 0000000000000=
-00a RCX: 0000000000000000
->Nov 16 23:42:25 archlinux kernel: RDX: 0000000000000001 RSI: 0000000000000=
-000 RDI: 000000000000000a
->Nov 16 23:42:25 archlinux kernel: RBP: 0000000000000000 R08: 0000000000000=
-009 R09: 0000000000000010
->Nov 16 23:42:25 archlinux kernel: R10: 00000000000001f9 R11: 0000000000000=
-094 R12: 0000000000000001
->Nov 16 23:42:25 archlinux kernel: R13: 0000000000000000 R14: 0000000000000=
-006 R15: 00007f3b9c1ca560
->Nov 16 23:42:25 archlinux kernel: FS:  00007f3b9779b700 GS:  0000000000000=
-000
->Nov 16 23:42:25 archlinux kernel: Modules linked in: veth xt_nat xt_conntr=
-ack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptable_n=
-at nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay ath9k=
- ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc vid=
-eobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_common v=
-ideodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg802=
-11 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwdep =
-rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill lpc_=
-ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps2 s=
-erio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gpu_s=
-ched
->Nov 16 23:42:25 archlinux kernel: ---[ end trace 0bfef23d2a61f6e7 ]---
->Nov 16 23:42:25 archlinux kernel: RIP: 0033:0x7fd64d347128
->Nov 16 23:42:25 archlinux kernel: Code: Bad RIP value.
->Nov 16 23:42:25 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00010=
-202
->Nov 16 23:42:25 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000000=
-000 RCX: 0000000000000000
->Nov 16 23:42:25 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000000=
-001 RDI: 00007fd643ec8080
->Nov 16 23:42:25 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd64994b=
-6d0 R09: 00007fd64994b6d0
->Nov 16 23:42:25 archlinux kernel: R10: 0000556223f42090 R11: 0000000000000=
-000 R12: 00007fd644005cc0
->Nov 16 23:42:25 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223e56=
-cd0 R15: 0000556223dff780
->Nov 16 23:42:25 archlinux kernel: FS:  00007f3b9779b700(0000) GS:ffff9d5f9=
-f080000(0000) knlGS:0000000000000000
->Nov 16 23:42:25 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000000=
-080050033
->Nov 16 23:42:25 archlinux kernel: CR2: 00007fd64d3470fe CR3: 000000039215c=
-005 CR4: 00000000001606e0
->Nov 16 23:43:22 archlinux audit[1884]: ANOM_ABEND auid=3D1000 uid=3D1000 g=
-id=3D1000 ses=3D2 pid=3D1884 comm=3D"vulkandriverque" exe=3D"/home/saad/.lo=
-cal/share/Steam/ubuntu12_64/vulkandriverquery" sig=3D6 res=3D1
->Nov 16 23:43:22 archlinux kernel: audit: type=3D1701 audit(1573965802.347:=
-180): auid=3D1000 uid=3D1000 gid=3D1000 ses=3D2 pid=3D1884 comm=3D"vulkandr=
-iverque" exe=3D"/home/saad/.local/share/Steam/ubuntu12_64/vulkandriverquery=
-" sig=3D6 res=3D1
->Nov 16 23:43:22 archlinux systemd[1]: Created slice system-systemd\x2dcore=
-dump.slice.
->Nov 16 23:43:22 archlinux systemd[1]: Started Process Core Dump (PID 2361/=
-UID 0).
->Nov 16 23:43:22 archlinux audit[1]: SERVICE_START pid=3D1 uid=3D0 auid=3D4=
-294967295 ses=3D4294967295 msg=3D'unit=3Dsystemd-coredump@0-2361-0 comm=3D"=
-systemd" exe=3D"/usr/lib/systemd/systemd" hostname=3D? addr=3D? terminal=3D=
-? res=3Dsuccess'
->Nov 16 23:43:22 archlinux kernel: audit: type=3D1130 audit(1573965802.358:=
-181): pid=3D1 uid=3D0 auid=3D4294967295 ses=3D4294967295 msg=3D'unit=3Dsyst=
-emd-coredump@0-2361-0 comm=3D"systemd" exe=3D"/usr/lib/systemd/systemd" hos=
-tname=3D? addr=3D? terminal=3D? res=3Dsuccess'
->Nov 16 23:43:22 archlinux kernel: BUG: Bad rss-counter state mm:0000000097=
-021009 idx:0 val:304
->Nov 16 23:43:27 archlinux systemd-coredump[2362]: Process 1884 (vulkandriv=
-erque) of user 1000 dumped core.
->=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20
->                                                  Stack trace of thread 18=
-84:
->                                                  #0  0x00007f0bcab12f25 r=
-aise (libc.so.6)
->                                                  #1  0x00007f0bcaafc897 a=
-bort (libc.so.6)
->                                                  #2  0x00007f0bcaafc767 _=
-_assert_fail_base.cold (libc.so.6)
->                                                  #3  0x00007f0bcab0b526 _=
-_assert_fail (libc.so.6)
->                                                  #4  0x000055793a013d17 n=
-/a (/home/saad/.local/share/Steam/ubuntu12_64/vulkandriverquery)
->                                                  #5  0x000055793a011c7a n=
-/a (/home/saad/.local/share/Steam/ubuntu12_64/vulkandriverquery)
->                                                  #6  0x000055793a007fdb n=
-/a (/home/saad/.local/share/Steam/ubuntu12_64/vulkandriverquery)
->                                                  #7  0x000055793a009600 n=
-/a (/home/saad/.local/share/Steam/ubuntu12_64/vulkandriverquery)
->                                                  #8  0x000055793a0062a3 n=
-/a (/home/saad/.local/share/Steam/ubuntu12_64/vulkandriverquery)
->                                                  #9  0x00007f0bcaafe153 _=
-_libc_start_main (libc.so.6)
->                                                  #10 0x000055793a0060ea n=
-/a (/home/saad/.local/share/Steam/ubuntu12_64/vulkandriverquery)
->Nov 16 23:43:27 archlinux systemd[1]: systemd-coredump@0-2361-0.service: S=
-ucceeded.
->Nov 16 23:43:27 archlinux audit[1]: SERVICE_STOP pid=3D1 uid=3D0 auid=3D42=
-94967295 ses=3D4294967295 msg=3D'unit=3Dsystemd-coredump@0-2361-0 comm=3D"s=
-ystemd" exe=3D"/usr/lib/systemd/systemd" hostname=3D? addr=3D? terminal=3D?=
- res=3Dsuccess'
->Nov 16 23:43:27 archlinux kernel: audit: type=3D1131 audit(1573965807.785:=
-182): pid=3D1 uid=3D0 auid=3D4294967295 ses=3D4294967295 msg=3D'unit=3Dsyst=
-emd-coredump@0-2361-0 comm=3D"systemd" exe=3D"/usr/lib/systemd/systemd" hos=
-tname=3D? addr=3D? terminal=3D? res=3Dsuccess'
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15739725680.71a00.7282
-Date: Sun, 17 Nov 2019 06:36:08 +0000
+--15739726780.7cdc9a8.8082
+Date: Sun, 17 Nov 2019 06:37:58 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -1072,8 +275,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeo=
 ut causes system freeze"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112304#c9">Commen=
-t # 9</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112304#c10">Comme=
+nt # 10</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeo=
@@ -1085,984 +288,189 @@ saadnaji89&#64;gmail.com" title=3D"saadnaji89&#64;gmail.com">saadnaji89&#64=
 ;gmail.com</a>
 </span></b>
         <pre>Comment on <span class=3D""><a href=3D"attachment.cgi?id=3D145=
-980" name=3D"attach_145980" title=3D"journalctl-logs-after-hardware-reboot"=
->attachment 145980</a> <a href=3D"attachment.cgi?id=3D145980&amp;action=3De=
-dit" title=3D"journalctl-logs-after-hardware-reboot">[details]</a></span>
-journalctl-logs-after-hardware-reboot
+981" name=3D"attach_145981" title=3D"additional-journalctl-logs-during-game=
+-play">attachment 145981</a> <a href=3D"attachment.cgi?id=3D145981&amp;acti=
+on=3Dedit" title=3D"additional-journalctl-logs-during-game-play">[details]<=
+/a></span>
+additional-journalctl-logs-during-game-play
 
-<span class=3D"quote">&gt;-- Logs begin at Sun 2019-06-30 23:10:01 EDT, end=
- at Sat 2019-11-16 23:43:27 EST. --
-&gt;Nov 16 23:41:09 archlinux kscreen_backend_launcher[1450]: kscreen.xrand=
-r: Actions to perform:=20
-&gt;                                                                   Prim=
-ary Output: false
-&gt;Nov 16 23:41:09 archlinux kscreen_backend_launcher[1450]: kscreen.xrand=
-r:         Change Screen Size: false
-&gt;Nov 16 23:41:09 archlinux kscreen_backend_launcher[1450]: kscreen.xrand=
-r:         Disable outputs: false
-&gt;Nov 16 23:41:09 archlinux kscreen_backend_launcher[1450]: kscreen.xrand=
-r:         Change outputs: false
-&gt;Nov 16 23:41:09 archlinux kscreen_backend_launcher[1450]: kscreen.xrand=
-r:         Enable outputs: false
-&gt;Nov 16 23:41:09 archlinux kscreen_backend_launcher[1450]: kscreen.xrand=
-r: XRandR::setConfig done!
-&gt;Nov 16 23:41:39 archlinux kernel: lxqt-powermanag: Corrupted page table=
- at address 7fd643ec8080
-&gt;Nov 16 23:41:39 archlinux kernel: PGD 80000003921e4067 P4D 80000003921e=
-4067 PUD 392157067 PMD 392168067 PTE ffffffffffffffff
-&gt;Nov 16 23:41:39 archlinux kernel: Bad pagetable: 000d [#1] SMP PTI
-&gt;Nov 16 23:41:39 archlinux kernel: CPU: 2 PID: 1623 Comm: lxqt-powermana=
-g Not tainted 5.3.11-2-clear #1
-&gt;Nov 16 23:41:39 archlinux kernel: Hardware name: CLEVO                 =
+
+<span class=3D"quote">&gt;Nov 17 01:02:31 archlinux audit[1]: SERVICE_STOP =
+pid=3D1 uid=3D0 auid=3D4294967295 ses=3D4294967295 msg=3D'unit=3Dsystemd-ho=
+stnamed comm=3D&quot;systemd&quot; exe=3D&quot;/usr/lib/systemd/systemd&quo=
+t; hostname=3D? addr=3D? terminal=3D? res=3Dsuccess'
+&gt;Nov 17 01:02:31 archlinux kernel: audit: type=3D1131 audit(1573970551.1=
+60:173): pid=3D1 uid=3D0 auid=3D4294967295 ses=3D4294967295 msg=3D'unit=3Ds=
+ystemd-hostnamed comm=3D&quot;systemd&quot; exe=3D&quot;/usr/lib/systemd/sy=
+stemd&quot; hostname=3D? addr=3D? terminal=3D? res=3Dsuccess'
+&gt;Nov 17 01:02:36 archlinux kernel: amdgpu 0000:01:00.0: GPU fault detect=
+ed: 146 0x066e480c
+&gt;Nov 17 01:02:36 archlinux kernel: amdgpu 0000:01:00.0:   VM_CONTEXT1_PR=
+OTECTION_FAULT_ADDR   0x00100DB3
+&gt;Nov 17 01:02:36 archlinux kernel: amdgpu 0000:01:00.0:   VM_CONTEXT1_PR=
+OTECTION_FAULT_STATUS 0x0E04800C
+&gt;Nov 17 01:02:36 archlinux kernel: amdgpu 0000:01:00.0: VM fault (0x0c, =
+vmid 7) at page 1052083, read from '' (0x00000000) (72)
+&gt;Nov 17 01:02:36 archlinux kernel: amdgpu 0000:01:00.0: GPU fault detect=
+ed: 146 0x06ae880c
+&gt;Nov 17 01:02:36 archlinux kernel: amdgpu 0000:01:00.0:   VM_CONTEXT1_PR=
+OTECTION_FAULT_ADDR   0x00000000
+&gt;Nov 17 01:02:36 archlinux kernel: amdgpu 0000:01:00.0:   VM_CONTEXT1_PR=
+OTECTION_FAULT_STATUS 0x0F008010
+&gt;Nov 17 01:02:36 archlinux kernel: amdgpu 0000:01:00.0: VM fault (0x10, =
+vmid 7) at page 0, write from '' (0x00000000) (8)
+&gt;Nov 17 01:02:45 archlinux kernel: [drm:amdgpu_job_timedout [amdgpu]] *E=
+RROR* ring gfx timeout, signaled seq=3D23, emitted seq=3D24
+&gt;Nov 17 01:02:45 archlinux kernel: [drm:amdgpu_job_timedout [amdgpu]] *E=
+RROR* Process information: process hl2_linux pid 2252 thread hl2_linux:cs0 =
+pid 2254
+&gt;Nov 17 01:02:45 archlinux kernel: amdgpu 0000:01:00.0: GPU reset begin!
+&gt;Nov 17 01:02:45 archlinux kernel: amdgpu 0000:01:00.0: GPU reset succee=
+ded, trying to resume
+&gt;Nov 17 01:02:45 archlinux kernel: [drm] PCIE gen 3 link speeds already =
+enabled
+&gt;Nov 17 01:02:45 archlinux kernel: amdgpu 0000:01:00.0: PCIE GART of 102=
+4M enabled (table at 0x000000F400000000).
+&gt;Nov 17 01:02:46 archlinux kernel: amdgpu 0000:01:00.0: [drm:amdgpu_ring=
+_test_helper [amdgpu]] *ERROR* ring gfx test failed (-110)
+&gt;Nov 17 01:02:46 archlinux kernel: [drm:amdgpu_device_ip_resume_phase2 [=
+amdgpu]] *ERROR* resume of IP block &lt;gfx_v6_0&gt; failed -110
+&gt;Nov 17 01:02:46 archlinux kernel: [drm:si_dpm_set_power_state [amdgpu]]=
+ *ERROR* si_restrict_performance_levels_before_switch failed
+&gt;Nov 17 01:02:46 archlinux kernel: amdgpu 0000:01:00.0: GPU reset(1) fai=
+led
+&gt;Nov 17 01:02:46 archlinux kernel: amdgpu 0000:01:00.0: GPU reset end wi=
+th ret =3D -110
+&gt;Nov 17 01:02:49 archlinux kernel: [drm:amdgpu_job_timedout [amdgpu]] *E=
+RROR* ring gfx timeout, signaled seq=3D24, emitted seq=3D24
+&gt;Nov 17 01:02:49 archlinux kernel: [drm:amdgpu_job_timedout [amdgpu]] *E=
+RROR* Process information: process hl2_linux pid 2252 thread hl2_linux:cs0 =
+pid 2254
+&gt;Nov 17 01:02:49 archlinux kernel: amdgpu 0000:01:00.0: GPU reset begin!
+&gt;Nov 17 01:03:49 archlinux kernel: [drm] schedsdma0 is not ready, skippi=
+ng
+&gt;Nov 17 01:03:49 archlinux kernel: [drm] schedsdma1 is not ready, skippi=
+ng
+&gt;Nov 17 01:03:49 archlinux kernel: amdgpu 0000:01:00.0: failed to clear =
+page tables on GEM object close (-2)
+&gt;Nov 17 01:03:49 archlinux kernel: BUG: kernel NULL pointer dereference,=
+ address: 0000000000000008
+&gt;Nov 17 01:03:49 archlinux kernel: #PF: supervisor read access in kernel=
+ mode
+&gt;Nov 17 01:03:49 archlinux kernel: #PF: error_code(0x0000) - not-present=
+ page
+&gt;Nov 17 01:03:49 archlinux kernel: PGD 0 P4D 0=20
+&gt;Nov 17 01:03:49 archlinux kernel: Oops: 0000 [#1] SMP PTI
+&gt;Nov 17 01:03:49 archlinux kernel: CPU: 1 PID: 2262 Comm: hl2_linu:shlo0=
+ Not tainted 5.3.11-2-clear #1
+&gt;Nov 17 01:03:49 archlinux kernel: Hardware name: CLEVO                 =
             P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
-&gt;Nov 16 23:41:39 archlinux kernel: RIP: 0033:0x7fd64d347128
-&gt;Nov 16 23:41:39 archlinux kernel: Code: 8b 47 08 8d 78 01 41 89 7f 08 8=
-9 f7 29 cf 85 ff 7e 48 31 db 66 0f 1f 44 00 00 48 63 c1 48 01 d8 48 8b 7c c=
-2 10 48 85 ff 74 1d &lt;48&gt; 8b 07 4c 89 e9 4c 89 e2 48 89 ee ff 50 10 84=
- c0 75 4d 49 8b 56
-&gt;Nov 16 23:41:39 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00=
-010202
-&gt;Nov 16 23:41:39 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000=
-000000 RCX: 0000000000000000
-&gt;Nov 16 23:41:39 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000=
-000001 RDI: 00007fd643ec8080
-&gt;Nov 16 23:41:39 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd649=
-94b6d0 R09: 00007fd64994b6d0
-&gt;Nov 16 23:41:39 archlinux kernel: R10: 0000556223f42090 R11: 0000000000=
-000000 R12: 00007fd644005cc0
-&gt;Nov 16 23:41:39 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223=
-e56cd0 R15: 0000556223dff780
-&gt;Nov 16 23:41:39 archlinux kernel: FS:  00007fd64994ad80 GS:  0000000000=
-000000
-&gt;Nov 16 23:41:39 archlinux kernel: Modules linked in: veth xt_nat xt_con=
-ntrack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptabl=
-e_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay at=
-h9k ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc =
-videobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_commo=
-n videodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg=
-80211 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwd=
-ep rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill l=
-pc_ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps=
-2 serio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gp=
-u_sched
-&gt;Nov 16 23:41:39 archlinux kernel: ---[ end trace 0bfef23d2a61f6da ]---
-&gt;Nov 16 23:41:39 archlinux kernel: RIP: 0033:0x7fd64d347128
-&gt;Nov 16 23:41:39 archlinux kernel: Code: 8b 47 08 8d 78 01 41 89 7f 08 8=
-9 f7 29 cf 85 ff 7e 48 31 db 66 0f 1f 44 00 00 48 63 c1 48 01 d8 48 8b 7c c=
-2 10 48 85 ff 74 1d &lt;48&gt; 8b 07 4c 89 e9 4c 89 e2 48 89 ee ff 50 10 84=
- c0 75 4d 49 8b 56
-&gt;Nov 16 23:41:39 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00=
-010202
-&gt;Nov 16 23:41:39 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000=
-000000 RCX: 0000000000000000
-&gt;Nov 16 23:41:39 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000=
-000001 RDI: 00007fd643ec8080
-&gt;Nov 16 23:41:39 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd649=
-94b6d0 R09: 00007fd64994b6d0
-&gt;Nov 16 23:41:39 archlinux kernel: R10: 0000556223f42090 R11: 0000000000=
-000000 R12: 00007fd644005cc0
-&gt;Nov 16 23:41:39 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223=
-e56cd0 R15: 0000556223dff780
-&gt;Nov 16 23:41:39 archlinux kernel: FS:  00007fd64994ad80(0000) GS:ffff9d=
-5f9f080000(0000) knlGS:0000000000000000
-&gt;Nov 16 23:41:39 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000=
+&gt;Nov 17 01:03:49 archlinux kernel: RIP: 0010:amdgpu_vm_sdma_commit+0x34/=
+0x100 [amdgpu]
+&gt;Nov 17 01:03:49 archlinux kernel: Code: 49 89 f5 41 54 53 48 89 fb 48 8=
+3 ec 10 48 8b 47 08 48 8b 57 18 4c 8b b0 80 00 00 00 4c 8b a2 88 01 00 00 4=
+8 8b 80 c8 00 00 00 &lt;4c&gt; 8b 78 08 41 8b 44 24 08 4d 8d 47 88 85 c0 0f=
+ 84 49 ae 1e 00 49
+&gt;Nov 17 01:03:49 archlinux kernel: RSP: 0018:ffffb9290250b9a0 EFLAGS: 00=
+010286
+&gt;Nov 17 01:03:49 archlinux kernel: RAX: 0000000000000000 RBX: ffffb92902=
+50b9e8 RCX: 0000000000100400
+&gt;Nov 17 01:03:49 archlinux kernel: RDX: ffff9d2c19ba1c00 RSI: ffffb92902=
+50ba60 RDI: ffffb9290250b9e8
+&gt;Nov 17 01:03:49 archlinux kernel: RBP: ffffb9290250b9d8 R08: 0000000000=
+001000 R09: 0000000000200000
+&gt;Nov 17 01:03:49 archlinux kernel: R10: ffffb929004c5600 R11: 0000000000=
+000012 R12: ffff9d2c19ba1df8
+&gt;Nov 17 01:03:49 archlinux kernel: R13: ffffb9290250ba60 R14: ffff9d2b3a=
+472000 R15: ffff9d2bbc2f12a0
+&gt;Nov 17 01:03:49 archlinux kernel: FS:  0000000000000000(0000) GS:ffff9d=
+2c1f040000(0000) knlGS:0000000000000000
+&gt;Nov 17 01:03:49 archlinux kernel: CS:  0010 DS: 002b ES: 002b CR0: 0000=
 000080050033
-&gt;Nov 16 23:41:39 archlinux kernel: CR2: 00007fd643ec8080 CR3: 0000000392=
-21c004 CR4: 00000000001606e0
-&gt;Nov 16 23:41:39 archlinux kernel: Chrome_ChildIOT: Corrupted page table=
- at address 1689e6ba5e10
-&gt;Nov 16 23:41:39 archlinux kernel: PGD 8000000418dca067 P4D 8000000418dc=
-a067 PUD 40c0c9067 PMD 419432067 PTE ffffffffffffffff
-&gt;Nov 16 23:41:39 archlinux kernel: Bad pagetable: 000f [#2] SMP PTI
-&gt;Nov 16 23:41:39 archlinux kernel: CPU: 3 PID: 1843 Comm: Chrome_ChildIO=
-T Tainted: G      D           5.3.11-2-clear #1
-&gt;Nov 16 23:41:39 archlinux kernel: Hardware name: CLEVO                 =
-            P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
-&gt;Nov 16 23:41:39 archlinux kernel: RIP: 0033:0x7fce0d69770c
-&gt;Nov 16 23:41:39 archlinux kernel: Code: 00 00 0f 83 43 01 00 00 b9 03 0=
-0 00 00 b8 07 00 00 00 01 f0 48 d3 e8 48 8d 0d 18 85 5b 00 0f b6 04 08 48 6=
-3 94 81 fc 02 00 00 &lt;49&gt; 29 94 24 10 0c 00 00 0f 88 2b 01 00 00 48 89=
- c3 48 c1 e3 05 4d
-&gt;Nov 16 23:41:39 archlinux kernel: RSP: 002b:00007fce0069f580 EFLAGS: 00=
-010202
-&gt;Nov 16 23:41:39 archlinux kernel: RAX: 000000000000002d RBX: 00007fce0d=
-7f2748 RCX: 00007fce0dc4fc18
-&gt;Nov 16 23:41:39 archlinux kernel: RDX: 0000000000002800 RSI: 0000000000=
-002738 RDI: 0000000000000008
-&gt;Nov 16 23:41:39 archlinux kernel: RBP: 00007fce0069f610 R08: 0000000000=
-000000 R09: 00007fce0069f7d8
-&gt;Nov 16 23:41:39 archlinux kernel: R10: 00007fce0069f7d0 R11: 0000000000=
-000000 R12: 00001689e6ba5200
-&gt;Nov 16 23:41:39 archlinux kernel: R13: 0000000000000008 R14: 00007fce00=
-69f668 R15: 0000000000000000
-&gt;Nov 16 23:41:39 archlinux kernel: FS:  00007fce006a0700 GS:  0000000000=
-000000
-&gt;Nov 16 23:41:39 archlinux kernel: Modules linked in: veth xt_nat xt_con=
-ntrack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptabl=
-e_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay at=
-h9k ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc =
-videobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_commo=
-n videodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg=
-80211 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwd=
-ep rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill l=
-pc_ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps=
-2 serio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gp=
-u_sched
-&gt;Nov 16 23:41:39 archlinux kernel: ---[ end trace 0bfef23d2a61f6db ]---
-&gt;Nov 16 23:41:39 archlinux kernel: RIP: 0033:0x7fd64d347128
-&gt;Nov 16 23:41:39 archlinux kernel: Code: Bad RIP value.
-&gt;Nov 16 23:41:39 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00=
-010202
-&gt;Nov 16 23:41:39 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000=
-000000 RCX: 0000000000000000
-&gt;Nov 16 23:41:39 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000=
-000001 RDI: 00007fd643ec8080
-&gt;Nov 16 23:41:39 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd649=
-94b6d0 R09: 00007fd64994b6d0
-&gt;Nov 16 23:41:39 archlinux kernel: R10: 0000556223f42090 R11: 0000000000=
-000000 R12: 00007fd644005cc0
-&gt;Nov 16 23:41:39 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223=
-e56cd0 R15: 0000556223dff780
-&gt;Nov 16 23:41:39 archlinux kernel: FS:  00007fce006a0700(0000) GS:ffff9d=
-5f9f0c0000(0000) knlGS:0000000000000000
-&gt;Nov 16 23:41:39 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000=
-000080050033
-&gt;Nov 16 23:41:39 archlinux kernel: CR2: 00007fd64d3470fe CR3: 0000000418=
-df0004 CR4: 00000000001606e0
-&gt;Nov 16 23:41:39 archlinux kernel: https-jsse-nio-: Corrupted page table=
- at address 7fd978001310
-&gt;Nov 16 23:41:39 archlinux kernel: PGD 800000041a726067 P4D 800000041a72=
-6067 PUD 39dc52067 PMD 39216a067 PTE ffffffffffffffff
-&gt;Nov 16 23:41:39 archlinux kernel: Bad pagetable: 000f [#3] SMP PTI
-&gt;Nov 16 23:41:39 archlinux kernel: CPU: 4 PID: 1676 Comm: https-jsse-nio=
-- Tainted: G      D           5.3.11-2-clear #1
-&gt;Nov 16 23:41:39 archlinux kernel: Hardware name: CLEVO                 =
-            P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
-&gt;Nov 16 23:41:39 archlinux kernel: RIP: 0033:0x7fda692a4ba0
-&gt;Nov 16 23:41:39 archlinux kernel: Code: 48 8b 45 f8 49 ba 00 00 00 00 0=
-0 00 00 00 4d 89 97 c0 01 00 00 49 ba 00 00 00 00 00 00 00 00 4d 89 97 c8 0=
-1 00 00 49 8b 4f 38 &lt;c7&gt; 81 00 01 00 00 00 00 00 00 c9 49 81 7f 08 00=
- 00 00 00 0f 85 01
-&gt;Nov 16 23:41:39 archlinux kernel: RSP: 002b:00007fd9a8eeb670 EFLAGS: 00=
-010246
-&gt;Nov 16 23:41:39 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000=
-000000 RCX: 00007fd978001210
-&gt;Nov 16 23:41:39 archlinux kernel: RDX: 0000000000002000 RSI: 00007fda78=
-e63000 RDI: 0000000000000000
-&gt;Nov 16 23:41:39 archlinux kernel: RBP: 00007fd9a8eeb6b0 R08: 0000000000=
-000000 R09: 00007fd9a8eeb5d8
-&gt;Nov 16 23:41:39 archlinux kernel: R10: 0000000000000000 R11: 0000000000=
+&gt;Nov 17 01:03:49 archlinux kernel: CR2: 0000000000000008 CR3: 0000000306=
+a0a003 CR4: 00000000001606e0
+&gt;Nov 17 01:03:49 archlinux kernel: Call Trace:
+&gt;Nov 17 01:03:49 archlinux kernel:  amdgpu_vm_bo_update_mapping+0x9e/0xb=
+0 [amdgpu]
+&gt;Nov 17 01:03:49 archlinux kernel:  amdgpu_vm_clear_freed+0xb5/0x170 [am=
+dgpu]
+&gt;Nov 17 01:03:49 archlinux kernel:  amdgpu_gem_object_close+0x127/0x170 =
+[amdgpu]
+&gt;Nov 17 01:03:49 archlinux kernel:  drm_gem_object_release_handle+0x81/0=
+xc0
+&gt;Nov 17 01:03:49 archlinux kernel:  ? drm_gem_object_handle_put_unlocked=
++0xa0/0xa0
+&gt;Nov 17 01:03:49 archlinux kernel:  idr_for_each+0x51/0xc0
+&gt;Nov 17 01:03:49 archlinux kernel:  drm_gem_release+0x1c/0x30
+&gt;Nov 17 01:03:49 archlinux kernel:  drm_file_free.part.0+0x2b1/0x300
+&gt;Nov 17 01:03:49 archlinux kernel:  drm_close_helper.isra.0+0x6e/0x80
+&gt;Nov 17 01:03:49 archlinux kernel:  drm_release+0x4c/0x7e
+&gt;Nov 17 01:03:49 archlinux kernel:  __fput+0xbf/0x260
+&gt;Nov 17 01:03:49 archlinux kernel:  ____fput+0x9/0x10
+&gt;Nov 17 01:03:49 archlinux kernel:  task_work_run+0x8f/0xb0
+&gt;Nov 17 01:03:49 archlinux kernel:  do_exit+0x302/0x730
+&gt;Nov 17 01:03:49 archlinux kernel:  do_group_exit+0x36/0xa0
+&gt;Nov 17 01:03:49 archlinux kernel:  get_signal+0x15c/0x810
+&gt;Nov 17 01:03:49 archlinux kernel:  ? do_futex+0x121/0x540
+&gt;Nov 17 01:03:49 archlinux kernel:  do_signal+0x2f/0x260
+&gt;Nov 17 01:03:49 archlinux kernel:  ? __audit_syscall_entry+0xd6/0x120
+&gt;Nov 17 01:03:49 archlinux kernel:  exit_to_usermode_loop+0x98/0xc0
+&gt;Nov 17 01:03:49 archlinux kernel:  do_fast_syscall_32+0x29d/0x350
+&gt;Nov 17 01:03:49 archlinux kernel:  ? do_int80_syscall_32+0x195/0x1f0
+&gt;Nov 17 01:03:49 archlinux kernel:  entry_SYSENTER_compat+0x7c/0x8e
+&gt;Nov 17 01:03:49 archlinux kernel: RIP: 0023:0xf7f79949
+&gt;Nov 17 01:03:49 archlinux kernel: Code: Bad RIP value.
+&gt;Nov 17 01:03:49 archlinux kernel: RSP: 002b:00000000e84fb190 EFLAGS: 00=
+000282 ORIG_RAX: 00000000000000f0
+&gt;Nov 17 01:03:49 archlinux kernel: RAX: fffffffffffffe00 RBX: 000000000a=
+b8415c RCX: 0000000000000080
+&gt;Nov 17 01:03:49 archlinux kernel: RDX: 0000000000000000 RSI: 0000000000=
+000000 RDI: 000000000ab84130
+&gt;Nov 17 01:03:49 archlinux kernel: RBP: 0000000000000000 R08: 0000000000=
+000000 R09: 0000000000000000
+&gt;Nov 17 01:03:49 archlinux kernel: R10: 0000000000000000 R11: 0000000000=
 000000 R12: 0000000000000000
-&gt;Nov 16 23:41:39 archlinux kernel: R13: 00007fd9a8eeb960 R14: 0000000000=
-000000 R15: 00007fda78605800
-&gt;Nov 16 23:41:39 archlinux kernel: FS:  00007fd9a8eec700 GS:  0000000000=
-000000
-&gt;Nov 16 23:41:39 archlinux kernel: Modules linked in: veth xt_nat xt_con=
+&gt;Nov 17 01:03:49 archlinux kernel: R13: 0000000000000000 R14: 0000000000=
+000000 R15: 0000000000000000
+&gt;Nov 17 01:03:49 archlinux kernel: Modules linked in: xt_nat veth xt_con=
 ntrack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptabl=
 e_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay at=
-h9k ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc =
-videobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_commo=
-n videodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg=
-80211 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwd=
-ep rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill l=
-pc_ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps=
-2 serio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gp=
+h9k ath9k_common ath9k_hw snd_hda_codec_hdmi mac80211 snd_hda_codec_realtek=
+ snd_hda_codec_generic ath mei_hdcp ledtrig_audio wmi_bmof snd_hda_intel uv=
+cvideo snd_hda_codec videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 vide=
+obuf2_common snd_hda_core videodev snd_hwdep cfg80211 joydev mc snd_pcm snd=
+_timer rtsx_pci_ms r8169 i2c_i801 psmouse snd mei_me memstick rfkill soundc=
+ore realtek mei lpc_ich libphy thermal wmi battery ac ip_tables hid_logitec=
+h_hidpp atkbd libps2 serio_raw i8042 amdgpu amd_iommu_v2 hid_logitech_dj gp=
 u_sched
-&gt;Nov 16 23:41:39 archlinux kernel: ---[ end trace 0bfef23d2a61f6dc ]---
-&gt;Nov 16 23:41:39 archlinux kernel: RIP: 0033:0x7fd64d347128
-&gt;Nov 16 23:41:39 archlinux kernel: Code: Bad RIP value.
-&gt;Nov 16 23:41:39 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00=
-010202
-&gt;Nov 16 23:41:39 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000=
-000000 RCX: 0000000000000000
-&gt;Nov 16 23:41:39 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000=
-000001 RDI: 00007fd643ec8080
-&gt;Nov 16 23:41:39 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd649=
-94b6d0 R09: 00007fd64994b6d0
-&gt;Nov 16 23:41:39 archlinux kernel: R10: 0000556223f42090 R11: 0000000000=
-000000 R12: 00007fd644005cc0
-&gt;Nov 16 23:41:39 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223=
-e56cd0 R15: 0000556223dff780
-&gt;Nov 16 23:41:39 archlinux kernel: FS:  00007fd9a8eec700(0000) GS:ffff9d=
-5f9f100000(0000) knlGS:0000000000000000
-&gt;Nov 16 23:41:39 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000=
+&gt;Nov 17 01:03:49 archlinux kernel: CR2: 0000000000000008
+&gt;Nov 17 01:03:49 archlinux kernel: ---[ end trace c63f21dbba2ef5cd ]---
+&gt;Nov 17 01:03:49 archlinux kernel: RIP: 0010:amdgpu_vm_sdma_commit+0x34/=
+0x100 [amdgpu]
+&gt;Nov 17 01:03:49 archlinux kernel: Code: 49 89 f5 41 54 53 48 89 fb 48 8=
+3 ec 10 48 8b 47 08 48 8b 57 18 4c 8b b0 80 00 00 00 4c 8b a2 88 01 00 00 4=
+8 8b 80 c8 00 00 00 &lt;4c&gt; 8b 78 08 41 8b 44 24 08 4d 8d 47 88 85 c0 0f=
+ 84 49 ae 1e 00 49
+&gt;Nov 17 01:03:49 archlinux kernel: RSP: 0018:ffffb9290250b9a0 EFLAGS: 00=
+010286
+&gt;Nov 17 01:03:49 archlinux kernel: RAX: 0000000000000000 RBX: ffffb92902=
+50b9e8 RCX: 0000000000100400
+&gt;Nov 17 01:03:49 archlinux kernel: RDX: ffff9d2c19ba1c00 RSI: ffffb92902=
+50ba60 RDI: ffffb9290250b9e8
+&gt;Nov 17 01:03:49 archlinux kernel: RBP: ffffb9290250b9d8 R08: 0000000000=
+001000 R09: 0000000000200000
+&gt;Nov 17 01:03:49 archlinux kernel: R10: ffffb929004c5600 R11: 0000000000=
+000012 R12: ffff9d2c19ba1df8
+&gt;Nov 17 01:03:49 archlinux kernel: R13: ffffb9290250ba60 R14: ffff9d2b3a=
+472000 R15: ffff9d2bbc2f12a0
+&gt;Nov 17 01:03:49 archlinux kernel: FS:  0000000000000000(0000) GS:ffff9d=
+2c1f040000(0000) knlGS:0000000000000000
+&gt;Nov 17 01:03:49 archlinux kernel: CS:  0010 DS: 002b ES: 002b CR0: 0000=
 000080050033
-&gt;Nov 16 23:41:39 archlinux kernel: CR2: 00007fd64d3470fe CR3: 0000000409=
-5b0005 CR4: 00000000001606e0
-&gt;Nov 16 23:41:39 archlinux kernel: Chrome_IOThread: Corrupted page table=
- at address 7f3b9cad9450
-&gt;Nov 16 23:41:39 archlinux kernel: PGD 800000040c0f6067 P4D 800000040c0f=
-6067 PUD 419b53067 PMD 419430067 PTE ffffffffffffffff
-&gt;Nov 16 23:41:39 archlinux kernel: Bad pagetable: 000d [#4] SMP PTI
-&gt;Nov 16 23:41:39 archlinux kernel: CPU: 2 PID: 1820 Comm: Chrome_IOThrea=
-d Tainted: G      D           5.3.11-2-clear #1
-&gt;Nov 16 23:41:39 archlinux kernel: Hardware name: CLEVO                 =
-            P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
-&gt;Nov 16 23:41:39 archlinux kernel: RIP: 0033:0x7f3ba7014207
-&gt;Nov 16 23:41:39 archlinux kernel: Code: 00 66 90 48 89 da 48 c1 e2 04 4=
-9 8b 44 17 18 48 85 c0 0f 84 a5 00 00 00 49 8b 54 17 10 48 3b 15 6f 8d 01 0=
-0 0f 87 22 01 00 00 &lt;4c&gt; 8b 80 50 04 00 00 49 39 d4 48 8b b0 48 04 00=
- 00 4c 0f 42 e2 4c
-&gt;Nov 16 23:41:39 archlinux kernel: RSP: 002b:00007f3b96f98880 EFLAGS: 00=
-010297
-&gt;Nov 16 23:41:39 archlinux kernel: RAX: 00007f3b9cad9000 RBX: 0000000000=
-00000a RCX: 0000000000000000
-&gt;Nov 16 23:41:39 archlinux kernel: RDX: 0000000000000001 RSI: 0000000000=
-000000 RDI: 000000000000000a
-&gt;Nov 16 23:41:39 archlinux kernel: RBP: 0000000000000000 R08: 0000000000=
-000009 R09: 0000000000000010
-&gt;Nov 16 23:41:39 archlinux kernel: R10: 00000000000001f9 R11: 0000000000=
-000206 R12: 0000000000000001
-&gt;Nov 16 23:41:39 archlinux kernel: R13: 0000000000000000 R14: 0000000000=
-000006 R15: 00007f3b9c1ca560
-&gt;Nov 16 23:41:39 archlinux kernel: FS:  00007f3b96f9a700 GS:  0000000000=
-000000
-&gt;Nov 16 23:41:39 archlinux kernel: Modules linked in: veth xt_nat xt_con=
-ntrack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptabl=
-e_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay at=
-h9k ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc =
-videobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_commo=
-n videodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg=
-80211 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwd=
-ep rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill l=
-pc_ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps=
-2 serio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gp=
-u_sched
-&gt;Nov 16 23:41:39 archlinux kernel: ---[ end trace 0bfef23d2a61f6dd ]---
-&gt;Nov 16 23:41:39 archlinux kernel: ThreadPoolSingl: Corrupted page table=
- at address 7f3b9cad9450
-&gt;Nov 16 23:41:39 archlinux kernel: PGD 800000040c0f6067 P4D 800000040c0f=
-6067 PUD 419b53067 PMD 419430067 PTE ffffffffffffffff
-&gt;Nov 16 23:41:39 archlinux kernel: Bad pagetable: 000d [#5] SMP PTI
-&gt;Nov 16 23:41:39 archlinux kernel: CPU: 3 PID: 1828 Comm: ThreadPoolSing=
-l Tainted: G      D           5.3.11-2-clear #1
-&gt;Nov 16 23:41:39 archlinux kernel: Hardware name: CLEVO                 =
-            P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
-&gt;Nov 16 23:41:39 archlinux kernel: RIP: 0033:0x7f3ba7014207
-&gt;Nov 16 23:41:39 archlinux kernel: Code: 00 66 90 48 89 da 48 c1 e2 04 4=
-9 8b 44 17 18 48 85 c0 0f 84 a5 00 00 00 49 8b 54 17 10 48 3b 15 6f 8d 01 0=
-0 0f 87 22 01 00 00 &lt;4c&gt; 8b 80 50 04 00 00 49 39 d4 48 8b b0 48 04 00=
- 00 4c 0f 42 e2 4c
-&gt;Nov 16 23:41:39 archlinux kernel: RSP: 002b:00007f3b92daccf0 EFLAGS: 00=
-010297
-&gt;Nov 16 23:41:39 archlinux kernel: RAX: 00007f3b9cad9000 RBX: 0000000000=
-00000a RCX: 0000000000000000
-&gt;Nov 16 23:41:39 archlinux kernel: RDX: 0000000000000001 RSI: 0000000000=
-000000 RDI: 000000000000000a
-&gt;Nov 16 23:41:39 archlinux kernel: RBP: 0000000000000000 R08: 0000000000=
-000009 R09: 0000000000000010
-&gt;Nov 16 23:41:39 archlinux kernel: R10: 00000000000001f9 R11: 0000000000=
-000206 R12: 0000000000000001
-&gt;Nov 16 23:41:39 archlinux kernel: R13: 0000000000000000 R14: 0000000000=
-000006 R15: 00007f3b9c1ca560
-&gt;Nov 16 23:41:39 archlinux kernel: FS:  00007f3b92dae700 GS:  0000000000=
-000000
-&gt;Nov 16 23:41:39 archlinux kernel: Modules linked in: veth xt_nat xt_con=
-ntrack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptabl=
-e_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay at=
-h9k ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc =
-videobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_commo=
-n videodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg=
-80211 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwd=
-ep rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill l=
-pc_ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps=
-2 serio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gp=
-u_sched
-&gt;Nov 16 23:41:39 archlinux kernel: ---[ end trace 0bfef23d2a61f6de ]---
-&gt;Nov 16 23:41:39 archlinux kernel: RIP: 0033:0x7fd64d347128
-&gt;Nov 16 23:41:39 archlinux kernel: RIP: 0033:0x7fd64d347128
-&gt;Nov 16 23:41:39 archlinux kernel: Code: Bad RIP value.
-&gt;Nov 16 23:41:39 archlinux kernel: Code: Bad RIP value.
-&gt;Nov 16 23:41:39 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00=
-010202
-&gt;Nov 16 23:41:39 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000=
-000000 RCX: 0000000000000000
-&gt;Nov 16 23:41:39 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000=
-000001 RDI: 00007fd643ec8080
-&gt;Nov 16 23:41:39 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd649=
-94b6d0 R09: 00007fd64994b6d0
-&gt;Nov 16 23:41:39 archlinux kernel: R10: 0000556223f42090 R11: 0000000000=
-000000 R12: 00007fd644005cc0
-&gt;Nov 16 23:41:39 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223=
-e56cd0 R15: 0000556223dff780
-&gt;Nov 16 23:41:39 archlinux kernel: FS:  00007f3b92dae700(0000) GS:ffff9d=
-5f9f0c0000(0000) knlGS:0000000000000000
-&gt;Nov 16 23:41:39 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000=
-000080050033
-&gt;Nov 16 23:41:39 archlinux kernel: CR2: 00007fd64d3470fe CR3: 0000000392=
-15c004 CR4: 00000000001606e0
-&gt;Nov 16 23:41:39 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00=
-010202
-&gt;Nov 16 23:41:39 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000=
-000000 RCX: 0000000000000000
-&gt;Nov 16 23:41:39 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000=
-000001 RDI: 00007fd643ec8080
-&gt;Nov 16 23:41:39 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd649=
-94b6d0 R09: 00007fd64994b6d0
-&gt;Nov 16 23:41:39 archlinux kernel: R10: 0000556223f42090 R11: 0000000000=
-000000 R12: 00007fd644005cc0
-&gt;Nov 16 23:41:39 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223=
-e56cd0 R15: 0000556223dff780
-&gt;Nov 16 23:41:39 archlinux kernel: FS:  00007f3b96f9a700(0000) GS:ffff9d=
-5f9f080000(0000) knlGS:0000000000000000
-&gt;Nov 16 23:41:39 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000=
-000080050033
-&gt;Nov 16 23:41:39 archlinux kernel: CR2: 00007fd64d3470fe CR3: 0000000392=
-15c001 CR4: 00000000001606e0
-&gt;Nov 16 23:41:49 archlinux kernel: [drm:amdgpu_job_timedout [amdgpu]] *E=
-RROR* ring sdma0 timeout, signaled seq=3D112, emitted seq=3D114
-&gt;Nov 16 23:41:49 archlinux kernel: [drm:amdgpu_job_timedout [amdgpu]] *E=
-RROR* Process information: process  pid 0 thread  pid 0
-&gt;Nov 16 23:41:49 archlinux kernel: [drm] GPU recovery disabled.
-&gt;Nov 16 23:41:52 archlinux kernel: steamwebhelper: Corrupted page table =
-at address 1689e6ba2cc8
-&gt;Nov 16 23:41:52 archlinux kernel: PGD 8000000418dca067 P4D 8000000418dc=
-a067 PUD 40c0c9067 PMD 419432067 PTE ffffffffffffffff
-&gt;Nov 16 23:41:52 archlinux kernel: Bad pagetable: 000d [#6] SMP PTI
-&gt;Nov 16 23:41:52 archlinux kernel: CPU: 7 PID: 1840 Comm: steamwebhelper=
- Tainted: G      D           5.3.11-2-clear #1
-&gt;Nov 16 23:41:52 archlinux kernel: Hardware name: CLEVO                 =
-            P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
-&gt;Nov 16 23:41:52 archlinux kernel: RIP: 0033:0x7fce0d6944e8
-&gt;Nov 16 23:41:52 archlinux kernel: Code: ff ff 48 8d 1d 71 87 5d 00 4c 8=
-b 3c cb 49 31 c7 49 83 ff 7f 77 75 4d 85 ed 0f 84 0f 01 00 00 44 89 fb 48 c=
-1 e3 05 4e 8d 24 2b &lt;45&gt; 8b 74 1d 08 41 83 c6 01 4c 89 e7 48 89 d6 e8=
- 24 e0 9a f9 45 89
-&gt;Nov 16 23:41:52 archlinux kernel: RSP: 002b:00007ffed3ebeef0 EFLAGS: 00=
-010202
-&gt;Nov 16 23:41:52 archlinux kernel: RAX: 00000001689e6000 RBX: 0000000000=
-000040 RCX: 0000000000000c7d
-&gt;Nov 16 23:41:52 archlinux kernel: RDX: 00001689e6c7dd00 RSI: 00001689e6=
-c7dd00 RDI: 00001689e6c7dd00
-&gt;Nov 16 23:41:52 archlinux kernel: RBP: 00007ffed3ebef20 R08: 0000000000=
-000000 R09: 00007ffed3ebef18
-&gt;Nov 16 23:41:52 archlinux kernel: R10: 0000000000000000 R11: 0000000000=
-000286 R12: 00001689e6ba2cc0
-&gt;Nov 16 23:41:52 archlinux kernel: R13: 00001689e6ba2c80 R14: 00001689e6=
-c7ab70 R15: 0000000000000002
-&gt;Nov 16 23:41:52 archlinux kernel: FS:  00007fce03035680 GS:  0000000000=
-000000
-&gt;Nov 16 23:41:52 archlinux kernel: Modules linked in: veth xt_nat xt_con=
-ntrack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptabl=
-e_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay at=
-h9k ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc =
-videobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_commo=
-n videodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg=
-80211 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwd=
-ep rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill l=
-pc_ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps=
-2 serio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gp=
-u_sched
-&gt;Nov 16 23:41:52 archlinux kernel: ---[ end trace 0bfef23d2a61f6df ]---
-&gt;Nov 16 23:41:52 archlinux kernel: RIP: 0033:0x7fd64d347128
-&gt;Nov 16 23:41:52 archlinux kernel: Code: Bad RIP value.
-&gt;Nov 16 23:41:52 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00=
-010202
-&gt;Nov 16 23:41:52 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000=
-000000 RCX: 0000000000000000
-&gt;Nov 16 23:41:52 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000=
-000001 RDI: 00007fd643ec8080
-&gt;Nov 16 23:41:52 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd649=
-94b6d0 R09: 00007fd64994b6d0
-&gt;Nov 16 23:41:52 archlinux kernel: R10: 0000556223f42090 R11: 0000000000=
-000000 R12: 00007fd644005cc0
-&gt;Nov 16 23:41:52 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223=
-e56cd0 R15: 0000556223dff780
-&gt;Nov 16 23:41:52 archlinux kernel: FS:  00007fce03035680(0000) GS:ffff9d=
-5f9f1c0000(0000) knlGS:0000000000000000
-&gt;Nov 16 23:41:52 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000=
-000080050033
-&gt;Nov 16 23:41:52 archlinux kernel: CR2: 00007fd64d3470fe CR3: 0000000418=
-df0004 CR4: 00000000001606e0
-&gt;Nov 16 23:42:08 archlinux assert_20191116234208_28.dmp[1973]: Uploading=
- dump (out-of-process)
-&gt;                                                              /tmp/dump=
-s/assert_20191116234208_28.dmp
-&gt;Nov 16 23:42:09 archlinux assert_20191116234208_28.dmp[1973]: Finished =
-uploading minidump (out-of-process): success =3D yes
-&gt;Nov 16 23:42:09 archlinux assert_20191116234208_28.dmp[1973]: response:=
- CrashID=3Dbp-41559f84-c03a-4cef-9b4d-0f6c82191116
-&gt;Nov 16 23:42:09 archlinux assert_20191116234208_28.dmp[1973]: file ''/t=
-mp/dumps/assert_20191116234208_28.dmp'', upload yes: ''CrashID=3Dbp-41559f8=
-4-c03a-4cef-9b4d-0f6c82191116''
-&gt;Nov 16 23:42:10 archlinux kernel: ThreadPoolForeg: Corrupted page table=
- at address 1689e6ba90c8
-&gt;Nov 16 23:42:10 archlinux kernel: PGD 8000000418dca067 P4D 8000000418dc=
-a067 PUD 40c0c9067 PMD 419432067 PTE ffffffffffffffff
-&gt;Nov 16 23:42:10 archlinux kernel: Bad pagetable: 000d [#7] SMP PTI
-&gt;Nov 16 23:42:10 archlinux kernel: CPU: 5 PID: 1848 Comm: ThreadPoolFore=
-g Tainted: G      D           5.3.11-2-clear #1
-&gt;Nov 16 23:42:10 archlinux kernel: Hardware name: CLEVO                 =
-            P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
-&gt;Nov 16 23:42:10 archlinux kernel: RIP: 0033:0x7fce0d6944e8
-&gt;Nov 16 23:42:10 archlinux kernel: Code: ff ff 48 8d 1d 71 87 5d 00 4c 8=
-b 3c cb 49 31 c7 49 83 ff 7f 77 75 4d 85 ed 0f 84 0f 01 00 00 44 89 fb 48 c=
-1 e3 05 4e 8d 24 2b &lt;45&gt; 8b 74 1d 08 41 83 c6 01 4c 89 e7 48 89 d6 e8=
- 24 e0 9a f9 45 89
-&gt;Nov 16 23:42:10 archlinux kernel: RSP: 002b:00007fcdfde9a730 EFLAGS: 00=
-010202
-&gt;Nov 16 23:42:10 archlinux kernel: RAX: 00000001689e6000 RBX: 0000000000=
-000040 RCX: 0000000000000c93
-&gt;Nov 16 23:42:10 archlinux kernel: RDX: 00001689e6c93380 RSI: 00001689e6=
-c93380 RDI: 00001689e6c93380
-&gt;Nov 16 23:42:10 archlinux kernel: RBP: 00007fcdfde9a760 R08: 0000000000=
-000000 R09: 00007fcdfde9a758
-&gt;Nov 16 23:42:10 archlinux kernel: R10: 0000000000000000 R11: 0000000000=
-000286 R12: 00001689e6ba90c0
-&gt;Nov 16 23:42:10 archlinux kernel: R13: 00001689e6ba9080 R14: 00001689e6=
-d00b90 R15: 0000000000000002
-&gt;Nov 16 23:42:10 archlinux kernel: FS:  00007fcdfde9b700 GS:  0000000000=
-000000
-&gt;Nov 16 23:42:10 archlinux kernel: Modules linked in: veth xt_nat xt_con=
-ntrack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptabl=
-e_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay at=
-h9k ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc =
-videobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_commo=
-n videodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg=
-80211 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwd=
-ep rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill l=
-pc_ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps=
-2 serio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gp=
-u_sched
-&gt;Nov 16 23:42:10 archlinux kernel: ---[ end trace 0bfef23d2a61f6e0 ]---
-&gt;Nov 16 23:42:10 archlinux kernel: ThreadPoolForeg: Corrupted page table=
- at address 1689e6ba6b48
-&gt;Nov 16 23:42:10 archlinux kernel: PGD 8000000418dca067 P4D 8000000418dc=
-a067 PUD 40c0c9067 PMD 419432067 PTE ffffffffffffffff
-&gt;Nov 16 23:42:10 archlinux kernel: Bad pagetable: 000d [#8] SMP PTI
-&gt;Nov 16 23:42:10 archlinux kernel: CPU: 2 PID: 1845 Comm: ThreadPoolFore=
-g Tainted: G      D           5.3.11-2-clear #1
-&gt;Nov 16 23:42:10 archlinux kernel: Hardware name: CLEVO                 =
-            P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
-&gt;Nov 16 23:42:10 archlinux kernel: RIP: 0033:0x7fce0d6944e8
-&gt;Nov 16 23:42:10 archlinux kernel: Code: ff ff 48 8d 1d 71 87 5d 00 4c 8=
-b 3c cb 49 31 c7 49 83 ff 7f 77 75 4d 85 ed 0f 84 0f 01 00 00 44 89 fb 48 c=
-1 e3 05 4e 8d 24 2b &lt;45&gt; 8b 74 1d 08 41 83 c6 01 4c 89 e7 48 89 d6 e8=
- 24 e0 9a f9 45 89
-&gt;Nov 16 23:42:10 archlinux kernel: RSP: 002b:00007fcdff69d730 EFLAGS: 00=
-010202
-&gt;Nov 16 23:42:10 archlinux kernel: RAX: 00000001689e6000 RBX: 0000000000=
-000040 RCX: 0000000000000c93
-&gt;Nov 16 23:42:10 archlinux kernel: RDX: 00001689e6c93480 RSI: 00001689e6=
-c93480 RDI: 00001689e6c93480
-&gt;Nov 16 23:42:10 archlinux kernel: RBP: 00007fcdff69d760 R08: 0000000000=
-000000 R09: 00007fcdff69d758
-&gt;Nov 16 23:42:10 archlinux kernel: R10: 0000000000000000 R11: 0000000000=
-000286 R12: 00001689e6ba6b40
-&gt;Nov 16 23:42:10 archlinux kernel: R13: 00001689e6ba6b00 R14: 00001689e6=
-d00f50 R15: 0000000000000002
-&gt;Nov 16 23:42:10 archlinux kernel: FS:  00007fcdff69e700 GS:  0000000000=
-000000
-&gt;Nov 16 23:42:10 archlinux kernel: Modules linked in: veth xt_nat xt_con=
-ntrack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptabl=
-e_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay at=
-h9k ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc =
-videobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_commo=
-n videodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg=
-80211 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwd=
-ep rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill l=
-pc_ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps=
-2 serio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gp=
-u_sched
-&gt;Nov 16 23:42:10 archlinux kernel: ---[ end trace 0bfef23d2a61f6e1 ]---
-&gt;Nov 16 23:42:10 archlinux kernel: ThreadPoolForeg: Corrupted page table=
- at address 1689e6ba8448
-&gt;Nov 16 23:42:10 archlinux kernel: PGD 8000000418dca067 P4D 8000000418dc=
-a067 PUD 40c0c9067 PMD 419432067 PTE ffffffffffffffff
-&gt;Nov 16 23:42:10 archlinux kernel: Bad pagetable: 000d [#9] SMP PTI
-&gt;Nov 16 23:42:10 archlinux kernel: CPU: 1 PID: 1847 Comm: ThreadPoolFore=
-g Tainted: G      D           5.3.11-2-clear #1
-&gt;Nov 16 23:42:10 archlinux kernel: Hardware name: CLEVO                 =
-            P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
-&gt;Nov 16 23:42:10 archlinux kernel: RIP: 0033:0x7fce0d6944e8
-&gt;Nov 16 23:42:10 archlinux kernel: Code: ff ff 48 8d 1d 71 87 5d 00 4c 8=
-b 3c cb 49 31 c7 49 83 ff 7f 77 75 4d 85 ed 0f 84 0f 01 00 00 44 89 fb 48 c=
-1 e3 05 4e 8d 24 2b &lt;45&gt; 8b 74 1d 08 41 83 c6 01 4c 89 e7 48 89 d6 e8=
- 24 e0 9a f9 45 89
-&gt;Nov 16 23:42:10 archlinux kernel: RSP: 002b:00007fcdfe69b730 EFLAGS: 00=
-010202
-&gt;Nov 16 23:42:10 archlinux kernel: RAX: 00000001689e6000 RBX: 0000000000=
-000040 RCX: 0000000000000d14
-&gt;Nov 16 23:42:10 archlinux kernel: RDX: 00001689e6d14fc0 RSI: 00001689e6=
-d14fc0 RDI: 00001689e6d14fc0
-&gt;Nov 16 23:42:10 archlinux kernel: RBP: 00007fcdfe69b760 R08: 0000000000=
-000000 R09: 00007fcdfe69b758
-&gt;Nov 16 23:42:10 archlinux kernel: R10: 0000000000000000 R11: 0000000000=
-000286 R12: 00001689e6ba8440
-&gt;Nov 16 23:42:10 archlinux kernel: R13: 00001689e6ba8400 R14: 00001689e6=
-d00d70 R15: 0000000000000002
-&gt;Nov 16 23:42:10 archlinux kernel: FS:  00007fcdfe69c700 GS:  0000000000=
-000000
-&gt;Nov 16 23:42:10 archlinux kernel: Modules linked in: veth xt_nat xt_con=
-ntrack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptabl=
-e_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay at=
-h9k ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc =
-videobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_commo=
-n videodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg=
-80211 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwd=
-ep rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill l=
-pc_ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps=
-2 serio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gp=
-u_sched
-&gt;Nov 16 23:42:10 archlinux kernel: ---[ end trace 0bfef23d2a61f6e2 ]---
-&gt;Nov 16 23:42:10 archlinux kernel: ThreadPoolForeg: Corrupted page table=
- at address 1689e6ba45c8
-&gt;Nov 16 23:42:10 archlinux kernel: PGD 8000000418dca067 P4D 8000000418dc=
-a067 PUD 40c0c9067 PMD 419432067 PTE ffffffffffffffff
-&gt;Nov 16 23:42:10 archlinux kernel: Bad pagetable: 000d [#10] SMP PTI
-&gt;Nov 16 23:42:10 archlinux kernel: CPU: 7 PID: 1842 Comm: ThreadPoolFore=
-g Tainted: G      D           5.3.11-2-clear #1
-&gt;Nov 16 23:42:10 archlinux kernel: Hardware name: CLEVO                 =
-            P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
-&gt;Nov 16 23:42:10 archlinux kernel: RIP: 0033:0x7fce0d6944e8
-&gt;Nov 16 23:42:10 archlinux kernel: Code: ff ff 48 8d 1d 71 87 5d 00 4c 8=
-b 3c cb 49 31 c7 49 83 ff 7f 77 75 4d 85 ed 0f 84 0f 01 00 00 44 89 fb 48 c=
-1 e3 05 4e 8d 24 2b &lt;45&gt; 8b 74 1d 08 41 83 c6 01 4c 89 e7 48 89 d6 e8=
- 24 e0 9a f9 45 89
-&gt;Nov 16 23:42:10 archlinux kernel: RSP: 002b:00007fce00ea0730 EFLAGS: 00=
-010202
-&gt;Nov 16 23:42:10 archlinux kernel: RAX: 00000001689e6000 RBX: 0000000000=
-000040 RCX: 0000000000000d14
-&gt;Nov 16 23:42:10 archlinux kernel: RDX: 00001689e6d14f00 RSI: 00001689e6=
-d14f00 RDI: 00001689e6d14f00
-&gt;Nov 16 23:42:10 archlinux kernel: RBP: 00007fce00ea0760 R08: 0000000000=
-000000 R09: 00007fce00ea0758
-&gt;Nov 16 23:42:10 archlinux kernel: R10: 0000000000000000 R11: 0000000000=
-000286 R12: 00001689e6ba45c0
-&gt;Nov 16 23:42:10 archlinux kernel: R13: 00001689e6ba4580 R14: 00001689e6=
-c9acd0 R15: 0000000000000002
-&gt;Nov 16 23:42:10 archlinux kernel: FS:  00007fce00ea1700 GS:  0000000000=
-000000
-&gt;Nov 16 23:42:10 archlinux kernel: Modules linked in: veth xt_nat xt_con=
-ntrack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptabl=
-e_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay at=
-h9k ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc =
-videobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_commo=
-n videodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg=
-80211 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwd=
-ep rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill l=
-pc_ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps=
-2 serio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gp=
-u_sched
-&gt;Nov 16 23:42:10 archlinux kernel: ---[ end trace 0bfef23d2a61f6e3 ]---
-&gt;Nov 16 23:42:10 archlinux kernel: ThreadPoolForeg: Corrupted page table=
- at address 1689e6ba5ec8
-&gt;Nov 16 23:42:10 archlinux kernel: PGD 8000000418dca067 P4D 8000000418dc=
-a067 PUD 40c0c9067 PMD 419432067 PTE ffffffffffffffff
-&gt;Nov 16 23:42:10 archlinux kernel: Bad pagetable: 000d [#11] SMP PTI
-&gt;Nov 16 23:42:10 archlinux kernel: CPU: 6 PID: 1844 Comm: ThreadPoolFore=
-g Tainted: G      D           5.3.11-2-clear #1
-&gt;Nov 16 23:42:10 archlinux kernel: Hardware name: CLEVO                 =
-            P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
-&gt;Nov 16 23:42:10 archlinux kernel: RIP: 0033:0x7fce0d6944e8
-&gt;Nov 16 23:42:10 archlinux kernel: Code: ff ff 48 8d 1d 71 87 5d 00 4c 8=
-b 3c cb 49 31 c7 49 83 ff 7f 77 75 4d 85 ed 0f 84 0f 01 00 00 44 89 fb 48 c=
-1 e3 05 4e 8d 24 2b &lt;45&gt; 8b 74 1d 08 41 83 c6 01 4c 89 e7 48 89 d6 e8=
- 24 e0 9a f9 45 89
-&gt;Nov 16 23:42:10 archlinux kernel: RSP: 002b:00007fcdffe9e730 EFLAGS: 00=
-010202
-&gt;Nov 16 23:42:10 archlinux kernel: RAX: 00000001689e6000 RBX: 0000000000=
-000040 RCX: 0000000000000c93
-&gt;Nov 16 23:42:10 archlinux kernel: RDX: 00001689e6c930c0 RSI: 00001689e6=
-c930c0 RDI: 00001689e6c930c0
-&gt;Nov 16 23:42:10 archlinux kernel: RBP: 00007fcdffe9e760 R08: 0000000000=
-000000 R09: 00007fcdffe9e758
-&gt;Nov 16 23:42:10 archlinux kernel: R10: 0000000000000000 R11: 0000000000=
-000286 R12: 00001689e6ba5ec0
-&gt;Nov 16 23:42:10 archlinux kernel: R13: 00001689e6ba5e80 R14: 00001689e6=
-cfa410 R15: 0000000000000002
-&gt;Nov 16 23:42:10 archlinux kernel: FS:  00007fcdffe9f700 GS:  0000000000=
-000000
-&gt;Nov 16 23:42:10 archlinux kernel: Modules linked in: veth xt_nat xt_con=
-ntrack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptabl=
-e_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay at=
-h9k ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc =
-videobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_commo=
-n videodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg=
-80211 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwd=
-ep rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill l=
-pc_ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps=
-2 serio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gp=
-u_sched
-&gt;Nov 16 23:42:10 archlinux kernel: ---[ end trace 0bfef23d2a61f6e4 ]---
-&gt;Nov 16 23:42:10 archlinux kernel: RIP: 0033:0x7fd64d347128
-&gt;Nov 16 23:42:10 archlinux kernel: Code: Bad RIP value.
-&gt;Nov 16 23:42:10 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00=
-010202
-&gt;Nov 16 23:42:10 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000=
-000000 RCX: 0000000000000000
-&gt;Nov 16 23:42:10 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000=
-000001 RDI: 00007fd643ec8080
-&gt;Nov 16 23:42:10 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd649=
-94b6d0 R09: 00007fd64994b6d0
-&gt;Nov 16 23:42:10 archlinux kernel: R10: 0000556223f42090 R11: 0000000000=
-000000 R12: 00007fd644005cc0
-&gt;Nov 16 23:42:10 archlinux kernel: RIP: 0033:0x7fd64d347128
-&gt;Nov 16 23:42:10 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223=
-e56cd0 R15: 0000556223dff780
-&gt;Nov 16 23:42:10 archlinux kernel: FS:  00007fcdfde9b700(0000) GS:ffff9d=
-5f9f140000(0000) knlGS:0000000000000000
-&gt;Nov 16 23:42:10 archlinux kernel: Code: Bad RIP value.
-&gt;Nov 16 23:42:10 archlinux kernel: RIP: 0033:0x7fd64d347128
-&gt;Nov 16 23:42:10 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00=
-010202
-&gt;Nov 16 23:42:10 archlinux kernel: Code: Bad RIP value.
-&gt;Nov 16 23:42:10 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000=
-000000 RCX: 0000000000000000
-&gt;Nov 16 23:42:10 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00=
-010202
-&gt;Nov 16 23:42:10 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000=
-000001 RDI: 00007fd643ec8080
-&gt;Nov 16 23:42:10 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd649=
-94b6d0 R09: 00007fd64994b6d0
-&gt;Nov 16 23:42:10 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000=
-000000 RCX: 0000000000000000
-&gt;Nov 16 23:42:10 archlinux kernel: R10: 0000556223f42090 R11: 0000000000=
-000000 R12: 00007fd644005cc0
-&gt;Nov 16 23:42:10 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000=
-000001 RDI: 00007fd643ec8080
-&gt;Nov 16 23:42:10 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223=
-e56cd0 R15: 0000556223dff780
-&gt;Nov 16 23:42:10 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd649=
-94b6d0 R09: 00007fd64994b6d0
-&gt;Nov 16 23:42:10 archlinux kernel: FS:  00007fcdff69e700(0000) GS:ffff9d=
-5f9f080000(0000) knlGS:0000000000000000
-&gt;Nov 16 23:42:10 archlinux kernel: RIP: 0033:0x7fd64d347128
-&gt;Nov 16 23:42:10 archlinux kernel: R10: 0000556223f42090 R11: 0000000000=
-000000 R12: 00007fd644005cc0
-&gt;Nov 16 23:42:10 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000=
-000080050033
-&gt;Nov 16 23:42:10 archlinux kernel: RIP: 0033:0x7fd64d347128
-&gt;Nov 16 23:42:10 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223=
-e56cd0 R15: 0000556223dff780
-&gt;Nov 16 23:42:10 archlinux kernel: CR2: 00007fd64d3470fe CR3: 0000000418=
-df0003 CR4: 00000000001606e0
-&gt;Nov 16 23:42:10 archlinux kernel: Code: Bad RIP value.
-&gt;Nov 16 23:42:10 archlinux kernel: FS:  00007fcdfe69c700(0000) GS:ffff9d=
-5f9f040000(0000) knlGS:0000000000000000
-&gt;Nov 16 23:42:10 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00=
-010202
-&gt;Nov 16 23:42:10 archlinux kernel: Code: Bad RIP value.
-&gt;Nov 16 23:42:10 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000=
-000080050033
-&gt;Nov 16 23:42:10 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00=
-010202
-&gt;Nov 16 23:42:10 archlinux kernel: CR2: 00007fd64d3470fe CR3: 0000000418=
-df0002 CR4: 00000000001606e0
-&gt;Nov 16 23:42:10 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000=
-000000 RCX: 0000000000000000
-&gt;Nov 16 23:42:10 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000=
-000001 RDI: 00007fd643ec8080
-&gt;Nov 16 23:42:10 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000=
-000000 RCX: 0000000000000000
-&gt;Nov 16 23:42:10 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd649=
-94b6d0 R09: 00007fd64994b6d0
-&gt;Nov 16 23:42:10 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000=
-000001 RDI: 00007fd643ec8080
-&gt;Nov 16 23:42:10 archlinux kernel: R10: 0000556223f42090 R11: 0000000000=
-000000 R12: 00007fd644005cc0
-&gt;Nov 16 23:42:10 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd649=
-94b6d0 R09: 00007fd64994b6d0
-&gt;Nov 16 23:42:10 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223=
-e56cd0 R15: 0000556223dff780
-&gt;Nov 16 23:42:10 archlinux kernel: R10: 0000556223f42090 R11: 0000000000=
-000000 R12: 00007fd644005cc0
-&gt;Nov 16 23:42:10 archlinux kernel: FS:  00007fce00ea1700(0000) GS:ffff9d=
-5f9f1c0000(0000) knlGS:0000000000000000
-&gt;Nov 16 23:42:10 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223=
-e56cd0 R15: 0000556223dff780
-&gt;Nov 16 23:42:10 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000=
-000080050033
-&gt;Nov 16 23:42:10 archlinux kernel: FS:  00007fcdffe9f700(0000) GS:ffff9d=
-5f9f100000(0000) knlGS:0000000000000000
-&gt;Nov 16 23:42:10 archlinux kernel: CR2: 00007fd64d3470fe CR3: 0000000418=
-df0002 CR4: 00000000001606e0
-&gt;Nov 16 23:42:10 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000=
-000080050033
-&gt;Nov 16 23:42:10 archlinux kernel: CR2: 00007fd64d3470fe CR3: 0000000418=
-df0006 CR4: 00000000001606e0
-&gt;Nov 16 23:42:10 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000=
-000080050033
-&gt;Nov 16 23:42:10 archlinux kernel: CR2: 00007fd64d3470fe CR3: 0000000418=
-df0004 CR4: 00000000001606e0
-&gt;Nov 16 23:42:12 archlinux kernel: QDBusConnection: Corrupted page table=
- at address 7fd643e01bf8
-&gt;Nov 16 23:42:12 archlinux kernel: PGD 80000003921e4067 P4D 80000003921e=
-4067 PUD 392157067 PMD 392168067 PTE ffffffffffffffff
-&gt;Nov 16 23:42:12 archlinux kernel: Bad pagetable: 000f [#12] SMP PTI
-&gt;Nov 16 23:42:12 archlinux kernel: CPU: 4 PID: 1627 Comm: QDBusConnectio=
-n Tainted: G      D           5.3.11-2-clear #1
-&gt;Nov 16 23:42:12 archlinux kernel: Hardware name: CLEVO                 =
-            P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
-&gt;Nov 16 23:42:12 archlinux kernel: RIP: 0033:0x7fd64ccb69fa
-&gt;Nov 16 23:42:12 archlinux kernel: Code: 24 08 e8 49 11 f9 ff 8b 54 24 1=
-c 48 8b 74 24 10 41 89 c0 48 8b 7c 24 08 b8 07 00 00 00 0f 05 48 3d 00 f0 f=
-f ff 77 2b 44 89 c7 &lt;89&gt; 44 24 08 e8 7d 11 f9 ff 8b 44 24 08 48 83 c4=
- 28 c3 0f 1f 40 00
-&gt;Nov 16 23:42:12 archlinux kernel: RSP: 002b:00007fd643e01bf0 EFLAGS: 00=
-010203
-&gt;Nov 16 23:42:12 archlinux kernel: RAX: 0000000000000001 RBX: 00007fd64c=
-8d2670 RCX: 00007fd64ccb69ef
-&gt;Nov 16 23:42:12 archlinux kernel: RDX: 00000000ffffffff RSI: 0000000000=
-000005 RDI: 0000000000000000
-&gt;Nov 16 23:42:12 archlinux kernel: RBP: 00007fd63c01e040 R08: 0000000000=
-000000 R09: 0000000000000001
-&gt;Nov 16 23:42:12 archlinux kernel: R10: 00007fd63c0198a0 R11: 0000000000=
-000293 R12: 0000000000000005
-&gt;Nov 16 23:42:12 archlinux kernel: R13: 00007fd643e01c30 R14: 00000000ff=
-ffffff R15: 00007fd63c000c30
-&gt;Nov 16 23:42:12 archlinux kernel: FS:  00007fd643e02700 GS:  0000000000=
-000000
-&gt;Nov 16 23:42:12 archlinux kernel: Modules linked in: veth xt_nat xt_con=
-ntrack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptabl=
-e_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay at=
-h9k ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc =
-videobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_commo=
-n videodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg=
-80211 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwd=
-ep rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill l=
-pc_ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps=
-2 serio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gp=
-u_sched
-&gt;Nov 16 23:42:12 archlinux kernel: ---[ end trace 0bfef23d2a61f6e5 ]---
-&gt;Nov 16 23:42:12 archlinux kernel: RIP: 0033:0x7fd64d347128
-&gt;Nov 16 23:42:12 archlinux kernel: Code: 8b 47 08 8d 78 01 41 89 7f 08 8=
-9 f7 29 cf 85 ff 7e 48 31 db 66 0f 1f 44 00 00 48 63 c1 48 01 d8 48 8b 7c c=
-2 10 48 85 ff 74 1d &lt;48&gt; 8b 07 4c 89 e9 4c 89 e2 48 89 ee ff 50 10 84=
- c0 75 4d 49 8b 56
-&gt;Nov 16 23:42:12 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00=
-010202
-&gt;Nov 16 23:42:12 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000=
-000000 RCX: 0000000000000000
-&gt;Nov 16 23:42:12 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000=
-000001 RDI: 00007fd643ec8080
-&gt;Nov 16 23:42:12 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd649=
-94b6d0 R09: 00007fd64994b6d0
-&gt;Nov 16 23:42:12 archlinux kernel: R10: 0000556223f42090 R11: 0000000000=
-000000 R12: 00007fd644005cc0
-&gt;Nov 16 23:42:12 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223=
-e56cd0 R15: 0000556223dff780
-&gt;Nov 16 23:42:12 archlinux kernel: FS:  00007fd643e02700(0000) GS:ffff9d=
-5f9f100000(0000) knlGS:0000000000000000
-&gt;Nov 16 23:42:12 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000=
-000080050033
-&gt;Nov 16 23:42:12 archlinux kernel: CR2: 00007fd643e01bf8 CR3: 0000000392=
-21c005 CR4: 00000000001606e0
-&gt;Nov 16 23:42:12 archlinux kernel: QDBusConnection: Corrupted page table=
- at address 7fd643e029e0
-&gt;Nov 16 23:42:12 archlinux kernel: PGD 80000003921e4067 P4D 80000003921e=
-4067 PUD 392157067 PMD 392168067 PTE ffffffffffffffff
-&gt;Nov 16 23:42:12 archlinux kernel: Bad pagetable: 0009 [#13] SMP PTI
-&gt;Nov 16 23:42:12 archlinux kernel: CPU: 4 PID: 1627 Comm: QDBusConnectio=
-n Tainted: G      D           5.3.11-2-clear #1
-&gt;Nov 16 23:42:12 archlinux kernel: Hardware name: CLEVO                 =
-            P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
-&gt;Nov 16 23:42:12 archlinux kernel: RIP: 0010:__get_user_8+0x21/0x2b
-&gt;Nov 16 23:42:12 archlinux kernel: Code: 1f 00 c3 66 0f 1f 44 00 00 48 8=
-3 c0 07 72 28 65 48 8b 14 25 40 5d 01 00 48 3b 82 58 1a 00 00 73 16 48 19 d=
-2 48 21 d0 0f 1f 00 &lt;48&gt; 8b 50 f9 31 c0 0f 1f 00 c3 0f 1f 00 31 d2 48=
- c7 c0 f2 ff ff ff
-&gt;Nov 16 23:42:12 archlinux kernel: RSP: 0000:ffffb2ff81e0fe70 EFLAGS: 00=
-010206
-&gt;Nov 16 23:42:12 archlinux kernel: RAX: 00007fd643e029e7 RBX: ffff9d5f33=
-089c00 RCX: 00000000000002d0
-&gt;Nov 16 23:42:12 archlinux kernel: RDX: ffffffffffffffff RSI: 00007fd643=
-e029e0 RDI: ffff9d5f12093c00
-&gt;Nov 16 23:42:12 archlinux kernel: RBP: ffffb2ff81e0fec0 R08: 0000000000=
-000001 R09: 0000000000000000
-&gt;Nov 16 23:42:12 archlinux kernel: R10: 0000000000000002 R11: 0000000000=
-000001 R12: ffff9d5f12093c00
-&gt;Nov 16 23:42:12 archlinux kernel: R13: 00007fd643e01b00 R14: ffff9d5f12=
-093c00 R15: ffff9d5f12093c00
-&gt;Nov 16 23:42:12 archlinux kernel: FS:  00007fd643e02700(0000) GS:ffff9d=
-5f9f100000(0000) knlGS:0000000000000000
-&gt;Nov 16 23:42:12 archlinux kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000=
-000080050033
-&gt;Nov 16 23:42:12 archlinux kernel: CR2: 00007fd643e029e0 CR3: 0000000392=
-21c005 CR4: 00000000001606e0
-&gt;Nov 16 23:42:12 archlinux kernel: Call Trace:
-&gt;Nov 16 23:42:12 archlinux kernel:  ? exit_robust_list+0x35/0x120
-&gt;Nov 16 23:42:12 archlinux kernel:  mm_release+0xf8/0x140
-&gt;Nov 16 23:42:12 archlinux kernel:  do_exit+0x164/0x730
-&gt;Nov 16 23:42:12 archlinux kernel:  ? do_page_fault+0x31/0x10e
-&gt;Nov 16 23:42:12 archlinux kernel:  rewind_stack_do_exit+0x17/0x20
-&gt;Nov 16 23:42:12 archlinux kernel: RIP: 0033:0x7fd64ccb69fa
-&gt;Nov 16 23:42:12 archlinux kernel: Code: 24 08 e8 49 11 f9 ff 8b 54 24 1=
-c 48 8b 74 24 10 41 89 c0 48 8b 7c 24 08 b8 07 00 00 00 0f 05 48 3d 00 f0 f=
-f ff 77 2b 44 89 c7 &lt;89&gt; 44 24 08 e8 7d 11 f9 ff 8b 44 24 08 48 83 c4=
- 28 c3 0f 1f 40 00
-&gt;Nov 16 23:42:12 archlinux kernel: RSP: 002b:00007fd643e01bf0 EFLAGS: 00=
-010203
-&gt;Nov 16 23:42:12 archlinux kernel: RAX: 0000000000000001 RBX: 00007fd64c=
-8d2670 RCX: 00007fd64ccb69ef
-&gt;Nov 16 23:42:12 archlinux kernel: RDX: 00000000ffffffff RSI: 0000000000=
-000005 RDI: 0000000000000000
-&gt;Nov 16 23:42:12 archlinux kernel: RBP: 00007fd63c01e040 R08: 0000000000=
-000000 R09: 0000000000000001
-&gt;Nov 16 23:42:12 archlinux kernel: R10: 00007fd63c0198a0 R11: 0000000000=
-000293 R12: 0000000000000005
-&gt;Nov 16 23:42:12 archlinux kernel: R13: 00007fd643e01c30 R14: 00000000ff=
-ffffff R15: 00007fd63c000c30
-&gt;Nov 16 23:42:12 archlinux kernel: Modules linked in: veth xt_nat xt_con=
-ntrack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptabl=
-e_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay at=
-h9k ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc =
-videobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_commo=
-n videodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg=
-80211 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwd=
-ep rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill l=
-pc_ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps=
-2 serio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gp=
-u_sched
-&gt;Nov 16 23:42:12 archlinux kernel: ---[ end trace 0bfef23d2a61f6e6 ]---
-&gt;Nov 16 23:42:12 archlinux kernel: RIP: 0033:0x7fd64d347128
-&gt;Nov 16 23:42:12 archlinux kernel: Code: 8b 47 08 8d 78 01 41 89 7f 08 8=
-9 f7 29 cf 85 ff 7e 48 31 db 66 0f 1f 44 00 00 48 63 c1 48 01 d8 48 8b 7c c=
-2 10 48 85 ff 74 1d &lt;48&gt; 8b 07 4c 89 e9 4c 89 e2 48 89 ee ff 50 10 84=
- c0 75 4d 49 8b 56
-&gt;Nov 16 23:42:12 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00=
-010202
-&gt;Nov 16 23:42:12 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000=
-000000 RCX: 0000000000000000
-&gt;Nov 16 23:42:12 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000=
-000001 RDI: 00007fd643ec8080
-&gt;Nov 16 23:42:12 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd649=
-94b6d0 R09: 00007fd64994b6d0
-&gt;Nov 16 23:42:12 archlinux kernel: R10: 0000556223f42090 R11: 0000000000=
-000000 R12: 00007fd644005cc0
-&gt;Nov 16 23:42:12 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223=
-e56cd0 R15: 0000556223dff780
-&gt;Nov 16 23:42:12 archlinux kernel: FS:  00007fd643e02700(0000) GS:ffff9d=
-5f9f100000(0000) knlGS:0000000000000000
-&gt;Nov 16 23:42:12 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000=
-000080050033
-&gt;Nov 16 23:42:12 archlinux kernel: CR2: 00007fd643e029e0 CR3: 0000000392=
-21c005 CR4: 00000000001606e0
-&gt;Nov 16 23:42:12 archlinux kernel: Fixing recursive fault but reboot is =
-needed!
-&gt;Nov 16 23:42:24 archlinux kernel: ThreadPoolForeg: Corrupted page table=
- at address 7f3b9cad9450
-&gt;Nov 16 23:42:24 archlinux kernel: PGD 800000040c0f6067 P4D 800000040c0f=
-6067 PUD 419b53067 PMD 419430067 PTE ffffffffffffffff
-&gt;Nov 16 23:42:25 archlinux kernel: Bad pagetable: 000d [#14] SMP PTI
-&gt;Nov 16 23:42:25 archlinux kernel: CPU: 2 PID: 1819 Comm: ThreadPoolFore=
-g Tainted: G      D           5.3.11-2-clear #1
-&gt;Nov 16 23:42:25 archlinux kernel: Hardware name: CLEVO                 =
-            P150EM/P150EM, BIOS 1.02.17PM v2 07/01/2013
-&gt;Nov 16 23:42:25 archlinux kernel: RIP: 0033:0x7f3ba7014207
-&gt;Nov 16 23:42:25 archlinux kernel: Code: 00 66 90 48 89 da 48 c1 e2 04 4=
-9 8b 44 17 18 48 85 c0 0f 84 a5 00 00 00 49 8b 54 17 10 48 3b 15 6f 8d 01 0=
-0 0f 87 22 01 00 00 &lt;4c&gt; 8b 80 50 04 00 00 49 39 d4 48 8b b0 48 04 00=
- 00 4c 0f 42 e2 4c
-&gt;Nov 16 23:42:25 archlinux kernel: RSP: 002b:00007f3b9779a450 EFLAGS: 00=
-010297
-&gt;Nov 16 23:42:25 archlinux kernel: RAX: 00007f3b9cad9000 RBX: 0000000000=
-00000a RCX: 0000000000000000
-&gt;Nov 16 23:42:25 archlinux kernel: RDX: 0000000000000001 RSI: 0000000000=
-000000 RDI: 000000000000000a
-&gt;Nov 16 23:42:25 archlinux kernel: RBP: 0000000000000000 R08: 0000000000=
-000009 R09: 0000000000000010
-&gt;Nov 16 23:42:25 archlinux kernel: R10: 00000000000001f9 R11: 0000000000=
-000094 R12: 0000000000000001
-&gt;Nov 16 23:42:25 archlinux kernel: R13: 0000000000000000 R14: 0000000000=
-000006 R15: 00007f3b9c1ca560
-&gt;Nov 16 23:42:25 archlinux kernel: FS:  00007f3b9779b700 GS:  0000000000=
-000000
-&gt;Nov 16 23:42:25 archlinux kernel: Modules linked in: veth xt_nat xt_con=
-ntrack xt_MASQUERADE nf_conntrack_netlink xt_addrtype iptable_filter iptabl=
-e_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 bpfilter overlay at=
-h9k ath9k_common ath9k_hw mac80211 uvcvideo ath mei_hdcp videobuf2_vmalloc =
-videobuf2_memops snd_hda_codec_hdmi videobuf2_v4l2 wmi_bmof videobuf2_commo=
-n videodev snd_hda_codec_realtek mc snd_hda_codec_generic ledtrig_audio cfg=
-80211 snd_hda_intel joydev snd_hda_codec snd_hda_core psmouse r8169 snd_hwd=
-ep rtsx_pci_ms i2c_i801 mei_me snd_pcm realtek memstick mei libphy rfkill l=
-pc_ich snd_timer snd wmi thermal soundcore battery ac ip_tables atkbd libps=
-2 serio_raw i8042 hid_logitech_hidpp amdgpu amd_iommu_v2 hid_logitech_dj gp=
-u_sched
-&gt;Nov 16 23:42:25 archlinux kernel: ---[ end trace 0bfef23d2a61f6e7 ]---
-&gt;Nov 16 23:42:25 archlinux kernel: RIP: 0033:0x7fd64d347128
-&gt;Nov 16 23:42:25 archlinux kernel: Code: Bad RIP value.
-&gt;Nov 16 23:42:25 archlinux kernel: RSP: 002b:00007fffc622cfa0 EFLAGS: 00=
-010202
-&gt;Nov 16 23:42:25 archlinux kernel: RAX: 0000000000000000 RBX: 0000000000=
-000000 RCX: 0000000000000000
-&gt;Nov 16 23:42:25 archlinux kernel: RDX: 0000556223eec720 RSI: 0000000000=
-000001 RDI: 00007fd643ec8080
-&gt;Nov 16 23:42:25 archlinux kernel: RBP: 0000556223e115e0 R08: 00007fd649=
-94b6d0 R09: 00007fd64994b6d0
-&gt;Nov 16 23:42:25 archlinux kernel: R10: 0000556223f42090 R11: 0000000000=
-000000 R12: 00007fd644005cc0
-&gt;Nov 16 23:42:25 archlinux kernel: R13: 00007fffc622cfe8 R14: 0000556223=
-e56cd0 R15: 0000556223dff780
-&gt;Nov 16 23:42:25 archlinux kernel: FS:  00007f3b9779b700(0000) GS:ffff9d=
-5f9f080000(0000) knlGS:0000000000000000
-&gt;Nov 16 23:42:25 archlinux kernel: CS:  0033 DS: 0000 ES: 0000 CR0: 0000=
-000080050033
-&gt;Nov 16 23:42:25 archlinux kernel: CR2: 00007fd64d3470fe CR3: 0000000392=
-15c005 CR4: 00000000001606e0
-&gt;Nov 16 23:43:22 archlinux audit[1884]: ANOM_ABEND auid=3D1000 uid=3D100=
-0 gid=3D1000 ses=3D2 pid=3D1884 comm=3D&quot;vulkandriverque&quot; exe=3D&q=
-uot;/home/saad/.local/share/Steam/ubuntu12_64/vulkandriverquery&quot; sig=
-=3D6 res=3D1
-&gt;Nov 16 23:43:22 archlinux kernel: audit: type=3D1701 audit(1573965802.3=
-47:180): auid=3D1000 uid=3D1000 gid=3D1000 ses=3D2 pid=3D1884 comm=3D&quot;=
-vulkandriverque&quot; exe=3D&quot;/home/saad/.local/share/Steam/ubuntu12_64=
-/vulkandriverquery&quot; sig=3D6 res=3D1
-&gt;Nov 16 23:43:22 archlinux systemd[1]: Created slice system-systemd\x2dc=
-oredump.slice.
-&gt;Nov 16 23:43:22 archlinux systemd[1]: Started Process Core Dump (PID 23=
-61/UID 0).
-&gt;Nov 16 23:43:22 archlinux audit[1]: SERVICE_START pid=3D1 uid=3D0 auid=
-=3D4294967295 ses=3D4294967295 msg=3D'unit=3Dsystemd-coredump&#64;0-2361-0 =
-comm=3D&quot;systemd&quot; exe=3D&quot;/usr/lib/systemd/systemd&quot; hostn=
-ame=3D? addr=3D? terminal=3D? res=3Dsuccess'
-&gt;Nov 16 23:43:22 archlinux kernel: audit: type=3D1130 audit(1573965802.3=
-58:181): pid=3D1 uid=3D0 auid=3D4294967295 ses=3D4294967295 msg=3D'unit=3Ds=
-ystemd-coredump&#64;0-2361-0 comm=3D&quot;systemd&quot; exe=3D&quot;/usr/li=
-b/systemd/systemd&quot; hostname=3D? addr=3D? terminal=3D? res=3Dsuccess'
-&gt;Nov 16 23:43:22 archlinux kernel: BUG: Bad rss-counter state mm:0000000=
-097021009 idx:0 val:304
-&gt;Nov 16 23:43:27 archlinux systemd-coredump[2362]: Process 1884 (vulkand=
-riverque) of user 1000 dumped core.
-&gt;=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20
-&gt;                                                  Stack trace of thread=
- 1884:
-&gt;                                                  #0  0x00007f0bcab12f2=
-5 raise (libc.so.6)
-&gt;                                                  #1  0x00007f0bcaafc89=
-7 abort (libc.so.6)
-&gt;                                                  #2  0x00007f0bcaafc76=
-7 __assert_fail_base.cold (libc.so.6)
-&gt;                                                  #3  0x00007f0bcab0b52=
-6 __assert_fail (libc.so.6)
-&gt;                                                  #4  0x000055793a013d1=
-7 n/a (/home/saad/.local/share/Steam/ubuntu12_64/vulkandriverquery)
-&gt;                                                  #5  0x000055793a011c7=
-a n/a (/home/saad/.local/share/Steam/ubuntu12_64/vulkandriverquery)
-&gt;                                                  #6  0x000055793a007fd=
-b n/a (/home/saad/.local/share/Steam/ubuntu12_64/vulkandriverquery)
-&gt;                                                  #7  0x000055793a00960=
-0 n/a (/home/saad/.local/share/Steam/ubuntu12_64/vulkandriverquery)
-&gt;                                                  #8  0x000055793a0062a=
-3 n/a (/home/saad/.local/share/Steam/ubuntu12_64/vulkandriverquery)
-&gt;                                                  #9  0x00007f0bcaafe15=
-3 __libc_start_main (libc.so.6)
-&gt;                                                  #10 0x000055793a0060e=
-a n/a (/home/saad/.local/share/Steam/ubuntu12_64/vulkandriverquery)
-&gt;Nov 16 23:43:27 archlinux systemd[1]: <a href=3D"mailto:systemd-coredum=
-p&#64;0-2361-0.service">systemd-coredump&#64;0-2361-0.service</a>: Succeede=
-d.
-&gt;Nov 16 23:43:27 archlinux audit[1]: SERVICE_STOP pid=3D1 uid=3D0 auid=
-=3D4294967295 ses=3D4294967295 msg=3D'unit=3Dsystemd-coredump&#64;0-2361-0 =
-comm=3D&quot;systemd&quot; exe=3D&quot;/usr/lib/systemd/systemd&quot; hostn=
-ame=3D? addr=3D? terminal=3D? res=3Dsuccess'
-&gt;Nov 16 23:43:27 archlinux kernel: audit: type=3D1131 audit(1573965807.7=
-85:182): pid=3D1 uid=3D0 auid=3D4294967295 ses=3D4294967295 msg=3D'unit=3Ds=
-ystemd-coredump&#64;0-2361-0 comm=3D&quot;systemd&quot; exe=3D&quot;/usr/li=
-b/systemd/systemd&quot; hostname=3D? addr=3D? terminal=3D? res=3Dsuccess'</=
-span ></pre>
+&gt;Nov 17 01:03:49 archlinux kernel: CR2: 00000000f7f7991f CR3: 0000000366=
+c06002 CR4: 00000000001606e0
+&gt;Nov 17 01:03:49 archlinux kernel: Fixing recursive fault but reboot is =
+needed!</span ></pre>
         </div>
       </p>
 
@@ -2076,9 +484,9 @@ span ></pre>
     </body>
 </html>=
 
---15739725680.71a00.7282--
+--15739726780.7cdc9a8.8082--
 
---===============1127156878==
+--===============1177036035==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -2088,4 +496,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1127156878==--
+--===============1177036035==--
