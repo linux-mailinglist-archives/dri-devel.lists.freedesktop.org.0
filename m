@@ -1,49 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98E87FF9D8
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Nov 2019 14:19:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 185BBFFA36
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Nov 2019 15:24:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 000FE6E0AB;
-	Sun, 17 Nov 2019 13:19:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B3E189F47;
+	Sun, 17 Nov 2019 14:24:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6F126E0AB
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Nov 2019 13:19:16 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id C2D76FB03;
- Sun, 17 Nov 2019 14:19:13 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RVh6UuBQgdbp; Sun, 17 Nov 2019 14:19:11 +0100 (CET)
-Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id 1BCAA4994A; Sun, 17 Nov 2019 14:19:05 +0100 (CET)
-Date: Sun, 17 Nov 2019 14:19:05 +0100
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Lee Jones <lee.jones@linaro.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, Robert Chiras <robert.chiras@nxp.com>,
- Sam Ravnborg <sam@ravnborg.org>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH v7 0/2] drm: bridge: Add NWL MIPI DSI host controller
- support
-Message-ID: <20191117131904.GA3708@bogon.m.sigxcpu.org>
-References: <cover.1571494140.git.agx@sigxcpu.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EA75389FD9
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Nov 2019 14:24:39 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id E6541720E2; Sun, 17 Nov 2019 14:24:39 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
+Date: Sun, 17 Nov 2019 14:24:39 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: rodamorris@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109955-502-q7xwkJOGGW@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
+References: <bug-109955-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <cover.1571494140.git.agx@sigxcpu.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,179 +52,1741 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0792946836=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCk9uIFNhdCwgT2N0IDE5LCAyMDE5IGF0IDA0OjEyOjIzUE0gKzAyMDAsIEd1aWRvIEfDvG50
-aGVyIHdyb3RlOgo+IFRoaXMgYWRkcyBpbml0aWFsIHN1cHBvcnQgZm9yIHRoZSBOV0wgTUlQSSBE
-U0kgSG9zdCBjb250cm9sbGVyIGZvdW5kIG9uIGkuTVg4Cj4gU29Dcy4KCklzIHRoZXJlIGFueXRo
-aW5nIGkgY2FuIGRvIHRvIG1vdmUgdGhpcyBmb3J3YXJkPyBBcyBmYXIgYXMgaSBjYW4gdGVsbAph
-bGwgcmV2aWV3IGNvbW1lbnRzIHNob3VsZCBiZSBhZGRyZXNzZWQuCkNoZWVycywKIC0tIEd1aWRv
-Cgo+IAo+IEl0IGFkZHMgc3VwcG9ydCBmb3IgdGhlIGkuTVg4TVEgYnV0IHRoZSBzYW1lIElQIGNv
-cmUgY2FuIGFsc28gYmUgZm91bmQgb24gZS5nLgo+IGkuTVg4UVhQLiBJIGFkZGVkIHRoZSBuZWNl
-c3NhcnkgaG9va3MgdG8gc3VwcG9ydCBvdGhlciBpbXg4IHZhcmlhbnRzIGJ1dCBzaW5jZQo+IEkg
-b25seSBoYXZlIGlteDhtcSBib2FyZHMgdG8gdGVzdCBJIG9taXR0ZWQgdGhlIHBsYXRmb3JtIGRh
-dGEgZm9yIG90aGVyIFNvQ3MuCj4gCj4gVGhlIGNvZGUgaXMgYmFzZWQgb24gTlhQcyBCU1Agc28g
-SSBhZGRlZCBSb2JlcnQgQ2hpcmFzIGFzCj4gQ28tYXV0aG9yZWQtYnkuCj4gCj4gVGhlIG1vc3Qg
-bm90YWJsZSBjaGFuZ2VzIG92ZXIgdGhlIEJTUCBkcml2ZXIgYXJlCj4gIC0gQ2FsY3VsYXRlIEhT
-IG1vZGUgdGltaW5nIGZyb20gcGh5X2NvbmZpZ3VyZV9vcHRzX21pcGlfZHBoeQo+ICAtIFBlcmZv
-cm0gYWxsIGNsb2NrIHNldHVwIHZpYSBEVAo+ICAtIE1lcmdlIG53bC1pbXggYW5kIG53bCBkcml2
-ZXJzCj4gIC0gQWRkIEIwIHNpbGlvbiByZXZpc2lvbiBxdWlyawo+ICAtIGJlY29tZSBhIGJyaWRn
-ZSBkcml2ZXIgdG8gaG9vayBpbnRvIG14c2ZiIC8gZGNzcwo+ICAgIGlteC1kaXNwbGF5LXN1YnN5
-c3RlbSBzbyBpdCBtYWtlcyBzZW5zZSB0byBtYWtlIGl0IGRyaXZlIGEgYnJpZGdlIGZvciBkc2kg
-YXMKPiAgICB3ZWxsKS4KPiAgLSBVc2UgcGFuZWxfYnJpZGdlIHRvIGF0dGFjaCB0aGUgcGFuZWwK
-PiAgLSBVc2UgbXVsdGlwbGV4IGZyYW1ld29yayBpbnN0ZWFkIG9mIGFjY2Vzc2luZyBzeXNjb24g
-ZGlyZWN0bHkKPiAKPiBUaGlzIGhhcyBiZWVuIHRlc3RlZCBvbiBhIExpYnJlbSA1IGRldmtpdCB1
-c2luZyBteHNmYiB3aXRoIFJvYmVydCdzIHBhdGNoZXNbMV0KPiBhbmQgdGhlIHJvY2t0ZWNoLWpo
-MDU3bjAwOTAwIHBhbmVsIGRyaXZlciBvbiBuZXh0LTIwMTkxMDE4LiBUaGUgRENTUyBjYW4gbGF0
-ZXIKPiBvbiBhbHNvIGFjdCBhcyBpbnB1dCBzb3VyY2UgdG9vLgo+IAo+IENoYW5nZXMgZnJvbSB2
-NzoKPiAtIFBlciByZXZpZXcgY29tbWVudHMgYnkgQW5kcnplaiBIYWpkYQo+ICAgaHR0cHM6Ly9s
-b3JlLmtlcm5lbC5vcmcvbGludXgtYXJtLWtlcm5lbC9jODZiN2NhMi03Nzk5LWVhZmQtYzM4MC1l
-NGI1NTE1MjA4MzdAc2Ftc3VuZy5jb20vCj4gICAtIERyb3Agc3BhcmUgZW1wdHkgbGluZQo+ICAg
-LSBoYW5kbGUgbndsX2RzaV93cml0ZSBlcnJvcnMKPiAgIC0gYmV0dGVyIGhhbmRsZSByZWFkIGVy
-cm9ycwo+ICAgLSB1bndpbmQgaW4gY2FzZSBvZiBlcnJvciBpbiBud2xfZHNpX2VuYWJsZQo+ICAg
-LSB1c2UgYnJpZGdlX3RvX2RzaSgpIGluc3RlYWQgb2YgYWNjZXNzaW5nIGRyaXZlcl9wcml2YXRl
-Cj4gICAtIGRvbid0IGxvZyBvbiAtRVBST0JFREVGRVIgd2hlbiBmZXRoaW5nIHRoZSByZXNldCBj
-b250cm9sbGVyCj4gICAtIHVzZSBlbmRwb2ludCBudW1iZXIgdG8gZGV0ZXJtaW5lIGlucHV0Cj4g
-LSBTcG90dGVkIGJ5IGtidWlsZCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPgo+ICAgaHR0cHM6
-Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtYXJtLWtlcm5lbC8yMDE5MDkyMzA2NDQucWZTS2JOZjkl
-MjVsa3BAaW50ZWwuY29tLwo+ICAgVXNlIHNpZ25lZCByZXR1cm4gdHlwZSBmb3IgbndsX2RzaV9n
-ZXRfZHBpX3BpeGVsX2Zvcm1hdAo+IC0gRHJvcCBjb25uZWN0b3IgdHlwZSBmcm9tIGRybV9wYW5l
-bF9icmlkZ2VfYWRkCj4gLSBEb24ndCBmb3JnZXQgdG8gc2V0IGFuIGVycm9yIHZhbHVlIG9uIGRz
-aSByZWFkcwo+IAo+IENoYW5nZXMgZnJvbSB2NToKPiAtIFBlciByZXZpZXcgY29tbWVudHMgYnkg
-QW5kcnplaiBIYWpkYQo+ICAgaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvYXJjaGl2ZXMv
-ZHJpLWRldmVsLzIwMTktU2VwdGVtYmVyLzIzNTI4MS5odG1sCj4gICAtIEZpeCBpbmNsdWRlIGZp
-bGUgb3JkZXJpbmcKPiAgIC0gQWRkIGEgY29tbWVudCB0byBud2xfZHNpX3BsYXRmb3JtX2RhdGEg
-dGhhdCB3aWxsIGFsbG93IHRvIGFkZCBzdXBwb3J0Cj4gICAgIGF0IGxlYXN0IGZvciB0aGUgaS5N
-WDhRTQo+ICAgLSBNZXJnZSBkcml2ZXIgaW50byBhIHNpbmdsZSBmaWxlIHBsdXMgdGhlIHJlZ2lz
-dGVyIGRlZnMgaW4gYSBzZXBhcmF0ZSBoZWFkZXIKPiAtIE1ha2UgbW9yZSBmdW5jdGlvbnMgYW5k
-IHN0cnVjdHMgc3RhdGljCj4gCj4gQ2hhbmdlcyBmcm9tIHY0Ogo+IC0gQ29sbGVjdCBSZXZpZXdl
-ZC1ieTogZnJvbSBSb2IgSGVycmluZywgdGhhbmtzIQo+ICAgaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvYXJjaGl2ZXMvZHJpLWRldmVsLzIwMTktU2VwdGVtYmVyLzIzMzk3OS5odG1sCj4g
-LSBTcG90dGVkIGJ5IGtidWlsZCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPgo+ICAgaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvYXJjaGl2ZXMvZHJpLWRldmVsLzIwMTktU2VwdGVtYmVy
-LzIzMzg2MC5odG1sCj4gICBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9hcmNoaXZlcy9k
-cmktZGV2ZWwvMjAxOS1TZXB0ZW1iZXIvMjMzODYzLmh0bWwKPiAgIC0gZml4IGZvcm1hdCBzdHJp
-bmcgZm9yIHNpemVfdAo+ICAgLSBVc2UgRElWNjRfVTY0X1JPVU5EX1VQIHRvIGZpeCBidWlsZCBv
-biAzMiBiaXQgYXJjaGl0ZWN0dXJlcwo+ICAgICBXZSBjYW4ndCB1c2Ugc2ltcGxlIHNoaWZ0IHNp
-bmQgZCBhbmQgbiBhcmUgc2ltaWxhciBpbiBzaXplIGFuZAo+ICAgICB3ZSBuZWVkIGZ1bGwgcHJl
-Y2lzaW9uCj4gLSBGaXggZGVidWcgY2ZnX3RfcG9zdCBkZWJ1ZyBwcmludCBvdXQKPiAtIEF2b2lk
-IFBTRUNfUEVSX1NFQwo+IC0gTW92ZSB0aW1lb3V0IC8gb3ZlcmZsb3cgaGFuZGxpbmcgb3V0IG9m
-IG53bF9kc2lfZmluaXNoX3RyYW5zbWlzc2lvbiwKPiAgIGl0IHdvdWxkIG5ldmVyIGVuZCB1cCBi
-ZWluZyByZXBvcnRlZCBzaW5jZSB0aGUgY2FsbCB0byB0aGUgZnVuY3Rpb24KPiAgIHdhcyBndWFy
-ZGVkIGJ5IGZsYWdzLgo+IC0gRHJvcCAnc3VwcG9ydCBmb3InIGZyb20gS0NvbmZpZyB0aXRsZSB0
-byBtYWtlIGl0IG1hdGNoIHRoZSBvdGhlcgo+ICAgZHJpdmVycyBpbiB0aGF0IHN1Ym1lbnUKPiAK
-PiBDaGFuZ2VzIGZyb20gdjM6Cj4gLSBQZXIgcmV2aWV3IGNvbW1lbnRzIGJ5IFJvYmVydCBDaGly
-YXMKPiAgIGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL2RyaS1kZXZlbC8y
-MDE5LUF1Z3VzdC8yMzI1ODAuaHRtbAo+ICAgLSBBZGQgUm9iZXJ0J3Mge1NpZ25lZC1vZmYsVGVz
-dGVkfS1ieToKPiAgIC0gUmVzcGVjdCBudW1iZXIgb2YgbGFuZXMgd2hlbiBjYWxjdWx0aW5nIGJh
-bmR3aWR0aCBsaW1pdHMKPiAgIC0gRHJvcCBkdXBsaWNhdGUgTldMX0RTSV9FTkFCTEVfTVVMVF9Q
-S1RTIHNldHVwCj4gLSBQZXIgdGVzdGluZyBieSBSb2JlciBDaGlyYXMKPiAgIGh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL2RyaS1kZXZlbC8yMDE5LUF1Z3VzdC8yMzM2ODgu
-aHRtbAo+ICAgLSBEcm9wIGR1cGxpY2F0ZSAoYW5kIHRvbyBlYXJseSkgZHJtX2JyaWRnZV9hZGQo
-KSBpbiBud2xfZGlyX3Byb2JlKCkgdGhhdAo+ICAgICBtYWRlIG14c2ZiIGZhaWwgdG8gY29ubmVj
-dCB0byB0aGUgYnJpZGdlIHNpbmNlIHRoZSBwYW5lbF9icmlkZ2Ugd2FzIG5vdCB1cAo+ICAgICB5
-ZXQuIGRybV9icmlkZ2VfYWRkKCkgaGFwcGVucyBpbiBud2xfZHNpX2hvc3RfYXR0YWNoKCkgd2hl
-cmUgYWZ0ZXIgdGhlCj4gICAgIHBhbmVsX2JyaWRnZSB3YXMgc2V0IHVwLgo+IC0gUGVyIHJldmll
-dyBjb21tZW50cyBieSBSb2IgSGVycmluZyBvbiBiaW5kaW5ncwo+ICAgaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvYXJjaGl2ZXMvZHJpLWRldmVsLzIwMTktQXVndXN0LzIzMzE5Ni5odG1s
-Cj4gICAtIGRyb3AgZGVzY3JpcHRpb24gZnJvbSBwb3dlci1kb21haW5zIGFuZCByZXNldHMKPiAg
-IC0gYWxsb3cgQlNEIDIgY2xhdXNlIGxpY2Vuc2UgYXMgd2VsbAo+ICAgLSBtYWtlIHBvcnRzIG1v
-cmUgc3BlY2lmaWMKPiAgIC0gYWRkICNhZGRyZXNzLWNlbGxzLCAjc2l6ZS1jZWxscyBhcyByZXF1
-aXJlZAo+ICAgLSB1c2UgYWRkaXRpb25hbFByb3BlcnRpZXMKPiAgIC0gcGFuZWwgaXMgb2YgdHlw
-ZSBvYmplY3QKPiAKPiBDaGFuZ2VzIGZyb20gdjI6Cj4gLSBQZXIgcmV2aWV3IGNvbW1lbnRzIGJ5
-IFJvYiBIZXJyaW5nCj4gICBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9hcmNoaXZlcy9k
-cmktZGV2ZWwvMjAxOS1BdWd1c3QvMjMwNDQ4Lmh0bWwKPiAgIC0gYmluZGluZ3M6Cj4gICAgIC0g
-U2ltcGxpZnkgYnkgcmVzdHJpY3RpbmcgdG8gZnNsLGlteDhtcS1ud2wtZHNpCj4gICAgIC0gZG9j
-dW1lbnQgcmVzZXQgbGluZXMKPiAgICAgLSBhZGQgcG9ydEB7MCwxfQo+ICAgICAtIHVzZSBhIHJl
-YWwgY29tcGF0aWJsZSBzdHJpbmcgZm9yIHRoZSBwYW5lbAo+ICAgICAtIHJlc2V0cyBhcmUgcmVx
-dWlyZWQKPiAtIFBlciByZXZpZXcgY29tbWVudHMgYnkgQXJuZCBCZXJnbWFubgo+ICAgaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvYXJjaGl2ZXMvZHJpLWRldmVsLzIwMTktQXVndXN0LzIz
-MDg2OC5odG1sCj4gICAtIERvbid0IGFjY2VzcyBpb211eGNfZ3ByIHJlZ3MgZGlyZWN0bHkuIFRo
-aXMgYWxsb3dzIHVzIHRvIGRyb3AgdGhlCj4gICAgIGZpcnN0IHBhdGNoIGluIHRoZSBzZXJpZXMg
-d2l0aCB0aGUgaW9tdXhjX2dwciBmaWVsZCBkZWZpbmVzLgo+IC0gUGVyIHJldmlldyBjb21tZW50
-cyBieSBMYXVyZW50IFBpbmNoYXJ0Cj4gICBGaXggd29yZGluZyBpbiBiaW5kaW5ncwo+IC0gQWRk
-IG11eC1jb250cm9scyB0byBiaW5kaW5ncwo+IC0gRG9uJ3QgcHJpbnQgZXJyb3IgbWVzc2FnZSBv
-biBkcGh5IHByb2JlIGRlZmVycmFsCj4gCj4gQ2hhbmdlcyBmcm9tIHYxOgo+IC0gUGVyIHJldmll
-dyBjb21tZW50cyBieSBTYW0gUmF2bmJvcmcKPiAgIGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL2FyY2hpdmVzL2RyaS1kZXZlbC8yMDE5LUp1bHkvMjI4MTMwLmh0bWwKPiAgIC0gQ2hhbmdl
-IGJpbmRpbmcgZG9jcyB0byBZQU1MCj4gICAtIGJ1aWxkOiBEb24ndCBhbHdheXMgdmlzaXQgaW14
-LW53bC8KPiAgIC0gYnVpbGQ6IEFkZCBoZWFkZXItdGVzdC15Cj4gICAtIFNvcnQgaGVhZGVycyBh
-Y2NvcmRpbmcgdG8gRFJNIGNvbnZlbnRpb24KPiAgIC0gVXNlIGRybV9kaXNwbGF5X21vZGUgaW5z
-dGVhZCBvZiB2aWRlbW9kZQo+IC0gUGVyIHJldmlldyBjb21tZW50cyBieSBGYWJpbyBFc3RldmFt
-Cj4gICBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9hcmNoaXZlcy9kcmktZGV2ZWwvMjAx
-OS1KdWx5LzIyODI5OS5odG1sCj4gICAtIERvbid0IHJlc3RyaWN0IGJ1aWxkIHRvIEFSQ0hfTVhD
-Cj4gICAtIERyb3AgdW51c2VkIGluY2x1ZGVzCj4gICAtIERyb3AgdW5yZWFjaGFibGUgY29kZSBp
-biBpbXhfbndsX2RzaV9icmlkZ2VfbW9kZV9maXh1cCgpCj4gICAtIERyb3AgcmVtYWluaW5nIGNh
-bGxzIG9mIGRldl9lcnIoKSBhbmQgdXNlIERSTV9ERVZfRVJSKCkKPiAgICAgY29uc2lzdGVudGx5
-Lgo+ICAgLSBVc2UgZGV2bV9wbGF0Zm9ybV9pb3JlbWFwX3Jlc291cmNlKCkKPiAgIC0gRHJvcCBk
-ZXZtX2ZyZWVfaXJxKCkgaW4gcHJvYmUoKSBlcnJvciBwYXRoCj4gICAtIFVzZSBzaW5nbGUgbGlu
-ZSBjb21tZW50cyB3aGVyZSBzdWZmaWNpZW50Cj4gICAtIFVzZSA8bGludXgvdGltZTY0Lmg+IGlu
-c3RlYWQgb2YgZGVmaW5pbmcgVVNFQ19QRVJfU0VDCj4gICAtIE1ha2UgaW5wdXQgc291cmNlIHNl
-bGVjdCBpbXg4IHNwZWNpZmljCj4gICAtIERyb3AgPGFzbS91bmFsaWduZWQuaD4gaW5jbHVzaW9u
-IChhZnRlciByZW1vdmFsIG9mIGdldF91bmFsaWduZWRfbGUzMikKPiAgIC0gRHJvcCBhbGwgRVhQ
-T1JUX1NZTUJPTF9HUEwoKSBmb3IgZnVuY3Rpb25zIHVzZWQgaW4gdGhlIHNhbWUgbW9kdWxlCj4g
-ICAgIGJ1dCBkaWZmZXJlbnQgc291cmNlIGZpbGVzLgo+ICAgLSBEcm9wIG53bF9kc2lfZW5hYmxl
-X3tyeCx0eH1fY2xvY2soKSBieSBpbnZva2luZyBjbGtfcHJlcGFyZV9lbmFibGUoKQo+ICAgICBk
-aXJlY3RseQo+ICAgLSBSZW1vdmUgcG9pbnRsZXNzIGNvbW1lbnQKPiAtIExhdXJlbnQgUGluY2hh
-cnQKPiAgIGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL2RyaS1kZXZlbC8y
-MDE5LUp1bHkvMjI4MzEzLmh0bWwKPiAgIGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL2Fy
-Y2hpdmVzL2RyaS1kZXZlbC8yMDE5LUp1bHkvMjI4MzA4Lmh0bWwKPiAgIC0gRHJvcCAob24gaU1Y
-OE1RKSB1bnVzZWQgY3NyIHJlZ21hcAo+ICAgLSBVc2UgTldMX01BWF9QTEFURk9STV9DTE9DS1Mg
-ZXZlcnl3aGVyZQo+ICAgLSBEcm9wIGdldF91bmFsaWduZWRfbGUzMigpIHVzYWdlCj4gICAtIHJl
-bW92ZSBkdXBsaWNhdGUgJ2ZvciB0aGUnIGluIGJpbmRpbmcgZG9jcwo+ICAgLSBEb24ndCBpbmNs
-dWRlIHVudXNlZCA8bGludXgvY2xrLXByb3ZpZGVyLmg+Cj4gICAtIERvbid0IGluY2x1ZGUgdW51
-c2VkIDxsaW51eC9jb21wb25lbnQuaD4KPiAgIC0gRHJvcCBkcG1zX21vZGUgZm9yIHRyYWNraW5n
-IHN0YXRlLCB0cnVzdCB0aGUgZHJtIGxheWVyIG9uIHRoYXQKPiAgIC0gVXNlIHBtX3J1bnRpbWVf
-cHV0KCkgaW5zdGVhZCBvZiBwbV9ydW50aW1lX3B1dF9zeW5jKCkKPiAgIC0gRG9uJ3Qgb3Zlcndy
-aXRlIGVuY29kZXIgdHlwZQo+ICAgLSBNYWtlIGlteF9ud2xfcGxhdGZvcm1fZGF0YSBjb25zdAo+
-ICAgLSBVc2UgdGhlIHJlc2V0IGNvbnRyb2xsZXIgQVBJIGluc3RlYWQgb2Ygb3BlbiBjb2Rpbmcg
-dGhhdCBwbGF0Zm9ybSBzcGVjaWZpYwo+ICAgICBwYXJ0Cj4gICAtIFVzZSA8bGludXgvYml0Zmll
-bGQuaD4gaW50ZWFkIG9mIG1ha2luZyB1cCBvdXIgb3duIGRlZmluZXMKPiAgIC0gbmFtZSBtaXBp
-X2RzaV90cmFuc2ZlciBsZXNzIGdlbmVyaWM6IG53bF9kc2lfdHJhbnNmZXIKPiAgIC0gZW5zdXJl
-IGNsZWFuIGluIC5yZW1vdmUgYnkgY2FsbGluZyBtaXBpX2RzaV9ob3N0X3VucmVnaXN0ZXIuCj4g
-ICAtIHByZWZpeCBjb25zdGFudHMgYnkgTldMX0RTSV8KPiAgIC0gcHJvcGVybHkgZm9ybWF0IHRy
-YW5zZmVyX2RpcmVjdGlvbiBlbnVtCj4gICAtIHNpbXBsaWZ5IHBsYXRmb3JtIGNsb2NrIGhhbmRs
-aW5nCj4gICAtIERvbid0IG1vZGlmeSBzdGF0ZSBpbiBtb2RlX2ZpeHVwKCkgYW5kIHVzZSBtb2Rl
-X3NldCgpIGluc3RlYWQKPiAgIC0gRHJvcCBicmlkZ2UgZGV0YWNoKCksIGFscmVhZHkgaGFuZGxl
-IGJ5IG53bF9kc2lfaG9zdF9kZXRhY2goKQo+ICAgLSBEcm9wIFVTRV8qX1FVSVJLKCkgbWFjcm9z
-Cj4gLSBEcm9wIChmb3Igbm93KSB1bnVzZWQgY2xvY2sgZGVmbml0aW9ucy4gJ3BpeGVsJyBhbmQg
-J2J5cGFzcycgY2xvY2sgd2lsbCBiZQo+ICAgdXNlZCBmb3IgaS5NWDggU29DcyBidXQgc2luY2Ug
-dGhleSdyZSB1bnVzZWQgYXRtIGRyb3AgdGhlIGRlZmluaXRpb25zIC0gYnV0Cj4gICBrZWVwIHRo
-ZSBsb2dpYyB0byBlbmFibGUvZGlzYWJsZSBzZXZlcmFsIGNsb2NrcyBpbiBwbGFjZSBzaW5jZSB3
-ZSBrbm93IHdlJ2xsCj4gICBuZWVkIGl0IGluIHRoZSBmdXR1cmUuCj4gCj4gQ2hhbmdlcyBmcm9t
-IHYwOgo+IC0gQWRkIHF1aXJrIGZvciBJTVE4TVEgc2lsaWNvbiBCMCByZXZpc2lvbiB0byBub3Qg
-bWVzcyB3aXRoIHRoZQo+ICAgc3lzdGVtIHJlc2V0IGNvbnRyb2xsZXIgb24gcG93ZXIgZG93biBz
-aW5jZSBlbmFibGUoKSB3b24ndCB3b3JrCj4gICBvdGhlcndpc2UuCj4gLSBEcm9wIGRldm1fZnJl
-ZV9pcnEoKSBoYW5kbGVkIGJ5IHRoZSBkZXZpY2UgZHJpdmVyIGNvcmUKPiAtIERpc2FibGUgdHgg
-ZXNjIGNsb2NrIGFmdGVyIHRoZSBwaHkgcG93ZXIgZG93biB0byB1bmJyZWFrCj4gICBkaXNhYmxl
-L2VuYWJsZSAodW5ibGFuay9ibGFuaykKPiAtIEFkZCBwb3J0cyB0byBkdCBiaW5kaW5nIGRvY3MK
-PiAtIFNlbGVjdCBHRU5FUklDX1BIWV9NSVBJX0RQSFkgaW5zdGVhZCBvZiBHRU5FUklDX1BIWSBm
-b3IKPiAgIHBoeV9taXBpX2RwaHlfZ2V0X2RlZmF1bHRfY29uZmlnCj4gLSBTZWxlY3QgRFJNX01J
-UElfRFNJCj4gLSBJbmNsdWRlIGRybV9wcmludC5oIHRvIGZpeCBidWlsZCBvbiBuZXh0LTIwMTkw
-NDA4Cj4gLSBEcm9wIHNvbWUgZGVidWdnaW5nIG1lc3NhZ2VzCj4gLSBOZXdsaW5lIHRlcm1pbmF0
-ZSBhbGwgRFJNXyBwcmludG91dHMKPiAtIFR1cm4gY29tcG9uZW50IGRyaXZlciBpbnRvIGEgZHJt
-IGJyaWRnZQo+IAo+IFswXTogaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvYXJjaGl2ZXMv
-ZHJpLWRldmVsLzIwMTktTWF5LzIxOTQ4NC5odG1sCj4gWzFdOiBodHRwczovL3BhdGNod29yay5m
-cmVlZGVza3RvcC5vcmcvc2VyaWVzLzYyODIyLwo+IAo+IEd1aWRvIEfDvG50aGVyICgyKToKPiAg
-IGR0LWJpbmRpbmdzOiBkaXNwbGF5L2JyaWRnZTogQWRkIGJpbmRpbmcgZm9yIE5XTCBtaXBpIGRz
-aSBob3N0Cj4gICAgIGNvbnRyb2xsZXIKPiAgIGRybS9icmlkZ2U6IEFkZCBOV0wgTUlQSSBEU0kg
-aG9zdCBjb250cm9sbGVyIHN1cHBvcnQKPiAKPiAgLi4uL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdl
-L253bC1kc2kueWFtbCAgICAgIHwgIDIwMyArKysKPiAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9L
-Y29uZmlnICAgICAgICAgICAgICAgIHwgICAxNiArCj4gIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uv
-TWFrZWZpbGUgICAgICAgICAgICAgICB8ICAgIDMgKwo+ICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdl
-L253bC1kc2kuYyAgICAgICAgICAgICAgfCAxMjM1ICsrKysrKysrKysrKysrKysrCj4gIGRyaXZl
-cnMvZ3B1L2RybS9icmlkZ2UvbndsLWRzaS5oICAgICAgICAgICAgICB8ICAxNDQgKysKPiAgNSBm
-aWxlcyBjaGFuZ2VkLCAxNjAxIGluc2VydGlvbnMoKykKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERv
-Y3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9ud2wtZHNpLnlh
-bWwKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvbndsLWRzaS5j
-Cj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL253bC1kc2kuaAo+
-IAo+IC0tIAo+IDIuMjMuMC5yYzEKPiAKPiAKPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwo+IGxpbnV4LWFybS1rZXJuZWwgbWFpbGluZyBsaXN0Cj4gbGlu
-dXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnCj4gaHR0cDovL2xpc3RzLmluZnJhZGVh
-ZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1hcm0ta2VybmVsCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0792946836==
+Content-Type: multipart/alternative; boundary="15740006793.f0F24F.25556"
+Content-Transfer-Encoding: 7bit
+
+
+--15740006793.f0F24F.25556
+Date: Sun, 17 Nov 2019 14:24:39 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+
+--- Comment #135 from Rodney A Morris <rodamorris@gmail.com> ---
+(In reply to haro41 from comment #127)
+> (In reply to Rodney A Morris from comment #126)
+> > If you want someone to apply your changes in bug report no. 110777 to t=
+he
+> > kernel for testing, I can so but will not be to it until this weekend.=
+=20
+>=20=20
+> ... thanks for you reply. Yes, that was the idea and would be very nice...
+>=20
+> Since i thing the proposed fix is more relevant to this very thread, let =
+me
+> repeat the proposed patch here:
+>=20
+> in 'drivers/gpu/drm/amd/powerplay/hwmgr/vega10_hwmgr.c':
+>=20
+> static void vega10_notify_smc_display_change(struct pp_hwmgr *hwmgr,
+>                 bool has_disp)
+> {
+> 	smum_send_msg_to_smc_with_parameter(hwmgr,
+> 	                                    PPSMC_MSG_SetUclkFastSwitch,
+> 	                                    has_disp ? 1 : 0);
+> /* proposed fix for crashes because of frequently mclk level 0/1 switchin=
+g */
+> 	smum_send_msg_to_smc_with_parameter(hwmgr, PPSMC_MSG_SetUclkDownHyst, 1);
+> }
+>=20
+> Only module 'amdgpu.ko' needs to be rebuild and copied, like this:
+>=20
+> $ cd /home/user/linux-5.x.x && make -j8 -C . M=3Ddrivers/gpu/drm/amd/amdg=
+pu
+>=20
+> # cp /home/user/linux-5.x.x/drivers/gpu/drm/amd/amdgpu/amdgpu.ko
+> /lib/modules/5.x.x/kernel/drivers/gpu/drm/amd/amdgpu/amdgpu.ko &&
+> update-initramfs -u
+>=20
+> ... 'user' and 'x.x' have to be adapted, most likely ...
+
+I applied the patch and recompiled the kernel with the modified amdgpu driv=
+er.=20
+Unfortunately, the patch did not resolve my issues.  I experienced a crash =
+with
+the same symptoms as before within 20 minutes of playing Battletech and wit=
+hin
+40 minutes of playing Stellaris.  Again, limiting the HMB memory clock to
+levels 1,2, and 3 prevents the system from crashing, indicating that someth=
+ing
+with the switching of the memory clock between level 0 and 1, 2, and 3 are
+causing the crash.
+
+Interestingly, the debug output indicates a possible problem in
+amdgpu/../display/dc/dc_helper.c at, I am guessing, line 332.  If I have ti=
+me
+later this week, I may take a look at the code in that file.  Here are the
+pertinent details from the Stellaris crash.
+
+Distro:  Fedora
+Kernel:  5.3.11
+
+dmesg crash output:
+
+[19792.781681] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,
+signaled seq=3D3875204, emitted seq=3D3875205
+[19792.781727] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
+on:
+process stellaris pid 13309 thread stellaris:cs0 pid 13310
+[19792.781731] amdgpu 0000:06:00.0: GPU reset begin!
+[19792.798997] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19792.799004] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19792.799006] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19792.799007] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19792.800004] pcieport 0000:00:03.0: AER: Device recovery failed
+[19794.419525] amdgpu: [powerplay] No response from smu
+[19794.419542] amdgpu: [powerplay] Failed message: 0xe, input parameter: 0x=
+0,
+error code: 0x0
+[19796.043441] amdgpu: [powerplay] No response from smu
+[19797.665903] amdgpu: [powerplay] No response from smu
+[19797.665907] amdgpu: [powerplay] Failed message: 0x42, input parameter: 0=
+x1,
+error code: 0x0
+[19799.287749] amdgpu: [powerplay] No response from smu
+[19800.910845] amdgpu: [powerplay] No response from smu
+[19800.910850] amdgpu: [powerplay] Failed message: 0x24, input parameter: 0=
+x0,
+error code: 0x0
+[19800.977846] [drm] REG_WAIT timeout 10us * 3500 tries - dce_mi_free_dmif
+line:634
+[19800.977855] ------------[ cut here ]------------
+[19800.977967] WARNING: CPU: 10 PID: 15123 at
+drivers/gpu/drm/amd/amdgpu/../display/dc/dc_helper.c:332
+generic_reg_wait.cold+0x31/0x53 [amdgpu]
+[19800.977968] Modules linked in: rfcomm xt_CHECKSUM xt_MASQUERADE nf_nat_t=
+ftp
+nf_conntrack_tftp tun bridge stp llc nf_conntrack_netbios_ns
+nf_conntrack_broadcast xt_CT ip6t_REJECT nf_reject_ipv6 ip6t_rpfilter
+ipt_REJECT nf_reject_ipv4 xt_conntrack ebtable_nat ebtable_broute ip6table_=
+nat
+ip6table_mangle ip6table_raw ip6table_security iptable_nat nf_nat
+iptable_mangle iptable_raw iptable_security nf_conntrack nf_defrag_ipv6
+nf_defrag_ipv4 libcrc32c ip_set nfnetlink ebtable_filter ebtables
+ip6table_filter ip6_tables iptable_filter cmac bnep nct6775 hwmon_vid vfat =
+fat
+intel_rapl_msr intel_rapl_common x86_pkg_temp_thermal intel_powerclamp core=
+temp
+kvm_intel kvm iTCO_wdt iTCO_vendor_support irqbypass iwlmvm crct10dif_pclmul
+snd_hda_codec_realtek crc32_pclmul snd_hda_codec_generic ledtrig_audio
+snd_hda_codec_hdmi ghash_clmulni_intel mac80211 snd_hda_intel intel_cstate
+snd_hda_codec libarc4 intel_uncore snd_hda_core btusb snd_hwdep btrtl
+intel_rapl_perf btbcm iwlwifi snd_seq btintel snd_seq_device
+[19800.977994]  bluetooth joydev mxm_wmi snd_pcm cfg80211 snd_timer
+ecdh_generic ecc rfkill snd mei_me soundcore i2c_i801 lpc_ich mei binfmt_mi=
+sc
+auth_rpcgss sunrpc ip_tables amdgpu amd_iommu_v2 gpu_sched ttm drm_kms_help=
+er
+drm crc32c_intel mpt3sas igb nvme e1000e dca raid_class i2c_algo_bit
+scsi_transport_sas nvme_core wmi usb_storage fuse
+[19800.978009] CPU: 10 PID: 15123 Comm: kworker/10:1 Not tainted
+5.3.11-300.RAM.local.fc31.x86_64+debug #1
+[19800.978011] Hardware name: To Be Filled By O.E.M. To Be Filled By O.E.M.=
+/X99
+Taichi, BIOS P1.80 04/06/2018
+[19800.978014] Workqueue: events drm_sched_job_timedout [gpu_sched]
+[19800.978082] RIP: 0010:generic_reg_wait.cold+0x31/0x53 [amdgpu]
+[19800.978084] Code: 4c 24 18 44 89 fa 89 ee 48 c7 c7 a8 ee 7e c0 e8 82 00 =
+a5
+fa 83 7b 20 01 0f 84 94 ee fd ff 48 c7 c7 a0 ed 7e c0 e8 6c 00 a5 fa <0f> 0=
+b e9
+81 ee fd ff 48 c7 c7 a0 ed 7e c0 89 54 24 04 e8 55 00 a5
+[19800.978086] RSP: 0018:ffff957a0520f690 EFLAGS: 00010246
+[19800.978087] RAX: 0000000000000024 RBX: ffff88d6a8030780 RCX:
+0000000000000006
+[19800.978089] RDX: 0000000000000000 RSI: ffff88d645a10e50 RDI:
+ffff88d6bf9d9e00
+[19800.978090] RBP: 000000000000000a R08: 0000120246405906 R09:
+0000000000000000
+[19800.978091] R10: 0000000000000000 R11: 0000000000000000 R12:
+00000000000035af
+[19800.978092] R13: 0000000000000dad R14: 0000000000000001 R15:
+0000000000000dac
+[19800.978093] FS:  0000000000000000(0000) GS:ffff88d6bf800000(0000)
+knlGS:0000000000000000
+[19800.978095] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[19800.978096] CR2: 0000289e30054000 CR3: 0000000278612003 CR4:
+00000000003606e0
+[19800.978097] DR0: 0000000000000000 DR1: 0000000000000000 DR2:
+0000000000000000
+[19800.978098] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7:
+0000000000000400
+[19800.978100] Call Trace:
+[19800.978152]  dce_mi_free_dmif+0xef/0x150 [amdgpu]
+[19800.978200]  dce110_reset_hw_ctx_wrap+0x15f/0x200 [amdgpu]
+[19800.978261]  dce110_apply_ctx_to_hw+0x4b/0x530 [amdgpu]
+[19800.978316]  ? amdgpu_pm_compute_clocks+0xc9/0x5f0 [amdgpu]
+[19800.978383]  ? dm_pp_apply_display_requirements+0x1a8/0x1c0 [amdgpu]
+[19800.978429]  dc_commit_state+0x26b/0x590 [amdgpu]
+[19800.978479]  amdgpu_dm_atomic_commit_tail+0xd18/0x1cf0 [amdgpu]
+[19800.978486]  ? check_irq_usage+0xa7/0x460
+[19800.978488]  ? find_held_lock+0x32/0x90
+[19800.978494]  ? check_path+0x22/0x40
+[19800.978496]  ? check_noncircular+0xaf/0x1b0
+[19800.978501]  ? __lock_acquire+0x247/0x1910
+[19800.978507]  ? find_held_lock+0x32/0x90
+[19800.978511]  ? mark_held_locks+0x50/0x80
+[19800.978513]  ? _raw_spin_unlock_irq+0x29/0x40
+[19800.978516]  ? lockdep_hardirqs_on+0xf0/0x180
+[19800.978518]  ? _raw_spin_unlock_irq+0x29/0x40
+[19800.978521]  ? wait_for_completion_timeout+0x75/0x190
+[19800.978534]  ? commit_tail+0x3c/0x70 [drm_kms_helper]
+[19800.978578]  ? amdgpu_dm_audio_eld_notify+0x60/0x60 [amdgpu]
+[19800.978583]  commit_tail+0x3c/0x70 [drm_kms_helper]
+[19800.978588]  drm_atomic_helper_commit+0xe3/0x150 [drm_kms_helper]
+[19800.978595]  drm_atomic_helper_disable_all+0x14c/0x160 [drm_kms_helper]
+[19800.978601]  drm_atomic_helper_suspend+0x66/0x100 [drm_kms_helper]
+[19800.978652]  dm_suspend+0x20/0x60 [amdgpu]
+[19800.978679]  amdgpu_device_ip_suspend_phase1+0x91/0xc0 [amdgpu]
+[19800.978707]  amdgpu_device_ip_suspend+0x1c/0x60 [amdgpu]
+[19800.978753]  amdgpu_device_pre_asic_reset+0x191/0x1a4 [amdgpu]
+[19800.978799]  amdgpu_device_gpu_recover+0x260/0x934 [amdgpu]
+[19800.978843]  amdgpu_job_timedout+0x115/0x140 [amdgpu]
+[19800.978848]  drm_sched_job_timedout+0x44/0xa0 [gpu_sched]
+[19800.978852]  process_one_work+0x272/0x5a0
+[19800.978858]  worker_thread+0x50/0x3b0
+[19800.978863]  kthread+0x108/0x140
+[19800.978865]  ? process_one_work+0x5a0/0x5a0
+[19800.978867]  ? kthread_park+0x80/0x80
+[19800.978870]  ret_from_fork+0x3a/0x50
+[19800.978878] irq event stamp: 211500
+[19800.978881] hardirqs last  enabled at (211499): [<ffffffffbb1715db>]
+console_unlock+0x46b/0x5d0
+[19800.978885] hardirqs last disabled at (211500): [<ffffffffbb0038da>]
+trace_hardirqs_off_thunk+0x1a/0x20
+[19800.978887] softirqs last  enabled at (211486): [<ffffffffbbe0035d>]
+__do_softirq+0x35d/0x45d
+[19800.978889] softirqs last disabled at (211479): [<ffffffffbb0f20c7>]
+irq_exit+0xf7/0x100
+[19800.978891] ---[ end trace 722d34fe8b4d4012 ]---
+[19802.595549] amdgpu: [powerplay] No response from smu
+[19804.214995] amdgpu: [powerplay] No response from smu
+[19804.215000] amdgpu: [powerplay] Failed message: 0x4c, input parameter: 0=
+x1,
+error code: 0x0
+[19805.837985] amdgpu: [powerplay] No response from smu
+[19807.458610] amdgpu: [powerplay] No response from smu
+[19807.458614] amdgpu: [powerplay] Failed message: 0x4c, input parameter: 0=
+x3,
+error code: 0x0
+[19809.078189] amdgpu: [powerplay] No response from smu
+[19810.698831] amdgpu: [powerplay] No response from smu
+[19810.698835] amdgpu: [powerplay] Failed message: 0x9, input parameter: 0x=
+f4,
+error code: 0x0
+[19812.321202] amdgpu: [powerplay] No response from smu
+[19813.938039] amdgpu: [powerplay] No response from smu
+[19813.938043] amdgpu: [powerplay] Failed message: 0xa, input parameter:
+0xa0b000, error code: 0x0
+[19815.558461] amdgpu: [powerplay] No response from smu
+[19817.179965] amdgpu: [powerplay] No response from smu
+[19817.179969] amdgpu: [powerplay] Failed message: 0xe, input parameter: 0x=
+0,
+error code: 0x0
+[19818.790507] amdgpu: [powerplay] No response from smu
+[19820.409551] amdgpu: [powerplay] No response from smu
+[19820.409555] amdgpu: [powerplay] Failed message: 0x42, input parameter: 0=
+x1,
+error code: 0x0
+[19822.030397] amdgpu: [powerplay] No response from smu
+[19823.648860] amdgpu: [powerplay] No response from smu
+[19823.648864] amdgpu: [powerplay] Failed message: 0x43, input parameter: 0=
+x1,
+error code: 0x0
+[19825.269615] amdgpu: [powerplay] No response from smu
+[19826.890755] amdgpu: [powerplay] No response from smu
+[19826.890760] amdgpu: [powerplay] Failed message: 0x24, input parameter: 0=
+x0,
+error code: 0x0
+[19826.907783] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19826.907789] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19826.907791] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19826.907793] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19826.907853] pcieport 0000:00:03.0: AER: Device recovery failed
+[19826.925319] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19826.925325] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19826.925326] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19826.925328] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19826.925371] pcieport 0000:00:03.0: AER: Device recovery failed
+[19826.942858] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19826.942863] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19826.942865] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19826.942867] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19826.942922] pcieport 0000:00:03.0: AER: Device recovery failed
+[19826.960471] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19826.960477] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19826.960480] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19826.960483] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19826.960532] pcieport 0000:00:03.0: AER: Device recovery failed
+[19826.977940] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19826.977945] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19826.977947] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19826.977949] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19826.977988] pcieport 0000:00:03.0: AER: Device recovery failed
+[19826.995481] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19826.995486] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19826.995487] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19826.995489] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19826.995529] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.013021] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.013026] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.013027] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.013029] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.013091] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.030562] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.030567] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.030568] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.030570] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.030610] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.048102] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.048106] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.048108] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.048110] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.048148] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.065644] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.065648] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.065650] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.065652] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.065692] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.083183] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.083188] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.083190] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.083192] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.083231] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.100724] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.100729] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.100731] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.100732] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.100772] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.118264] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.118269] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.118270] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.118272] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.118310] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.135804] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.135809] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.135811] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.135812] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.135852] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.153345] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.153350] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.153352] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.153353] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.153393] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.170887] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.170892] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.170893] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.170895] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.170934] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.188426] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.188431] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.188433] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.188435] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.188473] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.205966] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.205971] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.205973] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.205974] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.206013] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.223507] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.223512] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.223514] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.223515] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.223554] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.241053] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.241058] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.241059] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.241061] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.241120] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.258589] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.258594] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.258595] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.258597] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.258637] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.276129] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.276134] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.276135] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.276137] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.276176] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.293670] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.293675] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.293676] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.293678] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.293718] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.311211] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.311215] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.311217] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.311219] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.311259] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.328751] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.328756] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.328758] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.328759] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.328800] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.346291] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.346295] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.346297] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.346299] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.346344] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.363831] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.363836] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.363838] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.363839] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.363886] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.381372] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.381376] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.381378] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.381380] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.381425] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.398913] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.398917] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.398919] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.398921] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.398959] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.416453] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.416458] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.416460] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.416467] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.416507] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.433994] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.433999] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.434001] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.434002] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.434042] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.451536] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.451542] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.451544] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.451545] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.451588] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.469085] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.469091] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.469092] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.469094] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.469136] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.486616] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.486626] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.486628] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.486630] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.486670] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.504161] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.504167] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.504170] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.504171] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.504218] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.521697] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.521702] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.521704] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.521706] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.521934] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.539242] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.539247] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.539249] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.539250] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.539290] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.556778] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.556782] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.556784] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.556786] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.556836] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.574325] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.574330] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.574332] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.574334] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.574373] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.591858] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.591863] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.591865] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.591867] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.591908] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.609401] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.609405] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.609407] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.609409] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.609448] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.626939] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.626944] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.626946] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.626947] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.626986] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.644481] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.644486] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.644488] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.644489] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.644528] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.662021] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.662026] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.662028] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.662029] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.662087] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.679561] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.679566] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.679568] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.679570] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.679608] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.697101] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.697106] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.697108] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.697110] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.697149] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.714648] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.714653] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.714655] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.714656] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.714703] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.732183] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.732188] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.732190] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.732191] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.732230] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.749724] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.749729] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.749730] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.749732] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.767327] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.767330] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.767335] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.767336] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.767338] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.767364] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.784805] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.784810] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.784812] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.784813] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.784853] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.802345] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.802350] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.802352] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.802354] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.802394] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.819886] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.819891] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.819893] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.819894] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.819934] pcieport 0000:00:03.0: AER: Device recovery failed
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15740006793.f0F24F.25556
+Date: Sun, 17 Nov 2019 14:24:39 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c135">Comm=
+ent # 135</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+rodamorris&#64;gmail.com" title=3D"Rodney A Morris &lt;rodamorris&#64;gmail=
+.com&gt;"> <span class=3D"fn">Rodney A Morris</span></a>
+</span></b>
+        <pre>(In reply to haro41 from <a href=3D"show_bug.cgi?id=3D109955#c=
+127">comment #127</a>)
+<span class=3D"quote">&gt; (In reply to Rodney A Morris from <a href=3D"sho=
+w_bug.cgi?id=3D109955#c126">comment #126</a>)
+&gt; &gt; If you want someone to apply your changes in bug report no. 11077=
+7 to the
+&gt; &gt; kernel for testing, I can so but will not be to it until this wee=
+kend.=20
+&gt;=20=20
+&gt; ... thanks for you reply. Yes, that was the idea and would be very nic=
+e...
+&gt;=20
+&gt; Since i thing the proposed fix is more relevant to this very thread, l=
+et me
+&gt; repeat the proposed patch here:
+&gt;=20
+&gt; in 'drivers/gpu/drm/amd/powerplay/hwmgr/vega10_hwmgr.c':
+&gt;=20
+&gt; static void vega10_notify_smc_display_change(struct pp_hwmgr *hwmgr,
+&gt;                 bool has_disp)
+&gt; {
+&gt; 	smum_send_msg_to_smc_with_parameter(hwmgr,
+&gt; 	                                    PPSMC_MSG_SetUclkFastSwitch,
+&gt; 	                                    has_disp ? 1 : 0);
+&gt; /* proposed fix for crashes because of frequently mclk level 0/1 switc=
+hing */
+&gt; 	smum_send_msg_to_smc_with_parameter(hwmgr, PPSMC_MSG_SetUclkDownHyst,=
+ 1);
+&gt; }
+&gt;=20
+&gt; Only module 'amdgpu.ko' needs to be rebuild and copied, like this:
+&gt;=20
+&gt; $ cd /home/user/linux-5.x.x &amp;&amp; make -j8 -C . M=3Ddrivers/gpu/d=
+rm/amd/amdgpu
+&gt;=20
+&gt; # cp /home/user/linux-5.x.x/drivers/gpu/drm/amd/amdgpu/amdgpu.ko
+&gt; /lib/modules/5.x.x/kernel/drivers/gpu/drm/amd/amdgpu/amdgpu.ko &amp;&a=
+mp;
+&gt; update-initramfs -u
+&gt;=20
+&gt; ... 'user' and 'x.x' have to be adapted, most likely ...</span >
+
+I applied the patch and recompiled the kernel with the modified amdgpu driv=
+er.=20
+Unfortunately, the patch did not resolve my issues.  I experienced a crash =
+with
+the same symptoms as before within 20 minutes of playing Battletech and wit=
+hin
+40 minutes of playing Stellaris.  Again, limiting the HMB memory clock to
+levels 1,2, and 3 prevents the system from crashing, indicating that someth=
+ing
+with the switching of the memory clock between level 0 and 1, 2, and 3 are
+causing the crash.
+
+Interestingly, the debug output indicates a possible problem in
+amdgpu/../display/dc/dc_helper.c at, I am guessing, line 332.  If I have ti=
+me
+later this week, I may take a look at the code in that file.  Here are the
+pertinent details from the Stellaris crash.
+
+Distro:  Fedora
+Kernel:  5.3.11
+
+dmesg crash output:
+
+[19792.781681] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,
+signaled seq=3D3875204, emitted seq=3D3875205
+[19792.781727] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
+on:
+process stellaris pid 13309 thread stellaris:cs0 pid 13310
+[19792.781731] amdgpu 0000:06:00.0: GPU reset begin!
+[19792.798997] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19792.799004] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19792.799006] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19792.799007] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19792.800004] pcieport 0000:00:03.0: AER: Device recovery failed
+[19794.419525] amdgpu: [powerplay] No response from smu
+[19794.419542] amdgpu: [powerplay] Failed message: 0xe, input parameter: 0x=
+0,
+error code: 0x0
+[19796.043441] amdgpu: [powerplay] No response from smu
+[19797.665903] amdgpu: [powerplay] No response from smu
+[19797.665907] amdgpu: [powerplay] Failed message: 0x42, input parameter: 0=
+x1,
+error code: 0x0
+[19799.287749] amdgpu: [powerplay] No response from smu
+[19800.910845] amdgpu: [powerplay] No response from smu
+[19800.910850] amdgpu: [powerplay] Failed message: 0x24, input parameter: 0=
+x0,
+error code: 0x0
+[19800.977846] [drm] REG_WAIT timeout 10us * 3500 tries - dce_mi_free_dmif
+line:634
+[19800.977855] ------------[ cut here ]------------
+[19800.977967] WARNING: CPU: 10 PID: 15123 at
+drivers/gpu/drm/amd/amdgpu/../display/dc/dc_helper.c:332
+generic_reg_wait.cold+0x31/0x53 [amdgpu]
+[19800.977968] Modules linked in: rfcomm xt_CHECKSUM xt_MASQUERADE nf_nat_t=
+ftp
+nf_conntrack_tftp tun bridge stp llc nf_conntrack_netbios_ns
+nf_conntrack_broadcast xt_CT ip6t_REJECT nf_reject_ipv6 ip6t_rpfilter
+ipt_REJECT nf_reject_ipv4 xt_conntrack ebtable_nat ebtable_broute ip6table_=
+nat
+ip6table_mangle ip6table_raw ip6table_security iptable_nat nf_nat
+iptable_mangle iptable_raw iptable_security nf_conntrack nf_defrag_ipv6
+nf_defrag_ipv4 libcrc32c ip_set nfnetlink ebtable_filter ebtables
+ip6table_filter ip6_tables iptable_filter cmac bnep nct6775 hwmon_vid vfat =
+fat
+intel_rapl_msr intel_rapl_common x86_pkg_temp_thermal intel_powerclamp core=
+temp
+kvm_intel kvm iTCO_wdt iTCO_vendor_support irqbypass iwlmvm crct10dif_pclmul
+snd_hda_codec_realtek crc32_pclmul snd_hda_codec_generic ledtrig_audio
+snd_hda_codec_hdmi ghash_clmulni_intel mac80211 snd_hda_intel intel_cstate
+snd_hda_codec libarc4 intel_uncore snd_hda_core btusb snd_hwdep btrtl
+intel_rapl_perf btbcm iwlwifi snd_seq btintel snd_seq_device
+[19800.977994]  bluetooth joydev mxm_wmi snd_pcm cfg80211 snd_timer
+ecdh_generic ecc rfkill snd mei_me soundcore i2c_i801 lpc_ich mei binfmt_mi=
+sc
+auth_rpcgss sunrpc ip_tables amdgpu amd_iommu_v2 gpu_sched ttm drm_kms_help=
+er
+drm crc32c_intel mpt3sas igb nvme e1000e dca raid_class i2c_algo_bit
+scsi_transport_sas nvme_core wmi usb_storage fuse
+[19800.978009] CPU: 10 PID: 15123 Comm: kworker/10:1 Not tainted
+5.3.11-300.RAM.local.fc31.x86_64+debug #1
+[19800.978011] Hardware name: To Be Filled By O.E.M. To Be Filled By O.E.M.=
+/X99
+Taichi, BIOS P1.80 04/06/2018
+[19800.978014] Workqueue: events drm_sched_job_timedout [gpu_sched]
+[19800.978082] RIP: 0010:generic_reg_wait.cold+0x31/0x53 [amdgpu]
+[19800.978084] Code: 4c 24 18 44 89 fa 89 ee 48 c7 c7 a8 ee 7e c0 e8 82 00 =
+a5
+fa 83 7b 20 01 0f 84 94 ee fd ff 48 c7 c7 a0 ed 7e c0 e8 6c 00 a5 fa &lt;0f=
+&gt; 0b e9
+81 ee fd ff 48 c7 c7 a0 ed 7e c0 89 54 24 04 e8 55 00 a5
+[19800.978086] RSP: 0018:ffff957a0520f690 EFLAGS: 00010246
+[19800.978087] RAX: 0000000000000024 RBX: ffff88d6a8030780 RCX:
+0000000000000006
+[19800.978089] RDX: 0000000000000000 RSI: ffff88d645a10e50 RDI:
+ffff88d6bf9d9e00
+[19800.978090] RBP: 000000000000000a R08: 0000120246405906 R09:
+0000000000000000
+[19800.978091] R10: 0000000000000000 R11: 0000000000000000 R12:
+00000000000035af
+[19800.978092] R13: 0000000000000dad R14: 0000000000000001 R15:
+0000000000000dac
+[19800.978093] FS:  0000000000000000(0000) GS:ffff88d6bf800000(0000)
+knlGS:0000000000000000
+[19800.978095] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[19800.978096] CR2: 0000289e30054000 CR3: 0000000278612003 CR4:
+00000000003606e0
+[19800.978097] DR0: 0000000000000000 DR1: 0000000000000000 DR2:
+0000000000000000
+[19800.978098] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7:
+0000000000000400
+[19800.978100] Call Trace:
+[19800.978152]  dce_mi_free_dmif+0xef/0x150 [amdgpu]
+[19800.978200]  dce110_reset_hw_ctx_wrap+0x15f/0x200 [amdgpu]
+[19800.978261]  dce110_apply_ctx_to_hw+0x4b/0x530 [amdgpu]
+[19800.978316]  ? amdgpu_pm_compute_clocks+0xc9/0x5f0 [amdgpu]
+[19800.978383]  ? dm_pp_apply_display_requirements+0x1a8/0x1c0 [amdgpu]
+[19800.978429]  dc_commit_state+0x26b/0x590 [amdgpu]
+[19800.978479]  amdgpu_dm_atomic_commit_tail+0xd18/0x1cf0 [amdgpu]
+[19800.978486]  ? check_irq_usage+0xa7/0x460
+[19800.978488]  ? find_held_lock+0x32/0x90
+[19800.978494]  ? check_path+0x22/0x40
+[19800.978496]  ? check_noncircular+0xaf/0x1b0
+[19800.978501]  ? __lock_acquire+0x247/0x1910
+[19800.978507]  ? find_held_lock+0x32/0x90
+[19800.978511]  ? mark_held_locks+0x50/0x80
+[19800.978513]  ? _raw_spin_unlock_irq+0x29/0x40
+[19800.978516]  ? lockdep_hardirqs_on+0xf0/0x180
+[19800.978518]  ? _raw_spin_unlock_irq+0x29/0x40
+[19800.978521]  ? wait_for_completion_timeout+0x75/0x190
+[19800.978534]  ? commit_tail+0x3c/0x70 [drm_kms_helper]
+[19800.978578]  ? amdgpu_dm_audio_eld_notify+0x60/0x60 [amdgpu]
+[19800.978583]  commit_tail+0x3c/0x70 [drm_kms_helper]
+[19800.978588]  drm_atomic_helper_commit+0xe3/0x150 [drm_kms_helper]
+[19800.978595]  drm_atomic_helper_disable_all+0x14c/0x160 [drm_kms_helper]
+[19800.978601]  drm_atomic_helper_suspend+0x66/0x100 [drm_kms_helper]
+[19800.978652]  dm_suspend+0x20/0x60 [amdgpu]
+[19800.978679]  amdgpu_device_ip_suspend_phase1+0x91/0xc0 [amdgpu]
+[19800.978707]  amdgpu_device_ip_suspend+0x1c/0x60 [amdgpu]
+[19800.978753]  amdgpu_device_pre_asic_reset+0x191/0x1a4 [amdgpu]
+[19800.978799]  amdgpu_device_gpu_recover+0x260/0x934 [amdgpu]
+[19800.978843]  amdgpu_job_timedout+0x115/0x140 [amdgpu]
+[19800.978848]  drm_sched_job_timedout+0x44/0xa0 [gpu_sched]
+[19800.978852]  process_one_work+0x272/0x5a0
+[19800.978858]  worker_thread+0x50/0x3b0
+[19800.978863]  kthread+0x108/0x140
+[19800.978865]  ? process_one_work+0x5a0/0x5a0
+[19800.978867]  ? kthread_park+0x80/0x80
+[19800.978870]  ret_from_fork+0x3a/0x50
+[19800.978878] irq event stamp: 211500
+[19800.978881] hardirqs last  enabled at (211499): [&lt;ffffffffbb1715db&gt=
+;]
+console_unlock+0x46b/0x5d0
+[19800.978885] hardirqs last disabled at (211500): [&lt;ffffffffbb0038da&gt=
+;]
+trace_hardirqs_off_thunk+0x1a/0x20
+[19800.978887] softirqs last  enabled at (211486): [&lt;ffffffffbbe0035d&gt=
+;]
+__do_softirq+0x35d/0x45d
+[19800.978889] softirqs last disabled at (211479): [&lt;ffffffffbb0f20c7&gt=
+;]
+irq_exit+0xf7/0x100
+[19800.978891] ---[ end trace 722d34fe8b4d4012 ]---
+[19802.595549] amdgpu: [powerplay] No response from smu
+[19804.214995] amdgpu: [powerplay] No response from smu
+[19804.215000] amdgpu: [powerplay] Failed message: 0x4c, input parameter: 0=
+x1,
+error code: 0x0
+[19805.837985] amdgpu: [powerplay] No response from smu
+[19807.458610] amdgpu: [powerplay] No response from smu
+[19807.458614] amdgpu: [powerplay] Failed message: 0x4c, input parameter: 0=
+x3,
+error code: 0x0
+[19809.078189] amdgpu: [powerplay] No response from smu
+[19810.698831] amdgpu: [powerplay] No response from smu
+[19810.698835] amdgpu: [powerplay] Failed message: 0x9, input parameter: 0x=
+f4,
+error code: 0x0
+[19812.321202] amdgpu: [powerplay] No response from smu
+[19813.938039] amdgpu: [powerplay] No response from smu
+[19813.938043] amdgpu: [powerplay] Failed message: 0xa, input parameter:
+0xa0b000, error code: 0x0
+[19815.558461] amdgpu: [powerplay] No response from smu
+[19817.179965] amdgpu: [powerplay] No response from smu
+[19817.179969] amdgpu: [powerplay] Failed message: 0xe, input parameter: 0x=
+0,
+error code: 0x0
+[19818.790507] amdgpu: [powerplay] No response from smu
+[19820.409551] amdgpu: [powerplay] No response from smu
+[19820.409555] amdgpu: [powerplay] Failed message: 0x42, input parameter: 0=
+x1,
+error code: 0x0
+[19822.030397] amdgpu: [powerplay] No response from smu
+[19823.648860] amdgpu: [powerplay] No response from smu
+[19823.648864] amdgpu: [powerplay] Failed message: 0x43, input parameter: 0=
+x1,
+error code: 0x0
+[19825.269615] amdgpu: [powerplay] No response from smu
+[19826.890755] amdgpu: [powerplay] No response from smu
+[19826.890760] amdgpu: [powerplay] Failed message: 0x24, input parameter: 0=
+x0,
+error code: 0x0
+[19826.907783] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19826.907789] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19826.907791] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19826.907793] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19826.907853] pcieport 0000:00:03.0: AER: Device recovery failed
+[19826.925319] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19826.925325] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19826.925326] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19826.925328] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19826.925371] pcieport 0000:00:03.0: AER: Device recovery failed
+[19826.942858] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19826.942863] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19826.942865] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19826.942867] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19826.942922] pcieport 0000:00:03.0: AER: Device recovery failed
+[19826.960471] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19826.960477] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19826.960480] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19826.960483] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19826.960532] pcieport 0000:00:03.0: AER: Device recovery failed
+[19826.977940] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19826.977945] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19826.977947] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19826.977949] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19826.977988] pcieport 0000:00:03.0: AER: Device recovery failed
+[19826.995481] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19826.995486] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19826.995487] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19826.995489] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19826.995529] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.013021] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.013026] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.013027] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.013029] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.013091] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.030562] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.030567] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.030568] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.030570] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.030610] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.048102] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.048106] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.048108] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.048110] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.048148] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.065644] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.065648] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.065650] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.065652] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.065692] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.083183] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.083188] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.083190] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.083192] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.083231] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.100724] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.100729] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.100731] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.100732] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.100772] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.118264] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.118269] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.118270] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.118272] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.118310] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.135804] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.135809] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.135811] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.135812] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.135852] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.153345] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.153350] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.153352] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.153353] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.153393] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.170887] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.170892] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.170893] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.170895] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.170934] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.188426] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.188431] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.188433] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.188435] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.188473] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.205966] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.205971] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.205973] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.205974] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.206013] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.223507] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.223512] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.223514] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.223515] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.223554] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.241053] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.241058] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.241059] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.241061] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.241120] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.258589] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.258594] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.258595] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.258597] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.258637] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.276129] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.276134] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.276135] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.276137] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.276176] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.293670] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.293675] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.293676] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.293678] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.293718] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.311211] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.311215] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.311217] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.311219] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.311259] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.328751] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.328756] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.328758] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.328759] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.328800] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.346291] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.346295] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.346297] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.346299] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.346344] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.363831] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.363836] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.363838] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.363839] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.363886] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.381372] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.381376] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.381378] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.381380] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.381425] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.398913] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.398917] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.398919] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.398921] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.398959] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.416453] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.416458] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.416460] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.416467] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.416507] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.433994] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.433999] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.434001] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.434002] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.434042] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.451536] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.451542] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.451544] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.451545] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.451588] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.469085] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.469091] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.469092] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.469094] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.469136] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.486616] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.486626] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.486628] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.486630] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.486670] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.504161] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.504167] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.504170] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.504171] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.504218] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.521697] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.521702] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.521704] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.521706] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.521934] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.539242] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.539247] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.539249] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.539250] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.539290] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.556778] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.556782] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.556784] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.556786] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.556836] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.574325] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.574330] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.574332] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.574334] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.574373] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.591858] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.591863] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.591865] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.591867] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.591908] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.609401] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.609405] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.609407] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.609409] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.609448] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.626939] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.626944] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.626946] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.626947] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.626986] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.644481] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.644486] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.644488] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.644489] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.644528] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.662021] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.662026] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.662028] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.662029] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.662087] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.679561] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.679566] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.679568] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.679570] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.679608] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.697101] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.697106] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.697108] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.697110] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.697149] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.714648] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.714653] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.714655] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.714656] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.714703] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.732183] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.732188] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.732190] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.732191] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.732230] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.749724] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.749729] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.749730] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.749732] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.767327] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.767330] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.767335] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.767336] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.767338] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.767364] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.784805] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.784810] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.784812] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.784813] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.784853] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.802345] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.802350] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.802352] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.802354] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.802394] pcieport 0000:00:03.0: AER: Device recovery failed
+[19827.819886] pcieport 0000:00:03.0: AER: Uncorrected (Non-Fatal) error
+received: 0000:00:03.0
+[19827.819891] pcieport 0000:00:03.0: AER: PCIe Bus Error: severity=3DUncor=
+rected
+(Non-Fatal), type=3DTransaction Layer, (Requester ID)
+[19827.819893] pcieport 0000:00:03.0: AER:   device [8086:6f08] error
+status/mask=3D00004000/00000000
+[19827.819894] pcieport 0000:00:03.0: AER:    [14] CmpltTO=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20
+(First)
+[19827.819934] pcieport 0000:00:03.0: AER: Device recovery failed</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15740006793.f0F24F.25556--
+
+--===============0792946836==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0792946836==--
