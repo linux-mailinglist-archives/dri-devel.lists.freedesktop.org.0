@@ -2,41 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DBF6100076
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2019 09:37:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AFE1100072
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2019 09:37:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC8596E08E;
-	Mon, 18 Nov 2019 08:37:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A71BF89F49;
+	Mon, 18 Nov 2019 08:36:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from onstation.org (onstation.org [52.200.56.107])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C68376E44B;
- Sun, 17 Nov 2019 11:48:41 +0000 (UTC)
-Received: from localhost.localdomain (c-98-239-145-235.hsd1.wv.comcast.net
- [98.239.145.235])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: masneyb)
- by onstation.org (Postfix) with ESMTPSA id DAA034FE4B;
- Sun, 17 Nov 2019 11:48:40 +0000 (UTC)
-From: Brian Masney <masneyb@onstation.org>
-To: robdclark@gmail.com,
-	sean@poorly.run,
-	robh+dt@kernel.org
-Subject: [PATCH 4/4] drm/msm/a4xx: set interconnect bandwidth vote
-Date: Sun, 17 Nov 2019 06:48:25 -0500
-Message-Id: <20191117114825.13541-5-masneyb@onstation.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191117114825.13541-1-masneyb@onstation.org>
-References: <20191117114825.13541-1-masneyb@onstation.org>
-MIME-Version: 1.0
+X-Greylist: delayed 592 seconds by postgrey-1.36 at gabe;
+ Sun, 17 Nov 2019 17:32:49 UTC
+Received: from mta-p0.oit.umn.edu (mta-p0.oit.umn.edu [134.84.196.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78EEB8999E
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Nov 2019 17:32:49 +0000 (UTC)
+Received: from localhost (unknown [127.0.0.1])
+ by mta-p0.oit.umn.edu (Postfix) with ESMTP id 47GJnY17bRzcnV
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Nov 2019 17:22:57 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at umn.edu
+Received: from mta-p0.oit.umn.edu ([127.0.0.1])
+ by localhost (mta-p0.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 0hmVRNmvpR2r for <dri-devel@lists.freedesktop.org>;
+ Sun, 17 Nov 2019 11:22:57 -0600 (CST)
+Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
+ [209.85.219.200])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mta-p0.oit.umn.edu (Postfix) with ESMTPS id 47GJnX746HzbKx
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Nov 2019 11:22:56 -0600 (CST)
+Received: by mail-yb1-f200.google.com with SMTP id u10so10528414ybj.17
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Nov 2019 09:22:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=RIby2qRx5cEwNIrcIoDIHdDJ6ejQhdeyp3owCLM8obk=;
+ b=XBIeP4gsfCFCHdxVqLkulfHmB5z/JyOj9gnzuEngc8jAPUM46CMS0efAo6ti1GOkUn
+ pZasFCtmYS75whZyXnx38nnDyyHhk1RIhPRGQmhSudLe2eIN64upZAd4IRX7fjlfZOFH
+ 0B7aW7B3k0Q/tsf9LHw9X6eoSb2bPN4LKC9Z0uGJwkRtcv8Kw3953YmJdzFnjtJShDOG
+ 33CkxBefbT5nZD5cSNATGR+gChxQ7OAxg2253JU9KuccNGqOIETcC/NoRGiNho0LqaOQ
+ k+81TWSxHkh3cMM5D2GnMPzaedW5+Wy4/HlAf9TVEroAy06cPPSnrVdvJRZJhVSPvjAa
+ J4cQ==
+X-Gm-Message-State: APjAAAUuks3UhQJ3nxXtZchHvqJ6/zIUd9n9qWGSqj5yDhEvOb7/LjKV
+ YVj+pOoN/pguSowlQvZO3ydqmEiHDBg/RhvDwJznBEGVNHGnwww9fOqUXPryLQXwjH2zlD3ZT9j
+ ZrA0DFtb4HRALaP4grCWUmFO84w78FlAe
+X-Received: by 2002:a81:71c4:: with SMTP id
+ m187mr16741540ywc.327.1574011375501; 
+ Sun, 17 Nov 2019 09:22:55 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwRSZyGvEeTEQTqYLBwcl2GMjbN83a4HUDRBI+2xrk9iViMa5K8z+axNVTrtuWEQ1cR/lc6Mw==
+X-Received: by 2002:a81:71c4:: with SMTP id
+ m187mr16741510ywc.327.1574011375242; 
+ Sun, 17 Nov 2019 09:22:55 -0800 (PST)
+Received: from cs-u-syssec1.dtc.umn.edu (cs-u-syssec1.cs.umn.edu.
+ [128.101.106.66])
+ by smtp.gmail.com with ESMTPSA id 124sm6654970ywo.98.2019.11.17.09.22.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 17 Nov 2019 09:22:54 -0800 (PST)
+From: Aditya Pakki <pakki001@umn.edu>
+To: pakki001@umn.edu
+Subject: [PATCH] drm/amd/display: Fix error returned by program_hpd_filter
+Date: Sun, 17 Nov 2019 11:22:34 -0600
+Message-Id: <20191117172236.2140-1-pakki001@umn.edu>
+X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Mon, 18 Nov 2019 08:36:58 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=onstation.org; s=default; t=1573991321;
- bh=rl6/6/Eu9skt4+IcmxvISu1bBxwQsQboq/5RVDZniic=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=le+c7mmslEwZqMNGy37bnORfMaWTTpxN3JKvaDGIwpg++SdQqlGzGx3oBKuw7DZz+
- U9wXQ6h///rjUt9SzUsCQKrvmoPemstl+qpSVk3E+51jYjuzN75M4CqfAkfVpH/rSc
- kk3vlXgixVujTB906XcAlQFL4QAVtsoCcOZzTJVU=
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=umn.edu; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=RIby2qRx5cEwNIrcIoDIHdDJ6ejQhdeyp3owCLM8obk=;
+ b=IRanUKstwT1MnUfDW4znsizornJMbx0pRICZZKzplIGIiA3OJ+MupXA0DK7QXt6M9c
+ hLWZAgq6YTjDz4dClo6XI8qh6O0AEshigJzSARu8dQPCU/R2YI+MPH1d8HMEVvptX2LP
+ 2CqovGn7TmSCS387hLEScYeCaCvqJ7vdrnljOcqfc19SjC6HnDNMpXbGuCNHzOtb4iDh
+ bzFKDt1m+gnvDulkJgW4pgrRQ6i895IiisubEZ7hz9iMljjm1AQWK17ZTWMch9u/EvYT
+ NccpkOgcjITRXlYagZbOT2+7he8di4ZPpkTv9UfOdlWEinhxUTaz056LWuOkx75Bq4gO
+ mg0A==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,33 +84,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Chris Park <Chris.Park@amd.com>,
+ Eric Yang <Eric.Yang2@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ David Francis <David.Francis@amd.com>, kjlu@umn.edu,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Nikola Cornij <nikola.cornij@amd.com>, David Airlie <airlied@linux.ie>,
+ Eric Bernstein <eric.bernstein@amd.com>, David Galiffi <david.galiffi@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Wenjing Liu <Wenjing.Liu@amd.com>,
+ Jun Lei <Jun.Lei@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Anthony Koo <Anthony.Koo@amd.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-U2V0IHRoZSB0d28gaW50ZXJjb25uZWN0IHBhdGhzIGZvciB0aGUgR1BVIHRvIG1heGltdW0gc3Bl
-ZWQgZm9yIG5vdyB0bwp3b3JrIHRvd2FyZHMgZ2V0dGluZyB0aGUgR1BVIHdvcmtpbmcgdXBzdHJl
-YW0uIFdlIGNhbiByZXZpc2l0IGEgbGF0ZXIKdGltZSB0byBvcHRpbWl6ZSB0aGlzIGZvciBiYXR0
-ZXJ5IGxpZmUuCgpTaWduZWQtb2ZmLWJ5OiBCcmlhbiBNYXNuZXkgPG1hc25leWJAb25zdGF0aW9u
-Lm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNHh4X2dwdS5jIHwgOCArKysr
-KysrKwogMSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9tc20vYWRyZW5vL2E0eHhfZ3B1LmMgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL2Fk
-cmVuby9hNHh4X2dwdS5jCmluZGV4IGIwMTM4OGE5ZTg5ZS4uYzYzMWQxZGY3NzUxIDEwMDY0NAot
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNHh4X2dwdS5jCisrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9tc20vYWRyZW5vL2E0eHhfZ3B1LmMKQEAgLTU5MSw2ICs1OTEsMTQgQEAgc3RydWN0
-IG1zbV9ncHUgKmE0eHhfZ3B1X2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRldikKIAkJZ290byBm
-YWlsOwogCX0KIAorCS8qCisJICogU2V0IHRoZSBJQ0MgcGF0aCB0byBtYXhpbXVtIHNwZWVkIGZv
-ciBub3cgYnkgbXVsdGlwbHlpbmcgdGhlIGZhc3Rlc3QKKwkgKiBmcmVxdWVuY3kgYnkgdGhlIGJ1
-cyB3aWR0aCAoOCkuIFdlJ2xsIHdhbnQgdG8gc2NhbGUgdGhpcyBsYXRlciBvbiB0bworCSAqIGlt
-cHJvdmUgYmF0dGVyeSBsaWZlLgorCSAqLworCWljY19zZXRfYncoZ3B1LT5nZnhfbWVtX2ljY19w
-YXRoLCAwLCBCcHNfdG9faWNjKGdwdS0+ZmFzdF9yYXRlKSAqIDgpOworCWljY19zZXRfYncoZ3B1
-LT5vY21lbV9pY2NfcGF0aCwgMCwgQnBzX3RvX2ljYyhncHUtPmZhc3RfcmF0ZSkgKiA4KTsKKwog
-CXJldHVybiBncHU7CiAKIGZhaWw6Ci0tIAoyLjIxLjAKCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+cHJvZ3JhbV9ocGRfZmlsdGVyKCkgY3VycmVudGx5IGZhaWxzIHRvIGNoZWNrIGZvciB0aGUgZXJy
+b3JzCnJldHVybmVkIGluIGNvbnN0cnVjdCgpLiBUaGlzIHBhdGNoIHJldHVybnMgZXJyb3IgaW4K
+Y2FzZSBvZiBmYWlsdXJlLgoKU2lnbmVkLW9mZi1ieTogQWRpdHlhIFBha2tpIDxwYWtraTAwMUB1
+bW4uZWR1PgotLS0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9jb3JlL2RjX2xpbmsu
+YyB8IDMgKy0tCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDIgZGVsZXRpb25zKC0p
+CgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2NvcmUvZGNfbGlu
+ay5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2NvcmUvZGNfbGluay5jCmluZGV4
+IGNhMjBiMTUwYWZjYy4uYmJiNjQ4YTUwYzQxIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+YW1kL2Rpc3BsYXkvZGMvY29yZS9kY19saW5rLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9k
+aXNwbGF5L2RjL2NvcmUvZGNfbGluay5jCkBAIC0xMzc5LDkgKzEzNzksOCBAQCBzdGF0aWMgYm9v
+bCBjb25zdHJ1Y3QoCiAJICogSWYgR1BJTyBpc24ndCBwcm9ncmFtbWVkIGNvcnJlY3RseSBIUEQg
+bWlnaHQgbm90IHJpc2Ugb3IgZHJhaW4KIAkgKiBmYXN0IGVub3VnaCwgbGVhZGluZyB0byBib3Vu
+Y2VzLgogCSAqLwotCXByb2dyYW1faHBkX2ZpbHRlcihsaW5rKTsKKwlyZXR1cm4gcHJvZ3JhbV9o
+cGRfZmlsdGVyKGxpbmspOwogCi0JcmV0dXJuIHRydWU7CiBkZXZpY2VfdGFnX2ZhaWw6CiAJbGlu
+ay0+bGlua19lbmMtPmZ1bmNzLT5kZXN0cm95KCZsaW5rLT5saW5rX2VuYyk7CiBsaW5rX2VuY19j
+cmVhdGVfZmFpbDoKLS0gCjIuMTcuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVs
