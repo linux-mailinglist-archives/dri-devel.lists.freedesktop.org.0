@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59E9AFF792
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Nov 2019 05:52:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 155A7FF79A
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Nov 2019 06:12:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 519276E217;
-	Sun, 17 Nov 2019 04:52:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 237F96E241;
+	Sun, 17 Nov 2019 05:11:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 250D36E20C
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Nov 2019 04:52:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 934D46E215
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Nov 2019 05:11:56 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1B7D3720E2; Sun, 17 Nov 2019 04:52:49 +0000 (UTC)
+ id 630B6720E2; Sun, 17 Nov 2019 05:11:56 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 112304] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx
  timeout causes system freeze
-Date: Sun, 17 Nov 2019 04:52:49 +0000
+Date: Sun, 17 Nov 2019 05:11:56 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,8 +34,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-112304-502-zrJTB1SnJD@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: see_also
+Message-ID: <bug-112304-502-g2Y2GRpXoI@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-112304-502@http.bugs.freedesktop.org/>
 References: <bug-112304-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1275212050=="
+Content-Type: multipart/mixed; boundary="===============1926115794=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1275212050==
-Content-Type: multipart/alternative; boundary="15739663690.FD65E2.21658"
+--===============1926115794==
+Content-Type: multipart/alternative; boundary="15739675160.bD0f8CA.23141"
 Content-Transfer-Encoding: 7bit
 
 
---15739663690.FD65E2.21658
-Date: Sun, 17 Nov 2019 04:52:49 +0000
+--15739675160.bD0f8CA.23141
+Date: Sun, 17 Nov 2019 05:11:56 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,33 +73,19 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D112304
 
---- Comment #6 from saadnaji89@gmail.com ---
-Created attachment 145980
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145980&action=3Dedit
-journalctl-logs-after-hardware-reboot
+saadnaji89@gmail.com changed:
 
-I believe this important clue. Here is the journalctl logs right after hard=
-ware
-powering off when my system froze during gameplay. You can see the logs the=
-re
-repetitive. There a lot of page=20=20
-tables and includes GPU failure=20
-
-e.g=20
-chrome_ChildIOT: Corrupted page table at address 1689e6ba5e10
-
-drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process information: process  pid=
- 0
-thread  pid 0
-Nov 16 23:41:49 archlinux kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR*
-ring sdma0 timeout, signaled seq=3D112, emitted seq=3D11
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+           See Also|                            |https://bugs.freedesktop.or
+                   |                            |g/show_bug.cgi?id=3D105819
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15739663690.FD65E2.21658
-Date: Sun, 17 Nov 2019 04:52:49 +0000
+--15739675160.bD0f8CA.23141
+Date: Sun, 17 Nov 2019 05:11:56 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -110,47 +96,33 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeo=
-ut causes system freeze"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112304#c6">Commen=
-t # 6</a>
-              on <a class=3D"bz_bug_link=20
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:saadnaji8=
+9&#64;gmail.com" title=3D"saadnaji89&#64;gmail.com">saadnaji89&#64;gmail.co=
+m</a>
+</span> changed
+          <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeo=
 ut causes system freeze"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112304">bug 11230=
 4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-saadnaji89&#64;gmail.com" title=3D"saadnaji89&#64;gmail.com">saadnaji89&#64=
-;gmail.com</a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145980=
-" name=3D"attach_145980" title=3D"journalctl-logs-after-hardware-reboot">at=
-tachment 145980</a> <a href=3D"attachment.cgi?id=3D145980&amp;action=3Dedit=
-" title=3D"journalctl-logs-after-hardware-reboot">[details]</a></span>
-journalctl-logs-after-hardware-reboot
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
 
-I believe this important clue. Here is the journalctl logs right after hard=
-ware
-powering off when my system froze during gameplay. You can see the logs the=
-re
-repetitive. There a lot of page=20=20
-tables and includes GPU failure=20
-
-e.g=20
-chrome_ChildIOT: Corrupted page table at address 1689e6ba5e10
-
-drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process information: process  pid=
- 0
-thread  pid 0
-Nov 16 23:41:49 archlinux kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR*
-ring sdma0 timeout, signaled seq=3D112, emitted seq=3D11</pre>
-        </div>
+         <tr>
+           <td style=3D"text-align:right;">See Also</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>https://bugs.freedesktop.org/show_bug.cgi?id=3D105819
+           </td>
+         </tr></table>
+      <p>
       </p>
 
 
@@ -163,9 +135,9 @@ ring sdma0 timeout, signaled seq=3D112, emitted seq=3D11</pre>
     </body>
 </html>=
 
---15739663690.FD65E2.21658--
+--15739675160.bD0f8CA.23141--
 
---===============1275212050==
+--===============1926115794==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -175,4 +147,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1275212050==--
+--===============1926115794==--
