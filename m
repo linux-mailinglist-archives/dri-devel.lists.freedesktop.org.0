@@ -2,65 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA9E1008F5
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2019 17:13:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D776C100948
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2019 17:34:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB3856E5F0;
-	Mon, 18 Nov 2019 16:13:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 327056E618;
+	Mon, 18 Nov 2019 16:34:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 969 seconds by postgrey-1.36 at gabe;
- Mon, 18 Nov 2019 16:13:44 UTC
-Received: from a27-186.smtp-out.us-west-2.amazonses.com
- (a27-186.smtp-out.us-west-2.amazonses.com [54.240.27.186])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D8D96E605;
- Mon, 18 Nov 2019 16:13:44 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 79463C433CB
-Date: Mon, 18 Nov 2019 15:57:34 +0000
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: Brian Masney <masneyb@onstation.org>
-Subject: Re: [Freedreno] [PATCH 2/4] drm/msm/gpu: add support for ocmem
- interconnect path
-Message-ID: <0101016e7f3bc60e-8f13f0e2-8c6d-496d-a8d2-b48db392cffa-000000@us-west-2.amazonses.com>
-Mail-Followup-To: Brian Masney <masneyb@onstation.org>, robdclark@gmail.com,
- sean@poorly.run, robh+dt@kernel.org, mark.rutland@arm.com,
- devicetree@vger.kernel.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- daniel@ffwll.ch, freedreno@lists.freedesktop.org
-References: <20191117114825.13541-1-masneyb@onstation.org>
- <20191117114825.13541-3-masneyb@onstation.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 923436E605
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2019 16:34:17 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 8F2B8720E2; Mon, 18 Nov 2019 16:34:17 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 112308] Screen flickering with 4k resolution on Prairie Falcon
+Date: Mon, 18 Nov 2019 16:34:17 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-112308-502-pNTplfndlO@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-112308-502@http.bugs.freedesktop.org/>
+References: <bug-112308-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191117114825.13541-3-masneyb@onstation.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-SES-Outgoing: 2019.11.18-54.240.27.186
-Feedback-ID: 1.us-west-2.CZuq2qbDmUIuT3qdvXlRHZZCpfZqZ4GtG9v3VKgRyF0=:AmazonSES
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/simple; 
- s=zsmsymrwgfyinv5wlfyidntwsjeeldzt; d=codeaurora.org; t=1574092654;
- h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To;
- bh=0uOLVzLMI7MHc8k6E5GevpIZG9gm0SmkADc/SJd5Z0U=;
- b=j5DT/uOYpYCCZmnPWxkQezoSprm7FJF0YeSb69/VM9yNoPpAOZ4E/GVLYDyx8gOU
- 5AezeDv4HkRQAfgBMxQHXflut9rkPapaYA3igQ84OeXMAPefzS/kn8af1w5ipBR4u7j
- eGLA3jzx7JlTHfE/hflxTsgnGcHxtJV36ySw5iuo=
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/simple; 
- s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1574092654;
- h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Feedback-ID;
- bh=0uOLVzLMI7MHc8k6E5GevpIZG9gm0SmkADc/SJd5Z0U=;
- b=X/0HuOJJd/VNgJ2g645OXYhvNEK0RNaHVYk6SH4Yj8CELvnihUpzbiimR6eXBtJp
- bkOwNHTXkM2A1s0d/qQFO7TvE1thiCeyMOJd1loetlp0HGHEhOVDk0nk2c6zLfPPGSB
- TtP58RyF3TbGu1r7HrbMuym27Pfj/5lsq9B8IdZg=
-X-Mailman-Original-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-X-Mailman-Original-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=jcrouse@codeaurora.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,96 +52,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- robh+dt@kernel.org, freedreno@lists.freedesktop.org, sean@poorly.run
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0543561132=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU3VuLCBOb3YgMTcsIDIwMTkgYXQgMDY6NDg6MjNBTSAtMDUwMCwgQnJpYW4gTWFzbmV5IHdy
-b3RlOgo+IFNvbWUgQTN4eCBhbmQgYWxsIEE0eHggQWRyZW5vIEdQVXMgZG8gbm90IGhhdmUgR01F
-TSBpbnNpZGUgdGhlIEdQVSBjb3JlCj4gYW5kIG11c3QgdXNlIHRoZSBPbiBDaGlwIE1FTW9yeSAo
-T0NNRU0pIGluIG9yZGVyIHRvIGJlIGZ1bmN0aW9uYWwuCj4gVGhlcmUncyBhIHNlcGFyYXRlIGlu
-dGVyY29ubmVjdCBwYXRoIHRoYXQgbmVlZHMgdG8gYmUgc2V0dXAgdG8gT0NNRU0uCj4gQWRkIHN1
-cHBvcnQgZm9yIHRoaXMgc2Vjb25kIHBhdGggdG8gdGhlIEdQVSBjb3JlLgo+IAo+IEluIHRoZSBk
-b3duc3RyZWFtIE1TTSAzLjQgc291cmNlcywgdGhlIHR3byBpbnRlcmNvbm5lY3QgcGF0aHMgZm9y
-IHRoZQo+IEdQVSBhcmUgYmV0d2VlbjoKPiAKPiAgIC0gTVNNX0JVU19NQVNURVJfR1JBUEhJQ1Nf
-M0QgYW5kIE1TTV9CVVNfU0xBVkVfRUJJX0NIMAo+ICAgLSBNU01fQlVTX01BU1RFUl9WX09DTUVN
-X0dGWDNEIGFuZCBNU01fQlVTX1NMQVZFX09DTUVNCj4gCj4gU2lnbmVkLW9mZi1ieTogQnJpYW4g
-TWFzbmV5IDxtYXNuZXliQG9uc3RhdGlvbi5vcmc+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9t
-c20vYWRyZW5vL2E2eHhfZ211LmMgICB8ICA2ICsrKy0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vbXNt
-L2FkcmVuby9hZHJlbm9fZ3B1LmMgfCAyMCArKysrKysrKysrKysrKysrLS0tLQo+ICBkcml2ZXJz
-L2dwdS9kcm0vbXNtL21zbV9ncHUuaCAgICAgICAgICAgfCAgMyArKy0KPiAgMyBmaWxlcyBjaGFu
-Z2VkLCAyMSBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNnh4X2dtdS5jIGIvZHJpdmVycy9ncHUvZHJtL21z
-bS9hZHJlbm8vYTZ4eF9nbXUuYwo+IGluZGV4IDg1ZjE0ZmVhZmRlYy4uNzg4NWUzODJmYjhmIDEw
-MDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2E2eHhfZ211LmMKPiArKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNnh4X2dtdS5jCj4gQEAgLTEzMiw3ICsxMzIs
-NyBAQCBzdGF0aWMgdm9pZCBfX2E2eHhfZ211X3NldF9mcmVxKHN0cnVjdCBhNnh4X2dtdSAqZ211
-LCBpbnQgaW5kZXgpCj4gIAkgKiBFdmVudHVhbGx5IHdlIHdpbGwgd2FudCB0byBzY2FsZSB0aGUg
-cGF0aCB2b3RlIHdpdGggdGhlIGZyZXF1ZW5jeSBidXQKPiAgCSAqIGZvciBub3cgbGVhdmUgaXQg
-YXQgbWF4IHNvIHRoYXQgdGhlIHBlcmZvcm1hbmNlIGlzIG5vbWluYWwuCj4gIAkgKi8KPiAtCWlj
-Y19zZXRfYncoZ3B1LT5pY2NfcGF0aCwgMCwgTUJwc190b19pY2MoNzIxNikpOwo+ICsJaWNjX3Nl
-dF9idyhncHUtPmdmeF9tZW1faWNjX3BhdGgsIDAsIE1CcHNfdG9faWNjKDcyMTYpKTsKPiAgfQo+
-ICAKPiAgdm9pZCBhNnh4X2dtdV9zZXRfZnJlcShzdHJ1Y3QgbXNtX2dwdSAqZ3B1LCB1bnNpZ25l
-ZCBsb25nIGZyZXEpCj4gQEAgLTcxNCw3ICs3MTQsNyBAQCBpbnQgYTZ4eF9nbXVfcmVzdW1lKHN0
-cnVjdCBhNnh4X2dwdSAqYTZ4eF9ncHUpCj4gIAl9Cj4gIAo+ICAJLyogU2V0IHRoZSBidXMgcXVv
-dGEgdG8gYSByZWFzb25hYmxlIHZhbHVlIGZvciBib290ICovCj4gLQlpY2Nfc2V0X2J3KGdwdS0+
-aWNjX3BhdGgsIDAsIE1CcHNfdG9faWNjKDMwNzIpKTsKPiArCWljY19zZXRfYncoZ3B1LT5nZnhf
-bWVtX2ljY19wYXRoLCAwLCBNQnBzX3RvX2ljYygzMDcyKSk7Cj4gIAo+ICAJLyogRW5hYmxlIHRo
-ZSBHTVUgaW50ZXJydXB0ICovCj4gIAlnbXVfd3JpdGUoZ211LCBSRUdfQTZYWF9HTVVfQU9fSE9T
-VF9JTlRFUlJVUFRfQ0xSLCB+MCk7Cj4gQEAgLTg1OCw3ICs4NTgsNyBAQCBpbnQgYTZ4eF9nbXVf
-c3RvcChzdHJ1Y3QgYTZ4eF9ncHUgKmE2eHhfZ3B1KQo+ICAJCWE2eHhfZ211X3NodXRkb3duKGdt
-dSk7Cj4gIAo+ICAJLyogUmVtb3ZlIHRoZSBidXMgdm90ZSAqLwo+IC0JaWNjX3NldF9idyhncHUt
-PmljY19wYXRoLCAwLCAwKTsKPiArCWljY19zZXRfYncoZ3B1LT5nZnhfbWVtX2ljY19wYXRoLCAw
-LCAwKTsKPiAgCj4gIAkvKgo+ICAJICogTWFrZSBzdXJlIHRoZSBHWCBkb21haW4gaXMgb2ZmIGJl
-Zm9yZSB0dXJuaW5nIG9mZiB0aGUgR01VIChDWCkKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL21zbS9hZHJlbm8vYWRyZW5vX2dwdS5jIGIvZHJpdmVycy9ncHUvZHJtL21zbS9hZHJlbm8v
-YWRyZW5vX2dwdS5jCj4gaW5kZXggMDc4M2U0YjU0ODZhLi5kMWNjMDIxYzAxMmMgMTAwNjQ0Cj4g
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL21zbS9hZHJlbm8vYWRyZW5vX2dwdS5jCj4gKysrIGIvZHJp
-dmVycy9ncHUvZHJtL21zbS9hZHJlbm8vYWRyZW5vX2dwdS5jCj4gQEAgLTg4Nyw5ICs4ODcsMjAg
-QEAgc3RhdGljIGludCBhZHJlbm9fZ2V0X3B3cmxldmVscyhzdHJ1Y3QgZGV2aWNlICpkZXYsCj4g
-IAlEQkcoImZhc3RfcmF0ZT0ldSwgc2xvd19yYXRlPTI3MDAwMDAwIiwgZ3B1LT5mYXN0X3JhdGUp
-Owo+ICAKPiAgCS8qIENoZWNrIGZvciBhbiBpbnRlcmNvbm5lY3QgcGF0aCBmb3IgdGhlIGJ1cyAq
-Lwo+IC0JZ3B1LT5pY2NfcGF0aCA9IG9mX2ljY19nZXQoZGV2LCBOVUxMKTsKPiAtCWlmIChJU19F
-UlIoZ3B1LT5pY2NfcGF0aCkpCj4gLQkJZ3B1LT5pY2NfcGF0aCA9IE5VTEw7Cj4gKwlncHUtPmdm
-eF9tZW1faWNjX3BhdGggPSBvZl9pY2NfZ2V0KGRldiwgImdmeC1tZW0iKTsKPiArCWlmICghZ3B1
-LT5nZnhfbWVtX2ljY19wYXRoKSB7Cj4gKwkJLyoKPiArCQkgKiBLZWVwIGNvbXBhdGJpbGl0eSB3
-aXRoIGRldmljZSB0cmVlcyB0aGF0IGRvbid0IGhhdmUgYW4KPiArCQkgKiBpbnRlcmNvbm5lY3Qt
-bmFtZXMgcHJvcGVydHkuCj4gKwkJICovCj4gKwkJZ3B1LT5nZnhfbWVtX2ljY19wYXRoID0gb2Zf
-aWNjX2dldChkZXYsIE5VTEwpOwo+ICsJfQo+ICsJaWYgKElTX0VSUihncHUtPmdmeF9tZW1faWNj
-X3BhdGgpKQo+ICsJCWdwdS0+Z2Z4X21lbV9pY2NfcGF0aCA9IE5VTEw7Cj4gKwo+ICsJZ3B1LT5v
-Y21lbV9pY2NfcGF0aCA9IG9mX2ljY19nZXQoZGV2LCAib2NtZW0iKTsKPiArCWlmIChJU19FUlIo
-Z3B1LT5vY21lbV9pY2NfcGF0aCkpCj4gKwkJZ3B1LT5vY21lbV9pY2NfcGF0aCA9IE5VTEw7CgpU
-aGlzIGlzIHRoZSBwYXJ0IHdoZXJlIEkgYW0gcmVtaW5kZWQgdGhhdCBpY2Nfc2V0X2J3IGRvZXNu
-J3QgY2hlY2sKSVNfRVJSX09SX05VTEwgYW5kIGV2ZW4gd29yc2UsIGljY19wdXQgd2FybnMgb24g
-SVNfRVJSIGFuZCBpdCBtYWtlcyAKbWUgZ3J1bWJsZS4KCj4gIAlyZXR1cm4gMDsKPiAgfQo+IEBA
-IC05NzYsNyArOTg3LDggQEAgdm9pZCBhZHJlbm9fZ3B1X2NsZWFudXAoc3RydWN0IGFkcmVub19n
-cHUgKmFkcmVub19ncHUpCj4gIAlmb3IgKGkgPSAwOyBpIDwgQVJSQVlfU0laRShhZHJlbm9fZ3B1
-LT5pbmZvLT5mdyk7IGkrKykKPiAgCQlyZWxlYXNlX2Zpcm13YXJlKGFkcmVub19ncHUtPmZ3W2ld
-KTsKPiAgCj4gLQlpY2NfcHV0KGdwdS0+aWNjX3BhdGgpOwo+ICsJaWNjX3B1dChncHUtPmdmeF9t
-ZW1faWNjX3BhdGgpOwo+ICsJaWNjX3B1dChncHUtPm9jbWVtX2ljY19wYXRoKTsKPiAgCj4gIAlt
-c21fZ3B1X2NsZWFudXAoJmFkcmVub19ncHUtPmJhc2UpOwo+ICB9Cj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9tc20vbXNtX2dwdS5oIGIvZHJpdmVycy9ncHUvZHJtL21zbS9tc21fZ3B1
-LmgKPiBpbmRleCBhYjhmMGY5YzlkYzguLmU3MmU1NmY3YjBlZiAxMDA2NDQKPiAtLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vbXNtL21zbV9ncHUuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vbXNt
-X2dwdS5oCj4gQEAgLTExMSw3ICsxMTEsOCBAQCBzdHJ1Y3QgbXNtX2dwdSB7Cj4gIAlzdHJ1Y3Qg
-Y2xrICplYmkxX2NsaywgKmNvcmVfY2xrLCAqcmJibXRpbWVyX2NsazsKPiAgCXVpbnQzMl90IGZh
-c3RfcmF0ZTsKPiAgCj4gLQlzdHJ1Y3QgaWNjX3BhdGggKmljY19wYXRoOwo+ICsJc3RydWN0IGlj
-Y19wYXRoICpnZnhfbWVtX2ljY19wYXRoOwo+ICsJc3RydWN0IGljY19wYXRoICpvY21lbV9pY2Nf
-cGF0aDsKCkknbSBub3Qgc3VyZSBpZiB3ZSB3YW50IGEgYnVsayByZW5hbWUgb2YgdGhlIG1haW4g
-cGF0aC4gIGljY19wYXRoIGFuZApvY21lbV9pY2NfcGF0aCBzZWVtIHRvIGJlIHJlYXNvbmFibGUg
-bmFtZXMgYW5kIG5vdCBvdmVybHkgY29uZnVzaW5nIGVzcGVjaWFsbHkKaWYgd2UgYWRkZWQgc29t
-ZSBkb2N1bWVudGF0aW9uIHRvIHRoZSBoZWFkZXIpLgoKCj4gIAkvKiBIYW5nIGFuZCBJbmFjdGl2
-aXR5IERldGVjdGlvbjoKPiAgCSAqLwo+IC0tIAo+IDIuMjEuMAo+IAo+IF9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gRnJlZWRyZW5vIG1haWxpbmcgbGlz
-dAo+IEZyZWVkcmVub0BsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2ZyZWVkcmVubwoKLS0gClRoZSBRdWFsY29tbSBJ
-bm5vdmF0aW9uIENlbnRlciwgSW5jLiBpcyBhIG1lbWJlciBvZiBDb2RlIEF1cm9yYSBGb3J1bSwK
-YSBMaW51eCBGb3VuZGF0aW9uIENvbGxhYm9yYXRpdmUgUHJvamVjdApfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0543561132==
+Content-Type: multipart/alternative; boundary="15740948571.eE60ED9.21496"
+Content-Transfer-Encoding: 7bit
+
+
+--15740948571.eE60ED9.21496
+Date: Mon, 18 Nov 2019 16:34:17 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112308
+
+--- Comment #3 from Alex Deucher <alexdeucher@gmail.com> ---
+Created attachment 145993
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145993&action=3Dedit
+fix test
+
+Does this patch fix the issue?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15740948571.eE60ED9.21496
+Date: Mon, 18 Nov 2019 16:34:17 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Screen flickering with 4k resolution on Prairie Falcon"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112308#c3">Commen=
+t # 3</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Screen flickering with 4k resolution on Prairie Falcon"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112308">bug 11230=
+8</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
+com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145993=
+" name=3D"attach_145993" title=3D"fix test">attachment 145993</a> <a href=
+=3D"attachment.cgi?id=3D145993&amp;action=3Dedit" title=3D"fix test">[detai=
+ls]</a></span> <a href=3D'page.cgi?id=3Dsplinter.html&amp;bug=3D112308&amp;=
+attachment=3D145993'>[review]</a>
+fix test
+
+Does this patch fix the issue?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15740948571.eE60ED9.21496--
+
+--===============0543561132==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0543561132==--
