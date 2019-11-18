@@ -2,39 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65BBD100608
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2019 14:00:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17CC3100618
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2019 14:04:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5B046E50D;
-	Mon, 18 Nov 2019 13:00:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 683636E513;
+	Mon, 18 Nov 2019 13:04:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A5946E50D
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2019 13:00:25 +0000 (UTC)
-Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B143920692;
- Mon, 18 Nov 2019 13:00:24 +0000 (UTC)
-Date: Mon, 18 Nov 2019 14:00:22 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: zhengbin <zhengbin13@huawei.com>
-Subject: Re: [PATCH 1/5] drm/sun4i: Use PTR_ERR_OR_ZERO() to simplify code in
- sun4i_hdmi_init_regmap_fields
-Message-ID: <20191118130022.GM4345@gilmour.lan>
-References: <1574080484-48744-1-git-send-email-zhengbin13@huawei.com>
- <1574080484-48744-2-git-send-email-zhengbin13@huawei.com>
+Received: from mo6-p00-ob.smtp.rzone.de (mo6-p00-ob.smtp.rzone.de
+ [IPv6:2a01:238:20a:202:5300::4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E6866E516
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2019 13:04:19 +0000 (UTC)
+X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVORvLd4SsytBXQr4OGUPX+1JjWArIj7M="
+X-RZG-CLASS-ID: mo00
+Received: from localhost.localdomain
+ by smtp.strato.de (RZmta 44.29.0 DYNA|AUTH)
+ with ESMTPSA id e07688vAID4Eedk
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve secp521r1 with
+ 521 ECDH bits, eq. 15360 bits RSA))
+ (Client did not present a certificate);
+ Mon, 18 Nov 2019 14:04:14 +0100 (CET)
+From: Stephan Gerhold <stephan@gerhold.net>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH] drm/mcde: dsi: Fix invalid pointer dereference if panel
+ cannot be found
+Date: Mon, 18 Nov 2019 14:02:52 +0100
+Message-Id: <20191118130252.170324-1-stephan@gerhold.net>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <1574080484-48744-2-git-send-email-zhengbin13@huawei.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1574082025;
- bh=yMlle1zES9xaN+aEPbZNhheFoOd8gQ4VPQ5SX1kP0LI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=1IrXyyznrSS2Cj/U63mpwxxFgQBlCUFFBQ78ES+fvwXSjNxRr9VWoLDmsN98ZQ/2X
- 44wycoJV+EFush/w5grKyqyzssh+dAOcKprDjBOwhvxco/Ar0k1eWZ2sUMWZ5DyHKf
- EZdZAvz+BYehg9cfcLpXyGQ3BxKdtN1abDH6h2bw=
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ t=1574082257; 
+ s=strato-dkim-0002; d=gerhold.net;
+ h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
+ Subject:Sender;
+ bh=ukcHuF3D4wPigrPHkkFZTsmWR0K50dSJVxn/jbjgb0w=;
+ b=S+4cw20dsAqUzJpHF9vE7qmlaYq0Q1/7u5TlJtxiZkBn2Bg0tbAYd4Vl8J4dUyofh7
+ TQAuArEUHox1Y9u24YPd9shZpWngqjd9RXpzDgoTTghsV4rvbwvD8RGqdd8LYLOWy+cZ
+ 5OKNu5O74blqoK5j65AoO7c0LJz68PqLilDklfEC9X58crk5yDoCG6RB2idwzrYy3tKc
+ ABRUChR6lAWUvhbKv5o574il6M8j+4yRdqBcEI27qcYuveUinTlTW2V6djjyLAXyfaH2
+ QQlfyeMDCa/H5knlPlQUvbge+1DnkmMozKO+Nej/oUT1jhKm31KGgySDTEqO9VXThMc8
+ NE0A==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,75 +54,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, wens@csie.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0415593450=="
+Cc: David Airlie <airlied@linux.ie>, Stephan Gerhold <stephan@gerhold.net>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0415593450==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="86iauDJ7Z6qm7j1O"
-Content-Disposition: inline
-
-
---86iauDJ7Z6qm7j1O
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Mon, Nov 18, 2019 at 08:34:40PM +0800, zhengbin wrote:
-> Fixes coccicheck warning:
->
-> drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c:281:1-3: WARNING: PTR_ERR_OR_ZERO can be used
->
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: zhengbin <zhengbin13@huawei.com>
-> ---
->  drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
-> index b66fa27..ac435e5 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
-> @@ -278,10 +278,7 @@ static int sun4i_hdmi_init_regmap_fields(struct sun4i_hdmi *hdmi)
->  	hdmi->field_ddc_sck_en =
->  		devm_regmap_field_alloc(hdmi->dev, hdmi->regmap,
->  					hdmi->variant->field_ddc_sck_en);
-> -	if (IS_ERR(hdmi->field_ddc_sck_en))
-> -		return PTR_ERR(hdmi->field_ddc_sck_en);
-> -
-> -	return 0;
-> +	return PTR_ERR_OR_ZERO(hdmi->field_ddc_sck_en);
-
-These 5 patches are not clearer and just make it more difficult to
-maintain. I guess we should just get rid of the coccinelle rule here,
-there's a lot of false positive with it.
-
-Maxime
-
---86iauDJ7Z6qm7j1O
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXdKV5gAKCRDj7w1vZxhR
-xXumAQDqUOAgT9LM/zBv6uxGBHnhpWiVVdY4Rc3r2oBo+ATR3AD/UNJfy5GHgLEu
-A48L6TZrjizd5jTry+jnYeEVlCiiWww=
-=KTyX
------END PGP SIGNATURE-----
-
---86iauDJ7Z6qm7j1O--
-
---===============0415593450==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0415593450==--
+VGhlICJwYW5lbCIgcG9pbnRlciBpcyBub3QgcmVzZXQgdG8gTlVMTCBpZiBvZl9kcm1fZmluZF9w
+YW5lbCgpCnJldHVybnMgYW4gZXJyb3IuIFRoZXJlZm9yZSB3ZSBsYXRlciBhc3N1bWUgdGhhdCBh
+IHBhbmVsIHdhcyBmb3VuZCwKYW5kIHRyeSB0byBkZXJlZmVyZW5jZSB0aGUgZXJyb3IgcG9pbnRl
+ciwgcmVzdWx0aW5nIGluOgoKICAgIG1jZGUtZHNpIGEwMzUxMDAwLmRzaTogZmFpbGVkIHRvIGZp
+bmQgcGFuZWwgdHJ5IGJyaWRnZSAoNDI5NDk2Njc3OSkKICAgIFVuYWJsZSB0byBoYW5kbGUga2Vy
+bmVsIHBhZ2luZyByZXF1ZXN0IGF0IHZpcnR1YWwgYWRkcmVzcyBmZmZmZmUwMwogICAgUEMgaXMg
+YXQgZHJtX3BhbmVsX2JyaWRnZV9hZGQucGFydC4wKzB4MTAvMHg1YwogICAgTFIgaXMgYXQgbWNk
+ZV9kc2lfYmluZCsweDEyMC8weDQ2NAogICAgLi4uCgpSZXNldCAicGFuZWwiIHRvIE5VTEwgdG8g
+YXZvaWQgdGhpcyBwcm9ibGVtLgpBbHNvIGNoYW5nZSB0aGUgZm9ybWF0IHN0cmluZyBvZiB0aGUg
+ZXJyb3IgdG8gJWxkIHRvIHByaW50CnRoZSBuZWdhdGl2ZSBlcnJvcnMgY29ycmVjdGx5LiBUaGUg
+Y3Jhc2ggYWJvdmUgdGhlbiBiZWNvbWVzOgoKICAgIG1jZGUtZHNpIGEwMzUxMDAwLmRzaTogZmFp
+bGVkIHRvIGZpbmQgcGFuZWwgdHJ5IGJyaWRnZSAoLTUxNykKICAgIG1jZGUtZHNpIGEwMzUxMDAw
+LmRzaTogbm8gcGFuZWwgb3IgYnJpZGdlCiAgICAuLi4KCkZpeGVzOiA1ZmM1MzdiZmQwMDAgKCJk
+cm0vbWNkZTogQWRkIG5ldyBkcml2ZXIgZm9yIFNULUVyaWNzc29uIE1DREUiKQpTaWduZWQtb2Zm
+LWJ5OiBTdGVwaGFuIEdlcmhvbGQgPHN0ZXBoYW5AZ2VyaG9sZC5uZXQ+Ci0tLQogZHJpdmVycy9n
+cHUvZHJtL21jZGUvbWNkZV9kc2kuYyB8IDYgKysrKy0tCiAxIGZpbGUgY2hhbmdlZCwgNCBpbnNl
+cnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9t
+Y2RlL21jZGVfZHNpLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWNkZS9tY2RlX2RzaS5jCmluZGV4IDAz
+ODk2YTFmMzM5YS4uZWIzYTg1NWFlZjlhIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWNk
+ZS9tY2RlX2RzaS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9tY2RlL21jZGVfZHNpLmMKQEAgLTky
+NCwxMSArOTI0LDEzIEBAIHN0YXRpYyBpbnQgbWNkZV9kc2lfYmluZChzdHJ1Y3QgZGV2aWNlICpk
+ZXYsIHN0cnVjdCBkZXZpY2UgKm1hc3RlciwKIAlmb3JfZWFjaF9hdmFpbGFibGVfY2hpbGRfb2Zf
+bm9kZShkZXYtPm9mX25vZGUsIGNoaWxkKSB7CiAJCXBhbmVsID0gb2ZfZHJtX2ZpbmRfcGFuZWwo
+Y2hpbGQpOwogCQlpZiAoSVNfRVJSKHBhbmVsKSkgewotCQkJZGV2X2VycihkZXYsICJmYWlsZWQg
+dG8gZmluZCBwYW5lbCB0cnkgYnJpZGdlICglbHUpXG4iLAorCQkJZGV2X2VycihkZXYsICJmYWls
+ZWQgdG8gZmluZCBwYW5lbCB0cnkgYnJpZGdlICglbGQpXG4iLAogCQkJCVBUUl9FUlIocGFuZWwp
+KTsKKwkJCXBhbmVsID0gTlVMTDsKKwogCQkJYnJpZGdlID0gb2ZfZHJtX2ZpbmRfYnJpZGdlKGNo
+aWxkKTsKIAkJCWlmIChJU19FUlIoYnJpZGdlKSkgewotCQkJCWRldl9lcnIoZGV2LCAiZmFpbGVk
+IHRvIGZpbmQgYnJpZGdlICglbHUpXG4iLAorCQkJCWRldl9lcnIoZGV2LCAiZmFpbGVkIHRvIGZp
+bmQgYnJpZGdlICglbGQpXG4iLAogCQkJCQlQVFJfRVJSKGJyaWRnZSkpOwogCQkJCXJldHVybiBQ
+VFJfRVJSKGJyaWRnZSk7CiAJCQl9Ci0tIAoyLjIzLjAKCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
