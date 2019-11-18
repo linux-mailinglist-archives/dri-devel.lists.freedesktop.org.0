@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AFFDFFF62
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2019 08:15:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51CF7FFF64
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2019 08:15:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 324AE6E02A;
-	Mon, 18 Nov 2019 07:15:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1BD56E03A;
+	Mon, 18 Nov 2019 07:15:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6EA016E02A
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2019 07:15:16 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C23326E03A
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2019 07:15:44 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 6B244720E2; Mon, 18 Nov 2019 07:15:16 +0000 (UTC)
+ id BE945720E2; Mon, 18 Nov 2019 07:15:44 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 112308] Screen flickering with 4k resolution on Prairie Falcon
-Date: Mon, 18 Nov 2019 07:15:16 +0000
+Date: Mon, 18 Nov 2019 07:15:44 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-112308-502-V08PPcHx2M@http.bugs.freedesktop.org/>
+Message-ID: <bug-112308-502-vugw6a20LZ@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-112308-502@http.bugs.freedesktop.org/>
 References: <bug-112308-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0631861886=="
+Content-Type: multipart/mixed; boundary="===============2077755875=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0631861886==
-Content-Type: multipart/alternative; boundary="15740613161.601Ee.11855"
+--===============2077755875==
+Content-Type: multipart/alternative; boundary="15740613441.Fcd3fFEDA.12100"
 Content-Transfer-Encoding: 7bit
 
 
---15740613161.601Ee.11855
-Date: Mon, 18 Nov 2019 07:15:16 +0000
+--15740613441.Fcd3fFEDA.12100
+Date: Mon, 18 Nov 2019 07:15:44 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,17 +72,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D112308
 
---- Comment #1 from Kai-Heng Feng <kai.heng.feng@canonical.com> ---
-Created attachment 145984
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145984&action=3Dedit
-kernel message with iommu
+--- Comment #2 from Kai-Heng Feng <kai.heng.feng@canonical.com> ---
+Created attachment 145985
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145985&action=3Dedit
+kernel message without iommu
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15740613161.601Ee.11855
-Date: Mon, 18 Nov 2019 07:15:16 +0000
+--15740613441.Fcd3fFEDA.12100
+Date: Mon, 18 Nov 2019 07:15:44 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -99,8 +99,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Screen flickering with 4k resolution on Prairie Falcon"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112308#c1">Commen=
-t # 1</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112308#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Screen flickering with 4k resolution on Prairie Falcon"
@@ -110,11 +110,11 @@ t # 1</a>
 kai.heng.feng&#64;canonical.com" title=3D"Kai-Heng Feng &lt;kai.heng.feng&#=
 64;canonical.com&gt;"> <span class=3D"fn">Kai-Heng Feng</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145984=
-" name=3D"attach_145984" title=3D"kernel message with iommu">attachment 145=
-984</a> <a href=3D"attachment.cgi?id=3D145984&amp;action=3Dedit" title=3D"k=
-ernel message with iommu">[details]</a></span>
-kernel message with iommu</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145985=
+" name=3D"attach_145985" title=3D"kernel message without iommu">attachment =
+145985</a> <a href=3D"attachment.cgi?id=3D145985&amp;action=3Dedit" title=
+=3D"kernel message without iommu">[details]</a></span>
+kernel message without iommu</pre>
         </div>
       </p>
 
@@ -128,9 +128,9 @@ kernel message with iommu</pre>
     </body>
 </html>=
 
---15740613161.601Ee.11855--
+--15740613441.Fcd3fFEDA.12100--
 
---===============0631861886==
+--===============2077755875==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -140,4 +140,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0631861886==--
+--===============2077755875==--
