@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BECA1100DDC
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2019 22:38:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 765DB100DE3
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2019 22:40:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CA276E835;
-	Mon, 18 Nov 2019 21:38:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 676CE6E836;
+	Mon, 18 Nov 2019 21:40:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
- [209.85.167.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88F0C6E835
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2019 21:38:34 +0000 (UTC)
-Received: by mail-oi1-f196.google.com with SMTP id d22so9863823oic.7
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2019 13:38:34 -0800 (PST)
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+ [209.85.210.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B66616E836
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2019 21:40:37 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id c19so15892017otr.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2019 13:40:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=pCxQjBITmvqLnVSUQjs1CPX2mZzwD2s3GOOnzs0YZMI=;
- b=YipTUeMuEhgwI8pAf5eI0j2yxHNoxyuHcnhQptWU4bEzBBYPyCn2Lc6beKuegQyvJv
- UZpF2/24v7zR3Ac9kiIS1ONGxo7zX1nRtqDrJzDRuAX+58EhXfaJb2x+1SHVean+2Kn4
- kiqRCiRzzjgEU5oXoXI4uOAhD/k5FHNd98jthxRki6NwDxezA0Q63FMw8ofjFzTCcHv1
- zGnjPOvvCd/Q9tmarl1fTpdnCTvnq1PN9Xb/VKi6kuRmSZF0f81AFAFjjg7UkHJf4qmS
- 6zVB+KxhHzLgCUtJqbmHCStpkmkTFXsp/UtomHY6ZPjtaSkEb/hx4tHBrKND/xwzi+/b
- OU0Q==
-X-Gm-Message-State: APjAAAVLNQT8z0H2fI2DwB7YiVFKQuIknkJmOioPSkIO9Qr+a4OKkglE
- fzu9JleRIk9qsKRuXtlLFQ==
-X-Google-Smtp-Source: APXvYqzSuqFp/B1swfguly5hmQtRXYxJLr4k7XHGsoFJa2jueuZF7o+LMcHgFPChBi+B6fK3kLjB9w==
-X-Received: by 2002:aca:320a:: with SMTP id y10mr946034oiy.152.1574113113674; 
- Mon, 18 Nov 2019 13:38:33 -0800 (PST)
+ bh=WZUio/taqOaS8HOsKs6Tx/K86C3+G5uKrrovVbDJGwI=;
+ b=rPNALnX5ojXp8z42MshFbcd5bREygnN8QwhBWPMfWoWkvp1bkczFDYvtBd1Caqz6eV
+ qS6mYAD62I87OGObfkOobhIU74wkieOdrqKtsVWrSxVpRhpIiQhK3alhswggXcTaXo/z
+ Ax5jooCgNGcpSL8+3D11nA+gXGjBcV3daQTb6UBx3ul5SmuSuugMDRvY07kXlz74ijmv
+ IiobTFJNlE5PgNHMO4tdAh/ggepVDNsXBizQTZDzgUeq4Wl7c9CENvbi8RP4pzGvKNHU
+ /np7AdxqpU8FR23kQEk6FDKIz4raHesO6O62KepMqiFuOwmB9aXt13bUSRoE2L4qGKxc
+ UnfA==
+X-Gm-Message-State: APjAAAXYgeQTfaT89EaqKvkTw8l5QPqZRC+gL6BMh9ORhaE8GU2sCC0o
+ Ohd7903NgXun1MjgdY9rDQ==
+X-Google-Smtp-Source: APXvYqyrzHYyOBHJh5dN3sj2axQ7Dp2CrqN5El1pXKfbXVsKh1Bq1DDAp309KKjjFQBFuT2fTGWs5g==
+X-Received: by 2002:a05:6830:1d8a:: with SMTP id
+ y10mr996840oti.329.1574113236832; 
+ Mon, 18 Nov 2019 13:40:36 -0800 (PST)
 Received: from localhost (24-155-109-49.dyn.grandenetworks.net.
  [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id i12sm6636202ota.10.2019.11.18.13.38.32
+ by smtp.gmail.com with ESMTPSA id k9sm6441118oik.18.2019.11.18.13.40.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Nov 2019 13:38:33 -0800 (PST)
-Date: Mon, 18 Nov 2019 15:38:32 -0600
+ Mon, 18 Nov 2019 13:40:36 -0800 (PST)
+Date: Mon, 18 Nov 2019 15:40:35 -0600
 From: Rob Herring <robh@kernel.org>
 To: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Subject: Re: [PATCH v4 04/13] dt-bindings: display: bridge: lvds-transmitter:
- Document "ti,sn75lvds83"
-Message-ID: <20191118213832.GA5885@bogus>
+Subject: Re: [PATCH v4 08/13] dt-bindings: display: bridge: Repurpose
+ lvds-encoder
+Message-ID: <20191118214035.GA9128@bogus>
 References: <1573660292-10629-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1573660292-10629-5-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1573660292-10629-9-git-send-email-fabrizio.castro@bp.renesas.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1573660292-10629-5-git-send-email-fabrizio.castro@bp.renesas.com>
+In-Reply-To: <1573660292-10629-9-git-send-email-fabrizio.castro@bp.renesas.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -77,15 +78,23 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAxMyBOb3YgMjAxOSAxNTo1MToyMyArMDAwMCwgRmFicml6aW8gQ2FzdHJvIHdyb3Rl
-Ogo+IENvbXBhdGlibGUgc3RyaW5nICJ0aSxzbjc1bHZkczgzIiBpcyBiZWluZyB1c2VkIGJ5IGRl
-dmljZSB0cmVlCj4gcmszMTg4LWJxZWRpc29uMnFjLmR0cywgYnV0IGl0J3Mgbm90IGRvY3VtZW50
-ZWQgYW55d2hlcmUsIHRoZXJlZm9yZQo+IGRvY3VtZW50IGl0IHdpdGhpbiBsdmRzLXRyYW5zbWl0
-dGVyLnlhbWwuCj4gCj4gU2lnbmVkLW9mZi1ieTogRmFicml6aW8gQ2FzdHJvIDxmYWJyaXppby5j
-YXN0cm9AYnAucmVuZXNhcy5jb20+Cj4gCj4gLS0tCj4gdjMtPnY0Ogo+ICogTmV3IHBhdGNoCj4g
-LS0tCj4gIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9s
-dmRzLXRyYW5zbWl0dGVyLnlhbWwgfCAxICsKPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9u
-KCspCj4gCgpBY2tlZC1ieTogUm9iIEhlcnJpbmcgPHJvYmhAa2VybmVsLm9yZz4KX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+T24gV2VkLCAxMyBOb3YgMjAxOSAxNTo1MToyNyArMDAwMCwgRmFicml6aW8gQ2FzdHJvIHdyb3Rl
+Ogo+IEluIGFuIGVmZm9ydCB0byByZXB1cnBvc2UgbHZkcy1lbmNvZGVyLmMgdG8gYWxzbyBzZXJ2
+ZSB0aGUKPiBmdW5jdGlvbiBvZiBMVkRTIGRlY29kZXJzLCB3ZSBlbmRlZCB1cCBkZWZpbmluZyBh
+IG5ldyAiZ2VuZXJpYyIKPiBjb21wYXRpYmxlIHN0cmluZyAoImx2ZHMtZGVjb2RlciIpLCB0aGVy
+ZWZvcmUgYWRhcHQgdGhlIGR0IHNjaGVtYQo+IHRvIGFsbG93IGZvciB0aGUgbmV3IGNvbXBhdGli
+bGUgc3RyaW5nLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEZhYnJpemlvIENhc3RybyA8ZmFicml6aW8u
+Y2FzdHJvQGJwLnJlbmVzYXMuY29tPgo+IAo+IC0tLQo+IHYzLT52NDoKPiAqIEltcHJvdmVkIHRp
+dGxlIGFuZCBkZXNjcmlwdGlvbiBhY2NvcmRpbmcgdG8gTGF1cmVudCdzIGNvbW1lbnRzCj4gKiBS
+ZXdvcmtlZCBkZWZpbml0aW9uIG9mIHRoZSBjb21wYXRpYmxlIHByb3BlcnR5Cj4gdjItPnYzOgo+
+ICogRXh0cmFjdGVkIGNvbnZlcnNpb24gdG8gbHZkcy1jb2RlYyBhcyBwZXIgUm9iJ3MgY29tbWVu
+dAo+IHYxLT52MjoKPiAqIENvbnZlcnRlZCB0byBkdC1zY2hlbWEgYXMgcGVyIE5laWwncyBjb21t
+ZW50Cj4gLS0tCj4gIC4uLi97bHZkcy10cmFuc21pdHRlci55YW1sID0+IGx2ZHMtY29kZWMueWFt
+bH0gICAgIHwgNTQgKysrKysrKysrKysrKysrKystLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgNDIg
+aW5zZXJ0aW9ucygrKSwgMTIgZGVsZXRpb25zKC0pCj4gIHJlbmFtZSBEb2N1bWVudGF0aW9uL2Rl
+dmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2Uve2x2ZHMtdHJhbnNtaXR0ZXIueWFtbCA9
+PiBsdmRzLWNvZGVjLnlhbWx9ICg2MSUpCj4gCgpSZXZpZXdlZC1ieTogUm9iIEhlcnJpbmcgPHJv
+YmhAa2VybmVsLm9yZz4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVs
