@@ -1,34 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4476C101AFB
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:05:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D54E101B0E
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:06:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 778636EBE1;
-	Tue, 19 Nov 2019 08:04:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6813A6EC00;
+	Tue, 19 Nov 2019 08:04:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D7856E0F9
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2019 14:46:02 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
- with ESMTPSA id 1498528FB23
-Received: by earth.universe (Postfix, from userid 1000)
- id CDFA13C0C78; Mon, 18 Nov 2019 15:45:58 +0100 (CET)
-Date: Mon, 18 Nov 2019 15:45:58 +0100
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Received: from mo6-p01-ob.smtp.rzone.de (mo6-p01-ob.smtp.rzone.de
+ [IPv6:2a01:238:20a:202:5301::8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F9E389DBD
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2019 14:51:43 +0000 (UTC)
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHmMlw43pqoI="
+X-RZG-CLASS-ID: mo00
+Received: from mbp-13-nikolaus.fritz.box
+ by smtp.strato.de (RZmta 44.29.0 DYNA|AUTH)
+ with ESMTPSA id L09db3vAIEpfTZM
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve secp521r1 with 521 ECDH
+ bits, eq. 15360 bits RSA)) (Client did not present a certificate);
+ Mon, 18 Nov 2019 15:51:41 +0100 (CET)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
 Subject: Re: [RFCv1 32/42] drm/omap: dsi: convert to drm_panel
-Message-ID: <20191118144558.abix5y555jk63szb@earth.universe>
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <20191118144558.abix5y555jk63szb@earth.universe>
+Date: Mon, 18 Nov 2019 15:51:44 +0100
+Message-Id: <9681B365-9174-43CE-BCAE-ED986F182935@goldelico.com>
 References: <20191117024028.2233-1-sebastian.reichel@collabora.com>
  <20191117024028.2233-33-sebastian.reichel@collabora.com>
  <D109D867-1C8E-44F6-9C91-AF55BCB3FDD3@goldelico.com>
-MIME-Version: 1.0
-In-Reply-To: <D109D867-1C8E-44F6-9C91-AF55BCB3FDD3@goldelico.com>
-User-Agent: NeoMutt/20180716
+ <20191118144558.abix5y555jk63szb@earth.universe>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+X-Mailer: Apple Mail (2.3124)
 X-Mailman-Approved-At: Tue, 19 Nov 2019 08:04:07 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ t=1574088701; 
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=4Q0DX8jQIGKw8CJ/saZVBLA56ATthF66g7P4lECTFNM=;
+ b=Ce5iRj95sHseNto9Y2sZoYP07Mxq6ZepnYDRIGdWYyhlk5/8PW57O/Ho9MWxHud/AY
+ O955kZFxDtM6i1hyrTTtRGfxpDGOX5TINLHvfT/Rt407BRd5iuaUwoQMicms2CjQpsPp
+ U3ZY9GPy6TgkPSUGqGesszf+hT++LVHVKMy1JTq9Gdw+QsUUDmHaywlclhf3f0R6i4no
+ FVf8tFpEb7BBLBlIzT/W8CibB5pomylbZkg2KNHGRORCtNq8rl36Qrt5RIg/KdlNZpL3
+ h5En1seLGKAwrjAhEGWv4+kOXmyrJt9C+aCX9VFlsGjMyi0zTwMrT5k4QIh6Uk0zR8ji
+ 284Q==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,95 +63,40 @@ Cc: kernel@collabora.com, Tony Lindgren <tony@atomide.com>,
  Tomi Valkeinen <tomi.valkeinen@ti.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  linux-omap@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============0284773915=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0284773915==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nzgirlzrs4zg55h3"
-Content-Disposition: inline
-
-
---nzgirlzrs4zg55h3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Sun, Nov 17, 2019 at 08:23:05PM +0100, H. Nikolaus Schaller wrote:
-> > [...]
->
-> > +	drm_panel_init(&ddata->panel, dev, &dsicm_panel_funcs,
-> > +		       DRM_MODE_CONNECTOR_DSI);
-> > +
->=20
-> This leads to
->=20
-> drivers/gpu/drm/panel/panel-dsi-cm.c: In function 'dsicm_probe':
-> drivers/gpu/drm/panel/panel-dsi-cm.c:552:2: error: too many arguments to =
-function 'drm_panel_init'
->   drm_panel_init(&ddata->panel, dev, &dsicm_panel_funcs,
->   ^
-> In file included from drivers/gpu/drm/panel/panel-dsi-cm.c:22:0:
-> ./include/drm/drm_panel.h:150:6: note: declared here
->  void drm_panel_init(struct drm_panel *panel);
->       ^
->=20
-> (when applied to v5.4-rc7)
-
-The patchset is based on drm-next from
-https://anongit.freedesktop.org/git/drm/drm.git
-
-For v5.4-rc7 it needs to look like this:
-
-+	drm_panel_init(&ddata->panel);
-+	ddata->panel.dev =3D dev;
-+	ddata->panel.funcs =3D &dsicm_panel_funcs;
-
-> > [...]=20
->=20
-> Otherwise the patches compile fine and my work-in progress
-> DSI panel driver is probing, but not initializing.
-
-Ok, I tried not to break video mode support, but I do not have any
-hardware. Make sure to set the MIPI_DSI_MODE_VIDEO flag in the panel
-driver.
-
--- Sebastian
-
---nzgirlzrs4zg55h3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIyBAEBCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl3Srp0ACgkQ2O7X88g7
-+pq1lA/4pMsF1FS+Pczm/n204zcWufVsXGBuB55VPkGY/6mZrZ6H7VtljkhqbXF/
-+U1QN1u43Gvqe56udG1H8NquR8hsh58tZXsFIc/K+Bjw6fjjxPjhji5I4jV8c5Hq
-B86vL5AJ8U8h9vddp+PRUtVQmt4n1GbfHdxd+cn/1oXXFXjUWO0w3iEjDycnwfwo
-lvmCmPvp/ub5NmLH2ny5qUA1rGP602AWNYejZzzW/qdRtYJ60PmDbDUHPboOaW3t
-EaxdmQG8VTZz8s/g3gSW5di/cJ/57NmjGmmRBMs9Gt8S4ohU6/tyNGe2WJUt4zip
-tWWcAxwvU2qHX2wygZdVwIRipw6A3O69lqyz+uQ5QFlxhH9+q38CCbx9F6D8xzen
-ib/i4UT3Sl1rfo3VvRMkHGTmgJtBqCHOiaYVBeBoB/8HF5PGzuzUmjKCn2e6RWoI
-jqZSx5TNEOGl5LAwjNjIxQK12+G+ZjMJ0PfhXxSVyduY0ch+Od1gVx0UmOCP70T9
-0tht1070P4E4tiddDDIeOobXjmzzxXVIuzBgj/Wa6Q5npEq+KYBlcGSI+PpHqyyN
-3VjEIH01+e5qf9y5uxiOKW0OI203eI2Rtg5OyCYcf3Poo2edPgMKftQHpfcRd4Xo
-l6c2EXvuYiHTSM+c4TK2EpGF+GrK/HNkw83/NLBs8ce2qeCQOA==
-=SUyE
------END PGP SIGNATURE-----
-
---nzgirlzrs4zg55h3--
-
---===============0284773915==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0284773915==--
+Cj4gQW0gMTguMTEuMjAxOSB1bSAxNTo0NSBzY2hyaWViIFNlYmFzdGlhbiBSZWljaGVsIDxzZWJh
+c3RpYW4ucmVpY2hlbEBjb2xsYWJvcmEuY29tPjoKPiAKPiBIaSwKPiAKPiBPbiBTdW4sIE5vdiAx
+NywgMjAxOSBhdCAwODoyMzowNVBNICswMTAwLCBILiBOaWtvbGF1cyBTY2hhbGxlciB3cm90ZToK
+Pj4+IFsuLi5dCj4+IAo+Pj4gKwlkcm1fcGFuZWxfaW5pdCgmZGRhdGEtPnBhbmVsLCBkZXYsICZk
+c2ljbV9wYW5lbF9mdW5jcywKPj4+ICsJCSAgICAgICBEUk1fTU9ERV9DT05ORUNUT1JfRFNJKTsK
+Pj4+ICsKPj4gCj4+IFRoaXMgbGVhZHMgdG8KPj4gCj4+IGRyaXZlcnMvZ3B1L2RybS9wYW5lbC9w
+YW5lbC1kc2ktY20uYzogSW4gZnVuY3Rpb24gJ2RzaWNtX3Byb2JlJzoKPj4gZHJpdmVycy9ncHUv
+ZHJtL3BhbmVsL3BhbmVsLWRzaS1jbS5jOjU1MjoyOiBlcnJvcjogdG9vIG1hbnkgYXJndW1lbnRz
+IHRvIGZ1bmN0aW9uICdkcm1fcGFuZWxfaW5pdCcKPj4gIGRybV9wYW5lbF9pbml0KCZkZGF0YS0+
+cGFuZWwsIGRldiwgJmRzaWNtX3BhbmVsX2Z1bmNzLAo+PiAgXgo+PiBJbiBmaWxlIGluY2x1ZGVk
+IGZyb20gZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLWRzaS1jbS5jOjIyOjA6Cj4+IC4vaW5j
+bHVkZS9kcm0vZHJtX3BhbmVsLmg6MTUwOjY6IG5vdGU6IGRlY2xhcmVkIGhlcmUKPj4gdm9pZCBk
+cm1fcGFuZWxfaW5pdChzdHJ1Y3QgZHJtX3BhbmVsICpwYW5lbCk7Cj4+ICAgICAgXgo+PiAKPj4g
+KHdoZW4gYXBwbGllZCB0byB2NS40LXJjNykKPiAKPiBUaGUgcGF0Y2hzZXQgaXMgYmFzZWQgb24g
+ZHJtLW5leHQgZnJvbQo+IGh0dHBzOi8vYW5vbmdpdC5mcmVlZGVza3RvcC5vcmcvZ2l0L2RybS9k
+cm0uZ2l0Cj4gCj4gRm9yIHY1LjQtcmM3IGl0IG5lZWRzIHRvIGxvb2sgbGlrZSB0aGlzOgo+IAo+
+ICsJZHJtX3BhbmVsX2luaXQoJmRkYXRhLT5wYW5lbCk7Cj4gKwlkZGF0YS0+cGFuZWwuZGV2ID0g
+ZGV2Owo+ICsJZGRhdGEtPnBhbmVsLmZ1bmNzID0gJmRzaWNtX3BhbmVsX2Z1bmNzOwoKQWgsIG9r
+LiBUaGUgaXNzdWUgd2l0aCBjaGFuZ2VkIHBhcmFtZXRlcnMgc2VlbXMKdG8gYWxyZWFkeSBiZSBm
+aXhlZCBieSB0d28gcGF0Y2hlcyBpbiBsaW51eC1uZXh0CmFuZCB0aGVyZWZvcmUgc29vbiBpbiB2
+NS41LXJjMS4KCj4gCj4+PiBbLi4uXSAKPj4gCj4+IE90aGVyd2lzZSB0aGUgcGF0Y2hlcyBjb21w
+aWxlIGZpbmUgYW5kIG15IHdvcmstaW4gcHJvZ3Jlc3MKPj4gRFNJIHBhbmVsIGRyaXZlciBpcyBw
+cm9iaW5nLCBidXQgbm90IGluaXRpYWxpemluZy4KPiAKPiBPaywgSSB0cmllZCBub3QgdG8gYnJl
+YWsgdmlkZW8gbW9kZSBzdXBwb3J0LCBidXQgSSBkbyBub3QgaGF2ZSBhbnkKPiBoYXJkd2FyZS4g
+TWFrZSBzdXJlIHRvIHNldCB0aGUgTUlQSV9EU0lfTU9ERV9WSURFTyBmbGFnIGluIHRoZSBwYW5l
+bAo+IGRyaXZlci4KCkluZGVlZCwgdGhpcyBtYXkgYmUgbWlzc2luZyAoY2FuJ3QgbG9vayBpbnRv
+IHRoZSBjb2RlIGF0IHRoZSBtb21lbnQpLi4uCk9yIEkgZGlkIHNvbWV0aGluZyB3cm9uZyB3aGVu
+IHJlZmFjdG9yaW5nIHRoZSBkcml2ZXIuCldlIHdpbGwgZmluZCBvdXQuCgpCUiBhbmQgdGhhbmtz
+IGZvciB0aGUgZ3JlYXQgd29yaywKTmlrb2xhdXMKCgpfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9kcmktZGV2ZWw=
